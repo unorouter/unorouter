@@ -141,6 +141,10 @@ export function errMessage(err: unknown): string {
   return err instanceof Error ? err.message : String(err);
 }
 
+export function escapeRegex(s: string): string {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
 export function formatJson(value: unknown): string {
   return value == null ? "" : JSON.stringify(value, null, 2);
 }

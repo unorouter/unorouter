@@ -1,25 +1,7 @@
 import { encode } from "gpt-tokenizer";
-import type { LoadedConvContext } from "./conv-context";
-
-export type LbEntry = LoadedConvContext extends infer T
-  ? T extends { lbEntries: infer E }
-    ? E extends ReadonlyArray<infer Item>
-      ? Item
-      : never
-    : never
-  : never;
-
-export type LbRow = LoadedConvContext extends infer T
-  ? T extends { lbRows: infer R }
-    ? R extends ReadonlyArray<infer Item>
-      ? Item
-      : never
-    : never
-  : never;
-
-function escapeRegex(s: string): string {
-  return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}
+import { MAX_RECURSIVE_LOREBOOK_PASSES } from "@/lib/config/constants";
+import type { LbEntry, LbRow } from "@/lib/types";
+import { escapeRegex } from "@/lib/utils/base";
 
 export function keyHits(
   key: string,
@@ -57,8 +39,6 @@ function matchEntries(entries: LbEntry[], text: string): LbEntry[] {
   return matched;
 }
 
-const MAX_RECURSIVE_PASSES = 3;
-
 export function selectLorebookEntries(
   recentUserTexts: string[],
   entries: LbEntry[],
@@ -86,7 +66,7 @@ export function selectLorebookEntries(
     let used = 0;
     const accepted: LbEntry[] = [];
 
-    for (let pass = 0; pass < MAX_RECURSIVE_PASSES; pass++) {
+    for (let pass = 0; pass < MAX_RECURSIVE_LOREBOOK_PASSES; pass++) {
       const matched = matchEntries(
         bookEntries.filter(
           (e) => !seen.has(e.id) && !accepted.some((a) => a.id === e.id),

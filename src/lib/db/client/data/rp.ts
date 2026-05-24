@@ -15,8 +15,10 @@ import { and, desc, eq } from "drizzle-orm";
 import { getLocalDb } from "../client";
 import { makeTableStore, replaceChildRows } from "./table-store";
 
-type AnyRow = Record<string, unknown> & { id: string };
-type LocalRowInput = Record<string, unknown>;
+import type {
+  LocalAnyRow as AnyRow,
+  LocalRowInput,
+} from "@/lib/types";
 
 const characterStore = makeTableStore(characters, characters.id, {
   defaultOrderBy: desc(characters.updatedAt),

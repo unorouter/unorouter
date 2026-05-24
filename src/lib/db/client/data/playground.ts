@@ -14,7 +14,8 @@ import { asc, desc, eq, inArray, sql } from "drizzle-orm";
 import { getLocalDb } from "../client";
 import { makeTableStore, replaceChildRows } from "./table-store";
 
-type AnyRow = Record<string, unknown> & { id: string };
+import type { LocalAnyRow as AnyRow } from "@/lib/types";
+
 type SnapshotInput = Record<string, unknown> & { id: string; sessionId: string };
 type MediaInput = typeof media.$inferInsert;
 

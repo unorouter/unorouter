@@ -15,21 +15,21 @@ import { dayjs } from "@/lib/utils/format/date";
 // upsertLocalConversationBundle plus the standalone RP entity upserts.
 export type MappedImport = {
   convId: string;
-  persona: (Record<string, unknown> & { id: string }) | null;
-  preset: (Record<string, unknown> & { id: string }) | null;
-  characters: Array<Record<string, unknown> & { id: string }>;
+  persona: (LocalAnyRow) | null;
+  preset: (LocalAnyRow) | null;
+  characters: Array<LocalAnyRow>;
   lorebooks: Array<{
-    lorebook: Record<string, unknown> & { id: string };
-    entries: Array<Record<string, unknown> & { id: string }>;
+    lorebook: LocalAnyRow;
+    entries: Array<LocalAnyRow>;
   }>;
   bundle: {
     conversation: { id: string; title: string | null };
     settings: Record<string, unknown> & { convId: string };
     conversationCharacters: Array<Record<string, unknown>>;
     conversationLorebooks: Array<Record<string, unknown>>;
-    messages: Array<Record<string, unknown> & { id: string }>;
-    messageItems: Array<Record<string, unknown> & { id: string }>;
-    media: Array<Record<string, unknown> & { id: string }>;
+    messages: Array<LocalAnyRow>;
+    messageItems: Array<LocalAnyRow>;
+    media: Array<LocalAnyRow>;
     requestLogs: Array<Record<string, unknown>>;
   };
 };
@@ -325,7 +325,7 @@ export function mapOrpgImport(data: OrpgImport): MappedImport {
     };
   });
 
-  const messageItems: Array<Record<string, unknown> & { id: string }> = [];
+  const messageItems: Array<LocalAnyRow> = [];
   for (const m of Object.values(orpgMessages)) {
     const newMsgId = msgIdMap.get(m.id as string)!;
     const itemRefs = (m.items as Array<Record<string, unknown>>) ?? [];
@@ -431,8 +431,8 @@ export function mapStImport(parsed: StParsed, baseTime: Date): MappedImport {
       ? `${parsed.metadata.character_name} (imported)`
       : "Imported chat";
 
-  const messages: Array<Record<string, unknown> & { id: string }> = [];
-  const messageItems: Array<Record<string, unknown> & { id: string }> = [];
+  const messages: Array<LocalAnyRow> = [];
+  const messageItems: Array<LocalAnyRow> = [];
   let prevId: string | null = null;
   for (let i = 0; i < parsed.messages.length; i++) {
     const m = parsed.messages[i];

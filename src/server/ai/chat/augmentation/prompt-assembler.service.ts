@@ -3,10 +3,8 @@ import {
   parseExtraBody as parseExtraBodyShared,
   type StreamOverrides,
 } from "@/lib/validation/chat";
-import {
-  loadConvContext,
-  type LoadedConvContext,
-} from "./prompt-assembler/conv-context";
+import { loadConvContext } from "./prompt-assembler/conv-context";
+import type { LoadedConvContext } from "@/lib/types";
 import { keyHits, selectLorebookEntries } from "./prompt-assembler/lorebook";
 
 export type DepthInjection = {

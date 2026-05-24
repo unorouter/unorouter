@@ -10,8 +10,7 @@ import {
   samplingPresets,
 } from "@/lib/db/schema";
 import { and, asc, eq, inArray } from "drizzle-orm";
-
-export type LoadedConvContext = Awaited<ReturnType<typeof loadConvContext>>;
+import type { LoadedConvContext } from "@/lib/types";
 
 export async function loadConvContext(convId: string) {
   const db = getDb();

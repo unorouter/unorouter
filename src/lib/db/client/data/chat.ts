@@ -22,9 +22,11 @@ import {
 } from "./rp";
 import { makeTableStore, replaceChildRows } from "./table-store";
 
-type AnyRow = Record<string, unknown> & { id: string };
-type ChildRow = Record<string, unknown>;
-type LocalRowInput = Record<string, unknown>;
+import type {
+  LocalAnyRow as AnyRow,
+  LocalChildRow as ChildRow,
+  LocalRowInput,
+} from "@/lib/types";
 
 const conversationStore = makeTableStore(conversations, conversations.id);
 const conversationSettingsStore = makeTableStore(

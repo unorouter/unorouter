@@ -185,6 +185,34 @@ export function isSearchDoc(doc: unknown): doc is SearchResult {
   return typeof d.title === "string" && typeof d.url === "string";
 }
 
+// Generic shapes used by the client-side data layer's bundle upserts. They
+// flow through a sqlite-proxy cast boundary, so a loose record is intentional.
+export type LocalAnyRow = Record<string, unknown> & { id: string };
+export type LocalChildRow = Record<string, unknown>;
+export type LocalRowInput = Record<string, unknown>;
+
+// Server-side prompt-assembler context. Co-located here so both the assembler
+// and downstream lorebook selectors share a single source of truth without
+// pulling the loader's runtime dependencies into client code (type-only import).
+import type { loadConvContext } from "@/server/ai/chat/augmentation/prompt-assembler/conv-context";
+export type LoadedConvContext = Awaited<ReturnType<typeof loadConvContext>>;
+
+export type LbEntry = LoadedConvContext extends infer T
+  ? T extends { lbEntries: infer E }
+    ? E extends ReadonlyArray<infer Item>
+      ? Item
+      : never
+    : never
+  : never;
+
+export type LbRow = LoadedConvContext extends infer T
+  ? T extends { lbRows: infer R }
+    ? R extends ReadonlyArray<infer Item>
+      ? Item
+      : never
+    : never
+  : never;
+
 // Lives outside `config/constants.ts` to avoid an import cycle with
 // `config/env.ts`, which throws ParamErrors at module-load time.
 export class ParamError extends Error {
