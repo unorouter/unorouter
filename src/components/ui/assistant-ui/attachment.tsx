@@ -15,6 +15,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
+import { errMessage } from "@/lib/utils/base";
 import {
   AttachmentPrimitive,
   ComposerPrimitive,
@@ -227,7 +228,7 @@ export const ComposerAddAttachment: FC = () => {
     try {
       await aui.composer().addAttachment(file);
     } catch (err) {
-      const message = err instanceof Error ? err.message : String(err);
+      const message = errMessage(err);
       toast.error(
         /not accepted/i.test(message)
           ? t("CHAT.ATTACHMENT.UNSUPPORTED_TYPE", {

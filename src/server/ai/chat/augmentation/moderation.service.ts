@@ -1,7 +1,7 @@
 import { MODERATION_TIMEOUT_MS, msg } from "@/lib/config/constants";
 import { getDb } from "@/lib/db/server/client";
 import { moderationLog } from "@/lib/db/schema";
-import { uid } from "@/lib/utils/base";
+import { errMessage, uid } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 import { serverEnv } from "@/server/env";
 
@@ -69,7 +69,7 @@ async function persistDecision(
   } catch (err) {
     logger.error("Failed to persist moderation decision", {
       context: "moderation.persist",
-      error: err instanceof Error ? err.message : String(err),
+      error: errMessage(err),
       decision,
       externalId,
     });

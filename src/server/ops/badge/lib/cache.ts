@@ -1,6 +1,6 @@
 import { buildPricingSummary } from "@/lib/api/pricing";
 import { FAR_FUTURE, LOCALES } from "@/lib/config/constants";
-import { unixSec, unwrap } from "@/lib/utils/base";
+import { errMessage, unixSec, unwrap } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 import { getAllQuotaDates, getPricing } from "@/openapi";
 import { readFileSync } from "fs";
@@ -109,7 +109,7 @@ export async function getStats(): Promise<BadgeStats> {
   } catch (err) {
     logger.warn("badge getStats: upstream failed, falling back to zero", {
       context: "badge",
-      message: err instanceof Error ? err.message : String(err),
+      message: errMessage(err),
     });
     cachedStats = EMPTY_STATS;
     cachedStatsAt = Date.now();

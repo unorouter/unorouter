@@ -1,5 +1,6 @@
 import { IS_DEV } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
+import { errMessage } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 import { PostHog } from "posthog-node";
 
@@ -57,7 +58,7 @@ export function captureServerEvent(args: {
     logger.warn("PostHog server capture failed", {
       context: "posthog.server",
       event: args.event,
-      error: err instanceof Error ? err.message : String(err),
+      error: errMessage(err),
     });
   }
 }
