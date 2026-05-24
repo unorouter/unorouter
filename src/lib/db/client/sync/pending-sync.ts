@@ -43,6 +43,20 @@ export async function enqueuePending(
 ) {
   const local = await getLocalDb(userId);
   if (!local) return;
+
+  // Guard the delete -> patch transition. A queued delete that hasn't
+  // drained yet means the row is on its way out; a subsequent patch
+  // attempt would either silently recreate it on retry or no-op once
+  // delete drains. Either way the patch is wrong.
+  const existing = await local.db
+    .select({ op: localPendingSync.op })
+    .from(localPendingSync)
+    .where(
+      and(eq(localPendingSync.kind, kind), eq(localPendingSync.id, id)),
+    )
+    .limit(1);
+  if (existing[0]?.op === "delete" && op === "patch") return;
+
   await local.db
     .insert(localPendingSync)
     .values({

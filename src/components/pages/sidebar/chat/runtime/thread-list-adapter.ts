@@ -117,7 +117,7 @@ export function createThreadListAdapter(
       });
       if (userId > GUEST_USER_ID && existing?.syncExpiresAt != null) {
         await mirrorConvPatchIfSynced(userId, id, {
-          conversation: { ...existing, title, updatedAt: now },
+          conversation: { title, updatedAt: now },
         });
       }
       queryClient.invalidateQueries({ queryKey: queryKeys.conversations() });
@@ -176,8 +176,11 @@ export function createThreadListAdapter(
           updatedAt: now,
         });
         if (userId > GUEST_USER_ID && existing?.syncExpiresAt != null) {
+          // Patch only the changed fields. Spreading `existing` would
+          // round-trip stale token counters back to the server and clobber
+          // any newer values from a concurrent stream.
           await mirrorConvPatchIfSynced(userId, id, {
-            conversation: { ...existing, title: data.title, updatedAt: now },
+            conversation: { title: data.title, updatedAt: now },
           });
         }
 
