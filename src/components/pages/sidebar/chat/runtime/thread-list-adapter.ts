@@ -146,6 +146,29 @@ export function createThreadListAdapter(
         };
       }
 
+      // Logged-in cache miss: try the server before erroring. Conv may
+      // exist on Turso (synced from another device) but not yet
+      // hydrated locally; pulling its title here keeps the thread title
+      // bar from flashing 'not found' before Stage 2 reconciles.
+      if (userId > GUEST_USER_ID) {
+        try {
+          const res = handleElysia(
+            await rpc.api.ai
+              .sync({ kind: "conversations" })({ id })
+              .bundle.get(),
+          ) as { conversation?: { title?: string | null } } | undefined;
+          if (res?.conversation) {
+            return {
+              remoteId: id,
+              status: "regular",
+              title: res.conversation.title ?? undefined,
+            };
+          }
+        } catch {
+          // Fall through to the not-found toast.
+        }
+      }
+
       handleError(new Error("chat-not-found"), t, "chat-not-found");
       return {
         remoteId: id,
