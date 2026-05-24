@@ -26,9 +26,13 @@ import {
 } from "./pending-sync";
 import {
   readLocalCards,
+  readLocalCharacter,
   readLocalCharacters,
+  readLocalLorebook,
   readLocalLorebooks,
+  readLocalPersona,
   readLocalPersonas,
+  readLocalPreset,
   readLocalPresets,
   upsertLocalCardBundle,
   upsertLocalCharacter,
@@ -434,6 +438,30 @@ async function applyBundle<K extends SyncKindName>(
       const rehydratedMedia = await Promise.all(
         b.media.map((m) => rehydrateMedia(userId, m)),
       );
+      // Insert-only upsert for referenced RP entities: a fresh-OPFS device
+      // needs them to render the conv, but if the entity already exists
+      // locally (newer or edited) we must not clobber it.
+      for (const ch of b.characters ?? []) {
+        const local = await readLocalCharacter(userId, ch.id);
+        if (!local) await upsertLocalCharacter(userId, ch);
+      }
+      for (const p of b.personas ?? []) {
+        const local = await readLocalPersona(userId, p.id);
+        if (!local) await upsertLocalPersona(userId, p);
+      }
+      for (const pr of b.presets ?? []) {
+        const local = await readLocalPreset(userId, pr.id);
+        if (!local) await upsertLocalPreset(userId, pr);
+      }
+      for (const lb of b.lorebooks ?? []) {
+        const local = await readLocalLorebook(userId, lb.lorebook.id);
+        if (!local) {
+          await upsertLocalLorebookBundle(userId, {
+            lorebook: lb.lorebook,
+            entries: lb.entries,
+          });
+        }
+      }
       return upsertLocalConversationBundle(userId, {
         conversation: b.conversation,
         settings: b.settings,

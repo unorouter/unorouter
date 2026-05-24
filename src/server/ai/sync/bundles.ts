@@ -46,6 +46,16 @@ export type SyncBundleMap = {
     messageItems: (typeof messageItems.$inferSelect)[];
     media: (typeof media.$inferSelect)[];
     requestLogs: (typeof requestLogs.$inferSelect)[];
+    // Referenced RP entity bodies inlined so a fresh-OPFS pull on a second
+    // device can render the conv even when the entity was never synced
+    // standalone. Mirrors the self-contained shape of the push payload.
+    characters: (typeof characters.$inferSelect)[];
+    personas: (typeof personas.$inferSelect)[];
+    lorebooks: Array<{
+      lorebook: typeof lorebooks.$inferSelect;
+      entries: (typeof lorebookEntries.$inferSelect)[];
+    }>;
+    presets: (typeof samplingPresets.$inferSelect)[];
   };
   playgroundSessions: {
     session: typeof playgroundSessions.$inferSelect;
@@ -181,6 +191,81 @@ export async function getSyncedBundle(
             .from(messageItems)
             .where(inArray(messageItems.messageId, msgIds))
         : [];
+
+      // Inline every referenced RP entity so a fresh-OPFS pull on a second
+      // device renders the conv without first re-syncing each entity.
+      const refCharIds = convCharsRows.map((b) => b.characterId);
+      const refLbIds = convLbsRows.map((b) => b.lorebookId);
+      const refPersonaId = settingsRows[0]?.personaId ?? null;
+      const refPresetId = settingsRows[0]?.presetId ?? null;
+      const [refCharacters, refPersonas, refLbRows, refLbEntries, refPresets] =
+        await Promise.all([
+          refCharIds.length
+            ? db
+                .select()
+                .from(characters)
+                .where(
+                  and(
+                    eq(characters.userId, userId),
+                    inArray(characters.id, refCharIds),
+                  ),
+                )
+            : Promise.resolve([] as (typeof characters.$inferSelect)[]),
+          refPersonaId
+            ? db
+                .select()
+                .from(personas)
+                .where(
+                  and(
+                    eq(personas.userId, userId),
+                    eq(personas.id, refPersonaId),
+                  ),
+                )
+            : Promise.resolve([] as (typeof personas.$inferSelect)[]),
+          refLbIds.length
+            ? db
+                .select()
+                .from(lorebooks)
+                .where(
+                  and(
+                    eq(lorebooks.userId, userId),
+                    inArray(lorebooks.id, refLbIds),
+                  ),
+                )
+            : Promise.resolve([] as (typeof lorebooks.$inferSelect)[]),
+          refLbIds.length
+            ? db
+                .select()
+                .from(lorebookEntries)
+                .where(inArray(lorebookEntries.lorebookId, refLbIds))
+            : Promise.resolve([] as (typeof lorebookEntries.$inferSelect)[]),
+          refPresetId
+            ? db
+                .select()
+                .from(samplingPresets)
+                .where(
+                  and(
+                    eq(samplingPresets.userId, userId),
+                    eq(samplingPresets.id, refPresetId),
+                  ),
+                )
+            : Promise.resolve([] as (typeof samplingPresets.$inferSelect)[]),
+        ]);
+
+      const entriesByLbId = new Map<
+        string,
+        (typeof lorebookEntries.$inferSelect)[]
+      >();
+      for (const e of refLbEntries) {
+        const arr = entriesByLbId.get(e.lorebookId) ?? [];
+        arr.push(e);
+        entriesByLbId.set(e.lorebookId, arr);
+      }
+      const inlinedLorebooks = refLbRows.map((lb) => ({
+        lorebook: lb,
+        entries: entriesByLbId.get(lb.id) ?? [],
+      }));
+
       return {
         conversation: rows[0],
         settings: settingsRows[0] ?? null,
@@ -190,6 +275,10 @@ export async function getSyncedBundle(
         messageItems: items,
         media: mediaRows,
         requestLogs: reqLogRows,
+        characters: refCharacters,
+        personas: refPersonas,
+        lorebooks: inlinedLorebooks,
+        presets: refPresets,
       };
     }
     case "playgroundSessions": {
