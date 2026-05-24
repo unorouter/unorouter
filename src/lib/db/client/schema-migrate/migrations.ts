@@ -40,7 +40,17 @@ export async function runMigrations(sql: SQLocalDrizzle): Promise<void> {
       .map((s) => s.trim())
       .filter(Boolean);
     for (const statement of statements) {
-      await sql.sql(statement);
+      try {
+        await sql.sql(statement);
+      } catch (err) {
+        // Tolerate replays of partially-applied tags. If a previous run of
+        // this migration committed statement K-1 then threw on K, the
+        // version cursor stayed on the prior tag and the next load replays
+        // K-1 too. CREATE TABLE / CREATE INDEX / ADD COLUMN error messages
+        // signal the object already exists, which is harmless here.
+        if (isIdempotentMigrationError(err)) continue;
+        throw err;
+      }
     }
     await sql.sql`
       INSERT INTO local_meta (key, value, updated_at)
@@ -50,4 +60,15 @@ export async function runMigrations(sql: SQLocalDrizzle): Promise<void> {
         updated_at = excluded.updated_at
     `;
   }
+}
+
+function isIdempotentMigrationError(err: unknown): boolean {
+  const msg = err instanceof Error ? err.message : String(err);
+  // sqlocal surfaces SQLite errors verbatim. These three cover every
+  // shape Drizzle currently emits.
+  return (
+    /already exists/i.test(msg) ||
+    /duplicate column name/i.test(msg) ||
+    /index .* already exists/i.test(msg)
+  );
 }
