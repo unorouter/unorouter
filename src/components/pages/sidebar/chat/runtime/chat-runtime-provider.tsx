@@ -132,6 +132,11 @@ function useHistoryAdapter() {
 
 // Pins the scroll to the bottom when a thread loads. Multiple frames cover
 // late layout passes while history renders.
+//
+// Bails on user scroll: once the user moves more than USER_SCROLL_THRESHOLD
+// pixels away from the bottom mid-load, we stop fighting them.
+const USER_SCROLL_THRESHOLD = 80;
+
 function useScrollToBottom(
   threadId: string | null | undefined,
   remoteId: string | null | undefined,
@@ -141,8 +146,19 @@ function useScrollToBottom(
     const scroller = document.querySelector("main");
     if (!scroller) return;
     let n = 0;
+    let lastTarget = scroller.scrollHeight;
     const pin = () => {
+      const distanceFromBottom =
+        scroller.scrollHeight - scroller.scrollTop - scroller.clientHeight;
+      // User scrolled up; release the pin.
+      if (
+        scroller.scrollTop < lastTarget - USER_SCROLL_THRESHOLD &&
+        distanceFromBottom > USER_SCROLL_THRESHOLD
+      ) {
+        return;
+      }
       scroller.scrollTop = scroller.scrollHeight;
+      lastTarget = scroller.scrollHeight;
       if (++n < 10) requestAnimationFrame(pin);
     };
     requestAnimationFrame(pin);
