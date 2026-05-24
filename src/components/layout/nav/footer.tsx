@@ -209,12 +209,7 @@ export function Footer() {
             </p>
             <button
               type="button"
-              onClick={() => {
-                analytics.easterEgg.breakoutOpened({
-                  from_route: pathname,
-                });
-                setBreakoutOpen(true);
-              }}
+              onClick={() => setBreakoutOpen(true)}
               aria-label={t("FOOTER.EASTER_EGG_LABEL")}
               className="text-muted-foreground/30 hover:text-primary absolute right-0 font-mono text-xs leading-none transition-colors"
             >
