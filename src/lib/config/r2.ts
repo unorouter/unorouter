@@ -415,22 +415,8 @@ export async function uploadBase64ToR2(
 // and chat quota isn't charged. References under `playgrounds-refs/<userId>`
 // so deleting a generation doesn't sweep them.
 
-function generationKey(playgroundId: string, filename: string): string {
-  return `playgrounds/${playgroundId}/${filename}`;
-}
-
 function generationReferenceKey(userId: number, filename: string): string {
   return `playgrounds-refs/${userId}/${filename}`;
-}
-
-async function uploadGenerationToR2(
-  playgroundId: string,
-  body: Buffer | Uint8Array,
-  declaredCt?: string,
-): Promise<{ url: string; key: string; mime: string; sizeBytes: number }> {
-  const key = generationKey(playgroundId, uid(8));
-  const { url, mime } = await uploadToR2(key, body, declaredCt);
-  return { url, key, mime, sizeBytes: body.length };
 }
 
 // Client-first generation: download the upstream image bytes WITHOUT an R2
