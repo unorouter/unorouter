@@ -46,8 +46,8 @@ import {
   type SyncMergeMode,
   type ThemeBundleBody,
 } from "@/lib/validation/sync";
-import { Value } from "@sinclair/typebox/value";
 import { and, eq, inArray } from "drizzle-orm";
+import { castWithDriftLog } from "./payload-validate";
 
 export const DEFAULT_TTL_DAYS = 30;
 
@@ -76,7 +76,7 @@ export function stripUndefined<T extends Record<string, unknown>>(
 
 // --- Insert-value builders -------------------------------------------------
 // Map a loose sync payload (unknown at the boundary) to a typed insert row.
-// `Value.Cast` validates against the shared RP schema, coerces, fills defaults
+// `castWithDriftLog` validates against the shared RP schema, coerces, fills defaults
 // and drops extras (id/userId/timestamps) in one step.
 
 function characterInsertValues(
@@ -85,7 +85,7 @@ function characterInsertValues(
   id: string,
   expiresAt: Date,
 ): typeof characters.$inferInsert {
-  const v = Value.Cast(characterBody, body);
+  const v = castWithDriftLog(characterBody, body, "sync.upsert.character");
   return { ...v, id, userId, syncExpiresAt: expiresAt };
 }
 
@@ -95,7 +95,7 @@ function personaInsertValues(
   id: string,
   expiresAt: Date,
 ): typeof personas.$inferInsert {
-  const v = Value.Cast(personaBody, body);
+  const v = castWithDriftLog(personaBody, body, "sync.upsert.persona");
   return {
     ...v,
     id,
@@ -111,7 +111,7 @@ function presetInsertValues(
   id: string,
   expiresAt: Date,
 ): typeof samplingPresets.$inferInsert {
-  const v = Value.Cast(samplingPresetBody, body);
+  const v = castWithDriftLog(samplingPresetBody, body, "sync.upsert.preset");
   return {
     ...v,
     id,
@@ -127,7 +127,7 @@ function lorebookInsertValues(
   id: string,
   expiresAt: Date,
 ): typeof lorebooks.$inferInsert {
-  const v = Value.Cast(lorebookBody, lb);
+  const v = castWithDriftLog(lorebookBody, lb, "sync.upsert.lorebook");
   return { ...v, id, userId, syncExpiresAt: expiresAt };
 }
 
@@ -135,7 +135,7 @@ function lorebookEntryInsertValues(
   e: unknown,
   lorebookId: string,
 ): typeof lorebookEntries.$inferInsert {
-  const v = Value.Cast(lorebookEntryBody, e);
+  const v = castWithDriftLog(lorebookEntryBody, e, "sync.upsert.lorebookEntry");
   const id = (e as { id?: unknown }).id;
   return {
     ...v,
@@ -397,7 +397,11 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
   },
 
   cards: async (db, userId, id, expiresAt, payload) => {
-    const body: CardBundleBody = Value.Cast(cardBundleBody, payload ?? {});
+    const body: CardBundleBody = castWithDriftLog(
+      cardBundleBody,
+      payload ?? {},
+      "sync.upsert.cardBundle",
+    );
     const c = body.card ?? {};
     await db.transaction(async (tx) => {
       const existing = await tx
@@ -455,9 +459,10 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
 
   conversations: async (db, userId, id, expiresAt, payload, mergeMode) => {
     const mode: SyncMergeMode = mergeMode ?? "replace";
-    const body: ConversationBundleBody = Value.Cast(
+    const body: ConversationBundleBody = castWithDriftLog(
       conversationBundleBody,
       payload ?? {},
+      "sync.upsert.conversationBundle",
     );
     const c = body.conversation ?? {};
     await db.transaction(async (tx) => {
@@ -709,9 +714,10 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
   },
 
   playgroundSessions: async (db, userId, id, expiresAt, payload) => {
-    const body: PlaygroundSessionBundleBody = Value.Cast(
+    const body: PlaygroundSessionBundleBody = castWithDriftLog(
       playgroundSessionBundleBody,
       payload ?? {},
+      "sync.upsert.playgroundSessionBundle",
     );
     const s = body.session ?? {};
     await db.transaction(async (tx) => {
@@ -832,7 +838,11 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
   // Theme is single-row per user keyed by userId. Accepts either
   // `{ themeJson: ... }` or the raw theme JSON.
   theme: async (db, userId, _id, expiresAt, payload) => {
-    const body: ThemeBundleBody = Value.Cast(themeBundleBody, payload ?? {});
+    const body: ThemeBundleBody = castWithDriftLog(
+      themeBundleBody,
+      payload ?? {},
+      "sync.upsert.themeBundle",
+    );
     const wrapped =
       body && typeof body === "object" && "themeJson" in body
         ? (body as { themeJson: unknown }).themeJson
