@@ -27,8 +27,7 @@ import { makeRpEntity } from "./factory";
 import { mirrorSyncedRow } from "./shared";
 import { parseLorebookJson } from "@/lib/ai/rp/lorebook-import";
 
-// Re-mirror a synced lorebook as a bundle (with entries) after any entry
-// mutation. Lorebooks are nested resources on the sync layer.
+// Re-mirror lorebook bundle after entry mutation.
 async function mirrorLorebookIfSynced(userId: number, lorebookId: string) {
   const lb = await readLocalLorebook(userId, lorebookId);
   if (!lb || lb.syncExpiresAt == null) return;
@@ -38,8 +37,7 @@ async function mirrorLorebookIfSynced(userId: number, lorebookId: string) {
   });
 }
 
-// The lorebook update flow needs a custom mirror payload (bundle with
-// entries), so we replace the factory's `useUpdate` to keep the contract.
+// Custom mirror payload (bundle + entries) replaces factory useUpdate.
 const lorebooks = makeRpEntity<
   LorebookRow,
   Record<string, unknown>,
@@ -73,8 +71,7 @@ export function useLorebookQuery(id?: string) {
   });
 }
 
-// Bespoke update. Re-mirrors the bundle (lorebook + entries) so a synced
-// lorebook stays consistent on the server side after a name/tag/etc edit.
+// Bespoke update re-mirrors bundle after edit.
 export function useUpdateLorebookMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
@@ -88,8 +85,7 @@ export function useUpdateLorebookMutation() {
       const existing = await readLocalLorebook(userId, args.id);
       if (!existing) throw new Error("not-found");
       const now = dayjs().toDate();
-      // readLocalLorebook returns the lorebook merged with an `entries` array;
-      // strip it before the upsert since `lorebooks` has no entries column.
+      // Strip entries before lorebooks upsert (no entries column).
       const { entries: _entries, ...existingRow } = existing;
       const updated = { ...existingRow, ...args.body, updatedAt: now };
       await upsertLocalLorebook(userId, updated as never);

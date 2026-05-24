@@ -100,8 +100,7 @@ export function useChatBindingsQuery(convId?: string) {
       const userId = auth.data?.id ?? GUEST_USER_ID;
       if (!convId) throw new Error("not-found");
       const local = await readLocalConversationBindings(userId, convId);
-      // Surface server shape ({ characters, lorebooks }), not the local
-      // column names (`conversationCharacters` / `conversationLorebooks`).
+      // Surface server keys (characters/lorebooks).
       return {
         characters: local?.conversationCharacters ?? [],
         lorebooks: local?.conversationLorebooks ?? [],
@@ -168,8 +167,7 @@ export function useImportConversationMutation() {
         throw new Error(msg("ERRORS.IMPORT_INVALID_JSON"));
       }
 
-      // Untrusted JSON: one boundary cast, the envelope types make every
-      // field optional so downstream access stays sound.
+      // Untrusted JSON; one boundary cast, envelopes optional fields.
       if (parsed.version === NATIVE_VERSION) {
         return persistMappedImport(
           auth.data?.id,

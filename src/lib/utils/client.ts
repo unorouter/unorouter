@@ -119,9 +119,7 @@ export function downloadJson(obj: unknown, filename: string) {
   downloadBlob(blob, filename);
 }
 
-// Updates a single URL search param in place without a navigation (history
-// replaceState). Pass `null` to remove the key. Used by the playground tab,
-// mode, and snapshot selectors.
+// Update one URL search param without navigation; null removes.
 export function setSearchParam(key: string, value: string | null) {
   const url = new URL(window.location.href);
   if (value === null) url.searchParams.delete(key);

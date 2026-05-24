@@ -25,10 +25,7 @@ import { dayjs } from "@/lib/utils/format/date";
 import type { useTranslations } from "next-intl";
 import { extractFirstUserText } from "./chat-utils";
 
-// Pure local-first thread adapter. Conversations live in SQLocal first; the
-// only network calls left are: (1) optional sync mirror on synced rows, and
-// (2) stateless title generation. New conversations never touch Turso until
-// the user explicitly clicks Sync.
+// Pure local-first. Network only: sync mirror + title gen.
 
 export function createThreadListAdapter(
   queryClient: QueryClient,
@@ -72,9 +69,7 @@ export function createThreadListAdapter(
         updatedAt: now,
       });
 
-      // Seed conversation_settings from current jotai defaults so the first
-      // turn already runs with the user's preferred sampling/effort/web
-      // search knobs. Drawer mutates the row directly afterward.
+      // Seed settings from jotai defaults so first turn uses user preferences.
       const defaults = chatStore.get(chatDefaultsAtom);
       await upsertLocalConversationSettings(userId(), {
         convId: id,

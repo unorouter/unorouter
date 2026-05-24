@@ -28,9 +28,7 @@ import type {
 } from "@assistant-ui/core";
 import type { QueryClient } from "@tanstack/react-query";
 
-// The format adapter's encoded storage shape. `MessageFormatAdapter.encode`
-// is typed only as the opaque generic constraint `Record<string, unknown>`,
-// so narrowing to the concrete shape `append` needs takes an `unknown` hop.
+// Encoded storage shape; encode is opaque, narrow through `unknown`.
 type EncodedContent = {
   role: "system" | "user" | "assistant" | "tool";
   parts: MessagePart[];
@@ -119,8 +117,7 @@ export function createChatHistoryAdapter(
 
           const now = dayjs().toDate();
 
-          // Assistant turns carry usage in `message.metadata.usage` once the
-          // stream's finish frame writes via `messageMetadata` (stream.service).
+          // Usage from message.metadata.usage (set by stream finish frame).
           const metadata =
             (item.message as { metadata?: ChatMessageMetadata }).metadata ??
             null;
@@ -157,9 +154,7 @@ export function createChatHistoryAdapter(
             await upsertLocalMessageItem(userId, row);
           }
 
-          // Persist outgoing request snapshot for in-app debugging (RisuAI
-          // Logs analog). Merges typed debug payload + usage; cascade-deletes
-          // with parent message via FK.
+          // Persist request snapshot for in-app debugging; FK cascade with message.
           const logRow: RequestLogRow | null = debug
             ? {
                 ...debug,
@@ -180,8 +175,7 @@ export function createChatHistoryAdapter(
             });
           }
 
-          // Bump conv totals + updatedAt. Row may not exist yet for a brand
-          // new guest conv (initialize runs in parallel); upsert seeds it.
+          // Bump conv totals; upsert seeds for brand-new convs.
           const existing = await readLocalConversation(userId, id);
           const updatedConv = {
             ...(existing ?? {}),

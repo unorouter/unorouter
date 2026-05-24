@@ -8,9 +8,7 @@ import { ReactNode, useEffect } from "react";
 export function QueryProvider(props: { children: ReactNode }) {
   const queryClient = getQueryClient();
 
-  // Cross-tab cache invalidation. Mutations broadcast affected keys after
-  // they finish writing locally; this listener calls invalidateQueries in
-  // every other tab so reads refetch from the shared SQLocal DB.
+  // Cross-tab invalidation: mutations broadcast keys; listener invalidates.
   useEffect(() => subscribeInvalidate(queryClient), [queryClient]);
 
   return (

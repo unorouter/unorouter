@@ -2,11 +2,9 @@ import type { TranslationKey } from "./constants";
 
 export type WebMcpToolResult = {
   path: string;
-  // Optional target string substituted into resultKey templates that use
-  // {target} (open_model, open_docs).
+  // Substituted into resultKey {target} templates (open_model, open_docs).
   target?: string;
-  // Override the descriptor's default resultKey for special cases such as
-  // missing required input or "no slug -> opened index" branches.
+  // Override default resultKey for special cases (missing input, no-slug index branch).
   resultKey?: TranslationKey;
 };
 

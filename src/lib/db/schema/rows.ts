@@ -1,8 +1,4 @@
-// Canonical client-side entity types: a row as stored in the SQLocal DB.
-// This app is local-first, so the local DB row (drizzle `$inferSelect`, with
-// `Date` timestamps) is the source of truth for the UI and hooks - not the
-// JSON-serialized server response. Hooks import these instead of deriving
-// types from the Eden RPC surface, which avoids casting between the two.
+// Canonical client row types (drizzle $inferSelect with Date). UI source of truth.
 
 import type {
   characters,

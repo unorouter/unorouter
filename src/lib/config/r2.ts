@@ -216,8 +216,7 @@ async function verifyMagicBytes(
     throw new Error(msg("ERRORS.DISALLOWED_CONTENT_TYPE"));
   }
   if (declaredCt && declaredCt !== detected.mime) {
-    // Media: category-level match (browser may send narrower subtype than
-    // detected). Documents: exact match.
+    // Media: category match; documents: exact.
     const sameCategory =
       isMedia && declaredCt.split("/")[0] === detected.mime.split("/")[0];
     if (!sameCategory) {
@@ -411,17 +410,13 @@ export async function uploadBase64ToR2(
   return putMedia(convId, msgId, Buffer.from(base64, "base64"), declaredCt);
 }
 
-// Playground media skips `media` table; playground rows track own size+mime
-// and chat quota isn't charged. References under `playgrounds-refs/<userId>`
-// so deleting a generation doesn't sweep them.
+// Playground media skips `media` table; refs under playgrounds-refs/.
 
 function generationReferenceKey(userId: number, filename: string): string {
   return `playgrounds-refs/${userId}/${filename}`;
 }
 
-// Client-first generation: download the upstream image bytes WITHOUT an R2
-// upload. The client stores base64 in its local `media` table; R2 upload is
-// deferred to the Sync push. `result_url` is a URL or an inline data URI.
+// Client-first: download bytes, no R2 upload (deferred to sync).
 export async function downloadGenerationBytes(
   url: string,
   authToken?: string,

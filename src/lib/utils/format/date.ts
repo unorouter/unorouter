@@ -3,8 +3,7 @@ import "dayjs/locale/de";
 import relativeTime from "dayjs/plugin/relativeTime";
 import utc from "dayjs/plugin/utc";
 
-// Side-effect: extend shared dayjs singleton. Import once at server entry
-// (instrumentation.ts) and once at client entry (root layout).
+// Extends dayjs singleton; import once at server + client entry.
 dayjs.extend(relativeTime);
 dayjs.extend(utc);
 

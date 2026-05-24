@@ -38,8 +38,7 @@ export const PAGE_SIZE_OPTIONS = [10, 20, 50, 100] as const;
 
 export const GUEST_USER_ID = 0;
 
-// Playground sessions expire after this window; each fresh snapshot extends it.
-// Synced sessions are purged from Turso once their copy passes this age.
+// Playground session TTL; snapshot extends. Synced sessions purged from Turso.
 export const RETENTION_MS = 30 * 24 * 60 * 60 * 1000;
 
 export const LOCALES = [
@@ -83,12 +82,10 @@ export const APP_VALUES = {
   supportEmail: env.supportEmail,
 };
 
-// Sentinel select-option value for "no selection" in RP override forms.
-// Select widgets need a non-empty string; null/"" is reserved by the control.
+// Sentinel "no selection" string; null/"" reserved by Select control.
 export const NONE_VALUE = "__none__";
 
-// Free-tier maxOutputTokens metadata is often inflated past what upstream
-// serves (gemma claims 131072 but channel allows 32768). Clamp to avoid 400s.
+// Clamp inflated free-tier maxOutputTokens to channel limit.
 export const FREE_MODEL_OUTPUT_CAP = 8192;
 
 // Free models are flaky; race N parallel calls for short aux requests.
@@ -98,8 +95,7 @@ export const TAVILY_TIMEOUT_MS = 5_000;
 
 export const MODERATION_TIMEOUT_MS = 5_000;
 
-// Max passes for recursive lorebook scanning (each pass re-matches against the
-// concatenation of previously accepted entries; bounded to avoid runaway growth).
+// Bounded recursive lorebook passes; runaway-growth guard.
 export const MAX_RECURSIVE_LOREBOOK_PASSES = 3;
 
 export const TITLE_SYSTEM_PROMPT = `Generate a concise title (max 8 words) for this conversation based on the user's message.

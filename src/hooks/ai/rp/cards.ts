@@ -50,9 +50,7 @@ export function useCardQuery(id: string | undefined) {
   });
 }
 
-// Cards own a bundle (card + cardCharacters + cardLorebooks). The factory
-// only handles single-table entities, so create / update / apply are
-// bespoke.
+// Cards own bundle; factory is single-table so CRUD bespoke.
 export function useCreateCardMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
@@ -176,8 +174,7 @@ export function useDeleteCardMutation() {
   });
 }
 
-// Apply card to a conversation: replace OR merge the conversation's
-// character / lorebook bindings + optionally seed the persona on settings.
+// Apply card to conv: replace/merge bindings + optional persona seed.
 export function useApplyCardMutation() {
   const t = useTranslations();
   const qc = useQueryClient();

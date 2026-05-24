@@ -44,9 +44,7 @@ async function processUrls(
   const matches = [...text.matchAll(LINK_RE)];
   if (matches.length === 0) return text;
   if (mediaType !== "video" && mediaType !== "image") {
-    // Discard branch: text-mode stream surfaced media markdown but we don't
-    // know how to host it. Surfacing an empty string masks the issue from
-    // the user, so log so it shows up in observability.
+    // Empty-string fallback masks missing host; log for observability.
     logger.warn("processUrls dropping media links for non-media model", {
       context: "stream.urls",
       mediaType,
@@ -153,8 +151,7 @@ export async function handleImageStream(
         endpointPath!,
       );
 
-      // Per-stream unique scope when no convId so guests don't collide on
-      // the shared `tmp/` R2 namespace.
+      // Unique scope when no convId (guest tmp/ collision).
       const convId = body.convId ?? `tmp-${uid(8)}`;
       const groupKey = uid(8);
       const r2Urls = await Promise.all(

@@ -2,6 +2,20 @@
 
 import { Type as t, type Static } from "@sinclair/typebox/type";
 import { msg, NONE_VALUE, type TranslationKey } from "../config/constants";
+import {
+  LOREBOOK_INJECTION_ROLES,
+  LOREBOOK_POSITIONS,
+  MAX_DESC_LEN,
+  MAX_NAME_LEN,
+  type LorebookEntryPosition,
+  type LorebookInjectionRole,
+} from "./rp";
+export {
+  LOREBOOK_INJECTION_ROLES,
+  LOREBOOK_POSITIONS,
+  type LorebookEntryPosition as LorebookPosition,
+  type LorebookInjectionRole,
+};
 
 // Single source for sampling knobs. `field`=camelCase DB;
 // `apiKey`=snake_case upstream.
@@ -125,19 +139,6 @@ const webSearchContextSizeLiterals = [
   t.Literal("high"),
 ];
 
-// Exported so editor builds Select options + narrows form string.
-export const LOREBOOK_POSITIONS = [
-  "before_char",
-  "after_char",
-  "top",
-  "bottom",
-  "at_depth",
-] as const;
-export type LorebookPosition = (typeof LOREBOOK_POSITIONS)[number];
-
-export const LOREBOOK_INJECTION_ROLES = ["user", "system"] as const;
-export type LorebookInjectionRole = (typeof LOREBOOK_INJECTION_ROLES)[number];
-
 const lorebookPositionLiterals = LOREBOOK_POSITIONS.map((p) => t.Literal(p));
 const lorebookInjectionRoleLiterals = LOREBOOK_INJECTION_ROLES.map((r) =>
   t.Literal(r),
@@ -183,7 +184,7 @@ export type ConversationOverridesForm = Static<
 export const samplingPresetFormSchema = t.Object({
   name: t.String({
     minLength: 1,
-    maxLength: 200,
+    maxLength: MAX_NAME_LEN,
     default: "",
     error: msg("FORM.ERROR.REQUIRED"),
   }),
@@ -196,9 +197,9 @@ export const samplingPresetFormSchema = t.Object({
   presencePenalty: nullableNumber(-2, 2),
   repetitionPenalty: nullableNumber(0, 2),
   maxTokens: nullableNumber(1, 1_000_000),
-  mainPrompt: t.String({ default: "", maxLength: 50_000 }),
-  postHistory: t.String({ default: "", maxLength: 50_000 }),
-  prefill: t.String({ default: "", maxLength: 50_000 }),
+  mainPrompt: t.String({ default: "", maxLength: MAX_DESC_LEN }),
+  postHistory: t.String({ default: "", maxLength: MAX_DESC_LEN }),
+  prefill: t.String({ default: "", maxLength: MAX_DESC_LEN }),
   forceAlternateRoles: t.Boolean({ default: false }),
   noSystemRole: t.Boolean({ default: false }),
   mustStartWithUserInput: t.Boolean({ default: false }),
@@ -212,11 +213,11 @@ export type SamplingPresetForm = Static<typeof samplingPresetFormSchema>;
 export const personaFormSchema = t.Object({
   name: t.String({
     minLength: 1,
-    maxLength: 200,
+    maxLength: MAX_NAME_LEN,
     default: "",
     error: msg("FORM.ERROR.REQUIRED"),
   }),
-  description: t.String({ maxLength: 50_000, default: "" }),
+  description: t.String({ maxLength: MAX_DESC_LEN, default: "" }),
   isDefault: t.Boolean({ default: false }),
 });
 export type PersonaForm = Static<typeof personaFormSchema>;
@@ -224,11 +225,11 @@ export type PersonaForm = Static<typeof personaFormSchema>;
 export const lorebookFormSchema = t.Object({
   name: t.String({
     minLength: 1,
-    maxLength: 200,
+    maxLength: MAX_NAME_LEN,
     default: "",
     error: msg("FORM.ERROR.REQUIRED"),
   }),
-  description: t.String({ maxLength: 50_000, default: "" }),
+  description: t.String({ maxLength: MAX_DESC_LEN, default: "" }),
   scanDepth: t.Number({ minimum: 0, maximum: 100, default: 4 }),
   tokenBudget: t.Number({ minimum: 100, maximum: 32_000, default: 1500 }),
   recursiveScanning: t.Boolean({ default: false }),
@@ -241,7 +242,7 @@ export const lorebookEntryFormSchema = t.Object({
   secondaryKeys: t.String({ default: "" }),
   content: t.String({
     minLength: 1,
-    maxLength: 50_000,
+    maxLength: MAX_DESC_LEN,
     default: "",
     error: msg("FORM.ERROR.REQUIRED"),
   }),
@@ -259,17 +260,17 @@ export type LorebookEntryForm = Static<typeof lorebookEntryFormSchema>;
 export const characterFormSchema = t.Object({
   name: t.String({
     minLength: 1,
-    maxLength: 200,
+    maxLength: MAX_NAME_LEN,
     default: "",
     error: msg("FORM.ERROR.REQUIRED"),
   }),
-  description: t.String({ maxLength: 50_000, default: "" }),
-  personality: t.String({ maxLength: 50_000, default: "" }),
-  scenario: t.String({ maxLength: 50_000, default: "" }),
-  firstMessage: t.String({ maxLength: 50_000, default: "" }),
-  exampleMessages: t.String({ maxLength: 50_000, default: "" }),
-  systemPrompt: t.String({ maxLength: 50_000, default: "" }),
-  postHistoryInstructions: t.String({ maxLength: 50_000, default: "" }),
+  description: t.String({ maxLength: MAX_DESC_LEN, default: "" }),
+  personality: t.String({ maxLength: MAX_DESC_LEN, default: "" }),
+  scenario: t.String({ maxLength: MAX_DESC_LEN, default: "" }),
+  firstMessage: t.String({ maxLength: MAX_DESC_LEN, default: "" }),
+  exampleMessages: t.String({ maxLength: MAX_DESC_LEN, default: "" }),
+  systemPrompt: t.String({ maxLength: MAX_DESC_LEN, default: "" }),
+  postHistoryInstructions: t.String({ maxLength: MAX_DESC_LEN, default: "" }),
   tags: t.String({ default: "" }),
   // Comma-separated keywords; assembler matches against recent user texts.
   triggers: t.String({ default: "" }),
@@ -281,11 +282,11 @@ export type CharacterForm = Static<typeof characterFormSchema>;
 export const cardFormSchema = t.Object({
   name: t.String({
     minLength: 1,
-    maxLength: 200,
+    maxLength: MAX_NAME_LEN,
     default: "",
     error: msg("FORM.ERROR.REQUIRED"),
   }),
-  description: t.String({ maxLength: 50_000, default: "" }),
+  description: t.String({ maxLength: MAX_DESC_LEN, default: "" }),
   personaId: t.String({ default: NONE_VALUE }),
   characterIds: t.Array(t.String(), { default: [] }),
   lorebookIds: t.Array(t.String(), { default: [] }),

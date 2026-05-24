@@ -1,7 +1,4 @@
-// Parses SillyTavern/RisuAI persona JSON shapes:
-//   ST single export: { name, description, ... } flat
-//   ST settings backup: { personas: { "0": {...} } } or array
-//   RisuAI: flat or wrapped under `data`.
+// Parses ST/RisuAI persona JSON (single, settings backup, RisuAI flat/wrapped).
 
 export type ParsedPersona = {
   name: string;

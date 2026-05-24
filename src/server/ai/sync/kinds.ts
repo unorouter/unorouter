@@ -105,6 +105,7 @@ function rowOwnershipFilter(
   return and(eq(meta.idCol, id), eq(meta.table.userId, userId))!;
 }
 
+// Read row's syncExpiresAt; null if no row.
 export async function readSyncExpiry(
   userId: number,
   kind: SyncKindName,
@@ -120,6 +121,7 @@ export async function readSyncExpiry(
   return (rows[0]?.syncExpiresAt as Date | null | undefined) ?? null;
 }
 
+// Per-userId scoped select for one kind.
 export async function listSyncState(
   userId: number,
   kind: SyncKindName,

@@ -22,15 +22,9 @@ type LocalDb = {
   };
 };
 
-// Replaces every child row whose FK column equals `parentId`: delete the old
-// set, then insert each given row. `mapRow` reshapes inputs into full rows
-// (e.g. stamping the parent id or an order index); omit it for raw rows.
-// No transaction wrapper: SQLocal's transactionMutex deadlocks drizzle
-// sqlite-proxy queries (see upsertLocalConversationBundle).
-//
-// Caller invariant: this WIPES local-only rows under `parentId`. Use only on
-// import / authoritative-replace paths; sync-pull paths should call
-// `mergeChildRows` instead.
+// Wipes children under parentId, reinserts.
+// No tx (SQLocal mutex deadlock).
+// Wipe path only.
 export async function replaceChildRows<T>(
   db: LocalDb,
   table: SQLiteTable,
@@ -46,15 +40,9 @@ export async function replaceChildRows<T>(
   }
 }
 
-// Per-row merge: upsert each row by its PK without deleting siblings.
-// Local-only rows under `parentId` that aren't in the incoming list
-// survive the merge, which is the correct semantic for sync-pull child
-// arrays (settings, conv bindings, lorebook entries, media). Caller
-// supplies the PK column so the conflict target is explicit.
-//
-// `LocalInsertable` is the wider drizzle insert builder; the narrow
-// `LocalDb` shape in this file only exposes `values()` because that's
-// all replaceChildRows needs.
+// Per-row PK upsert; siblings survive.
+// Use for sync-pull child arrays.
+// LocalInsertable: wider drizzle insert builder than LocalDb above.
 type LocalInsertable = {
   insert: (table: SQLiteTable) => {
     values: (row: never) => {
@@ -85,9 +73,7 @@ export async function mergeChildRows<T>(
   }
 }
 
-// `scopeUser` (default true) ANDs `eq(table.userId, userId)` into per-row
-// WHERE clauses AND merges `userId` into upsert rows. Tables without a userId
-// column (conversationSettings, messages, etc.) must pass scopeUser: false.
+// scopeUser ANDs userId WHERE + merges into upsert; off for tables without userId.
 
 export function makeTableStore<TTable extends ScopedTable>(
   table: TTable,
@@ -144,9 +130,7 @@ export function makeTableStore<TTable extends ScopedTable>(
       if (!local) return;
       const scope = opts?.scopeUser ?? true;
       const values = scope && table.userId ? { ...row, userId: uid } : row;
-      // Loose row type: callers and opaque sync bundles both flow through
-      // here. Drizzle's per-table insert/set types reject the generic shape;
-      // cast at this one boundary, accept the trade.
+      // Cast at boundary: drizzle per-table types reject opaque sync payload.
       await local.db
         .insert(table)
         .values(values as never)

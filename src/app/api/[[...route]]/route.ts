@@ -46,10 +46,7 @@ export const app = new Elysia({ prefix: "/api" })
           },
         },
         servers: [{ url: `${env.siteOrigin}/api` }],
-        // MPP (Machine Payment Protocol) service metadata, paymentauth.org
-        // draft-payment-discovery-00. Agents read this alongside the
-        // per-operation x-payment-info annotations on /billing/*-pay routes
-        // to learn what the API does and which operations require payment.
+        // MPP service metadata (paymentauth.org draft-payment-discovery-00); pairs with per-op x-payment-info on /billing/*-pay.
         ...{
           "x-service-info": {
             categories: ["ai", "developer-tools"],

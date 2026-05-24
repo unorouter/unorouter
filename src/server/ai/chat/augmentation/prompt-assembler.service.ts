@@ -122,8 +122,7 @@ export function assembleFromOverrides(
     system: sections.length ? sections.join("\n\n") : undefined,
     sampling,
     reasoningEffort: overrides?.reasoningEffort ?? undefined,
-    // 8 matches assembleForStream default; 0 here meant guests w/ no settings
-    // row silently disabled chat memory.
+    // 0 default silently disabled chat memory for guests.
     chatMemory: overrides?.chatMemory ?? 8,
     streamingEnabled: overrides?.streamingEnabled ?? true,
     authorNote,
@@ -211,9 +210,7 @@ export async function assembleForStream(
   for (const e of selected.filter((x) => x.position === "before_char"))
     sections.push(expand(e.content));
 
-  // Multi-character: {{char}} resolves to the primary; each bound character
-  // gets its own block (matches RisuAI/SillyTavern multi-char convention).
-  // Non-primary blocks with alwaysActive=false are trigger-gated.
+  // Multi-char: primary owns {{char}}; non-primary alwaysActive=false is trigger-gated.
   const charScanText = recentUserTexts.join("\n");
   for (let i = 0; i < boundCharacters.length; i++) {
     const binding = boundCharacters[i];
@@ -254,9 +251,7 @@ export async function assembleForStream(
   for (const e of selected.filter((x) => x.position === "after_char"))
     sections.push(expand(e.content));
 
-  // SillyTavern parity: only the primary character's systemPrompt /
-  // postHistoryInstructions are emitted. Secondary characters contribute
-  // their own block above but not the system-level prompt fields.
+  // ST parity: only primary's systemPrompt/postHistoryInstructions emit.
   const sysOverride =
     settings.systemPromptOverride ?? primary?.systemPrompt ?? null;
   if (sysOverride) sections.push(expand(sysOverride));

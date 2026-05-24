@@ -431,8 +431,7 @@ export async function completeSession(input: CompleteSessionInput) {
     });
   }
 
-  // Quota snapshot lets later GETs detect that payment landed (webhook
-  // credits balance async). Subsequent GETs lazily advance to completed.
+  // Quota snapshot so later GETs detect webhook landing (credits balance async).
   const quotaAtComplete = await fetchUserQuota(input.upstreamHeaders);
 
   const db = getDb();
@@ -464,9 +463,7 @@ async function fetchUserQuota(
   }
 }
 
-// Heuristic: if quota delta since /complete covers the session amount,
-// advance to completed. Best-effort; unrelated balance increases also trip
-// it. Better than sessions stuck in_progress forever.
+// Best-effort: flip completed when quota delta >= session amount. Unrelated credits trip it; preferable to stuck in_progress.
 async function maybeAdvanceCompleted(
   row: AcpCheckoutSession,
   upstreamHeaders: Record<string, string>,

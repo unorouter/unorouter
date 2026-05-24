@@ -154,10 +154,7 @@ export async function readLocalConversationBundle(
       readLocalRequestLogsForConv(userId, convId),
     ]);
 
-  // Resolve the full bodies of every RP entity this conversation references so
-  // a sync push is self-contained: the server upserts these before the
-  // conversation_* rows, satisfying their foreign keys even when the entity
-  // was never synced on its own.
+  // Inline RP entity bodies so sync push is self-contained (FK resolves on server).
   const characterIds = (bindings?.conversationCharacters ?? []).map(
     (b) => b.characterId,
   );
@@ -294,9 +291,7 @@ export async function replaceLocalConversationBindings(
   }
 }
 
-// No `local.transaction(...)` wrapper: SQLocal's transactionMutex deadlocks
-// drizzle sqlite-proxy queries that lack the transactionKey. Cascade order is
-// enough since bundle writes are idempotent upserts.
+// No local.transaction(): SQLocal mutex deadlocks drizzle proxy queries.
 export async function upsertLocalConversationBundle(
   userId: number | undefined,
   bundle: {
@@ -314,9 +309,7 @@ export async function upsertLocalConversationBundle(
   if (!local) return { skippedLocalNewer: 0 };
   await conversationStore.upsert(userId, bundle.conversation);
 
-  // Per-row merge instead of delete-then-insert: local-only edits to
-  // settings / bindings / media survive a sync-pull. Authoritative-replace
-  // is still available via replaceChildRows on the import paths.
+  // Per-row merge: local edits to settings/bindings/media survive sync-pull.
   if (bundle.settings) {
     await local.db
       .insert(conversationSettings)
@@ -328,8 +321,7 @@ export async function upsertLocalConversationBundle(
   }
 
   const convId = bundle.conversation.id;
-  // conversation_characters PK is (convId, characterId); conv_lorebooks is
-  // (convId, lorebookId). Use mergeChildRows with the composite PK.
+  // Composite PK; use mergeChildRows.
   await mergeChildRows(
     local.db,
     conversationCharacters,
@@ -386,8 +378,7 @@ export async function upsertLocalConversationBundle(
     await local.db.insert(messageItems).values(it as never);
   }
 
-  // Media keyed on row id (single PK), not convId. mergeChildRows preserves
-  // local-only attachments and the asymmetric base64 cache.
+  // Media keyed on row id; mergeChildRows preserves local-only + base64 cache.
   await mergeChildRows(local.db, media, media.id, bundle.media);
 
   // Logs PK by msgId; idempotent upsert keeps server-canonical row.

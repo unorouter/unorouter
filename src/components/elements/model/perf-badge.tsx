@@ -20,10 +20,7 @@ function statusClass(success: number): string {
   return "bg-rose-500";
 }
 
-/**
- * Compact 3-cell perf summary rendered on /models cards and list items.
- * Hides itself when no data is available; never substitutes fallback values.
- */
+// 3-cell perf summary for /models cards + list items. Null when no data; never substitutes.
 export function PerfBadge(props: Props) {
   const t = useTranslations();
   if (!props.perf) return null;

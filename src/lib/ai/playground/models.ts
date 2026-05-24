@@ -1,5 +1,4 @@
-// Keep in sync with new-api-sync/config.yml. Sampler/scheduler lists derive
-// from the TypeBox unions in src/lib/validation/playground.ts.
+// Keep in sync with new-api-sync/config.yml; sampler arrays derive from validation TypeBox.
 
 import {
   GENERATION_SAMPLERS,
@@ -52,7 +51,6 @@ export type PlaygroundModelDescriptor = {
   supportsInpaint?: boolean;
   supportsAdetailer?: boolean;
   supportsEmbedding?: boolean;
-  supportsControlNet?: boolean;
   supportsVae?: boolean;
   supportsLayerDiffusion?: boolean;
   supportsClipSkip?: boolean;
@@ -96,10 +94,8 @@ export const PLAYGROUND_MODELS: PlaygroundModelDescriptor[] = [
     supportsInpaint: true,
     supportsAdetailer: true,
     supportsEmbedding: true,
-    supportsControlNet: true,
     supportsVae: true,
-    // LayerDiffuse only patches SDXL base + SD1.5; Pony is an SDXL finetune so
-    // it can't patch cleanly. Only `comfyui-sdxl-txt2img-lora` opts in.
+    // LayerDiffuse patches SDXL base+SD1.5; only sdxl-txt2img-lora opts in.
     supportsClipSkip: true,
     tabs: ["text2img", "img2img"],
   },
@@ -134,7 +130,6 @@ export const PLAYGROUND_MODELS: PlaygroundModelDescriptor[] = [
     supportsInpaint: true,
     supportsAdetailer: true,
     supportsEmbedding: true,
-    supportsControlNet: true,
     supportsVae: true,
     // SDXL finetune: same LayerDiffuse constraint as Pony.
     supportsClipSkip: true,
@@ -171,7 +166,6 @@ export const PLAYGROUND_MODELS: PlaygroundModelDescriptor[] = [
     supportsInpaint: true,
     supportsAdetailer: true,
     supportsEmbedding: true,
-    supportsControlNet: true,
     supportsVae: true,
     supportsLayerDiffusion: true,
     supportsClipSkip: true,
@@ -228,8 +222,7 @@ export const PLAYGROUND_MODELS: PlaygroundModelDescriptor[] = [
     recommendedPromptStyle: "natural-language",
     tabs: ["text2img", "edit"],
   },
-  // Edit-family static fallbacks shown before pricing loads. IDs match upstream
-  // new-api canonical names; dynamic descriptor wins when pricing is present.
+  // Edit-family static fallbacks; dynamic descriptor wins when pricing loaded.
   {
     id: "flux-kontext-max",
     family: "edit",

@@ -156,8 +156,7 @@ async function readLocalGenerationSessionBundleForSnapshot(
   return null;
 }
 
-// Polls async snapshots: a row with a taskId and a non-terminal status hits
-// /poll; on success it finalizes image rows + counts locally and mirrors.
+// Polls async snapshots; finalizes image rows + counts on success.
 export function useSnapshotStatusQuery(
   id: string | null | undefined,
   enabled = true,
@@ -248,8 +247,7 @@ async function snapshotRow(
   return row;
 }
 
-// Runs a generation submit and writes the resulting session/snapshot/media
-// rows into the local DB. Shared by the submit mutation and import-regenerate.
+// Run submit + write session/snapshot/media locally. Shared by submit + import-regenerate.
 async function runSubmit(
   userId: number,
   body: PlaygroundSubmitBody & { sessionId?: string },
@@ -417,8 +415,7 @@ export function useExportSessionMutation() {
   });
 }
 
-// "restore" rebuilds a session locally from a payload; "regenerate" re-runs
-// each snapshot's submit so the upstream model produces fresh images.
+// restore rebuilds locally; regenerate re-runs each snapshot.
 export function useImportGenerationMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
@@ -500,8 +497,7 @@ export function useUploadReferenceMutation() {
   });
 }
 
-// Routes through /masks (not /references) so the server route can grow
-// mask-specific validation later without touching the reference pipeline.
+// Routes /masks not /references for mask-specific validation later.
 export function useUploadMaskMutation() {
   const t = useTranslations();
   return useMutation({

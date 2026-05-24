@@ -76,9 +76,7 @@ export async function GET() {
   );
   lines.push("");
 
-  // "Optional" is reserved by the llms.txt spec (llmstxt.org): agents that
-  // want a minimal context skip this section, so the heading must stay in
-  // English. RSS and Sitemap are universal proper nouns.
+  // "Optional" reserved by llmstxt.org; heading stays English. RSS/Sitemap universal.
   lines.push("## Optional");
   lines.push(`- [RSS](${env.siteOrigin}/${locale}/blog/feed.xml)`);
   lines.push(`- [Sitemap](${env.siteOrigin}/sitemap.xml)`);

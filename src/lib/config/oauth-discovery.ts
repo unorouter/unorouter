@@ -2,13 +2,9 @@ import { env } from "@/lib/config/env";
 import { OAUTH_SCOPES } from "@/lib/config/oauth-scopes";
 
 
-// Builds /.well-known/oauth-authorization-server (RFC 8414) +
-// /.well-known/openid-configuration (OIDC 1.0). Delta is userinfo_endpoint
-// and claims_supported.
-//
-// issuer = API origin (not site): where go-oidc signs tokens, JWKS lives.
-// registration_endpoint omitted: new-api lacks RFC 7591, advertising would
-// 404 auto-register agents.
+// RFC 8414 + OIDC 1.0 (delta: userinfo_endpoint + claims_supported).
+// issuer = API origin (go-oidc signing + JWKS).
+// No registration_endpoint (new-api lacks RFC 7591).
 export function buildOAuthDiscoveryDoc(opts: { includeOidc: boolean }) {
   const base = {
     issuer: env.apiOrigin,

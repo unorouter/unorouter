@@ -4,12 +4,7 @@ import { cn } from "@/lib/utils";
 
 interface StatusIconProps extends React.ComponentProps<"div"> {
   status?: StatusType;
-  /**
-   * Selects which CSS group selector pattern is used for status-based styling.
-   * - "default": `group-data-[variant=...]` (Status)
-   * - "banner": `group-data-[status=...]/status-banner` (StatusBanner)
-   * - "component": `group-data-[variant=...]/component` (StatusComponent)
-   */
+  // default=Status; banner=StatusBanner; component=StatusComponent.
   variant?: "default" | "banner" | "component";
 }
 

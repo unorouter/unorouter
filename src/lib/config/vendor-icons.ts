@@ -1,6 +1,4 @@
-// `VENDOR_LOADERS`: dynamic @lobehub/icons React components for client.
-// `VENDOR_SVGS`: inlined raw SVG strings from thesvg for satori badges.
-// Both libs are sideEffects:false so the unused half tree-shakes per bundle.
+// VENDOR_LOADERS=client React; VENDOR_SVGS=satori inline. Tree-shakes per bundle.
 
 import type { ComponentType } from "react";
 

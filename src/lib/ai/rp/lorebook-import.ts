@@ -98,8 +98,7 @@ export function parseLorebookJson(raw: unknown): ParsedLorebook | null {
       selective: e.selective ?? false,
       priority: e.priority ?? 100,
       position: mapPositionToDb(e.position),
-      // CCv3 has no per-entry depth in core schema; ST stores it in
-      // extensions and the library normalizes it.
+      // CCv3 has no per-entry depth; ST stores in extensions.
       depth:
         typeof (e as Record<string, unknown>).depth === "number"
           ? ((e as Record<string, unknown>).depth as number)

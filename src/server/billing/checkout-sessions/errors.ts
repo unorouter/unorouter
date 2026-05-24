@@ -1,8 +1,5 @@
-// ACP error helper. The Elysia boundary at app/api/[[...route]]/route.ts
-// reads `err.status` and `err.data` directly, so throwing a plain object with
-// those keys produces the spec's flat error response (§3.1) at the configured
-// HTTP status. Type is widened to `never` so `throw acpError(...)` works as a
-// statement that narrows control flow.
+// ACP error helper. Elysia reads err.status/err.data, emits spec sec3.1 flat error.
+// `never` return enables control-flow narrowing on `throw acpError(...)`.
 export type AcpErrorBody = {
   type: "invalid_request" | "processing_error" | "service_unavailable";
   code: string;

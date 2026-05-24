@@ -1,8 +1,5 @@
-// Body builders + result extractors for new-api sync image endpoints:
-//   /v1/images/generations (+ /v1/images/edits multipart): `image[]` bytes
-//   /v1/chat/completions (multimodal): data: URIs in image_url parts
-//   /v1beta/models/{model}:generateContent: {inline_data: {mime_type, data}}
-// References are fetched once and re-encoded per endpoint.
+// Body builders + extractors for new-api image endpoints
+// (/images, /chat, /generateContent).
 
 import type { SyncImageEndpoint } from "@/lib/ai/playground/models-dynamic";
 
@@ -44,8 +41,7 @@ export type SubmitArgs = {
   prompt: string;
   size?: string;
   refs: RefBytes[];
-  /** OAI image-generation supports n>1 natively; chat/gemini ignore this so
-   *  the caller must loop. Defaults to 1. */
+  /** OAI image-gen native n>1; chat/gemini caller loops. */
   n?: number;
   quality?: string;
   outputFormat?: string;

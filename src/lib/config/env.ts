@@ -16,8 +16,7 @@ if (!supportEmail)
     var: "NEXT_PUBLIC_SUPPORT_EMAIL",
   });
 
-// Hoist appUrl to its apex (strip leading "www.") then prefix "status." so
-// deployments don't need an extra env var.
+// Hoist to apex (strip www.) + "status." prefix; saves a deploy env var.
 const statusUrlObj = new URL(appUrl);
 statusUrlObj.hostname = `status.${statusUrlObj.hostname.replace(/^www\./, "")}`;
 
@@ -25,8 +24,7 @@ export const env = {
   apiUrl,
   appName,
   appUrl,
-  // Bare origins (scheme + host, no path) of appUrl/apiUrl, derived once so
-  // discovery routes and SEO helpers don't each re-parse the URL.
+  // Bare origins of appUrl/apiUrl, parsed once for discovery + SEO callers.
   siteOrigin: new URL(appUrl).origin,
   apiOrigin: new URL(apiUrl).origin,
   statusUrl: statusUrlObj.origin,

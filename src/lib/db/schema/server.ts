@@ -14,8 +14,7 @@ import type {
 import type { AcpSessionStatus } from "@/server/billing/checkout-sessions/checkout-sessions.service";
 import type { AcpIdempotencyState } from "@/server/billing/checkout-sessions/idempotency";
 
-// Server-only schema: never mirrored to the browser. Client code must NEVER
-// import this file.
+// Server-only schema. Never import from client.
 
 export const moderationLog = sqliteTable(
   "moderation_log",
@@ -166,31 +165,7 @@ export const upscalerCatalog = sqliteTable(
   ],
 );
 
-export const controlNetCatalog = sqliteTable(
-  "controlnet_catalog",
-  {
-    id: text("id").primaryKey(),
-    name: text("name").notNull(),
-    filename: text("filename").notNull(),
-    baseModel: text("base_model").notNull(),
-    kind: text("kind").notNull(),
-    description: text("description"),
-    visible: integer("visible", { mode: "boolean" }).notNull().default(true),
-    sortOrder: integer("sort_order").notNull().default(0),
-    createdAt: integer("created_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
-    updatedAt: integer("updated_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
-  },
-  (table) => [
-    index("idx_controlnet_basemodel_kind").on(table.baseModel, table.kind),
-  ],
-);
-
 export type AcpCheckoutSession = typeof acpCheckoutSessions.$inferSelect;
 export type LoraCatalogEntry = typeof loraCatalog.$inferSelect;
 export type EmbeddingCatalogEntry = typeof embeddingCatalog.$inferSelect;
 export type UpscalerCatalogEntry = typeof upscalerCatalog.$inferSelect;
-export type ControlNetCatalogEntry = typeof controlNetCatalog.$inferSelect;

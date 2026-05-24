@@ -1,6 +1,4 @@
-// Retention sweep for synced playground sessions. Playground data is
-// client-owned; Turso only holds the synced mirror, which expires after the
-// sync TTL. This singleton purges expired sessions and their R2 objects.
+// Retention sweep for synced playground sessions (Turso TTL mirror).
 
 import { deleteGenerationObject } from "@/lib/config/r2";
 import { getDb } from "@/lib/db/server/client";
@@ -15,8 +13,7 @@ const RETENTION_DELETE_CONCURRENCY = 4;
 
 let started = false;
 
-// Bounded worker pool: `concurrency` workers drain a shared cursor over
-// `items`, calling `fn` on each.
+// Bounded worker pool over shared cursor.
 async function runPool<T>(
   items: T[],
   concurrency: number,
@@ -58,8 +55,7 @@ function schedule(): void {
   }, SWEEP_INTERVAL_MS);
 }
 
-// Drops one expired synced session: its R2 objects, then the row (cascade
-// removes playgrounds + media rows).
+// Drop expired session: R2 first, then row (cascade).
 async function purgeSession(sessionId: string): Promise<void> {
   const db = getDb();
   const snaps = await db

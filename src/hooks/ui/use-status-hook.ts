@@ -19,8 +19,7 @@ import { useDeferredValue, useState } from "react";
 
 const UNGROUPED_VENDOR = "Other";
 
-// Bucket+window pairs keep bar count in the readable 30-200 range. Anything
-// like 1m * 24h = 1440 bars compresses to sub-pixel garbage.
+// Bucket+window keeps bar count 30-200 (1m*24h=1440 = sub-pixel garbage).
 export const BUCKET_OPTIONS: { value: StatusBucket; hours: number }[] = [
   { value: "1m", hours: 1 },
   { value: "5m", hours: 6 },
@@ -29,10 +28,8 @@ export const BUCKET_OPTIONS: { value: StatusBucket; hours: number }[] = [
   { value: "1d", hours: 720 },
 ];
 
-// Banner thresholds: a single broken model shouldn't paint the whole platform
-// red. Show "error" only when at least 10% of probed models are down, and
-// "degraded" when at least 10% are degraded (or any errors exist below the
-// error threshold). Below both thresholds, the banner stays "success".
+// Banner: error >=10% down, degraded >=10% degraded (or any errors below
+// error threshold).
 const ERROR_RATIO = 0.1;
 const DEGRADED_RATIO = 0.1;
 
@@ -74,9 +71,7 @@ export function useStatusFilter() {
   const pricing = usePricingQuery();
 
   const [search, setSearch] = useState("");
-  // Defer search so the input feels responsive even while filtering 78 rows
-  // worth of bars. React keeps showing the previous list until the new filter
-  // result is ready.
+  // Defer search: input stays responsive while filtering 78 rows.
   const deferredSearch = useDeferredValue(search);
 
   const [statusFilter, setStatusFilter] = useAtom(statusFilterAtom);
@@ -159,9 +154,7 @@ export function useStatusFilter() {
     }
   };
 
-  // Flatten groups into a single virtualizable list of header + row items so
-  // virtua only mounts what's on screen. Without this, all 78 rows mount
-  // simultaneously (40k+ DOM nodes for the bars alone).
+  // Flatten groups for virtua; all 78 rows otherwise = 40k+ DOM nodes.
   const items: StatusListItem[] = [];
   for (const group of groups) {
     let operational = 0;

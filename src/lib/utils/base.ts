@@ -22,9 +22,7 @@ const ALPHABET =
 
 export function uid(length = 21): string {
   let id = "";
-  // Rejection sampling: a 6-bit value maps to 64 slots but the alphabet has
-  // 62, so bytes >= 62 are discarded to keep the distribution uniform and the
-  // output strictly alphanumeric (no leading `-` in URL slugs).
+  // Rejection sampling: bytes >=62 discarded for uniform alphanumeric output.
   while (id.length < length) {
     const bytes = crypto.getRandomValues(new Uint8Array(length));
     for (let i = 0; i < length && id.length < length; i++) {
@@ -51,8 +49,7 @@ export function copyToClipboardAsync(
   ]);
 }
 
-// next-intl's pathname matcher rejects raw `[`/`]` (collides with `[slug]`).
-// Models like `claude-haiku-4-5-20251001[1m]` need brackets encoded.
+// next-intl rejects raw [ ]; bracketed model slugs need encoding.
 export function modelSlug(name: string): string {
   return name.replace(/\[/g, "%5B").replace(/\]/g, "%5D");
 }
@@ -64,8 +61,7 @@ export function unwrap<T extends { data: unknown }>(
   return res.data as ExcludeVoid<NonNullable<T["data"]>>;
 }
 
-// Throws on non-200 or {success:false}; unwraps {success:true, data}; else
-// returns body.
+// Throws on non-200/{success:false}; unwraps {data}.
 export function handleElysia<T extends { data: unknown; status: number }>(
   response: T,
 ): UnwrapApiResponse<ExtractData<T>> {
@@ -144,8 +140,7 @@ export function csvToArray(value: string): string[] {
     .filter(Boolean);
 }
 
-// Filename-safe slug for entity exports: collapses non-alphanumerics to "-",
-// caps at 60 chars, falls back when the name yields nothing usable.
+// Filename-safe slug; non-alphanumerics->-, cap 60 chars.
 export function exportSlug(name: string, fallback: string): string {
   return name.replace(/[^a-zA-Z0-9_-]+/g, "-").slice(0, 60) || fallback;
 }

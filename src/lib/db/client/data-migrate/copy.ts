@@ -10,10 +10,8 @@ import type {
 import { quoteIdent } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 
-// FKs disabled during copy so insert order doesn't matter. Column intersect
-// kept so source/target schema drift drops extras silently. Pure on
-// LocalClient. No dependency on `client.ts` so it can be reused from the
-// salvage path inside openClient() without a module cycle.
+// FKs off during copy; column intersect drops drift.
+// No client.ts import (salvage cycle).
 export async function copyAllTables(
   source: LocalClient,
   target: LocalClient,
@@ -65,10 +63,7 @@ export async function copyAllTables(
           col in rewrite ? rewrite[col] : tuple[srcIdx[i]],
         );
         try {
-          // No `target.transaction(...)` wrapper: a throwing exec inside a
-          // SQLocal transaction never releases the transactionMutex and
-          // deadlocks every later DB call. FKs are already off and the insert
-          // is ON CONFLICT DO NOTHING, so a bare exec is safe and idempotent.
+          // No tx wrapper (SQLocal mutex deadlock); idempotent INSERT OR IGNORE.
           await target.exec(insertSql, params, "run");
           copied++;
         } catch (error) {

@@ -31,9 +31,7 @@ type MessageUsage = {
   tokensPerSecond?: number;
 };
 
-// Carried in `messageMetadata` finish frame so the client can persist a
-// request_log row keyed by msgId. Usage fields ride on `MessageUsage` already;
-// derive from the schema row so the two sides cannot drift.
+// messageMetadata finish-frame; derived from RequestLogRow so wire shape can't drift.
 type RequestLogPayload = Omit<
   RequestLogRow,
   | "msgId"
@@ -68,9 +66,7 @@ export type PlaygroundImageView = {
   height: number | null;
 };
 
-// A playground snapshot row plus its resolved images, as the playground UI
-// consumes it. `params`/`loras`/`references`/`extraParams` stay loose because
-// older synced rows may carry extra keys.
+// Playground snapshot + resolved images. Loose params for legacy synced rows.
 export type SnapshotView = {
   id: string;
   sessionId: string;
@@ -92,8 +88,7 @@ export type SnapshotView = {
   images: PlaygroundImageView[];
 };
 
-// Flat editor-selection state used by the RP entity pages/lists: an entity id
-// being edited, "new" for a fresh entity, or null when none is open.
+// RP entity-page selection: id, "new", or null.
 export type EntityEditId = string | "new" | null;
 
 // Two-factor-auth dialog mode, shared by the settings card and its dialog.
@@ -104,8 +99,7 @@ export type MigrationManifest = { migrations: MigrationEntry[] };
 
 export type LocalDb = SqliteRemoteDatabase<typeof shared & typeof client>;
 
-// Returns rows + column names (drizzle-proxy returns tuples only). Used by
-// LocalDbStudio for arbitrary user-supplied SQL.
+// drizzle-proxy returns tuples only; LocalDbStudio needs rows+columns.
 export type LocalRawExec = (
   sql: string,
   params: unknown[],
@@ -174,15 +168,12 @@ export function isSearchDoc(doc: unknown): doc is SearchResult {
   return typeof d.title === "string" && typeof d.url === "string";
 }
 
-// Generic shapes used by the client-side data layer's bundle upserts. They
-// flow through a sqlite-proxy cast boundary, so a loose record is intentional.
+// Generic loose-shape bundle inputs (sqlite-proxy cast boundary).
+// Co-located for assembler + lorebook selectors.
 export type LocalAnyRow = Record<string, unknown> & { id: string };
 export type LocalChildRow = Record<string, unknown>;
 export type LocalRowInput = Record<string, unknown>;
 
-// Server-side prompt-assembler context. Co-located here so both the assembler
-// and downstream lorebook selectors share a single source of truth without
-// pulling the loader's runtime dependencies into client code (type-only import).
 import type { loadConvContext } from "@/server/ai/chat/augmentation/prompt-assembler/conv-context";
 export type LoadedConvContext = Awaited<ReturnType<typeof loadConvContext>>;
 
@@ -202,8 +193,7 @@ export type LbRow = LoadedConvContext extends infer T
     : never
   : never;
 
-// Lives outside `config/constants.ts` to avoid an import cycle with
-// `config/env.ts`, which throws ParamErrors at module-load time.
+// Outside config/constants.ts: env.ts ParamError throws at module load (import cycle).
 export class ParamError extends Error {
   public readonly params: Record<string, string | number>;
   constructor(key: TranslationKey, params: Record<string, string | number>) {

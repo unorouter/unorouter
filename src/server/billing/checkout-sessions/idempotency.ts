@@ -149,8 +149,7 @@ export async function withIdempotency<T>(
     args.set.status = result.status;
     return result.body;
   } catch (err) {
-    // Drop the in-flight key on 5xx so retries are processed fresh (§6.5).
-    // Other errors (4xx via acpError) are also dropped; agents can fix and retry.
+    // Drop in-flight key on throw so retries are fresh (sec6.5). 4xx also dropped; agents retry.
     await db
       .delete(acpIdempotencyKeys)
       .where(

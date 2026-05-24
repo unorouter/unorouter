@@ -21,8 +21,7 @@ export async function buildNativeExport(
   const bundle = await readLocalConversationBundle(userId, convId);
   if (!bundle) throw new Error(msg("ERRORS.NOT_FOUND"));
 
-  // Bundle resolves lorebooks as { lorebook, entries }; flatten for the
-  // native envelope, which keeps lorebooks and lorebookEntries separate.
+  // Flatten bundle lorebooks ({lb,entries}) for native envelope.
   const lorebooks = bundle.lorebooks.map((b) => b.lorebook);
   const lorebookEntries = bundle.lorebooks.flatMap((b) => b.entries);
 
@@ -47,9 +46,7 @@ export async function buildNativeExport(
 
 export type NativeExport = Awaited<ReturnType<typeof buildNativeExport>>;
 
-// Translates a local message-item `data` payload into the orpg item shape.
-// Text/reasoning items store `{ text }` locally; orpg keys them under
-// `content` (a string for text, a reasoning_text part array for reasoning).
+// Maps message-item data to orpg shape (text/reasoning differ).
 function toOrpgItemData(type: string, data: unknown): unknown {
   const text =
     data && typeof data === "object" && "text" in data
@@ -158,8 +155,7 @@ export function toOrpg(native: NativeExport) {
   };
 }
 
-// Persists a mapped import: RP entities first so the conversation_* foreign
-// keys resolve, then the conversation bundle itself.
+// RP entities first so conv FKs resolve, then bundle.
 export async function persistMappedImport(
   userId: number | undefined,
   mapped: MappedImport,

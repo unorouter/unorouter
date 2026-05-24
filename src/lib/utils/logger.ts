@@ -9,10 +9,7 @@ const base = pino({
   },
 });
 
-/**
- * Wraps pino to match the existing call convention: logger.info("message", { context, ... })
- * Pino natively expects (obj, msg), so we swap the arguments.
- */
+/** Wraps pino; swaps (obj,msg)->(msg,obj). */
 export const logger = {
   info: (msg: string, ctx?: LogContext) => base.info(ctx ?? {}, msg),
   warn: (msg: string, ctx?: LogContext) => base.warn(ctx ?? {}, msg),

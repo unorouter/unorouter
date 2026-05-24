@@ -32,9 +32,7 @@ export type MappedImport = {
   };
 };
 
-// Typed coercion of untrusted export-file values. Each returns null when the
-// value is the wrong type, so a malformed field falls back instead of being
-// blindly asserted into a lie.
+// Typed coercion of untrusted export values; null on wrong type.
 const str = (v: unknown): string | null => (typeof v === "string" ? v : null);
 const num = (v: unknown): number | null => (typeof v === "number" ? v : null);
 const bool = (v: unknown): boolean | null =>
@@ -390,8 +388,7 @@ function parseStDate(raw: string | undefined): Date | null {
 
 export type StParsed = { metadata: StMetadata | null; messages: StMessage[] };
 
-// Splits a SillyTavern .jsonl chat into its optional metadata header and the
-// message lines. Unparseable lines are skipped. Pure: no DB, no clock.
+// Splits ST .jsonl: optional metadata header + message lines.
 export function parseStJsonl(text: string): StParsed {
   const lines = text
     .split("\n")
@@ -419,9 +416,7 @@ export function parseStJsonl(text: string): StParsed {
   return { metadata, messages };
 }
 
-// Maps parsed SillyTavern messages to local-DB rows. `baseTime` seeds the
-// fallback timestamp for messages whose send_date is missing or invalid;
-// the caller passes a clock so the transform stays pure for tests.
+// Maps ST messages to local rows; baseTime seeds fallback timestamp.
 export function mapStImport(parsed: StParsed, baseTime: Date): MappedImport {
   const convId = uid();
   const title =

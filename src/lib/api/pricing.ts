@@ -13,8 +13,7 @@ export type EndpointInfo = {
 // Mirrors SourceMetadata in new-api-sync core/pricing/sources/types.ts.
 export type ModelMetadata = {
   maxInputTokens?: number;
-  // Required for thinking models (glm/kimi/qwen reasoning variants):
-  // reasoning_content phase eats budget before emitting visible content.
+  // Thinking models (glm/kimi/qwen): reasoning_content phase consumes budget pre-content.
   maxOutputTokens?: number;
   contextWindow?: number;
   isReasoning?: boolean;
@@ -111,17 +110,14 @@ function processModels(response: PricingData) {
       let fixedPrice = 0;
       let originalInputPrice: number | null = null;
       let originalOutputPrice: number | null = null;
-      // Mirrors new-api-sync's guest-token allowlist so FREE badge matches
-      // what the guest token can actually call.
+      // Mirrors new-api-sync guest-token allowlist so FREE badge tracks guest-callable.
       let isFreeStrict = false;
 
       if (isFixedPrice) {
         fixedPrice = model.model_price ?? 0;
         isFreeStrict = fixedPrice === 0;
       } else if (isTiered) {
-        // Tiered: model_ratio/completion_ratio are placeholders and ignored by
-        // the backend when billing_mode=tiered_expr. UI renders the per-tier
-        // table via TieredPricing; inputPrice/outputPrice stay 0.
+        // Tiered: model_ratio/completion_ratio ignored on billing_mode=tiered_expr; UI uses TieredPricing.
       } else {
         const enabledGroups = model.enable_groups ?? [];
         let minRatio = 1;

@@ -5,12 +5,8 @@ export const dynamic = "force-static";
 
 const defaultLocale = routing.defaultLocale;
 
-// ACP discovery document per
-// https://github.com/agentic-commerce-protocol/agentic-commerce-protocol/blob/main/rfcs/rfc.discovery.md
-// `services: ["checkout"]` declares our /checkout_sessions endpoints; the
-// merchant block identifies us to agents and links to legal documents.
-// Legal pages are served at the default locale because the discovery doc
-// itself is locale-agnostic and next-intl uses localePrefix "always".
+// ACP discovery per https://github.com/agentic-commerce-protocol/agentic-commerce-protocol/blob/main/rfcs/rfc.discovery.md
+// services=[checkout]; legal URLs pinned to defaultLocale (doc is locale-agnostic).
 export function GET() {
   const body = {
     protocol: {

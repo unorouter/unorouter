@@ -35,10 +35,7 @@ export type ApiMessage = {
   [key: string]: unknown;
 };
 
-// Joins flat message rows + flat item rows into ApiMessage shape by
-// bucketing items by messageId. Used by every reader that builds a
-// thread for the UI (history adapter load, infinite messages query,
-// SillyTavern export, server walkActiveBranch).
+// Joins messages + items by messageId; UI thread + export reader.
 export function joinItemsToMessages<
   M extends { id: string },
   I extends { messageId: string },
@@ -61,8 +58,7 @@ export function partsToItems(parts: MessagePart[]): MessageItemData[] {
       out.push({ type: "reasoning", data: { text: part.text } });
     } else if (part.type === "tool-invocation") {
       const toolCallId = String(part.toolInvocationId ?? part.toolCallId ?? "");
-      // assistant-ui round-trips call and result through this part, distinguished
-      // by `state`; keep them separate so the DB stores typed rows.
+      // tool-invocation round-trips call/result by state; stored as typed rows.
       if (part.state === "result" || part.result !== undefined) {
         out.push({
           type: "tool_result",

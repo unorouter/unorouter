@@ -1,14 +1,7 @@
 #!/usr/bin/env bun
-/**
- * Generate an Ed25519 keypair for Web Bot Auth.
- *
- * Outputs two env values:
- *   WEB_BOT_AUTH_PUBLIC_JWKS  — served at /.well-known/http-message-signatures-directory
- *   WEB_BOT_AUTH_PRIVATE_JWK  — kept secret, used to sign outbound requests
- *
- * Usage:
- *   bun scripts/generate-web-bot-auth-key.ts
- */
+// Ed25519 keypair for Web Bot Auth.
+// Outputs: WEB_BOT_AUTH_PUBLIC_JWKS (served at .well-known) + WEB_BOT_AUTH_PRIVATE_JWK (secret).
+// Usage: bun scripts/generate-web-bot-auth-key.ts
 
 import { log } from "console";
 import { jwkToKeyID } from "web-bot-auth";

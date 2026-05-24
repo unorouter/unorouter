@@ -9,9 +9,7 @@ type Translator = (
   values?: Record<string, string | number | Date>,
 ) => string;
 
-// MCP Server Card per SEP-2127 (draft). Published at both
-// /.well-known/mcp/server-card.json and /.well-known/mcp.json because
-// scanners disagree on canonical URL.
+// MCP Server Card SEP-2127; published at both well-known paths (scanner disagreement).
 export function buildMcpServerCard(t: Translator) {
   const tools = WEBMCP_TOOLS.map((descriptor) => ({
     name: descriptor.name,

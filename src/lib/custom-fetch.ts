@@ -25,9 +25,7 @@ export const customFetch = async <T>(
 ): Promise<T> => {
   const headers = options.headers as Record<string, string> | undefined;
 
-  // Admin (ADMIN_HEADERS) sends explicit Authorization. Upstream checks
-  // session cookie first, so forwarding end-user cookie would skip the
-  // access-token path and mismatch New-Api-User. Skip auto-attach.
+  // Skip auto-cookie when Authorization set (ADMIN_HEADERS); upstream prefers cookie -> New-Api-User mismatch.
   const hasExplicitAuth = !!getHeader(headers, "Authorization");
   const cookieHeader = hasExplicitAuth ? "" : await getServerCookieHeader();
   const hasCookie = !!getHeader(headers, "cookie");

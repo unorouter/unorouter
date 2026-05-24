@@ -5,10 +5,7 @@ import { readLocalMedia } from "@/lib/db/client/data/media";
 import { queryKeys } from "@/lib/react-query/keys";
 import { useQuery } from "@tanstack/react-query";
 
-// Resolves a media row to a renderable src from local DB only.
-// R2 bytes are fetched and cached into dataBase64 by the sync hydrator at
-// startup (sync-state-hydrator.ts rehydrateMedia); this hook never hits R2.
-// Returns null while loading, if no media exists, or if bytes not yet cached.
+// Local-only media -> src. Bytes pre-fetched by sync hydrator; null if uncached.
 export function useMediaSrc(mediaId: string | null | undefined): string | null {
   const auth = useAuthQuery();
   const query = useQuery({

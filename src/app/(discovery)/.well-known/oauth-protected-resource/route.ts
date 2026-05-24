@@ -4,12 +4,8 @@ import { OAUTH_SCOPES } from "@/lib/config/oauth-scopes";
 export const dynamic = "force-static";
 
 
-// RFC 9728 resource-server metadata on the public site origin. An agent that
-// discovers the site through any entrypoint (sitemap, agent-card, or a
-// direct link) can follow one fetch here to learn which authorization server
-// issues tokens for our APIs. The authorization_servers value is the canonical
-// issuer URL; the real RFC 8414 document lives on that origin and is emitted
-// by go-oidc at /.well-known/oauth-authorization-server.
+// RFC 9728 RS metadata on site origin. authorization_servers points at API
+// origin where RFC 8414 doc lives (go-oidc).
 export function GET() {
   const body = {
     resource: env.siteOrigin,

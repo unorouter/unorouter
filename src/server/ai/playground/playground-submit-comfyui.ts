@@ -11,9 +11,7 @@ import type { PlaygroundSubmitBody } from "@/lib/validation/playground";
 import { eq } from "drizzle-orm";
 import { paramsToSize } from "./playground-finalize";
 
-// ComfyUI templates run async behind the task adapter: the server only kicks
-// off the upstream task and returns the task id + initial status; the client
-// polls /poll until terminal and then persists the result locally.
+// Async via task adapter; server kicks off, returns taskId; client polls + persists.
 export async function submitComfyUITask(args: {
   apiKey: string;
   body: PlaygroundSubmitBody;
@@ -44,8 +42,7 @@ export async function submitComfyUITask(args: {
   if (params.initImageUrl) extra.init_image_url = params.initImageUrl;
   if (params.maskUrl) extra.mask_url = params.maskUrl;
 
-  // Form sends upscalerMultiplier as the FINAL multiplier (1..4); template
-  // runs UpscaleModelLoader (native N) then ImageScaleBy(scale_by = M / N).
+  // Form sends FINAL multiplier; ImageScaleBy = M/N.
   if (params.upscaler) {
     extra.upscaler = params.upscaler;
     const rows = await getDb()
@@ -63,8 +60,6 @@ export async function submitComfyUITask(args: {
   // ComfyUI tokenizer needs filename (with extension) when weight is set.
   if (params.embeddings && params.embeddings.length > 0)
     extra.embeddings = params.embeddings;
-
-  if (params.controlNet) extra.control_net = params.controlNet;
 
   // weight 0 is a no-op; non-zero rewires SaveImage to LayeredDiffusionDecodeRGBA.
   if (params.layerDiffusion) extra.layer_diffusion = params.layerDiffusion;

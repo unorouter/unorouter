@@ -2,8 +2,7 @@
 
 import type { QueryClient, QueryKey } from "@tanstack/react-query";
 
-// Cross-tab React Query invalidate via BroadcastChannel. No-op when
-// unavailable. Caller broadcasts AFTER its own local write.
+// Cross-tab RQ invalidate via BroadcastChannel; no-op when unavailable. Broadcast AFTER local write.
 
 const CHANNEL_NAME = "unorouter-query-invalidate";
 type InvalidateMessage = { type: "invalidate"; keys: QueryKey[] };

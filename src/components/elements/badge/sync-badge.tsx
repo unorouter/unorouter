@@ -26,7 +26,6 @@ type Props = {
   id: string;
   payload?: unknown;
   compact?: boolean;
-  variant?: "full" | "status" | "actions";
 };
 
 export function SyncBadge(props: Props) {
@@ -40,7 +39,6 @@ export function SyncBadge(props: Props) {
 
   if (!auth.data) return null;
 
-  const variant = props.variant ?? "full";
   const isSynced = state.syncExpiresAt != null;
   const pending = state.pending;
   const isDead = pending != null && pending.attempts >= MAX_PENDING_ATTEMPTS;
@@ -109,8 +107,6 @@ export function SyncBadge(props: Props) {
     pill
   );
 
-  if (variant === "status") return props.compact ? null : statusPill;
-
   const showLabel = !props.compact;
   const actions = (
     <>
@@ -165,10 +161,6 @@ export function SyncBadge(props: Props) {
       )}
     </>
   );
-
-  if (variant === "actions") {
-    return <div className="flex flex-wrap items-center gap-2">{actions}</div>;
-  }
 
   return (
     <div className="flex flex-wrap items-center gap-2">

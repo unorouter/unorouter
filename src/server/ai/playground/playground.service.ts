@@ -13,10 +13,19 @@ import {
 } from "@/lib/api/video-task";
 import { downloadGenerationBytes } from "@/lib/config/r2";
 import type { PlaygroundSubmitBody } from "@/lib/validation/playground";
-import { COMFYUI_TEMPLATE_IDS } from "./playground-constants";
-import { type GeneratedImage, imageCountFor } from "./playground-finalize";
+import {
+  COMFYUI_TEMPLATE_IDS,
+  MAX_IMAGES_PER_GEN,
+} from "./playground-constants";
+import type { GeneratedImage } from "./playground-finalize";
 import { submitComfyUITask } from "./playground-submit-comfyui";
 import { submitSyncImage } from "./playground-submit-sync";
+
+function imageCountFor(body: PlaygroundSubmitBody): number {
+  const n = body.params?.n ?? 1;
+  if (!Number.isFinite(n) || n < 1) return 1;
+  return Math.min(MAX_IMAGES_PER_GEN, Math.floor(n));
+}
 
 type ResolvedEndpoint =
   | { kind: "comfyui-task" }
@@ -37,9 +46,7 @@ async function resolveSubmissionEndpoint(
   return { kind: "sync", endpoint };
 }
 
-// Client-first generation. Sync-image models answer immediately with the
-// image bytes; ComfyUI models return a task id the client polls. The browser
-// owns persistence (its local DB), so this never touches Turso.
+// Client-first; sync-image returns bytes, ComfyUI returns taskId for client polling.
 export type SubmitGenerationResult =
   | { kind: "sync"; status: "success"; images: GeneratedImage[] }
   | { kind: "task"; status: string; taskId: string };
@@ -69,8 +76,7 @@ export async function submitGeneration(
   return { kind: "sync", status: "success", images };
 }
 
-// Stateless poll: the client passes back the upstream task id; the server only
-// forwards the status check and, on success, downloads the result bytes.
+// Stateless poll: client passes taskId; server forwards status + downloads bytes on success.
 export type PollGenerationResult =
   | { status: "success"; progress: string; images: GeneratedImage[] }
   | { status: "failure"; progress: string; errorMessage: string }

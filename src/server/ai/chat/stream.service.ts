@@ -186,9 +186,7 @@ export async function streamChat(
   }
   const messagesForUpstream = processedMessages;
 
-  // Captured at emit time + persisted by client as a request log row so users
-  // can verify what hit the upstream (sampler/sys-prompt debugging, JB
-  // verification, preset reproduction). Mirrors RisuAI's "Logs" panel.
+  // Persisted as request-log row for upstream debugging (RisuAI Logs analog).
   const debugRequestSnapshot = {
     requestBody: {
       model: body.model,
@@ -237,8 +235,7 @@ export async function streamChat(
     model: provider.chatModel(body.model),
     messages: await convertToModelMessages(messagesForUpstream),
     system: assembled.system,
-    // new-api performs cross-group/key retries; disable SDK aggregation so
-    // the user sees real upstream errors verbatim.
+    // Disable SDK retries; surface upstream errors verbatim.
     maxRetries: 0,
     ...(effectiveMaxOutputTokens && {
       maxOutputTokens: effectiveMaxOutputTokens,
@@ -344,9 +341,7 @@ export async function streamChat(
   if (!buffered && !userOptedOutOfStreaming) {
     return result.toUIMessageStreamResponse({
       messageMetadata: ({ part }) => {
-        // `finish-step` carries `response.headers` synchronously inside the
-        // metadata callback's emit window; `onFinish` (sdk) races UI stream
-        // end and would land null in the `debug` emit below.
+        // `finish-step` carries response.headers synchronously; onFinish races stream end.
         if (part.type === "finish-step") {
           const hdrs = part.response.headers ?? null;
           if (hdrs) {
@@ -365,8 +360,7 @@ export async function streamChat(
           const meta: Record<string, unknown> = {};
           if (droppedParamsRef.value)
             meta.droppedParams = droppedParamsRef.value;
-          // streamText.onFinish races with UI stream finish; read usage off
-          // the part directly so the message-metadata frame ships tokens.
+          // Read usage off part; onFinish races UI stream end.
           const total = part.totalUsage;
           const durationMs = Date.now() - streamStartedAt;
           const inputTokens = total?.inputTokens ?? 0;

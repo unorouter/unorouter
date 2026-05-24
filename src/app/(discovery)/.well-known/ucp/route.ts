@@ -5,9 +5,7 @@ export const dynamic = "force-dynamic";
 
 const ns = `ai.${env.appName.toLowerCase()}`;
 
-// UCP profile per ucp.dev 2026-04-08. signing_keys reuses the Web Bot Auth
-// Ed25519 JWKS so agents can verify signed UCP responses + outbound requests
-// without an extra fetch.
+// UCP profile (ucp.dev 2026-04-08). signing_keys reuses Web Bot Auth Ed25519 JWKS.
 export function GET() {
   const version = "2026-04-08";
   const signingKeys = parseJwks(process.env.WEB_BOT_AUTH_PUBLIC_JWKS).map(

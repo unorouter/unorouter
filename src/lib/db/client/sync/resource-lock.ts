@@ -2,8 +2,7 @@
 
 import { uid } from "@/lib/utils/base";
 
-// Cross-tab single-holder lock per resourceKey. Locks expire after
-// LOCK_TTL_MS so a crashed holder can't block forever.
+// Cross-tab single-holder lock; LOCK_TTL_MS expiry covers crashed holder.
 
 const LOCK_TTL_MS = 5 * 60 * 1000;
 const HEARTBEAT_INTERVAL_MS = 30 * 1000;

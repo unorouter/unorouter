@@ -24,9 +24,7 @@ export function extractFirstUserText(
   );
 }
 
-// Local-first: base64 -> per-user OPFS media table -> data: URL for stream.
-// Blob stays local until user opts conv into sync (sync.service.ts uploads
-// to R2 and stamps r2_url on the Turso mirror row).
+// Local-first: base64 -> OPFS media -> data: URL. Sync uploads to R2 later.
 export function createLocalAttachmentAdapter(
   getContext: () => { convId: string | null; userId: number | undefined },
 ): AttachmentAdapter {
@@ -48,8 +46,7 @@ export function createLocalAttachmentAdapter(
     async send(attachment) {
       const ctx = getContext();
 
-      // New thread needs a pre-generated convId so the media row has a stable
-      // cascade parent.
+      // Pre-gen convId so media row has stable cascade parent.
       ctx.convId = ensureConvId();
 
       const file = attachment.file!;

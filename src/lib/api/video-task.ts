@@ -16,8 +16,7 @@ export type UpstreamFetchResp = {
   fail_reason?: string;
 };
 
-// Canonical: pending | submitted | queued | in_progress | success | failure
-// | unknown. Chat TaskStatus callers must uppercase.
+// Canonical: pending|submitted|queued|in_progress|success|failure|unknown. Chat TaskStatus uppercases.
 export function normalizeTaskStatus(raw: string | undefined): string {
   if (!raw) return "submitted";
   const lower = raw.toLowerCase();

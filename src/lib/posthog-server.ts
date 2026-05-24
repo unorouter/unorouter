@@ -17,8 +17,7 @@ export function getPostHogServer() {
   return posthogInstance;
 }
 
-// Extracts the PostHog distinctId from request cookies. Mirrors the logic in
-// instrumentation.ts.onRequestError so server events stitch to the same user.
+// PostHog distinctId from cookies; mirrors instrumentation.ts.onRequestError for stitching.
 function extractDistinctId(cookieHeader: string | undefined): string | null {
   if (!cookieHeader) return null;
   const phMatch = cookieHeader.match(/ph_phc_.*?_posthog=([^;]+)/);

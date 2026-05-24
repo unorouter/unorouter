@@ -2,12 +2,12 @@ import type { Static } from "elysia";
 import { t } from "elysia";
 import { reasoningEffort } from "./chat";
 
-const MAX_NAME_LEN = 200;
-const MAX_DESC_LEN = 50_000;
-const MAX_TAG_LEN = 64;
-const MAX_TAGS = 32;
-const MAX_KEYS_PER_ENTRY = 64;
-const MAX_KEY_LEN = 200;
+export const MAX_NAME_LEN = 200;
+export const MAX_DESC_LEN = 50_000;
+export const MAX_TAG_LEN = 64;
+export const MAX_TAGS = 32;
+export const MAX_KEYS_PER_ENTRY = 64;
+export const MAX_KEY_LEN = 200;
 
 export const characterBody = t.Object({
   name: t.String({ minLength: 1, maxLength: MAX_NAME_LEN }),
@@ -84,20 +84,23 @@ export const lorebookBody = t.Object({
 });
 export type LorebookBody = Static<typeof lorebookBody>;
 
-export const lorebookEntryPosition = t.Union([
-  t.Literal("before_char"),
-  t.Literal("after_char"),
-  t.Literal("top"),
-  t.Literal("bottom"),
-  t.Literal("at_depth"),
-]);
-export type LorebookEntryPosition = Static<typeof lorebookEntryPosition>;
+export const LOREBOOK_POSITIONS = [
+  "before_char",
+  "after_char",
+  "top",
+  "bottom",
+  "at_depth",
+] as const;
+export type LorebookEntryPosition = (typeof LOREBOOK_POSITIONS)[number];
+export const lorebookEntryPosition = t.Union(
+  LOREBOOK_POSITIONS.map((p) => t.Literal(p)),
+);
 
-export const lorebookInjectionRole = t.Union([
-  t.Literal("system"),
-  t.Literal("user"),
-]);
-export type LorebookInjectionRole = Static<typeof lorebookInjectionRole>;
+export const LOREBOOK_INJECTION_ROLES = ["user", "system"] as const;
+export type LorebookInjectionRole = (typeof LOREBOOK_INJECTION_ROLES)[number];
+export const lorebookInjectionRole = t.Union(
+  LOREBOOK_INJECTION_ROLES.map((r) => t.Literal(r)),
+);
 
 export const lorebookEntryBody = t.Object({
   keys: t.Array(t.String({ maxLength: MAX_KEY_LEN }), {

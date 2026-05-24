@@ -1,4 +1,3 @@
-import type { ControlNetValue } from "./fields/controlnet-modal";
 import type { PlaygroundModel } from "@/lib/validation/playground";
 
 export const INITIAL_MODEL: PlaygroundModel = "pony";
@@ -51,11 +50,3 @@ export const YOLO_MODELS: ReadonlyArray<{ id: string; label: string }> = [
   { id: "mediapipe_face_short", label: "mediapipe_face_short" },
 ];
 
-export const CONTROLNET_KINDS: ReadonlyArray<{
-  id: ControlNetValue["kind"];
-  i18nKey: string;
-}> = [
-  { id: "depth", i18nKey: "IMAGE.CONTROLNET_DEPTH" },
-  { id: "canny", i18nKey: "IMAGE.CONTROLNET_CANNY" },
-  { id: "openpose", i18nKey: "IMAGE.CONTROLNET_OPENPOSE" },
-];

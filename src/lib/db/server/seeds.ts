@@ -4,7 +4,6 @@ import { error, log } from "console";
 import { sql } from "drizzle-orm";
 import type { LibSQLDatabase } from "drizzle-orm/libsql";
 import {
-  controlNetCatalog,
   embeddingCatalog,
   loraCatalog,
   upscalerCatalog,
@@ -14,7 +13,6 @@ import * as schema from "../schema";
 type LoraSeed = typeof loraCatalog.$inferInsert;
 type EmbeddingSeed = typeof embeddingCatalog.$inferInsert;
 type UpscalerSeed = typeof upscalerCatalog.$inferInsert;
-type ControlNetSeed = typeof controlNetCatalog.$inferInsert;
 
 // Filename must match /workspace/models/loras/ exactly (LoraLoader.lora_name patched verbatim).
 const LORA_SEEDS: LoraSeed[] = [
@@ -186,39 +184,6 @@ const EMBEDDING_SEEDS: EmbeddingSeed[] = [
   },
 ];
 
-// Staged at /workspace/models/controlnet/. xinsir chosen over diffusers (better quality, ~2.4 GB each).
-const CONTROLNET_SEEDS: ControlNetSeed[] = [
-  {
-    id: "xinsir-depth-sdxl",
-    name: "Depth (xinsir SDXL)",
-    kind: "depth",
-    baseModel: "sdxl",
-    filename: "control-depth-sdxl.safetensors",
-    description:
-      "Depth-conditioned generation. Pair with a depth map (we autopreprocess from your reference image).",
-    sortOrder: 10,
-  },
-  {
-    id: "xinsir-canny-sdxl",
-    name: "Canny (xinsir SDXL)",
-    kind: "canny",
-    baseModel: "sdxl",
-    filename: "control-canny-sdxl.safetensors",
-    description:
-      "Edge-conditioned generation. Strong for line-art / silhouette preservation.",
-    sortOrder: 20,
-  },
-  {
-    id: "xinsir-openpose-sdxl",
-    name: "OpenPose (xinsir SDXL)",
-    kind: "openpose",
-    baseModel: "sdxl",
-    filename: "control-openpose-sdxl.safetensors",
-    description: "Body / hand / face pose-conditioned generation.",
-    sortOrder: 30,
-  },
-];
-
 export async function runSeeds(
   db: LibSQLDatabase<typeof schema>,
 ): Promise<void> {
@@ -280,24 +245,6 @@ export async function runSeeds(
         .then((r) => Number(r[0]?.n ?? 0)),
   );
 
-  await seedCatalog(
-    db,
-    "controlnet_catalog",
-    CONTROLNET_SEEDS,
-    async (row) => {
-      const r = await db
-        .insert(controlNetCatalog)
-        .values(row)
-        .onConflictDoNothing()
-        .returning({ id: controlNetCatalog.id });
-      return r.length > 0;
-    },
-    () =>
-      db
-        .select({ n: sql<number>`count(*)` })
-        .from(controlNetCatalog)
-        .then((r) => Number(r[0]?.n ?? 0)),
-  );
 }
 
 async function seedCatalog<T>(

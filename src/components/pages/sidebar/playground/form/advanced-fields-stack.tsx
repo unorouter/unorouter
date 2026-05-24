@@ -8,10 +8,6 @@ import {
   type AdetailerValue,
 } from "../fields/adetailer-section";
 import { AdvancedSettingsAccordion } from "../fields/advanced-settings-accordion";
-import {
-  ControlNetModal,
-  type ControlNetValue,
-} from "../fields/controlnet-modal";
 import type { EmbeddingEntry } from "../fields/embedding-picker";
 import { EmbeddingPicker } from "../fields/embedding-picker";
 import { LayerDiffusionField } from "../fields/layer-diffusion-field";
@@ -24,7 +20,7 @@ type Props = {
   descriptor: PlaygroundModelDescriptor;
 };
 
-// The optional advanced field block: embedding / VAE / controlnet / adetailer /
+// The optional advanced field block: embedding / VAE / adetailer /
 // layer-diffusion / upscaler / clip-skip, each gated on the model descriptor.
 export function AdvancedFieldsStack(props: Props) {
   const form = props.form;
@@ -49,13 +45,6 @@ export function AdvancedFieldsStack(props: Props) {
         <VaePicker
           value={params.vae as string | undefined}
           onChange={(vae) => patchParams(form, { vae })}
-        />
-      )}
-
-      {descriptor.supportsControlNet && (
-        <ControlNetModal
-          value={params.controlNet as ControlNetValue | undefined}
-          onChange={(controlNet) => patchParams(form, { controlNet })}
         />
       )}
 

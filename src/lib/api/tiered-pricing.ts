@@ -1,15 +1,5 @@
-/*
-Tiered billing expression parser.
-
-Ported from QuantumNous/new-api
-(web/default/src/features/pricing/lib/billing-expr.ts), AGPL-3.0.
-
-Scope: read-side only. Parses the tier shape the server emits when
-billing_mode == "tiered_expr", e.g.
-  `p <= 32000 ? tier("第1档", p*4 + c*18 + cr*0.8) : tier("第2档", ...)`
-Returns ParsedTier[] keyed by per-variable display fields. Falls back to
-empty list on unfamiliar shapes; callers should render "Custom expression".
-*/
+// Tiered billing expression parser; ported from QuantumNous/new-api (AGPL-3.0).
+// Parses billing_mode=tiered_expr -> ParsedTier[]; unknown -> [].
 
 export type BillingVar = {
   key: string;

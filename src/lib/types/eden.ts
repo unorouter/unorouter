@@ -5,8 +5,7 @@ type ExtractParams<TRoute> = TRoute extends (...args: any[]) => any
   ? Parameters<TRoute>[0]
   : {};
 
-// Hybrid routes are both callable (parameterized) and have static methods.
-// Check the return type first, then fall back to own properties.
+// Hybrid route: callable + has methods. Return-type check first, own-props second.
 type ResolveMethod<TRoute, TMethod extends string> = TRoute extends (
   ...args: any[]
 ) => any
@@ -38,8 +37,7 @@ type ExtractQuery<T> = "query" extends keyof NonNullable<T>
     : { query: NonNullable<T>["query"] }
   : {};
 
-// Treaty 2: idx0 is options-like for GET, body for POST. Detect first so query
-// comes from idx0 (GET) vs idx1 (POST).
+// Treaty 2: idx0=options for GET, body for POST. Detect first.
 type ExtractBodyAndQuery<TFn> = TFn extends (...args: any[]) => any
   ? 0 extends keyof Parameters<TFn>
     ? IsOptions<Parameters<TFn>[0]> extends true

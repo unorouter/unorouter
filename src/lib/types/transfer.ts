@@ -1,9 +1,7 @@
-// Shapes of the on-disk conversation export envelopes. Import data is untrusted
-// JSON, so every field is optional; a single boundary cast in each importer
-// turns the parsed `unknown` into one of these, typed access follows.
+// On-disk conversation export envelopes. Untrusted JSON: every field optional,
+// per-importer boundary cast.
 
-// A row as it appears inside an export file: a record with a string id plus
-// arbitrary columns. Field access still needs narrowing, but the id is known.
+// Export row: arbitrary columns + known string id.
 export type ExportRow = Record<string, unknown> & { id: string };
 
 export type NativeImport = {

@@ -7,11 +7,7 @@ import type {
   ThemeValue,
 } from "@/components/ui/status/status.types";
 
-/**
- * A `StatusBlocksI18nProvider` MUST be mounted above any block consuming this
- * context; the hook throws otherwise. There is no built-in fallback so
- * untranslated copy can't slip in.
- */
+// Required ancestor; hook throws (no fallback so untranslated copy can't slip in).
 export type StatusBlocksLabels = {
   systemStatus: Record<StatusType, { long: string; short: string }>;
   incidentStatus: Record<StatusReportUpdateType, string>;
@@ -57,12 +53,7 @@ export type StatusBlocksLabels = {
   formatDateShort: (d: Date) => string;
   formatDateTime: (d: Date) => string;
   formatDateRange: (from?: Date, to?: Date) => string;
-  /**
-   * Returns start/end of a closed range as separate strings so callers can
-   * render each side independently without re-parsing `formatDateRange`.
-   * Closed ranges only; both `from` and `to` required. For open-ended use
-   * `formatDateRange`.
-   */
+  // Closed-range halves as separate strings (no re-parsing formatDateRange). Both from/to required.
   formatDateRangeParts: (from: Date, to: Date) => { from: string; to: string };
 };
 

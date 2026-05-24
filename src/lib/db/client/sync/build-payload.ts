@@ -15,8 +15,7 @@ import {
 } from "@/lib/db/client/data/rp";
 import type { SyncKindName } from "@/lib/validation/sync";
 
-// Cascade payload shape per sync kind. Used by both the add/resync hook and
-// the pending-queue drainer so a retry rebuilds the bundle the server expects.
+// Cascade payload per kind; shared by add/resync + drainer.
 export async function buildSyncPayload(
   userId: number,
   kind: SyncKindName,

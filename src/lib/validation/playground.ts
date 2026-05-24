@@ -2,10 +2,7 @@ import type { Static } from "elysia";
 import { t } from "elysia";
 import type { TLiteral, TUnion } from "@sinclair/typebox/type";
 
-// Pulls the literal values out of a TypeBox string-literal union so the
-// sampler/scheduler arrays stay a single source of truth with the schema.
-// Schemas are written inline as `t.Union([t.Literal(...)])` (Eden RPC needs
-// the literals statically visible at the route); the arrays derive from them.
+// Pulls literals out of TypeBox union so sampler arrays stay one source.
 function unionLiterals<T extends string>(
   union: TUnion<TLiteral<T>[]>,
 ): readonly T[] {
@@ -54,8 +51,7 @@ export const generationScheduler = t.Union([
 ]);
 export type GenerationScheduler = Static<typeof generationScheduler>;
 
-// `models.ts` derives SDXL_SAMPLERS / SDXL_SCHEDULERS from these so the model
-// catalog can't desync from the validator (e.g. a missing "simple").
+// models.ts derives from these; prevents drift.
 export const GENERATION_SAMPLERS = unionLiterals(generationSampler);
 export const GENERATION_SCHEDULERS = unionLiterals(generationScheduler);
 
@@ -101,28 +97,11 @@ export const playgroundAdetailer = t.Object({
 });
 export type PlaygroundAdetailer = Static<typeof playgroundAdetailer>;
 
-export const generationControlNetKind = t.Union([
-  t.Literal("depth"),
-  t.Literal("canny"),
-  t.Literal("openpose"),
-]);
-export type GenerationControlNetKind = Static<
-  typeof generationControlNetKind
->;
-
-export const playgroundControlNet = t.Object({
-  kind: generationControlNetKind,
-  imageUrl: t.String({ format: "uri", maxLength: 2048 }),
-  weight: t.Optional(t.Number({ minimum: 0, maximum: 2 })),
-});
-export type PlaygroundControlNet = Static<typeof playgroundControlNet>;
-
 export const generationLayerDiffusion = t.Object({
   weight: t.Number({ minimum: 0, maximum: 2 }),
 });
 
-// Width/height bounds are broad; adapter narrows per model (Flux 2 locked to
-// 1024x1024; SDXL aborts >2048 in the ComfyUI worker).
+// Adapter narrows per model (Flux2 1024^2; SDXL aborts >2048).
 export const generationParams = t.Object({
   width: t.Optional(t.Integer({ minimum: 64, maximum: 5060 })),
   height: t.Optional(t.Integer({ minimum: 64, maximum: 5060 })),
@@ -159,7 +138,6 @@ export const generationParams = t.Object({
       { maxItems: 6 },
     ),
   ),
-  controlNet: t.Optional(playgroundControlNet),
   adetailer: t.Optional(playgroundAdetailer),
   layerDiffusion: t.Optional(generationLayerDiffusion),
   // SDXL-family only; other families ignore both.
@@ -227,8 +205,7 @@ export const generationCloneMode = t.Union([
 ]);
 export type GenerationCloneMode = Static<typeof generationCloneMode>;
 
-// Loose typing on nested fields so older exports with extra keys still parse.
-// Images embed base64 so an export is self-contained (no R2 dependency).
+// Loose nested fields + embedded base64 (self-contained export).
 export const playgroundSnapshot = t.Object({
   version: t.Literal("unorouter-generation-1"),
   model: t.String({ minLength: 1, maxLength: 128 }),
@@ -262,15 +239,13 @@ export const sessionSnapshot = t.Object({
 });
 export type SessionSnapshot = Static<typeof sessionSnapshot>;
 
-// Stateless poll: the client owns the playground row and passes the upstream
-// task id back so the server only forwards the upstream status check.
+// Stateless poll: client owns the row; server forwards upstream status.
 export const playgroundPollBody = t.Object({
   taskId: t.String({ minLength: 1, maxLength: 128 }),
 });
 export type PlaygroundPollBody = Static<typeof playgroundPollBody>;
 
-// A generated image returned inline by /submit and /poll. The client writes
-// the bytes into its local `media` table; R2 upload is deferred to sync.
+// Inline image; client writes media; R2 upload deferred to sync.
 export const generatedImage = t.Object({
   resultUrl: t.Union([t.String(), t.Null()]),
   base64: t.String(),

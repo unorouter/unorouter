@@ -10,8 +10,7 @@ import type { PlaygroundSubmitBody } from "@/lib/validation/playground";
 import { upstreamApiUrl } from "@/server/constants";
 import { type GeneratedImage, paramsToSize } from "./playground-finalize";
 
-// Sync-image endpoints answer synchronously: the server downloads every
-// result image and returns the bytes inline so the client can persist them.
+// Sync endpoints answer immediately; server returns inline bytes for client persist.
 export async function submitSyncImage(args: {
   apiKey: string;
   body: PlaygroundSubmitBody;

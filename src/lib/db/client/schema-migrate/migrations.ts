@@ -31,10 +31,7 @@ export async function runMigrations(sql: SQLocalDrizzle): Promise<void> {
 
   for (let i = startIndex; i < migrations.length; i++) {
     const m = migrations[i];
-    // SQLite can't run multiple statements in one prepared call; split on
-    // Drizzle's `statement-breakpoint` separator. No `sql.transaction(...)`
-    // wrapper: a throwing statement inside a SQLocal transaction never
-    // releases the transactionMutex, deadlocking every later getLocalDb().
+    // Split on statement-breakpoint; no tx wrapper (SQLocal mutex deadlock).
     const statements = m.sql
       .split("--> statement-breakpoint")
       .map((s) => s.trim())
@@ -43,11 +40,8 @@ export async function runMigrations(sql: SQLocalDrizzle): Promise<void> {
       try {
         await sql.sql(statement);
       } catch (err) {
-        // Tolerate replays of partially-applied tags. If a previous run of
-        // this migration committed statement K-1 then threw on K, the
-        // version cursor stayed on the prior tag and the next load replays
-        // K-1 too. CREATE TABLE / CREATE INDEX / ADD COLUMN error messages
-        // signal the object already exists, which is harmless here.
+        // Tolerate replays after partial application;
+        // CREATE/ADD COLUMN already-exists is harmless.
         if (isIdempotentMigrationError(err)) continue;
         throw err;
       }

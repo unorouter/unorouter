@@ -52,9 +52,7 @@ export const localMeta = sqliteTable("local_meta", {
     .default(sql`(unixepoch() * 1000)`),
 });
 
-// Tables that must NEVER be cross-copied between OPFS DBs. local_meta holds
-// the target DB's own migration_version cursor; local_pending_sync holds the
-// per-DB mirror-write queue with userId references baked in.
+// Tables never cross-copied between OPFS DBs (per-DB cursors/queues).
 export const LOCAL_ONLY_TABLES = [
   getTableName(localMeta),
   getTableName(localPendingSync),
