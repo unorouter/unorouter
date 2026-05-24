@@ -1,5 +1,6 @@
 import { joinItemsToMessages } from "@/lib/ai/chat/messages";
 import { GUEST_USER_ID, msg } from "@/lib/config/constants";
+import { capitalize } from "@/lib/utils/base";
 import { assertFound } from "@/lib/utils/server";
 import { getDb } from "@/lib/db/server/client";
 import {
@@ -102,7 +103,7 @@ export async function getConversationMarkdown(userId: number, convId: string) {
           ? m.model
             ? `## Assistant (${m.model})`
             : "## Assistant"
-          : `## ${m.role.charAt(0).toUpperCase()}${m.role.slice(1)}`;
+          : `## ${capitalize(m.role)}`;
     lines.push(heading, "");
 
     for (const it of items) {

@@ -12,6 +12,7 @@ import {
   type ProcessedModel,
 } from "@/lib/api/pricing";
 import { APP_VALUES } from "@/lib/config/constants";
+import { capitalize } from "@/lib/utils/base";
 import { getVendorTheme } from "@/lib/config/vendor-themes";
 import { modelSlug } from "@/lib/utils/base";
 import { formatPrice } from "@/lib/utils/format/number";
@@ -88,7 +89,7 @@ print(res.choices[0].message.content)`;
 
   const theme = getVendorTheme(m.vendor.name);
   const endpointsDisplay = (m.endpointTypes ?? []).join(", ") || "-";
-  const typeLabel = m.type.charAt(0).toUpperCase() + m.type.slice(1);
+  const typeLabel = capitalize(m.type);
 
   const stats: {
     label: string;

@@ -163,6 +163,10 @@ export function unixSec(): number {
   return Math.floor(Date.now() / 1000);
 }
 
+export function capitalize(s: string): string {
+  return s.length === 0 ? s : s.charAt(0).toUpperCase() + s.slice(1);
+}
+
 export function formatJson(value: unknown): string {
   return value == null ? "" : JSON.stringify(value, null, 2);
 }
