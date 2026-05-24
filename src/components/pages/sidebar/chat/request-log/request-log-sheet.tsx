@@ -97,7 +97,7 @@ export function RequestLogSheet(props: {
 
   return (
     <Sheet open={props.open} onOpenChange={props.onOpenChange}>
-      <SheetContent className="!max-w-4xl !w-[min(90vw,56rem)] overflow-hidden">
+      <SheetContent className="max-w-4xl! w-[min(90vw,56rem)]! overflow-hidden">
         <SheetHeader>
           <SheetTitle>{t("CHAT.REQUEST_LOG.TITLE")}</SheetTitle>
           <SheetDescription>{props.msgId}</SheetDescription>
