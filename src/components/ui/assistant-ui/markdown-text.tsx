@@ -17,6 +17,7 @@ import { type FC, useState } from "react";
 import rehypeMathjax from "rehype-mathjax";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
+import { rehypeQuoteSpans } from "@/components/ui/assistant-ui/rehype-quote-spans";
 
 // MiniMax etc. emit raw <think>/<thinking> blocks in text body instead of
 // reasoning parts. Strip complete blocks plus any unclosed opening tag and
@@ -35,7 +36,7 @@ const MarkdownTextImpl = () => {
   return (
     <MarkdownTextPrimitive
       remarkPlugins={[remarkGfm, remarkMath]}
-      rehypePlugins={[rehypeMathjax]}
+      rehypePlugins={[rehypeMathjax, rehypeQuoteSpans]}
       className="aui-md"
       components={defaultComponents}
       preprocess={(text) => {

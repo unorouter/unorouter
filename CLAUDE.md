@@ -14,7 +14,7 @@ bun db:generate      # drizzle-kit generate (server + client configs) then bundl
 bun db:reset         # wipe Turso + R2 prefixes (drizzle/reset-db.ts; reads R2_* + TURSO_* env)
 ```
 
-Scripts in `scripts/`: `generate-search-index.ts` (Orama index from registry), `generate-seo-timestamps.ts` (`git log` per registry contentFiles into `public/seo-timestamps.json`), `bundle-migrations.ts` (writes `src/lib/db/client/schema-migrate/migrations.json`), `generate-openapi-refs.ts` (writes `.next/.openapi-types/references.json`), `generate-web-bot-auth-key.ts` (mints `WEB_BOT_AUTH_PUBLIC_JWKS` + `WEB_BOT_AUTH_PRIVATE_JWK` env values), `lighthouse.ts`, `indexnow.ts` (submits sitemap to IndexNow).
+Scripts in `scripts/`: `generate-search-index.ts` (Orama index from registry), `generate-seo-timestamps.ts` (`git log` per registry contentFiles into `public/seo-timestamps.json`), `bundle-migrations.ts` (writes `src/lib/db/client/schema-migrate/migrations.json`), `generate-openapi-refs.ts` (writes `.next/.openapi-types/references.json`), `generate-web-bot-auth-key.ts` (mints `WEB_BOT_AUTH_PUBLIC_JWKS` + `WEB_BOT_AUTH_PRIVATE_JWK` env values), `lighthouse.ts`.
 
 Drizzle outputs: `drizzle/server/` (Turso migrations + meta), `drizzle/client/` (SQLocal migrations + meta consumed by `bundle-migrations.ts` -> `migrations.json` -> runtime `runMigrations`).
 
@@ -56,7 +56,7 @@ Server routes grouped into 5 domains under `src/server/`:
 Two patterns, pick by domain:
 
 - Pass-through routes (`auth`, most of `billing`, `models`, `ops/logs`, `ops/stats`, `models/*`): `return unwrap(res)`. Upstream response shape flows through.
-- Local-logic routes (`ai/chat`, `ai/chat/rp`, `ai/playground`, `ai/sync`, `ops/health`, `ops/stats`, `billing/checkout-sessions`): `return { success: true, data }`. Wrapping is needed so `handleElysia()` on the client can distinguish success from typed failure.
+- Local-logic routes (`ai/chat`, `ai/playground`, `ai/sync`, `ops/health`, `ops/stats`, `billing/checkout-sessions`): `return { success: true, data }`. Wrapping is needed so `handleElysia()` on the client can distinguish success from typed failure.
 
 Stick to the pattern of the route you're editing. Don't mix.
 
@@ -115,7 +115,7 @@ TypeBox schema -> Elysia validation -> Eden Treaty RPC -> handleElysia() -> Reac
 
 - `handleElysia()` and `unwrap()`: `src/lib/utils/base.ts`
 - `handleError()`: `src/lib/utils/client.ts` (also installs a TypeBox `SetErrorFunction` so `t.String({ error: "..." })` carries through)
-- Eden type helpers (`EdenArgs`, `EdenResponse`, `EdenQuery`): `src/lib/types/eden.ts`
+- Eden type helpers (`EdenArgs`, `EdenQuery`): `src/lib/types/eden.ts`
 - Upstream client: `src/openapi.ts` (Orval auto-generated, never edit; regenerate with `bun openapi`)
 
 ## Chat vertical specifics
@@ -126,12 +126,12 @@ Core (`src/server/ai/chat/`):
 
 - `route.ts`: chat root route, mounts subroutes. Exposes `GET conversations/:id/meta/markdown`, `POST title/stream`, `GET task/:taskId`, `POST :id/task/finalize`. No POST/PATCH/DELETE for conversation or messages: those live in client hooks (`src/hooks/ai/chat-hook.ts`) writing the local SQLocal DB.
 - `conversation.service.ts`: paginated messages + conversation reads (Turso). `getConversationMarkdown` walks the active branch.
-- `stream.service.ts`: `streamText` from the `ai` SDK, UI message stream wiring. Streams pass `body.chatContext` from the client IDB so logged-in streams skip Turso RP reads; Turso `loadConvContext` is the fallback for guests and legacy synced rows. (Inline `// share-page` comment is stale; no `/share` route exists.) Branches on `isMediaModel(body.model)`: text streams (default), image (synchronous + R2 upload + buffered markdown), video task (`data-task` part client polls + finalizes). `maxRetries: 0` so upstream errors surface verbatim. Free models capped at `FREE_MODEL_OUTPUT_CAP=8192`. PDF parts pointing at R2 get inlined as text from `media.extractedText`; missing extraction throws `PDF_EXTRACTION_FAILED`. Output URLs (image/video) get rehosted to R2 by `processUrls`. Token usage rides on the `finish` stream-part via `messageMetadata({ part })`; the client's history adapter reads `message.metadata.usage` and bumps `conversations` totals.
+- `stream.service.ts` + `stream/`: `stream.service.ts` is slim `streamChat`. Helpers split into `stream/transforms.ts` (PDF inline, depth splicing, macro expansion, role transforms, gemini safety, recent-user-text) and `stream/media-stream.ts` (image gen, image/video stream handlers, URL rehost, buffered stream). `streamText` from the `ai` SDK, UI message stream wiring. Streams pass `body.chatContext` from the client IDB so logged-in streams skip Turso RP reads; Turso `loadConvContext` is the fallback for guests and legacy synced rows. Branches on `isMediaModel(body.model)`: text streams (default), image (synchronous + R2 upload + buffered markdown), video task (`data-task` part client polls + finalizes). `maxRetries: 0` so upstream errors surface verbatim. Free models capped at `FREE_MODEL_OUTPUT_CAP=8192`. PDF parts pointing at R2 get inlined as text from `media.extractedText`; missing extraction throws `PDF_EXTRACTION_FAILED`. Output URLs (image/video) get rehosted to R2 by `processUrls`. Token usage rides on the `finish` stream-part via `messageMetadata({ part })`; the client's history adapter reads `message.metadata.usage` and bumps `conversations` totals.
 - Message-shape pipeline lives in `src/lib/ai/chat/messages.ts` (`partsToItems`/`itemsToParts`). Maps ai-sdk `tool-invocation` (state-based: call vs result) to typed DB rows `tool_call`/`tool_result`. `data-task` part bidirectional with `task` DB type. `file` and `source-url` map to `file`/`image`.
 
 Augmentation (`src/server/ai/chat/augmentation/`): pipeline pieces the stream service composes.
 
-- `prompt-assembler.service.ts`: loads conv context (or accepts a preloaded `body.chatContext`), assembles the final system prompt + sampling + flags. Section order: `main_prompt -> system_fallback -> top entries -> before_char entries -> per-character blocks -> persona -> after_char entries -> systemPromptOverride||primary.systemPrompt -> primary.postHistoryInstructions -> preset.postHistory -> bottom entries`. `at_depth` entries return as `DepthInjection[]` spliced into messages by `spliceDepthInjections` in stream service. Multi-character: primary character drives `{{char}}`; non-primary chars with `alwaysActive=false` are trigger-gated via `triggers` + `matchWholeWords`. Lorebook entry selection: per-book `scanDepth` + `tokenBudget` (gpt-tokenizer estimate), `MAX_RECURSIVE_PASSES=3` when `recursiveScanning=true`, whole-word matching via word-boundary regex. `extraBody` from settings beats preset on key clash; sliders + reasoning then win over both in providerOptions.
+- `prompt-assembler.service.ts` + `prompt-assembler/`: `prompt-assembler.service.ts` holds `assembleForStream` + `assembleFromOverrides` + `AssembledSystem` type + `expandTemplateVars`. Split: `prompt-assembler/conv-context.ts` (`loadConvContext`, `buildContextFromClient`), `prompt-assembler/lorebook.ts` (`keyHits`, `selectLorebookEntries`, matching). Section order: `main_prompt -> system_fallback -> top entries -> before_char entries -> per-character blocks -> persona -> after_char entries -> systemPromptOverride||primary.systemPrompt -> primary.postHistoryInstructions -> preset.postHistory -> bottom entries`. `at_depth` entries return as `DepthInjection[]` spliced into messages by `spliceDepthInjections` in stream/transforms. Multi-character: primary character drives `{{char}}`; non-primary chars with `alwaysActive=false` are trigger-gated via `triggers` + `matchWholeWords`. Lorebook entry selection: per-book `scanDepth` + `tokenBudget` (gpt-tokenizer estimate), `MAX_RECURSIVE_LOREBOOK_PASSES=3` when `recursiveScanning=true`, whole-word matching via word-boundary regex. `extraBody` from settings beats preset on key clash; sliders + reasoning then win over both in providerOptions.
 - `moderation.service.ts`: Creem prompt-moderation gate (`MODERATION_TIMEOUT_MS=5s`, env-gated via `CREEM_MODERATION_ENABLED`). Persists every `allow|flag|deny|error` decision to the server-only `moderation_log` table. `assertPromptAllowed` runs before image/video generation only.
 - `task.service.ts`: async video task submit/poll. `finalizeVideoTask` rewrites the persisted `task` message_item to a `text` item with an R2-hosted `![video](url)` markdown line.
 - `title.service.ts`: stateless title gen. Races `FREE_MODEL_RACE_COUNT=5` free text models via `Promise.any` (`generateText({ maxOutputTokens: 30 })`); truncates to ~60 chars on race failure. The client persists.
@@ -141,14 +141,7 @@ Stream-order rules (LOCKED, see comment at `stream.service.ts:577`): 1) `noSyste
 
 Per-provider tweaks: `geminiBlockOff` sets all five Gemini safety categories to threshold `OFF`. `noSystemRole` rewrites system role to user with `[System]:` prefix for Gemini/GLM mid-conv. `stripSystemRole`, `mergeAlternateRoles`, `prependUserStub` are pure transforms on `body.messages`.
 
-RP (`src/server/ai/chat/rp/`): roleplay entity services. **READ-ONLY** route surface (lists / gets / exports / settings / bindings). All POST/PATCH/DELETE mutations happen client-side via `makeRpEntity` against SQLocal + mirror through `/sync/:kind/:id`.
-
-- `route.ts`: RP subroute, mounted under chat
-- `character.service.ts`, `persona.service.ts`, `lorebook.service.ts`, `preset.service.ts`: read + export
-- `card.service.ts`: SillyTavern character card export
-- `binding.service.ts`: returns conversation_characters + conversation_lorebooks for a conv
-- `conversation-settings.service.ts`: returns conversation_settings for a conv
-- Import/serialization helpers: `src/lib/ai/rp/` (`character-card.ts` SillyTavern card v2/v3 via `@character-foundry/character-foundry`, `persona-import.ts`, `lorebook-import.ts`).
+RP entities (characters, personas, lorebooks, presets, cards) are 100% local-first: zero server route surface. CRUD goes through `makeRpEntity` against SQLocal + mirrors via `/sync/:kind/:id`. Export is local too via `src/lib/db/client/data/rp-export.ts` (calls isomorphic helpers in `src/lib/ai/rp/`). Import/serialization helpers: `src/lib/ai/rp/` (`character-card.ts` SillyTavern card v2/v3 via `@character-foundry/character-foundry`, `persona-import.ts`, `lorebook-import.ts`).
 
 Conversation export/import is local-first, not a server route. The logic lives in `src/lib/db/client/data/transfer/`: `native.ts` (`buildNativeExport`, `toOrpg`, `persistMappedImport`), `sillytavern.ts` (`exportLocalConversationSillyTavern`, `importSillyTavernChat`), `map.ts` (format mappers + ID remap on import). Reads/writes the client SQLocal DB directly. Formats: `unorouter.1.0` native, `orpg.3.0` (OpenRouter-compatible with `_unorouter_extension` for lossless extras), SillyTavern JSONL. Works for guests since it never touches Turso.
 
@@ -168,7 +161,7 @@ Under `src/components/pages/sidebar/chat/runtime/` (`ChatRuntimeProvider` mounte
 
 `src/lib/db/schema/shared.ts` (607 LOC): 19 tables mirrored client + server. Every syncable table carries `syncExpiresAt` (null = local-only; non-null = synced, Turso row is server-purged past the timestamp). Drizzle `.$type<>()` narrows text columns to validation-derived literal unions (`MessageRole`, `MessageItemType`, `ReasoningEffort`, `WebSearchEngine`, `WebSearchContextSize`, `LorebookEntryPosition`, `LorebookInjectionRole`, `GenerationStatus`, `PlaygroundVisibility`).
 
-`src/lib/db/schema/server.ts`: server-only tables — `moderation_log`, `acp_checkout_sessions`, `acp_idempotency_keys` (`AcpIdempotencyState` narrowing), 5 catalogs (`lora/embedding/upscaler/controlnet`).
+`src/lib/db/schema/server.ts`: server-only tables — `moderation_log`, `acp_checkout_sessions`, `acp_idempotency_keys` (`AcpIdempotencyState` narrowing), 4 catalogs (`lora/embedding/upscaler/controlnet`; controlnet seeded but no route exposes it currently).
 
 `src/lib/db/schema/client.ts`: client-only — `local_pending_sync` (PK `(kind, id)`, `MAX_ATTEMPTS=5`, `SyncKindName` + `PendingSyncOp` narrowing) and `local_meta` KV (holds `migration_version` cursor). `LOCAL_ONLY_TABLES` excludes both from cross-DB copy/salvage.
 
@@ -182,7 +175,7 @@ Under `src/components/pages/sidebar/chat/runtime/` (`ChatRuntimeProvider` mounte
 
 ## Sync pipeline
 
-Server: `src/server/ai/sync/sync.service.ts` (1,396 LOC) handles 8 kinds (`SYNC_KINDS` in `src/lib/validation/sync.ts`: `characters/personas/lorebooks/presets/cards/conversations/playgroundSessions/theme`; `theme` is single-row per userId, the other 7 are `RP_SYNC_KINDS` row-by-row). Route (`src/server/ai/sync/route.ts`) `.derive` runs `sweepExpired(userId, sweepKey())` once per request (WeakSet-memoized). 4 endpoints: `GET /state`, `GET /:kind/:id/bundle`, `POST /:kind/:id` (set expiry + persist bundle), `DELETE /:kind/:id` (clear expiry). `setSyncExpiry` accepts `{ days?, payload?, keepExpiry? }`; `keepExpiry: true` is the mirror-PATCH-on-save path that preserves the existing expiry. Default TTL `DEFAULT_TTL_DAYS=30`. `Value.Cast()` against shared TypeBox schemas coerces + fills defaults from loose unknown payloads. Conversation upserts are SELF-CONTAINED: a push carries the full bodies of every referenced character/persona/lorebook/preset, and the handler inserts those first inside the conversation's transaction so the conversation_* foreign keys resolve even if the entity was never synced on its own.
+Server: `src/server/ai/sync/` split into `bundles.ts` (read), `state.ts` (state bulk), `sweep.ts` (TTL purge), `upsert.ts` (8 per-kind handlers + insert builders + referenced-entity inserts), `expiry.ts` (set/clear expiry, handler dispatch). Handles 8 kinds (`SYNC_KINDS` in `src/lib/validation/sync.ts`: `characters/personas/lorebooks/presets/cards/conversations/playgroundSessions/theme`; `theme` is single-row per userId, the other 7 are `RP_SYNC_KINDS` row-by-row). Route (`src/server/ai/sync/route.ts`) `.derive` runs `sweepExpired(userId, sweepKey())` once per request (WeakSet-memoized). 4 endpoints: `GET /state`, `GET /:kind/:id/bundle`, `POST /:kind/:id` (set expiry + persist bundle), `DELETE /:kind/:id` (clear expiry). `setSyncExpiry` accepts `{ days?, payload?, keepExpiry?, mergeMode? }`; `keepExpiry: true` is the mirror-PATCH-on-save path that preserves the existing expiry. Default TTL `DEFAULT_TTL_DAYS=30`. Per-kind `Value.Cast()` against per-bundle TypeBox schemas (`cardBundleBody`, `conversationBundleBody`, `playgroundSessionBundleBody`, `themeBundleBody` in `src/lib/validation/sync.ts`) coerces + fills defaults. RP-entity bodies use `characterBody`/`personaBody`/`lorebookBody`/`samplingPresetBody` from `src/lib/validation/rp.ts`. Conversation upserts are SELF-CONTAINED: a push carries the full bodies of every referenced character/persona/lorebook/preset, and the handler inserts those first inside the conversation's transaction so the conversation_* foreign keys resolve even if the entity was never synced on its own.
 
 Client hydrator (`src/lib/db/client/sync/sync-state-hydrator.ts`): React component mounted in chat + playground layouts. Per-userId fire-once. Stage 1 (always): serial reads from local SQLocal seed the React Query cache (raw arrays for RP, page-shaped for convs `useInfiniteQuery`, `{items}` for playground sessions). Stage 2 (logged-in only): `GET /sync/state` returns `{ kind: [{id, updatedAt, syncExpiresAt}] }`; compare per-row `updatedAt`, pull `GET /sync/:kind/:id/bundle` for newer, `applyBundle` upserts locally. Stage 3: `drainPending(userId)`. Serial throughout (sqlocal transactionMutex). `rehydrateMedia` enforces the asymmetric base64 rule.
 
@@ -200,7 +193,7 @@ Mirror helpers (`src/hooks/ai/rp/shared.ts`):
 
 `src/server/ai/playground/` (7 files, ~700 LOC). Wraps `{success, data}` like chat (not pass-through).
 
-- `route.ts`: `/submit`, `/poll`, `/references`, `/masks`, `/loras`, `/embeddings`, `/upscalers`, `/controlnets`. Guest gated to free non-comfyui models via `assertGuestAllowedModel`.
+- `route.ts`: `/submit`, `/poll`, `/references`, `/masks`, `/loras`, `/embeddings`, `/upscalers`. Guest gated to free non-comfyui models via `assertGuestAllowedModel`.
 - `playground.service.ts`: `resolveSubmissionEndpoint` branches on `COMFYUI_TEMPLATE_IDS` (hardcoded) vs `chooseEndpoint(endpointTypes)` (precedence: `image-generation > openai > gemini`).
 - `playground-submit-sync.ts`: sync-image flow. Fetches reference images (`MAX_REF_BYTES=10MB`), builds body via `src/lib/ai/playground/dispatch.ts` (three shapes: OAI `/v1/images/generations` multipart for refs, chat completions multimodal, Gemini `generateContent`), calls upstream, downloads result bytes to base64 via `downloadGenerationBytes` (NOT uploaded to R2 here; client owns persistence). Native batching only on `image-generation` endpoint; OAI chat + Gemini loop client-side.
 - `playground-submit-comfyui.ts`: async task flow. Returns `{ taskId, status }` only; client polls `/poll` and persists on terminal. Maps form params (`steps/cfg/seed/denoise/hires/loras/refs/embeddings/controlNet/layerDiffusion/adetailer/upscaler` with native-scale lookup from `upscaler_catalog`) to the ComfyUI relay extras.
@@ -263,7 +256,7 @@ Two key namespaces: chat media at `chat/<scope>/<convId>/<msgId>/<file>` (scope 
 
 ## Analytics
 
-`src/lib/analytics.ts` is the canonical telemetry surface. Single `analytics` const groups events by feature (`auth/chat/billing/tokens/settings/navigation/affiliate/dashboard/logs/docs/rp/easterEgg/content/errors`). Every event takes typed args and calls `posthog.capture(name, props)`. Components import as `analytics.<feature>.<event>(...)`. ~110 call sites across the app. Add new events here; never call `posthog.capture` directly from a component.
+`src/lib/analytics.ts` is the canonical telemetry surface. Single `analytics` const groups events by feature (`auth/chat/billing/tokens/settings/navigation/affiliate/dashboard/logs/docs/rp/easterEgg/content`). Every event takes typed args and calls `posthog.capture(name, props)`. Components import as `analytics.<feature>.<event>(...)`. Add new events here; never call `posthog.capture` directly from a component.
 
 Server-side events go through `captureServerEvent` in `src/lib/posthog-server.ts` (prod-only, stitches distinctId from `ph_phc_*_posthog` cookie, falls back to `user-id`). Used by `stream.service.ts` for chat lifecycle (`chat_stream_started/completed/failed`, `chat_web_search_executed`).
 

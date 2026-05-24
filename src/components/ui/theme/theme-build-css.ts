@@ -94,6 +94,33 @@ function menuAccentBlock(name: string | undefined): string {
   return "";
 }
 
+function markdownBlock(md: UserTheme["markdown"]): string {
+  if (!md) return "";
+  const vars: ThemeCssVars = {};
+  if (md.normal) vars["md-normal"] = md.normal;
+  if (md.italic) vars["md-italic"] = md.italic;
+  if (md.bold) vars["md-bold"] = md.bold;
+  if (md.italicBold) vars["md-italic-bold"] = md.italicBold;
+  if (md.singleQuote) vars["md-single-quote"] = md.singleQuote;
+  if (md.doubleQuote) vars["md-double-quote"] = md.doubleQuote;
+  const varsBlock = emitBlock(":root", vars);
+  // Apply vars via CSS so nested italic+bold (<strong><em>) gets its own slot.
+  // Plain text falls through to inherited foreground when md-normal unset.
+  const rules: string[] = [];
+  if (md.normal) rules.push(".aui-md p,.aui-md li{color:var(--md-normal);}");
+  if (md.italic) rules.push(".aui-md em{color:var(--md-italic);}");
+  if (md.bold) rules.push(".aui-md strong{color:var(--md-bold);}");
+  if (md.italicBold)
+    rules.push(
+      ".aui-md strong em,.aui-md em strong{color:var(--md-italic-bold);}",
+    );
+  if (md.singleQuote)
+    rules.push(".aui-md [data-md-quote=sq]{color:var(--md-single-quote);}");
+  if (md.doubleQuote)
+    rules.push(".aui-md [data-md-quote=dq]{color:var(--md-double-quote);}");
+  return [varsBlock, ...rules].filter(Boolean).join("");
+}
+
 export function buildThemeCss(theme: UserTheme): string {
   const baseColor = findBaseColor(theme.baseColor) ?? findBaseColor("neutral");
   if (!baseColor) return "";
@@ -132,6 +159,7 @@ export function buildThemeCss(theme: UserTheme): string {
     bodyFontBlock,
     menuBlock(theme.menu),
     menuAccentBlock(theme.menuAccent),
+    markdownBlock(theme.markdown),
   ]
     .filter(Boolean)
     .join("\n");

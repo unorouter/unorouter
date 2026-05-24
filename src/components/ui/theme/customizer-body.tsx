@@ -39,6 +39,7 @@ import { useRef } from "react";
 import { toast } from "sonner";
 import { FieldGroup, FieldSeparator } from "./field";
 import { ColorSwatch, FontGlyph, Picker, RadiusGlyph } from "./picker";
+import type { ChatMarkdownColors } from "@/components/ui/theme/theme-store";
 
 // Project palette fallbacks for the "default" sentinel (empty cssVars). Match
 // globals.css `--primary` and `--muted-foreground` so chips render as real swatches.
@@ -95,6 +96,83 @@ function MenuGlyph() {
   );
 }
 
+const HEX_RE = /^#[0-9a-fA-F]{6}$/;
+
+function normalizeHex(v: string): string | null {
+  let s = v.trim();
+  if (!s) return null;
+  if (!s.startsWith("#")) s = `#${s}`;
+  if (/^#[0-9a-fA-F]{3}$/.test(s)) {
+    s = `#${s[1]}${s[1]}${s[2]}${s[2]}${s[3]}${s[3]}`;
+  }
+  return HEX_RE.test(s) ? s.toLowerCase() : null;
+}
+
+function ColorField(props: {
+  label: string;
+  value: string | undefined;
+  onChange: (next: string | undefined) => void;
+}) {
+  const colorInputRef = useRef<HTMLInputElement | null>(null);
+  const value = props.value ?? "";
+  return (
+    <div
+      className={
+        "ring-foreground/10 relative flex w-full shrink-0 items-center gap-2 rounded-lg px-3 py-2 ring-1 select-none hover:bg-muted"
+      }
+    >
+      <button
+        type="button"
+        onClick={() => colorInputRef.current?.click()}
+        className="ring-foreground/15 size-6 shrink-0 cursor-pointer rounded-full ring-1"
+        style={{ backgroundColor: value || "transparent" }}
+        aria-label={`${props.label} swatch`}
+      />
+      <input
+        ref={colorInputRef}
+        type="color"
+        value={value || "#000000"}
+        onChange={(e) => props.onChange(e.target.value.toLowerCase())}
+        className="sr-only"
+        tabIndex={-1}
+        aria-hidden
+      />
+      <div className="flex min-w-0 flex-1 flex-col justify-start">
+        <div className="text-muted-foreground text-xs">{props.label}</div>
+        <input
+          type="text"
+          value={value}
+          placeholder="#rrggbb"
+          onChange={(e) => {
+            const raw = e.target.value;
+            if (raw === "") return props.onChange(undefined);
+            const hex = normalizeHex(raw);
+            if (hex) props.onChange(hex);
+            else props.onChange(raw); // let user keep typing; validates on blur
+          }}
+          onBlur={(e) => {
+            const hex = normalizeHex(e.target.value);
+            props.onChange(hex ?? undefined);
+          }}
+          className="text-foreground bg-transparent text-sm font-medium outline-none"
+          spellCheck={false}
+          aria-label={props.label}
+        />
+      </div>
+      {props.value && (
+        <button
+          type="button"
+          onClick={() => props.onChange(undefined)}
+          className="text-muted-foreground hover:text-foreground text-xs"
+          aria-label="reset"
+        >
+          ×
+        </button>
+      )}
+    </div>
+  );
+}
+
 function AccentGlyph() {
   return (
     <svg
@@ -141,6 +219,14 @@ export function ThemeCustomizerBody() {
         }
       })();
     }
+  };
+
+  const setMarkdown = (patch: Partial<ChatMarkdownColors>) => {
+    const nextMd: ChatMarkdownColors = { ...(theme.markdown ?? {}), ...patch };
+    for (const key of Object.keys(nextMd) as Array<keyof ChatMarkdownColors>) {
+      if (nextMd[key] === undefined) delete nextMd[key];
+    }
+    setTheme({ ...theme, markdown: nextMd });
   };
 
   const resetAll = () => {
@@ -371,6 +457,40 @@ export function ThemeCustomizerBody() {
             }))}
             rightAdornment={<AccentGlyph />}
             onValueChange={(v) => setTheme({ ...theme, menuAccent: v })}
+          />
+          <FieldSeparator />
+          <div className="text-muted-foreground px-1 pt-1 text-xs">
+            {t("THEME.CHAT_TEXT")}
+          </div>
+          <ColorField
+            label={t("THEME.MD_NORMAL")}
+            value={theme.markdown?.normal}
+            onChange={(v) => setMarkdown({ normal: v })}
+          />
+          <ColorField
+            label={t("THEME.MD_ITALIC")}
+            value={theme.markdown?.italic}
+            onChange={(v) => setMarkdown({ italic: v })}
+          />
+          <ColorField
+            label={t("THEME.MD_BOLD")}
+            value={theme.markdown?.bold}
+            onChange={(v) => setMarkdown({ bold: v })}
+          />
+          <ColorField
+            label={t("THEME.MD_ITALIC_BOLD")}
+            value={theme.markdown?.italicBold}
+            onChange={(v) => setMarkdown({ italicBold: v })}
+          />
+          <ColorField
+            label={t("THEME.MD_SINGLE_QUOTE")}
+            value={theme.markdown?.singleQuote}
+            onChange={(v) => setMarkdown({ singleQuote: v })}
+          />
+          <ColorField
+            label={t("THEME.MD_DOUBLE_QUOTE")}
+            value={theme.markdown?.doubleQuote}
+            onChange={(v) => setMarkdown({ doubleQuote: v })}
           />
         </FieldGroup>
       </CardContent>

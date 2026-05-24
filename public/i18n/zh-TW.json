@@ -2165,7 +2165,14 @@
     "COLOR_DESTRUCTIVE": "危險",
     "COLOR_SUCCESS": "成功",
     "COLOR_WARNING": "警告",
-    "COLOR_INFO": "資訊"
+    "COLOR_INFO": "資訊",
+    "CHAT_TEXT": "聊天文字顏色",
+    "MD_NORMAL": "一般文字",
+    "MD_ITALIC": "斜體文字",
+    "MD_BOLD": "粗體文字",
+    "MD_ITALIC_BOLD": "斜體粗體文字",
+    "MD_SINGLE_QUOTE": "單引號文字",
+    "MD_DOUBLE_QUOTE": "雙引號文字"
   },
   "BILLING": {
     "SUBSCRIPTION": {
@@ -2632,6 +2639,15 @@
     "PRESETS_EMPTY": "尚無預設。",
     "PRESETS_PAGE_SUBTITLE": "儲存取樣設定與進階提示詞旋鈕，跨對話重複使用。",
     "PRESETS_BACK": "返回列表",
+    "STARTER_PRESET_LOAD": "載入入門預設",
+    "STARTER_PRESET_PLACEHOLDER": "選擇起始點...",
+    "STARTER_PRESET_HINT": "為表單載入合理的預設值。編輯後儲存為你自己的副本。",
+    "STARTER_PRESET_ASSISTANT": "通用助理",
+    "STARTER_PRESET_ASSISTANT_DESC": "面向一般問答的即用預設。低溫度、無 RP 旗標。",
+    "STARTER_PRESET_NARRATIVE": "高敘事性角色扮演",
+    "STARTER_PRESET_NARRATIVE_DESC": "長篇散文式敘事。較高溫度、關閉 Gemini 阻擋、較大的 token 預算。",
+    "STARTER_PRESET_TURN_BASED": "回合制角色扮演",
+    "STARTER_PRESET_TURN_BASED_DESC": "短回合、嚴格的 user/assistant 交替。針對 GLM 系列模型設計。",
     "PRESET_TAB_BASIC": "基礎",
     "PRESET_TAB_ADVANCED": "進階",
     "PRESET_ADVANCED_WARNING": "若不了解這些選項，請勿更動。它們用於為挑剔的模型修改請求主體；誤用會破壞回覆。",

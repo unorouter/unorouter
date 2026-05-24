@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "bf018e52-f5f4-42eb-80e6-dd8e4c81d0eb",
+  "id": "476d87fb-e242-4a81-a68e-b862289fb7db",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "card_characters": {
@@ -1557,6 +1557,19 @@
             "id"
           ],
           "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "messages_parent_id_messages_id_fk": {
+          "name": "messages_parent_id_messages_id_fk",
+          "tableFrom": "messages",
+          "tableTo": "messages",
+          "columnsFrom": [
+            "parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
           "onUpdate": "no action"
         }
       },

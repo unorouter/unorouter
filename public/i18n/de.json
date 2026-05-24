@@ -2165,7 +2165,14 @@
     "COLOR_DESTRUCTIVE": "Destruktiv",
     "COLOR_SUCCESS": "Erfolg",
     "COLOR_WARNING": "Warnung",
-    "COLOR_INFO": "Info"
+    "COLOR_INFO": "Info",
+    "CHAT_TEXT": "Chat-Textfarben",
+    "MD_NORMAL": "Normaler Text",
+    "MD_ITALIC": "Kursiver Text",
+    "MD_BOLD": "Fetter Text",
+    "MD_ITALIC_BOLD": "Kursiv-fetter Text",
+    "MD_SINGLE_QUOTE": "Einfach zitierter Text",
+    "MD_DOUBLE_QUOTE": "Doppelt zitierter Text"
   },
   "BILLING": {
     "SUBSCRIPTION": {
@@ -2632,6 +2639,15 @@
     "PRESETS_EMPTY": "Noch keine Voreinstellungen.",
     "PRESETS_PAGE_SUBTITLE": "Speichere Sampler-Werte und erweiterte Prompt-Stellschrauben, die du über Chats hinweg wiederverwendest.",
     "PRESETS_BACK": "Zurück zur Liste",
+    "STARTER_PRESET_LOAD": "Starter-Preset laden",
+    "STARTER_PRESET_PLACEHOLDER": "Ausgangspunkt wählen...",
+    "STARTER_PRESET_HINT": "Lädt sinnvolle Standardwerte ins Formular. Bearbeite es und speichere eine eigene Kopie.",
+    "STARTER_PRESET_ASSISTANT": "Allgemeiner Assistent",
+    "STARTER_PRESET_ASSISTANT_DESC": "Plug-and-Play-Standards für einfache Fragen und Antworten. Niedrige Temperatur, keine RP-Flags.",
+    "STARTER_PRESET_NARRATIVE": "Erzählerisches Rollenspiel",
+    "STARTER_PRESET_NARRATIVE_DESC": "Lange, prosastarke Erzählung. Höhere Temperatur, Gemini-Block aus, größeres Token-Budget.",
+    "STARTER_PRESET_TURN_BASED": "Rundenbasiertes Rollenspiel",
+    "STARTER_PRESET_TURN_BASED_DESC": "Kurze Züge, strikter Wechsel zwischen Nutzer und Assistent. Für Modelle vom GLM-Typ.",
     "PRESET_TAB_BASIC": "Basis",
     "PRESET_TAB_ADVANCED": "Erweitert",
     "PRESET_ADVANCED_WARNING": "Wenn du nicht weißt, was das ist, ignoriere es. Es verändert den Request-Body für eigenwillige Modelle; falsche Nutzung kann Antworten zerschießen.",

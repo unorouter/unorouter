@@ -1,5 +1,6 @@
 import { sql } from "drizzle-orm";
 import {
+  type AnySQLiteColumn,
   index,
   integer,
   primaryKey,
@@ -101,7 +102,10 @@ export const messages = sqliteTable(
     convId: text("conv_id")
       .notNull()
       .references(() => conversations.id, { onDelete: "cascade" }),
-    parentId: text("parent_id"),
+    parentId: text("parent_id").references(
+      (): AnySQLiteColumn => messages.id,
+      { onDelete: "set null" },
+    ),
     characterId: text("character_id"),
     role: text("role").notNull().$type<MessageRole>(),
     model: text("model"),

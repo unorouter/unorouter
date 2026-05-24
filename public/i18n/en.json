@@ -2165,7 +2165,14 @@
     "COLOR_DESTRUCTIVE": "Destructive",
     "COLOR_SUCCESS": "Success",
     "COLOR_WARNING": "Warning",
-    "COLOR_INFO": "Info"
+    "COLOR_INFO": "Info",
+    "CHAT_TEXT": "Chat text colors",
+    "MD_NORMAL": "Normal text",
+    "MD_ITALIC": "Italic text",
+    "MD_BOLD": "Bold text",
+    "MD_ITALIC_BOLD": "Italic bold text",
+    "MD_SINGLE_QUOTE": "Single quoted text",
+    "MD_DOUBLE_QUOTE": "Double quoted text"
   },
   "BILLING": {
     "SUBSCRIPTION": {
@@ -2632,6 +2639,15 @@
     "PRESETS_EMPTY": "No presets yet.",
     "PRESETS_PAGE_SUBTITLE": "Save sampling settings and advanced prompt knobs you can reuse across chats.",
     "PRESETS_BACK": "Back to list",
+    "STARTER_PRESET_LOAD": "Load starter preset",
+    "STARTER_PRESET_PLACEHOLDER": "Pick a starting point...",
+    "STARTER_PRESET_HINT": "Loads sane defaults into the form. Edit then save to keep your own copy.",
+    "STARTER_PRESET_ASSISTANT": "General assistant",
+    "STARTER_PRESET_ASSISTANT_DESC": "Plug-and-play defaults for plain Q&A. Low temperature, no RP flags.",
+    "STARTER_PRESET_NARRATIVE": "High-narrative roleplay",
+    "STARTER_PRESET_NARRATIVE_DESC": "Long, prose-heavy storytelling. Higher temperature, Gemini block off, larger token budget.",
+    "STARTER_PRESET_TURN_BASED": "Turn-based roleplay",
+    "STARTER_PRESET_TURN_BASED_DESC": "Short turns, strict user/assistant alternation. Designed for GLM-style models.",
     "PRESET_TAB_BASIC": "Basic",
     "PRESET_TAB_ADVANCED": "Advanced",
     "PRESET_ADVANCED_WARNING": "If you don't know what these are, ignore them. They modify the request body for picky models; misusing them can break replies.",

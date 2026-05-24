@@ -227,6 +227,35 @@ export function useUpdateLorebookEntryMutation(lorebookId: string) {
   });
 }
 
+export function useReorderLorebookEntriesMutation(lorebookId: string) {
+  const t = useTranslations();
+  const qc = useQueryClient();
+  const auth = useAuthQuery();
+  return useMutation({
+    mutationFn: async (orderedIds: string[]) => {
+      const userId = auth.data?.id ?? GUEST_USER_ID;
+      const now = dayjs().toDate();
+      const lb = await readLocalLorebook(userId, lorebookId);
+      if (!lb) return;
+      const byId = new Map(lb.entries.map((e) => [e.id, e]));
+      for (let i = 0; i < orderedIds.length; i++) {
+        const existing = byId.get(orderedIds[i]);
+        if (!existing) continue;
+        await upsertLocalLorebookEntry(userId, {
+          ...existing,
+          orderIndex: i,
+          updatedAt: now,
+        });
+      }
+      await mirrorLorebookIfSynced(userId, lorebookId);
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: queryKeys.lorebook(lorebookId) });
+    },
+    onError: (e) => handleError(e, t),
+  });
+}
+
 export function useDeleteLorebookEntryMutation(lorebookId: string) {
   const t = useTranslations();
   const qc = useQueryClient();

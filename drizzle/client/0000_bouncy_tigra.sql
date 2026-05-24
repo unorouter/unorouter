@@ -211,7 +211,8 @@ CREATE TABLE `messages` (
 	`is_edited` integer DEFAULT false NOT NULL,
 	`created_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,
 	`updated_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,
-	FOREIGN KEY (`conv_id`) REFERENCES `conversations`(`id`) ON UPDATE no action ON DELETE cascade
+	FOREIGN KEY (`conv_id`) REFERENCES `conversations`(`id`) ON UPDATE no action ON DELETE cascade,
+	FOREIGN KEY (`parent_id`) REFERENCES `messages`(`id`) ON UPDATE no action ON DELETE set null
 );
 --> statement-breakpoint
 CREATE INDEX `idx_msg_conv_parent` ON `messages` (`conv_id`,`parent_id`);--> statement-breakpoint

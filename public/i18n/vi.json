@@ -2165,7 +2165,14 @@
     "COLOR_DESTRUCTIVE": "Phá huỷ",
     "COLOR_SUCCESS": "Thành công",
     "COLOR_WARNING": "Cảnh báo",
-    "COLOR_INFO": "Thông tin"
+    "COLOR_INFO": "Thông tin",
+    "CHAT_TEXT": "Màu văn bản chat",
+    "MD_NORMAL": "Văn bản thường",
+    "MD_ITALIC": "Văn bản in nghiêng",
+    "MD_BOLD": "Văn bản in đậm",
+    "MD_ITALIC_BOLD": "Văn bản in nghiêng đậm",
+    "MD_SINGLE_QUOTE": "Văn bản trong dấu nháy đơn",
+    "MD_DOUBLE_QUOTE": "Văn bản trong dấu nháy kép"
   },
   "BILLING": {
     "SUBSCRIPTION": {
@@ -2632,6 +2639,15 @@
     "PRESETS_EMPTY": "Chưa có preset.",
     "PRESETS_PAGE_SUBTITLE": "Lưu cài đặt sampling và tuỳ chỉnh prompt nâng cao để dùng lại giữa các chat.",
     "PRESETS_BACK": "Trở về danh sách",
+    "STARTER_PRESET_LOAD": "Tải preset khởi đầu",
+    "STARTER_PRESET_PLACEHOLDER": "Chọn điểm khởi đầu...",
+    "STARTER_PRESET_HINT": "Tải các giá trị mặc định hợp lý vào biểu mẫu. Chỉnh sửa rồi lưu thành bản của bạn.",
+    "STARTER_PRESET_ASSISTANT": "Trợ lý chung",
+    "STARTER_PRESET_ASSISTANT_DESC": "Cài đặt mặc định cho Q&A đơn giản. Nhiệt độ thấp, không có cờ RP.",
+    "STARTER_PRESET_NARRATIVE": "Nhập vai tường thuật",
+    "STARTER_PRESET_NARRATIVE_DESC": "Kể chuyện dài, nhiều văn xuôi. Nhiệt độ cao, tắt chặn Gemini, ngân sách token lớn.",
+    "STARTER_PRESET_TURN_BASED": "Nhập vai theo lượt",
+    "STARTER_PRESET_TURN_BASED_DESC": "Lượt ngắn, luân phiên user/assistant nghiêm ngặt. Dành cho model dòng GLM.",
     "PRESET_TAB_BASIC": "Cơ bản",
     "PRESET_TAB_ADVANCED": "Nâng cao",
     "PRESET_ADVANCED_WARNING": "Nếu bạn không biết các tuỳ chọn này là gì, hãy bỏ qua. Chúng thay đổi request body cho mô hình khó tính; dùng sai sẽ làm hỏng phản hồi.",

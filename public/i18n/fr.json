@@ -2165,7 +2165,14 @@
     "COLOR_DESTRUCTIVE": "Destructif",
     "COLOR_SUCCESS": "Succès",
     "COLOR_WARNING": "Avertissement",
-    "COLOR_INFO": "Info"
+    "COLOR_INFO": "Info",
+    "CHAT_TEXT": "Couleurs du texte du chat",
+    "MD_NORMAL": "Texte normal",
+    "MD_ITALIC": "Texte en italique",
+    "MD_BOLD": "Texte en gras",
+    "MD_ITALIC_BOLD": "Texte en italique gras",
+    "MD_SINGLE_QUOTE": "Texte entre apostrophes",
+    "MD_DOUBLE_QUOTE": "Texte entre guillemets"
   },
   "BILLING": {
     "SUBSCRIPTION": {
@@ -2632,6 +2639,15 @@
     "PRESETS_EMPTY": "Aucun préréglage.",
     "PRESETS_PAGE_SUBTITLE": "Enregistre les réglages d'échantillonnage et les options avancées de prompt à réutiliser entre les chats.",
     "PRESETS_BACK": "Retour à la liste",
+    "STARTER_PRESET_LOAD": "Charger un préréglage de départ",
+    "STARTER_PRESET_PLACEHOLDER": "Choisir un point de départ...",
+    "STARTER_PRESET_HINT": "Charge des valeurs par défaut raisonnables dans le formulaire. Modifie puis enregistre ta propre copie.",
+    "STARTER_PRESET_ASSISTANT": "Assistant général",
+    "STARTER_PRESET_ASSISTANT_DESC": "Valeurs par défaut prêtes à l'emploi pour les questions-réponses. Faible température, sans drapeau RP.",
+    "STARTER_PRESET_NARRATIVE": "Jeu de rôle narratif",
+    "STARTER_PRESET_NARRATIVE_DESC": "Récit long et prosaïque. Température plus élevée, blocage Gemini désactivé, budget de tokens plus grand.",
+    "STARTER_PRESET_TURN_BASED": "Jeu de rôle au tour par tour",
+    "STARTER_PRESET_TURN_BASED_DESC": "Tours courts, alternance stricte utilisateur/assistant. Conçu pour les modèles de type GLM.",
     "PRESET_TAB_BASIC": "Basique",
     "PRESET_TAB_ADVANCED": "Avancé",
     "PRESET_ADVANCED_WARNING": "Si tu ne sais pas ce que c'est, ignore-le. Cela modifie le corps de requête pour les modèles capricieux ; mal utilisé, ça casse les réponses.",

@@ -2165,7 +2165,14 @@
     "COLOR_DESTRUCTIVE": "Опасный",
     "COLOR_SUCCESS": "Успех",
     "COLOR_WARNING": "Предупреждение",
-    "COLOR_INFO": "Инфо"
+    "COLOR_INFO": "Инфо",
+    "CHAT_TEXT": "Цвета текста чата",
+    "MD_NORMAL": "Обычный текст",
+    "MD_ITALIC": "Курсивный текст",
+    "MD_BOLD": "Жирный текст",
+    "MD_ITALIC_BOLD": "Курсивный жирный текст",
+    "MD_SINGLE_QUOTE": "Текст в одинарных кавычках",
+    "MD_DOUBLE_QUOTE": "Текст в двойных кавычках"
   },
   "BILLING": {
     "SUBSCRIPTION": {
@@ -2632,6 +2639,15 @@
     "PRESETS_EMPTY": "Пресетов пока нет.",
     "PRESETS_PAGE_SUBTITLE": "Сохраняйте параметры сэмплинга и продвинутые настройки промпта для повторного использования между чатами.",
     "PRESETS_BACK": "Назад к списку",
+    "STARTER_PRESET_LOAD": "Загрузить стартовый пресет",
+    "STARTER_PRESET_PLACEHOLDER": "Выберите отправную точку...",
+    "STARTER_PRESET_HINT": "Загружает разумные значения по умолчанию в форму. Отредактируйте и сохраните как свою копию.",
+    "STARTER_PRESET_ASSISTANT": "Универсальный ассистент",
+    "STARTER_PRESET_ASSISTANT_DESC": "Готовые настройки для обычных вопросов-ответов. Низкая температура, без RP-флагов.",
+    "STARTER_PRESET_NARRATIVE": "Повествовательный ролеплей",
+    "STARTER_PRESET_NARRATIVE_DESC": "Длинное прозаическое повествование. Выше температура, блокировка Gemini выключена, больше токенов.",
+    "STARTER_PRESET_TURN_BASED": "Походовый ролеплей",
+    "STARTER_PRESET_TURN_BASED_DESC": "Короткие ходы, строгое чередование user/assistant. Для моделей семейства GLM.",
     "PRESET_TAB_BASIC": "Базовые",
     "PRESET_TAB_ADVANCED": "Расширенные",
     "PRESET_ADVANCED_WARNING": "Если не знаете, что это — не трогайте. Меняет тело запроса для капризных моделей; неправильное использование ломает ответы.",

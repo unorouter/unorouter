@@ -25,8 +25,10 @@ import {
   useCreateLorebookEntryMutation,
   useDeleteLorebookEntryMutation,
   useLorebookQuery,
+  useReorderLorebookEntriesMutation,
   useUpdateLorebookEntryMutation,
 } from "@/hooks/ai/rp/lorebooks";
+import { SortableList } from "@/components/elements/dnd/sortable-list";
 import { analytics } from "@/lib/analytics";
 import type { TranslationKey } from "@/lib/config/constants";
 import {
@@ -65,6 +67,7 @@ export function LorebookEntries(props: { lorebookId: string }) {
   const createMut = useCreateLorebookEntryMutation(props.lorebookId);
   const updateMut = useUpdateLorebookEntryMutation(props.lorebookId);
   const deleteMut = useDeleteLorebookEntryMutation(props.lorebookId);
+  const reorderMut = useReorderLorebookEntriesMutation(props.lorebookId);
 
   const [editingId, setEditingId] = useState<EntityEditId>(null);
 
@@ -306,12 +309,15 @@ export function LorebookEntries(props: { lorebookId: string }) {
         </Card>
       )}
 
-      {!editingId && (
-        <div className="flex flex-col gap-2">
-          {lbQuery.data?.entries.map((e) => (
+      {!editingId && lbQuery.data?.entries && (
+        <SortableList
+          items={[...lbQuery.data.entries].sort(
+            (a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0),
+          )}
+          onReorder={(orderedIds) => reorderMut.mutate(orderedIds)}
+          renderItem={(e, handle) => (
             <Card
-              key={e.id}
-              className="hover:bg-accent flex cursor-pointer flex-row items-start gap-3 p-3 transition-colors"
+              className="hover:bg-accent flex cursor-pointer flex-row items-start gap-2 p-3 transition-colors"
               onClick={() => {
                 analytics.rp.entityAction({
                   entity: "lorebook_entries",
@@ -320,6 +326,7 @@ export function LorebookEntries(props: { lorebookId: string }) {
                 setEditingId(e.id);
               }}
             >
+              <div onClick={(ev) => ev.stopPropagation()}>{handle}</div>
               <div className="flex min-w-0 flex-1 flex-col">
                 <span className="text-sm font-medium">
                   {((e.keys ?? []) as string[]).join(", ") ||
@@ -340,8 +347,8 @@ export function LorebookEntries(props: { lorebookId: string }) {
                 <Icon name="trash-2" className="size-4" />
               </Button>
             </Card>
-          ))}
-        </div>
+          )}
+        />
       )}
     </Card>
   );

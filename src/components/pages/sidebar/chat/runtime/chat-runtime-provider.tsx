@@ -215,8 +215,11 @@ function ChatRuntimeHook() {
     sendMessage: async (...args: Parameters<typeof chat.sendMessage>) => {
       const hasText = args[0] != null;
       if (hasText && !remoteId) {
-        // Pre-generate convId so the transport body and adapter.initialize use the same id
-        chatStore.set(convIdAtom, uid());
+        // Pre-generate convId so the transport body and adapter.initialize
+        // use the same id. ensureConvId is idempotent: if the attachment
+        // adapter already seeded one, we reuse it instead of allocating a
+        // second id and orphaning the attachment row.
+        ensureConvId();
       }
       return chat.sendMessage(...args);
     },

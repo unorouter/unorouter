@@ -7,6 +7,14 @@ import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { STARTER_PRESETS } from "@/lib/ai/rp/starter-presets";
+import {
   useCreatePresetMutation,
   usePresetsQuery,
   useUpdatePresetMutation,
@@ -82,6 +90,36 @@ export function PresetForm(props: Props) {
           schema={samplingPresetFormSchema}
           label={t("COMMON.NAME")}
         />
+
+        {props.editingId === "new" && (
+          <div className="flex flex-col gap-1.5">
+            <label className="text-sm font-medium">
+              {t("RP.STARTER_PRESET_LOAD")}
+            </label>
+            <Select
+              value=""
+              onValueChange={(slug) => {
+                const sp = STARTER_PRESETS.find((s) => s.slug === slug);
+                if (!sp) return;
+                form.reset(formDefaults(samplingPresetFormSchema, sp.body));
+              }}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder={t("RP.STARTER_PRESET_PLACEHOLDER")} />
+              </SelectTrigger>
+              <SelectContent>
+                {STARTER_PRESETS.map((sp) => (
+                  <SelectItem key={sp.slug} value={sp.slug}>
+                    {t(sp.labelKey)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <p className="text-muted-foreground text-xs">
+              {t("RP.STARTER_PRESET_HINT")}
+            </p>
+          </div>
+        )}
 
         <Tabs defaultValue="basic">
           <TabsList>

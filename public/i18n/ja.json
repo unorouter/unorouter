@@ -2165,7 +2165,14 @@
     "COLOR_DESTRUCTIVE": "削除系",
     "COLOR_SUCCESS": "成功",
     "COLOR_WARNING": "警告",
-    "COLOR_INFO": "情報"
+    "COLOR_INFO": "情報",
+    "CHAT_TEXT": "チャットテキストの色",
+    "MD_NORMAL": "通常テキスト",
+    "MD_ITALIC": "斜体テキスト",
+    "MD_BOLD": "太字テキスト",
+    "MD_ITALIC_BOLD": "斜体太字テキスト",
+    "MD_SINGLE_QUOTE": "シングルクォートテキスト",
+    "MD_DOUBLE_QUOTE": "ダブルクォートテキスト"
   },
   "BILLING": {
     "SUBSCRIPTION": {
@@ -2632,6 +2639,15 @@
     "PRESETS_EMPTY": "プリセットがありません。",
     "PRESETS_PAGE_SUBTITLE": "サンプリング設定や上級プロンプト項目を保存し、チャットをまたいで再利用できます。",
     "PRESETS_BACK": "一覧に戻る",
+    "STARTER_PRESET_LOAD": "スタータープリセットを読み込む",
+    "STARTER_PRESET_PLACEHOLDER": "出発点を選択...",
+    "STARTER_PRESET_HINT": "フォームに妥当な初期値を読み込みます。編集後に保存して自分のコピーを残せます。",
+    "STARTER_PRESET_ASSISTANT": "汎用アシスタント",
+    "STARTER_PRESET_ASSISTANT_DESC": "プレーンなQ&A向けのすぐ使える設定。低温度、RPフラグなし。",
+    "STARTER_PRESET_NARRATIVE": "高密度ナラティブロールプレイ",
+    "STARTER_PRESET_NARRATIVE_DESC": "長く散文的な物語向け。高温度、Geminiブロック無効、大きめのトークン予算。",
+    "STARTER_PRESET_TURN_BASED": "ターン制ロールプレイ",
+    "STARTER_PRESET_TURN_BASED_DESC": "短いターンで厳密なユーザー／アシスタント交互。GLM系モデル向け。",
     "PRESET_TAB_BASIC": "基本",
     "PRESET_TAB_ADVANCED": "上級",
     "PRESET_ADVANCED_WARNING": "意味がわからない場合は触らないでください。気難しいモデル向けにリクエストボディを変更します。誤用すると応答が壊れます。",

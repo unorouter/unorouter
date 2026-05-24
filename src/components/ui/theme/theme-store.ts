@@ -3,6 +3,15 @@ import { atomWithStorage } from "jotai/utils";
 
 // Runtime theme: named registry refs only. UserThemeProvider resolves refs
 // to css vars + data-attrs at render time.
+export type ChatMarkdownColors = {
+  normal?: string;
+  italic?: string;
+  bold?: string;
+  italicBold?: string;
+  singleQuote?: string;
+  doubleQuote?: string;
+};
+
 export type UserTheme = {
   baseColor?: string;
   theme?: string;
@@ -14,6 +23,7 @@ export type UserTheme = {
   iconLibrary?: string;
   menu?: string;
   menuAccent?: string;
+  markdown?: ChatMarkdownColors;
 };
 
 export const USER_THEME_KEY = "user-theme";
@@ -29,6 +39,7 @@ export const INITIAL_USER_THEME: UserTheme = {
   iconLibrary: "lucide",
   menu: "default",
   menuAccent: "subtle",
+  markdown: {},
 };
 
 export const userThemeAtom = atomWithStorage<UserTheme>(

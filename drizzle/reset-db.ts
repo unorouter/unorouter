@@ -23,6 +23,10 @@ try {
     }
   }
 
+  // Disable FK checks so DROP order doesn't matter; child tables would
+  // otherwise fail on cascade when their parent vanishes mid-loop.
+  await client.execute("PRAGMA foreign_keys = OFF");
+
   // Drop all user tables
   const tables = await client.execute(
     "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%' AND name NOT LIKE '__drizzle%'",
@@ -36,6 +40,8 @@ try {
   // Drop drizzle migration tracking
   await client.execute("DROP TABLE IF EXISTS __drizzle_migrations");
   log("Dropped drizzle migration table");
+
+  await client.execute("PRAGMA foreign_keys = ON");
 
   // Remove migration .sql files and meta folder
   const drizzleDir = resolve(import.meta.dirname, ".");

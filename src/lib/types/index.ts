@@ -23,7 +23,7 @@ export type Extracted = {
 
 export type StatusBucket = "1m" | "5m" | "15m" | "1h" | "1d";
 
-export type MessageUsage = {
+type MessageUsage = {
   inputTokens: number;
   outputTokens: number;
   cost: number;
@@ -34,7 +34,7 @@ export type MessageUsage = {
 // Carried in `messageMetadata` finish frame so the client can persist a
 // request_log row keyed by msgId. Usage fields ride on `MessageUsage` already;
 // derive from the schema row so the two sides cannot drift.
-export type RequestLogPayload = Omit<
+type RequestLogPayload = Omit<
   RequestLogRow,
   | "msgId"
   | "convId"
