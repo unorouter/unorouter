@@ -14,6 +14,7 @@ import {
 import { getLocalDb, resetLocalDbCache } from "@/lib/db/client/client";
 import { downloadBlob } from "@/lib/utils/client";
 import { dayjs } from "@/lib/utils/format/date";
+import { logger } from "@/lib/utils/logger";
 import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
@@ -54,7 +55,10 @@ export function LocalDbStudio(props: Props) {
         resetLocalDbCache();
       }
     } catch (e) {
-      console.error("SQLocal destroy failed", e);
+      logger.error("SQLocal destroy failed", {
+        context: "local-db.studio",
+        error: String(e),
+      });
     }
     try {
       const root = await navigator.storage.getDirectory();
@@ -62,7 +66,10 @@ export function LocalDbStudio(props: Props) {
         await root.removeEntry(name, { recursive: true }).catch(() => {});
       }
     } catch (e) {
-      console.error("OPFS wipe failed", e);
+      logger.error("OPFS wipe failed", {
+        context: "local-db.studio",
+        error: String(e),
+      });
     }
     location.reload();
   };
@@ -77,7 +84,10 @@ export function LocalDbStudio(props: Props) {
         .replace(/[:.]/g, "-")}.sqlite3`;
       downloadBlob(file, filename);
     } catch (e) {
-      console.error("DB download failed", e);
+      logger.error("DB download failed", {
+        context: "local-db.studio",
+        error: String(e),
+      });
       toast.error(String(e));
     }
   };
@@ -97,7 +107,10 @@ export function LocalDbStudio(props: Props) {
       await local.overwriteDatabaseFile(file);
       location.reload();
     } catch (err) {
-      console.error("DB overwrite failed", err);
+      logger.error("DB overwrite failed", {
+        context: "local-db.studio",
+        error: String(err),
+      });
       toast.error(String(err));
     }
   };

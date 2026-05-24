@@ -1,5 +1,6 @@
 "use client";
 
+import { logger } from "@/lib/utils/logger";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -19,7 +20,7 @@ export function useCopyToClipboard() {
     const successMessage = options.successMessage ?? "Copied to clipboard";
 
     if (!navigator?.clipboard) {
-      console.warn("Clipboard not supported");
+      logger.warn("Clipboard not supported", { context: "ui.copy-clipboard" });
       return false;
     }
 
@@ -43,7 +44,10 @@ export function useCopyToClipboard() {
 
       return true;
     } catch (error) {
-      console.warn("Copy failed", error);
+      logger.warn("Copy failed", {
+        context: "ui.copy-clipboard",
+        error: String(error),
+      });
       setText(null);
       return false;
     }
