@@ -228,6 +228,36 @@ async function insertReferencedLorebook(
   }
 }
 
+// --- Pre-transaction media R2 upload --------------------------------------
+// Upload any local-only base64 blobs to R2 before opening the libSQL write
+// transaction so per-blob upload latency doesn't hold the tx lock. Returns
+// a Map of mediaId -> {r2Key, r2Url} that the transaction reads.
+type MediaPayloadRow = {
+  id: string;
+  mimeType: string;
+  dataBase64?: string | null;
+  r2Key?: string | null;
+  r2Url?: string | null;
+};
+
+async function preUploadMedia(
+  scope: string,
+  rows: MediaPayloadRow[] | undefined,
+): Promise<Map<string, { r2Key: string; r2Url: string }>> {
+  const uploaded = new Map<string, { r2Key: string; r2Url: string }>();
+  if (!rows || rows.length === 0) return uploaded;
+  await Promise.all(
+    rows.map(async (m) => {
+      if (m.r2Key || !m.dataBase64) return;
+      const buffer = Buffer.from(m.dataBase64, "base64");
+      const r2Key = mediaKey("user", scope, m.id, uid(8));
+      const up = await uploadToR2(r2Key, buffer, m.mimeType);
+      uploaded.set(m.id, { r2Key, r2Url: up.url });
+    }),
+  );
+  return uploaded;
+}
+
 // --- Per-kind upsert handlers ---------------------------------------------
 
 export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
@@ -465,6 +495,9 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
       "sync.upsert.conversationBundle",
     );
     const c = body.conversation ?? {};
+    // Upload R2 blobs BEFORE opening the libSQL write tx so the per-blob
+    // network latency doesn't hold the tx lock open.
+    const mediaUploads = await preUploadMedia(id, body.media);
     await db.transaction(async (tx) => {
       const existing = await tx
         .select({ id: conversations.id })
@@ -583,11 +616,30 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
         if (mode === "replace") {
           await tx.delete(messages).where(eq(messages.convId, id));
         }
+        // Compute valid parent set (existing rows after replace + incoming ids)
+        // and null any parentId that doesn't resolve, so FK stays consistent.
+        const existingMsgIds =
+          mode === "replace"
+            ? new Set<string>()
+            : new Set(
+                (
+                  await tx
+                    .select({ id: messages.id })
+                    .from(messages)
+                    .where(eq(messages.convId, id))
+                ).map((r) => r.id),
+              );
+        const validParentIds = new Set<string>([
+          ...existingMsgIds,
+          ...body.messages.map((m) => m.id),
+        ]);
         for (const m of body.messages) {
+          const parentId =
+            m.parentId && validParentIds.has(m.parentId) ? m.parentId : null;
           const values = {
             id: m.id,
             convId: id,
-            parentId: m.parentId ?? null,
+            parentId,
             characterId: m.characterId ?? null,
             role: m.role,
             model: m.model ?? null,
@@ -649,17 +701,11 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
           await tx.delete(media).where(eq(media.convId, id));
         }
         for (const m of body.media) {
-          const incomingBase64 = m.dataBase64;
-          let r2Key = m.r2Key ?? null;
-          let r2Url = m.r2Url ?? null;
-
-          // Local-only blob: upload to R2 so Turso stays pointer-only.
-          if (!r2Key && incomingBase64) {
-            const buffer = Buffer.from(incomingBase64, "base64");
-            r2Key = mediaKey("user", id, m.id, uid(8));
-            const uploaded = await uploadToR2(r2Key, buffer, m.mimeType);
-            r2Url = uploaded.url;
-          }
+          // R2 upload already happened in preUploadMedia above; here we
+          // just write the pointer pair.
+          const up = mediaUploads.get(m.id);
+          const r2Key = up?.r2Key ?? m.r2Key ?? null;
+          const r2Url = up?.r2Url ?? m.r2Url ?? null;
 
           const mediaValues = {
             id: m.id,
@@ -720,6 +766,7 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
       "sync.upsert.playgroundSessionBundle",
     );
     const s = body.session ?? {};
+    const mediaUploads = await preUploadMedia(id, body.media);
     await db.transaction(async (tx) => {
       const existing = await tx
         .select({ id: playgroundSessions.id })
@@ -802,15 +849,9 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
       if (body.media) {
         for (const m of body.media) {
           const mediaId = m.id;
-          const incomingBase64 = m.dataBase64;
-          let r2Key = m.r2Key ?? null;
-          let r2Url = m.r2Url ?? null;
-          if (!r2Key && incomingBase64) {
-            const buffer = Buffer.from(incomingBase64, "base64");
-            r2Key = mediaKey("user", id, mediaId, uid(8));
-            const uploaded = await uploadToR2(r2Key, buffer, m.mimeType);
-            r2Url = uploaded.url;
-          }
+          const up = mediaUploads.get(mediaId);
+          const r2Key = up?.r2Key ?? m.r2Key ?? null;
+          const r2Url = up?.r2Url ?? m.r2Url ?? null;
           await tx
             .delete(media)
             .where(and(eq(media.id, mediaId), eq(media.userId, userId)));
