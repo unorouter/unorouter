@@ -25,7 +25,10 @@ import {
   upsertLocalMessageItem,
 } from "@/lib/db/client/data/chat";
 import { enqueuePending } from "@/lib/db/client/sync/pending-sync";
-import { mirrorConvIfSynced } from "@/hooks/ai/rp/shared";
+import {
+  mirrorConvDeltaIfSynced,
+  mirrorConvIfSynced,
+} from "@/hooks/ai/rp/shared";
 import {
   keepPreviousData,
   useInfiniteQuery,
@@ -231,27 +234,36 @@ export function useEditMessageMutation() {
       body: EditMessageBody;
     }) => {
       const userId = auth.data?.id ?? GUEST_USER_ID;
-      const newItems = args.body.items.map((it, seq) => ({
+      const itemsWithMsg = args.body.items.map((it, seq) => ({
         id: it.id ?? uid(),
+        messageId: args.msgId,
         sequenceIndex: seq,
         outputIndex: it.output_index ?? null,
         type: it.type,
         data: it.data,
       }));
-      await replaceLocalMessageItems(userId, args.msgId, newItems);
+      await replaceLocalMessageItems(userId, args.msgId, itemsWithMsg);
       const now = dayjs().toDate();
       const msgs = (await readLocalMessages(userId, args.convId)) ?? [];
       const existing = msgs.find((m) => m.id === args.msgId);
-      if (existing) {
-        await upsertLocalMessage(userId, {
-          ...existing,
-          isEdited: true,
-          updatedAt: now,
-        });
+      const updatedMsg = existing
+        ? { ...existing, isEdited: true, updatedAt: now }
+        : null;
+      if (updatedMsg) {
+        await upsertLocalMessage(userId, updatedMsg);
       }
-      if (userId > GUEST_USER_ID)
-        await mirrorConvIfSynced(userId, args.convId);
-      return { items: newItems };
+      if (userId > GUEST_USER_ID) {
+        await mirrorConvDeltaIfSynced(
+          userId,
+          args.convId,
+          {
+            messages: updatedMsg ? [updatedMsg] : [],
+            messageItems: itemsWithMsg,
+          },
+          "upsert",
+        );
+      }
+      return { items: itemsWithMsg };
     },
     onSuccess: (_data, args) => {
       qc.invalidateQueries({ queryKey: queryKeys.chatMessages(args.convId) });
@@ -373,17 +385,26 @@ export function useSetActiveBranchMutation() {
       const target = msgs.find((m) => m.id === args.msgId);
       const parentId = target?.parentId ?? null;
       const now = dayjs().toDate();
+      const branchSiblings: Array<Record<string, unknown>> = [];
       for (const m of msgs) {
         if ((m.parentId ?? null) === parentId) {
-          await upsertLocalMessage(userId, {
+          const next = {
             ...m,
             isActiveBranch: m.id === args.msgId,
             updatedAt: now,
-          });
+          };
+          await upsertLocalMessage(userId, next);
+          branchSiblings.push(next);
         }
       }
-      if (userId > GUEST_USER_ID)
-        await mirrorConvIfSynced(userId, args.convId);
+      if (userId > GUEST_USER_ID) {
+        await mirrorConvDeltaIfSynced(
+          userId,
+          args.convId,
+          { messages: branchSiblings },
+          "upsert",
+        );
+      }
       return { id: args.msgId };
     },
     onSuccess: (_data, args) => {

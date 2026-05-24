@@ -1,9 +1,14 @@
-import { syncParams, syncRequestBody } from "@/lib/validation/sync";
+import {
+  batchBundleRequestBody,
+  syncParams,
+  syncRequestBody,
+} from "@/lib/validation/sync";
 import { getUserId } from "@/server/constants";
 import { Elysia } from "elysia";
 import {
   clearSyncExpiry,
   getSyncedBundle,
+  getSyncedBundlesBatch,
   getSyncStateBulk,
   setSyncExpiry,
   sweepExpired,
@@ -31,6 +36,16 @@ export const syncRoute = new Elysia({ prefix: "/sync" })
       return { success: true, data };
     },
     { params: syncParams },
+  )
+
+  .post(
+    "/bundles",
+    async ({ body, cookie }) => {
+      const userId = await getUserId(cookie);
+      const data = await getSyncedBundlesBatch(userId, body.requests);
+      return { success: true, data };
+    },
+    { body: batchBundleRequestBody },
   )
 
   .post(

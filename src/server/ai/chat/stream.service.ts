@@ -604,11 +604,31 @@ export async function streamChat(
   }
   const messagesForUpstream = processedMessages;
 
+  // Captured at emit time + persisted by client as a request log row so users
+  // can verify what hit the upstream (sampler/sys-prompt debugging, JB
+  // verification, preset reproduction). Mirrors RisuAI's "Logs" panel.
+  const debugRequestSnapshot = {
+    requestBody: {
+      model: body.model,
+      messages: body.messages,
+      chatContext: body.chatContext,
+      overrides: body.overrides,
+      webSearch: body.webSearch,
+      convId: body.convId,
+    },
+    assembledSystem: assembled.system ?? null,
+    finalMessages: messagesForUpstream,
+  };
+
   const modelInfo = (await getPricingSummary()).models.find(
     (m) => m.name === body.model,
   );
   // Free models often advertise inflated maxOutputTokens; cap to a safe budget.
   const droppedParamsRef: { value: string | null } = { value: null };
+  // Captured in onFinish; emitted in messageMetadata to seed request log row.
+  const debugRef: {
+    value: { requestId: string | null; responseHeaders: Record<string, string> | null };
+  } = { value: { requestId: null, responseHeaders: null } };
   const usageRef: {
     value: {
       inputTokens: number;
@@ -684,6 +704,10 @@ export async function streamChat(
           ? outputTokens / (durationMs / 1000)
           : undefined;
       const requestId = response.headers?.["x-oneapi-request-id"] ?? undefined;
+      debugRef.value = {
+        requestId: requestId ?? null,
+        responseHeaders: response.headers ?? null,
+      };
       // Cost backfilled later from upstream headers; client needs tokens now for its local row.
       usageRef.value = {
         inputTokens,
@@ -761,6 +785,12 @@ export async function streamChat(
               tokensPerSecond,
             };
           }
+          meta.debug = {
+            ...debugRequestSnapshot,
+            responseHeaders: debugRef.value.responseHeaders,
+            droppedParams: droppedParamsRef.value,
+            requestId: debugRef.value.requestId,
+          };
           return Object.keys(meta).length > 0 ? meta : undefined;
         }
         return undefined;

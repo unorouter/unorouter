@@ -2430,6 +2430,18 @@
       "ON": "联网搜索已开启",
       "OFF": "联网搜索已关闭"
     },
+    "REQUEST_LOG": {
+      "VIEW": "查看请求日志",
+      "TITLE": "请求日志",
+      "TAB_REQUEST": "请求",
+      "TAB_SYSTEM": "系统提示词",
+      "TAB_FINAL": "最终消息",
+      "TAB_HEADERS": "响应头",
+      "COPY_CURL": "复制为 cURL",
+      "COPY_JSON": "复制 JSON",
+      "COPIED": "已复制",
+      "NO_LOG": "该消息未捕获日志。"
+    },
     "NEW_CONVERSATION": "新对话",
     "SEARCH_PLACEHOLDER": "搜索对话...",
     "NO_RESULTS": "没有匹配的对话",
@@ -3094,6 +3106,17 @@
     "PENDING_SYNC": "同步等待中，恢复联网后会自动重试。",
     "HINT_DESCRIPTION": "已同步的条目会在服务器保存 30 天，方便其他设备拉取。",
     "OPFS_UNAVAILABLE": "当前浏览器不支持本地数据库，数据将不会被保留。",
-    "OFFLINE_SEND_BLOCKED": "当前离线。消息已保存为草稿，恢复联网后请重新发送。"
+    "OFFLINE_SEND_BLOCKED": "当前离线。消息已保存为草稿，恢复联网后请重新发送。",
+    "DLQ_TOAST": "{items}在多次重试后仍未能同步。",
+    "DLQ_KIND_COUNT": "{count}个{kind}",
+    "DLQ_RETRY": "重试",
+    "DLQ_RETRY_SUCCESS": "同步重试成功。",
+    "DLQ_RETRY_FAILED": "部分项目仍未成功。请检查网络后再试。",
+    "PENDING_RETRY": "同步待处理 - 第{n}/{max}次",
+    "SYNC_FAILED": "同步失败",
+    "RETRY_NOW": "立即重试",
+    "RETRY_SUCCESS": "已同步。",
+    "PENDING_TOOLTIP": "最近错误：{error}",
+    "LOCAL_NEWER_PRESERVED": "保留了{count}条比服务器更新的本地修改。"
   }
 }

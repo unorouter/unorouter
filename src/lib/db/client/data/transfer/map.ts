@@ -30,6 +30,7 @@ export type MappedImport = {
     messages: Array<Record<string, unknown> & { id: string }>;
     messageItems: Array<Record<string, unknown> & { id: string }>;
     media: Array<Record<string, unknown> & { id: string }>;
+    requestLogs: Array<Record<string, unknown>>;
   };
 };
 
@@ -219,6 +220,7 @@ export function mapNativeImport(native: NativeImport): MappedImport {
       messages,
       messageItems,
       media: [],
+      requestLogs: [],
     },
   };
 }
@@ -376,6 +378,7 @@ export function mapOrpgImport(data: OrpgImport): MappedImport {
       messages,
       messageItems,
       media: [],
+      requestLogs: [],
     },
   };
 }
@@ -487,6 +490,7 @@ export function mapStImport(parsed: StParsed, baseTime: Date): MappedImport {
       messages,
       messageItems,
       media: [],
+      requestLogs: [],
     },
   };
 }

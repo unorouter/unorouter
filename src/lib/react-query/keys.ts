@@ -60,6 +60,8 @@ export const queryKeys = {
 
   syncState: () => ["sync-state"] as const,
   syncBundle: (kind: string, id: string) => ["sync-bundle", kind, id] as const,
+  pendingSync: () => ["pending-sync"] as const,
+  requestLog: (msgId: string) => ["request-log", msgId] as const,
 
   pricing: () => ["pricing"] as const,
   searchIndex: () => ["search-index"] as const,

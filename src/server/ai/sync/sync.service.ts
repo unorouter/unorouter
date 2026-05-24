@@ -26,7 +26,8 @@ import type {
   GenerationStatus,
   PlaygroundVisibility,
 } from "@/lib/validation/playground";
-import type { SyncKindName } from "@/lib/validation/sync";
+import type { SyncKindName, SyncMergeMode } from "@/lib/validation/sync";
+export type { SyncMergeMode } from "@/lib/validation/sync";
 import {
   cardCharacters,
   cardLorebooks,
@@ -44,6 +45,7 @@ import {
   messageItems,
   messages,
   personas,
+  requestLogs,
   samplingPresets,
   userThemes,
 } from "@/lib/db/schema/shared";
@@ -71,6 +73,7 @@ export type SyncBundleMap = {
     messages: (typeof messages.$inferSelect)[];
     messageItems: (typeof messageItems.$inferSelect)[];
     media: (typeof media.$inferSelect)[];
+    requestLogs: (typeof requestLogs.$inferSelect)[];
   };
   playgroundSessions: {
     session: typeof playgroundSessions.$inferSelect;
@@ -298,6 +301,31 @@ export async function getSyncStateBulk(userId: number): Promise<SyncStateBulk> {
   };
 }
 
+export type BatchBundleResult = {
+  kind: SyncKindName;
+  id: string;
+  bundle?: unknown;
+  error?: string;
+};
+
+// Coalesces N single-row GETs into one request. Each item resolves
+// independently; one failure does not abort siblings.
+export async function getSyncedBundlesBatch(
+  userId: number,
+  requests: Array<{ kind: SyncKindName; id: string }>,
+): Promise<BatchBundleResult[]> {
+  const results = await Promise.allSettled(
+    requests.map((r) => getSyncedBundle(userId, r.kind, r.id)),
+  );
+  return results.map((res, i) => {
+    const req = requests[i];
+    if (res.status === "fulfilled") {
+      return { kind: req.kind, id: req.id, bundle: res.value };
+    }
+    return { kind: req.kind, id: req.id, error: String(res.reason) };
+  });
+}
+
 export async function getSyncedBundle(
   userId: number,
   kind: SyncKindName,
@@ -367,23 +395,30 @@ export async function getSyncedBundle(
         .where(and(eq(conversations.id, id), eq(conversations.userId, userId)))
         .limit(1);
       assertFound(rows);
-      const [settingsRows, convCharsRows, convLbsRows, msgsRows, mediaRows] =
-        await Promise.all([
-          db
-            .select()
-            .from(conversationSettings)
-            .where(eq(conversationSettings.convId, id)),
-          db
-            .select()
-            .from(conversationCharacters)
-            .where(eq(conversationCharacters.convId, id)),
-          db
-            .select()
-            .from(conversationLorebooks)
-            .where(eq(conversationLorebooks.convId, id)),
-          db.select().from(messages).where(eq(messages.convId, id)),
-          db.select().from(media).where(eq(media.convId, id)),
-        ]);
+      const [
+        settingsRows,
+        convCharsRows,
+        convLbsRows,
+        msgsRows,
+        mediaRows,
+        reqLogRows,
+      ] = await Promise.all([
+        db
+          .select()
+          .from(conversationSettings)
+          .where(eq(conversationSettings.convId, id)),
+        db
+          .select()
+          .from(conversationCharacters)
+          .where(eq(conversationCharacters.convId, id)),
+        db
+          .select()
+          .from(conversationLorebooks)
+          .where(eq(conversationLorebooks.convId, id)),
+        db.select().from(messages).where(eq(messages.convId, id)),
+        db.select().from(media).where(eq(media.convId, id)),
+        db.select().from(requestLogs).where(eq(requestLogs.convId, id)),
+      ]);
       const msgIds = msgsRows.map((m) => m.id);
       const items = msgIds.length
         ? await db
@@ -399,6 +434,7 @@ export async function getSyncedBundle(
         messages: msgsRows,
         messageItems: items,
         media: mediaRows,
+        requestLogs: reqLogRows,
       };
     }
     case "playgroundSessions": {
@@ -450,6 +486,10 @@ export type SyncRequestPayload = {
   payload?: unknown;
   // Mirror PATCH on save: keep existing expiry, refresh content only.
   keepExpiry?: boolean;
+  // Conversations-only: controls how child arrays merge. Defaults to "replace"
+  // for back-compat. "upsert" preserves rows not in payload (delta sync).
+  // "append" inserts new rows without delete-first (hot-path append optimization).
+  mergeMode?: SyncMergeMode;
 };
 
 export async function setSyncExpiry(
@@ -465,7 +505,7 @@ export async function setSyncExpiry(
     if (existing) expiresAt = existing;
   }
   const handler = upsertHandlers[kind];
-  await handler(db, userId, id, expiresAt, req.payload);
+  await handler(db, userId, id, expiresAt, req.payload, req.mergeMode);
   return getSyncedBundle(userId, kind, id);
 }
 
@@ -556,6 +596,7 @@ type UpsertHandler = (
   id: string,
   expiresAt: Date,
   payload: unknown,
+  mergeMode?: SyncMergeMode,
 ) => Promise<void>;
 
 // Transaction handle passed to the per-entity upsert helpers below.
@@ -946,7 +987,8 @@ const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
     });
   },
 
-  conversations: async (db, userId, id, expiresAt, payload) => {
+  conversations: async (db, userId, id, expiresAt, payload, mergeMode) => {
+    const mode: SyncMergeMode = mergeMode ?? "replace";
     const body = (payload ?? {}) as {
       conversation?: Record<string, unknown>;
       settings?: Record<string, unknown> | null;
@@ -955,6 +997,7 @@ const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
       messages?: Array<Record<string, unknown>>;
       messageItems?: Array<Record<string, unknown>>;
       media?: Array<Record<string, unknown>>;
+      requestLogs?: Array<Record<string, unknown>>;
       // Full bodies of every RP entity this conversation binds. Upserted first
       // so the conversation_* foreign keys resolve (self-contained sync).
       characters?: Array<Record<string, unknown>>;
@@ -1088,9 +1131,11 @@ const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
       }
 
       if (body.messages) {
-        await tx.delete(messages).where(eq(messages.convId, id));
+        if (mode === "replace") {
+          await tx.delete(messages).where(eq(messages.convId, id));
+        }
         for (const m of body.messages) {
-          await tx.insert(messages).values({
+          const values = {
             id: m.id as string,
             convId: id,
             parentId: (m.parentId as string | null) ?? null,
@@ -1106,25 +1151,56 @@ const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
             branchIndex: (m.branchIndex as number | undefined) ?? 0,
             isActiveBranch: (m.isActiveBranch as boolean | undefined) ?? true,
             isEdited: (m.isEdited as boolean | undefined) ?? false,
-          });
+          };
+          if (mode === "upsert") {
+            const { id: _mid, ...rest } = values;
+            await tx
+              .insert(messages)
+              .values(values)
+              .onConflictDoUpdate({ target: messages.id, set: rest });
+          } else if (mode === "append") {
+            await tx.insert(messages).values(values).onConflictDoNothing();
+          } else {
+            await tx.insert(messages).values(values);
+          }
         }
       }
 
       if (body.messageItems) {
+        // Items have no clean dedup key beyond their own PK. In upsert mode we
+        // wipe items for the touched messages first so the array is the source
+        // of truth for those parents; append leaves siblings intact.
+        if (mode === "upsert" && body.messages) {
+          const msgIds = body.messages
+            .map((m) => m.id as string)
+            .filter(Boolean);
+          if (msgIds.length > 0) {
+            await tx
+              .delete(messageItems)
+              .where(inArray(messageItems.messageId, msgIds));
+          }
+        }
         for (const it of body.messageItems) {
-          await tx.insert(messageItems).values({
+          const values = {
             id: it.id as string,
             messageId: it.messageId as string,
             sequenceIndex: it.sequenceIndex as number,
             outputIndex: (it.outputIndex as number | null) ?? null,
             type: it.type as MessageItemType,
             data: it.data as unknown,
-          });
+          };
+          if (mode === "append") {
+            await tx.insert(messageItems).values(values).onConflictDoNothing();
+          } else {
+            await tx.insert(messageItems).values(values);
+          }
         }
       }
 
       if (body.media) {
-        await tx.delete(media).where(eq(media.convId, id));
+        if (mode === "replace") {
+          await tx.delete(media).where(eq(media.convId, id));
+        }
         for (const m of body.media) {
           const incomingBase64 = m.dataBase64 as string | null | undefined;
           let r2Key = (m.r2Key as string | null | undefined) ?? null;
@@ -1142,7 +1218,7 @@ const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
             r2Url = uploaded.url;
           }
 
-          await tx.insert(media).values({
+          const mediaValues = {
             id: m.id as string,
             userId,
             convId: id,
@@ -1152,7 +1228,44 @@ const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
             mimeType: m.mimeType as string,
             sizeBytes: m.sizeBytes as number,
             extractedText: (m.extractedText as string | null) ?? null,
-          });
+          };
+          if (mode === "replace") {
+            await tx.insert(media).values(mediaValues);
+          } else {
+            await tx.insert(media).values(mediaValues).onConflictDoNothing();
+          }
+        }
+      }
+
+      if (body.requestLogs) {
+        if (mode === "replace") {
+          await tx.delete(requestLogs).where(eq(requestLogs.convId, id));
+        }
+        for (const log of body.requestLogs) {
+          const values = {
+            msgId: log.msgId as string,
+            convId: id,
+            requestBody: log.requestBody as unknown,
+            assembledSystem: (log.assembledSystem as string | null) ?? null,
+            finalMessages: log.finalMessages as unknown,
+            responseHeaders:
+              (log.responseHeaders as Record<string, string> | null) ?? null,
+            droppedParams: (log.droppedParams as string | null) ?? null,
+            requestId: (log.requestId as string | null) ?? null,
+            inputTokens: (log.inputTokens as number | null) ?? null,
+            outputTokens: (log.outputTokens as number | null) ?? null,
+            cost: (log.cost as number | null) ?? null,
+            durationMs: (log.durationMs as number | null) ?? null,
+            tokensPerSecond: (log.tokensPerSecond as number | null) ?? null,
+          };
+          if (mode === "replace") {
+            await tx.insert(requestLogs).values(values);
+          } else {
+            await tx
+              .insert(requestLogs)
+              .values(values)
+              .onConflictDoUpdate({ target: requestLogs.msgId, set: values });
+          }
         }
       }
     });

@@ -19,6 +19,7 @@ import { Icon } from "@/components/ui/icon";
 import { Textarea } from "@/components/ui/textarea";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { ConversationStats } from "@/components/pages/sidebar/chat/chat-elements";
+import { RequestLogButton } from "@/components/pages/sidebar/chat/request-log/request-log-button";
 import {
   useDeleteMessageMutation,
   useEditMessageMutation,
@@ -628,6 +629,7 @@ const AssistantActionBar: FC = () => {
   const t = useTranslations();
   const beginEdit = useContext(AssistantEditContext);
   const isMobile = useIsMobile();
+  const messageId = useAuiState((s) => s.message.id);
   return (
     <ActionBarPrimitive.Root
       hideWhenRunning
@@ -649,6 +651,7 @@ const AssistantActionBar: FC = () => {
           <Icon name="refresh-cw" />
         </TooltipIconButton>
       </ActionBarPrimitive.Reload>
+      <RequestLogButton msgId={messageId} />
       {beginEdit && (
         <TooltipIconButton tooltip={t("CHAT.ACTION.EDIT")} onClick={beginEdit}>
           <Icon name="pencil" />

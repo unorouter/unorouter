@@ -1,4 +1,4 @@
-import { mirrorConvIfSynced } from "@/hooks/ai/rp/shared";
+import { mirrorConvDeltaIfSynced } from "@/hooks/ai/rp/shared";
 import type { ApiMessage, MessagePart } from "@/lib/ai/chat/messages";
 import { itemsToParts, partsToItems } from "@/lib/ai/chat/messages";
 import {
@@ -9,6 +9,8 @@ import {
   upsertLocalMessage,
   upsertLocalMessageItem,
 } from "@/lib/db/client/data/chat";
+import { insertLocalRequestLog } from "@/lib/db/client/data/request-log";
+import type { RequestLogRow } from "@/lib/db/schema/rows";
 import { queryKeys } from "@/lib/react-query/keys";
 import type { ChatMessageMetadata } from "@/lib/types";
 import { uid } from "@/lib/utils/base";
@@ -124,11 +126,13 @@ export function createChatHistoryAdapter(
 
           // Assistant turns carry usage in `message.metadata.usage` once the
           // stream's finish frame writes via `messageMetadata` (stream.service).
-          const usage =
-            (item.message as { metadata?: ChatMessageMetadata }).metadata
-              ?.usage ?? null;
+          const metadata =
+            (item.message as { metadata?: ChatMessageMetadata }).metadata ??
+            null;
+          const usage = metadata?.usage ?? null;
+          const debug = metadata?.debug ?? null;
 
-          await upsertLocalMessage(userId, {
+          const newMessage = {
             id: messageId,
             convId: id,
             parentId: item.parentId ?? null,
@@ -142,7 +146,8 @@ export function createChatHistoryAdapter(
             branchIndex: 0,
             createdAt: now,
             updatedAt: now,
-          });
+          };
+          await upsertLocalMessage(userId, newMessage);
 
           const itemRows = items.map((it, seq) => ({
             id: it.id ?? uid(),
@@ -157,10 +162,33 @@ export function createChatHistoryAdapter(
             await upsertLocalMessageItem(userId, row);
           }
 
+          // Persist outgoing request snapshot for in-app debugging (RisuAI
+          // Logs analog). Merges typed debug payload + usage; cascade-deletes
+          // with parent message via FK.
+          const logRow: RequestLogRow | null = debug
+            ? {
+                ...debug,
+                msgId: messageId,
+                convId: id,
+                inputTokens: usage?.inputTokens ?? null,
+                outputTokens: usage?.outputTokens ?? null,
+                cost: usage?.cost ?? null,
+                durationMs: usage?.durationMs ?? null,
+                tokensPerSecond: usage?.tokensPerSecond ?? null,
+                createdAt: now,
+              }
+            : null;
+          if (logRow) {
+            await insertLocalRequestLog(userId, logRow);
+            queryClient.invalidateQueries({
+              queryKey: queryKeys.requestLog(messageId),
+            });
+          }
+
           // Bump conv totals + updatedAt. Row may not exist yet for a brand
           // new guest conv (initialize runs in parallel); upsert seeds it.
           const existing = await readLocalConversation(userId, id);
-          await upsertLocalConversation(userId, {
+          const updatedConv = {
             ...(existing ?? {}),
             id,
             totalInputTokens:
@@ -169,7 +197,8 @@ export function createChatHistoryAdapter(
               (existing?.totalOutputTokens ?? 0) + (usage?.outputTokens ?? 0),
             totalCost: (existing?.totalCost ?? 0) + (usage?.cost ?? 0),
             updatedAt: now,
-          });
+          };
+          await upsertLocalConversation(userId, updatedConv);
           queryClient.invalidateQueries({ queryKey: queryKeys.chatMeta(id) });
           queryClient.invalidateQueries({
             queryKey: queryKeys.chatMessages(id),
@@ -178,7 +207,17 @@ export function createChatHistoryAdapter(
             queryKey: queryKeys.conversations(),
           });
 
-          await mirrorConvIfSynced(userId, id);
+          await mirrorConvDeltaIfSynced(
+            userId,
+            id,
+            {
+              conversation: updatedConv,
+              messages: [newMessage],
+              messageItems: itemRows,
+              ...(logRow ? { requestLogs: [logRow] } : {}),
+            },
+            "append",
+          );
         },
       };
     },

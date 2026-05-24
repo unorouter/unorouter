@@ -2430,6 +2430,18 @@
       "ON": "Websuche aktiviert",
       "OFF": "Websuche deaktiviert"
     },
+    "REQUEST_LOG": {
+      "VIEW": "Anfrageprotokoll anzeigen",
+      "TITLE": "Anfrageprotokoll",
+      "TAB_REQUEST": "Anfrage",
+      "TAB_SYSTEM": "System-Prompt",
+      "TAB_FINAL": "Finale Nachrichten",
+      "TAB_HEADERS": "Header",
+      "COPY_CURL": "Als cURL kopieren",
+      "COPY_JSON": "JSON kopieren",
+      "COPIED": "Kopiert",
+      "NO_LOG": "Für diese Nachricht wurde kein Protokoll erfasst."
+    },
     "NEW_CONVERSATION": "Neuer Chat",
     "SEARCH_PLACEHOLDER": "Unterhaltungen durchsuchen...",
     "NO_RESULTS": "Keine passenden Unterhaltungen",
@@ -3094,6 +3106,17 @@
     "PENDING_SYNC": "Synchronisierung ausstehend - wird wiederholt, sobald online.",
     "HINT_DESCRIPTION": "Synchronisierte Einträge werden 30 Tage lang auf dem Server gespiegelt, damit andere Geräte sie abrufen können.",
     "OPFS_UNAVAILABLE": "Lokale Datenbank in diesem Browser nicht verfügbar. Daten werden nicht dauerhaft gespeichert.",
-    "OFFLINE_SEND_BLOCKED": "Sie sind offline. Nachricht als Entwurf gespeichert; bitte erneut senden, wenn die Verbindung steht."
+    "OFFLINE_SEND_BLOCKED": "Sie sind offline. Nachricht als Entwurf gespeichert; bitte erneut senden, wenn die Verbindung steht.",
+    "DLQ_TOAST": "{items} konnten nach Wiederholungen nicht synchronisiert werden.",
+    "DLQ_KIND_COUNT": "{count} {kind}",
+    "DLQ_RETRY": "Wiederholen",
+    "DLQ_RETRY_SUCCESS": "Sync-Wiederholung erfolgreich.",
+    "DLQ_RETRY_FAILED": "Einige Einträge sind weiterhin fehlgeschlagen. Verbindung prüfen und erneut versuchen.",
+    "PENDING_RETRY": "Sync ausstehend - Versuch {n}/{max}",
+    "SYNC_FAILED": "Sync fehlgeschlagen",
+    "RETRY_NOW": "Jetzt wiederholen",
+    "RETRY_SUCCESS": "Synchronisiert.",
+    "PENDING_TOOLTIP": "Letzter Fehler: {error}",
+    "LOCAL_NEWER_PRESERVED": "{count} lokale Änderungen behalten, die neuer waren als die Serverkopie."
   }
 }

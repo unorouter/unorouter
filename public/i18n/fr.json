@@ -2430,6 +2430,18 @@
       "ON": "Recherche web activée",
       "OFF": "Recherche web désactivée"
     },
+    "REQUEST_LOG": {
+      "VIEW": "Voir le journal de requête",
+      "TITLE": "Journal de requête",
+      "TAB_REQUEST": "Requête",
+      "TAB_SYSTEM": "Prompt système",
+      "TAB_FINAL": "Messages finaux",
+      "TAB_HEADERS": "En-têtes",
+      "COPY_CURL": "Copier en cURL",
+      "COPY_JSON": "Copier le JSON",
+      "COPIED": "Copié",
+      "NO_LOG": "Aucun journal capturé pour ce message."
+    },
     "NEW_CONVERSATION": "Nouveau chat",
     "SEARCH_PLACEHOLDER": "Rechercher des conversations...",
     "NO_RESULTS": "Aucune conversation correspondante",
@@ -3094,6 +3106,17 @@
     "PENDING_SYNC": "Synchronisation en attente - nouvel essai dès le retour en ligne.",
     "HINT_DESCRIPTION": "Les éléments synchronisés sont miroités sur le serveur pendant 30 jours pour que vos autres appareils puissent les récupérer.",
     "OPFS_UNAVAILABLE": "Base de données locale indisponible dans ce navigateur. Les données ne seront pas conservées.",
-    "OFFLINE_SEND_BLOCKED": "Vous êtes hors ligne. Le message reste en brouillon ; renvoyez-le une fois reconnecté."
+    "OFFLINE_SEND_BLOCKED": "Vous êtes hors ligne. Le message reste en brouillon ; renvoyez-le une fois reconnecté.",
+    "DLQ_TOAST": "{items} n'ont pas pu être synchronisés après les nouvelles tentatives.",
+    "DLQ_KIND_COUNT": "{count} {kind}",
+    "DLQ_RETRY": "Réessayer",
+    "DLQ_RETRY_SUCCESS": "Nouvelle tentative de sync réussie.",
+    "DLQ_RETRY_FAILED": "Certains éléments ont encore échoué. Vérifiez la connexion et réessayez.",
+    "PENDING_RETRY": "Sync en attente - essai {n}/{max}",
+    "SYNC_FAILED": "Échec de la sync",
+    "RETRY_NOW": "Réessayer maintenant",
+    "RETRY_SUCCESS": "Synchronisé.",
+    "PENDING_TOOLTIP": "Dernière erreur : {error}",
+    "LOCAL_NEWER_PRESERVED": "{count} modifications locales conservées car plus récentes que la copie serveur."
   }
 }

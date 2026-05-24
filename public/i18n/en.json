@@ -2430,6 +2430,18 @@
       "ON": "Web search enabled",
       "OFF": "Web search disabled"
     },
+    "REQUEST_LOG": {
+      "VIEW": "View request log",
+      "TITLE": "Request log",
+      "TAB_REQUEST": "Request",
+      "TAB_SYSTEM": "System prompt",
+      "TAB_FINAL": "Final messages",
+      "TAB_HEADERS": "Headers",
+      "COPY_CURL": "Copy as cURL",
+      "COPY_JSON": "Copy JSON",
+      "COPIED": "Copied",
+      "NO_LOG": "No log captured for this message."
+    },
     "NEW_CONVERSATION": "New Chat",
     "SEARCH_PLACEHOLDER": "Search conversations...",
     "NO_RESULTS": "No matching conversations",
@@ -3094,6 +3106,17 @@
     "PENDING_SYNC": "Pending sync - will retry when online.",
     "HINT_DESCRIPTION": "Synced items are mirrored to the server for 30 days so other devices can pull them.",
     "OPFS_UNAVAILABLE": "Local database unavailable in this browser. Data will not persist.",
-    "OFFLINE_SEND_BLOCKED": "You are offline. Message kept as draft; retry when reconnected."
+    "OFFLINE_SEND_BLOCKED": "You are offline. Message kept as draft; retry when reconnected.",
+    "DLQ_TOAST": "{items} failed to sync after retries.",
+    "DLQ_KIND_COUNT": "{count} {kind}",
+    "DLQ_RETRY": "Retry",
+    "DLQ_RETRY_SUCCESS": "Sync retry succeeded.",
+    "DLQ_RETRY_FAILED": "Some items still failed. Check connection and try again.",
+    "PENDING_RETRY": "Pending sync - retry {n}/{max}",
+    "SYNC_FAILED": "Sync failed",
+    "RETRY_NOW": "Retry now",
+    "RETRY_SUCCESS": "Synced.",
+    "PENDING_TOOLTIP": "Last error: {error}",
+    "LOCAL_NEWER_PRESERVED": "Kept {count} local edits that were newer than the server copy."
   }
 }

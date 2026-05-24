@@ -2430,6 +2430,18 @@
       "ON": "ウェブ検索を有効化",
       "OFF": "ウェブ検索を無効化"
     },
+    "REQUEST_LOG": {
+      "VIEW": "リクエストログを表示",
+      "TITLE": "リクエストログ",
+      "TAB_REQUEST": "リクエスト",
+      "TAB_SYSTEM": "システムプロンプト",
+      "TAB_FINAL": "最終メッセージ",
+      "TAB_HEADERS": "ヘッダー",
+      "COPY_CURL": "cURLとしてコピー",
+      "COPY_JSON": "JSONをコピー",
+      "COPIED": "コピー済み",
+      "NO_LOG": "このメッセージのログは記録されていません。"
+    },
     "NEW_CONVERSATION": "新しいチャット",
     "SEARCH_PLACEHOLDER": "会話を検索...",
     "NO_RESULTS": "一致する会話がありません",
@@ -3094,6 +3106,17 @@
     "PENDING_SYNC": "同期保留中 - オンラインになり次第再試行します。",
     "HINT_DESCRIPTION": "同期されたアイテムは30日間サーバーにミラーされ、他の端末から取り込めるようになります。",
     "OPFS_UNAVAILABLE": "このブラウザではローカルデータベースを利用できません。データは保存されません。",
-    "OFFLINE_SEND_BLOCKED": "オフラインです。メッセージは下書きとして残ります。接続後にもう一度送信してください。"
+    "OFFLINE_SEND_BLOCKED": "オフラインです。メッセージは下書きとして残ります。接続後にもう一度送信してください。",
+    "DLQ_TOAST": "{items} の同期に失敗しました（再試行後）。",
+    "DLQ_KIND_COUNT": "{kind} {count}件",
+    "DLQ_RETRY": "再試行",
+    "DLQ_RETRY_SUCCESS": "同期の再試行が成功しました。",
+    "DLQ_RETRY_FAILED": "一部の項目がまだ失敗しています。接続を確認して再試行してください。",
+    "PENDING_RETRY": "同期保留中 - 試行 {n}/{max}",
+    "SYNC_FAILED": "同期に失敗",
+    "RETRY_NOW": "今すぐ再試行",
+    "RETRY_SUCCESS": "同期しました。",
+    "PENDING_TOOLTIP": "最後のエラー：{error}",
+    "LOCAL_NEWER_PRESERVED": "サーバーより新しいローカル編集{count}件を保持しました。"
   }
 }

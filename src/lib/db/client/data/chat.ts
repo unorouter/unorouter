@@ -9,9 +9,11 @@ import {
   media,
   messageItems,
   messages,
+  requestLogs,
 } from "@/lib/db/schema/shared";
 import { and, asc, desc, eq, inArray } from "drizzle-orm";
 import { getLocalDb } from "../client";
+import { readLocalRequestLogsForConv } from "./request-log";
 import {
   readLocalCharacter,
   readLocalLorebookBundle,
@@ -140,13 +142,15 @@ export async function readLocalConversationBundle(
   if (!local) return null;
   const conv = await readLocalConversation(userId, convId);
   if (!conv) return null;
-  const [settings, bindings, msgs, items, mediaRows] = await Promise.all([
-    readLocalConversationSettings(userId, convId),
-    readLocalConversationBindings(userId, convId),
-    readLocalMessages(userId, convId),
-    readLocalMessageItems(userId, convId),
-    readLocalConversationMedia(userId, convId),
-  ]);
+  const [settings, bindings, msgs, items, mediaRows, reqLogRows] =
+    await Promise.all([
+      readLocalConversationSettings(userId, convId),
+      readLocalConversationBindings(userId, convId),
+      readLocalMessages(userId, convId),
+      readLocalMessageItems(userId, convId),
+      readLocalConversationMedia(userId, convId),
+      readLocalRequestLogsForConv(userId, convId),
+    ]);
 
   // Resolve the full bodies of every RP entity this conversation references so
   // a sync push is self-contained: the server upserts these before the
@@ -179,6 +183,7 @@ export async function readLocalConversationBundle(
     messages: msgs ?? [],
     messageItems: items ?? [],
     media: mediaRows ?? [],
+    requestLogs: reqLogRows ?? [],
     characters,
     personas: persona ? [persona] : [],
     lorebooks,
@@ -300,10 +305,11 @@ export async function upsertLocalConversationBundle(
     messages: AnyRow[];
     messageItems: AnyRow[];
     media: AnyRow[];
+    requestLogs: ChildRow[];
   },
-) {
+): Promise<{ skippedLocalNewer: number }> {
   const local = await getLocalDb(userId);
-  if (!local) return;
+  if (!local) return { skippedLocalNewer: 0 };
   await conversationStore.upsert(userId, bundle.conversation);
 
   if (bundle.settings) {
@@ -347,13 +353,17 @@ export async function upsertLocalConversationBundle(
   );
   const remoteMsgIds = new Set<string>();
   const replacedMsgIds: string[] = [];
+  let skippedLocalNewer = 0;
   for (const m of bundle.messages) {
     remoteMsgIds.add(m.id);
     const local = localMsgUpdatedAt.get(m.id);
     const remote = m.updatedAt
       ? new Date(m.updatedAt as Date | number | string).getTime()
       : 0;
-    if (local !== undefined && local >= remote) continue;
+    if (local !== undefined && local >= remote) {
+      if (local > remote) skippedLocalNewer++;
+      continue;
+    }
     await messageStore.upsert(userId, m, { scopeUser: false });
     replacedMsgIds.push(m.id);
   }
@@ -371,4 +381,13 @@ export async function upsertLocalConversationBundle(
   }
 
   await replaceChildRows(local.db, media, media.convId, convId, bundle.media);
+
+  // Logs PK by msgId; idempotent upsert keeps server-canonical row.
+  for (const log of bundle.requestLogs) {
+    await local.db
+      .insert(requestLogs)
+      .values(log as never)
+      .onConflictDoUpdate({ target: requestLogs.msgId, set: log as never });
+  }
+  return { skippedLocalNewer };
 }

@@ -1,5 +1,6 @@
 import type * as client from "@/lib/db/schema/client";
 import type * as shared from "@/lib/db/schema/shared";
+import type { RequestLogRow } from "@/lib/db/schema/rows";
 import type { UIMessage } from "ai";
 import type { SQL } from "drizzle-orm";
 import type { SQLiteColumn, SQLiteTable } from "drizzle-orm/sqlite-core";
@@ -30,10 +31,26 @@ export type MessageUsage = {
   tokensPerSecond?: number;
 };
 
+// Carried in `messageMetadata` finish frame so the client can persist a
+// request_log row keyed by msgId. Usage fields ride on `MessageUsage` already;
+// derive from the schema row so the two sides cannot drift.
+export type RequestLogPayload = Omit<
+  RequestLogRow,
+  | "msgId"
+  | "convId"
+  | "createdAt"
+  | "inputTokens"
+  | "outputTokens"
+  | "cost"
+  | "durationMs"
+  | "tokensPerSecond"
+>;
+
 // Mirror of the `messageMetadata` shape emitted by stream.service finish frame.
 export type ChatMessageMetadata = {
   usage?: MessageUsage;
   droppedParams?: string;
+  debug?: RequestLogPayload;
 };
 
 export type ChatUIMessage = UIMessage<ChatMessageMetadata>;

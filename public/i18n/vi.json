@@ -2430,6 +2430,18 @@
       "ON": "Đã bật tìm kiếm web",
       "OFF": "Đã tắt tìm kiếm web"
     },
+    "REQUEST_LOG": {
+      "VIEW": "Xem nhật ký yêu cầu",
+      "TITLE": "Nhật ký yêu cầu",
+      "TAB_REQUEST": "Yêu cầu",
+      "TAB_SYSTEM": "Lời nhắc hệ thống",
+      "TAB_FINAL": "Tin nhắn cuối",
+      "TAB_HEADERS": "Tiêu đề",
+      "COPY_CURL": "Sao chép dưới dạng cURL",
+      "COPY_JSON": "Sao chép JSON",
+      "COPIED": "Đã sao chép",
+      "NO_LOG": "Không có nhật ký được lưu cho tin nhắn này."
+    },
     "NEW_CONVERSATION": "Cuộc trò chuyện mới",
     "SEARCH_PLACEHOLDER": "Tìm hội thoại...",
     "NO_RESULTS": "Không có hội thoại nào khớp",
@@ -3094,6 +3106,17 @@
     "PENDING_SYNC": "Đồng bộ đang chờ - sẽ thử lại khi có mạng.",
     "HINT_DESCRIPTION": "Các mục đã đồng bộ được sao chép lên máy chủ trong 30 ngày để các thiết bị khác có thể lấy về.",
     "OPFS_UNAVAILABLE": "Cơ sở dữ liệu cục bộ không khả dụng trong trình duyệt này. Dữ liệu sẽ không được lưu.",
-    "OFFLINE_SEND_BLOCKED": "Bạn đang ngoại tuyến. Tin nhắn được giữ làm bản nháp; gửi lại khi có mạng."
+    "OFFLINE_SEND_BLOCKED": "Bạn đang ngoại tuyến. Tin nhắn được giữ làm bản nháp; gửi lại khi có mạng.",
+    "DLQ_TOAST": "{items} không đồng bộ được sau các lần thử lại.",
+    "DLQ_KIND_COUNT": "{count} {kind}",
+    "DLQ_RETRY": "Thử lại",
+    "DLQ_RETRY_SUCCESS": "Thử lại đồng bộ thành công.",
+    "DLQ_RETRY_FAILED": "Một số mục vẫn thất bại. Kiểm tra kết nối và thử lại.",
+    "PENDING_RETRY": "Đang chờ đồng bộ - lần thử {n}/{max}",
+    "SYNC_FAILED": "Đồng bộ thất bại",
+    "RETRY_NOW": "Thử lại ngay",
+    "RETRY_SUCCESS": "Đã đồng bộ.",
+    "PENDING_TOOLTIP": "Lỗi gần nhất: {error}",
+    "LOCAL_NEWER_PRESERVED": "Giữ {count} chỉnh sửa cục bộ mới hơn bản trên máy chủ."
   }
 }

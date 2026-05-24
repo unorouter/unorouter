@@ -10,7 +10,7 @@ import {
 } from "@/lib/db/client/data/playground";
 import { enqueuePending } from "@/lib/db/client/sync/pending-sync";
 import { rpc } from "@/lib/rpc";
-import type { RpSyncKind } from "@/lib/validation/sync";
+import type { RpSyncKind, SyncMergeMode } from "@/lib/validation/sync";
 import { handleElysia } from "@/lib/utils/base";
 
 export async function mirrorSyncedRow(
@@ -18,12 +18,13 @@ export async function mirrorSyncedRow(
   kind: RpSyncKind,
   id: string,
   payload: unknown,
+  mergeMode?: SyncMergeMode,
 ) {
   try {
     handleElysia(
       await rpc.api.ai
         .sync({ kind })({ id })
-        .post({ payload, keepExpiry: true }),
+        .post({ payload, keepExpiry: true, mergeMode }),
     );
   } catch (err) {
     await enqueuePending(userId, kind, id, "patch", err);
@@ -63,6 +64,24 @@ export async function mirrorConvPatchIfSynced(
   if (conv?.syncExpiresAt == null) return;
   if (!userId) return;
   await mirrorSyncedRow(userId, "conversations", convId, patch);
+}
+
+type ConvDeltaPatch = {
+  conversation?: Record<string, unknown>;
+  messages?: Array<Record<string, unknown>>;
+  messageItems?: Array<Record<string, unknown>>;
+  requestLogs?: Array<Record<string, unknown>>;
+};
+export async function mirrorConvDeltaIfSynced(
+  userId: number | undefined,
+  convId: string,
+  patch: ConvDeltaPatch,
+  mergeMode: Exclude<SyncMergeMode, "replace">,
+) {
+  const conv = await readLocalConversation(userId, convId);
+  if (conv?.syncExpiresAt == null) return;
+  if (!userId) return;
+  await mirrorSyncedRow(userId, "conversations", convId, patch, mergeMode);
 }
 
 // Playground analog of mirrorConvIfSynced: pushes the whole session bundle

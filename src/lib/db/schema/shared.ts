@@ -154,6 +154,40 @@ export const messageItems = sqliteTable(
   ],
 );
 
+// One row per assistant message. Captures outgoing stream request, server
+// assembled system prompt, final upstream messages, response headers, usage.
+// Cascades with both message + conv (FK chain). msgId is PK = natural dedup
+// across sync pulls.
+export const requestLogs = sqliteTable(
+  "request_logs",
+  {
+    msgId: text("msg_id")
+      .primaryKey()
+      .references(() => messages.id, { onDelete: "cascade" }),
+    convId: text("conv_id")
+      .notNull()
+      .references(() => conversations.id, { onDelete: "cascade" }),
+    requestBody: text("request_body", { mode: "json" }).notNull(),
+    assembledSystem: text("assembled_system"),
+    finalMessages: text("final_messages", { mode: "json" }).notNull(),
+    responseHeaders: text("response_headers", { mode: "json" }),
+    droppedParams: text("dropped_params"),
+    requestId: text("request_id"),
+    inputTokens: integer("input_tokens"),
+    outputTokens: integer("output_tokens"),
+    cost: real("cost"),
+    durationMs: integer("duration_ms"),
+    tokensPerSecond: real("tokens_per_second"),
+    createdAt: integer("created_at", { mode: "timestamp_ms" })
+      .notNull()
+      .default(sql`(unixepoch() * 1000)`),
+  },
+  (table) => [
+    index("idx_reqlog_conv").on(table.convId),
+    index("idx_reqlog_created").on(table.createdAt),
+  ],
+);
+
 // SillyTavern-compatible.
 export const characters = sqliteTable(
   "characters",
