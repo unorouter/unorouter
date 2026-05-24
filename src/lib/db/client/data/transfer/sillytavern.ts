@@ -111,9 +111,7 @@ export async function exportLocalConversationSillyTavern(
     lines.push(JSON.stringify(line));
   }
 
-  const slug =
-    (conv.title ?? "chat").replace(/[^a-zA-Z0-9_-]+/g, "-").slice(0, 60) ||
-    "chat";
+  const slug = exportSlug(conv.title ?? "chat", "chat");
   return {
     data: lines.join("\n") + "\n",
     filename: `${slug}.sillytavern.jsonl`,

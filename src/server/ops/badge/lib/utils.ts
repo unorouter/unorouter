@@ -1,5 +1,6 @@
 import { VENDOR_SVGS } from "@/lib/config/vendor-icons";
 import { Vendor } from "@/lib/types/enums";
+import { escapeRegex } from "@/lib/utils/base";
 import satori from "satori";
 import {
   processCipherMarkers,
@@ -96,7 +97,7 @@ const LOGO_VIEWBOX = 250;
 function inlineLogoImage(svg: string, staticMode?: boolean): string {
   const href = logoDataUri;
   const re = new RegExp(
-    `<image\\s+([^>]*?)href="${href.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"([^>]*?)/?>`,
+    `<image\\s+([^>]*?)href="${escapeRegex(href)}"([^>]*?)/?>`,
   );
   return svg.replace(re, (_, before: string, after: string) => {
     const attrs = `${before} ${after}`;
