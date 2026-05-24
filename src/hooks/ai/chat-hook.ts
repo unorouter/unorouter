@@ -143,8 +143,12 @@ export function useUpdateConversationMutation() {
     },
     onError: (e) => handleError(e, t),
     onSuccess: (_data, args) => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.conversations() });
       queryClient.invalidateQueries({ queryKey: queryKeys.chatMeta(args.id) });
+      // Skip the full conv list refetch when only the model changed; model
+      // doesn't surface in the list. Title changes still need it.
+      if (args.body.title !== undefined) {
+        queryClient.invalidateQueries({ queryKey: queryKeys.conversations() });
+      }
     },
   });
 }
