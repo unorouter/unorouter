@@ -12,7 +12,7 @@ import { logger } from "@/lib/utils/logger";
 
 // FKs disabled during copy so insert order doesn't matter. Column intersect
 // kept so source/target schema drift drops extras silently. Pure on
-// LocalClient — no dependency on `client.ts` so it can be reused from the
+// LocalClient. No dependency on `client.ts` so it can be reused from the
 // salvage path inside openClient() without a module cycle.
 export async function copyAllTables(
   source: LocalClient,

@@ -149,7 +149,7 @@ export async function readPendingSync(
 
 // Resets `attempts=0, lastError=null` so drainPending will attempt the row
 // again. Used by manual retry buttons after MAX_PENDING_ATTEMPTS is hit.
-export async function requeuePending(
+async function requeuePending(
   userId: number,
   targets?: Array<{ kind: SyncKindName; id: string }>,
 ): Promise<void> {
@@ -162,7 +162,7 @@ export async function requeuePending(
       .set({ attempts: 0, lastError: null });
     return;
   }
-  // Composite PK (kind, id) — no clean tuple IN, so update per-kind groups.
+  // Composite PK (kind, id). No clean tuple IN, so update per-kind groups.
   const byKind = new Map<SyncKindName, string[]>();
   for (const t of targets) {
     const arr = byKind.get(t.kind) ?? [];

@@ -40,7 +40,7 @@ export function formatPriceCompact(price: number): string {
 
 export function formatTokenCount(tokens: number | undefined): string {
   if (tokens === undefined || !Number.isFinite(tokens) || tokens <= 0) {
-    return "—";
+    return "-";
   }
   if (tokens >= 1_000_000) {
     const m = tokens / 1_000_000;
@@ -73,18 +73,18 @@ export function formatShare(share: number): string {
 }
 
 export function formatLatency(ms: number, decimals = 2): string {
-  if (!ms) return "—";
+  if (!ms) return "-";
   if (ms >= 1000) return `${(ms / 1000).toFixed(decimals)}s`;
   return `${Math.round(ms)}ms`;
 }
 
 export function formatTps(tps: number, suffix = ""): string {
-  if (!tps) return "—";
+  if (!tps) return "-";
   if (tps >= 100) return `${tps.toFixed(0)}${suffix}`;
   return `${tps.toFixed(1)}${suffix}`;
 }
 
 export function formatPct(pct: number, decimals = 2): string {
-  if (!Number.isFinite(pct)) return "—";
+  if (!Number.isFinite(pct)) return "-";
   return `${pct.toFixed(decimals)}%`;
 }

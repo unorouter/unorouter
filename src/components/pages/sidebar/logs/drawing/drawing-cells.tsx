@@ -24,7 +24,7 @@ import {
   type DrawingRow,
 } from "./drawing-helpers";
 
-const EMPTY = <span className="text-muted-foreground text-xs">{"—"}</span>;
+const EMPTY = <span className="text-muted-foreground text-xs">{"-"}</span>;
 
 export const DrawingDialogContext = createContext<{
   openImage: (row: DrawingRow) => void;
@@ -53,7 +53,7 @@ export function DrawingTimeCell(props: CellContext<DrawingRow, unknown>) {
   const log = props.row.original;
   const statusColor = getMjStatusColor(log.status);
   const statusKey = getMjStatusKey(log.status);
-  const statusLabel = statusKey ? t(statusKey) : (log.status ?? "—");
+  const statusLabel = statusKey ? t(statusKey) : (log.status ?? "-");
   return (
     <StackedCell
       primary={

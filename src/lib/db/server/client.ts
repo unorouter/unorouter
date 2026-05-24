@@ -27,7 +27,7 @@ export function getDb(): LibSQLDatabase<typeof schema> {
   // Run migrations + seeds at startup (skip during build). Seeds are awaited
   // sequentially after migrate so they never race against an in-flight
   // schema change. Both fire-and-forget; failures log but don't block the
-  // first request — getDb still returns a usable client.
+  // first request; getDb still returns a usable client.
   if (!serverEnv.standalone) {
     const db = _db;
     migrate(db, { migrationsFolder: resolve("drizzle/server") })

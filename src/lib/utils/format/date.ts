@@ -64,9 +64,9 @@ export function formatDateForInput(d: Dayjs): string {
 }
 
 export function formatMsTimestamp(ms: number | undefined): string {
-  if (!ms) return "—";
+  if (!ms) return "-";
   const d = new Date(ms);
-  if (Number.isNaN(d.getTime())) return "—";
+  if (Number.isNaN(d.getTime())) return "-";
   return d.toISOString().replace("T", " ").slice(0, 19);
 }
 

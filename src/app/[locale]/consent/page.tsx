@@ -55,7 +55,7 @@ export default async function ConsentPage(props: {
   const authRequestID = params.authRequestID ?? "";
 
   // Consent REQUIRES a session. If the user isn't logged in, redirect them
-  // to /login?redirect=/consent?... — the global AuthRedirectCapture
+  // to /login?redirect=/consent?... and the global AuthRedirectCapture
   // listener stashes the return URL as a cookie, and the login form reads
   // it on success to bring them back here.
   const response = await rpc.api.auth.account.self.get(await setCookies());

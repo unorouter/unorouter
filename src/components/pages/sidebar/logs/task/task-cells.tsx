@@ -30,7 +30,7 @@ import {
   type TaskRow,
 } from "./task-helpers";
 
-const EMPTY = <span className="text-muted-foreground text-xs">{"—"}</span>;
+const EMPTY = <span className="text-muted-foreground text-xs">{"-"}</span>;
 
 export const TaskDialogContext = createContext<{
   openFailReason: (row: TaskRow) => void;

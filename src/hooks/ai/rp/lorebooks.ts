@@ -73,7 +73,7 @@ export function useLorebookQuery(id?: string) {
   });
 }
 
-// Bespoke update — re-mirrors the bundle (lorebook + entries) so a synced
+// Bespoke update. Re-mirrors the bundle (lorebook + entries) so a synced
 // lorebook stays consistent on the server side after a name/tag/etc edit.
 export function useUpdateLorebookMutation() {
   const t = useTranslations();

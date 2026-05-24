@@ -66,12 +66,12 @@ export function SupportedParameters(props: Props) {
                       aria-label={alwaysSupportedLabel}
                     />
                   ) : (
-                    <span className="text-muted-foreground/40">—</span>
+                    <span className="text-muted-foreground/40">-</span>
                   )}
                 </TableCell>
                 <TableCell className="py-2 text-right font-mono text-xs">
                   {!hasDefault ? (
-                    <span className="text-muted-foreground/60">—</span>
+                    <span className="text-muted-foreground/60">-</span>
                   ) : defaultValue === null ? (
                     <span className="text-muted-foreground/80 italic">
                       {doNotSendLabel}

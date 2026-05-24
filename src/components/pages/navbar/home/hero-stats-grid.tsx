@@ -11,12 +11,12 @@ export function HeroStatsGrid() {
     <div className="border-border grid w-full grid-cols-3 gap-0 border-t">
       <StatCard
         label={t("HOME.STATS.MODELS")}
-        value={data ? String(data.modelCount) : "—"}
+        value={data ? String(data.modelCount) : "-"}
         indicator={t("HOME.STATS.INDICATOR.GLOBAL")}
       />
       <StatCard
         label={t("HOME.STATS.PROVIDERS")}
-        value={data ? `${data.vendorCount}+` : "—"}
+        value={data ? `${data.vendorCount}+` : "-"}
         indicator={t("HOME.STATS.INDICATOR.INTEGRATED")}
       />
       <StatCard

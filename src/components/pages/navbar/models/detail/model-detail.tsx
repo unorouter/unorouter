@@ -87,7 +87,7 @@ print(res.choices[0].message.content)`;
   ]);
 
   const theme = getVendorTheme(m.vendor.name);
-  const endpointsDisplay = (m.endpointTypes ?? []).join(", ") || "—";
+  const endpointsDisplay = (m.endpointTypes ?? []).join(", ") || "-";
   const typeLabel = m.type.charAt(0).toUpperCase() + m.type.slice(1);
 
   const stats: {

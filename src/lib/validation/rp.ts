@@ -68,7 +68,7 @@ export const personaBody = t.Object({
   avatarMediaId: t.Union([t.String({ maxLength: 64 }), t.Null()], {
     default: null,
   }),
-  // isDefault stays optional+undefined — sibling-row reset transaction
+  // isDefault stays optional+undefined. Sibling-row reset transaction
   // ([persona.service.ts]) reads undefined-vs-false to gate the reset.
   isDefault: t.Optional(t.Boolean()),
 });
@@ -170,7 +170,7 @@ export const samplingPresetBody = t.Object({
   mustStartWithUserInput: t.Boolean({ default: false }),
   skipPrefillIfLastIsAssistant: t.Boolean({ default: false }),
   geminiBlockOff: t.Boolean({ default: false }),
-  // isDefault stays optional+undefined — sibling-row reset transaction
+  // isDefault stays optional+undefined. Sibling-row reset transaction
   // ([preset.service.ts]) reads undefined-vs-false to gate the reset.
   isDefault: t.Optional(t.Boolean()),
 });
@@ -203,12 +203,6 @@ export const cardApplyMode = t.Union([
 ]);
 export type CardApplyMode = Static<typeof cardApplyMode>;
 
-export const cardApplyBody = t.Object({
-  convId: t.String({ maxLength: 64 }),
-  mode: cardApplyMode,
-});
-export type CardApplyBody = Static<typeof cardApplyBody>;
-
 export const exportFormat = t.Union([
   t.Literal("native"),
   t.Literal("orpg"),
@@ -234,10 +228,6 @@ export const characterExportFormat = t.Union([
 
 export type CharacterExportFormat = Static<typeof characterExportFormat>;
 
-export const characterExportQuery = t.Object({
-  format: t.Optional(characterExportFormat),
-});
-
 export const lorebookExportFormat = t.Union([
   t.Literal("sillytavern"),
   t.Literal("agnai"),
@@ -246,7 +236,3 @@ export const lorebookExportFormat = t.Union([
 ]);
 
 export type LorebookExportFormat = Static<typeof lorebookExportFormat>;
-
-export const lorebookExportQuery = t.Object({
-  format: t.Optional(lorebookExportFormat),
-});
