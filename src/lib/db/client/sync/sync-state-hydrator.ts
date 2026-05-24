@@ -139,9 +139,18 @@ async function reconcileExcludedKinds(
     queryFn: async () => handleElysia(await rpc.api.ai.sync.state.get()),
   });
   let skippedLocalNewer = 0;
+  const skippedRows: SkippedRow[] = [];
   for (const kind of kinds) {
     const r = await reconcileKind(userId, kind, state[kind]);
     skippedLocalNewer += r.skippedLocalNewer;
+    skippedRows.push(...r.skippedRows);
+  }
+  if (skippedRows.length > 0) {
+    logger.warn("Sync catch-up skipped local-newer rows", {
+      context: "local-db.hydrator",
+      count: skippedRows.length,
+      skippedRows,
+    });
   }
   showLocalNewerToast(t, skippedLocalNewer);
 }
@@ -238,21 +247,30 @@ async function stage2ServerReconcile(
   qc: QueryClient,
   userId: number,
   excludeKinds: SyncKindName[] = [],
-): Promise<{ skippedLocalNewer: number }> {
+): Promise<{ skippedLocalNewer: number; skippedRows: SkippedRow[] }> {
   const state = await qc.ensureQueryData({
     queryKey: queryKeys.syncState(),
     queryFn: async () => handleElysia(await rpc.api.ai.sync.state.get()),
   });
   const skip = new Set(excludeKinds);
   let skippedLocalNewer = 0;
+  const skippedRows: SkippedRow[] = [];
   // Serial (see stage1 mutex note). SYNC_KINDS order puts RP entities first
   // so conversation FKs resolve when bundles reference freshly-pulled chars.
   for (const kind of SYNC_KINDS) {
     if (skip.has(kind)) continue;
     const r = await reconcileKind(userId, kind, state[kind]);
     skippedLocalNewer += r.skippedLocalNewer;
+    skippedRows.push(...r.skippedRows);
   }
-  return { skippedLocalNewer };
+  if (skippedRows.length > 0) {
+    logger.warn("Sync reconcile skipped local-newer rows", {
+      context: "local-db.hydrator",
+      count: skippedRows.length,
+      skippedRows,
+    });
+  }
+  return { skippedLocalNewer, skippedRows };
 }
 
 type RemoteState = {
@@ -261,12 +279,15 @@ type RemoteState = {
   updatedAt: string | Date;
 }[];
 
+type SkippedRow = { kind: SyncKindName; id: string };
+
 async function reconcileKind<K extends SyncKindName>(
   userId: number,
   kind: K,
   remote: RemoteState,
-): Promise<{ skippedLocalNewer: number }> {
+): Promise<{ skippedLocalNewer: number; skippedRows: SkippedRow[] }> {
   let skippedLocalNewer = 0;
+  const skippedRows: SkippedRow[] = [];
   // 1. Serial: snapshot local updatedAt for every remote row BEFORE network
   //    so the mutex stays clean and the staleness check is consistent.
   const candidates: Array<{
@@ -309,7 +330,11 @@ async function reconcileKind<K extends SyncKindName>(
           kind,
           entry.bundle as SyncBundle<K>,
         );
-        skippedLocalNewer += applied?.skippedLocalNewer ?? 0;
+        const skipped = applied?.skippedLocalNewer ?? 0;
+        if (skipped > 0) {
+          skippedLocalNewer += skipped;
+          skippedRows.push({ kind, id: remoteRow.id });
+        }
       } catch (err) {
         logger.warn("Sync bundle apply failed", {
           context: "local-db.hydrator",
@@ -320,7 +345,7 @@ async function reconcileKind<K extends SyncKindName>(
       }
     }
   }
-  return { skippedLocalNewer };
+  return { skippedLocalNewer, skippedRows };
 }
 
 type FetchedBundle = { bundle?: unknown; error?: string };
@@ -435,9 +460,7 @@ async function applyBundle<K extends SyncKindName>(
     case "conversations": {
       const b = bundle as SyncBundle<"conversations">;
       // Rehydrate bytes into base64 so local row survives R2 expiry/deletion.
-      const rehydratedMedia = await Promise.all(
-        b.media.map((m) => rehydrateMedia(userId, m)),
-      );
+      const rehydratedMedia = await rehydrateMediaBatch(userId, b.media);
       // Insert-only upsert for referenced RP entities: a fresh-OPFS device
       // needs them to render the conv, but if the entity already exists
       // locally (newer or edited) we must not clobber it.
@@ -475,9 +498,7 @@ async function applyBundle<K extends SyncKindName>(
     }
     case "playgroundSessions": {
       const b = bundle as SyncBundle<"playgroundSessions">;
-      const rehydratedMedia = await Promise.all(
-        b.media.map((m) => rehydrateMedia(userId, m)),
-      );
+      const rehydratedMedia = await rehydrateMediaBatch(userId, b.media);
       await upsertLocalGenerationSessionBundle(userId, {
         session: b.session,
         playgrounds: b.playgrounds,
@@ -494,6 +515,30 @@ async function applyBundle<K extends SyncKindName>(
 }
 
 type MediaRow = typeof media.$inferSelect;
+
+// Caps parallel R2 fetches; otherwise a 50-image bundle launches 50
+// simultaneous network requests against R2 (browser usually throttles to
+// 6/origin anyway but explicit cap is safer + plays nicer with other
+// traffic). Preserves input order so the caller's consume loop stays
+// deterministic.
+const REHYDRATE_CONCURRENCY = 6;
+
+async function rehydrateMediaBatch(
+  userId: number,
+  rows: MediaRow[],
+): Promise<MediaRow[]> {
+  const out = new Array<MediaRow>(rows.length);
+  let cursor = 0;
+  await Promise.all(
+    Array.from({ length: REHYDRATE_CONCURRENCY }, async () => {
+      while (cursor < rows.length) {
+        const i = cursor++;
+        out[i] = await rehydrateMedia(userId, rows[i]);
+      }
+    }),
+  );
+  return out;
+}
 
 // Asymmetric base64 rule (see media schema comment): never re-download bytes
 // that are already cached locally. Server pulls always carry dataBase64=null;
