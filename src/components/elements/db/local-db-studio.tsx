@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/tooltip";
 import { getLocalDb, resetLocalDbCache } from "@/lib/db/client/client";
 import { downloadBlob } from "@/lib/utils/client";
+import { dayjs } from "@/lib/utils/format/date";
 import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
@@ -71,7 +72,7 @@ export function LocalDbStudio(props: Props) {
       const local = await getLocalDb(userId);
       if (!local) throw new Error("SQLocal unavailable");
       const file = await local.getDatabaseFile();
-      const filename = `unorouter-${userId}-${new Date()
+      const filename = `unorouter-${userId}-${dayjs()
         .toISOString()
         .replace(/[:.]/g, "-")}.sqlite3`;
       downloadBlob(file, filename);

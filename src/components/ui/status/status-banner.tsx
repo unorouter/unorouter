@@ -2,6 +2,7 @@
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
+import { dayjs } from "@/lib/utils/format/date";
 import { StatusIcon as UnifiedStatusIcon } from "@/components/ui/status/status-icon";
 import type { StatusType } from "@/components/ui/status/status.types";
 import { StatusTimestamp } from "@/components/ui/status/status-timestamp";
@@ -28,7 +29,7 @@ export function StatusBanner({
       <StatusBannerIcon className="shrink-0" />
       <div className="flex flex-1 flex-wrap items-center justify-between gap-2">
         <StatusBannerMessage className="text-xl font-semibold" />
-        <StatusTimestamp date={new Date()} className="text-xs" />
+        <StatusTimestamp date={dayjs().toDate()} className="text-xs" />
       </div>
     </StatusBannerContainer>
   );

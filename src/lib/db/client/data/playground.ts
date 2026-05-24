@@ -2,6 +2,7 @@
 
 import { GUEST_USER_ID } from "@/lib/config/constants";
 import { arrayBufferToBase64 } from "@/lib/utils/base";
+import { dayjs } from "@/lib/utils/format/date";
 import { logger } from "@/lib/utils/logger";
 import {
   type Media,
@@ -121,7 +122,7 @@ export async function bumpLocalSessionCounts(
     .set({
       snapshotCount: sql`max(0, ${playgroundSessions.snapshotCount} + ${delta.snapshots ?? 0})`,
       imageCount: sql`max(0, ${playgroundSessions.imageCount} + ${delta.images ?? 0})`,
-      updatedAt: new Date(),
+      updatedAt: dayjs().toDate(),
     })
     .where(eq(playgroundSessions.id, sessionId));
 }
