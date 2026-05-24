@@ -73,7 +73,7 @@ export function TokenList() {
       enableSorting: false,
       cell: ({ row }) => (
         <span className="text-muted-foreground font-mono text-xs">
-          {row.original.group || "\u2014"}
+          {row.original.group || "-"}
         </span>
       ),
     },

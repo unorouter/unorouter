@@ -58,7 +58,7 @@ function StatItem(props: StatItemProps) {
           <span className="text-foreground block text-lg font-bold tracking-tight tabular-nums">
             {typeof props.value === "number"
               ? props.value.toLocaleString()
-              : (props.value ?? "\u2014")}
+              : (props.value ?? "-")}
           </span>
         )}
       </div>

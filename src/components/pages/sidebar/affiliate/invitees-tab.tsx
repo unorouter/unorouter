@@ -31,7 +31,7 @@ export function InviteesTab() {
       header: t("AFFILIATE.TABLE.USER"),
       cell: ({ row }) => (
         <span className="text-foreground text-sm font-medium">
-          {row.original?.display_name || row.original?.username || "\u2014"}
+          {row.original?.display_name || row.original?.username || "-"}
         </span>
       ),
     },

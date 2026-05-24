@@ -58,7 +58,7 @@ export function DateTimeRangePicker(props: DateTimeRangePickerProps) {
 
   const label =
     props.value.from && props.value.to
-      ? `${dayjs(props.value.from).format("MMM D, YYYY HH:mm")} \u2013 ${dayjs(props.value.to).format("MMM D, YYYY HH:mm")}`
+      ? `${dayjs(props.value.from).format("MMM D, YYYY HH:mm")} - ${dayjs(props.value.to).format("MMM D, YYYY HH:mm")}`
       : "Pick a date range";
 
   return (

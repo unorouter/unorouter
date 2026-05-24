@@ -36,7 +36,7 @@ import {
 } from "./log-helpers";
 
 const LOG_EMPTY = (
-  <span className="text-muted-foreground text-xs">{"\u2014"}</span>
+  <span className="text-muted-foreground text-xs">{"-"}</span>
 );
 
 export const LogDetailsContext = createContext<{

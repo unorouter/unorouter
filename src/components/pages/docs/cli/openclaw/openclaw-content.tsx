@@ -144,17 +144,17 @@ export async function OpenClawContent() {
           <ul className="text-muted-foreground space-y-3 text-sm">
             <li>
               <strong>{t("DOCS.OPENCLAW.FEATURE_MULTI_CHANNEL")}</strong>
-              {" \u2014 "}
+              {" - "}
               {t("DOCS.OPENCLAW.FEATURE_MULTI_CHANNEL_DESC")}
             </li>
             <li>
               <strong>{t("DOCS.OPENCLAW.FEATURE_SELF_HOSTED")}</strong>
-              {" \u2014 "}
+              {" - "}
               {t("DOCS.OPENCLAW.FEATURE_SELF_HOSTED_DESC")}
             </li>
             <li>
               <strong>{t("DOCS.OPENCLAW.FEATURE_AGENT")}</strong>
-              {" \u2014 "}
+              {" - "}
               {t("DOCS.OPENCLAW.FEATURE_AGENT_DESC")}
             </li>
           </ul>

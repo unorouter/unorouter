@@ -45,7 +45,7 @@ function StatItem(props: StatItemProps) {
           <span className="text-foreground block text-lg font-bold tracking-tight tabular-nums">
             {typeof props.value === "number"
               ? props.value.toLocaleString()
-              : (props.value ?? "\u2014")}
+              : (props.value ?? "-")}
           </span>
         )}
       </div>
@@ -219,7 +219,7 @@ export function Affiliate() {
               <div className="flex items-center gap-2">
                 <div className="bg-muted flex min-w-0 flex-1 items-center overflow-hidden px-3 py-2">
                   <code className="text-foreground truncate font-mono text-xs">
-                    {inviteLink || "\u2014"}
+                    {inviteLink || "-"}
                   </code>
                 </div>
                 <Button
@@ -241,7 +241,7 @@ export function Affiliate() {
                   {t("AFFILIATE.YOUR_CODE")}
                 </span>
                 <code className="bg-muted text-foreground px-2 py-0.5 font-mono text-xs">
-                  {affCode || "\u2014"}
+                  {affCode || "-"}
                 </code>
                 <Button
                   variant="ghost"

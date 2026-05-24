@@ -41,7 +41,7 @@ export function CommissionsTab() {
       header: t("AFFILIATE.TABLE.USER"),
       cell: ({ row }) => (
         <span className="text-foreground text-sm font-medium">
-          {row.original?.invitee_username || "\u2014"}
+          {row.original?.invitee_username || "-"}
         </span>
       ),
     },
@@ -61,7 +61,7 @@ export function CommissionsTab() {
         <span className="text-muted-foreground font-mono text-xs">
           {row.original?.commission_rate != null
             ? `${(row.original.commission_rate * 100).toFixed(0)}%`
-            : "\u2014"}
+            : "-"}
         </span>
       ),
     },

@@ -173,22 +173,22 @@ GOOGLE_GEMINI_BASE_URL=${env.apiUrl}`;
           <ul className="text-muted-foreground space-y-3 text-sm">
             <li>
               <strong>{t("DOCS.GEMINI_CLI.FEATURE_AGENTIC")}</strong>
-              {" \u2014 "}
+              {" - "}
               {t("DOCS.GEMINI_CLI.FEATURE_AGENTIC_DESC")}
             </li>
             <li>
               <strong>{t("DOCS.GEMINI_CLI.FEATURE_MULTIMODAL")}</strong>
-              {" \u2014 "}
+              {" - "}
               {t("DOCS.GEMINI_CLI.FEATURE_MULTIMODAL_DESC")}
             </li>
             <li>
               <strong>{t("DOCS.GEMINI_CLI.FEATURE_MCP")}</strong>
-              {" \u2014 "}
+              {" - "}
               {t("DOCS.GEMINI_CLI.FEATURE_MCP_DESC")}
             </li>
             <li>
               <strong>{t("DOCS.GEMINI_CLI.FEATURE_CUSTOMIZABLE")}</strong>
-              {" \u2014 "}
+              {" - "}
               {t("DOCS.GEMINI_CLI.FEATURE_CUSTOMIZABLE_DESC")}
             </li>
           </ul>
