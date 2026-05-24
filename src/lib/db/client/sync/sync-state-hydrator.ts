@@ -19,6 +19,7 @@ import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 import { toast } from "sonner";
 import { getLocalDb } from "../client";
+import { awaitGuestMigration } from "../data-migrate/guest-migrate";
 import {
   drainPending,
   retryPendingTargets,
@@ -158,6 +159,8 @@ async function hydrate(
 ) {
   const local = await getLocalDb(userId);
   if (!local) return;
+
+  if (userId > GUEST_USER_ID) await awaitGuestMigration(userId);
 
   await stage1LocalSeed(qc, userId);
   if (userId > GUEST_USER_ID) {

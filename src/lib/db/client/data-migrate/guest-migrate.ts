@@ -7,6 +7,14 @@ import { logger } from "@/lib/utils/logger";
 import { getLocalDb, resetLocalDbCache } from "../client";
 import { copyAllTables } from "./copy";
 
+// Hydrator waits on this so Stage 1 doesn't read an empty user DB
+// before guest rows are copied in.
+const guestMigrationPromises = new Map<number, Promise<void>>();
+
+export function awaitGuestMigration(userId: number): Promise<void> {
+  return guestMigrationPromises.get(userId) ?? Promise.resolve();
+}
+
 // Checks OPFS for the guest DB file WITHOUT creating it. Calling getLocalDb(0)
 // would recreate an empty guest DB on every post-migration page load.
 async function guestDbExists(): Promise<boolean> {
@@ -24,8 +32,19 @@ async function guestDbExists(): Promise<boolean> {
 
 export async function migrateGuestLocalDb(targetUserId: number): Promise<void> {
   if (targetUserId <= GUEST_USER_ID) return;
-  // No guest file means nothing to migrate. Skip so getLocalDb(0) never
-  // recreates an empty guest DB after a prior migration already consumed it.
+  const existing = guestMigrationPromises.get(targetUserId);
+  if (existing) return existing;
+  const work = runGuestMigration(targetUserId);
+  guestMigrationPromises.set(targetUserId, work);
+  try {
+    await work;
+  } finally {
+    guestMigrationPromises.delete(targetUserId);
+  }
+}
+
+async function runGuestMigration(targetUserId: number): Promise<void> {
+  // No guest file: skip so getLocalDb(0) doesn't recreate empty after migrate.
   if (!(await guestDbExists())) return;
 
   const guest = await getLocalDb(GUEST_USER_ID);
