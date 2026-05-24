@@ -2456,6 +2456,7 @@
       "UNIT_TOK_PER_S": "tok/giây"
     },
     "NEW_CONVERSATION": "Cuộc trò chuyện mới",
+    "GENERATION_LOCKED_OTHER_TAB": "Tab khác đang tạo phản hồi cho cuộc trò chuyện này. Hãy đợi tab đó hoàn thành hoặc chuyển sang nó.",
     "SEARCH_PLACEHOLDER": "Tìm hội thoại...",
     "NO_RESULTS": "Không có hội thoại nào khớp",
     "NO_CONVERSATIONS": "Chưa có hội thoại nào",

@@ -2456,6 +2456,7 @@
       "UNIT_TOK_PER_S": "tok/s"
     },
     "NEW_CONVERSATION": "Nouveau chat",
+    "GENERATION_LOCKED_OTHER_TAB": "Un autre onglet est déjà en train de générer pour cette conversation. Attendez qu'il se termine ou changez d'onglet.",
     "SEARCH_PLACEHOLDER": "Rechercher des conversations...",
     "NO_RESULTS": "Aucune conversation correspondante",
     "NO_CONVERSATIONS": "Aucune conversation pour le moment",

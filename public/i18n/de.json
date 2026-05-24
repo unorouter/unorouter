@@ -2456,6 +2456,7 @@
       "UNIT_TOK_PER_S": "Tok/s"
     },
     "NEW_CONVERSATION": "Neuer Chat",
+    "GENERATION_LOCKED_OTHER_TAB": "Ein anderer Tab generiert bereits für diese Unterhaltung. Warte, bis er fertig ist, oder wechsle den Tab.",
     "SEARCH_PLACEHOLDER": "Unterhaltungen durchsuchen...",
     "NO_RESULTS": "Keine passenden Unterhaltungen",
     "NO_CONVERSATIONS": "Noch keine Unterhaltungen",

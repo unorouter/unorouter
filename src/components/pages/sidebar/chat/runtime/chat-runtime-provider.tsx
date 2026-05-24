@@ -12,6 +12,10 @@ import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { GUEST_USER_ID } from "@/lib/config/constants";
 import { upsertLocalConversationSettings } from "@/lib/db/client/data/chat";
 import { buildChatContextFromLocalDb } from "@/lib/db/client/data/chat-context";
+import {
+  acquireLock,
+  releaseLock,
+} from "@/lib/db/client/sync/resource-lock";
 import { queryKeys } from "@/lib/react-query/keys";
 import type { ChatUIMessage } from "@/lib/types";
 import { handleError } from "@/lib/utils/client";
@@ -207,11 +211,26 @@ function ChatRuntimeHook() {
   const historyAdapter = useHistoryAdapter();
   const transport = useChatTransport();
 
+  // Per-conv stream lock so two tabs (or sibling sessions) on the same
+  // conv can't both start a generation concurrently and produce branched
+  // chaos. Lock acquired in sendMessage; released in onFinish/onError.
+  const streamLockKeyRef = useRef<string | null>(null);
+  const releaseStreamLock = () => {
+    const key = streamLockKeyRef.current;
+    if (!key) return;
+    streamLockKeyRef.current = null;
+    releaseLock(key);
+  };
+
   const chat = useChat<ChatUIMessage>({
     id: threadId,
     transport,
-    onError: (e) => handleError(e, t),
+    onError: (e) => {
+      releaseStreamLock();
+      handleError(e, t);
+    },
     onFinish: ({ message }) => {
+      releaseStreamLock();
       if (message.metadata?.droppedParams) {
         toast.warning(
           t("RP.DROPPED_PARAMS", { params: message.metadata.droppedParams }),
@@ -233,6 +252,15 @@ function ChatRuntimeHook() {
         // adapter already seeded one, we reuse it instead of allocating a
         // second id and orphaning the attachment row.
         ensureConvId();
+      }
+      const convId = chatStore.get(convIdAtom);
+      if (convId) {
+        const lockKey = `conv:${convId}`;
+        if (!acquireLock(lockKey)) {
+          toast.warning(t("CHAT.GENERATION_LOCKED_OTHER_TAB"));
+          return;
+        }
+        streamLockKeyRef.current = lockKey;
       }
       return chat.sendMessage(...args);
     },

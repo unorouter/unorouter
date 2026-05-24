@@ -2456,6 +2456,7 @@
       "UNIT_TOK_PER_S": "tok/秒"
     },
     "NEW_CONVERSATION": "新しいチャット",
+    "GENERATION_LOCKED_OTHER_TAB": "別のタブでこの会話の生成中です。完了するまで待つか、タブを切り替えてください。",
     "SEARCH_PLACEHOLDER": "会話を検索...",
     "NO_RESULTS": "一致する会話がありません",
     "NO_CONVERSATIONS": "会話はまだありません",
