@@ -14,6 +14,7 @@ import { addDays } from "@/lib/utils/format/date";
 import type { SyncKindName, SyncMergeMode } from "@/lib/validation/sync";
 import { and, eq } from "drizzle-orm";
 import { getSyncedBundle } from "./bundles";
+import { readSyncExpiry } from "./kinds";
 import { DEFAULT_TTL_DAYS, upsertHandlers } from "./upsert";
 
 export type SyncRequestPayload = {
@@ -38,93 +39,12 @@ export async function setSyncExpiry(
   const db = getDb();
   let expiresAt = addDays(req.days ?? DEFAULT_TTL_DAYS);
   if (req.keepExpiry) {
-    const existing = await readExistingSyncExpiry(db, userId, kind, id);
+    const existing = await readSyncExpiry(userId, kind, id);
     if (existing) expiresAt = existing;
   }
   const handler = upsertHandlers[kind];
   await handler(db, userId, id, expiresAt, req.payload, req.mergeMode);
   return getSyncedBundle(userId, kind, id);
-}
-
-async function readExistingSyncExpiry(
-  db: ReturnType<typeof getDb>,
-  userId: number,
-  kind: SyncKindName,
-  id: string,
-): Promise<Date | null> {
-  switch (kind) {
-    case "characters": {
-      const rows = await db
-        .select({ syncExpiresAt: characters.syncExpiresAt })
-        .from(characters)
-        .where(and(eq(characters.id, id), eq(characters.userId, userId)))
-        .limit(1);
-      return rows[0]?.syncExpiresAt ?? null;
-    }
-    case "personas": {
-      const rows = await db
-        .select({ syncExpiresAt: personas.syncExpiresAt })
-        .from(personas)
-        .where(and(eq(personas.id, id), eq(personas.userId, userId)))
-        .limit(1);
-      return rows[0]?.syncExpiresAt ?? null;
-    }
-    case "lorebooks": {
-      const rows = await db
-        .select({ syncExpiresAt: lorebooks.syncExpiresAt })
-        .from(lorebooks)
-        .where(and(eq(lorebooks.id, id), eq(lorebooks.userId, userId)))
-        .limit(1);
-      return rows[0]?.syncExpiresAt ?? null;
-    }
-    case "presets": {
-      const rows = await db
-        .select({ syncExpiresAt: samplingPresets.syncExpiresAt })
-        .from(samplingPresets)
-        .where(
-          and(eq(samplingPresets.id, id), eq(samplingPresets.userId, userId)),
-        )
-        .limit(1);
-      return rows[0]?.syncExpiresAt ?? null;
-    }
-    case "cards": {
-      const rows = await db
-        .select({ syncExpiresAt: cards.syncExpiresAt })
-        .from(cards)
-        .where(and(eq(cards.id, id), eq(cards.userId, userId)))
-        .limit(1);
-      return rows[0]?.syncExpiresAt ?? null;
-    }
-    case "conversations": {
-      const rows = await db
-        .select({ syncExpiresAt: conversations.syncExpiresAt })
-        .from(conversations)
-        .where(and(eq(conversations.id, id), eq(conversations.userId, userId)))
-        .limit(1);
-      return rows[0]?.syncExpiresAt ?? null;
-    }
-    case "playgroundSessions": {
-      const rows = await db
-        .select({ syncExpiresAt: playgroundSessions.syncExpiresAt })
-        .from(playgroundSessions)
-        .where(
-          and(
-            eq(playgroundSessions.id, id),
-            eq(playgroundSessions.userId, userId),
-          ),
-        )
-        .limit(1);
-      return rows[0]?.syncExpiresAt ?? null;
-    }
-    case "theme": {
-      const rows = await db
-        .select({ syncExpiresAt: userThemes.syncExpiresAt })
-        .from(userThemes)
-        .where(eq(userThemes.userId, userId))
-        .limit(1);
-      return rows[0]?.syncExpiresAt ?? null;
-    }
-  }
 }
 
 export async function clearSyncExpiry(
