@@ -8,8 +8,9 @@ import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
-import type { SyncKindName } from "@/lib/validation/sync";
+import type { SyncKindName, SyncMergeMode } from "@/lib/validation/sync";
 import type { QueryClient } from "@tanstack/react-query";
+import { broadcastInvalidate } from "@/lib/react-query/cross-tab-invalidate";
 import { and, asc, eq, inArray, isNull, lte, or } from "drizzle-orm";
 import { getLocalDb } from "../client";
 import { buildSyncPayload } from "./build-payload";
@@ -44,12 +45,23 @@ export type DrainResult = {
   total: number;
 };
 
+export type EnqueueOpts = {
+  /**
+   * Snapshot of the original mirror-call payload. Drain prefers this over
+   * a fresh `buildSyncPayload` rebuild so delta-append scope + mergeMode
+   * survive transient failures. Ignored for delete ops.
+   */
+  payload?: unknown;
+  mergeMode?: SyncMergeMode;
+};
+
 export async function enqueuePending(
   userId: number,
   kind: SyncKindName,
   id: string,
   op: PendingSyncOp,
   err?: unknown,
+  opts?: EnqueueOpts,
 ) {
   const local = await getLocalDb(userId);
   if (!local) return;
@@ -67,6 +79,12 @@ export async function enqueuePending(
     .limit(1);
   if (existing[0]?.op === "delete" && op === "patch") return;
 
+  const payloadJson =
+    op === "delete" || opts?.payload === undefined
+      ? null
+      : JSON.stringify(opts.payload);
+  const mergeMode = op === "delete" ? null : (opts?.mergeMode ?? null);
+
   await local.db
     .insert(localPendingSync)
     .values({
@@ -75,15 +93,21 @@ export async function enqueuePending(
       op,
       attempts: 0,
       lastError: err ? String(err) : null,
+      payloadJson,
+      mergeMode,
     })
     .onConflictDoUpdate({
       target: [localPendingSync.kind, localPendingSync.id],
       // Fresh enqueue resets backoff; a new failure restart the schedule.
+      // Latest payload wins: a later mirror call always reflects more recent
+      // local state than what was queued before it.
       set: {
         op,
         attempts: 0,
         nextAttemptAt: null,
         lastError: err ? String(err) : null,
+        payloadJson,
+        mergeMode,
       },
     });
 }
@@ -125,14 +149,29 @@ export async function drainPending(
           await rpc.api.ai.sync({ kind: row.kind })({ id: row.id }).delete(),
         );
       } else {
-        // Caller may snapshot a payload; otherwise rebuild from current local.
-        const payload =
-          (payloadFor && payloadFor(row.kind, row.id)) ??
-          (await buildSyncPayload(userId, row.kind, row.id));
+        // Precedence: caller-supplied snapshot > queue-row snapshot > rebuild.
+        // Stored payload preserves the original delta scope + mergeMode so
+        // retries do not silently widen to a full bundle replace.
+        let payload: unknown;
+        if (payloadFor) payload = payloadFor(row.kind, row.id);
+        if (payload === undefined && row.payloadJson != null) {
+          try {
+            payload = JSON.parse(row.payloadJson);
+          } catch {
+            payload = undefined;
+          }
+        }
+        if (payload === undefined) {
+          payload = await buildSyncPayload(userId, row.kind, row.id);
+        }
         handleElysia(
           await rpc.api.ai
             .sync({ kind: row.kind })({ id: row.id })
-            .post({ days: undefined, payload }),
+            .post({
+              days: undefined,
+              payload,
+              mergeMode: row.mergeMode ?? undefined,
+            }),
         );
       }
       await local.db
@@ -175,6 +214,14 @@ export async function drainPending(
         result.retried++;
       }
     }
+  }
+  // Sister tabs need to refresh their sync-state + pending badges when
+  // this tab drains successfully.
+  if (result.succeeded > 0 || result.dead.length > 0) {
+    broadcastInvalidate([
+      queryKeys.pendingSync(),
+      queryKeys.syncState(),
+    ]);
   }
   return result;
 }
