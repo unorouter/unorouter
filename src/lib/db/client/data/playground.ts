@@ -1,5 +1,6 @@
 "use client";
 
+import { GUEST_USER_ID } from "@/lib/config/constants";
 import { arrayBufferToBase64 } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 import {
@@ -98,9 +99,6 @@ export const deleteLocalGenerationSession = (
   id: string,
 ) => generationSessionStore.drop(userId, id);
 
-export const readLocalSnapshot = (userId: number | undefined, id: string) =>
-  snapshotStore.get(userId, id);
-
 export const upsertLocalSnapshot = (
   userId: number | undefined,
   row: SnapshotInput,
@@ -130,19 +128,6 @@ export async function bumpLocalSessionCounts(
 
 // Generation images live in `media` keyed by playgroundId, ordered by batch
 // position. Replaces the whole set so a poll retry can't leave stale rows.
-export async function readLocalSnapshotImages(
-  userId: number | undefined,
-  playgroundId: string,
-) {
-  const local = await getLocalDb(userId);
-  if (!local) return [];
-  return local.db
-    .select()
-    .from(media)
-    .where(eq(media.playgroundId, playgroundId))
-    .orderBy(asc(media.sequenceIndex));
-}
-
 export async function upsertLocalSnapshotImages(
   userId: number | undefined,
   playgroundId: string,
@@ -150,7 +135,7 @@ export async function upsertLocalSnapshotImages(
 ) {
   const local = await getLocalDb(userId);
   if (!local) return;
-  const uid = userId ?? 0;
+  const uid = userId ?? GUEST_USER_ID;
   await replaceChildRows(
     local.db,
     media,

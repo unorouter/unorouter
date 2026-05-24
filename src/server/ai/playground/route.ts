@@ -1,5 +1,5 @@
 import { getPricingSummary } from "@/lib/api/pricing-cache";
-import { msg } from "@/lib/config/constants";
+import { GUEST_USER_ID, msg } from "@/lib/config/constants";
 import { uploadReferenceToR2 } from "@/lib/config/r2";
 import {
   controlNetCatalogQuery,
@@ -36,8 +36,8 @@ export const playgroundRoute = new Elysia({ prefix: "/playground" })
   .post(
     "/submit",
     async ({ body, cookie }) => {
-      const userId = (await getUserId(cookie, true)) ?? 0;
-      if (userId === 0) {
+      const userId = (await getUserId(cookie, true)) ?? GUEST_USER_ID;
+      if (userId === GUEST_USER_ID) {
         await assertGuestAllowedModel(body.model);
       }
       const apiKey = getApiKeyOrGuest(cookie);
@@ -56,7 +56,7 @@ export const playgroundRoute = new Elysia({ prefix: "/playground" })
   .post(
     "/references",
     async ({ body, cookie }) => {
-      const userId = (await getUserId(cookie, true)) ?? 0;
+      const userId = (await getUserId(cookie, true)) ?? GUEST_USER_ID;
       const buffer = Buffer.from(await body.file.arrayBuffer());
       return {
         success: true,
@@ -72,7 +72,7 @@ export const playgroundRoute = new Elysia({ prefix: "/playground" })
   .post(
     "/masks",
     async ({ body, cookie }) => {
-      const userId = (await getUserId(cookie, true)) ?? 0;
+      const userId = (await getUserId(cookie, true)) ?? GUEST_USER_ID;
       const buffer = Buffer.from(await body.file.arrayBuffer());
       return {
         success: true,

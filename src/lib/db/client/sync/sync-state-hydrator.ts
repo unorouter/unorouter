@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
-import { PAGE_SIZE } from "@/lib/config/constants";
+import { GUEST_USER_ID, PAGE_SIZE } from "@/lib/config/constants";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { arrayBufferToBase64, handleElysia } from "@/lib/utils/base";
@@ -57,7 +57,7 @@ export function SyncStateHydrator() {
   const firedForUserId = useRef<number | null>(null);
 
   useEffect(() => {
-    const userId = auth.data?.id ?? 0;
+    const userId = auth.data?.id ?? GUEST_USER_ID;
     if (firedForUserId.current === userId) return;
     firedForUserId.current = userId;
 
@@ -75,7 +75,7 @@ export function SyncStateHydrator() {
         });
       })
       .then(() => {
-        if (userId > 0 && excludeKinds.length > 0) {
+        if (userId > GUEST_USER_ID && excludeKinds.length > 0) {
           scheduleCatchUp(qc, userId, tFn);
         }
       });
@@ -140,7 +140,7 @@ async function hydrate(
   if (!local) return;
 
   await stage1LocalSeed(qc, userId);
-  if (userId > 0) {
+  if (userId > GUEST_USER_ID) {
     const reconcile = await stage2ServerReconcile(qc, userId, excludeKinds);
     const result = await drainPending(userId);
     qc.invalidateQueries({ queryKey: queryKeys.pendingSync() });

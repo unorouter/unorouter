@@ -1,6 +1,6 @@
 "use client";
 
-import { RETENTION_MS } from "@/lib/config/constants";
+import { GUEST_USER_ID, RETENTION_MS } from "@/lib/config/constants";
 import type { Playground } from "@/lib/db/schema/shared";
 import type {
   PlaygroundSnapshot,
@@ -116,7 +116,7 @@ export async function importLocalSession(
   userId: number | undefined,
   payload: PlaygroundSnapshot | SessionSnapshot,
 ): Promise<{ sessionId: string }> {
-  const uidVal = userId ?? 0;
+  const uidVal = userId ?? GUEST_USER_ID;
   const now = dayjs().toDate();
   const expiresAt = new Date(Date.now() + RETENTION_MS);
   const sessionId = uid();

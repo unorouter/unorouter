@@ -1,5 +1,5 @@
 import { getPricingSummary, isMediaModel } from "@/lib/api/pricing-cache";
-import { FREE_MODEL_OUTPUT_CAP } from "@/lib/config/constants";
+import { FREE_MODEL_OUTPUT_CAP, GUEST_USER_ID } from "@/lib/config/constants";
 import { captureServerEvent } from "@/lib/posthog-server";
 import { logger } from "@/lib/utils/logger";
 import { ChatContext, StreamOverrides } from "@/lib/validation/chat";
@@ -70,7 +70,7 @@ export async function streamChat(
       media_type: mediaType,
       conv_id: body.convId,
       web_search: !!body.webSearch,
-      is_guest: userId === 0,
+      is_guest: userId === GUEST_USER_ID,
     },
   });
 
@@ -90,7 +90,7 @@ export async function streamChat(
       : null;
   // Toolbar toggle OR'd with conv default; web search paid-only so guests off.
   const effectiveWebSearch =
-    userId !== 0 &&
+    userId !== GUEST_USER_ID &&
     (!!body.webSearch || (convCtx?.settings.webSearchEnabled ?? false));
 
   let searchSystemMessage: string | undefined;
@@ -316,7 +316,7 @@ export async function streamChat(
           tokens_per_second: tokensPerSecond,
           web_search: effectiveWebSearch,
           has_dropped_params: !!droppedParamsRef.value,
-          is_guest: userId === 0,
+          is_guest: userId === GUEST_USER_ID,
           request_id: requestId,
         },
       });
@@ -335,7 +335,7 @@ export async function streamChat(
             error instanceof Error
               ? error.message.slice(0, 200)
               : String(error).slice(0, 200),
-          is_guest: userId === 0,
+          is_guest: userId === GUEST_USER_ID,
         },
       });
     },

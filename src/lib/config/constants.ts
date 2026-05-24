@@ -102,8 +102,6 @@ export const MODERATION_TIMEOUT_MS = 5_000;
 // concatenation of previously accepted entries; bounded to avoid runaway growth).
 export const MAX_RECURSIVE_LOREBOOK_PASSES = 3;
 
-export const PENDING_USAGE_TTL_MS = 5 * 60 * 1000;
-
 export const TITLE_SYSTEM_PROMPT = `Generate a concise title (max 8 words) for this conversation based on the user's message.
 The title MUST be in the same language as the user's message.
 Return only the title text, no quotes or formatting.`;

@@ -1,3 +1,4 @@
+import { GUEST_USER_ID } from "@/lib/config/constants";
 import {
   finalizeTaskBody,
   streamBody,
@@ -44,8 +45,8 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
     "/stream",
     async ({ body, cookie, request }) => {
       const apiKey = getApiKeyOrGuest(cookie);
-      const userId = (await getUserId(cookie, true)) ?? 0;
-      if (userId === 0) body.webSearch = false;
+      const userId = (await getUserId(cookie, true)) ?? GUEST_USER_ID;
+      if (userId === GUEST_USER_ID) body.webSearch = false;
       return streamChat(apiKey, body, request, userId);
     },
     { body: streamBody },

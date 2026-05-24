@@ -1,4 +1,4 @@
-import { msg, ParamError } from "@/lib/config/constants";
+import { GUEST_USER_ID, msg, ParamError } from "@/lib/config/constants";
 import { getDb } from "@/lib/db/server/client";
 import { conversations, media } from "@/lib/db/schema";
 import { uid } from "@/lib/utils/base";
@@ -310,13 +310,13 @@ async function resolveConvOwner(
     .from(conversations)
     .where(eq(conversations.id, convId))
     .limit(1);
-  const userId = rows[0]?.userId ?? 0;
-  const isGuest = userId === 0;
+  const userId = rows[0]?.userId ?? GUEST_USER_ID;
+  const isGuest = userId === GUEST_USER_ID;
   return { userId, isGuest, scope: isGuest ? "guest" : "user" };
 }
 
 async function assertUserQuota(userId: number, incomingBytes: number) {
-  if (userId === 0) return;
+  if (userId === GUEST_USER_ID) return;
   const rows = await getDb()
     .select({ total: sql<number>`COALESCE(SUM(${media.sizeBytes}), 0)` })
     .from(media)
@@ -457,37 +457,6 @@ export async function downloadGenerationBytes(
     mime: res.headers.get("content-type") ?? "image/png",
     sizeBytes: buffer.length,
   };
-}
-
-export async function downloadAndUploadGeneration(
-  url: string,
-  playgroundId: string,
-  authToken?: string,
-): Promise<{ url: string; key: string; mime: string; sizeBytes: number }> {
-  // new-api result_url is either a URL or data URI (worker base64 inline).
-  if (url.startsWith("data:")) {
-    const [header, base64] = url.split(",");
-    const declaredCt = header.match(/data:([^;]+)/)?.[1];
-    return uploadGenerationToR2(
-      playgroundId,
-      Buffer.from(base64, "base64"),
-      declaredCt,
-    );
-  }
-  // Proxied result_url (.../v1/videos/<task>/content) needs the bearer token;
-  // S3/CDN URLs ignore it. Threaded unconditionally because SSRF-safe agent
-  // doesn't redirect (no third-party leak path).
-  const headers = authToken
-    ? { authorization: `Bearer ${authToken}` }
-    : undefined;
-  const res = await safeFetch(url, "GET", headers);
-  if (!res.ok) throw new Error(msg("ERRORS.UPSTREAM_FETCH_FAILED"));
-  const buffer = await readBodyWithLimit(res);
-  return uploadGenerationToR2(
-    playgroundId,
-    buffer,
-    res.headers.get("content-type") ?? undefined,
-  );
 }
 
 export async function uploadReferenceToR2(

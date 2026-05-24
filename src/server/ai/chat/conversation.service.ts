@@ -1,4 +1,4 @@
-import { msg } from "@/lib/config/constants";
+import { GUEST_USER_ID, msg } from "@/lib/config/constants";
 import { assertFound } from "@/lib/utils/server";
 import { getDb } from "@/lib/db/server/client";
 import {
@@ -88,7 +88,7 @@ export async function getConversationMarkdown(userId: number, convId: string) {
     .limit(1);
   assertFound(convRows);
   const conv = convRows[0];
-  if (conv.userId !== userId && conv.userId !== 0)
+  if (conv.userId !== userId && conv.userId !== GUEST_USER_ID)
     throw new Error(msg("ERRORS.NOT_FOUND"));
 
   const { path, itemsByMsg } = await walkActiveBranch(convId);

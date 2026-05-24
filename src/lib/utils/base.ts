@@ -102,6 +102,20 @@ export function uint8ToBase64(bytes: Uint8Array): string {
   return btoa(binary);
 }
 
+export function base64ToUint8(b64: string): Uint8Array {
+  const bin = atob(b64);
+  const out = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+  return out;
+}
+
+// Uint8Array<ArrayBufferLike> -> fresh ArrayBuffer-backed copy for Blob parts.
+export function uint8ToArrayBuffer(bytes: Uint8Array): ArrayBuffer {
+  const ab = new ArrayBuffer(bytes.byteLength);
+  new Uint8Array(ab).set(bytes);
+  return ab;
+}
+
 // Reads a File as raw base64, stripping the `data:<mime>;base64,` prefix.
 export function fileToBase64(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
