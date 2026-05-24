@@ -1,6 +1,7 @@
 import { getPricingSummary, isMediaModel } from "@/lib/api/pricing-cache";
 import { FREE_MODEL_OUTPUT_CAP, GUEST_USER_ID } from "@/lib/config/constants";
 import { captureServerEvent } from "@/lib/posthog-server";
+import { errMessage } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 import { ChatContext, StreamOverrides } from "@/lib/validation/chat";
 import { getProvider } from "@/server/constants";
@@ -170,10 +171,10 @@ export async function streamChat(
   }
   const lastIsAssistant =
     processedMessages[processedMessages.length - 1]?.role === "assistant";
+  // Honor `skipPrefillIfLastIsAssistant` independently of `forceAlternateRoles`.
+  // The previous AND of both gates meant the flag was a no-op when alone.
   const prefillBlocked =
-    assembled.flags.skipPrefillIfLastIsAssistant &&
-    assembled.flags.forceAlternateRoles &&
-    lastIsAssistant;
+    assembled.flags.skipPrefillIfLastIsAssistant && lastIsAssistant;
   if (assembled.prefill && !prefillBlocked) {
     processedMessages = appendPrefill(processedMessages, assembled.prefill);
   }
@@ -331,10 +332,7 @@ export async function streamChat(
           duration_ms: Date.now() - streamStartedAt,
           error_class:
             error instanceof Error ? error.constructor.name : "Unknown",
-          error_message:
-            error instanceof Error
-              ? error.message.slice(0, 200)
-              : String(error).slice(0, 200),
+          error_message: errMessage(error).slice(0, 200),
           is_guest: userId === GUEST_USER_ID,
         },
       });

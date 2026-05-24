@@ -122,7 +122,9 @@ export function assembleFromOverrides(
     system: sections.length ? sections.join("\n\n") : undefined,
     sampling,
     reasoningEffort: overrides?.reasoningEffort ?? undefined,
-    chatMemory: overrides?.chatMemory ?? 0,
+    // 8 matches assembleForStream default; 0 here meant guests w/ no settings
+    // row silently disabled chat memory.
+    chatMemory: overrides?.chatMemory ?? 8,
     streamingEnabled: overrides?.streamingEnabled ?? true,
     authorNote,
     atDepthEntries: [],
@@ -291,7 +293,7 @@ export async function assembleForStream(
   const reasoningEffort =
     settings.reasoningEffort ?? primary?.defaultReasoningEffort ?? undefined;
 
-  logger.info("Stream prompt assembled", {
+  logger.debug("Stream prompt assembled", {
     context: "stream.assembler",
     convId,
     hasCharacter: !!primary,

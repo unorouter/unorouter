@@ -143,7 +143,9 @@ export async function handleImageStream(
         endpointPath!,
       );
 
-      const convId = body.convId ?? "tmp";
+      // Per-stream unique scope when no convId so guests don't collide on
+      // the shared `tmp/` R2 namespace.
+      const convId = body.convId ?? `tmp-${uid(8)}`;
       const groupKey = uid(8);
       const r2Urls = await Promise.all(
         images.map((img: string) =>
@@ -212,7 +214,7 @@ export function handleBufferedStream(
   const stream = createUIMessageStream({
     execute: async ({ writer }) => {
       const fullText = await result.text;
-      const convId = body.convId ?? "tmp";
+      const convId = body.convId ?? `tmp-${uid(8)}`;
 
       const cleanText = await processUrls(fullText, convId, mediaType);
       writeBufferedMessage(writer, cleanText);

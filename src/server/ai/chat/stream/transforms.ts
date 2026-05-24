@@ -1,4 +1,3 @@
-import { msg } from "@/lib/config/constants";
 import { getDb } from "@/lib/db/server/client";
 import { media } from "@/lib/db/schema";
 import { serverEnv } from "@/server/env";
@@ -55,14 +54,12 @@ export async function inlinePdfText(
     .select({ r2Key: media.r2Key, extractedText: media.extractedText })
     .from(media)
     .where(inArray(media.r2Key, [...pdfUrls].map(urlToKey)));
-  const textByUrl = new Map<string, string>();
+  const textByUrl = new Map<string, string | null>();
   for (const row of rows) {
     const url = `${r2Base}/${row.r2Key}`;
-    if (row.extractedText) {
-      textByUrl.set(url, row.extractedText);
-    } else {
-      throw new Error(msg("ERRORS.PDF_EXTRACTION_FAILED"));
-    }
+    // null means row exists but extraction never produced text. We still want
+    // to substitute a placeholder so the stream continues instead of throwing.
+    textByUrl.set(url, row.extractedText ?? null);
   }
   if (textByUrl.size === 0) return messages;
 
@@ -71,11 +68,13 @@ export async function inlinePdfText(
     const parts = m.parts.flatMap((part) => {
       if (!isPdfFilePart(part)) return [part];
       const text = textByUrl.get(part.url);
-      if (!text) return [part];
+      if (text === undefined) return [part];
       const name = part.filename ?? "document.pdf";
-      return [
-        { type: "text" as const, text: `[Attached PDF "${name}":\n${text}\n]` },
-      ];
+      const body =
+        text != null
+          ? `[Attached PDF "${name}":\n${text}\n]`
+          : `[Attached PDF "${name}": extraction unavailable]`;
+      return [{ type: "text" as const, text: body }];
     });
     return { ...m, parts };
   });
