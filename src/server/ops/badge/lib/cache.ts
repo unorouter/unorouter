@@ -1,6 +1,6 @@
 import { buildPricingSummary } from "@/lib/api/pricing";
 import { FAR_FUTURE, LOCALES } from "@/lib/config/constants";
-import { unwrap } from "@/lib/utils/base";
+import { unixSec, unwrap } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 import { getAllQuotaDates, getPricing } from "@/openapi";
 import { readFileSync } from "fs";
@@ -89,7 +89,7 @@ const EMPTY_STATS: BadgeStats = { tokenUsed: 0, requestCount: 0, avgTpm: 0 };
 export async function getStats(): Promise<BadgeStats> {
   if (cachedStats && Date.now() - cachedStatsAt < CACHE_TTL) return cachedStats;
 
-  const now = Math.floor(Date.now() / 1000);
+  const now = unixSec();
   let body;
   try {
     const res = await getAllQuotaDates(

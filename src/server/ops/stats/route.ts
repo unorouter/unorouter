@@ -1,12 +1,12 @@
 import { getAllQuotaDates } from "@/openapi";
-import { unwrap } from "@/lib/utils/base";
+import { unixSec, unwrap } from "@/lib/utils/base";
 import { Elysia } from "elysia";
 import { ADMIN_HEADERS } from "@/server/constants";
 import { FAR_FUTURE } from "@/lib/config/constants";
 
 export const statsRoute = new Elysia({ prefix: "/stats" })
   .get("/history", async () => {
-    const now = Math.floor(Date.now() / 1000);
+    const now = unixSec();
 
     const res = await getAllQuotaDates(
       { start_timestamp: 0, end_timestamp: FAR_FUTURE },

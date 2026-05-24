@@ -3,6 +3,7 @@
 // importers in native.ts / sillytavern.ts wrap these with upsert calls.
 
 import { uid } from "@/lib/utils/base";
+import type { LocalAnyRow } from "@/lib/types";
 import type {
   NativeImport,
   OrpgImport,

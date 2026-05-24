@@ -145,6 +145,10 @@ export function escapeRegex(s: string): string {
   return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
+export function unixSec(): number {
+  return Math.floor(Date.now() / 1000);
+}
+
 export function formatJson(value: unknown): string {
   return value == null ? "" : JSON.stringify(value, null, 2);
 }
