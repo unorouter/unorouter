@@ -43,7 +43,17 @@ async function processUrls(
 ): Promise<string> {
   const matches = [...text.matchAll(LINK_RE)];
   if (matches.length === 0) return text;
-  if (mediaType !== "video" && mediaType !== "image") return "";
+  if (mediaType !== "video" && mediaType !== "image") {
+    // Discard branch: text-mode stream surfaced media markdown but we don't
+    // know how to host it. Surfacing an empty string masks the issue from
+    // the user, so log so it shows up in observability.
+    logger.warn("processUrls dropping media links for non-media model", {
+      context: "stream.urls",
+      mediaType,
+      linkCount: matches.length,
+    });
+    return "";
+  }
 
   const r2Domain = serverEnv.r2PublicUrl ?? "";
   const groupKey = uid(8);

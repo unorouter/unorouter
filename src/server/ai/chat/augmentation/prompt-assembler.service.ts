@@ -254,6 +254,9 @@ export async function assembleForStream(
   for (const e of selected.filter((x) => x.position === "after_char"))
     sections.push(expand(e.content));
 
+  // SillyTavern parity: only the primary character's systemPrompt /
+  // postHistoryInstructions are emitted. Secondary characters contribute
+  // their own block above but not the system-level prompt fields.
   const sysOverride =
     settings.systemPromptOverride ?? primary?.systemPrompt ?? null;
   if (sysOverride) sections.push(expand(sysOverride));
