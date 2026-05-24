@@ -35,6 +35,23 @@ export type ApiMessage = {
   [key: string]: unknown;
 };
 
+// Joins flat message rows + flat item rows into ApiMessage shape by
+// bucketing items by messageId. Used by every reader that builds a
+// thread for the UI (history adapter load, infinite messages query,
+// SillyTavern export, server walkActiveBranch).
+export function joinItemsToMessages<
+  M extends { id: string },
+  I extends { messageId: string },
+>(msgs: M[], items: I[]): Array<M & { items: I[] }> {
+  const byMsg = new Map<string, I[]>();
+  for (const it of items) {
+    const arr = byMsg.get(it.messageId) ?? [];
+    arr.push(it);
+    byMsg.set(it.messageId, arr);
+  }
+  return msgs.map((m) => ({ ...m, items: byMsg.get(m.id) ?? [] }));
+}
+
 export function partsToItems(parts: MessagePart[]): MessageItemData[] {
   const out: MessageItemData[] = [];
   for (const part of parts) {

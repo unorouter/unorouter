@@ -1,5 +1,6 @@
 "use client";
 
+import { joinItemsToMessages } from "@/lib/ai/chat/messages";
 import { msg } from "@/lib/config/constants";
 import type { StMessage, StMetadata } from "@/lib/types/transfer";
 import { exportSlug } from "@/lib/utils/base";
@@ -16,15 +17,13 @@ type MessageItemRow = ConversationBundle["messageItems"][number];
 
 // Linear active branch: follow parentId from the last active-branch tip.
 function walkActiveBranch(messages: MessageRow[], items: MessageItemRow[]) {
-  const itemsByMsg = new Map<string, MessageItemRow[]>();
-  for (const it of items) {
-    const arr = itemsByMsg.get(it.messageId) ?? [];
-    arr.push(it);
-    itemsByMsg.set(it.messageId, arr);
-  }
-  for (const arr of itemsByMsg.values()) {
-    arr.sort((a, b) => a.sequenceIndex - b.sequenceIndex);
-  }
+  const joined = joinItemsToMessages(messages, items);
+  const itemsByMsg = new Map<string, MessageItemRow[]>(
+    joined.map((m) => [
+      m.id,
+      [...m.items].sort((a, b) => a.sequenceIndex - b.sequenceIndex),
+    ]),
+  );
 
   const ordered = [...messages].sort(
     (a, b) => dayjs(a.createdAt).valueOf() - dayjs(b.createdAt).valueOf(),

@@ -1,6 +1,10 @@
 import { mirrorConvDeltaIfSynced } from "@/hooks/ai/rp/shared";
 import type { ApiMessage, MessagePart } from "@/lib/ai/chat/messages";
-import { itemsToParts, partsToItems } from "@/lib/ai/chat/messages";
+import {
+  itemsToParts,
+  joinItemsToMessages,
+  partsToItems,
+} from "@/lib/ai/chat/messages";
 import {
   readLocalConversation,
   readLocalMessageItems,
@@ -91,16 +95,7 @@ export function createChatHistoryAdapter(
           } else {
             const msgs = (await readLocalMessages(userId, id)) ?? [];
             const items = (await readLocalMessageItems(userId, id)) ?? [];
-            const byMsg = new Map<string, typeof items>();
-            for (const it of items) {
-              const arr = byMsg.get(it.messageId) ?? [];
-              arr.push(it);
-              byMsg.set(it.messageId, arr);
-            }
-            allMessages = msgs.map((m) => ({
-              ...m,
-              items: byMsg.get(m.id) ?? [],
-            }));
+            allMessages = joinItemsToMessages(msgs, items);
           }
 
           return buildRepository(allMessages, formatAdapter);

@@ -1,3 +1,4 @@
+import { joinItemsToMessages } from "@/lib/ai/chat/messages";
 import { GUEST_USER_ID, msg } from "@/lib/config/constants";
 import { assertFound } from "@/lib/utils/server";
 import { getDb } from "@/lib/db/server/client";
@@ -59,12 +60,8 @@ async function walkActiveBranch(convId: string) {
           .orderBy(asc(messageItems.messageId), asc(messageItems.sequenceIndex))
       : [];
 
-  const itemsByMsg = new Map<string, typeof itemRows>();
-  for (const it of itemRows) {
-    const arr = itemsByMsg.get(it.messageId) ?? [];
-    arr.push(it);
-    itemsByMsg.set(it.messageId, arr);
-  }
+  const joined = joinItemsToMessages(msgRows, itemRows);
+  const itemsByMsg = new Map(joined.map((m) => [m.id, m.items]));
 
   const byId = new Map(msgRows.map((m) => [m.id, m]));
   const tip = [...msgRows].reverse().find((m) => m.isActiveBranch !== false);

@@ -1,6 +1,7 @@
 "use client";
 
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
+import { joinItemsToMessages } from "@/lib/ai/chat/messages";
 import { GUEST_USER_ID, PAGE_SIZE } from "@/lib/config/constants";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
@@ -104,16 +105,7 @@ export function useMessagesInfiniteQuery(id?: string) {
         return { messages: [], total: 0, page: pageParam, pageSize: PAGE_SIZE };
       const msgs = (await readLocalMessages(userId, id)) ?? [];
       const items = (await readLocalMessageItems(userId, id)) ?? [];
-      const itemsByMsg = new Map<string, typeof items>();
-      for (const it of items) {
-        const arr = itemsByMsg.get(it.messageId) ?? [];
-        arr.push(it);
-        itemsByMsg.set(it.messageId, arr);
-      }
-      const messages = msgs.map((m) => ({
-        ...m,
-        items: itemsByMsg.get(m.id) ?? [],
-      }));
+      const messages = joinItemsToMessages(msgs, items);
       return {
         messages,
         total: messages.length,
