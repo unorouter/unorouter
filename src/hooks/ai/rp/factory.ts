@@ -12,7 +12,7 @@ import { useTranslations } from "next-intl";
 import { deleteSyncedRow, mirrorSyncedRow } from "./shared";
 type WithId = { id: string; syncExpiresAt?: Date | null };
 
-export type EntityHooks<TItem extends WithId, TCreateBody, TUpdateBody> = {
+type EntityHooks<TItem extends WithId, TCreateBody, TUpdateBody> = {
   useList: () => ReturnType<typeof useQuery<TItem[]>>;
   useItem: (id: string | undefined) => ReturnType<typeof useQuery<TItem>>;
   useCreate: () => ReturnType<

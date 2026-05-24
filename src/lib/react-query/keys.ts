@@ -59,7 +59,6 @@ export const queryKeys = {
   card: (id: string) => ["rp-card", id] as const,
 
   syncState: () => ["sync-state"] as const,
-  syncBundle: (kind: string, id: string) => ["sync-bundle", kind, id] as const,
   pendingSync: () => ["pending-sync"] as const,
   requestLog: (msgId: string) => ["request-log", msgId] as const,
 
@@ -95,7 +94,4 @@ export const queryKeys = {
   upscalerCatalog: (
     params?: EdenQuery<typeof rpc.api.ai.playground.upscalers>,
   ) => ["upscaler-catalog", params] as const,
-  controlNetCatalog: (
-    params?: EdenQuery<typeof rpc.api.ai.playground.controlnets>,
-  ) => ["controlnet-catalog", params] as const,
 };

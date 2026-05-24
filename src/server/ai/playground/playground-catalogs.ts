@@ -1,12 +1,10 @@
 import {
-  controlNetCatalog,
   embeddingCatalog,
   loraCatalog,
   upscalerCatalog,
 } from "@/lib/db/schema";
 import { getDb } from "@/lib/db/server/client";
 import type {
-  ControlNetCatalogQuery,
   EmbeddingCatalogQuery,
   LoraCatalogQuery,
   UpscalerCatalogQuery,
@@ -54,12 +52,4 @@ export function listUpscalerCatalog(query: UpscalerCatalogQuery) {
   if (query.category)
     filters.push(eq(upscalerCatalog.category, query.category));
   return listCatalog(upscalerCatalog, filters);
-}
-
-export function listControlNetCatalog(query: ControlNetCatalogQuery) {
-  const filters: SQL[] = [];
-  if (query.baseModel)
-    filters.push(eq(controlNetCatalog.baseModel, query.baseModel));
-  if (query.kind) filters.push(eq(controlNetCatalog.kind, query.kind));
-  return listCatalog(controlNetCatalog, filters);
 }

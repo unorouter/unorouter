@@ -328,12 +328,6 @@ export const upscalerCatalogQuery = t.Object({
 });
 export type UpscalerCatalogQuery = Static<typeof upscalerCatalogQuery>;
 
-export const controlNetCatalogQuery = t.Object({
-  baseModel: t.Optional(generationBaseModel),
-  kind: t.Optional(generationControlNetKind),
-});
-export type ControlNetCatalogQuery = Static<typeof controlNetCatalogQuery>;
-
 // No webp: worker expects PNG/JPEG for the mask sub-graph.
 export const playgroundMaskUploadBody = t.Object({
   file: t.File({

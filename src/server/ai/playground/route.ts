@@ -2,7 +2,6 @@ import { getPricingSummary } from "@/lib/api/pricing-cache";
 import { GUEST_USER_ID, msg } from "@/lib/config/constants";
 import { uploadReferenceToR2 } from "@/lib/config/r2";
 import {
-  controlNetCatalogQuery,
   embeddingCatalogQuery,
   loraCatalogQuery,
   playgroundMaskUploadBody,
@@ -15,7 +14,6 @@ import { getApiKeyOrGuest, getUserId } from "@/server/constants";
 import { Elysia } from "elysia";
 import { COMFYUI_TEMPLATE_IDS } from "./playground-constants";
 import {
-  listControlNetCatalog,
   listEmbeddingCatalog,
   listLoraCatalog,
   listUpscalerCatalog,
@@ -105,12 +103,4 @@ export const playgroundRoute = new Elysia({ prefix: "/playground" })
       data: await listUpscalerCatalog(query),
     }),
     { query: upscalerCatalogQuery },
-  )
-  .get(
-    "/controlnets",
-    async ({ query }) => ({
-      success: true,
-      data: await listControlNetCatalog(query),
-    }),
-    { query: controlNetCatalogQuery },
   );

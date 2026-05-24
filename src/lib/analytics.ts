@@ -20,17 +20,8 @@ const auth = {
   loginCompleted: (method: "email" | "oauth") => {
     posthog.capture("auth_login_completed", { method });
   },
-  loginFailed: (props: { reason: string }) => {
-    posthog.capture("auth_login_failed", { reason: props.reason });
-  },
   registerCompleted: () => {
     posthog.capture("auth_register_completed");
-  },
-  registerFailed: (props: { reason: string }) => {
-    posthog.capture("auth_register_failed", { reason: props.reason });
-  },
-  logoutCompleted: () => {
-    posthog.capture("auth_logout_completed");
   },
   twoFAVerified: () => {
     posthog.capture("auth_2fa_verified");
@@ -38,94 +29,12 @@ const auth = {
   oauthInitiated: (provider: string) => {
     posthog.capture("auth_oauth_initiated", { provider });
   },
-  oauthFailed: (props: { provider: string; reason: string }) => {
-    posthog.capture("auth_oauth_failed", {
-      provider: props.provider,
-      reason: props.reason,
-    });
-  },
   verificationSent: () => {
     posthog.capture("auth_verification_sent");
-  },
-  turnstileVerified: () => {
-    posthog.capture("auth_turnstile_verified");
-  },
-  turnstileFailed: () => {
-    posthog.capture("auth_turnstile_failed");
   },
 };
 
 const chat = {
-  messageSent: (props: {
-    conversationId: string;
-    model: string;
-    webSearch: boolean;
-    isNewConversation: boolean;
-  }) => {
-    posthog.capture("chat_message_sent", {
-      conversation_id: props.conversationId,
-      model: props.model,
-      web_search: props.webSearch,
-      is_new_conversation: props.isNewConversation,
-    });
-  },
-  messageCopied: () => {
-    posthog.capture("chat_message_copied");
-  },
-  messageRegenerated: () => {
-    posthog.capture("chat_message_regenerated");
-  },
-  messageEditStarted: (props: { role: "user" | "assistant" }) => {
-    posthog.capture("chat_message_edit_started", { role: props.role });
-  },
-  messageDeleteArmed: () => {
-    posthog.capture("chat_message_delete_armed");
-  },
-  messageDeleteConfirmed: () => {
-    posthog.capture("chat_message_delete_confirmed");
-  },
-  playgroundCancelled: () => {
-    posthog.capture("chat_generation_cancelled");
-  },
-  branchNavigated: (props: { direction: "previous" | "next" }) => {
-    posthog.capture("chat_branch_navigated", { direction: props.direction });
-  },
-  scrollToBottomClicked: () => {
-    posthog.capture("chat_scroll_to_bottom_clicked");
-  },
-  suggestedPromptClicked: () => {
-    posthog.capture("chat_suggested_prompt_clicked");
-  },
-  attachmentPickerOpened: () => {
-    posthog.capture("chat_attachment_picker_opened");
-  },
-  attachmentAdded: (props: {
-    source: "picker" | "drop" | "paste";
-    mime?: string;
-  }) => {
-    posthog.capture("chat_attachment_added", {
-      source: props.source,
-      mime: props.mime,
-    });
-  },
-  attachmentRemoved: () => {
-    posthog.capture("chat_attachment_removed");
-  },
-  attachmentPreviewOpened: () => {
-    posthog.capture("chat_attachment_preview_opened");
-  },
-  reasoningPanelToggled: (open: boolean) => {
-    posthog.capture("chat_reasoning_panel_toggled", { open });
-  },
-  toolResultToggled: (props: { tool_name: string; open: boolean }) => {
-    posthog.capture("chat_tool_result_toggled", {
-      tool_name: props.tool_name,
-      open: props.open,
-    });
-  },
-  taskRefreshClicked: () => {
-    posthog.capture("chat_task_refresh_clicked");
-  },
   modelChanged: (props: { from: string | null; to: string }) => {
     posthog.capture("chat_model_changed", {
       from_model: props.from,
@@ -134,26 +43,6 @@ const chat = {
   },
   webSearchToggled: (enabled: boolean) => {
     posthog.capture("chat_web_search_toggled", { enabled });
-  },
-  conversationDeleted: (conversationId: string) => {
-    posthog.capture("chat_conversation_deleted", {
-      conversation_id: conversationId,
-    });
-  },
-  conversationShared: (conversationId: string) => {
-    posthog.capture("chat_conversation_shared", {
-      conversation_id: conversationId,
-    });
-  },
-  shareRevoked: (conversationId: string) => {
-    posthog.capture("chat_share_revoked", {
-      conversation_id: conversationId,
-    });
-  },
-  conversationRenamed: (conversationId: string) => {
-    posthog.capture("chat_conversation_renamed", {
-      conversation_id: conversationId,
-    });
   },
   conversationRenameStarted: () => {
     posthog.capture("chat_conversation_rename_started");
@@ -175,9 +64,6 @@ const chat = {
   },
   conversationListPaginated: () => {
     posthog.capture("chat_conversation_list_paginated");
-  },
-  shareLinkCopied: () => {
-    posthog.capture("chat_share_link_copied");
   },
   conversationExported: (props: {
     format: "native" | "orpg" | "sillytavern";
@@ -227,9 +113,6 @@ const chat = {
     sampling_customized_fields: string[];
   }) => {
     posthog.capture("chat_overrides_saved", props);
-  },
-  samplingReset: () => {
-    posthog.capture("chat_sampling_reset");
   },
 };
 
@@ -352,12 +235,6 @@ const navigation = {
   sidebarToggled: (open: boolean) => {
     posthog.capture("nav_sidebar_toggled", { open });
   },
-  docsSearchOpened: () => {
-    posthog.capture("nav_docs_search_opened");
-  },
-  docsSearchResultSelected: (slug: string) => {
-    posthog.capture("nav_docs_search_result_selected", { slug });
-  },
   topLinkClicked: (props: { name: string; from_route: string }) => {
     posthog.capture("nav_top_link_clicked", props);
   },
@@ -434,9 +311,6 @@ const logs = {
   tokenNameCopied: () => {
     posthog.capture("logs_token_name_copied");
   },
-  requestIdCopied: () => {
-    posthog.capture("logs_request_id_copied");
-  },
 };
 
 const docs = {
@@ -490,20 +364,6 @@ const content = {
   },
 };
 
-const errors = {
-  clientError: (props: {
-    message: string;
-    location: string;
-    digest?: string;
-  }) => {
-    posthog.capture("client_error_occurred", {
-      error_message: props.message,
-      error_location: props.location,
-      error_digest: props.digest,
-    });
-  },
-};
-
 export const analytics = {
   auth,
   chat,
@@ -518,5 +378,4 @@ export const analytics = {
   rp,
   easterEgg,
   content,
-  errors,
 } as const;
