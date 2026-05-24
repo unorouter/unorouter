@@ -8,7 +8,11 @@ import { arrayBufferToBase64, handleElysia } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 import { media } from "@/lib/db/schema/shared";
 import type { SyncBundle } from "@/server/ai/sync/bundles";
-import { SYNC_KINDS, type SyncKindName } from "@/lib/validation/sync";
+import {
+  SYNC_BUNDLE_CHUNK_SIZE,
+  SYNC_KINDS,
+  type SyncKindName,
+} from "@/lib/validation/sync";
 import { useQueryClient, type QueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
@@ -241,10 +245,6 @@ type RemoteState = {
   updatedAt: string | Date;
 }[];
 
-// Batch size for `/sync/bundles` POST; also caps parallel GETs in the
-// per-row fallback path. Mutex (see stage1) still serializes applyBundle.
-const BUNDLE_CHUNK_SIZE = 6;
-
 async function reconcileKind<K extends SyncKindName>(
   userId: number,
   kind: K,
@@ -272,8 +272,8 @@ async function reconcileKind<K extends SyncKindName>(
   // 2. Per-chunk fetch + serial apply (mutex-safe). Batch endpoint coalesces
   //    chunk into one POST when flag enabled; otherwise N parallel GETs.
   const stale = candidates.filter((c) => c.isStale);
-  for (let i = 0; i < stale.length; i += BUNDLE_CHUNK_SIZE) {
-    const chunk = stale.slice(i, i + BUNDLE_CHUNK_SIZE);
+  for (let i = 0; i < stale.length; i += SYNC_BUNDLE_CHUNK_SIZE) {
+    const chunk = stale.slice(i, i + SYNC_BUNDLE_CHUNK_SIZE);
     const bundles = await fetchBundleChunk(kind, chunk);
     for (let j = 0; j < bundles.length; j++) {
       const remoteRow = chunk[j].remoteRow;
