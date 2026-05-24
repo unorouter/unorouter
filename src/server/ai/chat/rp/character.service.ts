@@ -7,7 +7,7 @@ import {
 import { logger } from "@/lib/utils/logger";
 import { assertFound } from "@/lib/utils/server";
 import { serverEnv } from "@/server/env";
-import { and, desc, eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 
 async function fetchAvatarBuffer(
   r2Key: string,
@@ -30,16 +30,7 @@ async function fetchAvatarBuffer(
   }
 }
 
-export async function listCharacters(userId: number) {
-  const db = getDb();
-  return db
-    .select()
-    .from(characters)
-    .where(eq(characters.userId, userId))
-    .orderBy(desc(characters.updatedAt));
-}
-
-export async function getCharacter(userId: number, id: string) {
+async function getCharacter(userId: number, id: string) {
   const db = getDb();
   const rows = await db
     .select()

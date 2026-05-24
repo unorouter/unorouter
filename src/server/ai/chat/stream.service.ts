@@ -1,469 +1,50 @@
-import type { ModelType } from "@/lib/api/pricing";
 import { getPricingSummary, isMediaModel } from "@/lib/api/pricing-cache";
-import { FREE_MODEL_OUTPUT_CAP, msg } from "@/lib/config/constants";
-import { fetchCheckUpload, uploadBase64ToR2 } from "@/lib/config/r2";
-import { getDb } from "@/lib/db/server/client";
-import { media } from "@/lib/db/schema";
+import { FREE_MODEL_OUTPUT_CAP } from "@/lib/config/constants";
 import { captureServerEvent } from "@/lib/posthog-server";
-import { uid } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
-import { imageGenResponseChecker } from "@/lib/validation/media";
-import { getProvider, upstreamApiUrl } from "@/server/constants";
-import { serverEnv } from "@/server/env";
-import {
-  convertToModelMessages,
-  createUIMessageStream,
-  createUIMessageStreamResponse,
-  streamText,
-  type UIMessageStreamWriter,
-} from "ai";
-import { inArray } from "drizzle-orm";
-import { assertPromptAllowed } from "./augmentation/moderation.service";
+import { ChatContext, StreamOverrides } from "@/lib/validation/chat";
+import { getProvider } from "@/server/constants";
+import { convertToModelMessages, streamText } from "ai";
 import {
   assembleForStream,
-  buildContextFromClient,
   assembleFromOverrides,
-  expandTemplateVars,
-  loadConvContext,
-  type AssembledSystem,
 } from "./augmentation/prompt-assembler.service";
-import { submitVideoTask } from "./augmentation/task.service";
+import {
+  buildContextFromClient,
+  loadConvContext,
+} from "./augmentation/prompt-assembler/conv-context";
 import {
   formatSearchContext,
   needsWebSearch,
   searchTavily,
 } from "./augmentation/tavily.service";
+import {
+  handleBufferedStream,
+  handleImageStream,
+  handleVideoTaskStream,
+} from "./stream/media-stream";
+import {
+  appendPrefill,
+  collectRecentUserTexts,
+  expandMessageMacros,
+  extractLastUserText,
+  GEMINI_SAFETY_OFF,
+  inlinePdfText,
+  mergeAlternateRoles,
+  prependUserStub,
+  spliceDepthInjections,
+  stripSystemRole,
+  type StreamMessages,
+} from "./stream/transforms";
+
 type StreamBody = {
   model: string;
-  messages: Parameters<typeof convertToModelMessages>[0];
+  messages: StreamMessages;
   convId?: string | null;
   webSearch?: boolean;
-  overrides?: import("@/lib/validation/chat").StreamOverrides;
-  chatContext?: import("@/lib/validation/chat").ChatContext;
+  overrides?: StreamOverrides;
+  chatContext?: ChatContext;
 };
-
-type PdfFilePart = {
-  type: "file";
-  mediaType: "application/pdf";
-  url: string;
-  filename?: string;
-};
-
-function isPdfFilePart(part: unknown): part is PdfFilePart {
-  const p = part as Partial<PdfFilePart>;
-  return (
-    p?.type === "file" &&
-    p.mediaType === "application/pdf" &&
-    typeof p.url === "string"
-  );
-}
-
-async function inlinePdfText(
-  messages: StreamBody["messages"],
-): Promise<StreamBody["messages"]> {
-  const r2Base = serverEnv.r2PublicUrl;
-  if (!r2Base) return messages;
-  const urlToKey = (url: string) => url.slice(r2Base.length + 1);
-
-  const pdfUrls = new Set<string>();
-  for (const m of messages) {
-    if (m.role !== "user" || !Array.isArray(m.parts)) continue;
-    for (const part of m.parts) {
-      if (isPdfFilePart(part) && part.url.startsWith(r2Base)) {
-        pdfUrls.add(part.url);
-      }
-    }
-  }
-  if (pdfUrls.size === 0) return messages;
-
-  const rows = await getDb()
-    .select({ r2Key: media.r2Key, extractedText: media.extractedText })
-    .from(media)
-    .where(inArray(media.r2Key, [...pdfUrls].map(urlToKey)));
-  const textByUrl = new Map<string, string>();
-  for (const row of rows) {
-    const url = `${r2Base}/${row.r2Key}`;
-    if (row.extractedText) {
-      textByUrl.set(url, row.extractedText);
-    } else {
-      throw new Error(msg("ERRORS.PDF_EXTRACTION_FAILED"));
-    }
-  }
-  if (textByUrl.size === 0) return messages;
-
-  return messages.map((m) => {
-    if (m.role !== "user" || !Array.isArray(m.parts)) return m;
-    const parts = m.parts.flatMap((part) => {
-      if (!isPdfFilePart(part)) return [part];
-      const text = textByUrl.get(part.url);
-      if (!text) return [part];
-      const name = part.filename ?? "document.pdf";
-      return [
-        { type: "text" as const, text: `[Attached PDF "${name}":\n${text}\n]` },
-      ];
-    });
-    return { ...m, parts };
-  });
-}
-
-function extractLastUserText(messages: StreamBody["messages"]): string | null {
-  for (let i = messages.length - 1; i >= 0; i--) {
-    const msg = messages[i];
-    if (msg.role !== "user") continue;
-    if (Array.isArray(msg.parts)) {
-      for (const part of msg.parts) {
-        if (
-          part.type === "text" &&
-          typeof part.text === "string" &&
-          part.text.trim()
-        ) {
-          return part.text.trim();
-        }
-      }
-    }
-  }
-  return null;
-}
-
-type DepthInjection = {
-  text: string;
-  depth: number;
-  role?: "system" | "user";
-};
-
-// SillyTavern depth: counts back from end (0=after last, 1=before last). First-passed wins ties.
-function spliceDepthInjections(
-  messages: StreamBody["messages"],
-  injections: DepthInjection[],
-): StreamBody["messages"] {
-  if (injections.length === 0) return messages;
-  const withIdx = injections
-    .map((inj) => {
-      const idx = Math.max(0, messages.length - inj.depth);
-      return { idx, inj };
-    })
-    .sort((a, b) => b.idx - a.idx);
-  const out = messages.slice();
-  for (const { idx, inj } of withIdx) {
-    out.splice(idx, 0, {
-      role: inj.role ?? "system",
-      parts: [{ type: "text", text: inj.text }],
-    } as StreamBody["messages"][number]);
-  }
-  return out;
-}
-
-function expandMessageMacros(
-  messages: StreamBody["messages"],
-  vars: AssembledSystem["vars"],
-): StreamBody["messages"] {
-  return messages.map((m) => {
-    if (!Array.isArray(m.parts)) return m;
-    return {
-      ...m,
-      parts: m.parts.map((p) =>
-        p.type === "text" && typeof p.text === "string"
-          ? { ...p, text: expandTemplateVars(p.text, vars) }
-          : p,
-      ),
-    };
-  });
-}
-
-function appendPrefill(
-  messages: StreamBody["messages"],
-  prefill: string,
-): StreamBody["messages"] {
-  return [
-    ...messages,
-    {
-      role: "assistant",
-      parts: [{ type: "text", text: prefill }],
-    } as StreamBody["messages"][number],
-  ];
-}
-
-// Gemini/some GLM reject mid-conv system role; top-level `system` is unaffected.
-function stripSystemRole(
-  messages: StreamBody["messages"],
-): StreamBody["messages"] {
-  return messages.map((m) => {
-    if (m.role !== "system") return m;
-    const parts = Array.isArray(m.parts)
-      ? m.parts.map((p) =>
-          p.type === "text" && typeof p.text === "string"
-            ? { ...p, text: `[System]: ${p.text}` }
-            : p,
-        )
-      : m.parts;
-    return { ...m, role: "user", parts } as StreamBody["messages"][number];
-  });
-}
-
-// GLM/some Anthropic require strict user/assistant alternation.
-function mergeAlternateRoles(
-  messages: StreamBody["messages"],
-): StreamBody["messages"] {
-  if (messages.length < 2) return messages;
-  const out: StreamBody["messages"] = [];
-  for (const m of messages) {
-    const prev = out[out.length - 1];
-    if (
-      prev &&
-      prev.role === m.role &&
-      Array.isArray(prev.parts) &&
-      Array.isArray(m.parts)
-    ) {
-      out[out.length - 1] = {
-        ...prev,
-        parts: [...prev.parts, ...m.parts],
-      } as StreamBody["messages"][number];
-    } else {
-      out.push(m);
-    }
-  }
-  return out;
-}
-
-// Anthropic and Gemini reject convs that start with assistant or system role.
-function prependUserStub(
-  messages: StreamBody["messages"],
-): StreamBody["messages"] {
-  if (messages.length === 0) return messages;
-  if (messages[0].role === "user") return messages;
-  return [
-    {
-      role: "user",
-      parts: [{ type: "text", text: "[Start a new chat]" }],
-    } as StreamBody["messages"][number],
-    ...messages,
-  ];
-}
-
-const GEMINI_SAFETY_OFF = [
-  "HARM_CATEGORY_SEXUALLY_EXPLICIT",
-  "HARM_CATEGORY_HATE_SPEECH",
-  "HARM_CATEGORY_HARASSMENT",
-  "HARM_CATEGORY_DANGEROUS_CONTENT",
-  "HARM_CATEGORY_CIVIC_INTEGRITY",
-].map((category) => ({ category, threshold: "OFF" as const }));
-
-function collectRecentUserTexts(
-  messages: StreamBody["messages"],
-  limit = 32,
-): string[] {
-  const out: string[] = [];
-  for (let i = messages.length - 1; i >= 0 && out.length < limit; i--) {
-    const m = messages[i];
-    if (m.role !== "user") continue;
-    if (!Array.isArray(m.parts)) continue;
-    for (const part of m.parts) {
-      if (part.type === "text" && typeof part.text === "string") {
-        out.push(part.text);
-      }
-    }
-  }
-  return out;
-}
-
-function writeBufferedMessage(writer: UIMessageStreamWriter, text: string) {
-  const partId = uid(12);
-  writer.write({ type: "start" });
-  writer.write({ type: "start-step" });
-  writer.write({ type: "text-start", id: partId });
-  writer.write({ type: "text-delta", delta: text, id: partId });
-  writer.write({ type: "text-end", id: partId });
-  writer.write({ type: "finish-step" });
-  writer.write({ type: "finish", finishReason: "stop" });
-}
-
-const LINK_RE = /(!?)\[([^\]]*)\]\((data:[^)]+|https?:\/\/[^)]+)\)/g;
-
-async function processUrls(
-  text: string,
-  convId: string,
-  mediaType: ModelType,
-): Promise<string> {
-  const matches = [...text.matchAll(LINK_RE)];
-  if (matches.length === 0) return text;
-  if (mediaType !== "video" && mediaType !== "image") return "";
-
-  const r2Domain = serverEnv.r2PublicUrl ?? "";
-  const groupKey = uid(8);
-
-  const process = async ([, , alt, url]: RegExpMatchArray) => {
-    if (url.startsWith("data:")) {
-      return `![${alt}](${await uploadBase64ToR2(url, convId, groupKey)})`;
-    }
-    if (url.startsWith(r2Domain)) return `![${alt}](${url})`;
-
-    const r2Url = await fetchCheckUpload(
-      url,
-      convId,
-      groupKey,
-      mediaType === "video",
-    );
-
-    if (!r2Url) {
-      logger.warn("URL upload failed, keeping original", {
-        context: "stream.urls",
-        url: url.slice(0, 100),
-      });
-      return `![${alt}](${url})`;
-    }
-    return `![${alt}](${r2Url})`;
-  };
-
-  return (await Promise.all(matches.map(process))).filter(Boolean).join("\n\n");
-}
-
-async function generateImage(
-  apiKey: string,
-  model: string,
-  prompt: string,
-  endpointPath: string,
-): Promise<{ images: string[]; isBase64: boolean; requestId?: string }> {
-  const res = await fetch(`${upstreamApiUrl}${endpointPath}`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ model, prompt, n: 1 }),
-  });
-
-  if (!res.ok) {
-    const err = await res.text();
-    logger.error("Image generation failed", {
-      context: "stream.image",
-      model,
-      error: err.slice(0, 200),
-    });
-    throw new Error(`${msg("ERRORS.IMAGE_GENERATION_FAILED")}: ${err}`);
-  }
-
-  const raw = await res.json();
-  if (!imageGenResponseChecker.Check(raw)) {
-    throw new Error(msg("ERRORS.IMAGE_GENERATION_FAILED"));
-  }
-  const json = raw;
-  const requestId = res.headers.get("x-oneapi-request-id") ?? undefined;
-
-  const urls = json.data
-    .map((d) => d.url)
-    .filter((u): u is string => Boolean(u));
-  if (urls.length > 0) return { images: urls, isBase64: false, requestId };
-
-  const b64s = json.data
-    .map((d) => d.b64_json)
-    .filter((b): b is string => Boolean(b));
-  return { images: b64s, isBase64: true, requestId };
-}
-
-async function handleImageStream(
-  apiKey: string,
-  body: StreamBody,
-  userId: number,
-) {
-  const prompt = extractLastUserText(body.messages);
-  if (!prompt) throw new Error(msg("ERRORS.NO_IMAGE_PROMPT"));
-
-  await assertPromptAllowed({
-    prompt,
-    userId,
-    convId: body.convId,
-    model: body.model,
-    mediaType: "image",
-  });
-
-  const { endpointPath } = await isMediaModel(body.model);
-  const stream = createUIMessageStream({
-    execute: async ({ writer }) => {
-      const { images, isBase64 } = await generateImage(
-        apiKey,
-        body.model,
-        prompt,
-        endpointPath!,
-      );
-
-      const convId = body.convId ?? "tmp";
-      const groupKey = uid(8);
-      const r2Urls = await Promise.all(
-        images.map((img: string) =>
-          isBase64
-            ? uploadBase64ToR2(`data:image/png;base64,${img}`, convId, groupKey)
-            : fetchCheckUpload(img, convId, groupKey, false),
-        ),
-      );
-
-      const markdown = r2Urls
-        .filter(Boolean)
-        .map((url: string | null) => `![image](${url})`)
-        .join("\n\n");
-
-      writeBufferedMessage(writer, markdown);
-    },
-  });
-
-  return createUIMessageStreamResponse({ stream });
-}
-
-async function handleVideoTaskStream(
-  apiKey: string,
-  body: StreamBody,
-  userId: number,
-) {
-  const prompt = extractLastUserText(body.messages);
-  if (!prompt) throw new Error(msg("ERRORS.NO_IMAGE_PROMPT"));
-
-  await assertPromptAllowed({
-    prompt,
-    userId,
-    convId: body.convId,
-    model: body.model,
-    mediaType: "video",
-  });
-
-  const stream = createUIMessageStream({
-    execute: async ({ writer }) => {
-      const { taskId, status, progress } = await submitVideoTask(
-        apiKey,
-        body.model,
-        prompt,
-      );
-
-      // data-task: assistant-ui rewrites to {type:"data",name:"task"}; partsToItems persists as `task` for reopen/finalize.
-      writer.write({ type: "start" });
-      writer.write({ type: "start-step" });
-      writer.write({
-        type: "data-task",
-        data: { taskId, status, progress, model: body.model },
-      });
-      writer.write({ type: "finish-step" });
-      writer.write({ type: "finish", finishReason: "stop" });
-    },
-  });
-
-  return createUIMessageStreamResponse({ stream });
-}
-
-function handleBufferedStream(
-  result: ReturnType<typeof streamText>,
-  body: StreamBody,
-  mediaType: ModelType,
-) {
-  const stream = createUIMessageStream({
-    execute: async ({ writer }) => {
-      const fullText = await result.text;
-      const convId = body.convId ?? "tmp";
-
-      const cleanText = await processUrls(fullText, convId, mediaType);
-      writeBufferedMessage(writer, cleanText);
-    },
-  });
-
-  return createUIMessageStreamResponse({ stream });
-}
 
 export async function streamChat(
   apiKey: string,
@@ -501,7 +82,7 @@ export async function streamChat(
     return handleVideoTaskStream(apiKey, body, userId);
   }
 
-  // IDB-first: client chatContext avoids Turso RP reads; fall back to Turso for guests/legacy/share-page.
+  // IDB-first: client chatContext avoids Turso RP reads; fall back to Turso for guests/legacy.
   const convCtx = body.chatContext
     ? buildContextFromClient(body.chatContext)
     : body.convId
@@ -627,7 +208,10 @@ export async function streamChat(
   const droppedParamsRef: { value: string | null } = { value: null };
   // Captured in onFinish; emitted in messageMetadata to seed request log row.
   const debugRef: {
-    value: { requestId: string | null; responseHeaders: Record<string, string> | null };
+    value: {
+      requestId: string | null;
+      responseHeaders: Record<string, string> | null;
+    };
   } = { value: { requestId: null, responseHeaders: null } };
   const usageRef: {
     value: {
@@ -762,6 +346,23 @@ export async function streamChat(
   if (!buffered && !userOptedOutOfStreaming) {
     return result.toUIMessageStreamResponse({
       messageMetadata: ({ part }) => {
+        // `finish-step` carries `response.headers` synchronously inside the
+        // metadata callback's emit window; `onFinish` (sdk) races UI stream
+        // end and would land null in the `debug` emit below.
+        if (part.type === "finish-step") {
+          const hdrs = part.response.headers ?? null;
+          if (hdrs) {
+            debugRef.value = {
+              requestId: hdrs["x-oneapi-request-id"] ?? null,
+              responseHeaders: hdrs,
+            };
+            const dropped = hdrs["x-newapi-dropped-params"];
+            if (typeof dropped === "string" && dropped.length > 0) {
+              droppedParamsRef.value = dropped;
+            }
+          }
+          return undefined;
+        }
         if (part.type === "finish") {
           const meta: Record<string, unknown> = {};
           if (droppedParamsRef.value)

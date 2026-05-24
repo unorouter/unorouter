@@ -1,7 +1,5 @@
 import {
-  chatSearchQuery,
   finalizeTaskBody,
-  paginationQuery,
   streamBody,
   titleGenerationBody,
 } from "@/lib/validation/chat";
@@ -10,8 +8,6 @@ import { Elysia } from "elysia";
 import {
   getConversation,
   getConversationMarkdown,
-  getPaginatedMessages,
-  listConversations,
 } from "./conversation.service";
 import {
   fetchVideoTaskStatus,
@@ -21,27 +17,6 @@ import { generateChatTitle } from "./augmentation/title.service";
 import { streamChat } from "./stream.service";
 
 export const chatRoute = new Elysia({ prefix: "/chat" })
-
-  .get(
-    "/conversations",
-    async ({ query, cookie }) => {
-      const userId = await getUserId(cookie);
-      const data = await listConversations(userId, query);
-      return { success: true, data };
-    },
-    { query: chatSearchQuery },
-  )
-
-  .get(
-    "/:id",
-    async ({ params, query, cookie }) => {
-      const userId = await getUserId(cookie);
-      const conv = await getConversation(userId, params.id);
-      const paginated = await getPaginatedMessages(params.id, query);
-      return { success: true, data: { ...conv, ...paginated } };
-    },
-    { query: paginationQuery },
-  )
 
   .get("/:id/meta", async ({ params, cookie }) => {
     const userId = await getUserId(cookie);

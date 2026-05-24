@@ -7,7 +7,7 @@ import { rpc } from "@/lib/rpc";
 import { arrayBufferToBase64, handleElysia } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 import { media } from "@/lib/db/schema/shared";
-import type { SyncBundle } from "@/server/ai/sync/sync.service";
+import type { SyncBundle } from "@/server/ai/sync/bundles";
 import { SYNC_KINDS, type SyncKindName } from "@/lib/validation/sync";
 import { useQueryClient, type QueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";

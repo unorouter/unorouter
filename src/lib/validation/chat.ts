@@ -326,16 +326,6 @@ export type UpdateConversationBindingsBody = Static<
   typeof updateConversationBindingsBody
 >;
 
-export const paginationQuery = t.Object({
-  p: t.Optional(t.Number({ minimum: 1 })),
-  page_size: t.Optional(t.Number({ minimum: 1, maximum: 100 })),
-});
-
-export const chatSearchQuery = t.Composite([
-  paginationQuery,
-  t.Object({ keyword: t.Optional(t.String({ maxLength: 200 })) }),
-]);
-export type ChatSearchQuery = Static<typeof chatSearchQuery>;
 
 // Loose `Any()`: each entity body has its own validation surface; re-checking
 // here would double-cost on every turn.

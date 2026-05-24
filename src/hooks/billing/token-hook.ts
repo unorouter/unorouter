@@ -118,7 +118,7 @@ export function useToggleTokenStatusMutation() {
 export function useFetchTokenKeyMutation() {
   const t = useTranslations();
   return useMutation({
-    mutationFn: async (args: EdenArgs<TokenRoute, "get">) => {
+    mutationFn: async (args: { id: string | number }) => {
       return handleElysia(await rpc.api.billing.token(args).key.post());
     },
     onError: (e) => handleError(e, t),
@@ -130,7 +130,7 @@ export function useDeleteTokenMutation() {
   const queryClient = useQueryClient();
   const queryKey = useTokenTableQueryKey();
   return useMutation({
-    mutationFn: async (args: EdenArgs<TokenRoute, "delete">) => {
+    mutationFn: async (args: { id: string | number }) => {
       return handleElysia(await rpc.api.billing.token(args).delete());
     },
     onError: (e) => handleError(e, t),

@@ -3,7 +3,6 @@ import { RpDialogs } from "@/components/pages/sidebar/chat/rp/rp-dialogs";
 import { ChatRuntimeProvider } from "@/components/pages/sidebar/chat/runtime/chat-runtime-provider";
 import { GuestLocalDbMigrate } from "@/components/pages/sidebar/chat/runtime/guest-local-db-migrate";
 import { ConversationList } from "@/components/pages/sidebar/chat/sidebar/conversation-list";
-import { PAGE_SIZE } from "@/lib/config/constants";
 import { SyncStateHydrator } from "@/lib/db/client/sync/sync-state-hydrator";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
@@ -34,18 +33,6 @@ export default async function ChatLayout(props: Props) {
       queryFn: async () => handleElysia(await rpc.api.models.pricing.get()),
     }),
     isLoggedIn &&
-      queryClient.prefetchInfiniteQuery({
-        queryKey: queryKeys.conversations(undefined),
-        queryFn: async ({ pageParam }) =>
-          handleElysia(
-            await rpc.api.ai.chat.conversations.get({
-              query: { p: pageParam, page_size: PAGE_SIZE, keyword: undefined },
-              ...cookieHeaders!,
-            }),
-          ),
-        initialPageParam: 1,
-      }),
-    isLoggedIn &&
       queryClient.prefetchQuery({
         queryKey: queryKeys.bestKey(),
         queryFn: async () =>
@@ -54,30 +41,6 @@ export default async function ChatLayout(props: Props) {
               ...cookieHeaders!,
             }),
           ),
-      }),
-    isLoggedIn &&
-      queryClient.prefetchQuery({
-        queryKey: queryKeys.characters(),
-        queryFn: async () =>
-          handleElysia(await rpc.api.ai.rp.characters.get(cookieHeaders!)),
-      }),
-    isLoggedIn &&
-      queryClient.prefetchQuery({
-        queryKey: queryKeys.personas(),
-        queryFn: async () =>
-          handleElysia(await rpc.api.ai.rp.personas.get(cookieHeaders!)),
-      }),
-    isLoggedIn &&
-      queryClient.prefetchQuery({
-        queryKey: queryKeys.lorebooks(),
-        queryFn: async () =>
-          handleElysia(await rpc.api.ai.rp.lorebooks.get(cookieHeaders!)),
-      }),
-    isLoggedIn &&
-      queryClient.prefetchQuery({
-        queryKey: queryKeys.presets(),
-        queryFn: async () =>
-          handleElysia(await rpc.api.ai.rp.presets.get(cookieHeaders!)),
       }),
     isLoggedIn &&
       queryClient.prefetchQuery({

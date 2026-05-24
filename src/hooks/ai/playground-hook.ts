@@ -416,46 +416,6 @@ export function useDeleteSnapshotMutation() {
   });
 }
 
-export function useDeleteSessionMutation() {
-  const t = useTranslations();
-  const qc = useQueryClient();
-  const auth = useAuthQuery();
-  return useMutation({
-    mutationFn: async (args: { sessionId: string }) => {
-      const userId = auth.data?.id ?? GUEST_USER_ID;
-      const session = await readLocalGenerationSession(
-        userId,
-        args.sessionId,
-      );
-      const wasSynced = session?.syncExpiresAt != null;
-      await deleteLocalGenerationSession(userId, args.sessionId);
-      if (userId > GUEST_USER_ID && wasSynced) {
-        try {
-          handleElysia(
-            await rpc.api.ai
-              .sync({ kind: "playgroundSessions" })({ id: args.sessionId })
-              .delete(),
-          );
-        } catch (err) {
-          await enqueuePending(
-            userId,
-            "playgroundSessions",
-            args.sessionId,
-            "delete",
-            err,
-          );
-        }
-      }
-      return { id: args.sessionId };
-    },
-    onError: (e) => handleError(e, t),
-    onSuccess: () => {
-      qc.invalidateQueries({ queryKey: queryKeys.playgroundSessionLists() });
-      qc.invalidateQueries({ queryKey: queryKeys.syncState() });
-    },
-  });
-}
-
 // Reads a session's local bundle into a portable JSON payload (base64 images).
 export function useExportSessionMutation() {
   const t = useTranslations();

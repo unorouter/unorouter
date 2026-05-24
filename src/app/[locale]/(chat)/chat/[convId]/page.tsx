@@ -1,12 +1,7 @@
 import { Chat } from "@/components/pages/sidebar/chat/chat";
-import { APP_VALUES, PAGE_SIZE } from "@/lib/config/constants";
-import getQueryClient from "@/lib/react-query/client";
-import { queryKeys } from "@/lib/react-query/keys";
-import { rpc } from "@/lib/rpc";
+import { APP_VALUES } from "@/lib/config/constants";
 import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
-import { handleElysia } from "@/lib/utils/base";
-import { fetchConvTitle, serverLocale, setCookies } from "@/lib/utils/server";
-import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
+import { fetchConvTitle, serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
 
 type Props = {
@@ -33,60 +28,5 @@ export async function generateMetadata(props: Props) {
 
 export default async function ChatConvPage(props: Props) {
   const { convId } = await props.params;
-  const queryClient = getQueryClient();
-  const cookieHeaders = await setCookies();
-
-  await queryClient.prefetchQuery({
-    queryKey: queryKeys.auth(),
-    queryFn: async () =>
-      handleElysia(await rpc.api.auth.account.self.get(cookieHeaders)),
-  });
-  const isLoggedIn = !!queryClient.getQueryData(queryKeys.auth());
-
-  if (isLoggedIn) {
-    await Promise.all([
-      queryClient.prefetchQuery({
-        queryKey: queryKeys.chatMeta(convId),
-        queryFn: async () =>
-          handleElysia(
-            await rpc.api.ai.chat({ id: convId }).meta.get(cookieHeaders),
-          ),
-      }),
-      queryClient.prefetchInfiniteQuery({
-        queryKey: queryKeys.chatMessages(convId),
-        queryFn: async ({ pageParam }) =>
-          handleElysia(
-            await rpc.api.ai.chat({ id: convId }).get({
-              query: { p: pageParam, page_size: PAGE_SIZE },
-              ...cookieHeaders,
-            }),
-          ),
-        initialPageParam: 1,
-      }),
-      queryClient.prefetchQuery({
-        queryKey: queryKeys.chatSettings(convId),
-        queryFn: async () =>
-          handleElysia(
-            await rpc.api.ai.rp
-              .conversations({ id: convId })
-              .settings.get(cookieHeaders),
-          ),
-      }),
-      queryClient.prefetchQuery({
-        queryKey: queryKeys.chatBindings(convId),
-        queryFn: async () =>
-          handleElysia(
-            await rpc.api.ai.rp
-              .conversations({ id: convId })
-              .bindings.get(cookieHeaders),
-          ),
-      }),
-    ]);
-  }
-
-  return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
-      <Chat convId={convId} />
-    </HydrationBoundary>
-  );
+  return <Chat convId={convId} />;
 }

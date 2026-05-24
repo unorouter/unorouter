@@ -1,22 +1,10 @@
-import { getAllQuotaDates, getLogsStat } from "@/openapi";
+import { getAllQuotaDates } from "@/openapi";
 import { unwrap } from "@/lib/utils/base";
 import { Elysia } from "elysia";
 import { ADMIN_HEADERS } from "@/server/constants";
 import { FAR_FUTURE } from "@/lib/config/constants";
 
 export const statsRoute = new Elysia({ prefix: "/stats" })
-  .get("/live", async () => {
-    const res = await getLogsStat(undefined, {
-      headers: ADMIN_HEADERS,
-    });
-    const stat = unwrap(res).data;
-
-    return {
-      quota: stat?.quota ?? 0,
-      rpm: stat?.rpm ?? 0,
-      tpm: stat?.tpm ?? 0,
-    };
-  })
   .get("/history", async () => {
     const now = Math.floor(Date.now() / 1000);
 

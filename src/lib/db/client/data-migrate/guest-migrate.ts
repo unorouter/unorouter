@@ -7,10 +7,6 @@ import { logger } from "@/lib/utils/logger";
 import { getLocalDb, resetLocalDbCache } from "../client";
 import { copyAllTables } from "./copy";
 
-function guestDbFileName(): string {
-  return `${env.appName.toLowerCase()}-${GUEST_USER_ID}.sqlite3`;
-}
-
 // Checks OPFS for the guest DB file WITHOUT creating it. Calling getLocalDb(0)
 // would recreate an empty guest DB on every post-migration page load.
 async function guestDbExists(): Promise<boolean> {
@@ -19,7 +15,7 @@ async function guestDbExists(): Promise<boolean> {
   }
   try {
     const root = await navigator.storage.getDirectory();
-    await root.getFileHandle(guestDbFileName(), { create: false });
+    await root.getFileHandle(`${env.appName.toLowerCase()}-${GUEST_USER_ID}.sqlite3`, { create: false });
     return true;
   } catch {
     return false;

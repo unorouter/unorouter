@@ -5,15 +5,10 @@ import {
 } from "@/lib/validation/sync";
 import { getUserId } from "@/server/constants";
 import { Elysia } from "elysia";
-import {
-  clearSyncExpiry,
-  getSyncedBundle,
-  getSyncedBundlesBatch,
-  getSyncStateBulk,
-  setSyncExpiry,
-  sweepExpired,
-  sweepKey,
-} from "./sync.service";
+import { getSyncedBundle, getSyncedBundlesBatch } from "./bundles";
+import { clearSyncExpiry, setSyncExpiry } from "./expiry";
+import { getSyncStateBulk } from "./state";
+import { sweepExpired, sweepKey } from "./sweep";
 
 export const syncRoute = new Elysia({ prefix: "/sync" })
   .derive(async ({ cookie }) => {

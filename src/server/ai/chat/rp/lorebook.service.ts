@@ -3,18 +3,9 @@ import { getDb } from "@/lib/db/server/client";
 import { serializeLorebookForExport } from "@/lib/ai/rp/lorebook-import";
 import { exportSlug } from "@/lib/utils/base";
 import { assertFound } from "@/lib/utils/server";
-import { and, asc, desc, eq } from "drizzle-orm";
+import { and, asc, eq } from "drizzle-orm";
 
-export async function listLorebooks(userId: number) {
-  const db = getDb();
-  return db
-    .select()
-    .from(lorebooks)
-    .where(eq(lorebooks.userId, userId))
-    .orderBy(desc(lorebooks.updatedAt));
-}
-
-export async function getLorebook(userId: number, id: string) {
+async function getLorebook(userId: number, id: string) {
   const db = getDb();
   const rows = await db
     .select()

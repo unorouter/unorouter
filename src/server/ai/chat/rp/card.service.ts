@@ -2,18 +2,9 @@ import { assertFound } from "@/lib/utils/server";
 import { getDb } from "@/lib/db/server/client";
 import { cardCharacters, cardLorebooks, cards } from "@/lib/db/schema";
 import { exportSlug } from "@/lib/utils/base";
-import { and, asc, desc, eq } from "drizzle-orm";
+import { and, asc, eq } from "drizzle-orm";
 
-export async function listCards(userId: number) {
-  const db = getDb();
-  return db
-    .select()
-    .from(cards)
-    .where(eq(cards.userId, userId))
-    .orderBy(desc(cards.updatedAt));
-}
-
-export async function getCard(userId: number, id: string) {
+async function getCard(userId: number, id: string) {
   const db = getDb();
   const rows = await db
     .select()

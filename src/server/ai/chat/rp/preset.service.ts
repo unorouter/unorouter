@@ -2,18 +2,9 @@ import { assertFound } from "@/lib/utils/server";
 import { getDb } from "@/lib/db/server/client";
 import { samplingPresets } from "@/lib/db/schema";
 import { exportSlug } from "@/lib/utils/base";
-import { and, desc, eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 
-export async function listPresets(userId: number) {
-  const db = getDb();
-  return db
-    .select()
-    .from(samplingPresets)
-    .where(eq(samplingPresets.userId, userId))
-    .orderBy(desc(samplingPresets.updatedAt));
-}
-
-export async function getPreset(userId: number, id: string) {
+async function getPreset(userId: number, id: string) {
   const db = getDb();
   const rows = await db
     .select()

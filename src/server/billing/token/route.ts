@@ -1,4 +1,3 @@
-import { paginationQuery } from "@/lib/api/typebox/common";
 import {
   createTokenBody,
   tokenSearchQuery,
@@ -8,11 +7,7 @@ import { unwrap } from "@/lib/utils/base";
 import {
   addToken,
   deleteToken,
-  getAllTokens,
-  getApiUserSelfGroups,
-  getToken,
   getTokenKey,
-  getUserModels,
   searchTokens,
   updateToken,
 } from "@/openapi";
@@ -23,15 +18,6 @@ export const tokenRoute = new Elysia({ prefix: "/token" })
   .derive(deriveUpstream)
 
   .get(
-    "/",
-    async ({ query, upstream }) => {
-      const res = await getAllTokens(query, { headers: upstream.headers });
-      return unwrap(res);
-    },
-    { query: paginationQuery },
-  )
-
-  .get(
     "/search",
     async ({ query, upstream }) => {
       const res = await searchTokens(query, { headers: upstream.headers });
@@ -39,11 +25,6 @@ export const tokenRoute = new Elysia({ prefix: "/token" })
     },
     { query: tokenSearchQuery },
   )
-
-  .get("/:id", async ({ params, upstream }) => {
-    const res = await getToken(params.id, { headers: upstream.headers });
-    return unwrap(res);
-  })
 
   .post(
     "/",
@@ -116,15 +97,5 @@ export const tokenRoute = new Elysia({ prefix: "/token" })
 
   .delete("/:id", async ({ params, upstream }) => {
     const res = await deleteToken(params.id, { headers: upstream.headers });
-    return unwrap(res);
-  })
-
-  .get("/user/groups", async ({ upstream }) => {
-    const res = await getApiUserSelfGroups({ headers: upstream.headers });
-    return unwrap(res);
-  })
-
-  .get("/user/models", async ({ upstream }) => {
-    const res = await getUserModels({ headers: upstream.headers });
     return unwrap(res);
   });
