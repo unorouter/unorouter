@@ -83,6 +83,27 @@ export async function mirrorConvPatchIfSynced(
   await mirrorSyncedRow(userId, "conversations", convId, patch);
 }
 
+// Settings-only mirror: pushes only the conversation_settings row through
+// the conv bundle handler in `upsert` merge mode so other arrays
+// (messages, media, characters) stay untouched. Use this for model picker
+// + slider edits + system prompt overrides on synced convs.
+export async function mirrorConvSettingsIfSynced(
+  userId: number | undefined,
+  convId: string,
+  settings: Record<string, unknown>,
+) {
+  const conv = await readLocalConversation(userId, convId);
+  if (conv?.syncExpiresAt == null) return;
+  if (!userId) return;
+  await mirrorSyncedRow(
+    userId,
+    "conversations",
+    convId,
+    { settings: { ...settings, convId } },
+    "upsert",
+  );
+}
+
 type ConvDeltaPatch = {
   conversation?: Record<string, unknown>;
   messages?: Array<Record<string, unknown>>;

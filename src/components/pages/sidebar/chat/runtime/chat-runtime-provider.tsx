@@ -6,16 +6,16 @@
 import { createChatHistoryAdapter } from "@/components/pages/sidebar/chat/runtime/chat-history-adapter";
 import { createLocalAttachmentAdapter } from "@/components/pages/sidebar/chat/runtime/chat-utils";
 import { createThreadListAdapter } from "@/components/pages/sidebar/chat/runtime/thread-list-adapter";
-import {
-  useConversationQuery,
-  useUpdateConversationMutation,
-} from "@/hooks/ai/chat-hook";
+import { useConversationQuery } from "@/hooks/ai/chat-hook";
+import { mirrorConvSettingsIfSynced } from "@/hooks/ai/rp/shared";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { GUEST_USER_ID } from "@/lib/config/constants";
+import { upsertLocalConversationSettings } from "@/lib/db/client/data/chat";
 import { buildChatContextFromLocalDb } from "@/lib/db/client/data/chat-context";
 import { queryKeys } from "@/lib/react-query/keys";
 import type { ChatUIMessage } from "@/lib/types";
 import { handleError } from "@/lib/utils/client";
+import { dayjs } from "@/lib/utils/format/date";
 import {
   chatDefaultsAtom,
   chatHelpersAtom,
@@ -50,12 +50,14 @@ function useConvIdSync(remoteId: string | null | undefined) {
 }
 
 // Two-way model sync: server conversation model seeds the atom on thread load;
-// later atom changes (model picker) push back to the server conversation.
+// later atom changes (model picker) push back to conversation_settings via
+// the settings-only mirror so we don't rebuild + ship the full bundle for
+// a single field change.
 function useModelSync(remoteId: string | null | undefined) {
+  const auth = useAuthQuery();
   const setChatModel = useSetAtom(chatModelAtom);
   const queryClient = useQueryClient();
   const conversationQuery = useConversationQuery(remoteId ?? undefined);
-  const updateModel = useUpdateConversationMutation().mutate;
   const lastSyncedIdRef = useRef<string | undefined>(undefined);
 
   const serverModel = conversationQuery.data?.model;
@@ -66,6 +68,7 @@ function useModelSync(remoteId: string | null | undefined) {
     setChatModel(serverModel);
   }, [remoteId, serverModel, setChatModel]);
 
+  const userId = auth.data?.id;
   useEffect(() => {
     return chatStore.sub(chatModelAtom, () => {
       const id = chatStore.get(convIdAtom);
@@ -75,9 +78,19 @@ function useModelSync(remoteId: string | null | undefined) {
         queryKeys.chatMeta(id),
       );
       if (cached?.model === newModel) return;
-      updateModel({ id, body: { model: newModel } });
+      void (async () => {
+        await upsertLocalConversationSettings(userId, {
+          convId: id,
+          defaultModel: newModel,
+          updatedAt: dayjs().toDate(),
+        });
+        await mirrorConvSettingsIfSynced(userId, id, {
+          defaultModel: newModel,
+        });
+        queryClient.invalidateQueries({ queryKey: queryKeys.chatMeta(id) });
+      })();
     });
-  }, [queryClient, updateModel]);
+  }, [queryClient, userId]);
 }
 
 // Built once: assistant-ui calls the runtime hook per render but never
