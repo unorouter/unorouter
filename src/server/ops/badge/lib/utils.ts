@@ -55,10 +55,10 @@ export function getVendorIcon(vendor: string): string | null {
   return null;
 }
 
-export function svgDataUri(svg: string, color: string): string {
-  const colored = svg.replace("<svg ", `<svg fill="${color}" `);
-  const b64 = Buffer.from(colored).toString("base64");
-  return `data:image/svg+xml;base64,${b64}`;
+export function svgDataUri(svg: string, color?: string): string {
+  const source =
+    color != null ? svg.replace("<svg ", `<svg fill="${color}" `) : svg;
+  return `data:image/svg+xml;base64,${Buffer.from(source).toString("base64")}`;
 }
 
 export async function renderBadgeTemplate(

@@ -8,6 +8,7 @@ import {
   type BadgeType,
   type BuildBadgeUrlOptions,
 } from "@/lib/validation/badge";
+import { svgDataUri } from "../lib/utils";
 
 function pageUrl(
   type: BadgeType,
@@ -115,7 +116,7 @@ body{background:${props.bg};color:${props.fg};font-family:system-ui;padding:40px
                   <img
                     class="badge-img"
                     alt={props.badgeAlt}
-                    src={`data:image/svg+xml;base64,${Buffer.from(b.svg).toString("base64")}`}
+                    src={svgDataUri(b.svg)}
                   />
                 </div>
               ))}
