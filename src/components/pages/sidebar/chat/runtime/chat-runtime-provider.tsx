@@ -15,7 +15,6 @@ import { GUEST_USER_ID } from "@/lib/config/constants";
 import { buildChatContextFromLocalDb } from "@/lib/db/client/data/chat-context";
 import { queryKeys } from "@/lib/react-query/keys";
 import type { ChatUIMessage } from "@/lib/types";
-import { uid } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
 import {
   chatDefaultsAtom,
@@ -24,6 +23,7 @@ import {
   chatStore,
   chatWebSearchAtom,
   convIdAtom,
+  ensureConvId,
   type ChatHelpersRef,
 } from "@/store/chat-store";
 import { useChat } from "@ai-sdk/react";
