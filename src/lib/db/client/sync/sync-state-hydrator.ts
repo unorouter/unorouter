@@ -46,6 +46,7 @@ import {
   upsertLocalGenerationSessionBundle,
 } from "../data/playground";
 import { upsertLocalTheme } from "../data/theme";
+import { usePendingDrainScheduler } from "./scheduler";
 
 // Skip the conv bundle pull on first paint when the user lands on a single
 // conv page; SSR prefetch already covered that conv via React Query, and the
@@ -66,6 +67,10 @@ export function SyncStateHydrator() {
   const qc = useQueryClient();
   const t = useTranslations();
   const pathname = usePathname();
+
+  // Background drain so pending mirror writes don't sit until next hydrator
+  // run. Self-bails when document hidden; resumes on focus / online.
+  usePendingDrainScheduler(auth.data?.id ?? null);
 
   useEffect(() => {
     const userId = auth.data?.id ?? GUEST_USER_ID;
