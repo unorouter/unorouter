@@ -115,13 +115,22 @@ async function openClient(userId: number): Promise<LocalClient> {
 
   // Release SAH on unload, else Chromium/Brave keeps OPFS bytes in "orphan"
   // state until eviction. `beforeunload` covers browsers without pagehide.
+  // Cache eviction must come BEFORE destroy so a BFcache restore reopens a
+  // fresh handle instead of returning the destroyed promise.
   if (typeof window !== "undefined") {
-    const release = () => void sql.destroy().catch(() => {});
+    const release = () => {
+      cached.delete(userId);
+      void sql.destroy().catch(() => {});
+    };
     window.addEventListener("pagehide", release, { once: true });
     window.addEventListener("beforeunload", release, { once: true });
-    window.__local = wrapped;
-    window.__shared = shared;
-    window.__sqlocal = sql;
+    // Dev-only debug surface. In prod the globals leak the local DB into
+    // any XSS or third-party script context.
+    if (IS_DEV) {
+      window.__local = wrapped;
+      window.__shared = shared;
+      window.__sqlocal = sql;
+    }
   }
   return wrapped;
 }
