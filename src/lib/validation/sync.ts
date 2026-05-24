@@ -73,7 +73,9 @@ export const BATCH_BUNDLE_MAX_REQUESTS = 20;
 
 // Client-side chunk size for the per-kind bundle pull during Stage 2 hydration.
 // Keep <= BATCH_BUNDLE_MAX_REQUESTS so every chunk fits in one POST /sync/bundles.
-export const SYNC_BUNDLE_CHUNK_SIZE = 6;
+// Bumped from 6 -> 16 once child-table sync became merge-based: larger chunks
+// now amortise the per-request overhead without risking local-edit wipes.
+export const SYNC_BUNDLE_CHUNK_SIZE = 16;
 
 export const batchBundleRequestBody = t.Object({
   requests: t.Array(
