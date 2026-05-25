@@ -2,7 +2,7 @@ import type { ModelType } from "@/lib/api/pricing";
 import { isMediaModel } from "@/lib/api/pricing-cache";
 import { msg } from "@/lib/config/constants";
 import { fetchCheckUpload, uploadBase64ToR2 } from "@/lib/config/r2";
-import { uid } from "@/lib/utils/base";
+import { base64ToDataUri, uid } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 import { imageGenResponseChecker } from "@/lib/validation/media";
 import { upstreamApiUrl } from "@/server/constants";
@@ -157,7 +157,11 @@ export async function handleImageStream(
       const r2Urls = await Promise.all(
         images.map((img: string) =>
           isBase64
-            ? uploadBase64ToR2(`data:image/png;base64,${img}`, convId, groupKey)
+            ? uploadBase64ToR2(
+                base64ToDataUri(img, "image/png"),
+                convId,
+                groupKey,
+              )
             : fetchCheckUpload(img, convId, groupKey, false),
         ),
       );

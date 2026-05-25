@@ -2,6 +2,8 @@ import type { Static } from "elysia";
 import { t } from "elysia";
 import type { TLiteral, TUnion } from "@sinclair/typebox/type";
 
+export const MAX_IMAGES_PER_GEN = 4;
+
 // Pulls literals out of TypeBox union so sampler arrays stay one source.
 function unionLiterals<T extends string>(
   union: TUnion<TLiteral<T>[]>,
@@ -116,7 +118,7 @@ export const generationParams = t.Object({
   hiresDenoise: t.Optional(t.Number({ minimum: 0, maximum: 1 })),
   hiresUpscale: t.Optional(t.Number({ minimum: 1, maximum: 4 })),
   // worker-comfyui caps batch_size at 4 inside the adapter.
-  n: t.Optional(t.Integer({ minimum: 1, maximum: 4 })),
+  n: t.Optional(t.Integer({ minimum: 1, maximum: MAX_IMAGES_PER_GEN })),
   // Sync-image vendor knobs; ComfyUI ignores them.
   quality: t.Optional(t.String({ maxLength: 32 })),
   outputFormat: t.Optional(t.String({ maxLength: 16 })),

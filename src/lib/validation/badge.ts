@@ -67,6 +67,6 @@ export function buildBadgeUrl(
   if (opts.ref) params.set("ref", opts.ref);
   if (opts.v !== undefined) params.set("v", String(opts.v));
   const qs = params.toString();
-  const path = `/api/badge/${type}${qs ? `?${qs}` : ""}`;
+  const path = `/api/ops/badge/${type}${qs ? `?${qs}` : ""}`;
   return opts.origin ? `${opts.origin}${path}` : path;
 }

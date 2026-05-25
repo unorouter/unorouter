@@ -51,7 +51,14 @@ export const checkoutSessionsRoute = new Elysia({
       const userId = await getUserId(cookie);
       const key = readIdempotencyKey(request);
       return withIdempotency(
-        { userId, path: "POST /checkout_sessions", key, body, set, cookie },
+        {
+          userId,
+          key,
+          body,
+          request,
+          set,
+          cookie,
+        },
         async () => {
           const result = await createSession({
             userId,
@@ -78,9 +85,9 @@ export const checkoutSessionsRoute = new Elysia({
       return withIdempotency(
         {
           userId,
-          path: `POST /checkout_sessions/${params.id}`,
           key,
           body,
+          request,
           set,
           cookie,
         },
@@ -107,9 +114,9 @@ export const checkoutSessionsRoute = new Elysia({
       return withIdempotency(
         {
           userId,
-          path: `POST /checkout_sessions/${params.id}/complete`,
           key,
           body,
+          request,
           set,
           cookie,
         },
@@ -134,9 +141,9 @@ export const checkoutSessionsRoute = new Elysia({
       return withIdempotency(
         {
           userId,
-          path: `POST /checkout_sessions/${params.id}/cancel`,
           key,
           body,
+          request,
           set,
           cookie,
         },

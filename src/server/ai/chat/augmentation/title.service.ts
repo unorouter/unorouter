@@ -1,5 +1,5 @@
+import { freeModelRace } from "@/lib/ai/chat/free-model-race";
 import {
-  FREE_MODEL_RACE_COUNT,
   TITLE_FALLBACK_MAX_CHARS,
   TITLE_SYSTEM_PROMPT,
 } from "@/lib/config/constants";
@@ -7,7 +7,6 @@ import { logger } from "@/lib/utils/logger";
 import { getProvider } from "@/server/constants";
 import { serverEnv } from "@/server/env";
 import { generateText } from "ai";
-import { getFreeTextModels } from "@/lib/api/pricing-cache";
 
 function truncateToTitle(text: string): string {
   const collapsed = text.replace(/\s+/g, " ").trim();
@@ -25,35 +24,33 @@ export async function generateChatTitle(
   text: string,
   preferredModel?: string,
 ) {
-  const provider = getProvider(apiKey ?? serverEnv.guestApiKey);
-
   let title: string;
-  const models = preferredModel
-    ? [preferredModel]
-    : await getFreeTextModels(FREE_MODEL_RACE_COUNT);
-  if (models.length === 0) {
-    title = truncateToTitle(text);
-  } else {
-    try {
-      const attempts = models.map((modelName) =>
-        generateText({
-          model: provider.chatModel(modelName),
-          system: TITLE_SYSTEM_PROMPT,
-          prompt: text,
-          maxOutputTokens: 30,
-          maxRetries: 0,
-        }),
-      );
-      const result = await Promise.any(attempts);
-      title = result.text.trim() || truncateToTitle(text);
-    } catch (err) {
-      logger.warn("Title generation race failed, using truncated fallback", {
-        context: "title.generate",
-        attempted: models,
-        error: String(err),
+  try {
+    if (preferredModel) {
+      const provider = getProvider(apiKey ?? serverEnv.guestApiKey);
+      const result = await generateText({
+        model: provider.chatModel(preferredModel),
+        system: TITLE_SYSTEM_PROMPT,
+        prompt: text,
+        maxOutputTokens: 30,
+        maxRetries: 0,
       });
-      title = truncateToTitle(text);
+      title = result.text.trim() || truncateToTitle(text);
+    } else {
+      const result = await freeModelRace({
+        apiKey,
+        systemPrompt: TITLE_SYSTEM_PROMPT,
+        prompt: text,
+        maxOutputTokens: 30,
+      });
+      title = result.text.trim() || truncateToTitle(text);
     }
+  } catch (err) {
+    logger.warn("Title generation race failed, using truncated fallback", {
+      context: "title.generate",
+      error: String(err),
+    });
+    title = truncateToTitle(text);
   }
 
   return { title };

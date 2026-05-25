@@ -1,4 +1,4 @@
-import { joinItemsToMessages } from "@/lib/ai/chat/messages";
+import { joinItemsToMessages, walkActiveBranch } from "@/lib/ai/chat/messages";
 import { GUEST_USER_ID, msg } from "@/lib/config/constants";
 import { capitalize } from "@/lib/utils/base";
 import { assertFound } from "@/lib/utils/server";
@@ -38,7 +38,7 @@ export async function getConversation(userId: number, convId: string) {
   return conv;
 }
 
-async function walkActiveBranch(convId: string) {
+async function loadConvBranchView(convId: string) {
   const db = getDb();
 
   const msgRows = await db
@@ -63,17 +63,8 @@ async function walkActiveBranch(convId: string) {
 
   const joined = joinItemsToMessages(msgRows, itemRows);
   const itemsByMsg = new Map(joined.map((m) => [m.id, m.items]));
-
-  const byId = new Map(msgRows.map((m) => [m.id, m]));
-  const tip = [...msgRows].reverse().find((m) => m.isActiveBranch !== false);
-  const path: typeof msgRows = [];
-  let cur = tip;
-  while (cur) {
-    path.unshift(cur);
-    cur = cur.parentId ? byId.get(cur.parentId) : undefined;
-  }
-
-  return { path, itemsByMsg, tipId: tip?.id };
+  const { path, tipId } = walkActiveBranch(msgRows);
+  return { path, itemsByMsg, tipId };
 }
 
 export async function getConversationMarkdown(userId: number, convId: string) {
@@ -89,7 +80,7 @@ export async function getConversationMarkdown(userId: number, convId: string) {
   if (conv.userId !== userId && conv.userId !== GUEST_USER_ID)
     throw new Error(msg("ERRORS.NOT_FOUND"));
 
-  const { path, itemsByMsg } = await walkActiveBranch(convId);
+  const { path, itemsByMsg } = await loadConvBranchView(convId);
 
   const lines: string[] = [];
   if (conv.title) lines.push(`# ${conv.title}`, "");

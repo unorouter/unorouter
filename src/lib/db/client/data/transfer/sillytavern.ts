@@ -1,6 +1,6 @@
 "use client";
 
-import { joinItemsToMessages } from "@/lib/ai/chat/messages";
+import { joinItemsToMessages, walkActiveBranch } from "@/lib/ai/chat/messages";
 import { msg } from "@/lib/config/constants";
 import type { StMessage, StMetadata } from "@/lib/types/transfer";
 import { exportSlug } from "@/lib/utils/base";
@@ -15,8 +15,7 @@ type ConversationBundle = NonNullable<
 type MessageRow = ConversationBundle["messages"][number];
 type MessageItemRow = ConversationBundle["messageItems"][number];
 
-// Linear active branch: follow parentId from the last active-branch tip.
-function walkActiveBranch(messages: MessageRow[], items: MessageItemRow[]) {
+function buildBranchView(messages: MessageRow[], items: MessageItemRow[]) {
   const joined = joinItemsToMessages(messages, items);
   const itemsByMsg = new Map<string, MessageItemRow[]>(
     joined.map((m) => [
@@ -24,19 +23,11 @@ function walkActiveBranch(messages: MessageRow[], items: MessageItemRow[]) {
       [...m.items].sort((a, b) => a.sequenceIndex - b.sequenceIndex),
     ]),
   );
-
   const ordered = [...messages].sort(
     (a, b) => dayjs(a.createdAt).valueOf() - dayjs(b.createdAt).valueOf(),
   );
-  const byId = new Map(ordered.map((m) => [m.id, m]));
-  const tip = [...ordered].reverse().find((m) => m.isActiveBranch !== false);
-  const path: MessageRow[] = [];
-  let cur = tip;
-  while (cur) {
-    path.unshift(cur);
-    cur = cur.parentId ? byId.get(cur.parentId) : undefined;
-  }
-  return { path, itemsByMsg, tipId: tip?.id };
+  const { path, tipId } = walkActiveBranch(ordered);
+  return { path, itemsByMsg, tipId };
 }
 
 function renderItemsAsText(items: MessageItemRow[]): string {
@@ -65,7 +56,7 @@ export async function exportLocalConversationSillyTavern(
   if (!bundle) throw new Error(msg("ERRORS.NOT_FOUND"));
 
   const conv = bundle.conversation;
-  const { path, itemsByMsg, tipId } = walkActiveBranch(
+  const { path, itemsByMsg, tipId } = buildBranchView(
     bundle.messages,
     bundle.messageItems,
   );

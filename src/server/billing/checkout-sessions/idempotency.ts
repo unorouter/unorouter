@@ -67,15 +67,19 @@ function setHeader(set: SetLike, name: string, value: string) {
 export async function withIdempotency<T>(
   args: {
     userId: number;
-    path: string;
     key: string;
     body: unknown;
+    request: Request;
     set: SetLike;
     cookie?: Record<string, Cookie<unknown>>;
   },
   fn: () => Promise<{ status: number; body: T }>,
 ): Promise<T> {
   const db = getDb();
+  // Derive path from the actual request so callers can't accidentally reuse
+  // the same idempotency key across different routes.
+  const url = new URL(args.request.url);
+  const path = `${args.request.method} ${url.pathname}`;
   const bodyHash = await sha256Hex(canonicalize(args.body));
 
   // Sweep stale keys lazily on read; cheap on indexed createdAt.
@@ -91,7 +95,7 @@ export async function withIdempotency<T>(
       and(
         eq(acpIdempotencyKeys.userId, args.userId),
         eq(acpIdempotencyKeys.key, args.key),
-        eq(acpIdempotencyKeys.path, args.path),
+        eq(acpIdempotencyKeys.path, path),
       ),
     )
     .limit(1);
@@ -123,7 +127,7 @@ export async function withIdempotency<T>(
   await db.insert(acpIdempotencyKeys).values({
     userId: args.userId,
     key: args.key,
-    path: args.path,
+    path: path,
     bodyHash,
     status: 0,
     response: {},
@@ -143,7 +147,7 @@ export async function withIdempotency<T>(
         and(
           eq(acpIdempotencyKeys.userId, args.userId),
           eq(acpIdempotencyKeys.key, args.key),
-          eq(acpIdempotencyKeys.path, args.path),
+          eq(acpIdempotencyKeys.path, path),
         ),
       );
     args.set.status = result.status;
@@ -156,7 +160,7 @@ export async function withIdempotency<T>(
         and(
           eq(acpIdempotencyKeys.userId, args.userId),
           eq(acpIdempotencyKeys.key, args.key),
-          eq(acpIdempotencyKeys.path, args.path),
+          eq(acpIdempotencyKeys.path, path),
         ),
       );
     throw err;

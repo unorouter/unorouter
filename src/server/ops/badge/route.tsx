@@ -42,7 +42,7 @@ const PNG_HEADERS = {
   "cache-control": CACHE_CONTROL,
 };
 
-// http://localhost:3000/api/badge/all?theme=dark
+// http://localhost:3000/api/ops/badge/all?theme=dark
 
 const BADGES: Record<BadgeType, (ctx: BadgeCtx) => Promise<string>> = {
   banner: generateTokensBanner,

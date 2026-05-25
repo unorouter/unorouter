@@ -2,6 +2,7 @@
 // (/images, /chat, /generateContent).
 
 import type { SyncImageEndpoint } from "@/lib/ai/playground/models-dynamic";
+import { base64ToDataUri } from "@/lib/utils/base";
 
 const MAX_REF_BYTES = 10 * 1024 * 1024;
 
@@ -29,7 +30,7 @@ async function fetchRefBytes(url: string): Promise<RefBytes> {
   const mime =
     res.headers.get("content-type")?.split(";")[0]?.trim() || "image/png";
   const base64 = buf.toString("base64");
-  return { buf, mime, base64, dataUri: `data:${mime};base64,${base64}` };
+  return { buf, mime, base64, dataUri: base64ToDataUri(base64, mime) };
 }
 
 export async function fetchAllRefs(urls: string[]): Promise<RefBytes[]> {
@@ -179,7 +180,7 @@ export function extractResultUris(
         typeof entry.b64_json === "string" &&
         entry.b64_json.length > 0
       ) {
-        out.push(`data:image/png;base64,${entry.b64_json}`);
+        out.push(base64ToDataUri(entry.b64_json, "image/png"));
       }
     }
     return out;
@@ -223,7 +224,7 @@ export function extractResultUris(
     if (!inline) continue;
     const mime = (inline.mime_type ?? inline.mimeType) as string | undefined;
     const data = inline.data as string | undefined;
-    if (mime && data) out.push(`data:${mime};base64,${data}`);
+    if (mime && data) out.push(base64ToDataUri(data, mime));
   }
   return out;
 }

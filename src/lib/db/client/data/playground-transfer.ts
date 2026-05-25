@@ -1,5 +1,6 @@
 "use client";
 
+import { PLAYGROUND_SESSION_TITLE_MAX } from "@/components/pages/sidebar/playground/playground-constants";
 import { GUEST_USER_ID, RETENTION_MS } from "@/lib/config/constants";
 import type { Playground } from "@/lib/db/schema/shared";
 import type {
@@ -127,8 +128,9 @@ export async function importLocalSession(
       : [payload];
   const title =
     payload.version === "unorouter-session-1"
-      ? (payload.session.title?.slice(0, 60).trim() || null)
-      : (payload.prompt.slice(0, 60).trim() || null);
+      ? (payload.session.title?.slice(0, PLAYGROUND_SESSION_TITLE_MAX).trim() ||
+          null)
+      : (payload.prompt.slice(0, PLAYGROUND_SESSION_TITLE_MAX).trim() || null);
   const firstModel =
     payload.version === "unorouter-session-1"
       ? payload.session.firstModel

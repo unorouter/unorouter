@@ -20,6 +20,17 @@ import {
 } from "./playground-catalogs";
 import { pollGeneration, submitGeneration } from "./playground.service";
 
+type Cookies = Parameters<typeof getUserId>[0];
+
+async function uploadGenPlaygroundFile(file: File, cookie: Cookies) {
+  const userId = (await getUserId(cookie, true)) ?? GUEST_USER_ID;
+  const buffer = Buffer.from(await file.arrayBuffer());
+  return {
+    success: true as const,
+    data: await uploadReferenceToR2(userId, buffer, file.type || undefined),
+  };
+}
+
 async function assertGuestAllowedModel(model: string): Promise<void> {
   if (COMFYUI_TEMPLATE_IDS.has(model)) {
     throw new Error(msg("ERRORS.UNAUTHORIZED"));
@@ -53,34 +64,14 @@ export const playgroundRoute = new Elysia({ prefix: "/playground" })
   )
   .post(
     "/references",
-    async ({ body, cookie }) => {
-      const userId = (await getUserId(cookie, true)) ?? GUEST_USER_ID;
-      const buffer = Buffer.from(await body.file.arrayBuffer());
-      return {
-        success: true,
-        data: await uploadReferenceToR2(
-          userId,
-          buffer,
-          body.file.type || undefined,
-        ),
-      };
-    },
+    async ({ body, cookie }) =>
+      uploadGenPlaygroundFile(body.file, cookie),
     { body: playgroundReferenceUploadBody },
   )
   .post(
     "/masks",
-    async ({ body, cookie }) => {
-      const userId = (await getUserId(cookie, true)) ?? GUEST_USER_ID;
-      const buffer = Buffer.from(await body.file.arrayBuffer());
-      return {
-        success: true,
-        data: await uploadReferenceToR2(
-          userId,
-          buffer,
-          body.file.type || undefined,
-        ),
-      };
-    },
+    async ({ body, cookie }) =>
+      uploadGenPlaygroundFile(body.file, cookie),
     { body: playgroundMaskUploadBody },
   )
   .get(

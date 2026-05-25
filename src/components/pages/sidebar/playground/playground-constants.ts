@@ -1,9 +1,14 @@
-import type { PlaygroundModel } from "@/lib/validation/playground";
+import {
+  MAX_IMAGES_PER_GEN,
+  type PlaygroundModel,
+} from "@/lib/validation/playground";
 
 export const INITIAL_MODEL: PlaygroundModel = "pony";
-export const VARIANT_CHOICES = [1, 2, 4] as const;
+export const VARIANT_CHOICES = [1, 2, MAX_IMAGES_PER_GEN] as const;
 
 export const CLIP_TOKEN_CAP = 77;
+
+export const PLAYGROUND_SESSION_TITLE_MAX = 60;
 
 export const UPSCALER_MULTIPLIERS: ReadonlyArray<{
   id: string;

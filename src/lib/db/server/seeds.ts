@@ -1,4 +1,4 @@
-// Idempotent re-runs via ON CONFLICT DO NOTHING; removing a seed here won't DELETE existing rows.
+// Idempotent re-runs via ON CONFLICT DO NOTHING.
 
 import { error, log } from "console";
 import { sql } from "drizzle-orm";

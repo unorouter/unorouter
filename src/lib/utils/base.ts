@@ -112,6 +112,10 @@ export function uint8ToArrayBuffer(bytes: Uint8Array): ArrayBuffer {
   return ab;
 }
 
+export function base64ToDataUri(base64: string, mimeType: string): string {
+  return `data:${mimeType};base64,${base64}`;
+}
+
 // Reads a File as raw base64, stripping the `data:<mime>;base64,` prefix.
 export function fileToBase64(file: File): Promise<string> {
   return new Promise((resolve, reject) => {

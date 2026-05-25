@@ -1,6 +1,6 @@
 import { GUEST_USER_ID } from "@/lib/config/constants";
 import { deleteLocalMedia, upsertLocalMedia } from "@/lib/db/client/data/media";
-import { fileToBase64, uid } from "@/lib/utils/base";
+import { base64ToDataUri, fileToBase64, uid } from "@/lib/utils/base";
 import { ensureConvId } from "@/store/chat-store";
 import type { AttachmentAdapter } from "@assistant-ui/react";
 
@@ -51,7 +51,7 @@ export function createLocalAttachmentAdapter(
 
       const file = attachment.file!;
       const base64 = await fileToBase64(file);
-      const dataUrl = `data:${file.type};base64,${base64}`;
+      const dataUrl = base64ToDataUri(base64, file.type);
 
       await upsertLocalMedia(ctx.userId ?? GUEST_USER_ID, {
         id: attachment.id,

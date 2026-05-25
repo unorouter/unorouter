@@ -7,5 +7,4 @@ export const COMFYUI_TEMPLATE_IDS = new Set([
   "flux2-dev-compose",
 ]);
 
-// Aligned with the form variant buttons (1/2/4) and the validator's `n` bound.
-export const MAX_IMAGES_PER_GEN = 4;
+export { MAX_IMAGES_PER_GEN } from "@/lib/validation/playground";

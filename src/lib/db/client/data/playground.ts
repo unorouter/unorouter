@@ -1,7 +1,7 @@
 "use client";
 
 import { GUEST_USER_ID } from "@/lib/config/constants";
-import { arrayBufferToBase64 } from "@/lib/utils/base";
+import { arrayBufferToBase64, base64ToDataUri } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
 import { logger } from "@/lib/utils/logger";
 import {
@@ -24,7 +24,7 @@ type MediaInput = typeof media.$inferInsert;
 // base64-priority; R2 fallback for synced rows.
 function resolveImageSrc(row: Media): string | null {
   if (row.dataBase64) {
-    return `data:${row.mimeType ?? "image/png"};base64,${row.dataBase64}`;
+    return base64ToDataUri(row.dataBase64, row.mimeType ?? "image/png");
   }
   return row.r2Url ?? null;
 }

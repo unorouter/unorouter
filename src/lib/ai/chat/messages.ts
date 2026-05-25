@@ -36,6 +36,26 @@ export type ApiMessage = {
 };
 
 // Joins messages + items by messageId; UI thread + export reader.
+// Walk parentId chain from the last active-branch tip back to root.
+// Returns the linear active-branch path (root -> tip) plus the tip id.
+export function walkActiveBranch<
+  M extends {
+    id: string;
+    parentId: string | null;
+    isActiveBranch?: boolean | null;
+  },
+>(messages: M[]): { path: M[]; tipId: string | undefined } {
+  const byId = new Map(messages.map((m) => [m.id, m]));
+  const tip = [...messages].reverse().find((m) => m.isActiveBranch !== false);
+  const path: M[] = [];
+  let cur = tip;
+  while (cur) {
+    path.unshift(cur);
+    cur = cur.parentId ? byId.get(cur.parentId) : undefined;
+  }
+  return { path, tipId: tip?.id };
+}
+
 export function joinItemsToMessages<
   M extends { id: string },
   I extends { messageId: string },

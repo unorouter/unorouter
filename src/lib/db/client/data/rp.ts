@@ -11,7 +11,7 @@ import {
   personas,
   samplingPresets,
 } from "@/lib/db/schema/shared";
-import { and, desc, eq } from "drizzle-orm";
+import { and, asc, desc, eq } from "drizzle-orm";
 import { getLocalDb } from "../client";
 import { makeTableStore, replaceChildRows } from "./table-store";
 
@@ -36,7 +36,9 @@ const cardStore = makeTableStore(cards, cards.id, {
   defaultOrderBy: desc(cards.updatedAt),
 });
 
-const lorebookEntryStore = makeTableStore(lorebookEntries, lorebookEntries.id);
+const lorebookEntryStore = makeTableStore(lorebookEntries, lorebookEntries.id, {
+  defaultOrderBy: asc(lorebookEntries.orderIndex),
+});
 export const readLocalCharacters = (userId: number | undefined) =>
   characterStore.list(userId);
 export const readLocalCharacter = (userId: number | undefined, id: string) =>

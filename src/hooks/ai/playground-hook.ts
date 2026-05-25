@@ -2,6 +2,7 @@
 
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { mirrorSessionIfSynced, unmirrorIfSynced } from "@/hooks/ai/rp/shared";
+import { PLAYGROUND_SESSION_TITLE_MAX } from "@/components/pages/sidebar/playground/playground-constants";
 import { GUEST_USER_ID, RETENTION_MS } from "@/lib/config/constants";
 import {
   bumpLocalSessionCounts,
@@ -266,7 +267,7 @@ async function runSubmit(
     await upsertLocalGenerationSession(userId, {
       id: sessionId,
       userId,
-      title: body.prompt.slice(0, 60).trim() || null,
+      title: body.prompt.slice(0, PLAYGROUND_SESSION_TITLE_MAX).trim() || null,
       firstModel: body.model,
       snapshotCount: 0,
       imageCount: 0,
