@@ -1,9 +1,5 @@
 import { StatusPage } from "@/components/pages/navbar/status/status-page";
 import { localeUrl } from "@/i18n/navigation";
-import {
-  type CompactPagePayload,
-  decodeCompactPage,
-} from "@/lib/api/model-status-compact";
 import { APP_VALUES } from "@/lib/config/constants";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
@@ -38,18 +34,11 @@ export default async function StatusRoute(props: {
   const t = await getTranslations({ locale });
   const queryClient = getQueryClient();
 
+  // modelStatusPage NOT prefetched on server: dehydrating the expanded
+  // StatusBarData[] payload (83 models x 1430 buckets x ~140 bytes) inlines
+  // ~16 MB into the SSR HTML and dominates TTFB. Client fetches it after
+  // hydration with the React Query cache cold.
   await Promise.all([
-    queryClient.prefetchQuery({
-      queryKey: queryKeys.modelStatusPage("1m", 24),
-      queryFn: async () => {
-        const raw = handleElysia(
-          await rpc.api.models["model-status"].page_compact.get({
-            query: { bucket: "1m", hours: 24 },
-          }),
-        ) as unknown as CompactPagePayload;
-        return decodeCompactPage(raw);
-      },
-    }),
     queryClient.prefetchQuery({
       queryKey: queryKeys.modelStatusComponents(),
       queryFn: async () =>
