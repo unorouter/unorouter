@@ -1,6 +1,7 @@
 "use client";
 
 import { getLocalDb } from "@/lib/db/client/client";
+import { env } from "@/lib/config/env";
 import { Studio } from "@libsqlstudio/gui";
 import {
   SqliteLikeBaseDriver,
@@ -13,7 +14,7 @@ export default function LocalDbStudioInner(props: { userId: number }) {
   return (
     <Studio
       driver={driver}
-      name={`unorouter-${props.userId}`}
+      name={`${env.appName.toLowerCase()}-${props.userId}`}
       color="indigo"
       theme="dark"
     />

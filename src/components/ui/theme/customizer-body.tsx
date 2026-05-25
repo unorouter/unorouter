@@ -1,6 +1,7 @@
 "use client";
 
 import { GUEST_USER_ID } from "@/lib/config/constants";
+import { env } from "@/lib/config/env";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import {
@@ -271,7 +272,7 @@ export function ThemeCustomizerBody() {
   };
 
   const exportTheme = () => {
-    downloadJson(theme, "unorouter-theme.json");
+    downloadJson(theme, `${env.appName.toLowerCase()}-theme.json`);
   };
 
   const importTheme = async (file: File) => {

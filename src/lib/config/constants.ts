@@ -53,7 +53,7 @@ export const LOCALES = [
 ] as const;
 
 // Conversation export envelope format versions.
-export const NATIVE_VERSION = "unorouter.1.0";
+export const NATIVE_VERSION = `${env.appName.toLowerCase()}.1.0` as const;
 export const ORPG_VERSION = "orpg.3.0";
 
 type LocaleCode = Uppercase<DashToUnderscore<(typeof LOCALES)[number]>>;

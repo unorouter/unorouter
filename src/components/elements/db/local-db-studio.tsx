@@ -1,6 +1,7 @@
 "use client";
 
 import { GUEST_USER_ID } from "@/lib/config/constants";
+import { env } from "@/lib/config/env";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { Button } from "@/components/ui/button";
 import { confirm } from "@/components/ui/confirm";
@@ -79,7 +80,7 @@ export function LocalDbStudio(props: Props) {
       const local = await getLocalDb(userId);
       if (!local) throw new Error("SQLocal unavailable");
       const file = await local.getDatabaseFile();
-      const filename = `unorouter-${userId}-${dayjs()
+      const filename = `${env.appName.toLowerCase()}-${userId}-${dayjs()
         .toISOString()
         .replace(/[:.]/g, "-")}.sqlite3`;
       downloadBlob(file, filename);

@@ -1,12 +1,13 @@
 "use client";
 
+import { env } from "@/lib/config/env";
 import { uid } from "@/lib/utils/base";
 
 // Cross-tab single-holder lock; LOCK_TTL_MS expiry covers crashed holder.
 
 const LOCK_TTL_MS = 5 * 60 * 1000;
 const HEARTBEAT_INTERVAL_MS = 30 * 1000;
-const CHANNEL_NAME = "unorouter-resource-lock";
+const CHANNEL_NAME = `${env.appName.toLowerCase()}-resource-lock`;
 
 type LockState = {
   resourceKey: string;
