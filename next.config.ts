@@ -15,10 +15,11 @@ const coepHeaders = [
   { key: "Cross-Origin-Embedder-Policy", value: "require-corp" },
   { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
 ];
-// COEP-isolated pages block sub-resources without CORP. Stamp `same-origin`
-// on every chunk + API route the worker pulls in.
-const corpHeaders = [
+const corpSameOrigin = [
   { key: "Cross-Origin-Resource-Policy", value: "same-origin" },
+];
+const corpCrossOrigin = [
+  { key: "Cross-Origin-Resource-Policy", value: "cross-origin" },
 ];
 
 const nextConfig: NextConfig = {
@@ -60,17 +61,9 @@ const nextConfig: NextConfig = {
     return [
       { source: "/:locale/chat/:path*", headers: coepHeaders },
       { source: "/:locale/playground/:path*", headers: coepHeaders },
-      { source: "/_next/static/:path*", headers: corpHeaders },
-      {
-        source: "/api/ops/badge/:path*",
-        headers: [
-          { key: "Cross-Origin-Resource-Policy", value: "cross-origin" },
-        ],
-      },
-      {
-        source: "/api/:path((?!ops/badge).*)",
-        headers: corpHeaders,
-      },
+      { source: "/api/ops/badge/:path*", headers: corpCrossOrigin },
+      { source: "/_next/static/:path*", headers: corpSameOrigin },
+      { source: "/api/:path((?!ops/badge).*)", headers: corpSameOrigin },
     ];
   },
 };

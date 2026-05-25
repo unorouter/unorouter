@@ -3,22 +3,28 @@ import { NextRequest, NextResponse } from "next/server";
 import { routing } from "./i18n/routing";
 import { SERVER_URL_KEY } from "./lib/config/constants";
 
+// Public endpoints embedded on third-party origins (badges, OG images).
+const PUBLIC_CROSS_ORIGIN = ["/api/ops/badge"];
+
+// Paths stamped same-origin so COEP-isolated pages (chat, playground) can
+// load them. Dev/turbopack bypasses next.config.ts headers(), so middleware
+// applies the same policy.
+const ISOLATED_PATHS = ["/_next/", "/api/", "/sqlocal/"];
+
 export default function proxy(request: NextRequest) {
-  // Stamp CORP same-origin on _next/static (dev/turbopack bypasses headers()).
-  // COEP-isolated workers need own COEP+COOP.
-  if (
-    request.nextUrl.pathname.startsWith("/_next/") ||
-    request.nextUrl.pathname.startsWith("/api/") ||
-    request.nextUrl.pathname.startsWith("/sqlocal/")
-  ) {
+  const { pathname } = request.nextUrl;
+
+  if (PUBLIC_CROSS_ORIGIN.some((p) => pathname.startsWith(p))) {
     const res = NextResponse.next();
-    if (request.nextUrl.pathname.startsWith("/api/ops/badge")) {
-      res.headers.set("Cross-Origin-Resource-Policy", "cross-origin");
-    } else {
-      res.headers.set("Cross-Origin-Resource-Policy", "same-origin");
-      res.headers.set("Cross-Origin-Embedder-Policy", "require-corp");
-      res.headers.set("Cross-Origin-Opener-Policy", "same-origin");
-    }
+    res.headers.set("Cross-Origin-Resource-Policy", "cross-origin");
+    return res;
+  }
+
+  if (ISOLATED_PATHS.some((p) => pathname.startsWith(p))) {
+    const res = NextResponse.next();
+    res.headers.set("Cross-Origin-Resource-Policy", "same-origin");
+    res.headers.set("Cross-Origin-Embedder-Policy", "require-corp");
+    res.headers.set("Cross-Origin-Opener-Policy", "same-origin");
     return res;
   }
 
