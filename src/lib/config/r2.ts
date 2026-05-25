@@ -326,18 +326,6 @@ async function assertUserQuota(userId: number, incomingBytes: number) {
   }
 }
 
-async function recordMedia(
-  userId: number,
-  convId: string,
-  r2Key: string,
-  mimeType: string,
-  sizeBytes: number,
-) {
-  await getDb()
-    .insert(media)
-    .values({ userId, convId, r2Key, mimeType, sizeBytes });
-}
-
 export function mediaKey(
   scope: "guest" | "user",
   convId: string,
@@ -361,8 +349,9 @@ async function putMedia(
   const owner = await resolveConvOwner(convId);
   await assertUserQuota(owner.userId, buffer.length);
   const key = mediaKey(owner.scope, convId, msgId, uid(8));
-  const { url, mime } = await uploadToR2(key, buffer, declaredCt);
-  await recordMedia(owner.userId, convId, key, mime, buffer.length);
+  const { url } = await uploadToR2(key, buffer, declaredCt);
+  // Media rows live in client SQLocal by default. Sync push handles the
+  // server-side `media` insert when the user enables sync; never record here.
   return url;
 }
 

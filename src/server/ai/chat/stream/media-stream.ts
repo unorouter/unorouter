@@ -1,7 +1,11 @@
 import type { ModelType } from "@/lib/api/pricing";
 import { isMediaModel } from "@/lib/api/pricing-cache";
 import { msg } from "@/lib/config/constants";
-import { fetchCheckUpload, uploadBase64ToR2 } from "@/lib/config/r2";
+import {
+  downloadGenerationBytes,
+  fetchCheckUpload,
+  uploadBase64ToR2,
+} from "@/lib/config/r2";
 import { base64ToDataUri, uid } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 import { imageGenResponseChecker } from "@/lib/validation/media";
@@ -151,24 +155,29 @@ export async function handleImageStream(
         endpointPath!,
       );
 
-      // Unique scope when no convId (guest tmp/ collision).
-      const convId = body.convId ?? `tmp-${uid(8)}`;
-      const groupKey = uid(8);
-      const r2Urls = await Promise.all(
-        images.map((img: string) =>
-          isBase64
-            ? uploadBase64ToR2(
-                base64ToDataUri(img, "image/png"),
-                convId,
-                groupKey,
-              )
-            : fetchCheckUpload(img, convId, groupKey, false),
-        ),
+      // Client-first: stream inline data URLs. Client persists base64 into
+      // local media; sync pushes to R2 later for logged-in users. Guests
+      // never touch Turso/R2, so no FK violation and no CORP-blocked embeds.
+      const dataUrls = await Promise.all(
+        images.map(async (img: string) => {
+          if (isBase64) return base64ToDataUri(img, "image/png");
+          try {
+            const { buffer, mime } = await downloadGenerationBytes(img);
+            return base64ToDataUri(buffer.toString("base64"), mime);
+          } catch (err) {
+            logger.warn("image download to base64 failed", {
+              context: "stream.image",
+              url: img.slice(0, 100),
+              error: String(err),
+            });
+            return null;
+          }
+        }),
       );
 
-      const markdown = r2Urls
-        .filter(Boolean)
-        .map((url: string | null) => `![image](${url})`)
+      const markdown = dataUrls
+        .filter((u): u is string => Boolean(u))
+        .map((url) => `![image](${url})`)
         .join("\n\n");
 
       writeBufferedMessage(writer, markdown);

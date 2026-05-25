@@ -32,11 +32,21 @@ function normalizeMathDelimiters(text: string): string {
     .replace(/\\\((.+?)\\\)/gs, (_m, inner) => `$${inner}$`);
 }
 
+// react-markdown's default urlTransform strips `data:` URLs. Image generation
+// streams images inline as `![image](data:image/...)` so the client can persist
+// base64 locally without an R2 round-trip; allow data:image/* through.
+const allowDataImageUrls = (url: string): string => {
+  if (url.startsWith("data:image/")) return url;
+  if (/^[a-z]+:/i.test(url) && !/^(https?|mailto|tel|ftp):/i.test(url)) return "";
+  return url;
+};
+
 const MarkdownTextImpl = () => {
   return (
     <MarkdownTextPrimitive
       remarkPlugins={[remarkGfm, remarkMath]}
       rehypePlugins={[rehypeMathjax, rehypeQuoteSpans]}
+      urlTransform={allowDataImageUrls}
       className="aui-md"
       components={defaultComponents}
       preprocess={(text) => {
