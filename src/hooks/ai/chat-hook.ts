@@ -3,6 +3,7 @@
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { joinItemsToMessages } from "@/lib/ai/chat/messages";
 import { GUEST_USER_ID, PAGE_SIZE } from "@/lib/config/constants";
+import { invalidateAndBroadcast } from "@/lib/react-query/cross-tab-invalidate";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { chatHelpersAtom, chatStore } from "@/store/chat-store";
@@ -143,12 +144,11 @@ export function useUpdateConversationMutation() {
     },
     onError: (e) => handleError(e, t),
     onSuccess: (_data, args) => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.chatMeta(args.id) });
-      // Skip the full conv list refetch when only the model changed; model
-      // doesn't surface in the list. Title changes still need it.
-      if (args.body.title !== undefined) {
-        queryClient.invalidateQueries({ queryKey: queryKeys.conversations() });
-      }
+      const keys =
+        args.body.title !== undefined
+          ? [queryKeys.chatMeta(args.id), queryKeys.conversations()]
+          : [queryKeys.chatMeta(args.id)];
+      invalidateAndBroadcast(queryClient, keys);
     },
   });
 }
@@ -169,8 +169,10 @@ export function useDeleteConversationMutation() {
     },
     onError: (e) => handleError(e, t),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.conversations() });
-      queryClient.invalidateQueries({ queryKey: queryKeys.syncState() });
+      invalidateAndBroadcast(queryClient, [
+        queryKeys.conversations(),
+        queryKeys.syncState(),
+      ]);
     },
   });
 }
@@ -226,7 +228,7 @@ export function useFinalizeTaskMutation() {
     },
     onError: (e) => handleError(e, t),
     onSuccess: (_data, args) => {
-      qc.invalidateQueries({ queryKey: queryKeys.chatMessages(args.convId) });
+      invalidateAndBroadcast(qc, [queryKeys.chatMessages(args.convId)]);
     },
   });
 }
@@ -275,7 +277,7 @@ export function useEditMessageMutation() {
       return { items: itemsWithMsg };
     },
     onSuccess: (_data, args) => {
-      qc.invalidateQueries({ queryKey: queryKeys.chatMessages(args.convId) });
+      invalidateAndBroadcast(qc, [queryKeys.chatMessages(args.convId)]);
     },
   });
 }
@@ -294,9 +296,7 @@ export function useClearConversationMutation() {
       return { id };
     },
     onSuccess: (_data, args) => {
-      queryClient.invalidateQueries({
-        queryKey: queryKeys.chatMessages(args.id),
-      });
+      invalidateAndBroadcast(queryClient, [queryKeys.chatMessages(args.id)]);
       chatStore.get(chatHelpersAtom)?.setMessages(() => []);
     },
   });
@@ -365,7 +365,7 @@ export function useDuplicateConversationMutation() {
       return newConv;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.conversations() });
+      invalidateAndBroadcast(queryClient, [queryKeys.conversations()]);
     },
   });
 }
@@ -417,7 +417,7 @@ export function useSetActiveBranchMutation() {
       return { id: args.msgId };
     },
     onSuccess: (_data, args) => {
-      qc.invalidateQueries({ queryKey: queryKeys.chatMessages(args.convId) });
+      invalidateAndBroadcast(qc, [queryKeys.chatMessages(args.convId)]);
     },
   });
 }
@@ -450,7 +450,7 @@ export function useDeleteMessageMutation() {
       return { id: args.msgId };
     },
     onSuccess: (_data, args) => {
-      qc.invalidateQueries({ queryKey: queryKeys.chatMessages(args.convId) });
+      invalidateAndBroadcast(qc, [queryKeys.chatMessages(args.convId)]);
     },
   });
 }

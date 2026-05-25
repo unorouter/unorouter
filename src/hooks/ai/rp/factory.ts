@@ -2,6 +2,7 @@
 
 import { GUEST_USER_ID } from "@/lib/config/constants";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
+import { invalidateAndBroadcast } from "@/lib/react-query/cross-tab-invalidate";
 import { queryKeys } from "@/lib/react-query/keys";
 import { uid } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
@@ -86,7 +87,7 @@ export function makeRpEntity<
           return row;
         },
         onSuccess: () => {
-          qc.invalidateQueries({ queryKey: opts.listKey() as string[] });
+          invalidateAndBroadcast(qc, [opts.listKey() as string[]]);
         },
         onError: (e) => handleError(e, t),
       });
@@ -114,8 +115,10 @@ export function makeRpEntity<
           return updated;
         },
         onSuccess: (_data, args) => {
-          qc.invalidateQueries({ queryKey: opts.listKey() as string[] });
-          qc.invalidateQueries({ queryKey: opts.itemKey(args.id) as string[] });
+          invalidateAndBroadcast(qc, [
+            opts.listKey() as string[],
+            opts.itemKey(args.id) as string[],
+          ]);
         },
         onError: (e) => handleError(e, t),
       });
@@ -135,9 +138,11 @@ export function makeRpEntity<
           return { id };
         },
         onSuccess: (_data, id) => {
-          qc.invalidateQueries({ queryKey: opts.listKey() as string[] });
           qc.removeQueries({ queryKey: opts.itemKey(id) as string[] });
-          qc.invalidateQueries({ queryKey: queryKeys.syncState() });
+          invalidateAndBroadcast(qc, [
+            opts.listKey() as string[],
+            queryKeys.syncState(),
+          ]);
         },
         onError: (e) => handleError(e, t),
       });

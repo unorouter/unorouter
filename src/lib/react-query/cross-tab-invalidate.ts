@@ -1,10 +1,11 @@
 "use client";
 
 import type { QueryClient, QueryKey } from "@tanstack/react-query";
+import { env } from "../config/env";
 
 // Cross-tab RQ invalidate via BroadcastChannel; no-op when unavailable. Broadcast AFTER local write.
 
-const CHANNEL_NAME = "unorouter-query-invalidate";
+const CHANNEL_NAME = `${env.appName}-query-invalidate`;
 type InvalidateMessage = { type: "invalidate"; keys: QueryKey[] };
 
 const supported =
@@ -24,6 +25,15 @@ export function broadcastInvalidate(keys: QueryKey[]): void {
   const ch = ensureChannel();
   if (!ch) return;
   ch.postMessage({ type: "invalidate", keys } satisfies InvalidateMessage);
+}
+
+// Local invalidate + cross-tab broadcast in one call.
+export function invalidateAndBroadcast(
+  qc: QueryClient,
+  keys: QueryKey[],
+): void {
+  for (const key of keys) qc.invalidateQueries({ queryKey: key });
+  broadcastInvalidate(keys);
 }
 
 export function subscribeInvalidate(qc: QueryClient): () => void {

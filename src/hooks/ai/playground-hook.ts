@@ -21,6 +21,7 @@ import {
   importLocalSession,
 } from "@/lib/db/client/data/playground-transfer";
 import type { Media, Playground } from "@/lib/db/schema/shared";
+import { invalidateAndBroadcast } from "@/lib/react-query/cross-tab-invalidate";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import type { EdenQuery } from "@/lib/types/eden";
@@ -35,7 +36,12 @@ import type {
 import { handleElysia, uid } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
 import { dayjs } from "@/lib/utils/format/date";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  type QueryKey,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 
 // Poll cadence for async (ComfyUI task) generations; stops on terminal status.
@@ -212,9 +218,9 @@ export function useSnapshotStatusQuery(
         }
         if (isTerminal(poll.status)) {
           await mirrorSessionIfSynced(userId, view.sessionId);
-          qc.invalidateQueries({
-            queryKey: queryKeys.playgroundSession(view.sessionId),
-          });
+          invalidateAndBroadcast(qc, [
+            queryKeys.playgroundSession(view.sessionId),
+          ]);
         }
       } catch (e) {
         handleError(e, t);
@@ -341,13 +347,11 @@ export function useSubmitGenerationMutation() {
       runSubmit(auth.data?.id ?? GUEST_USER_ID, body),
     onError: (e) => handleError(e, t),
     onSuccess: (data) => {
-      qc.invalidateQueries({ queryKey: queryKeys.playgroundSessionLists() });
-      qc.invalidateQueries({
-        queryKey: queryKeys.playgroundSession(data.sessionId),
-      });
-      qc.invalidateQueries({
-        queryKey: queryKeys.playgroundSnapshotStatus(data.snapshotId),
-      });
+      invalidateAndBroadcast(qc, [
+        queryKeys.playgroundSessionLists(),
+        queryKeys.playgroundSession(data.sessionId),
+        queryKeys.playgroundSnapshotStatus(data.snapshotId),
+      ]);
     },
   });
 }
@@ -392,13 +396,14 @@ export function useDeleteSnapshotMutation() {
     },
     onError: (e) => handleError(e, t),
     onSuccess: (data) => {
-      qc.invalidateQueries({ queryKey: queryKeys.playgroundSessionLists() });
-      qc.invalidateQueries({ queryKey: queryKeys.syncState() });
+      const keys: QueryKey[] = [
+        queryKeys.playgroundSessionLists(),
+        queryKeys.syncState(),
+      ];
       if (data.sessionId) {
-        qc.invalidateQueries({
-          queryKey: queryKeys.playgroundSession(data.sessionId),
-        });
+        keys.push(queryKeys.playgroundSession(data.sessionId));
       }
+      invalidateAndBroadcast(qc, keys);
     },
   });
 }
@@ -454,7 +459,7 @@ export function useImportGenerationMutation() {
     },
     onError: (e) => handleError(e, t),
     onSuccess: () => {
-      qc.invalidateQueries({ queryKey: queryKeys.playgroundSessionLists() });
+      invalidateAndBroadcast(qc, [queryKeys.playgroundSessionLists()]);
     },
   });
 }
