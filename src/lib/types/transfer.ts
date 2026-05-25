@@ -21,16 +21,18 @@ export type NativeImport = {
   };
 };
 
+export type OrpgExtension = {
+  lorebooks?: ExportRow[];
+  lorebookEntries?: ExportRow[];
+};
+
 export type OrpgImport = {
   version?: string;
   title?: string;
   characters?: Record<string, Record<string, unknown>>;
   messages?: Record<string, Record<string, unknown>>;
   items?: Record<string, { id?: string; data?: unknown }>;
-  _unorouter_extension?: {
-    lorebooks?: ExportRow[];
-    lorebookEntries?: ExportRow[];
-  };
+  [extensionKey: string]: unknown;
 };
 
 export type StMetadata = {

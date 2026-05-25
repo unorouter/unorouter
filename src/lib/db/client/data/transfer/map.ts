@@ -4,10 +4,12 @@ import { uid } from "@/lib/utils/base";
 import type { LocalAnyRow } from "@/lib/types";
 import type {
   NativeImport,
+  OrpgExtension,
   OrpgImport,
   StMessage,
   StMetadata,
 } from "@/lib/types/transfer";
+import { ORPG_EXTENSION_KEY } from "@/lib/config/constants";
 import { dayjs } from "@/lib/utils/format/date";
 
 // Conv reduced to row objects for bundle upsert + standalone entity upserts.
@@ -249,7 +251,7 @@ function orpgTextPayload(content: unknown): { text: string } {
 
 export function mapOrpgImport(data: OrpgImport): MappedImport {
   const convId = uid();
-  const ext = data._unorouter_extension ?? {};
+  const ext = (data[ORPG_EXTENSION_KEY] as OrpgExtension | undefined) ?? {};
   const orpgCharacters = data.characters ?? {};
   const orpgMessages = data.messages ?? {};
   const orpgItems = data.items ?? {};

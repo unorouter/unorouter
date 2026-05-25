@@ -1,6 +1,11 @@
 "use client";
 
-import { msg, NATIVE_VERSION, ORPG_VERSION } from "@/lib/config/constants";
+import {
+  msg,
+  NATIVE_VERSION,
+  ORPG_EXTENSION_KEY,
+  ORPG_VERSION,
+} from "@/lib/config/constants";
 import { dayjs } from "@/lib/utils/format/date";
 import {
   readLocalConversationBundle,
@@ -63,7 +68,7 @@ function toOrpgItemData(type: string, data: unknown): unknown {
 }
 
 // orpg.3.0: openrouter-compatible subset; lossless extras live under
-// _unorouter_extension.
+// `_${appName}_extension` (see ORPG_EXTENSION_KEY).
 export function toOrpg(native: NativeExport) {
   const itemsByMsg = new Map<string, NativeExport["items"]>();
   for (const it of native.items) {
@@ -144,7 +149,7 @@ export function toOrpg(native: NativeExport) {
     artifactFiles: {},
     artifactVersions: {},
     artifactFileContents: {},
-    _unorouter_extension: {
+    [ORPG_EXTENSION_KEY]: {
       persona: native.persona,
       preset: native.preset,
       lorebooks: native.lorebooks,

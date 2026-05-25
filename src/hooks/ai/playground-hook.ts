@@ -26,12 +26,13 @@ import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import type { EdenQuery } from "@/lib/types/eden";
 import type { SnapshotView } from "@/lib/types";
-import type {
-  GeneratedImage,
-  GenerationCloneMode,
-  PlaygroundSnapshot,
-  PlaygroundSubmitBody,
-  SessionSnapshot,
+import {
+  isPlaygroundSessionFormat,
+  type GeneratedImage,
+  type GenerationCloneMode,
+  type PlaygroundSnapshot,
+  type PlaygroundSubmitBody,
+  type SessionSnapshot,
 } from "@/lib/validation/playground";
 import { handleElysia, uid } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
@@ -435,10 +436,9 @@ export function useImportGenerationMutation() {
       if (args.mode === "restore") {
         return importLocalSession(userId, args.payload);
       }
-      const snapshots =
-        args.payload.version === "unorouter-session-1"
-          ? args.payload.snapshots
-          : [args.payload];
+      const snapshots = isPlaygroundSessionFormat(args.payload)
+        ? args.payload.snapshots
+        : [args.payload];
       let sessionId = "";
       for (const snap of snapshots) {
         const body: PlaygroundSubmitBody & { sessionId?: string } = {

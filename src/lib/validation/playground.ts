@@ -1,8 +1,21 @@
 import type { Static } from "elysia";
 import { t } from "elysia";
 import type { TLiteral, TUnion } from "@sinclair/typebox/type";
+import { env } from "@/lib/config/env";
 
 export const MAX_IMAGES_PER_GEN = 4;
+
+// Cast preserves literal type for `t.Literal` discriminants.
+export const PLAYGROUND_GENERATION_FORMAT =
+  `${env.appName.toLowerCase()}-generation-1` as `${string}-generation-1`;
+export const PLAYGROUND_SESSION_FORMAT =
+  `${env.appName.toLowerCase()}-session-1` as `${string}-session-1`;
+
+export function isPlaygroundSessionFormat(
+  payload: PlaygroundSnapshot | SessionSnapshot,
+): payload is SessionSnapshot {
+  return payload.version === PLAYGROUND_SESSION_FORMAT;
+}
 
 // Pulls literals out of TypeBox union so sampler arrays stay one source.
 function unionLiterals<T extends string>(
@@ -209,7 +222,7 @@ export type GenerationCloneMode = Static<typeof generationCloneMode>;
 
 // Loose nested fields + embedded base64 (self-contained export).
 export const playgroundSnapshot = t.Object({
-  version: t.Literal("unorouter-generation-1"),
+  version: t.Literal(PLAYGROUND_GENERATION_FORMAT),
   model: t.String({ minLength: 1, maxLength: 128 }),
   prompt: t.String({ minLength: 1, maxLength: 8000 }),
   negativePrompt: t.Union([t.String({ maxLength: 4000 }), t.Null()]),
@@ -232,7 +245,7 @@ export type PlaygroundSnapshot = Static<typeof playgroundSnapshot>;
 
 // Stored oldest-first so restore preserves sessionOrder layout.
 export const sessionSnapshot = t.Object({
-  version: t.Literal("unorouter-session-1"),
+  version: t.Literal(PLAYGROUND_SESSION_FORMAT),
   session: t.Object({
     title: t.Union([t.String({ maxLength: 256 }), t.Null()]),
     firstModel: t.Union([t.String({ maxLength: 128 }), t.Null()]),

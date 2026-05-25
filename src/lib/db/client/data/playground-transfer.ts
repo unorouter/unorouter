@@ -3,9 +3,12 @@
 import { PLAYGROUND_SESSION_TITLE_MAX } from "@/components/pages/sidebar/playground/playground-constants";
 import { GUEST_USER_ID, RETENTION_MS } from "@/lib/config/constants";
 import type { Playground } from "@/lib/db/schema/shared";
-import type {
-  PlaygroundSnapshot,
-  SessionSnapshot,
+import {
+  isPlaygroundSessionFormat,
+  PLAYGROUND_GENERATION_FORMAT,
+  PLAYGROUND_SESSION_FORMAT,
+  type PlaygroundSnapshot,
+  type SessionSnapshot,
 } from "@/lib/validation/playground";
 import { uid } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
@@ -40,7 +43,7 @@ export async function exportLocalSession(
       })),
     );
     snapshots.push({
-      version: "unorouter-generation-1",
+      version: PLAYGROUND_GENERATION_FORMAT,
       model: snap.model,
       prompt: snap.prompt,
       negativePrompt: snap.negativePrompt,
@@ -52,7 +55,7 @@ export async function exportLocalSession(
     });
   }
   return {
-    version: "unorouter-session-1",
+    version: PLAYGROUND_SESSION_FORMAT,
     session: {
       title: bundle.session.title,
       firstModel: bundle.session.firstModel,
@@ -122,19 +125,15 @@ export async function importLocalSession(
   const expiresAt = new Date(Date.now() + RETENTION_MS);
   const sessionId = uid();
 
-  const snapshots: PlaygroundSnapshot[] =
-    payload.version === "unorouter-session-1"
-      ? payload.snapshots
-      : [payload];
-  const title =
-    payload.version === "unorouter-session-1"
-      ? (payload.session.title?.slice(0, PLAYGROUND_SESSION_TITLE_MAX).trim() ||
-          null)
-      : (payload.prompt.slice(0, PLAYGROUND_SESSION_TITLE_MAX).trim() || null);
-  const firstModel =
-    payload.version === "unorouter-session-1"
-      ? payload.session.firstModel
-      : payload.model;
+  const isSession = isPlaygroundSessionFormat(payload);
+  const snapshots: PlaygroundSnapshot[] = isSession
+    ? payload.snapshots
+    : [payload];
+  const title = isSession
+    ? (payload.session.title?.slice(0, PLAYGROUND_SESSION_TITLE_MAX).trim() ||
+        null)
+    : (payload.prompt.slice(0, PLAYGROUND_SESSION_TITLE_MAX).trim() || null);
+  const firstModel = isSession ? payload.session.firstModel : payload.model;
 
   await upsertLocalGenerationSession(uidVal, {
     id: sessionId,

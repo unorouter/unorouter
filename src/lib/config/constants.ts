@@ -54,6 +54,8 @@ export const LOCALES = [
 
 // Conversation export envelope format versions.
 export const NATIVE_VERSION = `${env.appName.toLowerCase()}.1.0` as const;
+// OpenRouter envelope extension key for non-standard fields (lorebooks, etc.).
+export const ORPG_EXTENSION_KEY = `_${env.appName.toLowerCase()}_extension`;
 export const ORPG_VERSION = "orpg.3.0";
 
 type LocaleCode = Uppercase<DashToUnderscore<(typeof LOCALES)[number]>>;
