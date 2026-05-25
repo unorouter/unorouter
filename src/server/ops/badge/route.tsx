@@ -35,11 +35,13 @@ const CACHE_CONTROL =
 const SVG_HEADERS = {
   "content-type": "image/svg+xml; charset=utf-8",
   "cache-control": CACHE_CONTROL,
+  "cross-origin-resource-policy": "cross-origin",
 };
 
 const PNG_HEADERS = {
   "content-type": "image/png",
   "cache-control": CACHE_CONTROL,
+  "cross-origin-resource-policy": "cross-origin",
 };
 
 // http://localhost:3000/api/ops/badge/all?theme=dark

@@ -61,7 +61,16 @@ const nextConfig: NextConfig = {
       { source: "/:locale/chat/:path*", headers: coepHeaders },
       { source: "/:locale/playground/:path*", headers: coepHeaders },
       { source: "/_next/static/:path*", headers: corpHeaders },
-      { source: "/api/:path*", headers: corpHeaders },
+      {
+        source: "/api/ops/badge/:path*",
+        headers: [
+          { key: "Cross-Origin-Resource-Policy", value: "cross-origin" },
+        ],
+      },
+      {
+        source: "/api/:path((?!ops/badge).*)",
+        headers: corpHeaders,
+      },
     ];
   },
 };

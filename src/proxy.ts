@@ -12,9 +12,13 @@ export default function proxy(request: NextRequest) {
     request.nextUrl.pathname.startsWith("/sqlocal/")
   ) {
     const res = NextResponse.next();
-    res.headers.set("Cross-Origin-Resource-Policy", "same-origin");
-    res.headers.set("Cross-Origin-Embedder-Policy", "require-corp");
-    res.headers.set("Cross-Origin-Opener-Policy", "same-origin");
+    if (request.nextUrl.pathname.startsWith("/api/ops/badge")) {
+      res.headers.set("Cross-Origin-Resource-Policy", "cross-origin");
+    } else {
+      res.headers.set("Cross-Origin-Resource-Policy", "same-origin");
+      res.headers.set("Cross-Origin-Embedder-Policy", "require-corp");
+      res.headers.set("Cross-Origin-Opener-Policy", "same-origin");
+    }
     return res;
   }
 
