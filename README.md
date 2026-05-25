@@ -1,101 +1,62 @@
-# AI Chat App
+# UnoRouter
 
-Full-featured AI chat application with a Next.js frontend and an Elysia BFF in front of an upstream `new-api` service. Chat state (conversations, messages, shared links) lives in a local Turso/SQLite database; everything else is a typed pass-through to the upstream backend.
+Local-first AI chat + image/video generation. Next.js 16 frontend, Elysia BFF in front of upstream `new-api`. Per-user SQLocal/OPFS DB is source of truth; optional Turso mirror syncs across devices.
 
-## Tech Stack
+## Stack
 
-**Frontend**
-
-- Next.js 16 (React 19), TypeScript, Tailwind CSS v4, shadcn/ui
-- Jotai (client state), React Query 5 (server state)
-- next-intl (8 locales: en, de, fr, ja, ru, vi, zh-CN, zh-TW)
-- Vercel AI SDK for streaming, assistant-ui for chat components
-
-**BFF**
-
-- Elysia 1.4 on Bun runtime
-- TypeBox validation, Eden Treaty RPC
-- Orval-generated OpenAPI client (`src/openapi.ts`) for upstream calls
-
-**Database**
-
-- Turso/libSQL (serverless SQLite) via Drizzle ORM
-- Auto-migrates on first `getDb()` call
-
-**AI and Search**
-
-- Vercel AI SDK (`ai`) with OpenAI-compatible providers
-- Tavily API for real-time web search augmentation
-
-**Infrastructure**
-
-- Cloudflare R2 for media storage (AWS SDK S3-compatible)
-- PostHog for analytics (server + client)
-- Pino for structured logging
-- Docker multi-stage build, Traefik reverse proxy
-- Orama full-text search (index pregenerated at build time)
+- Next.js 16, React 19, Tailwind v4, shadcn/ui
+- Jotai, React Query 5, next-intl (8 locales)
+- Elysia on Bun, TypeBox, Eden Treaty, Orval-generated upstream client
+- Drizzle ORM: SQLocal (client) + Turso/libSQL (server)
+- Vercel AI SDK, Tavily web search, Creem moderation
+- Cloudflare R2 with SSRF-safe undici fetch
+- PostHog, Pino, Orama, Satori
 
 ## Architecture
 
-This app is a **BFF (backend-for-frontend)**, not a full ledger backend. The Elysia layer at `src/app/api/[[...route]]/route.ts` mounts all feature routes and adds request ID tracking, timing, and error taxonomy at the boundary.
+BFF in front of `new-api`. Pass-through routes (`auth`, most `billing`, `models`, `ops/logs`, `ops/stats`) return `unwrap(res)`. Local-logic routes (`ai/chat`, `ai/playground`, `ai/sync`, `billing/checkout-sessions`) return `{ success, data }`.
 
-Two distinct verticals:
+Server domains under `src/server/`: `ai/{chat,playground,sync}`, `auth/`, `billing/`, `models/`, `ops/`.
 
-- **Pass-through verticals** (`auth`, `billing`, `token`, `affiliate`, `logs`, `pricing`, `dashboard`, `stats`, `settings`): thin typed forwarders to upstream `new-api` via the Orval client. Route handlers call `unwrap(res)` and return the upstream shape directly.
-- **Chat vertical** (`src/server/chat/`): owns local DB writes, streaming logic, media uploads, title generation, web search, and async video task polling. Route handlers return `{ success: true, data }` so `handleElysia()` on the client can distinguish typed failures.
-
-Type pipeline:
+Local-first sync: client writes SQLocal first; rows with `syncExpiresAt != null` mirror to Turso via `/api/ai/sync/:kind/:id`. Failed pushes retry up to 5x via `local_pending_sync`.
 
 ```
-TypeBox schema → Elysia validation → Eden Treaty RPC → handleElysia() → React Query hook
+TypeBox -> Elysia -> Eden Treaty -> handleElysia() -> React Query
 ```
 
 ## Features
 
-- Real-time streaming chat (Vercel AI SDK, SSE)
-- Conversation management: create, archive, star, delete, paginate
-- Shared conversations via secure `shareId`
-- Auto-title generation using the cheapest available text model
-- Web search augmentation via Tavily (automatic query classification)
-- Media uploads to Cloudflare R2 with MIME/size validation
-- Async video task polling
-- Guest mode (localStorage-backed conversation IDs, `GUEST_API_KEY` fallback)
-- Billing, subscriptions, and top-up management (pass-through)
-- API token CRUD with search and pagination
-- Usage logs and statistics with charts (Recharts)
-- Affiliate tracking
-- Fumadocs-based documentation site (openclaw, codex, gemini-cli, claude-code, cc-switch)
-- Dynamic OG image generation (Satori)
-- SEO: IndexNow submission, pregenerated timestamps, Orama search index
+- Streaming chat with branch editing, tool calls, file/image/task items
+- RP entities (characters/personas/lorebooks/presets/cards), SillyTavern card v2/v3 import
+- Image+video playground: SDXL, Flux 2, FLUX Kontext, GPT Image, Gemini. Img2Img/Upscale/ADetailer/Inpaint
+- Async video task polling + R2 rehosting
+- Tavily web search (paid gate)
+- Conv export/import: native, orpg, SillyTavern JSONL
+- Guest mode (full feature set, no account)
+- ACP checkout (Stripe/Creem) with Idempotency-Key
+- Affiliate badges (Satori SVG/PNG, 8 templates)
+- Agent discovery: `.well-known/{agent-card,acp,mcp,oauth,ucp,...}`, Web Bot Auth, WebMCP
 
-## Getting Started
-
-### Prerequisites
-
-- Bun 1.x
-- Turso database (or local libSQL)
-- Cloudflare R2 bucket
-- Tavily API key (optional; web search skips gracefully if absent)
-
-### Environment Variables
-
-Copy `.env.example` to `.env` and fill in the values. See the example file for all keys.
-
-### Development
+## Setup
 
 ```bash
 bun install
 bun dev
 ```
 
-## Key Scripts
+Prereqs: Bun, upstream `new-api`, Turso, R2 bucket. `SESSION_SECRET` >= 32 chars, `SYSTEM_ACCESS_TOKEN` required. Tavily optional.
 
-| Script            | Description                                                    |
-| ----------------- | -------------------------------------------------------------- |
-| `bun dev:log`     | Start dev server (logs to `/tmp/next.log`)                     |
-| `bun build`       | Production build (runs prebuild first)                         |
-| `bun lint`        | ESLint                                                         |
-| `bun openapi`     | Regenerate `src/openapi.ts` from upstream OpenAPI spec (Orval) |
-| `bun db:generate` | Generate Drizzle migration                                     |
-| `bun db:reset`    | Reset local chat DB                                            |
-| `bun lh`          | Run Lighthouse audits                                          |
+Copy `.env.example` to `.env`.
+
+## Scripts
+
+| Script              | Description                                                          |
+| ------------------- | -------------------------------------------------------------------- |
+| `bun dev:log`       | Dev server (logs to `/tmp/next.log`)                                 |
+| `bun build`         | Production build                                                     |
+| `bun lint`          | ESLint                                                               |
+| `bun prettier`      | Format                                                               |
+| `bun openapi`       | Regen `src/openapi.ts` from upstream                                 |
+| `bun db:generate`   | Drizzle migrations (server + client) + bundle for SQLocal            |
+| `bun db:reset`      | Wipe Turso + R2 prefixes                                             |
+| `bun lh`            | Lighthouse                                                           |
