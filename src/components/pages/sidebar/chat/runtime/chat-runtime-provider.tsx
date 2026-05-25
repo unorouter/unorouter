@@ -10,7 +10,10 @@ import { useConversationQuery } from "@/hooks/ai/chat-hook";
 import { mirrorConvSettingsIfSynced } from "@/hooks/ai/rp/shared";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { GUEST_USER_ID } from "@/lib/config/constants";
-import { upsertLocalConversationSettings } from "@/lib/db/client/data/chat";
+import {
+  readLocalConversation,
+  upsertLocalConversationSettings,
+} from "@/lib/db/client/data/chat";
 import { buildChatContextFromLocalDb } from "@/lib/db/client/data/chat-context";
 import {
   acquireLock,
@@ -80,6 +83,11 @@ function useModelSync(remoteId: string | null | undefined) {
       );
       if (cached?.model === newModel) return;
       void (async () => {
+        // conversation_settings.conv_id FK requires the parent conv row.
+        // Initial model picker can fire before initialize() seeds it; bail
+        // and let initialize seed model from chatModelAtom directly.
+        const conv = await readLocalConversation(userId, id);
+        if (!conv) return;
         await upsertLocalConversationSettings(userId, {
           convId: id,
           defaultModel: newModel,

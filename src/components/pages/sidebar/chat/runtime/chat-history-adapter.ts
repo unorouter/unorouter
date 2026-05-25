@@ -139,6 +139,20 @@ export function createChatHistoryAdapter(
             createdAt: now,
             updatedAt: now,
           };
+          // Seed conv row first; messages.conv_id FK requires parent.
+          const existingConv = await readLocalConversation(userId, id);
+          if (!existingConv) {
+            await upsertLocalConversation(userId, {
+              id,
+              title: null,
+              totalInputTokens: 0,
+              totalOutputTokens: 0,
+              totalCost: 0,
+              syncExpiresAt: null,
+              createdAt: now,
+              updatedAt: now,
+            });
+          }
           await upsertLocalMessage(userId, newMessage);
 
           const itemRows = items.map((it, seq) => ({
@@ -175,16 +189,18 @@ export function createChatHistoryAdapter(
             });
           }
 
-          // Bump conv totals; upsert seeds for brand-new convs.
-          const existing = await readLocalConversation(userId, id);
+          const convForTotals =
+            existingConv ?? (await readLocalConversation(userId, id));
           const updatedConv = {
-            ...(existing ?? {}),
+            ...(convForTotals ?? {}),
             id,
             totalInputTokens:
-              (existing?.totalInputTokens ?? 0) + (usage?.inputTokens ?? 0),
+              (convForTotals?.totalInputTokens ?? 0) +
+              (usage?.inputTokens ?? 0),
             totalOutputTokens:
-              (existing?.totalOutputTokens ?? 0) + (usage?.outputTokens ?? 0),
-            totalCost: (existing?.totalCost ?? 0) + (usage?.cost ?? 0),
+              (convForTotals?.totalOutputTokens ?? 0) +
+              (usage?.outputTokens ?? 0),
+            totalCost: (convForTotals?.totalCost ?? 0) + (usage?.cost ?? 0),
             updatedAt: now,
           };
           await upsertLocalConversation(userId, updatedConv);
