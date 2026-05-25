@@ -139,11 +139,30 @@ export function ModelCard(props: {
               </span>
             </>
           ) : model.isTiered ? (
-            <span
-              className={cn("font-mono text-sm font-semibold", theme.text)}
-            >
-              {props.labels.tiered}
-            </span>
+            <>
+              <span className="text-muted-foreground font-mono text-[10px] italic">
+                {props.labels.from}
+              </span>
+              <span className="text-muted-foreground font-mono text-[10px] uppercase">
+                {props.labels.input}{" "}
+              </span>
+              <span
+                className={cn("font-mono text-sm font-semibold", theme.text)}
+              >
+                {formatPrice(model.inputPrice)}
+              </span>
+              <span className="text-muted-foreground font-mono text-[10px] uppercase">
+                {props.labels.output}{" "}
+              </span>
+              <span
+                className={cn("font-mono text-sm font-semibold", theme.text)}
+              >
+                {formatPrice(model.outputPrice)}
+              </span>
+              <span className="text-muted-foreground font-mono text-[10px]">
+                {props.labels.perMillion}
+              </span>
+            </>
           ) : (
             <>
               <span className="text-muted-foreground font-mono text-[10px] italic">

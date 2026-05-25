@@ -1,4 +1,9 @@
 import type { PricingData, PricingModel } from "@/openapi";
+import {
+  computeMinGroupRatio,
+  parseTiersFromExpr,
+  tierDisplayPrices,
+} from "./tiered-pricing";
 
 const MODEL_TYPES = ["text", "image", "video", "audio", "embedding"] as const;
 export type ModelType = (typeof MODEL_TYPES)[number];
@@ -117,7 +122,24 @@ function processModels(response: PricingData) {
         fixedPrice = model.model_price ?? 0;
         isFreeStrict = fixedPrice === 0;
       } else if (isTiered) {
-        // Tiered: model_ratio/completion_ratio ignored on billing_mode=tiered_expr; UI uses TieredPricing.
+        // Tiered: model_ratio/completion_ratio ignored. Surface the cheapest
+        // tier's input/output on cards so users see a "from" price; full table
+        // lives on the detail page.
+        const minRatio = computeMinGroupRatio(
+          model.enable_groups ?? [],
+          groupRatio,
+        );
+        const tiers = parseTiersFromExpr(billingExpr ?? "");
+        if (tiers.length > 0) {
+          const rows = tiers.map((tier) => tierDisplayPrices(tier, minRatio));
+          const lowest = rows.reduce((acc, row) =>
+            row.inputPrice + row.outputPrice < acc.inputPrice + acc.outputPrice
+              ? row
+              : acc,
+          );
+          inputPrice = lowest.inputPrice;
+          outputPrice = lowest.outputPrice;
+        }
       } else {
         const enabledGroups = model.enable_groups ?? [];
         let minRatio = 1;

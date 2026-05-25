@@ -162,14 +162,13 @@ export function ModelListItem(props: {
                 {props.labels.perRequest}
               </span>
             </>
-          ) : model.isTiered ? (
-            <span
-              className={cn("font-mono text-sm font-semibold", theme.text)}
-            >
-              {props.labels.tiered}
-            </span>
           ) : (
             <div className="flex items-baseline gap-2 sm:gap-3">
+              {model.isTiered && (
+                <span className="text-muted-foreground font-mono text-[10px] italic">
+                  {props.labels.from}
+                </span>
+              )}
               <div>
                 <span className="text-muted-foreground font-mono text-[10px] uppercase">
                   {props.labels.input}{" "}
