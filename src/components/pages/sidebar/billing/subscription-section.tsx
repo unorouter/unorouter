@@ -284,7 +284,9 @@ export function SubscriptionSection() {
                     }
                     disabled={
                       isMutating ||
-                      (!billing.enableStripe && !billing.enableCreem)
+                      (!billing.enableStripe &&
+                        !billing.enableCreem &&
+                        !billing.enableNowPayments)
                     }
                   >
                     {t("BILLING.SUBSCRIPTION.SUBSCRIBE_NOW")}
