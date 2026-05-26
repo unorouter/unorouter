@@ -2232,7 +2232,12 @@
     "CONSUMPTION": "Consommation",
     "REQUESTS": "Requêtes",
     "USED_OF": "utilisé sur",
-    "REFRESHING": "Actualisation..."
+    "REFRESHING": "Actualisation...",
+    "PAYMENT_METHOD": {
+      "LABEL": "Mode de paiement",
+      "CARD": "Carte de crédit",
+      "CRYPTO": "Crypto"
+    }
   },
   "FORM": {
     "ERROR": {

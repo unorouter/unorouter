@@ -2232,7 +2232,12 @@
     "CONSUMPTION": "Tiêu thụ",
     "REQUESTS": "Yêu cầu",
     "USED_OF": "đã dùng trên",
-    "REFRESHING": "Đang làm mới..."
+    "REFRESHING": "Đang làm mới...",
+    "PAYMENT_METHOD": {
+      "LABEL": "Phương thức thanh toán",
+      "CARD": "Thẻ tín dụng",
+      "CRYPTO": "Tiền mã hoá"
+    }
   },
   "FORM": {
     "ERROR": {

@@ -1,6 +1,7 @@
 import { processPlans } from "@/lib/api/subscription";
 import {
   creemPayBody,
+  nowPaymentsPayBody,
   stripePayBody,
   subscriptionPayBody,
   subscriptionPreferenceBody,
@@ -12,8 +13,10 @@ import {
   getSubscriptionSelf,
   getTopUpInfo,
   requestCreemPay,
+  requestNowPaymentsPay,
   requestStripePay,
   subscriptionRequestCreemPay,
+  subscriptionRequestNowPaymentsPay,
   subscriptionRequestStripePay,
   updateSubscriptionPreference,
 } from "@/openapi";
@@ -23,7 +26,10 @@ import { ADMIN_HEADERS, deriveUpstream } from "@/server/constants";
 // MPP x-payment-info per paymentauth.org draft-payment-discovery-00.
 // intent=session (checkout URLs); amount null (user-picked/plan-dependent).
 // Cast: OperationObject lacks x-* index.
-const xPaymentInfo = (method: "stripe" | "creem", description: string) =>
+const xPaymentInfo = (
+  method: "stripe" | "creem" | "nowpayments",
+  description: string,
+) =>
   ({
     "x-payment-info": {
       intent: "session",
@@ -102,6 +108,25 @@ export const billingRoute = new Elysia({ prefix: "/core" })
     },
   )
   .post(
+    "/nowpayments-pay",
+    async ({ body, upstream }) => {
+      const res = await requestNowPaymentsPay(body, {
+        headers: { ...upstream.headers },
+      });
+      return unwrap(res);
+    },
+    {
+      body: nowPaymentsPayBody,
+      detail: {
+        summary: "Start a NowPayments crypto checkout for a balance top-up",
+        ...xPaymentInfo(
+          "nowpayments",
+          "Top-up balance via NowPayments crypto checkout URL",
+        ),
+      },
+    },
+  )
+  .post(
     "/subscription/stripe-pay",
     async ({ body, upstream }) => {
       const res = await subscriptionRequestStripePay(body, {
@@ -133,6 +158,25 @@ export const billingRoute = new Elysia({ prefix: "/core" })
       detail: {
         summary: "Start a Creem checkout session for a subscription plan",
         ...xPaymentInfo("creem", "Subscribe to a plan via Creem checkout URL"),
+      },
+    },
+  )
+  .post(
+    "/subscription/nowpayments-pay",
+    async ({ body, upstream }) => {
+      const res = await subscriptionRequestNowPaymentsPay(body, {
+        headers: { ...upstream.headers },
+      });
+      return unwrap(res);
+    },
+    {
+      body: subscriptionPayBody,
+      detail: {
+        summary: "Start a NowPayments crypto checkout for a subscription plan",
+        ...xPaymentInfo(
+          "nowpayments",
+          "Subscribe to a plan via NowPayments crypto checkout URL",
+        ),
       },
     },
   );

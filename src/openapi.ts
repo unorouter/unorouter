@@ -109,6 +109,7 @@ export interface SubscriptionPlan {
   enabled: boolean;
   id: number;
   max_purchase_per_user: number;
+  nowpayments_plan_id: string;
   price_amount: number;
   quota_reset_custom_seconds: number;
   quota_reset_period: string;
@@ -147,33 +148,28 @@ export interface AnnouncementEntry {
   type?: string;
 }
 
-export interface ChatMessage {
-  content: string;
-  role: string;
-}
-
-export interface ChatCompletionChoice {
-  finish_reason: string;
-  index: number;
-  message: ChatMessage;
-}
-
-export interface CompletionUsage {
-  completion_tokens: number;
-  prompt_tokens: number;
-  total_tokens: number;
-}
-
 /**
- * ChatCompletionResponse schema
+ * CreateCustomOAuthProviderRequest schema
  */
 export interface AnonymousSchema0 {
-  choices: ChatCompletionChoice[] | null;
-  created: number;
-  id: string;
-  model: string;
-  object: string;
-  usage: CompletionUsage;
+  access_denied_message: string;
+  access_policy: string;
+  auth_style: number;
+  authorization_endpoint: string;
+  client_id: string;
+  client_secret: string;
+  display_name_field: string;
+  email_field: string;
+  enabled: boolean;
+  icon: string;
+  name: string;
+  scopes: string;
+  slug: string;
+  token_endpoint: string;
+  user_id_field: string;
+  user_info_endpoint: string;
+  username_field: string;
+  well_known: string;
 }
 
 export interface ApiInfoEntry {
@@ -316,6 +312,23 @@ export interface ChannelTag {
   tag: string;
   /** @minimum 0 */
   weight: number | null;
+}
+
+export interface ChatMessage {
+  content: string;
+  role: string;
+}
+
+export interface ChatCompletionChoice {
+  finish_reason: string;
+  index: number;
+  message: ChatMessage;
+}
+
+export interface CompletionUsage {
+  completion_tokens: number;
+  prompt_tokens: number;
+  total_tokens: number;
 }
 
 /**
@@ -1252,6 +1265,20 @@ export interface MultiKeyStatusResponse {
   page_size: number;
   total: number;
   total_pages: number;
+}
+
+export interface NowPaymentsPayData {
+  pay_link: string;
+}
+
+/**
+ * NowPaymentsPayRequest schema
+ */
+export interface NowPaymentsPayRequest {
+  amount: number;
+  cancel_url?: string;
+  payment_method: string;
+  success_url?: string;
 }
 
 export interface OAuthExchangeData {
@@ -2206,6 +2233,15 @@ export interface ResponseDtoMultiKeyStatusResponse {
 }
 
 /**
+ * Response_dto.NowPaymentsPayData schema
+ */
+export interface ResponseDtoNowPaymentsPayData {
+  data: NowPaymentsPayData;
+  message: string;
+  success: boolean;
+}
+
+/**
  * Response_dto.OAuthExchangeData schema
  */
 export interface ResponseDtoOAuthExchangeData {
@@ -2787,12 +2823,14 @@ export interface TopUpInfoData {
   creem_products: string;
   discount: TopUpInfoDataDiscount;
   enable_creem_topup: boolean;
+  enable_nowpayments_topup: boolean;
   enable_online_topup: boolean;
   enable_redemption: boolean;
   enable_stripe_topup: boolean;
   enable_waffo_pancake_topup: boolean;
   enable_waffo_topup: boolean;
   min_topup: number;
+  nowpayments_min_topup: number;
   pay_methods: TopUpInfoDataPayMethodsItem[] | null;
   payment_compliance_confirmed: boolean;
   payment_compliance_terms_version: string;
@@ -3170,6 +3208,13 @@ export interface SubscriptionCreemPayRequest {
  */
 export interface SubscriptionEpayPayRequest {
   payment_method: string;
+  plan_id: number;
+}
+
+/**
+ * SubscriptionNowPaymentsPayRequest schema
+ */
+export interface SubscriptionNowPaymentsPayRequest {
   plan_id: number;
 }
 
@@ -8257,6 +8302,40 @@ export const getNotice = async (
   });
 };
 
+export type nowPaymentsWebhookResponse200ApplicationJson = {
+  data: MessageResponse;
+  status: 200;
+};
+
+export type nowPaymentsWebhookResponse200ApplicationXml = {
+  data: MessageResponse;
+  status: 200;
+};
+
+export type nowPaymentsWebhookResponseSuccess = (
+  | nowPaymentsWebhookResponse200ApplicationJson
+  | nowPaymentsWebhookResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type nowPaymentsWebhookResponse = nowPaymentsWebhookResponseSuccess;
+
+export const getNowPaymentsWebhookUrl = () => {
+  return `/api/nowpayments/webhook`;
+};
+
+/**
+ * @summary Now Payments Webhook
+ */
+export const nowPaymentsWebhook = async (
+  options?: RequestInit,
+): Promise<nowPaymentsWebhookResponse> => {
+  return customFetch<nowPaymentsWebhookResponse>(getNowPaymentsWebhookUrl(), {
+    ...options,
+    method: "POST",
+  });
+};
+
 export type emailBindResponse200ApplicationJson = {
   data: MessageResponse;
   status: 200;
@@ -10668,6 +10747,47 @@ export const postApiSubscriptionEpayReturn = async (
   );
 };
 
+export type subscriptionRequestNowPaymentsPayResponse200ApplicationJson = {
+  data: ResponseDtoNowPaymentsPayData;
+  status: 200;
+};
+
+export type subscriptionRequestNowPaymentsPayResponse200ApplicationXml = {
+  data: ResponseDtoNowPaymentsPayData;
+  status: 200;
+};
+
+export type subscriptionRequestNowPaymentsPayResponseSuccess = (
+  | subscriptionRequestNowPaymentsPayResponse200ApplicationJson
+  | subscriptionRequestNowPaymentsPayResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type subscriptionRequestNowPaymentsPayResponse =
+  subscriptionRequestNowPaymentsPayResponseSuccess;
+
+export const getSubscriptionRequestNowPaymentsPayUrl = () => {
+  return `/api/subscription/nowpayments/pay`;
+};
+
+/**
+ * @summary Subscription Request Now Payments Pay
+ */
+export const subscriptionRequestNowPaymentsPay = async (
+  subscriptionNowPaymentsPayRequest: SubscriptionNowPaymentsPayRequest,
+  options?: RequestInit,
+): Promise<subscriptionRequestNowPaymentsPayResponse> => {
+  return customFetch<subscriptionRequestNowPaymentsPayResponse>(
+    getSubscriptionRequestNowPaymentsPayUrl(),
+    {
+      ...options,
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...options?.headers },
+      body: JSON.stringify(subscriptionNowPaymentsPayRequest),
+    },
+  );
+};
+
 export type getSubscriptionPlansResponse200ApplicationJson = {
   data: ResponseArrayControllerSubscriptionPlanDTO;
   status: 200;
@@ -12380,6 +12500,88 @@ export const getUserModels = async (
     ...options,
     method: "GET",
   });
+};
+
+export type requestNowPaymentsAmountResponse200ApplicationJson = {
+  data: ResponseString;
+  status: 200;
+};
+
+export type requestNowPaymentsAmountResponse200ApplicationXml = {
+  data: ResponseString;
+  status: 200;
+};
+
+export type requestNowPaymentsAmountResponseSuccess = (
+  | requestNowPaymentsAmountResponse200ApplicationJson
+  | requestNowPaymentsAmountResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type requestNowPaymentsAmountResponse =
+  requestNowPaymentsAmountResponseSuccess;
+
+export const getRequestNowPaymentsAmountUrl = () => {
+  return `/api/user/nowpayments/amount`;
+};
+
+/**
+ * @summary Request Now Payments Amount
+ */
+export const requestNowPaymentsAmount = async (
+  nowPaymentsPayRequest: NowPaymentsPayRequest,
+  options?: RequestInit,
+): Promise<requestNowPaymentsAmountResponse> => {
+  return customFetch<requestNowPaymentsAmountResponse>(
+    getRequestNowPaymentsAmountUrl(),
+    {
+      ...options,
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...options?.headers },
+      body: JSON.stringify(nowPaymentsPayRequest),
+    },
+  );
+};
+
+export type requestNowPaymentsPayResponse200ApplicationJson = {
+  data: ResponseDtoNowPaymentsPayData;
+  status: 200;
+};
+
+export type requestNowPaymentsPayResponse200ApplicationXml = {
+  data: ResponseDtoNowPaymentsPayData;
+  status: 200;
+};
+
+export type requestNowPaymentsPayResponseSuccess = (
+  | requestNowPaymentsPayResponse200ApplicationJson
+  | requestNowPaymentsPayResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type requestNowPaymentsPayResponse =
+  requestNowPaymentsPayResponseSuccess;
+
+export const getRequestNowPaymentsPayUrl = () => {
+  return `/api/user/nowpayments/pay`;
+};
+
+/**
+ * @summary Request Now Payments Pay
+ */
+export const requestNowPaymentsPay = async (
+  nowPaymentsPayRequest: NowPaymentsPayRequest,
+  options?: RequestInit,
+): Promise<requestNowPaymentsPayResponse> => {
+  return customFetch<requestNowPaymentsPayResponse>(
+    getRequestNowPaymentsPayUrl(),
+    {
+      ...options,
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...options?.headers },
+      body: JSON.stringify(nowPaymentsPayRequest),
+    },
+  );
 };
 
 export type getUserOAuthBindingsResponse200ApplicationJson = {

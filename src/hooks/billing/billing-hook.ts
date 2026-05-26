@@ -102,6 +102,18 @@ export function useCreemTopUpMutation() {
   });
 }
 
+export function useNowPaymentsTopUpMutation() {
+  const t = useTranslations();
+  return useMutation({
+    mutationFn: async (args: EdenArgs<Billing["nowpayments-pay"], "post">) => {
+      return handleElysia(
+        await rpc.api.billing.core["nowpayments-pay"].post(args.body),
+      );
+    },
+    onError: (e) => handleError(e, t),
+  });
+}
+
 export function useStripeSubscriptionMutation() {
   const t = useTranslations();
   return useMutation({
@@ -124,6 +136,22 @@ export function useCreemSubscriptionMutation() {
     ) => {
       return handleElysia(
         await rpc.api.billing.core.subscription["creem-pay"].post(args.body),
+      );
+    },
+    onError: (e) => handleError(e, t),
+  });
+}
+
+export function useNowPaymentsSubscriptionMutation() {
+  const t = useTranslations();
+  return useMutation({
+    mutationFn: async (
+      args: EdenArgs<Billing["subscription"]["nowpayments-pay"], "post">,
+    ) => {
+      return handleElysia(
+        await rpc.api.billing.core.subscription["nowpayments-pay"].post(
+          args.body,
+        ),
       );
     },
     onError: (e) => handleError(e, t),

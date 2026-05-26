@@ -16,6 +16,13 @@ export const creemPayBody = t.Object({
   payment_method: t.String(),
 });
 
+export const nowPaymentsPayBody = t.Object({
+  amount: t.Number(),
+  payment_method: t.String(),
+  success_url: t.Optional(t.String()),
+  cancel_url: t.Optional(t.String()),
+});
+
 export const subscriptionPayBody = t.Object({
   plan_id: t.Number(),
 });

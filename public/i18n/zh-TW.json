@@ -2232,7 +2232,12 @@
     "CONSUMPTION": "用量",
     "REQUESTS": "請求數",
     "USED_OF": "已用",
-    "REFRESHING": "重新整理中..."
+    "REFRESHING": "重新整理中...",
+    "PAYMENT_METHOD": {
+      "LABEL": "支付方式",
+      "CARD": "信用卡",
+      "CRYPTO": "加密貨幣"
+    }
   },
   "FORM": {
     "ERROR": {

@@ -2232,7 +2232,12 @@
     "CONSUMPTION": "Потребление",
     "REQUESTS": "Запросы",
     "USED_OF": "использовано из",
-    "REFRESHING": "Обновление..."
+    "REFRESHING": "Обновление...",
+    "PAYMENT_METHOD": {
+      "LABEL": "Способ оплаты",
+      "CARD": "Кредитная карта",
+      "CRYPTO": "Криптовалюта"
+    }
   },
   "FORM": {
     "ERROR": {

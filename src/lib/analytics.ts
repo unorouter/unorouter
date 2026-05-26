@@ -118,7 +118,7 @@ const chat = {
 
 const billing = {
   topUpInitiated: (props: {
-    provider: "stripe" | "creem";
+    provider: "stripe" | "creem" | "nowpayments";
     amount?: number;
     has_discount?: boolean;
     discount_pct?: number;
@@ -132,7 +132,7 @@ const billing = {
   },
   subscriptionInitiated: (props: {
     planId: string;
-    provider: "stripe" | "creem";
+    provider: "stripe" | "creem" | "nowpayments";
     provider_was_only_option: boolean;
   }) => {
     posthog.capture("billing_subscription_initiated", {

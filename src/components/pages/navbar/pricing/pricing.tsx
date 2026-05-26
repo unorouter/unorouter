@@ -1,5 +1,6 @@
 "use client";
 
+import { PaymentMethodToggle } from "@/components/elements/billing/payment-method-toggle";
 import { PageHeader } from "@/components/elements/content/page-header";
 import { PricingCard } from "@/components/elements/content/pricing-card";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
@@ -50,6 +51,20 @@ export function Pricing() {
 
   function buildTopUpOptions(): TopUpOption[] {
     if (!topUpInfo) return [];
+
+    if (billing.paymentMethod === "crypto" && billing.enableNowPayments) {
+      const amounts =
+        (topUpInfo.amount_options ?? []).length > 0
+          ? (topUpInfo.amount_options ?? [])
+          : DEFAULT_TOPUP_AMOUNTS;
+      return amounts.map((amount) => ({
+        key: `nowpayments-${amount}`,
+        amount,
+        handler: isLoggedIn
+          ? () => billing.payNowPayments(amount)
+          : redirectToLogin,
+      }));
+    }
 
     if (billing.enableCreem && topUpInfo.creemProducts.length > 0) {
       return topUpInfo.creemProducts.map((product) => ({
@@ -144,6 +159,9 @@ export function Pricing() {
               <p className="text-foreground mt-2 font-mono text-xs">
                 {t("PRICING.TOPUP.DESC")}
               </p>
+            </div>
+            <div className="mb-6 flex justify-center">
+              <PaymentMethodToggle />
             </div>
             <div className="mx-auto flex max-w-xl flex-wrap justify-center gap-2">
               {topUpOptions.map((option) => (

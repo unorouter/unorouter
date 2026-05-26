@@ -9,8 +9,10 @@ import {
   getSubscriptionPlans,
   getTopUpInfo,
   requestCreemPay,
+  requestNowPaymentsPay,
   requestStripePay,
   subscriptionRequestCreemPay,
+  subscriptionRequestNowPaymentsPay,
   subscriptionRequestStripePay,
 } from "@/openapi";
 import { and, eq } from "drizzle-orm";
@@ -25,7 +27,7 @@ export type AcpSessionStatus =
 
 const PAYMENT_METHOD_DEFAULT = "card";
 
-type AcpPaymentMethod = "stripe" | "creem";
+type AcpPaymentMethod = "stripe" | "creem" | "nowpayments";
 
 export type ParsedItemId =
   | {
@@ -44,7 +46,7 @@ export type ParsedItemId =
 
 // Format: `topup_<usd>_<method>` or `plan_<planId>_<method>`.
 function parseItemId(id: string): ParsedItemId | null {
-  const topup = id.match(/^topup_(\d+(?:\.\d+)?)_(stripe|creem)$/);
+  const topup = id.match(/^topup_(\d+(?:\.\d+)?)_(stripe|creem|nowpayments)$/);
   if (topup) {
     const amountUsd = Number(topup[1]);
     if (!Number.isFinite(amountUsd) || amountUsd <= 0) return null;
@@ -56,7 +58,7 @@ function parseItemId(id: string): ParsedItemId | null {
       raw: id,
     };
   }
-  const plan = id.match(/^plan_(\d+)_(stripe|creem)$/);
+  const plan = id.match(/^plan_(\d+)_(stripe|creem|nowpayments)$/);
   if (plan) {
     const planId = Number(plan[1]);
     if (!Number.isFinite(planId) || planId <= 0) return null;
@@ -76,6 +78,7 @@ type Catalog = {
   creemProductIdByAmount: Map<number, string>;
   enableStripeTopup: boolean;
   enableCreemTopup: boolean;
+  enableNowPaymentsTopup: boolean;
   planPriceCents: Map<number, number>;
 };
 
@@ -111,9 +114,12 @@ async function loadCatalog(
   const creemProductIdByAmount = new Map<number, string>();
   let enableStripeTopup = false;
   let enableCreemTopup = false;
+  let enableNowPaymentsTopup = false;
   if (topup.status === 200) {
     enableStripeTopup = topup.data.data.enable_stripe_topup ?? false;
     enableCreemTopup = topup.data.data.enable_creem_topup ?? false;
+    enableNowPaymentsTopup =
+      topup.data.data.enable_nowpayments_topup ?? false;
     for (const product of parseCreemProducts(topup.data.data.creem_products)) {
       if (
         typeof product.price === "number" &&
@@ -134,6 +140,7 @@ async function loadCatalog(
     creemProductIdByAmount,
     enableStripeTopup,
     enableCreemTopup,
+    enableNowPaymentsTopup,
     planPriceCents,
   };
 }
@@ -184,6 +191,14 @@ async function resolveItem(
         });
       }
     }
+    if (parsed.method === "nowpayments" && !catalog.enableNowPaymentsTopup) {
+      acpError(400, {
+        type: "invalid_request",
+        code: "invalid",
+        message: "NowPayments crypto top-up is not currently enabled",
+        param: `$.items[${index}].id`,
+      });
+    }
     return { parsed, amountCents: parsed.amountCents };
   }
   const cents = catalog.planPriceCents.get(parsed.planId);
@@ -230,7 +245,7 @@ async function validateAndResolveItem(
       type: "invalid_request",
       code: "invalid",
       message:
-        "Unknown item id; expected topup_<usd>_<method> or plan_<id>_<method>",
+        "Unknown item id; expected topup_<usd>_(stripe|creem|nowpayments) or plan_<id>_(stripe|creem|nowpayments)",
       param: "$.items[0].id",
     });
   }
@@ -392,7 +407,7 @@ export async function completeSession(input: CompleteSessionInput) {
         { headers },
       );
       payLink = res.data.data.pay_link;
-    } else {
+    } else if (parsed.method === "creem") {
       // Creem wants its product id (prod_xxx) and payment_method=creem.
       const catalog = await loadCatalog(headers);
       const productId = catalog.creemProductIdByAmount.get(parsed.amountUsd);
@@ -408,6 +423,15 @@ export async function completeSession(input: CompleteSessionInput) {
         { headers },
       );
       payLink = res.data.data.checkout_url;
+    } else {
+      const res = await requestNowPaymentsPay(
+        {
+          amount: parsed.amountUsd,
+          payment_method: "nowpayments",
+        },
+        { headers },
+      );
+      payLink = res.data.data.pay_link;
     }
   } else if (parsed.method === "stripe") {
     const res = await subscriptionRequestStripePay(
@@ -415,12 +439,18 @@ export async function completeSession(input: CompleteSessionInput) {
       { headers },
     );
     payLink = res.data.data.pay_link;
-  } else {
+  } else if (parsed.method === "creem") {
     const res = await subscriptionRequestCreemPay(
       { plan_id: parsed.planId },
       { headers },
     );
     payLink = res.data.data.checkout_url;
+  } else {
+    const res = await subscriptionRequestNowPaymentsPay(
+      { plan_id: parsed.planId },
+      { headers },
+    );
+    payLink = res.data.data.pay_link;
   }
 
   if (!payLink) {

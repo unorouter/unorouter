@@ -2232,7 +2232,12 @@
     "CONSUMPTION": "消費",
     "REQUESTS": "リクエスト",
     "USED_OF": "使用済み（合計のうち）",
-    "REFRESHING": "更新中..."
+    "REFRESHING": "更新中...",
+    "PAYMENT_METHOD": {
+      "LABEL": "支払い方法",
+      "CARD": "クレジットカード",
+      "CRYPTO": "暗号通貨"
+    }
   },
   "FORM": {
     "ERROR": {
