@@ -2203,7 +2203,8 @@
       "RECOMMENDED": "Recommended",
       "RESETS_IN": "Resets in",
       "RESETS_AT": "Resets at",
-      "PLAN_FALLBACK": "Plan #{planId}"
+      "PLAN_FALLBACK": "Plan #{planId}",
+      "CRYPTO_EMAIL_SENT": "Crypto subscription created. Check your email for the first invoice."
     },
     "PREFERENCE": {
       "TITLE": "Billing Preference",

@@ -2203,7 +2203,8 @@
       "RECOMMENDED": "Empfohlen",
       "RESETS_IN": "Zurücksetzung in",
       "RESETS_AT": "Zurücksetzung am",
-      "PLAN_FALLBACK": "Plan #{planId}"
+      "PLAN_FALLBACK": "Plan #{planId}",
+      "CRYPTO_EMAIL_SENT": "Krypto-Abo erstellt. Prüfe deine E-Mails für die erste Rechnung."
     },
     "PREFERENCE": {
       "TITLE": "Abrechnungspräferenz",

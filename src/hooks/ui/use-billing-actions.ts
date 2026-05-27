@@ -112,7 +112,16 @@ export function useBillingActions() {
       nowPaymentsSubMutation.mutate(
         { body: { plan_id: plan.id } },
         {
-          onSuccess: (data) => openPayLink(data?.pay_link),
+          onSuccess: (data) => {
+            if (data?.pay_link) {
+              openPayLink(data.pay_link);
+            } else {
+              // NowPayments email-subscription flow has no checkout URL: the
+              // invoice is emailed to the user. Confirm so the click isn't
+              // silently no-op.
+              toast.success(t("BILLING.SUBSCRIPTION.CRYPTO_EMAIL_SENT"));
+            }
+          },
           onError: failToast,
         },
       );

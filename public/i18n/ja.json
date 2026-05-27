@@ -2203,7 +2203,8 @@
       "RECOMMENDED": "おすすめ",
       "RESETS_IN": "リセットまで",
       "RESETS_AT": "リセット日時",
-      "PLAN_FALLBACK": "プラン #{planId}"
+      "PLAN_FALLBACK": "プラン #{planId}",
+      "CRYPTO_EMAIL_SENT": "暗号通貨サブスクリプションを作成しました。最初の請求書はメールをご確認ください。"
     },
     "PREFERENCE": {
       "TITLE": "請求設定",

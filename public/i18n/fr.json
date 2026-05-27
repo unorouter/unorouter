@@ -2203,7 +2203,8 @@
       "RECOMMENDED": "Recommandé",
       "RESETS_IN": "Réinitialisation dans",
       "RESETS_AT": "Réinitialisation le",
-      "PLAN_FALLBACK": "Plan #{planId}"
+      "PLAN_FALLBACK": "Plan #{planId}",
+      "CRYPTO_EMAIL_SENT": "Abonnement crypto créé. Consultez votre boîte mail pour la première facture."
     },
     "PREFERENCE": {
       "TITLE": "Préférence de facturation",

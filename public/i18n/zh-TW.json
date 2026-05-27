@@ -2203,7 +2203,8 @@
       "RECOMMENDED": "推薦",
       "RESETS_IN": "重置剩餘",
       "RESETS_AT": "重置時間",
-      "PLAN_FALLBACK": "方案 #{planId}"
+      "PLAN_FALLBACK": "方案 #{planId}",
+      "CRYPTO_EMAIL_SENT": "加密貨幣訂閱已建立，請查收郵件中的首張帳單。"
     },
     "PREFERENCE": {
       "TITLE": "計費偏好",

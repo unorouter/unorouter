@@ -2203,7 +2203,8 @@
       "RECOMMENDED": "Khuyến nghị",
       "RESETS_IN": "Đặt lại sau",
       "RESETS_AT": "Đặt lại lúc",
-      "PLAN_FALLBACK": "Gói #{planId}"
+      "PLAN_FALLBACK": "Gói #{planId}",
+      "CRYPTO_EMAIL_SENT": "Đã tạo gói đăng ký crypto. Kiểm tra email để xem hoá đơn đầu tiên."
     },
     "PREFERENCE": {
       "TITLE": "Tùy chọn thanh toán",

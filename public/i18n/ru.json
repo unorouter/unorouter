@@ -2203,7 +2203,8 @@
       "RECOMMENDED": "Рекомендуется",
       "RESETS_IN": "Сброс через",
       "RESETS_AT": "Сброс в",
-      "PLAN_FALLBACK": "Тариф #{planId}"
+      "PLAN_FALLBACK": "Тариф #{planId}",
+      "CRYPTO_EMAIL_SENT": "Крипто-подписка создана. Проверьте почту для первого счёта."
     },
     "PREFERENCE": {
       "TITLE": "Предпочтение оплаты",
