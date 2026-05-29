@@ -65,11 +65,11 @@ const nextConfig: NextConfig = {
       { source: "/api/ops/badge/:path*", headers: corpCrossOrigin },
       { source: "/_next/static/:path*", headers: corpSameOrigin },
       { source: "/api/:path((?!ops/badge).*)", headers: corpSameOrigin },
-      // The Serwist route is `force-static`, so Next + Cloudflare would cache
-      // /serwist/sw.js for a year (s-maxage) and new SW versions would never
-      // reach users. Force revalidation so SW updates propagate on deploy.
+      // Force revalidation on the SW route so new SW versions propagate on
+      // deploy (a year-long s-maxage once poisoned the edge cache and would not
+      // purge; the route is force-dynamic now + this no-cache prevents recurrence).
       {
-        source: "/serwist/:path*",
+        source: "/sw-worker/:path*",
         headers: [
           { key: "Cache-Control", value: "no-cache, must-revalidate" },
           { key: "Cross-Origin-Resource-Policy", value: "same-origin" },
@@ -80,7 +80,7 @@ const nextConfig: NextConfig = {
 };
 
 // Turbopack-native Serwist: the SW is served by an app route
-// (src/app/serwist/[path]/route.ts via createSerwistRoute) at /serwist/sw.js,
+// (src/app/sw-worker/[path]/route.ts via createSerwistRoute) at /sw-worker/sw.js,
 // NOT a webpack InjectManifest plugin. withSerwist just marks esbuild as an
 // external server package so the route can bundle the worker at request time.
 
