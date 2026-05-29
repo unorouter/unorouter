@@ -16,13 +16,10 @@ const serwistRoute = createSerwistRoute({
   useNativeEsbuild: true,
 });
 
-export const { dynamicParams, GET } = serwistRoute;
-
-// The factory exports `dynamic: "force-static"` + `revalidate: false`, which
-// makes Next emit `s-maxage=31536000` -> Cloudflare caches the SW for a year and
-// new versions never reach users. Override to force-dynamic so each request
-// serves fresh (the SW is small; correctness > the static-cache win). Combined
-// with the no-cache header in next.config/proxy. generateStaticParams is dropped
-// because force-dynamic builds on demand (and prebuild broke the .map route).
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+// Use the factory's full config (force-static + generateStaticParams). GET
+// reads a build-time manifest map that generateStaticParams populates; dropping
+// either 500s the route. The factory's force-static would emit s-maxage=1yr, but
+// the `no-cache` Cache-Control header on /sw-worker/* (next.config + proxy.ts)
+// overrides that at the edge, and the path moved off the poisoned /serwist key.
+export const { dynamic, dynamicParams, revalidate, generateStaticParams, GET } =
+  serwistRoute;
