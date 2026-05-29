@@ -72,7 +72,7 @@ Guest = `userId === GUEST_USER_ID` (0). Guests never touch Turso/R2 and lose web
      image  -> handleImageStream      (sync gen, inline data URL, buffered)
      video  -> handleVideoTaskStream  (async task, returns data-task part)
      text   -> continue below
-     (media text models -> handleBufferedStream: buffer, rehost URLs to R2)
+     (handleBufferedStream buffers + rehosts URLs to R2; reached by image/video, or any model when streaming is disabled. No distinct "media text" model type exists.)
 
 2. Load conversation context
      client chatContext (client ships its local DB state) preferred -> zero Turso reads
@@ -85,7 +85,7 @@ Guest = `userId === GUEST_USER_ID` (0). Guests never touch Turso/R2 and lose web
 
 4. PDF inline (transforms.inlinePdfText)
      PDF file parts pointing at R2 -> media.extractedText replaces them
-     missing extraction throws PDF_EXTRACTION_FAILED
+     missing extraction inserts a "[Attached PDF "name": extraction unavailable]" placeholder (no throw)
 
 5. Prompt assembly (assembleForStream | assembleFromOverrides)
      builds the system prompt + sampling + flags + depth injections
@@ -139,11 +139,11 @@ The client's history adapter reads `message.metadata.usage` from step 8 and bump
 `stream/transforms.ts`, applied in the order at `stream.service.ts:159`. The order is load-bearing.
 
 1. `noSystemRole` (strip system -> user with `[System]:` prefix) BEFORE merge, so the stripped message is eligible to collapse. For Gemini/GLM mid-conv.
-2. `appendPrefill` BEFORE merge, so a trailing assistant prefill can collapse with an existing trailing assistant. `skipPrefillIfLastIsAssistant + forceAlternateRoles` opts out.
+2. `appendPrefill` BEFORE merge, so a trailing assistant prefill can collapse with an existing trailing assistant. `skipPrefillIfLastIsAssistant` opts out when the last message is already an assistant; it is honored independently of `forceAlternateRoles` (the previous AND of both gates made the flag a no-op when alone).
 3. `mergeAlternateRoles` AFTER prefill, enforcing strict user/assistant alternation for GLM/Anthropic.
 4. `prependUserStub` LAST (`[Start a new chat]`), so merge cannot fold the stub.
 
-Plus pure transforms: `spliceDepthInjections` (lorebook `at_depth` + author note), `expandMessageMacros` ({{user}}, {{char}}, ...), `geminiBlockOff` (all five Gemini safety categories to `OFF`).
+Plus pure message transforms: `spliceDepthInjections` (lorebook `at_depth` + author note), `expandMessageMacros` ({{user}}, {{char}}, ...). Separately, the `geminiBlockOff` flag (not a message transform) sets all five Gemini safety categories to `OFF` via `providerOptions.safetySettings`.
 
 If you reorder these, role alternation breaks for strict providers. Do not.
 
@@ -158,7 +158,7 @@ If you reorder these, role alternation breaks for strict providers. Do not.
 
 ## 7. Storage model
 
-`src/lib/db/schema/shared.ts` (634 LOC, 20 tables mirrored client + server). Every syncable table carries `syncExpiresAt`. Text columns narrow via `.$type<>()` to validation-derived literal unions.
+`src/lib/db/schema/shared.ts` (634 LOC, 19 tables mirrored client + server). Every syncable table carries `syncExpiresAt`. Text columns narrow via `.$type<>()` to validation-derived literal unions.
 
 ### 7.1 ER diagram
 
@@ -268,7 +268,7 @@ Merge modes (conversations only): `replace` (wipe + reinsert, default authoritat
 
 ### 9.2 Server (`src/server/ai/sync/`)
 
-4 endpoints: `GET /state`, `GET /:kind/:id/bundle`, `POST /:kind/:id` (set expiry + persist), `DELETE /:kind/:id` (clear expiry). Route `.derive` runs `sweepExpired(userId, sweepKey())` once per request (WeakSet-memoized). Per-kind `Value.Cast()` against bundle TypeBox schemas coerces and fills defaults; drift is logged, never rejected. Default TTL `DEFAULT_TTL_DAYS = 30`.
+5 endpoints: `GET /state`, `GET /:kind/:id/bundle`, `POST /bundles` (batch bundle read, chunk 16), `POST /:kind/:id` (set expiry + persist), `DELETE /:kind/:id` (clear expiry). Route `.derive` runs `sweepExpired(userId, sweepKey())` once per request (WeakSet-memoized). Per-kind `Value.Cast()` against bundle TypeBox schemas coerces and fills defaults; drift is logged, never rejected. Default TTL `DEFAULT_TTL_DAYS = 30`.
 
 **Conversation pushes are self-contained**: a push carries the full bodies of every referenced character/persona/lorebook/preset, and the handler inserts those first inside the conversation's transaction so the `conversation_*` foreign keys resolve even if the entity was never synced on its own.
 
@@ -278,7 +278,7 @@ Merge modes (conversations only): `replace` (wipe + reinsert, default authoritat
 - `scheduler.ts`: 60s drain on focus/online, cross-tab mutex.
 - `resource-lock.ts`: cross-tab single-holder lock via BroadcastChannel; `LOCK_TTL_MS` covers a crashed holder; heartbeat while held. Used for the drain lock and the per-conv stream lock.
 
-### 9.4 Two-stage hydrator (`sync-state-hydrator.ts`)
+### 9.4 Three-stage hydrator (`sync-state-hydrator.ts`)
 
 Mounted in chat + playground layouts, fire-once per userId. Serial throughout (SQLocal transactionMutex).
 
@@ -306,7 +306,7 @@ RP entities have **zero server route surface** for mutation. All CRUD is client-
 
 ### 10.2 Bindings
 
-`conversation_characters` and `conversation_lorebooks` join rows carry `orderIndex`, `isActive`, and `overrides`. Multi-character: the primary (first by orderIndex) drives `{{char}}`; non-primary characters with `alwaysActive=false` are trigger-gated via `triggers` + `matchWholeWords`. `useUpdateChatBindingsMutation` does `replaceLocalConversationBindings` (delete-all + insert) then `mirrorConvIfSynced`.
+`conversation_characters` join rows carry `orderIndex`, `isActive`, and `overrides`; `conversation_lorebooks` rows carry only `orderIndex` (plus the PK + `createdAt`). Multi-character: the primary (first by orderIndex) drives `{{char}}`; non-primary characters with `alwaysActive=false` are trigger-gated via `triggers` + `matchWholeWords`. `useUpdateChatBindingsMutation` does `replaceLocalConversationBindings` (delete-all + insert) then `mirrorConvIfSynced`.
 
 ### 10.3 Apply card
 
@@ -339,18 +339,18 @@ UI pages: `(chat)/chat` (index), `[convId]`, `presets`, `cards`. RP dialogs (cha
 
 ## 12. Constants
 
-`src/lib/config/constants.ts`:
+`src/lib/config/constants.ts` (except where noted):
 
-| Constant | Value | Use |
-| --- | --- | --- |
-| `GUEST_USER_ID` | 0 | guest sentinel; mirror gate |
-| `FREE_MODEL_OUTPUT_CAP` | 8192 | max output tokens for free models |
-| `FREE_MODEL_RACE_COUNT` | 5 | parallel free models for title + web-search classifier |
-| `TAVILY_TIMEOUT_MS` | 5000 | web search abort |
-| `MODERATION_TIMEOUT_MS` | 5000 | Creem gate abort |
-| `MAX_RECURSIVE_LOREBOOK_PASSES` | 3 | lorebook recursion guard |
-| `DEFAULT_TTL_DAYS` | 30 | sync expiry window |
-| `MAX_PENDING_ATTEMPTS` | 5 | pending-sync retries before dead-letter |
+| Constant | Value | Source | Use |
+| --- | --- | --- | --- |
+| `GUEST_USER_ID` | 0 | `constants.ts` | guest sentinel; mirror gate |
+| `FREE_MODEL_OUTPUT_CAP` | 8192 | `constants.ts` | max output tokens for free models |
+| `FREE_MODEL_RACE_COUNT` | 5 | `constants.ts` | parallel free models for title + web-search classifier |
+| `TAVILY_TIMEOUT_MS` | 5000 | `constants.ts` | web search abort |
+| `MODERATION_TIMEOUT_MS` | 5000 | `constants.ts` | Creem gate abort |
+| `MAX_RECURSIVE_LOREBOOK_PASSES` | 3 | `constants.ts` | lorebook recursion guard |
+| `DEFAULT_TTL_DAYS` | 30 | `src/server/ai/sync/upsert.ts` | sync expiry window |
+| `MAX_PENDING_ATTEMPTS` | 5 | `src/lib/db/client/sync/pending-sync.ts` | pending-sync retries before dead-letter |
 
 R2 (`src/lib/config/r2.ts`): 50MB download cap, 100MB per-user quota, SSRF allowlist (CIDR + hostname + port 80/443), magic-byte verification.
 
