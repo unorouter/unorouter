@@ -34,6 +34,9 @@ function getIcon(vendor: string): IconComponent | null {
 
 type VendorIconProps = {
   vendor: string;
+  /** Matched when `vendor` resolves nothing (e.g. backend vendor is "Unknown"
+   *  but the model slug like `trinity-large-thinking` maps to Arcee). */
+  model?: string;
   size?: number;
   className?: string;
 };
@@ -41,7 +44,8 @@ type VendorIconProps = {
 export function VendorIcon(props: VendorIconProps) {
   const size = props.size ?? 20;
   // eslint-disable-next-line react-hooks/static-components -- icon component is cached in module-scope cache keyed by vendor, referentially stable across renders
-  const Icon = getIcon(props.vendor);
+  const Icon =
+    getIcon(props.vendor) ?? (props.model ? getIcon(props.model) : null);
 
   if (!Icon) {
     return (

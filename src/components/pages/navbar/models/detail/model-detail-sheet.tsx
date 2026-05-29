@@ -58,7 +58,11 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
       <SheetContent side="right" className="overflow-y-auto sm:max-w-2xl">
         <SheetHeader className="border-border border-b pb-4">
           <div className="flex items-center gap-3">
-            <VendorIcon vendor={model.vendor.name} size={28} />
+            <VendorIcon
+              vendor={model.vendor.name}
+              model={model.name}
+              size={28}
+            />
             <div className="min-w-0 flex-1">
               <SheetTitle className="flex items-center gap-2 font-mono text-base tracking-wide">
                 <span className="truncate">{model.name}</span>

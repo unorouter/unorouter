@@ -45,6 +45,7 @@ function pickVariant(v: Record<string, string>): string {
 
 export const VENDOR_LOADERS: Partial<Record<Vendor, IconLoader>> = {
   [Vendor.ALIBABA]: () => import("@lobehub/icons/es/AlibabaCloud"),
+  [Vendor.ARCEE]: () => import("@lobehub/icons/es/Arcee"),
   [Vendor.ANTHROPIC]: () => import("@lobehub/icons/es/Anthropic"),
   [Vendor.BAIDU]: () => import("@lobehub/icons/es/Baidu"),
   [Vendor.BAILIAN]: () => import("@lobehub/icons/es/Bailian"),
@@ -83,10 +84,17 @@ export const ALIAS_LOADERS: Record<string, IconLoader> = {
   doubao: () => import("@lobehub/icons/es/Doubao"),
   gemini: () => import("@lobehub/icons/es/Gemini"),
   nemotron: () => import("@lobehub/icons/es/Nvidia"),
+  trinity: () => import("@lobehub/icons/es/Arcee"),
 };
+
+// thesvg has no `arcee` package; lobehub ships the React component but not a
+// raw SVG string, so the satori-inline path uses the extracted Mono path here.
+const ARCEE_SVG =
+  '<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Arcee</title><path d="M13.236 2.377L2.751 20.493H0L11.863 0l1.373 2.377zm3.554 6.156l-9.606 11.96H4.13L15.511 6.32l1.279 2.212zm6.908 11.96H14.05l8.406-2.151 1.242 2.15zm-3.42-5.922l-7.843 5.92H8.482l10.597-7.997 1.2 2.077z"></path></svg>';
 
 export const VENDOR_SVGS: Partial<Record<Vendor, string>> = {
   [Vendor.OPENAI]: pickVariant(openai.variants),
+  [Vendor.ARCEE]: ARCEE_SVG,
   [Vendor.ANTHROPIC]: pickVariant(anthropic.variants),
   [Vendor.GOOGLE]: pickVariant(google.variants),
   [Vendor.GOOGLE_DEEPMIND]: pickVariant(google.variants),

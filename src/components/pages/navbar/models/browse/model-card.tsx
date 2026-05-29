@@ -58,7 +58,11 @@ export function ModelCard(props: {
     >
       <div className="mb-3 flex items-start justify-between gap-3">
         <div className="flex min-w-0 flex-1 items-center gap-3">
-          <VendorIcon vendor={model.vendor.name} size={20} />
+          <VendorIcon
+            vendor={model.vendor.name}
+            model={model.name}
+            size={20}
+          />
           <div className="min-w-0">
             <Tooltip>
               <TooltipTrigger

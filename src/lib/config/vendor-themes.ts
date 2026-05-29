@@ -27,6 +27,14 @@ const VENDOR_THEMES: Record<string, VendorTheme> = {
     tagBorder: "border-orange-500/20",
     primary: "#d97757",
   },
+  [Vendor.ARCEE]: {
+    bg: "bg-teal-500/5",
+    border: "border-teal-500/20",
+    text: "text-teal-700 dark:text-teal-300",
+    tagBg: "bg-teal-500/10",
+    tagBorder: "border-teal-500/20",
+    primary: "#008c8c",
+  },
   [Vendor.GOOGLE]: {
     bg: "bg-blue-500/5",
     border: "border-blue-500/20",

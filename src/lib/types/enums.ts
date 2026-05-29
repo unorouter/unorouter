@@ -52,6 +52,7 @@ export enum Vendor {
   LIQUID = "liquid",
   INCLUSIONAI = "inclusionai",
   LING = "ling",
+  ARCEE = "arcee",
 }
 
 export enum OS {

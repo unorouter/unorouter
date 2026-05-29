@@ -196,7 +196,11 @@ print(res.choices[0].message.content)`;
               theme.border,
             )}
           >
-            <VendorIcon vendor={m.vendor.icon ?? m.vendor.name} size={56} />
+            <VendorIcon
+              vendor={m.vendor.icon ?? m.vendor.name}
+              model={m.name}
+              size={56}
+            />
           </div>
 
           <div
@@ -604,6 +608,7 @@ print(res.choices[0].message.content)`;
                   >
                     <VendorIcon
                       vendor={sim.vendor.icon ?? sim.vendor.name}
+                      model={sim.name}
                       size={24}
                     />
                   </div>
