@@ -30,7 +30,12 @@ const serwist = new Serwist({
   precacheEntries: self.__SW_MANIFEST,
   skipWaiting: true,
   clientsClaim: true,
-  navigationPreload: true,
+  // navigationPreload intentionally OFF: with it on, navigations are fetched by
+  // the browser (page target), so the offline fallback only fires when both the
+  // preload AND the SW fetch fail. Disabling it routes every navigation through
+  // the SW's own fetch, so the /en/offline fallback triggers deterministically
+  // when the network is down. Small first-navigation latency cost is acceptable.
+  navigationPreload: false,
   runtimeCaching: [
     // Never cache the BFF, streaming, auth, sync, or the OPFS worker assets.
     // (SQLocal's worker + wasm bypass the SW entirely via the fetch listener
