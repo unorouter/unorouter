@@ -65,6 +65,16 @@ const nextConfig: NextConfig = {
       { source: "/api/ops/badge/:path*", headers: corpCrossOrigin },
       { source: "/_next/static/:path*", headers: corpSameOrigin },
       { source: "/api/:path((?!ops/badge).*)", headers: corpSameOrigin },
+      // The Serwist route is `force-static`, so Next + Cloudflare would cache
+      // /serwist/sw.js for a year (s-maxage) and new SW versions would never
+      // reach users. Force revalidation so SW updates propagate on deploy.
+      {
+        source: "/serwist/:path*",
+        headers: [
+          { key: "Cache-Control", value: "no-cache, must-revalidate" },
+          { key: "Cross-Origin-Resource-Policy", value: "same-origin" },
+        ],
+      },
     ];
   },
 };

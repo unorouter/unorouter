@@ -72,13 +72,7 @@ export function ModelSelector(props: ModelSelectorProps) {
     >
       <PopoverTrigger className="border-input bg-background ring-offset-background hover:bg-accent hover:text-accent-foreground flex h-8 w-full items-center justify-between rounded-md border px-3 text-xs">
         <div className="flex items-center gap-2 truncate">
-          {selected && (
-            <VendorIcon
-              vendor={selected.vendor.name}
-              model={selected.name}
-              size={14}
-            />
-          )}
+          {selected && <VendorIcon vendor={selected.vendor.name} size={14} />}
           <span className="truncate font-mono">
             {props.value || t("CHAT.MODEL.SELECT")}
           </span>
@@ -162,11 +156,7 @@ export function ModelSelector(props: ModelSelectorProps) {
                         disabled && "cursor-pointer opacity-50",
                       )}
                     >
-                      <VendorIcon
-                        vendor={model.vendor.name}
-                        model={model.name}
-                        size={14}
-                      />
+                      <VendorIcon vendor={model.vendor.name} size={14} />
                       <span className="min-w-0 flex-1 font-mono">
                         {model.name}
                       </span>

@@ -84,7 +84,6 @@ export const ALIAS_LOADERS: Record<string, IconLoader> = {
   doubao: () => import("@lobehub/icons/es/Doubao"),
   gemini: () => import("@lobehub/icons/es/Gemini"),
   nemotron: () => import("@lobehub/icons/es/Nvidia"),
-  trinity: () => import("@lobehub/icons/es/Arcee"),
 };
 
 // thesvg has no `arcee` package; lobehub ships the React component but not a

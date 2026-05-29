@@ -56,11 +56,7 @@ export function ModelListItem(props: {
     >
       {/* Row 1: Icon + Name + Badge */}
       <div className="flex items-center gap-3 sm:min-w-0 sm:flex-1">
-        <VendorIcon
-          vendor={model.vendor.name}
-          model={model.name}
-          size={18}
-        />
+        <VendorIcon vendor={model.vendor.name} size={18} />
 
         <div className="flex min-w-0 flex-1 items-center gap-1.5">
           <span className="truncate font-mono text-sm font-medium tracking-wide">
