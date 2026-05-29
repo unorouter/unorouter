@@ -9,7 +9,6 @@ import {
   conversationCharacters,
   conversationLorebooks,
   conversations,
-  conversationSettings,
   lorebookEntries,
   lorebooks,
   media,
@@ -496,6 +495,7 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
         .from(conversations)
         .where(and(eq(conversations.id, id), eq(conversations.userId, userId)))
         .limit(1);
+      const s = body.settings;
       if (existing.length === 0) {
         await tx.insert(conversations).values({
           id,
@@ -504,6 +504,28 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
           totalInputTokens: c.totalInputTokens ?? 0,
           totalOutputTokens: c.totalOutputTokens ?? 0,
           totalCost: c.totalCost ?? 0,
+          defaultModel: s?.defaultModel ?? "",
+          personaId: s?.personaId ?? null,
+          presetId: s?.presetId ?? null,
+          systemPromptOverride: s?.systemPromptOverride ?? null,
+          authorNote: s?.authorNote ?? null,
+          authorNoteDepth: s?.authorNoteDepth ?? 4,
+          chatMemory: s?.chatMemory ?? 8,
+          reasoningEffort: s?.reasoningEffort ?? null,
+          webSearchEnabled: s?.webSearchEnabled ?? false,
+          webSearchEngine: s?.webSearchEngine ?? "auto",
+          webSearchContextSize: s?.webSearchContextSize ?? "medium",
+          temperature: s?.temperature ?? null,
+          topP: s?.topP ?? null,
+          topK: s?.topK ?? null,
+          minP: s?.minP ?? null,
+          topA: s?.topA ?? null,
+          frequencyPenalty: s?.frequencyPenalty ?? null,
+          presencePenalty: s?.presencePenalty ?? null,
+          repetitionPenalty: s?.repetitionPenalty ?? null,
+          maxTokens: s?.maxTokens ?? null,
+          extraBody: s?.extraBody ?? null,
+          streamingEnabled: s?.streamingEnabled ?? true,
           syncExpiresAt: expiresAt,
         });
       } else {
@@ -515,6 +537,7 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
               totalInputTokens: c.totalInputTokens,
               totalOutputTokens: c.totalOutputTokens,
               totalCost: c.totalCost,
+              ...(s ?? {}),
             }),
             syncExpiresAt: expiresAt,
             updatedAt: new Date(),
@@ -536,40 +559,6 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
       }
       for (const pr of body.presets ?? []) {
         await insertReferencedPreset(tx, userId, expiresAt, pr);
-      }
-
-      if (body.settings !== undefined) {
-        await tx
-          .delete(conversationSettings)
-          .where(eq(conversationSettings.convId, id));
-        if (body.settings) {
-          const s = body.settings;
-          await tx.insert(conversationSettings).values({
-            convId: id,
-            defaultModel: s.defaultModel ?? "",
-            personaId: s.personaId ?? null,
-            presetId: s.presetId ?? null,
-            systemPromptOverride: s.systemPromptOverride ?? null,
-            authorNote: s.authorNote ?? null,
-            authorNoteDepth: s.authorNoteDepth ?? 4,
-            chatMemory: s.chatMemory ?? 8,
-            reasoningEffort: s.reasoningEffort ?? null,
-            webSearchEnabled: s.webSearchEnabled ?? false,
-            webSearchEngine: s.webSearchEngine ?? "auto",
-            webSearchContextSize: s.webSearchContextSize ?? "medium",
-            temperature: s.temperature ?? null,
-            topP: s.topP ?? null,
-            topK: s.topK ?? null,
-            minP: s.minP ?? null,
-            topA: s.topA ?? null,
-            frequencyPenalty: s.frequencyPenalty ?? null,
-            presencePenalty: s.presencePenalty ?? null,
-            repetitionPenalty: s.repetitionPenalty ?? null,
-            maxTokens: s.maxTokens ?? null,
-            extraBody: s.extraBody ?? null,
-            streamingEnabled: s.streamingEnabled ?? true,
-          });
-        }
       }
 
       if (body.conversationCharacters) {

@@ -103,7 +103,6 @@ export async function enqueuePending(
 
 export async function drainPending(
   userId: number,
-  payloadFor?: (kind: SyncKindName, id: string) => unknown | undefined,
 ): Promise<DrainResult> {
   const result: DrainResult = {
     succeeded: 0,
@@ -138,10 +137,9 @@ export async function drainPending(
           await rpc.api.ai.sync({ kind: row.kind })({ id: row.id }).delete(),
         );
       } else {
-        // Precedence: caller snapshot > queue snapshot > rebuild.
+        // Immutable snapshot from enqueue time; never rebuilt from local state.
         const payload =
-          payloadFor?.(row.kind, row.id) ??
-          (row.payloadJson != null ? JSON.parse(row.payloadJson) : undefined);
+          row.payloadJson != null ? JSON.parse(row.payloadJson) : undefined;
         if (payload === undefined) {
           throw new Error(
             `pending row missing payload (kind=${row.kind}, id=${row.id})`,

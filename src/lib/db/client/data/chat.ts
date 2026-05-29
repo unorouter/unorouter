@@ -5,12 +5,15 @@ import {
   conversationCharacters,
   conversationLorebooks,
   conversations,
-  conversationSettings,
   media,
   messageItems,
   messages,
   requestLogs,
 } from "@/lib/db/schema/shared";
+import {
+  CONVERSATION_SETTINGS_KEYS,
+  projectConversationSettings,
+} from "@/lib/db/conversation-settings";
 import { and, asc, desc, eq, inArray } from "drizzle-orm";
 import { getLocalDb } from "../client";
 import { readLocalRequestLogsForConv } from "./request-log";
@@ -29,10 +32,6 @@ import type {
 } from "@/lib/types";
 
 const conversationStore = makeTableStore(conversations, conversations.id);
-const conversationSettingsStore = makeTableStore(
-  conversationSettings,
-  conversationSettings.convId,
-);
 const messageStore = makeTableStore(messages, messages.id);
 const messageItemStore = makeTableStore(messageItems, messageItems.id);
 
@@ -43,34 +42,27 @@ export const readLocalConversations = async (userId: number | undefined) => {
   const rows = await local.db
     .select()
     .from(conversations)
-    .leftJoin(
-      conversationSettings,
-      eq(conversationSettings.convId, conversations.id),
-    )
     .where(eq(conversations.userId, uid))
     .orderBy(desc(conversations.updatedAt));
-  return rows.map((r) => ({
-    ...r.conversations,
-    model: r.conversation_settings?.defaultModel ?? null,
-  }));
+  return rows.map((r) => ({ ...r, model: r.defaultModel ?? null }));
 };
 
 export const readLocalConversation = async (
   userId: number | undefined,
   id: string,
 ) => {
-  const [conv, settings] = await Promise.all([
-    conversationStore.get(userId, id),
-    conversationSettingsStore.get(userId, id, { scopeUser: false }),
-  ]);
+  const conv = await conversationStore.get(userId, id);
   if (!conv) return conv;
-  return { ...conv, model: settings?.defaultModel ?? null };
+  return { ...conv, model: conv.defaultModel ?? null };
 };
 
-export const readLocalConversationSettings = (
+export const readLocalConversationSettings = async (
   userId: number | undefined,
   convId: string,
-) => conversationSettingsStore.get(userId, convId, { scopeUser: false });
+) => {
+  const conv = await conversationStore.get(userId, convId);
+  return conv ? projectConversationSettings(conv) : null;
+};
 
 export async function readLocalMessages(
   userId: number | undefined,
@@ -144,15 +136,14 @@ export async function readLocalConversationBundle(
   if (!local) return null;
   const conv = await readLocalConversation(userId, convId);
   if (!conv) return null;
-  const [settings, bindings, msgs, items, mediaRows, reqLogRows] =
-    await Promise.all([
-      readLocalConversationSettings(userId, convId),
-      readLocalConversationBindings(userId, convId),
-      readLocalMessages(userId, convId),
-      readLocalMessageItems(userId, convId),
-      readLocalConversationMedia(userId, convId),
-      readLocalRequestLogsForConv(userId, convId),
-    ]);
+  const settings = projectConversationSettings(conv);
+  const [bindings, msgs, items, mediaRows, reqLogRows] = await Promise.all([
+    readLocalConversationBindings(userId, convId),
+    readLocalMessages(userId, convId),
+    readLocalMessageItems(userId, convId),
+    readLocalConversationMedia(userId, convId),
+    readLocalRequestLogsForConv(userId, convId),
+  ]);
 
   // Inline RP entity bodies so sync push is self-contained (FK resolves on server).
   const characterIds = (bindings?.conversationCharacters ?? []).map(
@@ -216,7 +207,11 @@ export const upsertLocalMessageItem = (
 export const upsertLocalConversationSettings = (
   userId: number | undefined,
   row: LocalRowInput & { convId: string },
-) => conversationSettingsStore.upsert(userId, row, { scopeUser: false });
+) => {
+  const next = { ...row, id: row.convId } as LocalRowInput & { id: string };
+  delete (next as Record<string, unknown>).convId;
+  return conversationStore.upsert(userId, next);
+};
 
 export async function deleteLocalMessagesForConv(
   userId: number | undefined,
@@ -307,18 +302,18 @@ export async function upsertLocalConversationBundle(
 ): Promise<{ skippedLocalNewer: number }> {
   const local = await getLocalDb(userId);
   if (!local) return { skippedLocalNewer: 0 };
-  await conversationStore.upsert(userId, bundle.conversation);
-
-  // Per-row merge: local edits to settings/bindings/media survive sync-pull.
-  if (bundle.settings) {
-    await local.db
-      .insert(conversationSettings)
-      .values(bundle.settings as never)
-      .onConflictDoUpdate({
-        target: conversationSettings.convId,
-        set: bundle.settings as never,
-      });
-  }
+  // Settings cols live on the conversation row; fold the bundle's settings in.
+  const convRow = bundle.settings
+    ? {
+        ...bundle.conversation,
+        ...Object.fromEntries(
+          CONVERSATION_SETTINGS_KEYS.filter(
+            (k) => k in (bundle.settings as object),
+          ).map((k) => [k, (bundle.settings as Record<string, unknown>)[k]]),
+        ),
+      }
+    : bundle.conversation;
+  await conversationStore.upsert(userId, convRow);
 
   const convId = bundle.conversation.id;
   // Composite PK; use mergeChildRows.

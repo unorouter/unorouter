@@ -37,6 +37,39 @@ export const conversations = sqliteTable(
     totalInputTokens: integer("total_input_tokens").notNull().default(0),
     totalOutputTokens: integer("total_output_tokens").notNull().default(0),
     totalCost: real("total_cost").notNull().default(0),
+    // Per-conversation settings (formerly conversation_settings table).
+    defaultModel: text("default_model").notNull(),
+    personaId: text("persona_id"),
+    presetId: text("preset_id"),
+    systemPromptOverride: text("system_prompt_override"),
+    authorNote: text("author_note"),
+    authorNoteDepth: integer("author_note_depth").notNull().default(4),
+    chatMemory: integer("chat_memory").notNull().default(8),
+    reasoningEffort: text("reasoning_effort").$type<ReasoningEffort>(),
+    webSearchEnabled: integer("web_search_enabled", { mode: "boolean" })
+      .notNull()
+      .default(false),
+    webSearchEngine: text("web_search_engine")
+      .notNull()
+      .default("auto")
+      .$type<WebSearchEngine>(),
+    webSearchContextSize: text("web_search_context_size")
+      .notNull()
+      .default("medium")
+      .$type<WebSearchContextSize>(),
+    temperature: real("temperature"),
+    topP: real("top_p"),
+    topK: integer("top_k"),
+    minP: real("min_p"),
+    topA: real("top_a"),
+    frequencyPenalty: real("frequency_penalty"),
+    presencePenalty: real("presence_penalty"),
+    repetitionPenalty: real("repetition_penalty"),
+    maxTokens: integer("max_tokens"),
+    extraBody: text("extra_body"),
+    streamingEnabled: integer("streaming_enabled", { mode: "boolean" })
+      .notNull()
+      .default(true),
     syncExpiresAt: integer("sync_expires_at", { mode: "timestamp_ms" }),
     createdAt: integer("created_at", { mode: "timestamp_ms" })
       .notNull()
@@ -50,47 +83,6 @@ export const conversations = sqliteTable(
     index("idx_conv_sync_expires").on(table.syncExpiresAt),
   ],
 );
-
-export const conversationSettings = sqliteTable("conversation_settings", {
-  convId: text("conv_id")
-    .primaryKey()
-    .references(() => conversations.id, { onDelete: "cascade" }),
-  defaultModel: text("default_model").notNull(),
-  personaId: text("persona_id"),
-  presetId: text("preset_id"),
-  systemPromptOverride: text("system_prompt_override"),
-  authorNote: text("author_note"),
-  authorNoteDepth: integer("author_note_depth").notNull().default(4),
-  chatMemory: integer("chat_memory").notNull().default(8),
-  reasoningEffort: text("reasoning_effort").$type<ReasoningEffort>(),
-  webSearchEnabled: integer("web_search_enabled", { mode: "boolean" })
-    .notNull()
-    .default(false),
-  webSearchEngine: text("web_search_engine")
-    .notNull()
-    .default("auto")
-    .$type<WebSearchEngine>(),
-  webSearchContextSize: text("web_search_context_size")
-    .notNull()
-    .default("medium")
-    .$type<WebSearchContextSize>(),
-  temperature: real("temperature"),
-  topP: real("top_p"),
-  topK: integer("top_k"),
-  minP: real("min_p"),
-  topA: real("top_a"),
-  frequencyPenalty: real("frequency_penalty"),
-  presencePenalty: real("presence_penalty"),
-  repetitionPenalty: real("repetition_penalty"),
-  maxTokens: integer("max_tokens"),
-  extraBody: text("extra_body"),
-  streamingEnabled: integer("streaming_enabled", { mode: "boolean" })
-    .notNull()
-    .default(true),
-  updatedAt: integer("updated_at", { mode: "timestamp_ms" })
-    .notNull()
-    .default(sql`(unixepoch() * 1000)`),
-});
 
 export const messages = sqliteTable(
   "messages",

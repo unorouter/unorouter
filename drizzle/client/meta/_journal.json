@@ -5,22 +5,8 @@
     {
       "idx": 0,
       "version": "6",
-      "when": 1779661011761,
-      "tag": "0000_bouncy_tigra",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "6",
-      "when": 1779661223073,
-      "tag": "0001_wonderful_puma",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "6",
-      "when": 1779661999459,
-      "tag": "0002_shallow_black_panther",
+      "when": 1780077074409,
+      "tag": "0000_wild_layla_miller",
       "breakpoints": true
     }
   ]

@@ -4,7 +4,6 @@ import { capitalize } from "@/lib/utils/base";
 import { assertFound } from "@/lib/utils/server";
 import { getDb } from "@/lib/db/server/client";
 import {
-  conversationSettings,
   conversations,
   messageItems,
   messages,
@@ -23,13 +22,9 @@ export async function getConversation(userId: number, convId: string) {
       totalCost: conversations.totalCost,
       createdAt: conversations.createdAt,
       updatedAt: conversations.updatedAt,
-      model: conversationSettings.defaultModel,
+      model: conversations.defaultModel,
     })
     .from(conversations)
-    .leftJoin(
-      conversationSettings,
-      eq(conversationSettings.convId, conversations.id),
-    )
     .where(eq(conversations.id, convId))
     .limit(1);
   assertFound(rows);

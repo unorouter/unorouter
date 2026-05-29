@@ -3,25 +3,27 @@ import {
   characters,
   conversationCharacters,
   conversationLorebooks,
-  conversationSettings,
+  conversations,
   lorebookEntries,
   lorebooks,
   personas,
   samplingPresets,
 } from "@/lib/db/schema";
+import { projectConversationSettings } from "@/lib/db/conversation-settings";
 import { and, asc, eq, inArray } from "drizzle-orm";
 import type { LoadedConvContext } from "@/lib/types";
 
 export async function loadConvContext(convId: string) {
   const db = getDb();
 
-  const settingsRows = await db
+  const convRows = await db
     .select()
-    .from(conversationSettings)
-    .where(eq(conversationSettings.convId, convId))
+    .from(conversations)
+    .where(eq(conversations.id, convId))
     .limit(1);
-  const settings = settingsRows[0];
-  if (!settings) return null;
+  const conv = convRows[0];
+  if (!conv) return null;
+  const settings = projectConversationSettings(conv);
 
   const charBindings = await db
     .select({

@@ -2,12 +2,14 @@
 
 import type {
   characters,
+  conversations,
   lorebooks,
   personas,
   requestLogs,
   samplingPresets,
 } from "./shared";
 
+export type ConversationRow = typeof conversations.$inferSelect;
 export type CharacterRow = typeof characters.$inferSelect;
 export type PersonaRow = typeof personas.$inferSelect;
 export type LorebookRow = typeof lorebooks.$inferSelect;

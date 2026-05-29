@@ -3,10 +3,8 @@ import {
   NONE_VALUE,
   type TranslationKey,
 } from "@/lib/config/constants";
-import {
-  conversationCharacters,
-  conversationSettings,
-} from "@/lib/db/schema/shared";
+import { conversationCharacters } from "@/lib/db/schema/shared";
+import type { ConversationSettingsProjection } from "@/lib/db/conversation-settings";
 import {
   formReasoningEffortToValue,
   narrowReasoningEffort,
@@ -136,7 +134,7 @@ function buildDefaultsForm(
   };
 }
 
-type ConvSettings = typeof conversationSettings.$inferSelect;
+type ConvSettings = ConversationSettingsProjection;
 
 type ConvBindings = {
   characters: { characterId: string }[];

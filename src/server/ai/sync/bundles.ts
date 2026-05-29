@@ -8,7 +8,6 @@ import {
   conversationCharacters,
   conversationLorebooks,
   conversations,
-  conversationSettings,
   playgroundSessions,
   playgrounds,
   lorebookEntries,
@@ -21,6 +20,10 @@ import {
   samplingPresets,
   userThemes,
 } from "@/lib/db/schema/shared";
+import {
+  projectConversationSettings,
+  type ConversationSettingsProjection,
+} from "@/lib/db/conversation-settings";
 import { and, eq, inArray } from "drizzle-orm";
 import type { SyncKindName } from "@/lib/validation/sync";
 
@@ -39,7 +42,7 @@ export type SyncBundleMap = {
   };
   conversations: {
     conversation: typeof conversations.$inferSelect;
-    settings: typeof conversationSettings.$inferSelect | null;
+    settings: ConversationSettingsProjection | null;
     conversationCharacters: (typeof conversationCharacters.$inferSelect)[];
     conversationLorebooks: (typeof conversationLorebooks.$inferSelect)[];
     messages: (typeof messages.$inferSelect)[];
@@ -158,18 +161,9 @@ export async function getSyncedBundle(
         .where(and(eq(conversations.id, id), eq(conversations.userId, userId)))
         .limit(1);
       assertFound(rows);
-      const [
-        settingsRows,
-        convCharsRows,
-        convLbsRows,
-        msgsRows,
-        mediaRows,
-        reqLogRows,
-      ] = await Promise.all([
-        db
-          .select()
-          .from(conversationSettings)
-          .where(eq(conversationSettings.convId, id)),
+      const settings = projectConversationSettings(rows[0]);
+      const [convCharsRows, convLbsRows, msgsRows, mediaRows, reqLogRows] =
+        await Promise.all([
         db
           .select()
           .from(conversationCharacters)
@@ -192,8 +186,8 @@ export async function getSyncedBundle(
 
       const refCharIds = convCharsRows.map((b) => b.characterId);
       const refLbIds = convLbsRows.map((b) => b.lorebookId);
-      const refPersonaId = settingsRows[0]?.personaId ?? null;
-      const refPresetId = settingsRows[0]?.presetId ?? null;
+      const refPersonaId = settings.personaId ?? null;
+      const refPresetId = settings.presetId ?? null;
       const [refCharacters, refPersonas, refLbRows, refLbEntries, refPresets] =
         await Promise.all([
           refCharIds.length
@@ -264,7 +258,7 @@ export async function getSyncedBundle(
 
       return {
         conversation: rows[0],
-        settings: settingsRows[0] ?? null,
+        settings,
         conversationCharacters: convCharsRows,
         conversationLorebooks: convLbsRows,
         messages: msgsRows,
