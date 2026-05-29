@@ -250,6 +250,15 @@ export const pathnames = {
     "zh-CN": "/docs/cc-switch",
     "zh-TW": "/docs/cc-switch",
   },
+  "/docs/hermes": {
+    de: "/docs/hermes",
+    fr: "/docs/hermes",
+    ja: "/docs/hermes",
+    ru: "/docs/hermes",
+    vi: "/docs/hermes",
+    "zh-CN": "/docs/hermes",
+    "zh-TW": "/docs/hermes",
+  },
   "/docs/sillytavern": {
     de: "/docs/sillytavern",
     fr: "/docs/sillytavern",

@@ -9,6 +9,7 @@ export type IntegrationIconKey =
   | "codex"
   | "gemini"
   | "openclaw"
+  | "hermes"
   | "sillytavern"
   | "janitor-ai"
   | "risuai"
@@ -213,6 +214,48 @@ openclaw onboard`,
 export OPENAI_API_KEY="YOUR_API_KEY"
 
 openclaw onboard`,
+    },
+  },
+  {
+    kind: "cli" as const,
+    href: "/docs/hermes",
+    titleKey: "DOCS.HERMES.TITLE",
+    subtitleKey: "DOCS.HERMES.SUBTITLE",
+    badgeKey: "DOCS.HERMES.BADGE",
+    iconKey: "hermes",
+    logoSrc: "/icons/hermes.png",
+    logoBg: true,
+    color: {
+      accent: "text-indigo-500",
+      badge: "bg-indigo-600 text-white",
+      border: "border-indigo-600/20",
+      glow: "bg-indigo-600/20",
+      bg: "bg-indigo-600/5",
+      ring: "border-indigo-600/30 hover:bg-indigo-600 hover:border-indigo-600",
+      arrow: "text-indigo-500 group-hover:text-white",
+      line: "bg-indigo-600/40",
+    },
+    quickStart: {
+      windows: `# Hermes runs under WSL2 on Windows.
+# In ~/.hermes/config.yaml set model.provider: "custom"
+# and model.base_url: "${env.apiUrl}/v1"
+export OPENAI_API_KEY="YOUR_API_KEY"
+
+hermes`,
+      macos: `curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash
+
+# In ~/.hermes/config.yaml set model.provider: "custom"
+# and model.base_url: "${env.apiUrl}/v1"
+export OPENAI_API_KEY="YOUR_API_KEY"
+
+hermes`,
+      linux: `curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash
+
+# In ~/.hermes/config.yaml set model.provider: "custom"
+# and model.base_url: "${env.apiUrl}/v1"
+export OPENAI_API_KEY="YOUR_API_KEY"
+
+hermes`,
     },
   },
 ] as const satisfies readonly CliIntegrationDef[];

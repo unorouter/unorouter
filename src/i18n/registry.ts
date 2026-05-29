@@ -70,6 +70,17 @@ export const DOCS_REGISTRY = [
     changeFrequency: "weekly",
   },
   {
+    slug: "docs/hermes",
+    path: "/docs/hermes",
+    i18nPrefix: "DOCS.HERMES",
+    contentFiles: [
+      "src/app/[locale]/(docs)/docs/(cli)/hermes/page.tsx",
+      "src/components/pages/docs/cli/hermes/hermes-content.tsx",
+    ],
+    priority: 0.7,
+    changeFrequency: "weekly",
+  },
+  {
     slug: "docs/sillytavern",
     path: "/docs/sillytavern",
     i18nPrefix: "DOCS.SILLYTAVERN",
