@@ -14,6 +14,15 @@ const serwistRoute = createSerwistRoute({
   // Use the native esbuild already present (transitive dep) instead of
   // esbuild-wasm, which is not installed.
   useNativeEsbuild: true,
+  // Exclude public/ files that next-intl/proxy redirects (bare /i18n/* and
+  // /seo-timestamps.json -> locale redirect = opaqueredirect). Precaching a
+  // redirected response makes cache.addAll reject, hanging SW install forever
+  // (SW stuck "installing", never controls). These are runtime-loaded anyway.
+  globIgnores: [
+    "**/node_modules/**/*",
+    "**/i18n/**",
+    "**/seo-timestamps.json",
+  ],
 });
 
 // Use the factory's full config (force-static + generateStaticParams). GET
