@@ -4,6 +4,7 @@ import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Icon } from "@/components/ui/icon";
 import { useUpdateConversationMutation } from "@/hooks/ai/chat-hook";
 import { useSyncStateForRow } from "@/hooks/ai/sync-hook";
+import { useQueuedSends } from "@/lib/db/client/data/queued-send";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { usePricingQuery } from "@/hooks/models/pricing-hook";
 import { analytics } from "@/lib/analytics";
@@ -35,6 +36,8 @@ export function ConversationItem(props: ConversationItemProps) {
   const pricingQuery = usePricingQuery();
   const updateMutation = useUpdateConversationMutation();
   const syncState = useSyncStateForRow("conversations", props.conversation.id);
+  const queuedSends = useQueuedSends();
+  const isQueued = queuedSends.data?.has(props.conversation.id) ?? false;
   const [isEditing, setIsEditing] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -115,6 +118,12 @@ export function ConversationItem(props: ConversationItemProps) {
             >
               {props.conversation.title || t("CHAT.NEW_CONVERSATION")}
             </span>
+            {isQueued && (
+              <span className="flex items-center gap-1 text-[10px] leading-none text-amber-500">
+                <Icon name="clock" className="size-2.5" />
+                {t("CHAT.QUEUED_PENDING")}
+              </span>
+            )}
             {isLoggedIn && (
               <span className="text-muted-foreground flex items-center gap-1 text-[10px] leading-none">
                 {isSynced ? (

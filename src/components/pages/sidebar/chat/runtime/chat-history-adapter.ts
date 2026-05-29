@@ -211,6 +211,11 @@ export function createChatHistoryAdapter(
           queryClient.invalidateQueries({
             queryKey: queryKeys.conversations(),
           });
+          // Offline queued-send badge: a persisted user turn (or its later
+          // assistant reply) changes the unanswered-turn set.
+          queryClient.invalidateQueries({
+            queryKey: queryKeys.queuedSends(),
+          });
 
           await mirrorConvDeltaIfSynced(
             userId,

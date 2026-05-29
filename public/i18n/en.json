@@ -1602,6 +1602,10 @@
     "ACTIONS": {
       "TRY_AGAIN": "Try Again",
       "GO_HOME": "Go Home"
+    },
+    "OFFLINE": {
+      "TITLE": "You're offline",
+      "DESCRIPTION": "This page isn't cached yet. Check your connection and try again. Pages you've already opened stay available offline."
     }
   },
   "COMMON": {
@@ -2469,6 +2473,8 @@
     },
     "NEW_CONVERSATION": "New Chat",
     "GENERATION_LOCKED_OTHER_TAB": "Another tab is already generating for this conversation. Wait for it to finish or switch tabs.",
+    "QUEUED_OFFLINE": "You're offline. This message is saved and will send when you're back online.",
+    "QUEUED_PENDING": "Queued",
     "SEARCH_PLACEHOLDER": "Search conversations...",
     "NO_RESULTS": "No matching conversations",
     "NO_CONVERSATIONS": "No conversations yet",

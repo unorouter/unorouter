@@ -1,6 +1,7 @@
 import { AffiliateCapture } from "@/components/pages/auth/affiliate-capture";
 import { AuthRedirectCapture } from "@/components/pages/auth/auth-redirect-capture";
 import { Providers } from "@/components/provider/providers";
+import { SwRegister } from "@/components/provider/app/sw-register";
 import { Toaster } from "@/components/ui/sonner";
 import {
   buildThemeCss,
@@ -115,6 +116,7 @@ export default async function LocaleLayout(props: Props) {
         <JsonLd id="website-jsonld" data={buildWebSiteSchema(params.locale)} />
         <Providers>
           <Toaster richColors />
+          <SwRegister />
           <Suspense>
             <AffiliateCapture />
             <AuthRedirectCapture />

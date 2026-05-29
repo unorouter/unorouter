@@ -31,6 +31,7 @@ import {
   chatWebSearchAtom,
   convIdAtom,
   ensureConvId,
+  queuedReplayAtom,
   type ChatHelpersRef,
 } from "@/store/chat-store";
 import { useChat } from "@ai-sdk/react";
@@ -42,7 +43,7 @@ import {
 import { useAISDKRuntime } from "@assistant-ui/react-ai-sdk";
 import { useQueryClient } from "@tanstack/react-query";
 import { DefaultChatTransport } from "ai";
-import { useSetAtom } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { useEffect, useRef } from "react";
@@ -177,6 +178,52 @@ function useScrollToBottom(
   }, [threadId, remoteId]);
 }
 
+// Per-tab guard so online/visibility/interval triggers do not stack duplicate
+// regenerates for the same conversation before the first finishes.
+const replayInFlight = new Set<string>();
+
+// Drains queued offline sends for the ACTIVE thread only. The scheduler
+// publishes unanswered-turn convIds to queuedReplayAtom; when one matches the
+// open conversation and nothing is streaming, regenerate from the user leaf
+// (regenerate keeps a trailing user message and re-requests -> assistant reply
+// persists via the normal append). Non-active convs replay when opened. Costs
+// stay visible: no hidden multi-stream fan-out.
+function useQueuedReplayBridge(
+  chat: ReturnType<typeof useChat<ChatUIMessage>>,
+  remoteId: string | null | undefined,
+  streamLockKeyRef: React.RefObject<string | null>,
+  releaseStreamLock: () => void,
+) {
+  const queued = useAtomValue(queuedReplayAtom);
+  const status = chat.status;
+  const regenerate = chat.regenerate;
+
+  useEffect(() => {
+    if (!remoteId) return;
+    if (!queued.includes(remoteId)) return;
+    // Only when idle; never interrupt an in-flight stream.
+    if (status === "submitted" || status === "streaming") return;
+    if (!navigator.onLine) return;
+    if (replayInFlight.has(remoteId)) return;
+
+    const lockKey = `conv:${remoteId}`;
+    if (!acquireLock(lockKey)) return; // another tab owns this conv
+    streamLockKeyRef.current = lockKey;
+    replayInFlight.add(remoteId);
+
+    void regenerate()
+      .catch(() => {
+        // Failure leaves the unanswered turn in place; it retries on next
+        // online/visibility tick. onError already surfaced the toast + lock.
+      })
+      .finally(() => {
+        replayInFlight.delete(remoteId);
+        // Release here too in case the run resolved without onFinish/onError.
+        if (streamLockKeyRef.current === lockKey) releaseStreamLock();
+      });
+  }, [queued, remoteId, status, regenerate, streamLockKeyRef, releaseStreamLock]);
+}
+
 // Stable helpers bridge for edit/delete + clear-conv from outside React tree.
 function useChatHelpersBridge(chat: ReturnType<typeof useChat<ChatUIMessage>>) {
   const messagesRef = useRef(chat.messages);
@@ -217,6 +264,13 @@ function ChatRuntimeHook() {
     transport,
     onError: (e) => {
       releaseStreamLock();
+      // Offline send failure is expected: the user turn was persisted by the
+      // history adapter and will auto-replay on reconnect. Show "queued", not
+      // a scary network error.
+      if (!navigator.onLine) {
+        toast.info(t("CHAT.QUEUED_OFFLINE"));
+        return;
+      }
       handleError(e, t);
     },
     onFinish: ({ message }) => {
@@ -231,6 +285,7 @@ function ChatRuntimeHook() {
 
   useScrollToBottom(threadId, remoteId);
   useChatHelpersBridge(chat);
+  useQueuedReplayBridge(chat, remoteId, streamLockKeyRef, releaseStreamLock);
 
   const wrappedChat: typeof chat = {
     ...chat,
@@ -247,6 +302,10 @@ function ChatRuntimeHook() {
         }
         streamLockKeyRef.current = lockKey;
       }
+      // Offline: still call sendMessage. It pushes the user message into the
+      // thread and attempts the stream, which fails fast; the history adapter
+      // persists the user turn on the run transition, making it a detectable
+      // unanswered turn for replay. onError shows the "queued" toast.
       return chat.sendMessage(...args);
     },
   };

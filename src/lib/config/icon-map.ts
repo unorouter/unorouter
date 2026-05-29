@@ -254,6 +254,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () =>
       import("react-icons/tb").then((m) => ({ default: m.TbCloudUpload })),
   },
+  clock: {
+    lucide: () =>
+      import("react-icons/lu").then((m) => ({ default: m.LuClock })),
+    tabler: () =>
+      import("react-icons/tb").then((m) => ({ default: m.TbClock })),
+  },
   code: {
     lucide: () => import("react-icons/lu").then((m) => ({ default: m.LuCode })),
     tabler: () => import("react-icons/tb").then((m) => ({ default: m.TbCode })),
@@ -830,6 +836,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("react-icons/lu").then((m) => ({ default: m.LuBrain })),
     tabler: () =>
       import("react-icons/tb").then((m) => ({ default: m.TbBrain })),
+  },
+  "wifi-off": {
+    lucide: () =>
+      import("react-icons/lu").then((m) => ({ default: m.LuWifiOff })),
+    tabler: () =>
+      import("react-icons/tb").then((m) => ({ default: m.TbWifiOff })),
   },
   "x-circle": {
     lucide: () =>

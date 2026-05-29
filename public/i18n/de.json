@@ -1602,6 +1602,10 @@
     "ACTIONS": {
       "TRY_AGAIN": "Erneut versuchen",
       "GO_HOME": "Zur Startseite"
+    },
+    "OFFLINE": {
+      "TITLE": "Du bist offline",
+      "DESCRIPTION": "Diese Seite ist noch nicht zwischengespeichert. Prüfe deine Verbindung und versuche es erneut. Bereits geöffnete Seiten bleiben offline verfügbar."
     }
   },
   "COMMON": {
@@ -2469,6 +2473,8 @@
     },
     "NEW_CONVERSATION": "Neuer Chat",
     "GENERATION_LOCKED_OTHER_TAB": "Ein anderer Tab generiert bereits für diese Unterhaltung. Warte, bis er fertig ist, oder wechsle den Tab.",
+    "QUEUED_OFFLINE": "Du bist offline. Diese Nachricht wurde gespeichert und wird gesendet, sobald du wieder online bist.",
+    "QUEUED_PENDING": "In Warteschlange",
     "SEARCH_PLACEHOLDER": "Unterhaltungen durchsuchen...",
     "NO_RESULTS": "Keine passenden Unterhaltungen",
     "NO_CONVERSATIONS": "Noch keine Unterhaltungen",

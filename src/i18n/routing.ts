@@ -77,6 +77,15 @@ export const pathnames = {
     "zh-CN": "/shouquan",
     "zh-TW": "/shouquan",
   },
+  "/offline": {
+    de: "/offline",
+    fr: "/hors-ligne",
+    ja: "/offline",
+    ru: "/офлайн",
+    vi: "/ngoai-tuyen",
+    "zh-CN": "/lixian",
+    "zh-TW": "/lixian",
+  },
   "/register": {
     de: "/registrieren",
     fr: "/inscription",
@@ -352,6 +361,7 @@ export const privateRoutes = {
     "/settings",
     "/consent",
     "/playground",
+    "/offline",
   ],
   // Parent path covers every child. /chat itself is public; /chat/[convId]
   // and /playground/[id] are per-user.

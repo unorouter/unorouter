@@ -1602,6 +1602,10 @@
     "ACTIONS": {
       "TRY_AGAIN": "Thử lại",
       "GO_HOME": "Về trang chủ"
+    },
+    "OFFLINE": {
+      "TITLE": "Bạn đang ngoại tuyến",
+      "DESCRIPTION": "Trang này chưa được lưu vào bộ nhớ đệm. Hãy kiểm tra kết nối và thử lại. Các trang đã mở vẫn dùng được khi ngoại tuyến."
     }
   },
   "COMMON": {
@@ -2469,6 +2473,8 @@
     },
     "NEW_CONVERSATION": "Cuộc trò chuyện mới",
     "GENERATION_LOCKED_OTHER_TAB": "Tab khác đang tạo phản hồi cho cuộc trò chuyện này. Hãy đợi tab đó hoàn thành hoặc chuyển sang nó.",
+    "QUEUED_OFFLINE": "Bạn đang ngoại tuyến. Tin nhắn này đã được lưu và sẽ gửi khi bạn trực tuyến trở lại.",
+    "QUEUED_PENDING": "Đang chờ gửi",
     "SEARCH_PLACEHOLDER": "Tìm hội thoại...",
     "NO_RESULTS": "Không có hội thoại nào khớp",
     "NO_CONVERSATIONS": "Chưa có hội thoại nào",

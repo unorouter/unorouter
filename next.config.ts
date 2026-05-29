@@ -1,4 +1,5 @@
 import { withPostHogConfig } from "@posthog/nextjs-config";
+import { withSerwist } from "@serwist/turbopack";
 import type { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
 import { LOCALES } from "./src/lib/config/constants";
@@ -68,13 +69,18 @@ const nextConfig: NextConfig = {
   },
 };
 
+// Turbopack-native Serwist: the SW is served by an app route
+// (src/app/serwist/[path]/route.ts via createSerwistRoute) at /serwist/sw.js,
+// NOT a webpack InjectManifest plugin. withSerwist just marks esbuild as an
+// external server package so the route can bundle the worker at request time.
+
 const withNextIntl = createNextIntlPlugin({
   experimental: {
     createMessagesDeclaration: ["./public/i18n/de.json"],
   },
 });
 
-const configWithNextIntl = withNextIntl(nextConfig);
+const configWithNextIntl = withNextIntl(withSerwist(nextConfig));
 
 export default process.env.STANDALONE
   ? withPostHogConfig(configWithNextIntl, {

@@ -82,6 +82,11 @@ export type ChatHelpersRef = {
 export const convIdAtom = atom<string | null>(null);
 export const chatHelpersAtom = atom<ChatHelpersRef | null>(null);
 
+// Offline queued-send replay work list, published by useQueuedSendScheduler and
+// drained by the runtime bridge (only the active thread auto-replays). convIds
+// of conversations whose active leaf is an unanswered user turn.
+export const queuedReplayAtom = atom<string[]>([]);
+
 // Non-React stream callbacks read via chatStore.get/set.
 export const chatStore = createStore();
 

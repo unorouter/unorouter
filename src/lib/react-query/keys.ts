@@ -43,6 +43,7 @@ export const queryKeys = {
   chatSettings: (id: string) => ["chat-settings", id] as const,
   chatBindings: (id: string) => ["chat-bindings", id] as const,
   taskStatus: (taskId: string) => ["task-status", taskId] as const,
+  queuedSends: () => ["queued-sends"] as const,
 
   media: (id: string) => ["media", id] as const,
   mediaNone: () => ["media", "none"] as const,

@@ -14,6 +14,15 @@ const ISOLATED_PATHS = ["/_next/", "/api/", "/sqlocal/"];
 export default function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  // Serwist SW route (/serwist/sw.js + chunks): must skip next-intl locale
+  // rewrites. The route handler sets Service-Worker-Allowed + content-type
+  // itself; we only add CORP so a COEP-isolated page can load it.
+  if (pathname.startsWith("/serwist/")) {
+    const res = NextResponse.next();
+    res.headers.set("Cross-Origin-Resource-Policy", "same-origin");
+    return res;
+  }
+
   if (PUBLIC_CROSS_ORIGIN.some((p) => pathname.startsWith(p))) {
     const res = NextResponse.next();
     res.headers.set("Cross-Origin-Resource-Policy", "cross-origin");
