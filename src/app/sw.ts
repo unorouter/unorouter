@@ -33,6 +33,8 @@ const serwist = new Serwist({
   navigationPreload: true,
   runtimeCaching: [
     // Never cache the BFF, streaming, auth, sync, or the OPFS worker assets.
+    // (SQLocal's worker + wasm bypass the SW entirely via the fetch listener
+    // below; this NetworkOnly is a backstop for any /api or /sqlocal request.)
     {
       matcher: ({ url }) =>
         url.pathname.startsWith("/api/") ||
@@ -40,9 +42,14 @@ const serwist = new Serwist({
       handler: new NetworkOnly(),
     },
     // Immutable hashed assets; same-origin only (CORP already stamped).
+    // Workers/wasm are excluded so a stray OPFS chunk is never cached.
     {
-      matcher: ({ url, sameOrigin }) =>
-        sameOrigin && url.pathname.startsWith("/_next/static"),
+      matcher: ({ url, sameOrigin, request }) =>
+        sameOrigin &&
+        url.pathname.startsWith("/_next/static") &&
+        request.destination !== "worker" &&
+        request.destination !== "sharedworker" &&
+        !url.pathname.endsWith(".wasm"),
       handler: new CacheFirst({
         cacheName: "next-static",
         plugins: [new ExpirationPlugin({ maxEntries: 256 })],
@@ -97,6 +104,26 @@ const serwist = new Serwist({
       },
     ],
   },
+});
+
+// SQLocal's OPFS async-proxy worker uses SharedArrayBuffer + Atomics.wait.
+// Any SW fetch indirection (even NetworkOnly, which still calls fetch() inside
+// the SW) stalls that sync handshake -> "Timeout while waiting for OPFS async
+// proxy worker" + lost persistence. Register a passthrough listener BEFORE
+// serwist's and stopImmediatePropagation so serwist never claims these
+// requests: they go straight to the network, untouched by the SW.
+self.addEventListener("fetch", (event) => {
+  const req = event.request;
+  const url = new URL(req.url);
+  if (
+    req.destination === "worker" ||
+    req.destination === "sharedworker" ||
+    url.pathname.endsWith(".wasm") ||
+    url.pathname.includes("sqlocal")
+  ) {
+    // No respondWith: leave it on the native fetch path.
+    event.stopImmediatePropagation();
+  }
 });
 
 serwist.addEventListeners();
