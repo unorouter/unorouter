@@ -36,6 +36,7 @@ export const env = {
     ? `https://x.com/${process.env.NEXT_PUBLIC_TWITTER_HANDLE.replace(/^@/, "")}`
     : undefined,
   trustpilotUrl: process.env.NEXT_PUBLIC_TRUSTPILOT_URL,
+  redditUrl: process.env.NEXT_PUBLIC_REDDIT_URL,
   posthogKey: process.env.NEXT_PUBLIC_POSTHOG_KEY,
   posthogHost: process.env.NEXT_PUBLIC_POSTHOG_HOST,
   googleSiteVerification: process.env.GOOGLE_SITE_VERIFICATION,

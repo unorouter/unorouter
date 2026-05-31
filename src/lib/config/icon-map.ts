@@ -804,6 +804,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () =>
       import("react-icons/tb").then((m) => ({ default: m.TbBrandX })),
   },
+  "brand-reddit": {
+    lucide: () =>
+      import("react-icons/fa").then((m) => ({ default: m.FaReddit })),
+    tabler: () =>
+      import("react-icons/tb").then((m) => ({ default: m.TbBrandReddit })),
+  },
   "brand-discord-si": {
     lucide: () =>
       import("react-icons/si").then((m) => ({ default: m.SiDiscord })),

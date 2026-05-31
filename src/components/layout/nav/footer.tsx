@@ -103,6 +103,18 @@ export function Footer() {
                   <Icon name="brand-trustpilot" className="h-5 w-5" />
                 </NextLink>
               )}
+              {env.redditUrl && (
+                <NextLink
+                  href={env.redditUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-background hover:bg-muted rounded-full p-2 transition-colors"
+                  aria-label="Reddit"
+                  onClick={() => analytics.navigation.socialClicked("reddit")}
+                >
+                  <Icon name="brand-reddit" className="h-5 w-5" />
+                </NextLink>
+              )}
             </div>
           </div>
 
