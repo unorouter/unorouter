@@ -40,9 +40,11 @@ export default function proxy(request: NextRequest) {
     return res;
   }
 
-  const response = createMiddleware(routing)(request);
-  response.headers.set(SERVER_URL_KEY, request.url);
-  return response;
+  // Stamp the request URL into a REQUEST header before next-intl runs so server
+  // components can read it via `headers().get(SERVER_URL_KEY)` (needed by the
+  // sidebar layout to build /login?redirect=<current path>).
+  request.headers.set(SERVER_URL_KEY, request.url);
+  return createMiddleware(routing)(request);
 }
 
 export const config = {
