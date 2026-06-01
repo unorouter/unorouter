@@ -1,13 +1,16 @@
+import { redirect } from "@/i18n/navigation";
 import { env } from "@/lib/config/env";
 import { serverEnv } from "@/server/env";
 import { sealData, unsealData } from "iron-session";
 import type { Locale } from "next-intl";
 import { getLocale } from "next-intl/server";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import {
+  AUTH_REDIRECT_QUERY,
   LOCALE_COOKIE,
   LOCALES,
   msg,
+  SERVER_URL_KEY,
   USER_ID_COOKIE,
 } from "../config/constants";
 import { rpc } from "../rpc";
@@ -119,4 +122,33 @@ export function assertFound<T>(
   rows: ArrayLike<T>,
 ): asserts rows is { 0: T } & ArrayLike<T> {
   if (rows.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
+}
+
+/**
+ * Redirect an unauthed user to /login and preserve the path they were trying
+ * to reach. The originating URL is read from the SERVER_URL_KEY request header
+ * stamped by src/proxy.ts; on /login the existing AuthRedirectCapture stashes
+ * it into AUTH_REDIRECT_COOKIE, which login-form.tsx + the OAuth callback in
+ * server/auth/account/route.ts consume on success.
+ */
+export async function redirectToLogin(): Promise<never> {
+  const locale = await serverLocale();
+  const incoming = (await headers()).get(SERVER_URL_KEY);
+  let target = "";
+  if (incoming) {
+    try {
+      const u = new URL(incoming);
+      target = u.pathname + (u.search || "");
+    } catch {
+      target = "";
+    }
+  }
+  redirect({
+    href: target
+      ? { pathname: "/login", query: { [AUTH_REDIRECT_QUERY]: target } }
+      : "/login",
+    locale,
+  });
+  // redirect() throws internally; this line is unreachable.
+  throw new Error("unreachable");
 }
