@@ -13,8 +13,6 @@ import {
   SERVER_URL_KEY,
   USER_ID_COOKIE,
 } from "../config/constants";
-
-const LOCALE_PREFIX_RE = new RegExp(`^/(?:${LOCALES.join("|")})(?=/|$)`);
 import { rpc } from "../rpc";
 import { handleElysia } from "./base";
 
@@ -142,8 +140,12 @@ export async function redirectToLogin(): Promise<never> {
       const u = new URL(incoming);
       // Stored value must be locale-LESS: useRouter from @/i18n/navigation
       // re-prepends the active locale on push, so a stored "/en/settings"
-      // round-trips as "/en/en/settings" (404). Strip the prefix here.
-      const pathname = u.pathname.replace(LOCALE_PREFIX_RE, "") || "/";
+      // round-trips as "/en/en/settings" (404). Strip the active locale.
+      const prefix = `/${locale}`;
+      let pathname = u.pathname;
+      if (pathname === prefix) pathname = "/";
+      else if (pathname.startsWith(`${prefix}/`))
+        pathname = pathname.slice(prefix.length);
       target = pathname + (u.search || "");
     } catch {
       target = "";
