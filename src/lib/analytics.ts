@@ -220,6 +220,9 @@ const settings = {
   oauthBound: (provider: string) => {
     posthog.capture("settings_oauth_bound", { provider });
   },
+  oauthUnbound: (provider: string) => {
+    posthog.capture("settings_oauth_unbound", { provider });
+  },
   notificationChannelChanged: (method: string) => {
     posthog.capture("settings_notification_channel_changed", { method });
   },

@@ -63,6 +63,34 @@ export function useBindEmailMutation() {
   });
 }
 
+type OAuthBindingField = "github_id" | "discord_id";
+
+const oauthBindingFieldMap: Record<string, OAuthBindingField> = {
+  github: "github_id",
+  discord: "discord_id",
+};
+
+export function useUnbindOAuthMutation() {
+  const t = useTranslations();
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (args: { bindingType: "github" | "discord" }) => {
+      return handleElysia(
+        await rpc.api.auth.account
+          .bindings({ binding_type: args.bindingType })
+          .delete(),
+      );
+    },
+    onError: (e) => handleError(e, t),
+    onSuccess: (_, args) => {
+      const field = oauthBindingFieldMap[args.bindingType];
+      queryClient.setQueryData<UserSelfData>(queryKeys.auth(), (old) =>
+        old ? { ...old, [field]: "" } : old,
+      );
+    },
+  });
+}
+
 export function useUpdateSelfMutation() {
   const t = useTranslations();
   const queryClient = useQueryClient();

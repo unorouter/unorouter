@@ -2349,6 +2349,9 @@
       "NOT_BOUND": "Non lié",
       "BIND": "Lier",
       "UNBIND": "Délier",
+      "UNBOUND": "{provider} délié avec succès",
+      "UNBIND_CONFIRM_TITLE": "Délier {provider} ?",
+      "UNBIND_CONFIRM_DESCRIPTION": "Votre compte {provider} sera déconnecté. Vous pourrez le lier à nouveau à tout moment.",
       "COPIED": "Copié dans le presse-papiers"
     },
     "SECURITY": {

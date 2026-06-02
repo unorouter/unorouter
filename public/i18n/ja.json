@@ -2349,6 +2349,9 @@
       "NOT_BOUND": "未連携",
       "BIND": "連携",
       "UNBIND": "連携解除",
+      "UNBOUND": "{provider} の連携を解除しました",
+      "UNBIND_CONFIRM_TITLE": "{provider} の連携を解除しますか？",
+      "UNBIND_CONFIRM_DESCRIPTION": "{provider} アカウントの連携が解除されます。いつでも再度連携できます。",
       "COPIED": "クリップボードにコピーしました"
     },
     "SECURITY": {

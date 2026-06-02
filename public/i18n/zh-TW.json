@@ -2349,6 +2349,9 @@
       "NOT_BOUND": "尚未綁定",
       "BIND": "綁定",
       "UNBIND": "解除綁定",
+      "UNBOUND": "{provider} 解除綁定成功",
+      "UNBIND_CONFIRM_TITLE": "解除綁定 {provider}？",
+      "UNBIND_CONFIRM_DESCRIPTION": "您的 {provider} 帳號將被解除關聯。您可以隨時重新綁定。",
       "COPIED": "已複製到剪貼簿"
     },
     "SECURITY": {

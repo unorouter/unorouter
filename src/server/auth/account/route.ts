@@ -3,6 +3,7 @@ import {
   loginBody,
   oauthCallbackQuery,
   oauthStateQuery,
+  oauthUnbindParams,
   registerBody,
 } from "@/lib/api/typebox/auth";
 import { twoFACodeBody, verificationQuery } from "@/lib/api/typebox/common";
@@ -22,6 +23,7 @@ import {
   login,
   logout,
   register,
+  selfClearBinding,
   sendEmailVerification,
   verify2FALogin,
 } from "@/openapi";
@@ -143,6 +145,15 @@ export const authRoute = new Elysia({ prefix: "/account" })
       set.headers.location = redirectTo || "/dashboard";
     },
     { query: oauthCallbackQuery },
+  )
+
+  .delete(
+    "/bindings/:binding_type",
+    async ({ params, upstream }) => {
+      const res = await selfClearBinding(params.binding_type, upstream);
+      return unwrap(res);
+    },
+    { params: oauthUnbindParams },
   )
 
   .get(

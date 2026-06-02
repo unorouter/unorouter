@@ -4,6 +4,7 @@ import { MyFormInput } from "@/components/elements/form/my-form-input";
 import { buildOAuthUrl } from "@/components/pages/auth/oauth-buttons";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { confirm } from "@/components/ui/confirm";
 import { Form } from "@/components/ui/form";
 import { Icon } from "@/components/ui/icon";
 import { Label } from "@/components/ui/label";
@@ -17,6 +18,7 @@ import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import {
   useBindEmailMutation,
   useSendSettingsVerificationMutation,
+  useUnbindOAuthMutation,
 } from "@/hooks/auth/settings-hook";
 import { useStatusQuery } from "@/hooks/ops/status-hook";
 import { analytics } from "@/lib/analytics";
@@ -41,6 +43,7 @@ export function AccountCard() {
   const statusQuery = useStatusQuery();
   const bindEmailMutation = useBindEmailMutation();
   const sendVerificationMutation = useSendSettingsVerificationMutation();
+  const unbindOAuthMutation = useUnbindOAuthMutation();
   const [bindLoading, setBindLoading] = useState<string | null>(null);
 
   const [countdown, setCountdown] = useState(0);
@@ -127,6 +130,28 @@ export function AccountCard() {
     }
   }
 
+  async function handleOAuthUnbind(provider: "github" | "discord", label: string) {
+    const ok = await confirm({
+      title: t("SETTINGS.ACCOUNT.UNBIND_CONFIRM_TITLE", { provider: label }),
+      description: t("SETTINGS.ACCOUNT.UNBIND_CONFIRM_DESCRIPTION", {
+        provider: label,
+      }),
+      confirmLabel: t("SETTINGS.ACCOUNT.UNBIND"),
+      cancelLabel: t("SETTINGS.CANCEL"),
+      destructive: true,
+    });
+    if (!ok) return;
+    unbindOAuthMutation.mutate(
+      { bindingType: provider },
+      {
+        onSuccess: () => {
+          analytics.settings.oauthUnbound(provider);
+          toast.success(t("SETTINGS.ACCOUNT.UNBOUND", { provider: label }));
+        },
+      },
+    );
+  }
+
   function renderOAuthBinding(
     icon: React.ReactNode,
     label: string,
@@ -161,7 +186,18 @@ export function AccountCard() {
             </p>
           </div>
         </div>
-        {!boundId && (
+        {boundId ? (
+          <Button
+            variant="outline"
+            size="sm"
+            disabled={unbindOAuthMutation.isPending}
+            onClick={() =>
+              handleOAuthUnbind(provider as "github" | "discord", label)
+            }
+          >
+            {t("SETTINGS.ACCOUNT.UNBIND")}
+          </Button>
+        ) : (
           <Button
             variant="outline"
             size="sm"

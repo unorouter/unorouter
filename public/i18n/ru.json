@@ -2349,6 +2349,9 @@
       "NOT_BOUND": "Не привязан",
       "BIND": "Привязать",
       "UNBIND": "Отвязать",
+      "UNBOUND": "{provider} успешно отвязан",
+      "UNBIND_CONFIRM_TITLE": "Отвязать {provider}?",
+      "UNBIND_CONFIRM_DESCRIPTION": "Ваша учётная запись {provider} будет отключена. Вы можете привязать её снова в любое время.",
       "COPIED": "Скопировано в буфер обмена"
     },
     "SECURITY": {

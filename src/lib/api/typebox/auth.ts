@@ -24,3 +24,14 @@ export const oauthStateQuery = t.Object({
 export const oauthCallbackQuery = t.Object({
   code: t.String(),
 });
+
+export const oauthUnbindParams = t.Object({
+  binding_type: t.Union([
+    t.Literal("github"),
+    t.Literal("discord"),
+    t.Literal("oidc"),
+    t.Literal("wechat"),
+    t.Literal("telegram"),
+    t.Literal("linuxdo"),
+  ]),
+});

@@ -2349,6 +2349,9 @@
       "NOT_BOUND": "Not bound",
       "BIND": "Bind",
       "UNBIND": "Unbind",
+      "UNBOUND": "{provider} unbound successfully",
+      "UNBIND_CONFIRM_TITLE": "Unbind {provider}?",
+      "UNBIND_CONFIRM_DESCRIPTION": "Your {provider} account will be disconnected. You can bind it again at any time.",
       "COPIED": "Copied to clipboard"
     },
     "SECURITY": {

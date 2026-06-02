@@ -2349,6 +2349,9 @@
       "NOT_BOUND": "Chưa liên kết",
       "BIND": "Liên kết",
       "UNBIND": "Hủy liên kết",
+      "UNBOUND": "Đã hủy liên kết {provider} thành công",
+      "UNBIND_CONFIRM_TITLE": "Hủy liên kết {provider}?",
+      "UNBIND_CONFIRM_DESCRIPTION": "Tài khoản {provider} của bạn sẽ bị ngắt kết nối. Bạn có thể liên kết lại bất cứ lúc nào.",
       "COPIED": "Đã sao chép vào bộ nhớ tạm"
     },
     "SECURITY": {

@@ -2349,6 +2349,9 @@
       "NOT_BOUND": "Nicht verknüpft",
       "BIND": "Verknüpfen",
       "UNBIND": "Trennen",
+      "UNBOUND": "{provider} erfolgreich getrennt",
+      "UNBIND_CONFIRM_TITLE": "{provider} trennen?",
+      "UNBIND_CONFIRM_DESCRIPTION": "Dein {provider}-Konto wird getrennt. Du kannst es jederzeit erneut verknüpfen.",
       "COPIED": "In die Zwischenablage kopiert"
     },
     "SECURITY": {
