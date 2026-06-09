@@ -217,7 +217,10 @@ export function formReasoningEffortToValue(
 // Keep in sync with `chatDefaultsAtom` in `src/store/chat-store.ts`.
 export const streamOverrides = t.Object({
   reasoningEffort: t.Optional(t.Union([reasoningEffort, t.Null()])),
-  chatMemory: t.Optional(t.Number({ minimum: 1, maximum: 1000 })),
+  // null = inherit the bound preset (else system default 8).
+  chatMemory: t.Optional(
+    t.Union([t.Number({ minimum: 1, maximum: 1000 }), t.Null()]),
+  ),
   systemPromptOverride: t.Optional(
     t.Union([t.String({ maxLength: MAX_TEXT_LEN }), t.Null()]),
   ),
@@ -251,8 +254,9 @@ export const streamOverrides = t.Object({
   ),
   // Sliders win on key conflicts. Parsed at the prompt assembler.
   extraBody: t.Optional(t.Union([t.String({ maxLength: 8_192 }), t.Null()])),
-  // false = BFF buffers full upstream reply, then emits one chunk.
-  streamingEnabled: t.Optional(t.Boolean()),
+  // null = inherit the bound preset (else system default: streaming on). false =
+  // BFF buffers full upstream reply, then emits one chunk.
+  streamingEnabled: t.Optional(t.Union([t.Boolean(), t.Null()])),
 });
 export type StreamOverrides = Static<typeof streamOverrides>;
 
@@ -271,7 +275,9 @@ export const updateConversationSettingsBody = t.Object({
     t.Union([t.String({ maxLength: MAX_TEXT_LEN }), t.Null()]),
   ),
   authorNoteDepth: t.Optional(t.Number({ minimum: 0, maximum: 100 })),
-  chatMemory: t.Optional(t.Number({ minimum: 1, maximum: 1000 })),
+  chatMemory: t.Optional(
+    t.Union([t.Number({ minimum: 1, maximum: 1000 }), t.Null()]),
+  ),
   reasoningEffort: t.Optional(t.Union([reasoningEffort, t.Null()])),
   webSearchEnabled: t.Optional(t.Boolean()),
   webSearchEngine: t.Optional(webSearchEngine),
@@ -298,7 +304,15 @@ export const updateConversationSettingsBody = t.Object({
     t.Union([t.Number({ minimum: 1, maximum: 1_000_000 }), t.Null()]),
   ),
   extraBody: t.Optional(t.Union([t.String({ maxLength: 8_192 }), t.Null()])),
-  streamingEnabled: t.Optional(t.Boolean()),
+  // Chat-variable store (macro setvar + sticky lorebook state). Must sync or a
+  // cross-device hydration wipes setvar/sticky state.
+  vars: t.Optional(t.Union([t.String({ maxLength: 65_536 }), t.Null()])),
+  streamingEnabled: t.Optional(t.Union([t.Boolean(), t.Null()])),
+  groupOrderByOrder: t.Optional(t.Union([t.Boolean(), t.Null()])),
+  autoContinue: t.Optional(t.Union([t.Boolean(), t.Null()])),
+  memoryEnabled: t.Optional(t.Union([t.Boolean(), t.Null()])),
+  summaryMemory: t.Optional(t.Union([t.String({ maxLength: 16_384 }), t.Null()])),
+  summaryAnchor: t.Optional(t.Union([t.Number(), t.Null()])),
 });
 export type UpdateConversationSettingsBody = Static<
   typeof updateConversationSettingsBody
@@ -323,7 +337,6 @@ export type UpdateConversationBindingsBody = Static<
   typeof updateConversationBindingsBody
 >;
 
-
 // Loose `Any()`: each entity body has its own validation surface; re-checking
 // here would double-cost on every turn.
 export const chatContext = t.Object({
@@ -340,6 +353,8 @@ export const chatContext = t.Object({
   ),
   preset: t.Optional(t.Union([t.Any(), t.Null()])),
   settings: t.Optional(t.Union([t.Any(), t.Null()])),
+  // Per-user global variable store (JSON string) for setglobalvar/getglobalvar.
+  globalVars: t.Optional(t.Union([t.String(), t.Null()])),
 });
 export type ChatContext = Static<typeof chatContext>;
 
@@ -351,6 +366,11 @@ export const streamBody = t.Object({
   // Fallback for guest convs (no settings row).
   overrides: t.Optional(streamOverrides),
   chatContext: t.Optional(chatContext),
+  // Multi-character rotation: which bound character speaks this turn. When set,
+  // the assembler promotes that character to primary (drives {{char}}).
+  speakingCharacterId: t.Optional(
+    t.Union([t.String({ maxLength: MAX_ID_LEN }), t.Null()]),
+  ),
 });
 export type StreamBody = Static<typeof streamBody>;
 

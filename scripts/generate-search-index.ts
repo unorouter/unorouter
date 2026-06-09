@@ -8,7 +8,9 @@ import { readFileSync, writeFileSync } from "fs";
 import { join } from "path";
 
 type StaticRoute = Exclude<keyof typeof pathnames, `${string}[${string}`>;
-type IndexUrl = StaticRoute | `/blog/${string}`;
+// Doc guides resolve through the dynamic "/docs/[slug]" route, so their URL is
+// derived from the registry slug ("/" + slug) rather than a StaticRoute literal.
+type IndexUrl = StaticRoute | `/docs/${string}` | `/blog/${string}`;
 
 type IndexPage = {
   url: IndexUrl;
@@ -20,7 +22,7 @@ type IndexPage = {
 };
 
 const DOC_PAGES: IndexPage[] = DOCS_REGISTRY.map((d) => ({
-  url: d.path,
+  url: `/${d.slug}` as IndexUrl,
   keyPrefix: d.i18nPrefix,
   titleKey: msg(`${d.i18nPrefix}.TITLE`),
   subtitleKey: msg(`${d.i18nPrefix}.SUBTITLE`),
@@ -69,21 +71,19 @@ function stripPlaceholders(text: string): string {
 async function generateSearchIndex() {
   log("Generating search index...");
 
-  const db = create({
-    schema: {
-      title: "string",
-      content: "string",
-      description: "string",
-      url: "string",
-      category: "enum",
-      locale: "enum",
-    } as const,
-  });
-
   let totalIndexed = 0;
 
   for (const locale of LOCALES) {
     log(`Processing locale: ${locale}`);
+    const db = create({
+      schema: {
+        title: "string",
+        content: "string",
+        description: "string",
+        url: "string",
+        category: "enum",
+      } as const,
+    });
     const filePath = join(process.cwd(), "public", "i18n", `${locale}.json`);
     const messages = JSON.parse(readFileSync(filePath, "utf-8"));
 
@@ -113,18 +113,18 @@ async function generateSearchIndex() {
         description,
         url: page.url,
         category: page.category,
-        locale,
       });
       totalIndexed++;
       log(`  Indexed: ${page.url} (${title})`);
     }
+
+    const persisted = await persist(db, "json");
+    writeFileSync(
+      join(process.cwd(), "public", `search-index.${locale}.json`),
+      JSON.stringify(persisted),
+    );
   }
 
-  const persisted = await persist(db, "json");
-  writeFileSync(
-    join(process.cwd(), "public", "search-index.json"),
-    JSON.stringify(persisted),
-  );
   log(`Done. Indexed ${totalIndexed} pages across ${LOCALES.length} locales.`);
 }
 

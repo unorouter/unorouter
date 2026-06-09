@@ -6,8 +6,8 @@ import {
   type IconComponent,
   type IconLoader,
 } from "@/lib/config/vendor-icons";
+import { LoaderIcon } from "@/components/ui/local-icons";
 import dynamic from "next/dynamic";
-import { LuLoader } from "react-icons/lu";
 
 const LOADERS: Record<string, IconLoader> = {
   ...VENDOR_LOADERS,
@@ -26,7 +26,9 @@ function getIcon(vendor: string): IconComponent | null {
 
   const Icon = dynamic(LOADERS[key], {
     ssr: false,
-    loading: () => <LuLoader className="text-muted-foreground animate-spin" />,
+    loading: () => (
+      <LoaderIcon className="text-muted-foreground animate-spin" />
+    ),
   }) as IconComponent;
   cache.set(vendor, Icon);
   return Icon;

@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useUploadReferenceMutation } from "@/hooks/ai/playground-hook";
 import { Icon } from "@/components/ui/icon";
+import { SmartImage } from "@/components/ui/smart-image";
 
 type Props = {
   value: string | undefined;
@@ -29,11 +30,13 @@ export function InitImageField(props: Props) {
       <Label className="mb-2 block">{t("IMAGE.INIT_IMAGE")}</Label>
       {value ? (
         <div className="bg-muted relative overflow-hidden rounded-md">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <SmartImage
             src={value}
             alt="Init image"
-            className="max-h-64 w-full object-contain"
+            width={0}
+            height={0}
+            sizes="100vw"
+            className="h-auto max-h-64 w-full object-contain"
           />
           <Button
             size="sm"

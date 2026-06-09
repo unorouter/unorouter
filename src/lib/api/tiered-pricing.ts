@@ -160,9 +160,7 @@ export function parseTiersFromExpr(exprStr: string): ParsedTier[] {
       const conditions: TierCondition[] = [];
       if (condStr) {
         for (const cp of condStr.split(/\s*&&\s*/)) {
-          const cm = cp
-            .trim()
-            .match(/^(p|c|len)\s*(<|<=|>|>=)\s*([\d.eE+]+)$/);
+          const cm = cp.trim().match(/^(p|c|len)\s*(<|<=|>|>=)\s*([\d.eE+]+)$/);
           if (cm) {
             conditions.push({
               var: cm[1] as TierCondition["var"],

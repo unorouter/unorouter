@@ -44,6 +44,7 @@ jobs:
 
           echo GUEST_API_KEY=${{ secrets.GUEST_API_KEY }} >> .env
 
+          echo NEXT_PUBLIC_POSTHOG_DISABLED=${{ secrets.NEXT_PUBLIC_POSTHOG_DISABLED }} >> .env
           echo NEXT_PUBLIC_POSTHOG_KEY=${{ secrets.NEXT_PUBLIC_POSTHOG_KEY }} >> .env
           echo NEXT_PUBLIC_POSTHOG_HOST=${{ secrets.NEXT_PUBLIC_POSTHOG_HOST }} >> .env
           echo POSTHOG_PROXY_HOST=${{ secrets.POSTHOG_PROXY_HOST }} >> .env
@@ -75,14 +76,32 @@ jobs:
           echo "Site did not come up in time"
           exit 1
 
+      - name: Assert sitemap has model pages
+        run: |
+          # Guards the localhost-self-call / build-prerender regression that
+          # silently emptied every model page from the sitemap.
+          sitemap="$(curl -fsS "${{ secrets.NEXT_PUBLIC_URL }}/sitemap.xml")"
+          total="$(printf '%s' "$sitemap" | grep -oc '<loc>' || true)"
+          models="$(printf '%s' "$sitemap" \
+            | grep -oE '<loc>[^<]*</loc>' \
+            | grep -E '/(models|modeles|modelle|moxing|mo-hinh|moderu|modelli|modelos|modeu|modeller|model|modele)/[^<]+' \
+            | grep -vc '/blog/' || true)"
+          echo "sitemap: $total total URLs, $models model pages"
+          if [ "${models:-0}" -lt 100 ]; then
+            echo "::error::sitemap has $models model pages (expected >=100). Pricing self-call likely failing; see src/lib/rpc.ts + sitemap.ts."
+            exit 1
+          fi
+
       - name: Submit to IndexNow
         run: |
+          mkdir -p "$HOME/.cache/indexnow-bun"
           docker run --rm \
             --user "$(id -u):$(id -g)" \
-            -v "$PWD":/app -w /app \
+            -v "$PWD/scripts":/scripts:ro \
+            -v "$HOME/.cache/indexnow-bun":/tmp/.bun/install/cache \
             -e INDEXNOW_KEY="${{ secrets.INDEXNOW_KEY }}" \
             -e NEXT_PUBLIC_URL="${{ secrets.NEXT_PUBLIC_URL }}" \
             -e HOME=/tmp \
             oven/bun:1-alpine \
-            sh -c "bun add indexnow-submitter --no-save && bun scripts/indexnow.ts"
+            sh -c "mkdir -p /tmp/run && cp /scripts/indexnow.ts /tmp/run/ && cd /tmp/run && bun add indexnow-submitter --no-save && bun indexnow.ts"
         continue-on-error: true

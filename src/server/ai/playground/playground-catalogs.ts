@@ -32,8 +32,7 @@ async function listCatalog<T extends SQLiteTable>(
 
 export function listLoraCatalog(query: LoraCatalogQuery) {
   const filters: SQL[] = [];
-  if (query.baseModel)
-    filters.push(eq(loraCatalog.baseModel, query.baseModel));
+  if (query.baseModel) filters.push(eq(loraCatalog.baseModel, query.baseModel));
   if (query.category) filters.push(eq(loraCatalog.category, query.category));
   return listCatalog(loraCatalog, filters);
 }

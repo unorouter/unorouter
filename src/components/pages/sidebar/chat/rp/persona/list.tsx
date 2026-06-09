@@ -125,6 +125,7 @@ export function PersonaList(props: Props) {
 
           {editingId && (
             <PersonaEditor
+              key={editingId}
               editingId={editingId}
               onDone={() => setEditingId(null)}
             />

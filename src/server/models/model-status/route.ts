@@ -3,10 +3,7 @@ import {
   modelStatusPageQuery,
 } from "@/lib/api/typebox/model-status";
 import { unwrap } from "@/lib/utils/base";
-import {
-  getModelStatusComponents,
-  getModelStatusPage,
-} from "@/openapi";
+import { getModelStatusComponents, getModelStatusPage } from "@/openapi";
 import { Elysia } from "elysia";
 import { ADMIN_HEADERS, upstreamApiUrl } from "@/server/constants";
 

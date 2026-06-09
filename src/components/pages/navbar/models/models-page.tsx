@@ -10,13 +10,33 @@ import { FILTER_OPTIONS, selectedVendorsAtom } from "@/store/models-store";
 import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { WindowVirtualizer } from "virtua";
 import { ModelCard } from "./browse/model-card";
 import { ModelListItem } from "./browse/model-list-item";
 import { ModelDetailSheet } from "./detail/model-detail-sheet";
 import { SortFilter } from "./filters/sort-filter";
 import { VendorFilter } from "./filters/vendor-filter";
 import { ViewModeToggle } from "./filters/view-mode-toggle";
+
+// Tracks the grid's Tailwind breakpoints (sm:2, lg:3) so virtualized rows
+// chunk to the same column count the CSS renders.
+function useGridColumns() {
+  const [cols, setCols] = useState(1);
+  useEffect(() => {
+    const sm = window.matchMedia("(min-width: 640px)");
+    const lg = window.matchMedia("(min-width: 1024px)");
+    const update = () => setCols(lg.matches ? 3 : sm.matches ? 2 : 1);
+    update();
+    sm.addEventListener("change", update);
+    lg.addEventListener("change", update);
+    return () => {
+      sm.removeEventListener("change", update);
+      lg.removeEventListener("change", update);
+    };
+  }, []);
+  return cols;
+}
 
 export function ModelsPage() {
   const t = useTranslations();
@@ -25,6 +45,14 @@ export function ModelsPage() {
   const perfMap = new Map(
     (perfQuery.data?.models ?? []).map((row) => [row.model_name, row]),
   );
+
+  // Rendering all ~200 catalog entries at once cost ~20s main-thread on mobile
+  // (Lighthouse TBT 9.9s); window-virtualize like the status page.
+  const gridCols = useGridColumns();
+  const gridRows: (typeof m.filtered)[] = [];
+  for (let i = 0; i < m.filtered.length; i += gridCols) {
+    gridRows.push(m.filtered.slice(i, i + gridCols));
+  }
 
   const searchParams = useSearchParams();
   const [selectedVendors, setSelectedVendors] = useAtom(selectedVendorsAtom);
@@ -115,29 +143,39 @@ export function ModelsPage() {
           {t("MODELS.EMPTY")}
         </div>
       ) : m.viewMode === "grid" ? (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {m.filtered.map((model) => (
-            <ModelCard
-              key={model.name}
-              model={model}
-              onClick={() => m.setSelectedModelName(model.name)}
-              labels={priceLabels}
-              perf={perfMap.get(model.name)}
-            />
+        // ssrCount: server-render the first rows so LCP comes from HTML
+        // instead of waiting for hydration + measurement.
+        <WindowVirtualizer ssrCount={8}>
+          {gridRows.map((row) => (
+            <div
+              key={row[0].name}
+              className="grid grid-cols-1 gap-4 pb-4 sm:grid-cols-2 lg:grid-cols-3"
+            >
+              {row.map((model) => (
+                <ModelCard
+                  key={model.name}
+                  model={model}
+                  onClick={() => m.setSelectedModelName(model.name)}
+                  labels={priceLabels}
+                  perf={perfMap.get(model.name)}
+                />
+              ))}
+            </div>
           ))}
-        </div>
+        </WindowVirtualizer>
       ) : (
-        <div className="flex flex-col gap-2">
+        <WindowVirtualizer ssrCount={12}>
           {m.filtered.map((model) => (
-            <ModelListItem
-              key={model.name}
-              model={model}
-              onClick={() => m.setSelectedModelName(model.name)}
-              labels={priceLabels}
-              perf={perfMap.get(model.name)}
-            />
+            <div key={model.name} className="pb-2">
+              <ModelListItem
+                model={model}
+                onClick={() => m.setSelectedModelName(model.name)}
+                labels={priceLabels}
+                perf={perfMap.get(model.name)}
+              />
+            </div>
           ))}
-        </div>
+        </WindowVirtualizer>
       )}
 
       <ModelDetailSheet

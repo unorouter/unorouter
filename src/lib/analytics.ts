@@ -1,5 +1,5 @@
 import type { RpSyncKind } from "@/lib/validation/sync";
-import posthog from "posthog-js";
+import { posthog } from "@/lib/posthog-lazy";
 
 // Conversations report through the `chat.*` events; lorebook entries are a
 // sub-entity with no sync kind of their own.

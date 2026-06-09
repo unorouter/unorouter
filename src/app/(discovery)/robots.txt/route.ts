@@ -2,7 +2,6 @@ import { pathnames, privateRoutes, routing } from "@/i18n/routing";
 import { env } from "@/lib/config/env";
 import type { Locale } from "next-intl";
 
-
 function localizedPath(
   route: keyof typeof pathnames,
   locale: Locale,

@@ -4,7 +4,8 @@ import {
   streamBody,
   titleGenerationBody,
 } from "@/lib/validation/chat";
-import { getApiKey, getApiKeyOrGuest, getUserId } from "@/server/constants";
+import { getApiKey, getUserId } from "@/server/constants";
+import { resolveChatApiKey } from "@/server/billing/token/best-key.service";
 import { Elysia } from "elysia";
 import {
   getConversation,
@@ -34,7 +35,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   .post(
     "/title",
     async ({ body, cookie }) => {
-      const apiKey = getApiKeyOrGuest(cookie);
+      const apiKey = await resolveChatApiKey(cookie);
       const data = await generateChatTitle(apiKey, body.text, body.model);
       return { success: true, data };
     },
@@ -44,7 +45,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   .post(
     "/stream",
     async ({ body, cookie, request }) => {
-      const apiKey = getApiKeyOrGuest(cookie);
+      const apiKey = await resolveChatApiKey(cookie);
       const userId = (await getUserId(cookie, true)) ?? GUEST_USER_ID;
       if (userId === GUEST_USER_ID) body.webSearch = false;
       return streamChat(apiKey, body, request, userId);

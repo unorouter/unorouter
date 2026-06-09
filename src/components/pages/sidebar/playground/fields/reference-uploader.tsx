@@ -7,6 +7,7 @@ import { useUploadReferenceMutation } from "@/hooks/ai/playground-hook";
 import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 import { Icon } from "@/components/ui/icon";
+import { SmartImage } from "@/components/ui/smart-image";
 
 export type ReferenceEntry = {
   url: string;
@@ -82,11 +83,12 @@ export function ReferenceUploader(props: Props) {
               key={`${ref.url}-${i}`}
               className="bg-muted relative aspect-square overflow-hidden rounded-md"
             >
-              {/* eslint-disable-next-line @next/next/no-img-element -- R2 host varies, skip optimization */}
-              <img
+              <SmartImage
                 src={ref.url}
                 alt={ref.name ?? `ref ${i + 1}`}
-                className="h-full w-full object-cover"
+                fill
+                sizes="(max-width: 640px) 33vw, 25vw"
+                className="object-cover"
               />
               <button
                 type="button"

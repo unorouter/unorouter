@@ -13,9 +13,26 @@ export type IntegrationIconKey =
   | "sillytavern"
   | "janitor-ai"
   | "risuai"
-  | "chub";
+  | "chub"
+  | "librechat"
+  | "open-webui"
+  | "lobechat"
+  | "anythingllm"
+  | "cherry-studio"
+  | "typingmind"
+  | "boltai"
+  | "page-assist"
+  | "chatbox"
+  | "big-agi"
+  | "opencode"
+  | "kilo-code"
+  | "cline"
+  | "roo-code"
+  | "zed"
+  | "continue-dev"
+  | "aider";
 
-type IntegrationColor = {
+export type IntegrationColor = {
   accent: string;
   badge: string;
   border: string;

@@ -96,11 +96,7 @@ export function expiredSyncFilter(
 }
 
 // Singleton kinds ignore `id` and scope to userId only.
-function rowOwnershipFilter(
-  meta: KindMeta,
-  userId: number,
-  id: string,
-): SQL {
+function rowOwnershipFilter(meta: KindMeta, userId: number, id: string): SQL {
   if (meta.kind === "singleton") return eq(meta.table.userId, userId);
   return and(eq(meta.idCol, id), eq(meta.table.userId, userId))!;
 }
@@ -138,10 +134,7 @@ export async function listSyncState(
     })
     .from(meta.table)
     .where(
-      and(
-        eq(meta.table.userId, userId),
-        isNotNull(meta.table.syncExpiresAt),
-      )!,
+      and(eq(meta.table.userId, userId), isNotNull(meta.table.syncExpiresAt))!,
     );
   return rows.map((r) => ({
     id: String(r.id),

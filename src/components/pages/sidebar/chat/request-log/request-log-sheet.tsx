@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/sheet";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
+import { useUsedProviderQuery } from "@/hooks/ops/logs-hook";
 import { GUEST_USER_ID } from "@/lib/config/constants";
 import {
   buildRequestLogCurl,
@@ -38,6 +39,25 @@ export function RequestLogSheet(props: {
   });
 
   const row = log.data;
+  // The provider that actually served this request (resolved from new-api logs
+  // by request_id). Routing on the auto group always picks the cheapest
+  // satisfied channel; this surfaces which one that was, after the fact.
+  const usedProvider = useUsedProviderQuery(row?.requestId).data;
+
+  // The exact OpenAI-compatible wire body the upstream LLM receives: a
+  // top-level `system` string (omitted for no-system models like GLM) plus the
+  // role-only `messages` array. This is the verification surface testers need;
+  // the raw client snapshot (requestBody) is debug-only and shown last.
+  const upstreamBody = row
+    ? {
+        model:
+          row.requestBody && typeof row.requestBody === "object"
+            ? (row.requestBody as { model?: string }).model
+            : undefined,
+        ...(row.assembledSystem ? { system: row.assembledSystem } : {}),
+        messages: row.finalMessages,
+      }
+    : null;
 
   return (
     <Sheet open={props.open} onOpenChange={props.onOpenChange}>
@@ -50,6 +70,11 @@ export function RequestLogSheet(props: {
               {row.requestId && (
                 <Badge variant="outline">
                   {t("CHAT.REQUEST_LOG.BADGE_REQ")}: {row.requestId}
+                </Badge>
+              )}
+              {usedProvider && (
+                <Badge variant="outline">
+                  {t("CHAT.REQUEST_LOG.BADGE_PROVIDER")}: {usedProvider}
                 </Badge>
               )}
               {row.inputTokens != null && (
@@ -104,12 +129,12 @@ export function RequestLogSheet(props: {
           </div>
         ) : (
           <Tabs
-            defaultValue="request"
+            defaultValue="upstream"
             className="flex min-h-0 flex-1 flex-col px-4 pb-4"
           >
             <TabsList>
-              <TabsTrigger value="request">
-                {t("CHAT.REQUEST_LOG.TAB_REQUEST")}
+              <TabsTrigger value="upstream">
+                {t("CHAT.REQUEST_LOG.TAB_UPSTREAM")}
               </TabsTrigger>
               <TabsTrigger value="system">
                 {t("CHAT.REQUEST_LOG.TAB_SYSTEM")}
@@ -120,18 +145,36 @@ export function RequestLogSheet(props: {
               <TabsTrigger value="headers">
                 {t("CHAT.REQUEST_LOG.TAB_HEADERS")}
               </TabsTrigger>
+              <TabsTrigger value="request">
+                {t("CHAT.REQUEST_LOG.TAB_REQUEST")}
+              </TabsTrigger>
             </TabsList>
-            <TabsContent value="request" className="min-h-0 overflow-auto">
-              <Highlight code={formatJson(row.requestBody)} />
+            <TabsContent value="upstream" className="min-h-0 overflow-auto">
+              <p className="text-muted-foreground mb-2 text-xs">
+                {t("CHAT.REQUEST_LOG.TAB_UPSTREAM_HINT")}
+              </p>
+              <Highlight code={formatJson(upstreamBody)} />
             </TabsContent>
             <TabsContent value="system" className="min-h-0 overflow-auto">
+              <p className="text-muted-foreground mb-2 text-xs">
+                {t("CHAT.REQUEST_LOG.TAB_SYSTEM_HINT")}
+              </p>
               <Highlight code={row.assembledSystem ?? ""} language="markdown" />
             </TabsContent>
             <TabsContent value="final" className="min-h-0 overflow-auto">
+              <p className="text-muted-foreground mb-2 text-xs">
+                {t("CHAT.REQUEST_LOG.TAB_FINAL_HINT")}
+              </p>
               <Highlight code={formatJson(row.finalMessages)} />
             </TabsContent>
             <TabsContent value="headers" className="min-h-0 overflow-auto">
               <Highlight code={formatJson(row.responseHeaders)} />
+            </TabsContent>
+            <TabsContent value="request" className="min-h-0 overflow-auto">
+              <p className="text-muted-foreground mb-2 text-xs">
+                {t("CHAT.REQUEST_LOG.TAB_REQUEST_HINT")}
+              </p>
+              <Highlight code={formatJson(row.requestBody)} />
             </TabsContent>
           </Tabs>
         )}

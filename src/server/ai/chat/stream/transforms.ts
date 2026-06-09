@@ -3,18 +3,18 @@ import { media } from "@/lib/db/schema";
 import { serverEnv } from "@/server/env";
 import type { convertToModelMessages } from "ai";
 import { inArray } from "drizzle-orm";
+import { encode } from "gpt-tokenizer";
 import {
-  expandTemplateVars,
-  type AssembledSystem,
+  runRegexScripts,
+  type RegexScript,
+} from "@/lib/ai/chat/regex-scripts";
+import type {
+  AssembledSystem,
+  DepthInjection,
 } from "../augmentation/prompt-assembler.service";
+import { expandMacros } from "../augmentation/macros";
 
 export type StreamMessages = Parameters<typeof convertToModelMessages>[0];
-
-export type DepthInjection = {
-  text: string;
-  depth: number;
-  role?: "system" | "user";
-};
 
 type PdfFilePart = {
   type: "file";
@@ -123,7 +123,7 @@ export function spliceDepthInjections(
 
 export function expandMessageMacros(
   messages: StreamMessages,
-  vars: AssembledSystem["vars"],
+  scope: AssembledSystem["vars"],
 ): StreamMessages {
   return messages.map((m) => {
     if (!Array.isArray(m.parts)) return m;
@@ -131,7 +131,7 @@ export function expandMessageMacros(
       ...m,
       parts: m.parts.map((p) =>
         p.type === "text" && typeof p.text === "string"
-          ? { ...p, text: expandTemplateVars(p.text, vars) }
+          ? { ...p, text: expandMacros(p.text, scope) }
           : p,
       ),
     };
@@ -158,7 +158,7 @@ export function stripSystemRole(messages: StreamMessages): StreamMessages {
     const parts = Array.isArray(m.parts)
       ? m.parts.map((p) =>
           p.type === "text" && typeof p.text === "string"
-            ? { ...p, text: `[System]: ${p.text}` }
+            ? { ...p, text: `system: ${p.text}` }
             : p,
         )
       : m.parts;
@@ -166,10 +166,55 @@ export function stripSystemRole(messages: StreamMessages): StreamMessages {
   });
 }
 
+// Reasoning is OUTPUT-only. GLM (and others) emit a `reasoning`/`reasoning_content`
+// part on their assistant replies; echoing it back as INPUT on the next turn makes
+// the upstream reject it ("property 'reasoning_content' is unsupported"). Strip
+// every reasoning part from history before send. A message left with no parts is
+// handled by dropEmptyMessages; a reasoning-only assistant turn becomes empty and
+// is dropped (its visible text, if any, survives as a separate text part).
+// Some models emit reasoning INLINE in the text content instead of a separate
+// reasoning part (GLM via OpenAI-compat, R1 distills). RisuAI strips these from
+// history text (openAI/requests.ts think-tag extraction); without it the tokens
+// re-enter context every turn and accelerate drift.
+const INLINE_THINK_RE = /<(think|thinking|Thoughts)>[\s\S]*?<\/\1>\s*/g;
+
+function stripInlineThink(text: string): string {
+  return text.replace(INLINE_THINK_RE, "");
+}
+
+export function stripReasoningParts(messages: StreamMessages): StreamMessages {
+  return messages.map((m) => {
+    if (!Array.isArray(m.parts)) return m;
+    let changed = false;
+    const parts = m.parts
+      .filter((p) => {
+        if (p.type === "reasoning") {
+          changed = true;
+          return false;
+        }
+        return true;
+      })
+      .map((p) => {
+        if (
+          m.role !== "assistant" ||
+          p.type !== "text" ||
+          typeof p.text !== "string"
+        ) {
+          return p;
+        }
+        const stripped = stripInlineThink(p.text);
+        if (stripped === p.text) return p;
+        changed = true;
+        return { ...p, text: stripped };
+      })
+      .filter((p) => !(p.type === "text" && p.text === ""));
+    if (!changed) return m;
+    return { ...m, parts } as StreamMessages[number];
+  });
+}
+
 // GLM/some Anthropic require strict user/assistant alternation.
-export function mergeAlternateRoles(
-  messages: StreamMessages,
-): StreamMessages {
+export function mergeAlternateRoles(messages: StreamMessages): StreamMessages {
   if (messages.length < 2) return messages;
   const out: StreamMessages = [];
   for (const m of messages) {
@@ -180,9 +225,22 @@ export function mergeAlternateRoles(
       Array.isArray(prev.parts) &&
       Array.isArray(m.parts)
     ) {
+      // Join with a newline between blocks (RisuAI `content += '\n' + content`)
+      // so merged same-role turns don't run together. Only insert the separator
+      // when text borders text; media parts concatenate untouched.
+      const prevLast = prev.parts[prev.parts.length - 1];
+      const mFirst = m.parts[0];
+      const needsNewline =
+        prevLast?.type === "text" && mFirst?.type === "text";
       out[out.length - 1] = {
         ...prev,
-        parts: [...prev.parts, ...m.parts],
+        parts: needsNewline
+          ? [
+              ...prev.parts.slice(0, -1),
+              { ...prevLast, text: `${prevLast.text}\n${mFirst.text}` },
+              ...m.parts.slice(1),
+            ]
+          : [...prev.parts, ...m.parts],
       } as StreamMessages[number];
     } else {
       out.push(m);
@@ -191,16 +249,49 @@ export function mergeAlternateRoles(
   return out;
 }
 
+// Drop messages whose every part is empty/whitespace text and that carry no
+// non-text part (RisuAI parity: pushPrompts skips empties + openAI/requests.ts
+// filters `content.trim() !== '' || multimodals`). Keeps media/file parts.
+export function dropEmptyMessages(messages: StreamMessages): StreamMessages {
+  return messages.filter((m) => {
+    if (!Array.isArray(m.parts)) return true;
+    return m.parts.some((p) =>
+      p.type === "text" ? (p.text ?? "").trim() !== "" : true,
+    );
+  });
+}
+
 // Anthropic and Gemini reject convs that start with assistant or system role.
+// Stub is a bare space (RisuAI request.ts:421), not visible text, so it does
+// not pollute the prompt the model reads.
 export function prependUserStub(messages: StreamMessages): StreamMessages {
   if (messages.length === 0) return messages;
   if (messages[0].role === "user") return messages;
   return [
     {
       role: "user",
-      parts: [{ type: "text", text: "[Start a new chat]" }],
+      parts: [{ type: "text", text: " " }],
     } as StreamMessages[number],
     ...messages,
+  ];
+}
+
+// GLM/DeepSeek/Kimi reject a request whose LAST message is not user ("last role
+// must be user"). When the conversation ends on an assistant turn (the model's
+// prior reply) and nothing user-role follows (e.g. an empty postHistory and no
+// prefill), append a bare-space user stub so strict-alternation upstreams
+// accept the request. Mirror of prependUserStub for the trailing edge. NEVER
+// call this when a prefill is present: a prefill is an INTENTIONAL trailing
+// assistant turn (jailbreak surface) and must remain last.
+export function appendUserStub(messages: StreamMessages): StreamMessages {
+  if (messages.length === 0) return messages;
+  if (messages[messages.length - 1].role === "user") return messages;
+  return [
+    ...messages,
+    {
+      role: "user",
+      parts: [{ type: "text", text: " " }],
+    } as StreamMessages[number],
   ];
 }
 
@@ -228,4 +319,143 @@ export function collectRecentUserTexts(
     }
   }
   return out;
+}
+
+// Apply regex scripts to message text parts. `editprocess` runs on every
+// message; `editinput` runs only on the last user message (RisuAI parity).
+// Output/display modes run client-side, not here.
+export function applyRegexScripts(
+  messages: StreamMessages,
+  scripts: RegexScript[],
+): StreamMessages {
+  if (scripts.length === 0) return messages;
+  let lastUserIdx = -1;
+  for (let i = messages.length - 1; i >= 0; i--) {
+    if (messages[i].role === "user") {
+      lastUserIdx = i;
+      break;
+    }
+  }
+  return messages.map((m, idx) => {
+    if (!Array.isArray(m.parts)) return m;
+    const isLastUser = idx === lastUserIdx;
+    // Previous same-role message text, for @@repeat_back.
+    let prevSameRole: string | undefined;
+    for (let j = idx - 1; j >= 0; j--) {
+      if (messages[j].role !== m.role) continue;
+      const parts = messages[j].parts;
+      if (!Array.isArray(parts)) continue;
+      prevSameRole = parts
+        .filter((p) => p.type === "text" && typeof p.text === "string")
+        .map((p) => (p as { text: string }).text)
+        .join("\n");
+      break;
+    }
+    return {
+      ...m,
+      parts: m.parts.map((p) => {
+        if (p.type !== "text" || typeof p.text !== "string") return p;
+        let t = runRegexScripts(p.text, scripts, "editprocess", {
+          prevSameRole,
+        });
+        if (isLastUser) {
+          t = runRegexScripts(t, scripts, "editinput", { prevSameRole });
+        }
+        return { ...p, text: t };
+      }),
+    };
+  });
+}
+
+// Flatten messages into role-tagged history for the {{history}} macro family
+// (newest last). Concatenates each message's text parts.
+export function collectHistory(
+  messages: StreamMessages,
+): { role: "user" | "assistant" | "system"; text: string }[] {
+  const out: { role: "user" | "assistant" | "system"; text: string }[] = [];
+  for (const m of messages) {
+    if (m.role !== "user" && m.role !== "assistant" && m.role !== "system") {
+      continue;
+    }
+    if (!Array.isArray(m.parts)) continue;
+    const text = m.parts
+      .filter((p) => p.type === "text" && typeof p.text === "string")
+      .map((p) => (p as { text: string }).text)
+      .join("\n");
+    if (text) out.push({ role: m.role, text });
+  }
+  return out;
+}
+
+// Drop the messages already folded into the rolling summary. `anchor` counts
+// history entries (text-bearing user/assistant/system messages, the same set
+// collectHistory returns), so walk with the same filter. Keeps the summary
+// block from duplicating content that is still in the prompt (Risu supaMemory
+// REPLACES summarized messages; this is the equivalent cut).
+export function dropSummarizedPrefix(
+  messages: StreamMessages,
+  anchor: number,
+): StreamMessages {
+  if (anchor <= 0) return messages;
+  let counted = 0;
+  let cutIdx = 0;
+  for (let i = 0; i < messages.length && counted < anchor; i++) {
+    const m = messages[i];
+    const isHistory =
+      (m.role === "user" || m.role === "assistant" || m.role === "system") &&
+      Array.isArray(m.parts) &&
+      m.parts.some((p) => p.type === "text" && typeof p.text === "string" && p.text);
+    if (isHistory) counted++;
+    cutIdx = i + 1;
+  }
+  // Never cut everything: keep at least the last message.
+  if (cutIdx >= messages.length) cutIdx = messages.length - 1;
+  return messages.slice(cutIdx);
+}
+
+// Rough token count of a plain string (system prompt budgeting).
+export function estimateTokens(text: string | undefined): number {
+  if (!text) return 0;
+  return encode(text).length;
+}
+
+// Rough token cost of one message's text parts. Non-text parts (images/files)
+// add a flat estimate since the real cost is model-dependent and unknown here.
+// gpt-tokenizer is cl100k; ~10-20% off on Claude/Gemini, fine for budgeting.
+function messageTokens(m: StreamMessages[number]): number {
+  let n = 4; // per-message role/format overhead
+  if (!Array.isArray(m.parts)) return n;
+  for (const part of m.parts) {
+    if (part.type === "text" && typeof part.text === "string") {
+      n += encode(part.text).length;
+    } else {
+      n += 256; // flat estimate for an image/file/other part
+    }
+  }
+  return n;
+}
+
+// Fit chat history to a token budget by dropping the OLDEST messages first
+// (RisuAI naive-truncation parity, minus summarization). Keeps newest messages
+// whole; never splits a message. `reserveTokens` is everything outside history
+// (system prompt + reserved output) the caller wants kept clear of the budget.
+// Returns the kept tail. Always keeps at least the last message so the request
+// is never empty.
+export function fitToTokenBudget(
+  messages: StreamMessages,
+  contextWindow: number | undefined,
+  reserveTokens: number,
+): StreamMessages {
+  if (!contextWindow || contextWindow <= 0) return messages;
+  const budget = contextWindow - reserveTokens;
+  if (budget <= 0) return messages.slice(-1);
+  let used = 0;
+  let startIdx = messages.length;
+  for (let i = messages.length - 1; i >= 0; i--) {
+    const cost = messageTokens(messages[i]);
+    if (used + cost > budget && startIdx < messages.length) break;
+    used += cost;
+    startIdx = i;
+  }
+  return messages.slice(startIdx);
 }

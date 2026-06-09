@@ -4,6 +4,16 @@ import { LOCALES } from "../config/constants";
 export const BADGE_SIZES = ["xs", "sm", "md", "lg", "xl", "og"] as const;
 export type BadgeSize = (typeof BADGE_SIZES)[number];
 
+// Social banner sizes. Separate from BADGE_SIZES so the badge generator UI and
+// the /all preview never iterate them (they only apply to the `social` type).
+export const SOCIAL_SIZES = [
+  "reddit",
+  "reddit-mobile",
+  "discord",
+  "discord-invite",
+] as const;
+export type SocialSize = (typeof SOCIAL_SIZES)[number];
+
 export const BADGE_TYPES = [
   "banner",
   "square",
@@ -38,7 +48,7 @@ export const badgeQuery = t.Object({
   format: t.Optional(t.Union(FORMATS.map((v) => t.Literal(v)))),
   size: t.Optional(
     t.Union(
-      BADGE_SIZES.map((v) => t.Literal(v)),
+      [...BADGE_SIZES, ...SOCIAL_SIZES].map((v) => t.Literal(v)),
       { default: BADGE_SIZES[2] },
     ),
   ),
@@ -48,7 +58,7 @@ export const badgeQuery = t.Object({
 export interface BuildBadgeUrlOptions {
   locale?: string;
   theme?: Theme;
-  size?: BadgeSize;
+  size?: BadgeSize | SocialSize;
   format?: BadgeFormat;
   ref?: string;
   origin?: string;

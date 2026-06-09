@@ -40,4 +40,6 @@ export const env = {
   posthogKey: process.env.NEXT_PUBLIC_POSTHOG_KEY,
   posthogHost: process.env.NEXT_PUBLIC_POSTHOG_HOST,
   googleSiteVerification: process.env.GOOGLE_SITE_VERIFICATION,
+  // Public R2 host for generated media; SmartImage optimizes only this host.
+  r2PublicUrl: process.env.NEXT_PUBLIC_R2_PUBLIC_URL,
 } as const;

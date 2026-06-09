@@ -50,13 +50,13 @@ Copy `.env.example` to `.env`.
 
 ## Scripts
 
-| Script              | Description                                                          |
-| ------------------- | -------------------------------------------------------------------- |
-| `bun dev:log`       | Dev server (logs to `/tmp/next.log`)                                 |
-| `bun build`         | Production build                                                     |
-| `bun lint`          | ESLint                                                               |
-| `bun prettier`      | Format                                                               |
-| `bun openapi`       | Regen `src/openapi.ts` from upstream                                 |
-| `bun db:generate`   | Drizzle migrations (server + client) + bundle for SQLocal            |
-| `bun db:reset`      | Wipe Turso + R2 prefixes                                             |
-| `bun lh`            | Lighthouse                                                           |
+| Script            | Description                                               |
+| ----------------- | --------------------------------------------------------- |
+| `bun dev:log`     | Dev server (logs to `/tmp/next.log`)                      |
+| `bun build`       | Production build                                          |
+| `bun lint`        | ESLint                                                    |
+| `bun prettier`    | Format                                                    |
+| `bun openapi`     | Regen `src/openapi.ts` from upstream                      |
+| `bun db:generate` | Drizzle migrations (server + client) + bundle for SQLocal |
+| `bun db:reset`    | Wipe Turso + R2 prefixes                                  |
+| `bun lh`          | Lighthouse                                                |

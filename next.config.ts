@@ -2,7 +2,7 @@ import { withPostHogConfig } from "@posthog/nextjs-config";
 import { withSerwist } from "@serwist/turbopack";
 import type { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
-import { LOCALES } from "./src/lib/config/constants";
+import { LOCALES, POSTHOG_DISABLED } from "./src/lib/config/constants";
 
 const localePattern = `/:locale(${LOCALES.join("|")})`;
 const acceptMarkdown = [
@@ -26,13 +26,41 @@ const corpCrossOrigin = [
 const nextConfig: NextConfig = {
   output: process.env.STANDALONE ? "standalone" : undefined,
   // productionBrowserSourceMaps: true,
-  // experimental: {
-  //   allowDevelopmentBuild: true,
-  // },
+  experimental: {
+    // allowDevelopmentBuild: true,
+    // Turbopack disk cache for `next build` (experimental; dev cache is stable
+    // and on by default). CI persists it via the Dockerfile cache mount.
+    turbopackFileSystemCacheForBuild: true,
+    // Inline per-route CSS into the HTML: removes the render-blocking
+    // stylesheet request (~36KiB, 300-600ms on slow 4G), the largest
+    // remaining LCP subpart on text-LCP pages.
+    inlineCss: true,
+  },
   images: {
     formats: ["image/webp"],
     qualities: [10, 25, 50, 75, 90, 100],
     minimumCacheTTL: 60 * 60 * 24,
+    // Badge hero images are local /api routes WITH a query string; Next blocks
+    // local optimizer URLs that carry a search param unless declared here.
+    // No `search` key = any query string on this path is allowed. /images and
+    // /icons cover the brand logo and per-guide setup logos.
+    localPatterns: [
+      { pathname: "/api/ops/badge/**" },
+      { pathname: "/images/**" },
+      { pathname: "/icons/**" },
+    ],
+    // R2 public host for generated chat/playground media. SmartImage routes R2
+    // URLs through the optimizer; data: URIs and other hosts fall back to
+    // unoptimized so they never hit the optimizer (which rejects them).
+    remotePatterns: [
+      { protocol: "https", hostname: "media.unorouter.ai", pathname: "/**" },
+    ],
+    // Badge previews are SVG from /api/ops/badge. The optimizer refuses SVG
+    // unless allowed; lock it down with a sandboxing CSP so an optimized SVG
+    // can't execute script or load subresources.
+    dangerouslyAllowSVG: true,
+    contentSecurityPolicy:
+      "default-src 'self'; script-src 'none'; sandbox; style-src 'unsafe-inline';",
   },
   async rewrites() {
     return [
@@ -92,7 +120,7 @@ const withNextIntl = createNextIntlPlugin({
 
 const configWithNextIntl = withNextIntl(withSerwist(nextConfig));
 
-export default process.env.STANDALONE
+export default process.env.STANDALONE && !POSTHOG_DISABLED
   ? withPostHogConfig(configWithNextIntl, {
       personalApiKey: process.env.POSTHOG_API_KEY!,
       envId: process.env.POSTHOG_ENV_ID!,

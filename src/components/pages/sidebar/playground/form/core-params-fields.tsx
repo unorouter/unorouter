@@ -55,7 +55,10 @@ export function CoreParamsFields(props: Props) {
                   min={1}
                   max={50}
                   step={1}
-                  value={numParam("steps", descriptor.defaultParams.steps ?? 20)}
+                  value={numParam(
+                    "steps",
+                    descriptor.defaultParams.steps ?? 20,
+                  )}
                   onChange={field.onChange}
                 />
               </FormControl>
@@ -119,7 +122,9 @@ export function CoreParamsFields(props: Props) {
                 <FormLabel>{t("IMAGE.SAMPLER_LABEL")}</FormLabel>
                 <FormControl>
                   <Select
-                    value={field.value ?? descriptor.defaultParams.sampler ?? ""}
+                    value={
+                      field.value ?? descriptor.defaultParams.sampler ?? ""
+                    }
                     onValueChange={field.onChange}
                   >
                     <SelectTrigger className="w-full">

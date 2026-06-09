@@ -15,7 +15,6 @@ import { formDefaults } from "@/lib/validation/helpers";
 import { personaFormSchema, type PersonaForm } from "@/lib/validation/rp-forms";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { useTranslations } from "next-intl";
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 type Props = {
@@ -31,20 +30,17 @@ export function PersonaEditor(props: Props) {
   const updateMut = useUpdatePersonaMutation();
   const existing = personaQuery.data;
 
+  // Async-defaults pattern: `values` syncs the row in when the query settles;
+  // keepDirtyValues stops a background refetch from clobbering in-progress
+  // typing. Parent keys this component by editingId for clean remounts.
+  const formValues =
+    !isNew && existing ? formDefaults(personaFormSchema, existing) : undefined;
   const form = useForm({
     resolver: typeboxResolver(personaFormSchema),
     defaultValues: formDefaults(personaFormSchema),
+    values: formValues,
+    resetOptions: { keepDirtyValues: true },
   });
-
-  useEffect(() => {
-    if (isNew || !existing) {
-      form.reset(formDefaults(personaFormSchema));
-      return;
-    }
-    form.reset(formDefaults(personaFormSchema, existing));
-    // form.reset is stable
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isNew, existing]);
 
   const onSubmit = async (data: PersonaForm) => {
     if (isNew) {

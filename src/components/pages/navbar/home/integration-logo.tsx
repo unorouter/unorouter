@@ -1,4 +1,5 @@
 import type { IntegrationEntry } from "@/components/pages/navbar/home/integrations";
+import Image from "next/image";
 
 type IntegrationLogoProps = {
   integration: IntegrationEntry;
@@ -25,8 +26,7 @@ export function IntegrationLogo(props: IntegrationLogoProps) {
           className={`flex items-center justify-center ${shapeCls} bg-white p-1 ${cls}`}
           style={{ width: size, height: size }}
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <Image
             src={integration.logoSrc}
             alt={integration.badge}
             width={innerSize}
@@ -37,8 +37,7 @@ export function IntegrationLogo(props: IntegrationLogoProps) {
       );
     }
     return (
-      // eslint-disable-next-line @next/next/no-img-element
-      <img
+      <Image
         src={integration.logoSrc}
         alt={integration.badge}
         width={size}

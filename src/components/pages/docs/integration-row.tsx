@@ -8,32 +8,11 @@ import { buildOSVariants } from "@/components/pages/docs/os/os-code-helpers";
 import { Icon } from "@/components/ui/icon";
 import { Link } from "@/i18n/navigation";
 import { APP_VALUES } from "@/lib/config/constants";
-import type { IconName } from "@/lib/config/icon-map";
 import { OS, OS_VALUES } from "@/lib/types/enums";
-import Claude from "@lobehub/icons/es/Claude";
-import Codex from "@lobehub/icons/es/Codex";
-import Gemini from "@lobehub/icons/es/Gemini";
 import { getTranslations } from "next-intl/server";
-import type { ComponentType } from "react";
-import { type Integration, type IntegrationIconKey } from "./integrations";
+import { GuideIcon } from "./guide-icon";
+import { type Integration } from "./integrations";
 import { OSQuickStart } from "./os-quick-start";
-
-type LobeIcon = ComponentType<{ className?: string; size?: number }>;
-
-const ICON_NAMES: Partial<Record<IntegrationIconKey, IconName>> = {
-  "cc-switch": "arrow-left-right",
-  openclaw: "crab-claw",
-  sillytavern: "drama",
-  "janitor-ai": "broom",
-  risuai: "fox",
-  chub: "heart",
-};
-
-const ICON_COMPONENTS: Partial<Record<IntegrationIconKey, LobeIcon>> = {
-  "claude-code": Claude.Color,
-  codex: Codex.Color,
-  gemini: Gemini.Color,
-};
 
 export async function IntegrationRow(props: {
   integration: Integration;
@@ -42,8 +21,6 @@ export async function IntegrationRow(props: {
   const t = await getTranslations();
 
   const integration = props.integration;
-  const iconName = ICON_NAMES[integration.iconKey];
-  const IconComponent = ICON_COMPONENTS[integration.iconKey];
   const hasApiKey =
     integration.kind === "cli"
       ? Object.values(integration.quickStart).some((code) =>
@@ -64,54 +41,27 @@ export async function IntegrationRow(props: {
               <div
                 className={`absolute inset-0 ${integration.color.glow} rounded-full blur-xl`}
               />
-              {integration.logoSrc ? (
-                integration.logoBg ? (
-                  <div className="relative flex h-12 w-12 items-center justify-center rounded-md bg-white p-1.5">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={integration.logoSrc}
-                      alt={integration.iconKey}
-                      width={36}
-                      height={36}
-                      className="h-full w-full object-contain"
-                    />
-                  </div>
-                ) : (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={integration.logoSrc}
-                    alt={integration.iconKey}
-                    width={48}
-                    height={48}
-                    className="relative h-12 w-12 object-contain"
-                  />
-                )
-              ) : iconName ? (
-                <Icon
-                  name={iconName}
-                  size={48}
-                  className={`relative ${integration.color.accent}`}
-                />
-              ) : IconComponent ? (
-                <IconComponent
-                  size={48}
-                  className={`relative ${integration.color.accent}`}
-                />
-              ) : null}
+              <GuideIcon
+                iconKey={integration.iconKey}
+                logoSrc={integration.logoSrc}
+                logoBg={integration.logoBg}
+                accentClass={integration.color.accent}
+                size={48}
+              />
             </div>
             <div className="min-w-0">
               <div className="mb-1 flex items-center gap-2">
                 <span
                   className={`px-2 py-0.5 font-mono text-[10px] tracking-wider uppercase ${integration.color.badge} rounded`}
                 >
-                  {t(integration.badgeKey)}
+                  {t(integration.badgeKey, APP_VALUES)}
                 </span>
               </div>
               <h2
                 id={props.id}
                 className={`text-xl font-bold tracking-tight md:text-2xl ${integration.color.accent}`}
               >
-                {t(integration.titleKey)}
+                {t(integration.titleKey, APP_VALUES)}
               </h2>
               <p className="text-muted-foreground mt-1 font-mono text-sm leading-relaxed">
                 {t(integration.subtitleKey, APP_VALUES)}

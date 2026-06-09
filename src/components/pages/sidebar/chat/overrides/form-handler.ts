@@ -1,8 +1,4 @@
-import {
-  msg,
-  NONE_VALUE,
-  type TranslationKey,
-} from "@/lib/config/constants";
+import { msg, NONE_VALUE, type TranslationKey } from "@/lib/config/constants";
 import { conversationCharacters } from "@/lib/db/schema/shared";
 import type { ConversationSettingsProjection } from "@/lib/db/conversation-settings";
 import {
@@ -119,7 +115,8 @@ function buildDefaultsForm(
     reasoningEffort: (modelMemory.reasoningEffort ??
       chatDefaults.reasoningEffort ??
       NONE_VALUE) as ReasoningEffort,
-    chatMemory: chatDefaults.chatMemory ?? 8,
+    // null = inherit the bound preset (no per-chat override).
+    chatMemory: chatDefaults.chatMemory ?? null,
     authorNoteDepth: chatDefaults.authorNoteDepth ?? 4,
     systemPromptOverride: chatDefaults.systemPromptOverride ?? "",
     authorNote: chatDefaults.authorNote ?? "",
@@ -130,7 +127,7 @@ function buildDefaultsForm(
     lorebookIds: [],
     ...samplingValues(layered),
     extraBody: modelMemory.extraBody ?? chatDefaults.extraBody ?? "",
-    streamingEnabled: chatDefaults.streamingEnabled ?? true,
+    streamingEnabled: chatDefaults.streamingEnabled ?? null,
   };
 }
 
@@ -153,7 +150,8 @@ function buildSettingsForm(
       settings.reasoningEffort,
       NONE_VALUE,
     ),
-    chatMemory: settings.chatMemory ?? 8,
+    // null = inherit the bound preset (no per-chat override).
+    chatMemory: settings.chatMemory ?? null,
     authorNoteDepth: settings.authorNoteDepth ?? 4,
     systemPromptOverride: settings.systemPromptOverride ?? "",
     authorNote: settings.authorNote ?? "",
@@ -166,7 +164,7 @@ function buildSettingsForm(
     lorebookIds: bindings.lorebooks.map((l) => l.lorebookId),
     ...samplingValues(settings),
     extraBody: settings.extraBody ?? "",
-    streamingEnabled: settings.streamingEnabled ?? true,
+    streamingEnabled: settings.streamingEnabled ?? null,
   };
 }
 

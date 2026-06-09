@@ -72,12 +72,7 @@ export async function mirrorConvIfSynced(
   const bundle = await readLocalConversationBundle(userId, convId);
   if (!bundle) return;
   if (!userId) return;
-  const result = await mirrorSyncedRow(
-    userId,
-    "conversations",
-    convId,
-    bundle,
-  );
+  const result = await mirrorSyncedRow(userId, "conversations", convId, bundle);
   await evictMediaBase64After(userId, result);
 }
 

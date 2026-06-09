@@ -31,7 +31,6 @@ import { formDefaults } from "@/lib/validation/helpers";
 import { cardFormSchema, type CardForm } from "@/lib/validation/rp-forms";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { useTranslations } from "next-intl";
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 type Props = {
@@ -50,28 +49,24 @@ export function CardForm(props: Props) {
   const createMut = useCreateCardMutation();
   const updateMut = useUpdateCardMutation();
 
+  // Async-defaults pattern: `values` syncs the row in when the query settles;
+  // keepDirtyValues stops a background refetch from clobbering in-progress
+  // typing. Parent keys this component by editingId for clean remounts.
+  // characterIds/lorebookIds come from join rows, not flat columns.
+  const editing = props.editingId === "new" ? null : cardQuery.data;
+  const formValues = editing
+    ? formDefaults(cardFormSchema, {
+        ...editing,
+        characterIds: (editing.cardCharacters ?? []).map((cc) => cc.characterId),
+        lorebookIds: (editing.cardLorebooks ?? []).map((cl) => cl.lorebookId),
+      })
+    : undefined;
   const form = useForm({
     resolver: typeboxResolver(cardFormSchema),
     defaultValues: formDefaults(cardFormSchema),
+    values: formValues,
+    resetOptions: { keepDirtyValues: true },
   });
-
-  useEffect(() => {
-    if (props.editingId === "new") {
-      form.reset(formDefaults(cardFormSchema));
-      return;
-    }
-    const c = cardQuery.data;
-    if (!c) return;
-    // characterIds/lorebookIds come from join rows, not flat columns.
-    form.reset(
-      formDefaults(cardFormSchema, {
-        ...c,
-        characterIds: (c.cardCharacters ?? []).map((cc) => cc.characterId),
-        lorebookIds: (c.cardLorebooks ?? []).map((cl) => cl.lorebookId),
-      }),
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.editingId, cardQuery.data]);
 
   const onSubmit = async (data: CardForm) => {
     const body = {

@@ -129,6 +129,7 @@ const ConvCharacterBinding = t.Object({
   characterId: ID,
   orderIndex: t.Optional(t.Number()),
   isActive: t.Optional(t.Boolean()),
+  talkness: t.Optional(t.Union([t.Number(), t.Null()])),
   overrides: t.Optional(t.Unknown()),
 });
 
@@ -183,7 +184,9 @@ const RequestLogRow = t.Object({
   requestBody: t.Unknown(),
   assembledSystem: t.Optional(NullableString),
   finalMessages: t.Unknown(),
-  responseHeaders: t.Optional(t.Union([t.Record(t.String(), t.String()), t.Null()])),
+  responseHeaders: t.Optional(
+    t.Union([t.Record(t.String(), t.String()), t.Null()]),
+  ),
   droppedParams: t.Optional(NullableString),
   requestId: t.Optional(NullableString),
   inputTokens: t.Optional(t.Union([t.Number(), t.Null()])),
@@ -219,10 +222,16 @@ export const conversationBundleBody = t.Object({
   messageItems: t.Optional(t.Array(MessageItemRow)),
   media: t.Optional(t.Array(MediaRow)),
   requestLogs: t.Optional(t.Array(RequestLogRow)),
-  characters: t.Optional(t.Array(t.Composite([RefCharacter, t.Record(t.String(), t.Unknown())]))),
-  personas: t.Optional(t.Array(t.Composite([RefPersona, t.Record(t.String(), t.Unknown())]))),
+  characters: t.Optional(
+    t.Array(t.Composite([RefCharacter, t.Record(t.String(), t.Unknown())])),
+  ),
+  personas: t.Optional(
+    t.Array(t.Composite([RefPersona, t.Record(t.String(), t.Unknown())])),
+  ),
   lorebooks: t.Optional(t.Array(RefLorebook)),
-  presets: t.Optional(t.Array(t.Composite([RefPreset, t.Record(t.String(), t.Unknown())]))),
+  presets: t.Optional(
+    t.Array(t.Composite([RefPreset, t.Record(t.String(), t.Unknown())])),
+  ),
 });
 export type ConversationBundleBody = Static<typeof conversationBundleBody>;
 
@@ -276,4 +285,3 @@ export const themeBundleBody = t.Union([
   t.Record(t.String(), t.Unknown()),
 ]);
 export type ThemeBundleBody = Static<typeof themeBundleBody>;
-

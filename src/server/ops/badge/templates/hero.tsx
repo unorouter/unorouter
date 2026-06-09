@@ -125,11 +125,13 @@ export async function generateHero(ctx: BadgeCtx): Promise<string> {
   const d = DIMS[ctx.size]!;
   const tokenCount = ctx.stats.tokenUsed.toLocaleString("en-US");
   const modelCount = `${ctx.pricing.modelCount}+`;
-  const uptimeValue = "99.9%";
+  const freeCount = ctx.pricing.freeCount.toLocaleString("en-US");
+  const paidCount = ctx.pricing.paidCount.toLocaleString("en-US");
 
   const m1 = cipherMarker(1);
   const m2 = d.showMetrics ? cipherMarker(2) : "";
   const m3 = d.showMetrics ? cipherMarker(3) : "";
+  const m4 = d.showMetrics ? cipherMarker(4) : "";
 
   const node = (
     <Card
@@ -176,7 +178,7 @@ export async function generateHero(ctx: BadgeCtx): Promise<string> {
           <Row style={{ width: d.metricWidth, alignItems: "center", gap: 4 }}>
             <Dot text="" c={c} dotSize={d.dotSize} fontSize={d.metricFont} />
             <MonoValue
-              value={uptimeValue}
+              value={freeCount}
               c={c}
               size={d.metricFont}
               cipherMarker={m3}
@@ -188,7 +190,22 @@ export async function generateHero(ctx: BadgeCtx): Promise<string> {
                 color: c.text,
               }}
             >
-              {t(ctx.locale, "BADGE.UPTIME")}
+              {t(ctx.locale, "BADGE.FREE")}
+            </span>
+            <MonoValue
+              value={paidCount}
+              c={c}
+              size={d.metricFont}
+              cipherMarker={m4}
+            />
+            <span
+              style={{
+                fontFamily: FONT_SANS,
+                fontSize: d.metricFont,
+                color: c.text,
+              }}
+            >
+              {t(ctx.locale, "BADGE.PAID")}
             </span>
           </Row>
           {[
@@ -252,10 +269,16 @@ export async function generateHero(ctx: BadgeCtx): Promise<string> {
       markerColor: m2,
     });
     targets.push({
-      value: uptimeValue,
+      value: freeCount,
       fontSize: d.metricFont,
       color: c.text,
       markerColor: m3,
+    });
+    targets.push({
+      value: paidCount,
+      fontSize: d.metricFont,
+      color: c.text,
+      markerColor: m4,
     });
   }
 

@@ -26,6 +26,8 @@ const NULL_SAMPLING: Pick<
   | "mainPrompt"
   | "postHistory"
   | "prefill"
+  | "streamingEnabled"
+  | "chatMemory"
 > = {
   topP: null,
   topK: null,
@@ -38,6 +40,9 @@ const NULL_SAMPLING: Pick<
   mainPrompt: null,
   postHistory: null,
   prefill: null,
+  // null = system default (streaming on, chatMemory 8).
+  streamingEnabled: null,
+  chatMemory: null,
 };
 
 export const STARTER_PRESETS: StarterPreset[] = [
@@ -53,8 +58,9 @@ export const STARTER_PRESETS: StarterPreset[] = [
       forceAlternateRoles: false,
       noSystemRole: false,
       mustStartWithUserInput: false,
-      skipPrefillIfLastIsAssistant: false,
       geminiBlockOff: false,
+      providers: null,
+      promptTemplate: null,
     },
   },
   {
@@ -69,8 +75,9 @@ export const STARTER_PRESETS: StarterPreset[] = [
       forceAlternateRoles: false,
       noSystemRole: false,
       mustStartWithUserInput: false,
-      skipPrefillIfLastIsAssistant: true,
       geminiBlockOff: true,
+      providers: null,
+      promptTemplate: null,
     },
   },
   {
@@ -85,8 +92,9 @@ export const STARTER_PRESETS: StarterPreset[] = [
       forceAlternateRoles: true,
       noSystemRole: false,
       mustStartWithUserInput: true,
-      skipPrefillIfLastIsAssistant: false,
       geminiBlockOff: false,
+      providers: null,
+      promptTemplate: null,
     },
   },
 ];

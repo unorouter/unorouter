@@ -23,7 +23,10 @@ async function guestDbExists(): Promise<boolean> {
   }
   try {
     const root = await navigator.storage.getDirectory();
-    await root.getFileHandle(`${env.appName.toLowerCase()}-${GUEST_USER_ID}.sqlite3`, { create: false });
+    await root.getFileHandle(
+      `${env.appName.toLowerCase()}-${GUEST_USER_ID}.sqlite3`,
+      { create: false },
+    );
     return true;
   } catch {
     return false;

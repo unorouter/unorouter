@@ -18,11 +18,18 @@ export async function buildChatContextFromLocalDb(
   userId: number | undefined,
   convId: string,
 ): Promise<ChatContext | undefined> {
-  const [settings, bindings] = await Promise.all([
-    readLocalConversationSettings(userId, convId),
-    readLocalConversationBindings(userId, convId),
-  ]);
+  // First message of a brand-new conversation: the transport body can build
+  // here in the same tick initialize() writes the conv row, so the first read
+  // may miss it (OPFS write-visibility lag). Retry briefly before giving up,
+  // else the first message silently ships with no preset/persona/lorebook.
+  let settings = await readLocalConversationSettings(userId, convId);
+  for (let attempt = 0; !settings && attempt < 5; attempt++) {
+    await new Promise((r) => setTimeout(r, 40));
+    settings = await readLocalConversationSettings(userId, convId);
+  }
   if (!settings) return undefined;
+
+  const bindings = await readLocalConversationBindings(userId, convId);
 
   const charBindings = bindings?.conversationCharacters ?? [];
   const lorebookIds = (bindings?.conversationLorebooks ?? []).map(

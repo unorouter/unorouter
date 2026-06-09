@@ -115,6 +115,7 @@ export function LorebookList(props: Props) {
 
         {openLbId ? (
           <LorebookEditor
+            key={openLbId}
             lorebookId={openLbId}
             onDeleted={() => setOpenLbId(null)}
           />

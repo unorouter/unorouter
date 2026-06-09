@@ -1,7 +1,7 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { CopyButton } from "@/components/elements/code/copy-button";
+import { SmartImage } from "@/components/ui/smart-image";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -198,11 +198,14 @@ export function BadgeGenerator(props: BadgeGeneratorProps) {
           {t("AFFILIATE.BADGE_GENERATOR.PREVIEW")}
         </span>
         <div className="bg-muted/50 border-border relative flex min-h-30 items-center justify-center overflow-hidden rounded-sm border p-6">
-          <img
+          <SmartImage
             key={previewUrl}
             src={previewUrl}
             alt={t("AFFILIATE.BADGE_GENERATOR.BADGE_ALT", APP_VALUES)}
-            className="max-w-full"
+            width={0}
+            height={0}
+            sizes="100vw"
+            className="h-auto max-w-full"
           />
           <CopyButton
             text={badgeAbsoluteUrl}

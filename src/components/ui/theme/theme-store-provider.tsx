@@ -12,9 +12,11 @@ export function UserThemeStoreProvider(props: {
   children: ReactNode;
   data?: UserTheme;
 }) {
-  useHydrateAtoms([[userThemeAtom, props.data ?? INITIAL_USER_THEME]], {
-    dangerouslyForceHydrate: true,
-  });
+  // No `dangerouslyForceHydrate`: with it, every render rewrites the atom,
+  // which schedules a re-render of every Icon subscriber and React surfaces
+  // it as a "setState while rendering a different component" warning. First
+  // mount hydration is enough; cookie changes ride a full page nav anyway.
+  useHydrateAtoms([[userThemeAtom, props.data ?? INITIAL_USER_THEME]]);
 
   return <>{props.children}</>;
 }

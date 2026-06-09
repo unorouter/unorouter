@@ -59,7 +59,54 @@ const INJECTION_ROLE_LABEL_KEY: Record<LorebookInjectionRole, TranslationKey> =
   {
     user: "RP.LOREBOOK_ENTRY_INJECTION_ROLE_USER",
     system: "RP.LOREBOOK_ENTRY_INJECTION_ROLE_SYSTEM",
+    assistant: "RP.LOREBOOK_ENTRY_INJECTION_ROLE_ASSISTANT",
   };
+
+// Pull leading `@@probability N` / `@@scan_depth N` decorators out of content
+// for the form. Other leading decorators are left in content (raw-edited).
+// 0 = "use the book default" for scan depth.
+function splitDecorators(content: string): {
+  content: string;
+  probability: number;
+  scanDepth: number;
+} {
+  let rest = content;
+  let probability = 100;
+  let scanDepth = 0;
+  // Decorators may lead in either order; consume known ones until none match.
+  let matched = true;
+  while (matched) {
+    matched = false;
+    const prob = rest.match(/^@@probability[ \t]+(\d+)[ \t]*\r?\n?/i);
+    if (prob) {
+      probability = Math.max(0, Math.min(100, Number(prob[1])));
+      rest = rest.slice(prob[0].length);
+      matched = true;
+    }
+    const scan = rest.match(/^@@scan_depth[ \t]+(\d+)[ \t]*\r?\n?/i);
+    if (scan) {
+      scanDepth = Math.max(0, Math.min(100, Number(scan[1])));
+      rest = rest.slice(scan[0].length);
+      matched = true;
+    }
+  }
+  return { content: rest, probability, scanDepth };
+}
+
+// Re-embed decorators into content. probability only when < 100 (an actual
+// gate); scanDepth only when > 0 (0 means inherit the book's scan depth).
+function embedDecorators(
+  content: string,
+  probability: number,
+  scanDepth: number,
+): string {
+  const lines: string[] = [];
+  const s = Math.max(0, Math.min(100, Math.round(scanDepth)));
+  if (s > 0) lines.push(`@@scan_depth ${s}`);
+  const p = Math.max(0, Math.min(100, Math.round(probability)));
+  if (p < 100) lines.push(`@@probability ${p}`);
+  return lines.length > 0 ? `${lines.join("\n")}\n${content}` : content;
+}
 
 export function LorebookEntries(props: { lorebookId: string }) {
   const t = useTranslations();
@@ -71,41 +118,66 @@ export function LorebookEntries(props: { lorebookId: string }) {
 
   const [editingId, setEditingId] = useState<EntityEditId>(null);
 
+  // Async-defaults pattern: `values` syncs the row in when the query settles;
+  // keepDirtyValues stops a background refetch from clobbering in-progress
+  // typing. The form below is keyed by editingId for clean remounts.
+  const editingEntry =
+    editingId && editingId !== "new"
+      ? lbQuery.data?.entries.find((x) => x.id === editingId)
+      : null;
+  // Decorators (@@probability / @@scan_depth) live as leading lines in
+  // content; split them out so the form edits clean content + fields.
+  // keys/secondaryKeys are string[] columns; the form edits them comma-joined.
+  const split = splitDecorators(editingEntry?.content ?? "");
+  const formValues = editingEntry
+    ? formDefaults(lorebookEntryFormSchema, {
+        ...editingEntry,
+        content: split.content,
+        probability: split.probability,
+        entryScanDepth: split.scanDepth,
+        keys: ((editingEntry.keys ?? []) as string[]).join(", "),
+        secondaryKeys: ((editingEntry.secondaryKeys ?? []) as string[]).join(
+          ", ",
+        ),
+      })
+    : undefined;
   const form = useForm({
     resolver: typeboxResolver(lorebookEntryFormSchema),
     defaultValues: formDefaults(lorebookEntryFormSchema),
+    values: formValues,
+    resetOptions: { keepDirtyValues: true },
   });
 
+  // The form hook outlives entry switches (inline editor, no remount), so a
+  // switch needs an explicit clean-slate reset; keepDirtyValues above only
+  // guards against background refetches WHILE editing one entry.
+  const reset = form.reset;
   useEffect(() => {
-    if (editingId === "new") {
-      form.reset(formDefaults(lorebookEntryFormSchema));
-      return;
-    }
-    if (!editingId) return;
-    const e = lbQuery.data?.entries.find((x) => x.id === editingId);
-    if (!e) return;
-    // keys/secondaryKeys are string[] columns; the form edits them comma-joined.
-    form.reset(
-      formDefaults(lorebookEntryFormSchema, {
-        ...e,
-        keys: ((e.keys ?? []) as string[]).join(", "),
-        secondaryKeys: ((e.secondaryKeys ?? []) as string[]).join(", "),
-      }),
-    );
-    // form.reset is stable
+    reset(formValues ?? formDefaults(lorebookEntryFormSchema));
+    // seed exactly once per entry switch
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [editingId, lbQuery.data]);
+  }, [editingId, reset]);
+
+  const alwaysActive = form.watch("constant");
+  const selective = form.watch("selective");
 
   const onSubmit = async (data: LorebookEntryForm) => {
     const secondary = csvToArray(data.secondaryKeys);
+    // orderIndex is owned by the create/update/reorder hooks, never the form:
+    // create appends to the end, update preserves, drag-reorder rewrites it.
     const body = {
       ...data,
+      // Re-embed @@probability (<100) + @@scan_depth (>0) into content; the
+      // selector parses both at activation time.
+      content: embedDecorators(data.content, data.probability, data.entryScanDepth),
       keys: csvToArray(data.keys),
       secondaryKeys: secondary.length > 0 ? secondary : null,
       position: data.position as LorebookPosition,
       injectionRole: data.injectionRole as LorebookInjectionRole,
-      orderIndex: 0,
     };
+    // probability + entryScanDepth are form-only; they now live inside content.
+    delete (body as { probability?: number }).probability;
+    delete (body as { entryScanDepth?: number }).entryScanDepth;
     if (editingId === "new") {
       await createMut.mutateAsync(body);
     } else if (editingId) {
@@ -159,26 +231,6 @@ export function LorebookEntries(props: { lorebookId: string }) {
               onSubmit={form.handleSubmit(onSubmit)}
               className="flex flex-col gap-3"
             >
-              {/* DB column + JSON field stay named `keys` for SillyTavern/RisuAI
-                  import-export compat. Only the user-facing label is "Triggers". */}
-              <div className="flex flex-col gap-1">
-                <MyFormInput
-                  control={form.control}
-                  name="keys"
-                  schema={lorebookEntryFormSchema}
-                  label={t("RP.LOREBOOK_ENTRY_KEYS")}
-                  placeholder="dragon, wyrm, drake"
-                />
-                <p className="text-muted-foreground text-xs">
-                  {t("RP.LOREBOOK_ENTRY_KEYS_HINT")}
-                </p>
-              </div>
-              <MyFormInput
-                control={form.control}
-                name="secondaryKeys"
-                schema={lorebookEntryFormSchema}
-                label={t("RP.LOREBOOK_ENTRY_SECONDARY_KEYS")}
-              />
               <MyFormTextarea
                 control={form.control}
                 name="content"
@@ -186,6 +238,65 @@ export function LorebookEntries(props: { lorebookId: string }) {
                 label={t("RP.LOREBOOK_ENTRY_CONTENT")}
                 rows={5}
               />
+
+              {/* Headline toggle (RisuAI mental model): an entry is either
+                  always-active or key-triggered. When always-active, the
+                  trigger fields are hidden because they never apply. */}
+              <div className="flex flex-col gap-1">
+                <MyFormSwitch
+                  control={form.control}
+                  name="constant"
+                  label={t("RP.LOREBOOK_ENTRY_CONSTANT")}
+                />
+                <p className="text-muted-foreground text-xs">
+                  {t("RP.LOREBOOK_ENTRY_CONSTANT_HINT")}
+                </p>
+              </div>
+
+              {!alwaysActive && (
+                <>
+                  {/* DB column + JSON field stay named `keys` for SillyTavern/
+                      RisuAI import-export compat. Label is "Activation keys". */}
+                  <div className="flex flex-col gap-1">
+                    <MyFormInput
+                      control={form.control}
+                      name="keys"
+                      schema={lorebookEntryFormSchema}
+                      label={t("RP.LOREBOOK_ENTRY_KEYS")}
+                      placeholder="dragon, wyrm, drake"
+                    />
+                    <p className="text-muted-foreground text-xs">
+                      {t("RP.LOREBOOK_ENTRY_KEYS_HINT")}
+                    </p>
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    <MyFormSwitch
+                      control={form.control}
+                      name="selective"
+                      label={t("RP.LOREBOOK_ENTRY_SELECTIVE")}
+                    />
+                  </div>
+                  {selective && (
+                    <MyFormInput
+                      control={form.control}
+                      name="secondaryKeys"
+                      schema={lorebookEntryFormSchema}
+                      label={t("RP.LOREBOOK_ENTRY_SECONDARY_KEYS")}
+                    />
+                  )}
+                  <div className="flex flex-col gap-1">
+                    <MyFormSwitch
+                      control={form.control}
+                      name="matchWholeWords"
+                      label={t("RP.LOREBOOK_ENTRY_MATCH_WHOLE_WORDS")}
+                    />
+                    <p className="text-muted-foreground text-xs">
+                      {t("RP.LOREBOOK_ENTRY_MATCH_WHOLE_WORDS_HINT")}
+                    </p>
+                  </div>
+                </>
+              )}
+
               <div className="grid grid-cols-2 gap-3">
                 <FormField
                   control={form.control}
@@ -231,16 +342,32 @@ export function LorebookEntries(props: { lorebookId: string }) {
                     {t("RP.LOREBOOK_ENTRY_PRIORITY_HINT")}
                   </p>
                 </div>
-              </div>
-              <div className="flex flex-col gap-1">
-                <MyFormSwitch
-                  control={form.control}
-                  name="matchWholeWords"
-                  label={t("RP.LOREBOOK_ENTRY_MATCH_WHOLE_WORDS")}
-                />
-                <p className="text-muted-foreground text-xs">
-                  {t("RP.LOREBOOK_ENTRY_MATCH_WHOLE_WORDS_HINT")}
-                </p>
+                <div className="flex flex-col gap-1">
+                  <MyFormInput
+                    control={form.control}
+                    name="probability"
+                    schema={lorebookEntryFormSchema}
+                    label={t("RP.LOREBOOK_ENTRY_PROBABILITY")}
+                    type="number"
+                  />
+                  <p className="text-muted-foreground text-xs">
+                    {t("RP.LOREBOOK_ENTRY_PROBABILITY_HINT")}
+                  </p>
+                </div>
+                {!alwaysActive && (
+                  <div className="flex flex-col gap-1">
+                    <MyFormInput
+                      control={form.control}
+                      name="entryScanDepth"
+                      schema={lorebookEntryFormSchema}
+                      label={t("RP.LOREBOOK_ENTRY_SCAN_DEPTH")}
+                      type="number"
+                    />
+                    <p className="text-muted-foreground text-xs">
+                      {t("RP.LOREBOOK_ENTRY_SCAN_DEPTH_HINT")}
+                    </p>
+                  </div>
+                )}
               </div>
               <FormField
                 control={form.control}
@@ -281,16 +408,6 @@ export function LorebookEntries(props: { lorebookId: string }) {
               />
               <MyFormSwitch
                 control={form.control}
-                name="constant"
-                label={t("RP.LOREBOOK_ENTRY_CONSTANT")}
-              />
-              <MyFormSwitch
-                control={form.control}
-                name="selective"
-                label={t("RP.LOREBOOK_ENTRY_SELECTIVE")}
-              />
-              <MyFormSwitch
-                control={form.control}
                 name="enabled"
                 label={t("RP.LOREBOOK_ENTRY_ENABLED")}
               />
@@ -328,10 +445,19 @@ export function LorebookEntries(props: { lorebookId: string }) {
             >
               <div onClick={(ev) => ev.stopPropagation()}>{handle}</div>
               <div className="flex min-w-0 flex-1 flex-col">
-                <span className="text-sm font-medium">
-                  {((e.keys ?? []) as string[]).join(", ") ||
-                    t("RP.LOREBOOK_ENTRY_NO_KEYS")}
-                </span>
+                <div className="flex items-center gap-1.5">
+                  {e.constant && (
+                    <span className="bg-primary/15 text-primary inline-flex shrink-0 items-center rounded-full px-1.5 py-0.5 text-[10px] font-medium">
+                      {t("RP.LOREBOOK_ENTRY_CONSTANT")}
+                    </span>
+                  )}
+                  <span className="truncate text-sm font-medium">
+                    {e.constant
+                      ? t("RP.LOREBOOK_ENTRY_ALWAYS_LABEL")
+                      : ((e.keys ?? []) as string[]).join(", ") ||
+                        t("RP.LOREBOOK_ENTRY_NO_KEYS")}
+                  </span>
+                </div>
                 <span className="text-muted-foreground line-clamp-2 text-xs">
                   {e.content}
                 </span>

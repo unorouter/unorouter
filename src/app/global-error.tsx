@@ -1,7 +1,7 @@
 "use client";
 
 import type { RouteErrorProps } from "@/components/elements/feedback/error-fallback";
-import posthog from "posthog-js";
+import { posthog } from "@/lib/posthog-lazy";
 import { useEffect } from "react";
 
 export default function GlobalError(props: RouteErrorProps) {

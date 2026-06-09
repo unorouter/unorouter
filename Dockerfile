@@ -1,21 +1,17 @@
-FROM oven/bun:1-alpine AS deps
-
-WORKDIR /app
-
-COPY package.json ./
-
-RUN bun install --frozen-lockfile
-
-#
 FROM oven/bun:1-alpine AS builder
 WORKDIR /app
 
+COPY package.json ./
+# patchedDependencies in package.json points here; bun install fails without it.
+COPY patches ./patches
+
+RUN bun install
+
 COPY . .
-COPY --from=deps /app/node_modules ./node_modules
 ENV STANDALONE=1
 # ENV NODE_ENV=development
 
-RUN bun run build
+RUN --mount=type=cache,target=/app/.next/cache bun run build
 
 #
 # Prod runtime: Node (Next.js standalone is built for Node and is ~5-10x faster

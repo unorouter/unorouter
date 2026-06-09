@@ -44,7 +44,8 @@ export const conversations = sqliteTable(
     systemPromptOverride: text("system_prompt_override"),
     authorNote: text("author_note"),
     authorNoteDepth: integer("author_note_depth").notNull().default(4),
-    chatMemory: integer("chat_memory").notNull().default(8),
+    // null = inherit the bound preset's chatMemory (else default 8).
+    chatMemory: integer("chat_memory"),
     reasoningEffort: text("reasoning_effort").$type<ReasoningEffort>(),
     webSearchEnabled: integer("web_search_enabled", { mode: "boolean" })
       .notNull()
@@ -67,9 +68,21 @@ export const conversations = sqliteTable(
     repetitionPenalty: real("repetition_penalty"),
     maxTokens: integer("max_tokens"),
     extraBody: text("extra_body"),
-    streamingEnabled: integer("streaming_enabled", { mode: "boolean" })
-      .notNull()
-      .default(true),
+    // Chat-variable store (RisuAI getvar/setvar): JSON map { name: value }.
+    vars: text("vars"),
+    // null = inherit the bound preset's streamingEnabled (else default true).
+    streamingEnabled: integer("streaming_enabled", { mode: "boolean" }),
+    // Multi-character turn ordering: deterministic stored order vs name-mention
+    // + talkness. Auto-continue regenerates when a reply ends mid-sentence.
+    groupOrderByOrder: integer("group_order_by_order", { mode: "boolean" }),
+    autoContinue: integer("auto_continue", { mode: "boolean" }),
+    // Rolling-summary memory: the running summary text + the count of messages
+    // already folded into it (anchor), so older history can be replaced by the
+    // compact summary once it overflows the context window.
+    summaryMemory: text("summary_memory"),
+    summaryAnchor: integer("summary_anchor"),
+    // Toggle for the rolling summary + semantic retrieval memory features.
+    memoryEnabled: integer("memory_enabled", { mode: "boolean" }),
     syncExpiresAt: integer("sync_expires_at", { mode: "timestamp_ms" }),
     createdAt: integer("created_at", { mode: "timestamp_ms" })
       .notNull()
@@ -93,10 +106,9 @@ export const messages = sqliteTable(
     convId: text("conv_id")
       .notNull()
       .references(() => conversations.id, { onDelete: "cascade" }),
-    parentId: text("parent_id").references(
-      (): AnySQLiteColumn => messages.id,
-      { onDelete: "set null" },
-    ),
+    parentId: text("parent_id").references((): AnySQLiteColumn => messages.id, {
+      onDelete: "set null",
+    }),
     characterId: text("character_id"),
     role: text("role").notNull().$type<MessageRole>(),
     model: text("model"),
@@ -191,6 +203,8 @@ export const characters = sqliteTable(
     name: text("name").notNull(),
     // FK to media (asymmetric base64/R2 rule).
     avatarMediaId: text("avatar_media_id"),
+    // FK to media; rendered behind the chat when this character is primary.
+    backgroundMediaId: text("background_media_id"),
     description: text("description"),
     personality: text("personality"),
     scenario: text("scenario"),
@@ -200,7 +214,13 @@ export const characters = sqliteTable(
     postHistoryInstructions: text("post_history_instructions"),
     defaultReasoningEffort: text("default_reasoning_effort"),
     tags: text("tags", { mode: "json" }),
+    // RisuAI triggerscript[] (V2 effect VM). Keyword-array turn-gating moved to
+    // turn_triggers so this column carries the trigger programs.
     triggers: text("triggers", { mode: "json" }),
+    // Keyword array for multi-character turn-gating (non-primary chars).
+    turnTriggers: text("turn_triggers", { mode: "json" }),
+    // RisuAI customscript / SillyTavern regex scripts (in/out/type/flag array).
+    regexScripts: text("regex_scripts", { mode: "json" }),
     alwaysActive: integer("always_active", { mode: "boolean" })
       .notNull()
       .default(true),
@@ -309,7 +329,7 @@ export const lorebookEntries = sqliteTable(
       .default(false),
     injectionRole: text("injection_role")
       .notNull()
-      .default("user")
+      .default("system")
       .$type<LorebookInjectionRole>(),
     createdAt: integer("created_at", { mode: "timestamp_ms" })
       .notNull()
@@ -340,7 +360,13 @@ export const samplingPresets = sqliteTable(
     presencePenalty: real("presence_penalty"),
     repetitionPenalty: real("repetition_penalty"),
     maxTokens: integer("max_tokens"),
+    // Preset-level defaults; the conversation's own value overrides per chat.
+    // null = use the system default (streaming on, chatMemory 8).
+    streamingEnabled: integer("streaming_enabled", { mode: "boolean" }),
+    chatMemory: integer("chat_memory"),
     extraBody: text("extra_body"),
+    providers: text("providers"),
+    promptTemplate: text("prompt_template"),
     mainPrompt: text("main_prompt"),
     postHistory: text("post_history"),
     prefill: text("prefill"),
@@ -351,11 +377,6 @@ export const samplingPresets = sqliteTable(
       .notNull()
       .default(false),
     mustStartWithUserInput: integer("must_start_with_user_input", {
-      mode: "boolean",
-    })
-      .notNull()
-      .default(false),
-    skipPrefillIfLastIsAssistant: integer("skip_prefill_if_last_is_assistant", {
       mode: "boolean",
     })
       .notNull()
@@ -391,6 +412,8 @@ export const conversationCharacters = sqliteTable(
       .references(() => characters.id, { onDelete: "cascade" }),
     orderIndex: integer("order_index").notNull().default(0),
     isActive: integer("is_active", { mode: "boolean" }).notNull().default(true),
+    // [0,1] talkativeness weight for non-mentioned group turn ordering.
+    talkness: real("talkness"),
     overrides: text("overrides", { mode: "json" }),
     createdAt: integer("created_at", { mode: "timestamp_ms" })
       .notNull()

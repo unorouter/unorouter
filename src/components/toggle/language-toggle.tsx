@@ -54,7 +54,7 @@ export function LanguageToggle() {
           <currentLanguage.Flag className="h-3.5 w-5 rounded-sm" />
         )}
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
+      <DropdownMenuContent align="end" className="grid grid-cols-2 gap-x-1">
         {LANGUAGES.map((lang) => (
           <DropdownMenuItem
             key={lang.locale}

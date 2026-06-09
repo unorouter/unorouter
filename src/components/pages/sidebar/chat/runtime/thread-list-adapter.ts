@@ -1,11 +1,14 @@
-import { mirrorConvPatchIfSynced, unmirrorIfSynced } from "@/hooks/ai/rp/shared";
+import {
+  mirrorConvPatchIfSynced,
+  unmirrorIfSynced,
+} from "@/hooks/ai/rp/shared";
 import { GUEST_USER_ID } from "@/lib/config/constants";
 import {
   deleteLocalConversation,
   readLocalConversation,
   readLocalConversations,
+  replaceLocalConversationBindings,
   upsertLocalConversation,
-  upsertLocalConversationSettings,
 } from "@/lib/db/client/data/chat";
 import type { buildPricingSummary } from "@/lib/api/pricing";
 import { queryKeys } from "@/lib/react-query/keys";
@@ -14,6 +17,7 @@ import { handleElysia } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
 import {
   chatDefaultsAtom,
+  chatLoadoutAtom,
   chatModelAtom,
   chatStore,
   ensureConvId,
@@ -58,6 +62,12 @@ export function createThreadListAdapter(
 
       const now = dayjs().toDate();
 
+      // Settings cols live on the conversation row; write both in one upsert
+      // so the NOT NULL default_model is satisfied on insert.
+      const defaults = chatStore.get(chatDefaultsAtom);
+      // Sticky loadout: auto-equip new chats with the user's chosen
+      // preset/persona/characters/lorebooks so they don't re-bind each time.
+      const loadout = chatStore.get(chatLoadoutAtom);
       await upsertLocalConversation(userId(), {
         id,
         title: null,
@@ -67,15 +77,9 @@ export function createThreadListAdapter(
         syncExpiresAt: null,
         createdAt: now,
         updatedAt: now,
-      });
-
-      // Seed settings from jotai defaults so first turn uses user preferences.
-      const defaults = chatStore.get(chatDefaultsAtom);
-      await upsertLocalConversationSettings(userId(), {
-        convId: id,
         defaultModel: model,
-        personaId: null,
-        presetId: null,
+        personaId: loadout.personaId ?? null,
+        presetId: loadout.presetId ?? null,
         systemPromptOverride: null,
         authorNote: null,
         authorNoteDepth: 4,
@@ -95,8 +99,22 @@ export function createThreadListAdapter(
         maxTokens: defaults.maxTokens ?? null,
         extraBody: defaults.extraBody ?? null,
         streamingEnabled: defaults.streamingEnabled ?? true,
-        updatedAt: now,
       });
+
+      // Character + lorebook bindings live in join tables, written after the
+      // conversation row exists so the FK resolves.
+      if (loadout.characterIds.length > 0 || loadout.lorebookIds.length > 0) {
+        await replaceLocalConversationBindings(userId(), id, {
+          conversationCharacters: loadout.characterIds.map((cid, i) => ({
+            characterId: cid,
+            orderIndex: i,
+          })),
+          conversationLorebooks: loadout.lorebookIds.map((lid, i) => ({
+            lorebookId: lid,
+            orderIndex: i,
+          })),
+        });
+      }
 
       queryClient.invalidateQueries({ queryKey: queryKeys.conversations() });
       return { remoteId: id, externalId: undefined };

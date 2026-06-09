@@ -15,8 +15,8 @@ import { dayjs } from "@/lib/utils/format/date";
 // Conv reduced to row objects for bundle upsert + standalone entity upserts.
 export type MappedImport = {
   convId: string;
-  persona: (LocalAnyRow) | null;
-  preset: (LocalAnyRow) | null;
+  persona: LocalAnyRow | null;
+  preset: LocalAnyRow | null;
   characters: Array<LocalAnyRow>;
   lorebooks: Array<{
     lorebook: LocalAnyRow;

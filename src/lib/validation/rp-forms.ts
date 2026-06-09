@@ -153,7 +153,8 @@ export const conversationOverridesFormSchema = t.Object({
   personaId: t.String({ default: NONE_VALUE }),
   presetId: t.String({ default: NONE_VALUE }),
   reasoningEffort: t.Union(reasoningEffortLiterals, { default: NONE_VALUE }),
-  chatMemory: t.Number({ minimum: 1, maximum: 1000, default: 8 }),
+  // null = inherit the bound preset's chatMemory (else system default 8).
+  chatMemory: nullableNumber(1, 1000),
   authorNoteDepth: t.Number({ minimum: 0, maximum: 100, default: 4 }),
   systemPromptOverride: t.String({ default: "" }),
   authorNote: t.String({ default: "" }),
@@ -174,8 +175,9 @@ export const conversationOverridesFormSchema = t.Object({
   repetitionPenalty: nullableNumber(0, 2),
   maxTokens: nullableNumber(1, 1_000_000),
   extraBody: t.String({ default: "", maxLength: 8_192 }),
-  // false = BFF buffers full reply, then streams as one chunk.
-  streamingEnabled: t.Boolean({ default: true }),
+  // null = inherit the bound preset (else system default: streaming on). false =
+  // BFF buffers full reply, then streams as one chunk.
+  streamingEnabled: t.Union([t.Boolean(), t.Null()], { default: null }),
 });
 export type ConversationOverridesForm = Static<
   typeof conversationOverridesFormSchema
@@ -197,13 +199,23 @@ export const samplingPresetFormSchema = t.Object({
   presencePenalty: nullableNumber(-2, 2),
   repetitionPenalty: nullableNumber(0, 2),
   maxTokens: nullableNumber(1, 1_000_000),
+  // Preset-level defaults (the conversation overrides per chat). null = system
+  // default (streaming on, chatMemory 8).
+  streamingEnabled: t.Union([t.Boolean(), t.Null()], { default: null }),
+  chatMemory: nullableNumber(1, 1000),
   mainPrompt: t.String({ default: "", maxLength: MAX_DESC_LEN }),
   postHistory: t.String({ default: "", maxLength: MAX_DESC_LEN }),
   prefill: t.String({ default: "", maxLength: MAX_DESC_LEN }),
+  // Comma-separated provider slugs; serialized to the `providers` JSON on submit.
+  providers: t.String({ default: "", maxLength: 2_048 }),
+  // When true the slugs become `only` (hard pin), else `order` (preference).
+  providersOnly: t.Boolean({ default: false }),
+  // Prompt template JSON (PromptItem[]); empty = default fixed order. Edited
+  // by the template builder, serialized straight to the promptTemplate column.
+  promptTemplate: t.String({ default: "", maxLength: 32_768 }),
   forceAlternateRoles: t.Boolean({ default: false }),
   noSystemRole: t.Boolean({ default: false }),
   mustStartWithUserInput: t.Boolean({ default: false }),
-  skipPrefillIfLastIsAssistant: t.Boolean({ default: false }),
   geminiBlockOff: t.Boolean({ default: false }),
   isDefault: t.Boolean({ default: false }),
 });
@@ -248,12 +260,18 @@ export const lorebookEntryFormSchema = t.Object({
   }),
   position: t.Union(lorebookPositionLiterals, { default: "before_char" }),
   priority: t.Number({ minimum: 0, maximum: 1000, default: 100 }),
+  // Form-only: 0/100 = always fire. Stored as a @@probability decorator line in
+  // content (no dedicated column), parsed by the selector at activation time.
+  probability: t.Number({ minimum: 0, maximum: 100, default: 100 }),
+  // Form-only: per-entry scan depth. 0 = inherit the book's scan depth. Stored
+  // as a @@scan_depth decorator line in content, parsed by the selector.
+  entryScanDepth: t.Number({ minimum: 0, maximum: 100, default: 0 }),
   depth: t.Number({ minimum: 0, maximum: 100, default: 4 }),
   constant: t.Boolean({ default: false }),
   selective: t.Boolean({ default: false }),
   enabled: t.Boolean({ default: true }),
   matchWholeWords: t.Boolean({ default: false }),
-  injectionRole: t.Union(lorebookInjectionRoleLiterals, { default: "user" }),
+  injectionRole: t.Union(lorebookInjectionRoleLiterals, { default: "system" }),
 });
 export type LorebookEntryForm = Static<typeof lorebookEntryFormSchema>;
 

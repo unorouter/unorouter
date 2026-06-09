@@ -189,9 +189,7 @@ export function DrawingPromptCell(props: CellContext<DrawingRow, unknown>) {
   );
 }
 
-export function DrawingFailReasonCell(
-  props: CellContext<DrawingRow, unknown>,
-) {
+export function DrawingFailReasonCell(props: CellContext<DrawingRow, unknown>) {
   const log = props.row.original;
   const ctx = useContext(DrawingDialogContext);
   if (!log.fail_reason) return EMPTY;

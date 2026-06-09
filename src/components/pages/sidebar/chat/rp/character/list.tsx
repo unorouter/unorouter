@@ -233,6 +233,7 @@ export function CharacterList(props: Props) {
           </div>
         ) : (
           <CharacterEditor
+            key={view.id}
             characterId={view.id}
             onSaved={() => setView({ mode: "list" })}
           />

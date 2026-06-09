@@ -26,8 +26,17 @@ declare global {
 
 declare const self: ServiceWorkerGlobalScope;
 
+// Per-icon code splitting put ~900 hashed JS chunks in the build; precaching
+// them all makes every client re-download ~20MB in the background per deploy.
+// JS chunks are runtime-cached on first use (CacheFirst rule below), so the
+// precache keeps only documents/CSS/media and the offline page stays usable.
+const precacheEntries = (self.__SW_MANIFEST ?? []).filter((entry) => {
+  const url = typeof entry === "string" ? entry : entry.url;
+  return !/\/_next\/static\/chunks\/.+\.js(\?|$)/.test(url);
+});
+
 const serwist = new Serwist({
-  precacheEntries: self.__SW_MANIFEST,
+  precacheEntries,
   skipWaiting: true,
   clientsClaim: true,
   // navigationPreload intentionally OFF: with it on, navigations are fetched by
@@ -88,14 +97,16 @@ const serwist = new Serwist({
         ],
       }),
     },
-    // HTML navigations: fresh-first with a short timeout, offline fallback below.
+    // HTML navigations: network ALWAYS wins; cache is an offline-only fallback.
+    // No networkTimeoutSeconds: a timeout here served the previous build's HTML
+    // on slow links (iOS Safari + LTE), whose hashed chunks 404 after a deploy,
+    // killing every event handler while plain links keep working.
     // `mode: navigate` match covers every locale-prefixed route without listing them.
     {
       matcher: ({ request, sameOrigin }) =>
         sameOrigin && request.mode === "navigate",
       handler: new NetworkFirst({
         cacheName: "pages",
-        networkTimeoutSeconds: 3,
       }),
     },
     ...defaultCache,
@@ -109,6 +120,17 @@ const serwist = new Serwist({
       },
     ],
   },
+});
+
+// HTML/RSC payloads are build-scoped: a cached copy from build N mixed with
+// build N+1 chunks crashes hydration. Each new SW (one per deploy, skipWaiting
+// above) wipes them on activation so only same-build copies can ever be served.
+// Hash-addressed caches (next-static, fonts, images) survive: immutable.
+const BUILD_SCOPED_CACHES = ["pages", "pages-rsc", "pages-rsc-prefetch", "others"];
+self.addEventListener("activate", (event) => {
+  event.waitUntil(
+    Promise.all(BUILD_SCOPED_CACHES.map((name) => caches.delete(name))),
+  );
 });
 
 // SQLocal's OPFS async-proxy worker uses SharedArrayBuffer + Atomics.wait.

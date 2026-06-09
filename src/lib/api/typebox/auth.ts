@@ -22,7 +22,8 @@ export const oauthStateQuery = t.Object({
 });
 
 export const oauthCallbackQuery = t.Object({
-  code: t.String(),
+  code: t.Optional(t.String()),
+  error: t.Optional(t.String()),
 });
 
 export const oauthUnbindParams = t.Object({

@@ -1,11 +1,16 @@
-import type { Pathname, pathnames, StaticRoute } from "@/i18n/routing";
+import type { Pathname, pathnames } from "@/i18n/routing";
 import type { TranslationKey } from "@/lib/config/constants";
 import type { MetadataRoute } from "next";
 import type { ComponentType } from "react";
 
+// Static doc slugs only. The dynamic "/docs/[slug]" template is excluded so
+// DocSlug stays a subset of SeoTimestampSlug (every member has a real
+// seo-timestamps entry); the [slug] route casts its runtime slug to DocSlug.
 export type DocSlug = keyof typeof pathnames extends infer K
   ? K extends `/${infer R extends `docs/${string}`}`
-    ? R
+    ? R extends `${string}[${string}`
+      ? never
+      : R
     : never
   : never;
 
@@ -77,9 +82,12 @@ type DocI18nPrefix = {
 }[TranslationKey];
 
 export type DocEntry = {
-  // Must equal path.slice(1).
+  // For the static "/docs" index this is path.slice(1); for guides served by
+  // the single "/docs/[slug]" route it is `docs/${guide.slug}`.
   slug: string;
-  path: StaticRoute;
+  // Either a static route ("/docs") or a dynamic href ({ pathname:
+  // "/docs/[slug]", params }). getPathname/localeUrl resolve both.
+  path: Pathname;
   i18nPrefix: DocI18nPrefix;
   // Drive published/modified timestamps via git history.
   contentFiles: readonly string[];

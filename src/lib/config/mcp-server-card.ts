@@ -2,7 +2,6 @@ import { APP_VALUES, type TranslationKey } from "./constants";
 import { env } from "./env";
 import { WEBMCP_TOOLS } from "./webmcp-tools";
 
-
 // Loose translator shape (avoid next-intl's own type: triggers TS2589).
 type Translator = (
   key: TranslationKey,

@@ -8,7 +8,8 @@ import { APP_VALUES } from "@/lib/config/constants";
 import { useAuiState } from "@assistant-ui/react";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef } from "react";
-import { NeedsTokenGate } from "./chat-elements";
+import { CharacterBackground } from "./character-background";
+import { ActiveConfigBadge, NeedsTokenGate } from "./chat-elements";
 
 type ChatProps = {
   convId?: string;
@@ -43,7 +44,9 @@ export function Chat(props: ChatProps) {
   if (gate.needsToken) return <NeedsTokenGate />;
 
   return (
-    <div className="relative flex min-h-0 min-w-0 flex-1 flex-col">
+    <div className="relative isolate flex min-h-0 min-w-0 flex-1 flex-col">
+      <CharacterBackground convId={effectiveId} />
+      <ActiveConfigBadge />
       <SectionBoundary>
         <Thread />
       </SectionBoundary>

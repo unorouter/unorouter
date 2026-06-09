@@ -272,6 +272,7 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
             ...stripUndefined({
               name: body.name,
               avatarMediaId: body.avatarMediaId,
+              backgroundMediaId: body.backgroundMediaId,
               description: body.description,
               personality: body.personality,
               scenario: body.scenario,
@@ -282,6 +283,8 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
               defaultReasoningEffort: body.defaultReasoningEffort,
               tags: body.tags,
               triggers: body.triggers,
+              turnTriggers: body.turnTriggers,
+              regexScripts: body.regexScripts,
               alwaysActive: body.alwaysActive,
               matchWholeWords: body.matchWholeWords,
             }),
@@ -404,7 +407,6 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
               forceAlternateRoles: body.forceAlternateRoles,
               noSystemRole: body.noSystemRole,
               mustStartWithUserInput: body.mustStartWithUserInput,
-              skipPrefillIfLastIsAssistant: body.skipPrefillIfLastIsAssistant,
               geminiBlockOff: body.geminiBlockOff,
               isDefault: body.isDefault,
             }),
@@ -510,7 +512,9 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
           systemPromptOverride: s?.systemPromptOverride ?? null,
           authorNote: s?.authorNote ?? null,
           authorNoteDepth: s?.authorNoteDepth ?? 4,
-          chatMemory: s?.chatMemory ?? 8,
+          // null = inherit the bound preset; coercing to 8 here would destroy
+          // the inherit semantics on a sync roundtrip.
+          chatMemory: s?.chatMemory ?? null,
           reasoningEffort: s?.reasoningEffort ?? null,
           webSearchEnabled: s?.webSearchEnabled ?? false,
           webSearchEngine: s?.webSearchEngine ?? "auto",
@@ -525,7 +529,14 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
           repetitionPenalty: s?.repetitionPenalty ?? null,
           maxTokens: s?.maxTokens ?? null,
           extraBody: s?.extraBody ?? null,
-          streamingEnabled: s?.streamingEnabled ?? true,
+          vars: s?.vars ?? null,
+          // null = inherit the bound preset (same rationale as chatMemory).
+          streamingEnabled: s?.streamingEnabled ?? null,
+          groupOrderByOrder: s?.groupOrderByOrder ?? null,
+          autoContinue: s?.autoContinue ?? null,
+          memoryEnabled: s?.memoryEnabled ?? null,
+          summaryMemory: s?.summaryMemory ?? null,
+          summaryAnchor: s?.summaryAnchor ?? null,
           syncExpiresAt: expiresAt,
         });
       } else {
@@ -576,6 +587,7 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
             characterId: row.characterId,
             orderIndex: row.orderIndex ?? 0,
             isActive: row.isActive ?? true,
+            talkness: row.talkness ?? undefined,
             overrides: row.overrides ?? undefined,
           };
           if (mode === "replace") {
@@ -592,6 +604,7 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
                 set: {
                   orderIndex: values.orderIndex,
                   isActive: values.isActive,
+                  talkness: values.talkness,
                   overrides: values.overrides,
                 },
               });

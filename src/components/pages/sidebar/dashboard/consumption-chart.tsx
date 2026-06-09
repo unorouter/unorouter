@@ -45,7 +45,13 @@ function buildModelChartConfig(modelNames: string[]): ChartConfig {
   return config;
 }
 
-function processDistributionData(data: QuotaDataItem[], g: Granularity) {
+const DISTRIBUTION_TOP_N = 12;
+
+function processDistributionData(
+  data: QuotaDataItem[],
+  g: Granularity,
+  otherLabel: string,
+) {
   const byTime = new Map<string, Record<string, number>>();
   const modelTotals = new Map<string, number>();
 
@@ -62,13 +68,26 @@ function processDistributionData(data: QuotaDataItem[], g: Granularity) {
     byTime.set(key, existing);
   }
 
-  const modelList = [...modelTotals.entries()]
+  const ranked = [...modelTotals.entries()]
     .sort((a, b) => b[1] - a[1])
     .map(([name]) => name);
+  const topModels = ranked.slice(0, DISTRIBUTION_TOP_N);
+  const topSet = new Set(topModels);
+  const hasOther = ranked.length > topModels.length;
+  const modelList = hasOther ? [...topModels, otherLabel] : topModels;
 
   const chartData = [...byTime.entries()]
     .sort((a, b) => a[0].localeCompare(b[0]))
-    .map(([time, values]) => ({ time, ...values }));
+    .map(([time, values]) => {
+      const row: Record<string, number | string> = { time };
+      let other = 0;
+      for (const [name, value] of Object.entries(values)) {
+        if (topSet.has(name)) row[name] = value;
+        else other += value;
+      }
+      if (hasOther) row[otherLabel] = other;
+      return row;
+    });
 
   return { chartData, modelList };
 }
@@ -102,7 +121,11 @@ export function ConsumptionChart() {
   const otherLabel = t("DASHBOARD.OTHER");
   const totalLabel = t("DASHBOARD.TOTAL");
   const granularity = pickGranularity(dashboard.periodMinutes);
-  const distribution = processDistributionData(dashboard.rawData, granularity);
+  const distribution = processDistributionData(
+    dashboard.rawData,
+    granularity,
+    otherLabel,
+  );
   const trendData = processTrendData(dashboard.rawData, granularity);
   const pieData = aggregateByModel(dashboard.rawData, "count", 8, otherLabel);
   const rankingData = aggregateByModel(

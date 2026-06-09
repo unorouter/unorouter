@@ -270,7 +270,8 @@ export function TokenActionCell(props: CellContext<TokenRow, unknown>) {
 
 export function TokenDateCell(props: CellContext<TokenRow, unknown>) {
   const t = useTranslations();
-  const value = props.row.original[props.column.id as "created_time" | "expired_time"];
+  const value =
+    props.row.original[props.column.id as "created_time" | "expired_time"];
   return (
     <span className="text-muted-foreground font-mono text-xs">
       {value === -1 ? t("TOKEN.FORM.NEVER_EXPIRES") : formatLongDate(value)}

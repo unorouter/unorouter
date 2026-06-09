@@ -9,9 +9,7 @@ export const RankingPeriodSchema = t.Union([
 ]);
 
 // The literal values, derived from the schema so the list cannot drift.
-export const RANKING_PERIODS = RankingPeriodSchema.anyOf.map(
-  (l) => l.const,
-);
+export const RANKING_PERIODS = RankingPeriodSchema.anyOf.map((l) => l.const);
 
 export const rankingsQuery = t.Object({
   period: t.Optional(RankingPeriodSchema),

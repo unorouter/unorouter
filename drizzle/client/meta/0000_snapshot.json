@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "9d5ce8cf-8b37-48a5-8d32-074b537c680b",
+  "id": "a3ad3423-b945-48fc-b9af-b4e86f7f1b0a",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "card_characters": {
@@ -341,6 +341,20 @@
           "notNull": false,
           "autoincrement": false
         },
+        "turn_triggers": {
+          "name": "turn_triggers",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "regex_scripts": {
+          "name": "regex_scripts",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
         "always_active": {
           "name": "always_active",
           "type": "integer",
@@ -443,6 +457,13 @@
           "notNull": true,
           "autoincrement": false,
           "default": true
+        },
+        "talkness": {
+          "name": "talkness",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
         },
         "overrides": {
           "name": "overrides",
@@ -689,9 +710,8 @@
           "name": "chat_memory",
           "type": "integer",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": 8
+          "notNull": false,
+          "autoincrement": false
         },
         "reasoning_effort": {
           "name": "reasoning_effort",
@@ -794,13 +814,54 @@
           "notNull": false,
           "autoincrement": false
         },
+        "vars": {
+          "name": "vars",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
         "streaming_enabled": {
           "name": "streaming_enabled",
           "type": "integer",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": true
+          "notNull": false,
+          "autoincrement": false
+        },
+        "group_order_by_order": {
+          "name": "group_order_by_order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "auto_continue": {
+          "name": "auto_continue",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "summary_memory": {
+          "name": "summary_memory",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "summary_anchor": {
+          "name": "summary_anchor",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "memory_enabled": {
+          "name": "memory_enabled",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
         },
         "sync_expires_at": {
           "name": "sync_expires_at",
@@ -956,7 +1017,7 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "'user'"
+          "default": "'system'"
         },
         "created_at": {
           "name": "created_at",
@@ -2256,8 +2317,36 @@
           "notNull": false,
           "autoincrement": false
         },
+        "streaming_enabled": {
+          "name": "streaming_enabled",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "chat_memory": {
+          "name": "chat_memory",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
         "extra_body": {
           "name": "extra_body",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "providers": {
+          "name": "providers",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "prompt_template": {
+          "name": "prompt_template",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
@@ -2302,14 +2391,6 @@
         },
         "must_start_with_user_input": {
           "name": "must_start_with_user_input",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": false
-        },
-        "skip_prefill_if_last_is_assistant": {
-          "name": "skip_prefill_if_last_is_assistant",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,

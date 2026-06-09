@@ -54,6 +54,8 @@
     "STATS": {
       "MODELS": "Models",
       "PROVIDERS": "Providers",
+      "FREE": "Free",
+      "PAID": "Paid",
       "UPTIME": "Uptime",
       "ENDPOINTS": "Endpoints",
       "PANEL": {
@@ -66,6 +68,8 @@
       "INDICATOR": {
         "GLOBAL": "Routable",
         "INTEGRATED": "Upstreams",
+        "FREE": "No cost",
+        "PAID": "Per token",
         "SLA": "Measured"
       }
     },
@@ -118,7 +122,9 @@
         "BADGE": "Roleplay",
         "TITLE": "Works with Chub / Venus",
         "DESCRIPTION": "Connect {appName} as a first-party reverse proxy in Chub. One URL, one key, every model."
-      }
+      },
+      "PICK_TITLE": "Pick the client you are actually using.",
+      "PICK_DESC": "{appName} works as a custom OpenAI-compatible API across coding agents, roleplay frontends, chat clients, and CLI tools."
     },
     "HOW_IT_WORKS": {
       "LABEL": "Get started",
@@ -511,7 +517,8 @@
       "announcement": "announcement",
       "product": "product",
       "engineering": "engineering",
-      "update": "update"
+      "update": "update",
+      "community": "Community"
     },
     "POSTS": {
       "LAUNCH": {
@@ -628,6 +635,41 @@
         "H_TRY": "Try it",
         "TRY_P": "Every model above is available through one OpenAI-compatible endpoint. Multi-reference image edit is exposed exactly as the upstream defines it, no extra wrapping. Bring six images and a prompt; the router picks a working provider.",
         "CTA": "<register>Grab an API key</register> or <models>browse the image catalog</models> to see the full verified list."
+      },
+      "DISCORD_COMMUNITY": {
+        "TITLE": "Join the {appName} Discord, get free balance",
+        "DESCRIPTION": "Link your account for $1, boost the server for $1 every month, hunt bugs for up to $50. We just opened the {appName} Discord.",
+        "AUTHOR": "{appName} team",
+        "INTRO": "We opened a community Discord for {appName}. It is where we ship changelogs, take support tickets, run a bug bounty, and pay you in balance for participating. This post explains every way the server hands you free credits.",
+        "H_WHAT": "What lives in the server",
+        "P_WHAT": "Announcements, changelog, support tickets, bug bounty forum, feature and model requests, AI chat help, voice rooms, and a boosters lounge. Staff hangs out daily. Every public channel is read-only unless it is meant for chat, so the signal stays high.",
+        "H_EARN": "Link your Discord, get $1",
+        "P_EARN": "Open the verify channel, click Verify and Claim, and link your Discord on {appName} settings. The first time you link, the bot drops $1 of API balance into your account. One-time per account, no questions.",
+        "H_BOOST": "Boost the server, earn every month",
+        "P_BOOST": "Every server boost you start credits $1 instantly to your linked balance. As long as the boost stays active, the bot pays another $1 every 30 days. Two boosts means two payouts a month. Cancel and the payouts stop with you.",
+        "H_BUGS": "Bug bounty, up to $50",
+        "P_BUGS": "Find a real bug in the platform and report it in the bug-bounty forum. Staff picks a severity tier and the bot pays it out: Low $0.25, Medium $0.50, High $1, Critical $50. Whoever actually identified the bug gets paid, not just the thread starter.",
+        "H_JOIN": "Come hang out",
+        "P_JOIN": "All payouts land in the same balance you spend on API calls. Link once, claim everything you qualify for, then keep boosting, hunting, and shipping with us.",
+        "CTA": "Ready? <invite>Join the {appName} Discord</invite>, then <register>grab an API key</register> and <settings>link your account</settings> to claim your first $1."
+      },
+      "FREE_MODELS_AGGREGATED": {
+        "TITLE": "We aggregated 100+ free AI models into one endpoint",
+        "DESCRIPTION": "Over two days we wired 15 free providers into {appName}: 134 free model rows, one OpenAI-compatible endpoint, $0 per token. They are free for a reason and carry rate limits we cannot raise. Here is the honest version.",
+        "AUTHOR": "{appName} team",
+        "INTRO": "The free-LLM landscape is real but scattered: Groq, Gemini, Cloudflare, Mistral, OVHcloud and a dozen others each give away genuine capacity, behind a dozen signup pages, a dozen key formats, and a dozen incompatible APIs. Over two days we discovered, tested, and merged every legitimate permanent-free provider we could into {appName}. The result: 134 free model rows from 15 providers behind one OpenAI-compatible endpoint and one key.",
+        "H_WHAT": "What we added",
+        "P_WHAT": "Fifteen free providers, one at a time: Groq, Gemini, Cerebras, SambaNova, Mistral, Cloudflare Workers AI (two accounts), GitHub Models, Z.ai, OVHcloud, AI Horde, Pollinations, Cohere, Jina, NVIDIA NIM, and OpenRouter. That is 134 free model rows: Llama, gpt-oss, Qwen, Mistral, GLM, Nemotron and more, plus 30 free embedding models and 13 free image and audio models. Every one is probed end to end for HTTP, streaming, and tool calls before it goes live, the same authenticity and harness checks we run on paid models.",
+        "H_CAVEAT": "Free for a reason",
+        "P_CAVEAT": "These models are genuinely free, and that is exactly why they have limits. <s>The provider sets those limits, not us, and we cannot raise them.</s> Each upstream enforces its own rate limits: requests per minute, daily token quotas, Cloudflare neuron budgets, volunteer-queue priority. Hit a cap and that provider returns <c>429</c> until it resets. A free key that worked this morning can be exhausted by this afternoon. Free tier is best-effort throughput, not a guarantee. If your workload needs predictable latency and no surprise <c>429</c>s, use a paid model.",
+        "H_AGGREGATE": "Why aggregate them at all",
+        "P_AGGREGATE": "Because the alternative is fifteen accounts. Each provider has its own signup, its own key format, its own base URL, and its own quirks: Z.ai speaks the Zhipu V4 path, Cloudflare carries the account id in the URL, AI Horde wants an anonymous key, GitHub gates models behind a token scope. We absorbed all of that so you call them the way you call everything else: one OpenAI-compatible endpoint, one key, a model name. The honest rule we hold ourselves to: one real account per provider, caps accepted, nothing farmed, nothing pooled. We expose the free tier as a gift, not as a resale of someone else's quota.",
+        "H_FAILOVER": "How we soften the limits",
+        "P_FAILOVER": "Many of these models are served by more than one free provider. Llama 3.3 70B alone runs on seven of them. When several providers offer the same model, we collapse them into one published name and fail over automatically: if one upstream returns a <c>429</c> or goes quiet, the next healthy provider serving that model takes the request. That is the one lever we do control. It does not raise any single provider's cap, but it means a multi-source free model keeps answering long after any one of its providers is exhausted. Single-source free models have no fallback, so they stall when their one upstream is spent.",
+        "H_HONEST": "What we did not do",
+        "P_HONEST": "We did not add reverse proxies that re-serve OpenAI or Claude flagships without permission. We did not pull in personal-key aggregators whose tokens are non-transferable, or pool-of-pools services that farm and rotate other people's keys. Those exist and they are tempting and they are exactly the gray-market mess this gateway is meant to replace. Every provider on the list gives its free tier away on purpose, under its own terms. If a source could not pass that bar, it is not here.",
+        "H_TRY": "Try it",
+        "CTA": "All 134 free models are live behind one OpenAI-compatible endpoint. <register>Grab an API key</register> or <models>browse the model catalog</models> and filter for free. Just remember which tier you are on when a <c>429</c> shows up."
       }
     }
   },
@@ -774,14 +816,31 @@
     },
     "BADGE": "Integrations",
     "TITLE": "Integrations",
-    "SUBTITLE": "Use {appName} with your favorite AI tools. Pick a guide below to get started.",
+    "SUBTITLE": "Use {appName} with your favorite AI tools. Browse {count} setup guides below and pick the one for your client.",
     "QUICK_START": "Quick Start",
     "VIEW_GUIDE": "View Full Guide",
     "CTA_TITLE": "Ready to get started?",
     "CTA_DESC": "Get your API key and start using {appName} with any of these tools.",
     "CTA_SIGNUP": "Sign Up for API Key",
     "CTA_DASHBOARD": "Go to Dashboard",
-    "CTA_MODELS": "View All Models"
+    "CTA_MODELS": "View All Models",
+    "PATHS_TITLE": "Popular paths",
+    "PATHS_DESC": "Start from what you are trying to connect. Jump straight to the right base URL, route, and model setup.",
+    "PATH_ROLEPLAY_TITLE": "Roleplay clients",
+    "PATH_ROLEPLAY_DESC": "SillyTavern, Janitor.AI, Chub, and RisuAI.",
+    "PATH_CODING_TITLE": "Coding agents",
+    "PATH_CODING_DESC": "OpenCode, Cline, Roo Code, Kilo Code, Zed, and more.",
+    "PATH_GENERAL_TITLE": "Chat clients",
+    "PATH_GENERAL_DESC": "Desktop apps, web UIs, and generic OpenAI-compatible clients.",
+    "GUIDE_COUNT_ONE": "{count} guide",
+    "GUIDE_COUNT_OTHER": "{count} guides",
+    "FALLBACK_EYEBROW": "Don't see your client?",
+    "FALLBACK_TITLE": "Most OpenAI-compatible clients work out of the box.",
+    "FALLBACK_DESC": "{appName} follows the OpenAI Chat Completions, Anthropic Messages, and OpenAI Responses formats. Anything that lets you set a custom base URL and API key works. Use the base URL and pick any model from the catalog.",
+    "FALLBACK_MODELS": "Browse models",
+    "FALLBACK_DISCORD": "Ask in Discord",
+    "PATH_CLI_TITLE": "CLI tools",
+    "PATH_CLI_DESC": "Aider, Codex, Gemini CLI, OpenClaw, and terminal agents."
   },
   "DOCS_SIDEBAR": {
     "TITLE": "Documentation",
@@ -821,6 +880,40 @@
       "LINUX": "Linux"
     },
     "TOC_TITLE": "On this page",
+    "SETUP_GUIDE": {
+      "OVERVIEW": "Overview",
+      "QUICK_CONFIG": "Quick Config",
+      "QUICK_CONFIG_DESC": "Drop these values into the client. Your key auto-fills when you are signed in.",
+      "BASE_URL_LABEL": "Base URL",
+      "API_PATH_LABEL": "Endpoint",
+      "API_KEY_LABEL": "API Key",
+      "STEPS": "Step-by-step setup",
+      "STEP_LABEL": "Step {number}",
+      "COMPATIBILITY": "Compatibility",
+      "RECOMMENDED_MODELS": "Recommended models",
+      "RECOMMENDED_MODELS_DESC": "Free models that work well here. Paste any model id into the client.",
+      "GOTCHAS": "Gotchas",
+      "TOC_OVERVIEW": "Overview",
+      "TOC_QUICK_CONFIG": "Quick Config",
+      "TOC_STEPS": "Setup steps",
+      "TOC_COMPATIBILITY": "Compatibility",
+      "TOC_MODELS": "Recommended models",
+      "TOC_GOTCHAS": "Gotchas",
+      "COMPAT_CHAT_COMPLETIONS": "Chat Completions",
+      "COMPAT_MESSAGES": "Anthropic Messages",
+      "COMPAT_RESPONSES": "Responses API",
+      "COMPAT_STREAMING": "Streaming",
+      "COMPAT_TOOL_CALLING": "Tool calling",
+      "COMPAT_IMAGES": "Image input",
+      "CATEGORY_CODING": "Coding agents",
+      "CATEGORY_ROLEPLAY": "Roleplay clients",
+      "CATEGORY_GENERAL": "Chat clients",
+      "CATEGORY_CLI": "CLI tools",
+      "CATEGORY_CODING_DESC": "Editors and agents that write and run code against the API.",
+      "CATEGORY_ROLEPLAY_DESC": "Character chat and roleplay front-ends.",
+      "CATEGORY_GENERAL_DESC": "General-purpose chat apps and desktop clients.",
+      "CATEGORY_CLI_DESC": "Terminal tools and command-line agents."
+    },
     "GENERATE_API_KEY": "Generate API Key",
     "GENERATE_API_KEY_DESC": "Generate an API key to get started",
     "CC_SWITCH": {
@@ -1019,6 +1112,7 @@
       "BADGE": "Codex CLI",
       "TITLE": "OpenAI Codex CLI Setup Guide",
       "SUBTITLE": "Step-by-step guide to install and configure Codex CLI with {appName} on Windows, macOS, and Linux.",
+      "OVERVIEW_DESC": "Codex CLI is OpenAI's terminal-based coding agent that reads, writes, and runs code in your project through sandboxed, reviewable patches. Point its custom provider at {appName}'s base URL and you can drive it with any model from the catalog, not just OpenAI's.",
       "PROJECT_INTRO_TITLE": "What is Codex CLI?",
       "PROJECT_INTRO": "Codex CLI is a coding agent from OpenAI that runs locally on your computer.",
       "PROJECT_OFFICIAL": "Official Website",
@@ -1117,7 +1211,17 @@
       "CTA_DESC": "Get your API key and start using {appName} with Codex CLI.",
       "CTA_SIGNUP": "Sign Up for API Key",
       "CTA_DASHBOARD": "Go to Dashboard",
-      "CTA_MODELS": "View All Models"
+      "CTA_MODELS": "View All Models",
+      "STEP_1_TITLE": "Install Codex CLI",
+      "STEP_1_DESC": "Install the Codex CLI globally with npm.",
+      "STEP_2_TITLE": "Configure the model provider",
+      "STEP_2_DESC": "Edit `~/.codex/config.toml` to point Codex at {appName}. Set your model id and add a custom provider with {appName}''s base URL using the responses wire API.",
+      "STEP_3_TITLE": "Add your API key",
+      "STEP_3_DESC": "Write your {appName} API key into `~/.codex/auth.json` so Codex authenticates every request.",
+      "STEP_4_TITLE": "Start Codex",
+      "STEP_4_DESC": "Run `codex` in your project directory and start coding.",
+      "TS_1_DESC": "If Codex reports an unsupported endpoint, confirm `wire_api` is set to `responses` and the base URL ends in `/v1`.",
+      "TS_2_DESC": "A 401 means the key in `~/.codex/auth.json` is missing or stale. Paste a fresh key from your {appName} dashboard and rerun."
     },
     "GEMINI_CLI": {
       "META": {
@@ -1128,6 +1232,7 @@
       "BADGE": "Gemini CLI",
       "TITLE": "Gemini CLI Integration",
       "SUBTITLE": "Use {appName} with the Gemini CLI and any Google GenAI-compatible client. Access Gemini models alongside Claude and GPT.",
+      "OVERVIEW_DESC": "Gemini CLI is Google's open-source coding agent that edits files and runs commands straight from your terminal. Set {appName} as its base URL and you reach Gemini, Claude, GPT, and every other model through one OpenAI-compatible key instead of a Google-only account.",
       "INTRO_TITLE": "What is Gemini CLI?",
       "INTRO_DESC": "Gemini CLI is an open-source AI coding agent from Google that runs directly in your terminal, bringing the power of Gemini models to your development workflow.",
       "QUICK_START": "Quick Start",
@@ -1163,7 +1268,15 @@
       "TOC_MACOS_LINUX": "macOS / Linux",
       "TOC_WINDOWS": "Windows",
       "TOC_CONFIGURATION": "Configuration",
-      "TOC_USAGE": "Usage"
+      "TOC_USAGE": "Usage",
+      "STEP_1_TITLE": "Install Gemini CLI",
+      "STEP_1_DESC": "Install the Gemini CLI globally with npm. On Windows, run this inside WSL.",
+      "STEP_2_TITLE": "Set environment variables",
+      "STEP_2_DESC": "Create `~/.gemini/.env` with your {appName} API key and set `GOOGLE_GEMINI_BASE_URL` to {appName}''s bare base URL. The Gemini SDK appends its own path, so do not add `/v1`.",
+      "STEP_3_TITLE": "Launch Gemini",
+      "STEP_3_DESC": "Run `gemini` in your project directory to start the session.",
+      "TS_1_DESC": "If requests 404, you added a path to the base URL. `GOOGLE_GEMINI_BASE_URL` must be the bare host with no `/v1` suffix; the SDK appends the rest.",
+      "TS_2_DESC": "If authentication fails, confirm `GEMINI_API_KEY` in `~/.gemini/.env` is your {appName} key and the file is read by your shell session."
     },
     "OPENCLAW": {
       "META": {
@@ -1173,7 +1286,8 @@
       },
       "BADGE": "OpenClaw",
       "TITLE": "OpenClaw Integration",
-      "SUBTITLE": "Use {appName} as a model provider for your OpenClaw agent. Configure once and access every model through OpenClaw's gateway.",
+      "SUBTITLE": "Use {appName} as a model provider for your OpenClaw agent. Configure once and access every model through OpenClaw''s gateway.",
+      "OVERVIEW_DESC": "OpenClaw is an open-source agent platform for deploying self-hosted AI assistants across Telegram, Discord, Slack, and more from one configuration. Set its openai provider to {appName}'s base URL and every channel reaches the full model catalog through a single OpenAI-compatible key.",
       "INTRO_TITLE": "What is OpenClaw?",
       "INTRO_DESC": "OpenClaw is an open-source AI agent platform that lets you deploy and manage AI assistants with multi-channel support, self-hosting capabilities, and flexible model configuration.",
       "CORE_FEATURES": "Core Features",
@@ -1209,7 +1323,15 @@
       "TOC_INSTALLATION": "Installation",
       "TOC_CONFIGURATION": "Configuration",
       "TOC_KEY_CONFIG": "Key Configuration Details",
-      "TOC_START_SERVICE": "Start the Service"
+      "TOC_START_SERVICE": "Start the Service",
+      "STEP_1_TITLE": "Install and onboard",
+      "STEP_1_DESC": "Install OpenClaw globally with npm, then run `openclaw onboard` to scaffold the config.",
+      "STEP_2_TITLE": "Point the provider at {appName}",
+      "STEP_2_DESC": "Edit `~/.openclaw/config.json` so the openai provider uses {appName}''s base URL and reads the API key from the `OPENAI_API_KEY` env var. Set your default model under agents.",
+      "STEP_3_TITLE": "Start OpenClaw",
+      "STEP_3_DESC": "Run `openclaw start` to launch the agent against {appName}.",
+      "TS_1_DESC": "If OpenClaw cannot reach the API, confirm `providers.openai.baseUrl` ends in `/v1` and `OPENAI_API_KEY` is exported in the same shell.",
+      "TS_2_DESC": "If the model is rejected, set `agents.defaults.model.primary` to a valid id prefixed with `openai/`, copied exactly from {appName}''s models page."
     },
     "HERMES": {
       "META": {
@@ -1220,6 +1342,7 @@
       "BADGE": "Hermes Agent",
       "TITLE": "Hermes Agent Integration",
       "SUBTITLE": "Use {appName} as the model provider for Hermes Agent. Point one OpenAI-compatible endpoint at {appName} and reach every model.",
+      "OVERVIEW_DESC": "Hermes Agent by Nous Research is a self-improving AI agent that runs as a CLI, TUI, messaging gateway, or IDE integration with durable on-disk memory. Set its provider to custom and point the base URL at {appName} to route every turn through one OpenAI-compatible endpoint that serves all models.",
       "INTRO_TITLE": "What is Hermes Agent?",
       "INTRO_DESC": "Hermes Agent by Nous Research is an open-source, self-improving AI agent. It runs in the terminal, as a messaging gateway, and as an IDE integration, keeps durable memory on disk, and works with any OpenAI-compatible endpoint.",
       "CORE_FEATURES": "Core Features",
@@ -1261,7 +1384,17 @@
       "TOC_CONFIGURATION": "Configuration",
       "TOC_KEY_CONFIG": "Key Configuration Details",
       "TOC_CLI_ALT": "CLI alternative",
-      "TOC_RUN": "Run Hermes"
+      "TOC_RUN": "Run Hermes",
+      "STEP_1_TITLE": "Install Hermes",
+      "STEP_1_DESC": "Run the install script to set up Hermes Agent. On Windows, install it inside WSL2.",
+      "STEP_2_TITLE": "Point the provider at {appName}",
+      "STEP_2_DESC": "Edit `~/.hermes/config.yaml`, set `model.provider` to `custom`, and set `model.base_url` to {appName}''s base URL. Pick a default model with at least 64k context.",
+      "STEP_3_TITLE": "Add your API key",
+      "STEP_3_DESC": "Store your {appName} API key as `OPENAI_API_KEY` in `~/.hermes/.env` so Hermes authenticates every turn.",
+      "STEP_4_TITLE": "Run Hermes",
+      "STEP_4_DESC": "Start the TUI with `hermes --tui` and begin working.",
+      "TS_1_DESC": "Hermes rejects models under 64,000 tokens of context at startup. Pick a larger-context model from {appName}''s models page.",
+      "TS_2_DESC": "If startup fails its `/v1/models` check, confirm `model.base_url` ends in `/v1` and `OPENAI_API_KEY` is set in `~/.hermes/.env`."
     },
     "SILLYTAVERN": {
       "META": {
@@ -1292,11 +1425,11 @@
       "STEP_3_TITLE": "Pick Custom (OpenAI-compatible)",
       "STEP_3_DESC": "In the Chat Completion Source dropdown, choose Custom (OpenAI-compatible).",
       "STEP_4_TITLE": "Paste the base URL",
-      "STEP_4_DESC": "Enter {appName}'s base URL ending in `/v1`. Do not add `/chat/completions`.",
+      "STEP_4_DESC": "Enter {appName}''s base URL ending in `/v1`. Do not add `/chat/completions`.",
       "STEP_5_TITLE": "Paste your API key",
       "STEP_5_DESC": "Paste your {appName} API key into the Custom API Key field.",
       "STEP_6_TITLE": "Connect and pick a model",
-      "STEP_6_DESC": "Click Connect. The Model dropdown auto-populates from {appName}'s model list; pick the one you want.",
+      "STEP_6_DESC": "Click Connect. The Model dropdown auto-populates from {appName}''s model list; pick the one you want.",
       "STEP_7_TITLE": "Optional: bypass status check",
       "STEP_7_DESC": "If SillyTavern still shows a warning banner even though messages go through, enable Bypass API Status Check.",
       "MODELS_DROPDOWN_TITLE": "Model dropdown behavior",
@@ -1323,7 +1456,11 @@
       "TOC_QUICK_CONFIG": "Quick Config",
       "TOC_STEPS": "Step-by-step setup",
       "TOC_MODELS_DROPDOWN": "Model dropdown behavior",
-      "TOC_TROUBLESHOOTING": "Troubleshooting"
+      "TOC_TROUBLESHOOTING": "Troubleshooting",
+      "GOTCHA_1": "Paste the base URL ending in `/v1` only. SillyTavern appends `/chat/completions` itself; adding it yourself returns a 400 error.",
+      "GOTCHA_2": "If the model dropdown comes up empty, the connection failed. Re-check the base URL, then enable Bypass API Status Check so SillyTavern stops short-circuiting the list.",
+      "GOTCHA_3": "A 401 means the key is expired or mistyped. Generate a fresh key in your {appName} dashboard and paste it without leading or trailing spaces.",
+      "GOTCHA_4": "If streaming cuts off mid-sentence, disable Streaming to confirm the stream side is the cause, then re-enable it. Corporate proxies that strip the `data:` prefix can also break it."
     },
     "JANITOR_AI": {
       "META": {
@@ -1333,7 +1470,7 @@
       },
       "BADGE": "Janitor.AI",
       "TITLE": "Janitor.AI Integration Guide",
-      "SUBTITLE": "Connect {appName} to Janitor.AI as a custom proxy with the exact URL format Janitor's API Settings panel expects.",
+      "SUBTITLE": "Connect {appName} to Janitor.AI as a custom proxy with the exact URL format Janitor''s API Settings panel expects.",
       "INTRO_TITLE": "What is Janitor.AI?",
       "INTRO_DESC": "Janitor.AI is a browser-based character chat platform. It ships a built-in free model and lets you add any OpenAI-compatible proxy for unlimited access. {appName} plugs in at the API Settings panel.",
       "INTRO_LINK_DOCS": "Official Janitor.AI proxy quickstart",
@@ -1353,7 +1490,7 @@
       "STEP_2_TITLE": "Add Configuration",
       "STEP_2_DESC": "Select API Settings, then click Add Configuration.",
       "STEP_3_TITLE": "Fill the four fields",
-      "STEP_3_DESC": "Config Name (anything), Model Name (from {appName}'s models page), Proxy URL (the full `/v1/chat/completions` URL), API Key.",
+      "STEP_3_DESC": "Config Name (anything), Model Name (from {appName}''s models page), Proxy URL (the full `/v1/chat/completions` URL), API Key.",
       "STEP_4_TITLE": "Click Add",
       "STEP_4_DESC": "Save the configuration into the list of available proxies.",
       "STEP_5_TITLE": "Click Save Settings",
@@ -1366,7 +1503,7 @@
       "KEY_INVISIBILITY_DESC": "Janitor.AI masks the API key field after save; you cannot copy it back out. Store the key in a password manager before you paste it, so rotation or a second browser profile does not require a new key generation.",
       "TROUBLESHOOTING": "Troubleshooting",
       "TS_1_TITLE": "A 'Free tier limit reached' banner appears.",
-      "TS_1_DESC": "That banner is Janitor's built-in tier, not {appName}. Switch the chat to your saved proxy configuration in the model dropdown at the top of the chat.",
+      "TS_1_DESC": "That banner is Janitor''s built-in tier, not {appName}. Switch the chat to your saved proxy configuration in the model dropdown at the top of the chat.",
       "TS_2_TITLE": "Proxy does not respond after save.",
       "TS_2_DESC": "You did not hard-refresh. Press Ctrl+Shift+R or Cmd+Shift+R and retry.",
       "TS_3_TITLE": "404 Not Found.",
@@ -1376,7 +1513,7 @@
       "TS_5_TITLE": "Response cuts off mid-sentence.",
       "TS_5_DESC": "Increase Max Tokens in Janitor's Generation Settings. This is not a proxy issue; it is a Janitor-side output limit.",
       "TS_6_TITLE": "Wrong model replies, or a 'model not found' error.",
-      "TS_6_DESC": "The Model Name field must match a model ID exactly. Copy-paste from {appName}'s models page rather than retyping.",
+      "TS_6_DESC": "The Model Name field must match a model ID exactly. Copy-paste from {appName}''s models page rather than retyping.",
       "CTA_TITLE": "Ready to chat?",
       "CTA_DESC": "Get your {appName} API key and run Janitor.AI against every model we support.",
       "CTA_SIGNUP": "Sign Up",
@@ -1387,7 +1524,12 @@
       "TOC_STEPS": "Step-by-step setup",
       "TOC_REFRESH_SAVE": "Why the refresh is required",
       "TOC_KEY_INVISIBILITY": "Save your API key externally",
-      "TOC_TROUBLESHOOTING": "Troubleshooting"
+      "TOC_TROUBLESHOOTING": "Troubleshooting",
+      "GOTCHA_1": "Paste the full Proxy URL ending in `/v1/chat/completions`, not just the base URL. If Janitor shows an 'Add /chat/completions to URL' checkbox, leave it off.",
+      "GOTCHA_2": "Janitor.AI caches the proxy map at page load, so a saved configuration only activates after a hard-refresh. Press Ctrl+Shift+R or Cmd+Shift+R before testing.",
+      "GOTCHA_3": "Janitor masks the API key after save and will not show it again. Store the key in a password manager first so rotation does not force a new key.",
+      "GOTCHA_4": "A ''Free tier limit reached'' banner is Janitor''s built-in tier, not {appName}. Switch the chat to your saved proxy configuration in the model dropdown.",
+      "GOTCHA_5": "The Model Name must match a model id exactly. Copy-paste it from {appName}''s models page rather than retyping."
     },
     "RISUAI": {
       "META": {
@@ -1425,7 +1567,7 @@
       "STEP_5_TITLE": "Paste the API key",
       "STEP_5_DESC": "Paste your {appName} API key into the API Key field. Some RisuAI builds label this field Authorization; use that field if the API Key field does not appear.",
       "STEP_6_TITLE": "Paste the Model ID",
-      "STEP_6_DESC": "Type or paste the exact model name from {appName}'s models page.",
+      "STEP_6_DESC": "Type or paste the exact model name from {appName}''s models page.",
       "STEP_7_TITLE": "Save",
       "STEP_7_DESC": "Close the settings panel; RisuAI writes configuration to local storage.",
       "STEP_8_TITLE": "Send a test message",
@@ -1442,7 +1584,7 @@
       "TS_3_TITLE": "401 Unauthorized.",
       "TS_3_DESC": "RisuAI builds sometimes expose both API Key and Authorization fields; only one is read depending on version. Move your key to the other field and retry.",
       "TS_4_TITLE": "Model not found.",
-      "TS_4_DESC": "The Model ID must match a model name exactly. Copy-paste from {appName}'s models page; do not retype.",
+      "TS_4_DESC": "The Model ID must match a model name exactly. Copy-paste from {appName}''s models page; do not retype.",
       "TS_5_TITLE": "Translation or summary feature is broken.",
       "TS_5_DESC": "The Auxiliary Model is unconfigured. Repeat setup for the Auxiliary Model slot.",
       "TS_6_TITLE": "Streaming output is chunked or missing pieces.",
@@ -1459,24 +1601,28 @@
       "TOC_STEPS": "Step-by-step setup",
       "TOC_AUTOFILL_WARNING": "Why the autofill toggle matters",
       "TOC_AUX_MODEL": "Configure the Auxiliary Model",
-      "TOC_TROUBLESHOOTING": "Troubleshooting"
+      "TOC_TROUBLESHOOTING": "Troubleshooting",
+      "GOTCHA_1": "Uncheck Autofill Request URL before you paste anything. While it is on, RisuAI rewrites your URL to its own default and silently breaks the connection.",
+      "GOTCHA_2": "A RisuAI update can re-enable Autofill Request URL on its own. If a working setup suddenly stops responding, re-open Custom Models and confirm the toggle is still off.",
+      "GOTCHA_3": "Some RisuAI builds expose both an API Key field and an Authorization field, and only one is read per version. If you get a 401, move your key to the other field.",
+      "GOTCHA_4": "The Model ID is a manual text field with no dropdown in Custom Models mode. Copy-paste the exact model name from {appName}''s models page; do not retype it."
     },
     "CHUB": {
       "META": {
         "TITLE": "Chub / Venus Integration Guide | {appName}",
-        "DESCRIPTION": "Connect Chub.ai (Venus) to {appName} as a reverse proxy. Includes a first-party relay disclaimer to counter Chub's built-in third-party-proxy warning.",
+        "DESCRIPTION": "Connect Chub.ai (Venus) to {appName} as a reverse proxy. Includes a first-party relay disclaimer to counter Chub''s built-in third-party-proxy warning.",
         "KEYWORDS": "Chub AI, Venus AI, Chub reverse proxy, {appName} Chub, roleplay AI proxy, OpenAI-compatible Chub, Chub OpenAI setup"
       },
       "BADGE": "Chub / Venus",
       "TITLE": "Chub / Venus Integration Guide",
-      "SUBTITLE": "Connect {appName} to Chub.ai (Venus) through the Secrets panel's Reverse proxy option.",
+      "SUBTITLE": "Connect {appName} to Chub.ai (Venus) through the Secrets panel''s Reverse proxy option.",
       "INTRO_TITLE": "What is Chub / Venus?",
       "INTRO_DESC": "Chub.ai (formerly Venus) is a browser-based character chat platform with a 60,000-character library. It connects to OpenAI-compatible endpoints through its Secrets panel.",
       "INTRO_LINK_DOCS": "Official Chub.ai API Connections documentation",
       "OVERVIEW": "Overview",
       "OVERVIEW_DESC": "Chub's Secrets panel accepts a full `/v1/chat/completions` URL plus your API key. A Check your proxy button verifies the connection before you pick a model in Prompt Structure.",
       "TRUST_TITLE": "{appName} is a first-party API relay",
-      "TRUST_DESC": "Chub's UI warns about 'reverse proxies created by unauthorized third parties.' That warning targets community-run relays. {appName} is a first-party API relay operated by the infrastructure owner, analogous to OpenRouter. Your API key, usage logs, and billing live on {appName} directly.",
+      "TRUST_DESC": "Chub''s UI warns about ''reverse proxies created by unauthorized third parties.'' That warning targets community-run relays. {appName} is a first-party API relay operated by the infrastructure owner, analogous to OpenRouter. Your API key, usage logs, and billing live on {appName} directly.",
       "TRUST_LINK_PRIVACY": "Privacy policy",
       "TRUST_LINK_TERMS": "Terms of service",
       "QUICK_CONFIG": "Quick Config",
@@ -1511,9 +1657,9 @@
       "TS_3_TITLE": "Responses come back empty.",
       "TS_3_DESC": "Prompt Structure has the wrong API selected. Open Configuration → Prompt Structure and switch the API dropdown to OpenAI.",
       "TS_4_TITLE": "401 Unauthorized.",
-      "TS_4_DESC": "Your API key was rotated or typo'd. Generate a new key at your {appName} dashboard, then re-paste into Reverse proxy.",
+      "TS_4_DESC": "Your API key was rotated or typo''d. Generate a new key at your {appName} dashboard, then re-paste into Reverse proxy.",
       "TS_5_TITLE": "Context length warning.",
-      "TS_5_DESC": "Lower the max context in Prompt Structure, or pick a model with a larger context on {appName}'s models page.",
+      "TS_5_DESC": "Lower the max context in Prompt Structure, or pick a model with a larger context on {appName}''s models page.",
       "TS_6_TITLE": "After reload the proxy check says pass but messages fail.",
       "TS_6_DESC": "Chub caches the proxy-check state across sessions. Press Check your proxy once on a new session to force a fresh check.",
       "CTA_TITLE": "Ready to chat?",
@@ -1526,7 +1672,359 @@
       "TOC_QUICK_CONFIG": "Quick Config",
       "TOC_STEPS": "Step-by-step setup",
       "TOC_PICK_MODEL": "Model dropdown needs proxy check",
-      "TOC_TROUBLESHOOTING": "Troubleshooting"
+      "TOC_TROUBLESHOOTING": "Troubleshooting",
+      "STEP_CONFIG_TITLE": "Open Configuration and pick OpenAI",
+      "STEP_CONFIG_DESC": "Return to the hamburger menu, open Configuration, then Prompt Structure. Set the API dropdown to OpenAI and select your target model from the model dropdown.",
+      "GOTCHA_1": "Paste the full URL ending in `/v1/chat/completions` into the Reverse proxy field. The base URL alone will fail the Check your proxy button.",
+      "GOTCHA_2": "The model dropdown in Prompt Structure stays empty until the proxy check passes. Run Check your proxy in Secrets first, then return to pick a model.",
+      "GOTCHA_3": "Chub masks the API key after save and you cannot copy it back out. Save the key in a password manager before pasting so rotation does not force a new key.",
+      "GOTCHA_4": "Chub''s UI warns about reverse proxies from unauthorized third parties; that targets community relays. {appName} is a first-party relay, so your key, logs, and billing stay on {appName}."
+    },
+    "LIBRECHAT": {
+      "META": {
+        "TITLE": "LibreChat Integration Guide | {appName}",
+        "DESCRIPTION": "Connect LibreChat to {appName} with a custom OpenAI-compatible endpoint. Add the block to librechat.yaml, set the env var, and the model picker auto-fills.",
+        "KEYWORDS": "LibreChat, LibreChat custom endpoint, LibreChat OpenAI compatible, {appName} LibreChat, self-hosted chat UI"
+      },
+      "BADGE": "LibreChat",
+      "TITLE": "LibreChat Integration Guide",
+      "SUBTITLE": "Connect {appName} to LibreChat through a custom OpenAI-compatible endpoint.",
+      "OVERVIEW_DESC": "LibreChat exposes any OpenAI-compatible host through endpoints.custom. Add a {appName} block, set the env var, and the model picker auto-fills from the catalog.",
+      "STEP_1_TITLE": "Edit librechat.yaml",
+      "STEP_1_DESC": "In your LibreChat install, add a custom endpoint block under endpoints.custom.",
+      "STEP_2_TITLE": "Add the env var",
+      "STEP_2_DESC": "Set your {appName} API key in the LibreChat .env file.",
+      "STEP_3_TITLE": "Restart LibreChat",
+      "STEP_3_DESC": "Restart the container or process. The {appName} endpoint appears in the chat dropdown.",
+      "TS_1_DESC": "Use single-brace syntax for env-var values, not the secrets syntax some other configs use.",
+      "TS_2_DESC": "If a model rejects extra OpenAI params, add them to dropParams (for example frequency_penalty and presence_penalty).",
+      "TS_3_DESC": "fetch: true auto-populates from the {appName} catalog. Combine it with default to surface preferred models first."
+    },
+    "OPEN_WEBUI": {
+      "META": {
+        "TITLE": "Open WebUI Integration Guide | {appName}",
+        "DESCRIPTION": "Connect Open WebUI to {appName} as an OpenAI connection in the admin panel. The model picker auto-fills from the catalog.",
+        "KEYWORDS": "Open WebUI, Open WebUI OpenAI connection, {appName} Open WebUI, self-hosted ChatGPT UI"
+      },
+      "BADGE": "Open WebUI",
+      "TITLE": "Open WebUI Integration Guide",
+      "SUBTITLE": "Connect {appName} to Open WebUI as a native OpenAI connection.",
+      "OVERVIEW_DESC": "Open WebUI lets admins add multiple OpenAI-compatible connections. Add {appName} and the model picker auto-fills from the catalog.",
+      "STEP_1_TITLE": "Open the admin panel",
+      "STEP_1_DESC": "Sign in as admin, open the Admin Panel, go to Settings, then Connections.",
+      "STEP_2_TITLE": "Add a new OpenAI connection",
+      "STEP_2_DESC": "Under OpenAI API, click the + button to add a connection.",
+      "STEP_3_TITLE": "Fill the connection",
+      "STEP_3_DESC": "Enter the base URL and your {appName} API key.",
+      "STEP_4_TITLE": "Save and pick a model",
+      "STEP_4_DESC": "Save the connection. The model picker pulls the {appName} catalog automatically.",
+      "TS_1_DESC": "A broad key can return many models. Use Open WebUI's model filter or a curated key if the dropdown gets noisy.",
+      "TS_2_DESC": "Open WebUI also has a separate Ollama connection list. Make sure you add to OpenAI API, not Ollama."
+    },
+    "LOBECHAT": {
+      "META": {
+        "TITLE": "LobeChat Integration Guide | {appName}",
+        "DESCRIPTION": "Connect LobeChat to {appName} through Add Custom Provider or Docker env vars. A slick open-source web client for every model.",
+        "KEYWORDS": "LobeChat, LobeChat custom provider, {appName} LobeChat, open-source web chat UI"
+      },
+      "BADGE": "LobeChat",
+      "TITLE": "LobeChat Integration Guide",
+      "SUBTITLE": "Connect {appName} to LobeChat through a custom provider or Docker env vars.",
+      "OVERVIEW_DESC": "LobeChat supports any OpenAI-compatible host through env vars or its Add Custom Provider UI. Pair it with {appName} for a slick local web client.",
+      "STEP_1_TITLE": "Open Settings, then Language Model",
+      "STEP_1_DESC": "Click Add Custom Provider and fill in the form.",
+      "STEP_2_TITLE": "Add models",
+      "STEP_2_DESC": "Save the provider, then add the {appName} models you want. LobeChat surfaces them in the model picker.",
+      "STEP_3_TITLE": "Optional: Docker env vars",
+      "STEP_3_DESC": "If you self-host, set the OpenAI env vars at container runtime instead.",
+      "TS_1_DESC": "To keep first-party OpenAI alongside {appName}, use Add Custom Provider, not the OpenAI env vars.",
+      "TS_2_DESC": "Provider ID must be lowercase. unorouter works, UnoRouter does not."
+    },
+    "ANYTHINGLLM": {
+      "META": {
+        "TITLE": "AnythingLLM Integration Guide | {appName}",
+        "DESCRIPTION": "Connect AnythingLLM to {appName} as a Generic OpenAI provider. Type the model, set the context window, save.",
+        "KEYWORDS": "AnythingLLM, AnythingLLM Generic OpenAI, {appName} AnythingLLM, self-hosted RAG"
+      },
+      "BADGE": "AnythingLLM",
+      "TITLE": "AnythingLLM Integration Guide",
+      "SUBTITLE": "Connect {appName} to AnythingLLM as a Generic OpenAI provider.",
+      "OVERVIEW_DESC": "AnythingLLM treats {appName} as a Generic OpenAI provider. Type the model, set the context window, and save.",
+      "STEP_1_TITLE": "Open LLM Preference",
+      "STEP_1_DESC": "Click Settings in the sidebar, then LLM Preference.",
+      "STEP_2_TITLE": "Pick Generic OpenAI",
+      "STEP_2_DESC": "Set LLM Provider to Generic OpenAI and fill in the form.",
+      "STEP_3_TITLE": "Save",
+      "STEP_3_DESC": "Hit save. AnythingLLM uses {appName} for chat workspaces.",
+      "TS_1_DESC": "AnythingLLM does not auto-fetch the catalog for Generic OpenAI. Type the model name and context window manually.",
+      "TS_2_DESC": "The Embedding Preference tab is separate. Leave it on a working embedding provider unless {appName} exposes embeddings on your plan."
+    },
+    "CHERRY_STUDIO": {
+      "META": {
+        "TITLE": "Cherry Studio Integration Guide | {appName}",
+        "DESCRIPTION": "Connect Cherry Studio to {appName} as an OpenAI provider. Add the host and key, then load the models you want.",
+        "KEYWORDS": "Cherry Studio, Cherry Studio OpenAI provider, {appName} Cherry Studio, cross-platform desktop chat"
+      },
+      "BADGE": "Cherry Studio",
+      "TITLE": "Cherry Studio Integration Guide",
+      "SUBTITLE": "Connect {appName} to Cherry Studio as an OpenAI provider.",
+      "OVERVIEW_DESC": "Cherry Studio supports many providers through one UI. Add {appName} as an OpenAI provider and load the models you want as separate entries.",
+      "STEP_1_TITLE": "Open Model Provider",
+      "STEP_1_DESC": "Go to Settings, then Model Provider, and click Add Provider.",
+      "STEP_2_TITLE": "Pick OpenAI",
+      "STEP_2_DESC": "Set the provider type to OpenAI. Fill in the name, host, and key.",
+      "STEP_3_TITLE": "Add models",
+      "STEP_3_DESC": "Click Manage under Models, then Add Model. Paste {appName} model ids, one per row.",
+      "TS_1_DESC": "Use the OpenAI provider type and include /v1 in the host yourself. Some other types try to add their own path.",
+      "TS_2_DESC": "Cherry's Test button hits chat completions with a one-token probe. Reasoning models may report a length finish; that still confirms auth."
+    },
+    "TYPINGMIND": {
+      "META": {
+        "TITLE": "TypingMind Integration Guide | {appName}",
+        "DESCRIPTION": "Connect TypingMind to {appName} by pasting a custom OpenAI-compatible endpoint. Use any model.",
+        "KEYWORDS": "TypingMind, TypingMind custom model, {appName} TypingMind, BYOK web frontend"
+      },
+      "BADGE": "TypingMind",
+      "TITLE": "TypingMind Integration Guide",
+      "SUBTITLE": "Connect {appName} to TypingMind as a custom OpenAI-compatible model.",
+      "OVERVIEW_DESC": "TypingMind lets you paste any OpenAI-compatible endpoint as a custom model. Add {appName} and use any model from the catalog.",
+      "STEP_1_TITLE": "Open Models",
+      "STEP_1_DESC": "Click the gear icon, go to Models, then Add Custom Models.",
+      "STEP_2_TITLE": "Pick OpenAI as the API type",
+      "STEP_2_DESC": "TypingMind uses the OpenAI Chat Completions schema for custom endpoints.",
+      "STEP_3_TITLE": "Fill the endpoint",
+      "STEP_3_DESC": "Enter the base URL, your {appName} API key, and a model id.",
+      "STEP_4_TITLE": "Test and add",
+      "STEP_4_DESC": "Toggle Plugins or Vision only if your model supports them. Click Test, then Add Model.",
+      "TS_1_DESC": "Plugins (function calling) only work on models with native tool support. Pick a tool-capable model for plugin-driven flows.",
+      "TS_2_DESC": "The Vision toggle only works on models that support image input. Check the catalog before enabling it."
+    },
+    "BOLTAI": {
+      "META": {
+        "TITLE": "BoltAI Integration Guide | {appName}",
+        "DESCRIPTION": "Connect BoltAI to {appName} as a custom OpenAI-compatible server. Float AI in any macOS app.",
+        "KEYWORDS": "BoltAI, BoltAI OpenAI compatible, {appName} BoltAI, macOS AI assistant"
+      },
+      "BADGE": "BoltAI",
+      "TITLE": "BoltAI Integration Guide",
+      "SUBTITLE": "Connect {appName} to BoltAI as a custom OpenAI-compatible server.",
+      "OVERVIEW_DESC": "BoltAI floats AI in any macOS app. Add {appName} as a custom OpenAI-compatible server and pick the model you want.",
+      "STEP_1_TITLE": "Open Models settings",
+      "STEP_1_DESC": "Open BoltAI settings, go to Models, click +, and choose OpenAI-compatible Server.",
+      "STEP_2_TITLE": "Fill the server",
+      "STEP_2_DESC": "Enter the name, base URL, key, model id, and context length.",
+      "STEP_3_TITLE": "Toggle streaming",
+      "STEP_3_DESC": "Turn Streaming on so BoltAI surfaces tokens as they arrive.",
+      "TS_1_DESC": "BoltAI does not auto-fetch the model list for this connector. Each {appName} model is one manual entry.",
+      "TS_2_DESC": "Set Context Length manually. Skipping it can clip long prompts or responses."
+    },
+    "PAGE_ASSIST": {
+      "META": {
+        "TITLE": "Page Assist Integration Guide | {appName}",
+        "DESCRIPTION": "Connect Page Assist to {appName} as a custom OpenAI-compatible API. Use AI in the browser side panel.",
+        "KEYWORDS": "Page Assist, Page Assist OpenAI compatible, {appName} Page Assist, browser AI extension"
+      },
+      "BADGE": "Page Assist",
+      "TITLE": "Page Assist Integration Guide",
+      "SUBTITLE": "Connect {appName} to Page Assist as a custom OpenAI-compatible API.",
+      "OVERVIEW_DESC": "Page Assist runs in the browser side panel. Add {appName} as a custom OpenAI-compatible API and pick the model you want.",
+      "STEP_1_TITLE": "Open Page Assist settings",
+      "STEP_1_DESC": "Click the Page Assist toolbar icon and open the gear icon for settings.",
+      "STEP_2_TITLE": "Add a Custom OpenAI provider",
+      "STEP_2_DESC": "Go to OpenAI Compatible API, click Add Provider, then Custom.",
+      "STEP_3_TITLE": "Fill the provider",
+      "STEP_3_DESC": "Enter the provider name, base URL, and your {appName} API key.",
+      "STEP_4_TITLE": "Add models",
+      "STEP_4_DESC": "Open the Models section in Page Assist and add the {appName} models you want to chat with.",
+      "TS_1_DESC": "The Custom provider does not auto-discover models. Add them manually.",
+      "TS_2_DESC": "Auto-discovery is reserved for built-in providers like LM Studio and Ollama."
+    },
+    "CHATBOX": {
+      "META": {
+        "TITLE": "Chatbox Integration Guide | {appName}",
+        "DESCRIPTION": "Connect Chatbox to {appName} using OpenAI API Compatible mode. Split the URL into Host and Path.",
+        "KEYWORDS": "Chatbox, Chatbox OpenAI compatible, {appName} Chatbox, cross-platform chat client"
+      },
+      "BADGE": "Chatbox",
+      "TITLE": "Chatbox Integration Guide",
+      "SUBTITLE": "Connect {appName} to Chatbox using OpenAI API Compatible mode.",
+      "OVERVIEW_DESC": "Chatbox supports any OpenAI-compatible base. Use OpenAI API Compatible mode and split the URL into Host and Path.",
+      "STEP_1_TITLE": "Open Add Custom Provider",
+      "STEP_1_DESC": "Click Settings, then Display, then AI Provider, then Add Custom Provider.",
+      "STEP_2_TITLE": "Pick OpenAI API Compatible mode",
+      "STEP_2_DESC": "Do not pick the Responses API option unless you specifically want the Responses route.",
+      "STEP_3_TITLE": "Split host and path",
+      "STEP_3_DESC": "Chatbox needs Host and Path as separate fields. Put the chat completions path in API Path.",
+      "STEP_4_TITLE": "Add models",
+      "STEP_4_DESC": "Add the {appName} models you want under the Models section.",
+      "TS_1_DESC": "Putting /v1 in Host with an empty Path does not work. Keep the full chat completions path in API Path.",
+      "TS_2_DESC": "Use OpenAI API Compatible, not OpenAI Responses API Compatible, unless you specifically want the Responses spec."
+    },
+    "BIG_AGI": {
+      "META": {
+        "TITLE": "Big-AGI Integration Guide | {appName}",
+        "DESCRIPTION": "Connect Big-AGI to {appName} as an OpenAI source. Big-AGI auto-fetches the catalog.",
+        "KEYWORDS": "Big-AGI, Big-AGI OpenAI source, {appName} Big-AGI, web AI workbench"
+      },
+      "BADGE": "Big-AGI",
+      "TITLE": "Big-AGI Integration Guide",
+      "SUBTITLE": "Connect {appName} to Big-AGI as a custom OpenAI source.",
+      "OVERVIEW_DESC": "Big-AGI''s OpenAI vendor accepts a custom API endpoint. Drop {appName} in and Big-AGI auto-fetches the model catalog.",
+      "STEP_1_TITLE": "Open Models",
+      "STEP_1_DESC": "Click Models and Add a model source. Pick OpenAI.",
+      "STEP_2_TITLE": "Fill the source",
+      "STEP_2_DESC": "Enter your {appName} API key and the API endpoint.",
+      "STEP_3_TITLE": "Refresh models",
+      "STEP_3_DESC": "Click the Models button to refresh the list. Big-AGI pulls in the {appName} catalog.",
+      "TS_1_DESC": "Leave the Helicone Key blank. Adding it forces the host to a different domain.",
+      "TS_2_DESC": "Disable the Moderation toggle. {appName} does not expose a moderation endpoint."
+    },
+    "OPENCODE": {
+      "META": {
+        "TITLE": "OpenCode Setup Guide | {appName}",
+        "DESCRIPTION": "Connect OpenCode to {appName} by adding a custom OpenAI-compatible provider in opencode.json. Step-by-step config with the exact base URL.",
+        "KEYWORDS": "OpenCode, OpenCode setup, OpenCode provider, {appName} OpenCode, coding agent, OpenAI-compatible"
+      },
+      "BADGE": "OpenCode",
+      "TITLE": "OpenCode Setup Guide",
+      "SUBTITLE": "Add {appName} as a custom provider in OpenCode and pick any model as the active coding agent.",
+      "OVERVIEW_DESC": "OpenCode reads its providers from a JSON config file. Add {appName} as a custom provider with the OpenAI-compatible adapter and you can pick any {appName} model as the active model.",
+      "STEP_1_TITLE": "Open the OpenCode config file",
+      "STEP_1_DESC": "Press Ctrl + O inside OpenCode and paste the path. On Windows, replace YOUR_USER with your Windows username.",
+      "STEP_2_TITLE": "Replace the file contents",
+      "STEP_2_DESC": "Wipe the file and paste the {appName} provider block. Drop in your {appName} API key and pick any model from the catalog.",
+      "STEP_3_TITLE": "Save and reload",
+      "STEP_3_DESC": "Press Ctrl + S to save, then Ctrl + Shift + P and run Developer: Reload Window. OpenCode picks up the new provider on reload.",
+      "STEP_4_TITLE": "Pick a model",
+      "STEP_4_DESC": "Open the model picker in OpenCode and switch to the model you added. The OpenAI-compatible adapter handles streaming and tool calling automatically.",
+      "GOTCHA_1": "OpenCode uses the npm @ai-sdk/openai-compatible adapter under the hood, so you can keep adding models under \"models\" without restarting.",
+      "GOTCHA_2": "If Developer: Reload Window does not show your provider, double check the JSON saved without trailing commas.",
+      "GOTCHA_3": "Use exact model ids from the {appName} catalog. Strip any leading provider prefix if a copy-paste added one."
+    },
+    "KILO_CODE": {
+      "META": {
+        "TITLE": "Kilo Code Setup Guide | {appName}",
+        "DESCRIPTION": "Connect Kilo Code to {appName} by adding a custom OpenAI-compatible provider in the VSCode sidebar. Step-by-step config.",
+        "KEYWORDS": "Kilo Code, Kilo Code setup, VSCode coding agent, {appName} Kilo Code, custom provider, OpenAI-compatible"
+      },
+      "BADGE": "Kilo Code",
+      "TITLE": "Kilo Code Setup Guide",
+      "SUBTITLE": "Connect a custom {appName} provider directly in the Kilo Code VSCode sidebar without leaving the editor.",
+      "OVERVIEW_DESC": "Kilo Code is a VSCode extension that lets you connect a custom OpenAI-compatible provider directly in its sidebar. {appName} works without leaving the editor.",
+      "STEP_1_TITLE": "Install Kilo Code",
+      "STEP_1_DESC": "Open VSCode, go to the Extensions panel, search for Kilo Code, and install it.",
+      "STEP_2_TITLE": "Open settings",
+      "STEP_2_DESC": "Click the Kilo Code icon in the sidebar, then the gear icon in the top right of the panel.",
+      "STEP_3_TITLE": "Add a custom provider",
+      "STEP_3_DESC": "Open Providers, click + Connect next to Custom Provider, and fill the form.",
+      "STEP_4_TITLE": "Fill the connection form",
+      "STEP_4_DESC": "Use these exact values. The model field accepts any model id from the {appName} catalog.",
+      "STEP_5_TITLE": "Save and chat",
+      "STEP_5_DESC": "Click Save Provider. Kilo Code uses the new provider for the next agent run.",
+      "GOTCHA_1": "If pasting the key truncates to a few characters, the field is masking it as you type. Click the eye icon to confirm the full key was pasted.",
+      "GOTCHA_2": "A 404 unknown API route usually means the model id is wrong. Use one from the {appName} models list.",
+      "GOTCHA_3": "Keep Supports tools on so Kilo can run shell, file edits, and search tools."
+    },
+    "ZED": {
+      "META": {
+        "TITLE": "Zed IDE Setup Guide | {appName}",
+        "DESCRIPTION": "Connect the Zed editor agent to {appName} by adding a custom OpenAI-compatible provider. Step-by-step config.",
+        "KEYWORDS": "Zed, Zed IDE, Zed agent, {appName} Zed, custom provider, OpenAI-compatible editor"
+      },
+      "BADGE": "Zed IDE",
+      "TITLE": "Zed IDE Setup Guide",
+      "SUBTITLE": "Add {appName} as a custom OpenAI-compatible provider in Zed and the built-in agent handles the rest.",
+      "OVERVIEW_DESC": "Zed has a built-in agent panel. Add {appName} as a custom OpenAI-compatible provider and Zed handles the rest.",
+      "STEP_1_TITLE": "Open the Zed assistant",
+      "STEP_1_DESC": "Open Zed and reveal the assistant panel from the right sidebar.",
+      "STEP_2_TITLE": "Open agent settings",
+      "STEP_2_DESC": "Click the assistant cog and go to Add Provider in the top right.",
+      "STEP_3_TITLE": "Configure the provider",
+      "STEP_3_DESC": "Pick the OpenAI-compatible option and use these values.",
+      "STEP_4_TITLE": "Pick a model",
+      "STEP_4_DESC": "Select your new {appName} provider in the model picker and choose any model from the catalog. Zed streams the response right inside the editor.",
+      "GOTCHA_1": "Zed expects the provider ID to be lowercase letters, numbers, hyphens, or underscores.",
+      "GOTCHA_2": "The API key is optional in the form because some users authenticate via headers, but for {appName} paste your real key."
+    },
+    "CLINE": {
+      "META": {
+        "TITLE": "Cline Setup Guide | {appName}",
+        "DESCRIPTION": "Connect Cline to {appName} as an OpenAI Compatible provider so it can read, edit, and run code with any model. Step-by-step config.",
+        "KEYWORDS": "Cline, Cline setup, VSCode autonomous agent, {appName} Cline, OpenAI Compatible, coding agent"
+      },
+      "BADGE": "Cline",
+      "TITLE": "Cline Setup Guide",
+      "SUBTITLE": "Add {appName} as an OpenAI Compatible provider in Cline and run a full agent loop inside VSCode.",
+      "OVERVIEW_DESC": "Cline runs a full agent loop inside VSCode. Add {appName} as an OpenAI Compatible provider and it can read, edit, and run code with any model.",
+      "STEP_1_TITLE": "Install Cline",
+      "STEP_1_DESC": "Install the Cline extension from the VSCode marketplace and open the Cline panel from the activity bar.",
+      "STEP_2_TITLE": "Open Cline settings",
+      "STEP_2_DESC": "Click the gear icon in the Cline panel to open API Configuration.",
+      "STEP_3_TITLE": "Pick OpenAI Compatible",
+      "STEP_3_DESC": "Under API Provider, choose OpenAI Compatible.",
+      "STEP_4_TITLE": "Fill the connection",
+      "STEP_4_DESC": "Use these values. The Model ID accepts any {appName} model.",
+      "GOTCHA_1": "Cline has a Responses-API mode for newer models. With chat completions it falls back to XML tool wrapping, which can repeat tool calls. Stick with chat-style models for stability.",
+      "GOTCHA_2": "Pick a model with native tool calling so Cline can run shell and file edits reliably."
+    },
+    "ROO_CODE": {
+      "META": {
+        "TITLE": "Roo Code Setup Guide | {appName}",
+        "DESCRIPTION": "Connect Roo Code to {appName} as an OpenAI Compatible provider so its planning, code, and QA roles share one base URL. Step-by-step config.",
+        "KEYWORDS": "Roo Code, Roo Code setup, multi-agent VSCode, {appName} Roo Code, OpenAI Compatible, coding agent"
+      },
+      "BADGE": "Roo Code",
+      "TITLE": "Roo Code Setup Guide",
+      "SUBTITLE": "Add {appName} as the OpenAI Compatible provider and Roo Code’s agent roles share the same base URL.",
+      "OVERVIEW_DESC": "Roo Code splits the agent into a planning, code, and QA team. Add {appName} as the OpenAI Compatible provider and Roo’s roles share the same base URL.",
+      "STEP_1_TITLE": "Install Roo Code",
+      "STEP_1_DESC": "Install the Roo Code extension in VSCode and open the panel.",
+      "STEP_2_TITLE": "Open API configuration",
+      "STEP_2_DESC": "Click the settings icon and go to API Configuration.",
+      "STEP_3_TITLE": "Pick OpenAI Compatible",
+      "STEP_3_DESC": "Set Provider to OpenAI Compatible.",
+      "STEP_4_TITLE": "Fill the connection",
+      "STEP_4_DESC": "Use these values. The model picker can also auto-populate after the first call.",
+      "GOTCHA_1": "Roo’s Codebase Indexing > Embedder Provider is a separate setting from chat. Configure the chat provider you actually want.",
+      "GOTCHA_2": "Some Roo agent roles run more requests than expected. Watch your {appName} rate limit and raise your plan if needed."
+    },
+    "CONTINUE_DEV": {
+      "META": {
+        "TITLE": "Continue.dev Setup Guide | {appName}",
+        "DESCRIPTION": "Connect Continue.dev to {appName} with a version-controlled config.yaml. Continue hot-reloads the model entry. Step-by-step config.",
+        "KEYWORDS": "Continue.dev, Continue setup, VSCode JetBrains assistant, {appName} Continue, config.yaml, OpenAI-compatible"
+      },
+      "BADGE": "Continue.dev",
+      "TITLE": "Continue.dev Setup Guide",
+      "SUBTITLE": "Drop a {appName} model entry into Continue’s config.yaml and it hot-reloads across VSCode and JetBrains.",
+      "OVERVIEW_DESC": "Continue uses a yaml config you can version-control. Drop a {appName} model entry and Continue hot-reloads it.",
+      "STEP_1_TITLE": "Open the Continue config",
+      "STEP_1_DESC": "Edit ~/.continue/config.yaml (macOS/Linux) or %USERPROFILE%\\.continue\\config.yaml (Windows). Create the file if it does not exist.",
+      "STEP_2_TITLE": "Add a model entry",
+      "STEP_2_DESC": "Use provider openai with apiBase. You can add multiple models as separate entries.",
+      "STEP_3_TITLE": "Save and reload",
+      "STEP_3_DESC": "Continue hot-reloads the config. Pick {appName} from the model selector at the bottom of the panel.",
+      "GOTCHA_1": "Use config.yaml, not the legacy config.json.",
+      "GOTCHA_2": "If a model rejects extra params, set requestOptions.dropParams: ['frequency_penalty','presence_penalty'] on that model entry."
+    },
+    "AIDER": {
+      "META": {
+        "TITLE": "Aider Setup Guide | {appName}",
+        "DESCRIPTION": "Connect the Aider pair-programming CLI to {appName}. Set two env vars and pass openai/MODEL_ID as the model. Step-by-step config.",
+        "KEYWORDS": "Aider, Aider setup, AI pair programming CLI, {appName} Aider, LiteLLM, OpenAI-compatible"
+      },
+      "BADGE": "Aider",
+      "TITLE": "Aider Setup Guide",
+      "SUBTITLE": "Aider is LiteLLM-backed, so {appName}’s OpenAI-compatible base URL works with two env vars.",
+      "OVERVIEW_DESC": "Aider is LiteLLM-backed, so any OpenAI-compatible base URL works. Set two env vars and pass openai/MODEL_ID as the model.",
+      "STEP_1_TITLE": "Set environment variables",
+      "STEP_1_DESC": "Aider reads OPENAI_API_BASE and OPENAI_API_KEY from your shell.",
+      "STEP_2_TITLE": "Run aider with the openai/ prefix",
+      "STEP_2_DESC": "LiteLLM uses the openai/ prefix to route the request through its OpenAI driver. Append your {appName} model id.",
+      "STEP_3_TITLE": "Optional: persist in .aider.conf.yml",
+      "STEP_3_DESC": "Drop a config in your project root so you do not have to repeat the flags.",
+      "GOTCHA_1": "Always include /v1 in the base URL.",
+      "GOTCHA_2": "LiteLLM may print unknown model warnings. Use --no-show-model-warnings or supply a context window via --model-metadata-file if it gets noisy."
     }
   },
   "FOOTER": {
@@ -1708,7 +2206,17 @@
     "RU": "Русский",
     "VI": "Tiếng Việt",
     "ZH_CN": "简体中文",
-    "ZH_TW": "繁體中文"
+    "ZH_TW": "繁體中文",
+    "IT": "Italiano",
+    "ES": "Español",
+    "PT_BR": "Português (Brasil)",
+    "KO": "한국어",
+    "TR": "Türkçe",
+    "AR": "العربية",
+    "HE": "עברית",
+    "HI": "हिन्दी",
+    "ID": "Bahasa Indonesia",
+    "PL": "Polski"
   },
   "AUTH": {
     "LOGIN": {
@@ -2234,7 +2742,19 @@
     "MD_BOLD": "Bold text",
     "MD_ITALIC_BOLD": "Italic bold text",
     "MD_SINGLE_QUOTE": "Single quoted text",
-    "MD_DOUBLE_QUOTE": "Double quoted text"
+    "MD_DOUBLE_QUOTE": "Double quoted text",
+    "SURFACE_COLORS": "Surface colors",
+    "COLOR_SIDEBAR": "Sidebar",
+    "BACKGROUND_IMAGE": "Background image",
+    "BG_UPLOAD": "Upload image",
+    "BG_REPLACE": "Replace",
+    "BG_REMOVE": "Remove",
+    "BG_FIT": "Image fit",
+    "BG_FIT_COVER": "Cover",
+    "BG_FIT_CONTAIN": "Contain",
+    "BG_FIT_TILE": "Tile",
+    "BG_OPACITY": "Opacity",
+    "BG_BLUR": "Blur"
   },
   "BILLING": {
     "SUBSCRIPTION": {
@@ -2313,7 +2833,8 @@
       "NAME": "Name",
       "AMOUNT": "Amount",
       "REMAIN_QUOTA": "Quota",
-      "QUOTA_THRESHOLD_DOLLARS": "Quota warning threshold"
+      "QUOTA_THRESHOLD_DOLLARS": "Quota warning threshold",
+      "CONTENT": "Content"
     }
   },
   "SETTINGS": {
@@ -2511,9 +3032,14 @@
     "REQUEST_LOG": {
       "VIEW": "View request log",
       "TITLE": "Request log",
-      "TAB_REQUEST": "Request",
+      "TAB_REQUEST": "Snapshot (debug)",
+      "TAB_REQUEST_HINT": "Client snapshot (assembler input), NOT the body sent upstream. What the model actually receives is in the \"System prompt\" + \"Final messages\" tabs.",
+      "TAB_UPSTREAM": "Upstream body",
+      "TAB_UPSTREAM_HINT": "The exact body sent to the model (system + role-only messages). This is precisely what the LLM receives.",
       "TAB_SYSTEM": "System prompt",
+      "TAB_SYSTEM_HINT": "The actual system prompt sent to the model. Empty for models with no system role (e.g. GLM); then the content is folded into the user block.",
       "TAB_FINAL": "Final messages",
+      "TAB_FINAL_HINT": "The actual messages array sent to the model after role transforms (merge, system-strip). This is what the model sees.",
       "TAB_HEADERS": "Headers",
       "COPY_CURL": "Copy as cURL",
       "COPY_JSON": "Copy JSON",
@@ -2524,7 +3050,8 @@
       "BADGE_OUT": "out",
       "BADGE_DROPPED": "dropped",
       "UNIT_MS": "ms",
-      "UNIT_TOK_PER_S": "tok/s"
+      "UNIT_TOK_PER_S": "tok/s",
+      "BADGE_PROVIDER": "provider"
     },
     "NEW_CONVERSATION": "New Chat",
     "GENERATION_LOCKED_OTHER_TAB": "Another tab is already generating for this conversation. Wait for it to finish or switch tabs.",
@@ -2535,6 +3062,10 @@
     "NO_CONVERSATIONS": "No conversations yet",
     "EMPTY_TITLE": "Start a Conversation",
     "EMPTY_DESCRIPTION": "Select a model and start chatting to test any AI model.",
+    "LOADOUT": {
+      "TITLE": "Loadout",
+      "HINT": "Applies to this and every new chat until you change it."
+    },
     "INPUT_PLACEHOLDER": "Type your message...",
     "START_PROMPT": "Send a message to start the conversation.",
     "THINKING": "Thinking",
@@ -2602,7 +3133,8 @@
       "EXTRA_BODY": "Extra request body (JSON)",
       "EXTRA_BODY_PLACEHOLDER": "'{'\n  \"reasoning_effort\": \"high\",\n  \"service_tier\": \"priority\"\n'}'",
       "EXTRA_BODY_HINT": "Merged into the request before sending. Use for fields the sliders don't cover. Sliders win on key conflicts.",
-      "EXTRA_BODY_INVALID": "Invalid JSON. Wrap with '{}' and escape strings."
+      "EXTRA_BODY_INVALID": "Invalid JSON. Wrap with '{}' and escape strings.",
+      "INHERIT": "Inherit"
     },
     "SAMPLING": {
       "UNSUPPORTED": "Not supported by all providers serving this model. Setting it has no effect."
@@ -2635,6 +3167,10 @@
       "FONT_SERIF": "Serif",
       "FONT_MONO": "Monospace",
       "FONT_SYSTEM": "System"
+    },
+    "ACTIVE_CONFIG": {
+      "CHARACTERS": "{count, plural, one {# character} other {# characters}}",
+      "LOREBOOKS": "{count, plural, one {# lorebook} other {# lorebooks}}"
     }
   },
   "RP": {
@@ -2679,6 +3215,7 @@
     "LOREBOOKS_NEW": "New lorebook",
     "LOREBOOKS_EMPTY": "No lorebooks yet.",
     "LOREBOOK_SCAN_DEPTH": "Scan depth",
+    "LOREBOOK_DESCRIPTION_NOT_SENT": "Just a label for you. Not sent to the AI. Put the actual content in the entries below.",
     "LOREBOOK_SCAN_DEPTH_HINT": "How many recent messages are scanned for keys.",
     "LOREBOOK_TOKEN_BUDGET": "Token budget",
     "LOREBOOK_TOKEN_BUDGET_HINT": "Max tokens of entries injected per turn.",
@@ -2686,14 +3223,15 @@
     "LOREBOOK_ENTRY_NEW": "New entry",
     "LOREBOOK_UNTITLED": "Untitled lorebook",
     "LOREBOOK_ENTRY_NO_KEYS": "(no triggers)",
-    "LOREBOOK_ENTRY_KEYS": "Triggers (comma-separated)",
-    "LOREBOOK_ENTRY_KEYS_HINT": "Words that activate this entry. Example: sex, dick, pussy. Ignored if 'Always inject' is on.",
+    "LOREBOOK_ENTRY_ALWAYS_LABEL": "Always injected",
+    "LOREBOOK_ENTRY_KEYS": "Activation keys (comma-separated)",
+    "LOREBOOK_ENTRY_KEYS_HINT": "Words that activate this entry. Example: dragon, wyrm, drake.",
     "LOREBOOK_ENTRY_SECONDARY_KEYS": "Secondary triggers",
     "LOREBOOK_ENTRY_PRIORITY_HINT": "Lower number injects earlier in the prompt.",
     "LOREBOOK_ENTRY_CONTENT": "Content",
     "LOREBOOK_ENTRY_POSITION": "Position",
     "LOREBOOK_ENTRY_PRIORITY": "Priority",
-    "LOREBOOK_ENTRY_CONSTANT": "Always inject",
+    "LOREBOOK_ENTRY_CONSTANT": "Always active",
     "LOREBOOK_ENTRY_SELECTIVE": "Require a secondary key",
     "LOREBOOK_ENTRY_ENABLED": "Enabled",
     "LOREBOOK_ENTRY_MATCH_WHOLE_WORDS": "Match whole words only",
@@ -2746,15 +3284,13 @@
     "PRESET_PREFILL_PLACEHOLDER": "Sure, here's the response:",
     "PRESET_PREFILL_HINT": "Sent last as an assistant message. The LLM continues from this seed text. Powerful jailbreak technique. Supports the user and char macros.",
     "PRESET_FLAGS_TITLE": "Custom flags",
-    "PRESET_FLAGS_HINT": "Tweak the request body for picky models. Most users leave these off.",
+    "PRESET_FLAGS_HINT": "Tweak the request body for picky models. These are auto-applied per model where needed; toggle to force on.",
     "PRESET_FORCE_ALTERNATE_ROLES": "Force alternate roles",
-    "PRESET_FORCE_ALTERNATE_ROLES_HINT": "Merge consecutive same-role messages so the conversation strictly alternates user/assistant. Required by GLM and some Anthropic configurations.",
+    "PRESET_FORCE_ALTERNATE_ROLES_HINT": "Merge consecutive same-role messages so the conversation strictly alternates user/assistant. Auto-applied for GLM/Gemini; toggle to force on any model.",
     "PRESET_NO_SYSTEM_ROLE": "No system role",
-    "PRESET_NO_SYSTEM_ROLE_HINT": "Convert mid-conversation system messages to user messages prefixed with [System]:. The top-level system prompt is unaffected. Needed for Gemini and strict alternation models.",
+    "PRESET_NO_SYSTEM_ROLE_HINT": "Convert mid-conversation system messages to user messages prefixed with 'system:'. The top-level system prompt is unaffected. Auto-applied for GLM/Gemini.",
     "PRESET_MUST_START_WITH_USER": "Must start with user input",
-    "PRESET_MUST_START_WITH_USER_HINT": "Prepend a tiny user stub if the first message is assistant or system. Anthropic and Gemini both reject conversations that don't start with user.",
-    "PRESET_SKIP_PREFILL_IF_LAST_ASSISTANT": "Skip prefill when last is assistant",
-    "PRESET_SKIP_PREFILL_IF_LAST_ASSISTANT_HINT": "When force-alternate is on and the last message is already assistant, drop the prefill instead of producing two consecutive assistant messages.",
+    "PRESET_MUST_START_WITH_USER_HINT": "Prepend a tiny blank user message if the chat starts with assistant or system. Auto-applied for Anthropic/Gemini/GLM.",
     "PRESET_GEMINI_BLOCK_OFF": "Gemini: safety OFF",
     "PRESET_GEMINI_BLOCK_OFF_HINT": "Send safetySettings with threshold=OFF for every Gemini harm category. Stronger than BLOCK_NONE. Only takes effect on Gemini models.",
     "SIDEBAR_TAB_CHATS": "Chats",
@@ -2788,7 +3324,34 @@
     "BRANCH_NEXT": "Next branch",
     "BRANCH_PREV": "Previous branch",
     "LOREBOOKS_IMPORT": "Import",
-    "PERSONAS_IMPORT": "Import"
+    "PERSONAS_IMPORT": "Import",
+    "LOREBOOK_ENTRY_CONSTANT_HINT": "Always inject this entry, ignoring activation keys.",
+    "PRESET_PROVIDERS_TITLE": "Provider routing",
+    "PRESET_PROVIDERS": "Pinned providers (comma-separated)",
+    "PRESET_PROVIDERS_HINT": "Preferred upstream providers, in order. Only honored by OpenRouter-compatible channels; ignored elsewhere.",
+    "PRESET_PROVIDERS_ONLY": "Only these providers",
+    "PRESET_PROVIDERS_ONLY_HINT": "Hard-pin: reject the request if none of the listed providers are available, instead of falling back.",
+    "LOREBOOK_ENTRY_INJECTION_ROLE_ASSISTANT": "Assistant",
+    "PRESET_TEMPLATE_TITLE": "Prompt template",
+    "PRESET_TEMPLATE_HINT": "Drag to reorder how the prompt is built. Chat history splices in at the Chat history block. Empty = default order.",
+    "PRESET_TEMPLATE_RESET": "Reset to default",
+    "PRESET_TEMPLATE_EXPAND": "Expand",
+    "PRESET_TEMPLATE_COLLAPSE": "Collapse",
+    "PRESET_TEMPLATE_ADD": "Add block",
+    "PRESET_TEMPLATE_PLAIN": "Custom text block",
+    "PRESET_TEMPLATE_CHAT": "Chat history",
+    "PRESET_TEMPLATE_CHAT_HINT": "Where conversation messages are inserted.",
+    "PRESET_TEMPLATE_PLAIN_PLACEHOLDER": "Custom instruction text...",
+    "LOREBOOK_ENTRY_PROBABILITY": "Activation chance (%)",
+    "LOREBOOK_ENTRY_PROBABILITY_HINT": "Roll this percent each scan to decide if the entry fires. 100 = always.",
+    "LOREBOOK_ENTRY_SCAN_DEPTH": "Scan depth",
+    "LOREBOOK_ENTRY_SCAN_DEPTH_HINT": "How many recent messages to scan for this entry's keys. 0 = use the book default.",
+    "PRESET_CHAT_MEMORY": "Chat memory (messages)",
+    "PRESET_CHAT_MEMORY_HINT": "How many recent messages to send with each request. Empty = default (8); the chat setting overrides this.",
+    "PRESET_STREAMING": "Streaming",
+    "PRESET_STREAMING_HINT": "Stream the reply token-by-token. Off = receive the full reply at once. The chat setting overrides this.",
+    "CHARACTER_BACKGROUND": "Background image",
+    "CHARACTER_BACKGROUND_HINT": "Shown behind the chat when this character leads the conversation."
   },
   "ERRORS": {
     "MISSING_ENV": "Missing required env: {var}",
@@ -2822,7 +3385,11 @@
     "IMPORT_UNSUPPORTED_VERSION": "Unsupported export version.",
     "CARD_PARSE_FAILED": "Could not parse character card.",
     "CARD_MISSING_NAME": "Character card is missing the required name field.",
-    "UNEXPECTED_ERROR": "An unexpected error occurred"
+    "UNEXPECTED_ERROR": "An unexpected error occurred",
+    "AUDIO_GENERATION_FAILED": "Audio generation failed",
+    "NO_AUDIO_PROMPT": "No text provided for speech generation",
+    "EMBEDDING_FAILED": "Embedding generation failed",
+    "NO_EMBEDDING_INPUT": "No text provided to embed"
   },
   "BADGE": {
     "TOKENS_SERVED": "tokens served",
@@ -2836,6 +3403,8 @@
     "SMART_ROUTING": "Intelligent Routing",
     "ONE_ENDPOINT": "One Endpoint",
     "MODELS": "Models",
+    "FREE": "Free",
+    "PAID": "Paid",
     "UPTIME": "Uptime",
     "LIVE_STATS": "Live Stats",
     "CHEAPEST_API": "Cheapest Inference API",

@@ -97,10 +97,7 @@ export function useUpdateCardMutation() {
   const qc = useQueryClient();
   const auth = useAuthQuery();
   return useMutation({
-    mutationFn: async (args: {
-      id: string;
-      body: CardBody;
-    }) => {
+    mutationFn: async (args: { id: string; body: CardBody }) => {
       const userId = auth.data?.id ?? GUEST_USER_ID;
       const existing = await readLocalCard(userId, args.id);
       if (!existing) throw new Error("not-found");

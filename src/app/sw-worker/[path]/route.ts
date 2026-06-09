@@ -18,11 +18,7 @@ const serwistRoute = createSerwistRoute({
   // /seo-timestamps.json -> locale redirect = opaqueredirect). Precaching a
   // redirected response makes cache.addAll reject, hanging SW install forever
   // (SW stuck "installing", never controls). These are runtime-loaded anyway.
-  globIgnores: [
-    "**/node_modules/**/*",
-    "**/i18n/**",
-    "**/seo-timestamps.json",
-  ],
+  globIgnores: ["**/node_modules/**/*", "**/i18n/**", "**/seo-timestamps.json"],
 });
 
 // Use the factory's full config (force-static + generateStaticParams). GET

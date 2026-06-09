@@ -1,4 +1,4 @@
-import { VENDOR_SVGS } from "@/lib/config/vendor-icons";
+import { VENDOR_COLOR_SVGS, VENDOR_SVGS } from "@/lib/config/vendor-icons";
 import { Vendor } from "@/lib/types/enums";
 import { escapeRegex } from "@/lib/utils/base";
 import satori from "satori";
@@ -55,6 +55,15 @@ export function getVendorIcon(vendor: string): string | null {
   return null;
 }
 
+export function getVendorColorIcon(vendor: string): string | null {
+  const key = vendor.toLowerCase() as Vendor;
+  if (VENDOR_COLOR_SVGS[key]) return VENDOR_COLOR_SVGS[key];
+  for (const [k, svg] of Object.entries(VENDOR_COLOR_SVGS)) {
+    if (key.includes(k)) return svg;
+  }
+  return null;
+}
+
 export function svgDataUri(svg: string, color?: string): string {
   const source =
     color != null ? svg.replace("<svg ", `<svg fill="${color}" `) : svg;
@@ -69,6 +78,11 @@ export async function renderBadgeTemplate(
     height: opts.height,
     fonts,
   });
+
+  if (opts.svgBackground) {
+    // Inject right after the opening <svg ...> so it renders behind the content.
+    svg = svg.replace(/(<svg[^>]*>)/, `$1${opts.svgBackground}`);
+  }
 
   if (opts.smil) {
     svg = svg.replace("</svg>", `${opts.smil}</svg>`);

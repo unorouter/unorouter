@@ -118,8 +118,7 @@ async function loadCatalog(
   if (topup.status === 200) {
     enableStripeTopup = topup.data.data.enable_stripe_topup ?? false;
     enableCreemTopup = topup.data.data.enable_creem_topup ?? false;
-    enableNowPaymentsTopup =
-      topup.data.data.enable_nowpayments_topup ?? false;
+    enableNowPaymentsTopup = topup.data.data.enable_nowpayments_topup ?? false;
     for (const product of parseCreemProducts(topup.data.data.creem_products)) {
       if (
         typeof product.price === "number" &&

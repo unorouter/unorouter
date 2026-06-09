@@ -113,10 +113,7 @@ export function useSessionQuery(sessionId: string | null | undefined) {
     queryKey: queryKeys.playgroundSession(sessionId ?? ""),
     queryFn: async () => {
       const userId = auth.data?.id ?? GUEST_USER_ID;
-      const bundle = await readLocalGenerationSessionBundle(
-        userId,
-        sessionId!,
-      );
+      const bundle = await readLocalGenerationSessionBundle(userId, sessionId!);
       if (!bundle) throw new Error("playground-session-not-found");
       // Newest-first to match the result view's snapshot navigation.
       const snapshots = (bundle.playgrounds as Playground[])
@@ -244,10 +241,7 @@ async function snapshotRow(
   userId: number,
   view: SnapshotView,
 ): Promise<Playground> {
-  const bundle = await readLocalGenerationSessionBundle(
-    userId,
-    view.sessionId,
-  );
+  const bundle = await readLocalGenerationSessionBundle(userId, view.sessionId);
   const row = (bundle?.playgrounds as Playground[] | undefined)?.find(
     (s) => s.id === view.id,
   );

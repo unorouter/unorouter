@@ -3,10 +3,7 @@
 import { useLoraCatalogQuery } from "@/hooks/ai/playground-hook";
 import type { ModelFamily } from "@/lib/ai/playground/models";
 import type { LoraEntry } from "@/lib/validation/playground";
-import {
-  CatalogChainPicker,
-  familyToBaseModel,
-} from "./catalog-chain-picker";
+import { CatalogChainPicker, familyToBaseModel } from "./catalog-chain-picker";
 
 export type { LoraEntry };
 

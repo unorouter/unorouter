@@ -2,10 +2,8 @@
 
 import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { SmartImage } from "@/components/ui/smart-image";
 import type { PlaygroundImageView } from "@/lib/types";
 import { downloadBlob } from "@/lib/utils/client";
 import type { GenerateTab, Img2ImgSubPill } from "@/store/playground-store";
@@ -51,11 +49,12 @@ function ImageTile(props: {
         (props.className ?? "")
       }
     >
-      {/* eslint-disable-next-line @next/next/no-img-element -- data/R2 URI */}
-      <img
+      <SmartImage
         src={props.src}
         alt={props.alt}
-        className="h-full w-full object-cover"
+        fill
+        sizes="(max-width: 768px) 50vw, 25vw"
+        className="object-cover"
       />
       <span
         onClick={onDownload}
@@ -185,11 +184,13 @@ export function ImageLightbox(props: {
         showCloseButton={false}
       >
         <div className="relative flex items-center justify-center">
-          {/* eslint-disable-next-line @next/next/no-img-element -- data/R2 URI */}
-          <img
+          <SmartImage
             src={current.src}
             alt={props.alt}
-            className="max-h-[85vh] max-w-full object-contain"
+            width={1536}
+            height={1536}
+            sizes="95vw"
+            className="h-auto max-h-[85vh] w-auto max-w-full object-contain"
           />
           {total > 1 && (
             <>

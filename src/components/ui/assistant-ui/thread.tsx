@@ -1,6 +1,7 @@
 "use client";
 
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
+import { ChatLoadout } from "@/components/pages/sidebar/chat/chat-loadout";
 import {
   ComposerAddAttachment,
   ComposerAttachments,
@@ -85,7 +86,7 @@ export const Thread: FC = () => {
           {() => <ThreadMessage />}
         </ThreadPrimitive.Messages>
 
-        <ThreadPrimitive.ViewportFooter className="aui-thread-viewport-footer before:from-background pointer-events-none sticky bottom-0 mx-auto mt-auto flex w-full max-w-(--thread-max-width) flex-col gap-4 overflow-visible rounded-t-(--composer-radius) pb-[max(--spacing(1),env(safe-area-inset-bottom))] *:pointer-events-auto before:pointer-events-none before:absolute before:inset-x-0 before:-top-6 before:h-6 before:bg-linear-to-t before:to-transparent md:pb-[max(--spacing(2.5),env(safe-area-inset-bottom))]">
+        <ThreadPrimitive.ViewportFooter className="aui-thread-viewport-footer before:from-background bg-background pointer-events-none sticky bottom-0 mx-auto mt-auto flex w-full max-w-(--thread-max-width) flex-col gap-4 overflow-visible rounded-t-(--composer-radius) pb-[max(--spacing(1),env(safe-area-inset-bottom))] *:pointer-events-auto before:pointer-events-none before:absolute before:inset-x-0 before:-top-6 before:h-6 before:bg-linear-to-t before:to-transparent md:pb-[max(--spacing(2.5),env(safe-area-inset-bottom))]">
           <ThreadScrollToBottom />
           <Composer />
         </ThreadPrimitive.ViewportFooter>
@@ -137,6 +138,7 @@ const ThreadWelcome: FC = () => {
               {t("CHAT.EMPTY_DESCRIPTION")}
             </p>
           </div>
+          <ChatLoadout />
         </div>
       </div>
       <ThreadSuggestions />
@@ -625,34 +627,53 @@ const DeleteMessageButton: FC = () => {
   );
 };
 
+// Generated media (image/audio/video) renders as a single `![media](data:...)`
+// markdown part. Copy (text) yields a giant data-uri and Edit is meaningless for
+// a generation, so both are hidden for media-output messages.
+const MEDIA_OUTPUT_RE = /^!\[(?:audio|image|video)\]\(/;
+
 const AssistantActionBar: FC = () => {
   const t = useTranslations();
   const beginEdit = useContext(AssistantEditContext);
   const isMobile = useIsMobile();
   const messageId = useAuiState((s) => s.message.id);
+  const isMediaOutput = useAuiState((s) => {
+    const parts = s.message.content as ReadonlyArray<{
+      type: string;
+      text?: string;
+    }>;
+    const text = parts
+      .filter((p) => p.type === "text" && typeof p.text === "string")
+      .map((p) => p.text!)
+      .join("")
+      .trim();
+    return text.length > 0 && MEDIA_OUTPUT_RE.test(text);
+  });
   return (
     <ActionBarPrimitive.Root
       hideWhenRunning
       autohide={isMobile ? undefined : "not-last"}
       className="aui-assistant-action-bar-root text-muted-foreground col-start-3 row-start-2 -ml-1 flex gap-1"
     >
-      <ActionBarPrimitive.Copy asChild>
-        <TooltipIconButton tooltip={t("CHAT.ACTION.COPY")}>
-          <AuiIf condition={(s) => s.message.isCopied}>
-            <Icon name="check" />
-          </AuiIf>
-          <AuiIf condition={(s) => !s.message.isCopied}>
-            <Icon name="copy" />
-          </AuiIf>
-        </TooltipIconButton>
-      </ActionBarPrimitive.Copy>
+      {!isMediaOutput && (
+        <ActionBarPrimitive.Copy asChild>
+          <TooltipIconButton tooltip={t("CHAT.ACTION.COPY")}>
+            <AuiIf condition={(s) => s.message.isCopied}>
+              <Icon name="check" />
+            </AuiIf>
+            <AuiIf condition={(s) => !s.message.isCopied}>
+              <Icon name="copy" />
+            </AuiIf>
+          </TooltipIconButton>
+        </ActionBarPrimitive.Copy>
+      )}
       <ActionBarPrimitive.Reload asChild>
         <TooltipIconButton tooltip={t("CHAT.ACTION.REFRESH")}>
           <Icon name="refresh-cw" />
         </TooltipIconButton>
       </ActionBarPrimitive.Reload>
       <RequestLogButton msgId={messageId} />
-      {beginEdit && (
+      {beginEdit && !isMediaOutput && (
         <TooltipIconButton tooltip={t("CHAT.ACTION.EDIT")} onClick={beginEdit}>
           <Icon name="pencil" />
         </TooltipIconButton>

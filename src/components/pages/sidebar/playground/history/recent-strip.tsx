@@ -1,5 +1,6 @@
 "use client";
 
+import { SmartImage } from "@/components/ui/smart-image";
 import { useSessionQuery } from "@/hooks/ai/playground-hook";
 import { setSearchParam } from "@/lib/utils/client";
 import { dayjs } from "@/lib/utils/format/date";
@@ -60,11 +61,12 @@ export function RecentStrip() {
             >
               <div className="bg-background relative h-16 w-16 shrink-0 overflow-hidden rounded">
                 {firstImage?.src ? (
-                  // eslint-disable-next-line @next/next/no-img-element -- data/R2 URI
-                  <img
+                  <SmartImage
                     src={firstImage.src}
                     alt={snap.prompt}
-                    className="h-full w-full object-cover"
+                    fill
+                    sizes="64px"
+                    className="object-cover"
                   />
                 ) : (
                   <div className="text-muted-foreground absolute inset-0 flex items-center justify-center text-[10px]">

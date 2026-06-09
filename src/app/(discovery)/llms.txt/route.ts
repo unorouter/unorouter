@@ -1,3 +1,4 @@
+import { SETUP_GUIDES } from "@/components/pages/docs/setup-guides";
 import { localeUrl } from "@/i18n/navigation";
 import { BLOG_REGISTRY, DOCS_REGISTRY } from "@/i18n/registry";
 import { APP_VALUES } from "@/lib/config/constants";
@@ -9,7 +10,6 @@ import { getTranslations } from "next-intl/server";
 
 export const dynamic = "force-static";
 export const revalidate = 3600;
-
 
 export async function GET() {
   const locale = await serverLocale();
@@ -27,9 +27,10 @@ export async function GET() {
   lines.push("");
 
   lines.push(`## ${t("NAV.DOCS")}`);
+  const docVars = { ...APP_VALUES, count: SETUP_GUIDES.length };
   for (const doc of DOCS_REGISTRY) {
-    const title = t(`${doc.i18nPrefix}.TITLE`, APP_VALUES);
-    const note = t(`${doc.i18nPrefix}.SUBTITLE`, APP_VALUES);
+    const title = t(`${doc.i18nPrefix}.TITLE`, docVars);
+    const note = t(`${doc.i18nPrefix}.SUBTITLE`, docVars);
     lines.push(
       `- [${title}](${env.siteOrigin}${localeUrl(locale, doc.path)}): ${note}`,
     );

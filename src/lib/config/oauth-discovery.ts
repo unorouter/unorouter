@@ -1,7 +1,6 @@
 import { env } from "@/lib/config/env";
 import { OAUTH_SCOPES } from "@/lib/config/oauth-scopes";
 
-
 // RFC 8414 + OIDC 1.0 (delta: userinfo_endpoint + claims_supported).
 // issuer = API origin (go-oidc signing + JWKS).
 // No registration_endpoint (new-api lacks RFC 7591).

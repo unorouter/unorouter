@@ -46,8 +46,7 @@ function notify(
   for (const cb of subscribers) {
     try {
       cb({ resourceKey, state, byThisTab });
-    } catch {
-    }
+    } catch {}
   }
 }
 

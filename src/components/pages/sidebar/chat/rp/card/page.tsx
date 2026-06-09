@@ -41,8 +41,7 @@ export function CardsPage() {
     cardName: string;
   } | null>(null);
 
-  const handleExport = (id: string) =>
-    exportMut.mutate({ kind: "cards", id });
+  const handleExport = (id: string) => exportMut.mutate({ kind: "cards", id });
 
   const handleDelete = async (id: string) => {
     const ok = await confirm({
@@ -84,7 +83,11 @@ export function CardsPage() {
         onBack={() => setEditingId(null)}
         editor={
           editingId && (
-            <CardForm editingId={editingId} onDone={() => setEditingId(null)} />
+            <CardForm
+              key={editingId}
+              editingId={editingId}
+              onDone={() => setEditingId(null)}
+            />
           )
         }
         list={

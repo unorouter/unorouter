@@ -1,0 +1,438 @@
+// Trigger VM: condition eval + indent-scoped control flow + opcode dispatch.
+// Faithful RisuAI runTrigger port (triggers.ts:1058-2821) over the flat
+// effect[] layout Risu exports: a block opened at indent N closes at a
+// v2EndIndent carrying indent N+1 (the BODY indent), each branch has its own
+// EndIndent, an if's v2Else sits between the two at indent N, and loop closers
+// carry `endOfLoop: true`. lowLevelAccess side effects are no-ops (opcodes.ts).
+
+import { runDataOpcode, type VarResolver } from "./opcodes";
+import type {
+  TriggerCondition,
+  TriggerContext,
+  TriggerEffect,
+  TriggerEventMode,
+  TriggerRunResult,
+  TriggerScript,
+} from "./types";
+
+const MAX_STEPS = 100000; // runaway-loop backstop
+
+// Pure-op subset allowed in the sandboxed display/request modes.
+const SAFE_SUBSET = new Set([
+  "v2SetVar",
+  "v2If",
+  "v2IfAdvanced",
+  "v2Else",
+  "v2EndIndent",
+  "v2Loop",
+  "v2LoopNTimes",
+  "v2BreakLoop",
+  "v2ConsoleLog",
+  "v2StopTrigger",
+  "v2Random",
+  "v2ExtractRegex",
+  "v2RegexTest",
+  "v2ReplaceString",
+  "v2GetCharAt",
+  "v2GetCharCount",
+  "v2SetCharAt",
+  "v2ToLowerCase",
+  "v2ToUpperCase",
+  "v2SplitString",
+  "v2JoinArrayVar",
+  "v2ConcatString",
+  "v2MakeArrayVar",
+  "v2GetArrayVarLength",
+  "v2GetArrayVar",
+  "v2SetArrayVar",
+  "v2PushArrayVar",
+  "v2PopArrayVar",
+  "v2ShiftArrayVar",
+  "v2UnshiftArrayVar",
+  "v2SpliceArrayVar",
+  "v2SliceArrayVar",
+  "v2GetIndexOfValueInArrayVar",
+  "v2RemoveIndexFromArrayVar",
+  "v2Calculate",
+  "v2Comment",
+  "v2DeclareLocalVar",
+  "v2MakeDictVar",
+  "v2GetDictVar",
+  "v2SetDictVar",
+  "v2DeleteDictKey",
+  "v2HasDictKey",
+  "v2ClearDict",
+  "v2GetDictSize",
+  "v2GetDictKeys",
+  "v2GetDictValues",
+]);
+const DISPLAY_EXTRA = new Set(["v2GetDisplayState", "v2SetDisplayState"]);
+const REQUEST_EXTRA = new Set([
+  "v2GetRequestState",
+  "v2SetRequestState",
+  "v2GetRequestStateRole",
+  "v2SetRequestStateRole",
+  "v2GetRequestStateLength",
+]);
+
+function opcodeAllowed(type: string, mode: TriggerEventMode): boolean {
+  if (mode === "display")
+    return SAFE_SUBSET.has(type) || DISPLAY_EXTRA.has(type);
+  if (mode === "request")
+    return SAFE_SUBSET.has(type) || REQUEST_EXTRA.has(type);
+  return true;
+}
+
+type Resolver = VarResolver & {
+  declareLocal: (name: string, value: string, indent: number) => void;
+  dropAtOrAbove: (indent: number) => void;
+  setIndent: (indent: number) => void;
+};
+
+// Indent-scoped local variable resolution, Risu getLocalVar/setLocalVar port.
+// Lookup order: locals (nearest indent first) -> chat vars -> global vars ->
+// defaultVars -> 'null' (Risu's missing-var sentinel). Display mode redirects
+// all chat-var writes to a non-persistent scratch map (Risu tempVars).
+function makeResolver(ctx: TriggerContext): Resolver {
+  const locals: Record<number, Record<string, string>> = {};
+  const displayScratch: Record<string, string> = {};
+  let curIndent = 0;
+  const findLocal = (name: string): number | null => {
+    for (let i = curIndent; i >= 0; i--) {
+      if (locals[i] && name in locals[i]) return i;
+    }
+    return null;
+  };
+  return {
+    get(name) {
+      const li = findLocal(name);
+      if (li !== null) return locals[li][name];
+      if (ctx.mode === "display" && name in displayScratch)
+        return displayScratch[name];
+      if (name in ctx.vars) return ctx.vars[name];
+      if (name in ctx.globalVars) return ctx.globalVars[name];
+      if (ctx.defaultVars && name in ctx.defaultVars)
+        return ctx.defaultVars[name];
+      return "null";
+    },
+    set(name, value) {
+      const li = findLocal(name);
+      if (li !== null) {
+        locals[li][name] = value;
+        return;
+      }
+      if (ctx.mode === "display") {
+        displayScratch[name] = value;
+        return;
+      }
+      ctx.vars[name] = value;
+    },
+    declareLocal(name, value, indent) {
+      (locals[indent] ??= {})[name] = value;
+    },
+    dropAtOrAbove(indent) {
+      for (const k of Object.keys(locals)) {
+        if (Number(k) >= indent) delete locals[Number(k)];
+      }
+    },
+    setIndent(indent) {
+      curIndent = indent;
+    },
+  };
+}
+
+function evalCondition(
+  c: TriggerCondition,
+  ctx: TriggerContext,
+  vr: VarResolver,
+): boolean {
+  const parse = (s: string) => (ctx.parse ? ctx.parse(s) : s);
+  if (c.type === "exists") {
+    // Risu joins the slice once and searches the joined text.
+    const da = ctx.chat
+      .slice(0 - (c.depth || 10))
+      .map((m) => m.data)
+      .join(" ");
+    const val = parse(c.value);
+    if (c.type2 === "regex") {
+      try {
+        return new RegExp(val).test(da);
+      } catch {
+        return false;
+      }
+    }
+    if (c.type2 === "strict") return da.split(" ").includes(val);
+    return da.toLowerCase().includes(val.toLowerCase());
+  }
+  const left =
+    c.type === "chatindex"
+      ? String(ctx.chat.length)
+      : c.type === "var"
+        ? vr.get(parse(c.var))
+        : parse(c.var);
+  const right = parse(c.value);
+  switch (c.operator) {
+    case "=":
+      return left === right;
+    case "!=":
+      return left !== right;
+    case ">":
+      return Number(left) > Number(right);
+    case "<":
+      return Number(left) < Number(right);
+    case ">=":
+      return Number(left) >= Number(right);
+    case "<=":
+      return Number(left) <= Number(right);
+    case "null":
+      return left === "null";
+    case "true":
+      // Risu: only 'true' and '1' are truthy.
+      return left === "true" || left === "1";
+    default:
+      return false;
+  }
+}
+
+// v2If / v2IfAdvanced condition (Risu triggers.ts:1612-1706). Plain v2If's
+// source is ALWAYS a var name; v2IfAdvanced honors sourceType. Both targets
+// default to a var lookup unless targetType === 'value'. `=`/`!=` are
+// numeric-aware (1.0 == 1). The operator lives in the `condition` field.
+function evalIf(e: TriggerEffect, ctx: TriggerContext, vr: VarResolver): boolean {
+  const parse = (s: unknown) => (ctx.parse ? ctx.parse(String(s ?? "")) : String(s ?? ""));
+  const a =
+    e.type === "v2If" || e.sourceType === "var"
+      ? vr.get(parse(e.source))
+      : parse(e.source);
+  const b =
+    e.targetType === "value" ? parse(e.target) : vr.get(parse(e.target));
+  // Older/non-Risu data may carry `operator` instead of `condition`.
+  const op = (e.condition ?? e.operator) as string | undefined;
+  switch (op) {
+    case "=": {
+      const na = Number(a);
+      const nb = Number(b);
+      if (!Number.isNaN(na) && !Number.isNaN(nb)) return na === nb;
+      return a === b;
+    }
+    case "!=": {
+      const na = Number(a);
+      const nb = Number(b);
+      if (!Number.isNaN(na) && !Number.isNaN(nb)) return na !== nb;
+      return a !== b;
+    }
+    case ">":
+      return Number(a) > Number(b);
+    case "<":
+      return Number(a) < Number(b);
+    case ">=":
+      return Number(a) >= Number(b);
+    case "<=":
+      return Number(a) <= Number(b);
+    case "∈":
+      return parseList(b).includes(a);
+    case "∉":
+      return !parseList(b).includes(a);
+    case "∋":
+      return parseList(a).includes(b);
+    case "∌":
+      return !parseList(a).includes(b);
+    case "≒": {
+      const na = Number(a);
+      const nb = Number(b);
+      if (Number.isNaN(na) || Number.isNaN(nb)) {
+        return (
+          a.toLowerCase().replace(/ /g, "") === b.toLowerCase().replace(/ /g, "")
+        );
+      }
+      return Math.abs(na - nb) < 0.0001;
+    }
+    case "≡": {
+      if (b === "true") return a === "true" || a === "1";
+      if (b === "false") return !(a === "true" || a === "1");
+      return a === b;
+    }
+    default:
+      return false;
+  }
+}
+
+function parseList(s: string): string[] {
+  try {
+    const v = JSON.parse(s);
+    return Array.isArray(v) ? v.map(String) : [];
+  } catch {
+    return s.split(",").map((x) => x.trim());
+  }
+}
+
+// Run one trigger script's effects against the context. Control flow mirrors
+// the Risu interpreter exactly: direct index jumps over the flat effect array.
+function runEffects(script: TriggerScript, ctx: TriggerContext): void {
+  const vr = makeResolver(ctx);
+  const eff = script.effect;
+  let steps = 0;
+  // Per-EndIndent LoopNTimes iteration counters (Risu tempVars[idx+'LoopNTimes']).
+  const loopCounts: Record<number, number> = {};
+
+  for (let i = 0; i < eff.length; i++) {
+    if (++steps > MAX_STEPS) break;
+    const e = eff[i];
+    if (!e) continue;
+
+    const indent =
+      typeof e.indent === "number" && e.indent >= 0 ? e.indent : 0;
+    vr.setIndent(indent);
+
+    if (!opcodeAllowed(e.type, ctx.mode)) continue;
+
+    switch (e.type) {
+      case "v2StopTrigger":
+        return;
+      case "v2DeclareLocalVar": {
+        const parse = (s: unknown) =>
+          ctx.parse ? ctx.parse(String(s ?? "")) : String(s ?? "");
+        const value =
+          e.valueType === "value" ? parse(e.value) : vr.get(parse(e.value));
+        vr.declareLocal(parse(e.var), value ?? "null", indent);
+        continue;
+      }
+      case "v2If":
+      case "v2IfAdvanced": {
+        if (!evalIf(e, ctx, vr)) {
+          // Skip to this block's EndIndent (body indent = indent + 1). If the
+          // effect right after it is this if's v2Else, step past the Else so
+          // the else body runs (Risu triggers.ts:1709-1722).
+          const bodyIndent = indent + 1;
+          for (i = i + 1; i < eff.length; i++) {
+            const ef = eff[i];
+            if (ef?.type === "v2EndIndent" && (ef.indent ?? 0) === bodyIndent) {
+              const next = eff[i + 1];
+              if (next?.type === "v2Else" && (next.indent ?? 0) === indent) {
+                i++;
+              }
+              break;
+            }
+          }
+        }
+        continue;
+      }
+      case "v2Else": {
+        // Reached after a TRUE if-body ran: skip the else body to its end.
+        const bodyIndent = indent + 1;
+        for (i = i + 1; i < eff.length; i++) {
+          const ef = eff[i];
+          if (ef?.type === "v2EndIndent" && (ef.indent ?? 0) === bodyIndent) {
+            break;
+          }
+        }
+        continue;
+      }
+      case "v2Loop":
+      case "v2LoopNTimes":
+        // Looping is handled at the closing v2EndIndent (endOfLoop).
+        continue;
+      case "v2BreakLoop": {
+        // Jump to the next loop-closing EndIndent; the for-loop then steps
+        // past it (Risu triggers.ts:1781-1788).
+        for (i = i + 1; i < eff.length; i++) {
+          if (eff[i]?.type === "v2EndIndent" && eff[i].endOfLoop === true) {
+            break;
+          }
+        }
+        continue;
+      }
+      case "v2EndIndent": {
+        if (e.endOfLoop === true) {
+          const loopIndent = indent - 1;
+          const endIdx = i;
+          // Scan backward for the owning v2Loop / v2LoopNTimes.
+          for (let j = i - 1; j >= 0; j--) {
+            const ef = eff[j];
+            if (
+              (ef?.type === "v2Loop" || ef?.type === "v2LoopNTimes") &&
+              (ef.indent ?? 0) === loopIndent
+            ) {
+              if (ef.type === "v2LoopNTimes") {
+                const parse = (s: unknown) =>
+                  ctx.parse ? ctx.parse(String(s ?? "")) : String(s ?? "");
+                const raw =
+                  ef.valueType === "value"
+                    ? parse(ef.value)
+                    : vr.get(parse(ef.value));
+                let n = Number(raw);
+                if (Number.isNaN(n)) n = 0;
+                loopCounts[endIdx] = (loopCounts[endIdx] ?? 0) + 1;
+                if (loopCounts[endIdx] < n) {
+                  i = j; // re-run body (for-loop i++ lands on j + 1)
+                }
+                // else: fall through, loop exits.
+              } else {
+                // Infinite v2Loop: re-run until break/stop (MAX_STEPS backstop).
+                i = j;
+              }
+              break;
+            }
+          }
+        }
+        vr.dropAtOrAbove(indent);
+        continue;
+      }
+      default:
+        runDataOpcode(e, ctx, vr);
+        continue;
+    }
+  }
+}
+
+// Run all scripts of a mode whose conditions pass. Returns the mutated context.
+export function runTriggers(
+  scripts: TriggerScript[],
+  mode: TriggerEventMode,
+  ctx: TriggerContext,
+): TriggerRunResult {
+  ctx.mode = mode;
+  for (const script of scripts) {
+    if (script.type !== mode) continue;
+    const vr = makeResolver(ctx);
+    const condPass =
+      script.conditions.length === 0 ||
+      script.conditions.every((c) => evalCondition(c, ctx, vr));
+    if (!condPass) continue;
+    ctx.lowLevelAccess = !!script.lowLevelAccess;
+    runEffects(script, ctx);
+    if (ctx.stopSending) break;
+  }
+  return { context: ctx, stopped: !!ctx.stopSending };
+}
+
+// Parse a stored triggers JSON column into typed scripts (loose -> narrowed).
+export function parseTriggerScripts(raw: unknown): TriggerScript[] {
+  if (!raw) return [];
+  let arr: unknown = raw;
+  if (typeof raw === "string") {
+    try {
+      arr = JSON.parse(raw);
+    } catch {
+      return [];
+    }
+  }
+  if (!Array.isArray(arr)) return [];
+  const out: TriggerScript[] = [];
+  for (const c of arr) {
+    if (!c || typeof c !== "object") continue;
+    const o = c as Record<string, unknown>;
+    // A keyword-array element (legacy turn-gating) is not a trigger script.
+    if (typeof o.type !== "string" || !Array.isArray(o.effect)) continue;
+    out.push({
+      comment: typeof o.comment === "string" ? o.comment : "",
+      type: o.type as TriggerScript["type"],
+      conditions: Array.isArray(o.conditions)
+        ? (o.conditions as TriggerScript["conditions"])
+        : [],
+      effect: o.effect as TriggerScript["effect"],
+      lowLevelAccess: !!o.lowLevelAccess,
+    });
+  }
+  return out;
+}

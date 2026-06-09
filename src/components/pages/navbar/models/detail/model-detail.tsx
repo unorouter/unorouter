@@ -377,7 +377,7 @@ print(res.choices[0].message.content)`;
                 </TableRow>
               ) : m.isTiered ? (
                 <TableRow>
-                  <TableCell className="w-1/3 px-4 py-3 font-medium align-top">
+                  <TableCell className="w-1/3 px-4 py-3 align-top font-medium">
                     {t("MODELS.DETAIL.TIERED_PRICING")}
                   </TableCell>
                   <TableCell className="px-4 py-3">

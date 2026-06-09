@@ -14,10 +14,7 @@ import {
 } from "@/lib/db/client/data/rp";
 import { queryKeys } from "@/lib/react-query/keys";
 import type { LorebookRow } from "@/lib/db/schema/rows";
-import type {
-  LorebookBody,
-  LorebookEntryBody,
-} from "@/lib/validation/rp";
+import type { LorebookBody, LorebookEntryBody } from "@/lib/validation/rp";
 import { uid } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -77,10 +74,7 @@ export function useUpdateLorebookMutation() {
   const qc = useQueryClient();
   const auth = useAuthQuery();
   return useMutation({
-    mutationFn: async (args: {
-      id: string;
-      body: LorebookBody;
-    }) => {
+    mutationFn: async (args: { id: string; body: LorebookBody }) => {
       const userId = auth.data?.id ?? GUEST_USER_ID;
       const existing = await readLocalLorebook(userId, args.id);
       if (!existing) throw new Error("not-found");
@@ -169,13 +163,17 @@ export function useCreateLorebookEntryMutation(lorebookId: string) {
   const qc = useQueryClient();
   const auth = useAuthQuery();
   return useMutation({
-    mutationFn: async (
-      body: LorebookEntryBody,
-    ) => {
+    mutationFn: async (body: LorebookEntryBody) => {
       const userId = auth.data?.id ?? GUEST_USER_ID;
       const now = dayjs().toDate();
+      // Append to the end: next orderIndex above the current max (Risu insertorder).
+      const lb = await readLocalLorebook(userId, lorebookId);
+      const nextOrder =
+        (lb?.entries.reduce((m, e) => Math.max(m, e.orderIndex ?? 0), -1) ??
+          -1) + 1;
       const row = {
         ...body,
+        orderIndex: nextOrder,
         id: uid(),
         lorebookId,
         createdAt: now,
@@ -197,10 +195,7 @@ export function useUpdateLorebookEntryMutation(lorebookId: string) {
   const qc = useQueryClient();
   const auth = useAuthQuery();
   return useMutation({
-    mutationFn: async (args: {
-      entryId: string;
-      body: LorebookEntryBody;
-    }) => {
+    mutationFn: async (args: { entryId: string; body: LorebookEntryBody }) => {
       const userId = auth.data?.id ?? GUEST_USER_ID;
       const now = dayjs().toDate();
       const lb = await readLocalLorebook(userId, lorebookId);
@@ -210,6 +205,8 @@ export function useUpdateLorebookEntryMutation(lorebookId: string) {
         id: args.entryId,
         lorebookId,
         ...args.body,
+        // Preserve placement: form edits never reset insertion order.
+        orderIndex: existing?.orderIndex ?? 0,
         updatedAt: now,
       };
       await upsertLocalLorebookEntry(userId, updated);

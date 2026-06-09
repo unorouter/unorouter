@@ -9,6 +9,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Icon } from "@/components/ui/icon";
+import { SmartImage } from "@/components/ui/smart-image";
 import { copyToClipboard } from "@/lib/utils/base";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
@@ -41,14 +42,16 @@ export function ImagePreviewDialog(props: {
               controls
               className="max-h-[60vh] w-full object-contain"
             />
-          ) : (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
+          ) : props.imageUrl ? (
+            <SmartImage
               src={props.imageUrl}
               alt={props.mjId || "preview"}
-              className="max-h-[60vh] w-full object-contain"
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="h-auto max-h-[60vh] w-full object-contain"
             />
-          )}
+          ) : null}
         </div>
         <div className="flex items-center justify-end gap-2">
           <Button

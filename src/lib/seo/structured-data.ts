@@ -11,7 +11,6 @@ import type {
   WithContext,
 } from "schema-dts";
 
-
 function abs(path: string): string {
   return `${env.siteOrigin}${path.startsWith("/") ? path : `/${path}`}`;
 }

@@ -5,23 +5,27 @@ import { isSearchDoc, type SearchResult } from "@/lib/types";
 import { useQuery } from "@tanstack/react-query";
 import { useLocale } from "next-intl";
 
-function useSearchQueryIndex() {
+function useSearchQueryIndex(locale: string, enabled: boolean) {
   return useQuery({
-    queryKey: queryKeys.searchIndex(),
+    queryKey: queryKeys.searchIndex(locale),
     queryFn: async () => {
       const [{ restore }, res] = await Promise.all([
         import("@orama/plugin-data-persistence"),
-        fetch("/search-index.json"),
+        fetch(`/search-index.${locale}.json`),
       ]);
       const data = await res.json();
       return restore("json", data);
     },
+    enabled,
   });
 }
 
-export function useSearchQuery(query: string) {
+export function useSearchQuery(query: string, enabled: boolean = true) {
   const locale = useLocale();
-  const { data: db, isLoading: isIndexLoading } = useSearchQueryIndex();
+  const { data: db, isLoading: isIndexLoading } = useSearchQueryIndex(
+    locale,
+    enabled,
+  );
 
   const searchQuery = useQuery({
     queryKey: queryKeys.searchResults(locale, query),
@@ -31,7 +35,6 @@ export function useSearchQuery(query: string) {
       const { search } = await import("@orama/orama");
       const searchResult = await search(db, {
         term: query,
-        where: { locale: { eq: locale } },
         limit: 10,
       });
 

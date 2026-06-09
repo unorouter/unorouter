@@ -36,24 +36,28 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
+  // Keyboard resizes layout instead of panning it; keeps header + composer in view.
+  interactiveWidget: "resizes-content",
+  // Required for env(safe-area-inset-*) to be non-zero on notched devices.
+  viewportFit: "cover",
 };
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-sans",
   subsets: ["latin"],
-  display: "swap",
+  display: "optional",
 });
 
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-mono",
   subsets: ["latin"],
-  display: "swap",
+  display: "optional",
 });
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-display",
   subsets: ["latin"],
-  display: "swap",
+  display: "optional",
 });
 
 export async function generateMetadata(props: {
@@ -110,7 +114,7 @@ export default async function LocaleLayout(props: Props) {
         ) : null}
       </head>
       <body
-        className={`${plusJakartaSans.variable} ${jetbrainsMono.variable} ${spaceGrotesk.variable} ${allFontVariablesClass} flex min-h-screen flex-col font-sans antialiased`}
+        className={`${plusJakartaSans.variable} ${jetbrainsMono.variable} ${spaceGrotesk.variable} ${allFontVariablesClass} flex min-h-dvh flex-col font-sans antialiased`}
       >
         <JsonLd id="organization-jsonld" data={buildOrganizationSchema()} />
         <JsonLd id="website-jsonld" data={buildWebSiteSchema(params.locale)} />

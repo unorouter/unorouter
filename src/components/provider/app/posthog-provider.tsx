@@ -1,12 +1,13 @@
 "use client";
 
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
-import { IS_DEV } from "@/lib/config/constants";
+import { IS_DEV, POSTHOG_DISABLED } from "@/lib/config/constants";
+import { posthog } from "@/lib/posthog-lazy";
 import { usePathname, useSearchParams } from "next/navigation";
-import posthog from "posthog-js";
-import { PostHogProvider as PHProvider } from "posthog-js/react";
 import { useEffect, useRef } from "react";
 
+// No usePostHog consumers, so posthog-js/react's context provider is skipped
+// entirely; pageview + identify go through the lazy shim (queued until init).
 function PostHogPageView() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -58,15 +59,15 @@ function PostHogIdentify() {
 }
 
 export function PostHogProvider(props: { children: React.ReactNode }) {
-  if (IS_DEV) {
+  if (IS_DEV || POSTHOG_DISABLED) {
     return <>{props.children}</>;
   }
 
   return (
-    <PHProvider client={posthog}>
+    <>
       <PostHogPageView />
       <PostHogIdentify />
       {props.children}
-    </PHProvider>
+    </>
   );
 }

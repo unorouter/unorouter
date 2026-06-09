@@ -13,8 +13,11 @@ export function SwRegister() {
     if (!("serviceWorker" in navigator)) return;
 
     // scope "/" is allowed via the route's Service-Worker-Allowed header.
+    // updateViaCache "none": Cloudflare rewrites our no-cache on /sw-worker/*
+    // to max-age=14400 (4h browser TTL); explicit bypass keeps update checks
+    // fresh on every navigation (iOS Safari included).
     navigator.serviceWorker
-      .register("/sw-worker/sw.js", { scope: "/" })
+      .register("/sw-worker/sw.js", { scope: "/", updateViaCache: "none" })
       .catch((err) => {
         logger.warn("Service worker registration failed", {
           context: "pwa.sw-register",

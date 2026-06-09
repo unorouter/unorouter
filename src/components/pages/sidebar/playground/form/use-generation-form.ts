@@ -245,7 +245,8 @@ export function useGenerationForm() {
       prompt: restorePayload.prompt,
       negativePrompt: restorePayload.negativePrompt ?? "",
       params: mergedParams as GenerationFormValues["params"],
-      loras: (restorePayload.loras as GenerationFormValues["loras"]) ?? undefined,
+      loras:
+        (restorePayload.loras as GenerationFormValues["loras"]) ?? undefined,
       references:
         (restorePayload.references as GenerationFormValues["references"]) ??
         undefined,

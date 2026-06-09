@@ -4,8 +4,9 @@ import { Elysia } from "elysia";
 import { ADMIN_HEADERS } from "@/server/constants";
 import { FAR_FUTURE } from "@/lib/config/constants";
 
-export const statsRoute = new Elysia({ prefix: "/stats" })
-  .get("/history", async () => {
+export const statsRoute = new Elysia({ prefix: "/stats" }).get(
+  "/history",
+  async () => {
     const now = unixSec();
 
     const res = await getAllQuotaDates(
@@ -33,4 +34,5 @@ export const statsRoute = new Elysia({ prefix: "/stats" })
       requestCount,
       tokenUsed,
     };
-  });
+  },
+);

@@ -32,6 +32,7 @@ import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 import { Value } from "@sinclair/typebox/value";
 import { useTranslations } from "next-intl";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -44,6 +45,9 @@ export function AccountCard() {
   const bindEmailMutation = useBindEmailMutation();
   const sendVerificationMutation = useSendSettingsVerificationMutation();
   const unbindOAuthMutation = useUnbindOAuthMutation();
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [bindLoading, setBindLoading] = useState<string | null>(null);
 
   const [countdown, setCountdown] = useState(0);
@@ -64,6 +68,15 @@ export function AccountCard() {
     const timer = setTimeout(() => setCountdown(countdown - 1), 1000);
     return () => clearTimeout(timer);
   }, [countdown]);
+
+  // A failed external OAuth bind redirects back with ?bind_error=<message>.
+  // Surface it as a toast, then strip the param so a refresh stays clean.
+  useEffect(() => {
+    const bindError = searchParams.get("bind_error");
+    if (!bindError) return;
+    toast.error(bindError);
+    router.replace(pathname);
+  }, [searchParams, router, pathname]);
 
   if (!user) return null;
 
@@ -116,7 +129,7 @@ export function AccountCard() {
     analytics.settings.oauthBound(provider);
     setBindLoading(provider);
     try {
-      const callbackUrl = `${window.location.origin}/api/auth/oauth/callback`;
+      const callbackUrl = `${window.location.origin}/api/auth/account/oauth/callback`;
       const state = handleElysia(
         await rpc.api.auth.account.oauth.state.get({
           query: { redirect: callbackUrl, action: "bind" },
@@ -130,7 +143,10 @@ export function AccountCard() {
     }
   }
 
-  async function handleOAuthUnbind(provider: "github" | "discord", label: string) {
+  async function handleOAuthUnbind(
+    provider: "github" | "discord",
+    label: string,
+  ) {
     const ok = await confirm({
       title: t("SETTINGS.ACCOUNT.UNBIND_CONFIRM_TITLE", { provider: label }),
       description: t("SETTINGS.ACCOUNT.UNBIND_CONFIRM_DESCRIPTION", {

@@ -180,9 +180,7 @@ export function useDrainPendingMutation() {
   const qc = useQueryClient();
   const auth = useAuthQuery();
   return useMutation({
-    mutationFn: async (
-      targets?: Array<{ kind: SyncKindName; id: string }>,
-    ) => {
+    mutationFn: async (targets?: Array<{ kind: SyncKindName; id: string }>) => {
       // Caller gates on auth.data; mutation is only enabled when logged in.
       return retryPendingTargets(auth.data!.id, qc, targets);
     },

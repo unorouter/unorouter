@@ -3,11 +3,21 @@
 import { ModelSelector } from "@/components/elements/model/model-selector";
 import { Icon } from "@/components/ui/icon";
 import { useConversationQuery } from "@/hooks/ai/chat-hook";
+import {
+  useChatBindingsQuery,
+  useChatSettingsQuery,
+} from "@/hooks/ai/rp/conversations";
+import { usePresetsQuery } from "@/hooks/ai/rp/presets";
+import { usePersonasQuery } from "@/hooks/ai/rp/personas";
 import { useApiKey } from "@/hooks/ui/use-api-key";
+import { NONE_VALUE } from "@/lib/config/constants";
 import { formatPrice } from "@/lib/utils/format/number";
-import { chatModelAtom } from "@/store/chat-store";
+import {
+  chatModelAtom,
+  conversationSettingsOpenAtom,
+} from "@/store/chat-store";
 import { useAui, useAuiState } from "@assistant-ui/react";
-import { useAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { Button } from "../../../ui/button";
 import { ChatActionsMenu } from "./chat-actions-menu";
@@ -35,6 +45,68 @@ export function ChatControls() {
         <Icon name="plus" className="h-3.5 w-3.5 lg:mr-1.5" />
         <span className="hidden lg:inline">{t("CHAT.NEW_CONVERSATION")}</span>
       </Button>
+    </div>
+  );
+}
+
+// Thin strip above the thread showing what's bound to THIS conversation
+// (preset / persona / lorebooks). Clicking a chip opens the overrides drawer.
+// Hidden when nothing is bound.
+export function ActiveConfigBadge() {
+  const t = useTranslations();
+  const threadId = useAuiState((s) => s.threadListItem?.remoteId);
+  const openSettings = useSetAtom(conversationSettingsOpenAtom);
+  const settings = useChatSettingsQuery(threadId ?? undefined).data;
+  const bindings = useChatBindingsQuery(threadId ?? undefined).data;
+  const presets = usePresetsQuery().data;
+  const personas = usePersonasQuery().data;
+
+  if (!threadId || !settings) return null;
+
+  const boundId = (id: string | null | undefined) =>
+    id && id !== NONE_VALUE ? id : null;
+  const presetName = presets?.find((p) => p.id === boundId(settings.presetId))
+    ?.name;
+  const personaName = personas?.find(
+    (p) => p.id === boundId(settings.personaId),
+  )?.name;
+  const characterCount = bindings?.characters?.length ?? 0;
+  const lorebookCount = bindings?.lorebooks?.length ?? 0;
+
+  type Chip = {
+    icon: "sliders-horizontal" | "user" | "users" | "book-open";
+    label: string;
+  };
+  const chips = (
+    [
+      presetName && { icon: "sliders-horizontal", label: presetName },
+      personaName && { icon: "user", label: personaName },
+      characterCount > 0 && {
+        icon: "users",
+        label: t("CHAT.ACTIVE_CONFIG.CHARACTERS", { count: characterCount }),
+      },
+      lorebookCount > 0 && {
+        icon: "book-open",
+        label: t("CHAT.ACTIVE_CONFIG.LOREBOOKS", { count: lorebookCount }),
+      },
+    ] as (Chip | false | undefined | "")[]
+  ).filter((c): c is Chip => Boolean(c));
+
+  if (chips.length === 0) return null;
+
+  return (
+    <div className="thin-scrollbar flex min-w-0 items-center gap-1 overflow-x-auto border-b px-2 py-1">
+      {chips.map((chip) => (
+        <button
+          key={`${chip.icon}:${chip.label}`}
+          type="button"
+          onClick={() => openSettings(true)}
+          className="bg-accent/60 text-muted-foreground hover:text-foreground hover:bg-accent inline-flex max-w-40 shrink-0 items-center gap-1 truncate rounded-full px-1.5 py-0.5 text-[11px] transition"
+        >
+          <Icon name={chip.icon} className="size-2.5 shrink-0" />
+          <span className="truncate">{chip.label}</span>
+        </button>
+      ))}
     </div>
   );
 }

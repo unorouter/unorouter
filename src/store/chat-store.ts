@@ -21,10 +21,28 @@ export type ModelSamplerMemory = Pick<
   | "extraBody"
 >;
 
+// Sticky RP "loadout": the preset/persona/characters/lorebooks a new chat is
+// auto-equipped with, so users don't re-bind every conversation. Seeded into
+// each new conversation by the thread-list adapter's initialize().
+export type ChatLoadout = {
+  presetId: string | null;
+  personaId: string | null;
+  characterIds: string[];
+  lorebookIds: string[];
+};
+
+const EMPTY_LOADOUT: ChatLoadout = {
+  presetId: null,
+  personaId: null,
+  characterIds: [],
+  lorebookIds: [],
+};
+
 type ChatState = {
   model: string | null;
   webSearch: boolean;
   defaults: StreamOverrides;
+  loadout: ChatLoadout;
   samplerMemoryByModel: Record<string, ModelSamplerMemory>;
 };
 
@@ -32,6 +50,7 @@ const INITIAL_CHAT_STATE: ChatState = {
   model: null,
   webSearch: false,
   defaults: {},
+  loadout: EMPTY_LOADOUT,
   samplerMemoryByModel: {},
 };
 
@@ -64,6 +83,13 @@ export const chatDefaultsAtom = atom(
   },
 );
 
+export const chatLoadoutAtom = atom(
+  (get) => get(chatStoreAtom).loadout ?? INITIAL_CHAT_STATE.loadout,
+  (get, set, value: ChatLoadout) => {
+    set(chatStoreAtom, { ...get(chatStoreAtom), loadout: value });
+  },
+);
+
 export const samplerMemoryByModelAtom = atom(
   (get) =>
     get(chatStoreAtom).samplerMemoryByModel ??
@@ -82,10 +108,26 @@ export type ChatHelpersRef = {
 export const convIdAtom = atom<string | null>(null);
 export const chatHelpersAtom = atom<ChatHelpersRef | null>(null);
 
-// Offline queued-send replay work list, published by useQueuedSendScheduler and
-// drained by the runtime bridge (only the active thread auto-replays). convIds
-// of conversations whose active leaf is an unanswered user turn.
-export const queuedReplayAtom = atom<string[]>([]);
+// Opens the conversation settings/overrides drawer. Shared so the active-config
+// badge in the chat header can open the same drawer the actions menu owns.
+export const conversationSettingsOpenAtom = atom(false);
+
+// Per-user global macro variables (setglobalvar/getglobalvar). Serialized JSON
+// map. localStorage-backed (can grow past the cookie size cap). Read into the
+// stream chatContext; updated from the stream finish-meta writeback. Read/write
+// from non-React callers via chatStore.get/set.
+export const globalVarsAtom = atomWithStorage<string>(
+  "rp-global-vars",
+  "{}",
+  undefined,
+  { getOnInit: true },
+);
+
+// Multi-character rotation: which bound character speaks the CURRENT stream.
+// The rotation loop sets it before each sequential send; the transport body
+// reads it into the request so the assembler promotes that char to primary.
+// In-memory (per-tab, per-turn), not persisted.
+export const speakingCharacterIdAtom = atom<string | null>(null);
 
 // Non-React stream callbacks read via chatStore.get/set.
 export const chatStore = createStore();

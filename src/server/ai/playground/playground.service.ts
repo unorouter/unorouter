@@ -3,9 +3,7 @@ import {
   chooseEndpoint,
   type SyncImageEndpoint,
 } from "@/lib/ai/playground/models-dynamic";
-import {
-  getV1VideoGenerationsTaskId,
-} from "@/openapi";
+import { getV1VideoGenerationsTaskId } from "@/openapi";
 import {
   normalizeTaskStatus,
   unwrapTaskData,

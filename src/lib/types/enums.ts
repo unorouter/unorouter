@@ -53,6 +53,18 @@ export enum Vendor {
   INCLUSIONAI = "inclusionai",
   LING = "ling",
   ARCEE = "arcee",
+  GROQ = "groq",
+  SDAIA = "sdaia",
+  BAAI = "baai",
+  IBM = "ibm",
+  MICROSOFT = "microsoft",
+  DEEPGRAM = "deepgram",
+  MYSHELL = "myshell",
+  LEONARDO = "leonardo",
+  LYKON = "lykon",
+  PFNET = "preferred",
+  NEXAGI = "nex agi",
+  JINA = "jina",
 }
 
 export enum OS {

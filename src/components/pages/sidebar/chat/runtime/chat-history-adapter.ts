@@ -6,20 +6,36 @@ import {
   partsToItems,
 } from "@/lib/ai/chat/messages";
 import {
+  readConvRegexScripts,
+  readConvTriggers,
   readLocalConversation,
+  readLocalConversationSettings,
   readLocalMessageItems,
   readLocalMessages,
   upsertLocalConversation,
+  upsertLocalConversationSettings,
   upsertLocalMessage,
   upsertLocalMessageItem,
 } from "@/lib/db/client/data/chat";
+import { runRegexScripts } from "@/lib/ai/chat/regex-scripts";
+import { runTriggers } from "@/lib/ai/chat/triggers/vm";
+import type {
+  TriggerContext,
+  TriggerScript,
+} from "@/lib/ai/chat/triggers/types";
 import { insertLocalRequestLog } from "@/lib/db/client/data/request-log";
 import type { RequestLogRow } from "@/lib/db/schema/rows";
 import { queryKeys } from "@/lib/react-query/keys";
 import type { ChatMessageMetadata } from "@/lib/types";
-import { uid } from "@/lib/utils/base";
+import { parseStringMap, uid } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
-import { chatModelAtom, chatStore, convIdAtom } from "@/store/chat-store";
+import {
+  chatModelAtom,
+  chatStore,
+  convIdAtom,
+  globalVarsAtom,
+  speakingCharacterIdAtom,
+} from "@/store/chat-store";
 import type {
   MessageFormatAdapter,
   MessageFormatItem,
@@ -109,11 +125,29 @@ export function createChatHistoryAdapter(
             item,
           ) as unknown as EncodedContent;
 
-          const items = partsToItems(content.parts);
+          // editoutput regex scripts run on the finished assistant text before
+          // persist (RisuAI per-chunk reprocessing analog). Scripts come from the
+          // conversation's primary character. editdisplay runs at render time.
+          let parts = content.parts;
+          if (content.role === "assistant") {
+            const scripts = await readConvRegexScripts(userId, id);
+            if (scripts.length > 0) {
+              parts = parts.map((p) =>
+                p.type === "text" && typeof p.text === "string"
+                  ? { ...p, text: runRegexScripts(p.text, scripts, "editoutput") }
+                  : p,
+              );
+            }
+            // output-mode triggers run after the assistant reply; their var
+            // mutations persist to conversation vars (same writeback channel).
+            const triggers = await readConvTriggers(userId, id);
+            if (triggers.length > 0) {
+              await runOutputTriggers(userId, id, triggers, parts);
+            }
+          }
+          const items = partsToItems(parts);
           const resolvedModel =
-            content.role === "assistant"
-              ? chatStore.get(chatModelAtom)
-              : null;
+            content.role === "assistant" ? chatStore.get(chatModelAtom) : null;
 
           const now = dayjs().toDate();
 
@@ -123,6 +157,21 @@ export function createChatHistoryAdapter(
             null;
           const usage = metadata?.usage ?? null;
           const debug = metadata?.debug ?? null;
+          // Chat-variable writeback from macro setvar/addvar (serialized JSON map).
+          const varsWriteback = metadata?.vars ?? null;
+          // Per-user global-variable writeback from setglobalvar.
+          if (metadata?.globalVars != null) {
+            chatStore.set(globalVarsAtom, metadata.globalVars);
+          }
+
+          // Multi-character rotation: stamp which character spoke this turn
+          // (Risu `saying`). Prefer the finish-frame metadata (per-message,
+          // race-free); the atom read is the fallback for mid-stream appends.
+          const speakingCharId =
+            content.role === "assistant"
+              ? (metadata?.speakingCharacterId ??
+                chatStore.get(speakingCharacterIdAtom))
+              : null;
 
           const newMessage = {
             id: messageId,
@@ -130,6 +179,7 @@ export function createChatHistoryAdapter(
             parentId: item.parentId ?? null,
             role: content.role,
             model: resolvedModel,
+            characterId: speakingCharId,
             inputTokens: usage?.inputTokens ?? null,
             outputTokens: usage?.outputTokens ?? null,
             cost: usage?.cost ?? null,
@@ -150,6 +200,8 @@ export function createChatHistoryAdapter(
               totalCost: 0,
               syncExpiresAt: null,
               createdAt: now,
+              // default_model is NOT NULL; resolvedModel is null for user turns.
+              defaultModel: resolvedModel ?? chatStore.get(chatModelAtom) ?? "",
               updatedAt: now,
             });
           }
@@ -201,6 +253,16 @@ export function createChatHistoryAdapter(
               (convForTotals?.totalOutputTokens ?? 0) +
               (usage?.outputTokens ?? 0),
             totalCost: (convForTotals?.totalCost ?? 0) + (usage?.cost ?? 0),
+            // Persist chat-variable writeback (setvar/addvar) when the stream
+            // reported a change; null otherwise leaves the stored value intact.
+            ...(varsWriteback != null ? { vars: varsWriteback } : {}),
+            // Persist rolling-summary memory update.
+            ...(metadata?.summary
+              ? {
+                  summaryMemory: metadata.summary.summary,
+                  summaryAnchor: metadata.summary.anchor,
+                }
+              : {}),
             updatedAt: now,
           };
           await upsertLocalConversation(userId, updatedConv);
@@ -232,4 +294,60 @@ export function createChatHistoryAdapter(
       };
     },
   };
+}
+
+// Run output-mode trigger scripts after an assistant reply. Their var mutations
+// persist to the conversation var store (the same surface macro setvar uses).
+// Chat/lorebook/char mutations are out of scope here (the local DB is the source
+// of truth and those are edited through their own CRUD paths).
+async function runOutputTriggers(
+  userId: number,
+  convId: string,
+  triggers: TriggerScript[],
+  parts: MessagePart[],
+): Promise<void> {
+  const settings = await readLocalConversationSettings(userId, convId);
+  if (!settings) return;
+  const vars = parseStringMap(
+    (settings as { vars?: string | null }).vars ?? null,
+  );
+  const before = JSON.stringify(vars);
+  // Real per-user global vars so getglobalvar/setglobalvar work in output mode.
+  const globalVars = parseStringMap(chatStore.get(globalVarsAtom));
+  const globalsBefore = JSON.stringify(globalVars);
+  const replyText = parts
+    .filter(
+      (p): p is MessagePart & { text: string } =>
+        p.type === "text" &&
+        typeof (p as { text?: unknown }).text === "string",
+    )
+    .map((p) => p.text)
+    .join("\n");
+
+  const ctx: TriggerContext = {
+    mode: "output",
+    vars,
+    globalVars,
+    chat: [{ role: "assistant", data: replyText }],
+    charDesc: "",
+    personaDesc: "",
+    authorNote: "",
+    replaceGlobalNote: "",
+    lore: [],
+    additionalSysPrompt: { start: "", historyend: "", promptend: "" },
+    charName: "Assistant",
+    userName: "User",
+  };
+  runTriggers(triggers, "output", ctx);
+
+  if (JSON.stringify(vars) !== before) {
+    await upsertLocalConversationSettings(userId, {
+      convId,
+      vars: JSON.stringify(vars),
+    });
+  }
+  const globalsAfter = JSON.stringify(globalVars);
+  if (globalsAfter !== globalsBefore) {
+    chatStore.set(globalVarsAtom, globalsAfter);
+  }
 }

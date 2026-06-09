@@ -85,10 +85,15 @@ async function openClient(userId: number): Promise<LocalClient> {
   try {
     await runMigrations(sql);
   } catch (err) {
-    // Dev-only salvage: copy rows to fresh DB, overwrite bytes.
-    // Prod never wipes (user data is precious; export instead).
-    if (!IS_DEV) throw err;
-    logger.warn("Local DB migration failed in dev; attempting salvage", {
+    // Migration failed (corrupt/incompatible local DB). Salvage cascade (runs
+    // in prod too): 1) build a fresh migrated DB, 2) copy surviving rows across
+    // by column-name intersect, 3) overwrite the broken file with the rescued
+    // bytes. If the copy itself fails, fall back to a clean wipe so the app at
+    // least loads. The reconcileColumns pass inside runMigrations heals the
+    // common drift case before it ever throws, so this is the rare hard-failure
+    // path. Conversation/RP data uses app-generated text IDs (no autoincrement),
+    // so copied rows keep their IDs with no resequencing.
+    logger.warn("Local DB migration failed; attempting salvage", {
       context: "local-db.client",
       userId,
       error: String(err),

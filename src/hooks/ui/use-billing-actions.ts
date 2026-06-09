@@ -68,13 +68,7 @@ export function useBillingActions() {
     } else if (paymentMethod === "crypto" && !enableCrypto && enableCard) {
       setPaymentMethod("card");
     }
-  }, [
-    topUpInfo,
-    paymentMethod,
-    enableCard,
-    enableCrypto,
-    setPaymentMethod,
-  ]);
+  }, [topUpInfo, paymentMethod, enableCard, enableCrypto, setPaymentMethod]);
 
   function discountFactor(amount: number): number | undefined {
     return discount[String(amount)];

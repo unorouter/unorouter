@@ -13,8 +13,10 @@ import cohere from "thesvg/cohere";
 import deepseek from "thesvg/deepseek";
 import flux from "thesvg/flux";
 import google from "thesvg/google";
+import groq from "thesvg/groq";
 import iflow from "thesvg/iflow";
 import iflytekcloud from "thesvg/iflytekcloud";
+import jina from "thesvg/jina-ai";
 import kling from "thesvg/kling";
 import kuaishou from "thesvg/kuaishou";
 import meta from "thesvg/meta";
@@ -43,6 +45,11 @@ function pickVariant(v: Record<string, string>): string {
     .replace(/fill:[^;"}]+(;|(?=["}]))/g, "");
 }
 
+// Full-color variant, fills intact. For social banners where brand color matters.
+function pickColorVariant(v: Record<string, string>): string {
+  return v.color ?? v.default ?? v.light ?? v.mono;
+}
+
 export const VENDOR_LOADERS: Partial<Record<Vendor, IconLoader>> = {
   [Vendor.ALIBABA]: () => import("@lobehub/icons/es/AlibabaCloud"),
   [Vendor.ARCEE]: () => import("@lobehub/icons/es/Arcee"),
@@ -55,8 +62,20 @@ export const VENDOR_LOADERS: Partial<Record<Vendor, IconLoader>> = {
   [Vendor.FLUX]: () => import("@lobehub/icons/es/Flux"),
   [Vendor.GOOGLE]: () => import("@lobehub/icons/es/Google"),
   [Vendor.GOOGLE_DEEPMIND]: () => import("@lobehub/icons/es/Google"),
+  [Vendor.GROQ]: () => import("@lobehub/icons/es/Groq"),
+  [Vendor.SDAIA]: () => import("@/components/elements/brand/sdaia-icon"),
+  [Vendor.BAAI]: () => import("@lobehub/icons/es/BAAI"),
+  [Vendor.IBM]: () => import("@lobehub/icons/es/IBM"),
+  [Vendor.MICROSOFT]: () => import("@lobehub/icons/es/Microsoft"),
+  [Vendor.MYSHELL]: () => import("@lobehub/icons/es/MyShell"),
+  [Vendor.DEEPGRAM]: () => import("@/components/elements/brand/deepgram-icon"),
+  [Vendor.LEONARDO]: () => import("@/components/elements/brand/leonardo-icon"),
+  [Vendor.LYKON]: () => import("@/components/elements/brand/lykon-icon"),
+  [Vendor.PFNET]: () => import("@/components/elements/brand/pfnet-icon"),
+  [Vendor.NEXAGI]: () => import("@/components/elements/brand/nexagi-icon"),
   [Vendor.HUNYUAN]: () => import("@lobehub/icons/es/Hunyuan"),
   [Vendor.INCLUSIONAI]: () => import("@lobehub/icons/es/AntGroup"),
+  [Vendor.JINA]: () => import("@lobehub/icons/es/Jina"),
   [Vendor.KLING]: () => import("@lobehub/icons/es/Kling"),
   [Vendor.LING]: () => import("@lobehub/icons/es/AntGroup"),
   [Vendor.LIQUID]: () => import("@lobehub/icons/es/Liquid"),
@@ -108,6 +127,8 @@ export const VENDOR_SVGS: Partial<Record<Vendor, string>> = {
   [Vendor.BAILIAN]: pickVariant(bailian.variants),
   [Vendor.BYTEDANCE]: pickVariant(bytedance.variants),
   [Vendor.FLUX]: pickVariant(flux.variants),
+  [Vendor.GROQ]: pickVariant(groq.variants),
+  [Vendor.JINA]: pickVariant(jina.variants),
   [Vendor.KLING]: pickVariant(kling.variants),
   [Vendor.MOONSHOT]: pickVariant(moonshot.variants),
   [Vendor.ZHIPU]: pickVariant(zhipu.variants),
@@ -125,4 +146,34 @@ export const VENDOR_SVGS: Partial<Record<Vendor, string>> = {
   [Vendor.XUNFEI]: pickVariant(iflytekcloud.variants),
   [Vendor.XUNFEI_CN]: pickVariant(iflytekcloud.variants),
   [Vendor.XIAOMI]: pickVariant(xiaomiMimo.variants),
+};
+
+// Full-color brand SVGs (fills intact). Used by social banner art only.
+export const VENDOR_COLOR_SVGS: Partial<Record<Vendor, string>> = {
+  [Vendor.OPENAI]: pickColorVariant(openai.variants),
+  [Vendor.ANTHROPIC]: pickColorVariant(anthropic.variants),
+  [Vendor.GOOGLE]: pickColorVariant(google.variants),
+  [Vendor.GOOGLE_DEEPMIND]: pickColorVariant(google.variants),
+  [Vendor.META]: pickColorVariant(meta.variants),
+  [Vendor.MINIMAX]: pickColorVariant(minimax.variants),
+  [Vendor.DEEPSEEK]: pickColorVariant(deepseek.variants),
+  [Vendor.MISTRAL]: pickColorVariant(mistral.variants),
+  [Vendor.MISTRAL_AI]: pickColorVariant(mistral.variants),
+  [Vendor.COHERE]: pickColorVariant(cohere.variants),
+  [Vendor.XAI]: pickColorVariant(xai.variants),
+  [Vendor.X_AI]: pickColorVariant(xai.variants),
+  [Vendor.BAILIAN]: pickColorVariant(bailian.variants),
+  [Vendor.BYTEDANCE]: pickColorVariant(bytedance.variants),
+  [Vendor.FLUX]: pickColorVariant(flux.variants),
+  [Vendor.JINA]: pickColorVariant(jina.variants),
+  [Vendor.KLING]: pickColorVariant(kling.variants),
+  [Vendor.MOONSHOT]: pickColorVariant(moonshot.variants),
+  [Vendor.ZHIPU]: pickColorVariant(zhipu.variants),
+  [Vendor.STABILITY]: pickColorVariant(stabilityAi.variants),
+  [Vendor.STABILITY_AI]: pickColorVariant(stabilityAi.variants),
+  [Vendor.ALIBABA]: pickColorVariant(alibaba.variants),
+  [Vendor.IFLOW]: pickColorVariant(iflow.variants),
+  [Vendor.KUAISHOU]: pickColorVariant(kuaishou.variants),
+  [Vendor.VERTEX]: pickColorVariant(vertexai.variants),
+  [Vendor.XIAOMI]: pickColorVariant(xiaomiMimo.variants),
 };

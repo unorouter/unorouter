@@ -1,5 +1,5 @@
 import { type Instrumentation } from "next";
-import { IS_DEV } from "./lib/config/constants";
+import { IS_DEV, POSTHOG_DISABLED } from "./lib/config/constants";
 
 export async function register() {
   // Extend dayjs singleton for bare imports.
@@ -17,7 +17,7 @@ export const onRequestError: Instrumentation.onRequestError = async (
   err,
   request,
 ) => {
-  if (IS_DEV) return;
+  if (IS_DEV || POSTHOG_DISABLED) return;
   if (process.env.NEXT_RUNTIME === "nodejs") {
     const { getPostHogServer } = await import("./lib/posthog-server");
     const posthog = getPostHogServer();

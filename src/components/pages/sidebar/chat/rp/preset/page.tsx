@@ -63,7 +63,11 @@ export function PresetsPage() {
       onBack={() => setEditingId(null)}
       editor={
         editingId && (
-          <PresetForm editingId={editingId} onDone={() => setEditingId(null)} />
+          <PresetForm
+            key={editingId}
+            editingId={editingId}
+            onDone={() => setEditingId(null)}
+          />
         )
       }
       list={

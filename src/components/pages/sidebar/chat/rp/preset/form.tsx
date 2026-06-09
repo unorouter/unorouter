@@ -27,14 +27,59 @@ import {
 } from "@/lib/validation/rp-forms";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { useTranslations } from "next-intl";
-import { useEffect } from "react";
 import { useForm, type Path } from "react-hook-form";
 import { SamplingFields } from "../sampling-fields";
+import { PromptTemplateEditor } from "./prompt-template-editor";
 
 type Props = {
   editingId: string | "new";
   onDone: () => void;
 };
+
+// providers column holds an OpenRouter routing object as JSON. The form edits
+// it as a comma list of slugs plus an "only" toggle (order vs only).
+function parseProviderRouting(raw: string | null | undefined): {
+  slugs: string;
+  only: boolean;
+} {
+  if (!raw) return { slugs: "", only: false };
+  try {
+    const parsed = JSON.parse(raw) as Record<string, unknown>;
+    const only = Array.isArray(parsed.only);
+    const list = (only ? parsed.only : parsed.order) as unknown;
+    const slugs = Array.isArray(list) ? list.map(String).join(", ") : "";
+    return { slugs, only };
+  } catch {
+    return { slugs: "", only: false };
+  }
+}
+
+// Build the DB body from form data: serialize the provider slugs into the
+// `providers` JSON and drop the form-only `providersOnly` field.
+function toPresetBody(data: SamplingPresetForm) {
+  const slugs = data.providers
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+  const providers =
+    slugs.length > 0
+      ? JSON.stringify(data.providersOnly ? { only: slugs } : { order: slugs })
+      : null;
+  // Empty template string => null so the assembler uses the default order.
+  const promptTemplate = data.promptTemplate?.trim()
+    ? data.promptTemplate
+    : null;
+  const body = { ...data, providers, promptTemplate } as Omit<
+    SamplingPresetForm,
+    "providersOnly"
+  > & {
+    providers: string | null;
+    promptTemplate: string | null;
+    providersOnly?: boolean;
+  };
+  delete body.providersOnly;
+  return body;
+}
 
 export function PresetForm(props: Props) {
   const t = useTranslations();
@@ -42,21 +87,31 @@ export function PresetForm(props: Props) {
   const createMut = useCreatePresetMutation();
   const updateMut = useUpdatePresetMutation();
 
+  // Async-defaults pattern: `values` syncs the row into the form whenever the
+  // query settles; keepDirtyValues stops a background refetch from clobbering
+  // fields the user is typing in. The parent keys this component by editingId,
+  // so switching entities remounts with clean dirty-state.
+  const editing =
+    props.editingId === "new"
+      ? null
+      : presetsQuery.data?.find((x) => x.id === props.editingId);
+  // providers is stored as a JSON routing object; the form edits it as a
+  // comma list + an "only" toggle, so expand it before seeding the form.
+  const routing = parseProviderRouting(editing?.providers);
+  const formValues = editing
+    ? formDefaults(samplingPresetFormSchema, {
+        ...editing,
+        providers: routing.slugs,
+        providersOnly: routing.only,
+        promptTemplate: editing.promptTemplate ?? "",
+      })
+    : undefined;
   const form = useForm({
     resolver: typeboxResolver(samplingPresetFormSchema),
     defaultValues: formDefaults(samplingPresetFormSchema),
+    values: formValues,
+    resetOptions: { keepDirtyValues: true },
   });
-
-  useEffect(() => {
-    if (props.editingId === "new") {
-      form.reset(formDefaults(samplingPresetFormSchema));
-      return;
-    }
-    const p = presetsQuery.data?.find((x) => x.id === props.editingId);
-    if (!p) return;
-    form.reset(formDefaults(samplingPresetFormSchema, p));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.editingId, presetsQuery.data]);
 
   const resetSampling = () => {
     SAMPLING_FIELDS.forEach((k) =>
@@ -70,10 +125,11 @@ export function PresetForm(props: Props) {
   ) as Record<(typeof SAMPLING_FIELDS)[number], Path<SamplingPresetForm>>;
 
   const onSubmit = async (data: SamplingPresetForm) => {
+    const body = toPresetBody(data);
     if (props.editingId === "new") {
-      await createMut.mutateAsync({ body: data });
+      await createMut.mutateAsync({ body });
     } else {
-      await updateMut.mutateAsync({ id: props.editingId, body: data });
+      await updateMut.mutateAsync({ id: props.editingId, body });
     }
     props.onDone();
   };
@@ -135,7 +191,29 @@ export function PresetForm(props: Props) {
               names={samplingNames}
               onReset={resetSampling}
             />
-            <div className="mt-4">
+            <div className="mt-4 flex flex-col gap-3">
+              <div className="flex flex-col gap-1">
+                <MyFormInput
+                  control={form.control}
+                  name="chatMemory"
+                  schema={samplingPresetFormSchema}
+                  label={t("RP.PRESET_CHAT_MEMORY")}
+                  type="number"
+                />
+                <p className="text-muted-foreground text-xs">
+                  {t("RP.PRESET_CHAT_MEMORY_HINT")}
+                </p>
+              </div>
+              <div className="flex flex-col gap-1">
+                <MyFormSwitch
+                  control={form.control}
+                  name="streamingEnabled"
+                  label={t("RP.PRESET_STREAMING")}
+                />
+                <p className="text-muted-foreground text-xs">
+                  {t("RP.PRESET_STREAMING_HINT")}
+                </p>
+              </div>
               <MyFormSwitch
                 control={form.control}
                 name="isDefault"
@@ -181,6 +259,43 @@ export function PresetForm(props: Props) {
 
             <div className="border-border/40 flex flex-col gap-3 rounded-lg border p-3">
               <div className="text-foreground text-xs font-medium tracking-wide uppercase">
+                {t("RP.PRESET_PROVIDERS_TITLE")}
+              </div>
+              <div className="flex flex-col gap-1">
+                <MyFormInput
+                  control={form.control}
+                  name="providers"
+                  schema={samplingPresetFormSchema}
+                  label={t("RP.PRESET_PROVIDERS")}
+                  placeholder="novita, deepinfra"
+                />
+                <p className="text-muted-foreground text-xs">
+                  {t("RP.PRESET_PROVIDERS_HINT")}
+                </p>
+              </div>
+              <div className="flex flex-col gap-1">
+                <MyFormSwitch
+                  control={form.control}
+                  name="providersOnly"
+                  label={t("RP.PRESET_PROVIDERS_ONLY")}
+                />
+                <p className="text-muted-foreground text-xs">
+                  {t("RP.PRESET_PROVIDERS_ONLY_HINT")}
+                </p>
+              </div>
+            </div>
+
+            <div className="border-border/40 flex flex-col gap-3 rounded-lg border p-3">
+              <PromptTemplateEditor
+                value={form.watch("promptTemplate") ?? ""}
+                onChange={(json) =>
+                  form.setValue("promptTemplate", json, { shouldDirty: true })
+                }
+              />
+            </div>
+
+            <div className="border-border/40 flex flex-col gap-3 rounded-lg border p-3">
+              <div className="text-foreground text-xs font-medium tracking-wide uppercase">
                 {t("RP.PRESET_FLAGS_TITLE")}
               </div>
               <p className="text-muted-foreground text-xs">
@@ -214,16 +329,6 @@ export function PresetForm(props: Props) {
                 />
                 <p className="text-muted-foreground text-xs">
                   {t("RP.PRESET_MUST_START_WITH_USER_HINT")}
-                </p>
-              </div>
-              <div className="flex flex-col gap-1">
-                <MyFormSwitch
-                  control={form.control}
-                  name="skipPrefillIfLastIsAssistant"
-                  label={t("RP.PRESET_SKIP_PREFILL_IF_LAST_ASSISTANT")}
-                />
-                <p className="text-muted-foreground text-xs">
-                  {t("RP.PRESET_SKIP_PREFILL_IF_LAST_ASSISTANT_HINT")}
                 </p>
               </div>
               <div className="flex flex-col gap-1">

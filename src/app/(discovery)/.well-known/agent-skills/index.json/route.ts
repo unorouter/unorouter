@@ -7,7 +7,6 @@ import { getTranslations } from "next-intl/server";
 
 export const dynamic = "force-dynamic";
 
-
 function skillName(slug: string) {
   return `configure-${slug.replace(/^docs\//, "").replace(/[^a-z0-9-]/gi, "-")}`;
 }

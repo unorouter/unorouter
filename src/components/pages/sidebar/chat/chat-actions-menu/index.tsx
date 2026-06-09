@@ -12,6 +12,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Icon } from "@/components/ui/icon";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
+import { conversationSettingsOpenAtom } from "@/store/chat-store";
+import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { ConversationMenuItems } from "./conversation-menu-items";
@@ -27,7 +29,7 @@ export function ChatActionsMenu(props: Props) {
   const t = useTranslations();
   const auth = useAuthQuery();
   const [dbStudioOpen, setDbStudioOpen] = useState(false);
-  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useAtom(conversationSettingsOpenAtom);
 
   const isLoggedIn = !!auth.data;
 

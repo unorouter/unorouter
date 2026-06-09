@@ -14,6 +14,9 @@ export const characterBody = t.Object({
   avatarMediaId: t.Union([t.String({ maxLength: 64 }), t.Null()], {
     default: null,
   }),
+  backgroundMediaId: t.Union([t.String({ maxLength: 64 }), t.Null()], {
+    default: null,
+  }),
   description: t.Union([t.String({ maxLength: MAX_DESC_LEN }), t.Null()], {
     default: null,
   }),
@@ -46,13 +49,24 @@ export const characterBody = t.Object({
     ],
     { default: null },
   ),
+  // RisuAI triggerscript[] (V2 effect VM). Loose: the VM parser narrows.
   triggers: t.Union(
+    [t.Array(t.Unknown(), { maxItems: 128 }), t.Null()],
+    { default: null },
+  ),
+  // Keyword array for multi-character turn-gating.
+  turnTriggers: t.Union(
     [
       t.Array(t.String({ maxLength: MAX_KEY_LEN }), {
         maxItems: MAX_KEYS_PER_ENTRY,
       }),
       t.Null(),
     ],
+    { default: null },
+  ),
+  // RisuAI customscript / ST regex scripts. Loose: the engine's parser narrows.
+  regexScripts: t.Union(
+    [t.Array(t.Unknown(), { maxItems: 128 }), t.Null()],
     { default: null },
   ),
   alwaysActive: t.Boolean({ default: true }),
@@ -96,7 +110,11 @@ export const lorebookEntryPosition = t.Union(
   LOREBOOK_POSITIONS.map((p) => t.Literal(p)),
 );
 
-export const LOREBOOK_INJECTION_ROLES = ["user", "system"] as const;
+export const LOREBOOK_INJECTION_ROLES = [
+  "user",
+  "system",
+  "assistant",
+] as const;
 export type LorebookInjectionRole = (typeof LOREBOOK_INJECTION_ROLES)[number];
 export const lorebookInjectionRole = t.Union(
   LOREBOOK_INJECTION_ROLES.map((r) => t.Literal(r)),
@@ -122,9 +140,10 @@ export const lorebookEntryBody = t.Object({
   position: t.Union(lorebookEntryPosition.anyOf, { default: "before_char" }),
   depth: t.Number({ minimum: 0, maximum: 100, default: 4 }),
   enabled: t.Boolean({ default: true }),
-  orderIndex: t.Number({ default: 0 }),
+  // Owned by create/update/reorder hooks (Risu insertorder), not the form.
+  orderIndex: t.Optional(t.Number()),
   matchWholeWords: t.Boolean({ default: false }),
-  injectionRole: t.Union(lorebookInjectionRole.anyOf, { default: "user" }),
+  injectionRole: t.Union(lorebookInjectionRole.anyOf, { default: "system" }),
 });
 export type LorebookEntryBody = Static<typeof lorebookEntryBody>;
 
@@ -155,7 +174,19 @@ export const samplingPresetBody = t.Object({
     default: null,
   }),
   maxTokens: t.Union([t.Number({ minimum: 1 }), t.Null()], { default: null }),
+  // Preset-level defaults the conversation overrides per chat. null = system
+  // default (streaming on, chatMemory 8).
+  streamingEnabled: t.Union([t.Boolean(), t.Null()], { default: null }),
+  chatMemory: t.Union([t.Number({ minimum: 1, maximum: 1000 }), t.Null()], {
+    default: null,
+  }),
   extraBody: t.Union([t.String({ maxLength: 8_192 }), t.Null()], {
+    default: null,
+  }),
+  providers: t.Union([t.String({ maxLength: 4_096 }), t.Null()], {
+    default: null,
+  }),
+  promptTemplate: t.Union([t.String({ maxLength: 32_768 }), t.Null()], {
     default: null,
   }),
   mainPrompt: t.Union([t.String({ maxLength: MAX_DESC_LEN }), t.Null()], {
@@ -170,7 +201,6 @@ export const samplingPresetBody = t.Object({
   forceAlternateRoles: t.Boolean({ default: false }),
   noSystemRole: t.Boolean({ default: false }),
   mustStartWithUserInput: t.Boolean({ default: false }),
-  skipPrefillIfLastIsAssistant: t.Boolean({ default: false }),
   geminiBlockOff: t.Boolean({ default: false }),
   // Optional undefined; reset tx gates on undefined vs false.
   isDefault: t.Optional(t.Boolean()),

@@ -164,18 +164,18 @@ export async function getSyncedBundle(
       const settings = projectConversationSettings(rows[0]);
       const [convCharsRows, convLbsRows, msgsRows, mediaRows, reqLogRows] =
         await Promise.all([
-        db
-          .select()
-          .from(conversationCharacters)
-          .where(eq(conversationCharacters.convId, id)),
-        db
-          .select()
-          .from(conversationLorebooks)
-          .where(eq(conversationLorebooks.convId, id)),
-        db.select().from(messages).where(eq(messages.convId, id)),
-        db.select().from(media).where(eq(media.convId, id)),
-        db.select().from(requestLogs).where(eq(requestLogs.convId, id)),
-      ]);
+          db
+            .select()
+            .from(conversationCharacters)
+            .where(eq(conversationCharacters.convId, id)),
+          db
+            .select()
+            .from(conversationLorebooks)
+            .where(eq(conversationLorebooks.convId, id)),
+          db.select().from(messages).where(eq(messages.convId, id)),
+          db.select().from(media).where(eq(media.convId, id)),
+          db.select().from(requestLogs).where(eq(requestLogs.convId, id)),
+        ]);
       const msgIds = msgsRows.map((m) => m.id);
       const items = msgIds.length
         ? await db

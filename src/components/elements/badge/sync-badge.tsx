@@ -72,7 +72,10 @@ export function SyncBadge(props: Props) {
 
   // Priority: dead > in-flight > synced > not-synced.
   const pill = isDead ? (
-    <Badge variant="default" className="bg-destructive/15 text-destructive gap-1">
+    <Badge
+      variant="default"
+      className="bg-destructive/15 text-destructive gap-1"
+    >
       <Icon name="triangle-alert" className="size-3" />
       {t("SYNC.SYNC_FAILED")}
     </Badge>
@@ -113,7 +116,7 @@ export function SyncBadge(props: Props) {
       {isDead && (
         <Button
           variant="ghost"
-          size="sm"
+          size="xs"
           onClick={onRetryDead}
           disabled={drainMut.isPending}
           title={t("SYNC.RETRY_NOW")}
@@ -127,7 +130,7 @@ export function SyncBadge(props: Props) {
         <>
           <Button
             variant="ghost"
-            size="sm"
+            size="xs"
             onClick={onSync}
             disabled={syncMut.isPending}
             title={t("SYNC.RESYNC")}
@@ -137,7 +140,7 @@ export function SyncBadge(props: Props) {
           </Button>
           <Button
             variant="ghost"
-            size="sm"
+            size="xs"
             onClick={onRemove}
             disabled={removeMut.isPending}
             title={t("SYNC.REMOVE_SYNC")}
@@ -150,7 +153,7 @@ export function SyncBadge(props: Props) {
       ) : (
         <Button
           variant="ghost"
-          size="sm"
+          size="xs"
           onClick={onSync}
           disabled={syncMut.isPending}
           title={t("SYNC.ADD_SYNC")}
@@ -163,7 +166,7 @@ export function SyncBadge(props: Props) {
   );
 
   return (
-    <div className="flex flex-wrap items-center gap-2">
+    <div className="flex items-center gap-2">
       {!props.compact && statusPill}
       {actions}
     </div>

@@ -12,13 +12,15 @@ import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { GUEST_USER_ID } from "@/lib/config/constants";
 import {
   readLocalConversation,
+  readLocalConversationBindings,
+  readLocalConversationSettings,
+  readLocalMessages,
   upsertLocalConversationSettings,
 } from "@/lib/db/client/data/chat";
+import { readLocalCharacter } from "@/lib/db/client/data/rp";
+import { groupOrder } from "@/lib/ai/chat/group-order";
 import { buildChatContextFromLocalDb } from "@/lib/db/client/data/chat-context";
-import {
-  acquireLock,
-  releaseLock,
-} from "@/lib/db/client/sync/resource-lock";
+import { acquireLock, releaseLock } from "@/lib/db/client/sync/resource-lock";
 import { queryKeys } from "@/lib/react-query/keys";
 import type { ChatUIMessage } from "@/lib/types";
 import { handleError } from "@/lib/utils/client";
@@ -31,7 +33,8 @@ import {
   chatWebSearchAtom,
   convIdAtom,
   ensureConvId,
-  queuedReplayAtom,
+  globalVarsAtom,
+  speakingCharacterIdAtom,
   type ChatHelpersRef,
 } from "@/store/chat-store";
 import { useChat } from "@ai-sdk/react";
@@ -43,7 +46,7 @@ import {
 import { useAISDKRuntime } from "@assistant-ui/react-ai-sdk";
 import { useQueryClient } from "@tanstack/react-query";
 import { DefaultChatTransport } from "ai";
-import { useAtomValue, useSetAtom } from "jotai";
+import { useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { useEffect, useRef } from "react";
@@ -114,16 +117,22 @@ function useChatTransport() {
       api: "/api/ai/chat/stream",
       body: async () => {
         const convId = chatStore.get(convIdAtom);
+        const baseContext = convId
+          ? await buildChatContextFromLocalDb(userIdRef.current, convId)
+          : undefined;
         return {
           model: chatStore.get(chatModelAtom),
           convId,
           webSearch: chatStore.get(chatWebSearchAtom),
           // Guest fallback.
           overrides: chatStore.get(chatDefaultsAtom),
-          // SQLocal-backed: always complete context, no silent RP drop.
-          chatContext: convId
-            ? await buildChatContextFromLocalDb(userIdRef.current, convId)
+          // SQLocal-backed: always complete context, no silent RP drop. Carry
+          // the per-user global macro vars so setglobalvar/getglobalvar resolve.
+          chatContext: baseContext
+            ? { ...baseContext, globalVars: chatStore.get(globalVarsAtom) }
             : undefined,
+          // Multi-character rotation: the speaking character for THIS stream.
+          speakingCharacterId: chatStore.get(speakingCharacterIdAtom),
         };
       },
     }),
@@ -178,50 +187,125 @@ function useScrollToBottom(
   }, [threadId, remoteId]);
 }
 
-// Per-tab guard so online/visibility/interval triggers do not stack duplicate
-// regenerates for the same conversation before the first finishes.
-const replayInFlight = new Set<string>();
+// Auto-continue chain depth per conv, so a model that never ends on terminal
+// punctuation cannot loop forever. Reset when a finished reply DOES terminate.
+const autoContinueDepth = new Map<string, number>();
+const MAX_AUTO_CONTINUE = 3;
 
-// Drains queued offline sends for the ACTIVE thread only. The scheduler
-// publishes unanswered-turn convIds to queuedReplayAtom; when one matches the
-// open conversation and nothing is streaming, regenerate from the user leaf
-// (regenerate keeps a trailing user message and re-requests -> assistant reply
-// persists via the normal append). Non-active convs replay when opened. Costs
-// stay visible: no hidden multi-stream fan-out.
-function useQueuedReplayBridge(
-  chat: ReturnType<typeof useChat<ChatUIMessage>>,
-  remoteId: string | null | undefined,
-  streamLockKeyRef: React.RefObject<string | null>,
-  releaseStreamLock: () => void,
-) {
-  const queued = useAtomValue(queuedReplayAtom);
-  const status = chat.status;
-  const regenerate = chat.regenerate;
+// RisuAI isLastCharPunctuation port (util.ts:524): broad set incl. `*` and `~`
+// so RP replies ending `*smiles*` count as terminal, plus spacing-modifier
+// letters (U+02B0-02FF). A narrow set causes spurious auto-continues.
+const TERMINAL_PUNCTUATION = new Set([
+  ".", "!", "?", "。", "！", "？", "…", "@", "#", "$", "%", "^", "&", "*",
+  "(", ")", "-", "_", "+", "=", "{", "}", "[", "]", "|", "\\", ":", ";",
+  "<", ">", ",", "/", "~", "`", " ", "¡", "¿", "‽", "⁉", "'", '"',
+  "”", "’", "】", "」", "』",
+]);
 
-  useEffect(() => {
-    if (!remoteId) return;
-    if (!queued.includes(remoteId)) return;
-    // Only when idle; never interrupt an in-flight stream.
-    if (status === "submitted" || status === "streaming") return;
-    if (!navigator.onLine) return;
-    if (replayInFlight.has(remoteId)) return;
+function endsTerminally(text: string): boolean {
+  const last = text.trim().at(-1);
+  if (!last) return true;
+  if (TERMINAL_PUNCTUATION.has(last)) return true;
+  const code = last.charCodeAt(0);
+  return code >= 0x02b0 && code <= 0x02ff;
+}
 
-    const lockKey = `conv:${remoteId}`;
-    if (!acquireLock(lockKey)) return; // another tab owns this conv
-    streamLockKeyRef.current = lockKey;
-    replayInFlight.add(remoteId);
+// Pull plain text out of a sendMessage() argument (string, {text}, or a
+// parts/message object) for the group-order name-mention scan.
+function sendArgText(arg: unknown): string {
+  if (typeof arg === "string") return arg;
+  if (arg && typeof arg === "object") {
+    const o = arg as { text?: string; parts?: { type: string; text?: string }[] };
+    if (typeof o.text === "string") return o.text;
+    if (Array.isArray(o.parts)) {
+      return o.parts
+        .filter((p) => p.type === "text" && typeof p.text === "string")
+        .map((p) => p.text)
+        .join(" ");
+    }
+  }
+  return "";
+}
 
-    void regenerate()
-      .catch(() => {
-        // Failure leaves the unanswered turn in place; it retries on next
-        // online/visibility tick. onError already surfaced the toast + lock.
-      })
-      .finally(() => {
-        replayInFlight.delete(remoteId);
-        // Release here too in case the run resolved without onFinish/onError.
-        if (streamLockKeyRef.current === lockKey) releaseStreamLock();
-      });
-  }, [queued, remoteId, status, regenerate, streamLockKeyRef, releaseStreamLock]);
+// Compute the speaking order for a multi-character conversation. Returns the
+// ordered character ids (length <= 1 means single-stream, no rotation).
+async function computeSpeakingOrder(
+  userId: number | undefined,
+  convId: string,
+  sendArg: unknown,
+): Promise<string[]> {
+  const settings = await readLocalConversationSettings(userId, convId);
+  const bindings = await readLocalConversationBindings(userId, convId);
+  const active = (bindings?.conversationCharacters ?? []).filter(
+    (b) => b.isActive !== false,
+  );
+  if (active.length <= 1) return active.map((b) => b.characterId);
+
+  // Resolve names for the mention scan.
+  const members = await Promise.all(
+    active.map(async (b) => {
+      const ch = await readLocalCharacter(userId, b.characterId);
+      return {
+        id: b.characterId,
+        name: (ch as { name?: string } | null)?.name ?? "",
+        // null -> groupOrder's Risu default (0.5).
+        talkness:
+          typeof (b as { talkness?: number }).talkness === "number"
+            ? (b as { talkness: number }).talkness
+            : null,
+        orderIndex: b.orderIndex ?? 0,
+      };
+    }),
+  );
+  // Last speaker (most recent assistant turn's character) for the
+  // no-back-to-back filter in the random mode.
+  const rows = await readLocalMessages(userId, convId);
+  const lastSpeakerId =
+    [...(rows ?? [])]
+      .reverse()
+      .find((m) => m.role === "assistant" && m.characterId)?.characterId ??
+    null;
+  return groupOrder(members, sendArgText(sendArg), {
+    orderByOrder:
+      (settings as { groupOrderByOrder?: boolean } | null)?.groupOrderByOrder ===
+      true,
+    lastSpeakerId,
+  }).map((m) => m.id);
+}
+
+async function maybeAutoContinue(
+  chat: { sendMessage: (...args: never[]) => Promise<void> },
+  remoteId: string | null,
+  message: ChatUIMessage,
+  userId: number | undefined,
+): Promise<void> {
+  if (!remoteId) return;
+  // Don't auto-continue mid-rotation: the multi-character loop drives its own
+  // sequential sends and clears the speaking atom when done.
+  if (chatStore.get(speakingCharacterIdAtom) != null) return;
+  const text = message.parts
+    .filter((p) => p.type === "text")
+    .map((p) => (p as { text: string }).text)
+    .join("");
+  if (!text.trim() || endsTerminally(text)) {
+    autoContinueDepth.delete(remoteId);
+    return;
+  }
+  const settings = await readLocalConversationSettings(userId, remoteId);
+  if (!settings || (settings as { autoContinue?: boolean }).autoContinue !== true) {
+    return;
+  }
+  const depth = autoContinueDepth.get(remoteId) ?? 0;
+  if (depth >= MAX_AUTO_CONTINUE) {
+    autoContinueDepth.delete(remoteId);
+    return;
+  }
+  autoContinueDepth.set(remoteId, depth + 1);
+  // Continuation send, NOT regenerate: regenerate would DISCARD the truncated
+  // reply and start over. An argless sendMessage re-submits the history ending
+  // on the assistant turn, so the model appends a continuation (same mechanism
+  // as the multi-character rotation's follow-up sends).
+  await chat.sendMessage();
 }
 
 // Stable helpers bridge for edit/delete + clear-conv from outside React tree.
@@ -264,9 +348,9 @@ function ChatRuntimeHook() {
     transport,
     onError: (e) => {
       releaseStreamLock();
-      // Offline send failure is expected: the user turn was persisted by the
-      // history adapter and will auto-replay on reconnect. Show "queued", not
-      // a scary network error.
+      // Offline send failure: the user turn is persisted by the history
+      // adapter; the user resends manually when back online (Risu semantics:
+      // fail loudly, no auto-replay). Show "queued", not a network error.
       if (!navigator.onLine) {
         toast.info(t("CHAT.QUEUED_OFFLINE"));
         return;
@@ -280,12 +364,15 @@ function ChatRuntimeHook() {
           t("RP.DROPPED_PARAMS", { params: message.metadata.droppedParams }),
         );
       }
+      // Auto-continue (RisuAI): when the conv opts in and the reply ends without
+      // terminal punctuation, regenerate to continue. Bounded per conv so a
+      // model that never punctuates can't loop forever.
+      void maybeAutoContinue(chat, remoteId ?? null, message, auth.data?.id);
     },
   });
 
   useScrollToBottom(threadId, remoteId);
   useChatHelpersBridge(chat);
-  useQueuedReplayBridge(chat, remoteId, streamLockKeyRef, releaseStreamLock);
 
   const wrappedChat: typeof chat = {
     ...chat,
@@ -302,10 +389,35 @@ function ChatRuntimeHook() {
         }
         streamLockKeyRef.current = lockKey;
       }
+      // Multi-character rotation: when the conversation has >1 active character,
+      // compute the speaking order and fire one VISIBLE assistant stream per
+      // speaker in sequence (cost stays on-screen; no hidden fan-out). Each send
+      // tags its speaking character so the assembler promotes it to primary.
+      if (hasText && convId) {
+        const order = await computeSpeakingOrder(
+          auth.data?.id,
+          convId,
+          args[0],
+        );
+        if (order.length > 1) {
+          try {
+            for (let i = 0; i < order.length; i++) {
+              chatStore.set(speakingCharacterIdAtom, order[i]);
+              // Only the FIRST send carries the user text; the rest continue.
+              if (i === 0) await chat.sendMessage(...args);
+              else await chat.sendMessage();
+            }
+          } finally {
+            chatStore.set(speakingCharacterIdAtom, null);
+          }
+          return;
+        }
+      }
       // Offline: still call sendMessage. It pushes the user message into the
       // thread and attempts the stream, which fails fast; the history adapter
       // persists the user turn on the run transition, making it a detectable
       // unanswered turn for replay. onError shows the "queued" toast.
+      chatStore.set(speakingCharacterIdAtom, null);
       return chat.sendMessage(...args);
     },
   };

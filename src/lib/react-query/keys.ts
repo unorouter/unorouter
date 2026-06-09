@@ -62,9 +62,10 @@ export const queryKeys = {
   syncState: () => ["sync-state"] as const,
   pendingSync: () => ["pending-sync"] as const,
   requestLog: (msgId: string) => ["request-log", msgId] as const,
+  usedProvider: (requestId: string) => ["used-provider", requestId] as const,
 
   pricing: () => ["pricing"] as const,
-  searchIndex: () => ["search-index"] as const,
+  searchIndex: (locale: string) => ["search-index", locale] as const,
   searchResults: (locale: string, query: string) =>
     ["search-index", "results", locale, query] as const,
   statsHistory: () => ["stats-history"] as const,

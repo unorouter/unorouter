@@ -58,24 +58,76 @@ export function getApiKey(cookie: Record<string, Cookie<unknown>>): string {
   }
 }
 
-export function getApiKeyOrGuest(
-  cookie: Record<string, Cookie<unknown>>,
-): string {
-  try {
-    return getApiKey(cookie);
-  } catch {
-    if (serverEnv.guestApiKey) return serverEnv.guestApiKey;
-    throw new Error(msg("ERRORS.UNAUTHORIZED"));
-  }
-}
-
-export function getProvider(apiKey: string) {
+export function getProvider(
+  apiKey: string,
+  opts?: { injectCacheControl?: boolean },
+) {
   return createOpenAICompatible({
     name: env.appName,
     baseURL: `${upstreamApiUrl}/v1`,
     apiKey,
+    // Anthropic prompt caching: the OpenAI-compatible upstream (new-api /
+    // OpenRouter) forwards `cache_control` markers placed on message content
+    // blocks to the Anthropic API. ai-sdk's openai-compatible provider does not
+    // emit them, so a fetch wrapper injects them into the outgoing body when the
+    // model supports caching. No-op on channels that ignore the field.
+    ...(opts?.injectCacheControl
+      ? { fetch: cacheControlFetch as typeof fetch }
+      : {}),
   });
 }
+
+// Mark the system prompt + the last user message with `cache_control: ephemeral`
+// so a long, stable RP prefix (character cards, lorebook, persona) is cached by
+// the upstream Anthropic channel. Best-effort: any parse failure forwards the
+// request untouched.
+const cacheControlFetch: typeof fetch = async (input, init) => {
+  try {
+    if (init?.body && typeof init.body === "string") {
+      const body = JSON.parse(init.body) as {
+        messages?: { role: string; content: unknown }[];
+      };
+      if (Array.isArray(body.messages) && body.messages.length > 0) {
+        const mark = (content: unknown): unknown => {
+          // String content -> wrap into a single text block carrying the marker.
+          if (typeof content === "string") {
+            return [
+              {
+                type: "text",
+                text: content,
+                cache_control: { type: "ephemeral" },
+              },
+            ];
+          }
+          // Block array -> mark the last block.
+          if (Array.isArray(content) && content.length > 0) {
+            const last = content[content.length - 1];
+            if (last && typeof last === "object") {
+              (last as Record<string, unknown>).cache_control = {
+                type: "ephemeral",
+              };
+            }
+            return content;
+          }
+          return content;
+        };
+        const sys = body.messages.find((m) => m.role === "system");
+        if (sys) sys.content = mark(sys.content);
+        // Last user message anchors the cache breakpoint before generation.
+        for (let i = body.messages.length - 1; i >= 0; i--) {
+          if (body.messages[i].role === "user") {
+            body.messages[i].content = mark(body.messages[i].content);
+            break;
+          }
+        }
+        init = { ...init, body: JSON.stringify(body) };
+      }
+    }
+  } catch {
+    // fall through with the original init
+  }
+  return fetch(input, init);
+};
 
 export async function deriveUpstream({ request }: { request: Request }) {
   const cookieHeader = request.headers.get("cookie") ?? "";

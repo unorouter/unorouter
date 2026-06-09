@@ -32,11 +32,11 @@ type Props = {
 function hasVendorFields(d: PlaygroundModelDescriptor): boolean {
   return Boolean(
     d.supportsQuality ||
-      d.supportsOutputFormat ||
-      d.supportsBackground ||
-      d.supportsWatermark ||
-      d.supportsStrength ||
-      d.supportsSeed,
+    d.supportsOutputFormat ||
+    d.supportsBackground ||
+    d.supportsWatermark ||
+    d.supportsStrength ||
+    d.supportsSeed,
   );
 }
 

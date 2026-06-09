@@ -8,7 +8,7 @@ export function HeroStatsGrid() {
   const { data } = usePricingQuery();
 
   return (
-    <div className="border-border grid w-full grid-cols-3 gap-0 border-t">
+    <div className="border-border grid w-full grid-cols-2 gap-0 border-t md:grid-cols-4">
       <StatCard
         label={t("HOME.STATS.MODELS")}
         value={data ? String(data.modelCount) : "-"}
@@ -20,9 +20,14 @@ export function HeroStatsGrid() {
         indicator={t("HOME.STATS.INDICATOR.INTEGRATED")}
       />
       <StatCard
-        label={t("HOME.STATS.UPTIME")}
-        value="99.9%"
-        indicator={t("HOME.STATS.INDICATOR.SLA")}
+        label={t("HOME.STATS.FREE")}
+        value={data ? String(data.freeCount) : "-"}
+        indicator={t("HOME.STATS.INDICATOR.FREE")}
+      />
+      <StatCard
+        label={t("HOME.STATS.PAID")}
+        value={data ? String(data.paidCount) : "-"}
+        indicator={t("HOME.STATS.INDICATOR.PAID")}
       />
     </div>
   );

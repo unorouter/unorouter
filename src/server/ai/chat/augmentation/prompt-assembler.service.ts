@@ -1,3 +1,4 @@
+import { parseStringMap } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 import {
   parseExtraBody as parseExtraBodyShared,
@@ -5,12 +6,22 @@ import {
 } from "@/lib/validation/chat";
 import { loadConvContext } from "./prompt-assembler/conv-context";
 import type { LoadedConvContext } from "@/lib/types";
+import { encode } from "gpt-tokenizer";
 import { keyHits, selectLorebookEntries } from "./prompt-assembler/lorebook";
+import { parseExampleMessages } from "./example-messages";
+import { expandMacros, type MacroScope } from "./macros";
+import {
+  DEFAULT_PROMPT_TEMPLATE,
+  parsePromptTemplate,
+  walkTemplate,
+  type PromptPart,
+  type TemplateSlots,
+} from "./prompt-template";
 
 export type DepthInjection = {
   text: string;
   depth: number;
-  role?: "system" | "user";
+  role?: "system" | "user" | "assistant";
 };
 
 type SamplingSource = {
@@ -63,19 +74,26 @@ export type AssembledSystem = {
   atDepthEntries: DepthInjection[];
   /** Parsed extra body merged into providerOptions. Sliders win on key clash. */
   extraBody?: Record<string, unknown>;
+  /** OpenRouter-style provider routing, passed through the request body. */
+  providerRouting?: ProviderRouting;
   prefill?: string;
-  vars: {
-    user: string;
-    char: string;
-    user_description: string;
-    char_description: string;
-    scenario: string;
-  };
+  /** Post-history block (jailbreak/postHistory + bottom lore), emitted AFTER
+   *  chat history so the model reads it last (RisuAI postEverything parity). */
+  postHistory?: string;
+  /** Ordered prompt parts from the template walk. The `chatHistory` part marks
+   *  where conversation messages splice in. Stream service flattens these. */
+  promptParts: PromptPart[];
+  /** Two-pass token estimate of the non-history prompt (system + pre/post-chat
+   *  parts + depth/author injections). The stream service reserves this against
+   *  the context window before fitting chat history to the budget. */
+  promptTokens: number;
+  /** Shared macro scope (field tokens + the live chat-variable store). Threaded
+   *  into message-body expansion so var writes persist across the whole prompt. */
+  vars: MacroScope;
   flags: {
     forceAlternateRoles: boolean;
     noSystemRole: boolean;
     mustStartWithUserInput: boolean;
-    skipPrefillIfLastIsAssistant: boolean;
     geminiBlockOff: boolean;
   };
 };
@@ -87,22 +105,102 @@ function parseExtraBody(
   return r.state === "valid" ? r.parsed : undefined;
 }
 
-const TEMPLATE_VAR_RE =
-  /\{\{(user|char|user_description|char_description|scenario)\}\}/g;
+// Prompt-affecting character fields a per-conversation binding may override.
+const CHAR_OVERRIDE_FIELDS = [
+  "name",
+  "description",
+  "personality",
+  "scenario",
+  "exampleMessages",
+  "systemPrompt",
+  "postHistoryInstructions",
+] as const;
 
-export function expandTemplateVars(
-  text: string,
-  vars: {
-    user?: string;
-    char?: string;
-    user_description?: string;
-    char_description?: string;
-    scenario?: string;
-  },
-): string {
-  return text.replace(TEMPLATE_VAR_RE, (_, key: keyof typeof vars) => {
-    return vars[key] ?? "";
-  });
+// Merge a binding's overrides (JSON column, loose shape) over the stored
+// character. Only the prompt-affecting fields are honored; nullish override
+// values fall through to the stored value.
+function applyCharOverrides<T extends Record<string, unknown>>(
+  character: T,
+  overrides: unknown,
+): T {
+  if (!overrides || typeof overrides !== "object") return character;
+  const ov = overrides as Record<string, unknown>;
+  const merged = { ...character };
+  for (const f of CHAR_OVERRIDE_FIELDS) {
+    if (ov[f] != null) (merged as Record<string, unknown>)[f] = ov[f];
+  }
+  return merged;
+}
+
+type ProviderRouting = {
+  order?: string[];
+  only?: string[];
+  ignore?: string[];
+  sort?: string;
+};
+
+// Provider routing is stored as a JSON string `{order?,only?,ignore?,sort?}`
+// (OpenRouter shape). Passed through the request body verbatim; only honored by
+// upstream channels that route on it (OpenRouter-backed), a no-op otherwise.
+function parseProviderRouting(
+  raw: string | null | undefined,
+): ProviderRouting | undefined {
+  if (!raw) return undefined;
+  try {
+    const parsed = JSON.parse(raw);
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+      return undefined;
+    }
+    const src = parsed as Record<string, unknown>;
+    const out: ProviderRouting = {};
+    for (const k of ["order", "only", "ignore"] as const) {
+      const v = src[k];
+      if (Array.isArray(v) && v.length > 0) out[k] = v.map(String);
+    }
+    if (typeof src.sort === "string" && src.sort) out.sort = src.sort;
+    return Object.keys(out).length > 0 ? out : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+
+// Minimal AssembledSystem: a system-only prompt + the whole chat history.
+// Shared by the overrides path and the missing-context fallback.
+function baseAssembled(system: string | undefined): AssembledSystem {
+  return {
+    system,
+    sampling: {},
+    chatMemory: 8,
+    streamingEnabled: true,
+    atDepthEntries: [],
+    promptTokens: 0,
+    promptParts: [
+      ...(system
+        ? [{ kind: "message" as const, role: "system" as const, text: system }]
+        : []),
+      {
+        kind: "chatHistory" as const,
+        rangeStart: -1000,
+        rangeEnd: "end" as const,
+      },
+    ],
+    vars: {
+      user: "User",
+      char: "Assistant",
+      user_description: "",
+      char_description: "",
+      scenario: "",
+      personality: "",
+      vars: {},
+    },
+    flags: {
+      forceAlternateRoles: false,
+      noSystemRole: false,
+      mustStartWithUserInput: false,
+      geminiBlockOff: false,
+    },
+  };
 }
 
 export function assembleFromOverrides(
@@ -118,65 +216,66 @@ export function assembleFromOverrides(
   const authorNote = overrides?.authorNote
     ? { text: overrides.authorNote, depth: overrides.authorNoteDepth ?? 4 }
     : undefined;
+  const overridesSystem = sections.length ? sections.join("\n\n") : undefined;
   return {
-    system: sections.length ? sections.join("\n\n") : undefined,
+    ...baseAssembled(overridesSystem),
     sampling,
     reasoningEffort: overrides?.reasoningEffort ?? undefined,
     // 0 default silently disabled chat memory for guests.
     chatMemory: overrides?.chatMemory ?? 8,
     streamingEnabled: overrides?.streamingEnabled ?? true,
     authorNote,
-    atDepthEntries: [],
     extraBody: parseExtraBody(overrides?.extraBody),
-    vars: {
-      user: "User",
-      char: "Assistant",
-      user_description: "",
-      char_description: "",
-      scenario: "",
-    },
-    flags: {
-      forceAlternateRoles: false,
-      noSystemRole: false,
-      mustStartWithUserInput: false,
-      skipPrefillIfLastIsAssistant: false,
-      geminiBlockOff: false,
-    },
   };
 }
+
+export type AssembleOpts = {
+  // Per-user global variable store (JSON string), persisted via the userVars
+  // sync kind. Mutated by setglobalvar macros; caller persists if changed.
+  globalVars?: string | null;
+  // Role-tagged recent chat history (newest last) for the {{history}} macros.
+  history?: { role: "user" | "assistant" | "system"; text: string }[];
+  // Pre-mutated chat var store (e.g. by start-mode triggers). When given, this
+  // map is used directly (and mutated further by macros) instead of re-parsing
+  // settings.vars, so trigger var writes are visible to the prompt + writeback.
+  seedVars?: Record<string, string>;
+  // Model id + context window for the {{model}}/{{maxcontext}} field tokens.
+  model?: string;
+  maxContext?: number;
+  // Multi-character rotation: promote this bound character to primary so it
+  // drives {{char}} and the per-character block ordering for this turn.
+  speakingCharacterId?: string;
+};
 
 export async function assembleForStream(
   convId: string,
   recentUserTexts: string[],
   fallbackSystemMessage?: string,
   preloadedCtx?: LoadedConvContext,
+  opts?: AssembleOpts,
 ): Promise<AssembledSystem> {
+  const globalVars = opts?.globalVars;
+  const history = opts?.history;
   const ctx = preloadedCtx ?? (await loadConvContext(convId));
-  if (!ctx) {
-    return {
-      system: fallbackSystemMessage,
-      sampling: {},
-      chatMemory: 8,
-      streamingEnabled: true,
-      atDepthEntries: [],
-      vars: {
-        user: "User",
-        char: "Assistant",
-        user_description: "",
-        char_description: "",
-        scenario: "",
-      },
-      flags: {
-        forceAlternateRoles: false,
-        noSystemRole: false,
-        mustStartWithUserInput: false,
-        skipPrefillIfLastIsAssistant: false,
-        geminiBlockOff: false,
-      },
-    };
-  }
+  if (!ctx) return baseAssembled(fallbackSystemMessage);
 
-  const { settings, boundCharacters, persona, preset, lbRows, lbEntries } = ctx;
+  const { settings, persona, preset, lbRows, lbEntries } = ctx;
+
+  // Multi-character rotation: float the speaking character to index 0 so it
+  // becomes primary ({{char}} + first character block) for this turn.
+  let boundCharacters = ctx.boundCharacters;
+  if (opts?.speakingCharacterId) {
+    const idx = boundCharacters.findIndex(
+      (b) => b.binding.characterId === opts.speakingCharacterId,
+    );
+    if (idx > 0) {
+      boundCharacters = [
+        boundCharacters[idx],
+        ...boundCharacters.slice(0, idx),
+        ...boundCharacters.slice(idx + 1),
+      ];
+    }
+  }
 
   const primary = boundCharacters[0]?.character;
   const userName = persona?.name ?? "User";
@@ -185,45 +284,102 @@ export async function assembleForStream(
   const charDesc = primary?.description ?? "";
   const scenario = primary?.scenario ?? "";
 
+  // Shared macro scope. `vars` is the per-conversation chat-variable store;
+  // setvar/addvar mutate it in place across every expand() call so writes are
+  // visible to later reads. Persisted by the caller after the stream.
+  const macroScope: MacroScope = {
+    user: userName,
+    char: charName,
+    user_description: userDesc,
+    char_description: charDesc,
+    scenario,
+    personality: primary?.personality ?? "",
+    vars: opts?.seedVars ?? parseStringMap(settings.vars),
+    globalVars: parseStringMap(globalVars),
+    tempVars: {},
+    history,
+    // Per-TURN seed (convId + chat length): roll/random/pick are stable across
+    // regenerates of the same turn but re-roll on the next turn. convId alone
+    // would freeze every {{roll}} for the conversation's lifetime.
+    seed: `${convId}:${history?.length ?? 0}`,
+    // Prompt-field tokens ({{model}}, {{jailbreak}}, {{main_prompt}}, ...).
+    model: opts?.model ?? settings.defaultModel ?? undefined,
+    maxContext: opts?.maxContext,
+    mainPrompt: preset?.mainPrompt ?? undefined,
+    jailbreak: preset?.postHistory ?? undefined,
+    globalNote: settings.systemPromptOverride ?? primary?.systemPrompt ?? undefined,
+    prefill: preset?.prefill ?? undefined,
+    authorNote: settings.authorNote ?? undefined,
+  };
   const expand = (text: string | null | undefined) =>
-    text
-      ? expandTemplateVars(text, {
-          user: userName,
-          char: charName,
-          user_description: userDesc,
-          char_description: charDesc,
-          scenario,
-        })
-      : "";
+    text ? expandMacros(text, macroScope) : "";
 
   const booksById = new Map(lbRows.map((b) => [b.id, b]));
-  const selected = selectLorebookEntries(recentUserTexts, lbEntries, booksById);
+  // Lore scans BOTH user and assistant messages (Risu searchMatch scans the
+  // whole chat window): what the bot said must be able to activate entries.
+  // Newest first to match the selector's slice(0, scanDepth).
+  const scanTexts = history
+    ? history
+        .filter((m) => m.role === "user" || m.role === "assistant")
+        .map((m) => m.text)
+        .reverse()
+    : recentUserTexts;
+  const selected = selectLorebookEntries(scanTexts, lbEntries, booksById, {
+    // Chat length drives the @@activate_only_after/every gates; sticky-match
+    // state reads/writes the (now-persisted) conversation var store.
+    chatLength: history?.length ?? recentUserTexts.length,
+    // 0 = default greeting (Risu fmIndex -1 + 1); alternate greetings are not
+    // tracked, so @@is_greeting N>0 entries stay off.
+    greetingIndex: 0,
+    vars: macroScope.vars,
+    // Same per-turn seed as the macro engine: @@probability stable across
+    // regenerates, fresh roll each turn.
+    seed: macroScope.seed,
+  });
 
-  const sections: string[] = [];
+  // Build named content SLOTS. A prompt template (default or preset-defined)
+  // orders these into the final prompt. The default template reproduces the
+  // historical fixed order, so the no-template path is byte-identical.
+  const joinNonEmpty = (parts: string[]) =>
+    parts.filter(Boolean).join("\n\n").trim();
 
-  if (preset?.mainPrompt) sections.push(expand(preset.mainPrompt));
+  // main = preset.mainPrompt then the web-search/guest fallback message.
+  const mainSlot = joinNonEmpty([
+    preset?.mainPrompt ? expand(preset.mainPrompt) : "",
+    fallbackSystemMessage ?? "",
+  ]);
 
-  if (fallbackSystemMessage) sections.push(fallbackSystemMessage);
-
-  for (const e of selected.filter((x) => x.position === "top"))
-    sections.push(expand(e.content));
-  for (const e of selected.filter((x) => x.position === "before_char"))
-    sections.push(expand(e.content));
+  const loreTopSlot = joinNonEmpty(
+    selected.filter((x) => x.position === "top").map((e) => expand(e.content)),
+  );
+  const loreBeforeCharSlot = joinNonEmpty(
+    selected
+      .filter((x) => x.position === "before_char")
+      .map((e) => expand(e.content)),
+  );
+  const loreAfterCharSlot = joinNonEmpty(
+    selected
+      .filter((x) => x.position === "after_char")
+      .map((e) => expand(e.content)),
+  );
 
   // Multi-char: primary owns {{char}}; non-primary alwaysActive=false is trigger-gated.
   const charScanText = recentUserTexts.join("\n");
+  const charBlocks: string[] = [];
   for (let i = 0; i < boundCharacters.length; i++) {
     const binding = boundCharacters[i];
-    const ch = binding.character;
+    // Per-conversation overrides (binding.overrides) win over the stored
+    // character fields. Previously loaded but never applied.
+    const ch = applyCharOverrides(binding.character, binding.binding.overrides);
     const isPrimary = i === 0;
-    const triggers = (ch.triggers ?? null) as string[] | null;
+    const turnTriggers = (ch.turnTriggers ?? null) as string[] | null;
     const gated =
       !isPrimary &&
       ch.alwaysActive === false &&
-      Array.isArray(triggers) &&
-      triggers.length > 0;
+      Array.isArray(turnTriggers) &&
+      turnTriggers.length > 0;
     if (gated) {
-      const hit = triggers.some((k) =>
+      const hit = turnTriggers.some((k) =>
         keyHits(k, charScanText, !!ch.matchWholeWords),
       );
       if (!hit) continue;
@@ -237,42 +393,99 @@ export async function assembleForStream(
     if (ch.personality)
       charBlock.push(`## Personality\n${expand(ch.personality)}`);
     if (ch.scenario) charBlock.push(`## Scenario\n${expand(ch.scenario)}`);
-    if (ch.exampleMessages)
-      charBlock.push(`## Example dialogue\n${expand(ch.exampleMessages)}`);
-    if (charBlock.length > 0) sections.push(charBlock.join("\n\n"));
+    // exampleMessages are emitted as role-tagged few-shot turns (below), not as
+    // a description blob, so they are intentionally NOT pushed here.
+    if (charBlock.length > 0) charBlocks.push(charBlock.join("\n\n"));
   }
+  const descriptionSlot = joinNonEmpty(charBlocks);
 
-  if (persona) {
-    const pBlock: string[] = [`# User persona: ${persona.name}`];
-    if (persona.description) pBlock.push(expand(persona.description));
-    sections.push(pBlock.join("\n\n"));
-  }
+  const personaSlot = persona
+    ? joinNonEmpty([
+        `# User persona: ${persona.name}`,
+        persona.description ? expand(persona.description) : "",
+      ])
+    : "";
 
-  for (const e of selected.filter((x) => x.position === "after_char"))
-    sections.push(expand(e.content));
-
-  // ST parity: only primary's systemPrompt/postHistoryInstructions emit.
+  // ST parity: only primary's systemPrompt emits in the main system block.
   const sysOverride =
     settings.systemPromptOverride ?? primary?.systemPrompt ?? null;
-  if (sysOverride) sections.push(expand(sysOverride));
+  const systemPromptSlot = sysOverride ? expand(sysOverride) : "";
 
-  if (primary?.postHistoryInstructions)
-    sections.push(expand(primary.postHistoryInstructions));
+  // Post-history: jailbreak/UJB + preset.postHistory + bottom lore.
+  const postHistorySlot = joinNonEmpty([
+    primary?.postHistoryInstructions
+      ? expand(primary.postHistoryInstructions)
+      : "",
+    preset?.postHistory ? expand(preset.postHistory) : "",
+    ...selected.filter((x) => x.position === "bottom").map((e) => expand(e.content)),
+  ]);
 
-  if (preset?.postHistory) sections.push(expand(preset.postHistory));
+  // Empty slot text -> null so the template walk skips the card.
+  const sys = (text: string) =>
+    text ? ({ text, role: "system" as const }) : null;
+  const slots: TemplateSlots = {
+    main: sys(mainSlot),
+    loreTop: sys(loreTopSlot),
+    loreBeforeChar: sys(loreBeforeCharSlot),
+    description: sys(descriptionSlot),
+    persona: sys(personaSlot),
+    loreAfterChar: sys(loreAfterCharSlot),
+    systemPrompt: sys(systemPromptSlot),
+    postHistory: sys(postHistorySlot),
+  };
 
-  for (const e of selected.filter((x) => x.position === "bottom"))
-    sections.push(expand(e.content));
+  const template =
+    parsePromptTemplate(preset?.promptTemplate) ?? DEFAULT_PROMPT_TEMPLATE;
+  const promptParts = walkTemplate(template, slots);
 
-  const system =
-    sections.filter(Boolean).join("\n\n").trim() || fallbackSystemMessage;
+  // Example dialogue as role-tagged few-shot turns, spliced in just before the
+  // chat history (RisuAI exampleMessage). Macro-expanded; the model reads them
+  // as real example turns instead of a description blob.
+  const exampleTurns = parseExampleMessages(
+    primary?.exampleMessages,
+    charName,
+  ).map(
+    (t) => ({ kind: "message" as const, role: t.role, text: expand(t.text) }),
+  );
+  if (exampleTurns.length > 0) {
+    const histIdx = promptParts.findIndex((p) => p.kind === "chatHistory");
+    const at = histIdx === -1 ? promptParts.length : histIdx;
+    promptParts.splice(at, 0, ...exampleTurns);
+  }
+
+  // Top-level `system` param = the LEADING run of system messages only (what
+  // the stream service hoists out of promptParts). Non-system pre-chat parts
+  // and everything after the chat marker are emitted inline by the stream, so
+  // they must NOT be duplicated into `system` here.
+  const leadSystem: string[] = [];
+  for (const p of promptParts) {
+    if (p.kind === "message" && p.role === "system") leadSystem.push(p.text);
+    else break;
+  }
+  const system = joinNonEmpty(leadSystem) || fallbackSystemMessage;
+  // postHistory scalar retained for any non-template caller; in the template
+  // flow the stream emits after-chat parts inline, so it is informational.
+  const chatIdx = promptParts.findIndex((p) => p.kind === "chatHistory");
+  const postHistory =
+    chatIdx === -1
+      ? undefined
+      : joinNonEmpty(
+          promptParts
+            .slice(chatIdx + 1)
+            .filter((p): p is Extract<typeof p, { kind: "message" }> =>
+              p.kind === "message",
+            )
+            .map((p) => p.text),
+        ) || undefined;
 
   const atDepthEntries: DepthInjection[] = selected
     .filter((e) => e.position === "at_depth")
     .map((e) => ({
       text: expand(e.content),
       depth: e.depth ?? 4,
-      role: e.injectionRole === "system" ? "system" : "user",
+      // Pass the entry's role through verbatim (user/system/assistant). Default
+      // is system (RisuAI/ST), so a depth note without a role is a system note.
+      role: e.injectionRole ?? "system",
     }));
   const authorNote = settings.authorNote
     ? {
@@ -306,26 +519,41 @@ export async function assembleForStream(
     system: system || undefined,
     sampling,
     reasoningEffort: reasoningEffort ?? undefined,
-    chatMemory: settings.chatMemory,
-    streamingEnabled: settings.streamingEnabled ?? true,
+    // Precedence: conversation override -> preset default -> system default.
+    // null on the conversation means "inherit the preset".
+    chatMemory: settings.chatMemory ?? preset?.chatMemory ?? 8,
+    streamingEnabled:
+      settings.streamingEnabled ?? preset?.streamingEnabled ?? true,
     authorNote,
     atDepthEntries,
     extraBody,
+    providerRouting: parseProviderRouting(preset?.providers),
     prefill: preset?.prefill ? expand(preset.prefill) : undefined,
-    vars: {
-      user: userName,
-      char: charName,
-      user_description: userDesc,
-      char_description: charDesc,
-      scenario,
-    },
+    postHistory,
+    promptParts,
+    promptTokens: estimatePromptTokens(promptParts, atDepthEntries, authorNote),
+    vars: macroScope,
     flags: {
       forceAlternateRoles: preset?.forceAlternateRoles ?? false,
       noSystemRole: preset?.noSystemRole ?? false,
       mustStartWithUserInput: preset?.mustStartWithUserInput ?? false,
-      skipPrefillIfLastIsAssistant:
-        preset?.skipPrefillIfLastIsAssistant ?? false,
       geminiBlockOff: preset?.geminiBlockOff ?? false,
     },
   };
+}
+
+// Two-pass token estimate of the non-history prompt: every emitted message part
+// plus the depth/author injections. Used by the stream service to reserve space
+// before fitting chat history to the model context window.
+function estimatePromptTokens(
+  parts: PromptPart[],
+  atDepth: DepthInjection[],
+  authorNote: DepthInjection | undefined,
+): number {
+  const est = (t: string) => (t ? encode(t).length : 0);
+  let total = 0;
+  for (const p of parts) if (p.kind === "message") total += est(p.text);
+  for (const d of atDepth) total += est(d.text);
+  if (authorNote) total += est(authorNote.text);
+  return total;
 }

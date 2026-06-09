@@ -1,145 +1,86 @@
 "use client";
 
-import { IntegrationLogo } from "@/components/pages/navbar/home/integration-logo";
-import {
-  getIntegration,
-  type IntegrationKey,
-} from "@/components/pages/navbar/home/integrations";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { GuideIcon } from "@/components/pages/docs/guide-icon";
+import { SETUP_GUIDES } from "@/components/pages/docs/setup-guides";
 import { Link } from "@/i18n/navigation";
-import { motion } from "motion/react";
+import { APP_VALUES } from "@/lib/config/constants";
+import { useTranslations } from "next-intl";
 
-// Two-layer split: outer motion.div owns spring drift, inner Link owns hover.
-// Prevents whileHover yanking chip back to anchor by keeping spring loop
-// running independently.
+// Lightweight floating brand chips around the stats card. No JS animation (27
+// perpetual springs lagged); a single shared CSS keyframe with a per-chip delay
+// gives the drift cheaply on the GPU. Even grid: half ABOVE the card, half
+// BELOW it, so the card stays clear.
 
-type Anchor = {
-  top?: string;
-  bottom?: string;
-  left?: string;
-  right?: string;
-};
+const COLS = 7;
+// Span the stats card's x-range (it sits ~0%-84% of the overlay, centered ~42%)
+// so the chips wrap symmetrically around the card instead of hanging off its
+// right edge.
+const X_START = 2;
+const X_END = 84;
+const TOP_ROW_Y = [-2, 8];
+const BOTTOM_ROW_Y = [88, 98];
+const HALF = Math.ceil(SETUP_GUIDES.length / 2);
 
-type Drift = { x: number; y: number; rot: number; scale: number };
-
-type Spring = {
-  stiffness: number;
-  damping: number;
-  mass: number;
-  /** Negative seconds; offsets the loop so chips don't all start at apex. */
-  delay: number;
-};
-
-type FloatItem = {
-  key: IntegrationKey;
-  anchor: Anchor;
-  drift: Drift;
-  spring: Spring;
-};
-
-const FLOATERS: readonly FloatItem[] = [
-  {
-    key: "claude-code",
-    anchor: { top: "0", left: "0" },
-    drift: { x: 30, y: -16, rot: 2, scale: 1.06 },
-    spring: { stiffness: 7, damping: 14, mass: 3.6, delay: -2.4 },
-  },
-  {
-    key: "codex",
-    anchor: { top: "0", left: "48%" },
-    drift: { x: 38, y: -20, rot: 2.5, scale: 0.94 },
-    spring: { stiffness: 6, damping: 14, mass: 4.0, delay: -3.7 },
-  },
-  {
-    key: "risuai",
-    anchor: { top: "0", right: "0" },
-    drift: { x: 28, y: 14, rot: 1.8, scale: 1.05 },
-    spring: { stiffness: 8, damping: 16, mass: 3.4, delay: -0.6 },
-  },
-  {
-    key: "janitor-ai",
-    anchor: { top: "42%", right: "0" },
-    drift: { x: 26, y: -16, rot: -1.6, scale: 0.95 },
-    spring: { stiffness: 9, damping: 16, mass: 3.2, delay: -4.5 },
-  },
-  {
-    key: "chub",
-    anchor: { bottom: "0", right: "0" },
-    drift: { x: 32, y: -18, rot: -2, scale: 1.07 },
-    spring: { stiffness: 6, damping: 14, mass: 4.0, delay: -1.8 },
-  },
-  {
-    key: "gemini-cli",
-    anchor: { bottom: "0", left: "52%" },
-    drift: { x: 40, y: 18, rot: 2.2, scale: 0.93 },
-    spring: { stiffness: 7, damping: 14, mass: 3.8, delay: -3.1 },
-  },
-  {
-    key: "openclaw",
-    anchor: { bottom: "0", left: "0" },
-    drift: { x: 34, y: -14, rot: 1.6, scale: 1.05 },
-    spring: { stiffness: 8, damping: 15, mass: 3.5, delay: -2.9 },
-  },
-  {
-    key: "sillytavern",
-    anchor: { top: "48%", left: "0" },
-    drift: { x: 28, y: 16, rot: -2, scale: 0.96 },
-    spring: { stiffness: 9, damping: 16, mass: 3.3, delay: -1.2 },
-  },
-];
+const PLACED = SETUP_GUIDES.map((guide, i) => {
+  const above = i < HALF;
+  const n = above ? i : i - HALF;
+  const col = n % COLS;
+  const row = Math.floor(n / COLS);
+  // Even column base + a small per-row stagger so the two rows aren't a rigid
+  // grid (alternate rows nudge half a step + the odd ones sit a bit lower).
+  const stagger = row % 2 === 0 ? 0 : (X_END - X_START) / (COLS - 1) / 2;
+  const leftPct = X_START + (col / (COLS - 1)) * (X_END - X_START) + stagger;
+  const baseTop = (above ? TOP_ROW_Y : BOTTOM_ROW_Y)[row] ?? (above ? 4 : 96);
+  // Per-column nudge so rows aren't dead flat, but always AWAY from the card
+  // (top band nudges up, bottom band nudges down) so it never overlaps.
+  const topPct = baseTop + (col % 3) * (above ? -2 : 2);
+  return {
+    slug: guide.slug,
+    iconKey: guide.iconKey,
+    logoSrc: guide.logoSrc,
+    logoBg: guide.logoBg,
+    titleKey: guide.titleKey,
+    href: guide.href,
+    top: `${topPct}%`,
+    left: `${leftPct}%`,
+    // Visible drift (18-30px), staggered, 8-13s. transform-only, no
+    // will-change - keeps it on the compositor without 27 GPU layers.
+    fx: `${(i % 2 === 0 ? 1 : -1) * (16 + (i % 4) * 5)}px`,
+    fy: `${(above ? -1 : 1) * (14 + (i % 4) * 5)}px`,
+    delay: `${-(i % 9) * 1.1}s`,
+    duration: `${8 + (i % 6)}s`,
+  };
+});
 
 export function FloatingIntegrationsMotion() {
+  const t = useTranslations();
+
   return (
-    <TooltipProvider delay={200}>
-      <div className="pointer-events-none absolute -inset-x-32 -inset-y-24 z-20 hidden motion-reduce:hidden lg:block">
-        {FLOATERS.map((item) => {
-          const integration = getIntegration(item.key);
-          return (
-            <motion.div
-              key={item.key}
-              className="pointer-events-none absolute"
-              style={item.anchor}
-              initial={{ x: 0, y: 0, rotate: 0, scale: 1 }}
-              animate={{
-                x: item.drift.x,
-                y: item.drift.y,
-                rotate: item.drift.rot,
-                scale: item.drift.scale,
-              }}
-              transition={{
-                type: "spring",
-                ...item.spring,
-                repeat: Infinity,
-                repeatType: "reverse",
-              }}
-            >
-              <Tooltip>
-                <TooltipTrigger
-                  render={
-                    <Link
-                      href={integration.href}
-                      aria-label={integration.badge}
-                      className="border-border/60 bg-card/80 hover:border-foreground/40 hover:bg-card pointer-events-auto flex h-12 w-12 items-center justify-center rounded-full border shadow-lg backdrop-blur-md transition-transform duration-200 hover:scale-110"
-                    />
-                  }
-                >
-                  <IntegrationLogo
-                    integration={integration}
-                    size={28}
-                    bgShape="circle"
-                  />
-                </TooltipTrigger>
-                <TooltipContent>{integration.badge}</TooltipContent>
-              </Tooltip>
-            </motion.div>
-          );
-        })}
-      </div>
-    </TooltipProvider>
+    <div className="pointer-events-none absolute -inset-x-32 -inset-y-24 z-20 hidden motion-reduce:hidden lg:block">
+      {PLACED.map((item) => (
+        <Link
+          key={item.slug}
+          href={item.href}
+          aria-label={t(item.titleKey, APP_VALUES)}
+          title={t(item.titleKey, APP_VALUES)}
+          style={{
+            top: item.top,
+            left: item.left,
+            animationDuration: item.duration,
+            animationDelay: item.delay,
+            ["--fx" as string]: item.fx,
+            ["--fy" as string]: item.fy,
+          }}
+          className="animate-float-chip border-border/60 bg-card/60 hover:border-foreground/40 hover:bg-card pointer-events-auto absolute flex size-11 items-center justify-center rounded-full border opacity-70 transition-[opacity,border-color] duration-200 hover:opacity-100"
+        >
+          <GuideIcon
+            iconKey={item.iconKey}
+            logoSrc={item.logoSrc}
+            logoBg={item.logoBg}
+            size={24}
+          />
+        </Link>
+      ))}
+    </div>
   );
 }

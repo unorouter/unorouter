@@ -17,6 +17,20 @@ export function safeJsonParse<T = Record<string, unknown>>(
   }
 }
 
+// Parse a JSON object string into a string map (chat/global var stores).
+// Non-object/array/invalid input -> {}; non-string values are stringified.
+export function parseStringMap(
+  raw: string | null | undefined,
+): Record<string, string> {
+  const v = safeJsonParse<unknown>(raw, null);
+  if (!v || typeof v !== "object" || Array.isArray(v)) return {};
+  const out: Record<string, string> = {};
+  for (const [k, val] of Object.entries(v as Record<string, unknown>)) {
+    out[k] = typeof val === "string" ? val : String(val);
+  }
+  return out;
+}
+
 const ALPHABET =
   "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
@@ -49,9 +63,18 @@ export function copyToClipboardAsync(
   ]);
 }
 
-// next-intl rejects raw [ ]; bracketed model slugs need encoding.
+// next-intl rejects raw [ ]; a raw / in a name splits into extra route segments
+// and makes the page unreachable. Encode all three into a single URL-safe segment.
+// Pair with modelMatchesSlug for the inverse lookup.
 export function modelSlug(name: string): string {
-  return name.replace(/\[/g, "%5B").replace(/\]/g, "%5D");
+  return name.replace(/\[/g, "%5B").replace(/\]/g, "%5D").replace(/\//g, "%2F");
+}
+
+// params.slug arrives URL-decoded by Next, so a name with a raw / never round-trips
+// as one segment. Compare against the encoded form too, and tolerate the legacy
+// raw-name match so existing links keep resolving.
+export function modelMatchesSlug(name: string, slug: string): boolean {
+  return name === slug || modelSlug(name) === slug;
 }
 
 export function unwrap<T extends { data: unknown }>(

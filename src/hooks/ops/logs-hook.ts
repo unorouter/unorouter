@@ -42,3 +42,24 @@ export function useTaskLogsQuery(
       handleElysia(await rpc.api.ops.logs.task.get({ query })),
   });
 }
+
+// Resolve which upstream channel/provider actually served a request. new-api
+// sends no channel header on the stream, but logs the channel by request_id, so
+// this looks the log row up after the fact. Returns the channel_name (the
+// reseller that auto-routing picked) or null when no match yet. Enabled only
+// when a request_id is present.
+export function useUsedProviderQuery(requestId: string | null | undefined) {
+  return useQuery({
+    queryKey: queryKeys.usedProvider(requestId ?? ""),
+    enabled: !!requestId,
+    queryFn: async () => {
+      const res = await handleElysia(
+        await rpc.api.ops.logs.get({
+          query: { request_id: requestId ?? "", page_size: 1 },
+        }),
+      );
+      const log = res?.items?.[0];
+      return log?.channel_name?.trim() || null;
+    },
+  });
+}

@@ -28,12 +28,19 @@ import { STYLES } from "@/components/ui/theme/shadcn-styles";
 import { FONT_OPTIONS } from "@/components/ui/theme/theme-fonts";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
-import { downloadJson } from "@/lib/utils/client";
+import { downloadJson, fileToScaledDataUrl } from "@/lib/utils/client";
+import { Slider } from "@/components/ui/slider";
 import {
   INITIAL_USER_THEME,
+  themeBackgroundAtom,
   userThemeAtom,
 } from "@/components/ui/theme/theme-store";
-import type { UserTheme } from "@/components/ui/theme/theme-store";
+import type {
+  BackgroundFit,
+  BackgroundSettings,
+  SurfaceColors,
+  UserTheme,
+} from "@/components/ui/theme/theme-store";
 import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useRef } from "react";
@@ -119,7 +126,7 @@ function ColorField(props: {
   return (
     <div
       className={
-        "ring-foreground/10 relative flex w-full shrink-0 items-center gap-2 rounded-lg px-3 py-2 ring-1 select-none hover:bg-muted"
+        "ring-foreground/10 hover:bg-muted relative flex w-full shrink-0 items-center gap-2 rounded-lg px-3 py-2 ring-1 select-none"
       }
     >
       <button
@@ -191,8 +198,10 @@ function AccentGlyph() {
 export function ThemeCustomizerBody() {
   const t = useTranslations();
   const [theme, setThemeRaw] = useAtom(userThemeAtom);
+  const [backgroundImage, setBackgroundImage] = useAtom(themeBackgroundAtom);
   const auth = useAuthQuery();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const bgFileInputRef = useRef<HTMLInputElement | null>(null);
   const themeSyncState = useSyncStateForRow(
     "theme",
     auth.data ? String(auth.data.id) : "",
@@ -230,8 +239,38 @@ export function ThemeCustomizerBody() {
     setTheme({ ...theme, markdown: nextMd });
   };
 
+  const setSurface = (patch: Partial<SurfaceColors>) => {
+    const next: SurfaceColors = { ...(theme.surface ?? {}), ...patch };
+    for (const key of Object.keys(next) as Array<keyof SurfaceColors>) {
+      if (next[key] === undefined) delete next[key];
+    }
+    setTheme({ ...theme, surface: next });
+  };
+
+  const setBackground = (patch: Partial<BackgroundSettings>) => {
+    setTheme({
+      ...theme,
+      background: { ...(theme.background ?? {}), ...patch },
+    });
+  };
+
+  const uploadBackground = async (file: File) => {
+    try {
+      const url = await fileToScaledDataUrl(file);
+      setBackgroundImage(url);
+      setBackground({ enabled: true });
+    } catch {
+      toast.error(t("THEME.IMPORT_FAILED"));
+    }
+  };
+
+  const removeBackground = () => {
+    setBackgroundImage(null);
+  };
+
   const resetAll = () => {
     setTheme(INITIAL_USER_THEME);
+    setBackgroundImage(null);
     toast.success(t("THEME.RESET_DONE"));
   };
 
@@ -492,6 +531,157 @@ export function ThemeCustomizerBody() {
             label={t("THEME.MD_DOUBLE_QUOTE")}
             value={theme.markdown?.doubleQuote}
             onChange={(v) => setMarkdown({ doubleQuote: v })}
+          />
+          <FieldSeparator />
+          <div className="text-muted-foreground px-1 pt-1 text-xs">
+            {t("THEME.SURFACE_COLORS")}
+          </div>
+          <ColorField
+            label={t("THEME.COLOR_BACKGROUND")}
+            value={theme.surface?.background}
+            onChange={(v) => setSurface({ background: v })}
+          />
+          <ColorField
+            label={t("THEME.COLOR_FOREGROUND")}
+            value={theme.surface?.foreground}
+            onChange={(v) => setSurface({ foreground: v })}
+          />
+          <ColorField
+            label={t("THEME.COLOR_CARD")}
+            value={theme.surface?.card}
+            onChange={(v) => setSurface({ card: v })}
+          />
+          <ColorField
+            label={t("THEME.COLOR_PRIMARY")}
+            value={theme.surface?.primary}
+            onChange={(v) => setSurface({ primary: v })}
+          />
+          <ColorField
+            label={t("THEME.COLOR_ACCENT")}
+            value={theme.surface?.accent}
+            onChange={(v) => setSurface({ accent: v })}
+          />
+          <ColorField
+            label={t("THEME.COLOR_SIDEBAR")}
+            value={theme.surface?.sidebar}
+            onChange={(v) => setSurface({ sidebar: v })}
+          />
+          <ColorField
+            label={t("THEME.COLOR_BORDER")}
+            value={theme.surface?.border}
+            onChange={(v) => setSurface({ border: v })}
+          />
+          <FieldSeparator />
+          <div className="text-muted-foreground px-1 pt-1 text-xs">
+            {t("THEME.BACKGROUND_IMAGE")}
+          </div>
+          {backgroundImage ? (
+            <div className="flex flex-col gap-2.5">
+              <div className="ring-foreground/10 relative h-24 w-full overflow-hidden rounded-lg ring-1">
+                {/* eslint-disable-next-line @next/next/no-img-element -- local data-URL preview, next/image can't optimize it */}
+                <img
+                  src={backgroundImage}
+                  alt=""
+                  className="h-full w-full object-cover"
+                />
+              </div>
+              <div className="flex gap-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="flex-1"
+                  onClick={() => bgFileInputRef.current?.click()}
+                >
+                  <Icon name="upload" className="mr-1.5 size-3.5" />
+                  {t("THEME.BG_REPLACE")}
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="flex-1"
+                  onClick={removeBackground}
+                >
+                  <Icon name="trash-2" className="mr-1.5 size-3.5" />
+                  {t("THEME.BG_REMOVE")}
+                </Button>
+              </div>
+              <Picker
+                label={t("THEME.BG_FIT")}
+                value={theme.background?.fit ?? "cover"}
+                valueLabel={
+                  theme.background?.fit === "contain"
+                    ? t("THEME.BG_FIT_CONTAIN")
+                    : theme.background?.fit === "tile"
+                      ? t("THEME.BG_FIT_TILE")
+                      : t("THEME.BG_FIT_COVER")
+                }
+                options={[
+                  { value: "cover", label: t("THEME.BG_FIT_COVER") },
+                  { value: "contain", label: t("THEME.BG_FIT_CONTAIN") },
+                  { value: "tile", label: t("THEME.BG_FIT_TILE") },
+                ]}
+                onValueChange={(v) =>
+                  setBackground({ fit: v as BackgroundFit })
+                }
+              />
+              <div className="flex flex-col gap-1.5 px-1">
+                <div className="text-muted-foreground flex justify-between text-xs">
+                  <span>{t("THEME.BG_OPACITY")}</span>
+                  <span>
+                    {Math.round((theme.background?.opacity ?? 1) * 100)}%
+                  </span>
+                </div>
+                <Slider
+                  min={0.1}
+                  max={1}
+                  step={0.05}
+                  value={theme.background?.opacity ?? 1}
+                  onValueChange={(v) =>
+                    setBackground({
+                      opacity: Array.isArray(v) ? v[0] : v,
+                    })
+                  }
+                />
+              </div>
+              <div className="flex flex-col gap-1.5 px-1">
+                <div className="text-muted-foreground flex justify-between text-xs">
+                  <span>{t("THEME.BG_BLUR")}</span>
+                  <span>{theme.background?.blur ?? 0}px</span>
+                </div>
+                <Slider
+                  min={0}
+                  max={24}
+                  step={1}
+                  value={theme.background?.blur ?? 0}
+                  onValueChange={(v) =>
+                    setBackground({ blur: Array.isArray(v) ? v[0] : v })
+                  }
+                />
+              </div>
+            </div>
+          ) : (
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => bgFileInputRef.current?.click()}
+            >
+              <Icon name="upload" className="mr-1.5 size-3.5" />
+              {t("THEME.BG_UPLOAD")}
+            </Button>
+          )}
+          <input
+            ref={bgFileInputRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={(e) => {
+              const f = e.target.files?.[0];
+              if (f) void uploadBackground(f);
+              e.target.value = "";
+            }}
           />
         </FieldGroup>
       </CardContent>

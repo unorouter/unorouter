@@ -18,7 +18,10 @@ import { makeTableStore, replaceChildRows } from "./table-store";
 
 import type { LocalAnyRow as AnyRow } from "@/lib/types";
 
-type SnapshotInput = Record<string, unknown> & { id: string; sessionId: string };
+type SnapshotInput = Record<string, unknown> & {
+  id: string;
+  sessionId: string;
+};
 type MediaInput = typeof media.$inferInsert;
 
 // base64-priority; R2 fallback for synced rows.

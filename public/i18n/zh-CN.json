@@ -54,6 +54,8 @@
     "STATS": {
       "MODELS": "模型",
       "PROVIDERS": "提供方",
+      "FREE": "免费",
+      "PAID": "付费",
       "UPTIME": "可用率",
       "ENDPOINTS": "端点",
       "PANEL": {
@@ -66,6 +68,8 @@
       "INDICATOR": {
         "GLOBAL": "可路由",
         "INTEGRATED": "上游节点",
+        "FREE": "无需费用",
+        "PAID": "每 Token",
         "SLA": "实测值"
       }
     },
@@ -118,7 +122,9 @@
         "DESCRIPTION": "将 {appName} 作为 Chub 的一方反向代理接入。一个 URL，一个密钥，支持全部模型。"
       },
       "CLI_HEADER": "面向编程 Agent 与 CLI 工具",
-      "RP_HEADER": "面向角色扮演与创意对话"
+      "RP_HEADER": "面向角色扮演与创意对话",
+      "PICK_TITLE": "选择你真正使用的客户端。",
+      "PICK_DESC": "{appName} 作为自定义 OpenAI 兼容 API，可用于编码代理、角色扮演前端、聊天客户端和 CLI 工具。"
     },
     "PRICING": {
       "LABEL": "价格",
@@ -511,7 +517,8 @@
       "announcement": "公告",
       "product": "产品",
       "engineering": "工程",
-      "update": "更新"
+      "update": "更新",
+      "community": "社区"
     },
     "POSTS": {
       "LAUNCH": {
@@ -628,6 +635,41 @@
         "H_TRY": "上手",
         "TRY_P": "上面列出的模型都通过同一个 OpenAI 兼容 endpoint 提供。多参考图编辑按上游定义的样子原样暴露，没有额外包一层。带上六张图和一段 prompt，路由器会替你挑一个能跑的提供商。",
         "CTA": "<register>领取 API key</register> 或 <models>浏览图像目录</models>，查看完整的已验证清单。"
+      },
+      "DISCORD_COMMUNITY": {
+        "TITLE": "加入 {appName} Discord，领取免费余额",
+        "DESCRIPTION": "绑定账号即得 1 美元，助推服务器每月再得 1 美元，提交漏洞最高 50 美元。{appName} 的 Discord 刚刚上线。",
+        "AUTHOR": "{appName} 团队",
+        "INTRO": "我们为 {appName} 开了一个社区 Discord。这里发布更新日志、处理工单、运营漏洞赏金，并直接用余额回报你的参与。本文列出了服务器里所有可以白嫖额度的途径。",
+        "H_WHAT": "服务器里有什么",
+        "P_WHAT": "公告、更新日志、工单、漏洞赏金论坛、功能与模型请求、AI 聊天求助、语音房间，以及助推者休息室。团队每天在线。除了真正用于讨论的频道之外，所有公开频道默认只读，确保信号始终干净。",
+        "H_EARN": "绑定 Discord，立得 1 美元",
+        "P_EARN": "打开 verify 频道，点击 Verify and Claim，然后到 {appName} 设置里绑定 Discord。首次绑定时，机器人会向你的账户发放 1 美元 API 余额。每个账号一次，无附加条件。",
+        "H_BOOST": "助推服务器，每月有钱拿",
+        "P_BOOST": "每发起一次助推，立刻入账 1 美元到你绑定的余额。只要助推保持有效，机器人就会每 30 天再发 1 美元。两次助推就是每月两笔。取消助推后，付款也随之停止。",
+        "H_BUGS": "漏洞赏金，最高 50 美元",
+        "P_BUGS": "在平台上发现真实漏洞，就到 bug-bounty 论坛发帖。团队会评估严重程度，机器人据此发放赏金：Low 0.25 美元、Medium 0.50 美元、High 1 美元、Critical 50 美元。真正定位漏洞的人拿钱，而不仅仅是开帖的人。",
+        "H_JOIN": "欢迎常来玩",
+        "P_JOIN": "所有奖励都直接进入你日常调用 API 时使用的余额。绑定一次，把你能拿的全部领回去，然后继续助推、抓 bug、和我们一起出货。",
+        "CTA": "准备好了？<invite>加入 {appName} Discord</invite>，然后<register>领取 API 密钥</register>并<settings>绑定账号</settings>，把第一笔 1 美元收入囊中。"
+      },
+      "FREE_MODELS_AGGREGATED": {
+        "TITLE": "我们把 100+ 个免费 AI 模型聚合到了一个端点",
+        "DESCRIPTION": "用两天时间，我们把 15 家免费服务商接入了 {appName}：134 个免费模型条目，一个 OpenAI-compatible 端点，每 token $0。它们免费是有原因的，并且带有我们无法提高的速率限制。下面是诚实版的说明。",
+        "AUTHOR": "{appName} 团队",
+        "INTRO": "免费 LLM 的版图真实存在，却十分零散：Groq、Gemini、Cloudflare、Mistral、OVHcloud 以及其他十几家，每一家都拿出了实打实的算力，但都藏在各自的注册页面、各自的密钥格式和各自互不兼容的 API 背后。用两天时间，我们发现、测试并合并了所有能找到的、合法且永久免费的服务商，全部接入 {appName}。结果就是：来自 15 家服务商的 134 个免费模型条目，统一在一个 OpenAI-compatible 端点和一把密钥之后。",
+        "H_WHAT": "我们加了什么",
+        "P_WHAT": "15 家免费服务商，一家一家接入：Groq、Gemini、Cerebras、SambaNova、Mistral、Cloudflare Workers AI（两个账户）、GitHub Models、Z.ai、OVHcloud、AI Horde、Pollinations、Cohere、Jina、NVIDIA NIM 以及 OpenRouter。这就是 134 个免费模型条目：Llama、gpt-oss、Qwen、Mistral、GLM、Nemotron 等等，外加 30 个免费向量模型和 13 个免费图像与音频模型。在上线之前，每一个都会就 HTTP、流式输出和工具调用做端到端探测，和我们对付费模型跑的真实性与测试套件检查完全一致。",
+        "H_CAVEAT": "免费是有原因的",
+        "P_CAVEAT": "这些模型确实是免费的，而这正是它们带有限制的原因。<s>这些限制是服务商设的，不是我们，我们也无法提高。</s>每一个上游都执行自己的速率限制：每分钟请求数、每日 token 配额、Cloudflare neuron 预算、志愿者队列优先级。一旦触顶，该服务商就会返回 <c>429</c>，直到额度重置。今天早上还能用的免费密钥，到下午可能就被耗尽了。免费层是尽力而为的吞吐，不是保证。如果你的工作负载需要可预测的延迟、不想被突如其来的 <c>429</c> 打断，请使用付费模型。",
+        "H_AGGREGATE": "为什么要把它们聚合起来",
+        "P_AGGREGATE": "因为不聚合的代价就是 15 个账户。每家服务商都有自己的注册流程、自己的密钥格式、自己的 base URL 和自己的怪癖：Z.ai 走 Zhipu V4 的路径，Cloudflare 把账户 id 放在 URL 里，AI Horde 要的是匿名密钥，GitHub 把模型锁在某个 token scope 之后。我们把这一切都消化掉，让你像调用其他一切那样调用它们：一个 OpenAI-compatible 端点、一把密钥、一个模型名。我们对自己定下的诚实准则是：每家服务商只用一个真实账户，接受配额上限，不刷量、不拼池。我们把免费层当作一份礼物呈现，而不是转售别人配额的生意。",
+        "H_FAILOVER": "我们如何缓和这些限制",
+        "P_FAILOVER": "这些模型中有很多由不止一家免费服务商提供。光是 Llama 3.3 70B 就跑在其中七家上。当多家服务商提供同一个模型时，我们会把它们合并成一个对外公布的名字，并自动故障转移：如果某个上游返回 <c>429</c> 或者沉默不响应，下一个健康且提供该模型的服务商就会接管这次请求。这是我们唯一能控制的杠杆。它不会提高任何单一服务商的配额，但意味着一个多源免费模型在其中某一家服务商耗尽很久之后，仍然能继续作答。单源的免费模型没有后备，所以一旦它唯一的上游用尽就会卡住。",
+        "H_HONEST": "我们没有做什么",
+        "P_HONEST": "我们没有加那种未经许可、转手重新提供 OpenAI 或 Claude 旗舰模型的反向代理。我们没有引入那些 token 不可转移的个人密钥聚合器，也没有引入刷量并轮换他人密钥的\"池中池\"服务。这些东西确实存在，确实诱人，而它们恰恰是这个网关想要取代的灰色市场乱象。名单上的每一家服务商，都是按自己的条款、有意把免费层拿出来共享的。如果某个来源过不了这道门槛，它就不会出现在这里。",
+        "H_TRY": "来试试",
+        "CTA": "全部 134 个免费模型都已上线，统一在一个 OpenAI-compatible 端点之后。<register>领取一把 API 密钥</register>，或者 <models>浏览模型目录</models>并筛选免费项。只是要记住，当 <c>429</c> 冒出来时，你正处在哪一层。"
       }
     }
   },
@@ -774,14 +816,31 @@
     },
     "BADGE": "集成",
     "TITLE": "集成",
-    "SUBTITLE": "在您喜爱的 AI 工具中使用 {appName}。选择下方任一指南即可开始。",
+    "SUBTITLE": "在你喜爱的 AI 工具中使用 {appName}。浏览下方的 {count} 篇配置指南，选择适合你客户端的那一篇。",
     "QUICK_START": "快速开始",
     "VIEW_GUIDE": "查看完整指南",
     "CTA_TITLE": "准备好开始了吗？",
     "CTA_DESC": "获取 API 密钥，在这些工具中开始使用 {appName}。",
     "CTA_SIGNUP": "注册获取 API 密钥",
     "CTA_DASHBOARD": "前往控制台",
-    "CTA_MODELS": "查看全部模型"
+    "CTA_MODELS": "查看全部模型",
+    "PATHS_TITLE": "热门路径",
+    "PATHS_DESC": "从你要连接的对象开始。直接跳转到正确的基础 URL、路由和模型配置。",
+    "PATH_ROLEPLAY_TITLE": "角色扮演客户端",
+    "PATH_ROLEPLAY_DESC": "SillyTavern、Janitor.AI、Chub 和 RisuAI。",
+    "PATH_CODING_TITLE": "编程智能体",
+    "PATH_CODING_DESC": "OpenCode、Cline、Roo Code、Kilo Code、Zed 等。",
+    "PATH_GENERAL_TITLE": "聊天客户端",
+    "PATH_GENERAL_DESC": "桌面应用、网页界面以及通用的 OpenAI 兼容客户端。",
+    "GUIDE_COUNT_ONE": "{count} 篇指南",
+    "GUIDE_COUNT_OTHER": "{count} 篇指南",
+    "FALLBACK_EYEBROW": "没有看到你的客户端？",
+    "FALLBACK_TITLE": "大多数 OpenAI 兼容客户端开箱即用。",
+    "FALLBACK_DESC": "{appName} 遵循 OpenAI Chat Completions、Anthropic Messages 和 OpenAI Responses 格式。任何允许你设置自定义基础 URL 和 API 密钥的客户端都能使用。使用基础 URL 并从目录中选择任意模型。",
+    "FALLBACK_MODELS": "浏览模型",
+    "FALLBACK_DISCORD": "在 Discord 提问",
+    "PATH_CLI_TITLE": "CLI 工具",
+    "PATH_CLI_DESC": "Aider、Codex、Gemini CLI、OpenClaw 和终端代理。"
   },
   "DOCS_SIDEBAR": {
     "TITLE": "文档",
@@ -821,6 +880,40 @@
       "LINUX": "Linux"
     },
     "TOC_TITLE": "本页目录",
+    "SETUP_GUIDE": {
+      "OVERVIEW": "概览",
+      "QUICK_CONFIG": "快速配置",
+      "QUICK_CONFIG_DESC": "将这些值填入客户端。登录后会自动填入你的密钥。",
+      "BASE_URL_LABEL": "基础 URL",
+      "API_PATH_LABEL": "接口端点",
+      "API_KEY_LABEL": "API 密钥",
+      "STEPS": "逐步设置",
+      "STEP_LABEL": "第 {number} 步",
+      "COMPATIBILITY": "兼容性",
+      "RECOMMENDED_MODELS": "推荐模型",
+      "RECOMMENDED_MODELS_DESC": "在这里表现良好的免费模型。把任意模型 ID 粘贴到客户端即可。",
+      "GOTCHAS": "注意事项",
+      "TOC_OVERVIEW": "概览",
+      "TOC_QUICK_CONFIG": "快速配置",
+      "TOC_STEPS": "设置步骤",
+      "TOC_COMPATIBILITY": "兼容性",
+      "TOC_MODELS": "推荐模型",
+      "TOC_GOTCHAS": "注意事项",
+      "COMPAT_CHAT_COMPLETIONS": "Chat Completions",
+      "COMPAT_MESSAGES": "Anthropic Messages",
+      "COMPAT_RESPONSES": "Responses API",
+      "COMPAT_STREAMING": "流式传输",
+      "COMPAT_TOOL_CALLING": "工具调用",
+      "COMPAT_IMAGES": "图像输入",
+      "CATEGORY_CODING": "编程智能体",
+      "CATEGORY_ROLEPLAY": "角色扮演客户端",
+      "CATEGORY_GENERAL": "聊天客户端",
+      "CATEGORY_CLI": "命令行工具",
+      "CATEGORY_CODING_DESC": "通过 API 编写并运行代码的编辑器和智能体。",
+      "CATEGORY_ROLEPLAY_DESC": "角色聊天和角色扮演前端。",
+      "CATEGORY_GENERAL_DESC": "通用聊天应用和桌面客户端。",
+      "CATEGORY_CLI_DESC": "终端工具和命令行智能体。"
+    },
     "GENERATE_API_KEY": "生成 API 密钥",
     "GENERATE_API_KEY_DESC": "生成 API 密钥以开始使用",
     "CC_SWITCH": {
@@ -1019,6 +1112,7 @@
       "BADGE": "Codex CLI",
       "TITLE": "OpenAI Codex CLI 配置指南",
       "SUBTITLE": "分步指导您在 Windows、macOS 和 Linux 上安装并配置 Codex CLI 与 {appName}。",
+      "OVERVIEW_DESC": "Codex CLI 是 OpenAI 的终端式编码代理，通过沙箱化、可审阅的补丁在项目中读取、写入并运行代码。将其自定义提供方指向 {appName} 的基础 URL，你就能用目录中的任意模型来驱动它，而不仅限于 OpenAI 的模型。",
       "PROJECT_INTRO_TITLE": "什么是 Codex CLI？",
       "PROJECT_INTRO": "Codex CLI 是 OpenAI 推出的编程代理，可在您的电脑本地运行。",
       "PROJECT_OFFICIAL": "官方网站",
@@ -1117,7 +1211,17 @@
       "CTA_DESC": "获取 API 密钥，在 Codex CLI 中开始使用 {appName}。",
       "CTA_SIGNUP": "注册获取 API 密钥",
       "CTA_DASHBOARD": "前往控制台",
-      "CTA_MODELS": "查看全部模型"
+      "CTA_MODELS": "查看全部模型",
+      "STEP_1_TITLE": "安装 Codex CLI",
+      "STEP_1_DESC": "使用 npm 全局安装 Codex CLI。",
+      "STEP_2_TITLE": "配置模型提供商",
+      "STEP_2_DESC": "编辑 `~/.codex/config.toml` 让 Codex 指向 {appName}。设置你的模型 ID，并使用 responses wire API 添加一个使用 {appName} 基础 URL 的自定义提供商。",
+      "STEP_3_TITLE": "添加 API 密钥",
+      "STEP_3_DESC": "将你的 {appName} API 密钥写入 `~/.codex/auth.json`，使 Codex 为每个请求进行认证。",
+      "STEP_4_TITLE": "启动 Codex",
+      "STEP_4_DESC": "在项目目录中运行 `codex` 并开始编码。",
+      "TS_1_DESC": "如果 Codex 报告不支持的端点，请确认 `wire_api` 设置为 `responses` 且基础 URL 以 `/v1` 结尾。",
+      "TS_2_DESC": "401 表示 `~/.codex/auth.json` 中的密钥缺失或已失效。请从 {appName} 仪表板粘贴一个新密钥并重新运行。"
     },
     "GEMINI_CLI": {
       "META": {
@@ -1128,6 +1232,7 @@
       "BADGE": "Gemini CLI",
       "TITLE": "Gemini CLI 集成",
       "SUBTITLE": "在 Gemini CLI 以及任意 Google GenAI 兼容客户端中使用 {appName}。在 Claude 和 GPT 之外同样可以访问 Gemini 模型。",
+      "OVERVIEW_DESC": "Gemini CLI 是 Google 的开源编码代理，可直接在终端中编辑文件并运行命令。将 {appName} 设为它的基础 URL，你便能用一个 OpenAI 兼容密钥访问 Gemini、Claude、GPT 以及其他所有模型，而无需仅限 Google 的账户。",
       "INTRO_TITLE": "什么是 Gemini CLI？",
       "INTRO_DESC": "Gemini CLI 是来自 Google 的开源 AI 编程代理，直接在终端中运行，将 Gemini 模型的能力带入您的开发流程。",
       "QUICK_START": "快速开始",
@@ -1163,7 +1268,15 @@
       "TOC_MACOS_LINUX": "macOS / Linux",
       "TOC_WINDOWS": "Windows",
       "TOC_CONFIGURATION": "配置",
-      "TOC_USAGE": "使用"
+      "TOC_USAGE": "使用",
+      "STEP_1_TITLE": "安装 Gemini CLI",
+      "STEP_1_DESC": "使用 npm 全局安装 Gemini CLI。在 Windows 上，请在 WSL 内运行。",
+      "STEP_2_TITLE": "设置环境变量",
+      "STEP_2_DESC": "创建包含 {appName} API 密钥的 `~/.gemini/.env`，并将 `GOOGLE_GEMINI_BASE_URL` 设置为 {appName} 的裸基础 URL。Gemini SDK 会附加自己的路径，因此不要添加 `/v1`。",
+      "STEP_3_TITLE": "启动 Gemini",
+      "STEP_3_DESC": "在项目目录中运行 `gemini` 以开始会话。",
+      "TS_1_DESC": "如果请求返回 404，说明你在基础 URL 中添加了路径。`GOOGLE_GEMINI_BASE_URL` 必须是不带 `/v1` 后缀的裸主机，其余部分由 SDK 附加。",
+      "TS_2_DESC": "如果认证失败，请确认 `~/.gemini/.env` 中的 `GEMINI_API_KEY` 是你的 {appName} 密钥，并且该文件被你的 shell 会话读取。"
     },
     "OPENCLAW": {
       "META": {
@@ -1174,6 +1287,7 @@
       "BADGE": "OpenClaw",
       "TITLE": "OpenClaw 集成",
       "SUBTITLE": "将 {appName} 作为 OpenClaw 代理的模型提供方。一次配置，即可通过 OpenClaw 网关访问每个模型。",
+      "OVERVIEW_DESC": "OpenClaw 是一个开源代理平台，只需一份配置即可在 Telegram、Discord、Slack 等渠道部署自托管的 AI 助手。将其 openai 提供方设为 {appName} 的基础 URL，每个渠道都能通过单个 OpenAI 兼容密钥访问完整的模型目录。",
       "INTRO_TITLE": "什么是 OpenClaw？",
       "INTRO_DESC": "OpenClaw 是开源的 AI 代理平台，可让您部署并管理 AI 助手，具备多渠道支持、自托管能力和灵活的模型配置。",
       "CORE_FEATURES": "核心特性",
@@ -1209,7 +1323,15 @@
       "TOC_INSTALLATION": "安装",
       "TOC_CONFIGURATION": "配置",
       "TOC_KEY_CONFIG": "关键配置细节",
-      "TOC_START_SERVICE": "启动服务"
+      "TOC_START_SERVICE": "启动服务",
+      "STEP_1_TITLE": "安装并初始化",
+      "STEP_1_DESC": "使用 npm 全局安装 OpenClaw，然后运行 `openclaw onboard` 来生成配置。",
+      "STEP_2_TITLE": "将提供商指向 {appName}",
+      "STEP_2_DESC": "编辑 `~/.openclaw/config.json`，让 openai 提供商使用 {appName} 的基础 URL，并从 `OPENAI_API_KEY` 环境变量读取 API 密钥。在 agents 下设置你的默认模型。",
+      "STEP_3_TITLE": "启动 OpenClaw",
+      "STEP_3_DESC": "运行 `openclaw start` 以针对 {appName} 启动代理。",
+      "TS_1_DESC": "如果 OpenClaw 无法访问 API，请确认 `providers.openai.baseUrl` 以 `/v1` 结尾，且 `OPENAI_API_KEY` 已在同一 shell 中导出。",
+      "TS_2_DESC": "如果模型被拒绝，请将 `agents.defaults.model.primary` 设置为带 `openai/` 前缀的有效 ID，并从 {appName} 模型页面精确复制。"
     },
     "HERMES": {
       "META": {
@@ -1220,6 +1342,7 @@
       "BADGE": "Hermes Agent",
       "TITLE": "Hermes Agent 集成",
       "SUBTITLE": "将 {appName} 用作 Hermes Agent 的模型提供方。将一个 OpenAI 兼容端点指向 {appName}，即可访问所有模型。",
+      "OVERVIEW_DESC": "Nous Research 的 Hermes Agent 是一个自我改进的 AI 代理，可作为 CLI、TUI、消息网关或 IDE 集成运行，并具备持久的磁盘记忆。将其提供方设为 custom，并把基础 URL 指向 {appName}，即可通过一个服务所有模型的 OpenAI 兼容端点路由每一轮对话。",
       "INTRO_TITLE": "什么是 Hermes Agent？",
       "INTRO_DESC": "Nous Research 的 Hermes Agent 是一个开源、可自我改进的 AI 智能体。它可在终端、消息网关和 IDE 集成中运行，将持久记忆保存在磁盘上，并可与任何 OpenAI 兼容端点配合使用。",
       "CORE_FEATURES": "核心功能",
@@ -1261,7 +1384,17 @@
       "TOC_CONFIGURATION": "配置",
       "TOC_KEY_CONFIG": "关键配置项",
       "TOC_CLI_ALT": "CLI 替代方式",
-      "TOC_RUN": "运行 Hermes"
+      "TOC_RUN": "运行 Hermes",
+      "STEP_1_TITLE": "安装 Hermes",
+      "STEP_1_DESC": "运行安装脚本来设置 Hermes Agent。在 Windows 上，请在 WSL2 内安装。",
+      "STEP_2_TITLE": "将提供商指向 {appName}",
+      "STEP_2_DESC": "编辑 `~/.hermes/config.yaml`，将 `model.provider` 设为 `custom`，并将 `model.base_url` 设为 {appName} 的基础 URL。请选择上下文至少为 64k 的默认模型。",
+      "STEP_3_TITLE": "添加 API 密钥",
+      "STEP_3_DESC": "将你的 {appName} API 密钥以 `OPENAI_API_KEY` 形式存入 `~/.hermes/.env`，使 Hermes 在每一轮都进行认证。",
+      "STEP_4_TITLE": "运行 Hermes",
+      "STEP_4_DESC": "使用 `hermes --tui` 启动 TUI 并开始工作。",
+      "TS_1_DESC": "Hermes 在启动时会拒绝上下文低于 64,000 个 token 的模型。请从 {appName} 模型页面选择上下文更大的模型。",
+      "TS_2_DESC": "如果启动时的 `/v1/models` 检查失败，请确认 `model.base_url` 以 `/v1` 结尾，且 `OPENAI_API_KEY` 已在 `~/.hermes/.env` 中设置。"
     },
     "SILLYTAVERN": {
       "META": {
@@ -1323,7 +1456,11 @@
       "TOC_QUICK_CONFIG": "快速配置",
       "TOC_STEPS": "逐步配置",
       "TOC_MODELS_DROPDOWN": "模型下拉菜单行为",
-      "TOC_TROUBLESHOOTING": "故障排查"
+      "TOC_TROUBLESHOOTING": "故障排查",
+      "GOTCHA_1": "只粘贴以 `/v1` 结尾的基础 URL。SillyTavern 会自行附加 `/chat/completions`；如果你自己添加，会返回 400 错误。",
+      "GOTCHA_2": "如果模型下拉菜单为空，说明连接失败。请重新检查基础 URL，然后启用 Bypass API Status Check，让 SillyTavern 不再中断列表加载。",
+      "GOTCHA_3": "401 表示密钥已过期或输入有误。请在 {appName} 仪表板生成一个新密钥，粘贴时不要带前后空格。",
+      "GOTCHA_4": "如果流式输出在句子中途中断，请关闭 Streaming 以确认问题出在流式端，然后重新启用它。会剥离 `data:` 前缀的企业代理也可能导致此问题。"
     },
     "JANITOR_AI": {
       "META": {
@@ -1387,7 +1524,12 @@
       "TOC_STEPS": "逐步配置",
       "TOC_REFRESH_SAVE": "为什么必须强制刷新",
       "TOC_KEY_INVISIBILITY": "将 API 密钥保存在外部",
-      "TOC_TROUBLESHOOTING": "故障排查"
+      "TOC_TROUBLESHOOTING": "故障排查",
+      "GOTCHA_1": "请粘贴以 `/v1/chat/completions` 结尾的完整 Proxy URL，而不仅仅是基础 URL。如果 Janitor 显示 'Add /chat/completions to URL' 复选框，请保持关闭。",
+      "GOTCHA_2": "Janitor.AI 在页面加载时缓存代理映射，因此已保存的配置只有在硬刷新后才会生效。请在测试前按 Ctrl+Shift+R 或 Cmd+Shift+R。",
+      "GOTCHA_3": "Janitor 在保存后会遮罩 API 密钥且不再显示。请先将密钥保存到密码管理器，以便轮换时无需重新生成密钥。",
+      "GOTCHA_4": "''Free tier limit reached'' 横幅是 Janitor 自带的层级，而非 {appName}。请在模型下拉菜单中将聊天切换到你已保存的代理配置。",
+      "GOTCHA_5": "Model Name 必须与模型 ID 完全一致。请从 {appName} 模型页面复制粘贴，而不要手动重新输入。"
     },
     "RISUAI": {
       "META": {
@@ -1459,7 +1601,11 @@
       "TOC_STEPS": "逐步配置",
       "TOC_AUTOFILL_WARNING": "为什么 autofill 开关如此重要",
       "TOC_AUX_MODEL": "配置辅助模型",
-      "TOC_TROUBLESHOOTING": "故障排查"
+      "TOC_TROUBLESHOOTING": "故障排查",
+      "GOTCHA_1": "在粘贴任何内容之前，请取消勾选 Autofill Request URL。该选项开启时，RisuAI 会将你的 URL 改写为它自己的默认值，并悄悄破坏连接。",
+      "GOTCHA_2": "RisuAI 更新可能会自行重新启用 Autofill Request URL。如果原本可用的配置突然没有响应，请重新打开 Custom Models 并确认该开关仍处于关闭状态。",
+      "GOTCHA_3": "某些 RisuAI 版本同时暴露 API Key 字段和 Authorization 字段，而每个版本只读取其中一个。如果出现 401，请将密钥移到另一个字段。",
+      "GOTCHA_4": "在 Custom Models 模式下，Model ID 是没有下拉菜单的手动文本字段。请从 {appName} 模型页面复制粘贴精确的模型名称，不要手动重新输入。"
     },
     "CHUB": {
       "META": {
@@ -1526,7 +1672,359 @@
       "TOC_QUICK_CONFIG": "快速配置",
       "TOC_STEPS": "逐步配置",
       "TOC_PICK_MODEL": "模型下拉菜单需要代理检查",
-      "TOC_TROUBLESHOOTING": "故障排查"
+      "TOC_TROUBLESHOOTING": "故障排查",
+      "STEP_CONFIG_TITLE": "打开 Configuration 并选择 OpenAI",
+      "STEP_CONFIG_DESC": "返回汉堡菜单，打开 Configuration，然后进入 Prompt Structure。将 API 下拉菜单设置为 OpenAI，并从模型下拉菜单中选择目标模型。",
+      "GOTCHA_1": "请将以 `/v1/chat/completions` 结尾的完整 URL 粘贴到 Reverse proxy 字段。仅使用基础 URL 会导致 Check your proxy 按钮失败。",
+      "GOTCHA_2": "在代理检查通过之前，Prompt Structure 中的模型下拉菜单会一直为空。请先在 Secrets 中运行 Check your proxy，然后返回选择模型。",
+      "GOTCHA_3": "Chub 在保存后会遮罩 API 密钥且无法再复制出来。请在粘贴前将密钥保存到密码管理器，以便轮换时无需新密钥。",
+      "GOTCHA_4": "Chub 的界面会警告来自未经授权第三方的反向代理；那针对的是社区运营的中继。{appName} 是第一方中继，因此你的密钥、日志和账单都保留在 {appName} 上。"
+    },
+    "LIBRECHAT": {
+      "META": {
+        "TITLE": "LibreChat 集成指南 | {appName}",
+        "DESCRIPTION": "通过兼容 OpenAI 的自定义端点将 LibreChat 连接到 {appName}。在 librechat.yaml 中添加配置块，设置环境变量，模型选择器即可自动填充。",
+        "KEYWORDS": "LibreChat，LibreChat 自定义端点，LibreChat OpenAI 兼容，{appName} LibreChat，自托管聊天界面"
+      },
+      "BADGE": "LibreChat",
+      "TITLE": "LibreChat 集成指南",
+      "SUBTITLE": "通过兼容 OpenAI 的自定义端点将 {appName} 连接到 LibreChat。",
+      "OVERVIEW_DESC": "LibreChat 通过 endpoints.custom 暴露任何兼容 OpenAI 的主机。添加一个 {appName} 配置块，设置环境变量，模型选择器即可从目录自动填充。",
+      "STEP_1_TITLE": "编辑 librechat.yaml",
+      "STEP_1_DESC": "在你的 LibreChat 安装中，在 endpoints.custom 下添加一个自定义端点配置块。",
+      "STEP_2_TITLE": "添加环境变量",
+      "STEP_2_DESC": "在 LibreChat 的 .env 文件中设置你的 {appName} API 密钥。",
+      "STEP_3_TITLE": "重启 LibreChat",
+      "STEP_3_DESC": "重启容器或进程。{appName} 端点会出现在聊天下拉菜单中。",
+      "TS_1_DESC": "环境变量的值请使用单花括号语法，而不是某些其他配置使用的密钥语法。",
+      "TS_2_DESC": "如果某个模型拒绝额外的 OpenAI 参数，请将它们添加到 dropParams（例如 frequency_penalty 和 presence_penalty）。",
+      "TS_3_DESC": "fetch: true 会从 {appName} 目录自动填充。与 default 结合可优先显示首选模型。"
+    },
+    "OPEN_WEBUI": {
+      "META": {
+        "TITLE": "Open WebUI 集成指南 | {appName}",
+        "DESCRIPTION": "在管理面板中将 Open WebUI 作为 OpenAI 连接添加到 {appName}。模型选择器会从目录自动填充。",
+        "KEYWORDS": "Open WebUI，Open WebUI OpenAI 连接，{appName} Open WebUI，自托管 ChatGPT 界面"
+      },
+      "BADGE": "Open WebUI",
+      "TITLE": "Open WebUI 集成指南",
+      "SUBTITLE": "将 {appName} 作为原生 OpenAI 连接添加到 Open WebUI。",
+      "OVERVIEW_DESC": "Open WebUI 允许管理员添加多个兼容 OpenAI 的连接。添加 {appName}，模型选择器即可从目录自动填充。",
+      "STEP_1_TITLE": "打开管理面板",
+      "STEP_1_DESC": "以管理员身份登录，打开 Admin Panel，进入 Settings，然后 Connections。",
+      "STEP_2_TITLE": "添加新的 OpenAI 连接",
+      "STEP_2_DESC": "在 OpenAI API 下，点击 + 按钮添加连接。",
+      "STEP_3_TITLE": "填写连接",
+      "STEP_3_DESC": "输入基础 URL 和你的 {appName} API 密钥。",
+      "STEP_4_TITLE": "保存并选择模型",
+      "STEP_4_DESC": "保存连接。模型选择器会自动加载 {appName} 目录。",
+      "TS_1_DESC": "范围较广的密钥可能返回大量模型。如果下拉菜单变得拥挤，请使用 Open WebUI 的模型过滤器或经过筛选的密钥。",
+      "TS_2_DESC": "Open WebUI 还有一个单独的 Ollama 连接列表。请确保你添加到 OpenAI API，而不是 Ollama。"
+    },
+    "LOBECHAT": {
+      "META": {
+        "TITLE": "LobeChat 集成指南 | {appName}",
+        "DESCRIPTION": "通过 Add Custom Provider 或 Docker 环境变量将 LobeChat 连接到 {appName}。适用于任何模型的精致开源 Web 客户端。",
+        "KEYWORDS": "LobeChat，LobeChat 自定义提供商，{appName} LobeChat，开源 Web 聊天"
+      },
+      "BADGE": "LobeChat",
+      "TITLE": "LobeChat 集成指南",
+      "SUBTITLE": "通过自定义提供商或 Docker 环境变量将 {appName} 连接到 LobeChat。",
+      "OVERVIEW_DESC": "LobeChat 通过环境变量或其 Add Custom Provider 界面支持任何兼容 OpenAI 的主机。与 {appName} 搭配可获得精致的本地 Web 客户端。",
+      "STEP_1_TITLE": "打开 Settings，然后 Language Model",
+      "STEP_1_DESC": "点击 Add Custom Provider 并填写表单。",
+      "STEP_2_TITLE": "添加模型",
+      "STEP_2_DESC": "保存提供商，然后添加你想要的 {appName} 模型。LobeChat 会在模型选择器中显示它们。",
+      "STEP_3_TITLE": "可选：Docker 环境变量",
+      "STEP_3_DESC": "如果你自托管，请在容器运行时设置 OpenAI 环境变量。",
+      "TS_1_DESC": "若要在 {appName} 之外保留原生 OpenAI，请使用 Add Custom Provider，而不是 OpenAI 环境变量。",
+      "TS_2_DESC": "Provider ID 必须为小写。unorouter 可用，UnoRouter 不可用。"
+    },
+    "ANYTHINGLLM": {
+      "META": {
+        "TITLE": "AnythingLLM 集成指南 | {appName}",
+        "DESCRIPTION": "将 AnythingLLM 作为 Generic OpenAI 提供商连接到 {appName}。输入模型，设置上下文窗口，保存。",
+        "KEYWORDS": "AnythingLLM，AnythingLLM Generic OpenAI，{appName} AnythingLLM，自托管 RAG"
+      },
+      "BADGE": "AnythingLLM",
+      "TITLE": "AnythingLLM 集成指南",
+      "SUBTITLE": "将 {appName} 作为 Generic OpenAI 提供商连接到 AnythingLLM。",
+      "OVERVIEW_DESC": "AnythingLLM 将 {appName} 视为 Generic OpenAI 提供商。输入模型，设置上下文窗口并保存。",
+      "STEP_1_TITLE": "打开 LLM Preference",
+      "STEP_1_DESC": "在侧边栏点击 Settings，然后 LLM Preference。",
+      "STEP_2_TITLE": "选择 Generic OpenAI",
+      "STEP_2_DESC": "将 LLM Provider 设置为 Generic OpenAI 并填写表单。",
+      "STEP_3_TITLE": "保存",
+      "STEP_3_DESC": "点击保存。AnythingLLM 会在聊天工作区中使用 {appName}。",
+      "TS_1_DESC": "AnythingLLM 不会为 Generic OpenAI 自动获取目录。请手动输入模型名称和上下文窗口。",
+      "TS_2_DESC": "Embedding Preference 选项卡是独立的。除非 {appName} 在你的套餐中提供 embeddings，否则请保留一个可用的 embedding 提供商。"
+    },
+    "CHERRY_STUDIO": {
+      "META": {
+        "TITLE": "Cherry Studio 集成指南 | {appName}",
+        "DESCRIPTION": "将 Cherry Studio 作为 OpenAI 提供商连接到 {appName}。添加主机和密钥，然后加载你想要的模型。",
+        "KEYWORDS": "Cherry Studio，Cherry Studio OpenAI 提供商，{appName} Cherry Studio，跨平台桌面聊天"
+      },
+      "BADGE": "Cherry Studio",
+      "TITLE": "Cherry Studio 集成指南",
+      "SUBTITLE": "将 {appName} 作为 OpenAI 提供商连接到 Cherry Studio。",
+      "OVERVIEW_DESC": "Cherry Studio 在一个界面中支持多个提供商。将 {appName} 添加为 OpenAI 提供商，并将你想要的模型作为单独条目加载。",
+      "STEP_1_TITLE": "打开 Model Provider",
+      "STEP_1_DESC": "进入 Settings，然后 Model Provider，点击 Add Provider。",
+      "STEP_2_TITLE": "选择 OpenAI",
+      "STEP_2_DESC": "将提供商类型设置为 OpenAI。填写名称、主机和密钥。",
+      "STEP_3_TITLE": "添加模型",
+      "STEP_3_DESC": "在 Models 下点击 Manage，然后 Add Model。粘贴 {appName} 模型 ID，每行一个。",
+      "TS_1_DESC": "使用 OpenAI 提供商类型，并在主机中自行包含 /v1。某些其他类型会尝试添加自己的路径。",
+      "TS_2_DESC": "Cherry 的 Test 按钮会向 chat completions 发送一个单 token 的请求。推理模型可能报告 length 结束，但这仍然能确认身份验证。"
+    },
+    "TYPINGMIND": {
+      "META": {
+        "TITLE": "TypingMind 集成指南 | {appName}",
+        "DESCRIPTION": "通过粘贴兼容 OpenAI 的自定义端点将 TypingMind 连接到 {appName}。使用任何模型。",
+        "KEYWORDS": "TypingMind，TypingMind 自定义模型，{appName} TypingMind，BYOK Web 前端"
+      },
+      "BADGE": "TypingMind",
+      "TITLE": "TypingMind 集成指南",
+      "SUBTITLE": "将 {appName} 作为兼容 OpenAI 的自定义模型连接到 TypingMind。",
+      "OVERVIEW_DESC": "TypingMind 允许你将任何兼容 OpenAI 的端点粘贴为自定义模型。添加 {appName}，即可使用目录中的任何模型。",
+      "STEP_1_TITLE": "打开 Models",
+      "STEP_1_DESC": "点击齿轮图标，进入 Models，然后 Add Custom Models。",
+      "STEP_2_TITLE": "选择 OpenAI 作为 API 类型",
+      "STEP_2_DESC": "TypingMind 对自定义端点使用 OpenAI Chat Completions 架构。",
+      "STEP_3_TITLE": "填写端点",
+      "STEP_3_DESC": "输入基础 URL、你的 {appName} API 密钥和一个模型 ID。",
+      "STEP_4_TITLE": "测试并添加",
+      "STEP_4_DESC": "仅当你的模型支持时才打开 Plugins 或 Vision。点击 Test，然后 Add Model。",
+      "TS_1_DESC": "Plugins（函数调用）仅在具有原生工具支持的模型上有效。插件驱动的流程请选择支持工具的模型。",
+      "TS_2_DESC": "Vision 开关仅在支持图像输入的模型上有效。启用前请查看目录。"
+    },
+    "BOLTAI": {
+      "META": {
+        "TITLE": "BoltAI 集成指南 | {appName}",
+        "DESCRIPTION": "将 BoltAI 作为兼容 OpenAI 的自定义服务器连接到 {appName}。在任何 macOS 应用中浮现 AI。",
+        "KEYWORDS": "BoltAI，BoltAI OpenAI 兼容，{appName} BoltAI，macOS AI 助手"
+      },
+      "BADGE": "BoltAI",
+      "TITLE": "BoltAI 集成指南",
+      "SUBTITLE": "将 {appName} 作为兼容 OpenAI 的自定义服务器连接到 BoltAI。",
+      "OVERVIEW_DESC": "BoltAI 将 AI 带入任何 macOS 应用。将 {appName} 添加为兼容 OpenAI 的自定义服务器，并选择你想要的模型。",
+      "STEP_1_TITLE": "打开 Models 设置",
+      "STEP_1_DESC": "打开 BoltAI 设置，进入 Models，点击 +，选择 OpenAI-compatible Server。",
+      "STEP_2_TITLE": "填写服务器",
+      "STEP_2_DESC": "输入名称、基础 URL、密钥、模型 ID 和上下文长度。",
+      "STEP_3_TITLE": "打开流式传输",
+      "STEP_3_DESC": "打开 Streaming，让 BoltAI 在 token 到达时即时显示。",
+      "TS_1_DESC": "BoltAI 不会为此连接器自动获取模型列表。每个 {appName} 模型都是一条手动条目。",
+      "TS_2_DESC": "请手动设置上下文长度。省略它可能会截断较长的提示或回复。"
+    },
+    "PAGE_ASSIST": {
+      "META": {
+        "TITLE": "Page Assist 集成指南 | {appName}",
+        "DESCRIPTION": "将 Page Assist 作为兼容 OpenAI 的自定义 API 连接到 {appName}。在浏览器侧边栏中使用 AI。",
+        "KEYWORDS": "Page Assist，Page Assist OpenAI 兼容，{appName} Page Assist，浏览器 AI 扩展"
+      },
+      "BADGE": "Page Assist",
+      "TITLE": "Page Assist 集成指南",
+      "SUBTITLE": "将 {appName} 作为兼容 OpenAI 的自定义 API 连接到 Page Assist。",
+      "OVERVIEW_DESC": "Page Assist 在浏览器侧边栏中运行。将 {appName} 添加为兼容 OpenAI 的自定义 API，并选择你想要的模型。",
+      "STEP_1_TITLE": "打开 Page Assist 设置",
+      "STEP_1_DESC": "点击工具栏中的 Page Assist 图标，打开齿轮图标进入设置。",
+      "STEP_2_TITLE": "添加自定义 OpenAI 提供商",
+      "STEP_2_DESC": "进入 OpenAI Compatible API，点击 Add Provider，然后 Custom。",
+      "STEP_3_TITLE": "填写提供商",
+      "STEP_3_DESC": "输入提供商名称、基础 URL 和你的 {appName} API 密钥。",
+      "STEP_4_TITLE": "添加模型",
+      "STEP_4_DESC": "在 Page Assist 中打开 Models 部分，添加你想要对话的 {appName} 模型。",
+      "TS_1_DESC": "自定义提供商不会自动发现模型。请手动添加。",
+      "TS_2_DESC": "自动发现仅适用于 LM Studio 和 Ollama 等内置提供商。"
+    },
+    "CHATBOX": {
+      "META": {
+        "TITLE": "Chatbox 集成指南 | {appName}",
+        "DESCRIPTION": "使用 OpenAI API Compatible 模式将 Chatbox 连接到 {appName}。将 URL 拆分为 Host 和 Path。",
+        "KEYWORDS": "Chatbox，Chatbox OpenAI 兼容，{appName} Chatbox，跨平台聊天客户端"
+      },
+      "BADGE": "Chatbox",
+      "TITLE": "Chatbox 集成指南",
+      "SUBTITLE": "使用 OpenAI API Compatible 模式将 {appName} 连接到 Chatbox。",
+      "OVERVIEW_DESC": "Chatbox 支持任何兼容 OpenAI 的基础地址。使用 OpenAI API Compatible 模式，并将 URL 拆分为 Host 和 Path。",
+      "STEP_1_TITLE": "打开 Add Custom Provider",
+      "STEP_1_DESC": "点击 Settings，然后 Display，然后 AI Provider，然后 Add Custom Provider。",
+      "STEP_2_TITLE": "选择 OpenAI API Compatible 模式",
+      "STEP_2_DESC": "除非你特别需要 Responses 路由，否则不要选择 Responses API 选项。",
+      "STEP_3_TITLE": "拆分主机和路径",
+      "STEP_3_DESC": "Chatbox 需要将 Host 和 Path 作为独立字段。将 chat completions 路径放入 API Path。",
+      "STEP_4_TITLE": "添加模型",
+      "STEP_4_DESC": "在 Models 部分添加你想要的 {appName} 模型。",
+      "TS_1_DESC": "在 Host 中放 /v1 而 Path 留空是行不通的。请将完整的 chat completions 路径保留在 API Path 中。",
+      "TS_2_DESC": "除非你特别需要 Responses 规范，否则请使用 OpenAI API Compatible，而不是 OpenAI Responses API Compatible。"
+    },
+    "BIG_AGI": {
+      "META": {
+        "TITLE": "Big-AGI 集成指南 | {appName}",
+        "DESCRIPTION": "将 Big-AGI 作为 OpenAI 来源连接到 {appName}。Big-AGI 会自动获取目录。",
+        "KEYWORDS": "Big-AGI，Big-AGI OpenAI 来源，{appName} Big-AGI，Web AI 工作台"
+      },
+      "BADGE": "Big-AGI",
+      "TITLE": "Big-AGI 集成指南",
+      "SUBTITLE": "将 {appName} 作为自定义 OpenAI 来源连接到 Big-AGI。",
+      "OVERVIEW_DESC": "Big-AGI 的 OpenAI 提供商接受自定义 API 端点。添加 {appName}，Big-AGI 会自动获取模型目录。",
+      "STEP_1_TITLE": "打开 Models",
+      "STEP_1_DESC": "点击 Models 和 Add a model source。选择 OpenAI。",
+      "STEP_2_TITLE": "填写来源",
+      "STEP_2_DESC": "输入你的 {appName} API 密钥和 API 端点。",
+      "STEP_3_TITLE": "刷新模型",
+      "STEP_3_DESC": "点击 Models 按钮刷新列表。Big-AGI 会加载 {appName} 目录。",
+      "TS_1_DESC": "将 Helicone Key 留空。添加它会强制主机指向另一个域名。",
+      "TS_2_DESC": "禁用 Moderation 开关。{appName} 不提供审核端点。"
+    },
+    "OPENCODE": {
+      "META": {
+        "TITLE": "OpenCode 设置指南 | {appName}",
+        "DESCRIPTION": "通过在 opencode.json 中添加兼容 OpenAI 的自定义提供商，将 OpenCode 连接到 {appName}。提供带有精确基础 URL 的分步配置。",
+        "KEYWORDS": "OpenCode，OpenCode 设置，OpenCode 提供商，{appName} OpenCode，编码代理，OpenAI 兼容"
+      },
+      "BADGE": "OpenCode",
+      "TITLE": "OpenCode 设置指南",
+      "SUBTITLE": "将 {appName} 添加为 OpenCode 的自定义提供商，并选择任意模型作为当前的编码代理。",
+      "OVERVIEW_DESC": "OpenCode 从 JSON 配置文件读取其提供商。使用兼容 OpenAI 的适配器将 {appName} 添加为自定义提供商，即可选择任意 {appName} 模型作为当前模型。",
+      "STEP_1_TITLE": "打开 OpenCode 配置文件",
+      "STEP_1_DESC": "在 OpenCode 中按 Ctrl + O 并粘贴路径。在 Windows 上，将 YOUR_USER 替换为你的 Windows 用户名。",
+      "STEP_2_TITLE": "替换文件内容",
+      "STEP_2_DESC": "清空文件并粘贴 {appName} 提供商配置块。填入你的 {appName} API 密钥，并从目录中选择任意模型。",
+      "STEP_3_TITLE": "保存并重新加载",
+      "STEP_3_DESC": "按 Ctrl + S 保存，然后按 Ctrl + Shift + P 运行 Developer: Reload Window。重新加载后 OpenCode 会识别新的提供商。",
+      "STEP_4_TITLE": "选择模型",
+      "STEP_4_DESC": "在 OpenCode 中打开模型选择器并切换到你添加的模型。兼容 OpenAI 的适配器会自动处理流式传输和工具调用。",
+      "GOTCHA_1": "OpenCode 在底层使用 npm 的 @ai-sdk/openai-compatible 适配器，因此你可以在 \"models\" 下持续添加模型而无需重启。",
+      "GOTCHA_2": "如果 Developer: Reload Window 未显示你的提供商，请再次检查 JSON 是否在保存时没有多余的尾随逗号。",
+      "GOTCHA_3": "请使用 {appName} 目录中的精确模型 ID。如果复制粘贴时添加了前导提供商前缀，请将其去掉。"
+    },
+    "KILO_CODE": {
+      "META": {
+        "TITLE": "Kilo Code 设置指南 | {appName}",
+        "DESCRIPTION": "通过在 VSCode 侧边栏中添加兼容 OpenAI 的自定义提供商，将 Kilo Code 连接到 {appName}。提供分步配置。",
+        "KEYWORDS": "Kilo Code，Kilo Code 设置，VSCode 编码代理，{appName} Kilo Code，自定义提供商，OpenAI 兼容"
+      },
+      "BADGE": "Kilo Code",
+      "TITLE": "Kilo Code 设置指南",
+      "SUBTITLE": "无需离开编辑器，直接在 Kilo Code 的 VSCode 侧边栏中连接 {appName} 自定义提供商。",
+      "OVERVIEW_DESC": "Kilo Code 是一个 VSCode 扩展，可以让你直接在侧边栏中连接兼容 OpenAI 的自定义提供商。{appName} 无需离开编辑器即可使用。",
+      "STEP_1_TITLE": "安装 Kilo Code",
+      "STEP_1_DESC": "打开 VSCode，进入扩展面板，搜索 Kilo Code 并安装。",
+      "STEP_2_TITLE": "打开设置",
+      "STEP_2_DESC": "点击侧边栏中的 Kilo Code 图标，然后点击面板右上角的齿轮图标。",
+      "STEP_3_TITLE": "添加自定义提供商",
+      "STEP_3_DESC": "打开 Providers，点击 Custom Provider 旁边的 + Connect，然后填写表单。",
+      "STEP_4_TITLE": "填写连接表单",
+      "STEP_4_DESC": "请使用以下精确值。模型字段接受 {appName} 目录中的任意模型 ID。",
+      "STEP_5_TITLE": "保存并聊天",
+      "STEP_5_DESC": "点击 Save Provider。Kilo Code 会在下一次代理运行中使用新的提供商。",
+      "GOTCHA_1": "如果粘贴密钥后只剩几个字符，那是该字段在你输入时进行了掩码处理。点击眼睛图标以确认完整密钥已粘贴。",
+      "GOTCHA_2": "404 unknown API route 通常表示模型 ID 有误。请从 {appName} 模型列表中选择一个。",
+      "GOTCHA_3": "保持 Supports tools 处于开启状态，以便 Kilo 可以运行 shell、文件编辑和搜索工具。"
+    },
+    "ZED": {
+      "META": {
+        "TITLE": "Zed IDE 设置指南 | {appName}",
+        "DESCRIPTION": "通过添加兼容 OpenAI 的自定义提供商，将 Zed 编辑器代理连接到 {appName}。提供分步配置。",
+        "KEYWORDS": "Zed，Zed IDE，Zed 代理，{appName} Zed，自定义提供商，OpenAI 兼容编辑器"
+      },
+      "BADGE": "Zed IDE",
+      "TITLE": "Zed IDE 设置指南",
+      "SUBTITLE": "将 {appName} 添加为 Zed 中兼容 OpenAI 的自定义提供商，内置代理会处理其余工作。",
+      "OVERVIEW_DESC": "Zed 拥有内置的代理面板。将 {appName} 添加为兼容 OpenAI 的自定义提供商，Zed 会处理其余工作。",
+      "STEP_1_TITLE": "打开 Zed 助手",
+      "STEP_1_DESC": "打开 Zed，从右侧边栏显示助手面板。",
+      "STEP_2_TITLE": "打开代理设置",
+      "STEP_2_DESC": "点击助手齿轮，前往右上角的 Add Provider。",
+      "STEP_3_TITLE": "配置提供商",
+      "STEP_3_DESC": "选择兼容 OpenAI 的选项并使用以下值。",
+      "STEP_4_TITLE": "选择模型",
+      "STEP_4_DESC": "在模型选择器中选择你新建的 {appName} 提供商，并从目录中选择任意模型。Zed 会在编辑器内直接流式输出响应。",
+      "GOTCHA_1": "Zed 要求提供商 ID 为小写字母、数字、连字符或下划线。",
+      "GOTCHA_2": "由于部分用户通过请求头进行认证，表单中的 API 密钥是可选的，但对于 {appName} 请粘贴你的真实密钥。"
+    },
+    "CLINE": {
+      "META": {
+        "TITLE": "Cline 设置指南 | {appName}",
+        "DESCRIPTION": "将 Cline 连接到 {appName} 作为 OpenAI Compatible 提供商，使其可以用任意模型读取、编辑和运行代码。提供分步配置。",
+        "KEYWORDS": "Cline，Cline 设置，VSCode 自主代理，{appName} Cline，OpenAI Compatible，编码代理"
+      },
+      "BADGE": "Cline",
+      "TITLE": "Cline 设置指南",
+      "SUBTITLE": "将 {appName} 添加为 Cline 中的 OpenAI Compatible 提供商，并在 VSCode 中运行完整的代理循环。",
+      "OVERVIEW_DESC": "Cline 在 VSCode 中运行完整的代理循环。将 {appName} 添加为 OpenAI Compatible 提供商，即可用任意模型读取、编辑和运行代码。",
+      "STEP_1_TITLE": "安装 Cline",
+      "STEP_1_DESC": "从 VSCode 应用市场安装 Cline 扩展，并从活动栏打开 Cline 面板。",
+      "STEP_2_TITLE": "打开 Cline 设置",
+      "STEP_2_DESC": "点击 Cline 面板中的齿轮图标以打开 API Configuration。",
+      "STEP_3_TITLE": "选择 OpenAI Compatible",
+      "STEP_3_DESC": "在 API Provider 下选择 OpenAI Compatible。",
+      "STEP_4_TITLE": "填写连接信息",
+      "STEP_4_DESC": "请使用以下值。Model ID 接受任意 {appName} 模型。",
+      "GOTCHA_1": "Cline 为较新的模型提供了 Responses API 模式。使用 chat completions 时它会回退到 XML 工具封装，可能导致工具调用重复。为保持稳定，请坚持使用 chat 风格的模型。",
+      "GOTCHA_2": "请选择支持原生工具调用的模型，以便 Cline 能可靠地运行 shell 和文件编辑。"
+    },
+    "ROO_CODE": {
+      "META": {
+        "TITLE": "Roo Code 设置指南 | {appName}",
+        "DESCRIPTION": "将 Roo Code 连接到 {appName} 作为 OpenAI Compatible 提供商，使其规划、编码和 QA 角色共享一个基础 URL。提供分步配置。",
+        "KEYWORDS": "Roo Code，Roo Code 设置，多代理 VSCode，{appName} Roo Code，OpenAI Compatible，编码代理"
+      },
+      "BADGE": "Roo Code",
+      "TITLE": "Roo Code 设置指南",
+      "SUBTITLE": "将 {appName} 添加为 OpenAI Compatible 提供商，Roo Code 的各个代理角色便共享同一个基础 URL。",
+      "OVERVIEW_DESC": "Roo Code 将代理拆分为规划、编码和 QA 团队。将 {appName} 添加为 OpenAI Compatible 提供商，Roo 的各个角色便共享同一个基础 URL。",
+      "STEP_1_TITLE": "安装 Roo Code",
+      "STEP_1_DESC": "在 VSCode 中安装 Roo Code 扩展并打开面板。",
+      "STEP_2_TITLE": "打开 API 配置",
+      "STEP_2_DESC": "点击设置图标并前往 API Configuration。",
+      "STEP_3_TITLE": "选择 OpenAI Compatible",
+      "STEP_3_DESC": "将 Provider 设置为 OpenAI Compatible。",
+      "STEP_4_TITLE": "填写连接信息",
+      "STEP_4_DESC": "请使用以下值。模型选择器也可能在首次调用后自动填充。",
+      "GOTCHA_1": "Roo 的 Codebase Indexing > Embedder Provider 是与聊天独立的设置。请配置你实际想要使用的聊天提供商。",
+      "GOTCHA_2": "部分 Roo 代理角色发出的请求比预期更多。请留意你的 {appName} 速率限制，必要时提升套餐。"
+    },
+    "CONTINUE_DEV": {
+      "META": {
+        "TITLE": "Continue.dev 设置指南 | {appName}",
+        "DESCRIPTION": "通过纳入版本控制的 config.yaml 将 Continue.dev 连接到 {appName}。Continue 会热重载模型条目。提供分步配置。",
+        "KEYWORDS": "Continue.dev，Continue 设置，VSCode JetBrains 助手，{appName} Continue，config.yaml，OpenAI 兼容"
+      },
+      "BADGE": "Continue.dev",
+      "TITLE": "Continue.dev 设置指南",
+      "SUBTITLE": "将 {appName} 模型条目放入 Continue 的 config.yaml，它便会在 VSCode 和 JetBrains 中热重载。",
+      "OVERVIEW_DESC": "Continue 使用可纳入版本控制的 yaml 配置。放入一个 {appName} 模型条目，Continue 便会热重载它。",
+      "STEP_1_TITLE": "打开 Continue 配置",
+      "STEP_1_DESC": "编辑 ~/.continue/config.yaml（macOS/Linux）或 %USERPROFILE%\\.continue\\config.yaml（Windows）。如果文件不存在，请创建它。",
+      "STEP_2_TITLE": "添加模型条目",
+      "STEP_2_DESC": "使用 provider openai 和 apiBase。你可以将多个模型添加为独立条目。",
+      "STEP_3_TITLE": "保存并重新加载",
+      "STEP_3_DESC": "Continue 会热重载配置。从面板底部的模型选择器中选择 {appName}。",
+      "GOTCHA_1": "请使用 config.yaml，而不是旧版的 config.json。",
+      "GOTCHA_2": "如果某个模型拒绝额外参数，请在该模型条目上设置 requestOptions.dropParams: ['frequency_penalty','presence_penalty']。"
+    },
+    "AIDER": {
+      "META": {
+        "TITLE": "Aider 设置指南 | {appName}",
+        "DESCRIPTION": "将结对编程 CLI Aider 连接到 {appName}。设置两个环境变量，并将 openai/MODEL_ID 作为模型传入。提供分步配置。",
+        "KEYWORDS": "Aider，Aider 设置，AI 结对编程 CLI，{appName} Aider，LiteLLM，OpenAI 兼容"
+      },
+      "BADGE": "Aider",
+      "TITLE": "Aider 设置指南",
+      "SUBTITLE": "Aider 基于 LiteLLM，因此 {appName} 兼容 OpenAI 的基础 URL 只需两个环境变量即可使用。",
+      "OVERVIEW_DESC": "Aider 基于 LiteLLM，因此任何兼容 OpenAI 的基础 URL 都可使用。设置两个环境变量，并将 openai/MODEL_ID 作为模型传入。",
+      "STEP_1_TITLE": "设置环境变量",
+      "STEP_1_DESC": "Aider 从你的 shell 读取 OPENAI_API_BASE 和 OPENAI_API_KEY。",
+      "STEP_2_TITLE": "以 openai/ 前缀运行 aider",
+      "STEP_2_DESC": "LiteLLM 使用 openai/ 前缀将请求路由到其 OpenAI 驱动。请在后面追加你的 {appName} 模型 ID。",
+      "STEP_3_TITLE": "可选：在 .aider.conf.yml 中持久化",
+      "STEP_3_DESC": "在项目根目录放一个配置文件，这样就不必每次重复这些参数。",
+      "GOTCHA_1": "请始终在基础 URL 中包含 /v1。",
+      "GOTCHA_2": "LiteLLM 可能会打印未知模型警告。如果过于嘈杂，请使用 --no-show-model-warnings，或通过 --model-metadata-file 提供上下文窗口。"
     }
   },
   "FOOTER": {
@@ -1708,7 +2206,17 @@
     "RU": "Русский",
     "VI": "Tiếng Việt",
     "ZH_CN": "简体中文",
-    "ZH_TW": "繁體中文"
+    "ZH_TW": "繁體中文",
+    "IT": "Italiano",
+    "ES": "Español",
+    "PT_BR": "Português (Brasil)",
+    "KO": "한국어",
+    "TR": "Türkçe",
+    "AR": "العربية",
+    "HE": "עברית",
+    "HI": "हिन्दी",
+    "ID": "Bahasa Indonesia",
+    "PL": "Polski"
   },
   "AUTH": {
     "LOGIN": {
@@ -2234,7 +2742,19 @@
     "MD_BOLD": "粗体文本",
     "MD_ITALIC_BOLD": "斜体粗体文本",
     "MD_SINGLE_QUOTE": "单引号文本",
-    "MD_DOUBLE_QUOTE": "双引号文本"
+    "MD_DOUBLE_QUOTE": "双引号文本",
+    "SURFACE_COLORS": "界面颜色",
+    "COLOR_SIDEBAR": "侧边栏",
+    "BACKGROUND_IMAGE": "背景图片",
+    "BG_UPLOAD": "上传图片",
+    "BG_REPLACE": "替换",
+    "BG_REMOVE": "移除",
+    "BG_FIT": "图片适配",
+    "BG_FIT_COVER": "覆盖",
+    "BG_FIT_CONTAIN": "包含",
+    "BG_FIT_TILE": "平铺",
+    "BG_OPACITY": "不透明度",
+    "BG_BLUR": "模糊"
   },
   "BILLING": {
     "SUBSCRIPTION": {
@@ -2313,7 +2833,8 @@
       "NAME": "名称",
       "AMOUNT": "金额",
       "REMAIN_QUOTA": "额度",
-      "QUOTA_THRESHOLD_DOLLARS": "额度告警阈值"
+      "QUOTA_THRESHOLD_DOLLARS": "额度告警阈值",
+      "CONTENT": "内容"
     }
   },
   "SETTINGS": {
@@ -2511,9 +3032,14 @@
     "REQUEST_LOG": {
       "VIEW": "查看请求日志",
       "TITLE": "请求日志",
-      "TAB_REQUEST": "请求",
+      "TAB_REQUEST": "快照（调试）",
+      "TAB_REQUEST_HINT": "客户端快照（组装器输入），不是实际发送的请求体。模型真正收到的内容在“系统提示”和“最终消息”标签页。",
+      "TAB_UPSTREAM": "上游请求体",
+      "TAB_UPSTREAM_HINT": "发送给模型的确切请求体（system + 仅含角色的 messages）。这正是 LLM 收到的内容。",
       "TAB_SYSTEM": "系统提示词",
+      "TAB_SYSTEM_HINT": "发送给模型的真实系统提示。无系统角色的模型（如 GLM）为空，内容会并入用户块。",
       "TAB_FINAL": "最终消息",
+      "TAB_FINAL_HINT": "经过角色变换（合并、去系统）后发送给模型的真实消息数组。这是模型实际看到的内容。",
       "TAB_HEADERS": "响应头",
       "COPY_CURL": "复制为 cURL",
       "COPY_JSON": "复制 JSON",
@@ -2524,7 +3050,8 @@
       "BADGE_OUT": "输出",
       "BADGE_DROPPED": "已丢弃",
       "UNIT_MS": "毫秒",
-      "UNIT_TOK_PER_S": "词元/秒"
+      "UNIT_TOK_PER_S": "词元/秒",
+      "BADGE_PROVIDER": "提供商"
     },
     "NEW_CONVERSATION": "新对话",
     "GENERATION_LOCKED_OTHER_TAB": "另一个标签页正在为此对话生成回复。请等待其完成或切换到该标签页。",
@@ -2535,6 +3062,10 @@
     "NO_CONVERSATIONS": "还没有对话",
     "EMPTY_TITLE": "开始一段对话",
     "EMPTY_DESCRIPTION": "选择一个模型并开始对话，测试任意 AI 模型。",
+    "LOADOUT": {
+      "TITLE": "配装",
+      "HINT": "应用于此对话及今后所有新对话，直到你更改为止。"
+    },
     "INPUT_PLACEHOLDER": "输入您的消息...",
     "START_PROMPT": "发送消息开始对话。",
     "THINKING": "思考中",
@@ -2602,7 +3133,8 @@
       "EXTRA_BODY": "附加请求体（JSON）",
       "EXTRA_BODY_PLACEHOLDER": "'{'\n  \"reasoning_effort\": \"high\",\n  \"service_tier\": \"priority\"\n'}'",
       "EXTRA_BODY_HINT": "发送前合并到请求中，用于滑块未覆盖的字段。键冲突时滑块优先。",
-      "EXTRA_BODY_INVALID": "JSON 无效。请使用 '{}' 包裹并转义字符串。"
+      "EXTRA_BODY_INVALID": "JSON 无效。请使用 '{}' 包裹并转义字符串。",
+      "INHERIT": "继承"
     },
     "SAMPLING": {
       "UNSUPPORTED": "并非该模型的所有提供方都支持。设置后不会生效。"
@@ -2635,6 +3167,10 @@
       "FONT_SERIF": "衬线",
       "FONT_MONO": "等宽",
       "FONT_SYSTEM": "系统"
+    },
+    "ACTIVE_CONFIG": {
+      "CHARACTERS": "{count, plural, other {# 个角色}}",
+      "LOREBOOKS": "{count, plural, other {# 个世界书}}"
     }
   },
   "RP": {
@@ -2679,6 +3215,7 @@
     "LOREBOOKS_NEW": "新建知识库",
     "LOREBOOKS_EMPTY": "暂无知识库。",
     "LOREBOOK_SCAN_DEPTH": "扫描深度",
+    "LOREBOOK_DESCRIPTION_NOT_SENT": "仅供你标记，不会发送给 AI。实际内容请填入下方的条目。",
     "LOREBOOK_SCAN_DEPTH_HINT": "扫描关键词的最近消息条数。",
     "LOREBOOK_TOKEN_BUDGET": "Token 预算",
     "LOREBOOK_TOKEN_BUDGET_HINT": "每轮注入条目的最大 Token 数。",
@@ -2686,14 +3223,15 @@
     "LOREBOOK_ENTRY_NEW": "新建条目",
     "LOREBOOK_UNTITLED": "未命名世界书",
     "LOREBOOK_ENTRY_NO_KEYS": "（无触发词）",
-    "LOREBOOK_ENTRY_KEYS": "触发词（用逗号分隔）",
-    "LOREBOOK_ENTRY_KEYS_HINT": "激活此条目的词语。示例：sex、dick、pussy。若启用「始终注入」则忽略。",
+    "LOREBOOK_ENTRY_ALWAYS_LABEL": "始终注入",
+    "LOREBOOK_ENTRY_KEYS": "激活关键词（逗号分隔）",
+    "LOREBOOK_ENTRY_KEYS_HINT": "激活此条目的词语。例如：龙、蛟、翼龙。",
     "LOREBOOK_ENTRY_SECONDARY_KEYS": "次级触发词",
     "LOREBOOK_ENTRY_PRIORITY_HINT": "数字越小，注入提示词的位置越靠前。",
     "LOREBOOK_ENTRY_CONTENT": "内容",
     "LOREBOOK_ENTRY_POSITION": "位置",
     "LOREBOOK_ENTRY_PRIORITY": "优先级",
-    "LOREBOOK_ENTRY_CONSTANT": "始终注入",
+    "LOREBOOK_ENTRY_CONSTANT": "始终激活",
     "LOREBOOK_ENTRY_SELECTIVE": "需要次级关键词",
     "LOREBOOK_ENTRY_ENABLED": "已启用",
     "LOREBOOK_ENTRY_MATCH_WHOLE_WORDS": "仅匹配完整单词",
@@ -2746,15 +3284,13 @@
     "PRESET_PREFILL_PLACEHOLDER": "好的，回复如下：",
     "PRESET_PREFILL_HINT": "作为最后一条助手消息发送。LLM 会从这段种子文本继续生成。强大的越狱技巧。支持 user 与 char 宏。",
     "PRESET_FLAGS_TITLE": "自定义标志",
-    "PRESET_FLAGS_HINT": "为挑剔的模型调整请求体。多数用户保持关闭。",
+    "PRESET_FLAGS_HINT": "为挑剔的模型调整请求体。需要时按模型自动应用；开启以强制启用。",
     "PRESET_FORCE_ALTERNATE_ROLES": "强制角色交替",
-    "PRESET_FORCE_ALTERNATE_ROLES_HINT": "合并连续相同角色的消息，使对话严格在 user/assistant 之间交替。GLM 与某些 Anthropic 配置必需。",
+    "PRESET_FORCE_ALTERNATE_ROLES_HINT": "合并连续的相同角色消息，使对话严格在用户／助手之间交替。GLM／Gemini 自动应用。",
     "PRESET_NO_SYSTEM_ROLE": "禁用 system 角色",
-    "PRESET_NO_SYSTEM_ROLE_HINT": "将会话中的 system 消息转换为带 [System]: 前缀的 user 消息。顶层系统提示不受影响。Gemini 和严格交替的模型需要。",
+    "PRESET_NO_SYSTEM_ROLE_HINT": "将对话中间的系统消息转换为带「system:」前缀的用户消息。顶层系统提示词不受影响。GLM／Gemini 自动应用。",
     "PRESET_MUST_START_WITH_USER": "必须以 user 输入开始",
-    "PRESET_MUST_START_WITH_USER_HINT": "若首条消息为 assistant 或 system，自动添加一个微型 user 占位。Anthropic 与 Gemini 都会拒绝不以 user 开始的对话。",
-    "PRESET_SKIP_PREFILL_IF_LAST_ASSISTANT": "若最后一条为 assistant 则跳过 prefill",
-    "PRESET_SKIP_PREFILL_IF_LAST_ASSISTANT_HINT": "当强制交替开启且最后一条已是 assistant 时，跳过 prefill 以避免出现两条连续的 assistant 消息。",
+    "PRESET_MUST_START_WITH_USER_HINT": "若对话以助手或系统开头，则在开头加入一条空白的小型用户消息。Anthropic／Gemini／GLM 自动应用。",
     "PRESET_GEMINI_BLOCK_OFF": "Gemini：安全 OFF",
     "PRESET_GEMINI_BLOCK_OFF_HINT": "为每个 Gemini harm 类别发送 threshold=OFF 的 safetySettings。比 BLOCK_NONE 更强。仅在 Gemini 模型上生效。",
     "SIDEBAR_TAB_CHATS": "聊天",
@@ -2788,7 +3324,34 @@
     "BRANCH_NEXT": "下一分支",
     "BRANCH_PREV": "上一分支",
     "LOREBOOKS_IMPORT": "导入",
-    "PERSONAS_IMPORT": "导入"
+    "PERSONAS_IMPORT": "导入",
+    "LOREBOOK_ENTRY_CONSTANT_HINT": "始终注入此条目，忽略激活关键词。",
+    "PRESET_PROVIDERS_TITLE": "提供商路由",
+    "PRESET_PROVIDERS": "固定提供商（逗号分隔）",
+    "PRESET_PROVIDERS_HINT": "按顺序排列的首选上游提供商。仅受 OpenRouter 兼容渠道支持，其他场景将被忽略。",
+    "PRESET_PROVIDERS_ONLY": "仅限这些提供商",
+    "PRESET_PROVIDERS_ONLY_HINT": "硬性固定：当列出的提供商均不可用时拒绝请求，而非回退到其他。",
+    "LOREBOOK_ENTRY_INJECTION_ROLE_ASSISTANT": "助手",
+    "PRESET_TEMPLATE_TITLE": "提示词模板",
+    "PRESET_TEMPLATE_HINT": "拖动以重新排列提示词的构建顺序。聊天记录在「聊天记录」块处插入。留空＝默认顺序。",
+    "PRESET_TEMPLATE_RESET": "重置为默认",
+    "PRESET_TEMPLATE_EXPAND": "展开",
+    "PRESET_TEMPLATE_COLLAPSE": "折叠",
+    "PRESET_TEMPLATE_ADD": "添加块",
+    "PRESET_TEMPLATE_PLAIN": "自定义文本块",
+    "PRESET_TEMPLATE_CHAT": "聊天记录",
+    "PRESET_TEMPLATE_CHAT_HINT": "对话消息的插入位置。",
+    "PRESET_TEMPLATE_PLAIN_PLACEHOLDER": "自定义指令文本...",
+    "LOREBOOK_ENTRY_PROBABILITY": "激活几率（%）",
+    "LOREBOOK_ENTRY_PROBABILITY_HINT": "每次扫描按此百分比掷骰，决定该条目是否触发。100 ＝ 始终。",
+    "LOREBOOK_ENTRY_SCAN_DEPTH": "扫描深度",
+    "LOREBOOK_ENTRY_SCAN_DEPTH_HINT": "为该条目的关键词扫描多少条最近消息。0 = 使用书的默认值。",
+    "PRESET_CHAT_MEMORY": "聊天记忆（消息数）",
+    "PRESET_CHAT_MEMORY_HINT": "每次请求发送多少条最近消息。留空 = 默认（8）；聊天设置会覆盖此项。",
+    "PRESET_STREAMING": "流式输出",
+    "PRESET_STREAMING_HINT": "逐 token 流式返回回复。关闭 = 一次性接收完整回复。聊天设置会覆盖此项。",
+    "CHARACTER_BACKGROUND": "背景图片",
+    "CHARACTER_BACKGROUND_HINT": "当此角色主导对话时，显示在聊天背后。"
   },
   "ERRORS": {
     "MISSING_ENV": "缺少必需的环境变量：{var}",
@@ -2822,7 +3385,11 @@
     "IMPORT_UNSUPPORTED_VERSION": "不支持的导出版本。",
     "CARD_PARSE_FAILED": "无法解析角色卡。",
     "CARD_MISSING_NAME": "角色卡缺少必填的名称字段。",
-    "UNEXPECTED_ERROR": "发生意外错误"
+    "UNEXPECTED_ERROR": "发生意外错误",
+    "AUDIO_GENERATION_FAILED": "音频生成失败",
+    "NO_AUDIO_PROMPT": "未提供用于语音生成的文本",
+    "EMBEDDING_FAILED": "向量生成失败",
+    "NO_EMBEDDING_INPUT": "未提供需要向量化的文本"
   },
   "BADGE": {
     "TOKENS_SERVED": "已处理 Token",
@@ -2836,6 +3403,8 @@
     "SMART_ROUTING": "智能路由",
     "ONE_ENDPOINT": "一个端点",
     "MODELS": "模型",
+    "FREE": "免费",
+    "PAID": "付费",
     "UPTIME": "可用率",
     "LIVE_STATS": "实时统计",
     "CHEAPEST_API": "最便宜的推理 API",

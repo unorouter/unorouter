@@ -70,7 +70,11 @@ export function ModelSelector(props: ModelSelectorProps) {
         if (!next) setTypeFilter(null);
       }}
     >
-      <PopoverTrigger className="border-input bg-background ring-offset-background hover:bg-accent hover:text-accent-foreground flex h-8 w-full items-center justify-between rounded-md border px-3 text-xs">
+      <PopoverTrigger
+        data-testid="model-selector-trigger"
+        data-model={props.value || undefined}
+        className="border-input bg-background ring-offset-background hover:bg-accent hover:text-accent-foreground flex h-8 w-full items-center justify-between rounded-md border px-3 text-xs"
+      >
         <div className="flex items-center gap-2 truncate">
           {selected && <VendorIcon vendor={selected.vendor.name} size={14} />}
           <span className="truncate font-mono">
@@ -100,6 +104,7 @@ export function ModelSelector(props: ModelSelectorProps) {
             <div className="flex gap-1 overflow-x-auto border-b px-2 py-1.5">
               <Badge
                 variant={typeFilter === null ? "default" : "outline"}
+                data-testid="model-type-filter-all"
                 className="cursor-pointer text-[10px]"
                 onClick={() => setTypeFilter(null)}
               >
@@ -109,6 +114,7 @@ export function ModelSelector(props: ModelSelectorProps) {
                 <Badge
                   key={tag}
                   variant={typeFilter === tag ? "default" : "outline"}
+                  data-testid={`model-type-filter-${tag}`}
                   className="cursor-pointer text-[10px]"
                   onClick={() => setTypeFilter(typeFilter === tag ? null : tag)}
                 >
@@ -134,6 +140,10 @@ export function ModelSelector(props: ModelSelectorProps) {
                         model.vendor.name,
                         ...(model.isFree ? ["free"] : []),
                       ]}
+                      data-testid={`model-option-${model.name}`}
+                      data-model={model.name}
+                      data-model-type={model.type}
+                      data-free={model.isFree || undefined}
                       data-checked={model.name === props.value || undefined}
                       onSelect={() => {
                         if (disabled) {

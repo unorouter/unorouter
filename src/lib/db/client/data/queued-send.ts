@@ -11,12 +11,11 @@ import { getLocalDb } from "../client";
 
 export type UnansweredTurn = { convId: string; parentId: string };
 
-// Offline "queued send" detection. A completion is a live SSE stream, not an
-// idempotent row PATCH, so it cannot ride local_pending_sync. Instead we detect
-// unanswered turns structurally: a conversation whose active-branch leaf is a
-// user message with no active child and no later active sibling. This survives
-// reload (rows live in OPFS), works for guests and logged-in alike, and
-// self-dedups once the assistant child message lands.
+// Unanswered-turn detection for the sidebar "Queued" badge: a conversation
+// whose active-branch leaf is a user message with no active child and no later
+// active sibling. Detection only; there is NO auto-replay (Risu semantics:
+// failures surface, the user resends manually). Survives reload (rows live in
+// OPFS) and self-dedups once the assistant child message lands.
 export async function findUnansweredUserTurns(
   userId: number | undefined,
 ): Promise<UnansweredTurn[]> {
@@ -33,10 +32,7 @@ export async function findUnansweredUserTurns(
     // userId scope lives on conversations (messages has no userId column).
     .innerJoin(
       conversations,
-      and(
-        eq(conversations.id, messages.convId),
-        eq(conversations.userId, uid),
-      ),
+      and(eq(conversations.id, messages.convId), eq(conversations.userId, uid)),
     )
     .where(
       and(

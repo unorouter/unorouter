@@ -25,7 +25,13 @@ export const CONVERSATION_SETTINGS_KEYS = [
   "repetitionPenalty",
   "maxTokens",
   "extraBody",
+  "vars",
   "streamingEnabled",
+  "groupOrderByOrder",
+  "autoContinue",
+  "memoryEnabled",
+  "summaryMemory",
+  "summaryAnchor",
 ] as const;
 
 export type ConversationSettingsProjection = { convId: string } & Pick<

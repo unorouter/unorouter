@@ -4,7 +4,7 @@ import { IS_DEV } from "@/lib/config/constants";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useTranslations } from "next-intl";
-import posthog from "posthog-js";
+import { posthog } from "@/lib/posthog-lazy";
 import { useEffect } from "react";
 
 import { Icon } from "@/components/ui/icon";

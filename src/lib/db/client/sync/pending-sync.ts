@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  localPendingSync,
-  type PendingSyncOp,
-} from "@/lib/db/schema/client";
+import { localPendingSync, type PendingSyncOp } from "@/lib/db/schema/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
@@ -64,9 +61,7 @@ export async function enqueuePending(
   const existing = await local.db
     .select({ op: localPendingSync.op })
     .from(localPendingSync)
-    .where(
-      and(eq(localPendingSync.kind, kind), eq(localPendingSync.id, id)),
-    )
+    .where(and(eq(localPendingSync.kind, kind), eq(localPendingSync.id, id)))
     .limit(1);
   if (existing[0]?.op === "delete" && op === "patch") return;
 
@@ -101,9 +96,7 @@ export async function enqueuePending(
     });
 }
 
-export async function drainPending(
-  userId: number,
-): Promise<DrainResult> {
+export async function drainPending(userId: number): Promise<DrainResult> {
   const result: DrainResult = {
     succeeded: 0,
     retried: 0,
@@ -198,10 +191,7 @@ export async function drainPending(
   }
   // Sister tabs refresh sync-state + badges on drain success.
   if (result.succeeded > 0 || result.dead.length > 0) {
-    broadcastInvalidate([
-      queryKeys.pendingSync(),
-      queryKeys.syncState(),
-    ]);
+    broadcastInvalidate([queryKeys.pendingSync(), queryKeys.syncState()]);
   }
   return result;
 }
@@ -249,10 +239,7 @@ async function requeuePending(
       .update(localPendingSync)
       .set({ attempts: 0, nextAttemptAt: null, lastError: null })
       .where(
-        and(
-          eq(localPendingSync.kind, kind),
-          inArray(localPendingSync.id, ids),
-        ),
+        and(eq(localPendingSync.kind, kind), inArray(localPendingSync.id, ids)),
       );
   }
 }

@@ -127,11 +127,15 @@ export async function generateSponsor(ctx: BadgeCtx): Promise<string> {
   const requestCount = ctx.stats.requestCount.toLocaleString("en-US");
   const tpmCount = ctx.stats.avgTpm.toLocaleString("en-US");
   const modelCount = `${ctx.pricing.modelCount}+`;
+  const freeCount = ctx.pricing.freeCount.toLocaleString("en-US");
+  const paidCount = ctx.pricing.paidCount.toLocaleString("en-US");
 
   const m1 = cipherMarker(1);
   const m2 = cipherMarker(2);
   const m3 = cipherMarker(3);
   const m4 = cipherMarker(4);
+  const m5 = cipherMarker(5);
+  const m6 = cipherMarker(6);
 
   if (d.layout === "horizontal") {
     const node = (
@@ -260,6 +264,46 @@ export async function generateSponsor(ctx: BadgeCtx): Promise<string> {
               {t(ctx.locale, "BADGE.MODELS_ONE_ENDPOINT_SUFFIX")}
             </span>
           </Row>
+          <Row style={{ alignItems: "center", gap: 4, marginTop: 4 }}>
+            <Row
+              style={{
+                width: 5,
+                height: 5,
+                borderRadius: "50%",
+                backgroundColor: c.accent,
+              }}
+            />
+            <MonoValue
+              value={freeCount}
+              c={c}
+              size={d.modelCountFont}
+              cipherMarker={m5}
+            />
+            <span
+              style={{
+                fontFamily: FONT_SANS,
+                fontSize: d.bulletFont,
+                color: c.text,
+              }}
+            >
+              {t(ctx.locale, "BADGE.FREE")}
+            </span>
+            <MonoValue
+              value={paidCount}
+              c={c}
+              size={d.modelCountFont}
+              cipherMarker={m6}
+            />
+            <span
+              style={{
+                fontFamily: FONT_SANS,
+                fontSize: d.bulletFont,
+                color: c.text,
+              }}
+            >
+              {t(ctx.locale, "BADGE.PAID")}
+            </span>
+          </Row>
           <Dot
             text={t(ctx.locale, "BADGE.SMART_ROUTING")}
             c={c}
@@ -367,6 +411,18 @@ export async function generateSponsor(ctx: BadgeCtx): Promise<string> {
       fontSize: d.modelCountFont,
       color: c.text,
       markerColor: m4,
+    },
+    {
+      value: freeCount,
+      fontSize: d.modelCountFont,
+      color: c.text,
+      markerColor: m5,
+    },
+    {
+      value: paidCount,
+      fontSize: d.modelCountFont,
+      color: c.text,
+      markerColor: m6,
     },
   ];
 

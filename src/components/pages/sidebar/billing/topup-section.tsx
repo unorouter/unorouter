@@ -13,10 +13,15 @@ export function TopUpSection() {
   const amountOptions = topUpInfo?.amount_options ?? [];
   const creemProducts = topUpInfo?.creemProducts ?? [];
 
-  if (!billing.enableStripe && !billing.enableCreem && !billing.enableNowPayments)
+  if (
+    !billing.enableStripe &&
+    !billing.enableCreem &&
+    !billing.enableNowPayments
+  )
     return null;
 
-  const showCrypto = billing.paymentMethod === "crypto" && billing.enableNowPayments;
+  const showCrypto =
+    billing.paymentMethod === "crypto" && billing.enableNowPayments;
   const showCard = billing.paymentMethod === "card" && billing.enableCard;
 
   return (
@@ -102,32 +107,33 @@ export function TopUpSection() {
 
       {showCrypto && (
         <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-          {(amountOptions.length > 0 ? amountOptions : DEFAULT_TOPUP_AMOUNTS).map(
-            (amount) => {
-              const actual = billing.discountedAmount(amount);
-              const save = billing.discountSavings(amount);
-              return (
-                <button
-                  key={amount}
-                  onClick={() => billing.payNowPayments(amount)}
-                  disabled={billing.isTopUpMutating}
-                  className="border-border hover:border-primary/50 flex flex-col items-center gap-2 border p-4 transition-colors disabled:opacity-50"
-                >
-                  <span className="text-foreground text-2xl font-bold tabular-nums">
-                    {amount} $
-                  </span>
-                  <span className="text-muted-foreground font-mono text-[11px]">
-                    {t("BILLING.TOPUP.ACTUAL_PAYMENT")} ${actual.toFixed(2)}
-                    {save > 0 && (
-                      <>
-                        , {t("BILLING.TOPUP.SAVE")} ${save.toFixed(2)}
-                      </>
-                    )}
-                  </span>
-                </button>
-              );
-            },
-          )}
+          {(amountOptions.length > 0
+            ? amountOptions
+            : DEFAULT_TOPUP_AMOUNTS
+          ).map((amount) => {
+            const actual = billing.discountedAmount(amount);
+            const save = billing.discountSavings(amount);
+            return (
+              <button
+                key={amount}
+                onClick={() => billing.payNowPayments(amount)}
+                disabled={billing.isTopUpMutating}
+                className="border-border hover:border-primary/50 flex flex-col items-center gap-2 border p-4 transition-colors disabled:opacity-50"
+              >
+                <span className="text-foreground text-2xl font-bold tabular-nums">
+                  {amount} $
+                </span>
+                <span className="text-muted-foreground font-mono text-[11px]">
+                  {t("BILLING.TOPUP.ACTUAL_PAYMENT")} ${actual.toFixed(2)}
+                  {save > 0 && (
+                    <>
+                      , {t("BILLING.TOPUP.SAVE")} ${save.toFixed(2)}
+                    </>
+                  )}
+                </span>
+              </button>
+            );
+          })}
         </div>
       )}
     </div>

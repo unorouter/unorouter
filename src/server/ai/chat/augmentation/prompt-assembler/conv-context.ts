@@ -157,7 +157,8 @@ export function buildContextFromClient(
           characterId: raw.binding.characterId,
           orderIndex: raw.binding.orderIndex ?? i,
           isActive: raw.binding.isActive ?? true,
-          overrides: (raw.binding.overrides ?? null) as Bound["binding"]["overrides"],
+          overrides: (raw.binding.overrides ??
+            null) as Bound["binding"]["overrides"],
         },
         character: raw.character as Char,
       });

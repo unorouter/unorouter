@@ -51,6 +51,6 @@ export const config = {
   // Excludes infra + asset extensions only; model slugs with dots (glm-5.1)
   // need next-intl for locale path rewrites.
   matcher: [
-    "/((?!trpc|_vercel|ingest|\\.well-known|openapi\\.json|.*\\.(?:ico|png|jpg|jpeg|svg|webp|avif|gif|css|map|txt|xml|woff|woff2|ttf|otf|eot|mp4|webm|pdf)).*)",
+    "/((?!trpc|_vercel|ingest|\\.well-known|openapi\\.json|.*\\.(?:ico|png|jpg|jpeg|svg|webp|avif|gif|css|map|txt|xml|json|woff|woff2|ttf|otf|eot|mp4|webm|pdf)).*)",
   ],
 };

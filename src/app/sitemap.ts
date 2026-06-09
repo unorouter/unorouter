@@ -19,6 +19,12 @@ import { handleElysia, modelSlug } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
 import type { MetadataRoute } from "next";
 
+// Model pages come from the pricing RPC, which self-calls the server. That
+// server is not up during `next build`, so a prerendered sitemap always loses
+// every model page. Force runtime rendering so pricing is reachable; the route
+// is hit rarely, so per-request rendering is cheap.
+export const dynamic = "force-dynamic";
+
 type EntryOptions = {
   priority?: number;
   changeFrequency?: MetadataRoute.Sitemap[number]["changeFrequency"];
@@ -30,7 +36,11 @@ const privateSet = new Set<string>([
   ...privateRoutes.static,
   ...privateRoutes.dynamicParents,
 ]);
-const docPathSet = new Set<string>(DOCS_REGISTRY.map((d) => d.path));
+// Only the "/docs" index has a static-string path; guide entries carry a
+// dynamic "/docs/[slug]" href object, which never collides with a pathnames key.
+const docPathSet = new Set<string>(
+  DOCS_REGISTRY.flatMap((d) => (typeof d.path === "string" ? [d.path] : [])),
+);
 
 function localizedEntries(
   href: Pathname,
@@ -42,12 +52,14 @@ function localizedEntries(
       : options.lastModified;
   const resolved = (lastModified ? dayjs(lastModified) : dayjs()).toDate();
 
-  const languages = Object.fromEntries(
+  const languages: Record<string, string> = Object.fromEntries(
     routing.locales.map((cur) => [
       cur,
       `${env.siteOrigin}${getPathname({ locale: cur, href })}`,
     ]),
   );
+  languages["x-default"] =
+    `${env.siteOrigin}${getPathname({ locale: routing.defaultLocale, href })}`;
 
   return routing.locales.map((locale) => ({
     url: `${env.siteOrigin}${getPathname({ locale, href })}`,
@@ -74,10 +86,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       !route.includes("[") && !privateSet.has(route) && !docPathSet.has(route),
   );
 
+  // A silent empty here drops every model page from the sitemap (Google then can
+  // only discover them by crawl, finding stale links). Retry once before giving up.
   const pricing = await rpc.api.models.pricing
     .get()
     .then(handleElysia)
-    .catch(() => null);
+    .catch(() =>
+      rpc.api.models.pricing
+        .get()
+        .then(handleElysia)
+        .catch(() => null),
+    );
+  if (!pricing?.models?.length)
+    console.error(
+      "[sitemap] pricing returned no models; model pages omitted from sitemap",
+    );
 
   return [
     ...topLevelRoutes.flatMap((route) =>

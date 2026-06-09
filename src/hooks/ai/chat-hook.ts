@@ -445,8 +445,7 @@ export function useDeleteMessageMutation() {
         }
       }
       await deleteLocalMessage(userId, args.msgId);
-      if (userId > GUEST_USER_ID)
-        await mirrorConvIfSynced(userId, args.convId);
+      if (userId > GUEST_USER_ID) await mirrorConvIfSynced(userId, args.convId);
       return { id: args.msgId };
     },
     onSuccess: (_data, args) => {

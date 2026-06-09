@@ -226,6 +226,126 @@ export async function handleVideoTaskStream(
   return createUIMessageStreamResponse({ stream });
 }
 
+// TTS models advertise no dedicated endpoint tag (just "openai"); detect speech
+// vs transcription by name so the right OpenAI audio path is used.
+const isSttModel = (model: string) =>
+  /whisper|transcrib|asr|speech-to-text|stt/i.test(model);
+
+async function generateSpeech(
+  apiKey: string,
+  model: string,
+  input: string,
+): Promise<{ dataUri: string }> {
+  const res = await fetch(`${upstreamApiUrl}/v1/audio/speech`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ model, input, voice: "alloy" }),
+  });
+  if (!res.ok) {
+    const err = await res.text();
+    logger.error("Speech generation failed", {
+      context: "stream.audio",
+      model,
+      error: err.slice(0, 200),
+    });
+    throw new Error(`${msg("ERRORS.AUDIO_GENERATION_FAILED")}: ${err}`);
+  }
+  const mime = res.headers.get("content-type") ?? "audio/mpeg";
+  const buf = Buffer.from(await res.arrayBuffer());
+  return { dataUri: base64ToDataUri(buf.toString("base64"), mime) };
+}
+
+export async function handleAudioStream(apiKey: string, body: MediaStreamBody) {
+  // STT needs an audio input the chat composer can't yet attach; guide the user.
+  // Plain text (not a t() key): this is persisted message content, not re-translated.
+  if (isSttModel(body.model)) {
+    const stream = createUIMessageStream({
+      execute: async ({ writer }) => {
+        writeBufferedMessage(
+          writer,
+          "This is a speech-to-text model. Send it an audio file to transcribe (audio attachments in chat are coming soon). For now, use it via the API at `/v1/audio/transcriptions`.",
+        );
+      },
+    });
+    return createUIMessageStreamResponse({ stream });
+  }
+
+  const input = extractLastUserText(body.messages);
+  if (!input) throw new Error(msg("ERRORS.NO_AUDIO_PROMPT"));
+
+  const stream = createUIMessageStream({
+    execute: async ({ writer }) => {
+      const { dataUri } = await generateSpeech(apiKey, body.model, input);
+      // data:audio/ markdown renders as <audio> (markdown-text img override);
+      // client persists the base64 into local media like generated images.
+      writeBufferedMessage(writer, `![audio](${dataUri})`);
+    },
+  });
+  return createUIMessageStreamResponse({ stream });
+}
+
+export async function generateEmbedding(
+  apiKey: string,
+  model: string,
+  input: string,
+): Promise<{ dims: number; vector: number[] }> {
+  const res = await fetch(`${upstreamApiUrl}/v1/embeddings`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ model, input }),
+  });
+  if (!res.ok) {
+    const err = await res.text();
+    logger.error("Embedding failed", {
+      context: "stream.embedding",
+      model,
+      error: err.slice(0, 200),
+    });
+    throw new Error(`${msg("ERRORS.EMBEDDING_FAILED")}: ${err}`);
+  }
+  const json = (await res.json()) as {
+    data?: { embedding?: number[] }[];
+  };
+  const vector = json.data?.[0]?.embedding ?? [];
+  return { dims: vector.length, vector };
+}
+
+export async function handleEmbeddingStream(
+  apiKey: string,
+  body: MediaStreamBody,
+) {
+  const input = extractLastUserText(body.messages);
+  if (!input) throw new Error(msg("ERRORS.NO_EMBEDDING_INPUT"));
+
+  const stream = createUIMessageStream({
+    execute: async ({ writer }) => {
+      const { dims, vector } = await generateEmbedding(
+        apiKey,
+        body.model,
+        input,
+      );
+      const preview = vector.slice(0, 8).map((n) => n.toFixed(6));
+      const tail = vector.length > 8 ? ", ..." : "";
+      // Plain text (not a t() key): persisted message content, not re-translated.
+      const text = [
+        `Embedding vector (${dims} dimensions):`,
+        "",
+        "```json",
+        `[${preview.join(", ")}${tail}]`,
+        "```",
+      ].join("\n");
+      writeBufferedMessage(writer, text);
+    },
+  });
+  return createUIMessageStreamResponse({ stream });
+}
+
 export function handleBufferedStream(
   result: ReturnType<typeof streamText>,
   body: MediaStreamBody,

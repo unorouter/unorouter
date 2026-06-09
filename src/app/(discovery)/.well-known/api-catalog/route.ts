@@ -5,7 +5,6 @@ import { getTranslations } from "next-intl/server";
 
 export const dynamic = "force-dynamic";
 
-
 export async function GET() {
   const locale = await serverLocale();
   const t = await getTranslations({ locale });

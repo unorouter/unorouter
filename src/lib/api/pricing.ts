@@ -154,11 +154,18 @@ function processModels(response: PricingData) {
         inputPrice = (model.model_ratio ?? 0) * 2 * minRatio;
         outputPrice = inputPrice * (model.completion_ratio ?? 0);
 
+        // Mirror new-api-sync collectTrulyFreeModels/isGroupPriceZero: a model
+        // is reachable-free when at least one enabled group is zero-priced.
+        // Per-group price is model_ratio * group_ratio, free if either factor is
+        // 0; any positive per-call model_price overrides. Guest token has 0
+        // balance so paid groups are unreachable and auto-routing lands on the
+        // free group.
         const modelRatio = model.model_ratio ?? 0;
-        if (enabledGroups.length > 0 && modelRatio === 0) {
-          isFreeStrict = true;
-        } else if (enabledGroups.length > 0) {
-          isFreeStrict = enabledGroups.every((g) => (groupRatio[g] ?? 1) === 0);
+        const modelPriceVal = model.model_price ?? 0;
+        const groupIsFree = (g: string) =>
+          modelPriceVal <= 0 && ((groupRatio[g] ?? 1) === 0 || modelRatio === 0);
+        if (enabledGroups.length > 0) {
+          isFreeStrict = enabledGroups.some(groupIsFree);
         }
 
         if (showOriginalPrice && minRatio < 1) {
@@ -306,8 +313,12 @@ export function buildPricingSummary(response: PricingData) {
       originalOutputPrice: m.originalOutputPrice,
     }));
 
+  const freeCount = models.filter((m) => m.isFree).length;
+
   return {
     modelCount: models.length,
+    freeCount,
+    paidCount: models.length - freeCount,
     vendorCount: vendors.length,
     models,
     vendors,
@@ -316,6 +327,9 @@ export function buildPricingSummary(response: PricingData) {
     firstFreeModel,
     endpointMap,
     groupRatioMap: response.group_ratio ?? {},
+    // Routing-group -> "<model> via <reseller> (<upstream>)" label, keyed by a
+    // model's `enableGroups` entry. Passed through for any group-aware caller.
+    usableGroup: response.usable_group ?? {},
     autoGroups: response.auto_groups ?? [],
     topDiscounted,
   };

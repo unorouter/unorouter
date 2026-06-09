@@ -18,12 +18,15 @@ export function MyFormError(props: MyFormErrorProps) {
 
   const cleanedName = props.name.replace(/\.\d+\./g, ".");
 
-  let type = "";
-  try {
-    type = t(`FORM.TYPE.${cleanedName.toUpperCase()}` as TranslationKey);
-  } catch (_) {
-    type = cleanedName;
-  }
+  // next-intl returns the raw key (it does not throw) when a translation is
+  // missing, so try/catch never fires. Detect the passthrough and fall back to
+  // a humanized field name instead of leaking "FORM.TYPE.CONTENT" to the user.
+  const typeKey = `FORM.TYPE.${cleanedName.toUpperCase()}`;
+  const translated = t(typeKey as TranslationKey);
+  const type =
+    translated === typeKey
+      ? cleanedName.replace(/[._]/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())
+      : translated;
 
   let error: string;
   try {

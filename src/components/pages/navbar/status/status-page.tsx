@@ -180,7 +180,7 @@ export function StatusPage() {
               {t("STATUS.FILTER.EMPTY")}
             </p>
           ) : (
-            <WindowVirtualizer>
+            <WindowVirtualizer ssrCount={16}>
               {s.items.map((item) =>
                 item.kind === "header" ? (
                   <button

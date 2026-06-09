@@ -6,7 +6,7 @@ import {
   DndContext,
   KeyboardSensor,
   PointerSensor,
-  closestCenter,
+  closestCorners,
   useSensor,
   useSensors,
   type DragEndEvent,
@@ -24,7 +24,7 @@ import { ReactNode } from "react";
 export type SortableListProps<T extends { id: string }> = {
   items: T[];
   onReorder: (orderedIds: string[]) => void;
-  renderItem: (item: T, handle: ReactNode) => ReactNode;
+  renderItem: (item: T, handle: ReactNode, isDragging: boolean) => ReactNode;
   className?: string;
 };
 
@@ -54,7 +54,7 @@ export function SortableList<T extends { id: string }>(
   return (
     <DndContext
       sensors={sensors}
-      collisionDetection={closestCenter}
+      collisionDetection={closestCorners}
       onDragEnd={handleDragEnd}
     >
       <SortableContext
@@ -66,7 +66,9 @@ export function SortableList<T extends { id: string }>(
             <SortableRow
               key={item.id}
               id={item.id}
-              renderItem={(handle) => props.renderItem(item, handle)}
+              renderItem={(handle, isDragging) =>
+                props.renderItem(item, handle, isDragging)
+              }
             />
           ))}
         </ul>
@@ -77,7 +79,7 @@ export function SortableList<T extends { id: string }>(
 
 function SortableRow(props: {
   id: string;
-  renderItem: (handle: ReactNode) => ReactNode;
+  renderItem: (handle: ReactNode, isDragging: boolean) => ReactNode;
 }) {
   // dnd-kit setters look like refs to React Compiler's ref-access lint rule;
   // they're the documented public API, so the rule is suppressed at usage.
@@ -109,7 +111,8 @@ function SortableRow(props: {
       style={style}
       className="list-none"
     >
-      {props.renderItem(handle)}
+      {/* eslint-disable-next-line react-hooks/refs */}
+      {props.renderItem(handle, sortable.isDragging)}
     </li>
   );
 }

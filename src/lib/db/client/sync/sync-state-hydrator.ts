@@ -51,7 +51,6 @@ import {
   upsertLocalGenerationSessionBundle,
 } from "../data/playground";
 import { upsertLocalTheme } from "../data/theme";
-import { useQueuedSendScheduler } from "./queued-send-scheduler";
 import { usePendingDrainScheduler } from "./scheduler";
 
 // Skip conv bundle pull on conv pages (SSR already covered); rest reconciles in idle callback.
@@ -69,7 +68,6 @@ export function SyncStateHydrator() {
 
   usePendingDrainScheduler(auth.data?.id ?? null);
   // Queued offline sends replay for guests too (they stream via the guest key).
-  useQueuedSendScheduler(auth.data?.id ?? GUEST_USER_ID);
 
   useEffect(() => {
     const userId = auth.data?.id ?? GUEST_USER_ID;
@@ -393,7 +391,10 @@ async function fetchBundleChunk<K extends SyncKindName>(
 
 // Theme is keyed by userId (single row, no per-id list); skip lookup entirely.
 const LOCAL_LIST_READERS: Partial<
-  Record<SyncKindName, (uid: number) => Promise<Array<{ id: string; updatedAt: Date }> | null>>
+  Record<
+    SyncKindName,
+    (uid: number) => Promise<Array<{ id: string; updatedAt: Date }> | null>
+  >
 > = {
   characters: readLocalCharacters,
   personas: readLocalPersonas,

@@ -49,6 +49,19 @@ export type ChatMessageMetadata = {
   usage?: MessageUsage;
   droppedParams?: string;
   debug?: RequestLogPayload;
+  // Serialized chat-variable map (JSON string) emitted when macro setvar/addvar
+  // changed it this turn. The history adapter persists it to conversation vars.
+  vars?: string;
+  // Serialized per-user global-variable map (setglobalvar). Persisted to the
+  // user's global-var store (userVars sync kind) by the history adapter.
+  globalVars?: string;
+  // Rolling-summary memory update: the running summary + how many leading
+  // messages it now covers. Persisted to conversation summaryMemory/anchor.
+  summary?: { summary: string; anchor: number };
+  // Which character spoke this turn (multi-character rotation). Rides the
+  // finish frame because the rotation loop clears the speaking atom before
+  // the history adapter persists, so an atom read at append time races.
+  speakingCharacterId?: string;
 };
 
 export type ChatUIMessage = UIMessage<ChatMessageMetadata>;

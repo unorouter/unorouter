@@ -12,7 +12,7 @@ import {
   buildFAQPageSchema,
   buildSoftwareApplicationSchema,
 } from "@/lib/seo/structured-data";
-import { handleElysia, modelSlug } from "@/lib/utils/base";
+import { handleElysia, modelMatchesSlug, modelSlug } from "@/lib/utils/base";
 import { formatPrice } from "@/lib/utils/format/number";
 import { serverLocale, setCookies } from "@/lib/utils/server";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
@@ -32,7 +32,7 @@ export async function generateMetadata(props: PageProps) {
     .get()
     .then(handleElysia)
     .catch(() => null);
-  const model = data?.models.find((m) => m.name === params.slug);
+  const model = data?.models.find((m) => modelMatchesSlug(m.name, params.slug));
   if (!model) return {};
 
   const t = await getTranslations({ locale });
@@ -68,7 +68,7 @@ export default async function ModelDetailPage(props: PageProps) {
     .get()
     .then(handleElysia)
     .catch(() => null);
-  const model = data?.models.find((m) => m.name === params.slug);
+  const model = data?.models.find((m) => modelMatchesSlug(m.name, params.slug));
   if (!model || !data) notFound();
 
   const t = await getTranslations({ locale });

@@ -1,11 +1,7 @@
 "use client";
 
-import {
-  readLocalConversationBundle,
-} from "@/lib/db/client/data/chat";
-import {
-  readLocalGenerationSessionBundle,
-} from "@/lib/db/client/data/playground";
+import { readLocalConversationBundle } from "@/lib/db/client/data/chat";
+import { readLocalGenerationSessionBundle } from "@/lib/db/client/data/playground";
 import {
   readLocalCard,
   readLocalCharacter,
@@ -36,7 +32,11 @@ export async function buildSyncPayload(
       const card = await readLocalCard(userId, id);
       return (
         card && {
-          card: { ...card, cardCharacters: undefined, cardLorebooks: undefined },
+          card: {
+            ...card,
+            cardCharacters: undefined,
+            cardLorebooks: undefined,
+          },
           cardCharacters: card.cardCharacters,
           cardLorebooks: card.cardLorebooks,
         }
