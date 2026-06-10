@@ -57,7 +57,9 @@ export function CardForm(props: Props) {
   const formValues = editing
     ? formDefaults(cardFormSchema, {
         ...editing,
-        characterIds: (editing.cardCharacters ?? []).map((cc) => cc.characterId),
+        characterIds: (editing.cardCharacters ?? []).map(
+          (cc) => cc.characterId,
+        ),
         lorebookIds: (editing.cardLorebooks ?? []).map((cl) => cl.lorebookId),
       })
     : undefined;

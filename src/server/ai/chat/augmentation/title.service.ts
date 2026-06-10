@@ -17,6 +17,16 @@ function truncateToTitle(text: string): string {
   return `${trimmed.trimEnd()}...`;
 }
 
+// Free reasoning models can spend the whole 30-token budget inside an unclosed
+// <think> block; the raw output then becomes the visible conversation title.
+// Strip closed blocks and everything from an unclosed opening tag onward.
+function stripThinkFromTitle(text: string): string {
+  let t = text.replace(/<think(?:ing)?>[\s\S]*?<\/think(?:ing)?>/gi, "");
+  const openIdx = t.search(/<think(?:ing)?>/i);
+  if (openIdx !== -1) t = t.slice(0, openIdx);
+  return t.trim();
+}
+
 // Stateless: takes user text + optional preferred model, returns `{ title }`.
 // Client persists to SQLocal. No DB read, no DB write.
 export async function generateChatTitle(
@@ -35,7 +45,7 @@ export async function generateChatTitle(
         maxOutputTokens: 30,
         maxRetries: 0,
       });
-      title = result.text.trim() || truncateToTitle(text);
+      title = stripThinkFromTitle(result.text) || truncateToTitle(text);
     } else {
       const result = await freeModelRace({
         apiKey,
@@ -43,7 +53,7 @@ export async function generateChatTitle(
         prompt: text,
         maxOutputTokens: 30,
       });
-      title = result.text.trim() || truncateToTitle(text);
+      title = stripThinkFromTitle(result.text) || truncateToTitle(text);
     }
   } catch (err) {
     logger.warn("Title generation race failed, using truncated fallback", {

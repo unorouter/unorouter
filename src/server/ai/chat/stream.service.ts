@@ -166,6 +166,15 @@ export async function streamChat(
   const modelInfo = (await getPricingSummary()).models.find(
     (m) => m.name === body.model,
   );
+  // Estimated USD cost from catalog prices (per 1M tokens, cheapest enabled
+  // group). Free models price at 0. Estimate only: actual billing happens
+  // upstream, but the chat UI needs a number to show per message + per conv.
+  const estimateCost = (inputTokens: number, outputTokens: number): number =>
+    modelInfo && !modelInfo.isFree
+      ? (inputTokens * modelInfo.inputPrice +
+          outputTokens * modelInfo.outputPrice) /
+        1_000_000
+      : 0;
   // Inject Anthropic cache_control markers only for Claude models that advertise
   // cache support. supportsCache alone is not enough: other providers (Mistral)
   // advertise caching but their APIs 422 on the Anthropic block format.
@@ -316,7 +325,10 @@ export async function streamChat(
   // run of system parts is hoisted into the top-level `system` param (provider
   // preference, and what keeps the default-template path identical to before).
   const partMsg = (role: "system" | "user" | "assistant", text: string) =>
-    ({ role, parts: [{ type: "text", text }] }) as (typeof historyMessages)[number];
+    ({
+      role,
+      parts: [{ type: "text", text }],
+    }) as (typeof historyMessages)[number];
 
   // Role transforms apply automatically per model (RisuAI per-model LLMFlags
   // parity): the model's needs are OR'd with the preset's manual flags, so a
@@ -559,11 +571,10 @@ export async function streamChat(
         requestId: requestId ?? null,
         responseHeaders: response.headers ?? null,
       };
-      // Cost backfilled later from upstream headers; client needs tokens now for its local row.
       usageRef.value = {
         inputTokens,
         outputTokens,
-        cost: 0,
+        cost: estimateCost(inputTokens, outputTokens),
         durationMs,
         tokensPerSecond,
       };
@@ -649,7 +660,7 @@ export async function streamChat(
             meta.usage = {
               inputTokens,
               outputTokens,
-              cost: 0,
+              cost: estimateCost(inputTokens, outputTokens),
               durationMs,
               tokensPerSecond,
             };

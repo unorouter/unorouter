@@ -94,9 +94,7 @@ export function PromptTemplateEditor(props: Props) {
   };
 
   const update = (id: string, patch: Partial<PromptItem>) => {
-    commit(
-      cards.map((c) => (c.id === id ? ({ ...c, ...patch } as Card) : c)),
-    );
+    commit(cards.map((c) => (c.id === id ? ({ ...c, ...patch } as Card) : c)));
   };
 
   const remove = (id: string) => commit(cards.filter((c) => c.id !== id));
@@ -104,17 +102,27 @@ export function PromptTemplateEditor(props: Props) {
   const addSlot = (slot: SlotName) =>
     commit([...cards, { id: makeId(), type: "slot", slot }]);
   const addPlain = () =>
-    commit([...cards, { id: makeId(), type: "plain", text: "", role: "system" }]);
+    commit([
+      ...cards,
+      { id: makeId(), type: "plain", text: "", role: "system" },
+    ]);
   const addChat = () =>
     commit([
       ...cards,
-      { id: makeId(), type: "chat", rangeStart: CHAT_RANGE_ALL, rangeEnd: "end" },
+      {
+        id: makeId(),
+        type: "chat",
+        rangeStart: CHAT_RANGE_ALL,
+        rangeEnd: "end",
+      },
     ]);
 
   const resetDefault = () => commit(toCards(DEFAULT_PROMPT_TEMPLATE));
 
   const usedSlots = new Set(
-    cards.filter((c) => c.type === "slot").map((c) => (c as { slot: SlotName }).slot),
+    cards
+      .filter((c) => c.type === "slot")
+      .map((c) => (c as { slot: SlotName }).slot),
   );
   const hasChat = cards.some((c) => c.type === "chat");
 
@@ -124,12 +132,7 @@ export function PromptTemplateEditor(props: Props) {
         <span className="text-foreground text-xs font-medium tracking-wide uppercase">
           {t("RP.PRESET_TEMPLATE_TITLE")}
         </span>
-        <Button
-          type="button"
-          variant="ghost"
-          size="sm"
-          onClick={resetDefault}
-        >
+        <Button type="button" variant="ghost" size="sm" onClick={resetDefault}>
           {t("RP.PRESET_TEMPLATE_RESET")}
         </Button>
       </div>
@@ -192,7 +195,9 @@ export function PromptTemplateEditor(props: Props) {
                     >
                       <Icon
                         name={
-                          expanded.has(card.id) ? "chevrons-up" : "chevrons-down"
+                          expanded.has(card.id)
+                            ? "chevrons-up"
+                            : "chevrons-down"
                         }
                         className="size-4"
                       />

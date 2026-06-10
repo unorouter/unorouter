@@ -670,6 +670,23 @@
         "P_HONEST": "Nous n'avons pas ajoute de proxys inverses qui reservent les modeles phares OpenAI ou Claude sans autorisation. Nous n'avons pas integre d'agregateurs de cles personnelles dont les tokens sont non transferables, ni de services pool-of-pools qui cultivent et font tourner les cles d'autrui. Ces solutions existent, elles sont tentantes, et elles representent exactement le bazar du marche gris que cette passerelle est censee remplacer. Chaque fournisseur de la liste offre son offre gratuite deliberement, selon ses propres conditions. Si une source ne pouvait pas franchir cette barre, elle n'est pas ici.",
         "H_TRY": "Essayez-le",
         "CTA": "Les 134 modeles gratuits sont en ligne derriere un seul point d'acces compatible OpenAI-compatible. <register>Obtenez une cle API</register> ou <models>parcourez le catalogue de modeles</models> et filtrez sur gratuit. Rappelez-vous simplement sur quel palier vous etes lorsqu'un <c>429</c> apparait."
+      },
+      "UNOROUTER_VS_OPENROUTER": {
+        "TITLE": "{appName} face à OpenRouter : une comparaison honnête",
+        "DESCRIPTION": "{appName} et OpenRouter placent tous deux de nombreux modèles derrière une seule clé compatible OpenAI. La différence est ce qui se trouve au-dessus : une API sans interface, ou une API plus un client de chat et de personnages intégré. Voici la version honnête.",
+        "AUTHOR": "Équipe {appName}",
+        "INTRO": "OpenRouter a popularisé une clé pour chaque modèle. {appName} repose sur la même idée, avec une différence qui décide ce qui vous convient : voulez-vous une API sans interface, ou une API plus un endroit pour vraiment l'utiliser. Voici la comparaison honnête, écrite par l'équipe derrière l'un des deux.",
+        "H_LANES": "Deux types de passerelle",
+        "P_LANES": "La plupart des passerelles compatibles OpenAI sont sans interface. OpenRouter, LiteLLM et Portkey vous donnent un endpoint, le routage et le basculement, puis vous laissent l'interface. C'est exactement ce qu'il faut quand vous livrez du code. L'autre camp est la place de marché de chat : un catalogue de modèles enveloppé dans une interface web pour ceux qui veulent discuter, pas construire. {appName} est dans les deux à la fois, une API propre pour les agents de code et un client de chat et de personnages intégré qui partagent la même clé, les mêmes modèles et le même crédit.",
+        "H_MODELS": "Modèles et tarifs",
+        "P_MODELS": "Les deux exposent plus de 200 modèles des principaux fournisseurs derrière une seule clé, en détectant automatiquement les formats OpenAI, Anthropic et Gemini. OpenRouter prend une commission en pourcentage à l'achat de crédit. {appName} est à l'usage, avec un crédit qui n'expire pas et un palier de modèles gratuits pour le prototypage. Sur la largeur brute de modèles, les deux sont comparables, donc le facteur décisif est rarement le catalogue. C'est ce que vous en faites.",
+        "H_RP": "La partie qu'OpenRouter laisse de côté",
+        "P_RP": "Pointez un agent de code (Claude Code, Cline, OpenCode, Kilo Code, Codex) vers {appName} et il se comporte comme tout endpoint compatible OpenAI. Mais la même clé anime aussi un client de chat et de personnages intégré avec personas, lorebooks, presets et import de cartes SillyTavern, et s'insère directement dans SillyTavern, Janitor.AI, RisuAI ou Chub. OpenRouter n'est que la couche API, vous apportez donc chaque interface vous-même. {appName} livre l'interface et l'API ensemble.",
+        "H_MIGRATE": "Changer, c'est modifier l'URL de base",
+        "P_MIGRATE": "Comme {appName} est compatible OpenAI, migrer une application existante tient en une ligne : pointez votre client vers <c>https://api.unorouter.ai/v1</c> et gardez votre code. La même clé collée dans le champ d'endpoint personnalisé d'un client de chat atteint le même catalogue, il n'y a donc pas de second compte à gérer.",
+        "H_VERDICT": "Lequel choisir",
+        "P_VERDICT": "Si vous livrez seulement du code et voulez le catalogue le plus large sans interface, OpenRouter est un bon choix par défaut. Si vous voulez un routage auto-hébergé sans marge, LiteLLM l'emporte. Si vous voulez une clé qui fonctionne dans votre agent de code et dans un vrai client de chat et de personnages sans faire tourner deux services, c'est le manque que comble {appName}. Il n'y a pas de gagnant unique. Cela dépend de si vous optimisez pour l'API pure ou pour l'API plus un endroit pour l'utiliser.",
+        "CTA": "Prêt à essayer ? <register>Créez un compte gratuit</register> ou <models>parcourez les modèles</models>."
       }
     }
   },

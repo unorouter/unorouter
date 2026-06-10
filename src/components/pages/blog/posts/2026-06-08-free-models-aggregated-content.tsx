@@ -26,9 +26,7 @@ export async function FreeModelsAggregatedContent() {
       </h2>
       <p>{t("BLOG.POSTS.FREE_MODELS_AGGREGATED.P_AGGREGATE", APP_VALUES)}</p>
 
-      <h2 id="failover">
-        {t("BLOG.POSTS.FREE_MODELS_AGGREGATED.H_FAILOVER")}
-      </h2>
+      <h2 id="failover">{t("BLOG.POSTS.FREE_MODELS_AGGREGATED.H_FAILOVER")}</h2>
       <p>
         {t.rich("BLOG.POSTS.FREE_MODELS_AGGREGATED.P_FAILOVER", {
           ...APP_VALUES,

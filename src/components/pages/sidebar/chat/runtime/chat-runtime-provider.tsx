@@ -196,10 +196,52 @@ const MAX_AUTO_CONTINUE = 3;
 // so RP replies ending `*smiles*` count as terminal, plus spacing-modifier
 // letters (U+02B0-02FF). A narrow set causes spurious auto-continues.
 const TERMINAL_PUNCTUATION = new Set([
-  ".", "!", "?", "。", "！", "？", "…", "@", "#", "$", "%", "^", "&", "*",
-  "(", ")", "-", "_", "+", "=", "{", "}", "[", "]", "|", "\\", ":", ";",
-  "<", ">", ",", "/", "~", "`", " ", "¡", "¿", "‽", "⁉", "'", '"',
-  "”", "’", "】", "」", "』",
+  ".",
+  "!",
+  "?",
+  "。",
+  "！",
+  "？",
+  "…",
+  "@",
+  "#",
+  "$",
+  "%",
+  "^",
+  "&",
+  "*",
+  "(",
+  ")",
+  "-",
+  "_",
+  "+",
+  "=",
+  "{",
+  "}",
+  "[",
+  "]",
+  "|",
+  "\\",
+  ":",
+  ";",
+  "<",
+  ">",
+  ",",
+  "/",
+  "~",
+  "`",
+  " ",
+  "¡",
+  "¿",
+  "‽",
+  "⁉",
+  "'",
+  '"',
+  "”",
+  "’",
+  "】",
+  "」",
+  "』",
 ]);
 
 function endsTerminally(text: string): boolean {
@@ -215,7 +257,10 @@ function endsTerminally(text: string): boolean {
 function sendArgText(arg: unknown): string {
   if (typeof arg === "string") return arg;
   if (arg && typeof arg === "object") {
-    const o = arg as { text?: string; parts?: { type: string; text?: string }[] };
+    const o = arg as {
+      text?: string;
+      parts?: { type: string; text?: string }[];
+    };
     if (typeof o.text === "string") return o.text;
     if (Array.isArray(o.parts)) {
       return o.parts
@@ -267,8 +312,8 @@ async function computeSpeakingOrder(
     null;
   return groupOrder(members, sendArgText(sendArg), {
     orderByOrder:
-      (settings as { groupOrderByOrder?: boolean } | null)?.groupOrderByOrder ===
-      true,
+      (settings as { groupOrderByOrder?: boolean } | null)
+        ?.groupOrderByOrder === true,
     lastSpeakerId,
   }).map((m) => m.id);
 }
@@ -292,7 +337,10 @@ async function maybeAutoContinue(
     return;
   }
   const settings = await readLocalConversationSettings(userId, remoteId);
-  if (!settings || (settings as { autoContinue?: boolean }).autoContinue !== true) {
+  if (
+    !settings ||
+    (settings as { autoContinue?: boolean }).autoContinue !== true
+  ) {
     return;
   }
   const depth = autoContinueDepth.get(remoteId) ?? 0;

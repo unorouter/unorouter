@@ -43,7 +43,7 @@ type ParsedScript = {
 function parseScriptMeta(script: RegexScript): ParsedScript {
   let order = 0;
   const actions: string[] = [];
-  let rawFlag = script.ableFlag ? (script.flag || "g") : "g";
+  let rawFlag = script.ableFlag ? script.flag || "g" : "g";
   rawFlag = rawFlag.replace(/<(.+?)>/g, (_, p1: string) => {
     for (const m of p1.split(",").map((v) => v.trim())) {
       if (m.startsWith("order ")) {

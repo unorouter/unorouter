@@ -670,6 +670,23 @@
         "P_HONEST": "We did not add reverse proxies that re-serve OpenAI or Claude flagships without permission. We did not pull in personal-key aggregators whose tokens are non-transferable, or pool-of-pools services that farm and rotate other people's keys. Those exist and they are tempting and they are exactly the gray-market mess this gateway is meant to replace. Every provider on the list gives its free tier away on purpose, under its own terms. If a source could not pass that bar, it is not here.",
         "H_TRY": "Try it",
         "CTA": "All 134 free models are live behind one OpenAI-compatible endpoint. <register>Grab an API key</register> or <models>browse the model catalog</models> and filter for free. Just remember which tier you are on when a <c>429</c> shows up."
+      },
+      "UNOROUTER_VS_OPENROUTER": {
+        "TITLE": "{appName} vs OpenRouter: an honest comparison",
+        "DESCRIPTION": "{appName} and OpenRouter both put many models behind one OpenAI-compatible key. The difference is what sits on top: a headless API, or an API plus a built-in chat and character client. Here is the honest version.",
+        "AUTHOR": "{appName} team",
+        "INTRO": "OpenRouter popularized one key for every model. {appName} runs on the same idea, with one difference that decides which fits you: whether you want a headless API, or an API plus a place to actually use it. Here is the honest comparison, written by the team behind one of the two.",
+        "H_LANES": "Two kinds of gateway",
+        "P_LANES": "Most OpenAI-compatible gateways are headless. OpenRouter, LiteLLM, and Portkey give you an endpoint, routing, and failover, then leave the interface to you. That is exactly right when you are shipping code. The other camp is the chat marketplace: a model catalog wrapped in a web UI for people who want to chat, not build. {appName} sits in both at once, a clean API for coding agents and a built-in chat and character client that share the same key, models, and credits.",
+        "H_MODELS": "Models and pricing",
+        "P_MODELS": "Both expose 200+ models across the major providers behind a single key, auto-detecting OpenAI, Anthropic, and Gemini request formats. OpenRouter charges a percentage fee on credit purchases. {appName} is pay-as-you-go with credits that do not expire and a free model tier for prototyping. On raw model breadth the two are comparable, so the deciding factor is rarely the catalog. It is what you do with it.",
+        "H_RP": "The part OpenRouter leaves out",
+        "P_RP": "Point a coding agent (Claude Code, Cline, OpenCode, Kilo Code, Codex) at {appName} and it behaves like any OpenAI-compatible endpoint. But the same key also drives a built-in chat and character client with personas, lorebooks, presets, and SillyTavern card import, and it drops straight into SillyTavern, Janitor.AI, RisuAI, or Chub. OpenRouter is purely the API layer, so you bring every interface yourself. {appName} ships the interface and the API together.",
+        "H_MIGRATE": "Switching is a base-URL change",
+        "P_MIGRATE": "Because {appName} is OpenAI-compatible, moving an existing app over is one line: point your client at <c>https://api.unorouter.ai/v1</c> and keep your existing code. The same key pasted into a chat client's custom endpoint field reaches the same catalog, so there is no second account to manage.",
+        "H_VERDICT": "Which should you pick",
+        "P_VERDICT": "If you only ship code and want the widest catalog with zero interface, OpenRouter is a fine default. If you want self-hosted zero-markup routing, LiteLLM wins. If you want one key that works in your coding agent and in a real chat and character client without running two services, that is the gap {appName} fills. There is no single winner. It depends on whether you optimize for pure API or for API plus a place to use it.",
+        "CTA": "Ready to try it? <register>Create a free account</register> or <models>browse the models</models>."
       }
     }
   },

@@ -163,7 +163,8 @@ function processModels(response: PricingData) {
         const modelRatio = model.model_ratio ?? 0;
         const modelPriceVal = model.model_price ?? 0;
         const groupIsFree = (g: string) =>
-          modelPriceVal <= 0 && ((groupRatio[g] ?? 1) === 0 || modelRatio === 0);
+          modelPriceVal <= 0 &&
+          ((groupRatio[g] ?? 1) === 0 || modelRatio === 0);
         if (enabledGroups.length > 0) {
           isFreeStrict = enabledGroups.some(groupIsFree);
         }

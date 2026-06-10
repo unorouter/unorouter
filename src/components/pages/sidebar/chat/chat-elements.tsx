@@ -65,8 +65,9 @@ export function ActiveConfigBadge() {
 
   const boundId = (id: string | null | undefined) =>
     id && id !== NONE_VALUE ? id : null;
-  const presetName = presets?.find((p) => p.id === boundId(settings.presetId))
-    ?.name;
+  const presetName = presets?.find(
+    (p) => p.id === boundId(settings.presetId),
+  )?.name;
   const personaName = personas?.find(
     (p) => p.id === boundId(settings.personaId),
   )?.name;

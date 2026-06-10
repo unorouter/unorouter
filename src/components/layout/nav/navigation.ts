@@ -85,7 +85,8 @@ export const isActiveLink = (
 ) => {
   // Resolve the template pathname with the current route's params, and the
   // href with its own params, so dynamic routes compare by concrete value.
-  const cleanPathname = fillParams(pathname, routeParams).replace(/\/$/, "") || "/";
+  const cleanPathname =
+    fillParams(pathname, routeParams).replace(/\/$/, "") || "/";
   const cleanHref = resolveHref(href).replace(/\/$/, "") || "/";
 
   if (exact || cleanHref === "/") {

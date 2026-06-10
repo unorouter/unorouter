@@ -670,6 +670,23 @@
         "P_HONEST": "Kami tidak menambahkan reverse proxy yang menyajikan ulang model unggulan OpenAI atau Claude tanpa izin. Kami tidak menarik agregator key pribadi yang token-nya tidak dapat dipindahtangankan, atau layanan pool-of-pools yang memfarming dan merotasi key milik orang lain. Hal-hal seperti itu ada, menggoda, dan justru kekacauan pasar gelap yang dimaksudkan untuk digantikan oleh gateway ini. Setiap penyedia dalam daftar memberikan tier gratisnya dengan sengaja, sesuai ketentuannya sendiri. Jika sebuah sumber tidak lolos standar itu, ia tidak ada di sini.",
         "H_TRY": "Coba sendiri",
         "CTA": "Semua 134 model gratis sudah aktif di balik satu endpoint OpenAI-compatible. <register>Ambil API key</register> atau <models>jelajahi katalog model</models> lalu filter untuk yang gratis. Ingat saja tier mana yang sedang Anda pakai ketika <c>429</c> muncul."
+      },
+      "UNOROUTER_VS_OPENROUTER": {
+        "TITLE": "{appName} vs OpenRouter: perbandingan yang jujur",
+        "DESCRIPTION": "{appName} dan OpenRouter sama-sama menempatkan banyak model di balik satu kunci yang kompatibel dengan OpenAI. Bedanya ada pada apa yang berada di atasnya: API tanpa antarmuka, atau API plus klien chat dan karakter bawaan. Inilah versi jujurnya.",
+        "AUTHOR": "Tim {appName}",
+        "INTRO": "OpenRouter mempopulerkan satu kunci untuk setiap model. {appName} bertumpu pada ide yang sama, dengan satu perbedaan yang menentukan mana yang cocok untuk Anda: apakah Anda mau API tanpa antarmuka, atau API plus tempat untuk benar-benar memakainya. Inilah perbandingan jujur yang ditulis oleh tim di balik salah satu dari keduanya.",
+        "H_LANES": "Dua jenis gateway",
+        "P_LANES": "Sebagian besar gateway yang kompatibel dengan OpenAI tidak punya antarmuka. OpenRouter, LiteLLM, dan Portkey memberi Anda endpoint, perutean, dan failover, lalu menyerahkan antarmuka kepada Anda. Itu tepat ketika Anda merilis kode. Kubu lainnya adalah marketplace chat: katalog model yang dibungkus antarmuka web untuk orang yang ingin mengobrol, bukan membangun. {appName} berada di keduanya sekaligus, API yang bersih untuk agen pengkodean dan klien chat dan karakter bawaan yang berbagi kunci, model, dan saldo yang sama.",
+        "H_MODELS": "Model dan harga",
+        "P_MODELS": "Keduanya menyediakan 200+ model dari penyedia utama di balik satu kunci, mendeteksi otomatis format OpenAI, Anthropic, dan Gemini. OpenRouter mengenakan biaya persentase saat membeli saldo. {appName} berbasis bayar sesuai pemakaian, dengan saldo yang tidak kedaluwarsa dan tingkat model gratis untuk prototipe. Pada keluasan model murni keduanya sebanding, jadi faktor penentu jarang berupa katalog. Yang penting adalah apa yang Anda lakukan dengannya.",
+        "H_RP": "Bagian yang dilewatkan OpenRouter",
+        "P_RP": "Arahkan agen pengkodean (Claude Code, Cline, OpenCode, Kilo Code, Codex) ke {appName} dan ia berperilaku seperti endpoint mana pun yang kompatibel dengan OpenAI. Tapi kunci yang sama juga menggerakkan klien chat dan karakter bawaan dengan persona, lorebook, preset, dan impor kartu SillyTavern, serta langsung masuk ke SillyTavern, Janitor.AI, RisuAI, atau Chub. OpenRouter murni lapisan API, jadi Anda membawa setiap antarmuka sendiri. {appName} mengirim antarmuka dan API bersama-sama.",
+        "H_MIGRATE": "Beralih hanya mengubah URL dasar",
+        "P_MIGRATE": "Karena {appName} kompatibel dengan OpenAI, memindahkan aplikasi yang ada cukup satu baris: arahkan klien Anda ke <c>https://api.unorouter.ai/v1</c> dan pertahankan kode Anda. Kunci yang sama yang ditempel di kolom endpoint khusus pada klien chat mencapai katalog yang sama, jadi tidak ada akun kedua yang perlu dikelola.",
+        "H_VERDICT": "Mana yang sebaiknya Anda pilih",
+        "P_VERDICT": "Jika Anda hanya merilis kode dan ingin katalog terluas tanpa antarmuka, OpenRouter pilihan default yang baik. Jika Anda ingin perutean swakelola tanpa markup, LiteLLM menang. Jika Anda ingin satu kunci yang bekerja di agen pengkodean Anda dan di klien chat dan karakter yang sesungguhnya tanpa menjalankan dua layanan, itulah celah yang diisi {appName}. Tidak ada pemenang tunggal. Itu tergantung apakah Anda mengoptimalkan untuk API murni atau untuk API plus tempat memakainya.",
+        "CTA": "Siap mencoba? <register>Buat akun gratis</register> atau <models>jelajahi modelnya</models>."
       }
     }
   },

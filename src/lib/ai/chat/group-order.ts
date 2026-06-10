@@ -16,7 +16,6 @@ export type GroupMember = {
   orderIndex: number;
 };
 
-
 // Risu getWords: split on newlines/spaces, lowercase.
 function getWords(text: string): string[] {
   return text

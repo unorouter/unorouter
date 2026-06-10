@@ -101,7 +101,11 @@ export type EntryDecorators = {
 };
 
 const DECORATOR_LINE = /^@@(\w+)[ \t]*(.*)$/;
-const csv = (s: string) => s.split(",").map((x) => x.trim()).filter(Boolean);
+const csv = (s: string) =>
+  s
+    .split(",")
+    .map((x) => x.trim())
+    .filter(Boolean);
 
 // Parse leading `@@decorator` lines (RisuAI/CCardLib decorator set, ~30). All
 // selection/placement/state decorators are honored; the lines are stripped from
@@ -245,7 +249,6 @@ type Prepared = {
   // @@probability outcome, rolled ONCE per entry (not per recursion pass).
   probPass: boolean;
 };
-
 
 // Does this entry match the given text, honoring keys / secondary / constant /
 // additional / exclude decorators? Per-entry @@match_full_word overrides the
@@ -446,20 +449,24 @@ export function selectLorebookEntries(
       );
   }
 
-  // Placement follows insertion order (RisuAI insertorder): lower orderIndex
-  // sits higher in the prompt; priority breaks ties. Decorator placement/role/
+  // Placement: BOOK binding order first (the order books were attached to the
+  // conversation), then per-entry orderIndex, then priority. Without the book
+  // rank, two books sharing a position interleave entry-by-entry (A0 B0 A1 B1),
+  // scrambling each book's narrative block - the exact failure Risu users hit
+  // when two lorebooks share one insertorder value. Decorator placement/role/
   // depth override the entry's stored fields. Return decorator-stripped bodies.
+  const bookRank = new Map([...books.keys()].map((id, i) => [id, i]));
   placed.sort(
     (a, b) =>
+      (bookRank.get(a.entry.lorebookId) ?? 0) -
+        (bookRank.get(b.entry.lorebookId) ?? 0) ||
       (a.entry.orderIndex ?? 0) - (b.entry.orderIndex ?? 0) ||
       b.effectivePriority - a.effectivePriority,
   );
   return placed.map((p) => ({
     ...p.entry,
     content: p.dec.body,
-    ...(p.dec.position
-      ? { position: toStoredPosition(p.dec.position) }
-      : {}),
+    ...(p.dec.position ? { position: toStoredPosition(p.dec.position) } : {}),
     ...(p.dec.depth !== undefined ? { depth: p.dec.depth } : {}),
     ...(p.dec.role ? { injectionRole: p.dec.role } : {}),
   }));

@@ -29,7 +29,9 @@ export async function LanguageProvider(props: { children: ReactNode }) {
 
   return (
     <NextIntlClientProvider
-      messages={pruned as Parameters<typeof NextIntlClientProvider>[0]["messages"]}
+      messages={
+        pruned as Parameters<typeof NextIntlClientProvider>[0]["messages"]
+      }
     >
       {props.children}
     </NextIntlClientProvider>

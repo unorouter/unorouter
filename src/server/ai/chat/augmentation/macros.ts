@@ -47,7 +47,6 @@ const MAX_RECURSION = 20;
 // huge `2**...` chain) can't hang the Function eval.
 const MAX_CALC_LEN = 1000;
 
-
 // The required string identity fields a bare field token maps to.
 type ScopeField =
   | "user"
@@ -151,9 +150,10 @@ function statNums(args: string[]): number[] {
 }
 // dayjs-based date/time formatter (RisuAI date/time with optional unix arg).
 function fmtDate(fmt: string, unixMs?: string): string {
-  const d = unixMs && Number.isFinite(Number(unixMs)) && Number(unixMs) !== 0
-    ? dayjs(Number(unixMs))
-    : dayjs();
+  const d =
+    unixMs && Number.isFinite(Number(unixMs)) && Number(unixMs) !== 0
+      ? dayjs(Number(unixMs))
+      : dayjs();
   return d.format(fmt || "YYYY-MM-DD HH:mm:ss");
 }
 // Caesar shift (RisuAI crypt), default 32768, self-inverse.
@@ -187,7 +187,10 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
     colonIndex !== -1 && trimmed[colonIndex + 1] === ":"
       ? trimmed.split("::")
       : trimmed.split(":");
-  const name = parts[0].trim().toLowerCase().replace(/[\s_-]/g, "");
+  const name = parts[0]
+    .trim()
+    .toLowerCase()
+    .replace(/[\s_-]/g, "");
   const args = parts.slice(1);
   const arg0 = args[0]?.trim() ?? "";
 
@@ -211,7 +214,10 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
     case "rollpick":
       return args.length === 0
         ? String(rand())
-        : pickFrom(args.length > 1 ? args : arg0 ? arg0.split(/[,|]/) : [], rand);
+        : pickFrom(
+            args.length > 1 ? args : arg0 ? arg0.split(/[,|]/) : [],
+            rand,
+          );
     case "randint": {
       const lo = Math.ceil(Number(args[0] ?? "0"));
       const hi = Math.floor(Number(args[1] ?? "0"));
@@ -219,7 +225,7 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
       return String(lo + Math.floor(rand() * (hi - lo + 1)));
     }
     case "hash":
-      return ((seededRand(arg0) * 10000000 + 1).toFixed(0)).padStart(7, "0");
+      return (seededRand(arg0) * 10000000 + 1).toFixed(0).padStart(7, "0");
 
     // ---- arithmetic ----
     case "calc":
@@ -258,7 +264,9 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
       return numStr(statNums(args).reduce((a, b) => a + b, 0));
     case "average": {
       const ns = statNums(args);
-      return ns.length ? numStr(ns.reduce((a, b) => a + b, 0) / ns.length) : "0";
+      return ns.length
+        ? numStr(ns.reduce((a, b) => a + b, 0) / ns.length)
+        : "0";
     }
 
     // ---- comparison / logic (return "1"/"0") ----
@@ -619,12 +627,21 @@ const LITERAL_MACROS: Record<string, string> = (() => {
     ["{{", ["bo", "ddecbo", "doubledisplayescapedcurlybracketopen"]],
     ["}}", ["bc", "ddecbc", "doubledisplayescapedcurlybracketclose"]],
     // App-coupled render tokens -> empty.
-    ["", "asset assetlist emotion emotionlist image img audio video videoimg bg bgm inlay inlayed inlayeddata path source button risu ruby furigana katex latex chardisplayasset moduleassetlist screenwidth screenheight".split(" ")],
+    [
+      "",
+      "asset assetlist emotion emotionlist image img audio video videoimg bg bgm inlay inlayed inlayeddata path source button risu ruby furigana katex latex chardisplayasset moduleassetlist screenwidth screenheight".split(
+        " ",
+      ),
+    ],
     // App-coupled boolean probes -> "0".
-    ["0", "moduleenabled jbtoggled isfirstmsg isfirstmessage prefillsupported".split(" ")],
+    [
+      "0",
+      "moduleenabled jbtoggled isfirstmsg isfirstmessage prefillsupported".split(
+        " ",
+      ),
+    ],
   ];
-  for (const [value, names] of groups)
-    for (const n of names) out[n] = value;
+  for (const [value, names] of groups) for (const n of names) out[n] = value;
   return out;
 })();
 

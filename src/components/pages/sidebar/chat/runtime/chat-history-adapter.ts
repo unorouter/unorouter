@@ -134,7 +134,10 @@ export function createChatHistoryAdapter(
             if (scripts.length > 0) {
               parts = parts.map((p) =>
                 p.type === "text" && typeof p.text === "string"
-                  ? { ...p, text: runRegexScripts(p.text, scripts, "editoutput") }
+                  ? {
+                      ...p,
+                      text: runRegexScripts(p.text, scripts, "editoutput"),
+                    }
                   : p,
               );
             }
@@ -318,8 +321,7 @@ async function runOutputTriggers(
   const replyText = parts
     .filter(
       (p): p is MessagePart & { text: string } =>
-        p.type === "text" &&
-        typeof (p as { text?: unknown }).text === "string",
+        p.type === "text" && typeof (p as { text?: unknown }).text === "string",
     )
     .map((p) => p.text)
     .join("\n");

@@ -311,7 +311,9 @@ export const updateConversationSettingsBody = t.Object({
   groupOrderByOrder: t.Optional(t.Union([t.Boolean(), t.Null()])),
   autoContinue: t.Optional(t.Union([t.Boolean(), t.Null()])),
   memoryEnabled: t.Optional(t.Union([t.Boolean(), t.Null()])),
-  summaryMemory: t.Optional(t.Union([t.String({ maxLength: 16_384 }), t.Null()])),
+  summaryMemory: t.Optional(
+    t.Union([t.String({ maxLength: 16_384 }), t.Null()]),
+  ),
   summaryAnchor: t.Optional(t.Union([t.Number(), t.Null()])),
 });
 export type UpdateConversationSettingsBody = Static<

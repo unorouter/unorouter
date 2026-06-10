@@ -670,6 +670,23 @@
         "P_HONEST": "Wir haben keine Reverse-Proxys hinzugefuegt, die OpenAI- oder Claude-Flaggschiffe ohne Erlaubnis weiterverkaufen. Wir haben keine Aggregatoren persoenlicher Schluessel eingebunden, deren Token nicht uebertragbar sind, und keine Pool-of-Pools-Dienste, die fremde Schluessel farmen und rotieren. Die gibt es, sie sind verlockend, und sie sind genau das Graumarkt-Chaos, das dieses Gateway ersetzen soll. Jeder Anbieter auf der Liste verschenkt seinen kostenlosen Tarif bewusst, zu seinen eigenen Bedingungen. Wenn eine Quelle diese Huerde nicht nehmen konnte, ist sie hier nicht dabei.",
         "H_TRY": "Probieren Sie es aus",
         "CTA": "Alle 134 kostenlosen Modelle sind hinter einem OpenAI-compatible Endpunkt verfuegbar. <register>Holen Sie sich einen API-Schluessel</register> oder <models>durchstoebern Sie den Modellkatalog</models> und filtern Sie nach kostenlos. Denken Sie nur daran, in welchem Tarif Sie sich befinden, wenn ein <c>429</c> auftaucht."
+      },
+      "UNOROUTER_VS_OPENROUTER": {
+        "TITLE": "{appName} vs. OpenRouter: ein ehrlicher Vergleich",
+        "DESCRIPTION": "{appName} und OpenRouter stellen beide viele Modelle hinter einen OpenAI-kompatiblen Schlüssel. Der Unterschied liegt darin, was darüber liegt: eine reine API oder eine API plus integrierten Chat- und Charakter-Client. Hier die ehrliche Version.",
+        "AUTHOR": "{appName}-Team",
+        "INTRO": "OpenRouter hat einen Schlüssel für jedes Modell populär gemacht. {appName} baut auf derselben Idee auf, mit einem Unterschied, der entscheidet, was zu dir passt: ob du eine reine API willst oder eine API plus einen Ort, an dem du sie tatsächlich nutzt. Hier der ehrliche Vergleich, geschrieben vom Team hinter einem der beiden.",
+        "H_LANES": "Zwei Arten von Gateway",
+        "P_LANES": "Die meisten OpenAI-kompatiblen Gateways sind reine APIs. OpenRouter, LiteLLM und Portkey geben dir Endpunkt, Routing und Failover und überlassen dir die Oberfläche. Genau richtig, wenn du Code auslieferst. Das andere Lager ist der Chat-Marktplatz: ein Modellkatalog in einer Web-Oberfläche für Leute, die chatten und nicht bauen wollen. {appName} ist beides zugleich, eine saubere API für Coding-Agenten und ein integrierter Chat- und Charakter-Client, die denselben Schlüssel, dieselben Modelle und dasselbe Guthaben teilen.",
+        "H_MODELS": "Modelle und Preise",
+        "P_MODELS": "Beide bieten über 200 Modelle der großen Anbieter hinter einem einzigen Schlüssel und erkennen OpenAI-, Anthropic- und Gemini-Formate automatisch. OpenRouter erhebt eine prozentuale Gebühr beim Guthabenkauf. {appName} ist nutzungsbasiert, mit Guthaben, das nicht verfällt, und einer kostenlosen Modellstufe zum Prototyping. Bei der reinen Modellbreite sind beide vergleichbar, der ausschlaggebende Faktor ist also selten der Katalog. Es ist, was du damit machst.",
+        "H_RP": "Der Teil, den OpenRouter weglässt",
+        "P_RP": "Richte einen Coding-Agenten (Claude Code, Cline, OpenCode, Kilo Code, Codex) auf {appName} und er verhält sich wie jeder OpenAI-kompatible Endpunkt. Doch derselbe Schlüssel treibt auch einen integrierten Chat- und Charakter-Client mit Personas, Lorebooks, Presets und SillyTavern-Karten-Import an und passt direkt in SillyTavern, Janitor.AI, RisuAI oder Chub. OpenRouter ist rein die API-Schicht, du bringst also jede Oberfläche selbst mit. {appName} liefert Oberfläche und API zusammen.",
+        "H_MIGRATE": "Der Wechsel ist eine Änderung der Basis-URL",
+        "P_MIGRATE": "Da {appName} OpenAI-kompatibel ist, ist der Umzug einer bestehenden App eine Zeile: Richte deinen Client auf <c>https://api.unorouter.ai/v1</c> und behalte deinen bestehenden Code. Derselbe Schlüssel, in das Feld für den eigenen Endpunkt eines Chat-Clients eingefügt, erreicht denselben Katalog, es gibt also kein zweites Konto zu verwalten.",
+        "H_VERDICT": "Was solltest du wählen",
+        "P_VERDICT": "Wenn du nur Code auslieferst und den breitesten Katalog ohne Oberfläche willst, ist OpenRouter eine gute Standardwahl. Willst du selbstgehostetes Routing ohne Aufschlag, gewinnt LiteLLM. Willst du einen Schlüssel, der in deinem Coding-Agenten und in einem echten Chat- und Charakter-Client funktioniert, ohne zwei Dienste zu betreiben, genau diese Lücke füllt {appName}. Es gibt keinen einzigen Gewinner. Es hängt davon ab, ob du für die reine API oder für API plus einen Ort zum Nutzen optimierst.",
+        "CTA": "Bereit zum Ausprobieren? <register>Erstelle ein kostenloses Konto</register> oder <models>durchstöbere die Modelle</models>."
       }
     }
   },

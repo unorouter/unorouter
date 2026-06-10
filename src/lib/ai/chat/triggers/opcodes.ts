@@ -83,7 +83,12 @@ function withArrVar(
 }
 
 // Read-only helper: parse, compute the output value, fall back on error.
-function readJson<T>(parse: (s: string) => T, raw: string, fallback: string, fn: (v: T) => string): string {
+function readJson<T>(
+  parse: (s: string) => T,
+  raw: string,
+  fallback: string,
+  fn: (v: T) => string,
+): string {
   try {
     return fn(parse(raw));
   } catch {
@@ -125,12 +130,23 @@ export function runDataOpcode(
       if (Number.isNaN(cur)) cur = 0;
       let next: string;
       switch (e.operator) {
-        case "+=": next = String(cur + Number(value)); break;
-        case "-=": next = String(cur - Number(value)); break;
-        case "*=": next = String(cur * Number(value)); break;
-        case "/=": next = String(cur / Number(value)); break;
-        case "%=": next = String(cur % Number(value)); break;
-        default: next = value;
+        case "+=":
+          next = String(cur + Number(value));
+          break;
+        case "-=":
+          next = String(cur - Number(value));
+          break;
+        case "*=":
+          next = String(cur * Number(value));
+          break;
+        case "/=":
+          next = String(cur / Number(value));
+          break;
+        case "%=":
+          next = String(cur % Number(value));
+          break;
+        default:
+          next = value;
       }
       vr.set(varKey, next);
       return true;
@@ -144,11 +160,20 @@ export function runDataOpcode(
       if (Number.isNaN(cur)) cur = 0;
       let next: string;
       switch (e.operator) {
-        case "+=": next = String(cur + Number(value)); break;
-        case "-=": next = String(cur - Number(value)); break;
-        case "*=": next = String(cur * Number(value)); break;
-        case "/=": next = String(cur / Number(value)); break;
-        default: next = value;
+        case "+=":
+          next = String(cur + Number(value));
+          break;
+        case "-=":
+          next = String(cur - Number(value));
+          break;
+        case "*=":
+          next = String(cur * Number(value));
+          break;
+        case "/=":
+          next = String(cur / Number(value));
+          break;
+        default:
+          next = value;
       }
       vr.set(varKey, next);
       return true;
@@ -271,7 +296,7 @@ export function runDataOpcode(
             return fmt
               .replace(/\$[0-9]+/g, (p) => {
                 const idx = Number(p.slice(1));
-                return idx === 0 ? match : (groups[idx - 1] || "");
+                return idx === 0 ? match : groups[idx - 1] || "";
               })
               .replace(/\$&/g, match)
               .replace(/\$\$/g, "$");
@@ -337,7 +362,10 @@ export function runDataOpcode(
         e,
         ctx,
         vr,
-        (a) => (a.splice(rnum(e, ctx, vr, "start"), 0, rv(e, ctx, vr, "item")), a),
+        (a) => (
+          a.splice(rnum(e, ctx, vr, "start"), 0, rv(e, ctx, vr, "item")),
+          a
+        ),
       );
       return true;
     case "v2SliceArrayVar":
@@ -357,7 +385,12 @@ export function runDataOpcode(
       );
       return true;
     case "v2RemoveIndexFromArrayVar":
-      withArrVar(e, ctx, vr, (a) => (a.splice(rnum(e, ctx, vr, "index"), 1), a));
+      withArrVar(
+        e,
+        ctx,
+        vr,
+        (a) => (a.splice(rnum(e, ctx, vr, "index"), 1), a),
+      );
       return true;
     case "v2JoinArrayVar":
       setOut(
@@ -376,8 +409,11 @@ export function runDataOpcode(
     }
     case "v2GetDictVar":
       setOut(
-        readJson(parseDict, rv(e, ctx, vr, "var"), "null", (d) =>
-          d[rv(e, ctx, vr, "key")] ?? "null",
+        readJson(
+          parseDict,
+          rv(e, ctx, vr, "var"),
+          "null",
+          (d) => d[rv(e, ctx, vr, "key")] ?? "null",
         ),
       );
       return true;
@@ -478,9 +514,7 @@ export function runDataOpcode(
     case "v2Tokenize":
       // No tokenizer in the isomorphic core; rough word estimate.
       setOut(
-        String(
-          rv(e, ctx, vr, "value").split(/\s+/).filter(Boolean).length,
-        ),
+        String(rv(e, ctx, vr, "value").split(/\s+/).filter(Boolean).length),
       );
       return true;
 
@@ -721,7 +755,8 @@ export function runDataOpcode(
     case "v2SetRequestStateRole": {
       const f = ctx.formated?.[rnum(e, ctx, vr, "index")];
       const r = rv(e, ctx, vr, "value");
-      if (f && (r === "user" || r === "assistant" || r === "system")) f.role = r;
+      if (f && (r === "user" || r === "assistant" || r === "system"))
+        f.role = r;
       return true;
     }
     case "v2GetDisplayState":

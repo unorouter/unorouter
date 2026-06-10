@@ -95,7 +95,9 @@ export function GuideIcon(props: {
 
   const iconName = ICON_NAMES[props.iconKey];
   if (iconName) {
-    return <Icon name={iconName} size={size} className={`relative ${accent}`} />;
+    return (
+      <Icon name={iconName} size={size} className={`relative ${accent}`} />
+    );
   }
 
   const IconComponent = ICON_COMPONENTS[props.iconKey];

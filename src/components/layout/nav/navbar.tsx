@@ -39,8 +39,10 @@ export function Navbar() {
   const docsItem = navItems.find((item) => item.submenu);
 
   // Group the docs submenu by category for the megamenu columns.
-  const docsSubmenuGroups: { group: TranslationKey; items: NavigationItem[] }[] =
-    [];
+  const docsSubmenuGroups: {
+    group: TranslationKey;
+    items: NavigationItem[];
+  }[] = [];
   for (const link of docsItem?.submenu ?? []) {
     const key = link.group ?? docsItem!.name;
     let bucket = docsSubmenuGroups.find((g) => g.group === key);
@@ -129,9 +131,11 @@ export function Navbar() {
                                   href={link.href}
                                   className="border-border/60 bg-card/40 hover:border-primary/40 hover:bg-muted/50 grid grid-cols-[auto_1fr] items-center gap-x-2.5 gap-y-0.5 rounded-md border px-3 py-2 transition-colors"
                                   onClick={() =>
-                                    analytics.navigation.docsSubmenuLinkClicked({
-                                      name: link.name,
-                                    })
+                                    analytics.navigation.docsSubmenuLinkClicked(
+                                      {
+                                        name: link.name,
+                                      },
+                                    )
                                   }
                                 >
                                   <span className="row-span-2 flex size-5 shrink-0 items-center justify-center self-center">

@@ -97,21 +97,51 @@ function calculateRPN(rpn: string[]): number {
     const b = stack.pop() ?? 0;
     const a = stack.pop() ?? 0;
     switch (token) {
-      case "+": stack.push(a + b); break;
-      case "-": stack.push(a - b); break;
-      case "*": stack.push(a * b); break;
-      case "/": stack.push(a / b); break;
-      case "^": stack.push(a ** b); break;
-      case "%": stack.push(a % b); break;
-      case "<": stack.push(a < b ? 1 : 0); break;
-      case ">": stack.push(a > b ? 1 : 0); break;
-      case "|": stack.push(a || b); break;
-      case "&": stack.push(a && b); break;
-      case "≤": stack.push(a <= b ? 1 : 0); break;
-      case "≥": stack.push(a >= b ? 1 : 0); break;
-      case "=": stack.push(a === b ? 1 : 0); break;
-      case "≠": stack.push(a !== b ? 1 : 0); break;
-      case "!": stack.push(b ? 0 : 1); break;
+      case "+":
+        stack.push(a + b);
+        break;
+      case "-":
+        stack.push(a - b);
+        break;
+      case "*":
+        stack.push(a * b);
+        break;
+      case "/":
+        stack.push(a / b);
+        break;
+      case "^":
+        stack.push(a ** b);
+        break;
+      case "%":
+        stack.push(a % b);
+        break;
+      case "<":
+        stack.push(a < b ? 1 : 0);
+        break;
+      case ">":
+        stack.push(a > b ? 1 : 0);
+        break;
+      case "|":
+        stack.push(a || b);
+        break;
+      case "&":
+        stack.push(a && b);
+        break;
+      case "≤":
+        stack.push(a <= b ? 1 : 0);
+        break;
+      case "≥":
+        stack.push(a >= b ? 1 : 0);
+        break;
+      case "=":
+        stack.push(a === b ? 1 : 0);
+        break;
+      case "≠":
+        stack.push(a !== b ? 1 : 0);
+        break;
+      case "!":
+        stack.push(b ? 0 : 1);
+        break;
     }
   }
   if (stack.length === 0) return 0;

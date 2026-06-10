@@ -4,10 +4,7 @@ import { serverEnv } from "@/server/env";
 import type { convertToModelMessages } from "ai";
 import { inArray } from "drizzle-orm";
 import { encode } from "gpt-tokenizer";
-import {
-  runRegexScripts,
-  type RegexScript,
-} from "@/lib/ai/chat/regex-scripts";
+import { runRegexScripts, type RegexScript } from "@/lib/ai/chat/regex-scripts";
 import type {
   AssembledSystem,
   DepthInjection,
@@ -230,8 +227,7 @@ export function mergeAlternateRoles(messages: StreamMessages): StreamMessages {
       // when text borders text; media parts concatenate untouched.
       const prevLast = prev.parts[prev.parts.length - 1];
       const mFirst = m.parts[0];
-      const needsNewline =
-        prevLast?.type === "text" && mFirst?.type === "text";
+      const needsNewline = prevLast?.type === "text" && mFirst?.type === "text";
       out[out.length - 1] = {
         ...prev,
         parts: needsNewline
@@ -404,7 +400,9 @@ export function dropSummarizedPrefix(
     const isHistory =
       (m.role === "user" || m.role === "assistant" || m.role === "system") &&
       Array.isArray(m.parts) &&
-      m.parts.some((p) => p.type === "text" && typeof p.text === "string" && p.text);
+      m.parts.some(
+        (p) => p.type === "text" && typeof p.text === "string" && p.text,
+      );
     if (isHistory) counted++;
     cutIdx = i + 1;
   }

@@ -50,10 +50,9 @@ export const characterBody = t.Object({
     { default: null },
   ),
   // RisuAI triggerscript[] (V2 effect VM). Loose: the VM parser narrows.
-  triggers: t.Union(
-    [t.Array(t.Unknown(), { maxItems: 128 }), t.Null()],
-    { default: null },
-  ),
+  triggers: t.Union([t.Array(t.Unknown(), { maxItems: 128 }), t.Null()], {
+    default: null,
+  }),
   // Keyword array for multi-character turn-gating.
   turnTriggers: t.Union(
     [
@@ -65,10 +64,9 @@ export const characterBody = t.Object({
     { default: null },
   ),
   // RisuAI customscript / ST regex scripts. Loose: the engine's parser narrows.
-  regexScripts: t.Union(
-    [t.Array(t.Unknown(), { maxItems: 128 }), t.Null()],
-    { default: null },
-  ),
+  regexScripts: t.Union([t.Array(t.Unknown(), { maxItems: 128 }), t.Null()], {
+    default: null,
+  }),
   alwaysActive: t.Boolean({ default: true }),
   matchWholeWords: t.Boolean({ default: false }),
 });

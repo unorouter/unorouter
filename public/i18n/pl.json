@@ -670,6 +670,23 @@
         "P_HONEST": "Nie dodaliśmy reverse proxy, które bez pozwolenia ponownie serwują flagowe modele OpenAI czy Claude. Nie wciągnęliśmy agregatorów kluczy osobistych, których tokeny są nieprzenoszalne, ani usług typu pula pul, które masowo gromadzą i rotują cudze klucze. Takie rzeczy istnieją, kuszą i są dokładnie tym szarostrefowym bałaganem, który ten gateway ma zastąpić. Każdy dostawca z tej listy świadomie oddaje swój darmowy poziom, na własnych warunkach. Jeśli jakieś źródło nie przeszło tej poprzeczki, nie ma go tutaj.",
         "H_TRY": "Wypróbuj to",
         "CTA": "Wszystkie 134 darmowe modele są dostępne za jednym punktem końcowym zgodnym z OpenAI-compatible. <register>Zdobądź klucz API</register> lub <models>przejrzyj katalog modeli</models> i przefiltruj po darmowych. Tylko pamiętaj, na którym poziomie jesteś, gdy pojawi się <c>429</c>."
+      },
+      "UNOROUTER_VS_OPENROUTER": {
+        "TITLE": "{appName} kontra OpenRouter: uczciwe porównanie",
+        "DESCRIPTION": "{appName} i OpenRouter udostępniają wiele modeli za jednym kluczem zgodnym z OpenAI. Różnica polega na tym, co jest na wierzchu: samo API, czy API plus wbudowany klient czatu i postaci. Oto uczciwa wersja.",
+        "AUTHOR": "Zespół {appName}",
+        "INTRO": "OpenRouter spopularyzował jeden klucz do każdego modelu. {appName} opiera się na tym samym pomyśle, z jedną różnicą, która decyduje, co pasuje do ciebie: czy chcesz samo API, czy API plus miejsce, by faktycznie z niego korzystać. Oto uczciwe porównanie, napisane przez zespół stojący za jednym z dwóch.",
+        "H_LANES": "Dwa rodzaje bramek",
+        "P_LANES": "Większość bramek zgodnych z OpenAI to samo API. OpenRouter, LiteLLM i Portkey dają ci punkt końcowy, routing i przełączanie awaryjne, a interfejs zostawiają tobie. To dokładnie to, czego trzeba, gdy wdrażasz kod. Drugi obóz to marketplace czatu: katalog modeli opakowany w interfejs webowy dla tych, którzy chcą rozmawiać, a nie budować. {appName} jest w obu naraz, czyste API dla agentów kodowania i wbudowany klient czatu i postaci, które dzielą ten sam klucz, te same modele i to samo saldo.",
+        "H_MODELS": "Modele i ceny",
+        "P_MODELS": "Oba udostępniają ponad 200 modeli od głównych dostawców za jednym kluczem, automatycznie wykrywając formaty OpenAI, Anthropic i Gemini. OpenRouter pobiera prowizję procentową przy zakupie salda. {appName} działa w modelu płać za użycie, saldo nie wygasa, jest też darmowy poziom modeli do prototypowania. W samej szerokości modeli oba są porównywalne, więc czynnikiem decydującym rzadko jest katalog. Liczy się to, co z nim robisz.",
+        "H_RP": "Część, którą OpenRouter pomija",
+        "P_RP": "Skieruj agenta kodowania (Claude Code, Cline, OpenCode, Kilo Code, Codex) na {appName}, a zachowa się jak każdy punkt końcowy zgodny z OpenAI. Ale ten sam klucz napędza też wbudowany klient czatu i postaci z personami, lorebookami, presetami i importem kart SillyTavern, i wpina się prosto w SillyTavern, Janitor.AI, RisuAI lub Chub. OpenRouter to wyłącznie warstwa API, więc każdy interfejs przynosisz sam. {appName} dostarcza interfejs i API razem.",
+        "H_MIGRATE": "Zmiana to modyfikacja bazowego adresu URL",
+        "P_MIGRATE": "Ponieważ {appName} jest zgodny z OpenAI, przeniesienie istniejącej aplikacji to jedna linia: skieruj klienta na <c>https://api.unorouter.ai/v1</c> i zachowaj swój kod. Ten sam klucz wklejony w pole własnego punktu końcowego w kliencie czatu sięga tego samego katalogu, więc nie ma drugiego konta do zarządzania.",
+        "H_VERDICT": "Co wybrać",
+        "P_VERDICT": "Jeśli tylko wdrażasz kod i chcesz najszerszy katalog bez interfejsu, OpenRouter to dobry domyślny wybór. Jeśli chcesz samodzielnie hostowany routing bez narzutu, wygrywa LiteLLM. Jeśli chcesz jeden klucz, który działa w twoim agencie kodowania i w prawdziwym kliencie czatu i postaci bez prowadzenia dwóch usług, to właśnie tę lukę wypełnia {appName}. Nie ma jednego zwycięzcy. Zależy to od tego, czy optymalizujesz pod czyste API, czy pod API plus miejsce, by z niego korzystać.",
+        "CTA": "Gotowy, by spróbować? <register>Załóż darmowe konto</register> lub <models>przeglądaj modele</models>."
       }
     }
   },

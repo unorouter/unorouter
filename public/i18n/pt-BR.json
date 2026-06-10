@@ -670,6 +670,23 @@
         "P_HONEST": "Nao adicionamos proxies reversos que reservem modelos de ponta da OpenAI ou da Claude sem permissao. Nao incluimos agregadores de chaves pessoais cujos tokens sao intransferiveis, nem servicos de pool de pools que cultivam e rotacionam chaves alheias. Eles existem, sao tentadores e sao exatamente a bagunca de mercado paralelo que este gateway veio substituir. Cada provedor da lista oferece sua camada gratuita de proposito, sob seus proprios termos. Se uma fonte nao passou nesse criterio, ela nao esta aqui.",
         "H_TRY": "Experimente",
         "CTA": "Todos os 134 modelos gratuitos estao no ar por tras de um unico endpoint OpenAI-compatible. <register>Pegue uma chave de API</register> ou <models>explore o catalogo de modelos</models> e filtre por gratuitos. So lembre em qual camada voce esta quando um <c>429</c> aparecer."
+      },
+      "UNOROUTER_VS_OPENROUTER": {
+        "TITLE": "{appName} versus OpenRouter: uma comparação honesta",
+        "DESCRIPTION": "{appName} e OpenRouter colocam muitos modelos atrás de uma única chave compatível com OpenAI. A diferença é o que fica por cima: uma API sem interface, ou uma API mais um cliente de chat e personagens integrado. Aqui está a versão honesta.",
+        "AUTHOR": "Equipe {appName}",
+        "INTRO": "O OpenRouter popularizou uma chave para cada modelo. {appName} parte da mesma ideia, com uma diferença que decide qual combina com você: se você quer uma API sem interface, ou uma API mais um lugar para realmente usá-la. Aqui está a comparação honesta, escrita pela equipe por trás de um dos dois.",
+        "H_LANES": "Dois tipos de gateway",
+        "P_LANES": "A maioria dos gateways compatíveis com OpenAI não tem interface. OpenRouter, LiteLLM e Portkey dão a você endpoint, roteamento e failover, e deixam a interface por sua conta. É exatamente o certo quando você publica código. O outro lado é o marketplace de chat: um catálogo de modelos embrulhado numa interface web para quem quer conversar, não construir. {appName} está nos dois ao mesmo tempo, uma API limpa para agentes de programação e um cliente de chat e personagens integrado que compartilham a mesma chave, os mesmos modelos e o mesmo saldo.",
+        "H_MODELS": "Modelos e preços",
+        "P_MODELS": "Ambos expõem mais de 200 modelos dos principais provedores atrás de uma única chave, detectando automaticamente os formatos OpenAI, Anthropic e Gemini. O OpenRouter cobra uma taxa percentual na compra de saldo. {appName} é pago por uso, com saldo que não expira e uma camada de modelos gratuitos para prototipagem. Na pura amplitude de modelos os dois são comparáveis, então o fator decisivo raramente é o catálogo. É o que você faz com ele.",
+        "H_RP": "A parte que o OpenRouter deixa de fora",
+        "P_RP": "Aponte um agente de programação (Claude Code, Cline, OpenCode, Kilo Code, Codex) para {appName} e ele se comporta como qualquer endpoint compatível com OpenAI. Mas a mesma chave também move um cliente de chat e personagens integrado com personas, lorebooks, presets e importação de cards do SillyTavern, e encaixa direto no SillyTavern, Janitor.AI, RisuAI ou Chub. O OpenRouter é apenas a camada de API, então você traz cada interface por conta própria. {appName} entrega a interface e a API juntas.",
+        "H_MIGRATE": "Trocar é mudar a URL base",
+        "P_MIGRATE": "Como {appName} é compatível com OpenAI, mover um app existente é uma linha: aponte seu cliente para <c>https://api.unorouter.ai/v1</c> e mantenha seu código. A mesma chave colada no campo de endpoint personalizado de um cliente de chat alcança o mesmo catálogo, então não há uma segunda conta para gerenciar.",
+        "H_VERDICT": "Qual você deve escolher",
+        "P_VERDICT": "Se você só publica código e quer o catálogo mais amplo sem interface, o OpenRouter é um bom padrão. Se você quer roteamento auto-hospedado sem acréscimo, o LiteLLM vence. Se você quer uma chave que funcione no seu agente de programação e num cliente real de chat e personagens sem rodar dois serviços, essa é a lacuna que {appName} preenche. Não há um único vencedor. Depende de você otimizar para a API pura ou para a API mais um lugar para usá-la.",
+        "CTA": "Pronto para experimentar? <register>Crie uma conta gratuita</register> ou <models>explore os modelos</models>."
       }
     }
   },

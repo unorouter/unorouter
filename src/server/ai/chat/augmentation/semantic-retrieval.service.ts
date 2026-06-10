@@ -48,7 +48,10 @@ export async function retrieveSemantic(
     if (queryEmb.vector.length === 0) return [];
 
     const scored = candidates
-      .map((c, i) => ({ c, score: cosine(queryEmb.vector, candEmbs[i].vector) }))
+      .map((c, i) => ({
+        c,
+        score: cosine(queryEmb.vector, candEmbs[i].vector),
+      }))
       .filter((x) => x.score >= minScore)
       .sort((a, b) => b.score - a.score)
       .slice(0, topK);

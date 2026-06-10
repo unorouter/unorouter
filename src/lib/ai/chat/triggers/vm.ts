@@ -198,8 +198,13 @@ function evalCondition(
 // source is ALWAYS a var name; v2IfAdvanced honors sourceType. Both targets
 // default to a var lookup unless targetType === 'value'. `=`/`!=` are
 // numeric-aware (1.0 == 1). The operator lives in the `condition` field.
-function evalIf(e: TriggerEffect, ctx: TriggerContext, vr: VarResolver): boolean {
-  const parse = (s: unknown) => (ctx.parse ? ctx.parse(String(s ?? "")) : String(s ?? ""));
+function evalIf(
+  e: TriggerEffect,
+  ctx: TriggerContext,
+  vr: VarResolver,
+): boolean {
+  const parse = (s: unknown) =>
+    ctx.parse ? ctx.parse(String(s ?? "")) : String(s ?? "");
   const a =
     e.type === "v2If" || e.sourceType === "var"
       ? vr.get(parse(e.source))
@@ -242,7 +247,8 @@ function evalIf(e: TriggerEffect, ctx: TriggerContext, vr: VarResolver): boolean
       const nb = Number(b);
       if (Number.isNaN(na) || Number.isNaN(nb)) {
         return (
-          a.toLowerCase().replace(/ /g, "") === b.toLowerCase().replace(/ /g, "")
+          a.toLowerCase().replace(/ /g, "") ===
+          b.toLowerCase().replace(/ /g, "")
         );
       }
       return Math.abs(na - nb) < 0.0001;
@@ -280,8 +286,7 @@ function runEffects(script: TriggerScript, ctx: TriggerContext): void {
     const e = eff[i];
     if (!e) continue;
 
-    const indent =
-      typeof e.indent === "number" && e.indent >= 0 ? e.indent : 0;
+    const indent = typeof e.indent === "number" && e.indent >= 0 ? e.indent : 0;
     vr.setIndent(indent);
 
     if (!opcodeAllowed(e.type, ctx.mode)) continue;

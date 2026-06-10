@@ -164,7 +164,6 @@ function parseProviderRouting(
   }
 }
 
-
 // Minimal AssembledSystem: a system-only prompt + the whole chat history.
 // Shared by the overrides path and the missing-context fallback.
 function baseAssembled(system: string | undefined): AssembledSystem {
@@ -307,7 +306,8 @@ export async function assembleForStream(
     maxContext: opts?.maxContext,
     mainPrompt: preset?.mainPrompt ?? undefined,
     jailbreak: preset?.postHistory ?? undefined,
-    globalNote: settings.systemPromptOverride ?? primary?.systemPrompt ?? undefined,
+    globalNote:
+      settings.systemPromptOverride ?? primary?.systemPrompt ?? undefined,
     prefill: preset?.prefill ?? undefined,
     authorNote: settings.authorNote ?? undefined,
   };
@@ -417,12 +417,14 @@ export async function assembleForStream(
       ? expand(primary.postHistoryInstructions)
       : "",
     preset?.postHistory ? expand(preset.postHistory) : "",
-    ...selected.filter((x) => x.position === "bottom").map((e) => expand(e.content)),
+    ...selected
+      .filter((x) => x.position === "bottom")
+      .map((e) => expand(e.content)),
   ]);
 
   // Empty slot text -> null so the template walk skips the card.
   const sys = (text: string) =>
-    text ? ({ text, role: "system" as const }) : null;
+    text ? { text, role: "system" as const } : null;
   const slots: TemplateSlots = {
     main: sys(mainSlot),
     loreTop: sys(loreTopSlot),
@@ -444,9 +446,11 @@ export async function assembleForStream(
   const exampleTurns = parseExampleMessages(
     primary?.exampleMessages,
     charName,
-  ).map(
-    (t) => ({ kind: "message" as const, role: t.role, text: expand(t.text) }),
-  );
+  ).map((t) => ({
+    kind: "message" as const,
+    role: t.role,
+    text: expand(t.text),
+  }));
   if (exampleTurns.length > 0) {
     const histIdx = promptParts.findIndex((p) => p.kind === "chatHistory");
     const at = histIdx === -1 ? promptParts.length : histIdx;
@@ -472,8 +476,9 @@ export async function assembleForStream(
       : joinNonEmpty(
           promptParts
             .slice(chatIdx + 1)
-            .filter((p): p is Extract<typeof p, { kind: "message" }> =>
-              p.kind === "message",
+            .filter(
+              (p): p is Extract<typeof p, { kind: "message" }> =>
+                p.kind === "message",
             )
             .map((p) => p.text),
         ) || undefined;

@@ -65,9 +65,7 @@ function useRehypeMathjax(wanted: boolean): Pluggable | null {
 
 const MarkdownTextImpl = () => {
   const hasMath = useMessage((m) =>
-    m.content.some(
-      (p) => p.type === "text" && MATH_DELIMITER_RE.test(p.text),
-    ),
+    m.content.some((p) => p.type === "text" && MATH_DELIMITER_RE.test(p.text)),
   );
   const mathjax = useRehypeMathjax(hasMath);
   return (

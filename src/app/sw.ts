@@ -126,7 +126,12 @@ const serwist = new Serwist({
 // build N+1 chunks crashes hydration. Each new SW (one per deploy, skipWaiting
 // above) wipes them on activation so only same-build copies can ever be served.
 // Hash-addressed caches (next-static, fonts, images) survive: immutable.
-const BUILD_SCOPED_CACHES = ["pages", "pages-rsc", "pages-rsc-prefetch", "others"];
+const BUILD_SCOPED_CACHES = [
+  "pages",
+  "pages-rsc",
+  "pages-rsc-prefetch",
+  "others",
+];
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     Promise.all(BUILD_SCOPED_CACHES.map((name) => caches.delete(name))),

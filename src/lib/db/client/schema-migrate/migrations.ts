@@ -92,7 +92,11 @@ function parseManifestDdl(
         const colMatch = line.trim().match(/^`([^`]+)`\s+.+$/);
         if (colMatch) cols.push(colMatch[1]); // skip FK/constraint lines
       }
-      tables.set(m[1], { create: stmt.replace(/;\s*$/, ""), cols, indexes: [] });
+      tables.set(m[1], {
+        create: stmt.replace(/;\s*$/, ""),
+        cols,
+        indexes: [],
+      });
       continue;
     }
     m = stmt.match(/^CREATE(?:\s+UNIQUE)?\s+INDEX\s+`[^`]+`\s+ON\s+`([^`]+)`/);

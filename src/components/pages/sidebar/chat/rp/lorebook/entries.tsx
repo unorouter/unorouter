@@ -169,7 +169,11 @@ export function LorebookEntries(props: { lorebookId: string }) {
       ...data,
       // Re-embed @@probability (<100) + @@scan_depth (>0) into content; the
       // selector parses both at activation time.
-      content: embedDecorators(data.content, data.probability, data.entryScanDepth),
+      content: embedDecorators(
+        data.content,
+        data.probability,
+        data.entryScanDepth,
+      ),
       keys: csvToArray(data.keys),
       secondaryKeys: secondary.length > 0 ? secondary : null,
       position: data.position as LorebookPosition,

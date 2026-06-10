@@ -25,7 +25,9 @@ export function MyFormError(props: MyFormErrorProps) {
   const translated = t(typeKey as TranslationKey);
   const type =
     translated === typeKey
-      ? cleanedName.replace(/[._]/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())
+      ? cleanedName
+          .replace(/[._]/g, " ")
+          .replace(/\b\w/g, (c) => c.toUpperCase())
       : translated;
 
   let error: string;

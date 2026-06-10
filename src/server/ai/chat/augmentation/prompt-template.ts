@@ -132,7 +132,9 @@ export function parsePromptTemplate(
         out.push({ type: "plain", text: item.text, role });
       } else if (item.type === "chat") {
         const rangeStart =
-          typeof item.rangeStart === "number" ? item.rangeStart : CHAT_RANGE_ALL;
+          typeof item.rangeStart === "number"
+            ? item.rangeStart
+            : CHAT_RANGE_ALL;
         const rangeEnd =
           item.rangeEnd === "end" || typeof item.rangeEnd === "number"
             ? item.rangeEnd

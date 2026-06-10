@@ -670,6 +670,23 @@
         "P_HONEST": "我們沒有加入那種未經許可、轉手再供應 OpenAI 或 Claude 旗艦模型的反向代理。我們沒有納入那些 token 不可轉讓的個人金鑰聚合服務，也沒有納入那種刷量並輪換他人金鑰的多重池中池服務。這類東西確實存在，也確實誘人，而它們正是這個閘道想要取代的那團灰色市場亂象。清單上的每一家供應商，都是依自己的條款、刻意把免費方案釋出來的。一個來源若過不了這道門檻，就不會出現在這裡。",
         "H_TRY": "親自試試",
         "CTA": "全部 134 個免費模型都已上線，藏在一個 OpenAI-compatible 端點之後。<register>取得一把 API 金鑰</register>，或<models>瀏覽模型目錄</models>並篩選免費項目。只要記得當 <c>429</c> 冒出來時，你正用的是哪個方案就好。"
+      },
+      "UNOROUTER_VS_OPENROUTER": {
+        "TITLE": "{appName} 對比 OpenRouter：一次誠實的比較",
+        "DESCRIPTION": "{appName} 和 OpenRouter 都把眾多模型放在一個 OpenAI 相容金鑰之後。差別在於上層是什麼：一個無介面的 API，還是 API 加上內建的聊天與角色用戶端。這是誠實的版本。",
+        "AUTHOR": "{appName} 團隊",
+        "INTRO": "OpenRouter 讓「一把金鑰通向所有模型」的理念深入人心。{appName} 建立在同樣的理念上，但有一個決定它是否適合你的差別：你想要一個無介面的 API，還是一個 API 加上真正使用它的地方。這是由其中一方背後的團隊撰寫的誠實比較。",
+        "H_LANES": "兩類閘道",
+        "P_LANES": "大多數 OpenAI 相容閘道都沒有介面。OpenRouter、LiteLLM 和 Portkey 給你端點、路由和容錯移轉，然後把介面留給你。當你交付程式碼時，這正合適。另一陣營是聊天市集：把模型目錄包進網頁介面，面向想聊天而非搭建的人。{appName} 同時身處兩者，既是面向編碼代理的簡潔 API，也是內建的聊天與角色用戶端，兩者共享同一把金鑰、同一批模型和同一筆餘額。",
+        "H_MODELS": "模型與價格",
+        "P_MODELS": "兩者都在一把金鑰之後提供來自主要供應商的 200 多個模型，並自動辨識 OpenAI、Anthropic 和 Gemini 的請求格式。OpenRouter 在購買餘額時收取百分比手續費。{appName} 按用量付費，餘額永不過期，並設有用於原型開發的免費模型層級。在純粹的模型廣度上兩者相當，因此決定因素很少是目錄本身，而是你拿它來做什麼。",
+        "H_RP": "OpenRouter 略去的那部分",
+        "P_RP": "把編碼代理（Claude Code、Cline、OpenCode、Kilo Code、Codex）指向 {appName}，它的表現就和任何 OpenAI 相容端點一樣。但同一把金鑰還驅動一個內建的聊天與角色用戶端，帶有人設、設定集、預設和 SillyTavern 卡片匯入，並能直接接入 SillyTavern、Janitor.AI、RisuAI 或 Chub。OpenRouter 純粹是 API 層，因此每個介面都得你自己準備。{appName} 把介面與 API 一併交付。",
+        "H_MIGRATE": "切換只是更換基礎 URL",
+        "P_MIGRATE": "由於 {appName} 相容 OpenAI，遷移現有應用只需一行：把用戶端指向 <c>https://api.unorouter.ai/v1</c>，並保留你現有的程式碼。把同一把金鑰貼到聊天用戶端的自訂端點欄位，也會抵達同一個目錄，因此沒有第二個帳戶需要管理。",
+        "H_VERDICT": "你該選哪個",
+        "P_VERDICT": "如果你只交付程式碼，並且想要無介面的最廣目錄，OpenRouter 是個不錯的預設選擇。如果你想要無加價的自架路由，LiteLLM 勝出。如果你想要一把金鑰，既能用在編碼代理裡，也能用在真正的聊天與角色用戶端裡，而不必執行兩套服務，這正是 {appName} 填補的空白。沒有唯一的贏家。這取決於你是為純粹的 API 最佳化，還是為 API 加上一個使用它的地方而最佳化。",
+        "CTA": "準備好試試了嗎？<register>建立免費帳戶</register> 或 <models>瀏覽模型</models>。"
       }
     }
   },
