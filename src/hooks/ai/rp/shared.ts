@@ -81,7 +81,13 @@ export async function mirrorConvIfSynced(
   if (uid == null) return;
   const bundle = await readLocalConversationBundle(uid, convId);
   if (!bundle) return;
-  const result = await mirrorSyncedRow(uid, "conversations", convId, bundle);
+  // Not wire payload: `settings` duplicates the conversation row's columns;
+  // `requestLogs` are server-persisted at stream finish for synced convs.
+  const result = await mirrorSyncedRow(uid, "conversations", convId, {
+    ...bundle,
+    settings: undefined,
+    requestLogs: undefined,
+  });
   await evictMediaBase64After(uid, result);
 }
 
@@ -103,11 +109,12 @@ export async function mirrorConvSettingsIfSynced(
 ) {
   const uid = await syncedConvUser(userId, convId);
   if (uid == null) return;
+  // Settings are conversation-row columns; ship them as a conversation patch.
   await mirrorSyncedRow(
     uid,
     "conversations",
     convId,
-    { settings: { ...settings, convId } },
+    { conversation: settings },
     "upsert",
   );
 }
@@ -116,7 +123,6 @@ type ConvDeltaPatch = {
   conversation?: Record<string, unknown>;
   messages?: Array<Record<string, unknown>>;
   messageItems?: Array<Record<string, unknown>>;
-  requestLogs?: Array<Record<string, unknown>>;
 };
 export async function mirrorConvDeltaIfSynced(
   userId: number | undefined,

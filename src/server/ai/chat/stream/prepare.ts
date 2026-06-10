@@ -44,6 +44,7 @@ import {
   expandMessageMacros,
   extractLastUserText,
   fitToTokenBudget,
+  GEMINI_SAFETY_OFF,
   inlinePdfText,
   mergeAlternateRoles,
   prependUserStub,
@@ -417,14 +418,51 @@ export async function prepareChatRequest(
     assembledSystem: effectiveSystem ?? null,
     finalMessages: messagesForUpstream,
   };
+  // Spread-only-when-set: strip undefined keys so absent != explicit-undefined.
+  const defined = <T extends Record<string, unknown>>(o: T): Partial<T> =>
+    Object.fromEntries(
+      Object.entries(o).filter(([, v]) => v !== undefined),
+    ) as Partial<T>;
+
+  // Top-level streamText sampling params.
+  const modelParams = defined({
+    maxOutputTokens: effectiveMaxOutputTokens || undefined,
+    temperature: assembled.sampling.temperature,
+    topP: assembled.sampling.topP,
+    topK: assembled.sampling.topK,
+    frequencyPenalty: assembled.sampling.frequencyPenalty,
+    presencePenalty: assembled.sampling.presencePenalty,
+  });
+
+  // extraBody first: sliders/reasoning win on key collision.
+  const providerOptions = {
+    openai: {
+      ...(assembled.extraBody ?? {}),
+      ...defined({
+        min_p: assembled.sampling.minP,
+        top_a: assembled.sampling.topA,
+        repetition_penalty: assembled.sampling.repetitionPenalty,
+        reasoning_effort: assembled.reasoningEffort,
+        // Gemini-only: threshold=OFF (stronger than BLOCK_NONE); no-op elsewhere.
+        safetySettings: assembled.flags.geminiBlockOff
+          ? GEMINI_SAFETY_OFF
+          : undefined,
+        // Provider pin (OpenRouter shape). Passed through; honored only by
+        // upstream channels that route on it, a harmless no-op otherwise.
+        provider: assembled.providerRouting,
+      }),
+    },
+  };
+
   return {
     modelInfo,
     estimateCost,
     effectiveWebSearch,
-    effectiveMaxOutputTokens,
     effectiveSystem,
     messagesForUpstream,
-    assembled,
+    modelParams,
+    providerOptions,
+    streamingEnabled: assembled.streamingEnabled,
     memory,
     varsWriteback,
     globalVarsWriteback,

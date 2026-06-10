@@ -7,6 +7,10 @@
     {
       "tag": "0001_heavy_weapon_omega",
       "sql": "ALTER TABLE `characters` ADD `background_media_id` text;"
+    },
+    {
+      "tag": "0002_cheerful_northstar",
+      "sql": "PRAGMA foreign_keys=OFF;--> statement-breakpoint\nCREATE TABLE `__new_request_logs` (\n\t`msg_id` text PRIMARY KEY NOT NULL,\n\t`conv_id` text NOT NULL,\n\t`request_body` text NOT NULL,\n\t`assembled_system` text,\n\t`final_messages` text NOT NULL,\n\t`response_headers` text,\n\t`dropped_params` text,\n\t`request_id` text,\n\t`input_tokens` integer,\n\t`output_tokens` integer,\n\t`cost` real,\n\t`duration_ms` integer,\n\t`tokens_per_second` real,\n\t`created_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,\n\tFOREIGN KEY (`conv_id`) REFERENCES `conversations`(`id`) ON UPDATE no action ON DELETE cascade\n);\n--> statement-breakpoint\nINSERT INTO `__new_request_logs`(\"msg_id\", \"conv_id\", \"request_body\", \"assembled_system\", \"final_messages\", \"response_headers\", \"dropped_params\", \"request_id\", \"input_tokens\", \"output_tokens\", \"cost\", \"duration_ms\", \"tokens_per_second\", \"created_at\") SELECT \"msg_id\", \"conv_id\", \"request_body\", \"assembled_system\", \"final_messages\", \"response_headers\", \"dropped_params\", \"request_id\", \"input_tokens\", \"output_tokens\", \"cost\", \"duration_ms\", \"tokens_per_second\", \"created_at\" FROM `request_logs`;--> statement-breakpoint\nDROP TABLE `request_logs`;--> statement-breakpoint\nALTER TABLE `__new_request_logs` RENAME TO `request_logs`;--> statement-breakpoint\nPRAGMA foreign_keys=ON;--> statement-breakpoint\nCREATE INDEX `idx_reqlog_conv` ON `request_logs` (`conv_id`);--> statement-breakpoint\nCREATE INDEX `idx_reqlog_created` ON `request_logs` (`created_at`);"
     }
   ]
 }

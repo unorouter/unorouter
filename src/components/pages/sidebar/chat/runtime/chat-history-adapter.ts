@@ -277,6 +277,8 @@ export function createChatHistoryAdapter(
             queryClient.invalidateQueries({ queryKey });
           }
 
+          // Request logs are NOT pushed: the server persists them directly for
+          // synced convs at stream finish (same msgId via generateMessageId).
           await mirrorConvDeltaIfSynced(
             userId,
             id,
@@ -284,7 +286,6 @@ export function createChatHistoryAdapter(
               conversation: updatedConv,
               messages: [newMessage],
               messageItems: itemRows,
-              ...(logRow ? { requestLogs: [logRow] } : {}),
             },
             "append",
           );

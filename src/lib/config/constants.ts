@@ -35,6 +35,11 @@ export const IS_DEV = process.env.NODE_ENV === "development";
 export const POSTHOG_DISABLED =
   process.env.NEXT_PUBLIC_POSTHOG_DISABLED === "true";
 
+// Next Data Cache opt-in for PUBLIC upstream GETs (no user headers, or the
+// guest branch of one). Spread into the Orval call options; the customFetch
+// mutator passes it through to fetch. Non-200 responses are never cached.
+export const PUBLIC_CACHE = { next: { revalidate: 3600 } } as const;
+
 export const NEW_API_USER = "New-Api-User";
 export const ACCESS_TOKEN_COOKIE = "access_token" as const;
 export const USER_ID_COOKIE = "user-id" as const;

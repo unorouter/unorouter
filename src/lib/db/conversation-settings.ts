@@ -34,17 +34,14 @@ export const CONVERSATION_SETTINGS_KEYS = [
   "summaryAnchor",
 ] as const;
 
-export type ConversationSettingsProjection = { convId: string } & Pick<
-  ConversationRow,
-  (typeof CONVERSATION_SETTINGS_KEYS)[number]
->;
+export type ConversationSettingsProjection = ConversationRow & {
+  convId: string;
+};
 
+// The "projection" is just the row plus a convId alias: every settings column
+// already lives on the conversation row, so picking keys gains nothing.
 export function projectConversationSettings(
   conv: ConversationRow,
 ): ConversationSettingsProjection {
-  const out = { convId: conv.id } as ConversationSettingsProjection;
-  for (const k of CONVERSATION_SETTINGS_KEYS) {
-    (out as Record<string, unknown>)[k] = conv[k];
-  }
-  return out;
+  return { ...conv, convId: conv.id };
 }

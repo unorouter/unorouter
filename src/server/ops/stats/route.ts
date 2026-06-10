@@ -2,7 +2,7 @@ import { getAllQuotaDates } from "@/openapi";
 import { unixSec, unwrap } from "@/lib/utils/base";
 import { Elysia } from "elysia";
 import { ADMIN_HEADERS } from "@/server/constants";
-import { FAR_FUTURE } from "@/lib/config/constants";
+import { FAR_FUTURE, PUBLIC_CACHE } from "@/lib/config/constants";
 
 export const statsRoute = new Elysia({ prefix: "/stats" }).get(
   "/history",
@@ -11,7 +11,7 @@ export const statsRoute = new Elysia({ prefix: "/stats" }).get(
 
     const res = await getAllQuotaDates(
       { start_timestamp: 0, end_timestamp: FAR_FUTURE },
-      { headers: ADMIN_HEADERS },
+      { headers: ADMIN_HEADERS, ...PUBLIC_CACHE },
     );
     const body = unwrap(res);
     const data = body.data ?? [];

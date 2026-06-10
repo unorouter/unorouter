@@ -15,6 +15,13 @@
       "when": 1781041954637,
       "tag": "0001_heavy_weapon_omega",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1781115645747,
+      "tag": "0002_cheerful_northstar",
+      "breakpoints": true
     }
   ]
 }

@@ -117,6 +117,27 @@ function parseManifestDdl(
       );
       continue;
     }
+    m = stmt.match(/^ALTER TABLE\s+`([^`]+)`\s+RENAME TO\s+`([^`]+)`/);
+    if (m) {
+      // drizzle's table-rebuild migrations: CREATE __new_x, copy, DROP x,
+      // RENAME __new_x TO x. Mirror the rename so the expected DDL ends up
+      // under the final name (SQLite rewrites sqlite_master the same way).
+      const t = tables.get(m[1]);
+      if (t) {
+        tables.delete(m[1]);
+        t.create = t.create.replace(
+          /^CREATE TABLE\s+`[^`]+`/,
+          `CREATE TABLE \`${m[2]}\``,
+        );
+        tables.set(m[2], t);
+      }
+      continue;
+    }
+    m = stmt.match(/^DROP TABLE\s+(?:IF EXISTS\s+)?`([^`]+)`/);
+    if (m) {
+      tables.delete(m[1]);
+      continue;
+    }
     m = stmt.match(/^ALTER TABLE\s+`([^`]+)`\s+DROP(?:\s+COLUMN)?\s+`([^`]+)`/);
     if (m) {
       const t = tables.get(m[1]);

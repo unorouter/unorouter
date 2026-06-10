@@ -85,30 +85,38 @@ async function checkPromptModeration(
 
   const externalId = buildExternalId(ctx.userId, ctx.convId);
   const start = Date.now();
-
-  const apiKey = serverEnv.creemApiKey;
-  const apiUrl = serverEnv.creemApiUrl;
-  if (!apiKey || !apiUrl) {
+  const baseLog = {
+    context: "moderation",
+    externalId,
+    userId: ctx.userId,
+    convId: ctx.convId,
+    model: ctx.model,
+    mediaType: ctx.mediaType,
+  };
+  // Fail-closed terminal: log, persist the error decision, block the prompt.
+  const failClosed = async (reason: string): Promise<ModerationResult> => {
     const latencyMs = Date.now() - start;
-    logger.error("Moderation skipped: Creem env missing", {
-      context: "moderation",
-      externalId,
-      userId: ctx.userId,
-      convId: ctx.convId,
-      model: ctx.model,
-      mediaType: ctx.mediaType,
-      missing: !apiKey ? "CREEM_API_KEY" : "CREEM_API_URL",
+    logger.error("Moderation failing closed", {
+      ...baseLog,
+      error: reason,
+      latencyMs,
     });
     await persistDecision(
       ctx,
       "error",
-      !apiKey ? "missing_api_key" : "missing_api_url",
+      reason,
       externalId,
       null,
       null,
       latencyMs,
     );
     return { allowed: false, reason: "error", latencyMs };
+  };
+
+  const apiKey = serverEnv.creemApiKey;
+  const apiUrl = serverEnv.creemApiUrl;
+  if (!apiKey || !apiUrl) {
+    return failClosed(!apiKey ? "missing_api_key" : "missing_api_url");
   }
 
   let creemJson: CreemResponse | null = null;
@@ -151,47 +159,15 @@ async function checkPromptModeration(
           : "unknown_error";
   }
 
-  const latencyMs = Date.now() - start;
-
   if (!creemJson || errorReason) {
-    logger.error("Moderation call failed, failing closed", {
-      context: "moderation",
-      externalId,
-      userId: ctx.userId,
-      convId: ctx.convId,
-      model: ctx.model,
-      mediaType: ctx.mediaType,
-      error: errorReason,
-      latencyMs,
-    });
-    await persistDecision(
-      ctx,
-      "error",
-      errorReason,
-      externalId,
-      null,
-      null,
-      latencyMs,
-    );
-    return { allowed: false, reason: "error", latencyMs };
+    return failClosed(errorReason ?? "invalid_response_shape");
   }
 
+  const latencyMs = Date.now() - start;
   const decision = creemJson.decision as "allow" | "flag" | "deny";
   const units = creemJson.usage?.units ?? null;
   const creemId = creemJson.id ?? null;
-
-  const logFields = {
-    context: "moderation",
-    decision,
-    externalId,
-    userId: ctx.userId,
-    convId: ctx.convId,
-    model: ctx.model,
-    mediaType: ctx.mediaType,
-    units,
-    latencyMs,
-    creemId,
-  };
+  const logFields = { ...baseLog, decision, units, latencyMs, creemId };
 
   if (decision === "allow") {
     logger.info("Moderation allow", logFields);

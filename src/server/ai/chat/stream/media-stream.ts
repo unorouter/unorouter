@@ -334,11 +334,30 @@ export function handleBufferedStream(
   result: ReturnType<typeof streamText>,
   body: MediaStreamBody,
   mediaType: ModelType,
+  // Finish metadata (usage/cost/writebacks/debug) synthesized by the caller
+  // once the stream completes; emitted as a metadata chunk so the buffered
+  // path persists the same fields as the streamed finish frame.
+  finishMeta?: () => Promise<Record<string, unknown>>,
+  // Server-generated message id (keys the server-persisted request log).
+  messageId?: string,
 ) {
   return streamResponse(async (writer) => {
     const fullText = await result.text;
     const convId = body.convId ?? `tmp-${uid(8)}`;
     const cleanText = await processUrls(fullText, convId, mediaType);
-    writeBufferedMessage(writer, cleanText);
+    const meta = await finishMeta?.();
+    const partId = uid(12);
+    writer.write(
+      messageId ? { type: "start", messageId } : { type: "start" },
+    );
+    writer.write({ type: "start-step" });
+    writer.write({ type: "text-start", id: partId });
+    writer.write({ type: "text-delta", delta: cleanText, id: partId });
+    writer.write({ type: "text-end", id: partId });
+    writer.write({ type: "finish-step" });
+    if (meta && Object.keys(meta).length > 0) {
+      writer.write({ type: "message-metadata", messageMetadata: meta });
+    }
+    writer.write({ type: "finish", finishReason: "stop" });
   });
 }

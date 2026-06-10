@@ -127,6 +127,17 @@ async function reconcileExcludedKinds(
   t: TFn,
   kinds: SyncKindName[],
 ) {
+  const r = await reconcileKinds(qc, userId, kinds);
+  showLocalNewerToast(t, r.skippedLocalNewer);
+}
+
+// Pull the server sync state and reconcile the given kinds, serially (SQLocal
+// mutex). Logs any rows skipped because the local copy was newer.
+async function reconcileKinds(
+  qc: QueryClient,
+  userId: number,
+  kinds: readonly SyncKindName[],
+): Promise<{ skippedLocalNewer: number; skippedRows: SkippedRow[] }> {
   const state = await qc.ensureQueryData({
     queryKey: queryKeys.syncState(),
     queryFn: async () => handleElysia(await rpc.api.ai.sync.state.get()),
@@ -139,13 +150,13 @@ async function reconcileExcludedKinds(
     skippedRows.push(...r.skippedRows);
   }
   if (skippedRows.length > 0) {
-    logger.warn("Sync catch-up skipped local-newer rows", {
+    logger.warn("Sync reconcile skipped local-newer rows", {
       context: "local-db.hydrator",
       count: skippedRows.length,
       skippedRows,
     });
   }
-  showLocalNewerToast(t, skippedLocalNewer);
+  return { skippedLocalNewer, skippedRows };
 }
 
 // Narrowed translator type: next-intl's `Translator` triggers TS2589 when the
@@ -205,22 +216,19 @@ function surfaceDeadLetterToast(
 async function stage1LocalSeed(qc: QueryClient, userId: number) {
   // Serial: SQLocal's processor mutex deadlocks on parallel callers
   // (sqlocal/dist/lib/create-mutex.js race, upstream PR pending).
-  const chars = await readLocalCharacters(userId);
-  const personas = await readLocalPersonas(userId);
-  const lorebooks = await readLocalLorebooks(userId);
-  const presets = await readLocalPresets(userId);
-  const cards = await readLocalCards(userId);
+  const plainSeeds = [
+    [readLocalCharacters, queryKeys.characters()],
+    [readLocalPersonas, queryKeys.personas()],
+    [readLocalLorebooks, queryKeys.lorebooks()],
+    [readLocalPresets, queryKeys.presets()],
+    [readLocalCards, queryKeys.cards()],
+  ] as const;
+  for (const [read, key] of plainSeeds) {
+    const rows = await read(userId);
+    if (rows && rows.length > 0) qc.setQueryData(key, rows);
+  }
   const convs = await readLocalConversations(userId);
   const genSessions = await readLocalGenerationSessions(userId);
-
-  if (chars && chars.length > 0) qc.setQueryData(queryKeys.characters(), chars);
-  if (personas && personas.length > 0)
-    qc.setQueryData(queryKeys.personas(), personas);
-  if (lorebooks && lorebooks.length > 0)
-    qc.setQueryData(queryKeys.lorebooks(), lorebooks);
-  if (presets && presets.length > 0)
-    qc.setQueryData(queryKeys.presets(), presets);
-  if (cards && cards.length > 0) qc.setQueryData(queryKeys.cards(), cards);
   // Cache shapes: convs use useInfiniteQuery {pages, pageParams}; gen sessions
   // use {items}. Seeding raw arrays crashes consumers.
   if (convs && convs.length > 0) {
@@ -238,34 +246,19 @@ async function stage1LocalSeed(qc: QueryClient, userId: number) {
   }
 }
 
-async function stage2ServerReconcile(
+// SYNC_KINDS order puts RP entities first so conversation FKs resolve when
+// bundles reference freshly-pulled chars.
+function stage2ServerReconcile(
   qc: QueryClient,
   userId: number,
   excludeKinds: SyncKindName[] = [],
-): Promise<{ skippedLocalNewer: number; skippedRows: SkippedRow[] }> {
-  const state = await qc.ensureQueryData({
-    queryKey: queryKeys.syncState(),
-    queryFn: async () => handleElysia(await rpc.api.ai.sync.state.get()),
-  });
+) {
   const skip = new Set(excludeKinds);
-  let skippedLocalNewer = 0;
-  const skippedRows: SkippedRow[] = [];
-  // Serial (see stage1 mutex note). SYNC_KINDS order puts RP entities first
-  // so conversation FKs resolve when bundles reference freshly-pulled chars.
-  for (const kind of SYNC_KINDS) {
-    if (skip.has(kind)) continue;
-    const r = await reconcileKind(userId, kind, state[kind]);
-    skippedLocalNewer += r.skippedLocalNewer;
-    skippedRows.push(...r.skippedRows);
-  }
-  if (skippedRows.length > 0) {
-    logger.warn("Sync reconcile skipped local-newer rows", {
-      context: "local-db.hydrator",
-      count: skippedRows.length,
-      skippedRows,
-    });
-  }
-  return { skippedLocalNewer, skippedRows };
+  return reconcileKinds(
+    qc,
+    userId,
+    SYNC_KINDS.filter((k) => !skip.has(k)),
+  );
 }
 
 type RemoteState = {
@@ -457,30 +450,49 @@ async function applyBundle<K extends SyncKindName>(
       const b = bundle as SyncBundle<"conversations">;
       const rehydratedMedia = await rehydrateMediaBatch(userId, b.media);
       // Insert-only: skip when local exists so local edits aren't clobbered.
-      for (const ch of b.characters ?? []) {
-        const local = await readLocalCharacter(userId, ch.id);
-        if (!local) await upsertLocalCharacter(userId, ch);
-      }
-      for (const p of b.personas ?? []) {
-        const local = await readLocalPersona(userId, p.id);
-        if (!local) await upsertLocalPersona(userId, p);
-      }
-      for (const pr of b.presets ?? []) {
-        const local = await readLocalPreset(userId, pr.id);
-        if (!local) await upsertLocalPreset(userId, pr);
-      }
-      for (const lb of b.lorebooks ?? []) {
-        const local = await readLocalLorebook(userId, lb.lorebook.id);
-        if (!local) {
-          await upsertLocalLorebookBundle(userId, {
+      const insertAbsent = async <T>(
+        rows: T[] | undefined,
+        idOf: (row: T) => string,
+        read: (uid: number, id: string) => Promise<unknown>,
+        write: (uid: number, row: T) => Promise<unknown>,
+      ) => {
+        for (const row of rows ?? []) {
+          if (!(await read(userId, idOf(row)))) await write(userId, row);
+        }
+      };
+      await insertAbsent(
+        b.characters,
+        (c) => c.id,
+        readLocalCharacter,
+        upsertLocalCharacter,
+      );
+      await insertAbsent(
+        b.personas,
+        (p) => p.id,
+        readLocalPersona,
+        upsertLocalPersona,
+      );
+      await insertAbsent(
+        b.presets,
+        (p) => p.id,
+        readLocalPreset,
+        upsertLocalPreset,
+      );
+      await insertAbsent(
+        b.lorebooks,
+        (lb) => lb.lorebook.id,
+        readLocalLorebook,
+        (uid, lb) =>
+          upsertLocalLorebookBundle(uid, {
             lorebook: lb.lorebook,
             entries: lb.entries,
-          });
-        }
-      }
+          }),
+      );
       return upsertLocalConversationBundle(userId, {
         conversation: b.conversation,
-        settings: b.settings,
+        // Sync wire carries settings on the conversation row; null keeps the
+        // import-path fold (which still receives a settings object) intact.
+        settings: null,
         conversationCharacters: b.conversationCharacters,
         conversationLorebooks: b.conversationLorebooks,
         messages: b.messages,

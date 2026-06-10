@@ -28,12 +28,14 @@ function onError(error: IntlError) {
 // cannot infer it from the server request config.
 export function ClientIntlProvider(props: {
   locale: Locale;
+  timeZone: string;
   messages: Messages;
   children: ReactNode;
 }) {
   return (
     <NextIntlClientProvider
       locale={props.locale}
+      timeZone={props.timeZone}
       messages={props.messages}
       onError={onError}
     >

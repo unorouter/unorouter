@@ -428,7 +428,18 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
         .from(conversations)
         .where(and(eq(conversations.id, id), eq(conversations.userId, userId)))
         .limit(1);
-      const s = body.settings;
+      // Settings columns live ON the conversation row; the row in the payload
+      // already carries them. A legacy `settings` object (older clients,
+      // settings-only patches) overlays on top.
+      const s = stripUndefined({
+        ...Object.fromEntries(
+          CONVERSATION_SETTINGS_KEYS.map((k) => [
+            k,
+            (c as Record<string, unknown>)[k],
+          ]),
+        ),
+        ...(body.settings ?? {}),
+      }) as NonNullable<ConversationBundleBody["settings"]>;
       if (existing.length === 0) {
         // Settings columns ride a key-list spread; omitted keys fall to the
         // schema column defaults (authorNoteDepth 4, webSearch* defaults) and

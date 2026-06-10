@@ -165,9 +165,9 @@ export const messageItems = sqliteTable(
 export const requestLogs = sqliteTable(
   "request_logs",
   {
-    msgId: text("msg_id")
-      .primaryKey()
-      .references(() => messages.id, { onDelete: "cascade" }),
+    // No FK to messages: the server writes this row at stream finish, BEFORE
+    // the client pushes the message row. convId cascade covers cleanup.
+    msgId: text("msg_id").primaryKey(),
     convId: text("conv_id")
       .notNull()
       .references(() => conversations.id, { onDelete: "cascade" }),

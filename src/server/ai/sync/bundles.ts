@@ -20,10 +20,7 @@ import {
   samplingPresets,
   userThemes,
 } from "@/lib/db/schema/shared";
-import {
-  projectConversationSettings,
-  type ConversationSettingsProjection,
-} from "@/lib/db/conversation-settings";
+
 import { and, eq, inArray } from "drizzle-orm";
 import type { SyncKindName } from "@/lib/validation/sync";
 
@@ -42,7 +39,6 @@ export type SyncBundleMap = {
   };
   conversations: {
     conversation: typeof conversations.$inferSelect;
-    settings: ConversationSettingsProjection | null;
     conversationCharacters: (typeof conversationCharacters.$inferSelect)[];
     conversationLorebooks: (typeof conversationLorebooks.$inferSelect)[];
     messages: (typeof messages.$inferSelect)[];
@@ -146,8 +142,9 @@ export async function getSyncedBundle(
       return { card, cardCharacters: chars, cardLorebooks: lbs };
     }
     case "conversations": {
+      // Settings columns ride the conversation row itself; no projected
+      // `settings` object on the wire.
       const conversation = await ownedRow(db, conversations, id, userId);
-      const settings = projectConversationSettings(conversation);
       const [convCharsRows, convLbsRows, msgsRows, mediaRows, reqLogRows] =
         await Promise.all([
           db
@@ -172,8 +169,8 @@ export async function getSyncedBundle(
 
       const refCharIds = convCharsRows.map((b) => b.characterId);
       const refLbIds = convLbsRows.map((b) => b.lorebookId);
-      const refPersonaId = settings.personaId ?? null;
-      const refPresetId = settings.presetId ?? null;
+      const refPersonaId = conversation.personaId ?? null;
+      const refPresetId = conversation.presetId ?? null;
       const [refCharacters, refPersonas, refLbRows, refLbEntries, refPresets] =
         await Promise.all([
           refCharIds.length
@@ -244,7 +241,6 @@ export async function getSyncedBundle(
 
       return {
         conversation,
-        settings,
         conversationCharacters: convCharsRows,
         conversationLorebooks: convLbsRows,
         messages: msgsRows,

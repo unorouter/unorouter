@@ -18,8 +18,13 @@ export async function buildSyncPayload(
   id: string,
 ): Promise<unknown> {
   switch (kind) {
-    case "conversations":
-      return readLocalConversationBundle(userId, id);
+    case "conversations": {
+      const bundle = await readLocalConversationBundle(userId, id);
+      // Settings ride the conversation row; request logs are server-persisted.
+      return (
+        bundle && { ...bundle, settings: undefined, requestLogs: undefined }
+      );
+    }
     case "playgroundSessions":
       return readLocalGenerationSessionBundle(userId, id);
     case "lorebooks": {
