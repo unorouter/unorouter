@@ -23,7 +23,6 @@ function getLineOffset(depth: number): number {
   return depth >= 3 ? 10 : 0;
 }
 
-// Animated thumb that tracks the active anchor position
 function TocThumb(props: {
   containerRef: React.RefObject<HTMLDivElement | null>;
   className?: string;
@@ -80,7 +79,6 @@ function TocThumb(props: {
   return <div ref={thumbRef} role="none" className={props.className} />;
 }
 
-// Single TOC item with connector lines
 function ClerkTOCItem(props: {
   item: TOCItemType;
   upper: number;
