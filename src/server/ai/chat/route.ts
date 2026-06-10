@@ -16,6 +16,7 @@ import {
   finalizeVideoTask,
 } from "./augmentation/task.service";
 import { generateChatTitle } from "./augmentation/title.service";
+import { ContextRequiredError } from "./stream/context-cache";
 import { streamChat } from "./stream.service";
 
 export const chatRoute = new Elysia({ prefix: "/chat" })
@@ -48,7 +49,18 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
       const apiKey = await resolveChatApiKey(cookie);
       const userId = (await getUserId(cookie, true)) ?? GUEST_USER_ID;
       if (userId === GUEST_USER_ID) body.webSearch = false;
-      return streamChat(apiKey, body, request, userId);
+      try {
+        return await streamChat(apiKey, body, request, userId);
+      } catch (err) {
+        // Context-cache miss: tell the client to retry with the full context.
+        if (err instanceof ContextRequiredError) {
+          return new Response(JSON.stringify({ code: "context-required" }), {
+            status: 409,
+            headers: { "content-type": "application/json" },
+          });
+        }
+        throw err;
+      }
     },
     { body: streamBody },
   )

@@ -383,6 +383,12 @@ export const streamBody = t.Object({
   // Fallback for guest convs (no settings row).
   overrides: t.Optional(streamOverrides),
   chatContext: t.Optional(chatContext),
+  // Content fingerprint of chatContext (sans globalVars). When the server's
+  // per-conv context cache holds this hash, the client omits chatContext
+  // entirely; a miss answers 409 context-required and the client retries full.
+  chatContextHash: t.Optional(t.String({ maxLength: 64 })),
+  // Always-sent (small, changes often); rides outside the hashed context.
+  globalVars: t.Optional(t.Union([t.String(), t.Null()])),
   // Multi-character rotation: which bound character speaks this turn. When set,
   // the assembler promotes that character to primary (drives {{char}}).
   speakingCharacterId: t.Optional(

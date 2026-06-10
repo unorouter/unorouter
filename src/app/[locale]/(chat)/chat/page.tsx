@@ -22,7 +22,7 @@ export async function generateMetadata(props: {
 
 export default function ChatPage() {
   return (
-    <div className="chat-shell relative h-full">
+    <div className="chat-shell relative h-full w-full min-w-0">
       <ChatWelcomePlaceholder />
       <Chat />
     </div>

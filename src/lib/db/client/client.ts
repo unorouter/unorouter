@@ -34,11 +34,19 @@ export async function getLocalDb(
 }
 
 // Clearing site data while the app is open deletes the OPFS file under the
-// live SyncAccessHandle; every later statement rejects with GetSyncHandleError
-// + NotFoundError and chat persistence dies silently until a full reload.
-function isDeadHandleError(err: unknown): boolean {
+// live SyncAccessHandle; later statements reject with GetSyncHandleError +
+// NotFoundError or SQLITE_CORRUPT (the VFS reads incoherent orphaned pages)
+// and chat persistence dies silently until a full reload. Reopening routes
+// through the salvage-capable open, so a genuinely corrupt-but-present file
+// gets the copy-rescue path rather than a blind wipe.
+function isRecoverableDbError(err: unknown): boolean {
   const s = String(err);
-  return s.includes("GetSyncHandleError") && s.includes("NotFoundError");
+  return (
+    s.includes("GetSyncHandleError") ||
+    s.includes("NotFoundError") ||
+    s.includes("SQLITE_CORRUPT") ||
+    s.includes("SQLITE_IOERR")
+  );
 }
 
 type Reopen = () => Promise<SQLocalDrizzle>;
@@ -54,7 +62,7 @@ function buildLocalClient(sql: SQLocalDrizzle, reopen?: Reopen): LocalClient {
     try {
       return await fn(current);
     } catch (err) {
-      if (!reopen || !isDeadHandleError(err)) throw err;
+      if (!reopen || !isRecoverableDbError(err)) throw err;
       logger.warn("OPFS handle lost (site data cleared?); reopening local DB", {
         context: "local-db.client",
         error: String(err),
@@ -113,13 +121,14 @@ async function sweepRecoveryFiles(): Promise<void> {
   }
 }
 
-async function openClient(userId: number): Promise<LocalClient> {
+// Open + migrate, with the salvage cascade on failure. Used for the initial
+// open AND the in-place reopen after a recoverable handle loss.
+async function openMigratedSql(
+  dbPath: string,
+  userId: number,
+): Promise<SQLocalDrizzle> {
   const { SQLocalDrizzle } = await import("sqlocal/drizzle");
-  const dbPath = `${env.appName.toLowerCase()}-${userId}.sqlite3`;
   let sql = new SQLocalDrizzle({ databasePath: dbPath, reactive: false });
-
-  // Fire-and-forget: don't block first-load on a directory scan.
-  void sweepRecoveryFiles();
 
   const { runMigrations } = await import("./schema-migrate/migrations");
   try {
@@ -178,11 +187,17 @@ async function openClient(userId: number): Promise<LocalClient> {
     }
   }
 
-  const wrapped = buildLocalClient(sql, async () => {
-    const fresh = new SQLocalDrizzle({ databasePath: dbPath, reactive: false });
-    await runMigrations(fresh);
-    return fresh;
-  });
+  return sql;
+}
+
+async function openClient(userId: number): Promise<LocalClient> {
+  const dbPath = `${env.appName.toLowerCase()}-${userId}.sqlite3`;
+
+  // Fire-and-forget: don't block first-load on a directory scan.
+  void sweepRecoveryFiles();
+
+  const sql = await openMigratedSql(dbPath, userId);
+  const wrapped = buildLocalClient(sql, () => openMigratedSql(dbPath, userId));
 
   // Release SAH on unload (Chromium orphan state).
   // Cache eviction before destroy for BFcache.

@@ -27,6 +27,7 @@ import {
   buildContextFromClient,
   loadConvContext,
 } from "../augmentation/prompt-assembler/conv-context";
+import { resolveContextPayload } from "./context-cache";
 import {
   formatSearchContext,
   needsWebSearch,
@@ -63,6 +64,8 @@ export type StreamBody = {
   webSearch?: boolean;
   overrides?: StreamOverrides;
   chatContext?: ChatContext;
+  chatContextHash?: string;
+  globalVars?: string | null;
   speakingCharacterId?: string | null;
 };
 
@@ -72,9 +75,13 @@ export async function prepareChatRequest(
   request: Request,
   userId: number,
 ) {
-  // IDB-first: client chatContext avoids Turso RP reads; fall back to Turso for guests/legacy.
-  const convCtx = body.chatContext
-    ? buildContextFromClient(body.chatContext)
+  // IDB-first: client chatContext avoids Turso RP reads. Repeat turns send a
+  // hash instead of the payload (context-cache handshake); a stale hash throws
+  // context-required (409) and the client retries with the full context.
+  // Turso stays the fallback for guests/legacy bodies with neither.
+  const clientCtx = resolveContextPayload(body);
+  const convCtx = clientCtx
+    ? buildContextFromClient(clientCtx)
     : body.convId
       ? await loadConvContext(body.convId)
       : null;
@@ -140,8 +147,9 @@ export async function prepareChatRequest(
 
   const recentUserTexts = collectRecentUserTexts(messagesWithPdfText);
   const history = collectHistory(messagesWithPdfText);
-  // Per-user global vars ride the client context (client owns per-user state).
-  const globalVarsIn = body.chatContext?.globalVars ?? null;
+  // Per-user global vars ride OUTSIDE the hashed context (small, change every
+  // setglobalvar turn; hashing them would bust the context cache constantly).
+  const globalVarsIn = body.globalVars ?? clientCtx?.globalVars ?? null;
 
   // `start`-mode trigger scripts run before assembly. They mutate the seed var
   // store (persisted via the var-writeback channel) and can inject a system
@@ -408,7 +416,10 @@ export async function prepareChatRequest(
     requestBody: {
       model: body.model,
       messagesCount: body.messages.length,
+      // Present only on full-context sends; hash hits log the fingerprint
+      // (edit any bound entity to force a full send when debugging).
       chatContext: body.chatContext,
+      chatContextHash: body.chatContextHash,
       overrides: body.overrides,
       webSearch: body.webSearch,
       convId: body.convId,
