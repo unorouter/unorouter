@@ -22,22 +22,9 @@
     "PRICING": "Fiyatlandırma",
     "DOCS": "Dokümantasyon",
     "BLOG": "Blog",
-    "GROUP_CLI": "CLI Araçları",
-    "GROUP_ROLEPLAY": "Roleplay İstemcileri",
-    "CC_SWITCH": "CC Switch",
-    "CLAUDE_CODE": "Claude Code",
-    "CODEX": "Codex",
-    "GEMINI_CLI": "Gemini CLI",
-    "OPENCLAW": "OpenClaw",
-    "SILLYTAVERN": "SillyTavern",
-    "JANITOR_AI": "Janitor.AI",
-    "RISUAI": "RisuAI",
-    "CHUB": "Chub / Venus",
     "DASHBOARD": "Kontrol Paneli",
     "LOG_IN": "Giriş Yap",
-    "GET_STARTED": "Başla",
     "CHAT": "Sohbet",
-    "GENERATE": "Üret",
     "PLAYGROUND": "Playground",
     "STATUS": "Durum"
   },
@@ -45,7 +32,6 @@
     "HERO": {
       "BADGE": "Router Çevrimiçi",
       "TITLE_LINE1": "BİRLEŞİK",
-      "TITLE_LINE2": "ZEKA",
       "TITLE_ROTATE": "ZEKA,ROLEPLAY,KARAKTERLER,KOD,SOHBET",
       "SUBTITLE": "{appName} sizi tek anahtarla {modelCount}+ AI modeline bağlar. Uygulamalar geliştirin, ajanlar çalıştırın veya karakterlerle roleplay yapın. Aynı anahtar, aynı hız, aynı fiyat.",
       "CTA_PRIMARY": "Başla",
@@ -56,12 +42,9 @@
       "PROVIDERS": "Sağlayıcılar",
       "FREE": "Ücretsiz",
       "PAID": "Ücretli",
-      "UPTIME": "Çalışma Süresi",
-      "ENDPOINTS": "Endpointler",
       "PANEL": {
         "TOKENS_SERVED": "Sunulan Tokenler",
         "REQUESTS": "İstekler",
-        "REQ_MIN": "İstek / dk",
         "TOKENS_MIN": "Token / dk",
         "LIVE": "Canlı"
       },
@@ -69,20 +52,15 @@
         "GLOBAL": "Yönlendirilebilir",
         "INTEGRATED": "Upstreamler",
         "FREE": "Maliyetsiz",
-        "PAID": "Token başına",
-        "SLA": "Ölçüldü"
+        "PAID": "Token başına"
       }
     },
     "TICKER": {
-      "LABEL": "Mevcut Modeller",
       "LIVE_INFERENCE": "Canlı Çıkarım",
       "TPS": "TPS"
     },
     "INTEGRATION": {
-      "BADGE": "Entegrasyon",
       "VIEW_GUIDE": "Kılavuzu Görüntüle",
-      "CLI_HEADER": "Kodlama ajanları ve CLI araçları için",
-      "RP_HEADER": "Roleplay ve yaratıcı sohbet için",
       "CLAUDE_CODE": {
         "BADGE": "Anthropic API",
         "TITLE": "Claude Code ile Çalışır",
@@ -151,64 +129,24 @@
       "TITLE": "Basit Fiyatlandırma.",
       "SUBTITLE": "Sadece kullandığın kadar öde.",
       "DESCRIPTION": "Daha iyi değer için abone ol veya kullandıkça öde. Tüm planlar sağlayıcılar arasında otomatik failover ile her modele erişim içerir.",
-      "PAYG": {
-        "NAME": "Kullandıkça Öde",
-        "PRICE": "$0",
-        "DESC": "Minimum yok. Yükle ve herhangi bir modeli kullan.",
-        "ENDPOINT": "/v1/chat/completions"
-      },
-      "BASIC": {
-        "NAME": "Basic",
-        "PRICE": "$20/ay",
-        "DESC": "$30 kredi değeri. 1.5x çarpan.",
-        "RATE": "100 istek/dk"
-      },
-      "PRO": {
-        "NAME": "Pro",
-        "PRICE": "$50/ay",
-        "DESC": "$75 kredi değeri. Öncelikli yönlendirme.",
-        "RATE": "500 istek/dk"
-      },
-      "ENTERPRISE": {
-        "NAME": "Enterprise",
-        "PRICE": "$100/ay",
-        "DESC": "$175 kredi değeri. Özel destek.",
-        "RATE": "2,000 istek/dk"
-      },
-      "CTA": {
-        "GET_STARTED": "Başla",
-        "VIEW_PLANS": "Tüm Planları Görüntüle"
-      },
       "PROVIDERS": {
-        "TITLE": "Desteklenen Sağlayıcılar",
-        "ACTIVE": "Aktif",
-        "DESC_OPENAI": "GPT-4o, o1, o3, GPT-4.1",
-        "DESC_ANTHROPIC": "Claude Opus, Sonnet, Haiku",
-        "DESC_GOOGLE": "Gemini 2.5 Pro, Flash",
-        "DESC_DEEPSEEK": "DeepSeek V3, R1"
+        "TITLE": "Desteklenen Sağlayıcılar"
       },
       "FLOW": {
-        "TITLE": "İstek Akışı",
-        "LIVE": "Canlı",
-        "STEP1": "POST /v1/chat/completions",
-        "STEP2": "En hızlı sağlayıcıya yönlendir",
-        "STEP3": "Yanıt teslim edildi"
+        "TITLE": "İstek Akışı"
       }
     },
     "FEATURES": {
       "TITLE": "Neden {appName}",
       "DESCRIPTION": "Bir endpoint, her AI modeli. Akıllı yönlendirme en hızlı sağlayıcıyı seçerken otomatik failover isteklerinizin her zaman başarılı olmasını sağlar.",
       "FAILOVER": {
-        "TITLE": "Otomatik Failover",
-        "DESC": "Başarısız istekler anında alternatif kanallarda yeniden denenir"
+        "TITLE": "Otomatik Failover"
       },
       "MULTIPROTOCOL": {
-        "TITLE": "Çoklu Protokol Desteği",
-        "DESC": "OpenAI, Anthropic ve Gemini API formatları"
+        "TITLE": "Çoklu Protokol Desteği"
       },
       "LOADBALANCE": {
-        "TITLE": "Akıllı Yük Dengeleme",
-        "DESC": "Otomatik olarak en hızlı kullanılabilir sağlayıcıya yönlendirir"
+        "TITLE": "Akıllı Yük Dengeleme"
       }
     },
     "RELIABILITY": {
@@ -225,7 +163,6 @@
         "DESC": "Öncelik ağırlıkları ile gecikme tabanlı kanal seçimi. En hızlı sağlayıcı her seferinde kazanır."
       },
       "LEARN_MORE": "Daha Fazla Bilgi",
-      "LEARN_MORE_ARIA": "{appName} dokümantasyonu hakkında daha fazla bilgi edinin",
       "LEARN_MORE_DOCS": "Dokümantasyonu Görüntüle",
       "ARCH": {
         "TITLE": "Mimari",
@@ -442,7 +379,6 @@
       "LEADERBOARD_TITLE": "LLM Leaderboard",
       "LEADERBOARD_SUBTITLE": "Platformdaki en popüler modelleri karşılaştırın",
       "EMPTY": "Seçilen filtrelere uyan model yok",
-      "TOTAL_LABEL": "Toplam token",
       "TOKENS_SUFFIX": "token",
       "TOOLTIP_TOTAL": "Toplam",
       "BY_AUTHOR_LABEL": "yazan"
@@ -484,10 +420,7 @@
     "SUBTITLE": "Ekipten ürün güncellemeleri, entegrasyon kılavuzları ve notlar.",
     "READ_MORE": "Daha fazla oku",
     "PUBLISHED": "Yayınlandı",
-    "UPDATED": "Güncellendi",
     "BY_AUTHOR": "{author} tarafından",
-    "TAGS": "Etiketler",
-    "RECENT": "Son yazılar",
     "BACK_TO_BLOG": "Tüm yazılara dön",
     "EMPTY": "Henüz yazı yok. Yakında tekrar kontrol edin.",
     "EMPTY_FILTERED": "Filtrelerinize uyan yazı yok.",
@@ -564,9 +497,7 @@
         "H_NOT_SPOOFING": "Sahtekarlık olmayan ne: Bedrock, Vertex, Foundry",
         "H_RESULTS": "17 gün probe ne çıkardı",
         "H_WHY": "Bu neden olur",
-        "H_NEXT": "Sırada ne var",
         "H_TEST": "Kendi sağlayıcınızı 5 dakikada test edin",
-        "H_NAMING": "İsim isim sayma üzerine bir not",
         "INTRO_P1": "Claude şu an pazarda en çok talep edilen modeldir ve en pahalılardan biri. Bu fark, resmi fiyatın küçük bir kısmına \"aynı Claude'u\" sunan üçüncü taraf satıcıların büyüyen bir pazarını yarattı. Bazıları meşru. Çoğu değil.",
         "INTRO_P2": "<s>8 upstream satıcısı</s> üzerinde 17 gün otomatik probe ile, <c>claude-opus-4-7</c>, <c>claude-sonnet-4-6</c>, <c>claude-haiku-4-5</c> ve diğerleri olarak pazarlanan modellere karşı özgünlük kontrollerinde başarısız olan <s>183 (kanal, model) çifti</s> bulduk. Aynı baskı her premium modelde var, yani GPT, Gemini ve Grok da neredeyse kesinlikle etkileniyor. Claude şu an fiyat farkının en büyük olduğu ve elimizde sert verinin olduğu yer.",
         "PROBES_P": "Her (kanal, model) için standart Anthropic Messages API'ye (<c>POST /v1/messages</c>) dört paralel istek gönderiyoruz:",
@@ -651,7 +582,6 @@
         "H_BUGS": "Bug bounty, 50$'a kadar",
         "P_BUGS": "Platformda gerçek bir bug bulun ve bug-bounty forumunda raporlayın. Ekip bir önem seviyesi seçer ve bot öder: Düşük 0.25$, Orta 0.50$, Yüksek 1$, Kritik 50$. Bug'ı gerçekten tespit eden ödenir, sadece thread başlatan değil.",
         "H_JOIN": "Gelip takılın",
-        "P_JOIN": "Tüm ödemeler API çağrılarına harcadığınız aynı bakiyeye iner. Bir kez bağlayın, hak ettiğiniz her şeyi talep edin, sonra bizimle boost etmeye, avlamaya ve yayınlamaya devam edin.",
         "CTA": "Hazır mısın? <invite>{appName} Discord'a katıl</invite>, sonra <register>API anahtarı al</register> ve ilk 1$'ınızı talep etmek için <settings>hesabınızı bağlayın</settings>."
       },
       "FREE_MODELS_AGGREGATED": {
@@ -695,7 +625,6 @@
     "META_TITLE": "{name} API fiyatlandırma, context ve örnekler | {appName}",
     "META_DESC": "{vendor} tarafından {name}'i tek bir OpenAI uyumlu endpoint üzerinden kullanın. Token başına fiyatlandırma, context penceresi, endpointler ve kopyala-yapıştır kod örnekleri görün.",
     "META_KEYWORDS": "{name} API, {name} fiyatlandırma, {name} context penceresi, {vendor} API, {appName}",
-    "ABOUT": "{name} hakkında",
     "PRICING_TITLE": "Fiyatlandırma",
     "PRICING_DESC": "Sadece kullandığınız kadar ödeyin. Pay As You Go kullanırken aylık minimum yok.",
     "INPUT_PRICE": "Girdi fiyatı",
@@ -737,62 +666,31 @@
     "CTA_DESC": "Bir API anahtarı oluşturun ve bir dakikadan kısa sürede istek göndermeye başlayın.",
     "CTA_SIGNUP": "{name}'i denemek için giriş yapın",
     "CTA_TRY": "{name}'i chatte deneyin",
-    "CTA_ALL_MODELS": "Tüm modelleri görüntüle",
-    "LAST_UPDATED": "Son güncelleme {date}"
+    "CTA_ALL_MODELS": "Tüm modelleri görüntüle"
   },
   "PRICING": {
-    "PLAN": {
-      "BASIC": "Basic",
-      "PRO": "Pro",
-      "ENTERPRISE": "Enterprise"
-    },
     "FEATURE": {
       "MODELS": "Tüm modeller dahil",
       "PRIORITY": "Öncelikli yönlendirme",
       "DEDICATED": "Özel destek",
-      "SUPPORT": "E-posta desteği",
       "FAILOVER": "Otomatik failover",
       "UPTIME": "%99.9 uptime SLA",
       "OPENAI_COMPAT": "OpenAI uyumlu endpoint"
     },
     "COMPARE": {
-      "TITLE": "Planları karşılaştır",
-      "FEATURE": "Özellik",
-      "PRICE": "Aylık fiyat",
-      "VALUE": "API kredi değeri",
-      "RATE_LIMIT": "Hız sınırı",
-      "ALL_MODELS": "Tüm modeller",
-      "PRIORITY": "Öncelikli yönlendirme",
-      "DEDICATED": "Özel destek",
-      "BASIC_PRICE": "$20/ay",
-      "PRO_PRICE": "$50/ay",
-      "ENTERPRISE_PRICE": "$100/ay",
-      "BASIC_VALUE": "$30",
-      "PRO_VALUE": "$75",
-      "ENTERPRISE_VALUE": "$175",
-      "BASIC_RATE": "100 rpm",
-      "PRO_RATE": "500 rpm",
-      "ENTERPRISE_RATE": "2,000 rpm"
+      "TITLE": "Planları karşılaştır"
     },
     "CARD": {
       "POPULAR": "Popüler",
       "PER_MONTH": " · ay",
       "VALUE": "{value} değer",
-      "MULTIPLIER": "{multiplier} çarpan",
-      "INCLUDES": "İçerir",
-      "REQUESTS_MIN": "{count} istek/dk",
-      "SPEC_CREDIT": "API Kredi Değeri",
       "SPEC_QUOTA": "Kota/Sıfırlama",
-      "SPEC_MULTIPLIER": "Çarpan",
       "VALUE_BADGE": "Değer",
-      "VALUE_EXPLAIN": "{paid} ödeyin, API kredisinde {credit} alın. Herhangi bir modelde kullanın.",
-      "OPENCLAW_TITLE": "OpenClaw Desteği",
-      "OPENCLAW_DESC": "OpenClaw ajanı ile tam uyumluluk"
+      "VALUE_EXPLAIN": "{paid} ödeyin, API kredisinde {credit} alın. Herhangi bir modelde kullanın."
     },
     "BANNER": {
       "TITLE": "Telegram'da OpenClaw AI Asistanı",
-      "SUBTITLE": "OpenClaw ve {appName} tarafından desteklenen Telegram botunuz için tek tıkla AI dağıtımı.",
-      "BADGE": "Yakında"
+      "SUBTITLE": "OpenClaw ve {appName} tarafından desteklenen Telegram botunuz için tek tıkla AI dağıtımı."
     },
     "META": {
       "TITLE": "Fiyatlandırma - {appName}",
@@ -802,6 +700,11 @@
     "TITLE": "Fiyatlandırma",
     "SUBTITLE": "İster bir uygulama yayınlıyor olun ister uzun roleplay oturumları çalıştırıyor olun. Bir plan, her model.",
     "CTA": "Abone ol",
+    "TOPUP": {
+      "LABEL": "Kullandıkça öde",
+      "DESC": "Abone olmayı tercih etmiyor musunuz? Kredi yükleyin.",
+      "FOOTNOTE": "Krediler asla süresi dolmaz."
+    },
     "FAQ": {
       "Q1": "{appName} fiyatlandırma nasıl çalışır?",
       "A1": "Tüketilen token başına ödersiniz. Her modelin kendi girdi, çıktı ve cache oranı vardır, hesap kredinizden faturalandırılır. Pay As You Go için aylık abonelik gerekmez.",
@@ -819,11 +722,6 @@
       "A7": "Evet. Her plan herhangi bir büyük roleplay istemcisinde özel OpenAI uyumlu bir kaynak olarak çalışır. SillyTavern, Janitor.AI, RisuAI ve Chub'un her birinin dokümanda kurulum kılavuzu vardır.",
       "Q8": "Sohbetlerim veya karakter geçmişim ne kadar uzun olabilir?",
       "A8": "{appName} her modelin tam context penceresini destekler, Gemini'de 1M tokene ve Claude'da 200k'a kadar. Uzun roleplayler ve uzun kod tabanları çalışır."
-    },
-    "TOPUP": {
-      "LABEL": "Kullandıkça öde",
-      "DESC": "Abone olmayı tercih etmiyor musunuz? Kredi yükleyin.",
-      "FOOTNOTE": "Krediler asla süresi dolmaz."
     }
   },
   "DOCS_INDEX": {
@@ -861,18 +759,7 @@
   },
   "DOCS_SIDEBAR": {
     "TITLE": "Dokümantasyon",
-    "AI_APPLICATIONS": "AI Uygulamaları",
-    "GROUP_CLI": "CLI Araçları",
-    "GROUP_ROLEPLAY": "Roleplay İstemcileri",
-    "CC_SWITCH": "CC Switch",
-    "OPENCLAW": "OpenClaw",
-    "CLAUDE_CODE": "Claude Code",
-    "CODEX_CLI": "Codex CLI",
-    "GEMINI_CLI": "Gemini CLI",
-    "SILLYTAVERN": "SillyTavern",
-    "JANITOR_AI": "Janitor.AI",
-    "RISUAI": "RisuAI",
-    "CHUB": "Chub / Venus"
+    "AI_APPLICATIONS": "AI Uygulamaları"
   },
   "DOCS": {
     "SETUP": {
@@ -882,8 +769,7 @@
       "CLI_ALT": "Veya CC Switch CLI'yi kullanın:",
       "NO_APP": "CC Switch yok mu?",
       "INSTALL_LINK": "CC Switch'i Yükle",
-      "LOGIN_REQUIRED": "API anahtarınızı otomatik doldurmak için giriş yapın",
-      "CREATE_KEY": "Önce bir API anahtarı oluşturun"
+      "LOGIN_REQUIRED": "API anahtarınızı otomatik doldurmak için giriş yapın"
     },
     "CONFIG": {
       "FILE_LABEL": "Kalıcı Yapılandırma Dosyası (Önerilen)",
@@ -902,10 +788,8 @@
       "QUICK_CONFIG": "Hizli yapilandirma",
       "QUICK_CONFIG_DESC": "Bu degerleri istemciye girin. Oturum actiginizda anahtariniz otomatik doldurulur.",
       "BASE_URL_LABEL": "Temel URL",
-      "API_PATH_LABEL": "Uc nokta",
       "API_KEY_LABEL": "API Anahtari",
       "STEPS": "Adim adim kurulum",
-      "STEP_LABEL": "Adim {number}",
       "COMPATIBILITY": "Uyumluluk",
       "RECOMMENDED_MODELS": "Onerilen modeller",
       "RECOMMENDED_MODELS_DESC": "Burada iyi calisan ucretsiz modeller. Herhangi bir model kimligini istemciye yapistirin.",
@@ -2057,11 +1941,8 @@
     "CONTACT_SUBTITLE": "Sorular veya endişeler?",
     "DESCRIPTION": "Birden çok sağlayıcıdan yüzlerce modele tek, akıllı bir endpoint üzerinden erişim sağlayan birleşik AI API platformu.",
     "COPYRIGHT": "© {year} {appName}. Tüm hakları saklıdır.",
-    "LEGAL_DISCLAIMER": "Bu platformu kullanarak,",
     "LEGAL_TERMS": "Hizmet Şartlarımızı",
-    "LEGAL_AND": "ve",
     "LEGAL_PRIVACY": "Gizlilik Politikamızı okuyup kabul ettiğinizi onaylarsınız",
-    "SOCIAL_GITHUB": "GitHub",
     "SOCIAL_TRUSTPILOT": "Trustpilot",
     "EASTER_EGG_LABEL": "Token Breakout Oyna"
   },
@@ -2177,21 +2058,15 @@
   },
   "COMMON": {
     "COPY_CODE": "Kodu kopyala",
-    "COPIED": "Kopyalandı",
     "OPEN_MENU": "Menüyü aç",
     "SEARCH": "Ara...",
     "SAVE": "Kaydet",
     "SAVED": "Kaydedildi",
     "CANCEL": "İptal",
     "DELETE": "Sil",
-    "CREATE": "Oluştur",
     "EDIT": "Düzenle",
-    "IMPORT": "İçe Aktar",
-    "EXPORT": "Dışa Aktar",
-    "LOADING": "Yükleniyor...",
     "NAME": "Ad",
     "DESCRIPTION": "Açıklama",
-    "CONFIRM_DELETE": "Bunu silmek istediğinizden emin misiniz?",
     "RESET": "Sıfırla",
     "CONFIRM": {
       "CONTINUE": "Devam Et",
@@ -2253,7 +2128,6 @@
       "USERNAME_OR_EMAIL_PLACEHOLDER": "Kullanıcı adınızı veya e-postanızı girin",
       "PASSWORD": "Şifre",
       "PASSWORD_PLACEHOLDER": "Şifrenizi girin",
-      "PASSWORD_MIN_LENGTH": "Şifre en az 8 karakter olmalıdır",
       "EMAIL": "E-posta",
       "EMAIL_PLACEHOLDER": "E-postanızı girin",
       "VERIFICATION_CODE": "Doğrulama Kodu",
@@ -2268,14 +2142,12 @@
     "TWO_FA": {
       "TITLE": "İki Faktörlü Kimlik Doğrulama",
       "DESCRIPTION": "Authenticator uygulamanızdan 6 haneli kodu girin",
-      "CODE_PLACEHOLDER": "000000",
       "SUBMIT": "Doğrula",
       "VERIFYING": "Doğrulanıyor..."
     },
     "VERIFICATION": {
       "SEND_CODE": "Kod Gönder",
       "SENDING": "Gönderiliyor...",
-      "SENT": "Kod Gönderildi",
       "RESEND": "Yeniden Gönder",
       "RESEND_IN": "{seconds}s içinde yeniden gönder",
       "FAILED": "Doğrulama kodu gönderilemedi"
@@ -2325,10 +2197,7 @@
     "DONT_HAVE_ACCOUNT": "Hesabınız yok mu?",
     "ALREADY_HAVE_ACCOUNT": "Zaten hesabınız var mı?",
     "OR_CONTINUE_WITH": "Veya devam edin",
-    "CALLBACK_LOADING": "Giriş tamamlanıyor...",
-    "DASHBOARD": "Dashboard",
     "LOG_OUT": "Çıkış Yap",
-    "BALANCE": "Bakiye",
     "SUBSCRIPTION": "Abonelik",
     "SUBSCRIPTION_ACTIVE": "Aktif"
   },
@@ -2340,10 +2209,7 @@
     "LOGS": "Kullanım Logları",
     "AFFILIATE": "Affiliate",
     "BILLING": "Faturalandırma",
-    "SETTINGS": "Ayarlar",
-    "CHAT": "Sohbet",
-    "GENERATE": "Üret",
-    "MY_GENERATIONS": "Üretimlerim"
+    "SETTINGS": "Ayarlar"
   },
   "DASHBOARD": {
     "GREETING": {
@@ -2387,12 +2253,9 @@
       "NO_API_INFO": "API bilgisi yok"
     },
     "CONSUMPTION": "Tüketim",
-    "TOP_UP": "Yükle",
     "TOTAL": "Toplam",
     "OTHER": "Diğer",
     "NO_DATA": "Veri yok",
-    "UPTIME": "Uptime",
-    "COPY_URL": "URL Kopyala",
     "COPIED": "Kopyalandı"
   },
   "TOKEN": {
@@ -2410,18 +2273,7 @@
     "FORM": {
       "NAME": "Ad",
       "NAME_PLACEHOLDER": "Bu anahtar için bir ad girin",
-      "GROUP": "Grup",
-      "GROUP_PLACEHOLDER": "Bir grup seçin",
-      "GROUP_NO_GROUPS": "Mevcut grup yok",
-      "CROSS_GROUP_RETRY": "Çapraz Grup Yeniden Deneme",
-      "CROSS_GROUP_RETRY_DESC": "Etkinleştirildiğinde, başarısız istekler diğer gruplardaki kanallar üzerinden yeniden denenir.",
-      "EXPIRATION": "Süre Dolma",
-      "EXPIRATION_PLACEHOLDER": "Süre dolma tarihi seçin",
-      "EXPIRATION_PRESETS": "Hızlı Ayar",
       "NEVER_EXPIRES": "Asla",
-      "ONE_MONTH": "1 Ay",
-      "ONE_DAY": "1 Gün",
-      "ONE_HOUR": "1 Saat",
       "QUOTA": "Kota",
       "QUOTA_PLACEHOLDER": "USD cinsinden miktar (ör. 10)",
       "QUOTA_PRESETS": "Presetler",
@@ -2432,8 +2284,6 @@
       "MODEL_LIMITS_DESC": "Gerekli olmadıkça önerilmez.",
       "MODEL_SELECT_PLACEHOLDER": "Modelleri ara...",
       "MODEL_SELECT_EMPTY": "Model bulunamadı",
-      "MODELS_SELECTED": "{count} seçildi",
-      "MODEL_COUNT": "{count} model",
       "IP_WHITELIST": "IP Beyaz Liste",
       "IP_WHITELIST_PLACEHOLDER": "Satır başına bir IP. Kısıtlama olmaması için boş bırakın.",
       "IP_WHITELIST_DESC": "IP'ler taklit edilebilir. Daha güçlü uygulama için bir gateway ile kullanın.",
@@ -2484,7 +2334,6 @@
     "DISABLE": "Devre Dışı Bırak",
     "UNLIMITED": "Sınırsız",
     "ALL_MODELS": "Tüm Modeller",
-    "USED_OF_TOTAL": "{used} / {total}",
     "SEARCH_PLACEHOLDER": "Anahtarları ara...",
     "NO_TOKENS": "Henüz API anahtarı yok. Başlamak için bir tane oluşturun.",
     "COPY_KEY": "Anahtarı Kopyala"
@@ -2492,7 +2341,6 @@
   "LOGS": {
     "TABLE": {
       "TIME": "Zaman",
-      "TYPE": "Tip",
       "CHANNEL": "Kanal",
       "USER": "Kullanıcı",
       "MODEL": "Model",
@@ -2610,8 +2458,6 @@
     "DESCRIPTION": "API istek geçmişinizi, token kullanımınızı ve harcama detaylarınızı görüntüleyin.",
     "FILTERS": "Filtreler",
     "RESET": "Sıfırla",
-    "TO": "ila",
-    "TOTAL": "toplam",
     "COPIED": "Panoya kopyalandı",
     "CLICK_COPY": "Kopyalamak için tıkla",
     "NO_LOGS": "Seçilen dönem için log bulunamadı.",
@@ -2630,7 +2476,6 @@
       "RATE": "Oran",
       "EARNED": "Kazanılan",
       "STATUS": "Durum",
-      "JOINED": "Katıldı",
       "COMMISSIONS": "Komisyonlar",
       "TOTAL_EARNED": "Toplam Kazanılan"
     },
@@ -2655,7 +2500,6 @@
       "TITLE": "Affiliate Kazançlarını Aktar",
       "DIALOG_DESC": "Bekleyen affiliate kazançlarınızı hesap bakiyenize aktarın. Bu eylem geri alınamaz.",
       "AMOUNT": "Miktar",
-      "INVALID": "Lütfen geçerli bir miktar girin",
       "EXCEEDS": "Miktar mevcut bakiyeyi aşıyor"
     },
     "ENUM": {
@@ -2687,7 +2531,6 @@
     "HOW_IT_WORKS": "Nasıl Çalışır",
     "TAB_INVITEES": "Davet Edilen Kullanıcılar",
     "TAB_COMMISSIONS": "Komisyon Geçmişi",
-    "COMMISSION_HISTORY": "Komisyon Geçmişi",
     "NO_COMMISSIONS": "Henüz komisyon geçmişi yok. Kazanmaya başlamak için davet bağlantınızı paylaşın.",
     "NO_INVITEES": "Henüz davet edilen kullanıcı yok. Ağınızı büyütmeye başlamak için davet bağlantınızı paylaşın.",
     "BADGE_GENERATOR": {
@@ -2775,7 +2618,6 @@
   },
   "BILLING": {
     "SUBSCRIPTION": {
-      "PLANS": "Abonelik Planları",
       "MY": "Aboneliklerim",
       "NO_ACTIVE": "Aktif yok",
       "ACTIVE": "Aktif",
@@ -2808,9 +2650,7 @@
     },
     "TOPUP": {
       "TITLE": "Kota Yükleme",
-      "AMOUNT": "Yükleme Miktarı",
       "ACTUAL_PAYMENT": "Gerçek ödeme",
-      "PAY_NOW": "Şimdi öde",
       "SAVE": "Kaydet"
     },
     "ERROR": {
@@ -2826,7 +2666,6 @@
     "CONSUMPTION": "Tüketim",
     "REQUESTS": "İstekler",
     "USED_OF": "kullanılan",
-    "REFRESHING": "Yenileniyor...",
     "PAYMENT_METHOD": {
       "LABEL": "Ödeme yöntemi",
       "CARD": "Kredi Kartı",
@@ -2837,8 +2676,6 @@
     "ERROR": {
       "REQUIRED": "{type} gereklidir",
       "MIN_LENGTH": "{type} en az {minLength} karakter olmalıdır",
-      "MAX_LENGTH": "{type} en fazla {maxLength} karakter olmalıdır",
-      "EXACT_LENGTH": "{type} tam olarak {minLength} karakter olmalıdır",
       "MIN_VALUE": "{type} 0'dan büyük olmalıdır"
     },
     "TYPE": {
@@ -2861,7 +2698,6 @@
     "ROLE_SUPER_ADMIN": "Süper Yönetici",
     "ROLE_ADMIN": "Yönetici",
     "ROLE_USER": "Kullanıcı",
-    "BALANCE": "Bakiye",
     "CONSUMPTION": "Tüketim",
     "REQUEST_COUNT": "İstekler",
     "DEFAULT_GROUP": "Varsayılan Grup",
@@ -2876,14 +2712,12 @@
       "EMAIL_PLACEHOLDER": "E-posta adresi girin",
       "BIND_EMAIL": "E-posta Bağla",
       "MODIFY_EMAIL": "E-postayı Değiştir",
-      "VERIFICATION_CODE": "Doğrulama Kodu",
       "SEND_CODE": "Kod Gönder",
       "CODE_SENT": "Kod gönderildi, {seconds}s içinde yeniden gönder",
       "CODE_PLACEHOLDER": "Doğrulama kodu girin",
       "OAUTH_BINDINGS": "OAuth Bağlantıları",
       "GITHUB": "GitHub",
       "DISCORD": "Discord",
-      "BOUND": "Bağlı",
       "NOT_BOUND": "Bağlı değil",
       "BIND": "Bağla",
       "UNBIND": "Bağlantıyı Kaldır",
@@ -2897,7 +2731,6 @@
       "ACCESS_TOKEN": "Sistem Erişim Tokeni",
       "ACCESS_TOKEN_DESC": "API'ye doğrudan erişmek için bu tokeni kullanın.",
       "GENERATE_TOKEN": "Token Oluştur",
-      "REGENERATE_TOKEN": "Tokeni Yeniden Oluştur",
       "TOKEN_GENERATED": "Token başarıyla oluşturuldu",
       "COPY_TOKEN": "Kopyala",
       "TOKEN_COPIED": "Panoya kopyalandı",
@@ -2969,29 +2802,16 @@
   },
   "CHAT": {
     "SHARE": {
-      "BUTTON": "Paylaş",
       "TITLE": "Sohbeti Paylaş",
       "DESCRIPTION": "Bağlantıya sahip olan herkes bu sohbeti görüntüleyebilir.",
-      "CREATED": "Paylaşım bağlantısı oluşturuldu",
-      "REVOKED": "Paylaşım bağlantısı kaldırıldı",
-      "COPY_LINK": "Paylaşım Bağlantısını Kopyala",
-      "LINK_COPIED": "Bağlantı panoya kopyalandı",
-      "GENERATE_LINK": "Paylaşım Bağlantısı Oluştur",
-      "REVOKE": "Paylaşım Bağlantısını Kaldır",
-      "SHARED_CONVERSATION": "Paylaşılan Sohbet",
-      "NOT_FOUND": "Bu paylaşılan sohbet bulunamadı veya kaldırıldı."
+      "LINK_COPIED": "Bağlantı panoya kopyalandı"
     },
     "MODEL": {
       "SELECT": "Model seç",
       "SEARCH": "Modelleri ara...",
       "NO_RESULTS": "Model bulunamadı",
-      "GROUP_TEXT": "Metin ve Akıl Yürütme",
-      "GROUP_IMAGE": "Görsel Üretimi",
-      "GROUP_VIDEO": "Video Üretimi",
       "FREE_BADGE": "ÜCRETSİZ",
-      "LOGIN_REQUIRED": "Giriş gerekli",
-      "FREE_NOTICE": "Ücretsiz modeller yüksek yük altında başarısız olabilir.",
-      "FREE_NOTICE_CTA": "Ücretli modele geç"
+      "LOGIN_REQUIRED": "Giriş gerekli"
     },
     "ACTION": {
       "COPY": "Kopyala",
@@ -3013,8 +2833,7 @@
     },
     "GATE": {
       "NEEDS_TOKEN_TITLE": "API Anahtarı Gerekli",
-      "NEEDS_TOKEN_DESC": "AI modelleriyle sohbet etmeye başlamak için bir API anahtarı oluşturun.",
-      "LOGIN_REQUIRED_DESC": "AI modelleriyle sohbet etmeye başlamak için giriş yapın."
+      "NEEDS_TOKEN_DESC": "AI modelleriyle sohbet etmeye başlamak için bir API anahtarı oluşturun."
     },
     "TOOL": {
       "USED": "Kullanılan araç",
@@ -3042,7 +2861,6 @@
       "UNSUPPORTED_TYPE": "Dosya tipi {type} desteklenmiyor. Lütfen bir PNG, JPEG, WebP veya GIF görseli yükleyin."
     },
     "WEB_SEARCH": {
-      "LABEL": "Web Arama",
       "ON": "Web arama etkin",
       "OFF": "Web arama devre dışı"
     },
@@ -3084,11 +2902,7 @@
       "HINT": "Değiştirene kadar bu ve her yeni sohbete uygulanır."
     },
     "INPUT_PLACEHOLDER": "Mesajınızı yazın...",
-    "START_PROMPT": "Sohbeti başlatmak için bir mesaj gönderin.",
     "THINKING": "Düşünüyor",
-    "DISCLAIMER": "AI yanıtları yanlış olabilir. Önemli bilgileri doğrulayın.",
-    "UNTITLED": "Başlıksız Sohbet",
-    "DELETE_CONFIRM": "Bu sohbeti silmek istediğinizden emin misiniz?",
     "MESSAGE_INPUT": "Mesaj girişi",
     "SEARCH_CHATS": "Sohbetleri ara",
     "TOKENS_IN": "gir",
@@ -3098,10 +2912,7 @@
       "TITLE": "AI Sohbet - {appName}",
       "TITLE_WITH_NAME": "{title} | AI Sohbet - {appName}",
       "DESCRIPTION": "Herhangi bir AI modeli ile sohbet edin. GPT, Claude, Gemini, DeepSeek ve daha fazlasını tek bir arayüz üzerinden test edin.",
-      "KEYWORDS": "AI sohbet, AI ile sohbet, GPT sohbet, Claude sohbet, Gemini sohbet, AI playground, model test",
-      "SHARED_TITLE": "Paylaşılan Sohbet - {appName}",
-      "SHARED_TITLE_WITH_NAME": "{title} | Paylaşılan Sohbet - {appName}",
-      "SHARED_DESCRIPTION": "{appName}'de paylaşılan bir AI sohbetini görüntüleyin."
+      "KEYWORDS": "AI sohbet, AI ile sohbet, GPT sohbet, Claude sohbet, Gemini sohbet, AI playground, model test"
     },
     "OVERRIDES": {
       "OPEN": "Sohbet ayarları",
@@ -3131,10 +2942,8 @@
       "NO_CHARACTERS": "Henüz karakter yok. Önce bir tane oluşturun veya içe aktarın.",
       "NO_LOREBOOKS": "Henüz lorebook yok.",
       "REORDER_HINT": "Yeniden sıralamak için sürükleyin. Üst girdiler isteme daha erken enjekte edilir.",
-      "SELECTED": "seçildi",
       "SEARCH_CHARACTERS": "Karakterleri ara",
       "SEARCH_LOREBOOKS": "Lorebookları ara",
-      "CLEAR": "Temizle",
       "EFFORT_MINIMAL": "Minimal",
       "EFFORT_LOW": "Düşük",
       "EFFORT_MEDIUM": "Orta",
@@ -3177,18 +2986,14 @@
       "LOCAL_DB_UPLOAD_CONFIRM": "Yerel OPFS veritabanının üzerine bu dosyadan yaz? Mevcut veri silinir.",
       "CLEAR": "Sohbeti temizle",
       "CLEAR_SUCCESS": "Sohbet temizlendi",
-      "CLEAR_CONFIRM_DESC": "Bu sohbetteki her mesajı siler ama ayarları, karakter bağlantılarını ve başlığı korur. Bu geri alınamaz.",
-      "FONT": "Font",
-      "FONT_SANS": "Sans",
-      "FONT_DISPLAY": "Display",
-      "FONT_SERIF": "Serif",
-      "FONT_MONO": "Monospace",
-      "FONT_SYSTEM": "Sistem"
+      "CLEAR_CONFIRM_DESC": "Bu sohbetteki her mesajı siler ama ayarları, karakter bağlantılarını ve başlığı korur. Bu geri alınamaz."
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, one {# karakter} other {# karakter}}",
       "LOREBOOKS": "{count, plural, one {# lorebook} other {# lorebook}}"
-    }
+    },
+    "TRIGGER_ALERT_SELECT_DESC": "Devam etmek için bir seçenek seçin",
+    "TRIGGER_ALERT_OK": "Tamam"
   },
   "RP": {
     "CHARACTERS_TITLE": "Karakterler",
@@ -3212,7 +3017,6 @@
     "CHARACTER_EXAMPLE_MESSAGES": "Örnek diyalog",
     "CHARACTER_SYSTEM_PROMPT": "Sistem istemi",
     "CHARACTER_POST_HISTORY": "Geçmiş sonrası talimatlar",
-    "CHARACTER_AVATAR": "Avatar",
     "CHARACTER_TAGS": "Etiketler",
     "CHARACTER_ACTIVATION_TITLE": "Aktivasyon",
     "CHARACTER_ACTIVATION_HINT": "'Her zaman aktif' kapalıyken, karakter yalnızca son sohbette bir tetikleyici anahtar kelimesi göründüğünde isteme katılır. Çok karakterli ipucu: birincil karakteri her zaman aktif tutun; ikincil karakterleri tetikleyicilerle geçit yapın.",
@@ -3222,7 +3026,6 @@
     "CHARACTER_TRIGGERS_HINT": "Bu karakteri aktive eden kelimeler. Örnek: alice, knight, sword. 'Her zaman aktif' açıkken yok sayılır.",
     "CHARACTER_MATCH_WHOLE_WORDS": "Sadece tam kelimeleri eşleştir",
     "CHARACTER_MATCH_WHOLE_WORDS_HINT": "Açıkken, tetikleyici 'Eve' 'evening' ile eşleşmez. Varsayılan: alt dize eşleşmesi.",
-    "CHARACTER_DEFAULT_MODEL": "Varsayılan model",
     "PERSONAS_TITLE": "Personalar",
     "PERSONAS_NEW": "Yeni persona",
     "PERSONAS_EMPTY": "Henüz persona yok.",
@@ -3310,13 +3113,11 @@
     "PRESET_MUST_START_WITH_USER_HINT": "Sohbet asistan veya sistemle başlıyorsa başa küçük boş bir kullanıcı mesajı ekler. Anthropic/Gemini/GLM için otomatik.",
     "PRESET_GEMINI_BLOCK_OFF": "Gemini: güvenlik KAPALI",
     "PRESET_GEMINI_BLOCK_OFF_HINT": "Her Gemini zarar kategorisi için threshold=OFF ile safetySettings gönderin. BLOCK_NONE'dan daha güçlü. Sadece Gemini modellerinde etkili olur.",
-    "SIDEBAR_TAB_CHATS": "Sohbetler",
     "SIDEBAR_TAB_CHARACTERS": "Karakterler",
     "SIDEBAR_TAB_PERSONAS": "Personalar",
     "SIDEBAR_TAB_LOREBOOKS": "Lorebookler",
     "SIDEBAR_TAB_PRESETS": "Presetler",
     "SIDEBAR_TAB_CARDS": "Kartlar",
-    "SIDEBAR_GROUP_LABEL": "RP",
     "CARDS_TITLE": "Kartlar",
     "CARDS_PAGE_SUBTITLE": "Karakterleri + personayı + lorebookları birlikte yaratıcı bir paket olarak kaydedin. Tek tıkla bir sohbete uygulayın.",
     "CARDS_NEW": "Yeni kart",
@@ -3336,10 +3137,6 @@
     "CARD_CHARACTERS": "Karakterler",
     "CARD_LOREBOOKS": "Lorebookler",
     "DROPPED_PARAMS": "{params} bu model tarafından desteklenmiyor ve yok sayıldı.",
-    "EDIT_SAVE_ONLY": "Kaydet",
-    "EDIT_SAVE_AND_GENERATE": "Kaydet ve Üret",
-    "BRANCH_NEXT": "Sonraki dal",
-    "BRANCH_PREV": "Önceki dal",
     "LOREBOOKS_IMPORT": "İçe Aktar",
     "PERSONAS_IMPORT": "İçe Aktar",
     "LOREBOOK_ENTRY_CONSTANT_HINT": "Etkinleştirme anahtarlarını yok sayarak bu girdiyi her zaman ekle.",
@@ -3376,15 +3173,10 @@
     "UNAUTHORIZED": "Yetkisiz",
     "NO_API_KEY": "API anahtarı yapılandırılmamış",
     "NOT_FOUND": "Kaynak bulunamadı",
-    "NO_IMAGE_GENERATED": "Görsel üretilmedi",
     "NO_TASK_ID": "Yanıtta görev ID veya URL yok",
-    "NO_VIDEO_URL": "Video tamamlandı ama URL bulunamadı",
-    "VIDEO_GENERATION_FAILED": "Video üretimi başarısız",
-    "VIDEO_GENERATION_TIMED_OUT": "Video üretimi zaman aşımına uğradı",
     "REQUEST_FAILED": "İstek başarısız",
     "PRICING_FETCH_FAILED": "Fiyatlandırma verisi alınamadı",
     "NO_TEXT_MODELS": "Metin modeli yok",
-    "UPLOAD_FAILED": "Ek yüklenemedi",
     "NO_IMAGE_PROMPT": "Görsel üretimi için istem sağlanmadı",
     "IMAGE_GENERATION_FAILED": "Görsel üretimi başarısız",
     "UNEXPECTED_RESPONSE": "Upstream API'den beklenmedik null yanıt",
@@ -3397,7 +3189,6 @@
     "PROMPT_REJECTED": "Bu istem içerik politikasını ihlal eder ve görsel veya video üretimi için kullanılamaz.",
     "PROMPT_FLAGGED": "Bu istem üretim için potansiyel olarak güvensiz olarak işaretlendi. Lütfen yeniden ifade edin ve tekrar deneyin.",
     "MODERATION_UNAVAILABLE": "Görsel ve video üretimi geçici olarak kullanılamıyor. Lütfen kısa süre içinde tekrar deneyin.",
-    "PDF_EXTRACTION_FAILED": "Ekli PDF'in içeriğini okuyamadık. Lütfen kaldırın veya farklı bir dosya deneyin.",
     "IMPORT_INVALID_JSON": "Dosya geçerli JSON değil.",
     "IMPORT_UNSUPPORTED_VERSION": "Desteklenmeyen dışa aktarma sürümü.",
     "CARD_PARSE_FAILED": "Karakter kartı ayrıştırılamadı.",
@@ -3416,18 +3207,14 @@
     "UNIFIED_INTELLIGENCE_API": "Birleşik Zeka API",
     "GET_STARTED": "Başla",
     "SAVE_UP_TO": "Şu kadar tasarruf edin",
-    "PER_1M_TOKENS": "1M token başına",
     "SMART_ROUTING": "Akıllı Yönlendirme",
-    "ONE_ENDPOINT": "Tek Endpoint",
     "MODELS": "Modeller",
     "FREE": "Ücretsiz",
     "PAID": "Ücretli",
-    "UPTIME": "Uptime",
     "LIVE_STATS": "Canlı İstatistikler",
     "CHEAPEST_API": "En Ucuz Inference API",
     "MODELS_ONE_ENDPOINT": "40+ AI modeli, tek endpoint",
     "MODELS_ONE_ENDPOINT_SUFFIX": "AI modeli, tek endpoint",
-    "DIRECT": "Doğrudan",
     "MODEL": "Model",
     "PRICES_NOTE": "1M token başına fiyatlar",
     "INPUT": "Girdi",
@@ -3462,7 +3249,6 @@
     },
     "MCP": {
       "SERVER_DESCRIPTION": "Tarayıcı içi AI model router. Araçlar site ana sayfasında navigator.modelContext kullanılarak WebMCP üzerinden kaydedilir. Ana sayfayı ziyaret edin ve araçları WebMCP yetenekli bir istemciden çağırın.",
-      "WEBMCP_BUNDLE_DESCRIPTION": "{appName} ana sayfasında navigator.modelContext üzerinden kaydedilen tarayıcı içi araçlar. Araçlara erişmek için ana sayfayı WebMCP yetenekli bir istemcide yükleyin.",
       "TOOLS": {
         "OPEN_MODELS_CATALOG": "OpenAI, Anthropic, Google, DeepSeek ve diğer sağlayıcılarda canlı fiyatlandırma ile her kullanılabilir modeli listeleyen {appName} model katalog sayfasını açın.",
         "OPEN_PRICING": "Abonelik planlarını ve kullandıkça öde oranlarını incelemek için {appName} fiyatlandırma sayfasını açın.",
@@ -3511,35 +3297,15 @@
     "STATE": {
       "OPERATIONAL": "Çalışıyor",
       "DOWN": "Kapalı",
-      "UNKNOWN": "Bilinmiyor",
       "DEGRADED": "Bozulmuş"
-    },
-    "SUMMARY": {
-      "ALL_NORMAL": "Tüm sistemler normal",
-      "N_DOWN": "{count, plural, one {# model kapalı} other {# model kapalı}}",
-      "LAST_CHECKED_AT": "Son kontrol {time}"
     },
     "KPI": {
       "TOTAL": "Toplam modeller",
       "OPERATIONAL": "Çalışıyor",
-      "DOWN": "Kapalı",
-      "UNKNOWN": "Bilinmiyor"
-    },
-    "ROW": {
-      "CHANNELS": "ka",
-      "LATENCY_PROBE": "probe",
-      "LATENCY_P50": "p50",
-      "LATENCY_P95": "p95",
-      "REQ": "ist",
-      "ERR": "hata",
-      "IDLE": "bu dakika trafik yok"
+      "DOWN": "Kapalı"
     },
     "RIBBON": {
-      "TITLE": "Son 24 saat",
-      "LEGEND_UP": "açık",
-      "LEGEND_DEGRADED": "bozulmuş",
-      "LEGEND_DOWN": "kapalı",
-      "LEGEND_NODATA": "veri yok"
+      "TITLE": "Son 24 saat"
     },
     "FILTER": {
       "SEARCH_PLACEHOLDER": "Modelleri ara...",
@@ -3655,8 +3421,6 @@
     "HOVER_UPSCALE": "Bu görseli upscale et",
     "HOVER_ADETAILER": "Bu görselde ADetailer çalıştır",
     "HOVER_EDIT": "Bu görseli Düzenle'de kullan",
-    "GENERATE_TITLE": "Görsel Üret",
-    "GENERATE_SUBTITLE": "Bir model seçin, bir istem yazın, bir görsel alın.",
     "PROMPT_LABEL": "İstem",
     "PROMPT_PLACEHOLDER": "İstediğiniz görseli tarif edin.",
     "NEGATIVE_PROMPT_LABEL": "Negatif istem",
@@ -3677,7 +3441,6 @@
     "BACKGROUND_TRANSPARENT": "Şeffaf",
     "WATERMARK_LABEL": "Filigran",
     "STRENGTH_LABEL": "Güç",
-    "SIZE_LABEL": "Boyut",
     "STEPS_LABEL": "Adımlar",
     "CFG_LABEL": "CFG",
     "GUIDANCE_LABEL": "Rehberlik",
@@ -3695,13 +3458,6 @@
     "TOKEN_COUNT_CAPPED": "~{count} / {cap} token",
     "PROGRESS_OF_N": "{total}'in {current}'ı üretiliyor...",
     "EXPIRES_IN_DAYS": "{days} gün içinde süresi doluyor",
-    "RECENT_TITLE": "Son üretimler",
-    "AUTO_DELETE_NOTE": "Üretimler 30 gün sonra otomatik silinir",
-    "SHARE": "Paylaş",
-    "SHARE_TITLE": "Bu üretimi paylaş",
-    "SHARE_DESCRIPTION": "Bağlantıya sahip olan herkes istemi, ayarları ve görselleri görebilir ve kendi hesabına fork edebilir.",
-    "SHARE_REVOKE": "Bağlantıyı iptal et",
-    "SHARE_DONE": "Bitti",
     "EXPORT": "Dışa Aktar",
     "IMPORT": "İçe Aktar",
     "IMPORT_TITLE": "Bir üretimi içe aktar",
@@ -3709,56 +3465,30 @@
     "IMPORT_MODE_RESTORE": "Restore (orijinal görselleri kopyala)",
     "IMPORT_MODE_REGENERATE": "Regenerate (yeni upstream çağrısı)",
     "DOWNLOAD_IMAGE": "Görseli indir",
-    "SHARED_TITLE": "Paylaşılan üretim",
-    "SAVE_TO_ACCOUNT": "Hesabıma kaydet",
-    "COPY_PROMPT": "İstemi kopyala",
     "SUBMIT": "Üret",
     "SUBMITTING": "Üretiliyor...",
     "REFERENCES_TITLE": "Referans görseller",
     "REFERENCES_ADD": "Referans ekle",
-    "REFERENCES_UNSUPPORTED": "Bu model referans görselleri kabul etmez.",
     "LORAS_TITLE": "LoRA'lar",
-    "LORAS_UNSUPPORTED": "Bu model LoRA zincirlerini desteklemez.",
-    "HISTORY_TITLE": "Üretimlerim",
-    "NEW_GENERATION": "Yeni üretim",
     "PICK_OR_GENERATE": "Sidebar'dan bir üretim seçin veya yeni bir tane oluşturun.",
     "HISTORY_EMPTY": "Henüz bir şey yok. İlk görselinizi üretin.",
     "STATUS_PENDING": "Beklemede",
-    "STATUS_SUBMITTED": "Gönderildi",
-    "STATUS_QUEUED": "Sıraya Alındı",
-    "STATUS_IN_PROGRESS": "Üretiyor",
-    "STATUS_SUCCESS": "Bitti",
     "STATUS_FAILURE": "Başarısız",
     "REMIX": "Remix",
     "DELETE": "Sil",
-    "PUBLISH": "Public yap",
-    "UNLIST": "Listeden kaldır",
-    "PRIVATE": "Özel yap",
-    "PRICE_PER_CALL": "{price} görsel başına",
     "META_TITLE": "Görsel üretimi",
     "META_DESC": "{appName} ComfyUI pipeline'ı (SDXL + Flux 2) ile görseller üretin.",
-    "LIKE": "Beğen",
-    "UNLIKE": "Beğenmekten Vazgeç",
     "REFERENCES_DROP_HINT": "Görselleri bırak veya gözat",
     "LORAS_EMPTY": "Volume'da henüz hazırlanmış LoRA yok. Operatör katalog tablosu üzerinden ekleyebilir.",
-    "HIRES_FIX_ENABLE": "Hires fix",
-    "HIRES_FIX_DENOISE": "Denoise",
-    "HIRES_FIX_UPSCALE": "Upscale",
     "PNG_IMPORT_HINT": "İstem ve parametreleri içe aktarmak için bir ComfyUI PNG bırakın",
     "PNG_IMPORT_BROWSE": "PNG İçe Aktar",
     "PNG_IMPORT_NO_METADATA": "Bu görselde ComfyUI metadata'sı bulunamadı.",
     "NEW_SESSION": "Yeni oturum",
-    "SESSION_NEW_TOOLTIP": "Yeni bir oturum başlat. Mevcut olan geçmişinizde kalır.",
-    "RECENT_SESSIONS": "Son oturumlar",
-    "SNAPSHOT_COUNT": "{count, plural, one {# snapshot} other {# snapshot}}",
-    "IMAGE_COUNT_TOTAL": "{count, plural, one {# görsel} other {# görsel}}",
     "SNAPSHOT_NAV_LABEL": "{total}'in {current}'ı snapshot",
-    "SHARE_SESSION_HELP": "Bağlantıya sahip olan herkes bu oturumun geçmişini görebilir.",
     "LIGHTBOX_PREV": "Önceki görsel",
     "LIGHTBOX_NEXT": "Sonraki görsel",
     "LIGHTBOX_CLOSE": "Kapat",
     "SESSION_SNAPSHOTS": "Bu oturumdaki snapshotlar",
-    "EDIT": "Düzenle",
     "UPLOAD_IMAGE": "Görsel yükle",
     "UPLOADING": "Yükleniyor...",
     "INIT_IMAGE": "Kaynak görsel"
@@ -3767,17 +3497,11 @@
     "NOT_SYNCED": "Senkronize değil",
     "SYNCED": "Senkronize",
     "EXPIRES_AT": "Senkronize - {date}'de süre doluyor",
-    "EXPIRED": "Süresi Doldu",
     "ADD_SYNC": "Senkronizasyon ekle (30 gün)",
     "RESYNC": "Yeniden Senkronize",
     "RESYNC_EXPIRES": "Yeniden Senkronize ({date}'de süre doluyor)",
     "REMOVE_SYNC": "Senkronizasyonu Kaldır",
     "CONFIRM_REMOVE": "Bu öğeyi sunucu senkronizasyonundan kaldır? Yerel kopya korunur.",
-    "OFFLINE_REQUIRED": "Senkronize etmek için çevrimiçi bağlantı gerekli.",
-    "PENDING_SYNC": "Bekleyen senkronizasyon - çevrimiçi olunca yeniden denenecek.",
-    "HINT_DESCRIPTION": "Senkronize edilen öğeler diğer cihazların çekebilmesi için 30 gün boyunca sunucuya yansıtılır.",
-    "OPFS_UNAVAILABLE": "Bu tarayıcıda yerel veritabanı kullanılamıyor. Veri kalıcı olmayacak.",
-    "OFFLINE_SEND_BLOCKED": "Çevrimdışısınız. Mesaj taslak olarak tutuldu; yeniden bağlandığınızda yeniden deneyin.",
     "DLQ_TOAST": "{items} yeniden denemeler sonrası senkronize edilemedi.",
     "DLQ_KIND_COUNT": "{count} {kind}",
     "DLQ_RETRY": "Yeniden Dene",

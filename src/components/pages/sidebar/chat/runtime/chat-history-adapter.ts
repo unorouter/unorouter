@@ -20,6 +20,7 @@ import {
 import { runRegexScripts } from "@/lib/ai/chat/regex-scripts";
 import { makeTriggerContext, runTriggers } from "@/lib/ai/chat/triggers/vm";
 import type { TriggerScript } from "@/lib/ai/chat/triggers/types";
+import { makeClientTriggerOps } from "./trigger-ops-client";
 import { insertLocalRequestLog } from "@/lib/db/client/data/request-log";
 import type { RequestLogRow } from "@/lib/db/schema/rows";
 import { queryKeys } from "@/lib/react-query/keys";
@@ -27,6 +28,7 @@ import type { ChatMessageMetadata } from "@/lib/types";
 import { parseStringMap, uid } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
 import {
+  chatHelpersAtom,
   chatModelAtom,
   chatStore,
   convIdAtom,
@@ -339,8 +341,13 @@ async function runOutputTriggers(
     vars,
     globalVars,
     chat: [{ role: "assistant", data: replyText }],
+    ops: makeClientTriggerOps(),
   });
-  runTriggers(triggers, "output", ctx);
+  await runTriggers(triggers, "output", ctx);
+  // V1 sendAIprompt: chain an empty continuation send after the triggers.
+  if (ctx.sendAIprompt) {
+    void chatStore.get(chatHelpersAtom)?.sendEmpty();
+  }
 
   if (JSON.stringify(vars) !== before) {
     await upsertLocalConversationSettings(userId, {

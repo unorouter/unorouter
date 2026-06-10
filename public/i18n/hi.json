@@ -22,22 +22,9 @@
     "PRICING": "मूल्य निर्धारण",
     "DOCS": "दस्तावेज़",
     "BLOG": "ब्लॉग",
-    "GROUP_CLI": "CLI टूल्स",
-    "GROUP_ROLEPLAY": "रोलप्ले क्लाइंट",
-    "CC_SWITCH": "CC Switch",
-    "CLAUDE_CODE": "Claude Code",
-    "CODEX": "Codex",
-    "GEMINI_CLI": "Gemini CLI",
-    "OPENCLAW": "OpenClaw",
-    "SILLYTAVERN": "SillyTavern",
-    "JANITOR_AI": "Janitor.AI",
-    "RISUAI": "RisuAI",
-    "CHUB": "Chub / Venus",
     "DASHBOARD": "डैशबोर्ड",
     "LOG_IN": "लॉग इन",
-    "GET_STARTED": "शुरू करें",
     "CHAT": "चैट",
-    "GENERATE": "बनाएं",
     "PLAYGROUND": "Playground",
     "STATUS": "स्थिति"
   },
@@ -45,7 +32,6 @@
     "HERO": {
       "BADGE": "राउटर ऑनलाइन",
       "TITLE_LINE1": "UNIFIED",
-      "TITLE_LINE2": "INTELLIGENCE",
       "TITLE_ROTATE": "बुद्धिमत्ता,रोलप्ले,कैरेक्टर,कोड,चैट",
       "SUBTITLE": "{appName} आपको एक key के माध्यम से {modelCount}+ AI मॉडल से जोड़ता है। ऐप्स बनाएं, एजेंट चलाएं, या किरदारों के साथ रोलप्ले करें। वही key, वही गति, वही कीमत।",
       "CTA_PRIMARY": "शुरू करें",
@@ -56,12 +42,9 @@
       "PROVIDERS": "प्रदाता",
       "FREE": "मुफ़्त",
       "PAID": "सशुल्क",
-      "UPTIME": "अपटाइम",
-      "ENDPOINTS": "एंडपॉइंट्स",
       "PANEL": {
         "TOKENS_SERVED": "सर्व किए गए टोकन",
         "REQUESTS": "अनुरोध",
-        "REQ_MIN": "अनुरोध / मिनट",
         "TOKENS_MIN": "टोकन / मिनट",
         "LIVE": "लाइव"
       },
@@ -69,20 +52,15 @@
         "GLOBAL": "रूट करने योग्य",
         "INTEGRATED": "अपस्ट्रीम",
         "FREE": "कोई शुल्क नहीं",
-        "PAID": "प्रति टोकन",
-        "SLA": "मापा गया"
+        "PAID": "प्रति टोकन"
       }
     },
     "TICKER": {
-      "LABEL": "उपलब्ध मॉडल",
       "LIVE_INFERENCE": "लाइव इनफरेंस",
       "TPS": "TPS"
     },
     "INTEGRATION": {
-      "BADGE": "एकीकरण",
       "VIEW_GUIDE": "गाइड देखें",
-      "CLI_HEADER": "कोडिंग एजेंट्स और CLI टूल्स के लिए",
-      "RP_HEADER": "रोलप्ले और रचनात्मक चैट के लिए",
       "CLAUDE_CODE": {
         "BADGE": "Anthropic API",
         "TITLE": "Claude Code के साथ काम करता है",
@@ -151,64 +129,24 @@
       "TITLE": "सरल मूल्य निर्धारण।",
       "SUBTITLE": "केवल अपने उपयोग के लिए भुगतान करें।",
       "DESCRIPTION": "बेहतर मूल्य के लिए सब्सक्राइब करें या उपयोग के अनुसार भुगतान करें। सभी प्लान में प्रदाताओं में स्वचालित failover के साथ हर मॉडल का एक्सेस शामिल है।",
-      "PAYG": {
-        "NAME": "उपयोग के अनुसार भुगतान",
-        "PRICE": "$0",
-        "DESC": "कोई न्यूनतम नहीं। टॉप अप करें और किसी भी मॉडल का उपयोग करें।",
-        "ENDPOINT": "/v1/chat/completions"
-      },
-      "BASIC": {
-        "NAME": "Basic",
-        "PRICE": "$20/माह",
-        "DESC": "$30 क्रेडिट मूल्य। 1.5x गुणक।",
-        "RATE": "100 अनुरोध/मिनट"
-      },
-      "PRO": {
-        "NAME": "Pro",
-        "PRICE": "$50/माह",
-        "DESC": "$75 क्रेडिट मूल्य। प्राथमिकता रूटिंग।",
-        "RATE": "500 अनुरोध/मिनट"
-      },
-      "ENTERPRISE": {
-        "NAME": "Enterprise",
-        "PRICE": "$100/माह",
-        "DESC": "$175 क्रेडिट मूल्य। समर्पित सहायता।",
-        "RATE": "2,000 अनुरोध/मिनट"
-      },
-      "CTA": {
-        "GET_STARTED": "शुरू करें",
-        "VIEW_PLANS": "सभी प्लान देखें"
-      },
       "PROVIDERS": {
-        "TITLE": "समर्थित प्रदाता",
-        "ACTIVE": "सक्रिय",
-        "DESC_OPENAI": "GPT-4o, o1, o3, GPT-4.1",
-        "DESC_ANTHROPIC": "Claude Opus, Sonnet, Haiku",
-        "DESC_GOOGLE": "Gemini 2.5 Pro, Flash",
-        "DESC_DEEPSEEK": "DeepSeek V3, R1"
+        "TITLE": "समर्थित प्रदाता"
       },
       "FLOW": {
-        "TITLE": "अनुरोध प्रवाह",
-        "LIVE": "लाइव",
-        "STEP1": "POST /v1/chat/completions",
-        "STEP2": "सबसे तेज़ प्रदाता पर रूट करें",
-        "STEP3": "प्रतिक्रिया वितरित"
+        "TITLE": "अनुरोध प्रवाह"
       }
     },
     "FEATURES": {
       "TITLE": "क्यों {appName}",
       "DESCRIPTION": "एक एंडपॉइंट, हर AI मॉडल। बुद्धिमान रूटिंग सबसे तेज़ प्रदाता चुनती है जबकि स्वचालित failover यह सुनिश्चित करता है कि आपके अनुरोध हमेशा सफल हों।",
       "FAILOVER": {
-        "TITLE": "स्वचालित Failover",
-        "DESC": "विफल अनुरोध तुरंत वैकल्पिक चैनलों पर पुनः प्रयास करते हैं"
+        "TITLE": "स्वचालित Failover"
       },
       "MULTIPROTOCOL": {
-        "TITLE": "मल्टी-प्रोटोकॉल समर्थन",
-        "DESC": "OpenAI, Anthropic, और Gemini API प्रारूप"
+        "TITLE": "मल्टी-प्रोटोकॉल समर्थन"
       },
       "LOADBALANCE": {
-        "TITLE": "स्मार्ट लोड बैलेंसिंग",
-        "DESC": "स्वचालित रूप से सबसे तेज़ उपलब्ध प्रदाता पर रूट करता है"
+        "TITLE": "स्मार्ट लोड बैलेंसिंग"
       }
     },
     "RELIABILITY": {
@@ -225,7 +163,6 @@
         "DESC": "प्राथमिकता वजन के साथ लेटेंसी-आधारित चैनल चयन। सबसे तेज़ प्रदाता हर बार जीतता है।"
       },
       "LEARN_MORE": "और जानें",
-      "LEARN_MORE_ARIA": "{appName} दस्तावेज़ीकरण के बारे में और जानें",
       "LEARN_MORE_DOCS": "दस्तावेज़ देखें",
       "ARCH": {
         "TITLE": "आर्किटेक्चर",
@@ -442,7 +379,6 @@
       "LEADERBOARD_TITLE": "LLM लीडरबोर्ड",
       "LEADERBOARD_SUBTITLE": "प्लेटफ़ॉर्म पर सबसे लोकप्रिय मॉडलों की तुलना करें",
       "EMPTY": "चयनित फ़िल्टर से कोई मॉडल मेल नहीं खाता",
-      "TOTAL_LABEL": "कुल टोकन",
       "TOKENS_SUFFIX": "टोकन",
       "TOOLTIP_TOTAL": "कुल",
       "BY_AUTHOR_LABEL": "द्वारा"
@@ -484,10 +420,7 @@
     "SUBTITLE": "टीम से उत्पाद अपडेट, एकीकरण गाइड और नोट्स।",
     "READ_MORE": "और पढ़ें",
     "PUBLISHED": "प्रकाशित",
-    "UPDATED": "अपडेट किया गया",
     "BY_AUTHOR": "{author} द्वारा",
-    "TAGS": "टैग",
-    "RECENT": "हाल के पोस्ट",
     "BACK_TO_BLOG": "सभी पोस्ट पर वापस",
     "EMPTY": "अभी तक कोई पोस्ट नहीं। जल्द ही वापस आएं।",
     "EMPTY_FILTERED": "कोई पोस्ट आपके फ़िल्टर से मेल नहीं खाता।",
@@ -564,9 +497,7 @@
         "H_NOT_SPOOFING": "क्या spoofing नहीं है: Bedrock, Vertex, Foundry",
         "H_RESULTS": "17 दिनों के probing से क्या निकला",
         "H_WHY": "ऐसा क्यों होता है",
-        "H_NEXT": "आगे क्या है",
         "H_TEST": "5 मिनट में अपना खुद का प्रदाता परीक्षण करें",
-        "H_NAMING": "नाम लेने पर एक नोट",
         "INTRO_P1": "Claude बाज़ार में अभी सबसे अधिक मांग वाला मॉडल है, और सबसे महंगों में से एक है। इस अंतर ने तीसरे-पक्ष के पुनर्विक्रेताओं का एक संपन्न बाज़ार बनाया है जो आधिकारिक कीमत के एक अंश पर \"वही Claude\" प्रदान करते हैं। कुछ वैध हैं। बहुत से नहीं हैं।",
         "INTRO_P2": "<s>8 अपस्ट्रीम पुनर्विक्रेताओं</s> में 17 दिनों के automated probing के दौरान, हमें <s>183 (channel, model) pairs</s> मिले जो <c>claude-opus-4-7</c>, <c>claude-sonnet-4-6</c>, <c>claude-haiku-4-5</c>, और साथियों के रूप में marketed मॉडलों के विरुद्ध authenticity checks में विफल होते हैं। हर प्रीमियम मॉडल के लिए वही दबाव मौजूद है, इसलिए GPT, Gemini, और Grok भी लगभग निश्चित रूप से प्रभावित हैं। Claude केवल वहां है जहां अभी कीमत का अंतर सबसे बड़ा है और जहां हमारे पास कठोर डेटा है।",
         "PROBES_P": "प्रति (channel, model) हम मानक Anthropic Messages API (<c>POST /v1/messages</c>) को चार समानांतर अनुरोध भेजते हैं:",
@@ -651,7 +582,6 @@
         "H_BUGS": "Bug bounty, $50 तक",
         "P_BUGS": "प्लेटफ़ॉर्म में एक वास्तविक bug खोजें और इसे bug-bounty forum में रिपोर्ट करें। Staff एक severity tier चुनता है और bot इसे भुगतान करता है: Low $0.25, Medium $0.50, High $1, Critical $50। जो वास्तव में bug की पहचान करता है उसे भुगतान मिलता है, न कि केवल thread starter को।",
         "H_JOIN": "आओ बाहर घूमें",
-        "P_JOIN": "सभी payouts उसी balance में आते हैं जो आप API कॉल पर खर्च करते हैं। एक बार लिंक करें, जो भी आप योग्य हैं उसका claim करें, फिर boosting, hunting, और हमारे साथ shipping जारी रखें।",
         "CTA": "तैयार हैं? <invite>{appName} Discord में शामिल हों</invite>, फिर <register>एक API key प्राप्त करें</register> और अपने पहले $1 का claim करने के लिए <settings>अपना अकाउंट लिंक करें</settings>।"
       },
       "FREE_MODELS_AGGREGATED": {
@@ -695,7 +625,6 @@
     "META_TITLE": "{name} API मूल्य निर्धारण, कॉन्टेक्स्ट और उदाहरण | {appName}",
     "META_DESC": "{vendor} से {name} को एकल OpenAI-संगत एंडपॉइंट के माध्यम से उपयोग करें। प्रति-टोकन मूल्य निर्धारण, कॉन्टेक्स्ट विंडो, एंडपॉइंट्स और copy-paste कोड उदाहरण देखें।",
     "META_KEYWORDS": "{name} API, {name} मूल्य निर्धारण, {name} कॉन्टेक्स्ट विंडो, {vendor} API, {appName}",
-    "ABOUT": "{name} के बारे में",
     "PRICING_TITLE": "मूल्य निर्धारण",
     "PRICING_DESC": "केवल अपने उपयोग के लिए भुगतान करें। Pay As You Go का उपयोग करते समय कोई मासिक न्यूनतम नहीं।",
     "INPUT_PRICE": "इनपुट मूल्य",
@@ -737,62 +666,31 @@
     "CTA_DESC": "एक API key बनाएं और एक मिनट से कम में अनुरोध करना शुरू करें।",
     "CTA_SIGNUP": "{name} आज़माने के लिए साइन इन करें",
     "CTA_TRY": "चैट में {name} आज़माएं",
-    "CTA_ALL_MODELS": "सभी मॉडल देखें",
-    "LAST_UPDATED": "अंतिम अपडेट {date}"
+    "CTA_ALL_MODELS": "सभी मॉडल देखें"
   },
   "PRICING": {
-    "PLAN": {
-      "BASIC": "Basic",
-      "PRO": "Pro",
-      "ENTERPRISE": "Enterprise"
-    },
     "FEATURE": {
       "MODELS": "सभी मॉडल शामिल",
       "PRIORITY": "प्राथमिकता रूटिंग",
       "DEDICATED": "समर्पित सहायता",
-      "SUPPORT": "ईमेल सहायता",
       "FAILOVER": "स्वचालित failover",
       "UPTIME": "99.9% अपटाइम SLA",
       "OPENAI_COMPAT": "OpenAI संगत एंडपॉइंट"
     },
     "COMPARE": {
-      "TITLE": "प्लान की तुलना करें",
-      "FEATURE": "विशेषता",
-      "PRICE": "मासिक मूल्य",
-      "VALUE": "API क्रेडिट मूल्य",
-      "RATE_LIMIT": "दर सीमा",
-      "ALL_MODELS": "सभी मॉडल",
-      "PRIORITY": "प्राथमिकता रूटिंग",
-      "DEDICATED": "समर्पित सहायता",
-      "BASIC_PRICE": "$20/माह",
-      "PRO_PRICE": "$50/माह",
-      "ENTERPRISE_PRICE": "$100/माह",
-      "BASIC_VALUE": "$30",
-      "PRO_VALUE": "$75",
-      "ENTERPRISE_VALUE": "$175",
-      "BASIC_RATE": "100 rpm",
-      "PRO_RATE": "500 rpm",
-      "ENTERPRISE_RATE": "2,000 rpm"
+      "TITLE": "प्लान की तुलना करें"
     },
     "CARD": {
       "POPULAR": "लोकप्रिय",
       "PER_MONTH": " · माह",
       "VALUE": "{value} मूल्य",
-      "MULTIPLIER": "{multiplier} गुणक",
-      "INCLUDES": "शामिल है",
-      "REQUESTS_MIN": "{count} अनुरोध/मिनट",
-      "SPEC_CREDIT": "API क्रेडिट मूल्य",
       "SPEC_QUOTA": "Quota/Reset",
-      "SPEC_MULTIPLIER": "गुणक",
       "VALUE_BADGE": "मूल्य",
-      "VALUE_EXPLAIN": "{paid} भुगतान करें, {credit} API क्रेडिट में पाएं। इसे किसी भी मॉडल पर उपयोग करें।",
-      "OPENCLAW_TITLE": "OpenClaw समर्थन",
-      "OPENCLAW_DESC": "OpenClaw एजेंट के साथ पूर्ण संगतता"
+      "VALUE_EXPLAIN": "{paid} भुगतान करें, {credit} API क्रेडिट में पाएं। इसे किसी भी मॉडल पर उपयोग करें।"
     },
     "BANNER": {
       "TITLE": "Telegram पर OpenClaw AI Assistant",
-      "SUBTITLE": "आपके Telegram bot के लिए one-click AI deployment, OpenClaw और {appName} द्वारा संचालित।",
-      "BADGE": "जल्द आ रहा है"
+      "SUBTITLE": "आपके Telegram bot के लिए one-click AI deployment, OpenClaw और {appName} द्वारा संचालित।"
     },
     "META": {
       "TITLE": "मूल्य निर्धारण - {appName}",
@@ -802,6 +700,11 @@
     "TITLE": "मूल्य निर्धारण",
     "SUBTITLE": "चाहे आप ऐप शिप कर रहे हों या लंबे रोलप्ले सेशन चला रहे हों। एक प्लान, हर मॉडल।",
     "CTA": "सब्सक्राइब करें",
+    "TOPUP": {
+      "LABEL": "उपयोग के अनुसार भुगतान",
+      "DESC": "सब्सक्राइब नहीं करना चाहते? क्रेडिट टॉप अप करें।",
+      "FOOTNOTE": "क्रेडिट कभी समाप्त नहीं होते।"
+    },
     "FAQ": {
       "Q1": "{appName} मूल्य निर्धारण कैसे काम करता है?",
       "A1": "आप उपभोग किए गए प्रति टोकन भुगतान करते हैं। प्रत्येक मॉडल की अपनी input, output और cache दर होती है, जो आपके अकाउंट क्रेडिट से बिल की जाती है। Pay As You Go के लिए कोई मासिक सब्सक्रिप्शन आवश्यक नहीं है।",
@@ -819,11 +722,6 @@
       "A7": "हां। हर प्लान किसी भी प्रमुख रोलप्ले क्लाइंट में एक कस्टम OpenAI-संगत स्रोत के रूप में काम करता है। SillyTavern, Janitor.AI, RisuAI, और Chub में से प्रत्येक के पास docs में एक सेटअप गाइड है।",
       "Q8": "मेरी बातचीत या चरित्र इतिहास कितना लंबा हो सकता है?",
       "A8": "{appName} हर मॉडल की पूरी कॉन्टेक्स्ट विंडो का समर्थन करता है, Gemini पर 1M टोकन तक और Claude पर 200k। लंबे रोलप्ले और लंबे codebases दोनों काम करते हैं।"
-    },
-    "TOPUP": {
-      "LABEL": "उपयोग के अनुसार भुगतान",
-      "DESC": "सब्सक्राइब नहीं करना चाहते? क्रेडिट टॉप अप करें।",
-      "FOOTNOTE": "क्रेडिट कभी समाप्त नहीं होते।"
     }
   },
   "DOCS_INDEX": {
@@ -861,18 +759,7 @@
   },
   "DOCS_SIDEBAR": {
     "TITLE": "दस्तावेज़ीकरण",
-    "AI_APPLICATIONS": "AI एप्लिकेशन",
-    "GROUP_CLI": "CLI टूल्स",
-    "GROUP_ROLEPLAY": "रोलप्ले क्लाइंट",
-    "CC_SWITCH": "CC Switch",
-    "OPENCLAW": "OpenClaw",
-    "CLAUDE_CODE": "Claude Code",
-    "CODEX_CLI": "Codex CLI",
-    "GEMINI_CLI": "Gemini CLI",
-    "SILLYTAVERN": "SillyTavern",
-    "JANITOR_AI": "Janitor.AI",
-    "RISUAI": "RisuAI",
-    "CHUB": "Chub / Venus"
+    "AI_APPLICATIONS": "AI एप्लिकेशन"
   },
   "DOCS": {
     "SETUP": {
@@ -882,8 +769,7 @@
       "CLI_ALT": "या CC Switch CLI का उपयोग करें:",
       "NO_APP": "CC Switch नहीं है?",
       "INSTALL_LINK": "CC Switch इंस्टॉल करें",
-      "LOGIN_REQUIRED": "अपनी API key auto-fill करने के लिए साइन इन करें",
-      "CREATE_KEY": "पहले एक API key बनाएं"
+      "LOGIN_REQUIRED": "अपनी API key auto-fill करने के लिए साइन इन करें"
     },
     "CONFIG": {
       "FILE_LABEL": "स्थायी कॉन्फ़िग फ़ाइल (अनुशंसित)",
@@ -902,10 +788,8 @@
       "QUICK_CONFIG": "त्वरित कॉन्फ़िग",
       "QUICK_CONFIG_DESC": "इन मानों को क्लाइंट में डालें। साइन इन रहने पर आपकी कुंजी अपने आप भर जाती है।",
       "BASE_URL_LABEL": "बेस URL",
-      "API_PATH_LABEL": "एंडपॉइंट",
       "API_KEY_LABEL": "API कुंजी",
       "STEPS": "चरण-दर-चरण सेटअप",
-      "STEP_LABEL": "चरण {number}",
       "COMPATIBILITY": "संगतता",
       "RECOMMENDED_MODELS": "अनुशंसित मॉडल",
       "RECOMMENDED_MODELS_DESC": "मुफ्त मॉडल जो यहाँ अच्छा काम करते हैं। कोई भी मॉडल आईडी क्लाइंट में पेस्ट करें।",
@@ -2057,11 +1941,8 @@
     "CONTACT_SUBTITLE": "प्रश्न या चिंताएं?",
     "DESCRIPTION": "एकीकृत AI API प्लेटफ़ॉर्म जो एकल, बुद्धिमान endpoint के माध्यम से कई प्रदाताओं से सैकड़ों मॉडलों तक पहुंच प्रदान करता है।",
     "COPYRIGHT": "© {year} {appName}। सर्वाधिकार सुरक्षित।",
-    "LEGAL_DISCLAIMER": "इस प्लेटफ़ॉर्म का उपयोग करके, आप स्वीकार करते हैं कि आपने हमारी पढ़ी है और सहमत हैं",
     "LEGAL_TERMS": "सेवा की शर्तें",
-    "LEGAL_AND": "और",
     "LEGAL_PRIVACY": "गोपनीयता नीति",
-    "SOCIAL_GITHUB": "GitHub",
     "SOCIAL_TRUSTPILOT": "Trustpilot",
     "EASTER_EGG_LABEL": "Token Breakout खेलें"
   },
@@ -2177,21 +2058,15 @@
   },
   "COMMON": {
     "COPY_CODE": "कोड copy करें",
-    "COPIED": "Copied",
     "OPEN_MENU": "Menu खोलें",
     "SEARCH": "खोजें...",
     "SAVE": "सहेजें",
     "SAVED": "सहेजा गया",
     "CANCEL": "रद्द करें",
     "DELETE": "हटाएं",
-    "CREATE": "बनाएं",
     "EDIT": "संपादित करें",
-    "IMPORT": "Import",
-    "EXPORT": "Export",
-    "LOADING": "लोड हो रहा है...",
     "NAME": "नाम",
     "DESCRIPTION": "विवरण",
-    "CONFIRM_DELETE": "क्या आप वाकई इसे हटाना चाहते हैं?",
     "RESET": "रीसेट",
     "CONFIRM": {
       "CONTINUE": "जारी रखें",
@@ -2253,7 +2128,6 @@
       "USERNAME_OR_EMAIL_PLACEHOLDER": "अपना उपयोगकर्ता नाम या ईमेल दर्ज करें",
       "PASSWORD": "पासवर्ड",
       "PASSWORD_PLACEHOLDER": "अपना पासवर्ड दर्ज करें",
-      "PASSWORD_MIN_LENGTH": "पासवर्ड कम से कम 8 अक्षरों का होना चाहिए",
       "EMAIL": "ईमेल",
       "EMAIL_PLACEHOLDER": "अपना ईमेल दर्ज करें",
       "VERIFICATION_CODE": "Verification Code",
@@ -2268,14 +2142,12 @@
     "TWO_FA": {
       "TITLE": "Two-Factor Authentication",
       "DESCRIPTION": "अपने authenticator app से 6-अंक का code दर्ज करें",
-      "CODE_PLACEHOLDER": "000000",
       "SUBMIT": "Verify करें",
       "VERIFYING": "Verifying..."
     },
     "VERIFICATION": {
       "SEND_CODE": "Code भेजें",
       "SENDING": "भेजा जा रहा है...",
-      "SENT": "Code भेज दिया गया",
       "RESEND": "फिर से भेजें",
       "RESEND_IN": "{seconds}s में फिर से भेजें",
       "FAILED": "Verification code भेजने में विफल"
@@ -2325,10 +2197,7 @@
     "DONT_HAVE_ACCOUNT": "खाता नहीं है?",
     "ALREADY_HAVE_ACCOUNT": "पहले से खाता है?",
     "OR_CONTINUE_WITH": "या इसके साथ जारी रखें",
-    "CALLBACK_LOADING": "साइन इन पूरा कर रहे हैं...",
-    "DASHBOARD": "डैशबोर्ड",
     "LOG_OUT": "लॉग आउट",
-    "BALANCE": "Balance",
     "SUBSCRIPTION": "Subscription",
     "SUBSCRIPTION_ACTIVE": "Active"
   },
@@ -2340,10 +2209,7 @@
     "LOGS": "उपयोग Logs",
     "AFFILIATE": "Affiliate",
     "BILLING": "Billing",
-    "SETTINGS": "Settings",
-    "CHAT": "Chat",
-    "GENERATE": "Generate",
-    "MY_GENERATIONS": "मेरे Generations"
+    "SETTINGS": "Settings"
   },
   "DASHBOARD": {
     "GREETING": {
@@ -2387,12 +2253,9 @@
       "NO_API_INFO": "कोई API जानकारी नहीं"
     },
     "CONSUMPTION": "खपत",
-    "TOP_UP": "टॉप अप",
     "TOTAL": "कुल",
     "OTHER": "अन्य",
     "NO_DATA": "कोई डेटा उपलब्ध नहीं",
-    "UPTIME": "अपटाइम",
-    "COPY_URL": "URL copy करें",
     "COPIED": "Copied"
   },
   "TOKEN": {
@@ -2410,18 +2273,7 @@
     "FORM": {
       "NAME": "नाम",
       "NAME_PLACEHOLDER": "इस key के लिए एक नाम दर्ज करें",
-      "GROUP": "ग्रुप",
-      "GROUP_PLACEHOLDER": "एक ग्रुप चुनें",
-      "GROUP_NO_GROUPS": "कोई ग्रुप उपलब्ध नहीं",
-      "CROSS_GROUP_RETRY": "Cross-group पुनः प्रयास",
-      "CROSS_GROUP_RETRY_DESC": "सक्षम होने पर, विफल अनुरोध अन्य ग्रुपों के channels के माध्यम से पुनः प्रयास करेंगे।",
-      "EXPIRATION": "समाप्ति",
-      "EXPIRATION_PLACEHOLDER": "समाप्ति तिथि चुनें",
-      "EXPIRATION_PRESETS": "त्वरित सेट",
       "NEVER_EXPIRES": "कभी नहीं",
-      "ONE_MONTH": "1 महीना",
-      "ONE_DAY": "1 दिन",
-      "ONE_HOUR": "1 घंटा",
       "QUOTA": "Quota",
       "QUOTA_PLACEHOLDER": "USD में राशि (जैसे 10)",
       "QUOTA_PRESETS": "Presets",
@@ -2432,8 +2284,6 @@
       "MODEL_LIMITS_DESC": "जब तक आवश्यक न हो अनुशंसित नहीं।",
       "MODEL_SELECT_PLACEHOLDER": "मॉडल खोजें...",
       "MODEL_SELECT_EMPTY": "कोई मॉडल नहीं मिला",
-      "MODELS_SELECTED": "{count} चयनित",
-      "MODEL_COUNT": "{count} मॉडल",
       "IP_WHITELIST": "IP Whitelist",
       "IP_WHITELIST_PLACEHOLDER": "प्रति line एक IP। कोई प्रतिबंध नहीं के लिए खाली छोड़ें।",
       "IP_WHITELIST_DESC": "IPs spoof हो सकते हैं। मजबूत enforcement के लिए एक gateway के साथ उपयोग करें।",
@@ -2484,7 +2334,6 @@
     "DISABLE": "अक्षम करें",
     "UNLIMITED": "असीमित",
     "ALL_MODELS": "सभी मॉडल",
-    "USED_OF_TOTAL": "{used} / {total}",
     "SEARCH_PLACEHOLDER": "Keys खोजें...",
     "NO_TOKENS": "अभी तक कोई API keys नहीं। शुरू करने के लिए एक बनाएं।",
     "COPY_KEY": "Key copy करें"
@@ -2492,7 +2341,6 @@
   "LOGS": {
     "TABLE": {
       "TIME": "समय",
-      "TYPE": "प्रकार",
       "CHANNEL": "Channel",
       "USER": "User",
       "MODEL": "Model",
@@ -2610,8 +2458,6 @@
     "DESCRIPTION": "अपना API अनुरोध इतिहास, token उपयोग, और खर्च विवरण देखें।",
     "FILTERS": "Filters",
     "RESET": "रीसेट",
-    "TO": "से",
-    "TOTAL": "कुल",
     "COPIED": "Clipboard पर copy किया गया",
     "CLICK_COPY": "Copy करने के लिए क्लिक करें",
     "NO_LOGS": "चयनित अवधि के लिए कोई logs नहीं मिले।",
@@ -2630,7 +2476,6 @@
       "RATE": "दर",
       "EARNED": "कमाया",
       "STATUS": "स्थिति",
-      "JOINED": "Joined",
       "COMMISSIONS": "Commissions",
       "TOTAL_EARNED": "कुल कमाया"
     },
@@ -2655,7 +2500,6 @@
       "TITLE": "Affiliate कमाई स्थानांतरित करें",
       "DIALOG_DESC": "अपनी pending affiliate कमाई को अपने खाता balance में स्थानांतरित करें। इस क्रिया को पूर्ववत नहीं किया जा सकता।",
       "AMOUNT": "राशि",
-      "INVALID": "कृपया एक valid राशि दर्ज करें",
       "EXCEEDS": "राशि उपलब्ध balance से अधिक है"
     },
     "ENUM": {
@@ -2687,7 +2531,6 @@
     "HOW_IT_WORKS": "यह कैसे काम करता है",
     "TAB_INVITEES": "Invited Users",
     "TAB_COMMISSIONS": "Commission इतिहास",
-    "COMMISSION_HISTORY": "Commission इतिहास",
     "NO_COMMISSIONS": "अभी तक कोई commission इतिहास नहीं। कमाई शुरू करने के लिए अपना invite link साझा करें।",
     "NO_INVITEES": "अभी तक कोई invited users नहीं। अपना network बढ़ाने के लिए अपना invite link साझा करें।",
     "BADGE_GENERATOR": {
@@ -2775,7 +2618,6 @@
   },
   "BILLING": {
     "SUBSCRIPTION": {
-      "PLANS": "Subscription Plans",
       "MY": "मेरी Subscriptions",
       "NO_ACTIVE": "कोई active नहीं",
       "ACTIVE": "Active",
@@ -2808,9 +2650,7 @@
     },
     "TOPUP": {
       "TITLE": "Quota टॉप अप",
-      "AMOUNT": "टॉप अप राशि",
       "ACTUAL_PAYMENT": "वास्तविक भुगतान",
-      "PAY_NOW": "अभी भुगतान करें",
       "SAVE": "सहेजें"
     },
     "ERROR": {
@@ -2826,7 +2666,6 @@
     "CONSUMPTION": "खपत",
     "REQUESTS": "अनुरोध",
     "USED_OF": "में से उपयोग किया गया",
-    "REFRESHING": "Refresh हो रहा है...",
     "PAYMENT_METHOD": {
       "LABEL": "भुगतान विधि",
       "CARD": "Credit Card",
@@ -2837,8 +2676,6 @@
     "ERROR": {
       "REQUIRED": "{type} आवश्यक है",
       "MIN_LENGTH": "{type} कम से कम {minLength} अक्षरों का होना चाहिए",
-      "MAX_LENGTH": "{type} अधिकतम {maxLength} अक्षरों का होना चाहिए",
-      "EXACT_LENGTH": "{type} ठीक {minLength} अक्षरों का होना चाहिए",
       "MIN_VALUE": "{type} 0 से अधिक होना चाहिए"
     },
     "TYPE": {
@@ -2861,7 +2698,6 @@
     "ROLE_SUPER_ADMIN": "Super Admin",
     "ROLE_ADMIN": "Admin",
     "ROLE_USER": "User",
-    "BALANCE": "Balance",
     "CONSUMPTION": "खपत",
     "REQUEST_COUNT": "अनुरोध",
     "DEFAULT_GROUP": "Default Group",
@@ -2876,14 +2712,12 @@
       "EMAIL_PLACEHOLDER": "ईमेल पता दर्ज करें",
       "BIND_EMAIL": "ईमेल Bind करें",
       "MODIFY_EMAIL": "ईमेल बदलें",
-      "VERIFICATION_CODE": "Verification Code",
       "SEND_CODE": "Code भेजें",
       "CODE_SENT": "Code भेजा गया, {seconds}s में फिर से भेजें",
       "CODE_PLACEHOLDER": "Verification code दर्ज करें",
       "OAUTH_BINDINGS": "OAuth Bindings",
       "GITHUB": "GitHub",
       "DISCORD": "Discord",
-      "BOUND": "Bound",
       "NOT_BOUND": "Bound नहीं",
       "BIND": "Bind",
       "UNBIND": "Unbind",
@@ -2897,7 +2731,6 @@
       "ACCESS_TOKEN": "System Access Token",
       "ACCESS_TOKEN_DESC": "API तक सीधे पहुंचने के लिए इस token का उपयोग करें।",
       "GENERATE_TOKEN": "Token बनाएं",
-      "REGENERATE_TOKEN": "Token फिर से बनाएं",
       "TOKEN_GENERATED": "Token सफलतापूर्वक बनाया गया",
       "COPY_TOKEN": "Copy",
       "TOKEN_COPIED": "Clipboard पर copy किया गया",
@@ -2969,29 +2802,16 @@
   },
   "CHAT": {
     "SHARE": {
-      "BUTTON": "साझा करें",
       "TITLE": "बातचीत साझा करें",
       "DESCRIPTION": "Link वाला कोई भी इस बातचीत को देख सकता है।",
-      "CREATED": "Share link बनाया गया",
-      "REVOKED": "Share link हटाया गया",
-      "COPY_LINK": "Share Link copy करें",
-      "LINK_COPIED": "Link clipboard पर copy किया गया",
-      "GENERATE_LINK": "Share Link बनाएं",
-      "REVOKE": "Share Link हटाएं",
-      "SHARED_CONVERSATION": "साझा की गई बातचीत",
-      "NOT_FOUND": "यह साझा की गई बातचीत नहीं मिली या हटा दी गई है।"
+      "LINK_COPIED": "Link clipboard पर copy किया गया"
     },
     "MODEL": {
       "SELECT": "Model चुनें",
       "SEARCH": "मॉडल खोजें...",
       "NO_RESULTS": "कोई मॉडल नहीं मिला",
-      "GROUP_TEXT": "Text और Reasoning",
-      "GROUP_IMAGE": "Image Generation",
-      "GROUP_VIDEO": "Video Generation",
       "FREE_BADGE": "मुफ्त",
-      "LOGIN_REQUIRED": "Login आवश्यक",
-      "FREE_NOTICE": "मुफ्त मॉडल उच्च load के तहत विफल हो सकते हैं।",
-      "FREE_NOTICE_CTA": "एक paid मॉडल पर स्विच करें"
+      "LOGIN_REQUIRED": "Login आवश्यक"
     },
     "ACTION": {
       "COPY": "Copy",
@@ -3013,8 +2833,7 @@
     },
     "GATE": {
       "NEEDS_TOKEN_TITLE": "API Key आवश्यक",
-      "NEEDS_TOKEN_DESC": "AI मॉडलों के साथ chat करना शुरू करने के लिए एक API key बनाएं।",
-      "LOGIN_REQUIRED_DESC": "AI मॉडलों के साथ chat करना शुरू करने के लिए साइन इन करें।"
+      "NEEDS_TOKEN_DESC": "AI मॉडलों के साथ chat करना शुरू करने के लिए एक API key बनाएं।"
     },
     "TOOL": {
       "USED": "Tool उपयोग किया",
@@ -3042,7 +2861,6 @@
       "UNSUPPORTED_TYPE": "फ़ाइल प्रकार {type} समर्थित नहीं है। कृपया एक PNG, JPEG, WebP, या GIF image अपलोड करें।"
     },
     "WEB_SEARCH": {
-      "LABEL": "Web Search",
       "ON": "Web search सक्षम",
       "OFF": "Web search अक्षम"
     },
@@ -3084,11 +2902,7 @@
       "HINT": "यह इस और हर नई चैट पर लागू होता है जब तक आप इसे बदलते नहीं।"
     },
     "INPUT_PLACEHOLDER": "अपना message type करें...",
-    "START_PROMPT": "बातचीत शुरू करने के लिए एक message भेजें।",
     "THINKING": "सोच रहा है",
-    "DISCLAIMER": "AI responses गलत हो सकते हैं। महत्वपूर्ण जानकारी सत्यापित करें।",
-    "UNTITLED": "बिना शीर्षक बातचीत",
-    "DELETE_CONFIRM": "क्या आप वाकई इस बातचीत को हटाना चाहते हैं?",
     "MESSAGE_INPUT": "Message input",
     "SEARCH_CHATS": "Chats खोजें",
     "TOKENS_IN": "in",
@@ -3098,10 +2912,7 @@
       "TITLE": "AI Chat - {appName}",
       "TITLE_WITH_NAME": "{title} | AI Chat - {appName}",
       "DESCRIPTION": "किसी भी AI मॉडल के साथ Chat करें। एक interface के माध्यम से GPT, Claude, Gemini, DeepSeek और अधिक का परीक्षण करें।",
-      "KEYWORDS": "AI chat, AI के साथ chat, GPT chat, Claude chat, Gemini chat, AI playground, मॉडल परीक्षण",
-      "SHARED_TITLE": "साझा की गई बातचीत - {appName}",
-      "SHARED_TITLE_WITH_NAME": "{title} | साझा की गई बातचीत - {appName}",
-      "SHARED_DESCRIPTION": "{appName} पर एक साझा की गई AI बातचीत देखें।"
+      "KEYWORDS": "AI chat, AI के साथ chat, GPT chat, Claude chat, Gemini chat, AI playground, मॉडल परीक्षण"
     },
     "OVERRIDES": {
       "OPEN": "बातचीत settings",
@@ -3131,10 +2942,8 @@
       "NO_CHARACTERS": "अभी तक कोई characters नहीं। पहले एक बनाएं या import करें।",
       "NO_LOREBOOKS": "अभी तक कोई lorebooks नहीं।",
       "REORDER_HINT": "Reorder करने के लिए drag करें। Top entries prompt में पहले inject की जाती हैं।",
-      "SELECTED": "चयनित",
       "SEARCH_CHARACTERS": "Characters खोजें",
       "SEARCH_LOREBOOKS": "Lorebooks खोजें",
-      "CLEAR": "Clear",
       "EFFORT_MINIMAL": "न्यूनतम",
       "EFFORT_LOW": "कम",
       "EFFORT_MEDIUM": "मध्यम",
@@ -3177,18 +2986,14 @@
       "LOCAL_DB_UPLOAD_CONFIRM": "इस फ़ाइल से local OPFS database को overwrite करें? मौजूदा डेटा wipe हो जाता है।",
       "CLEAR": "Chat clear करें",
       "CLEAR_SUCCESS": "Chat cleared",
-      "CLEAR_CONFIRM_DESC": "यह बातचीत में हर message को हटा देता है लेकिन settings, character bindings, और title रखता है। इसे पूर्ववत नहीं किया जा सकता।",
-      "FONT": "Font",
-      "FONT_SANS": "Sans",
-      "FONT_DISPLAY": "Display",
-      "FONT_SERIF": "Serif",
-      "FONT_MONO": "Monospace",
-      "FONT_SYSTEM": "System"
+      "CLEAR_CONFIRM_DESC": "यह बातचीत में हर message को हटा देता है लेकिन settings, character bindings, और title रखता है। इसे पूर्ववत नहीं किया जा सकता।"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, one {# पात्र} other {# पात्र}}",
       "LOREBOOKS": "{count, plural, one {# लोरबुक} other {# लोरबुक}}"
-    }
+    },
+    "TRIGGER_ALERT_SELECT_DESC": "जारी रखने के लिए एक विकल्प चुनें",
+    "TRIGGER_ALERT_OK": "ठीक है"
   },
   "RP": {
     "CHARACTERS_TITLE": "Characters",
@@ -3212,7 +3017,6 @@
     "CHARACTER_EXAMPLE_MESSAGES": "उदाहरण dialogue",
     "CHARACTER_SYSTEM_PROMPT": "System prompt",
     "CHARACTER_POST_HISTORY": "Post-history निर्देश",
-    "CHARACTER_AVATAR": "Avatar",
     "CHARACTER_TAGS": "Tags",
     "CHARACTER_ACTIVATION_TITLE": "Activation",
     "CHARACTER_ACTIVATION_HINT": "जब 'हमेशा active' off है, character केवल तब prompt में शामिल होता है जब recent chat में एक trigger keyword दिखाई देता है। Multi-char tip: primary character को हमेशा-active रखें; secondary characters को triggers द्वारा gate करें।",
@@ -3222,7 +3026,6 @@
     "CHARACTER_TRIGGERS_HINT": "वे शब्द जो इस character को activate करते हैं। उदाहरण: alice, knight, sword। 'हमेशा active' on होने पर अनदेखा।",
     "CHARACTER_MATCH_WHOLE_WORDS": "केवल पूरे शब्दों से match करें",
     "CHARACTER_MATCH_WHOLE_WORDS_HINT": "जब on, trigger 'Eve' 'evening' से match नहीं करेगा। Default: substring match।",
-    "CHARACTER_DEFAULT_MODEL": "Default मॉडल",
     "PERSONAS_TITLE": "Personas",
     "PERSONAS_NEW": "नया persona",
     "PERSONAS_EMPTY": "अभी तक कोई personas नहीं।",
@@ -3310,13 +3113,11 @@
     "PRESET_MUST_START_WITH_USER_HINT": "यदि चैट सहायक या सिस्टम से शुरू होती है तो एक छोटा खाली उपयोगकर्ता संदेश जोड़ें। Anthropic/Gemini/GLM के लिए स्वतः लागू।",
     "PRESET_GEMINI_BLOCK_OFF": "Gemini: safety OFF",
     "PRESET_GEMINI_BLOCK_OFF_HINT": "हर Gemini harm category के लिए threshold=OFF के साथ safetySettings भेजें। BLOCK_NONE से अधिक मजबूत। केवल Gemini मॉडलों पर प्रभावी।",
-    "SIDEBAR_TAB_CHATS": "Chats",
     "SIDEBAR_TAB_CHARACTERS": "Characters",
     "SIDEBAR_TAB_PERSONAS": "Personas",
     "SIDEBAR_TAB_LOREBOOKS": "Lorebooks",
     "SIDEBAR_TAB_PRESETS": "Presets",
     "SIDEBAR_TAB_CARDS": "Cards",
-    "SIDEBAR_GROUP_LABEL": "RP",
     "CARDS_TITLE": "Cards",
     "CARDS_PAGE_SUBTITLE": "Chars + persona + lorebooks को एक creative bundle के रूप में एक साथ सहेजें। एक click में chat पर एक apply करें।",
     "CARDS_NEW": "नया card",
@@ -3336,10 +3137,6 @@
     "CARD_CHARACTERS": "Characters",
     "CARD_LOREBOOKS": "Lorebooks",
     "DROPPED_PARAMS": "{params} इस मॉडल द्वारा समर्थित नहीं और अनदेखा किए गए।",
-    "EDIT_SAVE_ONLY": "सहेजें",
-    "EDIT_SAVE_AND_GENERATE": "सहेजें और Generate करें",
-    "BRANCH_NEXT": "अगली branch",
-    "BRANCH_PREV": "पिछली branch",
     "LOREBOOKS_IMPORT": "Import",
     "PERSONAS_IMPORT": "Import",
     "LOREBOOK_ENTRY_CONSTANT_HINT": "सक्रियण कुंजियों को अनदेखा करते हुए इस प्रविष्टि को हमेशा इंजेक्ट करें।",
@@ -3376,15 +3173,10 @@
     "UNAUTHORIZED": "Unauthorized",
     "NO_API_KEY": "कोई API key कॉन्फ़िगर नहीं",
     "NOT_FOUND": "Resource नहीं मिला",
-    "NO_IMAGE_GENERATED": "कोई image generate नहीं हुई",
     "NO_TASK_ID": "Response में कोई task ID या URL नहीं",
-    "NO_VIDEO_URL": "Video पूरा हुआ लेकिन कोई URL नहीं मिला",
-    "VIDEO_GENERATION_FAILED": "Video generation विफल",
-    "VIDEO_GENERATION_TIMED_OUT": "Video generation timed out",
     "REQUEST_FAILED": "Request विफल",
     "PRICING_FETCH_FAILED": "Pricing डेटा fetch करने में विफल",
     "NO_TEXT_MODELS": "कोई text मॉडल उपलब्ध नहीं",
-    "UPLOAD_FAILED": "Attachment अपलोड करने में विफल",
     "NO_IMAGE_PROMPT": "Image generation के लिए कोई prompt नहीं दिया गया",
     "IMAGE_GENERATION_FAILED": "Image generation विफल",
     "UNEXPECTED_RESPONSE": "Upstream API से अप्रत्याशित null response",
@@ -3397,7 +3189,6 @@
     "PROMPT_REJECTED": "यह prompt content policy का उल्लंघन करता है और image या video generation के लिए उपयोग नहीं किया जा सकता।",
     "PROMPT_FLAGGED": "इस prompt को generation के लिए संभावित रूप से unsafe के रूप में flag किया गया। कृपया फिर से phrase करें और पुनः प्रयास करें।",
     "MODERATION_UNAVAILABLE": "Image और video generation अस्थायी रूप से अनुपलब्ध हैं। कृपया जल्द ही पुनः प्रयास करें।",
-    "PDF_EXTRACTION_FAILED": "हम attached PDF की सामग्री नहीं पढ़ सके। कृपया इसे हटाएं या एक अलग फ़ाइल आज़माएं।",
     "IMPORT_INVALID_JSON": "फ़ाइल valid JSON नहीं है।",
     "IMPORT_UNSUPPORTED_VERSION": "असमर्थित export संस्करण।",
     "CARD_PARSE_FAILED": "Character card parse नहीं कर सके।",
@@ -3416,18 +3207,14 @@
     "UNIFIED_INTELLIGENCE_API": "Unified Intelligence API",
     "GET_STARTED": "शुरू करें",
     "SAVE_UP_TO": "बचाएं तक",
-    "PER_1M_TOKENS": "प्रति 1M tokens",
     "SMART_ROUTING": "Intelligent Routing",
-    "ONE_ENDPOINT": "एक Endpoint",
     "MODELS": "मॉडल",
     "FREE": "मुफ़्त",
     "PAID": "सशुल्क",
-    "UPTIME": "अपटाइम",
     "LIVE_STATS": "Live Stats",
     "CHEAPEST_API": "सबसे सस्ता Inference API",
     "MODELS_ONE_ENDPOINT": "40+ AI मॉडल, एक endpoint",
     "MODELS_ONE_ENDPOINT_SUFFIX": "AI मॉडल, एक endpoint",
-    "DIRECT": "Direct",
     "MODEL": "Model",
     "PRICES_NOTE": "प्रति 1M tokens कीमतें",
     "INPUT": "Input",
@@ -3462,7 +3249,6 @@
     },
     "MCP": {
       "SERVER_DESCRIPTION": "In-browser AI मॉडल राउटर। Tools navigator.modelContext का उपयोग करते हुए साइट homepage पर WebMCP के माध्यम से registered हैं। Homepage पर जाएं और एक WebMCP-capable client से tools कॉल करें।",
-      "WEBMCP_BUNDLE_DESCRIPTION": "{appName} homepage पर navigator.modelContext के माध्यम से registered in-browser tools। Tools तक पहुंचने के लिए एक WebMCP-capable client में homepage लोड करें।",
       "TOOLS": {
         "OPEN_MODELS_CATALOG": "{appName} मॉडल catalog page खोलें, जो OpenAI, Anthropic, Google, DeepSeek, और अन्य providers में live pricing के साथ हर उपलब्ध मॉडल को सूचीबद्ध करता है।",
         "OPEN_PRICING": "Subscription plans और pay-as-you-go दरों की समीक्षा के लिए {appName} pricing page खोलें।",
@@ -3511,35 +3297,15 @@
     "STATE": {
       "OPERATIONAL": "Operational",
       "DOWN": "Down",
-      "UNKNOWN": "अज्ञात",
       "DEGRADED": "Degraded"
-    },
-    "SUMMARY": {
-      "ALL_NORMAL": "सभी systems सामान्य",
-      "N_DOWN": "{count, plural, one {# मॉडल down} other {# मॉडल down}}",
-      "LAST_CHECKED_AT": "अंतिम जांच {time}"
     },
     "KPI": {
       "TOTAL": "कुल मॉडल",
       "OPERATIONAL": "Operational",
-      "DOWN": "Down",
-      "UNKNOWN": "अज्ञात"
-    },
-    "ROW": {
-      "CHANNELS": "ch",
-      "LATENCY_PROBE": "probe",
-      "LATENCY_P50": "p50",
-      "LATENCY_P95": "p95",
-      "REQ": "req",
-      "ERR": "err",
-      "IDLE": "इस मिनट में कोई traffic नहीं"
+      "DOWN": "Down"
     },
     "RIBBON": {
-      "TITLE": "पिछले 24 घंटे",
-      "LEGEND_UP": "up",
-      "LEGEND_DEGRADED": "degraded",
-      "LEGEND_DOWN": "down",
-      "LEGEND_NODATA": "कोई डेटा नहीं"
+      "TITLE": "पिछले 24 घंटे"
     },
     "FILTER": {
       "SEARCH_PLACEHOLDER": "मॉडल खोजें...",
@@ -3655,8 +3421,6 @@
     "HOVER_UPSCALE": "इस image को Upscale करें",
     "HOVER_ADETAILER": "इस image पर ADetailer चलाएं",
     "HOVER_EDIT": "इस image का Edit में उपयोग करें",
-    "GENERATE_TITLE": "Image Generate करें",
-    "GENERATE_SUBTITLE": "एक मॉडल चुनें, एक prompt लिखें, एक image पाएं।",
     "PROMPT_LABEL": "Prompt",
     "PROMPT_PLACEHOLDER": "उस image का वर्णन करें जो आप चाहते हैं।",
     "NEGATIVE_PROMPT_LABEL": "Negative prompt",
@@ -3677,7 +3441,6 @@
     "BACKGROUND_TRANSPARENT": "Transparent",
     "WATERMARK_LABEL": "Watermark",
     "STRENGTH_LABEL": "Strength",
-    "SIZE_LABEL": "आकार",
     "STEPS_LABEL": "Steps",
     "CFG_LABEL": "CFG",
     "GUIDANCE_LABEL": "Guidance",
@@ -3695,13 +3458,6 @@
     "TOKEN_COUNT_CAPPED": "~{count} / {cap} tokens",
     "PROGRESS_OF_N": "{total} में से {current} generate हो रहा है…",
     "EXPIRES_IN_DAYS": "{days} दिनों में समाप्त होता है",
-    "RECENT_TITLE": "Recent generations",
-    "AUTO_DELETE_NOTE": "Generations 30 दिनों के बाद auto-deleted हो जाते हैं",
-    "SHARE": "साझा करें",
-    "SHARE_TITLE": "इस generation को साझा करें",
-    "SHARE_DESCRIPTION": "Link वाला कोई भी prompt, settings और images देख सकता है, और उन्हें अपने खाते में fork कर सकता है।",
-    "SHARE_REVOKE": "Link revoke करें",
-    "SHARE_DONE": "हो गया",
     "EXPORT": "Export",
     "IMPORT": "Import",
     "IMPORT_TITLE": "एक generation import करें",
@@ -3709,56 +3465,30 @@
     "IMPORT_MODE_RESTORE": "Restore (मूल images copy करें)",
     "IMPORT_MODE_REGENERATE": "Regenerate (नई upstream कॉल)",
     "DOWNLOAD_IMAGE": "Image download करें",
-    "SHARED_TITLE": "साझा की गई generation",
-    "SAVE_TO_ACCOUNT": "मेरे खाते में सहेजें",
-    "COPY_PROMPT": "Prompt copy करें",
     "SUBMIT": "Generate करें",
     "SUBMITTING": "Generate हो रहा है...",
     "REFERENCES_TITLE": "Reference images",
     "REFERENCES_ADD": "Reference जोड़ें",
-    "REFERENCES_UNSUPPORTED": "यह मॉडल reference images स्वीकार नहीं करता।",
     "LORAS_TITLE": "LoRAs",
-    "LORAS_UNSUPPORTED": "यह मॉडल LoRA chains का समर्थन नहीं करता।",
-    "HISTORY_TITLE": "मेरे Generations",
-    "NEW_GENERATION": "नई generation",
     "PICK_OR_GENERATE": "Sidebar से एक generation चुनें, या एक नया बनाएं।",
     "HISTORY_EMPTY": "अभी कुछ भी नहीं। अपनी पहली image generate करें।",
     "STATUS_PENDING": "Pending",
-    "STATUS_SUBMITTED": "Submitted",
-    "STATUS_QUEUED": "Queued",
-    "STATUS_IN_PROGRESS": "Generating",
-    "STATUS_SUCCESS": "हो गया",
     "STATUS_FAILURE": "विफल",
     "REMIX": "Remix",
     "DELETE": "हटाएं",
-    "PUBLISH": "Public बनाएं",
-    "UNLIST": "Unlist",
-    "PRIVATE": "Private बनाएं",
-    "PRICE_PER_CALL": "{price} प्रति image",
     "META_TITLE": "Image generation",
     "META_DESC": "{appName} ComfyUI pipeline (SDXL + Flux 2) के साथ images generate करें।",
-    "LIKE": "पसंद",
-    "UNLIKE": "नापसंद",
     "REFERENCES_DROP_HINT": "Images drop करें या browse करें",
     "LORAS_EMPTY": "Volume पर अभी तक कोई LoRAs staged नहीं। Operator catalog table के माध्यम से उन्हें जोड़ सकता है।",
-    "HIRES_FIX_ENABLE": "Hires fix",
-    "HIRES_FIX_DENOISE": "Denoise",
-    "HIRES_FIX_UPSCALE": "Upscale",
     "PNG_IMPORT_HINT": "अपना prompt और params import करने के लिए एक ComfyUI PNG drop करें",
     "PNG_IMPORT_BROWSE": "PNG Import करें",
     "PNG_IMPORT_NO_METADATA": "इस image में कोई ComfyUI metadata नहीं मिला।",
     "NEW_SESSION": "नई session",
-    "SESSION_NEW_TOOLTIP": "एक नई session शुरू करें। वर्तमान आपके इतिहास में रहती है।",
-    "RECENT_SESSIONS": "Recent sessions",
-    "SNAPSHOT_COUNT": "{count, plural, one {# snapshot} other {# snapshots}}",
-    "IMAGE_COUNT_TOTAL": "{count, plural, one {# image} other {# images}}",
     "SNAPSHOT_NAV_LABEL": "{total} में से Snapshot {current}",
-    "SHARE_SESSION_HELP": "Link वाला कोई भी इस session का इतिहास देख सकता है।",
     "LIGHTBOX_PREV": "पिछली image",
     "LIGHTBOX_NEXT": "अगली image",
     "LIGHTBOX_CLOSE": "बंद करें",
     "SESSION_SNAPSHOTS": "इस session में Snapshots",
-    "EDIT": "संपादित करें",
     "UPLOAD_IMAGE": "Image अपलोड करें",
     "UPLOADING": "अपलोड हो रहा है...",
     "INIT_IMAGE": "Source image"
@@ -3767,17 +3497,11 @@
     "NOT_SYNCED": "Synced नहीं",
     "SYNCED": "Synced",
     "EXPIRES_AT": "Synced - {date} को समाप्त होता है",
-    "EXPIRED": "Expired",
     "ADD_SYNC": "Sync जोड़ें (30 दिन)",
     "RESYNC": "Resync",
     "RESYNC_EXPIRES": "Resync ({date} को समाप्त)",
     "REMOVE_SYNC": "Sync हटाएं",
     "CONFIRM_REMOVE": "इस item को server sync से हटाएं? Local copy रखी जाती है।",
-    "OFFLINE_REQUIRED": "Sync करने के लिए Online connection आवश्यक है।",
-    "PENDING_SYNC": "Pending sync - online होने पर पुनः प्रयास करेगा।",
-    "HINT_DESCRIPTION": "Synced items 30 दिनों के लिए server पर mirror किए जाते हैं ताकि अन्य devices उन्हें pull कर सकें।",
-    "OPFS_UNAVAILABLE": "इस browser में Local database अनुपलब्ध। डेटा बना नहीं रहेगा।",
-    "OFFLINE_SEND_BLOCKED": "आप offline हैं। Message draft के रूप में रखा गया; reconnect होने पर पुनः प्रयास करें।",
     "DLQ_TOAST": "Retries के बाद {items} sync करने में विफल हुए।",
     "DLQ_KIND_COUNT": "{count} {kind}",
     "DLQ_RETRY": "पुनः प्रयास करें",

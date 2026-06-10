@@ -3,6 +3,7 @@ import {
   finalizeTaskBody,
   streamBody,
   titleGenerationBody,
+  triggerOpBody,
 } from "@/lib/validation/chat";
 import { getApiKey, getUserId } from "@/server/constants";
 import { resolveChatApiKey } from "@/server/billing/token/best-key.service";
@@ -16,6 +17,10 @@ import {
   finalizeVideoTask,
 } from "./augmentation/task.service";
 import { generateChatTitle } from "./augmentation/title.service";
+import {
+  runTriggerLLM,
+  runTriggerSimilarity,
+} from "./augmentation/trigger-ops";
 import { ContextRequiredError } from "./stream/context-cache";
 import { streamChat } from "./stream.service";
 
@@ -63,6 +68,31 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
       }
     },
     { body: streamBody },
+  )
+
+  // V1 lowLevelAccess effects invoked from client trigger modes.
+  .post(
+    "/trigger-op",
+    async ({ body, cookie }) => {
+      await getUserId(cookie); // auth required; guests have no trigger budget
+      const apiKey = await resolveChatApiKey(cookie);
+      if (body.op === "llm") {
+        const data = await runTriggerLLM(apiKey, body.model, body.prompt);
+        return { success: true, data };
+      }
+      if (body.op === "similarity") {
+        const data = await runTriggerSimilarity(
+          apiKey,
+          body.source,
+          body.values,
+        );
+        return { success: true, data };
+      }
+      // imggen wired by the inlay module.
+      const data = "Error: Image generation failed";
+      return { success: true, data };
+    },
+    { body: triggerOpBody },
   )
 
   .get("/task/:taskId", async ({ params, cookie }) => {

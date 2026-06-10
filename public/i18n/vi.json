@@ -22,22 +22,9 @@
     "PRICING": "Bảng giá",
     "DOCS": "Tài liệu",
     "BLOG": "Blog",
-    "GROUP_CLI": "Công cụ CLI",
-    "GROUP_ROLEPLAY": "Ứng dụng Roleplay",
-    "CC_SWITCH": "CC Switch",
-    "CLAUDE_CODE": "Claude Code",
-    "CODEX": "Codex",
-    "GEMINI_CLI": "Gemini CLI",
-    "OPENCLAW": "OpenClaw",
-    "SILLYTAVERN": "SillyTavern",
-    "JANITOR_AI": "Janitor.AI",
-    "RISUAI": "RisuAI",
-    "CHUB": "Chub / Venus",
     "DASHBOARD": "Bảng điều khiển",
     "LOG_IN": "Đăng nhập",
-    "GET_STARTED": "Bắt đầu",
     "CHAT": "Trò chuyện",
-    "GENERATE": "Tạo ảnh",
     "PLAYGROUND": "Khu thử nghiệm",
     "STATUS": "Trạng thái"
   },
@@ -45,7 +32,6 @@
     "HERO": {
       "BADGE": "Router đang hoạt động",
       "TITLE_LINE1": "TRÍ TUỆ",
-      "TITLE_LINE2": "HỢP NHẤT",
       "SUBTITLE": "{appName} kết nối bạn với hơn {modelCount} mô hình AI qua một khoá duy nhất. Xây ứng dụng, chạy agent, hay roleplay với nhân vật. Cùng một khoá, cùng tốc độ, cùng giá.",
       "CTA_PRIMARY": "Bắt đầu",
       "CTA_SECONDARY": "Xem mô hình",
@@ -56,12 +42,9 @@
       "PROVIDERS": "Nhà cung cấp",
       "FREE": "Miễn phí",
       "PAID": "Trả phí",
-      "UPTIME": "Thời gian hoạt động",
-      "ENDPOINTS": "Endpoint",
       "PANEL": {
         "TOKENS_SERVED": "Token đã phục vụ",
         "REQUESTS": "Yêu cầu",
-        "REQ_MIN": "Yêu cầu / phút",
         "TOKENS_MIN": "Token / phút",
         "LIVE": "Trực tiếp"
       },
@@ -69,17 +52,14 @@
         "GLOBAL": "Có thể định tuyến",
         "INTEGRATED": "Upstream",
         "FREE": "Không tốn phí",
-        "PAID": "Mỗi token",
-        "SLA": "Đo thực tế"
+        "PAID": "Mỗi token"
       }
     },
     "TICKER": {
-      "LABEL": "Mô hình khả dụng",
       "LIVE_INFERENCE": "Suy luận trực tiếp",
       "TPS": "TPS"
     },
     "INTEGRATION": {
-      "BADGE": "Tích hợp",
       "VIEW_GUIDE": "Xem hướng dẫn",
       "CLAUDE_CODE": {
         "BADGE": "Anthropic API",
@@ -121,8 +101,6 @@
         "TITLE": "Hoạt động với Chub / Venus",
         "DESCRIPTION": "Kết nối {appName} như một reverse proxy gốc trong Chub. Một URL, một key, mọi model."
       },
-      "CLI_HEADER": "Cho agent code và công cụ CLI",
-      "RP_HEADER": "Cho roleplay và chat sáng tạo",
       "PICK_TITLE": "Chon ung dung khach ban thuc su dang dung.",
       "PICK_DESC": "{appName} hoat dong nhu mot API tuong thich OpenAI tuy chinh cho cac tac nhan lap trinh, giao dien roleplay, ung dung chat va cong cu CLI."
     },
@@ -131,64 +109,24 @@
       "TITLE": "Giá cả đơn giản.",
       "SUBTITLE": "Chỉ trả cho những gì bạn dùng.",
       "DESCRIPTION": "Đăng ký thuê bao để tiết kiệm hơn hoặc trả theo nhu cầu. Mọi gói đều bao gồm quyền truy cập mọi mô hình kèm tự động chuyển đổi dự phòng giữa các nhà cung cấp.",
-      "PAYG": {
-        "NAME": "Trả theo nhu cầu",
-        "PRICE": "$0",
-        "DESC": "Không mức tối thiểu. Nạp tiền và dùng mọi mô hình.",
-        "ENDPOINT": "/v1/chat/completions"
-      },
-      "BASIC": {
-        "NAME": "Cơ bản",
-        "PRICE": "$20/tháng",
-        "DESC": "Giá trị tín dụng $30. Hệ số nhân 1.5x.",
-        "RATE": "100 yêu cầu/phút"
-      },
-      "PRO": {
-        "NAME": "Pro",
-        "PRICE": "$50/tháng",
-        "DESC": "Giá trị tín dụng $75. Định tuyến ưu tiên.",
-        "RATE": "500 yêu cầu/phút"
-      },
-      "ENTERPRISE": {
-        "NAME": "Doanh nghiệp",
-        "PRICE": "$100/tháng",
-        "DESC": "Giá trị tín dụng $175. Hỗ trợ chuyên biệt.",
-        "RATE": "2,000 yêu cầu/phút"
-      },
-      "CTA": {
-        "GET_STARTED": "Bắt đầu",
-        "VIEW_PLANS": "Xem tất cả gói"
-      },
       "PROVIDERS": {
-        "TITLE": "Nhà cung cấp được hỗ trợ",
-        "ACTIVE": "Đang hoạt động",
-        "DESC_OPENAI": "GPT-4o, o1, o3, GPT-4.1",
-        "DESC_ANTHROPIC": "Claude Opus, Sonnet, Haiku",
-        "DESC_GOOGLE": "Gemini 2.5 Pro, Flash",
-        "DESC_DEEPSEEK": "DeepSeek V3, R1"
+        "TITLE": "Nhà cung cấp được hỗ trợ"
       },
       "FLOW": {
-        "TITLE": "Luồng yêu cầu",
-        "LIVE": "Trực tiếp",
-        "STEP1": "POST /v1/chat/completions",
-        "STEP2": "Định tuyến đến nhà cung cấp nhanh nhất",
-        "STEP3": "Phản hồi đã gửi"
+        "TITLE": "Luồng yêu cầu"
       }
     },
     "FEATURES": {
       "TITLE": "Vì sao chọn {appName}",
       "DESCRIPTION": "Một endpoint, mọi mô hình AI. Định tuyến thông minh chọn nhà cung cấp nhanh nhất, tự động chuyển đổi dự phòng đảm bảo yêu cầu của bạn luôn thành công.",
       "FAILOVER": {
-        "TITLE": "Tự động chuyển đổi dự phòng",
-        "DESC": "Yêu cầu thất bại sẽ lập tức thử lại qua kênh thay thế"
+        "TITLE": "Tự động chuyển đổi dự phòng"
       },
       "MULTIPROTOCOL": {
-        "TITLE": "Hỗ trợ đa giao thức",
-        "DESC": "Định dạng API của OpenAI, Anthropic và Gemini"
+        "TITLE": "Hỗ trợ đa giao thức"
       },
       "LOADBALANCE": {
-        "TITLE": "Cân bằng tải thông minh",
-        "DESC": "Tự động định tuyến đến nhà cung cấp khả dụng nhanh nhất"
+        "TITLE": "Cân bằng tải thông minh"
       }
     },
     "RELIABILITY": {
@@ -205,7 +143,6 @@
         "DESC": "Chọn kênh dựa trên độ trễ kết hợp trọng số ưu tiên. Nhà cung cấp nhanh nhất luôn thắng."
       },
       "LEARN_MORE": "Tìm hiểu thêm",
-      "LEARN_MORE_ARIA": "Tìm hiểu thêm về tài liệu {appName}",
       "LEARN_MORE_DOCS": "Xem tài liệu",
       "ARCH": {
         "TITLE": "Kiến trúc",
@@ -442,7 +379,6 @@
       "LEADERBOARD_TITLE": "Bảng xếp hạng LLM",
       "LEADERBOARD_SUBTITLE": "So sánh các mô hình phổ biến nhất trên nền tảng",
       "EMPTY": "Không có mô hình nào khớp với bộ lọc đã chọn",
-      "TOTAL_LABEL": "Tổng token",
       "TOKENS_SUFFIX": "token",
       "TOOLTIP_TOTAL": "Tổng",
       "BY_AUTHOR_LABEL": "bởi"
@@ -484,10 +420,7 @@
     "SUBTITLE": "Cập nhật sản phẩm, hướng dẫn tích hợp và ghi chú từ đội ngũ.",
     "READ_MORE": "Đọc thêm",
     "PUBLISHED": "Đã đăng",
-    "UPDATED": "Đã cập nhật",
     "BY_AUTHOR": "Bởi {author}",
-    "TAGS": "Thẻ",
-    "RECENT": "Bài viết gần đây",
     "BACK_TO_BLOG": "Quay lại mọi bài viết",
     "EMPTY": "Chưa có bài viết nào. Hãy ghé lại sớm.",
     "EMPTY_FILTERED": "Không có bài viết nào khớp với bộ lọc.",
@@ -564,9 +497,7 @@
         "H_NOT_SPOOFING": "Cái gì không phải là giả mạo: Bedrock, Vertex, Foundry",
         "H_RESULTS": "Kết quả sau 17 ngày kiểm tra",
         "H_WHY": "Vì sao điều này xảy ra",
-        "H_NEXT": "Bước tiếp theo",
         "H_TEST": "Tự kiểm tra nhà cung cấp của bạn trong 5 phút",
-        "H_NAMING": "Lưu ý về việc ẩn danh",
         "INTRO_P1": "Claude hiện là mô hình được săn đón nhất trên thị trường, và cũng là một trong những mô hình đắt nhất. Khoảng cách đó tạo ra một thị trường sôi động của các reseller bên thứ ba bán \"cùng một Claude\" với một phần nhỏ giá chính thức. Một số là hợp lệ. Rất nhiều thì không.",
         "INTRO_P2": "Trong 17 ngày probe tự động trên <s>8 reseller thượng nguồn</s>, chúng tôi tìm thấy <s>183 cặp (channel, model)</s> không vượt qua kiểm tra tính xác thực đối với các mô hình bán dưới tên <c>claude-opus-4-7</c>, <c>claude-sonnet-4-6</c>, <c>claude-haiku-4-5</c> và các họ hàng. Cùng áp lực đó tồn tại với mọi mô hình cao cấp, nên GPT, Gemini và Grok gần như chắc chắn cũng bị ảnh hưởng. Claude chỉ là nơi mức chênh giá đang lớn nhất và là nơi chúng tôi có số liệu cứng.",
         "PROBES_P": "Với mỗi cặp (channel, model), chúng tôi gửi song song bốn request tới Anthropic Messages API chuẩn (<c>POST /v1/messages</c>):",
@@ -651,7 +582,6 @@
         "H_BUGS": "Bug bounty, tới 50$",
         "P_BUGS": "Tìm thấy lỗi thật trên nền tảng thì hãy báo trong forum bug-bounty. Đội ngũ chọn mức độ nghiêm trọng và bot trả thưởng: Low 0,25$, Medium 0,50$, High 1$, Critical 50$. Người thực sự xác định ra lỗi sẽ nhận tiền, không nhất thiết là người mở thread.",
         "H_JOIN": "Ghé chơi với chúng mình",
-        "P_JOIN": "Tất cả các khoản chi đều rơi vào cùng số dư bạn dùng cho các API call. Liên kết một lần, nhận hết phần thưởng bạn đủ điều kiện, rồi tiếp tục boost, săn lỗi và ship cùng chúng tôi.",
         "CTA": "Sẵn sàng chưa? <invite>Tham gia Discord {appName}</invite>, sau đó <register>lấy API key</register> và <settings>liên kết tài khoản</settings> để nhận 1$ đầu tiên."
       },
       "FREE_MODELS_AGGREGATED": {
@@ -695,7 +625,6 @@
     "META_TITLE": "Giá API {name}, ngữ cảnh và ví dụ | {appName}",
     "META_DESC": "Sử dụng {name} từ {vendor} qua một endpoint tương thích OpenAI duy nhất. Xem giá mỗi token, cửa sổ ngữ cảnh, endpoint và ví dụ mã dán sẵn.",
     "META_KEYWORDS": "API {name}, giá {name}, cửa sổ ngữ cảnh {name}, API {vendor}, {appName}",
-    "ABOUT": "Về {name}",
     "PRICING_TITLE": "Giá cả",
     "PRICING_DESC": "Chỉ trả cho những gì bạn dùng. Không cần tối thiểu hàng tháng khi dùng Trả theo nhu cầu.",
     "INPUT_PRICE": "Giá đầu vào",
@@ -737,62 +666,31 @@
     "CTA_DESC": "Tạo API key và bắt đầu gửi yêu cầu trong chưa đầy một phút.",
     "CTA_SIGNUP": "Đăng nhập để thử {name}",
     "CTA_TRY": "Thử {name} trong trò chuyện",
-    "CTA_ALL_MODELS": "Xem tất cả mô hình",
-    "LAST_UPDATED": "Cập nhật gần nhất {date}"
+    "CTA_ALL_MODELS": "Xem tất cả mô hình"
   },
   "PRICING": {
-    "PLAN": {
-      "BASIC": "Cơ bản",
-      "PRO": "Pro",
-      "ENTERPRISE": "Doanh nghiệp"
-    },
     "FEATURE": {
       "MODELS": "Bao gồm mọi mô hình",
       "PRIORITY": "Định tuyến ưu tiên",
       "DEDICATED": "Hỗ trợ chuyên biệt",
-      "SUPPORT": "Hỗ trợ qua email",
       "FAILOVER": "Tự động chuyển đổi dự phòng",
       "UPTIME": "SLA 99.9% thời gian hoạt động",
       "OPENAI_COMPAT": "Endpoint tương thích OpenAI"
     },
     "COMPARE": {
-      "TITLE": "So sánh các gói",
-      "FEATURE": "Tính năng",
-      "PRICE": "Giá hàng tháng",
-      "VALUE": "Giá trị tín dụng API",
-      "RATE_LIMIT": "Giới hạn tốc độ",
-      "ALL_MODELS": "Mọi mô hình",
-      "PRIORITY": "Định tuyến ưu tiên",
-      "DEDICATED": "Hỗ trợ chuyên biệt",
-      "BASIC_PRICE": "$20/tháng",
-      "PRO_PRICE": "$50/tháng",
-      "ENTERPRISE_PRICE": "$100/tháng",
-      "BASIC_VALUE": "$30",
-      "PRO_VALUE": "$75",
-      "ENTERPRISE_VALUE": "$175",
-      "BASIC_RATE": "100 rpm",
-      "PRO_RATE": "500 rpm",
-      "ENTERPRISE_RATE": "2,000 rpm"
+      "TITLE": "So sánh các gói"
     },
     "CARD": {
       "POPULAR": "Phổ biến",
       "PER_MONTH": " · tháng",
       "VALUE": "giá trị {value}",
-      "MULTIPLIER": "hệ số nhân {multiplier}",
-      "INCLUDES": "Bao gồm",
-      "REQUESTS_MIN": "{count} yêu cầu/phút",
-      "SPEC_CREDIT": "Giá trị tín dụng API",
       "SPEC_QUOTA": "Hạn mức/Làm mới",
-      "SPEC_MULTIPLIER": "Hệ số nhân",
-      "OPENCLAW_TITLE": "Hỗ trợ OpenClaw",
-      "OPENCLAW_DESC": "Tương thích đầy đủ với agent OpenClaw",
       "VALUE_BADGE": "Giá trị",
       "VALUE_EXPLAIN": "Trả {paid}, nhận {credit} credit API. Dùng được với mọi mô hình."
     },
     "BANNER": {
       "TITLE": "Trợ lý AI OpenClaw trên Telegram",
-      "SUBTITLE": "Triển khai AI một cú nhấp cho bot Telegram của bạn, hỗ trợ bởi OpenClaw và {appName}.",
-      "BADGE": "Sắp ra mắt"
+      "SUBTITLE": "Triển khai AI một cú nhấp cho bot Telegram của bạn, hỗ trợ bởi OpenClaw và {appName}."
     },
     "META": {
       "TITLE": "Bảng giá - {appName}",
@@ -802,6 +700,11 @@
     "TITLE": "Bảng giá",
     "SUBTITLE": "Dù bạn deploy ứng dụng hay roleplay dài hơi. Một gói, mọi mô hình.",
     "CTA": "Đăng ký",
+    "TOPUP": {
+      "LABEL": "Trả theo mức dùng",
+      "DESC": "Không muốn đăng ký? Nạp tín dụng.",
+      "FOOTNOTE": "Tín dụng không hết hạn."
+    },
     "FAQ": {
       "Q1": "Giá cả {appName} hoạt động ra sao?",
       "A1": "Bạn trả phí theo token tiêu thụ. Mỗi mô hình có mức giá đầu vào, đầu ra và bộ nhớ đệm riêng, trừ vào tín dụng tài khoản của bạn. Không bắt buộc thuê bao hàng tháng đối với Trả theo nhu cầu.",
@@ -819,11 +722,6 @@
       "A7": "Có. Mọi gói đều dùng như một nguồn tuỳ chỉnh tương thích OpenAI trong các client roleplay lớn. SillyTavern, Janitor.AI, RisuAI và Chub đều có hướng dẫn cài đặt riêng trong docs.",
       "Q8": "Cuộc trò chuyện hoặc lịch sử nhân vật có thể dài đến đâu?",
       "A8": "{appName} hỗ trợ toàn bộ context window của mỗi mô hình, lên tới 1M token trên Gemini và 200k trên Claude. Roleplay dài hay codebase lớn đều chạy ổn."
-    },
-    "TOPUP": {
-      "LABEL": "Trả theo mức dùng",
-      "DESC": "Không muốn đăng ký? Nạp tín dụng.",
-      "FOOTNOTE": "Tín dụng không hết hạn."
     }
   },
   "DOCS_INDEX": {
@@ -861,18 +759,7 @@
   },
   "DOCS_SIDEBAR": {
     "TITLE": "Tài liệu",
-    "AI_APPLICATIONS": "Ứng dụng AI",
-    "GROUP_CLI": "Công cụ CLI",
-    "GROUP_ROLEPLAY": "Ứng dụng Roleplay",
-    "CC_SWITCH": "CC Switch",
-    "OPENCLAW": "OpenClaw",
-    "CLAUDE_CODE": "Claude Code",
-    "CODEX_CLI": "Codex CLI",
-    "GEMINI_CLI": "Gemini CLI",
-    "SILLYTAVERN": "SillyTavern",
-    "JANITOR_AI": "Janitor.AI",
-    "RISUAI": "RisuAI",
-    "CHUB": "Chub / Venus"
+    "AI_APPLICATIONS": "Ứng dụng AI"
   },
   "DOCS": {
     "SETUP": {
@@ -882,8 +769,7 @@
       "CLI_ALT": "Hoặc dùng CLI của CC Switch:",
       "NO_APP": "Chưa có CC Switch?",
       "INSTALL_LINK": "Cài đặt CC Switch",
-      "LOGIN_REQUIRED": "Đăng nhập để tự động điền API key",
-      "CREATE_KEY": "Tạo API key trước"
+      "LOGIN_REQUIRED": "Đăng nhập để tự động điền API key"
     },
     "CONFIG": {
       "FILE_LABEL": "Tệp cấu hình lâu dài (Khuyến nghị)",
@@ -902,10 +788,8 @@
       "QUICK_CONFIG": "Cau hinh nhanh",
       "QUICK_CONFIG_DESC": "Dan cac gia tri nay vao ung dung. Khoa cua ban se tu dien khi ban da dang nhap.",
       "BASE_URL_LABEL": "URL co so",
-      "API_PATH_LABEL": "Diem cuoi",
       "API_KEY_LABEL": "Khoa API",
       "STEPS": "Thiet lap tung buoc",
-      "STEP_LABEL": "Buoc {number}",
       "COMPATIBILITY": "Tuong thich",
       "RECOMMENDED_MODELS": "Mo hinh de xuat",
       "RECOMMENDED_MODELS_DESC": "Cac mo hinh mien phi hoat dong tot o day. Dan bat ky id mo hinh nao vao ung dung.",
@@ -2057,11 +1941,8 @@
     "CONTACT_SUBTITLE": "Có câu hỏi hay thắc mắc?",
     "DESCRIPTION": "Nền tảng API AI hợp nhất cung cấp quyền truy cập hàng trăm mô hình từ nhiều nhà cung cấp qua một endpoint thông minh duy nhất.",
     "COPYRIGHT": "© {year} {appName}. Giữ toàn quyền.",
-    "LEGAL_DISCLAIMER": "Bằng việc sử dụng nền tảng này, bạn xác nhận rằng đã đọc và đồng ý với",
     "LEGAL_TERMS": "Điều khoản dịch vụ",
-    "LEGAL_AND": "và",
     "LEGAL_PRIVACY": "Chính sách bảo mật",
-    "SOCIAL_GITHUB": "GitHub",
     "SOCIAL_TRUSTPILOT": "Trustpilot",
     "EASTER_EGG_LABEL": "Chơi Token Breakout"
   },
@@ -2177,21 +2058,15 @@
   },
   "COMMON": {
     "COPY_CODE": "Sao chép mã",
-    "COPIED": "Đã sao chép",
     "OPEN_MENU": "Mở menu",
     "SEARCH": "Tìm kiếm...",
     "SAVE": "Lưu",
     "SAVED": "Đã lưu",
     "CANCEL": "Huỷ",
     "DELETE": "Xoá",
-    "CREATE": "Tạo",
     "EDIT": "Chỉnh sửa",
-    "IMPORT": "Nhập",
-    "EXPORT": "Xuất",
-    "LOADING": "Đang tải...",
     "NAME": "Tên",
     "DESCRIPTION": "Mô tả",
-    "CONFIRM_DELETE": "Bạn có chắc muốn xoá không?",
     "RESET": "Đặt lại",
     "CONFIRM": {
       "CONTINUE": "Tiếp tục",
@@ -2253,7 +2128,6 @@
       "USERNAME_OR_EMAIL_PLACEHOLDER": "Nhập tên người dùng hoặc email của bạn",
       "PASSWORD": "Mật khẩu",
       "PASSWORD_PLACEHOLDER": "Nhập mật khẩu của bạn",
-      "PASSWORD_MIN_LENGTH": "Mật khẩu phải có ít nhất 8 ký tự",
       "EMAIL": "Email",
       "EMAIL_PLACEHOLDER": "Nhập email của bạn",
       "VERIFICATION_CODE": "Mã xác minh",
@@ -2268,14 +2142,12 @@
     "TWO_FA": {
       "TITLE": "Xác thực hai yếu tố",
       "DESCRIPTION": "Nhập mã 6 chữ số từ ứng dụng xác thực của bạn",
-      "CODE_PLACEHOLDER": "000000",
       "SUBMIT": "Xác minh",
       "VERIFYING": "Đang xác minh..."
     },
     "VERIFICATION": {
       "SEND_CODE": "Gửi mã",
       "SENDING": "Đang gửi...",
-      "SENT": "Đã gửi mã",
       "RESEND": "Gửi lại",
       "RESEND_IN": "Gửi lại sau {seconds}s",
       "FAILED": "Gửi mã xác minh thất bại"
@@ -2325,10 +2197,7 @@
     "DONT_HAVE_ACCOUNT": "Chưa có tài khoản?",
     "ALREADY_HAVE_ACCOUNT": "Đã có tài khoản?",
     "OR_CONTINUE_WITH": "Hoặc tiếp tục với",
-    "CALLBACK_LOADING": "Đang hoàn tất đăng nhập...",
-    "DASHBOARD": "Bảng điều khiển",
     "LOG_OUT": "Đăng xuất",
-    "BALANCE": "Số dư",
     "SUBSCRIPTION": "Gói đăng ký",
     "SUBSCRIPTION_ACTIVE": "Đang hoạt động"
   },
@@ -2340,10 +2209,7 @@
     "LOGS": "Nhật ký sử dụng",
     "AFFILIATE": "Tiếp thị liên kết",
     "BILLING": "Thanh toán",
-    "SETTINGS": "Cài đặt",
-    "CHAT": "Trò chuyện",
-    "GENERATE": "Tạo ảnh",
-    "MY_GENERATIONS": "Ảnh của tôi"
+    "SETTINGS": "Cài đặt"
   },
   "DASHBOARD": {
     "GREETING": {
@@ -2387,12 +2253,9 @@
       "NO_API_INFO": "Không có thông tin API"
     },
     "CONSUMPTION": "Tiêu thụ",
-    "TOP_UP": "Nạp tiền",
     "TOTAL": "Tổng",
     "OTHER": "Khác",
     "NO_DATA": "Không có dữ liệu",
-    "UPTIME": "Thời gian hoạt động",
-    "COPY_URL": "Sao chép URL",
     "COPIED": "Đã sao chép"
   },
   "TOKEN": {
@@ -2410,18 +2273,7 @@
     "FORM": {
       "NAME": "Tên",
       "NAME_PLACEHOLDER": "Nhập tên cho key này",
-      "GROUP": "Nhóm",
-      "GROUP_PLACEHOLDER": "Chọn một nhóm",
-      "GROUP_NO_GROUPS": "Không có nhóm khả dụng",
-      "CROSS_GROUP_RETRY": "Thử lại xuyên nhóm",
-      "CROSS_GROUP_RETRY_DESC": "Khi bật, yêu cầu thất bại sẽ thử lại qua các kênh ở nhóm khác.",
-      "EXPIRATION": "Hết hạn",
-      "EXPIRATION_PLACEHOLDER": "Chọn ngày hết hạn",
-      "EXPIRATION_PRESETS": "Thiết lập nhanh",
       "NEVER_EXPIRES": "Không bao giờ",
-      "ONE_MONTH": "1 tháng",
-      "ONE_DAY": "1 ngày",
-      "ONE_HOUR": "1 giờ",
       "QUOTA": "Hạn mức",
       "QUOTA_PLACEHOLDER": "Số tiền USD (vd. 10)",
       "QUOTA_PRESETS": "Mẫu sẵn",
@@ -2432,8 +2284,6 @@
       "MODEL_LIMITS_DESC": "Không khuyến nghị trừ khi cần thiết.",
       "MODEL_SELECT_PLACEHOLDER": "Tìm mô hình...",
       "MODEL_SELECT_EMPTY": "Không tìm thấy mô hình nào",
-      "MODELS_SELECTED": "{count} đã chọn",
-      "MODEL_COUNT": "{count} mô hình",
       "IP_WHITELIST": "Danh sách IP cho phép",
       "IP_WHITELIST_PLACEHOLDER": "Mỗi IP một dòng. Để trống để không giới hạn.",
       "IP_WHITELIST_DESC": "IP có thể bị giả mạo. Dùng kèm gateway để có hiệu lực mạnh hơn.",
@@ -2484,7 +2334,6 @@
     "DISABLE": "Tắt",
     "UNLIMITED": "Không giới hạn",
     "ALL_MODELS": "Mọi mô hình",
-    "USED_OF_TOTAL": "{used} / {total}",
     "SEARCH_PLACEHOLDER": "Tìm key...",
     "NO_TOKENS": "Chưa có API key nào. Tạo một để bắt đầu.",
     "COPY_KEY": "Sao chép Key"
@@ -2492,7 +2341,6 @@
   "LOGS": {
     "TABLE": {
       "TIME": "Thời gian",
-      "TYPE": "Loại",
       "CHANNEL": "Kênh",
       "USER": "Người dùng",
       "MODEL": "Mô hình",
@@ -2610,8 +2458,6 @@
     "DESCRIPTION": "Xem lịch sử yêu cầu API, mức sử dụng token và chi tiết chi tiêu.",
     "FILTERS": "Bộ lọc",
     "RESET": "Đặt lại",
-    "TO": "đến",
-    "TOTAL": "tổng",
     "COPIED": "Đã sao chép vào bộ nhớ tạm",
     "CLICK_COPY": "Nhấp để sao chép",
     "NO_LOGS": "Không tìm thấy nhật ký nào cho khoảng thời gian đã chọn.",
@@ -2630,7 +2476,6 @@
       "RATE": "Tỷ lệ",
       "EARNED": "Đã nhận",
       "STATUS": "Trạng thái",
-      "JOINED": "Ngày tham gia",
       "COMMISSIONS": "Hoa hồng",
       "TOTAL_EARNED": "Tổng đã nhận"
     },
@@ -2655,7 +2500,6 @@
       "TITLE": "Chuyển thu nhập liên kết",
       "DIALOG_DESC": "Chuyển thu nhập tiếp thị liên kết đang chờ sang số dư tài khoản. Hành động này không thể hoàn tác.",
       "AMOUNT": "Số tiền",
-      "INVALID": "Vui lòng nhập số tiền hợp lệ",
       "EXCEEDS": "Số tiền vượt quá số dư khả dụng"
     },
     "ENUM": {
@@ -2687,7 +2531,6 @@
     "HOW_IT_WORKS": "Cách hoạt động",
     "TAB_INVITEES": "Người dùng đã mời",
     "TAB_COMMISSIONS": "Lịch sử hoa hồng",
-    "COMMISSION_HISTORY": "Lịch sử hoa hồng",
     "NO_COMMISSIONS": "Chưa có lịch sử hoa hồng. Chia sẻ liên kết mời để bắt đầu kiếm tiền.",
     "NO_INVITEES": "Chưa có người dùng nào được mời. Chia sẻ liên kết mời để bắt đầu mở rộng mạng lưới.",
     "BADGE_GENERATOR": {
@@ -2775,7 +2618,6 @@
   },
   "BILLING": {
     "SUBSCRIPTION": {
-      "PLANS": "Các gói đăng ký",
       "MY": "Đăng ký của tôi",
       "NO_ACTIVE": "Không có gói đang hoạt động",
       "ACTIVE": "Đang hoạt động",
@@ -2808,9 +2650,7 @@
     },
     "TOPUP": {
       "TITLE": "Nạp hạn mức",
-      "AMOUNT": "Số tiền nạp",
       "ACTUAL_PAYMENT": "Thanh toán thực tế",
-      "PAY_NOW": "Thanh toán ngay",
       "SAVE": "Lưu"
     },
     "ERROR": {
@@ -2826,7 +2666,6 @@
     "CONSUMPTION": "Tiêu thụ",
     "REQUESTS": "Yêu cầu",
     "USED_OF": "đã dùng trên",
-    "REFRESHING": "Đang làm mới...",
     "PAYMENT_METHOD": {
       "LABEL": "Phương thức thanh toán",
       "CARD": "Thẻ tín dụng",
@@ -2837,8 +2676,6 @@
     "ERROR": {
       "REQUIRED": "Trường {type} là bắt buộc",
       "MIN_LENGTH": "{type} phải có ít nhất {minLength} ký tự",
-      "MAX_LENGTH": "{type} tối đa {maxLength} ký tự",
-      "EXACT_LENGTH": "{type} phải đúng {minLength} ký tự",
       "MIN_VALUE": "{type} phải lớn hơn 0"
     },
     "TYPE": {
@@ -2861,7 +2698,6 @@
     "ROLE_SUPER_ADMIN": "Siêu quản trị",
     "ROLE_ADMIN": "Quản trị",
     "ROLE_USER": "Người dùng",
-    "BALANCE": "Số dư",
     "CONSUMPTION": "Tiêu thụ",
     "REQUEST_COUNT": "Yêu cầu",
     "DEFAULT_GROUP": "Nhóm mặc định",
@@ -2876,14 +2712,12 @@
       "EMAIL_PLACEHOLDER": "Nhập địa chỉ email",
       "BIND_EMAIL": "Liên kết email",
       "MODIFY_EMAIL": "Sửa email",
-      "VERIFICATION_CODE": "Mã xác minh",
       "SEND_CODE": "Gửi mã",
       "CODE_SENT": "Đã gửi mã, gửi lại sau {seconds}s",
       "CODE_PLACEHOLDER": "Nhập mã xác minh",
       "OAUTH_BINDINGS": "Liên kết OAuth",
       "GITHUB": "GitHub",
       "DISCORD": "Discord",
-      "BOUND": "Đã liên kết",
       "NOT_BOUND": "Chưa liên kết",
       "BIND": "Liên kết",
       "UNBIND": "Hủy liên kết",
@@ -2897,7 +2731,6 @@
       "ACCESS_TOKEN": "Token truy cập hệ thống",
       "ACCESS_TOKEN_DESC": "Dùng token này để truy cập API trực tiếp.",
       "GENERATE_TOKEN": "Tạo Token",
-      "REGENERATE_TOKEN": "Tạo lại Token",
       "TOKEN_GENERATED": "Tạo token thành công",
       "COPY_TOKEN": "Sao chép",
       "TOKEN_COPIED": "Đã sao chép vào bộ nhớ tạm",
@@ -2969,29 +2802,16 @@
   },
   "CHAT": {
     "SHARE": {
-      "BUTTON": "Chia sẻ",
       "TITLE": "Chia sẻ hội thoại",
       "DESCRIPTION": "Bất kỳ ai có liên kết đều có thể xem hội thoại này.",
-      "CREATED": "Đã tạo liên kết chia sẻ",
-      "REVOKED": "Đã gỡ liên kết chia sẻ",
-      "COPY_LINK": "Sao chép liên kết chia sẻ",
-      "LINK_COPIED": "Đã sao chép liên kết vào bộ nhớ tạm",
-      "GENERATE_LINK": "Tạo liên kết chia sẻ",
-      "REVOKE": "Gỡ liên kết chia sẻ",
-      "SHARED_CONVERSATION": "Hội thoại được chia sẻ",
-      "NOT_FOUND": "Không tìm thấy hội thoại được chia sẻ này hoặc đã bị gỡ."
+      "LINK_COPIED": "Đã sao chép liên kết vào bộ nhớ tạm"
     },
     "MODEL": {
       "SELECT": "Chọn mô hình",
       "SEARCH": "Tìm mô hình...",
       "NO_RESULTS": "Không tìm thấy mô hình",
-      "GROUP_TEXT": "Văn bản & Suy luận",
-      "GROUP_IMAGE": "Tạo hình ảnh",
-      "GROUP_VIDEO": "Tạo video",
       "FREE_BADGE": "MIỄN PHÍ",
-      "LOGIN_REQUIRED": "Yêu cầu đăng nhập",
-      "FREE_NOTICE": "Mô hình miễn phí có thể lỗi khi tải cao.",
-      "FREE_NOTICE_CTA": "Chuyển sang mô hình trả phí"
+      "LOGIN_REQUIRED": "Yêu cầu đăng nhập"
     },
     "ACTION": {
       "COPY": "Sao chép",
@@ -3013,8 +2833,7 @@
     },
     "GATE": {
       "NEEDS_TOKEN_TITLE": "Cần API Key",
-      "NEEDS_TOKEN_DESC": "Tạo API key để bắt đầu trò chuyện với các mô hình AI.",
-      "LOGIN_REQUIRED_DESC": "Đăng nhập để bắt đầu trò chuyện với các mô hình AI."
+      "NEEDS_TOKEN_DESC": "Tạo API key để bắt đầu trò chuyện với các mô hình AI."
     },
     "TOOL": {
       "USED": "Đã dùng công cụ",
@@ -3042,7 +2861,6 @@
       "UNSUPPORTED_TYPE": "Định dạng tệp {type} không được hỗ trợ. Vui lòng tải lên hình ảnh PNG, JPEG, WebP hoặc GIF."
     },
     "WEB_SEARCH": {
-      "LABEL": "Tìm kiếm web",
       "ON": "Đã bật tìm kiếm web",
       "OFF": "Đã tắt tìm kiếm web"
     },
@@ -3084,11 +2902,7 @@
       "HINT": "Áp dụng cho trò chuyện này và mọi trò chuyện mới cho đến khi bạn thay đổi."
     },
     "INPUT_PLACEHOLDER": "Nhập tin nhắn của bạn...",
-    "START_PROMPT": "Gửi tin nhắn để bắt đầu hội thoại.",
     "THINKING": "Đang suy nghĩ",
-    "DISCLAIMER": "Phản hồi của AI có thể không chính xác. Hãy xác minh thông tin quan trọng.",
-    "UNTITLED": "Hội thoại chưa đặt tên",
-    "DELETE_CONFIRM": "Bạn có chắc muốn xóa hội thoại này?",
     "MESSAGE_INPUT": "Ô nhập tin nhắn",
     "SEARCH_CHATS": "Tìm hội thoại",
     "TOKENS_IN": "vào",
@@ -3098,10 +2912,7 @@
       "TITLE": "Trò chuyện AI - {appName}",
       "TITLE_WITH_NAME": "{title} | Trò chuyện AI - {appName}",
       "DESCRIPTION": "Trò chuyện với bất kỳ mô hình AI nào. Thử GPT, Claude, Gemini, DeepSeek và nhiều hơn nữa qua một giao diện duy nhất.",
-      "KEYWORDS": "trò chuyện AI, chat với AI, chat GPT, chat Claude, chat Gemini, sân chơi AI, thử nghiệm mô hình",
-      "SHARED_TITLE": "Hội thoại được chia sẻ - {appName}",
-      "SHARED_TITLE_WITH_NAME": "{title} | Hội thoại được chia sẻ - {appName}",
-      "SHARED_DESCRIPTION": "Xem hội thoại AI được chia sẻ trên {appName}."
+      "KEYWORDS": "trò chuyện AI, chat với AI, chat GPT, chat Claude, chat Gemini, sân chơi AI, thử nghiệm mô hình"
     },
     "OVERRIDES": {
       "OPEN": "Cài đặt cuộc trò chuyện",
@@ -3131,10 +2942,8 @@
       "NO_CHARACTERS": "Chưa có nhân vật. Hãy tạo hoặc nhập trước.",
       "NO_LOREBOOKS": "Chưa có lorebook.",
       "REORDER_HINT": "Kéo để sắp xếp lại. Mục trên cùng được chèn sớm hơn trong prompt.",
-      "SELECTED": "đã chọn",
       "SEARCH_CHARACTERS": "Tìm nhân vật",
       "SEARCH_LOREBOOKS": "Tìm lorebook",
-      "CLEAR": "Xóa",
       "EFFORT_MINIMAL": "Tối thiểu",
       "EFFORT_LOW": "Thấp",
       "EFFORT_MEDIUM": "Trung bình",
@@ -3177,18 +2986,14 @@
       "LOCAL_DB_UPLOAD_CONFIRM": "Ghi đè CSDL OPFS cục bộ từ tệp này? Dữ liệu hiện tại sẽ bị xóa.",
       "CLEAR": "Xóa cuộc trò chuyện",
       "CLEAR_SUCCESS": "Đã xóa cuộc trò chuyện",
-      "CLEAR_CONFIRM_DESC": "Hành động này sẽ xóa mọi tin nhắn trong cuộc trò chuyện nhưng giữ lại cài đặt, ràng buộc nhân vật và tiêu đề. Không thể hoàn tác.",
-      "FONT": "Phông chữ",
-      "FONT_SANS": "Sans",
-      "FONT_DISPLAY": "Display",
-      "FONT_SERIF": "Serif",
-      "FONT_MONO": "Đẳng khoảng",
-      "FONT_SYSTEM": "Hệ thống"
+      "CLEAR_CONFIRM_DESC": "Hành động này sẽ xóa mọi tin nhắn trong cuộc trò chuyện nhưng giữ lại cài đặt, ràng buộc nhân vật và tiêu đề. Không thể hoàn tác."
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, other {# nhân vật}}",
       "LOREBOOKS": "{count, plural, other {# lorebook}}"
-    }
+    },
+    "TRIGGER_ALERT_SELECT_DESC": "Chọn một tùy chọn để tiếp tục",
+    "TRIGGER_ALERT_OK": "OK"
   },
   "RP": {
     "CHARACTERS_TITLE": "Nhân vật",
@@ -3212,7 +3017,6 @@
     "CHARACTER_EXAMPLE_MESSAGES": "Hội thoại mẫu",
     "CHARACTER_SYSTEM_PROMPT": "Prompt hệ thống",
     "CHARACTER_POST_HISTORY": "Hướng dẫn cuối lịch sử",
-    "CHARACTER_AVATAR": "Avatar",
     "CHARACTER_TAGS": "Thẻ",
     "CHARACTER_ACTIVATION_TITLE": "Kích hoạt",
     "CHARACTER_ACTIVATION_HINT": "Khi 'Luôn hoạt động' tắt, nhân vật chỉ vào prompt nếu từ trigger xuất hiện trong chat gần đây. Mẹo multi-char: để nhân vật chính luôn hoạt động, dùng trigger cho nhân vật phụ.",
@@ -3222,7 +3026,6 @@
     "CHARACTER_TRIGGERS_HINT": "Từ kích hoạt nhân vật này. Ví dụ: alice, hiệp sĩ, kiếm. Bỏ qua nếu bật 'Luôn hoạt động'.",
     "CHARACTER_MATCH_WHOLE_WORDS": "Chỉ khớp toàn bộ từ",
     "CHARACTER_MATCH_WHOLE_WORDS_HINT": "Khi bật, trigger 'Eve' sẽ không khớp với 'evening'. Mặc định: khớp chuỗi con.",
-    "CHARACTER_DEFAULT_MODEL": "Mô hình mặc định",
     "PERSONAS_TITLE": "Persona",
     "PERSONAS_NEW": "Persona mới",
     "PERSONAS_EMPTY": "Chưa có persona.",
@@ -3310,13 +3113,11 @@
     "PRESET_MUST_START_WITH_USER_HINT": "Thêm một tin nhắn người dùng trống nhỏ nếu cuộc trò chuyện bắt đầu bằng trợ lý hoặc hệ thống. Tự động cho Anthropic/Gemini/GLM.",
     "PRESET_GEMINI_BLOCK_OFF": "Gemini: tắt an toàn",
     "PRESET_GEMINI_BLOCK_OFF_HINT": "Gửi safetySettings với threshold=OFF cho mọi danh mục harm của Gemini. Mạnh hơn BLOCK_NONE. Chỉ có tác dụng trên mô hình Gemini.",
-    "SIDEBAR_TAB_CHATS": "Chat",
     "SIDEBAR_TAB_CHARACTERS": "Nhân vật",
     "SIDEBAR_TAB_PERSONAS": "Persona",
     "SIDEBAR_TAB_LOREBOOKS": "Lorebook",
     "SIDEBAR_TAB_PRESETS": "Preset",
     "SIDEBAR_TAB_CARDS": "Thẻ",
-    "SIDEBAR_GROUP_LABEL": "RP",
     "CARDS_TITLE": "Thẻ",
     "CARDS_PAGE_SUBTITLE": "Lưu nhân vật + persona + lorebook thành một bộ sáng tạo. Áp dụng vào chat chỉ với một cú nhấp.",
     "CARDS_NEW": "Thẻ mới",
@@ -3336,10 +3137,6 @@
     "CARD_CHARACTERS": "Nhân vật",
     "CARD_LOREBOOKS": "Lorebook",
     "DROPPED_PARAMS": "{params} không được mô hình này hỗ trợ và đã bị bỏ qua.",
-    "EDIT_SAVE_ONLY": "Lưu",
-    "EDIT_SAVE_AND_GENERATE": "Lưu và sinh lại",
-    "BRANCH_NEXT": "Nhánh kế",
-    "BRANCH_PREV": "Nhánh trước",
     "LOREBOOKS_IMPORT": "Nhập",
     "PERSONAS_IMPORT": "Nhập",
     "LOREBOOK_ENTRY_CONSTANT_HINT": "Luôn chèn mục này, bỏ qua các khóa kích hoạt.",
@@ -3376,15 +3173,10 @@
     "UNAUTHORIZED": "Không có quyền",
     "NO_API_KEY": "Chưa cấu hình API key",
     "NOT_FOUND": "Không tìm thấy tài nguyên",
-    "NO_IMAGE_GENERATED": "Không có hình ảnh nào được tạo",
     "NO_TASK_ID": "Không có ID tác vụ hoặc URL trong phản hồi",
-    "NO_VIDEO_URL": "Video đã hoàn tất nhưng không tìm thấy URL",
-    "VIDEO_GENERATION_FAILED": "Tạo video thất bại",
-    "VIDEO_GENERATION_TIMED_OUT": "Tạo video hết thời gian chờ",
     "REQUEST_FAILED": "Yêu cầu thất bại",
     "PRICING_FETCH_FAILED": "Không lấy được dữ liệu giá",
     "NO_TEXT_MODELS": "Không có mô hình văn bản khả dụng",
-    "UPLOAD_FAILED": "Tải lên tệp đính kèm thất bại",
     "NO_IMAGE_PROMPT": "Không có prompt để tạo hình ảnh",
     "IMAGE_GENERATION_FAILED": "Tạo hình ảnh thất bại",
     "UNEXPECTED_RESPONSE": "Phản hồi null không mong muốn từ upstream API",
@@ -3397,7 +3189,6 @@
     "PROMPT_REJECTED": "Prompt này vi phạm chính sách nội dung và không thể dùng để tạo hình ảnh hoặc video.",
     "PROMPT_FLAGGED": "Prompt này bị gắn cờ là có thể không an toàn cho việc tạo nội dung. Vui lòng diễn đạt lại và thử lại.",
     "MODERATION_UNAVAILABLE": "Tính năng tạo hình ảnh và video tạm thời không khả dụng. Vui lòng thử lại sau ít phút.",
-    "PDF_EXTRACTION_FAILED": "Không thể đọc nội dung tệp PDF đính kèm. Vui lòng xoá tệp hoặc thử một tệp khác.",
     "IMPORT_INVALID_JSON": "Tệp không phải JSON hợp lệ.",
     "IMPORT_UNSUPPORTED_VERSION": "Phiên bản xuất không được hỗ trợ.",
     "CARD_PARSE_FAILED": "Không thể phân tích thẻ nhân vật.",
@@ -3416,18 +3207,14 @@
     "UNIFIED_INTELLIGENCE_API": "API Trí tuệ hợp nhất",
     "GET_STARTED": "Bắt đầu",
     "SAVE_UP_TO": "Tiết kiệm tới",
-    "PER_1M_TOKENS": "mỗi 1 triệu token",
     "SMART_ROUTING": "Định tuyến thông minh",
-    "ONE_ENDPOINT": "Một Endpoint",
     "MODELS": "Mô hình",
     "FREE": "Miễn phí",
     "PAID": "Trả phí",
-    "UPTIME": "Thời gian hoạt động",
     "LIVE_STATS": "Thống kê trực tiếp",
     "CHEAPEST_API": "API suy luận rẻ nhất",
     "MODELS_ONE_ENDPOINT": "Hơn 40 mô hình AI, một endpoint",
     "MODELS_ONE_ENDPOINT_SUFFIX": "mô hình AI, một endpoint",
-    "DIRECT": "Trực tiếp",
     "MODEL": "Mô hình",
     "PRICES_NOTE": "Giá mỗi 1 triệu token",
     "INPUT": "Đầu vào",
@@ -3462,7 +3249,6 @@
     },
     "MCP": {
       "SERVER_DESCRIPTION": "Router mô hình AI chạy trong trình duyệt. Các tool được đăng ký qua WebMCP trên trang chủ bằng navigator.modelContext. Truy cập trang chủ và gọi tool từ một client tương thích WebMCP.",
-      "WEBMCP_BUNDLE_DESCRIPTION": "Các tool trong trình duyệt được đăng ký qua navigator.modelContext trên trang chủ {appName}. Mở trang chủ trong một client tương thích WebMCP để truy cập tool.",
       "TOOLS": {
         "OPEN_MODELS_CATALOG": "Mở trang danh mục mô hình {appName}, liệt kê mọi mô hình khả dụng kèm giá thời gian thực từ OpenAI, Anthropic, Google, DeepSeek và các nhà cung cấp khác.",
         "OPEN_PRICING": "Mở trang giá {appName} để xem các gói thuê bao và mức giá trả theo dùng.",
@@ -3511,35 +3297,15 @@
     "STATE": {
       "OPERATIONAL": "Hoạt động",
       "DOWN": "Ngừng",
-      "UNKNOWN": "Không rõ",
       "DEGRADED": "Suy giảm"
-    },
-    "SUMMARY": {
-      "ALL_NORMAL": "Tất cả hệ thống bình thường",
-      "N_DOWN": "{count} mô hình đang ngừng",
-      "LAST_CHECKED_AT": "Kiểm tra lần cuối {time}"
     },
     "KPI": {
       "TOTAL": "Tổng mô hình",
       "OPERATIONAL": "Hoạt động",
-      "DOWN": "Ngừng",
-      "UNKNOWN": "Không rõ"
-    },
-    "ROW": {
-      "CHANNELS": "kênh",
-      "LATENCY_PROBE": "probe",
-      "LATENCY_P50": "p50",
-      "LATENCY_P95": "p95",
-      "REQ": "req",
-      "ERR": "lỗi",
-      "IDLE": "không có lưu lượng phút này"
+      "DOWN": "Ngừng"
     },
     "RIBBON": {
-      "TITLE": "24 giờ qua",
-      "LEGEND_UP": "hoạt động",
-      "LEGEND_DEGRADED": "suy giảm",
-      "LEGEND_DOWN": "ngừng",
-      "LEGEND_NODATA": "không có dữ liệu"
+      "TITLE": "24 giờ qua"
     },
     "FILTER": {
       "SEARCH_PLACEHOLDER": "Tìm kiếm mô hình...",
@@ -3655,8 +3421,6 @@
     "HOVER_UPSCALE": "Phóng to ảnh này",
     "HOVER_ADETAILER": "Chạy ADetailer cho ảnh này",
     "HOVER_EDIT": "Dùng ảnh này trong Chỉnh sửa",
-    "GENERATE_TITLE": "Tạo ảnh",
-    "GENERATE_SUBTITLE": "Chọn mô hình, viết prompt, nhận ảnh.",
     "PROMPT_LABEL": "Prompt",
     "PROMPT_PLACEHOLDER": "Mô tả ảnh bạn muốn.",
     "NEGATIVE_PROMPT_LABEL": "Prompt phủ định",
@@ -3677,7 +3441,6 @@
     "BACKGROUND_TRANSPARENT": "Trong suốt",
     "WATERMARK_LABEL": "Hình mờ",
     "STRENGTH_LABEL": "Cường độ",
-    "SIZE_LABEL": "Kích thước",
     "STEPS_LABEL": "Số bước",
     "CFG_LABEL": "CFG",
     "GUIDANCE_LABEL": "Guidance",
@@ -3695,13 +3458,6 @@
     "TOKEN_COUNT_CAPPED": "~{count} / {cap} token",
     "PROGRESS_OF_N": "Đang tạo {current} / {total}…",
     "EXPIRES_IN_DAYS": "Hết hạn sau {days} ngày",
-    "RECENT_TITLE": "Tạo gần đây",
-    "AUTO_DELETE_NOTE": "Ảnh tạo sẽ tự động bị xoá sau 30 ngày",
-    "SHARE": "Chia sẻ",
-    "SHARE_TITLE": "Chia sẻ ảnh này",
-    "SHARE_DESCRIPTION": "Ai có liên kết đều có thể xem prompt, cài đặt, ảnh và lưu một bản vào tài khoản của họ.",
-    "SHARE_REVOKE": "Thu hồi liên kết",
-    "SHARE_DONE": "Xong",
     "EXPORT": "Xuất",
     "IMPORT": "Nhập",
     "IMPORT_TITLE": "Nhập một bản tạo",
@@ -3709,56 +3465,30 @@
     "IMPORT_MODE_RESTORE": "Khôi phục (sao chép ảnh gốc)",
     "IMPORT_MODE_REGENERATE": "Tạo lại (gọi mới)",
     "DOWNLOAD_IMAGE": "Tải ảnh xuống",
-    "SHARED_TITLE": "Bản tạo được chia sẻ",
-    "SAVE_TO_ACCOUNT": "Lưu vào tài khoản",
-    "COPY_PROMPT": "Sao chép prompt",
     "SUBMIT": "Tạo",
     "SUBMITTING": "Đang tạo...",
     "REFERENCES_TITLE": "Ảnh tham chiếu",
     "REFERENCES_ADD": "Thêm tham chiếu",
-    "REFERENCES_UNSUPPORTED": "Mô hình này không nhận ảnh tham chiếu.",
     "LORAS_TITLE": "LoRA",
-    "LORAS_UNSUPPORTED": "Mô hình này không hỗ trợ chuỗi LoRA.",
-    "HISTORY_TITLE": "Ảnh của tôi",
-    "NEW_GENERATION": "Tạo mới",
     "PICK_OR_GENERATE": "Chọn một bản tạo từ thanh bên hoặc tạo mới.",
     "HISTORY_EMPTY": "Chưa có gì. Hãy tạo ảnh đầu tiên.",
     "STATUS_PENDING": "Đang chờ",
-    "STATUS_SUBMITTED": "Đã gửi",
-    "STATUS_QUEUED": "Trong hàng đợi",
-    "STATUS_IN_PROGRESS": "Đang tạo",
-    "STATUS_SUCCESS": "Hoàn tất",
     "STATUS_FAILURE": "Thất bại",
     "REMIX": "Remix",
     "DELETE": "Xóa",
-    "PUBLISH": "Công khai",
-    "UNLIST": "Ẩn khỏi danh sách",
-    "PRIVATE": "Riêng tư",
-    "PRICE_PER_CALL": "{price}/ảnh",
     "META_TITLE": "Tạo ảnh",
     "META_DESC": "Tạo ảnh qua pipeline ComfyUI của {appName} (SDXL + Flux 2).",
-    "LIKE": "Thích",
-    "UNLIKE": "Bỏ thích",
     "REFERENCES_DROP_HINT": "Thả ảnh vào đây hoặc chọn",
     "LORAS_EMPTY": "Chưa có LoRA nào trên ổ đĩa. Quản trị viên có thể thêm qua bảng danh mục.",
-    "HIRES_FIX_ENABLE": "Hires fix",
-    "HIRES_FIX_DENOISE": "Khử nhiễu",
-    "HIRES_FIX_UPSCALE": "Phóng to",
     "PNG_IMPORT_HINT": "Thả ảnh PNG từ ComfyUI để nhập prompt và tham số",
     "PNG_IMPORT_BROWSE": "Nhập PNG",
     "PNG_IMPORT_NO_METADATA": "Không tìm thấy metadata ComfyUI trong ảnh này.",
     "NEW_SESSION": "Phiên mới",
-    "SESSION_NEW_TOOLTIP": "Bắt đầu một phiên mới. Phiên hiện tại vẫn được lưu trong lịch sử.",
-    "RECENT_SESSIONS": "Phiên gần đây",
-    "SNAPSHOT_COUNT": "{count, plural, other {# ảnh chụp}}",
-    "IMAGE_COUNT_TOTAL": "{count, plural, other {# ảnh}}",
     "SNAPSHOT_NAV_LABEL": "Ảnh chụp {current} trên {total}",
-    "SHARE_SESSION_HELP": "Bất kỳ ai có liên kết đều có thể xem lịch sử của phiên này.",
     "LIGHTBOX_PREV": "Ảnh trước",
     "LIGHTBOX_NEXT": "Ảnh tiếp theo",
     "LIGHTBOX_CLOSE": "Đóng",
     "SESSION_SNAPSHOTS": "Ảnh chụp trong phiên này",
-    "EDIT": "Sửa",
     "UPLOAD_IMAGE": "Tải ảnh lên",
     "UPLOADING": "Đang tải lên...",
     "INIT_IMAGE": "Ảnh nguồn"
@@ -3767,17 +3497,11 @@
     "NOT_SYNCED": "Chưa đồng bộ",
     "SYNCED": "Đã đồng bộ",
     "EXPIRES_AT": "Đã đồng bộ - hết hạn {date}",
-    "EXPIRED": "Đã hết hạn",
     "ADD_SYNC": "Bật đồng bộ (30 ngày)",
     "RESYNC": "Đồng bộ lại",
     "RESYNC_EXPIRES": "Đồng bộ lại (hết hạn {date})",
     "REMOVE_SYNC": "Tắt đồng bộ",
     "CONFIRM_REMOVE": "Gỡ mục này khỏi đồng bộ máy chủ? Bản sao trên thiết bị vẫn được giữ.",
-    "OFFLINE_REQUIRED": "Cần kết nối mạng để đồng bộ.",
-    "PENDING_SYNC": "Đồng bộ đang chờ - sẽ thử lại khi có mạng.",
-    "HINT_DESCRIPTION": "Các mục đã đồng bộ được sao chép lên máy chủ trong 30 ngày để các thiết bị khác có thể lấy về.",
-    "OPFS_UNAVAILABLE": "Cơ sở dữ liệu cục bộ không khả dụng trong trình duyệt này. Dữ liệu sẽ không được lưu.",
-    "OFFLINE_SEND_BLOCKED": "Bạn đang ngoại tuyến. Tin nhắn được giữ làm bản nháp; gửi lại khi có mạng.",
     "DLQ_TOAST": "{items} không đồng bộ được sau các lần thử lại.",
     "DLQ_KIND_COUNT": "{count} {kind}",
     "DLQ_RETRY": "Thử lại",

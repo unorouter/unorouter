@@ -9,8 +9,6 @@ import {
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import type { StatusBucket } from "@/lib/types";
-import { handleElysia } from "@/lib/utils/base";
-import { useQuery } from "@tanstack/react-query";
 
 export function useStatusPage(bucket: StatusBucket = "1m", hours: number = 24) {
   return useElysiaQuery(

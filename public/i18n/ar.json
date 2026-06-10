@@ -22,22 +22,9 @@
     "PRICING": "الأسعار",
     "DOCS": "المستندات",
     "BLOG": "المدوّنة",
-    "GROUP_CLI": "أدوات CLI",
-    "GROUP_ROLEPLAY": "عملاء لعب الأدوار",
-    "CC_SWITCH": "CC Switch",
-    "CLAUDE_CODE": "Claude Code",
-    "CODEX": "Codex",
-    "GEMINI_CLI": "Gemini CLI",
-    "OPENCLAW": "OpenClaw",
-    "SILLYTAVERN": "SillyTavern",
-    "JANITOR_AI": "Janitor.AI",
-    "RISUAI": "RisuAI",
-    "CHUB": "Chub / Venus",
     "DASHBOARD": "لوحة التحكّم",
     "LOG_IN": "تسجيل الدخول",
-    "GET_STARTED": "ابدأ الآن",
     "CHAT": "الدردشة",
-    "GENERATE": "إنشاء",
     "PLAYGROUND": "ساحة اللعب",
     "STATUS": "الحالة"
   },
@@ -45,7 +32,6 @@
     "HERO": {
       "BADGE": "الموجّه يعمل",
       "TITLE_LINE1": "ذكاء",
-      "TITLE_LINE2": "موحّد",
       "TITLE_ROTATE": "ذكاء،لعب أدوار،شخصيات،برمجة،دردشة",
       "SUBTITLE": "{appName} يصلك بأكثر من {modelCount} نموذج ذكاء اصطناعي عبر مفتاح واحد. ابنِ تطبيقات، شغّل وكلاء، أو العب أدواراً مع شخصيات. نفس المفتاح، نفس السرعة، نفس السعر.",
       "CTA_PRIMARY": "ابدأ الآن",
@@ -56,12 +42,9 @@
       "PROVIDERS": "المزوّدون",
       "FREE": "مجاني",
       "PAID": "مدفوع",
-      "UPTIME": "وقت التشغيل",
-      "ENDPOINTS": "النقاط الطرفية",
       "PANEL": {
         "TOKENS_SERVED": "tokens مُقدَّمة",
         "REQUESTS": "الطلبات",
-        "REQ_MIN": "طلب / دقيقة",
         "TOKENS_MIN": "tokens / دقيقة",
         "LIVE": "مباشر"
       },
@@ -69,20 +52,15 @@
         "GLOBAL": "قابل للتوجيه",
         "INTEGRATED": "مصادر علوية",
         "FREE": "بدون تكلفة",
-        "PAID": "لكل token",
-        "SLA": "مُقاس"
+        "PAID": "لكل token"
       }
     },
     "TICKER": {
-      "LABEL": "النماذج المتاحة",
       "LIVE_INFERENCE": "استدلال مباشر",
       "TPS": "TPS"
     },
     "INTEGRATION": {
-      "BADGE": "التكامل",
       "VIEW_GUIDE": "عرض الدليل",
-      "CLI_HEADER": "لوكلاء البرمجة وأدوات CLI",
-      "RP_HEADER": "للعب الأدوار والدردشة الإبداعية",
       "CLAUDE_CODE": {
         "BADGE": "Anthropic API",
         "TITLE": "يعمل مع Claude Code",
@@ -151,64 +129,24 @@
       "TITLE": "أسعار بسيطة.",
       "SUBTITLE": "ادفع فقط مقابل ما تستخدمه.",
       "DESCRIPTION": "اشترك لقيمة أفضل أو ادفع حسب الاستخدام. كل الخطط تشمل الوصول إلى كل النماذج مع التحويل التلقائي عبر المزوّدين.",
-      "PAYG": {
-        "NAME": "الدفع حسب الاستخدام",
-        "PRICE": "$0",
-        "DESC": "بدون حدّ أدنى. اشحن واستخدم أيّ نموذج.",
-        "ENDPOINT": "/v1/chat/completions"
-      },
-      "BASIC": {
-        "NAME": "أساسي",
-        "PRICE": "$20/شهر",
-        "DESC": "قيمة رصيد $30. مضاعِف 1.5x.",
-        "RATE": "100 طلب/دقيقة"
-      },
-      "PRO": {
-        "NAME": "احترافي",
-        "PRICE": "$50/شهر",
-        "DESC": "قيمة رصيد $75. توجيه بالأولوية.",
-        "RATE": "500 طلب/دقيقة"
-      },
-      "ENTERPRISE": {
-        "NAME": "مؤسسات",
-        "PRICE": "$100/شهر",
-        "DESC": "قيمة رصيد $175. دعم مخصّص.",
-        "RATE": "2,000 طلب/دقيقة"
-      },
-      "CTA": {
-        "GET_STARTED": "ابدأ الآن",
-        "VIEW_PLANS": "عرض كل الخطط"
-      },
       "PROVIDERS": {
-        "TITLE": "المزوّدون المدعومون",
-        "ACTIVE": "نشط",
-        "DESC_OPENAI": "GPT-4o, o1, o3, GPT-4.1",
-        "DESC_ANTHROPIC": "Claude Opus, Sonnet, Haiku",
-        "DESC_GOOGLE": "Gemini 2.5 Pro, Flash",
-        "DESC_DEEPSEEK": "DeepSeek V3, R1"
+        "TITLE": "المزوّدون المدعومون"
       },
       "FLOW": {
-        "TITLE": "مسار الطلب",
-        "LIVE": "مباشر",
-        "STEP1": "POST /v1/chat/completions",
-        "STEP2": "التوجيه إلى أسرع مزوّد",
-        "STEP3": "تسليم الاستجابة"
+        "TITLE": "مسار الطلب"
       }
     },
     "FEATURES": {
       "TITLE": "لماذا {appName}",
       "DESCRIPTION": "نقطة طرفية واحدة، كل نماذج الذكاء الاصطناعي. التوجيه الذكي يختار أسرع مزوّد بينما يضمن التحويل التلقائي نجاح طلباتك دائماً.",
       "FAILOVER": {
-        "TITLE": "تحويل تلقائي",
-        "DESC": "إعادة محاولة الطلبات الفاشلة عبر قنوات بديلة فوراً"
+        "TITLE": "تحويل تلقائي"
       },
       "MULTIPROTOCOL": {
-        "TITLE": "دعم بروتوكولات متعدّدة",
-        "DESC": "صيغ API لـ OpenAI وAnthropic وGemini"
+        "TITLE": "دعم بروتوكولات متعدّدة"
       },
       "LOADBALANCE": {
-        "TITLE": "موازنة حمل ذكية",
-        "DESC": "التوجيه إلى أسرع مزوّد متاح تلقائياً"
+        "TITLE": "موازنة حمل ذكية"
       }
     },
     "RELIABILITY": {
@@ -225,7 +163,6 @@
         "DESC": "اختيار قناة استناداً إلى زمن الاستجابة مع أوزان الأولوية. أسرع مزوّد يفوز في كل مرّة."
       },
       "LEARN_MORE": "اعرف المزيد",
-      "LEARN_MORE_ARIA": "اعرف المزيد عن مستندات {appName}",
       "LEARN_MORE_DOCS": "عرض المستندات",
       "ARCH": {
         "TITLE": "البنية",
@@ -442,7 +379,6 @@
       "LEADERBOARD_TITLE": "لوحة صدارة LLM",
       "LEADERBOARD_SUBTITLE": "قارن أشهر النماذج على المنصّة",
       "EMPTY": "لا توجد نماذج تطابق المرشّحات المحدّدة",
-      "TOTAL_LABEL": "إجمالي tokens",
       "TOKENS_SUFFIX": "tokens",
       "TOOLTIP_TOTAL": "الإجمالي",
       "BY_AUTHOR_LABEL": "من"
@@ -484,10 +420,7 @@
     "SUBTITLE": "تحديثات المنتج وأدلّة التكامل وملاحظات من الفريق.",
     "READ_MORE": "اقرأ المزيد",
     "PUBLISHED": "نُشر",
-    "UPDATED": "حُدّث",
     "BY_AUTHOR": "بقلم {author}",
-    "TAGS": "الوسوم",
-    "RECENT": "أحدث المنشورات",
     "BACK_TO_BLOG": "العودة إلى كل المنشورات",
     "EMPTY": "لا توجد منشورات بعد. تحقّق لاحقاً.",
     "EMPTY_FILTERED": "لا توجد منشورات تطابق مرشّحاتك.",
@@ -564,9 +497,7 @@
         "H_NOT_SPOOFING": "ما ليس تزويراً: Bedrock وVertex وFoundry",
         "H_RESULTS": "ما كشفه 17 يوماً من الاختبار",
         "H_WHY": "لماذا يحدث هذا",
-        "H_NEXT": "ما الذي يأتي",
         "H_TEST": "اختبر مزوّدك في 5 دقائق",
-        "H_NAMING": "ملاحظة بشأن ذكر الأسماء",
         "INTRO_P1": "Claude هو النموذج الأكثر طلباً في السوق الآن، وأحد أغلاها. هذه الفجوة خلقت سوقاً مزدهراً من بائعين خارجيين يقدّمون \"نفس Claude\" بجزء من السعر الرسمي. بعضهم شرعي. كثيرون ليسوا كذلك.",
         "INTRO_P2": "على مدى 17 يوماً من الاختبار الآلي عبر <s>8 بائعين علويين</s>، وجدنا <s>183 زوجاً (قناة، نموذج)</s> فشلت فحوصات الأصالة مقابل نماذج تُسوَّق كـ <c>claude-opus-4-7</c> و<c>claude-sonnet-4-6</c> و<c>claude-haiku-4-5</c> وأخواتها. نفس الضغط موجود لكل نموذج فاخر، فـ GPT وGemini وGrok متأثّرون بالتأكيد أيضاً. Claude فقط حيث فجوة السعر أكبر الآن وحيث لدينا بيانات صلبة.",
         "PROBES_P": "لكل (قناة، نموذج) نُرسل أربعة طلبات متوازية إلى Anthropic Messages API القياسي (<c>POST /v1/messages</c>):",
@@ -651,7 +582,6 @@
         "H_BUGS": "مكافأة الأخطاء، حتى $50",
         "P_BUGS": "اكتشف خطأً حقيقياً في المنصّة وبلّغ عنه في منتدى مكافآت الأخطاء. الموظفون يختارون مستوى الخطورة والبوت يدفع: منخفض $0.25، متوسّط $0.50، عالٍ $1، حرج $50. من حدّد الخطأ فعلاً يحصل على الدفع، لا مجرّد فاتح الموضوع.",
         "H_JOIN": "تعالَ للقاء",
-        "P_JOIN": "كل الدفعات تصل إلى نفس الرصيد الذي تُنفقه على استدعاءات API. اربط مرّة، طالِب بكل ما تستحقّه، ثم استمرّ بالتعزيز والصيد والإطلاق معنا.",
         "CTA": "جاهز؟ <invite>انضم إلى Discord {appName}</invite>، ثم <register>احصل على مفتاح API</register> و<settings>اربط حسابك</settings> للمطالبة بأول $1."
       },
       "FREE_MODELS_AGGREGATED": {
@@ -695,7 +625,6 @@
     "META_TITLE": "أسعار API {name} والسياق والأمثلة | {appName}",
     "META_DESC": "استخدم {name} من {vendor} عبر نقطة طرفية واحدة متوافقة مع OpenAI. اطّلع على أسعار كل token، ونافذة السياق، والنقاط الطرفية، وأمثلة كود جاهزة للنسخ.",
     "META_KEYWORDS": "{name} API، أسعار {name}، نافذة سياق {name}، {vendor} API، {appName}",
-    "ABOUT": "عن {name}",
     "PRICING_TITLE": "الأسعار",
     "PRICING_DESC": "ادفع فقط مقابل ما تستخدمه. بدون حدود دنيا شهرية عند استخدام الدفع حسب الاستخدام.",
     "INPUT_PRICE": "سعر الإدخال",
@@ -737,62 +666,31 @@
     "CTA_DESC": "أنشئ مفتاح API وابدأ بإرسال الطلبات في أقلّ من دقيقة.",
     "CTA_SIGNUP": "سجّل الدخول لتجربة {name}",
     "CTA_TRY": "جرّب {name} في الدردشة",
-    "CTA_ALL_MODELS": "عرض كل النماذج",
-    "LAST_UPDATED": "آخر تحديث {date}"
+    "CTA_ALL_MODELS": "عرض كل النماذج"
   },
   "PRICING": {
-    "PLAN": {
-      "BASIC": "أساسي",
-      "PRO": "احترافي",
-      "ENTERPRISE": "مؤسسات"
-    },
     "FEATURE": {
       "MODELS": "كل النماذج مُضمّنة",
       "PRIORITY": "توجيه بالأولوية",
       "DEDICATED": "دعم مخصّص",
-      "SUPPORT": "دعم بالبريد الإلكتروني",
       "FAILOVER": "تحويل تلقائي",
       "UPTIME": "اتفاقية مستوى خدمة 99.9%",
       "OPENAI_COMPAT": "نقطة طرفية متوافقة مع OpenAI"
     },
     "COMPARE": {
-      "TITLE": "قارن الخطط",
-      "FEATURE": "الميزة",
-      "PRICE": "السعر الشهري",
-      "VALUE": "قيمة رصيد API",
-      "RATE_LIMIT": "حدّ المعدّل",
-      "ALL_MODELS": "كل النماذج",
-      "PRIORITY": "توجيه بالأولوية",
-      "DEDICATED": "دعم مخصّص",
-      "BASIC_PRICE": "$20/شهر",
-      "PRO_PRICE": "$50/شهر",
-      "ENTERPRISE_PRICE": "$100/شهر",
-      "BASIC_VALUE": "$30",
-      "PRO_VALUE": "$75",
-      "ENTERPRISE_VALUE": "$175",
-      "BASIC_RATE": "100 طلب/دقيقة",
-      "PRO_RATE": "500 طلب/دقيقة",
-      "ENTERPRISE_RATE": "2,000 طلب/دقيقة"
+      "TITLE": "قارن الخطط"
     },
     "CARD": {
       "POPULAR": "شائع",
       "PER_MONTH": " · شهر",
       "VALUE": "قيمة {value}",
-      "MULTIPLIER": "مضاعِف {multiplier}",
-      "INCLUDES": "يشمل",
-      "REQUESTS_MIN": "{count} طلب/دقيقة",
-      "SPEC_CREDIT": "قيمة رصيد API",
       "SPEC_QUOTA": "الحصّة/إعادة التعيين",
-      "SPEC_MULTIPLIER": "المضاعِف",
       "VALUE_BADGE": "القيمة",
-      "VALUE_EXPLAIN": "ادفع {paid}، احصل على {credit} رصيد API. استخدمه على أيّ نموذج.",
-      "OPENCLAW_TITLE": "دعم OpenClaw",
-      "OPENCLAW_DESC": "توافق كامل مع وكيل OpenClaw"
+      "VALUE_EXPLAIN": "ادفع {paid}، احصل على {credit} رصيد API. استخدمه على أيّ نموذج."
     },
     "BANNER": {
       "TITLE": "مساعد OpenClaw للذكاء الاصطناعي على Telegram",
-      "SUBTITLE": "نشر ذكاء اصطناعي بنقرة واحدة لبوت Telegram، مدعوم بـ OpenClaw و{appName}.",
-      "BADGE": "قريباً"
+      "SUBTITLE": "نشر ذكاء اصطناعي بنقرة واحدة لبوت Telegram، مدعوم بـ OpenClaw و{appName}."
     },
     "META": {
       "TITLE": "الأسعار - {appName}",
@@ -802,6 +700,11 @@
     "TITLE": "الأسعار",
     "SUBTITLE": "سواء كنت تُطلق تطبيقاً أو تشغّل جلسات لعب أدوار طويلة. خطّة واحدة، كل النماذج.",
     "CTA": "اشترك",
+    "TOPUP": {
+      "LABEL": "ادفع حسب الاستخدام",
+      "DESC": "تُفضّل عدم الاشتراك؟ اشحن الرصيد.",
+      "FOOTNOTE": "الرصيد لا ينتهي أبداً."
+    },
     "FAQ": {
       "Q1": "كيف تعمل أسعار {appName}؟",
       "A1": "تدفع لكل token مُستهلَك. كل نموذج لديه سعر إدخال وإخراج وذاكرة مؤقّتة خاصّ به، يُخصم من رصيد حسابك. لا اشتراك شهري مطلوب للدفع حسب الاستخدام.",
@@ -819,11 +722,6 @@
       "A7": "نعم. كل خطّة تعمل كمصدر مخصّص متوافق مع OpenAI في أيّ عميل لعب أدوار رئيسي. SillyTavern وJanitor.AI وRisuAI وChub لكلّ منها دليل إعداد في المستندات.",
       "Q8": "كم يمكن أن يكون طول محادثاتي أو سجل الشخصية؟",
       "A8": "{appName} يدعم نافذة السياق الكاملة لكل نموذج، حتى مليون token على Gemini و200 ألف على Claude. لعب الأدوار الطويل وقواعد الكود الطويلة كلاهما يعمل."
-    },
-    "TOPUP": {
-      "LABEL": "ادفع حسب الاستخدام",
-      "DESC": "تُفضّل عدم الاشتراك؟ اشحن الرصيد.",
-      "FOOTNOTE": "الرصيد لا ينتهي أبداً."
     }
   },
   "DOCS_INDEX": {
@@ -861,18 +759,7 @@
   },
   "DOCS_SIDEBAR": {
     "TITLE": "المستندات",
-    "AI_APPLICATIONS": "تطبيقات الذكاء الاصطناعي",
-    "GROUP_CLI": "أدوات CLI",
-    "GROUP_ROLEPLAY": "عملاء لعب الأدوار",
-    "CC_SWITCH": "CC Switch",
-    "OPENCLAW": "OpenClaw",
-    "CLAUDE_CODE": "Claude Code",
-    "CODEX_CLI": "Codex CLI",
-    "GEMINI_CLI": "Gemini CLI",
-    "SILLYTAVERN": "SillyTavern",
-    "JANITOR_AI": "Janitor.AI",
-    "RISUAI": "RisuAI",
-    "CHUB": "Chub / Venus"
+    "AI_APPLICATIONS": "تطبيقات الذكاء الاصطناعي"
   },
   "DOCS": {
     "SETUP": {
@@ -882,8 +769,7 @@
       "CLI_ALT": "أو استخدم CC Switch CLI:",
       "NO_APP": "لا تملك CC Switch؟",
       "INSTALL_LINK": "ثبّت CC Switch",
-      "LOGIN_REQUIRED": "سجّل الدخول لتعبئة مفتاح API تلقائياً",
-      "CREATE_KEY": "أنشئ مفتاح API أولاً"
+      "LOGIN_REQUIRED": "سجّل الدخول لتعبئة مفتاح API تلقائياً"
     },
     "CONFIG": {
       "FILE_LABEL": "ملف إعدادات دائم (موصى به)",
@@ -902,10 +788,8 @@
       "QUICK_CONFIG": "إعداد سريع",
       "QUICK_CONFIG_DESC": "أدخل هذه القيم في العميل. يُملأ مفتاحك تلقائيًا عند تسجيل الدخول.",
       "BASE_URL_LABEL": "عنوان URL الأساسي",
-      "API_PATH_LABEL": "نقطة النهاية",
       "API_KEY_LABEL": "مفتاح API",
       "STEPS": "الإعداد خطوة بخطوة",
-      "STEP_LABEL": "الخطوة {number}",
       "COMPATIBILITY": "التوافق",
       "RECOMMENDED_MODELS": "النماذج الموصى بها",
       "RECOMMENDED_MODELS_DESC": "نماذج مجانية تعمل جيدًا هنا. الصق أي معرّف نموذج في العميل.",
@@ -2057,11 +1941,8 @@
     "CONTACT_SUBTITLE": "أسئلة أو مخاوف؟",
     "DESCRIPTION": "منصّة AI API موحّدة تُوفّر الوصول إلى مئات النماذج من عدّة مزوّدين عبر نقطة طرفية ذكية واحدة.",
     "COPYRIGHT": "© {year} {appName}. كل الحقوق محفوظة.",
-    "LEGAL_DISCLAIMER": "باستخدام هذه المنصّة، تُقرّ بأنّك قرأت ووافقت على",
     "LEGAL_TERMS": "شروط الخدمة",
-    "LEGAL_AND": "و",
     "LEGAL_PRIVACY": "سياسة الخصوصية",
-    "SOCIAL_GITHUB": "GitHub",
     "SOCIAL_TRUSTPILOT": "Trustpilot",
     "EASTER_EGG_LABEL": "العب Token Breakout"
   },
@@ -2177,21 +2058,15 @@
   },
   "COMMON": {
     "COPY_CODE": "نسخ الكود",
-    "COPIED": "تمّ النسخ",
     "OPEN_MENU": "افتح القائمة",
     "SEARCH": "بحث...",
     "SAVE": "حفظ",
     "SAVED": "محفوظ",
     "CANCEL": "إلغاء",
     "DELETE": "حذف",
-    "CREATE": "إنشاء",
     "EDIT": "تحرير",
-    "IMPORT": "استيراد",
-    "EXPORT": "تصدير",
-    "LOADING": "جارٍ التحميل...",
     "NAME": "الاسم",
     "DESCRIPTION": "الوصف",
-    "CONFIRM_DELETE": "هل أنت متأكد أنّك تريد حذف هذا؟",
     "RESET": "إعادة تعيين",
     "CONFIRM": {
       "CONTINUE": "متابعة",
@@ -2253,7 +2128,6 @@
       "USERNAME_OR_EMAIL_PLACEHOLDER": "أدخل اسم المستخدم أو البريد الإلكتروني",
       "PASSWORD": "كلمة المرور",
       "PASSWORD_PLACEHOLDER": "أدخل كلمة المرور",
-      "PASSWORD_MIN_LENGTH": "كلمة المرور يجب أن تكون 8 أحرف على الأقل",
       "EMAIL": "البريد الإلكتروني",
       "EMAIL_PLACEHOLDER": "أدخل بريدك الإلكتروني",
       "VERIFICATION_CODE": "رمز التحقّق",
@@ -2268,14 +2142,12 @@
     "TWO_FA": {
       "TITLE": "المصادقة الثنائية",
       "DESCRIPTION": "أدخل الرمز المكوّن من 6 أرقام من تطبيق المصادقة",
-      "CODE_PLACEHOLDER": "000000",
       "SUBMIT": "تحقّق",
       "VERIFYING": "جارٍ التحقّق..."
     },
     "VERIFICATION": {
       "SEND_CODE": "إرسال الرمز",
       "SENDING": "جارٍ الإرسال...",
-      "SENT": "تمّ إرسال الرمز",
       "RESEND": "إعادة الإرسال",
       "RESEND_IN": "إعادة الإرسال خلال {seconds} ثانية",
       "FAILED": "فشل إرسال رمز التحقّق"
@@ -2325,10 +2197,7 @@
     "DONT_HAVE_ACCOUNT": "لا تملك حساباً؟",
     "ALREADY_HAVE_ACCOUNT": "لديك حساب بالفعل؟",
     "OR_CONTINUE_WITH": "أو تابع عبر",
-    "CALLBACK_LOADING": "جارٍ إكمال تسجيل الدخول...",
-    "DASHBOARD": "لوحة التحكّم",
     "LOG_OUT": "تسجيل الخروج",
-    "BALANCE": "الرصيد",
     "SUBSCRIPTION": "الاشتراك",
     "SUBSCRIPTION_ACTIVE": "نشط"
   },
@@ -2340,10 +2209,7 @@
     "LOGS": "سجلّات الاستخدام",
     "AFFILIATE": "الشراكة",
     "BILLING": "الفوترة",
-    "SETTINGS": "الإعدادات",
-    "CHAT": "الدردشة",
-    "GENERATE": "إنشاء",
-    "MY_GENERATIONS": "إنشاءاتي"
+    "SETTINGS": "الإعدادات"
   },
   "DASHBOARD": {
     "GREETING": {
@@ -2387,12 +2253,9 @@
       "NO_API_INFO": "لا توجد معلومات API"
     },
     "CONSUMPTION": "الاستهلاك",
-    "TOP_UP": "شحن",
     "TOTAL": "الإجمالي",
     "OTHER": "أخرى",
     "NO_DATA": "لا تتوفّر بيانات",
-    "UPTIME": "وقت التشغيل",
-    "COPY_URL": "نسخ الرابط",
     "COPIED": "تمّ النسخ"
   },
   "TOKEN": {
@@ -2410,18 +2273,7 @@
     "FORM": {
       "NAME": "الاسم",
       "NAME_PLACEHOLDER": "أدخل اسماً لهذا المفتاح",
-      "GROUP": "المجموعة",
-      "GROUP_PLACEHOLDER": "اختر مجموعة",
-      "GROUP_NO_GROUPS": "لا توجد مجموعات متاحة",
-      "CROSS_GROUP_RETRY": "إعادة محاولة عبر المجموعات",
-      "CROSS_GROUP_RETRY_DESC": "عند التفعيل، ستُعاد محاولة الطلبات الفاشلة عبر قنوات في مجموعات أخرى.",
-      "EXPIRATION": "الانتهاء",
-      "EXPIRATION_PLACEHOLDER": "اختر تاريخ الانتهاء",
-      "EXPIRATION_PRESETS": "ضبط سريع",
       "NEVER_EXPIRES": "أبداً",
-      "ONE_MONTH": "شهر",
-      "ONE_DAY": "يوم",
-      "ONE_HOUR": "ساعة",
       "QUOTA": "الحصّة",
       "QUOTA_PLACEHOLDER": "المبلغ بالدولار (مثل 10)",
       "QUOTA_PRESETS": "إعدادات مسبقة",
@@ -2432,8 +2284,6 @@
       "MODEL_LIMITS_DESC": "غير موصى به ما لم يكن ضرورياً.",
       "MODEL_SELECT_PLACEHOLDER": "بحث النماذج...",
       "MODEL_SELECT_EMPTY": "لا توجد نماذج",
-      "MODELS_SELECTED": "{count} محدّد",
-      "MODEL_COUNT": "{count} نموذج",
       "IP_WHITELIST": "قائمة IP المسموح بها",
       "IP_WHITELIST_PLACEHOLDER": "IP واحد لكل سطر. اتركه فارغاً لعدم وجود قيود.",
       "IP_WHITELIST_DESC": "عناوين IP يمكن تزويرها. استخدمها مع بوّابة لإنفاذ أقوى.",
@@ -2484,7 +2334,6 @@
     "DISABLE": "تعطيل",
     "UNLIMITED": "غير محدود",
     "ALL_MODELS": "كل النماذج",
-    "USED_OF_TOTAL": "{used} / {total}",
     "SEARCH_PLACEHOLDER": "بحث المفاتيح...",
     "NO_TOKENS": "لا توجد مفاتيح API بعد. أنشئ واحداً للبدء.",
     "COPY_KEY": "نسخ المفتاح"
@@ -2492,7 +2341,6 @@
   "LOGS": {
     "TABLE": {
       "TIME": "الوقت",
-      "TYPE": "النوع",
       "CHANNEL": "القناة",
       "USER": "المستخدم",
       "MODEL": "النموذج",
@@ -2610,8 +2458,6 @@
     "DESCRIPTION": "اعرض سجل طلبات API الخاصّة بك، واستخدام tokens، وتفاصيل الإنفاق.",
     "FILTERS": "المرشّحات",
     "RESET": "إعادة تعيين",
-    "TO": "إلى",
-    "TOTAL": "الإجمالي",
     "COPIED": "تمّ النسخ إلى الحافظة",
     "CLICK_COPY": "انقر للنسخ",
     "NO_LOGS": "لا توجد سجلّات للفترة المحدّدة.",
@@ -2630,7 +2476,6 @@
       "RATE": "المعدّل",
       "EARNED": "المُكتسب",
       "STATUS": "الحالة",
-      "JOINED": "تاريخ الانضمام",
       "COMMISSIONS": "العمولات",
       "TOTAL_EARNED": "إجمالي المُكتسب"
     },
@@ -2655,7 +2500,6 @@
       "TITLE": "تحويل أرباح الشراكة",
       "DIALOG_DESC": "حوّل أرباح الشراكة المعلّقة إلى رصيد حسابك. لا يمكن التراجع عن هذا الإجراء.",
       "AMOUNT": "المبلغ",
-      "INVALID": "أدخل مبلغاً صحيحاً",
       "EXCEEDS": "المبلغ يتجاوز الرصيد المتاح"
     },
     "ENUM": {
@@ -2687,7 +2531,6 @@
     "HOW_IT_WORKS": "كيف يعمل",
     "TAB_INVITEES": "المستخدمون المدعوّون",
     "TAB_COMMISSIONS": "سجل العمولات",
-    "COMMISSION_HISTORY": "سجل العمولات",
     "NO_COMMISSIONS": "لا يوجد سجل عمولات بعد. شارك رابط دعوتك لتبدأ الكسب.",
     "NO_INVITEES": "لا يوجد مستخدمون مدعوّون بعد. شارك رابط دعوتك لتبدأ بتوسيع شبكتك.",
     "BADGE_GENERATOR": {
@@ -2775,7 +2618,6 @@
   },
   "BILLING": {
     "SUBSCRIPTION": {
-      "PLANS": "خطط الاشتراك",
       "MY": "اشتراكاتي",
       "NO_ACTIVE": "لا اشتراك نشط",
       "ACTIVE": "نشط",
@@ -2808,9 +2650,7 @@
     },
     "TOPUP": {
       "TITLE": "شحن الحصّة",
-      "AMOUNT": "مبلغ الشحن",
       "ACTUAL_PAYMENT": "الدفع الفعلي",
-      "PAY_NOW": "ادفع الآن",
       "SAVE": "حفظ"
     },
     "ERROR": {
@@ -2826,7 +2666,6 @@
     "CONSUMPTION": "الاستهلاك",
     "REQUESTS": "الطلبات",
     "USED_OF": "مُستخدم من",
-    "REFRESHING": "جارٍ التحديث...",
     "PAYMENT_METHOD": {
       "LABEL": "طريقة الدفع",
       "CARD": "بطاقة ائتمان",
@@ -2837,8 +2676,6 @@
     "ERROR": {
       "REQUIRED": "{type} مطلوب",
       "MIN_LENGTH": "{type} يجب أن يكون {minLength} أحرف على الأقل",
-      "MAX_LENGTH": "{type} يجب ألّا يتجاوز {maxLength} حرفاً",
-      "EXACT_LENGTH": "{type} يجب أن يكون بالضبط {minLength} حرفاً",
       "MIN_VALUE": "{type} يجب أن يكون أكبر من 0"
     },
     "TYPE": {
@@ -2861,7 +2698,6 @@
     "ROLE_SUPER_ADMIN": "مسؤول رئيسي",
     "ROLE_ADMIN": "مسؤول",
     "ROLE_USER": "مستخدم",
-    "BALANCE": "الرصيد",
     "CONSUMPTION": "الاستهلاك",
     "REQUEST_COUNT": "الطلبات",
     "DEFAULT_GROUP": "المجموعة الافتراضية",
@@ -2876,14 +2712,12 @@
       "EMAIL_PLACEHOLDER": "أدخل عنوان البريد الإلكتروني",
       "BIND_EMAIL": "ربط البريد الإلكتروني",
       "MODIFY_EMAIL": "تعديل البريد الإلكتروني",
-      "VERIFICATION_CODE": "رمز التحقّق",
       "SEND_CODE": "إرسال الرمز",
       "CODE_SENT": "تمّ إرسال الرمز، إعادة الإرسال خلال {seconds} ثانية",
       "CODE_PLACEHOLDER": "أدخل رمز التحقّق",
       "OAUTH_BINDINGS": "روابط OAuth",
       "GITHUB": "GitHub",
       "DISCORD": "Discord",
-      "BOUND": "مرتبط",
       "NOT_BOUND": "غير مرتبط",
       "BIND": "ربط",
       "UNBIND": "فكّ الربط",
@@ -2897,7 +2731,6 @@
       "ACCESS_TOKEN": "System Access Token",
       "ACCESS_TOKEN_DESC": "استخدم هذا token للوصول إلى API مباشرة.",
       "GENERATE_TOKEN": "توليد Token",
-      "REGENERATE_TOKEN": "إعادة توليد Token",
       "TOKEN_GENERATED": "تمّ توليد token بنجاح",
       "COPY_TOKEN": "نسخ",
       "TOKEN_COPIED": "تمّ النسخ إلى الحافظة",
@@ -2969,29 +2802,16 @@
   },
   "CHAT": {
     "SHARE": {
-      "BUTTON": "مشاركة",
       "TITLE": "مشاركة المحادثة",
       "DESCRIPTION": "أيّ شخص لديه الرابط يستطيع عرض هذه المحادثة.",
-      "CREATED": "تمّ إنشاء رابط المشاركة",
-      "REVOKED": "تمّت إزالة رابط المشاركة",
-      "COPY_LINK": "نسخ رابط المشاركة",
-      "LINK_COPIED": "تمّ نسخ الرابط إلى الحافظة",
-      "GENERATE_LINK": "توليد رابط المشاركة",
-      "REVOKE": "إزالة رابط المشاركة",
-      "SHARED_CONVERSATION": "محادثة مشتركة",
-      "NOT_FOUND": "هذه المحادثة المشتركة غير موجودة أو أُزيلت."
+      "LINK_COPIED": "تمّ نسخ الرابط إلى الحافظة"
     },
     "MODEL": {
       "SELECT": "اختر نموذجاً",
       "SEARCH": "بحث النماذج...",
       "NO_RESULTS": "لا توجد نماذج",
-      "GROUP_TEXT": "نص واستدلال",
-      "GROUP_IMAGE": "توليد الصور",
-      "GROUP_VIDEO": "توليد الفيديو",
       "FREE_BADGE": "مجاني",
-      "LOGIN_REQUIRED": "تسجيل الدخول مطلوب",
-      "FREE_NOTICE": "النماذج المجانية قد تفشل تحت الحمل العالي.",
-      "FREE_NOTICE_CTA": "بدّل إلى نموذج مدفوع"
+      "LOGIN_REQUIRED": "تسجيل الدخول مطلوب"
     },
     "ACTION": {
       "COPY": "نسخ",
@@ -3013,8 +2833,7 @@
     },
     "GATE": {
       "NEEDS_TOKEN_TITLE": "مفتاح API مطلوب",
-      "NEEDS_TOKEN_DESC": "ولّد مفتاح API لتبدأ الدردشة مع نماذج الذكاء الاصطناعي.",
-      "LOGIN_REQUIRED_DESC": "سجّل الدخول لتبدأ الدردشة مع نماذج الذكاء الاصطناعي."
+      "NEEDS_TOKEN_DESC": "ولّد مفتاح API لتبدأ الدردشة مع نماذج الذكاء الاصطناعي."
     },
     "TOOL": {
       "USED": "استخدمت الأداة",
@@ -3042,7 +2861,6 @@
       "UNSUPPORTED_TYPE": "نوع الملف {type} غير مدعوم. ارفع صورة PNG أو JPEG أو WebP أو GIF."
     },
     "WEB_SEARCH": {
-      "LABEL": "بحث الويب",
       "ON": "بحث الويب مُفعّل",
       "OFF": "بحث الويب مُعطّل"
     },
@@ -3084,11 +2902,7 @@
       "HINT": "تُطبَّق على هذه المحادثة وكل محادثة جديدة حتى تغيّرها."
     },
     "INPUT_PLACEHOLDER": "اكتب رسالتك...",
-    "START_PROMPT": "أرسل رسالة لبدء المحادثة.",
     "THINKING": "يفكّر",
-    "DISCLAIMER": "ردود الذكاء الاصطناعي قد تكون غير دقيقة. تحقّق من المعلومات المهمّة.",
-    "UNTITLED": "محادثة بلا عنوان",
-    "DELETE_CONFIRM": "هل أنت متأكّد أنّك تريد حذف هذه المحادثة؟",
     "MESSAGE_INPUT": "إدخال الرسالة",
     "SEARCH_CHATS": "بحث الدردشات",
     "TOKENS_IN": "داخل",
@@ -3098,10 +2912,7 @@
       "TITLE": "دردشة الذكاء الاصطناعي - {appName}",
       "TITLE_WITH_NAME": "{title} | دردشة الذكاء الاصطناعي - {appName}",
       "DESCRIPTION": "دردش مع أيّ نموذج ذكاء اصطناعي. اختبر GPT وClaude وGemini وDeepSeek وغيرها عبر واجهة واحدة.",
-      "KEYWORDS": "دردشة الذكاء الاصطناعي، دردش مع AI، دردشة GPT، دردشة Claude، دردشة Gemini، ساحة AI، اختبار النماذج",
-      "SHARED_TITLE": "محادثة مشتركة - {appName}",
-      "SHARED_TITLE_WITH_NAME": "{title} | محادثة مشتركة - {appName}",
-      "SHARED_DESCRIPTION": "اعرض محادثة ذكاء اصطناعي مشتركة على {appName}."
+      "KEYWORDS": "دردشة الذكاء الاصطناعي، دردش مع AI، دردشة GPT، دردشة Claude، دردشة Gemini، ساحة AI، اختبار النماذج"
     },
     "OVERRIDES": {
       "OPEN": "إعدادات المحادثة",
@@ -3131,10 +2942,8 @@
       "NO_CHARACTERS": "لا توجد شخصيات بعد. أنشئ واحدة أو استوردها أولاً.",
       "NO_LOREBOOKS": "لا توجد كتب تاريخ بعد.",
       "REORDER_HINT": "اسحب لإعادة الترتيب. المدخلات العلوية تُحقن أبكر في المطالبة.",
-      "SELECTED": "محدّد",
       "SEARCH_CHARACTERS": "بحث الشخصيات",
       "SEARCH_LOREBOOKS": "بحث كتب التاريخ",
-      "CLEAR": "مسح",
       "EFFORT_MINIMAL": "أدنى",
       "EFFORT_LOW": "منخفض",
       "EFFORT_MEDIUM": "متوسّط",
@@ -3177,18 +2986,14 @@
       "LOCAL_DB_UPLOAD_CONFIRM": "الكتابة فوق قاعدة بيانات OPFS المحلية من هذا الملف؟ ستُمحى البيانات الموجودة.",
       "CLEAR": "مسح الدردشة",
       "CLEAR_SUCCESS": "تمّ مسح الدردشة",
-      "CLEAR_CONFIRM_DESC": "هذا يحذف كل رسالة في المحادثة لكنّه يحتفظ بالإعدادات وروابط الشخصية والعنوان. لا يمكن التراجع.",
-      "FONT": "الخط",
-      "FONT_SANS": "Sans",
-      "FONT_DISPLAY": "Display",
-      "FONT_SERIF": "Serif",
-      "FONT_MONO": "أحادي المسافة",
-      "FONT_SYSTEM": "النظام"
+      "CLEAR_CONFIRM_DESC": "هذا يحذف كل رسالة في المحادثة لكنّه يحتفظ بالإعدادات وروابط الشخصية والعنوان. لا يمكن التراجع."
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, zero {# شخصية} one {شخصية واحدة} two {شخصيتان} few {# شخصيات} many {# شخصية} other {# شخصية}}",
       "LOREBOOKS": "{count, plural, zero {# كتاب معرفة} one {كتاب معرفة واحد} two {كتابا معرفة} few {# كتب معرفة} many {# كتاب معرفة} other {# كتاب معرفة}}"
-    }
+    },
+    "TRIGGER_ALERT_SELECT_DESC": "اختر خيارًا للمتابعة",
+    "TRIGGER_ALERT_OK": "موافق"
   },
   "RP": {
     "CHARACTERS_TITLE": "الشخصيات",
@@ -3212,7 +3017,6 @@
     "CHARACTER_EXAMPLE_MESSAGES": "مثال حوار",
     "CHARACTER_SYSTEM_PROMPT": "مطالبة النظام",
     "CHARACTER_POST_HISTORY": "تعليمات ما بعد السجل",
-    "CHARACTER_AVATAR": "الصورة الرمزية",
     "CHARACTER_TAGS": "الوسوم",
     "CHARACTER_ACTIVATION_TITLE": "التفعيل",
     "CHARACTER_ACTIVATION_HINT": "عندما تكون 'نشط دائماً' مُعطّلة، تنضم الشخصية إلى المطالبة فقط عند ظهور كلمة مفتاحية مُحفّزة في الدردشة الأخيرة. نصيحة متعدّدة الشخصيات: أبقِ الشخصية الأساسية نشطة دائماً؛ قيّد الشخصيات الثانوية بمحفّزات.",
@@ -3222,7 +3026,6 @@
     "CHARACTER_TRIGGERS_HINT": "الكلمات التي تُفعّل هذه الشخصية. مثال: alice، knight، sword. تُتجاهل عندما تكون 'نشط دائماً' مُفعّلة.",
     "CHARACTER_MATCH_WHOLE_WORDS": "طابق الكلمات الكاملة فقط",
     "CHARACTER_MATCH_WHOLE_WORDS_HINT": "عند التفعيل، المحفّز 'Eve' لن يطابق 'evening'. الافتراضي: مطابقة جزئية.",
-    "CHARACTER_DEFAULT_MODEL": "النموذج الافتراضي",
     "PERSONAS_TITLE": "الهويات",
     "PERSONAS_NEW": "هوية جديدة",
     "PERSONAS_EMPTY": "لا توجد هويات بعد.",
@@ -3310,13 +3113,11 @@
     "PRESET_MUST_START_WITH_USER_HINT": "إضافة رسالة مستخدم فارغة صغيرة إذا بدأت المحادثة بمساعد أو نظام. يُطبَّق تلقائيًا لـ Anthropic/Gemini/GLM.",
     "PRESET_GEMINI_BLOCK_OFF": "Gemini: الأمان مُعطّل",
     "PRESET_GEMINI_BLOCK_OFF_HINT": "أرسل safetySettings بـ threshold=OFF لكل فئة ضرر في Gemini. أقوى من BLOCK_NONE. يسري فقط على نماذج Gemini.",
-    "SIDEBAR_TAB_CHATS": "الدردشات",
     "SIDEBAR_TAB_CHARACTERS": "الشخصيات",
     "SIDEBAR_TAB_PERSONAS": "الهويات",
     "SIDEBAR_TAB_LOREBOOKS": "كتب التاريخ",
     "SIDEBAR_TAB_PRESETS": "الإعدادات المسبقة",
     "SIDEBAR_TAB_CARDS": "البطاقات",
-    "SIDEBAR_GROUP_LABEL": "لعب أدوار",
     "CARDS_TITLE": "البطاقات",
     "CARDS_PAGE_SUBTITLE": "احفظ الشخصيات + الهوية + كتب التاريخ معاً كحزمة إبداعية. طبّق واحدة على دردشة بنقرة واحدة.",
     "CARDS_NEW": "بطاقة جديدة",
@@ -3336,10 +3137,6 @@
     "CARD_CHARACTERS": "الشخصيات",
     "CARD_LOREBOOKS": "كتب التاريخ",
     "DROPPED_PARAMS": "{params} غير مدعومة من هذا النموذج وتمّ تجاهلها.",
-    "EDIT_SAVE_ONLY": "حفظ",
-    "EDIT_SAVE_AND_GENERATE": "حفظ وتوليد",
-    "BRANCH_NEXT": "الفرع التالي",
-    "BRANCH_PREV": "الفرع السابق",
     "LOREBOOKS_IMPORT": "استيراد",
     "PERSONAS_IMPORT": "استيراد",
     "LOREBOOK_ENTRY_CONSTANT_HINT": "حقن هذا المدخل دائمًا، مع تجاهل مفاتيح التفعيل.",
@@ -3376,15 +3173,10 @@
     "UNAUTHORIZED": "غير مصرّح",
     "NO_API_KEY": "لا مفتاح API مهيّأ",
     "NOT_FOUND": "المورد غير موجود",
-    "NO_IMAGE_GENERATED": "لم تُولّد أيّ صورة",
     "NO_TASK_ID": "لا معرّف مهمّة أو رابط في الردّ",
-    "NO_VIDEO_URL": "اكتمل الفيديو لكن لم يُعثر على رابط",
-    "VIDEO_GENERATION_FAILED": "فشل توليد الفيديو",
-    "VIDEO_GENERATION_TIMED_OUT": "انتهت مهلة توليد الفيديو",
     "REQUEST_FAILED": "فشل الطلب",
     "PRICING_FETCH_FAILED": "فشل جلب بيانات الأسعار",
     "NO_TEXT_MODELS": "لا توجد نماذج نص متاحة",
-    "UPLOAD_FAILED": "فشل رفع المرفق",
     "NO_IMAGE_PROMPT": "لا مطالبة مُقدّمة لتوليد الصورة",
     "IMAGE_GENERATION_FAILED": "فشل توليد الصورة",
     "UNEXPECTED_RESPONSE": "استجابة null غير متوقّعة من API العلوي",
@@ -3397,7 +3189,6 @@
     "PROMPT_REJECTED": "هذه المطالبة تنتهك سياسة المحتوى ولا يمكن استخدامها لتوليد الصور أو الفيديو.",
     "PROMPT_FLAGGED": "هذه المطالبة عُلّمت كغير آمنة محتملة للتوليد. أعد صياغتها وحاول مجدّداً.",
     "MODERATION_UNAVAILABLE": "توليد الصور والفيديو غير متاح مؤقّتاً. حاول مجدّداً قريباً.",
-    "PDF_EXTRACTION_FAILED": "لم نستطع قراءة محتويات PDF المرفق. أزله أو جرّب ملفاً مختلفاً.",
     "IMPORT_INVALID_JSON": "الملف ليس JSON صالحاً.",
     "IMPORT_UNSUPPORTED_VERSION": "إصدار التصدير غير مدعوم.",
     "CARD_PARSE_FAILED": "تعذّر تحليل بطاقة الشخصية.",
@@ -3416,18 +3207,14 @@
     "UNIFIED_INTELLIGENCE_API": "API الذكاء الموحّد",
     "GET_STARTED": "ابدأ الآن",
     "SAVE_UP_TO": "وفّر حتى",
-    "PER_1M_TOKENS": "لكل مليون token",
     "SMART_ROUTING": "توجيه ذكي",
-    "ONE_ENDPOINT": "نقطة طرفية واحدة",
     "MODELS": "نماذج",
     "FREE": "مجاني",
     "PAID": "مدفوع",
-    "UPTIME": "وقت التشغيل",
     "LIVE_STATS": "إحصاءات مباشرة",
     "CHEAPEST_API": "أرخص API استدلال",
     "MODELS_ONE_ENDPOINT": "40+ نموذج ذكاء اصطناعي، نقطة طرفية واحدة",
     "MODELS_ONE_ENDPOINT_SUFFIX": "نماذج ذكاء اصطناعي، نقطة طرفية واحدة",
-    "DIRECT": "مباشر",
     "MODEL": "النموذج",
     "PRICES_NOTE": "الأسعار لكل مليون token",
     "INPUT": "الإدخال",
@@ -3462,7 +3249,6 @@
     },
     "MCP": {
       "SERVER_DESCRIPTION": "موجّه نماذج ذكاء اصطناعي داخل المتصفّح. الأدوات مُسجّلة عبر WebMCP في الصفحة الرئيسية باستخدام navigator.modelContext. زر الصفحة الرئيسية واستدعِ الأدوات من عميل يدعم WebMCP.",
-      "WEBMCP_BUNDLE_DESCRIPTION": "أدوات داخل المتصفّح مُسجّلة عبر navigator.modelContext في الصفحة الرئيسية لـ {appName}. حمّل الصفحة الرئيسية في عميل يدعم WebMCP للوصول إلى الأدوات.",
       "TOOLS": {
         "OPEN_MODELS_CATALOG": "افتح صفحة فهرس نماذج {appName}، التي تُدرج كل نموذج متاح بأسعار مباشرة عبر OpenAI وAnthropic وGoogle وDeepSeek وغيرها من المزوّدين.",
         "OPEN_PRICING": "افتح صفحة أسعار {appName} لمراجعة خطط الاشتراك ومعدّلات الدفع حسب الاستخدام.",
@@ -3511,35 +3297,15 @@
     "STATE": {
       "OPERATIONAL": "تشغيلي",
       "DOWN": "متوقّف",
-      "UNKNOWN": "غير معروف",
       "DEGRADED": "متدهور"
-    },
-    "SUMMARY": {
-      "ALL_NORMAL": "كل الأنظمة طبيعية",
-      "N_DOWN": "{count, plural, one {# نموذج متوقّف} other {# نماذج متوقّفة}}",
-      "LAST_CHECKED_AT": "آخر فحص {time}"
     },
     "KPI": {
       "TOTAL": "إجمالي النماذج",
       "OPERATIONAL": "تشغيلي",
-      "DOWN": "متوقّف",
-      "UNKNOWN": "غير معروف"
-    },
-    "ROW": {
-      "CHANNELS": "قناة",
-      "LATENCY_PROBE": "اختبار",
-      "LATENCY_P50": "p50",
-      "LATENCY_P95": "p95",
-      "REQ": "طلب",
-      "ERR": "خطأ",
-      "IDLE": "لا حركة مرور هذه الدقيقة"
+      "DOWN": "متوقّف"
     },
     "RIBBON": {
-      "TITLE": "آخر 24 ساعة",
-      "LEGEND_UP": "يعمل",
-      "LEGEND_DEGRADED": "متدهور",
-      "LEGEND_DOWN": "متوقّف",
-      "LEGEND_NODATA": "لا بيانات"
+      "TITLE": "آخر 24 ساعة"
     },
     "FILTER": {
       "SEARCH_PLACEHOLDER": "بحث النماذج...",
@@ -3655,8 +3421,6 @@
     "HOVER_UPSCALE": "كبّر هذه الصورة",
     "HOVER_ADETAILER": "شغّل ADetailer على هذه الصورة",
     "HOVER_EDIT": "استخدم هذه الصورة في التحرير",
-    "GENERATE_TITLE": "توليد الصورة",
-    "GENERATE_SUBTITLE": "اختر نموذجاً، اكتب مطالبة، احصل على صورة.",
     "PROMPT_LABEL": "المطالبة",
     "PROMPT_PLACEHOLDER": "صف الصورة التي تريدها.",
     "NEGATIVE_PROMPT_LABEL": "مطالبة سلبية",
@@ -3677,7 +3441,6 @@
     "BACKGROUND_TRANSPARENT": "شفافة",
     "WATERMARK_LABEL": "علامة مائية",
     "STRENGTH_LABEL": "القوّة",
-    "SIZE_LABEL": "الحجم",
     "STEPS_LABEL": "الخطوات",
     "CFG_LABEL": "CFG",
     "GUIDANCE_LABEL": "التوجيه",
@@ -3695,13 +3458,6 @@
     "TOKEN_COUNT_CAPPED": "~{count} / {cap} token",
     "PROGRESS_OF_N": "جارٍ توليد {current} من {total}…",
     "EXPIRES_IN_DAYS": "تنتهي خلال {days} يوم",
-    "RECENT_TITLE": "الإنشاءات الأخيرة",
-    "AUTO_DELETE_NOTE": "تُحذف الإنشاءات تلقائياً بعد 30 يوماً",
-    "SHARE": "مشاركة",
-    "SHARE_TITLE": "شارك هذا الإنشاء",
-    "SHARE_DESCRIPTION": "أيّ شخص لديه الرابط يستطيع عرض المطالبة والإعدادات والصور، وتفريعها إلى حسابه.",
-    "SHARE_REVOKE": "إلغاء الرابط",
-    "SHARE_DONE": "تمّ",
     "EXPORT": "تصدير",
     "IMPORT": "استيراد",
     "IMPORT_TITLE": "استيراد إنشاء",
@@ -3709,56 +3465,30 @@
     "IMPORT_MODE_RESTORE": "استعادة (نسخ الصور الأصلية)",
     "IMPORT_MODE_REGENERATE": "إعادة توليد (استدعاء علوي جديد)",
     "DOWNLOAD_IMAGE": "تنزيل الصورة",
-    "SHARED_TITLE": "إنشاء مشترك",
-    "SAVE_TO_ACCOUNT": "حفظ في حسابي",
-    "COPY_PROMPT": "نسخ المطالبة",
     "SUBMIT": "توليد",
     "SUBMITTING": "جارٍ التوليد...",
     "REFERENCES_TITLE": "صور مرجعية",
     "REFERENCES_ADD": "إضافة مرجع",
-    "REFERENCES_UNSUPPORTED": "هذا النموذج لا يقبل صوراً مرجعية.",
     "LORAS_TITLE": "LoRAs",
-    "LORAS_UNSUPPORTED": "هذا النموذج لا يدعم سلاسل LoRA.",
-    "HISTORY_TITLE": "إنشاءاتي",
-    "NEW_GENERATION": "إنشاء جديد",
     "PICK_OR_GENERATE": "اختر إنشاءً من الشريط الجانبي، أو أنشئ واحداً جديداً.",
     "HISTORY_EMPTY": "لا شيء بعد. ولّد أوّل صورة.",
     "STATUS_PENDING": "قيد الانتظار",
-    "STATUS_SUBMITTED": "أُرسل",
-    "STATUS_QUEUED": "في الطابور",
-    "STATUS_IN_PROGRESS": "جارٍ التوليد",
-    "STATUS_SUCCESS": "تمّ",
     "STATUS_FAILURE": "فشل",
     "REMIX": "ريمكس",
     "DELETE": "حذف",
-    "PUBLISH": "نشر علني",
-    "UNLIST": "إخفاء من القائمة",
-    "PRIVATE": "جعله خاصاً",
-    "PRICE_PER_CALL": "{price} للصورة",
     "META_TITLE": "توليد الصور",
     "META_DESC": "ولّد صوراً بخط أنابيب ComfyUI لـ {appName} (SDXL + Flux 2).",
-    "LIKE": "إعجاب",
-    "UNLIKE": "إلغاء الإعجاب",
     "REFERENCES_DROP_HINT": "أفلت صوراً أو تصفّح",
     "LORAS_EMPTY": "لا LoRAs مُجهّزة على الوحدة بعد. المشغّل يستطيع إضافتها عبر جدول الفهرس.",
-    "HIRES_FIX_ENABLE": "إصلاح Hires",
-    "HIRES_FIX_DENOISE": "إزالة الضوضاء",
-    "HIRES_FIX_UPSCALE": "تكبير",
     "PNG_IMPORT_HINT": "أفلت PNG من ComfyUI لاستيراد مطالبته ومعاملاته",
     "PNG_IMPORT_BROWSE": "استيراد PNG",
     "PNG_IMPORT_NO_METADATA": "لم تُوجد بيانات ComfyUI في هذه الصورة.",
     "NEW_SESSION": "جلسة جديدة",
-    "SESSION_NEW_TOOLTIP": "ابدأ جلسة جديدة. الحالية تبقى في سجلّك.",
-    "RECENT_SESSIONS": "الجلسات الأخيرة",
-    "SNAPSHOT_COUNT": "{count, plural, one {# لقطة} other {# لقطات}}",
-    "IMAGE_COUNT_TOTAL": "{count, plural, one {# صورة} other {# صور}}",
     "SNAPSHOT_NAV_LABEL": "اللقطة {current} من {total}",
-    "SHARE_SESSION_HELP": "أيّ شخص لديه الرابط يستطيع عرض سجل هذه الجلسة.",
     "LIGHTBOX_PREV": "الصورة السابقة",
     "LIGHTBOX_NEXT": "الصورة التالية",
     "LIGHTBOX_CLOSE": "إغلاق",
     "SESSION_SNAPSHOTS": "اللقطات في هذه الجلسة",
-    "EDIT": "تحرير",
     "UPLOAD_IMAGE": "رفع صورة",
     "UPLOADING": "جارٍ الرفع...",
     "INIT_IMAGE": "الصورة المصدر"
@@ -3767,17 +3497,11 @@
     "NOT_SYNCED": "غير مُزامن",
     "SYNCED": "مُزامن",
     "EXPIRES_AT": "مُزامن - ينتهي {date}",
-    "EXPIRED": "منتهٍ",
     "ADD_SYNC": "إضافة مزامنة (30 يوماً)",
     "RESYNC": "إعادة مزامنة",
     "RESYNC_EXPIRES": "إعادة مزامنة (تنتهي {date})",
     "REMOVE_SYNC": "إزالة المزامنة",
     "CONFIRM_REMOVE": "إزالة هذا العنصر من مزامنة الخادم؟ النسخة المحلية تبقى.",
-    "OFFLINE_REQUIRED": "اتصال بالإنترنت مطلوب للمزامنة.",
-    "PENDING_SYNC": "مزامنة معلّقة - ستُعاد المحاولة عند الاتصال.",
-    "HINT_DESCRIPTION": "العناصر المُزامنة تُنسخ إلى الخادم لمدّة 30 يوماً حتى تستطيع أجهزة أخرى سحبها.",
-    "OPFS_UNAVAILABLE": "قاعدة البيانات المحلية غير متاحة في هذا المتصفّح. البيانات لن تستمرّ.",
-    "OFFLINE_SEND_BLOCKED": "أنت غير متّصل. الرسالة محفوظة كمسوّدة؛ أعد المحاولة عند إعادة الاتصال.",
     "DLQ_TOAST": "{items} فشلت في المزامنة بعد المحاولات.",
     "DLQ_KIND_COUNT": "{count} {kind}",
     "DLQ_RETRY": "إعادة المحاولة",

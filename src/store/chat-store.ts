@@ -89,6 +89,10 @@ export const chatLoadoutAtom = atom(
   },
 );
 
+// Greeting picked on the empty-thread preview (0 = firstMessage, i =
+// alternateGreetings[i-1]); thread-list initialize seeds branches from it.
+export const greetingIndexAtom = atom(0);
+
 export const samplerMemoryByModelAtom = atom(
   (get) =>
     get(chatStoreAtom).samplerMemoryByModel ??

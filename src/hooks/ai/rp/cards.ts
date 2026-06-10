@@ -135,10 +135,8 @@ export function useUpdateCardMutation() {
 }
 
 export function useDeleteCardMutation() {
-  const t = useTranslations();
-  const qc = useQueryClient();
   const auth = useAuthQuery();
-  return useMutation({
+  return useApiMutation({
     mutationFn: async (id: string) => {
       const userId = auth.data?.id ?? GUEST_USER_ID;
       const existing = await readLocalCard(userId, id);
@@ -147,12 +145,10 @@ export function useDeleteCardMutation() {
       await unmirrorIfSynced(userId, "cards", id, wasSynced);
       return { id };
     },
-    onSuccess: (_data, id) => {
-      qc.invalidateQueries({ queryKey: queryKeys.cards() });
-      qc.removeQueries({ queryKey: queryKeys.card(id) });
-      qc.invalidateQueries({ queryKey: queryKeys.syncState() });
+    invalidates: [queryKeys.cards(), queryKeys.syncState()],
+    onSuccess: (_data, id, qc) => {
+      qc.removeQueries({ queryKey: [...queryKeys.card(id)] });
     },
-    onError: (e) => handleError(e, t),
   });
 }
 

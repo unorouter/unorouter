@@ -64,6 +64,18 @@ const SAFE_SUBSET = new Set([
   "v2GetDictKeys",
   "v2GetDictValues",
 ]);
+// V1 lowLevelAccess effects: allowed in ANY mode when the script carries the
+// flag (Risu gates solely on lowLevelAccess).
+const V1_LOW_LEVEL = new Set([
+  "runLLM",
+  "sendAIprompt",
+  "checkSimilarity",
+  "extractRegex",
+  "runImgGen",
+  "showAlert",
+  "triggerlua",
+]);
+
 const DISPLAY_EXTRA = new Set(["v2GetDisplayState", "v2SetDisplayState"]);
 const REQUEST_EXTRA = new Set([
   "v2GetRequestState",
@@ -73,7 +85,12 @@ const REQUEST_EXTRA = new Set([
   "v2GetRequestStateLength",
 ]);
 
-function opcodeAllowed(type: string, mode: TriggerEventMode): boolean {
+function opcodeAllowed(
+  type: string,
+  mode: TriggerEventMode,
+  lowLevelAccess: boolean,
+): boolean {
+  if (V1_LOW_LEVEL.has(type)) return lowLevelAccess;
   if (mode === "display")
     return SAFE_SUBSET.has(type) || DISPLAY_EXTRA.has(type);
   if (mode === "request")
@@ -274,7 +291,10 @@ function parseList(s: string): string[] {
 
 // Run one trigger script's effects against the context. Control flow mirrors
 // the Risu interpreter exactly: direct index jumps over the flat effect array.
-function runEffects(script: TriggerScript, ctx: TriggerContext): void {
+async function runEffects(
+  script: TriggerScript,
+  ctx: TriggerContext,
+): Promise<void> {
   const vr = makeResolver(ctx);
   const eff = script.effect;
   let steps = 0;
@@ -303,11 +323,107 @@ function runEffects(script: TriggerScript, ctx: TriggerContext): void {
     const indent = typeof e.indent === "number" && e.indent >= 0 ? e.indent : 0;
     vr.setIndent(indent);
 
-    if (!opcodeAllowed(e.type, ctx.mode)) continue;
+    if (!opcodeAllowed(e.type, ctx.mode, !!ctx.lowLevelAccess)) continue;
 
     switch (e.type) {
       case "v2StopTrigger":
         return;
+      // ---- V1 lowLevelAccess effects (Risu triggers.ts 1426-1561) ----
+      case "extractRegex": {
+        const v = parse(e.value);
+        let m: RegExpExecArray | null = null;
+        try {
+          m = new RegExp(parse(e.regex), parse(e.flags)).exec(v);
+        } catch {
+          m = null;
+        }
+        // $N capture groups, $& full match, $$ literal; no match -> empties.
+        const outv = parse(e.result).replace(
+          /\$(\d+|&|\$)/g,
+          (_whole, g: string) => {
+            if (g === "$") return "$";
+            if (g === "&") return m?.[0] ?? "";
+            return m?.[Number(g)] ?? "";
+          },
+        );
+        if (e.inputVar) vr.set(parse(e.inputVar), outv);
+        continue;
+      }
+      case "checkSimilarity": {
+        const source = parse(e.source);
+        const values = parse(e.value).split("\u00a7");
+        let outv = "Error: similarity unsupported";
+        if (ctx.ops?.similarity) {
+          try {
+            outv = (await ctx.ops.similarity(source, values)).join("\u00a7");
+          } catch (err) {
+            outv = "Error: " + String(err);
+          }
+        }
+        if (e.inputVar) vr.set(parse(e.inputVar), outv);
+        continue;
+      }
+      case "runLLM": {
+        let outv = "Error: LLM unsupported";
+        if (ctx.ops?.runLLM) {
+          try {
+            outv = await ctx.ops.runLLM(parse(e.value));
+          } catch (err) {
+            outv = "Error: " + String(err);
+          }
+        }
+        if (e.inputVar) vr.set(parse(e.inputVar), outv);
+        continue;
+      }
+      case "runImgGen": {
+        let outv = "Error: Image generation failed";
+        if (ctx.ops?.imgGen) {
+          try {
+            outv = await ctx.ops.imgGen(parse(e.value), parse(e.negValue));
+          } catch {
+            outv = "Error: Image generation failed";
+          }
+        }
+        if (e.inputVar) vr.set(parse(e.inputVar), outv);
+        continue;
+      }
+      case "showAlert": {
+        const kind = (e.alertType ?? "normal") as
+          | "normal"
+          | "error"
+          | "input"
+          | "select";
+        const text = parse(e.value);
+        let outv = "";
+        if (ctx.ops?.alert) {
+          try {
+            outv = await ctx.ops.alert(
+              kind,
+              text,
+              kind === "select" ? text.split("\u00a7") : undefined,
+            );
+          } catch {
+            outv = "";
+          }
+        }
+        if ((kind === "input" || kind === "select") && e.inputVar) {
+          vr.set(parse(e.inputVar), outv);
+        }
+        continue;
+      }
+      case "sendAIprompt":
+        ctx.sendAIprompt = true;
+        continue;
+      case "triggerlua": {
+        if (ctx.ops?.runLua) {
+          try {
+            await ctx.ops.runLua(String(e.code ?? ""));
+          } catch {
+            // Risu surfaces Lua errors as console noise only.
+          }
+        }
+        continue;
+      }
       case "v2DeclareLocalVar":
         vr.declareLocal(parse(e.var), resolve(e.value, e.valueType), indent);
         continue;
@@ -395,11 +511,11 @@ export function makeTriggerContext(
 }
 
 // Run all scripts of a mode whose conditions pass. Returns the mutated context.
-export function runTriggers(
+export async function runTriggers(
   scripts: TriggerScript[],
   mode: TriggerEventMode,
   ctx: TriggerContext,
-): TriggerRunResult {
+): Promise<TriggerRunResult> {
   ctx.mode = mode;
   for (const script of scripts) {
     if (script.type !== mode) continue;
@@ -409,7 +525,7 @@ export function runTriggers(
       script.conditions.every((c) => evalCondition(c, ctx, vr));
     if (!condPass) continue;
     ctx.lowLevelAccess = !!script.lowLevelAccess;
-    runEffects(script, ctx);
+    await runEffects(script, ctx);
     if (ctx.stopSending) break;
   }
   return { context: ctx, stopped: !!ctx.stopSending };

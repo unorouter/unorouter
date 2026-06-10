@@ -22,22 +22,9 @@
     "PRICING": "价格",
     "DOCS": "文档",
     "BLOG": "博客",
-    "GROUP_CLI": "CLI 工具",
-    "GROUP_ROLEPLAY": "角色扮演客户端",
-    "CC_SWITCH": "CC Switch",
-    "CLAUDE_CODE": "Claude Code",
-    "CODEX": "Codex",
-    "GEMINI_CLI": "Gemini CLI",
-    "OPENCLAW": "OpenClaw",
-    "SILLYTAVERN": "SillyTavern",
-    "JANITOR_AI": "Janitor.AI",
-    "RISUAI": "RisuAI",
-    "CHUB": "Chub / Venus",
     "DASHBOARD": "控制台",
     "LOG_IN": "登录",
-    "GET_STARTED": "立即开始",
     "CHAT": "对话",
-    "GENERATE": "生成",
     "PLAYGROUND": "游乐场",
     "STATUS": "状态"
   },
@@ -45,7 +32,6 @@
     "HERO": {
       "BADGE": "路由器在线",
       "TITLE_LINE1": "统一",
-      "TITLE_LINE2": "智能",
       "SUBTITLE": "{appName} 用一把钥匙连接 {modelCount}+ 个 AI 模型。构建应用、运行 Agent，或与角色进行角色扮演。同一把钥匙、同样的速度、同样的价格。",
       "CTA_PRIMARY": "立即开始",
       "CTA_SECONDARY": "查看模型",
@@ -56,12 +42,9 @@
       "PROVIDERS": "提供方",
       "FREE": "免费",
       "PAID": "付费",
-      "UPTIME": "可用率",
-      "ENDPOINTS": "端点",
       "PANEL": {
         "TOKENS_SERVED": "已处理 Token",
         "REQUESTS": "请求数",
-        "REQ_MIN": "请求 / 分钟",
         "TOKENS_MIN": "Token / 分钟",
         "LIVE": "实时"
       },
@@ -69,17 +52,14 @@
         "GLOBAL": "可路由",
         "INTEGRATED": "上游节点",
         "FREE": "无需费用",
-        "PAID": "每 Token",
-        "SLA": "实测值"
+        "PAID": "每 Token"
       }
     },
     "TICKER": {
-      "LABEL": "可用模型",
       "LIVE_INFERENCE": "实时推理",
       "TPS": "TPS"
     },
     "INTEGRATION": {
-      "BADGE": "集成",
       "VIEW_GUIDE": "查看指南",
       "CLAUDE_CODE": {
         "BADGE": "Anthropic API",
@@ -121,8 +101,6 @@
         "TITLE": "兼容 Chub / Venus",
         "DESCRIPTION": "将 {appName} 作为 Chub 的一方反向代理接入。一个 URL，一个密钥，支持全部模型。"
       },
-      "CLI_HEADER": "面向编程 Agent 与 CLI 工具",
-      "RP_HEADER": "面向角色扮演与创意对话",
       "PICK_TITLE": "选择你真正使用的客户端。",
       "PICK_DESC": "{appName} 作为自定义 OpenAI 兼容 API，可用于编码代理、角色扮演前端、聊天客户端和 CLI 工具。"
     },
@@ -131,64 +109,24 @@
       "TITLE": "简单定价。",
       "SUBTITLE": "按使用量付费。",
       "DESCRIPTION": "订阅享受更优价格，或按需付费。所有套餐均可访问全部模型，并跨提供方自动容灾。",
-      "PAYG": {
-        "NAME": "按量付费",
-        "PRICE": "$0",
-        "DESC": "无最低消费。充值后可使用任意模型。",
-        "ENDPOINT": "/v1/chat/completions"
-      },
-      "BASIC": {
-        "NAME": "基础版",
-        "PRICE": "$20/月",
-        "DESC": "$30 额度。1.5 倍额度。",
-        "RATE": "100 请求/分钟"
-      },
-      "PRO": {
-        "NAME": "专业版",
-        "PRICE": "$50/月",
-        "DESC": "$75 额度。优先路由。",
-        "RATE": "500 请求/分钟"
-      },
-      "ENTERPRISE": {
-        "NAME": "企业版",
-        "PRICE": "$100/月",
-        "DESC": "$175 额度。专属支持。",
-        "RATE": "2,000 请求/分钟"
-      },
-      "CTA": {
-        "GET_STARTED": "立即开始",
-        "VIEW_PLANS": "查看全部套餐"
-      },
       "PROVIDERS": {
-        "TITLE": "支持的提供方",
-        "ACTIVE": "运行中",
-        "DESC_OPENAI": "GPT-4o、o1、o3、GPT-4.1",
-        "DESC_ANTHROPIC": "Claude Opus、Sonnet、Haiku",
-        "DESC_GOOGLE": "Gemini 2.5 Pro、Flash",
-        "DESC_DEEPSEEK": "DeepSeek V3、R1"
+        "TITLE": "支持的提供方"
       },
       "FLOW": {
-        "TITLE": "请求流程",
-        "LIVE": "实时",
-        "STEP1": "POST /v1/chat/completions",
-        "STEP2": "路由到最快的提供方",
-        "STEP3": "响应已返回"
+        "TITLE": "请求流程"
       }
     },
     "FEATURES": {
       "TITLE": "为什么选择 {appName}",
       "DESCRIPTION": "一个端点，每个 AI 模型。智能路由选择最快的提供方，自动容灾确保您的请求始终成功。",
       "FAILOVER": {
-        "TITLE": "自动容灾",
-        "DESC": "失败请求瞬间切换到备用通道重试"
+        "TITLE": "自动容灾"
       },
       "MULTIPROTOCOL": {
-        "TITLE": "多协议支持",
-        "DESC": "支持 OpenAI、Anthropic 和 Gemini API 格式"
+        "TITLE": "多协议支持"
       },
       "LOADBALANCE": {
-        "TITLE": "智能负载均衡",
-        "DESC": "自动路由到最快可用的提供方"
+        "TITLE": "智能负载均衡"
       }
     },
     "RELIABILITY": {
@@ -205,7 +143,6 @@
         "DESC": "基于延迟选择通道，配合优先级权重。最快的提供方每次都胜出。"
       },
       "LEARN_MORE": "了解更多",
-      "LEARN_MORE_ARIA": "了解更多 {appName} 文档",
       "LEARN_MORE_DOCS": "查看文档",
       "ARCH": {
         "TITLE": "架构",
@@ -442,7 +379,6 @@
       "LEADERBOARD_TITLE": "LLM 排行榜",
       "LEADERBOARD_SUBTITLE": "比较平台上最受欢迎的模型",
       "EMPTY": "没有模型符合所选筛选条件",
-      "TOTAL_LABEL": "令牌总数",
       "TOKENS_SUFFIX": "令牌",
       "TOOLTIP_TOTAL": "合计",
       "BY_AUTHOR_LABEL": "作者："
@@ -484,10 +420,7 @@
     "SUBTITLE": "产品更新、集成指南与团队笔记。",
     "READ_MORE": "阅读更多",
     "PUBLISHED": "发布时间",
-    "UPDATED": "更新时间",
     "BY_AUTHOR": "作者：{author}",
-    "TAGS": "标签",
-    "RECENT": "最新文章",
     "BACK_TO_BLOG": "返回全部文章",
     "EMPTY": "暂无文章，请稍后再来。",
     "EMPTY_FILTERED": "没有匹配您筛选条件的文章。",
@@ -564,9 +497,7 @@
         "H_NOT_SPOOFING": "哪些情况不算冒充：Bedrock、Vertex、Foundry",
         "H_RESULTS": "17 天探测的结果",
         "H_WHY": "为什么会发生这种事",
-        "H_NEXT": "下一步",
         "H_TEST": "5 分钟内自测你的服务商",
-        "H_NAMING": "关于匿名化的说明",
         "INTRO_P1": "Claude 是目前市场上需求最旺、也是最贵的模型之一。这道价差催生出一个繁荣的第三方中转市场，号称用零头的价格卖给你\"一样的 Claude\"。其中有正规玩家，但更多不是。",
         "INTRO_P2": "在 17 天的自动 probe 中，我们覆盖了 <s>8 家上游中转</s>，发现 <s>183 个 (channel, model) 组合</s> 在以 <c>claude-opus-4-7</c>、<c>claude-sonnet-4-6</c>、<c>claude-haiku-4-5</c> 等名义售卖的模型上没能通过真实性检查。同样的压力对每一个高端模型都成立，所以 GPT、Gemini、Grok 几乎肯定也中招了。Claude 只是当下价差最大、我们手里有硬数据的那一块。",
         "PROBES_P": "对每个 (channel, model)，我们向标准的 Anthropic Messages API（<c>POST /v1/messages</c>）并行发送四个请求：",
@@ -651,7 +582,6 @@
         "H_BUGS": "漏洞赏金，最高 50 美元",
         "P_BUGS": "在平台上发现真实漏洞，就到 bug-bounty 论坛发帖。团队会评估严重程度，机器人据此发放赏金：Low 0.25 美元、Medium 0.50 美元、High 1 美元、Critical 50 美元。真正定位漏洞的人拿钱，而不仅仅是开帖的人。",
         "H_JOIN": "欢迎常来玩",
-        "P_JOIN": "所有奖励都直接进入你日常调用 API 时使用的余额。绑定一次，把你能拿的全部领回去，然后继续助推、抓 bug、和我们一起出货。",
         "CTA": "准备好了？<invite>加入 {appName} Discord</invite>，然后<register>领取 API 密钥</register>并<settings>绑定账号</settings>，把第一笔 1 美元收入囊中。"
       },
       "FREE_MODELS_AGGREGATED": {
@@ -695,7 +625,6 @@
     "META_TITLE": "{name} API 价格、上下文与示例 | {appName}",
     "META_DESC": "通过单一 OpenAI 兼容端点使用来自 {vendor} 的 {name}。查看按 Token 计价、上下文窗口、端点和可复制粘贴的代码示例。",
     "META_KEYWORDS": "{name} API, {name} 价格, {name} 上下文窗口, {vendor} API, {appName}",
-    "ABOUT": "关于 {name}",
     "PRICING_TITLE": "价格",
     "PRICING_DESC": "按使用量付费。按量付费时无月度最低消费。",
     "INPUT_PRICE": "输入价格",
@@ -737,62 +666,31 @@
     "CTA_DESC": "创建 API 密钥，不到一分钟就能开始请求。",
     "CTA_SIGNUP": "登录试用 {name}",
     "CTA_TRY": "在对话中试用 {name}",
-    "CTA_ALL_MODELS": "查看全部模型",
-    "LAST_UPDATED": "最后更新：{date}"
+    "CTA_ALL_MODELS": "查看全部模型"
   },
   "PRICING": {
-    "PLAN": {
-      "BASIC": "基础版",
-      "PRO": "专业版",
-      "ENTERPRISE": "企业版"
-    },
     "FEATURE": {
       "MODELS": "包含全部模型",
       "PRIORITY": "优先路由",
       "DEDICATED": "专属支持",
-      "SUPPORT": "邮件支持",
       "FAILOVER": "自动容灾",
       "UPTIME": "99.9% 可用率 SLA",
       "OPENAI_COMPAT": "OpenAI 兼容端点"
     },
     "COMPARE": {
-      "TITLE": "套餐对比",
-      "FEATURE": "功能",
-      "PRICE": "月费",
-      "VALUE": "API 额度",
-      "RATE_LIMIT": "速率限制",
-      "ALL_MODELS": "全部模型",
-      "PRIORITY": "优先路由",
-      "DEDICATED": "专属支持",
-      "BASIC_PRICE": "$20/月",
-      "PRO_PRICE": "$50/月",
-      "ENTERPRISE_PRICE": "$100/月",
-      "BASIC_VALUE": "$30",
-      "PRO_VALUE": "$75",
-      "ENTERPRISE_VALUE": "$175",
-      "BASIC_RATE": "100 rpm",
-      "PRO_RATE": "500 rpm",
-      "ENTERPRISE_RATE": "2,000 rpm"
+      "TITLE": "套餐对比"
     },
     "CARD": {
       "POPULAR": "热门",
       "PER_MONTH": " · 月",
       "VALUE": "价值 {value}",
-      "MULTIPLIER": "{multiplier} 倍",
-      "INCLUDES": "包含",
-      "REQUESTS_MIN": "{count} 请求/分钟",
-      "SPEC_CREDIT": "API 额度",
       "SPEC_QUOTA": "额度/重置",
-      "SPEC_MULTIPLIER": "倍数",
-      "OPENCLAW_TITLE": "OpenClaw 支持",
-      "OPENCLAW_DESC": "与 OpenClaw 代理完全兼容",
       "VALUE_BADGE": "价值",
       "VALUE_EXPLAIN": "支付 {paid}，获得 {credit} API 余额，可用于任意模型。"
     },
     "BANNER": {
       "TITLE": "Telegram 上的 OpenClaw AI 助手",
-      "SUBTITLE": "一键部署 Telegram 机器人 AI 能力，由 OpenClaw 和 {appName} 驱动。",
-      "BADGE": "即将上线"
+      "SUBTITLE": "一键部署 Telegram 机器人 AI 能力，由 OpenClaw 和 {appName} 驱动。"
     },
     "META": {
       "TITLE": "价格：{appName}",
@@ -802,6 +700,11 @@
     "TITLE": "价格",
     "SUBTITLE": "无论你是上线应用还是进行长时间角色扮演。一个套餐，覆盖所有模型。",
     "CTA": "订阅",
+    "TOPUP": {
+      "LABEL": "按量充值",
+      "DESC": "不想订阅？直接充值使用。",
+      "FOOTNOTE": "余额永不过期。"
+    },
     "FAQ": {
       "Q1": "{appName} 如何计费？",
       "A1": "按消耗的 Token 计费。每个模型都有各自的输入、输出和缓存费率，从您的账户余额中扣除。按量付费无需订阅。",
@@ -819,11 +722,6 @@
       "A7": "可以。每个套餐都能在主流角色扮演客户端里作为自定义 OpenAI 兼容来源使用。SillyTavern、Janitor.AI、RisuAI 和 Chub 在文档里都有各自的设置指南。",
       "Q8": "对话或角色历史最长能保留多久？",
       "A8": "{appName} 支持每个模型的完整上下文窗口，Gemini 最高 1M tokens，Claude 最高 200k tokens。长篇角色扮演和大型代码库都能从容应对。"
-    },
-    "TOPUP": {
-      "LABEL": "按量充值",
-      "DESC": "不想订阅？直接充值使用。",
-      "FOOTNOTE": "余额永不过期。"
     }
   },
   "DOCS_INDEX": {
@@ -861,18 +759,7 @@
   },
   "DOCS_SIDEBAR": {
     "TITLE": "文档",
-    "AI_APPLICATIONS": "AI 应用",
-    "GROUP_CLI": "CLI 工具",
-    "GROUP_ROLEPLAY": "角色扮演客户端",
-    "CC_SWITCH": "CC Switch",
-    "OPENCLAW": "OpenClaw",
-    "CLAUDE_CODE": "Claude Code",
-    "CODEX_CLI": "Codex CLI",
-    "GEMINI_CLI": "Gemini CLI",
-    "SILLYTAVERN": "SillyTavern",
-    "JANITOR_AI": "Janitor.AI",
-    "RISUAI": "RisuAI",
-    "CHUB": "Chub / Venus"
+    "AI_APPLICATIONS": "AI 应用"
   },
   "DOCS": {
     "SETUP": {
@@ -882,8 +769,7 @@
       "CLI_ALT": "或使用 CC Switch 命令行：",
       "NO_APP": "还没有 CC Switch？",
       "INSTALL_LINK": "安装 CC Switch",
-      "LOGIN_REQUIRED": "登录以自动填入您的 API 密钥",
-      "CREATE_KEY": "请先创建 API 密钥"
+      "LOGIN_REQUIRED": "登录以自动填入您的 API 密钥"
     },
     "CONFIG": {
       "FILE_LABEL": "永久配置文件（推荐）",
@@ -902,10 +788,8 @@
       "QUICK_CONFIG": "快速配置",
       "QUICK_CONFIG_DESC": "将这些值填入客户端。登录后会自动填入你的密钥。",
       "BASE_URL_LABEL": "基础 URL",
-      "API_PATH_LABEL": "接口端点",
       "API_KEY_LABEL": "API 密钥",
       "STEPS": "逐步设置",
-      "STEP_LABEL": "第 {number} 步",
       "COMPATIBILITY": "兼容性",
       "RECOMMENDED_MODELS": "推荐模型",
       "RECOMMENDED_MODELS_DESC": "在这里表现良好的免费模型。把任意模型 ID 粘贴到客户端即可。",
@@ -2057,11 +1941,8 @@
     "CONTACT_SUBTITLE": "有疑问或建议？",
     "DESCRIPTION": "统一的 AI API 平台，通过单一智能端点接入多家提供方的数百个模型。",
     "COPYRIGHT": "© {year} {appName}。保留所有权利。",
-    "LEGAL_DISCLAIMER": "使用本平台即表示您已阅读并同意我们的",
     "LEGAL_TERMS": "服务条款",
-    "LEGAL_AND": "和",
     "LEGAL_PRIVACY": "隐私政策",
-    "SOCIAL_GITHUB": "GitHub",
     "SOCIAL_TRUSTPILOT": "Trustpilot",
     "EASTER_EGG_LABEL": "玩 Token 打砖块"
   },
@@ -2177,21 +2058,15 @@
   },
   "COMMON": {
     "COPY_CODE": "复制代码",
-    "COPIED": "已复制",
     "OPEN_MENU": "打开菜单",
     "SEARCH": "搜索...",
     "SAVE": "保存",
     "SAVED": "已保存",
     "CANCEL": "取消",
     "DELETE": "删除",
-    "CREATE": "创建",
     "EDIT": "编辑",
-    "IMPORT": "导入",
-    "EXPORT": "导出",
-    "LOADING": "加载中...",
     "NAME": "名称",
     "DESCRIPTION": "描述",
-    "CONFIRM_DELETE": "确定要删除吗？",
     "RESET": "重置",
     "CONFIRM": {
       "CONTINUE": "继续",
@@ -2253,7 +2128,6 @@
       "USERNAME_OR_EMAIL_PLACEHOLDER": "请输入用户名或邮箱",
       "PASSWORD": "密码",
       "PASSWORD_PLACEHOLDER": "请输入密码",
-      "PASSWORD_MIN_LENGTH": "密码至少需要 8 个字符",
       "EMAIL": "邮箱",
       "EMAIL_PLACEHOLDER": "请输入邮箱",
       "VERIFICATION_CODE": "验证码",
@@ -2268,14 +2142,12 @@
     "TWO_FA": {
       "TITLE": "双因素认证",
       "DESCRIPTION": "请输入身份验证器应用中的 6 位验证码",
-      "CODE_PLACEHOLDER": "000000",
       "SUBMIT": "验证",
       "VERIFYING": "正在验证..."
     },
     "VERIFICATION": {
       "SEND_CODE": "发送验证码",
       "SENDING": "发送中...",
-      "SENT": "验证码已发送",
       "RESEND": "重新发送",
       "RESEND_IN": "{seconds} 秒后可重发",
       "FAILED": "发送验证码失败"
@@ -2325,10 +2197,7 @@
     "DONT_HAVE_ACCOUNT": "还没有账户？",
     "ALREADY_HAVE_ACCOUNT": "已有账户？",
     "OR_CONTINUE_WITH": "或使用以下方式继续",
-    "CALLBACK_LOADING": "正在完成登录...",
-    "DASHBOARD": "控制台",
     "LOG_OUT": "退出登录",
-    "BALANCE": "余额",
     "SUBSCRIPTION": "订阅",
     "SUBSCRIPTION_ACTIVE": "生效中"
   },
@@ -2340,10 +2209,7 @@
     "LOGS": "使用日志",
     "AFFILIATE": "推广联盟",
     "BILLING": "账单",
-    "SETTINGS": "设置",
-    "CHAT": "对话",
-    "GENERATE": "图像生成",
-    "MY_GENERATIONS": "我的生成记录"
+    "SETTINGS": "设置"
   },
   "DASHBOARD": {
     "GREETING": {
@@ -2387,12 +2253,9 @@
       "NO_API_INFO": "暂无 API 信息"
     },
     "CONSUMPTION": "消耗",
-    "TOP_UP": "充值",
     "TOTAL": "合计",
     "OTHER": "其他",
     "NO_DATA": "暂无数据",
-    "UPTIME": "可用率",
-    "COPY_URL": "复制 URL",
     "COPIED": "已复制"
   },
   "TOKEN": {
@@ -2410,18 +2273,7 @@
     "FORM": {
       "NAME": "名称",
       "NAME_PLACEHOLDER": "为此密钥输入一个名称",
-      "GROUP": "分组",
-      "GROUP_PLACEHOLDER": "选择分组",
-      "GROUP_NO_GROUPS": "暂无可用分组",
-      "CROSS_GROUP_RETRY": "跨分组重试",
-      "CROSS_GROUP_RETRY_DESC": "启用后，失败的请求会通过其他分组的通道重试。",
-      "EXPIRATION": "过期时间",
-      "EXPIRATION_PLACEHOLDER": "选择过期日期",
-      "EXPIRATION_PRESETS": "快捷设置",
       "NEVER_EXPIRES": "永不过期",
-      "ONE_MONTH": "1 个月",
-      "ONE_DAY": "1 天",
-      "ONE_HOUR": "1 小时",
       "QUOTA": "额度",
       "QUOTA_PLACEHOLDER": "美元金额（如 10）",
       "QUOTA_PRESETS": "预设",
@@ -2432,8 +2284,6 @@
       "MODEL_LIMITS_DESC": "除非必要，否则不推荐使用。",
       "MODEL_SELECT_PLACEHOLDER": "搜索模型...",
       "MODEL_SELECT_EMPTY": "未找到模型",
-      "MODELS_SELECTED": "已选择 {count} 个",
-      "MODEL_COUNT": "{count} 个模型",
       "IP_WHITELIST": "IP 白名单",
       "IP_WHITELIST_PLACEHOLDER": "每行一个 IP。留空表示不限制。",
       "IP_WHITELIST_DESC": "IP 可能被伪造。建议配合网关使用以增强管控。",
@@ -2484,7 +2334,6 @@
     "DISABLE": "禁用",
     "UNLIMITED": "无限",
     "ALL_MODELS": "全部模型",
-    "USED_OF_TOTAL": "{used} / {total}",
     "SEARCH_PLACEHOLDER": "搜索密钥...",
     "NO_TOKENS": "还没有 API 密钥。创建一个即可开始。",
     "COPY_KEY": "复制密钥"
@@ -2492,7 +2341,6 @@
   "LOGS": {
     "TABLE": {
       "TIME": "时间",
-      "TYPE": "类型",
       "CHANNEL": "渠道",
       "USER": "用户",
       "MODEL": "模型",
@@ -2610,8 +2458,6 @@
     "DESCRIPTION": "查看您的 API 请求历史、Token 使用情况和消费详情。",
     "FILTERS": "筛选",
     "RESET": "重置",
-    "TO": "至",
-    "TOTAL": "总计",
     "COPIED": "已复制到剪贴板",
     "CLICK_COPY": "点击复制",
     "NO_LOGS": "所选时段内没有日志。",
@@ -2630,7 +2476,6 @@
       "RATE": "比例",
       "EARNED": "已赚取",
       "STATUS": "状态",
-      "JOINED": "加入时间",
       "COMMISSIONS": "佣金",
       "TOTAL_EARNED": "累计收益"
     },
@@ -2655,7 +2500,6 @@
       "TITLE": "转出推广收益",
       "DIALOG_DESC": "将您待结算的推广收益转入账户余额。此操作不可撤销。",
       "AMOUNT": "金额",
-      "INVALID": "请输入有效金额",
       "EXCEEDS": "金额超过可用余额"
     },
     "ENUM": {
@@ -2687,7 +2531,6 @@
     "HOW_IT_WORKS": "工作原理",
     "TAB_INVITEES": "已邀请用户",
     "TAB_COMMISSIONS": "佣金历史",
-    "COMMISSION_HISTORY": "佣金历史",
     "NO_COMMISSIONS": "暂无佣金历史。分享您的邀请链接开始赚取。",
     "NO_INVITEES": "还没有邀请的用户。分享您的邀请链接开始拓展网络。",
     "BADGE_GENERATOR": {
@@ -2775,7 +2618,6 @@
   },
   "BILLING": {
     "SUBSCRIPTION": {
-      "PLANS": "订阅套餐",
       "MY": "我的订阅",
       "NO_ACTIVE": "暂无",
       "ACTIVE": "生效中",
@@ -2808,9 +2650,7 @@
     },
     "TOPUP": {
       "TITLE": "额度充值",
-      "AMOUNT": "充值金额",
       "ACTUAL_PAYMENT": "实付金额",
-      "PAY_NOW": "立即支付",
       "SAVE": "保存"
     },
     "ERROR": {
@@ -2826,7 +2666,6 @@
     "CONSUMPTION": "消耗",
     "REQUESTS": "请求数",
     "USED_OF": "已用",
-    "REFRESHING": "正在刷新...",
     "PAYMENT_METHOD": {
       "LABEL": "支付方式",
       "CARD": "信用卡",
@@ -2837,8 +2676,6 @@
     "ERROR": {
       "REQUIRED": "{type}为必填项",
       "MIN_LENGTH": "{type}至少需要 {minLength} 个字符",
-      "MAX_LENGTH": "{type}最多 {maxLength} 个字符",
-      "EXACT_LENGTH": "{type}必须恰好为 {minLength} 个字符",
       "MIN_VALUE": "{type}必须大于 0"
     },
     "TYPE": {
@@ -2861,7 +2698,6 @@
     "ROLE_SUPER_ADMIN": "超级管理员",
     "ROLE_ADMIN": "管理员",
     "ROLE_USER": "用户",
-    "BALANCE": "余额",
     "CONSUMPTION": "消耗",
     "REQUEST_COUNT": "请求数",
     "DEFAULT_GROUP": "默认分组",
@@ -2876,14 +2712,12 @@
       "EMAIL_PLACEHOLDER": "请输入邮箱地址",
       "BIND_EMAIL": "绑定邮箱",
       "MODIFY_EMAIL": "修改邮箱",
-      "VERIFICATION_CODE": "验证码",
       "SEND_CODE": "发送验证码",
       "CODE_SENT": "验证码已发送，{seconds} 秒后重试",
       "CODE_PLACEHOLDER": "请输入验证码",
       "OAUTH_BINDINGS": "OAuth 绑定",
       "GITHUB": "GitHub",
       "DISCORD": "Discord",
-      "BOUND": "已绑定",
       "NOT_BOUND": "未绑定",
       "BIND": "绑定",
       "UNBIND": "解绑",
@@ -2897,7 +2731,6 @@
       "ACCESS_TOKEN": "系统访问令牌",
       "ACCESS_TOKEN_DESC": "使用此令牌直接访问 API。",
       "GENERATE_TOKEN": "生成令牌",
-      "REGENERATE_TOKEN": "重新生成令牌",
       "TOKEN_GENERATED": "令牌生成成功",
       "COPY_TOKEN": "复制",
       "TOKEN_COPIED": "已复制到剪贴板",
@@ -2969,29 +2802,16 @@
   },
   "CHAT": {
     "SHARE": {
-      "BUTTON": "分享",
       "TITLE": "分享对话",
       "DESCRIPTION": "任何持有链接的人都可以查看此对话。",
-      "CREATED": "分享链接已创建",
-      "REVOKED": "分享链接已移除",
-      "COPY_LINK": "复制分享链接",
-      "LINK_COPIED": "链接已复制到剪贴板",
-      "GENERATE_LINK": "生成分享链接",
-      "REVOKE": "移除分享链接",
-      "SHARED_CONVERSATION": "分享的对话",
-      "NOT_FOUND": "该分享对话未找到或已被移除。"
+      "LINK_COPIED": "链接已复制到剪贴板"
     },
     "MODEL": {
       "SELECT": "选择模型",
       "SEARCH": "搜索模型...",
       "NO_RESULTS": "未找到模型",
-      "GROUP_TEXT": "文本与推理",
-      "GROUP_IMAGE": "图像生成",
-      "GROUP_VIDEO": "视频生成",
       "FREE_BADGE": "免费",
-      "LOGIN_REQUIRED": "需要登录",
-      "FREE_NOTICE": "高负载时免费模型可能失败。",
-      "FREE_NOTICE_CTA": "切换到付费模型"
+      "LOGIN_REQUIRED": "需要登录"
     },
     "ACTION": {
       "COPY": "复制",
@@ -3013,8 +2833,7 @@
     },
     "GATE": {
       "NEEDS_TOKEN_TITLE": "需要 API 密钥",
-      "NEEDS_TOKEN_DESC": "生成 API 密钥以开始与 AI 模型对话。",
-      "LOGIN_REQUIRED_DESC": "登录后即可开始与 AI 模型对话。"
+      "NEEDS_TOKEN_DESC": "生成 API 密钥以开始与 AI 模型对话。"
     },
     "TOOL": {
       "USED": "已使用工具",
@@ -3042,7 +2861,6 @@
       "UNSUPPORTED_TYPE": "不支持的文件类型 {type}。请上传 PNG、JPEG、WebP 或 GIF 格式的图片。"
     },
     "WEB_SEARCH": {
-      "LABEL": "联网搜索",
       "ON": "联网搜索已开启",
       "OFF": "联网搜索已关闭"
     },
@@ -3084,11 +2902,7 @@
       "HINT": "应用于此对话及今后所有新对话，直到你更改为止。"
     },
     "INPUT_PLACEHOLDER": "输入您的消息...",
-    "START_PROMPT": "发送消息开始对话。",
     "THINKING": "思考中",
-    "DISCLAIMER": "AI 回答可能不准确。请对重要信息进行核实。",
-    "UNTITLED": "未命名对话",
-    "DELETE_CONFIRM": "确定要删除此对话吗？",
     "MESSAGE_INPUT": "消息输入",
     "SEARCH_CHATS": "搜索对话",
     "TOKENS_IN": "输入",
@@ -3098,10 +2912,7 @@
       "TITLE": "AI 对话：{appName}",
       "TITLE_WITH_NAME": "{title} | AI 对话：{appName}",
       "DESCRIPTION": "与任意 AI 模型对话。通过一个界面测试 GPT、Claude、Gemini、DeepSeek 等模型。",
-      "KEYWORDS": "AI 对话, 与 AI 聊天, GPT 对话, Claude 对话, Gemini 对话, AI 实验场, 模型测试",
-      "SHARED_TITLE": "分享的对话：{appName}",
-      "SHARED_TITLE_WITH_NAME": "{title} | 分享的对话：{appName}",
-      "SHARED_DESCRIPTION": "在 {appName} 上查看分享的 AI 对话。"
+      "KEYWORDS": "AI 对话, 与 AI 聊天, GPT 对话, Claude 对话, Gemini 对话, AI 实验场, 模型测试"
     },
     "OVERRIDES": {
       "OPEN": "对话设置",
@@ -3131,10 +2942,8 @@
       "NO_CHARACTERS": "暂无角色，请先创建或导入。",
       "NO_LOREBOOKS": "暂无知识库。",
       "REORDER_HINT": "拖动以重新排序。靠上的条目会更早注入到提示词中。",
-      "SELECTED": "已选",
       "SEARCH_CHARACTERS": "搜索角色",
       "SEARCH_LOREBOOKS": "搜索设定集",
-      "CLEAR": "清除",
       "EFFORT_MINIMAL": "最低",
       "EFFORT_LOW": "低",
       "EFFORT_MEDIUM": "中",
@@ -3177,18 +2986,14 @@
       "LOCAL_DB_UPLOAD_CONFIRM": "从此文件覆盖本地 OPFS 数据库？现有数据将被清空。",
       "CLEAR": "清空对话",
       "CLEAR_SUCCESS": "对话已清空",
-      "CLEAR_CONFIRM_DESC": "此操作将删除该对话中的所有消息，但保留设置、角色绑定和标题。此操作无法撤销。",
-      "FONT": "字体",
-      "FONT_SANS": "无衬线",
-      "FONT_DISPLAY": "展示字体",
-      "FONT_SERIF": "衬线",
-      "FONT_MONO": "等宽",
-      "FONT_SYSTEM": "系统"
+      "CLEAR_CONFIRM_DESC": "此操作将删除该对话中的所有消息，但保留设置、角色绑定和标题。此操作无法撤销。"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, other {# 个角色}}",
       "LOREBOOKS": "{count, plural, other {# 个世界书}}"
-    }
+    },
+    "TRIGGER_ALERT_SELECT_DESC": "请选择一个选项以继续",
+    "TRIGGER_ALERT_OK": "确定"
   },
   "RP": {
     "CHARACTERS_TITLE": "角色",
@@ -3212,7 +3017,6 @@
     "CHARACTER_EXAMPLE_MESSAGES": "对话示例",
     "CHARACTER_SYSTEM_PROMPT": "系统提示词",
     "CHARACTER_POST_HISTORY": "历史末尾指令",
-    "CHARACTER_AVATAR": "头像",
     "CHARACTER_TAGS": "标签",
     "CHARACTER_ACTIVATION_TITLE": "激活",
     "CHARACTER_ACTIVATION_HINT": "关闭「始终激活」时，仅当触发词出现在最近对话中，角色才会被加入提示词。多角色提示：保持主角始终激活，配角通过触发词切换。",
@@ -3222,7 +3026,6 @@
     "CHARACTER_TRIGGERS_HINT": "激活该角色的词语。示例：alice、骑士、剑。若启用「始终激活」则忽略。",
     "CHARACTER_MATCH_WHOLE_WORDS": "仅匹配完整单词",
     "CHARACTER_MATCH_WHOLE_WORDS_HINT": "启用后，触发词「Eve」不会匹配「evening」。默认：子串匹配。",
-    "CHARACTER_DEFAULT_MODEL": "默认模型",
     "PERSONAS_TITLE": "人物（Persona）",
     "PERSONAS_NEW": "新建人物",
     "PERSONAS_EMPTY": "暂无人物。",
@@ -3310,13 +3113,11 @@
     "PRESET_MUST_START_WITH_USER_HINT": "若对话以助手或系统开头，则在开头加入一条空白的小型用户消息。Anthropic／Gemini／GLM 自动应用。",
     "PRESET_GEMINI_BLOCK_OFF": "Gemini：安全 OFF",
     "PRESET_GEMINI_BLOCK_OFF_HINT": "为每个 Gemini harm 类别发送 threshold=OFF 的 safetySettings。比 BLOCK_NONE 更强。仅在 Gemini 模型上生效。",
-    "SIDEBAR_TAB_CHATS": "聊天",
     "SIDEBAR_TAB_CHARACTERS": "角色",
     "SIDEBAR_TAB_PERSONAS": "人物",
     "SIDEBAR_TAB_LOREBOOKS": "知识库",
     "SIDEBAR_TAB_PRESETS": "预设",
     "SIDEBAR_TAB_CARDS": "卡片",
-    "SIDEBAR_GROUP_LABEL": "RP",
     "CARDS_TITLE": "卡片",
     "CARDS_PAGE_SUBTITLE": "将角色+人设+知识库打包为创作组合。一键应用到对话。",
     "CARDS_NEW": "新建卡片",
@@ -3336,10 +3137,6 @@
     "CARD_CHARACTERS": "角色",
     "CARD_LOREBOOKS": "知识库",
     "DROPPED_PARAMS": "{params} 不被该模型支持，已忽略。",
-    "EDIT_SAVE_ONLY": "保存",
-    "EDIT_SAVE_AND_GENERATE": "保存并重新生成",
-    "BRANCH_NEXT": "下一分支",
-    "BRANCH_PREV": "上一分支",
     "LOREBOOKS_IMPORT": "导入",
     "PERSONAS_IMPORT": "导入",
     "LOREBOOK_ENTRY_CONSTANT_HINT": "始终注入此条目，忽略激活关键词。",
@@ -3376,15 +3173,10 @@
     "UNAUTHORIZED": "未授权",
     "NO_API_KEY": "未配置 API 密钥",
     "NOT_FOUND": "资源未找到",
-    "NO_IMAGE_GENERATED": "未生成图像",
     "NO_TASK_ID": "响应中没有任务 ID 或 URL",
-    "NO_VIDEO_URL": "视频已完成，但未找到 URL",
-    "VIDEO_GENERATION_FAILED": "视频生成失败",
-    "VIDEO_GENERATION_TIMED_OUT": "视频生成超时",
     "REQUEST_FAILED": "请求失败",
     "PRICING_FETCH_FAILED": "获取价格数据失败",
     "NO_TEXT_MODELS": "暂无可用的文本模型",
-    "UPLOAD_FAILED": "附件上传失败",
     "NO_IMAGE_PROMPT": "未提供图像生成提示词",
     "IMAGE_GENERATION_FAILED": "图像生成失败",
     "UNEXPECTED_RESPONSE": "上游 API 返回了意外的空响应",
@@ -3397,7 +3189,6 @@
     "PROMPT_REJECTED": "该提示词违反了内容政策，无法用于图像或视频生成。",
     "PROMPT_FLAGGED": "该提示词被标记为可能不适合生成内容，请修改后重试。",
     "MODERATION_UNAVAILABLE": "图像和视频生成暂时不可用，请稍后重试。",
-    "PDF_EXTRACTION_FAILED": "无法读取所附 PDF 的内容，请将其移除或换一个文件再试。",
     "IMPORT_INVALID_JSON": "文件不是有效的JSON。",
     "IMPORT_UNSUPPORTED_VERSION": "不支持的导出版本。",
     "CARD_PARSE_FAILED": "无法解析角色卡。",
@@ -3416,18 +3207,14 @@
     "UNIFIED_INTELLIGENCE_API": "统一智能 API",
     "GET_STARTED": "立即开始",
     "SAVE_UP_TO": "最高节省",
-    "PER_1M_TOKENS": "每百万 Token",
     "SMART_ROUTING": "智能路由",
-    "ONE_ENDPOINT": "一个端点",
     "MODELS": "模型",
     "FREE": "免费",
     "PAID": "付费",
-    "UPTIME": "可用率",
     "LIVE_STATS": "实时统计",
     "CHEAPEST_API": "最便宜的推理 API",
     "MODELS_ONE_ENDPOINT": "40+ AI 模型，一个端点",
     "MODELS_ONE_ENDPOINT_SUFFIX": "AI 模型，一个端点",
-    "DIRECT": "直连",
     "MODEL": "模型",
     "PRICES_NOTE": "每百万 Token 的价格",
     "INPUT": "输入",
@@ -3462,7 +3249,6 @@
     },
     "MCP": {
       "SERVER_DESCRIPTION": "浏览器内的 AI 模型路由。工具通过 navigator.modelContext 在站点主页注册为 WebMCP。打开主页后，通过支持 WebMCP 的客户端调用工具即可。",
-      "WEBMCP_BUNDLE_DESCRIPTION": "通过 navigator.modelContext 在 {appName} 主页注册的浏览器内工具。在支持 WebMCP 的客户端中加载主页即可访问这些工具。",
       "TOOLS": {
         "OPEN_MODELS_CATALOG": "打开 {appName} 模型目录页，列出所有可用模型及来自 OpenAI、Anthropic、Google、DeepSeek 等供应商的实时价格。",
         "OPEN_PRICING": "打开 {appName} 价格页，查看订阅计划与按量付费费率。",
@@ -3511,35 +3297,15 @@
     "STATE": {
       "OPERATIONAL": "正常",
       "DOWN": "故障",
-      "UNKNOWN": "未知",
       "DEGRADED": "降级"
-    },
-    "SUMMARY": {
-      "ALL_NORMAL": "所有系统运行正常",
-      "N_DOWN": "{count} 个模型故障",
-      "LAST_CHECKED_AT": "上次检查 {time}"
     },
     "KPI": {
       "TOTAL": "模型总数",
       "OPERATIONAL": "正常",
-      "DOWN": "故障",
-      "UNKNOWN": "未知"
-    },
-    "ROW": {
-      "CHANNELS": "通道",
-      "LATENCY_PROBE": "探测",
-      "LATENCY_P50": "p50",
-      "LATENCY_P95": "p95",
-      "REQ": "请求",
-      "ERR": "错误",
-      "IDLE": "本分钟无流量"
+      "DOWN": "故障"
     },
     "RIBBON": {
-      "TITLE": "过去 24 小时",
-      "LEGEND_UP": "正常",
-      "LEGEND_DEGRADED": "降级",
-      "LEGEND_DOWN": "故障",
-      "LEGEND_NODATA": "无数据"
+      "TITLE": "过去 24 小时"
     },
     "FILTER": {
       "SEARCH_PLACEHOLDER": "搜索模型……",
@@ -3655,8 +3421,6 @@
     "HOVER_UPSCALE": "放大此图",
     "HOVER_ADETAILER": "对此图运行 ADetailer",
     "HOVER_EDIT": "在编辑标签中使用此图",
-    "GENERATE_TITLE": "图像生成",
-    "GENERATE_SUBTITLE": "选择模型、编写提示词、获取图像。",
     "PROMPT_LABEL": "提示词",
     "PROMPT_PLACEHOLDER": "描述您想要的图像。",
     "NEGATIVE_PROMPT_LABEL": "负面提示词",
@@ -3677,7 +3441,6 @@
     "BACKGROUND_TRANSPARENT": "透明",
     "WATERMARK_LABEL": "水印",
     "STRENGTH_LABEL": "强度",
-    "SIZE_LABEL": "尺寸",
     "STEPS_LABEL": "步数",
     "CFG_LABEL": "CFG",
     "GUIDANCE_LABEL": "引导强度",
@@ -3695,13 +3458,6 @@
     "TOKEN_COUNT_CAPPED": "约 {count} / {cap} 个 token",
     "PROGRESS_OF_N": "正在生成 {current} / {total}……",
     "EXPIRES_IN_DAYS": "{days} 天后过期",
-    "RECENT_TITLE": "最近生成",
-    "AUTO_DELETE_NOTE": "生成的图片将在 30 天后自动删除",
-    "SHARE": "分享",
-    "SHARE_TITLE": "分享这次生成",
-    "SHARE_DESCRIPTION": "持有链接的任何人都可以查看提示词、参数和图片，并将其保存到自己的账户。",
-    "SHARE_REVOKE": "撤销链接",
-    "SHARE_DONE": "完成",
     "EXPORT": "导出",
     "IMPORT": "导入",
     "IMPORT_TITLE": "导入生成",
@@ -3709,56 +3465,30 @@
     "IMPORT_MODE_RESTORE": "恢复（复制原图）",
     "IMPORT_MODE_REGENERATE": "重新生成（新发起调用）",
     "DOWNLOAD_IMAGE": "下载图片",
-    "SHARED_TITLE": "共享的生成",
-    "SAVE_TO_ACCOUNT": "保存到我的账户",
-    "COPY_PROMPT": "复制提示词",
     "SUBMIT": "生成",
     "SUBMITTING": "生成中……",
     "REFERENCES_TITLE": "参考图像",
     "REFERENCES_ADD": "添加参考",
-    "REFERENCES_UNSUPPORTED": "该模型不支持参考图像。",
     "LORAS_TITLE": "LoRA",
-    "LORAS_UNSUPPORTED": "该模型不支持 LoRA 链。",
-    "HISTORY_TITLE": "我的生成记录",
-    "NEW_GENERATION": "新建生成",
     "PICK_OR_GENERATE": "在侧边栏选择生成记录，或者新建一个。",
     "HISTORY_EMPTY": "暂无记录，生成您的第一张图像吧。",
     "STATUS_PENDING": "等待中",
-    "STATUS_SUBMITTED": "已提交",
-    "STATUS_QUEUED": "排队中",
-    "STATUS_IN_PROGRESS": "生成中",
-    "STATUS_SUCCESS": "完成",
     "STATUS_FAILURE": "失败",
     "REMIX": "再创作",
     "DELETE": "删除",
-    "PUBLISH": "公开",
-    "UNLIST": "取消公开",
-    "PRIVATE": "设为私有",
-    "PRICE_PER_CALL": "每张 {price}",
     "META_TITLE": "图像生成",
     "META_DESC": "通过 {appName} 的 ComfyUI 流水线（SDXL 与 Flux 2）生成图像。",
-    "LIKE": "点赞",
-    "UNLIKE": "取消点赞",
     "REFERENCES_DROP_HINT": "拖放图像或浏览",
     "LORAS_EMPTY": "卷上暂未部署 LoRA。运维可通过目录表添加。",
-    "HIRES_FIX_ENABLE": "高分辨率修复",
-    "HIRES_FIX_DENOISE": "去噪强度",
-    "HIRES_FIX_UPSCALE": "放大倍率",
     "PNG_IMPORT_HINT": "拖放 ComfyUI PNG 以导入提示词和参数",
     "PNG_IMPORT_BROWSE": "导入 PNG",
     "PNG_IMPORT_NO_METADATA": "此图像中未找到 ComfyUI 元数据。",
     "NEW_SESSION": "新会话",
-    "SESSION_NEW_TOOLTIP": "开始一个新会话。当前会话仍会保留在历史记录中。",
-    "RECENT_SESSIONS": "最近的会话",
-    "SNAPSHOT_COUNT": "{count, plural, other {# 个快照}}",
-    "IMAGE_COUNT_TOTAL": "{count, plural, other {# 张图像}}",
     "SNAPSHOT_NAV_LABEL": "快照 {current} / {total}",
-    "SHARE_SESSION_HELP": "任何拥有此链接的人都可以查看此会话的历史记录。",
     "LIGHTBOX_PREV": "上一张图像",
     "LIGHTBOX_NEXT": "下一张图像",
     "LIGHTBOX_CLOSE": "关闭",
     "SESSION_SNAPSHOTS": "本会话中的快照",
-    "EDIT": "编辑",
     "UPLOAD_IMAGE": "上传图片",
     "UPLOADING": "上传中…",
     "INIT_IMAGE": "源图像"
@@ -3767,17 +3497,11 @@
     "NOT_SYNCED": "未同步",
     "SYNCED": "已同步",
     "EXPIRES_AT": "已同步，{date} 过期",
-    "EXPIRED": "已过期",
     "ADD_SYNC": "开启同步（30 天）",
     "RESYNC": "重新同步",
     "RESYNC_EXPIRES": "重新同步（{date} 到期）",
     "REMOVE_SYNC": "关闭同步",
     "CONFIRM_REMOVE": "将此条目从服务器同步中移除？本地副本仍会保留。",
-    "OFFLINE_REQUIRED": "同步需要联网连接。",
-    "PENDING_SYNC": "同步等待中，恢复联网后会自动重试。",
-    "HINT_DESCRIPTION": "已同步的条目会在服务器保存 30 天，方便其他设备拉取。",
-    "OPFS_UNAVAILABLE": "当前浏览器不支持本地数据库，数据将不会被保留。",
-    "OFFLINE_SEND_BLOCKED": "当前离线。消息已保存为草稿，恢复联网后请重新发送。",
     "DLQ_TOAST": "{items}在多次重试后仍未能同步。",
     "DLQ_KIND_COUNT": "{count}个{kind}",
     "DLQ_RETRY": "重试",

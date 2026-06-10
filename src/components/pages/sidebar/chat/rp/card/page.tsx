@@ -1,9 +1,7 @@
 "use client";
 
-import { SyncBadge } from "@/components/elements/badge/sync-badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { confirm } from "@/components/ui/confirm";
 import {
   Dialog,
   DialogContent,
@@ -26,6 +24,11 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
 import { RpEntityPage } from "../shared/rp-entity-page";
+import {
+  confirmRpDelete,
+  RpEmptyCard,
+  RpEntityRow,
+} from "../shared/rp-list-parts";
 import { CardForm } from "./form";
 
 export function CardsPage() {
@@ -44,13 +47,11 @@ export function CardsPage() {
   const handleExport = (id: string) => exportMut.mutate({ kind: "cards", id });
 
   const handleDelete = async (id: string) => {
-    const ok = await confirm({
-      title: t("COMMON.CONFIRM.DELETE_CARD_TITLE"),
-      description: t("COMMON.CONFIRM.DELETE_CARD_DESC"),
-      confirmLabel: t("COMMON.DELETE"),
-      cancelLabel: t("COMMON.CANCEL"),
-      destructive: true,
-    });
+    const ok = await confirmRpDelete(
+      t,
+      "COMMON.CONFIRM.DELETE_CARD_TITLE",
+      "COMMON.CONFIRM.DELETE_CARD_DESC",
+    );
     if (!ok) return;
     await deleteMut.mutateAsync(id);
     if (editingId === id) setEditingId(null);
@@ -93,60 +94,43 @@ export function CardsPage() {
         list={
           <div className="flex flex-col gap-2">
             {cardsQuery.data?.length === 0 && (
-              <Card className="text-muted-foreground py-10 text-center text-sm">
-                {t("RP.CARDS_EMPTY")}
-              </Card>
+              <RpEmptyCard labelKey="RP.CARDS_EMPTY" />
             )}
             {cardsQuery.data?.map((c) => (
-              <Card
+              <RpEntityRow
                 key={c.id}
-                className="hover:bg-accent flex cursor-pointer flex-row items-center gap-3 p-3 transition-colors"
-                onClick={() => setEditingId(c.id)}
-              >
-                <div className="flex min-w-0 flex-1 flex-col">
-                  <span className="text-sm font-medium">{c.name}</span>
-                  {c.description && (
-                    <span className="text-muted-foreground truncate text-xs">
-                      {c.description}
-                    </span>
-                  )}
-                </div>
-                <div onClick={(e) => e.stopPropagation()}>
-                  <SyncBadge kind="cards" id={c.id} compact />
-                </div>
-                <Button
-                  variant="ghost"
-                  size="icon-sm"
-                  aria-label={t("RP.CARDS_APPLY")}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setApplyTarget({ cardId: c.id, cardName: c.name });
-                  }}
-                >
-                  <Icon name="play" className="size-4" />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon-sm"
-                  aria-label={t("RP.CARDS_EXPORT")}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    void handleExport(c.id);
-                  }}
-                >
-                  <Icon name="download" className="size-4" />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon-sm"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    void handleDelete(c.id);
-                  }}
-                >
-                  <Icon name="trash-2" className="size-4" />
-                </Button>
-              </Card>
+                onOpen={() => setEditingId(c.id)}
+                name={c.name}
+                description={c.description}
+                badge={{ kind: "cards", id: c.id }}
+                actions={
+                  <>
+                    <Button
+                      variant="ghost"
+                      size="icon-sm"
+                      aria-label={t("RP.CARDS_APPLY")}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setApplyTarget({ cardId: c.id, cardName: c.name });
+                      }}
+                    >
+                      <Icon name="play" className="size-4" />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="icon-sm"
+                      aria-label={t("RP.CARDS_EXPORT")}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        void handleExport(c.id);
+                      }}
+                    >
+                      <Icon name="download" className="size-4" />
+                    </Button>
+                  </>
+                }
+                onDelete={() => handleDelete(c.id)}
+              />
             ))}
           </div>
         }

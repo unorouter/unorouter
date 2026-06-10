@@ -1,6 +1,7 @@
 "use client";
 
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
+import { useApiMutation } from "@/hooks/use-api-mutation";
 import { analytics } from "@/lib/analytics";
 import {
   exportLocalCard,
@@ -8,13 +9,11 @@ import {
   exportLocalLorebook,
   exportLocalPreset,
 } from "@/lib/db/client/data/rp-export";
-import { downloadBlob, handleError } from "@/lib/utils/client";
+import { downloadBlob } from "@/lib/utils/client";
 import type {
   CharacterExportFormat,
   LorebookExportFormat,
 } from "@/lib/validation/rp";
-import { useMutation } from "@tanstack/react-query";
-import { useTranslations } from "next-intl";
 
 // Characters/lorebooks carry their own format union (tags the analytics event
 // and the fallback filename); cards/presets export a single native format.
@@ -27,9 +26,8 @@ type ExportArgs =
 // Local-first export: row (+ avatar bytes) from SQLocal through the `@/lib/ai/rp`
 // helpers into a blob download. No server roundtrip; works offline + for guests.
 export function useRpExportMutation() {
-  const t = useTranslations();
   const auth = useAuthQuery();
-  return useMutation({
+  return useApiMutation({
     mutationFn: async (args: ExportArgs) => {
       const userId = auth.data?.id;
       const result = await runExport(userId, args);
@@ -40,7 +38,6 @@ export function useRpExportMutation() {
         format: "format" in args ? args.format : undefined,
       });
     },
-    onError: (e) => handleError(e, t),
   });
 }
 

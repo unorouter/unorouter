@@ -1,6 +1,6 @@
 import type { TranslationKey } from "./constants";
 
-export type WebMcpToolResult = {
+type WebMcpToolResult = {
   path: string;
   // Substituted into resultKey {target} templates (open_model, open_docs).
   target?: string;
@@ -8,7 +8,7 @@ export type WebMcpToolResult = {
   resultKey?: TranslationKey;
 };
 
-export type WebMcpToolDescriptor = {
+type WebMcpToolDescriptor = {
   name: string;
   descriptionKey: TranslationKey;
   inputSchema: Record<string, unknown>;

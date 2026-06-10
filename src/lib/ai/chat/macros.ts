@@ -40,6 +40,9 @@ export type MacroScope = {
   lorebooks?: unknown[]; // {{lorebook}}/{{worldinfo}} JSON reader
   triggerId?: string; // {{trigger_id}} when expanding inside a trigger
   prefillSupported?: boolean; // {{prefill_supported}}
+  // Index of the message being expanded (Risu chatID); undefined = field
+  // context (chatID -1) so message_time family returns the error strings.
+  chatIndex?: number;
   // Introspection tokens; all optional so fallback assembly paths stay valid.
   model?: string; // {{model}} / metadata::modelname
   maxContext?: number; // {{maxcontext}} / metadata::maxcontext
@@ -72,6 +75,7 @@ const FIELD_ALIASES: Record<string, ScopeField> = {
   description: "char_description",
   chardesc: "char_description",
   personality: "personality",
+  charpersona: "personality",
   scenario: "scenario",
 };
 
@@ -172,6 +176,74 @@ function caesar(s: string, shift: number): string {
     out += String.fromCharCode(n);
   }
   return out;
+}
+
+// Risu parseArray: JSON array or `§`-separated fallback.
+function parseArray(p1: string): unknown[] {
+  try {
+    const arr: unknown = JSON.parse(p1);
+    if (Array.isArray(arr)) return arr;
+    return p1.split("§");
+  } catch {
+    return p1.split("§");
+  }
+}
+
+// Risu trimLines: strip per-line leading whitespace, trim the whole.
+function trimLines(p1: string): string {
+  return p1
+    .split("\n")
+    .map((v) => v.trimStart())
+    .join("\n")
+    .trim();
+}
+
+// Risu risuEscape/risuUnescape: {}() to private-use chars; protects #escape
+// content through later processing, un-mapped at request build.
+export function risuEscape(text: string): string {
+  return text.replace(/[{}()]/g, (f) => {
+    switch (f) {
+      case "{":
+        return "\uE9B8";
+      case "}":
+        return "\uE9B9";
+      case "(":
+        return "\uE9BA";
+      default:
+        return "\uE9BB";
+    }
+  });
+}
+
+const UNESCAPE_MAP = ["{", "}", "(", ")"];
+export function risuUnescape(text: string): string {
+  return text.replace(/[\uE9B8-\uE9BF]/g, (f) =>
+    String(UNESCAPE_MAP[f.charCodeAt(0) - 0xe9b8] ?? f),
+  );
+}
+
+// Risu messageIdleDuration format: H+:MM:SS, all zero-padded.
+function hmsPad(totalMs: number): string {
+  const totalSec = Math.floor(Math.max(0, totalMs) / 1000);
+  const h = Math.floor(totalSec / 3600);
+  const m = Math.floor((totalSec % 3600) / 60);
+  const s = totalSec % 60;
+  return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+}
+
+const NO_TIME = "[Cannot get time]";
+const OLD_VERSION_TIME = "[Cannot get time, message was sent in older version]";
+
+// toLocale* with the browser-sent locale + timeZone (Risu runs in-browser).
+function localeTime(ms: number, scope: MacroScope): string {
+  return new Date(ms).toLocaleTimeString(scope.locale, {
+    timeZone: scope.timeZone,
+  });
+}
+function localeDate(ms: number, scope: MacroScope): string {
+  return new Date(ms).toLocaleDateString(scope.locale, {
+    timeZone: scope.timeZone,
+  });
 }
 
 // Returns null for unknown macros so the caller leaves them verbatim.
@@ -502,15 +574,23 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
     case "lastmessage":
       return scope.history?.at(-1)?.text ?? "";
     case "lastusermessage":
+    case "previoususerchat":
       return (
         [...(scope.history ?? [])].reverse().find((m) => m.role === "user")
           ?.text ?? ""
       );
     case "lastcharmessage":
-      return (
-        [...(scope.history ?? [])].reverse().find((m) => m.role === "assistant")
-          ?.text ?? ""
-      );
+    case "previouscharchat": {
+      const found = [...(scope.history ?? [])]
+        .reverse()
+        .find((m) => m.role === "assistant");
+      if (found) return found.text;
+      // Risu: no char message yet -> the greeting being shown.
+      const fm = scope.fmIndex ?? -1;
+      return fm >= 0
+        ? (scope.alternateGreetings?.[fm] ?? scope.firstMessage ?? "")
+        : (scope.firstMessage ?? "");
+    }
     case "lastmessageid":
     case "lastmessageindex":
       return String((scope.history?.length ?? 0) - 1);
@@ -519,18 +599,21 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
     case "history":
     case "messages":
       return (scope.history ?? []).map((m) => m.text).join("\n");
+    // Risu returns these as JSON arrays, not joined text.
     case "userhistory":
     case "usermessages":
-      return (scope.history ?? [])
-        .filter((m) => m.role === "user")
-        .map((m) => m.text)
-        .join("\n");
+      return JSON.stringify(
+        (scope.history ?? [])
+          .filter((m) => m.role === "user")
+          .map((m) => m.text),
+      );
     case "charhistory":
     case "charmessages":
-      return (scope.history ?? [])
-        .filter((m) => m.role === "assistant")
-        .map((m) => m.text)
-        .join("\n");
+      return JSON.stringify(
+        (scope.history ?? [])
+          .filter((m) => m.role === "assistant")
+          .map((m) => m.text),
+      );
     case "chatindex":
       return String((scope.history?.length ?? 0) - 1);
 
@@ -550,6 +633,86 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
       return dayjs().utc().format("H:m:s");
     case "unixtime":
       return dayjs().unix().toFixed(0);
+
+    // ---- per-message time family (Risu cbs.ts message_time/...) ----
+    case "messagetime": {
+      const idx = scope.chatIndex ?? -1;
+      if (idx < 0) return NO_TIME;
+      const t = scope.history?.[idx]?.time;
+      return t == null ? OLD_VERSION_TIME : localeTime(t, scope);
+    }
+    case "messagedate": {
+      const idx = scope.chatIndex ?? -1;
+      if (idx < 0) return NO_TIME;
+      const t = scope.history?.[idx]?.time;
+      return t == null ? OLD_VERSION_TIME : localeDate(t, scope);
+    }
+    case "messageidleduration": {
+      const users = (scope.history ?? []).filter((m) => m.role === "user");
+      if (users.length < 2) return "[No user message found]";
+      const last = users[users.length - 1];
+      const prev = users[users.length - 2];
+      if (last.time == null || prev.time == null) return OLD_VERSION_TIME;
+      return hmsPad(last.time - prev.time);
+    }
+    case "idleduration": {
+      const last = scope.history?.at(-1);
+      if (!last) return "00:00:00";
+      if (last.time == null) return OLD_VERSION_TIME;
+      return hmsPad(Date.now() - last.time);
+    }
+    case "messageunixtimearray":
+      return JSON.stringify(
+        (scope.history ?? []).map((m) => `${m.time ?? 0}`),
+      );
+
+    // ---- greeting / card data readers ----
+    case "firstmessageindex":
+    case "firstmsgindex":
+      return String(scope.fmIndex ?? -1);
+    case "exampledialogue":
+    case "examplemessage":
+      return scope.exampleMessage ?? "";
+    case "lorebook":
+    case "worldinfo":
+      return JSON.stringify(scope.lorebooks ?? []);
+    case "role": {
+      const idx = scope.chatIndex ?? -1;
+      const r = idx >= 0 ? scope.history?.[idx]?.role : undefined;
+      return r ? (r === "assistant" ? "char" : r) : "null";
+    }
+
+    // ---- environment / introspection ----
+    case "screenwidth":
+      return String(scope.viewport?.w ?? 0);
+    case "screenheight":
+      return String(scope.viewport?.h ?? 0);
+    case "triggerid":
+      return scope.triggerId ?? "null";
+    case "axmodel":
+      // No aux-model setting; closest analog is the active model.
+      return scope.model ?? "";
+    case "prefillsupported":
+    case "prefill_supported":
+      return scope.prefillSupported ? "1" : "0";
+    case "file": {
+      // {{file::name::base64}}: decode to utf-8 (display wrapper is client-side).
+      const b64 = args[1]?.trim() ?? "";
+      try {
+        const bytes = Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
+        return new TextDecoder().decode(bytes);
+      } catch {
+        return "";
+      }
+    }
+    case "return":
+      scope.vars["__return__"] = arg0;
+      scope.vars["__force_return__"] = "1";
+      return "";
+    // Doc-only in Risu; consumed by other features. Resolve empty, never leak.
+    case "slot":
+    case "position":
+      return "";
 
     // ---- prompt-field tokens ----
     case "mainprompt":
@@ -626,14 +789,14 @@ const LITERAL_MACROS: Record<string, string> = (() => {
     // App-coupled render tokens -> empty.
     [
       "",
-      "asset assetlist emotion emotionlist image img audio video videoimg bg bgm inlay inlayed inlayeddata path source button risu ruby furigana katex latex chardisplayasset moduleassetlist screenwidth screenheight".split(
+      "blank none asset assetlist emotion emotionlist image img audio video videoimg bg bgm inlay inlayed inlayeddata path source button risu ruby furigana katex latex chardisplayasset moduleassetlist".split(
         " ",
       ),
     ],
     // App-coupled boolean probes -> "0".
     [
       "0",
-      "moduleenabled jbtoggled isfirstmsg isfirstmessage prefillsupported".split(
+      "moduleenabled jbtoggled isfirstmsg isfirstmessage".split(
         " ",
       ),
     ],
@@ -647,7 +810,9 @@ const LITERAL_MACROS: Record<string, string> = (() => {
 function evalCondition(raw: string, scope: MacroScope): boolean {
   const t = raw.trim();
   if (t.startsWith("#if")) {
-    return isTruthy(t.replace(/^#if(_pure)?\s*/i, ""));
+    // Risu p1.split(' ', 2)[1]: only the FIRST token is the condition.
+    const state = t.replace(/^#if(_pure)?\s*/i, "").split(" ", 1)[0] ?? "";
+    return isTruthy(state);
   }
   if (t.startsWith("#when")) {
     const body = t.replace(/^#when/i, "").replace(/^(::|\s)/, "");
@@ -739,6 +904,11 @@ function expandFlat(text: string, scope: MacroScope): string {
       cursor = at + m[0].length; // skip unknown, leave verbatim
       continue;
     }
+    // {{return}}: exit expansion immediately; the remainder is dropped (Risu
+    // __force_return__ exits the parser with what accumulated so far).
+    if (scope.vars["__force_return__"] === "1") {
+      return text.slice(0, at) + resolved;
+    }
     text = text.slice(0, at) + resolved + text.slice(at + m[0].length);
     // Re-scan from start: resolving an inner macro can complete an outer one opening before `at`.
     cursor = 0;
@@ -746,91 +916,205 @@ function expandFlat(text: string, scope: MacroScope): string {
   return text;
 }
 
-// Resolve the first conditional block, dropping the dead branch so its side
-// effects never run. Chosen body left unexpanded for the outer loop; null when
-// no well-formed block remains.
-function resolveFirstBlock(text: string, scope: MacroScope): string | null {
-  const start = text.search(/\{\{#(if|if_pure|when)\b/);
-  if (start === -1) return null;
-  // Find the closing }} of this opening tag, tracking nested {{...}} in the condition.
-  let condEnd = -1;
-  let braceDepth = 0;
+// Block engine (Risu parser.svelte.ts blockStartMatcher/blockEndMatcher).
+// Any {{/...}} closes the innermost open block (Risu pops the stack by
+// position, not by name). pure-ish bodies are captured raw.
+const BLOCK_OPEN_RE =
+  /\{\{#(if_pure|if|when|each|pure_display|puredisplay|pure|escape)\b/;
+
+type BlockResult = {
+  // Emit verbatim (pure/puredisplay/escape/when: already fully processed).
+  raw?: string;
+  // Remaining text to keep processing (reinjected body + tail).
+  rest: string;
+};
+
+// Find the end of the opening {{#...}} tag, tracking nested {{...}} in args.
+function findTagEnd(text: string, start: number): number {
+  let depth = 0;
   for (let j = start; j < text.length - 1; j++) {
     if (text[j] === "{" && text[j + 1] === "{") {
-      braceDepth++;
+      depth++;
       j++;
     } else if (text[j] === "}" && text[j + 1] === "}") {
-      braceDepth--;
+      depth--;
       j++;
-      if (braceDepth === 0) {
-        condEnd = j - 1;
-        break;
-      }
+      if (depth === 0) return j - 1;
     }
   }
-  if (condEnd === -1) return null;
-  // Flat-expand the condition so {{#if {{getvar::x}}}} works.
-  const condRaw = expandFlat(text.slice(start + 2, condEnd), scope);
+  return -1;
+}
 
+// Find the matching close tag: {{#...}} pushes, {{/...}} (not {{//}}) pops.
+function findBlockClose(
+  text: string,
+  from: number,
+): { closeAt: number; closeEnd: number } | null {
   let depth = 1;
-  let i = condEnd + 2;
-  let elseAt = -1;
-  let closeAt = -1;
-  while (i < text.length && depth > 0) {
-    const nextOpen = text.indexOf("{{#", i);
-    const closeMatch = /\{\{\/(if|when)\}\}/.exec(text.slice(i));
-    const closeIdx = closeMatch ? i + closeMatch.index : -1;
-    if (closeIdx === -1) break;
-    if (nextOpen !== -1 && nextOpen < closeIdx) {
-      depth++;
-      i = nextOpen + 3;
+  let i = from;
+  while (i < text.length - 2) {
+    const open = text.indexOf("{{#", i);
+    const close = text.indexOf("{{/", i);
+    if (close === -1) return null;
+    if (text.startsWith("{{//", close)) {
+      // Comment macro, not a close tag.
+      i = close + 4;
       continue;
     }
-    if (depth === 1) {
-      const elseIdx = text.indexOf("{{:else}}", i);
-      if (elseIdx !== -1 && elseIdx < closeIdx) elseAt = elseIdx;
+    if (open !== -1 && open < close) {
+      depth++;
+      i = open + 3;
+      continue;
     }
     depth--;
     if (depth === 0) {
-      closeAt = closeIdx;
+      const closeEnd = text.indexOf("}}", close);
+      if (closeEnd === -1) return null;
+      return { closeAt: close, closeEnd: closeEnd + 2 };
+    }
+    i = close + 3;
+  }
+  return null;
+}
+
+// Risu newif (#when) else handling: line-based for multiline bodies.
+function applyWhenElse(body: string, truthy: boolean, keep: boolean): string {
+  const lines = body.split("\n");
+  let result: string;
+  if (lines.length === 1) {
+    const elseIndex = body.indexOf("{{:else}}");
+    if (elseIndex !== -1) {
+      result = truthy
+        ? body.substring(0, elseIndex)
+        : body.substring(elseIndex + 9);
+    } else {
+      result = truthy ? body : "";
+    }
+  } else {
+    const elseLine = lines.findIndex((v) => v.trim() === "{{:else}}");
+    if (elseLine !== -1 && truthy) lines.splice(elseLine);
+    else if (elseLine !== -1 && !truthy) lines.splice(0, elseLine + 1);
+    else if (elseLine === -1 && !truthy) return "";
+    result = lines.join("\n");
+  }
+  return keep ? result : trimLines(result);
+}
+
+// Resolve the first block in `text` (which starts at the block opener).
+// Returns null when malformed (caller emits verbatim).
+function resolveFirstBlock(
+  text: string,
+  scope: MacroScope,
+  depth: number,
+): BlockResult | null {
+  const tagEnd = findTagEnd(text, 0);
+  if (tagEnd === -1) return null;
+  // Inner macros in the tag resolve first (Risu char-walk order).
+  const tag = expandFlat(text.slice(2, tagEnd), scope);
+  const closeInfo = findBlockClose(text, tagEnd + 2);
+  if (!closeInfo) return null;
+  const body = text.slice(tagEnd + 2, closeInfo.closeAt);
+  const tail = text.slice(closeInfo.closeEnd);
+
+  if (tag.startsWith("#if")) {
+    const pure = tag.startsWith("#if_pure");
+    if (!evalCondition(tag, scope)) return { raw: "", rest: tail };
+    // Truthy: body processed; #if trims (Risu 'parse'), #if_pure keeps verbatim.
+    const expanded = expandBlocks(body, scope, depth + 1);
+    return { raw: pure ? expanded : trimLines(expanded.trim()), rest: tail };
+  }
+
+  if (tag.startsWith("#when")) {
+    const truthy = evalCondition(tag, scope);
+    const keep = /(^|::|\s)keep(::|\s|$)/.test(tag.slice(5));
+    // Risu newif bodies are NOT pure: both branches expand (side effects run),
+    // then the else split cuts the text.
+    const expanded = expandBlocks(body, scope, depth + 1);
+    return { raw: applyWhenElse(expanded, truthy, keep), rest: tail };
+  }
+
+  if (tag === "#pure") {
+    return { raw: body, rest: tail };
+  }
+
+  if (tag === "#pure_display" || tag === "#puredisplay") {
+    return {
+      raw: body.replaceAll("{{", "\\{\\{").replaceAll("}}", "\\}\\}"),
+      rest: tail,
+    };
+  }
+
+  if (tag.startsWith("#escape")) {
+    const keep = tag.slice(7).trim() === "::keep";
+    return { raw: risuEscape(keep ? body : body.trim()), rest: tail };
+  }
+
+  if (tag.startsWith("#each")) {
+    let arg = tag.slice(5).trim();
+    let mode: "keep" | undefined;
+    if (arg.startsWith("::keep ")) {
+      mode = "keep";
+      arg = arg.slice(7).trim();
+    }
+    if (arg.startsWith("as ")) arg = arg.slice(3).trim();
+    const asIndex = arg.lastIndexOf(" as ");
+    let sub: string;
+    let arrExpr: string;
+    if (asIndex === -1) {
+      // Compatibility mode: last space-separated token is the var name.
+      const subind = arg.lastIndexOf(" ");
+      if (subind === -1) return { raw: "", rest: tail };
+      sub = arg.slice(subind + 1);
+      arrExpr = arg.slice(0, subind);
+    } else {
+      sub = arg.slice(asIndex + 4).trim();
+      arrExpr = arg.slice(0, asIndex);
+    }
+    const array = parseArray(arrExpr);
+    const piece = mode === "keep" ? body : trimLines(body.trim());
+    let added = "";
+    for (const el of array) {
+      added += piece.replaceAll(
+        `{{slot::${sub}}}`,
+        typeof el === "string" ? el : JSON.stringify(el),
+      );
+    }
+    // Reinject: slot-substituted bodies re-enter the stream (Risu splices into da).
+    return { rest: (mode === "keep" ? added : added.trim()) + tail };
+  }
+
+  return null;
+}
+
+// Left-to-right block resolution; depth caps runaway reinjection.
+function expandBlocks(text: string, scope: MacroScope, depth: number): string {
+  if (depth > MAX_RECURSION) return text;
+  let out = "";
+  let guard = 0;
+  while (guard++ < MAX_RECURSION * 50) {
+    if (scope.vars["__force_return__"] === "1") return out;
+    const blockAt = text.search(BLOCK_OPEN_RE);
+    if (blockAt === -1) break;
+    out += expandFlat(text.slice(0, blockAt), scope);
+    const rest = text.slice(blockAt);
+    const r = resolveFirstBlock(rest, scope, depth);
+    if (r === null) {
+      // Malformed block: emit verbatim, stop block processing.
+      text = rest;
       break;
     }
-    i = closeIdx + 2;
+    if (r.raw !== undefined) {
+      out += r.raw;
+      text = r.rest;
+    } else {
+      text = r.rest;
+    }
   }
-  if (closeAt === -1) return null;
-
-  const bodyStart = condEnd + 2;
-  const closeTagEnd = text.indexOf("}}", closeAt) + 2;
-  const truthy = evalCondition(condRaw, scope);
-  let chosen: string;
-  if (elseAt !== -1 && elseAt > bodyStart && elseAt < closeAt) {
-    chosen = truthy
-      ? text.slice(bodyStart, elseAt)
-      : text.slice(elseAt + "{{:else}}".length, closeAt);
-  } else {
-    chosen = truthy ? text.slice(bodyStart, closeAt) : "";
-  }
-  return text.slice(0, start) + chosen + text.slice(closeTagEnd);
+  return out + expandFlat(text, scope);
 }
 
 export function expandMacros(text: string, scope: MacroScope): string {
   if (!text || !text.includes("{{")) return text;
-  // Left-to-right so var writes are visible to later reads: expand prefix, resolve block, repeat.
-  let out = "";
-  let guard = 0;
-  while (guard++ < MAX_RECURSION * 50) {
-    const blockAt = text.search(/\{\{#(if|if_pure|when)\b/);
-    if (blockAt === -1) break;
-    out += expandFlat(text.slice(0, blockAt), scope);
-    const rest = text.slice(blockAt);
-    const resolved = resolveFirstBlock(rest, scope);
-    if (resolved === null) {
-      // Malformed block: emit it verbatim and stop block processing.
-      text = rest;
-      break;
-    }
-    // The chosen branch body may itself contain blocks/macros: re-process it.
-    text = resolved;
-  }
-  return out + expandFlat(text, scope);
+  return expandBlocks(text, scope, 0);
 }
+

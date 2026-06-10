@@ -5,8 +5,6 @@ import { useElysiaQuery } from "@/hooks/use-elysia-query";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import type { EdenQuery } from "@/lib/types/eden";
-import { handleElysia } from "@/lib/utils/base";
-import { useQuery } from "@tanstack/react-query";
 
 export function useUsageLogsQuery(query?: EdenQuery<typeof rpc.api.ops.logs>) {
   return useElysiaQuery(queryKeys.usageLogs(query), () =>

@@ -1,22 +1,13 @@
 "use client";
 
-import { confirm } from "@/components/ui/confirm";
 import { Icon } from "@/components/ui/icon";
-import { SyncBadge } from "@/components/elements/badge/sync-badge";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import {
   useCreateLorebookMutation,
   useDeleteLorebookMutation,
@@ -26,8 +17,15 @@ import {
 import { analytics } from "@/lib/analytics";
 import type { LorebookExportFormat } from "@/lib/validation/rp";
 import { useTranslations } from "next-intl";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRpExportMutation } from "@/hooks/ai/rp/use-export-mutation";
+import {
+  confirmRpDelete,
+  RpEmptyCard,
+  RpEntityRow,
+  RpExportMenu,
+  RpImportControl,
+} from "../shared/rp-list-parts";
 import { LorebookEditor } from "./editor";
 
 type Props = {
@@ -42,7 +40,6 @@ export function LorebookList(props: Props) {
   const deleteMut = useDeleteLorebookMutation();
   const importMut = useImportLorebookMutation();
   const exportMut = useRpExportMutation();
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [openLbId, setOpenLbId] = useState<string | null>(null);
 
@@ -62,31 +59,14 @@ export function LorebookList(props: Props) {
   };
 
   const handleDelete = async (id: string) => {
-    const ok = await confirm({
-      title: t("COMMON.CONFIRM.DELETE_LOREBOOK_TITLE"),
-      description: t("COMMON.CONFIRM.DELETE_LOREBOOK_DESC"),
-      confirmLabel: t("COMMON.DELETE"),
-      cancelLabel: t("COMMON.CANCEL"),
-      destructive: true,
-    });
+    const ok = await confirmRpDelete(
+      t,
+      "COMMON.CONFIRM.DELETE_LOREBOOK_TITLE",
+      "COMMON.CONFIRM.DELETE_LOREBOOK_DESC",
+    );
     if (!ok) return;
     await deleteMut.mutateAsync(id);
     analytics.rp.entityAction({ entity: "lorebooks", action: "deleted" });
-  };
-
-  const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    e.target.value = "";
-    try {
-      await importMut.mutateAsync(file);
-      analytics.rp.entityAction({ entity: "lorebooks", action: "imported" });
-    } catch {
-      analytics.rp.entityAction({
-        entity: "lorebooks",
-        action: "import_failed",
-      });
-    }
   };
 
   const handleExport = (id: string, format: LorebookExportFormat) =>
@@ -122,28 +102,13 @@ export function LorebookList(props: Props) {
         ) : (
           <div className="flex flex-col gap-3">
             <div className="flex flex-wrap items-center justify-end gap-2">
-              <input
-                ref={fileInputRef}
-                type="file"
+              <RpImportControl
+                entity="lorebooks"
                 accept="application/json"
-                onChange={handleFile}
-                className="hidden"
+                labelKey="RP.LOREBOOKS_IMPORT"
+                isPending={importMut.isPending}
+                onFile={(file) => importMut.mutateAsync(file).then(() => {})}
               />
-              <Button
-                variant="outline"
-                onClick={() => {
-                  analytics.rp.entityAction({
-                    entity: "lorebooks",
-                    action: "import_picker_opened",
-                  });
-                  fileInputRef.current?.click();
-                }}
-                disabled={importMut.isPending}
-                className="min-w-0 flex-1 sm:flex-initial"
-              >
-                <Icon name="upload" className="size-4" />
-                <span className="truncate">{t("RP.LOREBOOKS_IMPORT")}</span>
-              </Button>
               <Button
                 onClick={handleCreate}
                 disabled={createMut.isPending}
@@ -155,85 +120,48 @@ export function LorebookList(props: Props) {
             </div>
 
             {lorebooksQuery.data?.length === 0 && (
-              <Card className="text-muted-foreground py-10 text-center text-sm">
-                {t("RP.LOREBOOKS_EMPTY")}
-              </Card>
+              <RpEmptyCard labelKey="RP.LOREBOOKS_EMPTY" />
             )}
 
             <div className="flex flex-col gap-2">
               {lorebooksQuery.data?.map((l) => (
-                <Card
+                <RpEntityRow
                   key={l.id}
-                  className="hover:bg-accent flex cursor-pointer flex-row items-center gap-3 p-3 transition-colors"
-                  onClick={() => {
+                  onOpen={() => {
                     analytics.rp.entityAction({
                       entity: "lorebooks",
                       action: "edit_started",
                     });
                     setOpenLbId(l.id);
                   }}
-                >
-                  <div className="flex min-w-0 flex-1 flex-col">
-                    <span className="text-sm font-medium">{l.name}</span>
-                    {l.description && (
-                      <span className="text-muted-foreground truncate text-xs">
-                        {l.description}
-                      </span>
-                    )}
-                  </div>
-                  <div onClick={(e) => e.stopPropagation()}>
-                    <SyncBadge kind="lorebooks" id={l.id} payload={l} compact />
-                  </div>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger
-                      render={
-                        <Button
-                          variant="ghost"
-                          size="icon-sm"
-                          aria-label={t("RP.LOREBOOKS_EXPORT")}
-                          onClick={(e) => e.stopPropagation()}
-                        />
-                      }
-                    >
-                      <Icon name="download" className="size-4" />
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent
-                      align="end"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <DropdownMenuItem
-                        onClick={() => handleExport(l.id, "sillytavern")}
-                      >
-                        {t("RP.EXPORT_SILLYTAVERN")}
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
-                        onClick={() => handleExport(l.id, "agnai")}
-                      >
-                        {t("RP.EXPORT_AGNAI")}
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
-                        onClick={() => handleExport(l.id, "risu")}
-                      >
-                        {t("RP.EXPORT_RISU")}
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
-                        onClick={() => handleExport(l.id, "ccv3")}
-                      >
-                        {t("RP.EXPORT_CCV3")}
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                  <Button
-                    variant="ghost"
-                    size="icon-sm"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleDelete(l.id);
-                    }}
-                  >
-                    <Icon name="trash-2" className="size-4" />
-                  </Button>
-                </Card>
+                  name={l.name}
+                  description={l.description}
+                  badge={{ kind: "lorebooks", id: l.id, payload: l }}
+                  actions={
+                    <RpExportMenu
+                      ariaLabel={t("RP.LOREBOOKS_EXPORT")}
+                      items={[
+                        {
+                          label: t("RP.EXPORT_SILLYTAVERN"),
+                          onClick: () => handleExport(l.id, "sillytavern"),
+                        },
+                        {
+                          label: t("RP.EXPORT_AGNAI"),
+                          onClick: () => handleExport(l.id, "agnai"),
+                        },
+                        {
+                          label: t("RP.EXPORT_RISU"),
+                          onClick: () => handleExport(l.id, "risu"),
+                        },
+                        {
+                          label: t("RP.EXPORT_CCV3"),
+                          onClick: () => handleExport(l.id, "ccv3"),
+                        },
+                      ]}
+                    />
+                  }
+                  onDelete={() => handleDelete(l.id)}
+                />
               ))}
             </div>
           </div>

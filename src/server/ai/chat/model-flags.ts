@@ -17,6 +17,23 @@ export type ModelRoleFlags = {
   endUserStub: boolean;
   // Model honors an assistant prefill (trailing assistant message).
   prefillSupported: boolean;
+  // DeepSeek prefix-completion API: trailing assistant gets `prefix: true`.
+  deepSeekPrefix: boolean;
+  // DeepSeek thinking toggle: body.thinking {type, reasoning_effort}; enabled
+  // mode rejects sampling params (Risu deletes them).
+  deepSeekThinkingToggle: boolean;
+  // DeepSeek wants the last assistant turn's reasoning echoed back as
+  // `reasoning_content` (continuation quality).
+  deepSeekThinkingInput: boolean;
+  // Claude adaptive thinking (body.thinking type=adaptive + output_config.effort).
+  claudeAdaptiveThinking: boolean;
+  // Model accepts output_config.effort 'xhigh'.
+  claudeXHighEffort: boolean;
+  // Gemini variant that rejects the CIVIC_INTEGRITY safety category.
+  noCivilIntegrity: boolean;
+  // Anthropic prompt caching (cache_control markers); single source for the
+  // stream service's injector gate.
+  cacheControl: boolean;
 };
 
 const DEFAULT_FLAGS: ModelRoleFlags = {
@@ -26,16 +43,24 @@ const DEFAULT_FLAGS: ModelRoleFlags = {
   userStub: false,
   endUserStub: false,
   prefillSupported: false,
+  deepSeekPrefix: false,
+  deepSeekThinkingToggle: false,
+  deepSeekThinkingInput: false,
+  claudeAdaptiveThinking: false,
+  claudeXHighEffort: false,
+  noCivilIntegrity: false,
+  cacheControl: false,
 };
 
 type Rule = { test: RegExp; flags: Partial<ModelRoleFlags> };
 
 // Order matters: first matching rule wins. Patterns are case-insensitive.
 const RULES: Rule[] = [
-  // GLM / DeepSeek / Kimi family: strict alternation, no mid-conv system,
-  // must start with user, prefill ok. (Risu DeepSeek flags + GLM picky roles.)
+  // DeepSeek: GLM-style strict roles PLUS prefix-completion + thinking API
+  // (Risu deepSeekPrefix/deepSeekThinking* flags). Before the GLM rule: first
+  // match wins.
   {
-    test: /glm|chatglm|deepseek|\bkimi\b|moonshot/i,
+    test: /deepseek/i,
     flags: {
       fullSystem: false,
       firstSystem: true,
@@ -43,6 +68,35 @@ const RULES: Rule[] = [
       userStub: true,
       endUserStub: true,
       prefillSupported: true,
+      deepSeekPrefix: true,
+      deepSeekThinkingToggle: true,
+      deepSeekThinkingInput: true,
+    },
+  },
+  // GLM / Kimi family: strict alternation, no mid-conv system,
+  // must start with user, prefill ok. (Risu GLM picky roles.)
+  {
+    test: /glm|chatglm|\bkimi\b|moonshot/i,
+    flags: {
+      fullSystem: false,
+      firstSystem: true,
+      alternateRoles: true,
+      userStub: true,
+      endUserStub: true,
+      prefillSupported: true,
+    },
+  },
+  // Gemini thinking-exp rejects the CIVIC_INTEGRITY safety category (Risu
+  // noCivilIntegrity). Before the generic gemini rule.
+  {
+    test: /gemini-2[.-]?\d*-flash-thinking/i,
+    flags: {
+      fullSystem: false,
+      firstSystem: true,
+      alternateRoles: true,
+      userStub: true,
+      prefillSupported: false,
+      noCivilIntegrity: true,
     },
   },
   // Gemini: first-system + alternation, no full mid-conv system, user-first.
@@ -56,8 +110,35 @@ const RULES: Rule[] = [
       prefillSupported: false,
     },
   },
-  // Anthropic Claude: real system, no merge/strip, user-first, prefill is a
-  // first-class jailbreak surface.
+  // Claude opus 5: adaptive thinking + xhigh effort (Risu claudeXHighEffort).
+  {
+    test: /claude-opus-5/i,
+    flags: {
+      fullSystem: true,
+      firstSystem: true,
+      alternateRoles: false,
+      userStub: true,
+      prefillSupported: true,
+      claudeAdaptiveThinking: true,
+      claudeXHighEffort: true,
+      cacheControl: true,
+    },
+  },
+  // Claude 4.x/5 family: adaptive thinking, effort capped at high.
+  {
+    test: /claude-(opus|sonnet|haiku)-[45]/i,
+    flags: {
+      fullSystem: true,
+      firstSystem: true,
+      alternateRoles: false,
+      userStub: true,
+      prefillSupported: true,
+      claudeAdaptiveThinking: true,
+      cacheControl: true,
+    },
+  },
+  // Anthropic Claude (older): real system, no merge/strip, user-first, prefill
+  // is a first-class jailbreak surface.
   {
     test: /claude|anthropic/i,
     flags: {
@@ -66,9 +147,12 @@ const RULES: Rule[] = [
       alternateRoles: false,
       userStub: true,
       prefillSupported: true,
+      cacheControl: true,
     },
   },
   // OpenAI GPT / o-series: full system role, no role transforms needed.
+  // Risu DeveloperRole/OAICompletionTokens renames are handled by upstream
+  // new-api (system->developer, max_completion_tokens); do not re-map here.
   {
     test: /\bgpt|^o[1-9]|openai|chatgpt/i,
     flags: { fullSystem: true },

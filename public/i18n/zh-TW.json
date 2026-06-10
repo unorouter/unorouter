@@ -22,22 +22,9 @@
     "PRICING": "價格",
     "DOCS": "文件",
     "BLOG": "部落格",
-    "GROUP_CLI": "CLI 工具",
-    "GROUP_ROLEPLAY": "角色扮演用戶端",
-    "CC_SWITCH": "CC Switch",
-    "CLAUDE_CODE": "Claude Code",
-    "CODEX": "Codex",
-    "GEMINI_CLI": "Gemini CLI",
-    "OPENCLAW": "OpenClaw",
-    "SILLYTAVERN": "SillyTavern",
-    "JANITOR_AI": "Janitor.AI",
-    "RISUAI": "RisuAI",
-    "CHUB": "Chub / Venus",
     "DASHBOARD": "儀表板",
     "LOG_IN": "登入",
-    "GET_STARTED": "立即開始",
     "CHAT": "對話",
-    "GENERATE": "生成",
     "PLAYGROUND": "遊樂場",
     "STATUS": "狀態"
   },
@@ -45,7 +32,6 @@
     "HERO": {
       "BADGE": "路由器在線",
       "TITLE_LINE1": "統一",
-      "TITLE_LINE2": "智慧",
       "SUBTITLE": "{appName} 用一把鑰匙連接 {modelCount}+ 個 AI 模型。打造應用、執行 Agent，或與角色進行角色扮演。同一把鑰匙、同樣的速度、同樣的價格。",
       "CTA_PRIMARY": "立即開始",
       "CTA_SECONDARY": "查看模型",
@@ -56,12 +42,9 @@
       "PROVIDERS": "供應商",
       "FREE": "免費",
       "PAID": "付費",
-      "UPTIME": "運行時間",
-      "ENDPOINTS": "端點",
       "PANEL": {
         "TOKENS_SERVED": "已服務 tokens",
         "REQUESTS": "請求數",
-        "REQ_MIN": "請求／分鐘",
         "TOKENS_MIN": "Tokens／分鐘",
         "LIVE": "即時"
       },
@@ -69,17 +52,14 @@
         "GLOBAL": "可路由",
         "INTEGRATED": "上游節點",
         "FREE": "無需費用",
-        "PAID": "每 Token",
-        "SLA": "實測值"
+        "PAID": "每 Token"
       }
     },
     "TICKER": {
-      "LABEL": "可用模型",
       "LIVE_INFERENCE": "即時推論",
       "TPS": "TPS"
     },
     "INTEGRATION": {
-      "BADGE": "整合",
       "VIEW_GUIDE": "查看指南",
       "CLAUDE_CODE": {
         "BADGE": "Anthropic API",
@@ -121,8 +101,6 @@
         "TITLE": "相容 Chub / Venus",
         "DESCRIPTION": "將 {appName} 作為 Chub 的第一方反向代理接入。一組 URL、一把金鑰，支援所有模型。"
       },
-      "CLI_HEADER": "為編程 Agent 與 CLI 工具而設",
-      "RP_HEADER": "為角色扮演與創意對話而設",
       "PICK_TITLE": "選擇你真正使用的用戶端。",
       "PICK_DESC": "{appName} 作為自訂 OpenAI 相容 API，可用於編碼代理、角色扮演前端、聊天用戶端和 CLI 工具。"
     },
@@ -131,64 +109,24 @@
       "TITLE": "價格簡單透明。",
       "SUBTITLE": "用多少付多少。",
       "DESCRIPTION": "訂閱享更高價值，或按用量付費。所有方案皆可存取每個模型，並跨供應商自動容錯。",
-      "PAYG": {
-        "NAME": "按用量付費",
-        "PRICE": "$0",
-        "DESC": "無最低消費。儲值後即可使用任一模型。",
-        "ENDPOINT": "/v1/chat/completions"
-      },
-      "BASIC": {
-        "NAME": "基礎版",
-        "PRICE": "$20／月",
-        "DESC": "$30 額度價值。1.5 倍倍率。",
-        "RATE": "每分鐘 100 次請求"
-      },
-      "PRO": {
-        "NAME": "專業版",
-        "PRICE": "$50／月",
-        "DESC": "$75 額度價值。優先路由。",
-        "RATE": "每分鐘 500 次請求"
-      },
-      "ENTERPRISE": {
-        "NAME": "企業版",
-        "PRICE": "$100／月",
-        "DESC": "$175 額度價值。專屬支援。",
-        "RATE": "每分鐘 2,000 次請求"
-      },
-      "CTA": {
-        "GET_STARTED": "立即開始",
-        "VIEW_PLANS": "查看所有方案"
-      },
       "PROVIDERS": {
-        "TITLE": "支援的供應商",
-        "ACTIVE": "啟用中",
-        "DESC_OPENAI": "GPT-4o、o1、o3、GPT-4.1",
-        "DESC_ANTHROPIC": "Claude Opus、Sonnet、Haiku",
-        "DESC_GOOGLE": "Gemini 2.5 Pro、Flash",
-        "DESC_DEEPSEEK": "DeepSeek V3、R1"
+        "TITLE": "支援的供應商"
       },
       "FLOW": {
-        "TITLE": "請求流程",
-        "LIVE": "即時",
-        "STEP1": "POST /v1/chat/completions",
-        "STEP2": "路由至最快的供應商",
-        "STEP3": "回應送達"
+        "TITLE": "請求流程"
       }
     },
     "FEATURES": {
       "TITLE": "為什麼選擇 {appName}",
       "DESCRIPTION": "一個端點串連所有 AI 模型。智慧路由挑選最快的供應商，自動容錯確保您的請求永不失敗。",
       "FAILOVER": {
-        "TITLE": "自動容錯",
-        "DESC": "失敗的請求會立即改走備援通道重試"
+        "TITLE": "自動容錯"
       },
       "MULTIPROTOCOL": {
-        "TITLE": "多協定支援",
-        "DESC": "支援 OpenAI、Anthropic 與 Gemini API 格式"
+        "TITLE": "多協定支援"
       },
       "LOADBALANCE": {
-        "TITLE": "智慧負載平衡",
-        "DESC": "自動路由至當前最快的可用供應商"
+        "TITLE": "智慧負載平衡"
       }
     },
     "RELIABILITY": {
@@ -205,7 +143,6 @@
         "DESC": "依延遲挑選通道並加權優先等級。最快的供應商每次都勝出。"
       },
       "LEARN_MORE": "了解更多",
-      "LEARN_MORE_ARIA": "了解更多 {appName} 文件資訊",
       "LEARN_MORE_DOCS": "查看文件",
       "ARCH": {
         "TITLE": "架構",
@@ -442,7 +379,6 @@
       "LEADERBOARD_TITLE": "LLM 排行榜",
       "LEADERBOARD_SUBTITLE": "比較平台上最熱門的模型",
       "EMPTY": "沒有模型符合所選的篩選條件",
-      "TOTAL_LABEL": "令牌總數",
       "TOKENS_SUFFIX": "令牌",
       "TOOLTIP_TOTAL": "合計",
       "BY_AUTHOR_LABEL": "作者："
@@ -484,10 +420,7 @@
     "SUBTITLE": "產品更新、整合指南與團隊筆記。",
     "READ_MORE": "繼續閱讀",
     "PUBLISHED": "發佈於",
-    "UPDATED": "更新於",
     "BY_AUTHOR": "作者：{author}",
-    "TAGS": "標籤",
-    "RECENT": "最新文章",
     "BACK_TO_BLOG": "回到所有文章",
     "EMPTY": "尚無文章。請稍後再來查看。",
     "EMPTY_FILTERED": "沒有文章符合您的篩選條件。",
@@ -564,9 +497,7 @@
         "H_NOT_SPOOFING": "哪些情況不算冒充：Bedrock、Vertex、Foundry",
         "H_RESULTS": "17 天偵測的結果",
         "H_WHY": "為什麼會發生這種事",
-        "H_NEXT": "下一步",
         "H_TEST": "5 分鐘內自行測試你的服務商",
-        "H_NAMING": "關於匿名化的說明",
         "INTRO_P1": "Claude 是目前市場上需求最旺、也是最貴的模型之一。這道價差催生出一個熱絡的第三方中轉市場，宣稱用零頭的價格賣給你「一樣的 Claude」。其中有正規玩家，但更多不是。",
         "INTRO_P2": "在 17 天的自動 probe 中，我們涵蓋了 <s>8 家上游中轉</s>，找到 <s>183 組 (channel, model)</s> 在以 <c>claude-opus-4-7</c>、<c>claude-sonnet-4-6</c>、<c>claude-haiku-4-5</c> 等名義販售的模型上沒有通過真實性檢查。同樣的壓力對每一個高階模型都成立，所以 GPT、Gemini、Grok 幾乎肯定也中招了。Claude 只是當下價差最大、我們手上有硬資料的那一塊。",
         "PROBES_P": "對每組 (channel, model)，我們向標準的 Anthropic Messages API（<c>POST /v1/messages</c>）並行送出四個請求：",
@@ -651,7 +582,6 @@
         "H_BUGS": "漏洞獎勵，最高 50 美元",
         "P_BUGS": "在平台上找到真實漏洞，就到 bug-bounty 論壇發文。團隊會評估嚴重程度，機器人據此發放獎金：Low 0.25 美元、Medium 0.50 美元、High 1 美元、Critical 50 美元。實際定位到漏洞的人才會拿錢，不一定是發起討論串的人。",
         "H_JOIN": "歡迎常來玩",
-        "P_JOIN": "所有獎勵都會直接進入你呼叫 API 時使用的同一份餘額。綁定一次，把符合資格的獎勵全部領完，繼續加成、繼續抓 bug、繼續和我們一起出貨。",
         "CTA": "準備好了嗎？<invite>加入 {appName} Discord</invite>，再<register>領取 API 金鑰</register>並<settings>綁定帳號</settings>，把第一筆 1 美元收下。"
       },
       "FREE_MODELS_AGGREGATED": {
@@ -695,7 +625,6 @@
     "META_TITLE": "{name} API 價格、上下文視窗與範例｜{appName}",
     "META_DESC": "透過單一 OpenAI 相容端點使用來自 {vendor} 的 {name}。查看每 token 價格、上下文視窗、端點及可複製貼上的程式碼範例。",
     "META_KEYWORDS": "{name} API、{name} 價格、{name} 上下文視窗、{vendor} API、{appName}",
-    "ABOUT": "關於 {name}",
     "PRICING_TITLE": "價格",
     "PRICING_DESC": "用多少付多少。按用量付費方案無月費門檻。",
     "INPUT_PRICE": "輸入價格",
@@ -737,62 +666,31 @@
     "CTA_DESC": "建立 API 金鑰後，一分鐘內就能開始發送請求。",
     "CTA_SIGNUP": "登入以試用 {name}",
     "CTA_TRY": "在對話中試用 {name}",
-    "CTA_ALL_MODELS": "查看所有模型",
-    "LAST_UPDATED": "最後更新於 {date}"
+    "CTA_ALL_MODELS": "查看所有模型"
   },
   "PRICING": {
-    "PLAN": {
-      "BASIC": "基礎版",
-      "PRO": "專業版",
-      "ENTERPRISE": "企業版"
-    },
     "FEATURE": {
       "MODELS": "包含所有模型",
       "PRIORITY": "優先路由",
       "DEDICATED": "專屬支援",
-      "SUPPORT": "電子郵件支援",
       "FAILOVER": "自動容錯",
       "UPTIME": "99.9% 運行時間 SLA",
       "OPENAI_COMPAT": "OpenAI 相容端點"
     },
     "COMPARE": {
-      "TITLE": "方案比較",
-      "FEATURE": "功能",
-      "PRICE": "每月價格",
-      "VALUE": "API 額度價值",
-      "RATE_LIMIT": "速率限制",
-      "ALL_MODELS": "所有模型",
-      "PRIORITY": "優先路由",
-      "DEDICATED": "專屬支援",
-      "BASIC_PRICE": "$20／月",
-      "PRO_PRICE": "$50／月",
-      "ENTERPRISE_PRICE": "$100／月",
-      "BASIC_VALUE": "$30",
-      "PRO_VALUE": "$75",
-      "ENTERPRISE_VALUE": "$175",
-      "BASIC_RATE": "100 rpm",
-      "PRO_RATE": "500 rpm",
-      "ENTERPRISE_RATE": "2,000 rpm"
+      "TITLE": "方案比較"
     },
     "CARD": {
       "POPULAR": "熱門",
       "PER_MONTH": "／月",
       "VALUE": "{value} 價值",
-      "MULTIPLIER": "{multiplier} 倍率",
-      "INCLUDES": "包含項目",
-      "REQUESTS_MIN": "每分鐘 {count} 次請求",
-      "SPEC_CREDIT": "API 額度價值",
       "SPEC_QUOTA": "額度／重置",
-      "SPEC_MULTIPLIER": "倍率",
-      "OPENCLAW_TITLE": "OpenClaw 支援",
-      "OPENCLAW_DESC": "完全相容 OpenClaw 代理",
       "VALUE_BADGE": "價值",
       "VALUE_EXPLAIN": "支付 {paid}，獲得 {credit} API 額度，可用於任意模型。"
     },
     "BANNER": {
       "TITLE": "Telegram 上的 OpenClaw AI 助理",
-      "SUBTITLE": "由 OpenClaw 與 {appName} 提供技術支援，一鍵為您的 Telegram 機器人部署 AI。",
-      "BADGE": "即將推出"
+      "SUBTITLE": "由 OpenClaw 與 {appName} 提供技術支援，一鍵為您的 Telegram 機器人部署 AI。"
     },
     "META": {
       "TITLE": "價格：{appName}",
@@ -802,6 +700,11 @@
     "TITLE": "價格",
     "SUBTITLE": "無論你是上線應用還是進行長時間角色扮演。一個方案，涵蓋所有模型。",
     "CTA": "訂閱",
+    "TOPUP": {
+      "LABEL": "按量儲值",
+      "DESC": "不想訂閱？直接儲值使用。",
+      "FOOTNOTE": "餘額永不過期。"
+    },
     "FAQ": {
       "Q1": "{appName} 的計費方式是什麼？",
       "A1": "您依消耗的 token 付費。每個模型都有各自的輸入、輸出與快取費率，從您帳戶的額度中扣除。按用量付費方案無需任何月費訂閱。",
@@ -819,11 +722,6 @@
       "A7": "可以。每個方案都能在主流角色扮演用戶端中作為自訂 OpenAI 相容來源使用。SillyTavern、Janitor.AI、RisuAI 與 Chub 在文件中都有各自的設定指南。",
       "Q8": "對話或角色歷史可以保留多長？",
       "A8": "{appName} 支援每個模型的完整上下文視窗，Gemini 最高 1M tokens，Claude 最高 200k tokens。長篇角色扮演與大型程式碼庫都能從容應對。"
-    },
-    "TOPUP": {
-      "LABEL": "按量儲值",
-      "DESC": "不想訂閱？直接儲值使用。",
-      "FOOTNOTE": "餘額永不過期。"
     }
   },
   "DOCS_INDEX": {
@@ -861,18 +759,7 @@
   },
   "DOCS_SIDEBAR": {
     "TITLE": "文件",
-    "AI_APPLICATIONS": "AI 應用",
-    "GROUP_CLI": "CLI 工具",
-    "GROUP_ROLEPLAY": "角色扮演用戶端",
-    "CC_SWITCH": "CC Switch",
-    "OPENCLAW": "OpenClaw",
-    "CLAUDE_CODE": "Claude Code",
-    "CODEX_CLI": "Codex CLI",
-    "GEMINI_CLI": "Gemini CLI",
-    "SILLYTAVERN": "SillyTavern",
-    "JANITOR_AI": "Janitor.AI",
-    "RISUAI": "RisuAI",
-    "CHUB": "Chub / Venus"
+    "AI_APPLICATIONS": "AI 應用"
   },
   "DOCS": {
     "SETUP": {
@@ -882,8 +769,7 @@
       "CLI_ALT": "或使用 CC Switch CLI：",
       "NO_APP": "還沒有 CC Switch？",
       "INSTALL_LINK": "安裝 CC Switch",
-      "LOGIN_REQUIRED": "登入以自動填入 API 金鑰",
-      "CREATE_KEY": "請先建立一把 API 金鑰"
+      "LOGIN_REQUIRED": "登入以自動填入 API 金鑰"
     },
     "CONFIG": {
       "FILE_LABEL": "永久設定檔（建議）",
@@ -902,10 +788,8 @@
       "QUICK_CONFIG": "快速設定",
       "QUICK_CONFIG_DESC": "將這些值填入用戶端。登入後會自動填入你的金鑰。",
       "BASE_URL_LABEL": "基礎 URL",
-      "API_PATH_LABEL": "端點",
       "API_KEY_LABEL": "API 金鑰",
       "STEPS": "逐步設定",
-      "STEP_LABEL": "第 {number} 步",
       "COMPATIBILITY": "相容性",
       "RECOMMENDED_MODELS": "推薦模型",
       "RECOMMENDED_MODELS_DESC": "在這裡表現良好的免費模型。把任意模型 ID 貼到用戶端即可。",
@@ -2057,11 +1941,8 @@
     "CONTACT_SUBTITLE": "有問題或疑慮嗎？",
     "DESCRIPTION": "整合式 AI API 平台，透過單一智慧端點存取來自多家供應商的上百款模型。",
     "COPYRIGHT": "© {year} {appName}。保留所有權利。",
-    "LEGAL_DISCLAIMER": "使用本平台即表示您已閱讀並同意我們的",
     "LEGAL_TERMS": "服務條款",
-    "LEGAL_AND": "與",
     "LEGAL_PRIVACY": "隱私權政策",
-    "SOCIAL_GITHUB": "GitHub",
     "SOCIAL_TRUSTPILOT": "Trustpilot",
     "EASTER_EGG_LABEL": "玩一場 Token Breakout"
   },
@@ -2177,21 +2058,15 @@
   },
   "COMMON": {
     "COPY_CODE": "複製程式碼",
-    "COPIED": "已複製",
     "OPEN_MENU": "開啟選單",
     "SEARCH": "搜尋...",
     "SAVE": "儲存",
     "SAVED": "已儲存",
     "CANCEL": "取消",
     "DELETE": "刪除",
-    "CREATE": "建立",
     "EDIT": "編輯",
-    "IMPORT": "匯入",
-    "EXPORT": "匯出",
-    "LOADING": "載入中...",
     "NAME": "名稱",
     "DESCRIPTION": "描述",
-    "CONFIRM_DELETE": "確定要刪除嗎？",
     "RESET": "重設",
     "CONFIRM": {
       "CONTINUE": "繼續",
@@ -2253,7 +2128,6 @@
       "USERNAME_OR_EMAIL_PLACEHOLDER": "請輸入使用者名稱或電子郵件",
       "PASSWORD": "密碼",
       "PASSWORD_PLACEHOLDER": "請輸入密碼",
-      "PASSWORD_MIN_LENGTH": "密碼長度至少需 8 個字元",
       "EMAIL": "電子郵件",
       "EMAIL_PLACEHOLDER": "請輸入電子郵件",
       "VERIFICATION_CODE": "驗證碼",
@@ -2268,14 +2142,12 @@
     "TWO_FA": {
       "TITLE": "兩步驟驗證",
       "DESCRIPTION": "請輸入驗證器 app 顯示的 6 位數驗證碼",
-      "CODE_PLACEHOLDER": "000000",
       "SUBMIT": "驗證",
       "VERIFYING": "驗證中..."
     },
     "VERIFICATION": {
       "SEND_CODE": "傳送驗證碼",
       "SENDING": "傳送中...",
-      "SENT": "驗證碼已寄出",
       "RESEND": "重新發送",
       "RESEND_IN": "{seconds} 秒後可重寄",
       "FAILED": "驗證碼傳送失敗"
@@ -2325,10 +2197,7 @@
     "DONT_HAVE_ACCOUNT": "還沒有帳戶？",
     "ALREADY_HAVE_ACCOUNT": "已經有帳戶了？",
     "OR_CONTINUE_WITH": "或使用以下方式繼續",
-    "CALLBACK_LOADING": "正在完成登入...",
-    "DASHBOARD": "儀表板",
     "LOG_OUT": "登出",
-    "BALANCE": "餘額",
     "SUBSCRIPTION": "訂閱",
     "SUBSCRIPTION_ACTIVE": "生效中"
   },
@@ -2340,10 +2209,7 @@
     "LOGS": "使用紀錄",
     "AFFILIATE": "聯盟推廣",
     "BILLING": "帳務",
-    "SETTINGS": "設定",
-    "CHAT": "對話",
-    "GENERATE": "圖像生成",
-    "MY_GENERATIONS": "我的生成紀錄"
+    "SETTINGS": "設定"
   },
   "DASHBOARD": {
     "GREETING": {
@@ -2387,12 +2253,9 @@
       "NO_API_INFO": "目前無 API 資訊"
     },
     "CONSUMPTION": "用量",
-    "TOP_UP": "儲值",
     "TOTAL": "總計",
     "OTHER": "其他",
     "NO_DATA": "暫無資料",
-    "UPTIME": "運行時間",
-    "COPY_URL": "複製網址",
     "COPIED": "已複製"
   },
   "TOKEN": {
@@ -2410,18 +2273,7 @@
     "FORM": {
       "NAME": "名稱",
       "NAME_PLACEHOLDER": "為此金鑰輸入名稱",
-      "GROUP": "分組",
-      "GROUP_PLACEHOLDER": "選擇分組",
-      "GROUP_NO_GROUPS": "沒有可用的分組",
-      "CROSS_GROUP_RETRY": "跨分組重試",
-      "CROSS_GROUP_RETRY_DESC": "啟用後，失敗的請求將透過其他分組的通道重試。",
-      "EXPIRATION": "到期時間",
-      "EXPIRATION_PLACEHOLDER": "選擇到期日",
-      "EXPIRATION_PRESETS": "快速設定",
       "NEVER_EXPIRES": "永不過期",
-      "ONE_MONTH": "1 個月",
-      "ONE_DAY": "1 天",
-      "ONE_HOUR": "1 小時",
       "QUOTA": "額度",
       "QUOTA_PLACEHOLDER": "美元金額（如 10）",
       "QUOTA_PRESETS": "預設值",
@@ -2432,8 +2284,6 @@
       "MODEL_LIMITS_DESC": "非必要不建議使用。",
       "MODEL_SELECT_PLACEHOLDER": "搜尋模型...",
       "MODEL_SELECT_EMPTY": "找不到模型",
-      "MODELS_SELECTED": "已選 {count} 個",
-      "MODEL_COUNT": "{count} 個模型",
       "IP_WHITELIST": "IP 白名單",
       "IP_WHITELIST_PLACEHOLDER": "每行一個 IP。留空則無限制。",
       "IP_WHITELIST_DESC": "IP 可能被偽造，建議搭配閘道以加強保護。",
@@ -2484,7 +2334,6 @@
     "DISABLE": "停用",
     "UNLIMITED": "無限制",
     "ALL_MODELS": "所有模型",
-    "USED_OF_TOTAL": "{used}／{total}",
     "SEARCH_PLACEHOLDER": "搜尋金鑰...",
     "NO_TOKENS": "尚無 API 金鑰。建立一把以開始使用。",
     "COPY_KEY": "複製金鑰"
@@ -2492,7 +2341,6 @@
   "LOGS": {
     "TABLE": {
       "TIME": "時間",
-      "TYPE": "類型",
       "CHANNEL": "通道",
       "USER": "使用者",
       "MODEL": "模型",
@@ -2610,8 +2458,6 @@
     "DESCRIPTION": "檢視您的 API 請求歷史、token 用量與花費細節。",
     "FILTERS": "篩選",
     "RESET": "重設",
-    "TO": "至",
-    "TOTAL": "總計",
     "COPIED": "已複製到剪貼簿",
     "CLICK_COPY": "點擊以複製",
     "NO_LOGS": "所選期間沒有任何紀錄。",
@@ -2630,7 +2476,6 @@
       "RATE": "分潤比例",
       "EARNED": "已賺取",
       "STATUS": "狀態",
-      "JOINED": "加入時間",
       "COMMISSIONS": "分潤",
       "TOTAL_EARNED": "總收益"
     },
@@ -2655,7 +2500,6 @@
       "TITLE": "轉出聯盟收益",
       "DIALOG_DESC": "將您待入帳的聯盟收益轉入帳戶餘額。此動作無法復原。",
       "AMOUNT": "金額",
-      "INVALID": "請輸入有效的金額",
       "EXCEEDS": "金額超出可用餘額"
     },
     "ENUM": {
@@ -2687,7 +2531,6 @@
     "HOW_IT_WORKS": "運作方式",
     "TAB_INVITEES": "邀請的使用者",
     "TAB_COMMISSIONS": "分潤紀錄",
-    "COMMISSION_HISTORY": "分潤紀錄",
     "NO_COMMISSIONS": "尚無分潤紀錄。分享邀請連結開始賺取收益。",
     "NO_INVITEES": "尚無邀請的使用者。分享您的邀請連結開始擴展人脈。",
     "BADGE_GENERATOR": {
@@ -2775,7 +2618,6 @@
   },
   "BILLING": {
     "SUBSCRIPTION": {
-      "PLANS": "訂閱方案",
       "MY": "我的訂閱",
       "NO_ACTIVE": "尚無啟用中",
       "ACTIVE": "啟用中",
@@ -2808,9 +2650,7 @@
     },
     "TOPUP": {
       "TITLE": "額度儲值",
-      "AMOUNT": "儲值金額",
       "ACTUAL_PAYMENT": "實付金額",
-      "PAY_NOW": "立即付款",
       "SAVE": "儲存"
     },
     "ERROR": {
@@ -2826,7 +2666,6 @@
     "CONSUMPTION": "用量",
     "REQUESTS": "請求數",
     "USED_OF": "已用",
-    "REFRESHING": "重新整理中...",
     "PAYMENT_METHOD": {
       "LABEL": "支付方式",
       "CARD": "信用卡",
@@ -2837,8 +2676,6 @@
     "ERROR": {
       "REQUIRED": "{type}為必填",
       "MIN_LENGTH": "{type}長度至少需 {minLength} 個字元",
-      "MAX_LENGTH": "{type}長度最多 {maxLength} 個字元",
-      "EXACT_LENGTH": "{type}長度必須為 {minLength} 個字元",
       "MIN_VALUE": "{type}必須大於 0"
     },
     "TYPE": {
@@ -2861,7 +2698,6 @@
     "ROLE_SUPER_ADMIN": "超級管理員",
     "ROLE_ADMIN": "管理員",
     "ROLE_USER": "使用者",
-    "BALANCE": "餘額",
     "CONSUMPTION": "用量",
     "REQUEST_COUNT": "請求數",
     "DEFAULT_GROUP": "預設分組",
@@ -2876,14 +2712,12 @@
       "EMAIL_PLACEHOLDER": "請輸入電子郵件地址",
       "BIND_EMAIL": "綁定電子郵件",
       "MODIFY_EMAIL": "變更電子郵件",
-      "VERIFICATION_CODE": "驗證碼",
       "SEND_CODE": "傳送驗證碼",
       "CODE_SENT": "驗證碼已寄出，{seconds} 秒後可重新傳送",
       "CODE_PLACEHOLDER": "請輸入驗證碼",
       "OAUTH_BINDINGS": "OAuth 綁定",
       "GITHUB": "GitHub",
       "DISCORD": "Discord",
-      "BOUND": "已綁定",
       "NOT_BOUND": "尚未綁定",
       "BIND": "綁定",
       "UNBIND": "解除綁定",
@@ -2897,7 +2731,6 @@
       "ACCESS_TOKEN": "系統存取權杖",
       "ACCESS_TOKEN_DESC": "使用此權杖可直接存取 API。",
       "GENERATE_TOKEN": "產生權杖",
-      "REGENERATE_TOKEN": "重新產生權杖",
       "TOKEN_GENERATED": "權杖產生成功",
       "COPY_TOKEN": "複製",
       "TOKEN_COPIED": "已複製到剪貼簿",
@@ -2969,29 +2802,16 @@
   },
   "CHAT": {
     "SHARE": {
-      "BUTTON": "分享",
       "TITLE": "分享對話",
       "DESCRIPTION": "任何擁有連結的人都能檢視此對話。",
-      "CREATED": "分享連結已建立",
-      "REVOKED": "分享連結已移除",
-      "COPY_LINK": "複製分享連結",
-      "LINK_COPIED": "連結已複製到剪貼簿",
-      "GENERATE_LINK": "產生分享連結",
-      "REVOKE": "移除分享連結",
-      "SHARED_CONVERSATION": "已分享對話",
-      "NOT_FOUND": "找不到這個分享對話，或該對話已被移除。"
+      "LINK_COPIED": "連結已複製到剪貼簿"
     },
     "MODEL": {
       "SELECT": "選擇模型",
       "SEARCH": "搜尋模型...",
       "NO_RESULTS": "找不到模型",
-      "GROUP_TEXT": "文字與推理",
-      "GROUP_IMAGE": "圖片生成",
-      "GROUP_VIDEO": "影片生成",
       "FREE_BADGE": "免費",
-      "LOGIN_REQUIRED": "需先登入",
-      "FREE_NOTICE": "高負載時免費模型可能失敗。",
-      "FREE_NOTICE_CTA": "切換到付費模型"
+      "LOGIN_REQUIRED": "需先登入"
     },
     "ACTION": {
       "COPY": "複製",
@@ -3013,8 +2833,7 @@
     },
     "GATE": {
       "NEEDS_TOKEN_TITLE": "需要 API 金鑰",
-      "NEEDS_TOKEN_DESC": "產生一把 API 金鑰，開始與 AI 模型對話。",
-      "LOGIN_REQUIRED_DESC": "請登入以開始與 AI 模型對話。"
+      "NEEDS_TOKEN_DESC": "產生一把 API 金鑰，開始與 AI 模型對話。"
     },
     "TOOL": {
       "USED": "已使用工具",
@@ -3042,7 +2861,6 @@
       "UNSUPPORTED_TYPE": "不支援的檔案類型 {type}。請上傳 PNG、JPEG、WebP 或 GIF 格式的圖片。"
     },
     "WEB_SEARCH": {
-      "LABEL": "網路搜尋",
       "ON": "已開啟網路搜尋",
       "OFF": "已關閉網路搜尋"
     },
@@ -3084,11 +2902,7 @@
       "HINT": "套用於此對話及今後所有新對話，直到你變更為止。"
     },
     "INPUT_PLACEHOLDER": "輸入您的訊息...",
-    "START_PROMPT": "傳送訊息以開始對話。",
     "THINKING": "思考中",
-    "DISCLAIMER": "AI 回應可能不準確。重要資訊請自行查證。",
-    "UNTITLED": "未命名對話",
-    "DELETE_CONFIRM": "確定要刪除這個對話嗎？",
     "MESSAGE_INPUT": "訊息輸入",
     "SEARCH_CHATS": "搜尋對話",
     "TOKENS_IN": "輸入",
@@ -3098,10 +2912,7 @@
       "TITLE": "AI 對話：{appName}",
       "TITLE_WITH_NAME": "{title}｜AI 對話：{appName}",
       "DESCRIPTION": "與任何 AI 模型對話。透過單一介面測試 GPT、Claude、Gemini、DeepSeek 等模型。",
-      "KEYWORDS": "AI 對話、與 AI 聊天、GPT 對話、Claude 對話、Gemini 對話、AI playground、模型測試",
-      "SHARED_TITLE": "已分享對話：{appName}",
-      "SHARED_TITLE_WITH_NAME": "{title}｜已分享對話：{appName}",
-      "SHARED_DESCRIPTION": "在 {appName} 上檢視一段已分享的 AI 對話。"
+      "KEYWORDS": "AI 對話、與 AI 聊天、GPT 對話、Claude 對話、Gemini 對話、AI playground、模型測試"
     },
     "OVERRIDES": {
       "OPEN": "對話設定",
@@ -3131,10 +2942,8 @@
       "NO_CHARACTERS": "尚無角色，請先建立或匯入。",
       "NO_LOREBOOKS": "尚無知識庫。",
       "REORDER_HINT": "拖曳以重新排序。靠上的項目會更早注入到提示詞中。",
-      "SELECTED": "已選",
       "SEARCH_CHARACTERS": "搜尋角色",
       "SEARCH_LOREBOOKS": "搜尋設定集",
-      "CLEAR": "清除",
       "EFFORT_MINIMAL": "最低",
       "EFFORT_LOW": "低",
       "EFFORT_MEDIUM": "中",
@@ -3177,18 +2986,14 @@
       "LOCAL_DB_UPLOAD_CONFIRM": "從此檔案覆蓋本地 OPFS 資料庫？現有資料將被清空。",
       "CLEAR": "清空對話",
       "CLEAR_SUCCESS": "對話已清空",
-      "CLEAR_CONFIRM_DESC": "此操作會刪除該對話中的所有訊息，但保留設定、角色綁定與標題。此操作無法復原。",
-      "FONT": "字型",
-      "FONT_SANS": "無襯線",
-      "FONT_DISPLAY": "展示字型",
-      "FONT_SERIF": "襯線",
-      "FONT_MONO": "等寬",
-      "FONT_SYSTEM": "系統"
+      "CLEAR_CONFIRM_DESC": "此操作會刪除該對話中的所有訊息，但保留設定、角色綁定與標題。此操作無法復原。"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, other {# 個角色}}",
       "LOREBOOKS": "{count, plural, other {# 個世界書}}"
-    }
+    },
+    "TRIGGER_ALERT_SELECT_DESC": "請選擇一個選項以繼續",
+    "TRIGGER_ALERT_OK": "確定"
   },
   "RP": {
     "CHARACTERS_TITLE": "角色",
@@ -3212,7 +3017,6 @@
     "CHARACTER_EXAMPLE_MESSAGES": "對話範例",
     "CHARACTER_SYSTEM_PROMPT": "系統提示詞",
     "CHARACTER_POST_HISTORY": "歷史末端指令",
-    "CHARACTER_AVATAR": "頭像",
     "CHARACTER_TAGS": "標籤",
     "CHARACTER_ACTIVATION_TITLE": "啟用",
     "CHARACTER_ACTIVATION_HINT": "關閉「永遠啟用」時，僅當觸發詞出現在最近對話中，角色才會加入提示詞。多角色提示：主角保持永遠啟用，配角用觸發詞切換。",
@@ -3222,7 +3026,6 @@
     "CHARACTER_TRIGGERS_HINT": "啟用此角色的詞語。範例：alice、騎士、劍。若啟用「永遠啟用」則忽略。",
     "CHARACTER_MATCH_WHOLE_WORDS": "僅完整單字匹配",
     "CHARACTER_MATCH_WHOLE_WORDS_HINT": "啟用後，觸發詞「Eve」不會匹配「evening」。預設：子字串匹配。",
-    "CHARACTER_DEFAULT_MODEL": "預設模型",
     "PERSONAS_TITLE": "人物（Persona）",
     "PERSONAS_NEW": "新增人物",
     "PERSONAS_EMPTY": "尚無人物。",
@@ -3310,13 +3113,11 @@
     "PRESET_MUST_START_WITH_USER_HINT": "若對話以助手或系統開頭，則在開頭加入一則空白的小型使用者訊息。Anthropic／Gemini／GLM 自動套用。",
     "PRESET_GEMINI_BLOCK_OFF": "Gemini：安全 OFF",
     "PRESET_GEMINI_BLOCK_OFF_HINT": "為每個 Gemini harm 類別傳送 threshold=OFF 的 safetySettings。比 BLOCK_NONE 更強。僅對 Gemini 模型生效。",
-    "SIDEBAR_TAB_CHATS": "聊天",
     "SIDEBAR_TAB_CHARACTERS": "角色",
     "SIDEBAR_TAB_PERSONAS": "人物",
     "SIDEBAR_TAB_LOREBOOKS": "知識庫",
     "SIDEBAR_TAB_PRESETS": "預設",
     "SIDEBAR_TAB_CARDS": "卡片",
-    "SIDEBAR_GROUP_LABEL": "RP",
     "CARDS_TITLE": "卡片",
     "CARDS_PAGE_SUBTITLE": "將角色＋人格＋知識庫打包為創作組合。一鍵套用到對話。",
     "CARDS_NEW": "新增卡片",
@@ -3336,10 +3137,6 @@
     "CARD_CHARACTERS": "角色",
     "CARD_LOREBOOKS": "知識庫",
     "DROPPED_PARAMS": "{params} 不受此模型支援，已略過。",
-    "EDIT_SAVE_ONLY": "儲存",
-    "EDIT_SAVE_AND_GENERATE": "儲存並重新生成",
-    "BRANCH_NEXT": "下一分支",
-    "BRANCH_PREV": "上一分支",
     "LOREBOOKS_IMPORT": "匯入",
     "PERSONAS_IMPORT": "匯入",
     "LOREBOOK_ENTRY_CONSTANT_HINT": "始終注入此條目，忽略啟用關鍵字。",
@@ -3376,15 +3173,10 @@
     "UNAUTHORIZED": "未授權",
     "NO_API_KEY": "未設定 API 金鑰",
     "NOT_FOUND": "找不到資源",
-    "NO_IMAGE_GENERATED": "未產生任何圖片",
     "NO_TASK_ID": "回應中缺少任務 ID 或 URL",
-    "NO_VIDEO_URL": "影片已完成，但找不到 URL",
-    "VIDEO_GENERATION_FAILED": "影片生成失敗",
-    "VIDEO_GENERATION_TIMED_OUT": "影片生成逾時",
     "REQUEST_FAILED": "請求失敗",
     "PRICING_FETCH_FAILED": "取得價格資料失敗",
     "NO_TEXT_MODELS": "沒有可用的文字模型",
-    "UPLOAD_FAILED": "附件上傳失敗",
     "NO_IMAGE_PROMPT": "未提供圖片生成的提示詞",
     "IMAGE_GENERATION_FAILED": "圖片生成失敗",
     "UNEXPECTED_RESPONSE": "上游 API 回傳未預期的空值",
@@ -3397,7 +3189,6 @@
     "PROMPT_REJECTED": "此提示詞違反內容政策，無法用於圖像或影片生成。",
     "PROMPT_FLAGGED": "此提示詞被標記為可能不適合生成內容，請修改後再試。",
     "MODERATION_UNAVAILABLE": "圖像和影片生成暫時無法使用，請稍後再試。",
-    "PDF_EXTRACTION_FAILED": "無法讀取所附 PDF 的內容，請將其移除或更換檔案再試。",
     "IMPORT_INVALID_JSON": "檔案不是有效的JSON。",
     "IMPORT_UNSUPPORTED_VERSION": "不支援的匯出版本。",
     "CARD_PARSE_FAILED": "無法解析角色卡。",
@@ -3416,18 +3207,14 @@
     "UNIFIED_INTELLIGENCE_API": "統一智慧 API",
     "GET_STARTED": "立即開始",
     "SAVE_UP_TO": "最高省下",
-    "PER_1M_TOKENS": "每百萬 tokens",
     "SMART_ROUTING": "智慧路由",
-    "ONE_ENDPOINT": "一個端點",
     "MODELS": "模型",
     "FREE": "免費",
     "PAID": "付費",
-    "UPTIME": "運行時間",
     "LIVE_STATS": "即時統計",
     "CHEAPEST_API": "最便宜的推論 API",
     "MODELS_ONE_ENDPOINT": "40+ 個 AI 模型，一個端點",
     "MODELS_ONE_ENDPOINT_SUFFIX": "個 AI 模型，一個端點",
-    "DIRECT": "直連",
     "MODEL": "模型",
     "PRICES_NOTE": "每百萬 tokens 價格",
     "INPUT": "輸入",
@@ -3462,7 +3249,6 @@
     },
     "MCP": {
       "SERVER_DESCRIPTION": "瀏覽器內的 AI 模型路由。工具透過 navigator.modelContext 在網站首頁註冊為 WebMCP。請開啟首頁，並從支援 WebMCP 的客戶端呼叫工具。",
-      "WEBMCP_BUNDLE_DESCRIPTION": "透過 navigator.modelContext 在 {appName} 首頁註冊的瀏覽器內工具。於支援 WebMCP 的客戶端載入首頁即可存取這些工具。",
       "TOOLS": {
         "OPEN_MODELS_CATALOG": "開啟 {appName} 模型目錄頁，列出所有可用模型與來自 OpenAI、Anthropic、Google、DeepSeek 等供應商的即時價格。",
         "OPEN_PRICING": "開啟 {appName} 價格頁，查看訂閱方案與按量付費費率。",
@@ -3511,35 +3297,15 @@
     "STATE": {
       "OPERATIONAL": "正常",
       "DOWN": "故障",
-      "UNKNOWN": "未知",
       "DEGRADED": "降級"
-    },
-    "SUMMARY": {
-      "ALL_NORMAL": "所有系統運行正常",
-      "N_DOWN": "{count} 個模型故障",
-      "LAST_CHECKED_AT": "上次檢查 {time}"
     },
     "KPI": {
       "TOTAL": "模型總數",
       "OPERATIONAL": "正常",
-      "DOWN": "故障",
-      "UNKNOWN": "未知"
-    },
-    "ROW": {
-      "CHANNELS": "通道",
-      "LATENCY_PROBE": "探測",
-      "LATENCY_P50": "p50",
-      "LATENCY_P95": "p95",
-      "REQ": "請求",
-      "ERR": "錯誤",
-      "IDLE": "本分鐘無流量"
+      "DOWN": "故障"
     },
     "RIBBON": {
-      "TITLE": "過去 24 小時",
-      "LEGEND_UP": "正常",
-      "LEGEND_DEGRADED": "降級",
-      "LEGEND_DOWN": "故障",
-      "LEGEND_NODATA": "無資料"
+      "TITLE": "過去 24 小時"
     },
     "FILTER": {
       "SEARCH_PLACEHOLDER": "搜尋模型……",
@@ -3655,8 +3421,6 @@
     "HOVER_UPSCALE": "放大此圖",
     "HOVER_ADETAILER": "對此圖執行 ADetailer",
     "HOVER_EDIT": "在編輯標籤中使用此圖",
-    "GENERATE_TITLE": "圖像生成",
-    "GENERATE_SUBTITLE": "選擇模型、撰寫提示詞、取得圖像。",
     "PROMPT_LABEL": "提示詞",
     "PROMPT_PLACEHOLDER": "描述您想要的圖像。",
     "NEGATIVE_PROMPT_LABEL": "負面提示詞",
@@ -3677,7 +3441,6 @@
     "BACKGROUND_TRANSPARENT": "透明",
     "WATERMARK_LABEL": "浮水印",
     "STRENGTH_LABEL": "強度",
-    "SIZE_LABEL": "尺寸",
     "STEPS_LABEL": "步數",
     "CFG_LABEL": "CFG",
     "GUIDANCE_LABEL": "引導強度",
@@ -3695,13 +3458,6 @@
     "TOKEN_COUNT_CAPPED": "約 {count} / {cap} 個 token",
     "PROGRESS_OF_N": "正在生成 {current} / {total}……",
     "EXPIRES_IN_DAYS": "{days} 天後過期",
-    "RECENT_TITLE": "最近生成",
-    "AUTO_DELETE_NOTE": "生成的圖片將在 30 天後自動刪除",
-    "SHARE": "分享",
-    "SHARE_TITLE": "分享這次生成",
-    "SHARE_DESCRIPTION": "持有連結的任何人都可以檢視提示詞、參數和圖片，並將其儲存到自己的帳戶。",
-    "SHARE_REVOKE": "撤銷連結",
-    "SHARE_DONE": "完成",
     "EXPORT": "匯出",
     "IMPORT": "匯入",
     "IMPORT_TITLE": "匯入生成",
@@ -3709,56 +3465,30 @@
     "IMPORT_MODE_RESTORE": "還原（複製原圖）",
     "IMPORT_MODE_REGENERATE": "重新生成（新發起呼叫）",
     "DOWNLOAD_IMAGE": "下載圖片",
-    "SHARED_TITLE": "共享的生成",
-    "SAVE_TO_ACCOUNT": "儲存到我的帳戶",
-    "COPY_PROMPT": "複製提示詞",
     "SUBMIT": "生成",
     "SUBMITTING": "生成中……",
     "REFERENCES_TITLE": "參考圖像",
     "REFERENCES_ADD": "新增參考",
-    "REFERENCES_UNSUPPORTED": "此模型不支援參考圖像。",
     "LORAS_TITLE": "LoRA",
-    "LORAS_UNSUPPORTED": "此模型不支援 LoRA 鏈。",
-    "HISTORY_TITLE": "我的生成紀錄",
-    "NEW_GENERATION": "新建生成",
     "PICK_OR_GENERATE": "在側邊欄選擇生成記錄，或者新建一個。",
     "HISTORY_EMPTY": "尚無紀錄，請生成您的第一張圖像。",
     "STATUS_PENDING": "等待中",
-    "STATUS_SUBMITTED": "已提交",
-    "STATUS_QUEUED": "排隊中",
-    "STATUS_IN_PROGRESS": "生成中",
-    "STATUS_SUCCESS": "完成",
     "STATUS_FAILURE": "失敗",
     "REMIX": "再創作",
     "DELETE": "刪除",
-    "PUBLISH": "公開",
-    "UNLIST": "取消公開",
-    "PRIVATE": "設為私人",
-    "PRICE_PER_CALL": "每張 {price}",
     "META_TITLE": "圖像生成",
     "META_DESC": "透過 {appName} 的 ComfyUI 管線（SDXL 與 Flux 2）生成圖像。",
-    "LIKE": "點讚",
-    "UNLIKE": "取消點讚",
     "REFERENCES_DROP_HINT": "拖放圖像或瀏覽",
     "LORAS_EMPTY": "磁碟區尚未部署 LoRA。維運可透過目錄表新增。",
-    "HIRES_FIX_ENABLE": "高解析度修復",
-    "HIRES_FIX_DENOISE": "去噪強度",
-    "HIRES_FIX_UPSCALE": "放大倍率",
     "PNG_IMPORT_HINT": "拖放 ComfyUI PNG 以匯入提示詞和參數",
     "PNG_IMPORT_BROWSE": "匯入 PNG",
     "PNG_IMPORT_NO_METADATA": "此圖像中未找到 ComfyUI 元資料。",
     "NEW_SESSION": "新工作階段",
-    "SESSION_NEW_TOOLTIP": "開始一個新的工作階段。目前的工作階段仍會保留在歷程中。",
-    "RECENT_SESSIONS": "最近的工作階段",
-    "SNAPSHOT_COUNT": "{count, plural, other {# 個快照}}",
-    "IMAGE_COUNT_TOTAL": "{count, plural, other {# 張圖像}}",
     "SNAPSHOT_NAV_LABEL": "快照 {current} / {total}",
-    "SHARE_SESSION_HELP": "任何擁有此連結的人都可以查看此工作階段的歷程。",
     "LIGHTBOX_PREV": "上一張圖像",
     "LIGHTBOX_NEXT": "下一張圖像",
     "LIGHTBOX_CLOSE": "關閉",
     "SESSION_SNAPSHOTS": "本工作階段中的快照",
-    "EDIT": "編輯",
     "UPLOAD_IMAGE": "上傳圖片",
     "UPLOADING": "上傳中…",
     "INIT_IMAGE": "來源圖像"
@@ -3767,17 +3497,11 @@
     "NOT_SYNCED": "未同步",
     "SYNCED": "已同步",
     "EXPIRES_AT": "已同步，{date} 到期",
-    "EXPIRED": "已到期",
     "ADD_SYNC": "開啟同步（30 天）",
     "RESYNC": "重新同步",
     "RESYNC_EXPIRES": "重新同步（{date} 到期）",
     "REMOVE_SYNC": "關閉同步",
     "CONFIRM_REMOVE": "將此項目從伺服器同步中移除？本機副本仍會保留。",
-    "OFFLINE_REQUIRED": "同步需要連線。",
-    "PENDING_SYNC": "同步等待中，恢復連線後會自動重試。",
-    "HINT_DESCRIPTION": "已同步的項目會在伺服器保存 30 天，方便其他裝置取回。",
-    "OPFS_UNAVAILABLE": "目前的瀏覽器不支援本機資料庫，資料將不會被保留。",
-    "OFFLINE_SEND_BLOCKED": "目前離線。訊息已保存為草稿，連線後請重新傳送。",
     "DLQ_TOAST": "{items}在多次重試後仍未能同步。",
     "DLQ_KIND_COUNT": "{count}個{kind}",
     "DLQ_RETRY": "重試",

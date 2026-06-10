@@ -163,6 +163,7 @@ export type TriggerContext = {
   sendAIprompt?: boolean;
   // Optional async bridge for LLM/imggen/similarity (lowLevelAccess only).
   lowLevelAccess?: boolean;
+  ops?: TriggerOps;
   // Optional CBS macro expansion applied to every operand + outputVar name
   // (RisuAI runs risuChatParser on them). Identity when absent.
   parse?: (s: string) => string;
@@ -171,6 +172,27 @@ export type TriggerContext = {
   // Field tokens for {{char}}/{{user}} resolution inside operands.
   charName: string;
   userName: string;
+};
+
+// Async bridge for the lowLevelAccess V1 effects. Server start/request modes
+// call services directly; client modes call the BFF trigger-op endpoint.
+// Absent op -> the effect resolves its inputVar to an Error: string (Risu's
+// failure convention) instead of throwing.
+export type TriggerOps = {
+  // {type:'runLLM'} ChatML-or-plain prompt -> completion text.
+  runLLM?: (prompt: string) => Promise<string>;
+  // {type:'checkSimilarity'}: rank `values` by similarity to `source`.
+  similarity?: (source: string, values: string[]) => Promise<string[]>;
+  // {type:'runImgGen'}: prompt/negative -> {{inlay::id}} token.
+  imgGen?: (prompt: string, negative: string) => Promise<string>;
+  // {type:'showAlert'}: input/select resolve the user's answer; normal/error ''.
+  alert?: (
+    kind: "normal" | "error" | "input" | "select",
+    text: string,
+    options?: string[],
+  ) => Promise<string>;
+  // {type:'triggerlua'}: run Lua code against the trigger context.
+  runLua?: (code: string) => Promise<void>;
 };
 
 export type TriggerRunResult = {

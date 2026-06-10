@@ -22,22 +22,9 @@
     "PRICING": "Precios",
     "DOCS": "Documentación",
     "BLOG": "Blog",
-    "GROUP_CLI": "Herramientas CLI",
-    "GROUP_ROLEPLAY": "Clientes de roleplay",
-    "CC_SWITCH": "CC Switch",
-    "CLAUDE_CODE": "Claude Code",
-    "CODEX": "Codex",
-    "GEMINI_CLI": "Gemini CLI",
-    "OPENCLAW": "OpenClaw",
-    "SILLYTAVERN": "SillyTavern",
-    "JANITOR_AI": "Janitor.AI",
-    "RISUAI": "RisuAI",
-    "CHUB": "Chub / Venus",
     "DASHBOARD": "Panel",
     "LOG_IN": "Iniciar sesión",
-    "GET_STARTED": "Comenzar",
     "CHAT": "Chat",
-    "GENERATE": "Generar",
     "PLAYGROUND": "Playground",
     "STATUS": "Estado"
   },
@@ -45,7 +32,6 @@
     "HERO": {
       "BADGE": "Router en línea",
       "TITLE_LINE1": "INTELIGENCIA",
-      "TITLE_LINE2": "UNIFICADA",
       "TITLE_ROTATE": "INTELIGENCIA,ROLEPLAY,PERSONAJES,CÓDIGO,CHAT",
       "SUBTITLE": "{appName} te conecta a más de {modelCount} modelos de IA con una sola clave. Construye apps, ejecuta agentes o haz roleplay con personajes. Misma clave, misma velocidad, mismo precio.",
       "CTA_PRIMARY": "Comenzar",
@@ -56,12 +42,9 @@
       "PROVIDERS": "Proveedores",
       "FREE": "Gratis",
       "PAID": "De pago",
-      "UPTIME": "Tiempo activo",
-      "ENDPOINTS": "Endpoints",
       "PANEL": {
         "TOKENS_SERVED": "Tokens procesados",
         "REQUESTS": "Solicitudes",
-        "REQ_MIN": "Req / min",
         "TOKENS_MIN": "Tokens / min",
         "LIVE": "En vivo"
       },
@@ -69,20 +52,15 @@
         "GLOBAL": "Enrutable",
         "INTEGRATED": "Upstreams",
         "FREE": "Sin costo",
-        "PAID": "Por token",
-        "SLA": "Medido"
+        "PAID": "Por token"
       }
     },
     "TICKER": {
-      "LABEL": "Modelos disponibles",
       "LIVE_INFERENCE": "Inferencia en vivo",
       "TPS": "TPS"
     },
     "INTEGRATION": {
-      "BADGE": "Integración",
       "VIEW_GUIDE": "Ver guía",
-      "CLI_HEADER": "Para agentes de codificación y herramientas CLI",
-      "RP_HEADER": "Para roleplay y chat creativo",
       "CLAUDE_CODE": {
         "BADGE": "API Anthropic",
         "TITLE": "Funciona con Claude Code",
@@ -151,64 +129,24 @@
       "TITLE": "Precios simples.",
       "SUBTITLE": "Paga solo por lo que usas.",
       "DESCRIPTION": "Suscríbete para mayor valor o paga sobre la marcha. Todos los planes incluyen acceso a todos los modelos con failover automático entre proveedores.",
-      "PAYG": {
-        "NAME": "Pago por uso",
-        "PRICE": "$0",
-        "DESC": "Sin mínimo. Recarga y usa cualquier modelo.",
-        "ENDPOINT": "/v1/chat/completions"
-      },
-      "BASIC": {
-        "NAME": "Basic",
-        "PRICE": "$20/mes",
-        "DESC": "Valor de crédito de $30. Multiplicador 1.5x.",
-        "RATE": "100 req/min"
-      },
-      "PRO": {
-        "NAME": "Pro",
-        "PRICE": "$50/mes",
-        "DESC": "Valor de crédito de $75. Enrutamiento prioritario.",
-        "RATE": "500 req/min"
-      },
-      "ENTERPRISE": {
-        "NAME": "Enterprise",
-        "PRICE": "$100/mes",
-        "DESC": "Valor de crédito de $175. Soporte dedicado.",
-        "RATE": "2,000 req/min"
-      },
-      "CTA": {
-        "GET_STARTED": "Comenzar",
-        "VIEW_PLANS": "Ver todos los planes"
-      },
       "PROVIDERS": {
-        "TITLE": "Proveedores compatibles",
-        "ACTIVE": "Activo",
-        "DESC_OPENAI": "GPT-4o, o1, o3, GPT-4.1",
-        "DESC_ANTHROPIC": "Claude Opus, Sonnet, Haiku",
-        "DESC_GOOGLE": "Gemini 2.5 Pro, Flash",
-        "DESC_DEEPSEEK": "DeepSeek V3, R1"
+        "TITLE": "Proveedores compatibles"
       },
       "FLOW": {
-        "TITLE": "Flujo de solicitud",
-        "LIVE": "En vivo",
-        "STEP1": "POST /v1/chat/completions",
-        "STEP2": "Enrutar al proveedor más rápido",
-        "STEP3": "Respuesta entregada"
+        "TITLE": "Flujo de solicitud"
       }
     },
     "FEATURES": {
       "TITLE": "Por qué {appName}",
       "DESCRIPTION": "Un endpoint, todos los modelos de IA. El enrutamiento inteligente elige al proveedor más rápido mientras el failover automático garantiza que tus solicitudes siempre tengan éxito.",
       "FAILOVER": {
-        "TITLE": "Failover automático",
-        "DESC": "Las solicitudes fallidas se reintentan en canales alternos al instante"
+        "TITLE": "Failover automático"
       },
       "MULTIPROTOCOL": {
-        "TITLE": "Soporte multi-protocolo",
-        "DESC": "Formatos de API OpenAI, Anthropic y Gemini"
+        "TITLE": "Soporte multi-protocolo"
       },
       "LOADBALANCE": {
-        "TITLE": "Balanceo de carga inteligente",
-        "DESC": "Enruta automáticamente al proveedor disponible más rápido"
+        "TITLE": "Balanceo de carga inteligente"
       }
     },
     "RELIABILITY": {
@@ -225,7 +163,6 @@
         "DESC": "Selección de canal basada en latencia con pesos de prioridad. El proveedor más rápido gana, siempre."
       },
       "LEARN_MORE": "Más información",
-      "LEARN_MORE_ARIA": "Más información sobre la documentación de {appName}",
       "LEARN_MORE_DOCS": "Ver documentación",
       "ARCH": {
         "TITLE": "Arquitectura",
@@ -442,7 +379,6 @@
       "LEADERBOARD_TITLE": "Ranking LLM",
       "LEADERBOARD_SUBTITLE": "Compara los modelos más populares en la plataforma",
       "EMPTY": "Ningún modelo coincide con los filtros seleccionados",
-      "TOTAL_LABEL": "Tokens totales",
       "TOKENS_SUFFIX": "tokens",
       "TOOLTIP_TOTAL": "Total",
       "BY_AUTHOR_LABEL": "por"
@@ -484,10 +420,7 @@
     "SUBTITLE": "Actualizaciones de producto, guías de integración y notas del equipo.",
     "READ_MORE": "Leer más",
     "PUBLISHED": "Publicado",
-    "UPDATED": "Actualizado",
     "BY_AUTHOR": "Por {author}",
-    "TAGS": "Etiquetas",
-    "RECENT": "Publicaciones recientes",
     "BACK_TO_BLOG": "Volver a todas las publicaciones",
     "EMPTY": "Aún no hay publicaciones. Vuelve pronto.",
     "EMPTY_FILTERED": "Ninguna publicación coincide con tus filtros.",
@@ -564,9 +497,7 @@
         "H_NOT_SPOOFING": "Qué no es spoofing: Bedrock, Vertex, Foundry",
         "H_RESULTS": "Qué reveló 17 días de sondeo",
         "H_WHY": "Por qué sucede esto",
-        "H_NEXT": "Qué sigue",
         "H_TEST": "Prueba tu propio proveedor en 5 minutos",
-        "H_NAMING": "Una nota sobre nombrar nombres",
         "INTRO_P1": "Claude es el modelo más demandado del mercado ahora mismo, y uno de los más caros. Esa brecha ha creado un próspero mercado de revendedores externos que ofrecen \"el mismo Claude\" a una fracción del precio oficial. Algunos son legítimos. Muchos no.",
         "INTRO_P2": "Durante 17 días de sondeo automatizado a través de <s>8 revendedores upstream</s>, encontramos <s>183 pares (canal, modelo)</s> que fallan las verificaciones de autenticidad contra modelos comercializados como <c>claude-opus-4-7</c>, <c>claude-sonnet-4-6</c>, <c>claude-haiku-4-5</c> y similares. La misma presión existe para cada modelo premium, así que GPT, Gemini y Grok casi con certeza también están afectados. Claude es solo donde la brecha de precio es mayor ahora y donde tenemos datos firmes.",
         "PROBES_P": "Por (canal, modelo) enviamos cuatro solicitudes paralelas a la API estándar de Anthropic Messages (<c>POST /v1/messages</c>):",
@@ -651,7 +582,6 @@
         "H_BUGS": "Bug bounty, hasta $50",
         "P_BUGS": "Encuentra un bug real en la plataforma y repórtalo en el foro de bug bounty. El equipo elige un nivel de severidad y el bot paga: Bajo $0.25, Medio $0.50, Alto $1, Crítico $50. Quien realmente identificó el bug recibe el pago, no solo quien inició el hilo.",
         "H_JOIN": "Ven a pasar el rato",
-        "P_JOIN": "Todos los pagos caen en el mismo saldo que gastas en llamadas API. Vincula una vez, reclama todo a lo que califiques y luego sigue impulsando, cazando y lanzando con nosotros.",
         "CTA": "¿Listo? <invite>Únete al Discord de {appName}</invite>, luego <register>obtén una clave API</register> y <settings>vincula tu cuenta</settings> para reclamar tu primer $1."
       },
       "FREE_MODELS_AGGREGATED": {
@@ -695,7 +625,6 @@
     "META_TITLE": "Precios API de {name}, contexto y ejemplos | {appName}",
     "META_DESC": "Usa {name} de {vendor} a través de un único endpoint compatible con OpenAI. Ve precios por token, ventana de contexto, endpoints y ejemplos de código para copiar y pegar.",
     "META_KEYWORDS": "API {name}, precios {name}, ventana de contexto {name}, API {vendor}, {appName}",
-    "ABOUT": "Acerca de {name}",
     "PRICING_TITLE": "Precios",
     "PRICING_DESC": "Paga solo por lo que usas. Sin mínimos mensuales al usar Pago por Uso.",
     "INPUT_PRICE": "Precio de entrada",
@@ -737,62 +666,31 @@
     "CTA_DESC": "Crea una clave API y empieza a hacer solicitudes en menos de un minuto.",
     "CTA_SIGNUP": "Inicia sesión para probar {name}",
     "CTA_TRY": "Probar {name} en chat",
-    "CTA_ALL_MODELS": "Ver todos los modelos",
-    "LAST_UPDATED": "Última actualización {date}"
+    "CTA_ALL_MODELS": "Ver todos los modelos"
   },
   "PRICING": {
-    "PLAN": {
-      "BASIC": "Basic",
-      "PRO": "Pro",
-      "ENTERPRISE": "Enterprise"
-    },
     "FEATURE": {
       "MODELS": "Todos los modelos incluidos",
       "PRIORITY": "Enrutamiento prioritario",
       "DEDICATED": "Soporte dedicado",
-      "SUPPORT": "Soporte por correo",
       "FAILOVER": "Failover automático",
       "UPTIME": "SLA de 99.9% de tiempo activo",
       "OPENAI_COMPAT": "Endpoint compatible con OpenAI"
     },
     "COMPARE": {
-      "TITLE": "Comparar planes",
-      "FEATURE": "Característica",
-      "PRICE": "Precio mensual",
-      "VALUE": "Valor del crédito API",
-      "RATE_LIMIT": "Límite de tasa",
-      "ALL_MODELS": "Todos los modelos",
-      "PRIORITY": "Enrutamiento prioritario",
-      "DEDICATED": "Soporte dedicado",
-      "BASIC_PRICE": "$20/mes",
-      "PRO_PRICE": "$50/mes",
-      "ENTERPRISE_PRICE": "$100/mes",
-      "BASIC_VALUE": "$30",
-      "PRO_VALUE": "$75",
-      "ENTERPRISE_VALUE": "$175",
-      "BASIC_RATE": "100 rpm",
-      "PRO_RATE": "500 rpm",
-      "ENTERPRISE_RATE": "2,000 rpm"
+      "TITLE": "Comparar planes"
     },
     "CARD": {
       "POPULAR": "Popular",
       "PER_MONTH": " · mes",
       "VALUE": "valor {value}",
-      "MULTIPLIER": "multiplicador {multiplier}",
-      "INCLUDES": "Incluye",
-      "REQUESTS_MIN": "{count} solicitudes/min",
-      "SPEC_CREDIT": "Valor del crédito API",
       "SPEC_QUOTA": "Cuota/Reinicio",
-      "SPEC_MULTIPLIER": "Multiplicador",
       "VALUE_BADGE": "Valor",
-      "VALUE_EXPLAIN": "Paga {paid}, obtén {credit} en crédito API. Úsalo en cualquier modelo.",
-      "OPENCLAW_TITLE": "Soporte OpenClaw",
-      "OPENCLAW_DESC": "Compatibilidad completa con el agente OpenClaw"
+      "VALUE_EXPLAIN": "Paga {paid}, obtén {credit} en crédito API. Úsalo en cualquier modelo."
     },
     "BANNER": {
       "TITLE": "Asistente OpenClaw AI en Telegram",
-      "SUBTITLE": "Despliegue de IA en un clic para tu bot de Telegram, impulsado por OpenClaw y {appName}.",
-      "BADGE": "Próximamente"
+      "SUBTITLE": "Despliegue de IA en un clic para tu bot de Telegram, impulsado por OpenClaw y {appName}."
     },
     "META": {
       "TITLE": "Precios - {appName}",
@@ -802,6 +700,11 @@
     "TITLE": "Precios",
     "SUBTITLE": "Ya sea que estés lanzando una app o ejecutando largas sesiones de roleplay. Un plan, todos los modelos.",
     "CTA": "Suscribirse",
+    "TOPUP": {
+      "LABEL": "Pago por uso",
+      "DESC": "¿Prefieres no suscribirte? Recarga créditos.",
+      "FOOTNOTE": "Los créditos nunca caducan."
+    },
     "FAQ": {
       "Q1": "¿Cómo funcionan los precios de {appName}?",
       "A1": "Pagas por token consumido. Cada modelo tiene su propia tarifa de entrada, salida y caché, facturada desde tu crédito de cuenta. No se requiere suscripción mensual para Pago por Uso.",
@@ -819,11 +722,6 @@
       "A7": "Sí. Cada plan funciona como una fuente personalizada compatible con OpenAI en cualquier cliente principal de roleplay. SillyTavern, Janitor.AI, RisuAI y Chub tienen cada uno una guía de configuración en los documentos.",
       "Q8": "¿Qué tan largas pueden ser mis conversaciones o historiales de personajes?",
       "A8": "{appName} soporta la ventana de contexto completa de cada modelo, hasta 1M tokens en Gemini y 200k en Claude. Tanto roleplays largos como bases de código largas funcionan."
-    },
-    "TOPUP": {
-      "LABEL": "Pago por uso",
-      "DESC": "¿Prefieres no suscribirte? Recarga créditos.",
-      "FOOTNOTE": "Los créditos nunca caducan."
     }
   },
   "DOCS_INDEX": {
@@ -861,18 +759,7 @@
   },
   "DOCS_SIDEBAR": {
     "TITLE": "Documentación",
-    "AI_APPLICATIONS": "Aplicaciones de IA",
-    "GROUP_CLI": "Herramientas CLI",
-    "GROUP_ROLEPLAY": "Clientes de roleplay",
-    "CC_SWITCH": "CC Switch",
-    "OPENCLAW": "OpenClaw",
-    "CLAUDE_CODE": "Claude Code",
-    "CODEX_CLI": "Codex CLI",
-    "GEMINI_CLI": "Gemini CLI",
-    "SILLYTAVERN": "SillyTavern",
-    "JANITOR_AI": "Janitor.AI",
-    "RISUAI": "RisuAI",
-    "CHUB": "Chub / Venus"
+    "AI_APPLICATIONS": "Aplicaciones de IA"
   },
   "DOCS": {
     "SETUP": {
@@ -882,8 +769,7 @@
       "CLI_ALT": "O usa el CLI de CC Switch:",
       "NO_APP": "¿No tienes CC Switch?",
       "INSTALL_LINK": "Instalar CC Switch",
-      "LOGIN_REQUIRED": "Inicia sesión para autocompletar tu clave API",
-      "CREATE_KEY": "Crea una clave API primero"
+      "LOGIN_REQUIRED": "Inicia sesión para autocompletar tu clave API"
     },
     "CONFIG": {
       "FILE_LABEL": "Archivo de configuración permanente (recomendado)",
@@ -902,10 +788,8 @@
       "QUICK_CONFIG": "Configuracion rapida",
       "QUICK_CONFIG_DESC": "Coloca estos valores en el cliente. Tu clave se rellena automaticamente cuando inicias sesion.",
       "BASE_URL_LABEL": "URL base",
-      "API_PATH_LABEL": "Endpoint",
       "API_KEY_LABEL": "Clave API",
       "STEPS": "Configuracion paso a paso",
-      "STEP_LABEL": "Paso {number}",
       "COMPATIBILITY": "Compatibilidad",
       "RECOMMENDED_MODELS": "Modelos recomendados",
       "RECOMMENDED_MODELS_DESC": "Modelos gratuitos que funcionan bien aqui. Pega cualquier id de modelo en el cliente.",
@@ -2057,11 +1941,8 @@
     "CONTACT_SUBTITLE": "¿Preguntas o inquietudes?",
     "DESCRIPTION": "Plataforma unificada de API de IA que proporciona acceso a cientos de modelos de múltiples proveedores a través de un único endpoint inteligente.",
     "COPYRIGHT": "© {year} {appName}. Todos los derechos reservados.",
-    "LEGAL_DISCLAIMER": "Al usar esta plataforma, reconoces haber leído y aceptado nuestros",
     "LEGAL_TERMS": "Términos de servicio",
-    "LEGAL_AND": "y",
     "LEGAL_PRIVACY": "Política de privacidad",
-    "SOCIAL_GITHUB": "GitHub",
     "SOCIAL_TRUSTPILOT": "Trustpilot",
     "EASTER_EGG_LABEL": "Jugar Token Breakout"
   },
@@ -2177,21 +2058,15 @@
   },
   "COMMON": {
     "COPY_CODE": "Copiar código",
-    "COPIED": "Copiado",
     "OPEN_MENU": "Abrir menú",
     "SEARCH": "Buscar...",
     "SAVE": "Guardar",
     "SAVED": "Guardado",
     "CANCEL": "Cancelar",
     "DELETE": "Eliminar",
-    "CREATE": "Crear",
     "EDIT": "Editar",
-    "IMPORT": "Importar",
-    "EXPORT": "Exportar",
-    "LOADING": "Cargando...",
     "NAME": "Nombre",
     "DESCRIPTION": "Descripción",
-    "CONFIRM_DELETE": "¿Seguro que quieres eliminar esto?",
     "RESET": "Restablecer",
     "CONFIRM": {
       "CONTINUE": "Continuar",
@@ -2253,7 +2128,6 @@
       "USERNAME_OR_EMAIL_PLACEHOLDER": "Introduce tu nombre de usuario o correo",
       "PASSWORD": "Contraseña",
       "PASSWORD_PLACEHOLDER": "Introduce tu contraseña",
-      "PASSWORD_MIN_LENGTH": "La contraseña debe tener al menos 8 caracteres",
       "EMAIL": "Correo",
       "EMAIL_PLACEHOLDER": "Introduce tu correo",
       "VERIFICATION_CODE": "Código de verificación",
@@ -2268,14 +2142,12 @@
     "TWO_FA": {
       "TITLE": "Autenticación de dos factores",
       "DESCRIPTION": "Introduce el código de 6 dígitos de tu app autenticadora",
-      "CODE_PLACEHOLDER": "000000",
       "SUBMIT": "Verificar",
       "VERIFYING": "Verificando..."
     },
     "VERIFICATION": {
       "SEND_CODE": "Enviar código",
       "SENDING": "Enviando...",
-      "SENT": "Código enviado",
       "RESEND": "Reenviar",
       "RESEND_IN": "Reenviar en {seconds}s",
       "FAILED": "Error al enviar código de verificación"
@@ -2325,10 +2197,7 @@
     "DONT_HAVE_ACCOUNT": "¿No tienes cuenta?",
     "ALREADY_HAVE_ACCOUNT": "¿Ya tienes cuenta?",
     "OR_CONTINUE_WITH": "O continúa con",
-    "CALLBACK_LOADING": "Completando inicio de sesión...",
-    "DASHBOARD": "Panel",
     "LOG_OUT": "Cerrar sesión",
-    "BALANCE": "Saldo",
     "SUBSCRIPTION": "Suscripción",
     "SUBSCRIPTION_ACTIVE": "Activa"
   },
@@ -2340,10 +2209,7 @@
     "LOGS": "Registros de uso",
     "AFFILIATE": "Afiliado",
     "BILLING": "Facturación",
-    "SETTINGS": "Configuración",
-    "CHAT": "Chat",
-    "GENERATE": "Generar",
-    "MY_GENERATIONS": "Mis generaciones"
+    "SETTINGS": "Configuración"
   },
   "DASHBOARD": {
     "GREETING": {
@@ -2387,12 +2253,9 @@
       "NO_API_INFO": "Sin información API"
     },
     "CONSUMPTION": "Consumo",
-    "TOP_UP": "Recargar",
     "TOTAL": "Total",
     "OTHER": "Otro",
     "NO_DATA": "Sin datos disponibles",
-    "UPTIME": "Tiempo activo",
-    "COPY_URL": "Copiar URL",
     "COPIED": "Copiado"
   },
   "TOKEN": {
@@ -2410,18 +2273,7 @@
     "FORM": {
       "NAME": "Nombre",
       "NAME_PLACEHOLDER": "Introduce un nombre para esta clave",
-      "GROUP": "Grupo",
-      "GROUP_PLACEHOLDER": "Selecciona un grupo",
-      "GROUP_NO_GROUPS": "No hay grupos disponibles",
-      "CROSS_GROUP_RETRY": "Reintento entre grupos",
-      "CROSS_GROUP_RETRY_DESC": "Cuando se activa, las solicitudes fallidas reintentarán a través de canales en otros grupos.",
-      "EXPIRATION": "Expiración",
-      "EXPIRATION_PLACEHOLDER": "Selecciona fecha de expiración",
-      "EXPIRATION_PRESETS": "Ajuste rápido",
       "NEVER_EXPIRES": "Nunca",
-      "ONE_MONTH": "1 mes",
-      "ONE_DAY": "1 día",
-      "ONE_HOUR": "1 hora",
       "QUOTA": "Cuota",
       "QUOTA_PLACEHOLDER": "Cantidad en USD (ej. 10)",
       "QUOTA_PRESETS": "Presets",
@@ -2432,8 +2284,6 @@
       "MODEL_LIMITS_DESC": "No recomendado a menos que sea necesario.",
       "MODEL_SELECT_PLACEHOLDER": "Buscar modelos...",
       "MODEL_SELECT_EMPTY": "No se encontraron modelos",
-      "MODELS_SELECTED": "{count} seleccionados",
-      "MODEL_COUNT": "{count} modelos",
       "IP_WHITELIST": "Lista blanca de IPs",
       "IP_WHITELIST_PLACEHOLDER": "Una IP por línea. Deja vacío para sin restricción.",
       "IP_WHITELIST_DESC": "Las IPs pueden ser falsificadas. Usa con un gateway para aplicación más fuerte.",
@@ -2484,7 +2334,6 @@
     "DISABLE": "Desactivar",
     "UNLIMITED": "Ilimitada",
     "ALL_MODELS": "Todos los modelos",
-    "USED_OF_TOTAL": "{used} / {total}",
     "SEARCH_PLACEHOLDER": "Buscar claves...",
     "NO_TOKENS": "Aún no hay claves API. Crea una para comenzar.",
     "COPY_KEY": "Copiar clave"
@@ -2492,7 +2341,6 @@
   "LOGS": {
     "TABLE": {
       "TIME": "Hora",
-      "TYPE": "Tipo",
       "CHANNEL": "Canal",
       "USER": "Usuario",
       "MODEL": "Modelo",
@@ -2610,8 +2458,6 @@
     "DESCRIPTION": "Ve el historial de solicitudes API, uso de tokens y detalles de gasto.",
     "FILTERS": "Filtros",
     "RESET": "Restablecer",
-    "TO": "a",
-    "TOTAL": "total",
     "COPIED": "Copiado al portapapeles",
     "CLICK_COPY": "Clic para copiar",
     "NO_LOGS": "No se encontraron logs para el período seleccionado.",
@@ -2630,7 +2476,6 @@
       "RATE": "Tasa",
       "EARNED": "Ganado",
       "STATUS": "Estado",
-      "JOINED": "Se unió",
       "COMMISSIONS": "Comisiones",
       "TOTAL_EARNED": "Total ganado"
     },
@@ -2655,7 +2500,6 @@
       "TITLE": "Transferir ganancias de afiliado",
       "DIALOG_DESC": "Transfiere tus ganancias de afiliado pendientes a tu saldo de cuenta. Esta acción no se puede deshacer.",
       "AMOUNT": "Monto",
-      "INVALID": "Introduce un monto válido",
       "EXCEEDS": "El monto excede el saldo disponible"
     },
     "ENUM": {
@@ -2687,7 +2531,6 @@
     "HOW_IT_WORKS": "Cómo funciona",
     "TAB_INVITEES": "Usuarios invitados",
     "TAB_COMMISSIONS": "Historial de comisiones",
-    "COMMISSION_HISTORY": "Historial de comisiones",
     "NO_COMMISSIONS": "Aún no hay historial de comisiones. Comparte tu enlace de invitación para empezar a ganar.",
     "NO_INVITEES": "Aún no hay usuarios invitados. Comparte tu enlace de invitación para empezar a crecer tu red.",
     "BADGE_GENERATOR": {
@@ -2775,7 +2618,6 @@
   },
   "BILLING": {
     "SUBSCRIPTION": {
-      "PLANS": "Planes de suscripción",
       "MY": "Mis suscripciones",
       "NO_ACTIVE": "Ninguna activa",
       "ACTIVE": "Activa",
@@ -2808,9 +2650,7 @@
     },
     "TOPUP": {
       "TITLE": "Recargar cuota",
-      "AMOUNT": "Monto de recarga",
       "ACTUAL_PAYMENT": "Pago real",
-      "PAY_NOW": "Pagar ahora",
       "SAVE": "Guardar"
     },
     "ERROR": {
@@ -2826,7 +2666,6 @@
     "CONSUMPTION": "Consumo",
     "REQUESTS": "Solicitudes",
     "USED_OF": "usado de",
-    "REFRESHING": "Actualizando...",
     "PAYMENT_METHOD": {
       "LABEL": "Método de pago",
       "CARD": "Tarjeta de crédito",
@@ -2837,8 +2676,6 @@
     "ERROR": {
       "REQUIRED": "{type} es requerido",
       "MIN_LENGTH": "{type} debe tener al menos {minLength} caracteres",
-      "MAX_LENGTH": "{type} debe tener como máximo {maxLength} caracteres",
-      "EXACT_LENGTH": "{type} debe tener exactamente {minLength} caracteres",
       "MIN_VALUE": "{type} debe ser mayor que 0"
     },
     "TYPE": {
@@ -2861,7 +2698,6 @@
     "ROLE_SUPER_ADMIN": "Super Administrador",
     "ROLE_ADMIN": "Administrador",
     "ROLE_USER": "Usuario",
-    "BALANCE": "Saldo",
     "CONSUMPTION": "Consumo",
     "REQUEST_COUNT": "Solicitudes",
     "DEFAULT_GROUP": "Grupo predeterminado",
@@ -2876,14 +2712,12 @@
       "EMAIL_PLACEHOLDER": "Introduce dirección de correo",
       "BIND_EMAIL": "Vincular correo",
       "MODIFY_EMAIL": "Modificar correo",
-      "VERIFICATION_CODE": "Código de verificación",
       "SEND_CODE": "Enviar código",
       "CODE_SENT": "Código enviado, reenviar en {seconds}s",
       "CODE_PLACEHOLDER": "Introduce código de verificación",
       "OAUTH_BINDINGS": "Vinculaciones OAuth",
       "GITHUB": "GitHub",
       "DISCORD": "Discord",
-      "BOUND": "Vinculado",
       "NOT_BOUND": "No vinculado",
       "BIND": "Vincular",
       "UNBIND": "Desvincular",
@@ -2897,7 +2731,6 @@
       "ACCESS_TOKEN": "Token de acceso del sistema",
       "ACCESS_TOKEN_DESC": "Usa este token para acceder a la API directamente.",
       "GENERATE_TOKEN": "Generar token",
-      "REGENERATE_TOKEN": "Regenerar token",
       "TOKEN_GENERATED": "Token generado exitosamente",
       "COPY_TOKEN": "Copiar",
       "TOKEN_COPIED": "Copiado al portapapeles",
@@ -2969,29 +2802,16 @@
   },
   "CHAT": {
     "SHARE": {
-      "BUTTON": "Compartir",
       "TITLE": "Compartir conversación",
       "DESCRIPTION": "Cualquiera con el enlace puede ver esta conversación.",
-      "CREATED": "Enlace de compartir creado",
-      "REVOKED": "Enlace de compartir eliminado",
-      "COPY_LINK": "Copiar enlace de compartir",
-      "LINK_COPIED": "Enlace copiado al portapapeles",
-      "GENERATE_LINK": "Generar enlace de compartir",
-      "REVOKE": "Eliminar enlace de compartir",
-      "SHARED_CONVERSATION": "Conversación compartida",
-      "NOT_FOUND": "Esta conversación compartida no fue encontrada o ha sido eliminada."
+      "LINK_COPIED": "Enlace copiado al portapapeles"
     },
     "MODEL": {
       "SELECT": "Seleccionar modelo",
       "SEARCH": "Buscar modelos...",
       "NO_RESULTS": "No se encontraron modelos",
-      "GROUP_TEXT": "Texto y razonamiento",
-      "GROUP_IMAGE": "Generación de imagen",
-      "GROUP_VIDEO": "Generación de video",
       "FREE_BADGE": "GRATIS",
-      "LOGIN_REQUIRED": "Inicio de sesión requerido",
-      "FREE_NOTICE": "Los modelos gratuitos pueden fallar bajo alta carga.",
-      "FREE_NOTICE_CTA": "Cambiar a un modelo pagado"
+      "LOGIN_REQUIRED": "Inicio de sesión requerido"
     },
     "ACTION": {
       "COPY": "Copiar",
@@ -3013,8 +2833,7 @@
     },
     "GATE": {
       "NEEDS_TOKEN_TITLE": "Clave API requerida",
-      "NEEDS_TOKEN_DESC": "Genera una clave API para empezar a chatear con modelos de IA.",
-      "LOGIN_REQUIRED_DESC": "Inicia sesión para empezar a chatear con modelos de IA."
+      "NEEDS_TOKEN_DESC": "Genera una clave API para empezar a chatear con modelos de IA."
     },
     "TOOL": {
       "USED": "Herramienta usada",
@@ -3042,7 +2861,6 @@
       "UNSUPPORTED_TYPE": "El tipo de archivo {type} no es compatible. Sube una imagen PNG, JPEG, WebP o GIF."
     },
     "WEB_SEARCH": {
-      "LABEL": "Búsqueda web",
       "ON": "Búsqueda web activada",
       "OFF": "Búsqueda web desactivada"
     },
@@ -3084,11 +2902,7 @@
       "HINT": "Se aplica a este y a cada nuevo chat hasta que lo cambies."
     },
     "INPUT_PLACEHOLDER": "Escribe tu mensaje...",
-    "START_PROMPT": "Envía un mensaje para iniciar la conversación.",
     "THINKING": "Pensando",
-    "DISCLAIMER": "Las respuestas de IA pueden ser inexactas. Verifica información importante.",
-    "UNTITLED": "Conversación sin título",
-    "DELETE_CONFIRM": "¿Seguro que quieres eliminar esta conversación?",
     "MESSAGE_INPUT": "Entrada de mensaje",
     "SEARCH_CHATS": "Buscar chats",
     "TOKENS_IN": "ent",
@@ -3098,10 +2912,7 @@
       "TITLE": "Chat de IA - {appName}",
       "TITLE_WITH_NAME": "{title} | Chat de IA - {appName}",
       "DESCRIPTION": "Chatea con cualquier modelo de IA. Prueba GPT, Claude, Gemini, DeepSeek y más a través de una sola interfaz.",
-      "KEYWORDS": "chat de IA, chatear con IA, chat GPT, chat Claude, chat Gemini, playground de IA, prueba de modelos",
-      "SHARED_TITLE": "Conversación compartida - {appName}",
-      "SHARED_TITLE_WITH_NAME": "{title} | Conversación compartida - {appName}",
-      "SHARED_DESCRIPTION": "Ve una conversación de IA compartida en {appName}."
+      "KEYWORDS": "chat de IA, chatear con IA, chat GPT, chat Claude, chat Gemini, playground de IA, prueba de modelos"
     },
     "OVERRIDES": {
       "OPEN": "Configuración de conversación",
@@ -3131,10 +2942,8 @@
       "NO_CHARACTERS": "Aún no hay personajes. Crea o importa uno primero.",
       "NO_LOREBOOKS": "Aún no hay lorebooks.",
       "REORDER_HINT": "Arrastra para reordenar. Las entradas superiores se inyectan más temprano en el prompt.",
-      "SELECTED": "seleccionados",
       "SEARCH_CHARACTERS": "Buscar personajes",
       "SEARCH_LOREBOOKS": "Buscar lorebooks",
-      "CLEAR": "Limpiar",
       "EFFORT_MINIMAL": "Mínimo",
       "EFFORT_LOW": "Bajo",
       "EFFORT_MEDIUM": "Medio",
@@ -3177,18 +2986,14 @@
       "LOCAL_DB_UPLOAD_CONFIRM": "¿Sobrescribir base de datos OPFS local desde este archivo? Los datos existentes se borran.",
       "CLEAR": "Limpiar chat",
       "CLEAR_SUCCESS": "Chat limpiado",
-      "CLEAR_CONFIRM_DESC": "Esto elimina cada mensaje en la conversación pero mantiene la configuración, vínculos de personaje y título. Esto no se puede deshacer.",
-      "FONT": "Fuente",
-      "FONT_SANS": "Sans",
-      "FONT_DISPLAY": "Display",
-      "FONT_SERIF": "Serif",
-      "FONT_MONO": "Monospace",
-      "FONT_SYSTEM": "Sistema"
+      "CLEAR_CONFIRM_DESC": "Esto elimina cada mensaje en la conversación pero mantiene la configuración, vínculos de personaje y título. Esto no se puede deshacer."
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, one {# personaje} other {# personajes}}",
       "LOREBOOKS": "{count, plural, one {# libro de saber} other {# libros de saber}}"
-    }
+    },
+    "TRIGGER_ALERT_SELECT_DESC": "Elige una opción para continuar",
+    "TRIGGER_ALERT_OK": "Aceptar"
   },
   "RP": {
     "CHARACTERS_TITLE": "Personajes",
@@ -3212,7 +3017,6 @@
     "CHARACTER_EXAMPLE_MESSAGES": "Diálogo de ejemplo",
     "CHARACTER_SYSTEM_PROMPT": "Prompt de sistema",
     "CHARACTER_POST_HISTORY": "Instrucciones post-historia",
-    "CHARACTER_AVATAR": "Avatar",
     "CHARACTER_TAGS": "Etiquetas",
     "CHARACTER_ACTIVATION_TITLE": "Activación",
     "CHARACTER_ACTIVATION_HINT": "Cuando 'Siempre activo' está apagado, el personaje solo se une al prompt cuando una palabra clave de activador aparece en el chat reciente. Consejo multi-carácter: mantén al personaje principal siempre activo; controla los secundarios con activadores.",
@@ -3222,7 +3026,6 @@
     "CHARACTER_TRIGGERS_HINT": "Palabras que activan este personaje. Ejemplo: alice, knight, sword. Ignorado cuando 'Siempre activo' está activado.",
     "CHARACTER_MATCH_WHOLE_WORDS": "Coincidir solo palabras completas",
     "CHARACTER_MATCH_WHOLE_WORDS_HINT": "Cuando está activado, el activador 'Eve' no coincidirá con 'evening'. Predeterminado: coincidencia de subcadena.",
-    "CHARACTER_DEFAULT_MODEL": "Modelo predeterminado",
     "PERSONAS_TITLE": "Personas",
     "PERSONAS_NEW": "Nueva persona",
     "PERSONAS_EMPTY": "Aún no hay personas.",
@@ -3310,13 +3113,11 @@
     "PRESET_MUST_START_WITH_USER_HINT": "Antepone un pequeño mensaje de usuario en blanco si el chat empieza con asistente o sistema. Automático para Anthropic/Gemini/GLM.",
     "PRESET_GEMINI_BLOCK_OFF": "Gemini: seguridad APAGADA",
     "PRESET_GEMINI_BLOCK_OFF_HINT": "Envía safetySettings con threshold=OFF para cada categoría de daño de Gemini. Más fuerte que BLOCK_NONE. Solo tiene efecto en modelos Gemini.",
-    "SIDEBAR_TAB_CHATS": "Chats",
     "SIDEBAR_TAB_CHARACTERS": "Personajes",
     "SIDEBAR_TAB_PERSONAS": "Personas",
     "SIDEBAR_TAB_LOREBOOKS": "Lorebooks",
     "SIDEBAR_TAB_PRESETS": "Presets",
     "SIDEBAR_TAB_CARDS": "Cartas",
-    "SIDEBAR_GROUP_LABEL": "RP",
     "CARDS_TITLE": "Cartas",
     "CARDS_PAGE_SUBTITLE": "Guarda personajes + persona + lorebooks juntos como un paquete creativo. Aplica uno a un chat en un solo clic.",
     "CARDS_NEW": "Nueva carta",
@@ -3336,10 +3137,6 @@
     "CARD_CHARACTERS": "Personajes",
     "CARD_LOREBOOKS": "Lorebooks",
     "DROPPED_PARAMS": "{params} no son compatibles con este modelo y fueron ignorados.",
-    "EDIT_SAVE_ONLY": "Guardar",
-    "EDIT_SAVE_AND_GENERATE": "Guardar y generar",
-    "BRANCH_NEXT": "Siguiente rama",
-    "BRANCH_PREV": "Rama anterior",
     "LOREBOOKS_IMPORT": "Importar",
     "PERSONAS_IMPORT": "Importar",
     "LOREBOOK_ENTRY_CONSTANT_HINT": "Inserta siempre esta entrada, ignorando las claves de activación.",
@@ -3376,15 +3173,10 @@
     "UNAUTHORIZED": "No autorizado",
     "NO_API_KEY": "Sin clave API configurada",
     "NOT_FOUND": "Recurso no encontrado",
-    "NO_IMAGE_GENERATED": "No se generó ninguna imagen",
     "NO_TASK_ID": "Sin ID de tarea o URL en la respuesta",
-    "NO_VIDEO_URL": "Video completado pero no se encontró URL",
-    "VIDEO_GENERATION_FAILED": "Generación de video fallida",
-    "VIDEO_GENERATION_TIMED_OUT": "Generación de video agotó el tiempo",
     "REQUEST_FAILED": "Solicitud fallida",
     "PRICING_FETCH_FAILED": "Error al obtener datos de precios",
     "NO_TEXT_MODELS": "Sin modelos de texto disponibles",
-    "UPLOAD_FAILED": "Error al subir adjunto",
     "NO_IMAGE_PROMPT": "Sin prompt proporcionado para generación de imagen",
     "IMAGE_GENERATION_FAILED": "Generación de imagen fallida",
     "UNEXPECTED_RESPONSE": "Respuesta nula inesperada del API upstream",
@@ -3397,7 +3189,6 @@
     "PROMPT_REJECTED": "Este prompt viola la política de contenido y no puede usarse para generación de imagen o video.",
     "PROMPT_FLAGGED": "Este prompt fue marcado como potencialmente inseguro para generación. Reformúlalo e inténtalo de nuevo.",
     "MODERATION_UNAVAILABLE": "La generación de imagen y video está temporalmente no disponible. Inténtalo de nuevo en breve.",
-    "PDF_EXTRACTION_FAILED": "No pudimos leer el contenido del PDF adjunto. Quítalo o prueba un archivo diferente.",
     "IMPORT_INVALID_JSON": "El archivo no es JSON válido.",
     "IMPORT_UNSUPPORTED_VERSION": "Versión de exportación no soportada.",
     "CARD_PARSE_FAILED": "No se pudo parsear la carta de personaje.",
@@ -3416,18 +3207,14 @@
     "UNIFIED_INTELLIGENCE_API": "API de inteligencia unificada",
     "GET_STARTED": "Comenzar",
     "SAVE_UP_TO": "Ahorra hasta",
-    "PER_1M_TOKENS": "por 1M tokens",
     "SMART_ROUTING": "Enrutamiento inteligente",
-    "ONE_ENDPOINT": "Un endpoint",
     "MODELS": "Modelos",
     "FREE": "Gratis",
     "PAID": "De pago",
-    "UPTIME": "Tiempo activo",
     "LIVE_STATS": "Estadísticas en vivo",
     "CHEAPEST_API": "API de inferencia más barata",
     "MODELS_ONE_ENDPOINT": "40+ modelos de IA, un endpoint",
     "MODELS_ONE_ENDPOINT_SUFFIX": "modelos de IA, un endpoint",
-    "DIRECT": "Directo",
     "MODEL": "Modelo",
     "PRICES_NOTE": "Precios por 1M tokens",
     "INPUT": "Entrada",
@@ -3462,7 +3249,6 @@
     },
     "MCP": {
       "SERVER_DESCRIPTION": "Router de modelos de IA en navegador. Las herramientas se registran vía WebMCP en la página principal del sitio usando navigator.modelContext. Visita la página principal y llama las herramientas desde un cliente capaz de WebMCP.",
-      "WEBMCP_BUNDLE_DESCRIPTION": "Herramientas en navegador registradas vía navigator.modelContext en la página principal de {appName}. Carga la página principal en un cliente capaz de WebMCP para acceder a las herramientas.",
       "TOOLS": {
         "OPEN_MODELS_CATALOG": "Abre la página del catálogo de modelos de {appName}, que lista cada modelo disponible con precios en vivo entre OpenAI, Anthropic, Google, DeepSeek y otros proveedores.",
         "OPEN_PRICING": "Abre la página de precios de {appName} para revisar planes de suscripción y tarifas de pago por uso.",
@@ -3511,35 +3297,15 @@
     "STATE": {
       "OPERATIONAL": "Operativo",
       "DOWN": "Caído",
-      "UNKNOWN": "Desconocido",
       "DEGRADED": "Degradado"
-    },
-    "SUMMARY": {
-      "ALL_NORMAL": "Todos los sistemas normales",
-      "N_DOWN": "{count, plural, one {# modelo caído} other {# modelos caídos}}",
-      "LAST_CHECKED_AT": "Última verificación {time}"
     },
     "KPI": {
       "TOTAL": "Modelos totales",
       "OPERATIONAL": "Operativos",
-      "DOWN": "Caídos",
-      "UNKNOWN": "Desconocidos"
-    },
-    "ROW": {
-      "CHANNELS": "ch",
-      "LATENCY_PROBE": "sonda",
-      "LATENCY_P50": "p50",
-      "LATENCY_P95": "p95",
-      "REQ": "req",
-      "ERR": "err",
-      "IDLE": "sin tráfico este minuto"
+      "DOWN": "Caídos"
     },
     "RIBBON": {
-      "TITLE": "Últimas 24 horas",
-      "LEGEND_UP": "activo",
-      "LEGEND_DEGRADED": "degradado",
-      "LEGEND_DOWN": "caído",
-      "LEGEND_NODATA": "sin datos"
+      "TITLE": "Últimas 24 horas"
     },
     "FILTER": {
       "SEARCH_PLACEHOLDER": "Buscar modelos...",
@@ -3655,8 +3421,6 @@
     "HOVER_UPSCALE": "Escalar esta imagen",
     "HOVER_ADETAILER": "Ejecutar ADetailer en esta imagen",
     "HOVER_EDIT": "Usar esta imagen en Editar",
-    "GENERATE_TITLE": "Generar imagen",
-    "GENERATE_SUBTITLE": "Elige un modelo, escribe un prompt, obtén una imagen.",
     "PROMPT_LABEL": "Prompt",
     "PROMPT_PLACEHOLDER": "Describe la imagen que quieres.",
     "NEGATIVE_PROMPT_LABEL": "Prompt negativo",
@@ -3677,7 +3441,6 @@
     "BACKGROUND_TRANSPARENT": "Transparente",
     "WATERMARK_LABEL": "Marca de agua",
     "STRENGTH_LABEL": "Fuerza",
-    "SIZE_LABEL": "Tamaño",
     "STEPS_LABEL": "Pasos",
     "CFG_LABEL": "CFG",
     "GUIDANCE_LABEL": "Guidance",
@@ -3695,13 +3458,6 @@
     "TOKEN_COUNT_CAPPED": "~{count} / {cap} tokens",
     "PROGRESS_OF_N": "Generando {current} de {total}…",
     "EXPIRES_IN_DAYS": "Expira en {days} días",
-    "RECENT_TITLE": "Generaciones recientes",
-    "AUTO_DELETE_NOTE": "Las generaciones se eliminan automáticamente después de 30 días",
-    "SHARE": "Compartir",
-    "SHARE_TITLE": "Compartir esta generación",
-    "SHARE_DESCRIPTION": "Cualquiera con el enlace puede ver el prompt, configuración e imágenes, y bifurcarlos a su propia cuenta.",
-    "SHARE_REVOKE": "Revocar enlace",
-    "SHARE_DONE": "Listo",
     "EXPORT": "Exportar",
     "IMPORT": "Importar",
     "IMPORT_TITLE": "Importar una generación",
@@ -3709,56 +3465,30 @@
     "IMPORT_MODE_RESTORE": "Restaurar (copiar imágenes originales)",
     "IMPORT_MODE_REGENERATE": "Regenerar (nueva llamada upstream)",
     "DOWNLOAD_IMAGE": "Descargar imagen",
-    "SHARED_TITLE": "Generación compartida",
-    "SAVE_TO_ACCOUNT": "Guardar en mi cuenta",
-    "COPY_PROMPT": "Copiar prompt",
     "SUBMIT": "Generar",
     "SUBMITTING": "Generando...",
     "REFERENCES_TITLE": "Imágenes de referencia",
     "REFERENCES_ADD": "Añadir referencia",
-    "REFERENCES_UNSUPPORTED": "Este modelo no acepta imágenes de referencia.",
     "LORAS_TITLE": "LoRAs",
-    "LORAS_UNSUPPORTED": "Este modelo no soporta cadenas LoRA.",
-    "HISTORY_TITLE": "Mis generaciones",
-    "NEW_GENERATION": "Nueva generación",
     "PICK_OR_GENERATE": "Elige una generación de la barra lateral, o crea una nueva.",
     "HISTORY_EMPTY": "Nada aún. Genera tu primera imagen.",
     "STATUS_PENDING": "Pendiente",
-    "STATUS_SUBMITTED": "Enviado",
-    "STATUS_QUEUED": "En cola",
-    "STATUS_IN_PROGRESS": "Generando",
-    "STATUS_SUCCESS": "Hecho",
     "STATUS_FAILURE": "Fallido",
     "REMIX": "Remix",
     "DELETE": "Eliminar",
-    "PUBLISH": "Hacer público",
-    "UNLIST": "Desincluir",
-    "PRIVATE": "Hacer privado",
-    "PRICE_PER_CALL": "{price} por imagen",
     "META_TITLE": "Generación de imagen",
     "META_DESC": "Genera imágenes con el pipeline ComfyUI de {appName} (SDXL + Flux 2).",
-    "LIKE": "Me gusta",
-    "UNLIKE": "Ya no me gusta",
     "REFERENCES_DROP_HINT": "Suelta imágenes o navega",
     "LORAS_EMPTY": "Aún no hay LoRAs preparados en el volumen. El operador puede añadirlos vía la tabla del catálogo.",
-    "HIRES_FIX_ENABLE": "Hires fix",
-    "HIRES_FIX_DENOISE": "Eliminar ruido",
-    "HIRES_FIX_UPSCALE": "Escalar",
     "PNG_IMPORT_HINT": "Suelta un PNG de ComfyUI para importar su prompt y parámetros",
     "PNG_IMPORT_BROWSE": "Importar PNG",
     "PNG_IMPORT_NO_METADATA": "No se encontraron metadatos de ComfyUI en esta imagen.",
     "NEW_SESSION": "Nueva sesión",
-    "SESSION_NEW_TOOLTIP": "Inicia una sesión nueva. La actual permanece en tu historial.",
-    "RECENT_SESSIONS": "Sesiones recientes",
-    "SNAPSHOT_COUNT": "{count, plural, one {# snapshot} other {# snapshots}}",
-    "IMAGE_COUNT_TOTAL": "{count, plural, one {# imagen} other {# imágenes}}",
     "SNAPSHOT_NAV_LABEL": "Snapshot {current} de {total}",
-    "SHARE_SESSION_HELP": "Cualquiera con el enlace puede ver el historial de esta sesión.",
     "LIGHTBOX_PREV": "Imagen anterior",
     "LIGHTBOX_NEXT": "Imagen siguiente",
     "LIGHTBOX_CLOSE": "Cerrar",
     "SESSION_SNAPSHOTS": "Snapshots en esta sesión",
-    "EDIT": "Editar",
     "UPLOAD_IMAGE": "Subir imagen",
     "UPLOADING": "Subiendo...",
     "INIT_IMAGE": "Imagen original"
@@ -3767,17 +3497,11 @@
     "NOT_SYNCED": "No sincronizado",
     "SYNCED": "Sincronizado",
     "EXPIRES_AT": "Sincronizado - expira {date}",
-    "EXPIRED": "Expirado",
     "ADD_SYNC": "Añadir sincronización (30 días)",
     "RESYNC": "Resincronizar",
     "RESYNC_EXPIRES": "Resincronizar (expira {date})",
     "REMOVE_SYNC": "Quitar sincronización",
     "CONFIRM_REMOVE": "¿Quitar este elemento de la sincronización del servidor? La copia local se mantiene.",
-    "OFFLINE_REQUIRED": "Se requiere conexión en línea para sincronizar.",
-    "PENDING_SYNC": "Sincronización pendiente - reintentará cuando esté en línea.",
-    "HINT_DESCRIPTION": "Los elementos sincronizados se reflejan en el servidor durante 30 días para que otros dispositivos puedan obtenerlos.",
-    "OPFS_UNAVAILABLE": "Base de datos local no disponible en este navegador. Los datos no persistirán.",
-    "OFFLINE_SEND_BLOCKED": "Estás sin conexión. Mensaje guardado como borrador; reintentar al reconectar.",
     "DLQ_TOAST": "{items} fallaron al sincronizar después de reintentos.",
     "DLQ_KIND_COUNT": "{count} {kind}",
     "DLQ_RETRY": "Reintentar",

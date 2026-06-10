@@ -6,7 +6,7 @@ export const activeSnapshotIdAtom = atom<string | null>(null);
 
 export type Img2ImgSubPill = "img2img" | "upscale" | "adetailer" | "inpaint";
 
-export type SnapshotRestorePayload = {
+type SnapshotRestorePayload = {
   model: string;
   prompt: string;
   negativePrompt: string | null;
@@ -51,7 +51,7 @@ export const editDraftAtom = atomWithStorage<GenerateDraft | null>(
   null,
 );
 
-export type ModelParamsMemory = Record<string, Record<string, unknown>>;
+type ModelParamsMemory = Record<string, Record<string, unknown>>;
 
 export const samplerMemoryAtom = atomWithStorage<ModelParamsMemory>(
   "generate-sampler-memory-v1",

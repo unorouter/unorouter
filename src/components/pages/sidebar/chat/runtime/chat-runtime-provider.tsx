@@ -105,6 +105,15 @@ function ChatRuntimeHook() {
   const chat = useChat<ChatUIMessage>({
     id: threadId,
     transport,
+    // Transient start-trigger showAlert frames (server V1 effect).
+    onData: (part) => {
+      if (part.type === "data-alert") {
+        const a = part.data as { kind?: string; text?: string };
+        if (!a?.text) return;
+        if (a.kind === "error") toast.error(a.text);
+        else toast.info(a.text);
+      }
+    },
     onError: (e) => {
       releaseStreamLock();
       // Offline: user turn already persisted, user resends manually (Risu

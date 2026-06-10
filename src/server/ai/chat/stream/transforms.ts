@@ -9,9 +9,17 @@ import type {
   AssembledSystem,
   DepthInjection,
 } from "../augmentation/prompt-assembler.service";
-import { expandMacros } from "../augmentation/macros";
+import { expandMacros, risuUnescape } from "@/lib/ai/chat/macros";
 
 export type StreamMessages = Parameters<typeof convertToModelMessages>[0];
+
+// Final un-mapping of #escape private-use chars (Risu request.ts unescapes
+// every message right before send).
+export function unescapeMessages(messages: StreamMessages): StreamMessages {
+  return messages.map((m) =>
+    mapTextParts(m, (text) => risuUnescape(text)),
+  ) as StreamMessages;
+}
 
 export function mkMsg(
   role: "system" | "user" | "assistant",
@@ -151,7 +159,17 @@ export function expandMessageMacros(
   messages: StreamMessages,
   scope: AssembledSystem["vars"],
 ): StreamMessages {
-  return messages.map((m) => mapTextParts(m, (t) => expandMacros(t, scope)));
+  // Per-message chatIndex (Risu chatID) for the message_time/role macros;
+  // counts the same text-bearing set collectHistory returns. Shallow copy
+  // keeps vars/globalVars shared so setvar writes stay visible.
+  let h = 0;
+  return messages.map((m) => {
+    const isHistory =
+      (m.role === "user" || m.role === "assistant" || m.role === "system") &&
+      textOf(m.parts) !== "";
+    const chatIndex = isHistory ? h++ : undefined;
+    return mapTextParts(m, (t) => expandMacros(t, { ...scope, chatIndex }));
+  });
 }
 
 export function appendPrefill(

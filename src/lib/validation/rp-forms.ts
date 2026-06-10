@@ -1,7 +1,7 @@
 // Mirrors `./rp.ts` and `./chat.ts` with `default:` for RHF's `Value.Default`.
 
 import { Type as t, type Static } from "@sinclair/typebox/type";
-import { nullable } from "./helpers";
+import { nullable, samplingNullable } from "./helpers";
 import {
   reasoningEffort,
   webSearchContextSize,
@@ -154,15 +154,7 @@ export const conversationOverridesFormSchema = t.Object({
   }),
   characterIds: t.Array(t.String(), { default: [] }),
   lorebookIds: t.Array(t.String(), { default: [] }),
-  temperature: nullableNumber(0, 2),
-  topP: nullableNumber(0, 1),
-  topK: nullableNumber(0, 1000),
-  minP: nullableNumber(0, 1),
-  topA: nullableNumber(0, 1),
-  frequencyPenalty: nullableNumber(-2, 2),
-  presencePenalty: nullableNumber(-2, 2),
-  repetitionPenalty: nullableNumber(0, 2),
-  maxTokens: nullableNumber(1, 1_000_000),
+  ...samplingNullable({ maxTokensMax: 1_000_000 }),
   extraBody: t.String({ default: "", maxLength: 8_192 }),
   // null = inherit the bound preset (else system default: streaming on). false =
   // BFF buffers full reply, then streams as one chunk.
@@ -179,15 +171,7 @@ export const samplingPresetFormSchema = t.Object({
     default: "",
     error: msg("FORM.ERROR.REQUIRED"),
   }),
-  temperature: nullableNumber(0, 4),
-  topP: nullableNumber(0, 1),
-  topK: nullableNumber(0, 1000),
-  minP: nullableNumber(0, 1),
-  topA: nullableNumber(0, 1),
-  frequencyPenalty: nullableNumber(-2, 2),
-  presencePenalty: nullableNumber(-2, 2),
-  repetitionPenalty: nullableNumber(0, 2),
-  maxTokens: nullableNumber(1, 1_000_000),
+  ...samplingNullable({ temperatureMax: 4, maxTokensMax: 1_000_000 }),
   // Preset-level defaults (the conversation overrides per chat). null = system
   // default (streaming on, chatMemory 8).
   streamingEnabled: nullable(t.Boolean()),

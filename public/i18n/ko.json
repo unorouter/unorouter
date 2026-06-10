@@ -22,22 +22,9 @@
     "PRICING": "요금",
     "DOCS": "문서",
     "BLOG": "블로그",
-    "GROUP_CLI": "CLI 도구",
-    "GROUP_ROLEPLAY": "롤플레이 클라이언트",
-    "CC_SWITCH": "CC Switch",
-    "CLAUDE_CODE": "Claude Code",
-    "CODEX": "Codex",
-    "GEMINI_CLI": "Gemini CLI",
-    "OPENCLAW": "OpenClaw",
-    "SILLYTAVERN": "SillyTavern",
-    "JANITOR_AI": "Janitor.AI",
-    "RISUAI": "RisuAI",
-    "CHUB": "Chub / Venus",
     "DASHBOARD": "대시보드",
     "LOG_IN": "로그인",
-    "GET_STARTED": "시작하기",
     "CHAT": "채팅",
-    "GENERATE": "생성",
     "PLAYGROUND": "플레이그라운드",
     "STATUS": "상태"
   },
@@ -45,7 +32,6 @@
     "HERO": {
       "BADGE": "라우터 온라인",
       "TITLE_LINE1": "통합",
-      "TITLE_LINE2": "인텔리전스",
       "TITLE_ROTATE": "인텔리전스,롤플레이,캐릭터,코드,채팅",
       "SUBTITLE": "{appName}은 단 하나의 키로 {modelCount}개 이상의 AI 모델에 연결해 줍니다. 앱을 만들고, 에이전트를 실행하고, 캐릭터와 롤플레이하세요. 같은 키, 같은 속도, 같은 가격.",
       "CTA_PRIMARY": "시작하기",
@@ -56,12 +42,9 @@
       "PROVIDERS": "공급자",
       "FREE": "무료",
       "PAID": "유료",
-      "UPTIME": "가동 시간",
-      "ENDPOINTS": "엔드포인트",
       "PANEL": {
         "TOKENS_SERVED": "처리한 토큰",
         "REQUESTS": "요청 수",
-        "REQ_MIN": "요청 / 분",
         "TOKENS_MIN": "토큰 / 분",
         "LIVE": "실시간"
       },
@@ -69,20 +52,15 @@
         "GLOBAL": "라우팅 가능",
         "INTEGRATED": "업스트림",
         "FREE": "비용 없음",
-        "PAID": "토큰당",
-        "SLA": "측정 완료"
+        "PAID": "토큰당"
       }
     },
     "TICKER": {
-      "LABEL": "사용 가능한 모델",
       "LIVE_INFERENCE": "실시간 추론",
       "TPS": "TPS"
     },
     "INTEGRATION": {
-      "BADGE": "통합",
       "VIEW_GUIDE": "가이드 보기",
-      "CLI_HEADER": "코딩 에이전트 및 CLI 도구용",
-      "RP_HEADER": "롤플레이 및 창작 채팅용",
       "CLAUDE_CODE": {
         "BADGE": "Anthropic API",
         "TITLE": "Claude Code와 호환",
@@ -151,64 +129,24 @@
       "TITLE": "간단한 요금제.",
       "SUBTITLE": "사용한 만큼만 결제하세요.",
       "DESCRIPTION": "더 좋은 가치를 원하면 구독하고, 그렇지 않으면 종량제로 결제하세요. 모든 플랜에 모든 모델 접근과 공급자 간 자동 페일오버가 포함됩니다.",
-      "PAYG": {
-        "NAME": "종량제",
-        "PRICE": "$0",
-        "DESC": "최소 금액 없음. 충전 후 아무 모델이나 사용.",
-        "ENDPOINT": "/v1/chat/completions"
-      },
-      "BASIC": {
-        "NAME": "Basic",
-        "PRICE": "$20/월",
-        "DESC": "$30 크레딧 가치. 1.5배 배수.",
-        "RATE": "100 요청/분"
-      },
-      "PRO": {
-        "NAME": "Pro",
-        "PRICE": "$50/월",
-        "DESC": "$75 크레딧 가치. 우선순위 라우팅.",
-        "RATE": "500 요청/분"
-      },
-      "ENTERPRISE": {
-        "NAME": "Enterprise",
-        "PRICE": "$100/월",
-        "DESC": "$175 크레딧 가치. 전담 지원.",
-        "RATE": "2,000 요청/분"
-      },
-      "CTA": {
-        "GET_STARTED": "시작하기",
-        "VIEW_PLANS": "모든 플랜 보기"
-      },
       "PROVIDERS": {
-        "TITLE": "지원 공급자",
-        "ACTIVE": "활성",
-        "DESC_OPENAI": "GPT-4o, o1, o3, GPT-4.1",
-        "DESC_ANTHROPIC": "Claude Opus, Sonnet, Haiku",
-        "DESC_GOOGLE": "Gemini 2.5 Pro, Flash",
-        "DESC_DEEPSEEK": "DeepSeek V3, R1"
+        "TITLE": "지원 공급자"
       },
       "FLOW": {
-        "TITLE": "요청 흐름",
-        "LIVE": "실시간",
-        "STEP1": "POST /v1/chat/completions",
-        "STEP2": "가장 빠른 공급자로 라우팅",
-        "STEP3": "응답 전달"
+        "TITLE": "요청 흐름"
       }
     },
     "FEATURES": {
       "TITLE": "{appName}을 선택하는 이유",
       "DESCRIPTION": "하나의 엔드포인트로 모든 AI 모델을. 지능형 라우팅이 가장 빠른 공급자를 골라 주고, 자동 페일오버가 요청이 항상 성공하도록 보장합니다.",
       "FAILOVER": {
-        "TITLE": "자동 페일오버",
-        "DESC": "실패한 요청은 즉시 다른 채널에서 재시도됩니다"
+        "TITLE": "자동 페일오버"
       },
       "MULTIPROTOCOL": {
-        "TITLE": "멀티 프로토콜 지원",
-        "DESC": "OpenAI, Anthropic, Gemini API 포맷"
+        "TITLE": "멀티 프로토콜 지원"
       },
       "LOADBALANCE": {
-        "TITLE": "스마트 로드 밸런싱",
-        "DESC": "가장 빠른 가용 공급자로 자동 라우팅"
+        "TITLE": "스마트 로드 밸런싱"
       }
     },
     "RELIABILITY": {
@@ -225,7 +163,6 @@
         "DESC": "우선순위 가중치를 적용한 지연 기반 채널 선택. 매번 가장 빠른 공급자가 이깁니다."
       },
       "LEARN_MORE": "더 알아보기",
-      "LEARN_MORE_ARIA": "{appName} 문서에 대해 더 알아보기",
       "LEARN_MORE_DOCS": "문서 보기",
       "ARCH": {
         "TITLE": "아키텍처",
@@ -442,7 +379,6 @@
       "LEADERBOARD_TITLE": "LLM 리더보드",
       "LEADERBOARD_SUBTITLE": "플랫폼에서 가장 인기 있는 모델을 비교하세요",
       "EMPTY": "선택된 필터에 일치하는 모델이 없습니다",
-      "TOTAL_LABEL": "총 토큰",
       "TOKENS_SUFFIX": "토큰",
       "TOOLTIP_TOTAL": "합계",
       "BY_AUTHOR_LABEL": "제작자"
@@ -484,10 +420,7 @@
     "SUBTITLE": "팀의 제품 업데이트, 통합 가이드, 그리고 메모.",
     "READ_MORE": "더 읽기",
     "PUBLISHED": "발행일",
-    "UPDATED": "업데이트",
     "BY_AUTHOR": "{author}",
-    "TAGS": "태그",
-    "RECENT": "최근 글",
     "BACK_TO_BLOG": "모든 글로 돌아가기",
     "EMPTY": "아직 글이 없습니다. 곧 다시 확인해 주세요.",
     "EMPTY_FILTERED": "필터에 일치하는 글이 없습니다.",
@@ -564,9 +497,7 @@
         "H_NOT_SPOOFING": "스푸핑이 아닌 것: Bedrock, Vertex, Foundry",
         "H_RESULTS": "17일간의 탐지가 밝혀낸 것",
         "H_WHY": "왜 이런 일이 발생하나",
-        "H_NEXT": "다음은",
         "H_TEST": "5분 안에 자신의 공급자 테스트하기",
-        "H_NAMING": "이름을 거론하는 것에 대한 메모",
         "INTRO_P1": "Claude는 현재 시장에서 가장 수요가 많은 모델이자 가장 비싼 모델 중 하나입니다. 그 격차가 \"같은 Claude\"를 공식 가격의 일부에 제공하는 제3자 리셀러의 번창하는 시장을 만들었습니다. 일부는 합법적입니다. 많은 곳은 그렇지 않습니다.",
         "INTRO_P2": "<s>8개 업스트림 리셀러</s>에 걸친 17일간의 자동 탐지를 통해, <c>claude-opus-4-7</c>, <c>claude-sonnet-4-6</c>, <c>claude-haiku-4-5</c> 등으로 마케팅된 모델에 대해 진위 확인에 실패한 <s>183개 (채널, 모델) 쌍</s>을 발견했습니다. 같은 압박이 모든 프리미엄 모델에 존재하므로, GPT, Gemini, Grok도 거의 확실히 영향을 받습니다. Claude는 단지 현재 가격 격차가 가장 크고 우리에게 확실한 데이터가 있는 곳일 뿐입니다.",
         "PROBES_P": "(채널, 모델) 쌍마다 표준 Anthropic Messages API (<c>POST /v1/messages</c>)에 네 개의 병렬 요청을 보냅니다:",
@@ -651,7 +582,6 @@
         "H_BUGS": "버그 바운티, 최대 $50",
         "P_BUGS": "플랫폼에서 진짜 버그를 찾아 버그 바운티 포럼에 신고하세요. 스태프가 심각도 등급을 선택하고 봇이 지급합니다: Low $0.25, Medium $0.50, High $1, Critical $50. 단순히 스레드를 시작한 사람이 아니라 실제로 버그를 식별한 사람에게 지급됩니다.",
         "H_JOIN": "놀러 오세요",
-        "P_JOIN": "모든 지급은 API 호출에 쓰는 같은 잔액으로 들어갑니다. 한 번 연결하고, 자격이 되는 모든 것을 청구한 다음, 계속 부스트하고, 헌팅하고, 우리와 함께 출시하세요.",
         "CTA": "준비되셨나요? <invite>{appName} Discord에 가입</invite>한 다음 <register>API 키를 받고</register> <settings>계정을 연결</settings>해 첫 $1을 받으세요."
       },
       "FREE_MODELS_AGGREGATED": {
@@ -695,7 +625,6 @@
     "META_TITLE": "{name} API 요금, 컨텍스트 및 예제 | {appName}",
     "META_DESC": "단일 OpenAI 호환 엔드포인트를 통해 {vendor}의 {name}을 사용하세요. 토큰당 요금, 컨텍스트 윈도우, 엔드포인트 및 복사 붙여넣기 코드 예제를 확인하세요.",
     "META_KEYWORDS": "{name} API, {name} 요금, {name} 컨텍스트 윈도우, {vendor} API, {appName}",
-    "ABOUT": "{name} 소개",
     "PRICING_TITLE": "요금",
     "PRICING_DESC": "사용한 만큼만 결제하세요. 종량제 사용 시 월 최소 요금 없음.",
     "INPUT_PRICE": "입력 가격",
@@ -737,62 +666,31 @@
     "CTA_DESC": "API 키를 만들고 1분도 안 되어 요청을 시작하세요.",
     "CTA_SIGNUP": "{name}을 시도하려면 로그인",
     "CTA_TRY": "채팅에서 {name} 시도",
-    "CTA_ALL_MODELS": "모든 모델 보기",
-    "LAST_UPDATED": "{date}에 최종 업데이트"
+    "CTA_ALL_MODELS": "모든 모델 보기"
   },
   "PRICING": {
-    "PLAN": {
-      "BASIC": "Basic",
-      "PRO": "Pro",
-      "ENTERPRISE": "Enterprise"
-    },
     "FEATURE": {
       "MODELS": "모든 모델 포함",
       "PRIORITY": "우선순위 라우팅",
       "DEDICATED": "전담 지원",
-      "SUPPORT": "이메일 지원",
       "FAILOVER": "자동 페일오버",
       "UPTIME": "99.9% 가동 시간 SLA",
       "OPENAI_COMPAT": "OpenAI 호환 엔드포인트"
     },
     "COMPARE": {
-      "TITLE": "플랜 비교",
-      "FEATURE": "기능",
-      "PRICE": "월 가격",
-      "VALUE": "API 크레딧 가치",
-      "RATE_LIMIT": "속도 제한",
-      "ALL_MODELS": "모든 모델",
-      "PRIORITY": "우선순위 라우팅",
-      "DEDICATED": "전담 지원",
-      "BASIC_PRICE": "$20/월",
-      "PRO_PRICE": "$50/월",
-      "ENTERPRISE_PRICE": "$100/월",
-      "BASIC_VALUE": "$30",
-      "PRO_VALUE": "$75",
-      "ENTERPRISE_VALUE": "$175",
-      "BASIC_RATE": "100 rpm",
-      "PRO_RATE": "500 rpm",
-      "ENTERPRISE_RATE": "2,000 rpm"
+      "TITLE": "플랜 비교"
     },
     "CARD": {
       "POPULAR": "인기",
       "PER_MONTH": " · 월",
       "VALUE": "{value} 가치",
-      "MULTIPLIER": "{multiplier} 배수",
-      "INCLUDES": "포함",
-      "REQUESTS_MIN": "{count} 요청/분",
-      "SPEC_CREDIT": "API 크레딧 가치",
       "SPEC_QUOTA": "할당량/초기화",
-      "SPEC_MULTIPLIER": "배수",
       "VALUE_BADGE": "가치",
-      "VALUE_EXPLAIN": "{paid}를 지불하고 API 크레딧 {credit}을 받으세요. 어떤 모델에서나 사용하세요.",
-      "OPENCLAW_TITLE": "OpenClaw 지원",
-      "OPENCLAW_DESC": "OpenClaw 에이전트와의 완전한 호환성"
+      "VALUE_EXPLAIN": "{paid}를 지불하고 API 크레딧 {credit}을 받으세요. 어떤 모델에서나 사용하세요."
     },
     "BANNER": {
       "TITLE": "Telegram의 OpenClaw AI 어시스턴트",
-      "SUBTITLE": "OpenClaw와 {appName}으로 구동되는 Telegram 봇용 원클릭 AI 배포.",
-      "BADGE": "곧 출시"
+      "SUBTITLE": "OpenClaw와 {appName}으로 구동되는 Telegram 봇용 원클릭 AI 배포."
     },
     "META": {
       "TITLE": "요금 - {appName}",
@@ -802,6 +700,11 @@
     "TITLE": "요금",
     "SUBTITLE": "앱을 출시하든 긴 롤플레이 세션을 운영하든. 하나의 플랜, 모든 모델.",
     "CTA": "구독",
+    "TOPUP": {
+      "LABEL": "종량제",
+      "DESC": "구독하지 않으시겠어요? 크레딧을 충전하세요.",
+      "FOOTNOTE": "크레딧은 만료되지 않습니다."
+    },
     "FAQ": {
       "Q1": "{appName} 요금은 어떻게 작동하나요?",
       "A1": "소비한 토큰만큼 지불합니다. 각 모델은 자체 입력, 출력, 캐시 요금이 있으며 계정 크레딧에서 청구됩니다. 종량제에는 월 구독이 필요하지 않습니다.",
@@ -819,11 +722,6 @@
       "A7": "네. 모든 플랜은 주요 롤플레이 클라이언트에서 커스텀 OpenAI 호환 소스로 작동합니다. SillyTavern, Janitor.AI, RisuAI, Chub 각각 문서에 설정 가이드가 있습니다.",
       "Q8": "대화 또는 캐릭터 히스토리는 얼마나 길 수 있나요?",
       "A8": "{appName}은 모든 모델의 전체 컨텍스트 윈도우를 지원합니다. Gemini에서는 최대 100만 토큰, Claude에서는 20만 토큰. 긴 롤플레이와 긴 코드베이스 모두 작동합니다."
-    },
-    "TOPUP": {
-      "LABEL": "종량제",
-      "DESC": "구독하지 않으시겠어요? 크레딧을 충전하세요.",
-      "FOOTNOTE": "크레딧은 만료되지 않습니다."
     }
   },
   "DOCS_INDEX": {
@@ -861,18 +759,7 @@
   },
   "DOCS_SIDEBAR": {
     "TITLE": "문서",
-    "AI_APPLICATIONS": "AI 애플리케이션",
-    "GROUP_CLI": "CLI 도구",
-    "GROUP_ROLEPLAY": "롤플레이 클라이언트",
-    "CC_SWITCH": "CC Switch",
-    "OPENCLAW": "OpenClaw",
-    "CLAUDE_CODE": "Claude Code",
-    "CODEX_CLI": "Codex CLI",
-    "GEMINI_CLI": "Gemini CLI",
-    "SILLYTAVERN": "SillyTavern",
-    "JANITOR_AI": "Janitor.AI",
-    "RISUAI": "RisuAI",
-    "CHUB": "Chub / Venus"
+    "AI_APPLICATIONS": "AI 애플리케이션"
   },
   "DOCS": {
     "SETUP": {
@@ -882,8 +769,7 @@
       "CLI_ALT": "또는 CC Switch CLI 사용:",
       "NO_APP": "CC Switch가 없으신가요?",
       "INSTALL_LINK": "CC Switch 설치",
-      "LOGIN_REQUIRED": "API 키를 자동 입력하려면 로그인하세요",
-      "CREATE_KEY": "먼저 API 키를 만드세요"
+      "LOGIN_REQUIRED": "API 키를 자동 입력하려면 로그인하세요"
     },
     "CONFIG": {
       "FILE_LABEL": "영구 설정 파일 (권장)",
@@ -902,10 +788,8 @@
       "QUICK_CONFIG": "빠른 설정",
       "QUICK_CONFIG_DESC": "이 값들을 클라이언트에 입력하세요. 로그인한 상태에서는 키가 자동으로 채워집니다.",
       "BASE_URL_LABEL": "기본 URL",
-      "API_PATH_LABEL": "엔드포인트",
       "API_KEY_LABEL": "API 키",
       "STEPS": "단계별 설정",
-      "STEP_LABEL": "{number}단계",
       "COMPATIBILITY": "호환성",
       "RECOMMENDED_MODELS": "추천 모델",
       "RECOMMENDED_MODELS_DESC": "여기서 잘 작동하는 무료 모델입니다. 원하는 모델 ID를 클라이언트에 붙여넣으세요.",
@@ -2057,11 +1941,8 @@
     "CONTACT_SUBTITLE": "질문이나 문의 사항이 있으신가요?",
     "DESCRIPTION": "단일 지능형 엔드포인트를 통해 여러 공급자의 수백 개 모델에 액세스할 수 있는 통합 AI API 플랫폼.",
     "COPYRIGHT": "© {year} {appName}. 모든 권리 보유.",
-    "LEGAL_DISCLAIMER": "이 플랫폼을 사용함으로써 귀하는 다음을 읽고 동의했음을 인정합니다",
     "LEGAL_TERMS": "서비스 약관",
-    "LEGAL_AND": "및",
     "LEGAL_PRIVACY": "개인정보 처리방침",
-    "SOCIAL_GITHUB": "GitHub",
     "SOCIAL_TRUSTPILOT": "Trustpilot",
     "EASTER_EGG_LABEL": "Token Breakout 플레이"
   },
@@ -2177,21 +2058,15 @@
   },
   "COMMON": {
     "COPY_CODE": "코드 복사",
-    "COPIED": "복사됨",
     "OPEN_MENU": "메뉴 열기",
     "SEARCH": "검색...",
     "SAVE": "저장",
     "SAVED": "저장됨",
     "CANCEL": "취소",
     "DELETE": "삭제",
-    "CREATE": "생성",
     "EDIT": "편집",
-    "IMPORT": "가져오기",
-    "EXPORT": "내보내기",
-    "LOADING": "로딩 중...",
     "NAME": "이름",
     "DESCRIPTION": "설명",
-    "CONFIRM_DELETE": "정말 삭제하시겠습니까?",
     "RESET": "초기화",
     "CONFIRM": {
       "CONTINUE": "계속",
@@ -2253,7 +2128,6 @@
       "USERNAME_OR_EMAIL_PLACEHOLDER": "사용자 이름 또는 이메일을 입력하세요",
       "PASSWORD": "비밀번호",
       "PASSWORD_PLACEHOLDER": "비밀번호를 입력하세요",
-      "PASSWORD_MIN_LENGTH": "비밀번호는 최소 8자 이상이어야 합니다",
       "EMAIL": "이메일",
       "EMAIL_PLACEHOLDER": "이메일을 입력하세요",
       "VERIFICATION_CODE": "인증 코드",
@@ -2268,14 +2142,12 @@
     "TWO_FA": {
       "TITLE": "2단계 인증",
       "DESCRIPTION": "인증 앱의 6자리 코드를 입력하세요",
-      "CODE_PLACEHOLDER": "000000",
       "SUBMIT": "인증",
       "VERIFYING": "인증 중..."
     },
     "VERIFICATION": {
       "SEND_CODE": "코드 전송",
       "SENDING": "전송 중...",
-      "SENT": "코드 전송됨",
       "RESEND": "재전송",
       "RESEND_IN": "{seconds}초 후 재전송",
       "FAILED": "인증 코드 전송 실패"
@@ -2325,10 +2197,7 @@
     "DONT_HAVE_ACCOUNT": "계정이 없으신가요?",
     "ALREADY_HAVE_ACCOUNT": "이미 계정이 있으신가요?",
     "OR_CONTINUE_WITH": "또는 계속하기",
-    "CALLBACK_LOADING": "로그인 완료 중...",
-    "DASHBOARD": "대시보드",
     "LOG_OUT": "로그아웃",
-    "BALANCE": "잔액",
     "SUBSCRIPTION": "구독",
     "SUBSCRIPTION_ACTIVE": "활성"
   },
@@ -2340,10 +2209,7 @@
     "LOGS": "사용 로그",
     "AFFILIATE": "제휴",
     "BILLING": "결제",
-    "SETTINGS": "설정",
-    "CHAT": "채팅",
-    "GENERATE": "생성",
-    "MY_GENERATIONS": "내 생성물"
+    "SETTINGS": "설정"
   },
   "DASHBOARD": {
     "GREETING": {
@@ -2387,12 +2253,9 @@
       "NO_API_INFO": "API 정보가 없습니다"
     },
     "CONSUMPTION": "소비",
-    "TOP_UP": "충전",
     "TOTAL": "합계",
     "OTHER": "기타",
     "NO_DATA": "데이터가 없습니다",
-    "UPTIME": "가동 시간",
-    "COPY_URL": "URL 복사",
     "COPIED": "복사됨"
   },
   "TOKEN": {
@@ -2410,18 +2273,7 @@
     "FORM": {
       "NAME": "이름",
       "NAME_PLACEHOLDER": "이 키의 이름을 입력하세요",
-      "GROUP": "그룹",
-      "GROUP_PLACEHOLDER": "그룹을 선택하세요",
-      "GROUP_NO_GROUPS": "사용 가능한 그룹이 없습니다",
-      "CROSS_GROUP_RETRY": "그룹 간 재시도",
-      "CROSS_GROUP_RETRY_DESC": "활성화하면 실패한 요청이 다른 그룹의 채널을 통해 재시도됩니다.",
-      "EXPIRATION": "만료",
-      "EXPIRATION_PLACEHOLDER": "만료 날짜를 선택하세요",
-      "EXPIRATION_PRESETS": "빠른 설정",
       "NEVER_EXPIRES": "없음",
-      "ONE_MONTH": "1개월",
-      "ONE_DAY": "1일",
-      "ONE_HOUR": "1시간",
       "QUOTA": "할당량",
       "QUOTA_PLACEHOLDER": "USD 금액 (예: 10)",
       "QUOTA_PRESETS": "프리셋",
@@ -2432,8 +2284,6 @@
       "MODEL_LIMITS_DESC": "필요한 경우가 아니면 권장되지 않습니다.",
       "MODEL_SELECT_PLACEHOLDER": "모델 검색...",
       "MODEL_SELECT_EMPTY": "모델을 찾을 수 없음",
-      "MODELS_SELECTED": "{count}개 선택됨",
-      "MODEL_COUNT": "모델 {count}개",
       "IP_WHITELIST": "IP 허용 목록",
       "IP_WHITELIST_PLACEHOLDER": "한 줄에 하나의 IP. 제한 없음을 위해 비워 두세요.",
       "IP_WHITELIST_DESC": "IP는 위조될 수 있습니다. 더 강력한 시행을 위해 게이트웨이와 함께 사용하세요.",
@@ -2484,7 +2334,6 @@
     "DISABLE": "비활성화",
     "UNLIMITED": "무제한",
     "ALL_MODELS": "모든 모델",
-    "USED_OF_TOTAL": "{used} / {total}",
     "SEARCH_PLACEHOLDER": "키 검색...",
     "NO_TOKENS": "아직 API 키가 없습니다. 시작하려면 하나를 만드세요.",
     "COPY_KEY": "키 복사"
@@ -2492,7 +2341,6 @@
   "LOGS": {
     "TABLE": {
       "TIME": "시간",
-      "TYPE": "유형",
       "CHANNEL": "채널",
       "USER": "사용자",
       "MODEL": "모델",
@@ -2610,8 +2458,6 @@
     "DESCRIPTION": "API 요청 내역, 토큰 사용량 및 지출 세부사항을 확인하세요.",
     "FILTERS": "필터",
     "RESET": "초기화",
-    "TO": "에서",
-    "TOTAL": "합계",
     "COPIED": "클립보드에 복사됨",
     "CLICK_COPY": "복사하려면 클릭",
     "NO_LOGS": "선택한 기간에 로그가 없습니다.",
@@ -2630,7 +2476,6 @@
       "RATE": "비율",
       "EARNED": "획득",
       "STATUS": "상태",
-      "JOINED": "가입",
       "COMMISSIONS": "수수료",
       "TOTAL_EARNED": "총 획득"
     },
@@ -2655,7 +2500,6 @@
       "TITLE": "제휴 수익 이체",
       "DIALOG_DESC": "보류 중인 제휴 수익을 계정 잔액으로 이체합니다. 이 작업은 취소할 수 없습니다.",
       "AMOUNT": "금액",
-      "INVALID": "유효한 금액을 입력하세요",
       "EXCEEDS": "금액이 가용 잔액을 초과합니다"
     },
     "ENUM": {
@@ -2687,7 +2531,6 @@
     "HOW_IT_WORKS": "작동 방식",
     "TAB_INVITEES": "초대한 사용자",
     "TAB_COMMISSIONS": "수수료 내역",
-    "COMMISSION_HISTORY": "수수료 내역",
     "NO_COMMISSIONS": "아직 수수료 내역이 없습니다. 초대 링크를 공유하여 수익을 얻기 시작하세요.",
     "NO_INVITEES": "아직 초대한 사용자가 없습니다. 초대 링크를 공유하여 네트워크를 키우기 시작하세요.",
     "BADGE_GENERATOR": {
@@ -2775,7 +2618,6 @@
   },
   "BILLING": {
     "SUBSCRIPTION": {
-      "PLANS": "구독 플랜",
       "MY": "내 구독",
       "NO_ACTIVE": "활성화 없음",
       "ACTIVE": "활성",
@@ -2808,9 +2650,7 @@
     },
     "TOPUP": {
       "TITLE": "할당량 충전",
-      "AMOUNT": "충전 금액",
       "ACTUAL_PAYMENT": "실제 결제",
-      "PAY_NOW": "지금 결제",
       "SAVE": "저장"
     },
     "ERROR": {
@@ -2826,7 +2666,6 @@
     "CONSUMPTION": "소비",
     "REQUESTS": "요청",
     "USED_OF": "사용 / 총",
-    "REFRESHING": "새로고침 중...",
     "PAYMENT_METHOD": {
       "LABEL": "결제 수단",
       "CARD": "신용카드",
@@ -2837,8 +2676,6 @@
     "ERROR": {
       "REQUIRED": "{type}이(가) 필요합니다",
       "MIN_LENGTH": "{type}은(는) 최소 {minLength}자 이상이어야 합니다",
-      "MAX_LENGTH": "{type}은(는) 최대 {maxLength}자여야 합니다",
-      "EXACT_LENGTH": "{type}은(는) 정확히 {minLength}자여야 합니다",
       "MIN_VALUE": "{type}은(는) 0보다 커야 합니다"
     },
     "TYPE": {
@@ -2861,7 +2698,6 @@
     "ROLE_SUPER_ADMIN": "슈퍼 관리자",
     "ROLE_ADMIN": "관리자",
     "ROLE_USER": "사용자",
-    "BALANCE": "잔액",
     "CONSUMPTION": "소비",
     "REQUEST_COUNT": "요청",
     "DEFAULT_GROUP": "기본 그룹",
@@ -2876,14 +2712,12 @@
       "EMAIL_PLACEHOLDER": "이메일 주소를 입력하세요",
       "BIND_EMAIL": "이메일 연결",
       "MODIFY_EMAIL": "이메일 수정",
-      "VERIFICATION_CODE": "인증 코드",
       "SEND_CODE": "코드 전송",
       "CODE_SENT": "코드 전송됨, {seconds}초 후 재전송",
       "CODE_PLACEHOLDER": "인증 코드를 입력하세요",
       "OAUTH_BINDINGS": "OAuth 연결",
       "GITHUB": "GitHub",
       "DISCORD": "Discord",
-      "BOUND": "연결됨",
       "NOT_BOUND": "연결되지 않음",
       "BIND": "연결",
       "UNBIND": "연결 해제",
@@ -2897,7 +2731,6 @@
       "ACCESS_TOKEN": "시스템 액세스 토큰",
       "ACCESS_TOKEN_DESC": "이 토큰을 사용해 API에 직접 액세스하세요.",
       "GENERATE_TOKEN": "토큰 생성",
-      "REGENERATE_TOKEN": "토큰 재생성",
       "TOKEN_GENERATED": "토큰이 성공적으로 생성됨",
       "COPY_TOKEN": "복사",
       "TOKEN_COPIED": "클립보드에 복사됨",
@@ -2969,29 +2802,16 @@
   },
   "CHAT": {
     "SHARE": {
-      "BUTTON": "공유",
       "TITLE": "대화 공유",
       "DESCRIPTION": "링크가 있는 누구나 이 대화를 볼 수 있습니다.",
-      "CREATED": "공유 링크 생성됨",
-      "REVOKED": "공유 링크 제거됨",
-      "COPY_LINK": "공유 링크 복사",
-      "LINK_COPIED": "링크가 클립보드에 복사됨",
-      "GENERATE_LINK": "공유 링크 생성",
-      "REVOKE": "공유 링크 제거",
-      "SHARED_CONVERSATION": "공유된 대화",
-      "NOT_FOUND": "이 공유된 대화를 찾을 수 없거나 제거되었습니다."
+      "LINK_COPIED": "링크가 클립보드에 복사됨"
     },
     "MODEL": {
       "SELECT": "모델 선택",
       "SEARCH": "모델 검색...",
       "NO_RESULTS": "모델을 찾을 수 없음",
-      "GROUP_TEXT": "텍스트 & 추론",
-      "GROUP_IMAGE": "이미지 생성",
-      "GROUP_VIDEO": "비디오 생성",
       "FREE_BADGE": "무료",
-      "LOGIN_REQUIRED": "로그인 필요",
-      "FREE_NOTICE": "무료 모델은 높은 부하에서 실패할 수 있습니다.",
-      "FREE_NOTICE_CTA": "유료 모델로 전환"
+      "LOGIN_REQUIRED": "로그인 필요"
     },
     "ACTION": {
       "COPY": "복사",
@@ -3013,8 +2833,7 @@
     },
     "GATE": {
       "NEEDS_TOKEN_TITLE": "API 키 필요",
-      "NEEDS_TOKEN_DESC": "AI 모델과 채팅을 시작하려면 API 키를 생성하세요.",
-      "LOGIN_REQUIRED_DESC": "AI 모델과 채팅을 시작하려면 로그인하세요."
+      "NEEDS_TOKEN_DESC": "AI 모델과 채팅을 시작하려면 API 키를 생성하세요."
     },
     "TOOL": {
       "USED": "사용된 도구",
@@ -3042,7 +2861,6 @@
       "UNSUPPORTED_TYPE": "파일 유형 {type}은 지원되지 않습니다. PNG, JPEG, WebP 또는 GIF 이미지를 업로드하세요."
     },
     "WEB_SEARCH": {
-      "LABEL": "웹 검색",
       "ON": "웹 검색 활성화됨",
       "OFF": "웹 검색 비활성화됨"
     },
@@ -3084,11 +2902,7 @@
       "HINT": "변경할 때까지 이 채팅과 모든 새 채팅에 적용됩니다."
     },
     "INPUT_PLACEHOLDER": "메시지를 입력하세요...",
-    "START_PROMPT": "대화를 시작하려면 메시지를 보내세요.",
     "THINKING": "생각 중",
-    "DISCLAIMER": "AI 응답은 부정확할 수 있습니다. 중요한 정보는 확인하세요.",
-    "UNTITLED": "제목 없는 대화",
-    "DELETE_CONFIRM": "이 대화를 정말 삭제하시겠습니까?",
     "MESSAGE_INPUT": "메시지 입력",
     "SEARCH_CHATS": "채팅 검색",
     "TOKENS_IN": "입력",
@@ -3098,10 +2912,7 @@
       "TITLE": "AI 채팅 - {appName}",
       "TITLE_WITH_NAME": "{title} | AI 채팅 - {appName}",
       "DESCRIPTION": "어떤 AI 모델과도 채팅하세요. 단일 인터페이스를 통해 GPT, Claude, Gemini, DeepSeek 등을 테스트하세요.",
-      "KEYWORDS": "AI 채팅, AI와 채팅, GPT 채팅, Claude 채팅, Gemini 채팅, AI 플레이그라운드, 모델 테스트",
-      "SHARED_TITLE": "공유된 대화 - {appName}",
-      "SHARED_TITLE_WITH_NAME": "{title} | 공유된 대화 - {appName}",
-      "SHARED_DESCRIPTION": "{appName}에서 공유된 AI 대화를 보세요."
+      "KEYWORDS": "AI 채팅, AI와 채팅, GPT 채팅, Claude 채팅, Gemini 채팅, AI 플레이그라운드, 모델 테스트"
     },
     "OVERRIDES": {
       "OPEN": "대화 설정",
@@ -3131,10 +2942,8 @@
       "NO_CHARACTERS": "아직 캐릭터가 없습니다. 먼저 만들거나 가져오세요.",
       "NO_LOREBOOKS": "아직 로어북이 없습니다.",
       "REORDER_HINT": "순서를 바꾸려면 드래그하세요. 상위 항목은 프롬프트에 더 일찍 주입됩니다.",
-      "SELECTED": "선택됨",
       "SEARCH_CHARACTERS": "캐릭터 검색",
       "SEARCH_LOREBOOKS": "로어북 검색",
-      "CLEAR": "지우기",
       "EFFORT_MINIMAL": "최소",
       "EFFORT_LOW": "낮음",
       "EFFORT_MEDIUM": "중간",
@@ -3177,18 +2986,14 @@
       "LOCAL_DB_UPLOAD_CONFIRM": "이 파일에서 로컬 OPFS 데이터베이스를 덮어쓰시겠습니까? 기존 데이터가 지워집니다.",
       "CLEAR": "채팅 지우기",
       "CLEAR_SUCCESS": "채팅 지워짐",
-      "CLEAR_CONFIRM_DESC": "대화의 모든 메시지를 삭제하지만 설정, 캐릭터 바인딩, 제목은 유지합니다. 이 작업은 취소할 수 없습니다.",
-      "FONT": "글꼴",
-      "FONT_SANS": "Sans",
-      "FONT_DISPLAY": "Display",
-      "FONT_SERIF": "Serif",
-      "FONT_MONO": "Monospace",
-      "FONT_SYSTEM": "시스템"
+      "CLEAR_CONFIRM_DESC": "대화의 모든 메시지를 삭제하지만 설정, 캐릭터 바인딩, 제목은 유지합니다. 이 작업은 취소할 수 없습니다."
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, other {캐릭터 #개}}",
       "LOREBOOKS": "{count, plural, other {로어북 #개}}"
-    }
+    },
+    "TRIGGER_ALERT_SELECT_DESC": "계속하려면 옵션을 선택하세요",
+    "TRIGGER_ALERT_OK": "확인"
   },
   "RP": {
     "CHARACTERS_TITLE": "캐릭터",
@@ -3212,7 +3017,6 @@
     "CHARACTER_EXAMPLE_MESSAGES": "예시 대화",
     "CHARACTER_SYSTEM_PROMPT": "시스템 프롬프트",
     "CHARACTER_POST_HISTORY": "히스토리 이후 지시",
-    "CHARACTER_AVATAR": "아바타",
     "CHARACTER_TAGS": "태그",
     "CHARACTER_ACTIVATION_TITLE": "활성화",
     "CHARACTER_ACTIVATION_HINT": "'항상 활성'이 꺼져 있으면, 최근 채팅에 트리거 키워드가 나타날 때만 캐릭터가 프롬프트에 합류합니다. 다중 캐릭터 팁: 주 캐릭터는 항상 활성으로 유지하고, 보조 캐릭터는 트리거로 게이트하세요.",
@@ -3222,7 +3026,6 @@
     "CHARACTER_TRIGGERS_HINT": "이 캐릭터를 활성화하는 단어. 예: alice, knight, sword. '항상 활성'이 켜져 있으면 무시됩니다.",
     "CHARACTER_MATCH_WHOLE_WORDS": "전체 단어만 일치",
     "CHARACTER_MATCH_WHOLE_WORDS_HINT": "켜져 있으면 트리거 'Eve'는 'evening'과 일치하지 않습니다. 기본값: 부분 문자열 일치.",
-    "CHARACTER_DEFAULT_MODEL": "기본 모델",
     "PERSONAS_TITLE": "페르소나",
     "PERSONAS_NEW": "새 페르소나",
     "PERSONAS_EMPTY": "아직 페르소나가 없습니다.",
@@ -3310,13 +3113,11 @@
     "PRESET_MUST_START_WITH_USER_HINT": "채팅이 어시스턴트나 시스템으로 시작하면 작은 빈 사용자 메시지를 앞에 추가합니다. Anthropic/Gemini/GLM는 자동 적용.",
     "PRESET_GEMINI_BLOCK_OFF": "Gemini: 안전 끄기",
     "PRESET_GEMINI_BLOCK_OFF_HINT": "모든 Gemini 유해 카테고리에 대해 threshold=OFF로 safetySettings를 보냅니다. BLOCK_NONE보다 강력합니다. Gemini 모델에서만 효과가 있습니다.",
-    "SIDEBAR_TAB_CHATS": "채팅",
     "SIDEBAR_TAB_CHARACTERS": "캐릭터",
     "SIDEBAR_TAB_PERSONAS": "페르소나",
     "SIDEBAR_TAB_LOREBOOKS": "로어북",
     "SIDEBAR_TAB_PRESETS": "프리셋",
     "SIDEBAR_TAB_CARDS": "카드",
-    "SIDEBAR_GROUP_LABEL": "RP",
     "CARDS_TITLE": "카드",
     "CARDS_PAGE_SUBTITLE": "캐릭터 + 페르소나 + 로어북을 창의적 번들로 함께 저장하세요. 한 번의 클릭으로 채팅에 적용하세요.",
     "CARDS_NEW": "새 카드",
@@ -3336,10 +3137,6 @@
     "CARD_CHARACTERS": "캐릭터",
     "CARD_LOREBOOKS": "로어북",
     "DROPPED_PARAMS": "{params}은(는) 이 모델에서 지원되지 않아 무시되었습니다.",
-    "EDIT_SAVE_ONLY": "저장",
-    "EDIT_SAVE_AND_GENERATE": "저장 & 생성",
-    "BRANCH_NEXT": "다음 브랜치",
-    "BRANCH_PREV": "이전 브랜치",
     "LOREBOOKS_IMPORT": "가져오기",
     "PERSONAS_IMPORT": "가져오기",
     "LOREBOOK_ENTRY_CONSTANT_HINT": "활성화 키를 무시하고 이 항목을 항상 삽입합니다.",
@@ -3376,15 +3173,10 @@
     "UNAUTHORIZED": "권한 없음",
     "NO_API_KEY": "API 키가 설정되지 않음",
     "NOT_FOUND": "리소스를 찾을 수 없음",
-    "NO_IMAGE_GENERATED": "이미지가 생성되지 않음",
     "NO_TASK_ID": "응답에 작업 ID 또는 URL 없음",
-    "NO_VIDEO_URL": "비디오가 완료되었지만 URL을 찾을 수 없음",
-    "VIDEO_GENERATION_FAILED": "비디오 생성 실패",
-    "VIDEO_GENERATION_TIMED_OUT": "비디오 생성 시간 초과",
     "REQUEST_FAILED": "요청 실패",
     "PRICING_FETCH_FAILED": "요금 데이터 가져오기 실패",
     "NO_TEXT_MODELS": "사용 가능한 텍스트 모델 없음",
-    "UPLOAD_FAILED": "첨부 업로드 실패",
     "NO_IMAGE_PROMPT": "이미지 생성을 위한 프롬프트가 제공되지 않음",
     "IMAGE_GENERATION_FAILED": "이미지 생성 실패",
     "UNEXPECTED_RESPONSE": "업스트림 API에서 예상치 못한 null 응답",
@@ -3397,7 +3189,6 @@
     "PROMPT_REJECTED": "이 프롬프트는 콘텐츠 정책을 위반하며 이미지 또는 비디오 생성에 사용할 수 없습니다.",
     "PROMPT_FLAGGED": "이 프롬프트는 생성에 잠재적으로 안전하지 않은 것으로 표시되었습니다. 다시 표현하고 다시 시도하세요.",
     "MODERATION_UNAVAILABLE": "이미지 및 비디오 생성을 일시적으로 사용할 수 없습니다. 잠시 후 다시 시도하세요.",
-    "PDF_EXTRACTION_FAILED": "첨부된 PDF의 내용을 읽을 수 없습니다. 제거하거나 다른 파일을 시도하세요.",
     "IMPORT_INVALID_JSON": "파일이 유효한 JSON이 아닙니다.",
     "IMPORT_UNSUPPORTED_VERSION": "지원되지 않는 내보내기 버전.",
     "CARD_PARSE_FAILED": "캐릭터 카드를 파싱할 수 없습니다.",
@@ -3416,18 +3207,14 @@
     "UNIFIED_INTELLIGENCE_API": "통합 인텔리전스 API",
     "GET_STARTED": "시작하기",
     "SAVE_UP_TO": "최대 절약",
-    "PER_1M_TOKENS": "100만 토큰당",
     "SMART_ROUTING": "지능형 라우팅",
-    "ONE_ENDPOINT": "단일 엔드포인트",
     "MODELS": "모델",
     "FREE": "무료",
     "PAID": "유료",
-    "UPTIME": "가동 시간",
     "LIVE_STATS": "실시간 통계",
     "CHEAPEST_API": "가장 저렴한 추론 API",
     "MODELS_ONE_ENDPOINT": "40개 이상의 AI 모델, 하나의 엔드포인트",
     "MODELS_ONE_ENDPOINT_SUFFIX": "AI 모델, 하나의 엔드포인트",
-    "DIRECT": "직접",
     "MODEL": "모델",
     "PRICES_NOTE": "100만 토큰당 가격",
     "INPUT": "입력",
@@ -3462,7 +3249,6 @@
     },
     "MCP": {
       "SERVER_DESCRIPTION": "브라우저 내 AI 모델 라우터. 도구는 navigator.modelContext를 사용하여 사이트 홈페이지에서 WebMCP를 통해 등록됩니다. 홈페이지를 방문하고 WebMCP 가능 클라이언트에서 도구를 호출하세요.",
-      "WEBMCP_BUNDLE_DESCRIPTION": "{appName} 홈페이지에서 navigator.modelContext를 통해 등록된 브라우저 내 도구. 도구에 액세스하려면 WebMCP 가능 클라이언트에서 홈페이지를 로드하세요.",
       "TOOLS": {
         "OPEN_MODELS_CATALOG": "OpenAI, Anthropic, Google, DeepSeek 및 기타 공급자에 걸쳐 라이브 가격으로 사용 가능한 모든 모델을 나열하는 {appName} 모델 카탈로그 페이지를 엽니다.",
         "OPEN_PRICING": "구독 플랜과 종량제 요금을 검토하기 위해 {appName} 요금 페이지를 엽니다.",
@@ -3511,35 +3297,15 @@
     "STATE": {
       "OPERATIONAL": "정상",
       "DOWN": "다운",
-      "UNKNOWN": "알 수 없음",
       "DEGRADED": "성능 저하"
-    },
-    "SUMMARY": {
-      "ALL_NORMAL": "모든 시스템 정상",
-      "N_DOWN": "{count, plural, one {모델 #개 다운} other {모델 #개 다운}}",
-      "LAST_CHECKED_AT": "마지막 확인 {time}"
     },
     "KPI": {
       "TOTAL": "총 모델",
       "OPERATIONAL": "정상",
-      "DOWN": "다운",
-      "UNKNOWN": "알 수 없음"
-    },
-    "ROW": {
-      "CHANNELS": "채널",
-      "LATENCY_PROBE": "프로브",
-      "LATENCY_P50": "p50",
-      "LATENCY_P95": "p95",
-      "REQ": "요청",
-      "ERR": "오류",
-      "IDLE": "이번 분 트래픽 없음"
+      "DOWN": "다운"
     },
     "RIBBON": {
-      "TITLE": "지난 24시간",
-      "LEGEND_UP": "정상",
-      "LEGEND_DEGRADED": "성능 저하",
-      "LEGEND_DOWN": "다운",
-      "LEGEND_NODATA": "데이터 없음"
+      "TITLE": "지난 24시간"
     },
     "FILTER": {
       "SEARCH_PLACEHOLDER": "모델 검색...",
@@ -3655,8 +3421,6 @@
     "HOVER_UPSCALE": "이 이미지 업스케일",
     "HOVER_ADETAILER": "이 이미지에 ADetailer 실행",
     "HOVER_EDIT": "편집에서 이 이미지 사용",
-    "GENERATE_TITLE": "이미지 생성",
-    "GENERATE_SUBTITLE": "모델을 선택하고, 프롬프트를 작성하고, 이미지를 받으세요.",
     "PROMPT_LABEL": "프롬프트",
     "PROMPT_PLACEHOLDER": "원하는 이미지를 설명하세요.",
     "NEGATIVE_PROMPT_LABEL": "네거티브 프롬프트",
@@ -3677,7 +3441,6 @@
     "BACKGROUND_TRANSPARENT": "투명",
     "WATERMARK_LABEL": "워터마크",
     "STRENGTH_LABEL": "강도",
-    "SIZE_LABEL": "크기",
     "STEPS_LABEL": "단계",
     "CFG_LABEL": "CFG",
     "GUIDANCE_LABEL": "가이던스",
@@ -3695,13 +3458,6 @@
     "TOKEN_COUNT_CAPPED": "~{count} / {cap} 토큰",
     "PROGRESS_OF_N": "{total} 중 {current} 생성 중…",
     "EXPIRES_IN_DAYS": "{days}일 후 만료",
-    "RECENT_TITLE": "최근 생성물",
-    "AUTO_DELETE_NOTE": "생성물은 30일 후 자동 삭제됩니다",
-    "SHARE": "공유",
-    "SHARE_TITLE": "이 생성물 공유",
-    "SHARE_DESCRIPTION": "링크가 있는 누구나 프롬프트, 설정, 이미지를 보고 자신의 계정으로 포크할 수 있습니다.",
-    "SHARE_REVOKE": "링크 취소",
-    "SHARE_DONE": "완료",
     "EXPORT": "내보내기",
     "IMPORT": "가져오기",
     "IMPORT_TITLE": "생성물 가져오기",
@@ -3709,56 +3465,30 @@
     "IMPORT_MODE_RESTORE": "복원 (원본 이미지 복사)",
     "IMPORT_MODE_REGENERATE": "재생성 (새 업스트림 호출)",
     "DOWNLOAD_IMAGE": "이미지 다운로드",
-    "SHARED_TITLE": "공유된 생성물",
-    "SAVE_TO_ACCOUNT": "내 계정에 저장",
-    "COPY_PROMPT": "프롬프트 복사",
     "SUBMIT": "생성",
     "SUBMITTING": "생성 중...",
     "REFERENCES_TITLE": "참조 이미지",
     "REFERENCES_ADD": "참조 추가",
-    "REFERENCES_UNSUPPORTED": "이 모델은 참조 이미지를 받지 않습니다.",
     "LORAS_TITLE": "LoRA",
-    "LORAS_UNSUPPORTED": "이 모델은 LoRA 체인을 지원하지 않습니다.",
-    "HISTORY_TITLE": "내 생성물",
-    "NEW_GENERATION": "새 생성",
     "PICK_OR_GENERATE": "사이드바에서 생성물을 선택하거나 새로 만드세요.",
     "HISTORY_EMPTY": "아직 없습니다. 첫 이미지를 생성하세요.",
     "STATUS_PENDING": "대기 중",
-    "STATUS_SUBMITTED": "제출됨",
-    "STATUS_QUEUED": "큐 대기",
-    "STATUS_IN_PROGRESS": "생성 중",
-    "STATUS_SUCCESS": "완료",
     "STATUS_FAILURE": "실패",
     "REMIX": "리믹스",
     "DELETE": "삭제",
-    "PUBLISH": "공개",
-    "UNLIST": "비공개 목록",
-    "PRIVATE": "비공개",
-    "PRICE_PER_CALL": "이미지당 {price}",
     "META_TITLE": "이미지 생성",
     "META_DESC": "{appName} ComfyUI 파이프라인 (SDXL + Flux 2)로 이미지를 생성하세요.",
-    "LIKE": "좋아요",
-    "UNLIKE": "좋아요 취소",
     "REFERENCES_DROP_HINT": "이미지를 드롭하거나 찾아보세요",
     "LORAS_EMPTY": "아직 볼륨에 스테이징된 LoRA가 없습니다. 운영자가 카탈로그 테이블을 통해 추가할 수 있습니다.",
-    "HIRES_FIX_ENABLE": "Hires fix",
-    "HIRES_FIX_DENOISE": "노이즈 제거",
-    "HIRES_FIX_UPSCALE": "업스케일",
     "PNG_IMPORT_HINT": "ComfyUI PNG를 드롭하여 프롬프트와 파라미터를 가져오세요",
     "PNG_IMPORT_BROWSE": "PNG 가져오기",
     "PNG_IMPORT_NO_METADATA": "이 이미지에서 ComfyUI 메타데이터를 찾을 수 없습니다.",
     "NEW_SESSION": "새 세션",
-    "SESSION_NEW_TOOLTIP": "새 세션을 시작하세요. 현재 세션은 히스토리에 유지됩니다.",
-    "RECENT_SESSIONS": "최근 세션",
-    "SNAPSHOT_COUNT": "{count, plural, one {스냅샷 #개} other {스냅샷 #개}}",
-    "IMAGE_COUNT_TOTAL": "{count, plural, one {이미지 #개} other {이미지 #개}}",
     "SNAPSHOT_NAV_LABEL": "{total} 중 스냅샷 {current}",
-    "SHARE_SESSION_HELP": "링크가 있는 누구나 이 세션의 히스토리를 볼 수 있습니다.",
     "LIGHTBOX_PREV": "이전 이미지",
     "LIGHTBOX_NEXT": "다음 이미지",
     "LIGHTBOX_CLOSE": "닫기",
     "SESSION_SNAPSHOTS": "이 세션의 스냅샷",
-    "EDIT": "편집",
     "UPLOAD_IMAGE": "이미지 업로드",
     "UPLOADING": "업로드 중...",
     "INIT_IMAGE": "원본 이미지"
@@ -3767,17 +3497,11 @@
     "NOT_SYNCED": "동기화되지 않음",
     "SYNCED": "동기화됨",
     "EXPIRES_AT": "동기화됨 - {date} 만료",
-    "EXPIRED": "만료됨",
     "ADD_SYNC": "동기화 추가 (30일)",
     "RESYNC": "재동기화",
     "RESYNC_EXPIRES": "재동기화 ({date} 만료)",
     "REMOVE_SYNC": "동기화 제거",
     "CONFIRM_REMOVE": "이 항목을 서버 동기화에서 제거하시겠습니까? 로컬 사본은 유지됩니다.",
-    "OFFLINE_REQUIRED": "동기화에 온라인 연결이 필요합니다.",
-    "PENDING_SYNC": "동기화 대기 중 - 온라인이 되면 재시도합니다.",
-    "HINT_DESCRIPTION": "동기화된 항목은 다른 장치에서 가져올 수 있도록 30일 동안 서버에 미러링됩니다.",
-    "OPFS_UNAVAILABLE": "이 브라우저에서 로컬 데이터베이스를 사용할 수 없습니다. 데이터가 유지되지 않습니다.",
-    "OFFLINE_SEND_BLOCKED": "오프라인 상태입니다. 메시지는 초안으로 유지됩니다. 재연결되면 재시도하세요.",
     "DLQ_TOAST": "{items}이(가) 재시도 후 동기화에 실패함.",
     "DLQ_KIND_COUNT": "{count} {kind}",
     "DLQ_RETRY": "재시도",

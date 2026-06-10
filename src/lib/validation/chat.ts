@@ -1,7 +1,7 @@
 import { NONE_VALUE } from "@/lib/config/constants";
 import type { Static } from "elysia";
 import { t } from "elysia";
-import { unionLiterals } from "./helpers";
+import { samplingOptional, unionLiterals } from "./helpers";
 
 const MAX_ID_LEN = 64;
 const MAX_TEXT_LEN = 100_000;
@@ -208,27 +208,7 @@ export const streamOverrides = t.Object({
   webSearchEnabled: t.Optional(t.Boolean()),
   webSearchEngine: t.Optional(webSearchEngine),
   webSearchContextSize: t.Optional(webSearchContextSize),
-  temperature: t.Optional(
-    t.Union([t.Number({ minimum: 0, maximum: 2 }), t.Null()]),
-  ),
-  topP: t.Optional(t.Union([t.Number({ minimum: 0, maximum: 1 }), t.Null()])),
-  topK: t.Optional(
-    t.Union([t.Number({ minimum: 0, maximum: 1000 }), t.Null()]),
-  ),
-  minP: t.Optional(t.Union([t.Number({ minimum: 0, maximum: 1 }), t.Null()])),
-  topA: t.Optional(t.Union([t.Number({ minimum: 0, maximum: 1 }), t.Null()])),
-  frequencyPenalty: t.Optional(
-    t.Union([t.Number({ minimum: -2, maximum: 2 }), t.Null()]),
-  ),
-  presencePenalty: t.Optional(
-    t.Union([t.Number({ minimum: -2, maximum: 2 }), t.Null()]),
-  ),
-  repetitionPenalty: t.Optional(
-    t.Union([t.Number({ minimum: 0, maximum: 2 }), t.Null()]),
-  ),
-  maxTokens: t.Optional(
-    t.Union([t.Number({ minimum: 1, maximum: 1_000_000 }), t.Null()]),
-  ),
+  ...samplingOptional(),
   // Sliders win on key conflicts. Parsed at the prompt assembler.
   extraBody: t.Optional(t.Union([t.String({ maxLength: 8_192 }), t.Null()])),
   // null = inherit the bound preset (else system default: streaming on). false =
@@ -259,27 +239,7 @@ export const updateConversationSettingsBody = t.Object({
   webSearchEnabled: t.Optional(t.Boolean()),
   webSearchEngine: t.Optional(webSearchEngine),
   webSearchContextSize: t.Optional(webSearchContextSize),
-  temperature: t.Optional(
-    t.Union([t.Number({ minimum: 0, maximum: 2 }), t.Null()]),
-  ),
-  topP: t.Optional(t.Union([t.Number({ minimum: 0, maximum: 1 }), t.Null()])),
-  topK: t.Optional(
-    t.Union([t.Number({ minimum: 0, maximum: 1000 }), t.Null()]),
-  ),
-  minP: t.Optional(t.Union([t.Number({ minimum: 0, maximum: 1 }), t.Null()])),
-  topA: t.Optional(t.Union([t.Number({ minimum: 0, maximum: 1 }), t.Null()])),
-  frequencyPenalty: t.Optional(
-    t.Union([t.Number({ minimum: -2, maximum: 2 }), t.Null()]),
-  ),
-  presencePenalty: t.Optional(
-    t.Union([t.Number({ minimum: -2, maximum: 2 }), t.Null()]),
-  ),
-  repetitionPenalty: t.Optional(
-    t.Union([t.Number({ minimum: 0, maximum: 2 }), t.Null()]),
-  ),
-  maxTokens: t.Optional(
-    t.Union([t.Number({ minimum: 1, maximum: 1_000_000 }), t.Null()]),
-  ),
+  ...samplingOptional(),
   extraBody: t.Optional(t.Union([t.String({ maxLength: 8_192 }), t.Null()])),
   // Chat-variable store (macro setvar + sticky lorebook state). Must sync or a
   // cross-device hydration wipes setvar/sticky state.
@@ -378,6 +338,27 @@ export const streamBody = t.Object({
   ),
 });
 export type StreamBody = Static<typeof streamBody>;
+
+// V1 lowLevelAccess trigger effects from client modes (runLLM/checkSimilarity/
+// runImgGen): keys resolve server-side, results return to the VM.
+export const triggerOpBody = t.Union([
+  t.Object({
+    op: t.Literal("llm"),
+    prompt: t.String({ maxLength: MAX_TEXT_LEN }),
+    model: t.String({ maxLength: MAX_MODEL_LEN }),
+  }),
+  t.Object({
+    op: t.Literal("similarity"),
+    source: t.String({ maxLength: MAX_TEXT_LEN }),
+    values: t.Array(t.String({ maxLength: MAX_TEXT_LEN }), { maxItems: 256 }),
+  }),
+  t.Object({
+    op: t.Literal("imggen"),
+    prompt: t.String({ maxLength: MAX_TEXT_LEN }),
+    negative: t.Optional(t.String({ maxLength: MAX_TEXT_LEN })),
+  }),
+]);
+export type TriggerOpBody = Static<typeof triggerOpBody>;
 
 export const titleGenerationBody = t.Object({
   text: t.String({ maxLength: MAX_TITLE_SEED_LEN }),

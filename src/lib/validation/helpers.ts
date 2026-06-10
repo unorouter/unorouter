@@ -59,3 +59,51 @@ export function unionLiterals<T extends string>(
 ): readonly T[] {
   return union.anyOf.map((m) => m.const);
 }
+
+// Single source for the 9 sampling-knob schema fragments (they used to be
+// spelled out in chat.ts x2, rp.ts, and rp-forms.ts x2). Divergences ride the
+// options: presets allow temperature up to 4; rp.ts leaves maxTokens unbounded.
+type SamplingBoundOpts = {
+  temperatureMax?: number;
+  /** Omit for an unbounded maxTokens (preset body). */
+  maxTokensMax?: number;
+};
+
+const optNullNum = (minimum: number, maximum?: number) =>
+  t.Optional(
+    t.Union([
+      t.Number({ minimum, ...(maximum === undefined ? {} : { maximum }) }),
+      t.Null(),
+    ]),
+  );
+
+/** Optional-nullable variant (wire bodies: stream overrides, settings patch). */
+export const samplingOptional = (opts?: SamplingBoundOpts) => ({
+  temperature: optNullNum(0, opts?.temperatureMax ?? 2),
+  topP: optNullNum(0, 1),
+  topK: optNullNum(0, 1000),
+  minP: optNullNum(0, 1),
+  topA: optNullNum(0, 1),
+  frequencyPenalty: optNullNum(-2, 2),
+  presencePenalty: optNullNum(-2, 2),
+  repetitionPenalty: optNullNum(0, 2),
+  maxTokens: optNullNum(1, opts?.maxTokensMax ?? 1_000_000),
+});
+
+const nullNum = (minimum: number, maximum?: number) =>
+  nullable(
+    t.Number({ minimum, ...(maximum === undefined ? {} : { maximum }) }),
+  );
+
+/** Nullable-default variant (preset/conv-override bodies + RHF forms). */
+export const samplingNullable = (opts?: SamplingBoundOpts) => ({
+  temperature: nullNum(0, opts?.temperatureMax ?? 2),
+  topP: nullNum(0, 1),
+  topK: nullNum(0, 1000),
+  minP: nullNum(0, 1),
+  topA: nullNum(0, 1),
+  frequencyPenalty: nullNum(-2, 2),
+  presencePenalty: nullNum(-2, 2),
+  repetitionPenalty: nullNum(0, 2),
+  maxTokens: nullNum(1, opts?.maxTokensMax),
+});

@@ -31,15 +31,13 @@ import {
 } from "@/lib/db/client/data/transfer/sillytavern";
 import { queryKeys } from "@/lib/react-query/keys";
 import type { NativeImport, OrpgImport } from "@/lib/types/transfer";
-import { handleError } from "@/lib/utils/client";
 import type {
   UpdateConversationBindingsBody,
   UpdateConversationSettingsBody,
 } from "@/lib/validation/chat";
 import type { ConversationExportFormat } from "@/lib/validation/rp";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { dayjs } from "@/lib/utils/format/date";
-import { useTranslations } from "next-intl";
 import { mirrorConvBindingsIfSynced, mirrorConvRowIfSynced } from "@/lib/db/client/sync/mirror";
 
 export function useChatSettingsQuery(convId?: string) {
@@ -137,11 +135,9 @@ export function useUpdateChatBindingsMutation() {
 }
 
 export function useImportConversationMutation() {
-  const t = useTranslations();
-  const qc = useQueryClient();
   const auth = useAuthQuery();
 
-  return useMutation({
+  return useApiMutation({
     mutationFn: async (file: File) => {
       const text = await file.text();
 
@@ -173,17 +169,13 @@ export function useImportConversationMutation() {
       }
       throw new Error(msg("ERRORS.IMPORT_UNSUPPORTED_VERSION"));
     },
-    onSuccess: () =>
-      qc.invalidateQueries({ queryKey: queryKeys.conversations() }),
-    onError: (e) => handleError(e, t),
+    invalidates: [queryKeys.conversations()],
   });
 }
 
 export function useExportConversation() {
-  const t = useTranslations();
   const auth = useAuthQuery();
-  return useMutation({
-    onError: (e) => handleError(e, t),
+  return useApiMutation({
     mutationFn: async (args: {
       convId: string;
       format: ConversationExportFormat;

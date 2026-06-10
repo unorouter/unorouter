@@ -12,7 +12,7 @@ export const OAUTH_SCOPES = [
   "checkout:create",
 ] as const;
 
-export type OAuthScope = (typeof OAUTH_SCOPES)[number];
+type OAuthScope = (typeof OAUTH_SCOPES)[number];
 
 // openid tolerated though unadvertised: upstream auth may include for OIDC.
 export const OAUTH_SCOPE_TRANSLATION_KEYS: Record<
@@ -41,7 +41,7 @@ export function getScopeTranslationKey(
 
 export type ScopeKind = "read" | "write" | "danger";
 
-export type ScopeMeta = {
+type ScopeMeta = {
   icon: IconName;
   kind: ScopeKind;
 };

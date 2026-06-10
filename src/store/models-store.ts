@@ -4,7 +4,7 @@ import { ModelTypeFilter } from "@/lib/types/enums";
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 
-export type ViewMode = "grid" | "list";
+type ViewMode = "grid" | "list";
 export type SortOrder = "name" | "priceAsc" | "priceDesc";
 
 export type ModelsStoreState = {

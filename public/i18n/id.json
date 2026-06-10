@@ -22,22 +22,9 @@
     "PRICING": "Harga",
     "DOCS": "Dokumen",
     "BLOG": "Blog",
-    "GROUP_CLI": "Alat CLI",
-    "GROUP_ROLEPLAY": "Klien Roleplay",
-    "CC_SWITCH": "CC Switch",
-    "CLAUDE_CODE": "Claude Code",
-    "CODEX": "Codex",
-    "GEMINI_CLI": "Gemini CLI",
-    "OPENCLAW": "OpenClaw",
-    "SILLYTAVERN": "SillyTavern",
-    "JANITOR_AI": "Janitor.AI",
-    "RISUAI": "RisuAI",
-    "CHUB": "Chub / Venus",
     "DASHBOARD": "Dashboard",
     "LOG_IN": "Masuk",
-    "GET_STARTED": "Mulai",
     "CHAT": "Chat",
-    "GENERATE": "Buat",
     "PLAYGROUND": "Playground",
     "STATUS": "Status"
   },
@@ -45,7 +32,6 @@
     "HERO": {
       "BADGE": "Router Online",
       "TITLE_LINE1": "KECERDASAN",
-      "TITLE_LINE2": "TERPADU",
       "TITLE_ROTATE": "KECERDASAN,ROLEPLAY,KARAKTER,KODE,CHAT",
       "SUBTITLE": "{appName} menghubungkan Anda ke {modelCount}+ model AI melalui satu kunci. Bangun aplikasi, jalankan agen, atau roleplay dengan karakter. Kunci sama, kecepatan sama, harga sama.",
       "CTA_PRIMARY": "Mulai",
@@ -56,12 +42,9 @@
       "PROVIDERS": "Penyedia",
       "FREE": "Gratis",
       "PAID": "Berbayar",
-      "UPTIME": "Uptime",
-      "ENDPOINTS": "Endpoint",
       "PANEL": {
         "TOKENS_SERVED": "Token Dilayani",
         "REQUESTS": "Permintaan",
-        "REQ_MIN": "Req / mnt",
         "TOKENS_MIN": "Token / mnt",
         "LIVE": "Langsung"
       },
@@ -69,20 +52,15 @@
         "GLOBAL": "Dapat Diroute",
         "INTEGRATED": "Upstream",
         "FREE": "Tanpa biaya",
-        "PAID": "Per token",
-        "SLA": "Terukur"
+        "PAID": "Per token"
       }
     },
     "TICKER": {
-      "LABEL": "Model Tersedia",
       "LIVE_INFERENCE": "Inferensi Langsung",
       "TPS": "TPS"
     },
     "INTEGRATION": {
-      "BADGE": "Integrasi",
       "VIEW_GUIDE": "Lihat Panduan",
-      "CLI_HEADER": "Untuk agen pengkodean dan alat CLI",
-      "RP_HEADER": "Untuk roleplay dan chat kreatif",
       "CLAUDE_CODE": {
         "BADGE": "Anthropic API",
         "TITLE": "Bekerja dengan Claude Code",
@@ -151,64 +129,24 @@
       "TITLE": "Harga Sederhana.",
       "SUBTITLE": "Bayar hanya untuk yang Anda gunakan.",
       "DESCRIPTION": "Berlangganan untuk nilai lebih baik atau bayar sesuai pemakaian. Semua paket termasuk akses ke setiap model dengan failover otomatis di seluruh penyedia.",
-      "PAYG": {
-        "NAME": "Bayar Sesuai Pemakaian",
-        "PRICE": "$0",
-        "DESC": "Tanpa minimum. Isi ulang dan gunakan model apa pun.",
-        "ENDPOINT": "/v1/chat/completions"
-      },
-      "BASIC": {
-        "NAME": "Basic",
-        "PRICE": "$20/bln",
-        "DESC": "Nilai kredit $30. Pengganda 1,5x.",
-        "RATE": "100 req/mnt"
-      },
-      "PRO": {
-        "NAME": "Pro",
-        "PRICE": "$50/bln",
-        "DESC": "Nilai kredit $75. Routing prioritas.",
-        "RATE": "500 req/mnt"
-      },
-      "ENTERPRISE": {
-        "NAME": "Enterprise",
-        "PRICE": "$100/bln",
-        "DESC": "Nilai kredit $175. Dukungan khusus.",
-        "RATE": "2.000 req/mnt"
-      },
-      "CTA": {
-        "GET_STARTED": "Mulai",
-        "VIEW_PLANS": "Lihat Semua Paket"
-      },
       "PROVIDERS": {
-        "TITLE": "Penyedia Didukung",
-        "ACTIVE": "Aktif",
-        "DESC_OPENAI": "GPT-4o, o1, o3, GPT-4.1",
-        "DESC_ANTHROPIC": "Claude Opus, Sonnet, Haiku",
-        "DESC_GOOGLE": "Gemini 2.5 Pro, Flash",
-        "DESC_DEEPSEEK": "DeepSeek V3, R1"
+        "TITLE": "Penyedia Didukung"
       },
       "FLOW": {
-        "TITLE": "Alur Permintaan",
-        "LIVE": "Langsung",
-        "STEP1": "POST /v1/chat/completions",
-        "STEP2": "Route ke penyedia tercepat",
-        "STEP3": "Respons dikirim"
+        "TITLE": "Alur Permintaan"
       }
     },
     "FEATURES": {
       "TITLE": "Mengapa {appName}",
       "DESCRIPTION": "Satu endpoint, setiap model AI. Routing cerdas memilih penyedia tercepat sementara failover otomatis memastikan permintaan Anda selalu berhasil.",
       "FAILOVER": {
-        "TITLE": "Failover Otomatis",
-        "DESC": "Permintaan gagal diulang di saluran alternatif secara instan"
+        "TITLE": "Failover Otomatis"
       },
       "MULTIPROTOCOL": {
-        "TITLE": "Dukungan Multi-Protokol",
-        "DESC": "Format API OpenAI, Anthropic, dan Gemini"
+        "TITLE": "Dukungan Multi-Protokol"
       },
       "LOADBALANCE": {
-        "TITLE": "Penyeimbangan Beban Cerdas",
-        "DESC": "Route ke penyedia tercepat yang tersedia secara otomatis"
+        "TITLE": "Penyeimbangan Beban Cerdas"
       }
     },
     "RELIABILITY": {
@@ -225,7 +163,6 @@
         "DESC": "Pemilihan saluran berbasis latensi dengan bobot prioritas. Penyedia tercepat menang, setiap saat."
       },
       "LEARN_MORE": "Pelajari Lebih Lanjut",
-      "LEARN_MORE_ARIA": "Pelajari lebih lanjut tentang dokumentasi {appName}",
       "LEARN_MORE_DOCS": "Lihat Dokumentasi",
       "ARCH": {
         "TITLE": "Arsitektur",
@@ -442,7 +379,6 @@
       "LEADERBOARD_TITLE": "Leaderboard LLM",
       "LEADERBOARD_SUBTITLE": "Bandingkan model paling populer di platform",
       "EMPTY": "Tidak ada model yang cocok dengan filter terpilih",
-      "TOTAL_LABEL": "Total token",
       "TOKENS_SUFFIX": "token",
       "TOOLTIP_TOTAL": "Total",
       "BY_AUTHOR_LABEL": "oleh"
@@ -484,10 +420,7 @@
     "SUBTITLE": "Pembaruan produk, panduan integrasi, dan catatan dari tim.",
     "READ_MORE": "Baca selengkapnya",
     "PUBLISHED": "Dipublikasikan",
-    "UPDATED": "Diperbarui",
     "BY_AUTHOR": "Oleh {author}",
-    "TAGS": "Tag",
-    "RECENT": "Postingan terbaru",
     "BACK_TO_BLOG": "Kembali ke semua postingan",
     "EMPTY": "Belum ada postingan. Periksa lagi nanti.",
     "EMPTY_FILTERED": "Tidak ada postingan yang cocok dengan filter Anda.",
@@ -564,9 +497,7 @@
         "H_NOT_SPOOFING": "Apa yang bukan spoofing: Bedrock, Vertex, Foundry",
         "H_RESULTS": "Apa yang ditemukan 17 hari probing",
         "H_WHY": "Mengapa ini terjadi",
-        "H_NEXT": "Apa selanjutnya",
         "H_TEST": "Uji penyedia Anda sendiri dalam 5 menit",
-        "H_NAMING": "Catatan tentang menyebut nama",
         "INTRO_P1": "Claude adalah model paling diminati di pasar saat ini, dan salah satu yang paling mahal. Kesenjangan itu menciptakan pasar yang berkembang dari reseller pihak ketiga yang menawarkan \"Claude yang sama\" dengan harga sebagian kecil dari harga resmi. Beberapa sah. Banyak yang tidak.",
         "INTRO_P2": "Selama 17 hari probing otomatis di <s>8 reseller upstream</s>, kami menemukan <s>183 pasangan (channel, model)</s> yang gagal pemeriksaan keaslian terhadap model yang dipasarkan sebagai <c>claude-opus-4-7</c>, <c>claude-sonnet-4-6</c>, <c>claude-haiku-4-5</c>, dan teman-teman. Tekanan yang sama ada untuk setiap model premium, jadi GPT, Gemini, dan Grok hampir pasti juga terpengaruh. Claude hanyalah di mana kesenjangan harga paling besar saat ini dan di mana kami memiliki data nyata.",
         "PROBES_P": "Per (channel, model) kami mengirim empat permintaan paralel ke standar Anthropic Messages API (<c>POST /v1/messages</c>):",
@@ -651,7 +582,6 @@
         "H_BUGS": "Bug bounty, hingga $50",
         "P_BUGS": "Temukan bug nyata di platform dan laporkan di forum bug-bounty. Staf memilih tingkat keparahan dan bot membayarnya: Rendah $0,25, Sedang $0,50, Tinggi $1, Kritis $50. Siapa yang benar-benar mengidentifikasi bug yang dibayar, bukan hanya pemulai thread.",
         "H_JOIN": "Datang nongkrong",
-        "P_JOIN": "Semua pembayaran masuk ke saldo yang sama yang Anda habiskan untuk panggilan API. Tautkan sekali, klaim semua yang memenuhi syarat, lalu terus boost, buru, dan rilis bersama kami.",
         "CTA": "Siap? <invite>Bergabunglah dengan Discord {appName}</invite>, lalu <register>ambil kunci API</register> dan <settings>tautkan akun Anda</settings> untuk mengklaim $1 pertama Anda."
       },
       "FREE_MODELS_AGGREGATED": {
@@ -695,7 +625,6 @@
     "META_TITLE": "Harga API {name}, konteks dan contoh | {appName}",
     "META_DESC": "Gunakan {name} dari {vendor} melalui satu endpoint kompatibel OpenAI. Lihat harga per token, jendela konteks, endpoint, dan contoh kode salin-tempel.",
     "META_KEYWORDS": "{name} API, harga {name}, jendela konteks {name}, {vendor} API, {appName}",
-    "ABOUT": "Tentang {name}",
     "PRICING_TITLE": "Harga",
     "PRICING_DESC": "Bayar hanya untuk yang Anda gunakan. Tidak ada minimum bulanan saat menggunakan Pay As You Go.",
     "INPUT_PRICE": "Harga input",
@@ -737,62 +666,31 @@
     "CTA_DESC": "Buat kunci API dan mulai membuat permintaan dalam waktu kurang dari satu menit.",
     "CTA_SIGNUP": "Masuk untuk mencoba {name}",
     "CTA_TRY": "Coba {name} di chat",
-    "CTA_ALL_MODELS": "Lihat semua model",
-    "LAST_UPDATED": "Terakhir diperbarui {date}"
+    "CTA_ALL_MODELS": "Lihat semua model"
   },
   "PRICING": {
-    "PLAN": {
-      "BASIC": "Basic",
-      "PRO": "Pro",
-      "ENTERPRISE": "Enterprise"
-    },
     "FEATURE": {
       "MODELS": "Semua model termasuk",
       "PRIORITY": "Routing prioritas",
       "DEDICATED": "Dukungan khusus",
-      "SUPPORT": "Dukungan email",
       "FAILOVER": "Failover otomatis",
       "UPTIME": "SLA uptime 99,9%",
       "OPENAI_COMPAT": "Endpoint kompatibel OpenAI"
     },
     "COMPARE": {
-      "TITLE": "Bandingkan paket",
-      "FEATURE": "Fitur",
-      "PRICE": "Harga bulanan",
-      "VALUE": "Nilai kredit API",
-      "RATE_LIMIT": "Batas rate",
-      "ALL_MODELS": "Semua model",
-      "PRIORITY": "Routing prioritas",
-      "DEDICATED": "Dukungan khusus",
-      "BASIC_PRICE": "$20/bln",
-      "PRO_PRICE": "$50/bln",
-      "ENTERPRISE_PRICE": "$100/bln",
-      "BASIC_VALUE": "$30",
-      "PRO_VALUE": "$75",
-      "ENTERPRISE_VALUE": "$175",
-      "BASIC_RATE": "100 rpm",
-      "PRO_RATE": "500 rpm",
-      "ENTERPRISE_RATE": "2.000 rpm"
+      "TITLE": "Bandingkan paket"
     },
     "CARD": {
       "POPULAR": "Populer",
       "PER_MONTH": " · bln",
       "VALUE": "Nilai {value}",
-      "MULTIPLIER": "Pengganda {multiplier}",
-      "INCLUDES": "Termasuk",
-      "REQUESTS_MIN": "{count} permintaan/mnt",
-      "SPEC_CREDIT": "Nilai Kredit API",
       "SPEC_QUOTA": "Kuota/Reset",
-      "SPEC_MULTIPLIER": "Pengganda",
       "VALUE_BADGE": "Nilai",
-      "VALUE_EXPLAIN": "Bayar {paid}, dapatkan {credit} dalam kredit API. Gunakan pada model apa pun.",
-      "OPENCLAW_TITLE": "Dukungan OpenClaw",
-      "OPENCLAW_DESC": "Kompatibilitas penuh dengan agen OpenClaw"
+      "VALUE_EXPLAIN": "Bayar {paid}, dapatkan {credit} dalam kredit API. Gunakan pada model apa pun."
     },
     "BANNER": {
       "TITLE": "Asisten AI OpenClaw di Telegram",
-      "SUBTITLE": "Deployment AI satu klik untuk bot Telegram Anda, didukung oleh OpenClaw dan {appName}.",
-      "BADGE": "Segera Hadir"
+      "SUBTITLE": "Deployment AI satu klik untuk bot Telegram Anda, didukung oleh OpenClaw dan {appName}."
     },
     "META": {
       "TITLE": "Harga - {appName}",
@@ -802,6 +700,11 @@
     "TITLE": "Harga",
     "SUBTITLE": "Baik Anda merilis aplikasi atau menjalankan sesi roleplay panjang. Satu paket, setiap model.",
     "CTA": "Berlangganan",
+    "TOPUP": {
+      "LABEL": "Bayar sesuai pemakaian",
+      "DESC": "Lebih suka tidak berlangganan? Isi ulang kredit.",
+      "FOOTNOTE": "Kredit tidak pernah kedaluwarsa."
+    },
     "FAQ": {
       "Q1": "Bagaimana harga {appName} bekerja?",
       "A1": "Anda membayar per token yang dikonsumsi. Setiap model memiliki tarif input, output, dan cache sendiri, ditagih dari kredit akun Anda. Tidak ada langganan bulanan yang diperlukan untuk Pay As You Go.",
@@ -819,11 +722,6 @@
       "A7": "Ya. Setiap paket bekerja sebagai sumber kustom kompatibel OpenAI di klien roleplay utama mana pun. SillyTavern, Janitor.AI, RisuAI, dan Chub masing-masing memiliki panduan setup di dokumen.",
       "Q8": "Berapa panjang sohbet atau riwayat karakter saya?",
       "A8": "{appName} mendukung jendela konteks penuh setiap model, hingga 1M token di Gemini dan 200k di Claude. Roleplay panjang dan kode panjang keduanya bekerja."
-    },
-    "TOPUP": {
-      "LABEL": "Bayar sesuai pemakaian",
-      "DESC": "Lebih suka tidak berlangganan? Isi ulang kredit.",
-      "FOOTNOTE": "Kredit tidak pernah kedaluwarsa."
     }
   },
   "DOCS_INDEX": {
@@ -861,18 +759,7 @@
   },
   "DOCS_SIDEBAR": {
     "TITLE": "Dokumentasi",
-    "AI_APPLICATIONS": "Aplikasi AI",
-    "GROUP_CLI": "Alat CLI",
-    "GROUP_ROLEPLAY": "Klien Roleplay",
-    "CC_SWITCH": "CC Switch",
-    "OPENCLAW": "OpenClaw",
-    "CLAUDE_CODE": "Claude Code",
-    "CODEX_CLI": "Codex CLI",
-    "GEMINI_CLI": "Gemini CLI",
-    "SILLYTAVERN": "SillyTavern",
-    "JANITOR_AI": "Janitor.AI",
-    "RISUAI": "RisuAI",
-    "CHUB": "Chub / Venus"
+    "AI_APPLICATIONS": "Aplikasi AI"
   },
   "DOCS": {
     "SETUP": {
@@ -882,8 +769,7 @@
       "CLI_ALT": "Atau gunakan CC Switch CLI:",
       "NO_APP": "Tidak memiliki CC Switch?",
       "INSTALL_LINK": "Instal CC Switch",
-      "LOGIN_REQUIRED": "Masuk untuk mengisi otomatis kunci API Anda",
-      "CREATE_KEY": "Buat kunci API terlebih dahulu"
+      "LOGIN_REQUIRED": "Masuk untuk mengisi otomatis kunci API Anda"
     },
     "CONFIG": {
       "FILE_LABEL": "File Konfigurasi Permanen (Direkomendasikan)",
@@ -902,10 +788,8 @@
       "QUICK_CONFIG": "Konfigurasi cepat",
       "QUICK_CONFIG_DESC": "Masukkan nilai-nilai ini ke klien. Kunci Anda terisi otomatis saat Anda masuk.",
       "BASE_URL_LABEL": "URL dasar",
-      "API_PATH_LABEL": "Endpoint",
       "API_KEY_LABEL": "Kunci API",
       "STEPS": "Penyiapan langkah demi langkah",
-      "STEP_LABEL": "Langkah {number}",
       "COMPATIBILITY": "Kompatibilitas",
       "RECOMMENDED_MODELS": "Model yang direkomendasikan",
       "RECOMMENDED_MODELS_DESC": "Model gratis yang bekerja baik di sini. Tempel id model apa pun ke klien.",
@@ -2057,11 +1941,8 @@
     "CONTACT_SUBTITLE": "Pertanyaan atau kekhawatiran?",
     "DESCRIPTION": "Platform AI API terpadu yang menyediakan akses ke ratusan model dari berbagai penyedia melalui satu endpoint cerdas.",
     "COPYRIGHT": "© {year} {appName}. Semua hak dilindungi.",
-    "LEGAL_DISCLAIMER": "Dengan menggunakan platform ini, Anda mengakui bahwa Anda telah membaca dan menyetujui",
     "LEGAL_TERMS": "Ketentuan Layanan",
-    "LEGAL_AND": "dan",
     "LEGAL_PRIVACY": "Kebijakan Privasi",
-    "SOCIAL_GITHUB": "GitHub",
     "SOCIAL_TRUSTPILOT": "Trustpilot",
     "EASTER_EGG_LABEL": "Mainkan Token Breakout"
   },
@@ -2177,21 +2058,15 @@
   },
   "COMMON": {
     "COPY_CODE": "Salin kode",
-    "COPIED": "Disalin",
     "OPEN_MENU": "Buka menu",
     "SEARCH": "Cari...",
     "SAVE": "Simpan",
     "SAVED": "Tersimpan",
     "CANCEL": "Batal",
     "DELETE": "Hapus",
-    "CREATE": "Buat",
     "EDIT": "Edit",
-    "IMPORT": "Impor",
-    "EXPORT": "Ekspor",
-    "LOADING": "Memuat...",
     "NAME": "Nama",
     "DESCRIPTION": "Deskripsi",
-    "CONFIRM_DELETE": "Apakah Anda yakin ingin menghapus ini?",
     "RESET": "Reset",
     "CONFIRM": {
       "CONTINUE": "Lanjutkan",
@@ -2253,7 +2128,6 @@
       "USERNAME_OR_EMAIL_PLACEHOLDER": "Masukkan nama pengguna atau email Anda",
       "PASSWORD": "Kata Sandi",
       "PASSWORD_PLACEHOLDER": "Masukkan kata sandi Anda",
-      "PASSWORD_MIN_LENGTH": "Kata sandi harus minimal 8 karakter",
       "EMAIL": "Email",
       "EMAIL_PLACEHOLDER": "Masukkan email Anda",
       "VERIFICATION_CODE": "Kode Verifikasi",
@@ -2268,14 +2142,12 @@
     "TWO_FA": {
       "TITLE": "Autentikasi Dua Faktor",
       "DESCRIPTION": "Masukkan kode 6 digit dari aplikasi authenticator Anda",
-      "CODE_PLACEHOLDER": "000000",
       "SUBMIT": "Verifikasi",
       "VERIFYING": "Memverifikasi..."
     },
     "VERIFICATION": {
       "SEND_CODE": "Kirim Kode",
       "SENDING": "Mengirim...",
-      "SENT": "Kode Terkirim",
       "RESEND": "Kirim Ulang",
       "RESEND_IN": "Kirim ulang dalam {seconds}d",
       "FAILED": "Gagal mengirim kode verifikasi"
@@ -2325,10 +2197,7 @@
     "DONT_HAVE_ACCOUNT": "Belum memiliki akun?",
     "ALREADY_HAVE_ACCOUNT": "Sudah memiliki akun?",
     "OR_CONTINUE_WITH": "Atau lanjutkan dengan",
-    "CALLBACK_LOADING": "Menyelesaikan masuk...",
-    "DASHBOARD": "Dashboard",
     "LOG_OUT": "Keluar",
-    "BALANCE": "Saldo",
     "SUBSCRIPTION": "Langganan",
     "SUBSCRIPTION_ACTIVE": "Aktif"
   },
@@ -2340,10 +2209,7 @@
     "LOGS": "Log Penggunaan",
     "AFFILIATE": "Afiliasi",
     "BILLING": "Penagihan",
-    "SETTINGS": "Pengaturan",
-    "CHAT": "Chat",
-    "GENERATE": "Buat",
-    "MY_GENERATIONS": "Generasi Saya"
+    "SETTINGS": "Pengaturan"
   },
   "DASHBOARD": {
     "GREETING": {
@@ -2387,12 +2253,9 @@
       "NO_API_INFO": "Tidak ada informasi API"
     },
     "CONSUMPTION": "Konsumsi",
-    "TOP_UP": "Isi Ulang",
     "TOTAL": "Total",
     "OTHER": "Lainnya",
     "NO_DATA": "Tidak ada data tersedia",
-    "UPTIME": "Uptime",
-    "COPY_URL": "Salin URL",
     "COPIED": "Disalin"
   },
   "TOKEN": {
@@ -2410,18 +2273,7 @@
     "FORM": {
       "NAME": "Nama",
       "NAME_PLACEHOLDER": "Masukkan nama untuk kunci ini",
-      "GROUP": "Grup",
-      "GROUP_PLACEHOLDER": "Pilih grup",
-      "GROUP_NO_GROUPS": "Tidak ada grup tersedia",
-      "CROSS_GROUP_RETRY": "Retry Lintas Grup",
-      "CROSS_GROUP_RETRY_DESC": "Saat diaktifkan, permintaan yang gagal akan mencoba lagi melalui saluran di grup lain.",
-      "EXPIRATION": "Kedaluwarsa",
-      "EXPIRATION_PLACEHOLDER": "Pilih tanggal kedaluwarsa",
-      "EXPIRATION_PRESETS": "Atur Cepat",
       "NEVER_EXPIRES": "Tidak Pernah",
-      "ONE_MONTH": "1 Bulan",
-      "ONE_DAY": "1 Hari",
-      "ONE_HOUR": "1 Jam",
       "QUOTA": "Kuota",
       "QUOTA_PLACEHOLDER": "Jumlah dalam USD (mis. 10)",
       "QUOTA_PRESETS": "Preset",
@@ -2432,8 +2284,6 @@
       "MODEL_LIMITS_DESC": "Tidak direkomendasikan kecuali diperlukan.",
       "MODEL_SELECT_PLACEHOLDER": "Cari model...",
       "MODEL_SELECT_EMPTY": "Tidak ada model ditemukan",
-      "MODELS_SELECTED": "{count} dipilih",
-      "MODEL_COUNT": "{count} model",
       "IP_WHITELIST": "Whitelist IP",
       "IP_WHITELIST_PLACEHOLDER": "Satu IP per baris. Biarkan kosong untuk tidak ada pembatasan.",
       "IP_WHITELIST_DESC": "IP dapat dipalsukan. Gunakan dengan gateway untuk penegakan yang lebih kuat.",
@@ -2484,7 +2334,6 @@
     "DISABLE": "Nonaktifkan",
     "UNLIMITED": "Tak Terbatas",
     "ALL_MODELS": "Semua Model",
-    "USED_OF_TOTAL": "{used} / {total}",
     "SEARCH_PLACEHOLDER": "Cari kunci...",
     "NO_TOKENS": "Belum ada kunci API. Buat satu untuk memulai.",
     "COPY_KEY": "Salin Kunci"
@@ -2492,7 +2341,6 @@
   "LOGS": {
     "TABLE": {
       "TIME": "Waktu",
-      "TYPE": "Tipe",
       "CHANNEL": "Saluran",
       "USER": "Pengguna",
       "MODEL": "Model",
@@ -2610,8 +2458,6 @@
     "DESCRIPTION": "Lihat riwayat permintaan API Anda, penggunaan token, dan detail pengeluaran.",
     "FILTERS": "Filter",
     "RESET": "Reset",
-    "TO": "ke",
-    "TOTAL": "total",
     "COPIED": "Disalin ke clipboard",
     "CLICK_COPY": "Klik untuk menyalin",
     "NO_LOGS": "Tidak ada log untuk periode terpilih.",
@@ -2630,7 +2476,6 @@
       "RATE": "Tarif",
       "EARNED": "Diperoleh",
       "STATUS": "Status",
-      "JOINED": "Bergabung",
       "COMMISSIONS": "Komisi",
       "TOTAL_EARNED": "Total Diperoleh"
     },
@@ -2655,7 +2500,6 @@
       "TITLE": "Transfer Penghasilan Afiliasi",
       "DIALOG_DESC": "Transfer penghasilan afiliasi tertunda Anda ke saldo akun. Tindakan ini tidak dapat dibatalkan.",
       "AMOUNT": "Jumlah",
-      "INVALID": "Silakan masukkan jumlah yang valid",
       "EXCEEDS": "Jumlah melebihi saldo tersedia"
     },
     "ENUM": {
@@ -2687,7 +2531,6 @@
     "HOW_IT_WORKS": "Cara Kerjanya",
     "TAB_INVITEES": "Pengguna Diundang",
     "TAB_COMMISSIONS": "Riwayat Komisi",
-    "COMMISSION_HISTORY": "Riwayat Komisi",
     "NO_COMMISSIONS": "Belum ada riwayat komisi. Bagikan tautan undangan untuk mulai mendapatkan.",
     "NO_INVITEES": "Belum ada pengguna diundang. Bagikan tautan undangan untuk mulai mengembangkan jaringan Anda.",
     "BADGE_GENERATOR": {
@@ -2775,7 +2618,6 @@
   },
   "BILLING": {
     "SUBSCRIPTION": {
-      "PLANS": "Paket Langganan",
       "MY": "Langganan Saya",
       "NO_ACTIVE": "Tidak ada aktif",
       "ACTIVE": "Aktif",
@@ -2808,9 +2650,7 @@
     },
     "TOPUP": {
       "TITLE": "Isi Ulang Kuota",
-      "AMOUNT": "Jumlah Isi Ulang",
       "ACTUAL_PAYMENT": "Pembayaran sebenarnya",
-      "PAY_NOW": "Bayar sekarang",
       "SAVE": "Simpan"
     },
     "ERROR": {
@@ -2826,7 +2666,6 @@
     "CONSUMPTION": "Konsumsi",
     "REQUESTS": "Permintaan",
     "USED_OF": "terpakai dari",
-    "REFRESHING": "Menyegarkan...",
     "PAYMENT_METHOD": {
       "LABEL": "Metode pembayaran",
       "CARD": "Kartu Kredit",
@@ -2837,8 +2676,6 @@
     "ERROR": {
       "REQUIRED": "{type} diperlukan",
       "MIN_LENGTH": "{type} harus minimal {minLength} karakter",
-      "MAX_LENGTH": "{type} harus maksimal {maxLength} karakter",
-      "EXACT_LENGTH": "{type} harus tepat {minLength} karakter",
       "MIN_VALUE": "{type} harus lebih besar dari 0"
     },
     "TYPE": {
@@ -2861,7 +2698,6 @@
     "ROLE_SUPER_ADMIN": "Super Admin",
     "ROLE_ADMIN": "Admin",
     "ROLE_USER": "Pengguna",
-    "BALANCE": "Saldo",
     "CONSUMPTION": "Konsumsi",
     "REQUEST_COUNT": "Permintaan",
     "DEFAULT_GROUP": "Grup Default",
@@ -2876,14 +2712,12 @@
       "EMAIL_PLACEHOLDER": "Masukkan alamat email",
       "BIND_EMAIL": "Ikat Email",
       "MODIFY_EMAIL": "Ubah Email",
-      "VERIFICATION_CODE": "Kode Verifikasi",
       "SEND_CODE": "Kirim Kode",
       "CODE_SENT": "Kode terkirim, kirim ulang dalam {seconds}d",
       "CODE_PLACEHOLDER": "Masukkan kode verifikasi",
       "OAUTH_BINDINGS": "Pengikatan OAuth",
       "GITHUB": "GitHub",
       "DISCORD": "Discord",
-      "BOUND": "Diikat",
       "NOT_BOUND": "Tidak diikat",
       "BIND": "Ikat",
       "UNBIND": "Lepaskan",
@@ -2897,7 +2731,6 @@
       "ACCESS_TOKEN": "Token Akses Sistem",
       "ACCESS_TOKEN_DESC": "Gunakan token ini untuk mengakses API secara langsung.",
       "GENERATE_TOKEN": "Buat Token",
-      "REGENERATE_TOKEN": "Buat Ulang Token",
       "TOKEN_GENERATED": "Token berhasil dibuat",
       "COPY_TOKEN": "Salin",
       "TOKEN_COPIED": "Disalin ke clipboard",
@@ -2969,29 +2802,16 @@
   },
   "CHAT": {
     "SHARE": {
-      "BUTTON": "Bagikan",
       "TITLE": "Bagikan Sohbet",
       "DESCRIPTION": "Siapa pun dengan tautan dapat melihat sohbet ini.",
-      "CREATED": "Tautan berbagi dibuat",
-      "REVOKED": "Tautan berbagi dihapus",
-      "COPY_LINK": "Salin Tautan Berbagi",
-      "LINK_COPIED": "Tautan disalin ke clipboard",
-      "GENERATE_LINK": "Buat Tautan Berbagi",
-      "REVOKE": "Hapus Tautan Berbagi",
-      "SHARED_CONVERSATION": "Sohbet Dibagikan",
-      "NOT_FOUND": "Sohbet yang dibagikan ini tidak ditemukan atau telah dihapus."
+      "LINK_COPIED": "Tautan disalin ke clipboard"
     },
     "MODEL": {
       "SELECT": "Pilih model",
       "SEARCH": "Cari model...",
       "NO_RESULTS": "Tidak ada model ditemukan",
-      "GROUP_TEXT": "Teks & Penalaran",
-      "GROUP_IMAGE": "Generasi Gambar",
-      "GROUP_VIDEO": "Generasi Video",
       "FREE_BADGE": "GRATIS",
-      "LOGIN_REQUIRED": "Login diperlukan",
-      "FREE_NOTICE": "Model gratis dapat gagal di bawah beban tinggi.",
-      "FREE_NOTICE_CTA": "Beralih ke model berbayar"
+      "LOGIN_REQUIRED": "Login diperlukan"
     },
     "ACTION": {
       "COPY": "Salin",
@@ -3013,8 +2833,7 @@
     },
     "GATE": {
       "NEEDS_TOKEN_TITLE": "Kunci API Diperlukan",
-      "NEEDS_TOKEN_DESC": "Buat kunci API untuk mulai chatting dengan model AI.",
-      "LOGIN_REQUIRED_DESC": "Masuk untuk mulai chatting dengan model AI."
+      "NEEDS_TOKEN_DESC": "Buat kunci API untuk mulai chatting dengan model AI."
     },
     "TOOL": {
       "USED": "Tool digunakan",
@@ -3042,7 +2861,6 @@
       "UNSUPPORTED_TYPE": "Tipe file {type} tidak didukung. Silakan unggah gambar PNG, JPEG, WebP, atau GIF."
     },
     "WEB_SEARCH": {
-      "LABEL": "Pencarian Web",
       "ON": "Pencarian web diaktifkan",
       "OFF": "Pencarian web dinonaktifkan"
     },
@@ -3084,11 +2902,7 @@
       "HINT": "Berlaku untuk obrolan ini dan setiap obrolan baru hingga Anda mengubahnya."
     },
     "INPUT_PLACEHOLDER": "Ketik pesan Anda...",
-    "START_PROMPT": "Kirim pesan untuk memulai sohbet.",
     "THINKING": "Berpikir",
-    "DISCLAIMER": "Respons AI mungkin tidak akurat. Verifikasi informasi penting.",
-    "UNTITLED": "Sohbet Tanpa Judul",
-    "DELETE_CONFIRM": "Apakah Anda yakin ingin menghapus sohbet ini?",
     "MESSAGE_INPUT": "Input pesan",
     "SEARCH_CHATS": "Cari chat",
     "TOKENS_IN": "in",
@@ -3098,10 +2912,7 @@
       "TITLE": "AI Chat - {appName}",
       "TITLE_WITH_NAME": "{title} | AI Chat - {appName}",
       "DESCRIPTION": "Chat dengan model AI apa pun. Uji GPT, Claude, Gemini, DeepSeek dan lainnya melalui satu antarmuka.",
-      "KEYWORDS": "AI chat, chat dengan AI, GPT chat, Claude chat, Gemini chat, AI playground, pengujian model",
-      "SHARED_TITLE": "Sohbet Dibagikan - {appName}",
-      "SHARED_TITLE_WITH_NAME": "{title} | Sohbet Dibagikan - {appName}",
-      "SHARED_DESCRIPTION": "Lihat sohbet AI yang dibagikan di {appName}."
+      "KEYWORDS": "AI chat, chat dengan AI, GPT chat, Claude chat, Gemini chat, AI playground, pengujian model"
     },
     "OVERRIDES": {
       "OPEN": "Pengaturan sohbet",
@@ -3131,10 +2942,8 @@
       "NO_CHARACTERS": "Belum ada karakter. Buat atau impor satu terlebih dahulu.",
       "NO_LOREBOOKS": "Belum ada lorebook.",
       "REORDER_HINT": "Seret untuk mengatur ulang. Entri teratas disuntikkan lebih awal di prompt.",
-      "SELECTED": "dipilih",
       "SEARCH_CHARACTERS": "Cari karakter",
       "SEARCH_LOREBOOKS": "Cari lorebook",
-      "CLEAR": "Hapus",
       "EFFORT_MINIMAL": "Minimal",
       "EFFORT_LOW": "Rendah",
       "EFFORT_MEDIUM": "Sedang",
@@ -3177,18 +2986,14 @@
       "LOCAL_DB_UPLOAD_CONFIRM": "Timpa database OPFS lokal dari file ini? Data yang ada dihapus.",
       "CLEAR": "Bersihkan chat",
       "CLEAR_SUCCESS": "Chat dibersihkan",
-      "CLEAR_CONFIRM_DESC": "Ini menghapus setiap pesan dalam sohbet tetapi mempertahankan pengaturan, pengikatan karakter, dan judul. Ini tidak dapat dibatalkan.",
-      "FONT": "Font",
-      "FONT_SANS": "Sans",
-      "FONT_DISPLAY": "Display",
-      "FONT_SERIF": "Serif",
-      "FONT_MONO": "Monospace",
-      "FONT_SYSTEM": "Sistem"
+      "CLEAR_CONFIRM_DESC": "Ini menghapus setiap pesan dalam sohbet tetapi mempertahankan pengaturan, pengikatan karakter, dan judul. Ini tidak dapat dibatalkan."
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, other {# karakter}}",
       "LOREBOOKS": "{count, plural, other {# lorebook}}"
-    }
+    },
+    "TRIGGER_ALERT_SELECT_DESC": "Pilih salah satu opsi untuk melanjutkan",
+    "TRIGGER_ALERT_OK": "OK"
   },
   "RP": {
     "CHARACTERS_TITLE": "Karakter",
@@ -3212,7 +3017,6 @@
     "CHARACTER_EXAMPLE_MESSAGES": "Contoh dialog",
     "CHARACTER_SYSTEM_PROMPT": "Prompt sistem",
     "CHARACTER_POST_HISTORY": "Instruksi pasca-riwayat",
-    "CHARACTER_AVATAR": "Avatar",
     "CHARACTER_TAGS": "Tag",
     "CHARACTER_ACTIVATION_TITLE": "Aktivasi",
     "CHARACTER_ACTIVATION_HINT": "Saat 'Selalu aktif' mati, karakter hanya bergabung dengan prompt saat kata kunci pemicu muncul di chat terbaru. Tips multi-karakter: pertahankan karakter utama selalu aktif; gerbang karakter sekunder dengan pemicu.",
@@ -3222,7 +3026,6 @@
     "CHARACTER_TRIGGERS_HINT": "Kata yang mengaktifkan karakter ini. Contoh: alice, knight, sword. Diabaikan saat 'Selalu aktif' aktif.",
     "CHARACTER_MATCH_WHOLE_WORDS": "Cocokkan hanya kata utuh",
     "CHARACTER_MATCH_WHOLE_WORDS_HINT": "Saat aktif, pemicu 'Eve' tidak cocok dengan 'evening'. Default: cocok substring.",
-    "CHARACTER_DEFAULT_MODEL": "Model default",
     "PERSONAS_TITLE": "Persona",
     "PERSONAS_NEW": "Persona baru",
     "PERSONAS_EMPTY": "Belum ada persona.",
@@ -3310,13 +3113,11 @@
     "PRESET_MUST_START_WITH_USER_HINT": "Sisipkan pesan pengguna kosong kecil jika obrolan dimulai dengan asisten atau sistem. Otomatis untuk Anthropic/Gemini/GLM.",
     "PRESET_GEMINI_BLOCK_OFF": "Gemini: keamanan MATI",
     "PRESET_GEMINI_BLOCK_OFF_HINT": "Kirim safetySettings dengan threshold=OFF untuk setiap kategori bahaya Gemini. Lebih kuat dari BLOCK_NONE. Hanya berlaku pada model Gemini.",
-    "SIDEBAR_TAB_CHATS": "Chat",
     "SIDEBAR_TAB_CHARACTERS": "Karakter",
     "SIDEBAR_TAB_PERSONAS": "Persona",
     "SIDEBAR_TAB_LOREBOOKS": "Lorebook",
     "SIDEBAR_TAB_PRESETS": "Preset",
     "SIDEBAR_TAB_CARDS": "Kartu",
-    "SIDEBAR_GROUP_LABEL": "RP",
     "CARDS_TITLE": "Kartu",
     "CARDS_PAGE_SUBTITLE": "Simpan karakter + persona + lorebook bersama sebagai bundel kreatif. Terapkan ke chat dengan satu klik.",
     "CARDS_NEW": "Kartu baru",
@@ -3336,10 +3137,6 @@
     "CARD_CHARACTERS": "Karakter",
     "CARD_LOREBOOKS": "Lorebook",
     "DROPPED_PARAMS": "{params} tidak didukung oleh model ini dan diabaikan.",
-    "EDIT_SAVE_ONLY": "Simpan",
-    "EDIT_SAVE_AND_GENERATE": "Simpan & Buat",
-    "BRANCH_NEXT": "Cabang berikutnya",
-    "BRANCH_PREV": "Cabang sebelumnya",
     "LOREBOOKS_IMPORT": "Impor",
     "PERSONAS_IMPORT": "Impor",
     "LOREBOOK_ENTRY_CONSTANT_HINT": "Selalu sisipkan entri ini, mengabaikan kunci aktivasi.",
@@ -3376,15 +3173,10 @@
     "UNAUTHORIZED": "Tidak diotorisasi",
     "NO_API_KEY": "Kunci API tidak dikonfigurasi",
     "NOT_FOUND": "Sumber daya tidak ditemukan",
-    "NO_IMAGE_GENERATED": "Tidak ada gambar yang dihasilkan",
     "NO_TASK_ID": "Tidak ada ID tugas atau URL dalam respons",
-    "NO_VIDEO_URL": "Video selesai tetapi tidak ada URL ditemukan",
-    "VIDEO_GENERATION_FAILED": "Generasi video gagal",
-    "VIDEO_GENERATION_TIMED_OUT": "Generasi video timeout",
     "REQUEST_FAILED": "Permintaan gagal",
     "PRICING_FETCH_FAILED": "Gagal mengambil data harga",
     "NO_TEXT_MODELS": "Tidak ada model teks tersedia",
-    "UPLOAD_FAILED": "Gagal mengunggah lampiran",
     "NO_IMAGE_PROMPT": "Tidak ada prompt yang disediakan untuk generasi gambar",
     "IMAGE_GENERATION_FAILED": "Generasi gambar gagal",
     "UNEXPECTED_RESPONSE": "Respons null tak terduga dari API upstream",
@@ -3397,7 +3189,6 @@
     "PROMPT_REJECTED": "Prompt ini melanggar kebijakan konten dan tidak dapat digunakan untuk generasi gambar atau video.",
     "PROMPT_FLAGGED": "Prompt ini ditandai sebagai berpotensi tidak aman untuk generasi. Silakan ulangi dan coba lagi.",
     "MODERATION_UNAVAILABLE": "Generasi gambar dan video sementara tidak tersedia. Silakan coba lagi nanti.",
-    "PDF_EXTRACTION_FAILED": "Kami tidak dapat membaca konten PDF terlampir. Silakan hapus atau coba file lain.",
     "IMPORT_INVALID_JSON": "File bukan JSON yang valid.",
     "IMPORT_UNSUPPORTED_VERSION": "Versi ekspor tidak didukung.",
     "CARD_PARSE_FAILED": "Tidak dapat mengurai kartu karakter.",
@@ -3416,18 +3207,14 @@
     "UNIFIED_INTELLIGENCE_API": "API Kecerdasan Terpadu",
     "GET_STARTED": "Mulai",
     "SAVE_UP_TO": "Hemat hingga",
-    "PER_1M_TOKENS": "per 1M token",
     "SMART_ROUTING": "Routing Cerdas",
-    "ONE_ENDPOINT": "Satu Endpoint",
     "MODELS": "Model",
     "FREE": "Gratis",
     "PAID": "Berbayar",
-    "UPTIME": "Uptime",
     "LIVE_STATS": "Statistik Langsung",
     "CHEAPEST_API": "API Inferensi Termurah",
     "MODELS_ONE_ENDPOINT": "40+ model AI, satu endpoint",
     "MODELS_ONE_ENDPOINT_SUFFIX": "model AI, satu endpoint",
-    "DIRECT": "Langsung",
     "MODEL": "Model",
     "PRICES_NOTE": "Harga per 1M token",
     "INPUT": "Input",
@@ -3462,7 +3249,6 @@
     },
     "MCP": {
       "SERVER_DESCRIPTION": "Router model AI dalam browser. Tool didaftarkan melalui WebMCP di beranda situs menggunakan navigator.modelContext. Kunjungi beranda dan panggil tool dari klien berkapabilitas WebMCP.",
-      "WEBMCP_BUNDLE_DESCRIPTION": "Tool dalam browser didaftarkan melalui navigator.modelContext di beranda {appName}. Muat beranda di klien berkapabilitas WebMCP untuk mengakses tool.",
       "TOOLS": {
         "OPEN_MODELS_CATALOG": "Buka halaman katalog model {appName}, yang mendaftar setiap model yang tersedia dengan harga langsung di OpenAI, Anthropic, Google, DeepSeek, dan penyedia lainnya.",
         "OPEN_PRICING": "Buka halaman harga {appName} untuk meninjau paket langganan dan tarif bayar sesuai pemakaian.",
@@ -3511,35 +3297,15 @@
     "STATE": {
       "OPERATIONAL": "Operasional",
       "DOWN": "Mati",
-      "UNKNOWN": "Tidak Diketahui",
       "DEGRADED": "Menurun"
-    },
-    "SUMMARY": {
-      "ALL_NORMAL": "Semua sistem normal",
-      "N_DOWN": "{count, plural, one {# model mati} other {# model mati}}",
-      "LAST_CHECKED_AT": "Terakhir diperiksa {time}"
     },
     "KPI": {
       "TOTAL": "Total model",
       "OPERATIONAL": "Operasional",
-      "DOWN": "Mati",
-      "UNKNOWN": "Tidak Diketahui"
-    },
-    "ROW": {
-      "CHANNELS": "kn",
-      "LATENCY_PROBE": "probe",
-      "LATENCY_P50": "p50",
-      "LATENCY_P95": "p95",
-      "REQ": "req",
-      "ERR": "err",
-      "IDLE": "tidak ada trafik menit ini"
+      "DOWN": "Mati"
     },
     "RIBBON": {
-      "TITLE": "24 jam terakhir",
-      "LEGEND_UP": "aktif",
-      "LEGEND_DEGRADED": "menurun",
-      "LEGEND_DOWN": "mati",
-      "LEGEND_NODATA": "tidak ada data"
+      "TITLE": "24 jam terakhir"
     },
     "FILTER": {
       "SEARCH_PLACEHOLDER": "Cari model...",
@@ -3655,8 +3421,6 @@
     "HOVER_UPSCALE": "Upscale gambar ini",
     "HOVER_ADETAILER": "Jalankan ADetailer pada gambar ini",
     "HOVER_EDIT": "Gunakan gambar ini di Edit",
-    "GENERATE_TITLE": "Buat Gambar",
-    "GENERATE_SUBTITLE": "Pilih model, tulis prompt, dapatkan gambar.",
     "PROMPT_LABEL": "Prompt",
     "PROMPT_PLACEHOLDER": "Jelaskan gambar yang Anda inginkan.",
     "NEGATIVE_PROMPT_LABEL": "Prompt negatif",
@@ -3677,7 +3441,6 @@
     "BACKGROUND_TRANSPARENT": "Transparan",
     "WATERMARK_LABEL": "Watermark",
     "STRENGTH_LABEL": "Kekuatan",
-    "SIZE_LABEL": "Ukuran",
     "STEPS_LABEL": "Langkah",
     "CFG_LABEL": "CFG",
     "GUIDANCE_LABEL": "Panduan",
@@ -3695,13 +3458,6 @@
     "TOKEN_COUNT_CAPPED": "~{count} / {cap} token",
     "PROGRESS_OF_N": "Membuat {current} dari {total}...",
     "EXPIRES_IN_DAYS": "Kedaluwarsa dalam {days} hari",
-    "RECENT_TITLE": "Generasi terbaru",
-    "AUTO_DELETE_NOTE": "Generasi otomatis dihapus setelah 30 hari",
-    "SHARE": "Bagikan",
-    "SHARE_TITLE": "Bagikan generasi ini",
-    "SHARE_DESCRIPTION": "Siapa pun dengan tautan dapat melihat prompt, pengaturan, dan gambar, serta mem-fork mereka ke akun mereka sendiri.",
-    "SHARE_REVOKE": "Cabut tautan",
-    "SHARE_DONE": "Selesai",
     "EXPORT": "Ekspor",
     "IMPORT": "Impor",
     "IMPORT_TITLE": "Impor generasi",
@@ -3709,56 +3465,30 @@
     "IMPORT_MODE_RESTORE": "Restore (salin gambar asli)",
     "IMPORT_MODE_REGENERATE": "Regenerate (panggilan upstream baru)",
     "DOWNLOAD_IMAGE": "Unduh gambar",
-    "SHARED_TITLE": "Generasi dibagikan",
-    "SAVE_TO_ACCOUNT": "Simpan ke akun saya",
-    "COPY_PROMPT": "Salin prompt",
     "SUBMIT": "Buat",
     "SUBMITTING": "Membuat...",
     "REFERENCES_TITLE": "Gambar referensi",
     "REFERENCES_ADD": "Tambah referensi",
-    "REFERENCES_UNSUPPORTED": "Model ini tidak menerima gambar referensi.",
     "LORAS_TITLE": "LoRA",
-    "LORAS_UNSUPPORTED": "Model ini tidak mendukung rantai LoRA.",
-    "HISTORY_TITLE": "Generasi Saya",
-    "NEW_GENERATION": "Generasi baru",
     "PICK_OR_GENERATE": "Pilih generasi dari sidebar, atau buat yang baru.",
     "HISTORY_EMPTY": "Belum ada apa-apa. Buat gambar pertama Anda.",
     "STATUS_PENDING": "Tertunda",
-    "STATUS_SUBMITTED": "Dikirim",
-    "STATUS_QUEUED": "Antri",
-    "STATUS_IN_PROGRESS": "Membuat",
-    "STATUS_SUCCESS": "Selesai",
     "STATUS_FAILURE": "Gagal",
     "REMIX": "Remix",
     "DELETE": "Hapus",
-    "PUBLISH": "Jadikan publik",
-    "UNLIST": "Hapus dari daftar",
-    "PRIVATE": "Jadikan pribadi",
-    "PRICE_PER_CALL": "{price} per gambar",
     "META_TITLE": "Generasi gambar",
     "META_DESC": "Buat gambar dengan pipeline ComfyUI {appName} (SDXL + Flux 2).",
-    "LIKE": "Suka",
-    "UNLIKE": "Batal Suka",
     "REFERENCES_DROP_HINT": "Jatuhkan gambar atau telusuri",
     "LORAS_EMPTY": "Belum ada LoRA disiapkan di volume. Operator dapat menambahkannya melalui tabel katalog.",
-    "HIRES_FIX_ENABLE": "Hires fix",
-    "HIRES_FIX_DENOISE": "Denoise",
-    "HIRES_FIX_UPSCALE": "Upscale",
     "PNG_IMPORT_HINT": "Jatuhkan PNG ComfyUI untuk mengimpor prompt dan parameternya",
     "PNG_IMPORT_BROWSE": "Impor PNG",
     "PNG_IMPORT_NO_METADATA": "Tidak ada metadata ComfyUI ditemukan dalam gambar ini.",
     "NEW_SESSION": "Sesi baru",
-    "SESSION_NEW_TOOLTIP": "Mulai sesi baru. Sesi saat ini tetap di riwayat Anda.",
-    "RECENT_SESSIONS": "Sesi terbaru",
-    "SNAPSHOT_COUNT": "{count, plural, one {# snapshot} other {# snapshot}}",
-    "IMAGE_COUNT_TOTAL": "{count, plural, one {# gambar} other {# gambar}}",
     "SNAPSHOT_NAV_LABEL": "Snapshot {current} dari {total}",
-    "SHARE_SESSION_HELP": "Siapa pun dengan tautan dapat melihat riwayat sesi ini.",
     "LIGHTBOX_PREV": "Gambar sebelumnya",
     "LIGHTBOX_NEXT": "Gambar berikutnya",
     "LIGHTBOX_CLOSE": "Tutup",
     "SESSION_SNAPSHOTS": "Snapshot dalam sesi ini",
-    "EDIT": "Edit",
     "UPLOAD_IMAGE": "Unggah gambar",
     "UPLOADING": "Mengunggah...",
     "INIT_IMAGE": "Gambar sumber"
@@ -3767,17 +3497,11 @@
     "NOT_SYNCED": "Tidak disinkronkan",
     "SYNCED": "Disinkronkan",
     "EXPIRES_AT": "Disinkronkan - kedaluwarsa {date}",
-    "EXPIRED": "Kedaluwarsa",
     "ADD_SYNC": "Tambah sinkronisasi (30 hari)",
     "RESYNC": "Sinkron Ulang",
     "RESYNC_EXPIRES": "Sinkron Ulang (kedaluwarsa {date})",
     "REMOVE_SYNC": "Hapus sinkronisasi",
     "CONFIRM_REMOVE": "Hapus item ini dari sinkronisasi server? Salinan lokal disimpan.",
-    "OFFLINE_REQUIRED": "Koneksi online diperlukan untuk sinkronisasi.",
-    "PENDING_SYNC": "Sinkronisasi tertunda - akan dicoba lagi saat online.",
-    "HINT_DESCRIPTION": "Item yang disinkronkan dicerminkan ke server selama 30 hari sehingga perangkat lain dapat menariknya.",
-    "OPFS_UNAVAILABLE": "Database lokal tidak tersedia di browser ini. Data tidak akan bertahan.",
-    "OFFLINE_SEND_BLOCKED": "Anda offline. Pesan disimpan sebagai draft; coba lagi saat terhubung kembali.",
     "DLQ_TOAST": "{items} gagal disinkronkan setelah dicoba ulang.",
     "DLQ_KIND_COUNT": "{count} {kind}",
     "DLQ_RETRY": "Coba Lagi",

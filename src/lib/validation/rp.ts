@@ -1,6 +1,6 @@
 import type { Static } from "elysia";
 import { t } from "elysia";
-import { nullable } from "./helpers";
+import { nullable, samplingNullable } from "./helpers";
 import { reasoningEffort } from "./chat";
 
 export const MAX_NAME_LEN = 200;
@@ -108,15 +108,7 @@ export type LorebookEntryBody = Static<typeof lorebookEntryBody>;
 
 export const samplingPresetBody = t.Object({
   name: t.String({ minLength: 1, maxLength: MAX_NAME_LEN }),
-  temperature: nullable(t.Number({ minimum: 0, maximum: 4 })),
-  topP: nullable(t.Number({ minimum: 0, maximum: 1 })),
-  topK: nullable(t.Number({ minimum: 0, maximum: 1000 })),
-  minP: nullable(t.Number({ minimum: 0, maximum: 1 })),
-  topA: nullable(t.Number({ minimum: 0, maximum: 1 })),
-  frequencyPenalty: nullable(t.Number({ minimum: -2, maximum: 2 })),
-  presencePenalty: nullable(t.Number({ minimum: -2, maximum: 2 })),
-  repetitionPenalty: nullable(t.Number({ minimum: 0, maximum: 2 })),
-  maxTokens: nullable(t.Number({ minimum: 1 })),
+  ...samplingNullable({ temperatureMax: 4 }),
   // Preset-level defaults the conversation overrides per chat. null = system
   // default (streaming on, chatMemory 8).
   streamingEnabled: nullable(t.Boolean()),

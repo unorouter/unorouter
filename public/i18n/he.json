@@ -22,22 +22,9 @@
     "PRICING": "תמחור",
     "DOCS": "תיעוד",
     "BLOG": "בלוג",
-    "GROUP_CLI": "כלי CLI",
-    "GROUP_ROLEPLAY": "לקוחות משחקי תפקידים",
-    "CC_SWITCH": "CC Switch",
-    "CLAUDE_CODE": "Claude Code",
-    "CODEX": "Codex",
-    "GEMINI_CLI": "Gemini CLI",
-    "OPENCLAW": "OpenClaw",
-    "SILLYTAVERN": "SillyTavern",
-    "JANITOR_AI": "Janitor.AI",
-    "RISUAI": "RisuAI",
-    "CHUB": "Chub / Venus",
     "DASHBOARD": "לוח בקרה",
     "LOG_IN": "התחברות",
-    "GET_STARTED": "התחל עכשיו",
     "CHAT": "צ'אט",
-    "GENERATE": "ייצור",
     "PLAYGROUND": "מגרש משחקים",
     "STATUS": "סטטוס"
   },
@@ -45,7 +32,6 @@
     "HERO": {
       "BADGE": "הנתב פעיל",
       "TITLE_LINE1": "אינטליגנציה",
-      "TITLE_LINE2": "מאוחדת",
       "TITLE_ROTATE": "אינטליגנציה,משחקי תפקידים,דמויות,קוד,צ'אט",
       "SUBTITLE": "{appName} מחבר אתכם ליותר מ-{modelCount} מודלי AI דרך מפתח אחד. בנו אפליקציות, הריצו סוכנים, או שחקו עם דמויות. אותו מפתח, אותה מהירות, אותו מחיר.",
       "CTA_PRIMARY": "התחל עכשיו",
@@ -56,12 +42,9 @@
       "PROVIDERS": "ספקים",
       "FREE": "חינם",
       "PAID": "בתשלום",
-      "UPTIME": "זמינות",
-      "ENDPOINTS": "נקודות קצה",
       "PANEL": {
         "TOKENS_SERVED": "טוקנים שהוגשו",
         "REQUESTS": "בקשות",
-        "REQ_MIN": "בקשות / דקה",
         "TOKENS_MIN": "טוקנים / דקה",
         "LIVE": "חי"
       },
@@ -69,20 +52,15 @@
         "GLOBAL": "ניתן לניתוב",
         "INTEGRATED": "ספקים עליונים",
         "FREE": "ללא עלות",
-        "PAID": "לכל טוקן",
-        "SLA": "נמדד"
+        "PAID": "לכל טוקן"
       }
     },
     "TICKER": {
-      "LABEL": "מודלים זמינים",
       "LIVE_INFERENCE": "הסקה חיה",
       "TPS": "TPS"
     },
     "INTEGRATION": {
-      "BADGE": "אינטגרציה",
       "VIEW_GUIDE": "צפייה במדריך",
-      "CLI_HEADER": "לסוכני קוד וכלי CLI",
-      "RP_HEADER": "למשחקי תפקידים וצ'אט יצירתי",
       "CLAUDE_CODE": {
         "BADGE": "Anthropic API",
         "TITLE": "עובד עם Claude Code",
@@ -151,64 +129,24 @@
       "TITLE": "תמחור פשוט.",
       "SUBTITLE": "שלמו רק על מה שאתם משתמשים.",
       "DESCRIPTION": "הירשמו למנוי לערך טוב יותר או שלמו לפי שימוש. כל התוכניות כוללות גישה לכל מודל עם מעבר אוטומטי בין ספקים.",
-      "PAYG": {
-        "NAME": "תשלום לפי שימוש",
-        "PRICE": "$0",
-        "DESC": "ללא מינימום. טענו והשתמשו בכל מודל.",
-        "ENDPOINT": "/v1/chat/completions"
-      },
-      "BASIC": {
-        "NAME": "Basic",
-        "PRICE": "$20/חודש",
-        "DESC": "ערך קרדיט $30. מכפיל 1.5x.",
-        "RATE": "100 בקשות/דקה"
-      },
-      "PRO": {
-        "NAME": "Pro",
-        "PRICE": "$50/חודש",
-        "DESC": "ערך קרדיט $75. ניתוב בעדיפות.",
-        "RATE": "500 בקשות/דקה"
-      },
-      "ENTERPRISE": {
-        "NAME": "Enterprise",
-        "PRICE": "$100/חודש",
-        "DESC": "ערך קרדיט $175. תמיכה ייעודית.",
-        "RATE": "2,000 בקשות/דקה"
-      },
-      "CTA": {
-        "GET_STARTED": "התחל עכשיו",
-        "VIEW_PLANS": "צפייה בכל התוכניות"
-      },
       "PROVIDERS": {
-        "TITLE": "ספקים נתמכים",
-        "ACTIVE": "פעיל",
-        "DESC_OPENAI": "GPT-4o, o1, o3, GPT-4.1",
-        "DESC_ANTHROPIC": "Claude Opus, Sonnet, Haiku",
-        "DESC_GOOGLE": "Gemini 2.5 Pro, Flash",
-        "DESC_DEEPSEEK": "DeepSeek V3, R1"
+        "TITLE": "ספקים נתמכים"
       },
       "FLOW": {
-        "TITLE": "זרימת הבקשה",
-        "LIVE": "חי",
-        "STEP1": "POST /v1/chat/completions",
-        "STEP2": "ניתוב לספק המהיר ביותר",
-        "STEP3": "תגובה מוחזרת"
+        "TITLE": "זרימת הבקשה"
       }
     },
     "FEATURES": {
       "TITLE": "למה {appName}",
       "DESCRIPTION": "נקודת קצה אחת, כל מודל AI. ניתוב חכם בוחר את הספק המהיר ביותר בעוד מעבר אוטומטי מבטיח שהבקשות שלכם תמיד מצליחות.",
       "FAILOVER": {
-        "TITLE": "מעבר אוטומטי בזמן כשל",
-        "DESC": "בקשות שנכשלו מנותבות מיד לערוצים חלופיים"
+        "TITLE": "מעבר אוטומטי בזמן כשל"
       },
       "MULTIPROTOCOL": {
-        "TITLE": "תמיכה במספר פרוטוקולים",
-        "DESC": "פורמטי API של OpenAI, Anthropic ו-Gemini"
+        "TITLE": "תמיכה במספר פרוטוקולים"
       },
       "LOADBALANCE": {
-        "TITLE": "איזון עומסים חכם",
-        "DESC": "ניתוב אוטומטי לספק הזמין המהיר ביותר"
+        "TITLE": "איזון עומסים חכם"
       }
     },
     "RELIABILITY": {
@@ -225,7 +163,6 @@
         "DESC": "בחירת ערוץ מבוססת השהיה עם משקולות עדיפות. הספק המהיר ביותר מנצח, בכל פעם."
       },
       "LEARN_MORE": "למידע נוסף",
-      "LEARN_MORE_ARIA": "למידע נוסף על תיעוד {appName}",
       "LEARN_MORE_DOCS": "צפייה בתיעוד",
       "ARCH": {
         "TITLE": "ארכיטקטורה",
@@ -442,7 +379,6 @@
       "LEADERBOARD_TITLE": "לוח מובילים LLM",
       "LEADERBOARD_SUBTITLE": "השוו את המודלים הפופולריים ביותר בפלטפורמה",
       "EMPTY": "אין מודלים התואמים את המסננים הנבחרים",
-      "TOTAL_LABEL": "סך טוקנים",
       "TOKENS_SUFFIX": "טוקנים",
       "TOOLTIP_TOTAL": "סך הכל",
       "BY_AUTHOR_LABEL": "מאת"
@@ -484,10 +420,7 @@
     "SUBTITLE": "עדכוני מוצר, מדריכי אינטגרציה ורשימות מהצוות.",
     "READ_MORE": "קראו עוד",
     "PUBLISHED": "פורסם",
-    "UPDATED": "עודכן",
     "BY_AUTHOR": "מאת {author}",
-    "TAGS": "תגיות",
-    "RECENT": "פוסטים אחרונים",
     "BACK_TO_BLOG": "חזרה לכל הפוסטים",
     "EMPTY": "אין פוסטים עדיין. חזרו בקרוב.",
     "EMPTY_FILTERED": "אין פוסטים המתאימים למסננים שלכם.",
@@ -564,9 +497,7 @@
         "H_NOT_SPOOFING": "מה לא נחשב זיוף: Bedrock, Vertex, Foundry",
         "H_RESULTS": "מה 17 ימי בדיקה חשפו",
         "H_WHY": "למה זה קורה",
-        "H_NEXT": "מה הלאה",
         "H_TEST": "בדקו את הספק שלכם תוך 5 דקות",
-        "H_NAMING": "הערה על נקיבת שמות",
         "INTRO_P1": "Claude הוא המודל הכי מבוקש בשוק כרגע, ואחד הכי יקרים. הפער הזה יצר שוק משגשג של מוכרים צד שלישי המציעים \"אותו Claude\" בשבריר מהמחיר הרשמי. חלקם לגיטימיים. רבים לא.",
         "INTRO_P2": "במשך 17 ימי בדיקה אוטומטית על <s>8 מוכרי upstream</s>, מצאנו <s>183 זוגות (ערוץ, מודל)</s> שנכשלים בבדיקות אותנטיות מול מודלים המשווקים בתור <c>claude-opus-4-7</c>, <c>claude-sonnet-4-6</c>, <c>claude-haiku-4-5</c> וחבריהם. אותו לחץ קיים על כל מודל פרימיום, אז GPT, Gemini ו-Grok כמעט בוודאות מושפעים גם הם. Claude הוא פשוט המקום שבו פער המחירים הוא הגדול ביותר כרגע ושיש לנו נתונים קשים.",
         "PROBES_P": "לכל (ערוץ, מודל) אנחנו שולחים ארבע בקשות מקבילות ל-Anthropic Messages API הסטנדרטי (<c>POST /v1/messages</c>):",
@@ -651,7 +582,6 @@
         "H_BUGS": "Bug bounty, עד $50",
         "P_BUGS": "מצאו באג אמיתי בפלטפורמה ודווחו אותו בפורום bug-bounty. הצוות בוחר דרגת חומרה והבוט משלם: נמוך $0.25, בינוני $0.50, גבוה $1, קריטי $50. מי שבאמת זיהה את הבאג מקבל תשלום, לא רק פותח השרשור.",
         "H_JOIN": "בואו להסתובב",
-        "P_JOIN": "כל התשלומים נוחתים באותה יתרה שאתם מבזבזים על קריאות API. קשרו פעם אחת, קבלו כל מה שאתם זכאים לו, אז המשיכו לבוסט, לצוד, ולשגר אתנו.",
         "CTA": "מוכנים? <invite>הצטרפו ל-Discord של {appName}</invite>, אז <register>קבלו מפתח API</register> ו-<settings>קשרו את החשבון שלכם</settings> כדי לקבל את ה-$1 הראשון."
       },
       "FREE_MODELS_AGGREGATED": {
@@ -695,7 +625,6 @@
     "META_TITLE": "תמחור API של {name}, הקשר ודוגמאות | {appName}",
     "META_DESC": "השתמשו ב-{name} מ-{vendor} דרך נקודת קצה אחת תואמת OpenAI. ראו תמחור לפי טוקן, חלון הקשר, נקודות קצה ודוגמאות קוד להעתקה.",
     "META_KEYWORDS": "{name} API, תמחור {name}, חלון הקשר {name}, {vendor} API, {appName}",
-    "ABOUT": "אודות {name}",
     "PRICING_TITLE": "תמחור",
     "PRICING_DESC": "שלמו רק על מה שאתם משתמשים. ללא מינימום חודשי בשימוש בתשלום לפי שימוש.",
     "INPUT_PRICE": "מחיר קלט",
@@ -737,62 +666,31 @@
     "CTA_DESC": "צרו מפתח API והתחילו לשלוח בקשות בפחות מדקה.",
     "CTA_SIGNUP": "התחברו כדי לנסות את {name}",
     "CTA_TRY": "נסו את {name} בצ'אט",
-    "CTA_ALL_MODELS": "צפייה בכל המודלים",
-    "LAST_UPDATED": "עודכן לאחרונה {date}"
+    "CTA_ALL_MODELS": "צפייה בכל המודלים"
   },
   "PRICING": {
-    "PLAN": {
-      "BASIC": "Basic",
-      "PRO": "Pro",
-      "ENTERPRISE": "Enterprise"
-    },
     "FEATURE": {
       "MODELS": "כל המודלים כלולים",
       "PRIORITY": "ניתוב בעדיפות",
       "DEDICATED": "תמיכה ייעודית",
-      "SUPPORT": "תמיכה בדואר אלקטרוני",
       "FAILOVER": "מעבר אוטומטי בזמן כשל",
       "UPTIME": "99.9% הסכם רמת שירות זמינות",
       "OPENAI_COMPAT": "נקודת קצה תואמת OpenAI"
     },
     "COMPARE": {
-      "TITLE": "השוואת תוכניות",
-      "FEATURE": "תכונה",
-      "PRICE": "מחיר חודשי",
-      "VALUE": "ערך קרדיט API",
-      "RATE_LIMIT": "הגבלת קצב",
-      "ALL_MODELS": "כל המודלים",
-      "PRIORITY": "ניתוב בעדיפות",
-      "DEDICATED": "תמיכה ייעודית",
-      "BASIC_PRICE": "$20/חודש",
-      "PRO_PRICE": "$50/חודש",
-      "ENTERPRISE_PRICE": "$100/חודש",
-      "BASIC_VALUE": "$30",
-      "PRO_VALUE": "$75",
-      "ENTERPRISE_VALUE": "$175",
-      "BASIC_RATE": "100 בקשות/דקה",
-      "PRO_RATE": "500 בקשות/דקה",
-      "ENTERPRISE_RATE": "2,000 בקשות/דקה"
+      "TITLE": "השוואת תוכניות"
     },
     "CARD": {
       "POPULAR": "פופולרי",
       "PER_MONTH": " · חודש",
       "VALUE": "ערך {value}",
-      "MULTIPLIER": "מכפיל {multiplier}",
-      "INCLUDES": "כולל",
-      "REQUESTS_MIN": "{count} בקשות/דקה",
-      "SPEC_CREDIT": "ערך קרדיט API",
       "SPEC_QUOTA": "מכסה/איפוס",
-      "SPEC_MULTIPLIER": "מכפיל",
       "VALUE_BADGE": "ערך",
-      "VALUE_EXPLAIN": "שלמו {paid}, קבלו {credit} בקרדיט API. השתמשו בו על כל מודל.",
-      "OPENCLAW_TITLE": "תמיכת OpenClaw",
-      "OPENCLAW_DESC": "תאימות מלאה לסוכן OpenClaw"
+      "VALUE_EXPLAIN": "שלמו {paid}, קבלו {credit} בקרדיט API. השתמשו בו על כל מודל."
     },
     "BANNER": {
       "TITLE": "עוזר AI של OpenClaw בטלגרם",
-      "SUBTITLE": "פריסת AI בלחיצה אחת לבוט הטלגרם שלכם, מופעל על-ידי OpenClaw ו-{appName}.",
-      "BADGE": "בקרוב"
+      "SUBTITLE": "פריסת AI בלחיצה אחת לבוט הטלגרם שלכם, מופעל על-ידי OpenClaw ו-{appName}."
     },
     "META": {
       "TITLE": "תמחור - {appName}",
@@ -802,6 +700,11 @@
     "TITLE": "תמחור",
     "SUBTITLE": "בין אם אתם משגרים אפליקציה או מריצים מפגשי משחקי תפקידים ארוכים. תוכנית אחת, כל מודל.",
     "CTA": "הירשמו למנוי",
+    "TOPUP": {
+      "LABEL": "תשלום לפי שימוש",
+      "DESC": "מעדיפים לא להירשם למנוי? טענו קרדיטים.",
+      "FOOTNOTE": "הקרדיטים לעולם לא פגים."
+    },
     "FAQ": {
       "Q1": "איך תמחור {appName} עובד?",
       "A1": "אתם משלמים לפי טוקן שנצרך. לכל מודל יש תעריף קלט, פלט ומטמון משלו, מחויב מקרדיט החשבון שלכם. אין צורך במנוי חודשי לתשלום לפי שימוש.",
@@ -819,11 +722,6 @@
       "A7": "כן. כל תוכנית עובדת כמקור תואם OpenAI מותאם אישית בכל לקוח משחקי תפקידים מובילים. ל-SillyTavern, Janitor.AI, RisuAI ו-Chub יש מדריך הגדרה בתיעוד.",
       "Q8": "כמה ארוכות יכולות להיות השיחות או היסטוריית הדמויות שלי?",
       "A8": "{appName} תומך בחלון ההקשר המלא של כל מודל, עד מיליון טוקנים ב-Gemini ו-200k ב-Claude. משחקי תפקידים ארוכים וקוד-בסיס ארוך שניהם עובדים."
-    },
-    "TOPUP": {
-      "LABEL": "תשלום לפי שימוש",
-      "DESC": "מעדיפים לא להירשם למנוי? טענו קרדיטים.",
-      "FOOTNOTE": "הקרדיטים לעולם לא פגים."
     }
   },
   "DOCS_INDEX": {
@@ -861,18 +759,7 @@
   },
   "DOCS_SIDEBAR": {
     "TITLE": "תיעוד",
-    "AI_APPLICATIONS": "אפליקציות AI",
-    "GROUP_CLI": "כלי CLI",
-    "GROUP_ROLEPLAY": "לקוחות משחקי תפקידים",
-    "CC_SWITCH": "CC Switch",
-    "OPENCLAW": "OpenClaw",
-    "CLAUDE_CODE": "Claude Code",
-    "CODEX_CLI": "Codex CLI",
-    "GEMINI_CLI": "Gemini CLI",
-    "SILLYTAVERN": "SillyTavern",
-    "JANITOR_AI": "Janitor.AI",
-    "RISUAI": "RisuAI",
-    "CHUB": "Chub / Venus"
+    "AI_APPLICATIONS": "אפליקציות AI"
   },
   "DOCS": {
     "SETUP": {
@@ -882,8 +769,7 @@
       "CLI_ALT": "או השתמשו ב-CLI של CC Switch:",
       "NO_APP": "אין לכם CC Switch?",
       "INSTALL_LINK": "התקנת CC Switch",
-      "LOGIN_REQUIRED": "התחברו למילוי אוטומטי של מפתח ה-API שלכם",
-      "CREATE_KEY": "צרו מפתח API קודם"
+      "LOGIN_REQUIRED": "התחברו למילוי אוטומטי של מפתח ה-API שלכם"
     },
     "CONFIG": {
       "FILE_LABEL": "קובץ תצורה קבוע (מומלץ)",
@@ -902,10 +788,8 @@
       "QUICK_CONFIG": "הגדרה מהירה",
       "QUICK_CONFIG_DESC": "הזינו ערכים אלה בלקוח. המפתח שלכם מתמלא אוטומטית כשאתם מחוברים.",
       "BASE_URL_LABEL": "כתובת URL בסיסית",
-      "API_PATH_LABEL": "נקודת קצה",
       "API_KEY_LABEL": "מפתח API",
       "STEPS": "הגדרה שלב אחר שלב",
-      "STEP_LABEL": "שלב {number}",
       "COMPATIBILITY": "תאימות",
       "RECOMMENDED_MODELS": "מודלים מומלצים",
       "RECOMMENDED_MODELS_DESC": "מודלים חינמיים שעובדים טוב כאן. הדביקו כל מזהה מודל בלקוח.",
@@ -2057,11 +1941,8 @@
     "CONTACT_SUBTITLE": "שאלות או חששות?",
     "DESCRIPTION": "פלטפורמת API של AI מאוחדת המספקת גישה למאות מודלים ממספר ספקים דרך נקודת קצה חכמה אחת.",
     "COPYRIGHT": "© {year} {appName}. כל הזכויות שמורות.",
-    "LEGAL_DISCLAIMER": "בשימוש בפלטפורמה זו, אתם מאשרים שקראתם והסכמתם ל",
     "LEGAL_TERMS": "תנאי השירות",
-    "LEGAL_AND": "ו",
     "LEGAL_PRIVACY": "מדיניות הפרטיות",
-    "SOCIAL_GITHUB": "GitHub",
     "SOCIAL_TRUSTPILOT": "Trustpilot",
     "EASTER_EGG_LABEL": "שחקו ב-Token Breakout"
   },
@@ -2177,21 +2058,15 @@
   },
   "COMMON": {
     "COPY_CODE": "העתק קוד",
-    "COPIED": "הועתק",
     "OPEN_MENU": "פתח תפריט",
     "SEARCH": "חיפוש...",
     "SAVE": "שמור",
     "SAVED": "נשמר",
     "CANCEL": "ביטול",
     "DELETE": "מחק",
-    "CREATE": "צור",
     "EDIT": "ערוך",
-    "IMPORT": "ייבוא",
-    "EXPORT": "ייצוא",
-    "LOADING": "טוען...",
     "NAME": "שם",
     "DESCRIPTION": "תיאור",
-    "CONFIRM_DELETE": "האם אתם בטוחים שברצונכם למחוק את זה?",
     "RESET": "איפוס",
     "CONFIRM": {
       "CONTINUE": "המשך",
@@ -2253,7 +2128,6 @@
       "USERNAME_OR_EMAIL_PLACEHOLDER": "הזינו שם משתמש או דואר אלקטרוני",
       "PASSWORD": "סיסמה",
       "PASSWORD_PLACEHOLDER": "הזינו את הסיסמה שלכם",
-      "PASSWORD_MIN_LENGTH": "הסיסמה חייבת להיות לפחות 8 תווים",
       "EMAIL": "דואר אלקטרוני",
       "EMAIL_PLACEHOLDER": "הזינו את כתובת הדואר האלקטרוני שלכם",
       "VERIFICATION_CODE": "קוד אימות",
@@ -2268,14 +2142,12 @@
     "TWO_FA": {
       "TITLE": "אימות דו-שלבי",
       "DESCRIPTION": "הזינו את הקוד בן 6 הספרות מאפליקציית האימות שלכם",
-      "CODE_PLACEHOLDER": "000000",
       "SUBMIT": "אמת",
       "VERIFYING": "מאמת..."
     },
     "VERIFICATION": {
       "SEND_CODE": "שלח קוד",
       "SENDING": "שולח...",
-      "SENT": "הקוד נשלח",
       "RESEND": "שלח שוב",
       "RESEND_IN": "שלח שוב בעוד {seconds} שניות",
       "FAILED": "כשל בשליחת קוד אימות"
@@ -2325,10 +2197,7 @@
     "DONT_HAVE_ACCOUNT": "אין לכם חשבון?",
     "ALREADY_HAVE_ACCOUNT": "כבר יש לכם חשבון?",
     "OR_CONTINUE_WITH": "או המשיכו עם",
-    "CALLBACK_LOADING": "משלים התחברות...",
-    "DASHBOARD": "לוח בקרה",
     "LOG_OUT": "התנתקות",
-    "BALANCE": "יתרה",
     "SUBSCRIPTION": "מנוי",
     "SUBSCRIPTION_ACTIVE": "פעיל"
   },
@@ -2340,10 +2209,7 @@
     "LOGS": "יומני שימוש",
     "AFFILIATE": "שותפים",
     "BILLING": "חיובים",
-    "SETTINGS": "הגדרות",
-    "CHAT": "צ'אט",
-    "GENERATE": "ייצור",
-    "MY_GENERATIONS": "הייצורים שלי"
+    "SETTINGS": "הגדרות"
   },
   "DASHBOARD": {
     "GREETING": {
@@ -2387,12 +2253,9 @@
       "NO_API_INFO": "אין מידע API"
     },
     "CONSUMPTION": "צריכה",
-    "TOP_UP": "טען",
     "TOTAL": "סך הכל",
     "OTHER": "אחר",
     "NO_DATA": "אין נתונים זמינים",
-    "UPTIME": "זמינות",
-    "COPY_URL": "העתק URL",
     "COPIED": "הועתק"
   },
   "TOKEN": {
@@ -2410,18 +2273,7 @@
     "FORM": {
       "NAME": "שם",
       "NAME_PLACEHOLDER": "הזינו שם למפתח הזה",
-      "GROUP": "קבוצה",
-      "GROUP_PLACEHOLDER": "בחרו קבוצה",
-      "GROUP_NO_GROUPS": "אין קבוצות זמינות",
-      "CROSS_GROUP_RETRY": "ניסיון חוצה קבוצות",
-      "CROSS_GROUP_RETRY_DESC": "כשמופעל, בקשות שנכשלו ינסו שוב דרך ערוצים בקבוצות אחרות.",
-      "EXPIRATION": "תפוגה",
-      "EXPIRATION_PLACEHOLDER": "בחרו תאריך תפוגה",
-      "EXPIRATION_PRESETS": "הגדרה מהירה",
       "NEVER_EXPIRES": "לעולם לא",
-      "ONE_MONTH": "חודש",
-      "ONE_DAY": "יום",
-      "ONE_HOUR": "שעה",
       "QUOTA": "מכסה",
       "QUOTA_PLACEHOLDER": "סכום ב-USD (לדוגמה 10)",
       "QUOTA_PRESETS": "Presets",
@@ -2432,8 +2284,6 @@
       "MODEL_LIMITS_DESC": "לא מומלץ אלא אם הכרחי.",
       "MODEL_SELECT_PLACEHOLDER": "חיפוש מודלים...",
       "MODEL_SELECT_EMPTY": "לא נמצאו מודלים",
-      "MODELS_SELECTED": "{count} נבחרו",
-      "MODEL_COUNT": "{count} מודלים",
       "IP_WHITELIST": "רשימה לבנה של IP",
       "IP_WHITELIST_PLACEHOLDER": "IP אחד בכל שורה. השאירו ריק ללא הגבלה.",
       "IP_WHITELIST_DESC": "ניתן לזייף כתובות IP. השתמשו עם שער לאכיפה חזקה יותר.",
@@ -2484,7 +2334,6 @@
     "DISABLE": "השבת",
     "UNLIMITED": "ללא הגבלה",
     "ALL_MODELS": "כל המודלים",
-    "USED_OF_TOTAL": "{used} / {total}",
     "SEARCH_PLACEHOLDER": "חיפוש מפתחות...",
     "NO_TOKENS": "אין מפתחות API עדיין. צרו אחד כדי להתחיל.",
     "COPY_KEY": "העתק מפתח"
@@ -2492,7 +2341,6 @@
   "LOGS": {
     "TABLE": {
       "TIME": "זמן",
-      "TYPE": "סוג",
       "CHANNEL": "ערוץ",
       "USER": "משתמש",
       "MODEL": "מודל",
@@ -2610,8 +2458,6 @@
     "DESCRIPTION": "צפו בהיסטוריית בקשות ה-API שלכם, שימוש בטוקנים ופרטי הוצאה.",
     "FILTERS": "מסננים",
     "RESET": "איפוס",
-    "TO": "עד",
-    "TOTAL": "סך הכל",
     "COPIED": "הועתק ללוח",
     "CLICK_COPY": "לחצו להעתקה",
     "NO_LOGS": "לא נמצאו יומנים לתקופה הנבחרת.",
@@ -2630,7 +2476,6 @@
       "RATE": "תעריף",
       "EARNED": "הרוויח",
       "STATUS": "סטטוס",
-      "JOINED": "הצטרף",
       "COMMISSIONS": "עמלות",
       "TOTAL_EARNED": "סך הרווח"
     },
@@ -2655,7 +2500,6 @@
       "TITLE": "העברת רווחי שותפים",
       "DIALOG_DESC": "העבירו את רווחי השותפים הממתינים שלכם ליתרת החשבון שלכם. פעולה זו לא ניתנת לביטול.",
       "AMOUNT": "סכום",
-      "INVALID": "אנא הזינו סכום תקין",
       "EXCEEDS": "הסכום חורג מהיתרה הזמינה"
     },
     "ENUM": {
@@ -2687,7 +2531,6 @@
     "HOW_IT_WORKS": "איך זה עובד",
     "TAB_INVITEES": "משתמשים שהוזמנו",
     "TAB_COMMISSIONS": "היסטוריית עמלות",
-    "COMMISSION_HISTORY": "היסטוריית עמלות",
     "NO_COMMISSIONS": "אין היסטוריית עמלות עדיין. שתפו את קישור ההזמנה שלכם כדי להתחיל להרוויח.",
     "NO_INVITEES": "אין משתמשים מוזמנים עדיין. שתפו את קישור ההזמנה שלכם כדי להתחיל לגדל את הרשת שלכם.",
     "BADGE_GENERATOR": {
@@ -2775,7 +2618,6 @@
   },
   "BILLING": {
     "SUBSCRIPTION": {
-      "PLANS": "תוכניות מנוי",
       "MY": "המנויים שלי",
       "NO_ACTIVE": "אין פעיל",
       "ACTIVE": "פעיל",
@@ -2808,9 +2650,7 @@
     },
     "TOPUP": {
       "TITLE": "טעינת מכסה",
-      "AMOUNT": "סכום טעינה",
       "ACTUAL_PAYMENT": "תשלום בפועל",
-      "PAY_NOW": "שלם עכשיו",
       "SAVE": "שמור"
     },
     "ERROR": {
@@ -2826,7 +2666,6 @@
     "CONSUMPTION": "צריכה",
     "REQUESTS": "בקשות",
     "USED_OF": "נוצל מתוך",
-    "REFRESHING": "מרענן...",
     "PAYMENT_METHOD": {
       "LABEL": "אמצעי תשלום",
       "CARD": "כרטיס אשראי",
@@ -2837,8 +2676,6 @@
     "ERROR": {
       "REQUIRED": "{type} נדרש",
       "MIN_LENGTH": "{type} חייב להיות לפחות {minLength} תווים",
-      "MAX_LENGTH": "{type} חייב להיות לכל היותר {maxLength} תווים",
-      "EXACT_LENGTH": "{type} חייב להיות בדיוק {minLength} תווים",
       "MIN_VALUE": "{type} חייב להיות גדול מ-0"
     },
     "TYPE": {
@@ -2861,7 +2698,6 @@
     "ROLE_SUPER_ADMIN": "מנהל-על",
     "ROLE_ADMIN": "מנהל",
     "ROLE_USER": "משתמש",
-    "BALANCE": "יתרה",
     "CONSUMPTION": "צריכה",
     "REQUEST_COUNT": "בקשות",
     "DEFAULT_GROUP": "קבוצת ברירת מחדל",
@@ -2876,14 +2712,12 @@
       "EMAIL_PLACEHOLDER": "הזינו כתובת דואר אלקטרוני",
       "BIND_EMAIL": "קשר דואר אלקטרוני",
       "MODIFY_EMAIL": "שנה דואר אלקטרוני",
-      "VERIFICATION_CODE": "קוד אימות",
       "SEND_CODE": "שלח קוד",
       "CODE_SENT": "הקוד נשלח, שלח שוב בעוד {seconds} שניות",
       "CODE_PLACEHOLDER": "הזינו קוד אימות",
       "OAUTH_BINDINGS": "קישורי OAuth",
       "GITHUB": "GitHub",
       "DISCORD": "Discord",
-      "BOUND": "מקושר",
       "NOT_BOUND": "לא מקושר",
       "BIND": "קשר",
       "UNBIND": "בטל קישור",
@@ -2897,7 +2731,6 @@
       "ACCESS_TOKEN": "טוקן גישה למערכת",
       "ACCESS_TOKEN_DESC": "השתמשו בטוקן הזה לגישה ישירה ל-API.",
       "GENERATE_TOKEN": "ייצור טוקן",
-      "REGENERATE_TOKEN": "ייצור מחדש של טוקן",
       "TOKEN_GENERATED": "הטוקן נוצר בהצלחה",
       "COPY_TOKEN": "העתק",
       "TOKEN_COPIED": "הועתק ללוח",
@@ -2969,29 +2802,16 @@
   },
   "CHAT": {
     "SHARE": {
-      "BUTTON": "שתף",
       "TITLE": "שתף שיחה",
       "DESCRIPTION": "כל מי שיש לו את הקישור יכול לצפות בשיחה הזו.",
-      "CREATED": "קישור שיתוף נוצר",
-      "REVOKED": "קישור שיתוף הוסר",
-      "COPY_LINK": "העתק קישור שיתוף",
-      "LINK_COPIED": "הקישור הועתק ללוח",
-      "GENERATE_LINK": "ייצר קישור שיתוף",
-      "REVOKE": "הסר קישור שיתוף",
-      "SHARED_CONVERSATION": "שיחה משותפת",
-      "NOT_FOUND": "השיחה המשותפת הזו לא נמצאה או הוסרה."
+      "LINK_COPIED": "הקישור הועתק ללוח"
     },
     "MODEL": {
       "SELECT": "בחר מודל",
       "SEARCH": "חיפוש מודלים...",
       "NO_RESULTS": "לא נמצאו מודלים",
-      "GROUP_TEXT": "טקסט וחשיבה",
-      "GROUP_IMAGE": "ייצור תמונות",
-      "GROUP_VIDEO": "ייצור וידאו",
       "FREE_BADGE": "חינם",
-      "LOGIN_REQUIRED": "התחברות נדרשת",
-      "FREE_NOTICE": "מודלים חינמיים יכולים להיכשל בעומס גבוה.",
-      "FREE_NOTICE_CTA": "עברו למודל בתשלום"
+      "LOGIN_REQUIRED": "התחברות נדרשת"
     },
     "ACTION": {
       "COPY": "העתק",
@@ -3013,8 +2833,7 @@
     },
     "GATE": {
       "NEEDS_TOKEN_TITLE": "נדרש מפתח API",
-      "NEEDS_TOKEN_DESC": "ייצרו מפתח API כדי להתחיל לצ'אט עם מודלי AI.",
-      "LOGIN_REQUIRED_DESC": "התחברו כדי להתחיל לצ'אט עם מודלי AI."
+      "NEEDS_TOKEN_DESC": "ייצרו מפתח API כדי להתחיל לצ'אט עם מודלי AI."
     },
     "TOOL": {
       "USED": "השתמש בכלי",
@@ -3042,7 +2861,6 @@
       "UNSUPPORTED_TYPE": "סוג קובץ {type} לא נתמך. אנא העלו תמונת PNG, JPEG, WebP או GIF."
     },
     "WEB_SEARCH": {
-      "LABEL": "חיפוש באינטרנט",
       "ON": "חיפוש באינטרנט מופעל",
       "OFF": "חיפוש באינטרנט מושבת"
     },
@@ -3084,11 +2902,7 @@
       "HINT": "חל על שיחה זו ועל כל שיחה חדשה עד שתשנה."
     },
     "INPUT_PLACEHOLDER": "הקלידו את ההודעה שלכם...",
-    "START_PROMPT": "שלחו הודעה כדי להתחיל את השיחה.",
     "THINKING": "חושב",
-    "DISCLAIMER": "תגובות AI עשויות להיות לא מדויקות. ודאו מידע חשוב.",
-    "UNTITLED": "שיחה ללא כותרת",
-    "DELETE_CONFIRM": "האם אתם בטוחים שברצונכם למחוק את השיחה הזו?",
     "MESSAGE_INPUT": "קלט הודעה",
     "SEARCH_CHATS": "חיפוש צ'אטים",
     "TOKENS_IN": "קלט",
@@ -3098,10 +2912,7 @@
       "TITLE": "צ'אט AI - {appName}",
       "TITLE_WITH_NAME": "{title} | צ'אט AI - {appName}",
       "DESCRIPTION": "צ'אטו עם כל מודל AI. בדקו GPT, Claude, Gemini, DeepSeek ועוד דרך ממשק יחיד.",
-      "KEYWORDS": "צ'אט AI, צ'אט עם AI, צ'אט GPT, צ'אט Claude, צ'אט Gemini, מגרש משחקים AI, בדיקת מודלים",
-      "SHARED_TITLE": "שיחה משותפת - {appName}",
-      "SHARED_TITLE_WITH_NAME": "{title} | שיחה משותפת - {appName}",
-      "SHARED_DESCRIPTION": "צפו בשיחת AI משותפת ב-{appName}."
+      "KEYWORDS": "צ'אט AI, צ'אט עם AI, צ'אט GPT, צ'אט Claude, צ'אט Gemini, מגרש משחקים AI, בדיקת מודלים"
     },
     "OVERRIDES": {
       "OPEN": "הגדרות שיחה",
@@ -3131,10 +2942,8 @@
       "NO_CHARACTERS": "אין דמויות עדיין. צרו או ייבאו אחת תחילה.",
       "NO_LOREBOOKS": "אין lorebooks עדיין.",
       "REORDER_HINT": "גררו לסידור מחדש. רשומות עליונות מוזרקות מוקדם יותר בהנחיה.",
-      "SELECTED": "נבחר",
       "SEARCH_CHARACTERS": "חיפוש דמויות",
       "SEARCH_LOREBOOKS": "חיפוש lorebooks",
-      "CLEAR": "נקה",
       "EFFORT_MINIMAL": "מינימלי",
       "EFFORT_LOW": "נמוך",
       "EFFORT_MEDIUM": "בינוני",
@@ -3177,18 +2986,14 @@
       "LOCAL_DB_UPLOAD_CONFIRM": "לדרוס את מסד הנתונים המקומי של OPFS מהקובץ הזה? נתונים קיימים נמחקים.",
       "CLEAR": "נקה צ'אט",
       "CLEAR_SUCCESS": "הצ'אט נוקה",
-      "CLEAR_CONFIRM_DESC": "פעולה זו מוחקת כל הודעה בשיחה אבל שומרת על ההגדרות, קישורי הדמויות והכותרת. לא ניתן לבטל.",
-      "FONT": "גופן",
-      "FONT_SANS": "Sans",
-      "FONT_DISPLAY": "Display",
-      "FONT_SERIF": "Serif",
-      "FONT_MONO": "Monospace",
-      "FONT_SYSTEM": "מערכת"
+      "CLEAR_CONFIRM_DESC": "פעולה זו מוחקת כל הודעה בשיחה אבל שומרת על ההגדרות, קישורי הדמויות והכותרת. לא ניתן לבטל."
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, one {דמות אחת} two {# דמויות} many {# דמויות} other {# דמויות}}",
       "LOREBOOKS": "{count, plural, one {ספר ידע אחד} two {# ספרי ידע} many {# ספרי ידע} other {# ספרי ידע}}"
-    }
+    },
+    "TRIGGER_ALERT_SELECT_DESC": "בחר אפשרות כדי להמשיך",
+    "TRIGGER_ALERT_OK": "אישור"
   },
   "RP": {
     "CHARACTERS_TITLE": "דמויות",
@@ -3212,7 +3017,6 @@
     "CHARACTER_EXAMPLE_MESSAGES": "דוגמת דיאלוג",
     "CHARACTER_SYSTEM_PROMPT": "הנחיית מערכת",
     "CHARACTER_POST_HISTORY": "הוראות פוסט-היסטוריה",
-    "CHARACTER_AVATAR": "אווטאר",
     "CHARACTER_TAGS": "תגיות",
     "CHARACTER_ACTIVATION_TITLE": "הפעלה",
     "CHARACTER_ACTIVATION_HINT": "כש'תמיד פעיל' כבוי, הדמות מצטרפת להנחיה רק כשמילת מפתח טריגר מופיעה בצ'אט האחרון. עצה לריבוי דמויות: שמרו את הדמות העיקרית תמיד-פעילה; הגבילו דמויות משניות לפי טריגרים.",
@@ -3222,7 +3026,6 @@
     "CHARACTER_TRIGGERS_HINT": "מילים שמפעילות את הדמות הזו. דוגמה: alice, knight, sword. מתעלם כש'תמיד פעיל' דלוק.",
     "CHARACTER_MATCH_WHOLE_WORDS": "התאמת מילים שלמות בלבד",
     "CHARACTER_MATCH_WHOLE_WORDS_HINT": "כשדלוק, טריגר 'Eve' לא יתאים ל-'evening'. ברירת מחדל: התאמת תת-מחרוזת.",
-    "CHARACTER_DEFAULT_MODEL": "מודל ברירת מחדל",
     "PERSONAS_TITLE": "פרסונות",
     "PERSONAS_NEW": "פרסונה חדשה",
     "PERSONAS_EMPTY": "אין פרסונות עדיין.",
@@ -3310,13 +3113,11 @@
     "PRESET_MUST_START_WITH_USER_HINT": "הוספת הודעת משתמש ריקה קטנה אם הצ'אט מתחיל בעוזר או מערכת. מוחל אוטומטית ל-Anthropic/Gemini/GLM.",
     "PRESET_GEMINI_BLOCK_OFF": "Gemini: אבטחה כבויה",
     "PRESET_GEMINI_BLOCK_OFF_HINT": "שלח safetySettings עם threshold=OFF לכל קטגוריית נזק של Gemini. חזק יותר מ-BLOCK_NONE. רק נכנס לפעולה במודלי Gemini.",
-    "SIDEBAR_TAB_CHATS": "צ'אטים",
     "SIDEBAR_TAB_CHARACTERS": "דמויות",
     "SIDEBAR_TAB_PERSONAS": "פרסונות",
     "SIDEBAR_TAB_LOREBOOKS": "Lorebooks",
     "SIDEBAR_TAB_PRESETS": "Presets",
     "SIDEBAR_TAB_CARDS": "כרטיסים",
-    "SIDEBAR_GROUP_LABEL": "RP",
     "CARDS_TITLE": "כרטיסים",
     "CARDS_PAGE_SUBTITLE": "שמרו דמויות + פרסונה + lorebooks יחד כחבילה יצירתית. החילו אחד על צ'אט בלחיצה אחת.",
     "CARDS_NEW": "כרטיס חדש",
@@ -3336,10 +3137,6 @@
     "CARD_CHARACTERS": "דמויות",
     "CARD_LOREBOOKS": "Lorebooks",
     "DROPPED_PARAMS": "{params} לא נתמך על-ידי המודל הזה ולכן הוסר.",
-    "EDIT_SAVE_ONLY": "שמור",
-    "EDIT_SAVE_AND_GENERATE": "שמור וייצר",
-    "BRANCH_NEXT": "ענף הבא",
-    "BRANCH_PREV": "ענף קודם",
     "LOREBOOKS_IMPORT": "ייבוא",
     "PERSONAS_IMPORT": "ייבוא",
     "LOREBOOK_ENTRY_CONSTANT_HINT": "הזרק תמיד ערך זה, תוך התעלמות ממפתחות ההפעלה.",
@@ -3376,15 +3173,10 @@
     "UNAUTHORIZED": "לא מורשה",
     "NO_API_KEY": "לא מוגדר מפתח API",
     "NOT_FOUND": "המשאב לא נמצא",
-    "NO_IMAGE_GENERATED": "לא נוצרה תמונה",
     "NO_TASK_ID": "אין מזהה משימה או URL בתגובה",
-    "NO_VIDEO_URL": "הוידאו הושלם אבל לא נמצא URL",
-    "VIDEO_GENERATION_FAILED": "ייצור הוידאו נכשל",
-    "VIDEO_GENERATION_TIMED_OUT": "הזמן הקצוב לייצור הוידאו עבר",
     "REQUEST_FAILED": "הבקשה נכשלה",
     "PRICING_FETCH_FAILED": "כשל בקבלת נתוני תמחור",
     "NO_TEXT_MODELS": "אין מודלי טקסט זמינים",
-    "UPLOAD_FAILED": "כשל בהעלאת קובץ מצורף",
     "NO_IMAGE_PROMPT": "לא סופקה הנחיה לייצור תמונה",
     "IMAGE_GENERATION_FAILED": "ייצור התמונה נכשל",
     "UNEXPECTED_RESPONSE": "תגובה ריקה לא צפויה מ-API upstream",
@@ -3397,7 +3189,6 @@
     "PROMPT_REJECTED": "ההנחיה הזו מפרה את מדיניות התוכן ולא ניתן להשתמש בה לייצור תמונה או וידאו.",
     "PROMPT_FLAGGED": "ההנחיה הזו סומנה כעלולה להיות לא בטוחה לייצור. אנא נסחו מחדש ונסו שוב.",
     "MODERATION_UNAVAILABLE": "ייצור תמונה ווידאו זמנית לא זמינים. אנא נסו שוב בקרוב.",
-    "PDF_EXTRACTION_FAILED": "לא הצלחנו לקרוא את התוכן של ה-PDF המצורף. אנא הסירו אותו או נסו קובץ אחר.",
     "IMPORT_INVALID_JSON": "הקובץ אינו JSON תקין.",
     "IMPORT_UNSUPPORTED_VERSION": "גרסת ייצוא לא נתמכת.",
     "CARD_PARSE_FAILED": "לא ניתן לפענח כרטיס דמות.",
@@ -3416,18 +3207,14 @@
     "UNIFIED_INTELLIGENCE_API": "API של אינטליגנציה מאוחדת",
     "GET_STARTED": "התחל עכשיו",
     "SAVE_UP_TO": "חסכו עד",
-    "PER_1M_TOKENS": "למיליון טוקנים",
     "SMART_ROUTING": "ניתוב חכם",
-    "ONE_ENDPOINT": "נקודת קצה אחת",
     "MODELS": "מודלים",
     "FREE": "חינם",
     "PAID": "בתשלום",
-    "UPTIME": "זמינות",
     "LIVE_STATS": "סטטיסטיקה חיה",
     "CHEAPEST_API": "API ההסקה הזול ביותר",
     "MODELS_ONE_ENDPOINT": "40+ מודלי AI, נקודת קצה אחת",
     "MODELS_ONE_ENDPOINT_SUFFIX": "מודלי AI, נקודת קצה אחת",
-    "DIRECT": "ישיר",
     "MODEL": "מודל",
     "PRICES_NOTE": "מחירים למיליון טוקנים",
     "INPUT": "קלט",
@@ -3462,7 +3249,6 @@
     },
     "MCP": {
       "SERVER_DESCRIPTION": "נתב מודלי AI בדפדפן. כלים נרשמים דרך WebMCP בדף הבית של האתר באמצעות navigator.modelContext. בקרו בדף הבית וקראו לכלים מלקוח עם יכולת WebMCP.",
-      "WEBMCP_BUNDLE_DESCRIPTION": "כלים בדפדפן הרשומים דרך navigator.modelContext בדף הבית של {appName}. טענו את דף הבית בלקוח עם יכולת WebMCP כדי לגשת לכלים.",
       "TOOLS": {
         "OPEN_MODELS_CATALOG": "פתחו את דף קטלוג המודלים של {appName}, המציג כל מודל זמין עם תמחור חי על-פני OpenAI, Anthropic, Google, DeepSeek וספקים אחרים.",
         "OPEN_PRICING": "פתחו את דף התמחור של {appName} כדי לסקור תוכניות מנוי ותעריפי תשלום-לפי-שימוש.",
@@ -3511,35 +3297,15 @@
     "STATE": {
       "OPERATIONAL": "פעיל",
       "DOWN": "לא פעיל",
-      "UNKNOWN": "לא ידוע",
       "DEGRADED": "מורד"
-    },
-    "SUMMARY": {
-      "ALL_NORMAL": "כל המערכות פועלות באופן תקין",
-      "N_DOWN": "{count, plural, one {# מודל לא פעיל} other {# מודלים לא פעילים}}",
-      "LAST_CHECKED_AT": "נבדק לאחרונה {time}"
     },
     "KPI": {
       "TOTAL": "סך מודלים",
       "OPERATIONAL": "פעילים",
-      "DOWN": "לא פעילים",
-      "UNKNOWN": "לא ידועים"
-    },
-    "ROW": {
-      "CHANNELS": "ערוצים",
-      "LATENCY_PROBE": "בדיקה",
-      "LATENCY_P50": "p50",
-      "LATENCY_P95": "p95",
-      "REQ": "בקשות",
-      "ERR": "שגיאות",
-      "IDLE": "אין תעבורה בדקה זו"
+      "DOWN": "לא פעילים"
     },
     "RIBBON": {
-      "TITLE": "24 השעות האחרונות",
-      "LEGEND_UP": "פעיל",
-      "LEGEND_DEGRADED": "מורד",
-      "LEGEND_DOWN": "לא פעיל",
-      "LEGEND_NODATA": "אין נתונים"
+      "TITLE": "24 השעות האחרונות"
     },
     "FILTER": {
       "SEARCH_PLACEHOLDER": "חיפוש מודלים...",
@@ -3655,8 +3421,6 @@
     "HOVER_UPSCALE": "הגדל תמונה זו",
     "HOVER_ADETAILER": "הרץ ADetailer על תמונה זו",
     "HOVER_EDIT": "השתמש בתמונה זו בעריכה",
-    "GENERATE_TITLE": "ייצור תמונה",
-    "GENERATE_SUBTITLE": "בחרו מודל, כתבו הנחיה, קבלו תמונה.",
     "PROMPT_LABEL": "הנחיה",
     "PROMPT_PLACEHOLDER": "תארו את התמונה שאתם רוצים.",
     "NEGATIVE_PROMPT_LABEL": "הנחיה שלילית",
@@ -3677,7 +3441,6 @@
     "BACKGROUND_TRANSPARENT": "שקוף",
     "WATERMARK_LABEL": "סימן מים",
     "STRENGTH_LABEL": "עוצמה",
-    "SIZE_LABEL": "גודל",
     "STEPS_LABEL": "צעדים",
     "CFG_LABEL": "CFG",
     "GUIDANCE_LABEL": "הדרכה",
@@ -3695,13 +3458,6 @@
     "TOKEN_COUNT_CAPPED": "~{count} / {cap} טוקנים",
     "PROGRESS_OF_N": "מייצר {current} מתוך {total}…",
     "EXPIRES_IN_DAYS": "פג בעוד {days} ימים",
-    "RECENT_TITLE": "ייצורים אחרונים",
-    "AUTO_DELETE_NOTE": "ייצורים נמחקים אוטומטית אחרי 30 ימים",
-    "SHARE": "שתף",
-    "SHARE_TITLE": "שתף ייצור זה",
-    "SHARE_DESCRIPTION": "כל מי שיש לו את הקישור יכול לצפות בהנחיה, בהגדרות ובתמונות, ולפצל אותם לחשבון שלו.",
-    "SHARE_REVOKE": "בטל קישור",
-    "SHARE_DONE": "סיים",
     "EXPORT": "ייצוא",
     "IMPORT": "ייבוא",
     "IMPORT_TITLE": "ייבוא ייצור",
@@ -3709,56 +3465,30 @@
     "IMPORT_MODE_RESTORE": "Restore (העתק תמונות מקוריות)",
     "IMPORT_MODE_REGENERATE": "Regenerate (קריאת upstream חדשה)",
     "DOWNLOAD_IMAGE": "הורד תמונה",
-    "SHARED_TITLE": "ייצור משותף",
-    "SAVE_TO_ACCOUNT": "שמור לחשבון שלי",
-    "COPY_PROMPT": "העתק הנחיה",
     "SUBMIT": "ייצר",
     "SUBMITTING": "מייצר...",
     "REFERENCES_TITLE": "תמונות רפרנס",
     "REFERENCES_ADD": "הוסף רפרנס",
-    "REFERENCES_UNSUPPORTED": "המודל הזה לא מקבל תמונות רפרנס.",
     "LORAS_TITLE": "LoRAs",
-    "LORAS_UNSUPPORTED": "המודל הזה לא תומך בשרשראות LoRA.",
-    "HISTORY_TITLE": "הייצורים שלי",
-    "NEW_GENERATION": "ייצור חדש",
     "PICK_OR_GENERATE": "בחרו ייצור מסרגל הצד, או צרו חדש.",
     "HISTORY_EMPTY": "אין כלום עדיין. ייצרו את התמונה הראשונה שלכם.",
     "STATUS_PENDING": "ממתין",
-    "STATUS_SUBMITTED": "נשלח",
-    "STATUS_QUEUED": "בתור",
-    "STATUS_IN_PROGRESS": "מייצר",
-    "STATUS_SUCCESS": "סיים",
     "STATUS_FAILURE": "נכשל",
     "REMIX": "רמיקס",
     "DELETE": "מחק",
-    "PUBLISH": "פרסם",
-    "UNLIST": "הסר מהרשימה",
-    "PRIVATE": "הפוך לפרטי",
-    "PRICE_PER_CALL": "{price} לתמונה",
     "META_TITLE": "ייצור תמונות",
     "META_DESC": "ייצרו תמונות עם צינור ComfyUI של {appName} (SDXL + Flux 2).",
-    "LIKE": "אהוב",
-    "UNLIKE": "בטל אהבה",
     "REFERENCES_DROP_HINT": "שחררו תמונות או עיינו",
     "LORAS_EMPTY": "אין LoRAs בנפח עדיין. אופרטור יכול להוסיף אותם דרך טבלת הקטלוג.",
-    "HIRES_FIX_ENABLE": "Hires fix",
-    "HIRES_FIX_DENOISE": "Denoise",
-    "HIRES_FIX_UPSCALE": "הגדלה",
     "PNG_IMPORT_HINT": "שחררו PNG של ComfyUI כדי לייבא את ההנחיה והפרמטרים שלו",
     "PNG_IMPORT_BROWSE": "ייבא PNG",
     "PNG_IMPORT_NO_METADATA": "לא נמצאו מטא-נתונים של ComfyUI בתמונה זו.",
     "NEW_SESSION": "מפגש חדש",
-    "SESSION_NEW_TOOLTIP": "התחילו מפגש חדש. הנוכחי נשאר בהיסטוריה שלכם.",
-    "RECENT_SESSIONS": "מפגשים אחרונים",
-    "SNAPSHOT_COUNT": "{count, plural, one {# תצלום} other {# תצלומים}}",
-    "IMAGE_COUNT_TOTAL": "{count, plural, one {# תמונה} other {# תמונות}}",
     "SNAPSHOT_NAV_LABEL": "תצלום {current} מתוך {total}",
-    "SHARE_SESSION_HELP": "כל מי שיש לו את הקישור יכול לצפות בהיסטוריית המפגש הזה.",
     "LIGHTBOX_PREV": "תמונה קודמת",
     "LIGHTBOX_NEXT": "תמונה הבאה",
     "LIGHTBOX_CLOSE": "סגור",
     "SESSION_SNAPSHOTS": "תצלומים במפגש זה",
-    "EDIT": "ערוך",
     "UPLOAD_IMAGE": "העלה תמונה",
     "UPLOADING": "מעלה...",
     "INIT_IMAGE": "תמונת מקור"
@@ -3767,17 +3497,11 @@
     "NOT_SYNCED": "לא מסונכרן",
     "SYNCED": "מסונכרן",
     "EXPIRES_AT": "מסונכרן - פג {date}",
-    "EXPIRED": "פג",
     "ADD_SYNC": "הוסף סנכרון (30 ימים)",
     "RESYNC": "סנכרן שוב",
     "RESYNC_EXPIRES": "סנכרן שוב (פג {date})",
     "REMOVE_SYNC": "הסר סנכרון",
     "CONFIRM_REMOVE": "להסיר את הפריט הזה מסנכרון השרת? עותק מקומי נשמר.",
-    "OFFLINE_REQUIRED": "נדרש חיבור מקוון לסנכרון.",
-    "PENDING_SYNC": "סנכרון ממתין - ינסה שוב כשתחזרו לחיבור.",
-    "HINT_DESCRIPTION": "פריטים מסונכרנים נמסרים לשרת ל-30 ימים כך שהתקנים אחרים יכולים למשוך אותם.",
-    "OPFS_UNAVAILABLE": "מסד נתונים מקומי לא זמין בדפדפן הזה. הנתונים לא יישמרו.",
-    "OFFLINE_SEND_BLOCKED": "אתם לא מחוברים. ההודעה נשמרה כטיוטה; ינסה שוב כשתחזרו לחיבור.",
     "DLQ_TOAST": "{items} נכשלו בסנכרון אחרי ניסיונות.",
     "DLQ_KIND_COUNT": "{count} {kind}",
     "DLQ_RETRY": "נסה שוב",
