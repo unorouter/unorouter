@@ -28,10 +28,7 @@ import { parseLorebookJson } from "@/lib/ai/rp/lorebook-import";
 async function mirrorLorebookIfSynced(userId: number, lorebookId: string) {
   const lb = await readLocalLorebook(userId, lorebookId);
   if (!lb || lb.syncExpiresAt == null) return;
-  await mirrorSyncedRow(userId, "lorebooks", lorebookId, {
-    lorebook: { ...lb, entries: undefined },
-    entries: lb.entries,
-  });
+  await mirrorSyncedRow(userId, "lorebooks", lorebookId);
 }
 
 // Custom mirror payload (bundle + entries) replaces factory useUpdate.

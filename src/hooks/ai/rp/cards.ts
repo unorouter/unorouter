@@ -128,16 +128,7 @@ export function useUpdateCardMutation() {
         })),
       });
       if (existing.syncExpiresAt != null) {
-        const fresh = await readLocalCard(userId, args.id);
-        await mirrorSyncedRow(userId, "cards", args.id, {
-          card: {
-            ...fresh,
-            cardCharacters: undefined,
-            cardLorebooks: undefined,
-          },
-          cardCharacters: fresh?.cardCharacters ?? [],
-          cardLorebooks: fresh?.cardLorebooks ?? [],
-        });
+        await mirrorSyncedRow(userId, "cards", args.id);
       }
       return updatedCard;
     },

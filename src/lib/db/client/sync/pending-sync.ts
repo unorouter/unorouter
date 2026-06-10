@@ -5,14 +5,18 @@ import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
-import type { SyncMergeMode } from "@/lib/validation/sync";
 import type { SyncKindName } from "@/lib/validation/sync-constants";
 import type { QueryClient } from "@tanstack/react-query";
 import { broadcastInvalidate } from "@/lib/react-query/cross-tab-invalidate";
 import { and, asc, eq, inArray, isNull, lte, or } from "drizzle-orm";
 import { getLocalDb } from "../client";
+import { buildPendingPushes, type ConvSyncHint } from "./build-payload";
+import { evictMediaBase64After } from "./evict-media";
+import { acquireLock, releaseLock } from "./resource-lock";
 
-// `local_pending_sync` writer + drainer for failed mirror PATCH/DELETE.
+// Outbox writer + drainer: the single push path to the sync API. Mutations
+// enqueue (kind, id, scope hint); the drainer rebuilds payloads from the
+// local DB and pushes them. Retries with backoff ride the same rows.
 
 export const MAX_PENDING_ATTEMPTS = 5;
 
@@ -42,58 +46,71 @@ export type DrainResult = {
 };
 
 export type EnqueueOpts = {
-  /** Snapshot of original mirror payload; preserves delta scope+mergeMode across retries. */
-  payload?: unknown;
-  mergeMode?: SyncMergeMode;
+  /** Conversation scope; defaults to "full". Ignored for other kinds. */
+  hint?: ConvSyncHint;
+  /** Message ids for the "msgs" scope; unioned across enqueues. */
+  msgIds?: string[];
 };
 
-export async function enqueuePending(
+export async function enqueueSync(
   userId: number,
   kind: SyncKindName,
   id: string,
-  op: PendingSyncOp,
-  err?: unknown,
+  op: PendingSyncOp = "patch",
   opts?: EnqueueOpts,
 ) {
   const local = await getLocalDb(userId);
   if (!local) return;
 
+  // Read-merge-write (no local.transaction(): SQLocal mutex deadlocks drizzle
+  // proxy queries): hints/msgIds union with what's already queued so coalesced
+  // rows keep their full scope. The seq guard in drain covers the race window.
+  const existing = (
+    await local.db
+      .select()
+      .from(localPendingSync)
+      .where(and(eq(localPendingSync.kind, kind), eq(localPendingSync.id, id)))
+      .limit(1)
+  )[0];
   // Guard delete->patch: queued delete already implies row is gone.
-  const existing = await local.db
-    .select({ op: localPendingSync.op })
-    .from(localPendingSync)
-    .where(and(eq(localPendingSync.kind, kind), eq(localPendingSync.id, id)))
-    .limit(1);
-  if (existing[0]?.op === "delete" && op === "patch") return;
+  if (existing?.op === "delete" && op === "patch") return;
 
-  const payloadJson =
-    op === "delete" || opts?.payload === undefined
-      ? null
-      : JSON.stringify(opts.payload);
-  const mergeMode = op === "delete" ? null : (opts?.mergeMode ?? null);
+  let hint: string | null = null;
+  let msgIds: string | null = null;
+  if (op === "patch" && kind === "conversations") {
+    const hints = new Set<string>(
+      existing?.op === "patch" && existing.hint
+        ? existing.hint.split(",")
+        : [],
+    );
+    hints.add(opts?.hint ?? "full");
+    // "full" absorbs every partial scope.
+    hint = hints.has("full") ? "full" : [...hints].join(",");
+    if (hint !== "full") {
+      const ids = new Set<string>(
+        existing?.msgIds ? (JSON.parse(existing.msgIds) as string[]) : [],
+      );
+      for (const m of opts?.msgIds ?? []) ids.add(m);
+      msgIds = ids.size > 0 ? JSON.stringify([...ids]) : null;
+    }
+  }
 
+  const set = {
+    op,
+    // Fresh enqueue resets backoff.
+    attempts: 0,
+    nextAttemptAt: null,
+    lastError: null,
+    hint,
+    msgIds,
+    seq: (existing?.seq ?? 0) + 1,
+  };
   await local.db
     .insert(localPendingSync)
-    .values({
-      kind,
-      id,
-      op,
-      attempts: 0,
-      lastError: err ? String(err) : null,
-      payloadJson,
-      mergeMode,
-    })
+    .values({ kind, id, ...set })
     .onConflictDoUpdate({
       target: [localPendingSync.kind, localPendingSync.id],
-      // Fresh enqueue resets backoff; latest payload wins.
-      set: {
-        op,
-        attempts: 0,
-        nextAttemptAt: null,
-        lastError: err ? String(err) : null,
-        payloadJson,
-        mergeMode,
-      },
+      set,
     });
 }
 
@@ -131,30 +148,46 @@ export async function drainPending(userId: number): Promise<DrainResult> {
           await rpc.api.ai.sync({ kind: row.kind })({ id: row.id }).delete(),
         );
       } else {
-        // Immutable snapshot from enqueue time; never rebuilt from local state.
-        const payload =
-          row.payloadJson != null ? JSON.parse(row.payloadJson) : undefined;
-        if (payload === undefined) {
-          throw new Error(
-            `pending row missing payload (kind=${row.kind}, id=${row.id})`,
-          );
-        }
-        handleElysia(
-          await rpc.api.ai
-            .sync({ kind: row.kind })({ id: row.id })
-            .post({
-              days: undefined,
-              payload,
-              mergeMode: row.mergeMode ?? undefined,
-            }),
+        const hints = new Set<ConvSyncHint>(
+          (row.hint ? row.hint.split(",") : []) as ConvSyncHint[],
         );
+        const msgIds = row.msgIds ? (JSON.parse(row.msgIds) as string[]) : [];
+        // null = local row gone before drain; nothing to push, drop the row.
+        const pushes = await buildPendingPushes(
+          userId,
+          row.kind,
+          row.id,
+          hints,
+          msgIds,
+        );
+        for (const push of pushes ?? []) {
+          const pushed = handleElysia(
+            await rpc.api.ai
+              .sync({ kind: row.kind })({ id: row.id })
+              .post({
+                payload: push.payload,
+                keepExpiry: true,
+                mergeMode: push.mergeMode,
+              }),
+          );
+          // Full bundle pushes return media with fresh R2 keys; evict the
+          // now-redundant local base64 copies.
+          const fullBundle =
+            row.kind === "playgroundSessions" ||
+            (row.kind === "conversations" &&
+              (hints.size === 0 || hints.has("full")));
+          if (fullBundle) await evictMediaBase64After(userId, pushed);
+        }
       }
+      // seq guard: an enqueue that landed mid-push keeps the row alive for
+      // the next drain instead of silently losing its scope.
       await local.db
         .delete(localPendingSync)
         .where(
           and(
             eq(localPendingSync.kind, row.kind),
             eq(localPendingSync.id, row.id),
+            eq(localPendingSync.seq, row.seq),
           ),
         );
       result.succeeded++;
@@ -195,6 +228,40 @@ export async function drainPending(userId: number): Promise<DrainResult> {
     broadcastInvalidate([queryKeys.pendingSync(), queryKeys.syncState()]);
   }
   return result;
+}
+
+// Lock-guarded drain shared by the scheduler tick and drainSoon.
+export async function safeDrain(userId: number): Promise<void> {
+  const lockKey = `drain:${userId}`;
+  if (!acquireLock(lockKey)) return;
+  try {
+    await drainPending(userId);
+  } catch (err) {
+    logger.warn("drainPending failed", {
+      context: "local-db.pending-sync",
+      userId,
+      error: String(err),
+    });
+  } finally {
+    releaseLock(lockKey);
+  }
+}
+
+const DRAIN_SOON_MS = 250;
+const drainTimers = new Map<number, ReturnType<typeof setTimeout>>();
+
+// Debounced near-immediate drain after an enqueue: bursts (drawer save that
+// touches row + bindings, multi-message persist) coalesce into one push.
+export function drainSoon(userId: number): void {
+  const prev = drainTimers.get(userId);
+  if (prev) clearTimeout(prev);
+  drainTimers.set(
+    userId,
+    setTimeout(() => {
+      drainTimers.delete(userId);
+      void safeDrain(userId);
+    }, DRAIN_SOON_MS),
+  );
 }
 
 // Reads every queued row so UI surfaces (SyncBadge) can render pending state.

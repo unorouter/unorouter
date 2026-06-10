@@ -110,7 +110,7 @@ export function makeRpEntity<
           } as TItem;
           await opts.upsertLocal(userId, updated);
           if (existing.syncExpiresAt != null) {
-            await mirrorSyncedRow(userId, opts.syncKind, args.id, updated);
+            await mirrorSyncedRow(userId, opts.syncKind, args.id);
           }
           return updated;
         },

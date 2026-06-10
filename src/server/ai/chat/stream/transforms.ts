@@ -13,7 +13,6 @@ import { expandMacros } from "../augmentation/macros";
 
 export type StreamMessages = Parameters<typeof convertToModelMessages>[0];
 
-// Bare role+text message in the ai-sdk parts shape.
 export function mkMsg(
   role: "system" | "user" | "assistant",
   text: string,
@@ -21,7 +20,6 @@ export function mkMsg(
   return { role, parts: [{ type: "text", text }] } as StreamMessages[number];
 }
 
-// All text-part content of a message, newline-joined ("" when none).
 function textOf(parts: unknown): string {
   if (!Array.isArray(parts)) return "";
   return parts
@@ -30,10 +28,8 @@ function textOf(parts: unknown): string {
     .join("\n");
 }
 
-// Map a function over a message's text parts, leaving other parts untouched.
-// Identity-preserving: returns the ORIGINAL message when no text changed, so
-// per-turn whole-history passes (macro expansion, regex scripts) don't churn
-// allocations for the common no-op case.
+// Map fn over text parts; returns the original message when nothing changed so
+// whole-history passes don't churn allocations on the common no-op case.
 function mapTextParts(
   m: StreamMessages[number],
   fn: (text: string) => string,
@@ -91,8 +87,7 @@ export async function inlinePdfText(
   const textByUrl = new Map<string, string | null>();
   for (const row of rows) {
     const url = `${r2Base}/${row.r2Key}`;
-    // null means row exists but extraction never produced text. We still want
-    // to substitute a placeholder so the stream continues instead of throwing.
+    // null = extraction never produced text; placeholder keeps the stream alive.
     textByUrl.set(url, row.extractedText ?? null);
   }
   if (textByUrl.size === 0) return messages;
@@ -178,16 +173,10 @@ export function stripSystemRole(messages: StreamMessages): StreamMessages {
   );
 }
 
-// Reasoning is OUTPUT-only. GLM (and others) emit a `reasoning`/`reasoning_content`
-// part on their assistant replies; echoing it back as INPUT on the next turn makes
-// the upstream reject it ("property 'reasoning_content' is unsupported"). Strip
-// every reasoning part from history before send. A message left with no parts is
-// handled by dropEmptyMessages; a reasoning-only assistant turn becomes empty and
-// is dropped (its visible text, if any, survives as a separate text part).
-// Some models emit reasoning INLINE in the text content instead of a separate
-// reasoning part (GLM via OpenAI-compat, R1 distills). RisuAI strips these from
-// history text (openAI/requests.ts think-tag extraction); without it the tokens
-// re-enter context every turn and accelerate drift.
+// Reasoning is output-only: echoing it back as input makes GLM-family reject
+// the request. Some models emit it inline as think tags instead of a reasoning
+// part (GLM OpenAI-compat, R1 distills); RisuAI strips both from history, else
+// the tokens re-enter context every turn.
 const INLINE_THINK_RE = /<(think|thinking|Thoughts)>[\s\S]*?<\/\1>\s*/g;
 
 function stripInlineThink(text: string): string {
@@ -237,9 +226,7 @@ export function mergeAlternateRoles(messages: StreamMessages): StreamMessages {
       Array.isArray(prev.parts) &&
       Array.isArray(m.parts)
     ) {
-      // Join with a newline between blocks (RisuAI `content += '\n' + content`)
-      // so merged same-role turns don't run together. Only insert the separator
-      // when text borders text; media parts concatenate untouched.
+      // Newline only when text borders text (RisuAI join); media parts concatenate untouched.
       const prevLast = prev.parts[prev.parts.length - 1];
       const mFirst = m.parts[0];
       const needsNewline = prevLast?.type === "text" && mFirst?.type === "text";
@@ -260,9 +247,7 @@ export function mergeAlternateRoles(messages: StreamMessages): StreamMessages {
   return out;
 }
 
-// Drop messages whose every part is empty/whitespace text and that carry no
-// non-text part (RisuAI parity: pushPrompts skips empties + openAI/requests.ts
-// filters `content.trim() !== '' || multimodals`). Keeps media/file parts.
+// Drop messages with only empty/whitespace text and no non-text part (RisuAI parity).
 export function dropEmptyMessages(messages: StreamMessages): StreamMessages {
   return messages.filter((m) => {
     if (!Array.isArray(m.parts)) return true;
@@ -272,22 +257,17 @@ export function dropEmptyMessages(messages: StreamMessages): StreamMessages {
   });
 }
 
-// Anthropic and Gemini reject convs that start with assistant or system role.
-// Stub is a bare space (RisuAI request.ts:421), not visible text, so it does
-// not pollute the prompt the model reads.
+// Anthropic/Gemini reject convs not starting with user; stub is a bare space
+// (RisuAI parity) so it doesn't pollute the prompt.
 export function prependUserStub(messages: StreamMessages): StreamMessages {
   if (messages.length === 0) return messages;
   if (messages[0].role === "user") return messages;
   return [mkMsg("user", " "), ...messages];
 }
 
-// GLM/DeepSeek/Kimi reject a request whose LAST message is not user ("last role
-// must be user"). When the conversation ends on an assistant turn (the model's
-// prior reply) and nothing user-role follows (e.g. an empty postHistory and no
-// prefill), append a bare-space user stub so strict-alternation upstreams
-// accept the request. Mirror of prependUserStub for the trailing edge. NEVER
-// call this when a prefill is present: a prefill is an INTENTIONAL trailing
-// assistant turn (jailbreak surface) and must remain last.
+// GLM-family reject "last role must be user"; trailing mirror of prependUserStub.
+// NEVER call with a prefill present: a prefill is an intentional trailing
+// assistant turn and must remain last.
 export function appendUserStub(messages: StreamMessages): StreamMessages {
   if (messages.length === 0) return messages;
   if (messages[messages.length - 1].role === "user") return messages;
@@ -320,9 +300,8 @@ export function collectRecentUserTexts(
   return out;
 }
 
-// Apply regex scripts to message text parts. `editprocess` runs on every
-// message; `editinput` runs only on the last user message (RisuAI parity).
-// Output/display modes run client-side, not here.
+// editprocess runs on every message, editinput only on the last user message
+// (RisuAI parity); output/display modes run client-side.
 export function applyRegexScripts(
   messages: StreamMessages,
   scripts: RegexScript[],
@@ -335,8 +314,7 @@ export function applyRegexScripts(
       break;
     }
   }
-  // Single pass: track the last text per role as we walk so @@repeat_back's
-  // previous-same-role lookup is O(1) instead of a reverse scan per message.
+  // Track last text per role so @@repeat_back's lookup is O(1), not a reverse scan.
   const lastTextByRole: Record<string, string> = {};
   return messages.map((m, idx) => {
     const isLastUser = idx === lastUserIdx;
@@ -351,8 +329,7 @@ export function applyRegexScripts(
   });
 }
 
-// Flatten messages into role-tagged history for the {{history}} macro family
-// (newest last). Concatenates each message's text parts.
+// Role-tagged history (newest last) for the {{history}} macro family.
 export function collectHistory(
   messages: StreamMessages,
 ): { role: "user" | "assistant" | "system"; text: string }[] {
@@ -367,11 +344,9 @@ export function collectHistory(
   return out;
 }
 
-// Drop the messages already folded into the rolling summary. `anchor` counts
-// history entries (text-bearing user/assistant/system messages, the same set
-// collectHistory returns), so walk with the same filter. Keeps the summary
-// block from duplicating content that is still in the prompt (Risu supaMemory
-// REPLACES summarized messages; this is the equivalent cut).
+// Drop messages already folded into the rolling summary (Risu supaMemory cut).
+// `anchor` counts the same text-bearing set collectHistory returns, so walk
+// with the same filter.
 export function dropSummarizedPrefix(
   messages: StreamMessages,
   anchor: number,
@@ -392,15 +367,13 @@ export function dropSummarizedPrefix(
   return messages.slice(cutIdx);
 }
 
-// Rough token count of a plain string (system prompt budgeting).
 export function estimateTokens(text: string | undefined): number {
   if (!text) return 0;
   return encode(text).length;
 }
 
-// Rough token cost of one message's text parts. Non-text parts (images/files)
-// add a flat estimate since the real cost is model-dependent and unknown here.
-// gpt-tokenizer is cl100k; ~10-20% off on Claude/Gemini, fine for budgeting.
+// gpt-tokenizer is cl100k, ~10-20% off on Claude/Gemini, fine for budgeting;
+// non-text parts get a flat estimate (real cost is model-dependent).
 function messageTokens(m: StreamMessages[number]): number {
   let n = 4; // per-message role/format overhead
   if (!Array.isArray(m.parts)) return n;
@@ -414,12 +387,9 @@ function messageTokens(m: StreamMessages[number]): number {
   return n;
 }
 
-// Fit chat history to a token budget by dropping the OLDEST messages first
-// (RisuAI naive-truncation parity, minus summarization). Keeps newest messages
-// whole; never splits a message. `reserveTokens` is everything outside history
-// (system prompt + reserved output) the caller wants kept clear of the budget.
-// Returns the kept tail. Always keeps at least the last message so the request
-// is never empty.
+// Drop oldest messages first, never split one (RisuAI truncation parity).
+// `reserveTokens` = everything outside history (system + reserved output).
+// Always keeps at least the last message.
 export function fitToTokenBudget(
   messages: StreamMessages,
   contextWindow: number | undefined,

@@ -27,9 +27,9 @@ import {
   upsertLocalMessageItem,
 } from "@/lib/db/client/data/chat";
 import {
-  mirrorConvDeltaIfSynced,
   mirrorConvIfSynced,
-  mirrorConvPatchIfSynced,
+  mirrorConvMessagesIfSynced,
+  mirrorConvRowIfSynced,
   unmirrorIfSynced,
 } from "@/hooks/ai/rp/shared";
 import {
@@ -163,9 +163,7 @@ export function useUpdateConversationMutation() {
       });
       if (userId > GUEST_USER_ID) {
         // Row patch; never re-upload the whole conversation for a rename.
-        await mirrorConvPatchIfSynced(userId, args.id, {
-          conversation: patch,
-        });
+        await mirrorConvRowIfSynced(userId, args.id);
       }
       return { id: args.id, ...args.body };
     },
@@ -269,15 +267,7 @@ export function useEditMessageMutation() {
         await upsertLocalMessage(userId, updatedMsg);
       }
       if (userId > GUEST_USER_ID) {
-        await mirrorConvDeltaIfSynced(
-          userId,
-          args.convId,
-          {
-            messages: updatedMsg ? [updatedMsg] : [],
-            messageItems: itemsWithMsg,
-          },
-          "upsert",
-        );
+        await mirrorConvMessagesIfSynced(userId, args.convId, [args.msgId]);
       }
       return { items: itemsWithMsg };
     },
@@ -386,11 +376,10 @@ export function useSetActiveBranchMutation() {
         }
       }
       if (userId > GUEST_USER_ID) {
-        await mirrorConvDeltaIfSynced(
+        await mirrorConvMessagesIfSynced(
           userId,
           args.convId,
-          { messages: branchSiblings },
-          "upsert",
+          branchSiblings.map((m) => String(m.id)),
         );
       }
       return { id: args.msgId };

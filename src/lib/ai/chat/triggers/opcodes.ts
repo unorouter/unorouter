@@ -1,11 +1,7 @@
-// V2 trigger opcode handlers, field-accurate RisuAI triggers.ts port. Field
-// names and var/value resolution follow the Risu type defs exactly: every
-// operand has a `<field>Type` discriminator and resolution is
-// `Type === 'value' ? literal : getVar(name)` - the DEFAULT is a var lookup
-// (plain v2If's source is always a var name). All operands and outputVar names
-// pass through the optional ctx.parse CBS hook first. Control-flow opcodes
-// (If/Else/EndIndent/Loop/Break/DeclareLocalVar/StopTrigger) live in vm.ts.
-// App-coupled side effects (LLM/imggen/alerts/GUI) are no-ops here.
+// V2 trigger opcode handlers, field-accurate RisuAI port. Operand resolution:
+// `<field>Type === 'value' ? literal : getVar(name)` (default is var lookup);
+// operands + outputVar pass through ctx.parse first. Control flow lives in
+// vm.ts; app-coupled side effects (LLM/imggen/alerts/GUI) are no-ops here.
 
 import { calcString } from "../calc";
 import type { TriggerContext, TriggerEffect } from "./types";

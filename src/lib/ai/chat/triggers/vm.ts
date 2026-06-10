@@ -1,8 +1,6 @@
-// Trigger VM: condition eval + indent-scoped control flow + opcode dispatch.
-// Faithful RisuAI runTrigger port (triggers.ts:1058-2821) over the flat
-// effect[] layout Risu exports: a block opened at indent N closes at a
-// v2EndIndent carrying indent N+1 (the BODY indent), each branch has its own
-// EndIndent, an if's v2Else sits between the two at indent N, and loop closers
+// Trigger VM: faithful RisuAI runTrigger port over the flat effect[] layout.
+// A block opened at indent N closes at a v2EndIndent carrying indent N+1 (the
+// BODY indent), v2Else sits between branch EndIndents at indent N, loop closers
 // carry `endOfLoop: true`. lowLevelAccess side effects are no-ops (opcodes.ts).
 
 import { runDataOpcode, type VarResolver } from "./opcodes";
@@ -207,10 +205,8 @@ function evalCondition(
   }
 }
 
-// v2If / v2IfAdvanced condition (Risu triggers.ts:1612-1706). Plain v2If's
-// source is ALWAYS a var name; v2IfAdvanced honors sourceType. Both targets
-// default to a var lookup unless targetType === 'value'. `=`/`!=` are
-// numeric-aware (1.0 == 1). The operator lives in the `condition` field.
+// Plain v2If's source is always a var name; v2IfAdvanced honors sourceType.
+// Targets default to var lookup unless targetType === 'value'. =/!= numeric-aware.
 function evalIf(
   e: TriggerEffect,
   ctx: TriggerContext,
@@ -318,9 +314,8 @@ function runEffects(script: TriggerScript, ctx: TriggerContext): void {
       case "v2If":
       case "v2IfAdvanced": {
         if (!evalIf(e, ctx, vr)) {
-          // Skip to this block's EndIndent (body indent = indent + 1). If the
-          // effect right after it is this if's v2Else, step past the Else so
-          // the else body runs (Risu triggers.ts:1709-1722).
+          // Skip to this block's EndIndent; if this if's v2Else follows, step
+          // past it so the else body runs.
           i = findEnd(i + 1, indent + 1);
           const next = eff[i + 1];
           if (next?.type === "v2Else" && (next.indent ?? 0) === indent) i++;
@@ -336,8 +331,7 @@ function runEffects(script: TriggerScript, ctx: TriggerContext): void {
         // Looping is handled at the closing v2EndIndent (endOfLoop).
         continue;
       case "v2BreakLoop": {
-        // Jump to the next loop-closing EndIndent; the for-loop then steps
-        // past it (Risu triggers.ts:1781-1788).
+        // Jump to the next loop-closing EndIndent; the for-loop steps past it.
         for (i = i + 1; i < eff.length; i++) {
           if (eff[i]?.type === "v2EndIndent" && eff[i].endOfLoop === true) {
             break;
@@ -382,9 +376,7 @@ function runEffects(script: TriggerScript, ctx: TriggerContext): void {
   }
 }
 
-// Baseline TriggerContext: every required field at its empty default. Callers
-// spread overrides on top (server start-mode, client output-mode) instead of
-// each hand-writing the full literal.
+// Baseline TriggerContext with empty defaults; callers spread overrides on top.
 export function makeTriggerContext(
   overrides: Partial<TriggerContext> &
     Pick<TriggerContext, "mode" | "vars" | "globalVars" | "chat">,

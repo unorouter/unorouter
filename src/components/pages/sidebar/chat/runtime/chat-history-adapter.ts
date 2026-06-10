@@ -1,4 +1,4 @@
-import { mirrorConvDeltaIfSynced } from "@/hooks/ai/rp/shared";
+import { mirrorConvMessagesIfSynced } from "@/hooks/ai/rp/shared";
 import type { ApiMessage, MessagePart } from "@/lib/ai/chat/messages";
 import {
   itemsToParts,
@@ -279,16 +279,8 @@ export function createChatHistoryAdapter(
 
           // Request logs are NOT pushed: the server persists them directly for
           // synced convs at stream finish (same msgId via generateMessageId).
-          await mirrorConvDeltaIfSynced(
-            userId,
-            id,
-            {
-              conversation: updatedConv,
-              messages: [newMessage],
-              messageItems: itemRows,
-            },
-            "append",
-          );
+          // withRow carries the totals/vars/summary writeback on the conv row.
+          await mirrorConvMessagesIfSynced(userId, id, [messageId], true);
         },
       };
     },

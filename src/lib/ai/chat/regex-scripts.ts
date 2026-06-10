@@ -1,7 +1,5 @@
-// Isomorphic regex-script engine (RisuAI customscript / SillyTavern regex
-// parity, scripts.ts processScriptFull port). Runs on the server
-// (editprocess/editinput during assembly) and the client (editoutput/
-// editdisplay on streamed output + render). No server-only imports.
+// Isomorphic regex-script engine (RisuAI processScriptFull port). Server runs
+// editprocess/editinput, client runs editoutput/editdisplay. No server-only imports.
 
 export type RegexScriptMode =
   | "editinput" // user input before send
@@ -38,8 +36,7 @@ type ParsedScript = {
   rawFlag: string;
 };
 
-// Strip `<...>` meta brackets out of the flag string, collecting `order N` and
-// action names (Risu scripts.ts:298-330; brackets support comma lists).
+// Strip `<...>` meta brackets from the flag string, collecting `order N` + action names.
 function parseScriptMeta(script: RegexScript): ParsedScript {
   let order = 0;
   const actions: string[] = [];
@@ -79,10 +76,8 @@ function normalizeFlag(p: ParsedScript, outScript: string): string {
   return flag;
 }
 
-// Group-ref expansion against a match array (Risu move_* replacement rules):
-// `$N` positional refs, `$&` whole match, `$$N` stays literal. Single pass, no
-// lookbehind: this module runs client-side and WebKit <16.4 rejects lookbehind
-// at parse time, which would brick every chunk bundled with it.
+// `$N` refs, `$&` whole match, `$$N` literal. No lookbehind: WebKit <16.4
+// rejects it at parse time and would brick every chunk bundled with it.
 function expandRefs(template: string, match: RegExpMatchArray): string {
   return template.replace(/\$\$[0-9]+|\$([0-9]+)|\$&/g, (m, idx) => {
     if (m.startsWith("$$")) return m; // escaped, stays verbatim
@@ -94,8 +89,7 @@ function expandRefs(template: string, match: RegExpMatchArray): string {
   });
 }
 
-// Plain replacement over all matches, expanding group refs, then an optional
-// CBS re-parse of the result (Risu replaces then risuChatParser's the data).
+// Replace all matches expanding group refs, then optional CBS re-parse (Risu parity).
 function plainReplace(
   data: string,
   reg: RegExp,
@@ -113,12 +107,8 @@ function plainReplace(
   return expand ? expand(replaced) : replaced;
 }
 
-// Run all scripts of a given mode over a single string. Honors <order N>
-// (higher first), `{{data}}` -> `$&`, `$n` -> newline, the `>`-suffix newline
-// rule, and the @@ actions (emo/inject/move_top/move_bottom/repeat_back).
-// Per-array parse memo: applyRegexScripts calls this once per MESSAGE with the
-// same scripts array; re-parsing flag meta for every message every turn is
-// pure waste. Keyed by array identity (stable within a request).
+// Parse memo keyed by array identity: applyRegexScripts calls once per MESSAGE
+// with the same scripts array; re-parsing flag meta each time is pure waste.
 const PARSED_CACHE = new WeakMap<
   RegexScript[],
   Map<RegexScriptMode, ParsedScript[]>

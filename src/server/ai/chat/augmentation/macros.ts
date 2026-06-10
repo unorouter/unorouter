@@ -43,7 +43,6 @@ type ScopeField =
   | "char_description"
   | "scenario"
   | "personality";
-// Field token -> scope key, plus SillyTavern/RisuAI aliases.
 const FIELD_ALIASES: Record<string, ScopeField> = {
   user: "user",
   char: "char",
@@ -804,7 +803,6 @@ export function expandMacros(text: string, scope: MacroScope): string {
   while (guard++ < MAX_RECURSION * 50) {
     const blockAt = text.search(/\{\{#(if|if_pure|when)\b/);
     if (blockAt === -1) break;
-    // Expand everything before the block now so its setvars run first.
     out += expandFlat(text.slice(0, blockAt), scope);
     const rest = text.slice(blockAt);
     const resolved = resolveFirstBlock(rest, scope);

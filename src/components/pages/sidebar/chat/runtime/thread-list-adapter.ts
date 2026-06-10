@@ -1,5 +1,5 @@
 import {
-  mirrorConvPatchIfSynced,
+  mirrorConvRowIfSynced,
   unmirrorIfSynced,
 } from "@/hooks/ai/rp/shared";
 import { GUEST_USER_ID } from "@/lib/config/constants";
@@ -49,9 +49,7 @@ export function createThreadListAdapter(
       updatedAt: now,
     });
     if (userId() > GUEST_USER_ID && existing?.syncExpiresAt != null) {
-      await mirrorConvPatchIfSynced(userId(), id, {
-        conversation: { title, updatedAt: now },
-      });
+      await mirrorConvRowIfSynced(userId(), id);
     }
     queryClient.invalidateQueries({ queryKey: queryKeys.conversations() });
     queryClient.invalidateQueries({ queryKey: queryKeys.chatMeta(id) });

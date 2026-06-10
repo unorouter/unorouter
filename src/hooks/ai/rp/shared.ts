@@ -1,44 +1,23 @@
 "use client";
 
 import { GUEST_USER_ID } from "@/lib/config/constants";
-import {
-  readLocalConversation,
-  readLocalConversationBundle,
-} from "@/lib/db/client/data/chat";
-import {
-  readLocalGenerationSession,
-  readLocalGenerationSessionBundle,
-} from "@/lib/db/client/data/playground";
-import { evictMediaBase64After } from "@/lib/db/client/sync/evict-media";
-import { enqueuePending } from "@/lib/db/client/sync/pending-sync";
-import { rpc } from "@/lib/rpc";
-import type { SyncMergeMode } from "@/lib/validation/sync";
+import { readLocalConversation } from "@/lib/db/client/data/chat";
+import { readLocalGenerationSession } from "@/lib/db/client/data/playground";
+import type { ConvSyncHint } from "@/lib/db/client/sync/build-payload";
+import { drainSoon, enqueueSync } from "@/lib/db/client/sync/pending-sync";
 import type { RpSyncKind } from "@/lib/validation/sync-constants";
-import { handleElysia } from "@/lib/utils/base";
 
-// Returns null on failure (already queued a pending-sync row via
-// enqueuePending). Callers needing post-success work inspect the return.
+// Single push path: every helper gates on sync state, enqueues an outbox row
+// (kind, id, scope hint), and kicks the debounced drainer. Payloads are
+// rebuilt from the local DB at drain time, so callers pass scope, never data.
+
 export async function mirrorSyncedRow(
   userId: number,
   kind: RpSyncKind,
   id: string,
-  payload: unknown,
-  mergeMode?: SyncMergeMode,
-): Promise<unknown | null> {
-  try {
-    const result = handleElysia(
-      await rpc.api.ai
-        .sync({ kind })({ id })
-        .post({ payload, keepExpiry: true, mergeMode }),
-    );
-    return result;
-  } catch (err) {
-    await enqueuePending(userId, kind, id, "patch", err, {
-      payload,
-      mergeMode,
-    });
-    return null;
-  }
+) {
+  await enqueueSync(userId, kind, id, "patch");
+  drainSoon(userId);
 }
 
 export async function deleteSyncedRow(
@@ -46,14 +25,11 @@ export async function deleteSyncedRow(
   kind: RpSyncKind,
   id: string,
 ) {
-  try {
-    handleElysia(await rpc.api.ai.sync({ kind })({ id }).delete());
-  } catch (err) {
-    await enqueuePending(userId, kind, id, "delete", err);
-  }
+  await enqueueSync(userId, kind, id, "delete");
+  drainSoon(userId);
 }
 
-// Read-expiry + DELETE-or-queue. Guests + local-only short-circuit.
+// Guests + local-only short-circuit.
 export async function unmirrorIfSynced(
   userId: number | undefined,
   kind: RpSyncKind,
@@ -69,102 +45,67 @@ async function syncedConvUser(
   userId: number | undefined,
   convId: string,
 ): Promise<number | null> {
-  if (!userId) return null;
+  if (!userId || userId <= GUEST_USER_ID) return null;
   const conv = await readLocalConversation(userId, convId);
   return conv?.syncExpiresAt != null ? userId : null;
 }
 
+async function enqueueConv(
+  userId: number | undefined,
+  convId: string,
+  hint: ConvSyncHint,
+  msgIds?: string[],
+) {
+  const uid = await syncedConvUser(userId, convId);
+  if (uid == null) return;
+  await enqueueSync(uid, "conversations", convId, "patch", { hint, msgIds });
+  drainSoon(uid);
+}
+
+// Full bundle: history rewrites (delete message, clear) and overrides saves.
 export async function mirrorConvIfSynced(
   userId: number | undefined,
   convId: string,
 ) {
-  const uid = await syncedConvUser(userId, convId);
-  if (uid == null) return;
-  const bundle = await readLocalConversationBundle(uid, convId);
-  if (!bundle) return;
-  // Not wire payload: `settings` duplicates the conversation row's columns;
-  // `requestLogs` are server-persisted at stream finish for synced convs.
-  const result = await mirrorSyncedRow(uid, "conversations", convId, {
-    ...bundle,
-    settings: undefined,
-    requestLogs: undefined,
-  });
-  await evictMediaBase64After(uid, result);
+  await enqueueConv(userId, convId, "full");
 }
 
-// Shallow conv-row patch (rename, title); skips bundle rebuild.
-export async function mirrorConvPatchIfSynced(
+// Conversation-row columns only (rename, drawer settings, model switch).
+export async function mirrorConvRowIfSynced(
   userId: number | undefined,
   convId: string,
-  patch: { conversation: Record<string, unknown> },
 ) {
-  const uid = await syncedConvUser(userId, convId);
-  if (uid != null) await mirrorSyncedRow(uid, "conversations", convId, patch);
+  await enqueueConv(userId, convId, "row");
 }
 
-// Settings-only mirror in upsert mode; preserves messages/media/chars.
-export async function mirrorConvSettingsIfSynced(
-  userId: number | undefined,
-  convId: string,
-  settings: Record<string, unknown>,
-) {
-  const uid = await syncedConvUser(userId, convId);
-  if (uid == null) return;
-  // Settings are conversation-row columns; ship them as a conversation patch.
-  await mirrorSyncedRow(
-    uid,
-    "conversations",
-    convId,
-    { conversation: settings },
-    "upsert",
-  );
-}
-
-// Bindings-only mirror: REPLACE mode wipes + reinserts just the two join
-// tables (the server upsert only touches sections present in the payload).
+// Join tables only; messages/media never ride a bindings save.
 export async function mirrorConvBindingsIfSynced(
   userId: number | undefined,
   convId: string,
-  bindings: {
-    conversationCharacters: Array<Record<string, unknown>>;
-    conversationLorebooks: Array<Record<string, unknown>>;
-  },
 ) {
-  const uid = await syncedConvUser(userId, convId);
-  if (uid != null) await mirrorSyncedRow(uid, "conversations", convId, bindings);
+  await enqueueConv(userId, convId, "bindings");
 }
 
-type ConvDeltaPatch = {
-  conversation?: Record<string, unknown>;
-  messages?: Array<Record<string, unknown>>;
-  messageItems?: Array<Record<string, unknown>>;
-};
-export async function mirrorConvDeltaIfSynced(
+// Message delta (new turn, edit, branch switch); withRow adds the
+// conversation-row patch (updatedAt/vars/summary) to the same drain.
+export async function mirrorConvMessagesIfSynced(
   userId: number | undefined,
   convId: string,
-  patch: ConvDeltaPatch,
-  mergeMode: Exclude<SyncMergeMode, "replace">,
+  msgIds: string[],
+  withRow = false,
 ) {
-  const uid = await syncedConvUser(userId, convId);
-  if (uid != null)
-    await mirrorSyncedRow(uid, "conversations", convId, patch, mergeMode);
+  await enqueueConv(userId, convId, "msgs", msgIds);
+  if (withRow) await enqueueConv(userId, convId, "row");
 }
 
-// Playground mirror analog of mirrorConvIfSynced.
+// Playground analog of mirrorConvIfSynced (always full bundle).
 export async function mirrorSessionIfSynced(
   userId: number | undefined,
   sessionId: string,
 ) {
+  if (!userId || userId <= GUEST_USER_ID) return;
   const session = await readLocalGenerationSession(userId, sessionId);
   if (session?.syncExpiresAt == null) return;
-  const bundle = await readLocalGenerationSessionBundle(userId, sessionId);
-  if (!bundle) return;
-  if (!userId) return;
-  const result = await mirrorSyncedRow(
-    userId,
-    "playgroundSessions",
-    sessionId,
-    bundle,
-  );
-  await evictMediaBase64After(userId, result);
+  await enqueueSync(userId, "playgroundSessions", sessionId, "patch");
+  drainSoon(userId);
 }

@@ -10,19 +10,9 @@ import { getApiKey } from "@/server/constants";
 import { serverEnv } from "@/server/env";
 import type { Cookie } from "elysia";
 
-/**
- * Resolve the caller's best usable token from upstream, given their own
- * authenticated upstream headers (access_token + New-Api-User). Prefers an
- * enabled, unlimited-quota, auto-group token with NO model limits so every
- * model (including paid ones the user has balance for) is callable. Falls back
- * to the first enabled token, then null.
- *
- * Returns the RAW key (no `sk-` prefix), matching the upstream token object.
- *
- * Shared by the GET /best-key route and the chat key resolver so a logged-in
- * user never silently downgrades to the guest token when the client-store
- * cookie has not hydrated yet.
- */
+// Best usable upstream token: enabled + unlimited-quota + auto-group + no model
+// limits, falling back to the first enabled token, then null. Returns the RAW
+// key (no `sk-` prefix). Shared by GET /best-key and the chat key resolver.
 export async function resolveBestKey(
   headers: Record<string, string>,
 ): Promise<string | null> {
@@ -46,11 +36,7 @@ export async function resolveBestKey(
   return keyRes.data?.data?.key ?? null;
 }
 
-/**
- * Build upstream auth headers (access_token + New-Api-User) from a logged-in
- * user's cookies, or null when not authenticated. Mirrors deriveUpstream's
- * auth derivation but works from the Elysia cookie record.
- */
+// deriveUpstream's auth derivation, but from the Elysia cookie record; null when unauthenticated.
 async function authedUpstreamHeaders(
   cookie: Record<string, Cookie<unknown>>,
 ): Promise<Record<string, string> | null> {
@@ -61,19 +47,9 @@ async function authedUpstreamHeaders(
   return { Authorization: accessToken, [NEW_API_USER]: String(userId) };
 }
 
-/**
- * Resolve the API key for chat/title/playground server routes WITHOUT trusting
- * the client-store cookie alone.
- *
- * Order:
- *   1. client-store apiKey (logged-in + already hydrated) -> use it.
- *   2. logged-in but cookie not hydrated yet -> resolve the user's best key
- *      upstream from their own access_token. This closes the race where a
- *      freshly loaded chat fires a request before useApiKey writes the cookie,
- *      which previously fell through to the guest token and 403'd paid models.
- *   3. genuine guest -> guestApiKey.
- *   4. nothing -> throw.
- */
+// Key order: client-store apiKey -> best key via the user's own access_token
+// (closes the pre-hydration race that fell through to the guest token and
+// 403'd paid models) -> guestApiKey -> throw.
 export async function resolveChatApiKey(
   cookie: Record<string, Cookie<unknown>>,
 ): Promise<string> {

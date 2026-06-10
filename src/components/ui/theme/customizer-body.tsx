@@ -14,7 +14,7 @@ import {
 import { SyncBadge } from "@/components/elements/badge/sync-badge";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { upsertLocalTheme } from "@/lib/db/client/data/theme";
-import { enqueuePending } from "@/lib/db/client/sync/pending-sync";
+import { enqueueSync, drainSoon } from "@/lib/db/client/sync/pending-sync";
 import { useSyncStateForRow } from "@/hooks/ai/sync-hook";
 import {
   ALL_BASE_COLORS,
@@ -26,8 +26,6 @@ import {
 } from "@/components/ui/theme/shadcn-themes";
 import { STYLES } from "@/components/ui/theme/shadcn-styles";
 import { FONT_OPTIONS } from "@/components/ui/theme/theme-fonts";
-import { rpc } from "@/lib/rpc";
-import { handleElysia } from "@/lib/utils/base";
 import { downloadJson, fileToScaledDataUrl } from "@/lib/utils/client";
 import { Slider } from "@/components/ui/slider";
 import {
@@ -217,17 +215,10 @@ export function ThemeCustomizerBody() {
       syncExpiresAt as Date | null | undefined,
     ).catch(() => {});
     if (userId > 0 && syncExpiresAt != null) {
-      void (async () => {
-        try {
-          handleElysia(
-            await rpc.api.ai
-              .sync({ kind: "theme" })({ id: String(userId) })
-              .post({ payload: { themeJson: next }, keepExpiry: true }),
-          );
-        } catch (err) {
-          await enqueuePending(userId, "theme", String(userId), "patch", err);
-        }
-      })();
+      // Outbox + debounced drain: slider drags coalesce into one push.
+      void enqueueSync(userId, "theme", String(userId)).then(() =>
+        drainSoon(userId),
+      );
     }
   };
 

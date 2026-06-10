@@ -1,13 +1,12 @@
 "use client";
-/* eslint-disable react-hooks/refs -- assistant-ui calls runtimeHook per render
-   without remounting; transport/adapter must be built once and read from a ref
-   during render, and latest-value refs feed async stream/transport callbacks. */
+/* eslint-disable react-hooks/refs -- assistant-ui calls runtimeHook per render;
+   transport/adapter built once in refs, latest-value refs feed async callbacks. */
 
 import { createChatHistoryAdapter } from "@/components/pages/sidebar/chat/runtime/chat-history-adapter";
 import { createLocalAttachmentAdapter } from "@/components/pages/sidebar/chat/runtime/chat-utils";
 import { createThreadListAdapter } from "@/components/pages/sidebar/chat/runtime/thread-list-adapter";
 import { useConversationQuery } from "@/hooks/ai/chat-hook";
-import { mirrorConvSettingsIfSynced } from "@/hooks/ai/rp/shared";
+import { mirrorConvRowIfSynced } from "@/hooks/ai/rp/shared";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { groupOrder } from "@/lib/ai/chat/group-order";
 import { GUEST_USER_ID } from "@/lib/config/constants";
@@ -52,8 +51,7 @@ import { useParams } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { toast } from "sonner";
 
-// Mirrors the active thread's remoteId into convIdAtom so the transport body
-// and adapters (which read convId imperatively) see the current conversation.
+// Mirrors the active thread's remoteId into convIdAtom for imperative readers.
 function useConvIdSync(remoteId: string | null | undefined) {
   useEffect(() => {
     chatStore.set(convIdAtom, remoteId ?? null);
@@ -87,9 +85,8 @@ function useModelSync(remoteId: string | null | undefined) {
       );
       if (cached?.model === newModel) return;
       void (async () => {
-        // conversation_settings.conv_id FK requires the parent conv row.
-        // Initial model picker can fire before initialize() seeds it; bail
-        // and let initialize seed model from chatModelAtom directly.
+        // Settings FK needs the parent conv row; before initialize() seeds it,
+        // bail and let initialize read chatModelAtom directly.
         const conv = await readLocalConversation(userId, id);
         if (!conv) return;
         await upsertLocalConversationSettings(userId, {
@@ -97,9 +94,7 @@ function useModelSync(remoteId: string | null | undefined) {
           defaultModel: newModel,
           updatedAt: dayjs().toDate(),
         });
-        await mirrorConvSettingsIfSynced(userId, id, {
-          defaultModel: newModel,
-        });
+        await mirrorConvRowIfSynced(userId, id);
         queryClient.invalidateQueries({ queryKey: queryKeys.chatMeta(id) });
       })();
     });
@@ -124,12 +119,9 @@ function useChatTransport() {
               m.buildChatContextFromLocalDb(userIdRef.current, convId),
             )
           : undefined;
-        // Context-dedup handshake: the RP context (cards + lorebooks) is the
-        // heaviest part of every send and rarely changes between turns. Send
-        // the full payload only when its fingerprint changed since the last
-        // send for this conv; otherwise just the hash (server keeps an LRU
-        // copy; a server-side miss 409s and the fetch wrapper retries full).
-        // globalVars ride OUTSIDE the hash: they change every setglobalvar.
+        // Context-dedup handshake: full payload only when the fingerprint changed,
+        // else just the hash (server LRU; a miss 409s and the fetch wrapper retries
+        // full). globalVars ride outside the hash: they change every setglobalvar.
         let chatContext: typeof baseContext;
         let chatContextHash: string | undefined;
         if (convId && baseContext) {
@@ -154,7 +146,7 @@ function useChatTransport() {
           chatContext,
           chatContextHash,
           globalVars: chatStore.get(globalVarsAtom),
-          // Multi-character rotation: the speaking character for THIS stream.
+          // Speaking character for this stream (multi-character rotation).
           speakingCharacterId: chatStore.get(speakingCharacterIdAtom),
         };
       },
@@ -166,8 +158,7 @@ function useChatTransport() {
           .json()
           .catch(() => null);
         if (payload?.code !== "context-required") return res;
-        // Server lost/never had the cached context (restart, eviction, other
-        // instance): retry ONCE with the full payload.
+        // Server lost the cached context: retry once with the full payload.
         const body = JSON.parse(init.body) as Record<string, unknown> & {
           convId?: string | null;
         };
@@ -179,11 +170,8 @@ function useChatTransport() {
         body.chatContextHash = last.hash;
         return fetch(input, { ...init, body: JSON.stringify(body) });
       },
-      // History upload window: useChat ships the FULL message list every send,
-      // but with memory OFF the server only consumes a window (chatMemory cap
-      // for the model, scanDepth for lorebooks, ~32 recent texts for triggers).
-      // Trim to a generous superset of all consumers. Rolling-summary convs
-      // (memory on or an existing anchor) need absolute indices -> send full.
+      // With memory off the server only consumes a window; trim to a generous
+      // superset of all consumers. Rolling-summary convs need absolute indices, send full.
       prepareSendMessagesRequest: (opts) => {
         const body = (opts.body ?? {}) as Record<string, unknown> & {
           chatContext?: {
@@ -288,9 +276,8 @@ const lastContextRef = {
 const autoContinueDepth = new Map<string, number>();
 const MAX_AUTO_CONTINUE = 3;
 
-// RisuAI isLastCharPunctuation port (util.ts:524): broad set incl. `*` and `~`
-// so RP replies ending `*smiles*` count as terminal, plus spacing-modifier
-// letters (U+02B0-02FF). A narrow set causes spurious auto-continues.
+// RisuAI isLastCharPunctuation port: broad set (incl. `*`/`~` so `*smiles*` is
+// terminal) plus U+02B0-02FF; a narrow set causes spurious auto-continues.
 const TERMINAL_PUNCTUATION = new Set([
   ".",
   "!",
@@ -348,8 +335,7 @@ function endsTerminally(text: string): boolean {
   return code >= 0x02b0 && code <= 0x02ff;
 }
 
-// Pull plain text out of a sendMessage() argument (string, {text}, or a
-// parts/message object) for the group-order name-mention scan.
+// Plain text from a sendMessage() arg, for the group-order name-mention scan.
 function sendArgText(arg: unknown): string {
   if (typeof arg === "string") return arg;
   if (arg && typeof arg === "object") {
@@ -368,8 +354,7 @@ function sendArgText(arg: unknown): string {
   return "";
 }
 
-// Compute the speaking order for a multi-character conversation. Returns the
-// ordered character ids (length <= 1 means single-stream, no rotation).
+// Ordered character ids; length <= 1 means single-stream, no rotation.
 async function computeSpeakingOrder(
   userId: number | undefined,
   convId: string,
@@ -382,7 +367,6 @@ async function computeSpeakingOrder(
   );
   if (active.length <= 1) return active.map((b) => b.characterId);
 
-  // Resolve names for the mention scan.
   const members = await Promise.all(
     active.map(async (b) => {
       const ch = await readLocalCharacter(userId, b.characterId);
@@ -398,8 +382,7 @@ async function computeSpeakingOrder(
       };
     }),
   );
-  // Last speaker (most recent assistant turn's character) for the
-  // no-back-to-back filter in the random mode.
+  // Last speaker, for the random mode's no-back-to-back filter.
   const rows = await readLocalMessages(userId, convId);
   const lastSpeakerId =
     [...(rows ?? [])]
@@ -445,16 +428,13 @@ async function maybeAutoContinue(
     return;
   }
   autoContinueDepth.set(remoteId, depth + 1);
-  // Continuation send, NOT regenerate: regenerate would DISCARD the truncated
-  // reply and start over. An argless sendMessage re-submits the history ending
-  // on the assistant turn, so the model appends a continuation (same mechanism
-  // as the multi-character rotation's follow-up sends).
+  // Continuation send, not regenerate (which would discard the truncated reply):
+  // argless sendMessage re-submits history ending on assistant, model appends.
   await chat.sendMessage();
 }
 
-// Stable helpers bridge for edit/delete/clear-conv/empty-send from outside the
-// React tree. Receives the WRAPPED chat so sendEmpty rides the same locked
-// send path as a normal message (Risu sendMain: one send function for both).
+// Helpers bridge for edit/delete/clear/empty-send from outside the React tree.
+// Receives the WRAPPED chat so sendEmpty rides the same locked send path.
 function useChatHelpersBridge(chat: ReturnType<typeof useChat<ChatUIMessage>>) {
   const messagesRef = useRef(chat.messages);
   messagesRef.current = chat.messages;
@@ -499,9 +479,8 @@ function ChatRuntimeHook() {
     transport,
     onError: (e) => {
       releaseStreamLock();
-      // Offline send failure: the user turn is persisted by the history
-      // adapter; the user resends manually when back online (Risu semantics:
-      // fail loudly, no auto-replay). Show "queued", not a network error.
+      // Offline: user turn already persisted, user resends manually (Risu
+      // semantics, no auto-replay). Show "queued", not a network error.
       if (!navigator.onLine) {
         toast.info(t("CHAT.QUEUED_OFFLINE"));
         return;
@@ -515,9 +494,6 @@ function ChatRuntimeHook() {
           t("RP.DROPPED_PARAMS", { params: message.metadata.droppedParams }),
         );
       }
-      // Auto-continue (RisuAI): when the conv opts in and the reply ends without
-      // terminal punctuation, regenerate to continue. Bounded per conv so a
-      // model that never punctuates can't loop forever.
       void maybeAutoContinue(chat, remoteId ?? null, message, auth.data?.id);
     },
   });
@@ -539,10 +515,8 @@ function ChatRuntimeHook() {
         }
         streamLockKeyRef.current = lockKey;
       }
-      // Multi-character rotation: when the conversation has >1 active character,
-      // compute the speaking order and fire one VISIBLE assistant stream per
-      // speaker in sequence (cost stays on-screen; no hidden fan-out). Each send
-      // tags its speaking character so the assembler promotes it to primary.
+      // Multi-character rotation: one visible assistant stream per speaker in
+      // sequence; each send tags its speaker so the assembler promotes it to primary.
       if (hasText && convId) {
         const order = await computeSpeakingOrder(
           auth.data?.id,
@@ -563,10 +537,8 @@ function ChatRuntimeHook() {
           return;
         }
       }
-      // Offline: still call sendMessage. It pushes the user message into the
-      // thread and attempts the stream, which fails fast; the history adapter
-      // persists the user turn on the run transition, making it a detectable
-      // unanswered turn for replay. onError shows the "queued" toast.
+      // Offline: still send; the stream fails fast and the history adapter
+      // persists the user turn as a detectable unanswered turn.
       chatStore.set(speakingCharacterIdAtom, null);
       return chat.sendMessage(...args);
     },

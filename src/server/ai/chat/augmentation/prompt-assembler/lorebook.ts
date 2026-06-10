@@ -12,8 +12,7 @@ function stripComments(text: string): string {
     .replace(/\{\{comment:(.+?)\}\}/g, "");
 }
 
-// Compiled-key cache: a big lorebook re-tests the same keys every turn (and
-// several times per turn with recursion); compiling per call burns CPU.
+// Compiled-key cache: big lorebooks re-test the same keys every turn.
 // null = invalid pattern, cached so it isn't re-tried.
 const KEY_RE_CACHE = new Map<string, RegExp | null>();
 function compiledKey(cacheKey: string, build: () => RegExp): RegExp | null {
@@ -127,9 +126,8 @@ const csv = (s: string) =>
     .map((x) => x.trim())
     .filter(Boolean);
 
-// Parse leading `@@decorator` lines (RisuAI/CCardLib decorator set, ~30). All
-// selection/placement/state decorators are honored; the lines are stripped from
-// the body. Unknown decorators are consumed (line removed) with no effect.
+// Parse leading `@@decorator` lines (RisuAI/CCardLib set); lines are stripped
+// from the body, unknown decorators consumed with no effect.
 export function parseDecorators(content: string): EntryDecorators {
   const out: EntryDecorators = { body: content };
   if (!content.includes("@@")) return out;
@@ -270,9 +268,7 @@ type Prepared = {
   probPass: boolean;
 };
 
-// Does this entry match the given text, honoring keys / secondary / constant /
-// additional / exclude decorators? Per-entry @@match_full_word overrides the
-// entry's own whole-word flag.
+// Key/secondary/constant/additional/exclude matching; @@match_full_word overrides the entry flag.
 function entryMatches(p: Prepared, text: string): boolean {
   const e = p.entry;
   const whole = p.dec.matchWholeWords ?? !!e.matchWholeWords;
@@ -310,9 +306,7 @@ function entryMatches(p: Prepared, text: string): boolean {
   return true;
 }
 
-// Chat-length gates (@@activate_only_after / @@activate_only_every /
-// @@is_greeting). chatLength = active message count; greetingIndex = which
-// first-message is shown (-1 if none). Returns false when a gate blocks.
+// @@activate_only_after / @@activate_only_every / @@is_greeting gates.
 function passesChatGates(
   dec: EntryDecorators,
   chatLength: number,
@@ -333,14 +327,12 @@ function passesChatGates(
 export type SelectOpts = {
   // Active message count, for the chat-length gates.
   chatLength?: number;
-  // Which first-message/greeting is shown (-1 = none), for @@is_greeting.
+  // Shown greeting index (-1 = none), for @@is_greeting.
   greetingIndex?: number;
-  // Per-conversation var store (sticky-match state lives here as
-  // __internal_ka_<id> / __internal_da_<id>). Mutated in place; persisted by
-  // the caller via the var-writeback channel.
+  // Per-conv var store; sticky-match state (__internal_ka/da_<id>) mutates in
+  // place, caller persists via var writeback.
   vars?: Record<string, string>;
-  // Per-turn deterministic seed (convId + chat length) for @@probability rolls:
-  // stable across regenerates, fresh each turn.
+  // Per-turn seed for @@probability: stable across regenerates, fresh each turn.
   seed?: string;
 };
 
@@ -356,16 +348,14 @@ export function selectLorebookEntries(
   const vars = opts.vars;
   const rollSeed = opts.seed ?? String(chatLength);
 
-  // Global single pool (RisuAI fullLore): every entry competes in one priority
-  // ranking under one shared token budget, with one recursion namespace. Each
-  // entry keeps its own book's scanDepth for matching only.
+  // Single global pool (RisuAI fullLore): one priority ranking, one shared token
+  // budget, one recursion namespace; per-book scanDepth applies to matching only.
   const globalBudget = Math.max(
     ...[...books.values()].map((b) => b.tokenBudget ?? 1500),
     1500,
   );
 
-  // Disabled entries never participate (defense for loose client payloads;
-  // the Turso path already filters in SQL).
+  // Defense for loose client payloads; the Turso path already filters in SQL.
   const enabledEntries = entries.filter(
     (e) => (e as { enabled?: boolean | null }).enabled !== false,
   );
@@ -404,7 +394,6 @@ export function selectLorebookEntries(
       // Sticky deactivation: once matched-then-suppressed, stays off.
       if (vars?.[daKey(id)] === "true") continue;
 
-      // Chat-length gates.
       if (!passesChatGates(p.dec, chatLength, greetingIndex)) continue;
 
       // Force state from @@activate / @@dont_activate wins over key matching.
@@ -474,12 +463,9 @@ export function selectLorebookEntries(
       );
   }
 
-  // Placement: BOOK binding order first (the order books were attached to the
-  // conversation), then per-entry orderIndex, then priority. Without the book
-  // rank, two books sharing a position interleave entry-by-entry (A0 B0 A1 B1),
-  // scrambling each book's narrative block - the exact failure Risu users hit
-  // when two lorebooks share one insertorder value. Decorator placement/role/
-  // depth override the entry's stored fields. Return decorator-stripped bodies.
+  // Sort book binding order -> entry orderIndex -> priority. Without the book
+  // rank, two books sharing a position interleave entry-by-entry and scramble
+  // each book's narrative block.
   const bookRank = new Map([...books.keys()].map((id, i) => [id, i]));
   placed.sort(
     (a, b) =>
@@ -497,9 +483,8 @@ export function selectLorebookEntries(
   }));
 }
 
-// RisuAI has extra placement names that the stored position enum lacks
-// (before_desc/after_desc/personality/scenario). Map them onto the nearest
-// stored slot so decorator placement works without widening the schema enum.
+// Map RisuAI-only placement names onto the nearest stored slot so decorator
+// placement works without widening the schema enum.
 function toStoredPosition(pos: LorebookPlacement): LbEntry["position"] {
   switch (pos) {
     case "before_desc":

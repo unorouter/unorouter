@@ -64,9 +64,8 @@ export function stripUndefined<T extends Record<string, unknown>>(
   return out;
 }
 
-// PATCH set from a loose payload: only the fields the shared validation schema
-// declares, only when present. Keeps update field lists in lockstep with the
-// schema instead of hand-maintained per handler.
+// PATCH set: only schema-declared fields, only when present; keeps update
+// field lists in lockstep with the schema instead of hand-maintained.
 function pickSchemaFields(
   body: Record<string, unknown>,
   schema: { properties: Record<string, unknown> },
@@ -76,8 +75,7 @@ function pickSchemaFields(
   );
 }
 
-// Exists-check then insert-or-update for an (id, userId)-scoped table. NOT
-// onConflictDoUpdate: the PK is the global `id`, so a conflict-update would let
+// NOT onConflictDoUpdate: PK is the global `id`, so a conflict-update would let
 // a payload carrying someone else's entity id write across users; the userId
 // in the WHERE keeps both branches scoped.
 type ScopedTable =
@@ -116,9 +114,7 @@ async function upsertScoped(
   }
 }
 
-// Insert-value builders: map a loose sync payload to a typed insert row.
-// `castWithDriftLog` validates against the shared RP schema, coerces, fills
-// defaults, drops extras (id/userId/timestamps).
+// Insert-value builders: loose sync payload -> typed insert row via castWithDriftLog.
 
 function characterInsertValues(
   body: unknown,

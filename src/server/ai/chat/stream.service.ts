@@ -23,11 +23,9 @@ import {
 } from "./stream/media-stream";
 import { prepareChatRequest, type StreamBody } from "./stream/prepare";
 
-// Server-side request-log persistence for SYNCED conversations: the server
-// already owns the snapshot, so writing it to Turso here saves the client
-// from pushing the full prompt back up on every turn. Guests and local-only
-// convs keep the client-side copy only (local-first display works for both).
-// Fire-and-forget: a miss only costs the cross-device log copy.
+// Request-log persistence for synced convs: server owns the snapshot, so writing
+// it here saves the client pushing the full prompt up every turn. Guests/local-only
+// keep the client copy. Fire-and-forget: a miss only costs the cross-device copy.
 function persistRequestLogIfSynced(
   convId: string | null | undefined,
   msgId: string,
@@ -135,9 +133,8 @@ export async function streamChat(
     globalVarsWriteback,
     debugRequestSnapshot,
   } = prepared;
-  // Inject Anthropic cache_control markers only for Claude models that advertise
-  // cache support. supportsCache alone is not enough: other providers (Mistral)
-  // advertise caching but their APIs 422 on the Anthropic block format.
+  // cache_control only for Claude models: others (Mistral) advertise caching
+  // but 422 on the Anthropic block format.
   const provider = getProvider(apiKey, {
     injectCacheControl:
       modelInfo?.metadata.supportsCache === true && /claude/i.test(body.model),
@@ -183,18 +180,15 @@ export async function streamChat(
     }
   };
   const result = streamText({
-    // Models that emit reasoning inline as `<think>...` text (GLM OpenAI-compat,
-    // R1 distills) get it lifted into a proper reasoning part: UI renders it
-    // collapsible and stripReasoningParts keeps it out of the next turn's context.
+    // Lift inline <think> text into a proper reasoning part: UI renders it
+    // collapsible, stripReasoningParts keeps it out of next turn's context.
     model: wrapLanguageModel({
       model: provider.chatModel(body.model),
       middleware: extractReasoningMiddleware({ tagName: "think" }),
     }),
     messages: await convertToModelMessages(messagesForUpstream),
     system: effectiveSystem,
-    // Risu requestRetrys parity: bounded retries on RETRYABLE errors only
-    // (429/5xx/network, exponential backoff). Deterministic 4xx surface
-    // verbatim on the first attempt.
+    // Retries retryable errors only (429/5xx/network); 4xx surface verbatim (Risu parity).
     maxRetries: 2,
     ...modelParams,
     providerOptions,

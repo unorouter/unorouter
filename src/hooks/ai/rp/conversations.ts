@@ -41,7 +41,7 @@ import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
 import {
   mirrorConvBindingsIfSynced,
-  mirrorConvSettingsIfSynced,
+  mirrorConvRowIfSynced,
 } from "./shared";
 
 export function useChatSettingsQuery(convId?: string) {
@@ -86,10 +86,7 @@ export function useUpdateChatSettingsMutation() {
       if (!args.skipMirror) {
         // Settings are conversation-row columns; patch them instead of
         // re-uploading the whole conversation bundle on every drawer save.
-        await mirrorConvSettingsIfSynced(userId, args.convId, {
-          ...args.body,
-          updatedAt: now,
-        });
+        await mirrorConvRowIfSynced(userId, args.convId);
       }
       return updated;
     },
@@ -144,22 +141,7 @@ export function useUpdateChatBindingsMutation() {
       }
       if (!args.skipMirror) {
         // Join tables only; messages/media never ride a bindings save.
-        await mirrorConvBindingsIfSynced(auth.data?.id, args.convId, {
-          conversationCharacters: (args.body.characters ?? []).map((c, i) => ({
-            convId: args.convId,
-            characterId: c.characterId,
-            orderIndex: c.orderIndex ?? i,
-            isActive: c.isActive ?? true,
-            overrides: c.overrides ?? null,
-          })),
-          conversationLorebooks: (args.body.lorebookIds ?? []).map(
-            (lid, i) => ({
-              convId: args.convId,
-              lorebookId: lid,
-              orderIndex: i,
-            }),
-          ),
-        });
+        await mirrorConvBindingsIfSynced(auth.data?.id, args.convId);
       }
       return { id: args.convId };
     },

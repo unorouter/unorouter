@@ -1,28 +1,12 @@
 "use client";
 
-import { logger } from "@/lib/utils/logger";
 import { useEffect } from "react";
-import { drainPending } from "./pending-sync";
-import { acquireLock, releaseLock } from "./resource-lock";
+import { safeDrain } from "./pending-sync";
 
 const DRAIN_INTERVAL_MS = 60_000;
 
-async function safeDrain(userId: number): Promise<void> {
-  const lockKey = `drain:${userId}`;
-  if (!acquireLock(lockKey)) return;
-  try {
-    await drainPending(userId);
-  } catch (err) {
-    logger.warn("Scheduled drainPending failed", {
-      context: "local-db.scheduler",
-      userId,
-      error: String(err),
-    });
-  } finally {
-    releaseLock(lockKey);
-  }
-}
-
+// Periodic retry tick for the outbox: drainSoon handles the happy path right
+// after each enqueue; this catches backoff retries + offline recovery.
 export function usePendingDrainScheduler(userId: number | null | undefined) {
   useEffect(() => {
     if (userId == null || userId <= 0) return;
