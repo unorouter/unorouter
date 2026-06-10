@@ -332,16 +332,25 @@ export function applyRegexScripts(
 }
 
 // Role-tagged history (newest last) for the {{history}} macro family.
+// `times` (client-sent, keyed by message id) feeds message_time/date/idle.
 export function collectHistory(
   messages: StreamMessages,
-): { role: "user" | "assistant" | "system"; text: string }[] {
-  const out: { role: "user" | "assistant" | "system"; text: string }[] = [];
+  times?: Record<string, number>,
+): { role: "user" | "assistant" | "system"; text: string; time?: number }[] {
+  const out: {
+    role: "user" | "assistant" | "system";
+    text: string;
+    time?: number;
+  }[] = [];
   for (const m of messages) {
     if (m.role !== "user" && m.role !== "assistant" && m.role !== "system") {
       continue;
     }
     const text = textOf(m.parts);
-    if (text) out.push({ role: m.role, text });
+    const id = (m as { id?: string }).id;
+    if (text) {
+      out.push({ role: m.role, text, time: id ? times?.[id] : undefined });
+    }
   }
   return out;
 }

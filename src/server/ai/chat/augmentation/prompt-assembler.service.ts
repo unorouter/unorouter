@@ -228,7 +228,11 @@ export type AssembleOpts = {
   // Per-user global var store (JSON string); mutated by setglobalvar, caller persists.
   globalVars?: string | null;
   // Role-tagged recent history (newest last) for the {{history}} macros.
-  history?: { role: "user" | "assistant" | "system"; text: string }[];
+  history?: {
+    role: "user" | "assistant" | "system";
+    text: string;
+    time?: number;
+  }[];
   // Pre-mutated chat var store (start triggers); used over settings.vars so
   // trigger writes are visible to the prompt + writeback.
   seedVars?: Record<string, string>;
@@ -236,6 +240,15 @@ export type AssembleOpts = {
   maxContext?: number;
   // Multi-character rotation: promote this bound character to primary ({{char}}) this turn.
   speakingCharacterId?: string;
+  // Browser env for screen_width/height + locale-faithful time macros.
+  clientEnv?: {
+    viewportW?: number;
+    viewportH?: number;
+    locale?: string;
+    timeZone?: string;
+  };
+  // Model supports assistant prefill ({{prefill_supported}}).
+  prefillSupported?: boolean;
 };
 
 export async function assembleForStream(
@@ -296,6 +309,21 @@ export async function assembleForStream(
       settings.systemPromptOverride ?? primary?.systemPrompt ?? undefined,
     prefill: preset?.prefill ?? undefined,
     authorNote: settings.authorNote ?? undefined,
+    viewport:
+      opts?.clientEnv?.viewportW != null && opts?.clientEnv?.viewportH != null
+        ? { w: opts.clientEnv.viewportW, h: opts.clientEnv.viewportH }
+        : undefined,
+    locale: opts?.clientEnv?.locale,
+    timeZone: opts?.clientEnv?.timeZone,
+    firstMessage: primary?.firstMessage ?? undefined,
+    alternateGreetings: Array.isArray(primary?.alternateGreetings)
+      ? (primary.alternateGreetings as string[])
+      : undefined,
+    fmIndex:
+      (settings as { firstMsgIndex?: number | null }).firstMsgIndex ?? -1,
+    exampleMessage: primary?.exampleMessages ?? undefined,
+    lorebooks: lbEntries,
+    prefillSupported: opts?.prefillSupported,
   };
   const expand = (text: string | null | undefined) =>
     text ? expandMacros(text, macroScope) : "";
@@ -311,8 +339,8 @@ export async function assembleForStream(
   const selected = selectLorebookEntries(scanTexts, lbEntries, booksById, {
     // Drives @@activate_only_after/every gates.
     chatLength: history?.length ?? recentUserTexts.length,
-    // 0 = default greeting; alternate greetings untracked, @@is_greeting N>0 stay off.
-    greetingIndex: 0,
+    // Risu gate: @@is_greeting N matches fmIndex+1 (0 = default firstMessage).
+    greetingIndex: (macroScope.fmIndex ?? -1) + 1,
     vars: macroScope.vars,
     // Same per-turn seed as macros: @@probability stable across regenerates.
     seed: macroScope.seed,

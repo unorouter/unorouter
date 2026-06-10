@@ -17,10 +17,9 @@ import {
   lorebookFormSchema,
   type LorebookForm,
 } from "@/lib/validation/rp-forms";
-import { typeboxResolver } from "@hookform/resolvers/typebox";
+import { useRpForm } from "@/hooks/ui/use-rp-form";
 import { formDefaults } from "@/lib/validation/helpers";
 import { useTranslations } from "next-intl";
-import { useForm } from "react-hook-form";
 import { LorebookEntries } from "./entries";
 
 type Props = {
@@ -39,12 +38,7 @@ export function LorebookEditor(props: Props) {
   const formValues = lbQuery.data
     ? formDefaults(lorebookFormSchema, lbQuery.data)
     : undefined;
-  const form = useForm({
-    resolver: typeboxResolver(lorebookFormSchema),
-    defaultValues: formDefaults(lorebookFormSchema),
-    values: formValues,
-    resetOptions: { keepDirtyValues: true },
-  });
+  const form = useRpForm(lorebookFormSchema, formValues);
 
   const onSubmit = async (data: LorebookForm) => {
     await updateLb.mutateAsync({ id: props.lorebookId, body: data });

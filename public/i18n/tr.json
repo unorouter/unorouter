@@ -835,7 +835,6 @@
     "BADGE": "Entegrasyonlar",
     "TITLE": "Entegrasyonlar",
     "SUBTITLE": "{appName} uygulamasini favori yapay zeka araclarinizla kullanin. Asagidaki {count} kurulum kilavuzuna goz atin ve istemciniz icin olani secin.",
-    "QUICK_START": "Hızlı Başlangıç",
     "VIEW_GUIDE": "Tam Kılavuzu Görüntüle",
     "CTA_TITLE": "Başlamaya hazır mısınız?",
     "CTA_DESC": "API anahtarınızı alın ve {appName}'i bu araçlardan herhangi biriyle kullanmaya başlayın.",

@@ -835,7 +835,6 @@
     "BADGE": "整合",
     "TITLE": "整合",
     "SUBTITLE": "在你喜愛的 AI 工具中使用 {appName}。瀏覽下方的 {count} 篇設定指南，選擇適合你用戶端的那一篇。",
-    "QUICK_START": "快速開始",
     "VIEW_GUIDE": "查看完整指南",
     "CTA_TITLE": "準備好開始了嗎？",
     "CTA_DESC": "取得您的 API 金鑰，即可搭配以下任一工具使用 {appName}。",

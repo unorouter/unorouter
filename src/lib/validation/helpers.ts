@@ -4,7 +4,7 @@ import {
   DefaultErrorFunction,
   SetErrorFunction,
 } from "@sinclair/typebox/errors";
-import type { Static, TObject, TSchema } from "@sinclair/typebox/type";
+import type { Static, TLiteral, TObject, TSchema, TUnion } from "@sinclair/typebox/type";
 import { Value } from "@sinclair/typebox/value";
 
 SetErrorFunction((error) => {
@@ -51,4 +51,11 @@ export function formDefaults<T extends TObject>(
     Object.entries(row).filter(([, v]) => v !== null),
   );
   return Value.Default(schema, defined) as Static<T>;
+}
+
+// Pull literal values out of a TypeBox literal union (single-source arrays/Sets).
+export function unionLiterals<T extends string>(
+  union: TUnion<TLiteral<T>[]>,
+): readonly T[] {
+  return union.anyOf.map((m) => m.const);
 }

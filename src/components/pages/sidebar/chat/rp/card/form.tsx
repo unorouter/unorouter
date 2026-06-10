@@ -28,10 +28,9 @@ import { usePersonasQuery } from "@/hooks/ai/rp/personas";
 import { NONE_VALUE as NONE } from "@/lib/config/constants";
 import { formDefaults } from "@/lib/validation/helpers";
 import { cardFormSchema, type CardForm } from "@/lib/validation/rp-forms";
-import { typeboxResolver } from "@hookform/resolvers/typebox";
+import { useRpForm } from "@/hooks/ui/use-rp-form";
 import { useTranslations } from "next-intl";
 import { FormFooter } from "../shared/form-footer";
-import { useForm } from "react-hook-form";
 
 type Props = {
   editingId: string | "new";
@@ -61,12 +60,7 @@ export function CardForm(props: Props) {
         lorebookIds: (editing.cardLorebooks ?? []).map((cl) => cl.lorebookId),
       })
     : undefined;
-  const form = useForm({
-    resolver: typeboxResolver(cardFormSchema),
-    defaultValues: formDefaults(cardFormSchema),
-    values: formValues,
-    resetOptions: { keepDirtyValues: true },
-  });
+  const form = useRpForm(cardFormSchema, formValues);
 
   const onSubmit = async (data: CardForm) => {
     const body = {

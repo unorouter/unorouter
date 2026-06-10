@@ -1,6 +1,7 @@
 "use client";
 
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
+import { useApiMutation } from "@/hooks/use-api-mutation";
 import {
   GUEST_USER_ID,
   msg,
@@ -55,10 +56,8 @@ export function useChatSettingsQuery(convId?: string) {
 }
 
 export function useUpdateChatSettingsMutation() {
-  const t = useTranslations();
-  const qc = useQueryClient();
-  const auth = useAuthQuery();
-  return useMutation({
+    const auth = useAuthQuery();
+  return useApiMutation({
     mutationFn: async (args: {
       convId: string;
       body: UpdateConversationSettingsBody;
@@ -83,10 +82,7 @@ export function useUpdateChatSettingsMutation() {
       }
       return updated;
     },
-    onSuccess: (_data, args) => {
-      qc.invalidateQueries({ queryKey: queryKeys.chatSettings(args.convId) });
-    },
-    onError: (e) => handleError(e, t),
+    invalidates: (args) => [queryKeys.chatSettings(args.convId)],
   });
 }
 
@@ -109,10 +105,8 @@ export function useChatBindingsQuery(convId?: string) {
 }
 
 export function useUpdateChatBindingsMutation() {
-  const t = useTranslations();
-  const qc = useQueryClient();
-  const auth = useAuthQuery();
-  return useMutation({
+    const auth = useAuthQuery();
+  return useApiMutation({
     mutationFn: async (args: {
       convId: string;
       body: UpdateConversationBindingsBody;
@@ -138,10 +132,7 @@ export function useUpdateChatBindingsMutation() {
       }
       return { id: args.convId };
     },
-    onSuccess: (_data, args) => {
-      qc.invalidateQueries({ queryKey: queryKeys.chatBindings(args.convId) });
-    },
-    onError: (e) => handleError(e, t),
+    invalidates: (args) => [queryKeys.chatBindings(args.convId)],
   });
 }
 

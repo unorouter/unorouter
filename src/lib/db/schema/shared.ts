@@ -30,10 +30,13 @@ import type {
 
 // Fresh builder instances per call: drizzle binds a builder to its table, so
 // the shared column shapes must be factories, not constants.
-const timestamps = () => ({
-  createdAt: integer("created_at", { mode: "timestamp_ms" })
+export const createdAtCol = () =>
+  integer("created_at", { mode: "timestamp_ms" })
     .notNull()
-    .default(sql`(unixepoch() * 1000)`),
+    .default(sql`(unixepoch() * 1000)`);
+
+export const timestamps = () => ({
+  createdAt: createdAtCol(),
   updatedAt: integer("updated_at", { mode: "timestamp_ms" })
     .notNull()
     .default(sql`(unixepoch() * 1000)`),
@@ -99,6 +102,9 @@ export const conversations = sqliteTable(
     summaryAnchor: integer("summary_anchor"),
     // Toggle for the rolling summary + semantic retrieval memory features.
     memoryEnabled: integer("memory_enabled", { mode: "boolean" }),
+    // RisuAI fmIndex: which greeting opens the chat (-1 = firstMessage,
+    // 0..n = alternateGreetings index).
+    firstMsgIndex: integer("first_msg_index").notNull().default(-1),
     ...syncableTimestamps(),
   },
   (table) => [
@@ -157,9 +163,7 @@ export const messageItems = sqliteTable(
     outputIndex: integer("output_index"),
     type: text("type").notNull().$type<MessageItemType>(),
     data: text("data", { mode: "json" }).notNull(),
-    createdAt: integer("created_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
+    createdAt: createdAtCol(),
   },
   (table) => [
     index("idx_msgitem_msg_seq").on(table.messageId, table.sequenceIndex),
@@ -187,9 +191,7 @@ export const requestLogs = sqliteTable(
     cost: real("cost"),
     durationMs: integer("duration_ms"),
     tokensPerSecond: real("tokens_per_second"),
-    createdAt: integer("created_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
+    createdAt: createdAtCol(),
   },
   (table) => [
     index("idx_reqlog_conv").on(table.convId),
@@ -214,6 +216,8 @@ export const characters = sqliteTable(
     personality: text("personality"),
     scenario: text("scenario"),
     firstMessage: text("first_message"),
+    // Card-spec alternate_greetings; conversation firstMsgIndex picks one.
+    alternateGreetings: text("alternate_greetings", { mode: "json" }),
     exampleMessages: text("example_messages"),
     systemPrompt: text("system_prompt"),
     postHistoryInstructions: text("post_history_instructions"),
@@ -391,9 +395,7 @@ export const conversationCharacters = sqliteTable(
     // [0,1] talkativeness weight for non-mentioned group turn ordering.
     talkness: real("talkness"),
     overrides: text("overrides", { mode: "json" }),
-    createdAt: integer("created_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
+    createdAt: createdAtCol(),
   },
   (table) => [
     primaryKey({ columns: [table.convId, table.characterId] }),
@@ -411,9 +413,7 @@ export const conversationLorebooks = sqliteTable(
       .notNull()
       .references(() => lorebooks.id, { onDelete: "cascade" }),
     orderIndex: integer("order_index").notNull().default(0),
-    createdAt: integer("created_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
+    createdAt: createdAtCol(),
   },
   (table) => [
     primaryKey({ columns: [table.convId, table.lorebookId] }),
@@ -513,9 +513,7 @@ export const media = sqliteTable(
     width: integer("width"),
     height: integer("height"),
     extractedText: text("extracted_text"),
-    createdAt: integer("created_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
+    createdAt: createdAtCol(),
   },
   (table) => [
     index("idx_media_user").on(table.userId),

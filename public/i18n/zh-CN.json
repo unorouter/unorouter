@@ -835,7 +835,6 @@
     "BADGE": "集成",
     "TITLE": "集成",
     "SUBTITLE": "在你喜爱的 AI 工具中使用 {appName}。浏览下方的 {count} 篇配置指南，选择适合你客户端的那一篇。",
-    "QUICK_START": "快速开始",
     "VIEW_GUIDE": "查看完整指南",
     "CTA_TITLE": "准备好开始了吗？",
     "CTA_DESC": "获取 API 密钥，在这些工具中开始使用 {appName}。",

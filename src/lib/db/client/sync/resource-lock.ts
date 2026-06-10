@@ -21,41 +21,21 @@ type LockMessage =
   | { type: "heartbeat"; lock: LockState }
   | { type: "request-state" };
 
-type LockSubscriber = (event: {
-  resourceKey: string;
-  state: "acquired" | "released";
-  byThisTab: boolean;
-}) => void;
-
 const supported =
   typeof window !== "undefined" && typeof BroadcastChannel !== "undefined";
 
 const tabId = uid(16);
 const heldLocks = new Map<string, LockState>();
 const knownLocks = new Map<string, LockState>();
-const subscribers = new Set<LockSubscriber>();
 
 let channel: BroadcastChannel | null = null;
 let heartbeatTimer: ReturnType<typeof setInterval> | null = null;
-
-function notify(
-  resourceKey: string,
-  state: "acquired" | "released",
-  byThisTab: boolean,
-): void {
-  for (const cb of subscribers) {
-    try {
-      cb({ resourceKey, state, byThisTab });
-    } catch {}
-  }
-}
 
 function pruneStale(): void {
   const now = Date.now();
   for (const [key, lock] of knownLocks) {
     if (now - lock.acquiredAt > LOCK_TTL_MS) {
       knownLocks.delete(key);
-      notify(key, "released", lock.ownerTabId === tabId);
     }
   }
 }
@@ -74,16 +54,12 @@ function ensureChannel(): BroadcastChannel | null {
     }
     if (msg.type === "acquire" || msg.type === "heartbeat") {
       knownLocks.set(msg.lock.resourceKey, msg.lock);
-      if (msg.type === "acquire") {
-        notify(msg.lock.resourceKey, "acquired", false);
-      }
       return;
     }
     if (msg.type === "release") {
       const prior = knownLocks.get(msg.resourceKey);
       if (prior?.ownerTabId === msg.ownerTabId) {
         knownLocks.delete(msg.resourceKey);
-        notify(msg.resourceKey, "released", false);
       }
     }
   };
@@ -125,7 +101,6 @@ export function acquireLock(resourceKey: string): boolean {
   knownLocks.set(resourceKey, lock);
   channel?.postMessage({ type: "acquire", lock } satisfies LockMessage);
   startHeartbeat();
-  notify(resourceKey, "acquired", true);
   return true;
 }
 
@@ -140,27 +115,11 @@ export function releaseLock(resourceKey: string): void {
     resourceKey,
     ownerTabId: tabId,
   } satisfies LockMessage);
-  notify(resourceKey, "released", true);
   stopHeartbeatIfIdle();
 }
 
-export function releaseAllLocks(): void {
+function releaseAllLocks(): void {
   for (const key of [...heldLocks.keys()]) releaseLock(key);
-}
-
-export function isLocked(resourceKey: string): boolean {
-  if (!supported) return false;
-  pruneStale();
-  return knownLocks.has(resourceKey);
-}
-
-export function isHeldByThisTab(resourceKey: string): boolean {
-  return heldLocks.has(resourceKey);
-}
-
-export function subscribeLocks(cb: LockSubscriber): () => void {
-  subscribers.add(cb);
-  return () => subscribers.delete(cb);
 }
 
 if (typeof window !== "undefined") {

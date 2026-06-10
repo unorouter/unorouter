@@ -7,6 +7,7 @@ import {
   text,
 } from "drizzle-orm/sqlite-core";
 import { uid } from "@/lib/utils/base";
+import { createdAtCol, timestamps } from "./shared";
 import type {
   ModerationDecision,
   ModerationMediaType,
@@ -33,9 +34,7 @@ export const moderationLog = sqliteTable(
     creemId: text("creem_id"),
     units: integer("units"),
     latencyMs: integer("latency_ms").notNull(),
-    createdAt: integer("created_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
+    createdAt: createdAtCol(),
   },
   (table) => [
     index("idx_modlog_user_created").on(table.userId, table.createdAt),
@@ -57,12 +56,7 @@ export const acpCheckoutSessions = sqliteTable(
     payLink: text("pay_link"),
     quotaAtComplete: integer("quota_at_complete"),
     body: text("body", { mode: "json" }),
-    createdAt: integer("created_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
-    updatedAt: integer("updated_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
+    ...timestamps(),
   },
   (table) => [index("idx_acp_user_created").on(table.userId, table.createdAt)],
 );
@@ -77,9 +71,7 @@ export const acpIdempotencyKeys = sqliteTable(
     status: integer("status").notNull(),
     response: text("response", { mode: "json" }).notNull(),
     state: text("state").notNull().default("done").$type<AcpIdempotencyState>(),
-    createdAt: integer("created_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
+    createdAt: createdAtCol(),
   },
   (table) => [
     index("idx_acp_idem_lookup").on(table.userId, table.key, table.path),
@@ -102,12 +94,7 @@ export const loraCatalog = sqliteTable(
     thumbnailR2Key: text("thumbnail_r2_key"),
     visible: integer("visible", { mode: "boolean" }).notNull().default(true),
     sortOrder: integer("sort_order").notNull().default(0),
-    createdAt: integer("created_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
-    updatedAt: integer("updated_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
+    ...timestamps(),
   },
   (table) => [
     index("idx_lora_basemodel_visible").on(table.baseModel, table.visible),
@@ -129,12 +116,7 @@ export const embeddingCatalog = sqliteTable(
     thumbnailR2Key: text("thumbnail_r2_key"),
     visible: integer("visible", { mode: "boolean" }).notNull().default(true),
     sortOrder: integer("sort_order").notNull().default(0),
-    createdAt: integer("created_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
-    updatedAt: integer("updated_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
+    ...timestamps(),
   },
   (table) => [
     index("idx_embedding_basemodel_visible").on(table.baseModel, table.visible),
@@ -153,12 +135,7 @@ export const upscalerCatalog = sqliteTable(
     description: text("description"),
     visible: integer("visible", { mode: "boolean" }).notNull().default(true),
     sortOrder: integer("sort_order").notNull().default(0),
-    createdAt: integer("created_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
-    updatedAt: integer("updated_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
+    ...timestamps(),
   },
   (table) => [
     index("idx_upscaler_category_visible").on(table.category, table.visible),

@@ -13,9 +13,9 @@ import { useTranslations } from "next-intl";
 import { mirrorSyncedRow, unmirrorIfSynced } from "@/lib/db/client/sync/mirror";
 type WithId = { id: string; syncExpiresAt?: Date | null };
 
-type EntityHooks<TItem extends WithId, TCreateBody, TUpdateBody> = {
+type EntityHooks<TItem extends WithId, TCreateBody, TUpdateBody, TDetail> = {
   useList: () => ReturnType<typeof useQuery<TItem[]>>;
-  useItem: (id: string | undefined) => ReturnType<typeof useQuery<TItem>>;
+  useItem: (id: string | undefined) => ReturnType<typeof useQuery<TDetail>>;
   useCreate: () => ReturnType<
     typeof useMutation<TItem, Error, { body: TCreateBody }>
   >;
@@ -31,15 +31,17 @@ export function makeRpEntity<
   TItem extends WithId,
   TCreateBody,
   TUpdateBody,
+  // Detail row from readItem may be richer than the list row (lorebook + entries).
+  TDetail extends WithId = TItem,
 >(opts: {
   syncKind: RpSyncKind;
   listKey: () => readonly unknown[];
   itemKey: (id: string) => readonly unknown[];
   readList: (userId: number) => Promise<TItem[] | null>;
-  readItem: (userId: number, id: string) => Promise<TItem | null>;
+  readItem: (userId: number, id: string) => Promise<TDetail | null>;
   upsertLocal: (userId: number, row: TItem) => Promise<void>;
   deleteLocal: (userId: number, id: string) => Promise<void>;
-}): EntityHooks<TItem, TCreateBody, TUpdateBody> {
+}): EntityHooks<TItem, TCreateBody, TUpdateBody, TDetail> {
   return {
     useList: () => {
       const auth = useAuthQuery();
@@ -61,7 +63,7 @@ export function makeRpEntity<
           if (!id) throw new Error("not-found");
           const item = await opts.readItem(userId, id);
           if (!item) throw new Error("not-found");
-          return item as TItem;
+          return item;
         },
         enabled: !!id,
       });
@@ -107,7 +109,7 @@ export function makeRpEntity<
             ...existing,
             ...args.body,
             updatedAt: now,
-          } as TItem;
+          } as unknown as TItem;
           await opts.upsertLocal(userId, updated);
           if (existing.syncExpiresAt != null) {
             await mirrorSyncedRow(userId, opts.syncKind, args.id);

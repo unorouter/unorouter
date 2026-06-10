@@ -4,7 +4,7 @@ import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Icon } from "@/components/ui/icon";
 import { useUpdateConversationMutation } from "@/hooks/ai/chat-hook";
 import { useSyncStateForRow } from "@/hooks/ai/sync-hook";
-import { useQueuedSends } from "@/lib/db/client/data/queued-send";
+import { useQueuedSends } from "@/hooks/ai/use-queued-sends";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { usePricingQuery } from "@/hooks/models/pricing-hook";
 import { analytics } from "@/lib/analytics";

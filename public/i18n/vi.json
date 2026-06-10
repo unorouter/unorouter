@@ -835,7 +835,6 @@
     "BADGE": "Tích hợp",
     "TITLE": "Tích hợp",
     "SUBTITLE": "Sử dụng {appName} với các công cụ AI yêu thích của bạn. Xem {count} hướng dẫn thiết lập bên dưới và chọn hướng dẫn cho ứng dụng của bạn.",
-    "QUICK_START": "Bắt đầu nhanh",
     "VIEW_GUIDE": "Xem hướng dẫn đầy đủ",
     "CTA_TITLE": "Sẵn sàng bắt đầu?",
     "CTA_DESC": "Lấy API key và bắt đầu dùng {appName} với bất kỳ công cụ nào trong số này.",

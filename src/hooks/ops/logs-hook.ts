@@ -41,17 +41,15 @@ export function useTaskLogsQuery(
 // Which upstream channel served a request: new-api sends no channel header on
 // the stream but logs it by request_id, so look the log row up after the fact.
 export function useUsedProviderQuery(requestId: string | null | undefined) {
-  return useQuery({
-    queryKey: queryKeys.usedProvider(requestId ?? ""),
-    enabled: !!requestId,
-    queryFn: async () => {
-      const res = await handleElysia(
-        await rpc.api.ops.logs.get({
-          query: { request_id: requestId ?? "", page_size: 1 },
-        }),
-      );
-      const log = res?.items?.[0];
-      return log?.channel_name?.trim() || null;
+  return useElysiaQuery(
+    queryKeys.usedProvider(requestId ?? ""),
+    () =>
+      rpc.api.ops.logs.get({
+        query: { request_id: requestId ?? "", page_size: 1 },
+      }),
+    {
+      enabled: !!requestId,
+      select: (res) => res?.items?.[0]?.channel_name?.trim() || null,
     },
-  });
+  );
 }

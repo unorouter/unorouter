@@ -835,7 +835,6 @@
     "BADGE": "Integrazioni",
     "TITLE": "Integrazioni",
     "SUBTITLE": "Usa {appName} con i tuoi strumenti di IA preferiti. Sfoglia le {count} guide di configurazione qui sotto e scegli quella del tuo client.",
-    "QUICK_START": "Avvio rapido",
     "VIEW_GUIDE": "Vedi guida completa",
     "CTA_TITLE": "Pronto a iniziare?",
     "CTA_DESC": "Ottieni la tua chiave API e inizia a usare {appName} con uno qualsiasi di questi strumenti.",

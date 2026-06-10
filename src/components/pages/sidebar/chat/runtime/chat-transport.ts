@@ -41,6 +41,20 @@ export function useChatTransport() {
               m.buildChatContextFromLocalDb(userIdRef.current, convId),
             )
           : undefined;
+        // Per-message createdAt for the CBS message_time/idle family; rides
+        // outside the hashed context (changes every turn).
+        let messageTimes: Record<string, number> | undefined;
+        if (convId) {
+          const rows = await import("@/lib/db/client/data/chat").then((m) =>
+            m.readLocalMessages(userIdRef.current, convId),
+          );
+          if (rows && rows.length > 0) {
+            messageTimes = {};
+            for (const r of rows) {
+              messageTimes[r.id] = new Date(r.createdAt).getTime();
+            }
+          }
+        }
         // Context-dedup handshake: full payload only when the fingerprint changed,
         // else just the hash (server LRU; a miss 409s and the fetch wrapper retries
         // full). globalVars ride outside the hash: they change every setglobalvar.
@@ -70,6 +84,13 @@ export function useChatTransport() {
           globalVars: chatStore.get(globalVarsAtom),
           // Speaking character for this stream (multi-character rotation).
           speakingCharacterId: chatStore.get(speakingCharacterIdAtom),
+          messageTimes,
+          clientEnv: {
+            viewportW: window.innerWidth,
+            viewportH: window.innerHeight,
+            locale: Intl.DateTimeFormat().resolvedOptions().locale,
+            timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+          },
         };
       },
       fetch: async (input: RequestInfo | URL, init?: RequestInit) => {

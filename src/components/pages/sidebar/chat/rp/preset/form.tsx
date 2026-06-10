@@ -24,10 +24,10 @@ import {
   samplingPresetFormSchema,
   type SamplingPresetForm,
 } from "@/lib/validation/rp-forms";
-import { typeboxResolver } from "@hookform/resolvers/typebox";
+import { useRpForm } from "@/hooks/ui/use-rp-form";
 import { useTranslations } from "next-intl";
 import { FormFooter } from "../shared/form-footer";
-import { useForm, type Path } from "react-hook-form";
+import type { Path } from "react-hook-form";
 import { SamplingFields } from "../sampling-fields";
 import { PromptTemplateEditor } from "./prompt-template-editor";
 
@@ -104,12 +104,7 @@ export function PresetForm(props: Props) {
         promptTemplate: editing.promptTemplate ?? "",
       })
     : undefined;
-  const form = useForm({
-    resolver: typeboxResolver(samplingPresetFormSchema),
-    defaultValues: formDefaults(samplingPresetFormSchema),
-    values: formValues,
-    resetOptions: { keepDirtyValues: true },
-  });
+  const form = useRpForm(samplingPresetFormSchema, formValues);
 
   const resetSampling = () => {
     SAMPLING_FIELDS.forEach((k) =>

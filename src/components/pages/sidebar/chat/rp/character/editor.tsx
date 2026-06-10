@@ -19,13 +19,12 @@ import {
   characterFormSchema,
   type CharacterForm,
 } from "@/lib/validation/rp-forms";
-import { typeboxResolver } from "@hookform/resolvers/typebox";
+import { useRpForm } from "@/hooks/ui/use-rp-form";
 import { csvToArray, uid } from "@/lib/utils/base";
 import { fileToScaledDataUrl, splitDataUrl } from "@/lib/utils/client";
 import { formDefaults } from "@/lib/validation/helpers";
 import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
-import { useForm } from "react-hook-form";
 
 type Props = {
   characterId?: string;
@@ -68,12 +67,7 @@ export function CharacterEditor(props: Props) {
           : "",
       })
     : undefined;
-  const form = useForm({
-    resolver: typeboxResolver(characterFormSchema),
-    defaultValues: formDefaults(characterFormSchema),
-    values: formValues,
-    resetOptions: { keepDirtyValues: true },
-  });
+  const form = useRpForm(characterFormSchema, formValues);
 
   const pickBgFile = async (file: File) => {
     const dataUrl = await fileToScaledDataUrl(file);

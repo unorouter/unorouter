@@ -835,7 +835,6 @@
     "BADGE": "Integrasi",
     "TITLE": "Integrasi",
     "SUBTITLE": "Gunakan {appName} dengan alat AI favorit Anda. Telusuri {count} panduan penyiapan di bawah dan pilih yang sesuai untuk klien Anda.",
-    "QUICK_START": "Mulai Cepat",
     "VIEW_GUIDE": "Lihat Panduan Lengkap",
     "CTA_TITLE": "Siap untuk memulai?",
     "CTA_DESC": "Dapatkan kunci API Anda dan mulai menggunakan {appName} dengan salah satu alat ini.",

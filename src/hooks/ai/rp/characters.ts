@@ -12,10 +12,8 @@ import {
 } from "@/lib/db/client/data/rp";
 import { queryKeys } from "@/lib/react-query/keys";
 import { uid, uint8ToBase64 } from "@/lib/utils/base";
-import { handleError } from "@/lib/utils/client";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useApiMutation } from "@/hooks/use-api-mutation";
 import { dayjs } from "@/lib/utils/format/date";
-import { useTranslations } from "next-intl";
 import { makeRpEntity } from "./factory";
 import type { CharacterRow } from "@/lib/db/schema/rows";
 
@@ -42,10 +40,8 @@ export const useDeleteCharacterMutation = characters.useDelete;
 // Client-side card parser: bytes -> media row + character row referencing it.
 // Sync flow: media base64 -> server uploads to R2 -> Turso pointer-only.
 export function useImportCharacterCardMutation() {
-  const t = useTranslations();
-  const qc = useQueryClient();
-  const auth = useAuthQuery();
-  return useMutation({
+    const auth = useAuthQuery();
+  return useApiMutation({
     mutationFn: async (file: File) => {
       const userId = auth.data?.id ?? GUEST_USER_ID;
       // Dynamic: character-foundry + image codecs (~110KB gzip) load on the
@@ -76,6 +72,7 @@ export function useImportCharacterCardMutation() {
         personality: card.personality ?? null,
         scenario: card.scenario ?? null,
         firstMessage: card.firstMessage ?? null,
+        alternateGreetings: card.alternateGreetings ?? null,
         exampleMessages: card.exampleMessages ?? null,
         systemPrompt: card.systemPrompt ?? null,
         postHistoryInstructions: card.postHistoryInstructions ?? null,
@@ -91,9 +88,6 @@ export function useImportCharacterCardMutation() {
       await upsertLocalCharacter(userId, row);
       return row;
     },
-    onSuccess: () => {
-      qc.invalidateQueries({ queryKey: queryKeys.characters() });
-    },
-    onError: (e) => handleError(e, t),
+    invalidates: [queryKeys.characters()],
   });
 }

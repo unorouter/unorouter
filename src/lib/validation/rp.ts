@@ -18,6 +18,9 @@ export const characterBody = t.Object({
   personality: nullable(t.String({ maxLength: MAX_DESC_LEN })),
   scenario: nullable(t.String({ maxLength: MAX_DESC_LEN })),
   firstMessage: nullable(t.String({ maxLength: MAX_DESC_LEN })),
+  alternateGreetings: nullable(
+    t.Array(t.String({ maxLength: MAX_DESC_LEN }), { maxItems: 32 }),
+  ),
   exampleMessages: nullable(t.String({ maxLength: MAX_DESC_LEN })),
   systemPrompt: nullable(t.String({ maxLength: MAX_DESC_LEN })),
   postHistoryInstructions: nullable(t.String({ maxLength: MAX_DESC_LEN })),

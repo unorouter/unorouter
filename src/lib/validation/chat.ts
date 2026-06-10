@@ -1,6 +1,7 @@
 import { NONE_VALUE } from "@/lib/config/constants";
 import type { Static } from "elysia";
 import { t } from "elysia";
+import { unionLiterals } from "./helpers";
 
 const MAX_ID_LEN = 64;
 const MAX_TEXT_LEN = 100_000;
@@ -55,58 +56,30 @@ const itemErrorData = t.Object(
   { additionalProperties: true },
 );
 
+// One union member per item type; data schema is the only variance.
+const ITEM_DATA_SCHEMAS = [
+  ["text", itemTextData],
+  ["reasoning", itemReasoningData],
+  ["tool_call", itemToolCallData],
+  ["tool_result", itemToolResultData],
+  ["file", itemFileData],
+  ["image", itemFileData],
+  ["task", itemTaskData],
+  ["error", itemErrorData],
+] as const;
+
 // Runtime schema kept for future server validation.
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const _persistMessageItem = t.Union([
-  t.Object({
-    id: t.Optional(t.String({ maxLength: MAX_ID_LEN })),
-    type: t.Literal("text"),
-    output_index: t.Optional(t.Number()),
-    data: itemTextData,
-  }),
-  t.Object({
-    id: t.Optional(t.String({ maxLength: MAX_ID_LEN })),
-    type: t.Literal("reasoning"),
-    output_index: t.Optional(t.Number()),
-    data: itemReasoningData,
-  }),
-  t.Object({
-    id: t.Optional(t.String({ maxLength: MAX_ID_LEN })),
-    type: t.Literal("tool_call"),
-    output_index: t.Optional(t.Number()),
-    data: itemToolCallData,
-  }),
-  t.Object({
-    id: t.Optional(t.String({ maxLength: MAX_ID_LEN })),
-    type: t.Literal("tool_result"),
-    output_index: t.Optional(t.Number()),
-    data: itemToolResultData,
-  }),
-  t.Object({
-    id: t.Optional(t.String({ maxLength: MAX_ID_LEN })),
-    type: t.Literal("file"),
-    output_index: t.Optional(t.Number()),
-    data: itemFileData,
-  }),
-  t.Object({
-    id: t.Optional(t.String({ maxLength: MAX_ID_LEN })),
-    type: t.Literal("image"),
-    output_index: t.Optional(t.Number()),
-    data: itemFileData,
-  }),
-  t.Object({
-    id: t.Optional(t.String({ maxLength: MAX_ID_LEN })),
-    type: t.Literal("task"),
-    output_index: t.Optional(t.Number()),
-    data: itemTaskData,
-  }),
-  t.Object({
-    id: t.Optional(t.String({ maxLength: MAX_ID_LEN })),
-    type: t.Literal("error"),
-    output_index: t.Optional(t.Number()),
-    data: itemErrorData,
-  }),
-]);
+const _persistMessageItem = t.Union(
+  ITEM_DATA_SCHEMAS.map(([type, data]) =>
+    t.Object({
+      id: t.Optional(t.String({ maxLength: MAX_ID_LEN })),
+      type: t.Literal(type),
+      output_index: t.Optional(t.Number()),
+      data,
+    }),
+  ),
+);
 export type PersistMessageItem = Static<typeof _persistMessageItem>;
 
 // Source of truth for validation + schema column narrows.
@@ -155,25 +128,15 @@ export const webSearchContextSize = t.Union([
 ]);
 export type WebSearchContextSize = Static<typeof webSearchContextSize>;
 
-const REASONING_EFFORTS: ReadonlySet<ReasoningEffort> = new Set([
-  "xhigh",
-  "high",
-  "medium",
-  "low",
-  "minimal",
-  "none",
-]);
-const WEB_SEARCH_ENGINES: ReadonlySet<WebSearchEngine> = new Set([
-  "auto",
-  "native",
-  "exa",
-  "tavily",
-]);
-const WEB_SEARCH_CONTEXT_SIZES: ReadonlySet<WebSearchContextSize> = new Set([
-  "low",
-  "medium",
-  "high",
-]);
+const REASONING_EFFORTS: ReadonlySet<ReasoningEffort> = new Set(
+  unionLiterals(reasoningEffort),
+);
+const WEB_SEARCH_ENGINES: ReadonlySet<WebSearchEngine> = new Set(
+  unionLiterals(webSearchEngine),
+);
+const WEB_SEARCH_CONTEXT_SIZES: ReadonlySet<WebSearchContextSize> = new Set(
+  unionLiterals(webSearchContextSize),
+);
 
 // Narrow bare text from SQLocal / cookies into the literal union; fall back on unknown.
 export function narrowReasoningEffort<TFallback extends string>(
@@ -329,29 +292,22 @@ export const updateConversationSettingsBody = t.Object({
     t.Union([t.String({ maxLength: 16_384 }), t.Null()]),
   ),
   summaryAnchor: t.Optional(t.Union([t.Number(), t.Null()])),
+  firstMsgIndex: t.Optional(t.Number({ minimum: -1, maximum: 31 })),
 });
 export type UpdateConversationSettingsBody = Static<
   typeof updateConversationSettingsBody
 >;
 
-export const updateConversationBindingsBody = t.Object({
-  characters: t.Optional(
-    t.Array(
-      t.Object({
-        characterId: t.String({ maxLength: MAX_ID_LEN }),
-        orderIndex: t.Optional(t.Number()),
-        isActive: t.Optional(t.Boolean()),
-        overrides: t.Optional(t.Unknown()),
-      }),
-    ),
-  ),
-  lorebookIds: t.Optional(
-    t.Array(t.String({ maxLength: MAX_ID_LEN }), { maxItems: 64 }),
-  ),
-});
-export type UpdateConversationBindingsBody = Static<
-  typeof updateConversationBindingsBody
->;
+// Plain type: bindings mutate local-first only, this shape never crosses a wire.
+export type UpdateConversationBindingsBody = {
+  characters?: Array<{
+    characterId: string;
+    orderIndex?: number;
+    isActive?: boolean;
+    overrides?: unknown;
+  }>;
+  lorebookIds?: string[];
+};
 
 // Loose `Any()`: each entity body has its own validation surface; re-checking
 // here would double-cost on every turn.
@@ -407,6 +363,18 @@ export const streamBody = t.Object({
   // the assembler promotes that character to primary (drives {{char}}).
   speakingCharacterId: t.Optional(
     t.Union([t.String({ maxLength: MAX_ID_LEN }), t.Null()]),
+  ),
+  // Per-message createdAt (unix ms) keyed by message id, for the CBS
+  // message_time/date/idle family. Outside the hashed context: changes per turn.
+  messageTimes: t.Optional(t.Record(t.String(), t.Number())),
+  // Browser environment for screen_width/height + locale-faithful time macros.
+  clientEnv: t.Optional(
+    t.Object({
+      viewportW: t.Optional(t.Number()),
+      viewportH: t.Optional(t.Number()),
+      locale: t.Optional(t.String({ maxLength: 32 })),
+      timeZone: t.Optional(t.String({ maxLength: 64 })),
+    }),
   ),
 });
 export type StreamBody = Static<typeof streamBody>;

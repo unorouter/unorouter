@@ -64,6 +64,13 @@ export type StreamBody = {
   chatContextHash?: string;
   globalVars?: string | null;
   speakingCharacterId?: string | null;
+  messageTimes?: Record<string, number>;
+  clientEnv?: {
+    viewportW?: number;
+    viewportH?: number;
+    locale?: string;
+    timeZone?: string;
+  };
 };
 
 export async function prepareChatRequest(
@@ -139,7 +146,7 @@ export async function prepareChatRequest(
       : pdfInlined;
 
   const recentUserTexts = collectRecentUserTexts(messagesWithPdfText);
-  const history = collectHistory(messagesWithPdfText);
+  const history = collectHistory(messagesWithPdfText, body.messageTimes);
   // Global vars ride outside the hashed context; hashing them would bust the cache every setglobalvar turn.
   const globalVarsIn = body.globalVars ?? clientCtx?.globalVars ?? null;
 
@@ -192,6 +199,8 @@ export async function prepareChatRequest(
             model: body.model,
             maxContext: modelInfo?.metadata.contextWindow,
             speakingCharacterId: body.speakingCharacterId ?? undefined,
+            clientEnv: body.clientEnv,
+            prefillSupported: getModelRoleFlags(body.model).prefillSupported,
           },
         )
       : assembleFromOverrides(body.overrides, assemblySystem);

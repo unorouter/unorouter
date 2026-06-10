@@ -19,7 +19,7 @@ import {
   type DrainResult,
 } from "./pending-sync";
 import { reconcileKinds, stage2ServerReconcile } from "./reconcile";
-import { usePendingDrainScheduler } from "./scheduler";
+import { usePendingDrainScheduler } from "@/hooks/ai/use-pending-drain-scheduler";
 
 // Skip conv bundle pull on conv pages (SSR already covered); rest reconciles in idle callback.
 const CONV_ROUTE_RE = /^\/[^/]+\/chat\/[^/]+\/?$/;

@@ -9,14 +9,10 @@ import { generationStatus, generationVisibility } from "./playground";
 
 import {
   BATCH_BUNDLE_MAX_REQUESTS,
-  RP_SYNC_KINDS,
   SYNC_KINDS,
 } from "./sync-constants";
 
 export const syncKind = t.Union(SYNC_KINDS.map((k) => t.Literal(k)));
-
-export const rpSyncKind = t.Union(RP_SYNC_KINDS.map((k) => t.Literal(k)));
-export type RpSyncKind = Static<typeof rpSyncKind>;
 
 // mergeMode: replace=delete+insert; upsert=PK upsert; append=insert-only.
 // Conversations only.
@@ -35,13 +31,11 @@ export const syncRequestBody = t.Object({
   keepExpiry: t.Optional(t.Boolean()),
   mergeMode: t.Optional(syncMergeMode),
 });
-export type SyncRequestBody = Static<typeof syncRequestBody>;
 
 export const syncParams = t.Object({
   kind: syncKind,
   id: t.String({ minLength: 1, maxLength: 64 }),
 });
-export type SyncParams = Static<typeof syncParams>;
 
 export const batchBundleRequestBody = t.Object({
   requests: t.Array(
@@ -52,7 +46,6 @@ export const batchBundleRequestBody = t.Object({
     { minItems: 1, maxItems: BATCH_BUNDLE_MAX_REQUESTS },
   ),
 });
-export type BatchBundleRequestBody = Static<typeof batchBundleRequestBody>;
 
 // Bundle payload schemas: validate `POST /sync/:kind/:id` payload before the
 // handler reads it. `Value.Cast` coerces, fills defaults, drops extras.

@@ -18,10 +18,28 @@ export type MacroScope = {
   globalVars?: Record<string, string>;
   // Per-assembly scratch store (settempvar/gettempvar). Never persisted.
   tempVars?: Record<string, string>;
-  // Newest last, for the {{history}}/{{lastmessage}} family.
-  history?: { role: "user" | "assistant" | "system"; text: string }[];
+  // Newest last, for the {{history}}/{{lastmessage}} family. `time` is the
+  // message createdAt (unix ms) for the message_time/date/idle macros.
+  history?: {
+    role: "user" | "assistant" | "system";
+    text: string;
+    time?: number;
+  }[];
   // Per-conv seed so roll/random/pick resolve identically across regenerates (RisuAI determinism).
   seed?: string;
+  // Browser environment (client-sent): screen_width/height + locale-faithful
+  // time formatting. Absent in tokenize/fallback paths.
+  viewport?: { w: number; h: number };
+  locale?: string;
+  timeZone?: string;
+  // Greeting state for {{previous_char_chat}} fallback + {{first_msg_index}}.
+  firstMessage?: string;
+  alternateGreetings?: string[];
+  fmIndex?: number;
+  exampleMessage?: string; // {{example_dialogue}}
+  lorebooks?: unknown[]; // {{lorebook}}/{{worldinfo}} JSON reader
+  triggerId?: string; // {{trigger_id}} when expanding inside a trigger
+  prefillSupported?: boolean; // {{prefill_supported}}
   // Introspection tokens; all optional so fallback assembly paths stay valid.
   model?: string; // {{model}} / metadata::modelname
   maxContext?: number; // {{maxcontext}} / metadata::maxcontext

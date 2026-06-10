@@ -12,10 +12,9 @@ import {
 } from "@/hooks/ai/rp/personas";
 import { formDefaults } from "@/lib/validation/helpers";
 import { personaFormSchema, type PersonaForm } from "@/lib/validation/rp-forms";
-import { typeboxResolver } from "@hookform/resolvers/typebox";
+import { useRpForm } from "@/hooks/ui/use-rp-form";
 import { useTranslations } from "next-intl";
 import { FormFooter } from "../shared/form-footer";
-import { useForm } from "react-hook-form";
 
 type Props = {
   editingId: string | "new";
@@ -34,12 +33,7 @@ export function PersonaEditor(props: Props) {
   // typing. Parent keys this component by editingId for clean remounts.
   const formValues =
     !isNew && existing ? formDefaults(personaFormSchema, existing) : undefined;
-  const form = useForm({
-    resolver: typeboxResolver(personaFormSchema),
-    defaultValues: formDefaults(personaFormSchema),
-    values: formValues,
-    resetOptions: { keepDirtyValues: true },
-  });
+  const form = useRpForm(personaFormSchema, formValues);
 
   const onSubmit = async (data: PersonaForm) => {
     if (isNew) {

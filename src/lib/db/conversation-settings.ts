@@ -31,6 +31,7 @@ export const CONVERSATION_SETTINGS_KEYS = [
   "memoryEnabled",
   "summaryMemory",
   "summaryAnchor",
+  "firstMsgIndex",
 ] as const;
 
 export type ConversationSettingsProjection = ConversationRow & {

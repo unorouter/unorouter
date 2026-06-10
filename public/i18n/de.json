@@ -835,7 +835,6 @@
     "BADGE": "Integrationen",
     "TITLE": "Integrationen",
     "SUBTITLE": "Nutze {appName} mit deinen bevorzugten KI-Tools. Durchstoebere unten {count} Einrichtungsanleitungen und waehle die fuer deinen Client.",
-    "QUICK_START": "Schnellstart",
     "VIEW_GUIDE": "Zur Anleitung",
     "CTA_TITLE": "Bereit zum Starten?",
     "CTA_DESC": "Hole dir deinen API-Schlüssel und nutze {appName} mit einem dieser Tools.",

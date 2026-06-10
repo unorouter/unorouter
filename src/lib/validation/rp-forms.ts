@@ -2,6 +2,11 @@
 
 import { Type as t, type Static } from "@sinclair/typebox/type";
 import { nullable } from "./helpers";
+import {
+  reasoningEffort,
+  webSearchContextSize,
+  webSearchEngine,
+} from "./chat";
 import { msg, NONE_VALUE, type TranslationKey } from "../config/constants";
 import {
   LOREBOOK_INJECTION_ROLES,
@@ -117,28 +122,13 @@ export const SAMPLING_FIELDS = SAMPLING_PARAMS.map(
 export const RP_TABS = ["characters", "personas", "lorebooks"] as const;
 export type RpTab = (typeof RP_TABS)[number];
 
+// Reuse the canonical unions from chat.ts (anyOf spread keeps one source).
 const reasoningEffortLiterals = [
   t.Literal(NONE_VALUE),
-  t.Literal("xhigh"),
-  t.Literal("high"),
-  t.Literal("medium"),
-  t.Literal("low"),
-  t.Literal("minimal"),
-  t.Literal("none"),
+  ...reasoningEffort.anyOf,
 ];
-
-const webSearchEngineLiterals = [
-  t.Literal("auto"),
-  t.Literal("native"),
-  t.Literal("exa"),
-  t.Literal("tavily"),
-];
-
-const webSearchContextSizeLiterals = [
-  t.Literal("low"),
-  t.Literal("medium"),
-  t.Literal("high"),
-];
+const webSearchEngineLiterals = webSearchEngine.anyOf;
+const webSearchContextSizeLiterals = webSearchContextSize.anyOf;
 
 const lorebookPositionLiterals = LOREBOOK_POSITIONS.map((p) => t.Literal(p));
 const lorebookInjectionRoleLiterals = LOREBOOK_INJECTION_ROLES.map((r) =>

@@ -1,6 +1,7 @@
 "use client";
 
 import { GUEST_USER_ID } from "@/lib/config/constants";
+import { useApiMutation } from "@/hooks/use-api-mutation";
 
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import {
@@ -56,10 +57,8 @@ export function useCardQuery(id: string | undefined) {
 
 // Cards own bundle; factory is single-table so CRUD bespoke.
 export function useCreateCardMutation() {
-  const t = useTranslations();
-  const qc = useQueryClient();
-  const auth = useAuthQuery();
-  return useMutation({
+    const auth = useAuthQuery();
+  return useApiMutation({
     mutationFn: async (args: { body: CardBody }) => {
       const userId = auth.data?.id ?? GUEST_USER_ID;
       const body = args.body;
@@ -89,18 +88,13 @@ export function useCreateCardMutation() {
       });
       return card;
     },
-    onSuccess: () => {
-      qc.invalidateQueries({ queryKey: queryKeys.cards() });
-    },
-    onError: (e) => handleError(e, t),
+    invalidates: [queryKeys.cards()],
   });
 }
 
 export function useUpdateCardMutation() {
-  const t = useTranslations();
-  const qc = useQueryClient();
-  const auth = useAuthQuery();
-  return useMutation({
+    const auth = useAuthQuery();
+  return useApiMutation({
     mutationFn: async (args: { id: string; body: CardBody }) => {
       const userId = auth.data?.id ?? GUEST_USER_ID;
       const existing = await readLocalCard(userId, args.id);
@@ -136,11 +130,7 @@ export function useUpdateCardMutation() {
       }
       return updatedCard;
     },
-    onSuccess: (_data, args) => {
-      qc.invalidateQueries({ queryKey: queryKeys.cards() });
-      qc.invalidateQueries({ queryKey: queryKeys.card(args.id) });
-    },
-    onError: (e) => handleError(e, t),
+    invalidates: (args) => [queryKeys.cards(), queryKeys.card(args.id)],
   });
 }
 

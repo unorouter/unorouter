@@ -39,13 +39,12 @@ import {
   type LorebookInjectionRole,
   type LorebookPosition,
 } from "@/lib/validation/rp-forms";
-import { typeboxResolver } from "@hookform/resolvers/typebox";
+import { useRpForm } from "@/hooks/ui/use-rp-form";
 import { csvToArray } from "@/lib/utils/base";
 import { formDefaults } from "@/lib/validation/helpers";
 import type { EntityEditId } from "@/lib/types";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
 
 const POSITION_LABEL_KEY: Record<LorebookPosition, TranslationKey> = {
   before_char: "RP.POSITION_BEFORE_CHAR",
@@ -135,12 +134,7 @@ export function LorebookEntries(props: { lorebookId: string }) {
         ),
       })
     : undefined;
-  const form = useForm({
-    resolver: typeboxResolver(lorebookEntryFormSchema),
-    defaultValues: formDefaults(lorebookEntryFormSchema),
-    values: formValues,
-    resetOptions: { keepDirtyValues: true },
-  });
+  const form = useRpForm(lorebookEntryFormSchema, formValues);
 
   // Form hook outlives entry switches (no remount); explicit reset per switch,
   // keepDirtyValues only guards refetches while editing one entry.
