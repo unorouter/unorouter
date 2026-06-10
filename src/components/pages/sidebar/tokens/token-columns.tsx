@@ -171,7 +171,6 @@ export function TokenModelsCell(props: CellContext<TokenRow, unknown>) {
     );
   }
 
-  // Group selected models by vendor
   const vendorModels = new Map<string, string[]>();
   for (const name of modelNames) {
     const found = models.find((m) => m.name === name);

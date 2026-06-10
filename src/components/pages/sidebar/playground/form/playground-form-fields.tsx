@@ -178,7 +178,6 @@ export function TokenEstimate(props: { text: string; family: string }) {
   );
 }
 
-// Seed input + randomize button bound to params.seed via FormField.
 export function SeedField() {
   const t = useTranslations();
   const form = useFormContext();

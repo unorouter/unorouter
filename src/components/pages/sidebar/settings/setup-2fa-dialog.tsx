@@ -114,7 +114,6 @@ export function Setup2FADialog(props: {
     toast.success(t("SETTINGS.SECURITY.TOKEN_COPIED"));
   }
 
-  // Disable mode
   if (props.mode === "disable") {
     return (
       <Dialog
@@ -166,7 +165,6 @@ export function Setup2FADialog(props: {
     );
   }
 
-  // Setup mode
   return (
     <Dialog
       open={props.open}

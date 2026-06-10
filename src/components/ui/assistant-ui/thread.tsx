@@ -337,6 +337,24 @@ function resolveErrorMessage(
   return t.has(raw) ? t(raw) : raw;
 }
 
+// Persisted failed attempt (error message_item -> data-error part): renders
+// after refresh / on inactive branches, unlike MessageError which only covers
+// the live run. Retry = the existing Refresh action (regenerate sibling).
+const PersistedErrorPart: FC<{ data?: unknown }> = (props) => {
+  const data = (props.data ?? {}) as { message?: string; model?: string };
+  if (!data.message) return null;
+  return (
+    <div
+      role="alert"
+      className="aui-message-error-root border-destructive bg-destructive/10 text-destructive dark:bg-destructive/5 mt-2 rounded-md border p-3 text-sm dark:text-red-200"
+    >
+      <span className="aui-message-error-message">
+        {data.model ? `${data.model}: ${data.message}` : data.message}
+      </span>
+    </div>
+  );
+};
+
 const MessageErrorBody: FC = () => {
   const error = useMessageError();
   const t = useTranslations() as unknown as LooseT;
@@ -435,7 +453,7 @@ const AssistantMessage: FC = () => {
                   },
                   data: {
                     // TaskCardRenderer draws the card below; suppress default render here.
-                    by_name: { task: () => null },
+                    by_name: { task: () => null, error: PersistedErrorPart },
                   },
                 }}
               />

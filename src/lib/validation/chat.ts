@@ -47,6 +47,13 @@ const itemTaskData = t.Object(
   },
   { additionalProperties: true },
 );
+const itemErrorData = t.Object(
+  {
+    message: t.String({ maxLength: 4_096 }),
+    model: t.Optional(t.String({ maxLength: MAX_MODEL_LEN })),
+  },
+  { additionalProperties: true },
+);
 
 // Runtime schema kept for future server validation.
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -92,6 +99,12 @@ const _persistMessageItem = t.Union([
     type: t.Literal("task"),
     output_index: t.Optional(t.Number()),
     data: itemTaskData,
+  }),
+  t.Object({
+    id: t.Optional(t.String({ maxLength: MAX_ID_LEN })),
+    type: t.Literal("error"),
+    output_index: t.Optional(t.Number()),
+    data: itemErrorData,
   }),
 ]);
 export type PersistMessageItem = Static<typeof _persistMessageItem>;

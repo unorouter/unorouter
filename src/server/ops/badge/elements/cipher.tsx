@@ -366,7 +366,6 @@ function renderLoopingCipher(
   const durS = (frameDurMs / 1000).toFixed(3);
   const validLoopFrames = loopDs.filter(Boolean);
 
-  // Intro frames
   const introFrames = introDs
     .map((d, i) => {
       if (!d) return "";
@@ -384,7 +383,6 @@ function renderLoopingCipher(
     })
     .join("");
 
-  // Loop frames
   let loopFrames = "";
   if (validLoopFrames.length > 0) {
     const loopStartMs = staggerMs + FRAME_COUNT * frameDurMs;

@@ -33,6 +33,7 @@ import {
   convIdAtom,
   ensureConvId,
   globalVarsAtom,
+  lastStreamErrorAtom,
   speakingCharacterIdAtom,
   type ChatHelpersRef,
 } from "@/store/chat-store";

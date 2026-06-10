@@ -9,7 +9,6 @@ export const healthRoute = new Elysia({ prefix: "/health" }).get(
   async () => {
     const checks: Record<string, "ok" | "fail"> = {};
 
-    // Database (Turso/LibSQL)
     try {
       await getDb().run(sql`SELECT 1`);
       checks.db = "ok";
@@ -17,7 +16,6 @@ export const healthRoute = new Elysia({ prefix: "/health" }).get(
       checks.db = "fail";
     }
 
-    // Upstream API (new-api)
     try {
       const res = await fetch(`${upstreamApiUrl}/api/status`, {
         signal: AbortSignal.timeout(5_000),
@@ -27,7 +25,6 @@ export const healthRoute = new Elysia({ prefix: "/health" }).get(
       checks.upstream = "fail";
     }
 
-    // R2 (Cloudflare S3)
     checks.r2 = (await pingR2()) ? "ok" : "fail";
 
     const healthy = Object.values(checks).every((v) => v === "ok");

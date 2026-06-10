@@ -189,7 +189,9 @@ export function stripReasoningParts(messages: StreamMessages): StreamMessages {
     let changed = false;
     const parts = m.parts
       .filter((p) => {
-        if (p.type === "reasoning") {
+        // reasoning is output-only; data-error is a persisted failed-attempt
+        // marker (render-only). Neither may re-enter model context.
+        if (p.type === "reasoning" || p.type === "data-error") {
           changed = true;
           return false;
         }

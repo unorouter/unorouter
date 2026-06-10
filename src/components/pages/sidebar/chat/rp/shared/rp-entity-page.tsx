@@ -12,13 +12,10 @@ type RpEntityPageProps = {
   subtitleKey: TranslationKey;
   newLabelKey: TranslationKey;
   backLabelKey: TranslationKey;
-  // True while an entity (or "new") is being edited.
   isEditing: boolean;
   onNew: () => void;
   onBack: () => void;
-  // The editor form, shown when `isEditing`.
   editor: ReactNode;
-  // The entity list, shown otherwise.
   list: ReactNode;
 };
 

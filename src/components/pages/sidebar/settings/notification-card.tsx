@@ -63,7 +63,6 @@ export function NotificationCard() {
 
   const notifyType = form.watch("notify_type");
 
-  // Populate form when user data loads
   useEffect(() => {
     if (!user?.setting) return;
     const s = safeJsonParse<Partial<ServerSetting>>(user.setting, {});
