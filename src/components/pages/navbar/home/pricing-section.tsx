@@ -145,7 +145,7 @@ function TopUpDemo() {
     <div className="space-y-2.5 font-mono text-[11px]">
       {rows.map((row) => (
         <div key={row.label} className="flex items-center gap-3">
-          <span className="text-muted-foreground w-12 shrink-0">
+          <span className="text-foreground/70 w-12 shrink-0">
             {row.label}
           </span>
           <div className="bg-secondary/60 relative h-1.5 flex-1 overflow-hidden rounded-full">
