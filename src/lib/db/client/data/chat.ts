@@ -170,7 +170,13 @@ export async function readLocalMessagesByIds(
 ) {
   const local = await getLocalDb(userId);
   if (!local || ids.length === 0) return [];
-  return local.db.select().from(messages).where(inArray(messages.id, ids));
+  // Parents before children: the server inserts in payload order and
+  // messages.parent_id is a FK.
+  return local.db
+    .select()
+    .from(messages)
+    .where(inArray(messages.id, ids))
+    .orderBy(asc(messages.createdAt));
 }
 
 export async function readLocalMessageItemsByMsgIds(

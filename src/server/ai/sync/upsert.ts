@@ -28,12 +28,19 @@ import {
   lorebookEntryBody,
   personaBody,
   samplingPresetBody,
-  type CharacterBody,
   type LorebookBody,
-  type PersonaBody,
-  type SamplingPresetBody,
 } from "@/lib/validation/rp";
-import { cardBundleBody, conversationBundleBody, playgroundSessionBundleBody, themeBundleBody, type CardBundleBody, type ConversationBundleBody, type PlaygroundSessionBundleBody, type SyncMergeMode, type ThemeBundleBody } from "@/lib/validation/sync";
+import {
+  cardBundleBody,
+  conversationBundleBody,
+  playgroundSessionBundleBody,
+  themeBundleBody,
+  type CardBundleBody,
+  type ConversationBundleBody,
+  type PlaygroundSessionBundleBody,
+  type SyncMergeMode,
+  type ThemeBundleBody,
+} from "@/lib/validation/sync";
 import { type SyncKindName } from "@/lib/validation/sync-constants";
 import { and, eq, inArray } from "drizzle-orm";
 import { castWithDriftLog } from "./payload-validate";
@@ -113,59 +120,53 @@ async function upsertScoped(
   }
 }
 
-// Insert-value builders: loose sync payload -> typed insert row via castWithDriftLog.
-
-function characterInsertValues(
+// Insert-value builder: loose sync payload -> typed insert row via
+// castWithDriftLog. `fill` backstops Optional schema fields with NOT NULL
+// columns (isDefault); cast output overrides it when present.
+type InsertValuesFn = (
   body: unknown,
   userId: number,
   id: string,
   expiresAt: Date,
-): typeof characters.$inferInsert {
-  const v = castWithDriftLog(characterBody, body, "sync.upsert.character");
-  return { ...v, id, userId, syncExpiresAt: expiresAt };
-}
+) => Record<string, unknown>;
 
-function personaInsertValues(
-  body: unknown,
-  userId: number,
-  id: string,
-  expiresAt: Date,
-): typeof personas.$inferInsert {
-  const v = castWithDriftLog(personaBody, body, "sync.upsert.persona");
-  return {
-    ...v,
-    id,
-    userId,
-    isDefault: v.isDefault ?? false,
-    syncExpiresAt: expiresAt,
+function insertValuesFor(
+  schema: Parameters<typeof castWithDriftLog>[0],
+  ctx: string,
+  fill: Record<string, unknown> = {},
+): InsertValuesFn {
+  return (body, userId, id, expiresAt) => {
+    const v = castWithDriftLog(schema, body, ctx);
+    return {
+      ...fill,
+      ...stripUndefined(v as Record<string, unknown>),
+      id,
+      userId,
+      syncExpiresAt: expiresAt,
+    };
   };
 }
 
-function presetInsertValues(
-  body: unknown,
-  userId: number,
-  id: string,
-  expiresAt: Date,
-): typeof samplingPresets.$inferInsert {
-  const v = castWithDriftLog(samplingPresetBody, body, "sync.upsert.preset");
-  return {
-    ...v,
-    id,
-    userId,
-    isDefault: v.isDefault ?? false,
-    syncExpiresAt: expiresAt,
-  };
-}
-
-function lorebookInsertValues(
-  lb: unknown,
-  userId: number,
-  id: string,
-  expiresAt: Date,
-): typeof lorebooks.$inferInsert {
-  const v = castWithDriftLog(lorebookBody, lb, "sync.upsert.lorebook");
-  return { ...v, id, userId, syncExpiresAt: expiresAt };
-}
+const characterInsertValues = insertValuesFor(
+  characterBody,
+  "sync.upsert.character",
+);
+const personaInsertValues = insertValuesFor(
+  personaBody,
+  "sync.upsert.persona",
+  {
+    isDefault: false,
+  },
+);
+const presetInsertValues = insertValuesFor(
+  samplingPresetBody,
+  "sync.upsert.preset",
+  { isDefault: false },
+);
+const lorebookInsertValues = insertValuesFor(
+  lorebookBody,
+  "sync.upsert.lorebook",
+);
 
 function lorebookEntryInsertValues(
   e: unknown,
@@ -232,7 +233,7 @@ async function insertReferencedLorebook(
   if (rows.length > 0) return;
   await tx
     .insert(lorebooks)
-    .values(lorebookInsertValues(lb, userId, id, expiresAt));
+    .values(lorebookInsertValues(lb, userId, id, expiresAt) as never);
   for (const e of (entry.entries ?? []) as Array<Record<string, unknown>>) {
     await tx.insert(lorebookEntries).values(lorebookEntryInsertValues(e, id));
   }
@@ -267,36 +268,36 @@ async function preUploadMedia(
 
 // Per-kind upsert handlers.
 
-export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
-  characters: async (db, userId, id, expiresAt, payload) => {
-    const body = (payload ?? {}) as Partial<CharacterBody>;
+// Plain single-row kinds: cast -> scoped insert-or-patch, one transaction.
+function scopedKindHandler(
+  table: ScopedTable,
+  schema: { properties: Record<string, unknown> },
+  values: InsertValuesFn,
+): UpsertHandler {
+  return async (db, userId, id, expiresAt, payload) => {
+    const body = (payload ?? {}) as Record<string, unknown>;
     await db.transaction((tx) =>
       upsertScoped(
         tx,
-        characters,
+        table,
         userId,
         id,
         expiresAt,
-        characterInsertValues(body, userId, id, expiresAt),
-        pickSchemaFields(body, characterBody),
+        values(body, userId, id, expiresAt),
+        pickSchemaFields(body, schema),
       ),
     );
-  },
+  };
+}
 
-  personas: async (db, userId, id, expiresAt, payload) => {
-    const body = (payload ?? {}) as Partial<PersonaBody>;
-    await db.transaction((tx) =>
-      upsertScoped(
-        tx,
-        personas,
-        userId,
-        id,
-        expiresAt,
-        personaInsertValues(body, userId, id, expiresAt),
-        pickSchemaFields(body, personaBody),
-      ),
-    );
-  },
+export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
+  characters: scopedKindHandler(
+    characters,
+    characterBody,
+    characterInsertValues,
+  ),
+
+  personas: scopedKindHandler(personas, personaBody, personaInsertValues),
 
   lorebooks: async (db, userId, id, expiresAt, payload) => {
     const body = (payload ?? {}) as {
@@ -327,20 +328,11 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
     });
   },
 
-  presets: async (db, userId, id, expiresAt, payload) => {
-    const body = (payload ?? {}) as Partial<SamplingPresetBody>;
-    await db.transaction((tx) =>
-      upsertScoped(
-        tx,
-        samplingPresets,
-        userId,
-        id,
-        expiresAt,
-        presetInsertValues(body, userId, id, expiresAt),
-        pickSchemaFields(body, samplingPresetBody),
-      ),
-    );
-  },
+  presets: scopedKindHandler(
+    samplingPresets,
+    samplingPresetBody,
+    presetInsertValues,
+  ),
 
   cards: async (db, userId, id, expiresAt, payload) => {
     const body: CardBundleBody = castWithDriftLog(
@@ -370,6 +362,21 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
           personaId: c.personaId,
         }),
       );
+      // Inline entity bodies first so the join-table FKs below resolve even
+      // when the referenced character/lorebook was never synced on its own.
+      for (const ch of body.characters ?? []) {
+        await insertReferencedEntity(
+          tx,
+          characters,
+          userId,
+          expiresAt,
+          ch,
+          characterInsertValues,
+        );
+      }
+      for (const lb of body.lorebooks ?? []) {
+        await insertReferencedLorebook(tx, userId, expiresAt, lb);
+      }
       if (body.cardCharacters) {
         await tx.delete(cardCharacters).where(eq(cardCharacters.cardId, id));
         for (let i = 0; i < body.cardCharacters.length; i++) {
@@ -671,7 +678,6 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
           }
         }
       }
-
     });
   },
 

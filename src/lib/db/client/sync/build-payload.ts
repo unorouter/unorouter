@@ -12,6 +12,7 @@ import {
   readLocalCard,
   readLocalCharacter,
   readLocalLorebook,
+  readLocalLorebookBundle,
   readLocalPersona,
   readLocalPreset,
 } from "@/lib/db/client/data/rp";
@@ -49,17 +50,30 @@ export async function buildSyncPayload(
     }
     case "cards": {
       const card = await readLocalCard(userId, id);
-      return (
-        card && {
-          card: {
-            ...card,
-            cardCharacters: undefined,
-            cardLorebooks: undefined,
-          },
-          cardCharacters: card.cardCharacters,
-          cardLorebooks: card.cardLorebooks,
-        }
-      );
+      if (!card) return null;
+      // Inline entity bodies so join-table FKs resolve server-side even when
+      // the referenced character/lorebook was never synced on its own.
+      const characters = [];
+      for (const j of card.cardCharacters) {
+        const ch = await readLocalCharacter(userId, j.characterId);
+        if (ch) characters.push(ch);
+      }
+      const lorebooks = [];
+      for (const j of card.cardLorebooks) {
+        const lb = await readLocalLorebookBundle(userId, j.lorebookId);
+        if (lb) lorebooks.push(lb);
+      }
+      return {
+        card: {
+          ...card,
+          cardCharacters: undefined,
+          cardLorebooks: undefined,
+        },
+        cardCharacters: card.cardCharacters,
+        cardLorebooks: card.cardLorebooks,
+        characters,
+        lorebooks,
+      };
     }
     case "characters":
       return readLocalCharacter(userId, id);

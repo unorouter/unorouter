@@ -10,6 +10,7 @@ import {
 import { buildSyncPayload } from "@/lib/db/client/sync/build-payload";
 import { evictMediaBase64After } from "@/lib/db/client/sync/evict-media";
 import {
+  clearPending,
   readPendingSync,
   retryPendingTargets,
   type PendingSyncRow,
@@ -116,7 +117,12 @@ export function useSyncMutation() {
       if (args.kind === "conversations" && userId != null) {
         await mirrorConvExpiry(userId, args.id, row?.syncExpiresAt ?? null);
       }
-      if (userId != null) await evictMediaBase64After(userId, result);
+      if (userId != null) {
+        await evictMediaBase64After(userId, result);
+        // Enrollment pushed the full payload; a queued outbox row is stale
+        // (a leftover delete would clobber the row we just enrolled).
+        await clearPending(userId, args.kind, args.id);
+      }
       patchSyncStateCache(qc, args.kind, args.id, row);
       return result;
     },
@@ -139,6 +145,9 @@ export function useRemoveSyncMutation() {
       if (args.kind === "conversations" && userId != null) {
         await mirrorConvExpiry(userId, args.id, null);
       }
+      // A queued patch draining after removal would re-enroll the row
+      // (keepExpiry falls back to the default TTL when no expiry exists).
+      if (userId != null) await clearPending(userId, args.kind, args.id);
       patchSyncStateCache(qc, args.kind, args.id, null);
       return result;
     },

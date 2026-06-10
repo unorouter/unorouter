@@ -61,6 +61,23 @@ const ID = t.String({ minLength: 1, maxLength: 64 });
 const NullableId = t.Union([ID, t.Null()]);
 const NullableString = t.Union([t.String(), t.Null()]);
 
+// Referenced RP entities ride inline so card/conversation pushes are self-contained.
+const RefCharacter = t.Object({
+  id: ID,
+  name: t.Optional(t.String()),
+  description: t.Optional(NullableString),
+});
+const RefPersona = t.Object({
+  id: ID,
+  name: t.Optional(t.String()),
+  description: t.Optional(NullableString),
+});
+const RefPreset = t.Object({ id: ID, name: t.Optional(t.String()) });
+const RefLorebook = t.Object({
+  lorebook: t.Optional(t.Object({ id: ID, name: t.Optional(t.String()) })),
+  entries: t.Optional(t.Array(t.Unknown())),
+});
+
 // cards
 export const cardBundleBody = t.Object({
   card: t.Optional(
@@ -85,6 +102,13 @@ export const cardBundleBody = t.Object({
         orderIndex: t.Optional(t.Number()),
       }),
     ),
+  ),
+  // Inline bodies for join-table FKs (local-only chars/lorebooks on a synced card).
+  characters: t.Optional(
+    t.Array(t.Composite([RefCharacter, t.Record(t.String(), t.Unknown())])),
+  ),
+  lorebooks: t.Optional(
+    t.Array(t.Composite([RefLorebook, t.Record(t.String(), t.Unknown())])),
   ),
 });
 export type CardBundleBody = Static<typeof cardBundleBody>;
@@ -154,23 +178,6 @@ const MediaRow = t.Object({
   width: t.Optional(t.Union([t.Number(), t.Null()])),
   height: t.Optional(t.Union([t.Number(), t.Null()])),
   extractedText: t.Optional(NullableString),
-});
-
-// Referenced RP entities ride inline so the conversation is self-contained.
-const RefCharacter = t.Object({
-  id: ID,
-  name: t.Optional(t.String()),
-  description: t.Optional(NullableString),
-});
-const RefPersona = t.Object({
-  id: ID,
-  name: t.Optional(t.String()),
-  description: t.Optional(NullableString),
-});
-const RefPreset = t.Object({ id: ID, name: t.Optional(t.String()) });
-const RefLorebook = t.Object({
-  lorebook: t.Optional(t.Object({ id: ID, name: t.Optional(t.String()) })),
-  entries: t.Optional(t.Array(t.Unknown())),
 });
 
 export const conversationBundleBody = t.Object({

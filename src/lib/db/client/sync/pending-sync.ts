@@ -77,9 +77,7 @@ export async function enqueueSync(
   let msgIds: string | null = null;
   if (op === "patch" && kind === "conversations") {
     const hints = new Set<string>(
-      existing?.op === "patch" && existing.hint
-        ? existing.hint.split(",")
-        : [],
+      existing?.op === "patch" && existing.hint ? existing.hint.split(",") : [],
     );
     hints.add(opts?.hint ?? "full");
     // "full" absorbs every partial scope.
@@ -127,23 +125,26 @@ async function pushRow(userId: number, row: OutboxRow): Promise<void> {
     (row.hint ? row.hint.split(",") : []) as ConvSyncHint[],
   );
   const msgIds = row.msgIds ? (JSON.parse(row.msgIds) as string[]) : [];
-  const pushes = await buildPendingPushes(userId, row.kind, row.id, hints, msgIds);
+  const pushes = await buildPendingPushes(
+    userId,
+    row.kind,
+    row.id,
+    hints,
+    msgIds,
+  );
   for (const push of pushes ?? []) {
     const pushed = handleElysia(
-      await rpc.api.ai
-        .sync({ kind: row.kind })({ id: row.id })
-        .post({
-          payload: push.payload,
-          keepExpiry: true,
-          mergeMode: push.mergeMode,
-        }),
+      await rpc.api.ai.sync({ kind: row.kind })({ id: row.id }).post({
+        payload: push.payload,
+        keepExpiry: true,
+        mergeMode: push.mergeMode,
+      }),
     );
     // Full bundle pushes return media with fresh R2 keys; evict the
     // now-redundant local base64 copies.
     const fullBundle =
       row.kind === "playgroundSessions" ||
-      (row.kind === "conversations" &&
-        (hints.size === 0 || hints.has("full")));
+      (row.kind === "conversations" && (hints.size === 0 || hints.has("full")));
     if (fullBundle) await evictMediaBase64After(userId, pushed);
   }
 }
@@ -267,6 +268,22 @@ export function drainSoon(userId: number): void {
       void safeDrain(userId);
     }, DRAIN_SOON_MS),
   );
+}
+
+// Direct enrollment/removal (sync-hook) supersedes anything queued for the
+// row: a stale queued patch would re-enroll a just-removed row (keepExpiry
+// falls back to the default TTL) and a stale queued delete would wipe a
+// just-re-enrolled one.
+export async function clearPending(
+  userId: number,
+  kind: SyncKindName,
+  id: string,
+): Promise<void> {
+  const local = await getLocalDb(userId);
+  if (!local) return;
+  await local.db
+    .delete(localPendingSync)
+    .where(and(eq(localPendingSync.kind, kind), eq(localPendingSync.id, id)));
 }
 
 // Reads every queued row so UI surfaces (SyncBadge) can render pending state.
