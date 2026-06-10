@@ -1,9 +1,6 @@
-// Rolling-summary memory (minimal RisuAI supaMemory port). When chat history
-// overflows the model context window, the oldest unsummarized chunk is folded
-// into a running summary (free-model call) and injected at the top of the prompt
-// as a compact system block, so long RPs keep continuity without blowing the
-// window. Server computes; the client persists summaryMemory + summaryAnchor via
-// the finish-meta writeback channel.
+// Rolling-summary memory (minimal RisuAI supaMemory port): oldest unsummarized
+// chunk folds into a running summary injected as a top system block. Server
+// computes; client persists summaryMemory + summaryAnchor via finish-meta writeback.
 
 import { freeModelRace } from "@/lib/ai/chat/free-model-race";
 import { logger } from "@/lib/utils/logger";

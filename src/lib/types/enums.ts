@@ -62,6 +62,7 @@ export enum Vendor {
   MYSHELL = "myshell",
   LEONARDO = "leonardo",
   LYKON = "lykon",
+  THEDRUMMER = "thedrummer",
   PFNET = "preferred",
   NEXAGI = "nex agi",
   JINA = "jina",

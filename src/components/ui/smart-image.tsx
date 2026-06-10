@@ -1,16 +1,9 @@
 import { env } from "@/lib/config/env";
 import Image, { type ImageProps } from "next/image";
 
-/**
- * Wraps next/image for runtime-variable srcs (chat/playground media). The image
- * optimizer only accepts http(s) URLs on an allowlisted host; data:/blob: URIs
- * and non-allowlisted hosts must bypass it or the request 400s. SmartImage
- * decides per-src: R2 + same-origin/relative paths get optimized, everything
- * else falls back to `unoptimized` (rendered as-is, no optimizer round-trip).
- *
- * Callers that size via CSS (object-cover/contain in a sized parent) pass
- * `fill`; callers with intrinsic dimensions pass width/height like next/image.
- */
+// next/image wrapper for runtime-variable srcs: the optimizer 400s on
+// data:/blob: and non-allowlisted hosts, so only R2 + same-origin/relative
+// paths optimize; everything else renders `unoptimized`.
 function isOptimizable(src: string): boolean {
   if (src.startsWith("data:") || src.startsWith("blob:")) return false;
   // Relative path (same-origin, e.g. /api/ops/badge) is always optimizable.

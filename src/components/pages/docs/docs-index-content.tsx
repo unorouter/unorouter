@@ -26,12 +26,8 @@ type PopularPath = {
   descKey: TranslationKey;
 };
 
-/**
- * free-ai links its 3 "Popular paths" cards to dedicated intent pages
- * (/roleplay-api, /coding-agent-api, /openai-compatible-api). unorouter has no
- * such routes, so these jump to the matching category section anchors on this
- * same page instead.
- */
+// free-ai links these cards to dedicated intent pages; unorouter has no such
+// routes, so they jump to category section anchors on this page.
 const POPULAR_PATHS: PopularPath[] = [
   {
     href: "#category-roleplay",

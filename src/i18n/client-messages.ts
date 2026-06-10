@@ -1,8 +1,6 @@
-// Single source of truth for which messages reach the client, consumed by
-// LanguageProvider. Violations fail loudly in dev: ClientIntlProvider throws
-// on MISSING_MESSAGE instead of logging. Interim until next-intl ships
-// compiler-driven message tree-shaking (amannn/next-intl#1); delete this
-// module when that lands.
+// Single source of truth for which messages reach the client; violations throw
+// in dev (ClientIntlProvider MISSING_MESSAGE). Interim until next-intl ships
+// message tree-shaking (amannn/next-intl#1); delete this module when that lands.
 
 type Messages = Record<string, unknown>;
 
@@ -25,11 +23,7 @@ export const CLIENT_DOCS_KEPT = [
   "GENERATE_API_KEY_DESC",
 ] as const;
 
-/**
- * Leaves kept on every DOCS guide entry. The navbar megamenu and the docs
- * sidebar (client components, via nav/navigation.ts) render these for each
- * guide; the step bodies stay server-only.
- */
+/** Leaves kept per DOCS guide for the megamenu/sidebar; step bodies stay server-only. */
 export const CLIENT_DOCS_GUIDE_LEAVES = ["TITLE", "SUBTITLE"] as const;
 
 /** Prune server-only content from the messages sent to the client. */

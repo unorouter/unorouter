@@ -1,8 +1,6 @@
-// Server-side trigger execution for the `start` event mode: runs the primary
-// character's trigger scripts before assembly and surfaces their prompt-level
-// outputs (system-prompt injections, var mutations, stop flag). Stateful var
-// mutations ride the existing var-writeback channel; deeper mutations
-// (lorebook/char CRUD) are applied to the in-memory context only for this turn.
+// `start`-mode trigger execution before assembly: surfaces system-prompt
+// injections, var mutations (ride the var-writeback channel), and the stop
+// flag. Deeper mutations apply to the in-memory context for this turn only.
 
 import {
   makeTriggerContext,

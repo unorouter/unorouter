@@ -43,11 +43,8 @@ export function useTaskLogsQuery(
   });
 }
 
-// Resolve which upstream channel/provider actually served a request. new-api
-// sends no channel header on the stream, but logs the channel by request_id, so
-// this looks the log row up after the fact. Returns the channel_name (the
-// reseller that auto-routing picked) or null when no match yet. Enabled only
-// when a request_id is present.
+// Which upstream channel served a request: new-api sends no channel header on
+// the stream but logs it by request_id, so look the log row up after the fact.
 export function useUsedProviderQuery(requestId: string | null | undefined) {
   return useQuery({
     queryKey: queryKeys.usedProvider(requestId ?? ""),

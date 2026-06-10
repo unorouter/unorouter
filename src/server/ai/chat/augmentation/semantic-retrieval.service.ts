@@ -1,9 +1,6 @@
-// Semantic retrieval (RisuAI hypa "past events" analog). Embeds the recent
-// chat text and a set of candidate texts (lorebook entries and/or summarized
-// chunks) via the upstream /v1/embeddings endpoint, cosine-ranks them, and
-// returns the top-K. Used to surface relevant lore that plain keyword matching
-// missed. Best-effort: any embedding failure yields an empty result (the prompt
-// is still assembled without it).
+// Semantic retrieval (RisuAI hypa analog): embed recent chat + candidate texts,
+// cosine-rank, return top-K lore keyword matching missed. Best-effort: any
+// embedding failure yields an empty result.
 
 import { generateEmbedding } from "../stream/media-stream";
 import { logger } from "@/lib/utils/logger";

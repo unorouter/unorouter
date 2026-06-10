@@ -71,6 +71,8 @@ export const VENDOR_LOADERS: Partial<Record<Vendor, IconLoader>> = {
   [Vendor.DEEPGRAM]: () => import("@/components/elements/brand/deepgram-icon"),
   [Vendor.LEONARDO]: () => import("@/components/elements/brand/leonardo-icon"),
   [Vendor.LYKON]: () => import("@/components/elements/brand/lykon-icon"),
+  [Vendor.THEDRUMMER]: () =>
+    import("@/components/elements/brand/thedrummer-icon"),
   [Vendor.PFNET]: () => import("@/components/elements/brand/pfnet-icon"),
   [Vendor.NEXAGI]: () => import("@/components/elements/brand/nexagi-icon"),
   [Vendor.HUNYUAN]: () => import("@lobehub/icons/es/Hunyuan"),

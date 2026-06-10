@@ -24,14 +24,9 @@ export interface SetupStep {
 }
 
 /**
- * One data-driven guide. i18n-aware (titleKey/bodyKey/gotchaKeys are
- * TranslationKeys; en.json stays source of truth). Card fields (iconKey,
- * color, logoSrc, logoBg, quickStart, quickConfig) mirror integrations.ts so
- * the card surface and the page render from a single object.
- *
- * baseUrl is the bare API base; apiPath (optional) is the route suffix some
- * clients require (e.g. "/chat/completions"). Encode the URL-suffix rule as
- * data, never as prose.
+ * One data-driven guide; card surface and page render from this single object.
+ * baseUrl is the bare API base, apiPath the optional client route suffix
+ * (e.g. "/chat/completions"); encode the URL-suffix rule as data, never prose.
  */
 export interface SetupGuide {
   /** Route param + DOCS_REGISTRY slug suffix. */
@@ -52,11 +47,7 @@ export interface SetupGuide {
   baseUrl: string;
   apiPath?: string;
   compatibility: SetupCompatibility;
-  /**
-   * Recommendation HINT only. The template calls getFreeTextModels() at
-   * runtime for the live list; leave this empty unless a guide needs a fixed
-   * fallback. Never hardcode model ids as the primary source.
-   */
+  /** Hint only; template calls getFreeTextModels() at runtime. Leave empty unless a fixed fallback is needed. */
   recommendedModels: string[];
   steps: SetupStep[];
   gotchaKeys?: TranslationKey[];
@@ -1120,12 +1111,9 @@ model: openai/YOUR_MODEL_ID`,
     gotchaKeys: ["DOCS.AIDER.GOTCHA_1", "DOCS.AIDER.GOTCHA_2"],
   },
   // --- END CODING/CLI ---
-  // --- HARNESS --- the 5 CLI/agent harnesses free-ai lacks. cc-switch keeps
-  // its ccswitch:// deep-link installer (customComponent: "cc-switch", body in
-  // cli/cc-switch/cc-switch-deep-links.tsx); the other 4 keep OS-aware shell
-  // tabs via quickStart. baseUrl derives from env.apiUrl; gemini-cli is bare
-  // (the Gemini SDK appends its own path). recommendedModels stays empty so the
-  // template's getFreeTextModels() drives the live list.
+  // --- HARNESS --- cc-switch keeps its ccswitch:// deep-link installer
+  // (customComponent); the other 4 use OS-aware quickStart tabs. gemini-cli's
+  // baseUrl is bare (the Gemini SDK appends its own path).
   {
     slug: "cc-switch",
     href: { pathname: "/docs/[slug]", params: { slug: "cc-switch" } },

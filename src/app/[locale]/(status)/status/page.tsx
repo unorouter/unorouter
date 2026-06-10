@@ -34,10 +34,8 @@ export default async function StatusRoute(props: {
   const t = await getTranslations({ locale });
   const queryClient = getQueryClient();
 
-  // modelStatusPage NOT prefetched on server: dehydrating the expanded
-  // StatusBarData[] payload (83 models x 1430 buckets x ~140 bytes) inlines
-  // ~16 MB into the SSR HTML and dominates TTFB. Client fetches it after
-  // hydration with the React Query cache cold.
+  // modelStatusPage NOT prefetched: dehydrating it inlines ~16MB into the SSR
+  // HTML and dominates TTFB; the client fetches after hydration.
   await Promise.all([
     queryClient.prefetchQuery({
       queryKey: queryKeys.modelStatusComponents(),

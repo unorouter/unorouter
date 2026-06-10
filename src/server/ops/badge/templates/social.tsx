@@ -124,10 +124,8 @@ const VENDORS = [
 
 const BASE = "#070409";
 
-// A glow spot built the proper SVG way: a horizontal <linearGradient> (colorA on
-// the LEFT, colorB on the RIGHT) gives the two side-to-side colors, and a <mask>
-// driven by a <radialGradient> (white center -> black rim) softens it into a
-// circular blob that fades to transparent so spots stack over the base.
+// Glow spot: horizontal linearGradient (colorA left, colorB right) clipped by a
+// radialGradient mask into a soft blob so spots stack over the base.
 // cx/cy = center %, rx/ry = radius %, of the WxH canvas.
 function spotSvg(
   id: string,
@@ -172,13 +170,10 @@ function spotSvg(
   return { def, shape };
 }
 
-// Full background SVG: black base + three glow spots, each split into TWO colors
-// left->right, so the three circles together read as a 6-color rainbow sweep
-// (red/orange -> yellow/green -> blue/violet). `intensity` dials the whole glow
-// down. Spot LAYOUT differs by banner shape: the tall "grid" banners spread the
-// three spots across the canvas; the short wide "strip" banners would smear those
-// into muddy horizontal bands, so they get tight spots clustered behind the icon
-// row (right side) with radii sized off HEIGHT so they stay round.
+// Black base + three two-color glow spots reading as a 6-color rainbow sweep.
+// Layout differs by shape: "grid" spreads spots across the canvas; "strip" would
+// smear those into muddy bands, so it clusters tight spots behind the icon row
+// with radii sized off height so they stay round.
 function bgSvg(
   W: number,
   H: number,
@@ -258,9 +253,8 @@ function bgSvg(
 const RAINBOW =
   "linear-gradient(90deg, #ff2d55 0%, #ff8a00 18%, #ffd60a 34%, #34c759 52%, #00c7be 66%, #0a84ff 82%, #bf5af2 100%)";
 
-// Brands whose only color is black/currentColor read as invisible on the dark
-// grid. Force those to white. True multi-color logos (gradients or non-dark hex,
-// in either a fill="" attr or a style="fill:" rule) keep their brand fills.
+// Black/currentColor-only brands read as invisible on the dark grid: force
+// white. True multi-color logos keep their brand fills.
 const NEUTRAL_FILLS = ["#000", "#000000", "#fff", "#ffffff"];
 
 function prepIconSvg(svg: string): string {
@@ -284,10 +278,8 @@ function prepIconSvg(svg: string): string {
   return whiten(normalized);
 }
 
-// Recolor a mono logo to white, covering fill="" attrs, style="fill:" rules,
-// currentColor, and bare paths that inherit from the root. The root fill is set
-// by replacing an existing one or injecting a single new attr (never both, or
-// resvg rejects the doc with "Attribute fill redefined" and the cell goes blank).
+// Recolor a mono logo to white. Root fill is replaced OR injected, never both:
+// resvg rejects "Attribute fill redefined" and the cell goes blank.
 function whiten(svg: string): string {
   const recolored = svg
     .replace(/fill="currentColor"/g, `fill="#ffffff"`)

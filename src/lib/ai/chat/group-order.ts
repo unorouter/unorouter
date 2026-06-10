@@ -1,9 +1,6 @@
-// Multi-character turn ordering (RisuAI group.ts groupOrder port). Decides
-// which bound characters speak, and in what order, for a group conversation.
-// Two-stage: name-mention priority (word-chunk match), then weighted-random
-// talkativeness. Risu semantics: the random mode excludes the last speaker (no
-// back-to-back); orderByOrder uses the stored order with NO filter. Rolls are
-// seeded (not Math.random) so ordering is stable across regenerates.
+// Multi-character turn ordering (RisuAI groupOrder port): name-mention priority,
+// then weighted-random talkativeness. Random mode excludes the last speaker;
+// orderByOrder uses stored order unfiltered. Seeded rolls = stable across regenerates.
 
 import { seededRand } from "./calc";
 

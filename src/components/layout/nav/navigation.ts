@@ -9,11 +9,8 @@ import { TranslationKey } from "@/lib/config/constants";
 import type { IconName } from "@/lib/config/icon-map";
 import type { ComponentType } from "react";
 
-/**
- * Docs megamenu items, derived from SETUP_GUIDES (one entry per guide, grouped
- * by category in CATEGORY_ORDER) so the nav dropdown, the docs sidebar, and the
- * docs index all read the same source. Adding a guide updates all three.
- */
+// Derived from SETUP_GUIDES so nav dropdown, docs sidebar, and docs index read
+// one source; adding a guide updates all three.
 const docsSubmenu = (): NavigationItem[] => {
   const byCategory = setupGuidesByCategory();
   return CATEGORY_ORDER.flatMap((category) =>
@@ -53,12 +50,9 @@ export type NavigationItem = {
   group?: TranslationKey;
 };
 
-/**
- * Substitute dynamic [param] segments in a pathname template with concrete
- * values. next-intl's usePathname() returns the template (e.g. "/docs/[slug]"),
- * and object hrefs carry their params separately, so both sides must be
- * resolved before comparison - otherwise every "/docs/[slug]" item matches.
- */
+// Fill [param] segments: usePathname() returns the template and object hrefs
+// carry params separately, so both sides must resolve before comparison or
+// every "/docs/[slug]" item matches.
 const fillParams = (path: string, params?: Record<string, string>) => {
   if (!params) return path;
   let out = path;

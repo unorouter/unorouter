@@ -229,14 +229,11 @@ export async function streamChat(
     },
   });
 
-  // Server-generated assistant message id: shared by the UI stream (the
-  // client persists the message under it) and the server-side request-log row,
-  // so both sides key the log identically.
+  // Server-generated id shared by the UI stream and the request-log row, so
+  // both sides key the log identically.
   const responseMessageId = uid();
-  // ONE finish-metadata builder for both delivery paths: the streamed path's
-  // finish frame and the buffered path's synthesized metadata chunk. Carries
-  // usage/cost, writebacks (vars/globals/summary), the speaker tag, and the
-  // request-log debug snapshot.
+  // One finish-metadata builder for both delivery paths (streamed finish frame,
+  // buffered synthesized chunk).
   const buildFinishMeta = (
     totalUsage: { inputTokens?: number; outputTokens?: number } | undefined,
   ): Record<string, unknown> => {
@@ -245,8 +242,7 @@ export async function streamChat(
     if (varsWriteback) meta.vars = varsWriteback;
     if (globalVarsWriteback) meta.globalVars = globalVarsWriteback;
     if (memory.summaryWriteback) meta.summary = memory.summaryWriteback;
-    // Speaker tag for multi-character turns (Risu `saying`): per-message,
-    // immune to the client-side speaking-atom clear race.
+    // Per-message speaker tag (Risu `saying`), immune to the speaking-atom clear race.
     if (body.speakingCharacterId)
       meta.speakingCharacterId = body.speakingCharacterId;
     const u = buildUsage(

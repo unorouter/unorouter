@@ -34,10 +34,8 @@ function normalizeMathDelimiters(text: string): string {
     .replace(/\\\((.+?)\\\)/gs, (_m, inner) => `$${inner}$`);
 }
 
-// react-markdown's default urlTransform strips `data:` URLs. Image generation
-// streams images inline as `![image](data:image/...)`, TTS audio as
-// `![audio](data:audio/...)`, so the client can persist base64 locally without an
-// R2 round-trip; allow data:image/* and data:audio/* through.
+// react-markdown strips `data:` URLs by default; image gen + TTS stream media
+// inline as data: so the client persists base64 without an R2 round-trip.
 const allowDataImageUrls = (url: string): string => {
   if (url.startsWith("data:image/") || url.startsWith("data:audio/"))
     return url;

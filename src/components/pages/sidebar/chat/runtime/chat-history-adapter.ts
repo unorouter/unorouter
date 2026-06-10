@@ -286,10 +286,8 @@ export function createChatHistoryAdapter(
   };
 }
 
-// Run output-mode trigger scripts after an assistant reply. Their var mutations
-// persist to the conversation var store (the same surface macro setvar uses).
-// Chat/lorebook/char mutations are out of scope here (the local DB is the source
-// of truth and those are edited through their own CRUD paths).
+// Output-mode triggers after an assistant reply: var mutations persist to the
+// conv var store; chat/lorebook/char mutations stay with their own CRUD paths.
 async function runOutputTriggers(
   userId: number,
   convId: string,

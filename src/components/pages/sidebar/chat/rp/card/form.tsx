@@ -49,10 +49,8 @@ export function CardForm(props: Props) {
   const createMut = useCreateCardMutation();
   const updateMut = useUpdateCardMutation();
 
-  // Async-defaults pattern: `values` syncs the row in when the query settles;
-  // keepDirtyValues stops a background refetch from clobbering in-progress
-  // typing. Parent keys this component by editingId for clean remounts.
-  // characterIds/lorebookIds come from join rows, not flat columns.
+  // `values` syncs the row on settle; keepDirtyValues protects in-progress
+  // typing. characterIds/lorebookIds come from join rows, not flat columns.
   const editing = props.editingId === "new" ? null : cardQuery.data;
   const formValues = editing
     ? formDefaults(cardFormSchema, {

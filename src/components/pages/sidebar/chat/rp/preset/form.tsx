@@ -87,10 +87,8 @@ export function PresetForm(props: Props) {
   const createMut = useCreatePresetMutation();
   const updateMut = useUpdatePresetMutation();
 
-  // Async-defaults pattern: `values` syncs the row into the form whenever the
-  // query settles; keepDirtyValues stops a background refetch from clobbering
-  // fields the user is typing in. The parent keys this component by editingId,
-  // so switching entities remounts with clean dirty-state.
+  // `values` syncs the row on settle; keepDirtyValues stops a refetch clobbering
+  // in-progress typing. Parent keys by editingId so switching remounts clean.
   const editing =
     props.editingId === "new"
       ? null

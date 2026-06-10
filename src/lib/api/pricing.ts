@@ -154,12 +154,10 @@ function processModels(response: PricingData) {
         inputPrice = (model.model_ratio ?? 0) * 2 * minRatio;
         outputPrice = inputPrice * (model.completion_ratio ?? 0);
 
-        // Mirror new-api-sync collectTrulyFreeModels/isGroupPriceZero: a model
-        // is reachable-free when at least one enabled group is zero-priced.
-        // Per-group price is model_ratio * group_ratio, free if either factor is
-        // 0; any positive per-call model_price overrides. Guest token has 0
-        // balance so paid groups are unreachable and auto-routing lands on the
-        // free group.
+        // Mirror new-api-sync isGroupPriceZero: reachable-free when any enabled
+        // group prices at 0 (model_ratio * group_ratio; positive per-call
+        // model_price overrides). Guest token has 0 balance, so auto-routing
+        // lands on the free group.
         const modelRatio = model.model_ratio ?? 0;
         const modelPriceVal = model.model_price ?? 0;
         const groupIsFree = (g: string) =>

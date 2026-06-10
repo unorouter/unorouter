@@ -4,10 +4,9 @@ import { GuideIcon } from "@/components/pages/docs/guide-icon";
 import { SETUP_GUIDES } from "@/components/pages/docs/setup-guides";
 import { Link } from "@/i18n/navigation";
 
-// Lightweight floating brand chips around the stats card. No JS animation (27
-// perpetual springs lagged); a single shared CSS keyframe with a per-chip delay
-// gives the drift cheaply on the GPU. Even grid: half ABOVE the card, half
-// BELOW it, so the card stays clear.
+// Floating brand chips around the stats card. No JS animation (27 perpetual
+// springs lagged); one shared CSS keyframe + per-chip delay drifts on the GPU.
+// Half above, half below, so the card stays clear.
 
 const COLS = 7;
 // Span the stats card's x-range (it sits ~0%-84% of the overlay, centered ~42%)

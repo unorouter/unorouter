@@ -28,10 +28,8 @@ function getIcon(name: IconName, lib: IconLibraryName): IconComponent {
         if (!loader) return { default: (() => null) as IconComponent };
         return loader();
       })
-      // A chunk timeout on a slow network must degrade to the spinner glyph,
-      // not throw out of lazy() and trip the GLOBAL error boundary (observed
-      // as a full-app "Something went wrong" under throttled audits). Evict
-      // from the cache so the next render retries the import.
+      // Chunk timeout degrades to the spinner glyph instead of throwing out of
+      // lazy() into the global error boundary; evict so the next render retries.
       .catch(() => {
         cache.delete(key);
         return { default: LoaderIcon as IconComponent };

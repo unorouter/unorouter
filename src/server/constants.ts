@@ -66,21 +66,17 @@ export function getProvider(
     name: env.appName,
     baseURL: `${upstreamApiUrl}/v1`,
     apiKey,
-    // Anthropic prompt caching: the OpenAI-compatible upstream (new-api /
-    // OpenRouter) forwards `cache_control` markers placed on message content
-    // blocks to the Anthropic API. ai-sdk's openai-compatible provider does not
-    // emit them, so a fetch wrapper injects them into the outgoing body when the
-    // model supports caching. No-op on channels that ignore the field.
+    // ai-sdk's openai-compatible provider doesn't emit `cache_control`; this
+    // fetch wrapper injects the markers the upstream forwards to Anthropic.
+    // No-op on channels that ignore the field.
     ...(opts?.injectCacheControl
       ? { fetch: cacheControlFetch as typeof fetch }
       : {}),
   });
 }
 
-// Mark the system prompt + the last user message with `cache_control: ephemeral`
-// so a long, stable RP prefix (character cards, lorebook, persona) is cached by
-// the upstream Anthropic channel. Best-effort: any parse failure forwards the
-// request untouched.
+// Mark system prompt + last user message `cache_control: ephemeral` so the
+// stable RP prefix caches upstream. Best-effort: parse failure forwards untouched.
 const cacheControlFetch: typeof fetch = async (input, init) => {
   try {
     if (init?.body && typeof init.body === "string") {

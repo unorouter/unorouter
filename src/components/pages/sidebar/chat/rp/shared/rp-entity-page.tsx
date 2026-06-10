@@ -22,10 +22,8 @@ type RpEntityPageProps = {
   list: ReactNode;
 };
 
-// Shared shell for the standalone RP entity pages (cards, presets). Owns the
-// centered layout, the header with title/subtitle, the New/Back toggle, and
-// the edit-vs-list switch. The host page keeps its own `editingId` state and
-// passes the editor + list nodes plus the translation keys.
+// Shared shell for standalone RP entity pages (cards, presets): layout, header,
+// New/Back toggle, edit-vs-list switch. Host page owns `editingId`.
 export function RpEntityPage(props: RpEntityPageProps) {
   const t = useTranslations();
   return (

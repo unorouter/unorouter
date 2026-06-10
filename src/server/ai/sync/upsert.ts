@@ -414,9 +414,8 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
         .from(conversations)
         .where(and(eq(conversations.id, id), eq(conversations.userId, userId)))
         .limit(1);
-      // Settings columns live ON the conversation row; the row in the payload
-      // already carries them. A legacy `settings` object (older clients,
-      // settings-only patches) overlays on top.
+      // Settings columns live on the conversation row; a legacy `settings`
+      // object (older clients) overlays on top.
       const s = stripUndefined({
         ...Object.fromEntries(
           CONVERSATION_SETTINGS_KEYS.map((k) => [
@@ -427,10 +426,8 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
         ...(body.settings ?? {}),
       }) as NonNullable<ConversationBundleBody["settings"]>;
       if (existing.length === 0) {
-        // Settings columns ride a key-list spread; omitted keys fall to the
-        // schema column defaults (authorNoteDepth 4, webSearch* defaults) and
-        // nullable inherit-from-preset fields (chatMemory, streamingEnabled)
-        // stay null, preserving inherit semantics on a sync roundtrip.
+        // Omitted keys fall to schema defaults; nullable inherit-from-preset
+        // fields stay null, preserving inherit semantics on a sync roundtrip.
         await tx.insert(conversations).values({
           ...(stripUndefined(
             Object.fromEntries(

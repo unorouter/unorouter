@@ -345,10 +345,8 @@ interface StatusBarBarProps {
   ariaLabel: string;
 }
 
-// One bar = one plain div with handlers. No HoverCard per bar (that explodes
-// into thousands of Floating UI instances on a 78-row page). The parent
-// StatusBar mounts a single shared HoverCard and anchors it to whichever bar
-// is active.
+// Plain div, no HoverCard per bar (thousands of Floating UI instances on a
+// 78-row page); the parent anchors one shared HoverCard to the active bar.
 function StatusBarBar(props: StatusBarBarProps) {
   return (
     <div

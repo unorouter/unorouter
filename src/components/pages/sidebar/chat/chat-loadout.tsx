@@ -114,10 +114,8 @@ function MultiPicker(props: {
   );
 }
 
-// "Equip before the raid" loadout panel shown on the empty chat. Edits the
-// sticky chatLoadoutAtom, which the thread-list adapter seeds into every new
-// conversation. Makes the bound preset/persona/characters/lorebooks visible
-// and selectable up front instead of buried in the overrides drawer.
+// Loadout panel on the empty chat: edits the sticky chatLoadoutAtom that the
+// thread-list adapter seeds into every new conversation.
 export function ChatLoadout() {
   const t = useTranslations();
   const [loadout, setLoadout] = useAtom(chatLoadoutAtom);

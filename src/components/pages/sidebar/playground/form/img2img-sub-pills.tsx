@@ -1,9 +1,7 @@
 "use client";
 
-// Sub-pill strip visible only when the Img2Img top tab is active. Four
-// sub-modes: Img2Img / Upscale / ADetailer / Inpaint. Each swaps the
-// form's settings panel and the outgoing submit's `params.mode`.
-// URL-synced via ?mode=... so deep links restore the right sub-pill.
+// Img2Img sub-pill strip (Img2Img/Upscale/ADetailer/Inpaint): swaps the settings
+// panel + submit `params.mode`; URL-synced via ?mode= for deep links.
 
 import { useTranslations } from "next-intl";
 import { useAtom } from "jotai";

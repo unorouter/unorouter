@@ -10,12 +10,9 @@ import {
   StaleWhileRevalidate,
 } from "serwist";
 
-// Service worker source compiled to public/sw.js by @serwist/next.
-// COEP-safe rule: only runtime-cache SAME-ORIGIN responses. Chat + playground
-// pages run cross-origin-isolated (COEP require-corp); a cached response from a
-// require-corp document is still CORP-checked on replay. Same-origin /_next and
-// /api responses already carry CORP same-origin (stamped in next.config.ts +
-// proxy.ts), so caching them is safe. Never cache opaque cross-origin responses.
+// COEP-safe rule: only runtime-cache SAME-ORIGIN responses. Cached responses
+// are still CORP-checked on replay under require-corp; same-origin /_next and
+// /api already carry CORP same-origin. Never cache opaque cross-origin responses.
 
 declare global {
   interface WorkerGlobalScope extends SerwistGlobalConfig {
@@ -26,10 +23,8 @@ declare global {
 
 declare const self: ServiceWorkerGlobalScope;
 
-// Per-icon code splitting put ~900 hashed JS chunks in the build; precaching
-// them all makes every client re-download ~20MB in the background per deploy.
-// JS chunks are runtime-cached on first use (CacheFirst rule below), so the
-// precache keeps only documents/CSS/media and the offline page stays usable.
+// ~900 per-icon JS chunks would re-download ~20MB per deploy if precached;
+// they runtime-cache on first use instead, precache keeps documents/CSS/media.
 const precacheEntries = (self.__SW_MANIFEST ?? []).filter((entry) => {
   const url = typeof entry === "string" ? entry : entry.url;
   return !/\/_next\/static\/chunks\/.+\.js(\?|$)/.test(url);
@@ -39,16 +34,12 @@ const serwist = new Serwist({
   precacheEntries,
   skipWaiting: true,
   clientsClaim: true,
-  // navigationPreload intentionally OFF: with it on, navigations are fetched by
-  // the browser (page target), so the offline fallback only fires when both the
-  // preload AND the SW fetch fail. Disabling it routes every navigation through
-  // the SW's own fetch, so the /en/offline fallback triggers deterministically
-  // when the network is down. Small first-navigation latency cost is acceptable.
+  // OFF so every navigation routes through the SW fetch and the /en/offline
+  // fallback fires deterministically; with preload the fallback needs both to fail.
   navigationPreload: false,
   runtimeCaching: [
-    // Never cache the BFF, streaming, auth, sync, or the OPFS worker assets.
-    // (SQLocal's worker + wasm bypass the SW entirely via the fetch listener
-    // below; this NetworkOnly is a backstop for any /api or /sqlocal request.)
+    // Backstop for /api + /sqlocal; SQLocal's worker/wasm already bypass the SW
+    // via the fetch listener below.
     {
       matcher: ({ url }) =>
         url.pathname.startsWith("/api/") ||
@@ -97,11 +88,9 @@ const serwist = new Serwist({
         ],
       }),
     },
-    // HTML navigations: network ALWAYS wins; cache is an offline-only fallback.
-    // No networkTimeoutSeconds: a timeout here served the previous build's HTML
-    // on slow links (iOS Safari + LTE), whose hashed chunks 404 after a deploy,
-    // killing every event handler while plain links keep working.
-    // `mode: navigate` match covers every locale-prefixed route without listing them.
+    // Navigations: network always wins, cache is offline-only fallback. No
+    // networkTimeoutSeconds: a timeout served the previous build's HTML on slow
+    // links, whose chunks 404 after a deploy and kill every event handler.
     {
       matcher: ({ request, sameOrigin }) =>
         sameOrigin && request.mode === "navigate",
@@ -122,10 +111,8 @@ const serwist = new Serwist({
   },
 });
 
-// HTML/RSC payloads are build-scoped: a cached copy from build N mixed with
-// build N+1 chunks crashes hydration. Each new SW (one per deploy, skipWaiting
-// above) wipes them on activation so only same-build copies can ever be served.
-// Hash-addressed caches (next-static, fonts, images) survive: immutable.
+// HTML/RSC from build N mixed with build N+1 chunks crashes hydration; each
+// new SW wipes these on activation. Hash-addressed caches survive (immutable).
 const BUILD_SCOPED_CACHES = [
   "pages",
   "pages-rsc",
@@ -138,12 +125,10 @@ self.addEventListener("activate", (event) => {
   );
 });
 
-// SQLocal's OPFS async-proxy worker uses SharedArrayBuffer + Atomics.wait.
-// Any SW fetch indirection (even NetworkOnly, which still calls fetch() inside
-// the SW) stalls that sync handshake -> "Timeout while waiting for OPFS async
-// proxy worker" + lost persistence. Register a passthrough listener BEFORE
-// serwist's and stopImmediatePropagation so serwist never claims these
-// requests: they go straight to the network, untouched by the SW.
+// SQLocal's OPFS proxy worker uses SharedArrayBuffer + Atomics.wait; any SW
+// fetch indirection (even NetworkOnly) stalls the sync handshake and kills
+// persistence. This listener runs before serwist's and stopImmediatePropagation
+// keeps these requests on the native fetch path.
 self.addEventListener("fetch", (event) => {
   const req = event.request;
   const url = new URL(req.url);

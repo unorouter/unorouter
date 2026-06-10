@@ -1,9 +1,6 @@
-// Per-conversation chat-context cache for the upload-dedup handshake. The
-// client fingerprints its (large) RP context and sends only the hash on
-// repeat turns; this cache resolves the hash back to the last full payload.
-// In-memory + LRU + TTL: a miss (restart, eviction, other instance) answers
-// 409 context-required and the client retries once with the full context, so
-// correctness never depends on a hit.
+// Per-conv context cache for the upload-dedup handshake: resolves a client hash
+// back to the last full payload. In-memory LRU + TTL; a miss answers 409 and
+// the client retries full, so correctness never depends on a hit.
 
 import type { ChatContext } from "@/lib/validation/chat";
 

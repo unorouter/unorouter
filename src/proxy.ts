@@ -14,11 +14,8 @@ const ISOLATED_PATHS = ["/_next/", "/api/", "/sqlocal/"];
 export default function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Serwist SW route (/sw-worker/sw.js + chunks): must skip next-intl locale
-  // rewrites. The route handler sets Service-Worker-Allowed + content-type
-  // itself; we add CORP (COEP-isolated pages must load it) and no-cache so the
-  // route is not cached for a year at the edge (else SW updates never reach
-  // users).
+  // SW route skips locale rewrites; add CORP (COEP pages must load it) and
+  // no-cache so SW updates aren't edge-cached for a year.
   if (pathname.startsWith("/sw-worker/")) {
     const res = NextResponse.next();
     res.headers.set("Cross-Origin-Resource-Policy", "same-origin");

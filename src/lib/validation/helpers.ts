@@ -34,11 +34,9 @@ export function safeParse<T extends TSchema>(
   };
 }
 
-// Builds RHF form values from a DB row. `Value.Default` only fills `undefined`
-// fields from the schema's `default:`, but DB rows use `null` for unset
-// columns. Stripping the nulls first lets every schema default apply, so a
-// nullable text column maps to "" and a nullable flag to false. Pass `{}` to
-// get a fully default form (new-entity case).
+// RHF form values from a DB row. Value.Default only fills `undefined`, but DB
+// rows use `null`; strip nulls first so every schema default applies. Pass `{}`
+// for a fully default form.
 export function formDefaults<T extends TObject>(
   schema: T,
   row: Record<string, unknown> = {},

@@ -1,9 +1,6 @@
-// Parse a character's exampleMessages string into role-tagged few-shot turns
-// (RisuAI exampleMessages.ts parity). Recognizes <START> / [Start a new chat]
-// block separators and {{char}}:/{{user}}:/<bot>:/<user>: line prefixes; bare
-// lines continue the current turn. Each parsed turn is macro-expanded by the
-// caller. Output is role messages, NOT a description blob, so the model reads
-// them as actual example dialogue.
+// exampleMessages string -> role-tagged few-shot turns (RisuAI parity).
+// <START> / [Start a new chat] separate blocks; {{char}}:/{{user}}:/<bot>:/<user>:
+// prefix lines, bare lines continue the turn. Caller macro-expands.
 
 export type ExampleTurn = {
   role: "system" | "user" | "assistant";

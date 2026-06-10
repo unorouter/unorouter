@@ -19,10 +19,8 @@ import { handleElysia, modelSlug } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
 import type { MetadataRoute } from "next";
 
-// Model pages come from the pricing RPC, which self-calls the server. That
-// server is not up during `next build`, so a prerendered sitemap always loses
-// every model page. Force runtime rendering so pricing is reachable; the route
-// is hit rarely, so per-request rendering is cheap.
+// Pricing RPC self-calls the server, which is down during `next build`, so a
+// prerendered sitemap loses every model page. Rarely hit; runtime render is cheap.
 export const dynamic = "force-dynamic";
 
 type EntryOptions = {

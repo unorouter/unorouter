@@ -193,10 +193,9 @@ export function buildThemeCss(theme: UserTheme): string {
     .join("\n");
 }
 
-// The image data URL is injected client-side (it lives in localStorage, not the
-// cookie theme). Painted on `body::before` so blur/opacity stay off the content;
-// the base color moves to `html` and `body` goes transparent so the image shows
-// through the gaps between panels (RisuAI-style float-over-background).
+// Image data URL injected client-side (localStorage, not cookie). Painted on
+// `body::before` so blur/opacity stay off content; body goes transparent so the
+// image shows between panels (RisuAI-style float-over-background).
 export function buildBackgroundCss(
   image: string | null,
   bg: BackgroundSettings | undefined,

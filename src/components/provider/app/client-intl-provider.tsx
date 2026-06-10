@@ -10,10 +10,8 @@ import { ReactNode } from "react";
 
 type Messages = Parameters<typeof NextIntlClientProvider>[0]["messages"];
 
-// LanguageProvider prunes server-only namespaces from the client messages
-// (src/i18n/client-messages.ts). A client component referencing a pruned key
-// only logs MISSING_MESSAGE by default, which is how such bugs ship unnoticed;
-// throwing in dev turns them into a red overlay on first render instead.
+// A client component referencing a pruned key only logs MISSING_MESSAGE by
+// default (ships unnoticed); throwing in dev makes it a red overlay instead.
 function onError(error: IntlError) {
   if (
     process.env.NODE_ENV !== "production" &&

@@ -44,10 +44,8 @@ export function RequestLogSheet(props: {
   // satisfied channel; this surfaces which one that was, after the fact.
   const usedProvider = useUsedProviderQuery(row?.requestId).data;
 
-  // The exact OpenAI-compatible wire body the upstream LLM receives: a
-  // top-level `system` string (omitted for no-system models like GLM) plus the
-  // role-only `messages` array. This is the verification surface testers need;
-  // the raw client snapshot (requestBody) is debug-only and shown last.
+  // Exact OpenAI-compatible wire body the upstream receives; this is the
+  // verification surface testers need. Raw client snapshot is debug-only, last.
   const upstreamBody = row
     ? {
         model:

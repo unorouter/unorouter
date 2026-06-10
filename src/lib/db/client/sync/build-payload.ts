@@ -74,12 +74,9 @@ export async function buildSyncPayload(
   }
 }
 
-// Drain-time payload(s) for one outbox row, rebuilt from the local DB.
-// Returns null when the local row no longer exists (deleted before drain).
-// Conversations with partial hints expand to up to two pushes: one upsert
-// (row patch + message deltas; upsert never wipes absent siblings) and one
-// replace scoped to the join tables (the server only touches sections
-// present in the payload).
+// Drain-time payload(s) rebuilt from local DB; null when the row was deleted.
+// Conversations with partial hints expand to two pushes: an upsert (row patch +
+// message deltas, never wipes absent siblings) and a join-table-scoped replace.
 export async function buildPendingPushes(
   userId: number,
   kind: SyncKindName,

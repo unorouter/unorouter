@@ -116,10 +116,8 @@ export const chatHelpersAtom = atom<ChatHelpersRef | null>(null);
 // badge in the chat header can open the same drawer the actions menu owns.
 export const conversationSettingsOpenAtom = atom(false);
 
-// Per-user global macro variables (setglobalvar/getglobalvar). Serialized JSON
-// map. localStorage-backed (can grow past the cookie size cap). Read into the
-// stream chatContext; updated from the stream finish-meta writeback. Read/write
-// from non-React callers via chatStore.get/set.
+// Per-user global macro vars (JSON map). localStorage-backed (can outgrow the
+// cookie cap); read into chatContext, updated from finish-meta writeback.
 export const globalVarsAtom = atomWithStorage<string>(
   "rp-global-vars",
   "{}",
@@ -127,10 +125,8 @@ export const globalVarsAtom = atomWithStorage<string>(
   { getOnInit: true },
 );
 
-// Multi-character rotation: which bound character speaks the CURRENT stream.
-// The rotation loop sets it before each sequential send; the transport body
-// reads it into the request so the assembler promotes that char to primary.
-// In-memory (per-tab, per-turn), not persisted.
+// Speaking character for the current stream (multi-character rotation).
+// In-memory per-tab, not persisted.
 export const speakingCharacterIdAtom = atom<string | null>(null);
 
 // Non-React stream callbacks read via chatStore.get/set.

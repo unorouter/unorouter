@@ -9,11 +9,9 @@ import { copyAllTables } from "./data-migrate/copy";
 // cascade) and in-place recovery. client.ts only wires the LocalClient
 // surface on top of `LocalDbConnection.run`.
 
-// Clearing site data while the app is open deletes the OPFS file under the
-// live SyncAccessHandle; later statements reject with GetSyncHandleError +
-// NotFoundError or SQLITE_CORRUPT/IOERR (the VFS reads orphaned pages). The
-// OPFS/wasm boundary only surfaces stringly-typed errors, so classification
-// is string sniffing by necessity, contained here.
+// Clearing site data mid-session kills the live SyncAccessHandle; later
+// statements reject with these errors. The OPFS/wasm boundary only surfaces
+// stringly-typed errors, so string sniffing is necessary, contained here.
 function isRecoverableDbError(err: unknown): boolean {
   const s = String(err);
   return (
@@ -24,11 +22,9 @@ function isRecoverableDbError(err: unknown): boolean {
   );
 }
 
-// Open + migrate, with the salvage cascade on failure: 1) build a fresh
-// migrated DB at a temp path, 2) copy surviving rows by column intersect,
-// 3) overwrite the broken file. Copy failure falls back to a clean wipe.
-// Runs in prod too; reconcileColumns inside runMigrations heals common drift
-// before this ever throws. App-generated text IDs survive the copy as-is.
+// Open + migrate with salvage cascade: fresh migrated DB at a temp path, copy
+// surviving rows by column intersect, overwrite the broken file; copy failure
+// falls back to a clean wipe. Runs in prod too.
 export async function openMigratedSql(
   dbPath: string,
   userId: number,
@@ -97,12 +93,8 @@ export class LocalDbConnection {
     private userId: number,
   ) {}
 
-  /**
-   * Run a statement with self-heal: on a recoverable handle loss the
-   * connection single-flight reopens (salvage-capable, recreates a deleted
-   * file + schema) and replays the statement once. The statement never
-   * executed on the dead handle, so the replay is safe.
-   */
+  // Self-heal: on recoverable handle loss, single-flight reopen and replay the
+  // statement once. It never executed on the dead handle, so replay is safe.
   async run<T>(fn: (sql: SQLocalDrizzle) => Promise<T>): Promise<T> {
     try {
       return await fn(this.sql);

@@ -1,9 +1,8 @@
 import { getTranslations } from "next-intl/server";
 
-// Server-rendered stand-in for the runtime ThreadWelcome so the page's
-// largest paint happens at first paint instead of after SQLocal + runtime
-// init (LCP was 8-10s on throttled mobile). Identical markup/size to the
-// real welcome; globals.css hides it via :has() once the thread renders.
+// Server-rendered stand-in for ThreadWelcome so LCP lands at first paint, not
+// after SQLocal + runtime init (was 8-10s on throttled mobile). globals.css
+// hides it via :has() once the thread renders.
 export async function ChatWelcomePlaceholder() {
   const t = await getTranslations();
   return (

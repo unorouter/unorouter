@@ -1,8 +1,6 @@
-// RisuAI-style prompt template: a user-orderable array of typed PromptItem
-// cards walked to build the final prompt. Ported from RisuAI
-// (backup/Risuai/src/ts/process/prompt.ts + index.svelte.ts:1208-1402).
-// Cards are either named SLOTS (pull pre-built content) or LITERAL text blocks,
-// plus one `chat` card marking where conversation history is spliced in.
+// RisuAI-style prompt template: user-orderable typed cards walked into the
+// final prompt. Cards are named SLOTS (pre-built content) or LITERAL text
+// blocks, plus one `chat` card marking where history splices in.
 
 export type PromptItemRole = "system" | "user" | "assistant";
 
@@ -41,11 +39,8 @@ export type TemplateSlots = Record<
 
 export const CHAT_RANGE_ALL = -1000;
 
-// The current fixed assembly order, expressed as a template. Used whenever a
-// preset has no explicit promptTemplate, so behavior is unchanged by default.
-// Order mirrors prompt-assembler.service.ts: main -> fallback(in main slot) ->
-// loreTop -> loreBeforeChar -> description -> persona -> loreAfterChar ->
-// systemPrompt -> [chat history] -> postHistory.
+// Fixed assembly order as a template; used when a preset has no explicit
+// promptTemplate, so default behavior is unchanged.
 export const DEFAULT_PROMPT_TEMPLATE: PromptItem[] = [
   { type: "slot", slot: "main" },
   { type: "slot", slot: "loreTop" },

@@ -12,11 +12,8 @@ import type { SyncKindName } from "@/lib/validation/sync-constants";
 
 export type PendingSyncOp = "patch" | "delete";
 
-// Outbox: the ONLY push path to the sync API. Every mutation enqueues a row
-// here; the debounced drainer rebuilds the payload from the local DB (source
-// of truth) and pushes it. No payload snapshots: coalescing N rapid edits
-// into one row stays correct because drain reads current local state.
-// `kind` + `op` use `.$type<>()` to narrow column types (SQLite has no enums).
+// Outbox: the only push path to the sync API. No payload snapshots; the drainer
+// rebuilds from current local state, so coalescing N rapid edits into one row stays correct.
 export const localPendingSync = sqliteTable(
   "local_pending_sync",
   {

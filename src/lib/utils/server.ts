@@ -124,13 +124,9 @@ export function assertFound<T>(
   if (rows.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
 }
 
-/**
- * Redirect an unauthed user to /login and preserve the path they were trying
- * to reach. The originating URL is read from the SERVER_URL_KEY request header
- * stamped by src/proxy.ts; on /login the existing AuthRedirectCapture stashes
- * it into AUTH_REDIRECT_COOKIE, which login-form.tsx + the OAuth callback in
- * server/auth/account/route.ts consume on success.
- */
+// Redirect unauthed to /login preserving the target path: SERVER_URL_KEY header
+// (proxy.ts) -> AuthRedirectCapture -> AUTH_REDIRECT_COOKIE -> consumed by
+// login-form + the OAuth callback on success.
 export async function redirectToLogin(): Promise<never> {
   const locale = await serverLocale();
   const incoming = (await headers()).get(SERVER_URL_KEY);

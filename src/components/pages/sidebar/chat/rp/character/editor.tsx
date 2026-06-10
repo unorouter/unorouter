@@ -57,10 +57,8 @@ export function CharacterEditor(props: Props) {
         ? existingBgSrc
         : null;
 
-  // Async-defaults pattern: `values` syncs the row in when the query settles;
-  // keepDirtyValues stops a background refetch from clobbering in-progress
-  // typing. Parent keys this component by characterId for clean remounts.
-  // tags/triggers are string[] columns; the form edits them comma-joined.
+  // `values` syncs the row on settle; keepDirtyValues protects in-progress
+  // typing. tags/triggers are string[] columns edited comma-joined.
   const formValues = existing
     ? formDefaults(characterFormSchema, {
         ...existing,

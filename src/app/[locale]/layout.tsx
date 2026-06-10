@@ -110,11 +110,9 @@ export default async function LocaleLayout(props: Props) {
     >
       <head>
         {themeCss ? (
-          // href+precedence make this a React hoistable style: identity is
-          // tracked by href, so extension-injected <style> nodes (Dark Reader)
-          // can't be mistaken for it during hydration. Without this, React
-          // adopted the extension's node and the theme CSS got replaced by
-          // Dark Reader's fallback sheet until a browser restart.
+          // href+precedence = React hoistable style tracked by href, so
+          // extension-injected <style> nodes (Dark Reader) can't be adopted in
+          // its place during hydration and replace the theme CSS.
           <style
             id="user-theme"
             href="user-theme"

@@ -1,9 +1,6 @@
-// Per-model role-handling flags, a name-pattern port of RisuAI's per-model
-// LLMFlags (backup/Risuai/src/ts/model/types.ts + provider files, applied by
-// reformater() in request.ts:347-428). RisuAI hardcodes flags on each model
-// definition; we key off the model name so new models pick the right behavior
-// without per-model config. Manual preset flags OR with these (never override
-// them off), so a user can always force a transform on.
+// Per-model role-handling flags (RisuAI LLMFlags port), keyed off the model
+// name so new models pick the right behavior without per-model config. Manual
+// preset flags OR with these, so a user can always force a transform on.
 
 export type ModelRoleFlags = {
   // Model accepts a real system role anywhere (no mid-conv system stripping).

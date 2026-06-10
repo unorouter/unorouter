@@ -216,10 +216,8 @@ export function useFinalizeTaskMutation() {
           resultUrl: args.resultUrl,
         }),
       );
-      // Local writeback: the server rewrote the task placeholder into a
-      // text item with the R2-hosted video markdown. Mirror that locally
-      // so the UI doesn't stay on the task placeholder until the next
-      // sync pull.
+      // Mirror the server's task-to-text rewrite locally so the UI doesn't
+      // stay on the placeholder until the next sync pull.
       await replaceLocalMessageItems(userId, args.msgId, [
         {
           id: uid(),

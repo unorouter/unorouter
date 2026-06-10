@@ -52,10 +52,8 @@ function draftAtomFor(tab: GenerateTab) {
   return text2imgDraftAtom;
 }
 
-// Owns the playground form: the RHF instance plus the 6 lifecycle effects
-// (mode sync, seed restore, the two model-fallback guards, draft restore,
-// draft autosave) and the snapshot-restore effect. The shell consumes the
-// return value and renders fields.
+// Owns the playground form: RHF instance + lifecycle effects (mode sync, seed
+// restore, model-fallback guards, draft restore/autosave, snapshot restore).
 export function useGenerationForm() {
   const activeTab = useAtomValue(activeTabAtom);
   const activeSubPill = useAtomValue(activeSubPillAtom);
