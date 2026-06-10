@@ -104,7 +104,7 @@ function StepCard(props: {
           {props.desc}
         </p>
       </div>
-      <div className="border-border/40 mt-auto rounded-md border bg-black/40 p-3">
+      <div className="border-border/40 bg-muted/60 mt-auto rounded-md border p-3 dark:bg-black/40">
         {props.children}
       </div>
     </div>
