@@ -7,7 +7,18 @@ import {
   ComposerAttachments,
   UserMessageAttachments,
 } from "@/components/ui/assistant-ui/attachment";
-import { MarkdownText } from "@/components/ui/assistant-ui/markdown-text";
+import dynamic from "next/dynamic";
+// Markdown pipeline (~75KB gzip) loads with the first rendered message, not
+// with the empty-thread shell.
+const MarkdownText = dynamic(
+  () =>
+    import("@/components/ui/assistant-ui/markdown-text").then(
+      (m) => m.MarkdownText,
+    ),
+  { ssr: false },
+  // The message-part slot type carries part props MarkdownText ignores
+  // (it reads message context); restore the original signature.
+) as unknown as typeof import("@/components/ui/assistant-ui/markdown-text").MarkdownText;
 import {
   Reasoning,
   ReasoningGroup,

@@ -9,6 +9,7 @@ import { createThreadListAdapter } from "@/components/pages/sidebar/chat/runtime
 import { useConversationQuery } from "@/hooks/ai/chat-hook";
 import { mirrorConvSettingsIfSynced } from "@/hooks/ai/rp/shared";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
+import { groupOrder } from "@/lib/ai/chat/group-order";
 import { GUEST_USER_ID } from "@/lib/config/constants";
 import {
   readLocalConversation,
@@ -18,11 +19,10 @@ import {
   upsertLocalConversationSettings,
 } from "@/lib/db/client/data/chat";
 import { readLocalCharacter } from "@/lib/db/client/data/rp";
-import { groupOrder } from "@/lib/ai/chat/group-order";
-import { buildChatContextFromLocalDb } from "@/lib/db/client/data/chat-context";
 import { acquireLock, releaseLock } from "@/lib/db/client/sync/resource-lock";
 import { queryKeys } from "@/lib/react-query/keys";
 import type { ChatUIMessage } from "@/lib/types";
+import { fnv1aHex } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
 import { dayjs } from "@/lib/utils/format/date";
 import {
@@ -117,23 +117,67 @@ function useChatTransport() {
       api: "/api/ai/chat/stream",
       body: async () => {
         const convId = chatStore.get(convIdAtom);
+        // Dynamic: the RP context builder drags lorebook/trigger machinery
+        // (~110KB gzip) that must not sit in the page's first-paint chunks.
         const baseContext = convId
-          ? await buildChatContextFromLocalDb(userIdRef.current, convId)
+          ? await import("@/lib/db/client/data/chat-context").then((m) =>
+              m.buildChatContextFromLocalDb(userIdRef.current, convId),
+            )
           : undefined;
+        // Context-dedup handshake: the RP context (cards + lorebooks) is the
+        // heaviest part of every send and rarely changes between turns. Send
+        // the full payload only when its fingerprint changed since the last
+        // send for this conv; otherwise just the hash (server keeps an LRU
+        // copy; a server-side miss 409s and the fetch wrapper retries full).
+        // globalVars ride OUTSIDE the hash: they change every setglobalvar.
+        let chatContext: typeof baseContext;
+        let chatContextHash: string | undefined;
+        if (convId && baseContext) {
+          chatContextHash = fnv1aHex(JSON.stringify(baseContext));
+          lastContextRef.current.set(convId, {
+            hash: chatContextHash,
+            ctx: baseContext,
+          });
+          if (sentContextHashes.get(convId) !== chatContextHash) {
+            chatContext = baseContext;
+            sentContextHashes.set(convId, chatContextHash);
+          }
+        } else {
+          chatContext = baseContext;
+        }
         return {
           model: chatStore.get(chatModelAtom),
           convId,
           webSearch: chatStore.get(chatWebSearchAtom),
           // Guest fallback.
           overrides: chatStore.get(chatDefaultsAtom),
-          // SQLocal-backed: always complete context, no silent RP drop. Carry
-          // the per-user global macro vars so setglobalvar/getglobalvar resolve.
-          chatContext: baseContext
-            ? { ...baseContext, globalVars: chatStore.get(globalVarsAtom) }
-            : undefined,
+          chatContext,
+          chatContextHash,
+          globalVars: chatStore.get(globalVarsAtom),
           // Multi-character rotation: the speaking character for THIS stream.
           speakingCharacterId: chatStore.get(speakingCharacterIdAtom),
         };
+      },
+      fetch: async (input: RequestInfo | URL, init?: RequestInit) => {
+        const res = await fetch(input, init);
+        if (res.status !== 409 || typeof init?.body !== "string") return res;
+        const payload = await res
+          .clone()
+          .json()
+          .catch(() => null);
+        if (payload?.code !== "context-required") return res;
+        // Server lost/never had the cached context (restart, eviction, other
+        // instance): retry ONCE with the full payload.
+        const body = JSON.parse(init.body) as Record<string, unknown> & {
+          convId?: string | null;
+        };
+        const last = body.convId
+          ? lastContextRef.current.get(body.convId)
+          : undefined;
+        if (!last) return res;
+        body.chatContext = last.ctx;
+        body.chatContextHash = last.hash;
+        return fetch(input, { ...init, body: JSON.stringify(body) });
       },
       // History upload window: useChat ships the FULL message list every send,
       // but with memory OFF the server only consumes a window (chatMemory cap
@@ -153,7 +197,8 @@ function useChatTransport() {
         };
         const settings = body.chatContext?.settings;
         const memoryOn =
-          settings?.memoryEnabled === true || (settings?.summaryAnchor ?? 0) > 0;
+          settings?.memoryEnabled === true ||
+          (settings?.summaryAnchor ?? 0) > 0;
         let messages = opts.messages;
         if (!memoryOn && messages.length > 64) {
           const maxScan = Math.max(
@@ -162,7 +207,11 @@ function useChatTransport() {
               (l) => l.lorebook?.scanDepth ?? 4,
             ),
           );
-          const keep = Math.max(64, (settings?.chatMemory ?? 8) * 2, maxScan * 2);
+          const keep = Math.max(
+            64,
+            (settings?.chatMemory ?? 8) * 2,
+            maxScan * 2,
+          );
           if (messages.length > keep) messages = messages.slice(-keep);
         }
         return {
@@ -226,6 +275,13 @@ function useScrollToBottom(
     requestAnimationFrame(pin);
   }, [threadId, remoteId]);
 }
+
+// Context-dedup handshake state: hash last SENT per conv (skip re-upload) and
+// the last BUILT context per conv (the 409 retry needs the full payload).
+const sentContextHashes = new Map<string, string>();
+const lastContextRef = {
+  current: new Map<string, { hash: string; ctx: unknown }>(),
+};
 
 // Auto-continue chain depth per conv, so a model that never ends on terminal
 // punctuation cannot loop forever. Reset when a finished reply DOES terminate.
@@ -467,7 +523,6 @@ function ChatRuntimeHook() {
   });
 
   useScrollToBottom(threadId, remoteId);
-
 
   const wrappedChat: typeof chat = {
     ...chat,
