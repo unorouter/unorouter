@@ -1,10 +1,6 @@
-// CBS-style macro evaluator, a full port of the RisuAI macro engine
-// (src/ts/cbs.ts). Covers the complete portable surface: field tokens, pure
-// functions (roll/random/pick/calc/date/string/math/array/dict/stat/encode/
-// crypto), chat-history + message-context readers, conversation/global/temp
-// variables, and conditional blocks ({{#if}}/{{#when}}/{{:else}}/{{/if}}). App-
-// coupled macros (asset/image/inlay/emotion/screen/browser/module) resolve to a
-// safe empty/passthrough server-side rather than leaking as literal {{...}}.
+// CBS macro evaluator, full port of the RisuAI engine (src/ts/cbs.ts).
+// App-coupled macros (asset/image/inlay/module/...) resolve to safe
+// empty/passthrough server-side instead of leaking as literal {{...}}.
 
 import { calcString, seededRand } from "@/lib/ai/chat/calc";
 import { dayjs } from "@/lib/utils/format/date";
@@ -16,23 +12,17 @@ export type MacroScope = {
   char_description: string;
   scenario: string;
   personality: string;
-  // Per-conversation variable store. Mutated in place by setvar/addvar so the
-  // caller can persist it after assembly (RisuAI persists chat vars).
+  // Per-conversation vars; mutated in place by setvar/addvar, caller persists.
   vars: Record<string, string>;
-  // Per-USER global variable store (getglobalvar/setglobalvar). Persisted via
-  // the userVars sync kind. Mutated in place; caller persists if changed.
+  // Per-user global vars; mutated in place, caller persists if changed.
   globalVars?: Record<string, string>;
   // Per-assembly scratch store (settempvar/gettempvar). Never persisted.
   tempVars?: Record<string, string>;
-  // Recent chat history, newest last, for {{history}}/{{lastmessage}} family.
-  // Each entry is { role, text }; text already plain.
+  // Newest last, for the {{history}}/{{lastmessage}} family.
   history?: { role: "user" | "assistant" | "system"; text: string }[];
-  // Per-conversation seed for roll/random/pick so a given macro resolves the
-  // SAME value across regenerates (RisuAI determinism). Folded with the macro's
-  // own arg text. Absent (fallback paths) -> seeded by arg text alone.
+  // Per-conv seed so roll/random/pick resolve identically across regenerates (RisuAI determinism).
   seed?: string;
-  // Extra context for the introspection / message tokens. All optional so the
-  // fallback assembly paths stay valid.
+  // Introspection tokens; all optional so fallback assembly paths stay valid.
   model?: string; // {{model}} / metadata::modelname
   maxContext?: number; // {{maxcontext}} / metadata::maxcontext
   jailbreak?: string; // {{jailbreak}} / {{jb}}
@@ -43,11 +33,9 @@ export type MacroScope = {
 };
 
 const MAX_RECURSION = 20;
-// Cap calc/{{?}} expression length so a pathological literal (deep parens, a
-// huge `2**...` chain) can't hang the Function eval.
+// Cap calc/{{?}} expression length so a pathological literal can't hang the eval.
 const MAX_CALC_LEN = 1000;
 
-// The required string identity fields a bare field token maps to.
 type ScopeField =
   | "user"
   | "char"
@@ -70,8 +58,7 @@ const FIELD_ALIASES: Record<string, ScopeField> = {
   scenario: "scenario",
 };
 
-// `rand` is the [0,1) source: a seeded fn for deterministic rolls, or
-// Math.random for the rare un-seeded fallback.
+// `rand` is the [0,1) source (seeded, or Math.random on un-seeded fallback).
 function rollDice(spec: string, rand: () => number): string {
   const m = spec.trim().match(/^(\d*)d(\d+)$/i);
   let num = 1;
@@ -96,8 +83,7 @@ function pickFrom(args: string[], rand: () => number): string {
   return opts[Math.floor(rand() * opts.length)];
 }
 
-// Expression evaluator for {{calc}} / {{? expr}}: Risu calcString RPN engine
-// ($var = chat var, @var = global var, comparisons + logic, no code exec).
+// {{calc}} / {{? expr}}: Risu calcString RPN engine ($var chat, @var global, no code exec).
 function calc(expr: string, scope: MacroScope): string {
   if (!expr || expr.length > MAX_CALC_LEN) return "";
   const v = calcString(expr, {
@@ -139,8 +125,7 @@ function parseDictJSON(s: string): Record<string, unknown> {
 function elemStr(v: unknown): string {
   return typeof v === "object" && v !== null ? JSON.stringify(v) : String(v);
 }
-// args -> number[], treating non-numeric as 0 (RisuAI stat helpers). Accepts a
-// single JSON-array arg or multiple positional args.
+// args -> number[], non-numeric as 0; single JSON-array arg or positional args.
 function statNums(args: string[]): number[] {
   const vals = args.length > 1 ? args : parseArr(args[0] ?? "").map(String);
   return vals.map((f) => {
@@ -172,16 +157,14 @@ function caesar(s: string, shift: number): string {
   return out;
 }
 
-// Resolve a single macro invocation (body between the braces). Returns null for
-// unknown macros so the caller leaves them verbatim.
+// Returns null for unknown macros so the caller leaves them verbatim.
 function resolveMacro(inner: string, scope: MacroScope): string | null {
   const trimmed = inner.trim();
   if (trimmed.startsWith("//")) return ""; // {{// comment}}
   if (trimmed.startsWith("?")) return calc(trimmed.slice(1), scope); // {{? 1+2}}
 
-  // Risu parser.svelte.ts: '::' args when the first colon is doubled, else
-  // legacy single-colon args ({{roll:d20}}). Name normalization strips
-  // whitespace/_/- ({{first msg}} == {{firstmsg}}).
+  // Risu parser: '::' args when first colon is doubled, else legacy ':' args.
+  // Name normalization strips whitespace/_/-.
   const colonIndex = trimmed.indexOf(":");
   const parts =
     colonIndex !== -1 && trimmed[colonIndex + 1] === ":"
@@ -197,9 +180,7 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
   const field = FIELD_ALIASES[name];
   if (field && args.length === 0) return scope[field];
 
-  // Deterministic roll source keyed on the macro text + per-conv seed: the same
-  // {{pick::a::b}} resolves identically across regenerates. `rollp`/`rollpick`
-  // are RisuAI's explicitly-seeded variants; here every roll is already seeded.
+  // Keyed on macro text + per-conv seed: same macro resolves identically across regenerates.
   const rand = () => seededRand(`${scope.seed ?? ""}:${trimmed}`);
 
   switch (name) {
@@ -608,9 +589,8 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
   }
 }
 
-// Constant-result macros: literal escapes (Risu uses PUA chars; we emit the
-// literal), plus app-coupled tokens (asset/image/inlay/module/...) that have no
-// server-side meaning and resolve empty/"0" so they never leak to the model.
+// Constant-result macros: literal escapes, plus app-coupled tokens that resolve
+// empty/"0" so they never leak to the model.
 const LITERAL_MACROS: Record<string, string> = (() => {
   const out: Record<string, string> = {};
   const groups: [string, string[]][] = [
@@ -645,11 +625,8 @@ const LITERAL_MACROS: Record<string, string> = (() => {
   return out;
 })();
 
-// Evaluate a block condition: {{#if cond}} or {{#when::...}}. The #when form
-// is the Risu right-to-left stack evaluator (parser.svelte.ts:1150-1330):
-// operators consume the top of the stack and push '1'/'0' back, so chains like
-// {{#when::A::is::B::and::C}} compose. keep/legacy are formatting modes here
-// (whitespace handling), treated as pass-through.
+// {{#if cond}} or {{#when::...}}. #when is Risu's right-to-left stack evaluator:
+// operators pop the stack and push '1'/'0' so chains compose. keep/legacy pass through.
 function evalCondition(raw: string, scope: MacroScope): boolean {
   const t = raw.trim();
   if (t.startsWith("#if")) {
@@ -720,8 +697,7 @@ function evalCondition(raw: string, scope: MacroScope): boolean {
           push(parseFloat(statement.pop() ?? "") <= parseFloat(condition));
           break;
         default:
-          // Unknown operator: drop it, keep the condition (defensive; the
-          // stack shrinks by one per pass so the loop terminates).
+          // Unknown operator: drop it; stack shrinks each pass so the loop terminates.
           statement.push(condition);
           break;
       }
@@ -747,22 +723,19 @@ function expandFlat(text: string, scope: MacroScope): string {
       continue;
     }
     text = text.slice(0, at) + resolved + text.slice(at + m[0].length);
-    // Re-scan from the start: resolving an inner macro can complete an OUTER
-    // one whose opening `{{` sits before `at` (e.g. {{xor::{{x}}}} -> the outer
-    // {{xor::...}} only becomes a flat match once the inner resolved).
+    // Re-scan from start: resolving an inner macro can complete an outer one opening before `at`.
     cursor = 0;
   }
   return text;
 }
 
-// Resolve the FIRST conditional block, keeping the live branch and dropping the
-// dead one (so dead-branch side effects never run). The chosen body is left
-// unexpanded for the outer loop. Returns null when no well-formed block remains.
+// Resolve the first conditional block, dropping the dead branch so its side
+// effects never run. Chosen body left unexpanded for the outer loop; null when
+// no well-formed block remains.
 function resolveFirstBlock(text: string, scope: MacroScope): string | null {
   const start = text.search(/\{\{#(if|if_pure|when)\b/);
   if (start === -1) return null;
-  // Find the }} that closes THIS opening tag, accounting for nested {{...}} in
-  // the condition (e.g. {{#if {{getvar::x}}}}). Track brace depth from start.
+  // Find the closing }} of this opening tag, tracking nested {{...}} in the condition.
   let condEnd = -1;
   let braceDepth = 0;
   for (let j = start; j < text.length - 1; j++) {
@@ -825,8 +798,7 @@ function resolveFirstBlock(text: string, scope: MacroScope): string | null {
 
 export function expandMacros(text: string, scope: MacroScope): string {
   if (!text || !text.includes("{{")) return text;
-  // Left-to-right so var writes are visible to later reads (incl. conditions):
-  // flat-expand the prefix up to the next block, resolve that block, repeat.
+  // Left-to-right so var writes are visible to later reads: expand prefix, resolve block, repeat.
   let out = "";
   let guard = 0;
   while (guard++ < MAX_RECURSION * 50) {

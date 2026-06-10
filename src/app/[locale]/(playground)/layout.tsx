@@ -1,5 +1,4 @@
 import { SidebarLayout } from "@/components/layout/sidebar/sidebar-layout";
-import { GuestLocalDbMigrate } from "@/components/pages/sidebar/chat/runtime/guest-local-db-migrate";
 import { PlaygroundList } from "@/components/pages/sidebar/playground/history/playground-list";
 import { AuthRedirectCleanup } from "@/components/provider/app/auth-redirect-cleanup";
 import { SyncStateHydrator } from "@/lib/db/client/sync/sync-state-hydrator";
@@ -29,7 +28,6 @@ export default async function GenerateGroupLayout(props: {
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <SyncStateHydrator />
-      <GuestLocalDbMigrate />
       <SidebarLayout
         before={<AuthRedirectCleanup />}
         navConfig="generate"

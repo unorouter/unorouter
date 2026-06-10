@@ -5,6 +5,15 @@ import { userThemes } from "@/lib/db/schema/shared";
 import { dayjs } from "@/lib/utils/format/date";
 import { getLocalDb } from "../client";
 
+export async function readLocalTheme(
+  userId: number | undefined,
+): Promise<UserTheme | null> {
+  const local = await getLocalDb(userId);
+  if (!local) return null;
+  const rows = await local.db.select().from(userThemes).limit(1);
+  return (rows[0]?.themeJson as UserTheme | undefined) ?? null;
+}
+
 export async function upsertLocalTheme(
   userId: number | undefined,
   themeJson: UserTheme,

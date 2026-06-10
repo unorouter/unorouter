@@ -123,6 +123,9 @@ export type LocalRawExec = (
   numAffectedRows?: number;
 }>;
 
+// Minimal peer for cross-DB copies (salvage, guest migrate): exec only.
+export type CopyPeer = { exec: LocalRawExec };
+
 export type LocalClient = {
   db: LocalDb;
   exec: LocalRawExec;

@@ -22,7 +22,10 @@ export async function generateMetadata(props: {
 
 export default function ChatPage() {
   return (
-    <div className="chat-shell relative h-full w-full min-w-0">
+    // Flex child + container: Chat's root is `flex-1` and needs a flex parent
+    // with real height, else the thread collapses to auto height and the
+    // welcome + composer top-align. relative anchors the absolute placeholder.
+    <div className="chat-shell relative flex min-h-0 min-w-0 flex-1">
       <ChatWelcomePlaceholder />
       <Chat />
     </div>

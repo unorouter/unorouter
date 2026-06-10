@@ -86,15 +86,11 @@ export type AssembledSystem = {
   /** OpenRouter-style provider routing, passed through the request body. */
   providerRouting?: ProviderRouting;
   prefill?: string;
-  /** Ordered prompt parts from the template walk. The `chatHistory` part marks
-   *  where conversation messages splice in. Stream service flattens these. */
+  /** Ordered template parts; the `chatHistory` part marks where messages splice in. */
   promptParts: PromptPart[];
-  /** Two-pass token estimate of the non-history prompt (system + pre/post-chat
-   *  parts + depth/author injections). The stream service reserves this against
-   *  the context window before fitting chat history to the budget. */
+  /** Non-history prompt token estimate, reserved against the context window. */
   promptTokens: number;
-  /** Shared macro scope (field tokens + the live chat-variable store). Threaded
-   *  into message-body expansion so var writes persist across the whole prompt. */
+  /** Shared macro scope; threaded into message expansion so var writes persist. */
   vars: MacroScope;
   flags: {
     forceAlternateRoles: boolean;
@@ -122,9 +118,7 @@ const CHAR_OVERRIDE_FIELDS = [
   "postHistoryInstructions",
 ] as const;
 
-// Merge a binding's overrides (JSON column, loose shape) over the stored
-// character. Only the prompt-affecting fields are honored; nullish override
-// values fall through to the stored value.
+// Binding overrides win over stored character fields; nullish values fall through.
 function applyCharOverrides<T extends Record<string, unknown>>(
   character: T,
   overrides: unknown,
@@ -145,9 +139,8 @@ type ProviderRouting = {
   sort?: string;
 };
 
-// Provider routing is stored as a JSON string `{order?,only?,ignore?,sort?}`
-// (OpenRouter shape). Passed through the request body verbatim; only honored by
-// upstream channels that route on it (OpenRouter-backed), a no-op otherwise.
+// JSON string `{order?,only?,ignore?,sort?}` (OpenRouter shape); passed through
+// verbatim, no-op on channels that don't route on it.
 function parseProviderRouting(
   raw: string | null | undefined,
 ): ProviderRouting | undefined {
@@ -235,20 +228,16 @@ export function assembleFromOverrides(
 }
 
 export type AssembleOpts = {
-  // Per-user global variable store (JSON string), persisted via the userVars
-  // sync kind. Mutated by setglobalvar macros; caller persists if changed.
+  // Per-user global var store (JSON string); mutated by setglobalvar, caller persists.
   globalVars?: string | null;
-  // Role-tagged recent chat history (newest last) for the {{history}} macros.
+  // Role-tagged recent history (newest last) for the {{history}} macros.
   history?: { role: "user" | "assistant" | "system"; text: string }[];
-  // Pre-mutated chat var store (e.g. by start-mode triggers). When given, this
-  // map is used directly (and mutated further by macros) instead of re-parsing
-  // settings.vars, so trigger var writes are visible to the prompt + writeback.
+  // Pre-mutated chat var store (start triggers); used over settings.vars so
+  // trigger writes are visible to the prompt + writeback.
   seedVars?: Record<string, string>;
-  // Model id + context window for the {{model}}/{{maxcontext}} field tokens.
   model?: string;
   maxContext?: number;
-  // Multi-character rotation: promote this bound character to primary so it
-  // drives {{char}} and the per-character block ordering for this turn.
+  // Multi-character rotation: promote this bound character to primary ({{char}}) this turn.
   speakingCharacterId?: string;
 };
 
@@ -266,8 +255,7 @@ export async function assembleForStream(
 
   const { settings, persona, preset, lbRows, lbEntries } = ctx;
 
-  // Multi-character rotation: float the speaking character to index 0 so it
-  // becomes primary ({{char}} + first character block) for this turn.
+  // Float the speaking character to index 0 so it becomes primary this turn.
   let boundCharacters = ctx.boundCharacters;
   if (opts?.speakingCharacterId) {
     const idx = boundCharacters.findIndex(
@@ -289,9 +277,8 @@ export async function assembleForStream(
   const charDesc = primary?.description ?? "";
   const scenario = primary?.scenario ?? "";
 
-  // Shared macro scope. `vars` is the per-conversation chat-variable store;
-  // setvar/addvar mutate it in place across every expand() call so writes are
-  // visible to later reads. Persisted by the caller after the stream.
+  // `vars` is mutated in place across expand() calls so writes are visible to
+  // later reads; persisted by the caller after the stream.
   const macroScope: MacroScope = {
     user: userName,
     char: charName,
@@ -303,11 +290,8 @@ export async function assembleForStream(
     globalVars: parseStringMap(globalVars),
     tempVars: {},
     history,
-    // Per-TURN seed (convId + chat length): roll/random/pick are stable across
-    // regenerates of the same turn but re-roll on the next turn. convId alone
-    // would freeze every {{roll}} for the conversation's lifetime.
+    // Per-turn seed: stable across regenerates, re-rolls next turn (convId alone would freeze rolls forever).
     seed: `${convId}:${history?.length ?? 0}`,
-    // Prompt-field tokens ({{model}}, {{jailbreak}}, {{main_prompt}}, ...).
     model: opts?.model ?? settings.defaultModel ?? undefined,
     maxContext: opts?.maxContext,
     mainPrompt: preset?.mainPrompt ?? undefined,

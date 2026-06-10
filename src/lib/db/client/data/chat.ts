@@ -164,6 +164,29 @@ export async function readConvTriggers(
   return parseTriggerScripts(ch?.triggers);
 }
 
+// Delta-scope readers for the outbox drainer ("msgs" hint).
+export async function readLocalMessagesByIds(
+  userId: number | undefined,
+  ids: string[],
+) {
+  const local = await getLocalDb(userId);
+  if (!local || ids.length === 0) return [];
+  return local.db.select().from(messages).where(inArray(messages.id, ids));
+}
+
+export async function readLocalMessageItemsByMsgIds(
+  userId: number | undefined,
+  ids: string[],
+) {
+  const local = await getLocalDb(userId);
+  if (!local || ids.length === 0) return [];
+  return local.db
+    .select()
+    .from(messageItems)
+    .where(inArray(messageItems.messageId, ids))
+    .orderBy(asc(messageItems.sequenceIndex));
+}
+
 export async function readLocalMessageItems(
   userId: number | undefined,
   convId: string,

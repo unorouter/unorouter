@@ -6,16 +6,17 @@ import {
   sqliteTable,
   text,
 } from "drizzle-orm/sqlite-core";
-import type { SyncMergeMode } from "@/lib/validation/sync";
 import type { SyncKindName } from "@/lib/validation/sync-constants";
 
 // Client-only schema (browser SQLocal). Server code must NEVER import this.
 
 export type PendingSyncOp = "patch" | "delete";
 
-// Retry queue for mirror writes that failed offline/transiently. Drained by
-// a background task when network returns. `kind` + `op` use `.$type<>()` to
-// narrow the column types at the type layer (SQLite has no enums).
+// Outbox: the ONLY push path to the sync API. Every mutation enqueues a row
+// here; the debounced drainer rebuilds the payload from the local DB (source
+// of truth) and pushes it. No payload snapshots: coalescing N rapid edits
+// into one row stays correct because drain reads current local state.
+// `kind` + `op` use `.$type<>()` to narrow column types (SQLite has no enums).
 export const localPendingSync = sqliteTable(
   "local_pending_sync",
   {
@@ -30,14 +31,15 @@ export const localPendingSync = sqliteTable(
     // Null = drain immediately (first attempt and successful retries).
     nextAttemptAt: integer("next_attempt_at", { mode: "timestamp_ms" }),
     lastError: text("last_error"),
-    // JSON-stringified snapshot of the original mirror-call payload. Drain
-    // pushes this verbatim, preserving delta-append shape + scope across
-    // retries (avoids buildSyncPayload widening to full bundle replace).
-    // Null only for delete ops, which carry no payload.
-    payloadJson: text("payload_json"),
-    // Preserves the mergeMode passed to the original mirror call. Null for
-    // delete ops or patch ops that omitted mergeMode (server default = replace).
-    mergeMode: text("merge_mode").$type<SyncMergeMode>(),
+    // Conversations only: CSV union of scopes queued since last drain
+    // ("full" | "row" | "bindings" | "msgs"). "full" absorbs the rest.
+    // Null for delete ops and non-conversation kinds (always full row).
+    hint: text("hint"),
+    // Conversations only: JSON array of message ids for the "msgs" scope.
+    msgIds: text("msg_ids"),
+    // Bumped on every enqueue; drain deletes the row only when seq is
+    // unchanged, so hints enqueued mid-push survive for the next drain.
+    seq: integer("seq").notNull().default(0),
   },
   (table) => [
     primaryKey({ columns: [table.kind, table.id] }),
