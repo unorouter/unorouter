@@ -13,6 +13,39 @@ import { expandMacros } from "../augmentation/macros";
 
 export type StreamMessages = Parameters<typeof convertToModelMessages>[0];
 
+// Bare role+text message in the ai-sdk parts shape.
+export function mkMsg(
+  role: "system" | "user" | "assistant",
+  text: string,
+): StreamMessages[number] {
+  return { role, parts: [{ type: "text", text }] } as StreamMessages[number];
+}
+
+// All text-part content of a message, newline-joined ("" when none).
+function textOf(parts: unknown): string {
+  if (!Array.isArray(parts)) return "";
+  return parts
+    .filter((p) => p.type === "text" && typeof p.text === "string")
+    .map((p) => (p as { text: string }).text)
+    .join("\n");
+}
+
+// Map a function over a message's text parts, leaving other parts untouched.
+function mapTextParts(
+  m: StreamMessages[number],
+  fn: (text: string) => string,
+): StreamMessages[number] {
+  if (!Array.isArray(m.parts)) return m;
+  return {
+    ...m,
+    parts: m.parts.map((p) =>
+      p.type === "text" && typeof p.text === "string"
+        ? { ...p, text: fn(p.text) }
+        : p,
+    ),
+  } as StreamMessages[number];
+}
+
 type PdfFilePart = {
   type: "file";
   mediaType: "application/pdf";
@@ -110,10 +143,7 @@ export function spliceDepthInjections(
     .sort((a, b) => b.idx - a.idx);
   const out = messages.slice();
   for (const { idx, inj } of withIdx) {
-    out.splice(idx, 0, {
-      role: inj.role ?? "system",
-      parts: [{ type: "text", text: inj.text }],
-    } as StreamMessages[number]);
+    out.splice(idx, 0, mkMsg(inj.role ?? "system", inj.text));
   }
   return out;
 }
@@ -122,45 +152,26 @@ export function expandMessageMacros(
   messages: StreamMessages,
   scope: AssembledSystem["vars"],
 ): StreamMessages {
-  return messages.map((m) => {
-    if (!Array.isArray(m.parts)) return m;
-    return {
-      ...m,
-      parts: m.parts.map((p) =>
-        p.type === "text" && typeof p.text === "string"
-          ? { ...p, text: expandMacros(p.text, scope) }
-          : p,
-      ),
-    };
-  });
+  return messages.map((m) => mapTextParts(m, (t) => expandMacros(t, scope)));
 }
 
 export function appendPrefill(
   messages: StreamMessages,
   prefill: string,
 ): StreamMessages {
-  return [
-    ...messages,
-    {
-      role: "assistant",
-      parts: [{ type: "text", text: prefill }],
-    } as StreamMessages[number],
-  ];
+  return [...messages, mkMsg("assistant", prefill)];
 }
 
 // Gemini/some GLM reject mid-conv system role; top-level `system` is unaffected.
 export function stripSystemRole(messages: StreamMessages): StreamMessages {
-  return messages.map((m) => {
-    if (m.role !== "system") return m;
-    const parts = Array.isArray(m.parts)
-      ? m.parts.map((p) =>
-          p.type === "text" && typeof p.text === "string"
-            ? { ...p, text: `system: ${p.text}` }
-            : p,
-        )
-      : m.parts;
-    return { ...m, role: "user", parts } as StreamMessages[number];
-  });
+  return messages.map((m) =>
+    m.role === "system"
+      ? ({
+          ...mapTextParts(m, (t) => `system: ${t}`),
+          role: "user",
+        } as StreamMessages[number])
+      : m,
+  );
 }
 
 // Reasoning is OUTPUT-only. GLM (and others) emit a `reasoning`/`reasoning_content`
@@ -263,13 +274,7 @@ export function dropEmptyMessages(messages: StreamMessages): StreamMessages {
 export function prependUserStub(messages: StreamMessages): StreamMessages {
   if (messages.length === 0) return messages;
   if (messages[0].role === "user") return messages;
-  return [
-    {
-      role: "user",
-      parts: [{ type: "text", text: " " }],
-    } as StreamMessages[number],
-    ...messages,
-  ];
+  return [mkMsg("user", " "), ...messages];
 }
 
 // GLM/DeepSeek/Kimi reject a request whose LAST message is not user ("last role
@@ -282,13 +287,7 @@ export function prependUserStub(messages: StreamMessages): StreamMessages {
 export function appendUserStub(messages: StreamMessages): StreamMessages {
   if (messages.length === 0) return messages;
   if (messages[messages.length - 1].role === "user") return messages;
-  return [
-    ...messages,
-    {
-      role: "user",
-      parts: [{ type: "text", text: " " }],
-    } as StreamMessages[number],
-  ];
+  return [...messages, mkMsg("user", " ")];
 }
 
 export const GEMINI_SAFETY_OFF = [
@@ -333,33 +332,19 @@ export function applyRegexScripts(
     }
   }
   return messages.map((m, idx) => {
-    if (!Array.isArray(m.parts)) return m;
     const isLastUser = idx === lastUserIdx;
     // Previous same-role message text, for @@repeat_back.
-    let prevSameRole: string | undefined;
-    for (let j = idx - 1; j >= 0; j--) {
-      if (messages[j].role !== m.role) continue;
-      const parts = messages[j].parts;
-      if (!Array.isArray(parts)) continue;
-      prevSameRole = parts
-        .filter((p) => p.type === "text" && typeof p.text === "string")
-        .map((p) => (p as { text: string }).text)
-        .join("\n");
-      break;
-    }
-    return {
-      ...m,
-      parts: m.parts.map((p) => {
-        if (p.type !== "text" || typeof p.text !== "string") return p;
-        let t = runRegexScripts(p.text, scripts, "editprocess", {
-          prevSameRole,
-        });
-        if (isLastUser) {
-          t = runRegexScripts(t, scripts, "editinput", { prevSameRole });
-        }
-        return { ...p, text: t };
-      }),
-    };
+    const prevMsg = messages
+      .slice(0, idx)
+      .reverse()
+      .find((o) => o.role === m.role && Array.isArray(o.parts));
+    const prevSameRole = prevMsg ? textOf(prevMsg.parts) : undefined;
+    return mapTextParts(m, (text) => {
+      const t = runRegexScripts(text, scripts, "editprocess", { prevSameRole });
+      return isLastUser
+        ? runRegexScripts(t, scripts, "editinput", { prevSameRole })
+        : t;
+    });
   });
 }
 
@@ -373,11 +358,7 @@ export function collectHistory(
     if (m.role !== "user" && m.role !== "assistant" && m.role !== "system") {
       continue;
     }
-    if (!Array.isArray(m.parts)) continue;
-    const text = m.parts
-      .filter((p) => p.type === "text" && typeof p.text === "string")
-      .map((p) => (p as { text: string }).text)
-      .join("\n");
+    const text = textOf(m.parts);
     if (text) out.push({ role: m.role, text });
   }
   return out;
@@ -399,10 +380,7 @@ export function dropSummarizedPrefix(
     const m = messages[i];
     const isHistory =
       (m.role === "user" || m.role === "assistant" || m.role === "system") &&
-      Array.isArray(m.parts) &&
-      m.parts.some(
-        (p) => p.type === "text" && typeof p.text === "string" && p.text,
-      );
+      textOf(m.parts) !== "";
     if (isHistory) counted++;
     cutIdx = i + 1;
   }

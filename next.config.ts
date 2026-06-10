@@ -114,6 +114,15 @@ const nextConfig: NextConfig = {
 const withNextIntl = createNextIntlPlugin({
   experimental: {
     createMessagesDeclaration: ["./public/i18n/de.json"],
+    // Precompile ICU messages to ASTs at build: ~9-15KB less JS per page and
+    // invalid keys fail the build instead of erroring at render. No t.raw
+    // anywhere in the repo (unsupported with precompilation).
+    messages: {
+      format: "json",
+      path: "./public/i18n",
+      locales: "infer",
+      precompile: true,
+    },
   },
 });
 

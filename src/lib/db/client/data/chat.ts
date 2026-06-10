@@ -107,52 +107,47 @@ export async function readLocalConversationBindings(
   return { conversationCharacters: chars, conversationLorebooks: lbs };
 }
 
-// Primary (lowest orderIndex) character's regex scripts for a conversation,
-// parsed. Used by the history adapter to run editoutput on assistant replies.
+// Primary (lowest orderIndex) character row for a conversation, or null.
+async function readPrimaryCharacter(
+  userId: number | undefined,
+  convId: string,
+) {
+  const local = await getLocalDb(userId);
+  if (!local) return null;
+  const rows = await local.db
+    .select({ characterId: conversationCharacters.characterId })
+    .from(conversationCharacters)
+    .where(eq(conversationCharacters.convId, convId))
+    .orderBy(asc(conversationCharacters.orderIndex))
+    .limit(1);
+  const charId = rows[0]?.characterId;
+  if (!charId) return null;
+  const charRows = await local.db
+    .select()
+    .from(characters)
+    .where(eq(characters.id, charId))
+    .limit(1);
+  return charRows[0] ?? null;
+}
+
+// Primary character's regex scripts, parsed. History adapter runs editoutput
+// on assistant replies with them.
 export async function readConvRegexScripts(
   userId: number | undefined,
   convId: string,
 ): Promise<RegexScript[]> {
-  const local = await getLocalDb(userId);
-  if (!local) return [];
-  const rows = await local.db
-    .select({ characterId: conversationCharacters.characterId })
-    .from(conversationCharacters)
-    .where(eq(conversationCharacters.convId, convId))
-    .orderBy(asc(conversationCharacters.orderIndex))
-    .limit(1);
-  const charId = rows[0]?.characterId;
-  if (!charId) return [];
-  const charRows = await local.db
-    .select({ regexScripts: characters.regexScripts })
-    .from(characters)
-    .where(eq(characters.id, charId))
-    .limit(1);
-  return parseRegexScripts(charRows[0]?.regexScripts);
+  const ch = await readPrimaryCharacter(userId, convId);
+  return parseRegexScripts(ch?.regexScripts);
 }
 
-// Primary character's trigger scripts for a conversation, parsed. Used by the
-// history adapter to run output-mode triggers after an assistant reply.
+// Primary character's trigger scripts, parsed. History adapter runs output-mode
+// triggers after an assistant reply with them.
 export async function readConvTriggers(
   userId: number | undefined,
   convId: string,
 ): Promise<TriggerScript[]> {
-  const local = await getLocalDb(userId);
-  if (!local) return [];
-  const rows = await local.db
-    .select({ characterId: conversationCharacters.characterId })
-    .from(conversationCharacters)
-    .where(eq(conversationCharacters.convId, convId))
-    .orderBy(asc(conversationCharacters.orderIndex))
-    .limit(1);
-  const charId = rows[0]?.characterId;
-  if (!charId) return [];
-  const charRows = await local.db
-    .select({ triggers: characters.triggers })
-    .from(characters)
-    .where(eq(characters.id, charId))
-    .limit(1);
-  return parseTriggerScripts(charRows[0]?.triggers);
+  const ch = await readPrimaryCharacter(userId, convId);
+  return parseTriggerScripts(ch?.triggers);
 }
 
 export async function readLocalMessageItems(

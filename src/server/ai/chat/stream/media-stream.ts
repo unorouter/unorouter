@@ -27,6 +27,63 @@ export type MediaStreamBody = {
   convId?: string | null;
 };
 
+// One-shot UI-message response: run `execute`, stream whatever it writes.
+function streamResponse(
+  execute: (writer: UIMessageStreamWriter) => Promise<void>,
+) {
+  return createUIMessageStreamResponse({
+    stream: createUIMessageStream({
+      execute: ({ writer }) => execute(writer),
+    }),
+  });
+}
+
+// Upstream JSON POST with shared error handling: !ok logs + throws `errKey`.
+async function upstreamPost(
+  apiKey: string,
+  path: string,
+  payload: Record<string, unknown>,
+  errKey: Parameters<typeof msg>[0],
+  context: string,
+): Promise<Response> {
+  const res = await fetch(`${upstreamApiUrl}${path}`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) {
+    const err = await res.text();
+    logger.error("Upstream media call failed", {
+      context,
+      model: payload.model,
+      error: err.slice(0, 200),
+    });
+    throw new Error(`${msg(errKey)}: ${err}`);
+  }
+  return res;
+}
+
+// Shared image/video preamble: last user text is the prompt; moderation gate.
+async function moderatedPrompt(
+  body: MediaStreamBody,
+  userId: number,
+  mediaType: "image" | "video",
+): Promise<string> {
+  const prompt = extractLastUserText(body.messages);
+  if (!prompt) throw new Error(msg("ERRORS.NO_IMAGE_PROMPT"));
+  await assertPromptAllowed({
+    prompt,
+    userId,
+    convId: body.convId,
+    model: body.model,
+    mediaType,
+  });
+  return prompt;
+}
+
 function writeBufferedMessage(writer: UIMessageStreamWriter, text: string) {
   const partId = uid(12);
   writer.write({ type: "start" });
@@ -92,25 +149,13 @@ async function generateImage(
   prompt: string,
   endpointPath: string,
 ): Promise<{ images: string[]; isBase64: boolean; requestId?: string }> {
-  const res = await fetch(`${upstreamApiUrl}${endpointPath}`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ model, prompt, n: 1 }),
-  });
-
-  if (!res.ok) {
-    const err = await res.text();
-    logger.error("Image generation failed", {
-      context: "stream.image",
-      model,
-      error: err.slice(0, 200),
-    });
-    throw new Error(`${msg("ERRORS.IMAGE_GENERATION_FAILED")}: ${err}`);
-  }
-
+  const res = await upstreamPost(
+    apiKey,
+    endpointPath,
+    { model, prompt, n: 1 },
+    "ERRORS.IMAGE_GENERATION_FAILED",
+    "stream.image",
+  );
   const raw = await res.json();
   if (!imageGenResponseChecker.Check(raw)) {
     throw new Error(msg("ERRORS.IMAGE_GENERATION_FAILED"));
@@ -134,57 +179,43 @@ export async function handleImageStream(
   body: MediaStreamBody,
   userId: number,
 ) {
-  const prompt = extractLastUserText(body.messages);
-  if (!prompt) throw new Error(msg("ERRORS.NO_IMAGE_PROMPT"));
-
-  await assertPromptAllowed({
-    prompt,
-    userId,
-    convId: body.convId,
-    model: body.model,
-    mediaType: "image",
-  });
-
+  const prompt = await moderatedPrompt(body, userId, "image");
   const { endpointPath } = await isMediaModel(body.model);
-  const stream = createUIMessageStream({
-    execute: async ({ writer }) => {
-      const { images, isBase64 } = await generateImage(
-        apiKey,
-        body.model,
-        prompt,
-        endpointPath!,
-      );
+  return streamResponse(async (writer) => {
+    const { images, isBase64 } = await generateImage(
+      apiKey,
+      body.model,
+      prompt,
+      endpointPath!,
+    );
 
-      // Client-first: stream inline data URLs. Client persists base64 into
-      // local media; sync pushes to R2 later for logged-in users. Guests
-      // never touch Turso/R2, so no FK violation and no CORP-blocked embeds.
-      const dataUrls = await Promise.all(
-        images.map(async (img: string) => {
-          if (isBase64) return base64ToDataUri(img, "image/png");
-          try {
-            const { buffer, mime } = await downloadGenerationBytes(img);
-            return base64ToDataUri(buffer.toString("base64"), mime);
-          } catch (err) {
-            logger.warn("image download to base64 failed", {
-              context: "stream.image",
-              url: img.slice(0, 100),
-              error: String(err),
-            });
-            return null;
-          }
-        }),
-      );
+    // Client-first: stream inline data URLs. Client persists base64 into
+    // local media; sync pushes to R2 later for logged-in users. Guests
+    // never touch Turso/R2, so no FK violation and no CORP-blocked embeds.
+    const dataUrls = await Promise.all(
+      images.map(async (img: string) => {
+        if (isBase64) return base64ToDataUri(img, "image/png");
+        try {
+          const { buffer, mime } = await downloadGenerationBytes(img);
+          return base64ToDataUri(buffer.toString("base64"), mime);
+        } catch (err) {
+          logger.warn("image download to base64 failed", {
+            context: "stream.image",
+            url: img.slice(0, 100),
+            error: String(err),
+          });
+          return null;
+        }
+      }),
+    );
 
-      const markdown = dataUrls
-        .filter((u): u is string => Boolean(u))
-        .map((url) => `![image](${url})`)
-        .join("\n\n");
+    const markdown = dataUrls
+      .filter((u): u is string => Boolean(u))
+      .map((url) => `![image](${url})`)
+      .join("\n\n");
 
-      writeBufferedMessage(writer, markdown);
-    },
+    writeBufferedMessage(writer, markdown);
   });
-
-  return createUIMessageStreamResponse({ stream });
 }
 
 export async function handleVideoTaskStream(
@@ -192,38 +223,24 @@ export async function handleVideoTaskStream(
   body: MediaStreamBody,
   userId: number,
 ) {
-  const prompt = extractLastUserText(body.messages);
-  if (!prompt) throw new Error(msg("ERRORS.NO_IMAGE_PROMPT"));
+  const prompt = await moderatedPrompt(body, userId, "video");
+  return streamResponse(async (writer) => {
+    const { taskId, status, progress } = await submitVideoTask(
+      apiKey,
+      body.model,
+      prompt,
+    );
 
-  await assertPromptAllowed({
-    prompt,
-    userId,
-    convId: body.convId,
-    model: body.model,
-    mediaType: "video",
+    // data-task: assistant-ui rewrites to {type:"data",name:"task"}; partsToItems persists as `task` for reopen/finalize.
+    writer.write({ type: "start" });
+    writer.write({ type: "start-step" });
+    writer.write({
+      type: "data-task",
+      data: { taskId, status, progress, model: body.model },
+    });
+    writer.write({ type: "finish-step" });
+    writer.write({ type: "finish", finishReason: "stop" });
   });
-
-  const stream = createUIMessageStream({
-    execute: async ({ writer }) => {
-      const { taskId, status, progress } = await submitVideoTask(
-        apiKey,
-        body.model,
-        prompt,
-      );
-
-      // data-task: assistant-ui rewrites to {type:"data",name:"task"}; partsToItems persists as `task` for reopen/finalize.
-      writer.write({ type: "start" });
-      writer.write({ type: "start-step" });
-      writer.write({
-        type: "data-task",
-        data: { taskId, status, progress, model: body.model },
-      });
-      writer.write({ type: "finish-step" });
-      writer.write({ type: "finish", finishReason: "stop" });
-    },
-  });
-
-  return createUIMessageStreamResponse({ stream });
 }
 
 // TTS models advertise no dedicated endpoint tag (just "openai"); detect speech
@@ -236,23 +253,13 @@ async function generateSpeech(
   model: string,
   input: string,
 ): Promise<{ dataUri: string }> {
-  const res = await fetch(`${upstreamApiUrl}/v1/audio/speech`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ model, input, voice: "alloy" }),
-  });
-  if (!res.ok) {
-    const err = await res.text();
-    logger.error("Speech generation failed", {
-      context: "stream.audio",
-      model,
-      error: err.slice(0, 200),
-    });
-    throw new Error(`${msg("ERRORS.AUDIO_GENERATION_FAILED")}: ${err}`);
-  }
+  const res = await upstreamPost(
+    apiKey,
+    "/v1/audio/speech",
+    { model, input, voice: "alloy" },
+    "ERRORS.AUDIO_GENERATION_FAILED",
+    "stream.audio",
+  );
   const mime = res.headers.get("content-type") ?? "audio/mpeg";
   const buf = Buffer.from(await res.arrayBuffer());
   return { dataUri: base64ToDataUri(buf.toString("base64"), mime) };
@@ -262,29 +269,23 @@ export async function handleAudioStream(apiKey: string, body: MediaStreamBody) {
   // STT needs an audio input the chat composer can't yet attach; guide the user.
   // Plain text (not a t() key): this is persisted message content, not re-translated.
   if (isSttModel(body.model)) {
-    const stream = createUIMessageStream({
-      execute: async ({ writer }) => {
-        writeBufferedMessage(
-          writer,
-          "This is a speech-to-text model. Send it an audio file to transcribe (audio attachments in chat are coming soon). For now, use it via the API at `/v1/audio/transcriptions`.",
-        );
-      },
+    return streamResponse(async (writer) => {
+      writeBufferedMessage(
+        writer,
+        "This is a speech-to-text model. Send it an audio file to transcribe (audio attachments in chat are coming soon). For now, use it via the API at `/v1/audio/transcriptions`.",
+      );
     });
-    return createUIMessageStreamResponse({ stream });
   }
 
   const input = extractLastUserText(body.messages);
   if (!input) throw new Error(msg("ERRORS.NO_AUDIO_PROMPT"));
 
-  const stream = createUIMessageStream({
-    execute: async ({ writer }) => {
-      const { dataUri } = await generateSpeech(apiKey, body.model, input);
-      // data:audio/ markdown renders as <audio> (markdown-text img override);
-      // client persists the base64 into local media like generated images.
-      writeBufferedMessage(writer, `![audio](${dataUri})`);
-    },
+  return streamResponse(async (writer) => {
+    const { dataUri } = await generateSpeech(apiKey, body.model, input);
+    // data:audio/ markdown renders as <audio> (markdown-text img override);
+    // client persists the base64 into local media like generated images.
+    writeBufferedMessage(writer, `![audio](${dataUri})`);
   });
-  return createUIMessageStreamResponse({ stream });
 }
 
 export async function generateEmbedding(
@@ -292,23 +293,13 @@ export async function generateEmbedding(
   model: string,
   input: string,
 ): Promise<{ dims: number; vector: number[] }> {
-  const res = await fetch(`${upstreamApiUrl}/v1/embeddings`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ model, input }),
-  });
-  if (!res.ok) {
-    const err = await res.text();
-    logger.error("Embedding failed", {
-      context: "stream.embedding",
-      model,
-      error: err.slice(0, 200),
-    });
-    throw new Error(`${msg("ERRORS.EMBEDDING_FAILED")}: ${err}`);
-  }
+  const res = await upstreamPost(
+    apiKey,
+    "/v1/embeddings",
+    { model, input },
+    "ERRORS.EMBEDDING_FAILED",
+    "stream.embedding",
+  );
   const json = (await res.json()) as {
     data?: { embedding?: number[] }[];
   };
@@ -323,27 +314,20 @@ export async function handleEmbeddingStream(
   const input = extractLastUserText(body.messages);
   if (!input) throw new Error(msg("ERRORS.NO_EMBEDDING_INPUT"));
 
-  const stream = createUIMessageStream({
-    execute: async ({ writer }) => {
-      const { dims, vector } = await generateEmbedding(
-        apiKey,
-        body.model,
-        input,
-      );
-      const preview = vector.slice(0, 8).map((n) => n.toFixed(6));
-      const tail = vector.length > 8 ? ", ..." : "";
-      // Plain text (not a t() key): persisted message content, not re-translated.
-      const text = [
-        `Embedding vector (${dims} dimensions):`,
-        "",
-        "```json",
-        `[${preview.join(", ")}${tail}]`,
-        "```",
-      ].join("\n");
-      writeBufferedMessage(writer, text);
-    },
+  return streamResponse(async (writer) => {
+    const { dims, vector } = await generateEmbedding(apiKey, body.model, input);
+    const preview = vector.slice(0, 8).map((n) => n.toFixed(6));
+    const tail = vector.length > 8 ? ", ..." : "";
+    // Plain text (not a t() key): persisted message content, not re-translated.
+    const text = [
+      `Embedding vector (${dims} dimensions):`,
+      "",
+      "```json",
+      `[${preview.join(", ")}${tail}]`,
+      "```",
+    ].join("\n");
+    writeBufferedMessage(writer, text);
   });
-  return createUIMessageStreamResponse({ stream });
 }
 
 export function handleBufferedStream(
@@ -351,15 +335,10 @@ export function handleBufferedStream(
   body: MediaStreamBody,
   mediaType: ModelType,
 ) {
-  const stream = createUIMessageStream({
-    execute: async ({ writer }) => {
-      const fullText = await result.text;
-      const convId = body.convId ?? `tmp-${uid(8)}`;
-
-      const cleanText = await processUrls(fullText, convId, mediaType);
-      writeBufferedMessage(writer, cleanText);
-    },
+  return streamResponse(async (writer) => {
+    const fullText = await result.text;
+    const convId = body.convId ?? `tmp-${uid(8)}`;
+    const cleanText = await processUrls(fullText, convId, mediaType);
+    writeBufferedMessage(writer, cleanText);
   });
-
-  return createUIMessageStreamResponse({ stream });
 }

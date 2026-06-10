@@ -37,6 +37,25 @@ export function createThreadListAdapter(
   getUserId: () => number,
 ): RemoteThreadListAdapter {
   const userId = (): number => getUserId();
+  // Shared by rename + generateTitle: local write, mirror patch when synced,
+  // invalidate the list + meta queries.
+  const persistTitle = async (id: string, title: string) => {
+    const now = dayjs().toDate();
+    const existing = await readLocalConversation(userId(), id);
+    await upsertLocalConversation(userId(), {
+      ...(existing ?? {}),
+      id,
+      title,
+      updatedAt: now,
+    });
+    if (userId() > GUEST_USER_ID && existing?.syncExpiresAt != null) {
+      await mirrorConvPatchIfSynced(userId(), id, {
+        conversation: { title, updatedAt: now },
+      });
+    }
+    queryClient.invalidateQueries({ queryKey: queryKeys.conversations() });
+    queryClient.invalidateQueries({ queryKey: queryKeys.chatMeta(id) });
+  };
   return {
     async list() {
       const items = (await readLocalConversations(userId())) ?? [];
@@ -121,21 +140,7 @@ export function createThreadListAdapter(
     },
 
     async rename(id, title) {
-      const existing = await readLocalConversation(userId(), id);
-      const now = dayjs().toDate();
-      await upsertLocalConversation(userId(), {
-        ...(existing ?? {}),
-        id,
-        title,
-        updatedAt: now,
-      });
-      if (userId() > GUEST_USER_ID && existing?.syncExpiresAt != null) {
-        await mirrorConvPatchIfSynced(userId(), id, {
-          conversation: { title, updatedAt: now },
-        });
-      }
-      queryClient.invalidateQueries({ queryKey: queryKeys.conversations() });
-      queryClient.invalidateQueries({ queryKey: queryKeys.chatMeta(id) });
+      await persistTitle(id, title);
     },
 
     async archive(_id) {},
@@ -198,22 +203,7 @@ export function createThreadListAdapter(
         const data = handleElysia(res);
         controller.appendText(data.title);
 
-        const now = dayjs().toDate();
-        const existing = await readLocalConversation(userId(), id);
-        await upsertLocalConversation(userId(), {
-          ...(existing ?? {}),
-          id,
-          title: data.title,
-          updatedAt: now,
-        });
-        if (userId() > GUEST_USER_ID && existing?.syncExpiresAt != null) {
-          await mirrorConvPatchIfSynced(userId(), id, {
-            conversation: { title: data.title, updatedAt: now },
-          });
-        }
-
-        queryClient.invalidateQueries({ queryKey: queryKeys.conversations() });
-        queryClient.invalidateQueries({ queryKey: queryKeys.chatMeta(id) });
+        await persistTitle(id, data.title);
       });
     },
   };

@@ -36,22 +36,31 @@ type SamplingSource = {
   maxTokens?: number | null;
 };
 
+// Source field -> sampling field; maxTokens is the one rename.
+const SAMPLING_FIELD_MAP = [
+  ["temperature", "temperature"],
+  ["topP", "topP"],
+  ["topK", "topK"],
+  ["minP", "minP"],
+  ["topA", "topA"],
+  ["frequencyPenalty", "frequencyPenalty"],
+  ["presencePenalty", "presencePenalty"],
+  ["repetitionPenalty", "repetitionPenalty"],
+  ["maxTokens", "maxOutputTokens"],
+] as const satisfies readonly (readonly [
+  keyof SamplingSource,
+  keyof AssembledSystem["sampling"],
+])[];
+
 function mergeSampling(
   dest: AssembledSystem["sampling"],
   src: SamplingSource | null | undefined,
 ): void {
   if (!src) return;
-  if (src.temperature != null) dest.temperature = src.temperature;
-  if (src.topP != null) dest.topP = src.topP;
-  if (src.topK != null) dest.topK = src.topK;
-  if (src.minP != null) dest.minP = src.minP;
-  if (src.topA != null) dest.topA = src.topA;
-  if (src.frequencyPenalty != null)
-    dest.frequencyPenalty = src.frequencyPenalty;
-  if (src.presencePenalty != null) dest.presencePenalty = src.presencePenalty;
-  if (src.repetitionPenalty != null)
-    dest.repetitionPenalty = src.repetitionPenalty;
-  if (src.maxTokens != null) dest.maxOutputTokens = src.maxTokens;
+  for (const [from, to] of SAMPLING_FIELD_MAP) {
+    const v = src[from];
+    if (v != null) dest[to] = v;
+  }
 }
 
 export type AssembledSystem = {
@@ -345,23 +354,15 @@ export async function assembleForStream(
 
   // main = preset.mainPrompt then the web-search/guest fallback message.
   const mainSlot = joinNonEmpty([
-    preset?.mainPrompt ? expand(preset.mainPrompt) : "",
+    expand(preset?.mainPrompt),
     fallbackSystemMessage ?? "",
   ]);
 
-  const loreTopSlot = joinNonEmpty(
-    selected.filter((x) => x.position === "top").map((e) => expand(e.content)),
-  );
-  const loreBeforeCharSlot = joinNonEmpty(
-    selected
-      .filter((x) => x.position === "before_char")
-      .map((e) => expand(e.content)),
-  );
-  const loreAfterCharSlot = joinNonEmpty(
-    selected
-      .filter((x) => x.position === "after_char")
-      .map((e) => expand(e.content)),
-  );
+  // Expanded entry bodies for one lorebook position, prompt-ready.
+  const loreAt = (pos: string) =>
+    joinNonEmpty(
+      selected.filter((x) => x.position === pos).map((e) => expand(e.content)),
+    );
 
   // Multi-char: primary owns {{char}}; non-primary alwaysActive=false is trigger-gated.
   const charScanText = recentUserTexts.join("\n");
@@ -402,7 +403,7 @@ export async function assembleForStream(
   const personaSlot = persona
     ? joinNonEmpty([
         `# User persona: ${persona.name}`,
-        persona.description ? expand(persona.description) : "",
+        expand(persona.description),
       ])
     : "";
 
@@ -413,13 +414,9 @@ export async function assembleForStream(
 
   // Post-history: jailbreak/UJB + preset.postHistory + bottom lore.
   const postHistorySlot = joinNonEmpty([
-    primary?.postHistoryInstructions
-      ? expand(primary.postHistoryInstructions)
-      : "",
-    preset?.postHistory ? expand(preset.postHistory) : "",
-    ...selected
-      .filter((x) => x.position === "bottom")
-      .map((e) => expand(e.content)),
+    expand(primary?.postHistoryInstructions),
+    expand(preset?.postHistory),
+    loreAt("bottom"),
   ]);
 
   // Empty slot text -> null so the template walk skips the card.
@@ -427,11 +424,11 @@ export async function assembleForStream(
     text ? { text, role: "system" as const } : null;
   const slots: TemplateSlots = {
     main: sys(mainSlot),
-    loreTop: sys(loreTopSlot),
-    loreBeforeChar: sys(loreBeforeCharSlot),
+    loreTop: sys(loreAt("top")),
+    loreBeforeChar: sys(loreAt("before_char")),
     description: sys(descriptionSlot),
     persona: sys(personaSlot),
-    loreAfterChar: sys(loreAfterCharSlot),
+    loreAfterChar: sys(loreAt("after_char")),
     systemPrompt: sys(systemPromptSlot),
     postHistory: sys(postHistorySlot),
   };

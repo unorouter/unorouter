@@ -141,12 +141,25 @@ function makeResolver(ctx: TriggerContext): Resolver {
   };
 }
 
+// CBS-expand via the context's parser when present (risuChatParser analog).
+const mkParse =
+  (ctx: TriggerContext) =>
+  (s: unknown): string =>
+    ctx.parse ? ctx.parse(String(s ?? "")) : String(s ?? "");
+
+// Numeric-aware equality: 1.0 == 1, falls back to string compare (Risu =/!=).
+function numEq(a: string, b: string): boolean {
+  const na = Number(a);
+  const nb = Number(b);
+  return !Number.isNaN(na) && !Number.isNaN(nb) ? na === nb : a === b;
+}
+
 function evalCondition(
   c: TriggerCondition,
   ctx: TriggerContext,
   vr: VarResolver,
 ): boolean {
-  const parse = (s: string) => (ctx.parse ? ctx.parse(s) : s);
+  const parse = mkParse(ctx);
   if (c.type === "exists") {
     // Risu joins the slice once and searches the joined text.
     const da = ctx.chat
@@ -203,8 +216,7 @@ function evalIf(
   ctx: TriggerContext,
   vr: VarResolver,
 ): boolean {
-  const parse = (s: unknown) =>
-    ctx.parse ? ctx.parse(String(s ?? "")) : String(s ?? "");
+  const parse = mkParse(ctx);
   const a =
     e.type === "v2If" || e.sourceType === "var"
       ? vr.get(parse(e.source))
@@ -214,18 +226,10 @@ function evalIf(
   // Older/non-Risu data may carry `operator` instead of `condition`.
   const op = (e.condition ?? e.operator) as string | undefined;
   switch (op) {
-    case "=": {
-      const na = Number(a);
-      const nb = Number(b);
-      if (!Number.isNaN(na) && !Number.isNaN(nb)) return na === nb;
-      return a === b;
-    }
-    case "!=": {
-      const na = Number(a);
-      const nb = Number(b);
-      if (!Number.isNaN(na) && !Number.isNaN(nb)) return na !== nb;
-      return a !== b;
-    }
+    case "=":
+      return numEq(a, b);
+    case "!=":
+      return !numEq(a, b);
     case ">":
       return Number(a) > Number(b);
     case "<":
@@ -280,6 +284,20 @@ function runEffects(script: TriggerScript, ctx: TriggerContext): void {
   let steps = 0;
   // Per-EndIndent LoopNTimes iteration counters (Risu tempVars[idx+'LoopNTimes']).
   const loopCounts: Record<number, number> = {};
+  const parse = mkParse(ctx);
+  // Operand resolution: explicit 'value' is a literal, default is a var lookup.
+  const resolve = (value: unknown, valueType: unknown): string =>
+    valueType === "value" ? parse(value) : vr.get(parse(value));
+  // Index of the block-closing v2EndIndent at `bodyIndent`, scanning from
+  // `from`; effect end when missing (malformed data degrades to a skip-out).
+  const findEnd = (from: number, bodyIndent: number): number => {
+    for (let j = from; j < eff.length; j++) {
+      const ef = eff[j];
+      if (ef?.type === "v2EndIndent" && (ef.indent ?? 0) === bodyIndent)
+        return j;
+    }
+    return eff.length;
+  };
 
   for (let i = 0; i < eff.length; i++) {
     if (++steps > MAX_STEPS) break;
@@ -294,45 +312,25 @@ function runEffects(script: TriggerScript, ctx: TriggerContext): void {
     switch (e.type) {
       case "v2StopTrigger":
         return;
-      case "v2DeclareLocalVar": {
-        const parse = (s: unknown) =>
-          ctx.parse ? ctx.parse(String(s ?? "")) : String(s ?? "");
-        const value =
-          e.valueType === "value" ? parse(e.value) : vr.get(parse(e.value));
-        vr.declareLocal(parse(e.var), value ?? "null", indent);
+      case "v2DeclareLocalVar":
+        vr.declareLocal(parse(e.var), resolve(e.value, e.valueType), indent);
         continue;
-      }
       case "v2If":
       case "v2IfAdvanced": {
         if (!evalIf(e, ctx, vr)) {
           // Skip to this block's EndIndent (body indent = indent + 1). If the
           // effect right after it is this if's v2Else, step past the Else so
           // the else body runs (Risu triggers.ts:1709-1722).
-          const bodyIndent = indent + 1;
-          for (i = i + 1; i < eff.length; i++) {
-            const ef = eff[i];
-            if (ef?.type === "v2EndIndent" && (ef.indent ?? 0) === bodyIndent) {
-              const next = eff[i + 1];
-              if (next?.type === "v2Else" && (next.indent ?? 0) === indent) {
-                i++;
-              }
-              break;
-            }
-          }
+          i = findEnd(i + 1, indent + 1);
+          const next = eff[i + 1];
+          if (next?.type === "v2Else" && (next.indent ?? 0) === indent) i++;
         }
         continue;
       }
-      case "v2Else": {
+      case "v2Else":
         // Reached after a TRUE if-body ran: skip the else body to its end.
-        const bodyIndent = indent + 1;
-        for (i = i + 1; i < eff.length; i++) {
-          const ef = eff[i];
-          if (ef?.type === "v2EndIndent" && (ef.indent ?? 0) === bodyIndent) {
-            break;
-          }
-        }
+        i = findEnd(i + 1, indent + 1);
         continue;
-      }
       case "v2Loop":
       case "v2LoopNTimes":
         // Looping is handled at the closing v2EndIndent (endOfLoop).
@@ -359,13 +357,7 @@ function runEffects(script: TriggerScript, ctx: TriggerContext): void {
               (ef.indent ?? 0) === loopIndent
             ) {
               if (ef.type === "v2LoopNTimes") {
-                const parse = (s: unknown) =>
-                  ctx.parse ? ctx.parse(String(s ?? "")) : String(s ?? "");
-                const raw =
-                  ef.valueType === "value"
-                    ? parse(ef.value)
-                    : vr.get(parse(ef.value));
-                let n = Number(raw);
+                let n = Number(resolve(ef.value, ef.valueType));
                 if (Number.isNaN(n)) n = 0;
                 loopCounts[endIdx] = (loopCounts[endIdx] ?? 0) + 1;
                 if (loopCounts[endIdx] < n) {

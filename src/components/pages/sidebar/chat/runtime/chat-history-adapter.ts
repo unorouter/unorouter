@@ -269,18 +269,16 @@ export function createChatHistoryAdapter(
             updatedAt: now,
           };
           await upsertLocalConversation(userId, updatedConv);
-          queryClient.invalidateQueries({ queryKey: queryKeys.chatMeta(id) });
-          queryClient.invalidateQueries({
-            queryKey: queryKeys.chatMessages(id),
-          });
-          queryClient.invalidateQueries({
-            queryKey: queryKeys.conversations(),
-          });
-          // Offline queued-send badge: a persisted user turn (or its later
-          // assistant reply) changes the unanswered-turn set.
-          queryClient.invalidateQueries({
-            queryKey: queryKeys.queuedSends(),
-          });
+          // queuedSends: a persisted user turn (or its later assistant reply)
+          // changes the unanswered-turn badge set.
+          for (const queryKey of [
+            queryKeys.chatMeta(id),
+            queryKeys.chatMessages(id),
+            queryKeys.conversations(),
+            queryKeys.queuedSends(),
+          ]) {
+            queryClient.invalidateQueries({ queryKey });
+          }
 
           await mirrorConvDeltaIfSynced(
             userId,

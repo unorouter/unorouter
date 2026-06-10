@@ -57,6 +57,7 @@ import {
   inlinePdfText,
   mergeAlternateRoles,
   prependUserStub,
+  mkMsg,
   spliceDepthInjections,
   stripReasoningParts,
   stripSystemRole,
@@ -102,20 +103,15 @@ export async function streamChat(
     },
   });
 
-  if (mediaType === "image") {
-    return handleImageStream(apiKey, body, userId);
-  }
-
-  if (mediaType === "video") {
-    return handleVideoTaskStream(apiKey, body, userId);
-  }
-
-  if (mediaType === "audio") {
-    return handleAudioStream(apiKey, body);
-  }
-
-  if (mediaType === "embedding") {
-    return handleEmbeddingStream(apiKey, body);
+  switch (mediaType) {
+    case "image":
+      return handleImageStream(apiKey, body, userId);
+    case "video":
+      return handleVideoTaskStream(apiKey, body, userId);
+    case "audio":
+      return handleAudioStream(apiKey, body);
+    case "embedding":
+      return handleEmbeddingStream(apiKey, body);
   }
 
   // IDB-first: client chatContext avoids Turso RP reads; fall back to Turso for guests/legacy.
@@ -324,12 +320,6 @@ export async function streamChat(
   // template message-parts before/after it become role messages. The leading
   // run of system parts is hoisted into the top-level `system` param (provider
   // preference, and what keeps the default-template path identical to before).
-  const partMsg = (role: "system" | "user" | "assistant", text: string) =>
-    ({
-      role,
-      parts: [{ type: "text", text }],
-    }) as (typeof historyMessages)[number];
-
   // Role transforms apply automatically per model (RisuAI per-model LLMFlags
   // parity): the model's needs are OR'd with the preset's manual flags, so a
   // user never has to hand-toggle GLM/Gemini/Claude requirements but can always
@@ -374,7 +364,7 @@ export async function streamChat(
     for (let i = lead; i < parts.length; i++) {
       const p = parts[i];
       if (p.kind === "message") {
-        processedMessages.push(partMsg(p.role, p.text));
+        processedMessages.push(mkMsg(p.role, p.text));
         continue;
       }
       hadChat = true;
@@ -479,26 +469,52 @@ export async function streamChat(
     finalMessages: messagesForUpstream,
   };
 
-  // Free models often advertise inflated maxOutputTokens; cap to a safe budget.
-  const droppedParamsRef: { value: string | null } = { value: null };
+  const droppedParamsRef = { value: null as string | null };
   // Captured in onFinish; emitted in messageMetadata to seed request log row.
-  const debugRef: {
+  const debugRef = {
     value: {
-      requestId: string | null;
-      responseHeaders: Record<string, string> | null;
-    };
-  } = { value: { requestId: null, responseHeaders: null } };
-  const usageRef: {
-    value: {
-      inputTokens: number;
-      outputTokens: number;
-      cost: number;
-      durationMs: number;
-      tokensPerSecond?: number;
-    } | null;
-  } = { value: null };
+      requestId: null as string | null,
+      responseHeaders: null as Record<string, string> | null,
+    },
+  };
 
   const streamStartedAt = Date.now();
+  // Shared by onFinish (buffered path) + the finish frame (streamed path).
+  const buildUsage = (inputTokens: number, outputTokens: number) => {
+    const durationMs = Date.now() - streamStartedAt;
+    return {
+      inputTokens,
+      outputTokens,
+      cost: estimateCost(inputTokens, outputTokens),
+      durationMs,
+      tokensPerSecond:
+        outputTokens > 0 && durationMs > 0
+          ? outputTokens / (durationMs / 1000)
+          : undefined,
+    };
+  };
+  const usageRef = { value: null as ReturnType<typeof buildUsage> | null };
+  // Upstream request id + dropped-params ride response headers; capture from
+  // whichever callback sees them first (finish-step beats onFinish on timing).
+  const captureHeaders = (
+    hdrs: Record<string, string> | null | undefined,
+  ): void => {
+    if (!hdrs) return;
+    debugRef.value = {
+      requestId: hdrs["x-oneapi-request-id"] ?? null,
+      responseHeaders: hdrs,
+    };
+    const dropped = hdrs["x-newapi-dropped-params"];
+    if (typeof dropped === "string" && dropped.length > 0) {
+      droppedParamsRef.value = dropped;
+    }
+  };
+  // Spread-only-when-set: strip undefined keys so absent != explicit-undefined.
+  const defined = <T extends Record<string, unknown>>(o: T): Partial<T> =>
+    Object.fromEntries(
+      Object.entries(o).filter(([, v]) => v !== undefined),
+    ) as Partial<T>;
+
   const result = streamText({
     // Models that emit reasoning inline as `<think>...` text (GLM OpenAI-compat,
     // R1 distills) get it lifted into a proper reasoning part: UI renders it
@@ -513,89 +529,51 @@ export async function streamChat(
     // (429/5xx/network, exponential backoff). Deterministic 4xx surface
     // verbatim on the first attempt.
     maxRetries: 2,
-    ...(effectiveMaxOutputTokens && {
-      maxOutputTokens: effectiveMaxOutputTokens,
-    }),
-    ...(assembled.sampling.temperature !== undefined && {
+    ...defined({
+      maxOutputTokens: effectiveMaxOutputTokens || undefined,
       temperature: assembled.sampling.temperature,
-    }),
-    ...(assembled.sampling.topP !== undefined && {
       topP: assembled.sampling.topP,
-    }),
-    ...(assembled.sampling.topK !== undefined && {
       topK: assembled.sampling.topK,
-    }),
-    ...(assembled.sampling.frequencyPenalty !== undefined && {
       frequencyPenalty: assembled.sampling.frequencyPenalty,
-    }),
-    ...(assembled.sampling.presencePenalty !== undefined && {
       presencePenalty: assembled.sampling.presencePenalty,
     }),
     // extraBody first: sliders/reasoning win on key collision.
     providerOptions: {
       openai: {
         ...(assembled.extraBody ?? {}),
-        ...(assembled.sampling.minP !== undefined && {
+        ...defined({
           min_p: assembled.sampling.minP,
-        }),
-        ...(assembled.sampling.topA !== undefined && {
           top_a: assembled.sampling.topA,
-        }),
-        ...(assembled.sampling.repetitionPenalty !== undefined && {
           repetition_penalty: assembled.sampling.repetitionPenalty,
-        }),
-        ...(assembled.reasoningEffort && {
           reasoning_effort: assembled.reasoningEffort,
-        }),
-        // Gemini-only: threshold=OFF (stronger than BLOCK_NONE); no-op elsewhere.
-        ...(assembled.flags.geminiBlockOff && {
-          safetySettings: GEMINI_SAFETY_OFF,
-        }),
-        // Provider pin (OpenRouter shape). Passed through; honored only by
-        // upstream channels that route on it, a harmless no-op otherwise.
-        ...(assembled.providerRouting && {
+          // Gemini-only: threshold=OFF (stronger than BLOCK_NONE); no-op elsewhere.
+          safetySettings: assembled.flags.geminiBlockOff
+            ? GEMINI_SAFETY_OFF
+            : undefined,
+          // Provider pin (OpenRouter shape). Passed through; honored only by
+          // upstream channels that route on it, a harmless no-op otherwise.
           provider: assembled.providerRouting,
         }),
       },
     },
     onFinish: ({ usage, response }) => {
-      const durationMs = Date.now() - streamStartedAt;
-      const outputTokens = usage.outputTokens ?? 0;
-      const inputTokens = usage.inputTokens ?? 0;
-      const tokensPerSecond =
-        outputTokens > 0 && durationMs > 0
-          ? outputTokens / (durationMs / 1000)
-          : undefined;
-      const requestId = response.headers?.["x-oneapi-request-id"] ?? undefined;
-      debugRef.value = {
-        requestId: requestId ?? null,
-        responseHeaders: response.headers ?? null,
-      };
-      usageRef.value = {
-        inputTokens,
-        outputTokens,
-        cost: estimateCost(inputTokens, outputTokens),
-        durationMs,
-        tokensPerSecond,
-      };
-      const dropped = response.headers?.["x-newapi-dropped-params"];
-      if (typeof dropped === "string" && dropped.length > 0) {
-        droppedParamsRef.value = dropped;
-      }
+      captureHeaders(response.headers);
+      const u = buildUsage(usage.inputTokens ?? 0, usage.outputTokens ?? 0);
+      usageRef.value = u;
       captureServerEvent({
         event: "chat_stream_completed",
         request,
         userId,
         properties: {
           model: body.model,
-          duration_ms: durationMs,
-          input_tokens: inputTokens,
-          output_tokens: outputTokens,
-          tokens_per_second: tokensPerSecond,
+          duration_ms: u.durationMs,
+          input_tokens: u.inputTokens,
+          output_tokens: u.outputTokens,
+          tokens_per_second: u.tokensPerSecond,
           web_search: effectiveWebSearch,
           has_dropped_params: !!droppedParamsRef.value,
           is_guest: userId === GUEST_USER_ID,
-          request_id: requestId,
+          request_id: debugRef.value.requestId ?? undefined,
         },
       });
     },
@@ -623,17 +601,7 @@ export async function streamChat(
       messageMetadata: ({ part }) => {
         // `finish-step` carries response.headers synchronously; onFinish races stream end.
         if (part.type === "finish-step") {
-          const hdrs = part.response.headers ?? null;
-          if (hdrs) {
-            debugRef.value = {
-              requestId: hdrs["x-oneapi-request-id"] ?? null,
-              responseHeaders: hdrs,
-            };
-            const dropped = hdrs["x-newapi-dropped-params"];
-            if (typeof dropped === "string" && dropped.length > 0) {
-              droppedParamsRef.value = dropped;
-            }
-          }
+          captureHeaders(part.response.headers);
           return undefined;
         }
         if (part.type === "finish") {
@@ -649,22 +617,8 @@ export async function streamChat(
             meta.speakingCharacterId = body.speakingCharacterId;
           // Read usage off part; onFinish races UI stream end.
           const total = part.totalUsage;
-          const durationMs = Date.now() - streamStartedAt;
-          const inputTokens = total?.inputTokens ?? 0;
-          const outputTokens = total?.outputTokens ?? 0;
-          const tokensPerSecond =
-            outputTokens > 0 && durationMs > 0
-              ? outputTokens / (durationMs / 1000)
-              : undefined;
-          if (inputTokens > 0 || outputTokens > 0) {
-            meta.usage = {
-              inputTokens,
-              outputTokens,
-              cost: estimateCost(inputTokens, outputTokens),
-              durationMs,
-              tokensPerSecond,
-            };
-          }
+          const u = buildUsage(total?.inputTokens ?? 0, total?.outputTokens ?? 0);
+          if (u.inputTokens > 0 || u.outputTokens > 0) meta.usage = u;
           meta.debug = {
             ...debugRequestSnapshot,
             responseHeaders: debugRef.value.responseHeaders,

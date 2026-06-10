@@ -65,25 +65,24 @@ export async function loadConvContext(convId: string) {
       } => !!x.character,
     );
 
-  const persona = settings.personaId
-    ? (
-        await db
+  const [persona, preset] = await Promise.all([
+    settings.personaId
+      ? db
           .select()
           .from(personas)
           .where(eq(personas.id, settings.personaId))
           .limit(1)
-      )[0]
-    : undefined;
-
-  const preset = settings.presetId
-    ? (
-        await db
+          .then((r) => r[0])
+      : undefined,
+    settings.presetId
+      ? db
           .select()
           .from(samplingPresets)
           .where(eq(samplingPresets.id, settings.presetId))
           .limit(1)
-      )[0]
-    : undefined;
+          .then((r) => r[0])
+      : undefined,
+  ]);
 
   const lbBindings = await db
     .select({ lorebookId: conversationLorebooks.lorebookId })

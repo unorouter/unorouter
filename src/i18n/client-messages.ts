@@ -1,10 +1,8 @@
-// Single source of truth for which messages reach the client. Consumed by:
-// - LanguageProvider (runtime pruning of the hydrated messages payload)
-// - scripts/check-client-messages.ts (build-time guard: a "use client" file
-//   referencing a stripped key fails the build instead of silently logging
-//   MISSING_MESSAGE in prod)
-// Interim until next-intl ships compiler-driven message tree-shaking
-// (amannn/next-intl#1); delete this module when that lands.
+// Single source of truth for which messages reach the client, consumed by
+// LanguageProvider. Violations fail loudly in dev: ClientIntlProvider throws
+// on MISSING_MESSAGE instead of logging. Interim until next-intl ships
+// compiler-driven message tree-shaking (amannn/next-intl#1); delete this
+// module when that lands.
 
 type Messages = Record<string, unknown>;
 
@@ -78,30 +76,4 @@ export function pruneClientMessages(messages: Messages): Messages {
     delete pruned[ns];
   }
   return pruned;
-}
-
-/**
- * Static counterpart of pruneClientMessages for the build-time guard: is this
- * fully-qualified key still resolvable on the client after pruning?
- */
-export function isClientMessageKey(key: string): boolean {
-  const [root, second, third, fourth] = key.split(".");
-  if ((CLIENT_STRIPPED_NAMESPACES as readonly string[]).includes(root)) {
-    return false;
-  }
-  if (
-    CLIENT_STRIPPED_SUBTREES.some(
-      (subtree) => key === subtree || key.startsWith(`${subtree}.`),
-    )
-  ) {
-    return false;
-  }
-  if (root !== "DOCS") return true;
-  if (!second) return true;
-  if ((CLIENT_DOCS_KEPT as readonly string[]).includes(second)) return true;
-  return (
-    third !== undefined &&
-    fourth === undefined &&
-    (CLIENT_DOCS_GUIDE_LEAVES as readonly string[]).includes(third)
-  );
 }
