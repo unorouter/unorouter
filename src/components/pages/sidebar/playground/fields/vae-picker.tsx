@@ -29,7 +29,7 @@ export function VaePicker(props: Props) {
           props.onChange(!next || next === "automatic" ? undefined : next)
         }
       >
-        <SelectTrigger className="w-full">
+        <SelectTrigger aria-label={t("IMAGE.VAE")} className="w-full">
           <SelectValue />
         </SelectTrigger>
         <SelectContent>

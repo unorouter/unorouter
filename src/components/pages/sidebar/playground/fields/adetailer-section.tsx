@@ -98,7 +98,7 @@ export function AdetailerSection(props: Props) {
                 update({ yoloModel: yoloModel ?? undefined })
               }
             >
-              <SelectTrigger className="w-full">
+              <SelectTrigger aria-label={t("IMAGE.ADETAILER_MODEL")} className="w-full">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>

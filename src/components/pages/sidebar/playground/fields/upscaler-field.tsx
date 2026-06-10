@@ -75,7 +75,7 @@ export function UpscalerField(props: Props) {
           value={upscaler ?? ""}
           onValueChange={(v) => props.onChange({ upscaler: v || undefined })}
         >
-          <SelectTrigger className="w-full">
+          <SelectTrigger aria-label={t("IMAGE.UPSCALER")} className="w-full">
             <SelectValue placeholder={t("IMAGE.UPSCALER_AUTO")} />
           </SelectTrigger>
           <SelectContent>
