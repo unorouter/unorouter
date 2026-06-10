@@ -11,7 +11,8 @@ import {
   userThemes,
 } from "@/lib/db/schema/shared";
 import { addDays } from "@/lib/utils/format/date";
-import type { SyncKindName, SyncMergeMode } from "@/lib/validation/sync";
+import type { SyncMergeMode } from "@/lib/validation/sync";
+import type { SyncKindName } from "@/lib/validation/sync-constants";
 import { and, eq } from "drizzle-orm";
 import { getSyncedBundle } from "./bundles";
 import { readSyncExpiry } from "./kinds";

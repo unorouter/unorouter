@@ -8,11 +8,7 @@ import { arrayBufferToBase64, handleElysia } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 import { media } from "@/lib/db/schema/shared";
 import type { SyncBundle } from "@/server/ai/sync/bundles";
-import {
-  SYNC_BUNDLE_CHUNK_SIZE,
-  SYNC_KINDS,
-  type SyncKindName,
-} from "@/lib/validation/sync";
+import { SYNC_BUNDLE_CHUNK_SIZE, SYNC_KINDS, type SyncKindName } from "@/lib/validation/sync-constants";
 import { useQueryClient, type QueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
@@ -172,9 +168,8 @@ async function hydrate(
   const local = await getLocalDb(userId);
   if (!local) return;
 
-  // Drive the guest migration directly (idempotent single-flight): waiting on
-  // a promise the GuestLocalDbMigrate effect may not have registered yet was
-  // a mount-order race that seeded the query cache from an empty user DB.
+  // Stage 0: fold guest rows into the user DB (idempotent single-flight, only
+  // call site) so stage 1 never seeds the query cache from a pre-copy DB.
   if (userId > GUEST_USER_ID) await migrateGuestLocalDb(userId);
 
   await stage1LocalSeed(qc, userId);

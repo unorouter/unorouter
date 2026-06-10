@@ -22,7 +22,7 @@ import {
 } from "@/lib/db/schema/shared";
 
 import { and, eq, inArray } from "drizzle-orm";
-import type { SyncKindName } from "@/lib/validation/sync";
+import type { SyncKindName } from "@/lib/validation/sync-constants";
 
 export type SyncBundleMap = {
   characters: { character: typeof characters.$inferSelect };

@@ -6,7 +6,7 @@ import { invalidateAndBroadcast } from "@/lib/react-query/cross-tab-invalidate";
 import { queryKeys } from "@/lib/react-query/keys";
 import { uid } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
-import type { RpSyncKind } from "@/lib/validation/sync";
+import type { RpSyncKind } from "@/lib/validation/sync-constants";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";

@@ -7,30 +7,13 @@ import {
 } from "./chat";
 import { generationStatus, generationVisibility } from "./playground";
 
-export const SYNC_KINDS = [
-  "characters",
-  "personas",
-  "lorebooks",
-  "presets",
-  "cards",
-  "conversations",
-  "playgroundSessions",
-  "theme",
-] as const;
+import {
+  BATCH_BUNDLE_MAX_REQUESTS,
+  RP_SYNC_KINDS,
+  SYNC_KINDS,
+} from "./sync-constants";
 
 export const syncKind = t.Union(SYNC_KINDS.map((k) => t.Literal(k)));
-export type SyncKindName = Static<typeof syncKind>;
-
-// SYNC_KINDS subset mirrored row-by-row (excludes theme).
-export const RP_SYNC_KINDS = [
-  "characters",
-  "personas",
-  "lorebooks",
-  "presets",
-  "cards",
-  "conversations",
-  "playgroundSessions",
-] as const;
 
 export const rpSyncKind = t.Union(RP_SYNC_KINDS.map((k) => t.Literal(k)));
 export type RpSyncKind = Static<typeof rpSyncKind>;
@@ -59,12 +42,6 @@ export const syncParams = t.Object({
   id: t.String({ minLength: 1, maxLength: 64 }),
 });
 export type SyncParams = Static<typeof syncParams>;
-
-// Cap batch request count server-side to bound query fanout.
-export const BATCH_BUNDLE_MAX_REQUESTS = 20;
-
-// Stage-2 chunk size; keep <= BATCH_BUNDLE_MAX_REQUESTS.
-export const SYNC_BUNDLE_CHUNK_SIZE = 16;
 
 export const batchBundleRequestBody = t.Object({
   requests: t.Array(

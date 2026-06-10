@@ -9,7 +9,7 @@ import {
   readLocalPersona,
   readLocalPreset,
 } from "@/lib/db/client/data/rp";
-import type { SyncKindName } from "@/lib/validation/sync";
+import type { SyncKindName } from "@/lib/validation/sync-constants";
 
 // Cascade payload per kind; shared by add/resync + drainer.
 export async function buildSyncPayload(

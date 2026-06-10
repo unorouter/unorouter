@@ -34,18 +34,8 @@ import {
   type PersonaBody,
   type SamplingPresetBody,
 } from "@/lib/validation/rp";
-import {
-  cardBundleBody,
-  conversationBundleBody,
-  playgroundSessionBundleBody,
-  themeBundleBody,
-  type CardBundleBody,
-  type ConversationBundleBody,
-  type PlaygroundSessionBundleBody,
-  type SyncKindName,
-  type SyncMergeMode,
-  type ThemeBundleBody,
-} from "@/lib/validation/sync";
+import { cardBundleBody, conversationBundleBody, playgroundSessionBundleBody, themeBundleBody, type CardBundleBody, type ConversationBundleBody, type PlaygroundSessionBundleBody, type SyncMergeMode, type ThemeBundleBody } from "@/lib/validation/sync";
+import { type SyncKindName } from "@/lib/validation/sync-constants";
 import { and, eq, inArray } from "drizzle-orm";
 import { castWithDriftLog } from "./payload-validate";
 

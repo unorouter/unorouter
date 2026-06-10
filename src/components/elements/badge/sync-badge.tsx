@@ -18,7 +18,7 @@ import {
   useSyncStateForRow,
 } from "@/hooks/ai/sync-hook";
 import { MAX_PENDING_ATTEMPTS } from "@/lib/db/client/sync/pending-sync";
-import type { SyncKindName } from "@/lib/validation/sync";
+import type { SyncKindName } from "@/lib/validation/sync-constants";
 import { useLocale, useTranslations } from "next-intl";
 
 type Props = {

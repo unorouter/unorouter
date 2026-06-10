@@ -1,4 +1,4 @@
-import type { RpSyncKind } from "@/lib/validation/sync";
+import type { RpSyncKind } from "@/lib/validation/sync-constants";
 import { posthog } from "@/lib/posthog-lazy";
 
 // Conversations report through the `chat.*` events; lorebook entries are a

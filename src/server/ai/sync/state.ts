@@ -1,4 +1,4 @@
-import { SYNC_KINDS, type SyncKindName } from "@/lib/validation/sync";
+import { SYNC_KINDS, type SyncKindName } from "@/lib/validation/sync-constants";
 import { listSyncState } from "./kinds";
 
 type SyncStateRow = {

@@ -1,8 +1,5 @@
-// Request preparation for text streams: everything between "we have a chat
-// body" and "call streamText". Pure assembly stage: web search, regex scripts,
-// start triggers, memory, prompt assembly, history budgeting, template walk,
-// per-model role transforms, writeback diffs, and the request-log snapshot.
-// stream.service.ts stays orchestration + telemetry + the streamText call.
+// Text-stream request assembly (chat body -> streamText args); stream.service.ts
+// keeps orchestration, telemetry, and the streamText call.
 
 import { getPricingSummary } from "@/lib/api/pricing-cache";
 import {
@@ -75,10 +72,8 @@ export async function prepareChatRequest(
   request: Request,
   userId: number,
 ) {
-  // IDB-first: client chatContext avoids Turso RP reads. Repeat turns send a
-  // hash instead of the payload (context-cache handshake); a stale hash throws
-  // context-required (409) and the client retries with the full context.
-  // Turso stays the fallback for guests/legacy bodies with neither.
+  // IDB-first: client context (or cached hash, 409 on stale) beats Turso reads;
+  // Turso is the guest/legacy fallback.
   const clientCtx = resolveContextPayload(body);
   const convCtx = clientCtx
     ? buildContextFromClient(clientCtx)
@@ -125,17 +120,15 @@ export async function prepareChatRequest(
 
   const pdfInlined = await inlinePdfText(body.messages);
   const modelInfo = (await getPricingSummary()).byName.get(body.model);
-  // Estimated USD cost from catalog prices (per 1M tokens, cheapest enabled
-  // group). Free models price at 0. Estimate only: actual billing happens
-  // upstream, but the chat UI needs a number to show per message + per conv.
+  // UI cost estimate from catalog prices; real billing happens upstream.
   const estimateCost = (inputTokens: number, outputTokens: number): number =>
     modelInfo && !modelInfo.isFree
       ? (inputTokens * modelInfo.inputPrice +
           outputTokens * modelInfo.outputPrice) /
         1_000_000
       : 0;
-  // Regex scripts (editprocess/editinput) from the primary character run on the
-  // message text before assembly. editoutput/editdisplay run client-side.
+  // Primary character's editprocess/editinput scripts run server-side pre-assembly;
+  // editoutput/editdisplay run client-side.
   const primaryChar = convCtx?.boundCharacters[0]?.character as
     | { regexScripts?: unknown }
     | undefined;
@@ -147,13 +140,10 @@ export async function prepareChatRequest(
 
   const recentUserTexts = collectRecentUserTexts(messagesWithPdfText);
   const history = collectHistory(messagesWithPdfText);
-  // Per-user global vars ride OUTSIDE the hashed context (small, change every
-  // setglobalvar turn; hashing them would bust the context cache constantly).
+  // Global vars ride outside the hashed context; hashing them would bust the cache every setglobalvar turn.
   const globalVarsIn = body.globalVars ?? clientCtx?.globalVars ?? null;
 
-  // `start`-mode trigger scripts run before assembly. They mutate the seed var
-  // store (persisted via the var-writeback channel) and can inject a system
-  // prompt, folded into the assembly system block below.
+  // `start` triggers mutate seed vars (persisted via writeback) and may inject a system prompt.
   const triggerVars: Record<string, string> = convCtx
     ? parseStringMap(convCtx.settings.vars)
     : {};
@@ -162,8 +152,6 @@ export async function prepareChatRequest(
     ? runStartTriggers(convCtx, triggerVars, triggerGlobalVars, history)
     : { extraSystemPrompt: "", stopSending: false };
 
-  // Memory features (opt-in per conversation): rolling summary + semantic
-  // retrieval, both best-effort (see memory.service).
   const memorySettings = convCtx?.settings as
     | {
         memoryEnabled?: boolean | null;
@@ -208,9 +196,7 @@ export async function prepareChatRequest(
         )
       : assembleFromOverrides(body.overrides, assemblySystem);
 
-  // Messages already folded into the rolling summary are CUT from the prompt
-  // (the [Story so far] block replaces them, Risu supaMemory semantics);
-  // keeping them would duplicate content the summary already carries.
+  // Summarized messages are cut; the [Story so far] block replaces them (Risu supaMemory).
   const summaryAnchor = memory.memoryBlock
     ? (memory.summaryWriteback?.anchor ?? memorySettings?.summaryAnchor ?? 0)
     : 0;
@@ -226,12 +212,8 @@ export async function prepareChatRequest(
       : unsummarized;
   const presetMaxOut = assembled.sampling.maxOutputTokens;
   const modelMaxOut = modelInfo?.metadata.maxOutputTokens;
-  // The model's own maxOutputTokens is a HARD ceiling: some models reject any
-  // request above their cap (e.g. "max tokens must be <= 4096, received 8192").
-  // Clamp the requested value to it (and to the free cap for free models) so a
-  // preset/default asking for more never overshoots the model's real limit.
-  // When the model omits its cap, fall back to UNKNOWN_MODEL_OUTPUT_CAP rather
-  // than the higher free cap, since the real limit is often 4096.
+  // Model maxOutputTokens is a hard ceiling (models reject overshoot); clamp preset
+  // to it + free cap. Unknown cap falls back to UNKNOWN_MODEL_OUTPUT_CAP (often 4096).
   const knownCeiling = modelMaxOut ?? UNKNOWN_MODEL_OUTPUT_CAP;
   const ceilings = [
     presetMaxOut ?? knownCeiling,
@@ -240,13 +222,9 @@ export async function prepareChatRequest(
   ];
   const effectiveMaxOutputTokens = Math.min(...ceilings);
 
-  // Then fit to the model's real context window so a long RP can't overflow
-  // (RisuAI token-budget truncation; drop oldest first). Reserve = the full
-  // assembled non-history prompt (two-pass count: system + pre/post-chat parts
-  // + depth/author injections) + the REQUESTED output budget + a safety margin.
-  // Output reserve uses the clamped effective cap (the raw model max on
-  // big-output models could eat the whole window and collapse history to one
-  // message) and is additionally capped at half the context window.
+  // Fit to context window, drop oldest first (RisuAI truncation). Reserve = assembled
+  // non-history prompt + clamped output cap (raw model max could eat the window),
+  // output reserve also capped at half the window.
   const contextWindow = modelInfo?.metadata.contextWindow;
   const outputReserve = contextWindow
     ? Math.min(effectiveMaxOutputTokens, Math.floor(contextWindow / 2))
@@ -271,37 +249,24 @@ export async function prepareChatRequest(
       : slicedMessages;
   const historyMessages = expandMessageMacros(splicedMessages, assembled.vars);
 
-  // Interleave the prompt template parts with chat history. The `chatHistory`
-  // marker is replaced by the (sliced/depth-injected/macro-expanded) messages;
-  // template message-parts before/after it become role messages. The leading
-  // run of system parts is hoisted into the top-level `system` param (provider
-  // preference, and what keeps the default-template path identical to before).
-  // Role transforms apply automatically per model (RisuAI per-model LLMFlags
-  // parity): the model's needs are OR'd with the preset's manual flags, so a
-  // user never has to hand-toggle GLM/Gemini/Claude requirements but can always
-  // FORCE a transform on. A manual flag is never silently turned off.
-  // Computed BEFORE the system-hoist so the hoist can be conditional on it.
+  // Role transforms: model auto-flags OR'd with preset manual flags (RisuAI LLMFlags
+  // parity); a manual flag is never silently turned off. Computed before the
+  // system-hoist so the hoist can be conditional on it.
   const autoFlags = getModelRoleFlags(body.model);
   const noSystemRole = assembled.flags.noSystemRole || !autoFlags.fullSystem;
   const forceAlternateRoles =
     assembled.flags.forceAlternateRoles || autoFlags.alternateRoles;
   const mustStartWithUserInput =
     assembled.flags.mustStartWithUserInput || autoFlags.userStub;
-  // GLM-family rejects a request ending on assistant. A prefill is an
-  // intentional trailing assistant turn, so the end-stub is suppressed when one
-  // is present (the prefill stays last). Auto-only: no manual preset toggle.
+  // GLM rejects requests ending on assistant; a prefill is intentional, so it suppresses the end-stub.
   const mustEndWithUserInput = autoFlags.endUserStub && !assembled.prefill;
 
   let processedMessages: typeof historyMessages = [];
   {
     const parts = assembled.promptParts;
-    // Hoist the leading run of system messages into the top-level `system`
-    // param ONLY when the model takes a real system role. Under noSystemRole
-    // (GLM/DeepSeek/Kimi), hoisting would route the leading system (mainPrompt +
-    // before_char lorebook char data + persona + description) into a `system:`
-    // param the model ignores -> char data silently lost. Keeping lead=0 leaves
-    // those parts in the array so stripSystemRole + mergeAlternateRoles fold
-    // them into the leading user blob (RisuAI reformater parity).
+    // Hoist leading system parts into the `system` param only when the model has a
+    // real system role; under noSystemRole the param is ignored and char data would
+    // be silently lost, so lead=0 keeps them in the array for stripSystemRole+merge.
     let lead = 0;
     if (!noSystemRole) {
       while (
@@ -312,10 +277,8 @@ export async function prepareChatRequest(
         lead++;
       }
     }
-    // Walk every template part in order. Each chatHistory marker splices its
-    // OWN slice of the history (RisuAI multiple-chat-card templates: e.g. old
-    // history before lore, the recent tail after). hadChat guards templates
-    // with no chat card: history is appended at the end so it is never lost.
+    // Each chatHistory marker splices its own history slice (RisuAI multi-chat-card
+    // templates); hadChat appends history at the end when no marker exists.
     let hadChat = false;
     for (let i = lead; i < parts.length; i++) {
       const p = parts[i];
@@ -333,48 +296,24 @@ export async function prepareChatRequest(
     }
     if (!hadChat) processedMessages.push(...historyMessages);
   }
-  // When we did NOT hoist (noSystemRole), the leading system content now lives
-  // in the messages array (and will be stripped into the user blob), so the
-  // top-level `system` param must be empty to avoid duplicating it.
+  // Unhoisted (noSystemRole): system content lives in the messages array, so the param must be empty.
   const effectiveSystem = noSystemRole ? undefined : assembled.system;
 
   // ORDER LOCKED, do not reshuffle:
-  //  1. noSystemRole BEFORE merge: stripped system-as-user must be eligible
-  //     to collapse with an adjacent user during merge.
-  //  2. postHistory AFTER history, BEFORE prefill: directives read last, but
-  //     prefill must remain the true trailing assistant turn.
-  //  3. prefill BEFORE merge: prefill is assistant role; if user ended on
-  //     assistant, mergeAlternateRoles collapses the two into one (Risu parity).
-  //  4. mergeAlternateRoles AFTER prefill: output strictly
-  //     user/assistant/user/assistant.
-  //  5. prependUserStub after merge so merge cannot fold the stub into a
-  //     following user message.
-  //  6. appendUserStub LAST (GLM "last role must be user"): if the conv ends on
-  //     assistant and no prefill made that intentional, close with a user stub.
-  //     Runs after merge so it can't be merged away; skipped when a prefill is
-  //     the deliberate trailing assistant turn.
-  // Strip output-only reasoning from history FIRST: an assistant turn's
-  // reasoning_content must never be echoed back as input (GLM rejects it).
-  // Runs before role transforms + the empty-drop so a reasoning-only turn
-  // collapses cleanly.
+  //  1. stripReasoningParts first: reasoning_content echoed as input is rejected (GLM).
+  //  2. noSystemRole before merge: stripped system-as-user must be merge-eligible.
+  //  3. prefill before merge: trailing assistant prefill collapses with an existing one (Risu parity).
+  //  4. mergeAlternateRoles after prefill: strict user/assistant alternation.
+  //  5. prependUserStub after merge so merge cannot fold the stub away.
+  //  6. appendUserStub last (GLM "last role must be user"); skipped when a prefill is the intentional trailing assistant.
   processedMessages = stripReasoningParts(processedMessages);
   if (noSystemRole) {
     processedMessages = stripSystemRole(processedMessages);
   }
-  // Drop fully-empty messages BEFORE merge (RisuAI parity: pushPrompts skips
-  // empties + openAI/requests.ts filters `content.trim() !== '' || multimodals`).
-  // CRITICAL ordering: dropping an empty message AFTER mergeAlternateRoles can
-  // re-create two consecutive same-role messages (e.g. user, empty-assistant,
-  // user -> drop -> user, user), which GLM/strict-alternation upstreams REJECT
-  // (the stream then errors with no finish frame -> no request log). Filtering
-  // first lets merge collapse the now-adjacent same-role turns cleanly.
+  // Drop empties BEFORE merge (RisuAI parity): dropping after merge can recreate
+  // consecutive same-role messages, which strict-alternation upstreams reject.
   processedMessages = dropEmptyMessages(processedMessages);
-  // (Post-history is now part of the template walk: parts after the chatHistory
-  // marker were already appended above, so no separate append here.)
-  // Prefill always lands (RisuAI parity): a trailing assistant prefill is a
-  // powerful jailbreak surface and must never be dropped. When the conversation
-  // already ends with an assistant turn, mergeAlternateRoles (below) folds the
-  // two assistant messages into one, preserving order.
+  // Prefill always lands (RisuAI parity); merge below folds a doubled trailing assistant.
   if (assembled.prefill) {
     processedMessages = appendPrefill(processedMessages, assembled.prefill);
   }
@@ -389,43 +328,34 @@ export async function prepareChatRequest(
   }
   const messagesForUpstream = processedMessages;
 
-  // Chat-variable writeback: macro expansion (setvar/addvar in the system prompt
-  // + message bodies) mutated assembled.vars.vars in place. If it now differs
-  // from the conversation's stored vars, ride the new map back on the finish
-  // metadata so the client persists it to conversationSettings.vars (RisuAI
-  // persists chat vars each turn; the server is read-only on conv state, so the
-  // client owns the write). Serialized once; null when unchanged.
+  // Chat-var writeback rides finish metadata; server is read-only on conv state,
+  // the client owns the persist. Null when unchanged.
   const varsChanged =
     JSON.stringify(assembled.vars.vars) !==
     (convCtx?.settings.vars ?? JSON.stringify({}));
   const varsWriteback = varsChanged
     ? JSON.stringify(assembled.vars.vars)
     : null;
-  // Per-user global vars writeback (setglobalvar). Compared against the client's
-  // input map; client persists to its per-user global store on change.
   const globalVarsOut = JSON.stringify(assembled.vars.globalVars ?? {});
   const globalVarsWriteback =
     globalVarsOut !== (globalVarsIn ?? JSON.stringify({}))
       ? globalVarsOut
       : null;
 
-  // Persisted as request-log row for upstream debugging (RisuAI Logs analog).
-  // Raw client messages are NOT echoed (they are prompt-sized and the
-  // post-assembly truth is finalMessages); the count keeps the shape visible.
+  // Request-log row (RisuAI Logs analog). Raw client messages not echoed
+  // (prompt-sized; finalMessages is the post-assembly truth).
   const debugRequestSnapshot = {
     requestBody: {
       model: body.model,
       messagesCount: body.messages.length,
-      // Present only on full-context sends; hash hits log the fingerprint
-      // (edit any bound entity to force a full send when debugging).
+      // Full-context sends only; hash hits log just the fingerprint.
       chatContext: body.chatContext,
       chatContextHash: body.chatContextHash,
       overrides: body.overrides,
       webSearch: body.webSearch,
       convId: body.convId,
     },
-    // Mirror what actually goes upstream: null for noSystemRole models (the
-    // system content was folded into the user blob instead of a system param).
+    // Mirrors upstream: null for noSystemRole models.
     assembledSystem: effectiveSystem ?? null,
     finalMessages: messagesForUpstream,
   };
@@ -435,7 +365,6 @@ export async function prepareChatRequest(
       Object.entries(o).filter(([, v]) => v !== undefined),
     ) as Partial<T>;
 
-  // Top-level streamText sampling params.
   const modelParams = defined({
     maxOutputTokens: effectiveMaxOutputTokens || undefined,
     temperature: assembled.sampling.temperature,
@@ -458,8 +387,7 @@ export async function prepareChatRequest(
         safetySettings: assembled.flags.geminiBlockOff
           ? GEMINI_SAFETY_OFF
           : undefined,
-        // Provider pin (OpenRouter shape). Passed through; honored only by
-        // upstream channels that route on it, a harmless no-op otherwise.
+        // Provider pin (OpenRouter shape); no-op on channels that don't route on it.
         provider: assembled.providerRouting,
       }),
     },

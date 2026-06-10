@@ -12,7 +12,8 @@ import {
 import { evictMediaBase64After } from "@/lib/db/client/sync/evict-media";
 import { enqueuePending } from "@/lib/db/client/sync/pending-sync";
 import { rpc } from "@/lib/rpc";
-import type { RpSyncKind, SyncMergeMode } from "@/lib/validation/sync";
+import type { SyncMergeMode } from "@/lib/validation/sync";
+import type { RpSyncKind } from "@/lib/validation/sync-constants";
 import { handleElysia } from "@/lib/utils/base";
 
 // Returns null on failure (already queued a pending-sync row via

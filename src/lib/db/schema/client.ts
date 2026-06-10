@@ -6,7 +6,8 @@ import {
   sqliteTable,
   text,
 } from "drizzle-orm/sqlite-core";
-import type { SyncKindName, SyncMergeMode } from "@/lib/validation/sync";
+import type { SyncMergeMode } from "@/lib/validation/sync";
+import type { SyncKindName } from "@/lib/validation/sync-constants";
 
 // Client-only schema (browser SQLocal). Server code must NEVER import this.
 

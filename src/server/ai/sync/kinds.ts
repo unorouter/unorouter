@@ -9,7 +9,7 @@ import {
   samplingPresets,
   userThemes,
 } from "@/lib/db/schema/shared";
-import type { SyncKindName } from "@/lib/validation/sync";
+import type { SyncKindName } from "@/lib/validation/sync-constants";
 import { and, eq, isNotNull, lt, type SQL } from "drizzle-orm";
 import type { SQLiteColumn, SQLiteTable } from "drizzle-orm/sqlite-core";
 

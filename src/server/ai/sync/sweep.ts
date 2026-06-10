@@ -1,5 +1,5 @@
 import { getDb } from "@/lib/db/server/client";
-import { SYNC_KINDS } from "@/lib/validation/sync";
+import { SYNC_KINDS } from "@/lib/validation/sync-constants";
 import { SYNC_KIND_META, expiredSyncFilter } from "./kinds";
 
 // Per-request memo so route-level .derive() can call sweepExpired once.

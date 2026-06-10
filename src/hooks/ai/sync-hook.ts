@@ -16,7 +16,7 @@ import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
-import type { SyncKindName } from "@/lib/validation/sync";
+import type { SyncKindName } from "@/lib/validation/sync-constants";
 import type { SyncBundle } from "@/server/ai/sync/bundles";
 import type { SyncStateBulk } from "@/server/ai/sync/state";
 import type { QueryClient } from "@tanstack/react-query";
