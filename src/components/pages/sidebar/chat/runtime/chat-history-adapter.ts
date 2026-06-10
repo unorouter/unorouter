@@ -122,9 +122,8 @@ export function createChatHistoryAdapter(
             item,
           ) as unknown as EncodedContent;
 
-          // editoutput regex scripts run on the finished assistant text before
-          // persist (RisuAI per-chunk reprocessing analog). Scripts come from the
-          // conversation's primary character. editdisplay runs at render time.
+          // Primary character's editoutput scripts run on the finished assistant
+          // text before persist; editdisplay runs at render time.
           let parts = content.parts;
           if (content.role === "assistant") {
             const scripts = await readConvRegexScripts(userId, id);
