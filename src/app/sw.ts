@@ -57,7 +57,11 @@ const serwist = new Serwist({
         !url.pathname.endsWith(".wasm"),
       handler: new CacheFirst({
         cacheName: "next-static",
-        plugins: [new ExpirationPlugin({ maxEntries: 256 })],
+        // Per-icon splitting puts ~900 hashed files in a build; deploys purge
+        // old chunks server-side, so open tabs depend on this cache to keep
+        // their build's lazy chunks clickable. 256 entries thrashed below one
+        // build's worth and clicks on stale tabs 404'd.
+        plugins: [new ExpirationPlugin({ maxEntries: 2000 })],
       }),
     },
     // Self-hosted fonts (next/font).

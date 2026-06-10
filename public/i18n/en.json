@@ -518,7 +518,8 @@
       "product": "product",
       "engineering": "engineering",
       "update": "update",
-      "community": "Community"
+      "community": "Community",
+      "comparison": "Comparison"
     },
     "POSTS": {
       "LAUNCH": {
