@@ -1,4 +1,4 @@
-import { mirrorConvMessagesIfSynced } from "@/hooks/ai/rp/shared";
+import { mirrorConvMessagesIfSynced } from "@/lib/db/client/sync/mirror";
 import type { ApiMessage, MessagePart } from "@/lib/ai/chat/messages";
 import {
   itemsToParts,

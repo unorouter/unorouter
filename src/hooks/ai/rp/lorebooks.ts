@@ -21,7 +21,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
 import { makeRpEntity } from "./factory";
-import { mirrorSyncedRow } from "./shared";
+import { mirrorSyncedRow } from "@/lib/db/client/sync/mirror";
 
 // Re-mirror lorebook bundle after entry mutation.
 async function mirrorLorebookIfSynced(userId: number, lorebookId: string) {

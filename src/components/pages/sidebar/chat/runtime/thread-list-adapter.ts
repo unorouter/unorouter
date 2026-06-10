@@ -1,7 +1,7 @@
 import {
   mirrorConvRowIfSynced,
   unmirrorIfSynced,
-} from "@/hooks/ai/rp/shared";
+} from "@/lib/db/client/sync/mirror";
 import { GUEST_USER_ID } from "@/lib/config/constants";
 import {
   deleteLocalConversation,

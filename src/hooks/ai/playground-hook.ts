@@ -3,7 +3,7 @@
 import { useElysiaQuery } from "@/hooks/use-elysia-query";
 
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
-import { mirrorSessionIfSynced, unmirrorIfSynced } from "@/hooks/ai/rp/shared";
+import { mirrorSessionIfSynced, unmirrorIfSynced } from "@/lib/db/client/sync/mirror";
 import { PLAYGROUND_SESSION_TITLE_MAX } from "@/components/pages/sidebar/playground/playground-constants";
 import { GUEST_USER_ID, RETENTION_MS } from "@/lib/config/constants";
 import {

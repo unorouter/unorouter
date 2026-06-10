@@ -33,7 +33,7 @@ import {
   mirrorConvMessagesIfSynced,
   mirrorConvRowIfSynced,
   unmirrorIfSynced,
-} from "@/hooks/ai/rp/shared";
+} from "@/lib/db/client/sync/mirror";
 import {
   keepPreviousData,
   useInfiniteQuery,

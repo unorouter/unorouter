@@ -234,7 +234,7 @@ API Key: YOUR_API_KEY`,
     badgeKey: "DOCS.ANYTHINGLLM.BADGE",
     iconKey: "anythingllm",
     logoSrc: "/icons/anythingllm.svg",
-    logoBg: true,
+    logoMono: true,
     color: guideColor("purple"),
     baseUrl: `${env.apiUrl}/v1`,
     compatibility: {

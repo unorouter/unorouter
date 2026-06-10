@@ -48,7 +48,7 @@ import { useSyncStateForRow } from "@/hooks/ai/sync-hook";
 import { GUEST_USER_ID } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
 import { upsertLocalTheme } from "@/lib/db/client/data/theme";
-import { mirrorSyncedRow } from "@/hooks/ai/rp/shared";
+import { mirrorSyncedRow } from "@/lib/db/client/sync/mirror";
 import { downloadJson } from "@/lib/utils/client";
 import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";

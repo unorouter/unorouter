@@ -10,7 +10,7 @@ import type { RpSyncKind } from "@/lib/validation/sync-constants";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
-import { mirrorSyncedRow, unmirrorIfSynced } from "./shared";
+import { mirrorSyncedRow, unmirrorIfSynced } from "@/lib/db/client/sync/mirror";
 type WithId = { id: string; syncExpiresAt?: Date | null };
 
 type EntityHooks<TItem extends WithId, TCreateBody, TUpdateBody> = {

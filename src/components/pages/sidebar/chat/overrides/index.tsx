@@ -19,7 +19,7 @@ import {
   useUpdateChatBindingsMutation,
   useUpdateChatSettingsMutation,
 } from "@/hooks/ai/rp/conversations";
-import { mirrorConvIfSynced } from "@/hooks/ai/rp/shared";
+import { mirrorConvIfSynced } from "@/lib/db/client/sync/mirror";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { usePricingQuery } from "@/hooks/models/pricing-hook";
 import { analytics } from "@/lib/analytics";

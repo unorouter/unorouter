@@ -26,7 +26,7 @@ import {
   mirrorConvIfSynced,
   mirrorSyncedRow,
   unmirrorIfSynced,
-} from "./shared";
+} from "@/lib/db/client/sync/mirror";
 
 export function useCardsQuery() {
   const auth = useAuthQuery();
