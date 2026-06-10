@@ -21,12 +21,21 @@ function getIcon(name: IconName, lib: IconLibraryName): IconComponent {
   if (hit) return hit;
 
   const Lazy = lazy(() =>
-    import("@/lib/config/icon-map").then((m) => {
-      const entry = m.ICON_MAP[name];
-      const loader = entry?.[lib] ?? entry?.lucide;
-      if (!loader) return { default: (() => null) as IconComponent };
-      return loader();
-    }),
+    import("@/lib/config/icon-map")
+      .then((m) => {
+        const entry = m.ICON_MAP[name];
+        const loader = entry?.[lib] ?? entry?.lucide;
+        if (!loader) return { default: (() => null) as IconComponent };
+        return loader();
+      })
+      // A chunk timeout on a slow network must degrade to the spinner glyph,
+      // not throw out of lazy() and trip the GLOBAL error boundary (observed
+      // as a full-app "Something went wrong" under throttled audits). Evict
+      // from the cache so the next render retries the import.
+      .catch(() => {
+        cache.delete(key);
+        return { default: LoaderIcon as IconComponent };
+      }),
   ) as IconComponent;
   cache.set(key, Lazy);
   return Lazy;
