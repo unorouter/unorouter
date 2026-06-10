@@ -14,14 +14,12 @@ import { buildPendingPushes, type ConvSyncHint } from "./build-payload";
 import { evictMediaBase64After } from "./evict-media";
 import { acquireLock, releaseLock } from "./resource-lock";
 
-// Outbox writer + drainer: the single push path to the sync API. Mutations
-// enqueue (kind, id, scope hint); the drainer rebuilds payloads from the
-// local DB and pushes them. Retries with backoff ride the same rows.
+// Outbox writer + drainer, the single push path to the sync API; the drainer
+// rebuilds payloads from the local DB. Retries with backoff ride the same rows.
 
 export const MAX_PENDING_ATTEMPTS = 5;
 
-// Exponential backoff schedule in ms keyed by current attempts count.
-// Index 0 means "no prior failure" (drain immediately).
+// Backoff ms by attempts count; index 0 = no prior failure, drain immediately.
 const BACKOFF_SCHEDULE_MS = [0, 30_000, 120_000, 480_000, 1_800_000];
 
 function nextAttemptDelay(attempts: number): number {

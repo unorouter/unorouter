@@ -9,9 +9,8 @@ import { logger } from "@/lib/utils/logger";
 import { drizzle } from "drizzle-orm/sqlite-proxy";
 import { LocalDbConnection, openMigratedSql } from "./connection";
 
-// Per-user OPFS file; lazy WASM import. Type aug: `@/lib/types/sqlocal.d.ts`.
-// Opening/salvage/self-heal live in connection.ts; this file is the cache +
-// the LocalClient surface wiring.
+// Per-user OPFS file; lazy WASM import. Open/salvage/self-heal live in
+// connection.ts; this file is the cache + LocalClient surface wiring.
 
 let cached = new Map<number, Promise<LocalClient>>();
 

@@ -1,8 +1,7 @@
 import type { PostHog } from "posthog-js";
 
-// Lazy proxy keeping posthog-js (~63KiB gzip) out of every-page bundles.
-// instrumentation-client.ts dynamically imports + inits it in prod when
-// enabled, then registers the instance; calls made before that are queued.
+// Lazy proxy keeping posthog-js (~63KiB gzip) out of every-page bundles;
+// calls before instrumentation-client registers the instance are queued.
 let instance: PostHog | null = null;
 const queue: Array<(p: PostHog) => void> = [];
 

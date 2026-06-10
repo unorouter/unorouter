@@ -60,11 +60,8 @@ const CATEGORY_ICON: Record<SetupCategory, string> = {
   cli: "terminal",
 };
 
-/**
- * "Pick the client you are actually using" - category cards (free-ai style)
- * instead of one card per tool. Each card links to its docs category section.
- * Shared by the homepage and the pricing page.
- */
+// Category cards (not one per tool) linking to docs category sections; shared
+// by homepage and pricing.
 export async function IntegrationBanner() {
   const t = await getTranslations();
 

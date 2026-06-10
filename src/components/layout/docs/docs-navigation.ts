@@ -47,12 +47,8 @@ export const docsNavItemsOverview: DocsNavItem[] = [
   },
 ];
 
-/**
- * Sidebar groups derived from SETUP_GUIDES (one group per non-empty category,
- * in CATEGORY_ORDER). Replaces the hand-maintained CLI/Roleplay arrays: adding
- * a guide to SETUP_GUIDES now updates the sidebar automatically. The "general"
- * category surfaces here once it has guides.
- */
+// Sidebar groups derived from SETUP_GUIDES (one per non-empty category);
+// adding a guide updates the sidebar automatically.
 export const docsNavGroups: DocsNavGroup[] = (() => {
   const byCategory = setupGuidesByCategory();
   return CATEGORY_ORDER.flatMap((category) => {

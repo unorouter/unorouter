@@ -17,11 +17,8 @@ import { PresetForm } from "./form";
 import { useRpExportMutation } from "@/hooks/ai/rp/use-export-mutation";
 import { RpEntityPage } from "../shared/rp-entity-page";
 
-/**
- * Dedicated `/chat/presets` page. Sidebar icon links here. Replaces the
- * previous Dialog flow so power-users have more room for prompt + flag
- * editing. Tabs (Basic/Advanced) live inside <PresetForm>.
- */
+// Dedicated /chat/presets page (replaced the Dialog flow for editing room);
+// Basic/Advanced tabs live inside PresetForm.
 export function PresetsPage() {
   const t = useTranslations();
   const presetsQuery = usePresetsQuery();

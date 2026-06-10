@@ -6,9 +6,8 @@ import { SERVER_URL_KEY } from "./lib/config/constants";
 // Public endpoints embedded on third-party origins (badges, OG images).
 const PUBLIC_CROSS_ORIGIN = ["/api/ops/badge"];
 
-// Paths stamped same-origin so COEP-isolated pages (chat, playground) can
-// load them. Dev/turbopack bypasses next.config.ts headers(), so middleware
-// applies the same policy.
+// Stamped same-origin so COEP-isolated pages can load them; middleware applies
+// it because dev/turbopack bypasses next.config.ts headers().
 const ISOLATED_PATHS = ["/_next/", "/api/", "/sqlocal/"];
 
 export default function proxy(request: NextRequest) {
@@ -37,9 +36,8 @@ export default function proxy(request: NextRequest) {
     return res;
   }
 
-  // Stamp the request URL into a REQUEST header before next-intl runs so server
-  // components can read it via `headers().get(SERVER_URL_KEY)` (needed by the
-  // sidebar layout to build /login?redirect=<current path>).
+  // Stamp the request URL so server components can read it (sidebar layout's
+  // /login?redirect=<path>).
   request.headers.set(SERVER_URL_KEY, request.url);
   return createMiddleware(routing)(request);
 }

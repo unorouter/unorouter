@@ -44,9 +44,8 @@ const xPaymentInfo = (
 export const billingRoute = new Elysia({ prefix: "/core" })
   .derive(deriveUpstream)
   .get("/topup-info", async ({ upstream }) => {
-    // Guest branch is user-independent and cacheable; logged-in responses
-    // pass through uncached (the Data Cache key ignores headers, so caching
-    // a cookie-authed call would leak one user's response to others).
+    // Guest branch cacheable; logged-in uncached (Data Cache keys by URL only,
+    // a cached cookie-authed response would leak across users).
     const hasUser = !!upstream.headers.cookie;
     const res = await getTopUpInfo(
       hasUser

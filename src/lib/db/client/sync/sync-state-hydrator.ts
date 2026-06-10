@@ -274,9 +274,8 @@ async function reconcileKind<K extends SyncKindName>(
 ): Promise<{ skippedLocalNewer: number; skippedRows: SkippedRow[] }> {
   let skippedLocalNewer = 0;
   const skippedRows: SkippedRow[] = [];
-  // Snapshot local updatedAt before network (mutex-safe, consistent staleness
-  // check). ONE list read per kind; a per-row read would re-scan the whole
-  // table remote.length times.
+  // Snapshot local updatedAt before network; one list read per kind (per-row
+  // would re-scan the table remote.length times).
   const localById = new Map<string, number>(
     ((await LOCAL_LIST_READERS[kind]?.(userId)) ?? []).map((r) => [
       r.id,
@@ -530,9 +529,8 @@ async function rehydrateMediaBatch(
   return out;
 }
 
-// Asymmetric base64 rule (see media schema): server pulls carry dataBase64=null.
-// Never overwrite present local cache (transient R2 failure preserves bytes).
-// Fetch R2 only on first sight.
+// Asymmetric base64 rule (see media schema): pulls carry dataBase64=null; fetch
+// R2 only on first sight, never overwrite a present local cache.
 async function rehydrateMedia(
   userId: number,
   row: MediaRow,

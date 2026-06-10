@@ -7,9 +7,8 @@ import { logger } from "@/lib/utils/logger";
 import { getLocalDb, resetLocalDbCache } from "../client";
 import { copyAllTables } from "./copy";
 
-// Single-flight per target user. The hydrator runs this as its stage 0 (the
-// only call site), so stage 1 always seeds the query cache from the
-// post-migration DB and no separate invalidation is needed.
+// Single-flight per target user; hydrator stage 0 is the only call site, so
+// stage 1 always reads the post-migration DB.
 const guestMigrationPromises = new Map<number, Promise<void>>();
 
 // Checks OPFS for the guest DB file WITHOUT creating it. Calling getLocalDb(0)
