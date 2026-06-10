@@ -49,7 +49,7 @@ export function Footer() {
               <LogoImage />
               <CompanyName className="text-2xl" />
             </div>
-            <p className="text-muted-foreground mx-auto mb-6 max-w-md md:mx-0">
+            <p className="text-foreground/70 mx-auto mb-6 max-w-md md:mx-0">
               {t("FOOTER.DESCRIPTION")}
             </p>
             <div className="flex justify-center space-x-3 md:justify-start">
@@ -128,7 +128,7 @@ export function Footer() {
                     <Link
                       href={item.href}
                       className={cn(
-                        "text-muted-foreground hover:text-foreground transition-colors",
+                        "text-foreground/70 hover:text-foreground transition-colors",
                         isActiveLink(pathname, item.href) &&
                           "text-primary font-medium",
                       )}
@@ -149,7 +149,7 @@ export function Footer() {
                       href={item.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-muted-foreground hover:text-foreground inline-flex items-center justify-center gap-2 transition-colors md:justify-start"
+                      className="text-foreground/70 hover:text-foreground inline-flex items-center justify-center gap-2 transition-colors md:justify-start"
                       onClick={() =>
                         analytics.navigation.footerLinkClicked({
                           key: item.key,
@@ -174,7 +174,7 @@ export function Footer() {
                     <Link
                       href={item.href}
                       className={cn(
-                        "text-muted-foreground hover:text-foreground transition-colors",
+                        "text-foreground/70 hover:text-foreground transition-colors",
                         isActiveLink(pathname, item.href) &&
                           "text-primary font-medium",
                       )}
@@ -196,7 +196,7 @@ export function Footer() {
           {/* Contact Section */}
           <div className="col-span-1 text-center md:text-left">
             <h3 className="mb-4 font-semibold">{t("FOOTER.CONTACT_TITLE")}</h3>
-            <div className="text-muted-foreground space-y-2 text-sm">
+            <div className="text-foreground/70 space-y-2 text-sm">
               <p>{t("FOOTER.CONTACT_SUBTITLE")}</p>
               <NextLink
                 href={`mailto:${env.supportEmail}`}
@@ -212,7 +212,7 @@ export function Footer() {
         {/* Copyright */}
         <div className="border-muted/50 relative border-t pt-8">
           <div className="via-primary/70 absolute top-0 left-1/2 h-px w-1/2 -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"></div>
-          <div className="text-muted-foreground relative flex items-center justify-center text-sm">
+          <div className="text-foreground/70 relative flex items-center justify-center text-sm">
             <p className="text-center" suppressHydrationWarning>
               {t("FOOTER.COPYRIGHT", {
                 year: String(dayjs().year()),
@@ -223,7 +223,7 @@ export function Footer() {
               type="button"
               onClick={() => setBreakoutOpen(true)}
               aria-label={t("FOOTER.EASTER_EGG_LABEL")}
-              className="text-muted-foreground/30 hover:text-primary absolute right-0 font-mono text-xs leading-none transition-colors"
+              className="text-foreground/60 hover:text-primary absolute right-0 font-mono text-xs leading-none transition-colors"
             >
               ▞
             </button>
