@@ -139,7 +139,7 @@ function ChatRuntimeHook() {
       const convId = chatStore.get(convIdAtom);
       if (convId) {
         const lockKey = `conv:${convId}`;
-        if (!acquireLock(lockKey)) {
+        if (!(await acquireLock(lockKey))) {
           toast.warning(t("CHAT.GENERATION_LOCKED_OTHER_TAB"));
           return;
         }

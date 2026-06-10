@@ -21,7 +21,20 @@ import {
   readLocalPersonas,
   readLocalPresets,
 } from "../data/rp";
+import {
+  cards,
+  characters,
+  conversations,
+  lorebooks,
+  personas,
+  playgroundSessions,
+  samplingPresets,
+  userThemes,
+} from "@/lib/db/schema/shared";
+import { eq, isNotNull } from "drizzle-orm";
+import { getLocalDb } from "../client";
 import { applyBundle } from "./apply-bundle";
+import { clearPending } from "./pending-sync";
 
 type RemoteState = {
   id: string;
@@ -83,12 +96,21 @@ async function reconcileKind<K extends SyncKindName>(
   const skippedRows: SkippedRow[] = [];
   // Snapshot local updatedAt before network; one list read per kind (per-row
   // would re-scan the table remote.length times).
+  const localRows = (await LOCAL_LIST_READERS[kind]?.(userId)) ?? [];
   const localById = new Map<string, number>(
-    ((await LOCAL_LIST_READERS[kind]?.(userId)) ?? []).map((r) => [
-      r.id,
-      new Date(r.updatedAt).getTime(),
-    ]),
+    localRows.map((r) => [r.id, new Date(r.updatedAt).getTime()]),
   );
+
+  // Removal propagation: the state list is authoritative for what's synced.
+  // A locally-synced row absent from it was unsynced on another device (or
+  // TTL-purged); clear the local flag so the mirror gate closes instead of
+  // the next mutation push silently re-enrolling the row.
+  const remoteIds = new Set(remote.map((r) => r.id));
+  for (const r of localRows) {
+    if (r.syncExpiresAt == null || remoteIds.has(r.id)) continue;
+    await clearLocalSyncFlag(userId, kind, r.id);
+    await clearPending(userId, kind, r.id);
+  }
   const candidates = remote.map((remoteRow) => {
     const localUpdatedAt = localById.get(remoteRow.id);
     return {
@@ -188,11 +210,14 @@ async function fetchBundleChunk<K extends SyncKindName>(
   });
 }
 
+type LocalListRow = {
+  id: string;
+  updatedAt: Date;
+  syncExpiresAt?: Date | null;
+};
+
 const LOCAL_LIST_READERS: Partial<
-  Record<
-    SyncKindName,
-    (uid: number) => Promise<Array<{ id: string; updatedAt: Date }> | null>
-  >
+  Record<SyncKindName, (uid: number) => Promise<LocalListRow[] | null>>
 > = {
   characters: readLocalCharacters,
   personas: readLocalPersonas,
@@ -205,6 +230,45 @@ const LOCAL_LIST_READERS: Partial<
   // always-stale, re-pulling (and clobbering) the local theme every hydrate.
   theme: async (uid) => {
     const row = await readLocalThemeRow(uid);
-    return row ? [{ id: String(uid), updatedAt: row.updatedAt }] : [];
+    return row
+      ? [
+          {
+            id: String(uid),
+            updatedAt: row.updatedAt,
+            syncExpiresAt: row.syncExpiresAt,
+          },
+        ]
+      : [];
   },
 };
+
+const SYNC_FLAG_TABLES = {
+  characters,
+  personas,
+  lorebooks,
+  presets: samplingPresets,
+  cards,
+  conversations,
+  playgroundSessions,
+} as const;
+
+async function clearLocalSyncFlag(
+  userId: number,
+  kind: SyncKindName,
+  id: string,
+): Promise<void> {
+  const local = await getLocalDb(userId);
+  if (!local) return;
+  if (kind === "theme") {
+    await local.db
+      .update(userThemes)
+      .set({ syncExpiresAt: null })
+      .where(isNotNull(userThemes.syncExpiresAt));
+    return;
+  }
+  const table = SYNC_FLAG_TABLES[kind];
+  await local.db
+    .update(table)
+    .set({ syncExpiresAt: null })
+    .where(eq(table.id, id));
+}

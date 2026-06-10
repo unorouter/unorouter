@@ -261,7 +261,7 @@ export async function drainPending(userId: number): Promise<DrainResult> {
 // Lock-guarded drain shared by the scheduler tick and drainSoon.
 export async function safeDrain(userId: number): Promise<void> {
   const lockKey = `drain:${userId}`;
-  if (!acquireLock(lockKey)) return;
+  if (!(await acquireLock(lockKey))) return;
   try {
     await drainPending(userId);
   } catch (err) {
