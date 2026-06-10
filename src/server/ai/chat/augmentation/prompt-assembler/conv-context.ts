@@ -52,9 +52,12 @@ export async function loadConvContext(userId: number, convId: string) {
           .select()
           .from(characters)
           .where(
-            inArray(
-              characters.id,
-              charBindings.map((b) => b.characterId),
+            and(
+              eq(characters.userId, userId),
+              inArray(
+                characters.id,
+                charBindings.map((b) => b.characterId),
+              ),
             ),
           )
       : [];
@@ -75,7 +78,12 @@ export async function loadConvContext(userId: number, convId: string) {
       ? db
           .select()
           .from(personas)
-          .where(eq(personas.id, settings.personaId))
+          .where(
+            and(
+              eq(personas.id, settings.personaId),
+              eq(personas.userId, userId),
+            ),
+          )
           .limit(1)
           .then((r) => r[0])
       : undefined,
@@ -83,7 +91,12 @@ export async function loadConvContext(userId: number, convId: string) {
       ? db
           .select()
           .from(samplingPresets)
-          .where(eq(samplingPresets.id, settings.presetId))
+          .where(
+            and(
+              eq(samplingPresets.id, settings.presetId),
+              eq(samplingPresets.userId, userId),
+            ),
+          )
           .limit(1)
           .then((r) => r[0])
       : undefined,
@@ -96,20 +109,35 @@ export async function loadConvContext(userId: number, convId: string) {
     .orderBy(asc(conversationLorebooks.orderIndex));
   const lorebookIds = lbBindings.map((b) => b.lorebookId);
 
-  const [lbRows, lbEntries] =
+  // Lorebook entries inherit ownership from the parent lorebook; scope the
+  // parents and narrow the entry scan to surviving ids.
+  const lbRowsRaw =
     lorebookIds.length > 0
-      ? await Promise.all([
-          db.select().from(lorebooks).where(inArray(lorebooks.id, lorebookIds)),
-          db
+      ? await db
+          .select()
+          .from(lorebooks)
+          .where(
+            and(
+              eq(lorebooks.userId, userId),
+              inArray(lorebooks.id, lorebookIds),
+            ),
+          )
+      : [];
+  const ownedLbIds = lbRowsRaw.map((lb) => lb.id);
+  const [lbRows, lbEntries] =
+    ownedLbIds.length > 0
+      ? [
+          lbRowsRaw,
+          await db
             .select()
             .from(lorebookEntries)
             .where(
               and(
-                inArray(lorebookEntries.lorebookId, lorebookIds),
+                inArray(lorebookEntries.lorebookId, ownedLbIds),
                 eq(lorebookEntries.enabled, true),
               ),
             ),
-        ])
+        ]
       : [[], []];
 
   return { settings, boundCharacters, persona, preset, lbRows, lbEntries };
