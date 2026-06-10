@@ -86,8 +86,10 @@ async function buildUrls(): Promise<string[]> {
   return [...new Set([...fixed, ...(await sitemapSamples())])];
 }
 
-// Mobile only; add "desktop" back if ever needed.
-const formFactors: FormFactor[] = ["mobile"];
+// Mobile by default; FORM_FACTORS=desktop or FORM_FACTORS=mobile,desktop overrides.
+const formFactors: FormFactor[] = (process.env.FORM_FACTORS?.split(",") as
+  | FormFactor[]
+  | undefined) ?? ["mobile"];
 const themes: Theme[] = ["dark", "light"];
 
 const variants: Variant[] = formFactors.flatMap((ff) =>
