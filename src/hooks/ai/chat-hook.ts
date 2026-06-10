@@ -51,6 +51,26 @@ type EditMessageBody = {
   }>;
 };
 
+// Shared mutation scaffold: resolve userId, i18n error toast, invalidate +
+// broadcast the per-args keys on success. Every chat mutation rides this.
+function useChatMutation<TArgs, TData>(
+  fn: (userId: number, args: TArgs) => Promise<TData>,
+  keysFor: (args: TArgs) => readonly (readonly unknown[])[],
+  onAfter?: () => void,
+) {
+  const t = useTranslations();
+  const qc = useQueryClient();
+  const auth = useAuthQuery();
+  return useMutation({
+    mutationFn: (args: TArgs) => fn(auth.data?.id ?? GUEST_USER_ID, args),
+    onError: (e) => handleError(e, t),
+    onSuccess: (_data, args) => {
+      invalidateAndBroadcast(qc, keysFor(args) as string[][]);
+      onAfter?.();
+    },
+  });
+}
+
 export function useConversationsInfiniteQuery(keyword?: string) {
   const auth = useAuthQuery();
   return useInfiniteQuery({
@@ -123,58 +143,36 @@ export function useMessagesInfiniteQuery(id?: string) {
 }
 
 export function useUpdateConversationMutation() {
-  const queryClient = useQueryClient();
-  const auth = useAuthQuery();
-  const t = useTranslations();
-
-  return useMutation({
-    mutationFn: async (args: ConvIdArg & { body: UpdateConvBody }) => {
-      const id = args.id;
-      const userId = auth.data?.id ?? GUEST_USER_ID;
-      const existing = await readLocalConversation(userId, id);
-      const now = dayjs().toDate();
+  return useChatMutation(
+    async (userId, args: ConvIdArg & { body: UpdateConvBody }) => {
+      const existing = await readLocalConversation(userId, args.id);
       await upsertLocalConversation(userId, {
         ...(existing ?? {}),
-        id,
+        id: args.id,
         ...args.body,
-        updatedAt: now,
+        updatedAt: dayjs().toDate(),
       });
-      if (userId > GUEST_USER_ID) await mirrorConvIfSynced(userId, id);
-      return { id, ...args.body };
+      if (userId > GUEST_USER_ID) await mirrorConvIfSynced(userId, args.id);
+      return { id: args.id, ...args.body };
     },
-    onError: (e) => handleError(e, t),
-    onSuccess: (_data, args) => {
-      const keys =
-        args.body.title !== undefined
-          ? [queryKeys.chatMeta(args.id), queryKeys.conversations()]
-          : [queryKeys.chatMeta(args.id)];
-      invalidateAndBroadcast(queryClient, keys);
-    },
-  });
+    (args) =>
+      args.body.title !== undefined
+        ? [queryKeys.chatMeta(args.id), queryKeys.conversations()]
+        : [queryKeys.chatMeta(args.id)],
+  );
 }
 
 export function useDeleteConversationMutation() {
-  const t = useTranslations();
-  const queryClient = useQueryClient();
-  const auth = useAuthQuery();
-  return useMutation({
-    mutationFn: async (args: ConvIdArg) => {
-      const id = args.id;
-      const userId = auth.data?.id ?? GUEST_USER_ID;
-      const existing = await readLocalConversation(userId, id);
+  return useChatMutation(
+    async (userId, args: ConvIdArg) => {
+      const existing = await readLocalConversation(userId, args.id);
       const wasSynced = existing?.syncExpiresAt != null;
-      await deleteLocalConversation(userId, id);
-      await unmirrorIfSynced(userId, "conversations", id, wasSynced);
-      return { id };
+      await deleteLocalConversation(userId, args.id);
+      await unmirrorIfSynced(userId, "conversations", args.id, wasSynced);
+      return { id: args.id };
     },
-    onError: (e) => handleError(e, t),
-    onSuccess: () => {
-      invalidateAndBroadcast(queryClient, [
-        queryKeys.conversations(),
-        queryKeys.syncState(),
-      ]);
-    },
-  });
+    () => [queryKeys.conversations(), queryKeys.syncState()],
+  );
 }
 
 export function useTaskStatusQuery(taskId: string, enabled = false) {
@@ -189,17 +187,16 @@ export function useTaskStatusQuery(taskId: string, enabled = false) {
 }
 
 export function useFinalizeTaskMutation() {
-  const t = useTranslations();
-  const qc = useQueryClient();
-  const auth = useAuthQuery();
-  return useMutation({
-    mutationFn: async (args: {
-      convId: string;
-      msgId: string;
-      taskId: string;
-      resultUrl: string;
-    }) => {
-      const userId = auth.data?.id ?? GUEST_USER_ID;
+  return useChatMutation(
+    async (
+      userId,
+      args: {
+        convId: string;
+        msgId: string;
+        taskId: string;
+        resultUrl: string;
+      },
+    ) => {
       const data = handleElysia(
         await rpc.api.ai.chat({ id: args.convId }).task.finalize.post({
           msgId: args.msgId,
@@ -226,25 +223,16 @@ export function useFinalizeTaskMutation() {
       }
       return data;
     },
-    onError: (e) => handleError(e, t),
-    onSuccess: (_data, args) => {
-      invalidateAndBroadcast(qc, [queryKeys.chatMessages(args.convId)]);
-    },
-  });
+    (args) => [queryKeys.chatMessages(args.convId)],
+  );
 }
 
 export function useEditMessageMutation() {
-  const t = useTranslations();
-  const qc = useQueryClient();
-  const auth = useAuthQuery();
-  return useMutation({
-    onError: (e) => handleError(e, t),
-    mutationFn: async (args: {
-      convId: string;
-      msgId: string;
-      body: EditMessageBody;
-    }) => {
-      const userId = auth.data?.id ?? GUEST_USER_ID;
+  return useChatMutation(
+    async (
+      userId,
+      args: { convId: string; msgId: string; body: EditMessageBody },
+    ) => {
       const itemsWithMsg = args.body.items.map((it, seq) => ({
         id: it.id ?? uid(),
         messageId: args.msgId,
@@ -276,40 +264,25 @@ export function useEditMessageMutation() {
       }
       return { items: itemsWithMsg };
     },
-    onSuccess: (_data, args) => {
-      invalidateAndBroadcast(qc, [queryKeys.chatMessages(args.convId)]);
-    },
-  });
+    (args) => [queryKeys.chatMessages(args.convId)],
+  );
 }
 
 export function useClearConversationMutation() {
-  const t = useTranslations();
-  const queryClient = useQueryClient();
-  const auth = useAuthQuery();
-  return useMutation({
-    onError: (e) => handleError(e, t),
-    mutationFn: async (args: ConvIdArg) => {
-      const id = args.id;
-      const userId = auth.data?.id ?? GUEST_USER_ID;
-      await deleteLocalMessagesForConv(userId, id);
-      if (userId > GUEST_USER_ID) await mirrorConvIfSynced(userId, id);
-      return { id };
+  return useChatMutation(
+    async (userId, args: ConvIdArg) => {
+      await deleteLocalMessagesForConv(userId, args.id);
+      if (userId > GUEST_USER_ID) await mirrorConvIfSynced(userId, args.id);
+      return { id: args.id };
     },
-    onSuccess: (_data, args) => {
-      invalidateAndBroadcast(queryClient, [queryKeys.chatMessages(args.id)]);
-      chatStore.get(chatHelpersAtom)?.setMessages(() => []);
-    },
-  });
+    (args) => [queryKeys.chatMessages(args.id)],
+    () => chatStore.get(chatHelpersAtom)?.setMessages(() => []),
+  );
 }
 
 export function useDuplicateConversationMutation() {
-  const t = useTranslations();
-  const queryClient = useQueryClient();
-  const auth = useAuthQuery();
-  return useMutation({
-    onError: (e) => handleError(e, t),
-    mutationFn: async (args: ConvIdArg) => {
-      const userId = auth.data?.id ?? GUEST_USER_ID;
+  return useChatMutation(
+    async (userId, args: ConvIdArg) => {
       const srcId = args.id;
       const bundle = await readLocalConversationBundle(userId, srcId);
       if (!bundle) throw new Error("not-found");
@@ -364,32 +337,21 @@ export function useDuplicateConversationMutation() {
       }
       return newConv;
     },
-    onSuccess: () => {
-      invalidateAndBroadcast(queryClient, [queryKeys.conversations()]);
-    },
-  });
+    () => [queryKeys.conversations()],
+  );
 }
 
 export function useConversationMarkdown() {
-  const t = useTranslations();
-  return useMutation({
-    onError: (e) => handleError(e, t),
-    mutationFn: async (args: ConvIdArg) => {
-      return handleElysia(
-        await rpc.api.ai.chat({ id: args.id }).markdown.get(),
-      );
-    },
-  });
+  return useChatMutation(
+    async (_userId, args: ConvIdArg) =>
+      handleElysia(await rpc.api.ai.chat({ id: args.id }).markdown.get()),
+    () => [],
+  );
 }
 
 export function useSetActiveBranchMutation() {
-  const t = useTranslations();
-  const qc = useQueryClient();
-  const auth = useAuthQuery();
-  return useMutation({
-    onError: (e) => handleError(e, t),
-    mutationFn: async (args: { convId: string; msgId: string }) => {
-      const userId = auth.data?.id ?? GUEST_USER_ID;
+  return useChatMutation(
+    async (userId, args: { convId: string; msgId: string }) => {
       const msgs = (await readLocalMessages(userId, args.convId)) ?? [];
       const target = msgs.find((m) => m.id === args.msgId);
       const parentId = target?.parentId ?? null;
@@ -416,20 +378,13 @@ export function useSetActiveBranchMutation() {
       }
       return { id: args.msgId };
     },
-    onSuccess: (_data, args) => {
-      invalidateAndBroadcast(qc, [queryKeys.chatMessages(args.convId)]);
-    },
-  });
+    (args) => [queryKeys.chatMessages(args.convId)],
+  );
 }
 
 export function useDeleteMessageMutation() {
-  const t = useTranslations();
-  const qc = useQueryClient();
-  const auth = useAuthQuery();
-  return useMutation({
-    onError: (e) => handleError(e, t),
-    mutationFn: async (args: { convId: string; msgId: string }) => {
-      const userId = auth.data?.id ?? GUEST_USER_ID;
+  return useChatMutation(
+    async (userId, args: { convId: string; msgId: string }) => {
       // Splice-delete: rewire children parentId locally, then drop the row.
       const msgs = (await readLocalMessages(userId, args.convId)) ?? [];
       const target = msgs.find((m) => m.id === args.msgId);
@@ -448,8 +403,6 @@ export function useDeleteMessageMutation() {
       if (userId > GUEST_USER_ID) await mirrorConvIfSynced(userId, args.convId);
       return { id: args.msgId };
     },
-    onSuccess: (_data, args) => {
-      invalidateAndBroadcast(qc, [queryKeys.chatMessages(args.convId)]);
-    },
-  });
+    (args) => [queryKeys.chatMessages(args.convId)],
+  );
 }

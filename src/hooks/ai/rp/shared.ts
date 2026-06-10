@@ -63,17 +63,26 @@ export async function unmirrorIfSynced(
   await deleteSyncedRow(userId, kind, id);
 }
 
+// Common gate for the conv mirrors: a concrete userId AND a synced local row.
+async function syncedConvUser(
+  userId: number | undefined,
+  convId: string,
+): Promise<number | null> {
+  if (!userId) return null;
+  const conv = await readLocalConversation(userId, convId);
+  return conv?.syncExpiresAt != null ? userId : null;
+}
+
 export async function mirrorConvIfSynced(
   userId: number | undefined,
   convId: string,
 ) {
-  const conv = await readLocalConversation(userId, convId);
-  if (conv?.syncExpiresAt == null) return;
-  const bundle = await readLocalConversationBundle(userId, convId);
+  const uid = await syncedConvUser(userId, convId);
+  if (uid == null) return;
+  const bundle = await readLocalConversationBundle(uid, convId);
   if (!bundle) return;
-  if (!userId) return;
-  const result = await mirrorSyncedRow(userId, "conversations", convId, bundle);
-  await evictMediaBase64After(userId, result);
+  const result = await mirrorSyncedRow(uid, "conversations", convId, bundle);
+  await evictMediaBase64After(uid, result);
 }
 
 // Shallow conv-row patch (rename, title); skips bundle rebuild.
@@ -82,10 +91,8 @@ export async function mirrorConvPatchIfSynced(
   convId: string,
   patch: { conversation: Record<string, unknown> },
 ) {
-  const conv = await readLocalConversation(userId, convId);
-  if (conv?.syncExpiresAt == null) return;
-  if (!userId) return;
-  await mirrorSyncedRow(userId, "conversations", convId, patch);
+  const uid = await syncedConvUser(userId, convId);
+  if (uid != null) await mirrorSyncedRow(uid, "conversations", convId, patch);
 }
 
 // Settings-only mirror in upsert mode; preserves messages/media/chars.
@@ -94,11 +101,10 @@ export async function mirrorConvSettingsIfSynced(
   convId: string,
   settings: Record<string, unknown>,
 ) {
-  const conv = await readLocalConversation(userId, convId);
-  if (conv?.syncExpiresAt == null) return;
-  if (!userId) return;
+  const uid = await syncedConvUser(userId, convId);
+  if (uid == null) return;
   await mirrorSyncedRow(
-    userId,
+    uid,
     "conversations",
     convId,
     { settings: { ...settings, convId } },
@@ -118,10 +124,9 @@ export async function mirrorConvDeltaIfSynced(
   patch: ConvDeltaPatch,
   mergeMode: Exclude<SyncMergeMode, "replace">,
 ) {
-  const conv = await readLocalConversation(userId, convId);
-  if (conv?.syncExpiresAt == null) return;
-  if (!userId) return;
-  await mirrorSyncedRow(userId, "conversations", convId, patch, mergeMode);
+  const uid = await syncedConvUser(userId, convId);
+  if (uid != null)
+    await mirrorSyncedRow(uid, "conversations", convId, patch, mergeMode);
 }
 
 // Playground mirror analog of mirrorConvIfSynced.

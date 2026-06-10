@@ -21,6 +21,7 @@ import {
   samplingPresets,
   userThemes,
 } from "@/lib/db/schema/shared";
+import { CONVERSATION_SETTINGS_KEYS } from "@/lib/db/conversation-settings";
 import { uid } from "@/lib/utils/base";
 import {
   characterBody,
@@ -71,6 +72,58 @@ export function stripUndefined<T extends Record<string, unknown>>(
     if (obj[k] !== undefined) out[k] = obj[k];
   }
   return out;
+}
+
+// PATCH set from a loose payload: only the fields the shared validation schema
+// declares, only when present. Keeps update field lists in lockstep with the
+// schema instead of hand-maintained per handler.
+function pickSchemaFields(
+  body: Record<string, unknown>,
+  schema: { properties: Record<string, unknown> },
+): Record<string, unknown> {
+  return stripUndefined(
+    Object.fromEntries(Object.keys(schema.properties).map((k) => [k, body[k]])),
+  );
+}
+
+// Exists-check then insert-or-update for an (id, userId)-scoped table. NOT
+// onConflictDoUpdate: the PK is the global `id`, so a conflict-update would let
+// a payload carrying someone else's entity id write across users; the userId
+// in the WHERE keeps both branches scoped.
+type ScopedTable =
+  | typeof characters
+  | typeof personas
+  | typeof lorebooks
+  | typeof samplingPresets
+  | typeof cards
+  | typeof playgroundSessions;
+async function upsertScoped(
+  tx: SyncTx,
+  table: ScopedTable,
+  userId: number,
+  id: string,
+  expiresAt: Date,
+  insertValues: Record<string, unknown>,
+  updateSet: Record<string, unknown>,
+): Promise<void> {
+  const where = and(eq(table.id, id), eq(table.userId, userId));
+  const existing = await tx
+    .select({ id: table.id })
+    .from(table)
+    .where(where)
+    .limit(1);
+  if (existing.length === 0) {
+    await tx.insert(table).values(insertValues as never);
+  } else {
+    await tx
+      .update(table)
+      .set({
+        ...updateSet,
+        syncExpiresAt: expiresAt,
+        updatedAt: new Date(),
+      } as never)
+      .where(where);
+  }
 }
 
 // Insert-value builders: map a loose sync payload to a typed insert row.
@@ -161,43 +214,22 @@ async function rowExists(
   return rows.length > 0;
 }
 
-async function insertReferencedCharacter(
+async function insertReferencedEntity(
   tx: SyncTx,
+  table: typeof characters | typeof personas | typeof samplingPresets,
   userId: number,
   expiresAt: Date,
   body: Record<string, unknown>,
+  values: (
+    body: unknown,
+    userId: number,
+    id: string,
+    expiresAt: Date,
+  ) => Record<string, unknown>,
 ): Promise<void> {
   const id = body.id as string;
-  if (!id || (await rowExists(tx, characters, id, userId))) return;
-  await tx
-    .insert(characters)
-    .values(characterInsertValues(body, userId, id, expiresAt));
-}
-
-async function insertReferencedPersona(
-  tx: SyncTx,
-  userId: number,
-  expiresAt: Date,
-  body: Record<string, unknown>,
-): Promise<void> {
-  const id = body.id as string;
-  if (!id || (await rowExists(tx, personas, id, userId))) return;
-  await tx
-    .insert(personas)
-    .values(personaInsertValues(body, userId, id, expiresAt));
-}
-
-async function insertReferencedPreset(
-  tx: SyncTx,
-  userId: number,
-  expiresAt: Date,
-  body: Record<string, unknown>,
-): Promise<void> {
-  const id = body.id as string;
-  if (!id || (await rowExists(tx, samplingPresets, id, userId))) return;
-  await tx
-    .insert(samplingPresets)
-    .values(presetInsertValues(body, userId, id, expiresAt));
+  if (!id || (await rowExists(tx, table, id, userId))) return;
+  await tx.insert(table).values(values(body, userId, id, expiresAt) as never);
 }
 
 async function insertReferencedLorebook(
@@ -255,75 +287,32 @@ async function preUploadMedia(
 export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
   characters: async (db, userId, id, expiresAt, payload) => {
     const body = (payload ?? {}) as Partial<CharacterBody>;
-    await db.transaction(async (tx) => {
-      const existing = await tx
-        .select({ id: characters.id })
-        .from(characters)
-        .where(and(eq(characters.id, id), eq(characters.userId, userId)))
-        .limit(1);
-      if (existing.length === 0) {
-        await tx
-          .insert(characters)
-          .values(characterInsertValues(body, userId, id, expiresAt));
-      } else {
-        await tx
-          .update(characters)
-          .set({
-            ...stripUndefined({
-              name: body.name,
-              avatarMediaId: body.avatarMediaId,
-              backgroundMediaId: body.backgroundMediaId,
-              description: body.description,
-              personality: body.personality,
-              scenario: body.scenario,
-              firstMessage: body.firstMessage,
-              exampleMessages: body.exampleMessages,
-              systemPrompt: body.systemPrompt,
-              postHistoryInstructions: body.postHistoryInstructions,
-              defaultReasoningEffort: body.defaultReasoningEffort,
-              tags: body.tags,
-              triggers: body.triggers,
-              turnTriggers: body.turnTriggers,
-              regexScripts: body.regexScripts,
-              alwaysActive: body.alwaysActive,
-              matchWholeWords: body.matchWholeWords,
-            }),
-            syncExpiresAt: expiresAt,
-            updatedAt: new Date(),
-          })
-          .where(and(eq(characters.id, id), eq(characters.userId, userId)));
-      }
-    });
+    await db.transaction((tx) =>
+      upsertScoped(
+        tx,
+        characters,
+        userId,
+        id,
+        expiresAt,
+        characterInsertValues(body, userId, id, expiresAt),
+        pickSchemaFields(body, characterBody),
+      ),
+    );
   },
 
   personas: async (db, userId, id, expiresAt, payload) => {
     const body = (payload ?? {}) as Partial<PersonaBody>;
-    await db.transaction(async (tx) => {
-      const existing = await tx
-        .select({ id: personas.id })
-        .from(personas)
-        .where(and(eq(personas.id, id), eq(personas.userId, userId)))
-        .limit(1);
-      if (existing.length === 0) {
-        await tx
-          .insert(personas)
-          .values(personaInsertValues(body, userId, id, expiresAt));
-      } else {
-        await tx
-          .update(personas)
-          .set({
-            ...stripUndefined({
-              name: body.name,
-              description: body.description,
-              avatarMediaId: body.avatarMediaId,
-              isDefault: body.isDefault,
-            }),
-            syncExpiresAt: expiresAt,
-            updatedAt: new Date(),
-          })
-          .where(and(eq(personas.id, id), eq(personas.userId, userId)));
-      }
-    });
+    await db.transaction((tx) =>
+      upsertScoped(
+        tx,
+        personas,
+        userId,
+        id,
+        expiresAt,
+        personaInsertValues(body, userId, id, expiresAt),
+        pickSchemaFields(body, personaBody),
+      ),
+    );
   },
 
   lorebooks: async (db, userId, id, expiresAt, payload) => {
@@ -333,31 +322,15 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
     };
     const lb = body.lorebook ?? {};
     await db.transaction(async (tx) => {
-      const existing = await tx
-        .select({ id: lorebooks.id })
-        .from(lorebooks)
-        .where(and(eq(lorebooks.id, id), eq(lorebooks.userId, userId)))
-        .limit(1);
-      if (existing.length === 0) {
-        await tx
-          .insert(lorebooks)
-          .values(lorebookInsertValues(lb, userId, id, expiresAt));
-      } else {
-        await tx
-          .update(lorebooks)
-          .set({
-            ...stripUndefined({
-              name: lb.name,
-              description: lb.description,
-              scanDepth: lb.scanDepth,
-              tokenBudget: lb.tokenBudget,
-              recursiveScanning: lb.recursiveScanning,
-            }),
-            syncExpiresAt: expiresAt,
-            updatedAt: new Date(),
-          })
-          .where(and(eq(lorebooks.id, id), eq(lorebooks.userId, userId)));
-      }
+      await upsertScoped(
+        tx,
+        lorebooks,
+        userId,
+        id,
+        expiresAt,
+        lorebookInsertValues(lb, userId, id, expiresAt),
+        pickSchemaFields(lb, lorebookBody),
+      );
       if (body.entries) {
         await tx
           .delete(lorebookEntries)
@@ -373,51 +346,17 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
 
   presets: async (db, userId, id, expiresAt, payload) => {
     const body = (payload ?? {}) as Partial<SamplingPresetBody>;
-    await db.transaction(async (tx) => {
-      const existing = await tx
-        .select({ id: samplingPresets.id })
-        .from(samplingPresets)
-        .where(
-          and(eq(samplingPresets.id, id), eq(samplingPresets.userId, userId)),
-        )
-        .limit(1);
-      if (existing.length === 0) {
-        await tx
-          .insert(samplingPresets)
-          .values(presetInsertValues(body, userId, id, expiresAt));
-      } else {
-        await tx
-          .update(samplingPresets)
-          .set({
-            ...stripUndefined({
-              name: body.name,
-              temperature: body.temperature,
-              topP: body.topP,
-              topK: body.topK,
-              minP: body.minP,
-              topA: body.topA,
-              frequencyPenalty: body.frequencyPenalty,
-              presencePenalty: body.presencePenalty,
-              repetitionPenalty: body.repetitionPenalty,
-              maxTokens: body.maxTokens,
-              extraBody: body.extraBody,
-              mainPrompt: body.mainPrompt,
-              postHistory: body.postHistory,
-              prefill: body.prefill,
-              forceAlternateRoles: body.forceAlternateRoles,
-              noSystemRole: body.noSystemRole,
-              mustStartWithUserInput: body.mustStartWithUserInput,
-              geminiBlockOff: body.geminiBlockOff,
-              isDefault: body.isDefault,
-            }),
-            syncExpiresAt: expiresAt,
-            updatedAt: new Date(),
-          })
-          .where(
-            and(eq(samplingPresets.id, id), eq(samplingPresets.userId, userId)),
-          );
-      }
-    });
+    await db.transaction((tx) =>
+      upsertScoped(
+        tx,
+        samplingPresets,
+        userId,
+        id,
+        expiresAt,
+        presetInsertValues(body, userId, id, expiresAt),
+        pickSchemaFields(body, samplingPresetBody),
+      ),
+    );
   },
 
   cards: async (db, userId, id, expiresAt, payload) => {
@@ -428,34 +367,26 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
     );
     const c = body.card ?? {};
     await db.transaction(async (tx) => {
-      const existing = await tx
-        .select({ id: cards.id })
-        .from(cards)
-        .where(and(eq(cards.id, id), eq(cards.userId, userId)))
-        .limit(1);
-      if (existing.length === 0) {
-        await tx.insert(cards).values({
+      await upsertScoped(
+        tx,
+        cards,
+        userId,
+        id,
+        expiresAt,
+        {
           id,
           userId,
           name: c.name ?? "Untitled",
           description: c.description ?? null,
           personaId: c.personaId ?? null,
           syncExpiresAt: expiresAt,
-        });
-      } else {
-        await tx
-          .update(cards)
-          .set({
-            ...stripUndefined({
-              name: c.name,
-              description: c.description,
-              personaId: c.personaId,
-            }),
-            syncExpiresAt: expiresAt,
-            updatedAt: new Date(),
-          })
-          .where(and(eq(cards.id, id), eq(cards.userId, userId)));
-      }
+        },
+        stripUndefined({
+          name: c.name,
+          description: c.description,
+          personaId: c.personaId,
+        }),
+      );
       if (body.cardCharacters) {
         await tx.delete(cardCharacters).where(eq(cardCharacters.cardId, id));
         for (let i = 0; i < body.cardCharacters.length; i++) {
@@ -499,7 +430,16 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
         .limit(1);
       const s = body.settings;
       if (existing.length === 0) {
+        // Settings columns ride a key-list spread; omitted keys fall to the
+        // schema column defaults (authorNoteDepth 4, webSearch* defaults) and
+        // nullable inherit-from-preset fields (chatMemory, streamingEnabled)
+        // stay null, preserving inherit semantics on a sync roundtrip.
         await tx.insert(conversations).values({
+          ...(stripUndefined(
+            Object.fromEntries(
+              CONVERSATION_SETTINGS_KEYS.map((k) => [k, s?.[k] ?? undefined]),
+            ),
+          ) as Partial<typeof conversations.$inferInsert>),
           id,
           userId,
           title: c.title ?? null,
@@ -507,36 +447,6 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
           totalOutputTokens: c.totalOutputTokens ?? 0,
           totalCost: c.totalCost ?? 0,
           defaultModel: s?.defaultModel ?? "",
-          personaId: s?.personaId ?? null,
-          presetId: s?.presetId ?? null,
-          systemPromptOverride: s?.systemPromptOverride ?? null,
-          authorNote: s?.authorNote ?? null,
-          authorNoteDepth: s?.authorNoteDepth ?? 4,
-          // null = inherit the bound preset; coercing to 8 here would destroy
-          // the inherit semantics on a sync roundtrip.
-          chatMemory: s?.chatMemory ?? null,
-          reasoningEffort: s?.reasoningEffort ?? null,
-          webSearchEnabled: s?.webSearchEnabled ?? false,
-          webSearchEngine: s?.webSearchEngine ?? "auto",
-          webSearchContextSize: s?.webSearchContextSize ?? "medium",
-          temperature: s?.temperature ?? null,
-          topP: s?.topP ?? null,
-          topK: s?.topK ?? null,
-          minP: s?.minP ?? null,
-          topA: s?.topA ?? null,
-          frequencyPenalty: s?.frequencyPenalty ?? null,
-          presencePenalty: s?.presencePenalty ?? null,
-          repetitionPenalty: s?.repetitionPenalty ?? null,
-          maxTokens: s?.maxTokens ?? null,
-          extraBody: s?.extraBody ?? null,
-          vars: s?.vars ?? null,
-          // null = inherit the bound preset (same rationale as chatMemory).
-          streamingEnabled: s?.streamingEnabled ?? null,
-          groupOrderByOrder: s?.groupOrderByOrder ?? null,
-          autoContinue: s?.autoContinue ?? null,
-          memoryEnabled: s?.memoryEnabled ?? null,
-          summaryMemory: s?.summaryMemory ?? null,
-          summaryAnchor: s?.summaryAnchor ?? null,
           syncExpiresAt: expiresAt,
         });
       } else {
@@ -560,16 +470,37 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
 
       // Upsert referenced RP entities before conv_* rows (FK).
       for (const ch of body.characters ?? []) {
-        await insertReferencedCharacter(tx, userId, expiresAt, ch);
+        await insertReferencedEntity(
+          tx,
+          characters,
+          userId,
+          expiresAt,
+          ch,
+          characterInsertValues,
+        );
       }
       for (const p of body.personas ?? []) {
-        await insertReferencedPersona(tx, userId, expiresAt, p);
+        await insertReferencedEntity(
+          tx,
+          personas,
+          userId,
+          expiresAt,
+          p,
+          personaInsertValues,
+        );
       }
       for (const lb of body.lorebooks ?? []) {
         await insertReferencedLorebook(tx, userId, expiresAt, lb);
       }
       for (const pr of body.presets ?? []) {
-        await insertReferencedPreset(tx, userId, expiresAt, pr);
+        await insertReferencedEntity(
+          tx,
+          samplingPresets,
+          userId,
+          expiresAt,
+          pr,
+          presetInsertValues,
+        );
       }
 
       if (body.conversationCharacters) {
@@ -792,19 +723,14 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
     const s = body.session ?? {};
     const mediaUploads = await preUploadMedia(id, body.media);
     await db.transaction(async (tx) => {
-      const existing = await tx
-        .select({ id: playgroundSessions.id })
-        .from(playgroundSessions)
-        .where(
-          and(
-            eq(playgroundSessions.id, id),
-            eq(playgroundSessions.userId, userId),
-          ),
-        )
-        .limit(1);
       const fallbackExpires = s.expiresAt ?? expiresAt;
-      if (existing.length === 0) {
-        await tx.insert(playgroundSessions).values({
+      await upsertScoped(
+        tx,
+        playgroundSessions,
+        userId,
+        id,
+        expiresAt,
+        {
           id,
           userId,
           title: s.title ?? null,
@@ -813,28 +739,15 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
           imageCount: s.imageCount ?? 0,
           expiresAt: fallbackExpires,
           syncExpiresAt: expiresAt,
-        });
-      } else {
-        await tx
-          .update(playgroundSessions)
-          .set({
-            ...stripUndefined({
-              title: s.title,
-              firstModel: s.firstModel,
-              snapshotCount: s.snapshotCount,
-              imageCount: s.imageCount,
-              expiresAt: s.expiresAt,
-            }),
-            syncExpiresAt: expiresAt,
-            updatedAt: new Date(),
-          })
-          .where(
-            and(
-              eq(playgroundSessions.id, id),
-              eq(playgroundSessions.userId, userId),
-            ),
-          );
-      }
+        },
+        stripUndefined({
+          title: s.title,
+          firstModel: s.firstModel,
+          snapshotCount: s.snapshotCount,
+          imageCount: s.imageCount,
+          expiresAt: s.expiresAt,
+        }),
+      );
       if (body.playgrounds) {
         await tx.delete(playgrounds).where(eq(playgrounds.sessionId, id));
         for (const g of body.playgrounds) {

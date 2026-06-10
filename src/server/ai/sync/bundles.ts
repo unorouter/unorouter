@@ -92,6 +92,30 @@ export async function getSyncedBundlesBatch(
   });
 }
 
+// Owned-row fetch: id + userId scoped, 404s via assertFound.
+type OwnedTable =
+  | typeof characters
+  | typeof personas
+  | typeof lorebooks
+  | typeof samplingPresets
+  | typeof cards
+  | typeof conversations
+  | typeof playgroundSessions;
+async function ownedRow<T extends OwnedTable>(
+  db: ReturnType<typeof getDb>,
+  table: T,
+  id: string,
+  userId: number,
+): Promise<T["$inferSelect"]> {
+  const rows = await db
+    .select()
+    .from(table as OwnedTable)
+    .where(and(eq(table.id, id), eq(table.userId, userId)))
+    .limit(1);
+  assertFound(rows);
+  return rows[0] as T["$inferSelect"];
+}
+
 export async function getSyncedBundle(
   userId: number,
   kind: SyncKindName,
@@ -99,69 +123,31 @@ export async function getSyncedBundle(
 ) {
   const db = getDb();
   switch (kind) {
-    case "characters": {
-      const rows = await db
-        .select()
-        .from(characters)
-        .where(and(eq(characters.id, id), eq(characters.userId, userId)))
-        .limit(1);
-      assertFound(rows);
-      return { character: rows[0] };
-    }
-    case "personas": {
-      const rows = await db
-        .select()
-        .from(personas)
-        .where(and(eq(personas.id, id), eq(personas.userId, userId)))
-        .limit(1);
-      assertFound(rows);
-      return { persona: rows[0] };
-    }
+    case "characters":
+      return { character: await ownedRow(db, characters, id, userId) };
+    case "personas":
+      return { persona: await ownedRow(db, personas, id, userId) };
     case "lorebooks": {
-      const rows = await db
-        .select()
-        .from(lorebooks)
-        .where(and(eq(lorebooks.id, id), eq(lorebooks.userId, userId)))
-        .limit(1);
-      assertFound(rows);
+      const lorebook = await ownedRow(db, lorebooks, id, userId);
       const entries = await db
         .select()
         .from(lorebookEntries)
         .where(eq(lorebookEntries.lorebookId, id));
-      return { lorebook: rows[0], entries };
+      return { lorebook, entries };
     }
-    case "presets": {
-      const rows = await db
-        .select()
-        .from(samplingPresets)
-        .where(
-          and(eq(samplingPresets.id, id), eq(samplingPresets.userId, userId)),
-        )
-        .limit(1);
-      assertFound(rows);
-      return { preset: rows[0] };
-    }
+    case "presets":
+      return { preset: await ownedRow(db, samplingPresets, id, userId) };
     case "cards": {
-      const rows = await db
-        .select()
-        .from(cards)
-        .where(and(eq(cards.id, id), eq(cards.userId, userId)))
-        .limit(1);
-      assertFound(rows);
+      const card = await ownedRow(db, cards, id, userId);
       const [chars, lbs] = await Promise.all([
         db.select().from(cardCharacters).where(eq(cardCharacters.cardId, id)),
         db.select().from(cardLorebooks).where(eq(cardLorebooks.cardId, id)),
       ]);
-      return { card: rows[0], cardCharacters: chars, cardLorebooks: lbs };
+      return { card, cardCharacters: chars, cardLorebooks: lbs };
     }
     case "conversations": {
-      const rows = await db
-        .select()
-        .from(conversations)
-        .where(and(eq(conversations.id, id), eq(conversations.userId, userId)))
-        .limit(1);
-      assertFound(rows);
-      const settings = projectConversationSettings(rows[0]);
+      const conversation = await ownedRow(db, conversations, id, userId);
+      const settings = projectConversationSettings(conversation);
       const [convCharsRows, convLbsRows, msgsRows, mediaRows, reqLogRows] =
         await Promise.all([
           db
@@ -257,7 +243,7 @@ export async function getSyncedBundle(
       }));
 
       return {
-        conversation: rows[0],
+        conversation,
         settings,
         conversationCharacters: convCharsRows,
         conversationLorebooks: convLbsRows,
@@ -272,17 +258,7 @@ export async function getSyncedBundle(
       };
     }
     case "playgroundSessions": {
-      const rows = await db
-        .select()
-        .from(playgroundSessions)
-        .where(
-          and(
-            eq(playgroundSessions.id, id),
-            eq(playgroundSessions.userId, userId),
-          ),
-        )
-        .limit(1);
-      assertFound(rows);
+      const session = await ownedRow(db, playgroundSessions, id, userId);
       const gens = await db
         .select()
         .from(playgrounds)
@@ -294,11 +270,7 @@ export async function getSyncedBundle(
             .from(media)
             .where(inArray(media.playgroundId, genIds))
         : [];
-      return {
-        session: rows[0],
-        playgrounds: gens,
-        media: mediaRows,
-      };
+      return { session, playgrounds: gens, media: mediaRows };
     }
     case "theme": {
       const rows = await db
