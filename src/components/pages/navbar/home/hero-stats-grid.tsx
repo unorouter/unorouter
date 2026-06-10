@@ -41,7 +41,7 @@ export function HeroStatsGrid(props: { counts: HeroCounts }) {
 function StatCard(props: { label: string; value: string; indicator: string }) {
   return (
     <div className="border-border hover:bg-accent flex cursor-default flex-col border p-5 transition-colors duration-300">
-      <span className="text-muted-foreground mb-3 font-mono text-[10px] tracking-widest uppercase">
+      <span className="text-foreground/70 mb-3 font-mono text-[10px] tracking-widest uppercase">
         {props.label}
       </span>
       <span className="text-foreground text-2xl font-bold tracking-tight">

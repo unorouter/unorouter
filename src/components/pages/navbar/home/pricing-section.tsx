@@ -168,7 +168,7 @@ async function ApiKeyDemo() {
   const envVarLabel = `${APP_VALUES.appName.toUpperCase()}_API_KEY`;
   return (
     <div className="space-y-2">
-      <div className="text-muted-foreground font-mono text-[10px] tracking-[0.2em] uppercase">
+      <div className="text-foreground/70 font-mono text-[10px] tracking-[0.2em] uppercase">
         {envVarLabel}
       </div>
       <div className="bg-secondary/60 border-border/40 flex items-center justify-between gap-3 rounded border px-3 py-2.5">

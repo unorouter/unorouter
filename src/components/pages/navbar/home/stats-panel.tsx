@@ -27,7 +27,7 @@ export function StatsPanel() {
       {/* Sub-stats */}
       <div className="bg-border grid grid-cols-2 gap-px">
         <div className="bg-card/80 flex h-full flex-col justify-between p-6">
-          <span className="text-muted-foreground mb-2 font-mono text-[10px] tracking-widest uppercase">
+          <span className="text-foreground/70 mb-2 font-mono text-[10px] tracking-widest uppercase">
             {t("HOME.STATS.PANEL.REQUESTS")}
           </span>
           <div className="text-foreground text-2xl font-bold tabular-nums">
@@ -36,10 +36,10 @@ export function StatsPanel() {
         </div>
         <div className="bg-card/80 flex h-full flex-col justify-between p-6">
           <div className="mb-2 flex items-center justify-between">
-            <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
+            <span className="text-foreground/70 font-mono text-[10px] tracking-widest uppercase">
               {t("HOME.STATS.PANEL.TOKENS_MIN")}
             </span>
-            <span className="font-mono text-[10px] text-green-500">
+            <span className="font-mono text-[10px] text-green-600 dark:text-green-400">
               {t("HOME.STATS.PANEL.LIVE")}
             </span>
           </div>
