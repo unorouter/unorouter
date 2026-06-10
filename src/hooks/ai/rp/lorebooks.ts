@@ -79,9 +79,7 @@ export function useUpdateLorebookMutation() {
       const { entries: _entries, ...existingRow } = existing;
       const updated = { ...existingRow, ...args.body, updatedAt: now };
       await upsertLocalLorebook(userId, updated as never);
-      if (existing.syncExpiresAt != null) {
-        await mirrorLorebookIfSynced(userId, args.id);
-      }
+      await mirrorLorebookIfSynced(userId, args.id);
       return updated;
     },
     onSuccess: (_data, args) => {

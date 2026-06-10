@@ -91,7 +91,7 @@ Elysia routes (`src/server/<domain>/<feature>/route.ts`): validate with TypeBox 
 
 Hooks (`src/hooks/`): feature-grouped into `ai/`, `auth/`, `billing/`, `models/`, `ops/`, `ui/`. Mutations call Eden Treaty, unwrap with `handleElysia()`, use `handleError(e, t)` in `onError` for i18n toasts.
 
-`makeRpEntity` (`src/hooks/ai/rp/factory.ts`): generic `<TItem, TCreateBody, TUpdateBody>` that emits `{useList, useItem, useCreate, useUpdate, useDelete}`. Each mutation writes local first, mirrors via `mirrorSyncedRow`/`deleteSyncedRow` when `syncExpiresAt != null` (outbox enqueue + debounced drain), invalidates list/item keys. The single source of CRUD for characters/personas/lorebooks/presets/cards.
+`makeRpEntity` (`src/hooks/ai/rp/factory.ts`): generic `<TItem, TCreateBody, TUpdateBody>` that emits `{useList, useItem, useCreate, useUpdate, useDelete}`. Each mutation writes local first, mirrors via `mirrorSyncedRow`/`unmirrorIfSynced` when `syncExpiresAt != null` (outbox enqueue + debounced drain), invalidates list/item keys. The single source of CRUD for characters/personas/lorebooks/presets/cards.
 
 `makeTableStore` (`src/lib/db/client/data/table-store.ts`): Drizzle wrapper emitting `{list, get, upsert, drop}` for any SQLocal table. `scopeUser` toggle ANDs `eq(table.userId, uid)` into WHERE and merges userId into upsert rows; tables without a `userId` column (`messages`, `lorebookEntries`, etc.) pass `scopeUser: false`.
 
@@ -196,7 +196,7 @@ Client sync infrastructure (`src/lib/db/client/sync/`): `sync-state-hydrator.ts`
 
 Mirror helpers (`src/hooks/ai/rp/shared.ts`) are outbox enqueuers: each gates on sync state, writes a `local_pending_sync` row via `enqueueSync(userId, kind, id, op, {hint, msgIds})`, and kicks `drainSoon(userId)` (250ms debounce). They carry SCOPE, never payloads; the drainer rebuilds wire data from the local DB.
 
-- `mirrorSyncedRow(userId, kind, id)` / `deleteSyncedRow(userId, kind, id)`: RP entities + playground; full-row rebuild at drain.
+- `mirrorSyncedRow(userId, kind, id)` / `unmirrorIfSynced(userId, kind, id, wasSynced)`: any sync kind (RP entities, playground, theme); full-row rebuild at drain.
 - `mirrorConvIfSynced(userId, convId)`: hint `full` (history rewrites: delete message, clear, overrides save).
 - `mirrorConvRowIfSynced(userId, convId)`: hint `row` (rename, drawer settings, model switch; conversation-row columns only).
 - `mirrorConvBindingsIfSynced(userId, convId)`: hint `bindings` (join tables, replace mode).

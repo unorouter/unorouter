@@ -161,10 +161,8 @@ export function useUpdateConversationMutation() {
         id: args.id,
         ...patch,
       });
-      if (userId > GUEST_USER_ID) {
-        // Row patch; never re-upload the whole conversation for a rename.
-        await mirrorConvRowIfSynced(userId, args.id);
-      }
+      // Row patch; never re-upload the whole conversation for a rename.
+      await mirrorConvRowIfSynced(userId, args.id);
       return { id: args.id, ...args.body };
     },
     (args) =>
@@ -228,11 +226,9 @@ export function useFinalizeTaskMutation() {
           data: { text: `![video](${args.resultUrl})` },
         },
       ]);
-      if (userId > GUEST_USER_ID) {
-        // Full mirror: item deltas only wipe stale siblings when a messages array rides
-        // along, and finalize is rare (one per video), so the bundle push is simplest.
-        await mirrorConvIfSynced(userId, args.convId);
-      }
+      // Full mirror: item deltas only wipe stale siblings when a messages array
+      // rides along; finalize is rare (one per video), bundle push is simplest.
+      await mirrorConvIfSynced(userId, args.convId);
       return data;
     },
     (args) => [queryKeys.chatMessages(args.convId)],
@@ -263,9 +259,7 @@ export function useEditMessageMutation() {
       if (updatedMsg) {
         await upsertLocalMessage(userId, updatedMsg);
       }
-      if (userId > GUEST_USER_ID) {
-        await mirrorConvMessagesIfSynced(userId, args.convId, [args.msgId]);
-      }
+      await mirrorConvMessagesIfSynced(userId, args.convId, [args.msgId]);
       return { items: itemsWithMsg };
     },
     (args) => [queryKeys.chatMessages(args.convId)],
@@ -276,7 +270,7 @@ export function useClearConversationMutation() {
   return useChatMutation(
     async (userId, args: ConvIdArg) => {
       await deleteLocalMessagesForConv(userId, args.id);
-      if (userId > GUEST_USER_ID) await mirrorConvIfSynced(userId, args.id);
+      await mirrorConvIfSynced(userId, args.id);
       return { id: args.id };
     },
     (args) => [queryKeys.chatMessages(args.id)],
@@ -372,13 +366,11 @@ export function useSetActiveBranchMutation() {
           branchSiblings.push(next);
         }
       }
-      if (userId > GUEST_USER_ID) {
-        await mirrorConvMessagesIfSynced(
-          userId,
-          args.convId,
-          branchSiblings.map((m) => String(m.id)),
-        );
-      }
+      await mirrorConvMessagesIfSynced(
+        userId,
+        args.convId,
+        branchSiblings.map((m) => String(m.id)),
+      );
       return { id: args.msgId };
     },
     (args) => [queryKeys.chatMessages(args.convId)],
@@ -403,7 +395,7 @@ export function useDeleteMessageMutation() {
         }
       }
       await deleteLocalMessage(userId, args.msgId);
-      if (userId > GUEST_USER_ID) await mirrorConvIfSynced(userId, args.convId);
+      await mirrorConvIfSynced(userId, args.convId);
       return { id: args.msgId };
     },
     (args) => [queryKeys.chatMessages(args.convId)],

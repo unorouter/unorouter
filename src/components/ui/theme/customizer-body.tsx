@@ -1,5 +1,7 @@
 "use client";
 
+import { pick } from "@/lib/utils/base";
+
 import { SyncBadge } from "@/components/elements/badge/sync-badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -46,7 +48,7 @@ import { useSyncStateForRow } from "@/hooks/ai/sync-hook";
 import { GUEST_USER_ID } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
 import { upsertLocalTheme } from "@/lib/db/client/data/theme";
-import { drainSoon, enqueueSync } from "@/lib/db/client/sync/pending-sync";
+import { mirrorSyncedRow } from "@/hooks/ai/rp/shared";
 import { downloadJson } from "@/lib/utils/client";
 import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
@@ -92,9 +94,7 @@ export function ThemeCustomizerBody() {
     ).catch(() => {});
     if (userId > 0 && syncExpiresAt != null) {
       // Outbox + debounced drain: slider drags coalesce into one push.
-      void enqueueSync(userId, "theme", String(userId)).then(() =>
-        drainSoon(userId),
-      );
+      void mirrorSyncedRow(userId, "theme", String(userId));
     }
   };
 
@@ -128,26 +128,26 @@ export function ThemeCustomizerBody() {
   };
 
   const shuffle = () => {
-    const style = STYLES[Math.floor(Math.random() * STYLES.length)];
+    const style = pick(STYLES);
     const baseColor =
-      ALL_BASE_COLORS[Math.floor(Math.random() * ALL_BASE_COLORS.length)];
-    const accent = ALL_THEMES[Math.floor(Math.random() * ALL_THEMES.length)];
-    const chart = ALL_THEMES[Math.floor(Math.random() * ALL_THEMES.length)];
-    const radius = RADII[Math.floor(Math.random() * RADII.length)];
+      pick(ALL_BASE_COLORS);
+    const accent = pick(ALL_THEMES);
+    const chart = pick(ALL_THEMES);
+    const radius = pick(RADII);
     const sansFonts = FONT_OPTIONS.filter((f) => f.kinds.includes("sans"));
     const displayFonts = FONT_OPTIONS.filter((f) =>
       f.kinds.includes("display"),
     );
-    const body = sansFonts[Math.floor(Math.random() * sansFonts.length)];
+    const body = pick(sansFonts);
     const heading =
       Math.random() < 0.5
         ? "inherit"
-        : displayFonts[Math.floor(Math.random() * displayFonts.length)].id;
-    const menu = MENUS[Math.floor(Math.random() * MENUS.length)];
+        : pick(displayFonts).id;
+    const menu = pick(MENUS);
     const accentMode =
-      MENU_ACCENTS[Math.floor(Math.random() * MENU_ACCENTS.length)];
+      pick(MENU_ACCENTS);
     const iconLib =
-      ICON_LIBRARIES[Math.floor(Math.random() * ICON_LIBRARIES.length)];
+      pick(ICON_LIBRARIES);
     setTheme({
       ...theme,
       style: style.name,

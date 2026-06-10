@@ -22,7 +22,7 @@ import { handleError } from "@/lib/utils/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
-import { deleteSyncedRow, mirrorConvIfSynced, mirrorSyncedRow } from "./shared";
+import { mirrorConvIfSynced, mirrorSyncedRow, unmirrorIfSynced } from "./shared";
 
 export function useCardsQuery() {
   const auth = useAuthQuery();
@@ -150,7 +150,7 @@ export function useDeleteCardMutation() {
       const existing = await readLocalCard(userId, id);
       const wasSynced = existing?.syncExpiresAt != null;
       await deleteLocalCard(userId, id);
-      if (wasSynced) await deleteSyncedRow(userId, "cards", id);
+      await unmirrorIfSynced(userId, "cards", id, wasSynced);
       return { id };
     },
     onSuccess: (_data, id) => {

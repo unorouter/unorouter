@@ -48,9 +48,7 @@ export function createThreadListAdapter(
       title,
       updatedAt: now,
     });
-    if (userId() > GUEST_USER_ID && existing?.syncExpiresAt != null) {
-      await mirrorConvRowIfSynced(userId(), id);
-    }
+    await mirrorConvRowIfSynced(userId(), id);
     queryClient.invalidateQueries({ queryKey: queryKeys.conversations() });
     queryClient.invalidateQueries({ queryKey: queryKeys.chatMeta(id) });
   };

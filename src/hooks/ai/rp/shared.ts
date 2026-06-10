@@ -5,38 +5,30 @@ import { readLocalConversation } from "@/lib/db/client/data/chat";
 import { readLocalGenerationSession } from "@/lib/db/client/data/playground";
 import type { ConvSyncHint } from "@/lib/db/client/sync/build-payload";
 import { drainSoon, enqueueSync } from "@/lib/db/client/sync/pending-sync";
-import type { RpSyncKind } from "@/lib/validation/sync-constants";
+import type { SyncKindName } from "@/lib/validation/sync-constants";
 
 // Single push path: each helper gates on sync state, enqueues an outbox row (kind,
 // id, scope hint), kicks the debounced drainer. Drain rebuilds payloads from the local DB.
 
 export async function mirrorSyncedRow(
   userId: number,
-  kind: RpSyncKind,
+  kind: SyncKindName,
   id: string,
 ) {
   await enqueueSync(userId, kind, id, "patch");
   drainSoon(userId);
 }
 
-export async function deleteSyncedRow(
-  userId: number,
-  kind: RpSyncKind,
-  id: string,
-) {
-  await enqueueSync(userId, kind, id, "delete");
-  drainSoon(userId);
-}
-
 // Guests + local-only short-circuit.
 export async function unmirrorIfSynced(
   userId: number | undefined,
-  kind: RpSyncKind,
+  kind: SyncKindName,
   id: string,
   wasSynced: boolean,
 ) {
   if (!userId || userId <= GUEST_USER_ID || !wasSynced) return;
-  await deleteSyncedRow(userId, kind, id);
+  await enqueueSync(userId, kind, id, "delete");
+  drainSoon(userId);
 }
 
 // Common gate for the conv mirrors: a concrete userId AND a synced local row.
@@ -52,12 +44,14 @@ async function syncedConvUser(
 async function enqueueConv(
   userId: number | undefined,
   convId: string,
-  hint: ConvSyncHint,
+  hints: ConvSyncHint[],
   msgIds?: string[],
 ) {
   const uid = await syncedConvUser(userId, convId);
   if (uid == null) return;
-  await enqueueSync(uid, "conversations", convId, "patch", { hint, msgIds });
+  for (const hint of hints) {
+    await enqueueSync(uid, "conversations", convId, "patch", { hint, msgIds });
+  }
   drainSoon(uid);
 }
 
@@ -66,7 +60,7 @@ export async function mirrorConvIfSynced(
   userId: number | undefined,
   convId: string,
 ) {
-  await enqueueConv(userId, convId, "full");
+  await enqueueConv(userId, convId, ["full"]);
 }
 
 // Conversation-row columns only (rename, drawer settings, model switch).
@@ -74,7 +68,7 @@ export async function mirrorConvRowIfSynced(
   userId: number | undefined,
   convId: string,
 ) {
-  await enqueueConv(userId, convId, "row");
+  await enqueueConv(userId, convId, ["row"]);
 }
 
 // Join tables only; messages/media never ride a bindings save.
@@ -82,7 +76,7 @@ export async function mirrorConvBindingsIfSynced(
   userId: number | undefined,
   convId: string,
 ) {
-  await enqueueConv(userId, convId, "bindings");
+  await enqueueConv(userId, convId, ["bindings"]);
 }
 
 // Message delta (new turn, edit, branch switch); withRow adds the
@@ -93,8 +87,7 @@ export async function mirrorConvMessagesIfSynced(
   msgIds: string[],
   withRow = false,
 ) {
-  await enqueueConv(userId, convId, "msgs", msgIds);
-  if (withRow) await enqueueConv(userId, convId, "row");
+  await enqueueConv(userId, convId, withRow ? ["msgs", "row"] : ["msgs"], msgIds);
 }
 
 // Playground analog of mirrorConvIfSynced (always full bundle).
