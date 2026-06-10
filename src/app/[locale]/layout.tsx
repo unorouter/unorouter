@@ -46,18 +46,21 @@ const spaceGrotesk = Space_Grotesk({
   variable: "--font-sans",
   subsets: ["latin"],
   display: "optional",
+  preload: false,
 });
 
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-mono",
   subsets: ["latin"],
   display: "optional",
+  preload: false,
 });
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-display",
   subsets: ["latin"],
   display: "optional",
+  preload: false,
 });
 
 export async function generateMetadata(props: {
