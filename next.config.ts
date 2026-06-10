@@ -2,7 +2,7 @@ import { withPostHogConfig } from "@posthog/nextjs-config";
 import { withSerwist } from "@serwist/turbopack";
 import type { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
-import { LOCALES, POSTHOG_DISABLED } from "./src/lib/config/constants";
+import { LOCALES } from "./src/lib/config/constants";
 
 const localePattern = `/:locale(${LOCALES.join("|")})`;
 const acceptMarkdown = [
@@ -128,7 +128,10 @@ const withNextIntl = createNextIntlPlugin({
 
 const configWithNextIntl = withNextIntl(withSerwist(nextConfig));
 
-export default process.env.STANDALONE && !POSTHOG_DISABLED
+// Read the flag directly: the constants-module indirection evaluated before
+// env loading in the Docker build and the sourcemap upload kept running.
+export default process.env.STANDALONE &&
+process.env.NEXT_PUBLIC_POSTHOG_DISABLED !== "true"
   ? withPostHogConfig(configWithNextIntl, {
       personalApiKey: process.env.POSTHOG_API_KEY!,
       envId: process.env.POSTHOG_ENV_ID!,
