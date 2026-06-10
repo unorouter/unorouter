@@ -11,9 +11,8 @@ import {
 import { isEndOfDay, isSameDay, isStartOfDay } from "@/lib/utils/format/date";
 import { useLocale, useTranslations } from "next-intl";
 
-// Wraps OpenStatus blocks with the app's localized labels and locale-aware
-// date formatters. Mounted once at the top of the status page so banner / hover
-// card / event copy follows the user's selected language.
+// Wraps OpenStatus blocks with localized labels + locale-aware date formatters;
+// mounted once so banner / hover card / event copy follows the selected language.
 export function StatusBlocksI18n(props: { children: React.ReactNode }) {
   const t = useTranslations();
   const locale = useLocale();

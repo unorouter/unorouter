@@ -10,9 +10,8 @@ export function SwRegister() {
     if (process.env.NODE_ENV !== "production") return;
     if (!("serviceWorker" in navigator)) return;
 
-    // scope "/" allowed via Service-Worker-Allowed. updateViaCache "none":
-    // Cloudflare rewrites our no-cache to a 4h browser TTL; explicit bypass
-    // keeps update checks fresh every navigation.
+    // scope "/" allowed via Service-Worker-Allowed. updateViaCache "none": Cloudflare
+    // rewrites our no-cache to a 4h TTL, explicit bypass keeps update checks fresh.
     navigator.serviceWorker
       .register("/sw-worker/sw.js", { scope: "/", updateViaCache: "none" })
       .catch((err) => {

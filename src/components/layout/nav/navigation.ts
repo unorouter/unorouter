@@ -50,9 +50,8 @@ export type NavigationItem = {
   group?: TranslationKey;
 };
 
-// Fill [param] segments: usePathname() returns the template and object hrefs
-// carry params separately, so both sides must resolve before comparison or
-// every "/docs/[slug]" item matches.
+// usePathname() returns the template and object hrefs carry params separately;
+// both sides must resolve before comparison or every "/docs/[slug]" item matches.
 const fillParams = (path: string, params?: Record<string, string>) => {
   if (!params) return path;
   let out = path;

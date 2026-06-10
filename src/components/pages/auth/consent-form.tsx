@@ -28,9 +28,8 @@ const KIND_BADGE: Record<ScopeKind, string> = {
 export function ConsentForm(props: ConsentFormProps) {
   const t = useTranslations();
 
-  // openid and offline_access are OIDC-protocol scopes (sign-in + refresh).
-  // They aren't user-visible permissions, so we suppress them from the list
-  // and surface refresh as part of the bottom session note instead.
+  // openid/offline_access are OIDC protocol scopes, not user-visible permissions;
+  // suppress them from the list and surface refresh in the bottom session note.
   const PROTOCOL_SCOPES = new Set(["openid", "offline_access"]);
   const allScopes = props.scope
     .split(/\s+/)

@@ -80,9 +80,8 @@ export function TokenDialog(props: TokenDialogProps) {
     defaultValues: Value.Default(tokenFormSchema, {}) as TokenFormSchema,
   });
 
-  // revealedKey is keyed by the dialog session: bump the session whenever the
-  // dialog opens or the editing target changes, then derive null from the
-  // session key. No setState in effects, no cascading renders.
+  // revealedKey is keyed by the dialog session (bumped on open / target change),
+  // derived null from the key. No setState in effects, no cascading renders.
   const sessionKey = props.open ? `${props.token?.id ?? "new"}` : "";
   const [revealSession, setRevealSession] = useState({
     key: sessionKey,

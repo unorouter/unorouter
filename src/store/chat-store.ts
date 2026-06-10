@@ -123,14 +123,13 @@ export const globalVarsAtom = atomWithStorage<string>(
   { getOnInit: true },
 );
 
-// Speaking character for the current stream (multi-character rotation).
-// In-memory per-tab, not persisted.
 // Last stream failure, consumed by the history adapter so the failed run
 // persists as an error node instead of an empty ghost branch.
 export const lastStreamErrorAtom = atom<{ message: string; at: number } | null>(
   null,
 );
 
+// Speaking character for the current stream (multi-character rotation); in-memory per tab.
 export const speakingCharacterIdAtom = atom<string | null>(null);
 
 // Non-React stream callbacks read via chatStore.get/set.

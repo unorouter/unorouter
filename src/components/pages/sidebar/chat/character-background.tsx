@@ -4,9 +4,8 @@ import { useCharacterQuery } from "@/hooks/ai/rp/characters";
 import { useChatBindingsQuery } from "@/hooks/ai/rp/conversations";
 import { useMediaSrc } from "@/hooks/ai/use-media-src";
 
-// Primary (lowest orderIndex, active) character's background image painted
-// behind the thread, RisuAI style. Parent must be `relative isolate` so the
-// -z-10 layers stay inside it instead of escaping behind the page background.
+// Primary character's background painted behind the thread, RisuAI style. Parent
+// must be `relative isolate` so the -z-10 layers stay inside it.
 export function CharacterBackground(props: { convId?: string }) {
   const bindings = useChatBindingsQuery(props.convId);
   const primary = (bindings.data?.characters ?? [])

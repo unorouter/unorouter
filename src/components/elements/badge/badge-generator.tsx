@@ -45,9 +45,8 @@ export function BadgeGenerator(props: BadgeGeneratorProps) {
   const [prevResolvedTheme, setPrevResolvedTheme] = useState(
     themes.resolvedTheme,
   );
-  // Sync the local `theme` selector with the global resolvedTheme during
-  // render (the derived-state pattern). User can still override the theme
-  // dropdown manually; the next system toggle will reset it again.
+  // Derived-state pattern: sync the local theme selector with resolvedTheme during
+  // render. Manual override still works; the next system toggle resets it.
   if (
     prevResolvedTheme !== themes.resolvedTheme &&
     (themes.resolvedTheme === "light" || themes.resolvedTheme === "dark")

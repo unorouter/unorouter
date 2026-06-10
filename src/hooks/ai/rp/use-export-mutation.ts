@@ -24,9 +24,8 @@ type ExportArgs =
   | { kind: "presets"; id: string }
   | { kind: "cards"; id: string };
 
-// Local-first export: reads the row + (for characters) avatar bytes from
-// SQLocal, calls the isomorphic helpers in `@/lib/ai/rp`, downloads the blob.
-// No server roundtrip; works offline + for guests.
+// Local-first export: row (+ avatar bytes) from SQLocal through the `@/lib/ai/rp`
+// helpers into a blob download. No server roundtrip; works offline + for guests.
 export function useRpExportMutation() {
   const t = useTranslations();
   const auth = useAuthQuery();

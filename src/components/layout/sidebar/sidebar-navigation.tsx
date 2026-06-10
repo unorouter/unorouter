@@ -155,9 +155,8 @@ function ChatSidebarNav(props: { authenticated: boolean }) {
   return <NavGroup label={t("SIDEBAR.NAVIGATE")} items={items} />;
 }
 
-// Generate's sidebar mirrors chat's shape: just the Navigate group. The
-// history rail (PlaygroundList) is rendered separately as `chatContent`
-// by the (generate) layout, so the studio stays focused.
+// Mirrors chat's sidebar shape: just the Navigate group. The history rail
+// (PlaygroundList) renders separately as `chatContent` in the (generate) layout.
 function GenerateSidebarNav(props: { authenticated: boolean }) {
   const t = useTranslations();
   const items = navigation(props.authenticated).filter((item) => !item.hidden);

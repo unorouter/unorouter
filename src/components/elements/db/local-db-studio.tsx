@@ -46,9 +46,8 @@ export function LocalDbStudio(props: Props) {
       destructive: true,
     });
     if (!ok) return;
-    // Destroy SQLocal worker first; its SyncAccessHandle holds an exclusive
-    // lock on the sqlite file + hidden WAL/SAH-pool shards. removeEntry()
-    // silently no-ops on locked files, leaving phantom OPFS usage.
+    // Destroy the SQLocal worker first: its SyncAccessHandle locks the sqlite file +
+    // hidden WAL/SAH shards, and removeEntry() silently no-ops on locked files (phantom OPFS usage).
     try {
       const local = await getLocalDb(userId);
       if (local) {

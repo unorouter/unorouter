@@ -229,9 +229,8 @@ export function useFinalizeTaskMutation() {
         },
       ]);
       if (userId > GUEST_USER_ID) {
-        // Full mirror: upsert-mode item deltas only wipe stale siblings when a
-        // messages array rides along; finalize is rare (one per video), so the
-        // bundle push is the simplest correct propagation.
+        // Full mirror: item deltas only wipe stale siblings when a messages array rides
+        // along, and finalize is rare (one per video), so the bundle push is simplest.
         await mirrorConvIfSynced(userId, args.convId);
       }
       return data;

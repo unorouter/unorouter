@@ -122,9 +122,8 @@ function processModels(response: PricingData) {
         fixedPrice = model.model_price ?? 0;
         isFreeStrict = fixedPrice === 0;
       } else if (isTiered) {
-        // Tiered: model_ratio/completion_ratio ignored. Surface the cheapest
-        // tier's input/output on cards so users see a "from" price; full table
-        // lives on the detail page.
+        // Tiered: model_ratio/completion_ratio ignored. Cards show the cheapest tier's
+        // input/output as a "from" price; the full table lives on the detail page.
         const minRatio = computeMinGroupRatio(
           model.enable_groups ?? [],
           groupRatio,

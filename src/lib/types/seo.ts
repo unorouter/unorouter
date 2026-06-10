@@ -3,9 +3,8 @@ import type { TranslationKey } from "@/lib/config/constants";
 import type { MetadataRoute } from "next";
 import type { ComponentType } from "react";
 
-// Static doc slugs only. The dynamic "/docs/[slug]" template is excluded so
-// DocSlug stays a subset of SeoTimestampSlug (every member has a real
-// seo-timestamps entry); the [slug] route casts its runtime slug to DocSlug.
+// Static doc slugs only: the dynamic "/docs/[slug]" template is excluded so DocSlug
+// stays a subset of SeoTimestampSlug; the [slug] route casts its runtime slug.
 export type DocSlug = keyof typeof pathnames extends infer K
   ? K extends `/${infer R extends `docs/${string}`}`
     ? R extends `${string}[${string}`

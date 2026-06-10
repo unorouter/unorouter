@@ -1,11 +1,7 @@
 import { getTranslations } from "next-intl/server";
 
-// Server-rendered opaque stand-in for the whole thread area (welcome +
-// composer skeleton). The runtime assembles progressively (SQLocal init,
-// loadout, suggestions, composer) and every visible stage drags SI/LCP on
-// slow devices; this shell hides the assembly and globals.css drops it only
-// once the real composer input exists, so the page visually changes exactly
-// once and the final pixels match the shell.
+// Opaque server-rendered stand-in hiding the runtime's staged assembly (each visible stage drags SI/LCP).
+// globals.css drops it once the real composer input exists, so the page visually changes exactly once.
 export async function ChatWelcomePlaceholder() {
   const t = await getTranslations();
   return (

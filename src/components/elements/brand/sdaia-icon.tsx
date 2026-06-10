@@ -1,8 +1,7 @@
 import type { IconComponent } from "@/lib/config/vendor-icons";
 
-// SDAIA (Saudi Data and AI Authority) builds the ALLaM model family. No icon ships
-// in @lobehub/icons or thesvg, so this is an inline mono monogram ("AL") used as a
-// stand-in until an official mark is bundled.
+// SDAIA (Saudi Data and AI Authority, ALLaM models). No icon ships in @lobehub/icons
+// or thesvg, so this is an inline mono monogram ("AL") stand-in.
 const SdaiaIcon: IconComponent = (props) => (
   <svg
     role="img"

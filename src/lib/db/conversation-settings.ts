@@ -1,8 +1,7 @@
 import type { ConversationRow } from "@/lib/db/schema/rows";
 
-// Settings columns now live on the conversations row (formerly a 1:1
-// conversation_settings table). These helpers project them back into the
-// { convId, ...settings } shape callers + the sync bundle still expect.
+// Settings columns live on the conversations row (formerly a 1:1 table); these
+// helpers project them back into the { convId, ...settings } shape callers expect.
 export const CONVERSATION_SETTINGS_KEYS = [
   "defaultModel",
   "personaId",

@@ -7,9 +7,8 @@ import type { ConvSyncHint } from "@/lib/db/client/sync/build-payload";
 import { drainSoon, enqueueSync } from "@/lib/db/client/sync/pending-sync";
 import type { RpSyncKind } from "@/lib/validation/sync-constants";
 
-// Single push path: every helper gates on sync state, enqueues an outbox row
-// (kind, id, scope hint), and kicks the debounced drainer. Payloads are
-// rebuilt from the local DB at drain time, so callers pass scope, never data.
+// Single push path: each helper gates on sync state, enqueues an outbox row (kind,
+// id, scope hint), kicks the debounced drainer. Drain rebuilds payloads from the local DB.
 
 export async function mirrorSyncedRow(
   userId: number,

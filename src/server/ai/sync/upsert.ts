@@ -181,10 +181,8 @@ function lorebookEntryInsertValues(
   };
 }
 
-// Referenced-entity upserts (conversations bundle): insert each bound RP
-// entity if absent, inside the conversation's tx, before conversation_* rows
-// so FKs resolve. Bound entities inherit the conversation's `expiresAt`.
-// Insert-only: already-synced entities keep their own row untouched.
+// Conversations bundle: insert each bound RP entity if absent, inside the conv tx,
+// before conversation_* rows (FKs). They inherit the conv expiresAt; insert-only, synced rows untouched.
 
 async function rowExists(
   tx: SyncTx,

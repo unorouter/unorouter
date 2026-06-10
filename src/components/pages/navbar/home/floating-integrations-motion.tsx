@@ -4,14 +4,12 @@ import { GuideIcon } from "@/components/pages/docs/guide-icon";
 import { SETUP_GUIDES } from "@/components/pages/docs/setup-guides";
 import { Link } from "@/i18n/navigation";
 
-// Floating brand chips around the stats card. No JS animation (27 perpetual
-// springs lagged); one shared CSS keyframe + per-chip delay drifts on the GPU.
-// Half above, half below, so the card stays clear.
+// Floating brand chips around the stats card. No JS animation (27 perpetual springs
+// lagged): one shared CSS keyframe + per-chip delay drifts on the GPU. Half above, half below.
 
 const COLS = 7;
-// Span the stats card's x-range (it sits ~0%-84% of the overlay, centered ~42%)
-// so the chips wrap symmetrically around the card instead of hanging off its
-// right edge.
+// Span the stats card's x-range (~0%-84% of the overlay) so chips wrap
+// symmetrically around the card instead of hanging off its right edge.
 const X_START = 2;
 const X_END = 84;
 const TOP_ROW_Y = [-2, 8];

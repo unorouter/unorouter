@@ -49,9 +49,8 @@ export function ChatControls() {
   );
 }
 
-// Thin strip above the thread showing what's bound to THIS conversation
-// (preset / persona / lorebooks). Clicking a chip opens the overrides drawer.
-// Hidden when nothing is bound.
+// Strip above the thread showing what's bound to THIS conversation; a chip click
+// opens the overrides drawer. Hidden when nothing is bound.
 export function ActiveConfigBadge() {
   const t = useTranslations();
   const threadId = useAuiState((s) => s.threadListItem?.remoteId);

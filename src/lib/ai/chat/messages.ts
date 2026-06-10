@@ -35,9 +35,8 @@ export type ApiMessage = {
   [key: string]: unknown;
 };
 
-// Joins messages + items by messageId; UI thread + export reader.
-// Walk parentId chain from the last active-branch tip back to root.
-// Returns the linear active-branch path (root -> tip) plus the tip id.
+// Joins messages + items by messageId, walks the parentId chain from the active tip
+// back to root; returns the linear active-branch path (root to tip) plus the tip id.
 export function walkActiveBranch<
   M extends {
     id: string;

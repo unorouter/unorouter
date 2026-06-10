@@ -39,9 +39,8 @@ export function RequestLogSheet(props: {
   });
 
   const row = log.data;
-  // The provider that actually served this request (resolved from new-api logs
-  // by request_id). Routing on the auto group always picks the cheapest
-  // satisfied channel; this surfaces which one that was, after the fact.
+  // Provider that actually served the request (new-api logs by request_id): auto-group
+  // routing picks the cheapest satisfied channel, this surfaces which one, after the fact.
   const usedProvider = useUsedProviderQuery(row?.requestId).data;
 
   // Exact OpenAI-compatible wire body the upstream receives; this is the

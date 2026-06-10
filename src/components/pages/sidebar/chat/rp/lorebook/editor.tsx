@@ -34,8 +34,7 @@ export function LorebookEditor(props: Props) {
   const updateLb = useUpdateLorebookMutation();
   const deleteLb = useDeleteLorebookMutation();
 
-  // Async-defaults pattern: `values` syncs the row in when the query settles;
-  // keepDirtyValues stops a background refetch from clobbering in-progress
+  // `values` syncs the row on settle; keepDirtyValues protects in-progress
   // typing. Parent keys this component by lorebookId for clean remounts.
   const formValues = lbQuery.data
     ? formDefaults(lorebookFormSchema, lbQuery.data)

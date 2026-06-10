@@ -110,9 +110,7 @@ export function useBillingActions() {
             if (data?.pay_link) {
               openPayLink(data.pay_link);
             } else {
-              // NowPayments email-subscription flow has no checkout URL: the
-              // invoice is emailed to the user. Confirm so the click isn't
-              // silently no-op.
+              // NowPayments email-subscription flow has no checkout URL (invoice is emailed); confirm so the click isn't a silent no-op.
               toast.success(t("BILLING.SUBSCRIPTION.CRYPTO_EMAIL_SENT"));
             }
           },
