@@ -79,7 +79,7 @@ export function ModelCard(props: {
                   <CopyButton
                     text={model.name}
                     iconSize="h-2.5 w-2.5"
-                    className="text-muted-foreground hover:text-foreground flex size-3.5 shrink-0 items-center justify-center transition-colors"
+                    className="text-muted-foreground hover:text-foreground flex size-6 shrink-0 items-center justify-center transition-colors"
                   />
                 </TooltipTrigger>
                 <TooltipContent>{t("COMMON.COPY_CODE")}</TooltipContent>
@@ -87,7 +87,7 @@ export function ModelCard(props: {
               <Tooltip>
                 <TooltipTrigger
                   aria-label={t("MODELS.OPEN_IN_CHAT")}
-                  className="text-muted-foreground hover:text-foreground flex size-3.5 shrink-0 items-center justify-center transition-colors"
+                  className="text-muted-foreground hover:text-foreground flex size-6 shrink-0 items-center justify-center transition-colors"
                   onClick={(e) => {
                     e.stopPropagation();
                     setChatModel(model.name);
@@ -101,7 +101,7 @@ export function ModelCard(props: {
               <Tooltip>
                 <TooltipTrigger
                   aria-label={t("MODELS.VIEW_DETAILS")}
-                  className="text-muted-foreground hover:text-foreground flex size-3.5 shrink-0 items-center justify-center transition-colors"
+                  className="text-muted-foreground hover:text-foreground flex size-6 shrink-0 items-center justify-center transition-colors"
                   onClick={(e) => e.stopPropagation()}
                   render={
                     <Link
