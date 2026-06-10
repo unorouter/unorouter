@@ -306,10 +306,9 @@ mjx-container[display="true"] {
   margin: 0.75rem 0;
 }
 
-/* Chat welcome placeholder: SSR-painted LCP stand-in; gone once the runtime
-   thread renders real content (welcome or messages). */
-.chat-shell:has(.aui-thread-welcome-root) .chat-welcome-placeholder,
-.chat-shell:has(.aui-user-message-root) .chat-welcome-placeholder,
-.chat-shell:has(.aui-assistant-message-root) .chat-welcome-placeholder {
+/* Chat shell placeholder: opaque SSR cover for the whole thread area. The
+   runtime assembles progressively underneath; dropping the cover only when
+   the real composer input exists makes the page change visually once. */
+.chat-shell:has(.aui-composer-input) .chat-welcome-placeholder {
   display: none;
 }
