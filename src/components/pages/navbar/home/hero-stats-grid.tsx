@@ -1,11 +1,16 @@
-"use client";
-
-import { usePricingQuery } from "@/hooks/models/pricing-hook";
 import { useTranslations } from "next-intl";
 
-export function HeroStatsGrid() {
+// Server component: counts come from the page's server-side pricing fetch.
+export type HeroCounts = {
+  modelCount: number;
+  vendorCount: number;
+  freeCount: number;
+  paidCount: number;
+};
+
+export function HeroStatsGrid(props: { counts: HeroCounts }) {
   const t = useTranslations();
-  const { data } = usePricingQuery();
+  const data = props.counts;
 
   return (
     <div className="border-border grid w-full grid-cols-2 gap-0 border-t md:grid-cols-4">

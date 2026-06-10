@@ -1,14 +1,17 @@
 import { GetStartedLink } from "@/components/elements/brand/get-started-link";
 import { Link } from "@/i18n/navigation";
 import { FloatingIntegrations } from "@/components/pages/navbar/home/floating-integrations";
-import { HeroStatsGrid } from "@/components/pages/navbar/home/hero-stats-grid";
+import {
+  HeroStatsGrid,
+  type HeroCounts,
+} from "@/components/pages/navbar/home/hero-stats-grid";
 import { HeroSubtitle } from "@/components/pages/navbar/home/hero-subtitle";
 import { StatsPanel } from "@/components/pages/navbar/home/stats-panel";
 import { ScrambleRotate } from "@/components/elements/fx/scramble-rotate";
 import { getTranslations } from "next-intl/server";
 import { Icon } from "@/components/ui/icon";
 
-export async function HeroSection() {
+export async function HeroSection(props: { counts: HeroCounts }) {
   const t = await getTranslations();
 
   return (
@@ -43,7 +46,7 @@ export async function HeroSection() {
           </h1>
 
           {/* Description */}
-          <HeroSubtitle />
+          <HeroSubtitle modelCount={props.counts.modelCount} />
         </div>
 
         {/* CTA Buttons */}
@@ -65,7 +68,7 @@ export async function HeroSection() {
         </div>
 
         {/* Stats grid */}
-        <HeroStatsGrid />
+        <HeroStatsGrid counts={props.counts} />
       </div>
 
       {/* Right column - Stats panel with floating integration logos on desktop */}

@@ -1,17 +1,15 @@
-"use client";
-
-import { usePricingQuery } from "@/hooks/models/pricing-hook";
 import { APP_VALUES } from "@/lib/config/constants";
 import { useTranslations } from "next-intl";
 
-export function HeroSubtitle() {
+// Server component: the count comes from the page's server-side pricing fetch
+// so the full catalog never enters the hydration payload.
+export function HeroSubtitle(props: { modelCount: number }) {
   const t = useTranslations();
-  const { data } = usePricingQuery();
 
   return (
     <p className="text-muted-foreground mx-auto max-w-lg font-mono text-base leading-relaxed font-light lg:mx-0">
       {t("HOME.HERO.SUBTITLE", {
-        modelCount: String(data?.modelCount ?? 200),
+        modelCount: String(props.modelCount),
         ...APP_VALUES,
       })}
     </p>

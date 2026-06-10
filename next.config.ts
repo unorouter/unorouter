@@ -31,10 +31,9 @@ const nextConfig: NextConfig = {
     // Turbopack disk cache for `next build` (experimental; dev cache is stable
     // and on by default). CI persists it via the Dockerfile cache mount.
     turbopackFileSystemCacheForBuild: true,
-    // Inline per-route CSS into the HTML: removes the render-blocking
-    // stylesheet request (~36KiB, 300-600ms on slow 4G), the largest
-    // remaining LCP subpart on text-LCP pages.
-    inlineCss: true,
+    // inlineCss tried and reverted: it inlined the full 274KB stylesheet into
+    // every document AND duplicated it inside the RSC flight payload, costing
+    // far more than the ~36KB render-blocking request it removed.
   },
   images: {
     formats: ["image/webp"],
