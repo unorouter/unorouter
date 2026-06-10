@@ -22,7 +22,6 @@ import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
 import { makeRpEntity } from "./factory";
 import { mirrorSyncedRow } from "./shared";
-import { parseLorebookJson } from "@/lib/ai/rp/lorebook-import";
 
 // Re-mirror lorebook bundle after entry mutation.
 async function mirrorLorebookIfSynced(userId: number, lorebookId: string) {
@@ -106,7 +105,7 @@ export function useImportLorebookMutation() {
       } catch {
         throw new Error("ERRORS.REQUEST_FAILED");
       }
-      const parsed = parseLorebookJson(raw);
+      const parsed = (await import("@/lib/ai/rp/lorebook-import")).parseLorebookJson(raw);
       if (!parsed) throw new Error("ERRORS.REQUEST_FAILED");
       const id = uid();
       const now = dayjs().toDate();

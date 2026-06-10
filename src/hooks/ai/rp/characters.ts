@@ -3,7 +3,6 @@
 import { GUEST_USER_ID } from "@/lib/config/constants";
 
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
-import { parseCharacterCardFile } from "@/lib/ai/rp/character-card";
 import { upsertLocalMedia } from "@/lib/db/client/data/media";
 import {
   deleteLocalCharacter,
@@ -49,8 +48,11 @@ export function useImportCharacterCardMutation() {
   return useMutation({
     mutationFn: async (file: File) => {
       const userId = auth.data?.id ?? GUEST_USER_ID;
-      const { card, imageBytes, imageMime } =
-        await parseCharacterCardFile(file);
+      // Dynamic: character-foundry + image codecs (~110KB gzip) load on the
+      // import action, not with the chat shell.
+      const { card, imageBytes, imageMime } = await import(
+        "@/lib/ai/rp/character-card"
+      ).then((m) => m.parseCharacterCardFile(file));
       const id = uid();
       let avatarMediaId: string | null = null;
       if (imageBytes && imageMime) {
