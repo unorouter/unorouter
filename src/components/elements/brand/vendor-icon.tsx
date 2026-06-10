@@ -6,7 +6,6 @@ import {
   type IconComponent,
   type IconLoader,
 } from "@/lib/config/vendor-icons";
-import { LoaderIcon } from "@/components/ui/local-icons";
 import dynamic from "next/dynamic";
 
 const LOADERS: Record<string, IconLoader> = {
@@ -24,10 +23,14 @@ function getIcon(vendor: string): IconComponent | null {
   const key = Object.keys(LOADERS).find((k) => normalized.includes(k));
   if (!key) return null;
 
+  // SSR on: with ssr:false every server render shipped a spinner per card and
+  // each refresh flashed them until the per-vendor chunk loaded. Server-rendered
+  // dynamic chunks get preloaded into the page, so the real icon is in the HTML.
+  // Loading fallback (client-side only, e.g. filter changes) is a neutral block,
+  // not a spinner.
   const Icon = dynamic(LOADERS[key], {
-    ssr: false,
     loading: () => (
-      <LoaderIcon className="text-muted-foreground animate-spin" />
+      <span className="bg-muted/50 inline-block size-full rounded-sm" />
     ),
   }) as IconComponent;
   cache.set(vendor, Icon);
