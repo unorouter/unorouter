@@ -84,12 +84,15 @@ async function hydrate(
 
   await stage1LocalSeed(qc, userId);
   if (userId > GUEST_USER_ID) {
-    const reconcile = await stage2ServerReconcile(qc, userId, excludeKinds);
+    // Drain BEFORE reconcile: queued local changes (e.g. turns written while
+    // offline) must reach the server first, otherwise the pull treats them as
+    // remotely-deleted rows and removes them locally.
     const result = await drainPending(userId);
     qc.invalidateQueries({ queryKey: queryKeys.pendingSync() });
     if (result.dead.length > 0) {
       surfaceDeadLetterToast(qc, userId, result, t);
     }
+    const reconcile = await stage2ServerReconcile(qc, userId, excludeKinds);
     showLocalNewerToast(t, reconcile.skippedLocalNewer);
   }
 }

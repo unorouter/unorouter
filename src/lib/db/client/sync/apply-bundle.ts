@@ -14,7 +14,10 @@ import {
   upsertLocalPersona,
   upsertLocalPreset,
 } from "../data/rp";
-import { upsertLocalConversationBundle } from "../data/chat";
+import {
+  readLocalConversation,
+  upsertLocalConversationBundle,
+} from "../data/chat";
 import { upsertLocalGenerationSessionBundle } from "../data/playground";
 import { upsertLocalTheme } from "../data/theme";
 import { rehydrateMediaBatch } from "./rehydrate-media";
@@ -115,6 +118,15 @@ export async function applyBundle<K extends SyncKindName>(
     }
     case "conversations": {
       const b = bundle as SyncBundle<"conversations">;
+      if (
+        await localNewer(
+          userId,
+          readLocalConversation,
+          b.conversation.id,
+          b.conversation.updatedAt,
+        )
+      )
+        return skip;
       const rehydratedMedia = await rehydrateMediaBatch(userId, b.media);
       // Insert-only: skip when local exists so local edits aren't clobbered.
       const insertAbsent = async <T>(

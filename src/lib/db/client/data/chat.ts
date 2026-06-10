@@ -469,6 +469,59 @@ export async function upsertLocalConversationBundle(
     await local.db.insert(messageItems).values(it as never);
   }
 
+  // Deletion propagation: the bundle is the FULL server state, so a local
+  // message absent from it was deleted on another device, UNLESS it is newer
+  // than the conv stamp (a local-only turn not yet pushed). Items cascade.
+  const remoteConvStamp = bundle.conversation.updatedAt
+    ? new Date(bundle.conversation.updatedAt as Date | number | string).getTime()
+    : 0;
+  const staleMsgIds = existingMessages
+    .filter(
+      (m) =>
+        !remoteMsgIds.has(m.id) &&
+        (localMsgUpdatedAt.get(m.id) ?? 0) <= remoteConvStamp,
+    )
+    .map((m) => m.id);
+  if (staleMsgIds.length > 0) {
+    await local.db.delete(messages).where(inArray(messages.id, staleMsgIds));
+  }
+
+  // Same for bindings: joins absent from the bundle were unbound remotely.
+  // createdAt guards local-only bindings made after the remote edit.
+  const remoteCharIds = new Set(
+    bundle.conversationCharacters.map((c) => c.characterId as string),
+  );
+  const remoteLbIds = new Set(
+    bundle.conversationLorebooks.map((l) => l.lorebookId as string),
+  );
+  const localBindings = await readLocalConversationBindings(userId, convId);
+  for (const c of localBindings?.conversationCharacters ?? []) {
+    const created = c.createdAt ? new Date(c.createdAt).getTime() : 0;
+    if (!remoteCharIds.has(c.characterId) && created <= remoteConvStamp) {
+      await local.db
+        .delete(conversationCharacters)
+        .where(
+          and(
+            eq(conversationCharacters.convId, convId),
+            eq(conversationCharacters.characterId, c.characterId),
+          ),
+        );
+    }
+  }
+  for (const l of localBindings?.conversationLorebooks ?? []) {
+    const created = l.createdAt ? new Date(l.createdAt).getTime() : 0;
+    if (!remoteLbIds.has(l.lorebookId) && created <= remoteConvStamp) {
+      await local.db
+        .delete(conversationLorebooks)
+        .where(
+          and(
+            eq(conversationLorebooks.convId, convId),
+            eq(conversationLorebooks.lorebookId, l.lorebookId),
+          ),
+        );
+    }
+  }
+
   // Media keyed on row id; mergeChildRows preserves local-only + base64 cache.
   await mergeChildRows(local.db, media, media.id, bundle.media);
 
