@@ -4,6 +4,7 @@ import {
   real,
   sqliteTable,
   text,
+  uniqueIndex,
 } from "drizzle-orm/sqlite-core";
 import { uid } from "@/lib/utils/base";
 import { createdAtCol, timestamps } from "./shared";
@@ -73,7 +74,10 @@ export const acpIdempotencyKeys = sqliteTable(
     createdAt: createdAtCol(),
   },
   (table) => [
-    index("idx_acp_idem_lookup").on(table.userId, table.key, table.path),
+    // Unique: makes the concurrent-insert race deterministic (one POST wins,
+    // the loser's insert conflicts and is treated as in-flight) instead of
+    // both passing the read-then-insert check and double-running fn().
+    uniqueIndex("uq_acp_idem_key").on(table.userId, table.key, table.path),
     index("idx_acp_idem_created").on(table.createdAt),
   ],
 );

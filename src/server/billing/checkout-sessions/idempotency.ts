@@ -124,15 +124,28 @@ export async function withIdempotency<T>(
     return row.response as T;
   }
 
-  await db.insert(acpIdempotencyKeys).values({
-    userId: args.userId,
-    key: args.key,
-    path: path,
-    bodyHash,
-    status: 0,
-    response: {},
-    state: "in_flight",
-  });
+  // Claim the key with an insert that the unique index makes atomic: if a
+  // concurrent request already inserted, this throws and we treat it as
+  // in-flight rather than running fn() a second time (double-charge guard).
+  try {
+    await db.insert(acpIdempotencyKeys).values({
+      userId: args.userId,
+      key: args.key,
+      path: path,
+      bodyHash,
+      status: 0,
+      response: {},
+      state: "in_flight",
+    });
+  } catch {
+    setHeader(args.set, "Retry-After", "1");
+    throw acpError(409, {
+      type: "invalid_request",
+      code: "idempotency_in_flight",
+      message:
+        "A request with this Idempotency-Key is currently being processed",
+    });
+  }
 
   try {
     const result = await fn();
