@@ -6,6 +6,7 @@
   - dev.to bio website link also set (rel `me ugc`, weak)
 - **GitHub repo topics x15** (dofollow topic pages): openrouter-alternative, llm-gateway, llm-router, ai-api, roleplay-ai, sillytavern, character-ai, openai-compatible, free-llm-api, ai-marketplace, etc.
 - **howardpen9/awesome-ai-api-proxy** PR #15 = **MERGED** -> live dofollow in global_gateways table.
+- **Own /blog comparison page** (DOFOLLOW, self-controlled): `/blog/unorouter-vs-openrouter`, all 18 locales. Honest "UnoRouter vs OpenRouter" two-camps post (dev gateway + RP/chat client bridge). Ranks for "OpenRouter alternative" / "UnoRouter vs OpenRouter". Files: `src/components/pages/blog/posts/2026-06-10-unorouter-vs-openrouter-content.tsx`, registry entry in `src/i18n/registry.ts`, `posts.ts` COMPONENTS map, i18n keys `BLOG.POSTS.UNOROUTER_VS_OPENROUTER` in all 18 `public/i18n/*.json`. tsc 0 errors, renders 200 locally. NOT yet pushed/deployed (commit + push -> GitHub Actions builds).
 
 ## Pending PRs (dofollow when merged) - all checks green
 
