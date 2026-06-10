@@ -2,6 +2,7 @@
 // (/images, /chat, /generateContent).
 
 import type { SyncImageEndpoint } from "@/lib/ai/playground/models-dynamic";
+import { safeFetchBytes } from "@/lib/config/r2";
 import { base64ToDataUri } from "@/lib/utils/base";
 
 const MAX_REF_BYTES = 10 * 1024 * 1024;
@@ -14,21 +15,10 @@ export type RefBytes = {
 };
 
 async function fetchRefBytes(url: string): Promise<RefBytes> {
-  const res = await fetch(url, { method: "GET" });
-  if (!res.ok) {
-    throw new Error(`reference fetch failed: ${res.status} ${url}`);
-  }
-  const contentLength = res.headers.get("content-length");
-  if (contentLength && Number(contentLength) > MAX_REF_BYTES) {
-    throw new Error(`reference too large: ${contentLength} bytes`);
-  }
-  const arr = await res.arrayBuffer();
-  if (arr.byteLength > MAX_REF_BYTES) {
-    throw new Error(`reference too large: ${arr.byteLength} bytes`);
-  }
-  const buf = Buffer.from(arr);
-  const mime =
-    res.headers.get("content-type")?.split(";")[0]?.trim() || "image/png";
+  // SSRF-safe: caller-supplied (guest-reachable) URL goes through the r2
+  // allowlist, never a bare fetch that could hit 169.254/RFC1918.
+  const { buffer: buf, contentType } = await safeFetchBytes(url, MAX_REF_BYTES);
+  const mime = contentType?.split(";")[0]?.trim() || "image/png";
   const base64 = buf.toString("base64");
   return { buf, mime, base64, dataUri: base64ToDataUri(base64, mime) };
 }

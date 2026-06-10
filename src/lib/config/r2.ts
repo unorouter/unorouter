@@ -202,6 +202,45 @@ async function readBodyWithLimit(res: UndiciResponse): Promise<Buffer> {
   return Buffer.concat(chunks);
 }
 
+// SSRF-safe remote fetch for caller-supplied URLs (playground reference
+// images): runs the full allowlist (CIDR/DNS filter, redirect:manual, port +
+// protocol checks) and caps bytes. Returns the body + detected content-type.
+export async function safeFetchBytes(
+  url: string,
+  maxBytes: number,
+): Promise<{ buffer: Buffer; contentType: string | null }> {
+  const res = await safeFetch(url);
+  if (!res.ok) {
+    throw new Error(msg("ERRORS.UPSTREAM_FETCH_FAILED"));
+  }
+  const declared = Number(res.headers.get("content-length") ?? "0");
+  if (declared && declared > maxBytes) {
+    throw new Error(msg("ERRORS.RESPONSE_TOO_LARGE"));
+  }
+  const reader = res.body?.getReader();
+  if (!reader) {
+    const buf = Buffer.from(await res.arrayBuffer());
+    if (buf.length > maxBytes) throw new Error(msg("ERRORS.RESPONSE_TOO_LARGE"));
+    return { buffer: buf, contentType: res.headers.get("content-type") };
+  }
+  const chunks: Uint8Array[] = [];
+  let total = 0;
+  while (true) {
+    const next = await reader.read();
+    if (next.done) break;
+    total += next.value.byteLength;
+    if (total > maxBytes) {
+      await reader.cancel();
+      throw new Error(msg("ERRORS.RESPONSE_TOO_LARGE"));
+    }
+    chunks.push(next.value);
+  }
+  return {
+    buffer: Buffer.concat(chunks),
+    contentType: res.headers.get("content-type"),
+  };
+}
+
 async function verifyMagicBytes(
   body: Buffer | Uint8Array,
   declaredCt?: string,

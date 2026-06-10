@@ -195,21 +195,30 @@ function lorebookEntryInsertValues(
 // Conversations bundle: insert each bound RP entity if absent, inside the conv tx,
 // before conversation_* rows (FKs). They inherit the conv expiresAt; insert-only, synced rows untouched.
 
-async function rowExists(
+// Owner of an id, or null if free. Checks GLOBALLY (no userId filter): the PK
+// is the global id, so an id owned by another user is neither insertable (PK
+// collision aborts the tx) nor a valid binding target for this user.
+async function rowOwner(
   tx: SyncTx,
-  table: typeof characters | typeof personas | typeof samplingPresets,
+  table:
+    | typeof characters
+    | typeof personas
+    | typeof samplingPresets
+    | typeof lorebooks,
   id: string,
-  userId: number,
-): Promise<boolean> {
+): Promise<number | null> {
   const rows = await tx
-    .select({ id: table.id })
+    .select({ userId: table.userId })
     .from(table)
-    .where(and(eq(table.id, id), eq(table.userId, userId)))
+    .where(eq(table.id, id))
     .limit(1);
-  return rows.length > 0;
+  return rows[0]?.userId ?? null;
 }
 
-async function insertReferencedEntity(
+// True when the entity ends up present AND owned by userId (already was, or we
+// inserted it). False when the id is owned by another user: we must not insert
+// (PK collision would abort the whole push) and bindings to it must be dropped.
+async function ensureReferencedEntity(
   tx: SyncTx,
   table: typeof characters | typeof personas | typeof samplingPresets,
   userId: number,
@@ -221,33 +230,35 @@ async function insertReferencedEntity(
     id: string,
     expiresAt: Date,
   ) => Record<string, unknown>,
-): Promise<void> {
+): Promise<boolean> {
   const id = body.id as string;
-  if (!id || (await rowExists(tx, table, id, userId))) return;
+  if (!id) return false;
+  const owner = await rowOwner(tx, table, id);
+  if (owner === userId) return true;
+  if (owner !== null) return false;
   await tx.insert(table).values(values(body, userId, id, expiresAt) as never);
+  return true;
 }
 
-async function insertReferencedLorebook(
+async function ensureReferencedLorebook(
   tx: SyncTx,
   userId: number,
   expiresAt: Date,
   entry: { lorebook?: Record<string, unknown>; entries?: unknown[] },
-): Promise<void> {
+): Promise<boolean> {
   const lb = entry.lorebook ?? {};
   const id = lb.id as string;
-  if (!id) return;
-  const rows = await tx
-    .select({ id: lorebooks.id })
-    .from(lorebooks)
-    .where(and(eq(lorebooks.id, id), eq(lorebooks.userId, userId)))
-    .limit(1);
-  if (rows.length > 0) return;
+  if (!id) return false;
+  const owner = await rowOwner(tx, lorebooks, id);
+  if (owner === userId) return true;
+  if (owner !== null) return false;
   await tx
     .insert(lorebooks)
     .values(lorebookInsertValues(lb, userId, id, expiresAt) as never);
   for (const e of (entry.entries ?? []) as Array<Record<string, unknown>>) {
     await tx.insert(lorebookEntries).values(lorebookEntryInsertValues(e, id));
   }
+  return true;
 }
 
 // Upload R2 blobs pre-tx so latency doesn't hold the libSQL write lock.
@@ -398,7 +409,7 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
       // Inline entity bodies first so the join-table FKs below resolve even
       // when the referenced character/lorebook was never synced on its own.
       for (const ch of body.characters ?? []) {
-        await insertReferencedEntity(
+        await ensureReferencedEntity(
           tx,
           characters,
           userId,
@@ -408,7 +419,7 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
         );
       }
       for (const lb of body.lorebooks ?? []) {
-        await insertReferencedLorebook(tx, userId, expiresAt, lb);
+        await ensureReferencedLorebook(tx, userId, expiresAt, lb);
       }
       if (body.cardCharacters) {
         await tx.delete(cardCharacters).where(eq(cardCharacters.cardId, id));
@@ -501,19 +512,27 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
           );
       }
 
-      // Upsert referenced RP entities before conv_* rows (FK).
+      // Insert referenced RP entities before conv_* rows (FK). Track which
+      // ids resolved to THIS user so foreign-owned ids drop out of the
+      // bindings below instead of FK-aborting the whole push.
+      const ownedCharIds = new Set<string>();
+      const ownedLbIds = new Set<string>();
       for (const ch of body.characters ?? []) {
-        await insertReferencedEntity(
-          tx,
-          characters,
-          userId,
-          expiresAt,
-          ch,
-          characterInsertValues,
-        );
+        if (
+          await ensureReferencedEntity(
+            tx,
+            characters,
+            userId,
+            expiresAt,
+            ch,
+            characterInsertValues,
+          )
+        ) {
+          ownedCharIds.add(ch.id as string);
+        }
       }
       for (const p of body.personas ?? []) {
-        await insertReferencedEntity(
+        await ensureReferencedEntity(
           tx,
           personas,
           userId,
@@ -523,10 +542,13 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
         );
       }
       for (const lb of body.lorebooks ?? []) {
-        await insertReferencedLorebook(tx, userId, expiresAt, lb);
+        if (await ensureReferencedLorebook(tx, userId, expiresAt, lb)) {
+          const lid = lb.lorebook?.id;
+          if (typeof lid === "string") ownedLbIds.add(lid);
+        }
       }
       for (const pr of body.presets ?? []) {
-        await insertReferencedEntity(
+        await ensureReferencedEntity(
           tx,
           samplingPresets,
           userId,
@@ -545,6 +567,16 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
             .where(eq(conversationCharacters.convId, id));
         }
         for (const row of body.conversationCharacters) {
+          // Drop bindings to characters this user doesn't own: inline-inserted
+          // this push, or already owned standalone. A foreign/missing id would
+          // FK-abort the whole push.
+          if (
+            !ownedCharIds.has(row.characterId) &&
+            (await rowOwner(tx, characters, row.characterId)) !== userId
+          ) {
+            continue;
+          }
+          ownedCharIds.add(row.characterId);
           // Pass undefined not null; libSQL miscounts bind params on explicit null.
           const values = {
             convId: id,
@@ -583,6 +615,14 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
             .where(eq(conversationLorebooks.convId, id));
         }
         for (const row of body.conversationLorebooks) {
+          // Drop bindings to lorebooks this user doesn't own (FK safety).
+          if (
+            !ownedLbIds.has(row.lorebookId) &&
+            (await rowOwner(tx, lorebooks, row.lorebookId)) !== userId
+          ) {
+            continue;
+          }
+          ownedLbIds.add(row.lorebookId);
           const values = {
             convId: id,
             lorebookId: row.lorebookId,
