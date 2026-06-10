@@ -1,6 +1,7 @@
 "use client";
 
-import { LOCAL_ONLY_TABLES } from "@/lib/db/schema/client";
+import { getTableName } from "drizzle-orm";
+import { localMeta } from "@/lib/db/schema/client";
 import { logger } from "@/lib/utils/logger";
 import type { SQLocalDrizzle } from "sqlocal/drizzle";
 import { copyAllTables } from "./data-migrate/copy";
@@ -50,7 +51,9 @@ export async function openMigratedSql(
       const result = await copyAllTables(
         { exec: sql.exec.bind(sql) },
         { exec: fresh.exec.bind(fresh) },
-        { skipTables: LOCAL_ONLY_TABLES },
+        // Same-DB recovery keeps the outbox (un-pushed local changes would be
+        // silently lost otherwise); only the migration cursor must stay fresh.
+        { skipTables: [getTableName(localMeta)] },
       );
       logger.info("Local DB salvage copy complete", {
         context: "local-db.connection.salvage",
