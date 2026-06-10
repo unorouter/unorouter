@@ -6,11 +6,8 @@ import { Icon } from "@/components/ui/icon";
 import { Input } from "@/components/ui/input";
 import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
-import type { TaskFilterValues } from "./task-helpers";
-export { buildTaskFilters } from "./task-helpers";
-export type { TaskFilterValues } from "./task-helpers";
 
-export function TaskEmptyState() {
+export function LogsEmptyState() {
   const t = useTranslations();
   return (
     <div className="flex flex-col items-center gap-3">
@@ -20,8 +17,11 @@ export function TaskEmptyState() {
   );
 }
 
-export function TaskFiltersBar(props: {
-  filters: TaskFilterValues;
+export function IdFilterBar(props: {
+  filters: { start_date?: string; end_date?: string };
+  idField: string;
+  idValue: string;
+  placeholder: string;
   onFilterChange: (id: string, value: unknown) => void;
   onReset: () => void;
 }) {
@@ -30,7 +30,6 @@ export function TaskFiltersBar(props: {
   const endOfDay = dayjs().endOf("day").format("YYYY-MM-DDTHH:mm");
   const startDate = props.filters.start_date ?? startOfDay;
   const endDate = props.filters.end_date ?? endOfDay;
-  const taskId = props.filters.task_id ?? "";
 
   return (
     <div className="flex flex-wrap items-center gap-2">
@@ -56,11 +55,11 @@ export function TaskFiltersBar(props: {
           className="text-muted-foreground absolute top-1/2 left-2 h-3.5 w-3.5 -translate-y-1/2"
         />
         <Input
-          value={taskId}
+          value={props.idValue}
           onChange={(e) =>
-            props.onFilterChange("task_id", e.target.value || undefined)
+            props.onFilterChange(props.idField, e.target.value || undefined)
           }
-          placeholder={t("LOGS.TASK.FILTER_TASK_ID")}
+          placeholder={props.placeholder}
           className="h-8 w-48 pl-7 font-mono text-xs"
         />
       </div>

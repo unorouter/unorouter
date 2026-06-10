@@ -5,6 +5,35 @@ import { useBillingActions } from "@/hooks/ui/use-billing-actions";
 import { DEFAULT_TOPUP_AMOUNTS } from "@/lib/api/subscription";
 import { useTranslations } from "next-intl";
 
+function TopUpTile(props: {
+  price: number;
+  actual: number;
+  save?: number;
+  disabled: boolean;
+  onPay: () => void;
+}) {
+  const t = useTranslations();
+  return (
+    <button
+      onClick={props.onPay}
+      disabled={props.disabled}
+      className="border-border hover:border-primary/50 flex flex-col items-center gap-2 border p-4 transition-colors disabled:opacity-50"
+    >
+      <span className="text-foreground text-2xl font-bold tabular-nums">
+        {props.price} $
+      </span>
+      <span className="text-muted-foreground font-mono text-[11px]">
+        {t("BILLING.TOPUP.ACTUAL_PAYMENT")} ${props.actual.toFixed(2)}
+        {(props.save ?? 0) > 0 && (
+          <>
+            , {t("BILLING.TOPUP.SAVE")} ${props.save!.toFixed(2)}
+          </>
+        )}
+      </span>
+    </button>
+  );
+}
+
 export function TopUpSection() {
   const t = useTranslations();
   const billing = useBillingActions();
@@ -23,6 +52,7 @@ export function TopUpSection() {
   const showCrypto =
     billing.paymentMethod === "crypto" && billing.enableNowPayments;
   const showCard = billing.paymentMethod === "card" && billing.enableCard;
+  const grid = "grid grid-cols-2 gap-3 md:grid-cols-4";
 
   return (
     <div className="space-y-6">
@@ -34,50 +64,30 @@ export function TopUpSection() {
       </div>
 
       {showCard && billing.enableStripe && amountOptions.length > 0 && (
-        <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-          {amountOptions.map((amount) => {
-            const actual = billing.discountedAmount(amount);
-            const save = billing.discountSavings(amount);
-            return (
-              <button
-                key={amount}
-                onClick={() => billing.payStripe(amount)}
-                disabled={billing.isTopUpMutating}
-                className="border-border hover:border-primary/50 flex flex-col items-center gap-2 border p-4 transition-colors disabled:opacity-50"
-              >
-                <span className="text-foreground text-2xl font-bold tabular-nums">
-                  {amount} $
-                </span>
-                <span className="text-muted-foreground font-mono text-[11px]">
-                  {t("BILLING.TOPUP.ACTUAL_PAYMENT")} ${actual.toFixed(2)}
-                  {save > 0 && (
-                    <>
-                      , {t("BILLING.TOPUP.SAVE")} ${save.toFixed(2)}
-                    </>
-                  )}
-                </span>
-              </button>
-            );
-          })}
+        <div className={grid}>
+          {amountOptions.map((amount) => (
+            <TopUpTile
+              key={amount}
+              price={amount}
+              actual={billing.discountedAmount(amount)}
+              save={billing.discountSavings(amount)}
+              disabled={billing.isTopUpMutating}
+              onPay={() => billing.payStripe(amount)}
+            />
+          ))}
         </div>
       )}
 
       {showCard && billing.enableCreem && creemProducts.length > 0 && (
-        <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+        <div className={grid}>
           {creemProducts.map((product, index) => (
-            <button
+            <TopUpTile
               key={product.productId ?? index}
-              onClick={() => billing.payCreem(product.productId, product.price)}
+              price={product.price}
+              actual={product.price}
               disabled={billing.isTopUpMutating}
-              className="border-border hover:border-primary/50 flex flex-col items-center gap-2 border p-4 transition-colors disabled:opacity-50"
-            >
-              <span className="text-foreground text-2xl font-bold tabular-nums">
-                {product.price} $
-              </span>
-              <span className="text-muted-foreground font-mono text-[11px]">
-                {t("BILLING.TOPUP.ACTUAL_PAYMENT")} ${product.price.toFixed(2)}
-              </span>
-            </button>
+              onPay={() => billing.payCreem(product.productId, product.price)}
+            />
           ))}
         </div>
       )}
@@ -86,54 +96,34 @@ export function TopUpSection() {
         billing.enableStripe &&
         amountOptions.length === 0 &&
         creemProducts.length === 0 && (
-          <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+          <div className={grid}>
             {DEFAULT_TOPUP_AMOUNTS.map((amount) => (
-              <button
+              <TopUpTile
                 key={amount}
-                onClick={() => billing.payStripe(amount)}
+                price={amount}
+                actual={amount}
                 disabled={billing.isTopUpMutating}
-                className="border-border hover:border-primary/50 flex flex-col items-center gap-2 border p-4 transition-colors disabled:opacity-50"
-              >
-                <span className="text-foreground text-2xl font-bold tabular-nums">
-                  {amount} $
-                </span>
-                <span className="text-muted-foreground font-mono text-[11px]">
-                  {t("BILLING.TOPUP.ACTUAL_PAYMENT")} ${amount.toFixed(2)}
-                </span>
-              </button>
+                onPay={() => billing.payStripe(amount)}
+              />
             ))}
           </div>
         )}
 
       {showCrypto && (
-        <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+        <div className={grid}>
           {(amountOptions.length > 0
             ? amountOptions
             : DEFAULT_TOPUP_AMOUNTS
-          ).map((amount) => {
-            const actual = billing.discountedAmount(amount);
-            const save = billing.discountSavings(amount);
-            return (
-              <button
-                key={amount}
-                onClick={() => billing.payNowPayments(amount)}
-                disabled={billing.isTopUpMutating}
-                className="border-border hover:border-primary/50 flex flex-col items-center gap-2 border p-4 transition-colors disabled:opacity-50"
-              >
-                <span className="text-foreground text-2xl font-bold tabular-nums">
-                  {amount} $
-                </span>
-                <span className="text-muted-foreground font-mono text-[11px]">
-                  {t("BILLING.TOPUP.ACTUAL_PAYMENT")} ${actual.toFixed(2)}
-                  {save > 0 && (
-                    <>
-                      , {t("BILLING.TOPUP.SAVE")} ${save.toFixed(2)}
-                    </>
-                  )}
-                </span>
-              </button>
-            );
-          })}
+          ).map((amount) => (
+            <TopUpTile
+              key={amount}
+              price={amount}
+              actual={billing.discountedAmount(amount)}
+              save={billing.discountSavings(amount)}
+              disabled={billing.isTopUpMutating}
+              onPay={() => billing.payNowPayments(amount)}
+            />
+          ))}
         </div>
       )}
     </div>

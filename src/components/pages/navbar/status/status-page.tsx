@@ -217,7 +217,9 @@ export function StatusPage() {
                         icon="circle-alert"
                         count={item.degraded}
                         textClass={
-                          item.degraded > 0 ? "text-amber-700 dark:text-amber-400" : undefined
+                          item.degraded > 0
+                            ? "text-amber-700 dark:text-amber-400"
+                            : undefined
                         }
                       />
                       <StatusCount

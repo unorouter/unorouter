@@ -91,7 +91,12 @@ export async function applyBundle<K extends SyncKindName>(
     case "presets": {
       const b = bundle as SyncBundle<"presets">;
       if (
-        await localNewer(userId, readLocalPreset, b.preset.id, b.preset.updatedAt)
+        await localNewer(
+          userId,
+          readLocalPreset,
+          b.preset.id,
+          b.preset.updatedAt,
+        )
       )
         return skip;
       await upsertLocalPreset(userId, b.preset);

@@ -26,12 +26,8 @@ import {
   ImagePreviewDialog,
   PromptDialog,
 } from "./drawing-dialogs";
-import {
-  buildDrawingFilters,
-  DrawingEmptyState,
-  DrawingFilters,
-} from "./drawing-filters";
-import type { DrawingRow } from "./drawing-helpers";
+import { IdFilterBar, LogsEmptyState } from "../common/id-filter-bar";
+import { buildDrawingFilters, type DrawingRow } from "./drawing-helpers";
 
 export function DrawingLogs() {
   const t = useTranslations();
@@ -159,13 +155,16 @@ export function DrawingLogs() {
         isLoading={logsQuery.isLoading}
         columnVisibility
         filter={() => (
-          <DrawingFilters
+          <IdFilterBar
             filters={filterValues}
+            idField="mj_id"
+            idValue={filterValues.mj_id ?? ""}
+            placeholder={t("LOGS.DRAWING.FILTER_MJ_ID")}
             onFilterChange={handleFilterChange}
             onReset={handleReset}
           />
         )}
-        emptyState={<DrawingEmptyState />}
+        emptyState={<LogsEmptyState />}
       />
       <ImagePreviewDialog
         open={imageOpen}

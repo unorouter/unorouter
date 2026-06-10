@@ -12,6 +12,19 @@ import { Suspense, lazy } from "react";
 
 const cache = new Map<string, IconComponent>();
 
+// Warm the deferred icon-map module after first paint: it stays out of the
+// first-paint chunks, but loading it on idle means icon renders only await
+// their tiny per-icon chunk instead of map + chunk (visible spinner flash on
+// icon-heavy pages after a deploy invalidates hashes).
+if (typeof window !== "undefined") {
+  const warm = () => void import("@/lib/config/icon-map");
+  if ("requestIdleCallback" in window) {
+    window.requestIdleCallback(warm, { timeout: 2000 });
+  } else {
+    setTimeout(warm, 300);
+  }
+}
+
 // ICON_MAP is a 2k-line module (850 loader closures); importing it statically
 // put it in the shared chunk every page parses. Load it with the first icon
 // render instead; resolution happens inside the lazy thunk.

@@ -1,48 +1,23 @@
 "use client";
 
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
-import { CopyButton } from "@/components/elements/code/copy-button";
 import { ModelTypeBadge } from "@/components/elements/model/model-type-badge";
 import { PerfBadge } from "@/components/elements/model/perf-badge";
-import { Icon } from "@/components/ui/icon";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { Link, useRouter } from "@/i18n/navigation";
-import type { ModelSummary } from "@/openapi";
 import type { ProcessedModel } from "@/lib/api/pricing";
 import { getVendorTheme } from "@/lib/config/vendor-themes";
 import { cn } from "@/lib/utils";
-import { modelSlug } from "@/lib/utils/base";
 import { formatPrice } from "@/lib/utils/format/number";
-import { chatModelAtom } from "@/store/chat-store";
-import { useSetAtom } from "jotai";
-import { useTranslations } from "next-intl";
+import type { ModelSummary } from "@/openapi";
 
 import { CapabilityChips } from "../detail/capability-chips";
-
-export type ModelListItemLabels = {
-  from: string;
-  perRequest: string;
-  input: string;
-  output: string;
-  perMillion: string;
-  gridPricing: string;
-  customBilling: string;
-  tiered: string;
-};
+import { ModelActionIcons, type ModelPricingLabels } from "./model-actions";
 
 export function ModelListItem(props: {
   model: ProcessedModel;
   onClick: () => void;
-  labels: ModelListItemLabels;
+  labels: ModelPricingLabels;
   perf?: ModelSummary;
 }) {
-  const t = useTranslations();
-  const router = useRouter();
-  const setChatModel = useSetAtom(chatModelAtom);
   const model = props.model;
   const theme = getVendorTheme(model.vendor.name);
 
@@ -62,48 +37,7 @@ export function ModelListItem(props: {
           <span className="truncate font-mono text-sm font-medium tracking-wide">
             {model.name}
           </span>
-          <Tooltip>
-            <TooltipTrigger render={<span className="shrink-0" />}>
-              <CopyButton
-                text={model.name}
-                iconSize="h-3 w-3"
-                className="text-muted-foreground hover:text-foreground flex size-6 shrink-0 items-center justify-center transition-colors"
-              />
-            </TooltipTrigger>
-            <TooltipContent>{t("COMMON.COPY_CODE")}</TooltipContent>
-          </Tooltip>
-          <Tooltip>
-            <TooltipTrigger
-              aria-label={t("MODELS.OPEN_IN_CHAT")}
-              className="text-muted-foreground hover:text-foreground flex size-6 shrink-0 items-center justify-center transition-colors"
-              onClick={(e) => {
-                e.stopPropagation();
-                setChatModel(model.name);
-                router.push("/chat");
-              }}
-            >
-              <Icon name="message-square" className="h-3 w-3" />
-            </TooltipTrigger>
-            <TooltipContent>{t("MODELS.OPEN_IN_CHAT")}</TooltipContent>
-          </Tooltip>
-          <Tooltip>
-            <TooltipTrigger
-              aria-label={t("MODELS.VIEW_DETAILS")}
-              className="text-muted-foreground hover:text-foreground flex size-6 shrink-0 items-center justify-center transition-colors"
-              onClick={(e) => e.stopPropagation()}
-              render={
-                <Link
-                  href={{
-                    pathname: "/models/[slug]",
-                    params: { slug: modelSlug(model.name) },
-                  }}
-                />
-              }
-            >
-              <Icon name="external-link" className="h-3 w-3" />
-            </TooltipTrigger>
-            <TooltipContent>{t("MODELS.VIEW_DETAILS")}</TooltipContent>
-          </Tooltip>
+          <ModelActionIcons model={model} iconSize="h-3 w-3" />
         </div>
 
         <ModelTypeBadge

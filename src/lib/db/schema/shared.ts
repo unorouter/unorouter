@@ -28,6 +28,22 @@ import type {
 
 // syncExpiresAt: null=local-only; non-null=synced + server-purged past timestamp.
 
+// Fresh builder instances per call: drizzle binds a builder to its table, so
+// the shared column shapes must be factories, not constants.
+const timestamps = () => ({
+  createdAt: integer("created_at", { mode: "timestamp_ms" })
+    .notNull()
+    .default(sql`(unixepoch() * 1000)`),
+  updatedAt: integer("updated_at", { mode: "timestamp_ms" })
+    .notNull()
+    .default(sql`(unixepoch() * 1000)`),
+});
+
+const syncableTimestamps = () => ({
+  syncExpiresAt: integer("sync_expires_at", { mode: "timestamp_ms" }),
+  ...timestamps(),
+});
+
 export const conversations = sqliteTable(
   "conversations",
   {
@@ -83,13 +99,7 @@ export const conversations = sqliteTable(
     summaryAnchor: integer("summary_anchor"),
     // Toggle for the rolling summary + semantic retrieval memory features.
     memoryEnabled: integer("memory_enabled", { mode: "boolean" }),
-    syncExpiresAt: integer("sync_expires_at", { mode: "timestamp_ms" }),
-    createdAt: integer("created_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
-    updatedAt: integer("updated_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
+    ...syncableTimestamps(),
   },
   (table) => [
     index("idx_conv_user_updated").on(table.userId, table.updatedAt),
@@ -125,12 +135,7 @@ export const messages = sqliteTable(
     isEdited: integer("is_edited", { mode: "boolean" })
       .notNull()
       .default(false),
-    createdAt: integer("created_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
-    updatedAt: integer("updated_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
+    ...timestamps(),
   },
   (table) => [
     index("idx_msg_conv_parent").on(table.convId, table.parentId),
@@ -227,13 +232,7 @@ export const characters = sqliteTable(
     matchWholeWords: integer("match_whole_words", { mode: "boolean" })
       .notNull()
       .default(false),
-    syncExpiresAt: integer("sync_expires_at", { mode: "timestamp_ms" }),
-    createdAt: integer("created_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
-    updatedAt: integer("updated_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
+    ...syncableTimestamps(),
   },
   (table) => [
     index("idx_char_user_updated").on(table.userId, table.updatedAt),
@@ -257,13 +256,7 @@ export const personas = sqliteTable(
       .notNull()
       .default(false),
     notes: text("notes"),
-    syncExpiresAt: integer("sync_expires_at", { mode: "timestamp_ms" }),
-    createdAt: integer("created_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
-    updatedAt: integer("updated_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
+    ...syncableTimestamps(),
   },
   (table) => [
     index("idx_persona_user_default").on(table.userId, table.isDefault),
@@ -286,13 +279,7 @@ export const lorebooks = sqliteTable(
     recursiveScanning: integer("recursive_scanning", { mode: "boolean" })
       .notNull()
       .default(false),
-    syncExpiresAt: integer("sync_expires_at", { mode: "timestamp_ms" }),
-    createdAt: integer("created_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
-    updatedAt: integer("updated_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
+    ...syncableTimestamps(),
   },
   (table) => [
     index("idx_lorebook_user").on(table.userId),
@@ -331,12 +318,7 @@ export const lorebookEntries = sqliteTable(
       .notNull()
       .default("system")
       .$type<LorebookInjectionRole>(),
-    createdAt: integer("created_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
-    updatedAt: integer("updated_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
+    ...timestamps(),
   },
   (table) => [
     index("idx_lbentry_book_enabled").on(table.lorebookId, table.enabled),
@@ -387,13 +369,7 @@ export const samplingPresets = sqliteTable(
     isDefault: integer("is_default", { mode: "boolean" })
       .notNull()
       .default(false),
-    syncExpiresAt: integer("sync_expires_at", { mode: "timestamp_ms" }),
-    createdAt: integer("created_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
-    updatedAt: integer("updated_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
+    ...syncableTimestamps(),
   },
   (table) => [
     index("idx_preset_user_name").on(table.userId, table.name),
@@ -455,13 +431,7 @@ export const cards = sqliteTable(
     name: text("name").notNull(),
     description: text("description"),
     personaId: text("persona_id"),
-    syncExpiresAt: integer("sync_expires_at", { mode: "timestamp_ms" }),
-    createdAt: integer("created_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
-    updatedAt: integer("updated_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
+    ...syncableTimestamps(),
   },
   (table) => [
     index("idx_card_user_updated").on(table.userId, table.updatedAt),
@@ -511,13 +481,7 @@ export const userThemes = sqliteTable(
     themeJson: text("theme_json", { mode: "json" })
       .$type<UserTheme>()
       .notNull(),
-    syncExpiresAt: integer("sync_expires_at", { mode: "timestamp_ms" }),
-    createdAt: integer("created_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
-    updatedAt: integer("updated_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
+    ...syncableTimestamps(),
   },
   (table) => [index("idx_theme_sync_expires").on(table.syncExpiresAt)],
 );
@@ -572,13 +536,7 @@ export const playgroundSessions = sqliteTable(
     snapshotCount: integer("snapshot_count").notNull().default(0),
     imageCount: integer("image_count").notNull().default(0),
     expiresAt: integer("expires_at", { mode: "timestamp_ms" }).notNull(),
-    syncExpiresAt: integer("sync_expires_at", { mode: "timestamp_ms" }),
-    createdAt: integer("created_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
-    updatedAt: integer("updated_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
+    ...syncableTimestamps(),
   },
   (table) => [
     index("idx_session_user_updated").on(table.userId, table.updatedAt),
@@ -624,12 +582,7 @@ export const playgrounds = sqliteTable(
     remixedFrom: text("remixed_from"),
     errorMessage: text("error_message"),
     submittedKey: text("submitted_key"),
-    createdAt: integer("created_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
-    updatedAt: integer("updated_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
+    ...timestamps(),
     expiresAt: integer("expires_at", { mode: "timestamp_ms" }).notNull(),
   },
   (table) => [

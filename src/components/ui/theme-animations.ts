@@ -90,8 +90,7 @@ export const getRandomAnimation = () => {
     validStarts = ANIMATION_OPTIONS.starts;
   }
 
-  const randomStart =
-    pick(validStarts);
+  const randomStart = pick(validStarts);
 
   return { variant: randomVariant, start: randomStart };
 };

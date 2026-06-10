@@ -3,7 +3,6 @@
 import { MyFormInput } from "@/components/elements/form/my-form-input";
 import { MyFormSwitch } from "@/components/elements/form/my-form-switch";
 import { MyFormTextarea } from "@/components/elements/form/my-form-textarea";
-import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
@@ -27,6 +26,7 @@ import {
 } from "@/lib/validation/rp-forms";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { useTranslations } from "next-intl";
+import { FormFooter } from "../shared/form-footer";
 import { useForm, type Path } from "react-hook-form";
 import { SamplingFields } from "../sampling-fields";
 import { PromptTemplateEditor } from "./prompt-template-editor";
@@ -343,12 +343,7 @@ export function PresetForm(props: Props) {
           </TabsContent>
         </Tabs>
 
-        <div className="flex justify-end gap-2">
-          <Button type="button" variant="ghost" onClick={props.onDone}>
-            {t("COMMON.CANCEL")}
-          </Button>
-          <Button type="submit">{t("COMMON.SAVE")}</Button>
-        </div>
+        <FormFooter onCancel={props.onDone} />
       </form>
     </Form>
   );

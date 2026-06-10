@@ -178,25 +178,7 @@ export function Navbar() {
           )}
         </div>
 
-        {/* Desktop Auth */}
-        <div className="hidden items-center gap-4 md:flex">
-          <LanguageToggle />
-          <ThemeToggle />
-          {authQuery.data ? (
-            <UserDropdown side="bottom" align="end">
-              <button className="cursor-pointer focus:outline-none">
-                <UserAvatar />
-              </button>
-            </UserDropdown>
-          ) : authQuery.isLoading ? null : (
-            <LoginLink className="text-muted-foreground hover:text-foreground text-[11px] font-bold tracking-wider uppercase transition-colors">
-              {t("NAV.LOG_IN")}
-            </LoginLink>
-          )}
-        </div>
-
-        {/* Mobile: Lang/Theme + User avatar */}
-        <div className="flex items-center gap-4 md:hidden">
+        <div className="flex items-center gap-4">
           <LanguageToggle />
           <ThemeToggle />
           {authQuery.data ? (

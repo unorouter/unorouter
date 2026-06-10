@@ -26,9 +26,7 @@ export function ScrambleText(props: ScrambleTextProps) {
     // eslint-disable-next-line react-hooks/set-state-in-effect -- size buffer to current word length, dropping stale tail chars
     setDisplayed(() =>
       Array.from({ length: totalLetters }, (_, i) =>
-        props.text[i] === " "
-          ? " "
-          : (pick(CHARS) ?? ""),
+        props.text[i] === " " ? " " : (pick(CHARS) ?? ""),
       ),
     );
 

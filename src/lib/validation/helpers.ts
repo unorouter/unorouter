@@ -12,7 +12,6 @@ SetErrorFunction((error) => {
   return DefaultErrorFunction(error);
 });
 
-
 /** `schema | null`, defaulting null. The dominant column shape in validation. */
 export function nullable<T extends TSchema>(schema: T) {
   return t.Union([schema, t.Null()], { default: null });

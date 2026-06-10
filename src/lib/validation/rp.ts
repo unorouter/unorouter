@@ -22,13 +22,17 @@ export const characterBody = t.Object({
   systemPrompt: nullable(t.String({ maxLength: MAX_DESC_LEN })),
   postHistoryInstructions: nullable(t.String({ maxLength: MAX_DESC_LEN })),
   defaultReasoningEffort: nullable(reasoningEffort),
-  tags: nullable(t.Array(t.String({ maxLength: MAX_TAG_LEN }), { maxItems: MAX_TAGS })),
+  tags: nullable(
+    t.Array(t.String({ maxLength: MAX_TAG_LEN }), { maxItems: MAX_TAGS }),
+  ),
   // RisuAI triggerscript[] (V2 effect VM). Loose: the VM parser narrows.
   triggers: nullable(t.Array(t.Unknown(), { maxItems: 128 })),
   // Keyword array for multi-character turn-gating.
-  turnTriggers: nullable(t.Array(t.String({ maxLength: MAX_KEY_LEN }), {
-        maxItems: MAX_KEYS_PER_ENTRY,
-      })),
+  turnTriggers: nullable(
+    t.Array(t.String({ maxLength: MAX_KEY_LEN }), {
+      maxItems: MAX_KEYS_PER_ENTRY,
+    }),
+  ),
   // RisuAI customscript / ST regex scripts. Loose: the engine's parser narrows.
   regexScripts: nullable(t.Array(t.Unknown(), { maxItems: 128 })),
   alwaysActive: t.Boolean({ default: true }),
@@ -80,9 +84,11 @@ export const lorebookEntryBody = t.Object({
   keys: t.Array(t.String({ maxLength: MAX_KEY_LEN }), {
     maxItems: MAX_KEYS_PER_ENTRY,
   }),
-  secondaryKeys: nullable(t.Array(t.String({ maxLength: MAX_KEY_LEN }), {
-        maxItems: MAX_KEYS_PER_ENTRY,
-      })),
+  secondaryKeys: nullable(
+    t.Array(t.String({ maxLength: MAX_KEY_LEN }), {
+      maxItems: MAX_KEYS_PER_ENTRY,
+    }),
+  ),
   content: t.String({ minLength: 1, maxLength: MAX_DESC_LEN }),
   constant: t.Boolean({ default: false }),
   selective: t.Boolean({ default: false }),

@@ -3,7 +3,6 @@
 import { MyFormCombobox } from "@/components/elements/form/my-form-combobox";
 import { MyFormInput } from "@/components/elements/form/my-form-input";
 import { MyFormTextarea } from "@/components/elements/form/my-form-textarea";
-import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -31,6 +30,7 @@ import { formDefaults } from "@/lib/validation/helpers";
 import { cardFormSchema, type CardForm } from "@/lib/validation/rp-forms";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { useTranslations } from "next-intl";
+import { FormFooter } from "../shared/form-footer";
 import { useForm } from "react-hook-form";
 
 type Props = {
@@ -153,12 +153,7 @@ export function CardForm(props: Props) {
           options={lorebooksQuery.data}
         />
 
-        <div className="flex justify-end gap-2">
-          <Button type="button" variant="ghost" onClick={props.onDone}>
-            {t("COMMON.CANCEL")}
-          </Button>
-          <Button type="submit">{t("COMMON.SAVE")}</Button>
-        </div>
+        <FormFooter onCancel={props.onDone} />
       </form>
     </Form>
   );

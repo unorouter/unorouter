@@ -30,10 +30,69 @@ const LEGAL_LINKS = [
   { href: "/privacy", key: msg("FOOTER.PRIVACY") },
 ] as const;
 
+function FooterLinks(props: {
+  links: typeof NAV_LINKS | typeof LEGAL_LINKS;
+  pathname: string;
+}) {
+  const t = useTranslations();
+  return (
+    <>
+      {props.links.map((item) => (
+        <li key={item.key}>
+          <Link
+            href={item.href}
+            className={cn(
+              "text-foreground/70 hover:text-foreground transition-colors",
+              isActiveLink(props.pathname, item.href) &&
+                "text-primary font-medium",
+            )}
+            onClick={() =>
+              analytics.navigation.footerLinkClicked({
+                key: item.key,
+                external: false,
+              })
+            }
+          >
+            {t(item.key)}
+          </Link>
+        </li>
+      ))}
+    </>
+  );
+}
+
 export function Footer() {
   const t = useTranslations();
   const pathname = usePathname();
   const [breakoutOpen, setBreakoutOpen] = useState(false);
+
+  const socialLinks = [
+    {
+      id: "github",
+      href: env.githubUrl,
+      icon: "brand-github",
+      label: "GitHub",
+    },
+    {
+      id: "discord",
+      href: env.discordUrl,
+      icon: "brand-discord",
+      label: "Discord",
+    },
+    { id: "x", href: env.twitterUrl, icon: "brand-x-twitter", label: "X" },
+    {
+      id: "trustpilot",
+      href: env.trustpilotUrl,
+      icon: "brand-trustpilot",
+      label: t("FOOTER.SOCIAL_TRUSTPILOT"),
+    },
+    {
+      id: "reddit",
+      href: env.redditUrl,
+      icon: "brand-reddit",
+      label: "Reddit",
+    },
+  ] as const;
 
   return (
     <footer className="bg-muted/30 relative overflow-hidden rounded-t-3xl border-t md:rounded-t-[4rem]">
@@ -53,67 +112,23 @@ export function Footer() {
               {t("FOOTER.DESCRIPTION")}
             </p>
             <div className="flex justify-center space-x-3 md:justify-start">
-              {env.githubUrl && (
-                <NextLink
-                  href={env.githubUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-background hover:bg-muted rounded-full p-2 transition-colors"
-                  aria-label="GitHub"
-                  onClick={() => analytics.navigation.socialClicked("github")}
-                >
-                  <Icon name="brand-github" className="h-5 w-5" />
-                </NextLink>
-              )}
-              {env.discordUrl && (
-                <NextLink
-                  href={env.discordUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-background hover:bg-muted rounded-full p-2 transition-colors"
-                  aria-label="Discord"
-                  onClick={() => analytics.navigation.socialClicked("discord")}
-                >
-                  <Icon name="brand-discord" className="h-5 w-5" />
-                </NextLink>
-              )}
-              {env.twitterUrl && (
-                <NextLink
-                  href={env.twitterUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-background hover:bg-muted rounded-full p-2 transition-colors"
-                  aria-label="X"
-                  onClick={() => analytics.navigation.socialClicked("x")}
-                >
-                  <Icon name="brand-x-twitter" className="h-5 w-5" />
-                </NextLink>
-              )}
-              {env.trustpilotUrl && (
-                <NextLink
-                  href={env.trustpilotUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-background hover:bg-muted rounded-full p-2 transition-colors"
-                  aria-label={t("FOOTER.SOCIAL_TRUSTPILOT")}
-                  onClick={() =>
-                    analytics.navigation.socialClicked("trustpilot")
-                  }
-                >
-                  <Icon name="brand-trustpilot" className="h-5 w-5" />
-                </NextLink>
-              )}
-              {env.redditUrl && (
-                <NextLink
-                  href={env.redditUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-background hover:bg-muted rounded-full p-2 transition-colors"
-                  aria-label="Reddit"
-                  onClick={() => analytics.navigation.socialClicked("reddit")}
-                >
-                  <Icon name="brand-reddit" className="h-5 w-5" />
-                </NextLink>
+              {socialLinks.map(
+                (social) =>
+                  social.href && (
+                    <NextLink
+                      key={social.id}
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="bg-background hover:bg-muted rounded-full p-2 transition-colors"
+                      aria-label={social.label}
+                      onClick={() =>
+                        analytics.navigation.socialClicked(social.id)
+                      }
+                    >
+                      <Icon name={social.icon} className="h-5 w-5" />
+                    </NextLink>
+                  ),
               )}
             </div>
           </div>
@@ -123,26 +138,7 @@ export function Footer() {
             <div className="text-center md:col-span-1 md:text-left">
               <h3 className="mb-4 font-semibold">{t("FOOTER.PRODUCT")}</h3>
               <ul className="space-y-2">
-                {NAV_LINKS.map((item) => (
-                  <li key={item.key}>
-                    <Link
-                      href={item.href}
-                      className={cn(
-                        "text-foreground/70 hover:text-foreground transition-colors",
-                        isActiveLink(pathname, item.href) &&
-                          "text-primary font-medium",
-                      )}
-                      onClick={() =>
-                        analytics.navigation.footerLinkClicked({
-                          key: item.key,
-                          external: false,
-                        })
-                      }
-                    >
-                      {t(item.key)}
-                    </Link>
-                  </li>
-                ))}
+                <FooterLinks links={NAV_LINKS} pathname={pathname} />
                 {EXTERNAL_NAV_LINKS.map((item) => (
                   <li key={item.key}>
                     <NextLink
@@ -169,26 +165,7 @@ export function Footer() {
             <div className="text-center md:col-span-1 md:text-left">
               <h3 className="mb-4 font-semibold">{t("FOOTER.LEGAL")}</h3>
               <ul className="space-y-2">
-                {LEGAL_LINKS.map((item) => (
-                  <li key={item.key}>
-                    <Link
-                      href={item.href}
-                      className={cn(
-                        "text-foreground/70 hover:text-foreground transition-colors",
-                        isActiveLink(pathname, item.href) &&
-                          "text-primary font-medium",
-                      )}
-                      onClick={() =>
-                        analytics.navigation.footerLinkClicked({
-                          key: item.key,
-                          external: false,
-                        })
-                      }
-                    >
-                      {t(item.key)}
-                    </Link>
-                  </li>
-                ))}
+                <FooterLinks links={LEGAL_LINKS} pathname={pathname} />
               </ul>
             </div>
           </div>
