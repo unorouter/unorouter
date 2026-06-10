@@ -1,7 +1,23 @@
 "use client";
 
-import { LocalDbStudio } from "@/components/elements/db/local-db-studio";
-import { ConversationOverridesDrawer } from "@/components/pages/sidebar/chat/overrides";
+import dynamic from "next/dynamic";
+// Both panels are action-gated; their module graphs (overrides form pulls the
+// TypeBox validation schemas, the studio pulls @libsqlstudio/gui) must load on
+// first open, not with the chat shell.
+const ConversationOverridesDrawer = dynamic(
+  () =>
+    import("@/components/pages/sidebar/chat/overrides").then(
+      (m) => m.ConversationOverridesDrawer,
+    ),
+  { ssr: false },
+);
+const LocalDbStudio = dynamic(
+  () =>
+    import("@/components/elements/db/local-db-studio").then(
+      (m) => m.LocalDbStudio,
+    ),
+  { ssr: false },
+);
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -65,12 +81,16 @@ export function ChatActionsMenu(props: Props) {
           />
         </DropdownMenuContent>
       </DropdownMenu>
-      <ConversationOverridesDrawer
-        convId={props.convId}
-        open={settingsOpen}
-        onOpenChange={setSettingsOpen}
-      />
-      <LocalDbStudio open={dbStudioOpen} onOpenChange={setDbStudioOpen} />
+      {settingsOpen && (
+        <ConversationOverridesDrawer
+          convId={props.convId}
+          open={settingsOpen}
+          onOpenChange={setSettingsOpen}
+        />
+      )}
+      {dbStudioOpen && (
+        <LocalDbStudio open={dbStudioOpen} onOpenChange={setDbStudioOpen} />
+      )}
     </>
   );
 }
