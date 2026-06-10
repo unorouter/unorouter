@@ -10,7 +10,7 @@ import { FILTER_OPTIONS, selectedVendorsAtom } from "@/store/models-store";
 import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { WindowVirtualizer } from "virtua";
 import { ModelCard } from "./browse/model-card";
 import { ModelListItem } from "./browse/model-list-item";
@@ -19,24 +19,10 @@ import { SortFilter } from "./filters/sort-filter";
 import { VendorFilter } from "./filters/vendor-filter";
 import { ViewModeToggle } from "./filters/view-mode-toggle";
 
-// Tracks the grid's Tailwind breakpoints (sm:2, lg:3) so virtualized rows
-// chunk to the same column count the CSS renders.
-function useGridColumns() {
-  const [cols, setCols] = useState(1);
-  useEffect(() => {
-    const sm = window.matchMedia("(min-width: 640px)");
-    const lg = window.matchMedia("(min-width: 1024px)");
-    const update = () => setCols(lg.matches ? 3 : sm.matches ? 2 : 1);
-    update();
-    sm.addEventListener("change", update);
-    lg.addEventListener("change", update);
-    return () => {
-      sm.removeEventListener("change", update);
-      lg.removeEventListener("change", update);
-    };
-  }, []);
-  return cols;
-}
+// Fixed chunk size: each virtual row holds 3 cards and its own responsive
+// grid reflows them (3/2/1 per breakpoint). JS column detection started at 1
+// and corrected in an effect, flashing a one-column layout on every load.
+const GRID_CHUNK = 3;
 
 export function ModelsPage() {
   const t = useTranslations();
@@ -48,10 +34,9 @@ export function ModelsPage() {
 
   // Rendering all ~200 catalog entries at once cost ~20s main-thread on mobile
   // (Lighthouse TBT 9.9s); window-virtualize like the status page.
-  const gridCols = useGridColumns();
   const gridRows: (typeof m.filtered)[] = [];
-  for (let i = 0; i < m.filtered.length; i += gridCols) {
-    gridRows.push(m.filtered.slice(i, i + gridCols));
+  for (let i = 0; i < m.filtered.length; i += GRID_CHUNK) {
+    gridRows.push(m.filtered.slice(i, i + GRID_CHUNK));
   }
 
   const searchParams = useSearchParams();
