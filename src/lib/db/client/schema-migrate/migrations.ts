@@ -25,11 +25,9 @@ export async function runMigrations(sql: SQLocalDrizzle): Promise<void> {
     lastTag = null;
   }
 
-  // If the stored tag is absent from the manifest (the baseline was rebuilt and
-  // its tag changed), the cursor can't be trusted. Replaying CREATE TABLEs is a
-  // no-op (tables exist) so new columns would be SILENTLY missed - the cause of
-  // the column-mismatch query failures. Run every migration (idempotent), then
-  // reconcile columns below to repair any drift.
+  // Stored tag absent from the manifest (rebuilt baseline) = untrusted cursor:
+  // run every migration (idempotent) then reconcile columns, else new columns
+  // are silently missed (the old column-mismatch failures).
   const knownTag = lastTag && migrations.some((m) => m.tag === lastTag);
   const startIndex = knownTag
     ? migrations.findIndex((m) => m.tag === lastTag) + 1
@@ -61,21 +59,30 @@ export async function runMigrations(sql: SQLocalDrizzle): Promise<void> {
     `;
   }
 
-  // Self-heal schema drift: baselines are regenerated IN PLACE, so an existing
-  // DB whose cursor says "applied" can have stale tables (missing columns,
-  // dropped/added constraints like the old chat_memory NOT NULL). Replaying
-  // CREATE TABLE is a no-op on existing tables; instead compare each table's
-  // stored DDL to the manifest and rebuild drifted tables in place, recovering
-  // every row the new schema accepts. Runs every load, no-op when identical.
+  // Self-heal drift from in-place regenerated baselines: compare each table's
+  // stored DDL to the manifest and rebuild drifted tables, recovering every row
+  // the new schema accepts. Runs every load, no-op when identical.
   await reconcileSchema(sql, migrations);
 }
 
-type TableDdl = { create: string; cols: string[]; indexes: string[] };
+type TableDdl = {
+  name: string;
+  colDefs: string[];
+  constraints: string[];
+  indexes: string[];
+};
 
-// Build each table's EFFECTIVE DDL by walking the manifest statements in
-// order (trusted drizzle-kit output, so light regexes are safe): CREATE TABLE
-// sets the entry (a regenerated baseline's later CREATE wins), ALTER ADD/DROP
-// COLUMN folds into it the same way SQLite rewrites sqlite_master on ALTER.
+const colName = (def: string) => def.match(/^`([^`]+)`/)?.[1] ?? "";
+
+// Column defs first, table constraints last: ALTER ADD must fold the new
+// column in BEFORE constraint lines (matching SQLite's sqlite_master rewrite);
+// appending after a PRIMARY KEY(...) line is a syntax error.
+const buildCreate = (t: TableDdl) =>
+  `CREATE TABLE \`${t.name}\` (\n\t${[...t.colDefs, ...t.constraints].join(",\n\t")}\n)`;
+
+// Effective DDL per table from the manifest (trusted drizzle-kit output, light
+// regexes safe): later CREATE wins, ALTER ADD/DROP COLUMN folds in like SQLite
+// rewrites sqlite_master.
 function parseManifestDdl(
   migrations: MigrationManifest["migrations"],
 ): Map<string, TableDdl> {
@@ -87,16 +94,14 @@ function parseManifestDdl(
   for (const stmt of statements) {
     let m = stmt.match(/^CREATE TABLE\s+`([^`]+)`\s*\(([\s\S]*?)\n\);?$/);
     if (m) {
-      const cols: string[] = [];
-      for (const line of m[2].split("\n")) {
-        const colMatch = line.trim().match(/^`([^`]+)`\s+.+$/);
-        if (colMatch) cols.push(colMatch[1]); // skip FK/constraint lines
+      const colDefs: string[] = [];
+      const constraints: string[] = [];
+      for (const raw of m[2].split("\n")) {
+        const line = raw.trim().replace(/,\s*$/, "");
+        if (!line) continue;
+        (line.startsWith("`") ? colDefs : constraints).push(line);
       }
-      tables.set(m[1], {
-        create: stmt.replace(/;\s*$/, ""),
-        cols,
-        indexes: [],
-      });
+      tables.set(m[1], { name: m[1], colDefs, constraints, indexes: [] });
       continue;
     }
     m = stmt.match(/^CREATE(?:\s+UNIQUE)?\s+INDEX\s+`[^`]+`\s+ON\s+`([^`]+)`/);
@@ -108,13 +113,7 @@ function parseManifestDdl(
       /^ALTER TABLE\s+`([^`]+)`\s+ADD(?:\s+COLUMN)?\s+`([^`]+)`\s+([^;]+)/,
     );
     if (m) {
-      const t = tables.get(m[1]);
-      if (!t) continue;
-      t.cols.push(m[2]);
-      t.create = t.create.replace(
-        /\n\)\s*$/,
-        `,\n\t\`${m[2]}\` ${m[3].trim()}\n)`,
-      );
+      tables.get(m[1])?.colDefs.push(`\`${m[2]}\` ${m[3].trim()}`);
       continue;
     }
     m = stmt.match(/^ALTER TABLE\s+`([^`]+)`\s+RENAME TO\s+`([^`]+)`/);
@@ -125,10 +124,7 @@ function parseManifestDdl(
       const t = tables.get(m[1]);
       if (t) {
         tables.delete(m[1]);
-        t.create = t.create.replace(
-          /^CREATE TABLE\s+`[^`]+`/,
-          `CREATE TABLE \`${m[2]}\``,
-        );
+        t.name = m[2];
         tables.set(m[2], t);
       }
       continue;
@@ -143,13 +139,7 @@ function parseManifestDdl(
       const t = tables.get(m[1]);
       if (!t) continue;
       const col = m[2];
-      t.cols = t.cols.filter((c) => c !== col);
-      t.create = t.create
-        .split("\n")
-        .filter((line) => !line.trim().startsWith(`\`${col}\``))
-        .join("\n")
-        // dropping the last column leaves a trailing comma before `)`
-        .replace(/,(\s*\n\))/, "$1");
+      t.colDefs = t.colDefs.filter((def) => colName(def) !== col);
     }
   }
   return tables;
@@ -178,8 +168,9 @@ async function reconcileSchema(
   let fkOff = false;
   for (const [table, ddl] of expected) {
     const current = stored.get(table);
+    const create = buildCreate(ddl);
     // Absent tables were just created by the migration replay above.
-    if (!current || normDdl(current) === normDdl(ddl.create)) continue;
+    if (!current || normDdl(current) === normDdl(create)) continue;
 
     // Rebuild (SQLite 12-step): new table from manifest DDL, copy the column
     // intersection with OR IGNORE (rows violating new constraints drop, the
@@ -191,12 +182,14 @@ async function reconcileSchema(
     const tmp = `__rebuild_${table}`;
     await sql.sql(`DROP TABLE IF EXISTS \`${tmp}\``);
     await sql.sql(
-      ddl.create.replace(/^CREATE TABLE\s+`[^`]+`/, `CREATE TABLE \`${tmp}\``),
+      create.replace(/^CREATE TABLE\s+`[^`]+`/, `CREATE TABLE \`${tmp}\``),
     );
     const actual = await sql.sql<{ name: string }>(
       `PRAGMA table_info(\`${table}\`)`,
     );
-    const shared = ddl.cols.filter((c) => actual.some((r) => r.name === c));
+    const shared = ddl.colDefs
+      .map(colName)
+      .filter((c) => actual.some((r) => r.name === c));
     if (shared.length > 0) {
       const colList = shared.map((c) => `\`${c}\``).join(", ");
       await sql.sql(
