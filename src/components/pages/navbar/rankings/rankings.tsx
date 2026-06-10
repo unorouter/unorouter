@@ -5,8 +5,18 @@ import { useRankingsQuery } from "@/hooks/models/rankings-hook";
 import type { RankingPeriod } from "@/lib/api/typebox/rankings";
 import { useTranslations } from "next-intl";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { MarketShareSection } from "./market-share-section";
-import { ModelsSection } from "./models-section";
+import dynamic from "next/dynamic";
+
+// Both sections hydrate recharts (the page's TBT driver, ~1.5s on slow
+// mobile); load them client-side after first paint with reserved height.
+const ModelsSection = dynamic(
+  () => import("./models-section").then((m) => m.ModelsSection),
+  { ssr: false, loading: () => <Skeleton className="h-150 w-full" /> },
+);
+const MarketShareSection = dynamic(
+  () => import("./market-share-section").then((m) => m.MarketShareSection),
+  { ssr: false, loading: () => <Skeleton className="h-150 w-full" /> },
+);
 import { PulseSection } from "./pulse-section";
 import { RankingsHero } from "./rankings-hero";
 import { isValidPeriod } from "./rankings-helpers";
