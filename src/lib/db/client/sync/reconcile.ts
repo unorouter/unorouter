@@ -35,6 +35,7 @@ import { eq, isNotNull } from "drizzle-orm";
 import { getLocalDb } from "../client";
 import { applyBundle } from "./apply-bundle";
 import { clearPending } from "./pending-sync";
+import { rehydrateParentMedia } from "./rehydrate-media";
 
 type RemoteState = {
   id: string;
@@ -108,6 +109,15 @@ async function reconcileKind<K extends SyncKindName>(
   const remoteIds = new Set(remote.map((r) => r.id));
   for (const r of localRows) {
     if (r.syncExpiresAt == null || remoteIds.has(r.id)) continue;
+    // Best-effort: pull media base64 back while the R2 objects may still
+    // exist (TTL sweep keeps them; explicit remote unsync purges them).
+    if (kind === "conversations") {
+      await rehydrateParentMedia(userId, { convId: r.id }).catch(() => {});
+    } else if (kind === "playgroundSessions") {
+      await rehydrateParentMedia(userId, {
+        playgroundSessionId: r.id,
+      }).catch(() => {});
+    }
     await clearLocalSyncFlag(userId, kind, r.id);
     await clearPending(userId, kind, r.id);
   }
@@ -252,23 +262,38 @@ const SYNC_FLAG_TABLES = {
   playgroundSessions,
 } as const;
 
-async function clearLocalSyncFlag(
+// Direct column write (no upsert: must not bump updatedAt). Enrollment
+// stamps the server-assigned expiry; removal/reconcile clears it.
+export async function setLocalSyncFlag(
   userId: number,
   kind: SyncKindName,
   id: string,
+  syncExpiresAt: Date | null,
 ): Promise<void> {
   const local = await getLocalDb(userId);
   if (!local) return;
   if (kind === "theme") {
     await local.db
       .update(userThemes)
-      .set({ syncExpiresAt: null })
-      .where(isNotNull(userThemes.syncExpiresAt));
+      .set({ syncExpiresAt })
+      .where(
+        syncExpiresAt == null
+          ? isNotNull(userThemes.syncExpiresAt)
+          : eq(userThemes.userId, userId),
+      );
     return;
   }
   const table = SYNC_FLAG_TABLES[kind];
   await local.db
     .update(table)
-    .set({ syncExpiresAt: null })
+    .set({ syncExpiresAt })
     .where(eq(table.id, id));
+}
+
+async function clearLocalSyncFlag(
+  userId: number,
+  kind: SyncKindName,
+  id: string,
+): Promise<void> {
+  await setLocalSyncFlag(userId, kind, id, null);
 }

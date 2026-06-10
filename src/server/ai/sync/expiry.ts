@@ -1,3 +1,5 @@
+import { deleteR2Prefix } from "@/lib/config/r2";
+import { logger } from "@/lib/utils/logger";
 import { assertFound } from "@/lib/utils/server";
 import { getDb } from "@/lib/db/server/client";
 import {
@@ -112,5 +114,21 @@ export async function clearSyncExpiry(
       break;
   }
   assertFound(result);
+  // Media blobs are keyed under the conv/session id; without this every
+  // unsync/delete leaked its R2 objects forever. Fire-and-forget: the rows
+  // are gone either way, and clients rehydrate base64 before unsyncing.
+  if (kind === "conversations" || kind === "playgroundSessions") {
+    void Promise.all([
+      deleteR2Prefix(`chat/user/${id}/`),
+      deleteR2Prefix(`chat/guest/${id}/`),
+    ]).catch((err) =>
+      logger.warn("R2 prefix purge failed", {
+        context: "sync.expiry",
+        kind,
+        id,
+        error: String(err),
+      }),
+    );
+  }
   return { id };
 }

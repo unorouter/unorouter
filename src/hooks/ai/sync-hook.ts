@@ -1,5 +1,6 @@
 "use client";
 
+import { setLocalSyncFlag } from "@/lib/db/client/sync/reconcile";
 import { useElysiaQuery } from "@/hooks/use-elysia-query";
 
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
@@ -9,6 +10,7 @@ import {
 } from "@/lib/db/client/data/chat";
 import { buildSyncPayload } from "@/lib/db/client/sync/build-payload";
 import { evictMediaBase64After } from "@/lib/db/client/sync/evict-media";
+import { rehydrateParentMedia } from "@/lib/db/client/sync/rehydrate-media";
 import {
   clearPending,
   readPendingSync,
@@ -75,17 +77,6 @@ function patchSyncStateCache(
   });
 }
 
-// Mirror server-assigned expiry to local conv row.
-async function mirrorConvExpiry(
-  userId: number,
-  id: string,
-  syncExpiresAt: Date | null,
-) {
-  const existing = await readLocalConversation(userId, id);
-  if (existing)
-    await upsertLocalConversation(userId, { ...existing, syncExpiresAt });
-}
-
 type SyncArgs = {
   kind: SyncKindName;
   id: string;
@@ -114,10 +105,16 @@ export function useSyncMutation() {
       ) as SyncBundle;
 
       const row = bundleSyncRow(result);
-      if (args.kind === "conversations" && userId != null) {
-        await mirrorConvExpiry(userId, args.id, row?.syncExpiresAt ?? null);
-      }
       if (userId != null) {
+        // Stamp the server-assigned expiry on the local row for EVERY kind;
+        // without it the mirror gates (syncExpiresAt != null) stay closed on
+        // the enrolling device and later edits never reach Turso.
+        await setLocalSyncFlag(
+          userId,
+          args.kind,
+          args.id,
+          row?.syncExpiresAt ? new Date(row.syncExpiresAt) : null,
+        );
         await evictMediaBase64After(userId, result);
         // Enrollment pushed the full payload; a queued outbox row is stale
         // (a leftover delete would clobber the row we just enrolled).
@@ -138,12 +135,21 @@ export function useRemoveSyncMutation() {
   const auth = useAuthQuery();
   return useMutation({
     mutationFn: async (args: RemoveArgs) => {
+      const userId = auth.data?.id;
+      // Push devices evicted media base64 after R2 upload; the server purges
+      // the R2 prefix on unsync, so pull the bytes back first.
+      if (userId != null && args.kind === "conversations") {
+        await rehydrateParentMedia(userId, { convId: args.id });
+      } else if (userId != null && args.kind === "playgroundSessions") {
+        await rehydrateParentMedia(userId, { playgroundSessionId: args.id });
+      }
       const result = handleElysia(
         await rpc.api.ai.sync({ kind: args.kind })({ id: args.id }).delete(),
       );
-      const userId = auth.data?.id;
-      if (args.kind === "conversations" && userId != null) {
-        await mirrorConvExpiry(userId, args.id, null);
+      // Clear the local flag for every kind so the mirror gate closes
+      // immediately (not only after the next reconcile sweep).
+      if (userId != null) {
+        await setLocalSyncFlag(userId, args.kind, args.id, null);
       }
       // A queued patch draining after removal would re-enroll the row
       // (keepExpiry falls back to the default TTL when no expiry exists).
