@@ -53,10 +53,14 @@ function useRehypeMathjax(wanted: boolean): Pluggable | null {
   const [plugin, setPlugin] = useState<Pluggable | null>(cachedMathjax);
   useEffect(() => {
     if (!wanted || plugin) return;
-    void import("rehype-mathjax").then((m) => {
-      cachedMathjax = m.default as Pluggable;
-      setPlugin(() => cachedMathjax);
-    });
+    void import("rehype-mathjax")
+      .then((m) => {
+        cachedMathjax = m.default as Pluggable;
+        setPlugin(() => cachedMathjax);
+      })
+      // Chunk load failure: render without math now; cachedMathjax stays null
+      // so a later mount retries the import.
+      .catch(() => {});
   }, [wanted, plugin]);
   return wanted ? plugin : null;
 }

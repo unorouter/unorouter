@@ -41,7 +41,14 @@ export function Chat(props: ChatProps) {
       : t("CHAT.META.TITLE", APP_VALUES);
   }, [convQuery.data?.title, t]);
 
-  if (gate.needsToken) return <NeedsTokenGate />;
+  if (gate.needsToken)
+    return (
+      // chat-shell-reveal drops the opaque welcome placeholder (globals.css),
+      // which otherwise waits for a composer that never mounts here.
+      <div className="chat-shell-reveal">
+        <NeedsTokenGate />
+      </div>
+    );
 
   return (
     <div className="relative isolate flex min-h-0 min-w-0 flex-1 flex-col">

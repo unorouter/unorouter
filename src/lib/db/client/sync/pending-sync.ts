@@ -133,9 +133,11 @@ type OutboxRow = typeof localPendingSync.$inferSelect;
 // local row means it was deleted before drain (nothing to push).
 async function pushRow(userId: number, row: OutboxRow): Promise<void> {
   if (row.op === "delete") {
-    handleElysia(
-      await rpc.api.ai.sync({ kind: row.kind })({ id: row.id }).delete(),
-    );
+    const res = await rpc.api.ai.sync({ kind: row.kind })({ id: row.id }).delete();
+    // Row already gone server-side (other-device delete, TTL sweep): the
+    // delete's goal is met; retrying 404s only dead-letters a no-op.
+    if ((res.error as { status?: number } | null)?.status === 404) return;
+    handleElysia(res);
     return;
   }
   const hints = new Set<ConvSyncHint>(
@@ -196,7 +198,8 @@ export async function drainPending(userId: number): Promise<DrainResult> {
   result.total = rows.length;
   for (const row of rows) {
     if (row.attempts >= MAX_PENDING_ATTEMPTS) {
-      result.dead.push({ kind: row.kind, id: row.id });
+      // Already dead-lettered on a previous drain; stays visible in the sync
+      // badge but must not re-toast on every drain/page load.
       continue;
     }
     try {
@@ -258,20 +261,27 @@ export async function drainPending(userId: number): Promise<DrainResult> {
   return result;
 }
 
-// Lock-guarded drain shared by the scheduler tick and drainSoon.
-export async function safeDrain(userId: number): Promise<void> {
+// Lock-guarded drain; null = another tab holds the drain lock.
+export async function drainLocked(userId: number): Promise<DrainResult | null> {
   const lockKey = `drain:${userId}`;
-  if (!(await acquireLock(lockKey))) return;
+  if (!(await acquireLock(lockKey))) return null;
   try {
-    await drainPending(userId);
+    return await drainPending(userId);
+  } finally {
+    releaseLock(lockKey);
+  }
+}
+
+// Fire-and-forget wrapper shared by the scheduler tick and drainSoon.
+export async function safeDrain(userId: number): Promise<void> {
+  try {
+    await drainLocked(userId);
   } catch (err) {
     logger.warn("drainPending failed", {
       context: "local-db.pending-sync",
       userId,
       error: String(err),
     });
-  } finally {
-    releaseLock(lockKey);
   }
 }
 

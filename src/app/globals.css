@@ -309,6 +309,7 @@ mjx-container[display="true"] {
 /* Chat shell placeholder: opaque SSR cover for the whole thread area. The
    runtime assembles progressively underneath; dropping the cover only when
    the real composer input exists makes the page change visually once. */
-.chat-shell:has(.aui-composer-input) .chat-welcome-placeholder {
+.chat-shell:has(.aui-composer-input) .chat-welcome-placeholder,
+.chat-shell:has(.chat-shell-reveal) .chat-welcome-placeholder {
   display: none;
 }

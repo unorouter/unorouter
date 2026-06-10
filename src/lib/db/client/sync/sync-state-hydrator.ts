@@ -14,7 +14,7 @@ import { getLocalDb } from "../client";
 import { migrateGuestLocalDb } from "../data-migrate/guest-migrate";
 import { stage1LocalSeed } from "./local-seed";
 import {
-  drainPending,
+  drainLocked,
   retryPendingTargets,
   type DrainResult,
 } from "./pending-sync";
@@ -87,9 +87,11 @@ async function hydrate(
     // Drain BEFORE reconcile: queued local changes (e.g. turns written while
     // offline) must reach the server first, otherwise the pull treats them as
     // remotely-deleted rows and removes them locally.
-    const result = await drainPending(userId);
+    // Locked: a concurrent tab's drain would double-push and the loser's
+    // 404s would bump attempts toward the dead-letter queue.
+    const result = await drainLocked(userId);
     qc.invalidateQueries({ queryKey: queryKeys.pendingSync() });
-    if (result.dead.length > 0) {
+    if (result && result.dead.length > 0) {
       surfaceDeadLetterToast(qc, userId, result, t);
     }
     const reconcile = await stage2ServerReconcile(qc, userId, excludeKinds);

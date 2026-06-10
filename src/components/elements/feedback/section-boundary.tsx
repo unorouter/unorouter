@@ -15,7 +15,7 @@ function SectionFallbackInner(props: FallbackProps) {
   const t = useTranslations();
 
   return (
-    <div className="border-destructive/20 bg-destructive/5 flex items-center gap-3 rounded-lg border p-4">
+    <div className="chat-shell-reveal border-destructive/20 bg-destructive/5 flex items-center gap-3 rounded-lg border p-4">
       <Icon
         name="triangle-alert"
         className="text-destructive h-4 w-4 shrink-0"
