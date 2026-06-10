@@ -21,7 +21,7 @@ import {
   userThemes,
 } from "@/lib/db/schema/shared";
 
-import { and, eq, inArray } from "drizzle-orm";
+import { and, eq, inArray, asc } from "drizzle-orm";
 import type { SyncKindName } from "@/lib/validation/sync-constants";
 
 export type SyncBundleMap = {
@@ -155,7 +155,13 @@ export async function getSyncedBundle(
             .select()
             .from(conversationLorebooks)
             .where(eq(conversationLorebooks.convId, id)),
-          db.select().from(messages).where(eq(messages.convId, id)),
+          db
+            .select()
+            .from(messages)
+            .where(eq(messages.convId, id))
+            // Parents before children: the client replays in array order and
+            // messages.parent_id is a FK locally too.
+            .orderBy(asc(messages.createdAt)),
           db.select().from(media).where(eq(media.convId, id)),
           db.select().from(requestLogs).where(eq(requestLogs.convId, id)),
         ]);

@@ -50,11 +50,28 @@ export type EnqueueOpts = {
   msgIds?: string[];
 };
 
-export async function enqueueSync(
+// Serialize enqueues: read-merge-write below means two interleaved calls for
+// the same row would both read the same base and the second write would drop
+// the first's hints/msgIds. A module promise chain removes the interleave.
+let enqueueChain: Promise<unknown> = Promise.resolve();
+
+export function enqueueSync(
   userId: number,
   kind: SyncKindName,
   id: string,
   op: PendingSyncOp = "patch",
+  opts?: EnqueueOpts,
+): Promise<void> {
+  const run = enqueueChain.then(() => doEnqueue(userId, kind, id, op, opts));
+  enqueueChain = run.catch(() => {});
+  return run;
+}
+
+async function doEnqueue(
+  userId: number,
+  kind: SyncKindName,
+  id: string,
+  op: PendingSyncOp,
   opts?: EnqueueOpts,
 ) {
   const local = await getLocalDb(userId);

@@ -60,6 +60,11 @@ export type UpsertHandler = (
   mergeMode?: SyncMergeMode,
 ) => Promise<void>;
 
+// Client timestamp passthrough; legacy payloads without one keep old behavior.
+function asDate(v: unknown): Date | undefined {
+  return v == null ? undefined : new Date(v as string | number | Date);
+}
+
 export function stripUndefined<T extends Record<string, unknown>>(
   obj: T,
 ): Partial<T> {
@@ -114,7 +119,7 @@ async function upsertScoped(
       .set({
         ...updateSet,
         syncExpiresAt: expiresAt,
-        updatedAt: new Date(),
+        updatedAt: (updateSet.updatedAt as Date | undefined) ?? new Date(),
       } as never)
       .where(where);
   }
@@ -137,9 +142,14 @@ function insertValuesFor(
 ): InsertValuesFn {
   return (body, userId, id, expiresAt) => {
     const v = castWithDriftLog(schema, body, ctx);
+    const raw = (body ?? {}) as Record<string, unknown>;
     return {
       ...fill,
       ...stripUndefined(v as Record<string, unknown>),
+      ...stripUndefined({
+        createdAt: asDate(raw.createdAt),
+        updatedAt: asDate(raw.updatedAt),
+      }),
       id,
       userId,
       syncExpiresAt: expiresAt,
@@ -284,7 +294,10 @@ function scopedKindHandler(
         id,
         expiresAt,
         values(body, userId, id, expiresAt),
-        pickSchemaFields(body, schema),
+        {
+          ...pickSchemaFields(body, schema),
+          ...stripUndefined({ updatedAt: asDate(body.updatedAt) }),
+        },
       ),
     );
   };
@@ -313,7 +326,12 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
         id,
         expiresAt,
         lorebookInsertValues(lb, userId, id, expiresAt),
-        pickSchemaFields(lb, lorebookBody),
+        {
+          ...pickSchemaFields(lb, lorebookBody),
+          ...stripUndefined({
+            updatedAt: asDate((lb as Record<string, unknown>).updatedAt),
+          }),
+        },
       );
       if (body.entries) {
         await tx
@@ -354,12 +372,15 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
           name: c.name ?? "Untitled",
           description: c.description ?? null,
           personaId: c.personaId ?? null,
+          createdAt: asDate(c.createdAt),
+          updatedAt: asDate(c.updatedAt),
           syncExpiresAt: expiresAt,
         },
         stripUndefined({
           name: c.name,
           description: c.description,
           personaId: c.personaId,
+          updatedAt: asDate(c.updatedAt),
         }),
       );
       // Inline entity bodies first so the join-table FKs below resolve even
@@ -445,6 +466,8 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
           totalOutputTokens: c.totalOutputTokens ?? 0,
           totalCost: c.totalCost ?? 0,
           defaultModel: s?.defaultModel ?? "",
+          createdAt: asDate(c.createdAt),
+          updatedAt: asDate(c.updatedAt),
           syncExpiresAt: expiresAt,
         });
       } else {
@@ -459,7 +482,7 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
               ...(s ?? {}),
             }),
             syncExpiresAt: expiresAt,
-            updatedAt: new Date(),
+            updatedAt: asDate(c.updatedAt) ?? new Date(),
           })
           .where(
             and(eq(conversations.id, id), eq(conversations.userId, userId)),
@@ -597,6 +620,8 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
             id: m.id,
             convId: id,
             parentId,
+            createdAt: asDate(m.createdAt),
+            updatedAt: asDate(m.updatedAt),
             characterId: m.characterId ?? null,
             role: m.role,
             model: m.model ?? null,
@@ -638,6 +663,7 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
           const values = {
             id: it.id,
             messageId: it.messageId,
+            createdAt: asDate(it.createdAt),
             sequenceIndex: it.sequenceIndex,
             outputIndex: it.outputIndex ?? null,
             type: it.type,
@@ -705,6 +731,8 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
           snapshotCount: s.snapshotCount ?? 0,
           imageCount: s.imageCount ?? 0,
           expiresAt: fallbackExpires,
+          createdAt: asDate(s.createdAt),
+          updatedAt: asDate(s.updatedAt),
           syncExpiresAt: expiresAt,
         },
         stripUndefined({
@@ -713,6 +741,7 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
           snapshotCount: s.snapshotCount,
           imageCount: s.imageCount,
           expiresAt: s.expiresAt,
+          updatedAt: asDate(s.updatedAt),
         }),
       );
       if (body.playgrounds) {

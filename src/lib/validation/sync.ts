@@ -58,6 +58,10 @@ export type BatchBundleRequestBody = Static<typeof batchBundleRequestBody>;
 // handler reads it. `Value.Cast` coerces, fills defaults, drops extras.
 
 const ID = t.String({ minLength: 1, maxLength: 64 });
+// Client timestamps ride the wire so the server mirror preserves them;
+// restamping on push would make reconcile re-pull every row a device just
+// pushed (server stamp always newer) and scramble message createdAt order.
+const Stamp = t.Optional(t.Date());
 const NullableId = t.Union([ID, t.Null()]);
 const NullableString = t.Union([t.String(), t.Null()]);
 
@@ -85,6 +89,8 @@ export const cardBundleBody = t.Object({
       name: t.Optional(t.String()),
       description: t.Optional(NullableString),
       personaId: t.Optional(NullableId),
+      createdAt: Stamp,
+      updatedAt: Stamp,
     }),
   ),
   cardCharacters: t.Optional(
@@ -115,6 +121,8 @@ export type CardBundleBody = Static<typeof cardBundleBody>;
 
 // conversations: includes settings + referenced RP entity bodies + child rows.
 const ConversationRow = t.Object({
+  createdAt: Stamp,
+  updatedAt: Stamp,
   title: t.Optional(NullableString),
   totalInputTokens: t.Optional(t.Number()),
   totalOutputTokens: t.Optional(t.Number()),
@@ -141,6 +149,8 @@ const ConvLorebookBinding = t.Object({
 
 const MessageRow = t.Object({
   id: ID,
+  createdAt: Stamp,
+  updatedAt: Stamp,
   parentId: t.Optional(NullableId),
   characterId: t.Optional(NullableId),
   role: messageRole,
@@ -159,6 +169,7 @@ const MessageRow = t.Object({
 const MessageItemRow = t.Object({
   id: ID,
   messageId: ID,
+  createdAt: Stamp,
   sequenceIndex: t.Number(),
   outputIndex: t.Optional(t.Union([t.Number(), t.Null()])),
   type: messageItemType,
@@ -203,6 +214,8 @@ export type ConversationBundleBody = Static<typeof conversationBundleBody>;
 
 // playgroundSessions: session row + child playgrounds + child media.
 const PlaygroundSessionRow = t.Object({
+  createdAt: Stamp,
+  updatedAt: Stamp,
   title: t.Optional(NullableString),
   firstModel: t.Optional(NullableString),
   snapshotCount: t.Optional(t.Number()),
