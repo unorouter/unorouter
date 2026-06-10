@@ -3546,7 +3546,8 @@
       "STATUS_ALL": "전체",
       "EMPTY": "이 필터에 일치하는 모델이 없습니다.",
       "COLLAPSE_ALL": "모든 그룹 접기",
-      "EXPAND_ALL": "모든 그룹 펼치기"
+      "EXPAND_ALL": "모든 그룹 펼치기",
+      "TIME_WINDOW": "시간 범위"
     },
     "BLOCKS": {
       "BANNER_SUCCESS": "모든 시스템 정상",

@@ -3546,7 +3546,8 @@
       "STATUS_ALL": "All",
       "EMPTY": "No models match these filters.",
       "COLLAPSE_ALL": "Collapse all groups",
-      "EXPAND_ALL": "Expand all groups"
+      "EXPAND_ALL": "Expand all groups",
+      "TIME_WINDOW": "Time window"
     },
     "BLOCKS": {
       "BANNER_SUCCESS": "All Systems Operational",

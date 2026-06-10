@@ -3546,7 +3546,8 @@
       "STATUS_ALL": "Semua",
       "EMPTY": "Tidak ada model yang cocok dengan filter ini.",
       "COLLAPSE_ALL": "Tutup semua grup",
-      "EXPAND_ALL": "Perluas semua grup"
+      "EXPAND_ALL": "Perluas semua grup",
+      "TIME_WINDOW": "Rentang waktu"
     },
     "BLOCKS": {
       "BANNER_SUCCESS": "Semua Sistem Operasional",

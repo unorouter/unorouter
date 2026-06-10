@@ -3546,7 +3546,8 @@
       "STATUS_ALL": "Alle",
       "EMPTY": "Keine Modelle entsprechen diesen Filtern.",
       "COLLAPSE_ALL": "Alle Gruppen einklappen",
-      "EXPAND_ALL": "Alle Gruppen ausklappen"
+      "EXPAND_ALL": "Alle Gruppen ausklappen",
+      "TIME_WINDOW": "Zeitfenster"
     },
     "BLOCKS": {
       "BANNER_SUCCESS": "Alle Systeme betriebsbereit",

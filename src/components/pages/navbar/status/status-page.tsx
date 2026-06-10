@@ -119,7 +119,10 @@ export function StatusPage() {
               value={s.bucket}
               onValueChange={(v) => s.setBucket(v as StatusBucket)}
             >
-              <SelectTrigger className="w-27.5 font-mono text-xs">
+              <SelectTrigger
+                aria-label={t("STATUS.FILTER.TIME_WINDOW")}
+                className="w-27.5 font-mono text-xs"
+              >
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>

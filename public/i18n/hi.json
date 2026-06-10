@@ -3546,7 +3546,8 @@
       "STATUS_ALL": "सभी",
       "EMPTY": "इन filters से कोई मॉडल मेल नहीं खाता।",
       "COLLAPSE_ALL": "सभी groups collapse करें",
-      "EXPAND_ALL": "सभी groups expand करें"
+      "EXPAND_ALL": "सभी groups expand करें",
+      "TIME_WINDOW": "समय सीमा"
     },
     "BLOCKS": {
       "BANNER_SUCCESS": "सभी Systems Operational",

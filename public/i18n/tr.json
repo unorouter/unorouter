@@ -3546,7 +3546,8 @@
       "STATUS_ALL": "Tümü",
       "EMPTY": "Bu filtrelere uyan model yok.",
       "COLLAPSE_ALL": "Tüm grupları daralt",
-      "EXPAND_ALL": "Tüm grupları genişlet"
+      "EXPAND_ALL": "Tüm grupları genişlet",
+      "TIME_WINDOW": "Zaman aralığı"
     },
     "BLOCKS": {
       "BANNER_SUCCESS": "Tüm Sistemler Çalışıyor",

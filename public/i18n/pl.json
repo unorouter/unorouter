@@ -3546,7 +3546,8 @@
       "STATUS_ALL": "Wszystkie",
       "EMPTY": "Żaden model nie pasuje do tych filtrów.",
       "COLLAPSE_ALL": "Zwiń wszystkie grupy",
-      "EXPAND_ALL": "Rozwiń wszystkie grupy"
+      "EXPAND_ALL": "Rozwiń wszystkie grupy",
+      "TIME_WINDOW": "Zakres czasu"
     },
     "BLOCKS": {
       "BANNER_SUCCESS": "Wszystkie systemy operacyjne",

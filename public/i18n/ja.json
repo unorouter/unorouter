@@ -3546,7 +3546,8 @@
       "STATUS_ALL": "すべて",
       "EMPTY": "条件に一致するモデルはありません。",
       "COLLAPSE_ALL": "すべてのグループを折りたたむ",
-      "EXPAND_ALL": "すべてのグループを展開"
+      "EXPAND_ALL": "すべてのグループを展開",
+      "TIME_WINDOW": "時間範囲"
     },
     "BLOCKS": {
       "BANNER_SUCCESS": "すべてのシステムが稼働中",

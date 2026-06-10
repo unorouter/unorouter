@@ -3546,7 +3546,8 @@
       "STATUS_ALL": "Tutti",
       "EMPTY": "Nessun modello corrisponde a questi filtri.",
       "COLLAPSE_ALL": "Comprimi tutti i gruppi",
-      "EXPAND_ALL": "Espandi tutti i gruppi"
+      "EXPAND_ALL": "Espandi tutti i gruppi",
+      "TIME_WINDOW": "Finestra temporale"
     },
     "BLOCKS": {
       "BANNER_SUCCESS": "Tutti i sistemi operativi",

@@ -3546,7 +3546,8 @@
       "STATUS_ALL": "Tất cả",
       "EMPTY": "Không có mô hình phù hợp với bộ lọc.",
       "COLLAPSE_ALL": "Thu gọn tất cả nhóm",
-      "EXPAND_ALL": "Mở rộng tất cả nhóm"
+      "EXPAND_ALL": "Mở rộng tất cả nhóm",
+      "TIME_WINDOW": "Khoảng thời gian"
     },
     "BLOCKS": {
       "BANNER_SUCCESS": "Tất cả hệ thống hoạt động",

@@ -3546,7 +3546,8 @@
       "STATUS_ALL": "全部",
       "EMPTY": "没有符合筛选条件的模型。",
       "COLLAPSE_ALL": "收起所有分组",
-      "EXPAND_ALL": "展开所有分组"
+      "EXPAND_ALL": "展开所有分组",
+      "TIME_WINDOW": "时间范围"
     },
     "BLOCKS": {
       "BANNER_SUCCESS": "所有系统正常运行",
