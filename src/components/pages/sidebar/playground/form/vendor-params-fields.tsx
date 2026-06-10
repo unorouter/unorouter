@@ -126,6 +126,7 @@ export function VendorParamsFields(props: Props) {
               <FormLabel>{t("IMAGE.STRENGTH_LABEL")}</FormLabel>
               <FormControl>
                 <SliderWithInput
+                  label={t("IMAGE.STRENGTH_LABEL")}
                   min={0}
                   max={1}
                   step={0.05}

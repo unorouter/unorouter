@@ -343,7 +343,22 @@ export type UpdateConversationBindingsBody = Static<
 // here would double-cost on every turn.
 export const chatContext = t.Object({
   persona: t.Optional(t.Union([t.Any(), t.Null()])),
-  characters: t.Optional(t.Array(t.Any(), { maxItems: 64 })),
+  // Bound shape only: `{binding, character}` (the client always sends it; the
+  // assembler honors per-character isActive/overrides through the binding).
+  characters: t.Optional(
+    t.Array(
+      t.Object({
+        binding: t.Object({
+          characterId: t.String(),
+          orderIndex: t.Optional(t.Union([t.Number(), t.Null()])),
+          isActive: t.Optional(t.Union([t.Boolean(), t.Null()])),
+          overrides: t.Optional(t.Unknown()),
+        }),
+        character: t.Any(),
+      }),
+      { maxItems: 64 },
+    ),
+  ),
   lorebooks: t.Optional(
     t.Array(
       t.Object({

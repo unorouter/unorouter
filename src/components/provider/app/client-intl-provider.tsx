@@ -19,12 +19,19 @@ function onError(error: IntlError) {
   console.error(error);
 }
 
+// `locale` is required here: rendered from a client component the provider
+// cannot infer it from the server request config.
 export function ClientIntlProvider(props: {
+  locale: string;
   messages: Messages;
   children: ReactNode;
 }) {
   return (
-    <NextIntlClientProvider messages={props.messages} onError={onError}>
+    <NextIntlClientProvider
+      locale={props.locale}
+      messages={props.messages}
+      onError={onError}
+    >
       {props.children}
     </NextIntlClientProvider>
   );

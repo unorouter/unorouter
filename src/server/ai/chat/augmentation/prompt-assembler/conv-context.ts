@@ -113,8 +113,8 @@ export async function loadConvContext(convId: string) {
 type ClientBoundCharacter = {
   binding: {
     characterId: string;
-    orderIndex?: number;
-    isActive?: boolean;
+    orderIndex?: number | null;
+    isActive?: boolean | null;
     overrides?: unknown;
   };
   character: unknown;
@@ -122,56 +122,30 @@ type ClientBoundCharacter = {
 
 type ClientChatContext = {
   persona?: unknown;
-  // Bare rows (legacy) or `{binding, character}` (honors isActive/overrides).
-  characters?: Array<unknown> | Array<ClientBoundCharacter>;
+  characters?: Array<ClientBoundCharacter>;
   lorebooks?: Array<{ lorebook: unknown; entries: Array<unknown> }>;
   preset?: unknown;
   settings?: unknown;
 };
-
-function isBoundCharacter(raw: unknown): raw is ClientBoundCharacter {
-  if (!raw || typeof raw !== "object") return false;
-  const obj = raw as Record<string, unknown>;
-  return (
-    obj.character != null &&
-    typeof obj.binding === "object" &&
-    obj.binding != null
-  );
-}
 
 export function buildContextFromClient(
   ctx: ClientChatContext,
 ): LoadedConvContext {
   if (!ctx.settings) return null;
   const settings = ctx.settings as NonNullable<LoadedConvContext>["settings"];
-  const rawChars = ctx.characters ?? [];
   type Bound = NonNullable<LoadedConvContext>["boundCharacters"][number];
-  type Char = Bound["character"];
   const boundCharacters: Bound[] = [];
-  rawChars.forEach((raw, i) => {
-    if (isBoundCharacter(raw)) {
-      if (raw.binding.isActive === false) return;
-      boundCharacters.push({
-        binding: {
-          characterId: raw.binding.characterId,
-          orderIndex: raw.binding.orderIndex ?? i,
-          isActive: raw.binding.isActive ?? true,
-          overrides: (raw.binding.overrides ??
-            null) as Bound["binding"]["overrides"],
-        },
-        character: raw.character as Char,
-      });
-      return;
-    }
-    const character = raw as Char;
+  (ctx.characters ?? []).forEach((raw, i) => {
+    if (!raw?.character || raw.binding?.isActive === false) return;
     boundCharacters.push({
       binding: {
-        characterId: character.id,
-        orderIndex: i,
-        isActive: true,
-        overrides: null,
+        characterId: raw.binding.characterId,
+        orderIndex: raw.binding.orderIndex ?? i,
+        isActive: raw.binding.isActive ?? true,
+        overrides: (raw.binding.overrides ??
+          null) as Bound["binding"]["overrides"],
       },
-      character,
+      character: raw.character as Bound["character"],
     });
   });
 

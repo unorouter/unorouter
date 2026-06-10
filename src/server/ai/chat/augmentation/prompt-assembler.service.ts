@@ -86,9 +86,6 @@ export type AssembledSystem = {
   /** OpenRouter-style provider routing, passed through the request body. */
   providerRouting?: ProviderRouting;
   prefill?: string;
-  /** Post-history block (jailbreak/postHistory + bottom lore), emitted AFTER
-   *  chat history so the model reads it last (RisuAI postEverything parity). */
-  postHistory?: string;
   /** Ordered prompt parts from the template walk. The `chatHistory` part marks
    *  where conversation messages splice in. Stream service flattens these. */
   promptParts: PromptPart[];
@@ -464,21 +461,6 @@ export async function assembleForStream(
     else break;
   }
   const system = joinNonEmpty(leadSystem) || fallbackSystemMessage;
-  // postHistory scalar retained for any non-template caller; in the template
-  // flow the stream emits after-chat parts inline, so it is informational.
-  const chatIdx = promptParts.findIndex((p) => p.kind === "chatHistory");
-  const postHistory =
-    chatIdx === -1
-      ? undefined
-      : joinNonEmpty(
-          promptParts
-            .slice(chatIdx + 1)
-            .filter(
-              (p): p is Extract<typeof p, { kind: "message" }> =>
-                p.kind === "message",
-            )
-            .map((p) => p.text),
-        ) || undefined;
 
   const atDepthEntries: DepthInjection[] = selected
     .filter((e) => e.position === "at_depth")
@@ -531,7 +513,6 @@ export async function assembleForStream(
     extraBody,
     providerRouting: parseProviderRouting(preset?.providers),
     prefill: preset?.prefill ? expand(preset.prefill) : undefined,
-    postHistory,
     promptParts,
     promptTokens: estimatePromptTokens(promptParts, atDepthEntries, authorNote),
     vars: macroScope,

@@ -52,6 +52,7 @@ export function CoreParamsFields(props: Props) {
               <FormLabel>{t("IMAGE.STEPS_LABEL")}</FormLabel>
               <FormControl>
                 <SliderWithInput
+                  label={t("IMAGE.STEPS_LABEL")}
                   min={1}
                   max={50}
                   step={1}
@@ -75,6 +76,7 @@ export function CoreParamsFields(props: Props) {
                 <FormLabel>{t("IMAGE.CFG_LABEL")}</FormLabel>
                 <FormControl>
                   <SliderWithInput
+                    label={t("IMAGE.CFG_LABEL")}
                     min={0}
                     max={15}
                     step={0.5}
@@ -96,6 +98,7 @@ export function CoreParamsFields(props: Props) {
                 <FormLabel>{t("IMAGE.GUIDANCE_LABEL")}</FormLabel>
                 <FormControl>
                   <SliderWithInput
+                    label={t("IMAGE.GUIDANCE_LABEL")}
                     min={1}
                     max={10}
                     step={0.1}

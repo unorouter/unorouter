@@ -99,12 +99,15 @@ export function SliderWithInput(props: {
   min: number;
   max: number;
   step: number;
+  // Visible FormLabel is not aria-associated with the two controls; name both.
+  label: string;
   onChange: (v: number) => void;
 }) {
   const clamp = (n: number) => Math.min(props.max, Math.max(props.min, n));
   return (
     <div className="flex items-center gap-3">
       <Slider
+        aria-label={props.label}
         min={props.min}
         max={props.max}
         step={props.step}
@@ -116,6 +119,7 @@ export function SliderWithInput(props: {
       />
       <Input
         type="number"
+        aria-label={props.label}
         min={props.min}
         max={props.max}
         step={props.step}
