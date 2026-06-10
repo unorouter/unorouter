@@ -125,20 +125,25 @@ self.addEventListener("activate", (event) => {
   );
 });
 
-// SQLocal's OPFS proxy worker uses SharedArrayBuffer + Atomics.wait; any SW
-// fetch indirection (even NetworkOnly) stalls the sync handshake and kills
-// persistence. This listener runs before serwist's and stopImmediatePropagation
-// keeps these requests on the native fetch path.
+// Passthrough listener, runs before serwist's; stopImmediatePropagation keeps
+// these requests on the native fetch path (no respondWith):
+// 1) Cross-origin: defaultCache's regex/catch-all rules would NetworkFirst
+//    third-party requests (cloudflareinsights beacon etc.); an adblocked or
+//    offline fetch then rejects with a loud no-response error and a cached
+//    opaque response would violate the COEP rule above.
+// 2) SQLocal's OPFS proxy worker uses SharedArrayBuffer + Atomics.wait; any SW
+//    fetch indirection (even NetworkOnly) stalls the sync handshake and kills
+//    persistence.
 self.addEventListener("fetch", (event) => {
   const req = event.request;
   const url = new URL(req.url);
   if (
+    url.origin !== self.location.origin ||
     req.destination === "worker" ||
     req.destination === "sharedworker" ||
     url.pathname.endsWith(".wasm") ||
     url.pathname.includes("sqlocal")
   ) {
-    // No respondWith: leave it on the native fetch path.
     event.stopImmediatePropagation();
   }
 });
