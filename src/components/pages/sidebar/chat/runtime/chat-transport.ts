@@ -16,12 +16,51 @@ import {
 import { DefaultChatTransport } from "ai";
 import { useRef } from "react";
 
-// Context-dedup handshake state: hash last SENT per conv (skip re-upload) and
-// the last BUILT context per conv (the 409 retry needs the full payload).
-const sentContextHashes = new Map<string, string>();
-const lastContextRef = {
-  current: new Map<string, { hash: string; ctx: unknown }>(),
-};
+// Context-dedup handshake state per conv: `sent` is the hash last uploaded
+// (skip re-upload when unchanged); `built` is the last full context (the 409
+// retry replays it). Bounded LRU so a long session over many convs can't grow
+// it without limit; eviction only forces a one-off full re-upload.
+const MAX_CTX_CONVS = 50;
+const ctxState = new Map<string, { sent?: string; built: ContextEntry }>();
+type ContextEntry = { hash: string; ctx: unknown };
+
+function ctxFor(convId: string) {
+  const hit = ctxState.get(convId);
+  if (hit) {
+    ctxState.delete(convId);
+    ctxState.set(convId, hit);
+  }
+  return hit;
+}
+
+function setCtx(convId: string, entry: { sent?: string; built: ContextEntry }) {
+  ctxState.delete(convId);
+  ctxState.set(convId, entry);
+  if (ctxState.size > MAX_CTX_CONVS) {
+    const oldest = ctxState.keys().next().value;
+    if (oldest !== undefined) ctxState.delete(oldest);
+  }
+}
+
+// settings carries the whole conversation row, including per-turn bookkeeping
+// the server never reads for prompt assembly (totals, the row updatedAt). Drop
+// those before hashing so the dedup actually hits on consecutive turns instead
+// of re-uploading the full context every message.
+const SETTINGS_HASH_OMIT = [
+  "totalInputTokens",
+  "totalOutputTokens",
+  "totalCost",
+  "updatedAt",
+  "createdAt",
+] as const;
+
+function hashableContext(ctx: unknown): string {
+  const c = ctx as { settings?: Record<string, unknown> };
+  if (!c?.settings) return JSON.stringify(ctx);
+  const settings = { ...c.settings };
+  for (const k of SETTINGS_HASH_OMIT) delete settings[k];
+  return JSON.stringify({ ...c, settings });
+}
 
 // Built once; userIdRef refreshed each render for live user in async body.
 export function useChatTransport() {
@@ -61,15 +100,14 @@ export function useChatTransport() {
         let chatContext: typeof baseContext;
         let chatContextHash: string | undefined;
         if (convId && baseContext) {
-          chatContextHash = fnv1aHex(JSON.stringify(baseContext));
-          lastContextRef.current.set(convId, {
-            hash: chatContextHash,
-            ctx: baseContext,
+          chatContextHash = fnv1aHex(hashableContext(baseContext));
+          const prevSent = ctxFor(convId)?.sent;
+          const changed = prevSent !== chatContextHash;
+          if (changed) chatContext = baseContext;
+          setCtx(convId, {
+            sent: changed ? chatContextHash : prevSent,
+            built: { hash: chatContextHash, ctx: baseContext },
           });
-          if (sentContextHashes.get(convId) !== chatContextHash) {
-            chatContext = baseContext;
-            sentContextHashes.set(convId, chatContextHash);
-          }
         } else {
           chatContext = baseContext;
         }
@@ -105,12 +143,12 @@ export function useChatTransport() {
         const body = JSON.parse(init.body) as Record<string, unknown> & {
           convId?: string | null;
         };
-        const last = body.convId
-          ? lastContextRef.current.get(body.convId)
-          : undefined;
-        if (!last) return res;
-        body.chatContext = last.ctx;
-        body.chatContextHash = last.hash;
+        const entry = body.convId ? ctxFor(body.convId) : undefined;
+        if (!entry) return res;
+        body.chatContext = entry.built.ctx;
+        body.chatContextHash = entry.built.hash;
+        // Server lost its cache; the full payload now reseeds it. Keep `sent`
+        // marked so the next send still dedups (this request reseeded it).
         return fetch(input, { ...init, body: JSON.stringify(body) });
       },
       // With memory off the server only consumes a window; trim to a generous
