@@ -22,6 +22,7 @@ import {
   projectConversationSettings,
 } from "@/lib/db/conversation-settings";
 import { and, asc, desc, eq, inArray } from "drizzle-orm";
+import { localPendingSync } from "@/lib/db/schema/client";
 import { getLocalDb } from "../client";
 import { readLocalRequestLogsForConv } from "./request-log";
 import {
@@ -475,10 +476,30 @@ export async function upsertLocalConversationBundle(
   const remoteConvStamp = bundle.conversation.updatedAt
     ? new Date(bundle.conversation.updatedAt as Date | number | string).getTime()
     : 0;
+  // Messages waiting in the outbox (e.g. a msgs row in retry backoff) are
+  // local-only by definition; the updatedAt-vs-conv-stamp guard alone can
+  // miss them when another device bumped the conv later, and deleting them
+  // here makes the lost write permanent.
+  const pendingRow = (
+    await local.db
+      .select()
+      .from(localPendingSync)
+      .where(
+        and(
+          eq(localPendingSync.kind, "conversations"),
+          eq(localPendingSync.id, convId),
+        ),
+      )
+      .limit(1)
+  )[0];
+  const outboxMsgIds = new Set<string>(
+    pendingRow?.msgIds ? (JSON.parse(pendingRow.msgIds) as string[]) : [],
+  );
   const staleMsgIds = existingMessages
     .filter(
       (m) =>
         !remoteMsgIds.has(m.id) &&
+        !outboxMsgIds.has(m.id) &&
         (localMsgUpdatedAt.get(m.id) ?? 0) <= remoteConvStamp,
     )
     .map((m) => m.id);

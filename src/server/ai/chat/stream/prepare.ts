@@ -13,7 +13,9 @@ import { parseStringMap } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 import { ChatContext, StreamOverrides } from "@/lib/validation/chat";
 import { parseRegexScripts } from "@/lib/ai/chat/regex-scripts";
+import { risuUnescape } from "../augmentation/macros";
 import { runStartTriggers } from "../augmentation/run-triggers";
+import { makeServerTriggerOps } from "../augmentation/trigger-ops";
 import { buildMemoryContext } from "../augmentation/memory.service";
 import {
   assembleForStream,
@@ -47,6 +49,7 @@ import {
   mergeAlternateRoles,
   prependUserStub,
   mkMsg,
+  unescapeMessages,
   spliceDepthInjections,
   stripReasoningParts,
   stripSystemRole,
@@ -156,8 +159,14 @@ export async function prepareChatRequest(
     : {};
   const triggerGlobalVars = parseStringMap(globalVarsIn);
   const startTrig = convCtx
-    ? runStartTriggers(convCtx, triggerVars, triggerGlobalVars, history)
-    : { extraSystemPrompt: "", stopSending: false };
+    ? await runStartTriggers(
+        convCtx,
+        triggerVars,
+        triggerGlobalVars,
+        history,
+        makeServerTriggerOps(apiKey, body.model),
+      )
+    : { extraSystemPrompt: "", stopSending: false, alerts: [] };
 
   const memorySettings = convCtx?.settings as
     | {
@@ -306,7 +315,10 @@ export async function prepareChatRequest(
     if (!hadChat) processedMessages.push(...historyMessages);
   }
   // Unhoisted (noSystemRole): system content lives in the messages array, so the param must be empty.
-  const effectiveSystem = noSystemRole ? undefined : assembled.system;
+  const effectiveSystem =
+    noSystemRole || assembled.system == null
+      ? undefined
+      : risuUnescape(assembled.system);
 
   // ORDER LOCKED, do not reshuffle:
   //  1. stripReasoningParts first: reasoning_content echoed as input is rejected (GLM).
@@ -315,6 +327,22 @@ export async function prepareChatRequest(
   //  4. mergeAlternateRoles after prefill: strict user/assistant alternation.
   //  5. prependUserStub after merge so merge cannot fold the stub away.
   //  6. appendUserStub last (GLM "last role must be user"); skipped when a prefill is the intentional trailing assistant.
+  // DeepSeek thinking-input: echo the trailing assistant turn's reasoning back
+  // as reasoning_content (collected before the strip).
+  let deepSeekReasoningContent: string | undefined;
+  const lastMsg = processedMessages[processedMessages.length - 1];
+  if (
+    autoFlags.deepSeekThinkingInput &&
+    lastMsg?.role === "assistant" &&
+    Array.isArray(lastMsg.parts)
+  ) {
+    const thoughts = lastMsg.parts
+      .filter(
+        (p) => p.type === "reasoning" && typeof p.text === "string" && p.text,
+      )
+      .map((p) => (p as { text: string }).text);
+    if (thoughts.length > 0) deepSeekReasoningContent = thoughts.join("\n");
+  }
   processedMessages = stripReasoningParts(processedMessages);
   if (noSystemRole) {
     processedMessages = stripSystemRole(processedMessages);
@@ -335,7 +363,8 @@ export async function prepareChatRequest(
   if (mustEndWithUserInput) {
     processedMessages = appendUserStub(processedMessages);
   }
-  const messagesForUpstream = processedMessages;
+  // #escape protection ends here: un-map private-use chars before upstream.
+  const messagesForUpstream = unescapeMessages(processedMessages);
 
   // Chat-var writeback rides finish metadata; server is read-only on conv state,
   // the client owns the persist. Null when unchanged.
@@ -392,14 +421,55 @@ export async function prepareChatRequest(
         top_a: assembled.sampling.topA,
         repetition_penalty: assembled.sampling.repetitionPenalty,
         reasoning_effort: assembled.reasoningEffort,
-        // Gemini-only: threshold=OFF (stronger than BLOCK_NONE); no-op elsewhere.
+        // Gemini-only: threshold=OFF (stronger than BLOCK_NONE); no-op
+        // elsewhere. Thinking-exp variants reject CIVIC_INTEGRITY (Risu
+        // noCivilIntegrity), so it is excluded for them.
         safetySettings: assembled.flags.geminiBlockOff
-          ? GEMINI_SAFETY_OFF
+          ? autoFlags.noCivilIntegrity
+            ? GEMINI_SAFETY_OFF.filter(
+                (s) => s.category !== "HARM_CATEGORY_CIVIC_INTEGRITY",
+              )
+            : GEMINI_SAFETY_OFF
           : undefined,
         // Provider pin (OpenRouter shape); no-op on channels that don't route on it.
         provider: assembled.providerRouting,
       }),
     },
+  };
+
+  // Per-model wire-body rewrites (Risu LLMFlags request mutations). Reasoning
+  // efforts map: deepseek accepts low/medium/high; claude adaptive only fires
+  // on high/xhigh (lower efforts ride reasoning_effort -> upstream budget).
+  const effort = assembled.reasoningEffort;
+  const bodyMutations = {
+    injectCacheControl:
+      modelInfo?.metadata.supportsCache === true && autoFlags.cacheControl,
+    deepSeekPrefix: autoFlags.deepSeekPrefix || undefined,
+    deepSeekReasoningContent,
+    deepSeekThinking:
+      autoFlags.deepSeekThinkingToggle && effort != null
+        ? {
+            enabled: effort !== "none",
+            effort:
+              effort === "xhigh"
+                ? "high"
+                : effort === "minimal"
+                  ? "low"
+                  : effort === "none"
+                    ? "high"
+                    : effort,
+          }
+        : undefined,
+    claudeAdaptive:
+      autoFlags.claudeAdaptiveThinking &&
+      (effort === "high" || effort === "xhigh")
+        ? {
+            effort:
+              effort === "xhigh" && autoFlags.claudeXHighEffort
+                ? ("xhigh" as const)
+                : ("high" as const),
+          }
+        : undefined,
   };
 
   return {
@@ -415,5 +485,11 @@ export async function prepareChatRequest(
     varsWriteback,
     globalVarsWriteback,
     debugRequestSnapshot,
+    bodyMutations,
+    // start-trigger showAlert frames (normal/error), streamed as transient
+    // data-alert parts.
+    startAlerts: startTrig.alerts,
+    // V1 stop effect: a start trigger requested the prompt not be sent.
+    stopRequested: startTrig.stopSending,
   };
 }

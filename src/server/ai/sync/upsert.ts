@@ -1,4 +1,5 @@
 import type { UserTheme } from "@/components/ui/theme/theme-store";
+import { ParamError } from "@/lib/types";
 import { assertUserQuota, mediaKey, uploadToR2 } from "@/lib/config/r2";
 import type { getDb } from "@/lib/db/server/client";
 import {
@@ -608,7 +609,6 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
         if (mode === "replace") {
           await tx.delete(messages).where(eq(messages.convId, id));
         }
-        // Null parentId when target missing (FK).
         const existingMsgIds =
           mode === "replace"
             ? new Set<string>()
@@ -625,8 +625,16 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
           ...body.messages.map((m) => m.id),
         ]);
         for (const m of body.messages) {
-          const parentId =
-            m.parentId && validParentIds.has(m.parentId) ? m.parentId : null;
+          // A missing parent means the push is incomplete (gap in a partial
+          // msgs delta); nulling would re-root the message and corrupt branch
+          // structure on every other device. Fail instead: the client retry
+          // escalates to a full-bundle push, which is self-healing.
+          if (m.parentId && !validParentIds.has(m.parentId)) {
+            throw new ParamError("ERRORS.NOT_FOUND", {
+              what: `parent message ${m.parentId}`,
+            });
+          }
+          const parentId = m.parentId ?? null;
           const values = {
             id: m.id,
             convId: id,

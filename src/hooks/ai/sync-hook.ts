@@ -4,10 +4,6 @@ import { setLocalSyncFlag } from "@/lib/db/client/sync/reconcile";
 import { useElysiaQuery } from "@/hooks/use-elysia-query";
 
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
-import {
-  readLocalConversation,
-  upsertLocalConversation,
-} from "@/lib/db/client/data/chat";
 import { buildSyncPayload } from "@/lib/db/client/sync/build-payload";
 import { evictMediaBase64After } from "@/lib/db/client/sync/evict-media";
 import { rehydrateParentMedia } from "@/lib/db/client/sync/rehydrate-media";
