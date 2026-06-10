@@ -716,7 +716,9 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
     const s = body.session ?? {};
     const mediaUploads = await preUploadMedia(id, body.media);
     await db.transaction(async (tx) => {
-      const fallbackExpires = s.expiresAt ?? expiresAt;
+      // Wire dates arrive as ISO strings (JSON); drizzle timestamp columns
+      // need Date objects.
+      const fallbackExpires = asDate(s.expiresAt) ?? expiresAt;
       await upsertScoped(
         tx,
         playgroundSessions,
@@ -740,7 +742,7 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
           firstModel: s.firstModel,
           snapshotCount: s.snapshotCount,
           imageCount: s.imageCount,
-          expiresAt: s.expiresAt,
+          expiresAt: asDate(s.expiresAt),
           updatedAt: asDate(s.updatedAt),
         }),
       );
@@ -772,7 +774,7 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
             remixedFrom: g.remixedFrom ?? null,
             errorMessage: g.errorMessage ?? null,
             submittedKey: g.submittedKey ?? null,
-            expiresAt: g.expiresAt ?? fallbackExpires,
+            expiresAt: asDate(g.expiresAt) ?? fallbackExpires,
           });
         }
       }
