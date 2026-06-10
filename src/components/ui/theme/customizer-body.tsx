@@ -1,9 +1,7 @@
 "use client";
 
-import { GUEST_USER_ID } from "@/lib/config/constants";
-import { env } from "@/lib/config/env";
+import { SyncBadge } from "@/components/elements/badge/sync-badge";
 import { Button } from "@/components/ui/button";
-import { Icon } from "@/components/ui/icon";
 import {
   Card,
   CardContent,
@@ -11,11 +9,18 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { SyncBadge } from "@/components/elements/badge/sync-badge";
-import { useAuthQuery } from "@/hooks/auth/auth-hook";
-import { upsertLocalTheme } from "@/lib/db/client/data/theme";
-import { enqueueSync, drainSoon } from "@/lib/db/client/sync/pending-sync";
-import { useSyncStateForRow } from "@/hooks/ai/sync-hook";
+import { Icon } from "@/components/ui/icon";
+import { BackgroundImageSection } from "@/components/ui/theme/customizer/background-image-section";
+import {
+  ChatTextSection,
+  SurfaceColorsSection,
+} from "@/components/ui/theme/customizer/color-sections";
+import {
+  AccentGlyph,
+  MenuGlyph,
+  StyleGlyph,
+} from "@/components/ui/theme/customizer/glyphs";
+import { STYLES } from "@/components/ui/theme/shadcn-styles";
 import {
   ALL_BASE_COLORS,
   ALL_THEMES,
@@ -24,28 +29,31 @@ import {
   MENUS,
   RADII,
 } from "@/components/ui/theme/shadcn-themes";
-import { STYLES } from "@/components/ui/theme/shadcn-styles";
 import { FONT_OPTIONS } from "@/components/ui/theme/theme-fonts";
-import { downloadJson, fileToScaledDataUrl } from "@/lib/utils/client";
-import { Slider } from "@/components/ui/slider";
 import {
   INITIAL_USER_THEME,
   themeBackgroundAtom,
   userThemeAtom,
 } from "@/components/ui/theme/theme-store";
 import type {
-  BackgroundFit,
   BackgroundSettings,
+  ChatMarkdownColors,
   SurfaceColors,
   UserTheme,
 } from "@/components/ui/theme/theme-store";
+import { useAuthQuery } from "@/hooks/auth/auth-hook";
+import { useSyncStateForRow } from "@/hooks/ai/sync-hook";
+import { GUEST_USER_ID } from "@/lib/config/constants";
+import { env } from "@/lib/config/env";
+import { upsertLocalTheme } from "@/lib/db/client/data/theme";
+import { drainSoon, enqueueSync } from "@/lib/db/client/sync/pending-sync";
+import { downloadJson } from "@/lib/utils/client";
 import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useRef } from "react";
 import { toast } from "sonner";
 import { FieldGroup, FieldSeparator } from "./field";
 import { ColorSwatch, FontGlyph, Picker, RadiusGlyph } from "./picker";
-import type { ChatMarkdownColors } from "@/components/ui/theme/theme-store";
 
 // Project palette fallbacks for the "default" sentinel (empty cssVars). Match
 // globals.css `--primary` and `--muted-foreground` so chips render as real swatches.
@@ -62,144 +70,12 @@ function baseColorChipColor(name: string): string {
   return t?.cssVars.light["muted-foreground"] ?? DEFAULT_MUTED;
 }
 
-function StyleGlyph() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      width="14"
-      height="14"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden
-    >
-      <rect x="3" y="3" width="7" height="7" rx="1" />
-      <rect x="14" y="3" width="7" height="7" rx="2" />
-      <rect x="3" y="14" width="7" height="7" rx="3" />
-      <rect x="14" y="14" width="7" height="7" rx="4" />
-    </svg>
-  );
-}
-
-function MenuGlyph() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      width="14"
-      height="14"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      aria-hidden
-    >
-      <line x1="3" y1="6" x2="21" y2="6" />
-      <line x1="3" y1="12" x2="21" y2="12" />
-      <line x1="3" y1="18" x2="21" y2="18" />
-    </svg>
-  );
-}
-
-const HEX_RE = /^#[0-9a-fA-F]{6}$/;
-
-function normalizeHex(v: string): string | null {
-  let s = v.trim();
-  if (!s) return null;
-  if (!s.startsWith("#")) s = `#${s}`;
-  if (/^#[0-9a-fA-F]{3}$/.test(s)) {
-    s = `#${s[1]}${s[1]}${s[2]}${s[2]}${s[3]}${s[3]}`;
-  }
-  return HEX_RE.test(s) ? s.toLowerCase() : null;
-}
-
-function ColorField(props: {
-  label: string;
-  value: string | undefined;
-  onChange: (next: string | undefined) => void;
-}) {
-  const colorInputRef = useRef<HTMLInputElement | null>(null);
-  const value = props.value ?? "";
-  return (
-    <div
-      className={
-        "ring-foreground/10 hover:bg-muted relative flex w-full shrink-0 items-center gap-2 rounded-lg px-3 py-2 ring-1 select-none"
-      }
-    >
-      <button
-        type="button"
-        onClick={() => colorInputRef.current?.click()}
-        className="ring-foreground/15 size-6 shrink-0 cursor-pointer rounded-full ring-1"
-        style={{ backgroundColor: value || "transparent" }}
-        aria-label={`${props.label} swatch`}
-      />
-      <input
-        ref={colorInputRef}
-        type="color"
-        value={value || "#000000"}
-        onChange={(e) => props.onChange(e.target.value.toLowerCase())}
-        className="sr-only"
-        tabIndex={-1}
-        aria-hidden
-      />
-      <div className="flex min-w-0 flex-1 flex-col justify-start">
-        <div className="text-muted-foreground text-xs">{props.label}</div>
-        <input
-          type="text"
-          value={value}
-          placeholder="#rrggbb"
-          onChange={(e) => {
-            const raw = e.target.value;
-            if (raw === "") return props.onChange(undefined);
-            const hex = normalizeHex(raw);
-            if (hex) props.onChange(hex);
-            else props.onChange(raw); // let user keep typing; validates on blur
-          }}
-          onBlur={(e) => {
-            const hex = normalizeHex(e.target.value);
-            props.onChange(hex ?? undefined);
-          }}
-          className="text-foreground bg-transparent text-sm font-medium outline-none"
-          spellCheck={false}
-          aria-label={props.label}
-        />
-      </div>
-      {props.value && (
-        <button
-          type="button"
-          onClick={() => props.onChange(undefined)}
-          className="text-muted-foreground hover:text-foreground text-xs"
-          aria-label="reset"
-        >
-          ×
-        </button>
-      )}
-    </div>
-  );
-}
-
-function AccentGlyph() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      width="14"
-      height="14"
-      fill="currentColor"
-      aria-hidden
-    >
-      <circle cx="12" cy="12" r="6" />
-    </svg>
-  );
-}
-
 export function ThemeCustomizerBody() {
   const t = useTranslations();
   const [theme, setThemeRaw] = useAtom(userThemeAtom);
   const [backgroundImage, setBackgroundImage] = useAtom(themeBackgroundAtom);
   const auth = useAuthQuery();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const bgFileInputRef = useRef<HTMLInputElement | null>(null);
   const themeSyncState = useSyncStateForRow(
     "theme",
     auth.data ? String(auth.data.id) : "",
@@ -243,20 +119,6 @@ export function ThemeCustomizerBody() {
       ...theme,
       background: { ...(theme.background ?? {}), ...patch },
     });
-  };
-
-  const uploadBackground = async (file: File) => {
-    try {
-      const url = await fileToScaledDataUrl(file);
-      setBackgroundImage(url);
-      setBackground({ enabled: true });
-    } catch {
-      toast.error(t("THEME.IMPORT_FAILED"));
-    }
-  };
-
-  const removeBackground = () => {
-    setBackgroundImage(null);
   };
 
   const resetAll = () => {
@@ -490,189 +352,15 @@ export function ThemeCustomizerBody() {
             onValueChange={(v) => setTheme({ ...theme, menuAccent: v })}
           />
           <FieldSeparator />
-          <div className="text-muted-foreground px-1 pt-1 text-xs">
-            {t("THEME.CHAT_TEXT")}
-          </div>
-          <ColorField
-            label={t("THEME.MD_NORMAL")}
-            value={theme.markdown?.normal}
-            onChange={(v) => setMarkdown({ normal: v })}
-          />
-          <ColorField
-            label={t("THEME.MD_ITALIC")}
-            value={theme.markdown?.italic}
-            onChange={(v) => setMarkdown({ italic: v })}
-          />
-          <ColorField
-            label={t("THEME.MD_BOLD")}
-            value={theme.markdown?.bold}
-            onChange={(v) => setMarkdown({ bold: v })}
-          />
-          <ColorField
-            label={t("THEME.MD_ITALIC_BOLD")}
-            value={theme.markdown?.italicBold}
-            onChange={(v) => setMarkdown({ italicBold: v })}
-          />
-          <ColorField
-            label={t("THEME.MD_SINGLE_QUOTE")}
-            value={theme.markdown?.singleQuote}
-            onChange={(v) => setMarkdown({ singleQuote: v })}
-          />
-          <ColorField
-            label={t("THEME.MD_DOUBLE_QUOTE")}
-            value={theme.markdown?.doubleQuote}
-            onChange={(v) => setMarkdown({ doubleQuote: v })}
-          />
+          <ChatTextSection markdown={theme.markdown} onChange={setMarkdown} />
           <FieldSeparator />
-          <div className="text-muted-foreground px-1 pt-1 text-xs">
-            {t("THEME.SURFACE_COLORS")}
-          </div>
-          <ColorField
-            label={t("THEME.COLOR_BACKGROUND")}
-            value={theme.surface?.background}
-            onChange={(v) => setSurface({ background: v })}
-          />
-          <ColorField
-            label={t("THEME.COLOR_FOREGROUND")}
-            value={theme.surface?.foreground}
-            onChange={(v) => setSurface({ foreground: v })}
-          />
-          <ColorField
-            label={t("THEME.COLOR_CARD")}
-            value={theme.surface?.card}
-            onChange={(v) => setSurface({ card: v })}
-          />
-          <ColorField
-            label={t("THEME.COLOR_PRIMARY")}
-            value={theme.surface?.primary}
-            onChange={(v) => setSurface({ primary: v })}
-          />
-          <ColorField
-            label={t("THEME.COLOR_ACCENT")}
-            value={theme.surface?.accent}
-            onChange={(v) => setSurface({ accent: v })}
-          />
-          <ColorField
-            label={t("THEME.COLOR_SIDEBAR")}
-            value={theme.surface?.sidebar}
-            onChange={(v) => setSurface({ sidebar: v })}
-          />
-          <ColorField
-            label={t("THEME.COLOR_BORDER")}
-            value={theme.surface?.border}
-            onChange={(v) => setSurface({ border: v })}
-          />
+          <SurfaceColorsSection surface={theme.surface} onChange={setSurface} />
           <FieldSeparator />
-          <div className="text-muted-foreground px-1 pt-1 text-xs">
-            {t("THEME.BACKGROUND_IMAGE")}
-          </div>
-          {backgroundImage ? (
-            <div className="flex flex-col gap-2.5">
-              <div className="ring-foreground/10 relative h-24 w-full overflow-hidden rounded-lg ring-1">
-                {/* eslint-disable-next-line @next/next/no-img-element -- local data-URL preview, next/image can't optimize it */}
-                <img
-                  src={backgroundImage}
-                  alt=""
-                  className="h-full w-full object-cover"
-                />
-              </div>
-              <div className="flex gap-2">
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  className="flex-1"
-                  onClick={() => bgFileInputRef.current?.click()}
-                >
-                  <Icon name="upload" className="mr-1.5 size-3.5" />
-                  {t("THEME.BG_REPLACE")}
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  className="flex-1"
-                  onClick={removeBackground}
-                >
-                  <Icon name="trash-2" className="mr-1.5 size-3.5" />
-                  {t("THEME.BG_REMOVE")}
-                </Button>
-              </div>
-              <Picker
-                label={t("THEME.BG_FIT")}
-                value={theme.background?.fit ?? "cover"}
-                valueLabel={
-                  theme.background?.fit === "contain"
-                    ? t("THEME.BG_FIT_CONTAIN")
-                    : theme.background?.fit === "tile"
-                      ? t("THEME.BG_FIT_TILE")
-                      : t("THEME.BG_FIT_COVER")
-                }
-                options={[
-                  { value: "cover", label: t("THEME.BG_FIT_COVER") },
-                  { value: "contain", label: t("THEME.BG_FIT_CONTAIN") },
-                  { value: "tile", label: t("THEME.BG_FIT_TILE") },
-                ]}
-                onValueChange={(v) =>
-                  setBackground({ fit: v as BackgroundFit })
-                }
-              />
-              <div className="flex flex-col gap-1.5 px-1">
-                <div className="text-muted-foreground flex justify-between text-xs">
-                  <span>{t("THEME.BG_OPACITY")}</span>
-                  <span>
-                    {Math.round((theme.background?.opacity ?? 1) * 100)}%
-                  </span>
-                </div>
-                <Slider
-                  min={0.1}
-                  max={1}
-                  step={0.05}
-                  value={theme.background?.opacity ?? 1}
-                  onValueChange={(v) =>
-                    setBackground({
-                      opacity: Array.isArray(v) ? v[0] : v,
-                    })
-                  }
-                />
-              </div>
-              <div className="flex flex-col gap-1.5 px-1">
-                <div className="text-muted-foreground flex justify-between text-xs">
-                  <span>{t("THEME.BG_BLUR")}</span>
-                  <span>{theme.background?.blur ?? 0}px</span>
-                </div>
-                <Slider
-                  min={0}
-                  max={24}
-                  step={1}
-                  value={theme.background?.blur ?? 0}
-                  onValueChange={(v) =>
-                    setBackground({ blur: Array.isArray(v) ? v[0] : v })
-                  }
-                />
-              </div>
-            </div>
-          ) : (
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              onClick={() => bgFileInputRef.current?.click()}
-            >
-              <Icon name="upload" className="mr-1.5 size-3.5" />
-              {t("THEME.BG_UPLOAD")}
-            </Button>
-          )}
-          <input
-            ref={bgFileInputRef}
-            type="file"
-            accept="image/*"
-            className="hidden"
-            onChange={(e) => {
-              const f = e.target.files?.[0];
-              if (f) void uploadBackground(f);
-              e.target.value = "";
-            }}
+          <BackgroundImageSection
+            image={backgroundImage}
+            setImage={setBackgroundImage}
+            background={theme.background}
+            onChange={setBackground}
           />
         </FieldGroup>
       </CardContent>
