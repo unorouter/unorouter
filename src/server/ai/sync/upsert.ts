@@ -408,23 +408,40 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
       );
       // Inline entity bodies first so the join-table FKs below resolve even
       // when the referenced character/lorebook was never synced on its own.
+      const ownedCardCharIds = new Set<string>();
+      const ownedCardLbIds = new Set<string>();
       for (const ch of body.characters ?? []) {
-        await ensureReferencedEntity(
-          tx,
-          characters,
-          userId,
-          expiresAt,
-          ch,
-          characterInsertValues,
-        );
+        if (
+          await ensureReferencedEntity(
+            tx,
+            characters,
+            userId,
+            expiresAt,
+            ch,
+            characterInsertValues,
+          )
+        ) {
+          ownedCardCharIds.add(ch.id as string);
+        }
       }
       for (const lb of body.lorebooks ?? []) {
-        await ensureReferencedLorebook(tx, userId, expiresAt, lb);
+        if (await ensureReferencedLorebook(tx, userId, expiresAt, lb)) {
+          const lid = lb.lorebook?.id;
+          if (typeof lid === "string") ownedCardLbIds.add(lid);
+        }
       }
       if (body.cardCharacters) {
         await tx.delete(cardCharacters).where(eq(cardCharacters.cardId, id));
         for (let i = 0; i < body.cardCharacters.length; i++) {
           const row = body.cardCharacters[i];
+          // Drop bindings to characters this user doesn't own (FK safety).
+          if (
+            !ownedCardCharIds.has(row.characterId) &&
+            (await rowOwner(tx, characters, row.characterId)) !== userId
+          ) {
+            continue;
+          }
+          ownedCardCharIds.add(row.characterId);
           await tx.insert(cardCharacters).values({
             cardId: id,
             characterId: row.characterId,
@@ -436,6 +453,13 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
         await tx.delete(cardLorebooks).where(eq(cardLorebooks.cardId, id));
         for (let i = 0; i < body.cardLorebooks.length; i++) {
           const row = body.cardLorebooks[i];
+          if (
+            !ownedCardLbIds.has(row.lorebookId) &&
+            (await rowOwner(tx, lorebooks, row.lorebookId)) !== userId
+          ) {
+            continue;
+          }
+          ownedCardLbIds.add(row.lorebookId);
           await tx.insert(cardLorebooks).values({
             cardId: id,
             lorebookId: row.lorebookId,
