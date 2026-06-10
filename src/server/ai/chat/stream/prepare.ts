@@ -13,7 +13,7 @@ import { parseStringMap } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 import { ChatContext, StreamOverrides } from "@/lib/validation/chat";
 import { parseRegexScripts } from "@/lib/ai/chat/regex-scripts";
-import { risuUnescape } from "../augmentation/macros";
+import { risuUnescape } from "@/lib/ai/chat/macros";
 import { runStartTriggers } from "../augmentation/run-triggers";
 import { makeServerTriggerOps } from "../augmentation/trigger-ops";
 import { buildMemoryContext } from "../augmentation/memory.service";
@@ -88,7 +88,7 @@ export async function prepareChatRequest(
   const convCtx = clientCtx
     ? buildContextFromClient(clientCtx)
     : body.convId
-      ? await loadConvContext(body.convId)
+      ? await loadConvContext(userId, body.convId)
       : null;
   // Toolbar toggle OR'd with conv default; web search paid-only so guests off.
   const effectiveWebSearch =

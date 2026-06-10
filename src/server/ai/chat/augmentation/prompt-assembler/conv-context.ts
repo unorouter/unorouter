@@ -13,13 +13,18 @@ import { projectConversationSettings } from "@/lib/db/conversation-settings";
 import { and, asc, eq, inArray } from "drizzle-orm";
 import type { LoadedConvContext } from "@/lib/types";
 
-export async function loadConvContext(convId: string) {
+// userId scopes the conversation lookup: convId is client-controlled on the
+// stream path, so an unscoped load let a caller assemble a prompt from another
+// user's private persona/characters/lorebooks/system-prompt and read it back
+// through the model output. Child rows hang off this convId, so gating the
+// parent row is sufficient.
+export async function loadConvContext(userId: number, convId: string) {
   const db = getDb();
 
   const convRows = await db
     .select()
     .from(conversations)
-    .where(eq(conversations.id, convId))
+    .where(and(eq(conversations.id, convId), eq(conversations.userId, userId)))
     .limit(1);
   const conv = convRows[0];
   if (!conv) return null;

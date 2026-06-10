@@ -4,12 +4,11 @@ import {
   parseExtraBody as parseExtraBodyShared,
   type StreamOverrides,
 } from "@/lib/validation/chat";
-import { loadConvContext } from "./prompt-assembler/conv-context";
 import type { LoadedConvContext } from "@/lib/types";
 import { encode } from "gpt-tokenizer";
 import { keyHits, selectLorebookEntries } from "./prompt-assembler/lorebook";
 import { parseExampleMessages } from "./example-messages";
-import { expandMacros, type MacroScope } from "./macros";
+import { expandMacros, type MacroScope } from "@/lib/ai/chat/macros";
 import {
   DEFAULT_PROMPT_TEMPLATE,
   parsePromptTemplate,
@@ -254,13 +253,16 @@ export type AssembleOpts = {
 export async function assembleForStream(
   convId: string,
   recentUserTexts: string[],
-  fallbackSystemMessage?: string,
-  preloadedCtx?: LoadedConvContext,
+  fallbackSystemMessage: string | undefined,
+  // Required: the caller owns the ownership-scoped context load. A fallback
+  // load here would re-resolve convId without the caller's userId,
+  // reintroducing the cross-user context read this guards against.
+  preloadedCtx: LoadedConvContext,
   opts?: AssembleOpts,
 ): Promise<AssembledSystem> {
   const globalVars = opts?.globalVars;
   const history = opts?.history;
-  const ctx = preloadedCtx ?? (await loadConvContext(convId));
+  const ctx = preloadedCtx;
   if (!ctx) return baseAssembled(fallbackSystemMessage);
 
   const { settings, persona, preset, lbRows, lbEntries } = ctx;

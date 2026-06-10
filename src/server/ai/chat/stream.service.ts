@@ -6,8 +6,10 @@ import { captureServerEvent } from "@/lib/posthog-server";
 import { errMessage, uid } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 import { getProvider } from "@/server/constants";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import {
+  createUIMessageStream,
+  createUIMessageStreamResponse,
   convertToModelMessages,
   extractReasoningMiddleware,
   streamText,
@@ -27,6 +29,7 @@ import { prepareChatRequest, type StreamBody } from "./stream/prepare";
 // it here saves the client pushing the full prompt up every turn. Guests/local-only
 // keep the client copy. Fire-and-forget: a miss only costs the cross-device copy.
 function persistRequestLogIfSynced(
+  userId: number,
   convId: string | null | undefined,
   msgId: string,
   debug: Record<string, unknown>,
@@ -41,10 +44,15 @@ function persistRequestLogIfSynced(
   if (!convId) return;
   void (async () => {
     const db = getDb();
+    // Scope by userId: convId is client-controlled, so an unscoped lookup let
+    // a caller write an attacker-supplied request log under another user's
+    // synced conversation.
     const conv = await db
       .select({ syncExpiresAt: conversations.syncExpiresAt })
       .from(conversations)
-      .where(eq(conversations.id, convId))
+      .where(
+        and(eq(conversations.id, convId), eq(conversations.userId, userId)),
+      )
       .limit(1);
     if (!conv[0] || conv[0].syncExpiresAt == null) return;
     const row = {
@@ -120,7 +128,6 @@ export async function streamChat(
 
   const prepared = await prepareChatRequest(apiKey, body, request, userId);
   const {
-    modelInfo,
     estimateCost,
     effectiveWebSearch,
     effectiveSystem,
@@ -132,13 +139,28 @@ export async function streamChat(
     varsWriteback,
     globalVarsWriteback,
     debugRequestSnapshot,
+    bodyMutations,
+    startAlerts,
+    stopRequested,
   } = prepared;
-  // cache_control only for Claude models: others (Mistral) advertise caching
-  // but 422 on the Anthropic block format.
-  const provider = getProvider(apiKey, {
-    injectCacheControl:
-      modelInfo?.metadata.supportsCache === true && /claude/i.test(body.model),
-  });
+  // V1 `stop` effect (Risu stopSending): answer an empty UI stream, no upstream call.
+  if (stopRequested) {
+    const stopStream = createUIMessageStream({
+      execute: ({ writer }) => {
+        for (const a of startAlerts) {
+          writer.write({
+            type: "data-alert",
+            data: a,
+            transient: true,
+          });
+        }
+      },
+    });
+    return createUIMessageStreamResponse({ stream: stopStream });
+  }
+  // cacheControl flag limits cache_control to Claude: others (Mistral)
+  // advertise caching but 422 on the Anthropic block format.
+  const provider = getProvider(apiKey, bodyMutations);
 
   const droppedParamsRef = { value: null as string | null };
   // Captured in onFinish; emitted in messageMetadata to seed request log row.
@@ -258,14 +280,14 @@ export async function streamChat(
     };
     meta.debug = debug;
     // Cross-device copy for synced convs; the client no longer pushes logs up.
-    persistRequestLogIfSynced(body.convId, responseMessageId, debug, u);
+    persistRequestLogIfSynced(userId, body.convId, responseMessageId, debug, u);
     return meta;
   };
 
   const userOptedOutOfStreaming = !streamingEnabled;
 
   if (!buffered && !userOptedOutOfStreaming) {
-    return result.toUIMessageStreamResponse({
+    const uiStream = result.toUIMessageStream({
       generateMessageId: () => responseMessageId,
       messageMetadata: ({ part }) => {
         // `finish-step` carries response.headers synchronously; onFinish races stream end.
@@ -281,6 +303,19 @@ export async function streamChat(
         return undefined;
       },
     });
+    // Transient start-trigger alerts ride ahead of the model stream.
+    if (startAlerts.length > 0) {
+      const merged = createUIMessageStream({
+        execute: ({ writer }) => {
+          for (const a of startAlerts) {
+            writer.write({ type: "data-alert", data: a, transient: true });
+          }
+          writer.merge(uiStream);
+        },
+      });
+      return createUIMessageStreamResponse({ stream: merged });
+    }
+    return createUIMessageStreamResponse({ stream: uiStream });
   }
 
   // Buffered (media follow-ups + streaming-off): same metadata, synthesized
