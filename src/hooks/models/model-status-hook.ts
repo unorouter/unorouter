@@ -1,5 +1,7 @@
 "use client";
 
+import { useElysiaQuery } from "@/hooks/use-elysia-query";
+
 import {
   type CompactPagePayload,
   decodeCompactPage,
@@ -25,9 +27,7 @@ export function useStatusPage(bucket: StatusBucket = "1m", hours: number = 24) {
 }
 
 export function useStatusComponents() {
-  return useQuery({
-    queryKey: queryKeys.modelStatusComponents(),
-    queryFn: async () =>
-      handleElysia(await rpc.api.models["model-status"].components.get()),
-  });
+  return useElysiaQuery(queryKeys.modelStatusComponents(), () =>
+    rpc.api.models["model-status"].components.get(),
+  );
 }

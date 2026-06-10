@@ -103,7 +103,9 @@ export function useImportLorebookMutation() {
       } catch {
         throw new Error("ERRORS.REQUEST_FAILED");
       }
-      const parsed = (await import("@/lib/ai/rp/lorebook-import")).parseLorebookJson(raw);
+      const parsed = (
+        await import("@/lib/ai/rp/lorebook-import")
+      ).parseLorebookJson(raw);
       if (!parsed) throw new Error("ERRORS.REQUEST_FAILED");
       const id = uid();
       const now = dayjs().toDate();

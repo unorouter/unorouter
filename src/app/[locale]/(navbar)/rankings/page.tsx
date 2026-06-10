@@ -1,3 +1,4 @@
+import { prefetchElysia } from "@/lib/react-query/prefetch";
 import { Rankings } from "@/components/pages/navbar/rankings/rankings";
 import {
   RANKING_PERIODS,
@@ -14,7 +15,7 @@ import {
   buildBreadcrumbListSchema,
   buildCollectionPageSchema,
 } from "@/lib/seo/structured-data";
-import { handleElysia, modelSlug } from "@/lib/utils/base";
+import { modelSlug } from "@/lib/utils/base";
 import { serverLocale } from "@/lib/utils/server";
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
@@ -49,11 +50,9 @@ export default async function RankingsPage(props: {
   const t = await getTranslations({ locale });
   const queryClient = getQueryClient();
 
-  await queryClient.prefetchQuery({
-    queryKey: queryKeys.rankings(period),
-    queryFn: async () =>
-      handleElysia(await rpc.api.models.rankings.get({ query: { period } })),
-  });
+  await prefetchElysia(queryClient, queryKeys.rankings(period), () =>
+    rpc.api.models.rankings.get({ query: { period } }),
+  );
 
   const snapshot = queryClient.getQueryData(queryKeys.rankings(period)) as
     | { models: Array<{ model_name: string; vendor: string }> }

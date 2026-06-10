@@ -1,5 +1,7 @@
 "use client";
 
+import { useElysiaQuery } from "@/hooks/use-elysia-query";
+
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import {
   readLocalConversation,
@@ -27,12 +29,11 @@ import { toast } from "sonner";
 // Hydrator seeds this; invalidations drive every later refetch (no polling).
 function useSyncStateQuery() {
   const auth = useAuthQuery();
-  return useQuery({
-    queryKey: queryKeys.syncState(),
-    queryFn: async () => handleElysia(await rpc.api.ai.sync.state.get()),
-    enabled: !!auth.data,
-    staleTime: Infinity,
-  });
+  return useElysiaQuery(
+    queryKeys.syncState(),
+    () => rpc.api.ai.sync.state.get(),
+    { enabled: !!auth.data, staleTime: Infinity },
+  );
 }
 
 type SyncStateRow = SyncStateBulk[SyncKindName][number];
@@ -89,8 +90,6 @@ type SyncArgs = {
   id: string;
   payload?: unknown;
   days?: number;
-  /** Mirror PATCH on save: refresh content w/o resetting the 30-day window. */
-  keepExpiry?: boolean;
 };
 
 export function useSyncMutation() {
@@ -110,7 +109,6 @@ export function useSyncMutation() {
         await rpc.api.ai.sync({ kind: args.kind })({ id: args.id }).post({
           days: args.days,
           payload,
-          keepExpiry: args.keepExpiry,
         }),
       ) as SyncBundle;
 

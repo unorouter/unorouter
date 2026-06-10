@@ -1,6 +1,7 @@
 // Mirrors `./rp.ts` and `./chat.ts` with `default:` for RHF's `Value.Default`.
 
 import { Type as t, type Static } from "@sinclair/typebox/type";
+import { nullable } from "./helpers";
 import { msg, NONE_VALUE, type TranslationKey } from "../config/constants";
 import {
   LOREBOOK_INJECTION_ROLES,
@@ -145,9 +146,7 @@ const lorebookInjectionRoleLiterals = LOREBOOK_INJECTION_ROLES.map((r) =>
 );
 
 const nullableNumber = (min: number, max: number) =>
-  t.Union([t.Number({ minimum: min, maximum: max }), t.Null()], {
-    default: null,
-  });
+  nullable(t.Number({ minimum: min, maximum: max }));
 
 export const conversationOverridesFormSchema = t.Object({
   personaId: t.String({ default: NONE_VALUE }),
@@ -177,7 +176,7 @@ export const conversationOverridesFormSchema = t.Object({
   extraBody: t.String({ default: "", maxLength: 8_192 }),
   // null = inherit the bound preset (else system default: streaming on). false =
   // BFF buffers full reply, then streams as one chunk.
-  streamingEnabled: t.Union([t.Boolean(), t.Null()], { default: null }),
+  streamingEnabled: nullable(t.Boolean()),
 });
 export type ConversationOverridesForm = Static<
   typeof conversationOverridesFormSchema
@@ -201,7 +200,7 @@ export const samplingPresetFormSchema = t.Object({
   maxTokens: nullableNumber(1, 1_000_000),
   // Preset-level defaults (the conversation overrides per chat). null = system
   // default (streaming on, chatMemory 8).
-  streamingEnabled: t.Union([t.Boolean(), t.Null()], { default: null }),
+  streamingEnabled: nullable(t.Boolean()),
   chatMemory: nullableNumber(1, 1000),
   mainPrompt: t.String({ default: "", maxLength: MAX_DESC_LEN }),
   postHistory: t.String({ default: "", maxLength: MAX_DESC_LEN }),

@@ -156,23 +156,6 @@ const MediaRow = t.Object({
   extractedText: t.Optional(NullableString),
 });
 
-const RequestLogRow = t.Object({
-  msgId: ID,
-  requestBody: t.Unknown(),
-  assembledSystem: t.Optional(NullableString),
-  finalMessages: t.Unknown(),
-  responseHeaders: t.Optional(
-    t.Union([t.Record(t.String(), t.String()), t.Null()]),
-  ),
-  droppedParams: t.Optional(NullableString),
-  requestId: t.Optional(NullableString),
-  inputTokens: t.Optional(t.Union([t.Number(), t.Null()])),
-  outputTokens: t.Optional(t.Union([t.Number(), t.Null()])),
-  cost: t.Optional(t.Union([t.Number(), t.Null()])),
-  durationMs: t.Optional(t.Union([t.Number(), t.Null()])),
-  tokensPerSecond: t.Optional(t.Union([t.Number(), t.Null()])),
-});
-
 // Referenced RP entities ride inline so the conversation is self-contained.
 const RefCharacter = t.Object({
   id: ID,
@@ -198,7 +181,6 @@ export const conversationBundleBody = t.Object({
   messages: t.Optional(t.Array(MessageRow)),
   messageItems: t.Optional(t.Array(MessageItemRow)),
   media: t.Optional(t.Array(MediaRow)),
-  requestLogs: t.Optional(t.Array(RequestLogRow)),
   characters: t.Optional(
     t.Array(t.Composite([RefCharacter, t.Record(t.String(), t.Unknown())])),
   ),

@@ -1,5 +1,7 @@
 "use client";
 
+import { useElysiaQuery } from "@/hooks/use-elysia-query";
+
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { joinItemsToMessages } from "@/lib/ai/chat/messages";
 import { GUEST_USER_ID, PAGE_SIZE } from "@/lib/config/constants";
@@ -186,14 +188,11 @@ export function useDeleteConversationMutation() {
 }
 
 export function useTaskStatusQuery(taskId: string, enabled = false) {
-  return useQuery({
-    queryKey: queryKeys.taskStatus(taskId),
-    queryFn: async () => {
-      return handleElysia(await rpc.api.ai.chat.task({ taskId }).get());
-    },
-    enabled: enabled && !!taskId,
-    retry: false,
-  });
+  return useElysiaQuery(
+    queryKeys.taskStatus(taskId),
+    () => rpc.api.ai.chat.task({ taskId }).get(),
+    { enabled: enabled && !!taskId, retry: false },
+  );
 }
 
 export function useFinalizeTaskMutation() {

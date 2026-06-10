@@ -87,7 +87,12 @@ export async function mirrorConvMessagesIfSynced(
   msgIds: string[],
   withRow = false,
 ) {
-  await enqueueConv(userId, convId, withRow ? ["msgs", "row"] : ["msgs"], msgIds);
+  await enqueueConv(
+    userId,
+    convId,
+    withRow ? ["msgs", "row"] : ["msgs"],
+    msgIds,
+  );
 }
 
 // Playground analog of mirrorConvIfSynced (always full bundle).

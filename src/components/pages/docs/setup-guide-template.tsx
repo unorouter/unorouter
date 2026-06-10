@@ -133,6 +133,7 @@ ${t("DOCS.SETUP_GUIDE.API_KEY_LABEL")}: ${docs.placeholder}`;
               iconKey={guide.iconKey}
               logoSrc={guide.logoSrc}
               logoBg={guide.logoBg}
+              logoMono={guide.logoMono}
               accentClass={guide.color.accent}
               size={64}
             />

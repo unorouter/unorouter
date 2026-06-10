@@ -1,3 +1,4 @@
+import { prefetchElysia } from "@/lib/react-query/prefetch";
 import { ModelsPage } from "@/components/pages/navbar/models/models-page";
 import { APP_VALUES } from "@/lib/config/constants";
 import getQueryClient from "@/lib/react-query/client";
@@ -42,15 +43,11 @@ export default async function Page(props: {
       queryKey: queryKeys.pricing(),
       queryFn: async () => handleElysia(await rpc.api.models.pricing.get()),
     }),
-    queryClient.prefetchQuery({
-      queryKey: queryKeys.perfMetricsSummary(24),
-      queryFn: async () =>
-        handleElysia(
-          await rpc.api.models["perf-metrics"].summary.get({
-            query: { hours: 24 },
-          }),
-        ),
-    }),
+    prefetchElysia(queryClient, queryKeys.perfMetricsSummary(24), () =>
+      rpc.api.models["perf-metrics"].summary.get({
+        query: { hours: 24 },
+      }),
+    ),
   ]);
   const topModels = summary.models
     .filter((m) => m.type === "text")

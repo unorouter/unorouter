@@ -14,6 +14,7 @@ export type GuideIconRef = {
   iconKey: IntegrationIconKey;
   logoSrc?: string;
   logoBg?: boolean;
+  logoMono?: boolean;
 };
 
 export type DocsNavItem = {
@@ -65,6 +66,7 @@ export const docsNavGroups: DocsNavGroup[] = (() => {
             iconKey: guide.iconKey,
             logoSrc: guide.logoSrc,
             logoBg: guide.logoBg,
+            logoMono: guide.logoMono,
           },
         })),
       },

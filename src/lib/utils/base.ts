@@ -34,6 +34,10 @@ export function parseStringMap(
 const ALPHABET =
   "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
+export function pick<T>(arr: ArrayLike<T>): T {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
 export function uid(length = 21): string {
   let id = "";
   // Rejection sampling: bytes >=62 discarded for uniform alphanumeric output.

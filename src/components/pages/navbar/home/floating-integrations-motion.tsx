@@ -34,6 +34,7 @@ const PLACED = SETUP_GUIDES.map((guide, i) => {
     iconKey: guide.iconKey,
     logoSrc: guide.logoSrc,
     logoBg: guide.logoBg,
+    logoMono: guide.logoMono,
     href: guide.href,
     top: `${topPct}%`,
     left: `${leftPct}%`,
@@ -71,6 +72,7 @@ export function FloatingIntegrationsMotion(props: {
             iconKey={item.iconKey}
             logoSrc={item.logoSrc}
             logoBg={item.logoBg}
+            logoMono={item.logoMono}
             size={24}
           />
         </Link>

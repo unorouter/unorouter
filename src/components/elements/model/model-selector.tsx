@@ -1,5 +1,7 @@
 "use client";
 
+import { pick } from "@/lib/utils/base";
+
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Icon } from "@/components/ui/icon";
 import {
@@ -57,8 +59,8 @@ export function ModelSelector(props: ModelSelectorProps) {
     const pool =
       freeText.length > 0 ? freeText : models.filter((m) => m.isFree);
     if (pool.length === 0) return;
-    const pick = pool[Math.floor(Math.random() * pool.length)];
-    props.onChange(pick.name);
+    const chosen = pick(pool);
+    props.onChange(chosen.name);
     // eslint-disable-next-line react-hooks/exhaustive-deps -- only re-run on login state or models list changes
   }, [isLoggedIn, models.length]);
 

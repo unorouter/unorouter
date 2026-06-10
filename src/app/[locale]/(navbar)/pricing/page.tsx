@@ -1,3 +1,4 @@
+import { prefetchElysia } from "@/lib/react-query/prefetch";
 import { IntegrationBanner } from "@/components/pages/navbar/home/integration-banner";
 import { Pricing } from "@/components/pages/navbar/pricing/pricing";
 import { APP_VALUES } from "@/lib/config/constants";
@@ -13,7 +14,6 @@ import {
   type FAQEntry,
 } from "@/lib/seo/structured-data";
 import { localeUrl } from "@/i18n/navigation";
-import { handleElysia } from "@/lib/utils/base";
 import { serverLocale } from "@/lib/utils/server";
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
@@ -41,16 +41,12 @@ export default async function PricingPage(props: {
   const t = await getTranslations({ locale });
 
   await Promise.all([
-    queryClient.prefetchQuery({
-      queryKey: queryKeys.subscriptionPlans(),
-      queryFn: async () =>
-        handleElysia(await rpc.api.models.pricing.subscriptions.get()),
-    }),
-    queryClient.prefetchQuery({
-      queryKey: queryKeys.topUpInfo(),
-      queryFn: async () =>
-        handleElysia(await rpc.api.billing.core["topup-info"].get()),
-    }),
+    prefetchElysia(queryClient, queryKeys.subscriptionPlans(), () =>
+      rpc.api.models.pricing.subscriptions.get(),
+    ),
+    prefetchElysia(queryClient, queryKeys.topUpInfo(), () =>
+      rpc.api.billing.core["topup-info"].get(),
+    ),
   ]);
 
   const faqEntries: FAQEntry[] = ([1, 2, 3, 4, 5, 6, 7, 8] as const).map(

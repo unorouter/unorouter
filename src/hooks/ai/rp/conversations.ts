@@ -39,10 +39,7 @@ import type { ConversationExportFormat } from "@/lib/validation/rp";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
-import {
-  mirrorConvBindingsIfSynced,
-  mirrorConvRowIfSynced,
-} from "./shared";
+import { mirrorConvBindingsIfSynced, mirrorConvRowIfSynced } from "./shared";
 
 export function useChatSettingsQuery(convId?: string) {
   const auth = useAuthQuery();
@@ -77,12 +74,8 @@ export function useUpdateChatSettingsMutation() {
         convId: args.convId,
         updatedAt: now,
       };
+      // Settings live on the conversation row; this upsert also bumps updatedAt.
       await upsertLocalConversationSettings(userId, updated);
-
-      const conv = await readLocalConversation(userId, args.convId);
-      if (conv) {
-        await upsertLocalConversation(userId, { ...conv, updatedAt: now });
-      }
       if (!args.skipMirror) {
         // Settings are conversation-row columns; patch them instead of
         // re-uploading the whole conversation bundle on every drawer save.

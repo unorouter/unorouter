@@ -23,6 +23,7 @@ const docsSubmenu = (): NavigationItem[] => {
         iconKey: guide.iconKey,
         logoSrc: guide.logoSrc,
         logoBg: guide.logoBg,
+        logoMono: guide.logoMono,
       },
     })),
   );
@@ -42,6 +43,7 @@ export type NavigationItem = {
     iconKey: IntegrationIconKey;
     logoSrc?: string;
     logoBg?: boolean;
+    logoMono?: boolean;
   };
   hidden?: boolean;
   exact?: boolean;

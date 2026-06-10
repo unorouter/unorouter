@@ -1,5 +1,7 @@
 "use client";
 
+import { useElysiaQuery } from "@/hooks/use-elysia-query";
+
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { mirrorSessionIfSynced, unmirrorIfSynced } from "@/hooks/ai/rp/shared";
 import { PLAYGROUND_SESSION_TITLE_MAX } from "@/components/pages/sidebar/playground/playground-constants";
@@ -459,31 +461,25 @@ export function useImportGenerationMutation() {
 export function useLoraCatalogQuery(
   query?: EdenQuery<typeof rpc.api.ai.playground.loras>,
 ) {
-  return useQuery({
-    queryKey: queryKeys.loraCatalog(query),
-    queryFn: async () =>
-      handleElysia(await rpc.api.ai.playground.loras.get({ query })),
-  });
+  return useElysiaQuery(queryKeys.loraCatalog(query), () =>
+    rpc.api.ai.playground.loras.get({ query }),
+  );
 }
 
 export function useEmbeddingCatalogQuery(
   query?: EdenQuery<typeof rpc.api.ai.playground.embeddings>,
 ) {
-  return useQuery({
-    queryKey: queryKeys.embeddingCatalog(query),
-    queryFn: async () =>
-      handleElysia(await rpc.api.ai.playground.embeddings.get({ query })),
-  });
+  return useElysiaQuery(queryKeys.embeddingCatalog(query), () =>
+    rpc.api.ai.playground.embeddings.get({ query }),
+  );
 }
 
 export function useUpscalerCatalogQuery(
   query?: EdenQuery<typeof rpc.api.ai.playground.upscalers>,
 ) {
-  return useQuery({
-    queryKey: queryKeys.upscalerCatalog(query),
-    queryFn: async () =>
-      handleElysia(await rpc.api.ai.playground.upscalers.get({ query })),
-  });
+  return useElysiaQuery(queryKeys.upscalerCatalog(query), () =>
+    rpc.api.ai.playground.upscalers.get({ query }),
+  );
 }
 
 export function useUploadReferenceMutation() {

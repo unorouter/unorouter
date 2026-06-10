@@ -112,6 +112,42 @@ export async function enqueueSync(
     });
 }
 
+type OutboxRow = typeof localPendingSync.$inferSelect;
+
+// One outbox row -> wire. Rebuilds payload(s) from the local DB; a missing
+// local row means it was deleted before drain (nothing to push).
+async function pushRow(userId: number, row: OutboxRow): Promise<void> {
+  if (row.op === "delete") {
+    handleElysia(
+      await rpc.api.ai.sync({ kind: row.kind })({ id: row.id }).delete(),
+    );
+    return;
+  }
+  const hints = new Set<ConvSyncHint>(
+    (row.hint ? row.hint.split(",") : []) as ConvSyncHint[],
+  );
+  const msgIds = row.msgIds ? (JSON.parse(row.msgIds) as string[]) : [];
+  const pushes = await buildPendingPushes(userId, row.kind, row.id, hints, msgIds);
+  for (const push of pushes ?? []) {
+    const pushed = handleElysia(
+      await rpc.api.ai
+        .sync({ kind: row.kind })({ id: row.id })
+        .post({
+          payload: push.payload,
+          keepExpiry: true,
+          mergeMode: push.mergeMode,
+        }),
+    );
+    // Full bundle pushes return media with fresh R2 keys; evict the
+    // now-redundant local base64 copies.
+    const fullBundle =
+      row.kind === "playgroundSessions" ||
+      (row.kind === "conversations" &&
+        (hints.size === 0 || hints.has("full")));
+    if (fullBundle) await evictMediaBase64After(userId, pushed);
+  }
+}
+
 export async function drainPending(userId: number): Promise<DrainResult> {
   const result: DrainResult = {
     succeeded: 0,
@@ -141,42 +177,7 @@ export async function drainPending(userId: number): Promise<DrainResult> {
       continue;
     }
     try {
-      if (row.op === "delete") {
-        handleElysia(
-          await rpc.api.ai.sync({ kind: row.kind })({ id: row.id }).delete(),
-        );
-      } else {
-        const hints = new Set<ConvSyncHint>(
-          (row.hint ? row.hint.split(",") : []) as ConvSyncHint[],
-        );
-        const msgIds = row.msgIds ? (JSON.parse(row.msgIds) as string[]) : [];
-        // null = local row gone before drain; nothing to push, drop the row.
-        const pushes = await buildPendingPushes(
-          userId,
-          row.kind,
-          row.id,
-          hints,
-          msgIds,
-        );
-        for (const push of pushes ?? []) {
-          const pushed = handleElysia(
-            await rpc.api.ai
-              .sync({ kind: row.kind })({ id: row.id })
-              .post({
-                payload: push.payload,
-                keepExpiry: true,
-                mergeMode: push.mergeMode,
-              }),
-          );
-          // Full bundle pushes return media with fresh R2 keys; evict the
-          // now-redundant local base64 copies.
-          const fullBundle =
-            row.kind === "playgroundSessions" ||
-            (row.kind === "conversations" &&
-              (hints.size === 0 || hints.has("full")));
-          if (fullBundle) await evictMediaBase64After(userId, pushed);
-        }
-      }
+      await pushRow(userId, row);
       // seq guard: an enqueue that landed mid-push keeps the row alive for
       // the next drain instead of silently losing its scope.
       await local.db
@@ -194,12 +195,18 @@ export async function drainPending(userId: number): Promise<DrainResult> {
       const nextAttemptAt = new Date(
         Date.now() + nextAttemptDelay(nextAttempts),
       );
+      // Partial conv pushes can hit server-side gaps a retry of the same
+      // delta can never fix (e.g. FK to a parent message that never landed);
+      // escalate the retry to a full-bundle rebuild, which is self-healing.
+      const escalate =
+        row.kind === "conversations" && row.hint != null && row.hint !== "full";
       await local.db
         .update(localPendingSync)
         .set({
           attempts: nextAttempts,
           nextAttemptAt,
           lastError: String(err),
+          ...(escalate ? { hint: "full", msgIds: null } : {}),
         })
         .where(
           and(

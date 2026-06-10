@@ -45,6 +45,7 @@ export async function IntegrationRow(props: {
                 iconKey={integration.iconKey}
                 logoSrc={integration.logoSrc}
                 logoBg={integration.logoBg}
+                logoMono={integration.logoMono}
                 accentClass={integration.color.accent}
                 size={48}
               />

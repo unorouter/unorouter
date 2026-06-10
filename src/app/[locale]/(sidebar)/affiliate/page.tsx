@@ -1,3 +1,4 @@
+import { prefetchElysia } from "@/lib/react-query/prefetch";
 import { Affiliate } from "@/components/pages/sidebar/affiliate/affiliate";
 import {
   initialTableStore,
@@ -7,7 +8,6 @@ import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { DataTableId, StoreId } from "@/lib/types/enums";
-import { handleElysia } from "@/lib/utils/base";
 import { setCookies } from "@/lib/utils/server";
 import { DataTableProvider } from "@/components/provider/state/data-table-provider";
 import type { DataTableStores } from "@/store/data-table-store";
@@ -39,26 +39,24 @@ export default async function AffiliatePage() {
   };
 
   await Promise.all([
-    queryClient.prefetchQuery({
-      queryKey: queryKeys.affiliateInvitees(inviteesParams),
-      queryFn: async () =>
-        handleElysia(
-          await rpc.api.billing.affiliate.invitees.get({
-            ...cookieHeaders,
-            query: inviteesParams,
-          }),
-        ),
-    }),
-    queryClient.prefetchQuery({
-      queryKey: queryKeys.affiliateCommissions(commissionsParams),
-      queryFn: async () =>
-        handleElysia(
-          await rpc.api.billing.affiliate.commissions.get({
-            ...cookieHeaders,
-            query: commissionsParams,
-          }),
-        ),
-    }),
+    prefetchElysia(
+      queryClient,
+      queryKeys.affiliateInvitees(inviteesParams),
+      () =>
+        rpc.api.billing.affiliate.invitees.get({
+          ...cookieHeaders,
+          query: inviteesParams,
+        }),
+    ),
+    prefetchElysia(
+      queryClient,
+      queryKeys.affiliateCommissions(commissionsParams),
+      () =>
+        rpc.api.billing.affiliate.commissions.get({
+          ...cookieHeaders,
+          query: commissionsParams,
+        }),
+    ),
   ]);
 
   return (

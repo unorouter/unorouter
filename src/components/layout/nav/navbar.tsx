@@ -144,6 +144,7 @@ export function Navbar() {
                                         iconKey={link.guideIcon.iconKey}
                                         logoSrc={link.guideIcon.logoSrc}
                                         logoBg={link.guideIcon.logoBg}
+                                        logoMono={link.guideIcon.logoMono}
                                         size={18}
                                       />
                                     ) : link.iconName ? (

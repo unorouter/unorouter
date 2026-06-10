@@ -17,7 +17,6 @@ import {
   personas,
   playgroundSessions,
   playgrounds,
-  requestLogs,
   samplingPresets,
   userThemes,
 } from "@/lib/db/schema/shared";
@@ -673,36 +672,6 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
         }
       }
 
-      if (body.requestLogs) {
-        if (mode === "replace") {
-          await tx.delete(requestLogs).where(eq(requestLogs.convId, id));
-        }
-        for (const log of body.requestLogs) {
-          const values = {
-            msgId: log.msgId,
-            convId: id,
-            requestBody: log.requestBody,
-            assembledSystem: log.assembledSystem ?? null,
-            finalMessages: log.finalMessages,
-            responseHeaders: log.responseHeaders ?? null,
-            droppedParams: log.droppedParams ?? null,
-            requestId: log.requestId ?? null,
-            inputTokens: log.inputTokens ?? null,
-            outputTokens: log.outputTokens ?? null,
-            cost: log.cost ?? null,
-            durationMs: log.durationMs ?? null,
-            tokensPerSecond: log.tokensPerSecond ?? null,
-          };
-          if (mode === "replace") {
-            await tx.insert(requestLogs).values(values);
-          } else {
-            await tx
-              .insert(requestLogs)
-              .values(values)
-              .onConflictDoUpdate({ target: requestLogs.msgId, set: values });
-          }
-        }
-      }
     });
   },
 

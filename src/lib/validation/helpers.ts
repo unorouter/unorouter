@@ -1,4 +1,5 @@
 import type { TypeCompiler } from "@sinclair/typebox/compiler";
+import { t } from "elysia";
 import {
   DefaultErrorFunction,
   SetErrorFunction,
@@ -10,6 +11,12 @@ SetErrorFunction((error) => {
   if (typeof error.schema.error === "string") return error.schema.error;
   return DefaultErrorFunction(error);
 });
+
+
+/** `schema | null`, defaulting null. The dominant column shape in validation. */
+export function nullable<T extends TSchema>(schema: T) {
+  return t.Union([schema, t.Null()], { default: null });
+}
 
 export function safeParse<T extends TSchema>(
   checker: ReturnType<typeof TypeCompiler.Compile<T>>,

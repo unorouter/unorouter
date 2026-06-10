@@ -1,16 +1,14 @@
 "use client";
 
+import { useElysiaQuery } from "@/hooks/use-elysia-query";
+
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
-import { handleElysia } from "@/lib/utils/base";
-import { useQuery } from "@tanstack/react-query";
 
 export function useSubscriptionPlansQuery() {
-  return useQuery({
-    queryKey: queryKeys.subscriptionPlans(),
-    queryFn: async () => {
-      return handleElysia(await rpc.api.models.pricing.subscriptions.get());
-    },
-    enabled: false,
-  });
+  return useElysiaQuery(
+    queryKeys.subscriptionPlans(),
+    () => rpc.api.models.pricing.subscriptions.get(),
+    { enabled: false },
+  );
 }

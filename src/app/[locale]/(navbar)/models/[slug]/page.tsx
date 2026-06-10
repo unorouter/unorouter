@@ -1,3 +1,4 @@
+import { prefetchElysia } from "@/lib/react-query/prefetch";
 import { ModelDetail } from "@/components/pages/navbar/models/detail/model-detail";
 import { localeUrl } from "@/i18n/navigation";
 import { findContextTag } from "@/lib/api/pricing";
@@ -79,20 +80,14 @@ export default async function ModelDetailPage(props: PageProps) {
 
   const queryClient = getQueryClient();
   const cookieHeaders = await setCookies();
-  await queryClient.prefetchQuery({
-    queryKey: queryKeys.auth(),
-    queryFn: async () =>
-      handleElysia(await rpc.api.auth.account.self.get(cookieHeaders!)),
-  });
+  await prefetchElysia(queryClient, queryKeys.auth(), () =>
+    rpc.api.auth.account.self.get(cookieHeaders!),
+  );
   const isLoggedIn = !!queryClient.getQueryData(queryKeys.auth());
   if (isLoggedIn) {
-    await queryClient.prefetchQuery({
-      queryKey: queryKeys.bestKey(),
-      queryFn: async () =>
-        handleElysia(
-          await rpc.api.billing.token["best-key"].get({ ...cookieHeaders }),
-        ),
-    });
+    await prefetchElysia(queryClient, queryKeys.bestKey(), () =>
+      rpc.api.billing.token["best-key"].get({ ...cookieHeaders }),
+    );
   }
 
   const contextTag = findContextTag(model);

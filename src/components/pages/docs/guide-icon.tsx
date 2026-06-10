@@ -50,6 +50,8 @@ export function GuideIcon(props: {
   iconKey: IntegrationIconKey;
   logoSrc?: string;
   logoBg?: boolean;
+  /** Mono logo: render via CSS mask in currentColor so it adapts to theme. */
+  logoMono?: boolean;
   /** Tailwind text-color class for the lucide/mono fallback. */
   accentClass?: string;
   /** Pixel size for img/lobehub/lucide. Default 48. */
@@ -59,6 +61,27 @@ export function GuideIcon(props: {
   const accent = props.accentClass ?? "";
 
   if (props.logoSrc) {
+    if (props.logoMono) {
+      const mask = `url(${props.logoSrc})`;
+      return (
+        <span
+          aria-hidden
+          className={`relative inline-block bg-current ${accent}`}
+          style={{
+            width: size,
+            height: size,
+            maskImage: mask,
+            maskSize: "contain",
+            maskRepeat: "no-repeat",
+            maskPosition: "center",
+            WebkitMaskImage: mask,
+            WebkitMaskSize: "contain",
+            WebkitMaskRepeat: "no-repeat",
+            WebkitMaskPosition: "center",
+          }}
+        />
+      );
+    }
     if (props.logoBg) {
       return (
         <div

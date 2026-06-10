@@ -3,6 +3,8 @@ import {
   syncParams,
   syncRequestBody,
 } from "@/lib/validation/sync";
+import { errMessage } from "@/lib/utils/base";
+import { logger } from "@/lib/utils/logger";
 import { getUserId } from "@/server/constants";
 import { Elysia } from "elysia";
 import { getSyncedBundle, getSyncedBundlesBatch } from "./bundles";
@@ -11,6 +13,15 @@ import { getSyncStateBulk } from "./state";
 import { sweepExpired, sweepKey } from "./sweep";
 
 export const syncRoute = new Elysia({ prefix: "/sync" })
+  // Outbox pushes retry on 5xx; without this the failure cause never surfaces.
+  .onError(({ error, request }) => {
+    logger.error("Sync route failed", {
+      context: "sync.route",
+      path: new URL(request.url).pathname,
+      method: request.method,
+      error: errMessage(error),
+    });
+  })
   .derive(async ({ cookie }) => {
     const uid = await getUserId(cookie, true);
     if (uid) await sweepExpired(uid, sweepKey());

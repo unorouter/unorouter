@@ -1,3 +1,4 @@
+import { prefetchElysia } from "@/lib/react-query/prefetch";
 import { TokenList } from "@/components/pages/sidebar/tokens/token-list";
 import { DataTableProvider } from "@/components/provider/state/data-table-provider";
 import {
@@ -8,7 +9,6 @@ import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { DataTableId, StoreId } from "@/lib/types/enums";
-import { handleElysia } from "@/lib/utils/base";
 import { setCookies } from "@/lib/utils/server";
 import type { DataTableStores } from "@/store/data-table-store";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
@@ -30,20 +30,15 @@ export default async function TokensPage() {
   const keyword = tokensTable?.globalFilter || undefined;
 
   await Promise.all([
-    queryClient.prefetchQuery({
-      queryKey: queryKeys.tokens({ p, keyword }),
-      queryFn: async () =>
-        handleElysia(
-          await rpc.api.billing.token.search.get({
-            query: { p, keyword },
-            ...cookieHeaders,
-          }),
-        ),
-    }),
-    queryClient.prefetchQuery({
-      queryKey: queryKeys.pricing(),
-      queryFn: async () => handleElysia(await rpc.api.models.pricing.get()),
-    }),
+    prefetchElysia(queryClient, queryKeys.tokens({ p, keyword }), () =>
+      rpc.api.billing.token.search.get({
+        query: { p, keyword },
+        ...cookieHeaders,
+      }),
+    ),
+    prefetchElysia(queryClient, queryKeys.pricing(), () =>
+      rpc.api.models.pricing.get(),
+    ),
   ]);
 
   return (

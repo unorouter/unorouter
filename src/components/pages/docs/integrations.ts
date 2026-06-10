@@ -53,6 +53,7 @@ type CliIntegrationDef = {
   iconKey: IntegrationIconKey;
   logoSrc?: string;
   logoBg?: boolean;
+  logoMono?: boolean;
   color: IntegrationColor;
   quickStart: Record<OS, string>;
 };
@@ -67,6 +68,7 @@ type RpIntegrationDef = {
   iconKey: IntegrationIconKey;
   logoSrc?: string;
   logoBg?: boolean;
+  logoMono?: boolean;
   color: IntegrationColor;
   /** Code-block content shown under Quick Start (e.g. URL + key lines). */
   quickConfig: string;
@@ -240,8 +242,6 @@ openclaw onboard`,
     subtitleKey: "DOCS.HERMES.SUBTITLE",
     badgeKey: "DOCS.HERMES.BADGE",
     iconKey: "hermes",
-    logoSrc: "/icons/hermes.png",
-    logoBg: true,
     color: {
       accent: "text-indigo-500",
       badge: "bg-indigo-600 text-white",
@@ -349,7 +349,7 @@ API Key:     YOUR_API_KEY`,
     badgeKey: "DOCS.CHUB.BADGE",
     iconKey: "chub",
     logoSrc: "/icons/chub-ai.png",
-    logoBg: true,
+    logoMono: true,
     color: {
       accent: "text-rose-500",
       badge: "bg-rose-600 text-white",

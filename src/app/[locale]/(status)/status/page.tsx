@@ -1,3 +1,4 @@
+import { prefetchElysia } from "@/lib/react-query/prefetch";
 import { StatusPage } from "@/components/pages/navbar/status/status-page";
 import { localeUrl } from "@/i18n/navigation";
 import { APP_VALUES } from "@/lib/config/constants";
@@ -7,7 +8,6 @@ import { rpc } from "@/lib/rpc";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
 import { buildBreadcrumbListSchema } from "@/lib/seo/structured-data";
-import { handleElysia } from "@/lib/utils/base";
 import { serverLocale } from "@/lib/utils/server";
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
@@ -37,24 +37,17 @@ export default async function StatusRoute(props: {
   // modelStatusPage NOT prefetched: dehydrating it inlines ~16MB into the SSR
   // HTML and dominates TTFB; the client fetches after hydration.
   await Promise.all([
-    queryClient.prefetchQuery({
-      queryKey: queryKeys.modelStatusComponents(),
-      queryFn: async () =>
-        handleElysia(await rpc.api.models["model-status"].components.get()),
-    }),
-    queryClient.prefetchQuery({
-      queryKey: queryKeys.pricing(),
-      queryFn: async () => handleElysia(await rpc.api.models.pricing.get()),
-    }),
-    queryClient.prefetchQuery({
-      queryKey: queryKeys.perfMetricsSummary(24),
-      queryFn: async () =>
-        handleElysia(
-          await rpc.api.models["perf-metrics"].summary.get({
-            query: { hours: 24 },
-          }),
-        ),
-    }),
+    prefetchElysia(queryClient, queryKeys.modelStatusComponents(), () =>
+      rpc.api.models["model-status"].components.get(),
+    ),
+    prefetchElysia(queryClient, queryKeys.pricing(), () =>
+      rpc.api.models.pricing.get(),
+    ),
+    prefetchElysia(queryClient, queryKeys.perfMetricsSummary(24), () =>
+      rpc.api.models["perf-metrics"].summary.get({
+        query: { hours: 24 },
+      }),
+    ),
   ]);
 
   return (

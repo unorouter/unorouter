@@ -50,9 +50,10 @@ export function useImportCharacterCardMutation() {
       const userId = auth.data?.id ?? GUEST_USER_ID;
       // Dynamic: character-foundry + image codecs (~110KB gzip) load on the
       // import action, not with the chat shell.
-      const { card, imageBytes, imageMime } = await import(
-        "@/lib/ai/rp/character-card"
-      ).then((m) => m.parseCharacterCardFile(file));
+      const { card, imageBytes, imageMime } =
+        await import("@/lib/ai/rp/character-card").then((m) =>
+          m.parseCharacterCardFile(file),
+        );
       const id = uid();
       let avatarMediaId: string | null = null;
       if (imageBytes && imageMime) {

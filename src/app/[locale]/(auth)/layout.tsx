@@ -1,3 +1,4 @@
+import { prefetchElysia } from "@/lib/react-query/prefetch";
 import { CompanyName, LogoImage } from "@/components/elements/brand/brand";
 import { Link, redirect } from "@/i18n/navigation";
 import { Redirect } from "@/i18n/routing";
@@ -5,7 +6,6 @@ import { AUTH_REDIRECT_COOKIE } from "@/lib/config/constants";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
-import { handleElysia } from "@/lib/utils/base";
 import { serverLocale, setCookies } from "@/lib/utils/server";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getCookie } from "cookies-next/server";
@@ -28,10 +28,9 @@ export default async function AuthLayout(props: { children: ReactNode }) {
     });
   }
 
-  await queryClient.prefetchQuery({
-    queryKey: queryKeys.status(),
-    queryFn: async () => handleElysia(await rpc.api.auth.account.status.get()),
-  });
+  await prefetchElysia(queryClient, queryKeys.status(), () =>
+    rpc.api.auth.account.status.get(),
+  );
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

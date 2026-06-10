@@ -62,6 +62,7 @@ function NavGroup(props: { label: string; items: NavigationItem[] }) {
                         iconKey={item.guideIcon.iconKey}
                         logoSrc={item.guideIcon.logoSrc}
                         logoBg={item.guideIcon.logoBg}
+                        logoMono={item.guideIcon.logoMono}
                         accentClass={isActive ? "text-primary" : ""}
                         size={16}
                       />
