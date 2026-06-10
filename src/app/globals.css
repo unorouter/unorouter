@@ -305,3 +305,11 @@ mjx-container[display="true"] {
   text-align: center;
   margin: 0.75rem 0;
 }
+
+/* Chat welcome placeholder: SSR-painted LCP stand-in; gone once the runtime
+   thread renders real content (welcome or messages). */
+.chat-shell:has(.aui-thread-welcome-root) .chat-welcome-placeholder,
+.chat-shell:has(.aui-user-message-root) .chat-welcome-placeholder,
+.chat-shell:has(.aui-assistant-message-root) .chat-welcome-placeholder {
+  display: none;
+}

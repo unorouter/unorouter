@@ -1,4 +1,5 @@
 import { Chat } from "@/components/pages/sidebar/chat/chat";
+import { ChatWelcomePlaceholder } from "@/components/pages/sidebar/chat/chat-welcome-placeholder";
 import { APP_VALUES } from "@/lib/config/constants";
 import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
 import { serverLocale } from "@/lib/utils/server";
@@ -20,5 +21,10 @@ export async function generateMetadata(props: {
 }
 
 export default function ChatPage() {
-  return <Chat />;
+  return (
+    <div className="chat-shell relative h-full">
+      <ChatWelcomePlaceholder />
+      <Chat />
+    </div>
+  );
 }
