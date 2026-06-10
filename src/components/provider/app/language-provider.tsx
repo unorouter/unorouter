@@ -12,14 +12,26 @@ export async function LanguageProvider(props: { children: ReactNode }) {
   const docs = (messages.DOCS ?? {}) as Record<string, unknown>;
   const blog = (messages.BLOG ?? {}) as Record<string, unknown>;
 
+  // Per-guide step bodies are the bulk; the navbar megamenu only needs each
+  // guide's TITLE/SUBTITLE, so keep those leaves for every guide entry.
+  const prunedDocs: Record<string, unknown> = {
+    SETUP: docs.SETUP,
+    CC_SWITCH: docs.CC_SWITCH,
+    GENERATE_API_KEY: docs.GENERATE_API_KEY,
+    GENERATE_API_KEY_DESC: docs.GENERATE_API_KEY_DESC,
+  };
+  for (const [key, value] of Object.entries(docs)) {
+    if (prunedDocs[key] || typeof value !== "object" || value === null)
+      continue;
+    const guide = value as Record<string, unknown>;
+    if (typeof guide.TITLE === "string") {
+      prunedDocs[key] = { TITLE: guide.TITLE, SUBTITLE: guide.SUBTITLE };
+    }
+  }
+
   const pruned: Record<string, unknown> = {
     ...messages,
-    DOCS: {
-      SETUP: docs.SETUP,
-      CC_SWITCH: docs.CC_SWITCH,
-      GENERATE_API_KEY: docs.GENERATE_API_KEY,
-      GENERATE_API_KEY_DESC: docs.GENERATE_API_KEY_DESC,
-    },
+    DOCS: prunedDocs,
     BLOG: { ...blog },
   };
   delete (pruned.BLOG as Record<string, unknown>).POSTS;
