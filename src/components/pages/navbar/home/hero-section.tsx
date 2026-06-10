@@ -8,11 +8,18 @@ import {
 import { HeroSubtitle } from "@/components/pages/navbar/home/hero-subtitle";
 import { StatsPanel } from "@/components/pages/navbar/home/stats-panel";
 import { ScrambleRotate } from "@/components/elements/fx/scramble-rotate";
+import { SETUP_GUIDES } from "@/components/pages/docs/setup-guides";
+import { APP_VALUES } from "@/lib/config/constants";
 import { getTranslations } from "next-intl/server";
 import { Icon } from "@/components/ui/icon";
 
 export async function HeroSection(props: { counts: HeroCounts }) {
   const t = await getTranslations();
+  // Chip titles resolved server-side so the client provider can keep the DOCS
+  // namespace out of the hydrated messages payload.
+  const chipTitles = Object.fromEntries(
+    SETUP_GUIDES.map((g) => [g.slug, t(g.titleKey, APP_VALUES)]),
+  );
 
   return (
     <main className="relative z-10 mx-auto flex max-w-360 flex-col items-center gap-10 px-6 pt-24 pb-16 lg:flex-row lg:gap-20 lg:pt-48 lg:pb-32">
@@ -74,7 +81,7 @@ export async function HeroSection(props: { counts: HeroCounts }) {
       {/* Right column - Stats panel with floating integration logos on desktop */}
       <div className="flex w-full max-w-lg flex-1 justify-center lg:max-w-none lg:justify-end">
         <div className="relative w-full max-w-lg">
-          <FloatingIntegrations />
+          <FloatingIntegrations titles={chipTitles} />
           <StatsPanel />
         </div>
       </div>

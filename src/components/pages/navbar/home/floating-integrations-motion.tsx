@@ -3,8 +3,6 @@
 import { GuideIcon } from "@/components/pages/docs/guide-icon";
 import { SETUP_GUIDES } from "@/components/pages/docs/setup-guides";
 import { Link } from "@/i18n/navigation";
-import { APP_VALUES } from "@/lib/config/constants";
-import { useTranslations } from "next-intl";
 
 // Lightweight floating brand chips around the stats card. No JS animation (27
 // perpetual springs lagged); a single shared CSS keyframe with a per-chip delay
@@ -39,7 +37,6 @@ const PLACED = SETUP_GUIDES.map((guide, i) => {
     iconKey: guide.iconKey,
     logoSrc: guide.logoSrc,
     logoBg: guide.logoBg,
-    titleKey: guide.titleKey,
     href: guide.href,
     top: `${topPct}%`,
     left: `${leftPct}%`,
@@ -52,17 +49,17 @@ const PLACED = SETUP_GUIDES.map((guide, i) => {
   };
 });
 
-export function FloatingIntegrationsMotion() {
-  const t = useTranslations();
-
+export function FloatingIntegrationsMotion(props: {
+  titles: Record<string, string>;
+}) {
   return (
     <div className="pointer-events-none absolute -inset-x-32 -inset-y-24 z-20 hidden motion-reduce:hidden lg:block">
       {PLACED.map((item) => (
         <Link
           key={item.slug}
           href={item.href}
-          aria-label={t(item.titleKey, APP_VALUES)}
-          title={t(item.titleKey, APP_VALUES)}
+          aria-label={props.titles[item.slug] ?? item.slug}
+          title={props.titles[item.slug] ?? item.slug}
           style={{
             top: item.top,
             left: item.left,

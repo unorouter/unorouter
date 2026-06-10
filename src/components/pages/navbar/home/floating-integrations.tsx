@@ -13,6 +13,10 @@ const FloatingIntegrationsMotion = dynamic(
   { ssr: false },
 );
 
-export function FloatingIntegrations() {
-  return <FloatingIntegrationsMotion />;
+// Titles arrive pre-translated from the server parent (HeroSection) so the
+// client message bundle never needs the DOCS namespace.
+export function FloatingIntegrations(props: {
+  titles: Record<string, string>;
+}) {
+  return <FloatingIntegrationsMotion titles={props.titles} />;
 }

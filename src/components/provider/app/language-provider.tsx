@@ -16,6 +16,8 @@ export async function LanguageProvider(props: { children: ReactNode }) {
   // guide's TITLE/SUBTITLE, so keep those leaves for every guide entry.
   const prunedDocs: Record<string, unknown> = {
     SETUP: docs.SETUP,
+    // Shared guide-page labels incl. CATEGORY_* used by the docs nav (client).
+    SETUP_GUIDE: docs.SETUP_GUIDE,
     CC_SWITCH: docs.CC_SWITCH,
     GENERATE_API_KEY: docs.GENERATE_API_KEY,
     GENERATE_API_KEY_DESC: docs.GENERATE_API_KEY_DESC,
