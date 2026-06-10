@@ -4,16 +4,13 @@ import { env } from "@/lib/config/env";
 import { GUEST_USER_ID } from "@/lib/config/constants";
 import { LOCAL_ONLY_TABLES } from "@/lib/db/schema/client";
 import { logger } from "@/lib/utils/logger";
+import getQueryClient from "@/lib/react-query/client";
 import { getLocalDb, resetLocalDbCache } from "../client";
 import { copyAllTables } from "./copy";
 
-// Hydrator waits on this so Stage 1 doesn't read an empty user DB
-// before guest rows are copied in.
+// Single-flight per target user; the hydrator calls migrateGuestLocalDb
+// directly before Stage 1 so it never reads an empty user DB mid-copy.
 const guestMigrationPromises = new Map<number, Promise<void>>();
-
-export function awaitGuestMigration(userId: number): Promise<void> {
-  return guestMigrationPromises.get(userId) ?? Promise.resolve();
-}
 
 // Checks OPFS for the guest DB file WITHOUT creating it. Calling getLocalDb(0)
 // would recreate an empty guest DB on every post-migration page load.
@@ -62,6 +59,9 @@ async function runGuestMigration(targetUserId: number): Promise<void> {
 
   await guest.deleteDatabaseFile();
   resetLocalDbCache();
+  // Queries seeded before the copy (any mount-order path) hold empty lists;
+  // refetch everything so migrated chats show without a manual refresh.
+  getQueryClient().invalidateQueries();
   logger.info("Migrated guest local DB rows", {
     context: "local-db.guest-migrate",
     targetUserId,

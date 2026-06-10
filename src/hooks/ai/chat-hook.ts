@@ -29,6 +29,7 @@ import {
 import {
   mirrorConvDeltaIfSynced,
   mirrorConvIfSynced,
+  mirrorConvPatchIfSynced,
   unmirrorIfSynced,
 } from "@/hooks/ai/rp/shared";
 import {
@@ -146,13 +147,26 @@ export function useUpdateConversationMutation() {
   return useChatMutation(
     async (userId, args: ConvIdArg & { body: UpdateConvBody }) => {
       const existing = await readLocalConversation(userId, args.id);
+      const now = dayjs().toDate();
+      // `model` is the UI alias for the defaultModel column.
+      const patch = {
+        ...(args.body.title !== undefined && { title: args.body.title }),
+        ...(args.body.model !== undefined && {
+          defaultModel: args.body.model,
+        }),
+        updatedAt: now,
+      };
       await upsertLocalConversation(userId, {
         ...(existing ?? {}),
         id: args.id,
-        ...args.body,
-        updatedAt: dayjs().toDate(),
+        ...patch,
       });
-      if (userId > GUEST_USER_ID) await mirrorConvIfSynced(userId, args.id);
+      if (userId > GUEST_USER_ID) {
+        // Row patch; never re-upload the whole conversation for a rename.
+        await mirrorConvPatchIfSynced(userId, args.id, {
+          conversation: patch,
+        });
+      }
       return { id: args.id, ...args.body };
     },
     (args) =>
@@ -219,6 +233,9 @@ export function useFinalizeTaskMutation() {
         },
       ]);
       if (userId > GUEST_USER_ID) {
+        // Full mirror: upsert-mode item deltas only wipe stale siblings when a
+        // messages array rides along; finalize is rare (one per video), so the
+        // bundle push is the simplest correct propagation.
         await mirrorConvIfSynced(userId, args.convId);
       }
       return data;

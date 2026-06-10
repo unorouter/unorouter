@@ -33,7 +33,7 @@ async function resolveSubmissionEndpoint(
   model: string,
 ): Promise<ResolvedEndpoint> {
   if (COMFYUI_TEMPLATE_IDS.has(model)) return { kind: "comfyui-task" };
-  const info = (await getPricingSummary()).models.find((m) => m.name === model);
+  const info = (await getPricingSummary()).byName.get(model);
   if (!info) {
     throw new Error(`model ${model} not in catalog`);
   }

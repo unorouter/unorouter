@@ -36,7 +36,7 @@ async function assertGuestAllowedModel(model: string): Promise<void> {
   if (COMFYUI_TEMPLATE_IDS.has(model)) {
     throw new Error(msg("ERRORS.UNAUTHORIZED"));
   }
-  const meta = (await getPricingSummary()).models.find((m) => m.name === model);
+  const meta = (await getPricingSummary()).byName.get(model);
   if (!meta?.isFree) {
     throw new Error(msg("ERRORS.UNAUTHORIZED"));
   }

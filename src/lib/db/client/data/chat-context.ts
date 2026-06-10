@@ -54,7 +54,16 @@ export async function buildChatContextFromLocalDb(
   const characters = characterRows
     .filter((c) => c.character != null)
     .map((c) => ({ binding: c.binding, character: c.character! }));
-  const lorebooks = lorebookRows.filter((l) => l != null);
+  // Disabled entries never inject (Turso path filters enabled=true in SQL);
+  // dropping them here keeps parity AND off the wire.
+  const lorebooks = lorebookRows
+    .filter((l) => l != null)
+    .map((l) => ({
+      ...l,
+      entries: l.entries.filter(
+        (e) => (e as { enabled?: boolean | null }).enabled !== false,
+      ),
+    }));
 
   return { persona, characters, lorebooks, preset, settings };
 }

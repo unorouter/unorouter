@@ -135,6 +135,46 @@ function useChatTransport() {
           speakingCharacterId: chatStore.get(speakingCharacterIdAtom),
         };
       },
+      // History upload window: useChat ships the FULL message list every send,
+      // but with memory OFF the server only consumes a window (chatMemory cap
+      // for the model, scanDepth for lorebooks, ~32 recent texts for triggers).
+      // Trim to a generous superset of all consumers. Rolling-summary convs
+      // (memory on or an existing anchor) need absolute indices -> send full.
+      prepareSendMessagesRequest: (opts) => {
+        const body = (opts.body ?? {}) as Record<string, unknown> & {
+          chatContext?: {
+            settings?: {
+              memoryEnabled?: boolean | null;
+              summaryAnchor?: number | null;
+              chatMemory?: number | null;
+            };
+            lorebooks?: Array<{ lorebook?: { scanDepth?: number | null } }>;
+          };
+        };
+        const settings = body.chatContext?.settings;
+        const memoryOn =
+          settings?.memoryEnabled === true || (settings?.summaryAnchor ?? 0) > 0;
+        let messages = opts.messages;
+        if (!memoryOn && messages.length > 64) {
+          const maxScan = Math.max(
+            4,
+            ...(body.chatContext?.lorebooks ?? []).map(
+              (l) => l.lorebook?.scanDepth ?? 4,
+            ),
+          );
+          const keep = Math.max(64, (settings?.chatMemory ?? 8) * 2, maxScan * 2);
+          if (messages.length > keep) messages = messages.slice(-keep);
+        }
+        return {
+          body: {
+            ...body,
+            id: opts.id,
+            messages,
+            trigger: opts.trigger,
+            messageId: opts.messageId,
+          },
+        };
+      },
     }),
   );
   return transportRef.current;

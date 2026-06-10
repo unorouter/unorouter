@@ -39,7 +39,10 @@ import type { ConversationExportFormat } from "@/lib/validation/rp";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
-import { mirrorConvIfSynced } from "./shared";
+import {
+  mirrorConvBindingsIfSynced,
+  mirrorConvSettingsIfSynced,
+} from "./shared";
 
 export function useChatSettingsQuery(convId?: string) {
   const auth = useAuthQuery();
@@ -81,7 +84,12 @@ export function useUpdateChatSettingsMutation() {
         await upsertLocalConversation(userId, { ...conv, updatedAt: now });
       }
       if (!args.skipMirror) {
-        await mirrorConvIfSynced(userId, args.convId);
+        // Settings are conversation-row columns; patch them instead of
+        // re-uploading the whole conversation bundle on every drawer save.
+        await mirrorConvSettingsIfSynced(userId, args.convId, {
+          ...args.body,
+          updatedAt: now,
+        });
       }
       return updated;
     },
@@ -135,7 +143,23 @@ export function useUpdateChatBindingsMutation() {
         });
       }
       if (!args.skipMirror) {
-        await mirrorConvIfSynced(auth.data?.id, args.convId);
+        // Join tables only; messages/media never ride a bindings save.
+        await mirrorConvBindingsIfSynced(auth.data?.id, args.convId, {
+          conversationCharacters: (args.body.characters ?? []).map((c, i) => ({
+            convId: args.convId,
+            characterId: c.characterId,
+            orderIndex: c.orderIndex ?? i,
+            isActive: c.isActive ?? true,
+            overrides: c.overrides ?? null,
+          })),
+          conversationLorebooks: (args.body.lorebookIds ?? []).map(
+            (lid, i) => ({
+              convId: args.convId,
+              lorebookId: lid,
+              orderIndex: i,
+            }),
+          ),
+        });
       }
       return { id: args.convId };
     },

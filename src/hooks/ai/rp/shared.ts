@@ -119,6 +119,20 @@ export async function mirrorConvSettingsIfSynced(
   );
 }
 
+// Bindings-only mirror: REPLACE mode wipes + reinserts just the two join
+// tables (the server upsert only touches sections present in the payload).
+export async function mirrorConvBindingsIfSynced(
+  userId: number | undefined,
+  convId: string,
+  bindings: {
+    conversationCharacters: Array<Record<string, unknown>>;
+    conversationLorebooks: Array<Record<string, unknown>>;
+  },
+) {
+  const uid = await syncedConvUser(userId, convId);
+  if (uid != null) await mirrorSyncedRow(uid, "conversations", convId, bindings);
+}
+
 type ConvDeltaPatch = {
   conversation?: Record<string, unknown>;
   messages?: Array<Record<string, unknown>>;

@@ -19,7 +19,7 @@ import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 import { toast } from "sonner";
 import { getLocalDb } from "../client";
-import { awaitGuestMigration } from "../data-migrate/guest-migrate";
+import { migrateGuestLocalDb } from "../data-migrate/guest-migrate";
 import {
   drainPending,
   retryPendingTargets,
@@ -172,7 +172,10 @@ async function hydrate(
   const local = await getLocalDb(userId);
   if (!local) return;
 
-  if (userId > GUEST_USER_ID) await awaitGuestMigration(userId);
+  // Drive the guest migration directly (idempotent single-flight): waiting on
+  // a promise the GuestLocalDbMigrate effect may not have registered yet was
+  // a mount-order race that seeded the query cache from an empty user DB.
+  if (userId > GUEST_USER_ID) await migrateGuestLocalDb(userId);
 
   await stage1LocalSeed(qc, userId);
   if (userId > GUEST_USER_ID) {
@@ -276,22 +279,24 @@ async function reconcileKind<K extends SyncKindName>(
 ): Promise<{ skippedLocalNewer: number; skippedRows: SkippedRow[] }> {
   let skippedLocalNewer = 0;
   const skippedRows: SkippedRow[] = [];
-  // Snapshot local updatedAt before network (mutex-safe, consistent staleness check).
-  const candidates: Array<{
-    remoteRow: RemoteState[number];
-    isStale: boolean;
-  }> = [];
-  for (const remoteRow of remote) {
-    const localRow = await readLocalById(userId, kind, remoteRow.id);
-    const remoteUpdatedAt = new Date(remoteRow.updatedAt).getTime();
-    const localUpdatedAt = localRow
-      ? new Date(localRow.updatedAt).getTime()
-      : 0;
-    candidates.push({
+  // Snapshot local updatedAt before network (mutex-safe, consistent staleness
+  // check). ONE list read per kind; a per-row read would re-scan the whole
+  // table remote.length times.
+  const localById = new Map<string, number>(
+    ((await LOCAL_LIST_READERS[kind]?.(userId)) ?? []).map((r) => [
+      r.id,
+      new Date(r.updatedAt).getTime(),
+    ]),
+  );
+  const candidates = remote.map((remoteRow) => {
+    const localUpdatedAt = localById.get(remoteRow.id);
+    return {
       remoteRow,
-      isStale: !localRow || remoteUpdatedAt > localUpdatedAt,
-    });
-  }
+      isStale:
+        localUpdatedAt === undefined ||
+        new Date(remoteRow.updatedAt).getTime() > localUpdatedAt,
+    };
+  });
 
   // Batch endpoint coalesces chunks; fallback per-row.
   const stale = candidates.filter((c) => c.isStale);
@@ -397,16 +402,6 @@ const LOCAL_LIST_READERS: Partial<
   conversations: readLocalConversations,
   playgroundSessions: readLocalGenerationSessions,
 };
-
-async function readLocalById(
-  userId: number,
-  kind: SyncKindName,
-  id: string,
-): Promise<{ updatedAt: Date } | null> {
-  const reader = LOCAL_LIST_READERS[kind];
-  if (!reader) return null;
-  return (await reader(userId))?.find((r) => r.id === id) ?? null;
-}
 
 async function applyBundle<K extends SyncKindName>(
   userId: number,

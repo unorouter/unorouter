@@ -12,6 +12,24 @@ function stripComments(text: string): string {
     .replace(/\{\{comment:(.+?)\}\}/g, "");
 }
 
+// Compiled-key cache: a big lorebook re-tests the same keys every turn (and
+// several times per turn with recursion); compiling per call burns CPU.
+// null = invalid pattern, cached so it isn't re-tried.
+const KEY_RE_CACHE = new Map<string, RegExp | null>();
+function compiledKey(cacheKey: string, build: () => RegExp): RegExp | null {
+  let re = KEY_RE_CACHE.get(cacheKey);
+  if (re === undefined) {
+    try {
+      re = build();
+    } catch {
+      re = null;
+    }
+    if (KEY_RE_CACHE.size > 2000) KEY_RE_CACHE.clear();
+    KEY_RE_CACHE.set(cacheKey, re);
+  }
+  return re;
+}
+
 export function keyHits(
   key: string,
   text: string,
@@ -21,17 +39,19 @@ export function keyHits(
   // Regex key: `/pattern/flags` (Risu useRegex keys survive import this way).
   if (key.startsWith("/") && key.lastIndexOf("/") > 0) {
     const lastSlash = key.lastIndexOf("/");
-    try {
-      return new RegExp(key.slice(1, lastSlash), key.slice(lastSlash + 1)).test(
-        text,
-      );
-    } catch {
-      return false;
-    }
+    const re = compiledKey(
+      `r:${key}`,
+      () => new RegExp(key.slice(1, lastSlash), key.slice(lastSlash + 1)),
+    );
+    return re ? re.test(text) : false;
   }
   const cleaned = stripComments(text);
   if (wholeWords) {
-    return new RegExp(`\\b${escapeRegex(key)}\\b`, "i").test(cleaned);
+    const re = compiledKey(
+      `w:${key}`,
+      () => new RegExp(`\\b${escapeRegex(key)}\\b`, "i"),
+    );
+    return re ? re.test(cleaned) : false;
   }
   // Risu partial matching strips ALL spaces from both sides, so multi-word
   // keys match regardless of spacing/line breaks.
@@ -344,7 +364,12 @@ export function selectLorebookEntries(
     1500,
   );
 
-  const prepared: Prepared[] = entries.map((e) => {
+  // Disabled entries never participate (defense for loose client payloads;
+  // the Turso path already filters in SQL).
+  const enabledEntries = entries.filter(
+    (e) => (e as { enabled?: boolean | null }).enabled !== false,
+  );
+  const prepared: Prepared[] = enabledEntries.map((e) => {
     const book = books.get(e.lorebookId);
     const dec = parseDecorators(e.content);
     const scanDepth = dec.scanDepth ?? book?.scanDepth ?? 4;

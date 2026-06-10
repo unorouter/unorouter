@@ -116,17 +116,43 @@ function plainReplace(
 // Run all scripts of a given mode over a single string. Honors <order N>
 // (higher first), `{{data}}` -> `$&`, `$n` -> newline, the `>`-suffix newline
 // rule, and the @@ actions (emo/inject/move_top/move_bottom/repeat_back).
+// Per-array parse memo: applyRegexScripts calls this once per MESSAGE with the
+// same scripts array; re-parsing flag meta for every message every turn is
+// pure waste. Keyed by array identity (stable within a request).
+const PARSED_CACHE = new WeakMap<
+  RegexScript[],
+  Map<RegexScriptMode, ParsedScript[]>
+>();
+
+function parsedFor(
+  scripts: RegexScript[],
+  mode: RegexScriptMode,
+): ParsedScript[] {
+  let byMode = PARSED_CACHE.get(scripts);
+  if (!byMode) {
+    byMode = new Map();
+    PARSED_CACHE.set(scripts, byMode);
+  }
+  let parsed = byMode.get(mode);
+  if (!parsed) {
+    parsed = scripts
+      .filter((s) => s.type === mode && s.in !== "")
+      .map(parseScriptMeta);
+    if (parsed.some((p) => p.order !== 0)) {
+      parsed.sort((a, b) => b.order - a.order);
+    }
+    byMode.set(mode, parsed);
+  }
+  return parsed;
+}
+
 export function runRegexScripts(
   text: string,
   scripts: RegexScript[],
   mode: RegexScriptMode,
   opts: RunRegexOpts = {},
 ): string {
-  const parsed = scripts
-    .filter((s) => s.type === mode && s.in !== "")
-    .map(parseScriptMeta);
-  const orderChanged = parsed.some((p) => p.order !== 0);
-  if (orderChanged) parsed.sort((a, b) => b.order - a.order);
+  const parsed = parsedFor(scripts, mode);
 
   let data = text;
   for (const p of parsed) {

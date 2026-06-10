@@ -31,19 +31,23 @@ function textOf(parts: unknown): string {
 }
 
 // Map a function over a message's text parts, leaving other parts untouched.
+// Identity-preserving: returns the ORIGINAL message when no text changed, so
+// per-turn whole-history passes (macro expansion, regex scripts) don't churn
+// allocations for the common no-op case.
 function mapTextParts(
   m: StreamMessages[number],
   fn: (text: string) => string,
 ): StreamMessages[number] {
   if (!Array.isArray(m.parts)) return m;
-  return {
-    ...m,
-    parts: m.parts.map((p) =>
-      p.type === "text" && typeof p.text === "string"
-        ? { ...p, text: fn(p.text) }
-        : p,
-    ),
-  } as StreamMessages[number];
+  let changed = false;
+  const parts = m.parts.map((p) => {
+    if (p.type !== "text" || typeof p.text !== "string") return p;
+    const next = fn(p.text);
+    if (next === p.text) return p;
+    changed = true;
+    return { ...p, text: next };
+  });
+  return changed ? ({ ...m, parts } as StreamMessages[number]) : m;
 }
 
 type PdfFilePart = {
@@ -331,14 +335,13 @@ export function applyRegexScripts(
       break;
     }
   }
+  // Single pass: track the last text per role as we walk so @@repeat_back's
+  // previous-same-role lookup is O(1) instead of a reverse scan per message.
+  const lastTextByRole: Record<string, string> = {};
   return messages.map((m, idx) => {
     const isLastUser = idx === lastUserIdx;
-    // Previous same-role message text, for @@repeat_back.
-    const prevMsg = messages
-      .slice(0, idx)
-      .reverse()
-      .find((o) => o.role === m.role && Array.isArray(o.parts));
-    const prevSameRole = prevMsg ? textOf(prevMsg.parts) : undefined;
+    const prevSameRole: string | undefined = lastTextByRole[m.role];
+    if (Array.isArray(m.parts)) lastTextByRole[m.role] = textOf(m.parts);
     return mapTextParts(m, (text) => {
       const t = runRegexScripts(text, scripts, "editprocess", { prevSameRole });
       return isLastUser

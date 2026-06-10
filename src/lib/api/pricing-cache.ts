@@ -8,6 +8,8 @@ import { getPricing } from "@/openapi";
 
 let cache: {
   models: ProcessedModel[];
+  // O(1) per-request lookup; every stream + media dispatch hits this.
+  byName: Map<string, ProcessedModel>;
   endpointMap: Record<string, EndpointInfo>;
   fetchedAt: number;
 } | null = null;
@@ -20,6 +22,7 @@ export async function getPricingSummary() {
   const summary = buildPricingSummary(res.data);
   cache = {
     models: summary.models,
+    byName: new Map(summary.models.map((m) => [m.name, m])),
     endpointMap: summary.endpointMap,
     fetchedAt: Date.now(),
   };
@@ -27,8 +30,8 @@ export async function getPricingSummary() {
 }
 
 export async function isMediaModel(model: string) {
-  const { models, endpointMap } = await getPricingSummary();
-  const found = models.find((m) => m.name === model);
+  const { byName, endpointMap } = await getPricingSummary();
+  const found = byName.get(model);
 
   let endpointPath: string | undefined;
   if (found) {

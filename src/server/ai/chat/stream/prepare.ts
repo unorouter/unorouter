@@ -117,9 +117,7 @@ export async function prepareChatRequest(
   }
 
   const pdfInlined = await inlinePdfText(body.messages);
-  const modelInfo = (await getPricingSummary()).models.find(
-    (m) => m.name === body.model,
-  );
+  const modelInfo = (await getPricingSummary()).byName.get(body.model);
   // Estimated USD cost from catalog prices (per 1M tokens, cheapest enabled
   // group). Free models price at 0. Estimate only: actual billing happens
   // upstream, but the chat UI needs a number to show per message + per conv.
@@ -404,10 +402,12 @@ export async function prepareChatRequest(
       : null;
 
   // Persisted as request-log row for upstream debugging (RisuAI Logs analog).
+  // Raw client messages are NOT echoed (they are prompt-sized and the
+  // post-assembly truth is finalMessages); the count keeps the shape visible.
   const debugRequestSnapshot = {
     requestBody: {
       model: body.model,
-      messages: body.messages,
+      messagesCount: body.messages.length,
       chatContext: body.chatContext,
       overrides: body.overrides,
       webSearch: body.webSearch,

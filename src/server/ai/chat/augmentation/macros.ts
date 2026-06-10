@@ -824,7 +824,7 @@ function resolveFirstBlock(text: string, scope: MacroScope): string | null {
 }
 
 export function expandMacros(text: string, scope: MacroScope): string {
-  if (!text) return text;
+  if (!text || !text.includes("{{")) return text;
   // Left-to-right so var writes are visible to later reads (incl. conditions):
   // flat-expand the prefix up to the next block, resolve that block, repeat.
   let out = "";

@@ -33,19 +33,59 @@ export async function getLocalDb(
   }
 }
 
-function buildLocalClient(sql: SQLocalDrizzle): LocalClient {
-  const db = drizzle(sql.driver, sql.batchDriver, {
-    schema: { ...shared, ...client },
-  });
+// Clearing site data while the app is open deletes the OPFS file under the
+// live SyncAccessHandle; every later statement rejects with GetSyncHandleError
+// + NotFoundError and chat persistence dies silently until a full reload.
+function isDeadHandleError(err: unknown): boolean {
+  const s = String(err);
+  return s.includes("GetSyncHandleError") && s.includes("NotFoundError");
+}
+
+type Reopen = () => Promise<SQLocalDrizzle>;
+
+function buildLocalClient(sql: SQLocalDrizzle, reopen?: Reopen): LocalClient {
+  let current = sql;
+  let reopening: Promise<void> | null = null;
+
+  // Single-flight: detect the dead handle, swap in a freshly opened DB
+  // (recreates file + schema) and replay the failed statement once. The
+  // statement never executed on the dead handle, so the retry is safe.
+  async function guard<T>(fn: (s: SQLocalDrizzle) => Promise<T>): Promise<T> {
+    try {
+      return await fn(current);
+    } catch (err) {
+      if (!reopen || !isDeadHandleError(err)) throw err;
+      logger.warn("OPFS handle lost (site data cleared?); reopening local DB", {
+        context: "local-db.client",
+        error: String(err),
+      });
+      reopening ??= (async () => {
+        await current.destroy().catch(() => {});
+        current = await reopen();
+      })().finally(() => {
+        reopening = null;
+      });
+      await reopening;
+      return fn(current);
+    }
+  }
+
+  const db = drizzle(
+    (sqlStr, params, method) => guard((s) => s.driver(sqlStr, params, method)),
+    (queries) => guard((s) => s.batchDriver(queries)),
+    { schema: { ...shared, ...client } },
+  );
   return {
     db,
-    exec: sql.exec.bind(sql),
-    transaction: (cb) => sql.transaction(cb),
-    destroy: () => sql.destroy(),
-    deleteDatabaseFile: () => sql.deleteDatabaseFile(),
-    getDatabaseFile: () => sql.getDatabaseFile(),
-    overwriteDatabaseFile: (file) => sql.overwriteDatabaseFile(file),
-    reactiveQuery: sql.reactiveQuery.bind(sql),
+    exec: (sqlStr, params, method) =>
+      guard((s) => s.exec(sqlStr, params, method)),
+    transaction: (cb) => guard((s) => s.transaction(cb)),
+    destroy: () => current.destroy(),
+    deleteDatabaseFile: () => current.deleteDatabaseFile(),
+    getDatabaseFile: () => current.getDatabaseFile(),
+    overwriteDatabaseFile: (file) => current.overwriteDatabaseFile(file),
+    reactiveQuery: (...args: Parameters<SQLocalDrizzle["reactiveQuery"]>) =>
+      current.reactiveQuery(...args),
   };
 }
 
@@ -138,14 +178,18 @@ async function openClient(userId: number): Promise<LocalClient> {
     }
   }
 
-  const wrapped = buildLocalClient(sql);
+  const wrapped = buildLocalClient(sql, async () => {
+    const fresh = new SQLocalDrizzle({ databasePath: dbPath, reactive: false });
+    await runMigrations(fresh);
+    return fresh;
+  });
 
   // Release SAH on unload (Chromium orphan state).
   // Cache eviction before destroy for BFcache.
   if (typeof window !== "undefined") {
     const release = () => {
       cached.delete(userId);
-      void sql.destroy().catch(() => {});
+      void wrapped.destroy().catch(() => {});
     };
     window.addEventListener("pagehide", release, { once: true });
     window.addEventListener("beforeunload", release, { once: true });
