@@ -1,5 +1,5 @@
 import type { UserTheme } from "@/components/ui/theme/theme-store";
-import { mediaKey, uploadToR2 } from "@/lib/config/r2";
+import { assertUserQuota, mediaKey, uploadToR2 } from "@/lib/config/r2";
 import type { getDb } from "@/lib/db/server/client";
 import {
   cardCharacters,
@@ -259,11 +259,22 @@ type MediaPayloadRow = {
 };
 
 async function preUploadMedia(
+  userId: number,
   scope: string,
   rows: MediaPayloadRow[] | undefined,
 ): Promise<Map<string, { r2Key: string; r2Url: string }>> {
   const uploaded = new Map<string, { r2Key: string; r2Url: string }>();
   if (!rows || rows.length === 0) return uploaded;
+  // Same 100MB cap as the direct upload route; without this a crafted sync
+  // payload was an unmetered R2 write path.
+  const pendingBytes = rows.reduce(
+    (sum, m) =>
+      m.r2Key || !m.dataBase64
+        ? sum
+        : sum + Math.floor((m.dataBase64.length * 3) / 4),
+    0,
+  );
+  if (pendingBytes > 0) await assertUserQuota(userId, pendingBytes);
   await Promise.all(
     rows.map(async (m) => {
       if (m.r2Key || !m.dataBase64) return;
@@ -432,7 +443,7 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
     );
     const c = body.conversation ?? {};
     // Upload R2 before tx (latency).
-    const mediaUploads = await preUploadMedia(id, body.media);
+    const mediaUploads = await preUploadMedia(userId, id, body.media);
     await db.transaction(async (tx) => {
       const existing = await tx
         .select({ id: conversations.id })
@@ -714,7 +725,7 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
       "sync.upsert.playgroundSessionBundle",
     );
     const s = body.session ?? {};
-    const mediaUploads = await preUploadMedia(id, body.media);
+    const mediaUploads = await preUploadMedia(userId, id, body.media);
     await db.transaction(async (tx) => {
       // Wire dates arrive as ISO strings (JSON); drizzle timestamp columns
       // need Date objects.

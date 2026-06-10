@@ -314,7 +314,7 @@ async function resolveConvOwner(
   return { userId, isGuest, scope: isGuest ? "guest" : "user" };
 }
 
-async function assertUserQuota(userId: number, incomingBytes: number) {
+export async function assertUserQuota(userId: number, incomingBytes: number) {
   if (userId === GUEST_USER_ID) return;
   const rows = await getDb()
     .select({ total: sql<number>`COALESCE(SUM(${media.sizeBytes}), 0)` })
