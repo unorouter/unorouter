@@ -22,7 +22,7 @@ const CATEGORY_CARDS: Record<SetupCategory, Omit<CategoryCard, "category">> = {
   coding: {
     titleKey: "DOCS_INDEX.PATH_CODING_TITLE",
     descKey: "DOCS_INDEX.PATH_CODING_DESC",
-    accent: "text-emerald-500",
+    accent: "text-emerald-700 dark:text-emerald-400",
     glow: "bg-emerald-600/20",
     border: "border-emerald-600/20 hover:border-emerald-600/50",
     ring: "border-emerald-600/30 group-hover:bg-emerald-600 group-hover:border-emerald-600",
@@ -30,7 +30,7 @@ const CATEGORY_CARDS: Record<SetupCategory, Omit<CategoryCard, "category">> = {
   roleplay: {
     titleKey: "DOCS_INDEX.PATH_ROLEPLAY_TITLE",
     descKey: "DOCS_INDEX.PATH_ROLEPLAY_DESC",
-    accent: "text-fuchsia-400",
+    accent: "text-fuchsia-700 dark:text-fuchsia-400",
     glow: "bg-fuchsia-600/20",
     border: "border-fuchsia-600/20 hover:border-fuchsia-600/50",
     ring: "border-fuchsia-600/30 group-hover:bg-fuchsia-600 group-hover:border-fuchsia-600",
@@ -38,7 +38,7 @@ const CATEGORY_CARDS: Record<SetupCategory, Omit<CategoryCard, "category">> = {
   general: {
     titleKey: "DOCS_INDEX.PATH_GENERAL_TITLE",
     descKey: "DOCS_INDEX.PATH_GENERAL_DESC",
-    accent: "text-blue-500",
+    accent: "text-blue-700 dark:text-blue-400",
     glow: "bg-blue-600/20",
     border: "border-blue-600/20 hover:border-blue-600/50",
     ring: "border-blue-600/30 group-hover:bg-blue-600 group-hover:border-blue-600",
@@ -46,7 +46,7 @@ const CATEGORY_CARDS: Record<SetupCategory, Omit<CategoryCard, "category">> = {
   cli: {
     titleKey: "DOCS_INDEX.PATH_CLI_TITLE",
     descKey: "DOCS_INDEX.PATH_CLI_DESC",
-    accent: "text-orange-500",
+    accent: "text-orange-700 dark:text-orange-400",
     glow: "bg-orange-600/20",
     border: "border-orange-600/20 hover:border-orange-600/50",
     ring: "border-orange-600/30 group-hover:bg-orange-600 group-hover:border-orange-600",

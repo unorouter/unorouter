@@ -39,7 +39,7 @@ export function StatsPanel() {
             <span className="text-foreground/70 font-mono text-[10px] tracking-widest uppercase">
               {t("HOME.STATS.PANEL.TOKENS_MIN")}
             </span>
-            <span className="font-mono text-[10px] text-green-600 dark:text-green-400">
+            <span className="font-mono text-[10px] text-green-700 dark:text-green-400">
               {t("HOME.STATS.PANEL.LIVE")}
             </span>
           </div>
