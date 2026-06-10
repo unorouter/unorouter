@@ -40,7 +40,7 @@ export function QualityField(props: {
               value={(field.value as string | undefined) ?? ""}
               onValueChange={(v) => field.onChange(v || undefined)}
             >
-              <SelectTrigger className="w-full">
+              <SelectTrigger aria-label={props.label} className="w-full">
                 <SelectValue placeholder={props.placeholder} />
               </SelectTrigger>
               <SelectContent>
@@ -76,7 +76,7 @@ export function OutputFormatField(props: {
               value={(field.value as string | undefined) ?? ""}
               onValueChange={(v) => field.onChange(v || undefined)}
             >
-              <SelectTrigger className="w-full">
+              <SelectTrigger aria-label={props.label} className="w-full">
                 <SelectValue placeholder={props.placeholder} />
               </SelectTrigger>
               <SelectContent>
