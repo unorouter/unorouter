@@ -31,6 +31,7 @@ import {
   chatStore,
   convIdAtom,
   globalVarsAtom,
+  lastStreamErrorAtom,
   speakingCharacterIdAtom,
 } from "@/store/chat-store";
 import type {
@@ -147,6 +148,28 @@ export function createChatHistoryAdapter(
           const items = partsToItems(parts);
           const resolvedModel =
             content.role === "assistant" ? chatStore.get(chatModelAtom) : null;
+
+          if (content.role === "assistant") {
+            // Failed run: persist the attempt as an error node (partial text
+            // survives, branch switching works after refresh). The 30s window
+            // scopes the atom to the run that just errored.
+            const streamError = chatStore.get(lastStreamErrorAtom);
+            if (streamError && Date.now() - streamError.at < 30_000) {
+              chatStore.set(lastStreamErrorAtom, null);
+              items.push({
+                type: "error",
+                data: {
+                  message: streamError.message,
+                  ...(resolvedModel && { model: resolvedModel }),
+                },
+              });
+            } else if (items.length === 0) {
+              // Stop before first token / silent failure: nothing worth a
+              // node. Skipping the persist prevents empty ghost branches on
+              // refresh.
+              return;
+            }
+          }
 
           const now = dayjs().toDate();
 

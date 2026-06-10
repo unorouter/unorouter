@@ -487,7 +487,6 @@ export async function assembleForStream(
   };
 }
 
-// Non-history prompt token estimate: message parts + depth/author injections.
 function estimatePromptTokens(
   parts: PromptPart[],
   atDepth: DepthInjection[],

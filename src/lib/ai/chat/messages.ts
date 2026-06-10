@@ -122,6 +122,18 @@ export function partsToItems(parts: MessagePart[]): MessageItemData[] {
           ...(typeof data.progress === "string" && { progress: data.progress }),
         },
       });
+    } else if (
+      part.type === "data-error" ||
+      (part.type === "data" && part.name === "error")
+    ) {
+      const data = (part.data ?? part) as Record<string, unknown>;
+      out.push({
+        type: "error",
+        data: {
+          message: String(data.message ?? ""),
+          ...(typeof data.model === "string" && { model: data.model }),
+        },
+      });
     }
     // Unknown part types (AI SDK "step-start", future shapes) are dropped.
   }
@@ -162,6 +174,18 @@ export function itemsToParts(items: ApiMessage["items"]): MessagePart[] {
           url: String(data.url ?? ""),
           mediaType: String(data.mime_type ?? "application/octet-stream"),
           ...(typeof data.name === "string" && { filename: data.name }),
+        });
+        break;
+      case "error":
+        // Failed attempt persisted as a node: branch switching survives
+        // refresh and the error stays visible. Never sent upstream
+        // (dropMessagePartsForUpstream strips data-error).
+        parts.push({
+          type: "data-error",
+          data: {
+            message: String(data.message ?? ""),
+            ...(typeof data.model === "string" && { model: data.model }),
+          },
         });
         break;
       case "task":

@@ -74,7 +74,6 @@ function guideColor(c: string): IntegrationColor {
   };
 }
 
-/** Filled in Phases 3, 4, 6, 7, 8. */
 export const SETUP_GUIDES: SetupGuide[] = [
   // --- NEW-GENERAL ---
   {

@@ -52,7 +52,6 @@ function isTerminal(status: string | undefined): boolean {
   return status === "success" || status === "failure";
 }
 
-// Maps a server-returned base64 image into a local `media` insert row.
 function imageToMediaRow(
   playgroundId: string,
   index: number,
@@ -257,7 +256,6 @@ async function runSubmit(
   const now = dayjs().toDate();
   const expiresAt = new Date(Date.now() + RETENTION_MS);
 
-  // Resolve (or create) the parent session.
   let sessionId = body.sessionId ?? "";
   let sessionOrder = 0;
   if (sessionId) {

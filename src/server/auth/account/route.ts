@@ -135,7 +135,6 @@ export const authRoute = new Elysia({ prefix: "/account" })
         return;
       }
 
-      // Login flow: set auth cookies
       cookie[ACCESS_TOKEN_COOKIE].set({
         value: data.access_token,
         path: "/",
@@ -150,7 +149,6 @@ export const authRoute = new Elysia({ prefix: "/account" })
         sameSite: "lax",
       });
 
-      // Read and clear the auth redirect cookie
       const redirectTo = String(cookie[AUTH_REDIRECT_COOKIE]?.value || "");
       if (redirectTo) {
         cookie[AUTH_REDIRECT_COOKIE].remove();

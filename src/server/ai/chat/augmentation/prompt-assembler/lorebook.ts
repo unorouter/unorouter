@@ -87,7 +87,6 @@ export type EntryDecorators = {
   additionalKeys?: string[];
   excludeKeys?: string[];
   excludeKeysAll?: string[];
-  // Placement + role overrides.
   position?: LorebookPlacement;
   depth?: number;
   reverseDepth?: boolean;

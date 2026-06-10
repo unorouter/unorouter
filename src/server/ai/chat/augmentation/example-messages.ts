@@ -8,9 +8,7 @@ export type ExampleTurn = {
 };
 
 const START_LINE = /^(?:<start>|\[start a new chat\])\s*$/i;
-// Prefixes that open a user turn.
 const USER_PREFIX = /^(?:\{\{user\}\}|<user>)\s*:\s*/i;
-// Prefixes that open an assistant (char) turn.
 const CHAR_PREFIX = /^(?:\{\{char\}\}|<bot>|<char>)\s*:\s*/i;
 
 function escapeRegex(s: string): string {

@@ -2,8 +2,6 @@ import { logger } from "@/lib/utils/logger";
 import { Value } from "@sinclair/typebox/value";
 import type { TSchema, Static } from "@sinclair/typebox";
 
-// Value.Cast + drift-log.
-// `context` identifies call site.
 export function castWithDriftLog<T extends TSchema>(
   schema: T,
   payload: unknown,

@@ -479,6 +479,12 @@ function ChatRuntimeHook() {
     transport,
     onError: (e) => {
       releaseStreamLock();
+      // Stash for the history adapter: the failed run's assistant message
+      // persists with an error item so the attempt survives refresh.
+      chatStore.set(lastStreamErrorAtom, {
+        message: String((e as Error)?.message ?? e),
+        at: Date.now(),
+      });
       // Offline: user turn already persisted, user resends manually (Risu
       // semantics, no auto-replay). Show "queued", not a network error.
       if (!navigator.onLine) {

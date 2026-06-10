@@ -35,7 +35,6 @@ export async function retrieveSemantic(
   if (!queryText.trim() || candidates.length === 0) return [];
 
   try {
-    // Embed the query and every candidate (concurrently).
     const [queryEmb, candEmbs] = await Promise.all([
       generateEmbedding(apiKey, model, queryText),
       Promise.all(

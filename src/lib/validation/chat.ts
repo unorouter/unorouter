@@ -113,6 +113,7 @@ export const messageItemType = t.Union([
   t.Literal("file"),
   t.Literal("image"),
   t.Literal("task"),
+  t.Literal("error"),
 ]);
 export type MessageItemType = Static<typeof messageItemType>;
 
