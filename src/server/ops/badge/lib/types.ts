@@ -76,8 +76,7 @@ export interface RenderTemplateOpts {
   pulseDot?: { markerColor: string; accentColor: string };
   cipherTargets?: CipherTarget[];
   staticMode?: boolean;
-  // Raw SVG markup (defs + shapes) injected right after the opening <svg> tag so
-  // it paints BEHIND everything. Lets templates use real <radialGradient> stops
-  // instead of satori's approximated CSS background gradients.
+  // Raw SVG injected after the opening <svg> tag (paints behind everything);
+  // real gradients instead of satori's approximated CSS ones.
   svgBackground?: string;
 }

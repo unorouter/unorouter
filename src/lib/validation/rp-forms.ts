@@ -260,11 +260,9 @@ export const lorebookEntryFormSchema = t.Object({
   }),
   position: t.Union(lorebookPositionLiterals, { default: "before_char" }),
   priority: t.Number({ minimum: 0, maximum: 1000, default: 100 }),
-  // Form-only: 0/100 = always fire. Stored as a @@probability decorator line in
-  // content (no dedicated column), parsed by the selector at activation time.
+  // Form-only; stored as a @@probability decorator line in content (no column).
   probability: t.Number({ minimum: 0, maximum: 100, default: 100 }),
-  // Form-only: per-entry scan depth. 0 = inherit the book's scan depth. Stored
-  // as a @@scan_depth decorator line in content, parsed by the selector.
+  // Form-only; 0 = inherit book scan depth. Stored as a @@scan_depth decorator line.
   entryScanDepth: t.Number({ minimum: 0, maximum: 100, default: 0 }),
   depth: t.Number({ minimum: 0, maximum: 100, default: 4 }),
   constant: t.Boolean({ default: false }),

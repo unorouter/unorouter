@@ -21,9 +21,8 @@ export type ModelSamplerMemory = Pick<
   | "extraBody"
 >;
 
-// Sticky RP "loadout": the preset/persona/characters/lorebooks a new chat is
-// auto-equipped with, so users don't re-bind every conversation. Seeded into
-// each new conversation by the thread-list adapter's initialize().
+// Sticky RP loadout auto-equipped on every new chat; seeded by the thread-list
+// adapter's initialize().
 export type ChatLoadout = {
   presetId: string | null;
   personaId: string | null;
@@ -102,9 +101,8 @@ export const samplerMemoryByModelAtom = atom(
 export type ChatHelpersRef = {
   setMessages: (updater: (msgs: unknown[]) => unknown[]) => void;
   getMessages: () => ReadonlyArray<unknown>;
-  // Argless send (Risu sendMain with an empty box): resubmits the history as
-  // is, so a trailing unanswered user turn gets its reply. Same locked send
-  // path as a normal message.
+  // Argless send (Risu sendMain): resubmits history so a trailing unanswered
+  // user turn gets its reply; same locked send path.
   sendEmpty: () => Promise<void>;
 };
 

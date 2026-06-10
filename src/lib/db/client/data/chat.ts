@@ -46,9 +46,8 @@ const conversationStore = makeTableStore(conversations, conversations.id);
 const messageStore = makeTableStore(messages, messages.id);
 const messageItemStore = makeTableStore(messageItems, messageItems.id);
 
-// List projection: the sidebar + sync staleness map only need identity/title/
-// model/timestamps. Selecting * would drag summaryMemory/vars/extraBody blobs
-// through OPFS for every sidebar render of a long conversation.
+// List projection: select * would drag summaryMemory/vars/extraBody blobs
+// through OPFS on every sidebar render.
 export const readLocalConversations = async (userId: number | undefined) => {
   const uid = userId ?? GUEST_USER_ID;
   const local = await getLocalDb(uid);

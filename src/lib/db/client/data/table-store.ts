@@ -22,9 +22,7 @@ type LocalDb = {
   };
 };
 
-// Wipes children under parentId, reinserts.
-// No tx (SQLocal mutex deadlock).
-// Wipe path only.
+// Wipe children under parentId, reinsert. No tx (SQLocal mutex deadlock).
 export async function replaceChildRows<T>(
   db: LocalDb,
   table: SQLiteTable,
@@ -40,9 +38,7 @@ export async function replaceChildRows<T>(
   }
 }
 
-// Per-row PK upsert; siblings survive.
-// Use for sync-pull child arrays.
-// LocalInsertable: wider drizzle insert builder than LocalDb above.
+// Per-row PK upsert (siblings survive); for sync-pull child arrays.
 type LocalInsertable = {
   insert: (table: SQLiteTable) => {
     values: (row: never) => {

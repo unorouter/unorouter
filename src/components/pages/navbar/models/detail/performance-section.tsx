@@ -31,8 +31,8 @@ type Props = {
 
 const STAT_INTENT_CLASS: Record<StatIntent, string> = {
   default: "",
-  warning: "text-amber-500",
-  success: "text-emerald-500",
+  warning: "text-amber-700 dark:text-amber-400",
+  success: "text-emerald-700 dark:text-emerald-400",
 };
 
 function StatCard(props: {

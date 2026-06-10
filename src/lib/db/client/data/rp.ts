@@ -79,9 +79,7 @@ export async function readLocalLorebook(
   return { ...lbRows[0], entries };
 }
 
-// Reads a lorebook in the bundle shape ({ lorebook, entries }) used by sync
-// payloads and the stream chat context. Returns null when the lorebook is
-// missing so callers can filter it out.
+// Bundle shape ({ lorebook, entries }) for sync payloads + stream chat context; null when missing.
 export async function readLocalLorebookBundle(
   userId: number | undefined,
   id: string,

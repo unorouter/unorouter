@@ -62,9 +62,8 @@ const INJECTION_ROLE_LABEL_KEY: Record<LorebookInjectionRole, TranslationKey> =
     assistant: "RP.LOREBOOK_ENTRY_INJECTION_ROLE_ASSISTANT",
   };
 
-// Pull leading `@@probability N` / `@@scan_depth N` decorators out of content
-// for the form. Other leading decorators are left in content (raw-edited).
-// 0 = "use the book default" for scan depth.
+// Pull leading @@probability/@@scan_depth out of content for the form; other
+// decorators stay raw-edited. scanDepth 0 = book default.
 function splitDecorators(content: string): {
   content: string;
   probability: number;
@@ -93,8 +92,7 @@ function splitDecorators(content: string): {
   return { content: rest, probability, scanDepth };
 }
 
-// Re-embed decorators into content. probability only when < 100 (an actual
-// gate); scanDepth only when > 0 (0 means inherit the book's scan depth).
+// Re-embed: probability only when < 100 (an actual gate), scanDepth only when > 0.
 function embedDecorators(
   content: string,
   probability: number,
@@ -118,16 +116,12 @@ export function LorebookEntries(props: { lorebookId: string }) {
 
   const [editingId, setEditingId] = useState<EntityEditId>(null);
 
-  // Async-defaults pattern: `values` syncs the row in when the query settles;
-  // keepDirtyValues stops a background refetch from clobbering in-progress
-  // typing. The form below is keyed by editingId for clean remounts.
+  // `values` syncs the row on settle; keepDirtyValues protects in-progress typing.
   const editingEntry =
     editingId && editingId !== "new"
       ? lbQuery.data?.entries.find((x) => x.id === editingId)
       : null;
-  // Decorators (@@probability / @@scan_depth) live as leading lines in
-  // content; split them out so the form edits clean content + fields.
-  // keys/secondaryKeys are string[] columns; the form edits them comma-joined.
+  // Split decorators into form fields; keys/secondaryKeys edit comma-joined.
   const split = splitDecorators(editingEntry?.content ?? "");
   const formValues = editingEntry
     ? formDefaults(lorebookEntryFormSchema, {
@@ -148,9 +142,8 @@ export function LorebookEntries(props: { lorebookId: string }) {
     resetOptions: { keepDirtyValues: true },
   });
 
-  // The form hook outlives entry switches (inline editor, no remount), so a
-  // switch needs an explicit clean-slate reset; keepDirtyValues above only
-  // guards against background refetches WHILE editing one entry.
+  // Form hook outlives entry switches (no remount); explicit reset per switch,
+  // keepDirtyValues only guards refetches while editing one entry.
   const reset = form.reset;
   useEffect(() => {
     reset(formValues ?? formDefaults(lorebookEntryFormSchema));
@@ -163,12 +156,9 @@ export function LorebookEntries(props: { lorebookId: string }) {
 
   const onSubmit = async (data: LorebookEntryForm) => {
     const secondary = csvToArray(data.secondaryKeys);
-    // orderIndex is owned by the create/update/reorder hooks, never the form:
-    // create appends to the end, update preserves, drag-reorder rewrites it.
+    // orderIndex owned by create/update/reorder hooks, never the form.
     const body = {
       ...data,
-      // Re-embed @@probability (<100) + @@scan_depth (>0) into content; the
-      // selector parses both at activation time.
       content: embedDecorators(
         data.content,
         data.probability,

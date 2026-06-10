@@ -141,12 +141,12 @@ export function ModelListItem(props: {
           </span>
         )}
         {model.quotaType === 3 && (
-          <span className="rounded bg-amber-500/10 px-1.5 py-0.5 font-mono text-[10px] text-amber-400">
+          <span className="rounded bg-amber-500/10 px-1.5 py-0.5 font-mono text-[10px] text-amber-700 dark:text-amber-400">
             {props.labels.customBilling}
           </span>
         )}
         {model.isTiered && (
-          <span className="rounded bg-violet-500/10 px-1.5 py-0.5 font-mono text-[10px] text-violet-400">
+          <span className="rounded bg-violet-500/10 px-1.5 py-0.5 font-mono text-[10px] text-violet-700 dark:text-violet-400">
             {props.labels.tiered}
           </span>
         )}

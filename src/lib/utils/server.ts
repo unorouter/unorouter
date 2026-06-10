@@ -134,9 +134,8 @@ export async function redirectToLogin(): Promise<never> {
   if (incoming) {
     try {
       const u = new URL(incoming);
-      // Stored value must be locale-LESS: useRouter from @/i18n/navigation
-      // re-prepends the active locale on push, so a stored "/en/settings"
-      // round-trips as "/en/en/settings" (404). Strip the active locale.
+      // Store locale-less: i18n useRouter re-prepends the locale on push, so
+      // "/en/settings" would round-trip as "/en/en/settings" (404).
       const prefix = `/${locale}`;
       let pathname = u.pathname;
       if (pathname === prefix) pathname = "/";

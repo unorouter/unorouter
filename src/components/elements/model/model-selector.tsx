@@ -81,7 +81,7 @@ export function ModelSelector(props: ModelSelectorProps) {
             {props.value || t("CHAT.MODEL.SELECT")}
           </span>
           {selected?.isFree && (
-            <span className="rounded bg-emerald-500/15 px-1 py-0.5 text-[10px] leading-none font-medium text-emerald-500">
+            <span className="rounded bg-emerald-500/15 px-1 py-0.5 text-[10px] leading-none font-medium text-emerald-700 dark:text-emerald-300">
               {t("CHAT.MODEL.FREE_BADGE")}
             </span>
           )}
@@ -171,7 +171,7 @@ export function ModelSelector(props: ModelSelectorProps) {
                         {model.name}
                       </span>
                       {model.isFree && (
-                        <span className="shrink-0 rounded bg-emerald-500/15 px-1 py-0.5 text-[10px] leading-none font-medium text-emerald-500">
+                        <span className="shrink-0 rounded bg-emerald-500/15 px-1 py-0.5 text-[10px] leading-none font-medium text-emerald-700 dark:text-emerald-300">
                           {t("CHAT.MODEL.FREE_BADGE")}
                         </span>
                       )}

@@ -168,9 +168,8 @@ function buildSettingsForm(
   };
 }
 
-// Picks the form seed by mode: defaults atom (layered with per-model sampler
-// memory) or the persisted conversation rows. Undefined while rows load,
-// which RHF's `values` treats as "keep current".
+// Form seed by mode: defaults atom or persisted conv rows. Undefined while
+// loading = RHF "keep current".
 export function computeFormValues(args: {
   isDefaultsMode: boolean;
   chatDefaults: StreamOverrides;

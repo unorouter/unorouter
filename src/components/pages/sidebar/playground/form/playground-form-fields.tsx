@@ -167,7 +167,7 @@ export function TokenEstimate(props: { text: string; family: string }) {
     <p
       className={
         over
-          ? "mt-1 text-xs text-amber-500"
+          ? "mt-1 text-xs text-amber-700 dark:text-amber-400"
           : "text-muted-foreground mt-1 text-xs"
       }
     >

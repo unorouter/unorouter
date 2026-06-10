@@ -74,7 +74,7 @@ export function ModelPicker(props: Props) {
         {m.vendor && <VendorIcon vendor={m.vendor} size={14} />}
         <span className="min-w-0 flex-1 truncate">{m.displayName}</span>
         {m.isFree ? (
-          <span className="shrink-0 rounded bg-emerald-500/15 px-1 py-0.5 text-[10px] leading-none font-medium text-emerald-500">
+          <span className="shrink-0 rounded bg-emerald-500/15 px-1 py-0.5 text-[10px] leading-none font-medium text-emerald-700 dark:text-emerald-300">
             {t("IMAGE.FREE_BADGE")}
           </span>
         ) : (

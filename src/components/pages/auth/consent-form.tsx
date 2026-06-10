@@ -21,7 +21,7 @@ type ConsentFormProps = {
 
 const KIND_BADGE: Record<ScopeKind, string> = {
   read: "bg-emerald-500/10 text-emerald-400 ring-emerald-500/20",
-  write: "bg-amber-500/10 text-amber-400 ring-amber-500/20",
+  write: "bg-amber-500/10 text-amber-700 dark:text-amber-400 ring-amber-500/20",
   danger: "bg-rose-500/10 text-rose-400 ring-rose-500/20",
 };
 

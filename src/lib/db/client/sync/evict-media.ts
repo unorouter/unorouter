@@ -17,9 +17,8 @@ type BundleLike = {
   media?: MediaRowLike[];
 };
 
-// Server uploads local `dataBase64` to R2 on sync push, stamps `r2Key`/`r2Url`,
-// returns bundle with `dataBase64` nulled. Without eviction the client keeps
-// base64 forever, doubling OPFS footprint and re-uploading on every push.
+// Drop local base64 once the server stamped r2Key/r2Url; without eviction the
+// client doubles OPFS footprint and re-uploads on every push.
 export async function evictMediaBase64After(
   userId: number,
   result: unknown,

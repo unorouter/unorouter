@@ -237,9 +237,8 @@ const ComposerWebSearchToggle: FC = () => {
 
 const ComposerAction: FC = () => {
   const t = useTranslations();
-  // Risu sendMain parity: an empty composer with a trailing unanswered user
-  // turn (error/stop/edit) still sends; the argless send resubmits the history
-  // so that turn gets its reply. The default Send is disabled on empty input.
+  // Risu sendMain parity: empty composer + trailing unanswered user turn still
+  // sends (argless send resubmits history so the turn gets its reply).
   const composerEmpty = useAuiState((s) => s.composer.text.trim().length === 0);
   const lastIsUser = useAuiState(
     (s) => s.thread.messages.at(-1)?.role === "user",
@@ -660,9 +659,7 @@ const DeleteMessageButton: FC = () => {
   );
 };
 
-// Generated media (image/audio/video) renders as a single `![media](data:...)`
-// markdown part. Copy (text) yields a giant data-uri and Edit is meaningless for
-// a generation, so both are hidden for media-output messages.
+// Media-output messages hide Copy (giant data-uri) and Edit (meaningless for a generation).
 const MEDIA_OUTPUT_RE = /^!\[(?:audio|image|video)\]\(/;
 
 const AssistantActionBar: FC = () => {

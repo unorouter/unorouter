@@ -119,7 +119,7 @@ export function ConversationItem(props: ConversationItemProps) {
               {props.conversation.title || t("CHAT.NEW_CONVERSATION")}
             </span>
             {isQueued && (
-              <span className="flex items-center gap-1 text-[10px] leading-none text-amber-500">
+              <span className="flex items-center gap-1 text-[10px] leading-none text-amber-700 dark:text-amber-400">
                 <Icon name="clock" className="size-2.5" />
                 {t("CHAT.QUEUED_PENDING")}
               </span>

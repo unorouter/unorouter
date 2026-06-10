@@ -189,9 +189,8 @@ export async function handleImageStream(
       endpointPath!,
     );
 
-    // Client-first: stream inline data URLs. Client persists base64 into
-    // local media; sync pushes to R2 later for logged-in users. Guests
-    // never touch Turso/R2, so no FK violation and no CORP-blocked embeds.
+    // Stream inline data URLs; client persists base64, sync pushes R2 later.
+    // Guests never touch Turso/R2: no FK violation, no CORP-blocked embeds.
     const dataUrls = await Promise.all(
       images.map(async (img: string) => {
         if (isBase64) return base64ToDataUri(img, "image/png");
@@ -334,8 +333,7 @@ export function handleBufferedStream(
   result: ReturnType<typeof streamText>,
   body: MediaStreamBody,
   mediaType: ModelType,
-  // Finish metadata (usage/cost/writebacks/debug) synthesized by the caller
-  // once the stream completes; emitted as a metadata chunk so the buffered
+  // Caller-synthesized finish metadata, emitted as a chunk so the buffered
   // path persists the same fields as the streamed finish frame.
   finishMeta?: () => Promise<Record<string, unknown>>,
   // Server-generated message id (keys the server-persisted request log).

@@ -44,7 +44,7 @@ export function LogExpandedRow(props: { row: Row<LogRow> }) {
       label: t("LOGS.DETAIL.REQUEST_ID"),
       value: (
         <span className="flex items-center gap-1.5">
-          <code className="bg-muted rounded px-1.5 py-0.5 font-mono text-xs text-amber-400">
+          <code className="bg-muted rounded px-1.5 py-0.5 font-mono text-xs text-amber-700 dark:text-amber-400">
             {log.request_id}
           </code>
           <CopyButton

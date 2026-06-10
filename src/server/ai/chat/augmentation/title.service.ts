@@ -17,9 +17,9 @@ function truncateToTitle(text: string): string {
   return `${trimmed.trimEnd()}...`;
 }
 
-// Free reasoning models can spend the whole 30-token budget inside an unclosed
-// <think> block; the raw output then becomes the visible conversation title.
-// Strip closed blocks and everything from an unclosed opening tag onward.
+// Reasoning models can burn the 30-token budget inside an unclosed <think>
+// block that would become the visible title; strip closed blocks and anything
+// after an unclosed opening tag.
 function stripThinkFromTitle(text: string): string {
   let t = text.replace(/<think(?:ing)?>[\s\S]*?<\/think(?:ing)?>/gi, "");
   const openIdx = t.search(/<think(?:ing)?>/i);
@@ -27,8 +27,7 @@ function stripThinkFromTitle(text: string): string {
   return t.trim();
 }
 
-// Stateless: takes user text + optional preferred model, returns `{ title }`.
-// Client persists to SQLocal. No DB read, no DB write.
+// Stateless; client persists. No DB read or write.
 export async function generateChatTitle(
   apiKey: string,
   text: string,
