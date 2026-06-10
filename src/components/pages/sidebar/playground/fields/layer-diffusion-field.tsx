@@ -35,6 +35,7 @@ export function LayerDiffusionField(props: Props) {
             <span className="tabular-nums">{weight.toFixed(2)}</span>
           </div>
           <Slider
+            aria-label={t("IMAGE.LAYER_DIFFUSION_WEIGHT")}
             min={0}
             max={2}
             step={0.05}

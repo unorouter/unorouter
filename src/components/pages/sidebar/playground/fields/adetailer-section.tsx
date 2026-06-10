@@ -149,6 +149,7 @@ export function AdetailerSection(props: Props) {
                 <span className="tabular-nums">{v.steps ?? 0}</span>
               </div>
               <Slider
+                aria-label={t("IMAGE.ADETAILER_STEPS")}
                 min={0}
                 max={60}
                 step={1}
@@ -167,6 +168,7 @@ export function AdetailerSection(props: Props) {
                 </span>
               </div>
               <Slider
+                aria-label={t("IMAGE.ADETAILER_CONFIDENCE")}
                 min={0}
                 max={1}
                 step={0.05}
@@ -182,6 +184,7 @@ export function AdetailerSection(props: Props) {
                 <span className="tabular-nums">{v.maskBlur ?? 4}</span>
               </div>
               <Slider
+                aria-label={t("IMAGE.ADETAILER_MASK_BLUR")}
                 min={0}
                 max={64}
                 step={1}
@@ -199,6 +202,7 @@ export function AdetailerSection(props: Props) {
                 </span>
               </div>
               <Slider
+                aria-label={t("IMAGE.ADETAILER_DENOISE")}
                 min={0}
                 max={1}
                 step={0.05}

@@ -95,6 +95,7 @@ export function UpscalerField(props: Props) {
           </div>
           <div className="flex items-center gap-2">
             <Slider
+              aria-label={t("IMAGE.UPSCALER_HIRES_STEPS")}
               min={1}
               max={60}
               step={1}
@@ -105,6 +106,7 @@ export function UpscalerField(props: Props) {
               className="flex-1"
             />
             <Input
+              aria-label={t("IMAGE.UPSCALER_HIRES_STEPS")}
               type="number"
               min={1}
               max={60}
@@ -125,6 +127,7 @@ export function UpscalerField(props: Props) {
           </div>
           <div className="flex items-center gap-2">
             <Slider
+              aria-label={t("IMAGE.UPSCALER_DENOISE")}
               min={0}
               max={1}
               step={0.05}
@@ -135,6 +138,7 @@ export function UpscalerField(props: Props) {
               className="flex-1"
             />
             <Input
+              aria-label={t("IMAGE.UPSCALER_DENOISE")}
               type="number"
               min={0}
               max={1}

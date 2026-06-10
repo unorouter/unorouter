@@ -70,6 +70,7 @@ export function InpaintCanvas(props: Props) {
                 <span className="tabular-nums">{brushSize}px</span>
               </div>
               <Slider
+                aria-label={t("IMAGE.INPAINT_BRUSH_SIZE")}
                 min={4}
                 max={128}
                 step={2}
@@ -87,6 +88,7 @@ export function InpaintCanvas(props: Props) {
                 </span>
               </div>
               <Slider
+                aria-label={t("IMAGE.INPAINT_BRUSH_OPACITY")}
                 min={0.1}
                 max={1}
                 step={0.05}

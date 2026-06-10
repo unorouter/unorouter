@@ -48,6 +48,7 @@ export function AdvancedSettingsAccordion(props: Props) {
               <span className="tabular-nums">{clipSkip}</span>
             </div>
             <Slider
+              aria-label={t("IMAGE.CLIP_SKIP")}
               min={0}
               max={12}
               step={1}
@@ -62,6 +63,7 @@ export function AdvancedSettingsAccordion(props: Props) {
           <div>
             <Label className="mb-1 block">{t("IMAGE.ENSD")}</Label>
             <Input
+              aria-label={t("IMAGE.ENSD")}
               type="number"
               value={ensd}
               onChange={(e) =>
