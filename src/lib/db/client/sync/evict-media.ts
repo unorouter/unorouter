@@ -1,5 +1,13 @@
 "use client";
 
+import {
+  characters,
+  lorebooks,
+  personas,
+  samplingPresets,
+} from "@/lib/db/schema/shared";
+import { and, eq, isNull } from "drizzle-orm";
+import { getLocalDb } from "../client";
 import { upsertLocalMedia } from "../data/media";
 
 type MediaRowLike = {
@@ -30,5 +38,45 @@ export async function evictMediaBase64After(
   for (const row of media) {
     if (!row || !row.r2Key || !row.r2Url) continue;
     await upsertLocalMedia(userId, { ...row, dataBase64: null });
+  }
+}
+
+type RefRowLike = { id?: string; syncExpiresAt?: string | Date | null };
+type RefBundleLike = {
+  characters?: RefRowLike[];
+  personas?: RefRowLike[];
+  presets?: RefRowLike[];
+  lorebooks?: Array<{ lorebook?: RefRowLike }>;
+};
+
+// A full conversation push inlines local-only referenced entities; the server
+// creates synced rows for them (with the conv's expiry) but the origin's local
+// copies keep syncExpiresAt=null, so later local edits never mirror and the
+// server copy silently goes stale. Adopt the server-assigned expiry locally
+// (column-scoped, only where still null) to open the mirror gate.
+export async function adoptRefSyncExpiry(
+  userId: number,
+  result: unknown,
+): Promise<void> {
+  if (!result || typeof result !== "object") return;
+  const local = await getLocalDb(userId);
+  if (!local) return;
+  const bundle = result as RefBundleLike;
+  const targets: Array<
+    [typeof characters | typeof personas | typeof samplingPresets | typeof lorebooks, RefRowLike[]]
+  > = [
+    [characters, bundle.characters ?? []],
+    [personas, bundle.personas ?? []],
+    [samplingPresets, bundle.presets ?? []],
+    [lorebooks, (bundle.lorebooks ?? []).map((l) => l.lorebook ?? {})],
+  ];
+  for (const [table, rows] of targets) {
+    for (const row of rows) {
+      if (!row.id || row.syncExpiresAt == null) continue;
+      await local.db
+        .update(table)
+        .set({ syncExpiresAt: new Date(row.syncExpiresAt) })
+        .where(and(eq(table.id, row.id), isNull(table.syncExpiresAt)));
+    }
   }
 }

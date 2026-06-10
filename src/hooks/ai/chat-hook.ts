@@ -145,6 +145,19 @@ export function useMessagesInfiniteQuery(id?: string) {
   });
 }
 
+// History rewrites must bump the conversation row: reconcile staleness on
+// other devices keys on conversations.updatedAt, so an edit/branch/delete
+// that only touches message rows would otherwise never propagate.
+async function bumpConvUpdatedAt(userId: number, convId: string) {
+  const conv = await readLocalConversation(userId, convId);
+  if (conv) {
+    await upsertLocalConversation(userId, {
+      ...conv,
+      updatedAt: dayjs().toDate(),
+    });
+  }
+}
+
 export function useUpdateConversationMutation() {
   return useChatMutation(
     async (userId, args: ConvIdArg & { body: UpdateConvBody }) => {
@@ -258,7 +271,8 @@ export function useEditMessageMutation() {
       if (updatedMsg) {
         await upsertLocalMessage(userId, updatedMsg);
       }
-      await mirrorConvMessagesIfSynced(userId, args.convId, [args.msgId]);
+      await bumpConvUpdatedAt(userId, args.convId);
+      await mirrorConvMessagesIfSynced(userId, args.convId, [args.msgId], true);
       return { items: itemsWithMsg };
     },
     (args) => [queryKeys.chatMessages(args.convId)],
@@ -269,6 +283,7 @@ export function useClearConversationMutation() {
   return useChatMutation(
     async (userId, args: ConvIdArg) => {
       await deleteLocalMessagesForConv(userId, args.id);
+      await bumpConvUpdatedAt(userId, args.id);
       await mirrorConvIfSynced(userId, args.id);
       return { id: args.id };
     },
@@ -365,10 +380,12 @@ export function useSetActiveBranchMutation() {
           branchSiblings.push(next);
         }
       }
+      await bumpConvUpdatedAt(userId, args.convId);
       await mirrorConvMessagesIfSynced(
         userId,
         args.convId,
         branchSiblings.map((m) => String(m.id)),
+        true,
       );
       return { id: args.msgId };
     },
@@ -394,6 +411,7 @@ export function useDeleteMessageMutation() {
         }
       }
       await deleteLocalMessage(userId, args.msgId);
+      await bumpConvUpdatedAt(userId, args.convId);
       await mirrorConvIfSynced(userId, args.convId);
       return { id: args.msgId };
     },

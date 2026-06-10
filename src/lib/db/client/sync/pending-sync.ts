@@ -11,7 +11,7 @@ import { broadcastInvalidate } from "@/lib/react-query/cross-tab-invalidate";
 import { and, asc, eq, inArray, isNull, lte, or } from "drizzle-orm";
 import { getLocalDb } from "../client";
 import { buildPendingPushes, type ConvSyncHint } from "./build-payload";
-import { evictMediaBase64After } from "./evict-media";
+import { adoptRefSyncExpiry, evictMediaBase64After } from "./evict-media";
 import { acquireLock, releaseLock } from "./resource-lock";
 
 // Outbox writer + drainer, the single push path to the sync API; the drainer
@@ -162,7 +162,12 @@ async function pushRow(userId: number, row: OutboxRow): Promise<void> {
     const fullBundle =
       row.kind === "playgroundSessions" ||
       (row.kind === "conversations" && (hints.size === 0 || hints.has("full")));
-    if (fullBundle) await evictMediaBase64After(userId, pushed);
+    if (fullBundle) {
+      await evictMediaBase64After(userId, pushed);
+      // Inlined local-only refs got server rows; adopt their expiry locally
+      // so future edits to those entities mirror instead of going stale.
+      if (row.kind === "conversations") await adoptRefSyncExpiry(userId, pushed);
+    }
   }
 }
 
