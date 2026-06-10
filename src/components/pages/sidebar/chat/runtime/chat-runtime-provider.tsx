@@ -88,9 +88,14 @@ function ChatRuntimeHook() {
   const historyAdapter = useHistoryAdapter();
   const transport = useChatTransport();
 
-  // Per-conv stream lock; released in chat onFinish/onError.
+  // Per-conv stream lock; released in chat onFinish/onError. During a
+  // multi-character rotation the loop holds the lock across every speaker's
+  // stream, so the per-stream onFinish must NOT release it mid-rotation;
+  // the loop's finally does. rotatingRef gates that.
   const streamLockKeyRef = useRef<string | null>(null);
+  const rotatingRef = useRef(false);
   const releaseStreamLock = () => {
+    if (rotatingRef.current) return;
     const key = streamLockKeyRef.current;
     if (!key) return;
     streamLockKeyRef.current = null;
@@ -154,6 +159,7 @@ function ChatRuntimeHook() {
           args[0],
         );
         if (order.length > 1) {
+          rotatingRef.current = true;
           try {
             for (let i = 0; i < order.length; i++) {
               chatStore.set(speakingCharacterIdAtom, order[i]);
@@ -163,6 +169,8 @@ function ChatRuntimeHook() {
             }
           } finally {
             chatStore.set(speakingCharacterIdAtom, null);
+            rotatingRef.current = false;
+            releaseStreamLock();
           }
           return;
         }
