@@ -130,7 +130,7 @@ export function CoreParamsFields(props: Props) {
                     }
                     onValueChange={field.onChange}
                   >
-                    <SelectTrigger className="w-full">
+                    <SelectTrigger aria-label={t("IMAGE.SAMPLER_LABEL")} className="w-full">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -158,7 +158,7 @@ export function CoreParamsFields(props: Props) {
                     }
                     onValueChange={field.onChange}
                   >
-                    <SelectTrigger className="w-full">
+                    <SelectTrigger aria-label={t("IMAGE.SCHEDULER_LABEL")} className="w-full">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>

@@ -382,6 +382,26 @@ function runEffects(script: TriggerScript, ctx: TriggerContext): void {
   }
 }
 
+// Baseline TriggerContext: every required field at its empty default. Callers
+// spread overrides on top (server start-mode, client output-mode) instead of
+// each hand-writing the full literal.
+export function makeTriggerContext(
+  overrides: Partial<TriggerContext> &
+    Pick<TriggerContext, "mode" | "vars" | "globalVars" | "chat">,
+): TriggerContext {
+  return {
+    charDesc: "",
+    personaDesc: "",
+    authorNote: "",
+    replaceGlobalNote: "",
+    lore: [],
+    additionalSysPrompt: { start: "", historyend: "", promptend: "" },
+    charName: "Assistant",
+    userName: "User",
+    ...overrides,
+  };
+}
+
 // Run all scripts of a mode whose conditions pass. Returns the mutated context.
 export function runTriggers(
   scripts: TriggerScript[],

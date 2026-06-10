@@ -79,6 +79,7 @@ export function AdetailerSection(props: Props) {
           {t("IMAGE.ADETAILER")}
         </span>
         <Switch
+          aria-label={t("IMAGE.ADETAILER")}
           checked={enabled}
           onCheckedChange={(c) => {
             setOpen(c);

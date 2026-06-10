@@ -1,6 +1,11 @@
 "use client";
 
-import { IntlError, IntlErrorCode, NextIntlClientProvider } from "next-intl";
+import {
+  IntlError,
+  IntlErrorCode,
+  NextIntlClientProvider,
+  type Locale,
+} from "next-intl";
 import { ReactNode } from "react";
 
 type Messages = Parameters<typeof NextIntlClientProvider>[0]["messages"];
@@ -22,7 +27,7 @@ function onError(error: IntlError) {
 // `locale` is required here: rendered from a client component the provider
 // cannot infer it from the server request config.
 export function ClientIntlProvider(props: {
-  locale: string;
+  locale: Locale;
   messages: Messages;
   children: ReactNode;
 }) {

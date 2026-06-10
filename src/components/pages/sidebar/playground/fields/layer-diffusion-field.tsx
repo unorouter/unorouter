@@ -23,6 +23,7 @@ export function LayerDiffusionField(props: Props) {
           {t("IMAGE.LAYER_DIFFUSION")}
         </span>
         <Switch
+          aria-label={t("IMAGE.LAYER_DIFFUSION")}
           checked={enabled}
           onCheckedChange={(c) => props.onChange(c ? { weight: 1 } : undefined)}
         />

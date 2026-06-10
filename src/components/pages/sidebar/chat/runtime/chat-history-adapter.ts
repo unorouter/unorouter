@@ -18,11 +18,8 @@ import {
   upsertLocalMessageItem,
 } from "@/lib/db/client/data/chat";
 import { runRegexScripts } from "@/lib/ai/chat/regex-scripts";
-import { runTriggers } from "@/lib/ai/chat/triggers/vm";
-import type {
-  TriggerContext,
-  TriggerScript,
-} from "@/lib/ai/chat/triggers/types";
+import { makeTriggerContext, runTriggers } from "@/lib/ai/chat/triggers/vm";
+import type { TriggerScript } from "@/lib/ai/chat/triggers/types";
 import { insertLocalRequestLog } from "@/lib/db/client/data/request-log";
 import type { RequestLogRow } from "@/lib/db/schema/rows";
 import { queryKeys } from "@/lib/react-query/keys";
@@ -324,20 +321,12 @@ async function runOutputTriggers(
     .map((p) => p.text)
     .join("\n");
 
-  const ctx: TriggerContext = {
+  const ctx = makeTriggerContext({
     mode: "output",
     vars,
     globalVars,
     chat: [{ role: "assistant", data: replyText }],
-    charDesc: "",
-    personaDesc: "",
-    authorNote: "",
-    replaceGlobalNote: "",
-    lore: [],
-    additionalSysPrompt: { start: "", historyend: "", promptend: "" },
-    charName: "Assistant",
-    userName: "User",
-  };
+  });
   runTriggers(triggers, "output", ctx);
 
   if (JSON.stringify(vars) !== before) {

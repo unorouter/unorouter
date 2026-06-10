@@ -4,8 +4,12 @@
 // mutations ride the existing var-writeback channel; deeper mutations
 // (lorebook/char CRUD) are applied to the in-memory context only for this turn.
 
-import { parseTriggerScripts, runTriggers } from "@/lib/ai/chat/triggers/vm";
-import type { TriggerContext, TriggerLore } from "@/lib/ai/chat/triggers/types";
+import {
+  makeTriggerContext,
+  parseTriggerScripts,
+  runTriggers,
+} from "@/lib/ai/chat/triggers/vm";
+import type { TriggerLore } from "@/lib/ai/chat/triggers/types";
 import type { LoadedConvContext } from "@/lib/types";
 import { expandMacros, type MacroScope } from "./macros";
 
@@ -59,7 +63,7 @@ export function runStartTriggers(
     history,
   };
 
-  const ctx: TriggerContext = {
+  const ctx = makeTriggerContext({
     mode: "start",
     vars,
     globalVars,
@@ -67,13 +71,11 @@ export function runStartTriggers(
     charDesc,
     personaDesc,
     authorNote: convCtx.settings.authorNote ?? "",
-    replaceGlobalNote: "",
     lore,
-    additionalSysPrompt: { start: "", historyend: "", promptend: "" },
     parse: (s) => (s.includes("{{") ? expandMacros(s, macroScope) : s),
     charName,
     userName,
-  };
+  });
 
   const result = runTriggers(scripts, "start", ctx);
   const sys = [
