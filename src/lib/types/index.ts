@@ -58,6 +58,14 @@ export type ChatMessageMetadata = {
   // Rolling-summary memory update: the running summary + how many leading
   // messages it now covers. Persisted to conversation summaryMemory/anchor.
   summary?: { summary: string; anchor: number };
+  // runImgGen inlay bytes generated server-side this turn; the adapter
+  // persists them as local media rows ({{inlay::id}} renders from them).
+  inlayMedia?: {
+    id: string;
+    dataBase64: string;
+    mimeType: string;
+    sizeBytes: number;
+  }[];
   // Which character spoke this turn (multi-character rotation). Rides the
   // finish frame because the rotation loop clears the speaking atom before
   // the history adapter persists, so an atom read at append time races.

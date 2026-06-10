@@ -2,6 +2,7 @@
 
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { ChatLoadout } from "@/components/pages/sidebar/chat/chat-loadout";
+import { GreetingPreview } from "@/components/pages/sidebar/chat/greeting-preview";
 import {
   ComposerAddAttachment,
   ComposerAttachments,
@@ -150,6 +151,7 @@ const ThreadWelcome: FC = () => {
             </p>
           </div>
           <ChatLoadout />
+          <GreetingPreview />
         </div>
       </div>
       <ThreadSuggestions />

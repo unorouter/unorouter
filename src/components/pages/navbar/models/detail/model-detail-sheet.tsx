@@ -11,7 +11,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import type {
+import { gridPriceParts, gridPricingColumns, type
   EndpointInfo,
   GridPricingRow,
   ProcessedModel,
@@ -360,13 +360,6 @@ function SectionHeader(props: { icon: React.ReactNode; title: string }) {
   );
 }
 
-function getGridColumns(rows: GridPricingRow[]): string[] {
-  const first = rows[0];
-  if (!first) return [];
-  return Object.keys(first).filter(
-    (k) => k !== "Pricing" && k !== "PricingSuffix",
-  );
-}
 
 function GridPricingTable(props: {
   rows: GridPricingRow[];
@@ -374,8 +367,7 @@ function GridPricingTable(props: {
   theme: ReturnType<typeof getVendorTheme>;
   pricingLabel: string;
 }) {
-  const columns = getGridColumns(props.rows);
-  const multiplier = props.priceMultiplier ?? 1;
+  const columns = gridPricingColumns(props.rows);
 
   return (
     <div className="overflow-x-auto">
@@ -397,10 +389,10 @@ function GridPricingTable(props: {
         </thead>
         <tbody>
           {props.rows.map((row, i) => {
-            const price =
-              typeof row.Pricing === "number" ? row.Pricing * multiplier : 0;
-            const suffix =
-              typeof row.PricingSuffix === "string" ? row.PricingSuffix : "";
+            const { price, suffix } = gridPriceParts(
+              row,
+              props.priceMultiplier,
+            );
             return (
               <tr key={i} className="border-border/20 border-b last:border-0">
                 {columns.map((col) => (

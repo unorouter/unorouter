@@ -6,6 +6,13 @@ import { Icon } from "@/components/ui/icon";
 import { SmartImage } from "@/components/ui/smart-image";
 import { cn } from "@/lib/utils";
 import { downloadBlob } from "@/lib/utils/client";
+import { useAuthQuery } from "@/hooks/auth/auth-hook";
+import { GUEST_USER_ID } from "@/lib/config/constants";
+import {
+  inlayVersionAtom,
+  replaceInlayTokens,
+} from "@/lib/db/client/data/inlay-render";
+import { useAtomValue } from "jotai";
 import { useMessage } from "@assistant-ui/react";
 import {
   type CodeHeaderProps,
@@ -70,6 +77,10 @@ const MarkdownTextImpl = () => {
     m.content.some((p) => p.type === "text" && MATH_DELIMITER_RE.test(p.text)),
   );
   const mathjax = useRehypeMathjax(hasMath);
+  // {{inlay::id}} media resolve asynchronously; version bump re-renders.
+  useAtomValue(inlayVersionAtom);
+  const auth = useAuthQuery();
+  const userId = auth.data?.id ?? GUEST_USER_ID;
   return (
     <MarkdownTextPrimitive
       remarkPlugins={[remarkGfm, remarkMath]}
@@ -81,6 +92,7 @@ const MarkdownTextImpl = () => {
         let t = text.replace(THINKING_BLOCK_RE, "");
         const openIdx = t.search(THINKING_OPEN_RE);
         if (openIdx !== -1) t = t.slice(0, openIdx);
+        if (t.includes("{{inlay::")) t = replaceInlayTokens(t, userId);
         return normalizeMathDelimiters(t);
       }}
     />

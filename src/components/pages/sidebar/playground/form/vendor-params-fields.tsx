@@ -21,7 +21,7 @@ import type { UseFormReturn } from "react-hook-form";
 import {
   OutputFormatField,
   QualityField,
-  SliderWithInput,
+  SliderParamField,
 } from "./playground-form-fields";
 
 type Props = {
@@ -118,24 +118,18 @@ export function VendorParamsFields(props: Props) {
       )}
 
       {descriptor.supportsStrength && (
-        <FormField
+        <SliderParamField
           control={form.control}
           name="params.strength"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{t("IMAGE.STRENGTH_LABEL")}</FormLabel>
-              <FormControl>
-                <SliderWithInput
-                  label={t("IMAGE.STRENGTH_LABEL")}
-                  min={0}
-                  max={1}
-                  step={0.05}
-                  value={typeof field.value === "number" ? field.value : 0.5}
-                  onChange={field.onChange}
-                />
-              </FormControl>
-            </FormItem>
-          )}
+          label={t("IMAGE.STRENGTH_LABEL")}
+          min={0}
+          max={1}
+          step={0.05}
+          value={
+            typeof form.watch("params.strength") === "number"
+              ? (form.watch("params.strength") as number)
+              : 0.5
+          }
         />
       )}
 

@@ -142,6 +142,7 @@ export async function streamChat(
     bodyMutations,
     startAlerts,
     stopRequested,
+    inlayMedia,
   } = prepared;
   // V1 `stop` effect (Risu stopSending): answer an empty UI stream, no upstream call.
   if (stopRequested) {
@@ -264,6 +265,7 @@ export async function streamChat(
     if (varsWriteback) meta.vars = varsWriteback;
     if (globalVarsWriteback) meta.globalVars = globalVarsWriteback;
     if (memory.summaryWriteback) meta.summary = memory.summaryWriteback;
+    if (inlayMedia.length > 0) meta.inlayMedia = inlayMedia;
     // Per-message speaker tag (Risu `saying`), immune to the speaking-atom clear race.
     if (body.speakingCharacterId)
       meta.speakingCharacterId = body.speakingCharacterId;

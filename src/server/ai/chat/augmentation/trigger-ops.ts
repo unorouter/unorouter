@@ -2,6 +2,7 @@
 // calls (the client modes go through POST /chat/trigger-op instead).
 
 import { parseChatML } from "@/lib/ai/chat/chatml";
+import { generateInlayImage, type InlayImage } from "./inlay.service";
 import type { TriggerOps } from "@/lib/ai/chat/triggers/types";
 import { getProvider } from "@/server/constants";
 import { generateText } from "ai";
@@ -52,12 +53,21 @@ export async function runTriggerSimilarity(
 export function makeServerTriggerOps(
   apiKey: string,
   model: string,
+  // Generated inlay bytes collect here; they ride finish-meta so the CLIENT
+  // persists the media rows (local-first asymmetric-base64 rule).
+  inlayCollector?: InlayImage[],
 ): TriggerOps {
   return {
     runLLM: (prompt) => runTriggerLLM(apiKey, model, prompt),
     similarity: (source, values) =>
       runTriggerSimilarity(apiKey, source, values),
-    // imgGen + runLua wired by their feature modules; alert is wrapped by
-    // runStartTriggers (collected, streamed as data-alert).
+    imgGen: async (prompt) => {
+      const img = await generateInlayImage(apiKey, prompt);
+      if (!img) return "Error: Image generation failed";
+      inlayCollector?.push(img);
+      return `{{inlay::${img.id}}}`;
+    },
+    // runLua wired by the Lua module; alert is wrapped by runStartTriggers
+    // (collected, streamed as data-alert).
   };
 }

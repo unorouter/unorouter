@@ -341,24 +341,20 @@ export type StreamBody = Static<typeof streamBody>;
 
 // V1 lowLevelAccess trigger effects from client modes (runLLM/checkSimilarity/
 // runImgGen): keys resolve server-side, results return to the VM.
-export const triggerOpBody = t.Union([
-  t.Object({
-    op: t.Literal("llm"),
-    prompt: t.String({ maxLength: MAX_TEXT_LEN }),
-    model: t.String({ maxLength: MAX_MODEL_LEN }),
-  }),
-  t.Object({
-    op: t.Literal("similarity"),
-    source: t.String({ maxLength: MAX_TEXT_LEN }),
-    values: t.Array(t.String({ maxLength: MAX_TEXT_LEN }), { maxItems: 256 }),
-  }),
-  t.Object({
-    op: t.Literal("imggen"),
-    prompt: t.String({ maxLength: MAX_TEXT_LEN }),
-    negative: t.Optional(t.String({ maxLength: MAX_TEXT_LEN })),
-  }),
-]);
-export type TriggerOpBody = Static<typeof triggerOpBody>;
+// One body per trigger op so each endpoint carries a single concrete request +
+// response type (the client then needs no cast off a merged union).
+export const triggerLlmBody = t.Object({
+  prompt: t.String({ maxLength: MAX_TEXT_LEN }),
+  model: t.String({ maxLength: MAX_MODEL_LEN }),
+});
+export const triggerSimilarityBody = t.Object({
+  source: t.String({ maxLength: MAX_TEXT_LEN }),
+  values: t.Array(t.String({ maxLength: MAX_TEXT_LEN }), { maxItems: 256 }),
+});
+export const triggerImggenBody = t.Object({
+  prompt: t.String({ maxLength: MAX_TEXT_LEN }),
+  negative: t.Optional(t.String({ maxLength: MAX_TEXT_LEN })),
+});
 
 export const titleGenerationBody = t.Object({
   text: t.String({ maxLength: MAX_TITLE_SEED_LEN }),

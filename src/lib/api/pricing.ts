@@ -359,3 +359,22 @@ export function findSimilarModels(
 export function findContextTag(model: ProcessedModel): string | undefined {
   return (model.tags ?? []).find((tag) => /\d+K$|\d+\.\d+K$/.test(tag));
 }
+
+// Shared by both grid-pricing table skins (detail page + vendor-themed sheet).
+export function gridPricingColumns(rows: GridPricingRow[]): string[] {
+  const first = rows[0];
+  if (!first) return [];
+  return Object.keys(first).filter(
+    (k) => k !== "Pricing" && k !== "PricingSuffix",
+  );
+}
+
+export function gridPriceParts(
+  row: GridPricingRow,
+  multiplier = 1,
+): { price: number; suffix: string } {
+  return {
+    price: typeof row.Pricing === "number" ? row.Pricing * multiplier : 0,
+    suffix: typeof row.PricingSuffix === "string" ? row.PricingSuffix : "",
+  };
+}

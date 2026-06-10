@@ -94,6 +94,41 @@ export function OutputFormatField(props: {
   );
 }
 
+// FormField wrapper for one numeric param slider; label feeds both the visible
+// FormLabel and the controls' aria-labels.
+export function SliderParamField(props: {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- generic RHF control across param forms
+  control: any;
+  name: string;
+  label: string;
+  min: number;
+  max: number;
+  step: number;
+  value: number;
+}) {
+  return (
+    <FormField
+      control={props.control}
+      name={props.name}
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel>{props.label}</FormLabel>
+          <FormControl>
+            <SliderWithInput
+              label={props.label}
+              min={props.min}
+              max={props.max}
+              step={props.step}
+              value={props.value}
+              onChange={field.onChange}
+            />
+          </FormControl>
+        </FormItem>
+      )}
+    />
+  );
+}
+
 export function SliderWithInput(props: {
   value: number;
   min: number;

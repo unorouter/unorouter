@@ -8,34 +8,44 @@ import { triggerAlert } from "@/components/ui/trigger-alert";
 import type { TriggerOps } from "@/lib/ai/chat/triggers/types";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
-import { chatModelAtom, chatStore } from "@/store/chat-store";
+import { upsertLocalMedia } from "@/lib/db/client/data/media";
+import { chatModelAtom, chatStore, convIdAtom } from "@/store/chat-store";
 
-export function makeClientTriggerOps(): TriggerOps {
+export function makeClientTriggerOps(userId: number): TriggerOps {
   return {
     runLLM: async (prompt) =>
       handleElysia(
-        await rpc.api.ai.chat["trigger-op"].post({
-          op: "llm",
+        await rpc.api.ai.chat["trigger-op"].llm.post({
           prompt,
           model: chatStore.get(chatModelAtom) ?? "",
         }),
-      ) as string,
+      ),
     similarity: async (source, values) =>
       handleElysia(
-        await rpc.api.ai.chat["trigger-op"].post({
-          op: "similarity",
+        await rpc.api.ai.chat["trigger-op"].similarity.post({
           source,
           values,
         }),
-      ) as string[],
-    imgGen: async (prompt, negative) =>
-      handleElysia(
-        await rpc.api.ai.chat["trigger-op"].post({
-          op: "imggen",
+      ),
+    imgGen: async (prompt, negative) => {
+      const img = handleElysia(
+        await rpc.api.ai.chat["trigger-op"].imggen.post({
           prompt,
           negative,
         }),
-      ) as string,
+      );
+      if (!img) return "Error: Image generation failed";
+      await upsertLocalMedia(userId, {
+        id: img.id,
+        convId: chatStore.get(convIdAtom),
+        mimeType: img.mimeType,
+        sizeBytes: img.sizeBytes,
+        dataBase64: img.dataBase64,
+        r2Key: null,
+        r2Url: null,
+      });
+      return `{{inlay::${img.id}}}`;
+    },
     alert: (kind, text, options) => triggerAlert(kind, text, options),
   };
 }

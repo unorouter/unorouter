@@ -4,7 +4,9 @@ import {
   itemsToParts,
   joinItemsToMessages,
   partsToItems,
+  walkActiveBranch,
 } from "@/lib/ai/chat/messages";
+import { upsertLocalMedia } from "@/lib/db/client/data/media";
 import {
   readConvRegexScripts,
   readConvTriggers,
@@ -184,6 +186,19 @@ export function createChatHistoryAdapter(
           // Chat-variable writeback from macro setvar/addvar (serialized JSON map).
           const varsWriteback = metadata?.vars ?? null;
           // Per-user global-variable writeback from setglobalvar.
+          if (metadata?.inlayMedia) {
+            for (const m of metadata.inlayMedia) {
+              await upsertLocalMedia(userId, {
+                id: m.id,
+                convId: id,
+                mimeType: m.mimeType,
+                sizeBytes: m.sizeBytes,
+                dataBase64: m.dataBase64,
+                r2Key: null,
+                r2Url: null,
+              });
+            }
+          }
           if (metadata?.globalVars != null) {
             chatStore.set(globalVarsAtom, metadata.globalVars);
           }
@@ -197,10 +212,19 @@ export function createChatHistoryAdapter(
                 chatStore.get(speakingCharacterIdAtom))
               : null;
 
+          // Null-parent fallback: a seeded greeting (root branch) is not in
+          // the UI state on the first send; anchor to the DB active tip so
+          // the user turn becomes its child instead of a root sibling.
+          let parentId = item.parentId ?? null;
+          if (parentId === null) {
+            const existing = (await readLocalMessages(userId, id)) ?? [];
+            const tip = walkActiveBranch(existing).tipId;
+            if (tip) parentId = tip;
+          }
           const newMessage = {
             id: messageId,
             convId: id,
-            parentId: item.parentId ?? null,
+            parentId,
             role: content.role,
             model: resolvedModel,
             characterId: speakingCharId,
@@ -341,7 +365,7 @@ async function runOutputTriggers(
     vars,
     globalVars,
     chat: [{ role: "assistant", data: replyText }],
-    ops: makeClientTriggerOps(),
+    ops: makeClientTriggerOps(userId),
   });
   await runTriggers(triggers, "output", ctx);
   // V1 sendAIprompt: chain an empty continuation send after the triggers.

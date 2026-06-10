@@ -9,7 +9,12 @@ import {
   readLocalConversations,
   replaceLocalConversationBindings,
   upsertLocalConversation,
+  upsertLocalMessage,
+  upsertLocalMessageItem,
 } from "@/lib/db/client/data/chat";
+import { readLocalCharacter, readLocalPersona } from "@/lib/db/client/data/rp";
+import { expandMacros } from "@/lib/ai/chat/macros";
+import { uid } from "@/lib/utils/base";
 import type { buildPricingSummary } from "@/lib/api/pricing";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
@@ -21,6 +26,7 @@ import {
   chatModelAtom,
   chatStore,
   ensureConvId,
+  greetingIndexAtom,
 } from "@/store/chat-store";
 import type { RemoteThreadListAdapter } from "@assistant-ui/react";
 import type { QueryClient } from "@tanstack/react-query";
@@ -129,6 +135,75 @@ export function createThreadListAdapter(
             orderIndex: i,
           })),
         });
+      }
+
+      // Risu greeting parity: firstMessage + alternates seed as root branch
+      // siblings; the preview-picked greeting is the active branch, the rest
+      // swipe via the normal branch UI. firstMsgIndex = activeBranch - 1.
+      if (loadout.characterIds.length > 0) {
+        const char = await readLocalCharacter(
+          userId(),
+          loadout.characterIds[0],
+        );
+        if (char?.firstMessage) {
+          const persona = loadout.personaId
+            ? await readLocalPersona(userId(), loadout.personaId)
+            : null;
+          const greetings = [
+            char.firstMessage,
+            ...(Array.isArray(char.alternateGreetings)
+              ? (char.alternateGreetings as string[])
+              : []),
+          ];
+          const picked = Math.min(
+            chatStore.get(greetingIndexAtom),
+            greetings.length - 1,
+          );
+          for (let i = 0; i < greetings.length; i++) {
+            const msgId = uid();
+            await upsertLocalMessage(userId(), {
+              id: msgId,
+              convId: id,
+              parentId: null,
+              characterId: char.id,
+              role: "assistant",
+              model: null,
+              branchIndex: i,
+              isActiveBranch: i === picked,
+              isEdited: false,
+              createdAt: now,
+              updatedAt: now,
+            });
+            await upsertLocalMessageItem(userId(), {
+              id: uid(),
+              messageId: msgId,
+              sequenceIndex: 0,
+              type: "text",
+              data: {
+                text: expandMacros(greetings[i], {
+                  user: persona?.name ?? "User",
+                  char: char.name,
+                  user_description: persona?.description ?? "",
+                  char_description: char.description ?? "",
+                  scenario: char.scenario ?? "",
+                  personality: char.personality ?? "",
+                  vars: {},
+                }),
+              },
+            });
+          }
+          if (picked > 0) {
+            await upsertLocalConversation(userId(), {
+              id,
+              firstMsgIndex: picked - 1,
+              updatedAt: now,
+            });
+          }
+          chatStore.set(greetingIndexAtom, 0);
+          queryClient.invalidateQueries({
+            queryKey: queryKeys.chatMessages(id),
+          });
+        }
       }
 
       queryClient.invalidateQueries({ queryKey: queryKeys.conversations() });

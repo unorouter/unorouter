@@ -23,7 +23,7 @@ type RpAnalyticsEntity = Parameters<
 
 // Shared confirm dialog for RP entity deletion; key pair varies per entity.
 export async function confirmRpDelete(
-  t: ReturnType<typeof useTranslations>,
+  t: ReturnType<typeof useTranslations<never>>,
   titleKey: TranslationKey,
   descKey: TranslationKey,
 ): Promise<boolean> {

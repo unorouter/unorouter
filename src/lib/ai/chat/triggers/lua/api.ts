@@ -1,0 +1,316 @@
+// Lua global API (RisuAI scriptings.ts declareAPI port) bound to a
+// TriggerContext. Access-key gating mirrors Risu: mutating calls check
+// luaSafeIds, side-effect calls check luaLowLevelIds. App-coupled calls
+// without an analog return Risu's failure value ('' or undefined).
+
+import { encode } from "gpt-tokenizer";
+import type { TriggerContext, TriggerMessage } from "../types";
+import { luaLowLevelIds, luaSafeIds } from "./engine";
+
+type LuaFn = (...args: never[]) => unknown;
+
+// Lua surface uses Risu roles ('user'|'char'); the context stores assistant.
+const toLuaRole = (r: TriggerMessage["role"]) =>
+  r === "assistant" ? "char" : r;
+const fromLuaRole = (r: string): TriggerMessage["role"] =>
+  r === "user" ? "user" : "assistant";
+
+// Risu request(): 5/min rate limit, https only, max 120 chars.
+let lastRequestsCount = 0;
+let lastRequestResetTime = 0;
+
+async function sha256Hex(value: string): Promise<string> {
+  const buf = await crypto.subtle.digest(
+    "SHA-256",
+    new TextEncoder().encode(value),
+  );
+  return [...new Uint8Array(buf)]
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+}
+
+// Prompt array -> ChatML so ops.runLLM (string surface) keeps the roles.
+function promptToChatML(
+  prompt: { role: string; content: string }[],
+): string {
+  return prompt
+    .map((p) => `<|im_start|>${p.role}\n${p.content}<|im_end|>`)
+    .join("\n");
+}
+
+export function buildLuaApi(
+  ctx: TriggerContext,
+  flags: { stopSending: boolean },
+): Record<string, LuaFn> {
+  const safe = (id: string) => luaSafeIds.has(id);
+  const low = (id: string) => luaLowLevelIds.has(id);
+  const parse = (s: string) => (ctx.parse ? ctx.parse(s) : s);
+
+  const llm = async (id: string, promptStr: string): Promise<string> => {
+    if (!low(id)) return JSON.stringify(null);
+    if (!ctx.ops?.runLLM) {
+      return JSON.stringify({ success: false, result: "LLM unsupported" });
+    }
+    try {
+      const prompt = JSON.parse(promptStr) as {
+        role: string;
+        content: string;
+      }[];
+      const result = await ctx.ops.runLLM(promptToChatML(prompt));
+      return JSON.stringify({
+        success: !result.startsWith("Error:"),
+        result,
+      });
+    } catch (err) {
+      return JSON.stringify({ success: false, result: String(err) });
+    }
+  };
+
+  return {
+    // ---- vars ----
+    getChatVar: (_id: string, key: string) => ctx.vars[key] ?? "null",
+    setChatVar: (id: string, key: string, value: string) => {
+      if (!safe(id)) return;
+      ctx.vars[key] = value;
+    },
+    getGlobalVar: (_id: string, key: string) => ctx.globalVars[key] ?? "null",
+
+    // ---- control ----
+    stopChat: (id: string) => {
+      if (!safe(id)) return;
+      flags.stopSending = true;
+      ctx.stopSending = true;
+    },
+
+    // ---- alerts ----
+    alertNormal: (id: string, value: string) => {
+      if (!safe(id)) return;
+      void ctx.ops?.alert?.("normal", value);
+    },
+    alertError: (id: string, value: string) => {
+      if (!safe(id)) return;
+      void ctx.ops?.alert?.("error", value);
+    },
+    alertInput: (id: string, value: string) => {
+      if (!safe(id)) return;
+      return ctx.ops?.alert?.("input", value) ?? Promise.resolve("");
+    },
+    alertSelect: (id: string, value: string[]) => {
+      if (!safe(id)) return;
+      return (
+        ctx.ops?.alert?.("select", value.join("§"), value) ??
+        Promise.resolve("")
+      );
+    },
+    alertConfirm: async (id: string, value: string) => {
+      if (!safe(id)) return;
+      const res = await ctx.ops?.alert?.("select", value, ["OK", "Cancel"]);
+      return res === "OK";
+    },
+
+    // ---- chat array ----
+    getChatMain: (_id: string, index: number) => {
+      const m = ctx.chat.at(index);
+      if (!m) return JSON.stringify(null);
+      return JSON.stringify({ role: toLuaRole(m.role), data: m.data, time: 0 });
+    },
+    getFullChatMain: () =>
+      JSON.stringify(
+        ctx.chat.map((m) => ({ role: toLuaRole(m.role), data: m.data, time: 0 })),
+      ),
+    setFullChatMain: (id: string, value: string) => {
+      if (!safe(id)) return;
+      const real = JSON.parse(value) as { role: string; data: string }[];
+      ctx.chat.length = 0;
+      for (const v of real) {
+        ctx.chat.push({ role: fromLuaRole(v.role), data: v.data });
+      }
+    },
+    setChat: (id: string, index: number, value: string) => {
+      if (!safe(id)) return;
+      const m = ctx.chat.at(index);
+      if (m) m.data = value ?? "";
+    },
+    setChatRole: (id: string, index: number, value: string) => {
+      if (!safe(id)) return;
+      const m = ctx.chat.at(index);
+      if (m) m.role = fromLuaRole(value);
+    },
+    cutChat: (id: string, start: number, end: number) => {
+      if (!safe(id)) return;
+      const next = ctx.chat.slice(start, end);
+      ctx.chat.length = 0;
+      ctx.chat.push(...next);
+    },
+    removeChat: (id: string, index: number) => {
+      if (!safe(id)) return;
+      ctx.chat.splice(index, 1);
+    },
+    addChat: (id: string, role: string, value: string) => {
+      if (!safe(id)) return;
+      ctx.chat.push({ role: fromLuaRole(role), data: value ?? "" });
+    },
+    insertChat: (id: string, index: number, role: string, value: string) => {
+      if (!safe(id)) return;
+      ctx.chat.splice(index, 0, { role: fromLuaRole(role), data: value ?? "" });
+    },
+    getChatLength: () => ctx.chat.length,
+
+    // ---- entity fields ----
+    getName: () => ctx.charName,
+    setName: (id: string, name: string) => {
+      if (!safe(id)) return;
+      if (typeof name !== "string") throw new Error("Invalid data type");
+      ctx.charName = name;
+    },
+    getDescription: () => ctx.charDesc,
+    setDescription: (id: string, desc: string) => {
+      if (!safe(id)) return;
+      if (typeof desc !== "string") throw new Error("Invalid data type");
+      ctx.charDesc = desc;
+    },
+    getAuthorsNote: () => ctx.authorNote,
+    getPersonaName: () => ctx.userName,
+    getPersonaDescription: () => ctx.personaDesc,
+    getCharacterFirstMessage: () => ctx.firstMessage ?? "",
+    setCharacterFirstMessage: (id: string, value: string) => {
+      if (!safe(id)) return false;
+      if (typeof value !== "string") return false;
+      ctx.firstMessage = value;
+      return true;
+    },
+    getCharacterLastMessage: () => {
+      for (let i = ctx.chat.length - 1; i >= 0; i--) {
+        if (ctx.chat[i].role === "assistant") return ctx.chat[i].data;
+      }
+      return ctx.firstMessage ?? "";
+    },
+    getUserLastMessage: () => {
+      for (let i = ctx.chat.length - 1; i >= 0; i--) {
+        if (ctx.chat[i].role === "user") return ctx.chat[i].data;
+      }
+      return "";
+    },
+
+    // ---- lorebook ----
+    getLoreBooksMain: (_id: string, search: string) =>
+      JSON.stringify(
+        ctx.lore.filter(
+          (l) => !search || l.comment === search || l.key.includes(search),
+        ),
+      ),
+    loadLoreBooksMain: async () => JSON.stringify(ctx.lore),
+    upsertLocalLoreBook: (
+      id: string,
+      key: string,
+      content: string,
+      comment: string,
+    ) => {
+      if (!safe(id)) return;
+      const existing = ctx.lore.find((l) => l.comment === comment);
+      if (existing) {
+        existing.key = key;
+        existing.content = content;
+      } else {
+        ctx.lore.push({ comment, content, key, alwaysActive: false });
+      }
+    },
+
+    // ---- background embedding (per-conv var channel) ----
+    getBackgroundEmbedding: () => ctx.vars["__backgroundEmbedding"] ?? "",
+    setBackgroundEmbedding: (id: string, value: string) => {
+      if (!safe(id)) return;
+      ctx.vars["__backgroundEmbedding"] = value;
+    },
+
+    // ---- helpers ----
+    cbs: (value: string) => parse(value),
+    getTokens: (id: string, value: string) => {
+      if (!safe(id)) return;
+      return encode(value ?? "").length;
+    },
+    hash: (_id: string, value: string) => sha256Hex(value),
+    sleep: (id: string, time: number) => {
+      if (!safe(id)) return;
+      return new Promise((r) => setTimeout(() => r(true), time));
+    },
+    logMain: (value: string) => {
+      try {
+        console.log(JSON.parse(value));
+      } catch {
+        console.log(value);
+      }
+    },
+    // Display refresh: our query invalidation after the trigger run covers it.
+    reloadDisplay: () => undefined,
+    reloadChat: () => undefined,
+    getCharacterImageMain: async () => "",
+    getPersonaImageMain: async () => "",
+
+    // ---- lowLevelAccess ----
+    similarity: async (id: string, source: string, value: string[]) => {
+      if (!low(id)) return;
+      return (await ctx.ops?.similarity?.(source, value)) ?? [];
+    },
+    request: async (id: string, url: string) => {
+      if (!low(id)) return;
+      // Server-side Lua cannot fetch arbitrary URLs (SSRF); browser only.
+      if (typeof window === "undefined") {
+        return JSON.stringify({
+          status: 400,
+          data: "request is not allowed server-side",
+        });
+      }
+      if (lastRequestResetTime + 60000 < Date.now()) {
+        lastRequestsCount = 0;
+        lastRequestResetTime = Date.now();
+      }
+      if (lastRequestsCount > 5) {
+        return JSON.stringify({
+          status: 429,
+          data: "Too many requests. you can request 5 times per minute",
+        });
+      }
+      lastRequestsCount++;
+      try {
+        if (url.length > 120) {
+          return JSON.stringify({
+            status: 413,
+            data: "URL to large. max is 120 characters",
+          });
+        }
+        if (!url.startsWith("https://")) {
+          return JSON.stringify({
+            status: 400,
+            data: "Only https requests are allowed",
+          });
+        }
+        const d = await fetch(url, { method: "GET" });
+        return JSON.stringify({ status: d.status, data: await d.text() });
+      } catch {
+        return JSON.stringify({ status: 400, data: "internal error" });
+      }
+    },
+    generateImage: async (id: string, value: string, negValue = "") => {
+      if (!low(id)) return;
+      return (
+        (await ctx.ops?.imgGen?.(value, negValue)) ??
+        "Error: Image generation failed"
+      );
+    },
+    LLMMain: llm,
+    // No aux-model setting; axLLM resolves to the same model as LLM.
+    axLLMMain: llm,
+    simpleLLM: async (id: string, prompt: string) => {
+      if (!low(id)) return;
+      if (!ctx.ops?.runLLM) {
+        return JSON.stringify({ success: false, result: "LLM unsupported" });
+      }
+      const result = await ctx.ops.runLLM(prompt);
+      return JSON.stringify({
+        success: !result.startsWith("Error:"),
+        result,
+      });
+    },
+  } as unknown as Record<string, LuaFn>;
+}

@@ -158,13 +158,14 @@ export async function prepareChatRequest(
     ? parseStringMap(convCtx.settings.vars)
     : {};
   const triggerGlobalVars = parseStringMap(globalVarsIn);
+  const inlayMedia: import("../augmentation/inlay.service").InlayImage[] = [];
   const startTrig = convCtx
     ? await runStartTriggers(
         convCtx,
         triggerVars,
         triggerGlobalVars,
         history,
-        makeServerTriggerOps(apiKey, body.model),
+        makeServerTriggerOps(apiKey, body.model, inlayMedia),
       )
     : { extraSystemPrompt: "", stopSending: false, alerts: [] };
 
@@ -491,5 +492,7 @@ export async function prepareChatRequest(
     startAlerts: startTrig.alerts,
     // V1 stop effect: a start trigger requested the prompt not be sent.
     stopRequested: startTrig.stopSending,
+    // runImgGen results: client persists these media rows from finish-meta.
+    inlayMedia,
   };
 }

@@ -172,6 +172,8 @@ export type TriggerContext = {
   // Field tokens for {{char}}/{{user}} resolution inside operands.
   charName: string;
   userName: string;
+  // Primary character's greeting (Lua getCharacterFirstMessage; in-memory only).
+  firstMessage?: string;
 };
 
 // Async bridge for the lowLevelAccess V1 effects. Server start/request modes

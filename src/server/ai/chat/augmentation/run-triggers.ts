@@ -94,6 +94,20 @@ export async function runStartTriggers(
     ops: wrappedOps,
   });
 
+  // triggerlua executes against this same context (vars/chat/stop mutations
+  // land in the run result). Lazy import keeps wasmoon off the hot path.
+  ctx.ops = {
+    ...ctx.ops,
+    runLua: async (code) => {
+      const { runScripted } = await import("@/lib/ai/chat/triggers/lua/engine");
+      await runScripted({
+        code,
+        mode: "start",
+        ctx,
+        lowLevelAccess: !!ctx.lowLevelAccess,
+      });
+    },
+  };
   const result = await runTriggers(scripts, "start", ctx);
   const sys = [
     ctx.additionalSysPrompt.start,
@@ -105,7 +119,7 @@ export async function runStartTriggers(
 
   return {
     extraSystemPrompt: sys,
-    stopSending: result.stopped,
+    stopSending: result.stopped || !!ctx.stopSending,
     alerts: serverAlerts,
   };
 }
