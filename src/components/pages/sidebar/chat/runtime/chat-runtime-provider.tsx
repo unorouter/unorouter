@@ -356,16 +356,23 @@ async function maybeAutoContinue(
   await chat.sendMessage();
 }
 
-// Stable helpers bridge for edit/delete + clear-conv from outside React tree.
+// Stable helpers bridge for edit/delete/clear-conv/empty-send from outside the
+// React tree. Receives the WRAPPED chat so sendEmpty rides the same locked
+// send path as a normal message (Risu sendMain: one send function for both).
 function useChatHelpersBridge(chat: ReturnType<typeof useChat<ChatUIMessage>>) {
   const messagesRef = useRef(chat.messages);
   messagesRef.current = chat.messages;
+  const sendRef = useRef(chat.sendMessage);
+  sendRef.current = chat.sendMessage;
 
   const setMessages = chat.setMessages;
   useEffect(() => {
     chatStore.set(chatHelpersAtom, {
       setMessages: setMessages as ChatHelpersRef["setMessages"],
       getMessages: () => messagesRef.current as ReadonlyArray<unknown>,
+      sendEmpty: async () => {
+        await sendRef.current();
+      },
     });
     return () => chatStore.set(chatHelpersAtom, null);
   }, [setMessages]);
@@ -420,7 +427,7 @@ function ChatRuntimeHook() {
   });
 
   useScrollToBottom(threadId, remoteId);
-  useChatHelpersBridge(chat);
+
 
   const wrappedChat: typeof chat = {
     ...chat,
@@ -469,6 +476,8 @@ function ChatRuntimeHook() {
       return chat.sendMessage(...args);
     },
   };
+
+  useChatHelpersBridge(wrappedChat);
 
   return useAISDKRuntime(wrappedChat, {
     adapters: {

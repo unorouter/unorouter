@@ -102,6 +102,10 @@ export const samplerMemoryByModelAtom = atom(
 export type ChatHelpersRef = {
   setMessages: (updater: (msgs: unknown[]) => unknown[]) => void;
   getMessages: () => ReadonlyArray<unknown>;
+  // Argless send (Risu sendMain with an empty box): resubmits the history as
+  // is, so a trailing unanswered user turn gets its reply. Same locked send
+  // path as a normal message.
+  sendEmpty: () => Promise<void>;
 };
 
 // In-memory: active stream convId + assistant-ui helpers; plain atoms for sync stream callbacks.

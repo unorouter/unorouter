@@ -226,6 +226,15 @@ const ComposerWebSearchToggle: FC = () => {
 
 const ComposerAction: FC = () => {
   const t = useTranslations();
+  // Risu sendMain parity: an empty composer with a trailing unanswered user
+  // turn (error/stop/edit) still sends; the argless send resubmits the history
+  // so that turn gets its reply. The default Send is disabled on empty input.
+  const composerEmpty = useAuiState((s) => s.composer.text.trim().length === 0);
+  const lastIsUser = useAuiState(
+    (s) => s.thread.messages.at(-1)?.role === "user",
+  );
+  const helpers = useAtomValue(chatHelpersAtom);
+  const emptySend = composerEmpty && lastIsUser && helpers != null;
   return (
     <div className="aui-composer-action-wrapper relative flex items-center justify-between">
       <div className="flex items-center">
@@ -233,17 +242,30 @@ const ComposerAction: FC = () => {
         <ComposerWebSearchToggle />
       </div>
       <AuiIf condition={(s) => !s.thread.isRunning}>
-        <ComposerPrimitive.Send asChild>
+        {emptySend ? (
           <TooltipIconButton
             tooltip={t("CHAT.ACTION.SEND")}
             side="bottom"
             variant="default"
             className="aui-composer-send size-8 rounded-full"
             aria-label={t("CHAT.ACTION.SEND")}
+            onClick={() => void helpers.sendEmpty()}
           >
             <Icon name="arrow-up" className="aui-composer-send-icon size-4" />
           </TooltipIconButton>
-        </ComposerPrimitive.Send>
+        ) : (
+          <ComposerPrimitive.Send asChild>
+            <TooltipIconButton
+              tooltip={t("CHAT.ACTION.SEND")}
+              side="bottom"
+              variant="default"
+              className="aui-composer-send size-8 rounded-full"
+              aria-label={t("CHAT.ACTION.SEND")}
+            >
+              <Icon name="arrow-up" className="aui-composer-send-icon size-4" />
+            </TooltipIconButton>
+          </ComposerPrimitive.Send>
+        )}
       </AuiIf>
       <AuiIf condition={(s) => s.thread.isRunning}>
         <ComposerPrimitive.Cancel asChild>
