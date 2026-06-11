@@ -362,6 +362,22 @@ export function findContextTag(model: ProcessedModel): string | undefined {
 
 export type GroupEntry = { group: string; ratio: number };
 
+// Channel group ids usually embed the model name (e.g.
+// "gemini-ant-undy-gemini-3.1-pro-preview" for model "gemini-3.1-pro-preview").
+// Strip a trailing model-name occurrence for display; keep the real value.
+// Returns "auto" placeholder handling to the caller.
+export function groupDisplayLabel(group: string, model: string | null): string {
+  if (!model) return group;
+  const stripped = group
+    .replace(new RegExp(`-?${escapeRegExp(model)}$`), "")
+    .replace(/-+$/, "");
+  return stripped.length > 0 ? stripped : group;
+}
+
+function escapeRegExp(s: string): string {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
 // A model's billing groups with their ratios, sorted cheapest first. Groups
 // without a known ratio are skipped.
 export function buildGroupEntries(
