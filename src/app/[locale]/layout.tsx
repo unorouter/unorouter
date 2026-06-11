@@ -35,7 +35,11 @@ import "../globals.css";
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  maximumScale: 5,
+  // Lock zoom: a stray double-tap / two-finger touch while a message streams in
+  // was zooming the chat and never resetting, forcing a manual zoom-out per turn
+  // on touch screens. Standard chat-app behaviour.
+  maximumScale: 1,
+  userScalable: false,
   // Keyboard resizes layout instead of panning it; keeps header + composer in view.
   interactiveWidget: "resizes-content",
   // Required for env(safe-area-inset-*) to be non-zero on notched devices.
