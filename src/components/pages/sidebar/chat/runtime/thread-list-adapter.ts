@@ -8,6 +8,7 @@ import {
   readLocalConversation,
   readLocalConversations,
   replaceLocalConversationBindings,
+  updateLocalConversationSettings,
   upsertLocalConversation,
   upsertLocalMessage,
   upsertLocalMessageItem,
@@ -50,9 +51,11 @@ export function createThreadListAdapter(
   const persistTitle = async (id: string, title: string) => {
     const now = dayjs().toDate();
     const existing = await readLocalConversation(userId(), id);
-    await upsertLocalConversation(userId(), {
-      ...(existing ?? {}),
-      id,
+    // Title patch on an existing row; never create via upsert (the candidate
+    // insert would null default_model and trip its NOT NULL constraint).
+    if (!existing) return;
+    await updateLocalConversationSettings(userId(), {
+      convId: id,
       title,
       updatedAt: now,
     });
@@ -199,8 +202,10 @@ export function createThreadListAdapter(
             }
           }
           if (picked > 0) {
-            await upsertLocalConversation(userId(), {
-              id,
+            // Patch-only on the row just seeded above; omitting default_model
+            // in an upsert candidate row would trip its NOT NULL constraint.
+            await updateLocalConversationSettings(userId(), {
+              convId: id,
               firstMsgIndex: picked - 1,
               updatedAt: now,
             });

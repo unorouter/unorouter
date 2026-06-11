@@ -172,13 +172,17 @@ export function useUpdateConversationMutation() {
         }),
         updatedAt: now,
       };
-      await upsertLocalConversation(userId, {
-        ...(existing ?? {}),
-        id: args.id,
-        ...patch,
-      });
-      // Row patch; never re-upload the whole conversation for a rename.
-      await mirrorConvRowIfSynced(userId, args.id);
+      // Patch-only: a rename/model change targets an existing row. Going
+      // through upsert would, on a missing row, attempt a candidate insert with
+      // null default_model and trip its NOT NULL constraint.
+      if (existing) {
+        await updateLocalConversationSettings(userId, {
+          convId: args.id,
+          ...patch,
+        });
+        // Row patch; never re-upload the whole conversation for a rename.
+        await mirrorConvRowIfSynced(userId, args.id);
+      }
       return { id: args.id, ...args.body };
     },
     (args) =>

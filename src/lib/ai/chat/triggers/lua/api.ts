@@ -236,13 +236,6 @@ export function buildLuaApi(
       if (!safe(id)) return;
       return new Promise((r) => setTimeout(() => r(true), time));
     },
-    logMain: (value: string) => {
-      try {
-        console.log(JSON.parse(value));
-      } catch {
-        console.log(value);
-      }
-    },
     // Display refresh: our query invalidation after the trigger run covers it.
     reloadDisplay: () => undefined,
     reloadChat: () => undefined,

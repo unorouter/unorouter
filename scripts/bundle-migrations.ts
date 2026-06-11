@@ -1,4 +1,5 @@
 #!/usr/bin/env bun
+import { log } from "console";
 import { readdirSync, readFileSync, writeFileSync } from "fs";
 import { resolve } from "path";
 
@@ -45,6 +46,6 @@ const entries = journal.entries
 
 writeFileSync(outFile, JSON.stringify({ migrations: entries }, null, 2));
 
-console.log(
+log(
   `bundle-migrations: emitted ${entries.length} migration(s) to ${outFile}`,
 );
