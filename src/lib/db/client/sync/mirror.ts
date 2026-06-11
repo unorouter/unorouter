@@ -4,7 +4,8 @@ import { GUEST_USER_ID } from "@/lib/config/constants";
 import { readLocalConversation } from "@/lib/db/client/data/chat";
 import { readLocalGenerationSession } from "@/lib/db/client/data/playground";
 import type { ConvSyncHint } from "@/lib/db/client/sync/build-payload";
-import { drainSoon, enqueueSync } from "@/lib/db/client/sync/pending-sync";
+import { drainSoon } from "@/lib/db/client/sync/pending/queue";
+import { enqueueSync } from "@/lib/db/client/sync/pending/sync-task";
 import type { SyncKindName } from "@/lib/validation/sync-constants";
 
 // Single push path: each helper gates on sync state, enqueues an outbox row (kind,

@@ -9,8 +9,6 @@ CREATE TABLE `local_pending_tasks` (
 	`attempts` integer DEFAULT 0 NOT NULL,
 	`next_attempt_at` integer,
 	`last_error` text,
-	`hint` text,
-	`msg_ids` text,
 	`payload` text,
 	`seq` integer DEFAULT 0 NOT NULL,
 	PRIMARY KEY(`task_type`, `kind`, `id`)

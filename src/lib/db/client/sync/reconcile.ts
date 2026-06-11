@@ -34,7 +34,7 @@ import {
 import { eq, isNotNull } from "drizzle-orm";
 import { getLocalDb } from "../client";
 import { applyBundle } from "./apply-bundle";
-import { clearPending } from "./pending-sync";
+import { clearPending } from "./pending/sync-task";
 import { rehydrateParentMedia } from "./rehydrate-media";
 
 type RemoteState = {

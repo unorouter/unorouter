@@ -14,7 +14,7 @@
     },
     {
       "tag": "0003_lowly_quentin_quire",
-      "sql": "ALTER TABLE `request_logs` ADD `channel_name` text;--> statement-breakpoint\nDROP TABLE `local_pending_sync`;--> statement-breakpoint\nCREATE TABLE `local_pending_tasks` (\n\t`task_type` text DEFAULT 'sync' NOT NULL,\n\t`kind` text NOT NULL,\n\t`id` text NOT NULL,\n\t`op` text NOT NULL,\n\t`queued_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,\n\t`attempts` integer DEFAULT 0 NOT NULL,\n\t`next_attempt_at` integer,\n\t`last_error` text,\n\t`hint` text,\n\t`msg_ids` text,\n\t`payload` text,\n\t`seq` integer DEFAULT 0 NOT NULL,\n\tPRIMARY KEY(`task_type`, `kind`, `id`)\n);--> statement-breakpoint\nCREATE INDEX `idx_pending_queued` ON `local_pending_tasks` (`queued_at`);\n"
+      "sql": "ALTER TABLE `request_logs` ADD `channel_name` text;--> statement-breakpoint\nDROP TABLE `local_pending_sync`;--> statement-breakpoint\nCREATE TABLE `local_pending_tasks` (\n\t`task_type` text DEFAULT 'sync' NOT NULL,\n\t`kind` text NOT NULL,\n\t`id` text NOT NULL,\n\t`op` text NOT NULL,\n\t`queued_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,\n\t`attempts` integer DEFAULT 0 NOT NULL,\n\t`next_attempt_at` integer,\n\t`last_error` text,\n\t`payload` text,\n\t`seq` integer DEFAULT 0 NOT NULL,\n\tPRIMARY KEY(`task_type`, `kind`, `id`)\n);--> statement-breakpoint\nCREATE INDEX `idx_pending_queued` ON `local_pending_tasks` (`queued_at`);\n"
     }
   ]
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import { usePendingDrainScheduler } from "@/hooks/ai/use-pending-drain-scheduler";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { GUEST_USER_ID } from "@/lib/config/constants";
 import { queryKeys } from "@/lib/react-query/keys";
@@ -13,13 +14,9 @@ import { toast } from "sonner";
 import { getLocalDb } from "../client";
 import { migrateGuestLocalDb } from "../data-migrate/guest-migrate";
 import { stage1LocalSeed } from "./local-seed";
-import {
-  drainLocked,
-  retryPendingTargets,
-  type DrainResult,
-} from "./pending-sync";
+import { drainLocked } from "./pending/queue";
+import { retryPendingTargets, type DrainResult } from "./pending/sync-task";
 import { reconcileKinds, stage2ServerReconcile } from "./reconcile";
-import { usePendingDrainScheduler } from "@/hooks/ai/use-pending-drain-scheduler";
 
 // Warm the SQLocal WASM chunk at chunk-eval time so the first getLocalDb
 // resolves the cached module instantly. Import only: opening a DB here would
@@ -32,10 +29,6 @@ const CONV_ROUTE_RE = /^\/[^/]+\/chat\/[^/]+\/?$/;
 // Module-scoped fire-once gate shared across chat/playground layouts (avoid Stage 2 refire on nav).
 // Tracks latest userId only so identity switch re-hydrates fresh.
 let lastFiredUserId: number | null = null;
-
-// Narrowed translator type: next-intl's `Translator` triggers TS2589 when the
-// hydrator passes arbitrary string keys at runtime, so accept the minimal call shape.
-type TFn = (key: string, values?: Record<string, string | number>) => string;
 
 export function SyncStateHydrator() {
   const auth = useAuthQuery();
@@ -56,7 +49,7 @@ export function SyncStateHydrator() {
 
     // Cast once at boundary: next-intl typed-key inference is too strict for
     // our runtime-keyed `t("SYNC.LOCAL_NEWER_PRESERVED", {count})` pattern.
-    const tFn = t as unknown as TFn;
+    const tFn = t;
     void hydrate(qc, userId, tFn, excludeKinds)
       .catch((err) => {
         logger.warn("Sync hydration failed", {
@@ -77,7 +70,7 @@ export function SyncStateHydrator() {
 async function hydrate(
   qc: QueryClient,
   userId: number,
-  t: TFn,
+  t: ReturnType<typeof useTranslations<never>>,
   excludeKinds: SyncKindName[] = [],
 ) {
   const local = await getLocalDb(userId);
@@ -104,13 +97,20 @@ async function hydrate(
   }
 }
 
-function showLocalNewerToast(t: TFn, count: number) {
+function showLocalNewerToast(
+  t: ReturnType<typeof useTranslations<never>>,
+  count: number,
+) {
   if (count > 0) {
     toast.info(t("SYNC.LOCAL_NEWER_PRESERVED", { count }), { duration: 6000 });
   }
 }
 
-function scheduleCatchUp(qc: QueryClient, userId: number, t: TFn) {
+function scheduleCatchUp(
+  qc: QueryClient,
+  userId: number,
+  t: ReturnType<typeof useTranslations<never>>,
+) {
   const runCatchUp = () => {
     void reconcileKinds(qc, userId, ["conversations"])
       .then((r) => showLocalNewerToast(t, r.skippedLocalNewer))
@@ -132,7 +132,7 @@ function surfaceDeadLetterToast(
   qc: QueryClient,
   userId: number,
   result: DrainResult,
-  t: TFn,
+  t: ReturnType<typeof useTranslations<never>>,
 ) {
   const counts: Record<string, number> = {};
   for (const d of result.dead) counts[d.kind] = (counts[d.kind] ?? 0) + 1;

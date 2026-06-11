@@ -1,3 +1,4 @@
+import type { SyncKindName } from "@/lib/validation/sync-constants";
 import { getTableName, sql } from "drizzle-orm";
 import {
   index,
@@ -6,7 +7,6 @@ import {
   sqliteTable,
   text,
 } from "drizzle-orm/sqlite-core";
-import type { SyncKindName } from "@/lib/validation/sync-constants";
 
 // Client-only schema (browser SQLocal). Server code must NEVER import this.
 
@@ -28,7 +28,10 @@ export const localPendingTasks = sqliteTable(
       .notNull()
       .default("sync")
       .$type<PendingTaskType>(),
-    // sync: SyncKindName. logEnrich: the entity kind ("conversations") or "".
+    // sync: SyncKindName. Non-sync tasks (logEnrich) store "" (PK members can't
+    // be null in SQLite); the queue ALWAYS writes kind explicitly and maps
+    // "" <-> null at its single read/write boundary, so handlers see a clean
+    // SyncKindName | null and the column needs no DB default.
     kind: text("kind").notNull().$type<SyncKindName | "">(),
     // Entity id: convId/msgId/etc. depending on taskType.
     id: text("id").notNull(),
@@ -37,20 +40,14 @@ export const localPendingTasks = sqliteTable(
       .notNull()
       .default(sql`(unixepoch() * 1000)`),
     attempts: integer("attempts").notNull().default(0),
-    // Exponential backoff: drain skips rows where nextAttemptAt > now.
-    // Null = drain immediately (first attempt and successful retries).
+    // Backoff: drain skips rows where nextAttemptAt > now. Null = drain now.
     nextAttemptAt: integer("next_attempt_at", { mode: "timestamp_ms" }),
     lastError: text("last_error"),
-    // sync conversations only: CSV union of scopes queued since last drain
-    // ("full" | "row" | "bindings" | "msgs"). "full" absorbs the rest.
-    // Null for delete ops and non-conversation kinds (always full row).
-    hint: text("hint"),
-    // sync conversations only: JSON array of message ids for the "msgs" scope.
-    msgIds: text("msg_ids"),
-    // Task-specific args as JSON (e.g. logEnrich stores {"requestId":"..."}).
+    // Per-task JSON args. logEnrich: {requestId}. sync conversations:
+    // {hint, msgIds} (scope CSV + msg ids); other sync kinds leave it null.
     payload: text("payload"),
     // Bumped on every enqueue; drain deletes the row only when seq is
-    // unchanged, so hints enqueued mid-push survive for the next drain.
+    // unchanged, so a scope enqueued mid-drain survives for the next pass.
     seq: integer("seq").notNull().default(0),
   },
   (table) => [

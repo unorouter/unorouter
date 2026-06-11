@@ -7,9 +7,10 @@ import {
   useChatBindingsQuery,
   useChatSettingsQuery,
 } from "@/hooks/ai/rp/conversations";
-import { usePresetsQuery } from "@/hooks/ai/rp/presets";
 import { usePersonasQuery } from "@/hooks/ai/rp/personas";
+import { usePresetsQuery } from "@/hooks/ai/rp/presets";
 import { useApiKey } from "@/hooks/ui/use-api-key";
+import { usePathname, useRouter } from "@/i18n/navigation";
 import { NONE_VALUE } from "@/lib/config/constants";
 import { formatPrice } from "@/lib/utils/format/number";
 import {
@@ -28,9 +29,12 @@ export function ChatControls() {
   const [chatModel, setNewChatModel] = useAtom(chatModelAtom);
   const [chatGroup, setChatGroup] = useAtom(chatGroupAtom);
   const aui = useAui();
+  const router = useRouter();
+  const pathname = usePathname();
 
   const handleNewChat = () => {
     aui.threads().switchToNewThread();
+    if (pathname !== "/chat") router.push("/chat");
   };
 
   return (
@@ -84,20 +88,18 @@ export function ActiveConfigBadge() {
     icon: "sliders-horizontal" | "user" | "users" | "book-open";
     label: string;
   };
-  const chips = (
-    [
-      presetName && { icon: "sliders-horizontal", label: presetName },
-      personaName && { icon: "user", label: personaName },
-      characterCount > 0 && {
-        icon: "users",
-        label: t("CHAT.ACTIVE_CONFIG.CHARACTERS", { count: characterCount }),
-      },
-      lorebookCount > 0 && {
-        icon: "book-open",
-        label: t("CHAT.ACTIVE_CONFIG.LOREBOOKS", { count: lorebookCount }),
-      },
-    ] as (Chip | false | undefined | "")[]
-  ).filter((c): c is Chip => Boolean(c));
+  const chips = [
+    presetName && { icon: "sliders-horizontal", label: presetName },
+    personaName && { icon: "user", label: personaName },
+    characterCount > 0 && {
+      icon: "users",
+      label: t("CHAT.ACTIVE_CONFIG.CHARACTERS", { count: characterCount }),
+    },
+    lorebookCount > 0 && {
+      icon: "book-open",
+      label: t("CHAT.ACTIVE_CONFIG.LOREBOOKS", { count: lorebookCount }),
+    },
+  ].filter((c): c is Chip => Boolean(c));
 
   if (chips.length === 0) return null;
 

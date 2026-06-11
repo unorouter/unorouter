@@ -14,7 +14,7 @@ import {
   readPendingSync,
   retryPendingTargets,
   type PendingSyncRow,
-} from "@/lib/db/client/sync/pending-sync";
+} from "@/lib/db/client/sync/pending/sync-task";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";

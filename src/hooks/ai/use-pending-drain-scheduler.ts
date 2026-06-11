@@ -1,6 +1,6 @@
 "use client";
 
-import { safeDrain } from "@/lib/db/client/sync/pending-sync";
+import { safeDrain } from "@/lib/db/client/sync/pending/queue";
 import { useEffect } from "react";
 
 const DRAIN_INTERVAL_MS = 60_000;

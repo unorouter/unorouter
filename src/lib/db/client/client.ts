@@ -5,7 +5,6 @@ import { env } from "@/lib/config/env";
 import * as client from "@/lib/db/schema/client";
 import * as shared from "@/lib/db/schema/shared";
 import type { LocalClient } from "@/lib/types";
-import { logger } from "@/lib/utils/logger";
 import { drizzle } from "drizzle-orm/sqlite-proxy";
 import { LocalDbConnection, openMigratedSql } from "./connection";
 
@@ -52,35 +51,8 @@ function buildLocalClient(conn: LocalDbConnection): LocalClient {
   };
 }
 
-// Sweep orphan `.recover-*` files from crashed salvage.
-async function sweepRecoveryFiles(): Promise<void> {
-  if (typeof navigator === "undefined" || !navigator.storage?.getDirectory) {
-    return;
-  }
-  try {
-    const root = await navigator.storage.getDirectory();
-    const cutoff = Date.now() - 24 * 60 * 60 * 1000;
-    for await (const [name] of root.entries()) {
-      const match = name.match(/\.recover-(\d+)$/);
-      if (!match) continue;
-      const ts = Number(match[1]);
-      if (Number.isFinite(ts) && ts < cutoff) {
-        await root.removeEntry(name).catch(() => {});
-      }
-    }
-  } catch (err) {
-    logger.debug("OPFS recovery sweep failed", {
-      context: "local-db.client",
-      error: String(err),
-    });
-  }
-}
-
 async function openClient(userId: number): Promise<LocalClient> {
   const dbPath = `${env.appName.toLowerCase()}-${userId}.sqlite3`;
-
-  // Fire-and-forget: don't block first-load on a directory scan.
-  void sweepRecoveryFiles();
 
   const sql = await openMigratedSql(dbPath, userId);
   const conn = new LocalDbConnection(sql, dbPath, userId);
