@@ -42,8 +42,7 @@ export function makeRpEntity<
       const userId = useLocalUserId();
       return useQuery({
         queryKey: opts.listKey() as readonly unknown[] as string[],
-        queryFn: async () =>
-          ((await opts.readList(userId)) ?? []) as TItem[],
+        queryFn: async () => ((await opts.readList(userId)) ?? []) as TItem[],
       });
     },
 

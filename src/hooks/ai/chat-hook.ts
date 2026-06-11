@@ -1,6 +1,6 @@
 "use client";
 
-import { useElysiaQuery } from "@/hooks/use-elysia-query";
+import { useElysiaQuery } from "@/lib/react-query/hooks";
 
 import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { joinItemsToMessages } from "@/lib/ai/chat/messages";

@@ -1,7 +1,7 @@
 "use client";
 
 import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
-import { useApiMutation } from "@/hooks/use-api-mutation";
+import { useApiMutation } from "@/lib/react-query/hooks";
 import { analytics } from "@/lib/analytics";
 import {
   exportLocalCard,

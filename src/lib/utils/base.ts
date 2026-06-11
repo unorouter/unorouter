@@ -209,4 +209,6 @@ export function fnv1aHex(input: string): string {
 export const asParams = (
   v: unknown,
 ): Record<string, string | number> | undefined =>
-  v && typeof v === "object" ? (v as Record<string, string | number>) : undefined;
+  v && typeof v === "object"
+    ? (v as Record<string, string | number>)
+    : undefined;

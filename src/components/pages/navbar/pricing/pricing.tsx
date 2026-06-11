@@ -154,7 +154,7 @@ export function Pricing() {
 
         <div
           className={`grid gap-6 md:grid-cols-3${
-            topUpOptions.length > 0 ? " border-border/50 border-t pt-10" : ""
+            topUpOptions.length > 0 ? "border-border/50 border-t pt-10" : ""
           }`}
         >
           {plans.map((plan, i) => {

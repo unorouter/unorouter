@@ -1,8 +1,7 @@
 "use client";
 
-import { useElysiaQuery } from "@/hooks/use-elysia-query";
+import { useApiMutation, useElysiaQuery } from "@/lib/react-query/hooks";
 
-import { useApiMutation } from "@/hooks/use-api-mutation";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import type { EdenArgs } from "@/lib/types/eden";

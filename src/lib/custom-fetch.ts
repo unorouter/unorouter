@@ -20,7 +20,12 @@ function getHeader(
 async function readOkBody(res: Response): Promise<unknown> {
   const ct = res.headers.get("content-type") ?? "";
   if (ct.includes("application/json")) return res.json();
-  if (ct && !ct.startsWith("text/") && !ct.includes("json") && !ct.includes("xml"))
+  if (
+    ct &&
+    !ct.startsWith("text/") &&
+    !ct.includes("json") &&
+    !ct.includes("xml")
+  )
     return res.blob();
   return res.text();
 }
@@ -58,7 +63,15 @@ export const customFetch = async <T>(
   });
 
   if (!res.ok) {
-    throw { status: res.status, data: await readErrBody(res), headers: res.headers };
+    throw {
+      status: res.status,
+      data: await readErrBody(res),
+      headers: res.headers,
+    };
   }
-  return { status: res.status, data: await readOkBody(res), headers: res.headers } as T;
+  return {
+    status: res.status,
+    data: await readOkBody(res),
+    headers: res.headers,
+  } as T;
 };

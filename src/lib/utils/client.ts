@@ -38,7 +38,10 @@ function pickMessage(v: unknown): Extracted | null {
   if (v && typeof v === "object") {
     const m = (v as { message?: unknown }).message;
     if (typeof m === "string") {
-      return { message: m, params: asParams((v as { params?: unknown }).params) };
+      return {
+        message: m,
+        params: asParams((v as { params?: unknown }).params),
+      };
     }
   }
   return null;
@@ -55,7 +58,10 @@ export async function handleError(
   if (e && typeof e === "object") {
     if ("data" in e) source = e.data;
     else if ("response" in e && e.response instanceof Response)
-      source = await e.response.clone().json().catch(() => null);
+      source = await e.response
+        .clone()
+        .json()
+        .catch(() => null);
     else if (e instanceof Error) source = e.message;
   }
 

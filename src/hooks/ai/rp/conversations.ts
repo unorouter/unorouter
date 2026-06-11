@@ -1,7 +1,7 @@
 "use client";
 
 import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
-import { useApiMutation } from "@/hooks/use-api-mutation";
+import { useApiMutation } from "@/lib/react-query/hooks";
 import { msg, NATIVE_VERSION, ORPG_VERSION } from "@/lib/config/constants";
 import {
   readLocalConversation,
@@ -141,10 +141,7 @@ export function useImportConversationMutation() {
       }
       // orpg.3.0 (openrouter): lossy on lorebooks/personas.
       if (parsed.version === ORPG_VERSION) {
-        return persistMappedImport(
-          userId,
-          mapOrpgImport(parsed as OrpgImport),
-        );
+        return persistMappedImport(userId, mapOrpgImport(parsed as OrpgImport));
       }
       throw new Error(msg("ERRORS.IMPORT_UNSUPPORTED_VERSION"));
     },

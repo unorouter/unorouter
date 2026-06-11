@@ -1,10 +1,7 @@
 import type { TranslationKey } from "@/lib/config/constants";
 import type { SamplingPresetBody } from "@/lib/validation/rp";
 
-type StarterPresetSlug =
-  | "general-assistant"
-  | "narrative-rp"
-  | "turn-based-rp";
+type StarterPresetSlug = "general-assistant" | "narrative-rp" | "turn-based-rp";
 
 type StarterPreset = {
   slug: StarterPresetSlug;

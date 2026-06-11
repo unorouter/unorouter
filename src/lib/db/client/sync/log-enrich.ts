@@ -18,7 +18,9 @@ export async function enrichRequestLogFromUpstream(
   requestId: string,
 ): Promise<void> {
   const res = handleElysia(
-    await rpc.api.ops.logs["by-request"].get({ query: { request_id: requestId } }),
+    await rpc.api.ops.logs["by-request"].get({
+      query: { request_id: requestId },
+    }),
   );
   // Upstream hasn't logged the row yet: throw so the backoff retries.
   if (res.quota == null && res.channel == null) {

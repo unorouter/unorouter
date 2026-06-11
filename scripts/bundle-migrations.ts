@@ -46,6 +46,4 @@ const entries = journal.entries
 
 writeFileSync(outFile, JSON.stringify({ migrations: entries }, null, 2));
 
-log(
-  `bundle-migrations: emitted ${entries.length} migration(s) to ${outFile}`,
-);
+log(`bundle-migrations: emitted ${entries.length} migration(s) to ${outFile}`);

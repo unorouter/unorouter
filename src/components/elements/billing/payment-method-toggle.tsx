@@ -14,9 +14,7 @@ export function PaymentMethodToggle(props: { centered?: boolean }) {
   return (
     <div
       className={
-        props.centered
-          ? "flex flex-col items-center space-y-2"
-          : "space-y-2"
+        props.centered ? "flex flex-col items-center space-y-2" : "space-y-2"
       }
     >
       <p className="text-muted-foreground text-xs font-medium tracking-wide uppercase">

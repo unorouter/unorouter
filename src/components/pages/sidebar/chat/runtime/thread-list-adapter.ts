@@ -130,13 +130,11 @@ export function createThreadListAdapter(
         topA: seed("topA", preset?.topA),
         frequencyPenalty: seed("frequencyPenalty", preset?.frequencyPenalty),
         presencePenalty: seed("presencePenalty", preset?.presencePenalty),
-        repetitionPenalty: seed(
-          "repetitionPenalty",
-          preset?.repetitionPenalty,
-        ),
+        repetitionPenalty: seed("repetitionPenalty", preset?.repetitionPenalty),
         maxTokens: seed("maxTokens", preset?.maxTokens),
         extraBody: preset?.extraBody ?? defaults.extraBody ?? null,
-        streamingEnabled: preset?.streamingEnabled ?? defaults.streamingEnabled ?? true,
+        streamingEnabled:
+          preset?.streamingEnabled ?? defaults.streamingEnabled ?? true,
         group: chatStore.get(chatGroupAtom),
       });
 

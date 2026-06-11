@@ -264,7 +264,9 @@ export function ModelSelector(props: ModelSelectorProps) {
                   className="hover:bg-accent flex w-full items-center justify-between rounded px-2 py-1.5 text-xs"
                 >
                   <span className="font-mono">{t("CHAT.GROUP.AUTO")}</span>
-                  {!props.group && <Icon name="check" className="h-3.5 w-3.5" />}
+                  {!props.group && (
+                    <Icon name="check" className="h-3.5 w-3.5" />
+                  )}
                 </button>
                 {groupEntries.map((entry) => {
                   const groupDisabled =
