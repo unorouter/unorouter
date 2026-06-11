@@ -8,7 +8,11 @@ import {
   upsertLocalMessage,
   upsertLocalMessageItem,
 } from "@/lib/db/client/data/chat";
-import { readLocalCharacter, readLocalPersona } from "@/lib/db/client/data/rp";
+import {
+  readLocalCharacter,
+  readLocalPersona,
+  readLocalPreset,
+} from "@/lib/db/client/data/rp";
 import { expandMacros } from "@/lib/ai/chat/macros";
 import { uid } from "@/lib/utils/base";
 import type { buildPricingSummary } from "@/lib/api/pricing";
@@ -87,6 +91,18 @@ export function createThreadListAdapter(
       // Sticky loadout: auto-equip new chats with the user's chosen
       // preset/persona/characters/lorebooks so they don't re-bind each time.
       const loadout = chatStore.get(chatLoadoutAtom);
+      // Seed the conversation's settings FROM the bound preset, not blank app
+      // defaults, so the settings drawer SHOWS the values the stream actually
+      // uses (the server already falls back conv -> preset at assembly, but the
+      // drawer read the conv row, so a fresh chat displayed defaults and looked
+      // like it ignored the preset). Per field: preset value, else app default.
+      const preset = loadout.presetId
+        ? await readLocalPreset(userId(), loadout.presetId)
+        : null;
+      const seed = <K extends keyof typeof defaults>(
+        key: K,
+        presetValue: number | boolean | string | null | undefined,
+      ) => presetValue ?? defaults[key] ?? null;
       await upsertLocalConversation(userId(), {
         id,
         title: null,
@@ -102,22 +118,25 @@ export function createThreadListAdapter(
         systemPromptOverride: null,
         authorNote: null,
         authorNoteDepth: 4,
-        chatMemory: 8,
+        chatMemory: preset?.chatMemory ?? 8,
         reasoningEffort: defaults.reasoningEffort ?? null,
         webSearchEnabled: defaults.webSearchEnabled ?? false,
         webSearchEngine: defaults.webSearchEngine ?? "auto",
         webSearchContextSize: defaults.webSearchContextSize ?? "medium",
-        temperature: defaults.temperature ?? null,
-        topP: defaults.topP ?? null,
-        topK: defaults.topK ?? null,
-        minP: defaults.minP ?? null,
-        topA: defaults.topA ?? null,
-        frequencyPenalty: defaults.frequencyPenalty ?? null,
-        presencePenalty: defaults.presencePenalty ?? null,
-        repetitionPenalty: defaults.repetitionPenalty ?? null,
-        maxTokens: defaults.maxTokens ?? null,
-        extraBody: defaults.extraBody ?? null,
-        streamingEnabled: defaults.streamingEnabled ?? true,
+        temperature: seed("temperature", preset?.temperature),
+        topP: seed("topP", preset?.topP),
+        topK: seed("topK", preset?.topK),
+        minP: seed("minP", preset?.minP),
+        topA: seed("topA", preset?.topA),
+        frequencyPenalty: seed("frequencyPenalty", preset?.frequencyPenalty),
+        presencePenalty: seed("presencePenalty", preset?.presencePenalty),
+        repetitionPenalty: seed(
+          "repetitionPenalty",
+          preset?.repetitionPenalty,
+        ),
+        maxTokens: seed("maxTokens", preset?.maxTokens),
+        extraBody: preset?.extraBody ?? defaults.extraBody ?? null,
+        streamingEnabled: preset?.streamingEnabled ?? defaults.streamingEnabled ?? true,
         group: chatStore.get(chatGroupAtom),
       });
 

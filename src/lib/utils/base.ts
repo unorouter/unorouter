@@ -204,3 +204,9 @@ export function fnv1aHex(input: string): string {
   }
   return (h >>> 0).toString(16).padStart(8, "0") + ":" + input.length;
 }
+
+// Coerce an unknown value to an i18n params record, or undefined.
+export const asParams = (
+  v: unknown,
+): Record<string, string | number> | undefined =>
+  v && typeof v === "object" ? (v as Record<string, string | number>) : undefined;
