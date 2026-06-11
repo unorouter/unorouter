@@ -56,6 +56,10 @@ export type MacroScope = {
 const MAX_RECURSION = 20;
 // Cap calc/{{?}} expression length so a pathological literal can't hang the eval.
 const MAX_CALC_LEN = 1000;
+// Macros run server-side during assembly with card-authored args. Bound the
+// allocation-driving ones so {{range::[0,1e9]}} or {{cbr::1e9}} can't OOM the
+// process / pin the event loop. 100k covers any legitimate use.
+const MAX_MACRO_OUTPUT = 100_000;
 
 type ScopeField =
   | "user"
@@ -482,7 +486,8 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
       const step = a.length > 2 ? a[2] : 1;
       const out: number[] = [];
       if (Number.isFinite(start) && Number.isFinite(end) && step)
-        for (let i = start; i < end; i += step) out.push(i);
+        for (let i = start; i < end && out.length < MAX_MACRO_OUTPUT; i += step)
+          out.push(i);
       return JSON.stringify(out);
     }
     case "filter": {
@@ -752,8 +757,11 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
     // ---- literal-character / formatting helpers ----
     case "cbr":
     case "cnl":
-    case "cnewline":
-      return args.length > 0 ? "\\n".repeat(Math.max(1, Number(arg0))) : "\\n";
+    case "cnewline": {
+      if (args.length === 0) return "\\n";
+      const n = Math.min(Math.max(1, Number(arg0) || 1), MAX_MACRO_OUTPUT);
+      return "\\n".repeat(n);
+    }
     case "tex":
       return `$$${arg0}$$`;
     case "codeblock":
