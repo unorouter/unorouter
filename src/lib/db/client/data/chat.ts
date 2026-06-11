@@ -22,7 +22,7 @@ import {
   projectConversationSettings,
 } from "@/lib/db/conversation-settings";
 import { and, asc, desc, eq, inArray } from "drizzle-orm";
-import { localPendingSync } from "@/lib/db/schema/client";
+import { localPendingTasks } from "@/lib/db/schema/client";
 import { getLocalDb } from "../client";
 import { readLocalRequestLogsForConv } from "./request-log";
 import {
@@ -497,11 +497,12 @@ export async function upsertLocalConversationBundle(
   const pendingRow = (
     await local.db
       .select()
-      .from(localPendingSync)
+      .from(localPendingTasks)
       .where(
         and(
-          eq(localPendingSync.kind, "conversations"),
-          eq(localPendingSync.id, convId),
+          eq(localPendingTasks.taskType, "sync"),
+          eq(localPendingTasks.kind, "conversations"),
+          eq(localPendingTasks.id, convId),
         ),
       )
       .limit(1)

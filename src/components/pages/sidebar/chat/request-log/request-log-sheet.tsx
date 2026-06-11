@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/sheet";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
-import { useUsedProviderQuery } from "@/hooks/ops/logs-hook";
 import {
   buildRequestLogCurl,
   readLocalRequestLog,
@@ -37,9 +36,6 @@ export function RequestLogSheet(props: {
   });
 
   const row = log.data;
-  // Provider that actually served the request (new-api logs by request_id): auto-group
-  // routing picks the cheapest satisfied channel, this surfaces which one, after the fact.
-  const usedProvider = useUsedProviderQuery(row?.requestId).data;
 
   // Exact OpenAI-compatible wire body the upstream receives; this is the
   // verification surface testers need. Raw client snapshot is debug-only, last.
@@ -67,9 +63,9 @@ export function RequestLogSheet(props: {
                   {t("CHAT.REQUEST_LOG.BADGE_REQ")}: {row.requestId}
                 </Badge>
               )}
-              {usedProvider && (
+              {row.channelName && (
                 <Badge variant="outline">
-                  {t("CHAT.REQUEST_LOG.BADGE_PROVIDER")}: {usedProvider}
+                  {t("CHAT.REQUEST_LOG.BADGE_PROVIDER")}: {row.channelName}
                 </Badge>
               )}
               {row.inputTokens != null && (

@@ -35,10 +35,9 @@ export async function buildSyncPayload(
   switch (kind) {
     case "conversations": {
       const bundle = await readLocalConversationBundle(userId, id);
-      // Settings ride the conversation row; request logs are server-persisted.
-      return (
-        bundle && { ...bundle, settings: undefined, requestLogs: undefined }
-      );
+      // Settings ride the conversation row. Request logs are client-authoritative
+      // like every other table: uploaded with the conversation bundle.
+      return bundle && { ...bundle, settings: undefined };
     }
     case "playgroundSessions":
       return readLocalGenerationSessionBundle(userId, id);

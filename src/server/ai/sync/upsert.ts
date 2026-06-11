@@ -18,6 +18,7 @@ import {
   personas,
   playgroundSessions,
   playgrounds,
+  requestLogs,
   samplingPresets,
   userThemes,
 } from "@/lib/db/schema/shared";
@@ -757,6 +758,37 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
           } else {
             await tx.insert(messageItems).values(values);
           }
+        }
+      }
+
+      if (body.requestLogs) {
+        // PK is msgId; idempotent upsert. convId pinned to the verified-owned
+        // conversation so a client can't write a log under another conv.
+        for (const r of body.requestLogs) {
+          const values = {
+            msgId: r.msgId,
+            convId: id,
+            requestBody: r.requestBody,
+            assembledSystem: r.assembledSystem ?? null,
+            finalMessages: r.finalMessages,
+            responseHeaders: r.responseHeaders ?? null,
+            droppedParams: r.droppedParams ?? null,
+            requestId: r.requestId ?? null,
+            channelName: r.channelName ?? null,
+            inputTokens: r.inputTokens ?? null,
+            outputTokens: r.outputTokens ?? null,
+            cost: r.cost ?? null,
+            durationMs: r.durationMs ?? null,
+            tokensPerSecond: r.tokensPerSecond ?? null,
+            createdAt: asDate(r.createdAt),
+          };
+          await tx
+            .insert(requestLogs)
+            .values(values as typeof requestLogs.$inferInsert)
+            .onConflictDoUpdate({
+              target: requestLogs.msgId,
+              set: values as typeof requestLogs.$inferInsert,
+            });
         }
       }
 

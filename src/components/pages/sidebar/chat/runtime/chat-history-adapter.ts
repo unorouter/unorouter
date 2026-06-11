@@ -24,6 +24,10 @@ import { makeTriggerContext, runTriggers } from "@/lib/ai/chat/triggers/vm";
 import type { TriggerScript } from "@/lib/ai/chat/triggers/types";
 import { makeClientTriggerOps } from "./trigger-ops-client";
 import { insertLocalRequestLog } from "@/lib/db/client/data/request-log";
+import {
+  drainSoon,
+  enqueueTask,
+} from "@/lib/db/client/sync/pending-sync";
 import type { RequestLogRow } from "@/lib/db/schema/rows";
 import { queryKeys } from "@/lib/react-query/keys";
 import type { ChatMessageMetadata } from "@/lib/types";
@@ -328,6 +332,15 @@ export function createChatHistoryAdapter(
             queryClient.invalidateQueries({
               queryKey: queryKeys.requestLog(messageId),
             });
+            // Pull new-api's authoritative cost/tokens/channel once the upstream
+            // log lands. Queued so a reload mid-flight still resolves it.
+            const reqId = (logRow as { requestId?: string | null }).requestId;
+            if (reqId) {
+              await enqueueTask(userId, "logEnrich", "", messageId, "patch", {
+                payload: { requestId: reqId },
+              });
+              drainSoon(userId);
+            }
           }
 
           const convForTotals =

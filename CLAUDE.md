@@ -83,7 +83,7 @@ Two TypeBox folders, by route type:
 - Dates via `dayjs` (shared singleton, `src/lib/utils/format/date.ts`; plugins extended once at server entry via `instrumentation.ts` and once at client entry via root layout). Never raw `Date` or `toLocaleDateString`.
 - Enum-like types use a TypeBox `t.Union([t.Literal(...)])` plus a derived type. No new TS `enum` keyword anywhere. The only TS `enum` block lives in `src/lib/types/enums.ts` (`StoreId/ModelTypeFilter/Vendor/OS/DataTableId`) and is grandfathered; don't add to it.
 - Drizzle text columns narrow via `.$type<>()` from those validation-derived literal-union types.
-- Never refactor `src/components/ui/` files for conciseness (no splitting, no compression passes). shadcn/assistant-ui derived components stay as-is; only touch them for real bug fixes or requested features.
+- Never refactor files directly under `src/components/ui/` for conciseness (no splitting, no compression passes). This rule covers ONLY that exact path (its shadcn/assistant-ui derived primitives), not other `ui/` folders elsewhere in the tree. Those primitives stay as-is; only touch them for real bug fixes or requested features.
 - No `sql.transaction()` wrappers in client SQLocal code. The transactionMutex deadlocks every later DB call if any statement throws. Use bare exec loops + `ON CONFLICT DO NOTHING` (see `replaceChildRows`, `runMigrations`, `copyAllTables`).
 
 ## Key patterns

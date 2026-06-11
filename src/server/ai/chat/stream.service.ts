@@ -1,12 +1,9 @@
 import { isMediaModel } from "@/lib/api/pricing-cache";
 import { GUEST_USER_ID } from "@/lib/config/constants";
-import { getDb } from "@/lib/db/server/client";
-import { conversations, requestLogs } from "@/lib/db/schema/shared";
 import { captureServerEvent } from "@/lib/posthog-server";
 import { errMessage, uid } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 import { getProvider } from "@/server/constants";
-import { and, eq } from "drizzle-orm";
 import {
   createUIMessageStream,
   createUIMessageStreamResponse,
@@ -24,68 +21,6 @@ import {
   handleVideoTaskStream,
 } from "./stream/media-stream";
 import { prepareChatRequest, type StreamBody } from "./stream/prepare";
-
-// Request-log persistence for synced convs: server owns the snapshot, so writing
-// it here saves the client pushing the full prompt up every turn. Guests/local-only
-// keep the client copy. Fire-and-forget: a miss only costs the cross-device copy.
-function persistRequestLogIfSynced(
-  userId: number,
-  convId: string | null | undefined,
-  msgId: string,
-  debug: Record<string, unknown>,
-  usage: {
-    inputTokens: number;
-    outputTokens: number;
-    cost: number;
-    durationMs: number;
-    tokensPerSecond?: number;
-  },
-): void {
-  if (!convId) return;
-  void (async () => {
-    const db = getDb();
-    // Scope by userId: convId is client-controlled, so an unscoped lookup let
-    // a caller write an attacker-supplied request log under another user's
-    // synced conversation.
-    const conv = await db
-      .select({ syncExpiresAt: conversations.syncExpiresAt })
-      .from(conversations)
-      .where(
-        and(eq(conversations.id, convId), eq(conversations.userId, userId)),
-      )
-      .limit(1);
-    if (!conv[0] || conv[0].syncExpiresAt == null) return;
-    const row = {
-      msgId,
-      convId,
-      requestBody: debug.requestBody,
-      assembledSystem: (debug.assembledSystem ?? null) as string | null,
-      finalMessages: debug.finalMessages,
-      responseHeaders: debug.responseHeaders ?? null,
-      droppedParams: (debug.droppedParams ?? null) as string | null,
-      requestId: (debug.requestId ?? null) as string | null,
-      inputTokens: usage.inputTokens,
-      outputTokens: usage.outputTokens,
-      cost: usage.cost,
-      durationMs: usage.durationMs,
-      tokensPerSecond: usage.tokensPerSecond ?? null,
-    };
-    await db
-      .insert(requestLogs)
-      .values(row as typeof requestLogs.$inferInsert)
-      .onConflictDoUpdate({
-        target: requestLogs.msgId,
-        set: row as typeof requestLogs.$inferInsert,
-      });
-  })().catch((err) => {
-    logger.warn("Server request-log persist failed", {
-      context: "stream.request-log",
-      convId,
-      msgId,
-      error: errMessage(err),
-    });
-  });
-}
 
 export async function streamChat(
   apiKey: string,
@@ -281,8 +216,6 @@ export async function streamChat(
       requestId: debugRef.value.requestId,
     };
     meta.debug = debug;
-    // Cross-device copy for synced convs; the client no longer pushes logs up.
-    persistRequestLogIfSynced(userId, body.convId, responseMessageId, debug, u);
     return meta;
   };
 

@@ -1,6 +1,10 @@
 "use client";
 
-import { localPendingSync, type PendingSyncOp } from "@/lib/db/schema/client";
+import {
+  localPendingTasks,
+  type PendingSyncOp,
+  type PendingTaskType,
+} from "@/lib/db/schema/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
@@ -13,9 +17,12 @@ import { getLocalDb } from "../client";
 import { buildPendingPushes, type ConvSyncHint } from "./build-payload";
 import { adoptRefSyncExpiry, evictMediaBase64After } from "./evict-media";
 import { acquireLock, releaseLock } from "./resource-lock";
+import { enrichRequestLogFromUpstream } from "./log-enrich";
 
-// Outbox writer + drainer, the single push path to the sync API; the drainer
-// rebuilds payloads from the local DB. Retries with backoff ride the same rows.
+// Outbox writer + drainer for deferred background work. "sync" pushes to the
+// sync API (payload rebuilt from local state); "logEnrich" pulls a request's
+// authoritative cost/tokens/channel from new-api after the stream settled. Both
+// retry with backoff on the same row.
 
 export const MAX_PENDING_ATTEMPTS = 5;
 
@@ -48,7 +55,11 @@ export type EnqueueOpts = {
   hint?: ConvSyncHint;
   /** Message ids for the "msgs" scope; unioned across enqueues. */
   msgIds?: string[];
+  /** Task-specific args (e.g. logEnrich {requestId}); stored as JSON. */
+  payload?: Record<string, unknown>;
 };
+
+type OutboxRow = typeof localPendingTasks.$inferSelect;
 
 // Serialize enqueues: read-merge-write below means two interleaved calls for
 // the same row would both read the same base and the second write would drop
@@ -62,14 +73,30 @@ export function enqueueSync(
   op: PendingSyncOp = "patch",
   opts?: EnqueueOpts,
 ): Promise<void> {
-  const run = enqueueChain.then(() => doEnqueue(userId, kind, id, op, opts));
+  return enqueueTask(userId, "sync", kind, id, op, opts);
+}
+
+// General enqueue for any task type. sync uses kind=SyncKindName; logEnrich uses
+// kind="" and rides `payload`.
+export function enqueueTask(
+  userId: number,
+  taskType: PendingTaskType,
+  kind: SyncKindName | "",
+  id: string,
+  op: PendingSyncOp = "patch",
+  opts?: EnqueueOpts,
+): Promise<void> {
+  const run = enqueueChain.then(() =>
+    doEnqueue(userId, taskType, kind, id, op, opts),
+  );
   enqueueChain = run.catch(() => {});
   return run;
 }
 
 async function doEnqueue(
   userId: number,
-  kind: SyncKindName,
+  taskType: PendingTaskType,
+  kind: SyncKindName | "",
   id: string,
   op: PendingSyncOp,
   opts?: EnqueueOpts,
@@ -83,8 +110,14 @@ async function doEnqueue(
   const existing = (
     await local.db
       .select()
-      .from(localPendingSync)
-      .where(and(eq(localPendingSync.kind, kind), eq(localPendingSync.id, id)))
+      .from(localPendingTasks)
+      .where(
+        and(
+          eq(localPendingTasks.taskType, taskType),
+          eq(localPendingTasks.kind, kind),
+          eq(localPendingTasks.id, id),
+        ),
+      )
       .limit(1)
   )[0];
   // Guard delete->patch: queued delete already implies row is gone.
@@ -92,7 +125,7 @@ async function doEnqueue(
 
   let hint: string | null = null;
   let msgIds: string | null = null;
-  if (op === "patch" && kind === "conversations") {
+  if (taskType === "sync" && op === "patch" && kind === "conversations") {
     const hints = new Set<string>(
       existing?.op === "patch" && existing.hint ? existing.hint.split(",") : [],
     );
@@ -116,26 +149,37 @@ async function doEnqueue(
     lastError: null,
     hint,
     msgIds,
+    payload: opts?.payload ? JSON.stringify(opts.payload) : null,
     seq: (existing?.seq ?? 0) + 1,
   };
   await local.db
-    .insert(localPendingSync)
-    .values({ kind, id, ...set })
+    .insert(localPendingTasks)
+    .values({ taskType, kind, id, ...set })
     .onConflictDoUpdate({
-      target: [localPendingSync.kind, localPendingSync.id],
+      target: [
+        localPendingTasks.taskType,
+        localPendingTasks.kind,
+        localPendingTasks.id,
+      ],
       set,
     });
 }
 
-type OutboxRow = typeof localPendingSync.$inferSelect;
+// Per-task-type drain handler. Throws to retry (rides the backoff); resolves to
+// signal success (row deleted).
+type TaskHandler = (userId: number, row: OutboxRow) => Promise<void>;
 
-// One outbox row -> wire. Rebuilds payload(s) from the local DB; a missing
+const TASK_HANDLERS: Record<PendingTaskType, TaskHandler> = {
+  sync: pushRow,
+  logEnrich: drainLogEnrich,
+};
+
+// One sync outbox row -> wire. Rebuilds payload(s) from the local DB; a missing
 // local row means it was deleted before drain (nothing to push).
 async function pushRow(userId: number, row: OutboxRow): Promise<void> {
+  const kind = row.kind as SyncKindName;
   if (row.op === "delete") {
-    const res = await rpc.api.ai
-      .sync({ kind: row.kind })({ id: row.id })
-      .delete();
+    const res = await rpc.api.ai.sync({ kind })({ id: row.id }).delete();
     // Row already gone server-side (other-device delete, TTL sweep): the
     // delete's goal is met; retrying 404s only dead-letters a no-op.
     if ((res.error as { status?: number } | null)?.status === 404) return;
@@ -146,16 +190,10 @@ async function pushRow(userId: number, row: OutboxRow): Promise<void> {
     (row.hint ? row.hint.split(",") : []) as ConvSyncHint[],
   );
   const msgIds = row.msgIds ? (JSON.parse(row.msgIds) as string[]) : [];
-  const pushes = await buildPendingPushes(
-    userId,
-    row.kind,
-    row.id,
-    hints,
-    msgIds,
-  );
+  const pushes = await buildPendingPushes(userId, kind, row.id, hints, msgIds);
   for (const push of pushes ?? []) {
     const pushed = handleElysia(
-      await rpc.api.ai.sync({ kind: row.kind })({ id: row.id }).post({
+      await rpc.api.ai.sync({ kind })({ id: row.id }).post({
         payload: push.payload,
         keepExpiry: true,
         mergeMode: push.mergeMode,
@@ -164,16 +202,27 @@ async function pushRow(userId: number, row: OutboxRow): Promise<void> {
     // Full bundle pushes return media with fresh R2 keys; evict the
     // now-redundant local base64 copies.
     const fullBundle =
-      row.kind === "playgroundSessions" ||
-      (row.kind === "conversations" && (hints.size === 0 || hints.has("full")));
+      kind === "playgroundSessions" ||
+      (kind === "conversations" && (hints.size === 0 || hints.has("full")));
     if (fullBundle) {
       await evictMediaBase64After(userId, pushed);
       // Inlined local-only refs got server rows; adopt their expiry locally
       // so future edits to those entities mirror instead of going stale.
-      if (row.kind === "conversations")
-        await adoptRefSyncExpiry(userId, pushed);
+      if (kind === "conversations") await adoptRefSyncExpiry(userId, pushed);
     }
   }
+}
+
+// logEnrich row -> pull the authoritative upstream record for the request and
+// patch the local request_logs row. A not-yet-logged-upstream result throws so
+// the backoff retries; an enrichment write resolves (row deleted).
+async function drainLogEnrich(userId: number, row: OutboxRow): Promise<void> {
+  const payload = row.payload
+    ? (JSON.parse(row.payload) as { requestId?: string })
+    : null;
+  const requestId = payload?.requestId;
+  if (!requestId) return; // nothing to do; drop the row.
+  await enrichRequestLogFromUpstream(userId, row.id, requestId);
 }
 
 export async function drainPending(userId: number): Promise<DrainResult> {
@@ -190,14 +239,14 @@ export async function drainPending(userId: number): Promise<DrainResult> {
   // FIFO + backoff: skip rows scheduled for a future attempt.
   const rows = await local.db
     .select()
-    .from(localPendingSync)
+    .from(localPendingTasks)
     .where(
       or(
-        isNull(localPendingSync.nextAttemptAt),
-        lte(localPendingSync.nextAttemptAt, now),
+        isNull(localPendingTasks.nextAttemptAt),
+        lte(localPendingTasks.nextAttemptAt, now),
       ),
     )
-    .orderBy(asc(localPendingSync.queuedAt));
+    .orderBy(asc(localPendingTasks.queuedAt));
   result.total = rows.length;
   for (const row of rows) {
     if (row.attempts >= MAX_PENDING_ATTEMPTS) {
@@ -206,16 +255,17 @@ export async function drainPending(userId: number): Promise<DrainResult> {
       continue;
     }
     try {
-      await pushRow(userId, row);
+      await TASK_HANDLERS[row.taskType](userId, row);
       // seq guard: an enqueue that landed mid-push keeps the row alive for
       // the next drain instead of silently losing its scope.
       await local.db
-        .delete(localPendingSync)
+        .delete(localPendingTasks)
         .where(
           and(
-            eq(localPendingSync.kind, row.kind),
-            eq(localPendingSync.id, row.id),
-            eq(localPendingSync.seq, row.seq),
+            eq(localPendingTasks.taskType, row.taskType),
+            eq(localPendingTasks.kind, row.kind),
+            eq(localPendingTasks.id, row.id),
+            eq(localPendingTasks.seq, row.seq),
           ),
         );
       result.succeeded++;
@@ -228,9 +278,12 @@ export async function drainPending(userId: number): Promise<DrainResult> {
       // delta can never fix (e.g. FK to a parent message that never landed);
       // escalate the retry to a full-bundle rebuild, which is self-healing.
       const escalate =
-        row.kind === "conversations" && row.hint != null && row.hint !== "full";
+        row.taskType === "sync" &&
+        row.kind === "conversations" &&
+        row.hint != null &&
+        row.hint !== "full";
       await local.db
-        .update(localPendingSync)
+        .update(localPendingTasks)
         .set({
           attempts: nextAttempts,
           nextAttemptAt,
@@ -239,19 +292,24 @@ export async function drainPending(userId: number): Promise<DrainResult> {
         })
         .where(
           and(
-            eq(localPendingSync.kind, row.kind),
-            eq(localPendingSync.id, row.id),
+            eq(localPendingTasks.taskType, row.taskType),
+            eq(localPendingTasks.kind, row.kind),
+            eq(localPendingTasks.id, row.id),
           ),
         );
       if (nextAttempts >= MAX_PENDING_ATTEMPTS) {
-        logger.warn("Pending sync exhausted retries", {
+        logger.warn("Pending task exhausted retries", {
           context: "local-db.pending-sync",
+          taskType: row.taskType,
           kind: row.kind,
           id: row.id,
           op: row.op,
           lastError: String(err),
         });
-        result.dead.push({ kind: row.kind, id: row.id });
+        // Only sync tasks surface in the sync badge / DLQ.
+        if (row.taskType === "sync") {
+          result.dead.push({ kind: row.kind as SyncKindName, id: row.id });
+        }
       } else {
         result.retried++;
       }
@@ -317,19 +375,29 @@ export async function clearPending(
   const local = await getLocalDb(userId);
   if (!local) return;
   await local.db
-    .delete(localPendingSync)
-    .where(and(eq(localPendingSync.kind, kind), eq(localPendingSync.id, id)));
+    .delete(localPendingTasks)
+    .where(
+      and(
+        eq(localPendingTasks.taskType, "sync"),
+        eq(localPendingTasks.kind, kind),
+        eq(localPendingTasks.id, id),
+      ),
+    );
 }
 
-// Reads every queued row so UI surfaces (SyncBadge) can render pending state.
+// Reads every queued SYNC row so UI surfaces (SyncBadge) can render pending
+// state. logEnrich tasks are invisible background work, excluded.
 export async function readPendingSync(
   userId: number,
 ): Promise<PendingSyncRow[]> {
   const local = await getLocalDb(userId);
   if (!local) return [];
-  const rows = await local.db.select().from(localPendingSync);
+  const rows = await local.db
+    .select()
+    .from(localPendingTasks)
+    .where(eq(localPendingTasks.taskType, "sync"));
   return rows.map((r) => ({
-    kind: r.kind,
+    kind: r.kind as SyncKindName,
     id: r.id,
     op: r.op,
     attempts: r.attempts,
@@ -348,11 +416,12 @@ async function requeuePending(
   if (targets && targets.length === 0) return;
   if (!targets) {
     await local.db
-      .update(localPendingSync)
-      .set({ attempts: 0, nextAttemptAt: null, lastError: null });
+      .update(localPendingTasks)
+      .set({ attempts: 0, nextAttemptAt: null, lastError: null })
+      .where(eq(localPendingTasks.taskType, "sync"));
     return;
   }
-  // Composite PK (kind, id). No clean tuple IN, so update per-kind groups.
+  // Composite PK (taskType, kind, id). No clean tuple IN, so update per-kind.
   const byKind = new Map<SyncKindName, string[]>();
   for (const t of targets) {
     const arr = byKind.get(t.kind) ?? [];
@@ -361,10 +430,14 @@ async function requeuePending(
   }
   for (const [kind, ids] of byKind) {
     await local.db
-      .update(localPendingSync)
+      .update(localPendingTasks)
       .set({ attempts: 0, nextAttemptAt: null, lastError: null })
       .where(
-        and(eq(localPendingSync.kind, kind), inArray(localPendingSync.id, ids)),
+        and(
+          eq(localPendingTasks.taskType, "sync"),
+          eq(localPendingTasks.kind, kind),
+          inArray(localPendingTasks.id, ids),
+        ),
       );
   }
 }

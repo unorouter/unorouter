@@ -193,6 +193,7 @@ export const requestLogs = sqliteTable(
     cost: real("cost"),
     durationMs: integer("duration_ms"),
     tokensPerSecond: real("tokens_per_second"),
+    channelName: text("channel_name"),
     createdAt: createdAtCol(),
   },
   (table) => [

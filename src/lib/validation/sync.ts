@@ -181,6 +181,23 @@ const MediaRow = t.Object({
   extractedText: t.Optional(NullableString),
 });
 
+const RequestLogRow = t.Object({
+  msgId: ID,
+  createdAt: Stamp,
+  requestBody: t.Unknown(),
+  assembledSystem: t.Optional(NullableString),
+  finalMessages: t.Unknown(),
+  responseHeaders: t.Optional(t.Unknown()),
+  droppedParams: t.Optional(NullableString),
+  requestId: t.Optional(NullableString),
+  channelName: t.Optional(NullableString),
+  inputTokens: t.Optional(t.Union([t.Number(), t.Null()])),
+  outputTokens: t.Optional(t.Union([t.Number(), t.Null()])),
+  cost: t.Optional(t.Union([t.Number(), t.Null()])),
+  durationMs: t.Optional(t.Union([t.Number(), t.Null()])),
+  tokensPerSecond: t.Optional(t.Union([t.Number(), t.Null()])),
+});
+
 export const conversationBundleBody = t.Object({
   conversation: t.Optional(ConversationRow),
   settings: t.Optional(t.Union([ConvSettingsRow, t.Null()])),
@@ -188,6 +205,7 @@ export const conversationBundleBody = t.Object({
   conversationLorebooks: t.Optional(t.Array(ConvLorebookBinding)),
   messages: t.Optional(t.Array(MessageRow)),
   messageItems: t.Optional(t.Array(MessageItemRow)),
+  requestLogs: t.Optional(t.Array(RequestLogRow)),
   media: t.Optional(t.Array(MediaRow)),
   characters: t.Optional(
     t.Array(t.Composite([RefCharacter, t.Record(t.String(), t.Unknown())])),

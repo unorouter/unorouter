@@ -7,7 +7,7 @@ import type {
 } from "@/lib/config/icon-map";
 import { userThemeAtom } from "@/components/ui/theme/theme-store";
 import { useAtomValue } from "jotai";
-import dynamic from "next/dynamic";
+import { lazy, Suspense } from "react";
 
 const cache = new Map<string, IconComponent>();
 
@@ -24,36 +24,34 @@ if (typeof window !== "undefined") {
 }
 
 // ICON_MAP is a 2k-line module (850 loader closures); importing it statically
-// put it in the shared chunk every page parses. next/dynamic keeps it out of
-// the client bundle but SSRs the real icon (React.lazy put a spinner into the
-// server HTML for every icon on the page); the loading fallback only shows for
-// client-only mounts (menus, dialogs).
+// put it in the shared chunk every page parses. React.lazy keeps it out of the
+// client bundle. We use lazy (not next/dynamic) on purpose: next/dynamic routes
+// through Turbopack's react-loadable-manifest, which in dev emits preload links
+// for stale chunk hashes (404s, vercel/next.js#87680). lazy bypasses that path.
+// Suspense renders the 1em fallback for client-only mounts; cached + warmed so
+// it resolves instantly on repeat use.
 function getIcon(name: IconName, lib: IconLibraryName): IconComponent {
   const key = `${name}::${lib}`;
   const hit = cache.get(key);
   if (hit) return hit;
 
-  const Dyn = dynamic(
-    () =>
-      import("@/lib/config/icon-map")
-        .then((m) => {
-          const entry = m.ICON_MAP[name];
-          const loader = entry?.[lib] ?? entry?.lucide;
-          if (!loader) return { default: (() => null) as IconComponent };
-          return loader();
-        })
-        // Chunk timeout degrades to an empty slot instead of throwing into the
-        // global error boundary; evict so the next render retries.
-        .catch(() => {
-          cache.delete(key);
-          return { default: (() => null) as IconComponent };
-        }),
-    {
-      loading: () => <span className="inline-block size-[1em]" aria-hidden />,
-    },
-  ) as IconComponent;
-  cache.set(key, Dyn);
-  return Dyn;
+  const Lazy = lazy(() =>
+    import("@/lib/config/icon-map")
+      .then((m) => {
+        const entry = m.ICON_MAP[name];
+        const loader = entry?.[lib] ?? entry?.lucide;
+        if (!loader) return { default: (() => null) as IconComponent };
+        return loader();
+      })
+      // Chunk timeout degrades to an empty slot instead of throwing into the
+      // global error boundary; evict so the next render retries.
+      .catch(() => {
+        cache.delete(key);
+        return { default: (() => null) as IconComponent };
+      }),
+  ) as unknown as IconComponent;
+  cache.set(key, Lazy);
+  return Lazy;
 }
 
 type Props = React.SVGAttributes<SVGSVGElement> & {
@@ -70,6 +68,12 @@ export function Icon(props: Props) {
   // Not every lib supports a `size` prop (heroicons/iconoir don't); width and
   // height are universal SVG attributes and CSS classes still win over them.
   const sized = { width: size ?? "1em", height: size ?? "1em", ...rest };
-  // eslint-disable-next-line react-hooks/static-components -- cached in module-scope map, referentially stable per (name, lib) pair
-  return <IconComp {...sized} />;
+  return (
+    <Suspense
+      fallback={<span className="inline-block size-[1em]" aria-hidden />}
+    >
+      {/* eslint-disable-next-line react-hooks/static-components -- cached in module-scope map, referentially stable per (name, lib) pair */}
+      <IconComp {...sized} />
+    </Suspense>
+  );
 }
