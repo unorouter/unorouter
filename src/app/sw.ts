@@ -23,6 +23,15 @@ declare global {
 
 declare const self: ServiceWorkerGlobalScope;
 
+// SQLocal's OPFS worker/wasm must never be SW-intercepted (SharedArrayBuffer +
+// Atomics.wait handshake stalls). Shared by the _next/static matcher and the
+// passthrough fetch listener.
+const isOpfsAsset = (url: URL, destination: RequestDestination): boolean =>
+  destination === "worker" ||
+  destination === "sharedworker" ||
+  url.pathname.endsWith(".wasm") ||
+  url.pathname.includes("sqlocal");
+
 // ~900 per-icon JS chunks would re-download ~20MB per deploy if precached;
 // they runtime-cache on first use instead, precache keeps documents/CSS/media.
 const precacheEntries = (self.__SW_MANIFEST ?? []).filter((entry) => {
@@ -52,9 +61,7 @@ const serwist = new Serwist({
       matcher: ({ url, sameOrigin, request }) =>
         sameOrigin &&
         url.pathname.startsWith("/_next/static") &&
-        request.destination !== "worker" &&
-        request.destination !== "sharedworker" &&
-        !url.pathname.endsWith(".wasm"),
+        !isOpfsAsset(url, request.destination),
       handler: new CacheFirst({
         cacheName: "next-static",
         // Per-icon splitting puts ~900 hashed files in a build; deploys purge
@@ -135,18 +142,13 @@ self.addEventListener("activate", (event) => {
 //    third-party requests (cloudflareinsights beacon etc.); an adblocked or
 //    offline fetch then rejects with a loud no-response error and a cached
 //    opaque response would violate the COEP rule above.
-// 2) SQLocal's OPFS proxy worker uses SharedArrayBuffer + Atomics.wait; any SW
-//    fetch indirection (even NetworkOnly) stalls the sync handshake and kills
-//    persistence.
+// 2) OPFS worker/wasm/sqlocal (isOpfsAsset) so the SharedArrayBuffer handshake
+//    is never stalled by SW fetch indirection.
 self.addEventListener("fetch", (event) => {
-  const req = event.request;
-  const url = new URL(req.url);
+  const url = new URL(event.request.url);
   if (
     url.origin !== self.location.origin ||
-    req.destination === "worker" ||
-    req.destination === "sharedworker" ||
-    url.pathname.endsWith(".wasm") ||
-    url.pathname.includes("sqlocal")
+    isOpfsAsset(url, event.request.destination)
   ) {
     event.stopImmediatePropagation();
   }

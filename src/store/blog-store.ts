@@ -1,4 +1,4 @@
-import type { BlogCategory } from "@/lib/types/seo";
+import type { BlogCategory } from "@/lib/types";
 import { atom } from "jotai";
 
 type BlogCategoryFilter = "all" | BlogCategory;

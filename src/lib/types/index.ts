@@ -1,3 +1,4 @@
+import type { Pathname, pathnames } from "@/i18n/routing";
 import type * as client from "@/lib/db/schema/client";
 import type * as shared from "@/lib/db/schema/shared";
 import type { RequestLogRow } from "@/lib/db/schema/rows";
@@ -5,7 +6,9 @@ import type { UIMessage } from "ai";
 import type { SQL } from "drizzle-orm";
 import type { SQLiteColumn, SQLiteTable } from "drizzle-orm/sqlite-core";
 import type { SqliteRemoteDatabase } from "drizzle-orm/sqlite-proxy";
+import type { MetadataRoute } from "next";
 import type { useTranslations } from "next-intl";
+import type { ComponentType } from "react";
 
 export type TranslationKey = Parameters<
   ReturnType<typeof useTranslations<never>>
@@ -226,3 +229,170 @@ export class ParamError extends Error {
     this.params = params;
   }
 }
+
+// SEO / docs / blog registry types.
+
+// Static doc slugs only: the dynamic "/docs/[slug]" template is excluded so DocSlug
+// stays a subset of SeoTimestampSlug; the [slug] route casts its runtime slug.
+export type DocSlug = keyof typeof pathnames extends infer K
+  ? K extends `/${infer R extends `docs/${string}`}`
+    ? R extends `${string}[${string}`
+      ? never
+      : R
+    : never
+  : never;
+
+type PostLeaf = "TITLE" | "DESCRIPTION" | "AUTHOR";
+
+// Translation-key prefixes with every PostLeaf under them.
+type PostI18nKey = {
+  [K in TranslationKey]: K extends `${infer P}.${PostLeaf}`
+    ? `${P}.TITLE` extends TranslationKey
+      ? `${P}.DESCRIPTION` extends TranslationKey
+        ? `${P}.AUTHOR` extends TranslationKey
+          ? P
+          : never
+        : never
+      : never
+    : never;
+}[TranslationKey];
+
+export type BlogCategory = "launch" | "engineering" | "product" | "update";
+
+type BlogHeading = {
+  id: string;
+  i18nLeaf: string;
+  level: 2 | 3;
+};
+
+export type BlogPost<Slug extends string = string> = {
+  slug: Slug;
+  date: string;
+  tags: string[];
+  Component: ComponentType;
+  i18nKey: PostI18nKey;
+  category: BlogCategory;
+  wordCount: number;
+  headings: readonly BlogHeading[];
+  heroImage?: string;
+};
+
+export type BlogListPost = {
+  slug: string;
+  date: string;
+  tags: readonly string[];
+  category: BlogCategory;
+  wordCount: number;
+  heroImage?: string;
+  title: string;
+  description: string;
+};
+
+type ChangeFrequency = NonNullable<
+  MetadataRoute.Sitemap[number]["changeFrequency"]
+>;
+
+export type PriorityEntry = {
+  priority: number;
+  changeFrequency: ChangeFrequency;
+};
+
+export type SectionPriorities = Partial<
+  Record<Pathname extends string ? Pathname : never, PriorityEntry>
+>;
+
+type DocI18nPrefix = {
+  [K in TranslationKey]: K extends `${infer P}.TITLE`
+    ? `${P}.SUBTITLE` extends TranslationKey
+      ? P
+      : never
+    : never;
+}[TranslationKey];
+
+export type DocEntry = {
+  // For the static "/docs" index this is path.slice(1); for guides served by
+  // the single "/docs/[slug]" route it is `docs/${guide.slug}`.
+  slug: string;
+  // Either a static route ("/docs") or a dynamic href ({ pathname:
+  // "/docs/[slug]", params }). getPathname/localeUrl resolve both.
+  path: Pathname;
+  i18nPrefix: DocI18nPrefix;
+  // Drive published/modified timestamps via git history.
+  contentFiles: readonly string[];
+  priority: number;
+  changeFrequency: ChangeFrequency;
+};
+
+export type BlogEntry = {
+  slug: string;
+  date: string;
+  tags: readonly string[];
+  i18nKey: PostI18nKey;
+  contentFiles: readonly string[];
+  priority: number;
+  changeFrequency: ChangeFrequency;
+  category: BlogCategory;
+  wordCount: number;
+  headings: readonly BlogHeading[];
+  heroImage?: string;
+};
+
+// On-disk conversation export envelopes. Untrusted JSON: every field optional,
+// per-importer boundary cast.
+
+// Export row: arbitrary columns + known string id.
+export type ExportRow = Record<string, unknown> & { id: string };
+
+export type NativeImport = {
+  version?: string;
+  conversation: { id?: string; title?: string | null };
+  settings: Record<string, unknown> | null;
+  messages: ExportRow[];
+  items: ExportRow[];
+  characters: ExportRow[];
+  persona: ExportRow | null;
+  preset: ExportRow | null;
+  lorebooks: ExportRow[];
+  lorebookEntries: ExportRow[];
+  bindings: {
+    characters: Array<Record<string, unknown>>;
+    lorebooks: Array<Record<string, unknown>>;
+  };
+};
+
+export type OrpgExtension = {
+  lorebooks?: ExportRow[];
+  lorebookEntries?: ExportRow[];
+};
+
+export type OrpgImport = {
+  version?: string;
+  title?: string;
+  characters?: Record<string, Record<string, unknown>>;
+  messages?: Record<string, Record<string, unknown>>;
+  items?: Record<string, { id?: string; data?: unknown }>;
+  [extensionKey: string]: unknown;
+};
+
+export type StMetadata = {
+  user_name: string;
+  character_name: string;
+  create_date: string;
+  chat_metadata?: Record<string, unknown>;
+};
+
+export type StMessage = {
+  name: string;
+  is_user: boolean;
+  is_system?: boolean;
+  send_date: string;
+  mes: string;
+  extra?: {
+    reasoning?: string;
+    token_count?: number;
+    model?: string;
+    [k: string]: unknown;
+  };
+  swipe_id?: number;
+  swipes?: string[];
+};

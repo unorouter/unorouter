@@ -133,6 +133,13 @@ export const APP_VALUES = {
 // Sentinel "no selection" string; null/"" reserved by Select control.
 export const NONE_VALUE = "__none__";
 
+// uid() alphabet: 62 alphanumerics, rejection-sampled for uniform output.
+export const UID_ALPHABET =
+  "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+
+// Max edge length for client-side image downscale before persisting.
+export const IMAGE_MAX_DIM = 2048;
+
 // Clamp inflated free-tier maxOutputTokens to channel limit.
 export const FREE_MODEL_OUTPUT_CAP = 8192;
 

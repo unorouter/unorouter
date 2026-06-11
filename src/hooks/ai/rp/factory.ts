@@ -2,15 +2,12 @@
 
 import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { invalidateAndBroadcast } from "@/lib/react-query/cross-tab-invalidate";
-import { queryKeys } from "@/lib/react-query/keys";
 import { uid } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
-import type { RpSyncKind } from "@/lib/validation/sync-constants";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
-import { mirrorSyncedRow, unmirrorIfSynced } from "@/lib/db/client/sync/mirror";
-type WithId = { id: string; syncExpiresAt?: Date | null };
+type WithId = { id: string };
 
 type EntityHooks<TItem extends WithId, TCreateBody, TUpdateBody, TDetail> = {
   useList: () => ReturnType<typeof useQuery<TItem[]>>;
@@ -33,7 +30,6 @@ export function makeRpEntity<
   // Detail row from readItem may be richer than the list row (lorebook + entries).
   TDetail extends WithId = TItem,
 >(opts: {
-  syncKind: RpSyncKind;
   listKey: () => readonly unknown[];
   itemKey: (id: string) => readonly unknown[];
   readList: (userId: number) => Promise<TItem[] | null>;
@@ -105,9 +101,6 @@ export function makeRpEntity<
             updatedAt: now,
           } as unknown as TItem;
           await opts.upsertLocal(userId, updated);
-          if (existing.syncExpiresAt != null) {
-            await mirrorSyncedRow(userId, opts.syncKind, args.id);
-          }
           return updated;
         },
         onSuccess: (_data, args) => {
@@ -126,18 +119,12 @@ export function makeRpEntity<
       const userId = useLocalUserId();
       return useMutation({
         mutationFn: async (id: string) => {
-          const existing = await opts.readItem(userId, id);
-          const wasSynced = existing?.syncExpiresAt != null;
           await opts.deleteLocal(userId, id);
-          await unmirrorIfSynced(userId, opts.syncKind, id, wasSynced);
           return { id };
         },
         onSuccess: (_data, id) => {
           qc.removeQueries({ queryKey: opts.itemKey(id) as string[] });
-          invalidateAndBroadcast(qc, [
-            opts.listKey() as string[],
-            queryKeys.syncState(),
-          ]);
+          invalidateAndBroadcast(qc, [opts.listKey() as string[]]);
         },
         onError: (e) => handleError(e, t),
       });

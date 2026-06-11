@@ -1,14 +1,14 @@
 // Pure transforms between export envelopes and DB row shapes.
 
 import { uid } from "@/lib/utils/base";
-import type { LocalAnyRow } from "@/lib/types";
 import type {
+  LocalAnyRow,
   NativeImport,
   OrpgExtension,
   OrpgImport,
   StMessage,
   StMetadata,
-} from "@/lib/types/transfer";
+} from "@/lib/types";
 import { ORPG_EXTENSION_KEY } from "@/lib/config/constants";
 import { dayjs } from "@/lib/utils/format/date";
 

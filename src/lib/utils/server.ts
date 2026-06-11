@@ -140,28 +140,29 @@ export function assertFound<T>(
 export async function redirectToLogin(): Promise<never> {
   const locale = await serverLocale();
   const incoming = (await headers()).get(SERVER_URL_KEY);
-  let target = "";
-  if (incoming) {
-    try {
-      const u = new URL(incoming);
-      // Store locale-less: i18n useRouter re-prepends the locale on push, so
-      // "/en/settings" would round-trip as "/en/en/settings" (404).
-      const prefix = `/${locale}`;
-      let pathname = u.pathname;
-      if (pathname === prefix) pathname = "/";
-      else if (pathname.startsWith(`${prefix}/`))
-        pathname = pathname.slice(prefix.length);
-      target = pathname + (u.search || "");
-    } catch {
-      target = "";
-    }
-  }
-  redirect({
+  const target = incoming ? stripLocalePrefix(incoming, locale) : "";
+  return redirect({
     href: target
       ? { pathname: "/login", query: { [AUTH_REDIRECT_QUERY]: target } }
       : "/login",
     locale,
   });
-  // redirect() throws internally; this line is unreachable.
-  throw new Error("unreachable");
+}
+
+// Store the redirect target locale-less: i18n useRouter re-prepends the locale
+// on push, so "/en/settings" would round-trip as "/en/en/settings" (404).
+function stripLocalePrefix(url: string, locale: string): string {
+  try {
+    const u = new URL(url);
+    const prefix = `/${locale}`;
+    const pathname =
+      u.pathname === prefix
+        ? "/"
+        : u.pathname.startsWith(`${prefix}/`)
+          ? u.pathname.slice(prefix.length)
+          : u.pathname;
+    return pathname + u.search;
+  } catch {
+    return "";
+  }
 }

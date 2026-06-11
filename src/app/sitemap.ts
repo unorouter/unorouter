@@ -19,14 +19,11 @@ import { handleElysia, modelSlug } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
 import type { MetadataRoute } from "next";
 
-// Pricing RPC self-calls the server, which is down during `next build`, so a
-// prerendered sitemap loses every model page. Rarely hit; runtime render is cheap.
 export const dynamic = "force-dynamic";
 
 type EntryOptions = {
   priority?: number;
   changeFrequency?: MetadataRoute.Sitemap[number]["changeFrequency"];
-  /** Either an explicit Date, a timestamp slug to look up, or nothing (uses now). */
   lastModified?: Date | SeoTimestampSlug;
 };
 

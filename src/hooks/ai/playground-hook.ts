@@ -3,10 +3,6 @@
 import { useElysiaQuery } from "@/hooks/use-elysia-query";
 
 import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
-import {
-  mirrorSessionIfSynced,
-  unmirrorIfSynced,
-} from "@/lib/db/client/sync/mirror";
 import { PLAYGROUND_SESSION_TITLE_MAX } from "@/components/pages/sidebar/playground/playground-constants";
 import { GUEST_USER_ID, RETENTION_MS } from "@/lib/config/constants";
 import {
@@ -215,7 +211,6 @@ export function useSnapshotStatusQuery(
           });
         }
         if (isTerminal(poll.status)) {
-          await mirrorSessionIfSynced(userId, view.sessionId);
           invalidateAndBroadcast(qc, [
             queryKeys.playgroundSession(view.sessionId),
           ]);
@@ -327,7 +322,6 @@ async function runSubmit(
     await bumpLocalSessionCounts(userId, sessionId, { snapshots: 1 });
   }
 
-  await mirrorSessionIfSynced(userId, sessionId);
   return { sessionId, snapshotId };
 }
 
@@ -368,31 +362,19 @@ export function useDeleteSnapshotMutation() {
         sessionId,
       );
       const sessionDeleted = (remaining?.playgrounds.length ?? 0) === 0;
-      const session = await readLocalGenerationSession(userId, sessionId);
-      const wasSynced = session?.syncExpiresAt != null;
       if (sessionDeleted) {
         await deleteLocalGenerationSession(userId, sessionId);
-        await unmirrorIfSynced(
-          userId,
-          "playgroundSessions",
-          sessionId,
-          wasSynced,
-        );
       } else {
         await bumpLocalSessionCounts(userId, sessionId, {
           snapshots: -1,
           images: -view.images.length,
         });
-        await mirrorSessionIfSynced(userId, sessionId);
       }
       return { id: args.id, sessionId, sessionDeleted };
     },
     onError: (e) => handleError(e, t),
     onSuccess: (data) => {
-      const keys: QueryKey[] = [
-        queryKeys.playgroundSessionLists(),
-        queryKeys.syncState(),
-      ];
+      const keys: QueryKey[] = [queryKeys.playgroundSessionLists()];
       if (data.sessionId) {
         keys.push(queryKeys.playgroundSession(data.sessionId));
       }

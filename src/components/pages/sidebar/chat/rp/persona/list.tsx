@@ -129,7 +129,6 @@ export function PersonaList(props: Props) {
                     </>
                   }
                   description={p.description}
-                  badge={{ kind: "personas", id: p.id, payload: p }}
                   onDelete={() => handleDelete(p.id)}
                 />
               ))}

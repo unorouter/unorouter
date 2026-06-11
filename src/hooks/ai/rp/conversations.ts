@@ -25,7 +25,7 @@ import {
   looksLikeSillyTavernChat,
 } from "@/lib/db/client/data/transfer/sillytavern";
 import { queryKeys } from "@/lib/react-query/keys";
-import type { NativeImport, OrpgImport } from "@/lib/types/transfer";
+import type { NativeImport, OrpgImport } from "@/lib/types";
 import type {
   UpdateConversationBindingsBody,
   UpdateConversationSettingsBody,
@@ -33,10 +33,6 @@ import type {
 import type { ConversationExportFormat } from "@/lib/validation/rp";
 import { useQuery } from "@tanstack/react-query";
 import { dayjs } from "@/lib/utils/format/date";
-import {
-  mirrorConvBindingsIfSynced,
-  mirrorConvRowIfSynced,
-} from "@/lib/db/client/sync/mirror";
 
 export function useChatSettingsQuery(convId?: string) {
   const userId = useLocalUserId();
@@ -56,8 +52,6 @@ export function useUpdateChatSettingsMutation() {
     mutationFn: async (args: {
       convId: string;
       body: UpdateConversationSettingsBody;
-      // Drawer save pairs settings + bindings; lets caller mirror once after.
-      skipMirror?: boolean;
     }) => {
       const existing = await readLocalConversationSettings(userId, args.convId);
       const now = dayjs().toDate();
@@ -69,11 +63,6 @@ export function useUpdateChatSettingsMutation() {
       };
       // Settings live on the conversation row; this upsert also bumps updatedAt.
       await upsertLocalConversationSettings(userId, updated);
-      if (!args.skipMirror) {
-        // Settings are conversation-row columns; patch them instead of
-        // re-uploading the whole conversation bundle on every drawer save.
-        await mirrorConvRowIfSynced(userId, args.convId);
-      }
       return updated;
     },
     invalidates: (args) => [queryKeys.chatSettings(args.convId)],
@@ -103,7 +92,6 @@ export function useUpdateChatBindingsMutation() {
     mutationFn: async (args: {
       convId: string;
       body: UpdateConversationBindingsBody;
-      skipMirror?: boolean;
     }) => {
       await replaceLocalConversationBindings(userId, args.convId, {
         conversationCharacters: args.body.characters ?? [],
@@ -118,10 +106,6 @@ export function useUpdateChatBindingsMutation() {
           ...conv,
           updatedAt: now,
         });
-      }
-      if (!args.skipMirror) {
-        // Join tables only; messages/media never ride a bindings save.
-        await mirrorConvBindingsIfSynced(userId, args.convId);
       }
       return { id: args.convId };
     },

@@ -101,7 +101,6 @@ export function CardsPage() {
                 onOpen={() => setEditingId(c.id)}
                 name={c.name}
                 description={c.description}
-                badge={{ kind: "cards", id: c.id }}
                 actions={
                   <>
                     <Button

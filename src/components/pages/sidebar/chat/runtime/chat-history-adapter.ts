@@ -1,4 +1,3 @@
-import { mirrorConvMessagesIfSynced } from "@/lib/db/client/sync/mirror";
 import type { ApiMessage, MessagePart } from "@/lib/ai/chat/messages";
 import {
   itemsToParts,
@@ -374,11 +373,6 @@ export function createChatHistoryAdapter(
           ]) {
             queryClient.invalidateQueries({ queryKey });
           }
-
-          // Request logs are NOT pushed: the server persists them directly for
-          // synced convs at stream finish (same msgId via generateMessageId).
-          // withRow carries the totals/vars/summary writeback on the conv row.
-          await mirrorConvMessagesIfSynced(userId, id, [messageId], true);
         },
       };
     },

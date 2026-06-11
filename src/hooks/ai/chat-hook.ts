@@ -30,12 +30,6 @@ import {
   upsertLocalMessageItem,
 } from "@/lib/db/client/data/chat";
 import {
-  mirrorConvIfSynced,
-  mirrorConvMessagesIfSynced,
-  mirrorConvRowIfSynced,
-  unmirrorIfSynced,
-} from "@/lib/db/client/sync/mirror";
-import {
   keepPreviousData,
   useInfiniteQuery,
   useMutation,
@@ -177,8 +171,6 @@ export function useUpdateConversationMutation() {
           convId: args.id,
           ...patch,
         });
-        // Row patch; never re-upload the whole conversation for a rename.
-        await mirrorConvRowIfSynced(userId, args.id);
       }
       return { id: args.id, ...args.body };
     },
@@ -192,13 +184,10 @@ export function useUpdateConversationMutation() {
 export function useDeleteConversationMutation() {
   return useChatMutation(
     async (userId, args: ConvIdArg) => {
-      const existing = await readLocalConversation(userId, args.id);
-      const wasSynced = existing?.syncExpiresAt != null;
       await deleteLocalConversation(userId, args.id);
-      await unmirrorIfSynced(userId, "conversations", args.id, wasSynced);
       return { id: args.id };
     },
-    () => [queryKeys.conversations(), queryKeys.syncState()],
+    () => [queryKeys.conversations()],
   );
 }
 
@@ -240,9 +229,6 @@ export function useFinalizeTaskMutation() {
           data: { text: `![video](${args.resultUrl})` },
         },
       ]);
-      // Full mirror: item deltas only wipe stale siblings when a messages array
-      // rides along; finalize is rare (one per video), bundle push is simplest.
-      await mirrorConvIfSynced(userId, args.convId);
       return data;
     },
     (args) => [queryKeys.chatMessages(args.convId)],
@@ -274,7 +260,6 @@ export function useEditMessageMutation() {
         await upsertLocalMessage(userId, updatedMsg);
       }
       await bumpConvUpdatedAt(userId, args.convId);
-      await mirrorConvMessagesIfSynced(userId, args.convId, [args.msgId], true);
       return { items: itemsWithMsg };
     },
     (args) => [queryKeys.chatMessages(args.convId)],
@@ -286,7 +271,6 @@ export function useClearConversationMutation() {
     async (userId, args: ConvIdArg) => {
       await deleteLocalMessagesForConv(userId, args.id);
       await bumpConvUpdatedAt(userId, args.id);
-      await mirrorConvIfSynced(userId, args.id);
       return { id: args.id };
     },
     (args) => [queryKeys.chatMessages(args.id)],
@@ -370,16 +354,13 @@ export function useSetActiveBranchMutation() {
       const target = msgs.find((m) => m.id === args.msgId);
       const parentId = target?.parentId ?? null;
       const now = dayjs().toDate();
-      const branchSiblings: Array<Record<string, unknown>> = [];
       for (const m of msgs) {
         if ((m.parentId ?? null) === parentId) {
-          const next = {
+          await upsertLocalMessage(userId, {
             ...m,
             isActiveBranch: m.id === args.msgId,
             updatedAt: now,
-          };
-          await upsertLocalMessage(userId, next);
-          branchSiblings.push(next);
+          });
         }
       }
       // Root assistant siblings are greetings: track Risu fmIndex
@@ -391,12 +372,6 @@ export function useSetActiveBranchMutation() {
         });
       }
       await bumpConvUpdatedAt(userId, args.convId);
-      await mirrorConvMessagesIfSynced(
-        userId,
-        args.convId,
-        branchSiblings.map((m) => String(m.id)),
-        true,
-      );
       return { id: args.msgId };
     },
     (args) => [queryKeys.chatMessages(args.convId)],
@@ -422,7 +397,6 @@ export function useDeleteMessageMutation() {
       }
       await deleteLocalMessage(userId, args.msgId);
       await bumpConvUpdatedAt(userId, args.convId);
-      await mirrorConvIfSynced(userId, args.convId);
       return { id: args.msgId };
     },
     (args) => [queryKeys.chatMessages(args.convId)],

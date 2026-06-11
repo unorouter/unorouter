@@ -1,6 +1,5 @@
 "use client";
 
-import { SyncBadge } from "@/components/elements/badge/sync-badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { confirm } from "@/components/ui/confirm";
@@ -13,7 +12,6 @@ import {
 import { Icon } from "@/components/ui/icon";
 import { analytics } from "@/lib/analytics";
 import type { TranslationKey } from "@/lib/config/constants";
-import type { RpSyncKind } from "@/lib/validation/sync-constants";
 import { useTranslations } from "next-intl";
 import { type ReactNode, useRef } from "react";
 
@@ -46,14 +44,13 @@ export function RpEmptyCard(props: { labelKey: TranslationKey }) {
 }
 
 // One list row: Card shell + optional leading slot + name/description column +
-// SyncBadge + custom action buttons + the trailing delete button. Click
-// anywhere else opens the entity.
+// custom action buttons + the trailing delete button. Click anywhere else
+// opens the entity.
 export function RpEntityRow(props: {
   onOpen: () => void;
   name: ReactNode;
   description?: ReactNode;
   leading?: ReactNode;
-  badge?: { kind: RpSyncKind; id: string; payload?: unknown };
   /** Extra row actions (export menu, apply button, ...). */
   actions?: ReactNode;
   onDelete: () => void | Promise<void>;
@@ -72,16 +69,6 @@ export function RpEntityRow(props: {
           </span>
         )}
       </div>
-      {props.badge && (
-        <div onClick={(e) => e.stopPropagation()}>
-          <SyncBadge
-            kind={props.badge.kind}
-            id={props.badge.id}
-            payload={props.badge.payload}
-            compact
-          />
-        </div>
-      )}
       {props.actions}
       <Button
         variant="ghost"

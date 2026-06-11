@@ -10,7 +10,9 @@ import type { SyncKindName } from "@/lib/validation/sync-constants";
 export type PendingTaskOp = PendingSyncOp;
 
 // Generic outbox primitives shared by the queue engine and every task handler.
-// Sync-specific shapes (hints, msgIds, dead-letter) live in sync-task.ts.
+// The optional handler hooks + enqueue fields below (coalesce/onRetry/
+// onExhausted, hint/msgIds, dead) are unused by the only live task (logEnrich)
+// but kept as the seam for re-adding the Turso mirror-sync handler later.
 
 export const MAX_PENDING_ATTEMPTS = 5;
 
@@ -30,7 +32,8 @@ export type OutboxRow = typeof localPendingTasks.$inferSelect;
 export type DrainResult = {
   succeeded: number;
   retried: number;
-  // Sync rows that exhausted retries; surfaced in the SyncBadge / DLQ.
+  // Rows that exhausted retries (populated by a handler's onExhausted; logEnrich
+  // leaves it empty). Reserved for a re-added sync handler's dead-letter badge.
   dead: Array<{ kind: SyncKindName; id: string }>;
   total: number;
 };

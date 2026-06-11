@@ -12,28 +12,28 @@ import {
 
 export type PendingSyncOp = "patch" | "delete";
 
-// Deferred background work, drained on load with backoff. "sync" pushes to the
-// sync API (rebuilt from local state); "logEnrich" pulls a request's
-// authoritative cost/tokens/channel from new-api after the stream settled.
-export type PendingTaskType = "sync" | "logEnrich";
+// Deferred background work, drained on load with backoff. "logEnrich" pulls a
+// request's authoritative cost/tokens/channel from new-api after the stream
+// settled. The Turso mirror-sync ("sync") task type was removed; it will return
+// here as a new variant when sync is re-added with a better architecture - the
+// table stays general (kind/payload/composite PK) to keep that seam open.
+export type PendingTaskType = "logEnrich";
 
-// Outbox: the push/pull path for deferred work. No payload snapshots for sync
-// (the drainer rebuilds from current local state, so coalescing N rapid edits
-// into one row stays correct); task-specific args ride `payload`.
+// Generic outbox: deferred work drained with backoff. Task-specific args ride
+// the `payload` JSON; the kind column scopes future per-entity task types.
 export const localPendingTasks = sqliteTable(
   "local_pending_tasks",
   {
     // Task variant; selects the drain handler.
     taskType: text("task_type")
       .notNull()
-      .default("sync")
+      .default("logEnrich")
       .$type<PendingTaskType>(),
-    // sync: SyncKindName. Non-sync tasks (logEnrich) store "" (PK members can't
-    // be null in SQLite); the queue ALWAYS writes kind explicitly and maps
-    // "" <-> null at its single read/write boundary, so handlers see a clean
-    // SyncKindName | null and the column needs no DB default.
+    // Per-entity scope for task types that need it. logEnrich stores "" (PK
+    // members can't be null in SQLite); the queue maps "" <-> null at its single
+    // read/write boundary so handlers see a clean SyncKindName | null.
     kind: text("kind").notNull().$type<SyncKindName | "">(),
-    // Entity id: convId/msgId/etc. depending on taskType.
+    // Entity id: msgId for logEnrich (convId/etc. for future task types).
     id: text("id").notNull(),
     op: text("op").notNull().$type<PendingSyncOp>(),
     queuedAt: integer("queued_at", { mode: "timestamp_ms" })
@@ -43,8 +43,7 @@ export const localPendingTasks = sqliteTable(
     // Backoff: drain skips rows where nextAttemptAt > now. Null = drain now.
     nextAttemptAt: integer("next_attempt_at", { mode: "timestamp_ms" }),
     lastError: text("last_error"),
-    // Per-task JSON args. logEnrich: {requestId}. sync conversations:
-    // {hint, msgIds} (scope CSV + msg ids); other sync kinds leave it null.
+    // Per-task JSON args. logEnrich: {requestId}.
     payload: text("payload"),
     // Bumped on every enqueue; drain deletes the row only when seq is
     // unchanged, so a scope enqueued mid-drain survives for the next pass.

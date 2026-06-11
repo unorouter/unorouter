@@ -21,7 +21,6 @@ const personas = makeRpEntity<
   Record<string, unknown>,
   Record<string, unknown>
 >({
-  syncKind: "personas",
   listKey: queryKeys.personas,
   itemKey: queryKeys.persona,
   readList: readLocalPersonas,

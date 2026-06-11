@@ -116,8 +116,6 @@ export const samplerMemoryByModelAtom = atom(
 export type ChatHelpersRef = {
   setMessages: (updater: (msgs: unknown[]) => unknown[]) => void;
   getMessages: () => ReadonlyArray<unknown>;
-  // Argless send (Risu sendMain): resubmits history so a trailing unanswered
-  // user turn gets its reply; same locked send path.
   sendEmpty: () => Promise<void>;
 };
 

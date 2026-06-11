@@ -7,7 +7,7 @@ import { FreeModelsAggregatedContent } from "@/components/pages/blog/posts/2026-
 import { UnorouterVsOpenrouterContent } from "@/components/pages/blog/posts/2026-06-10-unorouter-vs-openrouter-content";
 import { BLOG_REGISTRY, type BlogSlug } from "@/i18n/registry";
 import { APP_VALUES } from "@/lib/config/constants";
-import type { BlogPost } from "@/lib/types/seo";
+import type { BlogPost } from "@/lib/types";
 import type { useTranslations } from "next-intl";
 import type { ComponentType } from "react";
 

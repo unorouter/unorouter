@@ -15,6 +15,7 @@ import {
   useScrollToBottom,
 } from "@/components/pages/sidebar/chat/runtime/use-thread-sync";
 import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
+import { usePendingDrainScheduler } from "@/hooks/ai/use-pending-drain-scheduler";
 import { acquireLock, releaseLock } from "@/lib/db/client/sync/resource-lock";
 import type { ChatUIMessage } from "@/lib/types";
 import { handleError } from "@/lib/utils/client";
@@ -197,6 +198,10 @@ export function ChatRuntimeProvider(props: { children: React.ReactNode }) {
   const params = useParams<{ convId?: string }>();
   const queryClient = useQueryClient();
   const t = useTranslations();
+  const userId = useLocalUserId();
+  // Drives the pending-task queue (logEnrich retries); was mounted by the now
+  // removed SyncStateHydrator. drainSoon covers the happy path post-enqueue.
+  usePendingDrainScheduler(userId);
   const adapterRef = useRef(
     createThreadListAdapter(queryClient, t, () =>
       chatStore.get(localUserIdAtom),

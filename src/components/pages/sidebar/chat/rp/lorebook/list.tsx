@@ -136,7 +136,6 @@ export function LorebookList(props: Props) {
                   }}
                   name={l.name}
                   description={l.description}
-                  badge={{ kind: "lorebooks", id: l.id, payload: l }}
                   actions={
                     <RpExportMenu
                       ariaLabel={t("RP.LOREBOOKS_EXPORT")}

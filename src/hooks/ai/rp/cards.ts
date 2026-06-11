@@ -22,11 +22,6 @@ import { handleError } from "@/lib/utils/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
-import {
-  mirrorConvIfSynced,
-  mirrorSyncedRow,
-  unmirrorIfSynced,
-} from "@/lib/db/client/sync/mirror";
 
 export function useCardsQuery() {
   const userId = useLocalUserId();
@@ -120,9 +115,6 @@ export function useUpdateCardMutation() {
           orderIndex: i,
         })),
       });
-      if (existing.syncExpiresAt != null) {
-        await mirrorSyncedRow(userId, "cards", args.id);
-      }
       return updatedCard;
     },
     invalidates: (args) => [queryKeys.cards(), queryKeys.card(args.id)],
@@ -133,13 +125,10 @@ export function useDeleteCardMutation() {
   const userId = useLocalUserId();
   return useApiMutation({
     mutationFn: async (id: string) => {
-      const existing = await readLocalCard(userId, id);
-      const wasSynced = existing?.syncExpiresAt != null;
       await deleteLocalCard(userId, id);
-      await unmirrorIfSynced(userId, "cards", id, wasSynced);
       return { id };
     },
-    invalidates: [queryKeys.cards(), queryKeys.syncState()],
+    invalidates: [queryKeys.cards()],
     onSuccess: (_data, id, qc) => {
       qc.removeQueries({ queryKey: [...queryKeys.card(id)] });
     },
@@ -213,7 +202,6 @@ export function useApplyCardMutation() {
         }
       }
 
-      await mirrorConvIfSynced(userId, args.body.convId);
       return { id: args.id };
     },
     onSuccess: (_data, args) => {

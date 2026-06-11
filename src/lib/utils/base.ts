@@ -1,4 +1,4 @@
-import { msg } from "@/lib/config/constants";
+import { msg, UID_ALPHABET } from "@/lib/config/constants";
 import type {
   ExcludeVoid,
   ExtractData,
@@ -31,9 +31,6 @@ export function parseStringMap(
   return out;
 }
 
-const ALPHABET =
-  "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-
 export function pick<T>(arr: ArrayLike<T>): T {
   return arr[Math.floor(Math.random() * arr.length)];
 }
@@ -45,7 +42,7 @@ export function uid(length = 21): string {
     const bytes = crypto.getRandomValues(new Uint8Array(length));
     for (let i = 0; i < length && id.length < length; i++) {
       const slot = bytes[i] & 63;
-      if (slot < 62) id += ALPHABET[slot];
+      if (slot < 62) id += UID_ALPHABET[slot];
     }
   }
   return id;

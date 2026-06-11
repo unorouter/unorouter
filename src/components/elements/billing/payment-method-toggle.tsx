@@ -2,7 +2,7 @@
 
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useBillingActions } from "@/hooks/ui/use-billing-actions";
-import type { PaymentMethod } from "@/store/payment-method-store";
+import type { PaymentMethod } from "@/store/client-store";
 import { useTranslations } from "next-intl";
 
 export function PaymentMethodToggle() {

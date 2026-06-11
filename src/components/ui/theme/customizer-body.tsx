@@ -2,7 +2,6 @@
 
 import { pick } from "@/lib/utils/base";
 
-import { SyncBadge } from "@/components/elements/badge/sync-badge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -40,11 +39,8 @@ import type {
   UserTheme,
 } from "@/components/ui/theme/theme-store";
 import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
-import { useSyncStateForRow } from "@/hooks/ai/sync-hook";
-import { GUEST_USER_ID } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
 import { upsertLocalTheme } from "@/lib/db/client/data/theme";
-import { mirrorSyncedRow } from "@/lib/db/client/sync/mirror";
 import { downloadJson } from "@/lib/utils/client";
 import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
@@ -58,23 +54,10 @@ export function ThemeCustomizerBody() {
   const [backgroundImage, setBackgroundImage] = useAtom(themeBackgroundAtom);
   const userId = useLocalUserId();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const themeSyncState = useSyncStateForRow(
-    "theme",
-    userId > GUEST_USER_ID ? String(userId) : "",
-  );
 
   const setTheme = (next: UserTheme) => {
     setThemeRaw(next);
-    const syncExpiresAt = themeSyncState.syncExpiresAt;
-    void upsertLocalTheme(
-      userId,
-      next,
-      syncExpiresAt as Date | null | undefined,
-    ).catch(() => {});
-    if (userId > GUEST_USER_ID && syncExpiresAt != null) {
-      // Outbox + debounced drain: slider drags coalesce into one push.
-      void mirrorSyncedRow(userId, "theme", String(userId));
-    }
+    void upsertLocalTheme(userId, next).catch(() => {});
   };
 
   const setMarkdown = (patch: Partial<ChatMarkdownColors>) => {
@@ -156,9 +139,6 @@ export function ThemeCustomizerBody() {
     <Card className="bg-card/95 dark relative isolate flex h-full max-h-full min-h-0 flex-col gap-0 rounded-2xl shadow-xl backdrop-blur-xl">
       <CardHeader className="flex flex-row flex-wrap items-center justify-between gap-2 border-b py-4">
         <CardTitle className="shrink-0">{t("THEME.TITLE")}</CardTitle>
-        {userId > GUEST_USER_ID && (
-          <SyncBadge kind="theme" id={String(userId)} payload={theme} />
-        )}
       </CardHeader>
       <CardContent className="no-scrollbar min-h-0 flex-1 overflow-y-auto py-4">
         <FieldGroup>

@@ -21,7 +21,6 @@ const characters = makeRpEntity<
   Record<string, unknown>,
   Record<string, unknown>
 >({
-  syncKind: "characters",
   listKey: queryKeys.characters,
   itemKey: queryKeys.character,
   readList: readLocalCharacters,

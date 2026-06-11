@@ -1,7 +1,3 @@
-import {
-  mirrorConvRowIfSynced,
-  unmirrorIfSynced,
-} from "@/lib/db/client/sync/mirror";
 import { GUEST_USER_ID } from "@/lib/config/constants";
 import {
   deleteLocalConversation,
@@ -38,7 +34,7 @@ import { dayjs } from "@/lib/utils/format/date";
 import type { useTranslations } from "next-intl";
 import { extractFirstUserText } from "./chat-utils";
 
-// Pure local-first. Network only: sync mirror + title gen.
+// Pure local-first. Network only: title gen.
 
 export function createThreadListAdapter(
   queryClient: QueryClient,
@@ -46,8 +42,7 @@ export function createThreadListAdapter(
   getUserId: () => number,
 ): RemoteThreadListAdapter {
   const userId = (): number => getUserId();
-  // Shared by rename + generateTitle: local write, mirror patch when synced,
-  // invalidate the list + meta queries.
+  // Shared by rename + generateTitle: local write, invalidate list + meta.
   const persistTitle = async (id: string, title: string) => {
     const now = dayjs().toDate();
     const existing = await readLocalConversation(userId(), id);
@@ -59,7 +54,6 @@ export function createThreadListAdapter(
       title,
       updatedAt: now,
     });
-    await mirrorConvRowIfSynced(userId(), id);
     queryClient.invalidateQueries({ queryKey: queryKeys.conversations() });
     queryClient.invalidateQueries({ queryKey: queryKeys.chatMeta(id) });
   };
@@ -246,12 +240,8 @@ export function createThreadListAdapter(
     async unarchive(_id) {},
 
     async delete(id) {
-      const existing = await readLocalConversation(userId(), id);
-      const wasSynced = existing?.syncExpiresAt != null;
       await deleteLocalConversation(userId(), id);
-      await unmirrorIfSynced(userId(), "conversations", id, wasSynced);
       queryClient.invalidateQueries({ queryKey: queryKeys.conversations() });
-      queryClient.invalidateQueries({ queryKey: queryKeys.syncState() });
     },
 
     async fetch(id) {

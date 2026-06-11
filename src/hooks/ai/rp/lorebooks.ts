@@ -18,23 +18,13 @@ import type { LorebookBody, LorebookEntryBody } from "@/lib/validation/rp";
 import { uid } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
 import { makeRpEntity } from "./factory";
-import { mirrorSyncedRow } from "@/lib/db/client/sync/mirror";
 
-// Re-mirror lorebook bundle after entry mutation.
-async function mirrorLorebookIfSynced(userId: number, lorebookId: string) {
-  const lb = await readLocalLorebook(userId, lorebookId);
-  if (!lb || lb.syncExpiresAt == null) return;
-  await mirrorSyncedRow(userId, "lorebooks", lorebookId);
-}
-
-// Custom mirror payload (bundle + entries) replaces factory useUpdate.
 const lorebooks = makeRpEntity<
   LorebookRow,
   Record<string, unknown>,
   Record<string, unknown>,
   NonNullable<Awaited<ReturnType<typeof readLocalLorebook>>>
 >({
-  syncKind: "lorebooks",
   listKey: queryKeys.lorebooks,
   itemKey: queryKeys.lorebook,
   readList: readLocalLorebooks,
@@ -60,7 +50,6 @@ export function useUpdateLorebookMutation() {
       const { entries: _entries, ...existingRow } = existing;
       const updated = { ...existingRow, ...args.body, updatedAt: now };
       await upsertLocalLorebook(userId, updated as never);
-      await mirrorLorebookIfSynced(userId, args.id);
       return updated;
     },
     invalidates: (args) => [queryKeys.lorebooks(), queryKeys.lorebook(args.id)],
@@ -144,7 +133,6 @@ export function useCreateLorebookEntryMutation(lorebookId: string) {
         updatedAt: now,
       };
       await upsertLocalLorebookEntry(userId, row);
-      await mirrorLorebookIfSynced(userId, lorebookId);
       return row;
     },
     invalidates: [queryKeys.lorebook(lorebookId)],
@@ -168,7 +156,6 @@ export function useUpdateLorebookEntryMutation(lorebookId: string) {
         updatedAt: now,
       };
       await upsertLocalLorebookEntry(userId, updated);
-      await mirrorLorebookIfSynced(userId, lorebookId);
       return updated;
     },
     invalidates: [queryKeys.lorebook(lorebookId)],
@@ -192,7 +179,6 @@ export function useReorderLorebookEntriesMutation(lorebookId: string) {
           updatedAt: now,
         });
       }
-      await mirrorLorebookIfSynced(userId, lorebookId);
     },
     invalidates: [queryKeys.lorebook(lorebookId)],
   });
@@ -203,7 +189,6 @@ export function useDeleteLorebookEntryMutation(lorebookId: string) {
   return useApiMutation({
     mutationFn: async (entryId: string) => {
       await deleteLocalLorebookEntry(userId, entryId);
-      await mirrorLorebookIfSynced(userId, lorebookId);
       return { id: entryId };
     },
     invalidates: [queryKeys.lorebook(lorebookId)],

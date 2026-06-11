@@ -99,7 +99,6 @@ export function PresetsPage() {
                   {p.topK ?? t("RP.PRESET_SAMPLING_OFF")}
                 </>
               }
-              badge={{ kind: "presets", id: p.id, payload: p }}
               actions={
                 <Button
                   variant="ghost"

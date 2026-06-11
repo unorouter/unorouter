@@ -5,7 +5,7 @@ import {
   DocEntry,
   PriorityEntry,
   SectionPriorities,
-} from "@/lib/types/seo";
+} from "@/lib/types";
 
 // All setup guides render from "/docs/[slug]" with these shared content/timestamp
 // sources; search index, llms.txt, sitemap, and seo-timestamps enumerate this

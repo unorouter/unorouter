@@ -1,8 +1,6 @@
 "use client";
 
 import { localPendingTasks } from "@/lib/db/schema/client";
-import { broadcastInvalidate } from "@/lib/react-query/cross-tab-invalidate";
-import { queryKeys } from "@/lib/react-query/keys";
 import { logger } from "@/lib/utils/logger";
 import type { SyncKindName } from "@/lib/validation/sync-constants";
 import { and, asc, eq, isNull, lte, or } from "drizzle-orm";
@@ -162,10 +160,6 @@ export async function drainPending(userId: number): Promise<DrainResult> {
         result.retried++;
       }
     }
-  }
-  // Sister tabs refresh sync-state + badges on drain progress.
-  if (result.succeeded > 0 || result.dead.length > 0) {
-    broadcastInvalidate([queryKeys.pendingSync(), queryKeys.syncState()]);
   }
   return result;
 }

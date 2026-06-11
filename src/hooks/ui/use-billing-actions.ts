@@ -11,10 +11,7 @@ import {
 } from "@/hooks/billing/billing-hook";
 import { analytics } from "@/lib/analytics";
 import type { SubscriptionPlan } from "@/lib/api/subscription";
-import {
-  paymentMethodAtom,
-  type PaymentMethod,
-} from "@/store/payment-method-store";
+import { paymentMethodAtom, type PaymentMethod } from "@/store/client-store";
 import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useEffect } from "react";

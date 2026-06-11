@@ -15,7 +15,6 @@ const presets = makeRpEntity<
   Record<string, unknown>,
   Record<string, unknown>
 >({
-  syncKind: "presets",
   listKey: queryKeys.presets,
   itemKey: queryKeys.preset,
   readList: readLocalPresets,

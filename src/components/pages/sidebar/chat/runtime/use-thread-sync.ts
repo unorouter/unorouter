@@ -1,7 +1,6 @@
 "use client";
 
 import { useConversationQuery } from "@/hooks/ai/chat-hook";
-import { mirrorConvRowIfSynced } from "@/lib/db/client/sync/mirror";
 import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import {
   readLocalConversation,
@@ -61,7 +60,6 @@ export function useModelSync(remoteId: string | null | undefined) {
           defaultModel: newModel,
           updatedAt: dayjs().toDate(),
         });
-        await mirrorConvRowIfSynced(userId, id);
         queryClient.invalidateQueries({ queryKey: queryKeys.chatMeta(id) });
       })();
     });
@@ -100,7 +98,6 @@ export function useGroupSync(remoteId: string | null | undefined) {
           group: newGroup,
           updatedAt: dayjs().toDate(),
         });
-        await mirrorConvRowIfSynced(userId, id);
         queryClient.invalidateQueries({ queryKey: queryKeys.chatMeta(id) });
       })();
     });

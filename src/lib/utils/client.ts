@@ -1,3 +1,4 @@
+import { IMAGE_MAX_DIM } from "@/lib/config/constants";
 import type { TranslationKey } from "@/lib/config/constants";
 import type { Extracted } from "@/lib/types";
 import {
@@ -118,8 +119,6 @@ export function downloadJson(obj: unknown, filename: string) {
   });
   downloadBlob(blob, filename);
 }
-
-const IMAGE_MAX_DIM = 2048;
 
 // Downscale + re-encode so a large upload doesn't blow the localStorage/OPFS quota.
 export async function fileToScaledDataUrl(file: File): Promise<string> {

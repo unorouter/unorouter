@@ -1,5 +1,5 @@
 import type { VendorTheme } from "@/lib/config/vendor-themes";
-import type { BlogCategory } from "@/lib/types/seo";
+import type { BlogCategory } from "@/lib/types";
 
 export const BLOG_CATEGORIES: readonly BlogCategory[] = [
   "launch",

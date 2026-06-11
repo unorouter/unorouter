@@ -119,7 +119,6 @@ export function CharacterList(props: Props) {
                   }
                   name={c.name}
                   description={c.description}
-                  badge={{ kind: "characters", id: c.id, payload: c }}
                   actions={
                     <RpExportMenu
                       ariaLabel={t("RP.CHARACTERS_EXPORT")}
