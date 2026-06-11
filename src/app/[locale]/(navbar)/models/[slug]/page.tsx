@@ -15,7 +15,7 @@ import {
 } from "@/lib/seo/structured-data";
 import { handleElysia, modelMatchesSlug, modelSlug } from "@/lib/utils/base";
 import { formatPrice } from "@/lib/utils/format/number";
-import { serverLocale, setCookies } from "@/lib/utils/server";
+import { serverLocale } from "@/lib/utils/server";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
@@ -79,14 +79,13 @@ export default async function ModelDetailPage(props: PageProps) {
   });
 
   const queryClient = getQueryClient();
-  const cookieHeaders = await setCookies();
   await prefetchElysia(queryClient, queryKeys.auth(), (cookies) =>
     rpc.api.auth.account.self.get(cookies),
   );
   const isLoggedIn = !!queryClient.getQueryData(queryKeys.auth());
   if (isLoggedIn) {
     await prefetchElysia(queryClient, queryKeys.bestKey(), (cookies) =>
-      rpc.api.billing.token["best-key"].get({ ...cookieHeaders }),
+      rpc.api.billing.token["best-key"].get({ ...cookies }),
     );
   }
 

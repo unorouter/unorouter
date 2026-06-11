@@ -1,4 +1,5 @@
 import type { PricingData, PricingModel } from "@/openapi";
+import { escapeRegex } from "@/lib/utils/base";
 import {
   computeMinGroupRatio,
   parseTiersFromExpr,
@@ -369,13 +370,9 @@ export type GroupEntry = { group: string; ratio: number };
 export function groupDisplayLabel(group: string, model: string | null): string {
   if (!model) return group;
   const stripped = group
-    .replace(new RegExp(`-?${escapeRegExp(model)}$`), "")
+    .replace(new RegExp(`-?${escapeRegex(model)}$`), "")
     .replace(/-+$/, "");
   return stripped.length > 0 ? stripped : group;
-}
-
-function escapeRegExp(s: string): string {
-  return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
 // A model's billing groups with their ratios, sorted cheapest first. Groups

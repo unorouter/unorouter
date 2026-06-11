@@ -1,6 +1,6 @@
 "use client";
 
-import { safeDrain } from "@/lib/db/client/sync/pending/queue";
+import { drain } from "@/lib/db/client/sync/pending/queue";
 import { useEffect } from "react";
 
 const DRAIN_INTERVAL_MS = 60_000;
@@ -14,7 +14,7 @@ export function usePendingDrainScheduler(userId: number | null | undefined) {
 
     const start = () => {
       if (timer != null) return;
-      timer = setInterval(() => void safeDrain(userId), DRAIN_INTERVAL_MS);
+      timer = setInterval(() => void drain(userId), DRAIN_INTERVAL_MS);
     };
     const stop = () => {
       if (timer == null) return;
@@ -26,11 +26,11 @@ export function usePendingDrainScheduler(userId: number | null | undefined) {
       if (document.hidden) {
         stop();
       } else {
-        void safeDrain(userId);
+        void drain(userId);
         start();
       }
     };
-    const onOnline = () => void safeDrain(userId);
+    const onOnline = () => void drain(userId);
 
     if (!document.hidden) start();
     document.addEventListener("visibilitychange", onVisibility);

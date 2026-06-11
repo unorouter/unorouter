@@ -1,18 +1,42 @@
+import { IS_DEV, POSTHOG_DISABLED } from "@/lib/config/constants";
+import { env } from "@/lib/config/env";
 import type { PostHog } from "posthog-js";
 
-// Lazy proxy keeping posthog-js (~63KiB gzip) out of every-page bundles;
-// calls before instrumentation-client registers the instance are queued.
+// Lazy proxy keeping posthog-js (~63KiB gzip) out of every-page bundles: the
+// only static import is the type above (erased at build), so the real module is
+// pulled exactly once via the dynamic import below, on first call. Calls before
+// it resolves are queued; calls while disabled (dev/adblock/flag) are dropped.
 let instance: PostHog | null = null;
+let loading = false;
 const queue: Array<(p: PostHog) => void> = [];
 
-function run(fn: (p: PostHog) => void) {
-  if (instance) fn(instance);
-  else queue.push(fn);
+function ensureLoaded() {
+  if (instance || loading || IS_DEV || POSTHOG_DISABLED || !env.posthogHost) {
+    return;
+  }
+  loading = true;
+  void import("posthog-js").then((m) => {
+    m.default.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
+      api_host: env.posthogHost,
+      ui_host: "https://eu.posthog.com",
+      defaults: "2026-01-30",
+      capture_performance: true,
+      capture_heatmaps: true,
+      capture_dead_clicks: true,
+    });
+    instance = m.default;
+    for (const fn of queue.splice(0)) fn(instance);
+  });
 }
 
-export function registerPostHog(p: PostHog) {
-  instance = p;
-  for (const fn of queue.splice(0)) fn(p);
+function run(fn: (p: PostHog) => void) {
+  if (instance) {
+    fn(instance);
+    return;
+  }
+  // Bound so a never-resolving load (disabled/adblock) can't grow unbounded.
+  if (queue.length < 100) queue.push(fn);
+  ensureLoaded();
 }
 
 export const posthog = {

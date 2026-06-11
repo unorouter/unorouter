@@ -8,7 +8,6 @@ import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { DataTableId, StoreId } from "@/lib/types/enums";
-import { setCookies } from "@/lib/utils/server";
 import { DataTableProvider } from "@/components/provider/state/data-table-provider";
 import type { DataTableStores } from "@/store/data-table-store";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
@@ -17,7 +16,6 @@ import { cookies } from "next/headers";
 export default async function AffiliatePage() {
   const queryClient = getQueryClient();
   const cookie = await cookies();
-  const cookieHeaders = await setCookies();
 
   const tableStores = loadDataFromCookie<DataTableStores>(
     StoreId.DATA_TABLES_STORE,
@@ -42,18 +40,18 @@ export default async function AffiliatePage() {
     prefetchElysia(
       queryClient,
       queryKeys.affiliateInvitees(inviteesParams),
-      () =>
+      (cookies) =>
         rpc.api.billing.affiliate.invitees.get({
-          ...cookieHeaders,
+          ...cookies,
           query: inviteesParams,
         }),
     ),
     prefetchElysia(
       queryClient,
       queryKeys.affiliateCommissions(commissionsParams),
-      () =>
+      (cookies) =>
         rpc.api.billing.affiliate.commissions.get({
-          ...cookieHeaders,
+          ...cookies,
           query: commissionsParams,
         }),
     ),

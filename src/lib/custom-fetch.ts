@@ -7,9 +7,6 @@ const upstreamApiUrl =
     : env.apiUrl;
 
 const REQUEST_TIMEOUT = 30_000;
-const MAX_RETRIES = 2;
-const RETRY_BACKOFF = [500, 1000];
-const RETRYABLE = new Set([502, 503, 504]);
 
 function getHeader(
   headers: Record<string, string> | undefined,
@@ -18,86 +15,50 @@ function getHeader(
   return headers?.[key] ?? headers?.[key.toLowerCase()];
 }
 
+// Success body: strict by content-type (json -> object, binary -> blob, else
+// raw text; never speculatively parse a text body that looks like JSON).
+async function readOkBody(res: Response): Promise<unknown> {
+  const ct = res.headers.get("content-type") ?? "";
+  if (ct.includes("application/json")) return res.json();
+  if (ct && !ct.startsWith("text/") && !ct.includes("json") && !ct.includes("xml"))
+    return res.blob();
+  return res.text();
+}
+
+// Error body: parse JSON when possible, else the raw text.
+async function readErrBody(res: Response): Promise<unknown> {
+  const text = await res.text();
+  try {
+    return JSON.parse(text);
+  } catch {
+    return text;
+  }
+}
+
 // Orval mutator. Callers always pass `options.headers` as a plain object.
 export const customFetch = async <T>(
   url: string,
   options: RequestInit,
 ): Promise<T> => {
   const headers = options.headers as Record<string, string> | undefined;
-
-  // Skip auto-cookie when Authorization set (ADMIN_HEADERS); upstream prefers cookie -> New-Api-User mismatch.
+  // Skip auto-cookie when Authorization is set (ADMIN_HEADERS): upstream
+  // prefers the cookie, causing a New-Api-User mismatch.
   const hasExplicitAuth = !!getHeader(headers, "Authorization");
   const cookieHeader = hasExplicitAuth ? "" : await getServerCookieHeader();
   const hasCookie = !!getHeader(headers, "cookie");
 
-  const method = (options.method ?? "GET").toUpperCase();
+  const res = await fetch(new URL(url, upstreamApiUrl).toString(), {
+    ...options,
+    credentials: "include",
+    signal: AbortSignal.timeout(REQUEST_TIMEOUT),
+    headers: {
+      ...(cookieHeader && !hasCookie && { cookie: cookieHeader }),
+      ...headers,
+    },
+  });
 
-  const doFetch = () =>
-    fetch(new URL(url, upstreamApiUrl).toString(), {
-      ...options,
-      credentials: "include",
-      signal: AbortSignal.timeout(REQUEST_TIMEOUT),
-      headers: {
-        ...(cookieHeader && !hasCookie && { cookie: cookieHeader }),
-        ...headers,
-      },
-    });
-
-  let response: Response;
-  let lastError: unknown;
-
-  for (let attempt = 0; ; attempt++) {
-    try {
-      response = await doFetch();
-
-      if (response.ok) break;
-
-      if (
-        attempt < MAX_RETRIES &&
-        method === "GET" &&
-        RETRYABLE.has(response.status)
-      ) {
-        await new Promise((r) => setTimeout(r, RETRY_BACKOFF[attempt]));
-        continue;
-      }
-
-      const text = await response.text();
-      let data: unknown;
-      try {
-        data = JSON.parse(text);
-      } catch {
-        data = text;
-      }
-      throw { status: response.status, data, headers: response.headers };
-    } catch (err) {
-      if (
-        attempt < MAX_RETRIES &&
-        method === "GET" &&
-        err instanceof TypeError
-      ) {
-        lastError = err;
-        await new Promise((r) => setTimeout(r, RETRY_BACKOFF[attempt]));
-        continue;
-      }
-      throw lastError ?? err;
-    }
+  if (!res.ok) {
+    throw { status: res.status, data: await readErrBody(res), headers: res.headers };
   }
-
-  const contentType = response.headers.get("content-type");
-
-  let data: unknown;
-  if (contentType?.includes("application/json")) {
-    data = await response.json();
-  } else if (
-    contentType &&
-    !contentType.startsWith("text/") &&
-    !contentType.includes("json") &&
-    !contentType.includes("xml")
-  ) {
-    data = await response.blob();
-  } else {
-    data = await response.text();
-  }
-
-  return { status: response.status, data, headers: response.headers } as T;
+  return { status: res.status, data: await readOkBody(res), headers: res.headers } as T;
 };

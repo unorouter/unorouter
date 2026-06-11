@@ -14,13 +14,14 @@ export type PendingSyncOp = "patch" | "delete";
 
 // Deferred background work, drained on load with backoff. "logEnrich" pulls a
 // request's authoritative cost/tokens/channel from new-api after the stream
-// settled. The Turso mirror-sync ("sync") task type was removed; it will return
-// here as a new variant when sync is re-added with a better architecture - the
-// table stays general (kind/payload/composite PK) to keep that seam open.
+// settled, and is the only task type today. The kind/payload/composite-PK shape
+// is kept so a future per-entity task type (e.g. a re-added Turso mirror-sync)
+// can be added without a migration; the drain logic in queue.ts is currently
+// logEnrich-specific and would branch on taskType when a second one lands.
 export type PendingTaskType = "logEnrich";
 
-// Generic outbox: deferred work drained with backoff. Task-specific args ride
-// the `payload` JSON; the kind column scopes future per-entity task types.
+// Outbox: deferred work drained with backoff. Task-specific args ride the
+// `payload` JSON; the kind column scopes future per-entity task types.
 export const localPendingTasks = sqliteTable(
   "local_pending_tasks",
   {

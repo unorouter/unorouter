@@ -23,8 +23,10 @@ import { makeTriggerContext, runTriggers } from "@/lib/ai/chat/triggers/vm";
 import type { TriggerScript } from "@/lib/ai/chat/triggers/types";
 import { makeClientTriggerOps } from "./trigger-ops-client";
 import { insertLocalRequestLog } from "@/lib/db/client/data/request-log";
-import { drainSoon } from "@/lib/db/client/sync/pending/queue";
-import { enqueueLogEnrich } from "@/lib/db/client/sync/pending/log-enrich-task";
+import {
+  drainSoon,
+  enqueueLogEnrich,
+} from "@/lib/db/client/sync/pending/queue";
 import type { RequestLogRow } from "@/lib/db/schema/rows";
 import { queryKeys } from "@/lib/react-query/keys";
 import type { ChatMessageMetadata } from "@/lib/types";

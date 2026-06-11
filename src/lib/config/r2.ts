@@ -299,9 +299,9 @@ export async function pingR2(): Promise<boolean> {
 }
 
 // Hard ceiling on any single object written to R2. The download path caps via
-// safeFetchBytes, but direct multipart uploads (playground references/masks,
-// sync media) reach uploadToR2 without going through it, so the cap has to
-// live here too or a large multipart POST sails straight past it.
+// safeFetchBytes, but direct multipart uploads (playground references/masks)
+// reach uploadToR2 without going through it, so the cap has to live here too
+// or a large multipart POST sails straight past it.
 const MAX_UPLOAD_BYTES = 50 * 1024 * 1024;
 
 export async function uploadToR2(
@@ -399,8 +399,8 @@ async function putMedia(
   await assertUserQuota(owner.userId, buffer.length);
   const key = mediaKey(owner.scope, convId, msgId, uid(8));
   const { url } = await uploadToR2(key, buffer, declaredCt);
-  // Media rows live in client SQLocal by default. Sync push handles the
-  // server-side `media` insert when the user enables sync; never record here.
+  // Media rows live in client SQLocal only; the server never records a `media`
+  // row here (R2 holds the bytes, the local DB holds the row).
   return url;
 }
 
@@ -454,7 +454,8 @@ function generationReferenceKey(userId: number, filename: string): string {
   return `playgrounds-refs/${userId}/${filename}`;
 }
 
-// Client-first: download bytes, no R2 upload (deferred to sync).
+// Client-first: download bytes only, no R2 upload (the client persists them
+// to local SQLocal as base64).
 export async function downloadGenerationBytes(
   url: string,
   authToken?: string,

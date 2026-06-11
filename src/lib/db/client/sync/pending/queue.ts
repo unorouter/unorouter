@@ -2,83 +2,62 @@
 
 import { localPendingTasks } from "@/lib/db/schema/client";
 import { logger } from "@/lib/utils/logger";
-import type { SyncKindName } from "@/lib/validation/sync-constants";
 import { and, asc, eq, isNull, lte, or } from "drizzle-orm";
 import { getLocalDb } from "../../client";
-import { acquireLock, releaseLock } from "../resource-lock";
-import { getHandler } from "./registry";
-import {
-  MAX_PENDING_ATTEMPTS,
-  nextAttemptDelay,
-  type DrainResult,
-  type EnqueueInput,
-  type OutboxRow,
-} from "./types";
+import { enrichRequestLogFromUpstream } from "../log-enrich";
 
-// "" is the non-sync sentinel; the column type is SyncKindName | "".
-type KindCol = SyncKindName | "";
+// Outbox for ONE deferred background task: logEnrich. After a stream settles we
+// pull new-api's authoritative cost/tokens/channel for the request and patch the
+// local request_logs row. Invisible work (no badge, no DLQ); a not-yet-logged
+// upstream result throws to ride the backoff. The table keeps a kind/payload/seq
+// shape so a future per-entity task type can be added without a migration.
 
-// Generic outbox engine: enqueue (with per-handler coalescing), drain (FIFO +
-// backoff + dead-letter), and the debounced/locked drain wrappers. It knows
-// NOTHING task-specific; every variant rides the handler registry.
+const MAX_ATTEMPTS = 5;
+// Backoff ms by failure count; index 0 = no prior failure, drain immediately.
+const BACKOFF_MS = [0, 30_000, 120_000, 480_000, 1_800_000];
+const backoff = (attempts: number) =>
+  BACKOFF_MS[Math.min(attempts, BACKOFF_MS.length - 1)] ?? 0;
 
-// PK can't hold NULL, so non-sync rows store "" for kind. This is the only
-// place "" leaks; handlers always see the null-mapped form via rowForHandler.
-const KIND_COL = (kind: SyncKindName | null | undefined): KindCol => kind ?? "";
+// logEnrich has no per-entity scope; the PK needs a non-null kind, so it stores
+// "". This is the one place that sentinel exists.
+const KIND = "";
 
-function rowForHandler(row: OutboxRow): OutboxRow {
-  return { ...row, kind: row.kind === "" ? null : row.kind } as OutboxRow;
-}
-
-// Serialize enqueues: the coalesce read-merge-write would interleave otherwise
-// and the second writer would drop the first's merged scope.
-let enqueueChain: Promise<unknown> = Promise.resolve();
-
-export function enqueueTask(input: EnqueueInput): Promise<void> {
-  const run = enqueueChain.then(() => doEnqueue(input));
-  enqueueChain = run.catch(() => {});
-  return run;
-}
-
-async function doEnqueue(input: EnqueueInput): Promise<void> {
-  const local = await getLocalDb(input.userId);
+// Enqueue a log enrichment for a finished message. Idempotent per msgId: a repeat
+// resets backoff and bumps seq (so a drain in flight keeps the row for the next
+// pass instead of deleting a freshly re-queued one).
+export async function enqueueLogEnrich(
+  userId: number,
+  msgId: string,
+  requestId: string,
+): Promise<void> {
+  const local = await getLocalDb(userId);
   if (!local) return;
-  const kind = KIND_COL(input.kind);
 
   const existing = (
     await local.db
-      .select()
+      .select({ seq: localPendingTasks.seq })
       .from(localPendingTasks)
       .where(
         and(
-          eq(localPendingTasks.taskType, input.taskType),
-          eq(localPendingTasks.kind, kind),
-          eq(localPendingTasks.id, input.id),
+          eq(localPendingTasks.taskType, "logEnrich"),
+          eq(localPendingTasks.kind, KIND),
+          eq(localPendingTasks.id, msgId),
         ),
       )
       .limit(1)
   )[0];
 
-  const handler = getHandler(input.taskType);
-  const patch = handler.coalesce
-    ? handler.coalesce(existing, input)
-    : {
-        op: input.op ?? "patch",
-        payload: input.payload ? JSON.stringify(input.payload) : null,
-      };
-  if (patch.skip) return;
-
   const set = {
-    op: patch.op,
-    attempts: 0, // fresh enqueue resets backoff
+    op: "patch" as const,
+    attempts: 0,
     nextAttemptAt: null,
     lastError: null,
-    payload: patch.payload ?? null,
+    payload: JSON.stringify({ requestId }),
     seq: (existing?.seq ?? 0) + 1,
   };
   await local.db
     .insert(localPendingTasks)
-    .values({ taskType: input.taskType, kind, id: input.id, ...set })
+    .values({ taskType: "logEnrich", kind: KIND, id: msgId, ...set })
     .onConflictDoUpdate({
       target: [
         localPendingTasks.taskType,
@@ -89,13 +68,21 @@ async function doEnqueue(input: EnqueueInput): Promise<void> {
     });
 }
 
-export async function drainPending(userId: number): Promise<DrainResult> {
-  const result: DrainResult = { succeeded: 0, retried: 0, dead: [], total: 0 };
+// Do the deferred work for one row. Throws to retry (rides the backoff).
+async function runTask(userId: number, msgId: string, payload: string | null) {
+  const requestId = payload
+    ? (JSON.parse(payload) as { requestId?: string }).requestId
+    : undefined;
+  if (!requestId) return; // nothing to enrich; the row is dropped
+  await enrichRequestLogFromUpstream(userId, msgId, requestId);
+}
+
+async function drainPending(userId: number): Promise<void> {
   const local = await getLocalDb(userId);
-  if (!local) return result;
+  if (!local) return;
 
   const now = new Date();
-  // FIFO + backoff: skip rows scheduled for a future attempt.
+  // FIFO; skip rows whose backoff has not elapsed.
   const rows = await local.db
     .select()
     .from(localPendingTasks)
@@ -106,17 +93,13 @@ export async function drainPending(userId: number): Promise<DrainResult> {
       ),
     )
     .orderBy(asc(localPendingTasks.queuedAt));
-  result.total = rows.length;
 
   for (const row of rows) {
-    // Already dead-lettered on a prior drain; stays visible in the badge but
-    // must not re-run / re-toast on every load.
-    if (row.attempts >= MAX_PENDING_ATTEMPTS) continue;
-    const handler = getHandler(row.taskType);
+    if (row.attempts >= MAX_ATTEMPTS) continue; // dead-lettered; stays for record
     try {
-      await handler.drain(userId, rowForHandler(row));
-      // seq guard: an enqueue that landed mid-drain keeps the row for the
-      // next pass instead of silently losing its merged scope.
+      await runTask(userId, row.id, row.payload);
+      // seq guard: only delete the exact row we drained, so a re-enqueue that
+      // landed mid-drain survives.
       await local.db
         .delete(localPendingTasks)
         .where(
@@ -127,17 +110,14 @@ export async function drainPending(userId: number): Promise<DrainResult> {
             eq(localPendingTasks.seq, row.seq),
           ),
         );
-      result.succeeded++;
     } catch (err) {
-      const nextAttempts = row.attempts + 1;
-      const nextAttemptAt = new Date(Date.now() + nextAttemptDelay(nextAttempts));
+      const attempts = row.attempts + 1;
       await local.db
         .update(localPendingTasks)
         .set({
-          attempts: nextAttempts,
-          nextAttemptAt,
+          attempts,
+          nextAttemptAt: new Date(Date.now() + backoff(attempts)),
           lastError: String(err),
-          ...(handler.onRetry?.(rowForHandler(row)) ?? {}),
         })
         .where(
           and(
@@ -146,53 +126,43 @@ export async function drainPending(userId: number): Promise<DrainResult> {
             eq(localPendingTasks.id, row.id),
           ),
         );
-      if (nextAttempts >= MAX_PENDING_ATTEMPTS) {
+      if (attempts >= MAX_ATTEMPTS) {
         logger.warn("Pending task exhausted retries", {
           context: "local-db.pending-queue",
-          taskType: row.taskType,
-          kind: row.kind,
           id: row.id,
-          op: row.op,
           lastError: String(err),
         });
-        handler.onExhausted?.(rowForHandler(row), result);
-      } else {
-        result.retried++;
       }
     }
   }
-  return result;
 }
 
-// Lock-guarded drain; null = another tab holds the drain lock.
-export async function drainLocked(userId: number): Promise<DrainResult | null> {
-  const lockKey = `drain:${userId}`;
-  if (!(await acquireLock(lockKey))) return null;
-  try {
-    return await drainPending(userId);
-  } finally {
-    releaseLock(lockKey);
-  }
-}
+// In-tab single-flight: overlapping triggers (debounce firing while the periodic
+// tick runs) share the same drain instead of racing the sqlocal transactionMutex.
+// No cross-tab lock: a duplicate enrich from another tab is harmless and rare.
+const inFlight = new Map<number, Promise<void>>();
 
-// Fire-and-forget wrapper shared by the scheduler tick and drainSoon.
-export async function safeDrain(userId: number): Promise<void> {
-  try {
-    await drainLocked(userId);
-  } catch (err) {
-    logger.warn("drainPending failed", {
-      context: "local-db.pending-queue",
-      userId,
-      error: String(err),
-    });
-  }
+export function drain(userId: number): Promise<void> {
+  const running = inFlight.get(userId);
+  if (running) return running;
+  const run = drainPending(userId)
+    .catch((err) =>
+      logger.warn("drainPending failed", {
+        context: "local-db.pending-queue",
+        userId,
+        error: String(err),
+      }),
+    )
+    .finally(() => inFlight.delete(userId));
+  inFlight.set(userId, run);
+  return run;
 }
 
 const DRAIN_SOON_MS = 250;
 const drainTimers = new Map<number, ReturnType<typeof setTimeout>>();
 
-// Debounced near-immediate drain after an enqueue: bursts (drawer save that
-// touches row + bindings, multi-message persist) coalesce into one push.
+// Debounced drain after an enqueue: a burst (drawer save touching row + bindings,
+// multi-message persist) coalesces into one pass.
 export function drainSoon(userId: number): void {
   const prev = drainTimers.get(userId);
   if (prev) clearTimeout(prev);
@@ -200,7 +170,7 @@ export function drainSoon(userId: number): void {
     userId,
     setTimeout(() => {
       drainTimers.delete(userId);
-      void safeDrain(userId);
+      void drain(userId);
     }, DRAIN_SOON_MS),
   );
 }

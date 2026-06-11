@@ -179,7 +179,7 @@ Send-failure semantics (Risu parity): NO auto-replay. Retries are bounded and li
 
 `src/lib/db/schema/server.ts`: server-only tables — `moderation_log`, `acp_checkout_sessions`, `acp_idempotency_keys` (`AcpIdempotencyState` narrowing), 3 catalogs (`lora/embedding/upscaler`).
 
-`src/lib/db/schema/client.ts`: client-only — `local_pending_tasks` (PK `(task_type, kind, id)`; generic outbox: `task_type` selects the drain handler, currently only `logEnrich` (the `sync` handler was removed with the mirror; the table stays general as the seam for re-adding sync), per-task args ride a generic `payload` JSON column, `seq` guards mid-drain enqueues; `MAX_PENDING_ATTEMPTS=5` from `src/lib/db/client/sync/pending/types.ts`, `SyncKindName` + `PendingSyncOp` + `PendingTaskType` narrowing. `kind` stores `""` for tasks without an entity scope) and `local_migrations` (one row tracking the last applied migration tag). `LOCAL_ONLY_TABLES` excludes both from cross-DB copy/salvage.
+`src/lib/db/schema/client.ts`: client-only — `local_pending_tasks` (PK `(task_type, kind, id)`; outbox driving ONE task today, `logEnrich`; `task_type`/`kind`/`payload`/composite-PK shape is kept so a future per-entity task type can be added without a migration, but the drain in `queue.ts` is currently logEnrich-specific. `MAX_PENDING_ATTEMPTS=5` (`queue.ts`), `SyncKindName` + `PendingSyncOp` + `PendingTaskType` narrowing. `kind` stores `""` for tasks without an entity scope) and `local_migrations` (one row tracking the last applied migration tag). `LOCAL_ONLY_TABLES` excludes both from cross-DB copy/salvage.
 
 `media` table: client writes `dataBase64` (R2 upload happened only on sync push, now removed). Bytes live inline in OPFS; export/import inlines base64 so files survive without R2.
 
@@ -189,15 +189,15 @@ Send-failure semantics (Risu parity): NO auto-replay. Retries are bounded and li
 
 ## Pending-task queue (the only deferred-work surface)
 
-The Turso mirror sync was removed. What remains is a generic local outbox under
-`src/lib/db/client/sync/pending/` that currently drives ONE task type, `logEnrich`, and is
-the seam for re-adding sync later as a new handler.
+The Turso mirror sync was removed. What remains is a small local outbox in a
+single file, `src/lib/db/client/sync/pending/queue.ts`, driving ONE task type,
+`logEnrich`. The table shape leaves room for a second task type later, but the
+code is deliberately not a generic engine (no handler registry, no coalesce/
+onRetry/onExhausted hooks); add a `taskType` branch in `queue.ts` if sync returns.
 
-- `pending/queue.ts` (generic engine): `enqueueTask({userId, taskType, kind, id, op, payload})` (read-merge-write through the task's optional `coalesce`, serialized via a module promise chain), `drainPending` (FIFO + backoff, dispatches `getHandler(row.taskType).drain`, deletes the row only if `seq` is unchanged so a mid-drain enqueue survives, calls optional `onExhausted`/`onRetry` hooks), `drainLocked`/`safeDrain`/`drainSoon` (250ms-debounced post-enqueue drain, cross-tab lock via `resource-lock.ts`). Knows nothing task-specific; everything rides the registry.
-- `pending/types.ts`: `MAX_PENDING_ATTEMPTS=5`, backoff schedule, `TaskHandler`/`OutboxRow`/`DrainResult`/`EnqueueInput`. The optional handler hooks + the `hint`/`msgIds`/`dead` fields are unused by logEnrich but kept as the re-add-sync seam.
-- `pending/registry.ts`: `getHandler(taskType)` switch, currently `logEnrich` only.
-- `pending/log-enrich-task.ts`: the live handler. `enqueueLogEnrich(userId, msgId, requestId)` queues; `drain` calls `enrichRequestLogFromUpstream` (`sync/log-enrich.ts`) to pull new-api's authoritative cost/tokens/channel for the finished request and patch the LOCAL `request_logs` row (`patchLocalRequestLogUpstream`), retrying on not-yet-logged. Reload-durable: a pending row survives a refresh.
-- `src/hooks/ai/use-pending-drain-scheduler.ts`: periodic + focus/online drain tick, mounted in `ChatRuntimeProvider`. Happy path is `drainSoon` right after `enqueueLogEnrich` at stream finish (`chat-history-adapter.ts`).
+- `pending/queue.ts`: `enqueueLogEnrich(userId, msgId, requestId)` upserts a row by `(taskType, kind, id)`, resetting backoff and bumping `seq`; `drainPending` (FIFO + backoff, deletes a row only if its `seq` is unchanged so a mid-drain re-enqueue survives, dead-letters at `MAX_ATTEMPTS=5`); `drain(userId)` wraps it in an in-tab single-flight `Map` (overlapping debounce + periodic-tick triggers share one drain instead of racing the sqlocal transactionMutex); `drainSoon` is the 250ms-debounced post-enqueue drain. NO cross-tab lock on the drain: a duplicate enrich from another tab is harmless and rare. `drain` calls `enrichRequestLogFromUpstream` (`sync/log-enrich.ts`) to pull new-api's authoritative cost/tokens/channel for the finished request and patch the LOCAL `request_logs` row, retrying on not-yet-logged. Reload-durable: a pending row survives a refresh.
+- `src/hooks/ai/use-pending-drain-scheduler.ts`: periodic + focus/online `drain` tick, mounted in `ChatRuntimeProvider`. Happy path is `drainSoon` right after `enqueueLogEnrich` at stream finish (`chat-history-adapter.ts`).
+- `sync/resource-lock.ts` (Web Locks) is NOT used by the queue anymore; its sole caller is the per-conversation stream lock in `chat-runtime-provider.tsx` (blocks two tabs streaming the same conversation, with a user-facing "locked in other tab" toast; the browser auto-releases when the holding tab dies).
 
 `sync/resource-lock.ts` (generic `navigator.locks` cross-tab lock) and `sync/log-enrich.ts` are the only other survivors in the `sync/` folder. There is NO mirror, hydrator, reconcile, build-payload, apply-bundle, or server `/sync` route anymore.
 

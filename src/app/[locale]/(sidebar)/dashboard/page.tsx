@@ -3,13 +3,11 @@ import { Dashboard } from "@/components/pages/sidebar/dashboard/dashboard";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
-import { setCookies } from "@/lib/utils/server";
 import { defaultTimestamps } from "@/store/dashboard-store";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 
 export default async function DashboardPage() {
   const queryClient = getQueryClient();
-  const cookieHeaders = await setCookies();
 
   const { startTs, endTs } = defaultTimestamps();
 
@@ -23,9 +21,9 @@ export default async function DashboardPage() {
         start_timestamp: startTs,
         end_timestamp: endTs,
       }),
-      () =>
+      (cookies) =>
         rpc.api.billing.dashboard.quota.get({
-          ...cookieHeaders,
+          ...cookies,
           query: { start_timestamp: startTs, end_timestamp: endTs },
         }),
     ),
