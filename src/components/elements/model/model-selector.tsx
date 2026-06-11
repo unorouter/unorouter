@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/popover";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { analytics } from "@/lib/analytics";
+import { buildGroupEntries } from "@/lib/api/pricing";
 import { usePricingQuery } from "@/hooks/models/pricing-hook";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { Badge } from "@/components/ui/badge";
@@ -28,9 +29,14 @@ import { setCookie } from "cookies-next";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 
+const AUTO_GROUP = "auto";
+
 type ModelSelectorProps = {
   value: string | null;
   onChange: (model: string) => void;
+  // Nested billing-group control (null == auto). Group bar hidden for guests.
+  group: string | null;
+  onGroupChange: (group: string | null) => void;
 };
 
 export function ModelSelector(props: ModelSelectorProps) {
@@ -47,6 +53,27 @@ export function ModelSelector(props: ModelSelectorProps) {
   const modelsByType = pricingData?.modelsByType ?? [];
 
   const selected = models.find((m) => m.name === props.value);
+
+  // Nested group control: groups the selected model supports + their ratios.
+  const groupRatioMap = pricingData?.groupRatioMap ?? {};
+  const enableGroups = selected?.enableGroups ?? [];
+  // Empty enableGroups = all priced groups allowed.
+  const groupEntries = buildGroupEntries(
+    enableGroups.length > 0 ? enableGroups : Object.keys(groupRatioMap),
+    groupRatioMap,
+  );
+  const selectedGroupEntry = props.group
+    ? groupEntries.find((e) => e.group === props.group)
+    : null;
+
+  // Reset group to auto when the new model no longer supports the picked one.
+  useEffect(() => {
+    if (!props.group || props.group === AUTO_GROUP) return;
+    if (enableGroups.length > 0 && !enableGroups.includes(props.group)) {
+      props.onGroupChange(null);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- only re-run on model change
+  }, [props.value]);
 
   // Auto-select a random free model (text preferred) when none is selected,
   // or when the current pick isn't usable (guests can't use paid models).
@@ -87,6 +114,12 @@ export function ModelSelector(props: ModelSelectorProps) {
               {t("CHAT.MODEL.FREE_BADGE")}
             </span>
           )}
+          {isLoggedIn && props.group && (
+            <span className="text-muted-foreground bg-muted shrink-0 rounded px-1 py-0.5 text-[10px] leading-none font-medium">
+              {props.group}
+              {selectedGroupEntry && ` ${selectedGroupEntry.ratio}x`}
+            </span>
+          )}
         </div>
         <Icon
           name="chevrons-up-down"
@@ -98,6 +131,44 @@ export function ModelSelector(props: ModelSelectorProps) {
         align="start"
       >
         <Command>
+          {isLoggedIn && groupEntries.length > 0 && (
+            <div className="flex items-center gap-1 overflow-x-auto border-b px-2 py-1.5">
+              <span className="text-muted-foreground mr-0.5 shrink-0 text-[10px] font-medium">
+                {t("CHAT.GROUP.SELECT")}
+              </span>
+              <Badge
+                variant={!props.group ? "default" : "outline"}
+                data-testid="group-option-auto"
+                data-group="auto"
+                className="shrink-0 cursor-pointer text-[10px]"
+                onClick={() => props.onGroupChange(null)}
+              >
+                {t("CHAT.GROUP.AUTO")}
+              </Badge>
+              {groupEntries.map((entry) => {
+                const disabled =
+                  enableGroups.length > 0 &&
+                  !enableGroups.includes(entry.group);
+                return (
+                  <Badge
+                    key={entry.group}
+                    variant={props.group === entry.group ? "default" : "outline"}
+                    data-testid={`group-option-${entry.group}`}
+                    data-group={entry.group}
+                    className={cn(
+                      "shrink-0 cursor-pointer text-[10px]",
+                      disabled && "pointer-events-none opacity-40",
+                    )}
+                    onClick={() => {
+                      if (!disabled) props.onGroupChange(entry.group);
+                    }}
+                  >
+                    {entry.group} {entry.ratio}x
+                  </Badge>
+                );
+              })}
+            </div>
+          )}
           <CommandInput
             placeholder={t("CHAT.MODEL.SEARCH")}
             className="h-8 text-xs"

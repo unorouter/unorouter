@@ -1,6 +1,5 @@
 "use client";
 
-import { GroupSelector } from "@/components/elements/model/group-selector";
 import { ModelSelector } from "@/components/elements/model/model-selector";
 import { Icon } from "@/components/ui/icon";
 import { useConversationQuery } from "@/hooks/ai/chat-hook";
@@ -37,13 +36,11 @@ export function ChatControls() {
   return (
     <div className="flex min-w-0 flex-1 items-center gap-1.5 sm:gap-2">
       <div className="min-w-0 flex-1 sm:w-48 sm:flex-none lg:w-52">
-        <ModelSelector value={chatModel} onChange={setNewChatModel} />
-      </div>
-      <div className="min-w-0 flex-1 sm:w-40 sm:flex-none">
-        <GroupSelector
-          value={chatGroup}
-          onChange={setChatGroup}
-          model={chatModel}
+        <ModelSelector
+          value={chatModel}
+          onChange={setNewChatModel}
+          group={chatGroup}
+          onGroupChange={setChatGroup}
         />
       </div>
       <Button
