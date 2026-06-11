@@ -2813,6 +2813,11 @@
       "FREE_BADGE": "DARMOWE",
       "LOGIN_REQUIRED": "Wymagane logowanie"
     },
+    "GROUP": {
+      "SELECT": "Grupa rozliczeniowa",
+      "AUTO": "Automatycznie",
+      "NO_RESULTS": "Brak dostępnych grup"
+    },
     "ACTION": {
       "COPY": "Kopiuj",
       "REFRESH": "Odśwież",
@@ -3100,7 +3105,7 @@
     "PRESET_POST_HISTORY": "Prompt wstrzyknięty na końcu (post-history)",
     "PRESET_POST_HISTORY_PLACEHOLDER": "Pozostań w postaci. Nigdy nie łam czwartej ściany...",
     "PRESET_POST_HISTORY_HINT": "Dołączony po nadpisaniu systemu. Najlepsze dla modeli jak GLM, które respektują instrukcje wstrzykiwane na końcu bardziej niż te na górze promptu.",
-    "PRESET_PREFILL": "Prefill (priming asystenta)",
+    "PRESET_PREFILL": "Prefill",
     "PRESET_PREFILL_PLACEHOLDER": "Jasne, oto odpowiedź:",
     "PRESET_PREFILL_HINT": "Wysłany na końcu jako wiadomość asystenta. LLM kontynuuje z tego tekstu nasiennego. Potężna technika jailbreak. Obsługuje makra user i char.",
     "PRESET_FLAGS_TITLE": "Niestandardowe flagi",

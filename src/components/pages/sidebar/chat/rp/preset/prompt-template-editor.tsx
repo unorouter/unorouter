@@ -40,6 +40,7 @@ const SLOT_LABELS: Record<SlotName, string> = {
   loreTop: "Lorebook (top)",
   loreBeforeChar: "Lorebook (before char)",
   loreAfterChar: "Lorebook (after char)",
+  prefill: "Prefill",
   postHistory: "Post-history / jailbreak",
   systemPrompt: "System prompt",
 };

@@ -7,6 +7,10 @@
     {
       "tag": "0001_certain_millenium_guard",
       "sql": "ALTER TABLE `characters` ADD `alternate_greetings` text;--> statement-breakpoint\nALTER TABLE `conversations` ADD `first_msg_index` integer DEFAULT -1 NOT NULL;"
+    },
+    {
+      "tag": "0002_reflective_stepford_cuckoos",
+      "sql": "ALTER TABLE `conversations` ADD `group` text;"
     }
   ]
 }

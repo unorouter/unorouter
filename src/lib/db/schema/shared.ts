@@ -77,6 +77,8 @@ export const conversations = sqliteTable(
       .notNull()
       .default("medium")
       .$type<WebSearchContextSize>(),
+    // Billing/routing group sent upstream as X-Group; null = auto (gateway default).
+    group: text("group"),
     temperature: real("temperature"),
     topP: real("top_p"),
     topK: integer("top_k"),

@@ -2813,6 +2813,11 @@
       "FREE_BADGE": "GRATIS",
       "LOGIN_REQUIRED": "Anmeldung erforderlich"
     },
+    "GROUP": {
+      "SELECT": "Abrechnungsgruppe",
+      "AUTO": "Automatisch",
+      "NO_RESULTS": "Keine Gruppen verfügbar"
+    },
     "ACTION": {
       "COPY": "Kopieren",
       "REFRESH": "Aktualisieren",
@@ -3100,7 +3105,7 @@
     "PRESET_POST_HISTORY": "Endinjizierter Prompt (nach Verlauf)",
     "PRESET_POST_HISTORY_PLACEHOLDER": "Bleibe in der Rolle. Brich niemals die vierte Wand...",
     "PRESET_POST_HISTORY_HINT": "Wird nach dem System-Override angehängt. Geeignet für Modelle wie GLM, die endinjizierte Anweisungen mehr beachten als Anweisungen am Anfang.",
-    "PRESET_PREFILL": "Prefill (Assistant-Priming)",
+    "PRESET_PREFILL": "Prefill",
     "PRESET_PREFILL_PLACEHOLDER": "Klar, hier ist die Antwort:",
     "PRESET_PREFILL_HINT": "Wird zuletzt als Assistant-Nachricht gesendet. Das LLM setzt diesen Seed-Text fort. Mächtige Jailbreak-Technik. Unterstützt die user- und char-Makros.",
     "PRESET_FLAGS_TITLE": "Eigene Flags",

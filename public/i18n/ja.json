@@ -2813,6 +2813,11 @@
       "FREE_BADGE": "無料",
       "LOGIN_REQUIRED": "ログインが必要です"
     },
+    "GROUP": {
+      "SELECT": "課金グループ",
+      "AUTO": "自動",
+      "NO_RESULTS": "利用可能なグループがありません"
+    },
     "ACTION": {
       "COPY": "コピー",
       "REFRESH": "更新",
@@ -3100,7 +3105,7 @@
     "PRESET_POST_HISTORY": "末尾注入プロンプト（post-history）",
     "PRESET_POST_HISTORY_PLACEHOLDER": "キャラクターを保ち続け、第四の壁を破らないでください...",
     "PRESET_POST_HISTORY_HINT": "システムオーバーライドの後に追加。先頭よりも末尾注入指示を尊重するGLMなどのモデルに最適。",
-    "PRESET_PREFILL": "プリフィル（アシスタント・プライミング）",
+    "PRESET_PREFILL": "プレフィル",
     "PRESET_PREFILL_PLACEHOLDER": "もちろん、回答はこちらです：",
     "PRESET_PREFILL_HINT": "アシスタントメッセージとして最後に送信。LLMはこのシードテキストから継続します。強力な脱獄手法。user および char マクロに対応。",
     "PRESET_FLAGS_TITLE": "カスタムフラグ",

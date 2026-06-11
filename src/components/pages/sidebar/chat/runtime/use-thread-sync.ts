@@ -9,7 +9,12 @@ import {
 } from "@/lib/db/client/data/chat";
 import { queryKeys } from "@/lib/react-query/keys";
 import { dayjs } from "@/lib/utils/format/date";
-import { chatModelAtom, chatStore, convIdAtom } from "@/store/chat-store";
+import {
+  chatGroupAtom,
+  chatModelAtom,
+  chatStore,
+  convIdAtom,
+} from "@/store/chat-store";
 import { useQueryClient } from "@tanstack/react-query";
 import { useSetAtom } from "jotai";
 import { useEffect, useRef } from "react";
@@ -55,6 +60,46 @@ export function useModelSync(remoteId: string | null | undefined) {
         await upsertLocalConversationSettings(userId, {
           convId: id,
           defaultModel: newModel,
+          updatedAt: dayjs().toDate(),
+        });
+        await mirrorConvRowIfSynced(userId, id);
+        queryClient.invalidateQueries({ queryKey: queryKeys.chatMeta(id) });
+      })();
+    });
+  }, [queryClient, userId]);
+}
+
+// Two-way group sync: conv seeds atom; later atom changes patch settings-only.
+export function useGroupSync(remoteId: string | null | undefined) {
+  const auth = useAuthQuery();
+  const setChatGroup = useSetAtom(chatGroupAtom);
+  const queryClient = useQueryClient();
+  const conversationQuery = useConversationQuery(remoteId ?? undefined);
+  const lastSyncedIdRef = useRef<string | undefined>(undefined);
+
+  const serverGroup = conversationQuery.data?.group ?? null;
+  useEffect(() => {
+    if (!remoteId || remoteId === lastSyncedIdRef.current) return;
+    lastSyncedIdRef.current = remoteId;
+    setChatGroup(serverGroup);
+  }, [remoteId, serverGroup, setChatGroup]);
+
+  const userId = auth.data?.id;
+  useEffect(() => {
+    return chatStore.sub(chatGroupAtom, () => {
+      const id = chatStore.get(convIdAtom);
+      const newGroup = chatStore.get(chatGroupAtom);
+      if (!id) return;
+      const cached = queryClient.getQueryData<{ group?: string | null }>(
+        queryKeys.chatMeta(id),
+      );
+      if ((cached?.group ?? null) === newGroup) return;
+      void (async () => {
+        const conv = await readLocalConversation(userId, id);
+        if (!conv) return;
+        await upsertLocalConversationSettings(userId, {
+          convId: id,
+          group: newGroup,
           updatedAt: dayjs().toDate(),
         });
         await mirrorConvRowIfSynced(userId, id);

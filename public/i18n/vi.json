@@ -2813,6 +2813,11 @@
       "FREE_BADGE": "MIỄN PHÍ",
       "LOGIN_REQUIRED": "Yêu cầu đăng nhập"
     },
+    "GROUP": {
+      "SELECT": "Nhóm tính phí",
+      "AUTO": "Tự động",
+      "NO_RESULTS": "Không có nhóm khả dụng"
+    },
     "ACTION": {
       "COPY": "Sao chép",
       "REFRESH": "Làm mới",
@@ -3100,7 +3105,7 @@
     "PRESET_POST_HISTORY": "Prompt chèn cuối (post-history)",
     "PRESET_POST_HISTORY_PLACEHOLDER": "Giữ vai. Đừng phá vỡ bức tường thứ tư...",
     "PRESET_POST_HISTORY_HINT": "Thêm vào sau system override. Tốt cho mô hình như GLM tôn trọng hướng dẫn cuối hơn đầu.",
-    "PRESET_PREFILL": "Prefill (mồi assistant)",
+    "PRESET_PREFILL": "Prefill",
     "PRESET_PREFILL_PLACEHOLDER": "Chắc chắn rồi, đây là câu trả lời:",
     "PRESET_PREFILL_HINT": "Gửi cuối cùng dưới dạng tin nhắn assistant. LLM tiếp nối từ văn bản mồi này. Kỹ thuật jailbreak mạnh. Hỗ trợ macro user và char.",
     "PRESET_FLAGS_TITLE": "Cờ tuỳ chỉnh",

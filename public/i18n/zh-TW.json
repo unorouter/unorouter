@@ -2813,6 +2813,11 @@
       "FREE_BADGE": "免費",
       "LOGIN_REQUIRED": "需先登入"
     },
+    "GROUP": {
+      "SELECT": "計費分組",
+      "AUTO": "自動",
+      "NO_RESULTS": "沒有可用的分組"
+    },
     "ACTION": {
       "COPY": "複製",
       "REFRESH": "重新整理",
@@ -3100,7 +3105,7 @@
     "PRESET_POST_HISTORY": "末尾注入提示詞（post-history）",
     "PRESET_POST_HISTORY_PLACEHOLDER": "保持角色，不要打破第四面牆……",
     "PRESET_POST_HISTORY_HINT": "附加在系統覆蓋之後。適合像 GLM 這樣更尊重末尾注入指令的模型。",
-    "PRESET_PREFILL": "預填充（助理預熱）",
+    "PRESET_PREFILL": "預填充",
     "PRESET_PREFILL_PLACEHOLDER": "好的，回覆如下：",
     "PRESET_PREFILL_HINT": "作為最後一則助理訊息傳送。LLM 會從這段種子文字繼續生成。強大的越獄技巧。支援 user 與 char 巨集。",
     "PRESET_FLAGS_TITLE": "自訂旗標",

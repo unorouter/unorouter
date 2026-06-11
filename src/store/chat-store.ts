@@ -39,6 +39,8 @@ const EMPTY_LOADOUT: ChatLoadout = {
 
 export type ChatState = {
   model: string | null;
+  // Default billing/routing group seeding new chats; null = auto.
+  group: string | null;
   webSearch: boolean;
   defaults: StreamOverrides;
   loadout: ChatLoadout;
@@ -47,6 +49,7 @@ export type ChatState = {
 
 export const INITIAL_CHAT_STATE: ChatState = {
   model: null,
+  group: null,
   webSearch: false,
   defaults: {},
   loadout: EMPTY_LOADOUT,
@@ -65,6 +68,13 @@ export const chatModelAtom = atom(
   (get) => get(chatStoreAtom).model ?? INITIAL_CHAT_STATE.model,
   (get, set, value: string | null) => {
     set(chatStoreAtom, { ...get(chatStoreAtom), model: value });
+  },
+);
+
+export const chatGroupAtom = atom(
+  (get) => get(chatStoreAtom).group ?? INITIAL_CHAT_STATE.group,
+  (get, set, value: string | null) => {
+    set(chatStoreAtom, { ...get(chatStoreAtom), group: value });
   },
 );
 

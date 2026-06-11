@@ -2813,6 +2813,11 @@
       "FREE_BADGE": "GRATIS",
       "LOGIN_REQUIRED": "Login diperlukan"
     },
+    "GROUP": {
+      "SELECT": "Grup penagihan",
+      "AUTO": "Otomatis",
+      "NO_RESULTS": "Tidak ada grup tersedia"
+    },
     "ACTION": {
       "COPY": "Salin",
       "REFRESH": "Segarkan",
@@ -3100,7 +3105,7 @@
     "PRESET_POST_HISTORY": "Prompt akhir disuntikkan (pasca-riwayat)",
     "PRESET_POST_HISTORY_PLACEHOLDER": "Tetap dalam karakter. Jangan pernah memecah dinding keempat...",
     "PRESET_POST_HISTORY_HINT": "Ditambahkan setelah override sistem. Terbaik untuk model seperti GLM yang lebih menghormati instruksi akhir disuntikkan daripada di awal prompt.",
-    "PRESET_PREFILL": "Prefill (priming assistant)",
+    "PRESET_PREFILL": "Prefill",
     "PRESET_PREFILL_PLACEHOLDER": "Tentu, ini responsnya:",
     "PRESET_PREFILL_HINT": "Dikirim terakhir sebagai pesan assistant. LLM melanjutkan dari teks benih ini. Teknik jailbreak yang kuat. Mendukung makro user dan char.",
     "PRESET_FLAGS_TITLE": "Flag kustom",

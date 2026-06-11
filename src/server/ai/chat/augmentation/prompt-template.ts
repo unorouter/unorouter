@@ -13,7 +13,8 @@ export type SlotName =
   | "loreTop" // lorebook entries position=top
   | "loreBeforeChar" // position=before_char
   | "loreAfterChar" // position=after_char
-  | "postHistory" // jailbreak/UJB + preset.postHistory + lore position=bottom
+  | "prefill" // trailing assistant priming text, emitted as an assistant message
+  | "postHistory" // jailbreak/UJB + preset.postHistory + lore position=bottom (end inject)
   | "systemPrompt"; // systemPromptOverride ?? primary.systemPrompt
 
 export type PromptItem =
@@ -41,6 +42,8 @@ export const CHAT_RANGE_ALL = -1000;
 
 // Fixed assembly order as a template; used when a preset has no explicit
 // promptTemplate, so default behavior is unchanged.
+// Standard tail ordering: chat history, then the assistant prefill, then the
+// post-history "end inject" dead last. Users can reorder via a stored template.
 export const DEFAULT_PROMPT_TEMPLATE: PromptItem[] = [
   { type: "slot", slot: "main" },
   { type: "slot", slot: "loreTop" },
@@ -50,6 +53,7 @@ export const DEFAULT_PROMPT_TEMPLATE: PromptItem[] = [
   { type: "slot", slot: "loreAfterChar" },
   { type: "slot", slot: "systemPrompt" },
   { type: "chat", rangeStart: CHAT_RANGE_ALL, rangeEnd: "end" },
+  { type: "slot", slot: "prefill" },
   { type: "slot", slot: "postHistory" },
 ];
 

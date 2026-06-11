@@ -71,6 +71,8 @@ export type StreamBody = {
   messages: StreamMessages;
   convId?: string | null;
   webSearch?: boolean;
+  // Billing/routing group sent upstream as X-Group; null/absent == "auto".
+  group?: string | null;
   overrides?: StreamOverrides;
   chatContext?: ChatContext;
   chatContextHash?: string;
@@ -406,9 +408,20 @@ export async function prepareChatRequest(
   // Drop empties BEFORE merge (RisuAI parity): dropping after merge can recreate
   // consecutive same-role messages, which strict-alternation upstreams reject.
   processedMessages = dropEmptyMessages(processedMessages);
-  // Prefill always lands (RisuAI parity); merge below folds a doubled trailing assistant.
+  // The default template emits prefill as a `prefill` slot (before the
+  // postHistory end inject). Only fall back to appending it when a custom
+  // template dropped the card, so prefill still lands (RisuAI parity); merge
+  // below folds a doubled trailing assistant.
   if (assembled.prefill) {
-    processedMessages = appendPrefill(processedMessages, assembled.prefill);
+    const emitted = assembled.promptParts.some(
+      (p) =>
+        p.kind === "message" &&
+        p.role === "assistant" &&
+        p.text === assembled.prefill,
+    );
+    if (!emitted) {
+      processedMessages = appendPrefill(processedMessages, assembled.prefill);
+    }
   }
   if (forceAlternateRoles) {
     processedMessages = mergeAlternateRoles(processedMessages);

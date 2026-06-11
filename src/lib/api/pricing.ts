@@ -360,6 +360,23 @@ export function findContextTag(model: ProcessedModel): string | undefined {
   return (model.tags ?? []).find((tag) => /\d+K$|\d+\.\d+K$/.test(tag));
 }
 
+export type GroupEntry = { group: string; ratio: number };
+
+// A model's billing groups with their ratios, sorted cheapest first. Groups
+// without a known ratio are skipped.
+export function buildGroupEntries(
+  enableGroups: readonly string[],
+  groupRatioMap: Record<string, number>,
+): GroupEntry[] {
+  const entries: GroupEntry[] = [];
+  for (const group of enableGroups) {
+    const ratio = groupRatioMap[group];
+    if (ratio === undefined) continue;
+    entries.push({ group, ratio });
+  }
+  return entries.sort((a, b) => a.ratio - b.ratio);
+}
+
 // Shared by both grid-pricing table skins (detail page + vendor-themed sheet).
 export function gridPricingColumns(rows: GridPricingRow[]): string[] {
   const first = rows[0];

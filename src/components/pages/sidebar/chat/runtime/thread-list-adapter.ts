@@ -22,6 +22,7 @@ import { handleElysia } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
 import {
   chatDefaultsAtom,
+  chatGroupAtom,
   chatHelpersAtom,
   chatLoadoutAtom,
   chatModelAtom,
@@ -121,6 +122,7 @@ export function createThreadListAdapter(
         maxTokens: defaults.maxTokens ?? null,
         extraBody: defaults.extraBody ?? null,
         streamingEnabled: defaults.streamingEnabled ?? true,
+        group: chatStore.get(chatGroupAtom),
       });
 
       // Character + lorebook bindings live in join tables, written after the

@@ -2813,6 +2813,11 @@
       "FREE_BADGE": "무료",
       "LOGIN_REQUIRED": "로그인 필요"
     },
+    "GROUP": {
+      "SELECT": "청구 그룹",
+      "AUTO": "자동",
+      "NO_RESULTS": "사용 가능한 그룹이 없습니다"
+    },
     "ACTION": {
       "COPY": "복사",
       "REFRESH": "새로고침",
@@ -3100,7 +3105,7 @@
     "PRESET_POST_HISTORY": "끝 주입 프롬프트 (히스토리 이후)",
     "PRESET_POST_HISTORY_PLACEHOLDER": "캐릭터를 유지하세요. 네 번째 벽을 깨지 마세요...",
     "PRESET_POST_HISTORY_HINT": "시스템 재정의 후에 추가됩니다. 프롬프트 상단보다 끝 주입 지시를 더 존중하는 GLM 같은 모델에 가장 적합합니다.",
-    "PRESET_PREFILL": "프리필 (어시스턴트 프라이밍)",
+    "PRESET_PREFILL": "프리필",
     "PRESET_PREFILL_PLACEHOLDER": "물론, 응답은 다음과 같습니다:",
     "PRESET_PREFILL_HINT": "어시스턴트 메시지로 마지막에 전송됩니다. LLM이 이 시드 텍스트에서 계속합니다. 강력한 탈옥 기술. user와 char 매크로를 지원합니다.",
     "PRESET_FLAGS_TITLE": "커스텀 플래그",

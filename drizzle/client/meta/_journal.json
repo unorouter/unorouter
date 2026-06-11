@@ -15,6 +15,13 @@
       "when": 1781132400406,
       "tag": "0001_certain_millenium_guard",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1781198000794,
+      "tag": "0002_reflective_stepford_cuckoos",
+      "breakpoints": true
     }
   ]
 }

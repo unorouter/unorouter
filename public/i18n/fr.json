@@ -2813,6 +2813,11 @@
       "FREE_BADGE": "GRATUIT",
       "LOGIN_REQUIRED": "Connexion requise"
     },
+    "GROUP": {
+      "SELECT": "Groupe de facturation",
+      "AUTO": "Automatique",
+      "NO_RESULTS": "Aucun groupe disponible"
+    },
     "ACTION": {
       "COPY": "Copier",
       "REFRESH": "Actualiser",
@@ -3100,7 +3105,7 @@
     "PRESET_POST_HISTORY": "Prompt injecté en fin (post-history)",
     "PRESET_POST_HISTORY_PLACEHOLDER": "Reste dans le personnage. Ne brise jamais le quatrième mur...",
     "PRESET_POST_HISTORY_HINT": "Ajouté après l'override système. Idéal pour les modèles comme GLM qui respectent davantage les instructions injectées en fin que celles en haut.",
-    "PRESET_PREFILL": "Prefill (amorçage assistant)",
+    "PRESET_PREFILL": "Prefill",
     "PRESET_PREFILL_PLACEHOLDER": "Bien sûr, voici la réponse :",
     "PRESET_PREFILL_HINT": "Envoyé en dernier comme message assistant. Le LLM continue à partir de ce texte d'amorçage. Technique de jailbreak puissante. Supporte les macros user et char.",
     "PRESET_FLAGS_TITLE": "Drapeaux personnalisés",

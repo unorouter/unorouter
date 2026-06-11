@@ -2813,6 +2813,11 @@
       "FREE_BADGE": "मुफ्त",
       "LOGIN_REQUIRED": "Login आवश्यक"
     },
+    "GROUP": {
+      "SELECT": "बिलिंग समूह",
+      "AUTO": "स्वचालित",
+      "NO_RESULTS": "कोई समूह उपलब्ध नहीं"
+    },
     "ACTION": {
       "COPY": "Copy",
       "REFRESH": "Refresh",
@@ -3100,7 +3105,7 @@
     "PRESET_POST_HISTORY": "अंत में इंजेक्ट किया गया प्रॉम्प्ट (post-history)",
     "PRESET_POST_HISTORY_PLACEHOLDER": "Character में रहें। कभी fourth wall न तोड़ें...",
     "PRESET_POST_HISTORY_HINT": "System override के बाद appended। GLM जैसे मॉडलों के लिए सर्वश्रेष्ठ जो top-of-prompt वालों से अधिक end-injected निर्देशों का सम्मान करते हैं।",
-    "PRESET_PREFILL": "Prefill (assistant priming)",
+    "PRESET_PREFILL": "Prefill",
     "PRESET_PREFILL_PLACEHOLDER": "ज़रूर, यहाँ response है:",
     "PRESET_PREFILL_HINT": "Assistant message के रूप में अंतिम भेजा गया। LLM इस seed text से जारी रहता है। शक्तिशाली jailbreak तकनीक। User और char macros का समर्थन करता है।",
     "PRESET_FLAGS_TITLE": "Custom flags",

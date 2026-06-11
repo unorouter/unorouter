@@ -2813,6 +2813,11 @@
       "FREE_BADGE": "ÜCRETSİZ",
       "LOGIN_REQUIRED": "Giriş gerekli"
     },
+    "GROUP": {
+      "SELECT": "Faturalandırma grubu",
+      "AUTO": "Otomatik",
+      "NO_RESULTS": "Kullanılabilir grup yok"
+    },
     "ACTION": {
       "COPY": "Kopyala",
       "REFRESH": "Yenile",
@@ -3100,7 +3105,7 @@
     "PRESET_POST_HISTORY": "Son enjekte edilen istem (geçmiş sonrası)",
     "PRESET_POST_HISTORY_PLACEHOLDER": "Karakterde kal. Asla dördüncü duvarı yıkma...",
     "PRESET_POST_HISTORY_HINT": "Sistem geçersiz kılma sonrası eklenir. İstemin başındaki talimatlardan daha çok sonda enjekte edilen talimatlara saygı duyan GLM gibi modeller için en iyisi.",
-    "PRESET_PREFILL": "Prefill (assistant priming)",
+    "PRESET_PREFILL": "Prefill",
     "PRESET_PREFILL_PLACEHOLDER": "Tabii, işte yanıt:",
     "PRESET_PREFILL_HINT": "Son olarak assistant mesajı olarak gönderilir. LLM bu tohum metinden devam eder. Güçlü jailbreak tekniği. user ve char makrolarını destekler.",
     "PRESET_FLAGS_TITLE": "Özel flaglar",

@@ -22,6 +22,13 @@
       "when": 1781135214912,
       "tag": "0002_little_doorman",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1781198000532,
+      "tag": "0003_famous_greymalkin",
+      "breakpoints": true
     }
   ]
 }

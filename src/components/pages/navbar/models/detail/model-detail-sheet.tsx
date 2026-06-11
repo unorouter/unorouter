@@ -12,6 +12,8 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import {
+  buildGroupEntries,
+  type GroupEntry,
   gridPriceParts,
   gridPricingColumns,
   type EndpointInfo,
@@ -453,21 +455,6 @@ function GridPricingSection(props: {
       </div>
     </section>
   );
-}
-
-type GroupEntry = { group: string; ratio: number };
-
-function buildGroupEntries(
-  enableGroups: readonly string[],
-  groupRatioMap: Record<string, number>,
-): GroupEntry[] {
-  const entries: GroupEntry[] = [];
-  for (const group of enableGroups) {
-    const ratio = groupRatioMap[group];
-    if (ratio === undefined) continue;
-    entries.push({ group, ratio });
-  }
-  return entries.sort((a, b) => a.ratio - b.ratio);
 }
 
 function GroupPricingSection(props: {

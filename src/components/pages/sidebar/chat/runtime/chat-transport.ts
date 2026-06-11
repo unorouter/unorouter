@@ -6,6 +6,7 @@ import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { fnv1aHex } from "@/lib/utils/base";
 import {
   chatDefaultsAtom,
+  chatGroupAtom,
   chatLoadoutAtom,
   chatModelAtom,
   chatStore,
@@ -123,6 +124,8 @@ export function useChatTransport() {
           model: chatStore.get(chatModelAtom),
           convId,
           webSearch: chatStore.get(chatWebSearchAtom),
+          // null == auto; server omits the X-Group header for null/auto.
+          group: chatStore.get(chatGroupAtom),
           // Guest fallback.
           overrides: chatStore.get(chatDefaultsAtom),
           chatContext,

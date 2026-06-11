@@ -2813,6 +2813,11 @@
       "FREE_BADGE": "חינם",
       "LOGIN_REQUIRED": "התחברות נדרשת"
     },
+    "GROUP": {
+      "SELECT": "קבוצת חיוב",
+      "AUTO": "אוטומטי",
+      "NO_RESULTS": "אין קבוצות זמינות"
+    },
     "ACTION": {
       "COPY": "העתק",
       "REFRESH": "רענן",
@@ -3100,7 +3105,7 @@
     "PRESET_POST_HISTORY": "הנחיה מוזרקת בסוף (פוסט-היסטוריה)",
     "PRESET_POST_HISTORY_PLACEHOLDER": "הישאר בדמות. לעולם אל תשבור את הקיר הרביעי...",
     "PRESET_POST_HISTORY_HINT": "מתווסף אחרי החלפת מערכת. הכי טוב למודלים כמו GLM שמכבדים הוראות בסוף יותר מאלה בראש ההנחיה.",
-    "PRESET_PREFILL": "Prefill (priming של assistant)",
+    "PRESET_PREFILL": "Prefill",
     "PRESET_PREFILL_PLACEHOLDER": "בטח, הנה התגובה:",
     "PRESET_PREFILL_HINT": "נשלח אחרון כהודעת assistant. ה-LLM ממשיך מהטקסט המקדים הזה. טכניקת jailbreak חזקה. תומך במאקרו user ו-char.",
     "PRESET_FLAGS_TITLE": "דגלים מותאמים אישית",

@@ -2813,6 +2813,11 @@
       "FREE_BADGE": "免费",
       "LOGIN_REQUIRED": "需要登录"
     },
+    "GROUP": {
+      "SELECT": "计费分组",
+      "AUTO": "自动",
+      "NO_RESULTS": "没有可用的分组"
+    },
     "ACTION": {
       "COPY": "复制",
       "REFRESH": "刷新",
@@ -3100,7 +3105,7 @@
     "PRESET_POST_HISTORY": "末尾注入提示词（post-history）",
     "PRESET_POST_HISTORY_PLACEHOLDER": "保持角色，不要打破第四堵墙……",
     "PRESET_POST_HISTORY_HINT": "附加在系统覆盖之后。适合像 GLM 这样更尊重末尾注入指令的模型。",
-    "PRESET_PREFILL": "预填充（助手预热）",
+    "PRESET_PREFILL": "预填充",
     "PRESET_PREFILL_PLACEHOLDER": "好的，回复如下：",
     "PRESET_PREFILL_HINT": "作为最后一条助手消息发送。LLM 会从这段种子文本继续生成。强大的越狱技巧。支持 user 与 char 宏。",
     "PRESET_FLAGS_TITLE": "自定义标志",

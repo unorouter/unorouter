@@ -2813,6 +2813,11 @@
       "FREE_BADGE": "GRATIS",
       "LOGIN_REQUIRED": "Login richiesto"
     },
+    "GROUP": {
+      "SELECT": "Gruppo di fatturazione",
+      "AUTO": "Automatico",
+      "NO_RESULTS": "Nessun gruppo disponibile"
+    },
     "ACTION": {
       "COPY": "Copia",
       "REFRESH": "Aggiorna",
@@ -3100,7 +3105,7 @@
     "PRESET_POST_HISTORY": "Prompt iniettato alla fine (post-cronologia)",
     "PRESET_POST_HISTORY_PLACEHOLDER": "Rimani nel personaggio. Non rompere mai la quarta parete...",
     "PRESET_POST_HISTORY_HINT": "Aggiunto dopo l'override di sistema. Migliore per modelli come GLM che rispettano istruzioni iniettate alla fine più di quelle in cima al prompt.",
-    "PRESET_PREFILL": "Prefill (priming dell'assistente)",
+    "PRESET_PREFILL": "Prefill",
     "PRESET_PREFILL_PLACEHOLDER": "Certo, ecco la risposta:",
     "PRESET_PREFILL_HINT": "Inviato per ultimo come messaggio dell'assistente. L'LLM continua da questo testo seed. Tecnica di jailbreak potente. Supporta le macro user e char.",
     "PRESET_FLAGS_TITLE": "Flag personalizzati",

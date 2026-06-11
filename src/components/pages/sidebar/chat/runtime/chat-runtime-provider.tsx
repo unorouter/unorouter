@@ -10,6 +10,7 @@ import { computeSpeakingOrder } from "@/components/pages/sidebar/chat/runtime/gr
 import { createThreadListAdapter } from "@/components/pages/sidebar/chat/runtime/thread-list-adapter";
 import {
   useConvIdSync,
+  useGroupSync,
   useModelSync,
   useScrollToBottom,
 } from "@/components/pages/sidebar/chat/runtime/use-thread-sync";
@@ -85,6 +86,7 @@ function ChatRuntimeHook() {
 
   useConvIdSync(remoteId);
   useModelSync(remoteId);
+  useGroupSync(remoteId);
   const historyAdapter = useHistoryAdapter();
   const transport = useChatTransport();
 

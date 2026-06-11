@@ -239,6 +239,8 @@ export const updateConversationSettingsBody = t.Object({
   webSearchEnabled: t.Optional(t.Boolean()),
   webSearchEngine: t.Optional(webSearchEngine),
   webSearchContextSize: t.Optional(webSearchContextSize),
+  // Billing/routing group sent upstream as X-Group; null == "auto".
+  group: t.Optional(t.Union([t.String({ maxLength: MAX_ID_LEN }), t.Null()])),
   ...samplingOptional(),
   extraBody: t.Optional(t.Union([t.String({ maxLength: 8_192 }), t.Null()])),
   // Chat-variable store (macro setvar + sticky lorebook state). Must sync or a
@@ -310,6 +312,8 @@ export const streamBody = t.Object({
   messages: t.Array(t.Any(), { maxItems: MAX_MESSAGES_PER_STREAM }),
   convId: t.Optional(t.Union([t.String({ maxLength: MAX_ID_LEN }), t.Null()])),
   webSearch: t.Optional(t.Boolean()),
+  // Billing/routing group sent upstream as X-Group; null/absent == "auto".
+  group: t.Optional(t.Union([t.String({ maxLength: MAX_ID_LEN }), t.Null()])),
   // Fallback for guest convs (no settings row).
   overrides: t.Optional(streamOverrides),
   chatContext: t.Optional(chatContext),

@@ -14,6 +14,7 @@ export const CONVERSATION_SETTINGS_KEYS = [
   "webSearchEnabled",
   "webSearchEngine",
   "webSearchContextSize",
+  "group",
   "temperature",
   "topP",
   "topK",

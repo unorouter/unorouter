@@ -25,7 +25,14 @@ type MediaStreamBody = {
   model: string;
   messages: StreamMessages;
   convId?: string | null;
+  // Billing/routing group sent upstream as X-Group; null/absent == "auto".
+  group?: string | null;
 };
+
+// Per-request group override header; omitted for null/auto (gateway default).
+function groupHeader(group?: string | null): Record<string, string> {
+  return group && group !== "auto" ? { "X-Group": group } : {};
+}
 
 // One-shot UI-message response: run `execute`, stream whatever it writes.
 function streamResponse(
@@ -45,12 +52,14 @@ async function upstreamPost(
   payload: Record<string, unknown>,
   errKey: Parameters<typeof msg>[0],
   context: string,
+  group?: string | null,
 ): Promise<Response> {
   const res = await fetch(`${upstreamApiUrl}${path}`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${apiKey}`,
       "Content-Type": "application/json",
+      ...groupHeader(group),
     },
     body: JSON.stringify(payload),
   });
@@ -148,6 +157,7 @@ async function generateImage(
   model: string,
   prompt: string,
   endpointPath: string,
+  group?: string | null,
 ): Promise<{ images: string[]; isBase64: boolean; requestId?: string }> {
   const res = await upstreamPost(
     apiKey,
@@ -155,6 +165,7 @@ async function generateImage(
     { model, prompt, n: 1 },
     "ERRORS.IMAGE_GENERATION_FAILED",
     "stream.image",
+    group,
   );
   const raw = await res.json();
   if (!imageGenResponseChecker.Check(raw)) {
@@ -187,6 +198,7 @@ export async function handleImageStream(
       body.model,
       prompt,
       endpointPath!,
+      body.group,
     );
 
     // Stream inline data URLs; client persists base64, sync pushes R2 later.
@@ -228,6 +240,7 @@ export async function handleVideoTaskStream(
       apiKey,
       body.model,
       prompt,
+      body.group,
     );
 
     // data-task: assistant-ui rewrites to {type:"data",name:"task"}; partsToItems persists as `task` for reopen/finalize.
@@ -251,6 +264,7 @@ async function generateSpeech(
   apiKey: string,
   model: string,
   input: string,
+  group?: string | null,
 ): Promise<{ dataUri: string }> {
   const res = await upstreamPost(
     apiKey,
@@ -258,6 +272,7 @@ async function generateSpeech(
     { model, input, voice: "alloy" },
     "ERRORS.AUDIO_GENERATION_FAILED",
     "stream.audio",
+    group,
   );
   const mime = res.headers.get("content-type") ?? "audio/mpeg";
   const buf = Buffer.from(await res.arrayBuffer());
@@ -280,7 +295,12 @@ export async function handleAudioStream(apiKey: string, body: MediaStreamBody) {
   if (!input) throw new Error(msg("ERRORS.NO_AUDIO_PROMPT"));
 
   return streamResponse(async (writer) => {
-    const { dataUri } = await generateSpeech(apiKey, body.model, input);
+    const { dataUri } = await generateSpeech(
+      apiKey,
+      body.model,
+      input,
+      body.group,
+    );
     // data:audio/ markdown renders as <audio> (markdown-text img override);
     // client persists the base64 into local media like generated images.
     writeBufferedMessage(writer, `![audio](${dataUri})`);
@@ -291,6 +311,7 @@ export async function generateEmbedding(
   apiKey: string,
   model: string,
   input: string,
+  group?: string | null,
 ): Promise<{ dims: number; vector: number[] }> {
   const res = await upstreamPost(
     apiKey,
@@ -298,6 +319,7 @@ export async function generateEmbedding(
     { model, input },
     "ERRORS.EMBEDDING_FAILED",
     "stream.embedding",
+    group,
   );
   const json = (await res.json()) as {
     data?: { embedding?: number[] }[];
@@ -314,7 +336,12 @@ export async function handleEmbeddingStream(
   if (!input) throw new Error(msg("ERRORS.NO_EMBEDDING_INPUT"));
 
   return streamResponse(async (writer) => {
-    const { dims, vector } = await generateEmbedding(apiKey, body.model, input);
+    const { dims, vector } = await generateEmbedding(
+      apiKey,
+      body.model,
+      input,
+      body.group,
+    );
     const preview = vector.slice(0, 8).map((n) => n.toFixed(6));
     const tail = vector.length > 8 ? ", ..." : "";
     // Plain text (not a t() key): persisted message content, not re-translated.

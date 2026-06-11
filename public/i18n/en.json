@@ -2813,6 +2813,11 @@
       "FREE_BADGE": "FREE",
       "LOGIN_REQUIRED": "Login required"
     },
+    "GROUP": {
+      "SELECT": "Billing group",
+      "AUTO": "Auto",
+      "NO_RESULTS": "No groups available"
+    },
     "ACTION": {
       "COPY": "Copy",
       "REFRESH": "Refresh",
@@ -3100,7 +3105,7 @@
     "PRESET_POST_HISTORY": "End-injected prompt (post-history)",
     "PRESET_POST_HISTORY_PLACEHOLDER": "Stay in character. Never break the fourth wall...",
     "PRESET_POST_HISTORY_HINT": "Appended after system override. Best for models like GLM that respect end-injected instructions more than top-of-prompt ones.",
-    "PRESET_PREFILL": "Prefill (assistant priming)",
+    "PRESET_PREFILL": "Prefill",
     "PRESET_PREFILL_PLACEHOLDER": "Sure, here's the response:",
     "PRESET_PREFILL_HINT": "Sent last as an assistant message. The LLM continues from this seed text. Powerful jailbreak technique. Supports the user and char macros.",
     "PRESET_FLAGS_TITLE": "Custom flags",

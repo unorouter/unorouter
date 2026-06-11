@@ -146,6 +146,12 @@ export async function streamChat(
   // advertise caching but 422 on the Anthropic block format.
   const provider = getProvider(apiKey, prepared.bodyMutations);
 
+  // Per-request group override; new-api reads X-Group. Omit for null/auto.
+  const groupHeaders =
+    body.group && body.group !== "auto"
+      ? { "X-Group": body.group }
+      : undefined;
+
   const droppedParamsRef = { value: null as string | null };
   // Captured in onFinish; emitted in messageMetadata to seed request log row.
   const debugRef = {
@@ -196,6 +202,7 @@ export async function streamChat(
     system: prepared.effectiveSystem,
     // Retries retryable errors only (429/5xx/network); 4xx surface verbatim (Risu parity).
     maxRetries: 2,
+    ...(groupHeaders ? { headers: groupHeaders } : {}),
     ...prepared.modelParams,
     providerOptions: prepared.providerOptions,
     onFinish: ({ usage, response }) => {

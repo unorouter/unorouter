@@ -1,5 +1,6 @@
 "use client";
 
+import { GroupSelector } from "@/components/elements/model/group-selector";
 import { ModelSelector } from "@/components/elements/model/model-selector";
 import { Icon } from "@/components/ui/icon";
 import { useConversationQuery } from "@/hooks/ai/chat-hook";
@@ -13,6 +14,7 @@ import { useApiKey } from "@/hooks/ui/use-api-key";
 import { NONE_VALUE } from "@/lib/config/constants";
 import { formatPrice } from "@/lib/utils/format/number";
 import {
+  chatGroupAtom,
   chatModelAtom,
   conversationSettingsOpenAtom,
 } from "@/store/chat-store";
@@ -25,6 +27,7 @@ import { ChatActionsMenu } from "./chat-actions-menu";
 export function ChatControls() {
   const t = useTranslations();
   const [chatModel, setNewChatModel] = useAtom(chatModelAtom);
+  const [chatGroup, setChatGroup] = useAtom(chatGroupAtom);
   const aui = useAui();
 
   const handleNewChat = () => {
@@ -35,6 +38,13 @@ export function ChatControls() {
     <div className="flex min-w-0 flex-1 items-center gap-1.5 sm:gap-2">
       <div className="min-w-0 flex-1 sm:w-48 sm:flex-none lg:w-52">
         <ModelSelector value={chatModel} onChange={setNewChatModel} />
+      </div>
+      <div className="min-w-0 flex-1 sm:w-40 sm:flex-none">
+        <GroupSelector
+          value={chatGroup}
+          onChange={setChatGroup}
+          model={chatModel}
+        />
       </div>
       <Button
         size="sm"

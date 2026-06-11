@@ -2813,6 +2813,11 @@
       "FREE_BADGE": "БЕСПЛАТНО",
       "LOGIN_REQUIRED": "Требуется вход"
     },
+    "GROUP": {
+      "SELECT": "Группа тарификации",
+      "AUTO": "Авто",
+      "NO_RESULTS": "Нет доступных групп"
+    },
     "ACTION": {
       "COPY": "Скопировать",
       "REFRESH": "Обновить",
@@ -3100,7 +3105,7 @@
     "PRESET_POST_HISTORY": "Промпт в конце (post-history)",
     "PRESET_POST_HISTORY_PLACEHOLDER": "Оставайся в роли. Никогда не нарушай четвёртую стену...",
     "PRESET_POST_HISTORY_HINT": "Добавляется после системного override. Подходит для моделей вроде GLM, которые лучше реагируют на инструкции в конце, чем в начале.",
-    "PRESET_PREFILL": "Prefill (затравка ассистента)",
+    "PRESET_PREFILL": "Prefill",
     "PRESET_PREFILL_PLACEHOLDER": "Конечно, вот ответ:",
     "PRESET_PREFILL_HINT": "Отправляется последним как сообщение ассистента. LLM продолжает с этого текста-затравки. Мощная техника джейлбрейка. Поддерживает макросы user и char.",
     "PRESET_FLAGS_TITLE": "Пользовательские флаги",

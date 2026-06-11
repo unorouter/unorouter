@@ -2813,6 +2813,11 @@
       "FREE_BADGE": "GRATIS",
       "LOGIN_REQUIRED": "Inicio de sesión requerido"
     },
+    "GROUP": {
+      "SELECT": "Grupo de facturación",
+      "AUTO": "Automático",
+      "NO_RESULTS": "No hay grupos disponibles"
+    },
     "ACTION": {
       "COPY": "Copiar",
       "REFRESH": "Actualizar",
@@ -3100,7 +3105,7 @@
     "PRESET_POST_HISTORY": "Prompt inyectado al final (post-historia)",
     "PRESET_POST_HISTORY_PLACEHOLDER": "Permanece en personaje. Nunca rompas la cuarta pared...",
     "PRESET_POST_HISTORY_HINT": "Añadido después de la anulación de sistema. Mejor para modelos como GLM que respetan instrucciones inyectadas al final más que las del inicio del prompt.",
-    "PRESET_PREFILL": "Prefill (priming de asistente)",
+    "PRESET_PREFILL": "Prefill",
     "PRESET_PREFILL_PLACEHOLDER": "Claro, aquí está la respuesta:",
     "PRESET_PREFILL_HINT": "Enviado al final como mensaje de asistente. El LLM continúa desde este texto semilla. Técnica poderosa de jailbreak. Soporta las macros user y char.",
     "PRESET_FLAGS_TITLE": "Flags personalizados",

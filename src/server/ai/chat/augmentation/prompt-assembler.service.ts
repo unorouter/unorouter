@@ -417,6 +417,7 @@ export async function assembleForStream(
   // Empty slot text -> null so the template walk skips the card.
   const sys = (text: string) =>
     text ? { text, role: "system" as const } : null;
+  const prefillText = preset?.prefill ? expand(preset.prefill) : "";
   const slots: TemplateSlots = {
     main: sys(mainSlot),
     loreTop: sys(loreAt("top")),
@@ -425,6 +426,9 @@ export async function assembleForStream(
     persona: sys(personaSlot),
     loreAfterChar: sys(loreAt("after_char")),
     systemPrompt: sys(systemPromptSlot),
+    // Prefill rides the template as a trailing assistant message so it orders
+    // with the stack (default: after chat, before postHistory end inject).
+    prefill: prefillText ? { text: prefillText, role: "assistant" as const } : null,
     postHistory: sys(postHistorySlot),
   };
 
@@ -504,7 +508,9 @@ export async function assembleForStream(
     atDepthEntries,
     extraBody,
     providerRouting: parseProviderRouting(preset?.providers),
-    prefill: preset?.prefill ? expand(preset.prefill) : undefined,
+    // Emitted as a `prefill` slot in promptParts; kept here for the GLM
+    // end-stub suppression flag and the no-prefill-card template fallback.
+    prefill: prefillText || undefined,
     promptParts,
     promptTokens: estimatePromptTokens(promptParts, atDepthEntries, authorNote),
     vars: macroScope,
