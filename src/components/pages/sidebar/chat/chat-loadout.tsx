@@ -141,7 +141,7 @@ export function ChatLoadout() {
       <span className="text-foreground text-xs font-medium tracking-wide uppercase">
         {t("CHAT.LOADOUT.TITLE")}
       </span>
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+      <div className="grid grid-cols-2 gap-3">
         <EntityPicker
           label={t("CHAT.OVERRIDES.PRESET")}
           noneLabel={t("CHAT.OVERRIDES.NONE")}
