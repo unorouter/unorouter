@@ -35,6 +35,7 @@ import {
   chatStore,
   convIdAtom,
   globalVarsAtom,
+  historyLoadedAtom,
   lastStreamErrorAtom,
   speakingCharacterIdAtom,
 } from "@/store/chat-store";
@@ -95,26 +96,30 @@ export function createChatHistoryAdapter(
     ) {
       return {
         async load(): Promise<MessageFormatRepository<TMessage>> {
-          const id = chatStore.get(convIdAtom);
-          if (!id) return { messages: [] };
-          const userId = getUserId();
+          try {
+            const id = chatStore.get(convIdAtom);
+            if (!id) return { messages: [] };
+            const userId = getUserId();
 
-          type MsgPage = { messages: ApiMessage[]; total: number };
-          type Cached = { pages: MsgPage[]; pageParams: number[] };
+            type MsgPage = { messages: ApiMessage[]; total: number };
+            type Cached = { pages: MsgPage[]; pageParams: number[] };
 
-          let allMessages: ApiMessage[] = [];
-          const cached = queryClient.getQueryData<Cached>(
-            queryKeys.chatMessages(id),
-          );
-          if (cached) {
-            allMessages = cached.pages.flatMap((p) => p.messages);
-          } else {
-            const msgs = (await readLocalMessages(userId, id)) ?? [];
-            const items = (await readLocalMessageItems(userId, id)) ?? [];
-            allMessages = joinItemsToMessages(msgs, items);
+            let allMessages: ApiMessage[] = [];
+            const cached = queryClient.getQueryData<Cached>(
+              queryKeys.chatMessages(id),
+            );
+            if (cached) {
+              allMessages = cached.pages.flatMap((p) => p.messages);
+            } else {
+              const msgs = (await readLocalMessages(userId, id)) ?? [];
+              const items = (await readLocalMessageItems(userId, id)) ?? [];
+              allMessages = joinItemsToMessages(msgs, items);
+            }
+
+            return buildRepository(allMessages, formatAdapter);
+          } finally {
+            chatStore.set(historyLoadedAtom, true);
           }
-
-          return buildRepository(allMessages, formatAdapter);
         },
 
         async append(item: MessageFormatItem<TMessage>) {

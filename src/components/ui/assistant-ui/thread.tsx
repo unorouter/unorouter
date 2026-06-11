@@ -51,7 +51,9 @@ import {
   chatStore,
   chatWebSearchAtom,
   convIdAtom,
+  historyLoadedAtom,
 } from "@/store/chat-store";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useMessageError } from "@assistant-ui/core/react";
 import {
   ActionBarPrimitive,
@@ -65,6 +67,7 @@ import {
 } from "@assistant-ui/react";
 import { useAtom, useAtomValue } from "jotai";
 import { useTranslations } from "next-intl";
+import { useParams } from "next/navigation";
 import {
   createContext,
   type FC,
@@ -91,7 +94,7 @@ export const Thread: FC = () => {
         className="aui-thread-viewport relative flex flex-1 flex-col overflow-x-hidden overflow-y-auto scroll-smooth px-4"
       >
         <AuiIf condition={(s) => s.thread.isEmpty}>
-          <ThreadWelcome />
+          <ThreadWelcomeGate />
         </AuiIf>
 
         <ThreadPrimitive.Messages>
@@ -127,6 +130,30 @@ const ThreadScrollToBottom: FC = () => {
         <Icon name="arrow-down" />
       </TooltipIconButton>
     </ThreadPrimitive.ScrollToBottom>
+  );
+};
+
+// A conv URL starts with an empty runtime until the history adapter's load()
+// imports the local messages; showing the welcome screen in that window reads
+// as a flash. Skeleton until that first load resolved (historyLoadedAtom).
+// New-chat routes have no convId and no pending history: welcome immediately.
+const ThreadWelcomeGate: FC = () => {
+  const params = useParams<{ convId?: string }>();
+  const isLoading = useAuiState((s) => s.thread.isLoading);
+  const historyLoaded = useAtomValue(historyLoadedAtom);
+  const expectHistory = !!params.convId && !historyLoaded;
+  if (isLoading || expectHistory) return <ThreadHistorySkeleton />;
+  return <ThreadWelcome />;
+};
+
+const ThreadHistorySkeleton: FC = () => {
+  return (
+    <div className="mx-auto my-8 flex w-full max-w-(--thread-max-width) grow flex-col gap-6">
+      <Skeleton className="h-16 w-2/5 self-end rounded-2xl" />
+      <Skeleton className="h-28 w-4/5 rounded-2xl" />
+      <Skeleton className="h-16 w-1/3 self-end rounded-2xl" />
+      <Skeleton className="h-36 w-4/5 rounded-2xl" />
+    </div>
   );
 };
 

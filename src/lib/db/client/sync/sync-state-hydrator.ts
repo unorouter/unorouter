@@ -21,6 +21,11 @@ import {
 import { reconcileKinds, stage2ServerReconcile } from "./reconcile";
 import { usePendingDrainScheduler } from "@/hooks/ai/use-pending-drain-scheduler";
 
+// Warm the SQLocal WASM chunk at chunk-eval time so the first getLocalDb
+// resolves the cached module instantly. Import only: opening a DB here would
+// create the guest OPFS file and break guest-migrate's existence check.
+if (typeof window !== "undefined") void import("sqlocal/drizzle");
+
 // Skip conv bundle pull on conv pages (SSR already covered); rest reconciles in idle callback.
 const CONV_ROUTE_RE = /^\/[^/]+\/chat\/[^/]+\/?$/;
 

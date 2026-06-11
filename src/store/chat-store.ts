@@ -4,7 +4,7 @@ import { uid } from "@/lib/utils/base";
 import { atom, createStore } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 
-const CHAT_STORE_KEY = "chat-store";
+export const CHAT_STORE_KEY = "chat-store";
 
 export type ModelSamplerMemory = Pick<
   StreamOverrides,
@@ -37,7 +37,7 @@ const EMPTY_LOADOUT: ChatLoadout = {
   lorebookIds: [],
 };
 
-type ChatState = {
+export type ChatState = {
   model: string | null;
   webSearch: boolean;
   defaults: StreamOverrides;
@@ -45,7 +45,7 @@ type ChatState = {
   samplerMemoryByModel: Record<string, ModelSamplerMemory>;
 };
 
-const INITIAL_CHAT_STATE: ChatState = {
+export const INITIAL_CHAT_STATE: ChatState = {
   model: null,
   webSearch: false,
   defaults: {},
@@ -53,8 +53,8 @@ const INITIAL_CHAT_STATE: ChatState = {
   samplerMemoryByModel: {},
 };
 
-// No getOnInit: cookie storage is client-only; would diverge SSR/first render.
-const chatStoreAtom = atomWithStorage<ChatState>(
+// SSR-hydrated from the cookie by ChatStoreProvider; no getOnInit needed.
+export const chatStoreAtom = atomWithStorage<ChatState>(
   CHAT_STORE_KEY,
   INITIAL_CHAT_STATE,
   jotaiCookieStorage,
@@ -112,6 +112,11 @@ export type ChatHelpersRef = {
 
 // In-memory: active stream convId + assistant-ui helpers; plain atoms for sync stream callbacks.
 export const convIdAtom = atom<string | null>(null);
+
+// True once the history adapter's first load() resolved; the thread welcome
+// waits on it so a conv URL shows a skeleton instead of flashing the
+// empty-thread welcome while messages load from the local DB.
+export const historyLoadedAtom = atom(false);
 export const chatHelpersAtom = atom<ChatHelpersRef | null>(null);
 
 // Opens the conversation settings/overrides drawer. Shared so the active-config

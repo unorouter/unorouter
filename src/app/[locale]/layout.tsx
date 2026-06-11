@@ -109,6 +109,14 @@ export default async function LocaleLayout(props: Props) {
       suppressHydrationWarning
     >
       <head>
+        {/* Anti-FOUC: next-themes' own script streams inside <body> after first
+            paint, leaving a white frame for dark users. Mirror its class logic
+            (storageKey "theme", defaultTheme "system") before paint. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{var t=localStorage.getItem("theme");var d=t==="dark"||((!t||t==="system")&&matchMedia("(prefers-color-scheme: dark)").matches);var c=document.documentElement.classList;c.toggle("dark",d);c.toggle("light",!d)}catch(e){}`,
+          }}
+        />
         {themeCss ? (
           // href+precedence = React hoistable style tracked by href, so
           // extension-injected <style> nodes (Dark Reader) can't be adopted in
