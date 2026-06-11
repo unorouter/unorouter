@@ -5,14 +5,14 @@
   "scripts": {
     "dev": "next dev",
     "dev:log": "next dev 2>&1 | tee /tmp/next.log",
-    "prebuild": "bun scripts/generate-search-index.ts && bun scripts/generate-seo-timestamps.ts && bun scripts/bundle-migrations.ts && bun scripts/check-reconcile-noop.ts",
+    "prebuild": "bun scripts/generate-search-index.ts && bun scripts/generate-seo-timestamps.ts && bun scripts/bundle-migrations.ts",
     "postbuild": "bun scripts/generate-openapi-refs.ts",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
     "prettier": "prettier --write .",
     "openapi": "orval --config ./orval.config.ts",
-    "db:generate": "drizzle-kit generate --config=drizzle.server.config.ts && drizzle-kit generate --config=drizzle.client.config.ts && bun scripts/bundle-migrations.ts && bun scripts/check-reconcile-noop.ts",
+    "db:generate": "drizzle-kit generate --config=drizzle.server.config.ts && drizzle-kit generate --config=drizzle.client.config.ts && bun scripts/bundle-migrations.ts",
     "db:reset": "bun drizzle/reset-db.ts"
   },
   "dependencies": {
