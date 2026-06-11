@@ -1,3 +1,4 @@
+import { prefetchElysia } from "@/lib/react-query/prefetch";
 import { ModelDetail } from "@/components/pages/navbar/models/detail/model-detail";
 import { localeUrl } from "@/i18n/navigation";
 import { findContextTag } from "@/lib/api/pricing";
@@ -12,9 +13,9 @@ import {
   buildFAQPageSchema,
   buildSoftwareApplicationSchema,
 } from "@/lib/seo/structured-data";
-import { handleElysia, modelSlug } from "@/lib/utils/base";
+import { handleElysia, modelMatchesSlug, modelSlug } from "@/lib/utils/base";
 import { formatPrice } from "@/lib/utils/format/number";
-import { serverLocale, setCookies } from "@/lib/utils/server";
+import { serverLocale } from "@/lib/utils/server";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
@@ -32,7 +33,7 @@ export async function generateMetadata(props: PageProps) {
     .get()
     .then(handleElysia)
     .catch(() => null);
-  const model = data?.models.find((m) => m.name === params.slug);
+  const model = data?.models.find((m) => modelMatchesSlug(m.name, params.slug));
   if (!model) return {};
 
   const t = await getTranslations({ locale });
@@ -68,7 +69,7 @@ export default async function ModelDetailPage(props: PageProps) {
     .get()
     .then(handleElysia)
     .catch(() => null);
-  const model = data?.models.find((m) => m.name === params.slug);
+  const model = data?.models.find((m) => modelMatchesSlug(m.name, params.slug));
   if (!model || !data) notFound();
 
   const t = await getTranslations({ locale });
@@ -78,21 +79,14 @@ export default async function ModelDetailPage(props: PageProps) {
   });
 
   const queryClient = getQueryClient();
-  const cookieHeaders = await setCookies();
-  await queryClient.prefetchQuery({
-    queryKey: queryKeys.auth(),
-    queryFn: async () =>
-      handleElysia(await rpc.api.auth.account.self.get(cookieHeaders!)),
-  });
+  await prefetchElysia(queryClient, queryKeys.auth(), (cookies) =>
+    rpc.api.auth.account.self.get(cookies),
+  );
   const isLoggedIn = !!queryClient.getQueryData(queryKeys.auth());
   if (isLoggedIn) {
-    await queryClient.prefetchQuery({
-      queryKey: queryKeys.bestKey(),
-      queryFn: async () =>
-        handleElysia(
-          await rpc.api.billing.token["best-key"].get({ ...cookieHeaders }),
-        ),
-    });
+    await prefetchElysia(queryClient, queryKeys.bestKey(), (cookies) =>
+      rpc.api.billing.token["best-key"].get({ ...cookies }),
+    );
   }
 
   const contextTag = findContextTag(model);

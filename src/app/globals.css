@@ -142,6 +142,21 @@
 }
 
 /* Keyframe Animations */
+
+/* Hero brand chips: ambient drift. transform-only (composite step, no layout/
+   paint), small distance, long duration. NO will-change - promoting 27 chips to
+   their own GPU layers is what caused jank; the compositor batches them fine
+   without it. Per-chip --fx/--fy vary direction so they don't move in lockstep. */
+@keyframes float-chip {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(var(--fx, 5px), var(--fy, -6px));
+  }
+}
+
 @keyframes marquee {
   0% {
     transform: translateX(0);
@@ -176,6 +191,13 @@
 /* Utility animations */
 @utility animate-marquee {
   animation: marquee 50s linear infinite;
+}
+
+/* Hero brand chip drift. Duration/delay/--fx/--fy are overridden inline per
+   chip. Declared as a @utility so Tailwind v4 keeps the float-chip keyframe
+   (bare @keyframes get tree-shaken if nothing references them). */
+@utility animate-float-chip {
+  animation: float-chip 10s ease-in-out infinite;
 }
 
 @utility animate-fade-in {
@@ -282,4 +304,12 @@ mjx-container[display="true"] {
   display: block !important;
   text-align: center;
   margin: 0.75rem 0;
+}
+
+/* Chat shell placeholder: opaque SSR cover for the whole thread area. The
+   runtime assembles progressively underneath; dropping the cover only when
+   the real composer input exists makes the page change visually once. */
+.chat-shell:has(.aui-composer-input) .chat-welcome-placeholder,
+.chat-shell:has(.chat-shell-reveal) .chat-welcome-placeholder {
+  display: none;
 }

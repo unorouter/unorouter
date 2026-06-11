@@ -11,12 +11,34 @@ import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
+import { WindowVirtualizer } from "virtua";
 import { ModelCard } from "./browse/model-card";
 import { ModelListItem } from "./browse/model-list-item";
 import { ModelDetailSheet } from "./detail/model-detail-sheet";
 import { SortFilter } from "./filters/sort-filter";
 import { VendorFilter } from "./filters/vendor-filter";
 import { ViewModeToggle } from "./filters/view-mode-toggle";
+
+// Fixed chunk size: each virtual row holds 3 cards and its own responsive
+// grid reflows them (3/2/1 per breakpoint). JS column detection started at 1
+// and corrected in an effect, flashing a one-column layout on every load.
+const GRID_CHUNK = 3;
+const GRID_SSR_ROWS = 8;
+const LIST_SSR_ROWS = 12;
+
+function Maybe(props: {
+  virtualize: boolean;
+  ssrCount: number;
+  vKey: string;
+  children: React.ReactNode;
+}) {
+  if (!props.virtualize) return <>{props.children}</>;
+  return (
+    <WindowVirtualizer key={props.vKey} ssrCount={props.ssrCount}>
+      {props.children}
+    </WindowVirtualizer>
+  );
+}
 
 export function ModelsPage() {
   const t = useTranslations();
@@ -25,6 +47,13 @@ export function ModelsPage() {
   const perfMap = new Map(
     (perfQuery.data?.models ?? []).map((row) => [row.model_name, row]),
   );
+
+  // Rendering all ~200 catalog entries at once cost ~20s main-thread on mobile
+  // (Lighthouse TBT 9.9s); window-virtualize like the status page.
+  const gridRows: (typeof m.filtered)[] = [];
+  for (let i = 0; i < m.filtered.length; i += GRID_CHUNK) {
+    gridRows.push(m.filtered.slice(i, i + GRID_CHUNK));
+  }
 
   const searchParams = useSearchParams();
   const [selectedVendors, setSelectedVendors] = useAtom(selectedVendorsAtom);
@@ -115,29 +144,51 @@ export function ModelsPage() {
           {t("MODELS.EMPTY")}
         </div>
       ) : m.viewMode === "grid" ? (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {m.filtered.map((model) => (
-            <ModelCard
-              key={model.name}
-              model={model}
-              onClick={() => m.setSelectedModelName(model.name)}
-              labels={priceLabels}
-              perf={perfMap.get(model.name)}
-            />
+        // ssrCount: server-render the first rows so LCP comes from HTML
+        // instead of waiting for hydration + measurement.
+        // virtua keeps the unclamped [0, ssrCount-1] range until first scroll,
+        // so fewer children than ssrCount crashes (undefined.key); render small
+        // lists plain. Maybe wraps both branches so the type switch unmounts
+        // the virtualizer instead of reusing its store.
+        <Maybe
+          virtualize={gridRows.length > GRID_SSR_ROWS}
+          ssrCount={GRID_SSR_ROWS}
+          vKey="grid"
+        >
+          {gridRows.map((row) => (
+            <div
+              key={row[0].name}
+              className="grid grid-cols-1 gap-4 pb-4 sm:grid-cols-2 lg:grid-cols-3"
+            >
+              {row.map((model) => (
+                <ModelCard
+                  key={model.name}
+                  model={model}
+                  onClick={() => m.setSelectedModelName(model.name)}
+                  labels={priceLabels}
+                  perf={perfMap.get(model.name)}
+                />
+              ))}
+            </div>
           ))}
-        </div>
+        </Maybe>
       ) : (
-        <div className="flex flex-col gap-2">
+        <Maybe
+          virtualize={m.filtered.length > LIST_SSR_ROWS}
+          ssrCount={LIST_SSR_ROWS}
+          vKey="list"
+        >
           {m.filtered.map((model) => (
-            <ModelListItem
-              key={model.name}
-              model={model}
-              onClick={() => m.setSelectedModelName(model.name)}
-              labels={priceLabels}
-              perf={perfMap.get(model.name)}
-            />
+            <div key={model.name} className="pb-2">
+              <ModelListItem
+                model={model}
+                onClick={() => m.setSelectedModelName(model.name)}
+                labels={priceLabels}
+                perf={perfMap.get(model.name)}
+              />
+            </div>
           ))}
-        </div>
+        </Maybe>
       )}
 
       <ModelDetailSheet

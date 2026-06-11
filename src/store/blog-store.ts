@@ -1,7 +1,7 @@
-import type { BlogCategory } from "@/lib/types/seo";
+import type { BlogCategory } from "@/lib/types";
 import { atom } from "jotai";
 
-export type BlogCategoryFilter = "all" | BlogCategory;
+type BlogCategoryFilter = "all" | BlogCategory;
 
 export const blogSearchAtom = atom("");
 export const blogCategoryAtom = atom<BlogCategoryFilter>("all");

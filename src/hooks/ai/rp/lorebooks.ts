@@ -1,8 +1,8 @@
 "use client";
 
-import { GUEST_USER_ID } from "@/lib/config/constants";
+import { useApiMutation } from "@/hooks/use-api-mutation";
 
-import { useAuthQuery } from "@/hooks/auth/auth-hook";
+import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import {
   deleteLocalLorebook,
   deleteLocalLorebookEntry,
@@ -14,36 +14,17 @@ import {
 } from "@/lib/db/client/data/rp";
 import { queryKeys } from "@/lib/react-query/keys";
 import type { LorebookRow } from "@/lib/db/schema/rows";
-import type {
-  LorebookBody,
-  LorebookEntryBody,
-} from "@/lib/validation/rp";
+import type { LorebookBody, LorebookEntryBody } from "@/lib/validation/rp";
 import { uid } from "@/lib/utils/base";
-import { handleError } from "@/lib/utils/client";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { dayjs } from "@/lib/utils/format/date";
-import { useTranslations } from "next-intl";
 import { makeRpEntity } from "./factory";
-import { mirrorSyncedRow } from "./shared";
-import { parseLorebookJson } from "@/lib/ai/rp/lorebook-import";
 
-// Re-mirror lorebook bundle after entry mutation.
-async function mirrorLorebookIfSynced(userId: number, lorebookId: string) {
-  const lb = await readLocalLorebook(userId, lorebookId);
-  if (!lb || lb.syncExpiresAt == null) return;
-  await mirrorSyncedRow(userId, "lorebooks", lorebookId, {
-    lorebook: { ...lb, entries: undefined },
-    entries: lb.entries,
-  });
-}
-
-// Custom mirror payload (bundle + entries) replaces factory useUpdate.
 const lorebooks = makeRpEntity<
   LorebookRow,
   Record<string, unknown>,
-  Record<string, unknown>
+  Record<string, unknown>,
+  NonNullable<Awaited<ReturnType<typeof readLocalLorebook>>>
 >({
-  syncKind: "lorebooks",
   listKey: queryKeys.lorebooks,
   itemKey: queryKeys.lorebook,
   readList: readLocalLorebooks,
@@ -53,35 +34,15 @@ const lorebooks = makeRpEntity<
 });
 
 export const useLorebooksQuery = lorebooks.useList;
+export const useLorebookQuery = lorebooks.useItem;
 export const useCreateLorebookMutation = lorebooks.useCreate;
 export const useDeleteLorebookMutation = lorebooks.useDelete;
 
-export function useLorebookQuery(id?: string) {
-  const auth = useAuthQuery();
-  return useQuery({
-    queryKey: queryKeys.lorebook(id!),
-    queryFn: async () => {
-      const userId = auth.data?.id ?? GUEST_USER_ID;
-      if (!id) throw new Error("not-found");
-      const local = await readLocalLorebook(userId, id);
-      if (!local) throw new Error("not-found");
-      return local;
-    },
-    enabled: !!id,
-  });
-}
-
 // Bespoke update re-mirrors bundle after edit.
 export function useUpdateLorebookMutation() {
-  const t = useTranslations();
-  const qc = useQueryClient();
-  const auth = useAuthQuery();
-  return useMutation({
-    mutationFn: async (args: {
-      id: string;
-      body: LorebookBody;
-    }) => {
-      const userId = auth.data?.id ?? GUEST_USER_ID;
+  const userId = useLocalUserId();
+  return useApiMutation({
+    mutationFn: async (args: { id: string; body: LorebookBody }) => {
       const existing = await readLocalLorebook(userId, args.id);
       if (!existing) throw new Error("not-found");
       const now = dayjs().toDate();
@@ -89,33 +50,25 @@ export function useUpdateLorebookMutation() {
       const { entries: _entries, ...existingRow } = existing;
       const updated = { ...existingRow, ...args.body, updatedAt: now };
       await upsertLocalLorebook(userId, updated as never);
-      if (existing.syncExpiresAt != null) {
-        await mirrorLorebookIfSynced(userId, args.id);
-      }
       return updated;
     },
-    onSuccess: (_data, args) => {
-      qc.invalidateQueries({ queryKey: queryKeys.lorebooks() });
-      qc.invalidateQueries({ queryKey: queryKeys.lorebook(args.id) });
-    },
-    onError: (e) => handleError(e, t),
+    invalidates: (args) => [queryKeys.lorebooks(), queryKeys.lorebook(args.id)],
   });
 }
 
 export function useImportLorebookMutation() {
-  const t = useTranslations();
-  const qc = useQueryClient();
-  const auth = useAuthQuery();
-  return useMutation({
+  const userId = useLocalUserId();
+  return useApiMutation({
     mutationFn: async (file: File) => {
-      const userId = auth.data?.id ?? GUEST_USER_ID;
       let raw: unknown;
       try {
         raw = JSON.parse(await file.text());
       } catch {
         throw new Error("ERRORS.REQUEST_FAILED");
       }
-      const parsed = parseLorebookJson(raw);
+      const parsed = (
+        await import("@/lib/ai/rp/lorebook-import")
+      ).parseLorebookJson(raw);
       if (!parsed) throw new Error("ERRORS.REQUEST_FAILED");
       const id = uid();
       const now = dayjs().toDate();
@@ -155,53 +108,41 @@ export function useImportLorebookMutation() {
       });
       return { ...lorebook, entries };
     },
-    onSuccess: () => {
-      qc.invalidateQueries({ queryKey: queryKeys.lorebooks() });
-    },
-    onError: (e) => handleError(e, t),
+    invalidates: [queryKeys.lorebooks()],
   });
 }
 
 // Entries.
 
 export function useCreateLorebookEntryMutation(lorebookId: string) {
-  const t = useTranslations();
-  const qc = useQueryClient();
-  const auth = useAuthQuery();
-  return useMutation({
-    mutationFn: async (
-      body: LorebookEntryBody,
-    ) => {
-      const userId = auth.data?.id ?? GUEST_USER_ID;
+  const userId = useLocalUserId();
+  return useApiMutation({
+    mutationFn: async (body: LorebookEntryBody) => {
       const now = dayjs().toDate();
+      // Append to the end: next orderIndex above the current max (Risu insertorder).
+      const lb = await readLocalLorebook(userId, lorebookId);
+      const nextOrder =
+        (lb?.entries.reduce((m, e) => Math.max(m, e.orderIndex ?? 0), -1) ??
+          -1) + 1;
       const row = {
         ...body,
+        orderIndex: nextOrder,
         id: uid(),
         lorebookId,
         createdAt: now,
         updatedAt: now,
       };
       await upsertLocalLorebookEntry(userId, row);
-      await mirrorLorebookIfSynced(userId, lorebookId);
       return row;
     },
-    onSuccess: () => {
-      qc.invalidateQueries({ queryKey: queryKeys.lorebook(lorebookId) });
-    },
-    onError: (e) => handleError(e, t),
+    invalidates: [queryKeys.lorebook(lorebookId)],
   });
 }
 
 export function useUpdateLorebookEntryMutation(lorebookId: string) {
-  const t = useTranslations();
-  const qc = useQueryClient();
-  const auth = useAuthQuery();
-  return useMutation({
-    mutationFn: async (args: {
-      entryId: string;
-      body: LorebookEntryBody;
-    }) => {
-      const userId = auth.data?.id ?? GUEST_USER_ID;
+  const userId = useLocalUserId();
+  return useApiMutation({
+    mutationFn: async (args: { entryId: string; body: LorebookEntryBody }) => {
       const now = dayjs().toDate();
       const lb = await readLocalLorebook(userId, lorebookId);
       const existing = lb?.entries.find((e) => e.id === args.entryId);
@@ -210,26 +151,21 @@ export function useUpdateLorebookEntryMutation(lorebookId: string) {
         id: args.entryId,
         lorebookId,
         ...args.body,
+        // Preserve placement: form edits never reset insertion order.
+        orderIndex: existing?.orderIndex ?? 0,
         updatedAt: now,
       };
       await upsertLocalLorebookEntry(userId, updated);
-      await mirrorLorebookIfSynced(userId, lorebookId);
       return updated;
     },
-    onSuccess: () => {
-      qc.invalidateQueries({ queryKey: queryKeys.lorebook(lorebookId) });
-    },
-    onError: (e) => handleError(e, t),
+    invalidates: [queryKeys.lorebook(lorebookId)],
   });
 }
 
 export function useReorderLorebookEntriesMutation(lorebookId: string) {
-  const t = useTranslations();
-  const qc = useQueryClient();
-  const auth = useAuthQuery();
-  return useMutation({
+  const userId = useLocalUserId();
+  return useApiMutation({
     mutationFn: async (orderedIds: string[]) => {
-      const userId = auth.data?.id ?? GUEST_USER_ID;
       const now = dayjs().toDate();
       const lb = await readLocalLorebook(userId, lorebookId);
       if (!lb) return;
@@ -243,29 +179,18 @@ export function useReorderLorebookEntriesMutation(lorebookId: string) {
           updatedAt: now,
         });
       }
-      await mirrorLorebookIfSynced(userId, lorebookId);
     },
-    onSuccess: () => {
-      qc.invalidateQueries({ queryKey: queryKeys.lorebook(lorebookId) });
-    },
-    onError: (e) => handleError(e, t),
+    invalidates: [queryKeys.lorebook(lorebookId)],
   });
 }
 
 export function useDeleteLorebookEntryMutation(lorebookId: string) {
-  const t = useTranslations();
-  const qc = useQueryClient();
-  const auth = useAuthQuery();
-  return useMutation({
+  const userId = useLocalUserId();
+  return useApiMutation({
     mutationFn: async (entryId: string) => {
-      const userId = auth.data?.id ?? GUEST_USER_ID;
       await deleteLocalLorebookEntry(userId, entryId);
-      await mirrorLorebookIfSynced(userId, lorebookId);
       return { id: entryId };
     },
-    onSuccess: () => {
-      qc.invalidateQueries({ queryKey: queryKeys.lorebook(lorebookId) });
-    },
-    onError: (e) => handleError(e, t),
+    invalidates: [queryKeys.lorebook(lorebookId)],
   });
 }

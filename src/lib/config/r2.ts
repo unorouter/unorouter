@@ -202,6 +202,46 @@ async function readBodyWithLimit(res: UndiciResponse): Promise<Buffer> {
   return Buffer.concat(chunks);
 }
 
+// SSRF-safe remote fetch for caller-supplied URLs (playground reference
+// images): runs the full allowlist (CIDR/DNS filter, redirect:manual, port +
+// protocol checks) and caps bytes. Returns the body + detected content-type.
+export async function safeFetchBytes(
+  url: string,
+  maxBytes: number,
+): Promise<{ buffer: Buffer; contentType: string | null }> {
+  const res = await safeFetch(url);
+  if (!res.ok) {
+    throw new Error(msg("ERRORS.UPSTREAM_FETCH_FAILED"));
+  }
+  const declared = Number(res.headers.get("content-length") ?? "0");
+  if (declared && declared > maxBytes) {
+    throw new Error(msg("ERRORS.RESPONSE_TOO_LARGE"));
+  }
+  const reader = res.body?.getReader();
+  if (!reader) {
+    const buf = Buffer.from(await res.arrayBuffer());
+    if (buf.length > maxBytes)
+      throw new Error(msg("ERRORS.RESPONSE_TOO_LARGE"));
+    return { buffer: buf, contentType: res.headers.get("content-type") };
+  }
+  const chunks: Uint8Array[] = [];
+  let total = 0;
+  while (true) {
+    const next = await reader.read();
+    if (next.done) break;
+    total += next.value.byteLength;
+    if (total > maxBytes) {
+      await reader.cancel();
+      throw new Error(msg("ERRORS.RESPONSE_TOO_LARGE"));
+    }
+    chunks.push(next.value);
+  }
+  return {
+    buffer: Buffer.concat(chunks),
+    contentType: res.headers.get("content-type"),
+  };
+}
+
 async function verifyMagicBytes(
   body: Buffer | Uint8Array,
   declaredCt?: string,
@@ -258,11 +298,20 @@ export async function pingR2(): Promise<boolean> {
   }
 }
 
+// Hard ceiling on any single object written to R2. The download path caps via
+// safeFetchBytes, but direct multipart uploads (playground references/masks)
+// reach uploadToR2 without going through it, so the cap has to live here too
+// or a large multipart POST sails straight past it.
+const MAX_UPLOAD_BYTES = 50 * 1024 * 1024;
+
 export async function uploadToR2(
   key: string,
   body: Buffer | Uint8Array,
   contentType?: string,
 ): Promise<{ url: string; mime: string }> {
+  if (body.length > MAX_UPLOAD_BYTES) {
+    throw new Error(msg("ERRORS.STORAGE_QUOTA_EXCEEDED"));
+  }
   const mime = await verifyMagicBytes(body, contentType);
   await getS3().send(
     new PutObjectCommand({
@@ -314,7 +363,7 @@ async function resolveConvOwner(
   return { userId, isGuest, scope: isGuest ? "guest" : "user" };
 }
 
-async function assertUserQuota(userId: number, incomingBytes: number) {
+export async function assertUserQuota(userId: number, incomingBytes: number) {
   if (userId === GUEST_USER_ID) return;
   const rows = await getDb()
     .select({ total: sql<number>`COALESCE(SUM(${media.sizeBytes}), 0)` })
@@ -350,8 +399,8 @@ async function putMedia(
   await assertUserQuota(owner.userId, buffer.length);
   const key = mediaKey(owner.scope, convId, msgId, uid(8));
   const { url } = await uploadToR2(key, buffer, declaredCt);
-  // Media rows live in client SQLocal by default. Sync push handles the
-  // server-side `media` insert when the user enables sync; never record here.
+  // Media rows live in client SQLocal only; the server never records a `media`
+  // row here (R2 holds the bytes, the local DB holds the row).
   return url;
 }
 
@@ -405,7 +454,8 @@ function generationReferenceKey(userId: number, filename: string): string {
   return `playgrounds-refs/${userId}/${filename}`;
 }
 
-// Client-first: download bytes, no R2 upload (deferred to sync).
+// Client-first: download bytes only, no R2 upload (the client persists them
+// to local SQLocal as base64).
 export async function downloadGenerationBytes(
   url: string,
   authToken?: string,
@@ -429,12 +479,42 @@ export async function downloadGenerationBytes(
   };
 }
 
+// Refs are scratch input images, never in the `media` table (so the quota
+// SUM misses them) and the sweeper never prunes their prefix; a guest could
+// write unbounded never-expiring objects. Cap per user: before each upload,
+// drop the oldest beyond MAX_REF_OBJECTS so the prefix stays bounded.
+const MAX_REF_OBJECTS = 20;
+
+async function pruneRefObjects(userId: number): Promise<void> {
+  const prefix = `playgrounds-refs/${userId}/`;
+  const res = await getS3().send(
+    new ListObjectsV2Command({ Bucket: R2_BUCKET, Prefix: prefix }),
+  );
+  const objs = (res.Contents ?? []).filter((o) => o.Key);
+  if (objs.length < MAX_REF_OBJECTS) return;
+  const oldest = objs
+    .sort(
+      (a, b) =>
+        (a.LastModified?.getTime() ?? 0) - (b.LastModified?.getTime() ?? 0),
+    )
+    .slice(0, objs.length - MAX_REF_OBJECTS + 1);
+  await getS3().send(
+    new DeleteObjectsCommand({
+      Bucket: R2_BUCKET,
+      Delete: { Objects: oldest.map((o) => ({ Key: o.Key! })) },
+    }),
+  );
+}
+
 export async function uploadReferenceToR2(
   userId: number,
   body: Buffer | Uint8Array,
   declaredCt?: string,
 ): Promise<{ url: string; key: string; mime: string; sizeBytes: number }> {
+  await pruneRefObjects(userId).catch(() => {});
   const key = generationReferenceKey(userId, uid(8));
+  // uploadToR2 magic-byte verifies + restricts to the image/video/pdf
+  // allowlist, so a non-image ref is rejected here.
   const { url, mime } = await uploadToR2(key, body, declaredCt);
   return { url, key, mime, sizeBytes: body.length };
 }

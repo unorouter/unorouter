@@ -8,7 +8,11 @@ import { APP_VALUES } from "@/lib/config/constants";
 import { useAuiState } from "@assistant-ui/react";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef } from "react";
-import { NeedsTokenGate } from "./chat-elements";
+import {
+  ActiveConfigBadge,
+  CharacterBackground,
+  NeedsTokenGate,
+} from "./chat-elements";
 
 type ChatProps = {
   convId?: string;
@@ -40,10 +44,20 @@ export function Chat(props: ChatProps) {
       : t("CHAT.META.TITLE", APP_VALUES);
   }, [convQuery.data?.title, t]);
 
-  if (gate.needsToken) return <NeedsTokenGate />;
+  if (gate.needsToken)
+    return (
+      // chat-shell-reveal drops the opaque welcome placeholder (globals.css),
+      // which otherwise waits for a composer that never mounts here. Flex
+      // column sizing so the gate's flex-1 centering has height.
+      <div className="chat-shell-reveal flex min-h-0 flex-1 flex-col">
+        <NeedsTokenGate />
+      </div>
+    );
 
   return (
-    <div className="relative flex min-h-0 min-w-0 flex-1 flex-col">
+    <div className="relative isolate flex min-h-0 min-w-0 flex-1 flex-col">
+      <CharacterBackground convId={effectiveId} />
+      <ActiveConfigBadge />
       <SectionBoundary>
         <Thread />
       </SectionBoundary>

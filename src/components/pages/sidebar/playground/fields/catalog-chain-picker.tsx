@@ -71,6 +71,7 @@ export function CatalogChainPicker<
               <div className="truncate text-sm font-medium">{entry.name}</div>
               <div className="mt-1 flex items-center gap-2">
                 <Slider
+                  aria-label={t(props.titleKey)}
                   className="flex-1"
                   min={0}
                   max={2}

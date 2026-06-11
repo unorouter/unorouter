@@ -1,5 +1,5 @@
 #!/usr/bin/env bun
-import { spawn } from "node:child_process";
+import { spawn, spawnSync } from "node:child_process";
 import { log } from "node:console";
 import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
@@ -10,13 +10,17 @@ type Theme = "dark" | "light";
 
 type Variant = {
   name: string;
+  short: string;
   formFactor: FormFactor;
   theme: Theme;
   outDir: string;
   configPath: string;
 };
 
-const pathArg = process.argv[2] ?? "/en";
+// Usage: bun scripts/lighthouse.ts [path]
+// No arg = audit every page below. With arg (e.g. /en/pricing) = single page.
+const pathArg = process.argv[2];
+
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 if (!apiUrl) throw new Error("NEXT_PUBLIC_API_URL is not set");
 const apiHost = new URL(apiUrl);
@@ -25,12 +29,73 @@ const tmpDir = tmpdir();
 const sharedCacheDir = path.join(tmpDir, ".unlighthouse");
 const generatedConfigDir = path.join(tmpDir, ".unlighthouse-configs");
 
-const formFactors: FormFactor[] = ["mobile", "desktop"];
+const LOCALE = "/en";
+
+// One URL per page template. App pages (chat/playground) render for guests.
+const STATIC_PAGES = [
+  "/",
+  "/pricing",
+  "/models",
+  "/rankings",
+  "/blog",
+  "/docs",
+  "/privacy",
+  "/terms",
+  "/login",
+  "/register",
+  "/consent",
+  "/status",
+  "/offline",
+  "/chat",
+  "/chat/cards",
+  "/chat/presets",
+  "/playground",
+];
+
+// docs/[slug] guides share one template; one representative per render path.
+// sillytavern = template, cc-switch = customComponent, claude-code = legacy static route.
+const GUIDE_SLUGS = ["sillytavern", "cc-switch", "claude-code"];
+
+// Guests redirect to /login on these; needs an auth cookie hook to be meaningful.
+// const AUTH_PAGES = ["/dashboard", "/billing", "/settings", "/token", "/logs", "/affiliate"];
+
+// models/[slug] and blog/[slug] share one template each; one sample covers it.
+const MODEL_SAMPLES = 1;
+const BLOG_SAMPLES = 1;
+
+async function sitemapSamples(): Promise<string[]> {
+  const res = await fetch(`${site}/sitemap.xml`);
+  if (!res.ok) throw new Error(`sitemap fetch failed: ${res.status}`);
+  const xml = await res.text();
+  const paths = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)]
+    .map((m) => new URL(m[1]).pathname)
+    .filter((p) => p.startsWith(`${LOCALE}/`));
+  const models = paths.filter((p) =>
+    new RegExp(`^${LOCALE}/models/[^/]+$`).test(p),
+  );
+  const blogs = paths.filter((p) => new RegExp(`^${LOCALE}/blog/.+$`).test(p));
+  return [...models.slice(0, MODEL_SAMPLES), ...blogs.slice(0, BLOG_SAMPLES)];
+}
+
+async function buildUrls(): Promise<string[]> {
+  if (pathArg) return [pathArg];
+  const fixed = [
+    ...STATIC_PAGES.map((p) => (p === "/" ? LOCALE : `${LOCALE}${p}`)),
+    ...GUIDE_SLUGS.map((s) => `${LOCALE}/docs/${s}`),
+  ];
+  return [...new Set([...fixed, ...(await sitemapSamples())])];
+}
+
+// Mobile by default; FORM_FACTORS=desktop or FORM_FACTORS=mobile,desktop overrides.
+const formFactors: FormFactor[] = (process.env.FORM_FACTORS?.split(",") as
+  | FormFactor[]
+  | undefined) ?? ["mobile"];
 const themes: Theme[] = ["dark", "light"];
 
 const variants: Variant[] = formFactors.flatMap((ff) =>
   themes.map((t) => ({
     name: `${cap(ff)} ${cap(t)}`,
+    short: `${ff === "mobile" ? "Mob" : "Dsk"}${t === "dark" ? "Drk" : "Lgt"}`,
     formFactor: ff,
     theme: t,
     outDir: path.join(tmpDir, `.unlighthouse-${ff}-${t}`),
@@ -42,7 +107,7 @@ function cap(s: string) {
   return s[0].toUpperCase() + s.slice(1);
 }
 
-function buildConfig(v: Variant) {
+function buildConfig(v: Variant, urls: string[]) {
   const screen =
     v.formFactor === "mobile"
       ? {
@@ -62,7 +127,9 @@ function buildConfig(v: Variant) {
 
   const config = {
     site,
-    urls: [pathArg],
+    urls,
+    // Perf scores are CPU-sensitive; parallel chrome instances deflate them.
+    puppeteerClusterMaxConcurrency: 2,
     lighthouseOptions: {
       formFactor: v.formFactor,
       screenEmulation: screen,
@@ -85,15 +152,15 @@ export default config;
 `;
 }
 
-function runVariant(v: Variant) {
+function runVariant(v: Variant, urls: string[]) {
   return new Promise<void>((resolve) => {
     const args = [
       "-y",
       "unlighthouse-ci",
       "--site",
-      `${site}${pathArg}`,
+      site,
       "--urls",
-      pathArg,
+      urls.join(","),
       "--output-path",
       v.outDir,
       "--config",
@@ -104,12 +171,36 @@ function runVariant(v: Variant) {
       cwd: tmpDir,
       shell: process.platform === "win32",
     });
-    child.on("exit", () => resolve());
+    children.add(child);
+    child.on("exit", () => {
+      children.delete(child);
+      resolve();
+    });
   });
 }
 
-async function readScore(v: Variant) {
-  const slug = pathArg.replace(/^\/+/, "").replace(/\/+$/, "");
+// Crashed/killed runs used to leak headless chromes (hundreds accumulated).
+// Sweep strays at start, and take children + their browsers down with us.
+const children = new Set<ReturnType<typeof spawn>>();
+
+function killStrays() {
+  // Interactive browsers are not headless; this only hits audit leftovers.
+  spawnSync("pkill", ["-9", "-f", "unlighthouse"], { stdio: "ignore" });
+  spawnSync("pkill", ["-9", "-f", "--", "--headless"], { stdio: "ignore" });
+}
+
+function shutdown() {
+  for (const c of children) c.kill("SIGKILL");
+  killStrays();
+  process.exit(130);
+}
+process.on("SIGINT", shutdown);
+process.on("SIGTERM", shutdown);
+
+type Score = { perf: number; a11y: number; bp: number; seo: number } | null;
+
+async function readScore(v: Variant, urlPath: string): Promise<Score> {
+  const slug = urlPath.replace(/^\/+/, "").replace(/\/+$/, "");
   const jsonPath = path.join(
     v.outDir,
     "reports",
@@ -121,20 +212,24 @@ async function readScore(v: Variant) {
     const d = JSON.parse(raw);
     const c = d.categories;
     return {
-      name: v.name,
       perf: Math.round(c.performance.score * 100),
       a11y: Math.round(c.accessibility.score * 100),
       bp: Math.round(c["best-practices"].score * 100),
       seo: Math.round(c.seo.score * 100),
     };
   } catch {
-    return { name: v.name, perf: 0, a11y: 0, bp: 0, seo: 0 };
+    return null;
   }
 }
 
-log(`Auditing ${site}${pathArg} (4 variants in parallel)...`);
+const urls = await buildUrls();
+
 log(
-  `Reports: ${path.join(tmpDir, ".unlighthouse-<form>-<theme>", "reports", "<slug>", "lighthouse.json")}\n`,
+  `Auditing ${urls.length} page(s) on ${site} (${variants.length} variants, sequential)...`,
+);
+for (const u of urls) log(`  ${u}`);
+log(
+  `\nReports: ${path.join(tmpDir, ".unlighthouse-<form>-<theme>", "reports", "<slug>", "lighthouse.json")}\n`,
 );
 
 // Wipe shared unlighthouse cache, generated configs, and per-variant leftovers
@@ -150,32 +245,52 @@ await Promise.all([
 
 await mkdir(generatedConfigDir, { recursive: true });
 await Promise.all(
-  variants.map((v) => writeFile(v.configPath, buildConfig(v), "utf8")),
+  variants.map((v) => writeFile(v.configPath, buildConfig(v, urls), "utf8")),
 );
 
-await Promise.all(variants.map(runVariant));
+killStrays();
 
-const scores = await Promise.all(variants.map(readScore));
+// Sequential: concurrent variants skew perf scores via CPU contention.
+for (const v of variants) await runVariant(v, urls);
 
-log("\n=== Results ===\n");
+killStrays();
+
+const matrix = await Promise.all(
+  variants.map((v) => Promise.all(urls.map((u) => readScore(v, u)))),
+);
+
+const pageCol = Math.max(4, ...urls.map((u) => u.length)) + 2;
+
+log("\n=== Performance per variant (A11y/BP/SEO = min across variants) ===\n");
 log(
-  "Variant".padEnd(16) +
-    "Perf".padStart(6) +
-    "A11y".padStart(6) +
-    "BP".padStart(6) +
-    "SEO".padStart(6) +
-    "  Overall",
+  "Page".padEnd(pageCol) +
+    variants.map((v) => v.short.padStart(7)).join("") +
+    "A11y".padStart(7) +
+    "BP".padStart(7) +
+    "SEO".padStart(7),
 );
-log("-".repeat(50));
-for (const s of scores) {
-  const overall = Math.round((s.perf + s.a11y + s.bp + s.seo) / 4);
+log("-".repeat(pageCol + 7 * 7));
+
+const offenders: string[] = [];
+urls.forEach((u, i) => {
+  const row = matrix.map((scores) => scores[i]);
+  const fmt = (n: number | undefined) => String(n ?? "-").padStart(7);
+  const min = (k: "a11y" | "bp" | "seo") => {
+    const vals = row.filter((s): s is NonNullable<Score> => s != null);
+    return vals.length ? Math.min(...vals.map((s) => s[k])) : undefined;
+  };
   log(
-    s.name.padEnd(16) +
-      String(s.perf).padStart(6) +
-      String(s.a11y).padStart(6) +
-      String(s.bp).padStart(6) +
-      String(s.seo).padStart(6) +
-      "  " +
-      String(overall).padStart(6),
+    u.padEnd(pageCol) +
+      row.map((s) => fmt(s?.perf)).join("") +
+      fmt(min("a11y")) +
+      fmt(min("bp")) +
+      fmt(min("seo")),
   );
-}
+  if (row.some((s) => s == null || s.perf < 100)) offenders.push(u);
+});
+
+log(
+  offenders.length
+    ? `\n${offenders.length} page(s) below 100 perf (or missing report):\n${offenders.map((u) => `  ${u}`).join("\n")}`
+    : "\nAll pages at 100 performance.",
+);

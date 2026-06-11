@@ -2,7 +2,7 @@
 
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useBillingActions } from "@/hooks/ui/use-billing-actions";
-import type { PaymentMethod } from "@/store/payment-method-store";
+import type { PaymentMethod } from "@/store/client-store";
 import { useTranslations } from "next-intl";
 
 export function PaymentMethodToggle() {
@@ -13,7 +13,7 @@ export function PaymentMethodToggle() {
 
   return (
     <div className="space-y-2">
-      <p className="text-muted-foreground text-xs font-medium uppercase tracking-wide">
+      <p className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
         {t("BILLING.PAYMENT_METHOD.LABEL")}
       </p>
       <Tabs

@@ -1,4 +1,5 @@
 import { Chat } from "@/components/pages/sidebar/chat/chat";
+import { ChatWelcomePlaceholder } from "@/components/pages/sidebar/chat/chat-welcome-placeholder";
 import { APP_VALUES } from "@/lib/config/constants";
 import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
 import { serverLocale } from "@/lib/utils/server";
@@ -20,5 +21,13 @@ export async function generateMetadata(props: {
 }
 
 export default function ChatPage() {
-  return <Chat />;
+  return (
+    // Flex child + container: Chat's root is `flex-1` and needs a flex parent
+    // with real height, else the thread collapses to auto height and the
+    // welcome + composer top-align. relative anchors the absolute placeholder.
+    <div className="chat-shell relative flex min-h-0 min-w-0 flex-1">
+      <ChatWelcomePlaceholder />
+      <Chat />
+    </div>
+  );
 }

@@ -1,3 +1,4 @@
+import { prefetchElysia } from "@/lib/react-query/prefetch";
 import { buildLogQueryFilters } from "@/components/pages/sidebar/logs/common/log-helpers";
 import { buildDrawingFilters } from "@/components/pages/sidebar/logs/drawing/drawing-helpers";
 import { LogsShell } from "@/components/pages/sidebar/logs/logs-shell";
@@ -11,7 +12,6 @@ import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { DataTableId, StoreId } from "@/lib/types/enums";
-import { handleElysia } from "@/lib/utils/base";
 import { setCookies } from "@/lib/utils/server";
 import type { DataTableStores } from "@/store/data-table-store";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
@@ -47,46 +47,33 @@ export default async function LogsPage() {
   const serverCookies = await setCookies();
 
   await Promise.all([
-    queryClient.prefetchQuery({
-      queryKey: queryKeys.usageLogs(queryFilters),
-      queryFn: async () =>
-        handleElysia(
-          await rpc.api.ops.logs.get({
-            query: queryFilters,
-            ...serverCookies,
-          }),
-        ),
-    }),
-    queryClient.prefetchQuery({
-      queryKey: queryKeys.usageLogsStat(statFilters),
-      queryFn: async () =>
-        handleElysia(
-          await rpc.api.ops.logs.stat.get({
-            query: statFilters,
-            ...serverCookies,
-          }),
-        ),
-    }),
-    queryClient.prefetchQuery({
-      queryKey: queryKeys.midjourneyLogs(drawingQueryFilters),
-      queryFn: async () =>
-        handleElysia(
-          await rpc.api.ops.logs.midjourney.get({
-            query: drawingQueryFilters,
-            ...serverCookies,
-          }),
-        ),
-    }),
-    queryClient.prefetchQuery({
-      queryKey: queryKeys.taskLogs(taskQueryFilters),
-      queryFn: async () =>
-        handleElysia(
-          await rpc.api.ops.logs.task.get({
-            query: taskQueryFilters,
-            ...serverCookies,
-          }),
-        ),
-    }),
+    prefetchElysia(queryClient, queryKeys.usageLogs(queryFilters), () =>
+      rpc.api.ops.logs.get({
+        query: queryFilters,
+        ...serverCookies,
+      }),
+    ),
+    prefetchElysia(queryClient, queryKeys.usageLogsStat(statFilters), () =>
+      rpc.api.ops.logs.stat.get({
+        query: statFilters,
+        ...serverCookies,
+      }),
+    ),
+    prefetchElysia(
+      queryClient,
+      queryKeys.midjourneyLogs(drawingQueryFilters),
+      () =>
+        rpc.api.ops.logs.midjourney.get({
+          query: drawingQueryFilters,
+          ...serverCookies,
+        }),
+    ),
+    prefetchElysia(queryClient, queryKeys.taskLogs(taskQueryFilters), () =>
+      rpc.api.ops.logs.task.get({
+        query: taskQueryFilters,
+        ...serverCookies,
+      }),
+    ),
   ]);
 
   return (

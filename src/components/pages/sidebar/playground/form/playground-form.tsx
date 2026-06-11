@@ -1,5 +1,6 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { Icon } from "@/components/ui/icon";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
@@ -31,7 +32,12 @@ import {
 import { useAtom, useAtomValue } from "jotai";
 import { AspectRatioField } from "../fields/aspect-ratio-field";
 import { InitImageField } from "../fields/init-image-field";
-import { InpaintCanvas } from "../fields/inpaint-canvas";
+// react-canvas-masker is a UMD bundle referencing `self`; evaluating it during
+// SSR 500s the page. Load the canvas client-only on first inpaint render.
+const InpaintCanvas = dynamic(
+  () => import("../fields/inpaint-canvas").then((m) => m.InpaintCanvas),
+  { ssr: false },
+);
 import type { LoraEntry } from "../fields/lora-picker";
 import { LoraPicker } from "../fields/lora-picker";
 import type { ReferenceEntry } from "../fields/reference-uploader";
@@ -260,11 +266,9 @@ export function GenerateForm() {
               (form.watch("references") as ReferenceEntry[] | undefined) ?? []
             }
             onChange={(refs) =>
-              form.setValue(
-                "references",
-                refs.length > 0 ? refs : undefined,
-                { shouldDirty: true },
-              )
+              form.setValue("references", refs.length > 0 ? refs : undefined, {
+                shouldDirty: true,
+              })
             }
           />
         )}

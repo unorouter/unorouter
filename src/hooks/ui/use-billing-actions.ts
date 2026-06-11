@@ -11,10 +11,7 @@ import {
 } from "@/hooks/billing/billing-hook";
 import { analytics } from "@/lib/analytics";
 import type { SubscriptionPlan } from "@/lib/api/subscription";
-import {
-  paymentMethodAtom,
-  type PaymentMethod,
-} from "@/store/payment-method-store";
+import { paymentMethodAtom, type PaymentMethod } from "@/store/client-store";
 import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useEffect } from "react";
@@ -68,13 +65,7 @@ export function useBillingActions() {
     } else if (paymentMethod === "crypto" && !enableCrypto && enableCard) {
       setPaymentMethod("card");
     }
-  }, [
-    topUpInfo,
-    paymentMethod,
-    enableCard,
-    enableCrypto,
-    setPaymentMethod,
-  ]);
+  }, [topUpInfo, paymentMethod, enableCard, enableCrypto, setPaymentMethod]);
 
   function discountFactor(amount: number): number | undefined {
     return discount[String(amount)];
@@ -116,9 +107,7 @@ export function useBillingActions() {
             if (data?.pay_link) {
               openPayLink(data.pay_link);
             } else {
-              // NowPayments email-subscription flow has no checkout URL: the
-              // invoice is emailed to the user. Confirm so the click isn't
-              // silently no-op.
+              // NowPayments email-subscription flow has no checkout URL (invoice is emailed); confirm so the click isn't a silent no-op.
               toast.success(t("BILLING.SUBSCRIPTION.CRYPTO_EMAIL_SENT"));
             }
           },

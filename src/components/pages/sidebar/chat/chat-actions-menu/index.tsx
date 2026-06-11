@@ -1,7 +1,5 @@
 "use client";
 
-import { LocalDbStudio } from "@/components/elements/db/local-db-studio";
-import { ConversationOverridesDrawer } from "@/components/pages/sidebar/chat/overrides";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -11,25 +9,38 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Icon } from "@/components/ui/icon";
-import { useAuthQuery } from "@/hooks/auth/auth-hook";
+import { conversationSettingsOpenAtom } from "@/store/chat-store";
+import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
+import dynamic from "next/dynamic";
 import { useState } from "react";
 import { ConversationMenuItems } from "./conversation-menu-items";
 import { ImportExportSubmenu } from "./import-export-submenu";
 import { RpNavItems } from "./rp-nav-items";
-import { SyncMenuItems } from "./sync-menu-items";
 
 type Props = {
   convId: string | null;
 };
 
+const ConversationOverridesDrawer = dynamic(
+  () =>
+    import("@/components/pages/sidebar/chat/overrides").then(
+      (m) => m.ConversationOverridesDrawer,
+    ),
+  { ssr: false },
+);
+const LocalDbStudio = dynamic(
+  () =>
+    import("@/components/elements/db/local-db-studio").then(
+      (m) => m.LocalDbStudio,
+    ),
+  { ssr: false },
+);
+
 export function ChatActionsMenu(props: Props) {
   const t = useTranslations();
-  const auth = useAuthQuery();
   const [dbStudioOpen, setDbStudioOpen] = useState(false);
-  const [settingsOpen, setSettingsOpen] = useState(false);
-
-  const isLoggedIn = !!auth.data;
+  const [settingsOpen, setSettingsOpen] = useAtom(conversationSettingsOpenAtom);
 
   return (
     <>
@@ -54,7 +65,6 @@ export function ChatActionsMenu(props: Props) {
           <DropdownMenuSeparator />
           <RpNavItems />
           <DropdownMenuSeparator />
-          <SyncMenuItems convId={props.convId} isLoggedIn={isLoggedIn} />
           <ImportExportSubmenu convId={props.convId} />
           <DropdownMenuSeparator />
           <ConversationMenuItems
@@ -63,12 +73,16 @@ export function ChatActionsMenu(props: Props) {
           />
         </DropdownMenuContent>
       </DropdownMenu>
-      <ConversationOverridesDrawer
-        convId={props.convId}
-        open={settingsOpen}
-        onOpenChange={setSettingsOpen}
-      />
-      <LocalDbStudio open={dbStudioOpen} onOpenChange={setDbStudioOpen} />
+      {settingsOpen && (
+        <ConversationOverridesDrawer
+          convId={props.convId}
+          open={settingsOpen}
+          onOpenChange={setSettingsOpen}
+        />
+      )}
+      {dbStudioOpen && (
+        <LocalDbStudio open={dbStudioOpen} onOpenChange={setDbStudioOpen} />
+      )}
     </>
   );
 }

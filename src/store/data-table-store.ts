@@ -15,7 +15,7 @@ import { atom } from "jotai";
 import { atomFamily } from "jotai-family";
 import { atomWithStorage } from "jotai/utils";
 
-export type DataTableStore = {
+type DataTableStore = {
   globalFilter: string;
   rowSelection: RowSelectionState;
   columnVisibility: VisibilityState;

@@ -148,6 +148,8 @@ export async function getPricingData(): Promise<BadgePricing> {
 
   cachedPricing = {
     modelCount: summary.modelCount,
+    freeCount: summary.freeCount,
+    paidCount: summary.paidCount,
     vendorCount: summary.vendorCount,
     vendorNames: summary.vendorNames,
     vendorModelCounts,

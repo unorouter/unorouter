@@ -56,10 +56,15 @@ export const MyFormInput = <T extends FieldValues>({
                 <Input
                   {...field}
                   {...rest}
+                  // null (nullable fields, e.g. "inherit") -> "" so the input
+                  // stays controlled; React errors on a null value prop.
+                  value={field.value ?? ""}
                   onChange={(e) =>
                     field.onChange(
-                      isNumber && e.target.value !== ""
-                        ? Number(e.target.value)
+                      isNumber
+                        ? e.target.value === ""
+                          ? null
+                          : Number(e.target.value)
                         : e,
                     )
                   }

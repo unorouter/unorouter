@@ -27,7 +27,6 @@ const openapiRefs =
       })()
     : fromTypes("src/app/api/[[...route]]/route.ts");
 
-
 export const app = new Elysia({ prefix: "/api" })
   .use(
     openapi({

@@ -22,22 +22,9 @@
     "PRICING": "Bảng giá",
     "DOCS": "Tài liệu",
     "BLOG": "Blog",
-    "GROUP_CLI": "Công cụ CLI",
-    "GROUP_ROLEPLAY": "Ứng dụng Roleplay",
-    "CC_SWITCH": "CC Switch",
-    "CLAUDE_CODE": "Claude Code",
-    "CODEX": "Codex",
-    "GEMINI_CLI": "Gemini CLI",
-    "OPENCLAW": "OpenClaw",
-    "SILLYTAVERN": "SillyTavern",
-    "JANITOR_AI": "Janitor.AI",
-    "RISUAI": "RisuAI",
-    "CHUB": "Chub / Venus",
     "DASHBOARD": "Bảng điều khiển",
     "LOG_IN": "Đăng nhập",
-    "GET_STARTED": "Bắt đầu",
     "CHAT": "Trò chuyện",
-    "GENERATE": "Tạo ảnh",
     "PLAYGROUND": "Khu thử nghiệm",
     "STATUS": "Trạng thái"
   },
@@ -45,7 +32,6 @@
     "HERO": {
       "BADGE": "Router đang hoạt động",
       "TITLE_LINE1": "TRÍ TUỆ",
-      "TITLE_LINE2": "HỢP NHẤT",
       "SUBTITLE": "{appName} kết nối bạn với hơn {modelCount} mô hình AI qua một khoá duy nhất. Xây ứng dụng, chạy agent, hay roleplay với nhân vật. Cùng một khoá, cùng tốc độ, cùng giá.",
       "CTA_PRIMARY": "Bắt đầu",
       "CTA_SECONDARY": "Xem mô hình",
@@ -54,28 +40,26 @@
     "STATS": {
       "MODELS": "Mô hình",
       "PROVIDERS": "Nhà cung cấp",
-      "UPTIME": "Thời gian hoạt động",
-      "ENDPOINTS": "Endpoint",
+      "FREE": "Miễn phí",
+      "PAID": "Trả phí",
       "PANEL": {
         "TOKENS_SERVED": "Token đã phục vụ",
         "REQUESTS": "Yêu cầu",
-        "REQ_MIN": "Yêu cầu / phút",
         "TOKENS_MIN": "Token / phút",
         "LIVE": "Trực tiếp"
       },
       "INDICATOR": {
         "GLOBAL": "Có thể định tuyến",
         "INTEGRATED": "Upstream",
-        "SLA": "Đo thực tế"
+        "FREE": "Không tốn phí",
+        "PAID": "Mỗi token"
       }
     },
     "TICKER": {
-      "LABEL": "Mô hình khả dụng",
       "LIVE_INFERENCE": "Suy luận trực tiếp",
       "TPS": "TPS"
     },
     "INTEGRATION": {
-      "BADGE": "Tích hợp",
       "VIEW_GUIDE": "Xem hướng dẫn",
       "CLAUDE_CODE": {
         "BADGE": "Anthropic API",
@@ -117,72 +101,32 @@
         "TITLE": "Hoạt động với Chub / Venus",
         "DESCRIPTION": "Kết nối {appName} như một reverse proxy gốc trong Chub. Một URL, một key, mọi model."
       },
-      "CLI_HEADER": "Cho agent code và công cụ CLI",
-      "RP_HEADER": "Cho roleplay và chat sáng tạo"
+      "PICK_TITLE": "Chon ung dung khach ban thuc su dang dung.",
+      "PICK_DESC": "{appName} hoat dong nhu mot API tuong thich OpenAI tuy chinh cho cac tac nhan lap trinh, giao dien roleplay, ung dung chat va cong cu CLI."
     },
     "PRICING": {
       "LABEL": "Bảng giá",
       "TITLE": "Giá cả đơn giản.",
       "SUBTITLE": "Chỉ trả cho những gì bạn dùng.",
       "DESCRIPTION": "Đăng ký thuê bao để tiết kiệm hơn hoặc trả theo nhu cầu. Mọi gói đều bao gồm quyền truy cập mọi mô hình kèm tự động chuyển đổi dự phòng giữa các nhà cung cấp.",
-      "PAYG": {
-        "NAME": "Trả theo nhu cầu",
-        "PRICE": "$0",
-        "DESC": "Không mức tối thiểu. Nạp tiền và dùng mọi mô hình.",
-        "ENDPOINT": "/v1/chat/completions"
-      },
-      "BASIC": {
-        "NAME": "Cơ bản",
-        "PRICE": "$20/tháng",
-        "DESC": "Giá trị tín dụng $30. Hệ số nhân 1.5x.",
-        "RATE": "100 yêu cầu/phút"
-      },
-      "PRO": {
-        "NAME": "Pro",
-        "PRICE": "$50/tháng",
-        "DESC": "Giá trị tín dụng $75. Định tuyến ưu tiên.",
-        "RATE": "500 yêu cầu/phút"
-      },
-      "ENTERPRISE": {
-        "NAME": "Doanh nghiệp",
-        "PRICE": "$100/tháng",
-        "DESC": "Giá trị tín dụng $175. Hỗ trợ chuyên biệt.",
-        "RATE": "2,000 yêu cầu/phút"
-      },
-      "CTA": {
-        "GET_STARTED": "Bắt đầu",
-        "VIEW_PLANS": "Xem tất cả gói"
-      },
       "PROVIDERS": {
-        "TITLE": "Nhà cung cấp được hỗ trợ",
-        "ACTIVE": "Đang hoạt động",
-        "DESC_OPENAI": "GPT-4o, o1, o3, GPT-4.1",
-        "DESC_ANTHROPIC": "Claude Opus, Sonnet, Haiku",
-        "DESC_GOOGLE": "Gemini 2.5 Pro, Flash",
-        "DESC_DEEPSEEK": "DeepSeek V3, R1"
+        "TITLE": "Nhà cung cấp được hỗ trợ"
       },
       "FLOW": {
-        "TITLE": "Luồng yêu cầu",
-        "LIVE": "Trực tiếp",
-        "STEP1": "POST /v1/chat/completions",
-        "STEP2": "Định tuyến đến nhà cung cấp nhanh nhất",
-        "STEP3": "Phản hồi đã gửi"
+        "TITLE": "Luồng yêu cầu"
       }
     },
     "FEATURES": {
       "TITLE": "Vì sao chọn {appName}",
       "DESCRIPTION": "Một endpoint, mọi mô hình AI. Định tuyến thông minh chọn nhà cung cấp nhanh nhất, tự động chuyển đổi dự phòng đảm bảo yêu cầu của bạn luôn thành công.",
       "FAILOVER": {
-        "TITLE": "Tự động chuyển đổi dự phòng",
-        "DESC": "Yêu cầu thất bại sẽ lập tức thử lại qua kênh thay thế"
+        "TITLE": "Tự động chuyển đổi dự phòng"
       },
       "MULTIPROTOCOL": {
-        "TITLE": "Hỗ trợ đa giao thức",
-        "DESC": "Định dạng API của OpenAI, Anthropic và Gemini"
+        "TITLE": "Hỗ trợ đa giao thức"
       },
       "LOADBALANCE": {
-        "TITLE": "Cân bằng tải thông minh",
-        "DESC": "Tự động định tuyến đến nhà cung cấp khả dụng nhanh nhất"
+        "TITLE": "Cân bằng tải thông minh"
       }
     },
     "RELIABILITY": {
@@ -199,7 +143,6 @@
         "DESC": "Chọn kênh dựa trên độ trễ kết hợp trọng số ưu tiên. Nhà cung cấp nhanh nhất luôn thắng."
       },
       "LEARN_MORE": "Tìm hiểu thêm",
-      "LEARN_MORE_ARIA": "Tìm hiểu thêm về tài liệu {appName}",
       "LEARN_MORE_DOCS": "Xem tài liệu",
       "ARCH": {
         "TITLE": "Kiến trúc",
@@ -436,7 +379,6 @@
       "LEADERBOARD_TITLE": "Bảng xếp hạng LLM",
       "LEADERBOARD_SUBTITLE": "So sánh các mô hình phổ biến nhất trên nền tảng",
       "EMPTY": "Không có mô hình nào khớp với bộ lọc đã chọn",
-      "TOTAL_LABEL": "Tổng token",
       "TOKENS_SUFFIX": "token",
       "TOOLTIP_TOTAL": "Tổng",
       "BY_AUTHOR_LABEL": "bởi"
@@ -478,10 +420,7 @@
     "SUBTITLE": "Cập nhật sản phẩm, hướng dẫn tích hợp và ghi chú từ đội ngũ.",
     "READ_MORE": "Đọc thêm",
     "PUBLISHED": "Đã đăng",
-    "UPDATED": "Đã cập nhật",
     "BY_AUTHOR": "Bởi {author}",
-    "TAGS": "Thẻ",
-    "RECENT": "Bài viết gần đây",
     "BACK_TO_BLOG": "Quay lại mọi bài viết",
     "EMPTY": "Chưa có bài viết nào. Hãy ghé lại sớm.",
     "EMPTY_FILTERED": "Không có bài viết nào khớp với bộ lọc.",
@@ -511,7 +450,9 @@
       "announcement": "thông báo",
       "product": "sản phẩm",
       "engineering": "kỹ thuật",
-      "update": "cập nhật"
+      "update": "cập nhật",
+      "community": "Cộng đồng",
+      "comparison": "So sánh"
     },
     "POSTS": {
       "LAUNCH": {
@@ -556,9 +497,7 @@
         "H_NOT_SPOOFING": "Cái gì không phải là giả mạo: Bedrock, Vertex, Foundry",
         "H_RESULTS": "Kết quả sau 17 ngày kiểm tra",
         "H_WHY": "Vì sao điều này xảy ra",
-        "H_NEXT": "Bước tiếp theo",
         "H_TEST": "Tự kiểm tra nhà cung cấp của bạn trong 5 phút",
-        "H_NAMING": "Lưu ý về việc ẩn danh",
         "INTRO_P1": "Claude hiện là mô hình được săn đón nhất trên thị trường, và cũng là một trong những mô hình đắt nhất. Khoảng cách đó tạo ra một thị trường sôi động của các reseller bên thứ ba bán \"cùng một Claude\" với một phần nhỏ giá chính thức. Một số là hợp lệ. Rất nhiều thì không.",
         "INTRO_P2": "Trong 17 ngày probe tự động trên <s>8 reseller thượng nguồn</s>, chúng tôi tìm thấy <s>183 cặp (channel, model)</s> không vượt qua kiểm tra tính xác thực đối với các mô hình bán dưới tên <c>claude-opus-4-7</c>, <c>claude-sonnet-4-6</c>, <c>claude-haiku-4-5</c> và các họ hàng. Cùng áp lực đó tồn tại với mọi mô hình cao cấp, nên GPT, Gemini và Grok gần như chắc chắn cũng bị ảnh hưởng. Claude chỉ là nơi mức chênh giá đang lớn nhất và là nơi chúng tôi có số liệu cứng.",
         "PROBES_P": "Với mỗi cặp (channel, model), chúng tôi gửi song song bốn request tới Anthropic Messages API chuẩn (<c>POST /v1/messages</c>):",
@@ -628,6 +567,57 @@
         "H_TRY": "Dùng thử",
         "TRY_P": "Mọi mô hình ở trên đều dùng được qua một endpoint tương thích OpenAI. Chỉnh sửa ảnh đa tham chiếu được phơi ra đúng như thượng nguồn định nghĩa, không bọc thêm. Mang sáu ảnh và một prompt, router sẽ chọn provider hoạt động.",
         "CTA": "<register>Lấy khóa API</register> hoặc <models>duyệt catalog ảnh</models> để xem danh sách đã xác minh đầy đủ."
+      },
+      "DISCORD_COMMUNITY": {
+        "TITLE": "Tham gia Discord {appName}, nhận số dư miễn phí",
+        "DESCRIPTION": "Liên kết tài khoản để nhận 1$, boost máy chủ để nhận 1$ mỗi tháng, săn lỗi để nhận tới 50$. Discord {appName} vừa mở cửa.",
+        "AUTHOR": "Đội ngũ {appName}",
+        "INTRO": "Chúng tôi mở một Discord cộng đồng cho {appName}. Đây là nơi đăng changelog, tiếp nhận ticket hỗ trợ, vận hành chương trình bug bounty và trả thưởng cho bạn bằng số dư API. Bài viết này liệt kê tất cả các cách kiếm tín dụng miễn phí trên máy chủ.",
+        "H_WHAT": "Bên trong máy chủ có gì",
+        "P_WHAT": "Thông báo, changelog, ticket hỗ trợ, forum bug bounty, đề xuất tính năng và mô hình, hỗ trợ chat AI, phòng voice và khu lounge cho booster. Đội ngũ có mặt mỗi ngày. Các kênh công khai đều chỉ đọc trừ những kênh dùng để chat, để giữ tín hiệu chất lượng.",
+        "H_EARN": "Liên kết Discord, nhận 1$",
+        "P_EARN": "Mở kênh verify, bấm Verify and Claim, rồi liên kết Discord trong phần cài đặt {appName}. Lần đầu liên kết, bot cộng 1$ số dư API vào tài khoản của bạn. Một lần duy nhất mỗi tài khoản, không yêu cầu gì thêm.",
+        "H_BOOST": "Boost máy chủ, kiếm hàng tháng",
+        "P_BOOST": "Mỗi lần boost mới sẽ cộng ngay 1$ vào số dư đã liên kết. Trong suốt thời gian boost còn hoạt động, bot trả thêm 1$ mỗi 30 ngày. Hai lượt boost nghĩa là hai khoản chi trả mỗi tháng. Hủy boost thì các khoản chi cũng dừng cùng bạn.",
+        "H_BUGS": "Bug bounty, tới 50$",
+        "P_BUGS": "Tìm thấy lỗi thật trên nền tảng thì hãy báo trong forum bug-bounty. Đội ngũ chọn mức độ nghiêm trọng và bot trả thưởng: Low 0,25$, Medium 0,50$, High 1$, Critical 50$. Người thực sự xác định ra lỗi sẽ nhận tiền, không nhất thiết là người mở thread.",
+        "H_JOIN": "Ghé chơi với chúng mình",
+        "CTA": "Sẵn sàng chưa? <invite>Tham gia Discord {appName}</invite>, sau đó <register>lấy API key</register> và <settings>liên kết tài khoản</settings> để nhận 1$ đầu tiên."
+      },
+      "FREE_MODELS_AGGREGATED": {
+        "TITLE": "Chúng tôi gom hơn 100 mô hình AI miễn phí vào một endpoint duy nhất",
+        "DESCRIPTION": "Trong hai ngày, chúng tôi đã kết nối 15 nhà cung cấp miễn phí vào {appName}: 134 dòng mô hình miễn phí, một endpoint OpenAI-compatible, $0 cho mỗi token. Chúng miễn phí là có lý do và đi kèm giới hạn tần suất mà chúng tôi không thể nâng lên. Đây là phiên bản thành thật.",
+        "AUTHOR": "Đội ngũ {appName}",
+        "INTRO": "Thế giới LLM miễn phí là có thật nhưng manh mún: Groq, Gemini, Cloudflare, Mistral, OVHcloud và cả tá cái tên khác, mỗi bên đều cho đi năng lực thật sự, nhưng nằm sau cả tá trang đăng ký, cả tá định dạng key và cả tá API không tương thích với nhau. Trong hai ngày, chúng tôi đã tìm hiểu, kiểm thử và gộp mọi nhà cung cấp miễn phí vĩnh viễn hợp pháp mà chúng tôi tìm được vào {appName}. Kết quả: 134 dòng mô hình miễn phí từ 15 nhà cung cấp, đứng sau một endpoint OpenAI-compatible và một key duy nhất.",
+        "H_WHAT": "Những gì chúng tôi đã thêm",
+        "P_WHAT": "Mười lăm nhà cung cấp miễn phí, lần lượt từng cái một: Groq, Gemini, Cerebras, SambaNova, Mistral, Cloudflare Workers AI (hai tài khoản), GitHub Models, Z.ai, OVHcloud, AI Horde, Pollinations, Cohere, Jina, NVIDIA NIM và OpenRouter. Tổng cộng 134 dòng mô hình miễn phí: Llama, gpt-oss, Qwen, Mistral, GLM, Nemotron và nhiều hơn nữa, cộng thêm 30 mô hình embedding miễn phí và 13 mô hình hình ảnh và âm thanh miễn phí. Mỗi mô hình đều được kiểm tra từ đầu đến cuối về HTTP, streaming và tool call trước khi lên sóng, đúng những bài kiểm tra tính xác thực và bộ khung mà chúng tôi chạy cho các mô hình trả phí.",
+        "H_CAVEAT": "Miễn phí là có lý do",
+        "P_CAVEAT": "Những mô hình này miễn phí thực sự, và đó chính là lý do chúng có giới hạn. <s>Nhà cung cấp đặt ra những giới hạn đó, không phải chúng tôi, và chúng tôi không thể nâng lên.</s> Mỗi nguồn thượng nguồn áp đặt giới hạn tần suất riêng: số request mỗi phút, hạn ngạch token mỗi ngày, ngân sách neuron của Cloudflare, mức ưu tiên trong hàng đợi tình nguyện. Chạm trần là nhà cung cấp đó trả về <c>429</c> cho tới khi reset. Một key miễn phí còn chạy được sáng nay có thể cạn kiệt vào chiều nay. Gói miễn phí là thông lượng theo kiểu cố hết sức, không phải một sự bảo đảm. Nếu khối lượng công việc của bạn cần độ trễ ổn định và không có những cú <c>429</c> bất ngờ, hãy dùng mô hình trả phí.",
+        "H_AGGREGATE": "Tại sao phải gom chúng lại làm gì",
+        "P_AGGREGATE": "Vì lựa chọn còn lại là mười lăm tài khoản. Mỗi nhà cung cấp có trang đăng ký riêng, định dạng key riêng, base URL riêng và những điểm oái oăm riêng: Z.ai nói theo đường dẫn Zhipu V4, Cloudflare mang account id trong URL, AI Horde muốn một key ẩn danh, GitHub khóa các mô hình sau phạm vi của token. Chúng tôi gánh hết tất cả những thứ đó để bạn gọi chúng theo đúng cách bạn gọi mọi thứ khác: một endpoint OpenAI-compatible, một key, một tên mô hình. Nguyên tắc thành thật mà chúng tôi tự ràng buộc: một tài khoản thật cho mỗi nhà cung cấp, chấp nhận giới hạn, không gom gặt, không gộp chung. Chúng tôi mở ra gói miễn phí như một món quà, không phải bán lại hạn ngạch của người khác.",
+        "H_FAILOVER": "Cách chúng tôi làm dịu các giới hạn",
+        "P_FAILOVER": "Nhiều mô hình trong số này được phục vụ bởi hơn một nhà cung cấp miễn phí. Riêng Llama 3.3 70B đã chạy trên bảy nhà cung cấp. Khi nhiều nhà cung cấp cùng cung cấp một mô hình, chúng tôi gộp chúng thành một tên công bố duy nhất và tự động chuyển dự phòng: nếu một nguồn thượng nguồn trả về <c>429</c> hoặc im lặng, nhà cung cấp khỏe mạnh kế tiếp đang phục vụ mô hình đó sẽ nhận request. Đó là cái đòn bẩy duy nhất mà chúng tôi thực sự kiểm soát được. Nó không nâng trần của bất kỳ nhà cung cấp đơn lẻ nào, nhưng nó có nghĩa là một mô hình miễn phí đa nguồn vẫn tiếp tục trả lời rất lâu sau khi bất kỳ nhà cung cấp nào của nó cạn kiệt. Các mô hình miễn phí đơn nguồn không có dự phòng, nên chúng đứng khựng khi nguồn thượng nguồn duy nhất của chúng cạn sạch.",
+        "H_HONEST": "Những gì chúng tôi đã không làm",
+        "P_HONEST": "Chúng tôi không thêm reverse proxy phục vụ lại các mô hình hàng đầu của OpenAI hay Claude mà không có phép. Chúng tôi không kéo vào các dịch vụ gom key cá nhân với token không thể chuyển nhượng, hay những dịch vụ pool-of-pools chuyên gom gặt và xoay vòng key của người khác. Chúng tồn tại, chúng đầy cám dỗ, và chúng chính là mớ chợ đen lộn xộn mà gateway này sinh ra để thay thế. Mỗi nhà cung cấp trong danh sách đều cho đi gói miễn phí của mình một cách có chủ đích, theo điều khoản riêng của họ. Nếu một nguồn không vượt qua được ngưỡng đó, nó không có mặt ở đây.",
+        "H_TRY": "Dùng thử",
+        "CTA": "Toàn bộ 134 mô hình miễn phí đang chạy sau một endpoint OpenAI-compatible. <register>Lấy ngay một API key</register> hoặc <models>duyệt danh mục mô hình</models> rồi lọc theo miễn phí. Chỉ cần nhớ bạn đang ở gói nào khi một cú <c>429</c> xuất hiện."
+      },
+      "UNOROUTER_VS_OPENROUTER": {
+        "TITLE": "{appName} so với OpenRouter: một so sánh trung thực",
+        "DESCRIPTION": "{appName} và OpenRouter đều đặt nhiều mô hình sau một khóa tương thích OpenAI. Khác biệt nằm ở phần bên trên: một API không giao diện, hay một API cộng với máy khách trò chuyện và nhân vật tích hợp sẵn. Đây là phiên bản trung thực.",
+        "AUTHOR": "Nhóm {appName}",
+        "INTRO": "OpenRouter đã phổ biến ý tưởng một khóa cho mọi mô hình. {appName} dựa trên cùng ý tưởng đó, với một khác biệt quyết định cái nào hợp với bạn: bạn muốn một API không giao diện, hay một API cộng với nơi để thực sự dùng nó. Đây là so sánh trung thực, do nhóm đứng sau một trong hai viết.",
+        "H_LANES": "Hai loại cổng",
+        "P_LANES": "Hầu hết các cổng tương thích OpenAI đều không có giao diện. OpenRouter, LiteLLM và Portkey cho bạn điểm cuối, định tuyến và chuyển đổi dự phòng, rồi để giao diện cho bạn. Điều đó hoàn toàn đúng khi bạn xuất bản mã. Phe còn lại là chợ trò chuyện: một danh mục mô hình gói trong giao diện web cho những người muốn trò chuyện chứ không xây dựng. {appName} ở cả hai cùng lúc, một API gọn cho tác nhân lập trình và một máy khách trò chuyện và nhân vật tích hợp sẵn dùng chung cùng khóa, cùng mô hình và cùng số dư.",
+        "H_MODELS": "Mô hình và giá",
+        "P_MODELS": "Cả hai cung cấp hơn 200 mô hình từ các nhà cung cấp lớn sau một khóa duy nhất, tự động nhận diện định dạng OpenAI, Anthropic và Gemini. OpenRouter thu phí theo phần trăm khi mua số dư. {appName} tính theo mức dùng, số dư không hết hạn và có một tầng mô hình miễn phí để tạo nguyên mẫu. Về độ rộng mô hình thuần túy thì hai bên tương đương, nên yếu tố quyết định hiếm khi là danh mục. Quan trọng là bạn làm gì với nó.",
+        "H_RP": "Phần mà OpenRouter bỏ qua",
+        "P_RP": "Trỏ một tác nhân lập trình (Claude Code, Cline, OpenCode, Kilo Code, Codex) vào {appName} và nó hành xử như bất kỳ điểm cuối tương thích OpenAI nào. Nhưng cùng một khóa cũng vận hành một máy khách trò chuyện và nhân vật tích hợp sẵn với persona, lorebook, preset và nhập thẻ SillyTavern, đồng thời cắm thẳng vào SillyTavern, Janitor.AI, RisuAI hay Chub. OpenRouter thuần túy là lớp API, nên bạn tự mang theo mọi giao diện. {appName} giao cả giao diện lẫn API cùng nhau.",
+        "H_MIGRATE": "Chuyển đổi chỉ là thay URL gốc",
+        "P_MIGRATE": "Vì {appName} tương thích OpenAI, việc chuyển một ứng dụng hiện có chỉ là một dòng: trỏ máy khách của bạn tới <c>https://api.unorouter.ai/v1</c> và giữ nguyên mã. Cùng một khóa dán vào ô điểm cuối tùy chỉnh của một máy khách trò chuyện sẽ tới cùng danh mục đó, nên không có tài khoản thứ hai để quản lý.",
+        "H_VERDICT": "Bạn nên chọn cái nào",
+        "P_VERDICT": "Nếu bạn chỉ xuất bản mã và muốn danh mục rộng nhất mà không cần giao diện, OpenRouter là lựa chọn mặc định tốt. Nếu bạn muốn định tuyến tự lưu trữ không phụ phí, LiteLLM thắng. Nếu bạn muốn một khóa hoạt động trong tác nhân lập trình của bạn và trong một máy khách trò chuyện và nhân vật thực thụ mà không phải chạy hai dịch vụ, đó là khoảng trống mà {appName} lấp đầy. Không có người thắng duy nhất. Nó tùy thuộc bạn tối ưu cho API thuần hay cho API cộng với nơi để dùng nó.",
+        "CTA": "Sẵn sàng thử chưa? <register>Tạo tài khoản miễn phí</register> hoặc <models>duyệt các mô hình</models>."
       }
     }
   },
@@ -635,7 +625,6 @@
     "META_TITLE": "Giá API {name}, ngữ cảnh và ví dụ | {appName}",
     "META_DESC": "Sử dụng {name} từ {vendor} qua một endpoint tương thích OpenAI duy nhất. Xem giá mỗi token, cửa sổ ngữ cảnh, endpoint và ví dụ mã dán sẵn.",
     "META_KEYWORDS": "API {name}, giá {name}, cửa sổ ngữ cảnh {name}, API {vendor}, {appName}",
-    "ABOUT": "Về {name}",
     "PRICING_TITLE": "Giá cả",
     "PRICING_DESC": "Chỉ trả cho những gì bạn dùng. Không cần tối thiểu hàng tháng khi dùng Trả theo nhu cầu.",
     "INPUT_PRICE": "Giá đầu vào",
@@ -677,62 +666,31 @@
     "CTA_DESC": "Tạo API key và bắt đầu gửi yêu cầu trong chưa đầy một phút.",
     "CTA_SIGNUP": "Đăng nhập để thử {name}",
     "CTA_TRY": "Thử {name} trong trò chuyện",
-    "CTA_ALL_MODELS": "Xem tất cả mô hình",
-    "LAST_UPDATED": "Cập nhật gần nhất {date}"
+    "CTA_ALL_MODELS": "Xem tất cả mô hình"
   },
   "PRICING": {
-    "PLAN": {
-      "BASIC": "Cơ bản",
-      "PRO": "Pro",
-      "ENTERPRISE": "Doanh nghiệp"
-    },
     "FEATURE": {
       "MODELS": "Bao gồm mọi mô hình",
       "PRIORITY": "Định tuyến ưu tiên",
       "DEDICATED": "Hỗ trợ chuyên biệt",
-      "SUPPORT": "Hỗ trợ qua email",
       "FAILOVER": "Tự động chuyển đổi dự phòng",
       "UPTIME": "SLA 99.9% thời gian hoạt động",
       "OPENAI_COMPAT": "Endpoint tương thích OpenAI"
     },
     "COMPARE": {
-      "TITLE": "So sánh các gói",
-      "FEATURE": "Tính năng",
-      "PRICE": "Giá hàng tháng",
-      "VALUE": "Giá trị tín dụng API",
-      "RATE_LIMIT": "Giới hạn tốc độ",
-      "ALL_MODELS": "Mọi mô hình",
-      "PRIORITY": "Định tuyến ưu tiên",
-      "DEDICATED": "Hỗ trợ chuyên biệt",
-      "BASIC_PRICE": "$20/tháng",
-      "PRO_PRICE": "$50/tháng",
-      "ENTERPRISE_PRICE": "$100/tháng",
-      "BASIC_VALUE": "$30",
-      "PRO_VALUE": "$75",
-      "ENTERPRISE_VALUE": "$175",
-      "BASIC_RATE": "100 rpm",
-      "PRO_RATE": "500 rpm",
-      "ENTERPRISE_RATE": "2,000 rpm"
+      "TITLE": "So sánh các gói"
     },
     "CARD": {
       "POPULAR": "Phổ biến",
       "PER_MONTH": " · tháng",
       "VALUE": "giá trị {value}",
-      "MULTIPLIER": "hệ số nhân {multiplier}",
-      "INCLUDES": "Bao gồm",
-      "REQUESTS_MIN": "{count} yêu cầu/phút",
-      "SPEC_CREDIT": "Giá trị tín dụng API",
       "SPEC_QUOTA": "Hạn mức/Làm mới",
-      "SPEC_MULTIPLIER": "Hệ số nhân",
-      "OPENCLAW_TITLE": "Hỗ trợ OpenClaw",
-      "OPENCLAW_DESC": "Tương thích đầy đủ với agent OpenClaw",
       "VALUE_BADGE": "Giá trị",
       "VALUE_EXPLAIN": "Trả {paid}, nhận {credit} credit API. Dùng được với mọi mô hình."
     },
     "BANNER": {
       "TITLE": "Trợ lý AI OpenClaw trên Telegram",
-      "SUBTITLE": "Triển khai AI một cú nhấp cho bot Telegram của bạn, hỗ trợ bởi OpenClaw và {appName}.",
-      "BADGE": "Sắp ra mắt"
+      "SUBTITLE": "Triển khai AI một cú nhấp cho bot Telegram của bạn, hỗ trợ bởi OpenClaw và {appName}."
     },
     "META": {
       "TITLE": "Bảng giá - {appName}",
@@ -742,6 +700,11 @@
     "TITLE": "Bảng giá",
     "SUBTITLE": "Dù bạn deploy ứng dụng hay roleplay dài hơi. Một gói, mọi mô hình.",
     "CTA": "Đăng ký",
+    "TOPUP": {
+      "LABEL": "Trả theo mức dùng",
+      "DESC": "Không muốn đăng ký? Nạp tín dụng.",
+      "FOOTNOTE": "Tín dụng không hết hạn."
+    },
     "FAQ": {
       "Q1": "Giá cả {appName} hoạt động ra sao?",
       "A1": "Bạn trả phí theo token tiêu thụ. Mỗi mô hình có mức giá đầu vào, đầu ra và bộ nhớ đệm riêng, trừ vào tín dụng tài khoản của bạn. Không bắt buộc thuê bao hàng tháng đối với Trả theo nhu cầu.",
@@ -759,11 +722,6 @@
       "A7": "Có. Mọi gói đều dùng như một nguồn tuỳ chỉnh tương thích OpenAI trong các client roleplay lớn. SillyTavern, Janitor.AI, RisuAI và Chub đều có hướng dẫn cài đặt riêng trong docs.",
       "Q8": "Cuộc trò chuyện hoặc lịch sử nhân vật có thể dài đến đâu?",
       "A8": "{appName} hỗ trợ toàn bộ context window của mỗi mô hình, lên tới 1M token trên Gemini và 200k trên Claude. Roleplay dài hay codebase lớn đều chạy ổn."
-    },
-    "TOPUP": {
-      "LABEL": "Trả theo mức dùng",
-      "DESC": "Không muốn đăng ký? Nạp tín dụng.",
-      "FOOTNOTE": "Tín dụng không hết hạn."
     }
   },
   "DOCS_INDEX": {
@@ -774,29 +732,34 @@
     },
     "BADGE": "Tích hợp",
     "TITLE": "Tích hợp",
-    "SUBTITLE": "Sử dụng {appName} với công cụ AI yêu thích của bạn. Chọn một hướng dẫn bên dưới để bắt đầu.",
-    "QUICK_START": "Bắt đầu nhanh",
+    "SUBTITLE": "Sử dụng {appName} với các công cụ AI yêu thích của bạn. Xem {count} hướng dẫn thiết lập bên dưới và chọn hướng dẫn cho ứng dụng của bạn.",
     "VIEW_GUIDE": "Xem hướng dẫn đầy đủ",
     "CTA_TITLE": "Sẵn sàng bắt đầu?",
     "CTA_DESC": "Lấy API key và bắt đầu dùng {appName} với bất kỳ công cụ nào trong số này.",
     "CTA_SIGNUP": "Đăng ký lấy API key",
     "CTA_DASHBOARD": "Đi tới Bảng điều khiển",
-    "CTA_MODELS": "Xem tất cả mô hình"
+    "CTA_MODELS": "Xem tất cả mô hình",
+    "PATHS_TITLE": "Lộ trình phổ biến",
+    "PATHS_DESC": "Bắt đầu từ thứ bạn muốn kết nối. Đi thẳng đến URL cơ sở, tuyến và thiết lập mô hình phù hợp.",
+    "PATH_ROLEPLAY_TITLE": "Ứng dụng nhập vai",
+    "PATH_ROLEPLAY_DESC": "SillyTavern, Janitor.AI, Chub và RisuAI.",
+    "PATH_CODING_TITLE": "Tác tử lập trình",
+    "PATH_CODING_DESC": "OpenCode, Cline, Roo Code, Kilo Code, Zed và nhiều hơn.",
+    "PATH_GENERAL_TITLE": "Ứng dụng trò chuyện",
+    "PATH_GENERAL_DESC": "Ứng dụng máy tính, giao diện web và các ứng dụng tương thích OpenAI thông dụng.",
+    "GUIDE_COUNT_ONE": "{count} hướng dẫn",
+    "GUIDE_COUNT_OTHER": "{count} hướng dẫn",
+    "FALLBACK_EYEBROW": "Không thấy ứng dụng của bạn?",
+    "FALLBACK_TITLE": "Hầu hết ứng dụng tương thích OpenAI hoạt động ngay lập tức.",
+    "FALLBACK_DESC": "{appName} tuân theo các định dạng OpenAI Chat Completions, Anthropic Messages và OpenAI Responses. Bất cứ thứ gì cho phép bạn đặt URL cơ sở và khóa API tùy chỉnh đều hoạt động. Dùng URL cơ sở và chọn bất kỳ mô hình nào từ danh mục.",
+    "FALLBACK_MODELS": "Xem mô hình",
+    "FALLBACK_DISCORD": "Hỏi trên Discord",
+    "PATH_CLI_TITLE": "Cong cu CLI",
+    "PATH_CLI_DESC": "Aider, Codex, Gemini CLI, OpenClaw va cac tac nhan terminal."
   },
   "DOCS_SIDEBAR": {
     "TITLE": "Tài liệu",
-    "AI_APPLICATIONS": "Ứng dụng AI",
-    "GROUP_CLI": "Công cụ CLI",
-    "GROUP_ROLEPLAY": "Ứng dụng Roleplay",
-    "CC_SWITCH": "CC Switch",
-    "OPENCLAW": "OpenClaw",
-    "CLAUDE_CODE": "Claude Code",
-    "CODEX_CLI": "Codex CLI",
-    "GEMINI_CLI": "Gemini CLI",
-    "SILLYTAVERN": "SillyTavern",
-    "JANITOR_AI": "Janitor.AI",
-    "RISUAI": "RisuAI",
-    "CHUB": "Chub / Venus"
+    "AI_APPLICATIONS": "Ứng dụng AI"
   },
   "DOCS": {
     "SETUP": {
@@ -806,8 +769,7 @@
       "CLI_ALT": "Hoặc dùng CLI của CC Switch:",
       "NO_APP": "Chưa có CC Switch?",
       "INSTALL_LINK": "Cài đặt CC Switch",
-      "LOGIN_REQUIRED": "Đăng nhập để tự động điền API key",
-      "CREATE_KEY": "Tạo API key trước"
+      "LOGIN_REQUIRED": "Đăng nhập để tự động điền API key"
     },
     "CONFIG": {
       "FILE_LABEL": "Tệp cấu hình lâu dài (Khuyến nghị)",
@@ -821,6 +783,38 @@
       "LINUX": "Linux"
     },
     "TOC_TITLE": "Trên trang này",
+    "SETUP_GUIDE": {
+      "OVERVIEW": "Tong quan",
+      "QUICK_CONFIG": "Cau hinh nhanh",
+      "QUICK_CONFIG_DESC": "Dan cac gia tri nay vao ung dung. Khoa cua ban se tu dien khi ban da dang nhap.",
+      "BASE_URL_LABEL": "URL co so",
+      "API_KEY_LABEL": "Khoa API",
+      "STEPS": "Thiet lap tung buoc",
+      "COMPATIBILITY": "Tuong thich",
+      "RECOMMENDED_MODELS": "Mo hinh de xuat",
+      "RECOMMENDED_MODELS_DESC": "Cac mo hinh mien phi hoat dong tot o day. Dan bat ky id mo hinh nao vao ung dung.",
+      "GOTCHAS": "Luu y",
+      "TOC_OVERVIEW": "Tong quan",
+      "TOC_QUICK_CONFIG": "Cau hinh nhanh",
+      "TOC_STEPS": "Cac buoc thiet lap",
+      "TOC_COMPATIBILITY": "Tuong thich",
+      "TOC_MODELS": "Mo hinh de xuat",
+      "TOC_GOTCHAS": "Luu y",
+      "COMPAT_CHAT_COMPLETIONS": "Chat Completions",
+      "COMPAT_MESSAGES": "Anthropic Messages",
+      "COMPAT_RESPONSES": "Responses API",
+      "COMPAT_STREAMING": "Truyen phat",
+      "COMPAT_TOOL_CALLING": "Goi cong cu",
+      "COMPAT_IMAGES": "Dau vao hinh anh",
+      "CATEGORY_CODING": "Tac nhan lap trinh",
+      "CATEGORY_ROLEPLAY": "Ung dung roleplay",
+      "CATEGORY_GENERAL": "Ung dung chat",
+      "CATEGORY_CLI": "Cong cu CLI",
+      "CATEGORY_CODING_DESC": "Trinh soan thao va tac nhan viet va chay ma qua API.",
+      "CATEGORY_ROLEPLAY_DESC": "Giao dien chat nhan vat va roleplay.",
+      "CATEGORY_GENERAL_DESC": "Ung dung chat da nang va ung dung may tinh de ban.",
+      "CATEGORY_CLI_DESC": "Cong cu dong lenh va tac nhan dong lenh."
+    },
     "GENERATE_API_KEY": "Tạo API Key",
     "GENERATE_API_KEY_DESC": "Tạo API key để bắt đầu",
     "CC_SWITCH": {
@@ -1019,6 +1013,7 @@
       "BADGE": "Codex CLI",
       "TITLE": "Hướng dẫn thiết lập OpenAI Codex CLI",
       "SUBTITLE": "Hướng dẫn từng bước để cài đặt và cấu hình Codex CLI với {appName} trên Windows, macOS và Linux.",
+      "OVERVIEW_DESC": "Codex CLI là agent lập trình dựa trên terminal của OpenAI, đọc, viết và chạy mã trong dự án của bạn thông qua các bản vá được cô lập và có thể xem lại. Trỏ nhà cung cấp tùy chỉnh của nó đến URL cơ sở của {appName} và bạn có thể điều khiển nó với bất kỳ mô hình nào trong danh mục, không chỉ các mô hình của OpenAI.",
       "PROJECT_INTRO_TITLE": "Codex CLI là gì?",
       "PROJECT_INTRO": "Codex CLI là agent lập trình của OpenAI chạy cục bộ trên máy tính của bạn.",
       "PROJECT_OFFICIAL": "Website chính thức",
@@ -1117,7 +1112,17 @@
       "CTA_DESC": "Lấy API key và bắt đầu dùng {appName} với Codex CLI.",
       "CTA_SIGNUP": "Đăng ký lấy API key",
       "CTA_DASHBOARD": "Đi tới Bảng điều khiển",
-      "CTA_MODELS": "Xem tất cả mô hình"
+      "CTA_MODELS": "Xem tất cả mô hình",
+      "STEP_1_TITLE": "Cai dat Codex CLI",
+      "STEP_1_DESC": "Cai dat Codex CLI o pham vi toan cuc bang npm.",
+      "STEP_2_TITLE": "Cau hinh nha cung cap mo hinh",
+      "STEP_2_DESC": "Chinh sua `~/.codex/config.toml` de tro Codex den {appName}. Dat ID mo hinh va them mot nha cung cap tuy chinh voi URL co so cua {appName}, su dung wire API responses.",
+      "STEP_3_TITLE": "Them khoa API cua ban",
+      "STEP_3_DESC": "Ghi khoa API {appName} cua ban vao `~/.codex/auth.json` de Codex xac thuc moi yeu cau.",
+      "STEP_4_TITLE": "Khoi dong Codex",
+      "STEP_4_DESC": "Chay `codex` trong thu muc du an cua ban va bat dau viet ma.",
+      "TS_1_DESC": "Neu Codex bao endpoint khong duoc ho tro, hay xac nhan `wire_api` duoc dat thanh `responses` va URL co so ket thuc bang `/v1`.",
+      "TS_2_DESC": "Loi 401 nghia la khoa trong `~/.codex/auth.json` bi thieu hoac da cu. Dan mot khoa moi tu bang dieu khien {appName} va chay lai."
     },
     "GEMINI_CLI": {
       "META": {
@@ -1128,6 +1133,7 @@
       "BADGE": "Gemini CLI",
       "TITLE": "Tích hợp Gemini CLI",
       "SUBTITLE": "Sử dụng {appName} với Gemini CLI và mọi client tương thích Google GenAI. Truy cập mô hình Gemini cùng Claude và GPT.",
+      "OVERVIEW_DESC": "Gemini CLI là agent lập trình mã nguồn mở của Google, chỉnh sửa tệp và chạy lệnh ngay từ terminal của bạn. Đặt {appName} làm URL cơ sở và bạn tiếp cận Gemini, Claude, GPT cùng mọi mô hình khác qua một khóa tương thích OpenAI thay vì tài khoản chỉ dành cho Google.",
       "INTRO_TITLE": "Gemini CLI là gì?",
       "INTRO_DESC": "Gemini CLI là agent lập trình AI mã nguồn mở của Google chạy trực tiếp trong terminal của bạn, đưa sức mạnh của các mô hình Gemini vào quy trình phát triển.",
       "QUICK_START": "Bắt đầu nhanh",
@@ -1163,7 +1169,15 @@
       "TOC_MACOS_LINUX": "macOS / Linux",
       "TOC_WINDOWS": "Windows",
       "TOC_CONFIGURATION": "Cấu hình",
-      "TOC_USAGE": "Sử dụng"
+      "TOC_USAGE": "Sử dụng",
+      "STEP_1_TITLE": "Cai dat Gemini CLI",
+      "STEP_1_DESC": "Cai dat Gemini CLI o pham vi toan cuc bang npm. Tren Windows, hay chay lenh nay trong WSL.",
+      "STEP_2_TITLE": "Dat cac bien moi truong",
+      "STEP_2_DESC": "Tao `~/.gemini/.env` voi khoa API {appName} cua ban va dat `GOOGLE_GEMINI_BASE_URL` bang URL co so tran cua {appName}. Gemini SDK tu them duong dan rieng, vi vay dung them `/v1`.",
+      "STEP_3_TITLE": "Khoi chay Gemini",
+      "STEP_3_DESC": "Chay `gemini` trong thu muc du an cua ban de bat dau phien.",
+      "TS_1_DESC": "Neu yeu cau tra ve 404, ban da them mot duong dan vao URL co so. `GOOGLE_GEMINI_BASE_URL` phai la host tran khong co hau to `/v1`; SDK se them phan con lai.",
+      "TS_2_DESC": "Neu xac thuc that bai, hay xac nhan `GEMINI_API_KEY` trong `~/.gemini/.env` la khoa {appName} cua ban va tep duoc phien shell cua ban doc."
     },
     "OPENCLAW": {
       "META": {
@@ -1174,6 +1188,7 @@
       "BADGE": "OpenClaw",
       "TITLE": "Tích hợp OpenClaw",
       "SUBTITLE": "Sử dụng {appName} làm nhà cung cấp mô hình cho agent OpenClaw. Cấu hình một lần và truy cập mọi mô hình qua cổng của OpenClaw.",
+      "OVERVIEW_DESC": "OpenClaw là nền tảng agent mã nguồn mở để triển khai các trợ lý AI tự lưu trữ trên Telegram, Discord, Slack và nhiều nền tảng khác từ một cấu hình duy nhất. Đặt nhà cung cấp openai của nó thành URL cơ sở của {appName} và mọi kênh đều tiếp cận toàn bộ danh mục mô hình qua một khóa tương thích OpenAI duy nhất.",
       "INTRO_TITLE": "OpenClaw là gì?",
       "INTRO_DESC": "OpenClaw là nền tảng agent AI mã nguồn mở cho phép bạn triển khai và quản lý trợ lý AI với hỗ trợ đa kênh, khả năng tự lưu trữ và cấu hình mô hình linh hoạt.",
       "CORE_FEATURES": "Tính năng cốt lõi",
@@ -1209,7 +1224,15 @@
       "TOC_INSTALLATION": "Cài đặt",
       "TOC_CONFIGURATION": "Cấu hình",
       "TOC_KEY_CONFIG": "Chi tiết cấu hình chính",
-      "TOC_START_SERVICE": "Khởi động dịch vụ"
+      "TOC_START_SERVICE": "Khởi động dịch vụ",
+      "STEP_1_TITLE": "Cai dat va khoi tao",
+      "STEP_1_DESC": "Cai dat OpenClaw o pham vi toan cuc bang npm, sau do chay `openclaw onboard` de tao khung cau hinh.",
+      "STEP_2_TITLE": "Tro nha cung cap den {appName}",
+      "STEP_2_DESC": "Chinh sua `~/.openclaw/config.json` de nha cung cap openai su dung URL co so cua {appName} va doc khoa API tu bien moi truong `OPENAI_API_KEY`. Dat mo hinh mac dinh cua ban trong muc agents.",
+      "STEP_3_TITLE": "Khoi dong OpenClaw",
+      "STEP_3_DESC": "Chay `openclaw start` de khoi chay tac nhan voi {appName}.",
+      "TS_1_DESC": "Neu OpenClaw khong the ket noi API, hay xac nhan `providers.openai.baseUrl` ket thuc bang `/v1` va `OPENAI_API_KEY` duoc export trong cung shell.",
+      "TS_2_DESC": "Neu mo hinh bi tu choi, hay dat `agents.defaults.model.primary` thanh mot ID hop le co tien to `openai/`, sao chep chinh xac tu trang mo hinh cua {appName}."
     },
     "HERMES": {
       "META": {
@@ -1220,6 +1243,7 @@
       "BADGE": "Hermes Agent",
       "TITLE": "Tich hop Hermes Agent",
       "SUBTITLE": "Su dung {appName} lam nha cung cap mo hinh cho Hermes Agent. Tro mot diem cuoi tuong thich OpenAI den {appName} va truy cap moi mo hinh.",
+      "OVERVIEW_DESC": "Hermes Agent của Nous Research là agent AI tự cải thiện chạy dưới dạng CLI, TUI, cổng nhắn tin hoặc tích hợp IDE với bộ nhớ bền vững trên ổ đĩa. Đặt nhà cung cấp của nó thành custom và trỏ URL cơ sở đến {appName} để định tuyến mọi lượt qua một điểm cuối tương thích OpenAI phục vụ tất cả mô hình.",
       "INTRO_TITLE": "Hermes Agent la gi?",
       "INTRO_DESC": "Hermes Agent cua Nous Research la mot tac nhan AI ma nguon mo, tu cai thien. No chay trong terminal, nhu mot cong nhan tin va nhu mot tich hop IDE, giu bo nho ben vung tren o dia va hoat dong voi moi diem cuoi tuong thich OpenAI.",
       "CORE_FEATURES": "Tinh nang chinh",
@@ -1261,7 +1285,17 @@
       "TOC_CONFIGURATION": "Cau hinh",
       "TOC_KEY_CONFIG": "Chi tiet cau hinh quan trong",
       "TOC_CLI_ALT": "Phuong an CLI",
-      "TOC_RUN": "Chay Hermes"
+      "TOC_RUN": "Chay Hermes",
+      "STEP_1_TITLE": "Cai dat Hermes",
+      "STEP_1_DESC": "Chay script cai dat de thiet lap Hermes Agent. Tren Windows, hay cai dat no trong WSL2.",
+      "STEP_2_TITLE": "Tro nha cung cap den {appName}",
+      "STEP_2_DESC": "Chinh sua `~/.hermes/config.yaml`, dat `model.provider` thanh `custom`, va dat `model.base_url` bang URL co so cua {appName}. Chon mot mo hinh mac dinh co it nhat 64k ngu canh.",
+      "STEP_3_TITLE": "Them khoa API cua ban",
+      "STEP_3_DESC": "Luu khoa API {appName} cua ban duoi dang `OPENAI_API_KEY` trong `~/.hermes/.env` de Hermes xac thuc moi luot.",
+      "STEP_4_TITLE": "Chay Hermes",
+      "STEP_4_DESC": "Khoi dong TUI bang `hermes --tui` va bat dau lam viec.",
+      "TS_1_DESC": "Hermes tu choi cac mo hinh duoi 64.000 token ngu canh khi khoi dong. Hay chon mot mo hinh co ngu canh lon hon tu trang mo hinh cua {appName}.",
+      "TS_2_DESC": "Neu khoi dong that bai o buoc kiem tra `/v1/models`, hay xac nhan `model.base_url` ket thuc bang `/v1` va `OPENAI_API_KEY` duoc dat trong `~/.hermes/.env`."
     },
     "SILLYTAVERN": {
       "META": {
@@ -1323,7 +1357,11 @@
       "TOC_QUICK_CONFIG": "Cấu hình nhanh",
       "TOC_STEPS": "Thiết lập từng bước",
       "TOC_MODELS_DROPDOWN": "Cách hoạt động của danh sách mô hình",
-      "TOC_TROUBLESHOOTING": "Xử lý sự cố"
+      "TOC_TROUBLESHOOTING": "Xử lý sự cố",
+      "GOTCHA_1": "Chi dan URL co so ket thuc bang `/v1`. SillyTavern tu them `/chat/completions`; neu ban tu them, no se tra ve loi 400.",
+      "GOTCHA_2": "Neu danh sach mo hinh trong, ket noi da that bai. Hay kiem tra lai URL co so, sau do bat Bypass API Status Check de SillyTavern khong cat ngang viec lay danh sach.",
+      "GOTCHA_3": "Loi 401 nghia la khoa da het han hoac go sai. Hay tao mot khoa moi trong bang dieu khien {appName} va dan no ma khong co khoang trang o dau hoac cuoi.",
+      "GOTCHA_4": "Neu truyen phat bi cat giua chung, hay tat Streaming de xac nhan nguyen nhan nam o phia truyen phat, roi bat lai. Cac proxy doanh nghiep loai bo tien to `data:` cung co the lam hong dieu nay."
     },
     "JANITOR_AI": {
       "META": {
@@ -1387,7 +1425,12 @@
       "TOC_STEPS": "Thiết lập từng bước",
       "TOC_REFRESH_SAVE": "Vì sao phải làm mới",
       "TOC_KEY_INVISIBILITY": "Lưu khóa API ở nơi khác",
-      "TOC_TROUBLESHOOTING": "Xử lý sự cố"
+      "TOC_TROUBLESHOOTING": "Xử lý sự cố",
+      "GOTCHA_1": "Dan toan bo Proxy URL ket thuc bang `/v1/chat/completions`, khong chi rieng URL co so. Neu Janitor hien o danh dau 'Add /chat/completions to URL', hay de tat.",
+      "GOTCHA_2": "Janitor.AI luu dem ban do proxy khi tai trang, vi vay cau hinh da luu chi kich hoat sau khi tai lai cung. Nhan Ctrl+Shift+R hoac Cmd+Shift+R truoc khi kiem tra.",
+      "GOTCHA_3": "Janitor che giau khoa API sau khi luu va se khong hien lai. Hay luu khoa vao trinh quan ly mat khau truoc de viec xoay khoa khong buoc ban tao khoa moi.",
+      "GOTCHA_4": "Bang thong bao ''Free tier limit reached'' la goi tich hop cua Janitor, khong phai {appName}. Hay chuyen cuoc tro chuyen sang cau hinh proxy da luu cua ban trong danh sach mo hinh.",
+      "GOTCHA_5": "Model Name phai khop chinh xac voi mot ID mo hinh. Hay sao chep no tu trang mo hinh cua {appName} thay vi go lai."
     },
     "RISUAI": {
       "META": {
@@ -1459,7 +1502,11 @@
       "TOC_STEPS": "Thiết lập từng bước",
       "TOC_AUTOFILL_WARNING": "Vì sao công tắc autofill quan trọng",
       "TOC_AUX_MODEL": "Cấu hình Auxiliary Model",
-      "TOC_TROUBLESHOOTING": "Xử lý sự cố"
+      "TOC_TROUBLESHOOTING": "Xử lý sự cố",
+      "GOTCHA_1": "Bo chon Autofill Request URL truoc khi dan bat ky thu gi. Khi no dang bat, RisuAI viet lai URL cua ban thanh URL mac dinh cua no va am tham lam hong ket noi.",
+      "GOTCHA_2": "Mot ban cap nhat RisuAI co the tu bat lai Autofill Request URL. Neu mot thiet lap dang chay bong dung ngung phan hoi, hay mo lai Custom Models va xac nhan cong tac van dang tat.",
+      "GOTCHA_3": "Mot so ban dung RisuAI hien ca truong API Key lan truong Authorization, va moi phien ban chi doc mot truong. Neu ban bi loi 401, hay chuyen khoa sang truong con lai.",
+      "GOTCHA_4": "O che do Custom Models, Model ID la mot truong van ban nhap tay khong co danh sach. Hay sao chep dung ten mo hinh tu trang mo hinh cua {appName}; dung go lai."
     },
     "CHUB": {
       "META": {
@@ -1476,7 +1523,7 @@
       "OVERVIEW": "Tổng quan",
       "OVERVIEW_DESC": "Bảng Secrets của Chub chấp nhận URL `/v1/chat/completions` đầy đủ cùng với khóa API của bạn. Nút Check your proxy xác minh kết nối trước khi bạn chọn mô hình trong Prompt Structure.",
       "TRUST_TITLE": "{appName} là relay API bên thứ nhất",
-      "TRUST_DESC": "Giao diện của Chub cảnh báo về 'reverse proxy do bên thứ ba không được ủy quyền tạo ra'. Cảnh báo đó nhắm tới các relay do cộng đồng vận hành. {appName} là relay API bên thứ nhất do chính chủ hạ tầng vận hành, tương tự OpenRouter. Khóa API, nhật ký sử dụng và thanh toán của bạn nằm trực tiếp trên {appName}.",
+      "TRUST_DESC": "Giao diện của Chub cảnh báo về ''reverse proxy do bên thứ ba không được ủy quyền tạo ra''. Cảnh báo đó nhắm tới các relay do cộng đồng vận hành. {appName} là relay API bên thứ nhất do chính chủ hạ tầng vận hành, tương tự OpenRouter. Khóa API, nhật ký sử dụng và thanh toán của bạn nằm trực tiếp trên {appName}.",
       "TRUST_LINK_PRIVACY": "Chính sách bảo mật",
       "TRUST_LINK_TERMS": "Điều khoản dịch vụ",
       "QUICK_CONFIG": "Cấu hình nhanh",
@@ -1526,7 +1573,359 @@
       "TOC_QUICK_CONFIG": "Cấu hình nhanh",
       "TOC_STEPS": "Thiết lập từng bước",
       "TOC_PICK_MODEL": "Danh sách mô hình cần kiểm tra proxy",
-      "TOC_TROUBLESHOOTING": "Xử lý sự cố"
+      "TOC_TROUBLESHOOTING": "Xử lý sự cố",
+      "STEP_CONFIG_TITLE": "Mo Configuration va chon OpenAI",
+      "STEP_CONFIG_DESC": "Quay lai menu hamburger, mo Configuration, roi mo Prompt Structure. Dat danh sach API thanh OpenAI va chon mo hinh muc tieu tu danh sach mo hinh.",
+      "GOTCHA_1": "Dan toan bo URL ket thuc bang `/v1/chat/completions` vao truong Reverse proxy. Chi rieng URL co so se khong vuot qua kiem tra cua nut Check your proxy.",
+      "GOTCHA_2": "Danh sach mo hinh trong Prompt Structure van trong cho den khi kiem tra proxy thanh cong. Truoc tien hay chay Check your proxy trong muc Secrets, sau do quay lai chon mot mo hinh.",
+      "GOTCHA_3": "Chub che giau khoa API sau khi luu va ban khong the sao chep no ra lai. Hay luu khoa vao trinh quan ly mat khau truoc khi dan de viec xoay khoa khong buoc ban tao khoa moi.",
+      "GOTCHA_4": "Giao dien Chub canh bao ve cac reverse proxy tu ben thu ba khong duoc uy quyen; dieu do nham vao cac relay cong dong. {appName} la mot relay chinh chu, vi vay khoa, nhat ky va thanh toan cua ban van nam tren {appName}."
+    },
+    "LIBRECHAT": {
+      "META": {
+        "TITLE": "Huong dan tich hop LibreChat | {appName}",
+        "DESCRIPTION": "Ket noi LibreChat voi {appName} qua mot endpoint tuy chinh tuong thich OpenAI. Them khoi vao librechat.yaml, dat bien moi truong, va bo chon mo hinh tu dong day.",
+        "KEYWORDS": "LibreChat, endpoint tuy chinh LibreChat, LibreChat tuong thich OpenAI, {appName} LibreChat, giao dien chat tu luu tru"
+      },
+      "BADGE": "LibreChat",
+      "TITLE": "Huong dan tich hop LibreChat",
+      "SUBTITLE": "Ket noi {appName} voi LibreChat qua mot endpoint tuy chinh tuong thich OpenAI.",
+      "OVERVIEW_DESC": "LibreChat hien thi moi may chu tuong thich OpenAI qua endpoints.custom. Them mot khoi {appName}, dat bien moi truong, va bo chon mo hinh tu dong day tu danh muc.",
+      "STEP_1_TITLE": "Sua librechat.yaml",
+      "STEP_1_DESC": "Trong cai dat LibreChat cua ban, them mot khoi endpoint tuy chinh duoi endpoints.custom.",
+      "STEP_2_TITLE": "Them bien moi truong",
+      "STEP_2_DESC": "Dat khoa API {appName} cua ban trong tep .env cua LibreChat.",
+      "STEP_3_TITLE": "Khoi dong lai LibreChat",
+      "STEP_3_DESC": "Khoi dong lai container hoac tien trinh. Endpoint {appName} xuat hien trong menu chat.",
+      "TS_1_DESC": "Dung cu phap ngoac don cho gia tri bien moi truong, khong phai cu phap secret cua mot so cau hinh khac.",
+      "TS_2_DESC": "Neu mot mo hinh tu choi tham so OpenAI bo sung, them chung vao dropParams (vi du frequency_penalty va presence_penalty).",
+      "TS_3_DESC": "fetch: true tu dong day tu danh muc {appName}. Ket hop voi default de hien thi cac mo hinh ua thich truoc."
+    },
+    "OPEN_WEBUI": {
+      "META": {
+        "TITLE": "Huong dan tich hop Open WebUI | {appName}",
+        "DESCRIPTION": "Ket noi Open WebUI voi {appName} nhu mot ket noi OpenAI trong bang quan tri. Bo chon mo hinh tu dong day tu danh muc.",
+        "KEYWORDS": "Open WebUI, ket noi OpenAI Open WebUI, {appName} Open WebUI, giao dien ChatGPT tu luu tru"
+      },
+      "BADGE": "Open WebUI",
+      "TITLE": "Huong dan tich hop Open WebUI",
+      "SUBTITLE": "Ket noi {appName} voi Open WebUI nhu mot ket noi OpenAI goc.",
+      "OVERVIEW_DESC": "Open WebUI cho phep quan tri vien them nhieu ket noi tuong thich OpenAI. Them {appName}, va bo chon mo hinh tu dong day tu danh muc.",
+      "STEP_1_TITLE": "Mo bang quan tri",
+      "STEP_1_DESC": "Dang nhap voi tu cach quan tri vien, mo Admin Panel, vao Settings roi Connections.",
+      "STEP_2_TITLE": "Them ket noi OpenAI moi",
+      "STEP_2_DESC": "Trong OpenAI API, nhan nut + de them ket noi.",
+      "STEP_3_TITLE": "Dien ket noi",
+      "STEP_3_DESC": "Nhap URL co so va khoa API {appName} cua ban.",
+      "STEP_4_TITLE": "Luu va chon mo hinh",
+      "STEP_4_DESC": "Luu ket noi. Bo chon mo hinh tai danh muc {appName} tu dong.",
+      "TS_1_DESC": "Mot khoa rong co the tra ve nhieu mo hinh. Dung bo loc mo hinh cua Open WebUI hoac mot khoa duoc chon loc neu menu qua day.",
+      "TS_2_DESC": "Open WebUI cung co mot danh sach ket noi Ollama rieng. Hay chac chan ban them vao OpenAI API, khong phai Ollama."
+    },
+    "LOBECHAT": {
+      "META": {
+        "TITLE": "Huong dan tich hop LobeChat | {appName}",
+        "DESCRIPTION": "Ket noi LobeChat voi {appName} qua Add Custom Provider hoac bien moi truong Docker. Mot may khach web ma nguon mo dep cho moi mo hinh.",
+        "KEYWORDS": "LobeChat, nha cung cap tuy chinh LobeChat, {appName} LobeChat, chat web ma nguon mo"
+      },
+      "BADGE": "LobeChat",
+      "TITLE": "Huong dan tich hop LobeChat",
+      "SUBTITLE": "Ket noi {appName} voi LobeChat qua mot nha cung cap tuy chinh hoac bien moi truong Docker.",
+      "OVERVIEW_DESC": "LobeChat ho tro moi may chu tuong thich OpenAI qua bien moi truong hoac giao dien Add Custom Provider. Ket hop voi {appName} de co mot may khach web cuc bo dep.",
+      "STEP_1_TITLE": "Mo Settings roi Language Model",
+      "STEP_1_DESC": "Nhan Add Custom Provider va dien bieu mau.",
+      "STEP_2_TITLE": "Them mo hinh",
+      "STEP_2_DESC": "Luu nha cung cap roi them cac mo hinh {appName} ban muon. LobeChat hien thi chung trong bo chon mo hinh.",
+      "STEP_3_TITLE": "Tuy chon: bien moi truong Docker",
+      "STEP_3_DESC": "Neu ban tu luu tru, dat cac bien moi truong OpenAI khi container chay.",
+      "TS_1_DESC": "De giu OpenAI goc ben canh {appName}, dung Add Custom Provider, khong phai bien moi truong OpenAI.",
+      "TS_2_DESC": "Provider ID phai viet thuong. unorouter hoat dong, UnoRouter thi khong."
+    },
+    "ANYTHINGLLM": {
+      "META": {
+        "TITLE": "Huong dan tich hop AnythingLLM | {appName}",
+        "DESCRIPTION": "Ket noi AnythingLLM voi {appName} nhu nha cung cap Generic OpenAI. Go ten mo hinh, dat cua so ngu canh, luu.",
+        "KEYWORDS": "AnythingLLM, AnythingLLM Generic OpenAI, {appName} AnythingLLM, RAG tu luu tru"
+      },
+      "BADGE": "AnythingLLM",
+      "TITLE": "Huong dan tich hop AnythingLLM",
+      "SUBTITLE": "Ket noi {appName} voi AnythingLLM nhu nha cung cap Generic OpenAI.",
+      "OVERVIEW_DESC": "AnythingLLM coi {appName} la nha cung cap Generic OpenAI. Go ten mo hinh, dat cua so ngu canh va luu.",
+      "STEP_1_TITLE": "Mo LLM Preference",
+      "STEP_1_DESC": "Nhan Settings o thanh ben roi LLM Preference.",
+      "STEP_2_TITLE": "Chon Generic OpenAI",
+      "STEP_2_DESC": "Dat LLM Provider thanh Generic OpenAI va dien bieu mau.",
+      "STEP_3_TITLE": "Luu",
+      "STEP_3_DESC": "Nhan luu. AnythingLLM dung {appName} cho cac khong gian chat.",
+      "TS_1_DESC": "AnythingLLM khong tu dong tai danh muc cho Generic OpenAI. Go ten mo hinh va cua so ngu canh thu cong.",
+      "TS_2_DESC": "Tab Embedding Preference la rieng biet. Giu mot nha cung cap embedding hoat dong tru khi {appName} cung cap embedding trong goi cua ban."
+    },
+    "CHERRY_STUDIO": {
+      "META": {
+        "TITLE": "Huong dan tich hop Cherry Studio | {appName}",
+        "DESCRIPTION": "Ket noi Cherry Studio voi {appName} nhu nha cung cap OpenAI. Them host va khoa, roi tai cac mo hinh ban muon.",
+        "KEYWORDS": "Cherry Studio, nha cung cap OpenAI Cherry Studio, {appName} Cherry Studio, chat may tinh da nen tang"
+      },
+      "BADGE": "Cherry Studio",
+      "TITLE": "Huong dan tich hop Cherry Studio",
+      "SUBTITLE": "Ket noi {appName} voi Cherry Studio nhu nha cung cap OpenAI.",
+      "OVERVIEW_DESC": "Cherry Studio ho tro nhieu nha cung cap trong mot giao dien. Them {appName} nhu nha cung cap OpenAI va tai cac mo hinh ban muon thanh cac muc rieng.",
+      "STEP_1_TITLE": "Mo Model Provider",
+      "STEP_1_DESC": "Vao Settings, roi Model Provider, va nhan Add Provider.",
+      "STEP_2_TITLE": "Chon OpenAI",
+      "STEP_2_DESC": "Dat loai nha cung cap thanh OpenAI. Dien ten, host va khoa.",
+      "STEP_3_TITLE": "Them mo hinh",
+      "STEP_3_DESC": "Nhan Manage duoi Models, roi Add Model. Dan cac ID mo hinh {appName}, moi dong mot ID.",
+      "TS_1_DESC": "Dung loai nha cung cap OpenAI va tu them /v1 vao host. Mot so loai khac co the tu them duong dan rieng.",
+      "TS_2_DESC": "Nut Test cua Cherry gui mot yeu cau mot token toi chat completions. Cac mo hinh suy luan co the bao finish length; dieu do van xac nhan xac thuc."
+    },
+    "TYPINGMIND": {
+      "META": {
+        "TITLE": "Huong dan tich hop TypingMind | {appName}",
+        "DESCRIPTION": "Ket noi TypingMind voi {appName} bang cach dan mot endpoint tuy chinh tuong thich OpenAI. Dung bat ky mo hinh nao.",
+        "KEYWORDS": "TypingMind, mo hinh tuy chinh TypingMind, {appName} TypingMind, frontend web BYOK"
+      },
+      "BADGE": "TypingMind",
+      "TITLE": "Huong dan tich hop TypingMind",
+      "SUBTITLE": "Ket noi {appName} voi TypingMind nhu mot mo hinh tuy chinh tuong thich OpenAI.",
+      "OVERVIEW_DESC": "TypingMind cho phep ban dan bat ky endpoint tuong thich OpenAI nao nhu mot mo hinh tuy chinh. Them {appName} va dung bat ky mo hinh nao tu danh muc.",
+      "STEP_1_TITLE": "Mo Models",
+      "STEP_1_DESC": "Nhan bieu tuong banh rang, vao Models roi Add Custom Models.",
+      "STEP_2_TITLE": "Chon OpenAI lam loai API",
+      "STEP_2_DESC": "TypingMind dung luoc do OpenAI Chat Completions cho cac endpoint tuy chinh.",
+      "STEP_3_TITLE": "Dien endpoint",
+      "STEP_3_DESC": "Nhap URL co so, khoa API {appName} cua ban va mot ID mo hinh.",
+      "STEP_4_TITLE": "Kiem tra va them",
+      "STEP_4_DESC": "Chi bat Plugins hoac Vision neu mo hinh cua ban ho tro. Nhan Test roi Add Model.",
+      "TS_1_DESC": "Plugins (goi ham) chi hoat dong tren cac mo hinh co ho tro cong cu goc. Chon mot mo hinh ho tro cong cu cho cac luong dung plugin.",
+      "TS_2_DESC": "Nut Vision chi hoat dong tren cac mo hinh ho tro dau vao hinh anh. Kiem tra danh muc truoc khi bat."
+    },
+    "BOLTAI": {
+      "META": {
+        "TITLE": "Huong dan tich hop BoltAI | {appName}",
+        "DESCRIPTION": "Ket noi BoltAI voi {appName} nhu mot may chu tuy chinh tuong thich OpenAI. AI noi trong moi ung dung macOS.",
+        "KEYWORDS": "BoltAI, BoltAI tuong thich OpenAI, {appName} BoltAI, tro ly AI macOS"
+      },
+      "BADGE": "BoltAI",
+      "TITLE": "Huong dan tich hop BoltAI",
+      "SUBTITLE": "Ket noi {appName} voi BoltAI nhu mot may chu tuy chinh tuong thich OpenAI.",
+      "OVERVIEW_DESC": "BoltAI mang AI vao moi ung dung macOS. Them {appName} nhu mot may chu tuy chinh tuong thich OpenAI va chon mo hinh ban muon.",
+      "STEP_1_TITLE": "Mo cai dat Models",
+      "STEP_1_DESC": "Mo cai dat BoltAI, vao Models, nhan + va chon OpenAI-compatible Server.",
+      "STEP_2_TITLE": "Dien may chu",
+      "STEP_2_DESC": "Nhap ten, URL co so, khoa, ID mo hinh va do dai ngu canh.",
+      "STEP_3_TITLE": "Bat truyen phat",
+      "STEP_3_DESC": "Bat Streaming de BoltAI hien thi token khi chung den.",
+      "TS_1_DESC": "BoltAI khong tu dong tai danh sach mo hinh cho ket noi nay. Moi mo hinh {appName} la mot muc thu cong.",
+      "TS_2_DESC": "Dat do dai ngu canh thu cong. Bo qua co the cat ngan cac prompt hoac phan hoi dai."
+    },
+    "PAGE_ASSIST": {
+      "META": {
+        "TITLE": "Huong dan tich hop Page Assist | {appName}",
+        "DESCRIPTION": "Ket noi Page Assist voi {appName} nhu mot API tuy chinh tuong thich OpenAI. Dung AI trong bang ben cua trinh duyet.",
+        "KEYWORDS": "Page Assist, Page Assist tuong thich OpenAI, {appName} Page Assist, tien ich AI trinh duyet"
+      },
+      "BADGE": "Page Assist",
+      "TITLE": "Huong dan tich hop Page Assist",
+      "SUBTITLE": "Ket noi {appName} voi Page Assist nhu mot API tuy chinh tuong thich OpenAI.",
+      "OVERVIEW_DESC": "Page Assist chay trong bang ben cua trinh duyet. Them {appName} nhu mot API tuy chinh tuong thich OpenAI va chon mo hinh ban muon.",
+      "STEP_1_TITLE": "Mo cai dat Page Assist",
+      "STEP_1_DESC": "Nhan bieu tuong Page Assist tren thanh cong cu va mo bieu tuong banh rang de vao cai dat.",
+      "STEP_2_TITLE": "Them nha cung cap OpenAI tuy chinh",
+      "STEP_2_DESC": "Vao OpenAI Compatible API, nhan Add Provider roi Custom.",
+      "STEP_3_TITLE": "Dien nha cung cap",
+      "STEP_3_DESC": "Nhap ten nha cung cap, URL co so va khoa API {appName} cua ban.",
+      "STEP_4_TITLE": "Them mo hinh",
+      "STEP_4_DESC": "Mo phan Models trong Page Assist va them cac mo hinh {appName} ban muon tro chuyen.",
+      "TS_1_DESC": "Nha cung cap tuy chinh khong tu phat hien mo hinh. Hay them thu cong.",
+      "TS_2_DESC": "Phat hien tu dong danh rieng cho cac nha cung cap tich hop nhu LM Studio va Ollama."
+    },
+    "CHATBOX": {
+      "META": {
+        "TITLE": "Huong dan tich hop Chatbox | {appName}",
+        "DESCRIPTION": "Ket noi Chatbox voi {appName} bang che do OpenAI API Compatible. Chia URL thanh Host va Path.",
+        "KEYWORDS": "Chatbox, Chatbox tuong thich OpenAI, {appName} Chatbox, may khach chat da nen tang"
+      },
+      "BADGE": "Chatbox",
+      "TITLE": "Huong dan tich hop Chatbox",
+      "SUBTITLE": "Ket noi {appName} voi Chatbox bang che do OpenAI API Compatible.",
+      "OVERVIEW_DESC": "Chatbox ho tro moi co so tuong thich OpenAI. Dung che do OpenAI API Compatible va chia URL thanh Host va Path.",
+      "STEP_1_TITLE": "Mo Add Custom Provider",
+      "STEP_1_DESC": "Nhan Settings, roi Display, roi AI Provider, roi Add Custom Provider.",
+      "STEP_2_TITLE": "Chon che do OpenAI API Compatible",
+      "STEP_2_DESC": "Khong chon tuy chon Responses API tru khi ban thuc su muon tuyen Responses.",
+      "STEP_3_TITLE": "Chia host va path",
+      "STEP_3_DESC": "Chatbox can Host va Path la cac truong rieng. Dat duong dan chat completions vao API Path.",
+      "STEP_4_TITLE": "Them mo hinh",
+      "STEP_4_DESC": "Them cac mo hinh {appName} ban muon trong phan Models.",
+      "TS_1_DESC": "Dat /v1 trong Host voi Path rong se khong hoat dong. Giu duong dan chat completions day du trong API Path.",
+      "TS_2_DESC": "Dung OpenAI API Compatible, khong phai OpenAI Responses API Compatible, tru khi ban thuc su muon dac ta Responses."
+    },
+    "BIG_AGI": {
+      "META": {
+        "TITLE": "Huong dan tich hop Big-AGI | {appName}",
+        "DESCRIPTION": "Ket noi Big-AGI voi {appName} nhu mot nguon OpenAI. Big-AGI tu dong tai danh muc.",
+        "KEYWORDS": "Big-AGI, nguon OpenAI Big-AGI, {appName} Big-AGI, ban lam viec AI web"
+      },
+      "BADGE": "Big-AGI",
+      "TITLE": "Huong dan tich hop Big-AGI",
+      "SUBTITLE": "Ket noi {appName} voi Big-AGI nhu mot nguon OpenAI tuy chinh.",
+      "OVERVIEW_DESC": "Nha cung cap OpenAI cua Big-AGI chap nhan mot endpoint API tuy chinh. Them {appName}, va Big-AGI tu dong tai danh muc mo hinh.",
+      "STEP_1_TITLE": "Mo Models",
+      "STEP_1_DESC": "Nhan Models va Add a model source. Chon OpenAI.",
+      "STEP_2_TITLE": "Dien nguon",
+      "STEP_2_DESC": "Nhap khoa API {appName} cua ban va endpoint API.",
+      "STEP_3_TITLE": "Lam moi mo hinh",
+      "STEP_3_DESC": "Nhan nut Models de lam moi danh sach. Big-AGI tai danh muc {appName}.",
+      "TS_1_DESC": "De trong Helicone Key. Them no buoc host sang mot ten mien khac.",
+      "TS_2_DESC": "Tat nut Moderation. {appName} khong cung cap endpoint kiem duyet."
+    },
+    "OPENCODE": {
+      "META": {
+        "TITLE": "Huong dan cai dat OpenCode | {appName}",
+        "DESCRIPTION": "Ket noi OpenCode voi {appName} bang cach them mot nha cung cap tuy chinh tuong thich OpenAI vao opencode.json. Cau hinh tung buoc voi URL co so chinh xac.",
+        "KEYWORDS": "OpenCode, cai dat OpenCode, nha cung cap OpenCode, {appName} OpenCode, tac nhan lap trinh, tuong thich OpenAI"
+      },
+      "BADGE": "OpenCode",
+      "TITLE": "Huong dan cai dat OpenCode",
+      "SUBTITLE": "Them {appName} lam nha cung cap tuy chinh trong OpenCode va chon bat ky mo hinh nao lam tac nhan lap trinh dang hoat dong.",
+      "OVERVIEW_DESC": "OpenCode doc danh sach nha cung cap tu mot tep cau hinh JSON. Them {appName} lam nha cung cap tuy chinh voi bo chuyen doi tuong thich OpenAI, sau do ban co the chon bat ky mo hinh {appName} nao lam mo hinh dang hoat dong.",
+      "STEP_1_TITLE": "Mo tep cau hinh OpenCode",
+      "STEP_1_DESC": "Nhan Ctrl + O trong OpenCode va dan duong dan. Tren Windows, thay YOUR_USER bang ten nguoi dung Windows cua ban.",
+      "STEP_2_TITLE": "Thay the noi dung tep",
+      "STEP_2_DESC": "Xoa sach tep va dan khoi nha cung cap {appName}. Dien khoa API {appName} cua ban va chon bat ky mo hinh nao tu danh muc.",
+      "STEP_3_TITLE": "Luu va tai lai",
+      "STEP_3_DESC": "Nhan Ctrl + S de luu, sau do Ctrl + Shift + P va chay lenh Developer: Reload Window. OpenCode se nhan nha cung cap moi khi tai lai.",
+      "STEP_4_TITLE": "Chon mot mo hinh",
+      "STEP_4_DESC": "Mo trinh chon mo hinh trong OpenCode va chuyen sang mo hinh ban da them. Bo chuyen doi tuong thich OpenAI tu dong xu ly truyen phat va goi cong cu.",
+      "GOTCHA_1": "OpenCode su dung bo chuyen doi npm @ai-sdk/openai-compatible o ben duoi, vi vay ban co the tiep tuc them mo hinh vao muc \"models\" ma khong can khoi dong lai.",
+      "GOTCHA_2": "Neu Developer: Reload Window khong hien thi nha cung cap cua ban, hay kiem tra lai rang JSON da duoc luu ma khong co dau phay o cuoi.",
+      "GOTCHA_3": "Su dung dung ID mo hinh tu danh muc {appName}. Xoa tien to nha cung cap o dau neu thao tac sao chep da them vao."
+    },
+    "KILO_CODE": {
+      "META": {
+        "TITLE": "Huong dan cai dat Kilo Code | {appName}",
+        "DESCRIPTION": "Ket noi Kilo Code voi {appName} bang cach them mot nha cung cap tuy chinh tuong thich OpenAI trong thanh ben VSCode. Cau hinh tung buoc.",
+        "KEYWORDS": "Kilo Code, cai dat Kilo Code, tac nhan lap trinh VSCode, {appName} Kilo Code, nha cung cap tuy chinh, tuong thich OpenAI"
+      },
+      "BADGE": "Kilo Code",
+      "TITLE": "Huong dan cai dat Kilo Code",
+      "SUBTITLE": "Ket noi mot nha cung cap {appName} tuy chinh ngay trong thanh ben Kilo Code cua VSCode ma khong can roi khoi trinh soan thao.",
+      "OVERVIEW_DESC": "Kilo Code la mot tien ich mo rong VSCode cho phep ban ket noi mot nha cung cap tuy chinh tuong thich OpenAI ngay trong thanh ben cua no. {appName} hoat dong ma khong can roi khoi trinh soan thao.",
+      "STEP_1_TITLE": "Cai dat Kilo Code",
+      "STEP_1_DESC": "Mo VSCode, vao bang Tien ich mo rong, tim Kilo Code va cai dat no.",
+      "STEP_2_TITLE": "Mo cai dat",
+      "STEP_2_DESC": "Nhap vao bieu tuong Kilo Code o thanh ben, roi nhap vao bieu tuong banh rang o goc tren ben phai cua bang.",
+      "STEP_3_TITLE": "Them mot nha cung cap tuy chinh",
+      "STEP_3_DESC": "Mo Providers, nhap + Connect ben canh Custom Provider va dien vao bieu mau.",
+      "STEP_4_TITLE": "Dien bieu mau ket noi",
+      "STEP_4_DESC": "Su dung dung cac gia tri nay. Truong mo hinh chap nhan bat ky ID mo hinh nao tu danh muc {appName}.",
+      "STEP_5_TITLE": "Luu va tro chuyen",
+      "STEP_5_DESC": "Nhap Save Provider. Kilo Code se su dung nha cung cap moi cho lan chay tac nhan tiep theo.",
+      "GOTCHA_1": "Neu khi dan khoa bi rut ngan con vai ky tu, nghia la truong dang che giau no khi ban go. Nhap vao bieu tuong con mat de xac nhan toan bo khoa da duoc dan.",
+      "GOTCHA_2": "Loi 404 unknown API route thuong co nghia la ID mo hinh sai. Hay dung mot ID tu danh sach mo hinh {appName}.",
+      "GOTCHA_3": "Giu bat tuy chon Supports tools de Kilo co the chay shell, chinh sua tep va cac cong cu tim kiem."
+    },
+    "ZED": {
+      "META": {
+        "TITLE": "Huong dan cai dat Zed IDE | {appName}",
+        "DESCRIPTION": "Ket noi tac nhan trinh soan thao Zed voi {appName} bang cach them mot nha cung cap tuy chinh tuong thich OpenAI. Cau hinh tung buoc.",
+        "KEYWORDS": "Zed, Zed IDE, tac nhan Zed, {appName} Zed, nha cung cap tuy chinh, trinh soan thao tuong thich OpenAI"
+      },
+      "BADGE": "Zed IDE",
+      "TITLE": "Huong dan cai dat Zed IDE",
+      "SUBTITLE": "Them {appName} lam nha cung cap tuy chinh tuong thich OpenAI trong Zed va tac nhan tich hop se lo phan con lai.",
+      "OVERVIEW_DESC": "Zed co mot bang tac nhan tich hop san. Them {appName} lam nha cung cap tuy chinh tuong thich OpenAI va Zed se lo phan con lai.",
+      "STEP_1_TITLE": "Mo tro ly Zed",
+      "STEP_1_DESC": "Mo Zed va hien bang tro ly tu thanh ben phai.",
+      "STEP_2_TITLE": "Mo cai dat tac nhan",
+      "STEP_2_DESC": "Nhap vao banh rang tro ly va vao Add Provider o goc tren ben phai.",
+      "STEP_3_TITLE": "Cau hinh nha cung cap",
+      "STEP_3_DESC": "Chon tuy chon tuong thich OpenAI va su dung cac gia tri nay.",
+      "STEP_4_TITLE": "Chon mot mo hinh",
+      "STEP_4_DESC": "Chon nha cung cap {appName} moi cua ban trong trinh chon mo hinh va chon bat ky mo hinh nao tu danh muc. Zed truyen phat phan hoi ngay trong trinh soan thao.",
+      "GOTCHA_1": "Zed yeu cau ID nha cung cap la chu thuong, chu so, dau gach ngang hoac dau gach duoi.",
+      "GOTCHA_2": "Khoa API trong bieu mau la tuy chon vi mot so nguoi dung xac thuc qua tieu de, nhung doi voi {appName} hay dan khoa thuc cua ban."
+    },
+    "CLINE": {
+      "META": {
+        "TITLE": "Huong dan cai dat Cline | {appName}",
+        "DESCRIPTION": "Ket noi Cline voi {appName} lam nha cung cap Tuong thich OpenAI de no co the doc, chinh sua va chay ma voi bat ky mo hinh nao. Cau hinh tung buoc.",
+        "KEYWORDS": "Cline, cai dat Cline, tac nhan tu dong VSCode, {appName} Cline, Tuong thich OpenAI, tac nhan lap trinh"
+      },
+      "BADGE": "Cline",
+      "TITLE": "Huong dan cai dat Cline",
+      "SUBTITLE": "Them {appName} lam nha cung cap Tuong thich OpenAI trong Cline va chay mot vong lap tac nhan day du ben trong VSCode.",
+      "OVERVIEW_DESC": "Cline chay mot vong lap tac nhan day du ben trong VSCode. Them {appName} lam nha cung cap Tuong thich OpenAI va no co the doc, chinh sua va chay ma voi bat ky mo hinh nao.",
+      "STEP_1_TITLE": "Cai dat Cline",
+      "STEP_1_DESC": "Cai dat tien ich mo rong Cline tu marketplace VSCode va mo bang Cline tu thanh hoat dong.",
+      "STEP_2_TITLE": "Mo cai dat Cline",
+      "STEP_2_DESC": "Nhap vao bieu tuong banh rang trong bang Cline de mo API Configuration.",
+      "STEP_3_TITLE": "Chon OpenAI Compatible",
+      "STEP_3_DESC": "Trong muc API Provider, chon OpenAI Compatible.",
+      "STEP_4_TITLE": "Dien thong tin ket noi",
+      "STEP_4_DESC": "Su dung cac gia tri nay. Truong Model ID chap nhan bat ky mo hinh {appName} nao.",
+      "GOTCHA_1": "Cline co che do Responses API cho cac mo hinh moi hon. Voi chat completions, no quay ve boc cong cu bang XML, dieu nay co the lap lai cac lan goi cong cu. De on dinh, hay dung cac mo hinh kieu tro chuyen.",
+      "GOTCHA_2": "Chon mot mo hinh co goi cong cu gan lien de Cline co the chay shell va chinh sua tep mot cach dang tin cay."
+    },
+    "ROO_CODE": {
+      "META": {
+        "TITLE": "Huong dan cai dat Roo Code | {appName}",
+        "DESCRIPTION": "Ket noi Roo Code voi {appName} lam nha cung cap Tuong thich OpenAI de cac vai tro lap ke hoach, ma va QA cua no chia se chung mot URL co so. Cau hinh tung buoc.",
+        "KEYWORDS": "Roo Code, cai dat Roo Code, da tac nhan VSCode, {appName} Roo Code, Tuong thich OpenAI, tac nhan lap trinh"
+      },
+      "BADGE": "Roo Code",
+      "TITLE": "Huong dan cai dat Roo Code",
+      "SUBTITLE": "Them {appName} lam nha cung cap Tuong thich OpenAI va cac vai tro tac nhan cua Roo Code se chia se cung mot URL co so.",
+      "OVERVIEW_DESC": "Roo Code chia tac nhan thanh mot nhom lap ke hoach, ma va QA. Them {appName} lam nha cung cap Tuong thich OpenAI va cac vai tro cua Roo se chia se cung mot URL co so.",
+      "STEP_1_TITLE": "Cai dat Roo Code",
+      "STEP_1_DESC": "Cai dat tien ich mo rong Roo Code trong VSCode va mo bang.",
+      "STEP_2_TITLE": "Mo cau hinh API",
+      "STEP_2_DESC": "Nhap vao bieu tuong cai dat va vao API Configuration.",
+      "STEP_3_TITLE": "Chon OpenAI Compatible",
+      "STEP_3_DESC": "Dat Provider thanh OpenAI Compatible.",
+      "STEP_4_TITLE": "Dien thong tin ket noi",
+      "STEP_4_DESC": "Su dung cac gia tri nay. Trinh chon mo hinh cung co the tu dong dien sau lan goi dau tien.",
+      "GOTCHA_1": "Cai dat Codebase Indexing > Embedder Provider cua Roo la mot cai dat rieng, tach biet voi tro chuyen. Hay cau hinh dung nha cung cap tro chuyen ma ban thuc su muon.",
+      "GOTCHA_2": "Mot so vai tro tac nhan cua Roo chay nhieu yeu cau hon ban mong doi. Theo doi gioi han toc do {appName} cua ban va nang cap goi neu can."
+    },
+    "CONTINUE_DEV": {
+      "META": {
+        "TITLE": "Huong dan cai dat Continue.dev | {appName}",
+        "DESCRIPTION": "Ket noi Continue.dev voi {appName} bang mot tep config.yaml co quan ly phien ban. Continue tai lai muc mo hinh ngay lap tuc. Cau hinh tung buoc.",
+        "KEYWORDS": "Continue.dev, cai dat Continue, tro ly VSCode JetBrains, {appName} Continue, config.yaml, tuong thich OpenAI"
+      },
+      "BADGE": "Continue.dev",
+      "TITLE": "Huong dan cai dat Continue.dev",
+      "SUBTITLE": "Them mot muc mo hinh {appName} vao tep config.yaml cua Continue va no se tai lai ngay lap tuc tren VSCode va JetBrains.",
+      "OVERVIEW_DESC": "Continue su dung mot cau hinh yaml ma ban co the quan ly phien ban. Them mot muc mo hinh {appName} va Continue se tai lai no ngay lap tuc.",
+      "STEP_1_TITLE": "Mo cau hinh Continue",
+      "STEP_1_DESC": "Chinh sua ~/.continue/config.yaml (macOS/Linux) hoac %USERPROFILE%\\.continue\\config.yaml (Windows). Tao tep neu chua co.",
+      "STEP_2_TITLE": "Them mot muc mo hinh",
+      "STEP_2_DESC": "Su dung nha cung cap openai voi apiBase. Ban co the them nhieu mo hinh duoi dang cac muc rieng biet.",
+      "STEP_3_TITLE": "Luu va tai lai",
+      "STEP_3_DESC": "Continue tai lai cau hinh ngay lap tuc. Chon {appName} tu trinh chon mo hinh o duoi cung cua bang.",
+      "GOTCHA_1": "Su dung config.yaml, khong dung config.json cu.",
+      "GOTCHA_2": "Neu mot mo hinh tu choi cac tham so bo sung, hay dat requestOptions.dropParams: ['frequency_penalty','presence_penalty'] trong muc cua mo hinh do."
+    },
+    "AIDER": {
+      "META": {
+        "TITLE": "Huong dan cai dat Aider | {appName}",
+        "DESCRIPTION": "Ket noi CLI lap trinh cap doi Aider voi {appName}. Dat hai bien moi truong va truyen openai/MODEL_ID lam mo hinh. Cau hinh tung buoc.",
+        "KEYWORDS": "Aider, cai dat Aider, CLI lap trinh cap doi AI, {appName} Aider, LiteLLM, tuong thich OpenAI"
+      },
+      "BADGE": "Aider",
+      "TITLE": "Huong dan cai dat Aider",
+      "SUBTITLE": "Aider dua tren LiteLLM, vi vay URL co so tuong thich OpenAI cua {appName} hoat dong voi hai bien moi truong.",
+      "OVERVIEW_DESC": "Aider dua tren LiteLLM, vi vay bat ky URL co so tuong thich OpenAI nao cung hoat dong. Dat hai bien moi truong va truyen openai/MODEL_ID lam mo hinh.",
+      "STEP_1_TITLE": "Dat cac bien moi truong",
+      "STEP_1_DESC": "Aider doc OPENAI_API_BASE va OPENAI_API_KEY tu shell cua ban.",
+      "STEP_2_TITLE": "Chay aider voi tien to openai/",
+      "STEP_2_DESC": "LiteLLM su dung tien to openai/ de dinh tuyen yeu cau qua trinh dieu khien OpenAI cua no. Them ID mo hinh {appName} cua ban vao.",
+      "STEP_3_TITLE": "Tuy chon: luu trong .aider.conf.yml",
+      "STEP_3_DESC": "Dat mot cau hinh o thu muc goc cua du an de ban khong phai lap lai cac co moi lan.",
+      "GOTCHA_1": "Luon them /v1 vao URL co so.",
+      "GOTCHA_2": "LiteLLM co the in cac canh bao mo hinh khong xac dinh. Su dung --no-show-model-warnings hoac cung cap mot cua so ngu canh qua --model-metadata-file neu chung qua nhieu."
     }
   },
   "FOOTER": {
@@ -1542,11 +1941,8 @@
     "CONTACT_SUBTITLE": "Có câu hỏi hay thắc mắc?",
     "DESCRIPTION": "Nền tảng API AI hợp nhất cung cấp quyền truy cập hàng trăm mô hình từ nhiều nhà cung cấp qua một endpoint thông minh duy nhất.",
     "COPYRIGHT": "© {year} {appName}. Giữ toàn quyền.",
-    "LEGAL_DISCLAIMER": "Bằng việc sử dụng nền tảng này, bạn xác nhận rằng đã đọc và đồng ý với",
     "LEGAL_TERMS": "Điều khoản dịch vụ",
-    "LEGAL_AND": "và",
     "LEGAL_PRIVACY": "Chính sách bảo mật",
-    "SOCIAL_GITHUB": "GitHub",
     "SOCIAL_TRUSTPILOT": "Trustpilot",
     "EASTER_EGG_LABEL": "Chơi Token Breakout"
   },
@@ -1662,21 +2058,15 @@
   },
   "COMMON": {
     "COPY_CODE": "Sao chép mã",
-    "COPIED": "Đã sao chép",
     "OPEN_MENU": "Mở menu",
     "SEARCH": "Tìm kiếm...",
     "SAVE": "Lưu",
     "SAVED": "Đã lưu",
     "CANCEL": "Huỷ",
     "DELETE": "Xoá",
-    "CREATE": "Tạo",
     "EDIT": "Chỉnh sửa",
-    "IMPORT": "Nhập",
-    "EXPORT": "Xuất",
-    "LOADING": "Đang tải...",
     "NAME": "Tên",
     "DESCRIPTION": "Mô tả",
-    "CONFIRM_DELETE": "Bạn có chắc muốn xoá không?",
     "RESET": "Đặt lại",
     "CONFIRM": {
       "CONTINUE": "Tiếp tục",
@@ -1695,7 +2085,6 @@
       "DELETE_GENERATION_TITLE": "Xoá lần tạo?",
       "DELETE_GENERATION_DESC": "Thao tác này xoá vĩnh viễn lần tạo này và các ảnh của nó.",
       "CLEAR_CHAT_TITLE": "Xoá nội dung trò chuyện?",
-      "REMOVE_SYNC_TITLE": "Gỡ khỏi đồng bộ?",
       "WIPE_DB_TITLE": "Xoá sạch cơ sở dữ liệu cục bộ?",
       "UPLOAD_DB_TITLE": "Ghi đè cơ sở dữ liệu cục bộ?"
     }
@@ -1708,7 +2097,17 @@
     "RU": "Русский",
     "VI": "Tiếng Việt",
     "ZH_CN": "简体中文",
-    "ZH_TW": "繁體中文"
+    "ZH_TW": "繁體中文",
+    "IT": "Italiano",
+    "ES": "Español",
+    "PT_BR": "Português (Brasil)",
+    "KO": "한국어",
+    "TR": "Türkçe",
+    "AR": "العربية",
+    "HE": "עברית",
+    "HI": "हिन्दी",
+    "ID": "Bahasa Indonesia",
+    "PL": "Polski"
   },
   "AUTH": {
     "LOGIN": {
@@ -1728,7 +2127,6 @@
       "USERNAME_OR_EMAIL_PLACEHOLDER": "Nhập tên người dùng hoặc email của bạn",
       "PASSWORD": "Mật khẩu",
       "PASSWORD_PLACEHOLDER": "Nhập mật khẩu của bạn",
-      "PASSWORD_MIN_LENGTH": "Mật khẩu phải có ít nhất 8 ký tự",
       "EMAIL": "Email",
       "EMAIL_PLACEHOLDER": "Nhập email của bạn",
       "VERIFICATION_CODE": "Mã xác minh",
@@ -1743,14 +2141,12 @@
     "TWO_FA": {
       "TITLE": "Xác thực hai yếu tố",
       "DESCRIPTION": "Nhập mã 6 chữ số từ ứng dụng xác thực của bạn",
-      "CODE_PLACEHOLDER": "000000",
       "SUBMIT": "Xác minh",
       "VERIFYING": "Đang xác minh..."
     },
     "VERIFICATION": {
       "SEND_CODE": "Gửi mã",
       "SENDING": "Đang gửi...",
-      "SENT": "Đã gửi mã",
       "RESEND": "Gửi lại",
       "RESEND_IN": "Gửi lại sau {seconds}s",
       "FAILED": "Gửi mã xác minh thất bại"
@@ -1800,10 +2196,7 @@
     "DONT_HAVE_ACCOUNT": "Chưa có tài khoản?",
     "ALREADY_HAVE_ACCOUNT": "Đã có tài khoản?",
     "OR_CONTINUE_WITH": "Hoặc tiếp tục với",
-    "CALLBACK_LOADING": "Đang hoàn tất đăng nhập...",
-    "DASHBOARD": "Bảng điều khiển",
     "LOG_OUT": "Đăng xuất",
-    "BALANCE": "Số dư",
     "SUBSCRIPTION": "Gói đăng ký",
     "SUBSCRIPTION_ACTIVE": "Đang hoạt động"
   },
@@ -1815,10 +2208,7 @@
     "LOGS": "Nhật ký sử dụng",
     "AFFILIATE": "Tiếp thị liên kết",
     "BILLING": "Thanh toán",
-    "SETTINGS": "Cài đặt",
-    "CHAT": "Trò chuyện",
-    "GENERATE": "Tạo ảnh",
-    "MY_GENERATIONS": "Ảnh của tôi"
+    "SETTINGS": "Cài đặt"
   },
   "DASHBOARD": {
     "GREETING": {
@@ -1862,12 +2252,9 @@
       "NO_API_INFO": "Không có thông tin API"
     },
     "CONSUMPTION": "Tiêu thụ",
-    "TOP_UP": "Nạp tiền",
     "TOTAL": "Tổng",
     "OTHER": "Khác",
     "NO_DATA": "Không có dữ liệu",
-    "UPTIME": "Thời gian hoạt động",
-    "COPY_URL": "Sao chép URL",
     "COPIED": "Đã sao chép"
   },
   "TOKEN": {
@@ -1885,18 +2272,7 @@
     "FORM": {
       "NAME": "Tên",
       "NAME_PLACEHOLDER": "Nhập tên cho key này",
-      "GROUP": "Nhóm",
-      "GROUP_PLACEHOLDER": "Chọn một nhóm",
-      "GROUP_NO_GROUPS": "Không có nhóm khả dụng",
-      "CROSS_GROUP_RETRY": "Thử lại xuyên nhóm",
-      "CROSS_GROUP_RETRY_DESC": "Khi bật, yêu cầu thất bại sẽ thử lại qua các kênh ở nhóm khác.",
-      "EXPIRATION": "Hết hạn",
-      "EXPIRATION_PLACEHOLDER": "Chọn ngày hết hạn",
-      "EXPIRATION_PRESETS": "Thiết lập nhanh",
       "NEVER_EXPIRES": "Không bao giờ",
-      "ONE_MONTH": "1 tháng",
-      "ONE_DAY": "1 ngày",
-      "ONE_HOUR": "1 giờ",
       "QUOTA": "Hạn mức",
       "QUOTA_PLACEHOLDER": "Số tiền USD (vd. 10)",
       "QUOTA_PRESETS": "Mẫu sẵn",
@@ -1907,8 +2283,6 @@
       "MODEL_LIMITS_DESC": "Không khuyến nghị trừ khi cần thiết.",
       "MODEL_SELECT_PLACEHOLDER": "Tìm mô hình...",
       "MODEL_SELECT_EMPTY": "Không tìm thấy mô hình nào",
-      "MODELS_SELECTED": "{count} đã chọn",
-      "MODEL_COUNT": "{count} mô hình",
       "IP_WHITELIST": "Danh sách IP cho phép",
       "IP_WHITELIST_PLACEHOLDER": "Mỗi IP một dòng. Để trống để không giới hạn.",
       "IP_WHITELIST_DESC": "IP có thể bị giả mạo. Dùng kèm gateway để có hiệu lực mạnh hơn.",
@@ -1959,7 +2333,6 @@
     "DISABLE": "Tắt",
     "UNLIMITED": "Không giới hạn",
     "ALL_MODELS": "Mọi mô hình",
-    "USED_OF_TOTAL": "{used} / {total}",
     "SEARCH_PLACEHOLDER": "Tìm key...",
     "NO_TOKENS": "Chưa có API key nào. Tạo một để bắt đầu.",
     "COPY_KEY": "Sao chép Key"
@@ -1967,7 +2340,6 @@
   "LOGS": {
     "TABLE": {
       "TIME": "Thời gian",
-      "TYPE": "Loại",
       "CHANNEL": "Kênh",
       "USER": "Người dùng",
       "MODEL": "Mô hình",
@@ -2085,8 +2457,6 @@
     "DESCRIPTION": "Xem lịch sử yêu cầu API, mức sử dụng token và chi tiết chi tiêu.",
     "FILTERS": "Bộ lọc",
     "RESET": "Đặt lại",
-    "TO": "đến",
-    "TOTAL": "tổng",
     "COPIED": "Đã sao chép vào bộ nhớ tạm",
     "CLICK_COPY": "Nhấp để sao chép",
     "NO_LOGS": "Không tìm thấy nhật ký nào cho khoảng thời gian đã chọn.",
@@ -2105,7 +2475,6 @@
       "RATE": "Tỷ lệ",
       "EARNED": "Đã nhận",
       "STATUS": "Trạng thái",
-      "JOINED": "Ngày tham gia",
       "COMMISSIONS": "Hoa hồng",
       "TOTAL_EARNED": "Tổng đã nhận"
     },
@@ -2130,7 +2499,6 @@
       "TITLE": "Chuyển thu nhập liên kết",
       "DIALOG_DESC": "Chuyển thu nhập tiếp thị liên kết đang chờ sang số dư tài khoản. Hành động này không thể hoàn tác.",
       "AMOUNT": "Số tiền",
-      "INVALID": "Vui lòng nhập số tiền hợp lệ",
       "EXCEEDS": "Số tiền vượt quá số dư khả dụng"
     },
     "ENUM": {
@@ -2162,7 +2530,6 @@
     "HOW_IT_WORKS": "Cách hoạt động",
     "TAB_INVITEES": "Người dùng đã mời",
     "TAB_COMMISSIONS": "Lịch sử hoa hồng",
-    "COMMISSION_HISTORY": "Lịch sử hoa hồng",
     "NO_COMMISSIONS": "Chưa có lịch sử hoa hồng. Chia sẻ liên kết mời để bắt đầu kiếm tiền.",
     "NO_INVITEES": "Chưa có người dùng nào được mời. Chia sẻ liên kết mời để bắt đầu mở rộng mạng lưới.",
     "BADGE_GENERATOR": {
@@ -2234,11 +2601,22 @@
     "MD_BOLD": "Văn bản in đậm",
     "MD_ITALIC_BOLD": "Văn bản in nghiêng đậm",
     "MD_SINGLE_QUOTE": "Văn bản trong dấu nháy đơn",
-    "MD_DOUBLE_QUOTE": "Văn bản trong dấu nháy kép"
+    "MD_DOUBLE_QUOTE": "Văn bản trong dấu nháy kép",
+    "SURFACE_COLORS": "Màu bề mặt",
+    "COLOR_SIDEBAR": "Thanh bên",
+    "BACKGROUND_IMAGE": "Ảnh nền",
+    "BG_UPLOAD": "Tải ảnh lên",
+    "BG_REPLACE": "Thay thế",
+    "BG_REMOVE": "Xóa",
+    "BG_FIT": "Cách vừa ảnh",
+    "BG_FIT_COVER": "Phủ kín",
+    "BG_FIT_CONTAIN": "Vừa khung",
+    "BG_FIT_TILE": "Lát",
+    "BG_OPACITY": "Độ mờ đục",
+    "BG_BLUR": "Làm mờ"
   },
   "BILLING": {
     "SUBSCRIPTION": {
-      "PLANS": "Các gói đăng ký",
       "MY": "Đăng ký của tôi",
       "NO_ACTIVE": "Không có gói đang hoạt động",
       "ACTIVE": "Đang hoạt động",
@@ -2271,9 +2649,7 @@
     },
     "TOPUP": {
       "TITLE": "Nạp hạn mức",
-      "AMOUNT": "Số tiền nạp",
       "ACTUAL_PAYMENT": "Thanh toán thực tế",
-      "PAY_NOW": "Thanh toán ngay",
       "SAVE": "Lưu"
     },
     "ERROR": {
@@ -2289,7 +2665,6 @@
     "CONSUMPTION": "Tiêu thụ",
     "REQUESTS": "Yêu cầu",
     "USED_OF": "đã dùng trên",
-    "REFRESHING": "Đang làm mới...",
     "PAYMENT_METHOD": {
       "LABEL": "Phương thức thanh toán",
       "CARD": "Thẻ tín dụng",
@@ -2300,8 +2675,6 @@
     "ERROR": {
       "REQUIRED": "Trường {type} là bắt buộc",
       "MIN_LENGTH": "{type} phải có ít nhất {minLength} ký tự",
-      "MAX_LENGTH": "{type} tối đa {maxLength} ký tự",
-      "EXACT_LENGTH": "{type} phải đúng {minLength} ký tự",
       "MIN_VALUE": "{type} phải lớn hơn 0"
     },
     "TYPE": {
@@ -2313,7 +2686,8 @@
       "NAME": "Tên",
       "AMOUNT": "Số tiền",
       "REMAIN_QUOTA": "Hạn mức",
-      "QUOTA_THRESHOLD_DOLLARS": "Ngưỡng cảnh báo hạn mức"
+      "QUOTA_THRESHOLD_DOLLARS": "Ngưỡng cảnh báo hạn mức",
+      "CONTENT": "Nội dung"
     }
   },
   "SETTINGS": {
@@ -2323,7 +2697,6 @@
     "ROLE_SUPER_ADMIN": "Siêu quản trị",
     "ROLE_ADMIN": "Quản trị",
     "ROLE_USER": "Người dùng",
-    "BALANCE": "Số dư",
     "CONSUMPTION": "Tiêu thụ",
     "REQUEST_COUNT": "Yêu cầu",
     "DEFAULT_GROUP": "Nhóm mặc định",
@@ -2338,14 +2711,12 @@
       "EMAIL_PLACEHOLDER": "Nhập địa chỉ email",
       "BIND_EMAIL": "Liên kết email",
       "MODIFY_EMAIL": "Sửa email",
-      "VERIFICATION_CODE": "Mã xác minh",
       "SEND_CODE": "Gửi mã",
       "CODE_SENT": "Đã gửi mã, gửi lại sau {seconds}s",
       "CODE_PLACEHOLDER": "Nhập mã xác minh",
       "OAUTH_BINDINGS": "Liên kết OAuth",
       "GITHUB": "GitHub",
       "DISCORD": "Discord",
-      "BOUND": "Đã liên kết",
       "NOT_BOUND": "Chưa liên kết",
       "BIND": "Liên kết",
       "UNBIND": "Hủy liên kết",
@@ -2359,7 +2730,6 @@
       "ACCESS_TOKEN": "Token truy cập hệ thống",
       "ACCESS_TOKEN_DESC": "Dùng token này để truy cập API trực tiếp.",
       "GENERATE_TOKEN": "Tạo Token",
-      "REGENERATE_TOKEN": "Tạo lại Token",
       "TOKEN_GENERATED": "Tạo token thành công",
       "COPY_TOKEN": "Sao chép",
       "TOKEN_COPIED": "Đã sao chép vào bộ nhớ tạm",
@@ -2431,29 +2801,21 @@
   },
   "CHAT": {
     "SHARE": {
-      "BUTTON": "Chia sẻ",
       "TITLE": "Chia sẻ hội thoại",
       "DESCRIPTION": "Bất kỳ ai có liên kết đều có thể xem hội thoại này.",
-      "CREATED": "Đã tạo liên kết chia sẻ",
-      "REVOKED": "Đã gỡ liên kết chia sẻ",
-      "COPY_LINK": "Sao chép liên kết chia sẻ",
-      "LINK_COPIED": "Đã sao chép liên kết vào bộ nhớ tạm",
-      "GENERATE_LINK": "Tạo liên kết chia sẻ",
-      "REVOKE": "Gỡ liên kết chia sẻ",
-      "SHARED_CONVERSATION": "Hội thoại được chia sẻ",
-      "NOT_FOUND": "Không tìm thấy hội thoại được chia sẻ này hoặc đã bị gỡ."
+      "LINK_COPIED": "Đã sao chép liên kết vào bộ nhớ tạm"
     },
     "MODEL": {
       "SELECT": "Chọn mô hình",
       "SEARCH": "Tìm mô hình...",
       "NO_RESULTS": "Không tìm thấy mô hình",
-      "GROUP_TEXT": "Văn bản & Suy luận",
-      "GROUP_IMAGE": "Tạo hình ảnh",
-      "GROUP_VIDEO": "Tạo video",
       "FREE_BADGE": "MIỄN PHÍ",
-      "LOGIN_REQUIRED": "Yêu cầu đăng nhập",
-      "FREE_NOTICE": "Mô hình miễn phí có thể lỗi khi tải cao.",
-      "FREE_NOTICE_CTA": "Chuyển sang mô hình trả phí"
+      "LOGIN_REQUIRED": "Yêu cầu đăng nhập"
+    },
+    "GROUP": {
+      "SELECT": "Nhóm tính phí",
+      "AUTO": "Tự động",
+      "NO_RESULTS": "Không có nhóm khả dụng"
     },
     "ACTION": {
       "COPY": "Sao chép",
@@ -2475,8 +2837,7 @@
     },
     "GATE": {
       "NEEDS_TOKEN_TITLE": "Cần API Key",
-      "NEEDS_TOKEN_DESC": "Tạo API key để bắt đầu trò chuyện với các mô hình AI.",
-      "LOGIN_REQUIRED_DESC": "Đăng nhập để bắt đầu trò chuyện với các mô hình AI."
+      "NEEDS_TOKEN_DESC": "Tạo API key để bắt đầu trò chuyện với các mô hình AI."
     },
     "TOOL": {
       "USED": "Đã dùng công cụ",
@@ -2504,16 +2865,20 @@
       "UNSUPPORTED_TYPE": "Định dạng tệp {type} không được hỗ trợ. Vui lòng tải lên hình ảnh PNG, JPEG, WebP hoặc GIF."
     },
     "WEB_SEARCH": {
-      "LABEL": "Tìm kiếm web",
       "ON": "Đã bật tìm kiếm web",
       "OFF": "Đã tắt tìm kiếm web"
     },
     "REQUEST_LOG": {
       "VIEW": "Xem nhật ký yêu cầu",
       "TITLE": "Nhật ký yêu cầu",
-      "TAB_REQUEST": "Yêu cầu",
+      "TAB_REQUEST": "Ảnh chụp (debug)",
+      "TAB_REQUEST_HINT": "Ảnh chụp client (đầu vào bộ ghép), KHÔNG phải body gửi đi. Những gì mô hình nhận nằm ở tab \"System prompt\" + \"Final messages\".",
+      "TAB_UPSTREAM": "Body gửi đi",
+      "TAB_UPSTREAM_HINT": "Body chính xác gửi đến mô hình (system + tin nhắn chỉ vai trò). Đây chính xác là những gì LLM nhận.",
       "TAB_SYSTEM": "Lời nhắc hệ thống",
+      "TAB_SYSTEM_HINT": "Lời nhắc hệ thống thực gửi đến mô hình. Trống với mô hình không có vai trò hệ thống (vd. GLM); nội dung được gộp vào khối người dùng.",
       "TAB_FINAL": "Tin nhắn cuối",
+      "TAB_FINAL_HINT": "Mảng tin nhắn thực gửi đến mô hình sau các biến đổi vai trò (gộp, loại bỏ hệ thống). Đây là thứ mô hình thấy.",
       "TAB_HEADERS": "Tiêu đề",
       "COPY_CURL": "Sao chép dưới dạng cURL",
       "COPY_JSON": "Sao chép JSON",
@@ -2524,7 +2889,8 @@
       "BADGE_OUT": "ra",
       "BADGE_DROPPED": "đã bỏ",
       "UNIT_MS": "ms",
-      "UNIT_TOK_PER_S": "tok/giây"
+      "UNIT_TOK_PER_S": "tok/giây",
+      "BADGE_PROVIDER": "nhà cung cấp"
     },
     "NEW_CONVERSATION": "Cuộc trò chuyện mới",
     "GENERATION_LOCKED_OTHER_TAB": "Tab khác đang tạo phản hồi cho cuộc trò chuyện này. Hãy đợi tab đó hoàn thành hoặc chuyển sang nó.",
@@ -2535,12 +2901,12 @@
     "NO_CONVERSATIONS": "Chưa có hội thoại nào",
     "EMPTY_TITLE": "Bắt đầu một hội thoại",
     "EMPTY_DESCRIPTION": "Chọn mô hình và bắt đầu trò chuyện để thử nghiệm bất kỳ mô hình AI nào.",
+    "LOADOUT": {
+      "TITLE": "Trang bị",
+      "HINT": "Áp dụng cho trò chuyện này và mọi trò chuyện mới cho đến khi bạn thay đổi."
+    },
     "INPUT_PLACEHOLDER": "Nhập tin nhắn của bạn...",
-    "START_PROMPT": "Gửi tin nhắn để bắt đầu hội thoại.",
     "THINKING": "Đang suy nghĩ",
-    "DISCLAIMER": "Phản hồi của AI có thể không chính xác. Hãy xác minh thông tin quan trọng.",
-    "UNTITLED": "Hội thoại chưa đặt tên",
-    "DELETE_CONFIRM": "Bạn có chắc muốn xóa hội thoại này?",
     "MESSAGE_INPUT": "Ô nhập tin nhắn",
     "SEARCH_CHATS": "Tìm hội thoại",
     "TOKENS_IN": "vào",
@@ -2550,10 +2916,7 @@
       "TITLE": "Trò chuyện AI - {appName}",
       "TITLE_WITH_NAME": "{title} | Trò chuyện AI - {appName}",
       "DESCRIPTION": "Trò chuyện với bất kỳ mô hình AI nào. Thử GPT, Claude, Gemini, DeepSeek và nhiều hơn nữa qua một giao diện duy nhất.",
-      "KEYWORDS": "trò chuyện AI, chat với AI, chat GPT, chat Claude, chat Gemini, sân chơi AI, thử nghiệm mô hình",
-      "SHARED_TITLE": "Hội thoại được chia sẻ - {appName}",
-      "SHARED_TITLE_WITH_NAME": "{title} | Hội thoại được chia sẻ - {appName}",
-      "SHARED_DESCRIPTION": "Xem hội thoại AI được chia sẻ trên {appName}."
+      "KEYWORDS": "trò chuyện AI, chat với AI, chat GPT, chat Claude, chat Gemini, sân chơi AI, thử nghiệm mô hình"
     },
     "OVERRIDES": {
       "OPEN": "Cài đặt cuộc trò chuyện",
@@ -2583,10 +2946,8 @@
       "NO_CHARACTERS": "Chưa có nhân vật. Hãy tạo hoặc nhập trước.",
       "NO_LOREBOOKS": "Chưa có lorebook.",
       "REORDER_HINT": "Kéo để sắp xếp lại. Mục trên cùng được chèn sớm hơn trong prompt.",
-      "SELECTED": "đã chọn",
       "SEARCH_CHARACTERS": "Tìm nhân vật",
       "SEARCH_LOREBOOKS": "Tìm lorebook",
-      "CLEAR": "Xóa",
       "EFFORT_MINIMAL": "Tối thiểu",
       "EFFORT_LOW": "Thấp",
       "EFFORT_MEDIUM": "Trung bình",
@@ -2602,7 +2963,8 @@
       "EXTRA_BODY": "Body yêu cầu bổ sung (JSON)",
       "EXTRA_BODY_PLACEHOLDER": "'{'\n  \"reasoning_effort\": \"high\",\n  \"service_tier\": \"priority\"\n'}'",
       "EXTRA_BODY_HINT": "Được hợp nhất vào yêu cầu trước khi gửi. Dành cho các trường mà thanh trượt không bao quát. Khi trùng khóa, thanh trượt thắng.",
-      "EXTRA_BODY_INVALID": "JSON không hợp lệ. Hãy bao bằng '{}' và escape các chuỗi."
+      "EXTRA_BODY_INVALID": "JSON không hợp lệ. Hãy bao bằng '{}' và escape các chuỗi.",
+      "INHERIT": "Kế thừa"
     },
     "SAMPLING": {
       "UNSUPPORTED": "Không phải tất cả nhà cung cấp của mô hình này đều hỗ trợ. Đặt giá trị sẽ không có tác dụng."
@@ -2628,14 +2990,14 @@
       "LOCAL_DB_UPLOAD_CONFIRM": "Ghi đè CSDL OPFS cục bộ từ tệp này? Dữ liệu hiện tại sẽ bị xóa.",
       "CLEAR": "Xóa cuộc trò chuyện",
       "CLEAR_SUCCESS": "Đã xóa cuộc trò chuyện",
-      "CLEAR_CONFIRM_DESC": "Hành động này sẽ xóa mọi tin nhắn trong cuộc trò chuyện nhưng giữ lại cài đặt, ràng buộc nhân vật và tiêu đề. Không thể hoàn tác.",
-      "FONT": "Phông chữ",
-      "FONT_SANS": "Sans",
-      "FONT_DISPLAY": "Display",
-      "FONT_SERIF": "Serif",
-      "FONT_MONO": "Đẳng khoảng",
-      "FONT_SYSTEM": "Hệ thống"
-    }
+      "CLEAR_CONFIRM_DESC": "Hành động này sẽ xóa mọi tin nhắn trong cuộc trò chuyện nhưng giữ lại cài đặt, ràng buộc nhân vật và tiêu đề. Không thể hoàn tác."
+    },
+    "ACTIVE_CONFIG": {
+      "CHARACTERS": "{count, plural, other {# nhân vật}}",
+      "LOREBOOKS": "{count, plural, other {# lorebook}}"
+    },
+    "TRIGGER_ALERT_SELECT_DESC": "Chọn một tùy chọn để tiếp tục",
+    "TRIGGER_ALERT_OK": "OK"
   },
   "RP": {
     "CHARACTERS_TITLE": "Nhân vật",
@@ -2659,7 +3021,6 @@
     "CHARACTER_EXAMPLE_MESSAGES": "Hội thoại mẫu",
     "CHARACTER_SYSTEM_PROMPT": "Prompt hệ thống",
     "CHARACTER_POST_HISTORY": "Hướng dẫn cuối lịch sử",
-    "CHARACTER_AVATAR": "Avatar",
     "CHARACTER_TAGS": "Thẻ",
     "CHARACTER_ACTIVATION_TITLE": "Kích hoạt",
     "CHARACTER_ACTIVATION_HINT": "Khi 'Luôn hoạt động' tắt, nhân vật chỉ vào prompt nếu từ trigger xuất hiện trong chat gần đây. Mẹo multi-char: để nhân vật chính luôn hoạt động, dùng trigger cho nhân vật phụ.",
@@ -2669,7 +3030,6 @@
     "CHARACTER_TRIGGERS_HINT": "Từ kích hoạt nhân vật này. Ví dụ: alice, hiệp sĩ, kiếm. Bỏ qua nếu bật 'Luôn hoạt động'.",
     "CHARACTER_MATCH_WHOLE_WORDS": "Chỉ khớp toàn bộ từ",
     "CHARACTER_MATCH_WHOLE_WORDS_HINT": "Khi bật, trigger 'Eve' sẽ không khớp với 'evening'. Mặc định: khớp chuỗi con.",
-    "CHARACTER_DEFAULT_MODEL": "Mô hình mặc định",
     "PERSONAS_TITLE": "Persona",
     "PERSONAS_NEW": "Persona mới",
     "PERSONAS_EMPTY": "Chưa có persona.",
@@ -2679,6 +3039,7 @@
     "LOREBOOKS_NEW": "Lorebook mới",
     "LOREBOOKS_EMPTY": "Chưa có lorebook.",
     "LOREBOOK_SCAN_DEPTH": "Độ sâu quét",
+    "LOREBOOK_DESCRIPTION_NOT_SENT": "Chỉ là nhãn cho bạn. Không gửi đến AI. Đặt nội dung vào các mục bên dưới.",
     "LOREBOOK_SCAN_DEPTH_HINT": "Số tin nhắn gần đây được quét tìm khoá.",
     "LOREBOOK_TOKEN_BUDGET": "Ngân sách token",
     "LOREBOOK_TOKEN_BUDGET_HINT": "Tối đa số token các mục được chèn mỗi lượt.",
@@ -2686,14 +3047,15 @@
     "LOREBOOK_ENTRY_NEW": "Mục mới",
     "LOREBOOK_UNTITLED": "Lorebook chưa đặt tên",
     "LOREBOOK_ENTRY_NO_KEYS": "(không có trigger)",
-    "LOREBOOK_ENTRY_KEYS": "Trigger (cách nhau bằng dấu phẩy)",
-    "LOREBOOK_ENTRY_KEYS_HINT": "Từ kích hoạt mục này. Ví dụ: sex, dick, pussy. Bỏ qua nếu bật 'Luôn chèn'.",
+    "LOREBOOK_ENTRY_ALWAYS_LABEL": "Luôn chèn",
+    "LOREBOOK_ENTRY_KEYS": "Khóa kích hoạt (phân tách bằng dấu phẩy)",
+    "LOREBOOK_ENTRY_KEYS_HINT": "Các từ kích hoạt mục này. Ví dụ: rồng, giun, drake.",
     "LOREBOOK_ENTRY_SECONDARY_KEYS": "Trigger phụ",
     "LOREBOOK_ENTRY_PRIORITY_HINT": "Số nhỏ hơn được chèn sớm hơn trong prompt.",
     "LOREBOOK_ENTRY_CONTENT": "Nội dung",
     "LOREBOOK_ENTRY_POSITION": "Vị trí",
     "LOREBOOK_ENTRY_PRIORITY": "Ưu tiên",
-    "LOREBOOK_ENTRY_CONSTANT": "Luôn chèn",
+    "LOREBOOK_ENTRY_CONSTANT": "Luôn hoạt động",
     "LOREBOOK_ENTRY_SELECTIVE": "Yêu cầu khoá phụ",
     "LOREBOOK_ENTRY_ENABLED": "Bật",
     "LOREBOOK_ENTRY_MATCH_WHOLE_WORDS": "Chỉ khớp toàn bộ từ",
@@ -2742,28 +3104,24 @@
     "PRESET_POST_HISTORY": "Prompt chèn cuối (post-history)",
     "PRESET_POST_HISTORY_PLACEHOLDER": "Giữ vai. Đừng phá vỡ bức tường thứ tư...",
     "PRESET_POST_HISTORY_HINT": "Thêm vào sau system override. Tốt cho mô hình như GLM tôn trọng hướng dẫn cuối hơn đầu.",
-    "PRESET_PREFILL": "Prefill (mồi assistant)",
+    "PRESET_PREFILL": "Prefill",
     "PRESET_PREFILL_PLACEHOLDER": "Chắc chắn rồi, đây là câu trả lời:",
     "PRESET_PREFILL_HINT": "Gửi cuối cùng dưới dạng tin nhắn assistant. LLM tiếp nối từ văn bản mồi này. Kỹ thuật jailbreak mạnh. Hỗ trợ macro user và char.",
     "PRESET_FLAGS_TITLE": "Cờ tuỳ chỉnh",
-    "PRESET_FLAGS_HINT": "Điều chỉnh request body cho các mô hình khó tính. Phần lớn người dùng để tắt.",
+    "PRESET_FLAGS_HINT": "Tinh chỉnh nội dung yêu cầu cho các mô hình khó tính. Tự động áp dụng theo từng mô hình khi cần; bật để buộc.",
     "PRESET_FORCE_ALTERNATE_ROLES": "Bắt buộc xen kẽ vai trò",
-    "PRESET_FORCE_ALTERNATE_ROLES_HINT": "Gộp tin nhắn liền nhau cùng vai trò để cuộc hội thoại xen kẽ chặt chẽ user/assistant. Bắt buộc với GLM và một số cấu hình Anthropic.",
+    "PRESET_FORCE_ALTERNATE_ROLES_HINT": "Gộp các tin nhắn liên tiếp cùng vai trò để hội thoại luân phiên nghiêm ngặt người dùng/trợ lý. Tự động cho GLM/Gemini.",
     "PRESET_NO_SYSTEM_ROLE": "Không có vai trò system",
-    "PRESET_NO_SYSTEM_ROLE_HINT": "Chuyển tin nhắn system giữa hội thoại thành tin nhắn user có tiền tố [System]:. Prompt hệ thống cấp cao không bị ảnh hưởng. Cần thiết cho Gemini và mô hình xen kẽ nghiêm ngặt.",
+    "PRESET_NO_SYSTEM_ROLE_HINT": "Chuyển tin nhắn hệ thống giữa hội thoại thành tin nhắn người dùng có tiền tố 'system:'. Prompt hệ thống cấp cao không bị ảnh hưởng. Tự động cho GLM/Gemini.",
     "PRESET_MUST_START_WITH_USER": "Phải bắt đầu bằng input user",
-    "PRESET_MUST_START_WITH_USER_HINT": "Chèn stub user nhỏ nếu tin nhắn đầu là assistant hoặc system. Anthropic và Gemini từ chối hội thoại không bắt đầu bằng user.",
-    "PRESET_SKIP_PREFILL_IF_LAST_ASSISTANT": "Bỏ prefill nếu tin nhắn cuối là assistant",
-    "PRESET_SKIP_PREFILL_IF_LAST_ASSISTANT_HINT": "Khi force-alternate bật và tin nhắn cuối đã là assistant, bỏ prefill thay vì tạo hai tin nhắn assistant liên tiếp.",
+    "PRESET_MUST_START_WITH_USER_HINT": "Thêm một tin nhắn người dùng trống nhỏ nếu cuộc trò chuyện bắt đầu bằng trợ lý hoặc hệ thống. Tự động cho Anthropic/Gemini/GLM.",
     "PRESET_GEMINI_BLOCK_OFF": "Gemini: tắt an toàn",
     "PRESET_GEMINI_BLOCK_OFF_HINT": "Gửi safetySettings với threshold=OFF cho mọi danh mục harm của Gemini. Mạnh hơn BLOCK_NONE. Chỉ có tác dụng trên mô hình Gemini.",
-    "SIDEBAR_TAB_CHATS": "Chat",
     "SIDEBAR_TAB_CHARACTERS": "Nhân vật",
     "SIDEBAR_TAB_PERSONAS": "Persona",
     "SIDEBAR_TAB_LOREBOOKS": "Lorebook",
     "SIDEBAR_TAB_PRESETS": "Preset",
     "SIDEBAR_TAB_CARDS": "Thẻ",
-    "SIDEBAR_GROUP_LABEL": "RP",
     "CARDS_TITLE": "Thẻ",
     "CARDS_PAGE_SUBTITLE": "Lưu nhân vật + persona + lorebook thành một bộ sáng tạo. Áp dụng vào chat chỉ với một cú nhấp.",
     "CARDS_NEW": "Thẻ mới",
@@ -2783,12 +3141,35 @@
     "CARD_CHARACTERS": "Nhân vật",
     "CARD_LOREBOOKS": "Lorebook",
     "DROPPED_PARAMS": "{params} không được mô hình này hỗ trợ và đã bị bỏ qua.",
-    "EDIT_SAVE_ONLY": "Lưu",
-    "EDIT_SAVE_AND_GENERATE": "Lưu và sinh lại",
-    "BRANCH_NEXT": "Nhánh kế",
-    "BRANCH_PREV": "Nhánh trước",
     "LOREBOOKS_IMPORT": "Nhập",
-    "PERSONAS_IMPORT": "Nhập"
+    "PERSONAS_IMPORT": "Nhập",
+    "LOREBOOK_ENTRY_CONSTANT_HINT": "Luôn chèn mục này, bỏ qua các khóa kích hoạt.",
+    "PRESET_PROVIDERS_TITLE": "Dinh tuyen nha cung cap",
+    "PRESET_PROVIDERS": "Nha cung cap da ghim (phan tach bang dau phay)",
+    "PRESET_PROVIDERS_HINT": "Cac nha cung cap upstream uu tien, theo thu tu. Chi duoc ton trong boi kenh tuong thich OpenRouter; bo qua o noi khac.",
+    "PRESET_PROVIDERS_ONLY": "Chi nhung nha cung cap nay",
+    "PRESET_PROVIDERS_ONLY_HINT": "Ghim cung: tu choi yeu cau neu khong co nha cung cap nao trong danh sach kha dung, thay vi du phong.",
+    "LOREBOOK_ENTRY_INJECTION_ROLE_ASSISTANT": "Trợ lý",
+    "PRESET_TEMPLATE_TITLE": "Mẫu prompt",
+    "PRESET_TEMPLATE_HINT": "Kéo để sắp xếp lại cách prompt được dựng. Lịch sử trò chuyện chèn vào khối Lịch sử trò chuyện. Trống ＝ thứ tự mặc định.",
+    "PRESET_TEMPLATE_RESET": "Đặt lại mặc định",
+    "PRESET_TEMPLATE_EXPAND": "Mở rộng",
+    "PRESET_TEMPLATE_COLLAPSE": "Thu gọn",
+    "PRESET_TEMPLATE_ADD": "Thêm khối",
+    "PRESET_TEMPLATE_PLAIN": "Khối văn bản tùy chỉnh",
+    "PRESET_TEMPLATE_CHAT": "Lịch sử trò chuyện",
+    "PRESET_TEMPLATE_CHAT_HINT": "Nơi chèn các tin nhắn hội thoại.",
+    "PRESET_TEMPLATE_PLAIN_PLACEHOLDER": "Văn bản hướng dẫn tùy chỉnh...",
+    "LOREBOOK_ENTRY_PROBABILITY": "Tỷ lệ kích hoạt (%)",
+    "LOREBOOK_ENTRY_PROBABILITY_HINT": "Tung phần trăm này mỗi lần quét để quyết định mục có kích hoạt hay không. 100 ＝ luôn luôn.",
+    "LOREBOOK_ENTRY_SCAN_DEPTH": "Độ sâu quét",
+    "LOREBOOK_ENTRY_SCAN_DEPTH_HINT": "Quét bao nhiêu tin nhắn gần đây cho khóa của mục này. 0 = dùng mặc định của sách.",
+    "PRESET_CHAT_MEMORY": "Bộ nhớ trò chuyện (tin nhắn)",
+    "PRESET_CHAT_MEMORY_HINT": "Số tin nhắn gần đây gửi mỗi yêu cầu. Trống = mặc định (8); cài đặt trò chuyện ghi đè.",
+    "PRESET_STREAMING": "Truyền phát",
+    "PRESET_STREAMING_HINT": "Truyền phản hồi theo từng token. Tắt = nhận toàn bộ phản hồi cùng lúc. Cài đặt trò chuyện ghi đè.",
+    "CHARACTER_BACKGROUND": "Ảnh nền",
+    "CHARACTER_BACKGROUND_HINT": "Hiển thị phía sau cuộc trò chuyện khi nhân vật này dẫn dắt hội thoại."
   },
   "ERRORS": {
     "MISSING_ENV": "Thiếu biến môi trường bắt buộc: {var}",
@@ -2796,15 +3177,10 @@
     "UNAUTHORIZED": "Không có quyền",
     "NO_API_KEY": "Chưa cấu hình API key",
     "NOT_FOUND": "Không tìm thấy tài nguyên",
-    "NO_IMAGE_GENERATED": "Không có hình ảnh nào được tạo",
     "NO_TASK_ID": "Không có ID tác vụ hoặc URL trong phản hồi",
-    "NO_VIDEO_URL": "Video đã hoàn tất nhưng không tìm thấy URL",
-    "VIDEO_GENERATION_FAILED": "Tạo video thất bại",
-    "VIDEO_GENERATION_TIMED_OUT": "Tạo video hết thời gian chờ",
     "REQUEST_FAILED": "Yêu cầu thất bại",
     "PRICING_FETCH_FAILED": "Không lấy được dữ liệu giá",
     "NO_TEXT_MODELS": "Không có mô hình văn bản khả dụng",
-    "UPLOAD_FAILED": "Tải lên tệp đính kèm thất bại",
     "NO_IMAGE_PROMPT": "Không có prompt để tạo hình ảnh",
     "IMAGE_GENERATION_FAILED": "Tạo hình ảnh thất bại",
     "UNEXPECTED_RESPONSE": "Phản hồi null không mong muốn từ upstream API",
@@ -2817,12 +3193,15 @@
     "PROMPT_REJECTED": "Prompt này vi phạm chính sách nội dung và không thể dùng để tạo hình ảnh hoặc video.",
     "PROMPT_FLAGGED": "Prompt này bị gắn cờ là có thể không an toàn cho việc tạo nội dung. Vui lòng diễn đạt lại và thử lại.",
     "MODERATION_UNAVAILABLE": "Tính năng tạo hình ảnh và video tạm thời không khả dụng. Vui lòng thử lại sau ít phút.",
-    "PDF_EXTRACTION_FAILED": "Không thể đọc nội dung tệp PDF đính kèm. Vui lòng xoá tệp hoặc thử một tệp khác.",
     "IMPORT_INVALID_JSON": "Tệp không phải JSON hợp lệ.",
     "IMPORT_UNSUPPORTED_VERSION": "Phiên bản xuất không được hỗ trợ.",
     "CARD_PARSE_FAILED": "Không thể phân tích thẻ nhân vật.",
     "CARD_MISSING_NAME": "Thẻ nhân vật thiếu trường tên bắt buộc.",
-    "UNEXPECTED_ERROR": "Đã xảy ra lỗi không mong muốn"
+    "UNEXPECTED_ERROR": "Đã xảy ra lỗi không mong muốn",
+    "AUDIO_GENERATION_FAILED": "Tạo âm thanh thất bại",
+    "NO_AUDIO_PROMPT": "Không có văn bản để tạo giọng nói",
+    "EMBEDDING_FAILED": "Tạo embedding thất bại",
+    "NO_EMBEDDING_INPUT": "Không có văn bản để nhúng"
   },
   "BADGE": {
     "TOKENS_SERVED": "token đã phục vụ",
@@ -2832,16 +3211,14 @@
     "UNIFIED_INTELLIGENCE_API": "API Trí tuệ hợp nhất",
     "GET_STARTED": "Bắt đầu",
     "SAVE_UP_TO": "Tiết kiệm tới",
-    "PER_1M_TOKENS": "mỗi 1 triệu token",
     "SMART_ROUTING": "Định tuyến thông minh",
-    "ONE_ENDPOINT": "Một Endpoint",
     "MODELS": "Mô hình",
-    "UPTIME": "Thời gian hoạt động",
+    "FREE": "Miễn phí",
+    "PAID": "Trả phí",
     "LIVE_STATS": "Thống kê trực tiếp",
     "CHEAPEST_API": "API suy luận rẻ nhất",
     "MODELS_ONE_ENDPOINT": "Hơn 40 mô hình AI, một endpoint",
     "MODELS_ONE_ENDPOINT_SUFFIX": "mô hình AI, một endpoint",
-    "DIRECT": "Trực tiếp",
     "MODEL": "Mô hình",
     "PRICES_NOTE": "Giá mỗi 1 triệu token",
     "INPUT": "Đầu vào",
@@ -2876,7 +3253,6 @@
     },
     "MCP": {
       "SERVER_DESCRIPTION": "Router mô hình AI chạy trong trình duyệt. Các tool được đăng ký qua WebMCP trên trang chủ bằng navigator.modelContext. Truy cập trang chủ và gọi tool từ một client tương thích WebMCP.",
-      "WEBMCP_BUNDLE_DESCRIPTION": "Các tool trong trình duyệt được đăng ký qua navigator.modelContext trên trang chủ {appName}. Mở trang chủ trong một client tương thích WebMCP để truy cập tool.",
       "TOOLS": {
         "OPEN_MODELS_CATALOG": "Mở trang danh mục mô hình {appName}, liệt kê mọi mô hình khả dụng kèm giá thời gian thực từ OpenAI, Anthropic, Google, DeepSeek và các nhà cung cấp khác.",
         "OPEN_PRICING": "Mở trang giá {appName} để xem các gói thuê bao và mức giá trả theo dùng.",
@@ -2925,42 +3301,23 @@
     "STATE": {
       "OPERATIONAL": "Hoạt động",
       "DOWN": "Ngừng",
-      "UNKNOWN": "Không rõ",
       "DEGRADED": "Suy giảm"
-    },
-    "SUMMARY": {
-      "ALL_NORMAL": "Tất cả hệ thống bình thường",
-      "N_DOWN": "{count} mô hình đang ngừng",
-      "LAST_CHECKED_AT": "Kiểm tra lần cuối {time}"
     },
     "KPI": {
       "TOTAL": "Tổng mô hình",
       "OPERATIONAL": "Hoạt động",
-      "DOWN": "Ngừng",
-      "UNKNOWN": "Không rõ"
-    },
-    "ROW": {
-      "CHANNELS": "kênh",
-      "LATENCY_PROBE": "probe",
-      "LATENCY_P50": "p50",
-      "LATENCY_P95": "p95",
-      "REQ": "req",
-      "ERR": "lỗi",
-      "IDLE": "không có lưu lượng phút này"
+      "DOWN": "Ngừng"
     },
     "RIBBON": {
-      "TITLE": "24 giờ qua",
-      "LEGEND_UP": "hoạt động",
-      "LEGEND_DEGRADED": "suy giảm",
-      "LEGEND_DOWN": "ngừng",
-      "LEGEND_NODATA": "không có dữ liệu"
+      "TITLE": "24 giờ qua"
     },
     "FILTER": {
       "SEARCH_PLACEHOLDER": "Tìm kiếm mô hình...",
       "STATUS_ALL": "Tất cả",
       "EMPTY": "Không có mô hình phù hợp với bộ lọc.",
       "COLLAPSE_ALL": "Thu gọn tất cả nhóm",
-      "EXPAND_ALL": "Mở rộng tất cả nhóm"
+      "EXPAND_ALL": "Mở rộng tất cả nhóm",
+      "TIME_WINDOW": "Khoảng thời gian"
     },
     "BLOCKS": {
       "BANNER_SUCCESS": "Tất cả hệ thống hoạt động",
@@ -3068,8 +3425,6 @@
     "HOVER_UPSCALE": "Phóng to ảnh này",
     "HOVER_ADETAILER": "Chạy ADetailer cho ảnh này",
     "HOVER_EDIT": "Dùng ảnh này trong Chỉnh sửa",
-    "GENERATE_TITLE": "Tạo ảnh",
-    "GENERATE_SUBTITLE": "Chọn mô hình, viết prompt, nhận ảnh.",
     "PROMPT_LABEL": "Prompt",
     "PROMPT_PLACEHOLDER": "Mô tả ảnh bạn muốn.",
     "NEGATIVE_PROMPT_LABEL": "Prompt phủ định",
@@ -3090,7 +3445,6 @@
     "BACKGROUND_TRANSPARENT": "Trong suốt",
     "WATERMARK_LABEL": "Hình mờ",
     "STRENGTH_LABEL": "Cường độ",
-    "SIZE_LABEL": "Kích thước",
     "STEPS_LABEL": "Số bước",
     "CFG_LABEL": "CFG",
     "GUIDANCE_LABEL": "Guidance",
@@ -3108,13 +3462,6 @@
     "TOKEN_COUNT_CAPPED": "~{count} / {cap} token",
     "PROGRESS_OF_N": "Đang tạo {current} / {total}…",
     "EXPIRES_IN_DAYS": "Hết hạn sau {days} ngày",
-    "RECENT_TITLE": "Tạo gần đây",
-    "AUTO_DELETE_NOTE": "Ảnh tạo sẽ tự động bị xoá sau 30 ngày",
-    "SHARE": "Chia sẻ",
-    "SHARE_TITLE": "Chia sẻ ảnh này",
-    "SHARE_DESCRIPTION": "Ai có liên kết đều có thể xem prompt, cài đặt, ảnh và lưu một bản vào tài khoản của họ.",
-    "SHARE_REVOKE": "Thu hồi liên kết",
-    "SHARE_DONE": "Xong",
     "EXPORT": "Xuất",
     "IMPORT": "Nhập",
     "IMPORT_TITLE": "Nhập một bản tạo",
@@ -3122,85 +3469,32 @@
     "IMPORT_MODE_RESTORE": "Khôi phục (sao chép ảnh gốc)",
     "IMPORT_MODE_REGENERATE": "Tạo lại (gọi mới)",
     "DOWNLOAD_IMAGE": "Tải ảnh xuống",
-    "SHARED_TITLE": "Bản tạo được chia sẻ",
-    "SAVE_TO_ACCOUNT": "Lưu vào tài khoản",
-    "COPY_PROMPT": "Sao chép prompt",
     "SUBMIT": "Tạo",
     "SUBMITTING": "Đang tạo...",
     "REFERENCES_TITLE": "Ảnh tham chiếu",
     "REFERENCES_ADD": "Thêm tham chiếu",
-    "REFERENCES_UNSUPPORTED": "Mô hình này không nhận ảnh tham chiếu.",
     "LORAS_TITLE": "LoRA",
-    "LORAS_UNSUPPORTED": "Mô hình này không hỗ trợ chuỗi LoRA.",
-    "HISTORY_TITLE": "Ảnh của tôi",
-    "NEW_GENERATION": "Tạo mới",
     "PICK_OR_GENERATE": "Chọn một bản tạo từ thanh bên hoặc tạo mới.",
     "HISTORY_EMPTY": "Chưa có gì. Hãy tạo ảnh đầu tiên.",
     "STATUS_PENDING": "Đang chờ",
-    "STATUS_SUBMITTED": "Đã gửi",
-    "STATUS_QUEUED": "Trong hàng đợi",
-    "STATUS_IN_PROGRESS": "Đang tạo",
-    "STATUS_SUCCESS": "Hoàn tất",
     "STATUS_FAILURE": "Thất bại",
     "REMIX": "Remix",
     "DELETE": "Xóa",
-    "PUBLISH": "Công khai",
-    "UNLIST": "Ẩn khỏi danh sách",
-    "PRIVATE": "Riêng tư",
-    "PRICE_PER_CALL": "{price}/ảnh",
     "META_TITLE": "Tạo ảnh",
     "META_DESC": "Tạo ảnh qua pipeline ComfyUI của {appName} (SDXL + Flux 2).",
-    "LIKE": "Thích",
-    "UNLIKE": "Bỏ thích",
     "REFERENCES_DROP_HINT": "Thả ảnh vào đây hoặc chọn",
     "LORAS_EMPTY": "Chưa có LoRA nào trên ổ đĩa. Quản trị viên có thể thêm qua bảng danh mục.",
-    "HIRES_FIX_ENABLE": "Hires fix",
-    "HIRES_FIX_DENOISE": "Khử nhiễu",
-    "HIRES_FIX_UPSCALE": "Phóng to",
     "PNG_IMPORT_HINT": "Thả ảnh PNG từ ComfyUI để nhập prompt và tham số",
     "PNG_IMPORT_BROWSE": "Nhập PNG",
     "PNG_IMPORT_NO_METADATA": "Không tìm thấy metadata ComfyUI trong ảnh này.",
     "NEW_SESSION": "Phiên mới",
-    "SESSION_NEW_TOOLTIP": "Bắt đầu một phiên mới. Phiên hiện tại vẫn được lưu trong lịch sử.",
-    "RECENT_SESSIONS": "Phiên gần đây",
-    "SNAPSHOT_COUNT": "{count, plural, other {# ảnh chụp}}",
-    "IMAGE_COUNT_TOTAL": "{count, plural, other {# ảnh}}",
     "SNAPSHOT_NAV_LABEL": "Ảnh chụp {current} trên {total}",
-    "SHARE_SESSION_HELP": "Bất kỳ ai có liên kết đều có thể xem lịch sử của phiên này.",
     "LIGHTBOX_PREV": "Ảnh trước",
     "LIGHTBOX_NEXT": "Ảnh tiếp theo",
     "LIGHTBOX_CLOSE": "Đóng",
     "SESSION_SNAPSHOTS": "Ảnh chụp trong phiên này",
-    "EDIT": "Sửa",
     "UPLOAD_IMAGE": "Tải ảnh lên",
     "UPLOADING": "Đang tải lên...",
     "INIT_IMAGE": "Ảnh nguồn"
-  },
-  "SYNC": {
-    "NOT_SYNCED": "Chưa đồng bộ",
-    "SYNCED": "Đã đồng bộ",
-    "EXPIRES_AT": "Đã đồng bộ - hết hạn {date}",
-    "EXPIRED": "Đã hết hạn",
-    "ADD_SYNC": "Bật đồng bộ (30 ngày)",
-    "RESYNC": "Đồng bộ lại",
-    "RESYNC_EXPIRES": "Đồng bộ lại (hết hạn {date})",
-    "REMOVE_SYNC": "Tắt đồng bộ",
-    "CONFIRM_REMOVE": "Gỡ mục này khỏi đồng bộ máy chủ? Bản sao trên thiết bị vẫn được giữ.",
-    "OFFLINE_REQUIRED": "Cần kết nối mạng để đồng bộ.",
-    "PENDING_SYNC": "Đồng bộ đang chờ - sẽ thử lại khi có mạng.",
-    "HINT_DESCRIPTION": "Các mục đã đồng bộ được sao chép lên máy chủ trong 30 ngày để các thiết bị khác có thể lấy về.",
-    "OPFS_UNAVAILABLE": "Cơ sở dữ liệu cục bộ không khả dụng trong trình duyệt này. Dữ liệu sẽ không được lưu.",
-    "OFFLINE_SEND_BLOCKED": "Bạn đang ngoại tuyến. Tin nhắn được giữ làm bản nháp; gửi lại khi có mạng.",
-    "DLQ_TOAST": "{items} không đồng bộ được sau các lần thử lại.",
-    "DLQ_KIND_COUNT": "{count} {kind}",
-    "DLQ_RETRY": "Thử lại",
-    "DLQ_RETRY_SUCCESS": "Thử lại đồng bộ thành công.",
-    "DLQ_RETRY_FAILED": "Một số mục vẫn thất bại. Kiểm tra kết nối và thử lại.",
-    "PENDING_RETRY": "Đang chờ đồng bộ - lần thử {n}/{max}",
-    "SYNC_FAILED": "Đồng bộ thất bại",
-    "RETRY_NOW": "Thử lại ngay",
-    "RETRY_SUCCESS": "Đã đồng bộ.",
-    "PENDING_TOOLTIP": "Lỗi gần nhất: {error}",
-    "LOCAL_NEWER_PRESERVED": "Giữ {count} chỉnh sửa cục bộ mới hơn bản trên máy chủ."
   }
 }

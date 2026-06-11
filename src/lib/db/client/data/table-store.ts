@@ -22,9 +22,7 @@ type LocalDb = {
   };
 };
 
-// Wipes children under parentId, reinserts.
-// No tx (SQLocal mutex deadlock).
-// Wipe path only.
+// Wipe children under parentId, reinsert. No tx (SQLocal mutex deadlock).
 export async function replaceChildRows<T>(
   db: LocalDb,
   table: SQLiteTable,
@@ -40,9 +38,7 @@ export async function replaceChildRows<T>(
   }
 }
 
-// Per-row PK upsert; siblings survive.
-// Use for sync-pull child arrays.
-// LocalInsertable: wider drizzle insert builder than LocalDb above.
+// Per-row PK upsert (siblings survive); for sync-pull child arrays.
 type LocalInsertable = {
   insert: (table: SQLiteTable) => {
     values: (row: never) => {
@@ -135,6 +131,28 @@ export function makeTableStore<TTable extends ScopedTable>(
         .insert(table)
         .values(values as never)
         .onConflictDoUpdate({ target: pk, set: row as never });
+    },
+
+    // Partial UPDATE keyed on pk; never inserts. Use for settings-only writes
+    // on a row another path owns creating, so a partial that omits a NOT NULL
+    // column can't trip the constraint via an upsert's candidate INSERT row.
+    // No-op when the row is absent (the caller's parent-row guard handles that).
+    async update(
+      userId: number | undefined,
+      id: StorePkValue,
+      patch: Partial<StoreRow>,
+      opts?: StoreRowOpts,
+    ): Promise<void> {
+      const uid = userId ?? GUEST_USER_ID;
+      const local = await getLocalDb(uid);
+      if (!local) return;
+      const scope = opts?.scopeUser ?? true;
+      const base = eq(pk, id);
+      const where = scope ? scopeWhere(uid, base) : base;
+      await local.db
+        .update(table)
+        .set(patch as never)
+        .where(where);
     },
 
     async drop(

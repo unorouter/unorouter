@@ -1,10 +1,10 @@
 "use client";
 
 import { BadgeGenerator } from "@/components/elements/badge/badge-generator";
+import { StatItem } from "@/components/elements/stat-item";
 import { PageContent } from "@/components/layout/sidebar/sidebar-layout";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { analytics } from "@/lib/analytics";
@@ -17,41 +17,6 @@ import { toast } from "sonner";
 import { CommissionsTab } from "./commissions-tab";
 import { InviteesTab } from "./invitees-tab";
 import { TransferDialog } from "./transfer-dialog";
-
-type StatItemProps = {
-  label: string;
-  value: string | number | undefined;
-  icon: React.ReactNode;
-  isLoading: boolean;
-  accentColor: string;
-};
-
-function StatItem(props: StatItemProps) {
-  return (
-    <div className="flex items-center gap-3 py-3">
-      <div
-        className="flex h-8 w-8 shrink-0 items-center justify-center"
-        style={{ color: props.accentColor }}
-      >
-        {props.icon}
-      </div>
-      <div className="min-w-0 flex-1">
-        <span className="text-muted-foreground block font-mono text-[10px] tracking-widest uppercase">
-          {props.label}
-        </span>
-        {props.isLoading ? (
-          <Skeleton className="mt-1 h-5 w-20" />
-        ) : (
-          <span className="text-foreground block text-lg font-bold tracking-tight tabular-nums">
-            {typeof props.value === "number"
-              ? props.value.toLocaleString()
-              : (props.value ?? "-")}
-          </span>
-        )}
-      </div>
-    </div>
-  );
-}
 
 export function Affiliate() {
   const t = useTranslations();

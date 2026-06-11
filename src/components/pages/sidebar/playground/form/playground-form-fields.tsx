@@ -40,7 +40,7 @@ export function QualityField(props: {
               value={(field.value as string | undefined) ?? ""}
               onValueChange={(v) => field.onChange(v || undefined)}
             >
-              <SelectTrigger className="w-full">
+              <SelectTrigger aria-label={props.label} className="w-full">
                 <SelectValue placeholder={props.placeholder} />
               </SelectTrigger>
               <SelectContent>
@@ -76,7 +76,7 @@ export function OutputFormatField(props: {
               value={(field.value as string | undefined) ?? ""}
               onValueChange={(v) => field.onChange(v || undefined)}
             >
-              <SelectTrigger className="w-full">
+              <SelectTrigger aria-label={props.label} className="w-full">
                 <SelectValue placeholder={props.placeholder} />
               </SelectTrigger>
               <SelectContent>
@@ -94,17 +94,55 @@ export function OutputFormatField(props: {
   );
 }
 
+// FormField wrapper for one numeric param slider; label feeds both the visible
+// FormLabel and the controls' aria-labels.
+export function SliderParamField(props: {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- generic RHF control across param forms
+  control: any;
+  name: string;
+  label: string;
+  min: number;
+  max: number;
+  step: number;
+  value: number;
+}) {
+  return (
+    <FormField
+      control={props.control}
+      name={props.name}
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel>{props.label}</FormLabel>
+          <FormControl>
+            <SliderWithInput
+              label={props.label}
+              min={props.min}
+              max={props.max}
+              step={props.step}
+              value={props.value}
+              onChange={field.onChange}
+            />
+          </FormControl>
+        </FormItem>
+      )}
+    />
+  );
+}
+
 export function SliderWithInput(props: {
   value: number;
   min: number;
   max: number;
   step: number;
+  // Visible FormLabel is not aria-associated with the two controls; name both.
+  label: string;
   onChange: (v: number) => void;
 }) {
   const clamp = (n: number) => Math.min(props.max, Math.max(props.min, n));
   return (
     <div className="flex items-center gap-3">
       <Slider
+        aria-label={props.label}
         min={props.min}
         max={props.max}
         step={props.step}
@@ -116,6 +154,7 @@ export function SliderWithInput(props: {
       />
       <Input
         type="number"
+        aria-label={props.label}
         min={props.min}
         max={props.max}
         step={props.step}
@@ -163,7 +202,7 @@ export function TokenEstimate(props: { text: string; family: string }) {
     <p
       className={
         over
-          ? "mt-1 text-xs text-amber-500"
+          ? "mt-1 text-xs text-amber-700 dark:text-amber-400"
           : "text-muted-foreground mt-1 text-xs"
       }
     >
@@ -174,7 +213,6 @@ export function TokenEstimate(props: { text: string; family: string }) {
   );
 }
 
-// Seed input + randomize button bound to params.seed via FormField.
 export function SeedField() {
   const t = useTranslations();
   const form = useFormContext();

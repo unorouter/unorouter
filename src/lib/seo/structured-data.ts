@@ -11,7 +11,6 @@ import type {
   WithContext,
 } from "schema-dts";
 
-
 function abs(path: string): string {
   return `${env.siteOrigin}${path.startsWith("/") ? path : `/${path}`}`;
 }
@@ -113,13 +112,13 @@ export function buildFAQPageSchema(entries: FAQEntry[]): WithContext<FAQPage> {
   };
 }
 
-export type CollectionItem = {
+type CollectionItem = {
   name: string;
   url: string;
   description?: string;
 };
 
-export type CollectionPageInput = {
+type CollectionPageInput = {
   name: string;
   description: string;
   url: string;
@@ -149,7 +148,7 @@ export function buildCollectionPageSchema(
   };
 }
 
-export type ArticleInput = {
+type ArticleInput = {
   headline: string;
   description: string;
   url: string;

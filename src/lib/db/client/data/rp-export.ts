@@ -22,7 +22,7 @@ import {
 } from "./rp";
 import { readLocalMedia } from "./media";
 
-export type LocalExportResult = {
+type LocalExportResult = {
   blob: Blob;
   filename: string;
 };
@@ -109,13 +109,14 @@ export async function exportLocalPreset(
     repetitionPenalty: row.repetitionPenalty,
     maxTokens: row.maxTokens,
     extraBody: row.extraBody,
+    providers: row.providers,
+    promptTemplate: row.promptTemplate,
     mainPrompt: row.mainPrompt,
     postHistory: row.postHistory,
     prefill: row.prefill,
     forceAlternateRoles: row.forceAlternateRoles,
     noSystemRole: row.noSystemRole,
     mustStartWithUserInput: row.mustStartWithUserInput,
-    skipPrefillIfLastIsAssistant: row.skipPrefillIfLastIsAssistant,
     geminiBlockOff: row.geminiBlockOff,
     isDefault: row.isDefault,
   };

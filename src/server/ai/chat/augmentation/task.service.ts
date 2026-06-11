@@ -24,13 +24,13 @@ export type TaskStatus =
   | "FAILURE"
   | "UNKNOWN";
 
-export type TaskSubmitResult = {
+type TaskSubmitResult = {
   taskId: string;
   status: TaskStatus;
   progress: string;
 };
 
-export type TaskFetchResult = {
+type TaskFetchResult = {
   status: TaskStatus;
   progress: string;
   resultUrl?: string;
@@ -61,9 +61,14 @@ export async function submitVideoTask(
   apiKey: string,
   model: string,
   prompt: string,
+  group?: string | null,
 ): Promise<TaskSubmitResult> {
   const res = await postV1VideoGenerations({
-    headers: { Authorization: `Bearer ${apiKey}` },
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      // Per-request group override; new-api reads X-Group. Omit for null/auto.
+      ...(group && group !== "auto" ? { "X-Group": group } : {}),
+    },
     body: JSON.stringify({ model, prompt }),
   });
 

@@ -1,10 +1,7 @@
 "use client";
 
-import { confirm } from "@/components/ui/confirm";
 import { Icon } from "@/components/ui/icon";
-import { SyncBadge } from "@/components/elements/badge/sync-badge";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import {
   useDeletePresetMutation,
   usePresetsQuery,
@@ -16,12 +13,14 @@ import { useState } from "react";
 import { PresetForm } from "./form";
 import { useRpExportMutation } from "@/hooks/ai/rp/use-export-mutation";
 import { RpEntityPage } from "../shared/rp-entity-page";
+import {
+  confirmRpDelete,
+  RpEmptyCard,
+  RpEntityRow,
+} from "../shared/rp-list-parts";
 
-/**
- * Dedicated `/chat/presets` page. Sidebar icon links here. Replaces the
- * previous Dialog flow so power-users have more room for prompt + flag
- * editing. Tabs (Basic/Advanced) live inside <PresetForm>.
- */
+// Dedicated /chat/presets page (replaced the Dialog flow for editing room);
+// Basic/Advanced tabs live inside PresetForm.
 export function PresetsPage() {
   const t = useTranslations();
   const presetsQuery = usePresetsQuery();
@@ -33,13 +32,11 @@ export function PresetsPage() {
     exportMut.mutate({ kind: "presets", id });
 
   const handleDelete = async (id: string) => {
-    const ok = await confirm({
-      title: t("COMMON.CONFIRM.DELETE_PRESET_TITLE"),
-      description: t("COMMON.CONFIRM.DELETE_PRESET_DESC"),
-      confirmLabel: t("COMMON.DELETE"),
-      cancelLabel: t("COMMON.CANCEL"),
-      destructive: true,
-    });
+    const ok = await confirmRpDelete(
+      t,
+      "COMMON.CONFIRM.DELETE_PRESET_TITLE",
+      "COMMON.CONFIRM.DELETE_PRESET_DESC",
+    );
     if (!ok) return;
     await deleteMut.mutateAsync(id);
     analytics.rp.entityAction({ entity: "presets", action: "deleted" });
@@ -63,68 +60,60 @@ export function PresetsPage() {
       onBack={() => setEditingId(null)}
       editor={
         editingId && (
-          <PresetForm editingId={editingId} onDone={() => setEditingId(null)} />
+          <PresetForm
+            key={editingId}
+            editingId={editingId}
+            onDone={() => setEditingId(null)}
+          />
         )
       }
       list={
         <div className="flex flex-col gap-2">
           {presetsQuery.data?.length === 0 && (
-            <Card className="text-muted-foreground py-10 text-center text-sm">
-              {t("RP.PRESETS_EMPTY")}
-            </Card>
+            <RpEmptyCard labelKey="RP.PRESETS_EMPTY" />
           )}
           {presetsQuery.data?.map((p) => (
-            <Card
+            <RpEntityRow
               key={p.id}
-              className="hover:bg-accent flex cursor-pointer flex-row items-center gap-3 p-3 transition-colors"
-              onClick={() => {
+              onOpen={() => {
                 analytics.rp.entityAction({
                   entity: "presets",
                   action: "edit_started",
                 });
                 setEditingId(p.id);
               }}
-            >
-              <div className="flex min-w-0 flex-1 flex-col">
-                <span className="text-sm font-medium">
+              name={
+                <>
                   {p.name}
                   {p.isDefault && (
                     <span className="text-muted-foreground ml-2 text-xs">
                       ({t("RP.PRESET_DEFAULT").toLowerCase()})
                     </span>
                   )}
-                </span>
-                <span className="text-muted-foreground truncate text-xs">
+                </>
+              }
+              description={
+                <>
                   T={p.temperature ?? t("RP.PRESET_SAMPLING_OFF")} | TopP=
                   {p.topP ?? t("RP.PRESET_SAMPLING_OFF")} | TopK=
                   {p.topK ?? t("RP.PRESET_SAMPLING_OFF")}
-                </span>
-              </div>
-              <div onClick={(e) => e.stopPropagation()}>
-                <SyncBadge kind="presets" id={p.id} payload={p} compact />
-              </div>
-              <Button
-                variant="ghost"
-                size="icon-sm"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  void handleExport(p.id);
-                }}
-                aria-label={t("RP.PRESETS_EXPORT")}
-              >
-                <Icon name="download" className="size-4" />
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon-sm"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  void handleDelete(p.id);
-                }}
-              >
-                <Icon name="trash-2" className="size-4" />
-              </Button>
-            </Card>
+                </>
+              }
+              actions={
+                <Button
+                  variant="ghost"
+                  size="icon-sm"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    void handleExport(p.id);
+                  }}
+                  aria-label={t("RP.PRESETS_EXPORT")}
+                >
+                  <Icon name="download" className="size-4" />
+                </Button>
+              }
+              onDelete={() => handleDelete(p.id)}
+            />
           ))}
         </div>
       }

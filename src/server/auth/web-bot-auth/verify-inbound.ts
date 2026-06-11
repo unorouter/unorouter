@@ -1,3 +1,4 @@
+import { safeFetchBytes } from "@/lib/config/r2";
 import { logger } from "@/lib/utils/logger";
 import { HTTP_MESSAGE_SIGNATURES_DIRECTORY } from "http-message-sig";
 import { verify } from "web-bot-auth";
@@ -5,7 +6,6 @@ import { verifierFromJWK } from "web-bot-auth/crypto";
 import { parseJwks, type PublicJwk } from "./keys";
 
 const DIRECTORY_TTL_MS = 10 * 60 * 1000;
-const DIRECTORY_FETCH_TIMEOUT_MS = 5_000;
 
 type CachedDirectory = { keys: PublicJwk[]; fetchedAt: number };
 
@@ -16,21 +16,17 @@ async function fetchDirectoryKeys(origin: string): Promise<PublicJwk[]> {
   if (cached && Date.now() - cached.fetchedAt < DIRECTORY_TTL_MS)
     return cached.keys;
 
+  // The Signature-Agent origin is attacker-controlled and this fetch runs on
+  // every signed inbound request before any verification: require https and
+  // run the SSRF allowlist so it can't probe internal/RFC1918 hosts.
   try {
-    const res = await fetch(`${origin}${HTTP_MESSAGE_SIGNATURES_DIRECTORY}`, {
-      signal: AbortSignal.timeout(DIRECTORY_FETCH_TIMEOUT_MS),
-      headers: { accept: "application/http-message-signatures-directory+json" },
-    });
-    if (!res.ok) {
-      logger.warn("Directory fetch non-OK", {
-        context: "web-bot-auth",
-        origin,
-        status: res.status,
-      });
-      return [];
-    }
-    const body = await res.text();
-    const keys = parseJwks(body);
+    const parsed = new URL(origin);
+    if (parsed.protocol !== "https:") return [];
+    const { buffer } = await safeFetchBytes(
+      `${origin}${HTTP_MESSAGE_SIGNATURES_DIRECTORY}`,
+      256 * 1024,
+    );
+    const keys = parseJwks(buffer.toString("utf8"));
     directoryCache.set(origin, { keys, fetchedAt: Date.now() });
     return keys;
   } catch (error) {

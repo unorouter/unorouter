@@ -11,6 +11,9 @@ export function localeUrl(
   locale: Locale,
   href: Exclude<Pathname, string>,
 ): string;
+// Accepts the full Pathname union (e.g. DocEntry.path, which mixes the static
+// "/docs" string with dynamic "/docs/[slug]" href objects).
+export function localeUrl(locale: Locale, href: Pathname): string;
 export function localeUrl(locale: Locale, href: Pathname): string {
   return getPathname({ locale, href });
 }

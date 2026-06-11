@@ -1,5 +1,7 @@
 "use client";
 
+import { pick } from "@/lib/utils/base";
+
 import { useEffect, useRef, useState } from "react";
 
 const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -24,9 +26,7 @@ export function ScrambleText(props: ScrambleTextProps) {
     // eslint-disable-next-line react-hooks/set-state-in-effect -- size buffer to current word length, dropping stale tail chars
     setDisplayed(() =>
       Array.from({ length: totalLetters }, (_, i) =>
-        props.text[i] === " "
-          ? " "
-          : (CHARS[Math.floor(Math.random() * CHARS.length)] ?? ""),
+        props.text[i] === " " ? " " : (pick(CHARS) ?? ""),
       ),
     );
 
@@ -40,7 +40,7 @@ export function ScrambleText(props: ScrambleTextProps) {
           if (props.text[i] === " ") {
             next[i] = " ";
           } else {
-            next[i] = CHARS[Math.floor(Math.random() * CHARS.length)] ?? "";
+            next[i] = pick(CHARS) ?? "";
           }
         }
         return next;

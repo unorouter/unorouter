@@ -1,15 +1,25 @@
 import { GetStartedLink } from "@/components/elements/brand/get-started-link";
 import { Link } from "@/i18n/navigation";
 import { FloatingIntegrations } from "@/components/pages/navbar/home/floating-integrations";
-import { HeroStatsGrid } from "@/components/pages/navbar/home/hero-stats-grid";
+import {
+  HeroStatsGrid,
+  type HeroCounts,
+} from "@/components/pages/navbar/home/hero-stats-grid";
 import { HeroSubtitle } from "@/components/pages/navbar/home/hero-subtitle";
 import { StatsPanel } from "@/components/pages/navbar/home/stats-panel";
 import { ScrambleRotate } from "@/components/elements/fx/scramble-rotate";
+import { SETUP_GUIDES } from "@/components/pages/docs/setup-guides";
+import { APP_VALUES } from "@/lib/config/constants";
 import { getTranslations } from "next-intl/server";
 import { Icon } from "@/components/ui/icon";
 
-export async function HeroSection() {
+export async function HeroSection(props: { counts: HeroCounts }) {
   const t = await getTranslations();
+  // Chip titles resolved server-side so the client provider can keep the DOCS
+  // namespace out of the hydrated messages payload.
+  const chipTitles = Object.fromEntries(
+    SETUP_GUIDES.map((g) => [g.slug, t(g.titleKey, APP_VALUES)]),
+  );
 
   return (
     <main className="relative z-10 mx-auto flex max-w-360 flex-col items-center gap-10 px-6 pt-24 pb-16 lg:flex-row lg:gap-20 lg:pt-48 lg:pb-32">
@@ -22,7 +32,7 @@ export async function HeroSection() {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
               <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-green-500" />
             </span>
-            <span className="text-muted-foreground font-mono text-[10px] tracking-[0.2em] uppercase">
+            <span className="text-foreground/70 font-mono text-[10px] tracking-[0.2em] uppercase">
               {t("HOME.HERO.BADGE")}
             </span>
           </div>
@@ -43,7 +53,7 @@ export async function HeroSection() {
           </h1>
 
           {/* Description */}
-          <HeroSubtitle />
+          <HeroSubtitle modelCount={props.counts.modelCount} />
         </div>
 
         {/* CTA Buttons */}
@@ -65,13 +75,13 @@ export async function HeroSection() {
         </div>
 
         {/* Stats grid */}
-        <HeroStatsGrid />
+        <HeroStatsGrid counts={props.counts} />
       </div>
 
       {/* Right column - Stats panel with floating integration logos on desktop */}
       <div className="flex w-full max-w-lg flex-1 justify-center lg:max-w-none lg:justify-end">
         <div className="relative w-full max-w-lg">
-          <FloatingIntegrations />
+          <FloatingIntegrations titles={chipTitles} />
           <StatsPanel />
         </div>
       </div>

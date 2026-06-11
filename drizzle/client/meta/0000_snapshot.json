@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "9d5ce8cf-8b37-48a5-8d32-074b537c680b",
+  "id": "841ddc10-f3ff-4bf5-a8ad-fdfbf8856499",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "card_characters": {
@@ -271,6 +271,13 @@
           "notNull": false,
           "autoincrement": false
         },
+        "background_media_id": {
+          "name": "background_media_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
         "description": {
           "name": "description",
           "type": "text",
@@ -294,6 +301,13 @@
         },
         "first_message": {
           "name": "first_message",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "alternate_greetings": {
+          "name": "alternate_greetings",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
@@ -336,6 +350,20 @@
         },
         "triggers": {
           "name": "triggers",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "turn_triggers": {
+          "name": "turn_triggers",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "regex_scripts": {
+          "name": "regex_scripts",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
@@ -443,6 +471,13 @@
           "notNull": true,
           "autoincrement": false,
           "default": true
+        },
+        "talkness": {
+          "name": "talkness",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
         },
         "overrides": {
           "name": "overrides",
@@ -689,9 +724,8 @@
           "name": "chat_memory",
           "type": "integer",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": 8
+          "notNull": false,
+          "autoincrement": false
         },
         "reasoning_effort": {
           "name": "reasoning_effort",
@@ -723,6 +757,13 @@
           "notNull": true,
           "autoincrement": false,
           "default": "'medium'"
+        },
+        "group": {
+          "name": "group",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
         },
         "temperature": {
           "name": "temperature",
@@ -794,13 +835,62 @@
           "notNull": false,
           "autoincrement": false
         },
+        "vars": {
+          "name": "vars",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
         "streaming_enabled": {
           "name": "streaming_enabled",
           "type": "integer",
           "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "group_order_by_order": {
+          "name": "group_order_by_order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "auto_continue": {
+          "name": "auto_continue",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "summary_memory": {
+          "name": "summary_memory",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "summary_anchor": {
+          "name": "summary_anchor",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "memory_enabled": {
+          "name": "memory_enabled",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "first_msg_index": {
+          "name": "first_msg_index",
+          "type": "integer",
+          "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": true
+          "default": -1
         },
         "sync_expires_at": {
           "name": "sync_expires_at",
@@ -956,7 +1046,7 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "'user'"
+          "default": "'system'"
         },
         "created_at": {
           "name": "created_at",
@@ -2112,6 +2202,13 @@
           "notNull": false,
           "autoincrement": false
         },
+        "channel_name": {
+          "name": "channel_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
         "created_at": {
           "name": "created_at",
           "type": "integer",
@@ -2138,19 +2235,6 @@
         }
       },
       "foreignKeys": {
-        "request_logs_msg_id_messages_id_fk": {
-          "name": "request_logs_msg_id_messages_id_fk",
-          "tableFrom": "request_logs",
-          "tableTo": "messages",
-          "columnsFrom": [
-            "msg_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        },
         "request_logs_conv_id_conversations_id_fk": {
           "name": "request_logs_conv_id_conversations_id_fk",
           "tableFrom": "request_logs",
@@ -2256,8 +2340,36 @@
           "notNull": false,
           "autoincrement": false
         },
+        "streaming_enabled": {
+          "name": "streaming_enabled",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "chat_memory": {
+          "name": "chat_memory",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
         "extra_body": {
           "name": "extra_body",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "providers": {
+          "name": "providers",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "prompt_template": {
+          "name": "prompt_template",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
@@ -2302,14 +2414,6 @@
         },
         "must_start_with_user_input": {
           "name": "must_start_with_user_input",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": false
-        },
-        "skip_prefill_if_last_is_assistant": {
-          "name": "skip_prefill_if_last_is_assistant",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
@@ -2433,25 +2537,25 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
-    "local_meta": {
-      "name": "local_meta",
+    "local_migrations": {
+      "name": "local_migrations",
       "columns": {
-        "key": {
-          "name": "key",
+        "name": {
+          "name": "name",
           "type": "text",
           "primaryKey": true,
           "notNull": true,
           "autoincrement": false
         },
-        "value": {
-          "name": "value",
+        "tag": {
+          "name": "tag",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "updated_at": {
-          "name": "updated_at",
+        "applied_at": {
+          "name": "applied_at",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
@@ -2465,9 +2569,17 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
-    "local_pending_sync": {
-      "name": "local_pending_sync",
+    "local_pending_tasks": {
+      "name": "local_pending_tasks",
       "columns": {
+        "task_type": {
+          "name": "task_type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'sync'"
+        },
         "kind": {
           "name": "kind",
           "type": "text",
@@ -2519,19 +2631,20 @@
           "notNull": false,
           "autoincrement": false
         },
-        "payload_json": {
-          "name": "payload_json",
+        "payload": {
+          "name": "payload",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
         },
-        "merge_mode": {
-          "name": "merge_mode",
-          "type": "text",
+        "seq": {
+          "name": "seq",
+          "type": "integer",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": true,
+          "autoincrement": false,
+          "default": 0
         }
       },
       "indexes": {
@@ -2545,12 +2658,13 @@
       },
       "foreignKeys": {},
       "compositePrimaryKeys": {
-        "local_pending_sync_kind_id_pk": {
+        "local_pending_tasks_task_type_kind_id_pk": {
           "columns": [
+            "task_type",
             "kind",
             "id"
           ],
-          "name": "local_pending_sync_kind_id_pk"
+          "name": "local_pending_tasks_task_type_kind_id_pk"
         }
       },
       "uniqueConstraints": {},

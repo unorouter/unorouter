@@ -3,10 +3,8 @@ import type { UseFormReturn } from "react-hook-form";
 
 type GenerationForm = UseFormReturn<GenerationFormValues>;
 
-// Merges a partial patch into the form's `params` object. Replaces the
-// repeated `form.watch("params")` + spread + `form.setValue(... as never)`
-// dance and keeps the one unavoidable cast contained here: `params` carries
-// loosely-typed knobs (sampler/scheduler widen to string from descriptors).
+// Merge a partial patch into form `params`; contains the one unavoidable cast
+// (params carries loosely-typed knobs that widen to string from descriptors).
 export function patchParams(
   form: GenerationForm,
   patch: Record<string, unknown>,

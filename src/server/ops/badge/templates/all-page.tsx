@@ -7,21 +7,30 @@ import {
   type BadgeSize,
   type BadgeType,
   type BuildBadgeUrlOptions,
+  type SocialSize,
 } from "@/lib/validation/badge";
 import { svgDataUri } from "../lib/utils";
 
+// Social banners share the preview but live on their own type/size unions.
+export type PreviewType = BadgeType | "social";
+export type PreviewSize = BadgeSize | SocialSize;
+export interface PreviewGroup {
+  type: PreviewType;
+  badges: { size: PreviewSize; label: string; svg: string }[];
+}
+
 function pageUrl(
-  type: BadgeType,
-  size: BadgeSize,
+  type: PreviewType,
+  size: PreviewSize,
   shared: BuildBadgeUrlOptions,
   format?: BadgeFormat,
 ): string {
-  return buildBadgeUrl(type, { ...shared, size, format });
+  return buildBadgeUrl(type as BadgeType, { ...shared, size, format });
 }
 
 function copyScript(
-  type: BadgeType,
-  size: BadgeSize,
+  type: PreviewType,
+  size: PreviewSize,
   label: string,
   shared: BuildBadgeUrlOptions,
   format: BadgeFormat,
@@ -43,10 +52,7 @@ export function AllPage(props: {
   fg: string;
   muted: string;
   shared: BuildBadgeUrlOptions;
-  groups: {
-    type: BadgeType;
-    badges: { size: BadgeSize; label: string; svg: string }[];
-  }[];
+  groups: PreviewGroup[];
   badgeAlt: string;
 }) {
   return (

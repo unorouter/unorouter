@@ -35,9 +35,7 @@ import {
   type LogRow,
 } from "./log-helpers";
 
-const LOG_EMPTY = (
-  <span className="text-muted-foreground text-xs">{"-"}</span>
-);
+const LOG_EMPTY = <span className="text-muted-foreground text-xs">{"-"}</span>;
 
 export const LogDetailsContext = createContext<{
   open: (log: LogRow) => void;

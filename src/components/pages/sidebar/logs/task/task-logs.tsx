@@ -21,12 +21,8 @@ import {
   TaskStatusCell,
   TaskTimeCell,
 } from "./task-cells";
-import {
-  buildTaskFilters,
-  TaskEmptyState,
-  TaskFiltersBar,
-} from "./task-filters";
-import type { TaskRow } from "./task-helpers";
+import { IdFilterBar, LogsEmptyState } from "../common/id-filter-bar";
+import { buildTaskFilters, type TaskRow } from "./task-helpers";
 
 export function TaskLogs() {
   const t = useTranslations();
@@ -135,13 +131,16 @@ export function TaskLogs() {
         isLoading={logsQuery.isLoading}
         columnVisibility
         filter={() => (
-          <TaskFiltersBar
+          <IdFilterBar
             filters={filterValues}
+            idField="task_id"
+            idValue={filterValues.task_id ?? ""}
+            placeholder={t("LOGS.TASK.FILTER_TASK_ID")}
             onFilterChange={handleFilterChange}
             onReset={handleReset}
           />
         )}
-        emptyState={<TaskEmptyState />}
+        emptyState={<LogsEmptyState />}
       />
       <FailReasonDialog
         open={failOpen}

@@ -3,9 +3,7 @@ import {
   chooseEndpoint,
   type SyncImageEndpoint,
 } from "@/lib/ai/playground/models-dynamic";
-import {
-  getV1VideoGenerationsTaskId,
-} from "@/openapi";
+import { getV1VideoGenerationsTaskId } from "@/openapi";
 import {
   normalizeTaskStatus,
   unwrapTaskData,
@@ -35,7 +33,7 @@ async function resolveSubmissionEndpoint(
   model: string,
 ): Promise<ResolvedEndpoint> {
   if (COMFYUI_TEMPLATE_IDS.has(model)) return { kind: "comfyui-task" };
-  const info = (await getPricingSummary()).models.find((m) => m.name === model);
+  const info = (await getPricingSummary()).byName.get(model);
   if (!info) {
     throw new Error(`model ${model} not in catalog`);
   }
@@ -47,7 +45,7 @@ async function resolveSubmissionEndpoint(
 }
 
 // Client-first; sync-image returns bytes, ComfyUI returns taskId for client polling.
-export type SubmitGenerationResult =
+type SubmitGenerationResult =
   | { kind: "sync"; status: "success"; images: GeneratedImage[] }
   | { kind: "task"; status: string; taskId: string };
 
@@ -77,7 +75,7 @@ export async function submitGeneration(
 }
 
 // Stateless poll: client passes taskId; server forwards status + downloads bytes on success.
-export type PollGenerationResult =
+type PollGenerationResult =
   | { status: "success"; progress: string; images: GeneratedImage[] }
   | { status: "failure"; progress: string; errorMessage: string }
   | { status: string; progress: string };

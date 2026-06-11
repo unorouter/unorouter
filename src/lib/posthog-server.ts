@@ -1,4 +1,4 @@
-import { IS_DEV } from "@/lib/config/constants";
+import { IS_DEV, POSTHOG_DISABLED } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
 import { errMessage } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
@@ -39,7 +39,7 @@ export function captureServerEvent(args: {
   userId?: number | "guest" | null;
   properties?: Record<string, unknown>;
 }): void {
-  if (IS_DEV) return;
+  if (IS_DEV || POSTHOG_DISABLED) return;
   if (!process.env.NEXT_PUBLIC_POSTHOG_KEY) return;
 
   const cookieHeader = args.request?.headers.get("cookie") ?? undefined;

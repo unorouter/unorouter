@@ -1,62 +1,50 @@
 "use client";
 
+import { useElysiaQuery } from "@/hooks/use-elysia-query";
+
+import { useApiMutation } from "@/hooks/use-api-mutation";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
-import { handleElysia } from "@/lib/utils/base";
 import type { EdenArgs } from "@/lib/types/eden";
-import { handleError } from "@/lib/utils/client";
+import { handleElysia } from "@/lib/utils/base";
 import type {
   PasskeyStatusData,
   TwoFAStatusData,
   UserSelfData,
 } from "@/openapi";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useTranslations } from "next-intl";
+import { useMutation } from "@tanstack/react-query";
 
 type TwoFA = (typeof rpc.api.auth.settings)["2fa"];
 
 export function use2FAStatusQuery() {
-  return useQuery({
-    queryKey: queryKeys.twoFAStatus(),
-    queryFn: async () => {
-      return handleElysia(await rpc.api.auth.settings["2fa"].status.get());
-    },
-  });
+  return useElysiaQuery(queryKeys.twoFAStatus(), () =>
+    rpc.api.auth.settings["2fa"].status.get(),
+  );
 }
 
 export function usePasskeyStatusQuery() {
-  return useQuery({
-    queryKey: queryKeys.passkeyStatus(),
-    queryFn: async () => {
-      return handleElysia(await rpc.api.auth.settings.passkey.get());
-    },
-  });
+  return useElysiaQuery(queryKeys.passkeyStatus(), () =>
+    rpc.api.auth.settings.passkey.get(),
+  );
 }
 
 export function useGenerateAccessTokenMutation() {
-  const t = useTranslations();
-  return useMutation({
-    mutationFn: async () => {
-      return handleElysia(await rpc.api.auth.settings.token.get());
-    },
-    onError: (e) => handleError(e, t),
+  return useApiMutation({
+    mutationFn: async () =>
+      handleElysia(await rpc.api.auth.settings.token.get()),
   });
 }
 
 export function useBindEmailMutation() {
-  const t = useTranslations();
-  const queryClient = useQueryClient();
-  return useMutation({
+  return useApiMutation({
     mutationFn: async (
       args: EdenArgs<typeof rpc.api.auth.settings.email.bind, "get">,
-    ) => {
-      return handleElysia(
+    ) =>
+      handleElysia(
         await rpc.api.auth.settings.email.bind.get({ query: args.query }),
-      );
-    },
-    onError: (e) => handleError(e, t),
-    onSuccess: (_, args) => {
-      queryClient.setQueryData<UserSelfData>(queryKeys.auth(), (old) =>
+      ),
+    onSuccess: (_, args, qc) => {
+      qc.setQueryData<UserSelfData>(queryKeys.auth(), (old) =>
         old ? { ...old, email: args.query.email } : old,
       );
     },
@@ -71,20 +59,16 @@ const oauthBindingFieldMap: Record<string, OAuthBindingField> = {
 };
 
 export function useUnbindOAuthMutation() {
-  const t = useTranslations();
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: async (args: { bindingType: "github" | "discord" }) => {
-      return handleElysia(
+  return useApiMutation({
+    mutationFn: async (args: { bindingType: "github" | "discord" }) =>
+      handleElysia(
         await rpc.api.auth.account
           .bindings({ binding_type: args.bindingType })
           .delete(),
-      );
-    },
-    onError: (e) => handleError(e, t),
-    onSuccess: (_, args) => {
+      ),
+    onSuccess: (_, args, qc) => {
       const field = oauthBindingFieldMap[args.bindingType];
-      queryClient.setQueryData<UserSelfData>(queryKeys.auth(), (old) =>
+      qc.setQueryData<UserSelfData>(queryKeys.auth(), (old) =>
         old ? { ...old, [field]: "" } : old,
       );
     },
@@ -92,17 +76,12 @@ export function useUnbindOAuthMutation() {
 }
 
 export function useUpdateSelfMutation() {
-  const t = useTranslations();
-  const queryClient = useQueryClient();
-  return useMutation({
+  return useApiMutation({
     mutationFn: async (
       args: EdenArgs<typeof rpc.api.auth.settings.self, "put">,
-    ) => {
-      return handleElysia(await rpc.api.auth.settings.self.put(args.body));
-    },
-    onError: (e) => handleError(e, t),
-    onSuccess: (_, args) => {
-      queryClient.setQueryData<UserSelfData>(queryKeys.auth(), (old) =>
+    ) => handleElysia(await rpc.api.auth.settings.self.put(args.body)),
+    onSuccess: (_, args, qc) => {
+      qc.setQueryData<UserSelfData>(queryKeys.auth(), (old) =>
         old
           ? {
               ...old,
@@ -118,27 +97,19 @@ export function useUpdateSelfMutation() {
 }
 
 export function useDeleteSelfMutation() {
-  const t = useTranslations();
-  return useMutation({
-    mutationFn: async () => {
-      return handleElysia(await rpc.api.auth.settings.self.delete());
-    },
-    onError: (e) => handleError(e, t),
+  return useApiMutation({
+    mutationFn: async () =>
+      handleElysia(await rpc.api.auth.settings.self.delete()),
   });
 }
 
 export function useUpdateSettingMutation() {
-  const t = useTranslations();
-  const queryClient = useQueryClient();
-  return useMutation({
+  return useApiMutation({
     mutationFn: async (
       args: EdenArgs<typeof rpc.api.auth.settings.setting, "post">,
-    ) => {
-      return handleElysia(await rpc.api.auth.settings.setting.post(args.body));
-    },
-    onError: (e) => handleError(e, t),
-    onSuccess: (_, args) => {
-      queryClient.setQueryData<UserSelfData>(queryKeys.auth(), (old) =>
+    ) => handleElysia(await rpc.api.auth.settings.setting.post(args.body)),
+    onSuccess: (_, args, qc) => {
+      qc.setQueryData<UserSelfData>(queryKeys.auth(), (old) =>
         old ? { ...old, ...args.body } : old,
       );
     },
@@ -146,113 +117,81 @@ export function useUpdateSettingMutation() {
 }
 
 export function useSendSettingsVerificationMutation() {
-  const t = useTranslations();
-  return useMutation({
+  return useApiMutation({
     mutationFn: async (
       args: EdenArgs<typeof rpc.api.auth.settings.verification, "get">,
-    ) => {
-      return handleElysia(
+    ) =>
+      handleElysia(
         await rpc.api.auth.settings.verification.get({ query: args.query }),
-      );
-    },
-    onError: (e) => handleError(e, t),
+      ),
   });
 }
 
 export function useSetup2FAMutation() {
-  const t = useTranslations();
-  return useMutation({
-    mutationFn: async () => {
-      return handleElysia(await rpc.api.auth.settings["2fa"].setup.post());
-    },
-    onError: (e) => handleError(e, t),
+  return useApiMutation({
+    mutationFn: async () =>
+      handleElysia(await rpc.api.auth.settings["2fa"].setup.post()),
   });
 }
 
 export function useEnable2FAMutation() {
-  const t = useTranslations();
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: async (args: EdenArgs<TwoFA["enable"], "post">) => {
-      return handleElysia(
-        await rpc.api.auth.settings["2fa"].enable.post(args.body),
-      );
-    },
-    onError: (e) => handleError(e, t),
-    onSuccess: () => {
-      queryClient.setQueryData<TwoFAStatusData>(
-        queryKeys.twoFAStatus(),
-        (old) => (old ? { ...old, enabled: true } : old),
+  return useApiMutation({
+    mutationFn: async (args: EdenArgs<TwoFA["enable"], "post">) =>
+      handleElysia(await rpc.api.auth.settings["2fa"].enable.post(args.body)),
+    onSuccess: (_data, _args, qc) => {
+      qc.setQueryData<TwoFAStatusData>(queryKeys.twoFAStatus(), (old) =>
+        old ? { ...old, enabled: true } : old,
       );
     },
   });
 }
 
 export function useDisable2FAMutation() {
-  const t = useTranslations();
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: async (args: EdenArgs<TwoFA["disable"], "post">) => {
-      return handleElysia(
-        await rpc.api.auth.settings["2fa"].disable.post(args.body),
-      );
-    },
-    onError: (e) => handleError(e, t),
-    onSuccess: () => {
-      queryClient.setQueryData<TwoFAStatusData>(
-        queryKeys.twoFAStatus(),
-        (old) => (old ? { ...old, enabled: false } : old),
+  return useApiMutation({
+    mutationFn: async (args: EdenArgs<TwoFA["disable"], "post">) =>
+      handleElysia(await rpc.api.auth.settings["2fa"].disable.post(args.body)),
+    onSuccess: (_data, _args, qc) => {
+      qc.setQueryData<TwoFAStatusData>(queryKeys.twoFAStatus(), (old) =>
+        old ? { ...old, enabled: false } : old,
       );
     },
   });
 }
 
 export function usePasskeyRegisterBeginMutation() {
+  // No error toast by design: WebAuthn cancel is a normal user action.
   return useMutation({
-    mutationFn: async () => {
-      return handleElysia(
-        await rpc.api.auth.settings.passkey.register.begin.post(),
-      );
-    },
+    mutationFn: async () =>
+      handleElysia(await rpc.api.auth.settings.passkey.register.begin.post()),
   });
 }
 
 export function usePasskeyRegisterFinishMutation() {
-  const t = useTranslations();
-  const queryClient = useQueryClient();
-  return useMutation({
+  return useApiMutation({
     mutationFn: async (
       args: EdenArgs<
         typeof rpc.api.auth.settings.passkey.register.finish,
         "post"
       >,
-    ) => {
-      return handleElysia(
+    ) =>
+      handleElysia(
         await rpc.api.auth.settings.passkey.register.finish.post(args.body),
-      );
-    },
-    onError: (e) => handleError(e, t),
-    onSuccess: () => {
-      queryClient.setQueryData<PasskeyStatusData>(
-        queryKeys.passkeyStatus(),
-        (old) => (old ? { ...old, enabled: true } : old),
+      ),
+    onSuccess: (_data, _args, qc) => {
+      qc.setQueryData<PasskeyStatusData>(queryKeys.passkeyStatus(), (old) =>
+        old ? { ...old, enabled: true } : old,
       );
     },
   });
 }
 
 export function usePasskeyDeleteMutation() {
-  const t = useTranslations();
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: async () => {
-      return handleElysia(await rpc.api.auth.settings.passkey.delete());
-    },
-    onError: (e) => handleError(e, t),
-    onSuccess: () => {
-      queryClient.setQueryData<PasskeyStatusData>(
-        queryKeys.passkeyStatus(),
-        (old) => (old ? { ...old, enabled: false } : old),
+  return useApiMutation({
+    mutationFn: async () =>
+      handleElysia(await rpc.api.auth.settings.passkey.delete()),
+    onSuccess: (_data, _args, qc) => {
+      qc.setQueryData<PasskeyStatusData>(queryKeys.passkeyStatus(), (old) =>
+        old ? { ...old, enabled: false } : old,
       );
     },
   });

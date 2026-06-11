@@ -1,6 +1,6 @@
 import type { Static } from "elysia";
 import { t } from "elysia";
-import type { TLiteral, TUnion } from "@sinclair/typebox/type";
+import { unionLiterals } from "./helpers";
 import { env } from "@/lib/config/env";
 
 export const MAX_IMAGES_PER_GEN = 4;
@@ -15,13 +15,6 @@ export function isPlaygroundSessionFormat(
   payload: PlaygroundSnapshot | SessionSnapshot,
 ): payload is SessionSnapshot {
   return payload.version === PLAYGROUND_SESSION_FORMAT;
-}
-
-// Pulls literals out of TypeBox union so sampler arrays stay one source.
-function unionLiterals<T extends string>(
-  union: TUnion<TLiteral<T>[]>,
-): readonly T[] {
-  return union.anyOf.map((m) => m.const);
 }
 
 // Server `assertGenerationModelAllowed` checks pricing cache before submit.
@@ -55,7 +48,6 @@ export const generationSampler = t.Union([
   t.Literal("ddim"),
   t.Literal("uni_pc"),
 ]);
-export type GenerationSampler = Static<typeof generationSampler>;
 
 export const generationScheduler = t.Union([
   t.Literal("normal"),
@@ -64,20 +56,10 @@ export const generationScheduler = t.Union([
   t.Literal("sgm_uniform"),
   t.Literal("simple"),
 ]);
-export type GenerationScheduler = Static<typeof generationScheduler>;
 
 // models.ts derives from these; prevents drift.
 export const GENERATION_SAMPLERS = unionLiterals(generationSampler);
 export const GENERATION_SCHEDULERS = unionLiterals(generationScheduler);
-
-// Flux 2 locked to 1024x1024 by template; form hides size picker for it.
-export const generationSize = t.Union([
-  t.Literal("1024x1024"),
-  t.Literal("832x1216"),
-  t.Literal("1216x832"),
-  t.Literal("1024x1536"),
-  t.Literal("1536x1024"),
-]);
 
 export const generationMode = t.Union([
   t.Literal("txt2img"),
@@ -110,7 +92,6 @@ export const playgroundAdetailer = t.Object({
     ),
   ),
 });
-export type PlaygroundAdetailer = Static<typeof playgroundAdetailer>;
 
 export const generationLayerDiffusion = t.Object({
   weight: t.Number({ minimum: 0, maximum: 2 }),
@@ -159,7 +140,6 @@ export const generationParams = t.Object({
   clipSkip: t.Optional(t.Integer({ minimum: 0, maximum: 12 })),
   ensd: t.Optional(t.Integer({ minimum: 0, maximum: 4_294_967_295 })),
 });
-export type GenerationParams = Static<typeof generationParams>;
 
 export const generationLoraEntry = t.Object({
   name: t.String({ maxLength: 256 }),
@@ -184,7 +164,6 @@ export const generationFormUi = t.Object({
   inpaintBrushSize: t.Optional(t.Integer({ minimum: 4, maximum: 128 })),
   inpaintBrushOpacity: t.Optional(t.Number({ minimum: 0.05, maximum: 1 })),
 });
-export type GenerationFormUi = Static<typeof generationFormUi>;
 
 export const playgroundSubmitBody = t.Object({
   model: playgroundModel,
@@ -206,13 +185,6 @@ export const generationFormValues = t.Composite([
   t.Object({ ui: t.Optional(generationFormUi) }),
 ]);
 export type GenerationFormValues = Static<typeof generationFormValues>;
-
-export const playgroundHistoryQuery = t.Object({
-  limit: t.Optional(t.Integer({ minimum: 1, maximum: 100 })),
-  cursor: t.Optional(t.String({ maxLength: 64 })),
-  model: t.Optional(playgroundModel),
-});
-export type PlaygroundHistoryQuery = Static<typeof playgroundHistoryQuery>;
 
 export const generationCloneMode = t.Union([
   t.Literal("restore"),
@@ -258,7 +230,6 @@ export type SessionSnapshot = Static<typeof sessionSnapshot>;
 export const playgroundPollBody = t.Object({
   taskId: t.String({ minLength: 1, maxLength: 128 }),
 });
-export type PlaygroundPollBody = Static<typeof playgroundPollBody>;
 
 // Inline image; client writes media; R2 upload deferred to sync.
 export const generatedImage = t.Object({
@@ -282,7 +253,6 @@ export const generationBaseModel = t.Union([
   t.Literal("flux2"),
   t.Literal("z-image"),
 ]);
-export type GenerationBaseModel = Static<typeof generationBaseModel>;
 
 export const loraCatalogQuery = t.Object({
   baseModel: t.Optional(generationBaseModel),

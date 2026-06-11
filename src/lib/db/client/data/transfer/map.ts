@@ -1,22 +1,22 @@
 // Pure transforms between export envelopes and DB row shapes.
 
 import { uid } from "@/lib/utils/base";
-import type { LocalAnyRow } from "@/lib/types";
 import type {
+  LocalAnyRow,
   NativeImport,
   OrpgExtension,
   OrpgImport,
   StMessage,
   StMetadata,
-} from "@/lib/types/transfer";
+} from "@/lib/types";
 import { ORPG_EXTENSION_KEY } from "@/lib/config/constants";
 import { dayjs } from "@/lib/utils/format/date";
 
 // Conv reduced to row objects for bundle upsert + standalone entity upserts.
 export type MappedImport = {
   convId: string;
-  persona: (LocalAnyRow) | null;
-  preset: (LocalAnyRow) | null;
+  persona: LocalAnyRow | null;
+  preset: LocalAnyRow | null;
   characters: Array<LocalAnyRow>;
   lorebooks: Array<{
     lorebook: LocalAnyRow;
@@ -388,7 +388,7 @@ function parseStDate(raw: string | undefined): Date | null {
   return d.isValid() ? d.toDate() : null;
 }
 
-export type StParsed = { metadata: StMetadata | null; messages: StMessage[] };
+type StParsed = { metadata: StMetadata | null; messages: StMessage[] };
 
 // Splits ST .jsonl: optional metadata header + message lines.
 export function parseStJsonl(text: string): StParsed {

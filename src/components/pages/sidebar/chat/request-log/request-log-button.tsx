@@ -2,8 +2,7 @@
 
 import { TooltipIconButton } from "@/components/ui/assistant-ui/tooltip-icon-button";
 import { Icon } from "@/components/ui/icon";
-import { useAuthQuery } from "@/hooks/auth/auth-hook";
-import { GUEST_USER_ID } from "@/lib/config/constants";
+import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { readLocalRequestLog } from "@/lib/db/client/data/request-log";
 import { queryKeys } from "@/lib/react-query/keys";
 import { useQuery } from "@tanstack/react-query";
@@ -13,8 +12,7 @@ import { RequestLogSheet } from "./request-log-sheet";
 
 export function RequestLogButton(props: { msgId: string }) {
   const t = useTranslations();
-  const auth = useAuthQuery();
-  const userId = auth.data?.id ?? GUEST_USER_ID;
+  const userId = useLocalUserId();
   const [open, setOpen] = useState(false);
 
   const peek = useQuery({

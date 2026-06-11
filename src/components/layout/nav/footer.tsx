@@ -30,10 +30,69 @@ const LEGAL_LINKS = [
   { href: "/privacy", key: msg("FOOTER.PRIVACY") },
 ] as const;
 
+function FooterLinks(props: {
+  links: typeof NAV_LINKS | typeof LEGAL_LINKS;
+  pathname: string;
+}) {
+  const t = useTranslations();
+  return (
+    <>
+      {props.links.map((item) => (
+        <li key={item.key}>
+          <Link
+            href={item.href}
+            className={cn(
+              "text-foreground/70 hover:text-foreground transition-colors",
+              isActiveLink(props.pathname, item.href) &&
+                "text-primary font-medium",
+            )}
+            onClick={() =>
+              analytics.navigation.footerLinkClicked({
+                key: item.key,
+                external: false,
+              })
+            }
+          >
+            {t(item.key)}
+          </Link>
+        </li>
+      ))}
+    </>
+  );
+}
+
 export function Footer() {
   const t = useTranslations();
   const pathname = usePathname();
   const [breakoutOpen, setBreakoutOpen] = useState(false);
+
+  const socialLinks = [
+    {
+      id: "github",
+      href: env.githubUrl,
+      icon: "brand-github",
+      label: "GitHub",
+    },
+    {
+      id: "discord",
+      href: env.discordUrl,
+      icon: "brand-discord",
+      label: "Discord",
+    },
+    { id: "x", href: env.twitterUrl, icon: "brand-x-twitter", label: "X" },
+    {
+      id: "trustpilot",
+      href: env.trustpilotUrl,
+      icon: "brand-trustpilot",
+      label: t("FOOTER.SOCIAL_TRUSTPILOT"),
+    },
+    {
+      id: "reddit",
+      href: env.redditUrl,
+      icon: "brand-reddit",
+      label: "Reddit",
+    },
+  ] as const;
 
   return (
     <footer className="bg-muted/30 relative overflow-hidden rounded-t-3xl border-t md:rounded-t-[4rem]">
@@ -49,71 +108,27 @@ export function Footer() {
               <LogoImage />
               <CompanyName className="text-2xl" />
             </div>
-            <p className="text-muted-foreground mx-auto mb-6 max-w-md md:mx-0">
+            <p className="text-foreground/70 mx-auto mb-6 max-w-md md:mx-0">
               {t("FOOTER.DESCRIPTION")}
             </p>
             <div className="flex justify-center space-x-3 md:justify-start">
-              {env.githubUrl && (
-                <NextLink
-                  href={env.githubUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-background hover:bg-muted rounded-full p-2 transition-colors"
-                  aria-label="GitHub"
-                  onClick={() => analytics.navigation.socialClicked("github")}
-                >
-                  <Icon name="brand-github" className="h-5 w-5" />
-                </NextLink>
-              )}
-              {env.discordUrl && (
-                <NextLink
-                  href={env.discordUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-background hover:bg-muted rounded-full p-2 transition-colors"
-                  aria-label="Discord"
-                  onClick={() => analytics.navigation.socialClicked("discord")}
-                >
-                  <Icon name="brand-discord" className="h-5 w-5" />
-                </NextLink>
-              )}
-              {env.twitterUrl && (
-                <NextLink
-                  href={env.twitterUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-background hover:bg-muted rounded-full p-2 transition-colors"
-                  aria-label="X"
-                  onClick={() => analytics.navigation.socialClicked("x")}
-                >
-                  <Icon name="brand-x-twitter" className="h-5 w-5" />
-                </NextLink>
-              )}
-              {env.trustpilotUrl && (
-                <NextLink
-                  href={env.trustpilotUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-background hover:bg-muted rounded-full p-2 transition-colors"
-                  aria-label={t("FOOTER.SOCIAL_TRUSTPILOT")}
-                  onClick={() =>
-                    analytics.navigation.socialClicked("trustpilot")
-                  }
-                >
-                  <Icon name="brand-trustpilot" className="h-5 w-5" />
-                </NextLink>
-              )}
-              {env.redditUrl && (
-                <NextLink
-                  href={env.redditUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-background hover:bg-muted rounded-full p-2 transition-colors"
-                  aria-label="Reddit"
-                  onClick={() => analytics.navigation.socialClicked("reddit")}
-                >
-                  <Icon name="brand-reddit" className="h-5 w-5" />
-                </NextLink>
+              {socialLinks.map(
+                (social) =>
+                  social.href && (
+                    <NextLink
+                      key={social.id}
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="bg-background hover:bg-muted rounded-full p-2 transition-colors"
+                      aria-label={social.label}
+                      onClick={() =>
+                        analytics.navigation.socialClicked(social.id)
+                      }
+                    >
+                      <Icon name={social.icon} className="h-5 w-5" />
+                    </NextLink>
+                  ),
               )}
             </div>
           </div>
@@ -123,33 +138,14 @@ export function Footer() {
             <div className="text-center md:col-span-1 md:text-left">
               <h3 className="mb-4 font-semibold">{t("FOOTER.PRODUCT")}</h3>
               <ul className="space-y-2">
-                {NAV_LINKS.map((item) => (
-                  <li key={item.key}>
-                    <Link
-                      href={item.href}
-                      className={cn(
-                        "text-muted-foreground hover:text-foreground transition-colors",
-                        isActiveLink(pathname, item.href) &&
-                          "text-primary font-medium",
-                      )}
-                      onClick={() =>
-                        analytics.navigation.footerLinkClicked({
-                          key: item.key,
-                          external: false,
-                        })
-                      }
-                    >
-                      {t(item.key)}
-                    </Link>
-                  </li>
-                ))}
+                <FooterLinks links={NAV_LINKS} pathname={pathname} />
                 {EXTERNAL_NAV_LINKS.map((item) => (
                   <li key={item.key}>
                     <NextLink
                       href={item.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-muted-foreground hover:text-foreground inline-flex items-center justify-center gap-2 transition-colors md:justify-start"
+                      className="text-foreground/70 hover:text-foreground inline-flex items-center justify-center gap-2 transition-colors md:justify-start"
                       onClick={() =>
                         analytics.navigation.footerLinkClicked({
                           key: item.key,
@@ -169,26 +165,7 @@ export function Footer() {
             <div className="text-center md:col-span-1 md:text-left">
               <h3 className="mb-4 font-semibold">{t("FOOTER.LEGAL")}</h3>
               <ul className="space-y-2">
-                {LEGAL_LINKS.map((item) => (
-                  <li key={item.key}>
-                    <Link
-                      href={item.href}
-                      className={cn(
-                        "text-muted-foreground hover:text-foreground transition-colors",
-                        isActiveLink(pathname, item.href) &&
-                          "text-primary font-medium",
-                      )}
-                      onClick={() =>
-                        analytics.navigation.footerLinkClicked({
-                          key: item.key,
-                          external: false,
-                        })
-                      }
-                    >
-                      {t(item.key)}
-                    </Link>
-                  </li>
-                ))}
+                <FooterLinks links={LEGAL_LINKS} pathname={pathname} />
               </ul>
             </div>
           </div>
@@ -196,7 +173,7 @@ export function Footer() {
           {/* Contact Section */}
           <div className="col-span-1 text-center md:text-left">
             <h3 className="mb-4 font-semibold">{t("FOOTER.CONTACT_TITLE")}</h3>
-            <div className="text-muted-foreground space-y-2 text-sm">
+            <div className="text-foreground/70 space-y-2 text-sm">
               <p>{t("FOOTER.CONTACT_SUBTITLE")}</p>
               <NextLink
                 href={`mailto:${env.supportEmail}`}
@@ -212,7 +189,7 @@ export function Footer() {
         {/* Copyright */}
         <div className="border-muted/50 relative border-t pt-8">
           <div className="via-primary/70 absolute top-0 left-1/2 h-px w-1/2 -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"></div>
-          <div className="text-muted-foreground relative flex items-center justify-center text-sm">
+          <div className="text-foreground/70 relative flex items-center justify-center text-sm">
             <p className="text-center" suppressHydrationWarning>
               {t("FOOTER.COPYRIGHT", {
                 year: String(dayjs().year()),
@@ -223,7 +200,7 @@ export function Footer() {
               type="button"
               onClick={() => setBreakoutOpen(true)}
               aria-label={t("FOOTER.EASTER_EGG_LABEL")}
-              className="text-muted-foreground/30 hover:text-primary absolute right-0 font-mono text-xs leading-none transition-colors"
+              className="text-foreground/60 hover:text-primary absolute right-0 font-mono text-xs leading-none transition-colors"
             >
               ▞
             </button>

@@ -23,7 +23,6 @@ function getLineOffset(depth: number): number {
   return depth >= 3 ? 10 : 0;
 }
 
-// Animated thumb that tracks the active anchor position
 function TocThumb(props: {
   containerRef: React.RefObject<HTMLDivElement | null>;
   className?: string;
@@ -80,7 +79,6 @@ function TocThumb(props: {
   return <div ref={thumbRef} role="none" className={props.className} />;
 }
 
-// Single TOC item with connector lines
 function ClerkTOCItem(props: {
   item: TOCItemType;
   upper: number;
@@ -202,7 +200,7 @@ function TOCPanel(props: { toc: TOCState; className?: string }) {
       )}
     >
       <AnchorProvider toc={items}>
-        <div className="no-scrollbar flex flex-col overflow-auto">
+        <div className="no-scrollbar flex max-h-[calc(100svh-6rem)] flex-col overflow-y-auto">
           <h3 className="text-muted-foreground mb-2 text-xs font-semibold">
             {title}
           </h3>
@@ -251,10 +249,13 @@ interface TOCLayoutProps {
 }
 
 export function TOCLayout(props: TOCLayoutProps) {
+  // min-h-min so this flex row grows to the content height instead of being
+  // clamped to the viewport by the scrolling SidebarInset; without it the
+  // sticky TOC's containing block is too short and it scrolls off early.
   return (
-    <>
+    <div className="flex min-h-min w-full min-w-0 items-start">
       <main className="min-w-0 flex-1">{props.children}</main>
       <TOCPanel toc={props.toc} className="mt-4 mr-4" />
-    </>
+    </div>
   );
 }

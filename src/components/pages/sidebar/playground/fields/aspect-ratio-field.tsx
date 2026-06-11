@@ -103,6 +103,7 @@ export function AspectRatioField(props: {
           </div>
           <div className="flex items-center gap-2">
             <Slider
+              aria-label={t("IMAGE.WIDTH")}
               min={min}
               max={max}
               step={64}
@@ -112,6 +113,7 @@ export function AspectRatioField(props: {
               className="flex-1"
             />
             <Input
+              aria-label={t("IMAGE.WIDTH")}
               type="number"
               min={min}
               max={max}
@@ -135,6 +137,7 @@ export function AspectRatioField(props: {
           </div>
           <div className="flex items-center gap-2">
             <Slider
+              aria-label={t("IMAGE.HEIGHT")}
               min={min}
               max={max}
               step={64}
@@ -144,6 +147,7 @@ export function AspectRatioField(props: {
               className="flex-1"
             />
             <Input
+              aria-label={t("IMAGE.HEIGHT")}
               type="number"
               min={min}
               max={max}

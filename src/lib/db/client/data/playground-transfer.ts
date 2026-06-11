@@ -21,9 +21,8 @@ import {
   upsertLocalSnapshotImages,
 } from "./playground";
 
-// Export a session into a portable, self-contained JSON payload. Each image's
-// bytes are inlined as base64 (fetched from R2 if not cached locally) so the
-// file survives R2 expiry and works for guests.
+// Self-contained export: image bytes inlined as base64 so the file survives
+// R2 expiry and works for guests.
 export async function exportLocalSession(
   userId: number | undefined,
   sessionId: string,
@@ -130,9 +129,9 @@ export async function importLocalSession(
     ? payload.snapshots
     : [payload];
   const title = isSession
-    ? (payload.session.title?.slice(0, PLAYGROUND_SESSION_TITLE_MAX).trim() ||
-        null)
-    : (payload.prompt.slice(0, PLAYGROUND_SESSION_TITLE_MAX).trim() || null);
+    ? payload.session.title?.slice(0, PLAYGROUND_SESSION_TITLE_MAX).trim() ||
+      null
+    : payload.prompt.slice(0, PLAYGROUND_SESSION_TITLE_MAX).trim() || null;
   const firstModel = isSession ? payload.session.firstModel : payload.model;
 
   await upsertLocalGenerationSession(uidVal, {

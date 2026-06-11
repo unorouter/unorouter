@@ -1,15 +1,12 @@
 "use client";
 
+import { useElysiaQuery } from "@/hooks/use-elysia-query";
+
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
-import { handleElysia } from "@/lib/utils/base";
-import { useQuery } from "@tanstack/react-query";
 
 export function useStatusQuery() {
-  return useQuery({
-    queryKey: queryKeys.status(),
-    queryFn: async () => {
-      return handleElysia(await rpc.api.auth.account.status.get());
-    },
-  });
+  return useElysiaQuery(queryKeys.status(), () =>
+    rpc.api.auth.account.status.get(),
+  );
 }

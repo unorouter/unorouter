@@ -3,14 +3,11 @@
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Icon } from "@/components/ui/icon";
 import { useUpdateConversationMutation } from "@/hooks/ai/chat-hook";
-import { useSyncStateForRow } from "@/hooks/ai/sync-hook";
-import { useQueuedSends } from "@/lib/db/client/data/queued-send";
-import { useAuthQuery } from "@/hooks/auth/auth-hook";
+import { useQueuedSends } from "@/hooks/ai/use-queued-sends";
 import { usePricingQuery } from "@/hooks/models/pricing-hook";
 import { analytics } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
-import { dayjs } from "@/lib/utils/format/date";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { ConversationItemEditor } from "./conversation-item-editor";
 import { ConversationItemMenu } from "./conversation-item-menu";
@@ -30,12 +27,8 @@ type ConversationItemProps = {
 
 export function ConversationItem(props: ConversationItemProps) {
   const t = useTranslations();
-  const locale = useLocale();
-  const auth = useAuthQuery();
-  const isLoggedIn = !!auth.data;
   const pricingQuery = usePricingQuery();
   const updateMutation = useUpdateConversationMutation();
-  const syncState = useSyncStateForRow("conversations", props.conversation.id);
   const queuedSends = useQueuedSends();
   const isQueued = queuedSends.data?.has(props.conversation.id) ?? false;
   const [isEditing, setIsEditing] = useState(false);
@@ -48,11 +41,6 @@ export function ConversationItem(props: ConversationItemProps) {
     typeof modelData?.vendor === "string"
       ? modelData.vendor
       : (modelData?.vendor?.name ?? "");
-
-  const isSynced = syncState.syncExpiresAt != null;
-  const syncExpiresLabel = syncState.syncExpiresAt
-    ? dayjs(syncState.syncExpiresAt).locale(locale).format("DD MMM")
-    : null;
 
   function startEditing() {
     analytics.chat.conversationRenameStarted();
@@ -119,37 +107,15 @@ export function ConversationItem(props: ConversationItemProps) {
               {props.conversation.title || t("CHAT.NEW_CONVERSATION")}
             </span>
             {isQueued && (
-              <span className="flex items-center gap-1 text-[10px] leading-none text-amber-500">
+              <span className="flex items-center gap-1 text-[10px] leading-none text-amber-700 dark:text-amber-400">
                 <Icon name="clock" className="size-2.5" />
                 {t("CHAT.QUEUED_PENDING")}
-              </span>
-            )}
-            {isLoggedIn && (
-              <span className="text-muted-foreground flex items-center gap-1 text-[10px] leading-none">
-                {isSynced ? (
-                  <>
-                    <Icon
-                      name="cloud-upload"
-                      className="size-2.5 text-emerald-500"
-                    />
-                    {syncExpiresLabel
-                      ? t("SYNC.EXPIRES_AT", { date: syncExpiresLabel })
-                      : t("SYNC.SYNCED")}
-                  </>
-                ) : (
-                  <>
-                    <Icon name="cloud-off" className="size-2.5" />
-                    {t("SYNC.NOT_SYNCED")}
-                  </>
-                )}
               </span>
             )}
           </div>
           <ConversationItemMenu
             conversationId={props.conversation.id}
             isSelected={props.isSelected}
-            isLoggedIn={isLoggedIn}
-            isSynced={isSynced}
             open={menuOpen}
             onOpenChange={setMenuOpen}
             onRename={startEditing}

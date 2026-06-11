@@ -27,7 +27,6 @@ export function useApiKey() {
     setApiKey(apiKey);
   }, [apiKey, setApiKey]);
 
-  // Detect OS on mount
   useEffect(() => {
     if (os) return;
     const ua = navigator.userAgent;

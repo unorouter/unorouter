@@ -3,6 +3,7 @@
 import { SectionBoundary } from "@/components/elements/feedback/section-boundary";
 import { Icon } from "@/components/ui/icon";
 import { Input } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Popover,
   PopoverContent,
@@ -115,7 +116,11 @@ export function ConversationList() {
 
   const conversationItems = (
     <div className="flex flex-col gap-1">
-      {conversations.length === 0 ? (
+      {conversationsQuery.isPending ? (
+        Array.from({ length: 5 }, (_, i) => (
+          <Skeleton key={i} className="h-8 w-full" />
+        ))
+      ) : conversations.length === 0 ? (
         <div className="text-muted-foreground p-4 text-center text-xs">
           {search ? t("CHAT.NO_RESULTS") : t("CHAT.NO_CONVERSATIONS")}
         </div>

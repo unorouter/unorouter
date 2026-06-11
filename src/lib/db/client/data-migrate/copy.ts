@@ -2,9 +2,9 @@
 
 import type {
   CopyOptions,
+  CopyPeer,
   CopyResult,
   CopyRowFailure,
-  LocalClient,
   LocalRawExec,
 } from "@/lib/types";
 import { quoteIdent } from "@/lib/utils/base";
@@ -13,8 +13,8 @@ import { logger } from "@/lib/utils/logger";
 // FKs off during copy; column intersect drops drift.
 // No client.ts import (salvage cycle).
 export async function copyAllTables(
-  source: LocalClient,
-  target: LocalClient,
+  source: CopyPeer,
+  target: CopyPeer,
   opts: CopyOptions = {},
 ): Promise<CopyResult> {
   const skip = new Set(opts.skipTables ?? []);

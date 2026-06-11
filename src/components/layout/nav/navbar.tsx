@@ -15,27 +15,50 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
+import { GuideIcon } from "@/components/pages/docs/guide-icon";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { Link, usePathname } from "@/i18n/navigation";
 import { analytics } from "@/lib/analytics";
+import { APP_VALUES, type TranslationKey } from "@/lib/config/constants";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
-import { Fragment } from "react";
+import { Fragment, useRef } from "react";
 import { MobileNav } from "./mobile-nav";
-import { isActiveLink, navigation } from "./navigation";
+import { isActiveLink, navigation, type NavigationItem } from "./navigation";
 
 export function Navbar() {
   const t = useTranslations();
   const pathname = usePathname();
   const authQuery = useAuthQuery();
+  // Anchor the docs megamenu to the nav row (not the trigger) so it centers
+  // across the page like a real megamenu instead of hanging off one item.
+  const navRowRef = useRef<HTMLDivElement>(null);
 
   const navItems = navigation(!!authQuery.data).filter((item) => !item.hidden);
   const topLevelItems = navItems.filter((item) => !item.submenu);
   const docsItem = navItems.find((item) => item.submenu);
 
+  // Group the docs submenu by category for the megamenu columns.
+  const docsSubmenuGroups: {
+    group: TranslationKey;
+    items: NavigationItem[];
+  }[] = [];
+  for (const link of docsItem?.submenu ?? []) {
+    const key = link.group ?? docsItem!.name;
+    let bucket = docsSubmenuGroups.find((g) => g.group === key);
+    if (!bucket) {
+      bucket = { group: key, items: [] };
+      docsSubmenuGroups.push(bucket);
+    }
+    bucket.items.push(link);
+  }
+
   return (
     <nav className="navbar-scroll fixed top-0 right-0 left-0 z-50 border-b border-transparent bg-transparent">
-      <div className="mx-auto flex h-14 max-w-360 items-center justify-between px-6 font-mono">
+      <div
+        ref={navRowRef}
+        className="mx-auto flex h-14 max-w-360 items-center justify-between px-6 font-mono"
+      >
         {/* Mobile: Hamburger + Logo */}
         <div className="flex items-center gap-2 md:hidden">
           <MobileNav />
@@ -75,7 +98,12 @@ export function Navbar() {
           ))}
 
           {docsItem && (
-            <NavigationMenu className="flex-none">
+            <NavigationMenu
+              className="flex-none"
+              anchor={navRowRef}
+              align="center"
+              collisionAvoidance={{ side: "none", align: "shift" }}
+            >
               <NavigationMenuList>
                 <NavigationMenuItem className="flex items-center">
                   <NavigationMenuTrigger
@@ -86,59 +114,63 @@ export function Navbar() {
                     }
                   />
                   <NavigationMenuContent>
-                    <ul className="grid gap-1">
-                      {docsItem.submenu!.map((link, idx) => {
-                        const prevGroup =
-                          idx > 0
-                            ? docsItem.submenu![idx - 1].group
-                            : undefined;
-                        const showHeading =
-                          link.group && link.group !== prevGroup;
-                        return (
-                          <Fragment key={link.name}>
-                            {showHeading && (
-                              <li
-                                className={cn(
-                                  "text-muted-foreground/70 px-1 pt-2 pb-1 text-[9px] font-semibold tracking-widest uppercase",
-                                  idx === 0 && "pt-0",
-                                )}
-                                aria-hidden="true"
-                              >
-                                {t(link.group!)}
-                              </li>
-                            )}
-                            <li>
-                              <NavigationMenuLink
-                                render={
-                                  <Link
-                                    href={link.href}
-                                    className="flex items-center gap-2"
-                                    onClick={() =>
-                                      analytics.navigation.docsSubmenuLinkClicked(
-                                        { name: link.name },
-                                      )
-                                    }
-                                  >
-                                    {link.iconName && (
+                    <div className="grid w-[min(92vw,1080px)] grid-cols-2 gap-2 p-1 md:grid-cols-3 lg:grid-cols-4">
+                      {docsSubmenuGroups.map((grp) => (
+                        <Fragment key={grp.group}>
+                          <span
+                            className="text-muted-foreground/60 col-span-full px-1 pt-2 pb-1 font-mono text-[10px] tracking-[0.15em] uppercase first:pt-0"
+                            aria-hidden="true"
+                          >
+                            {t(grp.group)}
+                          </span>
+                          {grp.items.map((link) => (
+                            <NavigationMenuLink
+                              key={link.name}
+                              render={
+                                <Link
+                                  href={link.href}
+                                  className="border-border/60 bg-card/40 hover:border-primary/40 hover:bg-muted/50 grid grid-cols-[auto_1fr] items-center gap-x-2.5 gap-y-0.5 rounded-md border px-3 py-2 transition-colors"
+                                  onClick={() =>
+                                    analytics.navigation.docsSubmenuLinkClicked(
+                                      {
+                                        name: link.name,
+                                      },
+                                    )
+                                  }
+                                >
+                                  <span className="row-span-2 flex size-5 shrink-0 items-center justify-center self-center">
+                                    {link.guideIcon ? (
+                                      <GuideIcon
+                                        iconKey={link.guideIcon.iconKey}
+                                        logoSrc={link.guideIcon.logoSrc}
+                                        logoBg={link.guideIcon.logoBg}
+                                        logoMono={link.guideIcon.logoMono}
+                                        size={18}
+                                      />
+                                    ) : link.iconName ? (
                                       <Icon
                                         name={link.iconName}
-                                        className="h-3 w-3"
+                                        className="size-4"
                                       />
-                                    )}
-                                    {link.iconComponent && (
-                                      <link.iconComponent className="h-3 w-3" />
-                                    )}
-                                    <span className="text-[11px] font-medium tracking-wider whitespace-nowrap uppercase">
-                                      {t(link.name)}
+                                    ) : link.iconComponent ? (
+                                      <link.iconComponent className="size-4" />
+                                    ) : null}
+                                  </span>
+                                  <span className="text-foreground truncate text-[13px] font-semibold">
+                                    {t(link.name, APP_VALUES)}
+                                  </span>
+                                  {link.subtitle && (
+                                    <span className="text-muted-foreground col-start-2 truncate text-[11px] leading-snug">
+                                      {t(link.subtitle, APP_VALUES)}
                                     </span>
-                                  </Link>
-                                }
-                              />
-                            </li>
-                          </Fragment>
-                        );
-                      })}
-                    </ul>
+                                  )}
+                                </Link>
+                              }
+                            />
+                          ))}
+                        </Fragment>
+                      ))}
+                    </div>
                   </NavigationMenuContent>
                 </NavigationMenuItem>
               </NavigationMenuList>
@@ -146,25 +178,7 @@ export function Navbar() {
           )}
         </div>
 
-        {/* Desktop Auth */}
-        <div className="hidden items-center gap-4 md:flex">
-          <LanguageToggle />
-          <ThemeToggle />
-          {authQuery.data ? (
-            <UserDropdown side="bottom" align="end">
-              <button className="cursor-pointer focus:outline-none">
-                <UserAvatar />
-              </button>
-            </UserDropdown>
-          ) : authQuery.isLoading ? null : (
-            <LoginLink className="text-muted-foreground hover:text-foreground text-[11px] font-bold tracking-wider uppercase transition-colors">
-              {t("NAV.LOG_IN")}
-            </LoginLink>
-          )}
-        </div>
-
-        {/* Mobile: Lang/Theme + User avatar */}
-        <div className="flex items-center gap-4 md:hidden">
+        <div className="flex items-center gap-4">
           <LanguageToggle />
           <ThemeToggle />
           {authQuery.data ? (

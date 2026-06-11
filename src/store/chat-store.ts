@@ -1,10 +1,11 @@
+import { GUEST_USER_ID } from "@/lib/config/constants";
 import { jotaiCookieStorage } from "@/lib/config/table-storage";
 import type { StreamOverrides } from "@/lib/validation/chat";
 import { uid } from "@/lib/utils/base";
 import { atom, createStore } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 
-const CHAT_STORE_KEY = "chat-store";
+export const CHAT_STORE_KEY = "chat-store";
 
 export type ModelSamplerMemory = Pick<
   StreamOverrides,
@@ -21,22 +22,43 @@ export type ModelSamplerMemory = Pick<
   | "extraBody"
 >;
 
-type ChatState = {
+// Sticky RP loadout auto-equipped on every new chat; seeded by the thread-list
+// adapter's initialize().
+export type ChatLoadout = {
+  presetId: string | null;
+  personaId: string | null;
+  characterIds: string[];
+  lorebookIds: string[];
+};
+
+const EMPTY_LOADOUT: ChatLoadout = {
+  presetId: null,
+  personaId: null,
+  characterIds: [],
+  lorebookIds: [],
+};
+
+export type ChatState = {
   model: string | null;
+  // Default billing/routing group seeding new chats; null = auto.
+  group: string | null;
   webSearch: boolean;
   defaults: StreamOverrides;
+  loadout: ChatLoadout;
   samplerMemoryByModel: Record<string, ModelSamplerMemory>;
 };
 
-const INITIAL_CHAT_STATE: ChatState = {
+export const INITIAL_CHAT_STATE: ChatState = {
   model: null,
+  group: null,
   webSearch: false,
   defaults: {},
+  loadout: EMPTY_LOADOUT,
   samplerMemoryByModel: {},
 };
 
-// No getOnInit: cookie storage is client-only; would diverge SSR/first render.
-const chatStoreAtom = atomWithStorage<ChatState>(
+// SSR-hydrated from the cookie by ChatStoreProvider; no getOnInit needed.
+export const chatStoreAtom = atomWithStorage<ChatState>(
   CHAT_STORE_KEY,
   INITIAL_CHAT_STATE,
   jotaiCookieStorage,
@@ -47,6 +69,13 @@ export const chatModelAtom = atom(
   (get) => get(chatStoreAtom).model ?? INITIAL_CHAT_STATE.model,
   (get, set, value: string | null) => {
     set(chatStoreAtom, { ...get(chatStoreAtom), model: value });
+  },
+);
+
+export const chatGroupAtom = atom(
+  (get) => get(chatStoreAtom).group ?? INITIAL_CHAT_STATE.group,
+  (get, set, value: string | null) => {
+    set(chatStoreAtom, { ...get(chatStoreAtom), group: value });
   },
 );
 
@@ -64,6 +93,17 @@ export const chatDefaultsAtom = atom(
   },
 );
 
+export const chatLoadoutAtom = atom(
+  (get) => get(chatStoreAtom).loadout ?? INITIAL_CHAT_STATE.loadout,
+  (get, set, value: ChatLoadout) => {
+    set(chatStoreAtom, { ...get(chatStoreAtom), loadout: value });
+  },
+);
+
+// Greeting picked on the empty-thread preview (0 = firstMessage, i =
+// alternateGreetings[i-1]); thread-list initialize seeds branches from it.
+export const greetingIndexAtom = atom(0);
+
 export const samplerMemoryByModelAtom = atom(
   (get) =>
     get(chatStoreAtom).samplerMemoryByModel ??
@@ -76,16 +116,46 @@ export const samplerMemoryByModelAtom = atom(
 export type ChatHelpersRef = {
   setMessages: (updater: (msgs: unknown[]) => unknown[]) => void;
   getMessages: () => ReadonlyArray<unknown>;
+  sendEmpty: () => Promise<void>;
 };
 
 // In-memory: active stream convId + assistant-ui helpers; plain atoms for sync stream callbacks.
 export const convIdAtom = atom<string | null>(null);
+
+// True once the history adapter's first load() resolved; the thread welcome
+// waits on it so a conv URL shows a skeleton instead of flashing the
+// empty-thread welcome while messages load from the local DB.
+export const historyLoadedAtom = atom(false);
 export const chatHelpersAtom = atom<ChatHelpersRef | null>(null);
 
-// Offline queued-send replay work list, published by useQueuedSendScheduler and
-// drained by the runtime bridge (only the active thread auto-replays). convIds
-// of conversations whose active leaf is an unanswered user turn.
-export const queuedReplayAtom = atom<string[]>([]);
+// Opens the conversation settings/overrides drawer. Shared so the active-config
+// badge in the chat header can open the same drawer the actions menu owns.
+export const conversationSettingsOpenAtom = atom(false);
+
+// Per-user global macro vars (JSON map). localStorage-backed (can outgrow the
+// cookie cap); read into chatContext, updated from finish-meta writeback.
+export const globalVarsAtom = atomWithStorage<string>(
+  "rp-global-vars",
+  "{}",
+  undefined,
+  { getOnInit: true },
+);
+
+// Last stream failure, consumed by the history adapter so the failed run
+// persists as an error node instead of an empty ghost branch.
+export const lastStreamErrorAtom = atom<{ message: string; at: number } | null>(
+  null,
+);
+
+// Speaking character for the current stream (multi-character rotation); in-memory per tab.
+export const speakingCharacterIdAtom = atom<string | null>(null);
+
+// Authoritative local-DB owner (real user id, or GUEST_USER_ID). Seeded
+// server-side by UserIdProvider from the sealed user-id cookie, so it is
+// correct on the first client render with no auth-query race. Read via
+// useLocalUserId() in React, or chatStore.get(localUserIdAtom) in the
+// imperative stream/runtime callbacks.
+export const localUserIdAtom = atom<number>(GUEST_USER_ID);
 
 // Non-React stream callbacks read via chatStore.get/set.
 export const chatStore = createStore();

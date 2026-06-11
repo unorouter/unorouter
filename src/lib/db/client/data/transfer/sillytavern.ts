@@ -2,7 +2,7 @@
 
 import { joinItemsToMessages, walkActiveBranch } from "@/lib/ai/chat/messages";
 import { msg } from "@/lib/config/constants";
-import type { StMessage, StMetadata } from "@/lib/types/transfer";
+import type { StMessage, StMetadata } from "@/lib/types";
 import { exportSlug } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
 import { readLocalConversationBundle } from "../chat";

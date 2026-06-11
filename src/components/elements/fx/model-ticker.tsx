@@ -3,7 +3,9 @@
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { usePricingQuery } from "@/hooks/models/pricing-hook";
 import { useLiveStats } from "@/hooks/ui/use-live-stats";
+import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
+import { modelSlug } from "@/lib/utils/base";
 import { useTranslations } from "next-intl";
 
 type Props = {
@@ -39,9 +41,13 @@ export function ModelTicker(props: Props) {
           <div className="animate-marquee flex gap-6 font-mono text-xs whitespace-nowrap">
             {tripled.map((model, i) => {
               return (
-                <div
+                <Link
                   key={`${model.name}-${i}`}
-                  className="flex cursor-default items-center gap-3 opacity-60 transition-opacity hover:opacity-100"
+                  href={{
+                    pathname: "/models/[slug]",
+                    params: { slug: modelSlug(model.name) },
+                  }}
+                  className="flex items-center gap-3 opacity-60 transition-opacity hover:opacity-100"
                 >
                   <VendorIcon
                     vendor={model.vendor.name}
@@ -51,7 +57,7 @@ export function ModelTicker(props: Props) {
                   <span className="text-foreground text-[11px] font-medium tracking-wide uppercase">
                     {model.name}
                   </span>
-                </div>
+                </Link>
               );
             })}
           </div>

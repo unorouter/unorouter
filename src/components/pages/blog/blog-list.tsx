@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { useBlogFilter } from "@/hooks/ui/use-blog-filter-hook";
 import { Link } from "@/i18n/navigation";
 import { BLOG_CATEGORIES, getBlogTheme } from "@/lib/config/blog-categories";
-import type { BlogListPost } from "@/lib/types/seo";
+import type { BlogListPost } from "@/lib/types";
 import { estimateReadingMinutes } from "@/components/pages/blog/reading-time";
 import { cn } from "@/lib/utils";
 import { dayjs } from "@/lib/utils/format/date";

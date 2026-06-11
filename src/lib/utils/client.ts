@@ -1,3 +1,4 @@
+import { IMAGE_MAX_DIM } from "@/lib/config/constants";
 import type { TranslationKey } from "@/lib/config/constants";
 import type { Extracted } from "@/lib/types";
 import {
@@ -117,6 +118,42 @@ export function downloadJson(obj: unknown, filename: string) {
     type: "application/json",
   });
   downloadBlob(blob, filename);
+}
+
+// Downscale + re-encode so a large upload doesn't blow the localStorage/OPFS quota.
+export async function fileToScaledDataUrl(file: File): Promise<string> {
+  const dataUrl = await new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result));
+    reader.onerror = () => reject(new Error("read failed"));
+    reader.readAsDataURL(file);
+  });
+  const img = await new Promise<HTMLImageElement>((resolve, reject) => {
+    const el = new Image();
+    el.onload = () => resolve(el);
+    el.onerror = () => reject(new Error("decode failed"));
+    el.src = dataUrl;
+  });
+  const scale = Math.min(1, IMAGE_MAX_DIM / Math.max(img.width, img.height));
+  if (scale >= 1 && file.size < 1_500_000) return dataUrl;
+  const canvas = document.createElement("canvas");
+  canvas.width = Math.round(img.width * scale);
+  canvas.height = Math.round(img.height * scale);
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return dataUrl;
+  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+  const mime = file.type === "image/png" ? "image/png" : "image/jpeg";
+  return canvas.toDataURL(mime, 0.9);
+}
+
+// data:<mime>;base64,<bytes> -> parts for a media row.
+export function splitDataUrl(dataUrl: string): {
+  mimeType: string;
+  base64: string;
+} | null {
+  const m = /^data:([^;,]+);base64,(.+)$/.exec(dataUrl);
+  if (!m) return null;
+  return { mimeType: m[1], base64: m[2] };
 }
 
 // Update one URL search param without navigation; null removes.

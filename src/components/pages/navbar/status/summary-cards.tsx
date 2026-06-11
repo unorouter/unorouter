@@ -35,13 +35,16 @@ export function SummaryCards() {
     {
       label: t("STATUS.KPI.OPERATIONAL"),
       value: counts.operational,
-      accent: "text-emerald-500",
+      accent: "text-emerald-700 dark:text-emerald-400",
       icon: "circle-check",
     },
     {
       label: t("STATUS.STATE.DEGRADED"),
       value: counts.degraded,
-      accent: counts.degraded > 0 ? "text-amber-500" : "text-muted-foreground",
+      accent:
+        counts.degraded > 0
+          ? "text-amber-700 dark:text-amber-400"
+          : "text-muted-foreground",
       icon: "circle-alert",
     },
     {

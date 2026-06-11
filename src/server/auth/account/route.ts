@@ -104,10 +104,25 @@ export const authRoute = new Elysia({ prefix: "/account" })
   .get(
     "/oauth/callback",
     async ({ query, cookie, set }) => {
+      // Failed bind/login bounces back with ?error instead of a code; surface
+      // it on settings. encodeURIComponent guards param injection.
+      if (query.error) {
+        set.status = 302;
+        set.headers.location = `/settings?bind_error=${encodeURIComponent(
+          query.error,
+        )}`;
+        return;
+      }
       if (!query.code) return redirect("/login");
 
-      // Exchange the one-time code for user data via the API
-      const res = await exchangeOAuthCode({ code: query.code });
+      // Missing/expired/redeemed code makes the exchange throw; treat any
+      // failure as invalid and bounce to login.
+      let res;
+      try {
+        res = await exchangeOAuthCode({ code: query.code });
+      } catch {
+        return redirect("/login");
+      }
       if (!res.data || !("success" in res.data) || !res.data.success)
         return redirect("/login");
 
@@ -120,7 +135,6 @@ export const authRoute = new Elysia({ prefix: "/account" })
         return;
       }
 
-      // Login flow: set auth cookies
       cookie[ACCESS_TOKEN_COOKIE].set({
         value: data.access_token,
         path: "/",
@@ -135,7 +149,6 @@ export const authRoute = new Elysia({ prefix: "/account" })
         sameSite: "lax",
       });
 
-      // Read and clear the auth redirect cookie
       const redirectTo = String(cookie[AUTH_REDIRECT_COOKIE]?.value || "");
       if (redirectTo) {
         cookie[AUTH_REDIRECT_COOKIE].remove();

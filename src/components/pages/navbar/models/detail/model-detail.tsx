@@ -256,41 +256,41 @@ print(res.choices[0].message.content)`;
         <section className="mt-12 grid gap-6">
           {hasAnyCapability(m.metadata) && (
             <div>
-              <h3
+              <h2
                 className={cn(
                   "mb-3 font-mono text-[10px] tracking-widest uppercase",
                   theme.text,
                 )}
               >
                 {t("MODELS.DETAIL.CAPABILITIES")}
-              </h3>
+              </h2>
               <CapabilityChips metadata={m.metadata} variant="drawer" />
             </div>
           )}
           {((m.metadata.inputModalities ?? []).length > 0 ||
             (m.metadata.outputModalities ?? []).length > 0) && (
             <div>
-              <h3
+              <h2
                 className={cn(
                   "mb-3 font-mono text-[10px] tracking-widest uppercase",
                   theme.text,
                 )}
               >
                 {t("MODELS.DETAIL.MODALITIES")}
-              </h3>
+              </h2>
               <ModalitiesRow metadata={m.metadata} />
             </div>
           )}
           {hasAnyQuickStat(m.metadata) && (
             <div>
-              <h3
+              <h2
                 className={cn(
                   "mb-3 font-mono text-[10px] tracking-widest uppercase",
                   theme.text,
                 )}
               >
                 {t("MODELS.DETAIL.QUICK_STATS")}
-              </h3>
+              </h2>
               <QuickStats metadata={m.metadata} />
             </div>
           )}
@@ -300,14 +300,14 @@ print(res.choices[0].message.content)`;
       {/* Performance */}
       <section className="mt-12">
         <div className="mb-3 flex items-end justify-between gap-4">
-          <h3
+          <h2
             className={cn(
               "font-mono text-[10px] tracking-widest uppercase",
               theme.text,
             )}
           >
             {t("MODELS.DETAIL.PERFORMANCE")}
-          </h3>
+          </h2>
         </div>
         <PerformanceSection modelName={m.name} />
       </section>
@@ -315,14 +315,14 @@ print(res.choices[0].message.content)`;
       {/* Supported parameters */}
       {hasAnyParameter(m.metadata) && (
         <section className="mt-12">
-          <h3
+          <h2
             className={cn(
               "mb-3 font-mono text-[10px] tracking-widest uppercase",
               theme.text,
             )}
           >
             {t("MODELS.DETAIL.SUPPORTED_PARAMETERS")}
-          </h3>
+          </h2>
           <div
             className={cn(
               "overflow-hidden rounded-lg border",
@@ -377,7 +377,7 @@ print(res.choices[0].message.content)`;
                 </TableRow>
               ) : m.isTiered ? (
                 <TableRow>
-                  <TableCell className="w-1/3 px-4 py-3 font-medium align-top">
+                  <TableCell className="w-1/3 px-4 py-3 align-top font-medium">
                     {t("MODELS.DETAIL.TIERED_PRICING")}
                   </TableCell>
                   <TableCell className="px-4 py-3">

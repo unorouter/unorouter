@@ -1,101 +1,28 @@
 // Tiered billing expression parser; ported from QuantumNous/new-api (AGPL-3.0).
 // Parses billing_mode=tiered_expr -> ParsedTier[]; unknown -> [].
 
-export type BillingVar = {
+// `key` = billing-expr token (parsed via BILLING_VAR_REGEX); `field` = the
+// price column it maps to (null for condition-only vars like `len`).
+type BillingVar = {
   key: string;
   field: string | null;
-  label: string;
-  shortLabel: string;
-  side: "input" | "output" | "condition";
-  isBase?: boolean;
   isConditionOnly?: boolean;
-  group?: string;
 };
 
-export const BILLING_VARS: BillingVar[] = [
-  {
-    key: "p",
-    field: "inputPrice",
-    label: "Input price",
-    shortLabel: "Input",
-    side: "input",
-    isBase: true,
-  },
-  {
-    key: "c",
-    field: "outputPrice",
-    label: "Completion price",
-    shortLabel: "Output",
-    side: "output",
-    isBase: true,
-  },
-  {
-    key: "len",
-    field: null,
-    label: "Input length",
-    shortLabel: "Length",
-    side: "condition",
-    isConditionOnly: true,
-  },
-  {
-    key: "cr",
-    field: "cacheReadPrice",
-    label: "Cache read price",
-    shortLabel: "Cache Read",
-    side: "input",
-    group: "cache",
-  },
-  {
-    key: "cc",
-    field: "cacheCreatePrice",
-    label: "Cache create price",
-    shortLabel: "Cache Write",
-    side: "input",
-    group: "cache",
-  },
-  {
-    key: "cc1h",
-    field: "cacheCreate1hPrice",
-    label: "Cache create (1h) price",
-    shortLabel: "Cache Write (1h)",
-    side: "input",
-    group: "cache",
-  },
-  {
-    key: "img",
-    field: "imagePrice",
-    label: "Image input price",
-    shortLabel: "Image In",
-    side: "input",
-    group: "media",
-  },
-  {
-    key: "img_o",
-    field: "imageOutputPrice",
-    label: "Image output price",
-    shortLabel: "Image Out",
-    side: "output",
-    group: "media",
-  },
-  {
-    key: "ai",
-    field: "audioInputPrice",
-    label: "Audio input price",
-    shortLabel: "Audio In",
-    side: "input",
-    group: "media",
-  },
-  {
-    key: "ao",
-    field: "audioOutputPrice",
-    label: "Audio output price",
-    shortLabel: "Audio Out",
-    side: "output",
-    group: "media",
-  },
+const BILLING_VARS: BillingVar[] = [
+  { key: "p", field: "inputPrice" },
+  { key: "c", field: "outputPrice" },
+  { key: "len", field: null, isConditionOnly: true },
+  { key: "cr", field: "cacheReadPrice" },
+  { key: "cc", field: "cacheCreatePrice" },
+  { key: "cc1h", field: "cacheCreate1hPrice" },
+  { key: "img", field: "imagePrice" },
+  { key: "img_o", field: "imageOutputPrice" },
+  { key: "ai", field: "audioInputPrice" },
+  { key: "ao", field: "audioOutputPrice" },
 ];
 
-export const BILLING_PRICING_VARS: BillingVar[] = BILLING_VARS.filter(
+const BILLING_PRICING_VARS: BillingVar[] = BILLING_VARS.filter(
   (v) => !v.isConditionOnly,
 );
 
@@ -108,13 +35,13 @@ const BILLING_VAR_REGEX = new RegExp(
   "g",
 );
 
-export type TierCondition = {
+type TierCondition = {
   var: "p" | "c" | "len";
   op: "<" | "<=" | ">" | ">=";
   value: number;
 };
 
-export type ParsedTier = {
+type ParsedTier = {
   label: string;
   conditions: TierCondition[];
   [field: string]: unknown;
@@ -160,9 +87,7 @@ export function parseTiersFromExpr(exprStr: string): ParsedTier[] {
       const conditions: TierCondition[] = [];
       if (condStr) {
         for (const cp of condStr.split(/\s*&&\s*/)) {
-          const cm = cp
-            .trim()
-            .match(/^(p|c|len)\s*(<|<=|>|>=)\s*([\d.eE+]+)$/);
+          const cm = cp.trim().match(/^(p|c|len)\s*(<|<=|>|>=)\s*([\d.eE+]+)$/);
           if (cm) {
             conditions.push({
               var: cm[1] as TierCondition["var"],

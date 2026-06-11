@@ -22,22 +22,9 @@
     "PRICING": "價格",
     "DOCS": "文件",
     "BLOG": "部落格",
-    "GROUP_CLI": "CLI 工具",
-    "GROUP_ROLEPLAY": "角色扮演用戶端",
-    "CC_SWITCH": "CC Switch",
-    "CLAUDE_CODE": "Claude Code",
-    "CODEX": "Codex",
-    "GEMINI_CLI": "Gemini CLI",
-    "OPENCLAW": "OpenClaw",
-    "SILLYTAVERN": "SillyTavern",
-    "JANITOR_AI": "Janitor.AI",
-    "RISUAI": "RisuAI",
-    "CHUB": "Chub / Venus",
     "DASHBOARD": "儀表板",
     "LOG_IN": "登入",
-    "GET_STARTED": "立即開始",
     "CHAT": "對話",
-    "GENERATE": "生成",
     "PLAYGROUND": "遊樂場",
     "STATUS": "狀態"
   },
@@ -45,7 +32,6 @@
     "HERO": {
       "BADGE": "路由器在線",
       "TITLE_LINE1": "統一",
-      "TITLE_LINE2": "智慧",
       "SUBTITLE": "{appName} 用一把鑰匙連接 {modelCount}+ 個 AI 模型。打造應用、執行 Agent，或與角色進行角色扮演。同一把鑰匙、同樣的速度、同樣的價格。",
       "CTA_PRIMARY": "立即開始",
       "CTA_SECONDARY": "查看模型",
@@ -54,28 +40,26 @@
     "STATS": {
       "MODELS": "模型",
       "PROVIDERS": "供應商",
-      "UPTIME": "運行時間",
-      "ENDPOINTS": "端點",
+      "FREE": "免費",
+      "PAID": "付費",
       "PANEL": {
         "TOKENS_SERVED": "已服務 tokens",
         "REQUESTS": "請求數",
-        "REQ_MIN": "請求／分鐘",
         "TOKENS_MIN": "Tokens／分鐘",
         "LIVE": "即時"
       },
       "INDICATOR": {
         "GLOBAL": "可路由",
         "INTEGRATED": "上游節點",
-        "SLA": "實測值"
+        "FREE": "無需費用",
+        "PAID": "每 Token"
       }
     },
     "TICKER": {
-      "LABEL": "可用模型",
       "LIVE_INFERENCE": "即時推論",
       "TPS": "TPS"
     },
     "INTEGRATION": {
-      "BADGE": "整合",
       "VIEW_GUIDE": "查看指南",
       "CLAUDE_CODE": {
         "BADGE": "Anthropic API",
@@ -117,72 +101,32 @@
         "TITLE": "相容 Chub / Venus",
         "DESCRIPTION": "將 {appName} 作為 Chub 的第一方反向代理接入。一組 URL、一把金鑰，支援所有模型。"
       },
-      "CLI_HEADER": "為編程 Agent 與 CLI 工具而設",
-      "RP_HEADER": "為角色扮演與創意對話而設"
+      "PICK_TITLE": "選擇你真正使用的用戶端。",
+      "PICK_DESC": "{appName} 作為自訂 OpenAI 相容 API，可用於編碼代理、角色扮演前端、聊天用戶端和 CLI 工具。"
     },
     "PRICING": {
       "LABEL": "價格",
       "TITLE": "價格簡單透明。",
       "SUBTITLE": "用多少付多少。",
       "DESCRIPTION": "訂閱享更高價值，或按用量付費。所有方案皆可存取每個模型，並跨供應商自動容錯。",
-      "PAYG": {
-        "NAME": "按用量付費",
-        "PRICE": "$0",
-        "DESC": "無最低消費。儲值後即可使用任一模型。",
-        "ENDPOINT": "/v1/chat/completions"
-      },
-      "BASIC": {
-        "NAME": "基礎版",
-        "PRICE": "$20／月",
-        "DESC": "$30 額度價值。1.5 倍倍率。",
-        "RATE": "每分鐘 100 次請求"
-      },
-      "PRO": {
-        "NAME": "專業版",
-        "PRICE": "$50／月",
-        "DESC": "$75 額度價值。優先路由。",
-        "RATE": "每分鐘 500 次請求"
-      },
-      "ENTERPRISE": {
-        "NAME": "企業版",
-        "PRICE": "$100／月",
-        "DESC": "$175 額度價值。專屬支援。",
-        "RATE": "每分鐘 2,000 次請求"
-      },
-      "CTA": {
-        "GET_STARTED": "立即開始",
-        "VIEW_PLANS": "查看所有方案"
-      },
       "PROVIDERS": {
-        "TITLE": "支援的供應商",
-        "ACTIVE": "啟用中",
-        "DESC_OPENAI": "GPT-4o、o1、o3、GPT-4.1",
-        "DESC_ANTHROPIC": "Claude Opus、Sonnet、Haiku",
-        "DESC_GOOGLE": "Gemini 2.5 Pro、Flash",
-        "DESC_DEEPSEEK": "DeepSeek V3、R1"
+        "TITLE": "支援的供應商"
       },
       "FLOW": {
-        "TITLE": "請求流程",
-        "LIVE": "即時",
-        "STEP1": "POST /v1/chat/completions",
-        "STEP2": "路由至最快的供應商",
-        "STEP3": "回應送達"
+        "TITLE": "請求流程"
       }
     },
     "FEATURES": {
       "TITLE": "為什麼選擇 {appName}",
       "DESCRIPTION": "一個端點串連所有 AI 模型。智慧路由挑選最快的供應商，自動容錯確保您的請求永不失敗。",
       "FAILOVER": {
-        "TITLE": "自動容錯",
-        "DESC": "失敗的請求會立即改走備援通道重試"
+        "TITLE": "自動容錯"
       },
       "MULTIPROTOCOL": {
-        "TITLE": "多協定支援",
-        "DESC": "支援 OpenAI、Anthropic 與 Gemini API 格式"
+        "TITLE": "多協定支援"
       },
       "LOADBALANCE": {
-        "TITLE": "智慧負載平衡",
-        "DESC": "自動路由至當前最快的可用供應商"
+        "TITLE": "智慧負載平衡"
       }
     },
     "RELIABILITY": {
@@ -199,7 +143,6 @@
         "DESC": "依延遲挑選通道並加權優先等級。最快的供應商每次都勝出。"
       },
       "LEARN_MORE": "了解更多",
-      "LEARN_MORE_ARIA": "了解更多 {appName} 文件資訊",
       "LEARN_MORE_DOCS": "查看文件",
       "ARCH": {
         "TITLE": "架構",
@@ -436,7 +379,6 @@
       "LEADERBOARD_TITLE": "LLM 排行榜",
       "LEADERBOARD_SUBTITLE": "比較平台上最熱門的模型",
       "EMPTY": "沒有模型符合所選的篩選條件",
-      "TOTAL_LABEL": "令牌總數",
       "TOKENS_SUFFIX": "令牌",
       "TOOLTIP_TOTAL": "合計",
       "BY_AUTHOR_LABEL": "作者："
@@ -478,10 +420,7 @@
     "SUBTITLE": "產品更新、整合指南與團隊筆記。",
     "READ_MORE": "繼續閱讀",
     "PUBLISHED": "發佈於",
-    "UPDATED": "更新於",
     "BY_AUTHOR": "作者：{author}",
-    "TAGS": "標籤",
-    "RECENT": "最新文章",
     "BACK_TO_BLOG": "回到所有文章",
     "EMPTY": "尚無文章。請稍後再來查看。",
     "EMPTY_FILTERED": "沒有文章符合您的篩選條件。",
@@ -511,7 +450,9 @@
       "announcement": "公告",
       "product": "產品",
       "engineering": "工程",
-      "update": "更新"
+      "update": "更新",
+      "community": "社群",
+      "comparison": "比較"
     },
     "POSTS": {
       "LAUNCH": {
@@ -556,9 +497,7 @@
         "H_NOT_SPOOFING": "哪些情況不算冒充：Bedrock、Vertex、Foundry",
         "H_RESULTS": "17 天偵測的結果",
         "H_WHY": "為什麼會發生這種事",
-        "H_NEXT": "下一步",
         "H_TEST": "5 分鐘內自行測試你的服務商",
-        "H_NAMING": "關於匿名化的說明",
         "INTRO_P1": "Claude 是目前市場上需求最旺、也是最貴的模型之一。這道價差催生出一個熱絡的第三方中轉市場，宣稱用零頭的價格賣給你「一樣的 Claude」。其中有正規玩家，但更多不是。",
         "INTRO_P2": "在 17 天的自動 probe 中，我們涵蓋了 <s>8 家上游中轉</s>，找到 <s>183 組 (channel, model)</s> 在以 <c>claude-opus-4-7</c>、<c>claude-sonnet-4-6</c>、<c>claude-haiku-4-5</c> 等名義販售的模型上沒有通過真實性檢查。同樣的壓力對每一個高階模型都成立，所以 GPT、Gemini、Grok 幾乎肯定也中招了。Claude 只是當下價差最大、我們手上有硬資料的那一塊。",
         "PROBES_P": "對每組 (channel, model)，我們向標準的 Anthropic Messages API（<c>POST /v1/messages</c>）並行送出四個請求：",
@@ -628,6 +567,57 @@
         "H_TRY": "試試看",
         "TRY_P": "上面列出的模型都透過同一個 OpenAI 相容 endpoint 提供。多參考圖編輯按上游定義的樣子原樣暴露，沒有再包一層。帶上六張圖和一段 prompt，路由器會替你挑一個能跑的供應商。",
         "CTA": "<register>領取 API 金鑰</register>，或 <models>瀏覽圖像目錄</models>，看完整的已驗證清單。"
+      },
+      "DISCORD_COMMUNITY": {
+        "TITLE": "加入 {appName} Discord，領取免費餘額",
+        "DESCRIPTION": "綁定帳號即得 1 美元，加成伺服器每月再得 1 美元，提交漏洞最高 50 美元。{appName} 的 Discord 剛剛上線。",
+        "AUTHOR": "{appName} 團隊",
+        "INTRO": "我們為 {appName} 開了一個社群 Discord。這裡會公佈更新日誌、處理客服工單、營運漏洞獎勵，並直接以餘額回饋你的參與。這篇文章列出伺服器中所有可以白拿額度的方法。",
+        "H_WHAT": "伺服器裡有什麼",
+        "P_WHAT": "公告、更新日誌、客服工單、漏洞獎勵論壇、功能與模型請求、AI 聊天求助、語音頻道，以及加成者休息室。團隊每天上線。除了真正用來聊天的頻道，所有公開頻道預設為唯讀，讓訊號保持乾淨。",
+        "H_EARN": "綁定 Discord，立得 1 美元",
+        "P_EARN": "打開 verify 頻道，按下 Verify and Claim，再到 {appName} 設定中綁定 Discord。首次綁定時，機器人會把 1 美元 API 餘額存入你的帳戶。每個帳號限一次，沒有附加條件。",
+        "H_BOOST": "加成伺服器，每月領錢",
+        "P_BOOST": "每發起一次加成，立刻入帳 1 美元到你綁定的餘額。只要加成持續有效，機器人會每 30 天再發 1 美元。兩次加成就是每月兩筆。取消加成後，付款也跟著停止。",
+        "H_BUGS": "漏洞獎勵，最高 50 美元",
+        "P_BUGS": "在平台上找到真實漏洞，就到 bug-bounty 論壇發文。團隊會評估嚴重程度，機器人據此發放獎金：Low 0.25 美元、Medium 0.50 美元、High 1 美元、Critical 50 美元。實際定位到漏洞的人才會拿錢，不一定是發起討論串的人。",
+        "H_JOIN": "歡迎常來玩",
+        "CTA": "準備好了嗎？<invite>加入 {appName} Discord</invite>，再<register>領取 API 金鑰</register>並<settings>綁定帳號</settings>，把第一筆 1 美元收下。"
+      },
+      "FREE_MODELS_AGGREGATED": {
+        "TITLE": "我們將 100 多個免費 AI 模型整合進單一端點",
+        "DESCRIPTION": "短短兩天內，我們把 15 個免費供應商接入了 {appName}：134 個免費模型項目、一個 OpenAI-compatible 端點、每個 token $0。它們免費自有原因，並帶有我們無法調高的速率限制。以下是誠實版的說明。",
+        "AUTHOR": "{appName} 團隊",
+        "INTRO": "免費 LLM 的生態是真實存在的，只是散落各處：Groq、Gemini、Cloudflare、Mistral、OVHcloud 以及其他十幾家，各自釋出貨真價實的運算量，卻藏在十幾個註冊頁、十幾種金鑰格式，還有十幾套互不相容的 API 背後。短短兩天內，我們發掘、測試，並把每一個能找到的合法永久免費供應商都併入了 {appName}。成果就是：來自 15 個供應商的 134 個免費模型項目，全都藏在一個 OpenAI-compatible 端點與一把金鑰之後。",
+        "H_WHAT": "我們新增了什麼",
+        "P_WHAT": "十五個免費供應商，一個一個接進來：Groq、Gemini、Cerebras、SambaNova、Mistral、Cloudflare Workers AI（兩個帳號）、GitHub Models、Z.ai、OVHcloud、AI Horde、Pollinations、Cohere、Jina、NVIDIA NIM 與 OpenRouter。總共 134 個免費模型項目：Llama、gpt-oss、Qwen、Mistral、GLM、Nemotron 等等，外加 30 個免費嵌入模型以及 13 個免費圖像與音訊模型。每一個在上線前都會就 HTTP、串流與工具呼叫做端到端探測，跟我們對付費模型一樣的真實性與測試框架檢驗。",
+        "H_CAVEAT": "免費自有原因",
+        "P_CAVEAT": "這些模型是真正免費的，而這正是它們有限制的原因。<s>那些限制是供應商設的，不是我們，我們也無法調高。</s>每個上游都有自己的一套速率限制：每分鐘請求數、每日 token 配額、Cloudflare 神經元預算、志願者佇列的優先序。一旦觸頂，該供應商就會回傳 <c>429</c>，直到限制重置為止。今天早上還能用的免費金鑰，到了下午可能就已耗盡。免費方案是盡力而為的吞吐量，不是保證。如果你的工作負載需要可預期的延遲、不容意外的 <c>429</c>，那就用付費模型。",
+        "H_AGGREGATE": "為什麼要把它們整合起來",
+        "P_AGGREGATE": "因為不整合的話，就得管十五個帳號。每個供應商都有自己的註冊流程、自己的金鑰格式、自己的 base URL，還有各自的怪癖：Z.ai 走的是 Zhipu V4 路徑，Cloudflare 把帳號 id 放在 URL 裡，AI Horde 想要一把匿名金鑰，GitHub 則把模型擋在一道 token 權限範圍之後。這些我們全都消化掉了，讓你能用呼叫其他一切的方式來呼叫它們：一個 OpenAI-compatible 端點、一把金鑰、一個模型名稱。我們對自己堅守的誠實準則是：每家供應商只用一個真實帳號，配額照收，不刷量、不共池。我們把免費方案當成一份禮物提供，而不是轉售別人的配額。",
+        "H_FAILOVER": "我們如何緩和這些限制",
+        "P_FAILOVER": "這些模型裡，有不少是由不只一家免費供應商提供的。光是 Llama 3.3 70B 就跑在其中七家上。當好幾家供應商提供同一個模型時，我們會把它們收斂成一個對外公開的名稱，並自動容錯切換：若某個上游回傳 <c>429</c> 或陷入沉默，下一個健康且提供該模型的供應商就會接手請求。這是我們唯一能掌控的槓桿。它不會調高任何單一供應商的配額上限，但意味著一個多來源的免費模型，在它任何一個供應商耗盡後仍能持續作答許久。單一來源的免費模型沒有後備，所以一旦它那唯一的上游用罄，就會卡住。",
+        "H_HONEST": "我們沒有做什麼",
+        "P_HONEST": "我們沒有加入那種未經許可、轉手再供應 OpenAI 或 Claude 旗艦模型的反向代理。我們沒有納入那些 token 不可轉讓的個人金鑰聚合服務，也沒有納入那種刷量並輪換他人金鑰的多重池中池服務。這類東西確實存在，也確實誘人，而它們正是這個閘道想要取代的那團灰色市場亂象。清單上的每一家供應商，都是依自己的條款、刻意把免費方案釋出來的。一個來源若過不了這道門檻，就不會出現在這裡。",
+        "H_TRY": "親自試試",
+        "CTA": "全部 134 個免費模型都已上線，藏在一個 OpenAI-compatible 端點之後。<register>取得一把 API 金鑰</register>，或<models>瀏覽模型目錄</models>並篩選免費項目。只要記得當 <c>429</c> 冒出來時，你正用的是哪個方案就好。"
+      },
+      "UNOROUTER_VS_OPENROUTER": {
+        "TITLE": "{appName} 對比 OpenRouter：一次誠實的比較",
+        "DESCRIPTION": "{appName} 和 OpenRouter 都把眾多模型放在一個 OpenAI 相容金鑰之後。差別在於上層是什麼：一個無介面的 API，還是 API 加上內建的聊天與角色用戶端。這是誠實的版本。",
+        "AUTHOR": "{appName} 團隊",
+        "INTRO": "OpenRouter 讓「一把金鑰通向所有模型」的理念深入人心。{appName} 建立在同樣的理念上，但有一個決定它是否適合你的差別：你想要一個無介面的 API，還是一個 API 加上真正使用它的地方。這是由其中一方背後的團隊撰寫的誠實比較。",
+        "H_LANES": "兩類閘道",
+        "P_LANES": "大多數 OpenAI 相容閘道都沒有介面。OpenRouter、LiteLLM 和 Portkey 給你端點、路由和容錯移轉，然後把介面留給你。當你交付程式碼時，這正合適。另一陣營是聊天市集：把模型目錄包進網頁介面，面向想聊天而非搭建的人。{appName} 同時身處兩者，既是面向編碼代理的簡潔 API，也是內建的聊天與角色用戶端，兩者共享同一把金鑰、同一批模型和同一筆餘額。",
+        "H_MODELS": "模型與價格",
+        "P_MODELS": "兩者都在一把金鑰之後提供來自主要供應商的 200 多個模型，並自動辨識 OpenAI、Anthropic 和 Gemini 的請求格式。OpenRouter 在購買餘額時收取百分比手續費。{appName} 按用量付費，餘額永不過期，並設有用於原型開發的免費模型層級。在純粹的模型廣度上兩者相當，因此決定因素很少是目錄本身，而是你拿它來做什麼。",
+        "H_RP": "OpenRouter 略去的那部分",
+        "P_RP": "把編碼代理（Claude Code、Cline、OpenCode、Kilo Code、Codex）指向 {appName}，它的表現就和任何 OpenAI 相容端點一樣。但同一把金鑰還驅動一個內建的聊天與角色用戶端，帶有人設、設定集、預設和 SillyTavern 卡片匯入，並能直接接入 SillyTavern、Janitor.AI、RisuAI 或 Chub。OpenRouter 純粹是 API 層，因此每個介面都得你自己準備。{appName} 把介面與 API 一併交付。",
+        "H_MIGRATE": "切換只是更換基礎 URL",
+        "P_MIGRATE": "由於 {appName} 相容 OpenAI，遷移現有應用只需一行：把用戶端指向 <c>https://api.unorouter.ai/v1</c>，並保留你現有的程式碼。把同一把金鑰貼到聊天用戶端的自訂端點欄位，也會抵達同一個目錄，因此沒有第二個帳戶需要管理。",
+        "H_VERDICT": "你該選哪個",
+        "P_VERDICT": "如果你只交付程式碼，並且想要無介面的最廣目錄，OpenRouter 是個不錯的預設選擇。如果你想要無加價的自架路由，LiteLLM 勝出。如果你想要一把金鑰，既能用在編碼代理裡，也能用在真正的聊天與角色用戶端裡，而不必執行兩套服務，這正是 {appName} 填補的空白。沒有唯一的贏家。這取決於你是為純粹的 API 最佳化，還是為 API 加上一個使用它的地方而最佳化。",
+        "CTA": "準備好試試了嗎？<register>建立免費帳戶</register> 或 <models>瀏覽模型</models>。"
       }
     }
   },
@@ -635,7 +625,6 @@
     "META_TITLE": "{name} API 價格、上下文視窗與範例｜{appName}",
     "META_DESC": "透過單一 OpenAI 相容端點使用來自 {vendor} 的 {name}。查看每 token 價格、上下文視窗、端點及可複製貼上的程式碼範例。",
     "META_KEYWORDS": "{name} API、{name} 價格、{name} 上下文視窗、{vendor} API、{appName}",
-    "ABOUT": "關於 {name}",
     "PRICING_TITLE": "價格",
     "PRICING_DESC": "用多少付多少。按用量付費方案無月費門檻。",
     "INPUT_PRICE": "輸入價格",
@@ -677,62 +666,31 @@
     "CTA_DESC": "建立 API 金鑰後，一分鐘內就能開始發送請求。",
     "CTA_SIGNUP": "登入以試用 {name}",
     "CTA_TRY": "在對話中試用 {name}",
-    "CTA_ALL_MODELS": "查看所有模型",
-    "LAST_UPDATED": "最後更新於 {date}"
+    "CTA_ALL_MODELS": "查看所有模型"
   },
   "PRICING": {
-    "PLAN": {
-      "BASIC": "基礎版",
-      "PRO": "專業版",
-      "ENTERPRISE": "企業版"
-    },
     "FEATURE": {
       "MODELS": "包含所有模型",
       "PRIORITY": "優先路由",
       "DEDICATED": "專屬支援",
-      "SUPPORT": "電子郵件支援",
       "FAILOVER": "自動容錯",
       "UPTIME": "99.9% 運行時間 SLA",
       "OPENAI_COMPAT": "OpenAI 相容端點"
     },
     "COMPARE": {
-      "TITLE": "方案比較",
-      "FEATURE": "功能",
-      "PRICE": "每月價格",
-      "VALUE": "API 額度價值",
-      "RATE_LIMIT": "速率限制",
-      "ALL_MODELS": "所有模型",
-      "PRIORITY": "優先路由",
-      "DEDICATED": "專屬支援",
-      "BASIC_PRICE": "$20／月",
-      "PRO_PRICE": "$50／月",
-      "ENTERPRISE_PRICE": "$100／月",
-      "BASIC_VALUE": "$30",
-      "PRO_VALUE": "$75",
-      "ENTERPRISE_VALUE": "$175",
-      "BASIC_RATE": "100 rpm",
-      "PRO_RATE": "500 rpm",
-      "ENTERPRISE_RATE": "2,000 rpm"
+      "TITLE": "方案比較"
     },
     "CARD": {
       "POPULAR": "熱門",
       "PER_MONTH": "／月",
       "VALUE": "{value} 價值",
-      "MULTIPLIER": "{multiplier} 倍率",
-      "INCLUDES": "包含項目",
-      "REQUESTS_MIN": "每分鐘 {count} 次請求",
-      "SPEC_CREDIT": "API 額度價值",
       "SPEC_QUOTA": "額度／重置",
-      "SPEC_MULTIPLIER": "倍率",
-      "OPENCLAW_TITLE": "OpenClaw 支援",
-      "OPENCLAW_DESC": "完全相容 OpenClaw 代理",
       "VALUE_BADGE": "價值",
       "VALUE_EXPLAIN": "支付 {paid}，獲得 {credit} API 額度，可用於任意模型。"
     },
     "BANNER": {
       "TITLE": "Telegram 上的 OpenClaw AI 助理",
-      "SUBTITLE": "由 OpenClaw 與 {appName} 提供技術支援，一鍵為您的 Telegram 機器人部署 AI。",
-      "BADGE": "即將推出"
+      "SUBTITLE": "由 OpenClaw 與 {appName} 提供技術支援，一鍵為您的 Telegram 機器人部署 AI。"
     },
     "META": {
       "TITLE": "價格：{appName}",
@@ -742,6 +700,11 @@
     "TITLE": "價格",
     "SUBTITLE": "無論你是上線應用還是進行長時間角色扮演。一個方案，涵蓋所有模型。",
     "CTA": "訂閱",
+    "TOPUP": {
+      "LABEL": "按量儲值",
+      "DESC": "不想訂閱？直接儲值使用。",
+      "FOOTNOTE": "餘額永不過期。"
+    },
     "FAQ": {
       "Q1": "{appName} 的計費方式是什麼？",
       "A1": "您依消耗的 token 付費。每個模型都有各自的輸入、輸出與快取費率，從您帳戶的額度中扣除。按用量付費方案無需任何月費訂閱。",
@@ -759,11 +722,6 @@
       "A7": "可以。每個方案都能在主流角色扮演用戶端中作為自訂 OpenAI 相容來源使用。SillyTavern、Janitor.AI、RisuAI 與 Chub 在文件中都有各自的設定指南。",
       "Q8": "對話或角色歷史可以保留多長？",
       "A8": "{appName} 支援每個模型的完整上下文視窗，Gemini 最高 1M tokens，Claude 最高 200k tokens。長篇角色扮演與大型程式碼庫都能從容應對。"
-    },
-    "TOPUP": {
-      "LABEL": "按量儲值",
-      "DESC": "不想訂閱？直接儲值使用。",
-      "FOOTNOTE": "餘額永不過期。"
     }
   },
   "DOCS_INDEX": {
@@ -774,29 +732,34 @@
     },
     "BADGE": "整合",
     "TITLE": "整合",
-    "SUBTITLE": "將 {appName} 搭配您愛用的 AI 工具使用。從下方挑選一份指南開始。",
-    "QUICK_START": "快速開始",
+    "SUBTITLE": "在你喜愛的 AI 工具中使用 {appName}。瀏覽下方的 {count} 篇設定指南，選擇適合你用戶端的那一篇。",
     "VIEW_GUIDE": "查看完整指南",
     "CTA_TITLE": "準備好開始了嗎？",
     "CTA_DESC": "取得您的 API 金鑰，即可搭配以下任一工具使用 {appName}。",
     "CTA_SIGNUP": "註冊取得 API 金鑰",
     "CTA_DASHBOARD": "前往儀表板",
-    "CTA_MODELS": "查看所有模型"
+    "CTA_MODELS": "查看所有模型",
+    "PATHS_TITLE": "熱門路徑",
+    "PATHS_DESC": "從你要連接的對象開始。直接跳到正確的基礎 URL、路由與模型設定。",
+    "PATH_ROLEPLAY_TITLE": "角色扮演用戶端",
+    "PATH_ROLEPLAY_DESC": "SillyTavern、Janitor.AI、Chub 與 RisuAI。",
+    "PATH_CODING_TITLE": "程式設計代理",
+    "PATH_CODING_DESC": "OpenCode、Cline、Roo Code、Kilo Code、Zed 等。",
+    "PATH_GENERAL_TITLE": "聊天用戶端",
+    "PATH_GENERAL_DESC": "桌面應用程式、網頁介面以及通用的 OpenAI 相容用戶端。",
+    "GUIDE_COUNT_ONE": "{count} 篇指南",
+    "GUIDE_COUNT_OTHER": "{count} 篇指南",
+    "FALLBACK_EYEBROW": "沒看到你的用戶端？",
+    "FALLBACK_TITLE": "大多數 OpenAI 相容用戶端開箱即用。",
+    "FALLBACK_DESC": "{appName} 遵循 OpenAI Chat Completions、Anthropic Messages 與 OpenAI Responses 格式。任何允許你設定自訂基礎 URL 與 API 金鑰的用戶端都能使用。使用基礎 URL 並從目錄中選擇任意模型。",
+    "FALLBACK_MODELS": "瀏覽模型",
+    "FALLBACK_DISCORD": "在 Discord 提問",
+    "PATH_CLI_TITLE": "CLI 工具",
+    "PATH_CLI_DESC": "Aider、Codex、Gemini CLI、OpenClaw 和終端代理。"
   },
   "DOCS_SIDEBAR": {
     "TITLE": "文件",
-    "AI_APPLICATIONS": "AI 應用",
-    "GROUP_CLI": "CLI 工具",
-    "GROUP_ROLEPLAY": "角色扮演用戶端",
-    "CC_SWITCH": "CC Switch",
-    "OPENCLAW": "OpenClaw",
-    "CLAUDE_CODE": "Claude Code",
-    "CODEX_CLI": "Codex CLI",
-    "GEMINI_CLI": "Gemini CLI",
-    "SILLYTAVERN": "SillyTavern",
-    "JANITOR_AI": "Janitor.AI",
-    "RISUAI": "RisuAI",
-    "CHUB": "Chub / Venus"
+    "AI_APPLICATIONS": "AI 應用"
   },
   "DOCS": {
     "SETUP": {
@@ -806,8 +769,7 @@
       "CLI_ALT": "或使用 CC Switch CLI：",
       "NO_APP": "還沒有 CC Switch？",
       "INSTALL_LINK": "安裝 CC Switch",
-      "LOGIN_REQUIRED": "登入以自動填入 API 金鑰",
-      "CREATE_KEY": "請先建立一把 API 金鑰"
+      "LOGIN_REQUIRED": "登入以自動填入 API 金鑰"
     },
     "CONFIG": {
       "FILE_LABEL": "永久設定檔（建議）",
@@ -821,6 +783,38 @@
       "LINUX": "Linux"
     },
     "TOC_TITLE": "本頁內容",
+    "SETUP_GUIDE": {
+      "OVERVIEW": "概覽",
+      "QUICK_CONFIG": "快速設定",
+      "QUICK_CONFIG_DESC": "將這些值填入用戶端。登入後會自動填入你的金鑰。",
+      "BASE_URL_LABEL": "基礎 URL",
+      "API_KEY_LABEL": "API 金鑰",
+      "STEPS": "逐步設定",
+      "COMPATIBILITY": "相容性",
+      "RECOMMENDED_MODELS": "推薦模型",
+      "RECOMMENDED_MODELS_DESC": "在這裡表現良好的免費模型。把任意模型 ID 貼到用戶端即可。",
+      "GOTCHAS": "注意事項",
+      "TOC_OVERVIEW": "概覽",
+      "TOC_QUICK_CONFIG": "快速設定",
+      "TOC_STEPS": "設定步驟",
+      "TOC_COMPATIBILITY": "相容性",
+      "TOC_MODELS": "推薦模型",
+      "TOC_GOTCHAS": "注意事項",
+      "COMPAT_CHAT_COMPLETIONS": "Chat Completions",
+      "COMPAT_MESSAGES": "Anthropic Messages",
+      "COMPAT_RESPONSES": "Responses API",
+      "COMPAT_STREAMING": "串流",
+      "COMPAT_TOOL_CALLING": "工具呼叫",
+      "COMPAT_IMAGES": "影像輸入",
+      "CATEGORY_CODING": "程式設計代理",
+      "CATEGORY_ROLEPLAY": "角色扮演用戶端",
+      "CATEGORY_GENERAL": "聊天用戶端",
+      "CATEGORY_CLI": "命令列工具",
+      "CATEGORY_CODING_DESC": "透過 API 撰寫並執行程式碼的編輯器與代理。",
+      "CATEGORY_ROLEPLAY_DESC": "角色聊天與角色扮演前端。",
+      "CATEGORY_GENERAL_DESC": "通用聊天應用程式與桌面用戶端。",
+      "CATEGORY_CLI_DESC": "終端機工具與命令列代理。"
+    },
     "GENERATE_API_KEY": "產生 API 金鑰",
     "GENERATE_API_KEY_DESC": "產生一把 API 金鑰以開始使用",
     "CC_SWITCH": {
@@ -1019,6 +1013,7 @@
       "BADGE": "Codex CLI",
       "TITLE": "OpenAI Codex CLI 設定指南",
       "SUBTITLE": "循序漸進的指南，教您如何在 Windows、macOS 與 Linux 上搭配 {appName} 安裝並設定 Codex CLI。",
+      "OVERVIEW_DESC": "Codex CLI 是 OpenAI 的終端機編碼代理，透過沙箱化、可審閱的修補檔在專案中讀取、寫入並執行程式碼。將其自訂供應商指向 {appName} 的基礎 URL，你就能用目錄中的任意模型來驅動它，而不僅限於 OpenAI 的模型。",
       "PROJECT_INTRO_TITLE": "什麼是 Codex CLI？",
       "PROJECT_INTRO": "Codex CLI 是 OpenAI 推出的程式代理，可直接在您本機電腦上執行。",
       "PROJECT_OFFICIAL": "官方網站",
@@ -1117,7 +1112,17 @@
       "CTA_DESC": "取得您的 API 金鑰，開始搭配 Codex CLI 使用 {appName}。",
       "CTA_SIGNUP": "註冊取得 API 金鑰",
       "CTA_DASHBOARD": "前往儀表板",
-      "CTA_MODELS": "查看所有模型"
+      "CTA_MODELS": "查看所有模型",
+      "STEP_1_TITLE": "安裝 Codex CLI",
+      "STEP_1_DESC": "使用 npm 全域安裝 Codex CLI。",
+      "STEP_2_TITLE": "設定模型提供者",
+      "STEP_2_DESC": "編輯 `~/.codex/config.toml` 讓 Codex 指向 {appName}。設定你的模型 ID，並使用 responses wire API 加入一個使用 {appName} 基礎 URL 的自訂提供者。",
+      "STEP_3_TITLE": "加入 API 金鑰",
+      "STEP_3_DESC": "將你的 {appName} API 金鑰寫入 `~/.codex/auth.json`，讓 Codex 為每個請求進行認證。",
+      "STEP_4_TITLE": "啟動 Codex",
+      "STEP_4_DESC": "在專案目錄中執行 `codex` 並開始編碼。",
+      "TS_1_DESC": "如果 Codex 回報不支援的端點，請確認 `wire_api` 設定為 `responses` 且基礎 URL 以 `/v1` 結尾。",
+      "TS_2_DESC": "401 表示 `~/.codex/auth.json` 中的金鑰遺失或已失效。請從 {appName} 儀表板貼上新金鑰並重新執行。"
     },
     "GEMINI_CLI": {
       "META": {
@@ -1128,6 +1133,7 @@
       "BADGE": "Gemini CLI",
       "TITLE": "Gemini CLI 整合",
       "SUBTITLE": "搭配 Gemini CLI 或任何 Google GenAI 相容用戶端使用 {appName}。與 Claude、GPT 並行存取 Gemini 模型。",
+      "OVERVIEW_DESC": "Gemini CLI 是 Google 的開源編碼代理，可直接在終端機中編輯檔案並執行指令。將 {appName} 設為它的基礎 URL，你便能用一個 OpenAI 相容金鑰存取 Gemini、Claude、GPT 以及其他所有模型，而無需僅限 Google 的帳號。",
       "INTRO_TITLE": "什麼是 Gemini CLI？",
       "INTRO_DESC": "Gemini CLI 是 Google 推出的開源 AI 程式代理，可直接在您的終端機中執行，將 Gemini 模型的能力帶入您的開發流程。",
       "QUICK_START": "快速開始",
@@ -1163,7 +1169,15 @@
       "TOC_MACOS_LINUX": "macOS／Linux",
       "TOC_WINDOWS": "Windows",
       "TOC_CONFIGURATION": "設定",
-      "TOC_USAGE": "使用方式"
+      "TOC_USAGE": "使用方式",
+      "STEP_1_TITLE": "安裝 Gemini CLI",
+      "STEP_1_DESC": "使用 npm 全域安裝 Gemini CLI。在 Windows 上，請在 WSL 內執行。",
+      "STEP_2_TITLE": "設定環境變數",
+      "STEP_2_DESC": "建立包含 {appName} API 金鑰的 `~/.gemini/.env`，並將 `GOOGLE_GEMINI_BASE_URL` 設定為 {appName} 的裸基礎 URL。Gemini SDK 會附加自己的路徑，因此不要加入 `/v1`。",
+      "STEP_3_TITLE": "啟動 Gemini",
+      "STEP_3_DESC": "在專案目錄中執行 `gemini` 以開始工作階段。",
+      "TS_1_DESC": "如果請求回傳 404，表示你在基礎 URL 中加入了路徑。`GOOGLE_GEMINI_BASE_URL` 必須是不帶 `/v1` 後綴的裸主機，其餘部分由 SDK 附加。",
+      "TS_2_DESC": "如果認證失敗，請確認 `~/.gemini/.env` 中的 `GEMINI_API_KEY` 是你的 {appName} 金鑰，且該檔案被你的 shell 工作階段讀取。"
     },
     "OPENCLAW": {
       "META": {
@@ -1174,6 +1188,7 @@
       "BADGE": "OpenClaw",
       "TITLE": "OpenClaw 整合",
       "SUBTITLE": "將 {appName} 作為 OpenClaw 代理的模型供應商。一次設定，即可透過 OpenClaw 閘道存取所有模型。",
+      "OVERVIEW_DESC": "OpenClaw 是一個開源代理平台，只需一份設定即可在 Telegram、Discord、Slack 等通道部署自架的 AI 助理。將其 openai 供應商設為 {appName} 的基礎 URL，每個通道都能透過單一 OpenAI 相容金鑰存取完整的模型目錄。",
       "INTRO_TITLE": "什麼是 OpenClaw？",
       "INTRO_DESC": "OpenClaw 是一個開源 AI 代理平台，可讓您部署並管理 AI 助理，支援多通道、可自主代管，並擁有彈性的模型設定能力。",
       "CORE_FEATURES": "核心功能",
@@ -1209,7 +1224,15 @@
       "TOC_INSTALLATION": "安裝",
       "TOC_CONFIGURATION": "設定",
       "TOC_KEY_CONFIG": "關鍵設定細節",
-      "TOC_START_SERVICE": "啟動服務"
+      "TOC_START_SERVICE": "啟動服務",
+      "STEP_1_TITLE": "安裝並初始化",
+      "STEP_1_DESC": "使用 npm 全域安裝 OpenClaw，然後執行 `openclaw onboard` 來產生設定。",
+      "STEP_2_TITLE": "將提供者指向 {appName}",
+      "STEP_2_DESC": "編輯 `~/.openclaw/config.json`，讓 openai 提供者使用 {appName} 的基礎 URL，並從 `OPENAI_API_KEY` 環境變數讀取 API 金鑰。在 agents 下設定你的預設模型。",
+      "STEP_3_TITLE": "啟動 OpenClaw",
+      "STEP_3_DESC": "執行 `openclaw start` 以針對 {appName} 啟動代理。",
+      "TS_1_DESC": "如果 OpenClaw 無法存取 API，請確認 `providers.openai.baseUrl` 以 `/v1` 結尾，且 `OPENAI_API_KEY` 已在同一 shell 中匯出。",
+      "TS_2_DESC": "如果模型被拒絕，請將 `agents.defaults.model.primary` 設定為帶 `openai/` 前綴的有效 ID，並從 {appName} 模型頁面精確複製。"
     },
     "HERMES": {
       "META": {
@@ -1220,6 +1243,7 @@
       "BADGE": "Hermes Agent",
       "TITLE": "Hermes Agent 整合",
       "SUBTITLE": "將 {appName} 用作 Hermes Agent 的模型提供方。將一個 OpenAI 相容端點指向 {appName}，即可存取所有模型。",
+      "OVERVIEW_DESC": "Nous Research 的 Hermes Agent 是一個自我改進的 AI 代理，可作為 CLI、TUI、訊息閘道或 IDE 整合執行，並具備持久的磁碟記憶。將其供應商設為 custom，並把基礎 URL 指向 {appName}，即可透過一個服務所有模型的 OpenAI 相容端點路由每一輪對話。",
       "INTRO_TITLE": "什麼是 Hermes Agent？",
       "INTRO_DESC": "Nous Research 的 Hermes Agent 是一個開源、可自我改進的 AI 代理。它可在終端機、訊息閘道與 IDE 整合中執行，將持久記憶保存在磁碟上，並可與任何 OpenAI 相容端點搭配使用。",
       "CORE_FEATURES": "核心功能",
@@ -1261,7 +1285,17 @@
       "TOC_CONFIGURATION": "設定",
       "TOC_KEY_CONFIG": "關鍵設定項目",
       "TOC_CLI_ALT": "CLI 替代方式",
-      "TOC_RUN": "執行 Hermes"
+      "TOC_RUN": "執行 Hermes",
+      "STEP_1_TITLE": "安裝 Hermes",
+      "STEP_1_DESC": "執行安裝指令稿來設定 Hermes Agent。在 Windows 上，請在 WSL2 內安裝。",
+      "STEP_2_TITLE": "將提供者指向 {appName}",
+      "STEP_2_DESC": "編輯 `~/.hermes/config.yaml`，將 `model.provider` 設為 `custom`，並將 `model.base_url` 設為 {appName} 的基礎 URL。請選擇上下文至少為 64k 的預設模型。",
+      "STEP_3_TITLE": "加入 API 金鑰",
+      "STEP_3_DESC": "將你的 {appName} API 金鑰以 `OPENAI_API_KEY` 形式存入 `~/.hermes/.env`，讓 Hermes 在每一輪都進行認證。",
+      "STEP_4_TITLE": "執行 Hermes",
+      "STEP_4_DESC": "使用 `hermes --tui` 啟動 TUI 並開始工作。",
+      "TS_1_DESC": "Hermes 在啟動時會拒絕上下文低於 64,000 個 token 的模型。請從 {appName} 模型頁面選擇上下文更大的模型。",
+      "TS_2_DESC": "如果啟動時的 `/v1/models` 檢查失敗，請確認 `model.base_url` 以 `/v1` 結尾，且 `OPENAI_API_KEY` 已在 `~/.hermes/.env` 中設定。"
     },
     "SILLYTAVERN": {
       "META": {
@@ -1323,7 +1357,11 @@
       "TOC_QUICK_CONFIG": "快速設定",
       "TOC_STEPS": "逐步設定",
       "TOC_MODELS_DROPDOWN": "模型下拉式選單的行為",
-      "TOC_TROUBLESHOOTING": "疑難排解"
+      "TOC_TROUBLESHOOTING": "疑難排解",
+      "GOTCHA_1": "只貼上以 `/v1` 結尾的基礎 URL。SillyTavern 會自行附加 `/chat/completions`；如果你自己加入，會回傳 400 錯誤。",
+      "GOTCHA_2": "如果模型下拉選單為空，表示連線失敗。請重新檢查基礎 URL，然後啟用 Bypass API Status Check，讓 SillyTavern 不再中斷清單載入。",
+      "GOTCHA_3": "401 表示金鑰已過期或輸入有誤。請在 {appName} 儀表板產生新金鑰，貼上時不要帶前後空白。",
+      "GOTCHA_4": "如果串流輸出在句子中途中斷，請關閉 Streaming 以確認問題出在串流端，然後重新啟用它。會移除 `data:` 前綴的企業代理也可能導致此問題。"
     },
     "JANITOR_AI": {
       "META": {
@@ -1387,7 +1425,12 @@
       "TOC_STEPS": "逐步設定",
       "TOC_REFRESH_SAVE": "為什麼必須強制重新整理",
       "TOC_KEY_INVISIBILITY": "請另外保存你的 API 金鑰",
-      "TOC_TROUBLESHOOTING": "疑難排解"
+      "TOC_TROUBLESHOOTING": "疑難排解",
+      "GOTCHA_1": "請貼上以 `/v1/chat/completions` 結尾的完整 Proxy URL，而不僅是基礎 URL。如果 Janitor 顯示 'Add /chat/completions to URL' 核取方塊，請保持關閉。",
+      "GOTCHA_2": "Janitor.AI 在頁面載入時快取代理對應，因此已儲存的設定只有在強制重新整理後才會生效。請在測試前按 Ctrl+Shift+R 或 Cmd+Shift+R。",
+      "GOTCHA_3": "Janitor 在儲存後會遮罩 API 金鑰且不再顯示。請先將金鑰儲存到密碼管理器，以便輪換時無需重新產生金鑰。",
+      "GOTCHA_4": "''Free tier limit reached'' 橫幅是 Janitor 內建的層級，而非 {appName}。請在模型下拉選單中將聊天切換到你已儲存的代理設定。",
+      "GOTCHA_5": "Model Name 必須與模型 ID 完全一致。請從 {appName} 模型頁面複製貼上，而不要手動重新輸入。"
     },
     "RISUAI": {
       "META": {
@@ -1459,7 +1502,11 @@
       "TOC_STEPS": "逐步設定",
       "TOC_AUTOFILL_WARNING": "為什麼 autofill 開關很重要",
       "TOC_AUX_MODEL": "設定 Auxiliary Model",
-      "TOC_TROUBLESHOOTING": "疑難排解"
+      "TOC_TROUBLESHOOTING": "疑難排解",
+      "GOTCHA_1": "在貼上任何內容之前，請取消勾選 Autofill Request URL。該選項開啟時，RisuAI 會將你的 URL 改寫為它自己的預設值，並悄悄破壞連線。",
+      "GOTCHA_2": "RisuAI 更新可能會自行重新啟用 Autofill Request URL。如果原本可用的設定突然沒有回應，請重新開啟 Custom Models 並確認該開關仍處於關閉狀態。",
+      "GOTCHA_3": "某些 RisuAI 版本同時公開 API Key 欄位和 Authorization 欄位，而每個版本只讀取其中一個。如果出現 401，請將金鑰移到另一個欄位。",
+      "GOTCHA_4": "在 Custom Models 模式下，Model ID 是沒有下拉選單的手動文字欄位。請從 {appName} 模型頁面複製貼上精確的模型名稱，不要手動重新輸入。"
     },
     "CHUB": {
       "META": {
@@ -1526,7 +1573,359 @@
       "TOC_QUICK_CONFIG": "快速設定",
       "TOC_STEPS": "逐步設定",
       "TOC_PICK_MODEL": "模型下拉式選單需要通過代理檢查",
-      "TOC_TROUBLESHOOTING": "疑難排解"
+      "TOC_TROUBLESHOOTING": "疑難排解",
+      "STEP_CONFIG_TITLE": "開啟 Configuration 並選擇 OpenAI",
+      "STEP_CONFIG_DESC": "返回漢堡選單，開啟 Configuration，然後進入 Prompt Structure。將 API 下拉選單設定為 OpenAI，並從模型下拉選單中選擇目標模型。",
+      "GOTCHA_1": "請將以 `/v1/chat/completions` 結尾的完整 URL 貼到 Reverse proxy 欄位。僅使用基礎 URL 會導致 Check your proxy 按鈕失敗。",
+      "GOTCHA_2": "在代理檢查通過之前，Prompt Structure 中的模型下拉選單會一直為空。請先在 Secrets 中執行 Check your proxy，然後返回選擇模型。",
+      "GOTCHA_3": "Chub 在儲存後會遮罩 API 金鑰且無法再複製出來。請在貼上前將金鑰儲存到密碼管理器，以便輪換時無需新金鑰。",
+      "GOTCHA_4": "Chub 的介面會警告來自未經授權第三方的反向代理；那針對的是社群運營的中繼。{appName} 是第一方中繼，因此你的金鑰、紀錄和帳單都保留在 {appName} 上。"
+    },
+    "LIBRECHAT": {
+      "META": {
+        "TITLE": "LibreChat 整合指南 | {appName}",
+        "DESCRIPTION": "透過相容 OpenAI 的自訂端點將 LibreChat 連接到 {appName}。在 librechat.yaml 中加入設定區塊，設定環境變數，模型選擇器即可自動填入。",
+        "KEYWORDS": "LibreChat，LibreChat 自訂端點，LibreChat OpenAI 相容，{appName} LibreChat，自架聊天介面"
+      },
+      "BADGE": "LibreChat",
+      "TITLE": "LibreChat 整合指南",
+      "SUBTITLE": "透過相容 OpenAI 的自訂端點將 {appName} 連接到 LibreChat。",
+      "OVERVIEW_DESC": "LibreChat 透過 endpoints.custom 公開任何相容 OpenAI 的主機。加入一個 {appName} 設定區塊，設定環境變數，模型選擇器即可從目錄自動填入。",
+      "STEP_1_TITLE": "編輯 librechat.yaml",
+      "STEP_1_DESC": "在你的 LibreChat 安裝中，於 endpoints.custom 下加入一個自訂端點設定區塊。",
+      "STEP_2_TITLE": "加入環境變數",
+      "STEP_2_DESC": "在 LibreChat 的 .env 檔案中設定你的 {appName} API 金鑰。",
+      "STEP_3_TITLE": "重新啟動 LibreChat",
+      "STEP_3_DESC": "重新啟動容器或程序。{appName} 端點會出現在聊天下拉選單中。",
+      "TS_1_DESC": "環境變數的值請使用單大括號語法，而不是某些其他設定使用的密鑰語法。",
+      "TS_2_DESC": "如果某個模型拒絕額外的 OpenAI 參數，請將它們加入 dropParams（例如 frequency_penalty 和 presence_penalty）。",
+      "TS_3_DESC": "fetch: true 會從 {appName} 目錄自動填入。與 default 結合可優先顯示偏好模型。"
+    },
+    "OPEN_WEBUI": {
+      "META": {
+        "TITLE": "Open WebUI 整合指南 | {appName}",
+        "DESCRIPTION": "在管理面板中將 Open WebUI 作為 OpenAI 連線加入 {appName}。模型選擇器會從目錄自動填入。",
+        "KEYWORDS": "Open WebUI，Open WebUI OpenAI 連線，{appName} Open WebUI，自架 ChatGPT 介面"
+      },
+      "BADGE": "Open WebUI",
+      "TITLE": "Open WebUI 整合指南",
+      "SUBTITLE": "將 {appName} 作為原生 OpenAI 連線加入 Open WebUI。",
+      "OVERVIEW_DESC": "Open WebUI 允許管理員加入多個相容 OpenAI 的連線。加入 {appName}，模型選擇器即可從目錄自動填入。",
+      "STEP_1_TITLE": "開啟管理面板",
+      "STEP_1_DESC": "以管理員身分登入，開啟 Admin Panel，進入 Settings，然後 Connections。",
+      "STEP_2_TITLE": "加入新的 OpenAI 連線",
+      "STEP_2_DESC": "在 OpenAI API 下，點擊 + 按鈕加入連線。",
+      "STEP_3_TITLE": "填寫連線",
+      "STEP_3_DESC": "輸入基礎 URL 和你的 {appName} API 金鑰。",
+      "STEP_4_TITLE": "儲存並選擇模型",
+      "STEP_4_DESC": "儲存連線。模型選擇器會自動載入 {appName} 目錄。",
+      "TS_1_DESC": "範圍較廣的金鑰可能回傳大量模型。如果下拉選單變得擁擠，請使用 Open WebUI 的模型篩選器或經過篩選的金鑰。",
+      "TS_2_DESC": "Open WebUI 還有一個獨立的 Ollama 連線清單。請確保你加入的是 OpenAI API，而不是 Ollama。"
+    },
+    "LOBECHAT": {
+      "META": {
+        "TITLE": "LobeChat 整合指南 | {appName}",
+        "DESCRIPTION": "透過 Add Custom Provider 或 Docker 環境變數將 LobeChat 連接到 {appName}。適用於任何模型的精緻開源 Web 用戶端。",
+        "KEYWORDS": "LobeChat，LobeChat 自訂供應商，{appName} LobeChat，開源 Web 聊天"
+      },
+      "BADGE": "LobeChat",
+      "TITLE": "LobeChat 整合指南",
+      "SUBTITLE": "透過自訂供應商或 Docker 環境變數將 {appName} 連接到 LobeChat。",
+      "OVERVIEW_DESC": "LobeChat 透過環境變數或其 Add Custom Provider 介面支援任何相容 OpenAI 的主機。與 {appName} 搭配可獲得精緻的本機 Web 用戶端。",
+      "STEP_1_TITLE": "開啟 Settings，然後 Language Model",
+      "STEP_1_DESC": "點擊 Add Custom Provider 並填寫表單。",
+      "STEP_2_TITLE": "加入模型",
+      "STEP_2_DESC": "儲存供應商，然後加入你想要的 {appName} 模型。LobeChat 會在模型選擇器中顯示它們。",
+      "STEP_3_TITLE": "選用：Docker 環境變數",
+      "STEP_3_DESC": "如果你自架，請在容器執行時設定 OpenAI 環境變數。",
+      "TS_1_DESC": "若要在 {appName} 之外保留原生 OpenAI，請使用 Add Custom Provider，而不是 OpenAI 環境變數。",
+      "TS_2_DESC": "Provider ID 必須為小寫。unorouter 可用，UnoRouter 不可用。"
+    },
+    "ANYTHINGLLM": {
+      "META": {
+        "TITLE": "AnythingLLM 整合指南 | {appName}",
+        "DESCRIPTION": "將 AnythingLLM 作為 Generic OpenAI 供應商連接到 {appName}。輸入模型，設定上下文視窗，儲存。",
+        "KEYWORDS": "AnythingLLM，AnythingLLM Generic OpenAI，{appName} AnythingLLM，自架 RAG"
+      },
+      "BADGE": "AnythingLLM",
+      "TITLE": "AnythingLLM 整合指南",
+      "SUBTITLE": "將 {appName} 作為 Generic OpenAI 供應商連接到 AnythingLLM。",
+      "OVERVIEW_DESC": "AnythingLLM 將 {appName} 視為 Generic OpenAI 供應商。輸入模型，設定上下文視窗並儲存。",
+      "STEP_1_TITLE": "開啟 LLM Preference",
+      "STEP_1_DESC": "在側邊欄點擊 Settings，然後 LLM Preference。",
+      "STEP_2_TITLE": "選擇 Generic OpenAI",
+      "STEP_2_DESC": "將 LLM Provider 設定為 Generic OpenAI 並填寫表單。",
+      "STEP_3_TITLE": "儲存",
+      "STEP_3_DESC": "點擊儲存。AnythingLLM 會在聊天工作區中使用 {appName}。",
+      "TS_1_DESC": "AnythingLLM 不會為 Generic OpenAI 自動取得目錄。請手動輸入模型名稱和上下文視窗。",
+      "TS_2_DESC": "Embedding Preference 分頁是獨立的。除非 {appName} 在你的方案中提供 embeddings，否則請保留一個可用的 embedding 供應商。"
+    },
+    "CHERRY_STUDIO": {
+      "META": {
+        "TITLE": "Cherry Studio 整合指南 | {appName}",
+        "DESCRIPTION": "將 Cherry Studio 作為 OpenAI 供應商連接到 {appName}。加入主機和金鑰，然後載入你想要的模型。",
+        "KEYWORDS": "Cherry Studio，Cherry Studio OpenAI 供應商，{appName} Cherry Studio，跨平台桌面聊天"
+      },
+      "BADGE": "Cherry Studio",
+      "TITLE": "Cherry Studio 整合指南",
+      "SUBTITLE": "將 {appName} 作為 OpenAI 供應商連接到 Cherry Studio。",
+      "OVERVIEW_DESC": "Cherry Studio 在一個介面中支援多個供應商。將 {appName} 加入為 OpenAI 供應商，並將你想要的模型作為個別項目載入。",
+      "STEP_1_TITLE": "開啟 Model Provider",
+      "STEP_1_DESC": "進入 Settings，然後 Model Provider，點擊 Add Provider。",
+      "STEP_2_TITLE": "選擇 OpenAI",
+      "STEP_2_DESC": "將供應商類型設定為 OpenAI。填寫名稱、主機和金鑰。",
+      "STEP_3_TITLE": "加入模型",
+      "STEP_3_DESC": "在 Models 下點擊 Manage，然後 Add Model。貼上 {appName} 模型 ID，每行一個。",
+      "TS_1_DESC": "使用 OpenAI 供應商類型，並在主機中自行包含 /v1。某些其他類型會嘗試加入自己的路徑。",
+      "TS_2_DESC": "Cherry 的 Test 按鈕會向 chat completions 傳送一個單 token 的請求。推理模型可能回報 length 結束，但這仍然能確認身分驗證。"
+    },
+    "TYPINGMIND": {
+      "META": {
+        "TITLE": "TypingMind 整合指南 | {appName}",
+        "DESCRIPTION": "透過貼上相容 OpenAI 的自訂端點將 TypingMind 連接到 {appName}。使用任何模型。",
+        "KEYWORDS": "TypingMind，TypingMind 自訂模型，{appName} TypingMind，BYOK Web 前端"
+      },
+      "BADGE": "TypingMind",
+      "TITLE": "TypingMind 整合指南",
+      "SUBTITLE": "將 {appName} 作為相容 OpenAI 的自訂模型連接到 TypingMind。",
+      "OVERVIEW_DESC": "TypingMind 允許你將任何相容 OpenAI 的端點貼上為自訂模型。加入 {appName}，即可使用目錄中的任何模型。",
+      "STEP_1_TITLE": "開啟 Models",
+      "STEP_1_DESC": "點擊齒輪圖示，進入 Models，然後 Add Custom Models。",
+      "STEP_2_TITLE": "選擇 OpenAI 作為 API 類型",
+      "STEP_2_DESC": "TypingMind 對自訂端點使用 OpenAI Chat Completions 架構。",
+      "STEP_3_TITLE": "填寫端點",
+      "STEP_3_DESC": "輸入基礎 URL、你的 {appName} API 金鑰和一個模型 ID。",
+      "STEP_4_TITLE": "測試並加入",
+      "STEP_4_DESC": "僅當你的模型支援時才開啟 Plugins 或 Vision。點擊 Test，然後 Add Model。",
+      "TS_1_DESC": "Plugins（函式呼叫）僅在具有原生工具支援的模型上有效。外掛驅動的流程請選擇支援工具的模型。",
+      "TS_2_DESC": "Vision 開關僅在支援影像輸入的模型上有效。啟用前請查看目錄。"
+    },
+    "BOLTAI": {
+      "META": {
+        "TITLE": "BoltAI 整合指南 | {appName}",
+        "DESCRIPTION": "將 BoltAI 作為相容 OpenAI 的自訂伺服器連接到 {appName}。在任何 macOS 應用程式中浮現 AI。",
+        "KEYWORDS": "BoltAI，BoltAI OpenAI 相容，{appName} BoltAI，macOS AI 助手"
+      },
+      "BADGE": "BoltAI",
+      "TITLE": "BoltAI 整合指南",
+      "SUBTITLE": "將 {appName} 作為相容 OpenAI 的自訂伺服器連接到 BoltAI。",
+      "OVERVIEW_DESC": "BoltAI 將 AI 帶入任何 macOS 應用程式。將 {appName} 加入為相容 OpenAI 的自訂伺服器，並選擇你想要的模型。",
+      "STEP_1_TITLE": "開啟 Models 設定",
+      "STEP_1_DESC": "開啟 BoltAI 設定，進入 Models，點擊 +，選擇 OpenAI-compatible Server。",
+      "STEP_2_TITLE": "填寫伺服器",
+      "STEP_2_DESC": "輸入名稱、基礎 URL、金鑰、模型 ID 和上下文長度。",
+      "STEP_3_TITLE": "開啟串流",
+      "STEP_3_DESC": "開啟 Streaming，讓 BoltAI 在 token 到達時即時顯示。",
+      "TS_1_DESC": "BoltAI 不會為此連接器自動取得模型清單。每個 {appName} 模型都是一筆手動項目。",
+      "TS_2_DESC": "請手動設定上下文長度。省略它可能會截斷較長的提示或回覆。"
+    },
+    "PAGE_ASSIST": {
+      "META": {
+        "TITLE": "Page Assist 整合指南 | {appName}",
+        "DESCRIPTION": "將 Page Assist 作為相容 OpenAI 的自訂 API 連接到 {appName}。在瀏覽器側邊欄中使用 AI。",
+        "KEYWORDS": "Page Assist，Page Assist OpenAI 相容，{appName} Page Assist，瀏覽器 AI 擴充功能"
+      },
+      "BADGE": "Page Assist",
+      "TITLE": "Page Assist 整合指南",
+      "SUBTITLE": "將 {appName} 作為相容 OpenAI 的自訂 API 連接到 Page Assist。",
+      "OVERVIEW_DESC": "Page Assist 在瀏覽器側邊欄中執行。將 {appName} 加入為相容 OpenAI 的自訂 API，並選擇你想要的模型。",
+      "STEP_1_TITLE": "開啟 Page Assist 設定",
+      "STEP_1_DESC": "點擊工具列中的 Page Assist 圖示，開啟齒輪圖示進入設定。",
+      "STEP_2_TITLE": "加入自訂 OpenAI 供應商",
+      "STEP_2_DESC": "進入 OpenAI Compatible API，點擊 Add Provider，然後 Custom。",
+      "STEP_3_TITLE": "填寫供應商",
+      "STEP_3_DESC": "輸入供應商名稱、基礎 URL 和你的 {appName} API 金鑰。",
+      "STEP_4_TITLE": "加入模型",
+      "STEP_4_DESC": "在 Page Assist 中開啟 Models 區段，加入你想要對話的 {appName} 模型。",
+      "TS_1_DESC": "自訂供應商不會自動探索模型。請手動加入。",
+      "TS_2_DESC": "自動探索僅適用於 LM Studio 和 Ollama 等內建供應商。"
+    },
+    "CHATBOX": {
+      "META": {
+        "TITLE": "Chatbox 整合指南 | {appName}",
+        "DESCRIPTION": "使用 OpenAI API Compatible 模式將 Chatbox 連接到 {appName}。將 URL 拆分為 Host 和 Path。",
+        "KEYWORDS": "Chatbox，Chatbox OpenAI 相容，{appName} Chatbox，跨平台聊天用戶端"
+      },
+      "BADGE": "Chatbox",
+      "TITLE": "Chatbox 整合指南",
+      "SUBTITLE": "使用 OpenAI API Compatible 模式將 {appName} 連接到 Chatbox。",
+      "OVERVIEW_DESC": "Chatbox 支援任何相容 OpenAI 的基礎位址。使用 OpenAI API Compatible 模式，並將 URL 拆分為 Host 和 Path。",
+      "STEP_1_TITLE": "開啟 Add Custom Provider",
+      "STEP_1_DESC": "點擊 Settings，然後 Display，然後 AI Provider，然後 Add Custom Provider。",
+      "STEP_2_TITLE": "選擇 OpenAI API Compatible 模式",
+      "STEP_2_DESC": "除非你特別需要 Responses 路由，否則不要選擇 Responses API 選項。",
+      "STEP_3_TITLE": "拆分主機和路徑",
+      "STEP_3_DESC": "Chatbox 需要將 Host 和 Path 作為獨立欄位。將 chat completions 路徑放入 API Path。",
+      "STEP_4_TITLE": "加入模型",
+      "STEP_4_DESC": "在 Models 區段加入你想要的 {appName} 模型。",
+      "TS_1_DESC": "在 Host 中放 /v1 而 Path 留空是行不通的。請將完整的 chat completions 路徑保留在 API Path 中。",
+      "TS_2_DESC": "除非你特別需要 Responses 規範，否則請使用 OpenAI API Compatible，而不是 OpenAI Responses API Compatible。"
+    },
+    "BIG_AGI": {
+      "META": {
+        "TITLE": "Big-AGI 整合指南 | {appName}",
+        "DESCRIPTION": "將 Big-AGI 作為 OpenAI 來源連接到 {appName}。Big-AGI 會自動取得目錄。",
+        "KEYWORDS": "Big-AGI，Big-AGI OpenAI 來源，{appName} Big-AGI，Web AI 工作台"
+      },
+      "BADGE": "Big-AGI",
+      "TITLE": "Big-AGI 整合指南",
+      "SUBTITLE": "將 {appName} 作為自訂 OpenAI 來源連接到 Big-AGI。",
+      "OVERVIEW_DESC": "Big-AGI 的 OpenAI 供應商接受自訂 API 端點。加入 {appName}，Big-AGI 會自動取得模型目錄。",
+      "STEP_1_TITLE": "開啟 Models",
+      "STEP_1_DESC": "點擊 Models 和 Add a model source。選擇 OpenAI。",
+      "STEP_2_TITLE": "填寫來源",
+      "STEP_2_DESC": "輸入你的 {appName} API 金鑰和 API 端點。",
+      "STEP_3_TITLE": "重新整理模型",
+      "STEP_3_DESC": "點擊 Models 按鈕重新整理清單。Big-AGI 會載入 {appName} 目錄。",
+      "TS_1_DESC": "將 Helicone Key 留空。加入它會強制主機指向另一個網域。",
+      "TS_2_DESC": "停用 Moderation 開關。{appName} 不提供審核端點。"
+    },
+    "OPENCODE": {
+      "META": {
+        "TITLE": "OpenCode 設定指南 | {appName}",
+        "DESCRIPTION": "透過在 opencode.json 中加入相容 OpenAI 的自訂提供者，將 OpenCode 連接到 {appName}。提供帶有精確基礎 URL 的逐步設定。",
+        "KEYWORDS": "OpenCode，OpenCode 設定，OpenCode 提供者，{appName} OpenCode，編碼代理，OpenAI 相容"
+      },
+      "BADGE": "OpenCode",
+      "TITLE": "OpenCode 設定指南",
+      "SUBTITLE": "將 {appName} 加入為 OpenCode 的自訂提供者，並選擇任意模型作為目前的編碼代理。",
+      "OVERVIEW_DESC": "OpenCode 從 JSON 設定檔讀取其提供者。使用相容 OpenAI 的轉接器將 {appName} 加入為自訂提供者，即可選擇任意 {appName} 模型作為目前模型。",
+      "STEP_1_TITLE": "開啟 OpenCode 設定檔",
+      "STEP_1_DESC": "在 OpenCode 中按 Ctrl + O 並貼上路徑。在 Windows 上，將 YOUR_USER 換成你的 Windows 使用者名稱。",
+      "STEP_2_TITLE": "取代檔案內容",
+      "STEP_2_DESC": "清空檔案並貼上 {appName} 提供者設定區塊。填入你的 {appName} API 金鑰，並從目錄中選擇任意模型。",
+      "STEP_3_TITLE": "儲存並重新載入",
+      "STEP_3_DESC": "按 Ctrl + S 儲存，然後按 Ctrl + Shift + P 執行 Developer: Reload Window。重新載入後 OpenCode 會辨識新的提供者。",
+      "STEP_4_TITLE": "選擇模型",
+      "STEP_4_DESC": "在 OpenCode 中開啟模型選擇器並切換到你加入的模型。相容 OpenAI 的轉接器會自動處理串流與工具呼叫。",
+      "GOTCHA_1": "OpenCode 在底層使用 npm 的 @ai-sdk/openai-compatible 轉接器，因此你可以在 \"models\" 下持續加入模型而無需重新啟動。",
+      "GOTCHA_2": "如果 Developer: Reload Window 未顯示你的提供者，請再次檢查 JSON 在儲存時是否沒有多餘的尾端逗號。",
+      "GOTCHA_3": "請使用 {appName} 目錄中的精確模型 ID。如果複製貼上時加上了前導提供者前綴，請將其移除。"
+    },
+    "KILO_CODE": {
+      "META": {
+        "TITLE": "Kilo Code 設定指南 | {appName}",
+        "DESCRIPTION": "透過在 VSCode 側邊欄中加入相容 OpenAI 的自訂提供者，將 Kilo Code 連接到 {appName}。提供逐步設定。",
+        "KEYWORDS": "Kilo Code，Kilo Code 設定，VSCode 編碼代理，{appName} Kilo Code，自訂提供者，OpenAI 相容"
+      },
+      "BADGE": "Kilo Code",
+      "TITLE": "Kilo Code 設定指南",
+      "SUBTITLE": "無需離開編輯器，直接在 Kilo Code 的 VSCode 側邊欄中連接 {appName} 自訂提供者。",
+      "OVERVIEW_DESC": "Kilo Code 是一個 VSCode 擴充功能，可讓你直接在側邊欄中連接相容 OpenAI 的自訂提供者。{appName} 無需離開編輯器即可使用。",
+      "STEP_1_TITLE": "安裝 Kilo Code",
+      "STEP_1_DESC": "開啟 VSCode，進入擴充功能面板，搜尋 Kilo Code 並安裝。",
+      "STEP_2_TITLE": "開啟設定",
+      "STEP_2_DESC": "點選側邊欄中的 Kilo Code 圖示，然後點選面板右上角的齒輪圖示。",
+      "STEP_3_TITLE": "加入自訂提供者",
+      "STEP_3_DESC": "開啟 Providers，點選 Custom Provider 旁邊的 + Connect，然後填寫表單。",
+      "STEP_4_TITLE": "填寫連線表單",
+      "STEP_4_DESC": "請使用以下精確值。模型欄位接受 {appName} 目錄中的任意模型 ID。",
+      "STEP_5_TITLE": "儲存並聊天",
+      "STEP_5_DESC": "點選 Save Provider。Kilo Code 會在下一次代理執行中使用新的提供者。",
+      "GOTCHA_1": "如果貼上金鑰後只剩幾個字元，那是該欄位在你輸入時進行了遮罩。點選眼睛圖示以確認完整金鑰已貼上。",
+      "GOTCHA_2": "404 unknown API route 通常表示模型 ID 有誤。請從 {appName} 模型清單中選擇一個。",
+      "GOTCHA_3": "保持 Supports tools 處於開啟狀態，以便 Kilo 可以執行 shell、檔案編輯與搜尋工具。"
+    },
+    "ZED": {
+      "META": {
+        "TITLE": "Zed IDE 設定指南 | {appName}",
+        "DESCRIPTION": "透過加入相容 OpenAI 的自訂提供者，將 Zed 編輯器代理連接到 {appName}。提供逐步設定。",
+        "KEYWORDS": "Zed，Zed IDE，Zed 代理，{appName} Zed，自訂提供者，OpenAI 相容編輯器"
+      },
+      "BADGE": "Zed IDE",
+      "TITLE": "Zed IDE 設定指南",
+      "SUBTITLE": "將 {appName} 加入為 Zed 中相容 OpenAI 的自訂提供者，內建代理會處理其餘工作。",
+      "OVERVIEW_DESC": "Zed 擁有內建的代理面板。將 {appName} 加入為相容 OpenAI 的自訂提供者，Zed 會處理其餘工作。",
+      "STEP_1_TITLE": "開啟 Zed 助手",
+      "STEP_1_DESC": "開啟 Zed，從右側邊欄顯示助手面板。",
+      "STEP_2_TITLE": "開啟代理設定",
+      "STEP_2_DESC": "點選助手齒輪，前往右上角的 Add Provider。",
+      "STEP_3_TITLE": "設定提供者",
+      "STEP_3_DESC": "選擇相容 OpenAI 的選項並使用以下值。",
+      "STEP_4_TITLE": "選擇模型",
+      "STEP_4_DESC": "在模型選擇器中選擇你新建的 {appName} 提供者，並從目錄中選擇任意模型。Zed 會在編輯器內直接串流輸出回應。",
+      "GOTCHA_1": "Zed 要求提供者 ID 為小寫字母、數字、連字號或底線。",
+      "GOTCHA_2": "由於部分使用者透過標頭進行認證，表單中的 API 金鑰是選填的，但對於 {appName} 請貼上你的真實金鑰。"
+    },
+    "CLINE": {
+      "META": {
+        "TITLE": "Cline 設定指南 | {appName}",
+        "DESCRIPTION": "將 Cline 連接到 {appName} 作為 OpenAI Compatible 提供者，使其可以用任意模型讀取、編輯與執行程式碼。提供逐步設定。",
+        "KEYWORDS": "Cline，Cline 設定，VSCode 自主代理，{appName} Cline，OpenAI Compatible，編碼代理"
+      },
+      "BADGE": "Cline",
+      "TITLE": "Cline 設定指南",
+      "SUBTITLE": "將 {appName} 加入為 Cline 中的 OpenAI Compatible 提供者，並在 VSCode 中執行完整的代理迴圈。",
+      "OVERVIEW_DESC": "Cline 在 VSCode 中執行完整的代理迴圈。將 {appName} 加入為 OpenAI Compatible 提供者，即可用任意模型讀取、編輯與執行程式碼。",
+      "STEP_1_TITLE": "安裝 Cline",
+      "STEP_1_DESC": "從 VSCode 應用市集安裝 Cline 擴充功能，並從活動列開啟 Cline 面板。",
+      "STEP_2_TITLE": "開啟 Cline 設定",
+      "STEP_2_DESC": "點選 Cline 面板中的齒輪圖示以開啟 API Configuration。",
+      "STEP_3_TITLE": "選擇 OpenAI Compatible",
+      "STEP_3_DESC": "在 API Provider 下選擇 OpenAI Compatible。",
+      "STEP_4_TITLE": "填寫連線資訊",
+      "STEP_4_DESC": "請使用以下值。Model ID 接受任意 {appName} 模型。",
+      "GOTCHA_1": "Cline 為較新的模型提供了 Responses API 模式。使用 chat completions 時它會回退到 XML 工具封裝，可能導致工具呼叫重複。為保持穩定，請堅持使用 chat 風格的模型。",
+      "GOTCHA_2": "請選擇支援原生工具呼叫的模型，以便 Cline 能可靠地執行 shell 與檔案編輯。"
+    },
+    "ROO_CODE": {
+      "META": {
+        "TITLE": "Roo Code 設定指南 | {appName}",
+        "DESCRIPTION": "將 Roo Code 連接到 {appName} 作為 OpenAI Compatible 提供者，使其規劃、編碼與 QA 角色共享一個基礎 URL。提供逐步設定。",
+        "KEYWORDS": "Roo Code，Roo Code 設定，多代理 VSCode，{appName} Roo Code，OpenAI Compatible，編碼代理"
+      },
+      "BADGE": "Roo Code",
+      "TITLE": "Roo Code 設定指南",
+      "SUBTITLE": "將 {appName} 加入為 OpenAI Compatible 提供者，Roo Code 的各個代理角色便共享同一個基礎 URL。",
+      "OVERVIEW_DESC": "Roo Code 將代理拆分為規劃、編碼與 QA 團隊。將 {appName} 加入為 OpenAI Compatible 提供者，Roo 的各個角色便共享同一個基礎 URL。",
+      "STEP_1_TITLE": "安裝 Roo Code",
+      "STEP_1_DESC": "在 VSCode 中安裝 Roo Code 擴充功能並開啟面板。",
+      "STEP_2_TITLE": "開啟 API 設定",
+      "STEP_2_DESC": "點選設定圖示並前往 API Configuration。",
+      "STEP_3_TITLE": "選擇 OpenAI Compatible",
+      "STEP_3_DESC": "將 Provider 設定為 OpenAI Compatible。",
+      "STEP_4_TITLE": "填寫連線資訊",
+      "STEP_4_DESC": "請使用以下值。模型選擇器也可能在首次呼叫後自動填入。",
+      "GOTCHA_1": "Roo 的 Codebase Indexing > Embedder Provider 是與聊天獨立的設定。請設定你實際想要使用的聊天提供者。",
+      "GOTCHA_2": "部分 Roo 代理角色發出的請求比預期更多。請留意你的 {appName} 速率限制，必要時提升方案。"
+    },
+    "CONTINUE_DEV": {
+      "META": {
+        "TITLE": "Continue.dev 設定指南 | {appName}",
+        "DESCRIPTION": "透過納入版本控制的 config.yaml 將 Continue.dev 連接到 {appName}。Continue 會熱重載模型項目。提供逐步設定。",
+        "KEYWORDS": "Continue.dev，Continue 設定，VSCode JetBrains 助手，{appName} Continue，config.yaml，OpenAI 相容"
+      },
+      "BADGE": "Continue.dev",
+      "TITLE": "Continue.dev 設定指南",
+      "SUBTITLE": "將 {appName} 模型項目放入 Continue 的 config.yaml，它便會在 VSCode 與 JetBrains 中熱重載。",
+      "OVERVIEW_DESC": "Continue 使用可納入版本控制的 yaml 設定。放入一個 {appName} 模型項目，Continue 便會熱重載它。",
+      "STEP_1_TITLE": "開啟 Continue 設定",
+      "STEP_1_DESC": "編輯 ~/.continue/config.yaml（macOS/Linux）或 %USERPROFILE%\\.continue\\config.yaml（Windows）。如果檔案不存在，請建立它。",
+      "STEP_2_TITLE": "加入模型項目",
+      "STEP_2_DESC": "使用 provider openai 與 apiBase。你可以將多個模型加入為獨立項目。",
+      "STEP_3_TITLE": "儲存並重新載入",
+      "STEP_3_DESC": "Continue 會熱重載設定。從面板底部的模型選擇器中選擇 {appName}。",
+      "GOTCHA_1": "請使用 config.yaml，而不是舊版的 config.json。",
+      "GOTCHA_2": "如果某個模型拒絕額外參數，請在該模型項目上設定 requestOptions.dropParams: ['frequency_penalty','presence_penalty']。"
+    },
+    "AIDER": {
+      "META": {
+        "TITLE": "Aider 設定指南 | {appName}",
+        "DESCRIPTION": "將結對程式設計 CLI Aider 連接到 {appName}。設定兩個環境變數，並將 openai/MODEL_ID 作為模型傳入。提供逐步設定。",
+        "KEYWORDS": "Aider，Aider 設定，AI 結對程式設計 CLI，{appName} Aider，LiteLLM，OpenAI 相容"
+      },
+      "BADGE": "Aider",
+      "TITLE": "Aider 設定指南",
+      "SUBTITLE": "Aider 以 LiteLLM 為基礎，因此 {appName} 相容 OpenAI 的基礎 URL 只需兩個環境變數即可使用。",
+      "OVERVIEW_DESC": "Aider 以 LiteLLM 為基礎，因此任何相容 OpenAI 的基礎 URL 都可使用。設定兩個環境變數，並將 openai/MODEL_ID 作為模型傳入。",
+      "STEP_1_TITLE": "設定環境變數",
+      "STEP_1_DESC": "Aider 從你的 shell 讀取 OPENAI_API_BASE 與 OPENAI_API_KEY。",
+      "STEP_2_TITLE": "以 openai/ 前綴執行 aider",
+      "STEP_2_DESC": "LiteLLM 使用 openai/ 前綴將請求路由到其 OpenAI 驅動程式。請在後面附加你的 {appName} 模型 ID。",
+      "STEP_3_TITLE": "選用：在 .aider.conf.yml 中持久化",
+      "STEP_3_DESC": "在專案根目錄放一個設定檔，這樣就不必每次重複這些參數。",
+      "GOTCHA_1": "請務必在基礎 URL 中包含 /v1。",
+      "GOTCHA_2": "LiteLLM 可能會印出未知模型警告。如果過於嘈雜，請使用 --no-show-model-warnings，或透過 --model-metadata-file 提供上下文視窗。"
     }
   },
   "FOOTER": {
@@ -1542,11 +1941,8 @@
     "CONTACT_SUBTITLE": "有問題或疑慮嗎？",
     "DESCRIPTION": "整合式 AI API 平台，透過單一智慧端點存取來自多家供應商的上百款模型。",
     "COPYRIGHT": "© {year} {appName}。保留所有權利。",
-    "LEGAL_DISCLAIMER": "使用本平台即表示您已閱讀並同意我們的",
     "LEGAL_TERMS": "服務條款",
-    "LEGAL_AND": "與",
     "LEGAL_PRIVACY": "隱私權政策",
-    "SOCIAL_GITHUB": "GitHub",
     "SOCIAL_TRUSTPILOT": "Trustpilot",
     "EASTER_EGG_LABEL": "玩一場 Token Breakout"
   },
@@ -1662,21 +2058,15 @@
   },
   "COMMON": {
     "COPY_CODE": "複製程式碼",
-    "COPIED": "已複製",
     "OPEN_MENU": "開啟選單",
     "SEARCH": "搜尋...",
     "SAVE": "儲存",
     "SAVED": "已儲存",
     "CANCEL": "取消",
     "DELETE": "刪除",
-    "CREATE": "建立",
     "EDIT": "編輯",
-    "IMPORT": "匯入",
-    "EXPORT": "匯出",
-    "LOADING": "載入中...",
     "NAME": "名稱",
     "DESCRIPTION": "描述",
-    "CONFIRM_DELETE": "確定要刪除嗎？",
     "RESET": "重設",
     "CONFIRM": {
       "CONTINUE": "繼續",
@@ -1695,7 +2085,6 @@
       "DELETE_GENERATION_TITLE": "刪除生成紀錄？",
       "DELETE_GENERATION_DESC": "此操作將永久刪除該生成紀錄及其圖片。",
       "CLEAR_CHAT_TITLE": "清空對話？",
-      "REMOVE_SYNC_TITLE": "從同步中移除？",
       "WIPE_DB_TITLE": "清空本機資料庫？",
       "UPLOAD_DB_TITLE": "覆寫本機資料庫？"
     }
@@ -1708,7 +2097,17 @@
     "RU": "Русский",
     "VI": "Tiếng Việt",
     "ZH_CN": "简体中文",
-    "ZH_TW": "繁體中文"
+    "ZH_TW": "繁體中文",
+    "IT": "Italiano",
+    "ES": "Español",
+    "PT_BR": "Português (Brasil)",
+    "KO": "한국어",
+    "TR": "Türkçe",
+    "AR": "العربية",
+    "HE": "עברית",
+    "HI": "हिन्दी",
+    "ID": "Bahasa Indonesia",
+    "PL": "Polski"
   },
   "AUTH": {
     "LOGIN": {
@@ -1728,7 +2127,6 @@
       "USERNAME_OR_EMAIL_PLACEHOLDER": "請輸入使用者名稱或電子郵件",
       "PASSWORD": "密碼",
       "PASSWORD_PLACEHOLDER": "請輸入密碼",
-      "PASSWORD_MIN_LENGTH": "密碼長度至少需 8 個字元",
       "EMAIL": "電子郵件",
       "EMAIL_PLACEHOLDER": "請輸入電子郵件",
       "VERIFICATION_CODE": "驗證碼",
@@ -1743,14 +2141,12 @@
     "TWO_FA": {
       "TITLE": "兩步驟驗證",
       "DESCRIPTION": "請輸入驗證器 app 顯示的 6 位數驗證碼",
-      "CODE_PLACEHOLDER": "000000",
       "SUBMIT": "驗證",
       "VERIFYING": "驗證中..."
     },
     "VERIFICATION": {
       "SEND_CODE": "傳送驗證碼",
       "SENDING": "傳送中...",
-      "SENT": "驗證碼已寄出",
       "RESEND": "重新發送",
       "RESEND_IN": "{seconds} 秒後可重寄",
       "FAILED": "驗證碼傳送失敗"
@@ -1800,10 +2196,7 @@
     "DONT_HAVE_ACCOUNT": "還沒有帳戶？",
     "ALREADY_HAVE_ACCOUNT": "已經有帳戶了？",
     "OR_CONTINUE_WITH": "或使用以下方式繼續",
-    "CALLBACK_LOADING": "正在完成登入...",
-    "DASHBOARD": "儀表板",
     "LOG_OUT": "登出",
-    "BALANCE": "餘額",
     "SUBSCRIPTION": "訂閱",
     "SUBSCRIPTION_ACTIVE": "生效中"
   },
@@ -1815,10 +2208,7 @@
     "LOGS": "使用紀錄",
     "AFFILIATE": "聯盟推廣",
     "BILLING": "帳務",
-    "SETTINGS": "設定",
-    "CHAT": "對話",
-    "GENERATE": "圖像生成",
-    "MY_GENERATIONS": "我的生成紀錄"
+    "SETTINGS": "設定"
   },
   "DASHBOARD": {
     "GREETING": {
@@ -1862,12 +2252,9 @@
       "NO_API_INFO": "目前無 API 資訊"
     },
     "CONSUMPTION": "用量",
-    "TOP_UP": "儲值",
     "TOTAL": "總計",
     "OTHER": "其他",
     "NO_DATA": "暫無資料",
-    "UPTIME": "運行時間",
-    "COPY_URL": "複製網址",
     "COPIED": "已複製"
   },
   "TOKEN": {
@@ -1885,18 +2272,7 @@
     "FORM": {
       "NAME": "名稱",
       "NAME_PLACEHOLDER": "為此金鑰輸入名稱",
-      "GROUP": "分組",
-      "GROUP_PLACEHOLDER": "選擇分組",
-      "GROUP_NO_GROUPS": "沒有可用的分組",
-      "CROSS_GROUP_RETRY": "跨分組重試",
-      "CROSS_GROUP_RETRY_DESC": "啟用後，失敗的請求將透過其他分組的通道重試。",
-      "EXPIRATION": "到期時間",
-      "EXPIRATION_PLACEHOLDER": "選擇到期日",
-      "EXPIRATION_PRESETS": "快速設定",
       "NEVER_EXPIRES": "永不過期",
-      "ONE_MONTH": "1 個月",
-      "ONE_DAY": "1 天",
-      "ONE_HOUR": "1 小時",
       "QUOTA": "額度",
       "QUOTA_PLACEHOLDER": "美元金額（如 10）",
       "QUOTA_PRESETS": "預設值",
@@ -1907,8 +2283,6 @@
       "MODEL_LIMITS_DESC": "非必要不建議使用。",
       "MODEL_SELECT_PLACEHOLDER": "搜尋模型...",
       "MODEL_SELECT_EMPTY": "找不到模型",
-      "MODELS_SELECTED": "已選 {count} 個",
-      "MODEL_COUNT": "{count} 個模型",
       "IP_WHITELIST": "IP 白名單",
       "IP_WHITELIST_PLACEHOLDER": "每行一個 IP。留空則無限制。",
       "IP_WHITELIST_DESC": "IP 可能被偽造，建議搭配閘道以加強保護。",
@@ -1959,7 +2333,6 @@
     "DISABLE": "停用",
     "UNLIMITED": "無限制",
     "ALL_MODELS": "所有模型",
-    "USED_OF_TOTAL": "{used}／{total}",
     "SEARCH_PLACEHOLDER": "搜尋金鑰...",
     "NO_TOKENS": "尚無 API 金鑰。建立一把以開始使用。",
     "COPY_KEY": "複製金鑰"
@@ -1967,7 +2340,6 @@
   "LOGS": {
     "TABLE": {
       "TIME": "時間",
-      "TYPE": "類型",
       "CHANNEL": "通道",
       "USER": "使用者",
       "MODEL": "模型",
@@ -2085,8 +2457,6 @@
     "DESCRIPTION": "檢視您的 API 請求歷史、token 用量與花費細節。",
     "FILTERS": "篩選",
     "RESET": "重設",
-    "TO": "至",
-    "TOTAL": "總計",
     "COPIED": "已複製到剪貼簿",
     "CLICK_COPY": "點擊以複製",
     "NO_LOGS": "所選期間沒有任何紀錄。",
@@ -2105,7 +2475,6 @@
       "RATE": "分潤比例",
       "EARNED": "已賺取",
       "STATUS": "狀態",
-      "JOINED": "加入時間",
       "COMMISSIONS": "分潤",
       "TOTAL_EARNED": "總收益"
     },
@@ -2130,7 +2499,6 @@
       "TITLE": "轉出聯盟收益",
       "DIALOG_DESC": "將您待入帳的聯盟收益轉入帳戶餘額。此動作無法復原。",
       "AMOUNT": "金額",
-      "INVALID": "請輸入有效的金額",
       "EXCEEDS": "金額超出可用餘額"
     },
     "ENUM": {
@@ -2162,7 +2530,6 @@
     "HOW_IT_WORKS": "運作方式",
     "TAB_INVITEES": "邀請的使用者",
     "TAB_COMMISSIONS": "分潤紀錄",
-    "COMMISSION_HISTORY": "分潤紀錄",
     "NO_COMMISSIONS": "尚無分潤紀錄。分享邀請連結開始賺取收益。",
     "NO_INVITEES": "尚無邀請的使用者。分享您的邀請連結開始擴展人脈。",
     "BADGE_GENERATOR": {
@@ -2234,11 +2601,22 @@
     "MD_BOLD": "粗體文字",
     "MD_ITALIC_BOLD": "斜體粗體文字",
     "MD_SINGLE_QUOTE": "單引號文字",
-    "MD_DOUBLE_QUOTE": "雙引號文字"
+    "MD_DOUBLE_QUOTE": "雙引號文字",
+    "SURFACE_COLORS": "介面顏色",
+    "COLOR_SIDEBAR": "側邊欄",
+    "BACKGROUND_IMAGE": "背景圖片",
+    "BG_UPLOAD": "上傳圖片",
+    "BG_REPLACE": "替換",
+    "BG_REMOVE": "移除",
+    "BG_FIT": "圖片適配",
+    "BG_FIT_COVER": "覆蓋",
+    "BG_FIT_CONTAIN": "包含",
+    "BG_FIT_TILE": "平鋪",
+    "BG_OPACITY": "不透明度",
+    "BG_BLUR": "模糊"
   },
   "BILLING": {
     "SUBSCRIPTION": {
-      "PLANS": "訂閱方案",
       "MY": "我的訂閱",
       "NO_ACTIVE": "尚無啟用中",
       "ACTIVE": "啟用中",
@@ -2271,9 +2649,7 @@
     },
     "TOPUP": {
       "TITLE": "額度儲值",
-      "AMOUNT": "儲值金額",
       "ACTUAL_PAYMENT": "實付金額",
-      "PAY_NOW": "立即付款",
       "SAVE": "儲存"
     },
     "ERROR": {
@@ -2289,7 +2665,6 @@
     "CONSUMPTION": "用量",
     "REQUESTS": "請求數",
     "USED_OF": "已用",
-    "REFRESHING": "重新整理中...",
     "PAYMENT_METHOD": {
       "LABEL": "支付方式",
       "CARD": "信用卡",
@@ -2300,8 +2675,6 @@
     "ERROR": {
       "REQUIRED": "{type}為必填",
       "MIN_LENGTH": "{type}長度至少需 {minLength} 個字元",
-      "MAX_LENGTH": "{type}長度最多 {maxLength} 個字元",
-      "EXACT_LENGTH": "{type}長度必須為 {minLength} 個字元",
       "MIN_VALUE": "{type}必須大於 0"
     },
     "TYPE": {
@@ -2313,7 +2686,8 @@
       "NAME": "名稱",
       "AMOUNT": "金額",
       "REMAIN_QUOTA": "額度",
-      "QUOTA_THRESHOLD_DOLLARS": "額度警示門檻"
+      "QUOTA_THRESHOLD_DOLLARS": "額度警示門檻",
+      "CONTENT": "內容"
     }
   },
   "SETTINGS": {
@@ -2323,7 +2697,6 @@
     "ROLE_SUPER_ADMIN": "超級管理員",
     "ROLE_ADMIN": "管理員",
     "ROLE_USER": "使用者",
-    "BALANCE": "餘額",
     "CONSUMPTION": "用量",
     "REQUEST_COUNT": "請求數",
     "DEFAULT_GROUP": "預設分組",
@@ -2338,14 +2711,12 @@
       "EMAIL_PLACEHOLDER": "請輸入電子郵件地址",
       "BIND_EMAIL": "綁定電子郵件",
       "MODIFY_EMAIL": "變更電子郵件",
-      "VERIFICATION_CODE": "驗證碼",
       "SEND_CODE": "傳送驗證碼",
       "CODE_SENT": "驗證碼已寄出，{seconds} 秒後可重新傳送",
       "CODE_PLACEHOLDER": "請輸入驗證碼",
       "OAUTH_BINDINGS": "OAuth 綁定",
       "GITHUB": "GitHub",
       "DISCORD": "Discord",
-      "BOUND": "已綁定",
       "NOT_BOUND": "尚未綁定",
       "BIND": "綁定",
       "UNBIND": "解除綁定",
@@ -2359,7 +2730,6 @@
       "ACCESS_TOKEN": "系統存取權杖",
       "ACCESS_TOKEN_DESC": "使用此權杖可直接存取 API。",
       "GENERATE_TOKEN": "產生權杖",
-      "REGENERATE_TOKEN": "重新產生權杖",
       "TOKEN_GENERATED": "權杖產生成功",
       "COPY_TOKEN": "複製",
       "TOKEN_COPIED": "已複製到剪貼簿",
@@ -2431,29 +2801,21 @@
   },
   "CHAT": {
     "SHARE": {
-      "BUTTON": "分享",
       "TITLE": "分享對話",
       "DESCRIPTION": "任何擁有連結的人都能檢視此對話。",
-      "CREATED": "分享連結已建立",
-      "REVOKED": "分享連結已移除",
-      "COPY_LINK": "複製分享連結",
-      "LINK_COPIED": "連結已複製到剪貼簿",
-      "GENERATE_LINK": "產生分享連結",
-      "REVOKE": "移除分享連結",
-      "SHARED_CONVERSATION": "已分享對話",
-      "NOT_FOUND": "找不到這個分享對話，或該對話已被移除。"
+      "LINK_COPIED": "連結已複製到剪貼簿"
     },
     "MODEL": {
       "SELECT": "選擇模型",
       "SEARCH": "搜尋模型...",
       "NO_RESULTS": "找不到模型",
-      "GROUP_TEXT": "文字與推理",
-      "GROUP_IMAGE": "圖片生成",
-      "GROUP_VIDEO": "影片生成",
       "FREE_BADGE": "免費",
-      "LOGIN_REQUIRED": "需先登入",
-      "FREE_NOTICE": "高負載時免費模型可能失敗。",
-      "FREE_NOTICE_CTA": "切換到付費模型"
+      "LOGIN_REQUIRED": "需先登入"
+    },
+    "GROUP": {
+      "SELECT": "計費分組",
+      "AUTO": "自動",
+      "NO_RESULTS": "沒有可用的分組"
     },
     "ACTION": {
       "COPY": "複製",
@@ -2475,8 +2837,7 @@
     },
     "GATE": {
       "NEEDS_TOKEN_TITLE": "需要 API 金鑰",
-      "NEEDS_TOKEN_DESC": "產生一把 API 金鑰，開始與 AI 模型對話。",
-      "LOGIN_REQUIRED_DESC": "請登入以開始與 AI 模型對話。"
+      "NEEDS_TOKEN_DESC": "產生一把 API 金鑰，開始與 AI 模型對話。"
     },
     "TOOL": {
       "USED": "已使用工具",
@@ -2504,16 +2865,20 @@
       "UNSUPPORTED_TYPE": "不支援的檔案類型 {type}。請上傳 PNG、JPEG、WebP 或 GIF 格式的圖片。"
     },
     "WEB_SEARCH": {
-      "LABEL": "網路搜尋",
       "ON": "已開啟網路搜尋",
       "OFF": "已關閉網路搜尋"
     },
     "REQUEST_LOG": {
       "VIEW": "檢視請求記錄",
       "TITLE": "請求記錄",
-      "TAB_REQUEST": "請求",
+      "TAB_REQUEST": "快照（除錯）",
+      "TAB_REQUEST_HINT": "用戶端快照（組裝器輸入），並非實際送出的請求主體。模型真正收到的內容在「系統提示」與「最終訊息」分頁。",
+      "TAB_UPSTREAM": "上游請求主體",
+      "TAB_UPSTREAM_HINT": "傳送給模型的確切請求主體（system + 僅含角色的 messages）。這正是 LLM 收到的內容。",
       "TAB_SYSTEM": "系統提示詞",
+      "TAB_SYSTEM_HINT": "傳送給模型的真實系統提示。無系統角色的模型（如 GLM）為空，內容會併入使用者區塊。",
       "TAB_FINAL": "最終訊息",
+      "TAB_FINAL_HINT": "經過角色變換（合併、去系統）後傳送給模型的真實訊息陣列。這是模型實際看到的內容。",
       "TAB_HEADERS": "回應標頭",
       "COPY_CURL": "複製為 cURL",
       "COPY_JSON": "複製 JSON",
@@ -2524,7 +2889,8 @@
       "BADGE_OUT": "輸出",
       "BADGE_DROPPED": "已捨棄",
       "UNIT_MS": "毫秒",
-      "UNIT_TOK_PER_S": "詞元/秒"
+      "UNIT_TOK_PER_S": "詞元/秒",
+      "BADGE_PROVIDER": "提供商"
     },
     "NEW_CONVERSATION": "新對話",
     "GENERATION_LOCKED_OTHER_TAB": "另一個分頁正在為此對話生成回覆。請等待其完成或切換到該分頁。",
@@ -2535,12 +2901,12 @@
     "NO_CONVERSATIONS": "尚無對話",
     "EMPTY_TITLE": "開始一段對話",
     "EMPTY_DESCRIPTION": "選擇模型並開始聊天，就能測試任何 AI 模型。",
+    "LOADOUT": {
+      "TITLE": "配裝",
+      "HINT": "套用於此對話及今後所有新對話，直到你變更為止。"
+    },
     "INPUT_PLACEHOLDER": "輸入您的訊息...",
-    "START_PROMPT": "傳送訊息以開始對話。",
     "THINKING": "思考中",
-    "DISCLAIMER": "AI 回應可能不準確。重要資訊請自行查證。",
-    "UNTITLED": "未命名對話",
-    "DELETE_CONFIRM": "確定要刪除這個對話嗎？",
     "MESSAGE_INPUT": "訊息輸入",
     "SEARCH_CHATS": "搜尋對話",
     "TOKENS_IN": "輸入",
@@ -2550,10 +2916,7 @@
       "TITLE": "AI 對話：{appName}",
       "TITLE_WITH_NAME": "{title}｜AI 對話：{appName}",
       "DESCRIPTION": "與任何 AI 模型對話。透過單一介面測試 GPT、Claude、Gemini、DeepSeek 等模型。",
-      "KEYWORDS": "AI 對話、與 AI 聊天、GPT 對話、Claude 對話、Gemini 對話、AI playground、模型測試",
-      "SHARED_TITLE": "已分享對話：{appName}",
-      "SHARED_TITLE_WITH_NAME": "{title}｜已分享對話：{appName}",
-      "SHARED_DESCRIPTION": "在 {appName} 上檢視一段已分享的 AI 對話。"
+      "KEYWORDS": "AI 對話、與 AI 聊天、GPT 對話、Claude 對話、Gemini 對話、AI playground、模型測試"
     },
     "OVERRIDES": {
       "OPEN": "對話設定",
@@ -2583,10 +2946,8 @@
       "NO_CHARACTERS": "尚無角色，請先建立或匯入。",
       "NO_LOREBOOKS": "尚無知識庫。",
       "REORDER_HINT": "拖曳以重新排序。靠上的項目會更早注入到提示詞中。",
-      "SELECTED": "已選",
       "SEARCH_CHARACTERS": "搜尋角色",
       "SEARCH_LOREBOOKS": "搜尋設定集",
-      "CLEAR": "清除",
       "EFFORT_MINIMAL": "最低",
       "EFFORT_LOW": "低",
       "EFFORT_MEDIUM": "中",
@@ -2602,7 +2963,8 @@
       "EXTRA_BODY": "附加請求主體（JSON）",
       "EXTRA_BODY_PLACEHOLDER": "'{'\n  \"reasoning_effort\": \"high\",\n  \"service_tier\": \"priority\"\n'}'",
       "EXTRA_BODY_HINT": "送出前合併進請求，用於滑桿未涵蓋的欄位。鍵衝突時以滑桿為準。",
-      "EXTRA_BODY_INVALID": "JSON 無效。請以 '{}' 包覆並跳脫字串。"
+      "EXTRA_BODY_INVALID": "JSON 無效。請以 '{}' 包覆並跳脫字串。",
+      "INHERIT": "繼承"
     },
     "SAMPLING": {
       "UNSUPPORTED": "此模型並非所有提供者都支援。設定後不會生效。"
@@ -2628,14 +2990,14 @@
       "LOCAL_DB_UPLOAD_CONFIRM": "從此檔案覆蓋本地 OPFS 資料庫？現有資料將被清空。",
       "CLEAR": "清空對話",
       "CLEAR_SUCCESS": "對話已清空",
-      "CLEAR_CONFIRM_DESC": "此操作會刪除該對話中的所有訊息，但保留設定、角色綁定與標題。此操作無法復原。",
-      "FONT": "字型",
-      "FONT_SANS": "無襯線",
-      "FONT_DISPLAY": "展示字型",
-      "FONT_SERIF": "襯線",
-      "FONT_MONO": "等寬",
-      "FONT_SYSTEM": "系統"
-    }
+      "CLEAR_CONFIRM_DESC": "此操作會刪除該對話中的所有訊息，但保留設定、角色綁定與標題。此操作無法復原。"
+    },
+    "ACTIVE_CONFIG": {
+      "CHARACTERS": "{count, plural, other {# 個角色}}",
+      "LOREBOOKS": "{count, plural, other {# 個世界書}}"
+    },
+    "TRIGGER_ALERT_SELECT_DESC": "請選擇一個選項以繼續",
+    "TRIGGER_ALERT_OK": "確定"
   },
   "RP": {
     "CHARACTERS_TITLE": "角色",
@@ -2659,7 +3021,6 @@
     "CHARACTER_EXAMPLE_MESSAGES": "對話範例",
     "CHARACTER_SYSTEM_PROMPT": "系統提示詞",
     "CHARACTER_POST_HISTORY": "歷史末端指令",
-    "CHARACTER_AVATAR": "頭像",
     "CHARACTER_TAGS": "標籤",
     "CHARACTER_ACTIVATION_TITLE": "啟用",
     "CHARACTER_ACTIVATION_HINT": "關閉「永遠啟用」時，僅當觸發詞出現在最近對話中，角色才會加入提示詞。多角色提示：主角保持永遠啟用，配角用觸發詞切換。",
@@ -2669,7 +3030,6 @@
     "CHARACTER_TRIGGERS_HINT": "啟用此角色的詞語。範例：alice、騎士、劍。若啟用「永遠啟用」則忽略。",
     "CHARACTER_MATCH_WHOLE_WORDS": "僅完整單字匹配",
     "CHARACTER_MATCH_WHOLE_WORDS_HINT": "啟用後，觸發詞「Eve」不會匹配「evening」。預設：子字串匹配。",
-    "CHARACTER_DEFAULT_MODEL": "預設模型",
     "PERSONAS_TITLE": "人物（Persona）",
     "PERSONAS_NEW": "新增人物",
     "PERSONAS_EMPTY": "尚無人物。",
@@ -2679,6 +3039,7 @@
     "LOREBOOKS_NEW": "新增知識庫",
     "LOREBOOKS_EMPTY": "尚無知識庫。",
     "LOREBOOK_SCAN_DEPTH": "掃描深度",
+    "LOREBOOK_DESCRIPTION_NOT_SENT": "僅供你標記，不會傳送給 AI。實際內容請填入下方的條目。",
     "LOREBOOK_SCAN_DEPTH_HINT": "掃描關鍵字的最近訊息數量。",
     "LOREBOOK_TOKEN_BUDGET": "Token 預算",
     "LOREBOOK_TOKEN_BUDGET_HINT": "每輪注入條目的最大 Token 數。",
@@ -2686,14 +3047,15 @@
     "LOREBOOK_ENTRY_NEW": "新增條目",
     "LOREBOOK_UNTITLED": "未命名世界書",
     "LOREBOOK_ENTRY_NO_KEYS": "（無觸發詞）",
-    "LOREBOOK_ENTRY_KEYS": "觸發詞（以逗號分隔）",
-    "LOREBOOK_ENTRY_KEYS_HINT": "啟用此條目的詞語。範例：sex、dick、pussy。若啟用「總是注入」則忽略。",
+    "LOREBOOK_ENTRY_ALWAYS_LABEL": "始終注入",
+    "LOREBOOK_ENTRY_KEYS": "啟用關鍵字（以逗號分隔）",
+    "LOREBOOK_ENTRY_KEYS_HINT": "啟用此條目的詞語。例如：龍、蛟、翼龍。",
     "LOREBOOK_ENTRY_SECONDARY_KEYS": "次級觸發詞",
     "LOREBOOK_ENTRY_PRIORITY_HINT": "數字越小，注入提示詞的位置越靠前。",
     "LOREBOOK_ENTRY_CONTENT": "內容",
     "LOREBOOK_ENTRY_POSITION": "位置",
     "LOREBOOK_ENTRY_PRIORITY": "優先順序",
-    "LOREBOOK_ENTRY_CONSTANT": "永遠注入",
+    "LOREBOOK_ENTRY_CONSTANT": "始終啟用",
     "LOREBOOK_ENTRY_SELECTIVE": "需要次級關鍵字",
     "LOREBOOK_ENTRY_ENABLED": "已啟用",
     "LOREBOOK_ENTRY_MATCH_WHOLE_WORDS": "僅完整單字匹配",
@@ -2742,28 +3104,24 @@
     "PRESET_POST_HISTORY": "末尾注入提示詞（post-history）",
     "PRESET_POST_HISTORY_PLACEHOLDER": "保持角色，不要打破第四面牆……",
     "PRESET_POST_HISTORY_HINT": "附加在系統覆蓋之後。適合像 GLM 這樣更尊重末尾注入指令的模型。",
-    "PRESET_PREFILL": "預填充（助理預熱）",
+    "PRESET_PREFILL": "預填充",
     "PRESET_PREFILL_PLACEHOLDER": "好的，回覆如下：",
     "PRESET_PREFILL_HINT": "作為最後一則助理訊息傳送。LLM 會從這段種子文字繼續生成。強大的越獄技巧。支援 user 與 char 巨集。",
     "PRESET_FLAGS_TITLE": "自訂旗標",
-    "PRESET_FLAGS_HINT": "為挑剔的模型微調請求主體。多數使用者保持關閉。",
+    "PRESET_FLAGS_HINT": "為挑剔的模型調整請求主體。需要時依模型自動套用；開啟以強制啟用。",
     "PRESET_FORCE_ALTERNATE_ROLES": "強制角色交替",
-    "PRESET_FORCE_ALTERNATE_ROLES_HINT": "合併連續相同角色的訊息，使對話嚴格在 user/assistant 之間交替。GLM 與部分 Anthropic 設定必需。",
+    "PRESET_FORCE_ALTERNATE_ROLES_HINT": "合併連續的相同角色訊息，使對話嚴格在使用者／助手之間交替。GLM／Gemini 自動套用。",
     "PRESET_NO_SYSTEM_ROLE": "停用 system 角色",
-    "PRESET_NO_SYSTEM_ROLE_HINT": "將對話中的 system 訊息轉為帶 [System]: 前綴的 user 訊息。頂層系統提示不受影響。Gemini 與嚴格交替的模型需要。",
+    "PRESET_NO_SYSTEM_ROLE_HINT": "將對話中間的系統訊息轉換為帶「system:」前綴的使用者訊息。頂層系統提示詞不受影響。GLM／Gemini 自動套用。",
     "PRESET_MUST_START_WITH_USER": "必須以 user 輸入開始",
-    "PRESET_MUST_START_WITH_USER_HINT": "若首則訊息為 assistant 或 system，自動加入一個迷你 user 佔位。Anthropic 與 Gemini 都會拒絕不以 user 開始的對話。",
-    "PRESET_SKIP_PREFILL_IF_LAST_ASSISTANT": "若最後一則為 assistant 則略過 prefill",
-    "PRESET_SKIP_PREFILL_IF_LAST_ASSISTANT_HINT": "當強制交替開啟且最後一則已是 assistant 時，略過 prefill 以避免出現兩則連續的 assistant 訊息。",
+    "PRESET_MUST_START_WITH_USER_HINT": "若對話以助手或系統開頭，則在開頭加入一則空白的小型使用者訊息。Anthropic／Gemini／GLM 自動套用。",
     "PRESET_GEMINI_BLOCK_OFF": "Gemini：安全 OFF",
     "PRESET_GEMINI_BLOCK_OFF_HINT": "為每個 Gemini harm 類別傳送 threshold=OFF 的 safetySettings。比 BLOCK_NONE 更強。僅對 Gemini 模型生效。",
-    "SIDEBAR_TAB_CHATS": "聊天",
     "SIDEBAR_TAB_CHARACTERS": "角色",
     "SIDEBAR_TAB_PERSONAS": "人物",
     "SIDEBAR_TAB_LOREBOOKS": "知識庫",
     "SIDEBAR_TAB_PRESETS": "預設",
     "SIDEBAR_TAB_CARDS": "卡片",
-    "SIDEBAR_GROUP_LABEL": "RP",
     "CARDS_TITLE": "卡片",
     "CARDS_PAGE_SUBTITLE": "將角色＋人格＋知識庫打包為創作組合。一鍵套用到對話。",
     "CARDS_NEW": "新增卡片",
@@ -2783,12 +3141,35 @@
     "CARD_CHARACTERS": "角色",
     "CARD_LOREBOOKS": "知識庫",
     "DROPPED_PARAMS": "{params} 不受此模型支援，已略過。",
-    "EDIT_SAVE_ONLY": "儲存",
-    "EDIT_SAVE_AND_GENERATE": "儲存並重新生成",
-    "BRANCH_NEXT": "下一分支",
-    "BRANCH_PREV": "上一分支",
     "LOREBOOKS_IMPORT": "匯入",
-    "PERSONAS_IMPORT": "匯入"
+    "PERSONAS_IMPORT": "匯入",
+    "LOREBOOK_ENTRY_CONSTANT_HINT": "始終注入此條目，忽略啟用關鍵字。",
+    "PRESET_PROVIDERS_TITLE": "供應商路由",
+    "PRESET_PROVIDERS": "固定供應商（以逗號分隔）",
+    "PRESET_PROVIDERS_HINT": "依序排列的首選上游供應商。僅受 OpenRouter 相容通道支援，其他情境將被忽略。",
+    "PRESET_PROVIDERS_ONLY": "僅限這些供應商",
+    "PRESET_PROVIDERS_ONLY_HINT": "硬性固定：當列出的供應商皆不可用時拒絕請求，而非回退至其他。",
+    "LOREBOOK_ENTRY_INJECTION_ROLE_ASSISTANT": "助手",
+    "PRESET_TEMPLATE_TITLE": "提示詞範本",
+    "PRESET_TEMPLATE_HINT": "拖曳以重新排列提示詞的建構順序。聊天記錄在「聊天記錄」區塊處插入。留空＝預設順序。",
+    "PRESET_TEMPLATE_RESET": "重設為預設",
+    "PRESET_TEMPLATE_EXPAND": "展開",
+    "PRESET_TEMPLATE_COLLAPSE": "收合",
+    "PRESET_TEMPLATE_ADD": "新增區塊",
+    "PRESET_TEMPLATE_PLAIN": "自訂文字區塊",
+    "PRESET_TEMPLATE_CHAT": "聊天記錄",
+    "PRESET_TEMPLATE_CHAT_HINT": "對話訊息的插入位置。",
+    "PRESET_TEMPLATE_PLAIN_PLACEHOLDER": "自訂指令文字...",
+    "LOREBOOK_ENTRY_PROBABILITY": "啟用機率（%）",
+    "LOREBOOK_ENTRY_PROBABILITY_HINT": "每次掃描依此百分比擲骰，決定該條目是否觸發。100 ＝ 始終。",
+    "LOREBOOK_ENTRY_SCAN_DEPTH": "掃描深度",
+    "LOREBOOK_ENTRY_SCAN_DEPTH_HINT": "為該條目的關鍵字掃描多少則最近訊息。0 = 使用書的預設值。",
+    "PRESET_CHAT_MEMORY": "聊天記憶（訊息數）",
+    "PRESET_CHAT_MEMORY_HINT": "每次請求傳送多少則最近訊息。留空 = 預設（8）；聊天設定會覆寫此項。",
+    "PRESET_STREAMING": "串流輸出",
+    "PRESET_STREAMING_HINT": "逐 token 串流回覆。關閉 = 一次接收完整回覆。聊天設定會覆寫此項。",
+    "CHARACTER_BACKGROUND": "背景圖片",
+    "CHARACTER_BACKGROUND_HINT": "當此角色主導對話時，顯示在聊天背後。"
   },
   "ERRORS": {
     "MISSING_ENV": "缺少必要的環境變數：{var}",
@@ -2796,15 +3177,10 @@
     "UNAUTHORIZED": "未授權",
     "NO_API_KEY": "未設定 API 金鑰",
     "NOT_FOUND": "找不到資源",
-    "NO_IMAGE_GENERATED": "未產生任何圖片",
     "NO_TASK_ID": "回應中缺少任務 ID 或 URL",
-    "NO_VIDEO_URL": "影片已完成，但找不到 URL",
-    "VIDEO_GENERATION_FAILED": "影片生成失敗",
-    "VIDEO_GENERATION_TIMED_OUT": "影片生成逾時",
     "REQUEST_FAILED": "請求失敗",
     "PRICING_FETCH_FAILED": "取得價格資料失敗",
     "NO_TEXT_MODELS": "沒有可用的文字模型",
-    "UPLOAD_FAILED": "附件上傳失敗",
     "NO_IMAGE_PROMPT": "未提供圖片生成的提示詞",
     "IMAGE_GENERATION_FAILED": "圖片生成失敗",
     "UNEXPECTED_RESPONSE": "上游 API 回傳未預期的空值",
@@ -2817,12 +3193,15 @@
     "PROMPT_REJECTED": "此提示詞違反內容政策，無法用於圖像或影片生成。",
     "PROMPT_FLAGGED": "此提示詞被標記為可能不適合生成內容，請修改後再試。",
     "MODERATION_UNAVAILABLE": "圖像和影片生成暫時無法使用，請稍後再試。",
-    "PDF_EXTRACTION_FAILED": "無法讀取所附 PDF 的內容，請將其移除或更換檔案再試。",
     "IMPORT_INVALID_JSON": "檔案不是有效的JSON。",
     "IMPORT_UNSUPPORTED_VERSION": "不支援的匯出版本。",
     "CARD_PARSE_FAILED": "無法解析角色卡。",
     "CARD_MISSING_NAME": "角色卡缺少必填的名稱欄位。",
-    "UNEXPECTED_ERROR": "發生未預期的錯誤"
+    "UNEXPECTED_ERROR": "發生未預期的錯誤",
+    "AUDIO_GENERATION_FAILED": "音訊生成失敗",
+    "NO_AUDIO_PROMPT": "未提供用於語音生成的文字",
+    "EMBEDDING_FAILED": "向量生成失敗",
+    "NO_EMBEDDING_INPUT": "未提供需要向量化的文字"
   },
   "BADGE": {
     "TOKENS_SERVED": "已服務 tokens",
@@ -2832,16 +3211,14 @@
     "UNIFIED_INTELLIGENCE_API": "統一智慧 API",
     "GET_STARTED": "立即開始",
     "SAVE_UP_TO": "最高省下",
-    "PER_1M_TOKENS": "每百萬 tokens",
     "SMART_ROUTING": "智慧路由",
-    "ONE_ENDPOINT": "一個端點",
     "MODELS": "模型",
-    "UPTIME": "運行時間",
+    "FREE": "免費",
+    "PAID": "付費",
     "LIVE_STATS": "即時統計",
     "CHEAPEST_API": "最便宜的推論 API",
     "MODELS_ONE_ENDPOINT": "40+ 個 AI 模型，一個端點",
     "MODELS_ONE_ENDPOINT_SUFFIX": "個 AI 模型，一個端點",
-    "DIRECT": "直連",
     "MODEL": "模型",
     "PRICES_NOTE": "每百萬 tokens 價格",
     "INPUT": "輸入",
@@ -2876,7 +3253,6 @@
     },
     "MCP": {
       "SERVER_DESCRIPTION": "瀏覽器內的 AI 模型路由。工具透過 navigator.modelContext 在網站首頁註冊為 WebMCP。請開啟首頁，並從支援 WebMCP 的客戶端呼叫工具。",
-      "WEBMCP_BUNDLE_DESCRIPTION": "透過 navigator.modelContext 在 {appName} 首頁註冊的瀏覽器內工具。於支援 WebMCP 的客戶端載入首頁即可存取這些工具。",
       "TOOLS": {
         "OPEN_MODELS_CATALOG": "開啟 {appName} 模型目錄頁，列出所有可用模型與來自 OpenAI、Anthropic、Google、DeepSeek 等供應商的即時價格。",
         "OPEN_PRICING": "開啟 {appName} 價格頁，查看訂閱方案與按量付費費率。",
@@ -2925,42 +3301,23 @@
     "STATE": {
       "OPERATIONAL": "正常",
       "DOWN": "故障",
-      "UNKNOWN": "未知",
       "DEGRADED": "降級"
-    },
-    "SUMMARY": {
-      "ALL_NORMAL": "所有系統運行正常",
-      "N_DOWN": "{count} 個模型故障",
-      "LAST_CHECKED_AT": "上次檢查 {time}"
     },
     "KPI": {
       "TOTAL": "模型總數",
       "OPERATIONAL": "正常",
-      "DOWN": "故障",
-      "UNKNOWN": "未知"
-    },
-    "ROW": {
-      "CHANNELS": "通道",
-      "LATENCY_PROBE": "探測",
-      "LATENCY_P50": "p50",
-      "LATENCY_P95": "p95",
-      "REQ": "請求",
-      "ERR": "錯誤",
-      "IDLE": "本分鐘無流量"
+      "DOWN": "故障"
     },
     "RIBBON": {
-      "TITLE": "過去 24 小時",
-      "LEGEND_UP": "正常",
-      "LEGEND_DEGRADED": "降級",
-      "LEGEND_DOWN": "故障",
-      "LEGEND_NODATA": "無資料"
+      "TITLE": "過去 24 小時"
     },
     "FILTER": {
       "SEARCH_PLACEHOLDER": "搜尋模型……",
       "STATUS_ALL": "全部",
       "EMPTY": "沒有符合篩選條件的模型。",
       "COLLAPSE_ALL": "收合所有群組",
-      "EXPAND_ALL": "展開所有群組"
+      "EXPAND_ALL": "展開所有群組",
+      "TIME_WINDOW": "時間範圍"
     },
     "BLOCKS": {
       "BANNER_SUCCESS": "所有系統正常運作",
@@ -3068,8 +3425,6 @@
     "HOVER_UPSCALE": "放大此圖",
     "HOVER_ADETAILER": "對此圖執行 ADetailer",
     "HOVER_EDIT": "在編輯標籤中使用此圖",
-    "GENERATE_TITLE": "圖像生成",
-    "GENERATE_SUBTITLE": "選擇模型、撰寫提示詞、取得圖像。",
     "PROMPT_LABEL": "提示詞",
     "PROMPT_PLACEHOLDER": "描述您想要的圖像。",
     "NEGATIVE_PROMPT_LABEL": "負面提示詞",
@@ -3090,7 +3445,6 @@
     "BACKGROUND_TRANSPARENT": "透明",
     "WATERMARK_LABEL": "浮水印",
     "STRENGTH_LABEL": "強度",
-    "SIZE_LABEL": "尺寸",
     "STEPS_LABEL": "步數",
     "CFG_LABEL": "CFG",
     "GUIDANCE_LABEL": "引導強度",
@@ -3108,13 +3462,6 @@
     "TOKEN_COUNT_CAPPED": "約 {count} / {cap} 個 token",
     "PROGRESS_OF_N": "正在生成 {current} / {total}……",
     "EXPIRES_IN_DAYS": "{days} 天後過期",
-    "RECENT_TITLE": "最近生成",
-    "AUTO_DELETE_NOTE": "生成的圖片將在 30 天後自動刪除",
-    "SHARE": "分享",
-    "SHARE_TITLE": "分享這次生成",
-    "SHARE_DESCRIPTION": "持有連結的任何人都可以檢視提示詞、參數和圖片，並將其儲存到自己的帳戶。",
-    "SHARE_REVOKE": "撤銷連結",
-    "SHARE_DONE": "完成",
     "EXPORT": "匯出",
     "IMPORT": "匯入",
     "IMPORT_TITLE": "匯入生成",
@@ -3122,85 +3469,32 @@
     "IMPORT_MODE_RESTORE": "還原（複製原圖）",
     "IMPORT_MODE_REGENERATE": "重新生成（新發起呼叫）",
     "DOWNLOAD_IMAGE": "下載圖片",
-    "SHARED_TITLE": "共享的生成",
-    "SAVE_TO_ACCOUNT": "儲存到我的帳戶",
-    "COPY_PROMPT": "複製提示詞",
     "SUBMIT": "生成",
     "SUBMITTING": "生成中……",
     "REFERENCES_TITLE": "參考圖像",
     "REFERENCES_ADD": "新增參考",
-    "REFERENCES_UNSUPPORTED": "此模型不支援參考圖像。",
     "LORAS_TITLE": "LoRA",
-    "LORAS_UNSUPPORTED": "此模型不支援 LoRA 鏈。",
-    "HISTORY_TITLE": "我的生成紀錄",
-    "NEW_GENERATION": "新建生成",
     "PICK_OR_GENERATE": "在側邊欄選擇生成記錄，或者新建一個。",
     "HISTORY_EMPTY": "尚無紀錄，請生成您的第一張圖像。",
     "STATUS_PENDING": "等待中",
-    "STATUS_SUBMITTED": "已提交",
-    "STATUS_QUEUED": "排隊中",
-    "STATUS_IN_PROGRESS": "生成中",
-    "STATUS_SUCCESS": "完成",
     "STATUS_FAILURE": "失敗",
     "REMIX": "再創作",
     "DELETE": "刪除",
-    "PUBLISH": "公開",
-    "UNLIST": "取消公開",
-    "PRIVATE": "設為私人",
-    "PRICE_PER_CALL": "每張 {price}",
     "META_TITLE": "圖像生成",
     "META_DESC": "透過 {appName} 的 ComfyUI 管線（SDXL 與 Flux 2）生成圖像。",
-    "LIKE": "點讚",
-    "UNLIKE": "取消點讚",
     "REFERENCES_DROP_HINT": "拖放圖像或瀏覽",
     "LORAS_EMPTY": "磁碟區尚未部署 LoRA。維運可透過目錄表新增。",
-    "HIRES_FIX_ENABLE": "高解析度修復",
-    "HIRES_FIX_DENOISE": "去噪強度",
-    "HIRES_FIX_UPSCALE": "放大倍率",
     "PNG_IMPORT_HINT": "拖放 ComfyUI PNG 以匯入提示詞和參數",
     "PNG_IMPORT_BROWSE": "匯入 PNG",
     "PNG_IMPORT_NO_METADATA": "此圖像中未找到 ComfyUI 元資料。",
     "NEW_SESSION": "新工作階段",
-    "SESSION_NEW_TOOLTIP": "開始一個新的工作階段。目前的工作階段仍會保留在歷程中。",
-    "RECENT_SESSIONS": "最近的工作階段",
-    "SNAPSHOT_COUNT": "{count, plural, other {# 個快照}}",
-    "IMAGE_COUNT_TOTAL": "{count, plural, other {# 張圖像}}",
     "SNAPSHOT_NAV_LABEL": "快照 {current} / {total}",
-    "SHARE_SESSION_HELP": "任何擁有此連結的人都可以查看此工作階段的歷程。",
     "LIGHTBOX_PREV": "上一張圖像",
     "LIGHTBOX_NEXT": "下一張圖像",
     "LIGHTBOX_CLOSE": "關閉",
     "SESSION_SNAPSHOTS": "本工作階段中的快照",
-    "EDIT": "編輯",
     "UPLOAD_IMAGE": "上傳圖片",
     "UPLOADING": "上傳中…",
     "INIT_IMAGE": "來源圖像"
-  },
-  "SYNC": {
-    "NOT_SYNCED": "未同步",
-    "SYNCED": "已同步",
-    "EXPIRES_AT": "已同步，{date} 到期",
-    "EXPIRED": "已到期",
-    "ADD_SYNC": "開啟同步（30 天）",
-    "RESYNC": "重新同步",
-    "RESYNC_EXPIRES": "重新同步（{date} 到期）",
-    "REMOVE_SYNC": "關閉同步",
-    "CONFIRM_REMOVE": "將此項目從伺服器同步中移除？本機副本仍會保留。",
-    "OFFLINE_REQUIRED": "同步需要連線。",
-    "PENDING_SYNC": "同步等待中，恢復連線後會自動重試。",
-    "HINT_DESCRIPTION": "已同步的項目會在伺服器保存 30 天，方便其他裝置取回。",
-    "OPFS_UNAVAILABLE": "目前的瀏覽器不支援本機資料庫，資料將不會被保留。",
-    "OFFLINE_SEND_BLOCKED": "目前離線。訊息已保存為草稿，連線後請重新傳送。",
-    "DLQ_TOAST": "{items}在多次重試後仍未能同步。",
-    "DLQ_KIND_COUNT": "{count}個{kind}",
-    "DLQ_RETRY": "重試",
-    "DLQ_RETRY_SUCCESS": "同步重試成功。",
-    "DLQ_RETRY_FAILED": "部分項目仍未成功。請檢查網路後再試。",
-    "PENDING_RETRY": "同步待處理 - 第{n}/{max}次",
-    "SYNC_FAILED": "同步失敗",
-    "RETRY_NOW": "立即重試",
-    "RETRY_SUCCESS": "已同步。",
-    "PENDING_TOOLTIP": "最近錯誤：{error}",
-    "LOCAL_NEWER_PRESERVED": "保留了{count}條比伺服器更新的本地修改。"
   }
 }

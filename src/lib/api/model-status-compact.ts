@@ -52,7 +52,7 @@ export type CompactPagePayload = {
   bars: Record<string, CompactBar>;
 };
 
-export type DecodedStatusPage = {
+type DecodedStatusPage = {
   components: ComponentDTO[];
   incidents: IncidentDTO[];
   bars: Record<string, StatusBarData[]>;

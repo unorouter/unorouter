@@ -54,4 +54,3 @@ export const YOLO_MODELS: ReadonlyArray<{ id: string; label: string }> = [
   { id: "mediapipe_face_mesh", label: "mediapipe_face_mesh" },
   { id: "mediapipe_face_short", label: "mediapipe_face_short" },
 ];
-

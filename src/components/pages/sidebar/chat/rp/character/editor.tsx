@@ -5,57 +5,90 @@ import { MyFormSwitch } from "@/components/elements/form/my-form-switch";
 import { MyFormTextarea } from "@/components/elements/form/my-form-textarea";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
+import { Icon } from "@/components/ui/icon";
+import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import {
   useCharacterQuery,
   useCreateCharacterMutation,
   useUpdateCharacterMutation,
 } from "@/hooks/ai/rp/characters";
+import { useMediaSrc } from "@/hooks/ai/use-media-src";
+import { upsertLocalMedia } from "@/lib/db/client/data/media";
 import {
   characterFormSchema,
   type CharacterForm,
 } from "@/lib/validation/rp-forms";
-import { typeboxResolver } from "@hookform/resolvers/typebox";
-import { csvToArray } from "@/lib/utils/base";
+import { useRpForm } from "@/hooks/ui/use-rp-form";
+import { csvToArray, uid } from "@/lib/utils/base";
+import { fileToScaledDataUrl, splitDataUrl } from "@/lib/utils/client";
 import { formDefaults } from "@/lib/validation/helpers";
 import { useTranslations } from "next-intl";
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useRef, useState } from "react";
 
 type Props = {
   characterId?: string;
   onSaved: () => void;
 };
 
+// Background image edit state: keep existing, remove, or replace with new bytes.
+type BgDraft =
+  | { kind: "keep" }
+  | { kind: "remove" }
+  | { kind: "new"; dataUrl: string };
+
 export function CharacterEditor(props: Props) {
   const t = useTranslations();
+  const userId = useLocalUserId();
   const characterQuery = useCharacterQuery(props.characterId);
   const createMut = useCreateCharacterMutation();
   const updateMut = useUpdateCharacterMutation();
   const existing = characterQuery.data;
+  const [bgDraft, setBgDraft] = useState<BgDraft>({ kind: "keep" });
+  const bgFileInputRef = useRef<HTMLInputElement | null>(null);
+  const existingBgSrc = useMediaSrc(
+    bgDraft.kind === "keep" ? existing?.backgroundMediaId : null,
+  );
+  const bgPreview =
+    bgDraft.kind === "new"
+      ? bgDraft.dataUrl
+      : bgDraft.kind === "keep"
+        ? existingBgSrc
+        : null;
 
-  const form = useForm({
-    resolver: typeboxResolver(characterFormSchema),
-    defaultValues: formDefaults(characterFormSchema),
-  });
-
-  useEffect(() => {
-    if (!existing) {
-      form.reset(formDefaults(characterFormSchema));
-      return;
-    }
-    // tags/triggers are string[] columns; the form edits them comma-joined.
-    form.reset(
-      formDefaults(characterFormSchema, {
+  // `values` syncs the row on settle; keepDirtyValues protects in-progress
+  // typing. tags/triggers are string[] columns edited comma-joined.
+  const formValues = existing
+    ? formDefaults(characterFormSchema, {
         ...existing,
         tags: Array.isArray(existing.tags) ? existing.tags.join(", ") : "",
         triggers: Array.isArray(existing.triggers)
           ? existing.triggers.join(", ")
           : "",
-      }),
-    );
-    // form.reset is stable
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [existing]);
+      })
+    : undefined;
+  const form = useRpForm(characterFormSchema, formValues);
+
+  const pickBgFile = async (file: File) => {
+    const dataUrl = await fileToScaledDataUrl(file);
+    setBgDraft({ kind: "new", dataUrl });
+  };
+
+  // Media row is only written on save so an abandoned edit leaves no orphan.
+  const resolveBackgroundMediaId = async (): Promise<string | null> => {
+    if (bgDraft.kind === "remove") return null;
+    if (bgDraft.kind === "keep") return existing?.backgroundMediaId ?? null;
+    const parts = splitDataUrl(bgDraft.dataUrl);
+    if (!parts) return existing?.backgroundMediaId ?? null;
+    const mediaId = uid();
+    await upsertLocalMedia(userId, {
+      id: mediaId,
+      convId: null,
+      mimeType: parts.mimeType,
+      sizeBytes: Math.floor((parts.base64.length * 3) / 4),
+      dataBase64: parts.base64,
+    });
+    return mediaId;
+  };
 
   const onSubmit = async (data: CharacterForm) => {
     const body = {
@@ -63,6 +96,7 @@ export function CharacterEditor(props: Props) {
       // tags/triggers go back to string[] columns.
       tags: csvToArray(data.tags),
       triggers: csvToArray(data.triggers),
+      backgroundMediaId: await resolveBackgroundMediaId(),
     };
     if (props.characterId) {
       await updateMut.mutateAsync({ id: props.characterId, body });
@@ -141,6 +175,59 @@ export function CharacterEditor(props: Props) {
           label={t("RP.CHARACTER_TAGS")}
           placeholder="fantasy, adventure"
         />
+        <div className="border-border/40 flex flex-col gap-3 rounded-lg border p-3">
+          <div className="text-foreground text-xs font-medium tracking-wide uppercase">
+            {t("RP.CHARACTER_BACKGROUND")}
+          </div>
+          <p className="text-muted-foreground text-xs">
+            {t("RP.CHARACTER_BACKGROUND_HINT")}
+          </p>
+          {bgPreview && (
+            <div className="border-border/40 relative h-28 w-full overflow-hidden rounded-lg border">
+              {/* eslint-disable-next-line @next/next/no-img-element -- local data-URL preview, next/image can't optimize it */}
+              <img
+                src={bgPreview}
+                alt=""
+                className="h-full w-full object-cover"
+              />
+            </div>
+          )}
+          <div className="flex gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="flex-1"
+              onClick={() => bgFileInputRef.current?.click()}
+            >
+              <Icon name="upload" className="mr-1.5 size-3.5" />
+              {bgPreview ? t("THEME.BG_REPLACE") : t("THEME.BG_UPLOAD")}
+            </Button>
+            {bgPreview && (
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="flex-1"
+                onClick={() => setBgDraft({ kind: "remove" })}
+              >
+                <Icon name="trash-2" className="mr-1.5 size-3.5" />
+                {t("THEME.BG_REMOVE")}
+              </Button>
+            )}
+          </div>
+          <input
+            ref={bgFileInputRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={(e) => {
+              const f = e.target.files?.[0];
+              if (f) void pickBgFile(f);
+              e.target.value = "";
+            }}
+          />
+        </div>
         <div className="border-border/40 flex flex-col gap-3 rounded-lg border p-3">
           <div className="text-foreground text-xs font-medium tracking-wide uppercase">
             {t("RP.CHARACTER_ACTIVATION_TITLE")}

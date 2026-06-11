@@ -21,16 +21,15 @@ type ConsentFormProps = {
 
 const KIND_BADGE: Record<ScopeKind, string> = {
   read: "bg-emerald-500/10 text-emerald-400 ring-emerald-500/20",
-  write: "bg-amber-500/10 text-amber-400 ring-amber-500/20",
+  write: "bg-amber-500/10 text-amber-700 dark:text-amber-400 ring-amber-500/20",
   danger: "bg-rose-500/10 text-rose-400 ring-rose-500/20",
 };
 
 export function ConsentForm(props: ConsentFormProps) {
   const t = useTranslations();
 
-  // openid and offline_access are OIDC-protocol scopes (sign-in + refresh).
-  // They aren't user-visible permissions, so we suppress them from the list
-  // and surface refresh as part of the bottom session note instead.
+  // openid/offline_access are OIDC protocol scopes, not user-visible permissions;
+  // suppress them from the list and surface refresh in the bottom session note.
   const PROTOCOL_SCOPES = new Set(["openid", "offline_access"]);
   const allScopes = props.scope
     .split(/\s+/)

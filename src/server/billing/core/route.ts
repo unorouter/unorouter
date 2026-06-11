@@ -22,6 +22,7 @@ import {
 } from "@/openapi";
 import { Elysia } from "elysia";
 import { ADMIN_HEADERS, deriveUpstream } from "@/server/constants";
+import { PUBLIC_CACHE } from "@/lib/config/constants";
 
 // MPP x-payment-info per paymentauth.org draft-payment-discovery-00.
 // intent=session (checkout URLs); amount null (user-picked/plan-dependent).
@@ -43,17 +44,23 @@ const xPaymentInfo = (
 export const billingRoute = new Elysia({ prefix: "/core" })
   .derive(deriveUpstream)
   .get("/topup-info", async ({ upstream }) => {
+    // Guest branch cacheable; logged-in uncached (Data Cache keys by URL only,
+    // a cached cookie-authed response would leak across users).
     const hasUser = !!upstream.headers.cookie;
-    const res = await getTopUpInfo({
-      headers: hasUser ? upstream.headers : ADMIN_HEADERS,
-    });
+    const res = await getTopUpInfo(
+      hasUser
+        ? { headers: upstream.headers }
+        : { headers: ADMIN_HEADERS, ...PUBLIC_CACHE },
+    );
     return unwrap(res);
   })
   .get("/subscription-plans", async ({ upstream }) => {
     const hasUser = !!upstream.headers.cookie;
-    const res = await getSubscriptionPlans({
-      headers: hasUser ? upstream.headers : ADMIN_HEADERS,
-    });
+    const res = await getSubscriptionPlans(
+      hasUser
+        ? { headers: upstream.headers }
+        : { headers: ADMIN_HEADERS, ...PUBLIC_CACHE },
+    );
     if (res.status !== 200) return [];
     return processPlans(res.data.data);
   })

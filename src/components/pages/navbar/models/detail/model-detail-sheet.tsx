@@ -11,8 +11,12 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import type {
-  EndpointInfo,
+import {
+  buildGroupEntries,
+  type GroupEntry,
+  gridPriceParts,
+  gridPricingColumns,
+  type EndpointInfo,
   GridPricingRow,
   ProcessedModel,
 } from "@/lib/api/pricing";
@@ -360,22 +364,13 @@ function SectionHeader(props: { icon: React.ReactNode; title: string }) {
   );
 }
 
-function getGridColumns(rows: GridPricingRow[]): string[] {
-  const first = rows[0];
-  if (!first) return [];
-  return Object.keys(first).filter(
-    (k) => k !== "Pricing" && k !== "PricingSuffix",
-  );
-}
-
 function GridPricingTable(props: {
   rows: GridPricingRow[];
   priceMultiplier?: number;
   theme: ReturnType<typeof getVendorTheme>;
   pricingLabel: string;
 }) {
-  const columns = getGridColumns(props.rows);
-  const multiplier = props.priceMultiplier ?? 1;
+  const columns = gridPricingColumns(props.rows);
 
   return (
     <div className="overflow-x-auto">
@@ -397,10 +392,10 @@ function GridPricingTable(props: {
         </thead>
         <tbody>
           {props.rows.map((row, i) => {
-            const price =
-              typeof row.Pricing === "number" ? row.Pricing * multiplier : 0;
-            const suffix =
-              typeof row.PricingSuffix === "string" ? row.PricingSuffix : "";
+            const { price, suffix } = gridPriceParts(
+              row,
+              props.priceMultiplier,
+            );
             return (
               <tr key={i} className="border-border/20 border-b last:border-0">
                 {columns.map((col) => (
@@ -460,21 +455,6 @@ function GridPricingSection(props: {
       </div>
     </section>
   );
-}
-
-type GroupEntry = { group: string; ratio: number };
-
-function buildGroupEntries(
-  enableGroups: readonly string[],
-  groupRatioMap: Record<string, number>,
-): GroupEntry[] {
-  const entries: GroupEntry[] = [];
-  for (const group of enableGroups) {
-    const ratio = groupRatioMap[group];
-    if (ratio === undefined) continue;
-    entries.push({ group, ratio });
-  }
-  return entries.sort((a, b) => a.ratio - b.ratio);
 }
 
 function GroupPricingSection(props: {

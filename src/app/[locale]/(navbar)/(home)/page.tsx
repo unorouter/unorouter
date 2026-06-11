@@ -1,3 +1,4 @@
+import { prefetchElysia } from "@/lib/react-query/prefetch";
 import { Home } from "@/components/pages/navbar/home/home";
 import { APP_VALUES } from "@/lib/config/constants";
 import getQueryClient from "@/lib/react-query/client";
@@ -33,20 +34,17 @@ export default async function HomePage(props: {
   const locale = await serverLocale(props);
   const t = await getTranslations({ locale });
 
+  // Pricing fetched OUTSIDE the query client: dehydrating it serialized the
+  // full model catalog (~1MB raw) into the homepage RSC payload. The hero only
+  // needs four counts; client widgets (ticker) fetch pricing lazily themselves.
   const [pricing] = await Promise.all([
-    queryClient.fetchQuery({
-      queryKey: queryKeys.pricing(),
-      queryFn: async () => handleElysia(await rpc.api.models.pricing.get()),
-    }),
-    queryClient.prefetchQuery({
-      queryKey: queryKeys.statsHistory(),
-      queryFn: async () => handleElysia(await rpc.api.ops.stats.history.get()),
-    }),
-    queryClient.prefetchQuery({
-      queryKey: queryKeys.subscriptionPlans(),
-      queryFn: async () =>
-        handleElysia(await rpc.api.models.pricing.subscriptions.get()),
-    }),
+    handleElysia(await rpc.api.models.pricing.get()),
+    prefetchElysia(queryClient, queryKeys.statsHistory(), () =>
+      rpc.api.ops.stats.history.get(),
+    ),
+    prefetchElysia(queryClient, queryKeys.subscriptionPlans(), () =>
+      rpc.api.models.pricing.subscriptions.get(),
+    ),
   ]);
 
   return (
@@ -60,7 +58,14 @@ export default async function HomePage(props: {
         })}
       />
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <Home />
+        <Home
+          counts={{
+            modelCount: pricing.modelCount,
+            vendorCount: pricing.vendorCount,
+            freeCount: pricing.freeCount,
+            paidCount: pricing.paidCount,
+          }}
+        />
       </HydrationBoundary>
     </>
   );

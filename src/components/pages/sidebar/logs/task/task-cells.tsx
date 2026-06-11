@@ -7,18 +7,16 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Icon } from "@/components/ui/icon";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { copyToClipboard } from "@/lib/utils/base";
-import { modelColorStyle } from "@/lib/utils/format/color";
 import type { CellContext } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
 import { createContext, useContext } from "react";
-import { toast } from "sonner";
+import {
+  ChannelCode,
+  CopyIdButton,
+  DurationBadge,
+  EMPTY_CELL as EMPTY,
+  StackedCell,
+} from "../common/cell-primitives";
 import {
   formatTaskDuration,
   formatTaskTimestamp,
@@ -30,28 +28,10 @@ import {
   type TaskRow,
 } from "./task-helpers";
 
-const EMPTY = <span className="text-muted-foreground text-xs">{"-"}</span>;
-
 export const TaskDialogContext = createContext<{
   openFailReason: (row: TaskRow) => void;
   openAudio: (row: TaskRow) => void;
 } | null>(null);
-
-function StackedCell(props: {
-  primary: React.ReactNode;
-  secondary?: React.ReactNode;
-}) {
-  return (
-    <div className="flex flex-col gap-0.5 leading-tight">
-      {props.primary}
-      {props.secondary != null && props.secondary !== "" && (
-        <span className="text-muted-foreground/70 truncate text-[10px]">
-          {props.secondary}
-        </span>
-      )}
-    </div>
-  );
-}
 
 export function TaskTimeCell(props: CellContext<TaskRow, unknown>) {
   const log = props.row.original;
@@ -70,19 +50,10 @@ export function TaskTimeCell(props: CellContext<TaskRow, unknown>) {
 export function TaskChannelCell(props: CellContext<TaskRow, unknown>) {
   const log = props.row.original;
   if (!log.channel_id) return EMPTY;
-  const label = `#${log.channel_id}`;
-  return (
-    <code
-      className="w-fit rounded px-1.5 py-0.5 font-mono text-xs"
-      style={modelColorStyle(label)}
-    >
-      {label}
-    </code>
-  );
+  return <ChannelCode channelId={log.channel_id} />;
 }
 
 export function TaskIdCell(props: CellContext<TaskRow, unknown>) {
-  const t = useTranslations();
   const log = props.row.original;
   if (!log.task_id) return EMPTY;
   const secondary =
@@ -91,29 +62,7 @@ export function TaskIdCell(props: CellContext<TaskRow, unknown>) {
       : null;
   return (
     <StackedCell
-      primary={
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger
-              render={
-                <button
-                  type="button"
-                  className="border-border/60 bg-muted/30 inline-flex w-fit max-w-44 cursor-pointer items-center gap-1 rounded-md border px-1.5 py-0.5"
-                  onClick={() => {
-                    copyToClipboard(log.task_id);
-                    toast.success(t("LOGS.COPIED"));
-                  }}
-                />
-              }
-            >
-              <span className="text-foreground truncate font-mono text-xs">
-                {log.task_id}
-              </span>
-            </TooltipTrigger>
-            <TooltipContent>{t("LOGS.CLICK_COPY")}</TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-      }
+      primary={<CopyIdButton id={log.task_id} />}
       secondary={secondary}
     />
   );
@@ -123,17 +72,12 @@ export function TaskDurationCell(props: CellContext<TaskRow, unknown>) {
   const log = props.row.original;
   const duration = formatTaskDuration(log.submit_time, log.finish_time);
   if (!duration) return EMPTY;
-  const variant = duration.isWarning
-    ? "border-red-500/30 bg-red-500/10 text-red-700 dark:text-red-400"
-    : "border-green-500/30 bg-green-500/10 text-green-700 dark:text-green-400";
-  const dot = duration.isWarning ? "bg-red-500" : "bg-green-500";
   return (
-    <span
-      className={`inline-flex items-center gap-1 rounded-md border px-1.5 py-0.5 font-mono text-[11px] tabular-nums ${variant}`}
-    >
-      <span className={`size-1.5 rounded-full ${dot}`} />
-      {duration.durationSec.toFixed(0)}s
-    </span>
+    <DurationBadge
+      durationSec={duration.durationSec}
+      isWarning={duration.isWarning}
+      decimals={0}
+    />
   );
 }
 

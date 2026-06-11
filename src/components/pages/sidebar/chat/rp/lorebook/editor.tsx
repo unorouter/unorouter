@@ -17,11 +17,9 @@ import {
   lorebookFormSchema,
   type LorebookForm,
 } from "@/lib/validation/rp-forms";
-import { typeboxResolver } from "@hookform/resolvers/typebox";
+import { useRpForm } from "@/hooks/ui/use-rp-form";
 import { formDefaults } from "@/lib/validation/helpers";
 import { useTranslations } from "next-intl";
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
 import { LorebookEntries } from "./entries";
 
 type Props = {
@@ -35,18 +33,12 @@ export function LorebookEditor(props: Props) {
   const updateLb = useUpdateLorebookMutation();
   const deleteLb = useDeleteLorebookMutation();
 
-  const form = useForm({
-    resolver: typeboxResolver(lorebookFormSchema),
-    defaultValues: formDefaults(lorebookFormSchema),
-  });
-
-  useEffect(() => {
-    const l = lbQuery.data;
-    if (!l) return;
-    form.reset(formDefaults(lorebookFormSchema, l));
-    // form.reset is stable; we want to re-seed when the lorebook changes
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lbQuery.data, props.lorebookId]);
+  // `values` syncs the row on settle; keepDirtyValues protects in-progress
+  // typing. Parent keys this component by lorebookId for clean remounts.
+  const formValues = lbQuery.data
+    ? formDefaults(lorebookFormSchema, lbQuery.data)
+    : undefined;
+  const form = useRpForm(lorebookFormSchema, formValues);
 
   const onSubmit = async (data: LorebookForm) => {
     await updateLb.mutateAsync({ id: props.lorebookId, body: data });
@@ -85,6 +77,7 @@ export function LorebookEditor(props: Props) {
               name="description"
               schema={lorebookFormSchema}
               label={t("COMMON.DESCRIPTION")}
+              description={t("RP.LOREBOOK_DESCRIPTION_NOT_SENT")}
               rows={2}
             />
             <div className="grid grid-cols-2 gap-3">

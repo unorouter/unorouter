@@ -1,11 +1,8 @@
 "use client";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { confirm } from "@/components/ui/confirm";
 import { Icon } from "@/components/ui/icon";
-import { SyncBadge } from "@/components/elements/badge/sync-badge";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -20,7 +17,13 @@ import {
 import { analytics } from "@/lib/analytics";
 import type { EntityEditId } from "@/lib/types";
 import { useTranslations } from "next-intl";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import {
+  confirmRpDelete,
+  RpEmptyCard,
+  RpEntityRow,
+  RpImportControl,
+} from "../shared/rp-list-parts";
 import { PersonaEditor } from "./editor";
 
 type Props = {
@@ -33,7 +36,6 @@ export function PersonaList(props: Props) {
   const personasQuery = usePersonasQuery();
   const deleteMut = useDeletePersonaMutation();
   const importMut = useImportPersonaMutation();
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [editingId, setEditingId] = useState<EntityEditId>(null);
 
@@ -42,29 +44,12 @@ export function PersonaList(props: Props) {
     if (!props.open) setEditingId(null);
   }, [props.open]);
 
-  const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    e.target.value = "";
-    try {
-      await importMut.mutateAsync(file);
-      analytics.rp.entityAction({ entity: "personas", action: "imported" });
-    } catch {
-      analytics.rp.entityAction({
-        entity: "personas",
-        action: "import_failed",
-      });
-    }
-  };
-
   const handleDelete = async (id: string) => {
-    const ok = await confirm({
-      title: t("COMMON.CONFIRM.DELETE_PERSONA_TITLE"),
-      description: t("COMMON.CONFIRM.DELETE_PERSONA_DESC"),
-      confirmLabel: t("COMMON.DELETE"),
-      cancelLabel: t("COMMON.CANCEL"),
-      destructive: true,
-    });
+    const ok = await confirmRpDelete(
+      t,
+      "COMMON.CONFIRM.DELETE_PERSONA_TITLE",
+      "COMMON.CONFIRM.DELETE_PERSONA_DESC",
+    );
     if (!ok) return;
     await deleteMut.mutateAsync(id);
     analytics.rp.entityAction({ entity: "personas", action: "deleted" });
@@ -80,28 +65,13 @@ export function PersonaList(props: Props) {
 
         <div className="flex flex-col gap-3">
           <div className="flex flex-wrap items-center justify-end gap-2">
-            <input
-              ref={fileInputRef}
-              type="file"
+            <RpImportControl
+              entity="personas"
               accept="application/json"
-              onChange={handleFile}
-              className="hidden"
+              labelKey="RP.PERSONAS_IMPORT"
+              isPending={importMut.isPending}
+              onFile={(file) => importMut.mutateAsync(file).then(() => {})}
             />
-            <Button
-              variant="outline"
-              onClick={() => {
-                analytics.rp.entityAction({
-                  entity: "personas",
-                  action: "import_picker_opened",
-                });
-                fileInputRef.current?.click();
-              }}
-              disabled={importMut.isPending}
-              className="min-w-0 flex-1 sm:flex-initial"
-            >
-              <Icon name="upload" className="size-4" />
-              <span className="truncate">{t("RP.PERSONAS_IMPORT")}</span>
-            </Button>
             <Button
               onClick={() => {
                 analytics.rp.entityAction({
@@ -118,13 +88,12 @@ export function PersonaList(props: Props) {
           </div>
 
           {personasQuery.data?.length === 0 && editingId !== "new" && (
-            <Card className="text-muted-foreground py-10 text-center text-sm">
-              {t("RP.PERSONAS_EMPTY")}
-            </Card>
+            <RpEmptyCard labelKey="RP.PERSONAS_EMPTY" />
           )}
 
           {editingId && (
             <PersonaEditor
+              key={editingId}
               editingId={editingId}
               onDone={() => setEditingId(null)}
             />
@@ -133,51 +102,35 @@ export function PersonaList(props: Props) {
           {!editingId && (
             <div className="flex flex-col gap-2">
               {personasQuery.data?.map((p) => (
-                <Card
+                <RpEntityRow
                   key={p.id}
-                  className="hover:bg-accent flex cursor-pointer flex-row items-center gap-3 p-3 transition-colors"
-                  onClick={() => {
+                  onOpen={() => {
                     analytics.rp.entityAction({
                       entity: "personas",
                       action: "edit_started",
                     });
                     setEditingId(p.id);
                   }}
-                >
-                  <Avatar className="size-10">
-                    <AvatarFallback>
-                      {p.name[0]?.toUpperCase() ?? "?"}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="flex min-w-0 flex-1 flex-col">
-                    <span className="text-sm font-medium">
+                  leading={
+                    <Avatar className="size-10">
+                      <AvatarFallback>
+                        {p.name[0]?.toUpperCase() ?? "?"}
+                      </AvatarFallback>
+                    </Avatar>
+                  }
+                  name={
+                    <>
                       {p.name}
                       {p.isDefault && (
                         <span className="text-muted-foreground ml-2 text-xs">
                           ({t("RP.PERSONA_DEFAULT").toLowerCase()})
                         </span>
                       )}
-                    </span>
-                    {p.description && (
-                      <span className="text-muted-foreground truncate text-xs">
-                        {p.description}
-                      </span>
-                    )}
-                  </div>
-                  <div onClick={(e) => e.stopPropagation()}>
-                    <SyncBadge kind="personas" id={p.id} payload={p} compact />
-                  </div>
-                  <Button
-                    variant="ghost"
-                    size="icon-sm"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleDelete(p.id);
-                    }}
-                  >
-                    <Icon name="trash-2" className="size-4" />
-                  </Button>
-                </Card>
+                    </>
+                  }
+                  description={p.description}
+                  onDelete={() => handleDelete(p.id)}
+                />
               ))}
             </div>
           )}

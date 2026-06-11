@@ -2,9 +2,12 @@ import { LaunchContent } from "@/components/pages/blog/posts/2026-04-17-launch-c
 import { AgentReadyContent } from "@/components/pages/blog/posts/2026-04-25-agent-ready-content";
 import { ClaudeAuthenticityContent } from "@/components/pages/blog/posts/2026-04-26-claude-authenticity-content";
 import { SixInputImageModelsContent } from "@/components/pages/blog/posts/2026-05-18-six-input-image-models-content";
+import { DiscordCommunityContent } from "@/components/pages/blog/posts/2026-06-04-discord-community-content";
+import { FreeModelsAggregatedContent } from "@/components/pages/blog/posts/2026-06-08-free-models-aggregated-content";
+import { UnorouterVsOpenrouterContent } from "@/components/pages/blog/posts/2026-06-10-unorouter-vs-openrouter-content";
 import { BLOG_REGISTRY, type BlogSlug } from "@/i18n/registry";
 import { APP_VALUES } from "@/lib/config/constants";
-import type { BlogPost } from "@/lib/types/seo";
+import type { BlogPost } from "@/lib/types";
 import type { useTranslations } from "next-intl";
 import type { ComponentType } from "react";
 
@@ -13,6 +16,9 @@ const COMPONENTS: Record<BlogSlug, ComponentType> = {
   "agent-ready": AgentReadyContent,
   "claude-authenticity": ClaudeAuthenticityContent,
   "six-input-image-models": SixInputImageModelsContent,
+  "discord-community": DiscordCommunityContent,
+  "free-models-aggregated": FreeModelsAggregatedContent,
+  "unorouter-vs-openrouter": UnorouterVsOpenrouterContent,
 };
 
 export const POSTS: BlogPost<BlogSlug>[] = BLOG_REGISTRY.map((entry) => ({

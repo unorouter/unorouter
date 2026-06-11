@@ -10,7 +10,8 @@ import {
   playgroundSubmitBody,
   upscalerCatalogQuery,
 } from "@/lib/validation/playground";
-import { getApiKeyOrGuest, getUserId } from "@/server/constants";
+import { getUserId } from "@/server/constants";
+import { resolveChatApiKey } from "@/server/billing/token/best-key.service";
 import { Elysia } from "elysia";
 import { COMFYUI_TEMPLATE_IDS } from "./playground-constants";
 import {
@@ -35,7 +36,7 @@ async function assertGuestAllowedModel(model: string): Promise<void> {
   if (COMFYUI_TEMPLATE_IDS.has(model)) {
     throw new Error(msg("ERRORS.UNAUTHORIZED"));
   }
-  const meta = (await getPricingSummary()).models.find((m) => m.name === model);
+  const meta = (await getPricingSummary()).byName.get(model);
   if (!meta?.isFree) {
     throw new Error(msg("ERRORS.UNAUTHORIZED"));
   }
@@ -49,7 +50,7 @@ export const playgroundRoute = new Elysia({ prefix: "/playground" })
       if (userId === GUEST_USER_ID) {
         await assertGuestAllowedModel(body.model);
       }
-      const apiKey = getApiKeyOrGuest(cookie);
+      const apiKey = await resolveChatApiKey(cookie);
       return { success: true, data: await submitGeneration(apiKey, body) };
     },
     { body: playgroundSubmitBody },
@@ -57,26 +58,27 @@ export const playgroundRoute = new Elysia({ prefix: "/playground" })
   .post(
     "/poll",
     async ({ body, cookie }) => {
-      const apiKey = getApiKeyOrGuest(cookie);
+      const apiKey = await resolveChatApiKey(cookie);
       return { success: true, data: await pollGeneration(apiKey, body.taskId) };
     },
     { body: playgroundPollBody },
   )
   .post(
     "/references",
-    async ({ body, cookie }) =>
-      uploadGenPlaygroundFile(body.file, cookie),
+    async ({ body, cookie }) => uploadGenPlaygroundFile(body.file, cookie),
     { body: playgroundReferenceUploadBody },
   )
   .post(
     "/masks",
-    async ({ body, cookie }) =>
-      uploadGenPlaygroundFile(body.file, cookie),
+    async ({ body, cookie }) => uploadGenPlaygroundFile(body.file, cookie),
     { body: playgroundMaskUploadBody },
   )
   .get(
     "/loras",
-    async ({ query }) => ({ success: true, data: await listLoraCatalog(query) }),
+    async ({ query }) => ({
+      success: true,
+      data: await listLoraCatalog(query),
+    }),
     { query: loraCatalogQuery },
   )
   .get(

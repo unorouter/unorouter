@@ -1,7 +1,7 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { CopyButton } from "@/components/elements/code/copy-button";
+import { SmartImage } from "@/components/ui/smart-image";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -45,9 +45,8 @@ export function BadgeGenerator(props: BadgeGeneratorProps) {
   const [prevResolvedTheme, setPrevResolvedTheme] = useState(
     themes.resolvedTheme,
   );
-  // Sync the local `theme` selector with the global resolvedTheme during
-  // render (the derived-state pattern). User can still override the theme
-  // dropdown manually; the next system toggle will reset it again.
+  // Derived-state pattern: sync the local theme selector with resolvedTheme during
+  // render. Manual override still works; the next system toggle resets it.
   if (
     prevResolvedTheme !== themes.resolvedTheme &&
     (themes.resolvedTheme === "light" || themes.resolvedTheme === "dark")
@@ -198,11 +197,14 @@ export function BadgeGenerator(props: BadgeGeneratorProps) {
           {t("AFFILIATE.BADGE_GENERATOR.PREVIEW")}
         </span>
         <div className="bg-muted/50 border-border relative flex min-h-30 items-center justify-center overflow-hidden rounded-sm border p-6">
-          <img
+          <SmartImage
             key={previewUrl}
             src={previewUrl}
             alt={t("AFFILIATE.BADGE_GENERATOR.BADGE_ALT", APP_VALUES)}
-            className="max-w-full"
+            width={0}
+            height={0}
+            sizes="100vw"
+            className="h-auto max-w-full"
           />
           <CopyButton
             text={badgeAbsoluteUrl}

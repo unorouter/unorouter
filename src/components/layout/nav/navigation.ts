@@ -1,18 +1,50 @@
+import type { IntegrationIconKey } from "@/components/pages/docs/integrations";
+import {
+  CATEGORY_LABELS,
+  CATEGORY_ORDER,
+  setupGuidesByCategory,
+} from "@/components/pages/docs/setup-guides";
 import type { LinkHref } from "@/i18n/routing";
 import { TranslationKey } from "@/lib/config/constants";
 import type { IconName } from "@/lib/config/icon-map";
-import Claude from "@lobehub/icons/es/Claude";
-import Gemini from "@lobehub/icons/es/Gemini";
-import OpenAI from "@lobehub/icons/es/OpenAI";
 import type { ComponentType } from "react";
+
+// Derived from SETUP_GUIDES so nav dropdown, docs sidebar, and docs index read
+// one source; adding a guide updates all three.
+const docsSubmenu = (): NavigationItem[] => {
+  const byCategory = setupGuidesByCategory();
+  return CATEGORY_ORDER.flatMap((category) =>
+    byCategory[category].map((guide) => ({
+      name: guide.titleKey,
+      subtitle: guide.subtitleKey,
+      href: guide.href,
+      group: CATEGORY_LABELS[category],
+      guideIcon: {
+        iconKey: guide.iconKey,
+        logoSrc: guide.logoSrc,
+        logoBg: guide.logoBg,
+        logoMono: guide.logoMono,
+      },
+    })),
+  );
+};
 
 export type NavigationItem = {
   name: TranslationKey;
+  /** Optional tagline shown under the name in the docs megamenu cards. */
+  subtitle?: TranslationKey;
   href: LinkHref;
   /** Icon name from the central registry. */
   iconName?: IconName;
   /** Vendor brand component (Claude/Gemini/OpenAI) - rendered as-is. */
   iconComponent?: ComponentType<{ className?: string }>;
+  /** Per-guide brand logo (docs sidebar); takes precedence over iconName. */
+  guideIcon?: {
+    iconKey: IntegrationIconKey;
+    logoSrc?: string;
+    logoBg?: boolean;
+    logoMono?: boolean;
+  };
   hidden?: boolean;
   exact?: boolean;
   onClick?: (e: React.MouseEvent) => void;
@@ -20,14 +52,37 @@ export type NavigationItem = {
   group?: TranslationKey;
 };
 
+// usePathname() returns the template and object hrefs carry params separately;
+// both sides must resolve before comparison or every "/docs/[slug]" item matches.
+const fillParams = (path: string, params?: Record<string, string>) => {
+  if (!params) return path;
+  let out = path;
+  for (const [key, value] of Object.entries(params)) {
+    out = out.replace(`[${key}]`, String(value));
+  }
+  return out;
+};
+
+const resolveHref = (href: LinkHref) => {
+  if (typeof href === "string") return href;
+  const hrefParams =
+    "params" in href && href.params
+      ? (href.params as Record<string, string>)
+      : undefined;
+  return fillParams(href.pathname, hrefParams);
+};
+
 export const isActiveLink = (
   pathname: string,
   href: LinkHref,
   exact?: boolean,
+  routeParams?: Record<string, string>,
 ) => {
-  const hrefStr = typeof href === "string" ? href : href.pathname;
-  const cleanPathname = pathname.replace(/\/$/, "") || "/";
-  const cleanHref = hrefStr.replace(/\/$/, "") || "/";
+  // Resolve the template pathname with the current route's params, and the
+  // href with its own params, so dynamic routes compare by concrete value.
+  const cleanPathname =
+    fillParams(pathname, routeParams).replace(/\/$/, "") || "/";
+  const cleanHref = resolveHref(href).replace(/\/$/, "") || "/";
 
   if (exact || cleanHref === "/") {
     return cleanPathname === cleanHref;
@@ -62,62 +117,7 @@ export const navigation = (authenticated?: boolean): NavigationItem[] => [
     href: "/docs",
     iconName: "book-open",
     exact: true,
-    submenu: [
-      {
-        name: "NAV.CC_SWITCH",
-        href: "/docs/cc-switch",
-        iconName: "arrow-left-right",
-        group: "NAV.GROUP_CLI",
-      },
-      {
-        name: "NAV.OPENCLAW",
-        href: "/docs/openclaw",
-        iconName: "crab-claw",
-        group: "NAV.GROUP_CLI",
-      },
-      {
-        name: "NAV.CLAUDE_CODE",
-        href: "/docs/claude-code",
-        iconComponent: Claude,
-        group: "NAV.GROUP_CLI",
-      },
-      {
-        name: "NAV.CODEX",
-        href: "/docs/codex",
-        iconComponent: OpenAI,
-        group: "NAV.GROUP_CLI",
-      },
-      {
-        name: "NAV.GEMINI_CLI",
-        href: "/docs/gemini-cli",
-        iconComponent: Gemini,
-        group: "NAV.GROUP_CLI",
-      },
-      {
-        name: "NAV.SILLYTAVERN",
-        href: "/docs/sillytavern",
-        iconName: "drama",
-        group: "NAV.GROUP_ROLEPLAY",
-      },
-      {
-        name: "NAV.JANITOR_AI",
-        href: "/docs/janitor-ai",
-        iconName: "broom",
-        group: "NAV.GROUP_ROLEPLAY",
-      },
-      {
-        name: "NAV.RISUAI",
-        href: "/docs/risuai",
-        iconName: "fox",
-        group: "NAV.GROUP_ROLEPLAY",
-      },
-      {
-        name: "NAV.CHUB",
-        href: "/docs/chub",
-        iconName: "heart",
-        group: "NAV.GROUP_ROLEPLAY",
-      },
-    ],
+    submenu: docsSubmenu(),
   },
   { name: "NAV.BLOG", href: "/blog", iconName: "newspaper" },
 ];

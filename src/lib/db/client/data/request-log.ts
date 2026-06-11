@@ -35,6 +35,27 @@ export async function insertLocalRequestLog(
     .onConflictDoUpdate({ target: requestLogs.msgId, set: row });
 }
 
+// Overwrite the stream-time estimates with new-api's authoritative figures
+// (resolved post-finish by the logEnrich task). No-op when the row is gone.
+export async function patchLocalRequestLogUpstream(
+  userId: number | undefined,
+  msgId: string,
+  patch: {
+    cost?: number | null;
+    inputTokens?: number | null;
+    outputTokens?: number | null;
+    durationMs?: number | null;
+    channelName?: string | null;
+  },
+): Promise<void> {
+  const local = await getLocalDb(userId);
+  if (!local) return;
+  await local.db
+    .update(requestLogs)
+    .set(patch)
+    .where(eq(requestLogs.msgId, msgId));
+}
+
 export async function readLocalRequestLog(
   userId: number | undefined,
   msgId: string,

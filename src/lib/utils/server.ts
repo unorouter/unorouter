@@ -7,6 +7,7 @@ import { getLocale } from "next-intl/server";
 import { cookies, headers } from "next/headers";
 import {
   AUTH_REDIRECT_QUERY,
+  GUEST_USER_ID,
   LOCALE_COOKIE,
   LOCALES,
   msg,
@@ -67,6 +68,15 @@ export const getCookieValue = async <T>(
   }
 };
 
+// Authoritative local-DB owner from the sealed user-id cookie; GUEST_USER_ID
+// when absent/invalid. Server components ONLY. Injected into the client tree so
+// the local DB owner is correct on first paint (no auth-query race). Defined
+// here (not in config/constants) to avoid pulling iron-session into clients.
+export const getResolvedUserId = async (): Promise<number> => {
+  const sealed = (await cookies()).get(USER_ID_COOKIE)?.value;
+  return (await verifyUserId(sealed)) ?? GUEST_USER_ID;
+};
+
 export const getDocsApiKey = async (placeholder = "YOUR_API_KEY") => {
   const data = handleElysia(await rpc.api.models.pricing.get());
   const rawModels = data.models ?? [];
@@ -124,39 +134,35 @@ export function assertFound<T>(
   if (rows.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
 }
 
-/**
- * Redirect an unauthed user to /login and preserve the path they were trying
- * to reach. The originating URL is read from the SERVER_URL_KEY request header
- * stamped by src/proxy.ts; on /login the existing AuthRedirectCapture stashes
- * it into AUTH_REDIRECT_COOKIE, which login-form.tsx + the OAuth callback in
- * server/auth/account/route.ts consume on success.
- */
+// Redirect unauthed to /login preserving the target path: SERVER_URL_KEY header
+// (proxy.ts) -> AuthRedirectCapture -> AUTH_REDIRECT_COOKIE -> consumed by
+// login-form + the OAuth callback on success.
 export async function redirectToLogin(): Promise<never> {
   const locale = await serverLocale();
   const incoming = (await headers()).get(SERVER_URL_KEY);
-  let target = "";
-  if (incoming) {
-    try {
-      const u = new URL(incoming);
-      // Stored value must be locale-LESS: useRouter from @/i18n/navigation
-      // re-prepends the active locale on push, so a stored "/en/settings"
-      // round-trips as "/en/en/settings" (404). Strip the active locale.
-      const prefix = `/${locale}`;
-      let pathname = u.pathname;
-      if (pathname === prefix) pathname = "/";
-      else if (pathname.startsWith(`${prefix}/`))
-        pathname = pathname.slice(prefix.length);
-      target = pathname + (u.search || "");
-    } catch {
-      target = "";
-    }
-  }
-  redirect({
+  const target = incoming ? stripLocalePrefix(incoming, locale) : "";
+  return redirect({
     href: target
       ? { pathname: "/login", query: { [AUTH_REDIRECT_QUERY]: target } }
       : "/login",
     locale,
   });
-  // redirect() throws internally; this line is unreachable.
-  throw new Error("unreachable");
+}
+
+// Store the redirect target locale-less: i18n useRouter re-prepends the locale
+// on push, so "/en/settings" would round-trip as "/en/en/settings" (404).
+function stripLocalePrefix(url: string, locale: string): string {
+  try {
+    const u = new URL(url);
+    const prefix = `/${locale}`;
+    const pathname =
+      u.pathname === prefix
+        ? "/"
+        : u.pathname.startsWith(`${prefix}/`)
+          ? u.pathname.slice(prefix.length)
+          : u.pathname;
+    return pathname + u.search;
+  } catch {
+    return "";
+  }
 }

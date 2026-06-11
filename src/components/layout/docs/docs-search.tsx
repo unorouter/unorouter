@@ -21,7 +21,7 @@ export function DocsSearch() {
   const t = useTranslations();
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState(false);
-  const searchResults = useSearchQuery(query);
+  const searchResults = useSearchQuery(query, open);
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {

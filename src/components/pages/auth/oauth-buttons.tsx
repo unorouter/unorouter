@@ -127,7 +127,7 @@ export function OAuthButtons(props: OAuthButtonsProps) {
     setLoading(provider.key);
     analytics.auth.oauthInitiated(provider.key);
     try {
-      const callbackUrl = `${window.location.origin}/api/auth/oauth/callback`;
+      const callbackUrl = `${window.location.origin}/api/auth/account/oauth/callback`;
       const affCode = getCookie(AFF_CODE_KEY);
       const state = handleElysia(
         await rpc.api.auth.account.oauth.state.get({

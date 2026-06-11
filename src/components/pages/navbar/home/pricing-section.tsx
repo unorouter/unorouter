@@ -104,7 +104,7 @@ function StepCard(props: {
           {props.desc}
         </p>
       </div>
-      <div className="border-border/40 mt-auto rounded-md border bg-black/40 p-3">
+      <div className="border-border/40 bg-muted/60 mt-auto rounded-md border p-3 dark:bg-black/40">
         {props.children}
       </div>
     </div>
@@ -145,9 +145,7 @@ function TopUpDemo() {
     <div className="space-y-2.5 font-mono text-[11px]">
       {rows.map((row) => (
         <div key={row.label} className="flex items-center gap-3">
-          <span className="text-muted-foreground w-12 shrink-0">
-            {row.label}
-          </span>
+          <span className="text-foreground/70 w-12 shrink-0">{row.label}</span>
           <div className="bg-secondary/60 relative h-1.5 flex-1 overflow-hidden rounded-full">
             <div
               className="h-full bg-linear-to-r from-purple-500 to-purple-400"
@@ -168,7 +166,7 @@ async function ApiKeyDemo() {
   const envVarLabel = `${APP_VALUES.appName.toUpperCase()}_API_KEY`;
   return (
     <div className="space-y-2">
-      <div className="text-muted-foreground font-mono text-[10px] tracking-[0.2em] uppercase">
+      <div className="text-foreground/70 font-mono text-[10px] tracking-[0.2em] uppercase">
         {envVarLabel}
       </div>
       <div className="bg-secondary/60 border-border/40 flex items-center justify-between gap-3 rounded border px-3 py-2.5">

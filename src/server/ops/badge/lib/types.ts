@@ -19,6 +19,8 @@ export interface BadgePricingRow {
 
 export interface BadgePricing {
   modelCount: number;
+  freeCount: number;
+  paidCount: number;
   vendorCount: number;
   vendorNames: string[];
   vendorModelCounts: Record<string, number>;
@@ -74,4 +76,7 @@ export interface RenderTemplateOpts {
   pulseDot?: { markerColor: string; accentColor: string };
   cipherTargets?: CipherTarget[];
   staticMode?: boolean;
+  // Raw SVG injected after the opening <svg> tag (paints behind everything);
+  // real gradients instead of satori's approximated CSS ones.
+  svgBackground?: string;
 }

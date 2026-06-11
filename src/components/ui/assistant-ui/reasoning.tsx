@@ -1,6 +1,17 @@
 "use client";
 
-import { MarkdownText } from "@/components/ui/assistant-ui/markdown-text";
+import dynamic from "next/dynamic";
+// Markdown pipeline (~75KB gzip) loads with the first rendered message, not
+// with the empty-thread shell.
+const MarkdownText = dynamic(
+  () =>
+    import("@/components/ui/assistant-ui/markdown-text").then(
+      (m) => m.MarkdownText,
+    ),
+  { ssr: false },
+  // The message-part slot type carries part props MarkdownText ignores
+  // (it reads message context); restore the original signature.
+) as unknown as typeof import("@/components/ui/assistant-ui/markdown-text").MarkdownText;
 import {
   Collapsible,
   CollapsibleContent,
@@ -15,7 +26,7 @@ import {
   type ReasoningMessagePartComponent,
 } from "@assistant-ui/react";
 import { useTranslations } from "next-intl";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const ANIMATION_DURATION = 200;
 
@@ -125,10 +136,37 @@ function ReasoningTrigger({
 }
 
 function ReasoningContent({
+  following,
   className,
   children,
   ...props
-}: React.ComponentProps<typeof CollapsibleContent>) {
+}: React.ComponentProps<typeof CollapsibleContent> & {
+  /** While true (reasoning streaming), pin the scrollbox to the bottom. */
+  following?: boolean;
+}) {
+  const scrollRef = useRef<HTMLDivElement | null>(null);
+  const stickRef = useRef(true);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el || !following) return;
+    // Release the pin when the user scrolls up; re-engage near the bottom.
+    const onScroll = () => {
+      stickRef.current = el.scrollHeight - el.scrollTop - el.clientHeight < 40;
+    };
+    el.addEventListener("scroll", onScroll, { passive: true });
+    const target = el.firstElementChild ?? el;
+    const ro = new ResizeObserver(() => {
+      if (stickRef.current) el.scrollTop = el.scrollHeight;
+    });
+    ro.observe(target);
+    el.scrollTop = el.scrollHeight;
+    return () => {
+      el.removeEventListener("scroll", onScroll);
+      ro.disconnect();
+    };
+  }, [following]);
+
   return (
     <CollapsibleContent
       data-slot="reasoning-content"
@@ -145,8 +183,11 @@ function ReasoningContent({
       )}
       {...props}
     >
-      <div className="relative z-0 max-h-64 overflow-y-auto pt-2 pb-2 pl-6 leading-relaxed">
-        {children}
+      <div
+        ref={scrollRef}
+        className="relative z-0 max-h-64 overflow-y-auto pt-2 pb-2 pl-6 leading-relaxed"
+      >
+        <div>{children}</div>
       </div>
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 bg-[linear-gradient(to_top,var(--color-background),transparent)]" />
     </CollapsibleContent>
@@ -172,7 +213,10 @@ const ReasoningGroup: ReasoningGroupComponent = ({
   return (
     <ReasoningRoot defaultOpen={isReasoningStreaming}>
       <ReasoningTrigger active={isReasoningStreaming} />
-      <ReasoningContent aria-busy={isReasoningStreaming}>
+      <ReasoningContent
+        aria-busy={isReasoningStreaming}
+        following={isReasoningStreaming}
+      >
         {children}
       </ReasoningContent>
     </ReasoningRoot>

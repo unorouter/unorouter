@@ -7,11 +7,17 @@ import { Icon } from "@/components/ui/icon";
 
 function NavigationMenu({
   align = "start",
+  anchor,
+  collisionAvoidance,
+  sideOffset,
   className,
   children,
   ...props
 }: NavigationMenuPrimitive.Root.Props &
-  Pick<NavigationMenuPrimitive.Positioner.Props, "align">) {
+  Pick<
+    NavigationMenuPrimitive.Positioner.Props,
+    "align" | "anchor" | "collisionAvoidance" | "sideOffset"
+  >) {
   return (
     <NavigationMenuPrimitive.Root
       data-slot="navigation-menu"
@@ -22,7 +28,12 @@ function NavigationMenu({
       {...props}
     >
       {children}
-      <NavigationMenuPositioner align={align} />
+      <NavigationMenuPositioner
+        align={align}
+        anchor={anchor}
+        collisionAvoidance={collisionAvoidance}
+        sideOffset={sideOffset}
+      />
     </NavigationMenuPrimitive.Root>
   );
 }

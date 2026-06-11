@@ -32,7 +32,6 @@ if (typeof window === "undefined" && !process.env.NEXT_PHASE) {
     );
 }
 
-// Warn about missing optional vars that disable features
 if (typeof globalThis !== "undefined" && !process.env.NEXT_PHASE) {
   const warnings: string[] = [];
   if (!serverEnv.guestApiKey)

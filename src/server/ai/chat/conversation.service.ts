@@ -3,11 +3,7 @@ import { GUEST_USER_ID, msg } from "@/lib/config/constants";
 import { capitalize } from "@/lib/utils/base";
 import { assertFound } from "@/lib/utils/server";
 import { getDb } from "@/lib/db/server/client";
-import {
-  conversations,
-  messageItems,
-  messages,
-} from "@/lib/db/schema";
+import { conversations, messageItems, messages } from "@/lib/db/schema";
 import { asc, eq, inArray } from "drizzle-orm";
 
 export async function getConversation(userId: number, convId: string) {

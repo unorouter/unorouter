@@ -1,6 +1,6 @@
 import { Link } from "@/i18n/navigation";
 import { getBlogTheme } from "@/lib/config/blog-categories";
-import type { BlogPost } from "@/lib/types/seo";
+import type { BlogPost } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { getTranslations } from "next-intl/server";
 import { Icon } from "@/components/ui/icon";

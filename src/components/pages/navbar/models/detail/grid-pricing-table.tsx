@@ -6,7 +6,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import type { GridPricingRow } from "@/lib/api/pricing";
+import {
+  gridPriceParts,
+  gridPricingColumns,
+  type GridPricingRow,
+} from "@/lib/api/pricing";
 import { formatPrice } from "@/lib/utils/format/number";
 
 type GridPricingTableProps = {
@@ -15,11 +19,8 @@ type GridPricingTableProps = {
 };
 
 export function GridPricingTable(props: GridPricingTableProps) {
-  const first = props.rows[0];
-  if (!first) return null;
-  const columns = Object.keys(first).filter(
-    (k) => k !== "Pricing" && k !== "PricingSuffix",
-  );
+  const columns = gridPricingColumns(props.rows);
+  if (columns.length === 0) return null;
 
   return (
     <div className="border-border overflow-hidden rounded-lg border">
@@ -41,9 +42,7 @@ export function GridPricingTable(props: GridPricingTableProps) {
         </TableHeader>
         <TableBody>
           {props.rows.map((row, i) => {
-            const price = typeof row.Pricing === "number" ? row.Pricing : 0;
-            const suffix =
-              typeof row.PricingSuffix === "string" ? row.PricingSuffix : "";
+            const { price, suffix } = gridPriceParts(row);
             return (
               <TableRow key={i}>
                 {columns.map((col) => (

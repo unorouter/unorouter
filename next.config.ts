@@ -25,14 +25,50 @@ const corpCrossOrigin = [
 
 const nextConfig: NextConfig = {
   output: process.env.STANDALONE ? "standalone" : undefined,
+  // wasmoon's emscripten loader probes node builtins (`import('module')`);
+  // alias them to an empty stub in browser bundles. Server keeps real modules
+  // via serverExternalPackages below.
+  turbopack: {
+    resolveAlias: {
+      module: { browser: "./src/lib/empty-module.ts" },
+    },
+  },
+  serverExternalPackages: ["wasmoon"],
   // productionBrowserSourceMaps: true,
-  // experimental: {
-  //   allowDevelopmentBuild: true,
-  // },
+  experimental: {
+    // allowDevelopmentBuild: true,
+    // Turbopack disk cache for `next build` (experimental; dev cache is stable
+    // and on by default). CI persists it via the Dockerfile cache mount.
+    turbopackFileSystemCacheForBuild: true,
+    // inlineCss tried and reverted: it inlined the full 274KB stylesheet into
+    // every document AND duplicated it inside the RSC flight payload, costing
+    // far more than the ~36KB render-blocking request it removed.
+  },
   images: {
     formats: ["image/webp"],
     qualities: [10, 25, 50, 75, 90, 100],
     minimumCacheTTL: 60 * 60 * 24,
+    // Badge hero images are local /api routes WITH a query string; Next blocks
+    // local optimizer URLs that carry a search param unless declared here.
+    // No `search` key = any query string on this path is allowed. /images and
+    // /icons cover the brand logo and per-guide setup logos.
+    localPatterns: [
+      { pathname: "/api/ops/badge/**" },
+      { pathname: "/images/**" },
+      { pathname: "/icons/**" },
+    ],
+    // R2 public host for generated chat/playground media. SmartImage routes R2
+    // URLs through the optimizer; data: URIs and other hosts fall back to
+    // unoptimized so they never hit the optimizer (which rejects them).
+    remotePatterns: [
+      { protocol: "https", hostname: "media.unorouter.ai", pathname: "/**" },
+    ],
+    // Badge previews are SVG from /api/ops/badge. The optimizer refuses SVG
+    // unless allowed; lock it down with a sandboxing CSP so an optimized SVG
+    // can't execute script or load subresources.
+    dangerouslyAllowSVG: true,
+    contentSecurityPolicy:
+      "default-src 'self'; script-src 'none'; sandbox; style-src 'unsafe-inline';",
   },
   async rewrites() {
     return [
@@ -87,12 +123,24 @@ const nextConfig: NextConfig = {
 const withNextIntl = createNextIntlPlugin({
   experimental: {
     createMessagesDeclaration: ["./public/i18n/de.json"],
+    // Precompile ICU messages to ASTs at build: ~9-15KB less JS per page and
+    // invalid keys fail the build instead of erroring at render. No t.raw
+    // anywhere in the repo (unsupported with precompilation).
+    messages: {
+      format: "json",
+      path: "./public/i18n",
+      locales: "infer",
+      precompile: true,
+    },
   },
 });
 
 const configWithNextIntl = withNextIntl(withSerwist(nextConfig));
 
-export default process.env.STANDALONE
+// Read the flag directly: the constants-module indirection evaluated before
+// env loading in the Docker build and the sourcemap upload kept running.
+export default process.env.STANDALONE &&
+process.env.NEXT_PUBLIC_POSTHOG_DISABLED !== "true"
   ? withPostHogConfig(configWithNextIntl, {
       personalApiKey: process.env.POSTHOG_API_KEY!,
       envId: process.env.POSTHOG_ENV_ID!,

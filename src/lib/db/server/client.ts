@@ -24,13 +24,23 @@ export function getDb(): LibSQLDatabase<typeof schema> {
 
   _db = drizzle(_client, { schema });
 
-  // Run migrations + seeds at startup (skip during build). Seeds are awaited
-  // sequentially after migrate so they never race against an in-flight
-  // schema change. Both fire-and-forget; failures log but don't block the
-  // first request; getDb still returns a usable client.
+  // Migrations + seeds at startup, seeds after migrate so they never race a
+  // schema change. Fire-and-forget: failures log, getDb stays usable.
   if (!serverEnv.standalone) {
     const db = _db;
     migrate(db, { migrationsFolder: resolve("drizzle/server") })
+      .catch((e) => {
+        // Baseline drift: tables exist but the ledger lacks the baseline, so
+        // `0000` re-runs and CREATE collides. Schema is present; treat as
+        // migrated and continue to seeds. Re-throw anything else.
+        if (isAlreadyExistsError(e)) {
+          logger.warn("Migration baseline already applied; skipping", {
+            context: "db",
+          });
+          return;
+        }
+        throw e;
+      })
       .then(() => runSeeds(db))
       .catch((e) =>
         logger.error("Database migration / seed failed", {
@@ -41,4 +51,9 @@ export function getDb(): LibSQLDatabase<typeof schema> {
   }
 
   return _db;
+}
+
+function isAlreadyExistsError(e: unknown): boolean {
+  const msg = e instanceof Error ? e.message : String(e);
+  return /already exists/i.test(msg);
 }

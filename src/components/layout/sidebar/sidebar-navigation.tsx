@@ -1,9 +1,8 @@
 "use client";
 
 import {
-  docsNavItemsCli,
+  docsNavGroups,
   docsNavItemsOverview,
-  docsNavItemsRoleplay,
 } from "@/components/layout/docs/docs-navigation";
 import {
   type NavigationItem,
@@ -19,9 +18,12 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { GuideIcon } from "@/components/pages/docs/guide-icon";
 import { Icon } from "@/components/ui/icon";
+import { APP_VALUES } from "@/lib/config/constants";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { Link, usePathname } from "@/i18n/navigation";
+import { useParams } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useAui } from "@assistant-ui/react";
 import { useTranslations } from "next-intl";
@@ -30,6 +32,7 @@ import type { SidebarNavConfig } from "./app-sidebar";
 function NavGroup(props: { label: string; items: NavigationItem[] }) {
   const t = useTranslations();
   const pathname = usePathname();
+  const params = useParams<{ slug?: string }>();
 
   return (
     <SidebarGroup>
@@ -37,29 +40,44 @@ function NavGroup(props: { label: string; items: NavigationItem[] }) {
       <SidebarGroupContent>
         <SidebarMenu>
           {props.items.map((item) => {
-            const isActive = isActiveLink(pathname, item.href, item.exact);
+            const isActive = isActiveLink(
+              pathname,
+              item.href,
+              item.exact,
+              params as Record<string, string>,
+            );
             return (
               <SidebarMenuItem key={item.name}>
                 <SidebarMenuButton
                   render={<Link href={item.href} onClick={item.onClick} />}
-                  tooltip={t(item.name)}
+                  tooltip={t(item.name, APP_VALUES)}
                   isActive={isActive}
                   className={cn(
                     isActive && "bg-primary/10 text-primary font-medium",
                   )}
                 >
-                  {item.iconName && (
+                  {item.guideIcon ? (
+                    <span className="flex size-4 shrink-0 items-center justify-center">
+                      <GuideIcon
+                        iconKey={item.guideIcon.iconKey}
+                        logoSrc={item.guideIcon.logoSrc}
+                        logoBg={item.guideIcon.logoBg}
+                        logoMono={item.guideIcon.logoMono}
+                        accentClass={isActive ? "text-primary" : ""}
+                        size={16}
+                      />
+                    </span>
+                  ) : item.iconName ? (
                     <Icon
                       name={item.iconName}
                       className={cn("size-4", isActive && "text-primary")}
                     />
-                  )}
-                  {item.iconComponent && (
+                  ) : item.iconComponent ? (
                     <item.iconComponent
                       className={cn("size-4", isActive && "text-primary")}
                     />
-                  )}
-                  <span>{t(item.name)}</span>
+                  ) : null}
+                  <span>{t(item.name, APP_VALUES)}</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             );
@@ -98,11 +116,13 @@ export function SidebarNavigation(props: SidebarNavigationProps) {
           label={t("DOCS_SIDEBAR.TITLE")}
           items={docsNavItemsOverview}
         />
-        <NavGroup label={t("DOCS_SIDEBAR.GROUP_CLI")} items={docsNavItemsCli} />
-        <NavGroup
-          label={t("DOCS_SIDEBAR.GROUP_ROLEPLAY")}
-          items={docsNavItemsRoleplay}
-        />
+        {docsNavGroups.map((group) => (
+          <NavGroup
+            key={group.labelKey}
+            label={t(group.labelKey)}
+            items={group.items}
+          />
+        ))}
         <NavGroup label={t("SIDEBAR.NAVIGATE")} items={mainNavItems} />
       </>
     );
@@ -111,7 +131,7 @@ export function SidebarNavigation(props: SidebarNavigationProps) {
   const navItems = sidebarNavigation();
   const sidebarPaths = new Set(navItems.map((item) => item.href));
   const mainNavItems = navigation(authenticated).filter(
-    (item) => !sidebarPaths.has(item.href),
+    (item) => !item.hidden && !sidebarPaths.has(item.href),
   );
 
   return (
@@ -136,9 +156,8 @@ function ChatSidebarNav(props: { authenticated: boolean }) {
   return <NavGroup label={t("SIDEBAR.NAVIGATE")} items={items} />;
 }
 
-// Generate's sidebar mirrors chat's shape: just the Navigate group. The
-// history rail (PlaygroundList) is rendered separately as `chatContent`
-// by the (generate) layout, so the studio stays focused.
+// Mirrors chat's sidebar shape: just the Navigate group. The history rail
+// (PlaygroundList) renders separately as `chatContent` in the (generate) layout.
 function GenerateSidebarNav(props: { authenticated: boolean }) {
   const t = useTranslations();
   const items = navigation(props.authenticated).filter((item) => !item.hidden);

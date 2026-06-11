@@ -3,7 +3,6 @@
 import { MyFormCombobox } from "@/components/elements/form/my-form-combobox";
 import { MyFormInput } from "@/components/elements/form/my-form-input";
 import { MyFormTextarea } from "@/components/elements/form/my-form-textarea";
-import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -29,10 +28,9 @@ import { usePersonasQuery } from "@/hooks/ai/rp/personas";
 import { NONE_VALUE as NONE } from "@/lib/config/constants";
 import { formDefaults } from "@/lib/validation/helpers";
 import { cardFormSchema, type CardForm } from "@/lib/validation/rp-forms";
-import { typeboxResolver } from "@hookform/resolvers/typebox";
+import { useRpForm } from "@/hooks/ui/use-rp-form";
 import { useTranslations } from "next-intl";
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { FormFooter } from "../shared/form-footer";
 
 type Props = {
   editingId: string | "new";
@@ -50,28 +48,19 @@ export function CardForm(props: Props) {
   const createMut = useCreateCardMutation();
   const updateMut = useUpdateCardMutation();
 
-  const form = useForm({
-    resolver: typeboxResolver(cardFormSchema),
-    defaultValues: formDefaults(cardFormSchema),
-  });
-
-  useEffect(() => {
-    if (props.editingId === "new") {
-      form.reset(formDefaults(cardFormSchema));
-      return;
-    }
-    const c = cardQuery.data;
-    if (!c) return;
-    // characterIds/lorebookIds come from join rows, not flat columns.
-    form.reset(
-      formDefaults(cardFormSchema, {
-        ...c,
-        characterIds: (c.cardCharacters ?? []).map((cc) => cc.characterId),
-        lorebookIds: (c.cardLorebooks ?? []).map((cl) => cl.lorebookId),
-      }),
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.editingId, cardQuery.data]);
+  // `values` syncs the row on settle; keepDirtyValues protects in-progress
+  // typing. characterIds/lorebookIds come from join rows, not flat columns.
+  const editing = props.editingId === "new" ? null : cardQuery.data;
+  const formValues = editing
+    ? formDefaults(cardFormSchema, {
+        ...editing,
+        characterIds: (editing.cardCharacters ?? []).map(
+          (cc) => cc.characterId,
+        ),
+        lorebookIds: (editing.cardLorebooks ?? []).map((cl) => cl.lorebookId),
+      })
+    : undefined;
+  const form = useRpForm(cardFormSchema, formValues);
 
   const onSubmit = async (data: CardForm) => {
     const body = {
@@ -158,12 +147,7 @@ export function CardForm(props: Props) {
           options={lorebooksQuery.data}
         />
 
-        <div className="flex justify-end gap-2">
-          <Button type="button" variant="ghost" onClick={props.onDone}>
-            {t("COMMON.CANCEL")}
-          </Button>
-          <Button type="submit">{t("COMMON.SAVE")}</Button>
-        </div>
+        <FormFooter onCancel={props.onDone} />
       </form>
     </Form>
   );

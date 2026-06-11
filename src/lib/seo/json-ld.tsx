@@ -4,7 +4,7 @@ import {
   buildBreadcrumbListSchema,
   type BreadcrumbItem,
 } from "@/lib/seo/structured-data";
-import type { DocSlug } from "@/lib/types/seo";
+import type { DocSlug } from "@/lib/types";
 import { getLocale, getTranslations } from "next-intl/server";
 import type { Thing, WithContext } from "schema-dts";
 import { getSeoTimestamps } from "./metadata";

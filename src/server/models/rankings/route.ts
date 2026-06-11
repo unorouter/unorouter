@@ -1,6 +1,6 @@
 import { rankingsQuery } from "@/lib/api/typebox/rankings";
 import type { RankingsResponse } from "@/lib/api/typebox/rankings";
-import { msg } from "@/lib/config/constants";
+import { msg, PUBLIC_CACHE } from "@/lib/config/constants";
 import { upstreamApiUrl } from "@/server/constants";
 import { Elysia } from "elysia";
 
@@ -23,6 +23,7 @@ export const rankingsRoute = new Elysia({ prefix: "/rankings" }).get(
       {
         headers: upstreamHeaders,
         signal: AbortSignal.timeout(10_000),
+        ...PUBLIC_CACHE,
       },
     );
 

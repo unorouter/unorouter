@@ -22,22 +22,9 @@
     "PRICING": "料金",
     "DOCS": "ドキュメント",
     "BLOG": "ブログ",
-    "GROUP_CLI": "CLI ツール",
-    "GROUP_ROLEPLAY": "ロールプレイクライアント",
-    "CC_SWITCH": "CC Switch",
-    "CLAUDE_CODE": "Claude Code",
-    "CODEX": "Codex",
-    "GEMINI_CLI": "Gemini CLI",
-    "OPENCLAW": "OpenClaw",
-    "SILLYTAVERN": "SillyTavern",
-    "JANITOR_AI": "Janitor.AI",
-    "RISUAI": "RisuAI",
-    "CHUB": "Chub / Venus",
     "DASHBOARD": "ダッシュボード",
     "LOG_IN": "ログイン",
-    "GET_STARTED": "はじめる",
     "CHAT": "チャット",
-    "GENERATE": "生成",
     "PLAYGROUND": "プレイグラウンド",
     "STATUS": "ステータス"
   },
@@ -45,7 +32,6 @@
     "HERO": {
       "BADGE": "ルーター稼働中",
       "TITLE_LINE1": "統合された",
-      "TITLE_LINE2": "インテリジェンス",
       "SUBTITLE": "{appName} はひとつの鍵で {modelCount}+ のAIモデルにつながります。アプリ開発、エージェント運用、キャラクターとのロールプレイ。同じ鍵、同じ速さ、同じ価格。",
       "CTA_PRIMARY": "はじめる",
       "CTA_SECONDARY": "モデルを見る",
@@ -54,28 +40,26 @@
     "STATS": {
       "MODELS": "モデル",
       "PROVIDERS": "プロバイダー",
-      "UPTIME": "稼働率",
-      "ENDPOINTS": "エンドポイント",
+      "FREE": "無料",
+      "PAID": "有料",
       "PANEL": {
         "TOKENS_SERVED": "処理済みトークン",
         "REQUESTS": "リクエスト",
-        "REQ_MIN": "リクエスト / 分",
         "TOKENS_MIN": "トークン / 分",
         "LIVE": "ライブ"
       },
       "INDICATOR": {
         "GLOBAL": "ルーティング可能",
         "INTEGRATED": "アップストリーム",
-        "SLA": "実測値"
+        "FREE": "費用なし",
+        "PAID": "トークンあたり"
       }
     },
     "TICKER": {
-      "LABEL": "利用可能なモデル",
       "LIVE_INFERENCE": "ライブ推論",
       "TPS": "TPS"
     },
     "INTEGRATION": {
-      "BADGE": "統合",
       "VIEW_GUIDE": "ガイドを見る",
       "CLAUDE_CODE": {
         "BADGE": "Anthropic API",
@@ -117,72 +101,32 @@
         "TITLE": "Chub / Venus と連携",
         "DESCRIPTION": "{appName} を Chub のファーストパーティリバースプロキシとして接続します。URL ひとつ、キーひとつで、すべてのモデルが使えます。"
       },
-      "CLI_HEADER": "コーディングエージェント・CLIツール向け",
-      "RP_HEADER": "ロールプレイ・クリエイティブチャット向け"
+      "PICK_TITLE": "実際に使っているクライアントを選んでください。",
+      "PICK_DESC": "{appName} は、コーディングエージェント、ロールプレイフロントエンド、チャットクライアント、CLIツール全体でカスタムOpenAI互換APIとして機能します。"
     },
     "PRICING": {
       "LABEL": "料金",
       "TITLE": "シンプルな料金体系。",
       "SUBTITLE": "使った分だけのお支払い。",
       "DESCRIPTION": "お得なサブスクリプションか従量課金をお選びください。すべてのプランで、全モデルへのアクセスとプロバイダー間の自動フェイルオーバーが利用できます。",
-      "PAYG": {
-        "NAME": "従量課金",
-        "PRICE": "$0",
-        "DESC": "最低額なし。チャージすればどのモデルも利用可能。",
-        "ENDPOINT": "/v1/chat/completions"
-      },
-      "BASIC": {
-        "NAME": "Basic",
-        "PRICE": "$20/月",
-        "DESC": "$30 相当のクレジット。1.5倍の倍率。",
-        "RATE": "100 リクエスト/分"
-      },
-      "PRO": {
-        "NAME": "Pro",
-        "PRICE": "$50/月",
-        "DESC": "$75 相当のクレジット。優先ルーティング。",
-        "RATE": "500 リクエスト/分"
-      },
-      "ENTERPRISE": {
-        "NAME": "Enterprise",
-        "PRICE": "$100/月",
-        "DESC": "$175 相当のクレジット。専任サポート。",
-        "RATE": "2,000 リクエスト/分"
-      },
-      "CTA": {
-        "GET_STARTED": "はじめる",
-        "VIEW_PLANS": "すべてのプランを見る"
-      },
       "PROVIDERS": {
-        "TITLE": "対応プロバイダー",
-        "ACTIVE": "稼働中",
-        "DESC_OPENAI": "GPT-4o、o1、o3、GPT-4.1",
-        "DESC_ANTHROPIC": "Claude Opus、Sonnet、Haiku",
-        "DESC_GOOGLE": "Gemini 2.5 Pro、Flash",
-        "DESC_DEEPSEEK": "DeepSeek V3、R1"
+        "TITLE": "対応プロバイダー"
       },
       "FLOW": {
-        "TITLE": "リクエストフロー",
-        "LIVE": "ライブ",
-        "STEP1": "POST /v1/chat/completions",
-        "STEP2": "最速プロバイダーへルーティング",
-        "STEP3": "レスポンスを配信"
+        "TITLE": "リクエストフロー"
       }
     },
     "FEATURES": {
       "TITLE": "{appName} を選ぶ理由",
       "DESCRIPTION": "ひとつのエンドポイントで、あらゆるAIモデルを。インテリジェントルーティングが最速のプロバイダーを選び、自動フェイルオーバーがリクエストの成功を保証します。",
       "FAILOVER": {
-        "TITLE": "自動フェイルオーバー",
-        "DESC": "失敗したリクエストは即座に別のチャネルで再試行されます"
+        "TITLE": "自動フェイルオーバー"
       },
       "MULTIPROTOCOL": {
-        "TITLE": "マルチプロトコル対応",
-        "DESC": "OpenAI、Anthropic、Gemini の各API形式に対応"
+        "TITLE": "マルチプロトコル対応"
       },
       "LOADBALANCE": {
-        "TITLE": "スマートロードバランシング",
-        "DESC": "利用可能な最速のプロバイダーへ自動ルーティング"
+        "TITLE": "スマートロードバランシング"
       }
     },
     "RELIABILITY": {
@@ -199,7 +143,6 @@
         "DESC": "レイテンシに基づくチャネル選択と優先度重み付け。常に最速のプロバイダーが選ばれます。"
       },
       "LEARN_MORE": "詳しく見る",
-      "LEARN_MORE_ARIA": "{appName} のドキュメントについて詳しく見る",
       "LEARN_MORE_DOCS": "ドキュメントを見る",
       "ARCH": {
         "TITLE": "アーキテクチャ",
@@ -436,7 +379,6 @@
       "LEADERBOARD_TITLE": "LLM リーダーボード",
       "LEADERBOARD_SUBTITLE": "プラットフォームで人気のモデルを比較",
       "EMPTY": "選択したフィルタに一致するモデルがありません",
-      "TOTAL_LABEL": "合計トークン",
       "TOKENS_SUFFIX": "トークン",
       "TOOLTIP_TOTAL": "合計",
       "BY_AUTHOR_LABEL": "提供"
@@ -478,10 +420,7 @@
     "SUBTITLE": "プロダクトアップデート、連携ガイド、チームのメモ。",
     "READ_MORE": "続きを読む",
     "PUBLISHED": "公開日",
-    "UPDATED": "更新日",
     "BY_AUTHOR": "著者：{author}",
-    "TAGS": "タグ",
-    "RECENT": "最近の投稿",
     "BACK_TO_BLOG": "すべての投稿に戻る",
     "EMPTY": "投稿はまだありません。またご覧ください。",
     "EMPTY_FILTERED": "フィルター条件に一致する投稿がありません。",
@@ -511,7 +450,9 @@
       "announcement": "お知らせ",
       "product": "プロダクト",
       "engineering": "エンジニアリング",
-      "update": "アップデート"
+      "update": "アップデート",
+      "community": "コミュニティ",
+      "comparison": "比較"
     },
     "POSTS": {
       "LAUNCH": {
@@ -556,9 +497,7 @@
         "H_NOT_SPOOFING": "なりすましではないもの：Bedrock、Vertex、Foundry",
         "H_RESULTS": "17 日間のプローブで分かったこと",
         "H_WHY": "なぜ起きるのか",
-        "H_NEXT": "次のステップ",
         "H_TEST": "5 分で自分のプロバイダーをテストする",
-        "H_NAMING": "匿名化についての注記",
         "INTRO_P1": "Claude は今、市場で最も需要のあるモデルであり、最も高価なモデルの 1 つでもあります。その価格差から、「同じ Claude」を公式価格のわずかな金額で提供するサードパーティのリセラー市場が活況を呈しています。正規のものもあれば、そうでないものも多くあります。",
         "INTRO_P2": "17 日間にわたる自動プローブで <s>8 社の上流リセラー</s> を調査したところ、<c>claude-opus-4-7</c>、<c>claude-sonnet-4-6</c>、<c>claude-haiku-4-5</c> などとして販売されているモデルに対する真正性チェックに失敗した <s>183 件の (チャンネル, モデル) ペア</s> が見つかりました。同じ圧力はあらゆるプレミアムモデルにかかっており、GPT、Gemini、Grok もほぼ確実に影響を受けています。Claude は今、価格差が最も大きく、確かなデータがある場所というだけです。",
         "PROBES_P": "(チャンネル, モデル) ごとに、標準的な Anthropic Messages API (<c>POST /v1/messages</c>) に 4 件のリクエストを並列送信します：",
@@ -628,6 +567,57 @@
         "H_TRY": "試す",
         "TRY_P": "上のモデルはすべて、ひとつの OpenAI 互換エンドポイントから使えます。マルチリファレンスの画像編集は、上流が定義したそのままの形で公開しており、追加のラッピングはありません。6 枚の画像とプロンプトを渡せば、ルーターが通るプロバイダを選びます。",
         "CTA": "<register>API キーを取得</register>、または <models>画像カタログを見る</models>で検証済みリスト全体を確認できます。"
+      },
+      "DISCORD_COMMUNITY": {
+        "TITLE": "{appName} のDiscordに参加して無料クレジットをもらおう",
+        "DESCRIPTION": "アカウントをリンクして1ドル、サーバーをブーストして毎月1ドル、バグハントで最大50ドル。{appName} のDiscordがオープンしました。",
+        "AUTHOR": "{appName} チーム",
+        "INTRO": "{appName} のコミュニティDiscordをオープンしました。チェンジログの発表、サポートチケットの受付、バグバウンティの運営、そして参加そのものに対する残高での報酬まですべてここで行います。本記事ではサーバーが無料クレジットを配るすべてのルートを解説します。",
+        "H_WHAT": "サーバーの中身",
+        "P_WHAT": "お知らせ、チェンジログ、サポートチケット、バグバウンティのフォーラム、機能とモデルのリクエスト、AIチャットのヘルプ、ボイスチャンネル、ブースター専用ラウンジ。スタッフは毎日常駐しています。会話用ではない公開チャンネルは読み取り専用にしてあり、ノイズを抑えています。",
+        "H_EARN": "Discordをリンクして1ドル獲得",
+        "P_EARN": "verifyチャンネルを開いてVerify and Claimを押し、{appName} の設定からDiscordをリンクしてください。初回リンク時にbotが1ドル分のAPI残高を付与します。アカウントごとに1回限り、追加条件なしです。",
+        "H_BOOST": "サーバーをブーストして毎月もらう",
+        "P_BOOST": "新しくブーストを開始すると、リンク済みの残高に即座に1ドルが加算されます。ブーストが有効な間、botは30日ごとにさらに1ドルを支払います。2回ブーストすれば毎月の支払いも2回。解除すれば支払いも止まります。",
+        "H_BUGS": "バグバウンティ、最大50ドル",
+        "P_BUGS": "プラットフォームの本物のバグを見つけたらbug-bountyフォーラムに報告してください。スタッフが深刻度を選び、botが支払います：Low 0.25ドル、Medium 0.50ドル、High 1ドル、Critical 50ドル。スレッドの作成者ではなく、実際にバグを特定した人に支払われます。",
+        "H_JOIN": "気軽に遊びに来てください",
+        "CTA": "準備はいい？ <invite>{appName} のDiscordに参加</invite>して、<register>APIキーを取得</register>し、<settings>アカウントをリンク</settings>して最初の1ドルを受け取りましょう。"
+      },
+      "FREE_MODELS_AGGREGATED": {
+        "TITLE": "100以上の無料AIモデルを1つのエンドポイントに集約しました",
+        "DESCRIPTION": "2日間で、15の無料プロバイダーを{appName}に接続しました。134の無料モデル、1つのOpenAI-compatibleエンドポイント、トークンあたり$0。これらが無料なのには理由があり、私たちには引き上げられないレート制限が伴います。ここでは正直なところをお伝えします。",
+        "AUTHOR": "{appName}チーム",
+        "INTRO": "無料LLMの世界は確かに存在しますが、バラバラに散らばっています。Groq、Gemini、Cloudflare、Mistral、OVHcloudをはじめ十数社が本物のキャパシティを無償提供していますが、それぞれが別々の登録ページ、別々のキー形式、互換性のないAPIの向こう側にあります。2日間かけて、私たちは見つけられる限りの正規かつ恒久無料のプロバイダーをすべて発掘し、テストし、{appName}に統合しました。その結果が、15プロバイダー由来の134の無料モデルを、1つのOpenAI-compatibleエンドポイントと1つのキーの背後にまとめたものです。",
+        "H_WHAT": "追加したもの",
+        "P_WHAT": "15の無料プロバイダーを、1つずつ。Groq、Gemini、Cerebras、SambaNova、Mistral、Cloudflare Workers AI（2アカウント）、GitHub Models、Z.ai、OVHcloud、AI Horde、Pollinations、Cohere、Jina、NVIDIA NIM、そしてOpenRouter。合わせて134の無料モデルです。Llama、gpt-oss、Qwen、Mistral、GLM、Nemotronなど、さらに30の無料埋め込みモデルと13の無料の画像・音声モデルも含みます。どのモデルも公開前にHTTP、ストリーミング、ツール呼び出しについて端から端まで検証しており、有料モデルに対して実施しているのと同じ真正性とハーネスのチェックを通しています。",
+        "H_CAVEAT": "無料には理由がある",
+        "P_CAVEAT": "これらのモデルは本当に無料であり、だからこそ制限があります。<s>その制限を設定しているのはプロバイダーであって私たちではなく、私たちには引き上げることができません。</s>各アップストリームは独自のレート制限を課しています。毎分のリクエスト数、1日のトークン上限、Cloudflareのニューロン予算、ボランティアキューの優先度などです。上限に達すると、そのプロバイダーはリセットされるまで<c>429</c>を返します。今朝動いていた無料キーが、午後には使い果たされていることもあります。無料枠はベストエフォートのスループットであり、保証ではありません。予測可能なレイテンシと予期せぬ<c>429</c>のない動作が必要なワークロードには、有料モデルをお使いください。",
+        "H_AGGREGATE": "そもそもなぜ集約するのか",
+        "P_AGGREGATE": "そうしなければ15個のアカウントが必要になるからです。各プロバイダーには独自の登録手順、独自のキー形式、独自のベースURL、そして独自のクセがあります。Z.aiはZhipu V4のパスを話し、CloudflareはアカウントIDをURLに載せ、AI Hordeは匿名キーを求め、GitHubはトークンのスコープでモデルをゲートします。私たちはそのすべてを吸収し、あなたが他のすべてを呼び出すのと同じやり方で呼び出せるようにしました。1つのOpenAI-compatibleエンドポイント、1つのキー、そしてモデル名です。私たちが自らに課している正直なルールは、プロバイダーごとに本物のアカウントを1つだけ、上限はそのまま受け入れ、何も水増しせず、何もプールしないことです。私たちは無料枠を贈り物として提供しているのであって、誰か他人の割り当ての転売ではありません。",
+        "H_FAILOVER": "どうやって制限を和らげるか",
+        "P_FAILOVER": "これらのモデルの多くは、複数の無料プロバイダーから提供されています。Llama 3.3 70Bだけでも、そのうち7社で動いています。同じモデルを複数のプロバイダーが提供している場合、私たちはそれらを1つの公開名にまとめ、自動でフェイルオーバーします。あるアップストリームが<c>429</c>を返したり応答しなくなったりすると、そのモデルを提供している次の健全なプロバイダーがリクエストを引き継ぎます。これが私たちが実際にコントロールできる唯一のレバーです。個々のプロバイダーの上限を引き上げるわけではありませんが、複数ソースの無料モデルは、どれか1つのプロバイダーが使い果たされた後もずっと応答し続けます。単一ソースの無料モデルにはフォールバックがないため、その唯一のアップストリームが尽きると止まってしまいます。",
+        "H_HONEST": "私たちがやらなかったこと",
+        "P_HONEST": "私たちは、OpenAIやClaudeのフラッグシップを許可なく再提供するリバースプロキシは追加しませんでした。トークンが譲渡不可な個人キーのアグリゲーターや、他人のキーを水増しして使い回すプール・オブ・プールのサービスも取り込みませんでした。そうしたものは存在し、魅力的にも映りますが、まさにこのゲートウェイが置き換えようとしているグレーマーケットの混乱そのものです。リストにあるすべてのプロバイダーは、自らの規約のもとで意図的に無料枠を提供しています。その基準を通過できなかったソースは、ここにはありません。",
+        "H_TRY": "試してみる",
+        "CTA": "134の無料モデルすべてが、1つのOpenAI-compatibleエンドポイントの背後で稼働しています。<register>APIキーを取得する</register>か、<models>モデルカタログを見る</models>して無料で絞り込んでください。ただし、<c>429</c>が出たときは、自分がどの枠を使っているかをお忘れなく。"
+      },
+      "UNOROUTER_VS_OPENROUTER": {
+        "TITLE": "{appName} と OpenRouter：正直な比較",
+        "DESCRIPTION": "{appName} も OpenRouter も、多くのモデルを1つの OpenAI 互換キーの背後に置きます。違いはその上に何が乗るかです。インターフェースのない API か、API に加えて組み込みのチャットおよびキャラクタークライアントか。これが正直な比較です。",
+        "AUTHOR": "{appName} チーム",
+        "INTRO": "OpenRouter は「すべてのモデルに1つのキー」という考え方を広めました。{appName} も同じ考えに基づいていますが、あなたに合うのはどちらかを決める違いが1つあります。インターフェースのない API が欲しいのか、それとも API に加えて実際に使う場所が欲しいのか。これは2つのうちの一方を作るチームによる正直な比較です。",
+        "H_LANES": "2種類のゲートウェイ",
+        "P_LANES": "OpenAI 互換ゲートウェイの多くはインターフェースを持ちません。OpenRouter、LiteLLM、Portkey はエンドポイント、ルーティング、フェイルオーバーを提供し、インターフェースはあなたに委ねます。コードを出荷するときはまさにそれが正解です。もう一方の陣営はチャットマーケットプレイスです。作るのではなく話したい人のために、モデルカタログをウェブ UI で包んだものです。{appName} は両方を同時に兼ねます。コーディングエージェント向けのきれいな API と、同じキー、同じモデル、同じクレジットを共有する組み込みのチャットおよびキャラクタークライアントです。",
+        "H_MODELS": "モデルと料金",
+        "P_MODELS": "どちらも主要プロバイダーの200以上のモデルを1つのキーの背後で公開し、OpenAI、Anthropic、Gemini のリクエスト形式を自動検出します。OpenRouter はクレジット購入時に割合手数料を取ります。{appName} は従量課金で、クレジットは失効せず、試作用の無料モデル層があります。純粋なモデルの幅では両者は同等なので、決め手がカタログであることはまれです。重要なのはそれで何をするかです。",
+        "H_RP": "OpenRouter が省いている部分",
+        "P_RP": "コーディングエージェント（Claude Code、Cline、OpenCode、Kilo Code、Codex）を {appName} に向ければ、どの OpenAI 互換エンドポイントとも同じように動きます。しかし同じキーは、ペルソナ、ロアブック、プリセット、SillyTavern カードのインポートを備えた組み込みのチャットおよびキャラクタークライアントも動かし、SillyTavern、Janitor.AI、RisuAI、Chub にそのまま差し込めます。OpenRouter は純粋に API 層なので、すべてのインターフェースは自分で用意します。{appName} はインターフェースと API を一緒に提供します。",
+        "H_MIGRATE": "切り替えはベース URL の変更だけ",
+        "P_MIGRATE": "{appName} は OpenAI 互換なので、既存のアプリの移行は1行です。クライアントを <c>https://api.unorouter.ai/v1</c> に向け、既存のコードはそのままにします。チャットクライアントのカスタムエンドポイント欄に同じキーを貼れば同じカタログに届くので、管理する2つ目のアカウントはありません。",
+        "H_VERDICT": "どちらを選ぶべきか",
+        "P_VERDICT": "コードを出荷するだけで、インターフェースなしに最も広いカタログが欲しいなら、OpenRouter は良い既定です。上乗せなしの自己ホスト型ルーティングが欲しいなら、LiteLLM が勝ちます。2つのサービスを動かさずに、コーディングエージェントでも本物のチャットおよびキャラクタークライアントでも使える1つのキーが欲しいなら、それこそ {appName} が埋める隙間です。唯一の勝者はいません。純粋な API のために最適化するのか、API に加えて使う場所のために最適化するのか次第です。",
+        "CTA": "試す準備はできましたか？ <register>無料アカウントを作成</register> または <models>モデルを見る</models>。"
       }
     }
   },
@@ -635,7 +625,6 @@
     "META_TITLE": "{name} API の料金、コンテキスト、サンプル | {appName}",
     "META_DESC": "{vendor} の {name} を単一の OpenAI 互換エンドポイント経由で利用できます。トークン単価、コンテキストウィンドウ、エンドポイント、コピー&ペーストできるコード例をご覧ください。",
     "META_KEYWORDS": "{name} API, {name} 料金, {name} コンテキストウィンドウ, {vendor} API, {appName}",
-    "ABOUT": "{name} について",
     "PRICING_TITLE": "料金",
     "PRICING_DESC": "使った分だけのお支払い。従量課金利用時は月額最低料金なし。",
     "INPUT_PRICE": "入力料金",
@@ -677,62 +666,31 @@
     "CTA_DESC": "APIキーを作成すれば、1分以内にリクエストを開始できます。",
     "CTA_SIGNUP": "サインインして {name} を試す",
     "CTA_TRY": "チャットで {name} を試す",
-    "CTA_ALL_MODELS": "すべてのモデルを見る",
-    "LAST_UPDATED": "最終更新 {date}"
+    "CTA_ALL_MODELS": "すべてのモデルを見る"
   },
   "PRICING": {
-    "PLAN": {
-      "BASIC": "Basic",
-      "PRO": "Pro",
-      "ENTERPRISE": "Enterprise"
-    },
     "FEATURE": {
       "MODELS": "全モデル込み",
       "PRIORITY": "優先ルーティング",
       "DEDICATED": "専任サポート",
-      "SUPPORT": "メールサポート",
       "FAILOVER": "自動フェイルオーバー",
       "UPTIME": "99.9% アップタイム SLA",
       "OPENAI_COMPAT": "OpenAI 互換エンドポイント"
     },
     "COMPARE": {
-      "TITLE": "プランを比較",
-      "FEATURE": "機能",
-      "PRICE": "月額料金",
-      "VALUE": "API クレジット相当額",
-      "RATE_LIMIT": "レート制限",
-      "ALL_MODELS": "全モデル",
-      "PRIORITY": "優先ルーティング",
-      "DEDICATED": "専任サポート",
-      "BASIC_PRICE": "$20/月",
-      "PRO_PRICE": "$50/月",
-      "ENTERPRISE_PRICE": "$100/月",
-      "BASIC_VALUE": "$30",
-      "PRO_VALUE": "$75",
-      "ENTERPRISE_VALUE": "$175",
-      "BASIC_RATE": "100 rpm",
-      "PRO_RATE": "500 rpm",
-      "ENTERPRISE_RATE": "2,000 rpm"
+      "TITLE": "プランを比較"
     },
     "CARD": {
       "POPULAR": "人気",
       "PER_MONTH": " · 月",
       "VALUE": "{value} 相当",
-      "MULTIPLIER": "{multiplier} 倍率",
-      "INCLUDES": "含まれるもの",
-      "REQUESTS_MIN": "{count} リクエスト/分",
-      "SPEC_CREDIT": "API クレジット相当額",
       "SPEC_QUOTA": "クォータ/リセット",
-      "SPEC_MULTIPLIER": "倍率",
-      "OPENCLAW_TITLE": "OpenClaw 対応",
-      "OPENCLAW_DESC": "OpenClaw エージェントと完全互換",
       "VALUE_BADGE": "の価値",
       "VALUE_EXPLAIN": "{paid} で {credit} 分の API クレジット。どのモデルにも使えます。"
     },
     "BANNER": {
       "TITLE": "Telegram で使える OpenClaw AI アシスタント",
-      "SUBTITLE": "OpenClaw と {appName} で、Telegram ボットへワンクリックでAIを展開できます。",
-      "BADGE": "近日公開"
+      "SUBTITLE": "OpenClaw と {appName} で、Telegram ボットへワンクリックでAIを展開できます。"
     },
     "META": {
       "TITLE": "料金 {appName}",
@@ -742,6 +700,11 @@
     "TITLE": "料金",
     "SUBTITLE": "アプリを出すときも、長時間のロールプレイを楽しむときも。ひとつのプランで、すべてのモデル。",
     "CTA": "サブスクライブ",
+    "TOPUP": {
+      "LABEL": "都度払い",
+      "DESC": "サブスクなしでクレジットをチャージ。",
+      "FOOTNOTE": "クレジットは失効しません。"
+    },
     "FAQ": {
       "Q1": "{appName} の料金はどのように計算されますか？",
       "A1": "消費したトークン単位でお支払いいただきます。各モデルには入力、出力、キャッシュの料金があり、アカウントクレジットから差し引かれます。従量課金には月額サブスクリプションは不要です。",
@@ -759,11 +722,6 @@
       "A7": "はい。すべてのプランが主要なロールプレイクライアントのカスタム OpenAI 互換ソースとして使えます。SillyTavern、Janitor.AI、RisuAI、Chub にはそれぞれセットアップガイドがあります。",
       "Q8": "会話やキャラクターの履歴はどれくらい長くできますか？",
       "A8": "{appName} は各モデルの最大コンテキストに対応します。Gemini で最大100万トークン、Claude で20万トークン。長いロールプレイも、長いコードベースも問題ありません。"
-    },
-    "TOPUP": {
-      "LABEL": "都度払い",
-      "DESC": "サブスクなしでクレジットをチャージ。",
-      "FOOTNOTE": "クレジットは失効しません。"
     }
   },
   "DOCS_INDEX": {
@@ -774,29 +732,34 @@
     },
     "BADGE": "連携",
     "TITLE": "連携",
-    "SUBTITLE": "{appName} をお気に入りの AI ツールと一緒に使いましょう。下記から開始したいガイドをお選びください。",
-    "QUICK_START": "クイックスタート",
+    "SUBTITLE": "お気に入りの AI ツールで {appName} を使いましょう。下記の {count} 件のセットアップガイドから、ご利用のクライアント向けのものを選んでください。",
     "VIEW_GUIDE": "完全ガイドを見る",
     "CTA_TITLE": "始める準備はできましたか？",
     "CTA_DESC": "APIキーを取得して、これらのツールで {appName} を使い始めましょう。",
     "CTA_SIGNUP": "APIキーに登録",
     "CTA_DASHBOARD": "ダッシュボードへ",
-    "CTA_MODELS": "すべてのモデルを見る"
+    "CTA_MODELS": "すべてのモデルを見る",
+    "PATHS_TITLE": "人気のルート",
+    "PATHS_DESC": "接続したいものから始めましょう。正しいベース URL、ルート、モデル設定にすぐにアクセスできます。",
+    "PATH_ROLEPLAY_TITLE": "ロールプレイクライアント",
+    "PATH_ROLEPLAY_DESC": "SillyTavern、Janitor.AI、Chub、RisuAI。",
+    "PATH_CODING_TITLE": "コーディングエージェント",
+    "PATH_CODING_DESC": "OpenCode、Cline、Roo Code、Kilo Code、Zed など。",
+    "PATH_GENERAL_TITLE": "チャットクライアント",
+    "PATH_GENERAL_DESC": "デスクトップアプリ、Web UI、汎用の OpenAI 互換クライアント。",
+    "GUIDE_COUNT_ONE": "{count} 件のガイド",
+    "GUIDE_COUNT_OTHER": "{count} 件のガイド",
+    "FALLBACK_EYEBROW": "お探しのクライアントがありませんか？",
+    "FALLBACK_TITLE": "ほとんどの OpenAI 互換クライアントはそのまま動作します。",
+    "FALLBACK_DESC": "{appName} は OpenAI Chat Completions、Anthropic Messages、OpenAI Responses の各形式に対応しています。カスタムのベース URL と API キーを設定できるものなら何でも動作します。ベース URL を使い、カタログから任意のモデルを選んでください。",
+    "FALLBACK_MODELS": "モデルを見る",
+    "FALLBACK_DISCORD": "Discord で質問する",
+    "PATH_CLI_TITLE": "CLIツール",
+    "PATH_CLI_DESC": "Aider、Codex、Gemini CLI、OpenClaw、ターミナルエージェント。"
   },
   "DOCS_SIDEBAR": {
     "TITLE": "ドキュメント",
-    "AI_APPLICATIONS": "AI アプリケーション",
-    "GROUP_CLI": "CLI ツール",
-    "GROUP_ROLEPLAY": "ロールプレイクライアント",
-    "CC_SWITCH": "CC Switch",
-    "OPENCLAW": "OpenClaw",
-    "CLAUDE_CODE": "Claude Code",
-    "CODEX_CLI": "Codex CLI",
-    "GEMINI_CLI": "Gemini CLI",
-    "SILLYTAVERN": "SillyTavern",
-    "JANITOR_AI": "Janitor.AI",
-    "RISUAI": "RisuAI",
-    "CHUB": "Chub / Venus"
+    "AI_APPLICATIONS": "AI アプリケーション"
   },
   "DOCS": {
     "SETUP": {
@@ -806,8 +769,7 @@
       "CLI_ALT": "または CC Switch CLI を使用：",
       "NO_APP": "CC Switch がインストールされていませんか？",
       "INSTALL_LINK": "CC Switch をインストール",
-      "LOGIN_REQUIRED": "サインインするとAPIキーが自動入力されます",
-      "CREATE_KEY": "まずAPIキーを作成してください"
+      "LOGIN_REQUIRED": "サインインするとAPIキーが自動入力されます"
     },
     "CONFIG": {
       "FILE_LABEL": "永続的な設定ファイル（推奨）",
@@ -821,6 +783,38 @@
       "LINUX": "Linux"
     },
     "TOC_TITLE": "このページの目次",
+    "SETUP_GUIDE": {
+      "OVERVIEW": "概要",
+      "QUICK_CONFIG": "クイック設定",
+      "QUICK_CONFIG_DESC": "これらの値をクライアントに入力してください。ログイン中はキーが自動入力されます。",
+      "BASE_URL_LABEL": "ベースURL",
+      "API_KEY_LABEL": "APIキー",
+      "STEPS": "ステップごとの設定",
+      "COMPATIBILITY": "互換性",
+      "RECOMMENDED_MODELS": "推奨モデル",
+      "RECOMMENDED_MODELS_DESC": "ここで快適に動作する無料モデルです。任意のモデルIDをクライアントに貼り付けてください。",
+      "GOTCHAS": "注意点",
+      "TOC_OVERVIEW": "概要",
+      "TOC_QUICK_CONFIG": "クイック設定",
+      "TOC_STEPS": "設定手順",
+      "TOC_COMPATIBILITY": "互換性",
+      "TOC_MODELS": "推奨モデル",
+      "TOC_GOTCHAS": "注意点",
+      "COMPAT_CHAT_COMPLETIONS": "Chat Completions",
+      "COMPAT_MESSAGES": "Anthropic Messages",
+      "COMPAT_RESPONSES": "Responses API",
+      "COMPAT_STREAMING": "ストリーミング",
+      "COMPAT_TOOL_CALLING": "ツール呼び出し",
+      "COMPAT_IMAGES": "画像入力",
+      "CATEGORY_CODING": "コーディングエージェント",
+      "CATEGORY_ROLEPLAY": "ロールプレイクライアント",
+      "CATEGORY_GENERAL": "チャットクライアント",
+      "CATEGORY_CLI": "CLIツール",
+      "CATEGORY_CODING_DESC": "APIに対してコードを書いて実行するエディターやエージェント。",
+      "CATEGORY_ROLEPLAY_DESC": "キャラクターチャットやロールプレイのフロントエンド。",
+      "CATEGORY_GENERAL_DESC": "汎用チャットアプリやデスクトップクライアント。",
+      "CATEGORY_CLI_DESC": "ターミナルツールやコマンドラインエージェント。"
+    },
     "GENERATE_API_KEY": "APIキーを生成",
     "GENERATE_API_KEY_DESC": "APIキーを生成して始めましょう",
     "CC_SWITCH": {
@@ -1019,6 +1013,7 @@
       "BADGE": "Codex CLI",
       "TITLE": "OpenAI Codex CLI セットアップガイド",
       "SUBTITLE": "Codex CLI を Windows、macOS、Linux にインストールして {appName} と設定するステップバイステップガイド。",
+      "OVERVIEW_DESC": "Codex CLI は OpenAI のターミナルベースのコーディングエージェントで、サンドボックス化されレビュー可能なパッチを通じて、プロジェクト内のコードを読み取り、書き込み、実行します。カスタムプロバイダーを {appName} のベース URL に向ければ、OpenAI のモデルだけでなく、カタログにあるあらゆるモデルで動かせます。",
       "PROJECT_INTRO_TITLE": "Codex CLI とは",
       "PROJECT_INTRO": "Codex CLI は、あなたのコンピュータでローカルに動作する OpenAI のコーディングエージェントです。",
       "PROJECT_OFFICIAL": "公式サイト",
@@ -1117,7 +1112,17 @@
       "CTA_DESC": "APIキーを取得して、Codex CLI で {appName} を使い始めましょう。",
       "CTA_SIGNUP": "APIキーに登録",
       "CTA_DASHBOARD": "ダッシュボードへ",
-      "CTA_MODELS": "すべてのモデルを見る"
+      "CTA_MODELS": "すべてのモデルを見る",
+      "STEP_1_TITLE": "Codex CLI をインストールする",
+      "STEP_1_DESC": "npm で Codex CLI をグローバルにインストールします。",
+      "STEP_2_TITLE": "モデルプロバイダーを設定する",
+      "STEP_2_DESC": "`~/.codex/config.toml` を編集して Codex を {appName} に向けます。モデル ID を設定し、responses ワイヤー API を使って {appName} のベース URL を持つカスタムプロバイダーを追加します。",
+      "STEP_3_TITLE": "API キーを追加する",
+      "STEP_3_DESC": "Codex がすべてのリクエストで認証できるよう、{appName} の API キーを `~/.codex/auth.json` に書き込みます。",
+      "STEP_4_TITLE": "Codex を起動する",
+      "STEP_4_DESC": "プロジェクトディレクトリで `codex` を実行してコーディングを始めます。",
+      "TS_1_DESC": "Codex がサポートされていないエンドポイントを報告する場合は、`wire_api` が `responses` に設定され、ベース URL が `/v1` で終わっているか確認してください。",
+      "TS_2_DESC": "401 は `~/.codex/auth.json` のキーが欠落しているか古いことを意味します。{appName} ダッシュボードから新しいキーを貼り付けて再実行してください。"
     },
     "GEMINI_CLI": {
       "META": {
@@ -1128,6 +1133,7 @@
       "BADGE": "Gemini CLI",
       "TITLE": "Gemini CLI 連携",
       "SUBTITLE": "{appName} を Gemini CLI やあらゆる Google GenAI 互換クライアントで利用できます。Gemini モデルを Claude や GPT と並べて使えます。",
+      "OVERVIEW_DESC": "Gemini CLI は Google のオープンソースのコーディングエージェントで、ターミナルから直接ファイルを編集しコマンドを実行します。{appName} をベース URL に設定すれば、Google 専用アカウントではなく、OpenAI 互換のキーひとつで Gemini、Claude、GPT、そのほかすべてのモデルにアクセスできます。",
       "INTRO_TITLE": "Gemini CLI とは",
       "INTRO_DESC": "Gemini CLI は、Gemini モデルのパワーを開発ワークフローに直接もたらす、Google 製のオープンソース AI コーディングエージェントです。ターミナル上で動作します。",
       "QUICK_START": "クイックスタート",
@@ -1163,7 +1169,15 @@
       "TOC_MACOS_LINUX": "macOS / Linux",
       "TOC_WINDOWS": "Windows",
       "TOC_CONFIGURATION": "設定",
-      "TOC_USAGE": "使い方"
+      "TOC_USAGE": "使い方",
+      "STEP_1_TITLE": "Gemini CLI をインストールする",
+      "STEP_1_DESC": "npm で Gemini CLI をグローバルにインストールします。Windows では WSL 内で実行してください。",
+      "STEP_2_TITLE": "環境変数を設定する",
+      "STEP_2_DESC": "{appName} の API キーを記載した `~/.gemini/.env` を作成し、`GOOGLE_GEMINI_BASE_URL` を {appName} のベアなベース URL に設定します。Gemini SDK は自前のパスを付加するため、`/v1` は追加しないでください。",
+      "STEP_3_TITLE": "Gemini を起動する",
+      "STEP_3_DESC": "プロジェクトディレクトリで `gemini` を実行してセッションを開始します。",
+      "TS_1_DESC": "リクエストが 404 になる場合は、ベース URL にパスを追加しています。`GOOGLE_GEMINI_BASE_URL` は `/v1` の接尾辞を付けないベアなホストにする必要があります。残りは SDK が付加します。",
+      "TS_2_DESC": "認証に失敗する場合は、`~/.gemini/.env` の `GEMINI_API_KEY` が {appName} のキーであり、シェルセッションがそのファイルを読み込んでいるか確認してください。"
     },
     "OPENCLAW": {
       "META": {
@@ -1174,6 +1188,7 @@
       "BADGE": "OpenClaw",
       "TITLE": "OpenClaw 連携",
       "SUBTITLE": "{appName} を OpenClaw エージェントのモデルプロバイダーとして利用できます。一度設定するだけで、OpenClaw のゲートウェイを通じてあらゆるモデルにアクセスできます。",
+      "OVERVIEW_DESC": "OpenClaw は、ひとつの設定で Telegram、Discord、Slack などにセルフホスト型の AI アシスタントを展開できるオープンソースのエージェントプラットフォームです。openai プロバイダーを {appName} のベース URL に設定すれば、OpenAI 互換のキーひとつで、あらゆるチャネルからモデルカタログ全体に到達できます。",
       "INTRO_TITLE": "OpenClaw とは",
       "INTRO_DESC": "OpenClaw は、マルチチャネル対応、セルフホスト機能、柔軟なモデル構成を備えた AI アシスタントを展開・管理できる、オープンソースの AI エージェントプラットフォームです。",
       "CORE_FEATURES": "コア機能",
@@ -1209,7 +1224,15 @@
       "TOC_INSTALLATION": "インストール",
       "TOC_CONFIGURATION": "設定",
       "TOC_KEY_CONFIG": "主な設定項目",
-      "TOC_START_SERVICE": "サービスを起動"
+      "TOC_START_SERVICE": "サービスを起動",
+      "STEP_1_TITLE": "インストールしてオンボードする",
+      "STEP_1_DESC": "npm で OpenClaw をグローバルにインストールし、`openclaw onboard` を実行して設定の雛形を作成します。",
+      "STEP_2_TITLE": "プロバイダーを {appName} に向ける",
+      "STEP_2_DESC": "`~/.openclaw/config.json` を編集し、openai プロバイダーが {appName} のベース URL を使用し、API キーを `OPENAI_API_KEY` 環境変数から読み取るようにします。デフォルトモデルは agents 配下に設定します。",
+      "STEP_3_TITLE": "OpenClaw を起動する",
+      "STEP_3_DESC": "`openclaw start` を実行して {appName} に対してエージェントを起動します。",
+      "TS_1_DESC": "OpenClaw が API に到達できない場合は、`providers.openai.baseUrl` が `/v1` で終わり、`OPENAI_API_KEY` が同じシェルでエクスポートされているか確認してください。",
+      "TS_2_DESC": "モデルが拒否される場合は、`agents.defaults.model.primary` を {appName} のモデルページから正確にコピーした `openai/` 接頭辞付きの有効な ID に設定してください。"
     },
     "HERMES": {
       "META": {
@@ -1220,6 +1243,7 @@
       "BADGE": "Hermes Agent",
       "TITLE": "Hermes Agent連携",
       "SUBTITLE": "Hermes Agent のモデルプロバイダーとして {appName} を使用します。OpenAI互換エンドポイントを {appName} に向けるだけで、すべてのモデルにアクセスできます。",
+      "OVERVIEW_DESC": "Nous Research の Hermes Agent は、CLI、TUI、メッセージングゲートウェイ、IDE 連携として動作し、ディスク上に永続的なメモリを保持する自己改善型の AI エージェントです。プロバイダーを custom に設定し、ベース URL を {appName} に向ければ、すべてのモデルを提供する OpenAI 互換エンドポイントひとつを通じて、あらゆるターンをルーティングできます。",
       "INTRO_TITLE": "Hermes Agent とは",
       "INTRO_DESC": "Nous Research の Hermes Agent は、自己改善するオープンソースの AI エージェントです。ターミナル、メッセージングゲートウェイ、IDE 連携として動作し、ディスク上に永続的なメモリを保持し、あらゆる OpenAI互換エンドポイントで動作します。",
       "CORE_FEATURES": "主な機能",
@@ -1261,7 +1285,17 @@
       "TOC_CONFIGURATION": "設定",
       "TOC_KEY_CONFIG": "主要な設定項目",
       "TOC_CLI_ALT": "CLI での代替方法",
-      "TOC_RUN": "Hermes を実行"
+      "TOC_RUN": "Hermes を実行",
+      "STEP_1_TITLE": "Hermes をインストールする",
+      "STEP_1_DESC": "インストールスクリプトを実行して Hermes Agent をセットアップします。Windows では WSL2 内にインストールしてください。",
+      "STEP_2_TITLE": "プロバイダーを {appName} に向ける",
+      "STEP_2_DESC": "`~/.hermes/config.yaml` を編集し、`model.provider` を `custom` に、`model.base_url` を {appName} のベース URL に設定します。コンテキストが 64k 以上のデフォルトモデルを選んでください。",
+      "STEP_3_TITLE": "API キーを追加する",
+      "STEP_3_DESC": "Hermes が各ターンで認証できるよう、{appName} の API キーを `~/.hermes/.env` に `OPENAI_API_KEY` として保存します。",
+      "STEP_4_TITLE": "Hermes を実行する",
+      "STEP_4_DESC": "`hermes --tui` で TUI を起動して作業を始めます。",
+      "TS_1_DESC": "Hermes は起動時にコンテキストが 64,000 トークン未満のモデルを拒否します。{appName} のモデルページからコンテキストの大きいモデルを選んでください。",
+      "TS_2_DESC": "起動時の `/v1/models` チェックに失敗する場合は、`model.base_url` が `/v1` で終わり、`OPENAI_API_KEY` が `~/.hermes/.env` に設定されているか確認してください。"
     },
     "SILLYTAVERN": {
       "META": {
@@ -1323,7 +1357,11 @@
       "TOC_QUICK_CONFIG": "クイック設定",
       "TOC_STEPS": "手順ごとのセットアップ",
       "TOC_MODELS_DROPDOWN": "モデルドロップダウンの挙動",
-      "TOC_TROUBLESHOOTING": "トラブルシューティング"
+      "TOC_TROUBLESHOOTING": "トラブルシューティング",
+      "GOTCHA_1": "ベース URL は `/v1` で終わるものだけを貼り付けてください。SillyTavern は `/chat/completions` を自動で付加します。自分で付けると 400 エラーになります。",
+      "GOTCHA_2": "モデルのドロップダウンが空になる場合は、接続に失敗しています。ベース URL を再確認し、Bypass API Status Check を有効にして SillyTavern が一覧を打ち切らないようにしてください。",
+      "GOTCHA_3": "401 はキーが期限切れか誤入力であることを意味します。{appName} ダッシュボードで新しいキーを生成し、前後に空白を入れずに貼り付けてください。",
+      "GOTCHA_4": "ストリーミングが途中で途切れる場合は、Streaming を無効にしてストリーム側が原因か確認し、その後再び有効にしてください。`data:` の接頭辞を取り除く企業プロキシも原因になります。"
     },
     "JANITOR_AI": {
       "META": {
@@ -1387,7 +1425,12 @@
       "TOC_STEPS": "手順ごとのセットアップ",
       "TOC_REFRESH_SAVE": "リロードが必要な理由",
       "TOC_KEY_INVISIBILITY": "API キーを外部に保存",
-      "TOC_TROUBLESHOOTING": "トラブルシューティング"
+      "TOC_TROUBLESHOOTING": "トラブルシューティング",
+      "GOTCHA_1": "ベース URL だけでなく、`/v1/chat/completions` で終わる完全な Proxy URL を貼り付けてください。Janitor に 'Add /chat/completions to URL' のチェックボックスが表示される場合はオフのままにします。",
+      "GOTCHA_2": "Janitor.AI はページ読み込み時にプロキシマップをキャッシュするため、保存した設定はハードリフレッシュ後にのみ有効になります。テスト前に Ctrl+Shift+R または Cmd+Shift+R を押してください。",
+      "GOTCHA_3": "Janitor は保存後に API キーをマスクし、再表示しません。ローテーション時に新しいキーが不要になるよう、先にパスワードマネージャーにキーを保存してください。",
+      "GOTCHA_4": "''Free tier limit reached'' のバナーは {appName} ではなく Janitor 内蔵のティアです。モデルのドロップダウンでチャットを保存済みのプロキシ設定に切り替えてください。",
+      "GOTCHA_5": "Model Name はモデル ID と完全に一致する必要があります。入力し直すのではなく、{appName} のモデルページからコピー＆ペーストしてください。"
     },
     "RISUAI": {
       "META": {
@@ -1459,7 +1502,11 @@
       "TOC_STEPS": "手順ごとのセットアップ",
       "TOC_AUTOFILL_WARNING": "オートフィルトグルが重要な理由",
       "TOC_AUX_MODEL": "Auxiliary Model の設定",
-      "TOC_TROUBLESHOOTING": "トラブルシューティング"
+      "TOC_TROUBLESHOOTING": "トラブルシューティング",
+      "GOTCHA_1": "何かを貼り付ける前に Autofill Request URL のチェックを外してください。オンのままだと、RisuAI が URL を自身のデフォルトに書き換え、接続を黙って壊します。",
+      "GOTCHA_2": "RisuAI の更新で Autofill Request URL が独自に再び有効になることがあります。動いていた設定が突然応答しなくなったら、Custom Models を開き直してトグルがまだオフか確認してください。",
+      "GOTCHA_3": "一部の RisuAI ビルドは API Key フィールドと Authorization フィールドの両方を表示し、バージョンによって読み取られるのは片方だけです。401 が出たら、キーをもう一方のフィールドに移してください。",
+      "GOTCHA_4": "Custom Models モードでは Model ID にドロップダウンがなく手入力のフィールドです。{appName} のモデルページから正確なモデル名をコピー＆ペーストし、入力し直さないでください。"
     },
     "CHUB": {
       "META": {
@@ -1526,7 +1573,359 @@
       "TOC_QUICK_CONFIG": "クイック設定",
       "TOC_STEPS": "手順ごとのセットアップ",
       "TOC_PICK_MODEL": "モデルドロップダウンにはプロキシチェックが必要",
-      "TOC_TROUBLESHOOTING": "トラブルシューティング"
+      "TOC_TROUBLESHOOTING": "トラブルシューティング",
+      "STEP_CONFIG_TITLE": "Configuration を開いて OpenAI を選ぶ",
+      "STEP_CONFIG_DESC": "ハンバーガーメニューに戻り、Configuration を開いてから Prompt Structure を選びます。API ドロップダウンを OpenAI に設定し、モデルのドロップダウンから目的のモデルを選択してください。",
+      "GOTCHA_1": "`/v1/chat/completions` で終わる完全な URL を Reverse proxy フィールドに貼り付けてください。ベース URL だけでは Check your proxy ボタンが失敗します。",
+      "GOTCHA_2": "Prompt Structure のモデルドロップダウンは、プロキシチェックが通るまで空のままです。まず Secrets で Check your proxy を実行し、その後モデルを選びに戻ってください。",
+      "GOTCHA_3": "Chub は保存後に API キーをマスクし、再びコピーできません。ローテーションで新しいキーが不要になるよう、貼り付け前にパスワードマネージャーにキーを保存してください。",
+      "GOTCHA_4": "Chub の UI は許可されていない第三者によるリバースプロキシについて警告しますが、それはコミュニティ運営のリレーを対象としています。{appName} は一次提供のリレーなので、キー、ログ、請求は {appName} 上に保持されます。"
+    },
+    "LIBRECHAT": {
+      "META": {
+        "TITLE": "LibreChat 連携ガイド | {appName}",
+        "DESCRIPTION": "OpenAI 互換のカスタムエンドポイントで LibreChat を {appName} に接続します。librechat.yaml にブロックを追加し、環境変数を設定すると、モデルセレクターが自動で埋まります。",
+        "KEYWORDS": "LibreChat, LibreChat カスタムエンドポイント, LibreChat OpenAI 互換, {appName} LibreChat, セルフホスト型チャット"
+      },
+      "BADGE": "LibreChat",
+      "TITLE": "LibreChat 連携ガイド",
+      "SUBTITLE": "OpenAI 互換のカスタムエンドポイントで {appName} を LibreChat に接続します。",
+      "OVERVIEW_DESC": "LibreChat は endpoints.custom を通じて任意の OpenAI 互換ホストを公開します。{appName} のブロックを追加し、環境変数を設定すると、モデルセレクターがカタログから自動で埋まります。",
+      "STEP_1_TITLE": "librechat.yaml を編集する",
+      "STEP_1_DESC": "LibreChat のインストール先で、endpoints.custom の下にカスタムエンドポイントのブロックを追加します。",
+      "STEP_2_TITLE": "環境変数を追加する",
+      "STEP_2_DESC": "LibreChat の .env ファイルに {appName} の API キーを設定します。",
+      "STEP_3_TITLE": "LibreChat を再起動する",
+      "STEP_3_DESC": "コンテナまたはプロセスを再起動します。{appName} のエンドポイントがチャットのドロップダウンに表示されます。",
+      "TS_1_DESC": "環境変数の値には、他の設定で使われるシークレット構文ではなく、単一の波かっこ構文を使ってください。",
+      "TS_2_DESC": "モデルが追加の OpenAI パラメーターを拒否する場合は、dropParams に追加します(例: frequency_penalty と presence_penalty)。",
+      "TS_3_DESC": "fetch: true は {appName} のカタログから自動で埋めます。default と組み合わせると、優先モデルを先頭に表示できます。"
+    },
+    "OPEN_WEBUI": {
+      "META": {
+        "TITLE": "Open WebUI 連携ガイド | {appName}",
+        "DESCRIPTION": "管理パネルで Open WebUI を {appName} に OpenAI 接続として追加します。モデルセレクターはカタログから自動で埋まります。",
+        "KEYWORDS": "Open WebUI, Open WebUI OpenAI 接続, {appName} Open WebUI, セルフホスト型 ChatGPT"
+      },
+      "BADGE": "Open WebUI",
+      "TITLE": "Open WebUI 連携ガイド",
+      "SUBTITLE": "{appName} を Open WebUI にネイティブな OpenAI 接続として追加します。",
+      "OVERVIEW_DESC": "Open WebUI では管理者が複数の OpenAI 互換接続を追加できます。{appName} を追加すると、モデルセレクターがカタログから自動で埋まります。",
+      "STEP_1_TITLE": "管理パネルを開く",
+      "STEP_1_DESC": "管理者としてサインインし、Admin Panel を開き、Settings、次に Connections へ進みます。",
+      "STEP_2_TITLE": "新しい OpenAI 接続を追加する",
+      "STEP_2_DESC": "OpenAI API の下で + ボタンをクリックして接続を追加します。",
+      "STEP_3_TITLE": "接続を入力する",
+      "STEP_3_DESC": "ベース URL と {appName} の API キーを入力します。",
+      "STEP_4_TITLE": "保存してモデルを選ぶ",
+      "STEP_4_DESC": "接続を保存します。モデルセレクターが {appName} のカタログを自動で読み込みます。",
+      "TS_1_DESC": "広範なキーは多数のモデルを返すことがあります。ドロップダウンが混雑する場合は Open WebUI のモデルフィルターか厳選したキーを使ってください。",
+      "TS_2_DESC": "Open WebUI には別途 Ollama 接続リストもあります。Ollama ではなく OpenAI API に追加していることを確認してください。"
+    },
+    "LOBECHAT": {
+      "META": {
+        "TITLE": "LobeChat 連携ガイド | {appName}",
+        "DESCRIPTION": "Add Custom Provider または Docker 環境変数で LobeChat を {appName} に接続します。あらゆるモデル向けの洗練されたオープンソース Web クライアント。",
+        "KEYWORDS": "LobeChat, LobeChat カスタムプロバイダー, {appName} LobeChat, オープンソース Web チャット"
+      },
+      "BADGE": "LobeChat",
+      "TITLE": "LobeChat 連携ガイド",
+      "SUBTITLE": "カスタムプロバイダーまたは Docker 環境変数で {appName} を LobeChat に接続します。",
+      "OVERVIEW_DESC": "LobeChat は環境変数または Add Custom Provider の UI を通じて任意の OpenAI 互換ホストに対応します。{appName} と組み合わせると、洗練されたローカル Web クライアントになります。",
+      "STEP_1_TITLE": "Settings、次に Language Model を開く",
+      "STEP_1_DESC": "Add Custom Provider をクリックしてフォームを入力します。",
+      "STEP_2_TITLE": "モデルを追加する",
+      "STEP_2_DESC": "プロバイダーを保存し、次に必要な {appName} モデルを追加します。LobeChat がモデルセレクターに表示します。",
+      "STEP_3_TITLE": "任意: Docker 環境変数",
+      "STEP_3_DESC": "セルフホストの場合は、コンテナ実行時に OpenAI 環境変数を設定します。",
+      "TS_1_DESC": "{appName} と並べてネイティブの OpenAI を残すには、OpenAI 環境変数ではなく Add Custom Provider を使ってください。",
+      "TS_2_DESC": "Provider ID は小文字でなければなりません。unorouter は機能し、UnoRouter は機能しません。"
+    },
+    "ANYTHINGLLM": {
+      "META": {
+        "TITLE": "AnythingLLM 連携ガイド | {appName}",
+        "DESCRIPTION": "AnythingLLM を {appName} に Generic OpenAI プロバイダーとして接続します。モデルを入力し、コンテキストウィンドウを設定して保存します。",
+        "KEYWORDS": "AnythingLLM, AnythingLLM Generic OpenAI, {appName} AnythingLLM, セルフホスト型 RAG"
+      },
+      "BADGE": "AnythingLLM",
+      "TITLE": "AnythingLLM 連携ガイド",
+      "SUBTITLE": "{appName} を AnythingLLM に Generic OpenAI プロバイダーとして接続します。",
+      "OVERVIEW_DESC": "AnythingLLM は {appName} を Generic OpenAI プロバイダーとして扱います。モデルを入力し、コンテキストウィンドウを設定して保存します。",
+      "STEP_1_TITLE": "LLM Preference を開く",
+      "STEP_1_DESC": "サイドバーで Settings、次に LLM Preference をクリックします。",
+      "STEP_2_TITLE": "Generic OpenAI を選ぶ",
+      "STEP_2_DESC": "LLM Provider を Generic OpenAI に設定し、フォームを入力します。",
+      "STEP_3_TITLE": "保存する",
+      "STEP_3_DESC": "保存を押します。AnythingLLM はチャットワークスペースで {appName} を使用します。",
+      "TS_1_DESC": "AnythingLLM は Generic OpenAI でカタログを自動取得しません。モデル名とコンテキストウィンドウを手動で入力してください。",
+      "TS_2_DESC": "Embedding Preference タブは別です。{appName} がプランで embeddings を提供しない限り、機能する embedding プロバイダーのままにしてください。"
+    },
+    "CHERRY_STUDIO": {
+      "META": {
+        "TITLE": "Cherry Studio 連携ガイド | {appName}",
+        "DESCRIPTION": "Cherry Studio を {appName} に OpenAI プロバイダーとして接続します。ホストとキーを追加し、必要なモデルを読み込みます。",
+        "KEYWORDS": "Cherry Studio, Cherry Studio OpenAI プロバイダー, {appName} Cherry Studio, クロスプラットフォームのデスクトップチャット"
+      },
+      "BADGE": "Cherry Studio",
+      "TITLE": "Cherry Studio 連携ガイド",
+      "SUBTITLE": "{appName} を Cherry Studio に OpenAI プロバイダーとして接続します。",
+      "OVERVIEW_DESC": "Cherry Studio は 1 つの UI で多数のプロバイダーに対応します。{appName} を OpenAI プロバイダーとして追加し、必要なモデルを別々のエントリーとして読み込みます。",
+      "STEP_1_TITLE": "Model Provider を開く",
+      "STEP_1_DESC": "Settings、次に Model Provider へ進み、Add Provider をクリックします。",
+      "STEP_2_TITLE": "OpenAI を選ぶ",
+      "STEP_2_DESC": "プロバイダータイプを OpenAI に設定します。名前、ホスト、キーを入力します。",
+      "STEP_3_TITLE": "モデルを追加する",
+      "STEP_3_DESC": "Models の下の Manage、次に Add Model をクリックします。{appName} のモデル ID を 1 行に 1 つずつ貼り付けます。",
+      "TS_1_DESC": "OpenAI プロバイダータイプを使い、ホストに /v1 を自分で含めてください。一部の他のタイプは独自のパスを追加しようとします。",
+      "TS_2_DESC": "Cherry の Test ボタンは chat completions に 1 トークンのリクエストを送ります。推論モデルは length の finish を報告することがありますが、それでも認証は確認できます。"
+    },
+    "TYPINGMIND": {
+      "META": {
+        "TITLE": "TypingMind 連携ガイド | {appName}",
+        "DESCRIPTION": "OpenAI 互換のカスタムエンドポイントを貼り付けて TypingMind を {appName} に接続します。任意のモデルを使えます。",
+        "KEYWORDS": "TypingMind, TypingMind カスタムモデル, {appName} TypingMind, BYOK Web フロントエンド"
+      },
+      "BADGE": "TypingMind",
+      "TITLE": "TypingMind 連携ガイド",
+      "SUBTITLE": "{appName} を TypingMind に OpenAI 互換のカスタムモデルとして接続します。",
+      "OVERVIEW_DESC": "TypingMind では任意の OpenAI 互換エンドポイントをカスタムモデルとして貼り付けられます。{appName} を追加して、カタログの任意のモデルを使えます。",
+      "STEP_1_TITLE": "Models を開く",
+      "STEP_1_DESC": "歯車アイコンをクリックし、Models、次に Add Custom Models へ進みます。",
+      "STEP_2_TITLE": "API タイプとして OpenAI を選ぶ",
+      "STEP_2_DESC": "TypingMind はカスタムエンドポイントに OpenAI Chat Completions スキーマを使います。",
+      "STEP_3_TITLE": "エンドポイントを入力する",
+      "STEP_3_DESC": "ベース URL、{appName} の API キー、モデル ID を入力します。",
+      "STEP_4_TITLE": "テストして追加する",
+      "STEP_4_DESC": "モデルが対応している場合のみ Plugins または Vision をオンにします。Test、次に Add Model をクリックします。",
+      "TS_1_DESC": "Plugins(関数呼び出し)はネイティブのツール対応モデルでのみ機能します。プラグイン主体のフローにはツール対応モデルを選んでください。",
+      "TS_2_DESC": "Vision トグルは画像入力に対応したモデルでのみ機能します。オンにする前にカタログを確認してください。"
+    },
+    "BOLTAI": {
+      "META": {
+        "TITLE": "BoltAI 連携ガイド | {appName}",
+        "DESCRIPTION": "BoltAI を {appName} に OpenAI 互換のカスタムサーバーとして接続します。あらゆる macOS アプリで AI を浮かべます。",
+        "KEYWORDS": "BoltAI, BoltAI OpenAI 互換, {appName} BoltAI, macOS AI アシスタント"
+      },
+      "BADGE": "BoltAI",
+      "TITLE": "BoltAI 連携ガイド",
+      "SUBTITLE": "{appName} を BoltAI に OpenAI 互換のカスタムサーバーとして接続します。",
+      "OVERVIEW_DESC": "BoltAI はあらゆる macOS アプリに AI を持ち込みます。{appName} を OpenAI 互換のカスタムサーバーとして追加し、必要なモデルを選びます。",
+      "STEP_1_TITLE": "Models 設定を開く",
+      "STEP_1_DESC": "BoltAI の設定を開き、Models へ進み、+ をクリックして OpenAI-compatible Server を選びます。",
+      "STEP_2_TITLE": "サーバーを入力する",
+      "STEP_2_DESC": "名前、ベース URL、キー、モデル ID、コンテキスト長を入力します。",
+      "STEP_3_TITLE": "ストリーミングをオンにする",
+      "STEP_3_DESC": "BoltAI がトークンを到着順に表示するよう Streaming をオンにします。",
+      "TS_1_DESC": "BoltAI はこのコネクターのモデルリストを自動取得しません。各 {appName} モデルは手動入力です。",
+      "TS_2_DESC": "コンテキスト長は手動で設定してください。省略すると長いプロンプトや応答が切り詰められることがあります。"
+    },
+    "PAGE_ASSIST": {
+      "META": {
+        "TITLE": "Page Assist 連携ガイド | {appName}",
+        "DESCRIPTION": "Page Assist を {appName} に OpenAI 互換のカスタム API として接続します。ブラウザのサイドパネルで AI を使えます。",
+        "KEYWORDS": "Page Assist, Page Assist OpenAI 互換, {appName} Page Assist, ブラウザ AI 拡張機能"
+      },
+      "BADGE": "Page Assist",
+      "TITLE": "Page Assist 連携ガイド",
+      "SUBTITLE": "{appName} を Page Assist に OpenAI 互換のカスタム API として接続します。",
+      "OVERVIEW_DESC": "Page Assist はブラウザのサイドパネルで動作します。{appName} を OpenAI 互換のカスタム API として追加し、必要なモデルを選びます。",
+      "STEP_1_TITLE": "Page Assist の設定を開く",
+      "STEP_1_DESC": "ツールバーの Page Assist アイコンをクリックし、歯車アイコンを開いて設定にアクセスします。",
+      "STEP_2_TITLE": "カスタム OpenAI プロバイダーを追加する",
+      "STEP_2_DESC": "OpenAI Compatible API へ進み、Add Provider、次に Custom をクリックします。",
+      "STEP_3_TITLE": "プロバイダーを入力する",
+      "STEP_3_DESC": "プロバイダー名、ベース URL、{appName} の API キーを入力します。",
+      "STEP_4_TITLE": "モデルを追加する",
+      "STEP_4_DESC": "Page Assist の Models セクションを開き、チャットしたい {appName} モデルを追加します。",
+      "TS_1_DESC": "カスタムプロバイダーはモデルを自動検出しません。手動で追加してください。",
+      "TS_2_DESC": "自動検出は LM Studio や Ollama などの組み込みプロバイダー向けです。"
+    },
+    "CHATBOX": {
+      "META": {
+        "TITLE": "Chatbox 連携ガイド | {appName}",
+        "DESCRIPTION": "OpenAI API Compatible モードで Chatbox を {appName} に接続します。URL を Host と Path に分けます。",
+        "KEYWORDS": "Chatbox, Chatbox OpenAI 互換, {appName} Chatbox, クロスプラットフォームのチャットクライアント"
+      },
+      "BADGE": "Chatbox",
+      "TITLE": "Chatbox 連携ガイド",
+      "SUBTITLE": "OpenAI API Compatible モードで {appName} を Chatbox に接続します。",
+      "OVERVIEW_DESC": "Chatbox は任意の OpenAI 互換ベースに対応します。OpenAI API Compatible モードを使い、URL を Host と Path に分けます。",
+      "STEP_1_TITLE": "Add Custom Provider を開く",
+      "STEP_1_DESC": "Settings、次に Display、次に AI Provider、次に Add Custom Provider をクリックします。",
+      "STEP_2_TITLE": "OpenAI API Compatible モードを選ぶ",
+      "STEP_2_DESC": "Responses ルートを特に必要としない限り、Responses API オプションは選ばないでください。",
+      "STEP_3_TITLE": "ホストとパスを分ける",
+      "STEP_3_DESC": "Chatbox は Host と Path を別々のフィールドとして要求します。chat completions のパスを API Path に入れます。",
+      "STEP_4_TITLE": "モデルを追加する",
+      "STEP_4_DESC": "Models セクションで必要な {appName} モデルを追加します。",
+      "TS_1_DESC": "Host に /v1 を入れて Path を空にすると機能しません。完全な chat completions パスを API Path に保ってください。",
+      "TS_2_DESC": "Responses 仕様を特に必要としない限り、OpenAI Responses API Compatible ではなく OpenAI API Compatible を使ってください。"
+    },
+    "BIG_AGI": {
+      "META": {
+        "TITLE": "Big-AGI 連携ガイド | {appName}",
+        "DESCRIPTION": "Big-AGI を {appName} に OpenAI ソースとして接続します。Big-AGI はカタログを自動取得します。",
+        "KEYWORDS": "Big-AGI, Big-AGI OpenAI ソース, {appName} Big-AGI, Web AI ワークベンチ"
+      },
+      "BADGE": "Big-AGI",
+      "TITLE": "Big-AGI 連携ガイド",
+      "SUBTITLE": "{appName} を Big-AGI にカスタム OpenAI ソースとして接続します。",
+      "OVERVIEW_DESC": "Big-AGI の OpenAI プロバイダーはカスタム API エンドポイントを受け付けます。{appName} を追加すると、Big-AGI がモデルカタログを自動取得します。",
+      "STEP_1_TITLE": "Models を開く",
+      "STEP_1_DESC": "Models と Add a model source をクリックします。OpenAI を選びます。",
+      "STEP_2_TITLE": "ソースを入力する",
+      "STEP_2_DESC": "{appName} の API キーと API エンドポイントを入力します。",
+      "STEP_3_TITLE": "モデルを更新する",
+      "STEP_3_DESC": "Models ボタンをクリックしてリストを更新します。Big-AGI が {appName} のカタログを読み込みます。",
+      "TS_1_DESC": "Helicone Key は空のままにしてください。追加するとホストが別のドメインに強制されます。",
+      "TS_2_DESC": "Moderation トグルを無効にしてください。{appName} はモデレーションエンドポイントを公開していません。"
+    },
+    "OPENCODE": {
+      "META": {
+        "TITLE": "OpenCode セットアップガイド | {appName}",
+        "DESCRIPTION": "opencode.json にカスタムの OpenAI 互換プロバイダーを追加して、OpenCode を {appName} に接続します。正確なベース URL を使った手順付きの設定方法。",
+        "KEYWORDS": "OpenCode, OpenCode セットアップ, OpenCode プロバイダー, {appName} OpenCode, コーディングエージェント, OpenAI 互換"
+      },
+      "BADGE": "OpenCode",
+      "TITLE": "OpenCode セットアップガイド",
+      "SUBTITLE": "{appName} を OpenCode のカスタムプロバイダーとして追加し、任意のモデルをアクティブなコーディングエージェントとして選択できます。",
+      "OVERVIEW_DESC": "OpenCode は JSON 設定ファイルからプロバイダーを読み込みます。OpenAI 互換アダプターを使って {appName} をカスタムプロバイダーとして追加すると、任意の {appName} モデルをアクティブモデルとして選択できます。",
+      "STEP_1_TITLE": "OpenCode の設定ファイルを開く",
+      "STEP_1_DESC": "OpenCode 内で Ctrl + O を押し、パスを貼り付けます。Windows では YOUR_USER を自分の Windows ユーザー名に置き換えてください。",
+      "STEP_2_TITLE": "ファイルの内容を置き換える",
+      "STEP_2_DESC": "ファイルを空にして {appName} プロバイダーのブロックを貼り付けます。{appName} の API キーを入力し、カタログから任意のモデルを選択します。",
+      "STEP_3_TITLE": "保存して再読み込みする",
+      "STEP_3_DESC": "Ctrl + S で保存し、Ctrl + Shift + P から Developer: Reload Window を実行します。再読み込みすると OpenCode が新しいプロバイダーを認識します。",
+      "STEP_4_TITLE": "モデルを選択する",
+      "STEP_4_DESC": "OpenCode のモデルセレクターを開き、追加したモデルに切り替えます。OpenAI 互換アダプターがストリーミングとツール呼び出しを自動的に処理します。",
+      "GOTCHA_1": "OpenCode は内部で npm の @ai-sdk/openai-compatible アダプターを使用するため、再起動せずに \"models\" 配下へモデルを追加し続けられます。",
+      "GOTCHA_2": "Developer: Reload Window でプロバイダーが表示されない場合は、JSON が末尾のカンマなしで保存されているか再確認してください。",
+      "GOTCHA_3": "{appName} カタログの正確なモデル ID を使用してください。コピー＆ペーストで先頭にプロバイダーの接頭辞が付いた場合は取り除いてください。"
+    },
+    "KILO_CODE": {
+      "META": {
+        "TITLE": "Kilo Code セットアップガイド | {appName}",
+        "DESCRIPTION": "VSCode サイドバーにカスタムの OpenAI 互換プロバイダーを追加して、Kilo Code を {appName} に接続します。手順付きの設定方法。",
+        "KEYWORDS": "Kilo Code, Kilo Code セットアップ, VSCode コーディングエージェント, {appName} Kilo Code, カスタムプロバイダー, OpenAI 互換"
+      },
+      "BADGE": "Kilo Code",
+      "TITLE": "Kilo Code セットアップガイド",
+      "SUBTITLE": "エディターを離れることなく、Kilo Code の VSCode サイドバーで {appName} のカスタムプロバイダーを直接接続します。",
+      "OVERVIEW_DESC": "Kilo Code はカスタムの OpenAI 互換プロバイダーをサイドバーで直接接続できる VSCode 拡張機能です。{appName} はエディターを離れずに利用できます。",
+      "STEP_1_TITLE": "Kilo Code をインストールする",
+      "STEP_1_DESC": "VSCode を開き、拡張機能パネルに移動して Kilo Code を検索し、インストールします。",
+      "STEP_2_TITLE": "設定を開く",
+      "STEP_2_DESC": "サイドバーの Kilo Code アイコンをクリックし、パネル右上の歯車アイコンをクリックします。",
+      "STEP_3_TITLE": "カスタムプロバイダーを追加する",
+      "STEP_3_DESC": "Providers を開き、Custom Provider の横にある + Connect をクリックしてフォームに入力します。",
+      "STEP_4_TITLE": "接続フォームに入力する",
+      "STEP_4_DESC": "以下の正確な値を使用します。モデル欄には {appName} カタログの任意のモデル ID を入力できます。",
+      "STEP_5_TITLE": "保存してチャットする",
+      "STEP_5_DESC": "Save Provider をクリックします。Kilo Code は次のエージェント実行で新しいプロバイダーを使用します。",
+      "GOTCHA_1": "キーを貼り付けると数文字に切り詰められる場合は、入力中にフィールドがマスクされているだけです。目のアイコンをクリックして、キー全体が貼り付けられたか確認してください。",
+      "GOTCHA_2": "404 unknown API route は通常、モデル ID が間違っていることを意味します。{appName} のモデル一覧から選んでください。",
+      "GOTCHA_3": "Kilo がシェル、ファイル編集、検索ツールを実行できるよう、Supports tools は有効のままにしてください。"
+    },
+    "ZED": {
+      "META": {
+        "TITLE": "Zed IDE セットアップガイド | {appName}",
+        "DESCRIPTION": "カスタムの OpenAI 互換プロバイダーを追加して、Zed エディターのエージェントを {appName} に接続します。手順付きの設定方法。",
+        "KEYWORDS": "Zed, Zed IDE, Zed エージェント, {appName} Zed, カスタムプロバイダー, OpenAI 互換エディター"
+      },
+      "BADGE": "Zed IDE",
+      "TITLE": "Zed IDE セットアップガイド",
+      "SUBTITLE": "{appName} を Zed のカスタム OpenAI 互換プロバイダーとして追加すれば、組み込みエージェントが残りを処理します。",
+      "OVERVIEW_DESC": "Zed には組み込みのエージェントパネルがあります。{appName} をカスタムの OpenAI 互換プロバイダーとして追加すれば、Zed が残りを処理します。",
+      "STEP_1_TITLE": "Zed のアシスタントを開く",
+      "STEP_1_DESC": "Zed を開き、右サイドバーからアシスタントパネルを表示します。",
+      "STEP_2_TITLE": "エージェント設定を開く",
+      "STEP_2_DESC": "アシスタントの歯車をクリックし、右上の Add Provider に移動します。",
+      "STEP_3_TITLE": "プロバイダーを設定する",
+      "STEP_3_DESC": "OpenAI 互換オプションを選び、以下の値を使用します。",
+      "STEP_4_TITLE": "モデルを選択する",
+      "STEP_4_DESC": "モデルセレクターで新しい {appName} プロバイダーを選択し、カタログから任意のモデルを選びます。Zed はエディター内で応答を直接ストリーミングします。",
+      "GOTCHA_1": "Zed はプロバイダー ID に小文字、数字、ハイフン、アンダースコアを要求します。",
+      "GOTCHA_2": "ヘッダーで認証するユーザーがいるためフォームでは API キーは任意ですが、{appName} の場合は実際のキーを貼り付けてください。"
+    },
+    "CLINE": {
+      "META": {
+        "TITLE": "Cline セットアップガイド | {appName}",
+        "DESCRIPTION": "Cline を {appName} に OpenAI Compatible プロバイダーとして接続すれば、任意のモデルでコードの読み取り、編集、実行ができます。手順付きの設定方法。",
+        "KEYWORDS": "Cline, Cline セットアップ, VSCode 自律エージェント, {appName} Cline, OpenAI Compatible, コーディングエージェント"
+      },
+      "BADGE": "Cline",
+      "TITLE": "Cline セットアップガイド",
+      "SUBTITLE": "{appName} を Cline の OpenAI Compatible プロバイダーとして追加し、VSCode 内で完全なエージェントループを実行します。",
+      "OVERVIEW_DESC": "Cline は VSCode 内で完全なエージェントループを実行します。{appName} を OpenAI Compatible プロバイダーとして追加すると、任意のモデルでコードの読み取り、編集、実行ができます。",
+      "STEP_1_TITLE": "Cline をインストールする",
+      "STEP_1_DESC": "VSCode マーケットプレイスから Cline 拡張機能をインストールし、アクティビティバーから Cline パネルを開きます。",
+      "STEP_2_TITLE": "Cline の設定を開く",
+      "STEP_2_DESC": "Cline パネルの歯車アイコンをクリックして API Configuration を開きます。",
+      "STEP_3_TITLE": "OpenAI Compatible を選ぶ",
+      "STEP_3_DESC": "API Provider で OpenAI Compatible を選択します。",
+      "STEP_4_TITLE": "接続情報を入力する",
+      "STEP_4_DESC": "以下の値を使用します。Model ID には任意の {appName} モデルを指定できます。",
+      "GOTCHA_1": "Cline には新しいモデル向けの Responses API モードがあります。chat completions では XML によるツールラッピングにフォールバックし、ツール呼び出しが繰り返されることがあります。安定性のため chat 形式のモデルを使ってください。",
+      "GOTCHA_2": "Cline がシェルやファイル編集を確実に実行できるよう、ネイティブのツール呼び出しに対応したモデルを選んでください。"
+    },
+    "ROO_CODE": {
+      "META": {
+        "TITLE": "Roo Code セットアップガイド | {appName}",
+        "DESCRIPTION": "Roo Code を {appName} に OpenAI Compatible プロバイダーとして接続すれば、プランニング、コード、QA の各ロールが 1 つのベース URL を共有します。手順付きの設定方法。",
+        "KEYWORDS": "Roo Code, Roo Code セットアップ, マルチエージェント VSCode, {appName} Roo Code, OpenAI Compatible, コーディングエージェント"
+      },
+      "BADGE": "Roo Code",
+      "TITLE": "Roo Code セットアップガイド",
+      "SUBTITLE": "{appName} を OpenAI Compatible プロバイダーとして追加すると、Roo Code のエージェントロールが同じベース URL を共有します。",
+      "OVERVIEW_DESC": "Roo Code はエージェントをプランニング、コード、QA のチームに分割します。{appName} を OpenAI Compatible プロバイダーとして追加すると、Roo のロールが同じベース URL を共有します。",
+      "STEP_1_TITLE": "Roo Code をインストールする",
+      "STEP_1_DESC": "VSCode に Roo Code 拡張機能をインストールし、パネルを開きます。",
+      "STEP_2_TITLE": "API 設定を開く",
+      "STEP_2_DESC": "設定アイコンをクリックして API Configuration に移動します。",
+      "STEP_3_TITLE": "OpenAI Compatible を選ぶ",
+      "STEP_3_DESC": "Provider を OpenAI Compatible に設定します。",
+      "STEP_4_TITLE": "接続情報を入力する",
+      "STEP_4_DESC": "以下の値を使用します。最初の呼び出し後にモデルセレクターが自動で埋まることもあります。",
+      "GOTCHA_1": "Roo の Codebase Indexing > Embedder Provider はチャットとは別の設定です。実際に使いたいチャットプロバイダーを設定してください。",
+      "GOTCHA_2": "一部の Roo エージェントロールは想定より多くのリクエストを実行します。{appName} のレート制限に注意し、必要に応じてプランを引き上げてください。"
+    },
+    "CONTINUE_DEV": {
+      "META": {
+        "TITLE": "Continue.dev セットアップガイド | {appName}",
+        "DESCRIPTION": "バージョン管理可能な config.yaml で Continue.dev を {appName} に接続します。Continue はモデルエントリをホットリロードします。手順付きの設定方法。",
+        "KEYWORDS": "Continue.dev, Continue セットアップ, VSCode JetBrains アシスタント, {appName} Continue, config.yaml, OpenAI 互換"
+      },
+      "BADGE": "Continue.dev",
+      "TITLE": "Continue.dev セットアップガイド",
+      "SUBTITLE": "{appName} のモデルエントリを Continue の config.yaml に追加すると、VSCode と JetBrains の両方でホットリロードされます。",
+      "OVERVIEW_DESC": "Continue はバージョン管理できる yaml 設定を使用します。{appName} のモデルエントリを追加すると、Continue がホットリロードします。",
+      "STEP_1_TITLE": "Continue の設定を開く",
+      "STEP_1_DESC": "~/.continue/config.yaml (macOS/Linux) または %USERPROFILE%\\.continue\\config.yaml (Windows) を編集します。ファイルが存在しない場合は作成してください。",
+      "STEP_2_TITLE": "モデルエントリを追加する",
+      "STEP_2_DESC": "provider openai と apiBase を使用します。複数のモデルを別々のエントリとして追加できます。",
+      "STEP_3_TITLE": "保存して再読み込みする",
+      "STEP_3_DESC": "Continue は設定をホットリロードします。パネル下部のモデルセレクターから {appName} を選択します。",
+      "GOTCHA_1": "従来の config.json ではなく config.yaml を使用してください。",
+      "GOTCHA_2": "モデルが追加パラメーターを拒否する場合は、そのモデルエントリに requestOptions.dropParams: ['frequency_penalty','presence_penalty'] を設定してください。"
+    },
+    "AIDER": {
+      "META": {
+        "TITLE": "Aider セットアップガイド | {appName}",
+        "DESCRIPTION": "ペアプログラミング CLI の Aider を {appName} に接続します。2 つの環境変数を設定し、モデルとして openai/MODEL_ID を渡します。手順付きの設定方法。",
+        "KEYWORDS": "Aider, Aider セットアップ, AI ペアプログラミング CLI, {appName} Aider, LiteLLM, OpenAI 互換"
+      },
+      "BADGE": "Aider",
+      "TITLE": "Aider セットアップガイド",
+      "SUBTITLE": "Aider は LiteLLM ベースなので、{appName} の OpenAI 互換ベース URL は 2 つの環境変数で利用できます。",
+      "OVERVIEW_DESC": "Aider は LiteLLM ベースなので、任意の OpenAI 互換ベース URL が利用できます。2 つの環境変数を設定し、モデルとして openai/MODEL_ID を渡します。",
+      "STEP_1_TITLE": "環境変数を設定する",
+      "STEP_1_DESC": "Aider はシェルから OPENAI_API_BASE と OPENAI_API_KEY を読み取ります。",
+      "STEP_2_TITLE": "openai/ 接頭辞付きで aider を実行する",
+      "STEP_2_DESC": "LiteLLM は openai/ 接頭辞を使ってリクエストを OpenAI ドライバー経由でルーティングします。{appName} のモデル ID を末尾に付けます。",
+      "STEP_3_TITLE": "任意: .aider.conf.yml に永続化する",
+      "STEP_3_DESC": "毎回フラグを繰り返さなくて済むよう、プロジェクトルートに設定を置きます。",
+      "GOTCHA_1": "ベース URL には必ず /v1 を含めてください。",
+      "GOTCHA_2": "LiteLLM は未知のモデルに関する警告を表示することがあります。煩わしい場合は --no-show-model-warnings を使うか、--model-metadata-file でコンテキストウィンドウを指定してください。"
     }
   },
   "FOOTER": {
@@ -1542,11 +1941,8 @@
     "CONTACT_SUBTITLE": "ご質問やご意見はありますか？",
     "DESCRIPTION": "複数のプロバイダーが提供する数百のモデルへ、単一のインテリジェントなエンドポイントからアクセスできる統合 AI API プラットフォーム。",
     "COPYRIGHT": "© {year} {appName}. 無断複写・転載を禁じます。",
-    "LEGAL_DISCLAIMER": "本プラットフォームをご利用いただくことで、以下を読み、同意されたものとみなします：",
     "LEGAL_TERMS": "利用規約",
-    "LEGAL_AND": "および",
     "LEGAL_PRIVACY": "プライバシーポリシー",
-    "SOCIAL_GITHUB": "GitHub",
     "SOCIAL_TRUSTPILOT": "Trustpilot",
     "EASTER_EGG_LABEL": "Token Breakout で遊ぶ"
   },
@@ -1662,21 +2058,15 @@
   },
   "COMMON": {
     "COPY_CODE": "コードをコピー",
-    "COPIED": "コピーしました",
     "OPEN_MENU": "メニューを開く",
     "SEARCH": "検索...",
     "SAVE": "保存",
     "SAVED": "保存しました",
     "CANCEL": "キャンセル",
     "DELETE": "削除",
-    "CREATE": "作成",
     "EDIT": "編集",
-    "IMPORT": "インポート",
-    "EXPORT": "エクスポート",
-    "LOADING": "読み込み中...",
     "NAME": "名前",
     "DESCRIPTION": "説明",
-    "CONFIRM_DELETE": "本当に削除しますか？",
     "RESET": "リセット",
     "CONFIRM": {
       "CONTINUE": "続ける",
@@ -1695,7 +2085,6 @@
       "DELETE_GENERATION_TITLE": "生成を削除しますか？",
       "DELETE_GENERATION_DESC": "この生成とその画像を完全に削除します。",
       "CLEAR_CHAT_TITLE": "チャットを消去しますか？",
-      "REMOVE_SYNC_TITLE": "同期から削除しますか？",
       "WIPE_DB_TITLE": "ローカルデータベースを消去しますか？",
       "UPLOAD_DB_TITLE": "ローカルデータベースを上書きしますか？"
     }
@@ -1708,7 +2097,17 @@
     "RU": "Русский",
     "VI": "Tiếng Việt",
     "ZH_CN": "简体中文",
-    "ZH_TW": "繁體中文"
+    "ZH_TW": "繁體中文",
+    "IT": "Italiano",
+    "ES": "Español",
+    "PT_BR": "Português (Brasil)",
+    "KO": "한국어",
+    "TR": "Türkçe",
+    "AR": "العربية",
+    "HE": "עברית",
+    "HI": "हिन्दी",
+    "ID": "Bahasa Indonesia",
+    "PL": "Polski"
   },
   "AUTH": {
     "LOGIN": {
@@ -1728,7 +2127,6 @@
       "USERNAME_OR_EMAIL_PLACEHOLDER": "ユーザー名またはメールアドレスを入力",
       "PASSWORD": "パスワード",
       "PASSWORD_PLACEHOLDER": "パスワードを入力",
-      "PASSWORD_MIN_LENGTH": "パスワードは 8 文字以上である必要があります",
       "EMAIL": "メールアドレス",
       "EMAIL_PLACEHOLDER": "メールアドレスを入力",
       "VERIFICATION_CODE": "認証コード",
@@ -1743,14 +2141,12 @@
     "TWO_FA": {
       "TITLE": "二要素認証",
       "DESCRIPTION": "認証アプリに表示された 6 桁のコードを入力してください",
-      "CODE_PLACEHOLDER": "000000",
       "SUBMIT": "確認",
       "VERIFYING": "確認中..."
     },
     "VERIFICATION": {
       "SEND_CODE": "コードを送信",
       "SENDING": "送信中...",
-      "SENT": "コード送信済み",
       "RESEND": "再送信",
       "RESEND_IN": "{seconds}秒後に再送信",
       "FAILED": "認証コードの送信に失敗しました"
@@ -1800,10 +2196,7 @@
     "DONT_HAVE_ACCOUNT": "アカウントをお持ちでないですか？",
     "ALREADY_HAVE_ACCOUNT": "すでにアカウントをお持ちですか？",
     "OR_CONTINUE_WITH": "または次で続行",
-    "CALLBACK_LOADING": "サインインを完了しています...",
-    "DASHBOARD": "ダッシュボード",
     "LOG_OUT": "ログアウト",
-    "BALANCE": "残高",
     "SUBSCRIPTION": "サブスクリプション",
     "SUBSCRIPTION_ACTIVE": "有効"
   },
@@ -1815,10 +2208,7 @@
     "LOGS": "利用ログ",
     "AFFILIATE": "アフィリエイト",
     "BILLING": "請求",
-    "SETTINGS": "設定",
-    "CHAT": "チャット",
-    "GENERATE": "生成",
-    "MY_GENERATIONS": "マイ生成履歴"
+    "SETTINGS": "設定"
   },
   "DASHBOARD": {
     "GREETING": {
@@ -1862,12 +2252,9 @@
       "NO_API_INFO": "API 情報はありません"
     },
     "CONSUMPTION": "消費",
-    "TOP_UP": "チャージ",
     "TOTAL": "合計",
     "OTHER": "その他",
     "NO_DATA": "データはありません",
-    "UPTIME": "稼働率",
-    "COPY_URL": "URL をコピー",
     "COPIED": "コピーしました"
   },
   "TOKEN": {
@@ -1885,18 +2272,7 @@
     "FORM": {
       "NAME": "名前",
       "NAME_PLACEHOLDER": "このキーの名前を入力",
-      "GROUP": "グループ",
-      "GROUP_PLACEHOLDER": "グループを選択",
-      "GROUP_NO_GROUPS": "利用可能なグループがありません",
-      "CROSS_GROUP_RETRY": "グループ横断リトライ",
-      "CROSS_GROUP_RETRY_DESC": "有効にすると、失敗したリクエストが他のグループのチャネルで再試行されます。",
-      "EXPIRATION": "有効期限",
-      "EXPIRATION_PLACEHOLDER": "有効期限を選択",
-      "EXPIRATION_PRESETS": "クイック設定",
       "NEVER_EXPIRES": "無期限",
-      "ONE_MONTH": "1 か月",
-      "ONE_DAY": "1 日",
-      "ONE_HOUR": "1 時間",
       "QUOTA": "クォータ",
       "QUOTA_PLACEHOLDER": "USD金額（例：10）",
       "QUOTA_PRESETS": "プリセット",
@@ -1907,8 +2283,6 @@
       "MODEL_LIMITS_DESC": "必要な場合を除き推奨しません。",
       "MODEL_SELECT_PLACEHOLDER": "モデルを検索...",
       "MODEL_SELECT_EMPTY": "モデルが見つかりません",
-      "MODELS_SELECTED": "{count} 件選択",
-      "MODEL_COUNT": "{count} モデル",
       "IP_WHITELIST": "IP ホワイトリスト",
       "IP_WHITELIST_PLACEHOLDER": "1 行につき 1 つの IP。空欄の場合は制限なし。",
       "IP_WHITELIST_DESC": "IP は偽装される可能性があります。強固に制御するにはゲートウェイと併用してください。",
@@ -1959,7 +2333,6 @@
     "DISABLE": "無効化",
     "UNLIMITED": "無制限",
     "ALL_MODELS": "すべてのモデル",
-    "USED_OF_TOTAL": "{used} / {total}",
     "SEARCH_PLACEHOLDER": "キーを検索...",
     "NO_TOKENS": "APIキーはまだありません。作成して始めましょう。",
     "COPY_KEY": "キーをコピー"
@@ -1967,7 +2340,6 @@
   "LOGS": {
     "TABLE": {
       "TIME": "時刻",
-      "TYPE": "タイプ",
       "CHANNEL": "チャネル",
       "USER": "ユーザー",
       "MODEL": "モデル",
@@ -2085,8 +2457,6 @@
     "DESCRIPTION": "API リクエスト履歴、トークン使用量、支出の詳細を確認できます。",
     "FILTERS": "フィルター",
     "RESET": "リセット",
-    "TO": "〜",
-    "TOTAL": "合計",
     "COPIED": "クリップボードにコピーしました",
     "CLICK_COPY": "クリックしてコピー",
     "NO_LOGS": "選択した期間のログはありません。",
@@ -2105,7 +2475,6 @@
       "RATE": "レート",
       "EARNED": "獲得額",
       "STATUS": "ステータス",
-      "JOINED": "登録日",
       "COMMISSIONS": "コミッション",
       "TOTAL_EARNED": "総獲得額"
     },
@@ -2130,7 +2499,6 @@
       "TITLE": "アフィリエイト獲得額の振替",
       "DIALOG_DESC": "保留中のアフィリエイト獲得額をアカウント残高へ振り替えます。この操作は取り消せません。",
       "AMOUNT": "金額",
-      "INVALID": "有効な金額を入力してください",
       "EXCEEDS": "金額が利用可能残高を超えています"
     },
     "ENUM": {
@@ -2162,7 +2530,6 @@
     "HOW_IT_WORKS": "仕組み",
     "TAB_INVITEES": "招待済みユーザー",
     "TAB_COMMISSIONS": "コミッション履歴",
-    "COMMISSION_HISTORY": "コミッション履歴",
     "NO_COMMISSIONS": "コミッション履歴はまだありません。招待リンクを共有して収益化を始めましょう。",
     "NO_INVITEES": "招待済みユーザーはまだいません。招待リンクを共有してネットワークを広げましょう。",
     "BADGE_GENERATOR": {
@@ -2234,11 +2601,22 @@
     "MD_BOLD": "太字テキスト",
     "MD_ITALIC_BOLD": "斜体太字テキスト",
     "MD_SINGLE_QUOTE": "シングルクォートテキスト",
-    "MD_DOUBLE_QUOTE": "ダブルクォートテキスト"
+    "MD_DOUBLE_QUOTE": "ダブルクォートテキスト",
+    "SURFACE_COLORS": "表面の色",
+    "COLOR_SIDEBAR": "サイドバー",
+    "BACKGROUND_IMAGE": "背景画像",
+    "BG_UPLOAD": "画像をアップロード",
+    "BG_REPLACE": "置き換え",
+    "BG_REMOVE": "削除",
+    "BG_FIT": "画像のフィット",
+    "BG_FIT_COVER": "カバー",
+    "BG_FIT_CONTAIN": "フィット",
+    "BG_FIT_TILE": "タイル",
+    "BG_OPACITY": "不透明度",
+    "BG_BLUR": "ぼかし"
   },
   "BILLING": {
     "SUBSCRIPTION": {
-      "PLANS": "サブスクリプションプラン",
       "MY": "マイサブスクリプション",
       "NO_ACTIVE": "有効なサブスクリプションなし",
       "ACTIVE": "有効",
@@ -2271,9 +2649,7 @@
     },
     "TOPUP": {
       "TITLE": "クォータチャージ",
-      "AMOUNT": "チャージ額",
       "ACTUAL_PAYMENT": "実際のお支払い額",
-      "PAY_NOW": "今すぐ支払う",
       "SAVE": "保存"
     },
     "ERROR": {
@@ -2289,7 +2665,6 @@
     "CONSUMPTION": "消費",
     "REQUESTS": "リクエスト",
     "USED_OF": "使用済み（合計のうち）",
-    "REFRESHING": "更新中...",
     "PAYMENT_METHOD": {
       "LABEL": "支払い方法",
       "CARD": "クレジットカード",
@@ -2300,8 +2675,6 @@
     "ERROR": {
       "REQUIRED": "{type} は必須です",
       "MIN_LENGTH": "{type} は {minLength} 文字以上である必要があります",
-      "MAX_LENGTH": "{type} は {maxLength} 文字以下である必要があります",
-      "EXACT_LENGTH": "{type} は正確に {minLength} 文字である必要があります",
       "MIN_VALUE": "{type} は 0 より大きい必要があります"
     },
     "TYPE": {
@@ -2313,7 +2686,8 @@
       "NAME": "名前",
       "AMOUNT": "金額",
       "REMAIN_QUOTA": "クォータ",
-      "QUOTA_THRESHOLD_DOLLARS": "クォータ警告しきい値"
+      "QUOTA_THRESHOLD_DOLLARS": "クォータ警告しきい値",
+      "CONTENT": "内容"
     }
   },
   "SETTINGS": {
@@ -2323,7 +2697,6 @@
     "ROLE_SUPER_ADMIN": "スーパー管理者",
     "ROLE_ADMIN": "管理者",
     "ROLE_USER": "ユーザー",
-    "BALANCE": "残高",
     "CONSUMPTION": "消費",
     "REQUEST_COUNT": "リクエスト",
     "DEFAULT_GROUP": "デフォルトグループ",
@@ -2338,14 +2711,12 @@
       "EMAIL_PLACEHOLDER": "メールアドレスを入力",
       "BIND_EMAIL": "メールアドレスを連携",
       "MODIFY_EMAIL": "メールアドレスを変更",
-      "VERIFICATION_CODE": "認証コード",
       "SEND_CODE": "コードを送信",
       "CODE_SENT": "コード送信済み、{seconds} 秒後に再送可能",
       "CODE_PLACEHOLDER": "認証コードを入力",
       "OAUTH_BINDINGS": "OAuth 連携",
       "GITHUB": "GitHub",
       "DISCORD": "Discord",
-      "BOUND": "連携済み",
       "NOT_BOUND": "未連携",
       "BIND": "連携",
       "UNBIND": "連携解除",
@@ -2359,7 +2730,6 @@
       "ACCESS_TOKEN": "システムアクセストークン",
       "ACCESS_TOKEN_DESC": "このトークンを使って API に直接アクセスできます。",
       "GENERATE_TOKEN": "トークンを生成",
-      "REGENERATE_TOKEN": "トークンを再生成",
       "TOKEN_GENERATED": "トークンを生成しました",
       "COPY_TOKEN": "コピー",
       "TOKEN_COPIED": "クリップボードにコピーしました",
@@ -2431,29 +2801,21 @@
   },
   "CHAT": {
     "SHARE": {
-      "BUTTON": "共有",
       "TITLE": "会話を共有",
       "DESCRIPTION": "リンクを知っている人なら誰でもこの会話を閲覧できます。",
-      "CREATED": "共有リンクを作成しました",
-      "REVOKED": "共有リンクを削除しました",
-      "COPY_LINK": "共有リンクをコピー",
-      "LINK_COPIED": "リンクをクリップボードにコピーしました",
-      "GENERATE_LINK": "共有リンクを生成",
-      "REVOKE": "共有リンクを削除",
-      "SHARED_CONVERSATION": "共有された会話",
-      "NOT_FOUND": "この共有会話は見つからないか、削除されています。"
+      "LINK_COPIED": "リンクをクリップボードにコピーしました"
     },
     "MODEL": {
       "SELECT": "モデルを選択",
       "SEARCH": "モデルを検索...",
       "NO_RESULTS": "モデルが見つかりません",
-      "GROUP_TEXT": "テキストと推論",
-      "GROUP_IMAGE": "画像生成",
-      "GROUP_VIDEO": "動画生成",
       "FREE_BADGE": "無料",
-      "LOGIN_REQUIRED": "ログインが必要です",
-      "FREE_NOTICE": "無料モデルは高負荷時に失敗することがあります。",
-      "FREE_NOTICE_CTA": "有料モデルに切り替える"
+      "LOGIN_REQUIRED": "ログインが必要です"
+    },
+    "GROUP": {
+      "SELECT": "課金グループ",
+      "AUTO": "自動",
+      "NO_RESULTS": "利用可能なグループがありません"
     },
     "ACTION": {
       "COPY": "コピー",
@@ -2475,8 +2837,7 @@
     },
     "GATE": {
       "NEEDS_TOKEN_TITLE": "APIキーが必要です",
-      "NEEDS_TOKEN_DESC": "APIキーを生成して AI モデルとチャットを始めましょう。",
-      "LOGIN_REQUIRED_DESC": "AI モデルとチャットするにはサインインしてください。"
+      "NEEDS_TOKEN_DESC": "APIキーを生成して AI モデルとチャットを始めましょう。"
     },
     "TOOL": {
       "USED": "ツールを使用",
@@ -2504,16 +2865,20 @@
       "UNSUPPORTED_TYPE": "ファイル形式 {type} はサポートされていません。PNG、JPEG、WebP、または GIF の画像をアップロードしてください。"
     },
     "WEB_SEARCH": {
-      "LABEL": "ウェブ検索",
       "ON": "ウェブ検索を有効化",
       "OFF": "ウェブ検索を無効化"
     },
     "REQUEST_LOG": {
       "VIEW": "リクエストログを表示",
       "TITLE": "リクエストログ",
-      "TAB_REQUEST": "リクエスト",
+      "TAB_REQUEST": "スナップショット（デバッグ）",
+      "TAB_REQUEST_HINT": "クライアントのスナップショット（アセンブラ入力）であり、実際に送信される本文ではありません。モデルが受け取るものは「システムプロンプト」と「最終メッセージ」タブにあります。",
+      "TAB_UPSTREAM": "送信ボディ",
+      "TAB_UPSTREAM_HINT": "モデルに送られる正確なボディ（system + ロールのみのメッセージ）。LLM が受け取るのはまさにこれです。",
       "TAB_SYSTEM": "システムプロンプト",
+      "TAB_SYSTEM_HINT": "モデルに送られる実際のシステムプロンプト。システムロールのないモデル（GLM など）では空で、内容はユーザーブロックに統合されます。",
       "TAB_FINAL": "最終メッセージ",
+      "TAB_FINAL_HINT": "ロール変換（マージ、システム除去）後にモデルへ送られる実際のメッセージ配列。モデルが見るのはこれです。",
       "TAB_HEADERS": "ヘッダー",
       "COPY_CURL": "cURLとしてコピー",
       "COPY_JSON": "JSONをコピー",
@@ -2524,7 +2889,8 @@
       "BADGE_OUT": "出力",
       "BADGE_DROPPED": "破棄",
       "UNIT_MS": "ms",
-      "UNIT_TOK_PER_S": "tok/秒"
+      "UNIT_TOK_PER_S": "tok/秒",
+      "BADGE_PROVIDER": "プロバイダー"
     },
     "NEW_CONVERSATION": "新しいチャット",
     "GENERATION_LOCKED_OTHER_TAB": "別のタブでこの会話の生成中です。完了するまで待つか、タブを切り替えてください。",
@@ -2535,12 +2901,12 @@
     "NO_CONVERSATIONS": "会話はまだありません",
     "EMPTY_TITLE": "会話を始めましょう",
     "EMPTY_DESCRIPTION": "モデルを選んでチャットを始め、どんな AI モデルでも試せます。",
+    "LOADOUT": {
+      "TITLE": "装備",
+      "HINT": "このチャットと今後のすべての新規チャットに適用されます（変更するまで）。"
+    },
     "INPUT_PLACEHOLDER": "メッセージを入力...",
-    "START_PROMPT": "メッセージを送信して会話を始めましょう。",
     "THINKING": "思考中",
-    "DISCLAIMER": "AI の応答には不正確な情報が含まれることがあります。重要な情報は必ず確認してください。",
-    "UNTITLED": "タイトルのない会話",
-    "DELETE_CONFIRM": "この会話を削除してもよろしいですか？",
     "MESSAGE_INPUT": "メッセージ入力",
     "SEARCH_CHATS": "チャットを検索",
     "TOKENS_IN": "入力",
@@ -2550,10 +2916,7 @@
       "TITLE": "AI チャット {appName}",
       "TITLE_WITH_NAME": "{title} | AI チャット {appName}",
       "DESCRIPTION": "あらゆる AI モデルとチャット。GPT、Claude、Gemini、DeepSeek など複数モデルを単一インターフェースで試せます。",
-      "KEYWORDS": "AI チャット, AI と会話, GPT チャット, Claude チャット, Gemini チャット, AI プレイグラウンド, モデルテスト",
-      "SHARED_TITLE": "共有された会話 {appName}",
-      "SHARED_TITLE_WITH_NAME": "{title} | 共有された会話 {appName}",
-      "SHARED_DESCRIPTION": "{appName} で共有された AI 会話を閲覧できます。"
+      "KEYWORDS": "AI チャット, AI と会話, GPT チャット, Claude チャット, Gemini チャット, AI プレイグラウンド, モデルテスト"
     },
     "OVERRIDES": {
       "OPEN": "会話設定",
@@ -2583,10 +2946,8 @@
       "NO_CHARACTERS": "キャラクターがありません。先に作成またはインポートしてください。",
       "NO_LOREBOOKS": "ロアブックがありません。",
       "REORDER_HINT": "ドラッグで並び替え。上の項目ほどプロンプトの早い位置に挿入されます。",
-      "SELECTED": "選択済み",
       "SEARCH_CHARACTERS": "キャラクターを検索",
       "SEARCH_LOREBOOKS": "ロアブックを検索",
-      "CLEAR": "クリア",
       "EFFORT_MINIMAL": "最小",
       "EFFORT_LOW": "低",
       "EFFORT_MEDIUM": "中",
@@ -2602,7 +2963,8 @@
       "EXTRA_BODY": "追加リクエストボディ (JSON)",
       "EXTRA_BODY_PLACEHOLDER": "'{'\n  \"reasoning_effort\": \"high\",\n  \"service_tier\": \"priority\"\n'}'",
       "EXTRA_BODY_HINT": "送信前にリクエストへ統合されます。スライダーで対応していないフィールド向けです。キーが衝突した場合はスライダーが優先されます。",
-      "EXTRA_BODY_INVALID": "無効なJSONです。'{}' で囲み、文字列をエスケープしてください。"
+      "EXTRA_BODY_INVALID": "無効なJSONです。'{}' で囲み、文字列をエスケープしてください。",
+      "INHERIT": "継承"
     },
     "SAMPLING": {
       "UNSUPPORTED": "このモデルを提供するすべてのプロバイダーで対応していません。設定しても効果はありません。"
@@ -2628,14 +2990,14 @@
       "LOCAL_DB_UPLOAD_CONFIRM": "このファイルからローカルOPFSデータベースを上書きしますか？既存のデータは削除されます。",
       "CLEAR": "チャットをクリア",
       "CLEAR_SUCCESS": "チャットをクリアしました",
-      "CLEAR_CONFIRM_DESC": "会話内のすべてのメッセージを削除しますが、設定、キャラクターのバインディング、タイトルは保持されます。この操作は取り消せません。",
-      "FONT": "フォント",
-      "FONT_SANS": "サンセリフ",
-      "FONT_DISPLAY": "ディスプレイ",
-      "FONT_SERIF": "セリフ",
-      "FONT_MONO": "等幅",
-      "FONT_SYSTEM": "システム"
-    }
+      "CLEAR_CONFIRM_DESC": "会話内のすべてのメッセージを削除しますが、設定、キャラクターのバインディング、タイトルは保持されます。この操作は取り消せません。"
+    },
+    "ACTIVE_CONFIG": {
+      "CHARACTERS": "{count, plural, other {# キャラクター}}",
+      "LOREBOOKS": "{count, plural, other {# ロアブック}}"
+    },
+    "TRIGGER_ALERT_SELECT_DESC": "続行するにはオプションを選択してください",
+    "TRIGGER_ALERT_OK": "OK"
   },
   "RP": {
     "CHARACTERS_TITLE": "キャラクター",
@@ -2659,7 +3021,6 @@
     "CHARACTER_EXAMPLE_MESSAGES": "会話例",
     "CHARACTER_SYSTEM_PROMPT": "システムプロンプト",
     "CHARACTER_POST_HISTORY": "履歴後の指示",
-    "CHARACTER_AVATAR": "アバター",
     "CHARACTER_TAGS": "タグ",
     "CHARACTER_ACTIVATION_TITLE": "アクティベーション",
     "CHARACTER_ACTIVATION_HINT": "「常時アクティブ」をオフにすると、トリガーキーワードが直近のチャットに現れたときだけキャラクターがプロンプトに参加します。マルチキャラのコツ：主役は常時アクティブのまま、サブキャラはトリガーで切り替える。",
@@ -2669,7 +3030,6 @@
     "CHARACTER_TRIGGERS_HINT": "このキャラを起動する単語。例：alice, knight, sword。「常時アクティブ」がオンのときは無視されます。",
     "CHARACTER_MATCH_WHOLE_WORDS": "完全一致のみ",
     "CHARACTER_MATCH_WHOLE_WORDS_HINT": "有効にすると、トリガー「Eve」は「evening」に一致しません。デフォルト：部分一致。",
-    "CHARACTER_DEFAULT_MODEL": "既定のモデル",
     "PERSONAS_TITLE": "ペルソナ",
     "PERSONAS_NEW": "新しいペルソナ",
     "PERSONAS_EMPTY": "ペルソナがありません。",
@@ -2679,6 +3039,7 @@
     "LOREBOOKS_NEW": "新しいロアブック",
     "LOREBOOKS_EMPTY": "ロアブックがありません。",
     "LOREBOOK_SCAN_DEPTH": "スキャン深度",
+    "LOREBOOK_DESCRIPTION_NOT_SENT": "あなた用のラベルです。AIには送信されません。実際の内容は下のエントリーに入力してください。",
     "LOREBOOK_SCAN_DEPTH_HINT": "キーをスキャンする直近メッセージ数。",
     "LOREBOOK_TOKEN_BUDGET": "トークン予算",
     "LOREBOOK_TOKEN_BUDGET_HINT": "1ターンに挿入されるエントリの最大トークン数。",
@@ -2686,14 +3047,15 @@
     "LOREBOOK_ENTRY_NEW": "新しいエントリ",
     "LOREBOOK_UNTITLED": "無題のロアブック",
     "LOREBOOK_ENTRY_NO_KEYS": "（トリガーなし）",
-    "LOREBOOK_ENTRY_KEYS": "トリガー（カンマ区切り）",
-    "LOREBOOK_ENTRY_KEYS_HINT": "このエントリを起動する単語。例：sex, dick, pussy。「常に挿入」が有効な場合は無視されます。",
+    "LOREBOOK_ENTRY_ALWAYS_LABEL": "常に挿入",
+    "LOREBOOK_ENTRY_KEYS": "アクティベーションキー（カンマ区切り）",
+    "LOREBOOK_ENTRY_KEYS_HINT": "このエントリを有効にする単語。例：ドラゴン、ワーム、ドレイク。",
     "LOREBOOK_ENTRY_SECONDARY_KEYS": "セカンダリトリガー",
     "LOREBOOK_ENTRY_PRIORITY_HINT": "数値が小さいほどプロンプトの早い位置に挿入されます。",
     "LOREBOOK_ENTRY_CONTENT": "内容",
     "LOREBOOK_ENTRY_POSITION": "位置",
     "LOREBOOK_ENTRY_PRIORITY": "優先度",
-    "LOREBOOK_ENTRY_CONSTANT": "常に挿入",
+    "LOREBOOK_ENTRY_CONSTANT": "常に有効",
     "LOREBOOK_ENTRY_SELECTIVE": "セカンダリキーが必要",
     "LOREBOOK_ENTRY_ENABLED": "有効",
     "LOREBOOK_ENTRY_MATCH_WHOLE_WORDS": "完全一致のみ",
@@ -2742,28 +3104,24 @@
     "PRESET_POST_HISTORY": "末尾注入プロンプト（post-history）",
     "PRESET_POST_HISTORY_PLACEHOLDER": "キャラクターを保ち続け、第四の壁を破らないでください...",
     "PRESET_POST_HISTORY_HINT": "システムオーバーライドの後に追加。先頭よりも末尾注入指示を尊重するGLMなどのモデルに最適。",
-    "PRESET_PREFILL": "プリフィル（アシスタント・プライミング）",
+    "PRESET_PREFILL": "プレフィル",
     "PRESET_PREFILL_PLACEHOLDER": "もちろん、回答はこちらです：",
     "PRESET_PREFILL_HINT": "アシスタントメッセージとして最後に送信。LLMはこのシードテキストから継続します。強力な脱獄手法。user および char マクロに対応。",
     "PRESET_FLAGS_TITLE": "カスタムフラグ",
-    "PRESET_FLAGS_HINT": "気難しいモデル用にリクエストボディを微調整します。多くのユーザーはオフのままにします。",
+    "PRESET_FLAGS_HINT": "気難しいモデル向けにリクエスト本文を調整します。必要に応じてモデルごとに自動適用されます。強制するにはオンにします。",
     "PRESET_FORCE_ALTERNATE_ROLES": "ロールの強制交互",
-    "PRESET_FORCE_ALTERNATE_ROLES_HINT": "同じロールの連続メッセージを統合し、user/assistant が厳密に交互になるようにします。GLM と一部の Anthropic 構成で必須。",
+    "PRESET_FORCE_ALTERNATE_ROLES_HINT": "同じロールの連続メッセージを結合し、会話がユーザー/アシスタントで厳密に交互になるようにします。GLM/Geminiでは自動適用。",
     "PRESET_NO_SYSTEM_ROLE": "system ロールなし",
-    "PRESET_NO_SYSTEM_ROLE_HINT": "会話途中の system メッセージを [System]: 接頭辞付きの user メッセージに変換します。トップレベルの system プロンプトは影響を受けません。Gemini と厳密な交互モデルに必要。",
+    "PRESET_NO_SYSTEM_ROLE_HINT": "会話途中のシステムメッセージを 'system:' を前置したユーザーメッセージに変換します。最上位のシステムプロンプトは影響を受けません。GLM/Geminiでは自動適用。",
     "PRESET_MUST_START_WITH_USER": "user 入力で開始必須",
-    "PRESET_MUST_START_WITH_USER_HINT": "最初のメッセージが assistant や system の場合、小さな user スタブを先頭に挿入します。Anthropic と Gemini はどちらも user で始まらない会話を拒否します。",
-    "PRESET_SKIP_PREFILL_IF_LAST_ASSISTANT": "最後が assistant なら prefill をスキップ",
-    "PRESET_SKIP_PREFILL_IF_LAST_ASSISTANT_HINT": "強制交互がオンで最後のメッセージがすでに assistant の場合、連続する assistant メッセージを生成する代わりに prefill を省きます。",
+    "PRESET_MUST_START_WITH_USER_HINT": "チャットがアシスタントまたはシステムで始まる場合、空の小さなユーザーメッセージを先頭に追加します。Anthropic/Gemini/GLMでは自動適用。",
     "PRESET_GEMINI_BLOCK_OFF": "Gemini：セーフティ OFF",
     "PRESET_GEMINI_BLOCK_OFF_HINT": "Gemini の各 harm カテゴリに対して threshold=OFF の safetySettings を送信します。BLOCK_NONE より強力。Gemini モデルでのみ有効。",
-    "SIDEBAR_TAB_CHATS": "チャット",
     "SIDEBAR_TAB_CHARACTERS": "キャラクター",
     "SIDEBAR_TAB_PERSONAS": "ペルソナ",
     "SIDEBAR_TAB_LOREBOOKS": "ロアブック",
     "SIDEBAR_TAB_PRESETS": "プリセット",
     "SIDEBAR_TAB_CARDS": "カード",
-    "SIDEBAR_GROUP_LABEL": "RP",
     "CARDS_TITLE": "カード",
     "CARDS_PAGE_SUBTITLE": "キャラ＋ペルソナ＋ロアブックを創作バンドルとして保存。ワンクリックでチャットに適用。",
     "CARDS_NEW": "新しいカード",
@@ -2783,12 +3141,35 @@
     "CARD_CHARACTERS": "キャラクター",
     "CARD_LOREBOOKS": "ロアブック",
     "DROPPED_PARAMS": "{params} はこのモデルで未対応のため無視されました。",
-    "EDIT_SAVE_ONLY": "保存",
-    "EDIT_SAVE_AND_GENERATE": "保存して生成",
-    "BRANCH_NEXT": "次の分岐",
-    "BRANCH_PREV": "前の分岐",
     "LOREBOOKS_IMPORT": "インポート",
-    "PERSONAS_IMPORT": "インポート"
+    "PERSONAS_IMPORT": "インポート",
+    "LOREBOOK_ENTRY_CONSTANT_HINT": "アクティベーションキーを無視して、このエントリを常に挿入します。",
+    "PRESET_PROVIDERS_TITLE": "プロバイダールーティング",
+    "PRESET_PROVIDERS": "固定プロバイダー（カンマ区切り）",
+    "PRESET_PROVIDERS_HINT": "優先する上流プロバイダーを順に指定。OpenRouter互換チャネルでのみ有効で、それ以外では無視されます。",
+    "PRESET_PROVIDERS_ONLY": "これらのプロバイダーのみ",
+    "PRESET_PROVIDERS_ONLY_HINT": "強制固定：列挙したプロバイダーが利用不可なら、フォールバックせず要求を拒否します。",
+    "LOREBOOK_ENTRY_INJECTION_ROLE_ASSISTANT": "アシスタント",
+    "PRESET_TEMPLATE_TITLE": "プロンプトテンプレート",
+    "PRESET_TEMPLATE_HINT": "ドラッグしてプロンプトの構成順を変更します。チャット履歴は「チャット履歴」ブロックに挿入されます。空＝既定の順序。",
+    "PRESET_TEMPLATE_RESET": "既定に戻す",
+    "PRESET_TEMPLATE_EXPAND": "展開",
+    "PRESET_TEMPLATE_COLLAPSE": "折りたたむ",
+    "PRESET_TEMPLATE_ADD": "ブロックを追加",
+    "PRESET_TEMPLATE_PLAIN": "カスタムテキストブロック",
+    "PRESET_TEMPLATE_CHAT": "チャット履歴",
+    "PRESET_TEMPLATE_CHAT_HINT": "会話メッセージが挿入される位置。",
+    "PRESET_TEMPLATE_PLAIN_PLACEHOLDER": "カスタム指示テキスト...",
+    "LOREBOOK_ENTRY_PROBABILITY": "発動確率（%）",
+    "LOREBOOK_ENTRY_PROBABILITY_HINT": "スキャンごとにこの割合で抽選し、エントリが発動するか決めます。100 ＝ 常に。",
+    "LOREBOOK_ENTRY_SCAN_DEPTH": "スキャン深度",
+    "LOREBOOK_ENTRY_SCAN_DEPTH_HINT": "このエントリーのキーを検索する直近メッセージ数。0 = ブックの既定値を使用。",
+    "PRESET_CHAT_MEMORY": "チャットメモリ（メッセージ数）",
+    "PRESET_CHAT_MEMORY_HINT": "各リクエストで送る直近メッセージ数。空 = 既定（8）。チャット設定が優先します。",
+    "PRESET_STREAMING": "ストリーミング",
+    "PRESET_STREAMING_HINT": "応答をトークンごとにストリーミング。オフ = 応答全体を一度に受信。チャット設定が優先します。",
+    "CHARACTER_BACKGROUND": "背景画像",
+    "CHARACTER_BACKGROUND_HINT": "このキャラクターが会話の主役のとき、チャットの背後に表示されます。"
   },
   "ERRORS": {
     "MISSING_ENV": "必要な環境変数が不足しています: {var}",
@@ -2796,15 +3177,10 @@
     "UNAUTHORIZED": "認証されていません",
     "NO_API_KEY": "APIキーが設定されていません",
     "NOT_FOUND": "リソースが見つかりません",
-    "NO_IMAGE_GENERATED": "画像が生成されませんでした",
     "NO_TASK_ID": "応答にタスク ID または URL がありません",
-    "NO_VIDEO_URL": "動画は完了しましたが URL が見つかりませんでした",
-    "VIDEO_GENERATION_FAILED": "動画生成に失敗しました",
-    "VIDEO_GENERATION_TIMED_OUT": "動画生成がタイムアウトしました",
     "REQUEST_FAILED": "リクエストに失敗しました",
     "PRICING_FETCH_FAILED": "料金データの取得に失敗しました",
     "NO_TEXT_MODELS": "利用可能なテキストモデルがありません",
-    "UPLOAD_FAILED": "添付のアップロードに失敗しました",
     "NO_IMAGE_PROMPT": "画像生成用のプロンプトが指定されていません",
     "IMAGE_GENERATION_FAILED": "画像生成に失敗しました",
     "UNEXPECTED_RESPONSE": "アップストリーム API から予期しない null 応答",
@@ -2817,12 +3193,15 @@
     "PROMPT_REJECTED": "このプロンプトはコンテンツポリシーに違反しており、画像や動画の生成には使用できません。",
     "PROMPT_FLAGGED": "このプロンプトは生成にあたり安全性に懸念があると判断されました。表現を変えて再度お試しください。",
     "MODERATION_UNAVAILABLE": "画像および動画の生成は現在一時的にご利用いただけません。しばらくしてから再度お試しください。",
-    "PDF_EXTRACTION_FAILED": "添付されたPDFの内容を読み取れませんでした。ファイルを削除するか、別のファイルでお試しください。",
     "IMPORT_INVALID_JSON": "ファイルが有効なJSONではありません。",
     "IMPORT_UNSUPPORTED_VERSION": "サポートされていないエクスポート形式です。",
     "CARD_PARSE_FAILED": "キャラクターカードを解析できませんでした。",
     "CARD_MISSING_NAME": "キャラクターカードに必須の名前フィールドがありません。",
-    "UNEXPECTED_ERROR": "予期しないエラーが発生しました"
+    "UNEXPECTED_ERROR": "予期しないエラーが発生しました",
+    "AUDIO_GENERATION_FAILED": "音声の生成に失敗しました",
+    "NO_AUDIO_PROMPT": "音声生成用のテキストが指定されていません",
+    "EMBEDDING_FAILED": "埋め込みの生成に失敗しました",
+    "NO_EMBEDDING_INPUT": "埋め込むテキストが指定されていません"
   },
   "BADGE": {
     "TOKENS_SERVED": "処理済みトークン",
@@ -2832,16 +3211,14 @@
     "UNIFIED_INTELLIGENCE_API": "統合インテリジェンス API",
     "GET_STARTED": "はじめる",
     "SAVE_UP_TO": "最大で節約",
-    "PER_1M_TOKENS": "100万トークンあたり",
     "SMART_ROUTING": "インテリジェントルーティング",
-    "ONE_ENDPOINT": "ひとつのエンドポイント",
     "MODELS": "モデル",
-    "UPTIME": "稼働率",
+    "FREE": "無料",
+    "PAID": "有料",
     "LIVE_STATS": "ライブ統計",
     "CHEAPEST_API": "最安の推論 API",
     "MODELS_ONE_ENDPOINT": "40以上の AI モデル、ひとつのエンドポイント",
     "MODELS_ONE_ENDPOINT_SUFFIX": "AI モデル、ひとつのエンドポイント",
-    "DIRECT": "ダイレクト",
     "MODEL": "モデル",
     "PRICES_NOTE": "100万トークンあたりの料金",
     "INPUT": "入力",
@@ -2876,7 +3253,6 @@
     },
     "MCP": {
       "SERVER_DESCRIPTION": "ブラウザ内で動作する AI モデルルーター。ツールはサイトのトップページで navigator.modelContext を通じて WebMCP に登録されます。トップページを開き、WebMCP 対応クライアントからツールを呼び出してください。",
-      "WEBMCP_BUNDLE_DESCRIPTION": "{appName} のトップページで navigator.modelContext 経由で登録されたブラウザ内ツール。WebMCP 対応クライアントでトップページを読み込むとツールを利用できます。",
       "TOOLS": {
         "OPEN_MODELS_CATALOG": "{appName} のモデルカタログページを開きます。OpenAI、Anthropic、Google、DeepSeek などのプロバイダにわたる利用可能な全モデルとリアルタイム料金を一覧表示します。",
         "OPEN_PRICING": "{appName} の料金ページを開き、サブスクリプションプランと従量課金レートを確認します。",
@@ -2925,42 +3301,23 @@
     "STATE": {
       "OPERATIONAL": "正常",
       "DOWN": "停止",
-      "UNKNOWN": "不明",
       "DEGRADED": "部分障害"
-    },
-    "SUMMARY": {
-      "ALL_NORMAL": "すべて正常に稼働中",
-      "N_DOWN": "{count} 個のモデルが停止中",
-      "LAST_CHECKED_AT": "最終チェック {time}"
     },
     "KPI": {
       "TOTAL": "モデル総数",
       "OPERATIONAL": "正常",
-      "DOWN": "停止",
-      "UNKNOWN": "不明"
-    },
-    "ROW": {
-      "CHANNELS": "ch",
-      "LATENCY_PROBE": "プローブ",
-      "LATENCY_P50": "p50",
-      "LATENCY_P95": "p95",
-      "REQ": "req",
-      "ERR": "err",
-      "IDLE": "この 1 分間にトラフィックなし"
+      "DOWN": "停止"
     },
     "RIBBON": {
-      "TITLE": "過去 24 時間",
-      "LEGEND_UP": "正常",
-      "LEGEND_DEGRADED": "部分障害",
-      "LEGEND_DOWN": "停止",
-      "LEGEND_NODATA": "データなし"
+      "TITLE": "過去 24 時間"
     },
     "FILTER": {
       "SEARCH_PLACEHOLDER": "モデルを検索...",
       "STATUS_ALL": "すべて",
       "EMPTY": "条件に一致するモデルはありません。",
       "COLLAPSE_ALL": "すべてのグループを折りたたむ",
-      "EXPAND_ALL": "すべてのグループを展開"
+      "EXPAND_ALL": "すべてのグループを展開",
+      "TIME_WINDOW": "時間範囲"
     },
     "BLOCKS": {
       "BANNER_SUCCESS": "すべてのシステムが稼働中",
@@ -3068,8 +3425,6 @@
     "HOVER_UPSCALE": "この画像をアップスケール",
     "HOVER_ADETAILER": "この画像で ADetailer を実行",
     "HOVER_EDIT": "この画像を編集タブで使用",
-    "GENERATE_TITLE": "画像生成",
-    "GENERATE_SUBTITLE": "モデルを選び、プロンプトを書いて、画像を取得。",
     "PROMPT_LABEL": "プロンプト",
     "PROMPT_PLACEHOLDER": "生成したい画像を説明してください。",
     "NEGATIVE_PROMPT_LABEL": "ネガティブプロンプト",
@@ -3090,7 +3445,6 @@
     "BACKGROUND_TRANSPARENT": "透明",
     "WATERMARK_LABEL": "ウォーターマーク",
     "STRENGTH_LABEL": "強度",
-    "SIZE_LABEL": "サイズ",
     "STEPS_LABEL": "ステップ",
     "CFG_LABEL": "CFG",
     "GUIDANCE_LABEL": "ガイダンス",
@@ -3108,13 +3462,6 @@
     "TOKEN_COUNT_CAPPED": "約 {count} / {cap} トークン",
     "PROGRESS_OF_N": "{total} 枚中 {current} 枚を生成中…",
     "EXPIRES_IN_DAYS": "残り {days} 日で削除",
-    "RECENT_TITLE": "最近の生成",
-    "AUTO_DELETE_NOTE": "生成画像は 30 日後に自動削除されます",
-    "SHARE": "共有",
-    "SHARE_TITLE": "この生成を共有",
-    "SHARE_DESCRIPTION": "リンクを知っている人は、プロンプト・設定・画像を閲覧でき、自分のアカウントにコピーできます。",
-    "SHARE_REVOKE": "リンクを取り消す",
-    "SHARE_DONE": "完了",
     "EXPORT": "エクスポート",
     "IMPORT": "インポート",
     "IMPORT_TITLE": "生成をインポート",
@@ -3122,85 +3469,32 @@
     "IMPORT_MODE_RESTORE": "復元（元の画像をコピー）",
     "IMPORT_MODE_REGENERATE": "再生成（新規に呼び出し）",
     "DOWNLOAD_IMAGE": "画像をダウンロード",
-    "SHARED_TITLE": "共有された生成",
-    "SAVE_TO_ACCOUNT": "アカウントに保存",
-    "COPY_PROMPT": "プロンプトをコピー",
     "SUBMIT": "生成",
     "SUBMITTING": "生成中...",
     "REFERENCES_TITLE": "参照画像",
     "REFERENCES_ADD": "参照を追加",
-    "REFERENCES_UNSUPPORTED": "このモデルは参照画像をサポートしていません。",
     "LORAS_TITLE": "LoRA",
-    "LORAS_UNSUPPORTED": "このモデルはLoRAチェーンをサポートしていません。",
-    "HISTORY_TITLE": "マイ生成履歴",
-    "NEW_GENERATION": "新規生成",
     "PICK_OR_GENERATE": "サイドバーから生成を選ぶか、新しく作成してください。",
     "HISTORY_EMPTY": "まだありません。最初の画像を生成しましょう。",
     "STATUS_PENDING": "待機中",
-    "STATUS_SUBMITTED": "送信済み",
-    "STATUS_QUEUED": "キュー待ち",
-    "STATUS_IN_PROGRESS": "生成中",
-    "STATUS_SUCCESS": "完了",
     "STATUS_FAILURE": "失敗",
     "REMIX": "リミックス",
     "DELETE": "削除",
-    "PUBLISH": "公開する",
-    "UNLIST": "非公開に",
-    "PRIVATE": "プライベートに",
-    "PRICE_PER_CALL": "1枚 {price}",
     "META_TITLE": "画像生成",
     "META_DESC": "{appName} の ComfyUI パイプライン (SDXL + Flux 2) で画像を生成。",
-    "LIKE": "いいね",
-    "UNLIKE": "いいねを取り消す",
     "REFERENCES_DROP_HINT": "画像をドロップまたは選択",
     "LORAS_EMPTY": "ボリュームにLoRAがまだ配置されていません。オペレーターがカタログテーブルから追加できます。",
-    "HIRES_FIX_ENABLE": "Hires fix",
-    "HIRES_FIX_DENOISE": "ノイズ除去",
-    "HIRES_FIX_UPSCALE": "拡大率",
     "PNG_IMPORT_HINT": "ComfyUI PNG をドロップして、プロンプトとパラメータを取り込み",
     "PNG_IMPORT_BROWSE": "PNG をインポート",
     "PNG_IMPORT_NO_METADATA": "この画像に ComfyUI メタデータが見つかりませんでした。",
     "NEW_SESSION": "新しいセッション",
-    "SESSION_NEW_TOOLTIP": "新しいセッションを開始します。現在のセッションは履歴に残ります。",
-    "RECENT_SESSIONS": "最近のセッション",
-    "SNAPSHOT_COUNT": "{count, plural, other {スナップショット #}}",
-    "IMAGE_COUNT_TOTAL": "{count, plural, other {画像 #}}",
     "SNAPSHOT_NAV_LABEL": "スナップショット {current} / {total}",
-    "SHARE_SESSION_HELP": "リンクを持つ誰でもこのセッションの履歴を閲覧できます。",
     "LIGHTBOX_PREV": "前の画像",
     "LIGHTBOX_NEXT": "次の画像",
     "LIGHTBOX_CLOSE": "閉じる",
     "SESSION_SNAPSHOTS": "このセッションのスナップショット",
-    "EDIT": "編集",
     "UPLOAD_IMAGE": "画像をアップロード",
     "UPLOADING": "アップロード中...",
     "INIT_IMAGE": "ソース画像"
-  },
-  "SYNC": {
-    "NOT_SYNCED": "未同期",
-    "SYNCED": "同期済み",
-    "EXPIRES_AT": "同期済み - {date} に期限切れ",
-    "EXPIRED": "期限切れ",
-    "ADD_SYNC": "同期を有効化（30日）",
-    "RESYNC": "再同期",
-    "RESYNC_EXPIRES": "再同期（{date} に期限切れ）",
-    "REMOVE_SYNC": "同期を解除",
-    "CONFIRM_REMOVE": "このアイテムをサーバー同期から外しますか？ローカルのコピーは保持されます。",
-    "OFFLINE_REQUIRED": "同期にはオンライン接続が必要です。",
-    "PENDING_SYNC": "同期保留中 - オンラインになり次第再試行します。",
-    "HINT_DESCRIPTION": "同期されたアイテムは30日間サーバーにミラーされ、他の端末から取り込めるようになります。",
-    "OPFS_UNAVAILABLE": "このブラウザではローカルデータベースを利用できません。データは保存されません。",
-    "OFFLINE_SEND_BLOCKED": "オフラインです。メッセージは下書きとして残ります。接続後にもう一度送信してください。",
-    "DLQ_TOAST": "{items} の同期に失敗しました（再試行後）。",
-    "DLQ_KIND_COUNT": "{kind} {count}件",
-    "DLQ_RETRY": "再試行",
-    "DLQ_RETRY_SUCCESS": "同期の再試行が成功しました。",
-    "DLQ_RETRY_FAILED": "一部の項目がまだ失敗しています。接続を確認して再試行してください。",
-    "PENDING_RETRY": "同期保留中 - 試行 {n}/{max}",
-    "SYNC_FAILED": "同期に失敗",
-    "RETRY_NOW": "今すぐ再試行",
-    "RETRY_SUCCESS": "同期しました。",
-    "PENDING_TOOLTIP": "最後のエラー：{error}",
-    "LOCAL_NEWER_PRESERVED": "サーバーより新しいローカル編集{count}件を保持しました。"
   }
 }

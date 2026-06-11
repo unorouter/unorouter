@@ -6,7 +6,10 @@ import {
 } from "@/components/ui/theme/shadcn-themes";
 import { findStyle } from "@/components/ui/theme/shadcn-styles";
 import { FONT_OPTIONS } from "@/components/ui/theme/theme-fonts";
-import type { UserTheme } from "@/components/ui/theme/theme-store";
+import type {
+  BackgroundSettings,
+  UserTheme,
+} from "@/components/ui/theme/theme-store";
 
 function fontFamilyFor(
   fontId: string | undefined,
@@ -121,6 +124,30 @@ function markdownBlock(md: UserTheme["markdown"]): string {
   return [varsBlock, ...rules].filter(Boolean).join("");
 }
 
+// Freeform surface overrides. Emitted under `:root,.dark` so source order
+// (placed after the base/accent blocks) wins in either color scheme.
+function surfaceBlock(surface: UserTheme["surface"]): string {
+  if (!surface) return "";
+  const vars: ThemeCssVars = {};
+  if (surface.background) vars.background = surface.background;
+  if (surface.foreground) vars.foreground = surface.foreground;
+  if (surface.card) {
+    vars.card = surface.card;
+    vars.popover = surface.card;
+  }
+  if (surface.primary) {
+    vars.primary = surface.primary;
+    vars.ring = surface.primary;
+  }
+  if (surface.accent) vars.accent = surface.accent;
+  if (surface.border) {
+    vars.border = surface.border;
+    vars.input = surface.border;
+  }
+  if (surface.sidebar) vars.sidebar = surface.sidebar;
+  return emitBlock(":root,.dark", vars);
+}
+
 export function buildThemeCss(theme: UserTheme): string {
   const baseColor = findBaseColor(theme.baseColor) ?? findBaseColor("neutral");
   if (!baseColor) return "";
@@ -160,9 +187,39 @@ export function buildThemeCss(theme: UserTheme): string {
     menuBlock(theme.menu),
     menuAccentBlock(theme.menuAccent),
     markdownBlock(theme.markdown),
+    surfaceBlock(theme.surface),
   ]
     .filter(Boolean)
     .join("\n");
+}
+
+// Image data URL injected client-side (localStorage, not cookie). Painted on
+// `body::before` so blur/opacity stay off content; body goes transparent so the
+// image shows between panels (RisuAI-style float-over-background).
+export function buildBackgroundCss(
+  image: string | null,
+  bg: BackgroundSettings | undefined,
+): string {
+  if (!image || bg?.enabled === false) return "";
+  const fit = bg?.fit ?? "cover";
+  const opacity = bg?.opacity ?? 1;
+  const blur = bg?.blur ?? 0;
+  const sizeRule =
+    fit === "tile"
+      ? "background-repeat:repeat;background-size:auto;"
+      : `background-repeat:no-repeat;background-size:${fit};`;
+  const safeUrl = image.replace(/["\\]/g, "");
+  return [
+    "html{background-color:var(--background);}",
+    "body{background-color:transparent !important;}",
+    "body::before{",
+    'content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;',
+    `background-image:url("${safeUrl}");background-position:center;`,
+    sizeRule,
+    `opacity:${opacity};`,
+    blur > 0 ? `filter:blur(${blur}px);` : "",
+    "}",
+  ].join("");
 }
 
 export function themeDataAttrs(theme: UserTheme) {

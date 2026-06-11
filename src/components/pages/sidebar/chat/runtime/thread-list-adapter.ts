@@ -1,12 +1,16 @@
-import { mirrorConvPatchIfSynced, unmirrorIfSynced } from "@/hooks/ai/rp/shared";
-import { GUEST_USER_ID } from "@/lib/config/constants";
 import {
   deleteLocalConversation,
   readLocalConversation,
   readLocalConversations,
+  replaceLocalConversationBindings,
+  updateLocalConversationSettings,
   upsertLocalConversation,
-  upsertLocalConversationSettings,
+  upsertLocalMessage,
+  upsertLocalMessageItem,
 } from "@/lib/db/client/data/chat";
+import { readLocalCharacter, readLocalPersona } from "@/lib/db/client/data/rp";
+import { expandMacros } from "@/lib/ai/chat/macros";
+import { uid } from "@/lib/utils/base";
 import type { buildPricingSummary } from "@/lib/api/pricing";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
@@ -14,9 +18,13 @@ import { handleElysia } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
 import {
   chatDefaultsAtom,
+  chatGroupAtom,
+  chatHelpersAtom,
+  chatLoadoutAtom,
   chatModelAtom,
   chatStore,
   ensureConvId,
+  greetingIndexAtom,
 } from "@/store/chat-store";
 import type { RemoteThreadListAdapter } from "@assistant-ui/react";
 import type { QueryClient } from "@tanstack/react-query";
@@ -25,7 +33,7 @@ import { dayjs } from "@/lib/utils/format/date";
 import type { useTranslations } from "next-intl";
 import { extractFirstUserText } from "./chat-utils";
 
-// Pure local-first. Network only: sync mirror + title gen.
+// Pure local-first. Network only: title gen.
 
 export function createThreadListAdapter(
   queryClient: QueryClient,
@@ -33,6 +41,21 @@ export function createThreadListAdapter(
   getUserId: () => number,
 ): RemoteThreadListAdapter {
   const userId = (): number => getUserId();
+  // Shared by rename + generateTitle: local write, invalidate list + meta.
+  const persistTitle = async (id: string, title: string) => {
+    const now = dayjs().toDate();
+    const existing = await readLocalConversation(userId(), id);
+    // Title patch on an existing row; never create via upsert (the candidate
+    // insert would null default_model and trip its NOT NULL constraint).
+    if (!existing) return;
+    await updateLocalConversationSettings(userId(), {
+      convId: id,
+      title,
+      updatedAt: now,
+    });
+    queryClient.invalidateQueries({ queryKey: queryKeys.conversations() });
+    queryClient.invalidateQueries({ queryKey: queryKeys.chatMeta(id) });
+  };
   return {
     async list() {
       const items = (await readLocalConversations(userId())) ?? [];
@@ -58,6 +81,12 @@ export function createThreadListAdapter(
 
       const now = dayjs().toDate();
 
+      // Settings cols live on the conversation row; write both in one upsert
+      // so the NOT NULL default_model is satisfied on insert.
+      const defaults = chatStore.get(chatDefaultsAtom);
+      // Sticky loadout: auto-equip new chats with the user's chosen
+      // preset/persona/characters/lorebooks so they don't re-bind each time.
+      const loadout = chatStore.get(chatLoadoutAtom);
       await upsertLocalConversation(userId(), {
         id,
         title: null,
@@ -67,15 +96,9 @@ export function createThreadListAdapter(
         syncExpiresAt: null,
         createdAt: now,
         updatedAt: now,
-      });
-
-      // Seed settings from jotai defaults so first turn uses user preferences.
-      const defaults = chatStore.get(chatDefaultsAtom);
-      await upsertLocalConversationSettings(userId(), {
-        convId: id,
         defaultModel: model,
-        personaId: null,
-        presetId: null,
+        personaId: loadout.personaId ?? null,
+        presetId: loadout.presetId ?? null,
         systemPromptOverride: null,
         authorNote: null,
         authorNoteDepth: 4,
@@ -95,41 +118,129 @@ export function createThreadListAdapter(
         maxTokens: defaults.maxTokens ?? null,
         extraBody: defaults.extraBody ?? null,
         streamingEnabled: defaults.streamingEnabled ?? true,
-        updatedAt: now,
+        group: chatStore.get(chatGroupAtom),
       });
+
+      // Character + lorebook bindings live in join tables, written after the
+      // conversation row exists so the FK resolves.
+      if (loadout.characterIds.length > 0 || loadout.lorebookIds.length > 0) {
+        await replaceLocalConversationBindings(userId(), id, {
+          conversationCharacters: loadout.characterIds.map((cid, i) => ({
+            characterId: cid,
+            orderIndex: i,
+          })),
+          conversationLorebooks: loadout.lorebookIds.map((lid, i) => ({
+            lorebookId: lid,
+            orderIndex: i,
+          })),
+        });
+      }
+
+      // Risu greeting parity: firstMessage + alternates seed as root branch
+      // siblings; the preview-picked greeting is the active branch, the rest
+      // swipe via the normal branch UI. firstMsgIndex = activeBranch - 1.
+      if (loadout.characterIds.length > 0) {
+        const char = await readLocalCharacter(
+          userId(),
+          loadout.characterIds[0],
+        );
+        if (char?.firstMessage) {
+          const persona = loadout.personaId
+            ? await readLocalPersona(userId(), loadout.personaId)
+            : null;
+          const greetings = [
+            char.firstMessage,
+            ...(Array.isArray(char.alternateGreetings)
+              ? (char.alternateGreetings as string[])
+              : []),
+          ];
+          const picked = Math.min(
+            chatStore.get(greetingIndexAtom),
+            greetings.length - 1,
+          );
+          let seededGreeting: { id: string; text: string } | null = null;
+          for (let i = 0; i < greetings.length; i++) {
+            const msgId = uid();
+            await upsertLocalMessage(userId(), {
+              id: msgId,
+              convId: id,
+              parentId: null,
+              characterId: char.id,
+              role: "assistant",
+              model: null,
+              branchIndex: i,
+              isActiveBranch: i === picked,
+              isEdited: false,
+              createdAt: now,
+              updatedAt: now,
+            });
+            const expandedGreeting = expandMacros(greetings[i], {
+              user: persona?.name ?? "User",
+              char: char.name,
+              user_description: persona?.description ?? "",
+              char_description: char.description ?? "",
+              scenario: char.scenario ?? "",
+              personality: char.personality ?? "",
+              vars: {},
+            });
+            await upsertLocalMessageItem(userId(), {
+              id: uid(),
+              messageId: msgId,
+              sequenceIndex: 0,
+              type: "text",
+              data: { text: expandedGreeting },
+            });
+            if (i === picked) {
+              seededGreeting = { id: msgId, text: expandedGreeting };
+            }
+          }
+          if (picked > 0) {
+            // Patch-only on the row just seeded above; omitting default_model
+            // in an upsert candidate row would trip its NOT NULL constraint.
+            await updateLocalConversationSettings(userId(), {
+              convId: id,
+              firstMsgIndex: picked - 1,
+              updatedAt: now,
+            });
+          }
+          chatStore.set(greetingIndexAtom, 0);
+          // Surface the picked greeting in the LIVE thread state: the runtime
+          // initialized before the seed, so without this it only appears
+          // after a reload. Prepend keeps the in-flight user turn intact;
+          // the seeded msgId matches what load() returns later.
+          const helpers = chatStore.get(chatHelpersAtom);
+          if (helpers && seededGreeting) {
+            const greetingMessage = {
+              id: seededGreeting.id,
+              role: "assistant",
+              parts: [{ type: "text", text: seededGreeting.text }],
+            };
+            helpers.setMessages((msgs) =>
+              msgs.some((m) => (m as { id?: string }).id === seededGreeting.id)
+                ? msgs
+                : [greetingMessage, ...msgs],
+            );
+          }
+          queryClient.invalidateQueries({
+            queryKey: queryKeys.chatMessages(id),
+          });
+        }
+      }
 
       queryClient.invalidateQueries({ queryKey: queryKeys.conversations() });
       return { remoteId: id, externalId: undefined };
     },
 
     async rename(id, title) {
-      const existing = await readLocalConversation(userId(), id);
-      const now = dayjs().toDate();
-      await upsertLocalConversation(userId(), {
-        ...(existing ?? {}),
-        id,
-        title,
-        updatedAt: now,
-      });
-      if (userId() > GUEST_USER_ID && existing?.syncExpiresAt != null) {
-        await mirrorConvPatchIfSynced(userId(), id, {
-          conversation: { title, updatedAt: now },
-        });
-      }
-      queryClient.invalidateQueries({ queryKey: queryKeys.conversations() });
-      queryClient.invalidateQueries({ queryKey: queryKeys.chatMeta(id) });
+      await persistTitle(id, title);
     },
 
     async archive(_id) {},
     async unarchive(_id) {},
 
     async delete(id) {
-      const existing = await readLocalConversation(userId(), id);
-      const wasSynced = existing?.syncExpiresAt != null;
       await deleteLocalConversation(userId(), id);
-      await unmirrorIfSynced(userId(), "conversations", id, wasSynced);
       queryClient.invalidateQueries({ queryKey: queryKeys.conversations() });
-      queryClient.invalidateQueries({ queryKey: queryKeys.syncState() });
     },
 
     async fetch(id) {
@@ -140,23 +251,6 @@ export function createThreadListAdapter(
           status: "regular",
           title: local.title ?? undefined,
         };
-      }
-
-      if (userId() > GUEST_USER_ID) {
-        try {
-          const res = handleElysia(
-            await rpc.api.ai
-              .sync({ kind: "conversations" })({ id })
-              .bundle.get(),
-          ) as { conversation?: { title?: string | null } } | undefined;
-          if (res?.conversation) {
-            return {
-              remoteId: id,
-              status: "regular",
-              title: res.conversation.title ?? undefined,
-            };
-          }
-        } catch {}
       }
 
       handleError(new Error("chat-not-found"), t, "chat-not-found");
@@ -180,22 +274,7 @@ export function createThreadListAdapter(
         const data = handleElysia(res);
         controller.appendText(data.title);
 
-        const now = dayjs().toDate();
-        const existing = await readLocalConversation(userId(), id);
-        await upsertLocalConversation(userId(), {
-          ...(existing ?? {}),
-          id,
-          title: data.title,
-          updatedAt: now,
-        });
-        if (userId() > GUEST_USER_ID && existing?.syncExpiresAt != null) {
-          await mirrorConvPatchIfSynced(userId(), id, {
-            conversation: { title: data.title, updatedAt: now },
-          });
-        }
-
-        queryClient.invalidateQueries({ queryKey: queryKeys.conversations() });
-        queryClient.invalidateQueries({ queryKey: queryKeys.chatMeta(id) });
+        await persistTitle(id, data.title);
       });
     },
   };

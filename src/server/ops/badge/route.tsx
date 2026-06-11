@@ -5,8 +5,10 @@ import { APP_VALUES } from "@/lib/config/constants";
 import {
   BADGE_SIZES,
   BADGE_TYPES,
+  SOCIAL_SIZES,
   badgeQuery,
   type BadgeType,
+  type SocialSize,
 } from "@/lib/validation/badge";
 import { Elysia } from "elysia";
 import { getTranslations } from "next-intl/server";
@@ -14,12 +16,18 @@ import sharp from "sharp";
 import { getPricingData, getStats } from "./lib/cache";
 import { THEME_COLORS } from "./lib/theme";
 import type { BadgeCtx } from "./lib/types";
-import { AllPage } from "./templates/all-page";
+import {
+  AllPage,
+  type PreviewGroup,
+  type PreviewSize,
+  type PreviewType,
+} from "./templates/all-page";
 import { generateBrand } from "./templates/brand";
 import { generateHero } from "./templates/hero";
 import { generatePricing } from "./templates/pricing";
 import { generateProviders } from "./templates/providers";
 import { generateReferral } from "./templates/referral";
+import { generateSocial } from "./templates/social";
 import { generateSponsor } from "./templates/sponsor";
 import { generateTokensBanner } from "./templates/tokens-banner";
 import { generateTokensSquare } from "./templates/tokens-square";
@@ -87,7 +95,7 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
       const filteredTypes = query.type
         ? BADGE_TYPES.filter((n) => n === query.type)
         : BADGE_TYPES;
-      const allBadges = await Promise.all(
+      const allBadges: PreviewGroup[] = await Promise.all(
         filteredTypes.map(async (name) => {
           const badges = await Promise.all(
             sizes.map(async (s) => {
@@ -100,15 +108,28 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
                 pricing,
               };
               return {
-                size: s,
+                size: s as PreviewSize,
                 label: `${name} (${s})`,
                 svg: await BADGES[name](ctx),
               };
             }),
           );
-          return { type: name, badges };
+          return { type: name as PreviewType, badges };
         }),
       );
+
+      // Social banners: own sizes, no stats/pricing. Append as one group unless a
+      // different type filter is set.
+      if (!query.type) {
+        const socialBadges = await Promise.all(
+          SOCIAL_SIZES.map(async (s) => ({
+            size: s as PreviewSize,
+            label: `social (${s})`,
+            svg: await generateSocial({ theme, size: s }),
+          })),
+        );
+        allBadges.push({ type: "social", badges: socialBadges });
+      }
 
       const c = THEME_COLORS[theme];
       return htmlResponse(
@@ -127,6 +148,23 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
   .get(
     "/:name",
     async ({ params, query, locale, theme, size, set }) => {
+      const isPng = query.format === "png";
+
+      // Social banners stand apart from the user-facing badge grid: their own
+      // sizes (SOCIAL_SIZES), no stats/pricing, excluded from /all + generator.
+      if (params.name === "social") {
+        const socialSvg = await generateSocial({
+          theme,
+          size: size as SocialSize,
+          staticMode: isPng,
+        });
+        if (isPng) {
+          const png = await sharp(Buffer.from(socialSvg)).png().toBuffer();
+          return new Response(new Uint8Array(png), { headers: PNG_HEADERS });
+        }
+        return socialSvg;
+      }
+
       const gen = BADGES[params.name as BadgeType];
       if (!gen) {
         set.status = 404;
@@ -137,7 +175,6 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
         getStats(),
         getPricingData(),
       ]);
-      const isPng = query.format === "png";
       const svg = await gen({
         locale,
         theme,

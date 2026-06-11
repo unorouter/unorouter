@@ -1,7 +1,8 @@
 "use client";
 
-import { useAuthQuery } from "@/hooks/auth/auth-hook";
-import { mirrorSessionIfSynced, unmirrorIfSynced } from "@/hooks/ai/rp/shared";
+import { useElysiaQuery } from "@/hooks/use-elysia-query";
+
+import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { PLAYGROUND_SESSION_TITLE_MAX } from "@/components/pages/sidebar/playground/playground-constants";
 import { GUEST_USER_ID, RETENTION_MS } from "@/lib/config/constants";
 import {
@@ -52,7 +53,6 @@ function isTerminal(status: string | undefined): boolean {
   return status === "success" || status === "failure";
 }
 
-// Maps a server-returned base64 image into a local `media` insert row.
 function imageToMediaRow(
   playgroundId: string,
   index: number,
@@ -78,11 +78,10 @@ function imageToMediaRow(
 }
 
 export function useSessionHistoryQuery() {
-  const auth = useAuthQuery();
+  const userId = useLocalUserId();
   return useQuery({
     queryKey: queryKeys.playgroundSessionList(undefined),
     queryFn: async () => {
-      const userId = auth.data?.id ?? GUEST_USER_ID;
       const sessions = (await readLocalGenerationSessions(userId)) ?? [];
       const items = await Promise.all(
         sessions.map(async (session) => {
@@ -108,15 +107,11 @@ export function useSessionHistoryQuery() {
 }
 
 export function useSessionQuery(sessionId: string | null | undefined) {
-  const auth = useAuthQuery();
+  const userId = useLocalUserId();
   return useQuery({
     queryKey: queryKeys.playgroundSession(sessionId ?? ""),
     queryFn: async () => {
-      const userId = auth.data?.id ?? GUEST_USER_ID;
-      const bundle = await readLocalGenerationSessionBundle(
-        userId,
-        sessionId!,
-      );
+      const bundle = await readLocalGenerationSessionBundle(userId, sessionId!);
       if (!bundle) throw new Error("playground-session-not-found");
       // Newest-first to match the result view's snapshot navigation.
       const snapshots = (bundle.playgrounds as Playground[])
@@ -131,11 +126,10 @@ export function useSessionQuery(sessionId: string | null | undefined) {
 
 // Single snapshot read; the form's "seed" lookup uses this.
 export function useSnapshotQuery(id: string | null) {
-  const auth = useAuthQuery();
+  const userId = useLocalUserId();
   return useQuery({
     queryKey: queryKeys.playgroundSnapshot(id ?? ""),
     queryFn: async (): Promise<SnapshotView> => {
-      const userId = auth.data?.id ?? GUEST_USER_ID;
       const view = await readLocalGenerationSessionBundleForSnapshot(
         userId,
         id!,
@@ -170,12 +164,11 @@ export function useSnapshotStatusQuery(
   enabled = true,
 ) {
   const t = useTranslations();
-  const auth = useAuthQuery();
+  const userId = useLocalUserId();
   const qc = useQueryClient();
   return useQuery({
     queryKey: queryKeys.playgroundSnapshotStatus(id ?? ""),
     queryFn: async (): Promise<SnapshotView | null> => {
-      const userId = auth.data?.id ?? GUEST_USER_ID;
       const view = await readLocalGenerationSessionBundleForSnapshot(
         userId,
         id!,
@@ -218,7 +211,6 @@ export function useSnapshotStatusQuery(
           });
         }
         if (isTerminal(poll.status)) {
-          await mirrorSessionIfSynced(userId, view.sessionId);
           invalidateAndBroadcast(qc, [
             queryKeys.playgroundSession(view.sessionId),
           ]);
@@ -244,10 +236,7 @@ async function snapshotRow(
   userId: number,
   view: SnapshotView,
 ): Promise<Playground> {
-  const bundle = await readLocalGenerationSessionBundle(
-    userId,
-    view.sessionId,
-  );
+  const bundle = await readLocalGenerationSessionBundle(userId, view.sessionId);
   const row = (bundle?.playgrounds as Playground[] | undefined)?.find(
     (s) => s.id === view.id,
   );
@@ -263,7 +252,6 @@ async function runSubmit(
   const now = dayjs().toDate();
   const expiresAt = new Date(Date.now() + RETENTION_MS);
 
-  // Resolve (or create) the parent session.
   let sessionId = body.sessionId ?? "";
   let sessionOrder = 0;
   if (sessionId) {
@@ -334,18 +322,17 @@ async function runSubmit(
     await bumpLocalSessionCounts(userId, sessionId, { snapshots: 1 });
   }
 
-  await mirrorSessionIfSynced(userId, sessionId);
   return { sessionId, snapshotId };
 }
 
 export function useSubmitGenerationMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
-  const auth = useAuthQuery();
+  const userId = useLocalUserId();
 
   return useMutation({
     mutationFn: async (body: PlaygroundSubmitBody & { sessionId?: string }) =>
-      runSubmit(auth.data?.id ?? GUEST_USER_ID, body),
+      runSubmit(userId, body),
     onError: (e) => handleError(e, t),
     onSuccess: (data) => {
       invalidateAndBroadcast(qc, [
@@ -360,10 +347,9 @@ export function useSubmitGenerationMutation() {
 export function useDeleteSnapshotMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
-  const auth = useAuthQuery();
+  const userId = useLocalUserId();
   return useMutation({
     mutationFn: async (args: { id: string }) => {
-      const userId = auth.data?.id ?? GUEST_USER_ID;
       const view = await readLocalGenerationSessionBundleForSnapshot(
         userId,
         args.id,
@@ -376,31 +362,19 @@ export function useDeleteSnapshotMutation() {
         sessionId,
       );
       const sessionDeleted = (remaining?.playgrounds.length ?? 0) === 0;
-      const session = await readLocalGenerationSession(userId, sessionId);
-      const wasSynced = session?.syncExpiresAt != null;
       if (sessionDeleted) {
         await deleteLocalGenerationSession(userId, sessionId);
-        await unmirrorIfSynced(
-          userId,
-          "playgroundSessions",
-          sessionId,
-          wasSynced,
-        );
       } else {
         await bumpLocalSessionCounts(userId, sessionId, {
           snapshots: -1,
           images: -view.images.length,
         });
-        await mirrorSessionIfSynced(userId, sessionId);
       }
       return { id: args.id, sessionId, sessionDeleted };
     },
     onError: (e) => handleError(e, t),
     onSuccess: (data) => {
-      const keys: QueryKey[] = [
-        queryKeys.playgroundSessionLists(),
-        queryKeys.syncState(),
-      ];
+      const keys: QueryKey[] = [queryKeys.playgroundSessionLists()];
       if (data.sessionId) {
         keys.push(queryKeys.playgroundSession(data.sessionId));
       }
@@ -412,10 +386,9 @@ export function useDeleteSnapshotMutation() {
 // Reads a session's local bundle into a portable JSON payload (base64 images).
 export function useExportSessionMutation() {
   const t = useTranslations();
-  const auth = useAuthQuery();
+  const userId = useLocalUserId();
   return useMutation({
     mutationFn: async (args: { sessionId: string }) => {
-      const userId = auth.data?.id ?? GUEST_USER_ID;
       return exportLocalSession(userId, args.sessionId);
     },
     onError: (e) => handleError(e, t),
@@ -426,13 +399,12 @@ export function useExportSessionMutation() {
 export function useImportGenerationMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
-  const auth = useAuthQuery();
+  const userId = useLocalUserId();
   return useMutation({
     mutationFn: async (args: {
       payload: PlaygroundSnapshot | SessionSnapshot;
       mode: GenerationCloneMode;
     }) => {
-      const userId = auth.data?.id ?? GUEST_USER_ID;
       if (args.mode === "restore") {
         return importLocalSession(userId, args.payload);
       }
@@ -467,31 +439,25 @@ export function useImportGenerationMutation() {
 export function useLoraCatalogQuery(
   query?: EdenQuery<typeof rpc.api.ai.playground.loras>,
 ) {
-  return useQuery({
-    queryKey: queryKeys.loraCatalog(query),
-    queryFn: async () =>
-      handleElysia(await rpc.api.ai.playground.loras.get({ query })),
-  });
+  return useElysiaQuery(queryKeys.loraCatalog(query), () =>
+    rpc.api.ai.playground.loras.get({ query }),
+  );
 }
 
 export function useEmbeddingCatalogQuery(
   query?: EdenQuery<typeof rpc.api.ai.playground.embeddings>,
 ) {
-  return useQuery({
-    queryKey: queryKeys.embeddingCatalog(query),
-    queryFn: async () =>
-      handleElysia(await rpc.api.ai.playground.embeddings.get({ query })),
-  });
+  return useElysiaQuery(queryKeys.embeddingCatalog(query), () =>
+    rpc.api.ai.playground.embeddings.get({ query }),
+  );
 }
 
 export function useUpscalerCatalogQuery(
   query?: EdenQuery<typeof rpc.api.ai.playground.upscalers>,
 ) {
-  return useQuery({
-    queryKey: queryKeys.upscalerCatalog(query),
-    queryFn: async () =>
-      handleElysia(await rpc.api.ai.playground.upscalers.get({ query })),
-  });
+  return useElysiaQuery(queryKeys.upscalerCatalog(query), () =>
+    rpc.api.ai.playground.upscalers.get({ query }),
+  );
 }
 
 export function useUploadReferenceMutation() {

@@ -10,13 +10,14 @@ import {
   type NormalizedCard,
 } from "@character-foundry/character-foundry/normalizer";
 
-export type ParsedCharacterCard = {
+type ParsedCharacterCard = {
   spec: "v2" | "v3";
   name: string;
   description?: string;
   personality?: string;
   scenario?: string;
   firstMessage?: string;
+  alternateGreetings?: string[];
   exampleMessages?: string;
   systemPrompt?: string;
   postHistoryInstructions?: string;
@@ -25,7 +26,7 @@ export type ParsedCharacterCard = {
   raw: Record<string, unknown>;
 };
 
-export type CharacterCardImportResult = {
+type CharacterCardImportResult = {
   card: ParsedCharacterCard;
   imageBytes: Uint8Array | null;
   imageMime: string | null;
@@ -73,6 +74,11 @@ export async function parseCharacterCardFile(
     personality: NON_EMPTY(data.personality),
     scenario: NON_EMPTY(data.scenario),
     firstMessage: NON_EMPTY(data.first_mes),
+    alternateGreetings: Array.isArray(data.alternate_greetings)
+      ? data.alternate_greetings.filter(
+          (g): g is string => typeof g === "string" && g.trim() !== "",
+        )
+      : undefined,
     exampleMessages: NON_EMPTY(data.mes_example),
     systemPrompt: NON_EMPTY(data.system_prompt),
     postHistoryInstructions: NON_EMPTY(data.post_history_instructions),
@@ -104,6 +110,7 @@ type ExportableRow = {
   personality: string | null;
   scenario: string | null;
   firstMessage: string | null;
+  alternateGreetings: unknown;
   exampleMessages: string | null;
   systemPrompt: string | null;
   postHistoryInstructions: string | null;
@@ -120,7 +127,11 @@ function buildCCv3Card(row: ExportableRow) {
     mesExample: row.exampleMessages ?? "",
     systemPrompt: row.systemPrompt ?? undefined,
     postHistoryInstructions: row.postHistoryInstructions ?? undefined,
-    alternateGreetings: [],
+    alternateGreetings: Array.isArray(row.alternateGreetings)
+      ? (row.alternateGreetings as unknown[]).filter(
+          (g): g is string => typeof g === "string",
+        )
+      : [],
     groupOnlyGreetings: [],
     tags: Array.isArray(row.tags)
       ? (row.tags as unknown[]).filter(

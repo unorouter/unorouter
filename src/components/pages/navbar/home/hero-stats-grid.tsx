@@ -1,14 +1,19 @@
-"use client";
-
-import { usePricingQuery } from "@/hooks/models/pricing-hook";
 import { useTranslations } from "next-intl";
 
-export function HeroStatsGrid() {
+// Server component: counts come from the page's server-side pricing fetch.
+export type HeroCounts = {
+  modelCount: number;
+  vendorCount: number;
+  freeCount: number;
+  paidCount: number;
+};
+
+export function HeroStatsGrid(props: { counts: HeroCounts }) {
   const t = useTranslations();
-  const { data } = usePricingQuery();
+  const data = props.counts;
 
   return (
-    <div className="border-border grid w-full grid-cols-3 gap-0 border-t">
+    <div className="border-border grid w-full grid-cols-2 gap-0 border-t md:grid-cols-4">
       <StatCard
         label={t("HOME.STATS.MODELS")}
         value={data ? String(data.modelCount) : "-"}
@@ -20,9 +25,14 @@ export function HeroStatsGrid() {
         indicator={t("HOME.STATS.INDICATOR.INTEGRATED")}
       />
       <StatCard
-        label={t("HOME.STATS.UPTIME")}
-        value="99.9%"
-        indicator={t("HOME.STATS.INDICATOR.SLA")}
+        label={t("HOME.STATS.FREE")}
+        value={data ? String(data.freeCount) : "-"}
+        indicator={t("HOME.STATS.INDICATOR.FREE")}
+      />
+      <StatCard
+        label={t("HOME.STATS.PAID")}
+        value={data ? String(data.paidCount) : "-"}
+        indicator={t("HOME.STATS.INDICATOR.PAID")}
       />
     </div>
   );
@@ -31,7 +41,7 @@ export function HeroStatsGrid() {
 function StatCard(props: { label: string; value: string; indicator: string }) {
   return (
     <div className="border-border hover:bg-accent flex cursor-default flex-col border p-5 transition-colors duration-300">
-      <span className="text-muted-foreground mb-3 font-mono text-[10px] tracking-widest uppercase">
+      <span className="text-foreground/70 mb-3 font-mono text-[10px] tracking-widest uppercase">
         {props.label}
       </span>
       <span className="text-foreground text-2xl font-bold tracking-tight">

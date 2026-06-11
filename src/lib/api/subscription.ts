@@ -1,5 +1,9 @@
 import type { SubscriptionPlanDTO } from "@/openapi";
-import { QUOTA_PER_DOLLAR, msg, type TranslationKey } from "../config/constants";
+import {
+  QUOTA_PER_DOLLAR,
+  msg,
+  type TranslationKey,
+} from "../config/constants";
 
 export const BILLING_PREFERENCE_OPTIONS = [
   { value: "wallet_first", key: msg("BILLING.PREFERENCE.WALLET_FIRST") },

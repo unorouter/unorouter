@@ -119,7 +119,10 @@ export function StatusPage() {
               value={s.bucket}
               onValueChange={(v) => s.setBucket(v as StatusBucket)}
             >
-              <SelectTrigger className="w-27.5 font-mono text-xs">
+              <SelectTrigger
+                aria-label={t("STATUS.FILTER.TIME_WINDOW")}
+                className="w-27.5 font-mono text-xs"
+              >
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -180,7 +183,7 @@ export function StatusPage() {
               {t("STATUS.FILTER.EMPTY")}
             </p>
           ) : (
-            <WindowVirtualizer>
+            <WindowVirtualizer ssrCount={16}>
               {s.items.map((item) =>
                 item.kind === "header" ? (
                   <button
@@ -214,7 +217,9 @@ export function StatusPage() {
                         icon="circle-alert"
                         count={item.degraded}
                         textClass={
-                          item.degraded > 0 ? "text-amber-500" : undefined
+                          item.degraded > 0
+                            ? "text-amber-700 dark:text-amber-400"
+                            : undefined
                         }
                       />
                       <StatusCount

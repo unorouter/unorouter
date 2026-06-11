@@ -3,7 +3,6 @@
 import { MyFormInput } from "@/components/elements/form/my-form-input";
 import { MyFormSwitch } from "@/components/elements/form/my-form-switch";
 import { MyFormTextarea } from "@/components/elements/form/my-form-textarea";
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
 import {
@@ -13,10 +12,9 @@ import {
 } from "@/hooks/ai/rp/personas";
 import { formDefaults } from "@/lib/validation/helpers";
 import { personaFormSchema, type PersonaForm } from "@/lib/validation/rp-forms";
-import { typeboxResolver } from "@hookform/resolvers/typebox";
+import { useRpForm } from "@/hooks/ui/use-rp-form";
 import { useTranslations } from "next-intl";
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { FormFooter } from "../shared/form-footer";
 
 type Props = {
   editingId: string | "new";
@@ -31,20 +29,11 @@ export function PersonaEditor(props: Props) {
   const updateMut = useUpdatePersonaMutation();
   const existing = personaQuery.data;
 
-  const form = useForm({
-    resolver: typeboxResolver(personaFormSchema),
-    defaultValues: formDefaults(personaFormSchema),
-  });
-
-  useEffect(() => {
-    if (isNew || !existing) {
-      form.reset(formDefaults(personaFormSchema));
-      return;
-    }
-    form.reset(formDefaults(personaFormSchema, existing));
-    // form.reset is stable
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isNew, existing]);
+  // `values` syncs the row on settle; keepDirtyValues protects in-progress
+  // typing. Parent keys this component by editingId for clean remounts.
+  const formValues =
+    !isNew && existing ? formDefaults(personaFormSchema, existing) : undefined;
+  const form = useRpForm(personaFormSchema, formValues);
 
   const onSubmit = async (data: PersonaForm) => {
     if (isNew) {
@@ -83,12 +72,7 @@ export function PersonaEditor(props: Props) {
             name="isDefault"
             label={t("RP.PERSONA_DEFAULT")}
           />
-          <div className="flex justify-end gap-2">
-            <Button type="button" variant="ghost" onClick={props.onDone}>
-              {t("COMMON.CANCEL")}
-            </Button>
-            <Button type="submit">{t("COMMON.SAVE")}</Button>
-          </div>
+          <FormFooter onCancel={props.onDone} />
         </form>
       </Form>
     </Card>

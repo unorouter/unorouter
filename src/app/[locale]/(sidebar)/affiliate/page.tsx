@@ -1,3 +1,4 @@
+import { prefetchElysia } from "@/lib/react-query/prefetch";
 import { Affiliate } from "@/components/pages/sidebar/affiliate/affiliate";
 import {
   initialTableStore,
@@ -7,8 +8,6 @@ import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { DataTableId, StoreId } from "@/lib/types/enums";
-import { handleElysia } from "@/lib/utils/base";
-import { setCookies } from "@/lib/utils/server";
 import { DataTableProvider } from "@/components/provider/state/data-table-provider";
 import type { DataTableStores } from "@/store/data-table-store";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
@@ -17,7 +16,6 @@ import { cookies } from "next/headers";
 export default async function AffiliatePage() {
   const queryClient = getQueryClient();
   const cookie = await cookies();
-  const cookieHeaders = await setCookies();
 
   const tableStores = loadDataFromCookie<DataTableStores>(
     StoreId.DATA_TABLES_STORE,
@@ -39,26 +37,24 @@ export default async function AffiliatePage() {
   };
 
   await Promise.all([
-    queryClient.prefetchQuery({
-      queryKey: queryKeys.affiliateInvitees(inviteesParams),
-      queryFn: async () =>
-        handleElysia(
-          await rpc.api.billing.affiliate.invitees.get({
-            ...cookieHeaders,
-            query: inviteesParams,
-          }),
-        ),
-    }),
-    queryClient.prefetchQuery({
-      queryKey: queryKeys.affiliateCommissions(commissionsParams),
-      queryFn: async () =>
-        handleElysia(
-          await rpc.api.billing.affiliate.commissions.get({
-            ...cookieHeaders,
-            query: commissionsParams,
-          }),
-        ),
-    }),
+    prefetchElysia(
+      queryClient,
+      queryKeys.affiliateInvitees(inviteesParams),
+      (cookies) =>
+        rpc.api.billing.affiliate.invitees.get({
+          ...cookies,
+          query: inviteesParams,
+        }),
+    ),
+    prefetchElysia(
+      queryClient,
+      queryKeys.affiliateCommissions(commissionsParams),
+      (cookies) =>
+        rpc.api.billing.affiliate.commissions.get({
+          ...cookies,
+          query: commissionsParams,
+        }),
+    ),
   ]);
 
   return (

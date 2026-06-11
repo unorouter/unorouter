@@ -9,6 +9,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Icon } from "@/components/ui/icon";
+import { SmartImage } from "@/components/ui/smart-image";
 import {
   Tooltip,
   TooltipContent,
@@ -72,10 +73,12 @@ const AttachmentPreview: FC<AttachmentPreviewProps> = (props) => {
   const t = useTranslations();
   const [isLoaded, setIsLoaded] = useState(false);
   return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
+    <SmartImage
       src={props.src}
       alt={t("CHAT.ATTACHMENT.IMAGE_PREVIEW")}
+      width={0}
+      height={0}
+      sizes="100vw"
       className={cn(
         "block h-auto max-h-[80vh] w-auto max-w-full object-contain",
         isLoaded

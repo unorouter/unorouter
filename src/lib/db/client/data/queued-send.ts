@@ -1,22 +1,16 @@
 "use client";
 
-import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { GUEST_USER_ID } from "@/lib/config/constants";
 import { conversations, messages } from "@/lib/db/schema/shared";
-import { queryKeys } from "@/lib/react-query/keys";
-import { useQuery } from "@tanstack/react-query";
 import { and, eq, gt, notExists } from "drizzle-orm";
 import { alias } from "drizzle-orm/sqlite-core";
 import { getLocalDb } from "../client";
 
 export type UnansweredTurn = { convId: string; parentId: string };
 
-// Offline "queued send" detection. A completion is a live SSE stream, not an
-// idempotent row PATCH, so it cannot ride local_pending_sync. Instead we detect
-// unanswered turns structurally: a conversation whose active-branch leaf is a
-// user message with no active child and no later active sibling. This survives
-// reload (rows live in OPFS), works for guests and logged-in alike, and
-// self-dedups once the assistant child message lands.
+// "Queued" badge detection: active-branch leaf is a user message with no active
+// child or later active sibling. Detection only, no auto-replay (Risu semantics);
+// self-dedups once the assistant child lands.
 export async function findUnansweredUserTurns(
   userId: number | undefined,
 ): Promise<UnansweredTurn[]> {
@@ -33,10 +27,7 @@ export async function findUnansweredUserTurns(
     // userId scope lives on conversations (messages has no userId column).
     .innerJoin(
       conversations,
-      and(
-        eq(conversations.id, messages.convId),
-        eq(conversations.userId, uid),
-      ),
+      and(eq(conversations.id, messages.convId), eq(conversations.userId, uid)),
     )
     .where(
       and(
@@ -71,18 +62,4 @@ export async function findUnansweredUserTurns(
     );
 
   return rows;
-}
-
-// Set of convIds with a pending (unanswered) user turn, for UI badges. Reads
-// the local DB only; invalidated by the offline-persist + replay paths.
-export function useQueuedSends() {
-  const auth = useAuthQuery();
-  const userId = auth.data?.id ?? GUEST_USER_ID;
-  return useQuery({
-    queryKey: queryKeys.queuedSends(),
-    queryFn: async () => {
-      const turns = await findUnansweredUserTurns(userId);
-      return new Set(turns.map((turn) => turn.convId));
-    },
-  });
 }

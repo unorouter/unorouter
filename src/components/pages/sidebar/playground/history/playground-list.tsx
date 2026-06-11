@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Icon } from "@/components/ui/icon";
 import { Skeleton } from "@/components/ui/skeleton";
+import { SmartImage } from "@/components/ui/smart-image";
 import { useSessionHistoryQuery } from "@/hooks/ai/playground-hook";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
@@ -77,11 +78,12 @@ export function PlaygroundList() {
                     )}
                   >
                     {firstImage?.src ? (
-                      // eslint-disable-next-line @next/next/no-img-element -- data/R2 URI
-                      <img
+                      <SmartImage
                         src={firstImage.src}
                         alt={latest?.prompt ?? session.title ?? ""}
-                        className="h-full w-full object-cover"
+                        fill
+                        sizes="160px"
+                        className="object-cover"
                       />
                     ) : (
                       <div className="text-muted-foreground absolute inset-0 flex items-center justify-center text-[10px]">

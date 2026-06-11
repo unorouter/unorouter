@@ -1,4 +1,23 @@
-import { CN, DE, FR, JP, RU, TW, US, VN } from "country-flag-icons/react/3x2";
+import {
+  AE,
+  BR,
+  CN,
+  DE,
+  ES,
+  FR,
+  ID,
+  IL,
+  IN,
+  IT,
+  JP,
+  KR,
+  PL,
+  RU,
+  TR,
+  TW,
+  US,
+  VN,
+} from "country-flag-icons/react/3x2";
 import type { Locale } from "next-intl";
 import type { FunctionComponent, SVGAttributes } from "react";
 import type { DashToUnderscore, TranslationKey } from "../types";
@@ -13,6 +32,13 @@ export {
 } from "../utils/format/number";
 
 export const IS_DEV = process.env.NODE_ENV === "development";
+export const POSTHOG_DISABLED =
+  process.env.NEXT_PUBLIC_POSTHOG_DISABLED === "true";
+
+// Next Data Cache opt-in for PUBLIC upstream GETs (no user headers, or the
+// guest branch of one). Spread into the Orval call options; the customFetch
+// mutator passes it through to fetch. Non-200 responses are never cached.
+export const PUBLIC_CACHE = { next: { revalidate: 3600 } } as const;
 
 export const NEW_API_USER = "New-Api-User";
 export const ACCESS_TOKEN_COOKIE = "access_token" as const;
@@ -45,8 +71,18 @@ export const LOCALES = [
   "en",
   "de",
   "fr",
+  "it",
+  "es",
+  "pt-BR",
   "ja",
+  "ko",
   "ru",
+  "tr",
+  "ar",
+  "he",
+  "hi",
+  "id",
+  "pl",
   "vi",
   "zh-CN",
   "zh-TW",
@@ -69,8 +105,18 @@ export const LANGUAGES: {
   { code: "EN", locale: "en", Flag: US, ogLocale: "en-US" },
   { code: "DE", locale: "de", Flag: DE, ogLocale: "de-DE" },
   { code: "FR", locale: "fr", Flag: FR, ogLocale: "fr-FR" },
+  { code: "IT", locale: "it", Flag: IT, ogLocale: "it-IT" },
+  { code: "ES", locale: "es", Flag: ES, ogLocale: "es-ES" },
+  { code: "PT_BR", locale: "pt-BR", Flag: BR, ogLocale: "pt-BR" },
   { code: "JA", locale: "ja", Flag: JP, ogLocale: "ja-JP" },
+  { code: "KO", locale: "ko", Flag: KR, ogLocale: "ko-KR" },
   { code: "RU", locale: "ru", Flag: RU, ogLocale: "ru-RU" },
+  { code: "TR", locale: "tr", Flag: TR, ogLocale: "tr-TR" },
+  { code: "AR", locale: "ar", Flag: AE, ogLocale: "ar-AE" },
+  { code: "HE", locale: "he", Flag: IL, ogLocale: "he-IL" },
+  { code: "HI", locale: "hi", Flag: IN, ogLocale: "hi-IN" },
+  { code: "ID", locale: "id", Flag: ID, ogLocale: "id-ID" },
+  { code: "PL", locale: "pl", Flag: PL, ogLocale: "pl-PL" },
   { code: "VI", locale: "vi", Flag: VN, ogLocale: "vi-VN" },
   { code: "ZH_CN", locale: "zh-CN", Flag: CN, ogLocale: "zh-CN" },
   { code: "ZH_TW", locale: "zh-TW", Flag: TW, ogLocale: "zh-TW" },
@@ -87,8 +133,24 @@ export const APP_VALUES = {
 // Sentinel "no selection" string; null/"" reserved by Select control.
 export const NONE_VALUE = "__none__";
 
+// uid() alphabet: 62 alphanumerics, rejection-sampled for uniform output.
+export const UID_ALPHABET =
+  "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+
+// Max edge length for client-side image downscale before persisting.
+export const IMAGE_MAX_DIM = 2048;
+
 // Clamp inflated free-tier maxOutputTokens to channel limit.
 export const FREE_MODEL_OUTPUT_CAP = 8192;
+
+// Fallback ceiling when a model omits maxOutputTokens metadata. 4096 is the
+// widest safe default (OpenAI-compatible); some upstreams reject higher.
+export const UNKNOWN_MODEL_OUTPUT_CAP = 4096;
+
+// Headroom kept clear when fitting chat history to a model's context window:
+// covers the cl100k-vs-real-tokenizer drift (~10-20%) plus lorebook/depth
+// injections added after truncation, so the request never grazes the hard cap.
+export const CONTEXT_SAFETY_MARGIN = 2048;
 
 // Free models are flaky; race N parallel calls for short aux requests.
 export const FREE_MODEL_RACE_COUNT = 5;

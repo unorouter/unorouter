@@ -12,8 +12,16 @@ export function useChatGate() {
   const isSelectedModelFree =
     pricingData?.models.find((m) => m.name === selectedModel)?.isFree ?? false;
 
+  // Gate only once its inputs settled: chatModelAtom is INITIAL (null) on the
+  // first client render (no getOnInit, cookie applies post-mount) and pricing
+  // may still be hydrating; treating either as "paid model" flashed the gate
+  // on every reload for keyless accounts on free models.
+  const inputsSettled = selectedModel != null && pricingData != null;
   const needsToken =
-    token.isLoggedIn && token.needsToken && !isSelectedModelFree;
+    token.isLoggedIn &&
+    token.needsToken &&
+    inputsSettled &&
+    !isSelectedModelFree;
 
   return { needsToken };
 }

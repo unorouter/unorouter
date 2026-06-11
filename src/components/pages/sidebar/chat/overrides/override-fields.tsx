@@ -119,14 +119,14 @@ export function OverridesGenerationFields(props: {
                   <InfoPopover text={t("CHAT.OVERRIDES.CHAT_MEMORY_HINT")} />
                 </div>
                 <span className="text-muted-foreground text-xs tabular-nums">
-                  {field.value}
+                  {field.value ?? t("CHAT.OVERRIDES.INHERIT")}
                 </span>
               </div>
               <FormControl>
                 <Slider
                   min={1}
                   max={200}
-                  value={[field.value]}
+                  value={[field.value ?? 8]}
                   onValueChange={(v) =>
                     field.onChange(Array.isArray(v) ? v[0] : v)
                   }
@@ -146,7 +146,7 @@ export function OverridesGenerationFields(props: {
               <FormLabel>{t("CHAT.OVERRIDES.STREAMING_ENABLED")}</FormLabel>
               <FormControl>
                 <Switch
-                  checked={field.value}
+                  checked={field.value ?? true}
                   onCheckedChange={field.onChange}
                 />
               </FormControl>

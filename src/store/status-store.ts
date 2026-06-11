@@ -5,7 +5,7 @@ import { atomWithStorage } from "jotai/utils";
 
 export type StatusFilter = "all" | "success" | "degraded" | "error" | "empty";
 
-export type StatusStoreState = {
+type StatusStoreState = {
   bucket: StatusBucket;
   statusFilter: StatusFilter;
 };

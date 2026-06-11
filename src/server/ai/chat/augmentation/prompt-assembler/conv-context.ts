@@ -13,13 +13,18 @@ import { projectConversationSettings } from "@/lib/db/conversation-settings";
 import { and, asc, eq, inArray } from "drizzle-orm";
 import type { LoadedConvContext } from "@/lib/types";
 
-export async function loadConvContext(convId: string) {
+// userId scopes the conversation lookup: convId is client-controlled on the
+// stream path, so an unscoped load let a caller assemble a prompt from another
+// user's private persona/characters/lorebooks/system-prompt and read it back
+// through the model output. Child rows hang off this convId, so gating the
+// parent row is sufficient.
+export async function loadConvContext(userId: number, convId: string) {
   const db = getDb();
 
   const convRows = await db
     .select()
     .from(conversations)
-    .where(eq(conversations.id, convId))
+    .where(and(eq(conversations.id, convId), eq(conversations.userId, userId)))
     .limit(1);
   const conv = convRows[0];
   if (!conv) return null;
@@ -47,9 +52,12 @@ export async function loadConvContext(convId: string) {
           .select()
           .from(characters)
           .where(
-            inArray(
-              characters.id,
-              charBindings.map((b) => b.characterId),
+            and(
+              eq(characters.userId, userId),
+              inArray(
+                characters.id,
+                charBindings.map((b) => b.characterId),
+              ),
             ),
           )
       : [];
@@ -65,25 +73,34 @@ export async function loadConvContext(convId: string) {
       } => !!x.character,
     );
 
-  const persona = settings.personaId
-    ? (
-        await db
+  const [persona, preset] = await Promise.all([
+    settings.personaId
+      ? db
           .select()
           .from(personas)
-          .where(eq(personas.id, settings.personaId))
+          .where(
+            and(
+              eq(personas.id, settings.personaId),
+              eq(personas.userId, userId),
+            ),
+          )
           .limit(1)
-      )[0]
-    : undefined;
-
-  const preset = settings.presetId
-    ? (
-        await db
+          .then((r) => r[0])
+      : undefined,
+    settings.presetId
+      ? db
           .select()
           .from(samplingPresets)
-          .where(eq(samplingPresets.id, settings.presetId))
+          .where(
+            and(
+              eq(samplingPresets.id, settings.presetId),
+              eq(samplingPresets.userId, userId),
+            ),
+          )
           .limit(1)
-      )[0]
-    : undefined;
+          .then((r) => r[0])
+      : undefined,
+  ]);
 
   const lbBindings = await db
     .select({ lorebookId: conversationLorebooks.lorebookId })
@@ -92,20 +109,35 @@ export async function loadConvContext(convId: string) {
     .orderBy(asc(conversationLorebooks.orderIndex));
   const lorebookIds = lbBindings.map((b) => b.lorebookId);
 
-  const [lbRows, lbEntries] =
+  // Lorebook entries inherit ownership from the parent lorebook; scope the
+  // parents and narrow the entry scan to surviving ids.
+  const lbRowsRaw =
     lorebookIds.length > 0
-      ? await Promise.all([
-          db.select().from(lorebooks).where(inArray(lorebooks.id, lorebookIds)),
-          db
+      ? await db
+          .select()
+          .from(lorebooks)
+          .where(
+            and(
+              eq(lorebooks.userId, userId),
+              inArray(lorebooks.id, lorebookIds),
+            ),
+          )
+      : [];
+  const ownedLbIds = lbRowsRaw.map((lb) => lb.id);
+  const [lbRows, lbEntries] =
+    ownedLbIds.length > 0
+      ? [
+          lbRowsRaw,
+          await db
             .select()
             .from(lorebookEntries)
             .where(
               and(
-                inArray(lorebookEntries.lorebookId, lorebookIds),
+                inArray(lorebookEntries.lorebookId, ownedLbIds),
                 eq(lorebookEntries.enabled, true),
               ),
             ),
-        ])
+        ]
       : [[], []];
 
   return { settings, boundCharacters, persona, preset, lbRows, lbEntries };
@@ -114,8 +146,8 @@ export async function loadConvContext(convId: string) {
 type ClientBoundCharacter = {
   binding: {
     characterId: string;
-    orderIndex?: number;
-    isActive?: boolean;
+    orderIndex?: number | null;
+    isActive?: boolean | null;
     overrides?: unknown;
   };
   character: unknown;
@@ -123,55 +155,30 @@ type ClientBoundCharacter = {
 
 type ClientChatContext = {
   persona?: unknown;
-  // Bare rows (legacy) or `{binding, character}` (honors isActive/overrides).
-  characters?: Array<unknown> | Array<ClientBoundCharacter>;
+  characters?: Array<ClientBoundCharacter>;
   lorebooks?: Array<{ lorebook: unknown; entries: Array<unknown> }>;
   preset?: unknown;
   settings?: unknown;
 };
-
-function isBoundCharacter(raw: unknown): raw is ClientBoundCharacter {
-  if (!raw || typeof raw !== "object") return false;
-  const obj = raw as Record<string, unknown>;
-  return (
-    obj.character != null &&
-    typeof obj.binding === "object" &&
-    obj.binding != null
-  );
-}
 
 export function buildContextFromClient(
   ctx: ClientChatContext,
 ): LoadedConvContext {
   if (!ctx.settings) return null;
   const settings = ctx.settings as NonNullable<LoadedConvContext>["settings"];
-  const rawChars = ctx.characters ?? [];
   type Bound = NonNullable<LoadedConvContext>["boundCharacters"][number];
-  type Char = Bound["character"];
   const boundCharacters: Bound[] = [];
-  rawChars.forEach((raw, i) => {
-    if (isBoundCharacter(raw)) {
-      if (raw.binding.isActive === false) return;
-      boundCharacters.push({
-        binding: {
-          characterId: raw.binding.characterId,
-          orderIndex: raw.binding.orderIndex ?? i,
-          isActive: raw.binding.isActive ?? true,
-          overrides: (raw.binding.overrides ?? null) as Bound["binding"]["overrides"],
-        },
-        character: raw.character as Char,
-      });
-      return;
-    }
-    const character = raw as Char;
+  (ctx.characters ?? []).forEach((raw, i) => {
+    if (!raw?.character || raw.binding?.isActive === false) return;
     boundCharacters.push({
       binding: {
-        characterId: character.id,
-        orderIndex: i,
-        isActive: true,
-        overrides: null,
+        characterId: raw.binding.characterId,
+        orderIndex: raw.binding.orderIndex ?? i,
+        isActive: raw.binding.isActive ?? true,
+        overrides: (raw.binding.overrides ??
+          null) as Bound["binding"]["overrides"],
       },
-      character,
+      character: raw.character as Bound["character"],
     });
   });
 

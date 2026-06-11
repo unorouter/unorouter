@@ -3,11 +3,7 @@ import { AuthRedirectCleanup } from "@/components/provider/app/auth-redirect-cle
 import { APP_VALUES } from "@/lib/config/constants";
 import { rpc } from "@/lib/rpc";
 import { getPageMetadata } from "@/lib/seo/metadata";
-import {
-  redirectToLogin,
-  serverLocale,
-  setCookies,
-} from "@/lib/utils/server";
+import { redirectToLogin, serverLocale, setCookies } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
 
 interface DashboardLayoutProps {

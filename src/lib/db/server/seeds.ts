@@ -3,11 +3,7 @@
 import { error, log } from "console";
 import { sql } from "drizzle-orm";
 import type { LibSQLDatabase } from "drizzle-orm/libsql";
-import {
-  embeddingCatalog,
-  loraCatalog,
-  upscalerCatalog,
-} from "../schema";
+import { embeddingCatalog, loraCatalog, upscalerCatalog } from "../schema";
 import * as schema from "../schema";
 
 type LoraSeed = typeof loraCatalog.$inferInsert;
@@ -244,7 +240,6 @@ export async function runSeeds(
         .from(embeddingCatalog)
         .then((r) => Number(r[0]?.n ?? 0)),
   );
-
 }
 
 async function seedCatalog<T>(

@@ -9,7 +9,6 @@ import { getTranslations } from "next-intl/server";
 
 export const dynamic = "force-dynamic";
 
-
 // A2A AgentCard per https://github.com/a2aproject/A2A (main).
 // supportedInterfaces is required by the scanner; the field name is stable
 // across v0.3.x and v1.x, only the entry shape evolved.

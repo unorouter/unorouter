@@ -1,8 +1,8 @@
 "use client";
 
-import { useAuthQuery } from "@/hooks/auth/auth-hook";
+import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
+import { useApiMutation } from "@/hooks/use-api-mutation";
 import { parsePersonaJson } from "@/lib/ai/rp/persona-import";
-import { GUEST_USER_ID } from "@/lib/config/constants";
 import {
   deleteLocalPersona,
   readLocalPersona,
@@ -12,8 +12,6 @@ import {
 import type { PersonaRow } from "@/lib/db/schema/rows";
 import { queryKeys } from "@/lib/react-query/keys";
 import { uid } from "@/lib/utils/base";
-import { handleError } from "@/lib/utils/client";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
 import { makeRpEntity } from "./factory";
@@ -23,7 +21,6 @@ const personas = makeRpEntity<
   Record<string, unknown>,
   Record<string, unknown>
 >({
-  syncKind: "personas",
   listKey: queryKeys.personas,
   itemKey: queryKeys.persona,
   readList: readLocalPersonas,
@@ -40,12 +37,10 @@ export const useDeletePersonaMutation = personas.useDelete;
 
 export function useImportPersonaMutation() {
   const t = useTranslations();
-  const qc = useQueryClient();
-  const auth = useAuthQuery();
+  const userId = useLocalUserId();
 
-  return useMutation({
+  return useApiMutation({
     mutationFn: async (file: File) => {
-      const userId = auth.data?.id ?? GUEST_USER_ID;
       let raw: unknown;
       try {
         raw = JSON.parse(await file.text());
@@ -72,9 +67,6 @@ export function useImportPersonaMutation() {
       }
       return rows;
     },
-    onSuccess: () => {
-      qc.invalidateQueries({ queryKey: queryKeys.personas() });
-    },
-    onError: (e) => handleError(e, t),
+    invalidates: [queryKeys.personas()],
   });
 }

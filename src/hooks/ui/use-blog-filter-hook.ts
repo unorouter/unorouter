@@ -1,6 +1,6 @@
 "use client";
 
-import type { BlogListPost } from "@/lib/types/seo";
+import type { BlogListPost } from "@/lib/types";
 import {
   blogCategoryAtom,
   blogClearFiltersAtom,

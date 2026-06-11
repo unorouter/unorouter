@@ -1,12 +1,25 @@
 "use client";
 
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
+import { ChatLoadout } from "@/components/pages/sidebar/chat/chat-loadout";
+import { GreetingPreview } from "@/components/pages/sidebar/chat/greeting-preview";
 import {
   ComposerAddAttachment,
   ComposerAttachments,
   UserMessageAttachments,
 } from "@/components/ui/assistant-ui/attachment";
-import { MarkdownText } from "@/components/ui/assistant-ui/markdown-text";
+import dynamic from "next/dynamic";
+// Markdown pipeline (~75KB gzip) loads with the first rendered message, not
+// with the empty-thread shell.
+const MarkdownText = dynamic(
+  () =>
+    import("@/components/ui/assistant-ui/markdown-text").then(
+      (m) => m.MarkdownText,
+    ),
+  { ssr: false },
+  // The message-part slot type carries part props MarkdownText ignores
+  // (it reads message context); restore the original signature.
+) as unknown as typeof import("@/components/ui/assistant-ui/markdown-text").MarkdownText;
 import {
   Reasoning,
   ReasoningGroup,
@@ -38,7 +51,9 @@ import {
   chatStore,
   chatWebSearchAtom,
   convIdAtom,
+  historyLoadedAtom,
 } from "@/store/chat-store";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useMessageError } from "@assistant-ui/core/react";
 import {
   ActionBarPrimitive,
@@ -52,6 +67,7 @@ import {
 } from "@assistant-ui/react";
 import { useAtom, useAtomValue } from "jotai";
 import { useTranslations } from "next-intl";
+import { useParams } from "next/navigation";
 import {
   createContext,
   type FC,
@@ -78,14 +94,14 @@ export const Thread: FC = () => {
         className="aui-thread-viewport relative flex flex-1 flex-col overflow-x-hidden overflow-y-auto scroll-smooth px-4"
       >
         <AuiIf condition={(s) => s.thread.isEmpty}>
-          <ThreadWelcome />
+          <ThreadWelcomeGate />
         </AuiIf>
 
         <ThreadPrimitive.Messages>
           {() => <ThreadMessage />}
         </ThreadPrimitive.Messages>
 
-        <ThreadPrimitive.ViewportFooter className="aui-thread-viewport-footer before:from-background pointer-events-none sticky bottom-0 mx-auto mt-auto flex w-full max-w-(--thread-max-width) flex-col gap-4 overflow-visible rounded-t-(--composer-radius) pb-[max(--spacing(1),env(safe-area-inset-bottom))] *:pointer-events-auto before:pointer-events-none before:absolute before:inset-x-0 before:-top-6 before:h-6 before:bg-linear-to-t before:to-transparent md:pb-[max(--spacing(2.5),env(safe-area-inset-bottom))]">
+        <ThreadPrimitive.ViewportFooter className="aui-thread-viewport-footer before:from-background bg-background pointer-events-none sticky bottom-0 mx-auto mt-auto flex w-full max-w-(--thread-max-width) flex-col gap-4 overflow-visible rounded-t-(--composer-radius) pb-[max(--spacing(1),env(safe-area-inset-bottom))] *:pointer-events-auto before:pointer-events-none before:absolute before:inset-x-0 before:-top-6 before:h-6 before:bg-linear-to-t before:to-transparent md:pb-[max(--spacing(2.5),env(safe-area-inset-bottom))]">
           <ThreadScrollToBottom />
           <Composer />
         </ThreadPrimitive.ViewportFooter>
@@ -117,6 +133,30 @@ const ThreadScrollToBottom: FC = () => {
   );
 };
 
+// A conv URL starts with an empty runtime until the history adapter's load()
+// imports the local messages; showing the welcome screen in that window reads
+// as a flash. Skeleton until that first load resolved (historyLoadedAtom).
+// New-chat routes have no convId and no pending history: welcome immediately.
+const ThreadWelcomeGate: FC = () => {
+  const params = useParams<{ convId?: string }>();
+  const isLoading = useAuiState((s) => s.thread.isLoading);
+  const historyLoaded = useAtomValue(historyLoadedAtom);
+  const expectHistory = !!params.convId && !historyLoaded;
+  if (isLoading || expectHistory) return <ThreadHistorySkeleton />;
+  return <ThreadWelcome />;
+};
+
+const ThreadHistorySkeleton: FC = () => {
+  return (
+    <div className="mx-auto my-8 flex w-full max-w-(--thread-max-width) grow flex-col gap-6">
+      <Skeleton className="h-16 w-2/5 self-end rounded-2xl" />
+      <Skeleton className="h-28 w-4/5 rounded-2xl" />
+      <Skeleton className="h-16 w-1/3 self-end rounded-2xl" />
+      <Skeleton className="h-36 w-4/5 rounded-2xl" />
+    </div>
+  );
+};
+
 const ThreadWelcome: FC = () => {
   const t = useTranslations();
   return (
@@ -137,6 +177,8 @@ const ThreadWelcome: FC = () => {
               {t("CHAT.EMPTY_DESCRIPTION")}
             </p>
           </div>
+          <ChatLoadout />
+          <GreetingPreview />
         </div>
       </div>
       <ThreadSuggestions />
@@ -224,6 +266,14 @@ const ComposerWebSearchToggle: FC = () => {
 
 const ComposerAction: FC = () => {
   const t = useTranslations();
+  // Risu sendMain parity: empty composer + trailing unanswered user turn still
+  // sends (argless send resubmits history so the turn gets its reply).
+  const composerEmpty = useAuiState((s) => s.composer.text.trim().length === 0);
+  const lastIsUser = useAuiState(
+    (s) => s.thread.messages.at(-1)?.role === "user",
+  );
+  const helpers = useAtomValue(chatHelpersAtom);
+  const emptySend = composerEmpty && lastIsUser && helpers != null;
   return (
     <div className="aui-composer-action-wrapper relative flex items-center justify-between">
       <div className="flex items-center">
@@ -231,17 +281,30 @@ const ComposerAction: FC = () => {
         <ComposerWebSearchToggle />
       </div>
       <AuiIf condition={(s) => !s.thread.isRunning}>
-        <ComposerPrimitive.Send asChild>
+        {emptySend ? (
           <TooltipIconButton
             tooltip={t("CHAT.ACTION.SEND")}
             side="bottom"
             variant="default"
             className="aui-composer-send size-8 rounded-full"
             aria-label={t("CHAT.ACTION.SEND")}
+            onClick={() => void helpers.sendEmpty()}
           >
             <Icon name="arrow-up" className="aui-composer-send-icon size-4" />
           </TooltipIconButton>
-        </ComposerPrimitive.Send>
+        ) : (
+          <ComposerPrimitive.Send asChild>
+            <TooltipIconButton
+              tooltip={t("CHAT.ACTION.SEND")}
+              side="bottom"
+              variant="default"
+              className="aui-composer-send size-8 rounded-full"
+              aria-label={t("CHAT.ACTION.SEND")}
+            >
+              <Icon name="arrow-up" className="aui-composer-send-icon size-4" />
+            </TooltipIconButton>
+          </ComposerPrimitive.Send>
+        )}
       </AuiIf>
       <AuiIf condition={(s) => s.thread.isRunning}>
         <ComposerPrimitive.Cancel asChild>
@@ -302,6 +365,24 @@ function resolveErrorMessage(
   );
   return t.has(raw) ? t(raw) : raw;
 }
+
+// Persisted failed attempt (error message_item -> data-error part): renders
+// after refresh / on inactive branches, unlike MessageError which only covers
+// the live run. Retry = the existing Refresh action (regenerate sibling).
+const PersistedErrorPart: FC<{ data?: unknown }> = (props) => {
+  const data = (props.data ?? {}) as { message?: string; model?: string };
+  if (!data.message) return null;
+  return (
+    <div
+      role="alert"
+      className="aui-message-error-root border-destructive bg-destructive/10 text-destructive dark:bg-destructive/5 mt-2 rounded-md border p-3 text-sm dark:text-red-200"
+    >
+      <span className="aui-message-error-message">
+        {data.model ? `${data.model}: ${data.message}` : data.message}
+      </span>
+    </div>
+  );
+};
 
 const MessageErrorBody: FC = () => {
   const error = useMessageError();
@@ -401,7 +482,7 @@ const AssistantMessage: FC = () => {
                   },
                   data: {
                     // TaskCardRenderer draws the card below; suppress default render here.
-                    by_name: { task: () => null },
+                    by_name: { task: () => null, error: PersistedErrorPart },
                   },
                 }}
               />
@@ -625,34 +706,51 @@ const DeleteMessageButton: FC = () => {
   );
 };
 
+// Media-output messages hide Copy (giant data-uri) and Edit (meaningless for a generation).
+const MEDIA_OUTPUT_RE = /^!\[(?:audio|image|video)\]\(/;
+
 const AssistantActionBar: FC = () => {
   const t = useTranslations();
   const beginEdit = useContext(AssistantEditContext);
   const isMobile = useIsMobile();
   const messageId = useAuiState((s) => s.message.id);
+  const isMediaOutput = useAuiState((s) => {
+    const parts = s.message.content as ReadonlyArray<{
+      type: string;
+      text?: string;
+    }>;
+    const text = parts
+      .filter((p) => p.type === "text" && typeof p.text === "string")
+      .map((p) => p.text!)
+      .join("")
+      .trim();
+    return text.length > 0 && MEDIA_OUTPUT_RE.test(text);
+  });
   return (
     <ActionBarPrimitive.Root
       hideWhenRunning
       autohide={isMobile ? undefined : "not-last"}
       className="aui-assistant-action-bar-root text-muted-foreground col-start-3 row-start-2 -ml-1 flex gap-1"
     >
-      <ActionBarPrimitive.Copy asChild>
-        <TooltipIconButton tooltip={t("CHAT.ACTION.COPY")}>
-          <AuiIf condition={(s) => s.message.isCopied}>
-            <Icon name="check" />
-          </AuiIf>
-          <AuiIf condition={(s) => !s.message.isCopied}>
-            <Icon name="copy" />
-          </AuiIf>
-        </TooltipIconButton>
-      </ActionBarPrimitive.Copy>
+      {!isMediaOutput && (
+        <ActionBarPrimitive.Copy asChild>
+          <TooltipIconButton tooltip={t("CHAT.ACTION.COPY")}>
+            <AuiIf condition={(s) => s.message.isCopied}>
+              <Icon name="check" />
+            </AuiIf>
+            <AuiIf condition={(s) => !s.message.isCopied}>
+              <Icon name="copy" />
+            </AuiIf>
+          </TooltipIconButton>
+        </ActionBarPrimitive.Copy>
+      )}
       <ActionBarPrimitive.Reload asChild>
         <TooltipIconButton tooltip={t("CHAT.ACTION.REFRESH")}>
           <Icon name="refresh-cw" />
         </TooltipIconButton>
       </ActionBarPrimitive.Reload>
       <RequestLogButton msgId={messageId} />
-      {beginEdit && (
+      {beginEdit && !isMediaOutput && (
         <TooltipIconButton tooltip={t("CHAT.ACTION.EDIT")} onClick={beginEdit}>
           <Icon name="pencil" />
         </TooltipIconButton>

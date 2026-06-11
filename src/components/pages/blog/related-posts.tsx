@@ -1,7 +1,7 @@
 import { translated } from "@/components/pages/blog/posts";
 import { Link } from "@/i18n/navigation";
 import { getBlogTheme } from "@/lib/config/blog-categories";
-import type { BlogPost } from "@/lib/types/seo";
+import type { BlogPost } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { estimateReadingMinutes } from "@/components/pages/blog/reading-time";
 import { dayjs } from "@/lib/utils/format/date";

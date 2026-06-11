@@ -36,24 +36,31 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
+  // Keyboard resizes layout instead of panning it; keeps header + composer in view.
+  interactiveWidget: "resizes-content",
+  // Required for env(safe-area-inset-*) to be non-zero on notched devices.
+  viewportFit: "cover",
 };
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-sans",
   subsets: ["latin"],
-  display: "swap",
+  display: "optional",
+  preload: false,
 });
 
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-mono",
   subsets: ["latin"],
-  display: "swap",
+  display: "optional",
+  preload: false,
 });
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-display",
   subsets: ["latin"],
-  display: "swap",
+  display: "optional",
+  preload: false,
 });
 
 export async function generateMetadata(props: {
@@ -102,15 +109,28 @@ export default async function LocaleLayout(props: Props) {
       suppressHydrationWarning
     >
       <head>
+        {/* Anti-FOUC: next-themes' own script streams inside <body> after first
+            paint, leaving a white frame for dark users. Mirror its class logic
+            (storageKey "theme", defaultTheme "system") before paint. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{var t=localStorage.getItem("theme");var d=t==="dark"||((!t||t==="system")&&matchMedia("(prefers-color-scheme: dark)").matches);var c=document.documentElement.classList;c.toggle("dark",d);c.toggle("light",!d)}catch(e){}`,
+          }}
+        />
         {themeCss ? (
+          // href+precedence = React hoistable style tracked by href, so
+          // extension-injected <style> nodes (Dark Reader) can't be adopted in
+          // its place during hydration and replace the theme CSS.
           <style
             id="user-theme"
+            href="user-theme"
+            precedence="user-theme"
             dangerouslySetInnerHTML={{ __html: themeCss }}
           />
         ) : null}
       </head>
       <body
-        className={`${plusJakartaSans.variable} ${jetbrainsMono.variable} ${spaceGrotesk.variable} ${allFontVariablesClass} flex min-h-screen flex-col font-sans antialiased`}
+        className={`${plusJakartaSans.variable} ${jetbrainsMono.variable} ${spaceGrotesk.variable} ${allFontVariablesClass} flex min-h-dvh flex-col font-sans antialiased`}
       >
         <JsonLd id="organization-jsonld" data={buildOrganizationSchema()} />
         <JsonLd id="website-jsonld" data={buildWebSiteSchema(params.locale)} />

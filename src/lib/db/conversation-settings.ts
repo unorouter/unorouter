@@ -1,8 +1,7 @@
 import type { ConversationRow } from "@/lib/db/schema/rows";
 
-// Settings columns now live on the conversations row (formerly a 1:1
-// conversation_settings table). These helpers project them back into the
-// { convId, ...settings } shape callers + the sync bundle still expect.
+// Settings columns live on the conversations row (formerly a 1:1 table); these
+// helpers project them back into the { convId, ...settings } shape callers expect.
 export const CONVERSATION_SETTINGS_KEYS = [
   "defaultModel",
   "personaId",
@@ -15,6 +14,7 @@ export const CONVERSATION_SETTINGS_KEYS = [
   "webSearchEnabled",
   "webSearchEngine",
   "webSearchContextSize",
+  "group",
   "temperature",
   "topP",
   "topK",
@@ -25,20 +25,24 @@ export const CONVERSATION_SETTINGS_KEYS = [
   "repetitionPenalty",
   "maxTokens",
   "extraBody",
+  "vars",
   "streamingEnabled",
+  "groupOrderByOrder",
+  "autoContinue",
+  "memoryEnabled",
+  "summaryMemory",
+  "summaryAnchor",
+  "firstMsgIndex",
 ] as const;
 
-export type ConversationSettingsProjection = { convId: string } & Pick<
-  ConversationRow,
-  (typeof CONVERSATION_SETTINGS_KEYS)[number]
->;
+export type ConversationSettingsProjection = ConversationRow & {
+  convId: string;
+};
 
+// The "projection" is just the row plus a convId alias: every settings column
+// already lives on the conversation row, so picking keys gains nothing.
 export function projectConversationSettings(
   conv: ConversationRow,
 ): ConversationSettingsProjection {
-  const out = { convId: conv.id } as ConversationSettingsProjection;
-  for (const k of CONVERSATION_SETTINGS_KEYS) {
-    (out as Record<string, unknown>)[k] = conv[k];
-  }
-  return out;
+  return { ...conv, convId: conv.id };
 }

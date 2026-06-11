@@ -1,6 +1,6 @@
 "use client";
 
-import { Skeleton } from "@/components/ui/skeleton";
+import { StatItem, type StatItemProps } from "@/components/elements/stat-item";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { useDashboardData } from "@/hooks/ui/use-dashboard-data";
 import { useTranslations } from "next-intl";
@@ -29,49 +29,14 @@ function Sparkline(props: { data: number[]; color: string }) {
   );
 }
 
-type StatItemProps = {
-  label: string;
-  value: string | number | undefined;
-  icon: React.ReactNode;
-  isLoading: boolean;
-  accentColor: string;
+type CardItem = Omit<StatItemProps, "trend"> & {
   trendData?: number[];
   trendColor?: string;
 };
 
-function StatItem(props: StatItemProps) {
-  return (
-    <div className="flex items-center gap-3 py-3">
-      <div
-        className="flex h-8 w-8 shrink-0 items-center justify-center"
-        style={{ color: props.accentColor }}
-      >
-        {props.icon}
-      </div>
-      <div className="min-w-0 flex-1">
-        <span className="text-muted-foreground block font-mono text-[10px] tracking-widest uppercase">
-          {props.label}
-        </span>
-        {props.isLoading ? (
-          <Skeleton className="mt-1 h-5 w-20" />
-        ) : (
-          <span className="text-foreground block text-lg font-bold tracking-tight tabular-nums">
-            {typeof props.value === "number"
-              ? props.value.toLocaleString()
-              : (props.value ?? "-")}
-          </span>
-        )}
-      </div>
-      {!props.isLoading && props.trendData && props.trendColor && (
-        <Sparkline data={props.trendData} color={props.trendColor} />
-      )}
-    </div>
-  );
-}
-
 type StatsCardProps = {
   title: string;
-  items: StatItemProps[];
+  items: CardItem[];
 };
 
 function StatsCard(props: StatsCardProps) {
@@ -81,8 +46,15 @@ function StatsCard(props: StatsCardProps) {
         {props.title}
       </span>
       <div className="divide-border divide-y">
-        {props.items.map((item, i) => (
-          <StatItem key={i} {...item} />
+        {props.items.map(({ trendData, trendColor, ...item }, i) => (
+          <StatItem
+            key={i}
+            {...item}
+            trend={
+              trendData &&
+              trendColor && <Sparkline data={trendData} color={trendColor} />
+            }
+          />
         ))}
       </div>
     </div>

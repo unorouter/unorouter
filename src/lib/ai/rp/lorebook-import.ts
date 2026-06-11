@@ -7,7 +7,7 @@ import {
 } from "@character-foundry/character-foundry/lorebook";
 import type { LorebookPosition } from "@/lib/validation/rp-forms";
 
-export type ParsedLorebook = {
+type ParsedLorebook = {
   name: string;
   description?: string;
   scanDepth?: number;
@@ -37,17 +37,15 @@ const NUMERIC_POSITION: LorebookPosition[] = [
 ];
 
 // String positions: foundry's `in_chat` plus pass-through for DB-native names.
-const STRING_POSITION: Record<
-  LorebookPosition | "in_chat",
-  LorebookPosition
-> = {
-  in_chat: "at_depth",
-  before_char: "before_char",
-  after_char: "after_char",
-  top: "top",
-  bottom: "bottom",
-  at_depth: "at_depth",
-};
+const STRING_POSITION: Record<LorebookPosition | "in_chat", LorebookPosition> =
+  {
+    in_chat: "at_depth",
+    before_char: "before_char",
+    after_char: "after_char",
+    top: "top",
+    bottom: "bottom",
+    at_depth: "at_depth",
+  };
 
 type FoundryPosition = "before_char" | "after_char" | "in_chat";
 

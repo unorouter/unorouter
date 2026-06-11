@@ -1,3 +1,4 @@
+import { pick } from "@/lib/utils/base";
 export type AnimationVariant = "circle" | "circle-blur" | "polygon";
 export type AnimationStart =
   | "top-left"
@@ -89,8 +90,7 @@ export const getRandomAnimation = () => {
     validStarts = ANIMATION_OPTIONS.starts;
   }
 
-  const randomStart =
-    validStarts[Math.floor(Math.random() * validStarts.length)];
+  const randomStart = pick(validStarts);
 
   return { variant: randomVariant, start: randomStart };
 };

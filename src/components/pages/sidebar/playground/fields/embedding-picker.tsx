@@ -2,10 +2,7 @@
 
 import { useEmbeddingCatalogQuery } from "@/hooks/ai/playground-hook";
 import type { ModelFamily } from "@/lib/ai/playground/models";
-import {
-  CatalogChainPicker,
-  familyToBaseModel,
-} from "./catalog-chain-picker";
+import { CatalogChainPicker, familyToBaseModel } from "./catalog-chain-picker";
 
 export type EmbeddingEntry = {
   name: string;

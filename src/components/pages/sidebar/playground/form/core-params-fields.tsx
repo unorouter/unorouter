@@ -17,7 +17,7 @@ import type { PlaygroundModelDescriptor } from "@/lib/ai/playground/models";
 import type { GenerationFormValues } from "@/lib/validation/playground";
 import { useTranslations } from "next-intl";
 import type { UseFormReturn } from "react-hook-form";
-import { SeedField, SliderWithInput } from "./playground-form-fields";
+import { SeedField, SliderParamField } from "./playground-form-fields";
 
 type Props = {
   form: UseFormReturn<GenerationFormValues>;
@@ -44,67 +44,37 @@ export function CoreParamsFields(props: Props) {
   return (
     <>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <FormField
+        <SliderParamField
           control={form.control}
           name="params.steps"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{t("IMAGE.STEPS_LABEL")}</FormLabel>
-              <FormControl>
-                <SliderWithInput
-                  min={1}
-                  max={50}
-                  step={1}
-                  value={numParam("steps", descriptor.defaultParams.steps ?? 20)}
-                  onChange={field.onChange}
-                />
-              </FormControl>
-            </FormItem>
-          )}
+          label={t("IMAGE.STEPS_LABEL")}
+          min={1}
+          max={50}
+          step={1}
+          value={numParam("steps", descriptor.defaultParams.steps ?? 20)}
         />
 
         {descriptor.supportsCfg && (
-          <FormField
+          <SliderParamField
             control={form.control}
             name="params.cfg"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t("IMAGE.CFG_LABEL")}</FormLabel>
-                <FormControl>
-                  <SliderWithInput
-                    min={0}
-                    max={15}
-                    step={0.5}
-                    value={numParam("cfg", descriptor.defaultParams.cfg ?? 7)}
-                    onChange={field.onChange}
-                  />
-                </FormControl>
-              </FormItem>
-            )}
+            label={t("IMAGE.CFG_LABEL")}
+            min={0}
+            max={15}
+            step={0.5}
+            value={numParam("cfg", descriptor.defaultParams.cfg ?? 7)}
           />
         )}
 
         {descriptor.supportsGuidance && (
-          <FormField
+          <SliderParamField
             control={form.control}
             name="params.guidance"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t("IMAGE.GUIDANCE_LABEL")}</FormLabel>
-                <FormControl>
-                  <SliderWithInput
-                    min={1}
-                    max={10}
-                    step={0.1}
-                    value={numParam(
-                      "guidance",
-                      descriptor.defaultParams.guidance ?? 4,
-                    )}
-                    onChange={field.onChange}
-                  />
-                </FormControl>
-              </FormItem>
-            )}
+            label={t("IMAGE.GUIDANCE_LABEL")}
+            min={1}
+            max={10}
+            step={0.1}
+            value={numParam("guidance", descriptor.defaultParams.guidance ?? 4)}
           />
         )}
       </div>
@@ -119,10 +89,15 @@ export function CoreParamsFields(props: Props) {
                 <FormLabel>{t("IMAGE.SAMPLER_LABEL")}</FormLabel>
                 <FormControl>
                   <Select
-                    value={field.value ?? descriptor.defaultParams.sampler ?? ""}
+                    value={
+                      field.value ?? descriptor.defaultParams.sampler ?? ""
+                    }
                     onValueChange={field.onChange}
                   >
-                    <SelectTrigger className="w-full">
+                    <SelectTrigger
+                      aria-label={t("IMAGE.SAMPLER_LABEL")}
+                      className="w-full"
+                    >
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -150,7 +125,10 @@ export function CoreParamsFields(props: Props) {
                     }
                     onValueChange={field.onChange}
                   >
-                    <SelectTrigger className="w-full">
+                    <SelectTrigger
+                      aria-label={t("IMAGE.SCHEDULER_LABEL")}
+                      className="w-full"
+                    >
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>

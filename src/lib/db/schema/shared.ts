@@ -28,6 +28,25 @@ import type {
 
 // syncExpiresAt: null=local-only; non-null=synced + server-purged past timestamp.
 
+// Fresh builder instances per call: drizzle binds a builder to its table, so
+// the shared column shapes must be factories, not constants.
+export const createdAtCol = () =>
+  integer("created_at", { mode: "timestamp_ms" })
+    .notNull()
+    .default(sql`(unixepoch() * 1000)`);
+
+export const timestamps = () => ({
+  createdAt: createdAtCol(),
+  updatedAt: integer("updated_at", { mode: "timestamp_ms" })
+    .notNull()
+    .default(sql`(unixepoch() * 1000)`),
+});
+
+const syncableTimestamps = () => ({
+  syncExpiresAt: integer("sync_expires_at", { mode: "timestamp_ms" }),
+  ...timestamps(),
+});
+
 export const conversations = sqliteTable(
   "conversations",
   {
@@ -44,7 +63,8 @@ export const conversations = sqliteTable(
     systemPromptOverride: text("system_prompt_override"),
     authorNote: text("author_note"),
     authorNoteDepth: integer("author_note_depth").notNull().default(4),
-    chatMemory: integer("chat_memory").notNull().default(8),
+    // null = inherit the bound preset's chatMemory (else default 8).
+    chatMemory: integer("chat_memory"),
     reasoningEffort: text("reasoning_effort").$type<ReasoningEffort>(),
     webSearchEnabled: integer("web_search_enabled", { mode: "boolean" })
       .notNull()
@@ -57,6 +77,8 @@ export const conversations = sqliteTable(
       .notNull()
       .default("medium")
       .$type<WebSearchContextSize>(),
+    // Billing/routing group sent upstream as X-Group; null = auto (gateway default).
+    group: text("group"),
     temperature: real("temperature"),
     topP: real("top_p"),
     topK: integer("top_k"),
@@ -67,16 +89,25 @@ export const conversations = sqliteTable(
     repetitionPenalty: real("repetition_penalty"),
     maxTokens: integer("max_tokens"),
     extraBody: text("extra_body"),
-    streamingEnabled: integer("streaming_enabled", { mode: "boolean" })
-      .notNull()
-      .default(true),
-    syncExpiresAt: integer("sync_expires_at", { mode: "timestamp_ms" }),
-    createdAt: integer("created_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
-    updatedAt: integer("updated_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
+    // Chat-variable store (RisuAI getvar/setvar): JSON map { name: value }.
+    vars: text("vars"),
+    // null = inherit the bound preset's streamingEnabled (else default true).
+    streamingEnabled: integer("streaming_enabled", { mode: "boolean" }),
+    // Multi-character turn ordering: deterministic stored order vs name-mention
+    // + talkness. Auto-continue regenerates when a reply ends mid-sentence.
+    groupOrderByOrder: integer("group_order_by_order", { mode: "boolean" }),
+    autoContinue: integer("auto_continue", { mode: "boolean" }),
+    // Rolling-summary memory: the running summary text + the count of messages
+    // already folded into it (anchor), so older history can be replaced by the
+    // compact summary once it overflows the context window.
+    summaryMemory: text("summary_memory"),
+    summaryAnchor: integer("summary_anchor"),
+    // Toggle for the rolling summary + semantic retrieval memory features.
+    memoryEnabled: integer("memory_enabled", { mode: "boolean" }),
+    // RisuAI fmIndex: which greeting opens the chat (-1 = firstMessage,
+    // 0..n = alternateGreetings index).
+    firstMsgIndex: integer("first_msg_index").notNull().default(-1),
+    ...syncableTimestamps(),
   },
   (table) => [
     index("idx_conv_user_updated").on(table.userId, table.updatedAt),
@@ -93,10 +124,9 @@ export const messages = sqliteTable(
     convId: text("conv_id")
       .notNull()
       .references(() => conversations.id, { onDelete: "cascade" }),
-    parentId: text("parent_id").references(
-      (): AnySQLiteColumn => messages.id,
-      { onDelete: "set null" },
-    ),
+    parentId: text("parent_id").references((): AnySQLiteColumn => messages.id, {
+      onDelete: "set null",
+    }),
     characterId: text("character_id"),
     role: text("role").notNull().$type<MessageRole>(),
     model: text("model"),
@@ -113,12 +143,7 @@ export const messages = sqliteTable(
     isEdited: integer("is_edited", { mode: "boolean" })
       .notNull()
       .default(false),
-    createdAt: integer("created_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
-    updatedAt: integer("updated_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
+    ...timestamps(),
   },
   (table) => [
     index("idx_msg_conv_parent").on(table.convId, table.parentId),
@@ -140,9 +165,7 @@ export const messageItems = sqliteTable(
     outputIndex: integer("output_index"),
     type: text("type").notNull().$type<MessageItemType>(),
     data: text("data", { mode: "json" }).notNull(),
-    createdAt: integer("created_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
+    createdAt: createdAtCol(),
   },
   (table) => [
     index("idx_msgitem_msg_seq").on(table.messageId, table.sequenceIndex),
@@ -153,9 +176,9 @@ export const messageItems = sqliteTable(
 export const requestLogs = sqliteTable(
   "request_logs",
   {
-    msgId: text("msg_id")
-      .primaryKey()
-      .references(() => messages.id, { onDelete: "cascade" }),
+    // No FK to messages: the server writes this row at stream finish, BEFORE
+    // the client pushes the message row. convId cascade covers cleanup.
+    msgId: text("msg_id").primaryKey(),
     convId: text("conv_id")
       .notNull()
       .references(() => conversations.id, { onDelete: "cascade" }),
@@ -170,9 +193,8 @@ export const requestLogs = sqliteTable(
     cost: real("cost"),
     durationMs: integer("duration_ms"),
     tokensPerSecond: real("tokens_per_second"),
-    createdAt: integer("created_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
+    channelName: text("channel_name"),
+    createdAt: createdAtCol(),
   },
   (table) => [
     index("idx_reqlog_conv").on(table.convId),
@@ -191,29 +213,33 @@ export const characters = sqliteTable(
     name: text("name").notNull(),
     // FK to media (asymmetric base64/R2 rule).
     avatarMediaId: text("avatar_media_id"),
+    // FK to media; rendered behind the chat when this character is primary.
+    backgroundMediaId: text("background_media_id"),
     description: text("description"),
     personality: text("personality"),
     scenario: text("scenario"),
     firstMessage: text("first_message"),
+    // Card-spec alternate_greetings; conversation firstMsgIndex picks one.
+    alternateGreetings: text("alternate_greetings", { mode: "json" }),
     exampleMessages: text("example_messages"),
     systemPrompt: text("system_prompt"),
     postHistoryInstructions: text("post_history_instructions"),
     defaultReasoningEffort: text("default_reasoning_effort"),
     tags: text("tags", { mode: "json" }),
+    // RisuAI triggerscript[] (V2 effect VM). Keyword-array turn-gating moved to
+    // turn_triggers so this column carries the trigger programs.
     triggers: text("triggers", { mode: "json" }),
+    // Keyword array for multi-character turn-gating (non-primary chars).
+    turnTriggers: text("turn_triggers", { mode: "json" }),
+    // RisuAI customscript / SillyTavern regex scripts (in/out/type/flag array).
+    regexScripts: text("regex_scripts", { mode: "json" }),
     alwaysActive: integer("always_active", { mode: "boolean" })
       .notNull()
       .default(true),
     matchWholeWords: integer("match_whole_words", { mode: "boolean" })
       .notNull()
       .default(false),
-    syncExpiresAt: integer("sync_expires_at", { mode: "timestamp_ms" }),
-    createdAt: integer("created_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
-    updatedAt: integer("updated_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
+    ...syncableTimestamps(),
   },
   (table) => [
     index("idx_char_user_updated").on(table.userId, table.updatedAt),
@@ -237,13 +263,7 @@ export const personas = sqliteTable(
       .notNull()
       .default(false),
     notes: text("notes"),
-    syncExpiresAt: integer("sync_expires_at", { mode: "timestamp_ms" }),
-    createdAt: integer("created_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
-    updatedAt: integer("updated_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
+    ...syncableTimestamps(),
   },
   (table) => [
     index("idx_persona_user_default").on(table.userId, table.isDefault),
@@ -266,13 +286,7 @@ export const lorebooks = sqliteTable(
     recursiveScanning: integer("recursive_scanning", { mode: "boolean" })
       .notNull()
       .default(false),
-    syncExpiresAt: integer("sync_expires_at", { mode: "timestamp_ms" }),
-    createdAt: integer("created_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
-    updatedAt: integer("updated_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
+    ...syncableTimestamps(),
   },
   (table) => [
     index("idx_lorebook_user").on(table.userId),
@@ -309,14 +323,9 @@ export const lorebookEntries = sqliteTable(
       .default(false),
     injectionRole: text("injection_role")
       .notNull()
-      .default("user")
+      .default("system")
       .$type<LorebookInjectionRole>(),
-    createdAt: integer("created_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
-    updatedAt: integer("updated_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
+    ...timestamps(),
   },
   (table) => [
     index("idx_lbentry_book_enabled").on(table.lorebookId, table.enabled),
@@ -340,7 +349,13 @@ export const samplingPresets = sqliteTable(
     presencePenalty: real("presence_penalty"),
     repetitionPenalty: real("repetition_penalty"),
     maxTokens: integer("max_tokens"),
+    // Preset-level defaults; the conversation's own value overrides per chat.
+    // null = use the system default (streaming on, chatMemory 8).
+    streamingEnabled: integer("streaming_enabled", { mode: "boolean" }),
+    chatMemory: integer("chat_memory"),
     extraBody: text("extra_body"),
+    providers: text("providers"),
+    promptTemplate: text("prompt_template"),
     mainPrompt: text("main_prompt"),
     postHistory: text("post_history"),
     prefill: text("prefill"),
@@ -355,24 +370,13 @@ export const samplingPresets = sqliteTable(
     })
       .notNull()
       .default(false),
-    skipPrefillIfLastIsAssistant: integer("skip_prefill_if_last_is_assistant", {
-      mode: "boolean",
-    })
-      .notNull()
-      .default(false),
     geminiBlockOff: integer("gemini_block_off", { mode: "boolean" })
       .notNull()
       .default(false),
     isDefault: integer("is_default", { mode: "boolean" })
       .notNull()
       .default(false),
-    syncExpiresAt: integer("sync_expires_at", { mode: "timestamp_ms" }),
-    createdAt: integer("created_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
-    updatedAt: integer("updated_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
+    ...syncableTimestamps(),
   },
   (table) => [
     index("idx_preset_user_name").on(table.userId, table.name),
@@ -391,10 +395,10 @@ export const conversationCharacters = sqliteTable(
       .references(() => characters.id, { onDelete: "cascade" }),
     orderIndex: integer("order_index").notNull().default(0),
     isActive: integer("is_active", { mode: "boolean" }).notNull().default(true),
+    // [0,1] talkativeness weight for non-mentioned group turn ordering.
+    talkness: real("talkness"),
     overrides: text("overrides", { mode: "json" }),
-    createdAt: integer("created_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
+    createdAt: createdAtCol(),
   },
   (table) => [
     primaryKey({ columns: [table.convId, table.characterId] }),
@@ -412,9 +416,7 @@ export const conversationLorebooks = sqliteTable(
       .notNull()
       .references(() => lorebooks.id, { onDelete: "cascade" }),
     orderIndex: integer("order_index").notNull().default(0),
-    createdAt: integer("created_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
+    createdAt: createdAtCol(),
   },
   (table) => [
     primaryKey({ columns: [table.convId, table.lorebookId] }),
@@ -432,13 +434,7 @@ export const cards = sqliteTable(
     name: text("name").notNull(),
     description: text("description"),
     personaId: text("persona_id"),
-    syncExpiresAt: integer("sync_expires_at", { mode: "timestamp_ms" }),
-    createdAt: integer("created_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
-    updatedAt: integer("updated_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
+    ...syncableTimestamps(),
   },
   (table) => [
     index("idx_card_user_updated").on(table.userId, table.updatedAt),
@@ -488,13 +484,7 @@ export const userThemes = sqliteTable(
     themeJson: text("theme_json", { mode: "json" })
       .$type<UserTheme>()
       .notNull(),
-    syncExpiresAt: integer("sync_expires_at", { mode: "timestamp_ms" }),
-    createdAt: integer("created_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
-    updatedAt: integer("updated_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
+    ...syncableTimestamps(),
   },
   (table) => [index("idx_theme_sync_expires").on(table.syncExpiresAt)],
 );
@@ -526,9 +516,7 @@ export const media = sqliteTable(
     width: integer("width"),
     height: integer("height"),
     extractedText: text("extracted_text"),
-    createdAt: integer("created_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
+    createdAt: createdAtCol(),
   },
   (table) => [
     index("idx_media_user").on(table.userId),
@@ -549,13 +537,7 @@ export const playgroundSessions = sqliteTable(
     snapshotCount: integer("snapshot_count").notNull().default(0),
     imageCount: integer("image_count").notNull().default(0),
     expiresAt: integer("expires_at", { mode: "timestamp_ms" }).notNull(),
-    syncExpiresAt: integer("sync_expires_at", { mode: "timestamp_ms" }),
-    createdAt: integer("created_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
-    updatedAt: integer("updated_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
+    ...syncableTimestamps(),
   },
   (table) => [
     index("idx_session_user_updated").on(table.userId, table.updatedAt),
@@ -601,12 +583,7 @@ export const playgrounds = sqliteTable(
     remixedFrom: text("remixed_from"),
     errorMessage: text("error_message"),
     submittedKey: text("submitted_key"),
-    createdAt: integer("created_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
-    updatedAt: integer("updated_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
+    ...timestamps(),
     expiresAt: integer("expires_at", { mode: "timestamp_ms" }).notNull(),
   },
   (table) => [

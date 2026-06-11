@@ -1,4 +1,5 @@
 import type { PricingData, PricingModel } from "@/openapi";
+import { escapeRegex } from "@/lib/utils/base";
 import {
   computeMinGroupRatio,
   parseTiersFromExpr,
@@ -122,9 +123,8 @@ function processModels(response: PricingData) {
         fixedPrice = model.model_price ?? 0;
         isFreeStrict = fixedPrice === 0;
       } else if (isTiered) {
-        // Tiered: model_ratio/completion_ratio ignored. Surface the cheapest
-        // tier's input/output on cards so users see a "from" price; full table
-        // lives on the detail page.
+        // Tiered: model_ratio/completion_ratio ignored. Cards show the cheapest tier's
+        // input/output as a "from" price; the full table lives on the detail page.
         const minRatio = computeMinGroupRatio(
           model.enable_groups ?? [],
           groupRatio,
@@ -154,11 +154,17 @@ function processModels(response: PricingData) {
         inputPrice = (model.model_ratio ?? 0) * 2 * minRatio;
         outputPrice = inputPrice * (model.completion_ratio ?? 0);
 
+        // Mirror new-api-sync isGroupPriceZero: reachable-free when any enabled
+        // group prices at 0 (model_ratio * group_ratio; positive per-call
+        // model_price overrides). Guest token has 0 balance, so auto-routing
+        // lands on the free group.
         const modelRatio = model.model_ratio ?? 0;
-        if (enabledGroups.length > 0 && modelRatio === 0) {
-          isFreeStrict = true;
-        } else if (enabledGroups.length > 0) {
-          isFreeStrict = enabledGroups.every((g) => (groupRatio[g] ?? 1) === 0);
+        const modelPriceVal = model.model_price ?? 0;
+        const groupIsFree = (g: string) =>
+          modelPriceVal <= 0 &&
+          ((groupRatio[g] ?? 1) === 0 || modelRatio === 0);
+        if (enabledGroups.length > 0) {
+          isFreeStrict = enabledGroups.some(groupIsFree);
         }
 
         if (showOriginalPrice && minRatio < 1) {
@@ -306,8 +312,12 @@ export function buildPricingSummary(response: PricingData) {
       originalOutputPrice: m.originalOutputPrice,
     }));
 
+  const freeCount = models.filter((m) => m.isFree).length;
+
   return {
     modelCount: models.length,
+    freeCount,
+    paidCount: models.length - freeCount,
     vendorCount: vendors.length,
     models,
     vendors,
@@ -316,6 +326,9 @@ export function buildPricingSummary(response: PricingData) {
     firstFreeModel,
     endpointMap,
     groupRatioMap: response.group_ratio ?? {},
+    // Routing-group -> "<model> via <reseller> (<upstream>)" label, keyed by a
+    // model's `enableGroups` entry. Passed through for any group-aware caller.
+    usableGroup: response.usable_group ?? {},
     autoGroups: response.auto_groups ?? [],
     topDiscounted,
   };
@@ -346,4 +359,52 @@ export function findSimilarModels(
 
 export function findContextTag(model: ProcessedModel): string | undefined {
   return (model.tags ?? []).find((tag) => /\d+K$|\d+\.\d+K$/.test(tag));
+}
+
+export type GroupEntry = { group: string; ratio: number };
+
+// Channel group ids usually embed the model name (e.g.
+// "gemini-ant-undy-gemini-3.1-pro-preview" for model "gemini-3.1-pro-preview").
+// Strip a trailing model-name occurrence for display; keep the real value.
+// Returns "auto" placeholder handling to the caller.
+export function groupDisplayLabel(group: string, model: string | null): string {
+  if (!model) return group;
+  const stripped = group
+    .replace(new RegExp(`-?${escapeRegex(model)}$`), "")
+    .replace(/-+$/, "");
+  return stripped.length > 0 ? stripped : group;
+}
+
+// A model's billing groups with their ratios, sorted cheapest first. Groups
+// without a known ratio are skipped.
+export function buildGroupEntries(
+  enableGroups: readonly string[],
+  groupRatioMap: Record<string, number>,
+): GroupEntry[] {
+  const entries: GroupEntry[] = [];
+  for (const group of enableGroups) {
+    const ratio = groupRatioMap[group];
+    if (ratio === undefined) continue;
+    entries.push({ group, ratio });
+  }
+  return entries.sort((a, b) => a.ratio - b.ratio);
+}
+
+// Shared by both grid-pricing table skins (detail page + vendor-themed sheet).
+export function gridPricingColumns(rows: GridPricingRow[]): string[] {
+  const first = rows[0];
+  if (!first) return [];
+  return Object.keys(first).filter(
+    (k) => k !== "Pricing" && k !== "PricingSuffix",
+  );
+}
+
+export function gridPriceParts(
+  row: GridPricingRow,
+  multiplier = 1,
+): { price: number; suffix: string } {
+  return {
+    price: typeof row.Pricing === "number" ? row.Pricing * multiplier : 0,
+    suffix: typeof row.PricingSuffix === "string" ? row.PricingSuffix : "",
+  };
 }

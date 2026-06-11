@@ -1,11 +1,38 @@
+import { SETUP_GUIDES } from "@/components/pages/docs/setup-guides";
+import type { Pathname } from "@/i18n/routing";
 import {
   BlogEntry,
   DocEntry,
   PriorityEntry,
   SectionPriorities,
-} from "@/lib/types/seo";
+} from "@/lib/types";
 
-export const DOCS_REGISTRY = [
+// All setup guides render from "/docs/[slug]" with these shared content/timestamp
+// sources; search index, llms.txt, sitemap, and seo-timestamps enumerate this
+// list, so a new guide in SETUP_GUIDES flows through with no edit here.
+const SETUP_GUIDE_SOURCES = [
+  "src/components/pages/docs/setup-guides.ts",
+  "src/components/pages/docs/setup-guide-template.tsx",
+] as const;
+
+const GUIDE_ENTRIES = SETUP_GUIDES.map(
+  (guide): DocEntry => ({
+    slug: `docs/${guide.slug}`,
+    // guide.href is LinkHref; Pathname is the structurally-equal getPathname arg.
+    path: guide.href as Pathname,
+    i18nPrefix: guide.i18nPrefix as DocEntry["i18nPrefix"],
+    contentFiles: guide.customComponent
+      ? [
+          ...SETUP_GUIDE_SOURCES,
+          `src/components/pages/docs/cli/${guide.customComponent}/${guide.customComponent}-content.tsx`,
+        ]
+      : SETUP_GUIDE_SOURCES,
+    priority: 0.7,
+    changeFrequency: "weekly",
+  }),
+);
+
+export const DOCS_REGISTRY: readonly DocEntry[] = [
   {
     slug: "docs",
     path: "/docs",
@@ -14,117 +41,8 @@ export const DOCS_REGISTRY = [
     priority: 0.8,
     changeFrequency: "daily",
   },
-  {
-    slug: "docs/claude-code",
-    path: "/docs/claude-code",
-    i18nPrefix: "DOCS.CLAUDE_CODE",
-    contentFiles: [
-      "src/app/[locale]/(docs)/docs/(cli)/claude-code/page.tsx",
-      "src/components/pages/docs/cli/claude-code/claude-code-content.tsx",
-    ],
-    priority: 0.7,
-    changeFrequency: "weekly",
-  },
-  {
-    slug: "docs/codex",
-    path: "/docs/codex",
-    i18nPrefix: "DOCS.CODEX",
-    contentFiles: [
-      "src/app/[locale]/(docs)/docs/(cli)/codex/page.tsx",
-      "src/components/pages/docs/cli/codex/codex-content.tsx",
-    ],
-    priority: 0.7,
-    changeFrequency: "weekly",
-  },
-  {
-    slug: "docs/gemini-cli",
-    path: "/docs/gemini-cli",
-    i18nPrefix: "DOCS.GEMINI_CLI",
-    contentFiles: [
-      "src/app/[locale]/(docs)/docs/(cli)/gemini-cli/page.tsx",
-      "src/components/pages/docs/cli/gemini-cli/gemini-cli-content.tsx",
-    ],
-    priority: 0.7,
-    changeFrequency: "weekly",
-  },
-  {
-    slug: "docs/openclaw",
-    path: "/docs/openclaw",
-    i18nPrefix: "DOCS.OPENCLAW",
-    contentFiles: [
-      "src/app/[locale]/(docs)/docs/(cli)/openclaw/page.tsx",
-      "src/components/pages/docs/cli/openclaw/openclaw-content.tsx",
-    ],
-    priority: 0.7,
-    changeFrequency: "weekly",
-  },
-  {
-    slug: "docs/cc-switch",
-    path: "/docs/cc-switch",
-    i18nPrefix: "DOCS.CC_SWITCH",
-    contentFiles: [
-      "src/app/[locale]/(docs)/docs/(cli)/cc-switch/page.tsx",
-      "src/components/pages/docs/cli/cc-switch/cc-switch-content.tsx",
-    ],
-    priority: 0.7,
-    changeFrequency: "weekly",
-  },
-  {
-    slug: "docs/hermes",
-    path: "/docs/hermes",
-    i18nPrefix: "DOCS.HERMES",
-    contentFiles: [
-      "src/app/[locale]/(docs)/docs/(cli)/hermes/page.tsx",
-      "src/components/pages/docs/cli/hermes/hermes-content.tsx",
-    ],
-    priority: 0.7,
-    changeFrequency: "weekly",
-  },
-  {
-    slug: "docs/sillytavern",
-    path: "/docs/sillytavern",
-    i18nPrefix: "DOCS.SILLYTAVERN",
-    contentFiles: [
-      "src/app/[locale]/(docs)/docs/(rp)/sillytavern/page.tsx",
-      "src/components/pages/docs/rp/sillytavern/sillytavern-content.tsx",
-    ],
-    priority: 0.7,
-    changeFrequency: "weekly",
-  },
-  {
-    slug: "docs/janitor-ai",
-    path: "/docs/janitor-ai",
-    i18nPrefix: "DOCS.JANITOR_AI",
-    contentFiles: [
-      "src/app/[locale]/(docs)/docs/(rp)/janitor-ai/page.tsx",
-      "src/components/pages/docs/rp/janitor-ai/janitor-ai-content.tsx",
-    ],
-    priority: 0.7,
-    changeFrequency: "weekly",
-  },
-  {
-    slug: "docs/risuai",
-    path: "/docs/risuai",
-    i18nPrefix: "DOCS.RISUAI",
-    contentFiles: [
-      "src/app/[locale]/(docs)/docs/(rp)/risuai/page.tsx",
-      "src/components/pages/docs/rp/risuai/risuai-content.tsx",
-    ],
-    priority: 0.7,
-    changeFrequency: "weekly",
-  },
-  {
-    slug: "docs/chub",
-    path: "/docs/chub",
-    i18nPrefix: "DOCS.CHUB",
-    contentFiles: [
-      "src/app/[locale]/(docs)/docs/(rp)/chub/page.tsx",
-      "src/components/pages/docs/rp/chub/chub-content.tsx",
-    ],
-    priority: 0.7,
-    changeFrequency: "weekly",
-  },
-] as const satisfies readonly DocEntry[];
+  ...GUIDE_ENTRIES,
+];
 
 /** Pages that get git-derived timestamps but aren't listed as "content". */
 export const LEGAL_REGISTRY = [
@@ -142,6 +60,47 @@ export const LEGAL_REGISTRY = [
 }[];
 
 export const BLOG_REGISTRY = [
+  {
+    slug: "unorouter-vs-openrouter",
+    date: "2026-06-10",
+    tags: ["comparison", "product"],
+    i18nKey: "BLOG.POSTS.UNOROUTER_VS_OPENROUTER",
+    contentFiles: [
+      "src/components/pages/blog/posts/2026-06-10-unorouter-vs-openrouter-content.tsx",
+    ],
+    priority: 0.7,
+    changeFrequency: "monthly",
+    category: "product",
+    wordCount: 560,
+    headings: [
+      { id: "lanes", i18nLeaf: "H_LANES", level: 2 },
+      { id: "models", i18nLeaf: "H_MODELS", level: 2 },
+      { id: "rp", i18nLeaf: "H_RP", level: 2 },
+      { id: "migrate", i18nLeaf: "H_MIGRATE", level: 2 },
+      { id: "verdict", i18nLeaf: "H_VERDICT", level: 2 },
+    ],
+  },
+  {
+    slug: "free-models-aggregated",
+    date: "2026-06-08",
+    tags: ["announcement", "product"],
+    i18nKey: "BLOG.POSTS.FREE_MODELS_AGGREGATED",
+    contentFiles: [
+      "src/components/pages/blog/posts/2026-06-08-free-models-aggregated-content.tsx",
+    ],
+    priority: 0.7,
+    changeFrequency: "monthly",
+    category: "product",
+    wordCount: 540,
+    headings: [
+      { id: "what", i18nLeaf: "H_WHAT", level: 2 },
+      { id: "caveat", i18nLeaf: "H_CAVEAT", level: 2 },
+      { id: "aggregate", i18nLeaf: "H_AGGREGATE", level: 2 },
+      { id: "failover", i18nLeaf: "H_FAILOVER", level: 2 },
+      { id: "honest", i18nLeaf: "H_HONEST", level: 2 },
+      { id: "try", i18nLeaf: "H_TRY", level: 2 },
+    ],
+  },
   {
     slug: "launch",
     date: "2026-04-17",
@@ -221,6 +180,28 @@ export const BLOG_REGISTRY = [
       { id: "gotchas", i18nLeaf: "H_GOTCHAS", level: 2 },
       { id: "metadata", i18nLeaf: "H_METADATA", level: 2 },
       { id: "try", i18nLeaf: "H_TRY", level: 2 },
+    ],
+  },
+  {
+    slug: "discord-community",
+    date: "2026-06-04",
+    tags: ["announcement", "community"],
+    i18nKey: "BLOG.POSTS.DISCORD_COMMUNITY",
+    contentFiles: [
+      "src/components/pages/blog/posts/2026-06-04-discord-community-content.tsx",
+    ],
+    priority: 0.7,
+    changeFrequency: "monthly",
+    category: "update",
+    wordCount: 420,
+    heroImage:
+      "/api/ops/badge/social?locale=en&theme=dark&size=discord&format=png",
+    headings: [
+      { id: "what", i18nLeaf: "H_WHAT", level: 2 },
+      { id: "earn", i18nLeaf: "H_EARN", level: 2 },
+      { id: "boost", i18nLeaf: "H_BOOST", level: 2 },
+      { id: "bugs", i18nLeaf: "H_BUGS", level: 2 },
+      { id: "join", i18nLeaf: "H_JOIN", level: 2 },
     ],
   },
 ] as const satisfies readonly BlogEntry[];

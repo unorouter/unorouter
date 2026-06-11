@@ -1,5 +1,6 @@
 import type { Static } from "elysia";
 import { t } from "elysia";
+import { nullable, samplingNullable } from "./helpers";
 import { reasoningEffort } from "./chat";
 
 export const MAX_NAME_LEN = 200;
@@ -11,50 +12,32 @@ export const MAX_KEY_LEN = 200;
 
 export const characterBody = t.Object({
   name: t.String({ minLength: 1, maxLength: MAX_NAME_LEN }),
-  avatarMediaId: t.Union([t.String({ maxLength: 64 }), t.Null()], {
-    default: null,
-  }),
-  description: t.Union([t.String({ maxLength: MAX_DESC_LEN }), t.Null()], {
-    default: null,
-  }),
-  personality: t.Union([t.String({ maxLength: MAX_DESC_LEN }), t.Null()], {
-    default: null,
-  }),
-  scenario: t.Union([t.String({ maxLength: MAX_DESC_LEN }), t.Null()], {
-    default: null,
-  }),
-  firstMessage: t.Union([t.String({ maxLength: MAX_DESC_LEN }), t.Null()], {
-    default: null,
-  }),
-  exampleMessages: t.Union([t.String({ maxLength: MAX_DESC_LEN }), t.Null()], {
-    default: null,
-  }),
-  systemPrompt: t.Union([t.String({ maxLength: MAX_DESC_LEN }), t.Null()], {
-    default: null,
-  }),
-  postHistoryInstructions: t.Union(
-    [t.String({ maxLength: MAX_DESC_LEN }), t.Null()],
-    { default: null },
+  avatarMediaId: nullable(t.String({ maxLength: 64 })),
+  backgroundMediaId: nullable(t.String({ maxLength: 64 })),
+  description: nullable(t.String({ maxLength: MAX_DESC_LEN })),
+  personality: nullable(t.String({ maxLength: MAX_DESC_LEN })),
+  scenario: nullable(t.String({ maxLength: MAX_DESC_LEN })),
+  firstMessage: nullable(t.String({ maxLength: MAX_DESC_LEN })),
+  alternateGreetings: nullable(
+    t.Array(t.String({ maxLength: MAX_DESC_LEN }), { maxItems: 32 }),
   ),
-  defaultReasoningEffort: t.Union([reasoningEffort, t.Null()], {
-    default: null,
-  }),
-  tags: t.Union(
-    [
-      t.Array(t.String({ maxLength: MAX_TAG_LEN }), { maxItems: MAX_TAGS }),
-      t.Null(),
-    ],
-    { default: null },
+  exampleMessages: nullable(t.String({ maxLength: MAX_DESC_LEN })),
+  systemPrompt: nullable(t.String({ maxLength: MAX_DESC_LEN })),
+  postHistoryInstructions: nullable(t.String({ maxLength: MAX_DESC_LEN })),
+  defaultReasoningEffort: nullable(reasoningEffort),
+  tags: nullable(
+    t.Array(t.String({ maxLength: MAX_TAG_LEN }), { maxItems: MAX_TAGS }),
   ),
-  triggers: t.Union(
-    [
-      t.Array(t.String({ maxLength: MAX_KEY_LEN }), {
-        maxItems: MAX_KEYS_PER_ENTRY,
-      }),
-      t.Null(),
-    ],
-    { default: null },
+  // RisuAI triggerscript[] (V2 effect VM). Loose: the VM parser narrows.
+  triggers: nullable(t.Array(t.Unknown(), { maxItems: 128 })),
+  // Keyword array for multi-character turn-gating.
+  turnTriggers: nullable(
+    t.Array(t.String({ maxLength: MAX_KEY_LEN }), {
+      maxItems: MAX_KEYS_PER_ENTRY,
+    }),
   ),
+  // RisuAI customscript / ST regex scripts. Loose: the engine's parser narrows.
+  regexScripts: nullable(t.Array(t.Unknown(), { maxItems: 128 })),
   alwaysActive: t.Boolean({ default: true }),
   matchWholeWords: t.Boolean({ default: false }),
 });
@@ -62,12 +45,8 @@ export type CharacterBody = Static<typeof characterBody>;
 
 export const personaBody = t.Object({
   name: t.String({ minLength: 1, maxLength: MAX_NAME_LEN }),
-  description: t.Union([t.String({ maxLength: MAX_DESC_LEN }), t.Null()], {
-    default: null,
-  }),
-  avatarMediaId: t.Union([t.String({ maxLength: 64 }), t.Null()], {
-    default: null,
-  }),
+  description: nullable(t.String({ maxLength: MAX_DESC_LEN })),
+  avatarMediaId: nullable(t.String({ maxLength: 64 })),
   // Optional undefined; reset tx gates on undefined vs false.
   isDefault: t.Optional(t.Boolean()),
 });
@@ -75,9 +54,7 @@ export type PersonaBody = Static<typeof personaBody>;
 
 export const lorebookBody = t.Object({
   name: t.String({ minLength: 1, maxLength: MAX_NAME_LEN }),
-  description: t.Union([t.String({ maxLength: MAX_DESC_LEN }), t.Null()], {
-    default: null,
-  }),
+  description: nullable(t.String({ maxLength: MAX_DESC_LEN })),
   scanDepth: t.Number({ minimum: 0, maximum: 100, default: 4 }),
   tokenBudget: t.Number({ minimum: 100, maximum: 32_000, default: 1500 }),
   recursiveScanning: t.Boolean({ default: false }),
@@ -96,7 +73,11 @@ export const lorebookEntryPosition = t.Union(
   LOREBOOK_POSITIONS.map((p) => t.Literal(p)),
 );
 
-export const LOREBOOK_INJECTION_ROLES = ["user", "system"] as const;
+export const LOREBOOK_INJECTION_ROLES = [
+  "user",
+  "system",
+  "assistant",
+] as const;
 export type LorebookInjectionRole = (typeof LOREBOOK_INJECTION_ROLES)[number];
 export const lorebookInjectionRole = t.Union(
   LOREBOOK_INJECTION_ROLES.map((r) => t.Literal(r)),
@@ -106,14 +87,10 @@ export const lorebookEntryBody = t.Object({
   keys: t.Array(t.String({ maxLength: MAX_KEY_LEN }), {
     maxItems: MAX_KEYS_PER_ENTRY,
   }),
-  secondaryKeys: t.Union(
-    [
-      t.Array(t.String({ maxLength: MAX_KEY_LEN }), {
-        maxItems: MAX_KEYS_PER_ENTRY,
-      }),
-      t.Null(),
-    ],
-    { default: null },
+  secondaryKeys: nullable(
+    t.Array(t.String({ maxLength: MAX_KEY_LEN }), {
+      maxItems: MAX_KEYS_PER_ENTRY,
+    }),
   ),
   content: t.String({ minLength: 1, maxLength: MAX_DESC_LEN }),
   constant: t.Boolean({ default: false }),
@@ -122,55 +99,29 @@ export const lorebookEntryBody = t.Object({
   position: t.Union(lorebookEntryPosition.anyOf, { default: "before_char" }),
   depth: t.Number({ minimum: 0, maximum: 100, default: 4 }),
   enabled: t.Boolean({ default: true }),
-  orderIndex: t.Number({ default: 0 }),
+  // Owned by create/update/reorder hooks (Risu insertorder), not the form.
+  orderIndex: t.Optional(t.Number()),
   matchWholeWords: t.Boolean({ default: false }),
-  injectionRole: t.Union(lorebookInjectionRole.anyOf, { default: "user" }),
+  injectionRole: t.Union(lorebookInjectionRole.anyOf, { default: "system" }),
 });
 export type LorebookEntryBody = Static<typeof lorebookEntryBody>;
 
 export const samplingPresetBody = t.Object({
   name: t.String({ minLength: 1, maxLength: MAX_NAME_LEN }),
-  temperature: t.Union([t.Number({ minimum: 0, maximum: 4 }), t.Null()], {
-    default: null,
-  }),
-  topP: t.Union([t.Number({ minimum: 0, maximum: 1 }), t.Null()], {
-    default: null,
-  }),
-  topK: t.Union([t.Number({ minimum: 0, maximum: 1000 }), t.Null()], {
-    default: null,
-  }),
-  minP: t.Union([t.Number({ minimum: 0, maximum: 1 }), t.Null()], {
-    default: null,
-  }),
-  topA: t.Union([t.Number({ minimum: 0, maximum: 1 }), t.Null()], {
-    default: null,
-  }),
-  frequencyPenalty: t.Union([t.Number({ minimum: -2, maximum: 2 }), t.Null()], {
-    default: null,
-  }),
-  presencePenalty: t.Union([t.Number({ minimum: -2, maximum: 2 }), t.Null()], {
-    default: null,
-  }),
-  repetitionPenalty: t.Union([t.Number({ minimum: 0, maximum: 2 }), t.Null()], {
-    default: null,
-  }),
-  maxTokens: t.Union([t.Number({ minimum: 1 }), t.Null()], { default: null }),
-  extraBody: t.Union([t.String({ maxLength: 8_192 }), t.Null()], {
-    default: null,
-  }),
-  mainPrompt: t.Union([t.String({ maxLength: MAX_DESC_LEN }), t.Null()], {
-    default: null,
-  }),
-  postHistory: t.Union([t.String({ maxLength: MAX_DESC_LEN }), t.Null()], {
-    default: null,
-  }),
-  prefill: t.Union([t.String({ maxLength: MAX_DESC_LEN }), t.Null()], {
-    default: null,
-  }),
+  ...samplingNullable({ temperatureMax: 4 }),
+  // Preset-level defaults the conversation overrides per chat. null = system
+  // default (streaming on, chatMemory 8).
+  streamingEnabled: nullable(t.Boolean()),
+  chatMemory: nullable(t.Number({ minimum: 1, maximum: 1000 })),
+  extraBody: nullable(t.String({ maxLength: 8_192 })),
+  providers: nullable(t.String({ maxLength: 4_096 })),
+  promptTemplate: nullable(t.String({ maxLength: 32_768 })),
+  mainPrompt: nullable(t.String({ maxLength: MAX_DESC_LEN })),
+  postHistory: nullable(t.String({ maxLength: MAX_DESC_LEN })),
+  prefill: nullable(t.String({ maxLength: MAX_DESC_LEN })),
   forceAlternateRoles: t.Boolean({ default: false }),
   noSystemRole: t.Boolean({ default: false }),
   mustStartWithUserInput: t.Boolean({ default: false }),
-  skipPrefillIfLastIsAssistant: t.Boolean({ default: false }),
   geminiBlockOff: t.Boolean({ default: false }),
   // Optional undefined; reset tx gates on undefined vs false.
   isDefault: t.Optional(t.Boolean()),
@@ -181,12 +132,8 @@ const MAX_BUNDLE_ITEMS = 64;
 
 export const cardBody = t.Object({
   name: t.String({ minLength: 1, maxLength: MAX_NAME_LEN }),
-  description: t.Union([t.String({ maxLength: MAX_DESC_LEN }), t.Null()], {
-    default: null,
-  }),
-  personaId: t.Union([t.String({ maxLength: 64 }), t.Null()], {
-    default: null,
-  }),
+  description: nullable(t.String({ maxLength: MAX_DESC_LEN })),
+  personaId: nullable(t.String({ maxLength: 64 })),
   characterIds: t.Array(t.String({ maxLength: 64 }), {
     maxItems: MAX_BUNDLE_ITEMS,
     default: [],

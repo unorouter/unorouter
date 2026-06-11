@@ -1,51 +1,26 @@
-import { getPricingSummary, isMediaModel } from "@/lib/api/pricing-cache";
-import { FREE_MODEL_OUTPUT_CAP, GUEST_USER_ID } from "@/lib/config/constants";
+import { isMediaModel } from "@/lib/api/pricing-cache";
+import { GUEST_USER_ID } from "@/lib/config/constants";
 import { captureServerEvent } from "@/lib/posthog-server";
-import { errMessage } from "@/lib/utils/base";
+import { errMessage, uid } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
-import { ChatContext, StreamOverrides } from "@/lib/validation/chat";
 import { getProvider } from "@/server/constants";
-import { convertToModelMessages, streamText } from "ai";
 import {
-  assembleForStream,
-  assembleFromOverrides,
-} from "./augmentation/prompt-assembler.service";
+  createUIMessageStream,
+  createUIMessageStreamResponse,
+  convertToModelMessages,
+  extractReasoningMiddleware,
+  streamText,
+  wrapLanguageModel,
+} from "ai";
+
 import {
-  buildContextFromClient,
-  loadConvContext,
-} from "./augmentation/prompt-assembler/conv-context";
-import {
-  formatSearchContext,
-  needsWebSearch,
-  searchTavily,
-} from "./augmentation/tavily.service";
-import {
+  handleAudioStream,
   handleBufferedStream,
+  handleEmbeddingStream,
   handleImageStream,
   handleVideoTaskStream,
 } from "./stream/media-stream";
-import {
-  appendPrefill,
-  collectRecentUserTexts,
-  expandMessageMacros,
-  extractLastUserText,
-  GEMINI_SAFETY_OFF,
-  inlinePdfText,
-  mergeAlternateRoles,
-  prependUserStub,
-  spliceDepthInjections,
-  stripSystemRole,
-  type StreamMessages,
-} from "./stream/transforms";
-
-type StreamBody = {
-  model: string;
-  messages: StreamMessages;
-  convId?: string | null;
-  webSearch?: boolean;
-  overrides?: StreamOverrides;
-  chatContext?: ChatContext;
-};
+import { prepareChatRequest, type StreamBody } from "./stream/prepare";
 
 export async function streamChat(
   apiKey: string,
@@ -54,6 +29,16 @@ export async function streamChat(
   userId: number,
 ) {
   const { buffered, mediaType } = await isMediaModel(body.model);
+
+  // Group resolution: the toolbar atom rides top-level `group`, but the
+  // authoritative per-conversation value lives in the sent conv settings
+  // (a new chat seeds the atom to null while its row already has a group).
+  // Prefer top-level, fall back to conv settings.
+  const settingsGroup = (
+    body.chatContext?.settings as { group?: string | null } | undefined
+  )?.group;
+  const resolvedGroup = body.group ?? settingsGroup ?? null;
+  body.group = resolvedGroup;
 
   logger.info("Stream started", {
     context: "stream",
@@ -75,247 +60,113 @@ export async function streamChat(
     },
   });
 
-  if (mediaType === "image") {
-    return handleImageStream(apiKey, body, userId);
+  switch (mediaType) {
+    case "image":
+      return handleImageStream(apiKey, body, userId);
+    case "video":
+      return handleVideoTaskStream(apiKey, body, userId);
+    case "audio":
+      return handleAudioStream(apiKey, body);
+    case "embedding":
+      return handleEmbeddingStream(apiKey, body);
   }
 
-  if (mediaType === "video") {
-    return handleVideoTaskStream(apiKey, body, userId);
-  }
-
-  // IDB-first: client chatContext avoids Turso RP reads; fall back to Turso for guests/legacy.
-  const convCtx = body.chatContext
-    ? buildContextFromClient(body.chatContext)
-    : body.convId
-      ? await loadConvContext(body.convId)
-      : null;
-  // Toolbar toggle OR'd with conv default; web search paid-only so guests off.
-  const effectiveWebSearch =
-    userId !== GUEST_USER_ID &&
-    (!!body.webSearch || (convCtx?.settings.webSearchEnabled ?? false));
-
-  let searchSystemMessage: string | undefined;
-  if (effectiveWebSearch) {
-    const lastUserText = extractLastUserText(body.messages);
-    if (lastUserText) {
-      const shouldSearch = await needsWebSearch(apiKey, lastUserText);
-      if (shouldSearch) {
-        const engine = convCtx?.settings.webSearchEngine ?? "auto";
-        const contextSize = convCtx?.settings.webSearchContextSize ?? "medium";
-        logger.info("Web search triggered", {
-          context: "stream.tavily",
-          query: lastUserText.slice(0, 100),
-          engine,
-          contextSize,
-        });
-        const searchResult = await searchTavily(lastUserText);
-        captureServerEvent({
-          event: "chat_web_search_executed",
-          request,
-          userId,
-          properties: {
-            engine,
-            context_size: contextSize,
-            result_count: searchResult?.results.length ?? 0,
-            had_results: (searchResult?.results.length ?? 0) > 0,
-          },
-        });
-        if (searchResult && searchResult.results.length > 0) {
-          searchSystemMessage = formatSearchContext(searchResult);
+  const prepared = await prepareChatRequest(apiKey, body, request, userId);
+  // V1 `stop` effect (Risu stopSending): answer an empty UI stream, no upstream call.
+  if (prepared.stopRequested) {
+    const stopStream = createUIMessageStream({
+      execute: ({ writer }) => {
+        for (const a of prepared.startAlerts) {
+          writer.write({
+            type: "data-alert",
+            data: a,
+            transient: true,
+          });
         }
-      }
-    }
+      },
+    });
+    return createUIMessageStreamResponse({ stream: stopStream });
   }
+  // cacheControl flag limits cache_control to Claude: others (Mistral)
+  // advertise caching but 422 on the Anthropic block format.
+  const provider = getProvider(apiKey, prepared.bodyMutations);
 
-  const provider = getProvider(apiKey);
-  const messagesWithPdfText = await inlinePdfText(body.messages);
+  // Per-request group override; new-api reads X-Group. Omit for null/auto.
+  const groupHeaders =
+    body.group && body.group !== "auto"
+      ? { "X-Group": body.group }
+      : undefined;
 
-  const recentUserTexts = collectRecentUserTexts(messagesWithPdfText);
-  const assembled =
-    body.convId && convCtx
-      ? await assembleForStream(
-          body.convId,
-          recentUserTexts,
-          searchSystemMessage,
-          convCtx,
-        )
-      : assembleFromOverrides(body.overrides, searchSystemMessage);
-
-  const slicedMessages =
-    assembled.chatMemory > 0
-      ? messagesWithPdfText.slice(-assembled.chatMemory)
-      : messagesWithPdfText;
-
-  const depthInjections = [
-    ...assembled.atDepthEntries,
-    ...(assembled.authorNote ? [assembled.authorNote] : []),
-  ];
-  const splicedMessages =
-    depthInjections.length > 0
-      ? spliceDepthInjections(slicedMessages, depthInjections)
-      : slicedMessages;
-  let processedMessages = expandMessageMacros(splicedMessages, assembled.vars);
-
-  // ORDER LOCKED, do not reshuffle:
-  //  1. noSystemRole BEFORE merge: stripped system-as-user must be eligible
-  //     to collapse with an adjacent user during merge.
-  //  2. prefill BEFORE merge: prefill is assistant role; if user ended on
-  //     assistant, mergeAlternateRoles will collapse them.
-  //     skipPrefillIfLastIsAssistant opts out.
-  //  3. mergeAlternateRoles AFTER prefill: output strictly
-  //     user/assistant/user/assistant.
-  //  4. prependUserStub LAST so merge cannot fold the stub into a following
-  //     user message.
-  if (assembled.flags.noSystemRole) {
-    processedMessages = stripSystemRole(processedMessages);
-  }
-  const lastIsAssistant =
-    processedMessages[processedMessages.length - 1]?.role === "assistant";
-  // Honor `skipPrefillIfLastIsAssistant` independently of `forceAlternateRoles`.
-  // The previous AND of both gates meant the flag was a no-op when alone.
-  const prefillBlocked =
-    assembled.flags.skipPrefillIfLastIsAssistant && lastIsAssistant;
-  if (assembled.prefill && !prefillBlocked) {
-    processedMessages = appendPrefill(processedMessages, assembled.prefill);
-  }
-  if (assembled.flags.forceAlternateRoles) {
-    processedMessages = mergeAlternateRoles(processedMessages);
-  }
-  if (assembled.flags.mustStartWithUserInput) {
-    processedMessages = prependUserStub(processedMessages);
-  }
-  const messagesForUpstream = processedMessages;
-
-  // Persisted as request-log row for upstream debugging (RisuAI Logs analog).
-  const debugRequestSnapshot = {
-    requestBody: {
-      model: body.model,
-      messages: body.messages,
-      chatContext: body.chatContext,
-      overrides: body.overrides,
-      webSearch: body.webSearch,
-      convId: body.convId,
+  const droppedParamsRef = { value: null as string | null };
+  // Captured in onFinish; emitted in messageMetadata to seed request log row.
+  const debugRef = {
+    value: {
+      requestId: null as string | null,
+      responseHeaders: null as Record<string, string> | null,
     },
-    assembledSystem: assembled.system ?? null,
-    finalMessages: messagesForUpstream,
   };
 
-  const modelInfo = (await getPricingSummary()).models.find(
-    (m) => m.name === body.model,
-  );
-  // Free models often advertise inflated maxOutputTokens; cap to a safe budget.
-  const droppedParamsRef: { value: string | null } = { value: null };
-  // Captured in onFinish; emitted in messageMetadata to seed request log row.
-  const debugRef: {
-    value: {
-      requestId: string | null;
-      responseHeaders: Record<string, string> | null;
-    };
-  } = { value: { requestId: null, responseHeaders: null } };
-  const usageRef: {
-    value: {
-      inputTokens: number;
-      outputTokens: number;
-      cost: number;
-      durationMs: number;
-      tokensPerSecond?: number;
-    } | null;
-  } = { value: null };
-
-  const presetMaxOut = assembled.sampling.maxOutputTokens;
-  const modelMaxOut = modelInfo?.metadata.maxOutputTokens;
-  const effectiveMaxOutputTokens = modelInfo?.isFree
-    ? Math.min(
-        presetMaxOut ?? modelMaxOut ?? FREE_MODEL_OUTPUT_CAP,
-        FREE_MODEL_OUTPUT_CAP,
-      )
-    : (presetMaxOut ?? modelMaxOut);
   const streamStartedAt = Date.now();
-  const result = streamText({
-    model: provider.chatModel(body.model),
-    messages: await convertToModelMessages(messagesForUpstream),
-    system: assembled.system,
-    // Disable SDK retries; surface upstream errors verbatim.
-    maxRetries: 0,
-    ...(effectiveMaxOutputTokens && {
-      maxOutputTokens: effectiveMaxOutputTokens,
-    }),
-    ...(assembled.sampling.temperature !== undefined && {
-      temperature: assembled.sampling.temperature,
-    }),
-    ...(assembled.sampling.topP !== undefined && {
-      topP: assembled.sampling.topP,
-    }),
-    ...(assembled.sampling.topK !== undefined && {
-      topK: assembled.sampling.topK,
-    }),
-    ...(assembled.sampling.frequencyPenalty !== undefined && {
-      frequencyPenalty: assembled.sampling.frequencyPenalty,
-    }),
-    ...(assembled.sampling.presencePenalty !== undefined && {
-      presencePenalty: assembled.sampling.presencePenalty,
-    }),
-    // extraBody first: sliders/reasoning win on key collision.
-    providerOptions: {
-      openai: {
-        ...(assembled.extraBody ?? {}),
-        ...(assembled.sampling.minP !== undefined && {
-          min_p: assembled.sampling.minP,
-        }),
-        ...(assembled.sampling.topA !== undefined && {
-          top_a: assembled.sampling.topA,
-        }),
-        ...(assembled.sampling.repetitionPenalty !== undefined && {
-          repetition_penalty: assembled.sampling.repetitionPenalty,
-        }),
-        ...(assembled.reasoningEffort && {
-          reasoning_effort: assembled.reasoningEffort,
-        }),
-        // Gemini-only: threshold=OFF (stronger than BLOCK_NONE); no-op elsewhere.
-        ...(assembled.flags.geminiBlockOff && {
-          safetySettings: GEMINI_SAFETY_OFF,
-        }),
-      },
-    },
-    onFinish: ({ usage, response }) => {
-      const durationMs = Date.now() - streamStartedAt;
-      const outputTokens = usage.outputTokens ?? 0;
-      const inputTokens = usage.inputTokens ?? 0;
-      const tokensPerSecond =
+  // Shared by onFinish (buffered path) + the finish frame (streamed path).
+  const buildUsage = (inputTokens: number, outputTokens: number) => {
+    const durationMs = Date.now() - streamStartedAt;
+    return {
+      inputTokens,
+      outputTokens,
+      cost: prepared.estimateCost(inputTokens, outputTokens),
+      durationMs,
+      tokensPerSecond:
         outputTokens > 0 && durationMs > 0
           ? outputTokens / (durationMs / 1000)
-          : undefined;
-      const requestId = response.headers?.["x-oneapi-request-id"] ?? undefined;
-      debugRef.value = {
-        requestId: requestId ?? null,
-        responseHeaders: response.headers ?? null,
-      };
-      // Cost backfilled later from upstream headers; client needs tokens now for its local row.
-      usageRef.value = {
-        inputTokens,
-        outputTokens,
-        cost: 0,
-        durationMs,
-        tokensPerSecond,
-      };
-      const dropped = response.headers?.["x-newapi-dropped-params"];
-      if (typeof dropped === "string" && dropped.length > 0) {
-        droppedParamsRef.value = dropped;
-      }
+          : undefined,
+    };
+  };
+  // Upstream request id + dropped-params ride response headers; capture from
+  // whichever callback sees them first (finish-step beats onFinish on timing).
+  const captureHeaders = (
+    hdrs: Record<string, string> | null | undefined,
+  ): void => {
+    if (!hdrs) return;
+    debugRef.value = {
+      requestId: hdrs["x-oneapi-request-id"] ?? null,
+      responseHeaders: hdrs,
+    };
+    const dropped = hdrs["x-newapi-dropped-params"];
+    if (typeof dropped === "string" && dropped.length > 0) {
+      droppedParamsRef.value = dropped;
+    }
+  };
+  const result = streamText({
+    // Lift inline <think> text into a proper reasoning part: UI renders it
+    // collapsible, stripReasoningParts keeps it out of next turn's context.
+    model: wrapLanguageModel({
+      model: provider.chatModel(body.model),
+      middleware: extractReasoningMiddleware({ tagName: "think" }),
+    }),
+    messages: await convertToModelMessages(prepared.messagesForUpstream),
+    system: prepared.effectiveSystem,
+    // Retries retryable errors only (429/5xx/network); 4xx surface verbatim (Risu parity).
+    maxRetries: 2,
+    ...(groupHeaders ? { headers: groupHeaders } : {}),
+    ...prepared.modelParams,
+    providerOptions: prepared.providerOptions,
+    onFinish: ({ usage, response }) => {
+      captureHeaders(response.headers);
+      const u = buildUsage(usage.inputTokens ?? 0, usage.outputTokens ?? 0);
       captureServerEvent({
         event: "chat_stream_completed",
         request,
         userId,
         properties: {
           model: body.model,
-          duration_ms: durationMs,
-          input_tokens: inputTokens,
-          output_tokens: outputTokens,
-          tokens_per_second: tokensPerSecond,
-          web_search: effectiveWebSearch,
+          duration_ms: u.durationMs,
+          input_tokens: u.inputTokens,
+          output_tokens: u.outputTokens,
+          tokens_per_second: u.tokensPerSecond,
+          web_search: prepared.effectiveWebSearch,
           has_dropped_params: !!droppedParamsRef.value,
           is_guest: userId === GUEST_USER_ID,
-          request_id: requestId,
+          request_id: debugRef.value.requestId ?? undefined,
         },
       });
     },
@@ -336,60 +187,79 @@ export async function streamChat(
     },
   });
 
-  const userOptedOutOfStreaming = !assembled.streamingEnabled;
+  // Server-generated id shared by the UI stream and the request-log row, so
+  // both sides key the log identically.
+  const responseMessageId = uid();
+  // One finish-metadata builder for both delivery paths (streamed finish frame,
+  // buffered synthesized chunk).
+  const buildFinishMeta = (
+    totalUsage: { inputTokens?: number; outputTokens?: number } | undefined,
+  ): Record<string, unknown> => {
+    const meta: Record<string, unknown> = {};
+    if (droppedParamsRef.value) meta.droppedParams = droppedParamsRef.value;
+    if (prepared.varsWriteback) meta.vars = prepared.varsWriteback;
+    if (prepared.globalVarsWriteback) meta.globalVars = prepared.globalVarsWriteback;
+    if (prepared.memory.summaryWriteback) meta.summary = prepared.memory.summaryWriteback;
+    if (prepared.inlayMedia.length > 0) meta.inlayMedia = prepared.inlayMedia;
+    // Per-message speaker tag (Risu `saying`), immune to the speaking-atom clear race.
+    if (body.speakingCharacterId)
+      meta.speakingCharacterId = body.speakingCharacterId;
+    const u = buildUsage(
+      totalUsage?.inputTokens ?? 0,
+      totalUsage?.outputTokens ?? 0,
+    );
+    if (u.inputTokens > 0 || u.outputTokens > 0) meta.usage = u;
+    const debug = {
+      ...prepared.debugRequestSnapshot,
+      responseHeaders: debugRef.value.responseHeaders,
+      droppedParams: droppedParamsRef.value,
+      requestId: debugRef.value.requestId,
+    };
+    meta.debug = debug;
+    return meta;
+  };
+
+  const userOptedOutOfStreaming = !prepared.streamingEnabled;
 
   if (!buffered && !userOptedOutOfStreaming) {
-    return result.toUIMessageStreamResponse({
+    const uiStream = result.toUIMessageStream({
+      generateMessageId: () => responseMessageId,
       messageMetadata: ({ part }) => {
         // `finish-step` carries response.headers synchronously; onFinish races stream end.
         if (part.type === "finish-step") {
-          const hdrs = part.response.headers ?? null;
-          if (hdrs) {
-            debugRef.value = {
-              requestId: hdrs["x-oneapi-request-id"] ?? null,
-              responseHeaders: hdrs,
-            };
-            const dropped = hdrs["x-newapi-dropped-params"];
-            if (typeof dropped === "string" && dropped.length > 0) {
-              droppedParamsRef.value = dropped;
-            }
-          }
+          captureHeaders(part.response.headers);
           return undefined;
         }
         if (part.type === "finish") {
-          const meta: Record<string, unknown> = {};
-          if (droppedParamsRef.value)
-            meta.droppedParams = droppedParamsRef.value;
-          // Read usage off part; onFinish races UI stream end.
-          const total = part.totalUsage;
-          const durationMs = Date.now() - streamStartedAt;
-          const inputTokens = total?.inputTokens ?? 0;
-          const outputTokens = total?.outputTokens ?? 0;
-          const tokensPerSecond =
-            outputTokens > 0 && durationMs > 0
-              ? outputTokens / (durationMs / 1000)
-              : undefined;
-          if (inputTokens > 0 || outputTokens > 0) {
-            meta.usage = {
-              inputTokens,
-              outputTokens,
-              cost: 0,
-              durationMs,
-              tokensPerSecond,
-            };
-          }
-          meta.debug = {
-            ...debugRequestSnapshot,
-            responseHeaders: debugRef.value.responseHeaders,
-            droppedParams: droppedParamsRef.value,
-            requestId: debugRef.value.requestId,
-          };
+          // Usage off the part; onFinish races UI stream end.
+          const meta = buildFinishMeta(part.totalUsage);
           return Object.keys(meta).length > 0 ? meta : undefined;
         }
         return undefined;
       },
     });
+    // Transient start-trigger alerts ride ahead of the model stream.
+    if (prepared.startAlerts.length > 0) {
+      const merged = createUIMessageStream({
+        execute: ({ writer }) => {
+          for (const a of prepared.startAlerts) {
+            writer.write({ type: "data-alert", data: a, transient: true });
+          }
+          writer.merge(uiStream);
+        },
+      });
+      return createUIMessageStreamResponse({ stream: merged });
+    }
+    return createUIMessageStreamResponse({ stream: uiStream });
   }
 
-  return handleBufferedStream(result, body, mediaType ?? "text");
+  // Buffered (media follow-ups + streaming-off): same metadata, synthesized
+  // after the full text resolves so usage/cost/writebacks are not lost.
+  return handleBufferedStream(
+    result,
+    body,
+    mediaType ?? "text",
+    async () => buildFinishMeta(await result.totalUsage),
+    responseMessageId,
+  );
 }

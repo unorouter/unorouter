@@ -2,6 +2,7 @@
 
 import { GUEST_USER_ID } from "@/lib/config/constants";
 import {
+  characters,
   conversationCharacters,
   conversationLorebooks,
   conversations,
@@ -10,6 +11,12 @@ import {
   messages,
   requestLogs,
 } from "@/lib/db/schema/shared";
+import {
+  parseRegexScripts,
+  type RegexScript,
+} from "@/lib/ai/chat/regex-scripts";
+import { parseTriggerScripts } from "@/lib/ai/chat/triggers/vm";
+import type { TriggerScript } from "@/lib/ai/chat/triggers/types";
 import {
   CONVERSATION_SETTINGS_KEYS,
   projectConversationSettings,
@@ -23,7 +30,11 @@ import {
   readLocalPersona,
   readLocalPreset,
 } from "./rp";
-import { makeTableStore, mergeChildRows, replaceChildRows } from "./table-store";
+import {
+  makeTableStore,
+  mergeChildRows,
+  replaceChildRows,
+} from "./table-store";
 
 import type {
   LocalAnyRow as AnyRow,
@@ -35,12 +46,25 @@ const conversationStore = makeTableStore(conversations, conversations.id);
 const messageStore = makeTableStore(messages, messages.id);
 const messageItemStore = makeTableStore(messageItems, messageItems.id);
 
+// List projection: select * would drag summaryMemory/vars/extraBody blobs
+// through OPFS on every sidebar render.
 export const readLocalConversations = async (userId: number | undefined) => {
   const uid = userId ?? GUEST_USER_ID;
   const local = await getLocalDb(uid);
   if (!local) return [];
   const rows = await local.db
-    .select()
+    .select({
+      id: conversations.id,
+      userId: conversations.userId,
+      title: conversations.title,
+      defaultModel: conversations.defaultModel,
+      totalInputTokens: conversations.totalInputTokens,
+      totalOutputTokens: conversations.totalOutputTokens,
+      totalCost: conversations.totalCost,
+      syncExpiresAt: conversations.syncExpiresAt,
+      createdAt: conversations.createdAt,
+      updatedAt: conversations.updatedAt,
+    })
     .from(conversations)
     .where(eq(conversations.userId, uid))
     .orderBy(desc(conversations.updatedAt));
@@ -94,6 +118,78 @@ export async function readLocalConversationBindings(
       .where(eq(conversationLorebooks.convId, convId)),
   ]);
   return { conversationCharacters: chars, conversationLorebooks: lbs };
+}
+
+// Primary (lowest orderIndex) character row for a conversation, or null.
+async function readPrimaryCharacter(
+  userId: number | undefined,
+  convId: string,
+) {
+  const local = await getLocalDb(userId);
+  if (!local) return null;
+  const rows = await local.db
+    .select({ characterId: conversationCharacters.characterId })
+    .from(conversationCharacters)
+    .where(eq(conversationCharacters.convId, convId))
+    .orderBy(asc(conversationCharacters.orderIndex))
+    .limit(1);
+  const charId = rows[0]?.characterId;
+  if (!charId) return null;
+  const charRows = await local.db
+    .select()
+    .from(characters)
+    .where(eq(characters.id, charId))
+    .limit(1);
+  return charRows[0] ?? null;
+}
+
+// Primary character's regex scripts, parsed. History adapter runs editoutput
+// on assistant replies with them.
+export async function readConvRegexScripts(
+  userId: number | undefined,
+  convId: string,
+): Promise<RegexScript[]> {
+  const ch = await readPrimaryCharacter(userId, convId);
+  return parseRegexScripts(ch?.regexScripts);
+}
+
+// Primary character's trigger scripts, parsed. History adapter runs output-mode
+// triggers after an assistant reply with them.
+export async function readConvTriggers(
+  userId: number | undefined,
+  convId: string,
+): Promise<TriggerScript[]> {
+  const ch = await readPrimaryCharacter(userId, convId);
+  return parseTriggerScripts(ch?.triggers);
+}
+
+// Delta-scope readers for the outbox drainer ("msgs" hint).
+export async function readLocalMessagesByIds(
+  userId: number | undefined,
+  ids: string[],
+) {
+  const local = await getLocalDb(userId);
+  if (!local || ids.length === 0) return [];
+  // Parents before children: the server inserts in payload order and
+  // messages.parent_id is a FK.
+  return local.db
+    .select()
+    .from(messages)
+    .where(inArray(messages.id, ids))
+    .orderBy(asc(messages.createdAt));
+}
+
+export async function readLocalMessageItemsByMsgIds(
+  userId: number | undefined,
+  ids: string[],
+) {
+  const local = await getLocalDb(userId);
+  if (!local || ids.length === 0) return [];
+  return local.db
+    .select()
+    .from(messageItems)
+    .where(inArray(messageItems.messageId, ids))
+    .orderBy(asc(messageItems.sequenceIndex));
 }
 
 export async function readLocalMessageItems(
@@ -211,6 +307,18 @@ export const upsertLocalConversationSettings = (
   const next = { ...row, id: row.convId } as LocalRowInput & { id: string };
   delete (next as Record<string, unknown>).convId;
   return conversationStore.upsert(userId, next);
+};
+
+// Settings-only patch on an EXISTING conversation row; never creates it (the
+// parent row is owned by initialize()/clone). Avoids the upsert candidate-row
+// NOT NULL trip when a partial omits a no-default column like default_model.
+export const updateLocalConversationSettings = (
+  userId: number | undefined,
+  row: LocalRowInput & { convId: string },
+) => {
+  const patch = { ...row } as Record<string, unknown>;
+  delete patch.convId;
+  return conversationStore.update(userId, row.convId, patch);
 };
 
 export async function deleteLocalMessagesForConv(
@@ -371,6 +479,61 @@ export async function upsertLocalConversationBundle(
     if (!remoteMsgIds.has(it.messageId as string)) continue;
     if (!replacedMsgIds.includes(it.messageId as string)) continue;
     await local.db.insert(messageItems).values(it as never);
+  }
+
+  // Deletion propagation: the bundle is the FULL server state, so a local
+  // message absent from it was deleted on another device, UNLESS it is newer
+  // than the conv stamp (a local-only turn not yet pushed). Items cascade.
+  const remoteConvStamp = bundle.conversation.updatedAt
+    ? new Date(
+        bundle.conversation.updatedAt as Date | number | string,
+      ).getTime()
+    : 0;
+  const staleMsgIds = existingMessages
+    .filter(
+      (m) =>
+        !remoteMsgIds.has(m.id) &&
+        (localMsgUpdatedAt.get(m.id) ?? 0) <= remoteConvStamp,
+    )
+    .map((m) => m.id);
+  if (staleMsgIds.length > 0) {
+    await local.db.delete(messages).where(inArray(messages.id, staleMsgIds));
+  }
+
+  // Same for bindings: joins absent from the bundle were unbound remotely.
+  // createdAt guards local-only bindings made after the remote edit.
+  const remoteCharIds = new Set(
+    bundle.conversationCharacters.map((c) => c.characterId as string),
+  );
+  const remoteLbIds = new Set(
+    bundle.conversationLorebooks.map((l) => l.lorebookId as string),
+  );
+  const localBindings = await readLocalConversationBindings(userId, convId);
+  for (const c of localBindings?.conversationCharacters ?? []) {
+    const created = c.createdAt ? new Date(c.createdAt).getTime() : 0;
+    if (!remoteCharIds.has(c.characterId) && created <= remoteConvStamp) {
+      await local.db
+        .delete(conversationCharacters)
+        .where(
+          and(
+            eq(conversationCharacters.convId, convId),
+            eq(conversationCharacters.characterId, c.characterId),
+          ),
+        );
+    }
+  }
+  for (const l of localBindings?.conversationLorebooks ?? []) {
+    const created = l.createdAt ? new Date(l.createdAt).getTime() : 0;
+    if (!remoteLbIds.has(l.lorebookId) && created <= remoteConvStamp) {
+      await local.db
+        .delete(conversationLorebooks)
+        .where(
+          and(
+            eq(conversationLorebooks.convId, convId),
+            eq(conversationLorebooks.lorebookId, l.lorebookId),
+          ),
+        );
+    }
   }
 
   // Media keyed on row id; mergeChildRows preserves local-only + base64 cache.
