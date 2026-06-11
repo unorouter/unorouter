@@ -8,8 +8,11 @@ import { APP_VALUES } from "@/lib/config/constants";
 import { useAuiState } from "@assistant-ui/react";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef } from "react";
-import { CharacterBackground } from "./character-background";
-import { ActiveConfigBadge, NeedsTokenGate } from "./chat-elements";
+import {
+  ActiveConfigBadge,
+  CharacterBackground,
+  NeedsTokenGate,
+} from "./chat-elements";
 
 type ChatProps = {
   convId?: string;

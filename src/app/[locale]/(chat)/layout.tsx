@@ -3,7 +3,6 @@ import { SidebarLayout } from "@/components/layout/sidebar/sidebar-layout";
 import { RpDialogs } from "@/components/pages/sidebar/chat/rp/rp-dialogs";
 import { ChatRuntimeProvider } from "@/components/pages/sidebar/chat/runtime/chat-runtime-provider";
 import { ConversationList } from "@/components/pages/sidebar/chat/sidebar/conversation-list";
-import { SyncStateHydrator } from "@/lib/db/client/sync/sync-state-hydrator";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
@@ -34,16 +33,11 @@ export default async function ChatLayout(props: Props) {
           ...cookieHeaders!,
         }),
       ),
-    isLoggedIn &&
-      prefetchElysia(queryClient, queryKeys.syncState(), () =>
-        rpc.api.ai.sync.state.get(cookieHeaders!),
-      ),
   ]);
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <ChatRuntimeProvider>
-        <SyncStateHydrator />
         <SidebarLayout navConfig="chat" chatContent={<ConversationList />}>
           {props.children}
         </SidebarLayout>

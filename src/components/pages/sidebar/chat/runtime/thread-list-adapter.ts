@@ -1,4 +1,3 @@
-import { GUEST_USER_ID } from "@/lib/config/constants";
 import {
   deleteLocalConversation,
   readLocalConversation,
@@ -252,23 +251,6 @@ export function createThreadListAdapter(
           status: "regular",
           title: local.title ?? undefined,
         };
-      }
-
-      if (userId() > GUEST_USER_ID) {
-        try {
-          const res = handleElysia(
-            await rpc.api.ai
-              .sync({ kind: "conversations" })({ id })
-              .bundle.get(),
-          ) as { conversation?: { title?: string | null } } | undefined;
-          if (res?.conversation) {
-            return {
-              remoteId: id,
-              status: "regular",
-              title: res.conversation.title ?? undefined,
-            };
-          }
-        } catch {}
       }
 
       handleError(new Error("chat-not-found"), t, "chat-not-found");

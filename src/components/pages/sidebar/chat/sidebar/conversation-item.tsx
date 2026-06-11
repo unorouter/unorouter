@@ -3,14 +3,12 @@
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Icon } from "@/components/ui/icon";
 import { useUpdateConversationMutation } from "@/hooks/ai/chat-hook";
-import { useSyncStateForRow } from "@/hooks/ai/sync-hook";
 import { useQueuedSends } from "@/hooks/ai/use-queued-sends";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { usePricingQuery } from "@/hooks/models/pricing-hook";
 import { analytics } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
-import { dayjs } from "@/lib/utils/format/date";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { ConversationItemEditor } from "./conversation-item-editor";
 import { ConversationItemMenu } from "./conversation-item-menu";
@@ -30,7 +28,6 @@ type ConversationItemProps = {
 
 export function ConversationItem(props: ConversationItemProps) {
   const t = useTranslations();
-  const locale = useLocale();
   const auth = useAuthQuery();
   const isLoggedIn = !!auth.data;
   const pricingQuery = usePricingQuery();

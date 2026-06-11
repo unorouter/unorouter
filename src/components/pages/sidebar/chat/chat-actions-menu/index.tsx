@@ -1,9 +1,27 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Icon } from "@/components/ui/icon";
+import { conversationSettingsOpenAtom } from "@/store/chat-store";
+import { useAtom } from "jotai";
+import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
-// Both panels are action-gated; their module graphs (overrides form pulls the
-// TypeBox validation schemas, the studio pulls @libsqlstudio/gui) must load on
-// first open, not with the chat shell.
+import { useState } from "react";
+import { ConversationMenuItems } from "./conversation-menu-items";
+import { ImportExportSubmenu } from "./import-export-submenu";
+import { RpNavItems } from "./rp-nav-items";
+
+type Props = {
+  convId: string | null;
+};
+
 const ConversationOverridesDrawer = dynamic(
   () =>
     import("@/components/pages/sidebar/chat/overrides").then(
@@ -18,36 +36,11 @@ const LocalDbStudio = dynamic(
     ),
   { ssr: false },
 );
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Icon } from "@/components/ui/icon";
-import { useAuthQuery } from "@/hooks/auth/auth-hook";
-import { conversationSettingsOpenAtom } from "@/store/chat-store";
-import { useAtom } from "jotai";
-import { useTranslations } from "next-intl";
-import { useState } from "react";
-import { ConversationMenuItems } from "./conversation-menu-items";
-import { ImportExportSubmenu } from "./import-export-submenu";
-import { RpNavItems } from "./rp-nav-items";
-import { SyncMenuItems } from "./sync-menu-items";
-
-type Props = {
-  convId: string | null;
-};
 
 export function ChatActionsMenu(props: Props) {
   const t = useTranslations();
-  const auth = useAuthQuery();
   const [dbStudioOpen, setDbStudioOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useAtom(conversationSettingsOpenAtom);
-
-  const isLoggedIn = !!auth.data;
 
   return (
     <>
@@ -72,7 +65,6 @@ export function ChatActionsMenu(props: Props) {
           <DropdownMenuSeparator />
           <RpNavItems />
           <DropdownMenuSeparator />
-          <SyncMenuItems convId={props.convId} isLoggedIn={isLoggedIn} />
           <ImportExportSubmenu convId={props.convId} />
           <DropdownMenuSeparator />
           <ConversationMenuItems
