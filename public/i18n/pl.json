@@ -2085,7 +2085,6 @@
       "DELETE_GENERATION_TITLE": "Usunąć generację?",
       "DELETE_GENERATION_DESC": "To trwale usuwa tę generację i jej obrazy.",
       "CLEAR_CHAT_TITLE": "Wyczyścić chat?",
-      "REMOVE_SYNC_TITLE": "Usunąć z synchronizacji?",
       "WIPE_DB_TITLE": "Wymazać lokalną bazę danych?",
       "UPLOAD_DB_TITLE": "Nadpisać lokalną bazę danych?"
     }
@@ -3497,26 +3496,5 @@
     "UPLOAD_IMAGE": "Prześlij obraz",
     "UPLOADING": "Przesyłanie...",
     "INIT_IMAGE": "Obraz źródłowy"
-  },
-  "SYNC": {
-    "NOT_SYNCED": "Niezsynchronizowany",
-    "SYNCED": "Zsynchronizowany",
-    "EXPIRES_AT": "Zsynchronizowany - wygasa {date}",
-    "ADD_SYNC": "Dodaj synchronizację (30 dni)",
-    "RESYNC": "Resynchronizuj",
-    "RESYNC_EXPIRES": "Resynchronizuj (wygasa {date})",
-    "REMOVE_SYNC": "Usuń synchronizację",
-    "CONFIRM_REMOVE": "Usunąć ten element z synchronizacji serwera? Lokalna kopia jest zachowana.",
-    "DLQ_TOAST": "{items} nie udało się zsynchronizować po ponowieniach.",
-    "DLQ_KIND_COUNT": "{count} {kind}",
-    "DLQ_RETRY": "Ponów",
-    "DLQ_RETRY_SUCCESS": "Ponowienie synchronizacji powiodło się.",
-    "DLQ_RETRY_FAILED": "Niektóre elementy nadal zawodzą. Sprawdź połączenie i spróbuj ponownie.",
-    "PENDING_RETRY": "Oczekująca synchronizacja - ponowienie {n}/{max}",
-    "SYNC_FAILED": "Synchronizacja nie powiodła się",
-    "RETRY_NOW": "Ponów teraz",
-    "RETRY_SUCCESS": "Zsynchronizowano.",
-    "PENDING_TOOLTIP": "Ostatni błąd: {error}",
-    "LOCAL_NEWER_PRESERVED": "Zachowano {count} lokalnych edycji, które były nowsze niż kopia serwera."
   }
 }

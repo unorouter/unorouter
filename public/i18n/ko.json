@@ -2085,7 +2085,6 @@
       "DELETE_GENERATION_TITLE": "생성물을 삭제하시겠습니까?",
       "DELETE_GENERATION_DESC": "이 생성물과 이미지가 영구적으로 삭제됩니다.",
       "CLEAR_CHAT_TITLE": "채팅을 지우시겠습니까?",
-      "REMOVE_SYNC_TITLE": "동기화에서 제거하시겠습니까?",
       "WIPE_DB_TITLE": "로컬 데이터베이스를 지우시겠습니까?",
       "UPLOAD_DB_TITLE": "로컬 데이터베이스를 덮어쓰시겠습니까?"
     }
@@ -3497,26 +3496,5 @@
     "UPLOAD_IMAGE": "이미지 업로드",
     "UPLOADING": "업로드 중...",
     "INIT_IMAGE": "원본 이미지"
-  },
-  "SYNC": {
-    "NOT_SYNCED": "동기화되지 않음",
-    "SYNCED": "동기화됨",
-    "EXPIRES_AT": "동기화됨 - {date} 만료",
-    "ADD_SYNC": "동기화 추가 (30일)",
-    "RESYNC": "재동기화",
-    "RESYNC_EXPIRES": "재동기화 ({date} 만료)",
-    "REMOVE_SYNC": "동기화 제거",
-    "CONFIRM_REMOVE": "이 항목을 서버 동기화에서 제거하시겠습니까? 로컬 사본은 유지됩니다.",
-    "DLQ_TOAST": "{items}이(가) 재시도 후 동기화에 실패함.",
-    "DLQ_KIND_COUNT": "{count} {kind}",
-    "DLQ_RETRY": "재시도",
-    "DLQ_RETRY_SUCCESS": "동기화 재시도 성공.",
-    "DLQ_RETRY_FAILED": "일부 항목이 여전히 실패했습니다. 연결을 확인하고 다시 시도하세요.",
-    "PENDING_RETRY": "동기화 대기 중 - 재시도 {n}/{max}",
-    "SYNC_FAILED": "동기화 실패",
-    "RETRY_NOW": "지금 재시도",
-    "RETRY_SUCCESS": "동기화됨.",
-    "PENDING_TOOLTIP": "마지막 오류: {error}",
-    "LOCAL_NEWER_PRESERVED": "서버 사본보다 최신인 로컬 편집 {count}개를 유지했습니다."
   }
 }

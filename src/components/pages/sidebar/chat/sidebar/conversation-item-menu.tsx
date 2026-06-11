@@ -15,7 +15,6 @@ import { useTranslations } from "next-intl";
 export function ConversationItemMenu(props: {
   conversationId: string;
   isSelected: boolean;
-  isLoggedIn: boolean;
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onRename: () => void;

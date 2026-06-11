@@ -2085,7 +2085,6 @@
       "DELETE_GENERATION_TITLE": "למחוק את הייצור?",
       "DELETE_GENERATION_DESC": "פעולה זו מוחקת את הייצור הזה ואת התמונות שלו לצמיתות.",
       "CLEAR_CHAT_TITLE": "לנקות צ'אט?",
-      "REMOVE_SYNC_TITLE": "להסיר מסנכרון?",
       "WIPE_DB_TITLE": "למחוק את מסד הנתונים המקומי?",
       "UPLOAD_DB_TITLE": "לדרוס את מסד הנתונים המקומי?"
     }
@@ -3497,26 +3496,5 @@
     "UPLOAD_IMAGE": "העלה תמונה",
     "UPLOADING": "מעלה...",
     "INIT_IMAGE": "תמונת מקור"
-  },
-  "SYNC": {
-    "NOT_SYNCED": "לא מסונכרן",
-    "SYNCED": "מסונכרן",
-    "EXPIRES_AT": "מסונכרן - פג {date}",
-    "ADD_SYNC": "הוסף סנכרון (30 ימים)",
-    "RESYNC": "סנכרן שוב",
-    "RESYNC_EXPIRES": "סנכרן שוב (פג {date})",
-    "REMOVE_SYNC": "הסר סנכרון",
-    "CONFIRM_REMOVE": "להסיר את הפריט הזה מסנכרון השרת? עותק מקומי נשמר.",
-    "DLQ_TOAST": "{items} נכשלו בסנכרון אחרי ניסיונות.",
-    "DLQ_KIND_COUNT": "{count} {kind}",
-    "DLQ_RETRY": "נסה שוב",
-    "DLQ_RETRY_SUCCESS": "ניסיון הסנכרון הצליח.",
-    "DLQ_RETRY_FAILED": "חלק מהפריטים עדיין נכשלים. בדקו את החיבור ונסו שוב.",
-    "PENDING_RETRY": "סנכרון ממתין - ניסיון {n}/{max}",
-    "SYNC_FAILED": "הסנכרון נכשל",
-    "RETRY_NOW": "נסה שוב עכשיו",
-    "RETRY_SUCCESS": "מסונכרן.",
-    "PENDING_TOOLTIP": "שגיאה אחרונה: {error}",
-    "LOCAL_NEWER_PRESERVED": "נשמרו {count} עריכות מקומיות שהיו חדשות יותר מעותק השרת."
   }
 }

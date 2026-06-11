@@ -2085,7 +2085,6 @@
       "DELETE_GENERATION_TITLE": "刪除生成紀錄？",
       "DELETE_GENERATION_DESC": "此操作將永久刪除該生成紀錄及其圖片。",
       "CLEAR_CHAT_TITLE": "清空對話？",
-      "REMOVE_SYNC_TITLE": "從同步中移除？",
       "WIPE_DB_TITLE": "清空本機資料庫？",
       "UPLOAD_DB_TITLE": "覆寫本機資料庫？"
     }
@@ -3497,26 +3496,5 @@
     "UPLOAD_IMAGE": "上傳圖片",
     "UPLOADING": "上傳中…",
     "INIT_IMAGE": "來源圖像"
-  },
-  "SYNC": {
-    "NOT_SYNCED": "未同步",
-    "SYNCED": "已同步",
-    "EXPIRES_AT": "已同步，{date} 到期",
-    "ADD_SYNC": "開啟同步（30 天）",
-    "RESYNC": "重新同步",
-    "RESYNC_EXPIRES": "重新同步（{date} 到期）",
-    "REMOVE_SYNC": "關閉同步",
-    "CONFIRM_REMOVE": "將此項目從伺服器同步中移除？本機副本仍會保留。",
-    "DLQ_TOAST": "{items}在多次重試後仍未能同步。",
-    "DLQ_KIND_COUNT": "{count}個{kind}",
-    "DLQ_RETRY": "重試",
-    "DLQ_RETRY_SUCCESS": "同步重試成功。",
-    "DLQ_RETRY_FAILED": "部分項目仍未成功。請檢查網路後再試。",
-    "PENDING_RETRY": "同步待處理 - 第{n}/{max}次",
-    "SYNC_FAILED": "同步失敗",
-    "RETRY_NOW": "立即重試",
-    "RETRY_SUCCESS": "已同步。",
-    "PENDING_TOOLTIP": "最近錯誤：{error}",
-    "LOCAL_NEWER_PRESERVED": "保留了{count}條比伺服器更新的本地修改。"
   }
 }

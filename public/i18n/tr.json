@@ -2085,7 +2085,6 @@
       "DELETE_GENERATION_TITLE": "Üretimi sil?",
       "DELETE_GENERATION_DESC": "Bu üretimi ve görsellerini kalıcı olarak siler.",
       "CLEAR_CHAT_TITLE": "Sohbeti temizle?",
-      "REMOVE_SYNC_TITLE": "Senkronizasyondan kaldır?",
       "WIPE_DB_TITLE": "Yerel veritabanını sil?",
       "UPLOAD_DB_TITLE": "Yerel veritabanının üzerine yaz?"
     }
@@ -3497,26 +3496,5 @@
     "UPLOAD_IMAGE": "Görsel yükle",
     "UPLOADING": "Yükleniyor...",
     "INIT_IMAGE": "Kaynak görsel"
-  },
-  "SYNC": {
-    "NOT_SYNCED": "Senkronize değil",
-    "SYNCED": "Senkronize",
-    "EXPIRES_AT": "Senkronize - {date}'de süre doluyor",
-    "ADD_SYNC": "Senkronizasyon ekle (30 gün)",
-    "RESYNC": "Yeniden Senkronize",
-    "RESYNC_EXPIRES": "Yeniden Senkronize ({date}'de süre doluyor)",
-    "REMOVE_SYNC": "Senkronizasyonu Kaldır",
-    "CONFIRM_REMOVE": "Bu öğeyi sunucu senkronizasyonundan kaldır? Yerel kopya korunur.",
-    "DLQ_TOAST": "{items} yeniden denemeler sonrası senkronize edilemedi.",
-    "DLQ_KIND_COUNT": "{count} {kind}",
-    "DLQ_RETRY": "Yeniden Dene",
-    "DLQ_RETRY_SUCCESS": "Senkronizasyon yeniden denemesi başarılı.",
-    "DLQ_RETRY_FAILED": "Bazı öğeler hala başarısız. Bağlantıyı kontrol edin ve tekrar deneyin.",
-    "PENDING_RETRY": "Bekleyen senkronizasyon - yeniden deneme {n}/{max}",
-    "SYNC_FAILED": "Senkronizasyon başarısız",
-    "RETRY_NOW": "Şimdi yeniden dene",
-    "RETRY_SUCCESS": "Senkronize edildi.",
-    "PENDING_TOOLTIP": "Son hata: {error}",
-    "LOCAL_NEWER_PRESERVED": "Sunucu kopyasından daha yeni olan {count} yerel düzenleme korundu."
   }
 }

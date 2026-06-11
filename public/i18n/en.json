@@ -2085,7 +2085,6 @@
       "DELETE_GENERATION_TITLE": "Delete generation?",
       "DELETE_GENERATION_DESC": "This permanently deletes this generation and its images.",
       "CLEAR_CHAT_TITLE": "Clear chat?",
-      "REMOVE_SYNC_TITLE": "Remove from sync?",
       "WIPE_DB_TITLE": "Wipe local database?",
       "UPLOAD_DB_TITLE": "Overwrite local database?"
     }
@@ -3497,26 +3496,5 @@
     "UPLOAD_IMAGE": "Upload image",
     "UPLOADING": "Uploading...",
     "INIT_IMAGE": "Source image"
-  },
-  "SYNC": {
-    "NOT_SYNCED": "Not synced",
-    "SYNCED": "Synced",
-    "EXPIRES_AT": "Synced - expires {date}",
-    "ADD_SYNC": "Add sync (30 days)",
-    "RESYNC": "Resync",
-    "RESYNC_EXPIRES": "Resync (expires {date})",
-    "REMOVE_SYNC": "Remove sync",
-    "CONFIRM_REMOVE": "Remove this item from server sync? Local copy is kept.",
-    "DLQ_TOAST": "{items} failed to sync after retries.",
-    "DLQ_KIND_COUNT": "{count} {kind}",
-    "DLQ_RETRY": "Retry",
-    "DLQ_RETRY_SUCCESS": "Sync retry succeeded.",
-    "DLQ_RETRY_FAILED": "Some items still failed. Check connection and try again.",
-    "PENDING_RETRY": "Pending sync - retry {n}/{max}",
-    "SYNC_FAILED": "Sync failed",
-    "RETRY_NOW": "Retry now",
-    "RETRY_SUCCESS": "Synced.",
-    "PENDING_TOOLTIP": "Last error: {error}",
-    "LOCAL_NEWER_PRESERVED": "Kept {count} local edits that were newer than the server copy."
   }
 }

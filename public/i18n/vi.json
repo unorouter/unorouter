@@ -2085,7 +2085,6 @@
       "DELETE_GENERATION_TITLE": "Xoá lần tạo?",
       "DELETE_GENERATION_DESC": "Thao tác này xoá vĩnh viễn lần tạo này và các ảnh của nó.",
       "CLEAR_CHAT_TITLE": "Xoá nội dung trò chuyện?",
-      "REMOVE_SYNC_TITLE": "Gỡ khỏi đồng bộ?",
       "WIPE_DB_TITLE": "Xoá sạch cơ sở dữ liệu cục bộ?",
       "UPLOAD_DB_TITLE": "Ghi đè cơ sở dữ liệu cục bộ?"
     }
@@ -3497,26 +3496,5 @@
     "UPLOAD_IMAGE": "Tải ảnh lên",
     "UPLOADING": "Đang tải lên...",
     "INIT_IMAGE": "Ảnh nguồn"
-  },
-  "SYNC": {
-    "NOT_SYNCED": "Chưa đồng bộ",
-    "SYNCED": "Đã đồng bộ",
-    "EXPIRES_AT": "Đã đồng bộ - hết hạn {date}",
-    "ADD_SYNC": "Bật đồng bộ (30 ngày)",
-    "RESYNC": "Đồng bộ lại",
-    "RESYNC_EXPIRES": "Đồng bộ lại (hết hạn {date})",
-    "REMOVE_SYNC": "Tắt đồng bộ",
-    "CONFIRM_REMOVE": "Gỡ mục này khỏi đồng bộ máy chủ? Bản sao trên thiết bị vẫn được giữ.",
-    "DLQ_TOAST": "{items} không đồng bộ được sau các lần thử lại.",
-    "DLQ_KIND_COUNT": "{count} {kind}",
-    "DLQ_RETRY": "Thử lại",
-    "DLQ_RETRY_SUCCESS": "Thử lại đồng bộ thành công.",
-    "DLQ_RETRY_FAILED": "Một số mục vẫn thất bại. Kiểm tra kết nối và thử lại.",
-    "PENDING_RETRY": "Đang chờ đồng bộ - lần thử {n}/{max}",
-    "SYNC_FAILED": "Đồng bộ thất bại",
-    "RETRY_NOW": "Thử lại ngay",
-    "RETRY_SUCCESS": "Đã đồng bộ.",
-    "PENDING_TOOLTIP": "Lỗi gần nhất: {error}",
-    "LOCAL_NEWER_PRESERVED": "Giữ {count} chỉnh sửa cục bộ mới hơn bản trên máy chủ."
   }
 }

@@ -80,12 +80,12 @@ export default async function ModelDetailPage(props: PageProps) {
 
   const queryClient = getQueryClient();
   const cookieHeaders = await setCookies();
-  await prefetchElysia(queryClient, queryKeys.auth(), () =>
-    rpc.api.auth.account.self.get(cookieHeaders!),
+  await prefetchElysia(queryClient, queryKeys.auth(), (cookies) =>
+    rpc.api.auth.account.self.get(cookies),
   );
   const isLoggedIn = !!queryClient.getQueryData(queryKeys.auth());
   if (isLoggedIn) {
-    await prefetchElysia(queryClient, queryKeys.bestKey(), () =>
+    await prefetchElysia(queryClient, queryKeys.bestKey(), (cookies) =>
       rpc.api.billing.token["best-key"].get({ ...cookieHeaders }),
     );
   }

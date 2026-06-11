@@ -59,10 +59,7 @@ export const queryKeys = {
   cards: () => ["rp-cards"] as const,
   card: (id: string) => ["rp-card", id] as const,
 
-  syncState: () => ["sync-state"] as const,
-  pendingSync: () => ["pending-sync"] as const,
   requestLog: (msgId: string) => ["request-log", msgId] as const,
-  usedProvider: (requestId: string) => ["used-provider", requestId] as const,
 
   pricing: () => ["pricing"] as const,
   searchIndex: (locale: string) => ["search-index", locale] as const,

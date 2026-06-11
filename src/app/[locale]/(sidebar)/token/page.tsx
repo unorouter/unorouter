@@ -9,7 +9,6 @@ import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { DataTableId, StoreId } from "@/lib/types/enums";
-import { setCookies } from "@/lib/utils/server";
 import type { DataTableStores } from "@/store/data-table-store";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { cookies } from "next/headers";
@@ -17,7 +16,6 @@ import { cookies } from "next/headers";
 export default async function TokensPage() {
   const queryClient = getQueryClient();
   const cookie = await cookies();
-  const cookieHeaders = await setCookies();
 
   const tableStores = loadDataFromCookie<DataTableStores>(
     StoreId.DATA_TABLES_STORE,
@@ -30,10 +28,10 @@ export default async function TokensPage() {
   const keyword = tokensTable?.globalFilter || undefined;
 
   await Promise.all([
-    prefetchElysia(queryClient, queryKeys.tokens({ p, keyword }), () =>
+    prefetchElysia(queryClient, queryKeys.tokens({ p, keyword }), (cookies) =>
       rpc.api.billing.token.search.get({
         query: { p, keyword },
-        ...cookieHeaders,
+        ...cookies,
       }),
     ),
     prefetchElysia(queryClient, queryKeys.pricing(), () =>

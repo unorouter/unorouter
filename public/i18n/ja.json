@@ -2085,7 +2085,6 @@
       "DELETE_GENERATION_TITLE": "生成を削除しますか？",
       "DELETE_GENERATION_DESC": "この生成とその画像を完全に削除します。",
       "CLEAR_CHAT_TITLE": "チャットを消去しますか？",
-      "REMOVE_SYNC_TITLE": "同期から削除しますか？",
       "WIPE_DB_TITLE": "ローカルデータベースを消去しますか？",
       "UPLOAD_DB_TITLE": "ローカルデータベースを上書きしますか？"
     }
@@ -3497,26 +3496,5 @@
     "UPLOAD_IMAGE": "画像をアップロード",
     "UPLOADING": "アップロード中...",
     "INIT_IMAGE": "ソース画像"
-  },
-  "SYNC": {
-    "NOT_SYNCED": "未同期",
-    "SYNCED": "同期済み",
-    "EXPIRES_AT": "同期済み - {date} に期限切れ",
-    "ADD_SYNC": "同期を有効化（30日）",
-    "RESYNC": "再同期",
-    "RESYNC_EXPIRES": "再同期（{date} に期限切れ）",
-    "REMOVE_SYNC": "同期を解除",
-    "CONFIRM_REMOVE": "このアイテムをサーバー同期から外しますか？ローカルのコピーは保持されます。",
-    "DLQ_TOAST": "{items} の同期に失敗しました（再試行後）。",
-    "DLQ_KIND_COUNT": "{kind} {count}件",
-    "DLQ_RETRY": "再試行",
-    "DLQ_RETRY_SUCCESS": "同期の再試行が成功しました。",
-    "DLQ_RETRY_FAILED": "一部の項目がまだ失敗しています。接続を確認して再試行してください。",
-    "PENDING_RETRY": "同期保留中 - 試行 {n}/{max}",
-    "SYNC_FAILED": "同期に失敗",
-    "RETRY_NOW": "今すぐ再試行",
-    "RETRY_SUCCESS": "同期しました。",
-    "PENDING_TOOLTIP": "最後のエラー：{error}",
-    "LOCAL_NEWER_PRESERVED": "サーバーより新しいローカル編集{count}件を保持しました。"
   }
 }

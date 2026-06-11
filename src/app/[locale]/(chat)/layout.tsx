@@ -6,7 +6,6 @@ import { ConversationList } from "@/components/pages/sidebar/chat/sidebar/conver
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
-import { setCookies } from "@/lib/utils/server";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 
 type Props = {
@@ -15,10 +14,9 @@ type Props = {
 
 export default async function ChatLayout(props: Props) {
   const queryClient = getQueryClient();
-  const cookieHeaders = await setCookies();
 
-  await prefetchElysia(queryClient, queryKeys.auth(), () =>
-    rpc.api.auth.account.self.get(cookieHeaders!),
+  await prefetchElysia(queryClient, queryKeys.auth(), (cookies) =>
+    rpc.api.auth.account.self.get(cookies),
   );
 
   const isLoggedIn = !!queryClient.getQueryData(queryKeys.auth());
@@ -28,9 +26,9 @@ export default async function ChatLayout(props: Props) {
       rpc.api.models.pricing.get(),
     ),
     isLoggedIn &&
-      prefetchElysia(queryClient, queryKeys.bestKey(), () =>
+      prefetchElysia(queryClient, queryKeys.bestKey(), (cookies) =>
         rpc.api.billing.token["best-key"].get({
-          ...cookieHeaders!,
+          ...cookies,
         }),
       ),
   ]);

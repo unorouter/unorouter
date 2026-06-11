@@ -2085,7 +2085,6 @@
       "DELETE_GENERATION_TITLE": "Hapus generasi?",
       "DELETE_GENERATION_DESC": "Ini menghapus generasi ini dan gambarnya secara permanen.",
       "CLEAR_CHAT_TITLE": "Bersihkan chat?",
-      "REMOVE_SYNC_TITLE": "Hapus dari sinkronisasi?",
       "WIPE_DB_TITLE": "Hapus database lokal?",
       "UPLOAD_DB_TITLE": "Timpa database lokal?"
     }
@@ -3497,26 +3496,5 @@
     "UPLOAD_IMAGE": "Unggah gambar",
     "UPLOADING": "Mengunggah...",
     "INIT_IMAGE": "Gambar sumber"
-  },
-  "SYNC": {
-    "NOT_SYNCED": "Tidak disinkronkan",
-    "SYNCED": "Disinkronkan",
-    "EXPIRES_AT": "Disinkronkan - kedaluwarsa {date}",
-    "ADD_SYNC": "Tambah sinkronisasi (30 hari)",
-    "RESYNC": "Sinkron Ulang",
-    "RESYNC_EXPIRES": "Sinkron Ulang (kedaluwarsa {date})",
-    "REMOVE_SYNC": "Hapus sinkronisasi",
-    "CONFIRM_REMOVE": "Hapus item ini dari sinkronisasi server? Salinan lokal disimpan.",
-    "DLQ_TOAST": "{items} gagal disinkronkan setelah dicoba ulang.",
-    "DLQ_KIND_COUNT": "{count} {kind}",
-    "DLQ_RETRY": "Coba Lagi",
-    "DLQ_RETRY_SUCCESS": "Percobaan ulang sinkronisasi berhasil.",
-    "DLQ_RETRY_FAILED": "Beberapa item masih gagal. Periksa koneksi dan coba lagi.",
-    "PENDING_RETRY": "Sinkronisasi tertunda - percobaan ulang {n}/{max}",
-    "SYNC_FAILED": "Sinkronisasi gagal",
-    "RETRY_NOW": "Coba lagi sekarang",
-    "RETRY_SUCCESS": "Disinkronkan.",
-    "PENDING_TOOLTIP": "Error terakhir: {error}",
-    "LOCAL_NEWER_PRESERVED": "Mempertahankan {count} edit lokal yang lebih baru dari salinan server."
   }
 }

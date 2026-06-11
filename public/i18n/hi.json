@@ -2085,7 +2085,6 @@
       "DELETE_GENERATION_TITLE": "Generation हटाएं?",
       "DELETE_GENERATION_DESC": "यह स्थायी रूप से इस generation और इसकी images को हटा देता है।",
       "CLEAR_CHAT_TITLE": "Chat clear करें?",
-      "REMOVE_SYNC_TITLE": "Sync से हटाएं?",
       "WIPE_DB_TITLE": "Local database wipe करें?",
       "UPLOAD_DB_TITLE": "Local database overwrite करें?"
     }
@@ -3497,26 +3496,5 @@
     "UPLOAD_IMAGE": "Image अपलोड करें",
     "UPLOADING": "अपलोड हो रहा है...",
     "INIT_IMAGE": "Source image"
-  },
-  "SYNC": {
-    "NOT_SYNCED": "Synced नहीं",
-    "SYNCED": "Synced",
-    "EXPIRES_AT": "Synced - {date} को समाप्त होता है",
-    "ADD_SYNC": "Sync जोड़ें (30 दिन)",
-    "RESYNC": "Resync",
-    "RESYNC_EXPIRES": "Resync ({date} को समाप्त)",
-    "REMOVE_SYNC": "Sync हटाएं",
-    "CONFIRM_REMOVE": "इस item को server sync से हटाएं? Local copy रखी जाती है।",
-    "DLQ_TOAST": "Retries के बाद {items} sync करने में विफल हुए।",
-    "DLQ_KIND_COUNT": "{count} {kind}",
-    "DLQ_RETRY": "पुनः प्रयास करें",
-    "DLQ_RETRY_SUCCESS": "Sync पुनः प्रयास सफल।",
-    "DLQ_RETRY_FAILED": "कुछ items अभी भी विफल हुए। Connection जांचें और पुनः प्रयास करें।",
-    "PENDING_RETRY": "Pending sync - पुनः प्रयास {n}/{max}",
-    "SYNC_FAILED": "Sync विफल",
-    "RETRY_NOW": "अभी पुनः प्रयास करें",
-    "RETRY_SUCCESS": "Synced.",
-    "PENDING_TOOLTIP": "अंतिम error: {error}",
-    "LOCAL_NEWER_PRESERVED": "{count} local edits रखे जो server copy से नए थे।"
   }
 }

@@ -2085,7 +2085,6 @@
       "DELETE_GENERATION_TITLE": "Deletar geração?",
       "DELETE_GENERATION_DESC": "Isso deleta permanentemente esta geração e suas imagens.",
       "CLEAR_CHAT_TITLE": "Limpar chat?",
-      "REMOVE_SYNC_TITLE": "Remover da sincronização?",
       "WIPE_DB_TITLE": "Limpar banco de dados local?",
       "UPLOAD_DB_TITLE": "Sobrescrever banco de dados local?"
     }
@@ -3497,26 +3496,5 @@
     "UPLOAD_IMAGE": "Upload de imagem",
     "UPLOADING": "Fazendo upload...",
     "INIT_IMAGE": "Imagem fonte"
-  },
-  "SYNC": {
-    "NOT_SYNCED": "Não sincronizado",
-    "SYNCED": "Sincronizado",
-    "EXPIRES_AT": "Sincronizado - expira {date}",
-    "ADD_SYNC": "Adicionar sincronização (30 dias)",
-    "RESYNC": "Ressincronizar",
-    "RESYNC_EXPIRES": "Ressincronizar (expira {date})",
-    "REMOVE_SYNC": "Remover sincronização",
-    "CONFIRM_REMOVE": "Remover este item da sincronização do servidor? Cópia local é mantida.",
-    "DLQ_TOAST": "{items} falharam ao sincronizar após tentativas.",
-    "DLQ_KIND_COUNT": "{count} {kind}",
-    "DLQ_RETRY": "Tentar novamente",
-    "DLQ_RETRY_SUCCESS": "Nova tentativa de sincronização bem-sucedida.",
-    "DLQ_RETRY_FAILED": "Alguns itens ainda falharam. Verifique conexão e tente novamente.",
-    "PENDING_RETRY": "Sincronização pendente - tentativa {n}/{max}",
-    "SYNC_FAILED": "Sincronização falhou",
-    "RETRY_NOW": "Tentar novamente agora",
-    "RETRY_SUCCESS": "Sincronizado.",
-    "PENDING_TOOLTIP": "Último erro: {error}",
-    "LOCAL_NEWER_PRESERVED": "Manteve {count} edições locais que eram mais novas que a cópia do servidor."
   }
 }

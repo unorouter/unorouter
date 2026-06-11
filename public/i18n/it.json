@@ -2085,7 +2085,6 @@
       "DELETE_GENERATION_TITLE": "Eliminare la generazione?",
       "DELETE_GENERATION_DESC": "Questo elimina permanentemente questa generazione e le sue immagini.",
       "CLEAR_CHAT_TITLE": "Cancellare la chat?",
-      "REMOVE_SYNC_TITLE": "Rimuovere dalla sincronizzazione?",
       "WIPE_DB_TITLE": "Cancellare il database locale?",
       "UPLOAD_DB_TITLE": "Sovrascrivere il database locale?"
     }
@@ -3497,26 +3496,5 @@
     "UPLOAD_IMAGE": "Carica immagine",
     "UPLOADING": "Caricamento...",
     "INIT_IMAGE": "Immagine sorgente"
-  },
-  "SYNC": {
-    "NOT_SYNCED": "Non sincronizzato",
-    "SYNCED": "Sincronizzato",
-    "EXPIRES_AT": "Sincronizzato - scade {date}",
-    "ADD_SYNC": "Aggiungi sync (30 giorni)",
-    "RESYNC": "Risincronizza",
-    "RESYNC_EXPIRES": "Risincronizza (scade {date})",
-    "REMOVE_SYNC": "Rimuovi sync",
-    "CONFIRM_REMOVE": "Rimuovere questo elemento dal sync del server? La copia locale viene mantenuta.",
-    "DLQ_TOAST": "{items} hanno fallito la sync dopo tentativi.",
-    "DLQ_KIND_COUNT": "{count} {kind}",
-    "DLQ_RETRY": "Riprova",
-    "DLQ_RETRY_SUCCESS": "Riprova sync riuscita.",
-    "DLQ_RETRY_FAILED": "Alcuni elementi sono ancora falliti. Controlla connessione e riprova.",
-    "PENDING_RETRY": "Sync in attesa - tentativo {n}/{max}",
-    "SYNC_FAILED": "Sync fallita",
-    "RETRY_NOW": "Riprova ora",
-    "RETRY_SUCCESS": "Sincronizzato.",
-    "PENDING_TOOLTIP": "Ultimo errore: {error}",
-    "LOCAL_NEWER_PRESERVED": "Mantenute {count} modifiche locali più nuove della copia del server."
   }
 }

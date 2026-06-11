@@ -4,7 +4,6 @@ import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Icon } from "@/components/ui/icon";
 import { useUpdateConversationMutation } from "@/hooks/ai/chat-hook";
 import { useQueuedSends } from "@/hooks/ai/use-queued-sends";
-import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { usePricingQuery } from "@/hooks/models/pricing-hook";
 import { analytics } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
@@ -28,8 +27,6 @@ type ConversationItemProps = {
 
 export function ConversationItem(props: ConversationItemProps) {
   const t = useTranslations();
-  const auth = useAuthQuery();
-  const isLoggedIn = !!auth.data;
   const pricingQuery = usePricingQuery();
   const updateMutation = useUpdateConversationMutation();
   const queuedSends = useQueuedSends();
@@ -119,7 +116,6 @@ export function ConversationItem(props: ConversationItemProps) {
           <ConversationItemMenu
             conversationId={props.conversation.id}
             isSelected={props.isSelected}
-            isLoggedIn={isLoggedIn}
             open={menuOpen}
             onOpenChange={setMenuOpen}
             onRename={startEditing}

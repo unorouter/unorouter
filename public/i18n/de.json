@@ -2085,7 +2085,6 @@
       "DELETE_GENERATION_TITLE": "Generierung löschen?",
       "DELETE_GENERATION_DESC": "Dadurch werden diese Generierung und ihre Bilder endgültig gelöscht.",
       "CLEAR_CHAT_TITLE": "Chat leeren?",
-      "REMOVE_SYNC_TITLE": "Aus der Synchronisierung entfernen?",
       "WIPE_DB_TITLE": "Lokale Datenbank löschen?",
       "UPLOAD_DB_TITLE": "Lokale Datenbank überschreiben?"
     }
@@ -3497,26 +3496,5 @@
     "UPLOAD_IMAGE": "Bild hochladen",
     "UPLOADING": "Wird hochgeladen...",
     "INIT_IMAGE": "Quellbild"
-  },
-  "SYNC": {
-    "NOT_SYNCED": "Nicht synchronisiert",
-    "SYNCED": "Synchronisiert",
-    "EXPIRES_AT": "Synchronisiert - läuft ab am {date}",
-    "ADD_SYNC": "Sync aktivieren (30 Tage)",
-    "RESYNC": "Erneut synchronisieren",
-    "RESYNC_EXPIRES": "Erneut sync (läuft ab {date})",
-    "REMOVE_SYNC": "Sync entfernen",
-    "CONFIRM_REMOVE": "Dieses Element von der Server-Synchronisierung entfernen? Lokale Kopie bleibt erhalten.",
-    "DLQ_TOAST": "{items} konnten nach Wiederholungen nicht synchronisiert werden.",
-    "DLQ_KIND_COUNT": "{count} {kind}",
-    "DLQ_RETRY": "Wiederholen",
-    "DLQ_RETRY_SUCCESS": "Sync-Wiederholung erfolgreich.",
-    "DLQ_RETRY_FAILED": "Einige Einträge sind weiterhin fehlgeschlagen. Verbindung prüfen und erneut versuchen.",
-    "PENDING_RETRY": "Sync ausstehend - Versuch {n}/{max}",
-    "SYNC_FAILED": "Sync fehlgeschlagen",
-    "RETRY_NOW": "Jetzt wiederholen",
-    "RETRY_SUCCESS": "Synchronisiert.",
-    "PENDING_TOOLTIP": "Letzter Fehler: {error}",
-    "LOCAL_NEWER_PRESERVED": "{count} lokale Änderungen behalten, die neuer waren als die Serverkopie."
   }
 }

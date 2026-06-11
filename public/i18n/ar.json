@@ -2085,7 +2085,6 @@
       "DELETE_GENERATION_TITLE": "حذف الإنشاء؟",
       "DELETE_GENERATION_DESC": "هذا يحذف هذا الإنشاء وصوره نهائياً.",
       "CLEAR_CHAT_TITLE": "مسح الدردشة؟",
-      "REMOVE_SYNC_TITLE": "إزالة من المزامنة؟",
       "WIPE_DB_TITLE": "محو قاعدة البيانات المحلية؟",
       "UPLOAD_DB_TITLE": "الكتابة فوق قاعدة البيانات المحلية؟"
     }
@@ -3497,26 +3496,5 @@
     "UPLOAD_IMAGE": "رفع صورة",
     "UPLOADING": "جارٍ الرفع...",
     "INIT_IMAGE": "الصورة المصدر"
-  },
-  "SYNC": {
-    "NOT_SYNCED": "غير مُزامن",
-    "SYNCED": "مُزامن",
-    "EXPIRES_AT": "مُزامن - ينتهي {date}",
-    "ADD_SYNC": "إضافة مزامنة (30 يوماً)",
-    "RESYNC": "إعادة مزامنة",
-    "RESYNC_EXPIRES": "إعادة مزامنة (تنتهي {date})",
-    "REMOVE_SYNC": "إزالة المزامنة",
-    "CONFIRM_REMOVE": "إزالة هذا العنصر من مزامنة الخادم؟ النسخة المحلية تبقى.",
-    "DLQ_TOAST": "{items} فشلت في المزامنة بعد المحاولات.",
-    "DLQ_KIND_COUNT": "{count} {kind}",
-    "DLQ_RETRY": "إعادة المحاولة",
-    "DLQ_RETRY_SUCCESS": "نجحت إعادة محاولة المزامنة.",
-    "DLQ_RETRY_FAILED": "بعض العناصر لا تزال فاشلة. تحقّق من الاتصال وحاول مجدّداً.",
-    "PENDING_RETRY": "مزامنة معلّقة - محاولة {n}/{max}",
-    "SYNC_FAILED": "فشلت المزامنة",
-    "RETRY_NOW": "أعد المحاولة الآن",
-    "RETRY_SUCCESS": "مُزامن.",
-    "PENDING_TOOLTIP": "آخر خطأ: {error}",
-    "LOCAL_NEWER_PRESERVED": "احتُفظ بـ {count} تعديل محلي أحدث من نسخة الخادم."
   }
 }
