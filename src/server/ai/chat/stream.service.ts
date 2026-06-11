@@ -95,6 +95,16 @@ export async function streamChat(
 ) {
   const { buffered, mediaType } = await isMediaModel(body.model);
 
+  // Group resolution: the toolbar atom rides top-level `group`, but the
+  // authoritative per-conversation value lives in the sent conv settings
+  // (a new chat seeds the atom to null while its row already has a group).
+  // Prefer top-level, fall back to conv settings.
+  const settingsGroup = (
+    body.chatContext?.settings as { group?: string | null } | undefined
+  )?.group;
+  const resolvedGroup = body.group ?? settingsGroup ?? null;
+  body.group = resolvedGroup;
+
   logger.info("Stream started", {
     context: "stream",
     model: body.model,
