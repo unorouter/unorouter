@@ -5,36 +5,8 @@
     {
       "idx": 0,
       "version": "6",
-      "when": 1781120802390,
-      "tag": "0000_lively_speedball",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "6",
-      "when": 1781132400105,
-      "tag": "0001_abandoned_gorilla_man",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "6",
-      "when": 1781135214912,
-      "tag": "0002_little_doorman",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "6",
-      "when": 1781198000532,
-      "tag": "0003_famous_greymalkin",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "6",
-      "when": 1781206108984,
-      "tag": "0004_wakeful_human_fly",
+      "when": 1781209047981,
+      "tag": "0000_abnormal_young_avengers",
       "breakpoints": true
     }
   ]

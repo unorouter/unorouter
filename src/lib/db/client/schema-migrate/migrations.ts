@@ -1,6 +1,6 @@
 "use client";
 
-import { LOCAL_META_KEYS } from "@/lib/db/schema/client";
+import { LOCAL_MIGRATION_KEYS } from "@/lib/db/schema/client";
 import type { MigrationManifest } from "@/lib/types";
 import { logger } from "@/lib/utils/logger";
 import type { SQLocalDrizzle } from "sqlocal/drizzle";
@@ -14,14 +14,20 @@ export async function runMigrations(sql: SQLocalDrizzle): Promise<void> {
   // SQLite default is OFF; needed for schema cascade deletes to fire.
   await sql.sql`PRAGMA foreign_keys = ON`;
 
-  // On a fresh DB local_meta doesn't exist; the SELECT throws and signals to
-  // run every migration from the start.
+  // The cursor table is read BEFORE the manifest runs, so it can't be renamed
+  // by a normal migration. Bootstrap the rename in place: pre-rename DBs carry
+  // local_meta(key,value,updated_at); recreate the cursor under the new
+  // local_migrations(name,tag,applied_at) and copy the row, then drop the old.
+  await migrateCursorTable(sql);
+
+  // On a fresh DB local_migrations doesn't exist; the SELECT throws and signals
+  // to run every migration from the start.
   let lastTag: string | null = null;
   try {
-    const rows = await sql.sql<{ value: string }>`
-      SELECT value FROM local_meta WHERE key = ${LOCAL_META_KEYS.migrationVersion} LIMIT 1
+    const rows = await sql.sql<{ tag: string }>`
+      SELECT tag FROM local_migrations WHERE name = ${LOCAL_MIGRATION_KEYS.migrationVersion} LIMIT 1
     `;
-    lastTag = rows[0]?.value ?? null;
+    lastTag = rows[0]?.tag ?? null;
   } catch {
     lastTag = null;
   }
@@ -52,11 +58,11 @@ export async function runMigrations(sql: SQLocalDrizzle): Promise<void> {
       }
     }
     await sql.sql`
-      INSERT INTO local_meta (key, value, updated_at)
-      VALUES (${LOCAL_META_KEYS.migrationVersion}, ${m.tag}, unixepoch() * 1000)
-      ON CONFLICT(key) DO UPDATE SET
-        value = excluded.value,
-        updated_at = excluded.updated_at
+      INSERT INTO local_migrations (name, tag, applied_at)
+      VALUES (${LOCAL_MIGRATION_KEYS.migrationVersion}, ${m.tag}, unixepoch() * 1000)
+      ON CONFLICT(name) DO UPDATE SET
+        tag = excluded.tag,
+        applied_at = excluded.applied_at
     `;
   }
 
@@ -64,6 +70,33 @@ export async function runMigrations(sql: SQLocalDrizzle): Promise<void> {
   // stored DDL to the manifest and rebuild drifted tables, recovering every row
   // the new schema accepts. Runs every load, no-op when identical.
   await reconcileSchema(sql, migrations);
+}
+
+// One-time rename of the legacy cursor table local_meta(key,value,updated_at)
+// to local_migrations(name,tag,applied_at). No-op on fresh DBs (no local_meta)
+// and on already-migrated DBs. Runs before the cursor read in runMigrations.
+async function migrateCursorTable(sql: SQLocalDrizzle): Promise<void> {
+  const existing = await sql.sql<{ name: string }>(
+    `SELECT name FROM sqlite_master WHERE type = 'table' AND name IN ('local_meta', 'local_migrations')`,
+  );
+  const names = new Set(existing.map((r) => r.name));
+  if (!names.has("local_meta")) return; // fresh or already migrated
+
+  // Already migrated but a stray old table lingers: just drop it.
+  if (names.has("local_migrations")) {
+    await sql.sql(`DROP TABLE \`local_meta\``);
+    return;
+  }
+
+  await sql.sql(`CREATE TABLE \`local_migrations\` (
+    \`name\` text PRIMARY KEY NOT NULL,
+    \`tag\` text NOT NULL,
+    \`applied_at\` integer DEFAULT (unixepoch() * 1000) NOT NULL
+  )`);
+  await sql.sql(
+    `INSERT INTO \`local_migrations\` (\`name\`, \`tag\`, \`applied_at\`) SELECT \`key\`, \`value\`, \`updated_at\` FROM \`local_meta\``,
+  );
+  await sql.sql(`DROP TABLE \`local_meta\``);
 }
 
 type TableDdl = {

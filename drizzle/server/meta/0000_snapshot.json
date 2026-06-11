@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "ed9ac264-4ea4-4473-9332-5088b62b4f13",
+  "id": "b8378149-98a7-45cd-8b81-682f3481e190",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "card_characters": {
@@ -301,6 +301,13 @@
         },
         "first_message": {
           "name": "first_message",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "alternate_greetings": {
+          "name": "alternate_greetings",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
@@ -751,6 +758,13 @@
           "autoincrement": false,
           "default": "'medium'"
         },
+        "group": {
+          "name": "group",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
         "temperature": {
           "name": "temperature",
           "type": "real",
@@ -869,6 +883,14 @@
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
+        },
+        "first_msg_index": {
+          "name": "first_msg_index",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": -1
         },
         "sync_expires_at": {
           "name": "sync_expires_at",
@@ -2180,6 +2202,13 @@
           "notNull": false,
           "autoincrement": false
         },
+        "channel_name": {
+          "name": "channel_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
         "created_at": {
           "name": "created_at",
           "type": "integer",
@@ -2685,14 +2714,14 @@
         }
       },
       "indexes": {
-        "idx_acp_idem_lookup": {
-          "name": "idx_acp_idem_lookup",
+        "uq_acp_idem_key": {
+          "name": "uq_acp_idem_key",
           "columns": [
             "user_id",
             "key",
             "path"
           ],
-          "isUnique": false
+          "isUnique": true
         },
         "idx_acp_idem_created": {
           "name": "idx_acp_idem_created",

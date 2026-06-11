@@ -41,6 +41,7 @@ CREATE TABLE `characters` (
 	`personality` text,
 	`scenario` text,
 	`first_message` text,
+	`alternate_greetings` text,
 	`example_messages` text,
 	`system_prompt` text,
 	`post_history_instructions` text,
@@ -102,6 +103,7 @@ CREATE TABLE `conversations` (
 	`web_search_enabled` integer DEFAULT false NOT NULL,
 	`web_search_engine` text DEFAULT 'auto' NOT NULL,
 	`web_search_context_size` text DEFAULT 'medium' NOT NULL,
+	`group` text,
 	`temperature` real,
 	`top_p` real,
 	`top_k` integer,
@@ -119,6 +121,7 @@ CREATE TABLE `conversations` (
 	`summary_memory` text,
 	`summary_anchor` integer,
 	`memory_enabled` integer,
+	`first_msg_index` integer DEFAULT -1 NOT NULL,
 	`sync_expires_at` integer,
 	`created_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,
 	`updated_at` integer DEFAULT (unixepoch() * 1000) NOT NULL
@@ -305,6 +308,7 @@ CREATE TABLE `request_logs` (
 	`cost` real,
 	`duration_ms` integer,
 	`tokens_per_second` real,
+	`channel_name` text,
 	`created_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,
 	FOREIGN KEY (`conv_id`) REFERENCES `conversations`(`id`) ON UPDATE no action ON DELETE cascade
 );
@@ -353,24 +357,102 @@ CREATE TABLE `user_themes` (
 );
 --> statement-breakpoint
 CREATE INDEX `idx_theme_sync_expires` ON `user_themes` (`sync_expires_at`);--> statement-breakpoint
-CREATE TABLE `local_meta` (
-	`key` text PRIMARY KEY NOT NULL,
-	`value` text NOT NULL,
+CREATE TABLE `acp_checkout_sessions` (
+	`id` text PRIMARY KEY NOT NULL,
+	`user_id` integer NOT NULL,
+	`status` text NOT NULL,
+	`currency` text DEFAULT 'usd' NOT NULL,
+	`item_id` text NOT NULL,
+	`quantity` integer DEFAULT 1 NOT NULL,
+	`amount_cents` integer NOT NULL,
+	`payment_method` text NOT NULL,
+	`pay_link` text,
+	`quota_at_complete` integer,
+	`body` text,
+	`created_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,
 	`updated_at` integer DEFAULT (unixepoch() * 1000) NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE `local_pending_sync` (
-	`kind` text NOT NULL,
-	`id` text NOT NULL,
-	`op` text NOT NULL,
-	`queued_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,
-	`attempts` integer DEFAULT 0 NOT NULL,
-	`next_attempt_at` integer,
-	`last_error` text,
-	`hint` text,
-	`msg_ids` text,
-	`seq` integer DEFAULT 0 NOT NULL,
-	PRIMARY KEY(`kind`, `id`)
+CREATE INDEX `idx_acp_user_created` ON `acp_checkout_sessions` (`user_id`,`created_at`);--> statement-breakpoint
+CREATE TABLE `acp_idempotency_keys` (
+	`key` text NOT NULL,
+	`user_id` integer NOT NULL,
+	`path` text NOT NULL,
+	`body_hash` text NOT NULL,
+	`status` integer NOT NULL,
+	`response` text NOT NULL,
+	`state` text DEFAULT 'done' NOT NULL,
+	`created_at` integer DEFAULT (unixepoch() * 1000) NOT NULL
 );
 --> statement-breakpoint
-CREATE INDEX `idx_pending_queued` ON `local_pending_sync` (`queued_at`);
+CREATE UNIQUE INDEX `uq_acp_idem_key` ON `acp_idempotency_keys` (`user_id`,`key`,`path`);--> statement-breakpoint
+CREATE INDEX `idx_acp_idem_created` ON `acp_idempotency_keys` (`created_at`);--> statement-breakpoint
+CREATE TABLE `embedding_catalog` (
+	`id` text PRIMARY KEY NOT NULL,
+	`name` text NOT NULL,
+	`source` text NOT NULL,
+	`source_id` text NOT NULL,
+	`filename` text NOT NULL,
+	`base_model` text NOT NULL,
+	`category` text NOT NULL,
+	`description` text,
+	`thumbnail_r2_key` text,
+	`visible` integer DEFAULT true NOT NULL,
+	`sort_order` integer DEFAULT 0 NOT NULL,
+	`created_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,
+	`updated_at` integer DEFAULT (unixepoch() * 1000) NOT NULL
+);
+--> statement-breakpoint
+CREATE INDEX `idx_embedding_basemodel_visible` ON `embedding_catalog` (`base_model`,`visible`);--> statement-breakpoint
+CREATE INDEX `idx_embedding_category` ON `embedding_catalog` (`category`);--> statement-breakpoint
+CREATE TABLE `lora_catalog` (
+	`id` text PRIMARY KEY NOT NULL,
+	`name` text NOT NULL,
+	`source` text NOT NULL,
+	`source_id` text NOT NULL,
+	`filename` text NOT NULL,
+	`base_model` text NOT NULL,
+	`category` text NOT NULL,
+	`default_weight` real DEFAULT 1 NOT NULL,
+	`description` text,
+	`thumbnail_r2_key` text,
+	`visible` integer DEFAULT true NOT NULL,
+	`sort_order` integer DEFAULT 0 NOT NULL,
+	`created_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,
+	`updated_at` integer DEFAULT (unixepoch() * 1000) NOT NULL
+);
+--> statement-breakpoint
+CREATE INDEX `idx_lora_basemodel_visible` ON `lora_catalog` (`base_model`,`visible`);--> statement-breakpoint
+CREATE INDEX `idx_lora_category` ON `lora_catalog` (`category`);--> statement-breakpoint
+CREATE TABLE `moderation_log` (
+	`id` text PRIMARY KEY NOT NULL,
+	`user_id` integer NOT NULL,
+	`conv_id` text,
+	`model` text NOT NULL,
+	`media_type` text NOT NULL,
+	`decision` text NOT NULL,
+	`reason` text,
+	`prompt` text NOT NULL,
+	`external_id` text NOT NULL,
+	`creem_id` text,
+	`units` integer,
+	`latency_ms` integer NOT NULL,
+	`created_at` integer DEFAULT (unixepoch() * 1000) NOT NULL
+);
+--> statement-breakpoint
+CREATE INDEX `idx_modlog_user_created` ON `moderation_log` (`user_id`,`created_at`);--> statement-breakpoint
+CREATE INDEX `idx_modlog_decision` ON `moderation_log` (`decision`,`created_at`);--> statement-breakpoint
+CREATE TABLE `upscaler_catalog` (
+	`id` text PRIMARY KEY NOT NULL,
+	`name` text NOT NULL,
+	`filename` text NOT NULL,
+	`category` text NOT NULL,
+	`native_scale` integer DEFAULT 4 NOT NULL,
+	`description` text,
+	`visible` integer DEFAULT true NOT NULL,
+	`sort_order` integer DEFAULT 0 NOT NULL,
+	`created_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,
+	`updated_at` integer DEFAULT (unixepoch() * 1000) NOT NULL
+);
+--> statement-breakpoint
+CREATE INDEX `idx_upscaler_category_visible` ON `upscaler_catalog` (`category`,`visible`);
