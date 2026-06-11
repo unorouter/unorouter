@@ -1,25 +1,15 @@
 "use client";
 
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
+import { ConversationStats } from "@/components/pages/sidebar/chat/chat-elements";
 import { ChatLoadout } from "@/components/pages/sidebar/chat/chat-loadout";
 import { GreetingPreview } from "@/components/pages/sidebar/chat/greeting-preview";
+import { RequestLogButton } from "@/components/pages/sidebar/chat/request-log/request-log-button";
 import {
   ComposerAddAttachment,
   ComposerAttachments,
   UserMessageAttachments,
 } from "@/components/ui/assistant-ui/attachment";
-import dynamic from "next/dynamic";
-// Markdown pipeline (~75KB gzip) loads with the first rendered message, not
-// with the empty-thread shell.
-const MarkdownText = dynamic(
-  () =>
-    import("@/components/ui/assistant-ui/markdown-text").then(
-      (m) => m.MarkdownText,
-    ),
-  { ssr: false },
-  // The message-part slot type carries part props MarkdownText ignores
-  // (it reads message context); restore the original signature.
-) as unknown as typeof import("@/components/ui/assistant-ui/markdown-text").MarkdownText;
 import {
   Reasoning,
   ReasoningGroup,
@@ -29,20 +19,19 @@ import { ToolFallback } from "@/components/ui/assistant-ui/tool-fallback";
 import { TooltipIconButton } from "@/components/ui/assistant-ui/tooltip-icon-button";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Textarea } from "@/components/ui/textarea";
-import { useAuthQuery } from "@/hooks/auth/auth-hook";
-import { ConversationStats } from "@/components/pages/sidebar/chat/chat-elements";
-import { RequestLogButton } from "@/components/pages/sidebar/chat/request-log/request-log-button";
 import {
   useDeleteMessageMutation,
   useEditMessageMutation,
   useSetActiveBranchMutation,
 } from "@/hooks/ai/chat-hook";
+import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { usePricingQuery } from "@/hooks/models/pricing-hook";
 import { useMessageMeta } from "@/hooks/ui/use-chat-hook";
 import { useIsMobile } from "@/hooks/ui/use-mobile";
-import { analytics } from "@/lib/analytics";
 import { partsToItems } from "@/lib/ai/chat/messages";
+import { analytics } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 import { formatPrice } from "@/lib/utils/format/number";
 import {
@@ -53,7 +42,6 @@ import {
   convIdAtom,
   historyLoadedAtom,
 } from "@/store/chat-store";
-import { Skeleton } from "@/components/ui/skeleton";
 import { useMessageError } from "@assistant-ui/core/react";
 import {
   ActionBarPrimitive,
@@ -64,18 +52,28 @@ import {
   SuggestionPrimitive,
   ThreadPrimitive,
   useAuiState,
+  type TextMessagePartProps,
 } from "@assistant-ui/react";
 import { useAtom, useAtomValue } from "jotai";
 import { useTranslations } from "next-intl";
+import dynamic from "next/dynamic";
 import { useParams } from "next/navigation";
 import {
   createContext,
-  type FC,
   useContext,
   useEffect,
   useRef,
   useState,
+  type FC,
 } from "react";
+
+const MarkdownText = dynamic<TextMessagePartProps>(
+  () =>
+    import("@/components/ui/assistant-ui/markdown-text").then(
+      (m) => m.MarkdownText,
+    ),
+  { ssr: false },
+);
 
 const AssistantEditContext = createContext<(() => void) | null>(null);
 

@@ -11,14 +11,13 @@ import {
   useAuiState,
   useScrollLock,
   type ReasoningGroupComponent,
-  type ReasoningMessagePartComponent,
+  type ReasoningMessagePartComponent
 } from "@assistant-ui/react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
 import {
   createContext,
-  memo,
   useCallback,
   useContext,
   useEffect,
@@ -27,8 +26,6 @@ import {
   useState,
 } from "react";
 
-// Markdown pipeline (~75KB gzip) loads with the first rendered message, not
-// with the empty-thread shell.
 const MarkdownText = dynamic(
   () =>
     import("@/components/ui/assistant-ui/markdown-text").then(
@@ -311,9 +308,9 @@ function ReasoningText({
   );
 }
 
-const ReasoningImpl: ReasoningMessagePartComponent = () => <MarkdownText />;
+const Reasoning: ReasoningMessagePartComponent = () => <MarkdownText />;
 
-const ReasoningGroupImpl: ReasoningGroupComponent = ({
+const ReasoningGroup: ReasoningGroupComponent = ({
   children,
   startIndex,
   endIndex,
@@ -336,25 +333,5 @@ const ReasoningGroupImpl: ReasoningGroupComponent = ({
     </ReasoningRoot>
   );
 };
-
-const Reasoning = memo(
-  ReasoningImpl,
-) as unknown as ReasoningMessagePartComponent & {
-  Root: typeof ReasoningRoot;
-  Trigger: typeof ReasoningTrigger;
-  Content: typeof ReasoningContent;
-  Text: typeof ReasoningText;
-  Fade: typeof ReasoningFade;
-};
-
-Reasoning.displayName = "Reasoning";
-Reasoning.Root = ReasoningRoot;
-Reasoning.Trigger = ReasoningTrigger;
-Reasoning.Content = ReasoningContent;
-Reasoning.Text = ReasoningText;
-Reasoning.Fade = ReasoningFade;
-
-const ReasoningGroup = memo(ReasoningGroupImpl);
-ReasoningGroup.displayName = "ReasoningGroup";
 
 export { Reasoning, ReasoningGroup };

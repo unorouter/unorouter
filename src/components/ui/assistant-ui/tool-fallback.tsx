@@ -1,6 +1,6 @@
 "use client";
 
-import { memo, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import {
   useScrollLock,
   type ToolCallMessagePartStatus,
@@ -308,9 +308,7 @@ const ToolFallbackImpl: ToolCallMessagePartComponent = ({
   );
 };
 
-// memo: re-renders only when its part props change, not on every sibling
-// message-part update (upstream parity).
-const ToolFallback = Object.assign(memo(ToolFallbackImpl), {
+const ToolFallback = Object.assign(ToolFallbackImpl, {
   Root: ToolFallbackRoot,
   Trigger: ToolFallbackTrigger,
   Content: ToolFallbackContent,

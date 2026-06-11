@@ -83,12 +83,11 @@ export function useGenerationForm() {
     defaultValues: defaultsFor(getModelDescriptor(INITIAL_MODEL)),
   });
 
-  const selectedModel =
-    (form.watch("model") as PlaygroundModel | undefined) ?? INITIAL_MODEL;
+  const selectedModel = form.watch("model") ?? INITIAL_MODEL;
   const descriptor = findDescriptor(selectedModel);
 
   const changeModel = (next: string) => {
-    const nextModel = next as PlaygroundModel;
+    const nextModel = next;
     const nextDesc = findDescriptor(nextModel);
     form.setValue("model", nextModel);
     const remembered = samplerMemory[nextModel];
@@ -123,7 +122,7 @@ export function useGenerationForm() {
     const data = seedQuery.data;
     if (!data || seededIdRef.current === data.id) return;
     seededIdRef.current = data.id;
-    const desc = findDescriptor(data.model as PlaygroundModel);
+    const desc = findDescriptor(data.model);
     const hiresParams =
       hiresShortcut && desc.supportsHiresFix
         ? { hiresDenoise: 0.5, hiresUpscale: 1.5 }
@@ -134,12 +133,11 @@ export function useGenerationForm() {
       negativePrompt: data.negativePrompt ?? "",
       params: {
         ...desc.defaultParams,
-        ...((data.params as Record<string, unknown> | null) ?? {}),
+        ...(data.params ?? {}),
         ...hiresParams,
       },
-      loras: (data.loras as GenerationFormValues["loras"]) ?? undefined,
-      references:
-        (data.references as GenerationFormValues["references"]) ?? undefined,
+      loras: data.loras ?? undefined,
+      references: data.references ?? undefined,
       visibility: "private",
       ui: { variants: 1 },
     } as GenerationFormValues);
@@ -181,18 +179,14 @@ export function useGenerationForm() {
       return;
     }
     form.reset({
-      ...defaultsFor(
-        getModelDescriptor((draft.model as PlaygroundModel) || INITIAL_MODEL),
-      ),
-      model: draft.model as PlaygroundModel,
+      ...defaultsFor(getModelDescriptor(draft.model || INITIAL_MODEL)),
+      model: draft.model,
       prompt: draft.prompt,
       negativePrompt: draft.negativePrompt ?? "",
-      params: draft.params as GenerationFormValues["params"],
-      loras: draft.loras as GenerationFormValues["loras"],
-      references: draft.references as GenerationFormValues["references"],
-      ui: (draft.extraParams as { variants?: number } | undefined) ?? {
-        variants: 1,
-      },
+      params: draft.params,
+      loras: draft.loras,
+      references: draft.references,
+      ui: draft.extraParams ?? { variants: 1 },
     } as GenerationFormValues);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTab, remixId, draft, form]);
@@ -203,18 +197,19 @@ export function useGenerationForm() {
     setDraftRef.current = setDraft;
   }, [setDraft]);
   useEffect(() => {
-    const subscription = form.watch((values) => {
+    // watch's callback values are DeepPartial; read the full validated form
+    // state via getValues for the draft shape.
+    const subscription = form.watch(() => {
       const timer = setTimeout(() => {
+        const v = form.getValues();
         const next: GenerateDraft = {
-          model: (values.model as string) ?? INITIAL_MODEL,
-          prompt: (values.prompt as string) ?? "",
-          negativePrompt: (values.negativePrompt as string) ?? "",
-          params: (values.params as Record<string, unknown>) ?? {},
-          loras: values.loras,
-          references: values.references,
-          extraParams: (values.ui as Record<string, unknown>) ?? {
-            variants: 1,
-          },
+          model: v.model ?? INITIAL_MODEL,
+          prompt: v.prompt ?? "",
+          negativePrompt: v.negativePrompt ?? "",
+          params: v.params ?? {},
+          loras: v.loras,
+          references: v.references,
+          extraParams: v.ui ?? { variants: 1 },
         };
         setDraftRef.current(next);
       }, 500);
@@ -227,9 +222,7 @@ export function useGenerationForm() {
   // Restore-into-form: a result tile hands frozen params back for resubmit.
   useEffect(() => {
     if (!restorePayload) return;
-    const desc = findDescriptor(
-      (restorePayload.model as PlaygroundModel) ?? INITIAL_MODEL,
-    );
+    const desc = findDescriptor(restorePayload.model ?? INITIAL_MODEL);
     const mergedParams: Record<string, unknown> = {
       ...desc.defaultParams,
       ...(restorePayload.params ?? {}),
@@ -243,14 +236,9 @@ export function useGenerationForm() {
       prompt: restorePayload.prompt,
       negativePrompt: restorePayload.negativePrompt ?? "",
       params: mergedParams as GenerationFormValues["params"],
-      loras:
-        (restorePayload.loras as GenerationFormValues["loras"]) ?? undefined,
-      references:
-        (restorePayload.references as GenerationFormValues["references"]) ??
-        undefined,
-      ui: (restorePayload.extraParams as { variants?: number } | undefined) ?? {
-        variants: 1,
-      },
+      loras: restorePayload.loras ?? undefined,
+      references: restorePayload.references ?? undefined,
+      ui: restorePayload.extraParams ?? { variants: 1 },
     } as GenerationFormValues);
     setRestorePayload(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps

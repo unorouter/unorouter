@@ -318,9 +318,7 @@ export async function assembleForStream(
     locale: opts?.clientEnv?.locale,
     timeZone: opts?.clientEnv?.timeZone,
     firstMessage: primary?.firstMessage ?? undefined,
-    alternateGreetings: Array.isArray(primary?.alternateGreetings)
-      ? (primary.alternateGreetings as string[])
-      : undefined,
+    alternateGreetings: primary?.alternateGreetings ?? undefined,
     fmIndex:
       (settings as { firstMsgIndex?: number | null }).firstMsgIndex ?? -1,
     exampleMessage: primary?.exampleMessages ?? undefined,

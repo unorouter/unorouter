@@ -1,18 +1,18 @@
 "use client";
 
+import { rehypeQuoteSpans } from "@/components/ui/assistant-ui/rehype-quote-spans";
 import { ShikiSyntaxHighlighter } from "@/components/ui/assistant-ui/syntax-highlighter";
 import { TooltipIconButton } from "@/components/ui/assistant-ui/tooltip-icon-button";
 import { Icon } from "@/components/ui/icon";
 import { SmartImage } from "@/components/ui/smart-image";
-import { cn } from "@/lib/utils";
-import { downloadBlob } from "@/lib/utils/client";
 import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import {
   inlayVersionAtom,
   replaceInlayTokens,
 } from "@/lib/db/client/data/inlay-render";
-import { useAtomValue } from "jotai";
-import { useMessage } from "@assistant-ui/react";
+import { cn } from "@/lib/utils";
+import { downloadBlob } from "@/lib/utils/client";
+import { useAuiState } from "@assistant-ui/react";
 import {
   type CodeHeaderProps,
   MarkdownTextPrimitive,
@@ -20,12 +20,12 @@ import {
   useIsMarkdownCodeBlock,
 } from "@assistant-ui/react-markdown";
 import "@assistant-ui/react-markdown/styles/dot.css";
+import { useAtomValue } from "jotai";
 import { useTranslations } from "next-intl";
 import { type FC, useEffect, useState } from "react";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import type { Pluggable } from "unified";
-import { rehypeQuoteSpans } from "@/components/ui/assistant-ui/rehype-quote-spans";
 
 // MiniMax etc. emit raw <think>/<thinking> blocks in text body instead of
 // reasoning parts. Strip complete blocks plus any unclosed opening tag and
@@ -72,8 +72,10 @@ function useRehypeMathjax(wanted: boolean): Pluggable | null {
 }
 
 const MarkdownTextImpl = () => {
-  const hasMath = useMessage((m) =>
-    m.content.some((p) => p.type === "text" && MATH_DELIMITER_RE.test(p.text)),
+  const hasMath = useAuiState((s) =>
+    s.message.content.some(
+      (p) => p.type === "text" && MATH_DELIMITER_RE.test(p.text),
+    ),
   );
   const mathjax = useRehypeMathjax(hasMath);
   // {{inlay::id}} media resolve asynchronously; version bump re-renders.
@@ -298,7 +300,9 @@ const defaultComponents = memoizeMarkdownComponents({
   pre: ({ className, ...props }) => (
     <pre
       className={cn(
-        "aui-md-pre border-border/50 bg-muted/30 overflow-x-auto rounded-t-none rounded-b-lg border border-t-0 p-3 text-xs leading-relaxed",
+        // overscroll-x-contain: a horizontal swipe inside a wide code block stays
+        // in the block instead of bubbling out and panning the whole thread.
+        "aui-md-pre border-border/50 bg-muted/30 overflow-x-auto overscroll-x-contain rounded-t-none rounded-b-lg border border-t-0 p-3 text-xs leading-relaxed",
         className,
       )}
       {...props}

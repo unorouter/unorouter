@@ -285,7 +285,7 @@ function entryMatches(p: Prepared, text: string): boolean {
 
   if (e.constant) return true;
 
-  const keys = (e.keys ?? []) as string[];
+  const keys = e.keys ?? [];
   if (!keys.some((k) => keyHits(k, text, whole))) return false;
 
   // Risu additional_keys is an extra POSITIVE query AND-ed with the main keys
@@ -299,7 +299,7 @@ function entryMatches(p: Prepared, text: string): boolean {
   }
 
   if (e.selective) {
-    const sec = (e.secondaryKeys ?? []) as string[];
+    const sec = e.secondaryKeys ?? [];
     return sec.length === 0 || sec.some((k) => keyHits(k, text, whole));
   }
   return true;

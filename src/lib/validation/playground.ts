@@ -156,6 +156,8 @@ export const generationReferenceEntry = t.Object({
 });
 export type ReferenceEntry = Static<typeof generationReferenceEntry>;
 
+export type GenerationParams = Static<typeof generationParams>;
+
 // UI-only state stripped before submit by `toSubmitBody`
 // (components/pages/sidebar/playground/form/submit-transform.ts).
 export const generationFormUi = t.Object({
@@ -164,6 +166,7 @@ export const generationFormUi = t.Object({
   inpaintBrushSize: t.Optional(t.Integer({ minimum: 4, maximum: 128 })),
   inpaintBrushOpacity: t.Optional(t.Number({ minimum: 0.05, maximum: 1 })),
 });
+export type GenerationFormUi = Static<typeof generationFormUi>;
 
 export const playgroundSubmitBody = t.Object({
   model: playgroundModel,

@@ -167,9 +167,7 @@ export function createThreadListAdapter(
             : null;
           const greetings = [
             char.firstMessage,
-            ...(Array.isArray(char.alternateGreetings)
-              ? (char.alternateGreetings as string[])
-              : []),
+            ...(char.alternateGreetings ?? []),
           ];
           const picked = Math.min(
             chatStore.get(greetingIndexAtom),

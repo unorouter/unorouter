@@ -22,8 +22,12 @@ import type {
   LorebookInjectionRole,
 } from "@/lib/validation/rp";
 import type {
+  GenerationFormUi,
+  GenerationParams,
   GenerationStatus,
+  LoraEntry,
   PlaygroundVisibility,
+  ReferenceEntry,
 } from "@/lib/validation/playground";
 
 // syncExpiresAt: null=local-only; non-null=synced + server-purged past timestamp.
@@ -220,17 +224,19 @@ export const characters = sqliteTable(
     scenario: text("scenario"),
     firstMessage: text("first_message"),
     // Card-spec alternate_greetings; conversation firstMsgIndex picks one.
-    alternateGreetings: text("alternate_greetings", { mode: "json" }),
+    alternateGreetings: text("alternate_greetings", {
+      mode: "json",
+    }).$type<string[]>(),
     exampleMessages: text("example_messages"),
     systemPrompt: text("system_prompt"),
     postHistoryInstructions: text("post_history_instructions"),
     defaultReasoningEffort: text("default_reasoning_effort"),
-    tags: text("tags", { mode: "json" }),
+    tags: text("tags", { mode: "json" }).$type<string[]>(),
     // RisuAI triggerscript[] (V2 effect VM). Keyword-array turn-gating moved to
     // turn_triggers so this column carries the trigger programs.
     triggers: text("triggers", { mode: "json" }),
     // Keyword array for multi-character turn-gating (non-primary chars).
-    turnTriggers: text("turn_triggers", { mode: "json" }),
+    turnTriggers: text("turn_triggers", { mode: "json" }).$type<string[]>(),
     // RisuAI customscript / SillyTavern regex scripts (in/out/type/flag array).
     regexScripts: text("regex_scripts", { mode: "json" }),
     alwaysActive: integer("always_active", { mode: "boolean" })
@@ -303,8 +309,8 @@ export const lorebookEntries = sqliteTable(
     lorebookId: text("lorebook_id")
       .notNull()
       .references(() => lorebooks.id, { onDelete: "cascade" }),
-    keys: text("keys", { mode: "json" }).notNull(),
-    secondaryKeys: text("secondary_keys", { mode: "json" }),
+    keys: text("keys", { mode: "json" }).notNull().$type<string[]>(),
+    secondaryKeys: text("secondary_keys", { mode: "json" }).$type<string[]>(),
     content: text("content").notNull(),
     constant: integer("constant", { mode: "boolean" }).notNull().default(false),
     selective: integer("selective", { mode: "boolean" })
@@ -562,10 +568,12 @@ export const playgrounds = sqliteTable(
     model: text("model").notNull(),
     prompt: text("prompt").notNull(),
     negativePrompt: text("negative_prompt"),
-    params: text("params", { mode: "json" }),
-    loras: text("loras", { mode: "json" }),
-    references: text("references", { mode: "json" }),
-    extraParams: text("extra_params", { mode: "json" }),
+    params: text("params", { mode: "json" }).$type<GenerationParams>(),
+    loras: text("loras", { mode: "json" }).$type<LoraEntry[]>(),
+    references: text("references", { mode: "json" }).$type<ReferenceEntry[]>(),
+    extraParams: text("extra_params", {
+      mode: "json",
+    }).$type<GenerationFormUi>(),
     status: text("status")
       .notNull()
       .default("pending")

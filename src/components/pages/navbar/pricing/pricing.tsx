@@ -14,6 +14,7 @@ import {
   type SubscriptionPlan,
 } from "@/lib/api/subscription";
 import { AUTH_REDIRECT_COOKIE } from "@/lib/config/constants";
+import { cn } from "@/lib/utils";
 import { setCookie } from "cookies-next/client";
 import { useTranslations } from "next-intl";
 
@@ -153,9 +154,10 @@ export function Pricing() {
         )}
 
         <div
-          className={`grid gap-6 md:grid-cols-3${
-            topUpOptions.length > 0 ? "border-border/50 border-t pt-10" : ""
-          }`}
+          className={cn(
+            "grid gap-6 md:grid-cols-3",
+            topUpOptions.length > 0 && "border-border/50 border-t pt-10",
+          )}
         >
           {plans.map((plan, i) => {
             const multiplier = getMultiplier(plan);

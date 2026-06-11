@@ -1,3 +1,9 @@
+import type {
+  GenerationFormUi,
+  GenerationParams,
+  LoraEntry,
+  ReferenceEntry,
+} from "@/lib/validation/playground";
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 
@@ -10,10 +16,10 @@ type SnapshotRestorePayload = {
   model: string;
   prompt: string;
   negativePrompt: string | null;
-  params: Record<string, unknown> | null;
-  loras: unknown;
-  references: unknown;
-  extraParams: Record<string, unknown> | null;
+  params: GenerationParams | null;
+  loras: LoraEntry[] | null;
+  references: ReferenceEntry[] | null;
+  extraParams: GenerationFormUi | null;
   tab?: GenerateTab;
   subPill?: Img2ImgSubPill;
   initImageUrl?: string;
@@ -28,10 +34,10 @@ export type GenerateDraft = {
   model: string;
   prompt: string;
   negativePrompt: string;
-  params: Record<string, unknown>;
-  loras: unknown;
-  references: unknown;
-  extraParams: Record<string, unknown>;
+  params: GenerationParams;
+  loras?: LoraEntry[];
+  references?: ReferenceEntry[];
+  extraParams: GenerationFormUi;
 };
 
 export type GenerateTab = "text2img" | "img2img" | "edit";

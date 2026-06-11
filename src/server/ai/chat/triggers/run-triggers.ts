@@ -40,7 +40,7 @@ export async function runStartTriggers(
     id: e.id,
     comment: "",
     content: e.content,
-    key: Array.isArray(e.keys) ? (e.keys as string[]).join(",") : "",
+    key: e.keys.join(","),
     alwaysActive: !!e.constant,
   }));
 

@@ -2,6 +2,12 @@ import type { Pathname, pathnames } from "@/i18n/routing";
 import type * as client from "@/lib/db/schema/client";
 import type * as shared from "@/lib/db/schema/shared";
 import type { RequestLogRow } from "@/lib/db/schema/rows";
+import type {
+  GenerationFormUi,
+  GenerationParams,
+  LoraEntry,
+  ReferenceEntry,
+} from "@/lib/validation/playground";
 import type { UIMessage } from "ai";
 import type { SQL } from "drizzle-orm";
 import type { SQLiteColumn, SQLiteTable } from "drizzle-orm/sqlite-core";
@@ -98,10 +104,10 @@ export type SnapshotView = {
   model: string;
   prompt: string;
   negativePrompt: string | null;
-  params: Record<string, unknown> | null;
-  loras: unknown;
-  references: unknown;
-  extraParams: Record<string, unknown> | null;
+  params: GenerationParams | null;
+  loras: LoraEntry[] | null;
+  references: ReferenceEntry[] | null;
+  extraParams: GenerationFormUi | null;
   status: string;
   progress: string | null;
   taskId: string | null;

@@ -24,12 +24,7 @@ export function GreetingPreview() {
   );
   if (!char?.firstMessage) return null;
 
-  const greetings = [
-    char.firstMessage,
-    ...(Array.isArray(char.alternateGreetings)
-      ? (char.alternateGreetings as string[])
-      : []),
-  ];
+  const greetings = [char.firstMessage, ...(char.alternateGreetings ?? [])];
   const safeIndex = Math.min(index, greetings.length - 1);
   const text = expandMacros(greetings[safeIndex], {
     user: personaQuery.data?.name ?? "User",
