@@ -1,5 +1,5 @@
-import { GUEST_USER_ID, msg } from "@/lib/config/constants";
 import { getPricingSummary } from "@/lib/api/pricing-cache";
+import { GUEST_USER_ID, msg } from "@/lib/config/constants";
 import {
   finalizeTaskBody,
   streamBody,
@@ -8,34 +8,19 @@ import {
   triggerLlmBody,
   triggerSimilarityBody,
 } from "@/lib/validation/chat";
-import { getApiKey, getUserId } from "@/server/constants";
 import { resolveChatApiKey } from "@/server/billing/token/best-key.service";
+import { getApiKey, getUserId } from "@/server/constants";
 import { Elysia } from "elysia";
-
-// Guests stream on the shared guest key, so they may only run free models.
-// The stream/title endpoints take a client-supplied model; without this a
-// guest could spend the guest key on any paid model (parity with playground
-// submit's assertGuestAllowedModel).
-async function assertGuestChatModel(model: string): Promise<void> {
-  const meta = (await getPricingSummary()).byName.get(model);
-  if (!meta?.isFree) throw new Error(msg("ERRORS.UNAUTHORIZED"));
-}
+import { generateInlayImage } from "./media/inlay.service";
+import { fetchVideoTaskStatus, finalizeVideoTask } from "./media/task.service";
+import { generateChatTitle } from "./title.service";
+import { runTriggerLLM, runTriggerSimilarity } from "./triggers/trigger-ops";
 import {
   getConversation,
   getConversationMarkdown,
 } from "./conversation.service";
-import {
-  fetchVideoTaskStatus,
-  finalizeVideoTask,
-} from "./augmentation/task.service";
-import { generateChatTitle } from "./augmentation/title.service";
-import { generateInlayImage } from "./augmentation/inlay.service";
-import {
-  runTriggerLLM,
-  runTriggerSimilarity,
-} from "./augmentation/trigger-ops";
-import { ContextRequiredError } from "./stream/context-cache";
 import { streamChat } from "./stream.service";
+import { ContextRequiredError } from "./pipeline/context-cache";
 
 export const chatRoute = new Elysia({ prefix: "/chat" })
 
@@ -56,7 +41,8 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
     async ({ body, cookie }) => {
       const userId = (await getUserId(cookie, true)) ?? GUEST_USER_ID;
       if (userId === GUEST_USER_ID && body.model) {
-        await assertGuestChatModel(body.model);
+        const meta = (await getPricingSummary()).byName.get(body.model);
+        if (!meta?.isFree) throw new Error(msg("ERRORS.UNAUTHORIZED"));
       }
       const apiKey = await resolveChatApiKey(cookie);
       const data = await generateChatTitle(apiKey, body.text, body.model);
@@ -72,7 +58,8 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
       const userId = (await getUserId(cookie, true)) ?? GUEST_USER_ID;
       if (userId === GUEST_USER_ID) {
         body.webSearch = false;
-        await assertGuestChatModel(body.model);
+        const meta = (await getPricingSummary()).byName.get(body.model);
+        if (!meta?.isFree) throw new Error(msg("ERRORS.UNAUTHORIZED"));
       }
       try {
         return await streamChat(apiKey, body, request, userId);

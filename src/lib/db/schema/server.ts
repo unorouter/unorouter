@@ -11,7 +11,7 @@ import { createdAtCol, timestamps } from "./shared";
 import type {
   ModerationDecision,
   ModerationMediaType,
-} from "@/server/ai/chat/augmentation/moderation.service";
+} from "@/server/ai/chat/media/moderation.service";
 import type { AcpSessionStatus } from "@/server/billing/checkout-sessions/checkout-sessions.service";
 import type { AcpIdempotencyState } from "@/server/billing/checkout-sessions/idempotency";
 

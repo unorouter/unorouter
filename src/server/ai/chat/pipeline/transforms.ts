@@ -8,7 +8,7 @@ import { runRegexScripts, type RegexScript } from "@/lib/ai/chat/regex-scripts";
 import type {
   AssembledSystem,
   DepthInjection,
-} from "../augmentation/prompt-assembler.service";
+} from "../prompt/assembler.service";
 import { expandMacros, risuUnescape } from "@/lib/ai/chat/macros";
 
 export type StreamMessages = Parameters<typeof convertToModelMessages>[0];

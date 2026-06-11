@@ -25,7 +25,7 @@ import {
   type PromptItem,
   type PromptItemRole,
   type SlotName,
-} from "@/server/ai/chat/augmentation/prompt-template";
+} from "@/server/ai/chat/prompt/template";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 

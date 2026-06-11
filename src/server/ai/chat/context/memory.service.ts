@@ -4,7 +4,7 @@
 
 import { freeModelRace } from "@/lib/ai/chat/free-model-race";
 import { logger } from "@/lib/utils/logger";
-import { retrieveSemantic } from "./semantic-retrieval.service";
+import { retrieveSemantic } from "./retrieval.service";
 
 // Rolling-summary thresholds: only fold once the conversation is long, and in
 // modest chunks so each summary call stays cheap.

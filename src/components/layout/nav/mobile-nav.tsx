@@ -14,8 +14,8 @@ import {
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
-import { navigationAtom, toggleNavigationAtom } from "@/store/navigation-store";
-import { useAtom, useSetAtom } from "jotai";
+import { expandedNavAtom, toggleNavigationAtom } from "@/store/client-store";
+import { useAtomValue, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { Fragment, useState } from "react";
 import { isActiveLink, NavigationItem, navigation } from "./navigation";
@@ -107,11 +107,11 @@ function CollapsibleNavItem(props: {
 }) {
   const t = useTranslations();
   const pathname = usePathname();
-  const [navigationState] = useAtom(navigationAtom);
+  const expanded = useAtomValue(expandedNavAtom);
   const toggleNavigation = useSetAtom(toggleNavigationAtom);
 
   const isActive = isActiveLink(pathname, props.item.href, props.item.exact);
-  const isExpanded = navigationState.expanded?.[props.item.name] ?? false;
+  const isExpanded = expanded[props.item.name] ?? false;
 
   return (
     <div>

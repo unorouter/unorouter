@@ -17,9 +17,12 @@ import {
   streamText,
   type UIMessageStreamWriter,
 } from "ai";
-import { assertPromptAllowed } from "../augmentation/moderation.service";
-import { submitVideoTask } from "../augmentation/task.service";
-import { extractLastUserText, type StreamMessages } from "./transforms";
+import { assertPromptAllowed } from "./moderation.service";
+import { submitVideoTask } from "./task.service";
+import {
+  extractLastUserText,
+  type StreamMessages,
+} from "../pipeline/transforms";
 
 type MediaStreamBody = {
   model: string;

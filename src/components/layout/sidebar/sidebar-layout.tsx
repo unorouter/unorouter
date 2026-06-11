@@ -6,7 +6,7 @@ import { SidebarHeader } from "@/components/layout/sidebar/sidebar-header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { analytics } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
-import { sidebarOpenAtom } from "@/store/navigation-store";
+import { sidebarOpenAtom } from "@/store/client-store";
 import { useAtom } from "jotai";
 
 export function PageContent(props: {

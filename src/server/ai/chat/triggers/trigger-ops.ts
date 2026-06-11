@@ -2,11 +2,11 @@
 // calls (the client modes go through POST /chat/trigger-op instead).
 
 import { parseChatML } from "@/lib/ai/chat/chatml";
-import { generateInlayImage, type InlayImage } from "./inlay.service";
+import { generateInlayImage, type InlayImage } from "../media/inlay.service";
 import type { TriggerOps } from "@/lib/ai/chat/triggers/types";
 import { getProvider } from "@/server/constants";
 import { generateText } from "ai";
-import { retrieveSemantic } from "./semantic-retrieval.service";
+import { retrieveSemantic } from "../context/retrieval.service";
 
 const TRIGGER_LLM_MAX_TOKENS = 1024;
 

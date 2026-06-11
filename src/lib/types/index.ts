@@ -201,7 +201,7 @@ export type LocalAnyRow = Record<string, unknown> & { id: string };
 export type LocalChildRow = Record<string, unknown>;
 export type LocalRowInput = Record<string, unknown>;
 
-import type { loadConvContext } from "@/server/ai/chat/augmentation/prompt-assembler/conv-context";
+import type { loadConvContext } from "@/server/ai/chat/prompt/conv-context";
 export type LoadedConvContext = Awaited<ReturnType<typeof loadConvContext>>;
 
 export type LbEntry = LoadedConvContext extends infer T

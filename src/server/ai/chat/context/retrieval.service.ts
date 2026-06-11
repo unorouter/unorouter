@@ -2,7 +2,7 @@
 // cosine-rank, return top-K lore keyword matching missed. Best-effort: any
 // embedding failure yields an empty result.
 
-import { generateEmbedding } from "../stream/media-stream";
+import { generateEmbedding } from "../media/media-stream";
 import { logger } from "@/lib/utils/logger";
 
 const DEFAULT_EMBED_MODEL = "text-embedding-3-small";

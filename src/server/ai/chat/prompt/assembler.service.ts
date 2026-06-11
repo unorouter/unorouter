@@ -6,7 +6,7 @@ import {
 } from "@/lib/validation/chat";
 import type { LoadedConvContext } from "@/lib/types";
 import { encode } from "gpt-tokenizer";
-import { keyHits, selectLorebookEntries } from "./prompt-assembler/lorebook";
+import { keyHits, selectLorebookEntries } from "./lorebook";
 import { parseExampleMessages } from "./example-messages";
 import { expandMacros, type MacroScope } from "@/lib/ai/chat/macros";
 import {
@@ -15,7 +15,7 @@ import {
   walkTemplate,
   type PromptPart,
   type TemplateSlots,
-} from "./prompt-template";
+} from "./template";
 
 export type DepthInjection = {
   text: string;
@@ -428,7 +428,9 @@ export async function assembleForStream(
     systemPrompt: sys(systemPromptSlot),
     // Prefill rides the template as a trailing assistant message so it orders
     // with the stack (default: after chat, before postHistory end inject).
-    prefill: prefillText ? { text: prefillText, role: "assistant" as const } : null,
+    prefill: prefillText
+      ? { text: prefillText, role: "assistant" as const }
+      : null,
     postHistory: sys(postHistorySlot),
   };
 

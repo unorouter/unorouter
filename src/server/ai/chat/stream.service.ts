@@ -19,8 +19,11 @@ import {
   handleEmbeddingStream,
   handleImageStream,
   handleVideoTaskStream,
-} from "./stream/media-stream";
-import { prepareChatRequest, type StreamBody } from "./stream/prepare";
+} from "./media/media-stream";
+import {
+  prepareChatRequest,
+  type StreamBody,
+} from "./pipeline/prepare.service";
 
 export async function streamChat(
   apiKey: string,
@@ -93,9 +96,7 @@ export async function streamChat(
 
   // Per-request group override; new-api reads X-Group. Omit for null/auto.
   const groupHeaders =
-    body.group && body.group !== "auto"
-      ? { "X-Group": body.group }
-      : undefined;
+    body.group && body.group !== "auto" ? { "X-Group": body.group } : undefined;
 
   const droppedParamsRef = { value: null as string | null };
   // Captured in onFinish; emitted in messageMetadata to seed request log row.
@@ -198,8 +199,10 @@ export async function streamChat(
     const meta: Record<string, unknown> = {};
     if (droppedParamsRef.value) meta.droppedParams = droppedParamsRef.value;
     if (prepared.varsWriteback) meta.vars = prepared.varsWriteback;
-    if (prepared.globalVarsWriteback) meta.globalVars = prepared.globalVarsWriteback;
-    if (prepared.memory.summaryWriteback) meta.summary = prepared.memory.summaryWriteback;
+    if (prepared.globalVarsWriteback)
+      meta.globalVars = prepared.globalVarsWriteback;
+    if (prepared.memory.summaryWriteback)
+      meta.summary = prepared.memory.summaryWriteback;
     if (prepared.inlayMedia.length > 0) meta.inlayMedia = prepared.inlayMedia;
     // Per-message speaker tag (Risu `saying`), immune to the speaking-atom clear race.
     if (body.speakingCharacterId)
