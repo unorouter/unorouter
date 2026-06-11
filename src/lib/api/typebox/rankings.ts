@@ -1,6 +1,6 @@
 import { t, type Static } from "elysia";
 
-export const RankingPeriodSchema = t.Union([
+const RankingPeriodSchema = t.Union([
   t.Literal("today"),
   t.Literal("week"),
   t.Literal("month"),
@@ -15,7 +15,7 @@ export const rankingsQuery = t.Object({
   period: t.Optional(RankingPeriodSchema),
 });
 
-export const RankedModelSchema = t.Object({
+const RankedModelSchema = t.Object({
   rank: t.Number(),
   previous_rank: t.Optional(t.Nullable(t.Number())),
   model_name: t.String(),
@@ -27,7 +27,7 @@ export const RankedModelSchema = t.Object({
   growth_pct: t.Number(),
 });
 
-export const RankedVendorSchema = t.Object({
+const RankedVendorSchema = t.Object({
   rank: t.Number(),
   vendor: t.String(),
   vendor_icon: t.Optional(t.String()),
@@ -38,7 +38,7 @@ export const RankedVendorSchema = t.Object({
   top_model: t.String(),
 });
 
-export const RankingMoverSchema = t.Object({
+const RankingMoverSchema = t.Object({
   model_name: t.String(),
   vendor: t.String(),
   vendor_icon: t.Optional(t.String()),
@@ -47,7 +47,7 @@ export const RankingMoverSchema = t.Object({
   growth_pct: t.Number(),
 });
 
-export const ModelHistoryPointSchema = t.Object({
+const ModelHistoryPointSchema = t.Object({
   ts: t.String(),
   label: t.String(),
   model: t.String(),
@@ -55,19 +55,19 @@ export const ModelHistoryPointSchema = t.Object({
   tokens: t.Number(),
 });
 
-export const ModelHistoryModelSchema = t.Object({
+const ModelHistoryModelSchema = t.Object({
   name: t.String(),
   vendor: t.String(),
   total: t.Number(),
 });
 
-export const ModelHistorySeriesSchema = t.Object({
+const ModelHistorySeriesSchema = t.Object({
   points: t.Array(ModelHistoryPointSchema),
   models: t.Array(ModelHistoryModelSchema),
   buckets: t.Number(),
 });
 
-export const VendorSharePointSchema = t.Object({
+const VendorSharePointSchema = t.Object({
   ts: t.String(),
   label: t.String(),
   vendor: t.String(),
@@ -75,13 +75,13 @@ export const VendorSharePointSchema = t.Object({
   tokens: t.Number(),
 });
 
-export const VendorShareVendorSchema = t.Object({
+const VendorShareVendorSchema = t.Object({
   name: t.String(),
   total: t.Number(),
   share: t.Number(),
 });
 
-export const VendorShareSeriesSchema = t.Object({
+const VendorShareSeriesSchema = t.Object({
   points: t.Array(VendorSharePointSchema),
   vendors: t.Array(VendorShareVendorSchema),
   buckets: t.Number(),
@@ -100,10 +100,6 @@ export type RankingPeriod = Static<typeof RankingPeriodSchema>;
 export type RankedModel = Static<typeof RankedModelSchema>;
 export type RankedVendor = Static<typeof RankedVendorSchema>;
 export type RankingMover = Static<typeof RankingMoverSchema>;
-export type ModelHistoryPoint = Static<typeof ModelHistoryPointSchema>;
-export type ModelHistoryModel = Static<typeof ModelHistoryModelSchema>;
 export type ModelHistorySeries = Static<typeof ModelHistorySeriesSchema>;
-export type VendorSharePoint = Static<typeof VendorSharePointSchema>;
-export type VendorShareVendor = Static<typeof VendorShareVendorSchema>;
 export type VendorShareSeries = Static<typeof VendorShareSeriesSchema>;
 export type RankingsResponse = Static<typeof RankingsResponseSchema>;

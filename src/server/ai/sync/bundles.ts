@@ -24,7 +24,7 @@ import {
 import { and, eq, inArray, asc } from "drizzle-orm";
 import type { SyncKindName } from "@/lib/validation/sync-constants";
 
-export type SyncBundleMap = {
+type SyncBundleMap = {
   characters: { character: typeof characters.$inferSelect };
   personas: { persona: typeof personas.$inferSelect };
   lorebooks: {
@@ -65,7 +65,7 @@ export type SyncBundleMap = {
 export type SyncBundle<K extends SyncKindName = SyncKindName> =
   SyncBundleMap[K];
 
-export type BatchBundleResult = {
+type BatchBundleResult = {
   kind: SyncKindName;
   id: string;
   bundle?: unknown;

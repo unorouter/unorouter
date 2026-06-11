@@ -60,7 +60,7 @@ export function getApiKey(cookie: Record<string, Cookie<unknown>>): string {
 
 // Per-model request-body rewrites the ai-sdk provider can't express
 // (RisuAI LLMFlags request mutations). Applied by a fetch wrapper.
-export type BodyMutations = {
+type BodyMutations = {
   // Anthropic prompt caching: cache_control markers on system + last user.
   injectCacheControl?: boolean;
   // DeepSeek prefix-completion: trailing assistant gets prefix: true.

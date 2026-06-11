@@ -110,41 +110,47 @@ export function PerformanceSection(props: Props) {
         <Table className="text-sm">
           <TableHeader>
             <TableRow className="hover:bg-transparent">
-              <TableHead className="text-muted-foreground h-9 text-[10px] tracking-wider uppercase">
-                {t("MODELS.DETAIL.PERF_GROUP")}
-              </TableHead>
-              <TableHead className="text-muted-foreground h-9 text-right text-[10px] tracking-wider uppercase">
-                {t("MODELS.DETAIL.PERF_TPS")}
-              </TableHead>
-              <TableHead className="text-muted-foreground h-9 text-right text-[10px] tracking-wider uppercase">
-                {t("MODELS.DETAIL.PERF_TTFT")}
-              </TableHead>
-              <TableHead className="text-muted-foreground h-9 text-right text-[10px] tracking-wider uppercase">
-                {t("MODELS.DETAIL.PERF_LATENCY")}
-              </TableHead>
-              <TableHead className="text-muted-foreground h-9 text-right text-[10px] tracking-wider uppercase">
-                {t("MODELS.DETAIL.PERF_SUCCESS")}
-              </TableHead>
+              {(
+                [
+                  "MODELS.DETAIL.PERF_GROUP",
+                  "MODELS.DETAIL.PERF_TPS",
+                  "MODELS.DETAIL.PERF_TTFT",
+                  "MODELS.DETAIL.PERF_LATENCY",
+                  "MODELS.DETAIL.PERF_SUCCESS",
+                ] as const
+              ).map((key, i) => (
+                <TableHead
+                  key={key}
+                  className={cn(
+                    "text-muted-foreground h-9 text-[10px] tracking-wider uppercase",
+                    i > 0 && "text-right",
+                  )}
+                >
+                  {t(key)}
+                </TableHead>
+              ))}
             </TableRow>
           </TableHeader>
           <TableBody>
             {groups.map((group) => (
               <TableRow key={group.group}>
-                <TableCell className="py-2 font-mono text-xs">
-                  {group.group}
-                </TableCell>
-                <TableCell className="py-2 text-right font-mono text-xs">
-                  {formatTps(group.avg_tps)}
-                </TableCell>
-                <TableCell className="py-2 text-right font-mono text-xs">
-                  {formatLatency(group.avg_ttft_ms)}
-                </TableCell>
-                <TableCell className="py-2 text-right font-mono text-xs">
-                  {formatLatency(group.avg_latency_ms)}
-                </TableCell>
-                <TableCell className="py-2 text-right font-mono text-xs">
-                  {formatPct(group.success_rate)}
-                </TableCell>
+                {[
+                  group.group,
+                  formatTps(group.avg_tps),
+                  formatLatency(group.avg_ttft_ms),
+                  formatLatency(group.avg_latency_ms),
+                  formatPct(group.success_rate),
+                ].map((cell, i) => (
+                  <TableCell
+                    key={i}
+                    className={cn(
+                      "py-2 font-mono text-xs",
+                      i > 0 && "text-right",
+                    )}
+                  >
+                    {cell}
+                  </TableCell>
+                ))}
               </TableRow>
             ))}
           </TableBody>

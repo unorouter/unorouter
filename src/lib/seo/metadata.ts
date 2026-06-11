@@ -133,7 +133,7 @@ export function getPageMetadata(params: MetadataParams): Metadata {
   };
 }
 
-export type SeoTimestamp = {
+type SeoTimestamp = {
   published: string;
   modified: string;
 };

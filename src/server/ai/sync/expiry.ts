@@ -20,7 +20,7 @@ import { getSyncedBundle } from "./bundles";
 import { readSyncExpiry } from "./kinds";
 import { DEFAULT_TTL_DAYS, upsertHandlers } from "./upsert";
 
-export type SyncRequestPayload = {
+type SyncRequestPayload = {
   days?: number;
   // First sync needs expiry.
   payload?: unknown;

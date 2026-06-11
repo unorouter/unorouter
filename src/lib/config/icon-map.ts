@@ -17,7 +17,7 @@ export type IconComponent = React.ComponentType<
 
 export type IconLoader = () => Promise<{ default: IconComponent }>;
 
-export type IconEntry = Partial<Record<IconLibraryName, IconLoader>>;
+type IconEntry = Partial<Record<IconLibraryName, IconLoader>>;
 
 export const ICON_MAP: Record<string, IconEntry> = {
   "arrow-down": {

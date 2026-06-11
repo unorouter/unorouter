@@ -7,7 +7,7 @@ import { base64ToDataUri } from "@/lib/utils/base";
 
 const MAX_REF_BYTES = 10 * 1024 * 1024;
 
-export type RefBytes = {
+type RefBytes = {
   buf: Buffer;
   mime: string;
   base64: string;
@@ -27,7 +27,7 @@ export async function fetchAllRefs(urls: string[]): Promise<RefBytes[]> {
   return Promise.all(urls.map(fetchRefBytes));
 }
 
-export type SubmitArgs = {
+type SubmitArgs = {
   model: string;
   prompt: string;
   size?: string;
@@ -47,36 +47,28 @@ export type Built =
   | { kind: "multipart"; path: string; form: FormData };
 
 function buildImageGenerationsBody(args: SubmitArgs): Built {
-  const n = args.n ?? 1;
+  const fields = (
+    [
+      ["model", args.model],
+      ["prompt", args.prompt],
+      ["n", args.n ?? 1],
+      ["size", args.size],
+      ["quality", args.quality],
+      ["output_format", args.outputFormat],
+      ["background", args.background],
+      ["watermark", args.watermark],
+      ["seed", args.seed],
+    ] as Array<[string, unknown]>
+  ).filter(([, v]) => v !== undefined && v !== "");
   if (args.refs.length === 0) {
-    const body: Record<string, unknown> = {
-      model: args.model,
-      prompt: args.prompt,
-      n,
-    };
-    if (args.size) body.size = args.size;
-    if (args.quality) body.quality = args.quality;
-    if (args.outputFormat) body.output_format = args.outputFormat;
-    if (args.background) body.background = args.background;
-    if (args.watermark !== undefined) body.watermark = args.watermark;
-    if (args.seed !== undefined) body.seed = args.seed;
     return {
       kind: "json",
       path: "/v1/images/generations",
-      body: JSON.stringify(body),
+      body: JSON.stringify(Object.fromEntries(fields)),
     };
   }
   const form = new FormData();
-  form.append("model", args.model);
-  form.append("prompt", args.prompt);
-  form.append("n", String(n));
-  if (args.size) form.append("size", args.size);
-  if (args.quality) form.append("quality", args.quality);
-  if (args.outputFormat) form.append("output_format", args.outputFormat);
-  if (args.background) form.append("background", args.background);
-  if (args.watermark !== undefined)
-    form.append("watermark", String(args.watermark));
-  if (args.seed !== undefined) form.append("seed", String(args.seed));
+  for (const [k, v] of fields) form.append(k, String(v));
   for (const r of args.refs) {
     const blob = new Blob([new Uint8Array(r.buf)], { type: r.mime });
     form.append(

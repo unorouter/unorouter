@@ -24,13 +24,13 @@ export type TaskStatus =
   | "FAILURE"
   | "UNKNOWN";
 
-export type TaskSubmitResult = {
+type TaskSubmitResult = {
   taskId: string;
   status: TaskStatus;
   progress: string;
 };
 
-export type TaskFetchResult = {
+type TaskFetchResult = {
   status: TaskStatus;
   progress: string;
   resultUrl?: string;

@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
-import { useCharacterQuery } from "@/hooks/ai/rp/characters";
+import { useCharactersQuery } from "@/hooks/ai/rp/characters";
 import { usePersonaQuery } from "@/hooks/ai/rp/personas";
 import { expandMacros } from "@/lib/ai/chat/macros";
 import { chatLoadoutAtom, greetingIndexAtom } from "@/store/chat-store";
@@ -14,10 +14,14 @@ import { useAtom, useAtomValue } from "jotai";
 export function GreetingPreview() {
   const loadout = useAtomValue(chatLoadoutAtom);
   const [index, setIndex] = useAtom(greetingIndexAtom);
-  const characterQuery = useCharacterQuery(loadout.characterIds[0]);
+  // List query (hydrator-seeded) instead of the item query: the item fetch
+  // can race auth hydration and cache a guest-DB miss.
+  const charactersQuery = useCharactersQuery();
   const personaQuery = usePersonaQuery(loadout.personaId ?? undefined);
 
-  const char = characterQuery.data;
+  const char = charactersQuery.data?.find(
+    (c) => c.id === loadout.characterIds[0],
+  );
   if (!char?.firstMessage) return null;
 
   const greetings = [

@@ -9,7 +9,7 @@ import {
   svgDataUri,
 } from "../lib/utils";
 
-export interface SocialCtx {
+interface SocialCtx {
   theme: Theme;
   size: SocialSize;
   staticMode?: boolean;

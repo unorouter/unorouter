@@ -2,7 +2,7 @@
 // <START> / [Start a new chat] separate blocks; {{char}}:/{{user}}:/<bot>:/<user>:
 // prefix lines, bare lines continue the turn. Caller macro-expands.
 
-export type ExampleTurn = {
+type ExampleTurn = {
   role: "system" | "user" | "assistant";
   text: string;
 };

@@ -52,7 +52,7 @@ type SyncTx = Parameters<
   Parameters<ReturnType<typeof getDb>["transaction"]>[0]
 >[0];
 
-export type UpsertHandler = (
+type UpsertHandler = (
   db: ReturnType<typeof getDb>,
   userId: number,
   id: string,
@@ -66,7 +66,7 @@ function asDate(v: unknown): Date | undefined {
   return v == null ? undefined : new Date(v as string | number | Date);
 }
 
-export function stripUndefined<T extends Record<string, unknown>>(
+function stripUndefined<T extends Record<string, unknown>>(
   obj: T,
 ): Partial<T> {
   const out: Partial<T> = {};

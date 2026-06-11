@@ -1,7 +1,7 @@
 // Tiered billing expression parser; ported from QuantumNous/new-api (AGPL-3.0).
 // Parses billing_mode=tiered_expr -> ParsedTier[]; unknown -> [].
 
-export type BillingVar = {
+type BillingVar = {
   key: string;
   field: string | null;
   label: string;
@@ -12,7 +12,7 @@ export type BillingVar = {
   group?: string;
 };
 
-export const BILLING_VARS: BillingVar[] = [
+const BILLING_VARS: BillingVar[] = [
   {
     key: "p",
     field: "inputPrice",
@@ -95,7 +95,7 @@ export const BILLING_VARS: BillingVar[] = [
   },
 ];
 
-export const BILLING_PRICING_VARS: BillingVar[] = BILLING_VARS.filter(
+const BILLING_PRICING_VARS: BillingVar[] = BILLING_VARS.filter(
   (v) => !v.isConditionOnly,
 );
 
@@ -108,13 +108,13 @@ const BILLING_VAR_REGEX = new RegExp(
   "g",
 );
 
-export type TierCondition = {
+type TierCondition = {
   var: "p" | "c" | "len";
   op: "<" | "<=" | ">" | ">=";
   value: number;
 };
 
-export type ParsedTier = {
+type ParsedTier = {
   label: string;
   conditions: TierCondition[];
   [field: string]: unknown;

@@ -2,13 +2,13 @@ import type { GroupResult } from "@/openapi";
 import { avg } from "@/lib/utils/format/math";
 import { dayjs } from "@/lib/utils/format/date";
 
-export type AggregatedSeriesPoint = {
+type AggregatedSeriesPoint = {
   ts: number;
   label: string;
   ttft_ms: number;
 };
 
-export type AggregatedPerf = {
+type AggregatedPerf = {
   avgTps: number;
   avgLatency: number;
   avgSuccess: number;

@@ -29,7 +29,7 @@ const PAYMENT_METHOD_DEFAULT = "card";
 
 type AcpPaymentMethod = "stripe" | "creem" | "nowpayments";
 
-export type ParsedItemId =
+type ParsedItemId =
   | {
       kind: "topup";
       amountUsd: number;
@@ -252,7 +252,7 @@ async function validateAndResolveItem(
   return resolveItem(parsed, catalog, 0);
 }
 
-export type CreateSessionInput = {
+type CreateSessionInput = {
   userId: number;
   items: CheckoutItem[];
   body: SessionBody;
@@ -284,7 +284,7 @@ export async function createSession(input: CreateSessionInput) {
   return toCartResponse(row);
 }
 
-export type UpdateSessionInput = {
+type UpdateSessionInput = {
   userId: number;
   sessionId: string;
   body: SessionBody;
@@ -365,7 +365,7 @@ export async function cancelSession(userId: number, sessionId: string) {
   ]);
 }
 
-export type CompleteSessionInput = {
+type CompleteSessionInput = {
   userId: number;
   sessionId: string;
   upstreamHeaders: Record<string, string>;

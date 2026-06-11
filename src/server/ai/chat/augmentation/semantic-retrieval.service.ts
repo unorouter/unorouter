@@ -21,7 +21,7 @@ function cosine(a: number[], b: number[]): number {
   return dot / (Math.sqrt(na) * Math.sqrt(nb));
 }
 
-export type RetrievalCandidate = { id: string; text: string };
+type RetrievalCandidate = { id: string; text: string };
 
 export async function retrieveSemantic(
   apiKey: string,

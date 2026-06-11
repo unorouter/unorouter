@@ -2,7 +2,7 @@
 // name so new models pick the right behavior without per-model config. Manual
 // preset flags OR with these, so a user can always force a transform on.
 
-export type ModelRoleFlags = {
+type ModelRoleFlags = {
   // Model accepts a real system role anywhere (no mid-conv system stripping).
   fullSystem: boolean;
   // System messages must be hoisted to the front (informational; uno already
