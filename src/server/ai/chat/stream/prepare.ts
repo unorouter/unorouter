@@ -14,7 +14,16 @@ import { logger } from "@/lib/utils/logger";
 import { ChatContext, StreamOverrides } from "@/lib/validation/chat";
 import { parseRegexScripts } from "@/lib/ai/chat/regex-scripts";
 import { risuUnescape } from "@/lib/ai/chat/macros";
+import {
+  extractLuaCodes,
+  runLuaEditTrigger,
+} from "@/lib/ai/chat/triggers/lua/engine";
+import {
+  makeTriggerContext,
+  parseTriggerScripts,
+} from "@/lib/ai/chat/triggers/vm";
 import { runStartTriggers } from "../augmentation/run-triggers";
+import type { InlayImage } from "../augmentation/inlay.service";
 import { makeServerTriggerOps } from "../augmentation/trigger-ops";
 import { buildMemoryContext } from "../augmentation/memory.service";
 import {
@@ -148,8 +157,54 @@ export async function prepareChatRequest(
       ? applyRegexScripts(pdfInlined, regexScripts)
       : pdfInlined;
 
-  const recentUserTexts = collectRecentUserTexts(messagesWithPdfText);
-  const history = collectHistory(messagesWithPdfText, body.messageTimes);
+  // Lua listenEdit('editInput') on the last user message (Risu edit pipeline).
+  let messagesAfterLua = messagesWithPdfText;
+  const triggerScriptsRaw = parseTriggerScripts(
+    (primaryChar as { triggers?: unknown } | undefined)?.triggers,
+  );
+  const luaCodes = extractLuaCodes(triggerScriptsRaw);
+  if (luaCodes.length > 0) {
+    const editCtx = makeTriggerContext({
+      mode: "input",
+      vars: {},
+      globalVars: {},
+      chat: [],
+    });
+    const lastUserIdx = (() => {
+      for (let i = messagesAfterLua.length - 1; i >= 0; i--) {
+        if (messagesAfterLua[i].role === "user") return i;
+      }
+      return -1;
+    })();
+    if (lastUserIdx !== -1) {
+      const m = messagesAfterLua[lastUserIdx];
+      if (Array.isArray(m.parts)) {
+        const parts = await Promise.all(
+          m.parts.map(async (p) =>
+            p.type === "text" && typeof p.text === "string"
+              ? {
+                  ...p,
+                  text: await runLuaEditTrigger(
+                    luaCodes,
+                    "editinput",
+                    editCtx,
+                    p.text,
+                  ),
+                }
+              : p,
+          ),
+        );
+        messagesAfterLua = messagesAfterLua.map((mm, i) =>
+          i === lastUserIdx
+            ? ({ ...mm, parts } as (typeof messagesAfterLua)[number])
+            : mm,
+        );
+      }
+    }
+  }
+
+  const recentUserTexts = collectRecentUserTexts(messagesAfterLua);
+  const history = collectHistory(messagesAfterLua, body.messageTimes);
   // Global vars ride outside the hashed context; hashing them would bust the cache every setglobalvar turn.
   const globalVarsIn = body.globalVars ?? clientCtx?.globalVars ?? null;
 
@@ -158,7 +213,7 @@ export async function prepareChatRequest(
     ? parseStringMap(convCtx.settings.vars)
     : {};
   const triggerGlobalVars = parseStringMap(globalVarsIn);
-  const inlayMedia: import("../augmentation/inlay.service").InlayImage[] = [];
+  const inlayMedia: InlayImage[] = [];
   const startTrig = convCtx
     ? await runStartTriggers(
         convCtx,
@@ -180,7 +235,7 @@ export async function prepareChatRequest(
     apiKey,
     memorySettings,
     history,
-    extractLastUserText(messagesWithPdfText),
+    extractLastUserText(messagesAfterLua),
     (convCtx?.lbEntries ?? [])
       .filter((e) => e.content)
       .map((e) => ({ id: e.id, text: e.content })),
@@ -221,8 +276,8 @@ export async function prepareChatRequest(
     : 0;
   const unsummarized =
     summaryAnchor > 0
-      ? dropSummarizedPrefix(messagesWithPdfText, summaryAnchor)
-      : messagesWithPdfText;
+      ? dropSummarizedPrefix(messagesAfterLua, summaryAnchor)
+      : messagesAfterLua;
 
   // chatMemory is a user-set message COUNT cap; apply it first if set.
   const countSliced =
@@ -364,6 +419,42 @@ export async function prepareChatRequest(
   if (mustEndWithUserInput) {
     processedMessages = appendUserStub(processedMessages);
   }
+  // Lua listenEdit('editRequest') over the formated {role, content} array.
+  if (luaCodes.length > 0) {
+    const editCtx = makeTriggerContext({
+      mode: "request",
+      vars: {},
+      globalVars: {},
+      chat: [],
+    });
+    const formated = processedMessages.map((m) => ({
+      role: m.role,
+      content: Array.isArray(m.parts)
+        ? m.parts
+            .filter((p) => p.type === "text" && typeof p.text === "string")
+            .map((p) => (p as { text: string }).text)
+            .join("\n")
+        : "",
+    }));
+    const edited = await runLuaEditTrigger(
+      luaCodes,
+      "editrequest",
+      editCtx,
+      formated,
+    );
+    if (Array.isArray(edited) && edited.length === formated.length) {
+      processedMessages = processedMessages.map((m, i) =>
+        edited[i] &&
+        typeof edited[i].content === "string" &&
+        edited[i].content !== formated[i].content
+          ? ({
+              ...m,
+              parts: [{ type: "text", text: edited[i].content }],
+            } as (typeof processedMessages)[number])
+          : m,
+      );
+    }
+  }
   // #escape protection ends here: un-map private-use chars before upstream.
   const messagesForUpstream = unescapeMessages(processedMessages);
 
@@ -413,10 +504,29 @@ export async function prepareChatRequest(
     presencePenalty: assembled.sampling.presencePenalty,
   });
 
+  // extraBody is free-form user JSON; on a free model a max_tokens /
+  // max_completion_tokens key here would land in the provider body and
+  // override the clamped FREE_MODEL_OUTPUT_CAP. Strip token-limit keys for
+  // free models so the cap holds.
+  const safeExtraBody =
+    modelInfo?.isFree && assembled.extraBody
+      ? Object.fromEntries(
+          Object.entries(assembled.extraBody).filter(
+            ([k]) =>
+              ![
+                "max_tokens",
+                "max_completion_tokens",
+                "maxOutputTokens",
+                "max_output_tokens",
+              ].includes(k),
+          ),
+        )
+      : assembled.extraBody;
+
   // extraBody first: sliders/reasoning win on key collision.
   const providerOptions = {
     openai: {
-      ...(assembled.extraBody ?? {}),
+      ...(safeExtraBody ?? {}),
       ...defined({
         min_p: assembled.sampling.minP,
         top_a: assembled.sampling.topA,
