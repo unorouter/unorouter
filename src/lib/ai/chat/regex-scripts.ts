@@ -136,6 +136,27 @@ function parsedFor(
   return parsed;
 }
 
+// Card regex scripts are user-authored and run server-side during stream prep.
+// A pathological pattern (nested quantifiers) on a long string is catastrophic
+// backtracking that stalls the single-threaded event loop for ALL requests.
+// Pure-JS regex can't be interrupted, but ReDoS blowup is superlinear in input
+// length, so refusing to run a script against an oversized string defangs it.
+// 100k chars is far above any real message (~25k tokens) yet small enough that
+// even a degenerate pattern stays bounded.
+const MAX_REGEX_INPUT = 100_000;
+
+// Conservative catastrophic-backtracking detector for user-authored patterns.
+// Flags a group closed by an unbounded quantifier whose body contains another
+// unbounded quantifier (`(a+)+`, `(a*)*`, `(.+)+`, `(\d+|x)*`, including a `{n,}`
+// open upper bound). False positives only cost the offending script (skipped);
+// false negatives are the danger, so the body-class is kept broad.
+const NESTED_QUANTIFIER_RE =
+  /\([^()]*(?:[+*]|\{\d+,\})[^()]*\)\s*(?:[+*]|\{\d+,\})/;
+
+function isReDoSProne(pattern: string): boolean {
+  return NESTED_QUANTIFIER_RE.test(pattern);
+}
+
 export function runRegexScripts(
   text: string,
   scripts: RegexScript[],
@@ -146,6 +167,7 @@ export function runRegexScripts(
 
   let data = text;
   for (const p of parsed) {
+    if (data.length > MAX_REGEX_INPUT) break;
     try {
       data = executeScript(data, p, opts);
     } catch {
@@ -174,6 +196,11 @@ function executeScript(
   let input = script.in;
   if (p.actions.includes("cbs") && opts.expand) {
     input = opts.expand(input);
+  }
+  if (isReDoSProne(input)) {
+    // Nested unbounded quantifier: catastrophic-backtracking risk. Skip the
+    // whole script (handled like a bad pattern) rather than run it.
+    throw new Error("regex-redos-skip");
   }
   const reg = new RegExp(input, flag);
 
