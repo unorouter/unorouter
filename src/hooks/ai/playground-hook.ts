@@ -2,7 +2,7 @@
 
 import { useElysiaQuery } from "@/hooks/use-elysia-query";
 
-import { useAuthQuery } from "@/hooks/auth/auth-hook";
+import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import {
   mirrorSessionIfSynced,
   unmirrorIfSynced,
@@ -82,11 +82,10 @@ function imageToMediaRow(
 }
 
 export function useSessionHistoryQuery() {
-  const auth = useAuthQuery();
+  const userId = useLocalUserId();
   return useQuery({
     queryKey: queryKeys.playgroundSessionList(undefined),
     queryFn: async () => {
-      const userId = auth.data?.id ?? GUEST_USER_ID;
       const sessions = (await readLocalGenerationSessions(userId)) ?? [];
       const items = await Promise.all(
         sessions.map(async (session) => {
@@ -112,11 +111,10 @@ export function useSessionHistoryQuery() {
 }
 
 export function useSessionQuery(sessionId: string | null | undefined) {
-  const auth = useAuthQuery();
+  const userId = useLocalUserId();
   return useQuery({
     queryKey: queryKeys.playgroundSession(sessionId ?? ""),
     queryFn: async () => {
-      const userId = auth.data?.id ?? GUEST_USER_ID;
       const bundle = await readLocalGenerationSessionBundle(userId, sessionId!);
       if (!bundle) throw new Error("playground-session-not-found");
       // Newest-first to match the result view's snapshot navigation.
@@ -132,11 +130,10 @@ export function useSessionQuery(sessionId: string | null | undefined) {
 
 // Single snapshot read; the form's "seed" lookup uses this.
 export function useSnapshotQuery(id: string | null) {
-  const auth = useAuthQuery();
+  const userId = useLocalUserId();
   return useQuery({
     queryKey: queryKeys.playgroundSnapshot(id ?? ""),
     queryFn: async (): Promise<SnapshotView> => {
-      const userId = auth.data?.id ?? GUEST_USER_ID;
       const view = await readLocalGenerationSessionBundleForSnapshot(
         userId,
         id!,
@@ -171,12 +168,11 @@ export function useSnapshotStatusQuery(
   enabled = true,
 ) {
   const t = useTranslations();
-  const auth = useAuthQuery();
+  const userId = useLocalUserId();
   const qc = useQueryClient();
   return useQuery({
     queryKey: queryKeys.playgroundSnapshotStatus(id ?? ""),
     queryFn: async (): Promise<SnapshotView | null> => {
-      const userId = auth.data?.id ?? GUEST_USER_ID;
       const view = await readLocalGenerationSessionBundleForSnapshot(
         userId,
         id!,
@@ -338,11 +334,11 @@ async function runSubmit(
 export function useSubmitGenerationMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
-  const auth = useAuthQuery();
+  const userId = useLocalUserId();
 
   return useMutation({
     mutationFn: async (body: PlaygroundSubmitBody & { sessionId?: string }) =>
-      runSubmit(auth.data?.id ?? GUEST_USER_ID, body),
+      runSubmit(userId, body),
     onError: (e) => handleError(e, t),
     onSuccess: (data) => {
       invalidateAndBroadcast(qc, [
@@ -357,10 +353,9 @@ export function useSubmitGenerationMutation() {
 export function useDeleteSnapshotMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
-  const auth = useAuthQuery();
+  const userId = useLocalUserId();
   return useMutation({
     mutationFn: async (args: { id: string }) => {
-      const userId = auth.data?.id ?? GUEST_USER_ID;
       const view = await readLocalGenerationSessionBundleForSnapshot(
         userId,
         args.id,
@@ -409,10 +404,9 @@ export function useDeleteSnapshotMutation() {
 // Reads a session's local bundle into a portable JSON payload (base64 images).
 export function useExportSessionMutation() {
   const t = useTranslations();
-  const auth = useAuthQuery();
+  const userId = useLocalUserId();
   return useMutation({
     mutationFn: async (args: { sessionId: string }) => {
-      const userId = auth.data?.id ?? GUEST_USER_ID;
       return exportLocalSession(userId, args.sessionId);
     },
     onError: (e) => handleError(e, t),
@@ -423,13 +417,12 @@ export function useExportSessionMutation() {
 export function useImportGenerationMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
-  const auth = useAuthQuery();
+  const userId = useLocalUserId();
   return useMutation({
     mutationFn: async (args: {
       payload: PlaygroundSnapshot | SessionSnapshot;
       mode: GenerationCloneMode;
     }) => {
-      const userId = auth.data?.id ?? GUEST_USER_ID;
       if (args.mode === "restore") {
         return importLocalSession(userId, args.payload);
       }

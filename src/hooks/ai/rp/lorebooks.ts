@@ -1,9 +1,8 @@
 "use client";
 
-import { GUEST_USER_ID } from "@/lib/config/constants";
 import { useApiMutation } from "@/hooks/use-api-mutation";
 
-import { useAuthQuery } from "@/hooks/auth/auth-hook";
+import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import {
   deleteLocalLorebook,
   deleteLocalLorebookEntry,
@@ -51,10 +50,9 @@ export const useDeleteLorebookMutation = lorebooks.useDelete;
 
 // Bespoke update re-mirrors bundle after edit.
 export function useUpdateLorebookMutation() {
-  const auth = useAuthQuery();
+  const userId = useLocalUserId();
   return useApiMutation({
     mutationFn: async (args: { id: string; body: LorebookBody }) => {
-      const userId = auth.data?.id ?? GUEST_USER_ID;
       const existing = await readLocalLorebook(userId, args.id);
       if (!existing) throw new Error("not-found");
       const now = dayjs().toDate();
@@ -70,10 +68,9 @@ export function useUpdateLorebookMutation() {
 }
 
 export function useImportLorebookMutation() {
-  const auth = useAuthQuery();
+  const userId = useLocalUserId();
   return useApiMutation({
     mutationFn: async (file: File) => {
-      const userId = auth.data?.id ?? GUEST_USER_ID;
       let raw: unknown;
       try {
         raw = JSON.parse(await file.text());
@@ -129,10 +126,9 @@ export function useImportLorebookMutation() {
 // Entries.
 
 export function useCreateLorebookEntryMutation(lorebookId: string) {
-  const auth = useAuthQuery();
+  const userId = useLocalUserId();
   return useApiMutation({
     mutationFn: async (body: LorebookEntryBody) => {
-      const userId = auth.data?.id ?? GUEST_USER_ID;
       const now = dayjs().toDate();
       // Append to the end: next orderIndex above the current max (Risu insertorder).
       const lb = await readLocalLorebook(userId, lorebookId);
@@ -156,10 +152,9 @@ export function useCreateLorebookEntryMutation(lorebookId: string) {
 }
 
 export function useUpdateLorebookEntryMutation(lorebookId: string) {
-  const auth = useAuthQuery();
+  const userId = useLocalUserId();
   return useApiMutation({
     mutationFn: async (args: { entryId: string; body: LorebookEntryBody }) => {
-      const userId = auth.data?.id ?? GUEST_USER_ID;
       const now = dayjs().toDate();
       const lb = await readLocalLorebook(userId, lorebookId);
       const existing = lb?.entries.find((e) => e.id === args.entryId);
@@ -181,10 +176,9 @@ export function useUpdateLorebookEntryMutation(lorebookId: string) {
 }
 
 export function useReorderLorebookEntriesMutation(lorebookId: string) {
-  const auth = useAuthQuery();
+  const userId = useLocalUserId();
   return useApiMutation({
     mutationFn: async (orderedIds: string[]) => {
-      const userId = auth.data?.id ?? GUEST_USER_ID;
       const now = dayjs().toDate();
       const lb = await readLocalLorebook(userId, lorebookId);
       if (!lb) return;
@@ -205,10 +199,9 @@ export function useReorderLorebookEntriesMutation(lorebookId: string) {
 }
 
 export function useDeleteLorebookEntryMutation(lorebookId: string) {
-  const auth = useAuthQuery();
+  const userId = useLocalUserId();
   return useApiMutation({
     mutationFn: async (entryId: string) => {
-      const userId = auth.data?.id ?? GUEST_USER_ID;
       await deleteLocalLorebookEntry(userId, entryId);
       await mirrorLorebookIfSynced(userId, lorebookId);
       return { id: entryId };

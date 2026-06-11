@@ -7,6 +7,7 @@ import { getLocale } from "next-intl/server";
 import { cookies, headers } from "next/headers";
 import {
   AUTH_REDIRECT_QUERY,
+  GUEST_USER_ID,
   LOCALE_COOKIE,
   LOCALES,
   msg,
@@ -65,6 +66,15 @@ export const getCookieValue = async <T>(
   } catch {
     return undefined;
   }
+};
+
+// Authoritative local-DB owner from the sealed user-id cookie; GUEST_USER_ID
+// when absent/invalid. Server components ONLY. Injected into the client tree so
+// the local DB owner is correct on first paint (no auth-query race). Defined
+// here (not in config/constants) to avoid pulling iron-session into clients.
+export const getResolvedUserId = async (): Promise<number> => {
+  const sealed = (await cookies()).get(USER_ID_COOKIE)?.value;
+  return (await verifyUserId(sealed)) ?? GUEST_USER_ID;
 };
 
 export const getDocsApiKey = async (placeholder = "YOUR_API_KEY") => {

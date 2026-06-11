@@ -1,8 +1,5 @@
 "use client";
-/* eslint-disable react-hooks/refs -- transport built once in a ref;
-   userIdRef carries the live user into the async body callbacks. */
 
-import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { fnv1aHex } from "@/lib/utils/base";
 import {
   chatDefaultsAtom,
@@ -13,6 +10,7 @@ import {
   chatWebSearchAtom,
   convIdAtom,
   globalVarsAtom,
+  localUserIdAtom,
   speakingCharacterIdAtom,
 } from "@/store/chat-store";
 import { DefaultChatTransport } from "ai";
@@ -64,23 +62,20 @@ function hashableContext(ctx: unknown): string {
   return JSON.stringify({ ...c, settings });
 }
 
-// Built once; userIdRef refreshed each render for live user in async body.
+// Built once; the body callback reads the live local user from the store.
 export function useChatTransport() {
-  const auth = useAuthQuery();
-  const userIdRef = useRef(auth.data?.id);
-  userIdRef.current = auth.data?.id;
-
   const transportRef = useRef(
     new DefaultChatTransport({
       api: "/api/ai/chat/stream",
       body: async () => {
+        const userId = chatStore.get(localUserIdAtom);
         const convId = chatStore.get(convIdAtom);
         // Dynamic: the RP context builder drags lorebook/trigger machinery
         // (~110KB gzip) that must not sit in the page's first-paint chunks.
         const loadout = chatStore.get(chatLoadoutAtom);
         const baseContext = convId
           ? await import("@/lib/db/client/data/chat-context").then((m) =>
-              m.buildChatContextFromLocalDb(userIdRef.current, convId, {
+              m.buildChatContextFromLocalDb(userId, convId, {
                 // New conv first send: initialize() races this; wait for the
                 // loadout's bindings so turn 1 carries the character.
                 expectBindings:
@@ -94,7 +89,7 @@ export function useChatTransport() {
         let messageTimes: Record<string, number> | undefined;
         if (convId) {
           const rows = await import("@/lib/db/client/data/chat").then((m) =>
-            m.readLocalMessages(userIdRef.current, convId),
+            m.readLocalMessages(userId, convId),
           );
           if (rows && rows.length > 0) {
             messageTimes = {};
@@ -206,5 +201,8 @@ export function useChatTransport() {
       },
     }),
   );
+  // Built once in a ref; the body callback reads live state from the store, so
+  // returning current at render is safe.
+  // eslint-disable-next-line react-hooks/refs -- stable transport built once
   return transportRef.current;
 }

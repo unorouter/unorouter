@@ -2,9 +2,9 @@
 
 import { useElysiaQuery } from "@/hooks/use-elysia-query";
 
-import { useAuthQuery } from "@/hooks/auth/auth-hook";
+import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { joinItemsToMessages } from "@/lib/ai/chat/messages";
-import { GUEST_USER_ID, PAGE_SIZE } from "@/lib/config/constants";
+import { PAGE_SIZE } from "@/lib/config/constants";
 import { invalidateAndBroadcast } from "@/lib/react-query/cross-tab-invalidate";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
@@ -64,9 +64,9 @@ function useChatMutation<TArgs, TData>(
 ) {
   const t = useTranslations();
   const qc = useQueryClient();
-  const auth = useAuthQuery();
+  const userId = useLocalUserId();
   return useMutation({
-    mutationFn: (args: TArgs) => fn(auth.data?.id ?? GUEST_USER_ID, args),
+    mutationFn: (args: TArgs) => fn(userId, args),
     onError: (e) => handleError(e, t),
     onSuccess: (_data, args) => {
       invalidateAndBroadcast(qc, keysFor(args) as string[][]);
@@ -76,11 +76,10 @@ function useChatMutation<TArgs, TData>(
 }
 
 export function useConversationsInfiniteQuery(keyword?: string) {
-  const auth = useAuthQuery();
+  const userId = useLocalUserId();
   return useInfiniteQuery({
     queryKey: queryKeys.conversations(keyword),
     queryFn: async ({ pageParam }) => {
-      const userId = auth.data?.id ?? GUEST_USER_ID;
       const local = (await readLocalConversations(userId)) ?? [];
       const filtered = keyword
         ? local.filter((c) =>
@@ -104,11 +103,10 @@ export function useConversationsInfiniteQuery(keyword?: string) {
 }
 
 export function useConversationQuery(id?: string) {
-  const auth = useAuthQuery();
+  const userId = useLocalUserId();
   return useQuery({
     queryKey: queryKeys.chatMeta(id!),
     queryFn: async () => {
-      const userId = auth.data?.id ?? GUEST_USER_ID;
       if (id) {
         const local = await readLocalConversation(userId, id);
         if (local) return local;
@@ -121,11 +119,10 @@ export function useConversationQuery(id?: string) {
 }
 
 export function useMessagesInfiniteQuery(id?: string) {
-  const auth = useAuthQuery();
+  const userId = useLocalUserId();
   return useInfiniteQuery({
     queryKey: queryKeys.chatMessages(id!),
     queryFn: async ({ pageParam }) => {
-      const userId = auth.data?.id ?? GUEST_USER_ID;
       if (!id)
         return { messages: [], total: 0, page: pageParam, pageSize: PAGE_SIZE };
       const msgs = (await readLocalMessages(userId, id)) ?? [];

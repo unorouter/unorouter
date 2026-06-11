@@ -1,8 +1,7 @@
 "use client";
 
-import { GUEST_USER_ID } from "@/lib/config/constants";
 
-import { useAuthQuery } from "@/hooks/auth/auth-hook";
+import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { upsertLocalMedia } from "@/lib/db/client/data/media";
 import {
   deleteLocalCharacter,
@@ -40,10 +39,9 @@ export const useDeleteCharacterMutation = characters.useDelete;
 // Client-side card parser: bytes -> media row + character row referencing it.
 // Sync flow: media base64 -> server uploads to R2 -> Turso pointer-only.
 export function useImportCharacterCardMutation() {
-  const auth = useAuthQuery();
+  const userId = useLocalUserId();
   return useApiMutation({
     mutationFn: async (file: File) => {
-      const userId = auth.data?.id ?? GUEST_USER_ID;
       // Dynamic: character-foundry + image codecs (~110KB gzip) load on the
       // import action, not with the chat shell.
       const { card, imageBytes, imageMime } =

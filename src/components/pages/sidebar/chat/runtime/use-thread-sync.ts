@@ -2,7 +2,7 @@
 
 import { useConversationQuery } from "@/hooks/ai/chat-hook";
 import { mirrorConvRowIfSynced } from "@/lib/db/client/sync/mirror";
-import { useAuthQuery } from "@/hooks/auth/auth-hook";
+import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import {
   readLocalConversation,
   updateLocalConversationSettings,
@@ -28,7 +28,7 @@ export function useConvIdSync(remoteId: string | null | undefined) {
 
 // Two-way model sync: conv seeds atom; later atom changes patch settings-only.
 export function useModelSync(remoteId: string | null | undefined) {
-  const auth = useAuthQuery();
+  const userId = useLocalUserId();
   const setChatModel = useSetAtom(chatModelAtom);
   const queryClient = useQueryClient();
   const conversationQuery = useConversationQuery(remoteId ?? undefined);
@@ -42,7 +42,6 @@ export function useModelSync(remoteId: string | null | undefined) {
     setChatModel(serverModel);
   }, [remoteId, serverModel, setChatModel]);
 
-  const userId = auth.data?.id;
   useEffect(() => {
     return chatStore.sub(chatModelAtom, () => {
       const id = chatStore.get(convIdAtom);
@@ -71,7 +70,7 @@ export function useModelSync(remoteId: string | null | undefined) {
 
 // Two-way group sync: conv seeds atom; later atom changes patch settings-only.
 export function useGroupSync(remoteId: string | null | undefined) {
-  const auth = useAuthQuery();
+  const userId = useLocalUserId();
   const setChatGroup = useSetAtom(chatGroupAtom);
   const queryClient = useQueryClient();
   const conversationQuery = useConversationQuery(remoteId ?? undefined);
@@ -84,7 +83,6 @@ export function useGroupSync(remoteId: string | null | undefined) {
     setChatGroup(serverGroup);
   }, [remoteId, serverGroup, setChatGroup]);
 
-  const userId = auth.data?.id;
   useEffect(() => {
     return chatStore.sub(chatGroupAtom, () => {
       const id = chatStore.get(convIdAtom);

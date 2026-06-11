@@ -4,6 +4,8 @@ import { setLocalSyncFlag } from "@/lib/db/client/sync/reconcile";
 import { useElysiaQuery } from "@/hooks/use-elysia-query";
 
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
+import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
+import { GUEST_USER_ID } from "@/lib/config/constants";
 import { buildSyncPayload } from "@/lib/db/client/sync/build-payload";
 import { evictMediaBase64After } from "@/lib/db/client/sync/evict-media";
 import { rehydrateParentMedia } from "@/lib/db/client/sync/rehydrate-media";
@@ -83,13 +85,12 @@ type SyncArgs = {
 export function useSyncMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
-  const auth = useAuthQuery();
+  const userId = useLocalUserId();
   return useMutation({
     mutationFn: async (args: SyncArgs) => {
-      const userId = auth.data?.id;
       const payload =
         args.payload ??
-        (userId != null
+        (userId > GUEST_USER_ID
           ? await buildSyncPayload(userId, args.kind, args.id)
           : undefined);
 
@@ -101,7 +102,7 @@ export function useSyncMutation() {
       ) as SyncBundle;
 
       const row = bundleSyncRow(result);
-      if (userId != null) {
+      if (userId > GUEST_USER_ID) {
         // Stamp the server-assigned expiry on the local row for EVERY kind;
         // without it the mirror gates (syncExpiresAt != null) stay closed on
         // the enrolling device and later edits never reach Turso.
@@ -128,15 +129,14 @@ type RemoveArgs = { kind: SyncKindName; id: string };
 export function useRemoveSyncMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
-  const auth = useAuthQuery();
+  const userId = useLocalUserId();
   return useMutation({
     mutationFn: async (args: RemoveArgs) => {
-      const userId = auth.data?.id;
       // Push devices evicted media base64 after R2 upload; the server purges
       // the R2 prefix on unsync, so pull the bytes back first.
-      if (userId != null && args.kind === "conversations") {
+      if (userId > GUEST_USER_ID && args.kind === "conversations") {
         await rehydrateParentMedia(userId, { convId: args.id });
-      } else if (userId != null && args.kind === "playgroundSessions") {
+      } else if (userId > GUEST_USER_ID && args.kind === "playgroundSessions") {
         await rehydrateParentMedia(userId, { playgroundSessionId: args.id });
       }
       const result = handleElysia(
@@ -144,12 +144,13 @@ export function useRemoveSyncMutation() {
       );
       // Clear the local flag for every kind so the mirror gate closes
       // immediately (not only after the next reconcile sweep).
-      if (userId != null) {
+      if (userId > GUEST_USER_ID) {
         await setLocalSyncFlag(userId, args.kind, args.id, null);
       }
       // A queued patch draining after removal would re-enroll the row
       // (keepExpiry falls back to the default TTL when no expiry exists).
-      if (userId != null) await clearPending(userId, args.kind, args.id);
+      if (userId > GUEST_USER_ID)
+        await clearPending(userId, args.kind, args.id);
       patchSyncStateCache(qc, args.kind, args.id, null);
       return result;
     },

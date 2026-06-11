@@ -6,14 +6,13 @@ import { MyFormTextarea } from "@/components/elements/form/my-form-textarea";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { Icon } from "@/components/ui/icon";
-import { useAuthQuery } from "@/hooks/auth/auth-hook";
+import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import {
   useCharacterQuery,
   useCreateCharacterMutation,
   useUpdateCharacterMutation,
 } from "@/hooks/ai/rp/characters";
 import { useMediaSrc } from "@/hooks/ai/use-media-src";
-import { GUEST_USER_ID } from "@/lib/config/constants";
 import { upsertLocalMedia } from "@/lib/db/client/data/media";
 import {
   characterFormSchema,
@@ -39,7 +38,7 @@ type BgDraft =
 
 export function CharacterEditor(props: Props) {
   const t = useTranslations();
-  const auth = useAuthQuery();
+  const userId = useLocalUserId();
   const characterQuery = useCharacterQuery(props.characterId);
   const createMut = useCreateCharacterMutation();
   const updateMut = useUpdateCharacterMutation();
@@ -80,7 +79,6 @@ export function CharacterEditor(props: Props) {
     if (bgDraft.kind === "keep") return existing?.backgroundMediaId ?? null;
     const parts = splitDataUrl(bgDraft.dataUrl);
     if (!parts) return existing?.backgroundMediaId ?? null;
-    const userId = auth.data?.id ?? GUEST_USER_ID;
     const mediaId = uid();
     await upsertLocalMedia(userId, {
       id: mediaId,

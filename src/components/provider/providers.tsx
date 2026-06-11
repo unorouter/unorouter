@@ -1,7 +1,7 @@
 import { ConfirmProvider } from "@/components/ui/confirm";
 import { TriggerAlertProvider } from "@/components/ui/trigger-alert";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { getCookieValue } from "@/lib/utils/server";
+import { getCookieValue, getResolvedUserId } from "@/lib/utils/server";
 import { CHAT_STORE_KEY, type ChatState } from "@/store/chat-store";
 import { CLIENT_STORE_KEY, type ClientState } from "@/store/client-store";
 import { MODELS_STORE_KEY, type ModelsStoreState } from "@/store/models-store";
@@ -23,6 +23,7 @@ import { WebMcpProvider } from "./app/webmcp-provider";
 import { AppPrefetchProvider } from "./state/app-prefetch-provider";
 import { ChatStoreProvider } from "./state/chat-store-provider";
 import { ClientProvider } from "./state/client-provider";
+import { UserIdProvider } from "./state/user-id-provider";
 import { JotaiProvider } from "./state/jotai-provider";
 import { ModelsStoreProvider } from "./state/models-store-provider";
 import { NavigationStoreProvider } from "./state/navigation-store-provider";
@@ -37,6 +38,7 @@ export function Providers(props: { children: ReactNode }) {
   const clientStore = use(getCookieValue<ClientState>(CLIENT_STORE_KEY));
   const chatStoreCookie = use(getCookieValue<ChatState>(CHAT_STORE_KEY));
   const userTheme = use(getCookieValue<UserTheme>(USER_THEME_KEY));
+  const localUserId = use(getResolvedUserId());
 
   return (
     <QueryProvider>
@@ -44,28 +46,30 @@ export function Providers(props: { children: ReactNode }) {
         <NavigationStoreProvider data={navigationStore}>
           <ModelsStoreProvider data={modelsStore}>
             <ChatStoreProvider data={chatStoreCookie}>
-              <ClientProvider data={clientStore}>
-                <UserThemeStoreProvider data={userTheme}>
-                  <UserProvider>
-                    <LanguageProvider>
-                      <ThemeProvider>
-                        <UserThemeProvider>
-                          <PostHogProvider>
-                            <WebMcpProvider />
-                            <ConfirmProvider />
-                            <TriggerAlertProvider />
-                            <TooltipProvider>
-                              <AppPrefetchProvider>
-                                {props.children}
-                              </AppPrefetchProvider>
-                            </TooltipProvider>
-                          </PostHogProvider>
-                        </UserThemeProvider>
-                      </ThemeProvider>
-                    </LanguageProvider>
-                  </UserProvider>
-                </UserThemeStoreProvider>
-              </ClientProvider>
+              <UserIdProvider userId={localUserId}>
+                <ClientProvider data={clientStore}>
+                  <UserThemeStoreProvider data={userTheme}>
+                    <UserProvider>
+                      <LanguageProvider>
+                        <ThemeProvider>
+                          <UserThemeProvider>
+                            <PostHogProvider>
+                              <WebMcpProvider />
+                              <ConfirmProvider />
+                              <TriggerAlertProvider />
+                              <TooltipProvider>
+                                <AppPrefetchProvider>
+                                  {props.children}
+                                </AppPrefetchProvider>
+                              </TooltipProvider>
+                            </PostHogProvider>
+                          </UserThemeProvider>
+                        </ThemeProvider>
+                      </LanguageProvider>
+                    </UserProvider>
+                  </UserThemeStoreProvider>
+                </ClientProvider>
+              </UserIdProvider>
             </ChatStoreProvider>
           </ModelsStoreProvider>
         </NavigationStoreProvider>

@@ -1,3 +1,4 @@
+import { GUEST_USER_ID } from "@/lib/config/constants";
 import { jotaiCookieStorage } from "@/lib/config/table-storage";
 import type { StreamOverrides } from "@/lib/validation/chat";
 import { uid } from "@/lib/utils/base";
@@ -150,6 +151,13 @@ export const lastStreamErrorAtom = atom<{ message: string; at: number } | null>(
 
 // Speaking character for the current stream (multi-character rotation); in-memory per tab.
 export const speakingCharacterIdAtom = atom<string | null>(null);
+
+// Authoritative local-DB owner (real user id, or GUEST_USER_ID). Seeded
+// server-side by UserIdProvider from the sealed user-id cookie, so it is
+// correct on the first client render with no auth-query race. Read via
+// useLocalUserId() in React, or chatStore.get(localUserIdAtom) in the
+// imperative stream/runtime callbacks.
+export const localUserIdAtom = atom<number>(GUEST_USER_ID);
 
 // Non-React stream callbacks read via chatStore.get/set.
 export const chatStore = createStore();

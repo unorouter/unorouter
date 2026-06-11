@@ -1,13 +1,8 @@
 "use client";
 
-import { useAuthQuery } from "@/hooks/auth/auth-hook";
+import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { useApiMutation } from "@/hooks/use-api-mutation";
-import {
-  GUEST_USER_ID,
-  msg,
-  NATIVE_VERSION,
-  ORPG_VERSION,
-} from "@/lib/config/constants";
+import { msg, NATIVE_VERSION, ORPG_VERSION } from "@/lib/config/constants";
 import {
   readLocalConversation,
   readLocalConversationBindings,
@@ -44,11 +39,10 @@ import {
 } from "@/lib/db/client/sync/mirror";
 
 export function useChatSettingsQuery(convId?: string) {
-  const auth = useAuthQuery();
+  const userId = useLocalUserId();
   return useQuery({
     queryKey: queryKeys.chatSettings(convId!),
     queryFn: async () => {
-      const userId = auth.data?.id ?? GUEST_USER_ID;
       if (!convId) return null;
       return (await readLocalConversationSettings(userId, convId)) ?? null;
     },
@@ -57,7 +51,7 @@ export function useChatSettingsQuery(convId?: string) {
 }
 
 export function useUpdateChatSettingsMutation() {
-  const auth = useAuthQuery();
+  const userId = useLocalUserId();
   return useApiMutation({
     mutationFn: async (args: {
       convId: string;
@@ -65,7 +59,6 @@ export function useUpdateChatSettingsMutation() {
       // Drawer save pairs settings + bindings; lets caller mirror once after.
       skipMirror?: boolean;
     }) => {
-      const userId = auth.data?.id ?? GUEST_USER_ID;
       const existing = await readLocalConversationSettings(userId, args.convId);
       const now = dayjs().toDate();
       const updated = {
@@ -88,11 +81,10 @@ export function useUpdateChatSettingsMutation() {
 }
 
 export function useChatBindingsQuery(convId?: string) {
-  const auth = useAuthQuery();
+  const userId = useLocalUserId();
   return useQuery({
     queryKey: queryKeys.chatBindings(convId!),
     queryFn: async () => {
-      const userId = auth.data?.id ?? GUEST_USER_ID;
       if (!convId) throw new Error("not-found");
       const local = await readLocalConversationBindings(userId, convId);
       // Surface server keys (characters/lorebooks).
@@ -106,30 +98,30 @@ export function useChatBindingsQuery(convId?: string) {
 }
 
 export function useUpdateChatBindingsMutation() {
-  const auth = useAuthQuery();
+  const userId = useLocalUserId();
   return useApiMutation({
     mutationFn: async (args: {
       convId: string;
       body: UpdateConversationBindingsBody;
       skipMirror?: boolean;
     }) => {
-      await replaceLocalConversationBindings(auth.data?.id, args.convId, {
+      await replaceLocalConversationBindings(userId, args.convId, {
         conversationCharacters: args.body.characters ?? [],
         conversationLorebooks: (args.body.lorebookIds ?? []).map((lid) => ({
           lorebookId: lid,
         })),
       });
       const now = dayjs().toDate();
-      const conv = await readLocalConversation(auth.data?.id, args.convId);
+      const conv = await readLocalConversation(userId, args.convId);
       if (conv) {
-        await upsertLocalConversation(auth.data?.id, {
+        await upsertLocalConversation(userId, {
           ...conv,
           updatedAt: now,
         });
       }
       if (!args.skipMirror) {
         // Join tables only; messages/media never ride a bindings save.
-        await mirrorConvBindingsIfSynced(auth.data?.id, args.convId);
+        await mirrorConvBindingsIfSynced(userId, args.convId);
       }
       return { id: args.convId };
     },
@@ -138,7 +130,7 @@ export function useUpdateChatBindingsMutation() {
 }
 
 export function useImportConversationMutation() {
-  const auth = useAuthQuery();
+  const userId = useLocalUserId();
 
   return useApiMutation({
     mutationFn: async (file: File) => {
@@ -146,7 +138,7 @@ export function useImportConversationMutation() {
 
       // ST JSONL is line-delimited; detect before JSON.parse.
       if (looksLikeSillyTavernChat(text)) {
-        return importSillyTavernChat(auth.data?.id, text);
+        return importSillyTavernChat(userId, text);
       }
 
       let parsed: Record<string, unknown>;
@@ -159,14 +151,14 @@ export function useImportConversationMutation() {
       // Untrusted JSON; one boundary cast, envelopes optional fields.
       if (parsed.version === NATIVE_VERSION) {
         return persistMappedImport(
-          auth.data?.id,
+          userId,
           mapNativeImport(parsed as NativeImport),
         );
       }
       // orpg.3.0 (openrouter): lossy on lorebooks/personas.
       if (parsed.version === ORPG_VERSION) {
         return persistMappedImport(
-          auth.data?.id,
+          userId,
           mapOrpgImport(parsed as OrpgImport),
         );
       }
@@ -177,13 +169,13 @@ export function useImportConversationMutation() {
 }
 
 export function useExportConversation() {
-  const auth = useAuthQuery();
+  const userId = useLocalUserId();
   return useApiMutation({
     mutationFn: async (args: {
       convId: string;
       format: ConversationExportFormat;
     }) => {
-      const native = await buildNativeExport(auth.data?.id, args.convId);
+      const native = await buildNativeExport(userId, args.convId);
       return args.format === "orpg" ? toOrpg(native) : native;
     },
   });

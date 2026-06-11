@@ -6,8 +6,7 @@ import { Icon } from "@/components/ui/icon";
 import { SmartImage } from "@/components/ui/smart-image";
 import { cn } from "@/lib/utils";
 import { downloadBlob } from "@/lib/utils/client";
-import { useAuthQuery } from "@/hooks/auth/auth-hook";
-import { GUEST_USER_ID } from "@/lib/config/constants";
+import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import {
   inlayVersionAtom,
   replaceInlayTokens,
@@ -79,8 +78,7 @@ const MarkdownTextImpl = () => {
   const mathjax = useRehypeMathjax(hasMath);
   // {{inlay::id}} media resolve asynchronously; version bump re-renders.
   useAtomValue(inlayVersionAtom);
-  const auth = useAuthQuery();
-  const userId = auth.data?.id ?? GUEST_USER_ID;
+  const userId = useLocalUserId();
   return (
     <MarkdownTextPrimitive
       remarkPlugins={[remarkGfm, remarkMath]}

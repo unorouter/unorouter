@@ -10,9 +10,8 @@ import {
   useExportConversation,
   useImportConversationMutation,
 } from "@/hooks/ai/rp/conversations";
-import { useAuthQuery } from "@/hooks/auth/auth-hook";
+import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { analytics } from "@/lib/analytics";
-import { GUEST_USER_ID } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
 import { exportLocalConversationSillyTavern } from "@/lib/db/client/data/transfer/sillytavern";
 import { downloadBlob, downloadJson } from "@/lib/utils/client";
@@ -29,7 +28,7 @@ type Props = {
 export function ImportExportSubmenu(props: Props) {
   const t = useTranslations();
   const aui = useAui();
-  const auth = useAuthQuery();
+  const userId = useLocalUserId();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const exportMut = useExportConversation();
   const importMut = useImportConversationMutation();
@@ -43,7 +42,6 @@ export function ImportExportSubmenu(props: Props) {
       // SillyTavern is a JSONL download (not a JSON envelope), built from the
       // local DB; download the raw string as a blob.
       try {
-        const userId = auth.data?.id ?? GUEST_USER_ID;
         const result = await exportLocalConversationSillyTavern(
           userId,
           props.convId,

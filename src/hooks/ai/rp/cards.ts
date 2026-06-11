@@ -1,9 +1,8 @@
 "use client";
 
-import { GUEST_USER_ID } from "@/lib/config/constants";
 import { useApiMutation } from "@/hooks/use-api-mutation";
 
-import { useAuthQuery } from "@/hooks/auth/auth-hook";
+import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import {
   readLocalConversationBindings,
   readLocalConversationSettings,
@@ -30,22 +29,20 @@ import {
 } from "@/lib/db/client/sync/mirror";
 
 export function useCardsQuery() {
-  const auth = useAuthQuery();
+  const userId = useLocalUserId();
   return useQuery({
     queryKey: queryKeys.cards(),
     queryFn: async () => {
-      const userId = auth.data?.id ?? GUEST_USER_ID;
       return (await readLocalCards(userId)) ?? [];
     },
   });
 }
 
 export function useCardQuery(id: string | undefined) {
-  const auth = useAuthQuery();
+  const userId = useLocalUserId();
   return useQuery({
     queryKey: queryKeys.card(id ?? ""),
     queryFn: async () => {
-      const userId = auth.data?.id ?? GUEST_USER_ID;
       if (!id) throw new Error("not-found");
       const local = await readLocalCard(userId, id);
       if (!local) throw new Error("not-found");
@@ -57,10 +54,9 @@ export function useCardQuery(id: string | undefined) {
 
 // Cards own bundle; factory is single-table so CRUD bespoke.
 export function useCreateCardMutation() {
-  const auth = useAuthQuery();
+  const userId = useLocalUserId();
   return useApiMutation({
     mutationFn: async (args: { body: CardBody }) => {
-      const userId = auth.data?.id ?? GUEST_USER_ID;
       const body = args.body;
       const now = dayjs().toDate();
       const card = {
@@ -93,10 +89,9 @@ export function useCreateCardMutation() {
 }
 
 export function useUpdateCardMutation() {
-  const auth = useAuthQuery();
+  const userId = useLocalUserId();
   return useApiMutation({
     mutationFn: async (args: { id: string; body: CardBody }) => {
-      const userId = auth.data?.id ?? GUEST_USER_ID;
       const existing = await readLocalCard(userId, args.id);
       if (!existing) throw new Error("not-found");
       const body = args.body;
@@ -135,10 +130,9 @@ export function useUpdateCardMutation() {
 }
 
 export function useDeleteCardMutation() {
-  const auth = useAuthQuery();
+  const userId = useLocalUserId();
   return useApiMutation({
     mutationFn: async (id: string) => {
-      const userId = auth.data?.id ?? GUEST_USER_ID;
       const existing = await readLocalCard(userId, id);
       const wasSynced = existing?.syncExpiresAt != null;
       await deleteLocalCard(userId, id);
@@ -156,13 +150,12 @@ export function useDeleteCardMutation() {
 export function useApplyCardMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
-  const auth = useAuthQuery();
+  const userId = useLocalUserId();
   return useMutation({
     mutationFn: async (args: {
       id: string;
       body: { convId: string; mode: "replace" | "merge" };
     }) => {
-      const userId = auth.data?.id ?? GUEST_USER_ID;
       const card = await readLocalCard(userId, args.id);
       if (!card) throw new Error("card-not-found");
 

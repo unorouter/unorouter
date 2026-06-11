@@ -1,7 +1,6 @@
-import { GUEST_USER_ID } from "@/lib/config/constants";
 import { deleteLocalMedia, upsertLocalMedia } from "@/lib/db/client/data/media";
 import { base64ToDataUri, fileToBase64, uid } from "@/lib/utils/base";
-import { ensureConvId } from "@/store/chat-store";
+import { chatStore, ensureConvId, localUserIdAtom } from "@/store/chat-store";
 import type { AttachmentAdapter } from "@assistant-ui/react";
 
 export function extractFirstUserText(
@@ -26,7 +25,7 @@ export function extractFirstUserText(
 
 // Local-first: base64 -> OPFS media -> data: URL. Sync uploads to R2 later.
 export function createLocalAttachmentAdapter(
-  getContext: () => { convId: string | null; userId: number | undefined },
+  getContext: () => { convId: string | null },
 ): AttachmentAdapter {
   return {
     accept: "image/png,image/jpeg,image/webp,image/gif,application/pdf",
@@ -53,7 +52,7 @@ export function createLocalAttachmentAdapter(
       const base64 = await fileToBase64(file);
       const dataUrl = base64ToDataUri(base64, file.type);
 
-      await upsertLocalMedia(ctx.userId ?? GUEST_USER_ID, {
+      await upsertLocalMedia(chatStore.get(localUserIdAtom), {
         id: attachment.id,
         convId: ctx.convId,
         mimeType: file.type,
@@ -78,8 +77,7 @@ export function createLocalAttachmentAdapter(
     },
 
     async remove(attachment) {
-      const ctx = getContext();
-      await deleteLocalMedia(ctx.userId ?? GUEST_USER_ID, attachment.id);
+      await deleteLocalMedia(chatStore.get(localUserIdAtom), attachment.id);
     },
   };
 }

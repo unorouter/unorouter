@@ -11,9 +11,8 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useAuthQuery } from "@/hooks/auth/auth-hook";
+import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { useUsedProviderQuery } from "@/hooks/ops/logs-hook";
-import { GUEST_USER_ID } from "@/lib/config/constants";
 import {
   buildRequestLogCurl,
   readLocalRequestLog,
@@ -29,8 +28,7 @@ export function RequestLogSheet(props: {
   onOpenChange: (open: boolean) => void;
 }) {
   const t = useTranslations();
-  const auth = useAuthQuery();
-  const userId = auth.data?.id ?? GUEST_USER_ID;
+  const userId = useLocalUserId();
 
   const log = useQuery({
     queryKey: queryKeys.requestLog(props.msgId),

@@ -14,8 +14,7 @@ import {
   useModelSync,
   useScrollToBottom,
 } from "@/components/pages/sidebar/chat/runtime/use-thread-sync";
-import { useAuthQuery } from "@/hooks/auth/auth-hook";
-import { GUEST_USER_ID } from "@/lib/config/constants";
+import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { acquireLock, releaseLock } from "@/lib/db/client/sync/resource-lock";
 import type { ChatUIMessage } from "@/lib/types";
 import { handleError } from "@/lib/utils/client";
@@ -25,6 +24,7 @@ import {
   convIdAtom,
   ensureConvId,
   lastStreamErrorAtom,
+  localUserIdAtom,
   speakingCharacterIdAtom,
   type ChatHelpersRef,
 } from "@/store/chat-store";
@@ -41,18 +41,10 @@ import { useParams } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { toast } from "sonner";
 
-// Same rationale as transport; ref keeps user current.
 function useHistoryAdapter() {
-  const auth = useAuthQuery();
   const queryClient = useQueryClient();
-  const userIdRef = useRef(auth.data?.id);
-  userIdRef.current = auth.data?.id;
-
   const adapterRef = useRef(
-    createChatHistoryAdapter(
-      queryClient,
-      () => userIdRef.current ?? GUEST_USER_ID,
-    ),
+    createChatHistoryAdapter(queryClient, () => chatStore.get(localUserIdAtom)),
   );
   return adapterRef.current;
 }
@@ -82,7 +74,7 @@ function ChatRuntimeHook() {
   const threadId = useAuiState((s) => s.threadListItem.id);
   const remoteId = useAuiState((s) => s.threadListItem.remoteId);
   const t = useTranslations();
-  const auth = useAuthQuery();
+  const userId = useLocalUserId();
 
   useConvIdSync(remoteId);
   useModelSync(remoteId);
@@ -140,7 +132,7 @@ function ChatRuntimeHook() {
           t("RP.DROPPED_PARAMS", { params: message.metadata.droppedParams }),
         );
       }
-      void maybeAutoContinue(chat, remoteId ?? null, message, auth.data?.id);
+      void maybeAutoContinue(chat, remoteId ?? null, message, userId);
     },
   });
 
@@ -164,11 +156,7 @@ function ChatRuntimeHook() {
       // Multi-character rotation: one visible assistant stream per speaker in
       // sequence; each send tags its speaker so the assembler promotes it to primary.
       if (hasText && convId) {
-        const order = await computeSpeakingOrder(
-          auth.data?.id,
-          convId,
-          args[0],
-        );
+        const order = await computeSpeakingOrder(userId, convId, args[0]);
         if (order.length > 1) {
           rotatingRef.current = true;
           try {
@@ -199,7 +187,6 @@ function ChatRuntimeHook() {
     adapters: {
       attachments: createLocalAttachmentAdapter(() => ({
         convId: chatStore.get(convIdAtom),
-        userId: auth.data?.id,
       })),
       history: historyAdapter,
     },
@@ -210,11 +197,10 @@ export function ChatRuntimeProvider(props: { children: React.ReactNode }) {
   const params = useParams<{ convId?: string }>();
   const queryClient = useQueryClient();
   const t = useTranslations();
-  const authQuery = useAuthQuery();
-  const userIdRef = useRef(authQuery.data?.id ?? GUEST_USER_ID);
-  userIdRef.current = authQuery.data?.id ?? GUEST_USER_ID;
   const adapterRef = useRef(
-    createThreadListAdapter(queryClient, t, () => userIdRef.current),
+    createThreadListAdapter(queryClient, t, () =>
+      chatStore.get(localUserIdAtom),
+    ),
   );
 
   const runtime = useRemoteThreadListRuntime({

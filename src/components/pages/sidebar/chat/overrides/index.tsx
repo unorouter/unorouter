@@ -20,7 +20,7 @@ import {
   useUpdateChatSettingsMutation,
 } from "@/hooks/ai/rp/conversations";
 import { mirrorConvIfSynced } from "@/lib/db/client/sync/mirror";
-import { useAuthQuery } from "@/hooks/auth/auth-hook";
+import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { usePricingQuery } from "@/hooks/models/pricing-hook";
 import { analytics } from "@/lib/analytics";
 import { NONE_VALUE } from "@/lib/config/constants";
@@ -65,7 +65,7 @@ type DrawerProps = {
 
 export function ConversationOverridesDrawer(props: DrawerProps) {
   const t = useTranslations();
-  const auth = useAuthQuery();
+  const userId = useLocalUserId();
   const isDefaultsMode = !props.convId;
   const showConversationFields = !isDefaultsMode;
   const [chatDefaults, setChatDefaults] = useAtom(chatDefaultsAtom);
@@ -159,7 +159,7 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
         body: buildBindingsBody(data, bindings),
         skipMirror: true,
       });
-      await mirrorConvIfSynced(auth.data?.id, props.convId!);
+      await mirrorConvIfSynced(userId, props.convId!);
       toast.success(t("COMMON.SAVED"));
     } catch (e) {
       handleError(e, t);

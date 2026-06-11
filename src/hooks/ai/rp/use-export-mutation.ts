@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuthQuery } from "@/hooks/auth/auth-hook";
+import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { useApiMutation } from "@/hooks/use-api-mutation";
 import { analytics } from "@/lib/analytics";
 import {
@@ -26,10 +26,9 @@ type ExportArgs =
 // Local-first export: row (+ avatar bytes) from SQLocal through the `@/lib/ai/rp`
 // helpers into a blob download. No server roundtrip; works offline + for guests.
 export function useRpExportMutation() {
-  const auth = useAuthQuery();
+  const userId = useLocalUserId();
   return useApiMutation({
     mutationFn: async (args: ExportArgs) => {
-      const userId = auth.data?.id;
       const result = await runExport(userId, args);
       downloadBlob(result.blob, result.filename);
       analytics.rp.entityAction({

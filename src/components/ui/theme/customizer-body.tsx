@@ -39,7 +39,7 @@ import type {
   SurfaceColors,
   UserTheme,
 } from "@/components/ui/theme/theme-store";
-import { useAuthQuery } from "@/hooks/auth/auth-hook";
+import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { useSyncStateForRow } from "@/hooks/ai/sync-hook";
 import { GUEST_USER_ID } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
@@ -56,23 +56,22 @@ export function ThemeCustomizerBody() {
   const t = useTranslations();
   const [theme, setThemeRaw] = useAtom(userThemeAtom);
   const [backgroundImage, setBackgroundImage] = useAtom(themeBackgroundAtom);
-  const auth = useAuthQuery();
+  const userId = useLocalUserId();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const themeSyncState = useSyncStateForRow(
     "theme",
-    auth.data ? String(auth.data.id) : "",
+    userId > GUEST_USER_ID ? String(userId) : "",
   );
 
   const setTheme = (next: UserTheme) => {
     setThemeRaw(next);
-    const userId = auth.data?.id ?? GUEST_USER_ID;
     const syncExpiresAt = themeSyncState.syncExpiresAt;
     void upsertLocalTheme(
       userId,
       next,
       syncExpiresAt as Date | null | undefined,
     ).catch(() => {});
-    if (userId > 0 && syncExpiresAt != null) {
+    if (userId > GUEST_USER_ID && syncExpiresAt != null) {
       // Outbox + debounced drain: slider drags coalesce into one push.
       void mirrorSyncedRow(userId, "theme", String(userId));
     }
@@ -157,8 +156,8 @@ export function ThemeCustomizerBody() {
     <Card className="bg-card/95 dark relative isolate flex h-full max-h-full min-h-0 flex-col gap-0 rounded-2xl shadow-xl backdrop-blur-xl">
       <CardHeader className="flex flex-row flex-wrap items-center justify-between gap-2 border-b py-4">
         <CardTitle className="shrink-0">{t("THEME.TITLE")}</CardTitle>
-        {auth.data && (
-          <SyncBadge kind="theme" id={String(auth.data.id)} payload={theme} />
+        {userId > GUEST_USER_ID && (
+          <SyncBadge kind="theme" id={String(userId)} payload={theme} />
         )}
       </CardHeader>
       <CardContent className="no-scrollbar min-h-0 flex-1 overflow-y-auto py-4">

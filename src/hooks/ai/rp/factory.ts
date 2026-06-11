@@ -1,7 +1,6 @@
 "use client";
 
-import { GUEST_USER_ID } from "@/lib/config/constants";
-import { useAuthQuery } from "@/hooks/auth/auth-hook";
+import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { invalidateAndBroadcast } from "@/lib/react-query/cross-tab-invalidate";
 import { queryKeys } from "@/lib/react-query/keys";
 import { uid } from "@/lib/utils/base";
@@ -44,43 +43,34 @@ export function makeRpEntity<
 }): EntityHooks<TItem, TCreateBody, TUpdateBody, TDetail> {
   return {
     useList: () => {
-      const auth = useAuthQuery();
+      const userId = useLocalUserId();
       return useQuery({
         queryKey: opts.listKey() as readonly unknown[] as string[],
-        queryFn: async () => {
-          const userId = auth.data?.id ?? GUEST_USER_ID;
-          return ((await opts.readList(userId)) ?? []) as TItem[];
-        },
-        // Gate on auth settling: a fetch before auth resolves reads the GUEST
-        // DB and caches its (usually empty) result forever (staleTime
-        // Infinity); the hydrator only papers over non-empty kinds.
-        enabled: !auth.isPending,
+        queryFn: async () =>
+          ((await opts.readList(userId)) ?? []) as TItem[],
       });
     },
 
     useItem: (id: string | undefined) => {
-      const auth = useAuthQuery();
+      const userId = useLocalUserId();
       return useQuery({
         queryKey: opts.itemKey(id ?? "") as readonly unknown[] as string[],
         queryFn: async () => {
-          const userId = auth.data?.id ?? GUEST_USER_ID;
           if (!id) throw new Error("not-found");
           const item = await opts.readItem(userId, id);
           if (!item) throw new Error("not-found");
           return item;
         },
-        // Same guest-DB race as useList: wait for auth before first fetch.
-        enabled: !!id && !auth.isPending,
+        enabled: !!id,
       });
     },
 
     useCreate: () => {
       const t = useTranslations();
       const qc = useQueryClient();
-      const auth = useAuthQuery();
+      const userId = useLocalUserId();
       return useMutation({
         mutationFn: async (args: { body: TCreateBody }) => {
-          const userId = auth.data?.id ?? GUEST_USER_ID;
           const now = dayjs().toDate();
           const row = {
             ...args.body,
@@ -103,10 +93,9 @@ export function makeRpEntity<
     useUpdate: () => {
       const t = useTranslations();
       const qc = useQueryClient();
-      const auth = useAuthQuery();
+      const userId = useLocalUserId();
       return useMutation({
         mutationFn: async (args: { id: string; body: TUpdateBody }) => {
-          const userId = auth.data?.id ?? GUEST_USER_ID;
           const existing = await opts.readItem(userId, args.id);
           if (!existing) throw new Error("not-found");
           const now = dayjs().toDate();
@@ -134,10 +123,9 @@ export function makeRpEntity<
     useDelete: () => {
       const t = useTranslations();
       const qc = useQueryClient();
-      const auth = useAuthQuery();
+      const userId = useLocalUserId();
       return useMutation({
         mutationFn: async (id: string) => {
-          const userId = auth.data?.id ?? GUEST_USER_ID;
           const existing = await opts.readItem(userId, id);
           const wasSynced = existing?.syncExpiresAt != null;
           await opts.deleteLocal(userId, id);

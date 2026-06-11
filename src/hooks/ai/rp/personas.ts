@@ -1,9 +1,8 @@
 "use client";
 
-import { useAuthQuery } from "@/hooks/auth/auth-hook";
+import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { useApiMutation } from "@/hooks/use-api-mutation";
 import { parsePersonaJson } from "@/lib/ai/rp/persona-import";
-import { GUEST_USER_ID } from "@/lib/config/constants";
 import {
   deleteLocalPersona,
   readLocalPersona,
@@ -39,11 +38,10 @@ export const useDeletePersonaMutation = personas.useDelete;
 
 export function useImportPersonaMutation() {
   const t = useTranslations();
-  const auth = useAuthQuery();
+  const userId = useLocalUserId();
 
   return useApiMutation({
     mutationFn: async (file: File) => {
-      const userId = auth.data?.id ?? GUEST_USER_ID;
       let raw: unknown;
       try {
         raw = JSON.parse(await file.text());
