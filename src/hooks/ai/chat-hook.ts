@@ -23,6 +23,7 @@ import {
   readLocalMessages,
   replaceLocalConversationBindings,
   replaceLocalMessageItems,
+  updateLocalConversationSettings,
   upsertLocalConversation,
   upsertLocalConversationSettings,
   upsertLocalMessage,
@@ -383,7 +384,7 @@ export function useSetActiveBranchMutation() {
       // Root assistant siblings are greetings: track Risu fmIndex
       // (branchIndex 0 = firstMessage -> -1, i = alternateGreetings[i-1]).
       if (parentId === null && target?.role === "assistant") {
-        await upsertLocalConversationSettings(userId, {
+        await updateLocalConversationSettings(userId, {
           convId: args.convId,
           firstMsgIndex: (target.branchIndex ?? 0) - 1,
         });

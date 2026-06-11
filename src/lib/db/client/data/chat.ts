@@ -310,6 +310,18 @@ export const upsertLocalConversationSettings = (
   return conversationStore.upsert(userId, next);
 };
 
+// Settings-only patch on an EXISTING conversation row; never creates it (the
+// parent row is owned by initialize()/clone). Avoids the upsert candidate-row
+// NOT NULL trip when a partial omits a no-default column like default_model.
+export const updateLocalConversationSettings = (
+  userId: number | undefined,
+  row: LocalRowInput & { convId: string },
+) => {
+  const patch = { ...row } as Record<string, unknown>;
+  delete patch.convId;
+  return conversationStore.update(userId, row.convId, patch);
+};
+
 export async function deleteLocalMessagesForConv(
   userId: number | undefined,
   convId: string,

@@ -133,6 +133,28 @@ export function makeTableStore<TTable extends ScopedTable>(
         .onConflictDoUpdate({ target: pk, set: row as never });
     },
 
+    // Partial UPDATE keyed on pk; never inserts. Use for settings-only writes
+    // on a row another path owns creating, so a partial that omits a NOT NULL
+    // column can't trip the constraint via an upsert's candidate INSERT row.
+    // No-op when the row is absent (the caller's parent-row guard handles that).
+    async update(
+      userId: number | undefined,
+      id: StorePkValue,
+      patch: Partial<StoreRow>,
+      opts?: StoreRowOpts,
+    ): Promise<void> {
+      const uid = userId ?? GUEST_USER_ID;
+      const local = await getLocalDb(uid);
+      if (!local) return;
+      const scope = opts?.scopeUser ?? true;
+      const base = eq(pk, id);
+      const where = scope ? scopeWhere(uid, base) : base;
+      await local.db
+        .update(table)
+        .set(patch as never)
+        .where(where);
+    },
+
     async drop(
       userId: number | undefined,
       id: StorePkValue,

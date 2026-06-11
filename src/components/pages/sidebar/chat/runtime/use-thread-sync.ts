@@ -5,7 +5,7 @@ import { mirrorConvRowIfSynced } from "@/lib/db/client/sync/mirror";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import {
   readLocalConversation,
-  upsertLocalConversationSettings,
+  updateLocalConversationSettings,
 } from "@/lib/db/client/data/chat";
 import { queryKeys } from "@/lib/react-query/keys";
 import { dayjs } from "@/lib/utils/format/date";
@@ -57,7 +57,7 @@ export function useModelSync(remoteId: string | null | undefined) {
         // bail and let initialize read chatModelAtom directly.
         const conv = await readLocalConversation(userId, id);
         if (!conv) return;
-        await upsertLocalConversationSettings(userId, {
+        await updateLocalConversationSettings(userId, {
           convId: id,
           defaultModel: newModel,
           updatedAt: dayjs().toDate(),
@@ -97,7 +97,7 @@ export function useGroupSync(remoteId: string | null | undefined) {
       void (async () => {
         const conv = await readLocalConversation(userId, id);
         if (!conv) return;
-        await upsertLocalConversationSettings(userId, {
+        await updateLocalConversationSettings(userId, {
           convId: id,
           group: newGroup,
           updatedAt: dayjs().toDate(),
