@@ -51,6 +51,10 @@ export function makeRpEntity<
           const userId = auth.data?.id ?? GUEST_USER_ID;
           return ((await opts.readList(userId)) ?? []) as TItem[];
         },
+        // Gate on auth settling: a fetch before auth resolves reads the GUEST
+        // DB and caches its (usually empty) result forever (staleTime
+        // Infinity); the hydrator only papers over non-empty kinds.
+        enabled: !auth.isPending,
       });
     },
 
@@ -65,7 +69,8 @@ export function makeRpEntity<
           if (!item) throw new Error("not-found");
           return item;
         },
-        enabled: !!id,
+        // Same guest-DB race as useList: wait for auth before first fetch.
+        enabled: !!id && !auth.isPending,
       });
     },
 

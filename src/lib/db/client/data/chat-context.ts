@@ -17,6 +17,10 @@ import {
 export async function buildChatContextFromLocalDb(
   userId: number | undefined,
   convId: string,
+  // First send on a new conv: the sticky loadout says bindings are coming
+  // (initialize() writes them right after the conv row); wait for them so the
+  // character is in the prompt from turn 1.
+  opts?: { expectBindings?: boolean },
 ): Promise<ChatContext | undefined> {
   // New conv: this can run the same tick initialize() writes the row (OPFS
   // write-visibility lag). Retry briefly, else the first message silently
@@ -28,7 +32,18 @@ export async function buildChatContextFromLocalDb(
   }
   if (!settings) return undefined;
 
-  const bindings = await readLocalConversationBindings(userId, convId);
+  let bindings = await readLocalConversationBindings(userId, convId);
+  for (
+    let attempt = 0;
+    opts?.expectBindings &&
+    (bindings?.conversationCharacters?.length ?? 0) === 0 &&
+    (bindings?.conversationLorebooks?.length ?? 0) === 0 &&
+    attempt < 10;
+    attempt++
+  ) {
+    await new Promise((r) => setTimeout(r, 40));
+    bindings = await readLocalConversationBindings(userId, convId);
+  }
 
   const charBindings = bindings?.conversationCharacters ?? [];
   const lorebookIds = (bindings?.conversationLorebooks ?? []).map(

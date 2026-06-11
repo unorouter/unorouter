@@ -6,6 +6,7 @@ import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { fnv1aHex } from "@/lib/utils/base";
 import {
   chatDefaultsAtom,
+  chatLoadoutAtom,
   chatModelAtom,
   chatStore,
   chatWebSearchAtom,
@@ -75,9 +76,16 @@ export function useChatTransport() {
         const convId = chatStore.get(convIdAtom);
         // Dynamic: the RP context builder drags lorebook/trigger machinery
         // (~110KB gzip) that must not sit in the page's first-paint chunks.
+        const loadout = chatStore.get(chatLoadoutAtom);
         const baseContext = convId
           ? await import("@/lib/db/client/data/chat-context").then((m) =>
-              m.buildChatContextFromLocalDb(userIdRef.current, convId),
+              m.buildChatContextFromLocalDb(userIdRef.current, convId, {
+                // New conv first send: initialize() races this; wait for the
+                // loadout's bindings so turn 1 carries the character.
+                expectBindings:
+                  loadout.characterIds.length > 0 ||
+                  loadout.lorebookIds.length > 0,
+              }),
             )
           : undefined;
         // Per-message createdAt for the CBS message_time/idle family; rides

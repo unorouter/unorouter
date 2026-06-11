@@ -22,6 +22,7 @@ import { handleElysia } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
 import {
   chatDefaultsAtom,
+  chatHelpersAtom,
   chatLoadoutAtom,
   chatModelAtom,
   chatStore,
@@ -159,6 +160,7 @@ export function createThreadListAdapter(
             chatStore.get(greetingIndexAtom),
             greetings.length - 1,
           );
+          let seededGreeting: { id: string; text: string } | null = null;
           for (let i = 0; i < greetings.length; i++) {
             const msgId = uid();
             await upsertLocalMessage(userId(), {
@@ -174,23 +176,25 @@ export function createThreadListAdapter(
               createdAt: now,
               updatedAt: now,
             });
+            const expandedGreeting = expandMacros(greetings[i], {
+              user: persona?.name ?? "User",
+              char: char.name,
+              user_description: persona?.description ?? "",
+              char_description: char.description ?? "",
+              scenario: char.scenario ?? "",
+              personality: char.personality ?? "",
+              vars: {},
+            });
             await upsertLocalMessageItem(userId(), {
               id: uid(),
               messageId: msgId,
               sequenceIndex: 0,
               type: "text",
-              data: {
-                text: expandMacros(greetings[i], {
-                  user: persona?.name ?? "User",
-                  char: char.name,
-                  user_description: persona?.description ?? "",
-                  char_description: char.description ?? "",
-                  scenario: char.scenario ?? "",
-                  personality: char.personality ?? "",
-                  vars: {},
-                }),
-              },
+              data: { text: expandedGreeting },
             });
+            if (i === picked) {
+              seededGreeting = { id: msgId, text: expandedGreeting };
+            }
           }
           if (picked > 0) {
             await upsertLocalConversation(userId(), {
@@ -200,6 +204,23 @@ export function createThreadListAdapter(
             });
           }
           chatStore.set(greetingIndexAtom, 0);
+          // Surface the picked greeting in the LIVE thread state: the runtime
+          // initialized before the seed, so without this it only appears
+          // after a reload. Prepend keeps the in-flight user turn intact;
+          // the seeded msgId matches what load() returns later.
+          const helpers = chatStore.get(chatHelpersAtom);
+          if (helpers && seededGreeting) {
+            const greetingMessage = {
+              id: seededGreeting.id,
+              role: "assistant",
+              parts: [{ type: "text", text: seededGreeting.text }],
+            };
+            helpers.setMessages((msgs) =>
+              msgs.some((m) => (m as { id?: string }).id === seededGreeting.id)
+                ? msgs
+                : [greetingMessage, ...msgs],
+            );
+          }
           queryClient.invalidateQueries({
             queryKey: queryKeys.chatMessages(id),
           });

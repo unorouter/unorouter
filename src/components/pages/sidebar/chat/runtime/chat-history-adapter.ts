@@ -123,6 +123,14 @@ export function createChatHistoryAdapter(
           if (!id) return;
 
           const messageId = formatAdapter.getId(item.message);
+          // Idempotency guard: a message already persisted (e.g. the seeded
+          // greeting injected into live state at initialize) must not be
+          // re-appended; the rewrite would re-parent it onto the current tip
+          // and knot the branch tree into a cycle.
+          {
+            const existingRows = (await readLocalMessages(userId, id)) ?? [];
+            if (existingRows.some((m) => m.id === messageId)) return;
+          }
           const content = formatAdapter.encode(
             item,
           ) as unknown as EncodedContent;
