@@ -160,7 +160,7 @@ const ThreadHistorySkeleton: FC = () => {
 const ThreadWelcome: FC = () => {
   const t = useTranslations();
   return (
-    <div className="aui-thread-welcome-root mx-auto my-auto flex w-full max-w-(--thread-max-width) grow flex-col">
+    <div className="aui-thread-welcome-root mx-auto my-auto flex w-full max-w-(--thread-max-width) grow flex-col pt-6">
       <div className="aui-thread-welcome-center flex w-full grow flex-col items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <div className="bg-muted flex h-16 w-16 items-center justify-center rounded-full">

@@ -1,22 +1,10 @@
 "use client";
 
 import { MyFormCombobox } from "@/components/elements/form/my-form-combobox";
+import { MyFormEntitySelect } from "@/components/elements/form/my-form-entity-select";
 import { MyFormInput } from "@/components/elements/form/my-form-input";
 import { MyFormTextarea } from "@/components/elements/form/my-form-textarea";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-} from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Form } from "@/components/ui/form";
 import {
   useCardQuery,
   useCreateCardMutation,
@@ -97,34 +85,12 @@ export function CardForm(props: Props) {
           placeholder={t("RP.CARD_DESCRIPTION_PLACEHOLDER")}
         />
 
-        <FormField
+        <MyFormEntitySelect
           control={form.control}
           name="personaId"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{t("RP.CARD_PERSONA")}</FormLabel>
-              <FormControl>
-                <Select
-                  value={field.value}
-                  onValueChange={(v) => field.onChange(v ?? NONE)}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder={t("RP.CARD_PERSONA_NONE")} />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value={NONE}>
-                      {t("RP.CARD_PERSONA_NONE")}
-                    </SelectItem>
-                    {(personasQuery.data ?? []).map((p) => (
-                      <SelectItem key={p.id} value={p.id}>
-                        {p.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </FormControl>
-            </FormItem>
-          )}
+          label={t("RP.CARD_PERSONA")}
+          noneLabel={t("RP.CARD_PERSONA_NONE")}
+          options={personasQuery.data}
         />
 
         <MyFormCombobox
