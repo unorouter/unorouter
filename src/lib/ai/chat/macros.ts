@@ -662,9 +662,7 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
       return hmsPad(Date.now() - last.time);
     }
     case "messageunixtimearray":
-      return JSON.stringify(
-        (scope.history ?? []).map((m) => `${m.time ?? 0}`),
-      );
+      return JSON.stringify((scope.history ?? []).map((m) => `${m.time ?? 0}`));
 
     // ---- greeting / card data readers ----
     case "firstmessageindex":
@@ -794,12 +792,7 @@ const LITERAL_MACROS: Record<string, string> = (() => {
       ),
     ],
     // App-coupled boolean probes -> "0".
-    [
-      "0",
-      "moduleenabled jbtoggled isfirstmsg isfirstmessage".split(
-        " ",
-      ),
-    ],
+    ["0", "moduleenabled jbtoggled isfirstmsg isfirstmessage".split(" ")],
   ];
   for (const [value, names] of groups) for (const n of names) out[n] = value;
   return out;
@@ -1117,4 +1110,3 @@ export function expandMacros(text: string, scope: MacroScope): string {
   if (!text || !text.includes("{{")) return text;
   return expandBlocks(text, scope, 0);
 }
-

@@ -273,9 +273,11 @@ export async function runScripted(
         args.mode === "input" ||
         args.mode === "output"
       ) {
-        const entry = { start: "onStart", input: "onInput", output: "onOutput" }[
-          args.mode
-        ];
+        const entry = {
+          start: "onStart",
+          input: "onInput",
+          output: "onOutput",
+        }[args.mode];
         const func = engine.global.get(entry) as
           | ((key: string) => Promise<unknown>)
           | undefined;

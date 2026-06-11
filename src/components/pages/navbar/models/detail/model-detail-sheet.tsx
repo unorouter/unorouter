@@ -11,8 +11,10 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { gridPriceParts, gridPricingColumns, type
-  EndpointInfo,
+import {
+  gridPriceParts,
+  gridPricingColumns,
+  type EndpointInfo,
   GridPricingRow,
   ProcessedModel,
 } from "@/lib/api/pricing";
@@ -359,7 +361,6 @@ function SectionHeader(props: { icon: React.ReactNode; title: string }) {
     </div>
   );
 }
-
 
 function GridPricingTable(props: {
   rows: GridPricingRow[];

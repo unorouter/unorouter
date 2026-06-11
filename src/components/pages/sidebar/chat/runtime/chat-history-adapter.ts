@@ -146,6 +146,34 @@ export function createChatHistoryAdapter(
             // mutations persist to conversation vars (same writeback channel).
             const triggers = await readConvTriggers(userId, id);
             if (triggers.length > 0) {
+              // Lua listenEdit('editOutput') transforms the reply text first
+              // (Risu runLuaEditTrigger order: edit pipeline, then triggers).
+              const { extractLuaCodes, runLuaEditTrigger } =
+                await import("@/lib/ai/chat/triggers/lua/engine");
+              const luaCodes = extractLuaCodes(triggers);
+              if (luaCodes.length > 0) {
+                const editCtx = makeTriggerContext({
+                  mode: "output",
+                  vars: {},
+                  globalVars: {},
+                  chat: [],
+                });
+                parts = await Promise.all(
+                  parts.map(async (p) =>
+                    p.type === "text" && typeof p.text === "string"
+                      ? {
+                          ...p,
+                          text: await runLuaEditTrigger(
+                            luaCodes,
+                            "editoutput",
+                            editCtx,
+                            p.text,
+                          ),
+                        }
+                      : p,
+                  ),
+                );
+              }
               await runOutputTriggers(userId, id, triggers, parts);
             }
           }
@@ -367,6 +395,20 @@ async function runOutputTriggers(
     chat: [{ role: "assistant", data: replyText }],
     ops: makeClientTriggerOps(userId),
   });
+  // triggerlua runs against this context; lazy import keeps wasmoon (~1MB
+  // wasm) off the chat bundle until a Lua trigger actually fires.
+  ctx.ops = {
+    ...ctx.ops,
+    runLua: async (code) => {
+      const { runScripted } = await import("@/lib/ai/chat/triggers/lua/engine");
+      await runScripted({
+        code,
+        mode: "output",
+        ctx,
+        lowLevelAccess: !!ctx.lowLevelAccess,
+      });
+    },
+  };
   await runTriggers(triggers, "output", ctx);
   // V1 sendAIprompt: chain an empty continuation send after the triggers.
   if (ctx.sendAIprompt) {

@@ -49,9 +49,7 @@ function getIcon(name: IconName, lib: IconLibraryName): IconComponent {
           return { default: (() => null) as IconComponent };
         }),
     {
-      loading: () => (
-        <span className="inline-block size-[1em]" aria-hidden />
-      ),
+      loading: () => <span className="inline-block size-[1em]" aria-hidden />,
     },
   ) as IconComponent;
   cache.set(key, Dyn);

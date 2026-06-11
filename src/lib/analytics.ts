@@ -333,34 +333,6 @@ const rp = {
   },
 };
 
-const easterEgg = {
-  breakoutOpened: (props: { from_route: string }) => {
-    posthog.capture("easter_egg_breakout_opened", {
-      from_route: props.from_route,
-    });
-  },
-  breakoutLoaded: () => {
-    posthog.capture("easter_egg_breakout_loaded");
-  },
-  breakoutClosed: (props: {
-    duration_ms: number;
-    final_score: number;
-    max_level: number;
-    reached_game_over: boolean;
-  }) => {
-    posthog.capture("easter_egg_breakout_closed", props);
-  },
-  breakoutLevelCleared: (props: { level: number; score: number }) => {
-    posthog.capture("easter_egg_breakout_level_cleared", props);
-  },
-  breakoutGameOver: (props: { score: number; level: number }) => {
-    posthog.capture("easter_egg_breakout_game_over", props);
-  },
-  breakoutNewBest: (props: { score: number }) => {
-    posthog.capture("easter_egg_breakout_new_best", { score: props.score });
-  },
-};
-
 const content = {
   copied: (props: { label: string }) => {
     posthog.capture("content_copied", { label: props.label });
@@ -379,6 +351,5 @@ export const analytics = {
   logs,
   docs,
   rp,
-  easterEgg,
   content,
 } as const;

@@ -17,7 +17,6 @@ export function isPlaygroundSessionFormat(
   return payload.version === PLAYGROUND_SESSION_FORMAT;
 }
 
-
 // Server `assertGenerationModelAllowed` checks pricing cache before submit.
 export const playgroundModel = t.String({ minLength: 1, maxLength: 128 });
 export type PlaygroundModel = Static<typeof playgroundModel>;

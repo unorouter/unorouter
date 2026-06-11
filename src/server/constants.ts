@@ -91,10 +91,7 @@ export function getProvider(apiKey: string, opts?: BodyMutations) {
   });
 }
 
-type WireMessage = { role: string; content: unknown } & Record<
-  string,
-  unknown
->;
+type WireMessage = { role: string; content: unknown } & Record<string, unknown>;
 type WireBody = { messages?: WireMessage[] } & Record<string, unknown>;
 
 // Mark system prompt + last user message `cache_control: ephemeral` so the

@@ -25,6 +25,15 @@ const corpCrossOrigin = [
 
 const nextConfig: NextConfig = {
   output: process.env.STANDALONE ? "standalone" : undefined,
+  // wasmoon's emscripten loader probes node builtins (`import('module')`);
+  // alias them to an empty stub in browser bundles. Server keeps real modules
+  // via serverExternalPackages below.
+  turbopack: {
+    resolveAlias: {
+      module: { browser: "./src/lib/empty-module.ts" },
+    },
+  },
+  serverExternalPackages: ["wasmoon"],
   // productionBrowserSourceMaps: true,
   experimental: {
     // allowDevelopmentBuild: true,

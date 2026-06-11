@@ -388,7 +388,7 @@ function parseStDate(raw: string | undefined): Date | null {
   return d.isValid() ? d.toDate() : null;
 }
 
-export type StParsed = { metadata: StMetadata | null; messages: StMessage[] };
+type StParsed = { metadata: StMetadata | null; messages: StMessage[] };
 
 // Splits ST .jsonl: optional metadata header + message lines.
 export function parseStJsonl(text: string): StParsed {

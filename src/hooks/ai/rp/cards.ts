@@ -57,7 +57,7 @@ export function useCardQuery(id: string | undefined) {
 
 // Cards own bundle; factory is single-table so CRUD bespoke.
 export function useCreateCardMutation() {
-    const auth = useAuthQuery();
+  const auth = useAuthQuery();
   return useApiMutation({
     mutationFn: async (args: { body: CardBody }) => {
       const userId = auth.data?.id ?? GUEST_USER_ID;
@@ -93,7 +93,7 @@ export function useCreateCardMutation() {
 }
 
 export function useUpdateCardMutation() {
-    const auth = useAuthQuery();
+  const auth = useAuthQuery();
   return useApiMutation({
     mutationFn: async (args: { id: string; body: CardBody }) => {
       const userId = auth.data?.id ?? GUEST_USER_ID;

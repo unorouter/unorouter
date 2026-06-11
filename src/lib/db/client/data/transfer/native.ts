@@ -49,7 +49,7 @@ export async function buildNativeExport(
   };
 }
 
-export type NativeExport = Awaited<ReturnType<typeof buildNativeExport>>;
+type NativeExport = Awaited<ReturnType<typeof buildNativeExport>>;
 
 // Maps message-item data to orpg shape (text/reasoning differ).
 function toOrpgItemData(type: string, data: unknown): unknown {

@@ -474,7 +474,9 @@ export async function upsertLocalConversationBundle(
   // message absent from it was deleted on another device, UNLESS it is newer
   // than the conv stamp (a local-only turn not yet pushed). Items cascade.
   const remoteConvStamp = bundle.conversation.updatedAt
-    ? new Date(bundle.conversation.updatedAt as Date | number | string).getTime()
+    ? new Date(
+        bundle.conversation.updatedAt as Date | number | string,
+      ).getTime()
     : 0;
   // Messages waiting in the outbox (e.g. a msgs row in retry backoff) are
   // local-only by definition; the updatedAt-vs-conv-stamp guard alone can

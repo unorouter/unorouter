@@ -1,12 +1,12 @@
 import type { TranslationKey } from "@/lib/config/constants";
 import type { SamplingPresetBody } from "@/lib/validation/rp";
 
-export type StarterPresetSlug =
+type StarterPresetSlug =
   | "general-assistant"
   | "narrative-rp"
   | "turn-based-rp";
 
-export type StarterPreset = {
+type StarterPreset = {
   slug: StarterPresetSlug;
   labelKey: TranslationKey;
   descriptionKey: TranslationKey;

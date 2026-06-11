@@ -63,7 +63,15 @@ export async function adoptRefSyncExpiry(
   if (!local) return;
   const bundle = result as RefBundleLike;
   const targets: Array<
-    [typeof characters | typeof personas | typeof samplingPresets | typeof lorebooks, RefRowLike[]]
+    [
+      (
+        | typeof characters
+        | typeof personas
+        | typeof samplingPresets
+        | typeof lorebooks
+      ),
+      RefRowLike[],
+    ]
   > = [
     [characters, bundle.characters ?? []],
     [personas, bundle.personas ?? []],

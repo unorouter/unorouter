@@ -10,7 +10,7 @@ import {
   type NormalizedCard,
 } from "@character-foundry/character-foundry/normalizer";
 
-export type ParsedCharacterCard = {
+type ParsedCharacterCard = {
   spec: "v2" | "v3";
   name: string;
   description?: string;
@@ -26,7 +26,7 @@ export type ParsedCharacterCard = {
   raw: Record<string, unknown>;
 };
 
-export type CharacterCardImportResult = {
+type CharacterCardImportResult = {
   card: ParsedCharacterCard;
   imageBytes: Uint8Array | null;
   imageMime: string | null;

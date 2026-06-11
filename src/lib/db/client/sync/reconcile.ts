@@ -284,10 +284,7 @@ export async function setLocalSyncFlag(
     return;
   }
   const table = SYNC_FLAG_TABLES[kind];
-  await local.db
-    .update(table)
-    .set({ syncExpiresAt })
-    .where(eq(table.id, id));
+  await local.db.update(table).set({ syncExpiresAt }).where(eq(table.id, id));
 }
 
 async function clearLocalSyncFlag(

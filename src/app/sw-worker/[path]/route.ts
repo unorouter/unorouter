@@ -5,7 +5,10 @@ import path from "node:path";
 // Per-build revision for non-hashed precache URLs (the offline page HTML).
 const buildId = (() => {
   try {
-    return readFileSync(path.join(process.cwd(), ".next/BUILD_ID"), "utf8").trim();
+    return readFileSync(
+      path.join(process.cwd(), ".next/BUILD_ID"),
+      "utf8",
+    ).trim();
   } catch {
     return "dev";
   }

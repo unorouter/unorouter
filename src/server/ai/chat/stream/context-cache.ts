@@ -45,7 +45,11 @@ export function resolveContextPayload(body: {
   }
   if (!body.chatContextHash || !body.convId) return undefined;
   const hit = cache.get(body.convId);
-  if (hit && hit.hash === body.chatContextHash && Date.now() - hit.at < TTL_MS) {
+  if (
+    hit &&
+    hit.hash === body.chatContextHash &&
+    Date.now() - hit.at < TTL_MS
+  ) {
     hit.at = Date.now();
     return hit.ctx;
   }

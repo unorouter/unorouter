@@ -133,7 +133,9 @@ type OutboxRow = typeof localPendingSync.$inferSelect;
 // local row means it was deleted before drain (nothing to push).
 async function pushRow(userId: number, row: OutboxRow): Promise<void> {
   if (row.op === "delete") {
-    const res = await rpc.api.ai.sync({ kind: row.kind })({ id: row.id }).delete();
+    const res = await rpc.api.ai
+      .sync({ kind: row.kind })({ id: row.id })
+      .delete();
     // Row already gone server-side (other-device delete, TTL sweep): the
     // delete's goal is met; retrying 404s only dead-letters a no-op.
     if ((res.error as { status?: number } | null)?.status === 404) return;
@@ -168,7 +170,8 @@ async function pushRow(userId: number, row: OutboxRow): Promise<void> {
       await evictMediaBase64After(userId, pushed);
       // Inlined local-only refs got server rows; adopt their expiry locally
       // so future edits to those entities mirror instead of going stale.
-      if (row.kind === "conversations") await adoptRefSyncExpiry(userId, pushed);
+      if (row.kind === "conversations")
+        await adoptRefSyncExpiry(userId, pushed);
     }
   }
 }

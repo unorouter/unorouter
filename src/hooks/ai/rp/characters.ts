@@ -40,7 +40,7 @@ export const useDeleteCharacterMutation = characters.useDelete;
 // Client-side card parser: bytes -> media row + character row referencing it.
 // Sync flow: media base64 -> server uploads to R2 -> Turso pointer-only.
 export function useImportCharacterCardMutation() {
-    const auth = useAuthQuery();
+  const auth = useAuthQuery();
   return useApiMutation({
     mutationFn: async (file: File) => {
       const userId = auth.data?.id ?? GUEST_USER_ID;

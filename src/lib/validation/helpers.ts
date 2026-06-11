@@ -4,7 +4,13 @@ import {
   DefaultErrorFunction,
   SetErrorFunction,
 } from "@sinclair/typebox/errors";
-import type { Static, TLiteral, TObject, TSchema, TUnion } from "@sinclair/typebox/type";
+import type {
+  Static,
+  TLiteral,
+  TObject,
+  TSchema,
+  TUnion,
+} from "@sinclair/typebox/type";
 import { Value } from "@sinclair/typebox/value";
 
 SetErrorFunction((error) => {

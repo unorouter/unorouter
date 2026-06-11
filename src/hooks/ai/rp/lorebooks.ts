@@ -51,7 +51,7 @@ export const useDeleteLorebookMutation = lorebooks.useDelete;
 
 // Bespoke update re-mirrors bundle after edit.
 export function useUpdateLorebookMutation() {
-    const auth = useAuthQuery();
+  const auth = useAuthQuery();
   return useApiMutation({
     mutationFn: async (args: { id: string; body: LorebookBody }) => {
       const userId = auth.data?.id ?? GUEST_USER_ID;
@@ -70,7 +70,7 @@ export function useUpdateLorebookMutation() {
 }
 
 export function useImportLorebookMutation() {
-    const auth = useAuthQuery();
+  const auth = useAuthQuery();
   return useApiMutation({
     mutationFn: async (file: File) => {
       const userId = auth.data?.id ?? GUEST_USER_ID;
@@ -129,7 +129,7 @@ export function useImportLorebookMutation() {
 // Entries.
 
 export function useCreateLorebookEntryMutation(lorebookId: string) {
-    const auth = useAuthQuery();
+  const auth = useAuthQuery();
   return useApiMutation({
     mutationFn: async (body: LorebookEntryBody) => {
       const userId = auth.data?.id ?? GUEST_USER_ID;
@@ -156,7 +156,7 @@ export function useCreateLorebookEntryMutation(lorebookId: string) {
 }
 
 export function useUpdateLorebookEntryMutation(lorebookId: string) {
-    const auth = useAuthQuery();
+  const auth = useAuthQuery();
   return useApiMutation({
     mutationFn: async (args: { entryId: string; body: LorebookEntryBody }) => {
       const userId = auth.data?.id ?? GUEST_USER_ID;
@@ -181,7 +181,7 @@ export function useUpdateLorebookEntryMutation(lorebookId: string) {
 }
 
 export function useReorderLorebookEntriesMutation(lorebookId: string) {
-    const auth = useAuthQuery();
+  const auth = useAuthQuery();
   return useApiMutation({
     mutationFn: async (orderedIds: string[]) => {
       const userId = auth.data?.id ?? GUEST_USER_ID;
@@ -205,7 +205,7 @@ export function useReorderLorebookEntriesMutation(lorebookId: string) {
 }
 
 export function useDeleteLorebookEntryMutation(lorebookId: string) {
-    const auth = useAuthQuery();
+  const auth = useAuthQuery();
   return useApiMutation({
     mutationFn: async (entryId: string) => {
       const userId = auth.data?.id ?? GUEST_USER_ID;

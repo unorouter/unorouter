@@ -7,7 +7,7 @@ import {
 } from "@character-foundry/character-foundry/lorebook";
 import type { LorebookPosition } from "@/lib/validation/rp-forms";
 
-export type ParsedLorebook = {
+type ParsedLorebook = {
   name: string;
   description?: string;
   scanDepth?: number;

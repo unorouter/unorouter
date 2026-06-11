@@ -7,10 +7,7 @@ import {
 } from "./chat";
 import { generationStatus, generationVisibility } from "./playground";
 
-import {
-  BATCH_BUNDLE_MAX_REQUESTS,
-  SYNC_KINDS,
-} from "./sync-constants";
+import { BATCH_BUNDLE_MAX_REQUESTS, SYNC_KINDS } from "./sync-constants";
 
 export const syncKind = t.Union(SYNC_KINDS.map((k) => t.Literal(k)));
 

@@ -38,7 +38,10 @@ import type {
 import type { ConversationExportFormat } from "@/lib/validation/rp";
 import { useQuery } from "@tanstack/react-query";
 import { dayjs } from "@/lib/utils/format/date";
-import { mirrorConvBindingsIfSynced, mirrorConvRowIfSynced } from "@/lib/db/client/sync/mirror";
+import {
+  mirrorConvBindingsIfSynced,
+  mirrorConvRowIfSynced,
+} from "@/lib/db/client/sync/mirror";
 
 export function useChatSettingsQuery(convId?: string) {
   const auth = useAuthQuery();
@@ -54,7 +57,7 @@ export function useChatSettingsQuery(convId?: string) {
 }
 
 export function useUpdateChatSettingsMutation() {
-    const auth = useAuthQuery();
+  const auth = useAuthQuery();
   return useApiMutation({
     mutationFn: async (args: {
       convId: string;
@@ -103,7 +106,7 @@ export function useChatBindingsQuery(convId?: string) {
 }
 
 export function useUpdateChatBindingsMutation() {
-    const auth = useAuthQuery();
+  const auth = useAuthQuery();
   return useApiMutation({
     mutationFn: async (args: {
       convId: string;

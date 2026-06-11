@@ -1,6 +1,6 @@
 // Parses ST/RisuAI persona JSON (single, settings backup, RisuAI flat/wrapped).
 
-export type ParsedPersona = {
+type ParsedPersona = {
   name: string;
   description?: string;
 };

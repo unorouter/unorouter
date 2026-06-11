@@ -30,9 +30,7 @@ async function sha256Hex(value: string): Promise<string> {
 }
 
 // Prompt array -> ChatML so ops.runLLM (string surface) keeps the roles.
-function promptToChatML(
-  prompt: { role: string; content: string }[],
-): string {
+function promptToChatML(prompt: { role: string; content: string }[]): string {
   return prompt
     .map((p) => `<|im_start|>${p.role}\n${p.content}<|im_end|>`)
     .join("\n");
@@ -116,7 +114,11 @@ export function buildLuaApi(
     },
     getFullChatMain: () =>
       JSON.stringify(
-        ctx.chat.map((m) => ({ role: toLuaRole(m.role), data: m.data, time: 0 })),
+        ctx.chat.map((m) => ({
+          role: toLuaRole(m.role),
+          data: m.data,
+          time: 0,
+        })),
       ),
     setFullChatMain: (id: string, value: string) => {
       if (!safe(id)) return;

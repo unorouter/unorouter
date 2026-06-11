@@ -22,7 +22,7 @@ import {
 } from "./rp";
 import { readLocalMedia } from "./media";
 
-export type LocalExportResult = {
+type LocalExportResult = {
   blob: Blob;
   filename: string;
 };

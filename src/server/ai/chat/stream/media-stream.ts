@@ -345,9 +345,7 @@ export function handleBufferedStream(
     const cleanText = await processUrls(fullText, convId, mediaType);
     const meta = await finishMeta?.();
     const partId = uid(12);
-    writer.write(
-      messageId ? { type: "start", messageId } : { type: "start" },
-    );
+    writer.write(messageId ? { type: "start", messageId } : { type: "start" });
     writer.write({ type: "start-step" });
     writer.write({ type: "text-start", id: partId });
     writer.write({ type: "text-delta", delta: cleanText, id: partId });
