@@ -239,15 +239,27 @@ const NO_TIME = "[Cannot get time]";
 const OLD_VERSION_TIME = "[Cannot get time, message was sent in older version]";
 
 // toLocale* with the browser-sent locale + timeZone (Risu runs in-browser).
+// locale/timeZone are client-controlled and only length-validated upstream, so
+// an invalid IANA zone or malformed locale tag throws RangeError. That would
+// crash prompt assembly (server-side) on any card using a {{time}}/{{date}}
+// macro, so fall back to the locale-default rendering instead of throwing.
 function localeTime(ms: number, scope: MacroScope): string {
-  return new Date(ms).toLocaleTimeString(scope.locale, {
-    timeZone: scope.timeZone,
-  });
+  try {
+    return new Date(ms).toLocaleTimeString(scope.locale, {
+      timeZone: scope.timeZone,
+    });
+  } catch {
+    return new Date(ms).toLocaleTimeString();
+  }
 }
 function localeDate(ms: number, scope: MacroScope): string {
-  return new Date(ms).toLocaleDateString(scope.locale, {
-    timeZone: scope.timeZone,
-  });
+  try {
+    return new Date(ms).toLocaleDateString(scope.locale, {
+      timeZone: scope.timeZone,
+    });
+  } catch {
+    return new Date(ms).toLocaleDateString();
+  }
 }
 
 // Returns null for unknown macros so the caller leaves them verbatim.
