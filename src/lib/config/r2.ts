@@ -220,7 +220,8 @@ export async function safeFetchBytes(
   const reader = res.body?.getReader();
   if (!reader) {
     const buf = Buffer.from(await res.arrayBuffer());
-    if (buf.length > maxBytes) throw new Error(msg("ERRORS.RESPONSE_TOO_LARGE"));
+    if (buf.length > maxBytes)
+      throw new Error(msg("ERRORS.RESPONSE_TOO_LARGE"));
     return { buffer: buf, contentType: res.headers.get("content-type") };
   }
   const chunks: Uint8Array[] = [];
@@ -297,11 +298,20 @@ export async function pingR2(): Promise<boolean> {
   }
 }
 
+// Hard ceiling on any single object written to R2. The download path caps via
+// safeFetchBytes, but direct multipart uploads (playground references/masks,
+// sync media) reach uploadToR2 without going through it, so the cap has to
+// live here too or a large multipart POST sails straight past it.
+const MAX_UPLOAD_BYTES = 50 * 1024 * 1024;
+
 export async function uploadToR2(
   key: string,
   body: Buffer | Uint8Array,
   contentType?: string,
 ): Promise<{ url: string; mime: string }> {
+  if (body.length > MAX_UPLOAD_BYTES) {
+    throw new Error(msg("ERRORS.STORAGE_QUOTA_EXCEEDED"));
+  }
   const mime = await verifyMagicBytes(body, contentType);
   await getS3().send(
     new PutObjectCommand({
@@ -468,12 +478,42 @@ export async function downloadGenerationBytes(
   };
 }
 
+// Refs are scratch input images, never in the `media` table (so the quota
+// SUM misses them) and the sweeper never prunes their prefix; a guest could
+// write unbounded never-expiring objects. Cap per user: before each upload,
+// drop the oldest beyond MAX_REF_OBJECTS so the prefix stays bounded.
+const MAX_REF_OBJECTS = 20;
+
+async function pruneRefObjects(userId: number): Promise<void> {
+  const prefix = `playgrounds-refs/${userId}/`;
+  const res = await getS3().send(
+    new ListObjectsV2Command({ Bucket: R2_BUCKET, Prefix: prefix }),
+  );
+  const objs = (res.Contents ?? []).filter((o) => o.Key);
+  if (objs.length < MAX_REF_OBJECTS) return;
+  const oldest = objs
+    .sort(
+      (a, b) =>
+        (a.LastModified?.getTime() ?? 0) - (b.LastModified?.getTime() ?? 0),
+    )
+    .slice(0, objs.length - MAX_REF_OBJECTS + 1);
+  await getS3().send(
+    new DeleteObjectsCommand({
+      Bucket: R2_BUCKET,
+      Delete: { Objects: oldest.map((o) => ({ Key: o.Key! })) },
+    }),
+  );
+}
+
 export async function uploadReferenceToR2(
   userId: number,
   body: Buffer | Uint8Array,
   declaredCt?: string,
 ): Promise<{ url: string; key: string; mime: string; sizeBytes: number }> {
+  await pruneRefObjects(userId).catch(() => {});
   const key = generationReferenceKey(userId, uid(8));
+  // uploadToR2 magic-byte verifies + restricts to the image/video/pdf
+  // allowlist, so a non-image ref is rejected here.
   const { url, mime } = await uploadToR2(key, body, declaredCt);
   return { url, key, mime, sizeBytes: body.length };
 }

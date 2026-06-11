@@ -127,28 +127,11 @@ export async function streamChat(
   }
 
   const prepared = await prepareChatRequest(apiKey, body, request, userId);
-  const {
-    estimateCost,
-    effectiveWebSearch,
-    effectiveSystem,
-    messagesForUpstream,
-    modelParams,
-    providerOptions,
-    streamingEnabled,
-    memory,
-    varsWriteback,
-    globalVarsWriteback,
-    debugRequestSnapshot,
-    bodyMutations,
-    startAlerts,
-    stopRequested,
-    inlayMedia,
-  } = prepared;
   // V1 `stop` effect (Risu stopSending): answer an empty UI stream, no upstream call.
-  if (stopRequested) {
+  if (prepared.stopRequested) {
     const stopStream = createUIMessageStream({
       execute: ({ writer }) => {
-        for (const a of startAlerts) {
+        for (const a of prepared.startAlerts) {
           writer.write({
             type: "data-alert",
             data: a,
@@ -161,7 +144,7 @@ export async function streamChat(
   }
   // cacheControl flag limits cache_control to Claude: others (Mistral)
   // advertise caching but 422 on the Anthropic block format.
-  const provider = getProvider(apiKey, bodyMutations);
+  const provider = getProvider(apiKey, prepared.bodyMutations);
 
   const droppedParamsRef = { value: null as string | null };
   // Captured in onFinish; emitted in messageMetadata to seed request log row.
@@ -179,7 +162,7 @@ export async function streamChat(
     return {
       inputTokens,
       outputTokens,
-      cost: estimateCost(inputTokens, outputTokens),
+      cost: prepared.estimateCost(inputTokens, outputTokens),
       durationMs,
       tokensPerSecond:
         outputTokens > 0 && durationMs > 0
@@ -209,12 +192,12 @@ export async function streamChat(
       model: provider.chatModel(body.model),
       middleware: extractReasoningMiddleware({ tagName: "think" }),
     }),
-    messages: await convertToModelMessages(messagesForUpstream),
-    system: effectiveSystem,
+    messages: await convertToModelMessages(prepared.messagesForUpstream),
+    system: prepared.effectiveSystem,
     // Retries retryable errors only (429/5xx/network); 4xx surface verbatim (Risu parity).
     maxRetries: 2,
-    ...modelParams,
-    providerOptions,
+    ...prepared.modelParams,
+    providerOptions: prepared.providerOptions,
     onFinish: ({ usage, response }) => {
       captureHeaders(response.headers);
       const u = buildUsage(usage.inputTokens ?? 0, usage.outputTokens ?? 0);
@@ -228,7 +211,7 @@ export async function streamChat(
           input_tokens: u.inputTokens,
           output_tokens: u.outputTokens,
           tokens_per_second: u.tokensPerSecond,
-          web_search: effectiveWebSearch,
+          web_search: prepared.effectiveWebSearch,
           has_dropped_params: !!droppedParamsRef.value,
           is_guest: userId === GUEST_USER_ID,
           request_id: debugRef.value.requestId ?? undefined,
@@ -262,10 +245,10 @@ export async function streamChat(
   ): Record<string, unknown> => {
     const meta: Record<string, unknown> = {};
     if (droppedParamsRef.value) meta.droppedParams = droppedParamsRef.value;
-    if (varsWriteback) meta.vars = varsWriteback;
-    if (globalVarsWriteback) meta.globalVars = globalVarsWriteback;
-    if (memory.summaryWriteback) meta.summary = memory.summaryWriteback;
-    if (inlayMedia.length > 0) meta.inlayMedia = inlayMedia;
+    if (prepared.varsWriteback) meta.vars = prepared.varsWriteback;
+    if (prepared.globalVarsWriteback) meta.globalVars = prepared.globalVarsWriteback;
+    if (prepared.memory.summaryWriteback) meta.summary = prepared.memory.summaryWriteback;
+    if (prepared.inlayMedia.length > 0) meta.inlayMedia = prepared.inlayMedia;
     // Per-message speaker tag (Risu `saying`), immune to the speaking-atom clear race.
     if (body.speakingCharacterId)
       meta.speakingCharacterId = body.speakingCharacterId;
@@ -275,7 +258,7 @@ export async function streamChat(
     );
     if (u.inputTokens > 0 || u.outputTokens > 0) meta.usage = u;
     const debug = {
-      ...debugRequestSnapshot,
+      ...prepared.debugRequestSnapshot,
       responseHeaders: debugRef.value.responseHeaders,
       droppedParams: droppedParamsRef.value,
       requestId: debugRef.value.requestId,
@@ -286,7 +269,7 @@ export async function streamChat(
     return meta;
   };
 
-  const userOptedOutOfStreaming = !streamingEnabled;
+  const userOptedOutOfStreaming = !prepared.streamingEnabled;
 
   if (!buffered && !userOptedOutOfStreaming) {
     const uiStream = result.toUIMessageStream({
@@ -306,10 +289,10 @@ export async function streamChat(
       },
     });
     // Transient start-trigger alerts ride ahead of the model stream.
-    if (startAlerts.length > 0) {
+    if (prepared.startAlerts.length > 0) {
       const merged = createUIMessageStream({
         execute: ({ writer }) => {
-          for (const a of startAlerts) {
+          for (const a of prepared.startAlerts) {
             writer.write({ type: "data-alert", data: a, transient: true });
           }
           writer.merge(uiStream);
