@@ -1,8 +1,8 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "0a3d7c14-3f02-4b8e-9c61-7d0003000003",
-  "prevId": "3be7f7fe-0eeb-40ec-b48c-ca1eb14f89d9",
+  "id": "841ddc10-f3ff-4bf5-a8ad-fdfbf8856499",
+  "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "card_characters": {
       "name": "card_characters",
@@ -2537,25 +2537,25 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
-    "local_meta": {
-      "name": "local_meta",
+    "local_migrations": {
+      "name": "local_migrations",
       "columns": {
-        "key": {
-          "name": "key",
+        "name": {
+          "name": "name",
           "type": "text",
           "primaryKey": true,
           "notNull": true,
           "autoincrement": false
         },
-        "value": {
-          "name": "value",
+        "tag": {
+          "name": "tag",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "updated_at": {
-          "name": "updated_at",
+        "applied_at": {
+          "name": "applied_at",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
@@ -2659,12 +2659,12 @@
       "foreignKeys": {},
       "compositePrimaryKeys": {
         "local_pending_tasks_task_type_kind_id_pk": {
-          "name": "local_pending_tasks_task_type_kind_id_pk",
           "columns": [
             "task_type",
             "kind",
             "id"
-          ]
+          ],
+          "name": "local_pending_tasks_task_type_kind_id_pk"
         }
       },
       "uniqueConstraints": {},

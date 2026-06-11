@@ -4,7 +4,7 @@ import { readdirSync, readFileSync, writeFileSync } from "fs";
 import { resolve } from "path";
 
 // Bundles `drizzle/client/*.sql` into one JSON shipped to the browser. SQLocal
-// replays entries newer than `local_meta.migration_version` at runtime.
+// replays entries newer than `local_migrations.migration_version` at runtime.
 
 const root = resolve(import.meta.dirname, "..");
 const clientDir = resolve(root, "drizzle/client");
