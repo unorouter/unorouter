@@ -23,6 +23,22 @@ import { ViewModeToggle } from "./filters/view-mode-toggle";
 // grid reflows them (3/2/1 per breakpoint). JS column detection started at 1
 // and corrected in an effect, flashing a one-column layout on every load.
 const GRID_CHUNK = 3;
+const GRID_SSR_ROWS = 8;
+const LIST_SSR_ROWS = 12;
+
+function Maybe(props: {
+  virtualize: boolean;
+  ssrCount: number;
+  vKey: string;
+  children: React.ReactNode;
+}) {
+  if (!props.virtualize) return <>{props.children}</>;
+  return (
+    <WindowVirtualizer key={props.vKey} ssrCount={props.ssrCount}>
+      {props.children}
+    </WindowVirtualizer>
+  );
+}
 
 export function ModelsPage() {
   const t = useTranslations();
@@ -130,7 +146,15 @@ export function ModelsPage() {
       ) : m.viewMode === "grid" ? (
         // ssrCount: server-render the first rows so LCP comes from HTML
         // instead of waiting for hydration + measurement.
-        <WindowVirtualizer ssrCount={8}>
+        // virtua keeps the unclamped [0, ssrCount-1] range until first scroll,
+        // so fewer children than ssrCount crashes (undefined.key); render small
+        // lists plain. Maybe wraps both branches so the type switch unmounts
+        // the virtualizer instead of reusing its store.
+        <Maybe
+          virtualize={gridRows.length > GRID_SSR_ROWS}
+          ssrCount={GRID_SSR_ROWS}
+          vKey="grid"
+        >
           {gridRows.map((row) => (
             <div
               key={row[0].name}
@@ -147,9 +171,13 @@ export function ModelsPage() {
               ))}
             </div>
           ))}
-        </WindowVirtualizer>
+        </Maybe>
       ) : (
-        <WindowVirtualizer ssrCount={12}>
+        <Maybe
+          virtualize={m.filtered.length > LIST_SSR_ROWS}
+          ssrCount={LIST_SSR_ROWS}
+          vKey="list"
+        >
           {m.filtered.map((model) => (
             <div key={model.name} className="pb-2">
               <ModelListItem
@@ -160,7 +188,7 @@ export function ModelsPage() {
               />
             </div>
           ))}
-        </WindowVirtualizer>
+        </Maybe>
       )}
 
       <ModelDetailSheet
