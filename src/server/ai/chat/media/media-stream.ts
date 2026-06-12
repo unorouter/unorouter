@@ -1,5 +1,5 @@
 import type { ModelType } from "@/lib/api/pricing";
-import { isMediaModel } from "@/lib/api/pricing-cache";
+import { getPricingSummary } from "@/lib/api/pricing-cache";
 import { msg } from "@/lib/config/constants";
 import {
   downloadGenerationBytes,
@@ -8,7 +8,11 @@ import {
 } from "@/lib/config/r2";
 import { base64ToDataUri, uid } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
-import { imageGenResponseChecker } from "@/lib/validation/media";
+import { buildBody, extractResultUris } from "@/lib/ai/playground/dispatch";
+import {
+  chooseEndpoint,
+  type SyncImageEndpoint,
+} from "@/lib/ai/playground/models-dynamic";
 import { upstreamApiUrl } from "@/server/constants";
 import { serverEnv } from "@/server/env";
 import {
@@ -172,37 +176,48 @@ async function processUrls(
   return (await Promise.all(matches.map(process))).filter(Boolean).join("\n\n");
 }
 
+// Dispatch by the model's advertised endpoint: `image-generation` POSTs
+// /v1/images/generations with {prompt}, but `openai`-only image models (e.g.
+// gpt-image-2) MUST go to /v1/chat/completions with a messages body, else
+// new-api's Path2RelayMode reads the chat path and 400s "field messages is
+// required". buildBody/extractResultUris (shared with playground) cover all
+// three shapes (images-gen / chat / gemini); the returned URIs are already
+// data: or http urls.
 async function generateImage(
   apiKey: string,
   model: string,
   prompt: string,
-  endpointPath: string,
+  endpoint: SyncImageEndpoint,
   group?: string | null,
-): Promise<{ images: string[]; isBase64: boolean; requestId?: string }> {
-  const res = await upstreamPost(
-    apiKey,
-    endpointPath,
-    { model, prompt, n: 1 },
-    "ERRORS.IMAGE_GENERATION_FAILED",
-    "stream.image",
-    group,
-  );
-  const raw = await res.json();
-  if (!imageGenResponseChecker.Check(raw)) {
+): Promise<string[]> {
+  const built = buildBody(endpoint, { model, prompt, refs: [], n: 1 });
+  if (built.kind !== "json") {
     throw new Error(msg("ERRORS.IMAGE_GENERATION_FAILED"));
   }
-  const json = raw;
-  const requestId = res.headers.get("x-oneapi-request-id") ?? undefined;
-
-  const urls = json.data
-    .map((d) => d.url)
-    .filter((u): u is string => Boolean(u));
-  if (urls.length > 0) return { images: urls, isBase64: false, requestId };
-
-  const b64s = json.data
-    .map((d) => d.b64_json)
-    .filter((b): b is string => Boolean(b));
-  return { images: b64s, isBase64: true, requestId };
+  const res = await fetch(`${upstreamApiUrl}${built.path}`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+      ...groupHeader(group),
+    },
+    body: built.body,
+  });
+  if (!res.ok) {
+    const err = await res.text();
+    logger.error("Upstream image call failed", {
+      context: "stream.image",
+      model,
+      endpoint,
+      error: err.slice(0, 200),
+    });
+    throw new Error(`${msg("ERRORS.IMAGE_GENERATION_FAILED")}: ${err}`);
+  }
+  const uris = extractResultUris(endpoint, await res.json());
+  if (uris.length === 0) {
+    throw new Error(msg("ERRORS.IMAGE_GENERATION_FAILED"));
+  }
+  return uris;
 }
 
 export async function handleImageStream(
@@ -211,21 +226,24 @@ export async function handleImageStream(
   userId: number,
 ) {
   const prompt = await moderatedPrompt(body, userId, "image");
-  const { endpointPath } = await isMediaModel(body.model);
+  const model = (await getPricingSummary()).byName.get(body.model);
+  const endpoint = chooseEndpoint(model?.endpointTypes ?? []);
+  if (!endpoint) throw new Error(msg("ERRORS.IMAGE_GENERATION_FAILED"));
   return streamResponse(async (writer) => {
-    const { images, isBase64 } = await generateImage(
+    const images = await generateImage(
       apiKey,
       body.model,
       prompt,
-      endpointPath!,
+      endpoint,
       body.group,
     );
 
     // Stream inline data URLs; client persists base64, sync pushes R2 later.
     // Guests never touch Turso/R2: no FK violation, no CORP-blocked embeds.
+    // extractResultUris returns data: URIs (b64/chat parts) or http urls.
     const dataUrls = await Promise.all(
       images.map(async (img: string) => {
-        if (isBase64) return base64ToDataUri(img, "image/png");
+        if (img.startsWith("data:")) return img;
         try {
           const { buffer, mime } = await downloadGenerationBytes(img);
           return base64ToDataUri(buffer.toString("base64"), mime);
