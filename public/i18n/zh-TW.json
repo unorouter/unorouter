@@ -455,6 +455,20 @@
       "comparison": "比較"
     },
     "POSTS": {
+      "FEATURED_ON": {
+        "TITLE": "在哪裡找到{appName}：我們的目錄收錄",
+        "DESCRIPTION": "{appName}已收錄於各大 AI 工具與新創產品目錄。您可以在這裡找到我們、核實收錄資訊並閱讀獨立評價。",
+        "AUTHOR": "{appName}團隊",
+        "INTRO": "成為值得信賴的 AI 閘道，意味著易於查找、易於核實。{appName}已收錄在開發者真正會查看的目錄中，他們會在把 API 金鑰交付給新服務商之前先行核實。以下是持續更新的清單。",
+        "H_DIRECTORIES": "收錄我們的目錄",
+        "P_DIRECTORIES": "下方每個徽章都連結到收錄{appName}的目錄。這些都是獨立收錄，因此您可以閱讀第三方的描述與評價，而不必只聽我們的片面之詞。",
+        "H_WHY": "為什麼這很重要",
+        "P_WHY": "AI 基礎設施領域的品牌忠誠度很薄弱，信任就是一切。一個躲避公開目錄的服務商，就是一個您無法考察的服務商。我們公開收錄，方便您在同一處將{appName}與每一個替代方案進行比較。",
+        "H_VERIFY": "信任之前先核實",
+        "P_VERIFY": "開啟任一徽章，確認收錄指向我們真實的網域，並查看獨立描述。切勿將 API 金鑰貼入無法追溯至可核實公開來源的服務中。",
+        "H_TRY": "親自試一試",
+        "CTA": "看夠了嗎？<register>建立免費帳戶</register>或<models>瀏覽模型</models>。"
+      },
       "LAUNCH": {
         "TITLE": "我們受夠了假 Claude。所以做了 {appName}。",
         "DESCRIPTION": "三天兩頭當機，旗艦模型還被偷偷換成廉價仿品。忍無可忍，我們自己動手做了路由器，並且對這兩件事都偏執到極點。這就是上線故事。",
@@ -2603,6 +2617,8 @@
     "MD_SINGLE_QUOTE": "單引號文字",
     "MD_DOUBLE_QUOTE": "雙引號文字",
     "SURFACE_COLORS": "介面顏色",
+    "MODE_LIGHT": "淺色",
+    "MODE_DARK": "深色",
     "COLOR_SIDEBAR": "側邊欄",
     "BACKGROUND_IMAGE": "背景圖片",
     "BG_UPLOAD": "上傳圖片",

@@ -455,6 +455,20 @@
       "comparison": "Comparativa"
     },
     "POSTS": {
+      "FEATURED_ON": {
+        "TITLE": "Donde encontrar {appName}: nuestros listados en directorios",
+        "DESCRIPTION": "{appName} aparece en los directorios de herramientas de IA y de startups. Aqui puede encontrarnos, verificar los listados y leer opiniones independientes.",
+        "AUTHOR": "Equipo de {appName}",
+        "INTRO": "Parte de ser una pasarela de IA fiable es ser facil de encontrar y facil de verificar. {appName} aparece en los directorios que los desarrolladores realmente revisan antes de confiar una clave API a un nuevo proveedor. Esta es la lista actualizada.",
+        "H_DIRECTORIES": "Directorios donde aparecemos",
+        "P_DIRECTORIES": "Cada insignia de abajo enlaza al directorio donde aparece {appName}. Son listados independientes, asi que puede leer descripciones y resenas de terceros en lugar de creernos sin mas.",
+        "H_WHY": "Por que esto importa",
+        "P_WHY": "La fidelidad de marca en la infraestructura de IA es escasa y la confianza lo es todo. Un proveedor que se esconde de los directorios publicos es un proveedor que no puede evaluar. Listamos abiertamente para que pueda comparar {appName} con cualquier alternativa en el mismo lugar.",
+        "H_VERIFY": "Verifique antes de confiar",
+        "P_VERIFY": "Abra cualquier insignia, confirme que el listado apunta a nuestro dominio real y revise la descripcion independiente. Nunca pegue una clave API en un servicio cuyo origen no pueda rastrear hasta una fuente publica y verificable.",
+        "H_TRY": "Pruebelo usted mismo",
+        "CTA": "Ya vio suficiente? <register>Cree una cuenta gratis</register> o <models>explore los modelos</models>."
+      },
       "LAUNCH": {
         "TITLE": "Nos cansamos de los Claude falsos. Por eso construimos {appName}.",
         "DESCRIPTION": "Caídas cada quince días. Modelos premium silenciosamente sustituidos por clones baratos. Explotamos, lanzamos nuestro propio router y lo hicimos paranoico con ambos. Aquí está la historia del lanzamiento.",
@@ -2603,6 +2617,8 @@
     "MD_SINGLE_QUOTE": "Texto entre comillas simples",
     "MD_DOUBLE_QUOTE": "Texto entre comillas dobles",
     "SURFACE_COLORS": "Colores de superficie",
+    "MODE_LIGHT": "Claro",
+    "MODE_DARK": "Oscuro",
     "COLOR_SIDEBAR": "Barra lateral",
     "BACKGROUND_IMAGE": "Imagen de fondo",
     "BG_UPLOAD": "Subir imagen",

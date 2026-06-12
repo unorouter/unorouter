@@ -455,6 +455,20 @@
       "comparison": "Comparison"
     },
     "POSTS": {
+      "FEATURED_ON": {
+        "TITLE": "Where to find {appName}: our directory listings",
+        "DESCRIPTION": "{appName} is listed across the AI tool and startup directories. Here is where you can find us, verify the listings, and read independent takes.",
+        "AUTHOR": "{appName} team",
+        "INTRO": "Part of being a trustworthy AI gateway is being easy to find and easy to verify. {appName} is listed on the directories developers actually check before they trust a new provider with an API key. Here is the running list.",
+        "H_DIRECTORIES": "Directories we are listed on",
+        "P_DIRECTORIES": "Each badge below links to the directory where {appName} is featured. They are independent listings, so you can read third-party descriptions and reviews rather than taking our word for it.",
+        "H_WHY": "Why this matters",
+        "P_WHY": "Brand loyalty in AI infrastructure is thin and trust is everything. A provider that hides from public directories is a provider you cannot vet. We list openly so you can compare {appName} against every alternative in the same place.",
+        "H_VERIFY": "Verify before you trust",
+        "P_VERIFY": "Open any badge, confirm the listing points back to our real domain, and check the independent description. Never paste an API key into a service you cannot trace to a verifiable, publicly listed source.",
+        "H_TRY": "Try it yourself",
+        "CTA": "Seen enough? <register>Create a free account</register> or <models>browse the models</models>."
+      },
       "LAUNCH": {
         "TITLE": "We got tired of fake Claude. So we built {appName}.",
         "DESCRIPTION": "Outages every other week. Premium models silently swapped for cheap clones. We snapped, shipped our own router, and made it paranoid about both. Here is the launch story.",
@@ -2603,6 +2617,8 @@
     "MD_SINGLE_QUOTE": "Single quoted text",
     "MD_DOUBLE_QUOTE": "Double quoted text",
     "SURFACE_COLORS": "Surface colors",
+    "MODE_LIGHT": "Light",
+    "MODE_DARK": "Dark",
     "COLOR_SIDEBAR": "Sidebar",
     "BACKGROUND_IMAGE": "Background image",
     "BG_UPLOAD": "Upload image",

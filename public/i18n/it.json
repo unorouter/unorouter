@@ -455,6 +455,20 @@
       "comparison": "Confronto"
     },
     "POSTS": {
+      "FEATURED_ON": {
+        "TITLE": "Dove trovare {appName}: i nostri elenchi nelle directory",
+        "DESCRIPTION": "{appName} e elencato nelle directory di strumenti IA e startup. Ecco dove trovarci, verificare gli elenchi e leggere opinioni indipendenti.",
+        "AUTHOR": "Team {appName}",
+        "INTRO": "Essere un gateway IA affidabile significa anche essere facile da trovare e da verificare. {appName} e presente nelle directory che gli sviluppatori controllano davvero prima di affidare una chiave API a un nuovo provider. Ecco l elenco aggiornato.",
+        "H_DIRECTORIES": "Directory in cui siamo elencati",
+        "P_DIRECTORIES": "Ogni badge qui sotto rimanda alla directory in cui {appName} e presentato. Sono elenchi indipendenti, quindi puoi leggere descrizioni e recensioni di terzi invece di fidarti solo della nostra parola.",
+        "H_WHY": "Perche e importante",
+        "P_WHY": "La fedelta al marchio nell infrastruttura IA e scarsa e la fiducia e tutto. Un provider che si nasconde dalle directory pubbliche e un provider che non puoi valutare. Ci elenchiamo apertamente cosi puoi confrontare {appName} con ogni alternativa nello stesso posto.",
+        "H_VERIFY": "Verifica prima di fidarti",
+        "P_VERIFY": "Apri un badge qualsiasi, conferma che l elenco punti al nostro dominio reale e controlla la descrizione indipendente. Non incollare mai una chiave API in un servizio la cui origine non puoi ricondurre a una fonte pubblica e verificabile.",
+        "H_TRY": "Provalo tu stesso",
+        "CTA": "Visto abbastanza? <register>Crea un account gratuito</register> o <models>esplora i modelli</models>."
+      },
       "LAUNCH": {
         "TITLE": "Ci siamo stancati di Claude falsi. Quindi abbiamo costruito {appName}.",
         "DESCRIPTION": "Interruzioni a settimane alterne. Modelli premium silenziosamente scambiati con cloni economici. Siamo scattati, abbiamo lanciato il nostro router e lo abbiamo reso paranoico su entrambi. Ecco la storia del lancio.",
@@ -2603,6 +2617,8 @@
     "MD_SINGLE_QUOTE": "Testo virgolette singole",
     "MD_DOUBLE_QUOTE": "Testo virgolette doppie",
     "SURFACE_COLORS": "Colori superficie",
+    "MODE_LIGHT": "Chiaro",
+    "MODE_DARK": "Scuro",
     "COLOR_SIDEBAR": "Barra laterale",
     "BACKGROUND_IMAGE": "Immagine di sfondo",
     "BG_UPLOAD": "Carica immagine",

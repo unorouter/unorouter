@@ -455,6 +455,20 @@
       "comparison": "Karşılaştırma"
     },
     "POSTS": {
+      "FEATURED_ON": {
+        "TITLE": "{appName} nerede bulunur: dizin kayitlarimiz",
+        "DESCRIPTION": "{appName}, yapay zeka araci ve girisim dizinlerinde listelenmistir. Bizi burada bulabilir, kayitlari dogrulayabilir ve bagimsiz degerlendirmeleri okuyabilirsiniz.",
+        "AUTHOR": "{appName} ekibi",
+        "INTRO": "Guvenilir bir yapay zeka gecidi olmanin bir parcasi da kolay bulunmak ve kolay dogrulanmaktir. {appName}, gelistiricilerin yeni bir saglayiciya API anahtari emanet etmeden once gercekten kontrol ettigi dizinlerde yer alir. Guncel liste asagidadir.",
+        "H_DIRECTORIES": "Listelendigimiz dizinler",
+        "P_DIRECTORIES": "Asagidaki her rozet, {appName} oge olarak yer aldigi dizine baglanir. Bunlar bagimsiz kayitlardir, bu yuzden sadece bize inanmak yerine ucuncu taraf aciklamalarini ve incelemelerini okuyabilirsiniz.",
+        "H_WHY": "Bu neden onemli",
+        "P_WHY": "Yapay zeka altyapisinda marka sadakati zayiftir ve guven her seydir. Halka acik dizinlerden saklanan bir saglayici, degerlendiremeyeceginiz bir saglayicidir. Acikca listeleniyoruz ki {appName} uygulamasini her alternatifle ayni yerde karsilastirabilesiniz.",
+        "H_VERIFY": "Guvenmeden once dogrulayin",
+        "P_VERIFY": "Herhangi bir rozeti acin, kaydin gercek alan adimiza isaret ettigini dogrulayin ve bagimsiz aciklamayi inceleyin. Kaynagini dogrulanabilir, herkese acik bir kaynaga kadar izleyemediginiz bir hizmete asla API anahtari yapistirmayin.",
+        "H_TRY": "Kendiniz deneyin",
+        "CTA": "Yeterince gordunuz mu? <register>Ucretsiz hesap olusturun</register> ya da <models>modellere goz atin</models>."
+      },
       "LAUNCH": {
         "TITLE": "Sahte Claude'dan bıktık. Bu yüzden {appName}'i kurduk.",
         "DESCRIPTION": "Her hafta kesintiler. Premium modeller sessizce ucuz klonlarla değiştiriliyor. Patladık, kendi router'ımızı çıkardık ve onu ikisi konusunda da paranoyak yaptık. İşte lansman hikayesi.",
@@ -2603,6 +2617,8 @@
     "MD_SINGLE_QUOTE": "Tek tırnaklı metin",
     "MD_DOUBLE_QUOTE": "Çift tırnaklı metin",
     "SURFACE_COLORS": "Yüzey renkleri",
+    "MODE_LIGHT": "Açık",
+    "MODE_DARK": "Koyu",
     "COLOR_SIDEBAR": "Kenar çubuğu",
     "BACKGROUND_IMAGE": "Arka plan resmi",
     "BG_UPLOAD": "Resim yükle",

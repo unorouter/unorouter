@@ -455,6 +455,20 @@
       "comparison": "对比"
     },
     "POSTS": {
+      "FEATURED_ON": {
+        "TITLE": "在哪里找到{appName}：我们的目录收录",
+        "DESCRIPTION": "{appName}已收录于各大 AI 工具与创业产品目录。您可以在这里找到我们、核实收录信息并阅读独立评价。",
+        "AUTHOR": "{appName}团队",
+        "INTRO": "成为值得信赖的 AI 网关，意味着易于查找、易于核实。{appName}已收录在开发者真正会查看的目录中，他们会在把 API 密钥托付给新服务商之前先核实。以下是持续更新的清单。",
+        "H_DIRECTORIES": "收录我们的目录",
+        "P_DIRECTORIES": "下方每个徽章都链接到收录{appName}的目录。这些都是独立收录，因此您可以阅读第三方的描述与评价，而不必只听我们的一面之词。",
+        "H_WHY": "为什么这很重要",
+        "P_WHY": "AI 基础设施领域的品牌忠诚度很薄弱，信任就是一切。一个躲避公开目录的服务商，就是一个您无法考察的服务商。我们公开收录，方便您在同一处将{appName}与每一个替代方案进行比较。",
+        "H_VERIFY": "信任之前先核实",
+        "P_VERIFY": "打开任意徽章，确认收录指向我们真实的域名，并查看独立描述。切勿将 API 密钥粘贴到无法追溯至可核实公开来源的服务中。",
+        "H_TRY": "亲自试一试",
+        "CTA": "看够了吗？<register>创建免费账户</register>或<models>浏览模型</models>。"
+      },
       "LAUNCH": {
         "TITLE": "我们受够了假 Claude。所以做了 {appName}。",
         "DESCRIPTION": "三天两头宕机，旗舰模型还被偷偷换成廉价仿品。忍无可忍，我们自己上手做了路由器，并且对这两件事都偏执到极点。这就是上线故事。",
@@ -2603,6 +2617,8 @@
     "MD_SINGLE_QUOTE": "单引号文本",
     "MD_DOUBLE_QUOTE": "双引号文本",
     "SURFACE_COLORS": "界面颜色",
+    "MODE_LIGHT": "浅色",
+    "MODE_DARK": "深色",
     "COLOR_SIDEBAR": "侧边栏",
     "BACKGROUND_IMAGE": "背景图片",
     "BG_UPLOAD": "上传图片",

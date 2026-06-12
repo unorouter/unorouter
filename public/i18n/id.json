@@ -455,6 +455,20 @@
       "comparison": "Perbandingan"
     },
     "POSTS": {
+      "FEATURED_ON": {
+        "TITLE": "Tempat menemukan {appName}: daftar direktori kami",
+        "DESCRIPTION": "{appName} terdaftar di berbagai direktori alat AI dan startup. Di sini Anda dapat menemukan kami, memverifikasi daftarnya, dan membaca ulasan independen.",
+        "AUTHOR": "Tim {appName}",
+        "INTRO": "Bagian dari menjadi gateway AI yang tepercaya adalah mudah ditemukan dan mudah diverifikasi. {appName} terdaftar di direktori yang benar-benar diperiksa para pengembang sebelum mempercayakan kunci API kepada penyedia baru. Inilah daftar terbarunya.",
+        "H_DIRECTORIES": "Direktori tempat kami terdaftar",
+        "P_DIRECTORIES": "Setiap lencana di bawah ini tertaut ke direktori tempat {appName} ditampilkan. Ini adalah daftar independen, jadi Anda dapat membaca deskripsi dan ulasan pihak ketiga alih-alih hanya percaya pada kata-kata kami.",
+        "H_WHY": "Mengapa ini penting",
+        "P_WHY": "Loyalitas merek di infrastruktur AI itu tipis dan kepercayaan adalah segalanya. Penyedia yang bersembunyi dari direktori publik adalah penyedia yang tidak bisa Anda telaah. Kami terdaftar secara terbuka agar Anda dapat membandingkan {appName} dengan setiap alternatif di tempat yang sama.",
+        "H_VERIFY": "Verifikasi sebelum percaya",
+        "P_VERIFY": "Buka lencana mana pun, pastikan daftarnya mengarah ke domain asli kami, dan periksa deskripsi independennya. Jangan pernah menempelkan kunci API ke layanan yang asal-usulnya tidak dapat Anda lacak ke sumber publik yang dapat diverifikasi.",
+        "H_TRY": "Coba sendiri",
+        "CTA": "Sudah cukup melihat? <register>Buat akun gratis</register> atau <models>jelajahi modelnya</models>."
+      },
       "LAUNCH": {
         "TITLE": "Kami lelah dengan Claude palsu. Jadi kami membangun {appName}.",
         "DESCRIPTION": "Pemadaman setiap minggu. Model premium diam-diam diganti dengan klon murah. Kami marah, meluncurkan router kami sendiri, dan membuatnya paranoid tentang keduanya. Berikut kisah peluncurannya.",
@@ -2603,6 +2617,8 @@
     "MD_SINGLE_QUOTE": "Teks dalam tanda kutip tunggal",
     "MD_DOUBLE_QUOTE": "Teks dalam tanda kutip ganda",
     "SURFACE_COLORS": "Warna permukaan",
+    "MODE_LIGHT": "Terang",
+    "MODE_DARK": "Gelap",
     "COLOR_SIDEBAR": "Bilah sisi",
     "BACKGROUND_IMAGE": "Gambar latar",
     "BG_UPLOAD": "Unggah gambar",

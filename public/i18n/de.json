@@ -455,6 +455,20 @@
       "comparison": "Vergleich"
     },
     "POSTS": {
+      "FEATURED_ON": {
+        "TITLE": "Wo Sie {appName} finden: unsere Verzeichniseintraege",
+        "DESCRIPTION": "{appName} ist in den KI-Tool- und Startup-Verzeichnissen gelistet. Hier finden Sie uns, pruefen die Eintraege und lesen unabhaengige Einschaetzungen.",
+        "AUTHOR": "{appName}-Team",
+        "INTRO": "Zu einem vertrauenswuerdigen KI-Gateway gehoert, leicht auffindbar und leicht ueberpruefbar zu sein. {appName} ist in den Verzeichnissen gelistet, die Entwickler tatsaechlich pruefen, bevor sie einem neuen Anbieter einen API-Schluessel anvertrauen. Hier ist die laufende Liste.",
+        "H_DIRECTORIES": "Verzeichnisse, in denen wir gelistet sind",
+        "P_DIRECTORIES": "Jedes Badge unten verweist auf das Verzeichnis, in dem {appName} vorgestellt wird. Es sind unabhaengige Eintraege, sodass Sie Beschreibungen und Bewertungen Dritter lesen koennen, statt uns einfach zu glauben.",
+        "H_WHY": "Warum das wichtig ist",
+        "P_WHY": "Markentreue in der KI-Infrastruktur ist gering und Vertrauen ist alles. Ein Anbieter, der sich vor oeffentlichen Verzeichnissen versteckt, ist ein Anbieter, den Sie nicht pruefen koennen. Wir listen offen, damit Sie {appName} mit jeder Alternative am selben Ort vergleichen koennen.",
+        "H_VERIFY": "Pruefen Sie, bevor Sie vertrauen",
+        "P_VERIFY": "Oeffnen Sie ein beliebiges Badge, bestaetigen Sie, dass der Eintrag auf unsere echte Domain verweist, und pruefen Sie die unabhaengige Beschreibung. Fuegen Sie niemals einen API-Schluessel in einen Dienst ein, dessen Quelle Sie nicht oeffentlich nachvollziehen koennen.",
+        "H_TRY": "Probieren Sie es selbst aus",
+        "CTA": "Genug gesehen? <register>Erstellen Sie ein kostenloses Konto</register> oder <models>durchsuchen Sie die Modelle</models>."
+      },
       "LAUNCH": {
         "TITLE": "Wir hatten genug von falschem Claude. Also haben wir {appName} gebaut.",
         "DESCRIPTION": "Ausfälle im Wochentakt. Premium-Modelle heimlich gegen billige Klone getauscht. Irgendwann war Schluss, also haben wir unseren eigenen Router gebaut und ihn paranoid gemacht. Das ist die Launch-Story.",
@@ -2603,6 +2617,8 @@
     "MD_SINGLE_QUOTE": "Einfach zitierter Text",
     "MD_DOUBLE_QUOTE": "Doppelt zitierter Text",
     "SURFACE_COLORS": "Oberflächenfarben",
+    "MODE_LIGHT": "Hell",
+    "MODE_DARK": "Dunkel",
     "COLOR_SIDEBAR": "Seitenleiste",
     "BACKGROUND_IMAGE": "Hintergrundbild",
     "BG_UPLOAD": "Bild hochladen",

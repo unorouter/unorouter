@@ -455,6 +455,20 @@
       "comparison": "Comparativo"
     },
     "POSTS": {
+      "FEATURED_ON": {
+        "TITLE": "Onde encontrar o {appName}: nossos registros em diretorios",
+        "DESCRIPTION": "O {appName} esta listado nos diretorios de ferramentas de IA e de startups. Aqui voce nos encontra, verifica os registros e le analises independentes.",
+        "AUTHOR": "Equipe {appName}",
+        "INTRO": "Parte de ser um gateway de IA confiavel e ser facil de encontrar e de verificar. O {appName} esta nos diretorios que os desenvolvedores realmente consultam antes de confiar uma chave de API a um novo provedor. Esta e a lista atualizada.",
+        "H_DIRECTORIES": "Diretorios em que estamos listados",
+        "P_DIRECTORIES": "Cada selo abaixo leva ao diretorio onde o {appName} aparece em destaque. Sao registros independentes, entao voce pode ler descricoes e avaliacoes de terceiros em vez de apenas acreditar na nossa palavra.",
+        "H_WHY": "Por que isso importa",
+        "P_WHY": "A fidelidade a marca na infraestrutura de IA e baixa e a confianca e tudo. Um provedor que se esconde dos diretorios publicos e um provedor que voce nao consegue avaliar. Listamos abertamente para que voce possa comparar o {appName} com qualquer alternativa no mesmo lugar.",
+        "H_VERIFY": "Verifique antes de confiar",
+        "P_VERIFY": "Abra qualquer selo, confirme que o registro aponta para o nosso dominio real e veja a descricao independente. Nunca cole uma chave de API em um servico cuja origem voce nao consiga rastrear ate uma fonte publica e verificavel.",
+        "H_TRY": "Experimente voce mesmo",
+        "CTA": "Ja viu o suficiente? <register>Crie uma conta gratuita</register> ou <models>explore os modelos</models>."
+      },
       "LAUNCH": {
         "TITLE": "Cansamos de Claude falso. Por isso construímos {appName}.",
         "DESCRIPTION": "Quedas a cada quinzena. Modelos premium silenciosamente trocados por clones baratos. Surtamos, lançamos nosso próprio roteador, e fizemos ele paranoico com ambos. Aqui está a história do lançamento.",
@@ -2603,6 +2617,8 @@
     "MD_SINGLE_QUOTE": "Texto entre aspas simples",
     "MD_DOUBLE_QUOTE": "Texto entre aspas duplas",
     "SURFACE_COLORS": "Cores de superfície",
+    "MODE_LIGHT": "Claro",
+    "MODE_DARK": "Escuro",
     "COLOR_SIDEBAR": "Barra lateral",
     "BACKGROUND_IMAGE": "Imagem de fundo",
     "BG_UPLOAD": "Enviar imagem",

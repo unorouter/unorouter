@@ -455,6 +455,20 @@
       "comparison": "Comparatif"
     },
     "POSTS": {
+      "FEATURED_ON": {
+        "TITLE": "Ou trouver {appName} : nos inscriptions dans les annuaires",
+        "DESCRIPTION": "{appName} est reference dans les annuaires d outils IA et de startups. Voici ou nous trouver, verifier les inscriptions et lire des avis independants.",
+        "AUTHOR": "Equipe {appName}",
+        "INTRO": "Etre une passerelle IA digne de confiance, c est aussi etre facile a trouver et a verifier. {appName} figure dans les annuaires que les developpeurs consultent reellement avant de confier une cle API a un nouveau fournisseur. Voici la liste a jour.",
+        "H_DIRECTORIES": "Annuaires ou nous sommes references",
+        "P_DIRECTORIES": "Chaque badge ci-dessous renvoie vers l annuaire ou {appName} est mis en avant. Ce sont des inscriptions independantes, vous pouvez donc lire des descriptions et avis tiers plutot que de nous croire sur parole.",
+        "H_WHY": "Pourquoi c est important",
+        "P_WHY": "La fidelite a une marque dans l infrastructure IA est faible et la confiance est primordiale. Un fournisseur qui se cache des annuaires publics est un fournisseur que vous ne pouvez pas evaluer. Nous nous referencons ouvertement pour que vous puissiez comparer {appName} a toute alternative au meme endroit.",
+        "H_VERIFY": "Verifiez avant de faire confiance",
+        "P_VERIFY": "Ouvrez n importe quel badge, confirmez que l inscription pointe vers notre vrai domaine et lisez la description independante. Ne collez jamais une cle API dans un service dont vous ne pouvez pas retracer l origine jusqu a une source publique et verifiable.",
+        "H_TRY": "Essayez par vous-meme",
+        "CTA": "Vous en avez assez vu ? <register>Creez un compte gratuit</register> ou <models>parcourez les modeles</models>."
+      },
       "LAUNCH": {
         "TITLE": "On en avait marre des faux Claude. Alors on a construit {appName}.",
         "DESCRIPTION": "Des pannes une semaine sur deux. Des modèles premium silencieusement remplacés par des copies bon marché. On a craqué, on a sorti notre propre routeur, paranoïaque sur les deux fronts. Voici l'histoire.",
@@ -2603,6 +2617,8 @@
     "MD_SINGLE_QUOTE": "Texte entre apostrophes",
     "MD_DOUBLE_QUOTE": "Texte entre guillemets",
     "SURFACE_COLORS": "Couleurs de surface",
+    "MODE_LIGHT": "Clair",
+    "MODE_DARK": "Sombre",
     "COLOR_SIDEBAR": "Barre latérale",
     "BACKGROUND_IMAGE": "Image d'arrière-plan",
     "BG_UPLOAD": "Téléverser une image",

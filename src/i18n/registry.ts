@@ -61,6 +61,25 @@ export const LEGAL_REGISTRY = [
 
 export const BLOG_REGISTRY = [
   {
+    slug: "featured-on",
+    date: "2026-06-12",
+    tags: ["announcement", "product"],
+    i18nKey: "BLOG.POSTS.FEATURED_ON",
+    contentFiles: [
+      "src/components/pages/blog/posts/2026-06-12-featured-on-content.tsx",
+    ],
+    priority: 0.7,
+    changeFrequency: "monthly",
+    category: "product",
+    wordCount: 320,
+    headings: [
+      { id: "directories", i18nLeaf: "H_DIRECTORIES", level: 2 },
+      { id: "why", i18nLeaf: "H_WHY", level: 2 },
+      { id: "verify", i18nLeaf: "H_VERIFY", level: 2 },
+      { id: "try", i18nLeaf: "H_TRY", level: 2 },
+    ],
+  },
+  {
     slug: "unorouter-vs-openrouter",
     date: "2026-06-10",
     tags: ["comparison", "product"],

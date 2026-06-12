@@ -455,6 +455,20 @@
       "comparison": "So sánh"
     },
     "POSTS": {
+      "FEATURED_ON": {
+        "TITLE": "Tim {appName} o dau: cac muc liet ke trong thu muc",
+        "DESCRIPTION": "{appName} duoc liet ke trong cac thu muc cong cu AI va startup. Tai day ban co the tim thay chung toi, xac minh cac muc liet ke va doc danh gia doc lap.",
+        "AUTHOR": "Doi ngu {appName}",
+        "INTRO": "Mot phan cua viec la cong AI dang tin cay la de tim va de xac minh. {appName} duoc liet ke trong cac thu muc ma cac nha phat trien thuc su kiem tra truoc khi giao chia khoa API cho mot nha cung cap moi. Day la danh sach duoc cap nhat.",
+        "H_DIRECTORIES": "Cac thu muc liet ke chung toi",
+        "P_DIRECTORIES": "Moi huy hieu ben duoi lien ket den thu muc noi {appName} duoc gioi thieu. Day la cac muc liet ke doc lap, vi vay ban co the doc mo ta va danh gia cua ben thu ba thay vi chi tin loi chung toi.",
+        "H_WHY": "Tai sao dieu nay quan trong",
+        "P_WHY": "Long trung thanh voi thuong hieu trong ha tang AI rat mong manh va niem tin la tat ca. Mot nha cung cap an minh khoi cac thu muc cong khai la nha cung cap ban khong the tham dinh. Chung toi liet ke cong khai de ban co the so sanh {appName} voi moi lua chon thay the o cung mot noi.",
+        "H_VERIFY": "Xac minh truoc khi tin tuong",
+        "P_VERIFY": "Mo bat ky huy hieu nao, xac nhan muc liet ke tro ve ten mien that cua chung toi va kiem tra mo ta doc lap. Khong bao gio dan chia khoa API vao mot dich vu ma ban khong the truy nguon den mot nguon cong khai co the xac minh.",
+        "H_TRY": "Tu minh thu",
+        "CTA": "Da xem du chua? <register>Tao tai khoan mien phi</register> hoac <models>duyet cac mo hinh</models>."
+      },
       "LAUNCH": {
         "TITLE": "Chúng tôi quá mệt với Claude giả. Nên đã xây {appName}.",
         "DESCRIPTION": "Sập cứ vài tuần một lần. Mô hình premium âm thầm bị tráo bằng bản clone rẻ tiền. Hết kiên nhẫn, chúng tôi tự ship router và làm nó hoang tưởng ở cả hai mặt. Đây là câu chuyện ra mắt.",
@@ -2603,6 +2617,8 @@
     "MD_SINGLE_QUOTE": "Văn bản trong dấu nháy đơn",
     "MD_DOUBLE_QUOTE": "Văn bản trong dấu nháy kép",
     "SURFACE_COLORS": "Màu bề mặt",
+    "MODE_LIGHT": "Sáng",
+    "MODE_DARK": "Tối",
     "COLOR_SIDEBAR": "Thanh bên",
     "BACKGROUND_IMAGE": "Ảnh nền",
     "BG_UPLOAD": "Tải ảnh lên",

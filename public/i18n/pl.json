@@ -455,6 +455,20 @@
       "comparison": "Porównanie"
     },
     "POSTS": {
+      "FEATURED_ON": {
+        "TITLE": "Gdzie znalezc {appName}: nasze wpisy w katalogach",
+        "DESCRIPTION": "{appName} jest wymieniony w katalogach narzedzi AI i startupow. Tutaj nas znajdziesz, zweryfikujesz wpisy i przeczytasz niezalezne opinie.",
+        "AUTHOR": "Zespol {appName}",
+        "INTRO": "Czescia bycia godna zaufania brama AI jest latwosc znalezienia i weryfikacji. {appName} znajduje sie w katalogach, ktore programisci naprawde sprawdzaja, zanim powierza klucz API nowemu dostawcy. Oto aktualna lista.",
+        "H_DIRECTORIES": "Katalogi, w ktorych jestesmy wymienieni",
+        "P_DIRECTORIES": "Kazda odznaka ponizej prowadzi do katalogu, w ktorym prezentowany jest {appName}. To niezalezne wpisy, wiec mozesz przeczytac opisy i recenzje osob trzecich, zamiast wierzyc nam na slowo.",
+        "H_WHY": "Dlaczego to wazne",
+        "P_WHY": "Lojalnosc wobec marki w infrastrukturze AI jest niewielka, a zaufanie jest wszystkim. Dostawca, ktory ukrywa sie przed publicznymi katalogami, to dostawca, ktorego nie mozesz zweryfikowac. Wpisujemy sie otwarcie, abys mogl porownac {appName} z kazda alternatywa w tym samym miejscu.",
+        "H_VERIFY": "Zweryfikuj, zanim zaufasz",
+        "P_VERIFY": "Otworz dowolna odznake, potwierdz, ze wpis prowadzi do naszej prawdziwej domeny, i sprawdz niezalezny opis. Nigdy nie wklejaj klucza API do uslugi, ktorej pochodzenia nie mozesz przesledzic do weryfikowalnego, publicznego zrodla.",
+        "H_TRY": "Wyprobuj sam",
+        "CTA": "Widziales juz dosc? <register>Zaloz darmowe konto</register> lub <models>przejrzyj modele</models>."
+      },
       "LAUNCH": {
         "TITLE": "Zmęczyliśmy się fałszywym Claude. Więc zbudowaliśmy {appName}.",
         "DESCRIPTION": "Awarie co drugi tydzień. Modele premium po cichu zamieniane na tanie klony. Pęknęliśmy, wypuściliśmy własny router i zrobiliśmy go paranoicznym wobec obu problemów. Oto historia uruchomienia.",
@@ -2603,6 +2617,8 @@
     "MD_SINGLE_QUOTE": "Tekst w pojedynczych cudzysłowach",
     "MD_DOUBLE_QUOTE": "Tekst w podwójnych cudzysłowach",
     "SURFACE_COLORS": "Kolory powierzchni",
+    "MODE_LIGHT": "Jasny",
+    "MODE_DARK": "Ciemny",
     "COLOR_SIDEBAR": "Pasek boczny",
     "BACKGROUND_IMAGE": "Obraz tła",
     "BG_UPLOAD": "Prześlij obraz",
