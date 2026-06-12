@@ -128,13 +128,15 @@ export const webSearchContextSize = t.Union([
 ]);
 export type WebSearchContextSize = Static<typeof webSearchContextSize>;
 
-const REASONING_EFFORTS: ReadonlySet<ReasoningEffort> = new Set(
+// Typed as ReadonlySet<string> so membership checks take a bare string with no
+// cast; the narrowing return then casts once (TS can't infer through Set.has).
+const REASONING_EFFORTS: ReadonlySet<string> = new Set(
   unionLiterals(reasoningEffort),
 );
-const WEB_SEARCH_ENGINES: ReadonlySet<WebSearchEngine> = new Set(
+const WEB_SEARCH_ENGINES: ReadonlySet<string> = new Set(
   unionLiterals(webSearchEngine),
 );
-const WEB_SEARCH_CONTEXT_SIZES: ReadonlySet<WebSearchContextSize> = new Set(
+const WEB_SEARCH_CONTEXT_SIZES: ReadonlySet<string> = new Set(
   unionLiterals(webSearchContextSize),
 );
 
@@ -143,21 +145,19 @@ export function narrowReasoningEffort<TFallback extends string>(
   raw: string | null | undefined,
   fallback: TFallback,
 ): ReasoningEffort | TFallback {
-  return raw && REASONING_EFFORTS.has(raw as ReasoningEffort)
+  return raw && REASONING_EFFORTS.has(raw)
     ? (raw as ReasoningEffort)
     : fallback;
 }
 export function narrowWebSearchEngine(
   raw: string | null | undefined,
 ): WebSearchEngine {
-  return raw && WEB_SEARCH_ENGINES.has(raw as WebSearchEngine)
-    ? (raw as WebSearchEngine)
-    : "auto";
+  return raw && WEB_SEARCH_ENGINES.has(raw) ? (raw as WebSearchEngine) : "auto";
 }
 export function narrowWebSearchContextSize(
   raw: string | null | undefined,
 ): WebSearchContextSize {
-  return raw && WEB_SEARCH_CONTEXT_SIZES.has(raw as WebSearchContextSize)
+  return raw && WEB_SEARCH_CONTEXT_SIZES.has(raw)
     ? (raw as WebSearchContextSize)
     : "medium";
 }
@@ -186,9 +186,7 @@ export function formReasoningEffortToValue(
   raw: string | null | undefined,
 ): ReasoningEffort | null {
   if (!raw || raw === NONE_VALUE) return null;
-  return REASONING_EFFORTS.has(raw as ReasoningEffort)
-    ? (raw as ReasoningEffort)
-    : null;
+  return REASONING_EFFORTS.has(raw) ? (raw as ReasoningEffort) : null;
 }
 
 // Keep in sync with `chatDefaultsAtom` in `src/store/chat-store.ts`.

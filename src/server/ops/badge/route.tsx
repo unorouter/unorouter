@@ -12,16 +12,11 @@ import {
 } from "@/lib/validation/badge";
 import { Elysia } from "elysia";
 import { getTranslations } from "next-intl/server";
-import sharp from "sharp";
 import { getPricingData, getStats } from "./lib/cache";
+import { loadSharp } from "./lib/sharp-loader";
 import { THEME_COLORS } from "./lib/theme";
 import type { BadgeCtx } from "./lib/types";
-import {
-  AllPage,
-  type PreviewGroup,
-  type PreviewSize,
-  type PreviewType,
-} from "./templates/all-page";
+import { AllPage, type PreviewGroup } from "./templates/all-page";
 import { generateBrand } from "./templates/brand";
 import { generateHero } from "./templates/hero";
 import { generatePricing } from "./templates/pricing";
@@ -34,7 +29,8 @@ import { generateTokensSquare } from "./templates/tokens-square";
 
 const HTML_HEADERS = { "content-type": "text/html; charset=utf-8" } as const;
 function htmlResponse(body: JSX.Element): Response {
-  return new Response(body as unknown as string, { headers: HTML_HEADERS });
+  // @kitajs/html renders to a string at runtime but is typed JSX.Element.
+  return new Response(body as unknown as BodyInit, { headers: HTML_HEADERS });
 }
 
 const CACHE_CONTROL =
@@ -53,6 +49,10 @@ const PNG_HEADERS = {
 };
 
 // http://localhost:3000/api/ops/badge/all?theme=dark
+
+async function svgToPng(svg: string): Promise<Buffer> {
+  return loadSharp()(Buffer.from(svg)).png().toBuffer();
+}
 
 const BADGES: Record<BadgeType, (ctx: BadgeCtx) => Promise<string>> = {
   banner: generateTokensBanner,
@@ -108,13 +108,13 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
                 pricing,
               };
               return {
-                size: s as PreviewSize,
+                size: s,
                 label: `${name} (${s})`,
                 svg: await BADGES[name](ctx),
               };
             }),
           );
-          return { type: name as PreviewType, badges };
+          return { type: name, badges };
         }),
       );
 
@@ -123,7 +123,7 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
       if (!query.type) {
         const socialBadges = await Promise.all(
           SOCIAL_SIZES.map(async (s) => ({
-            size: s as PreviewSize,
+            size: s,
             label: `social (${s})`,
             svg: await generateSocial({ theme, size: s }),
           })),
@@ -159,7 +159,7 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
           staticMode: isPng,
         });
         if (isPng) {
-          const png = await sharp(Buffer.from(socialSvg)).png().toBuffer();
+          const png = await svgToPng(socialSvg);
           return new Response(new Uint8Array(png), { headers: PNG_HEADERS });
         }
         return socialSvg;
@@ -186,7 +186,7 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
       });
 
       if (isPng) {
-        const png = await sharp(Buffer.from(svg)).png().toBuffer();
+        const png = await svgToPng(svg);
         return new Response(new Uint8Array(png), { headers: PNG_HEADERS });
       }
       return svg;
