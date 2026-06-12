@@ -30,6 +30,42 @@ const LEGAL_LINKS = [
   { href: "/privacy", key: msg("FOOTER.PRIVACY") },
 ] as const;
 
+// Reciprocal directory badges. These dirs crawl the homepage/footer for a
+// dofollow link back before approving our listing; the link presence is what
+// they verify, so the badges stay small.
+const FEATURED_BADGES = [
+  {
+    href: "https://startupfa.me/s/unorouter?utm_source=unorouter.ai",
+    src: "https://startupfa.me/badges/featured/default.webp",
+    alt: "UnoRouter - Featured on Startup Fame",
+  },
+  {
+    href: "https://dang.ai",
+    src: "https://assets.dang.ai/badges/dang-verified-dark.png",
+    alt: "Verified on DANG!",
+  },
+  {
+    href: "https://twelve.tools",
+    src: "https://twelve.tools/badge0-dark.svg",
+    alt: "Featured on Twelve Tools",
+  },
+  {
+    href: "https://fazier.com",
+    src: "https://fazier.com/api/v1//public/badges/launch_badges.svg?badge_type=featured&theme=neutral",
+    alt: "Featured on Fazier",
+  },
+  {
+    href: "https://code.market",
+    src: "https://code.market/assets/manage-product/featured-logo-bright.svg",
+    alt: "Featured on code.market",
+  },
+  {
+    href: "https://showmebest.ai",
+    src: "https://showmebest.ai/badge/feature-badge-white.webp",
+    alt: "Featured on ShowMeBestAI",
+  },
+] as const;
+
 function FooterLinks(props: {
   links: typeof NAV_LINKS | typeof LEGAL_LINKS;
   pathname: string;
@@ -184,6 +220,27 @@ export function Footer() {
               </NextLink>
             </div>
           </div>
+        </div>
+
+        {/* Featured-on reciprocal directory badges */}
+        <div className="border-muted/50 flex flex-wrap items-center justify-center gap-4 border-t pt-8 pb-2 opacity-70">
+          {FEATURED_BADGES.map((badge) => (
+            <NextLink
+              key={badge.href}
+              href={badge.href}
+              target="_blank"
+              rel="noopener"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={badge.src}
+                alt={badge.alt}
+                height={24}
+                className="h-6 w-auto"
+                loading="lazy"
+              />
+            </NextLink>
+          ))}
         </div>
 
         {/* Copyright */}
