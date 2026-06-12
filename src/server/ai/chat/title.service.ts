@@ -1,4 +1,5 @@
 import { freeModelRace } from "@/lib/ai/chat/free-model-race";
+import { isMediaModel } from "@/lib/api/pricing-cache";
 import {
   TITLE_FALLBACK_MAX_CHARS,
   TITLE_SYSTEM_PROMPT,
@@ -33,12 +34,20 @@ export async function generateChatTitle(
   text: string,
   preferredModel?: string,
 ) {
+  // The active chat model rides along as preferredModel, but it can be an
+  // image/video model (can't do text title gen); fall through to the free
+  // text race in that case.
+  const usableModel =
+    preferredModel && !(await isMediaModel(preferredModel)).mediaType
+      ? preferredModel
+      : undefined;
+
   let title: string;
   try {
-    if (preferredModel) {
+    if (usableModel) {
       const provider = getProvider(apiKey ?? serverEnv.guestApiKey);
       const result = await generateText({
-        model: provider.chatModel(preferredModel),
+        model: provider.chatModel(usableModel),
         system: TITLE_SYSTEM_PROMPT,
         prompt: text,
         maxOutputTokens: 30,

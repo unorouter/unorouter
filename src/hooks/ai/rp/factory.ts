@@ -4,8 +4,8 @@ import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { invalidateAndBroadcast } from "@/lib/react-query/cross-tab-invalidate";
 import { uid } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { dayjs } from "@/lib/utils/format/date";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 type WithId = { id: string };
 
@@ -41,17 +41,15 @@ export function makeRpEntity<
     useList: () => {
       const userId = useLocalUserId();
       return useQuery({
-        // userId in the key so a guest->user hydration flip refetches the right
-        // OPFS DB instead of pinning the empty guest result. Prefix-compatible.
-        queryKey: [...opts.listKey(), userId] as readonly unknown[] as string[],
-        queryFn: async () => ((await opts.readList(userId)) ?? []) as TItem[],
+        queryKey: [...opts.listKey(), userId],
+        queryFn: async () => (await opts.readList(userId)) ?? [],
       });
     },
 
     useItem: (id: string | undefined) => {
       const userId = useLocalUserId();
       return useQuery({
-        queryKey: [...opts.itemKey(id ?? ""), userId] as readonly unknown[] as string[],
+        queryKey: [...opts.itemKey(id ?? ""), userId],
         queryFn: async () => {
           if (!id) throw new Error("not-found");
           const item = await opts.readItem(userId, id);
