@@ -118,7 +118,7 @@ export function createThreadListAdapter(
         systemPromptOverride: null,
         authorNote: null,
         authorNoteDepth: 4,
-        chatMemory: preset?.chatMemory ?? 8,
+        chatMemory: preset?.chatMemory ?? defaults.chatMemory ?? null,
         reasoningEffort: defaults.reasoningEffort ?? null,
         webSearchEnabled: defaults.webSearchEnabled ?? false,
         webSearchEngine: defaults.webSearchEngine ?? "auto",
@@ -133,8 +133,9 @@ export function createThreadListAdapter(
         repetitionPenalty: seed("repetitionPenalty", preset?.repetitionPenalty),
         maxTokens: seed("maxTokens", preset?.maxTokens),
         extraBody: preset?.extraBody ?? defaults.extraBody ?? null,
+        // null = inherit; the stream resolver falls back conv -> preset -> true.
         streamingEnabled:
-          preset?.streamingEnabled ?? defaults.streamingEnabled ?? true,
+          preset?.streamingEnabled ?? defaults.streamingEnabled ?? null,
         group: chatStore.get(chatGroupAtom),
       });
 
