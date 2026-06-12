@@ -2581,6 +2581,7 @@
     "FONT_DEFAULT": "Default proyek",
     "FONT_HEADING_INHERIT": "Cocokkan body",
     "BASE_COLOR": "Warna dasar",
+    "CUSTOM_COLOR": "Kustom",
     "THEME": "Tema",
     "CHART_COLOR": "Warna grafik",
     "HEADING_FONT": "Font heading",

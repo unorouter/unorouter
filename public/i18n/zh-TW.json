@@ -2581,6 +2581,7 @@
     "FONT_DEFAULT": "專案預設",
     "FONT_HEADING_INHERIT": "跟隨內文",
     "BASE_COLOR": "基礎色",
+    "CUSTOM_COLOR": "自訂",
     "THEME": "主題",
     "CHART_COLOR": "圖表色",
     "HEADING_FONT": "標題字型",

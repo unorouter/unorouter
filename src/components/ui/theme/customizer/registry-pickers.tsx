@@ -6,6 +6,7 @@ import {
   StyleGlyph,
 } from "@/components/ui/theme/customizer/glyphs";
 import { FieldSeparator } from "@/components/ui/theme/field";
+import { ColorField } from "@/components/ui/theme/customizer/color-field";
 import {
   ColorSwatch,
   FontGlyph,
@@ -47,15 +48,25 @@ function baseColorChipColor(name: string): string {
 
 type T = (key: string) => string;
 
+const CUSTOM = "custom";
+const CUSTOM_FALLBACK = "#7c3aed";
+
 type PickerSpec = {
   /** UserTheme field this picker edits. */
   field: keyof UserTheme & string;
+  /** When set, the picker gets a "Custom..." option backed by this hex field. */
+  customField?: keyof UserTheme & string;
   labelKey: string;
   separatorBefore?: boolean;
   options: (t: T) => PickerOption[];
   valueLabel: (value: string, t: T) => string;
-  adornment: (value: string) => ReactNode;
+  adornment: (value: string, theme: UserTheme) => ReactNode;
 };
+
+// Append the "Custom..." entry to a color picker's option list.
+function withCustom(opts: PickerOption[], t: T): PickerOption[] {
+  return [...opts, { value: CUSTOM, label: t("THEME.CUSTOM_COLOR") }];
+}
 
 const fontOptions = (kind: "sans" | "display", inheritLabel: string) => [
   { value: "inherit", label: inheritLabel },
@@ -80,40 +91,85 @@ const PICKERS: PickerSpec[] = [
   },
   {
     field: "baseColor",
+    customField: "baseColorCustom",
     labelKey: "THEME.BASE_COLOR",
     separatorBefore: true,
-    options: () =>
-      ALL_BASE_COLORS.map((b) => ({
-        value: b.name,
-        label: b.title,
-        swatch: baseColorChipColor(b.name),
-      })),
-    valueLabel: (v) => ALL_BASE_COLORS.find((b) => b.name === v)?.title ?? "",
-    adornment: (v) => <ColorSwatch value={baseColorChipColor(v)} />,
+    options: (t) =>
+      withCustom(
+        ALL_BASE_COLORS.map((b) => ({
+          value: b.name,
+          label: b.title,
+          swatch: baseColorChipColor(b.name),
+        })),
+        t,
+      ),
+    valueLabel: (v, t) =>
+      v === CUSTOM
+        ? t("THEME.CUSTOM_COLOR")
+        : (ALL_BASE_COLORS.find((b) => b.name === v)?.title ?? ""),
+    adornment: (v, theme) => (
+      <ColorSwatch
+        value={
+          v === CUSTOM
+            ? (theme.baseColorCustom ?? CUSTOM_FALLBACK)
+            : baseColorChipColor(v)
+        }
+      />
+    ),
   },
   {
     field: "theme",
+    customField: "themeCustom",
     labelKey: "THEME.THEME",
-    options: () =>
-      ALL_THEMES.map((x) => ({
-        value: x.name,
-        label: x.title,
-        swatch: themeChipColor(x.name),
-      })),
-    valueLabel: (v) => ALL_THEMES.find((x) => x.name === v)?.title ?? "",
-    adornment: (v) => <ColorSwatch value={themeChipColor(v)} />,
+    options: (t) =>
+      withCustom(
+        ALL_THEMES.map((x) => ({
+          value: x.name,
+          label: x.title,
+          swatch: themeChipColor(x.name),
+        })),
+        t,
+      ),
+    valueLabel: (v, t) =>
+      v === CUSTOM
+        ? t("THEME.CUSTOM_COLOR")
+        : (ALL_THEMES.find((x) => x.name === v)?.title ?? ""),
+    adornment: (v, theme) => (
+      <ColorSwatch
+        value={
+          v === CUSTOM
+            ? (theme.themeCustom ?? CUSTOM_FALLBACK)
+            : themeChipColor(v)
+        }
+      />
+    ),
   },
   {
     field: "chartColor",
+    customField: "chartColorCustom",
     labelKey: "THEME.CHART_COLOR",
-    options: () =>
-      ALL_THEMES.map((x) => ({
-        value: x.name,
-        label: x.title,
-        swatch: themeChipColor(x.name),
-      })),
-    valueLabel: (v) => ALL_THEMES.find((x) => x.name === v)?.title ?? "",
-    adornment: (v) => <ColorSwatch value={themeChipColor(v)} />,
+    options: (t) =>
+      withCustom(
+        ALL_THEMES.map((x) => ({
+          value: x.name,
+          label: x.title,
+          swatch: themeChipColor(x.name),
+        })),
+        t,
+      ),
+    valueLabel: (v, t) =>
+      v === CUSTOM
+        ? t("THEME.CUSTOM_COLOR")
+        : (ALL_THEMES.find((x) => x.name === v)?.title ?? ""),
+    adornment: (v, theme) => (
+      <ColorSwatch
+        value={
+          v === CUSTOM
+            ? (theme.chartColorCustom ?? CUSTOM_FALLBACK)
+            : themeChipColor(v)
+        }
+      />
+    ),
   },
   {
     field: "fontHeading",
@@ -181,6 +237,7 @@ export const RegistryPickers: FC<{
         const value = String(
           props.theme[spec.field] ?? INITIAL_USER_THEME[spec.field] ?? "",
         );
+        const isCustom = spec.customField != null && value === CUSTOM;
         return (
           <div key={spec.field} className="contents">
             {spec.separatorBefore && <FieldSeparator />}
@@ -189,11 +246,25 @@ export const RegistryPickers: FC<{
               value={value}
               valueLabel={spec.valueLabel(value, t)}
               options={spec.options(t)}
-              rightAdornment={spec.adornment(value)}
+              rightAdornment={spec.adornment(value, props.theme)}
               onValueChange={(v) =>
                 props.setTheme({ ...props.theme, [spec.field]: v })
               }
             />
+            {isCustom && (
+              <ColorField
+                label={t(spec.labelKey)}
+                value={
+                  String(props.theme[spec.customField!] ?? "") || undefined
+                }
+                onChange={(hex) =>
+                  props.setTheme({
+                    ...props.theme,
+                    [spec.customField!]: hex ?? CUSTOM_FALLBACK,
+                  })
+                }
+              />
+            )}
           </div>
         );
       })}

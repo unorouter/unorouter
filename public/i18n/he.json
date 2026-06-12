@@ -2581,6 +2581,7 @@
     "FONT_DEFAULT": "ברירת מחדל של פרויקט",
     "FONT_HEADING_INHERIT": "התאם לגוף",
     "BASE_COLOR": "צבע בסיס",
+    "CUSTOM_COLOR": "מותאם אישית",
     "THEME": "ערכת נושא",
     "CHART_COLOR": "צבע תרשים",
     "HEADING_FONT": "גופן כותרות",

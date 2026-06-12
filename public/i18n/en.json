@@ -2581,6 +2581,7 @@
     "FONT_DEFAULT": "Project default",
     "FONT_HEADING_INHERIT": "Match body",
     "BASE_COLOR": "Base color",
+    "CUSTOM_COLOR": "Custom",
     "THEME": "Theme",
     "CHART_COLOR": "Chart color",
     "HEADING_FONT": "Heading font",

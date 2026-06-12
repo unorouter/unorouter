@@ -2581,6 +2581,7 @@
     "FONT_DEFAULT": "Projekt-Standard",
     "FONT_HEADING_INHERIT": "Wie Fließtext",
     "BASE_COLOR": "Basisfarbe",
+    "CUSTOM_COLOR": "Benutzerdefiniert",
     "THEME": "Theme",
     "CHART_COLOR": "Diagrammfarbe",
     "HEADING_FONT": "Überschrift-Schrift",

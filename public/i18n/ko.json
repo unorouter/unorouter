@@ -2581,6 +2581,7 @@
     "FONT_DEFAULT": "프로젝트 기본값",
     "FONT_HEADING_INHERIT": "본문과 동일",
     "BASE_COLOR": "기본 색상",
+    "CUSTOM_COLOR": "사용자 지정",
     "THEME": "테마",
     "CHART_COLOR": "차트 색상",
     "HEADING_FONT": "제목 글꼴",

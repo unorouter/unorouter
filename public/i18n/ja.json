@@ -2581,6 +2581,7 @@
     "FONT_DEFAULT": "プロジェクト既定",
     "FONT_HEADING_INHERIT": "本文に合わせる",
     "BASE_COLOR": "ベースカラー",
+    "CUSTOM_COLOR": "カスタム",
     "THEME": "テーマ",
     "CHART_COLOR": "チャートカラー",
     "HEADING_FONT": "見出しフォント",

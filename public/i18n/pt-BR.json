@@ -2581,6 +2581,7 @@
     "FONT_DEFAULT": "Padrão do projeto",
     "FONT_HEADING_INHERIT": "Combinar com corpo",
     "BASE_COLOR": "Cor base",
+    "CUSTOM_COLOR": "Personalizado",
     "THEME": "Tema",
     "CHART_COLOR": "Cor de gráfico",
     "HEADING_FONT": "Fonte de título",

@@ -2581,6 +2581,7 @@
     "FONT_DEFAULT": "По умолчанию",
     "FONT_HEADING_INHERIT": "Как основной",
     "BASE_COLOR": "Базовый цвет",
+    "CUSTOM_COLOR": "Свой",
     "THEME": "Тема",
     "CHART_COLOR": "Цвет графиков",
     "HEADING_FONT": "Шрифт заголовков",

@@ -2581,6 +2581,7 @@
     "FONT_DEFAULT": "Proje varsayılanı",
     "FONT_HEADING_INHERIT": "Gövde ile eşle",
     "BASE_COLOR": "Temel renk",
+    "CUSTOM_COLOR": "Özel",
     "THEME": "Tema",
     "CHART_COLOR": "Grafik rengi",
     "HEADING_FONT": "Başlık fontu",

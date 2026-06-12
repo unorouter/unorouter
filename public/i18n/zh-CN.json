@@ -2581,6 +2581,7 @@
     "FONT_DEFAULT": "项目默认",
     "FONT_HEADING_INHERIT": "跟随正文",
     "BASE_COLOR": "基础色",
+    "CUSTOM_COLOR": "自定义",
     "THEME": "主题",
     "CHART_COLOR": "图表色",
     "HEADING_FONT": "标题字体",

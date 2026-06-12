@@ -44,8 +44,14 @@ export type BackgroundSettings = {
 
 export type UserTheme = {
   baseColor?: string;
+  // Custom hex used when baseColor === "custom" (drives --background + derived
+  // --foreground). Same pattern for themeCustom (--primary) and chartColorCustom
+  // (--chart-1..5 generated from the hue).
+  baseColorCustom?: string;
   theme?: string;
+  themeCustom?: string;
   chartColor?: string;
+  chartColorCustom?: string;
   fontBody?: string;
   fontHeading?: string;
   radius?: string;

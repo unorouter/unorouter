@@ -2581,6 +2581,7 @@
     "FONT_DEFAULT": "افتراضي المشروع",
     "FONT_HEADING_INHERIT": "مطابق للنص",
     "BASE_COLOR": "اللون الأساسي",
+    "CUSTOM_COLOR": "مخصص",
     "THEME": "السمة",
     "CHART_COLOR": "لون الرسم البياني",
     "HEADING_FONT": "خط العناوين",

@@ -2581,6 +2581,7 @@
     "FONT_DEFAULT": "Domyślny projektu",
     "FONT_HEADING_INHERIT": "Dopasuj do treści",
     "BASE_COLOR": "Kolor bazowy",
+    "CUSTOM_COLOR": "Niestandardowy",
     "THEME": "Motyw",
     "CHART_COLOR": "Kolor wykresu",
     "HEADING_FONT": "Font nagłówka",
