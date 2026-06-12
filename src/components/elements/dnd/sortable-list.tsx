@@ -6,6 +6,7 @@ import {
   DndContext,
   KeyboardSensor,
   PointerSensor,
+  TouchSensor,
   closestCorners,
   useSensor,
   useSensors,
@@ -32,8 +33,16 @@ export function SortableList<T extends { id: string }>(
   props: SortableListProps<T>,
 ) {
   const sensors = useSensors(
+    // Mouse/stylus: tiny move starts the drag.
     useSensor(PointerSensor, {
       activationConstraint: { distance: 4 },
+    }),
+    // Touch: long-press to grab (so a normal finger swipe still scrolls the
+    // list instead of being eaten by the drag). Without a dedicated TouchSensor
+    // the PointerSensor's first move was read as scroll and the drag never
+    // started on mobile.
+    useSensor(TouchSensor, {
+      activationConstraint: { delay: 200, tolerance: 6 },
     }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
@@ -98,7 +107,9 @@ function SortableRow(props: {
       {...sortable.listeners}
       // eslint-disable-next-line react-hooks/refs
       {...sortable.attributes}
-      className="text-muted-foreground hover:text-foreground flex size-6 shrink-0 cursor-grab items-center justify-center rounded transition active:cursor-grabbing"
+      // touch-none: the browser must not claim the gesture for scroll/zoom on
+      // the handle, or TouchSensor never sees the long-press.
+      className="text-muted-foreground hover:text-foreground flex size-6 shrink-0 cursor-grab touch-none items-center justify-center rounded transition active:cursor-grabbing"
       aria-label="Drag to reorder"
     >
       <Icon name="grip-vertical" className="size-4" />

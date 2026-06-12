@@ -35,11 +35,11 @@ import "../globals.css";
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  // Lock zoom: a stray double-tap / two-finger touch while a message streams in
-  // was zooming the chat and never resetting, forcing a manual zoom-out per turn
-  // on touch screens. Standard chat-app behaviour.
-  maximumScale: 1,
-  userScalable: false,
+  // The stray double-tap zoom-drift during streaming is killed by
+  // `touch-action: manipulation` on body (globals.css) + the now-pinned sticky
+  // composer (stable layout). So pinch-zoom accessibility is restored instead
+  // of hard-locked; cap at 5x so the page can't be scaled into uselessness.
+  maximumScale: 5,
   // Keyboard resizes layout instead of panning it; keeps header + composer in view.
   interactiveWidget: "resizes-content",
   // Required for env(safe-area-inset-*) to be non-zero on notched devices.

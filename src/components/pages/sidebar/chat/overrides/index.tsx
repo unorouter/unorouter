@@ -19,6 +19,7 @@ import {
   useUpdateChatSettingsMutation,
 } from "@/hooks/ai/rp/conversations";
 import { usePricingQuery } from "@/hooks/models/pricing-hook";
+import { useIsMobile } from "@/hooks/ui/use-mobile";
 import { analytics } from "@/lib/analytics";
 import { NONE_VALUE } from "@/lib/config/constants";
 import { handleError } from "@/lib/utils/client";
@@ -62,6 +63,7 @@ type DrawerProps = {
 
 export function ConversationOverridesDrawer(props: DrawerProps) {
   const t = useTranslations();
+  const isMobile = useIsMobile();
   const isDefaultsMode = !props.convId;
   const showConversationFields = !isDefaultsMode;
   const [chatDefaults, setChatDefaults] = useAtom(chatDefaultsAtom);
@@ -182,7 +184,10 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
           }
         />
       )}
-      <SheetContent className="overflow-x-hidden overflow-y-auto sm:max-w-md">
+      <SheetContent
+        side={isMobile ? "bottom" : "right"}
+        className="max-h-[90dvh] overflow-x-hidden overflow-y-auto sm:max-w-md"
+      >
         <SheetHeader>
           <SheetTitle>{t("CHAT.OVERRIDES.TITLE")}</SheetTitle>
           <SheetDescription>{t("CHAT.OVERRIDES.DESCRIPTION")}</SheetDescription>

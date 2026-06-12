@@ -134,11 +134,23 @@
 
   body {
     @apply bg-background text-foreground selection:bg-primary selection:text-primary-foreground overflow-x-hidden font-sans;
+    /* Kill double-tap-to-zoom (the per-message zoom drift Matic hit) without a
+       hard viewport zoom lock, so pinch-zoom accessibility still works. */
+    touch-action: manipulation;
+    /* No rubber-band on the document; inner containers own their scroll. */
+    overscroll-behavior: none;
   }
 
   button {
     @apply cursor-pointer;
   }
+}
+
+/* Inner scroll regions: contain the bounce so an over-scroll never leaks to a
+   parent layer (the "outer layer steals my scroll" mobile bug). */
+.aui-thread-viewport,
+.thin-scrollbar {
+  overscroll-behavior: contain;
 }
 
 /* Keyframe Animations */

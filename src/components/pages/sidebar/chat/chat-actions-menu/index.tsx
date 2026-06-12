@@ -57,7 +57,10 @@ export function ChatActionsMenu(props: Props) {
         >
           <Icon name="ellipsis-vertical" className="size-4" />
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-64">
+        <DropdownMenuContent
+          align="end"
+          className="w-64 max-w-[calc(100vw-1rem)]"
+        >
           <DropdownMenuItem onClick={() => setSettingsOpen(true)}>
             <Icon name="settings-2" className="size-4" />
             {t("CHAT.OVERRIDES.OPEN")}
