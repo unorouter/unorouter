@@ -72,7 +72,7 @@ function useChatMutation<TArgs, TData>(
 export function useConversationsInfiniteQuery(keyword?: string) {
   const userId = useLocalUserId();
   return useInfiniteQuery({
-    queryKey: queryKeys.conversations(keyword),
+    queryKey: [...queryKeys.conversations(keyword), userId],
     queryFn: async ({ pageParam }) => {
       const local = (await readLocalConversations(userId)) ?? [];
       const filtered = keyword
@@ -99,7 +99,7 @@ export function useConversationsInfiniteQuery(keyword?: string) {
 export function useConversationQuery(id?: string) {
   const userId = useLocalUserId();
   return useQuery({
-    queryKey: queryKeys.chatMeta(id!),
+    queryKey: [...queryKeys.chatMeta(id!), userId],
     queryFn: async () => {
       if (id) {
         const local = await readLocalConversation(userId, id);
@@ -115,7 +115,7 @@ export function useConversationQuery(id?: string) {
 export function useMessagesInfiniteQuery(id?: string) {
   const userId = useLocalUserId();
   return useInfiniteQuery({
-    queryKey: queryKeys.chatMessages(id!),
+    queryKey: [...queryKeys.chatMessages(id!), userId],
     queryFn: async ({ pageParam }) => {
       if (!id)
         return { messages: [], total: 0, page: pageParam, pageSize: PAGE_SIZE };

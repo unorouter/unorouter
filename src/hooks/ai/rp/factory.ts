@@ -41,7 +41,9 @@ export function makeRpEntity<
     useList: () => {
       const userId = useLocalUserId();
       return useQuery({
-        queryKey: opts.listKey() as readonly unknown[] as string[],
+        // userId in the key so a guest->user hydration flip refetches the right
+        // OPFS DB instead of pinning the empty guest result. Prefix-compatible.
+        queryKey: [...opts.listKey(), userId] as readonly unknown[] as string[],
         queryFn: async () => ((await opts.readList(userId)) ?? []) as TItem[],
       });
     },
@@ -49,7 +51,7 @@ export function makeRpEntity<
     useItem: (id: string | undefined) => {
       const userId = useLocalUserId();
       return useQuery({
-        queryKey: opts.itemKey(id ?? "") as readonly unknown[] as string[],
+        queryKey: [...opts.itemKey(id ?? ""), userId] as readonly unknown[] as string[],
         queryFn: async () => {
           if (!id) throw new Error("not-found");
           const item = await opts.readItem(userId, id);
