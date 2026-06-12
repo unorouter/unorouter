@@ -18,7 +18,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
-import { useUserGroupsQuery } from "@/hooks/billing/token-hook";
 import { analytics } from "@/lib/analytics";
 import { buildGroupEntries, groupDisplayLabel } from "@/lib/api/pricing";
 import { usePricingQuery } from "@/hooks/models/pricing-hook";
@@ -49,7 +48,6 @@ export function ModelSelector(props: ModelSelectorProps) {
   const [typeFilter, setTypeFilter] = useState<string | null>(null);
   const pricingQuery = usePricingQuery();
   const authQuery = useAuthQuery();
-  const userGroupsQuery = useUserGroupsQuery();
   const isLoggedIn = !!authQuery.data;
   const pricingData = pricingQuery.data;
   const models = pricingData?.models ?? [];
@@ -57,22 +55,25 @@ export function ModelSelector(props: ModelSelectorProps) {
 
   const selected = models.find((m) => m.name === props.value);
 
-  // Nested group control. The user's own /self/groups (lazy, cached) adds private
-  // groups granted only to this account; they are absent from the public pricing
-  // group_ratio, so their ratios merge in or buildGroupEntries would drop them.
-  const userGroups = (userGroupsQuery.data?.data ?? {}) as Record<
-    string,
-    { ratio: unknown }
-  >;
+  // Per-user private groups ride on the already-prefetched /account/self (only
+  // present for granted users). Each lists the models it serves, so it surfaces
+  // as a selectable routing group ONLY on those models; its ratio merges into the
+  // map (public pricing group_ratio omits private groups).
+  const privateGroups = authQuery.data?.private_groups ?? [];
   const groupRatioMap: Record<string, number> = { ...pricingData?.groupRatioMap };
-  for (const name in userGroups)
-    groupRatioMap[name] ??= Number(userGroups[name]?.ratio) || 0;
+  for (const pg of privateGroups) groupRatioMap[pg.group] ??= pg.ratio;
   const enableGroups = selected?.enableGroups ?? [];
-  // Empty enableGroups = all priced groups allowed; union the private groups in.
+  const privateForModel = props.value
+    ? privateGroups
+        .filter((pg) => (pg.models ?? []).includes(props.value!))
+        .map((pg) => pg.group)
+    : [];
+  // Empty enableGroups = all priced groups allowed; add the private groups that
+  // serve the selected model.
   const candidateGroups = [
     ...new Set([
       ...(enableGroups.length ? enableGroups : Object.keys(groupRatioMap)),
-      ...Object.keys(userGroups),
+      ...privateForModel,
     ]),
   ];
   const groupEntries = buildGroupEntries(candidateGroups, groupRatioMap);
@@ -233,16 +234,7 @@ export function ModelSelector(props: ModelSelectorProps) {
             ))}
           </CommandList>
           {isLoggedIn && groupEntries.length > 0 && (
-            <Popover
-              open={groupOpen}
-              onOpenChange={(next) => {
-                setGroupOpen(next);
-                // Fetch the user's private groups once, on first submenu open;
-                // cached after (staleTime Infinity), so later opens reuse it.
-                if (next && !userGroupsQuery.isFetched)
-                  void userGroupsQuery.refetch();
-              }}
-            >
+            <Popover open={groupOpen} onOpenChange={setGroupOpen}>
               <PopoverTrigger
                 data-testid="group-submenu-trigger"
                 data-group={props.group || "auto"}

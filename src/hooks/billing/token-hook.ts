@@ -32,13 +32,6 @@ export function useBestKeyQuery() {
   );
 }
 
-export function useUserGroupsQuery() {
-  return useElysiaQuery(
-    queryKeys.userGroups(),
-    () => rpc.api.billing.token.self.groups.get(),
-    { enabled: false },
-  );
-}
 
 export function useTokensQuery(query?: EdenQuery<TokenRoute["search"]>) {
   const authQuery = useAuthQuery();

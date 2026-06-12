@@ -7,7 +7,6 @@ import { unwrap } from "@/lib/utils/base";
 import {
   addToken,
   deleteToken,
-  getApiUserSelfGroups,
   getTokenKey,
   searchTokens,
   updateToken,
@@ -73,11 +72,6 @@ export const tokenRoute = new Elysia({ prefix: "/token" })
   .get("/best-key", async ({ upstream }) => {
     const key = await resolveBestKey(upstream.headers);
     return { key };
-  })
-
-  .get("/self/groups", async ({ upstream }) => {
-    const res = await getApiUserSelfGroups({ headers: upstream.headers });
-    return unwrap(res);
   })
 
   .delete("/:id", async ({ params, upstream }) => {
