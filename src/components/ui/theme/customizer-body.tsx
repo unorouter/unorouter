@@ -29,14 +29,13 @@ import {
 import { FONT_OPTIONS } from "@/components/ui/theme/theme-fonts";
 import {
   INITIAL_USER_THEME,
+  normalizeSurface,
   themeBackgroundAtom,
   userThemeAtom,
-} from "@/components/ui/theme/theme-store";
-import type {
-  BackgroundSettings,
-  ChatMarkdownColors,
-  SurfaceColors,
-  UserTheme,
+  type BackgroundSettings,
+  type ChatMarkdownColors,
+  type SurfaceColors,
+  type UserTheme,
 } from "@/components/ui/theme/theme-store";
 import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { env } from "@/lib/config/env";
@@ -68,12 +67,21 @@ export function ThemeCustomizerBody() {
     setTheme({ ...theme, markdown: nextMd });
   };
 
+  const surfaceMode = theme.surfaceMode ?? "dark";
+  const surfacePalette = normalizeSurface(theme.surface);
+
   const setSurface = (patch: Partial<SurfaceColors>) => {
-    const next: SurfaceColors = { ...(theme.surface ?? {}), ...patch };
+    const next: SurfaceColors = {
+      ...(surfacePalette[surfaceMode] ?? {}),
+      ...patch,
+    };
     for (const key of Object.keys(next) as Array<keyof SurfaceColors>) {
       if (next[key] === undefined) delete next[key];
     }
-    setTheme({ ...theme, surface: next });
+    setTheme({
+      ...theme,
+      surface: { ...surfacePalette, [surfaceMode]: next },
+    });
   };
 
   const setBackground = (patch: Partial<BackgroundSettings>) => {
@@ -146,7 +154,12 @@ export function ThemeCustomizerBody() {
           <FieldSeparator />
           <ChatTextSection markdown={theme.markdown} onChange={setMarkdown} />
           <FieldSeparator />
-          <SurfaceColorsSection surface={theme.surface} onChange={setSurface} />
+          <SurfaceColorsSection
+            surface={surfacePalette[surfaceMode]}
+            mode={surfaceMode}
+            onModeChange={(m) => setTheme({ ...theme, surfaceMode: m })}
+            onChange={setSurface}
+          />
           <FieldSeparator />
           <BackgroundImageSection
             image={backgroundImage}

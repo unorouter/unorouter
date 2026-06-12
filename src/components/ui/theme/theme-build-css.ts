@@ -6,9 +6,11 @@ import {
 } from "@/components/ui/theme/shadcn-themes";
 import { findStyle } from "@/components/ui/theme/shadcn-styles";
 import { FONT_OPTIONS } from "@/components/ui/theme/theme-fonts";
-import type {
-  BackgroundSettings,
-  UserTheme,
+import {
+  normalizeSurface,
+  type BackgroundSettings,
+  type SurfaceColors,
+  type UserTheme,
 } from "@/components/ui/theme/theme-store";
 
 function fontFamilyFor(
@@ -124,11 +126,11 @@ function markdownBlock(md: UserTheme["markdown"]): string {
   return [varsBlock, ...rules].filter(Boolean).join("");
 }
 
-// Freeform surface overrides. Emitted under `:root,.dark` so source order
-// (placed after the base/accent blocks) wins in either color scheme.
-function surfaceBlock(surface: UserTheme["surface"]): string {
-  if (!surface) return "";
+// Map one scheme's freeform surface overrides to css vars (a surface knob may
+// drive several vars, e.g. card also sets popover).
+function surfaceVars(surface: SurfaceColors | undefined): ThemeCssVars {
   const vars: ThemeCssVars = {};
+  if (!surface) return vars;
   if (surface.background) vars.background = surface.background;
   if (surface.foreground) vars.foreground = surface.foreground;
   if (surface.card) {
@@ -145,7 +147,19 @@ function surfaceBlock(surface: UserTheme["surface"]): string {
     vars.input = surface.border;
   }
   if (surface.sidebar) vars.sidebar = surface.sidebar;
-  return emitBlock(":root,.dark", vars);
+  return vars;
+}
+
+// Per-scheme surface overrides (RisuAI parity): light -> :root, dark -> .dark,
+// placed after the base/accent blocks so they win within their own scheme.
+function surfaceBlock(surface: UserTheme["surface"]): string {
+  const palette = normalizeSurface(surface);
+  return [
+    emitBlock(":root", surfaceVars(palette.light)),
+    emitBlock(".dark", surfaceVars(palette.dark)),
+  ]
+    .filter(Boolean)
+    .join("");
 }
 
 export function buildThemeCss(theme: UserTheme): string {

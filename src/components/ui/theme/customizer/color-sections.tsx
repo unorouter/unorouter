@@ -1,6 +1,7 @@
 "use client";
 
 import { ColorField } from "@/components/ui/theme/customizer/color-field";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type {
   ChatMarkdownColors,
   SurfaceColors,
@@ -49,14 +50,34 @@ const SURFACE_FIELDS = [
 ] as const;
 
 export function SurfaceColorsSection(props: {
+  // Surface colors for the currently-edited scheme (light or dark).
   surface: SurfaceColors | undefined;
+  mode: "light" | "dark";
+  onModeChange: (mode: "light" | "dark") => void;
   onChange: (patch: Partial<SurfaceColors>) => void;
 }) {
   const t = useTranslations();
   return (
     <>
-      <div className="text-muted-foreground px-1 pt-1 text-xs">
-        {t("THEME.SURFACE_COLORS")}
+      <div className="flex items-center justify-between gap-2 px-1 pt-1">
+        <span className="text-muted-foreground text-xs">
+          {t("THEME.SURFACE_COLORS")}
+        </span>
+        {/* RisuAI parity: custom colors are per-scheme; this picks which one the
+            fields below edit. */}
+        <Tabs
+          value={props.mode}
+          onValueChange={(v) => props.onModeChange(v as "light" | "dark")}
+        >
+          <TabsList className="h-7">
+            <TabsTrigger value="light" className="text-xs">
+              {t("THEME.MODE_LIGHT")}
+            </TabsTrigger>
+            <TabsTrigger value="dark" className="text-xs">
+              {t("THEME.MODE_DARK")}
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>
       </div>
       {SURFACE_FIELDS.map(([key, labelKey]) => (
         <ColorField

@@ -54,9 +54,6 @@ export function Picker(props: Props) {
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="end"
-        // `side="left"` shoved the menu off the left screen edge inside the
-        // right-anchored theme sheet on mobile. Open downward and let Radix's
-        // default collision detection flip it to whatever fits.
         side="bottom"
         sideOffset={8}
         className="min-w-44"
