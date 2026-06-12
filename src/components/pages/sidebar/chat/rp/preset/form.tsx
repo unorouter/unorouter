@@ -96,14 +96,17 @@ export function PresetForm(props: Props) {
   // providers is stored as a JSON routing object; the form edits it as a
   // comma list + an "only" toggle, so expand it before seeding the form.
   const routing = parseProviderRouting(editing?.providers);
-  const formValues = editing
-    ? formDefaults(samplingPresetFormSchema, {
-        ...editing,
-        providers: routing.slugs,
-        providersOnly: routing.only,
-        promptTemplate: editing.promptTemplate ?? "",
-      })
-    : undefined;
+  // null streamingEnabled means "inherit -> streaming on"; the switch is a plain
+  // bool and renders null as OFF, misleading the user. Seed it as the real
+  // default (on) for both edit + new so toggling it off persists an explicit
+  // false the new-chat seed honors (preset.streamingEnabled ?? defaults ?? true).
+  const formValues = formDefaults(samplingPresetFormSchema, {
+    ...(editing ?? {}),
+    providers: routing.slugs,
+    providersOnly: routing.only,
+    promptTemplate: editing?.promptTemplate ?? "",
+    streamingEnabled: editing?.streamingEnabled ?? true,
+  });
   const form = useRpForm(samplingPresetFormSchema, formValues);
 
   const resetSampling = () => {
