@@ -1,7 +1,6 @@
 "use client";
 
 import { CopyButton } from "@/components/elements/code/copy-button";
-import { SmartImage } from "@/components/ui/smart-image";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -197,13 +196,15 @@ export function BadgeGenerator(props: BadgeGeneratorProps) {
           {t("AFFILIATE.BADGE_GENERATOR.PREVIEW")}
         </span>
         <div className="bg-muted/50 border-border relative flex min-h-30 items-center justify-center overflow-hidden rounded-sm border p-6">
-          <SmartImage
+          {/* Plain img, not next/image: the badge is an already-optimized
+              same-origin SVG with a live-changing query string. The optimizer
+              adds nothing and 400s on the small (w=16) srcset candidate that
+              `width={0}` generates, blanking the preview. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
             key={previewUrl}
             src={previewUrl}
             alt={t("AFFILIATE.BADGE_GENERATOR.BADGE_ALT", APP_VALUES)}
-            width={0}
-            height={0}
-            sizes="100vw"
             className="h-auto max-w-full"
           />
           <CopyButton
