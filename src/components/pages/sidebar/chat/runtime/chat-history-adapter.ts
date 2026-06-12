@@ -202,15 +202,19 @@ export function createChatHistoryAdapter(
             // survives, branch switching works after refresh). The 30s window
             // scopes the atom to the run that just errored.
             const streamError = chatStore.get(lastStreamErrorAtom);
+            // Media handlers already emit a `data-error` part; don't double up.
+            const hasErrorItem = items.some((it) => it.type === "error");
             if (streamError && Date.now() - streamError.at < 30_000) {
               chatStore.set(lastStreamErrorAtom, null);
-              items.push({
-                type: "error",
-                data: {
-                  message: streamError.message,
-                  ...(resolvedModel && { model: resolvedModel }),
-                },
-              });
+              if (!hasErrorItem) {
+                items.push({
+                  type: "error",
+                  data: {
+                    message: streamError.message,
+                    ...(resolvedModel && { model: resolvedModel }),
+                  },
+                });
+              }
             } else if (items.length === 0) {
               // Stop before first token / silent failure: nothing worth a
               // node. Skipping the persist prevents empty ghost branches on

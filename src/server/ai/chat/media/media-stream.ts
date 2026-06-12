@@ -37,13 +37,30 @@ function groupHeader(group?: string | null): Record<string, string> {
   return group && group !== "auto" ? { "X-Group": group } : {};
 }
 
-// One-shot UI-message response: run `execute`, stream whatever it writes.
+// One-shot UI-message response: run `execute`, stream whatever it writes. On a
+// throw, emit a real assistant message carrying a `data-error` part so the
+// client's history adapter persists an error node (text streams already start a
+// message shell before any error; media handlers throw partless, so without this
+// the failed run rendered a transient toast but vanished on refresh).
 function streamResponse(
   execute: (writer: UIMessageStreamWriter) => Promise<void>,
 ) {
   return createUIMessageStreamResponse({
     stream: createUIMessageStream({
-      execute: ({ writer }) => execute(writer),
+      execute: async ({ writer }) => {
+        try {
+          await execute(writer);
+        } catch (err) {
+          writer.write({ type: "start" });
+          writer.write({ type: "start-step" });
+          writer.write({
+            type: "data-error",
+            data: { message: err instanceof Error ? err.message : String(err) },
+          });
+          writer.write({ type: "finish-step" });
+          writer.write({ type: "finish", finishReason: "error" });
+        }
+      },
     }),
   });
 }
