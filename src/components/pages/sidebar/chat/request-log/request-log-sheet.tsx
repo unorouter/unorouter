@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/sheet";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
+import { useIsMobile } from "@/hooks/ui/use-mobile";
 import {
   buildRequestLogCurl,
   readLocalRequestLog,
@@ -28,6 +29,7 @@ export function RequestLogSheet(props: {
 }) {
   const t = useTranslations();
   const userId = useLocalUserId();
+  const isMobile = useIsMobile();
 
   const log = useQuery({
     queryKey: queryKeys.requestLog(props.msgId),
@@ -52,7 +54,10 @@ export function RequestLogSheet(props: {
 
   return (
     <Sheet open={props.open} onOpenChange={props.onOpenChange}>
-      <SheetContent className="w-[min(90vw,56rem)]! max-w-4xl! overflow-hidden">
+      <SheetContent
+        side={isMobile ? "bottom" : "right"}
+        className="w-[min(90vw,56rem)]! max-w-4xl! overflow-hidden max-md:h-[90dvh]! max-md:w-full!"
+      >
         <SheetHeader>
           <SheetTitle>{t("CHAT.REQUEST_LOG.TITLE")}</SheetTitle>
           <SheetDescription>{props.msgId}</SheetDescription>
@@ -123,7 +128,7 @@ export function RequestLogSheet(props: {
             defaultValue="upstream"
             className="flex min-h-0 flex-1 flex-col px-4 pb-4"
           >
-            <TabsList>
+            <TabsList className="w-full justify-start overflow-x-auto">
               <TabsTrigger value="upstream">
                 {t("CHAT.REQUEST_LOG.TAB_UPSTREAM")}
               </TabsTrigger>
