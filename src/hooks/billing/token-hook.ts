@@ -2,15 +2,15 @@
 
 import { useApiMutation, useElysiaQuery } from "@/lib/react-query/hooks";
 
+import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
-import { handleElysia } from "@/lib/utils/base";
 import type { EdenArgs, EdenQuery } from "@/lib/types/eden";
 import { DataTableId } from "@/lib/types/enums";
+import { handleElysia } from "@/lib/utils/base";
 import type { ResponseDtoPageDataModelTokenData } from "@/openapi";
 import { createTableAtoms } from "@/store/data-table-store";
 import { useAtomValue } from "jotai";
-import { useAuthQuery } from "@/hooks/auth/auth-hook";
 
 type TokenRoute = typeof rpc.api.billing.token;
 
@@ -29,6 +29,14 @@ export function useBestKeyQuery() {
     queryKeys.bestKey(),
     () => rpc.api.billing.token["best-key"].get(),
     { enabled: false, select: (data) => (data?.key ? `sk-${data.key}` : null) },
+  );
+}
+
+export function useUserGroupsQuery() {
+  return useElysiaQuery(
+    queryKeys.userGroups(),
+    () => rpc.api.billing.token.self.groups.get(),
+    { enabled: false },
   );
 }
 
