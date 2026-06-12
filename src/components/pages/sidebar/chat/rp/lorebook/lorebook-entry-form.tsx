@@ -149,8 +149,8 @@ export function LorebookEntryForm(props: {
       ),
       keys: csvToArray(data.keys),
       secondaryKeys: secondary.length > 0 ? secondary : null,
-      position: data.position as LorebookPosition,
-      injectionRole: data.injectionRole as LorebookInjectionRole,
+      position: data.position,
+      injectionRole: data.injectionRole,
     };
     // probability + entryScanDepth are form-only; they now live inside content.
     delete (body as { probability?: number }).probability;
@@ -247,9 +247,7 @@ export function LorebookEntryForm(props: {
                     <Select value={field.value} onValueChange={field.onChange}>
                       <SelectTrigger>
                         <SelectValue>
-                          {t(
-                            POSITION_LABEL_KEY[field.value as LorebookPosition],
-                          )}
+                          {t(POSITION_LABEL_KEY[field.value])}
                         </SelectValue>
                       </SelectTrigger>
                       <SelectContent>
@@ -313,11 +311,7 @@ export function LorebookEntryForm(props: {
                   <Select value={field.value} onValueChange={field.onChange}>
                     <SelectTrigger>
                       <SelectValue>
-                        {t(
-                          INJECTION_ROLE_LABEL_KEY[
-                            field.value as LorebookInjectionRole
-                          ],
-                        )}
+                        {t(INJECTION_ROLE_LABEL_KEY[field.value])}
                       </SelectValue>
                     </SelectTrigger>
                     <SelectContent>

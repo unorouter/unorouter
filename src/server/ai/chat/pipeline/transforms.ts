@@ -16,16 +16,14 @@ export type StreamMessages = Parameters<typeof convertToModelMessages>[0];
 // Final un-mapping of #escape private-use chars (Risu request.ts unescapes
 // every message right before send).
 export function unescapeMessages(messages: StreamMessages): StreamMessages {
-  return messages.map((m) =>
-    mapTextParts(m, (text) => risuUnescape(text)),
-  ) as StreamMessages;
+  return messages.map((m) => mapTextParts(m, (text) => risuUnescape(text)));
 }
 
 export function mkMsg(
   role: "system" | "user" | "assistant",
   text: string,
 ): StreamMessages[number] {
-  return { role, parts: [{ type: "text", text }] } as StreamMessages[number];
+  return { role, parts: [{ type: "text", text }] };
 }
 
 function textOf(parts: unknown): string {
@@ -51,7 +49,7 @@ function mapTextParts(
     changed = true;
     return { ...p, text: next };
   });
-  return changed ? ({ ...m, parts } as StreamMessages[number]) : m;
+  return changed ? { ...m, parts } : m;
 }
 
 type PdfFilePart = {
@@ -183,10 +181,10 @@ export function appendPrefill(
 export function stripSystemRole(messages: StreamMessages): StreamMessages {
   return messages.map((m) =>
     m.role === "system"
-      ? ({
+      ? {
           ...mapTextParts(m, (t) => `system: ${t}`),
           role: "user",
-        } as StreamMessages[number])
+        }
       : m,
   );
 }
@@ -230,7 +228,7 @@ export function stripReasoningParts(messages: StreamMessages): StreamMessages {
       })
       .filter((p) => !(p.type === "text" && p.text === ""));
     if (!changed) return m;
-    return { ...m, parts } as StreamMessages[number];
+    return { ...m, parts };
   });
 }
 
@@ -259,7 +257,7 @@ export function mergeAlternateRoles(messages: StreamMessages): StreamMessages {
               ...m.parts.slice(1),
             ]
           : [...prev.parts, ...m.parts],
-      } as StreamMessages[number];
+      };
     } else {
       out.push(m);
     }

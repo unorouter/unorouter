@@ -59,7 +59,7 @@ function toCards(items: PromptItem[]): Card[] {
 
 function toItems(cards: Card[]): PromptItem[] {
   // Strip the synthetic id without a delete (avoids the non-optional-delete rule).
-  return cards.map(({ id: _id, ...item }) => item as PromptItem);
+  return cards.map(({ id: _id, ...item }) => item);
 }
 
 type Props = {
@@ -91,7 +91,11 @@ export function PromptTemplateEditor(props: Props) {
 
   const reorder = (orderedIds: string[]) => {
     const byId = new Map(cards.map((c) => [c.id, c]));
-    commit(orderedIds.map((id) => byId.get(id)).filter(Boolean) as Card[]);
+    commit(
+      orderedIds
+        .map((id) => byId.get(id))
+        .filter((c): c is Card => c !== undefined),
+    );
   };
 
   const update = (id: string, patch: Partial<PromptItem>) => {
