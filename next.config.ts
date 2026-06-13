@@ -61,6 +61,7 @@ const nextConfig: NextConfig = {
     // URLs through the optimizer; data: URIs and other hosts fall back to
     // unoptimized so they never hit the optimizer (which rejects them).
     remotePatterns: [
+      { protocol: "https", hostname: "media.unorouter.com", pathname: "/**" },
       { protocol: "https", hostname: "media.unorouter.ai", pathname: "/**" },
     ],
     // Badge previews are SVG from /api/ops/badge. The optimizer refuses SVG
