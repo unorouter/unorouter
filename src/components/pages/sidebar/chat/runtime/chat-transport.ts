@@ -16,10 +16,7 @@ import {
 import { DefaultChatTransport } from "ai";
 import { useRef } from "react";
 
-// Context-dedup handshake state per conv: `sent` is the hash last uploaded
-// (skip re-upload when unchanged); `built` is the last full context (the 409
-// retry replays it). Bounded LRU so a long session over many convs can't grow
-// it without limit; eviction only forces a one-off full re-upload.
+    // Context-dedup handshake state per conv: sent is the last uploaded hash, built is the last full context (the 409 retry replays it). Bounded LRU; eviction only forces a one-off full re-upload.
 const MAX_CTX_CONVS = 50;
 const ctxState = new Map<string, { sent?: string; built: ContextEntry }>();
 type ContextEntry = { hash: string; ctx: unknown };
@@ -42,10 +39,7 @@ function setCtx(convId: string, entry: { sent?: string; built: ContextEntry }) {
   }
 }
 
-// settings carries the whole conversation row, including per-turn bookkeeping
-// the server never reads for prompt assembly (totals, the row updatedAt). Drop
-// those before hashing so the dedup actually hits on consecutive turns instead
-// of re-uploading the full context every message.
+    // settings carries the whole conversation row including bookkeeping the server never reads for assembly; drop those before hashing so the dedup hits on consecutive turns.
 const SETTINGS_HASH_OMIT = [
   "totalInputTokens",
   "totalOutputTokens",
@@ -70,22 +64,19 @@ export function useChatTransport() {
       body: async () => {
         const userId = chatStore.get(localUserIdAtom);
         const convId = chatStore.get(convIdAtom);
-        // Dynamic: the RP context builder drags lorebook/trigger machinery
-        // (~110KB gzip) that must not sit in the page's first-paint chunks.
+            // Dynamic: the RP context builder drags lorebook/trigger machinery (~110KB gzip) that must not sit in first-paint chunks.
         const loadout = chatStore.get(chatLoadoutAtom);
         const baseContext = convId
           ? await import("@/lib/db/client/data/chat-context").then((m) =>
               m.buildChatContextFromLocalDb(userId, convId, {
-                // New conv first send: initialize() races this; wait for the
-                // loadout's bindings so turn 1 carries the character.
+                    // New conv first send: initialize() races this; wait for the loadout's bindings so turn 1 carries the character.
                 expectBindings:
                   loadout.characterIds.length > 0 ||
                   loadout.lorebookIds.length > 0,
               }),
             )
           : undefined;
-        // Per-message createdAt for the CBS message_time/idle family; rides
-        // outside the hashed context (changes every turn).
+            // Per-message createdAt for the CBS message_time/idle family; rides outside the hashed context (changes every turn).
         let messageTimes: Record<string, number> | undefined;
         if (convId) {
           const rows = await import("@/lib/db/client/data/chat").then((m) =>
@@ -98,9 +89,7 @@ export function useChatTransport() {
             }
           }
         }
-        // Context-dedup handshake: full payload only when the fingerprint changed,
-        // else just the hash (server LRU; a miss 409s and the fetch wrapper retries
-        // full). globalVars ride outside the hash: they change every setglobalvar.
+            // Context-dedup handshake: full payload only when the fingerprint changed, else just the hash (a miss 409s and the wrapper retries full). globalVars ride outside the hash.
         let chatContext: typeof baseContext;
         let chatContextHash: string | undefined;
         if (convId && baseContext) {
@@ -153,12 +142,10 @@ export function useChatTransport() {
         if (!entry) return res;
         body.chatContext = entry.built.ctx;
         body.chatContextHash = entry.built.hash;
-        // Server lost its cache; the full payload now reseeds it. Keep `sent`
-        // marked so the next send still dedups (this request reseeded it).
+            // Server lost its cache; the full payload reseeds it. Keep sent marked so the next send still dedups.
         return fetch(input, { ...init, body: JSON.stringify(body) });
       },
-      // With memory off the server only consumes a window; trim to a generous
-      // superset of all consumers. Rolling-summary convs need absolute indices, send full.
+            // With memory off the server only consumes a window; trim to a generous superset. Rolling-summary convs need absolute indices, send full.
       prepareSendMessagesRequest: (opts) => {
         const body = (opts.body ?? {}) as Record<string, unknown> & {
           chatContext?: {

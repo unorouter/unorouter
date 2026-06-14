@@ -70,7 +70,6 @@ export async function ReliabilitySection() {
             </div>
           </div>
 
-          {/* Architecture panel */}
           <div className="relative">
             <div className="bg-card border-border w-full overflow-hidden rounded-lg border">
               <div className="flex items-center justify-between border-b border-cyan-500/20 bg-cyan-500/10 px-4 py-3">
@@ -127,7 +126,6 @@ export async function ReliabilitySection() {
                 </div>
               </div>
             </div>
-            {/* Glow effect */}
             <div className="absolute -inset-px -z-10 rounded-lg bg-linear-to-r from-cyan-500/20 via-transparent to-purple-500/20 opacity-50 blur-xl" />
           </div>
         </div>

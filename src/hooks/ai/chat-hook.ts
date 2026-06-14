@@ -49,8 +49,7 @@ type EditMessageBody = {
   }>;
 };
 
-// Shared mutation scaffold: resolve userId, i18n error toast, invalidate +
-// broadcast the per-args keys on success. Every chat mutation rides this.
+    // Shared mutation scaffold: resolve userId, i18n error toast, invalidate + broadcast the per-args keys on success. Every chat mutation rides this.
 function useChatMutation<TArgs, TData>(
   fn: (userId: number, args: TArgs) => Promise<TData>,
   keysFor: (args: TArgs) => readonly (readonly unknown[])[],
@@ -137,9 +136,7 @@ export function useMessagesInfiniteQuery(id?: string) {
   });
 }
 
-// History rewrites must bump the conversation row: reconcile staleness on
-// other devices keys on conversations.updatedAt, so an edit/branch/delete
-// that only touches message rows would otherwise never propagate.
+    // History rewrites must bump the conversation row: cross-device staleness reconciles on conversations.updatedAt, so a message-only edit/branch/delete would never propagate.
 async function bumpConvUpdatedAt(userId: number, convId: string) {
   const conv = await readLocalConversation(userId, convId);
   if (conv) {
@@ -163,9 +160,7 @@ export function useUpdateConversationMutation() {
         }),
         updatedAt: now,
       };
-      // Patch-only: a rename/model change targets an existing row. Going
-      // through upsert would, on a missing row, attempt a candidate insert with
-      // null default_model and trip its NOT NULL constraint.
+          // Patch-only: a rename/model change targets an existing row. Going through upsert could attempt a candidate insert with null default_model and trip its NOT NULL constraint.
       if (existing) {
         await updateLocalConversationSettings(userId, {
           convId: args.id,
@@ -217,8 +212,7 @@ export function useFinalizeTaskMutation() {
           resultUrl: args.resultUrl,
         }),
       );
-      // Mirror the server's task-to-text rewrite locally so the UI doesn't
-      // stay on the placeholder until the next sync pull.
+          // Mirror the server's task-to-text rewrite locally so the UI doesn't stay on the placeholder until the next sync pull.
       await replaceLocalMessageItems(userId, args.msgId, [
         {
           id: uid(),
@@ -363,8 +357,7 @@ export function useSetActiveBranchMutation() {
           });
         }
       }
-      // Root assistant siblings are greetings: track Risu fmIndex
-      // (branchIndex 0 = firstMessage -> -1, i = alternateGreetings[i-1]).
+          // Root assistant siblings are greetings: track Risu fmIndex (branchIndex 0 = firstMessage -> -1, i = alternateGreetings[i-1]).
       if (parentId === null && target?.role === "assistant") {
         await updateLocalConversationSettings(userId, {
           convId: args.convId,

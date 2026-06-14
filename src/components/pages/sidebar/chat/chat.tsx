@@ -46,9 +46,7 @@ export function Chat(props: ChatProps) {
 
   if (gate.needsToken)
     return (
-      // chat-shell-reveal drops the opaque welcome placeholder (globals.css),
-      // which otherwise waits for a composer that never mounts here. Flex
-      // column sizing so the gate's flex-1 centering has height.
+          // chat-shell-reveal drops the opaque welcome placeholder which otherwise waits for a composer that never mounts here; flex column so the gate's centering has height.
       <div className="chat-shell-reveal flex min-h-0 flex-1 flex-col">
         <NeedsTokenGate />
       </div>

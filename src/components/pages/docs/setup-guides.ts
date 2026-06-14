@@ -76,7 +76,6 @@ function guideColor(c: string): IntegrationColor {
 }
 
 export const SETUP_GUIDES: SetupGuide[] = [
-  // --- NEW-GENERAL ---
   {
     slug: "librechat",
     href: { pathname: "/docs/[slug]", params: { slug: "librechat" } },
@@ -532,8 +531,6 @@ API Endpoint: ${env.apiUrl}/v1`,
     ],
     gotchaKeys: ["DOCS.BIG_AGI.TS_1_DESC", "DOCS.BIG_AGI.TS_2_DESC"],
   },
-  // --- END NEW-GENERAL ---
-  // --- RP ---
   {
     slug: "sillytavern",
     href: { pathname: "/docs/[slug]", params: { slug: "sillytavern" } },
@@ -760,8 +757,6 @@ API Endpoint: ${env.apiUrl}/v1`,
       "DOCS.CHUB.GOTCHA_4",
     ],
   },
-  // --- END RP ---
-  // --- NEW-CODING ---
   {
     slug: "opencode",
     href: { pathname: "/docs/[slug]", params: { slug: "opencode" } },
@@ -1057,7 +1052,6 @@ Model: YOUR_MODEL_ID`,
     ],
     gotchaKeys: ["DOCS.CONTINUE_DEV.GOTCHA_1", "DOCS.CONTINUE_DEV.GOTCHA_2"],
   },
-  // --- NEW-CLI ---
   {
     slug: "aider",
     href: { pathname: "/docs/[slug]", params: { slug: "aider" } },
@@ -1108,10 +1102,7 @@ model: openai/YOUR_MODEL_ID`,
     ],
     gotchaKeys: ["DOCS.AIDER.GOTCHA_1", "DOCS.AIDER.GOTCHA_2"],
   },
-  // --- END CODING/CLI ---
-  // --- HARNESS --- cc-switch keeps its ccswitch:// deep-link installer
-  // (customComponent); the other 4 use OS-aware quickStart tabs. gemini-cli's
-  // baseUrl is bare (the Gemini SDK appends its own path).
+      // HARNESS: cc-switch keeps its deep-link installer; the others use OS-aware quickStart tabs. gemini-cli baseUrl is bare (SDK appends its path).
   {
     slug: "cc-switch",
     href: { pathname: "/docs/[slug]", params: { slug: "cc-switch" } },

@@ -20,8 +20,7 @@ const LorebookList = dynamic(() =>
   ),
 );
 
-// Rendered at layout root so the mobile sidebar Sheet can't unmount them on close;
-// dialog chunks load lazily on first open.
+    // Rendered at layout root so the mobile sidebar Sheet can't unmount them on close; dialog chunks load lazily on first open.
 export const openRpTabAtom = atom<RpTab | null>(null);
 
 export function RpDialogs() {

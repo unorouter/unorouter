@@ -9,8 +9,7 @@ import { TranslationKey } from "@/lib/config/constants";
 import type { IconName } from "@/lib/config/icon-map";
 import type { ComponentType } from "react";
 
-// Derived from SETUP_GUIDES so nav dropdown, docs sidebar, and docs index read
-// one source; adding a guide updates all three.
+    // Derived from SETUP_GUIDES so nav dropdown, docs sidebar, and docs index read one source; adding a guide updates all three.
 const docsSubmenu = (): NavigationItem[] => {
   const byCategory = setupGuidesByCategory();
   return CATEGORY_ORDER.flatMap((category) =>
@@ -52,8 +51,7 @@ export type NavigationItem = {
   group?: TranslationKey;
 };
 
-// usePathname() returns the template and object hrefs carry params separately;
-// both sides must resolve before comparison or every "/docs/[slug]" item matches.
+    // usePathname() returns the template and object hrefs carry params separately; both must resolve before comparison or every /docs/[slug] item matches.
 const fillParams = (path: string, params?: Record<string, string>) => {
   if (!params) return path;
   let out = path;
@@ -78,8 +76,7 @@ export const isActiveLink = (
   exact?: boolean,
   routeParams?: Record<string, string>,
 ) => {
-  // Resolve the template pathname with the current route's params, and the
-  // href with its own params, so dynamic routes compare by concrete value.
+      // Resolve the template with the current route's params and the href with its own, so dynamic routes compare by concrete value.
   const cleanPathname =
     fillParams(pathname, routeParams).replace(/\/$/, "") || "/";
   const cleanHref = resolveHref(href).replace(/\/$/, "") || "/";

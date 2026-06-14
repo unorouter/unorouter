@@ -1,6 +1,4 @@
-// Stage 1: resolve the conversation context + run web search.
-// IDB-first: client context (or cached hash, 409 on stale) beats Turso reads;
-// Turso is the guest/legacy fallback.
+    // Stage 1: resolve the conversation context + run web search. IDB-first: client context (or cached hash, 409 on stale) beats Turso reads; Turso is the guest/legacy fallback.
 
 import { GUEST_USER_ID } from "@/lib/config/constants";
 import { captureServerEvent } from "@/lib/posthog-server";

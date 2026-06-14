@@ -35,9 +35,7 @@ export const IS_DEV = process.env.NODE_ENV === "development";
 export const POSTHOG_DISABLED =
   process.env.NEXT_PUBLIC_POSTHOG_DISABLED === "true";
 
-// Next Data Cache opt-in for PUBLIC upstream GETs (no user headers, or the
-// guest branch of one). Spread into the Orval call options; the customFetch
-// mutator passes it through to fetch. Non-200 responses are never cached.
+    // Next Data Cache opt-in for PUBLIC upstream GETs (no user headers). Spread into the Orval call options; customFetch passes it to fetch. Non-200 responses never cached.
 export const PUBLIC_CACHE = { next: { revalidate: 3600 } } as const;
 
 export const NEW_API_USER = "New-Api-User";
@@ -143,13 +141,10 @@ export const IMAGE_MAX_DIM = 2048;
 // Clamp inflated free-tier maxOutputTokens to channel limit.
 export const FREE_MODEL_OUTPUT_CAP = 8192;
 
-// Fallback ceiling when a model omits maxOutputTokens metadata. 4096 is the
-// widest safe default (OpenAI-compatible); some upstreams reject higher.
+    // Fallback ceiling when a model omits maxOutputTokens. 4096 is the widest safe default; some upstreams reject higher.
 export const UNKNOWN_MODEL_OUTPUT_CAP = 4096;
 
-// Headroom kept clear when fitting chat history to a model's context window:
-// covers the cl100k-vs-real-tokenizer drift (~10-20%) plus lorebook/depth
-// injections added after truncation, so the request never grazes the hard cap.
+    // Headroom kept clear when fitting chat history to a model's context window: covers tokenizer drift plus post-truncation lorebook/depth injections, so the request never grazes the hard cap.
 export const CONTEXT_SAFETY_MARGIN = 2048;
 
 // Free models are flaky; race N parallel calls for short aux requests.

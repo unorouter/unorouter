@@ -28,8 +28,7 @@ export const BUCKET_OPTIONS: { value: StatusBucket; hours: number }[] = [
   { value: "1d", hours: 720 },
 ];
 
-// Banner: error >=10% down, degraded >=10% degraded (or any errors below
-// error threshold).
+    // Banner: error >=10% down, degraded >=10% degraded (or any errors below the error threshold).
 const ERROR_RATIO = 0.1;
 const DEGRADED_RATIO = 0.1;
 

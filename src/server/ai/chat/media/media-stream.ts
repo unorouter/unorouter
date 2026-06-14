@@ -41,11 +41,7 @@ function groupHeader(group?: string | null): Record<string, string> {
   return group && group !== "auto" ? { "X-Group": group } : {};
 }
 
-// One-shot UI-message response: run `execute`, stream whatever it writes. On a
-// throw, emit a real assistant message carrying a `data-error` part so the
-// client's history adapter persists an error node (text streams already start a
-// message shell before any error; media handlers throw partless, so without this
-// the failed run rendered a transient toast but vanished on refresh).
+    // One-shot UI-message response: run execute, stream whatever it writes. On a throw, emit a real assistant message carrying a data-error part so the client's history adapter persists an error node (else the failed run only flashed a transient toast and vanished on refresh).
 function streamResponse(
   execute: (writer: UIMessageStreamWriter) => Promise<void>,
 ) {
@@ -176,13 +172,7 @@ async function processUrls(
   return (await Promise.all(matches.map(process))).filter(Boolean).join("\n\n");
 }
 
-// Dispatch by the model's advertised endpoint: `image-generation` POSTs
-// /v1/images/generations with {prompt}, but `openai`-only image models (e.g.
-// gpt-image-2) MUST go to /v1/chat/completions with a messages body, else
-// new-api's Path2RelayMode reads the chat path and 400s "field messages is
-// required". buildBody/extractResultUris (shared with playground) cover all
-// three shapes (images-gen / chat / gemini); the returned URIs are already
-// data: or http urls.
+    // Dispatch by the model's advertised endpoint: image-generation POSTs /v1/images/generations, but openai-only image models (e.g. gpt-image-2) MUST go to /v1/chat/completions with a messages body, else new-api 400s "field messages is required". buildBody/extractResultUris cover all three shapes; returned URIs are already data: or http urls.
 async function generateImage(
   apiKey: string,
   model: string,
@@ -238,9 +228,7 @@ export async function handleImageStream(
       body.group,
     );
 
-    // Stream inline data URLs; client persists base64, sync pushes R2 later.
-    // Guests never touch Turso/R2: no FK violation, no CORP-blocked embeds.
-    // extractResultUris returns data: URIs (b64/chat parts) or http urls.
+        // Stream inline data URLs; client persists base64, sync pushes R2 later. Guests never touch Turso/R2: no FK violation, no CORP-blocked embeds.
     const dataUrls = await Promise.all(
       images.map(async (img: string) => {
         if (img.startsWith("data:")) return img;
@@ -293,8 +281,7 @@ export async function handleVideoTaskStream(
   });
 }
 
-// TTS models advertise no dedicated endpoint tag (just "openai"); detect speech
-// vs transcription by name so the right OpenAI audio path is used.
+    // TTS models advertise no dedicated endpoint tag (just "openai"); detect speech vs transcription by name so the right OpenAI audio path is used.
 const isSttModel = (model: string) =>
   /whisper|transcrib|asr|speech-to-text|stt/i.test(model);
 
@@ -318,8 +305,7 @@ async function generateSpeech(
 }
 
 export async function handleAudioStream(apiKey: string, body: MediaStreamBody) {
-  // STT needs an audio input the chat composer can't yet attach; guide the user.
-  // Plain text (not a t() key): this is persisted message content, not re-translated.
+      // STT needs an audio input the chat composer can't yet attach; guide the user. Plain text (not a t() key): persisted message content, not re-translated.
   if (isSttModel(body.model)) {
     return streamResponse(async (writer) => {
       writeBufferedMessage(
@@ -339,8 +325,7 @@ export async function handleAudioStream(apiKey: string, body: MediaStreamBody) {
       input,
       body.group,
     );
-    // data:audio/ markdown renders as <audio> (markdown-text img override);
-    // client persists the base64 into local media like generated images.
+        // data:audio/ markdown renders as <audio>; client persists the base64 into local media like generated images.
     writeBufferedMessage(writer, `![audio](${dataUri})`);
   });
 }
@@ -398,8 +383,7 @@ export function handleBufferedStream(
   result: ReturnType<typeof streamText>,
   body: MediaStreamBody,
   mediaType: ModelType,
-  // Caller-synthesized finish metadata, emitted as a chunk so the buffered
-  // path persists the same fields as the streamed finish frame.
+      // Caller-synthesized finish metadata, emitted as a chunk so the buffered path persists the same fields as the streamed finish frame.
   finishMeta?: () => Promise<Record<string, unknown>>,
   // Server-generated message id (keys the server-persisted request log).
   messageId?: string,

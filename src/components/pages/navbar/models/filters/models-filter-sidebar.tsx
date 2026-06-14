@@ -32,8 +32,7 @@ function uniqueSorted(values: string[]): string[] {
   return [...new Set(values)].sort((a, b) => a.localeCompare(b));
 }
 
-// Reads filter state straight from the models store (no prop drilling); only
-// `models` is passed since it comes from the pricing query, not the store.
+    // Reads filter state straight from the models store; only models is passed since it comes from the pricing query, not the store.
 export function ModelsFilterSidebar(props: { models: ProcessedModel[] }) {
   const t = useTranslations();
 
@@ -54,8 +53,7 @@ export function ModelsFilterSidebar(props: { models: ProcessedModel[] }) {
       .map((m) => m.metadata.series)
       .filter((s): s is string => Boolean(s)),
   );
-  // Categories from synced metadata (OpenRouter cards); fall back to tags
-  // (excluding the modality-type tag) when metadata is absent.
+      // Categories from synced metadata; fall back to tags (excluding the modality-type tag) when metadata is absent.
   const typeTags = new Set(["text", "image", "video", "audio", "embedding"]);
   const categoryOptions = uniqueSorted(
     props.models.flatMap((m) =>

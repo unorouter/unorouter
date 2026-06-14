@@ -1,6 +1,4 @@
-// Stage 2: pre-assembly message edits. PDF inline, primary-character regex
-// scripts (editprocess/editinput), and the Lua editinput hook on the last user
-// message. editoutput/editdisplay run client-side.
+    // Stage 2: pre-assembly message edits. PDF inline, primary-character regex scripts (editprocess/editinput), and the Lua editinput hook on the last user message. editoutput/editdisplay run client-side.
 
 import { parseRegexScripts } from "@/lib/ai/chat/regex-scripts";
 import {

@@ -799,8 +799,7 @@ export const privateRoutes = {
     "/playground",
     "/offline",
   ],
-  // Parent path covers every child. /chat itself is public; /chat/[convId]
-  // and /playground/[id] are per-user.
+      // Parent path covers every child. /chat itself is public; /chat/[convId] and /playground/[id] are per-user.
   dynamicParents: ["/chat/[convId]", "/playground/[id]"],
 } as const satisfies {
   static: readonly (keyof typeof pathnames)[];

@@ -1,7 +1,4 @@
-// Lua global API (RisuAI scriptings.ts declareAPI port) bound to a
-// TriggerContext. Access-key gating mirrors Risu: mutating calls check
-// luaSafeIds, side-effect calls check luaLowLevelIds. App-coupled calls
-// without an analog return Risu's failure value ('' or undefined).
+    // Lua global API (RisuAI scriptings.ts declareAPI port) bound to a TriggerContext. Access-key gating mirrors Risu (luaSafeIds for mutating, luaLowLevelIds for side effects); app-coupled calls without an analog return Risu's failure value.
 
 import { encode } from "gpt-tokenizer";
 import type { TriggerContext, TriggerMessage } from "../types";
@@ -65,7 +62,6 @@ export function buildLuaApi(
   };
 
   return {
-    // ---- vars ----
     getChatVar: (_id: string, key: string) => ctx.vars[key] ?? "null",
     setChatVar: (id: string, key: string, value: string) => {
       if (!safe(id)) return;
@@ -73,14 +69,12 @@ export function buildLuaApi(
     },
     getGlobalVar: (_id: string, key: string) => ctx.globalVars[key] ?? "null",
 
-    // ---- control ----
     stopChat: (id: string) => {
       if (!safe(id)) return;
       flags.stopSending = true;
       ctx.stopSending = true;
     },
 
-    // ---- alerts ----
     alertNormal: (id: string, value: string) => {
       if (!safe(id)) return;
       void ctx.ops?.alert?.("normal", value);
@@ -106,7 +100,6 @@ export function buildLuaApi(
       return res === "OK";
     },
 
-    // ---- chat array ----
     getChatMain: (_id: string, index: number) => {
       const m = ctx.chat.at(index);
       if (!m) return JSON.stringify(null);
@@ -158,7 +151,6 @@ export function buildLuaApi(
     },
     getChatLength: () => ctx.chat.length,
 
-    // ---- entity fields ----
     getName: () => ctx.charName,
     setName: (id: string, name: string) => {
       if (!safe(id)) return;
@@ -194,7 +186,6 @@ export function buildLuaApi(
       return "";
     },
 
-    // ---- lorebook ----
     getLoreBooksMain: (_id: string, search: string) =>
       JSON.stringify(
         ctx.lore.filter(
@@ -218,14 +209,12 @@ export function buildLuaApi(
       }
     },
 
-    // ---- background embedding (per-conv var channel) ----
     getBackgroundEmbedding: () => ctx.vars["__backgroundEmbedding"] ?? "",
     setBackgroundEmbedding: (id: string, value: string) => {
       if (!safe(id)) return;
       ctx.vars["__backgroundEmbedding"] = value;
     },
 
-    // ---- helpers ----
     cbs: (value: string) => parse(value),
     getTokens: (id: string, value: string) => {
       if (!safe(id)) return;
@@ -242,7 +231,6 @@ export function buildLuaApi(
     getCharacterImageMain: async () => "",
     getPersonaImageMain: async () => "",
 
-    // ---- lowLevelAccess ----
     similarity: async (id: string, source: string, value: string[]) => {
       if (!low(id)) return;
       return (await ctx.ops?.similarity?.(source, value)) ?? [];

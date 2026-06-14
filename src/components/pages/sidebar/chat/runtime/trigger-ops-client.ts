@@ -1,8 +1,6 @@
 "use client";
 
-// Client-side TriggerOps: runLLM/checkSimilarity/runImgGen go through the BFF
-// trigger-op endpoint (key resolution server-side); showAlert uses the
-// imperative dialog/toast surface.
+    // Client-side TriggerOps: runLLM/checkSimilarity/runImgGen go through the BFF trigger-op endpoint (key resolution server-side); showAlert uses the imperative dialog/toast surface.
 
 import { triggerAlert } from "@/components/ui/trigger-alert";
 import type { TriggerOps } from "@/lib/ai/chat/triggers/types";

@@ -4,8 +4,7 @@ import { LOCALES } from "../config/constants";
 export const BADGE_SIZES = ["xs", "sm", "md", "lg", "xl", "og"] as const;
 export type BadgeSize = (typeof BADGE_SIZES)[number];
 
-// Social banner sizes. Separate from BADGE_SIZES so the badge generator UI and
-// the /all preview never iterate them (they only apply to the `social` type).
+    // Social banner sizes. Separate from BADGE_SIZES so the generator UI and the /all preview never iterate them (they only apply to the social type).
 export const SOCIAL_SIZES = [
   "reddit",
   "reddit-mobile",

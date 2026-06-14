@@ -36,8 +36,7 @@ type Props = {
   onDone: () => void;
 };
 
-// providers column holds an OpenRouter routing object as JSON. The form edits
-// it as a comma list of slugs plus an "only" toggle (order vs only).
+    // providers column holds an OpenRouter routing object as JSON; the form edits it as a comma list of slugs plus an only toggle.
 function parseProviderRouting(raw: string | null | undefined): {
   slugs: string;
   only: boolean;
@@ -54,8 +53,7 @@ function parseProviderRouting(raw: string | null | undefined): {
   }
 }
 
-// Build the DB body from form data: serialize the provider slugs into the
-// `providers` JSON and drop the form-only `providersOnly` field.
+    // Build the DB body from form data: serialize the provider slugs into the providers JSON and drop the form-only providersOnly field.
 function toPresetBody(data: SamplingPresetForm) {
   const slugs = data.providers
     .split(",")
@@ -87,19 +85,14 @@ export function PresetForm(props: Props) {
   const createMut = useCreatePresetMutation();
   const updateMut = useUpdatePresetMutation();
 
-  // `values` syncs the row on settle; keepDirtyValues stops a refetch clobbering
-  // in-progress typing. Parent keys by editingId so switching remounts clean.
+      // values syncs the row on settle; keepDirtyValues stops a refetch clobbering typing. Parent keys by editingId so switching remounts clean.
   const editing =
     props.editingId === "new"
       ? null
       : presetsQuery.data?.find((x) => x.id === props.editingId);
-  // providers is stored as a JSON routing object; the form edits it as a
-  // comma list + an "only" toggle, so expand it before seeding the form.
+      // providers is stored as a JSON routing object; the form edits it as a comma list + only toggle, so expand before seeding.
   const routing = parseProviderRouting(editing?.providers);
-  // null streamingEnabled means "inherit -> streaming on"; the switch is a plain
-  // bool and renders null as OFF, misleading the user. Seed it as the real
-  // default (on) for both edit + new so toggling it off persists an explicit
-  // false the new-chat seed honors (preset.streamingEnabled ?? defaults ?? true).
+      // null streamingEnabled means inherit -> on; the switch renders null as OFF, misleading the user. Seed the real default (on) so toggling off persists an explicit false.
   const formValues = formDefaults(samplingPresetFormSchema, {
     ...(editing ?? {}),
     providers: routing.slugs,

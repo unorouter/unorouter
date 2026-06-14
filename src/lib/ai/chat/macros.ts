@@ -1,6 +1,4 @@
-// CBS macro evaluator, full port of the RisuAI engine (src/ts/cbs.ts).
-// App-coupled macros (asset/image/inlay/module/...) resolve to safe
-// empty/passthrough server-side instead of leaking as literal {{...}}.
+    // CBS macro evaluator, full port of the RisuAI engine. App-coupled macros resolve to safe empty/passthrough server-side instead of leaking as literal {{...}}.
 
 import { calcString, seededRand } from "@/lib/ai/chat/calc";
 import { dayjs } from "@/lib/utils/format/date";
@@ -18,8 +16,7 @@ export type MacroScope = {
   globalVars?: Record<string, string>;
   // Per-assembly scratch store (settempvar/gettempvar). Never persisted.
   tempVars?: Record<string, string>;
-  // Newest last, for the {{history}}/{{lastmessage}} family. `time` is the
-  // message createdAt (unix ms) for the message_time/date/idle macros.
+      // Newest last, for the {{history}}/{{lastmessage}} family. time is the message createdAt (unix ms) for the message_time/date/idle macros.
   history?: {
     role: "user" | "assistant" | "system";
     text: string;
@@ -27,8 +24,7 @@ export type MacroScope = {
   }[];
   // Per-conv seed so roll/random/pick resolve identically across regenerates (RisuAI determinism).
   seed?: string;
-  // Browser environment (client-sent): screen_width/height + locale-faithful
-  // time formatting. Absent in tokenize/fallback paths.
+      // Browser environment (client-sent): screen size + locale-faithful time formatting. Absent in tokenize/fallback paths.
   viewport?: { w: number; h: number };
   locale?: string;
   timeZone?: string;
@@ -40,8 +36,7 @@ export type MacroScope = {
   lorebooks?: unknown[]; // {{lorebook}}/{{worldinfo}} JSON reader
   triggerId?: string; // {{trigger_id}} when expanding inside a trigger
   prefillSupported?: boolean; // {{prefill_supported}}
-  // Index of the message being expanded (Risu chatID); undefined = field
-  // context (chatID -1) so message_time family returns the error strings.
+      // Index of the message being expanded (Risu chatID); undefined = field context so the message_time family returns the error strings.
   chatIndex?: number;
   // Introspection tokens; all optional so fallback assembly paths stay valid.
   model?: string; // {{model}} / metadata::modelname
@@ -56,9 +51,7 @@ export type MacroScope = {
 const MAX_RECURSION = 20;
 // Cap calc/{{?}} expression length so a pathological literal can't hang the eval.
 const MAX_CALC_LEN = 1000;
-// Macros run server-side during assembly with card-authored args. Bound the
-// allocation-driving ones so {{range::[0,1e9]}} or {{cbr::1e9}} can't OOM the
-// process / pin the event loop. 100k covers any legitimate use.
+    // Macros run server-side with card-authored args. Bound the allocation-driving ones so {{range::[0,1e9]}} or {{cbr::1e9}} can't OOM; 100k covers any legitimate use.
 const MAX_MACRO_OUTPUT = 100_000;
 
 type ScopeField =
@@ -202,8 +195,7 @@ function trimLines(p1: string): string {
     .trim();
 }
 
-// Risu risuEscape/risuUnescape: {}() to private-use chars; protects #escape
-// content through later processing, un-mapped at request build.
+    // Risu risuEscape/risuUnescape: {}() to private-use chars; protects #escape content through later processing, un-mapped at request build.
 export function risuEscape(text: string): string {
   return text.replace(/[{}()]/g, (f) => {
     switch (f) {
@@ -238,11 +230,7 @@ function hmsPad(totalMs: number): string {
 const NO_TIME = "[Cannot get time]";
 const OLD_VERSION_TIME = "[Cannot get time, message was sent in older version]";
 
-// toLocale* with the browser-sent locale + timeZone (Risu runs in-browser).
-// locale/timeZone are client-controlled and only length-validated upstream, so
-// an invalid IANA zone or malformed locale tag throws RangeError. That would
-// crash prompt assembly (server-side) on any card using a {{time}}/{{date}}
-// macro, so fall back to the locale-default rendering instead of throwing.
+    // toLocale* with the browser-sent locale + timeZone, which are client-controlled and only length-validated, so an invalid zone or tag throws RangeError; fall back to locale-default rendering instead of crashing assembly.
 function localeTime(ms: number, scope: MacroScope): string {
   try {
     return new Date(ms).toLocaleTimeString(scope.locale, {
@@ -268,8 +256,7 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
   if (trimmed.startsWith("//")) return ""; // {{// comment}}
   if (trimmed.startsWith("?")) return calc(trimmed.slice(1), scope); // {{? 1+2}}
 
-  // Risu parser: '::' args when first colon is doubled, else legacy ':' args.
-  // Name normalization strips whitespace/_/-.
+      // Risu parser: :: args when first colon is doubled, else legacy : args. Name normalization strips whitespace/_/-.
   const colonIndex = trimmed.indexOf(":");
   const parts =
     colonIndex !== -1 && trimmed[colonIndex + 1] === ":"
@@ -289,7 +276,6 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
   const rand = () => seededRand(`${scope.seed ?? ""}:${trimmed}`);
 
   switch (name) {
-    // ---- randomness / dice ----
     case "roll":
     case "dice":
     case "rollp":
@@ -313,7 +299,6 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
     case "hash":
       return (seededRand(arg0) * 10000000 + 1).toFixed(0).padStart(7, "0");
 
-    // ---- arithmetic ----
     case "calc":
       return calc(args.join("::"), scope);
     case "abs":
@@ -341,7 +326,6 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
     case "tohex":
       return Number.parseInt(arg0).toString(16);
 
-    // ---- stats (array or positional) ----
     case "min":
       return numStr(Math.min(...statNums(args)));
     case "max":
@@ -355,7 +339,6 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
         : "0";
     }
 
-    // ---- comparison / logic (return "1"/"0") ----
     case "equal":
       return args[0] === args[1] ? "1" : "0";
     case "notequal":
@@ -389,7 +372,6 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
     case "iserror":
       return arg0.toLowerCase().startsWith("error:") ? "1" : "0";
 
-    // ---- string ops ----
     case "upper":
       return arg0.toLocaleUpperCase();
     case "lower":
@@ -424,7 +406,6 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
     case "ue":
       return String.fromCharCode(parseInt(arg0, 16));
 
-    // ---- crypto / obfuscation (self-inverse caesar; xor base64) ----
     case "crypt":
     case "crypto":
     case "caesar":
@@ -456,7 +437,6 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
       return new TextDecoder().decode(bytes);
     }
 
-    // ---- array ops (JSON in/out) ----
     case "makearray":
     case "array":
     case "a":
@@ -514,7 +494,6 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
       );
     }
 
-    // ---- dict / object ops ----
     case "makedict":
     case "dict":
     case "d":
@@ -555,7 +534,6 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
       }
     }
 
-    // ---- variables: conversation / global / temp ----
     case "getvar":
       return scope.vars[arg0] ?? "";
     case "setvar":
@@ -587,7 +565,6 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
     case "tempvar":
       return scope.tempVars?.[arg0] ?? "";
 
-    // ---- chat history readers ----
     case "lastmessage":
       return scope.history?.at(-1)?.text ?? "";
     case "lastusermessage":
@@ -634,7 +611,6 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
     case "chatindex":
       return String((scope.history?.length ?? 0) - 1);
 
-    // ---- date / time ----
     case "date":
     case "datetimeformat":
       return args.length === 0
@@ -651,7 +627,6 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
     case "unixtime":
       return dayjs().unix().toFixed(0);
 
-    // ---- per-message time family (Risu cbs.ts message_time/...) ----
     case "messagetime": {
       const idx = scope.chatIndex ?? -1;
       if (idx < 0) return NO_TIME;
@@ -681,7 +656,6 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
     case "messageunixtimearray":
       return JSON.stringify((scope.history ?? []).map((m) => `${m.time ?? 0}`));
 
-    // ---- greeting / card data readers ----
     case "firstmessageindex":
     case "firstmsgindex":
       return String(scope.fmIndex ?? -1);
@@ -697,7 +671,6 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
       return r ? (r === "assistant" ? "char" : r) : "null";
     }
 
-    // ---- environment / introspection ----
     case "screenwidth":
       return String(scope.viewport?.w ?? 0);
     case "screenheight":
@@ -729,7 +702,6 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
     case "position":
       return "";
 
-    // ---- prompt-field tokens ----
     case "mainprompt":
       return scope.mainPrompt ?? "";
     case "jailbreak":
@@ -766,7 +738,6 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
           return "";
       }
 
-    // ---- literal-character / formatting helpers ----
     case "cbr":
     case "cnl":
     case "cnewline": {
@@ -787,8 +758,7 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
   }
 }
 
-// Constant-result macros: literal escapes, plus app-coupled tokens that resolve
-// empty/"0" so they never leak to the model.
+    // Constant-result macros: literal escapes plus app-coupled tokens that resolve empty/"0" so they never leak to the model.
 const LITERAL_MACROS: Record<string, string> = (() => {
   const out: Record<string, string> = {};
   const groups: [string, string[]][] = [
@@ -818,8 +788,7 @@ const LITERAL_MACROS: Record<string, string> = (() => {
   return out;
 })();
 
-// {{#if cond}} or {{#when::...}}. #when is Risu's right-to-left stack evaluator:
-// operators pop the stack and push '1'/'0' so chains compose. keep/legacy pass through.
+    // {{#if cond}} or {{#when::...}}. #when is Risu's right-to-left stack evaluator: operators pop and push '1'/'0' so chains compose. keep/legacy pass through.
 function evalCondition(raw: string, scope: MacroScope): boolean {
   const t = raw.trim();
   if (t.startsWith("#if")) {
@@ -902,8 +871,7 @@ function evalCondition(raw: string, scope: MacroScope): boolean {
   return isTruthy(t);
 }
 
-// Expand flat macros (no blocks) inside-out. Unknown macros are left verbatim
-// by advancing a cursor past them so the loop always terminates.
+    // Expand flat macros inside-out. Unknown macros are left verbatim by advancing a cursor past them so the loop always terminates.
 function expandFlat(text: string, scope: MacroScope): string {
   const inner = /\{\{((?:(?!\{\{|\}\}).)*?)\}\}/s;
   let guard = 0;
@@ -917,8 +885,7 @@ function expandFlat(text: string, scope: MacroScope): string {
       cursor = at + m[0].length; // skip unknown, leave verbatim
       continue;
     }
-    // {{return}}: exit expansion immediately; the remainder is dropped (Risu
-    // __force_return__ exits the parser with what accumulated so far).
+        // {{return}}: exit expansion immediately; the remainder is dropped (Risu __force_return__ behavior).
     if (scope.vars["__force_return__"] === "1") {
       return text.slice(0, at) + resolved;
     }
@@ -929,9 +896,7 @@ function expandFlat(text: string, scope: MacroScope): string {
   return text;
 }
 
-// Block engine (Risu parser.svelte.ts blockStartMatcher/blockEndMatcher).
-// Any {{/...}} closes the innermost open block (Risu pops the stack by
-// position, not by name). pure-ish bodies are captured raw.
+    // Block engine (Risu parser). Any {{/...}} closes the innermost open block (pops the stack by position, not by name). pure-ish bodies are captured raw.
 const BLOCK_OPEN_RE =
   /\{\{#(if_pure|if|when|each|pure_display|puredisplay|pure|escape)\b/;
 
@@ -1013,8 +978,7 @@ function applyWhenElse(body: string, truthy: boolean, keep: boolean): string {
   return keep ? result : trimLines(result);
 }
 
-// Resolve the first block in `text` (which starts at the block opener).
-// Returns null when malformed (caller emits verbatim).
+    // Resolve the first block in text (which starts at the block opener). Returns null when malformed (caller emits verbatim).
 function resolveFirstBlock(
   text: string,
   scope: MacroScope,
@@ -1040,8 +1004,7 @@ function resolveFirstBlock(
   if (tag.startsWith("#when")) {
     const truthy = evalCondition(tag, scope);
     const keep = /(^|::|\s)keep(::|\s|$)/.test(tag.slice(5));
-    // Risu newif bodies are NOT pure: both branches expand (side effects run),
-    // then the else split cuts the text.
+        // Risu newif bodies are NOT pure: both branches expand (side effects run), then the else split cuts the text.
     const expanded = expandBlocks(body, scope, depth + 1);
     return { raw: applyWhenElse(expanded, truthy, keep), rest: tail };
   }

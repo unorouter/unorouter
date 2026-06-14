@@ -38,8 +38,7 @@ const NULL_SAMPLING: Pick<
   chatMemory: null,
 };
 
-// RP mainPrompt ported verbatim from RisuAI prebuiltPresets.OAI
-// (author 하나안, modified by Kwaroran), <user> -> {{user}}.
+    // RP mainPrompt ported verbatim from RisuAI prebuiltPresets.OAI, <user> -> {{user}}.
 const RISU_RP_MAIN_PROMPT = `1. This is role-playing. You play the roles of actor and novelist. You should actively research and utilize the various cultural contents of various countries, such as history, myth, literature, visual media, games, etc.
 
 2. You are never {{user}}. Only I have the authority to control {{user}}. Write only from the point of view of the characters.
@@ -52,8 +51,7 @@ const RISU_RP_MAIN_PROMPT = `1. This is role-playing. You play the roles of acto
 
 6. Leave room for {{user}} interaction. Don't rush through the scene, but write it very slowly. Remove the pre-text and post-text.`;
 
-// globalNote ported verbatim from RisuAI prebuiltPresets.OAI; rides postHistory
-// (injected after chat history, same placement as Risu's formatingOrder).
+    // globalNote ported verbatim from RisuAI prebuiltPresets.OAI; rides postHistory (injected after chat history, same as Risu's formatingOrder).
 const RISU_RP_GLOBAL_NOTE = `1. Create an imaginary world with science levels, social systems, cultural norms, diplomatic relations, ways of life, etc., utilizing the information transmitted, and supplement it with the story under the assumption that it exists.
 
 2. Accurately recognizing the time, space, situation, atmosphere, scenery, characters, objects, sounds, smells, feels, etc.
@@ -81,8 +79,7 @@ const TURN_BASED_MAIN_PROMPT = `1. This is a turn-based role-play. You play the 
 
 5. Use italics in markdown for non-dialogue narration.`;
 
-// Clean in-character reminder (NOT Risu's explicit-content jailbreak); rides
-// postHistory so it lands after the chat as a final instruction.
+    // Clean in-character reminder (NOT Risu's explicit-content jailbreak); rides postHistory so it lands after the chat as a final instruction.
 const IN_CHARACTER_POST_HISTORY = `[Stay fully in character. Never write or speak for {{user}}. Keep the scene moving and leave room for {{user}}'s next action.]`;
 
 export const STARTER_PRESETS: StarterPreset[] = [

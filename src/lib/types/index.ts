@@ -58,26 +58,20 @@ export type ChatMessageMetadata = {
   usage?: MessageUsage;
   droppedParams?: string;
   debug?: RequestLogPayload;
-  // Serialized chat-variable map (JSON string) emitted when macro setvar/addvar
-  // changed it this turn. The history adapter persists it to conversation vars.
+      // Serialized chat-variable map emitted when macro setvar/addvar changed it this turn. The history adapter persists it to conversation vars.
   vars?: string;
-  // Serialized per-user global-variable map (setglobalvar). Persisted to the
-  // user's global-var store (userVars sync kind) by the history adapter.
+      // Serialized per-user global-variable map (setglobalvar). Persisted to the user's global-var store by the history adapter.
   globalVars?: string;
-  // Rolling-summary memory update: the running summary + how many leading
-  // messages it now covers. Persisted to conversation summaryMemory/anchor.
+      // Rolling-summary memory update: the running summary + how many leading messages it now covers. Persisted to conversation summaryMemory/anchor.
   summary?: { summary: string; anchor: number };
-  // runImgGen inlay bytes generated server-side this turn; the adapter
-  // persists them as local media rows ({{inlay::id}} renders from them).
+      // runImgGen inlay bytes generated server-side this turn; the adapter persists them as local media rows ({{inlay::id}} renders from them).
   inlayMedia?: {
     id: string;
     dataBase64: string;
     mimeType: string;
     sizeBytes: number;
   }[];
-  // Which character spoke this turn (multi-character rotation). Rides the
-  // finish frame because the rotation loop clears the speaking atom before
-  // the history adapter persists, so an atom read at append time races.
+      // Which character spoke this turn (multi-character rotation). Rides the finish frame because the rotation loop clears the speaking atom before the adapter persists.
   speakingCharacterId?: string;
 };
 
@@ -85,8 +79,7 @@ export type ChatUIMessage = UIMessage<ChatMessageMetadata>;
 
 export type EditorState = { mode: "list" } | { mode: "edit"; id?: string };
 
-// A generated playground image resolved for rendering: `src` is a data URI
-// (base64 priority) or the R2 URL fallback.
+    // A generated playground image resolved for rendering: src is a data URI (base64 priority) or the R2 URL fallback.
 export type PlaygroundImageView = {
   id: string;
   sequenceIndex: number;
@@ -201,8 +194,7 @@ export function isSearchDoc(doc: unknown): doc is SearchResult {
   return typeof d.title === "string" && typeof d.url === "string";
 }
 
-// Generic loose-shape bundle inputs (sqlite-proxy cast boundary).
-// Co-located for assembler + lorebook selectors.
+    // Generic loose-shape bundle inputs (sqlite-proxy cast boundary). Co-located for assembler + lorebook selectors.
 export type LocalAnyRow = Record<string, unknown> & { id: string };
 export type LocalChildRow = Record<string, unknown>;
 export type LocalRowInput = Record<string, unknown>;
@@ -238,8 +230,7 @@ export class ParamError extends Error {
 
 // SEO / docs / blog registry types.
 
-// Static doc slugs only: the dynamic "/docs/[slug]" template is excluded so DocSlug
-// stays a subset of SeoTimestampSlug; the [slug] route casts its runtime slug.
+    // Static doc slugs only: the dynamic /docs/[slug] template is excluded so DocSlug stays a subset of SeoTimestampSlug; the [slug] route casts its runtime slug.
 export type DocSlug = keyof typeof pathnames extends infer K
   ? K extends `/${infer R extends `docs/${string}`}`
     ? R extends `${string}[${string}`
@@ -316,11 +307,9 @@ type DocI18nPrefix = {
 }[TranslationKey];
 
 export type DocEntry = {
-  // For the static "/docs" index this is path.slice(1); for guides served by
-  // the single "/docs/[slug]" route it is `docs/${guide.slug}`.
+      // For the static /docs index this is path.slice(1); for guides served by the single /docs/[slug] route it is docs/${guide.slug}.
   slug: string;
-  // Either a static route ("/docs") or a dynamic href ({ pathname:
-  // "/docs/[slug]", params }). getPathname/localeUrl resolve both.
+      // Either a static route ("/docs") or a dynamic href ({ pathname: "/docs/[slug]", params }). getPathname/localeUrl resolve both.
   path: Pathname;
   i18nPrefix: DocI18nPrefix;
   // Drive published/modified timestamps via git history.
@@ -343,8 +332,7 @@ export type BlogEntry = {
   heroImage?: string;
 };
 
-// On-disk conversation export envelopes. Untrusted JSON: every field optional,
-// per-importer boundary cast.
+    // On-disk conversation export envelopes. Untrusted JSON: every field optional, per-importer boundary cast.
 
 // Export row: arbitrary columns + known string id.
 export type ExportRow = Record<string, unknown> & { id: string };

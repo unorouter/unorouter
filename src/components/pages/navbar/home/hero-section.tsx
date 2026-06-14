@@ -15,18 +15,15 @@ import { Icon } from "@/components/ui/icon";
 
 export async function HeroSection(props: { counts: HeroCounts }) {
   const t = await getTranslations();
-  // Chip titles resolved server-side so the client provider can keep the DOCS
-  // namespace out of the hydrated messages payload.
+      // Chip titles resolved server-side to keep the DOCS namespace out of the hydrated messages payload.
   const chipTitles = Object.fromEntries(
     SETUP_GUIDES.map((g) => [g.slug, t(g.titleKey, APP_VALUES)]),
   );
 
   return (
     <main className="relative z-10 mx-auto flex max-w-360 flex-col items-center gap-10 px-6 pt-24 pb-16 lg:flex-row lg:gap-20 lg:pt-48 lg:pb-32">
-      {/* Left column */}
       <div className="w-full flex-1 space-y-6 text-center lg:space-y-10 lg:text-left">
         <div className="space-y-6">
-          {/* Status badge */}
           <div className="border-border bg-secondary inline-flex items-center gap-3 rounded-sm border px-3 py-1.5 backdrop-blur-md">
             <span className="relative flex h-1.5 w-1.5">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
@@ -37,7 +34,6 @@ export async function HeroSection(props: { counts: HeroCounts }) {
             </span>
           </div>
 
-          {/* Title */}
           <h1 className="text-foreground text-[2.5rem] leading-[1.05] font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
             {t("HOME.HERO.TITLE_LINE1")} <br />
             <span className="text-muted-foreground">
@@ -52,11 +48,9 @@ export async function HeroSection(props: { counts: HeroCounts }) {
             .
           </h1>
 
-          {/* Description */}
           <HeroSubtitle modelCount={props.counts.modelCount} />
         </div>
 
-        {/* CTA Buttons */}
         <div className="flex flex-col items-center justify-center gap-4 font-mono text-xs sm:flex-row lg:justify-start">
           <GetStartedLink
             className="bg-primary text-primary-foreground hover:bg-primary/80 flex h-11 w-full items-center justify-center gap-2 px-8 font-bold tracking-widest uppercase transition-colors sm:w-auto"
@@ -74,7 +68,6 @@ export async function HeroSection(props: { counts: HeroCounts }) {
           </Link>
         </div>
 
-        {/* Stats grid */}
         <HeroStatsGrid counts={props.counts} />
       </div>
 

@@ -36,8 +36,7 @@ export function CardForm(props: Props) {
   const createMut = useCreateCardMutation();
   const updateMut = useUpdateCardMutation();
 
-  // `values` syncs the row on settle; keepDirtyValues protects in-progress
-  // typing. characterIds/lorebookIds come from join rows, not flat columns.
+      // values syncs the row on settle; keepDirtyValues protects in-progress typing. characterIds/lorebookIds come from join rows.
   const editing = props.editingId === "new" ? null : cardQuery.data;
   const formValues = editing
     ? formDefaults(cardFormSchema, {

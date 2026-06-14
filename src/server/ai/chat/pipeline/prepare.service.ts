@@ -1,5 +1,4 @@
-// Text-stream request assembly (chat body -> streamText args). Orchestrates the
-// five pipeline stages; stream.service.ts keeps telemetry and the streamText call.
+    // Text-stream request assembly (chat body -> streamText args). Orchestrates the five pipeline stages; stream.service.ts keeps telemetry and the streamText call.
 
 import { getPricingSummary } from "@/lib/api/pricing-cache";
 import type { ChatContext, StreamOverrides } from "@/lib/validation/chat";

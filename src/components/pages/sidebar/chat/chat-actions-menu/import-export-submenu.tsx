@@ -39,8 +39,7 @@ export function ImportExportSubmenu(props: Props) {
     if (!props.convId) return;
 
     if (format === "sillytavern") {
-      // SillyTavern is a JSONL download (not a JSON envelope), built from the
-      // local DB; download the raw string as a blob.
+          // SillyTavern is a JSONL download (not a JSON envelope) built from the local DB; download the raw string as a blob.
       try {
         const result = await exportLocalConversationSillyTavern(
           userId,

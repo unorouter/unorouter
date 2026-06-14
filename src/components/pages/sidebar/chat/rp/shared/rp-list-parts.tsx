@@ -43,9 +43,7 @@ export function RpEmptyCard(props: { labelKey: TranslationKey }) {
   );
 }
 
-// One list row: Card shell + optional leading slot + name/description column +
-// custom action buttons + the trailing delete button. Click anywhere else
-// opens the entity.
+    // One list row: Card shell + optional leading slot + name/description + custom actions + trailing delete. Click elsewhere opens the entity.
 export function RpEntityRow(props: {
   onOpen: () => void;
   name: ReactNode;

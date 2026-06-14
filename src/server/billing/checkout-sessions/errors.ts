@@ -1,5 +1,4 @@
-// ACP error helper. Elysia reads err.status/err.data, emits spec sec3.1 flat error.
-// `never` return enables control-flow narrowing on `throw acpError(...)`.
+    // ACP error helper. Elysia reads err.status/err.data, emits spec sec3.1 flat error. never return enables control-flow narrowing on throw acpError(...).
 type AcpErrorBody = {
   type: "invalid_request" | "processing_error" | "service_unavailable";
   code: string;

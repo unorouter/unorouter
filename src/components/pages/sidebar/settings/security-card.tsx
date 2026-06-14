@@ -123,7 +123,6 @@ export function SecurityCard() {
           <CardTitle>{t("SETTINGS.SECURITY.TITLE")}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
-          {/* Access Token */}
           <div className="space-y-2">
             <div className="flex items-center gap-2">
               <Icon name="key" className="text-muted-foreground h-4 w-4" />
@@ -161,7 +160,6 @@ export function SecurityCard() {
 
           <Separator />
 
-          {/* Password */}
           <div className="flex flex-wrap items-center justify-between gap-2">
             <div className="flex items-center gap-2">
               <Icon name="lock" className="text-muted-foreground h-4 w-4" />
@@ -180,7 +178,6 @@ export function SecurityCard() {
 
           <Separator />
 
-          {/* Passkey */}
           <div className="space-y-2">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div className="flex items-center gap-2">
@@ -272,7 +269,6 @@ export function SecurityCard() {
 
           <Separator />
 
-          {/* Delete Account */}
           <div className="space-y-2">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div>

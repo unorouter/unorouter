@@ -23,8 +23,7 @@ export function formatPrice(price: number): string {
   return `$${price.toFixed(decimals)}`;
 }
 
-// Discount percentage off an original price, rounded. Returns 0 when there is
-// no meaningful discount (so callers can skip the badge).
+    // Discount percentage off an original price, rounded. Returns 0 when there's no meaningful discount so callers can skip the badge.
 export function discountPercent(
   current: number,
   original: number | null,

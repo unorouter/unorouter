@@ -69,8 +69,7 @@ export function AccountCard() {
     return () => clearTimeout(timer);
   }, [countdown]);
 
-  // A failed external OAuth bind redirects back with ?bind_error=<message>.
-  // Surface it as a toast, then strip the param so a refresh stays clean.
+      // A failed external OAuth bind redirects back with ?bind_error=<message>; surface it as a toast, then strip the param so a refresh stays clean.
   useEffect(() => {
     const bindError = searchParams.get("bind_error");
     if (!bindError) return;
@@ -233,7 +232,6 @@ export function AccountCard() {
         <CardTitle>{t("SETTINGS.ACCOUNT.TITLE")}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
-        {/* Email Binding */}
         <div className="space-y-3">
           <div className="flex items-center gap-2">
             <Icon name="mail" className="text-muted-foreground h-4 w-4" />
@@ -345,7 +343,6 @@ export function AccountCard() {
 
         <Separator />
 
-        {/* OAuth Bindings */}
         <div className="space-y-3">
           <Label>{t("SETTINGS.ACCOUNT.OAUTH_BINDINGS")}</Label>
           <div className="grid gap-3 sm:grid-cols-2">

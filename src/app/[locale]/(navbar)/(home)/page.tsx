@@ -34,9 +34,7 @@ export default async function HomePage(props: {
   const locale = await serverLocale(props);
   const t = await getTranslations({ locale });
 
-  // Pricing fetched OUTSIDE the query client: dehydrating it serialized the
-  // full model catalog (~1MB raw) into the homepage RSC payload. The hero only
-  // needs four counts; client widgets (ticker) fetch pricing lazily themselves.
+      // Pricing fetched outside the query client: dehydrating it inlined ~1MB catalog into the RSC payload; hero needs only counts.
   const [pricing] = await Promise.all([
     handleElysia(await rpc.api.models.pricing.get()),
     prefetchElysia(queryClient, queryKeys.statsHistory(), () =>

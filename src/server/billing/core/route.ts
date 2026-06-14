@@ -24,9 +24,7 @@ import { Elysia } from "elysia";
 import { ADMIN_HEADERS, deriveUpstream } from "@/server/constants";
 import { PUBLIC_CACHE } from "@/lib/config/constants";
 
-// MPP x-payment-info per paymentauth.org draft-payment-discovery-00.
-// intent=session (checkout URLs); amount null (user-picked/plan-dependent).
-// Cast: OperationObject lacks x-* index.
+    // MPP x-payment-info per paymentauth.org draft. intent=session (checkout URLs); amount null (user-picked/plan-dependent). Cast: OperationObject lacks x-* index.
 const xPaymentInfo = (
   method: "stripe" | "creem" | "nowpayments",
   description: string,
@@ -44,8 +42,7 @@ const xPaymentInfo = (
 export const billingRoute = new Elysia({ prefix: "/core" })
   .derive(deriveUpstream)
   .get("/topup-info", async ({ upstream }) => {
-    // Guest branch cacheable; logged-in uncached (Data Cache keys by URL only,
-    // a cached cookie-authed response would leak across users).
+        // Guest branch cacheable; logged-in uncached (Data Cache keys by URL only, a cached cookie-authed response would leak across users).
     const hasUser = !!upstream.headers.cookie;
     const res = await getTopUpInfo(
       hasUser

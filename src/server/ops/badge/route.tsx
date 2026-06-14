@@ -118,8 +118,7 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
         }),
       );
 
-      // Social banners: own sizes, no stats/pricing. Append as one group unless a
-      // different type filter is set.
+          // Social banners: own sizes, no stats/pricing. Append as one group unless a different type filter is set.
       if (!query.type) {
         const socialBadges = await Promise.all(
           SOCIAL_SIZES.map(async (s) => ({
@@ -154,8 +153,7 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
     async ({ params, query, locale, theme, size, set }) => {
       const isPng = query.format === "png";
 
-      // Social banners stand apart from the user-facing badge grid: their own
-      // sizes (SOCIAL_SIZES), no stats/pricing, excluded from /all + generator.
+          // Social banners stand apart from the user-facing badge grid: their own sizes, no stats/pricing, excluded from /all + generator.
       if (params.name === "social") {
         const pricing = await getPricingData();
         const socialSvg = await generateSocial({

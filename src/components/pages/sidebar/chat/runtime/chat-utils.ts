@@ -45,12 +45,7 @@ export function createLocalAttachmentAdapter(
     async send(attachment) {
       const ctx = getContext();
 
-      // Pre-gen the convId for the live stream, but DON'T stamp it on the media
-      // row: ensureConvId only mints the id, the conversations row is inserted
-      // later in the thread-list initialize(). Stamping the not-yet-inserted
-      // convId tripped the media.conv_id FK ("a reference image errored"). The
-      // bytes are carried by the data: URL part; the media row is byte storage
-      // and stays conv-null (schema allows it, like avatars).
+          // Pre-gen the convId for the live stream but DON'T stamp it on the media row: ensureConvId only mints the id, the conversations row is inserted later, so stamping a not-yet-inserted convId tripped the media.conv_id FK. Bytes ride the data: URL part; the media row stays conv-null.
       ctx.convId = ensureConvId();
 
       const file = attachment.file!;

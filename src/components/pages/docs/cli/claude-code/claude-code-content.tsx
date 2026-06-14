@@ -284,7 +284,6 @@ npm install -g @anthropic-ai/claude-code`}
           </p>
         </Callout>
 
-        {/* Features */}
         <section className="mt-12">
           <h2 className="mb-4 text-2xl font-semibold" id="features">
             {t("DOCS.CLAUDE_CODE.FEATURES_TITLE")}
@@ -315,7 +314,6 @@ npm install -g @anthropic-ai/claude-code`}
           </div>
         </section>
 
-        {/* CC Switch Quick Setup */}
         <CCSwitchSetup
           app="claude"
           endpoint={docs.apiUrl}
@@ -324,7 +322,6 @@ npm install -g @anthropic-ai/claude-code`}
           }
         />
 
-        {/* Manual Configuration */}
         <section className="mt-12">
           <h2
             className="mb-4 text-2xl font-semibold"
@@ -336,7 +333,6 @@ npm install -g @anthropic-ai/claude-code`}
             {t("DOCS.CLAUDE_CODE.CONFIG_DESC", APP_VALUES)}
           </p>
 
-          {/* Config file (recommended) */}
           <h3 className="mb-2 text-lg font-medium">
             {t("DOCS.CONFIG.FILE_LABEL")}
           </h3>
@@ -348,7 +344,6 @@ npm install -g @anthropic-ai/claude-code`}
             placeholder={docs.placeholder}
           />
 
-          {/* Env vars (alternative) */}
           <h3 className="mt-8 mb-2 text-lg font-medium">
             {t("DOCS.CONFIG.ENV_LABEL")}
           </h3>
@@ -357,7 +352,6 @@ npm install -g @anthropic-ai/claude-code`}
           </p>
           <OSCodeBlock variants={envVariants} placeholder={docs.placeholder} />
 
-          {/* Installation per OS */}
           <h3 className="mt-10 mb-2 text-lg font-medium">
             {t("DOCS.CLAUDE_CODE.INSTALLATION_TITLE")}
           </h3>
@@ -373,7 +367,6 @@ npm install -g @anthropic-ai/claude-code`}
           />
         </section>
 
-        {/* CTA */}
         <section className="border-border mt-16 border-t pt-12 text-center">
           <h2 className="text-2xl font-semibold">
             {t("DOCS.CLAUDE_CODE.CTA_TITLE")}

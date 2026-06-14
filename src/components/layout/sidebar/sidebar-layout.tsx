@@ -36,8 +36,7 @@ interface SidebarLayoutProps {
 
 export function SidebarLayout(props: SidebarLayoutProps) {
   const [open, setOpen] = useAtom(sidebarOpenAtom);
-  // Chat and Generate own their own internal scrollers (Thread.Viewport / form
-  // column). Letting the inset also scroll produces two stacked scrollbars.
+      // Chat and Generate own their internal scrollers; letting the inset also scroll produces two stacked scrollbars.
   const isChat = props.navConfig === "chat" || props.navConfig === "generate";
 
   return (

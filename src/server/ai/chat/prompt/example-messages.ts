@@ -1,6 +1,4 @@
-// exampleMessages string -> role-tagged few-shot turns (RisuAI parity).
-// <START> / [Start a new chat] separate blocks; {{char}}:/{{user}}:/<bot>:/<user>:
-// prefix lines, bare lines continue the turn. Caller macro-expands.
+    // exampleMessages string -> role-tagged few-shot turns (RisuAI parity). <START>/[Start a new chat] separate blocks; {{char}}:/{{user}}:/<bot>:/<user>: prefix lines, bare lines continue the turn. Caller macro-expands.
 
 type ExampleTurn = {
   role: "system" | "user" | "assistant";

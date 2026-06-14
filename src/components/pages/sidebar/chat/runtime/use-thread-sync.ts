@@ -51,8 +51,7 @@ export function useModelSync(remoteId: string | null | undefined) {
       );
       if (cached?.model === newModel) return;
       void (async () => {
-        // Settings FK needs the parent conv row; before initialize() seeds it,
-        // bail and let initialize read chatModelAtom directly.
+            // Settings FK needs the parent conv row; before initialize() seeds it, bail and let initialize read chatModelAtom directly.
         const conv = await readLocalConversation(userId, id);
         if (!conv) return;
         await updateLocalConversationSettings(userId, {

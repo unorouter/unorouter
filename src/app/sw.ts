@@ -10,9 +10,7 @@ import {
   StaleWhileRevalidate,
 } from "serwist";
 
-// COEP-safe rule: only runtime-cache SAME-ORIGIN responses. Cached responses
-// are still CORP-checked on replay under require-corp; same-origin /_next and
-// /api already carry CORP same-origin. Never cache opaque cross-origin responses.
+    // COEP-safe: only runtime-cache same-origin responses (CORP-checked on replay); never cache opaque cross-origin.
 
 declare global {
   interface WorkerGlobalScope extends SerwistGlobalConfig {
@@ -23,17 +21,14 @@ declare global {
 
 declare const self: ServiceWorkerGlobalScope;
 
-// SQLocal's OPFS worker/wasm must never be SW-intercepted (SharedArrayBuffer +
-// Atomics.wait handshake stalls). Shared by the _next/static matcher and the
-// passthrough fetch listener.
+    // SQLocal OPFS worker/wasm must never be SW-intercepted (SharedArrayBuffer + Atomics.wait stalls).
 const isOpfsAsset = (url: URL, destination: RequestDestination): boolean =>
   destination === "worker" ||
   destination === "sharedworker" ||
   url.pathname.endsWith(".wasm") ||
   url.pathname.includes("sqlocal");
 
-// ~900 per-icon JS chunks would re-download ~20MB per deploy if precached;
-// they runtime-cache on first use instead, precache keeps documents/CSS/media.
+    // ~900 per-icon JS chunks would re-download ~20MB per deploy if precached; runtime-cache on first use instead.
 const precacheEntries = (self.__SW_MANIFEST ?? []).filter((entry) => {
   const url = typeof entry === "string" ? entry : entry.url;
   return !/\/_next\/static\/chunks\/.+\.js(\?|$)/.test(url);
@@ -43,20 +38,17 @@ const serwist = new Serwist({
   precacheEntries,
   skipWaiting: true,
   clientsClaim: true,
-  // OFF so every navigation routes through the SW fetch and the /en/offline
-  // fallback fires deterministically; with preload the fallback needs both to fail.
+      // OFF so every navigation routes through the SW fetch and the offline fallback fires deterministically.
   navigationPreload: false,
   runtimeCaching: [
-    // Backstop for /api + /sqlocal; SQLocal's worker/wasm already bypass the SW
-    // via the fetch listener below.
+        // Backstop for /api + /sqlocal; SQLocal worker/wasm already bypass via the fetch listener below.
     {
       matcher: ({ url }) =>
         url.pathname.startsWith("/api/") ||
         url.pathname.startsWith("/sqlocal/"),
       handler: new NetworkOnly(),
     },
-    // Immutable hashed assets; same-origin only (CORP already stamped).
-    // Workers/wasm are excluded so a stray OPFS chunk is never cached.
+        // Immutable hashed assets, same-origin only; workers/wasm excluded so no stray OPFS chunk is cached.
     {
       matcher: ({ url, sameOrigin, request }) =>
         sameOrigin &&
@@ -64,10 +56,7 @@ const serwist = new Serwist({
         !isOpfsAsset(url, request.destination),
       handler: new CacheFirst({
         cacheName: "next-static",
-        // Per-icon splitting puts ~900 hashed files in a build; deploys purge
-        // old chunks server-side, so open tabs depend on this cache to keep
-        // their build's lazy chunks clickable. 256 entries thrashed below one
-        // build's worth and clicks on stale tabs 404'd.
+            // ~900 hashed icon chunks per build; deploys purge old ones server-side, so open tabs depend on this cache. Small cap thrashed and stale tabs 404'd.
         plugins: [new ExpirationPlugin({ maxEntries: 2000 })],
       }),
     },
@@ -99,9 +88,7 @@ const serwist = new Serwist({
         ],
       }),
     },
-    // Navigations: network always wins, cache is offline-only fallback. No
-    // networkTimeoutSeconds: a timeout served the previous build's HTML on slow
-    // links, whose chunks 404 after a deploy and kill every event handler.
+        // Navigations: network always wins, cache is offline-only fallback. No timeout: a timeout served stale HTML whose chunks 404 after a deploy.
     {
       matcher: ({ request, sameOrigin }) =>
         sameOrigin && request.mode === "navigate",
@@ -122,8 +109,7 @@ const serwist = new Serwist({
   },
 });
 
-// HTML/RSC from build N mixed with build N+1 chunks crashes hydration; each
-// new SW wipes these on activation. Hash-addressed caches survive (immutable).
+    // Build N HTML mixed with build N+1 chunks crashes hydration; each new SW wipes these on activation (hash-addressed caches survive).
 const BUILD_SCOPED_CACHES = [
   "pages",
   "pages-rsc",
@@ -136,14 +122,7 @@ self.addEventListener("activate", (event) => {
   );
 });
 
-// Passthrough listener, runs before serwist's; stopImmediatePropagation keeps
-// these requests on the native fetch path (no respondWith):
-// 1) Cross-origin: defaultCache's regex/catch-all rules would NetworkFirst
-//    third-party requests (cloudflareinsights beacon etc.); an adblocked or
-//    offline fetch then rejects with a loud no-response error and a cached
-//    opaque response would violate the COEP rule above.
-// 2) OPFS worker/wasm/sqlocal (isOpfsAsset) so the SharedArrayBuffer handshake
-//    is never stalled by SW fetch indirection.
+    // Passthrough listener (before serwist); stopImmediatePropagation keeps cross-origin requests and OPFS worker/wasm/sqlocal on the native fetch path (no respondWith), avoiding COEP-violating opaque caches and SharedArrayBuffer stalls.
 self.addEventListener("fetch", (event) => {
   const url = new URL(event.request.url);
   if (

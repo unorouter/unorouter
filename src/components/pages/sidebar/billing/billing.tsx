@@ -13,7 +13,6 @@ export function Billing() {
 
   return (
     <PageContent>
-      {/* Header */}
       <div className="mb-6">
         <div className="flex items-center gap-2">
           <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-green-500" />
@@ -26,7 +25,6 @@ export function Billing() {
         </h1>
       </div>
 
-      {/* Account Stats */}
       <div className="mb-6">
         <div className="mb-3 flex items-center gap-2">
           <Icon name="wallet" className="text-muted-foreground h-4 w-4" />
@@ -39,14 +37,12 @@ export function Billing() {
         </SectionBoundary>
       </div>
 
-      {/* Subscriptions */}
       <div className="mb-6">
         <SectionBoundary>
           <SubscriptionSection />
         </SectionBoundary>
       </div>
 
-      {/* Top Up */}
       <div className="mb-6">
         <SectionBoundary>
           <TopUpSection />

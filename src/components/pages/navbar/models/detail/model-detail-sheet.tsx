@@ -76,7 +76,6 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
         </SheetHeader>
 
         <div className="space-y-6 p-4">
-          {/* Description */}
           {model.description && (
             <section>
               <SectionHeader
@@ -91,7 +90,6 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
             </section>
           )}
 
-          {/* Tags */}
           {model.tags.length > 0 && (
             <section>
               <SectionHeader
@@ -119,7 +117,6 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
             </section>
           )}
 
-          {/* Capabilities */}
           {hasAnyCapability(model.metadata) && (
             <section>
               <SectionHeader
@@ -135,7 +132,6 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
             </section>
           )}
 
-          {/* Modalities */}
           {((model.metadata.inputModalities ?? []).length > 0 ||
             (model.metadata.outputModalities ?? []).length > 0) && (
             <section>
@@ -152,7 +148,6 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
             </section>
           )}
 
-          {/* Quick stats */}
           {hasAnyQuickStat(model.metadata) && (
             <section>
               <SectionHeader
@@ -165,7 +160,6 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
             </section>
           )}
 
-          {/* Pricing */}
           <section>
             <SectionHeader
               icon={
@@ -246,7 +240,6 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
             </div>
           </section>
 
-          {/* Grid Pricing Table */}
           {model.gridPricing && (
             <GridPricingSection gridPricing={model.gridPricing} theme={theme} />
           )}
@@ -262,7 +255,6 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
             />
           )}
 
-          {/* Supported parameters */}
           {hasAnyParameter(model.metadata) && (
             <section>
               <SectionHeader
@@ -278,7 +270,6 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
             </section>
           )}
 
-          {/* Performance */}
           <section>
             <SectionHeader
               icon={
@@ -292,7 +283,6 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
             <PerformanceSection modelName={model.name} />
           </section>
 
-          {/* API Endpoints */}
           {model.endpointTypes.length > 0 && (
             <section>
               <SectionHeader
@@ -343,7 +333,6 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
             </section>
           )}
 
-          {/* Pricing note */}
           <p className="text-muted-foreground/60 font-mono text-[10px] leading-relaxed italic">
             {t("MODELS.PRICE.VARIES_TOOLTIP")}
           </p>

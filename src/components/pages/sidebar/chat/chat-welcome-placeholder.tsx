@@ -1,7 +1,6 @@
 import { getTranslations } from "next-intl/server";
 
-// Opaque server-rendered stand-in hiding the runtime's staged assembly (each visible stage drags SI/LCP).
-// globals.css drops it once the real composer input exists, so the page visually changes exactly once.
+    // Opaque server-rendered stand-in hiding the runtime's staged assembly; globals.css drops it once the real composer exists so the page changes exactly once.
 export async function ChatWelcomePlaceholder() {
   const t = await getTranslations();
   return (

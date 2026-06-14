@@ -17,9 +17,7 @@ export async function generateMetadata(props: {
   });
 }
 
-// Static shell precached by the service worker; served as the offline fallback
-// for failed document navigations. No auth / SQLocal / React Query so it works
-// for guests and logged-in users with zero network.
+    // Static shell precached by the SW as the offline fallback; no auth/SQLocal/React Query so it works with zero network.
 export default function OfflinePage() {
   return <OfflineFallback />;
 }

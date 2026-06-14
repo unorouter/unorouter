@@ -35,10 +35,7 @@ import "../globals.css";
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  // The stray double-tap zoom-drift during streaming is killed by
-  // `touch-action: manipulation` on body (globals.css) + the now-pinned sticky
-  // composer (stable layout). So pinch-zoom accessibility is restored instead
-  // of hard-locked; cap at 5x so the page can't be scaled into uselessness.
+      // touch-action:manipulation + pinned sticky composer kill zoom-drift, so pinch-zoom stays enabled; cap 5x.
   maximumScale: 5,
   // Keyboard resizes layout instead of panning it; keeps header + composer in view.
   interactiveWidget: "resizes-content",
@@ -122,9 +119,7 @@ export default async function LocaleLayout(props: Props) {
           }}
         />
         {themeCss ? (
-          // href+precedence = React hoistable style tracked by href, so
-          // extension-injected <style> nodes (Dark Reader) can't be adopted in
-          // its place during hydration and replace the theme CSS.
+              // href+precedence = React hoistable style tracked by href, so extension-injected styles cannot replace theme CSS at hydration.
           <style
             id="user-theme"
             href="user-theme"
