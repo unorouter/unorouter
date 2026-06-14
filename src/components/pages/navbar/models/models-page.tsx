@@ -76,7 +76,7 @@ export function ModelsPage() {
                   <Icon name="x" className="ml-1 h-4 w-4" />
                 </Button>
               )}
-              <div className="relative w-full max-w-xs">
+              <div className="relative hidden w-full max-w-xs lg:block">
                 <Icon
                   name="search"
                   className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2"
@@ -113,6 +113,19 @@ export function ModelsPage() {
               models={m.models}
               value={m.outputModality as OutputModality}
               onChange={(value) => m.setOutputModality(value)}
+            />
+          </div>
+
+          <div className="relative mt-3 w-full lg:hidden">
+            <Icon
+              name="search"
+              className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2"
+            />
+            <Input
+              placeholder={t("MODELS.SEARCH_PLACEHOLDER")}
+              value={m.search}
+              onChange={(e) => m.setSearch(e.target.value)}
+              className="pl-10"
             />
           </div>
 
