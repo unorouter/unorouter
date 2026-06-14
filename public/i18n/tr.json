@@ -2115,7 +2115,10 @@
       "UNEXPECTED_ERROR_OCCURRED": "Beklenmeyen bir hata oluştu. Lütfen tekrar deneyin veya ana sayfaya dönün.",
       "ERROR_DETAILS": "Hata Detayları",
       "DIGEST": "Özet",
-      "SECTION_LOAD_FAILED": "Bu bölüm yüklenemedi."
+      "SECTION_LOAD_FAILED": "Bu bölüm yüklenemedi.",
+      "COPY_ERROR": "Hatayi kopyala",
+      "RESET_APP_DATA": "Uygulama verilerini sifirla ve yeniden yukle",
+      "RESETTING": "Sifirlaniyor..."
     },
     "NOT_FOUND": {
       "TITLE": "Sayfa Bulunamadı",
@@ -2162,7 +2165,8 @@
       "CLEAR_CHAT_TITLE": "Sohbeti temizle?",
       "WIPE_DB_TITLE": "Yerel veritabanını sil?",
       "UPLOAD_DB_TITLE": "Yerel veritabanının üzerine yaz?"
-    }
+    },
+    "COPIED": "Kopyalandi"
   },
   "LANGUAGE": {
     "EN": "English",

@@ -2115,7 +2115,10 @@
       "UNEXPECTED_ERROR_OCCURRED": "Ocurrió un error inesperado. Inténtalo de nuevo o vuelve a la página de inicio.",
       "ERROR_DETAILS": "Detalles del error",
       "DIGEST": "Resumen",
-      "SECTION_LOAD_FAILED": "Esta sección falló al cargar."
+      "SECTION_LOAD_FAILED": "Esta sección falló al cargar.",
+      "COPY_ERROR": "Copiar error",
+      "RESET_APP_DATA": "Restablecer datos de la app y recargar",
+      "RESETTING": "Restableciendo..."
     },
     "NOT_FOUND": {
       "TITLE": "Página no encontrada",
@@ -2162,7 +2165,8 @@
       "CLEAR_CHAT_TITLE": "¿Limpiar chat?",
       "WIPE_DB_TITLE": "¿Borrar base de datos local?",
       "UPLOAD_DB_TITLE": "¿Sobrescribir base de datos local?"
-    }
+    },
+    "COPIED": "Copiado"
   },
   "LANGUAGE": {
     "EN": "English",

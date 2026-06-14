@@ -2115,7 +2115,10 @@
       "UNEXPECTED_ERROR_OCCURRED": "Wystąpił nieoczekiwany błąd. Spróbuj ponownie lub wróć do strony głównej.",
       "ERROR_DETAILS": "Szczegóły błędu",
       "DIGEST": "Digest",
-      "SECTION_LOAD_FAILED": "Ta sekcja nie załadowała się."
+      "SECTION_LOAD_FAILED": "Ta sekcja nie załadowała się.",
+      "COPY_ERROR": "Kopiuj blad",
+      "RESET_APP_DATA": "Zresetuj dane aplikacji i odswiez",
+      "RESETTING": "Resetowanie..."
     },
     "NOT_FOUND": {
       "TITLE": "Strona nie znaleziona",
@@ -2162,7 +2165,8 @@
       "CLEAR_CHAT_TITLE": "Wyczyścić chat?",
       "WIPE_DB_TITLE": "Wymazać lokalną bazę danych?",
       "UPLOAD_DB_TITLE": "Nadpisać lokalną bazę danych?"
-    }
+    },
+    "COPIED": "Skopiowano"
   },
   "LANGUAGE": {
     "EN": "English",

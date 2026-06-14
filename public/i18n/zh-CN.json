@@ -2115,7 +2115,10 @@
       "UNEXPECTED_ERROR_OCCURRED": "发生了意外错误。请重试或返回首页。",
       "ERROR_DETAILS": "错误详情",
       "DIGEST": "摘要",
-      "SECTION_LOAD_FAILED": "此部分加载失败。"
+      "SECTION_LOAD_FAILED": "此部分加载失败。",
+      "COPY_ERROR": "复制错误",
+      "RESET_APP_DATA": "重置应用数据并重新加载",
+      "RESETTING": "正在重置……"
     },
     "NOT_FOUND": {
       "TITLE": "页面未找到",
@@ -2162,7 +2165,8 @@
       "CLEAR_CHAT_TITLE": "清空对话？",
       "WIPE_DB_TITLE": "清空本地数据库？",
       "UPLOAD_DB_TITLE": "覆盖本地数据库？"
-    }
+    },
+    "COPIED": "已复制"
   },
   "LANGUAGE": {
     "EN": "English",

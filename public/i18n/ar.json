@@ -2115,7 +2115,10 @@
       "UNEXPECTED_ERROR_OCCURRED": "حدث خطأ غير متوقّع. حاول مجدّداً أو ارجع إلى الصفحة الرئيسية.",
       "ERROR_DETAILS": "تفاصيل الخطأ",
       "DIGEST": "Digest",
-      "SECTION_LOAD_FAILED": "فشل تحميل هذا القسم."
+      "SECTION_LOAD_FAILED": "فشل تحميل هذا القسم.",
+      "COPY_ERROR": "نسخ الخطأ",
+      "RESET_APP_DATA": "إعادة ضبط بيانات التطبيق وإعادة التحميل",
+      "RESETTING": "جارٍ إعادة الضبط..."
     },
     "NOT_FOUND": {
       "TITLE": "الصفحة غير موجودة",
@@ -2162,7 +2165,8 @@
       "CLEAR_CHAT_TITLE": "مسح الدردشة؟",
       "WIPE_DB_TITLE": "محو قاعدة البيانات المحلية؟",
       "UPLOAD_DB_TITLE": "الكتابة فوق قاعدة البيانات المحلية؟"
-    }
+    },
+    "COPIED": "تم النسخ"
   },
   "LANGUAGE": {
     "EN": "English",
