@@ -63,6 +63,8 @@ export enum Vendor {
   PFNET = "preferred",
   NEXAGI = "nex agi",
   JINA = "jina",
+  AISINGAPORE = "ai singapore",
+  POLLINATIONS = "pollinations",
 }
 
 export enum OS {

@@ -331,6 +331,22 @@ const VENDOR_THEMES: Record<string, VendorTheme> = {
     tagBorder: "border-red-500/20",
     primary: "#e9264b",
   },
+  [Vendor.AISINGAPORE]: {
+    bg: "bg-red-500/5",
+    border: "border-red-500/20",
+    text: "text-red-700 dark:text-red-300",
+    tagBg: "bg-red-500/10",
+    tagBorder: "border-red-500/20",
+    primary: "#ed2939",
+  },
+  [Vendor.POLLINATIONS]: {
+    bg: "bg-pink-500/5",
+    border: "border-pink-500/20",
+    text: "text-pink-700 dark:text-pink-300",
+    tagBg: "bg-pink-500/10",
+    tagBorder: "border-pink-500/20",
+    primary: "#ec4899",
+  },
 };
 
 export const DEFAULT_THEME: VendorTheme = {
