@@ -1958,7 +1958,9 @@
     "LEGAL_TERMS": "सेवा की शर्तें",
     "LEGAL_PRIVACY": "गोपनीयता नीति",
     "SOCIAL_TRUSTPILOT": "Trustpilot",
-    "EASTER_EGG_LABEL": "Token Breakout खेलें"
+    "EASTER_EGG_LABEL": "Token Breakout खेलें",
+    "BADGE_FEATURED_ON": "{name} पर फ़ीचर्ड",
+    "BADGE_VERIFIED_ON": "{name} पर सत्यापित"
   },
   "PRIVACY": {
     "META": {

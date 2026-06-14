@@ -1958,7 +1958,9 @@
     "LEGAL_TERMS": "Nutzungsbedingungen",
     "LEGAL_PRIVACY": "Datenschutzrichtlinie",
     "SOCIAL_TRUSTPILOT": "Trustpilot",
-    "EASTER_EGG_LABEL": "Token Breakout spielen"
+    "EASTER_EGG_LABEL": "Token Breakout spielen",
+    "BADGE_FEATURED_ON": "Vorgestellt auf {name}",
+    "BADGE_VERIFIED_ON": "Verifiziert auf {name}"
   },
   "PRIVACY": {
     "META": {

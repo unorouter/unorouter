@@ -1958,7 +1958,9 @@
     "LEGAL_TERMS": "תנאי השירות",
     "LEGAL_PRIVACY": "מדיניות הפרטיות",
     "SOCIAL_TRUSTPILOT": "Trustpilot",
-    "EASTER_EGG_LABEL": "שחקו ב-Token Breakout"
+    "EASTER_EGG_LABEL": "שחקו ב-Token Breakout",
+    "BADGE_FEATURED_ON": "מופיע ב{name}",
+    "BADGE_VERIFIED_ON": "מאומת ב{name}"
   },
   "PRIVACY": {
     "META": {

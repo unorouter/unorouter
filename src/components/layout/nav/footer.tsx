@@ -35,41 +35,49 @@ const LEGAL_LINKS = [
 // they verify, so the badges stay small. Badge images are self-hosted under
 // /badges so we never inject a cross-origin image (no broken-box flash, no
 // dependency on the dir's CDN, no referrer leak).
+// `name` is a proper noun (not translated); the "Featured on" / "Verified on"
+// connector is the translated part, composed into the img alt at render.
 const FEATURED_BADGES = [
   {
     href: "https://startupfa.me/s/unorouter?utm_source=unorouter.com",
     src: "/badges/startupfame.webp",
-    alt: "UnoRouter - Featured on Startup Fame",
+    name: "Startup Fame",
+    verified: false,
     width: 76,
   },
   {
     href: "https://dang.ai",
     src: "/badges/dang.png",
-    alt: "Verified on DANG!",
+    name: "DANG!",
+    verified: true,
     width: 67,
   },
   {
     href: "https://twelve.tools",
     src: "/badges/twelvetools.svg",
-    alt: "Featured on Twelve Tools",
+    name: "Twelve Tools",
+    verified: false,
     width: 89,
   },
   {
     href: "https://fazier.com",
     src: "/badges/fazier.svg",
-    alt: "Featured on Fazier",
+    name: "Fazier",
+    verified: false,
     width: 102,
   },
   {
     href: "https://code.market",
     src: "/badges/codemarket.svg",
-    alt: "Featured on code.market",
+    name: "code.market",
+    verified: false,
     width: 86,
   },
   {
     href: "https://showmebest.ai",
     src: "/badges/showmebest.webp",
-    alt: "Featured on ShowMeBestAI",
+    name: "ShowMeBestAI",
+    verified: false,
     width: 96,
   },
 ] as const;
@@ -242,7 +250,12 @@ export function Footer() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={badge.src}
-                alt={badge.alt}
+                alt={t(
+                  badge.verified
+                    ? "FOOTER.BADGE_VERIFIED_ON"
+                    : "FOOTER.BADGE_FEATURED_ON",
+                  { name: badge.name },
+                )}
                 width={badge.width}
                 height={24}
                 className="h-6 w-auto"

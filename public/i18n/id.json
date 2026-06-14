@@ -1958,7 +1958,9 @@
     "LEGAL_TERMS": "Ketentuan Layanan",
     "LEGAL_PRIVACY": "Kebijakan Privasi",
     "SOCIAL_TRUSTPILOT": "Trustpilot",
-    "EASTER_EGG_LABEL": "Mainkan Token Breakout"
+    "EASTER_EGG_LABEL": "Mainkan Token Breakout",
+    "BADGE_FEATURED_ON": "Ditampilkan di {name}",
+    "BADGE_VERIFIED_ON": "Terverifikasi di {name}"
   },
   "PRIVACY": {
     "META": {

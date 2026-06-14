@@ -1958,7 +1958,9 @@
     "LEGAL_TERMS": "Términos de servicio",
     "LEGAL_PRIVACY": "Política de privacidad",
     "SOCIAL_TRUSTPILOT": "Trustpilot",
-    "EASTER_EGG_LABEL": "Jugar Token Breakout"
+    "EASTER_EGG_LABEL": "Jugar Token Breakout",
+    "BADGE_FEATURED_ON": "Destacado en {name}",
+    "BADGE_VERIFIED_ON": "Verificado en {name}"
   },
   "PRIVACY": {
     "META": {

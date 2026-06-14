@@ -1958,7 +1958,9 @@
     "LEGAL_TERMS": "서비스 약관",
     "LEGAL_PRIVACY": "개인정보 처리방침",
     "SOCIAL_TRUSTPILOT": "Trustpilot",
-    "EASTER_EGG_LABEL": "Token Breakout 플레이"
+    "EASTER_EGG_LABEL": "Token Breakout 플레이",
+    "BADGE_FEATURED_ON": "{name}에 소개됨",
+    "BADGE_VERIFIED_ON": "{name}에서 인증됨"
   },
   "PRIVACY": {
     "META": {
