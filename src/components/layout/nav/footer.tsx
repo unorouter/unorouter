@@ -136,7 +136,7 @@ export function Footer() {
       id: "trustpilot",
       href: env.trustpilotUrl,
       icon: "brand-trustpilot",
-      label: t("FOOTER.SOCIAL_TRUSTPILOT"),
+      label: "Trustpilot",
     },
     {
       id: "reddit",
