@@ -239,7 +239,8 @@
       "SUPPORTED_PARAMETERS": "פרמטרים נתמכים",
       "PROVIDERS": "ספקים",
       "MIN": "מינ׳",
-      "ANY": "הכול"
+      "ANY": "הכול",
+      "SERIES": "סדרה"
     },
     "DETAIL": {
       "DESCRIPTION": "תיאור",
@@ -405,6 +406,10 @@
       "CONTEXT": "הקשר",
       "INPUT": "טוקני קלט",
       "OUTPUT": "טוקני פלט"
+    },
+    "ACTIONS": {
+      "OPEN_MENU": "פתח תפריט",
+      "COPY_NAME": "העתק שם מודל"
     }
   },
   "RANKINGS": {

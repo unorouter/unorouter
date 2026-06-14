@@ -239,7 +239,8 @@
       "SUPPORTED_PARAMETERS": "対応パラメータ",
       "PROVIDERS": "プロバイダー",
       "MIN": "最小",
-      "ANY": "すべて"
+      "ANY": "すべて",
+      "SERIES": "シリーズ"
     },
     "DETAIL": {
       "DESCRIPTION": "説明",
@@ -405,6 +406,10 @@
       "CONTEXT": "コンテキスト",
       "INPUT": "入力トークン",
       "OUTPUT": "出力トークン"
+    },
+    "ACTIONS": {
+      "OPEN_MENU": "メニューを開く",
+      "COPY_NAME": "モデル名をコピー"
     }
   },
   "RANKINGS": {

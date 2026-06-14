@@ -17,6 +17,7 @@ import {
   searchAtom,
   selectedModelNameAtom,
   selectedVendorsAtom,
+  seriesAtom,
   sortOrderAtom,
   supportedParametersAtom,
   viewModeAtom,
@@ -54,6 +55,7 @@ export function useModelsFilter() {
   const [inputModalities, setInputModalities] = useAtom(inputModalitiesAtom);
   const [contextMin, setContextMin] = useAtom(contextMinAtom);
   const [priceRange, setPriceRange] = useAtom(priceRangeAtom);
+  const [series, setSeries] = useAtom(seriesAtom);
   const [categories, setCategories] = useAtom(categoriesAtom);
   const [supportedParameters, setSupportedParameters] = useAtom(
     supportedParametersAtom,
@@ -75,6 +77,7 @@ export function useModelsFilter() {
     search.trim().length > 0 ||
     selectedVendors.length > 0 ||
     inputModalities.length > 0 ||
+    series.length > 0 ||
     categories.length > 0 ||
     supportedParameters.length > 0 ||
     contextMin > 0 ||
@@ -101,8 +104,13 @@ export function useModelsFilter() {
     const matchesPrice =
       price >= priceRange[0] &&
       (priceRange[1] >= PRICE_MAX || price <= priceRange[1]);
+    // Categories from synced metadata (OpenRouter cards); fall back to tags.
+    const modelCats = model.metadata.categories ?? model.tags;
     const matchesCategories =
-      categories.length === 0 || categories.some((c) => model.tags.includes(c));
+      categories.length === 0 || categories.some((c) => modelCats.includes(c));
+    const matchesSeries =
+      series.length === 0 ||
+      (model.metadata.series ? series.includes(model.metadata.series) : false);
     const modelParams = model.metadata.supportedParametersAll ?? [];
     const matchesParams =
       supportedParameters.length === 0 ||
@@ -114,6 +122,7 @@ export function useModelsFilter() {
       matchesInputModalities &&
       matchesContext &&
       matchesPrice &&
+      matchesSeries &&
       matchesCategories &&
       matchesParams
     );
@@ -167,6 +176,8 @@ export function useModelsFilter() {
     setContextMin,
     priceRange,
     setPriceRange,
+    series,
+    setSeries,
     categories,
     setCategories,
     supportedParameters,

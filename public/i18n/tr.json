@@ -239,7 +239,8 @@
       "SUPPORTED_PARAMETERS": "Desteklenen Parametreler",
       "PROVIDERS": "Sağlayıcılar",
       "MIN": "Min",
-      "ANY": "Herhangi"
+      "ANY": "Herhangi",
+      "SERIES": "Seri"
     },
     "DETAIL": {
       "DESCRIPTION": "Açıklama",
@@ -405,6 +406,10 @@
       "CONTEXT": "bağlam",
       "INPUT": "girdi token",
       "OUTPUT": "çıktı token"
+    },
+    "ACTIONS": {
+      "OPEN_MENU": "Menüyü aç",
+      "COPY_NAME": "Model adını kopyala"
     }
   },
   "RANKINGS": {

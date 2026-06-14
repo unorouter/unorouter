@@ -8,6 +8,7 @@ import { DataTable } from "@/components/elements/table/data-table";
 import { useModelsFilter } from "@/hooks/ui/use-models-hook";
 import { useModelsUrlSync } from "@/hooks/ui/use-models-url-sync";
 import type { OutputModality } from "@/lib/api/model-modality";
+import { Link } from "@/i18n/navigation";
 import { DataTableId } from "@/lib/types/enums";
 import { createTableAtoms } from "@/store/data-table-store";
 import { clearFiltersAtom, isDirtyAtom } from "@/store/models-store";
@@ -43,6 +44,7 @@ export function ModelsPage() {
     rankMap: m.rankMap,
     offLabel: (pct) => t("MODELS.TABLE.OFF", { pct }),
     freeLabel: t("MODELS.TABLE.FREE"),
+    onDetails: (model) => m.setSelectedModelName(model.name),
   });
 
   return (
@@ -55,62 +57,56 @@ export function ModelsPage() {
         className="h-auto min-h-0 overflow-visible"
         style={{ "--sidebar-width": "16rem" } as React.CSSProperties}
       >
-        <ModelsFilterSidebar
-          models={m.models}
-          inputModalities={m.inputModalities}
-          setInputModalities={m.setInputModalities}
-          contextMin={m.contextMin}
-          setContextMin={m.setContextMin}
-          priceRange={m.priceRange}
-          setPriceRange={m.setPriceRange}
-          categories={m.categories}
-          setCategories={m.setCategories}
-          supportedParameters={m.supportedParameters}
-          setSupportedParameters={m.setSupportedParameters}
-          selectedVendors={m.selectedVendors}
-          setSelectedVendors={m.setSelectedVendors}
-          hasActiveFilters={m.hasActiveFilters}
-          onClear={m.clearFilters}
-        />
+        <ModelsFilterSidebar models={m.models} />
 
         {/* Override the inset's own scroll container (max-h-dvh + overflow-auto):
             this page window-scrolls, so the inset must flow in the document for
             the sticky tab + table header to pin against the viewport. */}
         <SidebarInset className="max-h-none overflow-visible bg-transparent px-4 md:px-6">
-          {/* Small SEO H1; subtitle kept for crawlers but visually subdued. */}
-          <h1 className="text-lg font-semibold tracking-tight">
-            {t("MODELS.TITLE")}
-          </h1>
-          <p className="text-muted-foreground sr-only">
-            {t("MODELS.SUBTITLE")}
-          </p>
-
-          {/* One row: reset (when dirty) + search + sort + view. */}
-          <div className="mt-3 mb-4 flex flex-wrap items-center gap-2">
-            {showReset && (
+          {/* One line: SEO H1 (left) + reset/search/compare/sort/view (right). */}
+          <div className="mb-4 flex flex-wrap items-center gap-2">
+            <h1 className="mr-2 text-lg font-semibold tracking-tight">
+              {t("MODELS.TITLE")}
+            </h1>
+            <p className="text-muted-foreground sr-only">
+              {t("MODELS.SUBTITLE")}
+            </p>
+            <div className="ml-auto flex flex-1 items-center justify-end gap-2">
+              {showReset && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={resetAll}
+                  className="h-9 px-2 lg:px-3"
+                >
+                  {t("MODELS.FILTER.RESET")}
+                  <Icon name="x" className="ml-1 h-4 w-4" />
+                </Button>
+              )}
+              <div className="relative w-full max-w-xs">
+                <Icon
+                  name="search"
+                  className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2"
+                />
+                <Input
+                  placeholder={t("MODELS.SEARCH_PLACEHOLDER")}
+                  value={m.search}
+                  onChange={(e) => m.setSearch(e.target.value)}
+                  className="pl-10"
+                />
+              </div>
               <Button
-                variant="ghost"
+                variant="outline"
                 size="sm"
-                onClick={resetAll}
+                nativeButton={false}
+                render={<Link href="/compare" />}
                 className="h-9 px-2 lg:px-3"
               >
-                {t("MODELS.FILTER.RESET")}
-                <Icon name="x" className="ml-1 h-4 w-4" />
+                <Icon name="chart-column" className="h-4 w-4 lg:mr-1.5" />
+                <span className="hidden lg:inline">
+                  {t("MODELS.COMPARE.BADGE")}
+                </span>
               </Button>
-            )}
-            <div className="relative w-full max-w-xs">
-              <Icon
-                name="search"
-                className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2"
-              />
-              <Input
-                placeholder={t("MODELS.SEARCH_PLACEHOLDER")}
-                value={m.search}
-                onChange={(e) => m.setSearch(e.target.value)}
-                className="pl-10"
-              />
-            </div>
-            <div className="ml-auto flex items-center gap-2">
               <SortFilter />
               <ViewModeToggle />
             </div>
@@ -138,7 +134,6 @@ export function ModelsPage() {
                 data={m.filtered}
                 columns={columns}
                 localSorting
-                onRowClick={(model) => m.setSelectedModelName(model.name)}
               />
             ) : (
               m.filtered.map((model) => (

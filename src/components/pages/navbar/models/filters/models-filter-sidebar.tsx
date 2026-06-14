@@ -8,6 +8,18 @@ import {
   SidebarHeader,
 } from "@/components/ui/sidebar";
 import type { ProcessedModel } from "@/lib/api/pricing";
+import {
+  categoriesAtom,
+  clearFiltersAtom,
+  contextMinAtom,
+  inputModalitiesAtom,
+  isDirtyAtom,
+  priceRangeAtom,
+  selectedVendorsAtom,
+  seriesAtom,
+  supportedParametersAtom,
+} from "@/store/models-store";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import {
   ContextGroup,
@@ -20,30 +32,36 @@ function uniqueSorted(values: string[]): string[] {
   return [...new Set(values)].sort((a, b) => a.localeCompare(b));
 }
 
-export function ModelsFilterSidebar(props: {
-  models: ProcessedModel[];
-  inputModalities: string[];
-  setInputModalities: (v: string[]) => void;
-  contextMin: number;
-  setContextMin: (v: number) => void;
-  priceRange: [number, number];
-  setPriceRange: (v: [number, number]) => void;
-  categories: string[];
-  setCategories: (v: string[]) => void;
-  supportedParameters: string[];
-  setSupportedParameters: (v: string[]) => void;
-  selectedVendors: string[];
-  setSelectedVendors: (v: string[]) => void;
-  hasActiveFilters: boolean;
-  onClear: () => void;
-}) {
+// Reads filter state straight from the models store (no prop drilling); only
+// `models` is passed since it comes from the pricing query, not the store.
+export function ModelsFilterSidebar(props: { models: ProcessedModel[] }) {
   const t = useTranslations();
 
-  // Category options come from model tags (excluding the modality-type tag).
+  const [inputModalities, setInputModalities] = useAtom(inputModalitiesAtom);
+  const [contextMin, setContextMin] = useAtom(contextMinAtom);
+  const [priceRange, setPriceRange] = useAtom(priceRangeAtom);
+  const [series, setSeries] = useAtom(seriesAtom);
+  const [categories, setCategories] = useAtom(categoriesAtom);
+  const [supportedParameters, setSupportedParameters] = useAtom(
+    supportedParametersAtom,
+  );
+  const [selectedVendors, setSelectedVendors] = useAtom(selectedVendorsAtom);
+  const isDirty = useAtomValue(isDirtyAtom);
+  const clearFilters = useSetAtom(clearFiltersAtom);
+
+  const seriesOptions = uniqueSorted(
+    props.models
+      .map((m) => m.metadata.series)
+      .filter((s): s is string => Boolean(s)),
+  );
+  // Categories from synced metadata (OpenRouter cards); fall back to tags
+  // (excluding the modality-type tag) when metadata is absent.
   const typeTags = new Set(["text", "image", "video", "audio", "embedding"]);
   const categoryOptions = uniqueSorted(
     props.models.flatMap((m) =>
-      m.tags.filter((tag) => !typeTags.has(tag.toLowerCase())),
+      m.metadata.categories && m.metadata.categories.length > 0
+        ? m.metadata.categories
+        : m.tags.filter((tag) => !typeTags.has(tag.toLowerCase())),
     ),
   );
   const paramOptions = uniqueSorted(
@@ -52,19 +70,16 @@ export function ModelsFilterSidebar(props: {
   const vendorOptions = uniqueSorted(props.models.map((m) => m.vendor.name));
 
   return (
-    <Sidebar
-      collapsible="offcanvas"
-      className="top-14 bottom-0 h-auto"
-    >
+    <Sidebar collapsible="offcanvas" className="top-14 bottom-0 h-auto">
       <SidebarHeader className="flex-row items-center justify-between px-3 py-2">
         <span className="font-mono text-sm font-medium">
           {t("MODELS.FILTER.TITLE")}
         </span>
-        {props.hasActiveFilters && (
+        {isDirty && (
           <Button
             variant="ghost"
             size="sm"
-            onClick={props.onClear}
+            onClick={() => clearFilters()}
             className="h-7 px-2"
           >
             {t("MODELS.FILTER.RESET")}
@@ -72,30 +87,36 @@ export function ModelsFilterSidebar(props: {
           </Button>
         )}
       </SidebarHeader>
-      <SidebarContent>
+      <SidebarContent className="gap-4 px-3 py-2">
         <InputModalitiesGroup
-          value={props.inputModalities}
-          onChange={props.setInputModalities}
+          value={inputModalities}
+          onChange={setInputModalities}
         />
-        <ContextGroup value={props.contextMin} onChange={props.setContextMin} />
-        <PriceGroup value={props.priceRange} onChange={props.setPriceRange} />
+        <ContextGroup value={contextMin} onChange={setContextMin} />
+        <PriceGroup value={priceRange} onChange={setPriceRange} />
+        <MultiSelectGroup
+          label={t("MODELS.FILTER.SERIES")}
+          options={seriesOptions}
+          value={series}
+          onChange={setSeries}
+        />
         <MultiSelectGroup
           label={t("MODELS.FILTER.CATEGORIES")}
           options={categoryOptions}
-          value={props.categories}
-          onChange={props.setCategories}
+          value={categories}
+          onChange={setCategories}
         />
         <MultiSelectGroup
           label={t("MODELS.FILTER.SUPPORTED_PARAMETERS")}
           options={paramOptions}
-          value={props.supportedParameters}
-          onChange={props.setSupportedParameters}
+          value={supportedParameters}
+          onChange={setSupportedParameters}
         />
         <MultiSelectGroup
           label={t("MODELS.FILTER.PROVIDERS")}
           options={vendorOptions}
-          value={props.selectedVendors}
-          onChange={props.setSelectedVendors}
+          value={selectedVendors}
+          onChange={setSelectedVendors}
         />
       </SidebarContent>
     </Sidebar>

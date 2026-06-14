@@ -239,7 +239,8 @@
       "SUPPORTED_PARAMETERS": "Unterstützte Parameter",
       "PROVIDERS": "Anbieter",
       "MIN": "Min",
-      "ANY": "Beliebig"
+      "ANY": "Beliebig",
+      "SERIES": "Serie"
     },
     "DETAIL": {
       "DESCRIPTION": "Beschreibung",
@@ -405,6 +406,10 @@
       "CONTEXT": "Kontext",
       "INPUT": "Eingabe-Tokens",
       "OUTPUT": "Ausgabe-Tokens"
+    },
+    "ACTIONS": {
+      "OPEN_MENU": "Menü öffnen",
+      "COPY_NAME": "Modellname kopieren"
     }
   },
   "RANKINGS": {

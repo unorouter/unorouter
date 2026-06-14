@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useTranslations } from "next-intl";
 import { posthog } from "@/lib/posthog-lazy";
+import { cn } from "@/lib/utils";
 import { clearAllClientStorage, formatError } from "@/lib/utils/recovery";
 import { useEffect, useState } from "react";
 
@@ -20,6 +21,7 @@ type ErrorFallbackProps = {
   reset?: () => void;
   homePath?: string;
   fullScreen?: boolean;
+  className?: string;
 };
 
 export function ErrorFallback(props: ErrorFallbackProps) {
@@ -50,7 +52,11 @@ export function ErrorFallback(props: ErrorFallbackProps) {
 
   return (
     <div
-      className={`flex items-center justify-center p-4 ${props.fullScreen ? "bg-background min-h-screen" : "flex-1"}`}
+      className={cn(
+        "flex items-center justify-center p-4",
+        props.fullScreen ? "bg-background min-h-screen" : "flex-1",
+        props.className,
+      )}
     >
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
@@ -66,7 +72,7 @@ export function ErrorFallback(props: ErrorFallbackProps) {
             {t("MAIN.ERROR.UNEXPECTED_ERROR_OCCURRED")}
           </p>
 
-          <details className="text-left">
+          <details className="text-left" open>
             <summary className="text-muted-foreground hover:text-foreground cursor-pointer text-sm font-medium">
               {t("MAIN.ERROR.ERROR_DETAILS")}
             </summary>

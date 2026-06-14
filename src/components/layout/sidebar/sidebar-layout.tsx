@@ -1,5 +1,6 @@
 "use client";
 
+import { ContentBoundary } from "@/components/elements/feedback/content-boundary";
 import type { SidebarNavConfig } from "@/components/layout/sidebar/app-sidebar";
 import { AppSidebar } from "@/components/layout/sidebar/app-sidebar";
 import { SidebarHeader } from "@/components/layout/sidebar/sidebar-header";
@@ -59,7 +60,9 @@ export function SidebarLayout(props: SidebarLayoutProps) {
           showSearch={props.showSearch}
           navConfig={props.navConfig}
         />
-        <div className="flex min-h-0 min-w-0 flex-1">{props.children}</div>
+        <div className="flex min-h-0 min-w-0 flex-1">
+          <ContentBoundary>{props.children}</ContentBoundary>
+        </div>
       </SidebarInset>
     </SidebarProvider>
   );

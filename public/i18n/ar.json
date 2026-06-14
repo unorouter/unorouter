@@ -239,7 +239,8 @@
       "SUPPORTED_PARAMETERS": "المعلمات المدعومة",
       "PROVIDERS": "المزودون",
       "MIN": "الأدنى",
-      "ANY": "الكل"
+      "ANY": "الكل",
+      "SERIES": "السلسلة"
     },
     "DETAIL": {
       "DESCRIPTION": "الوصف",
@@ -405,6 +406,10 @@
       "CONTEXT": "سياق",
       "INPUT": "رموز الإدخال",
       "OUTPUT": "رموز الإخراج"
+    },
+    "ACTIONS": {
+      "OPEN_MENU": "فتح القائمة",
+      "COPY_NAME": "نسخ اسم النموذج"
     }
   },
   "RANKINGS": {

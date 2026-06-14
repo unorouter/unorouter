@@ -239,7 +239,8 @@
       "SUPPORTED_PARAMETERS": "Tham số được hỗ trợ",
       "PROVIDERS": "Nhà cung cấp",
       "MIN": "Tối thiểu",
-      "ANY": "Bất kỳ"
+      "ANY": "Bất kỳ",
+      "SERIES": "Dòng"
     },
     "DETAIL": {
       "DESCRIPTION": "Mô tả",
@@ -405,6 +406,10 @@
       "CONTEXT": "ngữ cảnh",
       "INPUT": "token đầu vào",
       "OUTPUT": "token đầu ra"
+    },
+    "ACTIONS": {
+      "OPEN_MENU": "Mở menu",
+      "COPY_NAME": "Sao chép tên mô hình"
     }
   },
   "RANKINGS": {
