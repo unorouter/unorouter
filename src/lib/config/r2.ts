@@ -202,7 +202,7 @@ async function readBodyWithLimit(res: UndiciResponse): Promise<Buffer> {
   return Buffer.concat(chunks);
 }
 
-    // SSRF-safe remote fetch for caller-supplied URLs: runs the full allowlist (CIDR/DNS filter, redirect:manual, port + protocol checks) and caps bytes. Returns body + content-type.
+    // SSRF-safe fetch for caller-supplied URLs: full allowlist (CIDR/DNS, redirect:manual, port/protocol) and a byte cap. Returns body + content-type.
 export async function safeFetchBytes(
   url: string,
   maxBytes: number,
