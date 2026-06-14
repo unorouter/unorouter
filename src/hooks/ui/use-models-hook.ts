@@ -39,6 +39,30 @@ function effectivePrice(model: ProcessedModel): number {
   return model.isFixedPrice ? model.fixedPrice : model.inputPrice;
 }
 
+// "free" in every supported locale, so searching the localized word surfaces free models regardless of UI language.
+const FREE_KEYWORDS = [
+  "free",
+  "gratis",
+  "gratuit",
+  "grátis",
+  "مجاني",
+  "חינם",
+  "मुफ़्त",
+  "無料",
+  "무료",
+  "za darmo",
+  "бесплатно",
+  "ücretsiz",
+  "miễn phí",
+  "免费",
+  "免費",
+];
+
+function matchesFreeKeyword(query: string): boolean {
+  if (query.length < 2) return false;
+  return FREE_KEYWORDS.some((word) => word.toLowerCase().includes(query));
+}
+
 export function useModelsFilter() {
   const { data } = usePricingQuery();
   const rankings = useRankingsQuery("week");
@@ -90,7 +114,7 @@ export function useModelsFilter() {
       query.length === 0 ||
       model.name.toLowerCase().includes(query) ||
       model.vendor.name.toLowerCase().includes(query) ||
-      (model.isFree && query.length >= 2 && "free".startsWith(query));
+      (model.isFree && matchesFreeKeyword(query));
     const matchesModality = deriveOutputModality(model) === outputModality;
     const matchesVendor =
       selectedVendors.length === 0 ||
