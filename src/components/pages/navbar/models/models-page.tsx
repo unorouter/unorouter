@@ -1,45 +1,53 @@
 "use client";
 
-import { PageHeader } from "@/components/elements/content/page-header";
+import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { Input } from "@/components/ui/input";
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { DataTable } from "@/components/elements/table/data-table";
 import { useModelsFilter } from "@/hooks/ui/use-models-hook";
 import { useModelsUrlSync } from "@/hooks/ui/use-models-url-sync";
 import type { OutputModality } from "@/lib/api/model-modality";
+import { DataTableId } from "@/lib/types/enums";
+import { createTableAtoms } from "@/store/data-table-store";
+import { clearFiltersAtom, isDirtyAtom } from "@/store/models-store";
+import { useAtomValue, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { ModelListCard } from "./browse/model-list-card";
-import { ModelTableHeader } from "./browse/model-table-header";
-import { ModelTableRow } from "./browse/model-table-row";
+import { buildModelColumns } from "./browse/model-columns";
 import { ModelDetailSheet } from "./detail/model-detail-sheet";
 import { ModelsFilterSidebar } from "./filters/models-filter-sidebar";
 import { ModalityTabs } from "./filters/modality-tabs";
 import { SortFilter } from "./filters/sort-filter";
 import { ViewModeToggle } from "./filters/view-mode-toggle";
 
+const TABLE_STORE = { pagination: { pageIndex: 0, pageSize: 1000 } };
+const modelsTableAtoms = createTableAtoms(DataTableId.MODELS);
+
 export function ModelsPage() {
   const t = useTranslations();
   const m = useModelsFilter();
   useModelsUrlSync();
 
+  const clearFilters = useSetAtom(clearFiltersAtom);
+  const isDirty = useAtomValue(isDirtyAtom);
+  const columnSorting = useAtomValue(modelsTableAtoms.sortingAtom);
+  const setColumnSorting = useSetAtom(modelsTableAtoms.sortingAtom);
+  const showReset = isDirty || columnSorting.length > 0;
+
+  function resetAll() {
+    clearFilters();
+    setColumnSorting([]);
+  }
+
+  const columns = buildModelColumns({
+    rankMap: m.rankMap,
+    offLabel: (pct) => t("MODELS.TABLE.OFF", { pct }),
+    freeLabel: t("MODELS.TABLE.FREE"),
+  });
+
   return (
     <div className="w-full pt-20 pb-16">
-      <div className="mx-auto max-w-7xl px-6">
-        <PageHeader
-          badge={t("MODELS.BADGE")}
-          badgeIcon="layers"
-          title={t("MODELS.TITLE")}
-          subtitle={t("MODELS.SUBTITLE")}
-          color="#22d3ee"
-          centered
-          className="mb-10"
-        />
-      </div>
-
       {/* Override the provider wrapper's `h-dvh overflow-hidden` (built for an
           app shell with its own inner scroll): this page window-scrolls, so the
           wrapper must flow in the document or the list gets clipped/unscrollable. */}
@@ -70,30 +78,41 @@ export function ModelsPage() {
             this page window-scrolls, so the inset must flow in the document for
             the sticky tab + table header to pin against the viewport. */}
         <SidebarInset className="max-h-none overflow-visible bg-transparent px-4 md:px-6">
-          <div className="mb-4 flex flex-wrap items-center justify-between gap-2 md:gap-4">
-            <div className="flex items-center gap-2">
-              <SidebarTrigger className="shrink-0" />
-              <p className="text-muted-foreground font-mono text-sm">
-                {m.filtered.length} {t("MODELS.MODEL_COUNT")}
-              </p>
-            </div>
-            <div className="flex flex-wrap items-center gap-1.5 md:gap-2">
-              <SortFilter />
-              <ViewModeToggle />
-            </div>
-          </div>
+          {/* Small SEO H1; subtitle kept for crawlers but visually subdued. */}
+          <h1 className="text-lg font-semibold tracking-tight">
+            {t("MODELS.TITLE")}
+          </h1>
+          <p className="text-muted-foreground sr-only">
+            {t("MODELS.SUBTITLE")}
+          </p>
 
-          <div className="relative mb-4">
-            <Icon
-              name="search"
-              className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2"
-            />
-            <Input
-              placeholder={t("MODELS.SEARCH_PLACEHOLDER")}
-              value={m.search}
-              onChange={(e) => m.setSearch(e.target.value)}
-              className="pl-10"
-            />
+          {/* One row: search (grows) + controls. */}
+          <div className="mt-3 mb-4 flex flex-wrap items-center gap-2">
+            <div className="relative min-w-48 flex-1">
+              <Icon
+                name="search"
+                className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2"
+              />
+              <Input
+                placeholder={t("MODELS.SEARCH_PLACEHOLDER")}
+                value={m.search}
+                onChange={(e) => m.setSearch(e.target.value)}
+                className="pl-10"
+              />
+            </div>
+            {showReset && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={resetAll}
+                className="h-9 px-2 lg:px-3"
+              >
+                {t("MODELS.FILTER.RESET")}
+                <Icon name="x" className="ml-1 h-4 w-4" />
+              </Button>
+            )}
+            <SortFilter />
+            <ViewModeToggle />
           </div>
 
           {/* Tabs + table header stick together as one unit under the navbar
@@ -105,12 +124,6 @@ export function ModelsPage() {
               value={m.outputModality as OutputModality}
               onChange={(value) => m.setOutputModality(value)}
             />
-            {m.viewMode === "table" && m.filtered.length > 0 && (
-              <ModelTableHeader
-                sortOrder={m.sortOrder}
-                onSort={(sort) => m.setSortOrder(sort)}
-              />
-            )}
           </div>
 
           <div className="mt-4">
@@ -119,14 +132,14 @@ export function ModelsPage() {
                 {t("MODELS.EMPTY")}
               </div>
             ) : m.viewMode === "table" ? (
-              m.filtered.map((model) => (
-                <ModelTableRow
-                  key={model.name}
-                  model={model}
-                  rank={m.rankMap.get(model.name)}
-                  onClick={() => m.setSelectedModelName(model.name)}
-                />
-              ))
+              <DataTable
+                id={DataTableId.MODELS}
+                data={m.filtered}
+                columns={columns}
+                localSorting
+                tableStore={TABLE_STORE}
+                onRowClick={(model) => m.setSelectedModelName(model.name)}
+              />
             ) : (
               m.filtered.map((model) => (
                 <ModelListCard

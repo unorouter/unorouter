@@ -377,7 +377,10 @@
       "CONTEXT": "Ngữ cảnh",
       "RELEASED": "Phát hành",
       "OFF": "giảm {pct}%",
-      "FREE": "miễn phí"
+      "FREE": "miễn phí",
+      "SORT_ASC": "Tăng dần",
+      "SORT_DESC": "Giảm dần",
+      "SORT_RESET": "Đặt lại"
     },
     "COMPARE": {
       "BADGE": "So sánh",

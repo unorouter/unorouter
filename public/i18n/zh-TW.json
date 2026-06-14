@@ -377,7 +377,10 @@
       "CONTEXT": "上下文",
       "RELEASED": "發布日期",
       "OFF": "{pct}% 優惠",
-      "FREE": "免費"
+      "FREE": "免費",
+      "SORT_ASC": "升序",
+      "SORT_DESC": "降序",
+      "SORT_RESET": "重置"
     },
     "COMPARE": {
       "BADGE": "對比",

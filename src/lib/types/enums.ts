@@ -74,6 +74,7 @@ export enum OS {
 export const OS_VALUES = Object.values(OS);
 
 export enum DataTableId {
+  MODELS = "MODELS",
   TOKENS = "TOKENS",
   LOGS = "LOGS",
   MIDJOURNEY_LOGS = "MIDJOURNEY_LOGS",

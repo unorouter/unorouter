@@ -377,7 +377,10 @@
       "CONTEXT": "הקשר",
       "RELEASED": "תאריך שחרור",
       "OFF": "{pct}% הנחה",
-      "FREE": "חינם"
+      "FREE": "חינם",
+      "SORT_ASC": "עולה",
+      "SORT_DESC": "יורד",
+      "SORT_RESET": "איפוס"
     },
     "COMPARE": {
       "BADGE": "השוואה",

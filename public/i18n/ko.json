@@ -377,7 +377,10 @@
       "CONTEXT": "컨텍스트",
       "RELEASED": "출시일",
       "OFF": "{pct}% 할인",
-      "FREE": "무료"
+      "FREE": "무료",
+      "SORT_ASC": "오름차순",
+      "SORT_DESC": "내림차순",
+      "SORT_RESET": "초기화"
     },
     "COMPARE": {
       "BADGE": "비교",

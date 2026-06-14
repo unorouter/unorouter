@@ -377,7 +377,10 @@
       "CONTEXT": "संदर्भ",
       "RELEASED": "जारी",
       "OFF": "{pct}% छूट",
-      "FREE": "मुफ़्त"
+      "FREE": "मुफ़्त",
+      "SORT_ASC": "आरोही",
+      "SORT_DESC": "अवरोही",
+      "SORT_RESET": "रीसेट"
     },
     "COMPARE": {
       "BADGE": "तुलना",

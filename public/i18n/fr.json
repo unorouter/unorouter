@@ -377,7 +377,10 @@
       "CONTEXT": "Contexte",
       "RELEASED": "Sortie",
       "OFF": "{pct}% de réduction",
-      "FREE": "gratuit"
+      "FREE": "gratuit",
+      "SORT_ASC": "Croissant",
+      "SORT_DESC": "Décroissant",
+      "SORT_RESET": "Réinitialiser"
     },
     "COMPARE": {
       "BADGE": "Comparer",

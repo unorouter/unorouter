@@ -377,7 +377,10 @@
       "CONTEXT": "コンテキスト",
       "RELEASED": "リリース",
       "OFF": "{pct}%オフ",
-      "FREE": "無料"
+      "FREE": "無料",
+      "SORT_ASC": "昇順",
+      "SORT_DESC": "降順",
+      "SORT_RESET": "リセット"
     },
     "COMPARE": {
       "BADGE": "比較",

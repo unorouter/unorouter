@@ -21,6 +21,7 @@ import {
   getCoreRowModel,
   getExpandedRowModel,
   getPaginationRowModel,
+  getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 import { useAtomValue, useSetAtom } from "jotai";
@@ -41,8 +42,11 @@ interface DataTableProps<TData, TValue> {
   total?: number;
   tableStore?: Partial<TableState>;
   columnVisibility?: boolean;
+  /** Client-side sort + pagination over the full `data` (no server round-trip). */
+  localSorting?: boolean;
   isLoading?: boolean;
   emptyState?: ReactNode;
+  onRowClick?: (row: TData) => void;
   filter?: (props: { table: TTable<TData> }) => ReactNode;
   actions?: (props: { table: TTable<TData> }) => ReactNode;
   renderExpandedRow?: (row: Row<TData>) => ReactNode;
@@ -56,6 +60,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
   const setGlobalFilter = useSetAtom(tableAtoms.globalFilterAtom);
   const setColumnVisibility = useSetAtom(tableAtoms.columnVisibilityAtom);
   const setColumnFilters = useSetAtom(tableAtoms.columnFiltersAtom);
+  const setSorting = useSetAtom(tableAtoms.sortingAtom);
   const setPagination = useSetAtom(tableAtoms.paginationAtom);
   const [expanded, setExpanded] = useState({});
 
@@ -66,6 +71,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
       globalFilter: store.globalFilter,
       columnVisibility: store.columnVisibility,
       columnFilters: store.columnFilters,
+      sorting: store.sorting,
       pagination: store.pagination,
       expanded,
     },
@@ -75,6 +81,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
       : undefined,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    ...(props.localSorting ? { getSortedRowModel: getSortedRowModel() } : {}),
     ...(props.renderExpandedRow
       ? { getExpandedRowModel: getExpandedRowModel() }
       : {}),
@@ -83,9 +90,11 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
     onGlobalFilterChange: setGlobalFilter,
     onColumnVisibilityChange: setColumnVisibility,
     onColumnFiltersChange: setColumnFilters,
+    onSortingChange: setSorting,
     onPaginationChange: setPagination,
-    manualPagination: true,
-    manualFiltering: true,
+    manualPagination: !props.localSorting,
+    manualSorting: !props.localSorting,
+    manualFiltering: !props.localSorting,
   });
 
   return (
@@ -167,11 +176,15 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
                   <React.Fragment key={row.id}>
                     <TableRow
                       className={cn(
-                        canExpand && "cursor-pointer",
+                        (canExpand || props.onRowClick) && "cursor-pointer",
                         row.getIsExpanded() && "bg-muted/30",
                       )}
                       onClick={
-                        canExpand ? () => row.toggleExpanded() : undefined
+                        canExpand
+                          ? () => row.toggleExpanded()
+                          : props.onRowClick
+                            ? () => props.onRowClick!(row.original)
+                            : undefined
                       }
                     >
                       {row.getVisibleCells().map((cell) => {
