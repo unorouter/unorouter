@@ -1958,7 +1958,9 @@
     "LEGAL_TERMS": "Условиями использования",
     "LEGAL_PRIVACY": "Политикой конфиденциальности",
     "SOCIAL_TRUSTPILOT": "Trustpilot",
-    "EASTER_EGG_LABEL": "Сыграть в Token Breakout"
+    "EASTER_EGG_LABEL": "Сыграть в Token Breakout",
+    "BADGE_FEATURED_ON": "Представлено на {name}",
+    "BADGE_VERIFIED_ON": "Проверено на {name}"
   },
   "PRIVACY": {
     "META": {

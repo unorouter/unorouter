@@ -1958,7 +1958,9 @@
     "LEGAL_TERMS": "利用規約",
     "LEGAL_PRIVACY": "プライバシーポリシー",
     "SOCIAL_TRUSTPILOT": "Trustpilot",
-    "EASTER_EGG_LABEL": "Token Breakout で遊ぶ"
+    "EASTER_EGG_LABEL": "Token Breakout で遊ぶ",
+    "BADGE_FEATURED_ON": "{name}に掲載",
+    "BADGE_VERIFIED_ON": "{name}で認証済み"
   },
   "PRIVACY": {
     "META": {

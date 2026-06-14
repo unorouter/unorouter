@@ -1958,7 +1958,9 @@
     "LEGAL_TERMS": "شروط الخدمة",
     "LEGAL_PRIVACY": "سياسة الخصوصية",
     "SOCIAL_TRUSTPILOT": "Trustpilot",
-    "EASTER_EGG_LABEL": "العب Token Breakout"
+    "EASTER_EGG_LABEL": "العب Token Breakout",
+    "BADGE_FEATURED_ON": "مميز على {name}",
+    "BADGE_VERIFIED_ON": "موثق على {name}"
   },
   "PRIVACY": {
     "META": {

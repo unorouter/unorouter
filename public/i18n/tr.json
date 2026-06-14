@@ -1958,7 +1958,9 @@
     "LEGAL_TERMS": "Hizmet Şartlarımızı",
     "LEGAL_PRIVACY": "Gizlilik Politikamızı okuyup kabul ettiğinizi onaylarsınız",
     "SOCIAL_TRUSTPILOT": "Trustpilot",
-    "EASTER_EGG_LABEL": "Token Breakout Oyna"
+    "EASTER_EGG_LABEL": "Token Breakout Oyna",
+    "BADGE_FEATURED_ON": "{name} uzerinde one cikan",
+    "BADGE_VERIFIED_ON": "{name} uzerinde dogrulandi"
   },
   "PRIVACY": {
     "META": {

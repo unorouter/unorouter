@@ -1958,7 +1958,9 @@
     "LEGAL_TERMS": "服務條款",
     "LEGAL_PRIVACY": "隱私權政策",
     "SOCIAL_TRUSTPILOT": "Trustpilot",
-    "EASTER_EGG_LABEL": "玩一場 Token Breakout"
+    "EASTER_EGG_LABEL": "玩一場 Token Breakout",
+    "BADGE_FEATURED_ON": "已在 {name} 推薦",
+    "BADGE_VERIFIED_ON": "已在 {name} 驗證"
   },
   "PRIVACY": {
     "META": {

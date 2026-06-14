@@ -1958,7 +1958,9 @@
     "LEGAL_TERMS": "Điều khoản dịch vụ",
     "LEGAL_PRIVACY": "Chính sách bảo mật",
     "SOCIAL_TRUSTPILOT": "Trustpilot",
-    "EASTER_EGG_LABEL": "Chơi Token Breakout"
+    "EASTER_EGG_LABEL": "Chơi Token Breakout",
+    "BADGE_FEATURED_ON": "Duoc gioi thieu tren {name}",
+    "BADGE_VERIFIED_ON": "Da xac minh tren {name}"
   },
   "PRIVACY": {
     "META": {

@@ -1958,7 +1958,9 @@
     "LEGAL_TERMS": "服务条款",
     "LEGAL_PRIVACY": "隐私政策",
     "SOCIAL_TRUSTPILOT": "Trustpilot",
-    "EASTER_EGG_LABEL": "玩 Token 打砖块"
+    "EASTER_EGG_LABEL": "玩 Token 打砖块",
+    "BADGE_FEATURED_ON": "已在 {name} 推荐",
+    "BADGE_VERIFIED_ON": "已在 {name} 验证"
   },
   "PRIVACY": {
     "META": {
