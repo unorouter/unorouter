@@ -149,19 +149,28 @@ export interface AnnouncementEntry {
   type?: string;
 }
 
-export type SearchChannelsDataTypeCounts = { [key: string]: number } | null;
-
-export interface SearchChannelsData {
-  items: Channel[] | null;
-  total: number;
-  type_counts: SearchChannelsDataTypeCounts;
+export interface Vendor {
+  created_time: number;
+  description?: string;
+  icon?: string;
+  id: number;
+  name: string;
+  status: number;
+  updated_time: number;
 }
 
+export type AnonymousSchema0Data = {
+  items: Vendor[] | null;
+  page: number;
+  page_size: number;
+  total: number;
+};
+
 /**
- * Response_controller.SearchChannelsData schema
+ * Response_dto.PageData-model.Vendor schema
  */
 export interface AnonymousSchema0 {
-  data: SearchChannelsData;
+  data: AnonymousSchema0Data;
   message: string;
   success: boolean;
 }
@@ -1517,6 +1526,7 @@ export interface PricingModel {
   cache_ratio?: number | null;
   completion_ratio: number;
   create_cache_ratio?: number | null;
+  created_time?: number;
   description?: string;
   enable_groups: string[] | null;
   grid_pricing?: unknown;
@@ -1880,6 +1890,14 @@ export interface ResponseControllerPatchChannel {
   data: PatchChannel;
   message: string;
   success: boolean;
+}
+
+export type SearchChannelsDataTypeCounts = { [key: string]: number } | null;
+
+export interface SearchChannelsData {
+  items: Channel[] | null;
+  total: number;
+  type_counts: SearchChannelsDataTypeCounts;
 }
 
 /**
@@ -2533,16 +2551,6 @@ export interface ResponseDtoPageDataModelUser {
   data: ResponseDtoPageDataModelUserData;
   message: string;
   success: boolean;
-}
-
-export interface Vendor {
-  created_time: number;
-  description?: string;
-  icon?: string;
-  id: number;
-  name: string;
-  status: number;
-  updated_time: number;
 }
 
 export type ResponseDtoPageDataModelVendorData = {

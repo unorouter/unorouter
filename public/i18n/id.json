@@ -26,7 +26,8 @@
     "LOG_IN": "Masuk",
     "CHAT": "Chat",
     "PLAYGROUND": "Playground",
-    "STATUS": "Status"
+    "STATUS": "Status",
+    "COMPARE": "Bandingkan"
   },
   "HOME": {
     "HERO": {
@@ -229,7 +230,16 @@
       "NO_PROVIDERS": "Tidak ada penyedia ditemukan.",
       "SELECTED": "dipilih",
       "CLEAR": "Hapus filter",
-      "RESET": "Reset"
+      "RESET": "Reset",
+      "TITLE": "Filter",
+      "INPUT_MODALITIES": "Modalitas Input",
+      "CONTEXT_LENGTH": "Panjang konteks",
+      "PROMPT_PRICING": "Harga prompt",
+      "CATEGORIES": "Kategori",
+      "SUPPORTED_PARAMETERS": "Parameter yang Didukung",
+      "PROVIDERS": "Penyedia",
+      "MIN": "Min",
+      "ANY": "Apa saja"
     },
     "DETAIL": {
       "DESCRIPTION": "Deskripsi",
@@ -300,11 +310,16 @@
     "SORT": {
       "NAME": "Nama (A ke Z)",
       "PRICE_ASC": "Harga (Rendah)",
-      "PRICE_DESC": "Harga (Tinggi)"
+      "PRICE_DESC": "Harga (Tinggi)",
+      "NEWEST": "Terbaru",
+      "POPULAR": "Terpopuler",
+      "TOP_WEEKLY": "Teratas Mingguan",
+      "CONTEXT_DESC": "Konteks (Tinggi)"
     },
     "VIEW": {
       "GRID": "Tampilan grid",
-      "LIST": "Tampilan daftar"
+      "LIST": "Tampilan daftar",
+      "TABLE": "Tampilan tabel"
     },
     "META": {
       "TITLE": "Model AI - {appName}",
@@ -346,6 +361,47 @@
       "LATENCY": "Lat.",
       "TPS": "TPS",
       "STATUS": "Status"
+    },
+    "MODALITY": {
+      "TEXT": "Teks",
+      "IMAGE": "Gambar",
+      "AUDIO": "Audio",
+      "VIDEO": "Video",
+      "EMBEDDINGS": "Embedding"
+    },
+    "TABLE": {
+      "MODEL": "Model",
+      "WEEKLY_TOKENS": "Token Mingguan",
+      "INPUT": "Input",
+      "OUTPUT": "Output",
+      "CONTEXT": "Konteks",
+      "RELEASED": "Dirilis",
+      "OFF": "Diskon {pct}%",
+      "FREE": "gratis"
+    },
+    "COMPARE": {
+      "BADGE": "Bandingkan",
+      "TITLE": "Perbandingan Model AI",
+      "SUBTITLE": "Bandingkan model AI berdampingan berdasarkan harga, konteks, kemampuan, dan penggunaan.",
+      "ADD_MODEL": "Tambah model",
+      "REMOVE": "Hapus",
+      "CAPABILITIES": "Kemampuan",
+      "PRESET_FLAGSHIP": "Model unggulan",
+      "PRESET_AFFORDABLE": "Paling terjangkau",
+      "PRESET_CODE": "Terbaik untuk kode",
+      "PRESET_IMAGE": "Pembuatan gambar",
+      "META": {
+        "TITLE": "Bandingkan Model AI - {appName}",
+        "DESCRIPTION": "Bandingkan model AI berdampingan berdasarkan harga, panjang konteks, kemampuan, dan penggunaan di {appName}.",
+        "KEYWORDS": "bandingkan model AI, perbandingan model, perbandingan LLM, harga AI"
+      }
+    },
+    "LIST": {
+      "TOKENS": "token",
+      "BY": "oleh",
+      "CONTEXT": "konteks",
+      "INPUT": "token input",
+      "OUTPUT": "token output"
     }
   },
   "RANKINGS": {

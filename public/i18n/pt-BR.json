@@ -26,7 +26,8 @@
     "LOG_IN": "Entrar",
     "CHAT": "Chat",
     "PLAYGROUND": "Playground",
-    "STATUS": "Status"
+    "STATUS": "Status",
+    "COMPARE": "Comparar"
   },
   "HOME": {
     "HERO": {
@@ -229,7 +230,16 @@
       "NO_PROVIDERS": "Nenhum provedor encontrado.",
       "SELECTED": "selecionados",
       "CLEAR": "Limpar filtros",
-      "RESET": "Redefinir"
+      "RESET": "Redefinir",
+      "TITLE": "Filtros",
+      "INPUT_MODALITIES": "Modalidades de entrada",
+      "CONTEXT_LENGTH": "Comprimento do contexto",
+      "PROMPT_PRICING": "Preço do prompt",
+      "CATEGORIES": "Categorias",
+      "SUPPORTED_PARAMETERS": "Parâmetros suportados",
+      "PROVIDERS": "Provedores",
+      "MIN": "Mín",
+      "ANY": "Qualquer"
     },
     "DETAIL": {
       "DESCRIPTION": "Descrição",
@@ -300,11 +310,16 @@
     "SORT": {
       "NAME": "Nome (A a Z)",
       "PRICE_ASC": "Preço (Baixo)",
-      "PRICE_DESC": "Preço (Alto)"
+      "PRICE_DESC": "Preço (Alto)",
+      "NEWEST": "Mais recentes",
+      "POPULAR": "Mais populares",
+      "TOP_WEEKLY": "Top da semana",
+      "CONTEXT_DESC": "Contexto (alto)"
     },
     "VIEW": {
       "GRID": "Visualização em grade",
-      "LIST": "Visualização em lista"
+      "LIST": "Visualização em lista",
+      "TABLE": "Visão de tabela"
     },
     "META": {
       "TITLE": "Modelos de IA - {appName}",
@@ -346,6 +361,47 @@
       "LATENCY": "Lat.",
       "TPS": "TPS",
       "STATUS": "Status"
+    },
+    "MODALITY": {
+      "TEXT": "Texto",
+      "IMAGE": "Imagem",
+      "AUDIO": "Áudio",
+      "VIDEO": "Vídeo",
+      "EMBEDDINGS": "Embeddings"
+    },
+    "TABLE": {
+      "MODEL": "Modelo",
+      "WEEKLY_TOKENS": "Tokens semanais",
+      "INPUT": "Entrada",
+      "OUTPUT": "Saída",
+      "CONTEXT": "Contexto",
+      "RELEASED": "Lançamento",
+      "OFF": "{pct}% de desconto",
+      "FREE": "grátis"
+    },
+    "COMPARE": {
+      "BADGE": "Comparar",
+      "TITLE": "Comparação de modelos de IA",
+      "SUBTITLE": "Compare modelos de IA lado a lado por preço, contexto, capacidades e uso.",
+      "ADD_MODEL": "Adicionar modelo",
+      "REMOVE": "Remover",
+      "CAPABILITIES": "Capacidades",
+      "PRESET_FLAGSHIP": "Modelos principais",
+      "PRESET_AFFORDABLE": "Mais acessíveis",
+      "PRESET_CODE": "Melhores para código",
+      "PRESET_IMAGE": "Geração de imagens",
+      "META": {
+        "TITLE": "Comparar modelos de IA - {appName}",
+        "DESCRIPTION": "Compare modelos de IA lado a lado por preço, comprimento de contexto, capacidades e uso no {appName}.",
+        "KEYWORDS": "comparar modelos de IA, comparação de modelos, comparação de LLM, preços de IA"
+      }
+    },
+    "LIST": {
+      "TOKENS": "tokens",
+      "BY": "por",
+      "CONTEXT": "contexto",
+      "INPUT": "tokens de entrada",
+      "OUTPUT": "tokens de saída"
     }
   },
   "RANKINGS": {

@@ -26,7 +26,8 @@
     "LOG_IN": "로그인",
     "CHAT": "채팅",
     "PLAYGROUND": "플레이그라운드",
-    "STATUS": "상태"
+    "STATUS": "상태",
+    "COMPARE": "비교"
   },
   "HOME": {
     "HERO": {
@@ -229,7 +230,16 @@
       "NO_PROVIDERS": "공급자를 찾을 수 없습니다.",
       "SELECTED": "선택됨",
       "CLEAR": "필터 지우기",
-      "RESET": "초기화"
+      "RESET": "초기화",
+      "TITLE": "필터",
+      "INPUT_MODALITIES": "입력 모달리티",
+      "CONTEXT_LENGTH": "컨텍스트 길이",
+      "PROMPT_PRICING": "프롬프트 가격",
+      "CATEGORIES": "카테고리",
+      "SUPPORTED_PARAMETERS": "지원 매개변수",
+      "PROVIDERS": "제공자",
+      "MIN": "최소",
+      "ANY": "모두"
     },
     "DETAIL": {
       "DESCRIPTION": "설명",
@@ -300,11 +310,16 @@
     "SORT": {
       "NAME": "이름 (가나다순)",
       "PRICE_ASC": "가격 (낮은순)",
-      "PRICE_DESC": "가격 (높은순)"
+      "PRICE_DESC": "가격 (높은순)",
+      "NEWEST": "최신순",
+      "POPULAR": "인기순",
+      "TOP_WEEKLY": "주간 인기",
+      "CONTEXT_DESC": "컨텍스트 (높음)"
     },
     "VIEW": {
       "GRID": "그리드 보기",
-      "LIST": "리스트 보기"
+      "LIST": "리스트 보기",
+      "TABLE": "테이블 보기"
     },
     "META": {
       "TITLE": "AI 모델 - {appName}",
@@ -346,6 +361,47 @@
       "LATENCY": "지연",
       "TPS": "TPS",
       "STATUS": "상태"
+    },
+    "MODALITY": {
+      "TEXT": "텍스트",
+      "IMAGE": "이미지",
+      "AUDIO": "오디오",
+      "VIDEO": "비디오",
+      "EMBEDDINGS": "임베딩"
+    },
+    "TABLE": {
+      "MODEL": "모델",
+      "WEEKLY_TOKENS": "주간 토큰",
+      "INPUT": "입력",
+      "OUTPUT": "출력",
+      "CONTEXT": "컨텍스트",
+      "RELEASED": "출시일",
+      "OFF": "{pct}% 할인",
+      "FREE": "무료"
+    },
+    "COMPARE": {
+      "BADGE": "비교",
+      "TITLE": "AI 모델 비교",
+      "SUBTITLE": "가격, 컨텍스트, 기능, 사용량으로 AI 모델을 나란히 비교하세요.",
+      "ADD_MODEL": "모델 추가",
+      "REMOVE": "제거",
+      "CAPABILITIES": "기능",
+      "PRESET_FLAGSHIP": "주력 모델",
+      "PRESET_AFFORDABLE": "가장 저렴",
+      "PRESET_CODE": "코드에 최적",
+      "PRESET_IMAGE": "이미지 생성",
+      "META": {
+        "TITLE": "AI 모델 비교 - {appName}",
+        "DESCRIPTION": "{appName}에서 가격, 컨텍스트 길이, 기능, 사용량으로 AI 모델을 나란히 비교하세요.",
+        "KEYWORDS": "AI 모델 비교, 모델 비교, LLM 비교, AI 가격"
+      }
+    },
+    "LIST": {
+      "TOKENS": "토큰",
+      "BY": "제공",
+      "CONTEXT": "컨텍스트",
+      "INPUT": "입력 토큰",
+      "OUTPUT": "출력 토큰"
     }
   },
   "RANKINGS": {

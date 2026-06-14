@@ -26,7 +26,8 @@
     "LOG_IN": "Anmelden",
     "CHAT": "Chat",
     "PLAYGROUND": "Playground",
-    "STATUS": "Status"
+    "STATUS": "Status",
+    "COMPARE": "Vergleich"
   },
   "HOME": {
     "HERO": {
@@ -229,7 +230,16 @@
       "NO_PROVIDERS": "Keine Anbieter gefunden.",
       "SELECTED": "ausgewählt",
       "CLEAR": "Filter zurücksetzen",
-      "RESET": "Zurücksetzen"
+      "RESET": "Zurücksetzen",
+      "TITLE": "Filter",
+      "INPUT_MODALITIES": "Eingabemodalitäten",
+      "CONTEXT_LENGTH": "Kontextlänge",
+      "PROMPT_PRICING": "Prompt-Preise",
+      "CATEGORIES": "Kategorien",
+      "SUPPORTED_PARAMETERS": "Unterstützte Parameter",
+      "PROVIDERS": "Anbieter",
+      "MIN": "Min",
+      "ANY": "Beliebig"
     },
     "DETAIL": {
       "DESCRIPTION": "Beschreibung",
@@ -300,11 +310,16 @@
     "SORT": {
       "NAME": "Name (A bis Z)",
       "PRICE_ASC": "Preis (aufsteigend)",
-      "PRICE_DESC": "Preis (absteigend)"
+      "PRICE_DESC": "Preis (absteigend)",
+      "NEWEST": "Neueste",
+      "POPULAR": "Beliebteste",
+      "TOP_WEEKLY": "Top der Woche",
+      "CONTEXT_DESC": "Kontext (hoch)"
     },
     "VIEW": {
       "GRID": "Rasteransicht",
-      "LIST": "Listenansicht"
+      "LIST": "Listenansicht",
+      "TABLE": "Tabellenansicht"
     },
     "META": {
       "TITLE": "KI-Modelle - {appName}",
@@ -346,6 +361,47 @@
       "LATENCY": "Lat.",
       "TPS": "TPS",
       "STATUS": "Status"
+    },
+    "MODALITY": {
+      "TEXT": "Text",
+      "IMAGE": "Bild",
+      "AUDIO": "Audio",
+      "VIDEO": "Video",
+      "EMBEDDINGS": "Embeddings"
+    },
+    "TABLE": {
+      "MODEL": "Modell",
+      "WEEKLY_TOKENS": "Tokens/Woche",
+      "INPUT": "Eingabe",
+      "OUTPUT": "Ausgabe",
+      "CONTEXT": "Kontext",
+      "RELEASED": "Veröffentlicht",
+      "OFF": "{pct}% Rabatt",
+      "FREE": "gratis"
+    },
+    "COMPARE": {
+      "BADGE": "Vergleich",
+      "TITLE": "KI-Modellvergleich",
+      "SUBTITLE": "Vergleiche KI-Modelle nebeneinander nach Preis, Kontext, Fähigkeiten und Nutzung.",
+      "ADD_MODEL": "Modell hinzufügen",
+      "REMOVE": "Entfernen",
+      "CAPABILITIES": "Fähigkeiten",
+      "PRESET_FLAGSHIP": "Flaggschiff-Modelle",
+      "PRESET_AFFORDABLE": "Günstigste",
+      "PRESET_CODE": "Beste für Code",
+      "PRESET_IMAGE": "Bildgenerierung",
+      "META": {
+        "TITLE": "KI-Modelle vergleichen - {appName}",
+        "DESCRIPTION": "Vergleiche KI-Modelle nebeneinander nach Preis, Kontextlänge, Fähigkeiten und Nutzung auf {appName}.",
+        "KEYWORDS": "KI-Modelle vergleichen, Modellvergleich, LLM-Vergleich, KI-Preise"
+      }
+    },
+    "LIST": {
+      "TOKENS": "Tokens",
+      "BY": "von",
+      "CONTEXT": "Kontext",
+      "INPUT": "Eingabe-Tokens",
+      "OUTPUT": "Ausgabe-Tokens"
     }
   },
   "RANKINGS": {

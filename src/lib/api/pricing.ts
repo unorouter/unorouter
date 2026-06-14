@@ -38,6 +38,8 @@ export type ModelMetadata = {
   maxImageInputs?: number;
   tokenizer?: string;
   knowledgeCutoff?: string;
+  // Model release date (OpenRouter `created`), ISO string. Primary "Released"/"Newest" source.
+  releaseDate?: string;
   deprecationDate?: string;
   mode?: string;
   description?: string;
@@ -208,6 +210,9 @@ function processModels(response: PricingData) {
         enableGroups: model.enable_groups ?? [],
         originalInputPrice,
         originalOutputPrice,
+        // Fallback release date (new-api Model.created_time, unix seconds); the
+        // Orval type lags the backend field, so read it defensively.
+        createdTime: (model as { created_time?: number }).created_time ?? null,
         metadata: parseModelMetadata(model.metadata),
       };
     })

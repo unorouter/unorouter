@@ -1,34 +1,72 @@
 "use client";
 
+import type { ProcessedModel } from "@/lib/api/pricing";
+import { deriveOutputModality } from "@/lib/api/model-modality";
+import type { RankedModel } from "@/lib/api/typebox/rankings";
 import { usePricingQuery } from "@/hooks/models/pricing-hook";
-import { ModelTypeFilter } from "@/lib/types/enums";
+import { useRankingsQuery } from "@/hooks/models/rankings-hook";
+import { dayjs } from "@/lib/utils/format/date";
 import {
+  categoriesAtom,
   clearFiltersAtom,
+  contextMinAtom,
+  inputModalitiesAtom,
+  outputModalityAtom,
+  PRICE_MAX,
+  priceRangeAtom,
   searchAtom,
   selectedModelNameAtom,
   selectedVendorsAtom,
   sortOrderAtom,
-  typeFilterAtom,
+  supportedParametersAtom,
   viewModeAtom,
 } from "@/store/models-store";
 import { useAtom, useSetAtom } from "jotai";
 
+// Release timestamp (ms) for "Newest" sort + Released column: real OpenRouter
+// launch date first, new-api insert date as fallback so no model is dateless.
+export function modelReleaseTs(model: ProcessedModel): number {
+  const iso = model.metadata.releaseDate;
+  if (iso) {
+    const ms = dayjs(iso).valueOf();
+    if (Number.isFinite(ms)) return ms;
+  }
+  if (model.createdTime) return model.createdTime * 1000;
+  return 0;
+}
+
+function effectivePrice(model: ProcessedModel): number {
+  return model.isFixedPrice ? model.fixedPrice : model.inputPrice;
+}
+
 export function useModelsFilter() {
   const { data } = usePricingQuery();
+  const rankings = useRankingsQuery("week");
 
   const [search, setSearch] = useAtom(searchAtom);
-  const [filter, setFilter] = useAtom(typeFilterAtom);
+  const [outputModality, setOutputModality] = useAtom(outputModalityAtom);
   const [selectedVendors, setSelectedVendors] = useAtom(selectedVendorsAtom);
   const [selectedModelName, setSelectedModelName] = useAtom(
     selectedModelNameAtom,
   );
   const [viewMode, setViewMode] = useAtom(viewModeAtom);
   const [sortOrder, setSortOrder] = useAtom(sortOrderAtom);
+  const [inputModalities, setInputModalities] = useAtom(inputModalitiesAtom);
+  const [contextMin, setContextMin] = useAtom(contextMinAtom);
+  const [priceRange, setPriceRange] = useAtom(priceRangeAtom);
+  const [categories, setCategories] = useAtom(categoriesAtom);
+  const [supportedParameters, setSupportedParameters] = useAtom(
+    supportedParametersAtom,
+  );
   const clearFilters = useSetAtom(clearFiltersAtom);
 
   const models = data?.models ?? [];
   const endpointMap = data?.endpointMap ?? {};
   const vendorNames = data?.vendorNames ?? [];
+
+  const rankMap = new Map<string, RankedModel>(
+    (rankings.data?.models ?? []).map((row) => [row.model_name, row]),
+  );
 
   const selectedModel =
     models.find((m) => m.name === selectedModelName) ?? null;
@@ -36,41 +74,85 @@ export function useModelsFilter() {
   const hasActiveFilters =
     search.trim().length > 0 ||
     selectedVendors.length > 0 ||
-    filter !== ModelTypeFilter.ALL ||
-    sortOrder !== "name";
+    inputModalities.length > 0 ||
+    categories.length > 0 ||
+    supportedParameters.length > 0 ||
+    contextMin > 0 ||
+    priceRange[0] > 0 ||
+    priceRange[1] < PRICE_MAX ||
+    sortOrder !== "newest";
 
   let filtered = models.filter((model) => {
     const matchesSearch = model.name
       .toLowerCase()
       .includes(search.toLowerCase());
-    const matchesFilter =
-      filter === ModelTypeFilter.ALL || model.type === filter;
+    const matchesModality = deriveOutputModality(model) === outputModality;
     const matchesVendor =
       selectedVendors.length === 0 ||
       selectedVendors.includes(model.vendor.name);
-    return matchesSearch && matchesFilter && matchesVendor;
+    const modelInputs = model.metadata.inputModalities ?? [];
+    const matchesInputModalities =
+      inputModalities.length === 0 ||
+      inputModalities.every((mod) => modelInputs.includes(mod));
+    const ctx =
+      model.metadata.contextWindow ?? model.metadata.maxInputTokens ?? 0;
+    const matchesContext = contextMin === 0 || ctx >= contextMin;
+    const price = effectivePrice(model);
+    const matchesPrice =
+      price >= priceRange[0] &&
+      (priceRange[1] >= PRICE_MAX || price <= priceRange[1]);
+    const matchesCategories =
+      categories.length === 0 || categories.some((c) => model.tags.includes(c));
+    const modelParams = model.metadata.supportedParametersAll ?? [];
+    const matchesParams =
+      supportedParameters.length === 0 ||
+      supportedParameters.every((p) => modelParams.includes(p));
+    return (
+      matchesSearch &&
+      matchesModality &&
+      matchesVendor &&
+      matchesInputModalities &&
+      matchesContext &&
+      matchesPrice &&
+      matchesCategories &&
+      matchesParams
+    );
   });
 
   filtered = [...filtered].sort((a, b) => {
-    if (sortOrder === "name") {
-      return a.name.localeCompare(b.name);
+    if (sortOrder === "newest") {
+      const diff = modelReleaseTs(b) - modelReleaseTs(a);
+      return diff !== 0 ? diff : a.name.localeCompare(b.name);
+    }
+    if (sortOrder === "popular") {
+      const ra = rankMap.get(a.name)?.rank ?? Number.POSITIVE_INFINITY;
+      const rb = rankMap.get(b.name)?.rank ?? Number.POSITIVE_INFINITY;
+      return ra !== rb ? ra - rb : a.name.localeCompare(b.name);
+    }
+    if (sortOrder === "topWeekly") {
+      const ta = rankMap.get(a.name)?.total_tokens ?? 0;
+      const tb = rankMap.get(b.name)?.total_tokens ?? 0;
+      return tb - ta;
+    }
+    if (sortOrder === "contextDesc") {
+      const ca = a.metadata.contextWindow ?? a.metadata.maxInputTokens ?? 0;
+      const cb = b.metadata.contextWindow ?? b.metadata.maxInputTokens ?? 0;
+      return cb - ca;
     }
     if (sortOrder === "priceAsc") {
-      const priceA = a.isFixedPrice ? a.fixedPrice : a.inputPrice;
-      const priceB = b.isFixedPrice ? b.fixedPrice : b.inputPrice;
-      return priceA - priceB;
+      return effectivePrice(a) - effectivePrice(b);
     }
-    // priceDesc
-    const priceA = a.isFixedPrice ? a.fixedPrice : a.inputPrice;
-    const priceB = b.isFixedPrice ? b.fixedPrice : b.inputPrice;
-    return priceB - priceA;
+    if (sortOrder === "priceDesc") {
+      return effectivePrice(b) - effectivePrice(a);
+    }
+    return a.name.localeCompare(b.name);
   });
 
   return {
     search,
     setSearch,
-    filter,
-    setFilter,
+    outputModality,
+    setOutputModality,
     selectedVendors,
     setSelectedVendors,
     selectedModel,
@@ -79,10 +161,21 @@ export function useModelsFilter() {
     setViewMode,
     sortOrder,
     setSortOrder,
+    inputModalities,
+    setInputModalities,
+    contextMin,
+    setContextMin,
+    priceRange,
+    setPriceRange,
+    categories,
+    setCategories,
+    supportedParameters,
+    setSupportedParameters,
     clearFilters,
     hasActiveFilters,
     models,
     filtered,
+    rankMap,
     vendorNames,
     endpointMap,
     groupRatioMap: data?.groupRatioMap ?? {},

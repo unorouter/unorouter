@@ -1,0 +1,190 @@
+"use client";
+
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+import { Icon } from "@/components/ui/icon";
+import { SidebarGroup, SidebarGroupContent } from "@/components/ui/sidebar";
+import { Slider } from "@/components/ui/slider";
+import { PRICE_MAX } from "@/store/models-store";
+import { cn } from "@/lib/utils";
+import { formatTokenCount } from "@/lib/utils/format/number";
+import { useTranslations } from "next-intl";
+
+function GroupShell(props: {
+  label: string;
+  children: React.ReactNode;
+  defaultOpen?: boolean;
+}) {
+  return (
+    <SidebarGroup className="py-1">
+      <Collapsible defaultOpen={props.defaultOpen ?? true}>
+        <CollapsibleTrigger className="text-foreground group/ct flex w-full items-center justify-between px-2 py-1.5 font-mono text-xs font-medium uppercase">
+          <span>{props.label}</span>
+          <Icon
+            name="chevron-down"
+            className="h-4 w-4 transition-transform group-data-[panel-open]/ct:rotate-180"
+          />
+        </CollapsibleTrigger>
+        <CollapsibleContent>
+          <SidebarGroupContent className="px-2 pt-1 pb-2">
+            {props.children}
+          </SidebarGroupContent>
+        </CollapsibleContent>
+      </Collapsible>
+    </SidebarGroup>
+  );
+}
+
+function CheckRow(props: {
+  label: string;
+  checked: boolean;
+  onToggle: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={props.onToggle}
+      className={cn(
+        "flex w-full items-center gap-2 rounded px-1.5 py-1 text-left font-mono text-sm transition-colors",
+        props.checked
+          ? "text-foreground"
+          : "text-muted-foreground hover:text-foreground",
+      )}
+    >
+      <span
+        className={cn(
+          "flex h-4 w-4 shrink-0 items-center justify-center rounded border",
+          props.checked
+            ? "border-primary bg-primary text-primary-foreground"
+            : "border-border",
+        )}
+      >
+        {props.checked && <Icon name="circle-check" className="h-3 w-3" />}
+      </span>
+      <span className="truncate">{props.label}</span>
+    </button>
+  );
+}
+
+// Context slider snaps to these (log-ish) steps, OpenRouter-style.
+const CONTEXT_STEPS = [0, 4000, 16000, 64000, 256000, 1000000];
+
+export function InputModalitiesGroup(props: {
+  value: string[];
+  onChange: (next: string[]) => void;
+}) {
+  const t = useTranslations();
+  const options = ["text", "image", "file", "audio", "video"];
+  const toggle = (mod: string) =>
+    props.onChange(
+      props.value.includes(mod)
+        ? props.value.filter((m) => m !== mod)
+        : [...props.value, mod],
+    );
+  return (
+    <GroupShell label={t("MODELS.FILTER.INPUT_MODALITIES")}>
+      {options.map((mod) => (
+        <CheckRow
+          key={mod}
+          label={mod}
+          checked={props.value.includes(mod)}
+          onToggle={() => toggle(mod)}
+        />
+      ))}
+    </GroupShell>
+  );
+}
+
+export function ContextGroup(props: {
+  value: number;
+  onChange: (next: number) => void;
+}) {
+  const t = useTranslations();
+  const idx = Math.max(0, CONTEXT_STEPS.indexOf(props.value));
+  return (
+    <GroupShell label={t("MODELS.FILTER.CONTEXT_LENGTH")}>
+      <div className="px-1.5 pt-2">
+        <Slider
+          aria-label={t("MODELS.FILTER.CONTEXT_LENGTH")}
+          min={0}
+          max={CONTEXT_STEPS.length - 1}
+          step={1}
+          value={idx === -1 ? 0 : idx}
+          onValueChange={(v) =>
+            props.onChange(CONTEXT_STEPS[Array.isArray(v) ? v[0] : v] ?? 0)
+          }
+        />
+        <div className="text-muted-foreground mt-2 flex justify-between font-mono text-[10px]">
+          <span>{t("MODELS.FILTER.MIN")}</span>
+          <span>
+            {props.value > 0
+              ? formatTokenCount(props.value)
+              : t("MODELS.FILTER.ANY")}
+          </span>
+        </div>
+      </div>
+    </GroupShell>
+  );
+}
+
+export function PriceGroup(props: {
+  value: [number, number];
+  onChange: (next: [number, number]) => void;
+}) {
+  const t = useTranslations();
+  const max = props.value[1];
+  return (
+    <GroupShell label={t("MODELS.FILTER.PROMPT_PRICING")}>
+      <div className="px-1.5 pt-2">
+        <Slider
+          aria-label={t("MODELS.FILTER.PROMPT_PRICING")}
+          min={0}
+          max={PRICE_MAX}
+          step={0.5}
+          value={max}
+          onValueChange={(v) =>
+            props.onChange([0, Array.isArray(v) ? v[0] : v])
+          }
+        />
+        <div className="text-muted-foreground mt-2 flex justify-between font-mono text-[10px]">
+          <span>$0</span>
+          <span>
+            {max >= PRICE_MAX ? t("MODELS.FILTER.ANY") : `$${max.toFixed(2)}`}
+          </span>
+        </div>
+      </div>
+    </GroupShell>
+  );
+}
+
+export function MultiSelectGroup(props: {
+  label: string;
+  options: string[];
+  value: string[];
+  onChange: (next: string[]) => void;
+}) {
+  const toggle = (opt: string) =>
+    props.onChange(
+      props.value.includes(opt)
+        ? props.value.filter((o) => o !== opt)
+        : [...props.value, opt],
+    );
+  if (props.options.length === 0) return null;
+  return (
+    <GroupShell label={props.label} defaultOpen={false}>
+      <div className="max-h-64 overflow-y-auto">
+        {props.options.map((opt) => (
+          <CheckRow
+            key={opt}
+            label={opt}
+            checked={props.value.includes(opt)}
+            onToggle={() => toggle(opt)}
+          />
+        ))}
+      </div>
+    </GroupShell>
+  );
+}

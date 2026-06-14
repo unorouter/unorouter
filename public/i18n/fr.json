@@ -26,7 +26,8 @@
     "LOG_IN": "Se connecter",
     "CHAT": "Chat",
     "PLAYGROUND": "Bac à sable",
-    "STATUS": "État"
+    "STATUS": "État",
+    "COMPARE": "Comparer"
   },
   "HOME": {
     "HERO": {
@@ -229,7 +230,16 @@
       "NO_PROVIDERS": "Aucun fournisseur trouvé.",
       "SELECTED": "sélectionné(s)",
       "CLEAR": "Effacer les filtres",
-      "RESET": "Réinitialiser"
+      "RESET": "Réinitialiser",
+      "TITLE": "Filtres",
+      "INPUT_MODALITIES": "Modalités d'entrée",
+      "CONTEXT_LENGTH": "Longueur de contexte",
+      "PROMPT_PRICING": "Tarif du prompt",
+      "CATEGORIES": "Catégories",
+      "SUPPORTED_PARAMETERS": "Paramètres pris en charge",
+      "PROVIDERS": "Fournisseurs",
+      "MIN": "Min",
+      "ANY": "Tout"
     },
     "DETAIL": {
       "DESCRIPTION": "Description",
@@ -300,11 +310,16 @@
     "SORT": {
       "NAME": "Nom (A à Z)",
       "PRICE_ASC": "Prix (bas)",
-      "PRICE_DESC": "Prix (haut)"
+      "PRICE_DESC": "Prix (haut)",
+      "NEWEST": "Plus récents",
+      "POPULAR": "Les plus populaires",
+      "TOP_WEEKLY": "Top hebdomadaire",
+      "CONTEXT_DESC": "Contexte (élevé)"
     },
     "VIEW": {
       "GRID": "Vue grille",
-      "LIST": "Vue liste"
+      "LIST": "Vue liste",
+      "TABLE": "Vue tableau"
     },
     "META": {
       "TITLE": "Modèles IA, {appName}",
@@ -346,6 +361,47 @@
       "LATENCY": "Lat.",
       "TPS": "TPS",
       "STATUS": "Statut"
+    },
+    "MODALITY": {
+      "TEXT": "Texte",
+      "IMAGE": "Image",
+      "AUDIO": "Audio",
+      "VIDEO": "Vidéo",
+      "EMBEDDINGS": "Embeddings"
+    },
+    "TABLE": {
+      "MODEL": "Modèle",
+      "WEEKLY_TOKENS": "Tokens hebdo",
+      "INPUT": "Entrée",
+      "OUTPUT": "Sortie",
+      "CONTEXT": "Contexte",
+      "RELEASED": "Sortie",
+      "OFF": "{pct}% de réduction",
+      "FREE": "gratuit"
+    },
+    "COMPARE": {
+      "BADGE": "Comparer",
+      "TITLE": "Comparaison de modèles IA",
+      "SUBTITLE": "Comparez les modèles IA côte à côte par prix, contexte, capacités et usage.",
+      "ADD_MODEL": "Ajouter un modèle",
+      "REMOVE": "Retirer",
+      "CAPABILITIES": "Capacités",
+      "PRESET_FLAGSHIP": "Modèles phares",
+      "PRESET_AFFORDABLE": "Les plus abordables",
+      "PRESET_CODE": "Meilleurs pour le code",
+      "PRESET_IMAGE": "Génération d'images",
+      "META": {
+        "TITLE": "Comparer les modèles IA - {appName}",
+        "DESCRIPTION": "Comparez les modèles IA côte à côte par prix, longueur de contexte, capacités et usage sur {appName}.",
+        "KEYWORDS": "comparer modèles IA, comparaison de modèles, comparaison LLM, tarifs IA"
+      }
+    },
+    "LIST": {
+      "TOKENS": "tokens",
+      "BY": "par",
+      "CONTEXT": "contexte",
+      "INPUT": "tokens d'entrée",
+      "OUTPUT": "tokens de sortie"
     }
   },
   "RANKINGS": {

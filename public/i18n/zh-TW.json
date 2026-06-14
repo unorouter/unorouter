@@ -26,7 +26,8 @@
     "LOG_IN": "登入",
     "CHAT": "對話",
     "PLAYGROUND": "遊樂場",
-    "STATUS": "狀態"
+    "STATUS": "狀態",
+    "COMPARE": "對比"
   },
   "HOME": {
     "HERO": {
@@ -229,7 +230,16 @@
       "NO_PROVIDERS": "找不到符合的供應商。",
       "SELECTED": "已選取",
       "CLEAR": "清除篩選",
-      "RESET": "重設"
+      "RESET": "重設",
+      "TITLE": "篩選",
+      "INPUT_MODALITIES": "輸入模態",
+      "CONTEXT_LENGTH": "上下文長度",
+      "PROMPT_PRICING": "提示詞價格",
+      "CATEGORIES": "類別",
+      "SUPPORTED_PARAMETERS": "支援的參數",
+      "PROVIDERS": "供應商",
+      "MIN": "最小",
+      "ANY": "任意"
     },
     "DETAIL": {
       "DESCRIPTION": "說明",
@@ -300,11 +310,16 @@
     "SORT": {
       "NAME": "名稱（A 到 Z）",
       "PRICE_ASC": "價格（由低到高）",
-      "PRICE_DESC": "價格（由高到低）"
+      "PRICE_DESC": "價格（由高到低）",
+      "NEWEST": "最新",
+      "POPULAR": "最熱門",
+      "TOP_WEEKLY": "本週熱門",
+      "CONTEXT_DESC": "上下文（高到低）"
     },
     "VIEW": {
       "GRID": "網格檢視",
-      "LIST": "清單檢視"
+      "LIST": "清單檢視",
+      "TABLE": "表格檢視"
     },
     "META": {
       "TITLE": "AI 模型：{appName}",
@@ -346,6 +361,47 @@
       "LATENCY": "延遲",
       "TPS": "TPS",
       "STATUS": "狀態"
+    },
+    "MODALITY": {
+      "TEXT": "文字",
+      "IMAGE": "圖像",
+      "AUDIO": "音訊",
+      "VIDEO": "影片",
+      "EMBEDDINGS": "嵌入"
+    },
+    "TABLE": {
+      "MODEL": "模型",
+      "WEEKLY_TOKENS": "每週 Token",
+      "INPUT": "輸入",
+      "OUTPUT": "輸出",
+      "CONTEXT": "上下文",
+      "RELEASED": "發布日期",
+      "OFF": "{pct}% 優惠",
+      "FREE": "免費"
+    },
+    "COMPARE": {
+      "BADGE": "對比",
+      "TITLE": "AI 模型對比",
+      "SUBTITLE": "按價格、上下文、能力和使用量並排對比 AI 模型。",
+      "ADD_MODEL": "新增模型",
+      "REMOVE": "移除",
+      "CAPABILITIES": "能力",
+      "PRESET_FLAGSHIP": "旗艦模型",
+      "PRESET_AFFORDABLE": "最實惠",
+      "PRESET_CODE": "最適合程式設計",
+      "PRESET_IMAGE": "圖像生成",
+      "META": {
+        "TITLE": "對比 AI 模型 - {appName}",
+        "DESCRIPTION": "在 {appName} 上按價格、上下文長度、能力和使用量並排對比 AI 模型。",
+        "KEYWORDS": "對比 AI 模型，模型對比，LLM 對比，AI 價格"
+      }
+    },
+    "LIST": {
+      "TOKENS": "Token",
+      "BY": "來自",
+      "CONTEXT": "上下文",
+      "INPUT": "輸入 Token",
+      "OUTPUT": "輸出 Token"
     }
   },
   "RANKINGS": {
