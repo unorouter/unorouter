@@ -628,7 +628,7 @@
         "H_RP": "OpenRouter 略去的那部分",
         "P_RP": "把編碼代理（Claude Code、Cline、OpenCode、Kilo Code、Codex）指向 {appName}，它的表現就和任何 OpenAI 相容端點一樣。但同一把金鑰還驅動一個內建的聊天與角色用戶端，帶有人設、設定集、預設和 SillyTavern 卡片匯入，並能直接接入 SillyTavern、Janitor.AI、RisuAI 或 Chub。OpenRouter 純粹是 API 層，因此每個介面都得你自己準備。{appName} 把介面與 API 一併交付。",
         "H_MIGRATE": "切換只是更換基礎 URL",
-        "P_MIGRATE": "由於 {appName} 相容 OpenAI，遷移現有應用只需一行：把用戶端指向 <c>https://api.unorouter.ai/v1</c>，並保留你現有的程式碼。把同一把金鑰貼到聊天用戶端的自訂端點欄位，也會抵達同一個目錄，因此沒有第二個帳戶需要管理。",
+        "P_MIGRATE": "由於 {appName} 相容 OpenAI，遷移現有應用只需一行：把用戶端指向 <c>https://api.unorouter.com/v1</c>，並保留你現有的程式碼。把同一把金鑰貼到聊天用戶端的自訂端點欄位，也會抵達同一個目錄，因此沒有第二個帳戶需要管理。",
         "H_VERDICT": "你該選哪個",
         "P_VERDICT": "如果你只交付程式碼，並且想要無介面的最廣目錄，OpenRouter 是個不錯的預設選擇。如果你想要無加價的自架路由，LiteLLM 勝出。如果你想要一把金鑰，既能用在編碼代理裡，也能用在真正的聊天與角色用戶端裡，而不必執行兩套服務，這正是 {appName} 填補的空白。沒有唯一的贏家。這取決於你是為純粹的 API 最佳化，還是為 API 加上一個使用它的地方而最佳化。",
         "CTA": "準備好試試了嗎？<register>建立免費帳戶</register> 或 <models>瀏覽模型</models>。"
