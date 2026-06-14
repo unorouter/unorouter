@@ -23,6 +23,7 @@ export type ModelsStoreState = {
   inputModalities: string[];
   contextMin: number;
   priceRange: [number, number];
+  series: string[];
   categories: string[];
   supportedParameters: string[];
 };
@@ -43,6 +44,7 @@ export const INITIAL_MODELS_STATE: ModelsStoreState = {
   inputModalities: [],
   contextMin: 0,
   priceRange: [0, PRICE_MAX],
+  series: [],
   categories: [],
   supportedParameters: [],
 };
@@ -129,6 +131,13 @@ export const priceRangeAtom = atom(
   },
 );
 
+export const seriesAtom = atom(
+  (get) => arr(get(modelsStoreAtom).series),
+  (get, set, value: string[]) => {
+    set(modelsStoreAtom, { ...get(modelsStoreAtom), series: value });
+  },
+);
+
 export const categoriesAtom = atom(
   (get) => arr(get(modelsStoreAtom).categories),
   (get, set, value: string[]) => {
@@ -180,6 +189,7 @@ export const clearFiltersAtom = atom(null, (get, set) => {
     inputModalities: [],
     contextMin: 0,
     priceRange: [0, PRICE_MAX],
+    series: [],
     categories: [],
     supportedParameters: [],
   });
@@ -196,6 +206,7 @@ export const isDirtyAtom = atom((get) => {
     (s.viewMode ?? "table") !== "table" ||
     (Array.isArray(s.selectedVendors) && s.selectedVendors.length > 0) ||
     (Array.isArray(s.inputModalities) && s.inputModalities.length > 0) ||
+    (Array.isArray(s.series) && s.series.length > 0) ||
     (Array.isArray(s.categories) && s.categories.length > 0) ||
     (Array.isArray(s.supportedParameters) &&
       s.supportedParameters.length > 0) ||

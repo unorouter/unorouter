@@ -239,7 +239,8 @@
       "SUPPORTED_PARAMETERS": "समर्थित पैरामीटर",
       "PROVIDERS": "प्रदाता",
       "MIN": "न्यूनतम",
-      "ANY": "कोई भी"
+      "ANY": "कोई भी",
+      "SERIES": "श्रृंखला"
     },
     "DETAIL": {
       "DESCRIPTION": "विवरण",
@@ -405,6 +406,10 @@
       "CONTEXT": "संदर्भ",
       "INPUT": "इनपुट टोकन",
       "OUTPUT": "आउटपुट टोकन"
+    },
+    "ACTIONS": {
+      "OPEN_MENU": "मेन्यू खोलें",
+      "COPY_NAME": "मॉडल नाम कॉपी करें"
     }
   },
   "RANKINGS": {

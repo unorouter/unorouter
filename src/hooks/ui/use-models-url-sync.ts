@@ -8,6 +8,7 @@ import {
   PRICE_MAX,
   priceRangeAtom,
   selectedVendorsAtom,
+  seriesAtom,
   sortOrderAtom,
   supportedParametersAtom,
   type SortOrder,
@@ -43,6 +44,7 @@ export function useModelsUrlSync() {
   const searchParams = useSearchParams();
 
   const [inputModalities, setInputModalities] = useAtom(inputModalitiesAtom);
+  const [series, setSeries] = useAtom(seriesAtom);
   const [categories, setCategories] = useAtom(categoriesAtom);
   const [supportedParameters, setSupportedParameters] = useAtom(
     supportedParametersAtom,
@@ -59,6 +61,8 @@ export function useModelsUrlSync() {
     seeded.current = true;
     const im = csv(searchParams.get("input_modalities"));
     if (im.length && inputModalities.length === 0) setInputModalities(im);
+    const ser = csv(searchParams.get("arch"));
+    if (ser.length && series.length === 0) setSeries(ser);
     const cat = csv(searchParams.get("categories"));
     if (cat.length && categories.length === 0) setCategories(cat);
     const sp = csv(searchParams.get("supported_parameters"));
@@ -91,6 +95,7 @@ export function useModelsUrlSync() {
     const params = new URLSearchParams();
     if (inputModalities.length)
       params.set("input_modalities", inputModalities.join(","));
+    if (series.length) params.set("arch", series.join(","));
     if (categories.length) params.set("categories", categories.join(","));
     if (supportedParameters.length)
       params.set("supported_parameters", supportedParameters.join(","));
@@ -105,6 +110,7 @@ export function useModelsUrlSync() {
     router.replace(qs ? `?${qs}` : "?", { scroll: false });
   }, [
     inputModalities,
+    series,
     categories,
     supportedParameters,
     selectedVendors,

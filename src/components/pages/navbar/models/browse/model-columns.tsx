@@ -1,6 +1,7 @@
 "use client";
 
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
+import { ModelRowActions } from "./model-row-actions";
 import { DataTableColumnHeader } from "@/components/elements/table/data-table-column-header";
 import { Icon } from "@/components/ui/icon";
 import { modelReleaseTs } from "@/hooks/ui/use-models-hook";
@@ -67,6 +68,7 @@ export function buildModelColumns(opts: {
   rankMap: Map<string, RankedModel>;
   offLabel: (pct: number) => string;
   freeLabel: string;
+  onDetails: (model: ProcessedModel) => void;
 }): ColumnDef<ProcessedModel>[] {
   const rankTokens = (m: ProcessedModel) =>
     opts.rankMap.get(m.name)?.total_tokens ?? 0;
@@ -210,6 +212,15 @@ export function buildModelColumns(opts: {
         const ts = modelReleaseTs(row.original);
         return ts > 0 ? formatLongDate(ts) : "-";
       },
+    },
+    {
+      id: "actions",
+      enableSorting: false,
+      header: () => null,
+      meta: { headerClassName: "w-10", cellClassName: "text-right" },
+      cell: ({ row }) => (
+        <ModelRowActions model={row.original} onDetails={opts.onDetails} />
+      ),
     },
   ];
 }

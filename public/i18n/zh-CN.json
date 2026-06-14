@@ -239,7 +239,8 @@
       "SUPPORTED_PARAMETERS": "支持的参数",
       "PROVIDERS": "供应商",
       "MIN": "最小",
-      "ANY": "任意"
+      "ANY": "任意",
+      "SERIES": "系列"
     },
     "DETAIL": {
       "DESCRIPTION": "描述",
@@ -405,6 +406,10 @@
       "CONTEXT": "上下文",
       "INPUT": "输入 Token",
       "OUTPUT": "输出 Token"
+    },
+    "ACTIONS": {
+      "OPEN_MENU": "打开菜单",
+      "COPY_NAME": "复制模型名称"
     }
   },
   "RANKINGS": {

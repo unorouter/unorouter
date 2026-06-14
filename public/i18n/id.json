@@ -239,7 +239,8 @@
       "SUPPORTED_PARAMETERS": "Parameter yang Didukung",
       "PROVIDERS": "Penyedia",
       "MIN": "Min",
-      "ANY": "Apa saja"
+      "ANY": "Apa saja",
+      "SERIES": "Seri"
     },
     "DETAIL": {
       "DESCRIPTION": "Deskripsi",
@@ -405,6 +406,10 @@
       "CONTEXT": "konteks",
       "INPUT": "token input",
       "OUTPUT": "token output"
+    },
+    "ACTIONS": {
+      "OPEN_MENU": "Buka menu",
+      "COPY_NAME": "Salin nama model"
     }
   },
   "RANKINGS": {

@@ -239,7 +239,8 @@
       "SUPPORTED_PARAMETERS": "지원 매개변수",
       "PROVIDERS": "제공자",
       "MIN": "최소",
-      "ANY": "모두"
+      "ANY": "모두",
+      "SERIES": "시리즈"
     },
     "DETAIL": {
       "DESCRIPTION": "설명",
@@ -405,6 +406,10 @@
       "CONTEXT": "컨텍스트",
       "INPUT": "입력 토큰",
       "OUTPUT": "출력 토큰"
+    },
+    "ACTIONS": {
+      "OPEN_MENU": "메뉴 열기",
+      "COPY_NAME": "모델 이름 복사"
     }
   },
   "RANKINGS": {
