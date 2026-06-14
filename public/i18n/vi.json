@@ -368,7 +368,8 @@
       "IMAGE": "Hình ảnh",
       "AUDIO": "Âm thanh",
       "VIDEO": "Video",
-      "EMBEDDINGS": "Embeddings"
+      "EMBEDDINGS": "Embeddings",
+      "FILE": "Tệp"
     },
     "TABLE": {
       "MODEL": "Mô hình",

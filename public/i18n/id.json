@@ -368,7 +368,8 @@
       "IMAGE": "Gambar",
       "AUDIO": "Audio",
       "VIDEO": "Video",
-      "EMBEDDINGS": "Embedding"
+      "EMBEDDINGS": "Embedding",
+      "FILE": "Berkas"
     },
     "TABLE": {
       "MODEL": "Model",

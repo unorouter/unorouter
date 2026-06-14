@@ -368,7 +368,8 @@
       "IMAGE": "Image",
       "AUDIO": "Audio",
       "VIDEO": "Video",
-      "EMBEDDINGS": "Embeddings"
+      "EMBEDDINGS": "Embeddings",
+      "FILE": "File"
     },
     "TABLE": {
       "MODEL": "Model",

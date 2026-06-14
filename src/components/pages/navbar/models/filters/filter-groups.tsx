@@ -8,6 +8,7 @@ import {
 import { Icon } from "@/components/ui/icon";
 import { SidebarGroup, SidebarGroupContent } from "@/components/ui/sidebar";
 import { Slider } from "@/components/ui/slider";
+import { msg } from "@/lib/config/constants";
 import { PRICE_MAX } from "@/store/models-store";
 import { cn } from "@/lib/utils";
 import { formatTokenCount } from "@/lib/utils/format/number";
@@ -72,12 +73,21 @@ function CheckRow(props: {
 // Context slider snaps to these (log-ish) steps, OpenRouter-style.
 const CONTEXT_STEPS = [0, 4000, 16000, 64000, 256000, 1000000];
 
+const INPUT_MODALITIES = ["text", "image", "file", "audio", "video"] as const;
+
+const MODALITY_LABEL = {
+  text: msg("MODELS.MODALITY.TEXT"),
+  image: msg("MODELS.MODALITY.IMAGE"),
+  file: msg("MODELS.MODALITY.FILE"),
+  audio: msg("MODELS.MODALITY.AUDIO"),
+  video: msg("MODELS.MODALITY.VIDEO"),
+} satisfies Record<(typeof INPUT_MODALITIES)[number], ReturnType<typeof msg>>;
+
 export function InputModalitiesGroup(props: {
   value: string[];
   onChange: (next: string[]) => void;
 }) {
   const t = useTranslations();
-  const options = ["text", "image", "file", "audio", "video"];
   const toggle = (mod: string) =>
     props.onChange(
       props.value.includes(mod)
@@ -86,10 +96,10 @@ export function InputModalitiesGroup(props: {
     );
   return (
     <GroupShell label={t("MODELS.FILTER.INPUT_MODALITIES")}>
-      {options.map((mod) => (
+      {INPUT_MODALITIES.map((mod) => (
         <CheckRow
           key={mod}
-          label={mod}
+          label={t(MODALITY_LABEL[mod])}
           checked={props.value.includes(mod)}
           onToggle={() => toggle(mod)}
         />
