@@ -377,7 +377,10 @@
       "CONTEXT": "Context",
       "RELEASED": "Released",
       "OFF": "{pct}% off",
-      "FREE": "free"
+      "FREE": "free",
+      "SORT_ASC": "Ascending",
+      "SORT_DESC": "Descending",
+      "SORT_RESET": "Reset"
     },
     "COMPARE": {
       "BADGE": "Compare",

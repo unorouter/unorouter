@@ -377,7 +377,10 @@
       "CONTEXT": "Contexto",
       "RELEASED": "Lanzamiento",
       "OFF": "{pct}% desc.",
-      "FREE": "gratis"
+      "FREE": "gratis",
+      "SORT_ASC": "Ascendente",
+      "SORT_DESC": "Descendente",
+      "SORT_RESET": "Restablecer"
     },
     "COMPARE": {
       "BADGE": "Comparar",

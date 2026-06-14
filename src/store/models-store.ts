@@ -166,16 +166,40 @@ export const toggleVendorCollapsedAtom = atom(
   },
 );
 
+// Full reset: search, output-modality tab, sort, view, and every filter back
+// to defaults. Column-sort lives in the DataTable store and is cleared by the
+// page alongside this (createTableAtoms(MODELS).sortingAtom).
 export const clearFiltersAtom = atom(null, (get, set) => {
   set(modelsStoreAtom, {
     ...get(modelsStoreAtom),
     search: "",
-    selectedVendors: [],
+    outputModality: "text",
     sortOrder: "newest",
+    viewMode: "table",
+    selectedVendors: [],
     inputModalities: [],
     contextMin: 0,
     priceRange: [0, PRICE_MAX],
     categories: [],
     supportedParameters: [],
   });
+});
+
+// True when any user-facing setting differs from default (drives the reset
+// button's visibility). collapsedVendors/selectedModelName are not user filters.
+export const isDirtyAtom = atom((get) => {
+  const s = get(modelsStoreAtom);
+  return (
+    (s.search ?? "").trim().length > 0 ||
+    (s.outputModality ?? "text") !== "text" ||
+    (s.sortOrder ?? "newest") !== "newest" ||
+    (s.viewMode ?? "table") !== "table" ||
+    (Array.isArray(s.selectedVendors) && s.selectedVendors.length > 0) ||
+    (Array.isArray(s.inputModalities) && s.inputModalities.length > 0) ||
+    (Array.isArray(s.categories) && s.categories.length > 0) ||
+    (Array.isArray(s.supportedParameters) &&
+      s.supportedParameters.length > 0) ||
+    (s.contextMin ?? 0) > 0 ||
+    (Array.isArray(s.priceRange) && s.priceRange[1] < PRICE_MAX)
+  );
 });

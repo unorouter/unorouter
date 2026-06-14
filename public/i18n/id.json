@@ -377,7 +377,10 @@
       "CONTEXT": "Konteks",
       "RELEASED": "Dirilis",
       "OFF": "Diskon {pct}%",
-      "FREE": "gratis"
+      "FREE": "gratis",
+      "SORT_ASC": "Menaik",
+      "SORT_DESC": "Menurun",
+      "SORT_RESET": "Atur ulang"
     },
     "COMPARE": {
       "BADGE": "Bandingkan",

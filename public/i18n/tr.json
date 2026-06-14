@@ -377,7 +377,10 @@
       "CONTEXT": "Bağlam",
       "RELEASED": "Yayınlanma",
       "OFF": "%{pct} indirim",
-      "FREE": "ücretsiz"
+      "FREE": "ücretsiz",
+      "SORT_ASC": "Artan",
+      "SORT_DESC": "Azalan",
+      "SORT_RESET": "Sıfırla"
     },
     "COMPARE": {
       "BADGE": "Karşılaştır",

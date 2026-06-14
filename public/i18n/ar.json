@@ -377,7 +377,10 @@
       "CONTEXT": "السياق",
       "RELEASED": "تاريخ الإصدار",
       "OFF": "خصم {pct}%",
-      "FREE": "مجاني"
+      "FREE": "مجاني",
+      "SORT_ASC": "تصاعدي",
+      "SORT_DESC": "تنازلي",
+      "SORT_RESET": "إعادة تعيين"
     },
     "COMPARE": {
       "BADGE": "مقارنة",
