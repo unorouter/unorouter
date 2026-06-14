@@ -1,4 +1,4 @@
-    // V2 trigger opcode handlers, field-accurate RisuAI port. Operand resolution: <field>Type === 'value' ? literal : getVar(name), all parsed via ctx.parse first. Control flow lives in vm.ts; app-coupled side effects are no-ops here.
+    // V2 trigger opcode handlers (RisuAI port). Operands resolve as literal when <field>Type is 'value' else a var lookup. Control flow is in vm.ts; side effects are no-ops here.
 
 import { calcString } from "../calc";
 import type { TriggerContext, TriggerEffect } from "./types";
@@ -13,7 +13,7 @@ export function cbs(ctx: TriggerContext, s: unknown): string {
   return ctx.parse ? ctx.parse(raw) : raw;
 }
 
-    // Resolve an operand per Risu: literal when <field>Type is exactly "value", else a var lookup of the CBS-parsed name.
+    // Resolve an operand per Risu: literal when <field>Type is "value", else a var lookup of the parsed name.
 function rv(
   e: TriggerEffect,
   ctx: TriggerContext,
@@ -50,7 +50,7 @@ function parseDict(s: string): Record<string, string> {
   return v as Record<string, string>;
 }
 
-    // Array-var mutation boilerplate: parse the var as a JSON array, run fn (return value is the new array, or undefined to keep), write back. On parse failure Risu resets the var to '[]' and writes errOut to the outputVar.
+    // Array-var mutation: parse the var as a JSON array, run fn (new array, or undefined to keep), write back. On parse failure Risu resets to '[]' and writes errOut.
 function withArrVar(
   e: TriggerEffect,
   ctx: TriggerContext,
@@ -466,7 +466,7 @@ export function runDataOpcode(
     case "v2Random": {
       const min = rnum(e, ctx, vr, "min");
       const max = rnum(e, ctx, vr, "max");
-          // Deterministic LCG advanced through a hidden VM var: same script run yields the same sequence (resumable), successive calls differ.
+          // Deterministic LCG advanced through a hidden VM var: a run yields the same sequence, successive calls differ.
       const prev = Number(vr.get("__rand_state"));
       let seed =
         Number.isFinite(prev) && prev > 0
