@@ -125,7 +125,11 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
           SOCIAL_SIZES.map(async (s) => ({
             size: s,
             label: `social (${s})`,
-            svg: await generateSocial({ theme, size: s }),
+            svg: await generateSocial({
+              theme,
+              size: s,
+              modelCount: pricing.modelCount,
+            }),
           })),
         );
         allBadges.push({ type: "social", badges: socialBadges });
@@ -153,10 +157,12 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
       // Social banners stand apart from the user-facing badge grid: their own
       // sizes (SOCIAL_SIZES), no stats/pricing, excluded from /all + generator.
       if (params.name === "social") {
+        const pricing = await getPricingData();
         const socialSvg = await generateSocial({
           theme,
           size: size as SocialSize,
           staticMode: isPng,
+          modelCount: pricing.modelCount,
         });
         if (isPng) {
           const png = await svgToPng(socialSvg);
