@@ -35,7 +35,7 @@ const LEGAL_LINKS = [
 // they verify, so the badges stay small.
 const FEATURED_BADGES = [
   {
-    href: "https://startupfa.me/s/unorouter?utm_source=unorouter.ai",
+    href: "https://startupfa.me/s/unorouter?utm_source=unorouter.com",
     src: "https://startupfa.me/badges/featured/default.webp",
     alt: "UnoRouter - Featured on Startup Fame",
   },
