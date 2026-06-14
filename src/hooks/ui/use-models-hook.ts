@@ -84,10 +84,13 @@ export function useModelsFilter() {
     priceRange[1] < PRICE_MAX ||
     sortOrder !== "newest";
 
+  const query = search.trim().toLowerCase();
   let filtered = models.filter((model) => {
-    const matchesSearch = model.name
-      .toLowerCase()
-      .includes(search.toLowerCase());
+    const matchesSearch =
+      query.length === 0 ||
+      model.name.toLowerCase().includes(query) ||
+      model.vendor.name.toLowerCase().includes(query) ||
+      (model.isFree && query.length >= 2 && "free".startsWith(query));
     const matchesModality = deriveOutputModality(model) === outputModality;
     const matchesVendor =
       selectedVendors.length === 0 ||
