@@ -18,7 +18,7 @@ function truncateToTitle(text: string): string {
   return `${trimmed.trimEnd()}...`;
 }
 
-    // Reasoning models can burn the 30-token budget inside an unclosed <think> block that would become the visible title; strip closed blocks and anything after an unclosed opening tag.
+    // Reasoning models can spend the budget inside a <think> block that becomes the title; strip closed blocks and anything after an unclosed open tag.
 function stripThinkFromTitle(text: string): string {
   let t = text.replace(/<think(?:ing)?>[\s\S]*?<\/think(?:ing)?>/gi, "");
   const openIdx = t.search(/<think(?:ing)?>/i);
@@ -32,7 +32,7 @@ export async function generateChatTitle(
   text: string,
   preferredModel?: string,
 ) {
-      // The active chat model rides along as preferredModel, but it can be an image/video model (no text title gen); fall through to the free text race then.
+      // preferredModel is the active chat model, but it can be image/video (no text title gen); fall through to the free text race.
   const usableModel =
     preferredModel && !(await isMediaModel(preferredModel)).mediaType
       ? preferredModel

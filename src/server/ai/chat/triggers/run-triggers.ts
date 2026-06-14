@@ -1,4 +1,4 @@
-    // start-mode trigger execution before assembly: surfaces system-prompt injections, var mutations (ride the var-writeback channel), and the stop flag. Deeper mutations apply to the in-memory context for this turn only.
+    // start-mode trigger execution before assembly: surfaces system-prompt injections, var mutations, and the stop flag. Deeper mutations apply in-memory for this turn only.
 
 import {
   makeTriggerContext,
@@ -14,7 +14,7 @@ export type StartTriggerResult = {
   extraSystemPrompt: string;
   // True if a trigger requested the prompt not be sent.
   stopSending: boolean;
-      // showAlert frames collected server-side; streamed to the client as transient data-alert parts (normal/error kinds only).
+      // showAlert frames collected server-side, streamed as transient data-alert parts (normal/error kinds only).
   alerts: { kind: string; text: string }[];
 };
 

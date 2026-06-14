@@ -13,7 +13,7 @@ import { projectConversationSettings } from "@/lib/db/conversation-settings";
 import { and, asc, eq, inArray } from "drizzle-orm";
 import type { LoadedConvContext } from "@/lib/types";
 
-    // userId scopes the conversation lookup: convId is client-controlled on the stream path, so an unscoped load let a caller assemble a prompt from another user's private context and read it back through model output. Child rows hang off this convId, so gating the parent row is sufficient.
+    // userId scopes the lookup: convId is client-controlled, so an unscoped load leaks another user's private context. Gating the parent row covers the child rows.
 export async function loadConvContext(userId: number, convId: string) {
   const db = getDb();
 
@@ -105,7 +105,7 @@ export async function loadConvContext(userId: number, convId: string) {
     .orderBy(asc(conversationLorebooks.orderIndex));
   const lorebookIds = lbBindings.map((b) => b.lorebookId);
 
-      // Lorebook entries inherit ownership from the parent lorebook; scope the parents and narrow the entry scan to surviving ids.
+      // Entries inherit ownership from the parent lorebook; scope the parents, then scan entries of surviving ids.
   const lbRowsRaw =
     lorebookIds.length > 0
       ? await db

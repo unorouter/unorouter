@@ -1,6 +1,6 @@
 "use client";
 
-    // Cross-tab single-holder locks on the Web Locks API: acquisition is atomic (the old BroadcastChannel version could double-grant under TOCTOU) and the browser auto-releases when the holding tab dies, so no TTL/heartbeat. acquire/release map onto a held request resolved on release.
+    // Cross-tab single-holder locks via Web Locks: atomic acquisition, and the browser auto-releases when the holding tab dies, so no TTL/heartbeat.
 
 const held = new Map<string, () => void>();
 

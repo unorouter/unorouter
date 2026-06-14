@@ -58,20 +58,20 @@ export type ChatMessageMetadata = {
   usage?: MessageUsage;
   droppedParams?: string;
   debug?: RequestLogPayload;
-      // Serialized chat-variable map emitted when macro setvar/addvar changed it this turn. The history adapter persists it to conversation vars.
+      // Serialized chat-variable map, emitted when setvar/addvar changed it. The history adapter persists it to conversation vars.
   vars?: string;
-      // Serialized per-user global-variable map (setglobalvar). Persisted to the user's global-var store by the history adapter.
+      // Serialized per-user global-variable map (setglobalvar). The history adapter persists it to the global-var store.
   globalVars?: string;
-      // Rolling-summary memory update: the running summary + how many leading messages it now covers. Persisted to conversation summaryMemory/anchor.
+      // Rolling-summary update: the running summary + how many leading messages it covers. Persisted to summaryMemory/anchor.
   summary?: { summary: string; anchor: number };
-      // runImgGen inlay bytes generated server-side this turn; the adapter persists them as local media rows ({{inlay::id}} renders from them).
+      // runImgGen inlay bytes generated server-side; the adapter persists them as local media rows for {{inlay::id}}.
   inlayMedia?: {
     id: string;
     dataBase64: string;
     mimeType: string;
     sizeBytes: number;
   }[];
-      // Which character spoke this turn (multi-character rotation). Rides the finish frame because the rotation loop clears the speaking atom before the adapter persists.
+      // Which character spoke (multi-character rotation). Rides the finish frame since the loop clears the speaking atom before persist.
   speakingCharacterId?: string;
 };
 
@@ -230,7 +230,7 @@ export class ParamError extends Error {
 
 // SEO / docs / blog registry types.
 
-    // Static doc slugs only: the dynamic /docs/[slug] template is excluded so DocSlug stays a subset of SeoTimestampSlug; the [slug] route casts its runtime slug.
+    // Static doc slugs only: the /docs/[slug] template is excluded so DocSlug stays a subset of SeoTimestampSlug.
 export type DocSlug = keyof typeof pathnames extends infer K
   ? K extends `/${infer R extends `docs/${string}`}`
     ? R extends `${string}[${string}`
@@ -307,9 +307,9 @@ type DocI18nPrefix = {
 }[TranslationKey];
 
 export type DocEntry = {
-      // For the static /docs index this is path.slice(1); for guides served by the single /docs/[slug] route it is docs/${guide.slug}.
+      // path.slice(1) for the static /docs index; docs/${guide.slug} for guides on the /docs/[slug] route.
   slug: string;
-      // Either a static route ("/docs") or a dynamic href ({ pathname: "/docs/[slug]", params }). getPathname/localeUrl resolve both.
+      // A static route ("/docs") or a dynamic href ({ pathname, params }). getPathname/localeUrl resolve both.
   path: Pathname;
   i18nPrefix: DocI18nPrefix;
   // Drive published/modified timestamps via git history.

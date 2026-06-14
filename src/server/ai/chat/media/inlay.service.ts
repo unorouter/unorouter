@@ -1,4 +1,4 @@
-    // Inlay image generation (Risu runImgGen / Lua generateImage): one image via the first image-capable catalog model, returned as base64 for client-side media persistence. Sync endpoints carry no negative-prompt field; it is ignored.
+    // Inlay image generation (Risu runImgGen): one image via the first image-capable catalog model, returned as base64 for client persistence.
 
 import { chooseEndpoint } from "@/lib/ai/playground/models-dynamic";
 import { getPricingSummary } from "@/lib/api/pricing-cache";
