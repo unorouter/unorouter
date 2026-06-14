@@ -56,7 +56,7 @@ const serwist = new Serwist({
         !isOpfsAsset(url, request.destination),
       handler: new CacheFirst({
         cacheName: "next-static",
-            // ~900 hashed icon chunks per build; deploys purge old ones server-side, so open tabs depend on this cache. Small cap thrashed and stale tabs 404'd.
+            // ~900 hashed icon chunks per build; open tabs depend on this cache, so a small cap thrashed and 404'd.
         plugins: [new ExpirationPlugin({ maxEntries: 2000 })],
       }),
     },
@@ -88,7 +88,7 @@ const serwist = new Serwist({
         ],
       }),
     },
-        // Navigations: network always wins, cache is offline-only fallback. No timeout: a timeout served stale HTML whose chunks 404 after a deploy.
+        // Navigations: network wins, cache is offline-only. No timeout: a timeout served stale HTML whose chunks 404.
     {
       matcher: ({ request, sameOrigin }) =>
         sameOrigin && request.mode === "navigate",
@@ -109,7 +109,7 @@ const serwist = new Serwist({
   },
 });
 
-    // Build N HTML mixed with build N+1 chunks crashes hydration; each new SW wipes these on activation (hash-addressed caches survive).
+    // Cross-build HTML/chunk mixing crashes hydration; each new SW wipes these on activation.
 const BUILD_SCOPED_CACHES = [
   "pages",
   "pages-rsc",
@@ -122,7 +122,7 @@ self.addEventListener("activate", (event) => {
   );
 });
 
-    // Passthrough listener (before serwist); stopImmediatePropagation keeps cross-origin requests and OPFS worker/wasm/sqlocal on the native fetch path (no respondWith), avoiding COEP-violating opaque caches and SharedArrayBuffer stalls.
+    // Passthrough before serwist: keep cross-origin and OPFS worker/wasm/sqlocal on native fetch, avoiding COEP opaque caches and SAB stalls.
 self.addEventListener("fetch", (event) => {
   const url = new URL(event.request.url);
   if (

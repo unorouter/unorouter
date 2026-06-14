@@ -127,6 +127,7 @@ export function ModelsPage() {
                 data={m.filtered}
                 columns={columns}
                 localSorting
+                onRowClick={(model) => m.setSelectedModelName(model.name)}
               />
             ) : (
               m.filtered.map((model) => (
