@@ -30,13 +30,6 @@ const LEGAL_LINKS = [
   { href: "/privacy", key: msg("FOOTER.PRIVACY") },
 ] as const;
 
-// Reciprocal directory badges. These dirs crawl the homepage/footer for a
-// dofollow link back before approving our listing; the link presence is what
-// they verify, so the badges stay small. Badge images are self-hosted under
-// /badges so we never inject a cross-origin image (no broken-box flash, no
-// dependency on the dir's CDN, no referrer leak).
-// `name` is a proper noun (not translated); the "Featured on" / "Verified on"
-// connector is the translated part, composed into the img alt at render.
 const FEATURED_BADGES = [
   {
     href: "https://startupfa.me/s/unorouter?utm_source=unorouter.com",
@@ -79,6 +72,13 @@ const FEATURED_BADGES = [
     name: "ShowMeBestAI",
     verified: false,
     width: 96,
+  },
+  {
+    href: "https://www.producthunt.com/products/unorouter",
+    src: "/badges/producthunt.svg",
+    name: "Product Hunt",
+    verified: false,
+    width: 111,
   },
 ] as const;
 
