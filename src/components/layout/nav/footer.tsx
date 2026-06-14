@@ -32,41 +32,43 @@ const LEGAL_LINKS = [
 
 // Reciprocal directory badges. These dirs crawl the homepage/footer for a
 // dofollow link back before approving our listing; the link presence is what
-// they verify, so the badges stay small.
+// they verify, so the badges stay small. Badge images are self-hosted under
+// /badges so we never inject a cross-origin image (no broken-box flash, no
+// dependency on the dir's CDN, no referrer leak).
 const FEATURED_BADGES = [
   {
     href: "https://startupfa.me/s/unorouter?utm_source=unorouter.com",
-    src: "https://startupfa.me/badges/featured/default.webp",
+    src: "/badges/startupfame.webp",
     alt: "UnoRouter - Featured on Startup Fame",
     width: 76,
   },
   {
     href: "https://dang.ai",
-    src: "https://assets.dang.ai/badges/dang-verified-dark.png",
+    src: "/badges/dang.png",
     alt: "Verified on DANG!",
     width: 67,
   },
   {
     href: "https://twelve.tools",
-    src: "https://twelve.tools/badge0-dark.svg",
+    src: "/badges/twelvetools.svg",
     alt: "Featured on Twelve Tools",
     width: 89,
   },
   {
     href: "https://fazier.com",
-    src: "https://fazier.com/api/v1//public/badges/launch_badges.svg?badge_type=featured&theme=neutral",
+    src: "/badges/fazier.svg",
     alt: "Featured on Fazier",
     width: 102,
   },
   {
     href: "https://code.market",
-    src: "https://code.market/assets/manage-product/featured-logo-bright.svg",
+    src: "/badges/codemarket.svg",
     alt: "Featured on code.market",
     width: 86,
   },
   {
     href: "https://showmebest.ai",
-    src: "https://showmebest.ai/badge/feature-badge-white.webp",
+    src: "/badges/showmebest.webp",
     alt: "Featured on ShowMeBestAI",
     width: 96,
   },
