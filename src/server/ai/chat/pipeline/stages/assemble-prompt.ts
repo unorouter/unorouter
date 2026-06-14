@@ -1,4 +1,4 @@
-    // Stage 3: build the assembled prompt and budget history. Runs start triggers + memory, assembles the template, clamps the output cap, fits history, splices depth injections, expands macros.
+    // Stage 3: build the assembled prompt and budget history. Runs start triggers + memory, assembles, clamps output cap, fits history, expands macros.
 
 import {
   CONTEXT_SAFETY_MARGIN,
@@ -140,7 +140,7 @@ export async function assemblePrompt(
 
   const effectiveMaxOutputTokens = clampOutputTokens(assembled, modelInfo);
 
-      // Fit to context window, drop oldest first. Reserve = non-history prompt + clamped output cap, output reserve capped at half the window.
+      // Fit to context window, drop oldest first. Reserve = non-history prompt + clamped output cap, capped at half the window.
   const contextWindow = modelInfo?.metadata.contextWindow;
   const outputReserve = contextWindow
     ? Math.min(effectiveMaxOutputTokens, Math.floor(contextWindow / 2))
@@ -178,7 +178,7 @@ export async function assemblePrompt(
   };
 }
 
-    // Model maxOutputTokens is a hard ceiling; clamp preset to it + the free cap. Unknown cap falls back to UNKNOWN_MODEL_OUTPUT_CAP.
+    // Model maxOutputTokens is a hard ceiling; clamp preset to it + the free cap. Unknown cap falls back to the default cap.
 function clampOutputTokens(
   assembled: AssembledSystem,
   modelInfo: ProcessedModel | undefined,

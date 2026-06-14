@@ -1,4 +1,4 @@
-    // Per-conv context cache for upload-dedup: resolves a client hash to the last full payload. LRU + TTL; a miss 409s and the client retries full, so correctness never depends on a hit.
+    // Per-conv context cache for upload-dedup: resolves a client hash to the last full payload. LRU + TTL; a miss 409s and the client retries full.
 
 import type { ChatContext } from "@/lib/validation/chat";
 
@@ -28,7 +28,7 @@ export function storeContext(
   }
 }
 
-    // Resolve the context payload: full payload wins and refreshes the cache, a matching hash serves the cached copy, an unknown hash throws.
+    // Resolve the context payload: full payload wins and refreshes the cache, a matching hash serves the cached copy, unknown hash throws.
 export function resolveContextPayload(body: {
   convId?: string | null;
   chatContext?: ChatContext;

@@ -8,7 +8,7 @@ import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
 import { quotaToDollars } from "@/lib/utils/format/number";
 
-    // Pull new-api's authoritative record for a finished request and overwrite the local request_logs estimates. The row logs async after stream close, so a missing result throws to ride the backoff.
+    // Pull new-api's authoritative record for a finished request, overwriting local request_logs estimates. Missing result throws.
 export async function enrichRequestLogFromUpstream(
   userId: number,
   msgId: string,

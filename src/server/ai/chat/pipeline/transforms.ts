@@ -33,7 +33,7 @@ function textOf(parts: unknown): string {
     .join("\n");
 }
 
-    // Map fn over text parts; returns the original message when nothing changed so no-op passes don't churn allocations.
+    // Map fn over text parts; returns the original message when nothing changed so no-op passes don't churn allocs.
 function mapTextParts(
   m: StreamMessages[number],
   fn: (text: string) => string,
@@ -155,7 +155,7 @@ export function expandMessageMacros(
   messages: StreamMessages,
   scope: AssembledSystem["vars"],
 ): StreamMessages {
-      // Per-message chatIndex (Risu chatID) for message_time/role macros, counting the same set collectHistory returns. Shallow copy keeps vars shared so setvar writes stay visible.
+      // Per-message chatIndex (Risu chatID) for message_time/role macros, counting the set collectHistory returns. Shallow copy keeps vars shared.
   let h = 0;
   return messages.map((m) => {
     const isHistory =
@@ -185,7 +185,7 @@ export function stripSystemRole(messages: StreamMessages): StreamMessages {
   );
 }
 
-    // Reasoning is output-only: echoing it back makes GLM-family reject the request. Strip both reasoning parts and inline think tags from history.
+    // Reasoning is output-only: echoing it back makes GLM-family reject the request. Strip reasoning parts and inline think tags from history.
 const INLINE_THINK_RE = /<(think|thinking|Thoughts)>[\s\S]*?<\/\1>\s*/g;
 
 function stripInlineThink(text: string): string {
@@ -198,7 +198,7 @@ export function stripReasoningParts(messages: StreamMessages): StreamMessages {
     let changed = false;
     const parts = m.parts
       .filter((p) => {
-            // reasoning is output-only; data-error is a render-only failed-attempt marker. Neither may re-enter model context.
+            // reasoning is output-only; data-error is a render-only failed-attempt marker. Neither may re-enter context.
         if (p.type === "reasoning" || p.type === "data-error") {
           changed = true;
           return false;
@@ -274,7 +274,7 @@ export function prependUserStub(messages: StreamMessages): StreamMessages {
   return [mkMsg("user", " "), ...messages];
 }
 
-    // GLM-family reject "last role must be user"; trailing mirror of prependUserStub. NEVER call with a prefill: it must remain the last assistant turn.
+    // GLM-family reject "last role must be user"; trailing mirror of prependUserStub. NEVER call with a prefill: it stays the last assistant.
 export function appendUserStub(messages: StreamMessages): StreamMessages {
   if (messages.length === 0) return messages;
   if (messages[messages.length - 1].role === "user") return messages;
@@ -335,7 +335,7 @@ export function applyRegexScripts(
   });
 }
 
-    // Role-tagged history (newest last) for the {{history}} macros. times (client-sent, keyed by message id) feeds message_time/date/idle.
+    // Role-tagged history (newest last) for the {{history}} macros. times (client-sent, by message id) feeds message_time/date/idle.
 export function collectHistory(
   messages: StreamMessages,
   times?: Record<string, number>,
@@ -358,7 +358,7 @@ export function collectHistory(
   return out;
 }
 
-    // Drop messages already folded into the rolling summary. anchor counts the same set collectHistory returns, so walk with the same filter.
+    // Drop messages already folded into the rolling summary. anchor counts the set collectHistory returns, so walk the same filter.
 export function dropSummarizedPrefix(
   messages: StreamMessages,
   anchor: number,
@@ -398,7 +398,7 @@ function messageTokens(m: StreamMessages[number]): number {
   return n;
 }
 
-    // Drop oldest messages first, never split one. reserveTokens = everything outside history. Always keeps at least the last message.
+    // Drop oldest messages first, never split one. reserveTokens = everything outside history. Always keeps the last message.
 export function fitToTokenBudget(
   messages: StreamMessages,
   contextWindow: number | undefined,

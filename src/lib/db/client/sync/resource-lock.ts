@@ -1,6 +1,6 @@
 "use client";
 
-    // Cross-tab single-holder locks via Web Locks: atomic acquisition, and the browser auto-releases when the holding tab dies, so no TTL/heartbeat.
+    // Cross-tab single-holder locks via Web Locks: atomic acquisition, the browser auto-releases when the holding tab dies, no TTL/heartbeat.
 
 const held = new Map<string, () => void>();
 

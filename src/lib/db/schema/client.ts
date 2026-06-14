@@ -12,10 +12,10 @@ import {
 
 export type PendingSyncOp = "patch" | "delete";
 
-    // Deferred work drained on load with backoff. logEnrich (only task type today) pulls a request's authoritative cost/tokens/channel after the stream settled.
+    // Deferred work drained on load with backoff. logEnrich (only task type today) pulls a request's authoritative cost/tokens/channel.
 export type PendingTaskType = "logEnrich";
 
-    // Outbox: deferred work drained with backoff. Task args ride the payload JSON; kind scopes future per-entity task types.
+    // Outbox: deferred work drained with backoff. Task args ride payload JSON; kind scopes future per-entity task types.
 export const localPendingTasks = sqliteTable(
   "local_pending_tasks",
   {
@@ -24,7 +24,7 @@ export const localPendingTasks = sqliteTable(
       .notNull()
       .default("logEnrich")
       .$type<PendingTaskType>(),
-        // Per-entity scope where needed. logEnrich stores "" (PK members can't be null); the queue maps "" and null at its boundary.
+        // Per-entity scope where needed. logEnrich stores "" (PK members can't be null); the queue maps "" and null at the boundary.
     kind: text("kind").notNull().$type<SyncKindName | "">(),
     // Entity id: msgId for logEnrich (convId/etc. for future task types).
     id: text("id").notNull(),
@@ -38,7 +38,7 @@ export const localPendingTasks = sqliteTable(
     lastError: text("last_error"),
     // Per-task JSON args. logEnrich: {requestId}.
     payload: text("payload"),
-        // Bumped on every enqueue; drain deletes only when seq is unchanged, so a mid-drain enqueue survives for the next pass.
+        // Bumped on every enqueue; drain deletes only when seq is unchanged, so a mid-drain enqueue survives to next pass.
     seq: integer("seq").notNull().default(0),
   },
   (table) => [

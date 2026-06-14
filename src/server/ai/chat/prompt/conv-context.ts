@@ -13,7 +13,7 @@ import { projectConversationSettings } from "@/lib/db/conversation-settings";
 import { and, asc, eq, inArray } from "drizzle-orm";
 import type { LoadedConvContext } from "@/lib/types";
 
-    // userId scopes the lookup: convId is client-controlled, so an unscoped load leaks another user's private context. Gating the parent row covers the child rows.
+    // userId scopes the lookup: convId is client-controlled, so an unscoped load leaks another user's context. Gating the parent covers children.
 export async function loadConvContext(userId: number, convId: string) {
   const db = getDb();
 

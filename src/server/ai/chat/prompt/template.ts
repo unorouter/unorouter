@@ -1,4 +1,4 @@
-    // RisuAI-style prompt template: user-orderable cards walked into the prompt. Cards are named SLOTS or LITERAL text, plus one chat card marking where history splices in.
+    // RisuAI-style prompt template: user-orderable cards walked into the prompt. Cards are named SLOTS or LITERAL text, plus one chat card for history.
 
 export type PromptItemRole = "system" | "user" | "assistant";
 
@@ -18,10 +18,10 @@ export type PromptItem =
   | { type: "slot"; slot: SlotName; innerFormat?: string }
   // Literal block inserted in place with a chosen role.
   | { type: "plain"; text: string; role: PromptItemRole }
-      // Chat-history marker. range slices history: negative counts from the end, "end" is full length, ALL (-1000) is everything.
+      // Chat-history marker. range slices history: negative counts from the end, "end" is full length, ALL (-1000) is all.
   | { type: "chat"; rangeStart: number; rangeEnd: number | "end" };
 
-    // One emitted prompt part: a role message or the history placeholder the stream service expands into conversation messages.
+    // One emitted prompt part: a role message or the history placeholder the stream service expands into messages.
 export type PromptPart =
   | { kind: "message"; role: PromptItemRole; text: string }
   | { kind: "chatHistory"; rangeStart: number; rangeEnd: number | "end" };
@@ -34,7 +34,7 @@ export type TemplateSlots = Record<
 
 export const CHAT_RANGE_ALL = -1000;
 
-    // Fixed assembly order, used when a preset has no promptTemplate. Tail: chat history, prefill, then the post-history end inject last.
+    // Fixed assembly order, used when a preset has no promptTemplate. Tail: chat history, prefill, then post-history end inject.
 export const DEFAULT_PROMPT_TEMPLATE: PromptItem[] = [
   { type: "slot", slot: "main" },
   { type: "slot", slot: "loreTop" },

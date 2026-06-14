@@ -1,6 +1,6 @@
 // Client crash recovery helpers shared by the global + in-app error boundaries.
 
-    // Wipe every client storage surface (cookies, OPFS DBs, local/sessionStorage, IndexedDB, SW caches). Corrupt persisted state usually causes a crash surviving reloads.
+    // Wipe every client storage surface (cookies, OPFS DBs, local/sessionStorage, IndexedDB, SW caches). Corrupt state usually survives reloads.
 export async function clearAllClientStorage() {
   try {
     for (const cookie of document.cookie.split(";")) {
