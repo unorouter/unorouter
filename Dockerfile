@@ -31,8 +31,14 @@ COPY --from=builder --chown=appuser:appgroup /app/.next/static ./.next/static
 COPY --from=builder --chown=appuser:appgroup /app/public ./public
 
 # sharp is a native module Next standalone tracing cannot bundle across the
-# bun-alpine -> node-alpine stage swap; install it here for musl/node24 binaries.
-RUN npm install --no-save --omit=dev --legacy-peer-deps sharp@0.35.1 && \
+# bun-alpine -> node-alpine stage swap; install the node24-musl binary here.
+# Install in an isolated empty dir so npm never resolves the standalone tree
+# (which carries a github: dependency that would need git, absent on alpine),
+# then drop the package into the standalone node_modules.
+RUN mkdir -p /tmp/sharp && cd /tmp/sharp && \
+    npm install --no-save --omit=dev sharp@0.35.1 && \
+    cp -r /tmp/sharp/node_modules/. /app/node_modules/ && \
+    rm -rf /tmp/sharp && \
     chown -R appuser:appgroup node_modules
 
 USER appuser
