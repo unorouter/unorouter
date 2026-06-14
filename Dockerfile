@@ -39,7 +39,7 @@ RUN mkdir -p /tmp/sharp && cd /tmp/sharp && \
     npm install --no-save --omit=dev sharp@0.35.1 && \
     cp -r /tmp/sharp/node_modules/. /app/node_modules/ && \
     rm -rf /tmp/sharp && \
-    chown -R appuser:appgroup node_modules
+    chown -R appuser:appgroup /app/node_modules
 
 USER appuser
 
