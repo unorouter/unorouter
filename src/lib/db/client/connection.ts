@@ -6,9 +6,9 @@ import { logger } from "@/lib/utils/logger";
 import type { SQLocalDrizzle } from "sqlocal/drizzle";
 import { copyAllTables } from "./data-migrate/copy";
 
-    // Connection lifecycle layer: owns opening (with the migration salvage cascade) and in-place recovery. client.ts only wires the LocalClient surface on top of run.
+    // Connection lifecycle: owns opening (with the migration salvage cascade) and in-place recovery. client.ts wires LocalClient on top.
 
-    // Clearing site data mid-session kills the live handle; later statements reject with these errors. The OPFS/wasm boundary only surfaces stringly-typed errors, so string sniffing is necessary, contained here.
+    // Site-data clear mid-session kills the handle; OPFS only surfaces stringly errors, so sniff strings here.
 function isRecoverableDbError(err: unknown): boolean {
   const s = String(err);
   return (
@@ -19,7 +19,7 @@ function isRecoverableDbError(err: unknown): boolean {
   );
 }
 
-    // Open + migrate with salvage cascade: fresh migrated DB at a temp path, copy surviving rows by column intersect, overwrite the broken file; copy failure falls back to a clean wipe. Runs in prod too.
+    // Open + migrate with salvage cascade: fresh DB at a temp path, copy surviving rows, overwrite the broken file; copy failure wipes clean. Runs in prod too.
 export async function openMigratedSql(
   dbPath: string,
   userId: number,
@@ -45,7 +45,7 @@ export async function openMigratedSql(
       const result = await copyAllTables(
         { exec: sql.exec.bind(sql) },
         { exec: fresh.exec.bind(fresh) },
-            // Same-DB recovery keeps the outbox (un-pushed local changes would be lost); only the migration cursor must stay fresh.
+            // Same-DB recovery keeps the outbox (un-pushed changes would be lost); only the migration cursor stays fresh.
         { skipTables: [getTableName(localMigrations)] },
       );
       logger.info("Local DB salvage copy complete", {
@@ -89,7 +89,7 @@ export class LocalDbConnection {
     private userId: number,
   ) {}
 
-      // Self-heal: on recoverable handle loss, single-flight reopen and replay the statement once. It never executed on the dead handle, so replay is safe.
+      // Self-heal: on recoverable handle loss, single-flight reopen and replay once. It never ran on the dead handle, so replay is safe.
   async run<T>(fn: (sql: SQLocalDrizzle) => Promise<T>): Promise<T> {
     try {
       return await fn(this.sql);

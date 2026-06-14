@@ -41,7 +41,7 @@ function groupHeader(group?: string | null): Record<string, string> {
   return group && group !== "auto" ? { "X-Group": group } : {};
 }
 
-    // One-shot UI-message response: run execute, stream whatever it writes. On a throw, emit a real assistant message carrying a data-error part so the client's history adapter persists an error node (else the failed run only flashed a transient toast and vanished on refresh).
+    // One-shot UI-message response: run execute, stream its output. On a throw, emit an assistant message with a data-error part so the adapter persists an error node.
 function streamResponse(
   execute: (writer: UIMessageStreamWriter) => Promise<void>,
 ) {
@@ -172,7 +172,7 @@ async function processUrls(
   return (await Promise.all(matches.map(process))).filter(Boolean).join("\n\n");
 }
 
-    // Dispatch by the model's advertised endpoint: image-generation POSTs /v1/images/generations, but openai-only image models (e.g. gpt-image-2) MUST go to /v1/chat/completions with a messages body, else new-api 400s "field messages is required". buildBody/extractResultUris cover all three shapes; returned URIs are already data: or http urls.
+    // Dispatch by advertised endpoint: image-generation POSTs /v1/images/generations, but openai-only image models MUST use /v1/chat/completions with a messages body or new-api 400s.
 async function generateImage(
   apiKey: string,
   model: string,
@@ -228,7 +228,7 @@ export async function handleImageStream(
       body.group,
     );
 
-        // Stream inline data URLs; client persists base64, sync pushes R2 later. Guests never touch Turso/R2: no FK violation, no CORP-blocked embeds.
+        // Stream inline data URLs; client persists base64. Guests never touch Turso/R2: no FK violation, no CORP-blocked embeds.
     const dataUrls = await Promise.all(
       images.map(async (img: string) => {
         if (img.startsWith("data:")) return img;
@@ -269,7 +269,7 @@ export async function handleVideoTaskStream(
       body.group,
     );
 
-    // data-task: assistant-ui rewrites to {type:"data",name:"task"}; partsToItems persists as `task` for reopen/finalize.
+    // data-task: assistant-ui rewrites to a data/task part; partsToItems persists as `task` for reopen/finalize.
     writer.write({ type: "start" });
     writer.write({ type: "start-step" });
     writer.write({
@@ -281,7 +281,7 @@ export async function handleVideoTaskStream(
   });
 }
 
-    // TTS models advertise no dedicated endpoint tag (just "openai"); detect speech vs transcription by name so the right OpenAI audio path is used.
+    // TTS models advertise no dedicated endpoint tag; detect speech vs transcription by name to pick the right audio path.
 const isSttModel = (model: string) =>
   /whisper|transcrib|asr|speech-to-text|stt/i.test(model);
 
@@ -305,7 +305,7 @@ async function generateSpeech(
 }
 
 export async function handleAudioStream(apiKey: string, body: MediaStreamBody) {
-      // STT needs an audio input the chat composer can't yet attach; guide the user. Plain text (not a t() key): persisted message content, not re-translated.
+      // STT needs an audio input the composer can't yet attach; guide the user. Plain text since it's persisted, not re-translated.
   if (isSttModel(body.model)) {
     return streamResponse(async (writer) => {
       writeBufferedMessage(
@@ -383,7 +383,7 @@ export function handleBufferedStream(
   result: ReturnType<typeof streamText>,
   body: MediaStreamBody,
   mediaType: ModelType,
-      // Caller-synthesized finish metadata, emitted as a chunk so the buffered path persists the same fields as the streamed finish frame.
+      // Caller-synthesized finish metadata, emitted as a chunk so the buffered path persists the same fields as the streamed frame.
   finishMeta?: () => Promise<Record<string, unknown>>,
   // Server-generated message id (keys the server-persisted request log).
   messageId?: string,

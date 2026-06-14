@@ -68,7 +68,7 @@ export const getCookieValue = async <T>(
   }
 };
 
-    // Authoritative local-DB owner from the sealed user-id cookie; GUEST_USER_ID when absent/invalid. Server components only. Injected into the client tree so the owner is correct on first paint. Defined here (not config/constants) to avoid pulling iron-session into clients.
+    // Local-DB owner from the sealed user-id cookie (GUEST_USER_ID when absent). Server-only; here, not config/constants, to keep iron-session out of clients.
 export const getResolvedUserId = async (): Promise<number> => {
   const sealed = (await cookies()).get(USER_ID_COOKIE)?.value;
   return (await verifyUserId(sealed)) ?? GUEST_USER_ID;
@@ -131,7 +131,7 @@ export function assertFound<T>(
   if (rows.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
 }
 
-    // Redirect unauthed to /login preserving the target path: SERVER_URL_KEY header -> AuthRedirectCapture -> AUTH_REDIRECT_COOKIE -> consumed by login-form + OAuth callback.
+    // Redirect unauthed to /login, preserving the target path via AUTH_REDIRECT_COOKIE for login-form + OAuth callback.
 export async function redirectToLogin(): Promise<never> {
   const locale = await serverLocale();
   const incoming = (await headers()).get(SERVER_URL_KEY);
@@ -144,7 +144,7 @@ export async function redirectToLogin(): Promise<never> {
   });
 }
 
-    // Store the redirect target locale-less: i18n useRouter re-prepends the locale on push, so "/en/settings" would round-trip as "/en/en/settings" (404).
+    // Store the redirect target locale-less: useRouter re-prepends the locale on push, so a prefixed path would double the locale.
 function stripLocalePrefix(url: string, locale: string): string {
   try {
     const u = new URL(url);

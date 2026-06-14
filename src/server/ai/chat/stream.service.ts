@@ -33,7 +33,7 @@ export async function streamChat(
 ) {
   const { buffered, mediaType } = await isMediaModel(body.model);
 
-      // Group resolution: the toolbar atom rides top-level group, but the authoritative per-conversation value lives in the sent conv settings (a new chat seeds the atom to null while its row already has a group). Prefer top-level, fall back to conv settings.
+      // Group resolution: prefer the top-level toolbar group, fall back to conv settings (a new chat nulls the atom while its row already has a group).
   const settingsGroup = (
     body.chatContext?.settings as { group?: string | null } | undefined
   )?.group;
@@ -87,7 +87,7 @@ export async function streamChat(
     });
     return createUIMessageStreamResponse({ stream: stopStream });
   }
-      // cacheControl flag limits cache_control to Claude: others (Mistral) advertise caching but 422 on the Anthropic block format.
+      // cacheControl flag limits cache_control to Claude: others advertise caching but 422 on the Anthropic block format.
   const provider = getProvider(apiKey, prepared.bodyMutations);
 
   // Per-request group override; new-api reads X-Group. Omit for null/auto.
@@ -118,7 +118,7 @@ export async function streamChat(
           : undefined,
     };
   };
-      // Upstream request id + dropped-params ride response headers; capture from whichever callback sees them first (finish-step beats onFinish on timing).
+      // Upstream request id + dropped-params ride response headers; capture from whichever callback sees them first.
   const captureHeaders = (
     hdrs: Record<string, string> | null | undefined,
   ): void => {
@@ -133,7 +133,7 @@ export async function streamChat(
     }
   };
   const result = streamText({
-        // Lift inline <think> text into a proper reasoning part: UI renders it collapsible, stripReasoningParts keeps it out of next turn's context.
+        // Lift inline <think> text into a reasoning part: UI renders it collapsible, stripReasoningParts keeps it out of next turn.
     model: wrapLanguageModel({
       model: provider.chatModel(body.model),
       middleware: extractReasoningMiddleware({ tagName: "think" }),
@@ -248,7 +248,7 @@ export async function streamChat(
     return createUIMessageStreamResponse({ stream: uiStream });
   }
 
-      // Buffered (media follow-ups + streaming-off): same metadata, synthesized after the full text resolves so usage/cost/writebacks are not lost.
+      // Buffered (media follow-ups + streaming-off): same metadata, synthesized after the full text resolves so usage/cost/writebacks survive.
   return handleBufferedStream(
     result,
     body,

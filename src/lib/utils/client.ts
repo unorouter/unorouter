@@ -14,7 +14,7 @@ SetErrorFunction((error) => {
   return DefaultErrorFunction(error);
 });
 
-    // Pull {message, params} out of any error shape: a JSON string, a {message} object, or an array of strings/{message} objects. JSON strings recurse.
+    // Pull {message, params} out of any error shape: JSON string, {message} object, or array. JSON strings recurse.
 function pickMessage(v: unknown): Extracted | null {
   if (typeof v === "string") {
     const s = v.trim();
@@ -51,7 +51,7 @@ export async function handleError(
   t?: ReturnType<typeof useTranslations<never>>,
   toastId?: string,
 ) {
-      // Eden errors carry the body on .data; a thrown fetch carries it on .response. Otherwise pickMessage walks the value.
+      // Eden errors carry the body on .data, a thrown fetch on .response. Otherwise pickMessage walks the value.
   let source: unknown = e;
   if (e && typeof e === "object") {
     if ("data" in e) source = e.data;

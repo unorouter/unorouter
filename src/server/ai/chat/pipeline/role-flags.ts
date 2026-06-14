@@ -1,21 +1,21 @@
-    // Per-model role-handling flags (RisuAI LLMFlags port), keyed off the model name so new models pick the right behavior without per-model config. Manual preset flags OR with these.
+    // Per-model role-handling flags (RisuAI LLMFlags port), keyed off the model name. Manual preset flags OR with these.
 
 type ModelRoleFlags = {
   // Model accepts a real system role anywhere (no mid-conv system stripping).
   fullSystem: boolean;
-      // System messages must be hoisted to the front (informational; uno keeps the top-level system separate, so this is mostly a marker).
+      // System messages hoisted to the front; mostly a marker since uno keeps top-level system separate.
   firstSystem: boolean;
   // Adjacent same-role messages must be merged (strict user/assistant alternation).
   alternateRoles: boolean;
   // Conversation must start with a user message (inject a blank user stub).
   userStub: boolean;
-      // Conversation must END with a user message (append a blank user stub when it would otherwise end on assistant). GLM rejects "last role must be user".
+      // Conversation must END with a user message (append a blank user stub otherwise). GLM rejects "last role must be user".
   endUserStub: boolean;
   // Model honors an assistant prefill (trailing assistant message).
   prefillSupported: boolean;
   // DeepSeek prefix-completion API: trailing assistant gets `prefix: true`.
   deepSeekPrefix: boolean;
-      // DeepSeek thinking toggle: body.thinking {type, reasoning_effort}; enabled mode rejects sampling params (Risu deletes them).
+      // DeepSeek thinking toggle: body.thinking {type, reasoning_effort}; enabled mode rejects sampling params.
   deepSeekThinkingToggle: boolean;
       // DeepSeek wants the last assistant turn's reasoning echoed back as reasoning_content (continuation quality).
   deepSeekThinkingInput: boolean;
@@ -76,7 +76,7 @@ const RULES: Rule[] = [
       prefillSupported: true,
     },
   },
-      // Gemini thinking-exp rejects the CIVIC_INTEGRITY safety category (Risu noCivilIntegrity). Before the generic gemini rule.
+      // Gemini thinking-exp rejects the CIVIC_INTEGRITY safety category. Must precede the generic gemini rule.
   {
     test: /gemini-2[.-]?\d*-flash-thinking/i,
     flags: {
@@ -138,7 +138,7 @@ const RULES: Rule[] = [
       cacheControl: true,
     },
   },
-      // OpenAI GPT / o-series: full system role, no role transforms needed. Risu DeveloperRole/OAICompletionTokens renames are handled by upstream new-api; do not re-map here.
+      // OpenAI GPT / o-series: full system role, no transforms. Upstream new-api handles the Developer/completion-token renames; do not re-map here.
   {
     test: /\bgpt|^o[1-9]|openai|chatgpt/i,
     flags: { fullSystem: true },

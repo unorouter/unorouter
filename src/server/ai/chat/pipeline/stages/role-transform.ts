@@ -1,4 +1,4 @@
-    // Stage 4: walk the prompt template into the message array, hoist the leading system run, then apply per-model role transforms in their LOCKED order. Closes with the Lua editrequest hook and the #escape un-map.
+    // Stage 4: walk the template into messages, hoist the leading system run, apply role transforms in LOCKED order, then the Lua editrequest hook and #escape un-map.
 
 import { risuUnescape } from "@/lib/ai/chat/macros";
 import { runLuaEditTrigger } from "@/lib/ai/chat/triggers/lua/engine";
@@ -33,7 +33,7 @@ export async function transformRoles(
   historyMessages: StreamMessages,
   luaCodes: string[],
 ): Promise<RoleTransformed> {
-      // Model auto-flags OR'd with preset manual flags (RisuAI LLMFlags parity); a manual flag is never silently turned off. Computed before the system-hoist so the hoist can be conditional on it.
+      // Model auto-flags OR'd with preset manual flags; a manual flag is never turned off. Computed before the system-hoist so the hoist can depend on it.
   const autoFlags = getModelRoleFlags(model);
   const noSystemRole = assembled.flags.noSystemRole || !autoFlags.fullSystem;
   const forceAlternateRoles =
@@ -55,16 +55,16 @@ export async function transformRoles(
       ? undefined
       : risuUnescape(assembled.system);
 
-      // ORDER LOCKED, do not reshuffle: stripReasoningParts, noSystemRole, prefill, mergeAlternateRoles, prependUserStub, appendUserStub (each step depends on the prior, e.g. merge-eligibility, strict alternation, GLM last-role-user). DeepSeek thinking-input echoes the trailing assistant reasoning back as reasoning_content, collected before the strip.
+      // ORDER LOCKED: stripReasoningParts, noSystemRole, prefill, mergeAlternateRoles, prependUserStub, appendUserStub; each depends on the prior. Collect deepSeek trailing reasoning before the strip.
   const deepSeekReasoningContent = autoFlags.deepSeekThinkingInput
     ? collectTrailingReasoning(processedMessages)
     : undefined;
 
   processedMessages = stripReasoningParts(processedMessages);
   if (noSystemRole) processedMessages = stripSystemRole(processedMessages);
-      // Drop empties BEFORE merge (RisuAI parity): dropping after merge can recreate consecutive same-role messages, which strict-alternation upstreams reject.
+      // Drop empties BEFORE merge: dropping after can recreate consecutive same-role messages, which strict-alternation upstreams reject.
   processedMessages = dropEmptyMessages(processedMessages);
-      // The default template emits prefill as a prefill slot; only fall back to appending it when a custom template dropped the card, so prefill still lands. Merge below folds a doubled trailing assistant.
+      // Default template emits prefill as a slot; append it only when a custom template dropped the card. Merge below folds a doubled trailing assistant.
   if (assembled.prefill && !prefillEmitted(assembled)) {
     processedMessages = appendPrefill(processedMessages, assembled.prefill);
   }
@@ -88,7 +88,7 @@ export async function transformRoles(
   };
 }
 
-    // Walk the assembled promptParts into a message array. Each chatHistory marker splices its own history slice; when none exists, history appends at the end. Hoists the leading system run only when the model has a real system role (else lead=0 keeps char data for stripSystemRole+merge).
+    // Walk promptParts into messages. Each chatHistory marker splices its slice, else history appends at the end. Hoists the leading system run only when the model has a real system role.
 function walkTemplate(
   assembled: AssembledSystem,
   historyMessages: StreamMessages,

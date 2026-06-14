@@ -128,7 +128,7 @@ export const webSearchContextSize = t.Union([
 ]);
 export type WebSearchContextSize = Static<typeof webSearchContextSize>;
 
-    // Typed as ReadonlySet<string> so membership checks take a bare string with no cast; the narrowing return then casts once (TS can't infer through Set.has).
+    // ReadonlySet<string> so membership checks take a bare string; the narrowing return casts once (TS can't infer through Set.has).
 const REASONING_EFFORTS: ReadonlySet<string> = new Set(
   unionLiterals(reasoningEffort),
 );
@@ -208,7 +208,7 @@ export const streamOverrides = t.Object({
   ...samplingOptional(),
   // Sliders win on key conflicts. Parsed at the prompt assembler.
   extraBody: t.Optional(t.Union([t.String({ maxLength: 8_192 }), t.Null()])),
-      // null = inherit the bound preset (else system default: streaming on). false = BFF buffers the full upstream reply, then emits one chunk.
+      // null inherits the bound preset (else streaming on). false buffers the full upstream reply, then emits one chunk.
   streamingEnabled: t.Optional(t.Union([t.Boolean(), t.Null()])),
 });
 export type StreamOverrides = Static<typeof streamOverrides>;
@@ -239,7 +239,7 @@ export const updateConversationSettingsBody = t.Object({
   group: t.Optional(t.Union([t.String({ maxLength: MAX_ID_LEN }), t.Null()])),
   ...samplingOptional(),
   extraBody: t.Optional(t.Union([t.String({ maxLength: 8_192 }), t.Null()])),
-      // Chat-variable store (macro setvar + sticky lorebook state). Must sync or a cross-device hydration wipes setvar/sticky state.
+      // Chat-variable store (setvar + sticky lorebook state). Must sync or cross-device hydration wipes it.
   vars: t.Optional(t.Union([t.String({ maxLength: 65_536 }), t.Null()])),
   streamingEnabled: t.Optional(t.Union([t.Boolean(), t.Null()])),
   groupOrderByOrder: t.Optional(t.Union([t.Boolean(), t.Null()])),
@@ -269,7 +269,7 @@ export type UpdateConversationBindingsBody = {
     // Loose Any(): each entity body has its own validation surface; re-checking here would double-cost on every turn.
 export const chatContext = t.Object({
   persona: t.Optional(t.Union([t.Any(), t.Null()])),
-      // Bound shape only: {binding, character}; the assembler honors per-character isActive/overrides through the binding.
+      // Bound shape {binding, character}; the assembler honors per-character isActive/overrides via the binding.
   characters: t.Optional(
     t.Array(
       t.Object({
@@ -310,15 +310,15 @@ export const streamBody = t.Object({
   // Fallback for guest convs (no settings row).
   overrides: t.Optional(streamOverrides),
   chatContext: t.Optional(chatContext),
-      // Content fingerprint of chatContext (sans globalVars). When the server's per-conv cache holds this hash the client omits chatContext; a miss answers 409 and the client retries full.
+      // Content fingerprint of chatContext (sans globalVars). On a cache hit the client omits chatContext; a miss answers 409 and retries full.
   chatContextHash: t.Optional(t.String({ maxLength: 64 })),
   // Always-sent (small, changes often); rides outside the hashed context.
   globalVars: t.Optional(t.Union([t.String(), t.Null()])),
-      // Multi-character rotation: which bound character speaks this turn. When set, the assembler promotes that character to primary (drives {{char}}).
+      // Multi-character rotation: who speaks this turn. When set, the assembler promotes that character to primary (drives {{char}}).
   speakingCharacterId: t.Optional(
     t.Union([t.String({ maxLength: MAX_ID_LEN }), t.Null()]),
   ),
-      // Per-message createdAt (unix ms) keyed by message id, for the CBS message_time/date/idle family. Outside the hashed context: changes per turn.
+      // Per-message createdAt (unix ms) keyed by message id, for the CBS message_time/date/idle family. Outside the hashed context.
   messageTimes: t.Optional(t.Record(t.String(), t.Number())),
   // Browser environment for screen_width/height + locale-faithful time macros.
   clientEnv: t.Optional(
@@ -332,7 +332,7 @@ export const streamBody = t.Object({
 });
 export type StreamBody = Static<typeof streamBody>;
 
-    // V1 lowLevelAccess trigger effects from client modes (runLLM/checkSimilarity/runImgGen): keys resolve server-side, results return to the VM. One body per op so each endpoint carries a single concrete request + response type.
+    // V1 lowLevelAccess trigger effects from client modes: keys resolve server-side, results return to the VM. One body per op for a concrete request/response type.
 export const triggerLlmBody = t.Object({
   prompt: t.String({ maxLength: MAX_TEXT_LEN }),
   model: t.String({ maxLength: MAX_MODEL_LEN }),
