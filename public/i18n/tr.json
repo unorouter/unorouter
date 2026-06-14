@@ -368,7 +368,8 @@
       "IMAGE": "Görsel",
       "AUDIO": "Ses",
       "VIDEO": "Video",
-      "EMBEDDINGS": "Gömme"
+      "EMBEDDINGS": "Gömme",
+      "FILE": "Dosya"
     },
     "TABLE": {
       "MODEL": "Model",

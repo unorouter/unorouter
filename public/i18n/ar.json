@@ -368,7 +368,8 @@
       "IMAGE": "صورة",
       "AUDIO": "صوت",
       "VIDEO": "فيديو",
-      "EMBEDDINGS": "تضمينات"
+      "EMBEDDINGS": "تضمينات",
+      "FILE": "ملف"
     },
     "TABLE": {
       "MODEL": "النموذج",

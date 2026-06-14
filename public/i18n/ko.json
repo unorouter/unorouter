@@ -368,7 +368,8 @@
       "IMAGE": "이미지",
       "AUDIO": "오디오",
       "VIDEO": "비디오",
-      "EMBEDDINGS": "임베딩"
+      "EMBEDDINGS": "임베딩",
+      "FILE": "파일"
     },
     "TABLE": {
       "MODEL": "모델",

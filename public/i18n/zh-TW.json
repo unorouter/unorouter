@@ -368,7 +368,8 @@
       "IMAGE": "圖像",
       "AUDIO": "音訊",
       "VIDEO": "影片",
-      "EMBEDDINGS": "嵌入"
+      "EMBEDDINGS": "嵌入",
+      "FILE": "檔案"
     },
     "TABLE": {
       "MODEL": "模型",

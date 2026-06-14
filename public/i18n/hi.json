@@ -368,7 +368,8 @@
       "IMAGE": "छवि",
       "AUDIO": "ऑडियो",
       "VIDEO": "वीडियो",
-      "EMBEDDINGS": "एम्बेडिंग"
+      "EMBEDDINGS": "एम्बेडिंग",
+      "FILE": "फ़ाइल"
     },
     "TABLE": {
       "MODEL": "मॉडल",
