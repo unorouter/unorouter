@@ -24,8 +24,9 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import { useWindowVirtualizer } from "@tanstack/react-virtual";
 import { useAtomValue, useSetAtom } from "jotai";
-import React, { type ReactNode, useState } from "react";
+import React, { type ReactNode, useRef, useState } from "react";
 import { DataTablePagination } from "./data-table-pagination";
 import { DataTableViewOptions } from "./data-table-view-options";
 
@@ -44,6 +45,10 @@ interface DataTableProps<TData, TValue> {
   columnVisibility?: boolean;
   /** Client-side sort + pagination over the full `data` (no server round-trip). */
   localSorting?: boolean;
+  /** Window-scroll row virtualization for large client lists (incompatible with expanded rows). */
+  windowVirtual?: boolean;
+  /** Estimated row height in px for the virtualizer (default 53). */
+  estimateRowHeight?: number;
   isLoading?: boolean;
   emptyState?: ReactNode;
   onRowClick?: (row: TData) => void;
@@ -63,6 +68,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
   const setSorting = useSetAtom(tableAtoms.sortingAtom);
   const setPagination = useSetAtom(tableAtoms.paginationAtom);
   const [expanded, setExpanded] = useState({});
+  const tableContainerRef = useRef<HTMLDivElement>(null);
 
   const table = useReactTable({
     data: props.data,
@@ -100,6 +106,63 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
     manualFiltering: !props.localSorting,
   });
 
+  const rows = table.getRowModel().rows;
+  const virtualizer = useWindowVirtualizer({
+    count: props.windowVirtual ? rows.length : 0,
+    estimateSize: () => props.estimateRowHeight ?? 53,
+    overscan: 8,
+    scrollMargin: tableContainerRef.current?.offsetTop ?? 0,
+  });
+  const virtualRows = virtualizer.getVirtualItems();
+  const scrollMargin = virtualizer.options.scrollMargin;
+  const paddingTop =
+    virtualRows.length > 0 ? virtualRows[0].start - scrollMargin : 0;
+  const paddingBottom =
+    virtualRows.length > 0
+      ? virtualizer.getTotalSize() -
+        (virtualRows[virtualRows.length - 1].end - scrollMargin)
+      : 0;
+
+  function renderRow(row: (typeof rows)[number]) {
+    const canExpand = props.renderExpandedRow && row.getCanExpand();
+    return (
+      <React.Fragment key={row.id}>
+        <TableRow
+          className={cn(
+            (canExpand || props.onRowClick) && "cursor-pointer",
+            row.getIsExpanded() && "bg-muted/30",
+          )}
+          onClick={
+            canExpand
+              ? () => row.toggleExpanded()
+              : props.onRowClick
+                ? () => props.onRowClick!(row.original)
+                : undefined
+          }
+        >
+          {row.getVisibleCells().map((cell) => {
+            const meta = cell.column.columnDef.meta as Meta;
+            return (
+              <TableCell key={cell.id} className={cn(meta?.cellClassName)}>
+                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+              </TableCell>
+            );
+          })}
+        </TableRow>
+        {row.getIsExpanded() && props.renderExpandedRow && (
+          <TableRow className="hover:bg-transparent">
+            <TableCell
+              colSpan={row.getVisibleCells().length}
+              className="bg-muted/20 p-0"
+            >
+              {props.renderExpandedRow(row)}
+            </TableCell>
+          </TableRow>
+        )}
+      </React.Fragment>
+    );
+  }
+
   return (
     <div className="flex w-full flex-col gap-4">
       {(props.columnVisibility || props.filter || props.actions) && (
@@ -114,7 +177,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
         </div>
       )}
 
-      <div className="border-border overflow-hidden border">
+      <div ref={tableContainerRef} className="border-border overflow-hidden border">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -173,51 +236,20 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
             )}
 
             {!props.isLoading &&
-              table.getRowModel().rows.map((row) => {
-                const canExpand = props.renderExpandedRow && row.getCanExpand();
-                return (
-                  <React.Fragment key={row.id}>
-                    <TableRow
-                      className={cn(
-                        (canExpand || props.onRowClick) && "cursor-pointer",
-                        row.getIsExpanded() && "bg-muted/30",
-                      )}
-                      onClick={
-                        canExpand
-                          ? () => row.toggleExpanded()
-                          : props.onRowClick
-                            ? () => props.onRowClick!(row.original)
-                            : undefined
-                      }
-                    >
-                      {row.getVisibleCells().map((cell) => {
-                        const meta = cell.column.columnDef.meta as Meta;
-                        return (
-                          <TableCell
-                            key={cell.id}
-                            className={cn(meta?.cellClassName)}
-                          >
-                            {flexRender(
-                              cell.column.columnDef.cell,
-                              cell.getContext(),
-                            )}
-                          </TableCell>
-                        );
-                      })}
-                    </TableRow>
-                    {row.getIsExpanded() && props.renderExpandedRow && (
-                      <TableRow className="hover:bg-transparent">
-                        <TableCell
-                          colSpan={row.getVisibleCells().length}
-                          className="bg-muted/20 p-0"
-                        >
-                          {props.renderExpandedRow(row)}
-                        </TableCell>
-                      </TableRow>
-                    )}
-                  </React.Fragment>
-                );
-              })}
+              !props.windowVirtual &&
+              rows.map((row) => renderRow(row))}
+
+            {!props.isLoading && props.windowVirtual && rows.length > 0 && (
+              <>
+                {paddingTop > 0 && (
+                  <tr aria-hidden style={{ height: paddingTop }} />
+                )}
+                {virtualRows.map((vr) => renderRow(rows[vr.index]))}
+                {paddingBottom > 0 && (
+                  <tr aria-hidden style={{ height: paddingBottom }} />
+                )}
+              </>
+            )}
           </TableBody>
         </Table>
       </div>

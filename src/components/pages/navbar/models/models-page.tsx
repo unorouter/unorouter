@@ -140,6 +140,7 @@ export function ModelsPage() {
                 data={m.filtered}
                 columns={columns}
                 localSorting
+                windowVirtual
                 onRowClick={(model) => m.setSelectedModelName(model.name)}
               />
             ) : (
