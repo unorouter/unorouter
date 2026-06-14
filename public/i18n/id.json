@@ -392,9 +392,13 @@
       "REMOVE": "Hapus",
       "CAPABILITIES": "Kemampuan",
       "PRESET_FLAGSHIP": "Model unggulan",
+      "PRESET_FLAGSHIP_DESC": "Model papan atas terbaru dari laboratorium besar.",
       "PRESET_AFFORDABLE": "Paling terjangkau",
+      "PRESET_AFFORDABLE_DESC": "Pilihan ringkas berbiaya rendah untuk throughput tinggi.",
       "PRESET_CODE": "Terbaik untuk kode",
+      "PRESET_CODE_DESC": "Sering dipilih untuk pemrograman dan pembuatan kode.",
       "PRESET_IMAGE": "Pembuatan gambar",
+      "PRESET_IMAGE_DESC": "Model pembuatan gambar terbaik dari sisi biaya dan kualitas.",
       "META": {
         "TITLE": "Bandingkan Model AI - {appName}",
         "DESCRIPTION": "Bandingkan model AI berdampingan berdasarkan harga, panjang konteks, kemampuan, dan penggunaan di {appName}.",
@@ -412,7 +416,8 @@
       "THROUGHPUT": "Throughput",
       "HIGHLIGHT_BEST": "Sorot terbaik",
       "CLEAR": "Bersihkan",
-      "FROM": "oleh"
+      "FROM": "oleh",
+      "SELECT_MODEL": "Pilih model"
     },
     "LIST": {
       "TOKENS": "token",

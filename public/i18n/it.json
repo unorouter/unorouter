@@ -392,9 +392,13 @@
       "REMOVE": "Rimuovi",
       "CAPABILITIES": "Capacità",
       "PRESET_FLAGSHIP": "Modelli di punta",
+      "PRESET_FLAGSHIP_DESC": "I più recenti modelli di alto livello dei grandi laboratori.",
       "PRESET_AFFORDABLE": "Più economici",
+      "PRESET_AFFORDABLE_DESC": "Scelte compatte ed economiche per un throughput elevato.",
       "PRESET_CODE": "Migliori per il codice",
+      "PRESET_CODE_DESC": "Spesso scelti per programmazione e generazione di codice.",
       "PRESET_IMAGE": "Generazione immagini",
+      "PRESET_IMAGE_DESC": "Migliori modelli di generazione immagini per costo e qualità.",
       "META": {
         "TITLE": "Confronta modelli IA - {appName}",
         "DESCRIPTION": "Confronta i modelli IA fianco a fianco per prezzo, lunghezza del contesto, capacità e utilizzo su {appName}.",
@@ -412,7 +416,8 @@
       "THROUGHPUT": "Throughput",
       "HIGHLIGHT_BEST": "Evidenzia il migliore",
       "CLEAR": "Pulisci",
-      "FROM": "di"
+      "FROM": "di",
+      "SELECT_MODEL": "Seleziona un modello"
     },
     "LIST": {
       "TOKENS": "token",

@@ -392,9 +392,13 @@
       "REMOVE": "Retirer",
       "CAPABILITIES": "Capacités",
       "PRESET_FLAGSHIP": "Modèles phares",
+      "PRESET_FLAGSHIP_DESC": "Les derniers modèles haut de gamme des grands laboratoires.",
       "PRESET_AFFORDABLE": "Les plus abordables",
+      "PRESET_AFFORDABLE_DESC": "Modèles compacts et économiques pour un débit élevé.",
       "PRESET_CODE": "Meilleurs pour le code",
+      "PRESET_CODE_DESC": "Souvent choisis pour la programmation et la génération de code.",
       "PRESET_IMAGE": "Génération d'images",
+      "PRESET_IMAGE_DESC": "Meilleurs modèles de génération d'images en coût et qualité.",
       "META": {
         "TITLE": "Comparer les modèles IA - {appName}",
         "DESCRIPTION": "Comparez les modèles IA côte à côte par prix, longueur de contexte, capacités et usage sur {appName}.",
@@ -412,7 +416,8 @@
       "THROUGHPUT": "Débit",
       "HIGHLIGHT_BEST": "Surligner le meilleur",
       "CLEAR": "Effacer",
-      "FROM": "de"
+      "FROM": "de",
+      "SELECT_MODEL": "Sélectionner un modèle"
     },
     "LIST": {
       "TOKENS": "tokens",

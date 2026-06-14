@@ -392,9 +392,13 @@
       "REMOVE": "Entfernen",
       "CAPABILITIES": "Fähigkeiten",
       "PRESET_FLAGSHIP": "Flaggschiff-Modelle",
+      "PRESET_FLAGSHIP_DESC": "Die neuesten Spitzenmodelle der großen Labore.",
       "PRESET_AFFORDABLE": "Günstigste",
+      "PRESET_AFFORDABLE_DESC": "Kompakte, günstigere Modelle für hohen Durchsatz.",
       "PRESET_CODE": "Beste für Code",
+      "PRESET_CODE_DESC": "Häufig für Programmierung und Codegenerierung gewählt.",
       "PRESET_IMAGE": "Bildgenerierung",
+      "PRESET_IMAGE_DESC": "Top-Bildgenerierungsmodelle nach Kosten und Qualität.",
       "META": {
         "TITLE": "KI-Modelle vergleichen - {appName}",
         "DESCRIPTION": "Vergleiche KI-Modelle nebeneinander nach Preis, Kontextlänge, Fähigkeiten und Nutzung auf {appName}.",
@@ -412,7 +416,8 @@
       "THROUGHPUT": "Durchsatz",
       "HIGHLIGHT_BEST": "Beste hervorheben",
       "CLEAR": "Leeren",
-      "FROM": "von"
+      "FROM": "von",
+      "SELECT_MODEL": "Modell auswählen"
     },
     "LIST": {
       "TOKENS": "Tokens",

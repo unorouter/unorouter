@@ -392,9 +392,13 @@
       "REMOVE": "移除",
       "CAPABILITIES": "能力",
       "PRESET_FLAGSHIP": "旗舰模型",
+      "PRESET_FLAGSHIP_DESC": "来自主要实验室的最新顶级模型。",
       "PRESET_AFFORDABLE": "最实惠",
+      "PRESET_AFFORDABLE_DESC": "适合高吞吐量的小巧低成本选择。",
       "PRESET_CODE": "最适合编程",
+      "PRESET_CODE_DESC": "常用于编程和代码生成。",
       "PRESET_IMAGE": "图像生成",
+      "PRESET_IMAGE_DESC": "在成本和质量上领先的图像生成模型。",
       "META": {
         "TITLE": "对比 AI 模型 - {appName}",
         "DESCRIPTION": "在 {appName} 上按价格、上下文长度、能力和使用量并排对比 AI 模型。",
@@ -412,7 +416,8 @@
       "THROUGHPUT": "吞吐量",
       "HIGHLIGHT_BEST": "高亮最佳",
       "CLEAR": "清除",
-      "FROM": "来自"
+      "FROM": "来自",
+      "SELECT_MODEL": "选择一个模型"
     },
     "LIST": {
       "TOKENS": "Token",

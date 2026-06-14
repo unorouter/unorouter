@@ -392,9 +392,13 @@
       "REMOVE": "移除",
       "CAPABILITIES": "能力",
       "PRESET_FLAGSHIP": "旗艦模型",
+      "PRESET_FLAGSHIP_DESC": "來自主要實驗室的最新頂級模型。",
       "PRESET_AFFORDABLE": "最實惠",
+      "PRESET_AFFORDABLE_DESC": "適合高吞吐量的小巧低成本選擇。",
       "PRESET_CODE": "最適合程式設計",
+      "PRESET_CODE_DESC": "常用於程式設計與程式碼生成。",
       "PRESET_IMAGE": "圖像生成",
+      "PRESET_IMAGE_DESC": "在成本與品質上領先的影像生成模型。",
       "META": {
         "TITLE": "對比 AI 模型 - {appName}",
         "DESCRIPTION": "在 {appName} 上按價格、上下文長度、能力和使用量並排對比 AI 模型。",
@@ -412,7 +416,8 @@
       "THROUGHPUT": "吞吐量",
       "HIGHLIGHT_BEST": "突顯最佳",
       "CLEAR": "清除",
-      "FROM": "來自"
+      "FROM": "來自",
+      "SELECT_MODEL": "選擇一個模型"
     },
     "LIST": {
       "TOKENS": "Token",

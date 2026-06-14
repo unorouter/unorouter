@@ -392,9 +392,13 @@
       "REMOVE": "Xóa",
       "CAPABILITIES": "Khả năng",
       "PRESET_FLAGSHIP": "Mô hình hàng đầu",
+      "PRESET_FLAGSHIP_DESC": "Các mô hình hàng đầu mới nhất từ những phòng thí nghiệm lớn.",
       "PRESET_AFFORDABLE": "Phải chăng nhất",
+      "PRESET_AFFORDABLE_DESC": "Lựa chọn nhỏ gọn, chi phí thấp cho thông lượng cao.",
       "PRESET_CODE": "Tốt nhất cho mã",
+      "PRESET_CODE_DESC": "Thường được chọn cho lập trình và tạo mã.",
       "PRESET_IMAGE": "Tạo hình ảnh",
+      "PRESET_IMAGE_DESC": "Mô hình tạo ảnh tốt nhất về chi phí và chất lượng.",
       "META": {
         "TITLE": "So sánh mô hình AI - {appName}",
         "DESCRIPTION": "So sánh các mô hình AI cạnh nhau theo giá, độ dài ngữ cảnh, khả năng và mức sử dụng trên {appName}.",
@@ -412,7 +416,8 @@
       "THROUGHPUT": "Thông lượng",
       "HIGHLIGHT_BEST": "Làm nổi bật tốt nhất",
       "CLEAR": "Xóa",
-      "FROM": "bởi"
+      "FROM": "bởi",
+      "SELECT_MODEL": "Chọn một mô hình"
     },
     "LIST": {
       "TOKENS": "token",
