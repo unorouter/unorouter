@@ -398,8 +398,21 @@
       "META": {
         "TITLE": "KI-Modelle vergleichen - {appName}",
         "DESCRIPTION": "Vergleiche KI-Modelle nebeneinander nach Preis, Kontextlänge, Fähigkeiten und Nutzung auf {appName}.",
-        "KEYWORDS": "KI-Modelle vergleichen, Modellvergleich, LLM-Vergleich, KI-Preise"
-      }
+        "KEYWORDS": "KI-Modelle vergleichen, Modellvergleich, LLM-Vergleich, KI-Preise",
+        "TITLE_COMBO": "{models} - KI-Modellvergleich",
+        "DESCRIPTION_COMBO": "Vergleiche {models} nach Preis, Kontextlänge, Fähigkeiten und Nutzung."
+      },
+      "OVERVIEW": "Übersicht",
+      "PRICING": "Preise",
+      "PERFORMANCE": "Leistung",
+      "FEATURES": "Funktionen",
+      "ACTIVITY": "Aktivität",
+      "AUTHOR": "Anbieter",
+      "LATENCY": "Latenz",
+      "THROUGHPUT": "Durchsatz",
+      "HIGHLIGHT_BEST": "Beste hervorheben",
+      "CLEAR": "Leeren",
+      "FROM": "von"
     },
     "LIST": {
       "TOKENS": "Tokens",

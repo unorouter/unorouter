@@ -398,8 +398,21 @@
       "META": {
         "TITLE": "Compare AI Models - {appName}",
         "DESCRIPTION": "Compare AI models side by side by price, context length, capabilities and usage on {appName}.",
-        "KEYWORDS": "compare AI models, model comparison, LLM comparison, AI pricing"
-      }
+        "KEYWORDS": "compare AI models, model comparison, LLM comparison, AI pricing",
+        "TITLE_COMBO": "{models} - AI Model Comparison",
+        "DESCRIPTION_COMBO": "Compare {models} on key metrics including price, context length, capabilities and usage."
+      },
+      "OVERVIEW": "Overview",
+      "PRICING": "Pricing",
+      "PERFORMANCE": "Performance",
+      "FEATURES": "Features",
+      "ACTIVITY": "Activity",
+      "AUTHOR": "Author",
+      "LATENCY": "Latency",
+      "THROUGHPUT": "Throughput",
+      "HIGHLIGHT_BEST": "Highlight best",
+      "CLEAR": "Clear",
+      "FROM": "from"
     },
     "LIST": {
       "TOKENS": "tokens",

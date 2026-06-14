@@ -398,8 +398,21 @@
       "META": {
         "TITLE": "Porównaj modele AI - {appName}",
         "DESCRIPTION": "Porównuj modele AI obok siebie według ceny, długości kontekstu, możliwości i użycia w {appName}.",
-        "KEYWORDS": "porównaj modele AI, porównanie modeli, porównanie LLM, ceny AI"
-      }
+        "KEYWORDS": "porównaj modele AI, porównanie modeli, porównanie LLM, ceny AI",
+        "TITLE_COMBO": "{models} - Porównanie modeli AI",
+        "DESCRIPTION_COMBO": "Porównaj {models} według ceny, długości kontekstu, możliwości i użycia."
+      },
+      "OVERVIEW": "Przegląd",
+      "PRICING": "Ceny",
+      "PERFORMANCE": "Wydajność",
+      "FEATURES": "Funkcje",
+      "ACTIVITY": "Aktywność",
+      "AUTHOR": "Autor",
+      "LATENCY": "Opóźnienie",
+      "THROUGHPUT": "Przepustowość",
+      "HIGHLIGHT_BEST": "Wyróżnij najlepsze",
+      "CLEAR": "Wyczyść",
+      "FROM": "od"
     },
     "LIST": {
       "TOKENS": "tokenów",

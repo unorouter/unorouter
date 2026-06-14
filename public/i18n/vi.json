@@ -398,8 +398,21 @@
       "META": {
         "TITLE": "So sánh mô hình AI - {appName}",
         "DESCRIPTION": "So sánh các mô hình AI cạnh nhau theo giá, độ dài ngữ cảnh, khả năng và mức sử dụng trên {appName}.",
-        "KEYWORDS": "so sánh mô hình AI, so sánh mô hình, so sánh LLM, giá AI"
-      }
+        "KEYWORDS": "so sánh mô hình AI, so sánh mô hình, so sánh LLM, giá AI",
+        "TITLE_COMBO": "{models} - So sánh mô hình AI",
+        "DESCRIPTION_COMBO": "So sánh {models} theo giá, độ dài ngữ cảnh, khả năng và mức sử dụng."
+      },
+      "OVERVIEW": "Tổng quan",
+      "PRICING": "Giá",
+      "PERFORMANCE": "Hiệu năng",
+      "FEATURES": "Tính năng",
+      "ACTIVITY": "Hoạt động",
+      "AUTHOR": "Tác giả",
+      "LATENCY": "Độ trễ",
+      "THROUGHPUT": "Thông lượng",
+      "HIGHLIGHT_BEST": "Làm nổi bật tốt nhất",
+      "CLEAR": "Xóa",
+      "FROM": "bởi"
     },
     "LIST": {
       "TOKENS": "token",

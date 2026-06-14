@@ -1,24 +1,24 @@
 "use client";
 
+import { DataTable } from "@/components/elements/table/data-table";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { Input } from "@/components/ui/input";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import { DataTable } from "@/components/elements/table/data-table";
 import { useModelsFilter } from "@/hooks/ui/use-models-hook";
 import { useModelsUrlSync } from "@/hooks/ui/use-models-url-sync";
-import type { OutputModality } from "@/lib/api/model-modality";
 import { Link } from "@/i18n/navigation";
+import type { OutputModality } from "@/lib/api/model-modality";
 import { DataTableId } from "@/lib/types/enums";
 import { createTableAtoms } from "@/store/data-table-store";
 import { clearFiltersAtom, isDirtyAtom } from "@/store/models-store";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
-import { ModelListCard } from "./browse/model-list-card";
 import { buildModelColumns } from "./browse/model-columns";
+import { ModelListCard } from "./browse/model-list-card";
 import { ModelDetailSheet } from "./detail/model-detail-sheet";
-import { ModelsFilterSidebar } from "./filters/models-filter-sidebar";
 import { ModalityTabs } from "./filters/modality-tabs";
+import { ModelsFilterSidebar } from "./filters/models-filter-sidebar";
 import { SortFilter } from "./filters/sort-filter";
 import { ViewModeToggle } from "./filters/view-mode-toggle";
 
@@ -49,9 +49,6 @@ export function ModelsPage() {
 
   return (
     <div className="w-full pt-20 pb-16">
-      {/* Override the provider wrapper's `h-dvh overflow-hidden` (built for an
-          app shell with its own inner scroll): this page window-scrolls, so the
-          wrapper must flow in the document or the list gets clipped/unscrollable. */}
       <SidebarProvider
         defaultOpen
         className="h-auto min-h-0 overflow-visible"
@@ -59,11 +56,7 @@ export function ModelsPage() {
       >
         <ModelsFilterSidebar models={m.models} />
 
-        {/* Override the inset's own scroll container (max-h-dvh + overflow-auto):
-            this page window-scrolls, so the inset must flow in the document for
-            the sticky tab + table header to pin against the viewport. */}
         <SidebarInset className="max-h-none overflow-visible bg-transparent px-4 md:px-6">
-          {/* One line: SEO H1 (left) + reset/search/compare/sort/view (right). */}
           <div className="mb-4 flex flex-wrap items-center gap-2">
             <h1 className="mr-2 text-lg font-semibold tracking-tight">
               {t("MODELS.TITLE")}

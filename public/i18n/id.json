@@ -398,8 +398,21 @@
       "META": {
         "TITLE": "Bandingkan Model AI - {appName}",
         "DESCRIPTION": "Bandingkan model AI berdampingan berdasarkan harga, panjang konteks, kemampuan, dan penggunaan di {appName}.",
-        "KEYWORDS": "bandingkan model AI, perbandingan model, perbandingan LLM, harga AI"
-      }
+        "KEYWORDS": "bandingkan model AI, perbandingan model, perbandingan LLM, harga AI",
+        "TITLE_COMBO": "{models} - Perbandingan Model AI",
+        "DESCRIPTION_COMBO": "Bandingkan {models} berdasarkan harga, panjang konteks, kemampuan, dan penggunaan."
+      },
+      "OVERVIEW": "Ringkasan",
+      "PRICING": "Harga",
+      "PERFORMANCE": "Kinerja",
+      "FEATURES": "Fitur",
+      "ACTIVITY": "Aktivitas",
+      "AUTHOR": "Penulis",
+      "LATENCY": "Latensi",
+      "THROUGHPUT": "Throughput",
+      "HIGHLIGHT_BEST": "Sorot terbaik",
+      "CLEAR": "Bersihkan",
+      "FROM": "oleh"
     },
     "LIST": {
       "TOKENS": "token",

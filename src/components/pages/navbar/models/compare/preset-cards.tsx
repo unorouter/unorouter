@@ -60,7 +60,8 @@ export function PresetCards(props: {
       names: topByRank(
         models,
         props.rankMap,
-        (m) => isText(m) && m.tags.some((tag) => /code|coder|coding/i.test(tag)),
+        (m) =>
+          isText(m) && m.tags.some((tag) => /code|coder|coding/i.test(tag)),
         3,
       ),
     },

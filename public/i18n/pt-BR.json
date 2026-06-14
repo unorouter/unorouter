@@ -398,8 +398,21 @@
       "META": {
         "TITLE": "Comparar modelos de IA - {appName}",
         "DESCRIPTION": "Compare modelos de IA lado a lado por preço, comprimento de contexto, capacidades e uso no {appName}.",
-        "KEYWORDS": "comparar modelos de IA, comparação de modelos, comparação de LLM, preços de IA"
-      }
+        "KEYWORDS": "comparar modelos de IA, comparação de modelos, comparação de LLM, preços de IA",
+        "TITLE_COMBO": "{models} - Comparação de modelos de IA",
+        "DESCRIPTION_COMBO": "Compare {models} por preço, comprimento de contexto, capacidades e uso."
+      },
+      "OVERVIEW": "Visão geral",
+      "PRICING": "Preços",
+      "PERFORMANCE": "Desempenho",
+      "FEATURES": "Recursos",
+      "ACTIVITY": "Atividade",
+      "AUTHOR": "Autor",
+      "LATENCY": "Latência",
+      "THROUGHPUT": "Taxa de transferência",
+      "HIGHLIGHT_BEST": "Destacar o melhor",
+      "CLEAR": "Limpar",
+      "FROM": "de"
     },
     "LIST": {
       "TOKENS": "tokens",

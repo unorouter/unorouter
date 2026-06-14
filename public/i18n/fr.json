@@ -398,8 +398,21 @@
       "META": {
         "TITLE": "Comparer les modèles IA - {appName}",
         "DESCRIPTION": "Comparez les modèles IA côte à côte par prix, longueur de contexte, capacités et usage sur {appName}.",
-        "KEYWORDS": "comparer modèles IA, comparaison de modèles, comparaison LLM, tarifs IA"
-      }
+        "KEYWORDS": "comparer modèles IA, comparaison de modèles, comparaison LLM, tarifs IA",
+        "TITLE_COMBO": "{models} - Comparaison de modèles IA",
+        "DESCRIPTION_COMBO": "Comparez {models} par prix, longueur de contexte, capacités et usage."
+      },
+      "OVERVIEW": "Aperçu",
+      "PRICING": "Tarifs",
+      "PERFORMANCE": "Performance",
+      "FEATURES": "Fonctionnalités",
+      "ACTIVITY": "Activité",
+      "AUTHOR": "Auteur",
+      "LATENCY": "Latence",
+      "THROUGHPUT": "Débit",
+      "HIGHLIGHT_BEST": "Surligner le meilleur",
+      "CLEAR": "Effacer",
+      "FROM": "de"
     },
     "LIST": {
       "TOKENS": "tokens",

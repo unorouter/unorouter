@@ -398,8 +398,21 @@
       "META": {
         "TITLE": "Yapay Zeka Modellerini Karşılaştır - {appName}",
         "DESCRIPTION": "{appName} üzerinde yapay zeka modellerini fiyat, bağlam uzunluğu, yetenekler ve kullanıma göre yan yana karşılaştırın.",
-        "KEYWORDS": "yapay zeka modellerini karşılaştır, model karşılaştırma, LLM karşılaştırma, yapay zeka fiyatları"
-      }
+        "KEYWORDS": "yapay zeka modellerini karşılaştır, model karşılaştırma, LLM karşılaştırma, yapay zeka fiyatları",
+        "TITLE_COMBO": "{models} - Yapay Zeka Model Karşılaştırması",
+        "DESCRIPTION_COMBO": "{models} modellerini fiyat, bağlam uzunluğu, yetenekler ve kullanıma göre karşılaştırın."
+      },
+      "OVERVIEW": "Genel bakış",
+      "PRICING": "Fiyatlandırma",
+      "PERFORMANCE": "Performans",
+      "FEATURES": "Özellikler",
+      "ACTIVITY": "Etkinlik",
+      "AUTHOR": "Sağlayıcı",
+      "LATENCY": "Gecikme",
+      "THROUGHPUT": "İşlem hacmi",
+      "HIGHLIGHT_BEST": "En iyiyi vurgula",
+      "CLEAR": "Temizle",
+      "FROM": "sağlayan"
     },
     "LIST": {
       "TOKENS": "token",

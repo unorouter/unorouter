@@ -398,8 +398,21 @@
       "META": {
         "TITLE": "AI 모델 비교 - {appName}",
         "DESCRIPTION": "{appName}에서 가격, 컨텍스트 길이, 기능, 사용량으로 AI 모델을 나란히 비교하세요.",
-        "KEYWORDS": "AI 모델 비교, 모델 비교, LLM 비교, AI 가격"
-      }
+        "KEYWORDS": "AI 모델 비교, 모델 비교, LLM 비교, AI 가격",
+        "TITLE_COMBO": "{models} - AI 모델 비교",
+        "DESCRIPTION_COMBO": "{models}을(를) 가격, 컨텍스트 길이, 기능, 사용량으로 비교하세요."
+      },
+      "OVERVIEW": "개요",
+      "PRICING": "가격",
+      "PERFORMANCE": "성능",
+      "FEATURES": "기능",
+      "ACTIVITY": "활동",
+      "AUTHOR": "제공자",
+      "LATENCY": "지연 시간",
+      "THROUGHPUT": "처리량",
+      "HIGHLIGHT_BEST": "최고 강조",
+      "CLEAR": "지우기",
+      "FROM": "제공"
     },
     "LIST": {
       "TOKENS": "토큰",
