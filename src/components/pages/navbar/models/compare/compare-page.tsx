@@ -74,8 +74,19 @@ export function ComparePage() {
             {t("MODELS.COMPARE.SUBTITLE")}
           </p>
           <PresetCards models={models} rankMap={rankMap} onSelect={goTo} />
-          <div className="mt-6">
-            <ModelPicker models={models} selected={[]} onAdd={add} />
+          <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <ModelPicker
+              models={models}
+              selected={selectedNames}
+              onAdd={add}
+              variant="slot"
+            />
+            <ModelPicker
+              models={models}
+              selected={selectedNames}
+              onAdd={add}
+              variant="slot"
+            />
           </div>
         </>
       ) : (
@@ -83,13 +94,7 @@ export function ComparePage() {
           <h1 className="mb-6 text-2xl font-semibold tracking-tight">
             {combo}
           </h1>
-          <ComparisonTable
-            models={selectedModels}
-            rankMap={rankMap}
-            perfMap={perfMap}
-            onRemove={remove}
-          />
-          <div className="mt-6 flex items-center gap-2">
+          <div className="mb-6 flex items-center gap-2">
             <ModelPicker models={models} selected={selectedNames} onAdd={add} />
             <button
               type="button"
@@ -99,6 +104,12 @@ export function ComparePage() {
               {t("MODELS.COMPARE.CLEAR")}
             </button>
           </div>
+          <ComparisonTable
+            models={selectedModels}
+            rankMap={rankMap}
+            perfMap={perfMap}
+            onRemove={remove}
+          />
         </>
       )}
     </div>

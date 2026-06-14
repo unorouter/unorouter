@@ -392,9 +392,13 @@
       "REMOVE": "Kaldır",
       "CAPABILITIES": "Yetenekler",
       "PRESET_FLAGSHIP": "Amiral gemisi modeller",
+      "PRESET_FLAGSHIP_DESC": "Büyük laboratuvarların en yeni üst düzey modelleri.",
       "PRESET_AFFORDABLE": "En uygun fiyatlı",
+      "PRESET_AFFORDABLE_DESC": "Yüksek verim için kompakt, düşük maliyetli seçimler.",
       "PRESET_CODE": "Kod için en iyi",
+      "PRESET_CODE_DESC": "Programlama ve kod üretimi için sıkça seçilir.",
       "PRESET_IMAGE": "Görsel üretimi",
+      "PRESET_IMAGE_DESC": "Maliyet ve kalite açısından en iyi görüntü üretim modelleri.",
       "META": {
         "TITLE": "Yapay Zeka Modellerini Karşılaştır - {appName}",
         "DESCRIPTION": "{appName} üzerinde yapay zeka modellerini fiyat, bağlam uzunluğu, yetenekler ve kullanıma göre yan yana karşılaştırın.",
@@ -412,7 +416,8 @@
       "THROUGHPUT": "İşlem hacmi",
       "HIGHLIGHT_BEST": "En iyiyi vurgula",
       "CLEAR": "Temizle",
-      "FROM": "sağlayan"
+      "FROM": "sağlayan",
+      "SELECT_MODEL": "Bir model seçin"
     },
     "LIST": {
       "TOKENS": "token",

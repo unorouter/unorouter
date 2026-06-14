@@ -392,9 +392,13 @@
       "REMOVE": "Usuń",
       "CAPABILITIES": "Możliwości",
       "PRESET_FLAGSHIP": "Modele flagowe",
+      "PRESET_FLAGSHIP_DESC": "Najnowsze topowe modele z głównych laboratoriów.",
       "PRESET_AFFORDABLE": "Najtańsze",
+      "PRESET_AFFORDABLE_DESC": "Kompaktowe, tańsze opcje do dużej przepustowości.",
       "PRESET_CODE": "Najlepsze do kodu",
+      "PRESET_CODE_DESC": "Często wybierane do programowania i generowania kodu.",
       "PRESET_IMAGE": "Generowanie obrazów",
+      "PRESET_IMAGE_DESC": "Najlepsze modele generowania obrazów pod względem kosztu i jakości.",
       "META": {
         "TITLE": "Porównaj modele AI - {appName}",
         "DESCRIPTION": "Porównuj modele AI obok siebie według ceny, długości kontekstu, możliwości i użycia w {appName}.",
@@ -412,7 +416,8 @@
       "THROUGHPUT": "Przepustowość",
       "HIGHLIGHT_BEST": "Wyróżnij najlepsze",
       "CLEAR": "Wyczyść",
-      "FROM": "od"
+      "FROM": "od",
+      "SELECT_MODEL": "Wybierz model"
     },
     "LIST": {
       "TOKENS": "tokenów",

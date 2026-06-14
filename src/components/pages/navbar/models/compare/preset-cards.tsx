@@ -43,31 +43,39 @@ export function PresetCards(props: {
   const models = props.models;
   const isText = (m: ProcessedModel) => m.type === "text";
 
+  const isCode = (m: ProcessedModel) =>
+    isText(m) &&
+    (m.tags.some((tag) => /code|coder|coding/i.test(tag)) ||
+      /cod(e|er|estral)|deepseek|qwen|glm|kimi/i.test(m.name));
+
+  const codeNames = topByRank(models, props.rankMap, isCode, 3);
   const presets = [
     {
       key: "flagship",
       title: t("MODELS.COMPARE.PRESET_FLAGSHIP"),
+      desc: t("MODELS.COMPARE.PRESET_FLAGSHIP_DESC"),
       names: topByRank(models, props.rankMap, isText, 3),
     },
     {
       key: "affordable",
       title: t("MODELS.COMPARE.PRESET_AFFORDABLE"),
+      desc: t("MODELS.COMPARE.PRESET_AFFORDABLE_DESC"),
       names: cheapest(models, isText, 3),
     },
     {
       key: "code",
       title: t("MODELS.COMPARE.PRESET_CODE"),
-      names: topByRank(
-        models,
-        props.rankMap,
-        (m) =>
-          isText(m) && m.tags.some((tag) => /code|coder|coding/i.test(tag)),
-        3,
-      ),
+      desc: t("MODELS.COMPARE.PRESET_CODE_DESC"),
+      // Fall back to top text models so the card never disappears when no model is code-tagged.
+      names:
+        codeNames.length > 0
+          ? codeNames
+          : topByRank(models, props.rankMap, isText, 3),
     },
     {
       key: "image",
       title: t("MODELS.COMPARE.PRESET_IMAGE"),
+      desc: t("MODELS.COMPARE.PRESET_IMAGE_DESC"),
       names: topByRank(models, props.rankMap, (m) => m.type === "image", 3),
     },
   ].filter((p) => p.names.length > 0);
@@ -95,8 +103,13 @@ export function PresetCards(props: {
                 </span>
               ))}
             </div>
-            <span className="font-medium">{preset.title}</span>
-            <span className="text-muted-foreground truncate font-mono text-xs">
+            <div className="flex flex-1 flex-col gap-1">
+              <span className="font-medium">{preset.title}</span>
+              <span className="text-muted-foreground line-clamp-2 text-xs">
+                {preset.desc}
+              </span>
+            </div>
+            <span className="text-muted-foreground/70 border-border/60 truncate border-t pt-2 font-mono text-xs">
               {cards.map((m) => m.name).join(", ")}
             </span>
           </button>

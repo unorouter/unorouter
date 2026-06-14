@@ -392,9 +392,13 @@
       "REMOVE": "Remove",
       "CAPABILITIES": "Capabilities",
       "PRESET_FLAGSHIP": "Flagship models",
+      "PRESET_FLAGSHIP_DESC": "The latest top-tier models from major labs.",
       "PRESET_AFFORDABLE": "Most affordable",
+      "PRESET_AFFORDABLE_DESC": "Compact, lower-cost picks for high-throughput use.",
       "PRESET_CODE": "Best for code",
+      "PRESET_CODE_DESC": "Frequently chosen for programming and code generation.",
       "PRESET_IMAGE": "Image generation",
+      "PRESET_IMAGE_DESC": "Top image generation models on cost and quality.",
       "META": {
         "TITLE": "Compare AI Models - {appName}",
         "DESCRIPTION": "Compare AI models side by side by price, context length, capabilities and usage on {appName}.",
@@ -412,7 +416,8 @@
       "THROUGHPUT": "Throughput",
       "HIGHLIGHT_BEST": "Highlight best",
       "CLEAR": "Clear",
-      "FROM": "from"
+      "FROM": "from",
+      "SELECT_MODEL": "Select a model"
     },
     "LIST": {
       "TOKENS": "tokens",

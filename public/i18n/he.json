@@ -392,9 +392,13 @@
       "REMOVE": "הסר",
       "CAPABILITIES": "יכולות",
       "PRESET_FLAGSHIP": "מודלים מובילים",
+      "PRESET_FLAGSHIP_DESC": "הדגמים המתקדמים ביותר מהמעבדות המובילות.",
       "PRESET_AFFORDABLE": "המשתלמים ביותר",
+      "PRESET_AFFORDABLE_DESC": "אפשרויות קומפקטיות וזולות לשימוש בתפוקה גבוהה.",
       "PRESET_CODE": "הטובים ביותר לקוד",
+      "PRESET_CODE_DESC": "נבחרים לעיתים קרובות לתכנות ויצירת קוד.",
       "PRESET_IMAGE": "יצירת תמונות",
+      "PRESET_IMAGE_DESC": "הדגמים המובילים ליצירת תמונות לפי עלות ואיכות.",
       "META": {
         "TITLE": "השוואת מודלי בינה מלאכותית - {appName}",
         "DESCRIPTION": "השווה מודלי בינה מלאכותית זה לצד זה לפי מחיר, אורך הקשר, יכולות ושימוש ב-{appName}.",
@@ -412,7 +416,8 @@
       "THROUGHPUT": "תפוקה",
       "HIGHLIGHT_BEST": "הדגש את הטוב ביותר",
       "CLEAR": "נקה",
-      "FROM": "מאת"
+      "FROM": "מאת",
+      "SELECT_MODEL": "בחר דגם"
     },
     "LIST": {
       "TOKENS": "טוקנים",
