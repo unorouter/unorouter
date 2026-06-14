@@ -1,5 +1,4 @@
-// Schema-free sync constants: the hydrator needs these at first paint, and importing
-// from sync.ts dragged the TypeBox bundle-schema graph (~110KB gzip) into every chat/playground load.
+    // Schema-free sync constants: the hydrator needs these at first paint, and importing from sync.ts dragged the TypeBox schema graph (~110KB gzip) into every chat/playground load.
 
 export const SYNC_KINDS = [
   "characters",

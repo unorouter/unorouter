@@ -13,7 +13,7 @@ import type { ProcessedModel } from "@/lib/api/pricing";
 import type { RankedModel } from "@/lib/api/typebox/rankings";
 import { getVendorTheme } from "@/lib/config/vendor-themes";
 import { cn } from "@/lib/utils";
-import { formatLongDate } from "@/lib/utils/format/date";
+import { formatMsDate } from "@/lib/utils/format/date";
 import {
   discountPercent,
   formatPrice,
@@ -130,7 +130,7 @@ export function ModelListCard(props: {
         <span>
           {t("MODELS.LIST.BY")} {model.vendor.name}
         </span>
-        {releaseTs > 0 && <span>{formatLongDate(releaseTs)}</span>}
+        {releaseTs > 0 && <span>{formatMsDate(releaseTs)}</span>}
         {ctx ? (
           <span>
             {formatTokenCount(ctx)} {t("MODELS.LIST.CONTEXT")}

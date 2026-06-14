@@ -1,5 +1,4 @@
-// Isomorphic regex-script engine (RisuAI processScriptFull port). Server runs
-// editprocess/editinput, client runs editoutput/editdisplay. No server-only imports.
+    // Isomorphic regex-script engine (RisuAI processScriptFull port). Server runs editprocess/editinput, client runs editoutput/editdisplay. No server-only imports.
 
 export type RegexScriptMode =
   | "editinput" // user input before send
@@ -10,14 +9,12 @@ export type RegexScriptMode =
 export type RegexScript = {
   // Match pattern (regex source).
   in: string;
-  // Replacement template. `$1`..`$n` group refs; `$&` whole match; `{{data}}`
-  // re-inserts the match. `@@`-prefixed values are actions.
+      // Replacement template: $1..$n group refs, $& whole match, {{data}} re-inserts the match. @@-prefixed values are actions.
   out: string;
   type: RegexScriptMode;
   // Custom regex flags + `<meta>` brackets (<order N>, <cbs>, action names).
   flag?: string;
-  // RisuAI semantics: true = use the custom `flag` string; false = default 'g'.
-  // It is NOT an enable/disable toggle - scripts always run.
+      // RisuAI semantics: true = use the custom flag string, false = default 'g'. NOT an enable/disable toggle; scripts always run.
   ableFlag?: boolean;
 };
 
@@ -55,8 +52,7 @@ function parseScriptMeta(script: RegexScript): ParsedScript {
   return { script, order, actions, rawFlag };
 }
 
-// Risu flag normalization: strip unsupported chars, dedupe, empty -> 'u'.
-// move_top/move_bottom drop 'g' (Risu "temporary fix": single match moves).
+    // Risu flag normalization: strip unsupported chars, dedupe, empty -> 'u'. move_top/move_bottom drop 'g' (single match moves).
 function normalizeFlag(p: ParsedScript, outScript: string): string {
   let flag = p.rawFlag;
   if (
@@ -76,8 +72,7 @@ function normalizeFlag(p: ParsedScript, outScript: string): string {
   return flag;
 }
 
-// `$N` refs, `$&` whole match, `$$N` literal. No lookbehind: WebKit <16.4
-// rejects it at parse time and would brick every chunk bundled with it.
+    // $N refs, $& whole match, $$N literal. No lookbehind: WebKit <16.4 rejects it at parse time and would brick every chunk bundled with it.
 function expandRefs(template: string, match: RegExpMatchArray): string {
   return template.replace(/\$\$[0-9]+|\$([0-9]+)|\$&/g, (m, idx) => {
     if (m.startsWith("$$")) return m; // escaped, stays verbatim
@@ -107,8 +102,7 @@ function plainReplace(
   return expand ? expand(replaced) : replaced;
 }
 
-// Parse memo keyed by array identity: applyRegexScripts calls once per MESSAGE
-// with the same scripts array; re-parsing flag meta each time is pure waste.
+    // Parse memo keyed by array identity: applyRegexScripts calls once per message with the same scripts array; re-parsing flag meta each time is pure waste.
 const PARSED_CACHE = new WeakMap<
   RegexScript[],
   Map<RegexScriptMode, ParsedScript[]>
@@ -136,20 +130,10 @@ function parsedFor(
   return parsed;
 }
 
-// Card regex scripts are user-authored and run server-side during stream prep.
-// A pathological pattern (nested quantifiers) on a long string is catastrophic
-// backtracking that stalls the single-threaded event loop for ALL requests.
-// Pure-JS regex can't be interrupted, but ReDoS blowup is superlinear in input
-// length, so refusing to run a script against an oversized string defangs it.
-// 100k chars is far above any real message (~25k tokens) yet small enough that
-// even a degenerate pattern stays bounded.
+    // Card regex scripts are user-authored and run server-side during stream prep. A pathological pattern on a long string is catastrophic backtracking that stalls the single-threaded event loop for ALL requests; refusing to run against an oversized string (100k chars, far above any real message) defangs the superlinear blowup.
 const MAX_REGEX_INPUT = 100_000;
 
-// Conservative catastrophic-backtracking detector for user-authored patterns.
-// Flags a group closed by an unbounded quantifier whose body contains another
-// unbounded quantifier (`(a+)+`, `(a*)*`, `(.+)+`, `(\d+|x)*`, including a `{n,}`
-// open upper bound). False positives only cost the offending script (skipped);
-// false negatives are the danger, so the body-class is kept broad.
+    // Conservative catastrophic-backtracking detector: flags a group closed by an unbounded quantifier whose body holds another unbounded quantifier. False positives only skip the offending script; false negatives are the danger, so the body-class is kept broad.
 const NESTED_QUANTIFIER_RE =
   /\([^()]*(?:[+*]|\{\d+,\})[^()]*\)\s*(?:[+*]|\{\d+,\})/;
 
@@ -183,8 +167,7 @@ function executeScript(
   opts: RunRegexOpts,
 ): string {
   const script = p.script;
-  // Risu: $n -> newline first, then {{data}} -> $& (whole-match re-insert).
-  // Function replacement: a plain "$&" string is special in String.replace.
+      // Risu: $n -> newline first, then {{data}} -> $& (whole-match re-insert). Function replacement since a plain "$&" string is special in String.replace.
   let outScript = script.out
     .replaceAll("$n", "\n")
     .replace(/\{\{data\}\}/g, () => "$&");
@@ -198,8 +181,7 @@ function executeScript(
     input = opts.expand(input);
   }
   if (isReDoSProne(input)) {
-    // Nested unbounded quantifier: catastrophic-backtracking risk. Skip the
-    // whole script (handled like a bad pattern) rather than run it.
+        // Nested unbounded quantifier: catastrophic-backtracking risk. Skip the whole script rather than run it.
     throw new Error("regex-redos-skip");
   }
   const reg = new RegExp(input, flag);
@@ -213,8 +195,7 @@ function executeScript(
       return data;
     }
     if (outScript.startsWith("@@inject") || p.actions.includes("inject")) {
-      // Risu writes the text back to the stored message and strips the match
-      // from the outgoing copy; the strip is the isomorphic part.
+          // Risu writes the text back to the stored message and strips the match from the outgoing copy; the strip is the isomorphic part.
       return data.replace(reg, "");
     }
     if (
@@ -245,13 +226,11 @@ function executeScript(
       }
       return stripped;
     }
-    // Unknown @@ action with a match: Risu falls through to a plain replace
-    // + CBS re-parse.
+        // Unknown @@ action with a match: Risu falls through to a plain replace + CBS re-parse.
     return plainReplace(data, reg, outScript, opts.expand);
   }
 
-  // No match: @@repeat_back copies the matched part of the previous same-role
-  // message onto this one (Risu scripts.ts:252-287).
+      // No match: @@repeat_back copies the matched part of the previous same-role message onto this one (Risu scripts.ts).
   if (
     (outScript.startsWith("@@repeat_back") ||
       p.actions.includes("repeat_back")) &&

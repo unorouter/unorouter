@@ -129,8 +129,7 @@ function processModels(response: PricingData) {
         fixedPrice = model.model_price ?? 0;
         isFreeStrict = fixedPrice === 0;
       } else if (isTiered) {
-        // Tiered: model_ratio/completion_ratio ignored. Cards show the cheapest tier's
-        // input/output as a "from" price; the full table lives on the detail page.
+            // Tiered: model_ratio/completion_ratio ignored. Cards show the cheapest tier's input/output as a "from" price; the full table lives on the detail page.
         const minRatio = computeMinGroupRatio(
           model.enable_groups ?? [],
           groupRatio,
@@ -160,10 +159,7 @@ function processModels(response: PricingData) {
         inputPrice = (model.model_ratio ?? 0) * 2 * minRatio;
         outputPrice = inputPrice * (model.completion_ratio ?? 0);
 
-        // Mirror new-api-sync isGroupPriceZero: reachable-free when any enabled
-        // group prices at 0 (model_ratio * group_ratio; positive per-call
-        // model_price overrides). Guest token has 0 balance, so auto-routing
-        // lands on the free group.
+            // Mirror new-api-sync isGroupPriceZero: reachable-free when any enabled group prices at 0 (positive per-call model_price overrides). Guest token has 0 balance, so auto-routing lands on the free group.
         const modelRatio = model.model_ratio ?? 0;
         const modelPriceVal = model.model_price ?? 0;
         const groupIsFree = (g: string) =>
@@ -214,8 +210,7 @@ function processModels(response: PricingData) {
         enableGroups: model.enable_groups ?? [],
         originalInputPrice,
         originalOutputPrice,
-        // Fallback release date (new-api Model.created_time, unix seconds); the
-        // Orval type lags the backend field, so read it defensively.
+            // Fallback release date (new-api Model.created_time, unix seconds); the Orval type lags the backend field, so read it defensively.
         createdTime: (model as { created_time?: number }).created_time ?? null,
         metadata: parseModelMetadata(model.metadata),
       };
@@ -335,8 +330,7 @@ export function buildPricingSummary(response: PricingData) {
     firstFreeModel,
     endpointMap,
     groupRatioMap: response.group_ratio ?? {},
-    // Routing-group -> "<model> via <reseller> (<upstream>)" label, keyed by a
-    // model's `enableGroups` entry. Passed through for any group-aware caller.
+        // Routing-group -> "<model> via <reseller> (<upstream>)" label, keyed by a model's enableGroups entry.
     usableGroup: response.usable_group ?? {},
     autoGroups: response.auto_groups ?? [],
     topDiscounted,
@@ -372,10 +366,7 @@ export function findContextTag(model: ProcessedModel): string | undefined {
 
 export type GroupEntry = { group: string; ratio: number };
 
-// Channel group ids usually embed the model name (e.g.
-// "gemini-ant-undy-gemini-3.1-pro-preview" for model "gemini-3.1-pro-preview").
-// Strip a trailing model-name occurrence for display; keep the real value.
-// Returns "auto" placeholder handling to the caller.
+    // Channel group ids usually embed the model name; strip a trailing model-name occurrence for display, keep the real value. Returns "auto" placeholder handling to the caller.
 export function groupDisplayLabel(group: string, model: string | null): string {
   if (!model) return group;
   const stripped = group
@@ -384,8 +375,7 @@ export function groupDisplayLabel(group: string, model: string | null): string {
   return stripped.length > 0 ? stripped : group;
 }
 
-// A model's billing groups with their ratios, sorted cheapest first. Groups
-// without a known ratio are skipped.
+    // A model's billing groups with their ratios, cheapest first. Groups without a known ratio are skipped.
 export function buildGroupEntries(
   enableGroups: readonly string[],
   groupRatioMap: Record<string, number>,

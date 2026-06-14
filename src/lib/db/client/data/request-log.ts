@@ -35,8 +35,7 @@ export async function insertLocalRequestLog(
     .onConflictDoUpdate({ target: requestLogs.msgId, set: row });
 }
 
-// Overwrite the stream-time estimates with new-api's authoritative figures
-// (resolved post-finish by the logEnrich task). No-op when the row is gone.
+    // Overwrite the stream-time estimates with new-api's authoritative figures (resolved post-finish by logEnrich). No-op when the row is gone.
 export async function patchLocalRequestLogUpstream(
   userId: number | undefined,
   msgId: string,

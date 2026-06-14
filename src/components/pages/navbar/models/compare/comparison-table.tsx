@@ -15,7 +15,7 @@ import type { ProcessedModel } from "@/lib/api/pricing";
 import type { RankedModel } from "@/lib/api/typebox/rankings";
 import type { IconName } from "@/lib/config/icon-map";
 import { cn } from "@/lib/utils";
-import { formatLongDate } from "@/lib/utils/format/date";
+import { formatMsDate } from "@/lib/utils/format/date";
 import {
   formatPrice,
   formatTokenCount,
@@ -67,8 +67,7 @@ function Bool(props: { on: boolean }) {
   );
 }
 
-// A comparison row: a label, a per-model render, and (optional) a numeric value
-// for "highlight best" (higher=better unless `lowerBetter`).
+// A comparison row: label, per-model render, and optional numeric value for highlight-best (higher=better unless lowerBetter).
 type Row = {
   label: string;
   render: (m: ProcessedModel) => React.ReactNode;
@@ -125,7 +124,7 @@ export function ComparisonTable(props: {
           label: t("MODELS.TABLE.RELEASED"),
           render: (m) => {
             const ts = modelReleaseTs(m);
-            return ts > 0 ? formatLongDate(ts) : "-";
+            return ts > 0 ? formatMsDate(ts) : "-";
           },
         },
       ],
@@ -246,7 +245,6 @@ export function ComparisonTable(props: {
 
       <div className="overflow-x-auto">
         <div className="min-w-fit">
-          {/* Column headers */}
           <div
             className="border-border grid items-end gap-3 border-b pb-3"
             style={gridCols}

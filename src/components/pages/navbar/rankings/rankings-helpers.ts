@@ -63,8 +63,7 @@ function tsToSortable(ts: string): number {
   return 0;
 }
 
-// Rows sorted by min `ts` per label so time axis stays monotonic regardless
-// of upstream ordering.
+    // Rows sorted by min ts per label so the time axis stays monotonic regardless of upstream ordering.
 export function pivotSeries(
   points: readonly PivotPoint[],
   keys: readonly string[],

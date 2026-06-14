@@ -37,10 +37,7 @@ export function SortableList<T extends { id: string }>(
     useSensor(PointerSensor, {
       activationConstraint: { distance: 4 },
     }),
-    // Touch: long-press to grab (so a normal finger swipe still scrolls the
-    // list instead of being eaten by the drag). Without a dedicated TouchSensor
-    // the PointerSensor's first move was read as scroll and the drag never
-    // started on mobile.
+        // Touch: long-press to grab so a normal swipe still scrolls; without a dedicated TouchSensor the first move was read as scroll and drag never started.
     useSensor(TouchSensor, {
       activationConstraint: { delay: 200, tolerance: 6 },
     }),
@@ -90,8 +87,7 @@ function SortableRow(props: {
   id: string;
   renderItem: (handle: ReactNode, isDragging: boolean) => ReactNode;
 }) {
-  // dnd-kit setters look like refs to React Compiler's ref-access lint rule;
-  // they're the documented public API, so the rule is suppressed at usage.
+      // dnd-kit setters trip React Compiler's ref-access lint; they're the public API, so suppress at usage.
   const sortable = useSortable({ id: props.id });
   const style = {
     transform: CSS.Transform.toString(sortable.transform),
@@ -107,8 +103,7 @@ function SortableRow(props: {
       {...sortable.listeners}
       // eslint-disable-next-line react-hooks/refs
       {...sortable.attributes}
-      // touch-none: the browser must not claim the gesture for scroll/zoom on
-      // the handle, or TouchSensor never sees the long-press.
+          // touch-none so the browser doesn't claim the gesture for scroll/zoom, else TouchSensor never sees the long-press.
       className="text-muted-foreground hover:text-foreground flex size-6 shrink-0 cursor-grab touch-none items-center justify-center rounded transition active:cursor-grabbing"
       aria-label="Drag to reorder"
     >

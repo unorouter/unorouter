@@ -117,7 +117,6 @@ function ClerkTOCItem(props: {
           />
         </svg>
       ) : null}
-      {/* Vertical connector line */}
       <div
         className={cn(
           "bg-foreground/10 absolute inset-y-0 w-px",
@@ -224,7 +223,6 @@ function TOCPanel(props: { toc: TOCState; className?: string }) {
                   />
                 </div>
               ) : null}
-              {/* TOC items */}
               <div ref={containerRef} className="flex flex-col">
                 {items.map((item, i) => (
                   <ClerkTOCItem
@@ -249,9 +247,7 @@ interface TOCLayoutProps {
 }
 
 export function TOCLayout(props: TOCLayoutProps) {
-  // min-h-min so this flex row grows to the content height instead of being
-  // clamped to the viewport by the scrolling SidebarInset; without it the
-  // sticky TOC's containing block is too short and it scrolls off early.
+      // min-h-min so this flex row grows to content height instead of being clamped by the scrolling inset, else the sticky TOC scrolls off early.
   return (
     <div className="flex min-h-min w-full min-w-0 items-start">
       <main className="min-w-0 flex-1">{props.children}</main>

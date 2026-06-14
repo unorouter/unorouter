@@ -26,8 +26,7 @@ type PopularPath = {
   descKey: TranslationKey;
 };
 
-// free-ai links these cards to dedicated intent pages; unorouter has no such
-// routes, so they jump to category section anchors on this page.
+    // free-ai links these cards to dedicated intent pages; unorouter has none, so they jump to category section anchors on this page.
 const POPULAR_PATHS: PopularPath[] = [
   {
     href: "#category-roleplay",
@@ -60,8 +59,7 @@ export async function DocsIndexContent() {
         url: "#popular-paths",
         depth: 2,
       },
-      // Category headings only (depth 2); the per-guide depth-3 entries are
-      // omitted on the index since the page body already lists every guide.
+          // Category headings only (depth 2); per-guide depth-3 entries are omitted since the page body already lists every guide.
       ...orderedCategories.map((category) => ({
         title: t(CATEGORY_LABELS[category], APP_VALUES),
         url: `#category-${category}`,
@@ -96,7 +94,6 @@ export async function DocsIndexContent() {
           className="mb-12"
         />
 
-        {/* Popular paths */}
         <section id="popular-paths">
           <h2 className="text-muted-foreground mb-1 font-mono text-xs tracking-widest uppercase">
             {t("DOCS_INDEX.PATHS_TITLE")}
@@ -126,7 +123,6 @@ export async function DocsIndexContent() {
           </div>
         </section>
 
-        {/* Category sections, auto-counted */}
         {orderedCategories.map((category) => (
           <CategorySection
             key={category}
@@ -135,7 +131,6 @@ export async function DocsIndexContent() {
           />
         ))}
 
-        {/* Don't see your client? */}
         <section id="fallback" className="border-border mt-20 border-t pt-12">
           <h2 className="text-muted-foreground mb-1 font-mono text-xs tracking-widest uppercase">
             {t("DOCS_INDEX.FALLBACK_EYEBROW")}
@@ -172,7 +167,6 @@ export async function DocsIndexContent() {
           </div>
         </section>
 
-        {/* CTA */}
         <section className="border-border mt-20 border-t pt-12 text-center">
           <h2 className="text-2xl font-semibold" id="get-started">
             {t("DOCS_INDEX.CTA_TITLE")}

@@ -29,8 +29,7 @@ export function PersonaEditor(props: Props) {
   const updateMut = useUpdatePersonaMutation();
   const existing = personaQuery.data;
 
-  // `values` syncs the row on settle; keepDirtyValues protects in-progress
-  // typing. Parent keys this component by editingId for clean remounts.
+      // values syncs the row on settle; keepDirtyValues protects in-progress typing. Parent keys by editingId for clean remounts.
   const formValues =
     !isNew && existing ? formDefaults(personaFormSchema, existing) : undefined;
   const form = useRpForm(personaFormSchema, formValues);

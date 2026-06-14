@@ -55,10 +55,7 @@ export function ModelSelector(props: ModelSelectorProps) {
 
   const selected = models.find((m) => m.name === props.value);
 
-  // Per-user private groups ride on the already-prefetched /account/self (only
-  // present for granted users). Each lists the models it serves, so it surfaces
-  // as a selectable routing group ONLY on those models; its ratio merges into the
-  // map (public pricing group_ratio omits private groups).
+      // Per-user private groups ride on the prefetched /account/self; each surfaces as a routing group only on the models it serves, ratio merged into the map.
   const privateGroups = authQuery.data?.private_groups ?? [];
   const groupRatioMap: Record<string, number> = { ...pricingData?.groupRatioMap };
   for (const pg of privateGroups) groupRatioMap[pg.group] ??= pg.ratio;
@@ -68,8 +65,7 @@ export function ModelSelector(props: ModelSelectorProps) {
         .filter((pg) => (pg.models ?? []).includes(props.value!))
         .map((pg) => pg.group)
     : [];
-  // Empty enableGroups = all priced groups allowed; add the private groups that
-  // serve the selected model.
+      // Empty enableGroups = all priced groups allowed; add the private groups serving the selected model.
   const candidateGroups = [
     ...new Set([
       ...(enableGroups.length ? enableGroups : Object.keys(groupRatioMap)),
@@ -90,8 +86,7 @@ export function ModelSelector(props: ModelSelectorProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps -- only re-run on model change
   }, [props.value]);
 
-  // Auto-select a random free model (text preferred) when none is selected,
-  // or when the current pick isn't usable (guests can't use paid models).
+      // Auto-select a random free model (text preferred) when none is selected or the current pick isn't usable.
   useEffect(() => {
     if (models.length === 0) return;
     const current = models.find((m) => m.name === props.value);

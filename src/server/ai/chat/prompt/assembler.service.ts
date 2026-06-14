@@ -136,8 +136,7 @@ type ProviderRouting = {
   sort?: string;
 };
 
-// JSON string `{order?,only?,ignore?,sort?}` (OpenRouter shape); passed through
-// verbatim, no-op on channels that don't route on it.
+    // JSON string {order?,only?,ignore?,sort?} (OpenRouter shape); passed through verbatim, no-op on channels that don't route on it.
 function parseProviderRouting(
   raw: string | null | undefined,
 ): ProviderRouting | undefined {
@@ -232,8 +231,7 @@ export type AssembleOpts = {
     text: string;
     time?: number;
   }[];
-  // Pre-mutated chat var store (start triggers); used over settings.vars so
-  // trigger writes are visible to the prompt + writeback.
+      // Pre-mutated chat var store (start triggers); used over settings.vars so trigger writes are visible to the prompt + writeback.
   seedVars?: Record<string, string>;
   model?: string;
   maxContext?: number;
@@ -254,9 +252,7 @@ export async function assembleForStream(
   convId: string,
   recentUserTexts: string[],
   fallbackSystemMessage: string | undefined,
-  // Required: the caller owns the ownership-scoped context load. A fallback
-  // load here would re-resolve convId without the caller's userId,
-  // reintroducing the cross-user context read this guards against.
+      // Required: the caller owns the ownership-scoped context load. A fallback load here would re-resolve convId without the caller's userId, reintroducing the cross-user context read this guards against.
   preloadedCtx: LoadedConvContext,
   opts?: AssembleOpts,
 ): Promise<AssembledSystem> {
@@ -288,8 +284,7 @@ export async function assembleForStream(
   const charDesc = primary?.description ?? "";
   const scenario = primary?.scenario ?? "";
 
-  // `vars` is mutated in place across expand() calls so writes are visible to
-  // later reads; persisted by the caller after the stream.
+      // vars is mutated in place across expand() calls so writes are visible to later reads; persisted by the caller after the stream.
   const macroScope: MacroScope = {
     user: userName,
     char: charName,
@@ -346,8 +341,7 @@ export async function assembleForStream(
     seed: macroScope.seed,
   });
 
-  // Named content slots ordered by the prompt template; the default template
-  // keeps the no-template path byte-identical.
+      // Named content slots ordered by the prompt template; the default template keeps the no-template path byte-identical.
   const joinNonEmpty = (parts: string[]) =>
     parts.filter(Boolean).join("\n\n").trim();
 
@@ -424,8 +418,7 @@ export async function assembleForStream(
     persona: sys(personaSlot),
     loreAfterChar: sys(loreAt("after_char")),
     systemPrompt: sys(systemPromptSlot),
-    // Prefill rides the template as a trailing assistant message so it orders
-    // with the stack (default: after chat, before postHistory end inject).
+        // Prefill rides the template as a trailing assistant message so it orders with the stack (default: after chat, before postHistory end inject).
     prefill: prefillText
       ? { text: prefillText, role: "assistant" as const }
       : null,
@@ -451,8 +444,7 @@ export async function assembleForStream(
     promptParts.splice(at, 0, ...exampleTurns);
   }
 
-  // `system` = leading run of system messages only (what the stream hoists);
-  // later parts are emitted inline and must not be duplicated here.
+      // system = leading run of system messages only (what the stream hoists); later parts are emitted inline and must not be duplicated here.
   const leadSystem: string[] = [];
   for (const p of promptParts) {
     if (p.kind === "message" && p.role === "system") leadSystem.push(p.text);
@@ -508,8 +500,7 @@ export async function assembleForStream(
     atDepthEntries,
     extraBody,
     providerRouting: parseProviderRouting(preset?.providers),
-    // Emitted as a `prefill` slot in promptParts; kept here for the GLM
-    // end-stub suppression flag and the no-prefill-card template fallback.
+        // Emitted as a prefill slot in promptParts; kept here for the GLM end-stub suppression flag and the no-prefill-card template fallback.
     prefill: prefillText || undefined,
     promptParts,
     promptTokens: estimatePromptTokens(promptParts, atDepthEntries, authorNote),

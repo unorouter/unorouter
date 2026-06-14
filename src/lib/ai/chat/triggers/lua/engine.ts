@@ -1,8 +1,4 @@
-// wasmoon Lua engine (RisuAI scriptings.ts port): engine-per-mode, mutex'd,
-// recreated when the script code changes. Entry points mirror Risu: onStart/
-// onInput/onOutput(accessKey) for trigger modes, callListenMain for the
-// listenEdit() edit pipeline. Isomorphic: json.lua loads via fetch in the
-// browser and fs on the server; wasmoon itself is a lazy dynamic import.
+    // wasmoon Lua engine (RisuAI scriptings.ts port): engine-per-mode, mutex'd, recreated when the script code changes. Entry points mirror Risu (onStart/onInput/onOutput, callListenMain). Isomorphic: json.lua loads via fetch in browser and fs on server; wasmoon is a lazy dynamic import.
 
 import type { TriggerContext } from "../types";
 import { buildLuaApi } from "./api";
@@ -22,8 +18,7 @@ type EngineState = {
   queue: Promise<unknown>;
 };
 
-// Access-key gating (Risu ScriptingSafeIds): API calls carry the key of the
-// active run; stale callbacks from a previous run are ignored.
+    // Access-key gating (Risu ScriptingSafeIds): API calls carry the active run's key; stale callbacks from a previous run are ignored.
 export const luaSafeIds = new Set<string>();
 export const luaEditDisplayIds = new Set<string>();
 export const luaLowLevelIds = new Set<string>();
@@ -62,8 +57,7 @@ function getState(mode: string): EngineState {
   return s;
 }
 
-// Risu luaCodeWrapper: json helpers, state helpers, listenEdit registries,
-// coroutine-safe async wrapper, callListenMain dispatcher.
+    // Risu luaCodeWrapper: json helpers, state helpers, listenEdit registries, coroutine-safe async wrapper, callListenMain dispatcher.
 function luaCodeWrapper(code: string): string {
   return `
 json = require 'json'
@@ -317,8 +311,7 @@ export async function runScripted(
   return run;
 }
 
-// Trigger scripts whose first effect is triggerlua carry the Lua program
-// (Risu runLuaEditTrigger collection rule).
+    // Trigger scripts whose first effect is triggerlua carry the Lua program (Risu runLuaEditTrigger collection rule).
 export function extractLuaCodes(
   scripts: { effect: { type: string; code?: unknown }[] }[],
 ): string[] {
@@ -332,8 +325,7 @@ export function extractLuaCodes(
   return out;
 }
 
-// Risu runLuaEditTrigger: feed content through every triggerlua script's
-// listenEdit handlers for the given edit mode. Errors return content untouched.
+    // Risu runLuaEditTrigger: feed content through every triggerlua script's listenEdit handlers for the edit mode. Errors return content untouched.
 export async function runLuaEditTrigger<T>(
   luaCodes: string[],
   mode: "editinput" | "editoutput" | "editdisplay" | "editrequest",

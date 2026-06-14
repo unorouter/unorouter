@@ -15,16 +15,14 @@ import type {
   LorebookExportFormat,
 } from "@/lib/validation/rp";
 
-// Characters/lorebooks carry their own format union (tags the analytics event
-// and the fallback filename); cards/presets export a single native format.
+    // Characters/lorebooks carry their own format union (tags the event + fallback filename); cards/presets export a single native format.
 type ExportArgs =
   | { kind: "characters"; id: string; format: CharacterExportFormat }
   | { kind: "lorebooks"; id: string; format: LorebookExportFormat }
   | { kind: "presets"; id: string }
   | { kind: "cards"; id: string };
 
-// Local-first export: row (+ avatar bytes) from SQLocal through the `@/lib/ai/rp`
-// helpers into a blob download. No server roundtrip; works offline + for guests.
+    // Local-first export: row (+ avatar bytes) from SQLocal into a blob download. No server roundtrip; works offline + for guests.
 export function useRpExportMutation() {
   const userId = useLocalUserId();
   return useApiMutation({

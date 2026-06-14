@@ -54,8 +54,7 @@ const INJECTION_ROLE_LABEL_KEY: Record<LorebookInjectionRole, TranslationKey> =
     assistant: "RP.LOREBOOK_ENTRY_INJECTION_ROLE_ASSISTANT",
   };
 
-// Pull leading @@probability/@@scan_depth out of content for the form; other
-// decorators stay raw-edited. scanDepth 0 = book default.
+    // Pull leading @@probability/@@scan_depth out of content for the form; other decorators stay raw-edited. scanDepth 0 = book default.
 function splitDecorators(content: string): {
   content: string;
   probability: number;
@@ -109,8 +108,7 @@ export function LorebookEntryForm(props: {
   const createMut = useCreateLorebookEntryMutation(props.lorebookId);
   const updateMut = useUpdateLorebookEntryMutation(props.lorebookId);
 
-  // `values` syncs the row on settle; keepDirtyValues protects in-progress typing.
-  // Split decorators into form fields; keys/secondaryKeys edit comma-joined.
+      // values syncs the row on settle; keepDirtyValues protects in-progress typing. Split decorators into fields; keys edit comma-joined.
   const entry = props.entry;
   const split = splitDecorators(entry?.content ?? "");
   const formValues = entry
@@ -125,8 +123,7 @@ export function LorebookEntryForm(props: {
     : undefined;
   const form = useRpForm(lorebookEntryFormSchema, formValues);
 
-  // Form hook outlives entry switches (no remount); explicit reset per switch,
-  // keepDirtyValues only guards refetches while editing one entry.
+      // Form hook outlives entry switches; explicit reset per switch, keepDirtyValues only guards refetches while editing one entry.
   const reset = form.reset;
   useEffect(() => {
     reset(formValues ?? formDefaults(lorebookEntryFormSchema));

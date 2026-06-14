@@ -2,10 +2,7 @@ import { IS_DEV, POSTHOG_DISABLED } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
 import type { PostHog } from "posthog-js";
 
-// Lazy proxy keeping posthog-js (~63KiB gzip) out of every-page bundles: the
-// only static import is the type above (erased at build), so the real module is
-// pulled exactly once via the dynamic import below, on first call. Calls before
-// it resolves are queued; calls while disabled (dev/adblock/flag) are dropped.
+    // Lazy proxy keeping posthog-js (~63KiB gzip) out of every-page bundles: the only static import is the erased type, so the real module is pulled once on first call. Calls before it resolves are queued; calls while disabled are dropped.
 let instance: PostHog | null = null;
 let loading = false;
 const queue: Array<(p: PostHog) => void> = [];

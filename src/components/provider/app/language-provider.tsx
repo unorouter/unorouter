@@ -3,8 +3,7 @@ import { pruneClientMessages } from "@/i18n/client-messages";
 import { getLocale, getMessages, getTimeZone } from "next-intl/server";
 import { ReactNode } from "react";
 
-// Pruning server-only content namespaces cuts ~110KB from every page's RSC
-// payload. Policy in src/i18n/client-messages.ts; pruned-key references throw in dev.
+    // Pruning server-only content namespaces cuts ~110KB from every page's RSC payload; pruned-key references throw in dev.
 export async function LanguageProvider(props: { children: ReactNode }) {
   const [locale, timeZone, messages] = await Promise.all([
     getLocale(),

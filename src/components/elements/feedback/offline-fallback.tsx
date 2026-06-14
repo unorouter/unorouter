@@ -5,8 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Icon } from "@/components/ui/icon";
 import { useTranslations } from "next-intl";
 
-// Client island for the offline shell. The page itself is a static server
-// component so it precaches; only the reload button needs interactivity.
+    // Client island for the offline shell; the page is a static server component so it precaches, only the reload button needs interactivity.
 export function OfflineFallback() {
   const t = useTranslations();
 

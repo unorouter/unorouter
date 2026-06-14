@@ -1,5 +1,4 @@
-// Body builders + extractors for new-api image endpoints
-// (/images, /chat, /generateContent).
+    // Body builders + extractors for new-api image endpoints (/images, /chat, /generateContent).
 
 import type { SyncImageEndpoint } from "@/lib/ai/playground/models-dynamic";
 import { safeFetchBytes } from "@/lib/config/r2";
@@ -15,8 +14,7 @@ type RefBytes = {
 };
 
 async function fetchRefBytes(url: string): Promise<RefBytes> {
-  // SSRF-safe: caller-supplied (guest-reachable) URL goes through the r2
-  // allowlist, never a bare fetch that could hit 169.254/RFC1918.
+      // SSRF-safe: caller-supplied (guest-reachable) URL goes through the r2 allowlist, never a bare fetch that could hit 169.254/RFC1918.
   const { buffer: buf, contentType } = await safeFetchBytes(url, MAX_REF_BYTES);
   const mime = contentType?.split(";")[0]?.trim() || "image/png";
   const base64 = buf.toString("base64");
@@ -144,9 +142,7 @@ export function buildBody(
   }
 }
 
-// Guards for walking the untyped upstream JSON: a known JSON record / a string,
-// else undefined. Centralizes the narrowing so the extractors below stay
-// cast-free.
+    // Guards for walking the untyped upstream JSON (a known JSON record / a string, else undefined). Centralizes the narrowing so the extractors stay cast-free.
 type JsonRecord = Record<string, unknown>;
 function rec(v: unknown): JsonRecord | undefined {
   return v && typeof v === "object" && !Array.isArray(v)

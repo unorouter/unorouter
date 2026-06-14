@@ -19,8 +19,7 @@ export {
   type LorebookInjectionRole,
 };
 
-// Single source for sampling knobs. `field`=camelCase DB;
-// `apiKey`=snake_case upstream.
+    // Single source for sampling knobs. field = camelCase DB; apiKey = snake_case upstream.
 export const SAMPLING_PARAMS = [
   {
     field: "temperature",
@@ -152,8 +151,7 @@ export const conversationOverridesFormSchema = t.Object({
   lorebookIds: t.Array(t.String(), { default: [] }),
   ...samplingNullable({ maxTokensMax: 1_000_000 }),
   extraBody: t.String({ default: "", maxLength: 8_192 }),
-  // null = inherit the bound preset (else system default: streaming on). false =
-  // BFF buffers full reply, then streams as one chunk.
+      // null = inherit the bound preset (else system default: streaming on). false = BFF buffers the full reply, then streams as one chunk.
   streamingEnabled: nullable(t.Boolean()),
 });
 export type ConversationOverridesForm = Static<
@@ -168,8 +166,7 @@ export const samplingPresetFormSchema = t.Object({
     error: msg("FORM.ERROR.REQUIRED"),
   }),
   ...samplingNullable({ temperatureMax: 4, maxTokensMax: 1_000_000 }),
-  // Preset-level defaults (the conversation overrides per chat). null = system
-  // default (streaming on, chatMemory 8).
+      // Preset-level defaults (the conversation overrides per chat). null = system default (streaming on, chatMemory 8).
   streamingEnabled: nullable(t.Boolean()),
   chatMemory: nullableNumber(1, 1000),
   mainPrompt: t.String({ default: "", maxLength: MAX_DESC_LEN }),
@@ -179,8 +176,7 @@ export const samplingPresetFormSchema = t.Object({
   providers: t.String({ default: "", maxLength: 2_048 }),
   // When true the slugs become `only` (hard pin), else `order` (preference).
   providersOnly: t.Boolean({ default: false }),
-  // Prompt template JSON (PromptItem[]); empty = default fixed order. Edited
-  // by the template builder, serialized straight to the promptTemplate column.
+      // Prompt template JSON (PromptItem[]); empty = default fixed order. Serialized straight to the promptTemplate column.
   promptTemplate: t.String({ default: "", maxLength: 32_768 }),
   forceAlternateRoles: t.Boolean({ default: false }),
   noSystemRole: t.Boolean({ default: false }),

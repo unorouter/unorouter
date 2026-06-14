@@ -11,7 +11,6 @@ import { Icon } from "@/components/ui/icon";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 
-// Row actions dropdown: rename, delete.
 export function ConversationItemMenu(props: {
   conversationId: string;
   isSelected: boolean;

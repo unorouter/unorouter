@@ -13,7 +13,7 @@ import {
 } from "@/lib/api/model-modality";
 import type { ProcessedModel } from "@/lib/api/pricing";
 import type { RankedModel } from "@/lib/api/typebox/rankings";
-import { formatLongDate } from "@/lib/utils/format/date";
+import { formatMsDate } from "@/lib/utils/format/date";
 import {
   discountPercent,
   formatPrice,
@@ -62,8 +62,7 @@ function PriceCell(props: {
   );
 }
 
-// `offLabel` is passed in (built from the t() ICU key) so the columns stay
-// render-pure; `rankMap` joins weekly-token volume from the rankings endpoint.
+// offLabel is passed in so columns stay render-pure; rankMap joins weekly-token volume from the rankings endpoint.
 export function buildModelColumns(opts: {
   rankMap: Map<string, RankedModel>;
   offLabel: (pct: number) => string;
@@ -210,7 +209,7 @@ export function buildModelColumns(opts: {
       },
       cell: ({ row }) => {
         const ts = modelReleaseTs(row.original);
-        return ts > 0 ? formatLongDate(ts) : "-";
+        return ts > 0 ? formatMsDate(ts) : "-";
       },
     },
     {

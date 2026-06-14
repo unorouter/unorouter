@@ -1,9 +1,6 @@
 // Client crash recovery helpers shared by the global + in-app error boundaries.
 
-// Wipe every client-side storage surface the app persists state into:
-// jotai cookies, the SQLocal/OPFS DBs, localStorage (theme bg), sessionStorage,
-// IndexedDB and the service-worker caches. Corrupt persisted state is the usual
-// cause of a hard crash that survives plain reloads.
+    // Wipe every client-side storage surface (jotai cookies, SQLocal/OPFS DBs, local/sessionStorage, IndexedDB, SW caches). Corrupt persisted state is the usual cause of a hard crash that survives plain reloads.
 export async function clearAllClientStorage() {
   try {
     for (const cookie of document.cookie.split(";")) {
@@ -41,8 +38,7 @@ export async function clearAllClientStorage() {
   } catch {}
 }
 
-// Flatten an Error (plus Next's `digest`) into a copy-pasteable string with the
-// full stack and cause chain, so users can paste the real failure into support.
+    // Flatten an Error (plus Next's digest) into a copy-pasteable string with full stack and cause chain so users can paste the real failure into support.
 export function formatError(error: Error & { digest?: string }) {
   const parts = [
     `Name: ${error.name ?? "Error"}`,

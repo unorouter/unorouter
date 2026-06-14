@@ -9,8 +9,7 @@ export function useLiveStats() {
   const baseRequests = data?.requestCount ?? 0;
   const baseTpm = data?.avgTpm ?? 0;
 
-  // Track increments (not absolutes) so display = base + delta; when the base jumps
-  // to the real hydrated value the display follows with no sync effect.
+      // Track increments (not absolutes) so display = base + delta; when the base jumps to the hydrated value the display follows with no sync effect.
   const [tokenDelta, setTokenDelta] = useState(0);
   const [requestDelta, setRequestDelta] = useState(0);
   const [tpmDelta, setTpmDelta] = useState(0);

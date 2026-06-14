@@ -1,6 +1,4 @@
-// Trigger engine types (RisuAI triggerscript / V2 effect VM port). Isomorphic:
-// no server-only or svelte imports, so both the stream service (start/request
-// modes) and the client runtime (input/output/display modes) run the same VM.
+    // Trigger engine types (RisuAI triggerscript / V2 effect VM port). Isomorphic: no server-only or svelte imports, so the stream service and client runtime run the same VM.
 
 export type TriggerEventMode =
   | "start" // before send (server, during assembly)
@@ -35,10 +33,7 @@ export type TriggerCondition =
       depth: number;
     };
 
-// A V2 effect (opcode invocation). Field names mirror the RisuAI type defs
-// (triggers.ts:176-983); loose because each opcode reads a different subset.
-// Every operand `<field>` may carry a `<field>Type: 'value'|'var'` sibling;
-// resolution defaults to a var lookup when the type is not exactly 'value'.
+    // A V2 effect (opcode invocation). Field names mirror the RisuAI type defs; loose because each opcode reads a different subset. Every operand may carry a <field>Type sibling; resolution defaults to a var lookup unless the type is exactly 'value'.
 export type TriggerEffect = {
   type: string;
   indent?: number;
@@ -133,10 +128,7 @@ export type TriggerLore = {
   insertOrder?: number;
 };
 
-// Mutable VM state. The VM reads inputs and records mutations as outputs the
-// caller persists (chat vars, lorebook changes, system-prompt injections, chat
-// edits). Side-effect opcodes (LLM/imggen) are gated on lowLevelAccess + a
-// caller-provided async bridge.
+    // Mutable VM state. The VM reads inputs and records mutations as outputs the caller persists. Side-effect opcodes are gated on lowLevelAccess + a caller-provided async bridge.
 export type TriggerContext = {
   mode: TriggerEventMode;
   // Per-conversation variable store (mutated in place).
@@ -164,8 +156,7 @@ export type TriggerContext = {
   // Optional async bridge for LLM/imggen/similarity (lowLevelAccess only).
   lowLevelAccess?: boolean;
   ops?: TriggerOps;
-  // Optional CBS macro expansion applied to every operand + outputVar name
-  // (RisuAI runs risuChatParser on them). Identity when absent.
+      // Optional CBS macro expansion applied to every operand + outputVar name (RisuAI runs risuChatParser). Identity when absent.
   parse?: (s: string) => string;
   // Default variables seeded behind chat/global vars (Risu defaultVariables).
   defaultVars?: Record<string, string>;
@@ -176,10 +167,7 @@ export type TriggerContext = {
   firstMessage?: string;
 };
 
-// Async bridge for the lowLevelAccess V1 effects. Server start/request modes
-// call services directly; client modes call the BFF trigger-op endpoint.
-// Absent op -> the effect resolves its inputVar to an Error: string (Risu's
-// failure convention) instead of throwing.
+    // Async bridge for the lowLevelAccess V1 effects. Server modes call services directly; client modes call the BFF trigger-op endpoint. Absent op -> the effect resolves to an Error: string (Risu's failure convention) instead of throwing.
 export type TriggerOps = {
   // {type:'runLLM'} ChatML-or-plain prompt -> completion text.
   runLLM?: (prompt: string) => Promise<string>;

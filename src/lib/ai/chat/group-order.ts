@@ -1,6 +1,4 @@
-// Multi-character turn ordering (RisuAI groupOrder port): name-mention priority,
-// then weighted-random talkativeness. Random mode excludes the last speaker;
-// orderByOrder uses stored order unfiltered. Seeded rolls = stable across regenerates.
+    // Multi-character turn ordering (RisuAI groupOrder port): name-mention priority, then weighted-random talkativeness. Random mode excludes the last speaker; seeded rolls stay stable across regenerates.
 
 import { seededRand } from "./calc";
 
@@ -28,8 +26,7 @@ export function groupOrder(
 ): GroupMember[] {
   if (members.length === 0) return [];
 
-  // Deterministic mode: stored order, every member, no last-speaker filter
-  // (Risu index.svelte.ts:278 only filters in the random mode).
+      // Deterministic mode: stored order, every member, no last-speaker filter (Risu only filters in random mode).
   if (opts.orderByOrder) {
     return [...members].sort((a, b) => a.orderIndex - b.orderIndex);
   }
@@ -37,9 +34,7 @@ export function groupOrder(
   const order: GroupMember[] = [];
   const taken = new Set<string>();
 
-  // Stage 1: name-mention priority, in mention order. Risu compares each text
-  // word against the character name's word chunks, so "dark" alone mentions
-  // "Dark Lord" and multi-word names work.
+      // Stage 1: name-mention priority in mention order. Risu compares each text word against the name's word chunks, so partial and multi-word names match.
   const words = getWords(lastUserText);
   for (const w of words) {
     const hit = members.find(
@@ -51,8 +46,7 @@ export function groupOrder(
     }
   }
 
-  // Stage 2: weighted-random fill (seeded by member id + the user text so the
-  // same turn rolls the same speakers across regenerates). Risu default 0.5.
+      // Stage 2: weighted-random fill (seeded by member id + user text so the same turn rolls the same speakers across regenerates). Risu default 0.5.
   for (const m of members) {
     if (taken.has(m.id)) continue;
     if (seededRand(`${m.id}:${lastUserText}`) <= (m.talkness ?? 0.5)) {

@@ -50,7 +50,6 @@ export function Affiliate() {
 
   return (
     <PageContent>
-      {/* Header */}
       <div className="mb-6">
         <div className="flex items-center gap-2">
           <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-green-500" />
@@ -66,7 +65,6 @@ export function Affiliate() {
         </p>
       </div>
 
-      {/* Stats Cards */}
       <div className="bg-border mb-6 grid grid-cols-2 gap-px md:grid-cols-5">
         <div className="border-border bg-background flex flex-col p-5">
           <StatItem
@@ -118,7 +116,6 @@ export function Affiliate() {
       {/* Left: How It Works + Invite/Transfer | Right: Badge Generator */}
       <div className="mb-6 grid grid-cols-1 gap-6 md:grid-cols-2">
         <div className="flex flex-col gap-6">
-          {/* How It Works */}
           <div className="border-border border p-5">
             <span className="text-muted-foreground mb-3 block font-mono text-[10px] font-medium tracking-widest uppercase">
               {t("AFFILIATE.HOW_IT_WORKS")}
@@ -175,7 +172,6 @@ export function Affiliate() {
             </div>
           </div>
 
-          {/* Invite Link + Transfer */}
           <div className="border-border grid grid-cols-1 gap-px border">
             <div className="p-5">
               <span className="text-muted-foreground mb-3 block font-mono text-[10px] font-medium tracking-widest uppercase">
@@ -253,11 +249,9 @@ export function Affiliate() {
           </div>
         </div>
 
-        {/* Badge Generator */}
         <BadgeGenerator defaultType="referral" refCode={affCode} />
       </div>
 
-      {/* Tabs: Invited Users + Commission History */}
       <Tabs
         defaultValue="invitees"
         onValueChange={(tab) => analytics.affiliate.tabChanged({ tab })}

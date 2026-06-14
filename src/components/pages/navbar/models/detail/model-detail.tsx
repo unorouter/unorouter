@@ -158,7 +158,6 @@ print(res.choices[0].message.content)`;
 
   return (
     <div className="mx-auto max-w-5xl px-6 pb-16">
-      {/* Hero */}
       <section className="relative overflow-hidden">
         <div
           className={cn(
@@ -229,7 +228,6 @@ print(res.choices[0].message.content)`;
         </div>
       </section>
 
-      {/* Stats grid */}
       <section
         className={cn(
           "border-border divide-border grid gap-0 divide-y border-y sm:divide-x sm:divide-y-0",
@@ -297,7 +295,6 @@ print(res.choices[0].message.content)`;
         </section>
       )}
 
-      {/* Performance */}
       <section className="mt-12">
         <div className="mb-3 flex items-end justify-between gap-4">
           <h2
@@ -312,7 +309,6 @@ print(res.choices[0].message.content)`;
         <PerformanceSection modelName={m.name} />
       </section>
 
-      {/* Supported parameters */}
       {hasAnyParameter(m.metadata) && (
         <section className="mt-12">
           <h2
@@ -335,7 +331,6 @@ print(res.choices[0].message.content)`;
         </section>
       )}
 
-      {/* Pricing detail */}
       <section className="relative mt-16 mb-16">
         <div className="mb-6 flex items-end justify-between gap-4">
           <div>
@@ -455,7 +450,6 @@ print(res.choices[0].message.content)`;
         )}
       </section>
 
-      {/* Code examples */}
       <section className="mb-16">
         <div className="mb-6">
           <div
@@ -501,7 +495,6 @@ print(res.choices[0].message.content)`;
         />
       </section>
 
-      {/* FAQ */}
       <section className="mb-16">
         <div className="mb-6">
           <div
@@ -563,7 +556,6 @@ print(res.choices[0].message.content)`;
         </div>
       </section>
 
-      {/* Similar models */}
       {(similar.sameVendor.length > 0 || similar.sameTag.length > 0) && (
         <section className="mb-16">
           <div className="mb-6">
@@ -625,7 +617,6 @@ print(res.choices[0].message.content)`;
         </section>
       )}
 
-      {/* CTA */}
       <section className="border-border relative overflow-hidden rounded-2xl border">
         <div
           className={cn(

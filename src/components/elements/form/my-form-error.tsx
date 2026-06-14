@@ -18,8 +18,7 @@ export function MyFormError(props: MyFormErrorProps) {
 
   const cleanedName = props.name.replace(/\.\d+\./g, ".");
 
-  // next-intl returns the raw key instead of throwing on a missing translation;
-  // detect the passthrough and fall back to a humanized field name.
+      // next-intl returns the raw key on a missing translation; detect the passthrough and fall back to a humanized field name.
   const typeKey = `FORM.TYPE.${cleanedName.toUpperCase()}`;
   const translated = t(typeKey as TranslationKey);
   const type =

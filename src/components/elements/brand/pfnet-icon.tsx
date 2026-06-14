@@ -1,7 +1,6 @@
 import type { IconComponent } from "@/lib/config/vendor-icons";
 
-// Preferred Networks (plamo embedding model). No mark ships in @lobehub/icons or
-// react-icons, so this is an inline mono monogram ("PFN") stand-in.
+    // Preferred Networks (plamo embedding). No mark ships anywhere, so this is an inline mono monogram stand-in.
 const PfnetIcon: IconComponent = (props) => (
   <svg
     role="img"

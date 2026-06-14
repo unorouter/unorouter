@@ -50,8 +50,7 @@ type ComponentVariant = Exclude<StatusType, "empty">;
 
 const COMPONENT_VARIANTS = new Set<string>(["success", "degraded", "error"]);
 
-// OpenStatus's variant prop disallows "empty"; fall back to "success" for any
-// unknown status so the component still renders.
+    // OpenStatus variant prop disallows "empty"; fall back to "success" for any unknown status so it still renders.
 function asVariant(status: string): ComponentVariant {
   return COMPONENT_VARIANTS.has(status)
     ? (status as ComponentVariant)
@@ -61,8 +60,7 @@ function asVariant(status: string): ComponentVariant {
 export function StatusPage() {
   const t = useTranslations();
   const s = useStatusFilter();
-  // Pricing models are still needed by the VendorFilter dropdown for icons +
-  // counts, so pull them straight from the cached pricing query.
+      // Pricing models still needed by the VendorFilter dropdown for icons + counts; pull from the cached pricing query.
   const pricing = usePricingQuery();
   const pricingModels = pricing.data?.models ?? [];
   // Per-model perf summary, keyed by model_name for O(1) lookup per row.

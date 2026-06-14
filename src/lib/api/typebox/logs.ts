@@ -23,9 +23,7 @@ export const logsStatQuery = t.Object({
 
 export const byRequestQuery = t.Object({ request_id: t.String() });
 
-// Authoritative upstream record for one request; every field null when the
-// upstream log row isn't found yet. Default() makes the absent-row response a
-// single source of truth instead of a hand-built literal.
+    // Authoritative upstream record for one request; every field null when the upstream log row isn't found yet. Default() makes the absent-row response a single source of truth.
 const nullableStr = t.Union([t.String(), t.Null()], { default: null });
 const nullableNum = t.Union([t.Number(), t.Null()], { default: null });
 export const byRequestResponse = t.Object({

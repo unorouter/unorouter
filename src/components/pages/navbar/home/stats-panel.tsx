@@ -10,7 +10,6 @@ export function StatsPanel() {
 
   return (
     <div className="bg-border border-border mx-auto flex w-full max-w-lg flex-col gap-px overflow-hidden rounded-lg border backdrop-blur-md lg:mx-0">
-      {/* Tokens served */}
       <div className="bg-card/80 flex flex-col justify-center p-8">
         <div className="mb-4 flex items-center justify-between">
           <span className="text-muted-foreground flex items-center gap-2 font-mono text-[10px] tracking-widest uppercase">
@@ -24,7 +23,6 @@ export function StatsPanel() {
         </div>
       </div>
 
-      {/* Sub-stats */}
       <div className="bg-border grid grid-cols-2 gap-px">
         <div className="bg-card/80 flex h-full flex-col justify-between p-6">
           <span className="text-foreground/70 mb-2 font-mono text-[10px] tracking-widest uppercase">

@@ -1,7 +1,6 @@
 import type { IconComponent } from "@/lib/config/vendor-icons";
 
-// Nex AGI (nex-agi/Nex-N2 models). No mark ships in @lobehub/icons or
-// react-icons, so this is an inline mono monogram ("N") stand-in.
+    // Nex AGI models. No mark ships anywhere, so this is an inline mono monogram stand-in.
 const NexagiIcon: IconComponent = (props) => (
   <svg
     role="img"

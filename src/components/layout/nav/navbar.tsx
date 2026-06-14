@@ -30,8 +30,7 @@ export function Navbar() {
   const t = useTranslations();
   const pathname = usePathname();
   const authQuery = useAuthQuery();
-  // Anchor the docs megamenu to the nav row (not the trigger) so it centers
-  // across the page like a real megamenu instead of hanging off one item.
+      // Anchor the docs megamenu to the nav row (not the trigger) so it centers across the page.
   const navRowRef = useRef<HTMLDivElement>(null);
 
   const navItems = navigation(!!authQuery.data).filter((item) => !item.hidden);
@@ -59,7 +58,6 @@ export function Navbar() {
         ref={navRowRef}
         className="mx-auto flex h-14 max-w-360 items-center justify-between px-6 font-mono"
       >
-        {/* Mobile: Hamburger + Logo */}
         <div className="flex items-center gap-2 md:hidden">
           <MobileNav />
           <Link href="/" className="group flex items-center gap-2">
@@ -68,13 +66,11 @@ export function Navbar() {
           </Link>
         </div>
 
-        {/* Desktop: Logo */}
         <Link href="/" className="group hidden items-center gap-2 md:flex">
           <LogoImage />
           <CompanyName className="text-foreground group-hover:text-muted-foreground text-lg transition-colors" />
         </Link>
 
-        {/* Desktop Nav */}
         <div className="hidden items-center gap-8 md:flex">
           {topLevelItems.map((link) => (
             <Link

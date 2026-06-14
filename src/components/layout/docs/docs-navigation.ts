@@ -48,8 +48,7 @@ export const docsNavItemsOverview: DocsNavItem[] = [
   },
 ];
 
-// Sidebar groups derived from SETUP_GUIDES (one per non-empty category);
-// adding a guide updates the sidebar automatically.
+    // Sidebar groups derived from SETUP_GUIDES (one per non-empty category); adding a guide updates the sidebar.
 export const docsNavGroups: DocsNavGroup[] = (() => {
   const byCategory = setupGuidesByCategory();
   return CATEGORY_ORDER.flatMap((category) => {

@@ -37,8 +37,7 @@ type Props<TItem extends CatalogItem, TEntry extends WeightedEntry> = {
   onChange: (next: TEntry[]) => void;
 };
 
-// Generic weighted-entry list + catalog popover. Backs both the LoRA and
-// embedding pickers; they differ only in catalog source and the add payload.
+    // Generic weighted-entry list + catalog popover backing both the LoRA and embedding pickers; they differ only in catalog source and add payload.
 export function CatalogChainPicker<
   TItem extends CatalogItem,
   TEntry extends WeightedEntry,

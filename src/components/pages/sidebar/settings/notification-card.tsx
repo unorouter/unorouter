@@ -131,7 +131,6 @@ export function NotificationCard() {
       <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            {/* Notification Method */}
             <FormField
               control={form.control}
               name="notify_type"
@@ -176,7 +175,6 @@ export function NotificationCard() {
               )}
             />
 
-            {/* Quota Threshold */}
             <div className="space-y-1">
               <MyFormInput
                 control={form.control}
@@ -194,7 +192,6 @@ export function NotificationCard() {
               </p>
             </div>
 
-            {/* Dynamic Fields */}
             {notifyType === "email" && (
               <MyFormInput
                 control={form.control}

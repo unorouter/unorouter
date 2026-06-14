@@ -17,6 +17,14 @@ export function formatLongDate(value: string | number | undefined): string {
   return d.format("MMM D, YYYY");
 }
 
+// Same long format, but the numeric input is a MILLISECONDS epoch (e.g.
+// modelReleaseTs), not unix seconds. Use this for ms timestamps.
+export function formatMsDate(ms: number): string {
+  if (!ms) return "";
+  const d = dayjs(ms);
+  return d.isValid() ? d.format("MMM D, YYYY") : "";
+}
+
 export function formatYearMonth(
   value: string | number | undefined,
 ): string | null {

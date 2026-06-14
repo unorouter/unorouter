@@ -5,8 +5,7 @@ import { useEffect } from "react";
 
 const DRAIN_INTERVAL_MS = 60_000;
 
-// Periodic retry tick for the outbox: drainSoon handles the happy path right
-// after each enqueue; this catches backoff retries + offline recovery.
+    // Periodic retry tick for the outbox: drainSoon handles the happy path after each enqueue; this catches backoff retries + offline recovery.
 export function usePendingDrainScheduler(userId: number | null | undefined) {
   useEffect(() => {
     if (userId == null || userId <= 0) return;

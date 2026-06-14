@@ -1,7 +1,6 @@
 import type { IconComponent } from "@/lib/config/vendor-icons";
 
-// Leonardo.Ai (image models phoenix / lucid-origin). No mark ships in @lobehub/icons
-// or react-icons, so this is an inline mono monogram ("L") stand-in.
+    // Leonardo.Ai image models. No mark ships anywhere, so this is an inline mono monogram stand-in.
 const LeonardoIcon: IconComponent = (props) => (
   <svg
     role="img"

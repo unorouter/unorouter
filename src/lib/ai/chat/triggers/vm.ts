@@ -1,7 +1,4 @@
-// Trigger VM: faithful RisuAI runTrigger port over the flat effect[] layout.
-// A block opened at indent N closes at a v2EndIndent carrying indent N+1 (the
-// BODY indent), v2Else sits between branch EndIndents at indent N, loop closers
-// carry `endOfLoop: true`. lowLevelAccess side effects are no-ops (opcodes.ts).
+    // Trigger VM: faithful RisuAI runTrigger port over the flat effect[] layout. A block opened at indent N closes at a v2EndIndent carrying indent N+1, v2Else sits between branch EndIndents, loop closers carry endOfLoop. lowLevelAccess side effects are no-ops (opcodes.ts).
 
 import { runDataOpcode, type VarResolver } from "./opcodes";
 import type {
@@ -64,8 +61,7 @@ const SAFE_SUBSET = new Set([
   "v2GetDictKeys",
   "v2GetDictValues",
 ]);
-// V1 lowLevelAccess effects: allowed in ANY mode when the script carries the
-// flag (Risu gates solely on lowLevelAccess).
+    // V1 lowLevelAccess effects: allowed in ANY mode when the script carries the flag (Risu gates solely on lowLevelAccess).
 const V1_LOW_LEVEL = new Set([
   "runLLM",
   "sendAIprompt",
@@ -104,10 +100,7 @@ type Resolver = VarResolver & {
   setIndent: (indent: number) => void;
 };
 
-// Indent-scoped local variable resolution, Risu getLocalVar/setLocalVar port.
-// Lookup order: locals (nearest indent first) -> chat vars -> global vars ->
-// defaultVars -> 'null' (Risu's missing-var sentinel). Display mode redirects
-// all chat-var writes to a non-persistent scratch map (Risu tempVars).
+    // Indent-scoped local variable resolution (Risu getLocalVar/setLocalVar port). Lookup order: locals (nearest indent first) -> chat vars -> global vars -> defaultVars -> 'null'. Display mode redirects chat-var writes to a non-persistent scratch map.
 function makeResolver(ctx: TriggerContext): Resolver {
   const locals: Record<number, Record<string, string>> = {};
   const displayScratch: Record<string, string> = {};
@@ -222,8 +215,7 @@ function evalCondition(
   }
 }
 
-// Plain v2If's source is always a var name; v2IfAdvanced honors sourceType.
-// Targets default to var lookup unless targetType === 'value'. =/!= numeric-aware.
+    // Plain v2If's source is always a var name; v2IfAdvanced honors sourceType. Targets default to var lookup unless targetType === 'value'. =/!= numeric-aware.
 function evalIf(
   e: TriggerEffect,
   ctx: TriggerContext,
@@ -289,8 +281,7 @@ function parseList(s: string): string[] {
   }
 }
 
-// Run one trigger script's effects against the context. Control flow mirrors
-// the Risu interpreter exactly: direct index jumps over the flat effect array.
+    // Run one trigger script's effects against the context. Control flow mirrors the Risu interpreter exactly: direct index jumps over the flat effect array.
 async function runEffects(
   script: TriggerScript,
   ctx: TriggerContext,
@@ -304,8 +295,7 @@ async function runEffects(
   // Operand resolution: explicit 'value' is a literal, default is a var lookup.
   const resolve = (value: unknown, valueType: unknown): string =>
     valueType === "value" ? parse(value) : vr.get(parse(value));
-  // Index of the block-closing v2EndIndent at `bodyIndent`, scanning from
-  // `from`; effect end when missing (malformed data degrades to a skip-out).
+      // Index of the block-closing v2EndIndent at bodyIndent, scanning from from; effect end when missing (malformed data degrades to a skip-out).
   const findEnd = (from: number, bodyIndent: number): number => {
     for (let j = from; j < eff.length; j++) {
       const ef = eff[j];
@@ -328,7 +318,6 @@ async function runEffects(
     switch (e.type) {
       case "v2StopTrigger":
         return;
-      // ---- V1 lowLevelAccess effects (Risu triggers.ts 1426-1561) ----
       case "extractRegex": {
         const v = parse(e.value);
         let m: RegExpExecArray | null = null;
@@ -430,8 +419,7 @@ async function runEffects(
       case "v2If":
       case "v2IfAdvanced": {
         if (!evalIf(e, ctx, vr)) {
-          // Skip to this block's EndIndent; if this if's v2Else follows, step
-          // past it so the else body runs.
+              // Skip to this block's EndIndent; if this if's v2Else follows, step past it so the else body runs.
           i = findEnd(i + 1, indent + 1);
           const next = eff[i + 1];
           if (next?.type === "v2Else" && (next.indent ?? 0) === indent) i++;

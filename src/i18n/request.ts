@@ -13,8 +13,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
   return {
     locale,
     messages: raw.default,
-    // Explicit zone: without it next-intl warns ENVIRONMENT_FALLBACK and
-    // server/client date formatting can diverge (hydration mismatch).
+        // Explicit zone: without it next-intl warns ENVIRONMENT_FALLBACK and server/client date formatting can diverge (hydration mismatch).
     timeZone: "UTC",
   };
 });

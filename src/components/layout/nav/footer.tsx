@@ -154,7 +154,6 @@ export function Footer() {
       </div>
       <div className="mx-auto max-w-6xl px-5 pt-16 pb-8">
         <div className="mb-12 grid grid-cols-1 gap-8 md:grid-cols-5">
-          {/* Brand Section */}
           <div className="col-span-1 text-center md:col-span-2 md:text-left">
             <div className="mb-4 flex items-center justify-center gap-2 md:justify-start">
               <LogoImage />
@@ -186,7 +185,6 @@ export function Footer() {
           </div>
 
           <div className="col-span-1 flex justify-center gap-8 md:contents">
-            {/* Navigation Section */}
             <div className="text-center md:col-span-1 md:text-left">
               <h3 className="mb-4 font-semibold">{t("FOOTER.PRODUCT")}</h3>
               <ul className="space-y-2">
@@ -213,7 +211,6 @@ export function Footer() {
               </ul>
             </div>
 
-            {/* Legal Section */}
             <div className="text-center md:col-span-1 md:text-left">
               <h3 className="mb-4 font-semibold">{t("FOOTER.LEGAL")}</h3>
               <ul className="space-y-2">
@@ -222,7 +219,6 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Contact Section */}
           <div className="col-span-1 text-center md:text-left">
             <h3 className="mb-4 font-semibold">{t("FOOTER.CONTACT_TITLE")}</h3>
             <div className="text-foreground/70 space-y-2 text-sm">
@@ -238,7 +234,6 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Featured-on reciprocal directory badges */}
         <div className="border-muted/50 flex flex-wrap items-center justify-center gap-4 border-t pt-8 pb-2 opacity-70">
           {FEATURED_BADGES.map((badge) => (
             <NextLink
@@ -264,7 +259,6 @@ export function Footer() {
           ))}
         </div>
 
-        {/* Copyright */}
         <div className="border-muted/50 relative border-t pt-8">
           <div className="via-primary/70 absolute top-0 left-1/2 h-px w-1/2 -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"></div>
           <div className="text-foreground/70 relative flex items-center justify-center text-sm">

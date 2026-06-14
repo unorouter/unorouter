@@ -39,8 +39,7 @@ export function RequestLogSheet(props: {
 
   const row = log.data;
 
-  // Exact OpenAI-compatible wire body the upstream receives; this is the
-  // verification surface testers need. Raw client snapshot is debug-only, last.
+      // Exact OpenAI-compatible wire body the upstream receives; the verification surface testers need. Raw client snapshot is debug-only, last.
   const upstreamBody = row
     ? {
         model:

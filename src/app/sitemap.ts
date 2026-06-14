@@ -31,8 +31,7 @@ const privateSet = new Set<string>([
   ...privateRoutes.static,
   ...privateRoutes.dynamicParents,
 ]);
-// Only the "/docs" index has a static-string path; guide entries carry a
-// dynamic "/docs/[slug]" href object, which never collides with a pathnames key.
+    // Only /docs index has a static-string path; guide entries carry a dynamic /docs/[slug] href object.
 const docPathSet = new Set<string>(
   DOCS_REGISTRY.flatMap((d) => (typeof d.path === "string" ? [d.path] : [])),
 );
@@ -81,8 +80,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       !route.includes("[") && !privateSet.has(route) && !docPathSet.has(route),
   );
 
-  // A silent empty here drops every model page from the sitemap (Google then can
-  // only discover them by crawl, finding stale links). Retry once before giving up.
+      // A silent empty drops every model page from the sitemap; retry once before giving up.
   const pricing = await rpc.api.models.pricing
     .get()
     .then(handleElysia)

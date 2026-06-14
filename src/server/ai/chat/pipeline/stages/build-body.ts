@@ -1,6 +1,4 @@
-// Stage 5: derive the streamText params, provider options, and per-model wire
-// mutations from the assembled prompt, plus the var writebacks and the
-// request-log snapshot.
+    // Stage 5: derive the streamText params, provider options, and per-model wire mutations from the assembled prompt, plus var writebacks and the request-log snapshot.
 
 import type { ProcessedModel } from "@/lib/api/pricing";
 import type { AssembledSystem } from "../../prompt/assembler.service";
@@ -36,9 +34,7 @@ export function buildProviderOptions(
   autoFlags: AutoFlags,
   modelInfo: ProcessedModel | undefined,
 ) {
-  // extraBody is free-form user JSON; on a free model a max_tokens /
-  // max_completion_tokens key here would land in the provider body and override
-  // the clamped FREE_MODEL_OUTPUT_CAP. Strip token-limit keys for free models.
+      // extraBody is free-form user JSON; a max_tokens key here would override the clamped FREE_MODEL_OUTPUT_CAP, so strip token-limit keys for free models.
   const safeExtraBody =
     modelInfo?.isFree && assembled.extraBody
       ? Object.fromEntries(
@@ -63,9 +59,7 @@ export function buildProviderOptions(
         top_a: assembled.sampling.topA,
         repetition_penalty: assembled.sampling.repetitionPenalty,
         reasoning_effort: assembled.reasoningEffort,
-        // Gemini-only: threshold=OFF (stronger than BLOCK_NONE); no-op
-        // elsewhere. Thinking-exp variants reject CIVIC_INTEGRITY (Risu
-        // noCivilIntegrity), so it is excluded for them.
+            // Gemini-only: threshold=OFF (stronger than BLOCK_NONE); no-op elsewhere. Thinking-exp variants reject CIVIC_INTEGRITY, so it's excluded for them.
         safetySettings: assembled.flags.geminiBlockOff
           ? autoFlags.noCivilIntegrity
             ? GEMINI_SAFETY_OFF.filter(
@@ -80,9 +74,7 @@ export function buildProviderOptions(
   };
 }
 
-// Per-model wire-body rewrites (Risu LLMFlags request mutations). Reasoning
-// efforts map: deepseek accepts low/medium/high; claude adaptive only fires on
-// high/xhigh (lower efforts ride reasoning_effort -> upstream budget).
+    // Per-model wire-body rewrites (Risu LLMFlags request mutations). Reasoning efforts map: deepseek accepts low/medium/high; claude adaptive only fires on high/xhigh.
 export function buildBodyMutations(
   assembled: AssembledSystem,
   autoFlags: AutoFlags,
@@ -122,8 +114,7 @@ export function buildBodyMutations(
   };
 }
 
-// Chat-var writeback rides finish metadata; server is read-only on conv state,
-// the client owns the persist. Null when unchanged.
+    // Chat-var writeback rides finish metadata; the server is read-only on conv state, the client owns the persist. Null when unchanged.
 export function buildWritebacks(
   assembled: AssembledSystem,
   storedVars: string | null | undefined,
@@ -138,8 +129,7 @@ export function buildWritebacks(
   return { varsWriteback, globalVarsWriteback };
 }
 
-// Request-log row (RisuAI Logs analog). Raw client messages not echoed
-// (prompt-sized; finalMessages is the post-assembly truth).
+    // Request-log row (RisuAI Logs analog). Raw client messages not echoed; finalMessages is the post-assembly truth.
 export function buildDebugSnapshot(
   body: StreamBody,
   effectiveSystem: string | undefined,

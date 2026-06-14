@@ -44,8 +44,7 @@ export function BadgeGenerator(props: BadgeGeneratorProps) {
   const [prevResolvedTheme, setPrevResolvedTheme] = useState(
     themes.resolvedTheme,
   );
-  // Derived-state pattern: sync the local theme selector with resolvedTheme during
-  // render. Manual override still works; the next system toggle resets it.
+      // Derived-state: sync local theme selector with resolvedTheme during render; manual override still works.
   if (
     prevResolvedTheme !== themes.resolvedTheme &&
     (themes.resolvedTheme === "light" || themes.resolvedTheme === "dark")
@@ -95,7 +94,6 @@ export function BadgeGenerator(props: BadgeGeneratorProps) {
         {t("AFFILIATE.BADGE_GENERATOR.DESCRIPTION", APP_VALUES)}
       </p>
 
-      {/* Controls */}
       <div className="mb-4 flex flex-wrap items-center gap-4">
         <div className="flex items-center gap-2">
           <span className="text-muted-foreground text-xs">
@@ -190,7 +188,6 @@ export function BadgeGenerator(props: BadgeGeneratorProps) {
         </div>
       </div>
 
-      {/* Preview */}
       <div className="mb-4">
         <span className="text-muted-foreground mb-2 block font-mono text-[10px] tracking-widest uppercase">
           {t("AFFILIATE.BADGE_GENERATOR.PREVIEW")}
@@ -214,7 +211,6 @@ export function BadgeGenerator(props: BadgeGeneratorProps) {
         </div>
       </div>
 
-      {/* Embed Code */}
       <div>
         <span className="text-muted-foreground mb-2 block font-mono text-[10px] tracking-widest uppercase">
           {t("AFFILIATE.BADGE_GENERATOR.EMBED_CODE")}

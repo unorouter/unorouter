@@ -2,8 +2,7 @@
 
 import dynamic from "next/dynamic";
 
-// Lazy: motion/react ~30kb gz, decorative chips at lg+ only. ssr:false avoids
-// hydration mismatch from motion transform init; pure decoration, no SEO loss.
+    // Lazy decorative chips at lg+ only; ssr:false avoids motion transform hydration mismatch, pure decoration so no SEO loss.
 const FloatingIntegrationsMotion = dynamic(
   () =>
     import("@/components/pages/navbar/home/floating-integrations-motion").then(
@@ -12,8 +11,7 @@ const FloatingIntegrationsMotion = dynamic(
   { ssr: false },
 );
 
-// Titles arrive pre-translated from the server parent (HeroSection) so the
-// client message bundle never needs the DOCS namespace.
+    // Titles arrive pre-translated from the server parent so the client bundle never needs the DOCS namespace.
 export function FloatingIntegrations(props: {
   titles: Record<string, string>;
 }) {

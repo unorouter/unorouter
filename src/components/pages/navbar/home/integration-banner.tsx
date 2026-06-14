@@ -60,8 +60,7 @@ const CATEGORY_ICON: Record<SetupCategory, string> = {
   cli: "terminal",
 };
 
-// Category cards (not one per tool) linking to docs category sections; shared
-// by homepage and pricing.
+    // Category cards (not one per tool) linking to docs category sections; shared by homepage and pricing.
 export async function IntegrationBanner() {
   const t = await getTranslations();
 

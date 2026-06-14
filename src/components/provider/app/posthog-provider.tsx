@@ -6,8 +6,7 @@ import { posthog } from "@/lib/posthog-lazy";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useRef } from "react";
 
-// No usePostHog consumers, so posthog-js/react's context provider is skipped
-// entirely; pageview + identify go through the lazy shim (queued until init).
+    // No usePostHog consumers, so posthog-js/react's context provider is skipped; pageview + identify go through the lazy shim.
 function PostHogPageView() {
   const pathname = usePathname();
   const searchParams = useSearchParams();

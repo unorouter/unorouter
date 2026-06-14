@@ -196,7 +196,6 @@ export function Setup2FADialog(props: {
 
         {step === "qr" && setupData && (
           <div className="space-y-4">
-            {/* QR Code */}
             <div className="space-y-2">
               <Label>{t("SETTINGS.SECURITY.SCAN_QR_CODE")}</Label>
               <div className="flex justify-center rounded-md border bg-white p-4">
@@ -208,7 +207,6 @@ export function Setup2FADialog(props: {
               </div>
             </div>
 
-            {/* Manual entry */}
             <div className="space-y-2">
               <Label>{t("SETTINGS.SECURITY.MANUAL_ENTRY")}</Label>
               <div className="bg-muted flex items-center justify-between rounded-md p-2">
@@ -228,7 +226,6 @@ export function Setup2FADialog(props: {
 
             <Separator />
 
-            {/* Backup codes */}
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <Label>{t("SETTINGS.SECURITY.BACKUP_CODES")}</Label>

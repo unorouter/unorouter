@@ -1,5 +1,4 @@
-// Deep per-icon imports for packages without per-file type declarations.
-// All three ship icon modules with a React component default export.
+    // Deep per-icon imports for packages without per-file type declarations. All three ship icon modules with a React component default export.
 
 type LazyIconComponent = import("react").ComponentType<
   import("react").SVGAttributes<SVGElement> & { size?: number | string }

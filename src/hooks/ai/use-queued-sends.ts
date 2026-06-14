@@ -5,8 +5,7 @@ import { findUnansweredUserTurns } from "@/lib/db/client/data/queued-send";
 import { queryKeys } from "@/lib/react-query/keys";
 import { useQuery } from "@tanstack/react-query";
 
-// Set of convIds with a pending (unanswered) user turn, for UI badges. Reads
-// the local DB only; invalidated by the offline-persist + replay paths.
+    // Set of convIds with a pending (unanswered) user turn, for UI badges. Reads the local DB only; invalidated by the offline-persist + replay paths.
 export function useQueuedSends() {
   const userId = useLocalUserId();
   return useQuery({
