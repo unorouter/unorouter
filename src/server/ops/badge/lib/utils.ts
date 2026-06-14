@@ -103,7 +103,83 @@ export async function renderBadgeTemplate(
 
   svg = inlineLogoImage(svg, opts.staticMode);
 
+  // resvg (the PNG rasterizer) mangles nested <image href="data:svg"> elements:
+  // wrong glyphs, dropped gradients/masks. Browsers render them fine, so the SVG
+  // response keeps them; only the PNG path inlines each icon's geometry as a <g>
+  // (the same trick that lets the logo survive rasterization).
+  if (opts.staticMode) svg = inlineNestedSvgImages(svg);
+
   return svg;
+}
+
+// Replace every <image href="data:image/svg+xml;base64,..."> with the icon's
+// inline geometry wrapped in a <g> that reproduces satori's placement
+// (the element transform, then its x/y offset, then a viewBox->box scale).
+function inlineNestedSvgImages(svg: string): string {
+  let n = 0;
+  return svg.replace(
+    /<image\b([^>]*?)href="data:image\/svg\+xml;base64,([^"]+)"([^>]*?)\/?>/g,
+    (whole, before: string, b64: string, after: string) => {
+      const attrs = `${before} ${after}`;
+      const icon = Buffer.from(b64, "base64").toString("utf-8");
+      const open = icon.match(/<svg\b[^>]*>/);
+      const vb = icon.match(/viewBox="([\d.\-\s]+)"/);
+      if (!open) return whole;
+      let vbW: number, vbH: number;
+      if (vb) {
+        const p = vb[1].trim().split(/\s+/).map(Number);
+        vbW = p[2];
+        vbH = p[3];
+      } else {
+        vbW = Number(open[0].match(/\bwidth="([\d.]+)"/)?.[1]);
+        vbH = Number(open[0].match(/\bheight="([\d.]+)"/)?.[1]);
+      }
+      const x = Number(attrs.match(/\bx="([\d.\-]+)"/)?.[1]);
+      const y = Number(attrs.match(/\by="([\d.\-]+)"/)?.[1]);
+      const w = Number(attrs.match(/\bwidth="([\d.]+)"/)?.[1]);
+      const h = Number(attrs.match(/\bheight="([\d.]+)"/)?.[1]);
+      if (![vbW, vbH, x, y, w, h].every((v) => Number.isFinite(v))) return whole;
+      // A root fill on the icon <svg> doesn't cascade once the tag is dropped;
+      // push it onto the wrapper <g> so mono icons stay colored.
+      const rootFill = open[0].match(/\sfill="([^"]+)"/)?.[1];
+      // Namespace per-icon so inlined defs (id="a", grad-a, ...) don't collide
+      // in the now-shared document; drop the xlink: prefix (the parent <svg>
+      // doesn't declare that namespace, and resvg rejects the undefined prefix).
+      const inner = namespaceSvgIds(
+        icon
+          .slice(open[0].length)
+          .replace(/<\/svg>\s*$/, "")
+          .replace(/\bxlink:href=/g, "href="),
+        `i${n++}`,
+      );
+      const matrix = attrs.match(/\btransform="(matrix\([^)]*\))"/)?.[1] ?? "";
+      const sx = w / vbW;
+      const sy = h / vbH;
+      // clip-path is dropped: the icon is smaller than its cell so it never
+      // needs clipping, and the satori clip id is defined in pre-transform
+      // space, which would clip the re-placed geometry to the wrong region.
+      const tf =
+        `${matrix} translate(${x},${y}) scale(${sx.toFixed(5)},${sy.toFixed(5)})`.trim();
+      const gAttrs = `transform="${tf}"` + (rootFill ? ` fill="${rootFill}"` : "");
+      return `<g ${gAttrs}>${inner}</g>`;
+    },
+  );
+}
+
+function namespaceSvgIds(svg: string, ns: string): string {
+  const ids = [...svg.matchAll(/\bid="([^"]+)"/g)].map((m) => m[1]);
+  let out = svg;
+  for (const id of ids) {
+    const esc = id.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    out = out
+      .replace(new RegExp(`\\bid="${esc}"`, "g"), `id="${id}_${ns}"`)
+      .replace(new RegExp(`url\\(#${esc}\\)`, "g"), `url(#${id}_${ns})`)
+      .replace(
+        new RegExp(`(\\b(?:xlink:)?href)="#${esc}"`, "g"),
+        `$1="#${id}_${ns}"`,
+      );
+  }
+  return out;
 }
 
 const LOGO_VIEWBOX = 250;

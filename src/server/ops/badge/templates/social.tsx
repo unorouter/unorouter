@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element, jsx-a11y/alt-text */
 import type { ReactNode } from "react";
 import type { SocialSize, Theme } from "@/lib/validation/badge";
+import { env } from "@/lib/config/env";
 import { FONT_SANS } from "../elements/typography";
 import { Logo } from "../elements/primitives";
 import {
@@ -9,10 +10,13 @@ import {
   svgDataUri,
 } from "../lib/utils";
 
+const brandTld = `.${new URL(env.apiUrl).hostname.split(".").pop()}`;
+
 interface SocialCtx {
   theme: Theme;
   size: SocialSize;
   staticMode?: boolean;
+  modelCount: number;
 }
 
 interface SocialDims {
@@ -325,6 +329,7 @@ function Wordmark(props: {
   muted: string;
   showTagline: boolean;
   maxTaglineWidth: number;
+  modelCount: number;
 }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
@@ -341,7 +346,7 @@ function Wordmark(props: {
         >
           <span style={{ color: "#ffffff" }}>UNO</span>
           <span style={{ color: props.muted }}>ROUTER</span>
-          <span style={{ color: props.muted }}>.AI</span>
+          <span style={{ color: props.muted }}>{brandTld.toUpperCase()}</span>
         </div>
       </div>
       {props.showTagline && (
@@ -353,7 +358,8 @@ function Wordmark(props: {
             maxWidth: props.maxTaglineWidth,
           }}
         >
-          One API for 70+ AI models. OpenAI, Anthropic, Google, and more.
+          One API for {props.modelCount}+ AI models. OpenAI, Anthropic, Google,
+          and more.
         </span>
       )}
     </div>
@@ -394,6 +400,7 @@ export async function generateSocial(ctx: SocialCtx): Promise<string> {
             muted="#a7adb8"
             showTagline={d.showTagline}
             maxTaglineWidth={wmWidth - d.logoSize - 30}
+            modelCount={ctx.modelCount}
           />
         </div>
         <div
@@ -455,6 +462,7 @@ export async function generateSocial(ctx: SocialCtx): Promise<string> {
             muted="#a7adb8"
             showTagline={d.showTagline}
             maxTaglineWidth={d.W - d.gridWidth! - d.pad * 2 - 40}
+            modelCount={ctx.modelCount}
           />
         </div>
         <div
