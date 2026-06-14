@@ -131,7 +131,7 @@ export function createChatHistoryAdapter(
           if (!id) return;
 
           const messageId = formatAdapter.getId(item.message);
-              // Idempotency guard: a message already persisted (e.g. seeded greeting) must not be re-appended; the rewrite would re-parent it and knot the branch tree into a cycle.
+              // Idempotency guard: re-appending an already-persisted message would re-parent it and cycle the branch tree.
           {
             const existingRows = (await readLocalMessages(userId, id)) ?? [];
             if (existingRows.some((m) => m.id === messageId)) return;
@@ -140,7 +140,7 @@ export function createChatHistoryAdapter(
             item,
           ) as unknown as EncodedContent;
 
-              // Primary character's editoutput scripts run on the finished assistant text before persist; editdisplay runs at render time.
+              // Primary character's editoutput scripts run on the finished assistant text before persist.
           let parts = content.parts;
           if (content.role === "assistant") {
             const scripts = await readConvRegexScripts(userId, id);
@@ -157,7 +157,7 @@ export function createChatHistoryAdapter(
                 // Output-mode triggers run after the assistant reply; their var mutations persist to conversation vars.
             const triggers = await readConvTriggers(userId, id);
             if (triggers.length > 0) {
-                  // Lua listenEdit('editOutput') transforms the reply text first (Risu order: edit pipeline, then triggers).
+                  // Lua listenEdit('editOutput') transforms the reply text first (Risu order: edit pipeline then triggers).
               const { extractLuaCodes, runLuaEditTrigger } =
                 await import("@/lib/ai/chat/triggers/lua/engine");
               const luaCodes = extractLuaCodes(triggers);
@@ -192,7 +192,7 @@ export function createChatHistoryAdapter(
             content.role === "assistant" ? chatStore.get(chatModelAtom) : null;
 
           if (content.role === "assistant") {
-                // Failed run: persist the attempt as an error node so partial text survives and branch switching works. The 30s window scopes the atom to the run that errored.
+                // Failed run: persist the attempt as an error node so partial text survives. 30s window scopes the atom to the errored run.
             const streamError = chatStore.get(lastStreamErrorAtom);
             // Media handlers already emit a `data-error` part; don't double up.
             const hasErrorItem = items.some((it) => it.type === "error");
@@ -208,7 +208,7 @@ export function createChatHistoryAdapter(
                 });
               }
             } else if (items.length === 0) {
-                  // Stop before first token / silent failure: nothing worth a node. Skipping the persist prevents empty ghost branches on refresh.
+                  // Stop before first token: nothing worth a node. Skipping the persist prevents empty ghost branches.
               return;
             }
           }
@@ -241,14 +241,14 @@ export function createChatHistoryAdapter(
             chatStore.set(globalVarsAtom, metadata.globalVars);
           }
 
-              // Multi-character rotation: stamp which character spoke this turn. Prefer the finish-frame metadata (race-free); the atom read is the fallback.
+              // Multi-character rotation: stamp who spoke. Prefer finish-frame metadata (race-free); the atom read is the fallback.
           const speakingCharId =
             content.role === "assistant"
               ? (metadata?.speakingCharacterId ??
                 chatStore.get(speakingCharacterIdAtom))
               : null;
 
-              // Null-parent fallback: a seeded greeting isn't in UI state on the first send; anchor to the DB active tip so the user turn becomes its child.
+              // Null-parent fallback: a seeded greeting isn't in UI state on first send; anchor to the DB active tip.
           let parentId = item.parentId ?? null;
           if (parentId === null) {
             const existing = (await readLocalMessages(userId, id)) ?? [];
@@ -321,7 +321,7 @@ export function createChatHistoryAdapter(
             queryClient.invalidateQueries({
               queryKey: queryKeys.requestLog(messageId),
             });
-                // Pull new-api's authoritative cost/tokens/channel once the upstream log lands. Queued so a reload mid-flight still resolves it.
+                // Pull new-api's authoritative cost/tokens/channel once the upstream log lands. Queued so a reload still resolves it.
             const reqId = (logRow as { requestId?: string | null }).requestId;
             if (reqId) {
               await enqueueLogEnrich(userId, messageId, reqId);
@@ -341,7 +341,7 @@ export function createChatHistoryAdapter(
               (convForTotals?.totalOutputTokens ?? 0) +
               (usage?.outputTokens ?? 0),
             totalCost: (convForTotals?.totalCost ?? 0) + (usage?.cost ?? 0),
-                // Persist chat-variable writeback when the stream reported a change; null leaves the stored value intact.
+                // Persist chat-variable writeback when the stream reported a change; null leaves the stored value as-is.
             ...(varsWriteback != null ? { vars: varsWriteback } : {}),
             // Persist rolling-summary memory update.
             ...(metadata?.summary
@@ -353,7 +353,7 @@ export function createChatHistoryAdapter(
             updatedAt: now,
           };
           await upsertLocalConversation(userId, updatedConv);
-              // queuedSends: a persisted user turn (or its later assistant reply) changes the unanswered-turn badge set.
+              // queuedSends: a persisted user turn or its reply changes the unanswered-turn badge set.
           for (const queryKey of [
             queryKeys.chatMeta(id),
             queryKeys.chatMessages(id),
@@ -368,7 +368,7 @@ export function createChatHistoryAdapter(
   };
 }
 
-    // Output-mode triggers after an assistant reply: var mutations persist to the conv var store; chat/lorebook/char mutations use their own CRUD paths.
+    // Output-mode triggers after a reply: var mutations persist to the conv var store; other mutations use their own CRUD paths.
 async function runOutputTriggers(
   userId: number,
   convId: string,
@@ -399,7 +399,7 @@ async function runOutputTriggers(
     chat: [{ role: "assistant", data: replyText }],
     ops: makeClientTriggerOps(userId),
   });
-      // triggerlua runs against this context; lazy import keeps wasmoon (~1MB wasm) off the chat bundle until a Lua trigger fires.
+      // triggerlua runs against this context; lazy import keeps wasmoon (~1MB) off the chat bundle until a Lua trigger fires.
   ctx.ops = {
     ...ctx.ops,
     runLua: async (code) => {

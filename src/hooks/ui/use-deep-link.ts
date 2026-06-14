@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 
-    // Blur/visibility heuristic; no reliable cross-browser protocol-detection API. False positives when Chrome "always allow" opens the app without stealing focus.
+    // Blur/visibility heuristic; no reliable protocol-detection API. False positives when the app opens without stealing focus.
 function tryDeepLink(uri: string, onFail: () => void) {
   const start = Date.now();
 

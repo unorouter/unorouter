@@ -4,7 +4,7 @@ import { ErrorFallback } from "@/components/elements/feedback/error-fallback";
 import { SectionBoundary } from "@/components/elements/feedback/section-boundary";
 import type { PropsWithChildren } from "react";
 
-    // Error boundary scoped to a layout's content slot: a page crash renders the fallback in place while chrome stays mounted. className lets a layout offset it past a fixed navbar.
+    // Error boundary for a layout's content slot: a page crash renders the fallback in place while chrome stays mounted.
 export function ContentBoundary(
   props: PropsWithChildren<{ className?: string }>,
 ) {

@@ -50,7 +50,7 @@ function useHistoryAdapter() {
   return adapterRef.current;
 }
 
-    // Helpers bridge for edit/delete/clear/empty-send from outside the React tree. Receives the wrapped chat so sendEmpty rides the same locked send path.
+    // Helpers bridge for edit/delete/clear/empty-send from outside the React tree. Wrapped chat so sendEmpty uses the locked send path.
 function useChatHelpersBridge(chat: ReturnType<typeof useChat<ChatUIMessage>>) {
   const messagesRef = useRef(chat.messages);
   messagesRef.current = chat.messages;
@@ -82,7 +82,7 @@ function ChatRuntimeHook() {
   const historyAdapter = useHistoryAdapter();
   const transport = useChatTransport();
 
-      // Per-conv stream lock, released in onFinish/onError. During a multi-character rotation the loop holds it across every speaker, so per-stream onFinish must not release mid-rotation; rotatingRef gates that.
+      // Per-conv stream lock, released in onFinish/onError. The rotation loop holds it across speakers, so rotatingRef gates onFinish from releasing mid-rotation.
   const streamLockKeyRef = useRef<string | null>(null);
   const rotatingRef = useRef(false);
   const releaseStreamLock = () => {
@@ -107,12 +107,12 @@ function ChatRuntimeHook() {
     },
     onError: (e) => {
       releaseStreamLock();
-          // Offline: user turn already persisted, user resends manually (Risu semantics). Show queued, not a network error, and no error node else the turn stops counting as unanswered.
+          // Offline: user turn already persisted, user resends manually. Show queued (no error node) so it still counts as unanswered.
       if (!navigator.onLine) {
         toast.info(t("CHAT.QUEUED_OFFLINE"));
         return;
       }
-          // Stash for the history adapter: the failed run's assistant message persists with an error item so the attempt survives refresh.
+          // Stash for the history adapter: the failed assistant message persists with an error item so the attempt survives refresh.
       chatStore.set(lastStreamErrorAtom, {
         message: String((e as Error)?.message ?? e),
         at: Date.now(),
@@ -147,7 +147,7 @@ function ChatRuntimeHook() {
         }
         streamLockKeyRef.current = lockKey;
       }
-          // Multi-character rotation: one visible assistant stream per speaker in sequence; each send tags its speaker so the assembler promotes it to primary.
+          // Multi-character rotation: one assistant stream per speaker in sequence; each send tags its speaker for assembler promotion.
       if (hasText && convId) {
         const order = await computeSpeakingOrder(userId, convId, args[0]);
         if (order.length > 1) {
@@ -167,7 +167,7 @@ function ChatRuntimeHook() {
           return;
         }
       }
-          // Offline: still send; the stream fails fast and the history adapter persists the user turn as a detectable unanswered turn.
+          // Offline: still send; the stream fails fast and the history adapter persists the user turn as unanswered.
       chatStore.set(speakingCharacterIdAtom, null);
       return chat.sendMessage(...args);
     },

@@ -22,7 +22,7 @@ type SubscribeOptions = {
   isLoggedIn?: boolean;
 };
 
-    // Routes payments through paymentMethodAtom (card vs crypto). Card prefers Stripe over Creem when both are enabled. Crypto goes to NowPayments.
+    // Routes payments via paymentMethodAtom: card prefers Stripe over Creem when both enabled, crypto goes to NowPayments.
 export function useBillingActions() {
   const t = useTranslations();
   const topUpInfoQuery = useTopUpInfoQuery();
@@ -55,7 +55,7 @@ export function useBillingActions() {
     creemTopUpMutation.isPending ||
     nowPaymentsTopUpMutation.isPending;
 
-      // Auto-flip atom when the selected method is unavailable. Runs once when topupInfo lands and the persisted choice no longer matches reality.
+      // Auto-flip the atom when the selected method is unavailable, once topupInfo lands and the persisted choice is stale.
   useEffect(() => {
     if (!topUpInfo) return;
     if (paymentMethod === "card" && !enableCard && enableCrypto) {
@@ -105,7 +105,7 @@ export function useBillingActions() {
             if (data?.pay_link) {
               openPayLink(data.pay_link);
             } else {
-              // NowPayments email-subscription flow has no checkout URL (invoice is emailed); confirm so the click isn't a silent no-op.
+              // NowPayments email-subscription flow has no checkout URL; confirm so the click isn't a silent no-op.
               toast.success(t("BILLING.SUBSCRIPTION.CRYPTO_EMAIL_SENT"));
             }
           },

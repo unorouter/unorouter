@@ -10,7 +10,7 @@ export type SubmitContext = {
   uploadMaskAsync: (file: File) => Promise<{ url: string }>;
 };
 
-    // RHF form values to the upstream submit body; pure reshaping except one side effect, the optional mask upload when an inpaint data URL is present.
+    // RHF form values to the upstream submit body; pure reshaping except the optional mask upload on an inpaint data URL.
 export async function toSubmitBody(
   values: GenerationFormValues,
   ctx: SubmitContext,

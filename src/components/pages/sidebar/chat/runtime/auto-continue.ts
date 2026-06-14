@@ -4,11 +4,11 @@ import { readLocalConversationSettings } from "@/lib/db/client/data/chat";
 import type { ChatUIMessage } from "@/lib/types";
 import { chatStore, speakingCharacterIdAtom } from "@/store/chat-store";
 
-    // Auto-continue chain depth per conv so a model that never ends on terminal punctuation can't loop forever. Reset when a finished reply terminates.
+    // Auto-continue chain depth per conv so a non-terminating model can't loop forever. Reset when a reply terminates.
 const autoContinueDepth = new Map<string, number>();
 const MAX_AUTO_CONTINUE = 3;
 
-    // RisuAI isLastCharPunctuation port: broad set (incl. * and ~ so *smiles* is terminal) plus U+02B0-02FF; a narrow set causes spurious auto-continues.
+    // RisuAI isLastCharPunctuation port: broad set (incl. * and ~) plus U+02B0-02FF; a narrow set causes spurious auto-continues.
 const TERMINAL_PUNCTUATION = new Set([
   ".",
   "!",
@@ -73,7 +73,7 @@ export async function maybeAutoContinue(
   userId: number | undefined,
 ): Promise<void> {
   if (!remoteId) return;
-      // Don't auto-continue mid-rotation: the multi-character loop drives its own sequential sends and clears the speaking atom when done.
+      // Don't auto-continue mid-rotation: the multi-character loop drives its own sends and clears the speaking atom when done.
   if (chatStore.get(speakingCharacterIdAtom) != null) return;
   const text = message.parts
     .filter((p) => p.type === "text")
@@ -96,6 +96,6 @@ export async function maybeAutoContinue(
     return;
   }
   autoContinueDepth.set(remoteId, depth + 1);
-      // Continuation send, not regenerate (which would discard the truncated reply): argless sendMessage re-submits history ending on assistant.
+      // Continuation send, not regenerate: argless sendMessage re-submits history ending on assistant.
   await chat.sendMessage();
 }

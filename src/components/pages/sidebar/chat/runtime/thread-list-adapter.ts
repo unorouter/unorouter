@@ -49,7 +49,7 @@ export function createThreadListAdapter(
   const persistTitle = async (id: string, title: string) => {
     const now = dayjs().toDate();
     const existing = await readLocalConversation(userId(), id);
-        // Title patch on an existing row; never create via upsert (a candidate insert would null default_model and trip its NOT NULL constraint).
+        // Title patch on an existing row; never upsert (a candidate insert nulls default_model and trips NOT NULL).
     if (!existing) return;
     await updateLocalConversationSettings(userId(), {
       convId: id,
@@ -84,11 +84,11 @@ export function createThreadListAdapter(
 
       const now = dayjs().toDate();
 
-          // Settings cols live on the conversation row; write both in one upsert so NOT NULL default_model is satisfied on insert.
+          // Settings cols live on the conversation row; write both in one upsert so NOT NULL default_model is satisfied.
       const defaults = chatStore.get(chatDefaultsAtom);
-          // Sticky loadout: auto-equip new chats with the user's chosen preset/persona/characters/lorebooks so they don't re-bind each time.
+          // Sticky loadout: auto-equip new chats with the user's chosen preset/persona/characters/lorebooks.
       const loadout = chatStore.get(chatLoadoutAtom);
-          // Seed the conversation's settings FROM the bound preset, not blank defaults, so the settings drawer shows the values the stream actually uses. Per field: preset value, else app default.
+          // Seed settings from the bound preset (not blank defaults) so the drawer shows what the stream uses. Per field: preset value, else app default.
       const preset = loadout.presetId
         ? await readLocalPreset(userId(), loadout.presetId)
         : null;
@@ -132,7 +132,7 @@ export function createThreadListAdapter(
         group: chatStore.get(chatGroupAtom),
       });
 
-          // Character + lorebook bindings live in join tables, written after the conversation row exists so the FK resolves.
+          // Character + lorebook bindings live in join tables, written after the conversation row exists for the FK.
       if (loadout.characterIds.length > 0 || loadout.lorebookIds.length > 0) {
         await replaceLocalConversationBindings(userId(), id, {
           conversationCharacters: loadout.characterIds.map((cid, i) => ({
@@ -146,7 +146,7 @@ export function createThreadListAdapter(
         });
       }
 
-          // Risu greeting parity: firstMessage + alternates seed as root branch siblings; the preview-picked greeting is active, the rest swipe. firstMsgIndex = activeBranch - 1.
+          // Risu greeting parity: firstMessage + alternates seed as root branch siblings, preview-picked one active. firstMsgIndex = activeBranch - 1.
       if (loadout.characterIds.length > 0) {
         const char = await readLocalCharacter(
           userId(),
@@ -201,7 +201,7 @@ export function createThreadListAdapter(
             }
           }
           if (picked > 0) {
-                // Patch-only on the row just seeded above; omitting default_model in an upsert candidate row would trip its NOT NULL constraint.
+                // Patch-only on the row seeded above; omitting default_model in an upsert candidate would trip NOT NULL.
             await updateLocalConversationSettings(userId(), {
               convId: id,
               firstMsgIndex: picked - 1,
@@ -209,7 +209,7 @@ export function createThreadListAdapter(
             });
           }
           chatStore.set(greetingIndexAtom, 0);
-              // Surface the picked greeting in the live thread state: the runtime initialized before the seed, so without this it only appears after a reload. Prepend keeps the in-flight user turn intact.
+              // Surface the picked greeting in live thread state (runtime initialized before the seed); prepend keeps the in-flight user turn intact.
           const helpers = chatStore.get(chatHelpersAtom);
           if (helpers && seededGreeting) {
             const greetingMessage = {
