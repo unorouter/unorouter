@@ -175,7 +175,7 @@ export const toggleVendorCollapsedAtom = atom(
   },
 );
 
-    // Full reset: search, output-modality tab, sort, view, and every filter back to defaults. Column-sort lives in the DataTable store and is cleared by the page alongside this.
+    // Full reset of all filters to defaults; column-sort cleared separately by the page.
 export const clearFiltersAtom = atom(null, (get, set) => {
   set(modelsStoreAtom, {
     ...get(modelsStoreAtom),
@@ -193,7 +193,7 @@ export const clearFiltersAtom = atom(null, (get, set) => {
   });
 });
 
-    // True when any user-facing setting differs from default (drives the reset button); collapsedVendors/selectedModelName are not user filters.
+    // True when any user-facing setting differs from default (drives the reset button). collapsedVendors/selectedModelName aren't filters.
 export const isDirtyAtom = atom((get) => {
   const s = get(modelsStoreAtom);
   return (

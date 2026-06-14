@@ -1,6 +1,6 @@
 import type { ProcessedModel } from "@/lib/api/pricing";
 
-    // OpenRouter-style output-modality tabs. Only modalities reliably derivable from our data; rerank/speech/transcription need endpoint tagging we lack.
+    // OpenRouter-style output-modality tabs. Only modalities derivable from our data; rerank/speech/transcription need tagging we lack.
 export const OUTPUT_MODALITIES = [
   "text",
   "image",

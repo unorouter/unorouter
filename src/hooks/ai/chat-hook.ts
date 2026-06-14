@@ -49,7 +49,7 @@ type EditMessageBody = {
   }>;
 };
 
-    // Shared mutation scaffold for every chat mutation: resolve userId, i18n error toast, invalidate + broadcast per-args keys on success.
+    // Shared mutation scaffold for chat mutations: resolve userId, i18n error toast, invalidate + broadcast per-args keys on success.
 function useChatMutation<TArgs, TData>(
   fn: (userId: number, args: TArgs) => Promise<TData>,
   keysFor: (args: TArgs) => readonly (readonly unknown[])[],
@@ -160,7 +160,7 @@ export function useUpdateConversationMutation() {
         }),
         updatedAt: now,
       };
-          // Patch-only: a rename/model change targets an existing row. Upsert could insert a candidate with null default_model and trip NOT NULL.
+          // Patch-only: a rename/model change targets an existing row. Upsert could insert with null default_model and trip NOT NULL.
       if (existing) {
         await updateLocalConversationSettings(userId, {
           convId: args.id,
@@ -357,7 +357,7 @@ export function useSetActiveBranchMutation() {
           });
         }
       }
-          // Root assistant siblings are greetings: track Risu fmIndex (branch 0 is firstMessage at -1, i is alternateGreetings[i-1]).
+          // Root assistant siblings are greetings: track Risu fmIndex (branch 0 is firstMessage at -1, i is alternate i-1).
       if (parentId === null && target?.role === "assistant") {
         await updateLocalConversationSettings(userId, {
           convId: args.convId,

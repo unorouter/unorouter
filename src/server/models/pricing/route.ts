@@ -8,7 +8,7 @@ import { Elysia } from "elysia";
 
 export const pricingRoute = new Elysia({ prefix: "/pricing" })
   .get("/", async () => {
-    // ADMIN_HEADERS so customFetch skips the per-user cookie attach: the Data Cache keys by URL only, so the cached request must be user-independent.
+    // ADMIN_HEADERS so customFetch skips the per-user cookie: the Data Cache keys by URL, so the request must be user-independent.
     const res = await getPricing({ headers: ADMIN_HEADERS });
     return buildPricingSummary(unwrap(res));
   })

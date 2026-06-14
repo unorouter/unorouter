@@ -15,7 +15,7 @@ function getHeader(
   return headers?.[key] ?? headers?.[key.toLowerCase()];
 }
 
-    // Success body: strict by content-type (json object, binary blob, else raw text); never speculatively parse text that looks like JSON.
+    // Success body: strict by content-type (json object, binary blob, else raw text); never parse text that looks like JSON.
 async function readOkBody(res: Response): Promise<unknown> {
   const ct = res.headers.get("content-type") ?? "";
   if (ct.includes("application/json")) return res.json();

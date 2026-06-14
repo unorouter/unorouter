@@ -1,4 +1,4 @@
-    // Isomorphic regex-script engine (RisuAI processScriptFull port). Server runs editprocess/editinput, client runs editoutput/editdisplay.
+    // Isomorphic regex-script engine (RisuAI processScriptFull port). Server runs editprocess/editinput, client editoutput.
 
 export type RegexScriptMode =
   | "editinput" // user input before send
@@ -9,12 +9,12 @@ export type RegexScriptMode =
 export type RegexScript = {
   // Match pattern (regex source).
   in: string;
-      // Replacement template: $1..$n groups, $& whole match, {{data}} re-inserts the match. @@-prefixed values are actions.
+      // Replacement template: $1..$n groups, $& whole match, {{data}} re-inserts it. @@-prefixed values are actions.
   out: string;
   type: RegexScriptMode;
   // Custom regex flags + `<meta>` brackets (<order N>, <cbs>, action names).
   flag?: string;
-      // RisuAI semantics: true uses the custom flag string, false defaults 'g'. NOT an enable toggle; scripts always run.
+      // RisuAI semantics: true uses the custom flag string, false defaults 'g'. NOT an enable toggle; scripts run.
   ableFlag?: boolean;
 };
 
@@ -102,7 +102,7 @@ function plainReplace(
   return expand ? expand(replaced) : replaced;
 }
 
-    // Parse memo keyed by array identity: applyRegexScripts reuses the same scripts array per message, so don't re-parse flag meta.
+    // Parse memo keyed by array identity: applyRegexScripts reuses the same scripts array per message, so skip re-parse.
 const PARSED_CACHE = new WeakMap<
   RegexScript[],
   Map<RegexScriptMode, ParsedScript[]>
@@ -130,10 +130,10 @@ function parsedFor(
   return parsed;
 }
 
-    // User-authored regex runs server-side; a pathological pattern backtracks and stalls the event loop for ALL requests, so skip oversized strings (100k).
+    // User-authored regex runs server-side; a pathological pattern stalls the event loop for ALL requests, so skip big strings (100k).
 const MAX_REGEX_INPUT = 100_000;
 
-    // Catastrophic-backtracking detector: flags nested unbounded quantifiers. Kept broad since false negatives are the real danger.
+    // Catastrophic-backtracking detector: flags nested unbounded quantifiers. Broad since false negatives are the danger.
 const NESTED_QUANTIFIER_RE =
   /\([^()]*(?:[+*]|\{\d+,\})[^()]*\)\s*(?:[+*]|\{\d+,\})/;
 
@@ -167,7 +167,7 @@ function executeScript(
   opts: RunRegexOpts,
 ): string {
   const script = p.script;
-      // Risu: $n becomes newline, then {{data}} becomes $&. Function replacement since a plain $& string is special in String.replace.
+      // Risu: $n becomes newline, then {{data}} becomes $&. Function replacement since a plain $& is special in String.replace.
   let outScript = script.out
     .replaceAll("$n", "\n")
     .replace(/\{\{data\}\}/g, () => "$&");

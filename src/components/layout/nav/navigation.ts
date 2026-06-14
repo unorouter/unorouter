@@ -51,7 +51,7 @@ export type NavigationItem = {
   group?: TranslationKey;
 };
 
-    // usePathname() returns the template; resolve both sides' params before comparison or every /docs/[slug] item matches.
+    // usePathname() returns the template; resolve both sides' params before comparing or every /docs/[slug] matches.
 const fillParams = (path: string, params?: Record<string, string>) => {
   if (!params) return path;
   let out = path;

@@ -14,7 +14,7 @@ type RefBytes = {
 };
 
 async function fetchRefBytes(url: string): Promise<RefBytes> {
-      // SSRF-safe: caller-supplied URL goes through the r2 allowlist, never a bare fetch that could hit 169.254/RFC1918.
+      // SSRF-safe: caller-supplied URL goes through the r2 allowlist, never a bare fetch that could hit RFC1918.
   const { buffer: buf, contentType } = await safeFetchBytes(url, MAX_REF_BYTES);
   const mime = contentType?.split(";")[0]?.trim() || "image/png";
   const base64 = buf.toString("base64");

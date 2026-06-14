@@ -36,7 +36,7 @@ type Props = {
   onDone: () => void;
 };
 
-    // providers column is a JSON OpenRouter routing object; the form edits it as a comma list of slugs plus an only toggle.
+    // providers column is a JSON routing object; the form edits it as a comma list of slugs plus an only toggle.
 function parseProviderRouting(raw: string | null | undefined): {
   slugs: string;
   only: boolean;
@@ -92,7 +92,7 @@ export function PresetForm(props: Props) {
       : presetsQuery.data?.find((x) => x.id === props.editingId);
       // providers is a JSON routing object; the form edits it as a comma list + only toggle, so expand before seeding.
   const routing = parseProviderRouting(editing?.providers);
-      // null streamingEnabled means inherit (on) but the switch renders null as OFF; seed the real default so toggling off persists explicit false.
+      // null streamingEnabled means inherit (on) but the switch renders null as OFF; seed the default so toggling off persists false.
   const formValues = formDefaults(samplingPresetFormSchema, {
     ...(editing ?? {}),
     providers: routing.slugs,

@@ -52,7 +52,7 @@ function draftAtomFor(tab: GenerateTab) {
   return text2imgDraftAtom;
 }
 
-    // Owns the playground form: RHF instance + lifecycle effects (mode/seed sync, model-fallback guards, draft and snapshot restore).
+    // Owns the playground form: RHF instance + lifecycle effects (mode/seed sync, model-fallback guards, draft/snapshot restore).
 export function useGenerationForm() {
   const activeTab = useAtomValue(activeTabAtom);
   const activeSubPill = useAtomValue(activeSubPillAtom);
@@ -93,7 +93,7 @@ export function useGenerationForm() {
     const params = remembered
       ? { ...nextDesc.defaultParams, ...remembered }
       : { ...nextDesc.defaultParams };
-        // descriptor types sampler/scheduler as string; the params union narrows them, safe since values come from the catalog.
+        // descriptor types sampler/scheduler as string; the params union narrows them, safe since values come from catalog.
     form.setValue("params", params as GenerationFormValues["params"], {
       shouldDirty: true,
     });

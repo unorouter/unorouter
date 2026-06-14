@@ -35,7 +35,7 @@ export const IS_DEV = process.env.NODE_ENV === "development";
 export const POSTHOG_DISABLED =
   process.env.NEXT_PUBLIC_POSTHOG_DISABLED === "true";
 
-    // Next Data Cache opt-in for PUBLIC upstream GETs (no user headers); spread into Orval call options. Non-200 never cached.
+    // Next Data Cache opt-in for PUBLIC upstream GETs (no user headers); spread into Orval call options. Non-200 not cached.
 export const PUBLIC_CACHE = { next: { revalidate: 3600 } } as const;
 
 export const NEW_API_USER = "New-Api-User";
@@ -144,7 +144,7 @@ export const FREE_MODEL_OUTPUT_CAP = 8192;
     // Fallback ceiling when a model omits maxOutputTokens. 4096 is the widest safe default.
 export const UNKNOWN_MODEL_OUTPUT_CAP = 4096;
 
-    // Headroom kept clear when fitting history to the context window: covers tokenizer drift plus post-truncation injections.
+    // Headroom kept clear when fitting history to the context window: covers tokenizer drift plus post-truncation injects.
 export const CONTEXT_SAFETY_MARGIN = 2048;
 
 // Free models are flaky; race N parallel calls for short aux requests.

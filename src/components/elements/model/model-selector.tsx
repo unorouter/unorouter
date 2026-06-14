@@ -55,7 +55,7 @@ export function ModelSelector(props: ModelSelectorProps) {
 
   const selected = models.find((m) => m.name === props.value);
 
-      // Per-user private groups from the prefetched /account/self; each is a routing group only on the models it serves.
+      // Per-user private groups from prefetched /account/self; each routes only on the models it serves.
   const privateGroups = authQuery.data?.private_groups ?? [];
   const groupRatioMap: Record<string, number> = { ...pricingData?.groupRatioMap };
   for (const pg of privateGroups) groupRatioMap[pg.group] ??= pg.ratio;

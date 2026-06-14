@@ -14,7 +14,7 @@ export async function runMigrations(sql: SQLocalDrizzle): Promise<void> {
   // SQLite default is OFF; needed for schema cascade deletes to fire.
   await sql.sql`PRAGMA foreign_keys = ON`;
 
-      // The cursor table is read before the manifest, so a normal migration can't rename it. Bootstrap: recreate it as local_migrations, copy the row from local_meta, drop the old.
+      // The cursor table is read before the manifest, so a normal migration can't rename it. Bootstrap: recreate as local_migrations, copy the row, drop old.
   await migrateCursorTable(sql);
 
       // On a fresh DB local_migrations doesn't exist; the SELECT throws, signaling a full migration run.
@@ -28,7 +28,7 @@ export async function runMigrations(sql: SQLocalDrizzle): Promise<void> {
     lastTag = null;
   }
 
-      // Stored tag absent from the manifest is an untrusted cursor: run every migration then reconcile columns, else new columns are missed.
+      // Stored tag absent from the manifest is an untrusted cursor: run every migration then reconcile, else new columns are missed.
   const knownTag = lastTag && migrations.some((m) => m.tag === lastTag);
   const startIndex = knownTag
     ? migrations.findIndex((m) => m.tag === lastTag) + 1

@@ -7,7 +7,7 @@ import {
   SectionPriorities,
 } from "@/lib/types";
 
-    // Shared content/timestamp sources for all /docs/[slug] guides; search index, llms.txt, sitemap, and seo-timestamps enumerate this list.
+    // Shared content/timestamp sources for all /docs/[slug] guides; search index, llms.txt, sitemap, seo-timestamps enumerate it.
 const SETUP_GUIDE_SOURCES = [
   "src/components/pages/docs/setup-guides.ts",
   "src/components/pages/docs/setup-guide-template.tsx",

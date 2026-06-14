@@ -714,7 +714,6 @@ API Endpoint: ${env.apiUrl}/v1`,
     logoMono: true,
     color: guideColor("rose"),
     baseUrl: `${env.apiUrl}/v1`,
-    apiPath: "/chat/completions",
     compatibility: {
       chatCompletions: true,
       streaming: true,
@@ -734,7 +733,7 @@ API Endpoint: ${env.apiUrl}/v1`,
         bodyKey: "DOCS.CHUB.STEP_3_DESC",
         code: {
           lang: "text",
-          value: `OpenAI Reverse Proxy: ${env.apiUrl}/v1/chat/completions`,
+          value: `OpenAI Reverse Proxy: ${env.apiUrl}/v1`,
         },
       },
       {

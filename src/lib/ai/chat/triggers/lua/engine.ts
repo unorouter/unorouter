@@ -1,4 +1,4 @@
-    // wasmoon Lua engine (RisuAI port): engine-per-mode, mutex'd, recreated when script code changes. Isomorphic: json.lua loads via fetch in browser and fs on server; wasmoon is lazy-imported.
+    // wasmoon Lua engine (RisuAI port): engine-per-mode, mutex'd, recreated when code changes. json.lua via fetch or fs; wasmoon lazy.
 
 import type { TriggerContext } from "../types";
 import { buildLuaApi } from "./api";
@@ -57,7 +57,7 @@ function getState(mode: string): EngineState {
   return s;
 }
 
-    // Risu luaCodeWrapper: json/state helpers, listenEdit registries, coroutine-safe async wrapper, callListenMain dispatcher.
+    // Risu luaCodeWrapper: json/state helpers, listenEdit registries, coroutine-safe async wrapper, callListenMain.
 function luaCodeWrapper(code: string): string {
   return `
 json = require 'json'
@@ -325,7 +325,7 @@ export function extractLuaCodes(
   return out;
 }
 
-    // Risu runLuaEditTrigger: feed content through every script's listenEdit handlers for the mode. Errors return content untouched.
+    // Risu runLuaEditTrigger: feed content through every script's listenEdit handlers. Errors return content untouched.
 export async function runLuaEditTrigger<T>(
   luaCodes: string[],
   mode: "editinput" | "editoutput" | "editdisplay" | "editrequest",

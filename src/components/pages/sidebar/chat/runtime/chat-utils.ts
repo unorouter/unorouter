@@ -45,7 +45,7 @@ export function createLocalAttachmentAdapter(
     async send(attachment) {
       const ctx = getContext();
 
-          // Pre-gen the convId for the stream but leave the media row conv-null: the conversations row inserts later, so stamping it tripped the media.conv_id FK.
+          // Pre-gen the convId for the stream but leave the media row conv-null: the conversations row inserts later (media.conv_id FK).
       ctx.convId = ensureConvId();
 
       const file = attachment.file!;
