@@ -9,9 +9,9 @@ import { Icon } from "@/components/ui/icon";
 import { SidebarGroup, SidebarGroupContent } from "@/components/ui/sidebar";
 import { Slider } from "@/components/ui/slider";
 import { msg } from "@/lib/config/constants";
-import { PRICE_MAX } from "@/store/models-store";
 import { cn } from "@/lib/utils";
 import { formatTokenCount } from "@/lib/utils/format/number";
+import { PRICE_MAX } from "@/store/models-store";
 import { useTranslations } from "next-intl";
 
 function GroupShell(props: {
@@ -26,7 +26,7 @@ function GroupShell(props: {
           <span>{props.label}</span>
           <Icon
             name="chevron-down"
-            className="h-4 w-4 transition-transform group-data-[panel-open]/ct:rotate-180"
+            className="h-4 w-4 transition-transform group-data-panel-open/ct:rotate-180"
           />
         </CollapsibleTrigger>
         <CollapsibleContent>
