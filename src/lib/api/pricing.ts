@@ -40,6 +40,10 @@ export type ModelMetadata = {
   knowledgeCutoff?: string;
   // Model release date (OpenRouter `created`), ISO string. Primary "Released"/"Newest" source.
   releaseDate?: string;
+  // Model family/series (OpenRouter `group`): Claude / GPT / Gemini / ...
+  series?: string;
+  // Usage categories (OpenRouter cards): programming / roleplay / marketing / ...
+  categories?: string[];
   deprecationDate?: string;
   mode?: string;
   description?: string;

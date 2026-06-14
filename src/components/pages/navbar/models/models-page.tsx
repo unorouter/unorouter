@@ -21,7 +21,6 @@ import { ModalityTabs } from "./filters/modality-tabs";
 import { SortFilter } from "./filters/sort-filter";
 import { ViewModeToggle } from "./filters/view-mode-toggle";
 
-const TABLE_STORE = { pagination: { pageIndex: 0, pageSize: 1000 } };
 const modelsTableAtoms = createTableAtoms(DataTableId.MODELS);
 
 export function ModelsPage() {
@@ -86,20 +85,8 @@ export function ModelsPage() {
             {t("MODELS.SUBTITLE")}
           </p>
 
-          {/* One row: search (grows) + controls. */}
+          {/* One row: reset (when dirty) + search + sort + view. */}
           <div className="mt-3 mb-4 flex flex-wrap items-center gap-2">
-            <div className="relative min-w-48 flex-1">
-              <Icon
-                name="search"
-                className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2"
-              />
-              <Input
-                placeholder={t("MODELS.SEARCH_PLACEHOLDER")}
-                value={m.search}
-                onChange={(e) => m.setSearch(e.target.value)}
-                className="pl-10"
-              />
-            </div>
             {showReset && (
               <Button
                 variant="ghost"
@@ -111,8 +98,22 @@ export function ModelsPage() {
                 <Icon name="x" className="ml-1 h-4 w-4" />
               </Button>
             )}
-            <SortFilter />
-            <ViewModeToggle />
+            <div className="relative w-full max-w-xs">
+              <Icon
+                name="search"
+                className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2"
+              />
+              <Input
+                placeholder={t("MODELS.SEARCH_PLACEHOLDER")}
+                value={m.search}
+                onChange={(e) => m.setSearch(e.target.value)}
+                className="pl-10"
+              />
+            </div>
+            <div className="ml-auto flex items-center gap-2">
+              <SortFilter />
+              <ViewModeToggle />
+            </div>
           </div>
 
           {/* Tabs + table header stick together as one unit under the navbar
@@ -137,7 +138,6 @@ export function ModelsPage() {
                 data={m.filtered}
                 columns={columns}
                 localSorting
-                tableStore={TABLE_STORE}
                 onRowClick={(model) => m.setSelectedModelName(model.name)}
               />
             ) : (

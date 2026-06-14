@@ -80,7 +80,10 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
       ? Math.ceil(props.total / store.pagination.pageSize)
       : undefined,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
+    // No `total` => client list shows ALL rows (no pagination, no row cap).
+    ...(props.total !== undefined
+      ? { getPaginationRowModel: getPaginationRowModel() }
+      : {}),
     ...(props.localSorting ? { getSortedRowModel: getSortedRowModel() } : {}),
     ...(props.renderExpandedRow
       ? { getExpandedRowModel: getExpandedRowModel() }
