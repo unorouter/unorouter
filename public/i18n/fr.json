@@ -2115,7 +2115,10 @@
       "UNEXPECTED_ERROR_OCCURRED": "Une erreur inattendue s'est produite. Veuillez réessayer ou revenir à la page d'accueil.",
       "ERROR_DETAILS": "Détails de l'erreur",
       "DIGEST": "Résumé",
-      "SECTION_LOAD_FAILED": "Cette section n'a pas pu être chargée."
+      "SECTION_LOAD_FAILED": "Cette section n'a pas pu être chargée.",
+      "COPY_ERROR": "Copier l erreur",
+      "RESET_APP_DATA": "Reinitialiser les donnees et recharger",
+      "RESETTING": "Reinitialisation..."
     },
     "NOT_FOUND": {
       "TITLE": "Page introuvable",
@@ -2162,7 +2165,8 @@
       "CLEAR_CHAT_TITLE": "Vider le chat ?",
       "WIPE_DB_TITLE": "Effacer la base de données locale ?",
       "UPLOAD_DB_TITLE": "Écraser la base de données locale ?"
-    }
+    },
+    "COPIED": "Copie"
   },
   "LANGUAGE": {
     "EN": "English",

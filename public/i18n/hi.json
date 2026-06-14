@@ -2115,7 +2115,10 @@
       "UNEXPECTED_ERROR_OCCURRED": "एक अप्रत्याशित error हुआ। कृपया फिर से प्रयास करें या home page पर लौटें।",
       "ERROR_DETAILS": "Error विवरण",
       "DIGEST": "Digest",
-      "SECTION_LOAD_FAILED": "यह section load करने में विफल रहा।"
+      "SECTION_LOAD_FAILED": "यह section load करने में विफल रहा।",
+      "COPY_ERROR": "त्रुटि कॉपी करें",
+      "RESET_APP_DATA": "ऐप डेटा रीसेट करें और पुनः लोड करें",
+      "RESETTING": "रीसेट हो रहा है..."
     },
     "NOT_FOUND": {
       "TITLE": "पृष्ठ नहीं मिला",
@@ -2162,7 +2165,8 @@
       "CLEAR_CHAT_TITLE": "Chat clear करें?",
       "WIPE_DB_TITLE": "Local database wipe करें?",
       "UPLOAD_DB_TITLE": "Local database overwrite करें?"
-    }
+    },
+    "COPIED": "कॉपी हो गया"
   },
   "LANGUAGE": {
     "EN": "English",

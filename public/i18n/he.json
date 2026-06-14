@@ -2115,7 +2115,10 @@
       "UNEXPECTED_ERROR_OCCURRED": "התרחשה שגיאה לא צפויה. אנא נסו שוב או חזרו לדף הבית.",
       "ERROR_DETAILS": "פרטי שגיאה",
       "DIGEST": "תקציר",
-      "SECTION_LOAD_FAILED": "מקטע זה נכשל בטעינה."
+      "SECTION_LOAD_FAILED": "מקטע זה נכשל בטעינה.",
+      "COPY_ERROR": "העתק שגיאה",
+      "RESET_APP_DATA": "איפוס נתוני האפליקציה וטעינה מחדש",
+      "RESETTING": "מאפס..."
     },
     "NOT_FOUND": {
       "TITLE": "דף לא נמצא",
@@ -2162,7 +2165,8 @@
       "CLEAR_CHAT_TITLE": "לנקות צ'אט?",
       "WIPE_DB_TITLE": "למחוק את מסד הנתונים המקומי?",
       "UPLOAD_DB_TITLE": "לדרוס את מסד הנתונים המקומי?"
-    }
+    },
+    "COPIED": "הועתק"
   },
   "LANGUAGE": {
     "EN": "English",

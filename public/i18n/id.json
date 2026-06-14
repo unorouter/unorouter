@@ -2115,7 +2115,10 @@
       "UNEXPECTED_ERROR_OCCURRED": "Terjadi error yang tidak terduga. Silakan coba lagi atau kembali ke halaman utama.",
       "ERROR_DETAILS": "Detail Error",
       "DIGEST": "Digest",
-      "SECTION_LOAD_FAILED": "Bagian ini gagal dimuat."
+      "SECTION_LOAD_FAILED": "Bagian ini gagal dimuat.",
+      "COPY_ERROR": "Salin kesalahan",
+      "RESET_APP_DATA": "Setel ulang data aplikasi & muat ulang",
+      "RESETTING": "Menyetel ulang..."
     },
     "NOT_FOUND": {
       "TITLE": "Halaman Tidak Ditemukan",
@@ -2162,7 +2165,8 @@
       "CLEAR_CHAT_TITLE": "Bersihkan chat?",
       "WIPE_DB_TITLE": "Hapus database lokal?",
       "UPLOAD_DB_TITLE": "Timpa database lokal?"
-    }
+    },
+    "COPIED": "Disalin"
   },
   "LANGUAGE": {
     "EN": "English",

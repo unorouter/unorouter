@@ -2115,7 +2115,10 @@
       "UNEXPECTED_ERROR_OCCURRED": "An unexpected error occurred. Please try again or return to the home page.",
       "ERROR_DETAILS": "Error Details",
       "DIGEST": "Digest",
-      "SECTION_LOAD_FAILED": "This section failed to load."
+      "SECTION_LOAD_FAILED": "This section failed to load.",
+      "COPY_ERROR": "Copy error",
+      "RESET_APP_DATA": "Reset app data & reload",
+      "RESETTING": "Resetting..."
     },
     "NOT_FOUND": {
       "TITLE": "Page Not Found",
@@ -2162,7 +2165,8 @@
       "CLEAR_CHAT_TITLE": "Clear chat?",
       "WIPE_DB_TITLE": "Wipe local database?",
       "UPLOAD_DB_TITLE": "Overwrite local database?"
-    }
+    },
+    "COPIED": "Copied"
   },
   "LANGUAGE": {
     "EN": "English",

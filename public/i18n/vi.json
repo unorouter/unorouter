@@ -2115,7 +2115,10 @@
       "UNEXPECTED_ERROR_OCCURRED": "Đã xảy ra lỗi không mong muốn. Vui lòng thử lại hoặc trở về trang chủ.",
       "ERROR_DETAILS": "Chi tiết lỗi",
       "DIGEST": "Mã tóm tắt",
-      "SECTION_LOAD_FAILED": "Phần này không tải được."
+      "SECTION_LOAD_FAILED": "Phần này không tải được.",
+      "COPY_ERROR": "Sao chep loi",
+      "RESET_APP_DATA": "Dat lai du lieu ung dung va tai lai",
+      "RESETTING": "Dang dat lai..."
     },
     "NOT_FOUND": {
       "TITLE": "Không tìm thấy trang",
@@ -2162,7 +2165,8 @@
       "CLEAR_CHAT_TITLE": "Xoá nội dung trò chuyện?",
       "WIPE_DB_TITLE": "Xoá sạch cơ sở dữ liệu cục bộ?",
       "UPLOAD_DB_TITLE": "Ghi đè cơ sở dữ liệu cục bộ?"
-    }
+    },
+    "COPIED": "Da sao chep"
   },
   "LANGUAGE": {
     "EN": "English",

@@ -2115,7 +2115,10 @@
       "UNEXPECTED_ERROR_OCCURRED": "發生未預期的錯誤。請再試一次或返回首頁。",
       "ERROR_DETAILS": "錯誤詳情",
       "DIGEST": "摘要",
-      "SECTION_LOAD_FAILED": "此區塊載入失敗。"
+      "SECTION_LOAD_FAILED": "此區塊載入失敗。",
+      "COPY_ERROR": "複製錯誤",
+      "RESET_APP_DATA": "重設應用程式資料並重新載入",
+      "RESETTING": "正在重設……"
     },
     "NOT_FOUND": {
       "TITLE": "找不到頁面",
@@ -2162,7 +2165,8 @@
       "CLEAR_CHAT_TITLE": "清空對話？",
       "WIPE_DB_TITLE": "清空本機資料庫？",
       "UPLOAD_DB_TITLE": "覆寫本機資料庫？"
-    }
+    },
+    "COPIED": "已複製"
   },
   "LANGUAGE": {
     "EN": "English",

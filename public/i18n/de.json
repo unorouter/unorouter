@@ -2115,7 +2115,10 @@
       "UNEXPECTED_ERROR_OCCURRED": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuche es erneut oder kehre zur Startseite zurück.",
       "ERROR_DETAILS": "Fehlerdetails",
       "DIGEST": "Digest",
-      "SECTION_LOAD_FAILED": "Dieser Bereich konnte nicht geladen werden."
+      "SECTION_LOAD_FAILED": "Dieser Bereich konnte nicht geladen werden.",
+      "COPY_ERROR": "Fehler kopieren",
+      "RESET_APP_DATA": "App-Daten zuruecksetzen und neu laden",
+      "RESETTING": "Wird zurueckgesetzt..."
     },
     "NOT_FOUND": {
       "TITLE": "Seite nicht gefunden",
@@ -2162,7 +2165,8 @@
       "CLEAR_CHAT_TITLE": "Chat leeren?",
       "WIPE_DB_TITLE": "Lokale Datenbank löschen?",
       "UPLOAD_DB_TITLE": "Lokale Datenbank überschreiben?"
-    }
+    },
+    "COPIED": "Kopiert"
   },
   "LANGUAGE": {
     "EN": "English",
