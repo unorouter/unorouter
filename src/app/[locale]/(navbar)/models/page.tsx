@@ -48,6 +48,9 @@ export default async function Page(props: {
         query: { hours: 24 },
       }),
     ),
+    prefetchElysia(queryClient, queryKeys.rankings("week"), () =>
+      rpc.api.models.rankings.get({ query: { period: "week" } }),
+    ),
   ]);
   const topModels = summary.models
     .filter((m) => m.type === "text")

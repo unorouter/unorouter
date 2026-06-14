@@ -26,7 +26,8 @@
     "LOG_IN": "Đăng nhập",
     "CHAT": "Trò chuyện",
     "PLAYGROUND": "Khu thử nghiệm",
-    "STATUS": "Trạng thái"
+    "STATUS": "Trạng thái",
+    "COMPARE": "So sánh"
   },
   "HOME": {
     "HERO": {
@@ -229,7 +230,16 @@
       "NO_PROVIDERS": "Không tìm thấy nhà cung cấp.",
       "SELECTED": "đã chọn",
       "CLEAR": "Xóa bộ lọc",
-      "RESET": "Đặt lại"
+      "RESET": "Đặt lại",
+      "TITLE": "Bộ lọc",
+      "INPUT_MODALITIES": "Phương thức đầu vào",
+      "CONTEXT_LENGTH": "Độ dài ngữ cảnh",
+      "PROMPT_PRICING": "Giá prompt",
+      "CATEGORIES": "Danh mục",
+      "SUPPORTED_PARAMETERS": "Tham số được hỗ trợ",
+      "PROVIDERS": "Nhà cung cấp",
+      "MIN": "Tối thiểu",
+      "ANY": "Bất kỳ"
     },
     "DETAIL": {
       "DESCRIPTION": "Mô tả",
@@ -300,11 +310,16 @@
     "SORT": {
       "NAME": "Tên (A đến Z)",
       "PRICE_ASC": "Giá (Thấp)",
-      "PRICE_DESC": "Giá (Cao)"
+      "PRICE_DESC": "Giá (Cao)",
+      "NEWEST": "Mới nhất",
+      "POPULAR": "Phổ biến nhất",
+      "TOP_WEEKLY": "Top tuần",
+      "CONTEXT_DESC": "Ngữ cảnh (cao)"
     },
     "VIEW": {
       "GRID": "Chế độ lưới",
-      "LIST": "Chế độ danh sách"
+      "LIST": "Chế độ danh sách",
+      "TABLE": "Dạng bảng"
     },
     "META": {
       "TITLE": "Mô hình AI - {appName}",
@@ -346,6 +361,47 @@
       "LATENCY": "Lat.",
       "TPS": "TPS",
       "STATUS": "Trạng thái"
+    },
+    "MODALITY": {
+      "TEXT": "Văn bản",
+      "IMAGE": "Hình ảnh",
+      "AUDIO": "Âm thanh",
+      "VIDEO": "Video",
+      "EMBEDDINGS": "Embeddings"
+    },
+    "TABLE": {
+      "MODEL": "Mô hình",
+      "WEEKLY_TOKENS": "Token hàng tuần",
+      "INPUT": "Đầu vào",
+      "OUTPUT": "Đầu ra",
+      "CONTEXT": "Ngữ cảnh",
+      "RELEASED": "Phát hành",
+      "OFF": "giảm {pct}%",
+      "FREE": "miễn phí"
+    },
+    "COMPARE": {
+      "BADGE": "So sánh",
+      "TITLE": "So sánh mô hình AI",
+      "SUBTITLE": "So sánh các mô hình AI cạnh nhau theo giá, ngữ cảnh, khả năng và mức sử dụng.",
+      "ADD_MODEL": "Thêm mô hình",
+      "REMOVE": "Xóa",
+      "CAPABILITIES": "Khả năng",
+      "PRESET_FLAGSHIP": "Mô hình hàng đầu",
+      "PRESET_AFFORDABLE": "Phải chăng nhất",
+      "PRESET_CODE": "Tốt nhất cho mã",
+      "PRESET_IMAGE": "Tạo hình ảnh",
+      "META": {
+        "TITLE": "So sánh mô hình AI - {appName}",
+        "DESCRIPTION": "So sánh các mô hình AI cạnh nhau theo giá, độ dài ngữ cảnh, khả năng và mức sử dụng trên {appName}.",
+        "KEYWORDS": "so sánh mô hình AI, so sánh mô hình, so sánh LLM, giá AI"
+      }
+    },
+    "LIST": {
+      "TOKENS": "token",
+      "BY": "bởi",
+      "CONTEXT": "ngữ cảnh",
+      "INPUT": "token đầu vào",
+      "OUTPUT": "token đầu ra"
     }
   },
   "RANKINGS": {

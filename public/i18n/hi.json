@@ -26,7 +26,8 @@
     "LOG_IN": "लॉग इन",
     "CHAT": "चैट",
     "PLAYGROUND": "Playground",
-    "STATUS": "स्थिति"
+    "STATUS": "स्थिति",
+    "COMPARE": "तुलना"
   },
   "HOME": {
     "HERO": {
@@ -229,7 +230,16 @@
       "NO_PROVIDERS": "कोई प्रदाता नहीं मिला।",
       "SELECTED": "चयनित",
       "CLEAR": "फ़िल्टर साफ़ करें",
-      "RESET": "रीसेट"
+      "RESET": "रीसेट",
+      "TITLE": "फ़िल्टर",
+      "INPUT_MODALITIES": "इनपुट मोडैलिटी",
+      "CONTEXT_LENGTH": "संदर्भ लंबाई",
+      "PROMPT_PRICING": "प्रॉम्प्ट मूल्य",
+      "CATEGORIES": "श्रेणियाँ",
+      "SUPPORTED_PARAMETERS": "समर्थित पैरामीटर",
+      "PROVIDERS": "प्रदाता",
+      "MIN": "न्यूनतम",
+      "ANY": "कोई भी"
     },
     "DETAIL": {
       "DESCRIPTION": "विवरण",
@@ -300,11 +310,16 @@
     "SORT": {
       "NAME": "नाम (A से Z)",
       "PRICE_ASC": "कीमत (कम)",
-      "PRICE_DESC": "कीमत (अधिक)"
+      "PRICE_DESC": "कीमत (अधिक)",
+      "NEWEST": "नवीनतम",
+      "POPULAR": "सर्वाधिक लोकप्रिय",
+      "TOP_WEEKLY": "साप्ताहिक शीर्ष",
+      "CONTEXT_DESC": "संदर्भ (अधिक)"
     },
     "VIEW": {
       "GRID": "ग्रिड व्यू",
-      "LIST": "सूची व्यू"
+      "LIST": "सूची व्यू",
+      "TABLE": "तालिका दृश्य"
     },
     "META": {
       "TITLE": "AI मॉडल - {appName}",
@@ -346,6 +361,47 @@
       "LATENCY": "लेट.",
       "TPS": "TPS",
       "STATUS": "स्थिति"
+    },
+    "MODALITY": {
+      "TEXT": "टेक्स्ट",
+      "IMAGE": "छवि",
+      "AUDIO": "ऑडियो",
+      "VIDEO": "वीडियो",
+      "EMBEDDINGS": "एम्बेडिंग"
+    },
+    "TABLE": {
+      "MODEL": "मॉडल",
+      "WEEKLY_TOKENS": "साप्ताहिक टोकन",
+      "INPUT": "इनपुट",
+      "OUTPUT": "आउटपुट",
+      "CONTEXT": "संदर्भ",
+      "RELEASED": "जारी",
+      "OFF": "{pct}% छूट",
+      "FREE": "मुफ़्त"
+    },
+    "COMPARE": {
+      "BADGE": "तुलना",
+      "TITLE": "एआई मॉडल तुलना",
+      "SUBTITLE": "कीमत, संदर्भ, क्षमताओं और उपयोग के आधार पर एआई मॉडल की साथ-साथ तुलना करें।",
+      "ADD_MODEL": "मॉडल जोड़ें",
+      "REMOVE": "हटाएँ",
+      "CAPABILITIES": "क्षमताएँ",
+      "PRESET_FLAGSHIP": "फ्लैगशिप मॉडल",
+      "PRESET_AFFORDABLE": "सबसे किफायती",
+      "PRESET_CODE": "कोड के लिए सर्वश्रेष्ठ",
+      "PRESET_IMAGE": "छवि निर्माण",
+      "META": {
+        "TITLE": "एआई मॉडल की तुलना करें - {appName}",
+        "DESCRIPTION": "{appName} पर कीमत, संदर्भ लंबाई, क्षमताओं और उपयोग के आधार पर एआई मॉडल की साथ-साथ तुलना करें।",
+        "KEYWORDS": "एआई मॉडल तुलना, मॉडल तुलना, एलएलएम तुलना, एआई कीमत"
+      }
+    },
+    "LIST": {
+      "TOKENS": "टोकन",
+      "BY": "द्वारा",
+      "CONTEXT": "संदर्भ",
+      "INPUT": "इनपुट टोकन",
+      "OUTPUT": "आउटपुट टोकन"
     }
   },
   "RANKINGS": {

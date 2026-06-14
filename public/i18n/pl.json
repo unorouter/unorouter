@@ -26,7 +26,8 @@
     "LOG_IN": "Zaloguj się",
     "CHAT": "Chat",
     "PLAYGROUND": "Playground",
-    "STATUS": "Status"
+    "STATUS": "Status",
+    "COMPARE": "Porównaj"
   },
   "HOME": {
     "HERO": {
@@ -229,7 +230,16 @@
       "NO_PROVIDERS": "Nie znaleziono dostawców.",
       "SELECTED": "wybrane",
       "CLEAR": "Wyczyść filtry",
-      "RESET": "Resetuj"
+      "RESET": "Resetuj",
+      "TITLE": "Filtry",
+      "INPUT_MODALITIES": "Modalności wejścia",
+      "CONTEXT_LENGTH": "Długość kontekstu",
+      "PROMPT_PRICING": "Cena promptu",
+      "CATEGORIES": "Kategorie",
+      "SUPPORTED_PARAMETERS": "Obsługiwane parametry",
+      "PROVIDERS": "Dostawcy",
+      "MIN": "Min",
+      "ANY": "Dowolny"
     },
     "DETAIL": {
       "DESCRIPTION": "Opis",
@@ -300,11 +310,16 @@
     "SORT": {
       "NAME": "Nazwa (A do Z)",
       "PRICE_ASC": "Cena (od najniższej)",
-      "PRICE_DESC": "Cena (od najwyższej)"
+      "PRICE_DESC": "Cena (od najwyższej)",
+      "NEWEST": "Najnowsze",
+      "POPULAR": "Najpopularniejsze",
+      "TOP_WEEKLY": "Top tygodnia",
+      "CONTEXT_DESC": "Kontekst (wysoki)"
     },
     "VIEW": {
       "GRID": "Widok siatki",
-      "LIST": "Widok listy"
+      "LIST": "Widok listy",
+      "TABLE": "Widok tabeli"
     },
     "META": {
       "TITLE": "Modele AI - {appName}",
@@ -346,6 +361,47 @@
       "LATENCY": "Opóźn.",
       "TPS": "TPS",
       "STATUS": "Status"
+    },
+    "MODALITY": {
+      "TEXT": "Tekst",
+      "IMAGE": "Obraz",
+      "AUDIO": "Audio",
+      "VIDEO": "Wideo",
+      "EMBEDDINGS": "Osadzenia"
+    },
+    "TABLE": {
+      "MODEL": "Model",
+      "WEEKLY_TOKENS": "Tokeny tygodniowo",
+      "INPUT": "Wejście",
+      "OUTPUT": "Wyjście",
+      "CONTEXT": "Kontekst",
+      "RELEASED": "Wydano",
+      "OFF": "{pct}% taniej",
+      "FREE": "za darmo"
+    },
+    "COMPARE": {
+      "BADGE": "Porównaj",
+      "TITLE": "Porównanie modeli AI",
+      "SUBTITLE": "Porównuj modele AI obok siebie według ceny, kontekstu, możliwości i użycia.",
+      "ADD_MODEL": "Dodaj model",
+      "REMOVE": "Usuń",
+      "CAPABILITIES": "Możliwości",
+      "PRESET_FLAGSHIP": "Modele flagowe",
+      "PRESET_AFFORDABLE": "Najtańsze",
+      "PRESET_CODE": "Najlepsze do kodu",
+      "PRESET_IMAGE": "Generowanie obrazów",
+      "META": {
+        "TITLE": "Porównaj modele AI - {appName}",
+        "DESCRIPTION": "Porównuj modele AI obok siebie według ceny, długości kontekstu, możliwości i użycia w {appName}.",
+        "KEYWORDS": "porównaj modele AI, porównanie modeli, porównanie LLM, ceny AI"
+      }
+    },
+    "LIST": {
+      "TOKENS": "tokenów",
+      "BY": "od",
+      "CONTEXT": "kontekst",
+      "INPUT": "tokeny wejściowe",
+      "OUTPUT": "tokeny wyjściowe"
     }
   },
   "RANKINGS": {

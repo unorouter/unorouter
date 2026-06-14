@@ -26,7 +26,8 @@
     "LOG_IN": "התחברות",
     "CHAT": "צ'אט",
     "PLAYGROUND": "מגרש משחקים",
-    "STATUS": "סטטוס"
+    "STATUS": "סטטוס",
+    "COMPARE": "השוואה"
   },
   "HOME": {
     "HERO": {
@@ -229,7 +230,16 @@
       "NO_PROVIDERS": "לא נמצאו ספקים.",
       "SELECTED": "נבחר",
       "CLEAR": "נקה מסננים",
-      "RESET": "איפוס"
+      "RESET": "איפוס",
+      "TITLE": "מסננים",
+      "INPUT_MODALITIES": "אופני קלט",
+      "CONTEXT_LENGTH": "אורך הקשר",
+      "PROMPT_PRICING": "תמחור פרומפט",
+      "CATEGORIES": "קטגוריות",
+      "SUPPORTED_PARAMETERS": "פרמטרים נתמכים",
+      "PROVIDERS": "ספקים",
+      "MIN": "מינ׳",
+      "ANY": "הכול"
     },
     "DETAIL": {
       "DESCRIPTION": "תיאור",
@@ -300,11 +310,16 @@
     "SORT": {
       "NAME": "שם (א' עד ת')",
       "PRICE_ASC": "מחיר (נמוך)",
-      "PRICE_DESC": "מחיר (גבוה)"
+      "PRICE_DESC": "מחיר (גבוה)",
+      "NEWEST": "החדשים ביותר",
+      "POPULAR": "הפופולריים ביותר",
+      "TOP_WEEKLY": "המובילים השבוע",
+      "CONTEXT_DESC": "הקשר (גבוה)"
     },
     "VIEW": {
       "GRID": "תצוגת רשת",
-      "LIST": "תצוגת רשימה"
+      "LIST": "תצוגת רשימה",
+      "TABLE": "תצוגת טבלה"
     },
     "META": {
       "TITLE": "מודלי AI - {appName}",
@@ -346,6 +361,47 @@
       "LATENCY": "השהיה",
       "TPS": "TPS",
       "STATUS": "סטטוס"
+    },
+    "MODALITY": {
+      "TEXT": "טקסט",
+      "IMAGE": "תמונה",
+      "AUDIO": "אודיו",
+      "VIDEO": "וידאו",
+      "EMBEDDINGS": "הטמעות"
+    },
+    "TABLE": {
+      "MODEL": "מודל",
+      "WEEKLY_TOKENS": "טוקנים שבועיים",
+      "INPUT": "קלט",
+      "OUTPUT": "פלט",
+      "CONTEXT": "הקשר",
+      "RELEASED": "תאריך שחרור",
+      "OFF": "{pct}% הנחה",
+      "FREE": "חינם"
+    },
+    "COMPARE": {
+      "BADGE": "השוואה",
+      "TITLE": "השוואת מודלי בינה מלאכותית",
+      "SUBTITLE": "השווה מודלי בינה מלאכותית זה לצד זה לפי מחיר, הקשר, יכולות ושימוש.",
+      "ADD_MODEL": "הוסף מודל",
+      "REMOVE": "הסר",
+      "CAPABILITIES": "יכולות",
+      "PRESET_FLAGSHIP": "מודלים מובילים",
+      "PRESET_AFFORDABLE": "המשתלמים ביותר",
+      "PRESET_CODE": "הטובים ביותר לקוד",
+      "PRESET_IMAGE": "יצירת תמונות",
+      "META": {
+        "TITLE": "השוואת מודלי בינה מלאכותית - {appName}",
+        "DESCRIPTION": "השווה מודלי בינה מלאכותית זה לצד זה לפי מחיר, אורך הקשר, יכולות ושימוש ב-{appName}.",
+        "KEYWORDS": "השוואת מודלי בינה מלאכותית, השוואת מודלים, השוואת LLM, תמחור בינה מלאכותית"
+      }
+    },
+    "LIST": {
+      "TOKENS": "טוקנים",
+      "BY": "מאת",
+      "CONTEXT": "הקשר",
+      "INPUT": "טוקני קלט",
+      "OUTPUT": "טוקני פלט"
     }
   },
   "RANKINGS": {

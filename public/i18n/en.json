@@ -26,7 +26,8 @@
     "LOG_IN": "Log In",
     "CHAT": "Chat",
     "PLAYGROUND": "Playground",
-    "STATUS": "Status"
+    "STATUS": "Status",
+    "COMPARE": "Compare"
   },
   "HOME": {
     "HERO": {
@@ -229,7 +230,16 @@
       "NO_PROVIDERS": "No providers found.",
       "SELECTED": "selected",
       "CLEAR": "Clear filters",
-      "RESET": "Reset"
+      "RESET": "Reset",
+      "TITLE": "Filters",
+      "INPUT_MODALITIES": "Input Modalities",
+      "CONTEXT_LENGTH": "Context length",
+      "PROMPT_PRICING": "Prompt pricing",
+      "CATEGORIES": "Categories",
+      "SUPPORTED_PARAMETERS": "Supported Parameters",
+      "PROVIDERS": "Providers",
+      "MIN": "Min",
+      "ANY": "Any"
     },
     "DETAIL": {
       "DESCRIPTION": "Description",
@@ -300,11 +310,16 @@
     "SORT": {
       "NAME": "Name (A to Z)",
       "PRICE_ASC": "Price (Low)",
-      "PRICE_DESC": "Price (High)"
+      "PRICE_DESC": "Price (High)",
+      "NEWEST": "Newest",
+      "POPULAR": "Most Popular",
+      "TOP_WEEKLY": "Top Weekly",
+      "CONTEXT_DESC": "Context (High)"
     },
     "VIEW": {
       "GRID": "Grid view",
-      "LIST": "List view"
+      "LIST": "List view",
+      "TABLE": "Table view"
     },
     "META": {
       "TITLE": "AI Models - {appName}",
@@ -346,6 +361,47 @@
       "LATENCY": "Lat.",
       "TPS": "TPS",
       "STATUS": "Status"
+    },
+    "MODALITY": {
+      "TEXT": "Text",
+      "IMAGE": "Image",
+      "AUDIO": "Audio",
+      "VIDEO": "Video",
+      "EMBEDDINGS": "Embeddings"
+    },
+    "TABLE": {
+      "MODEL": "Model",
+      "WEEKLY_TOKENS": "Weekly Tokens",
+      "INPUT": "Input",
+      "OUTPUT": "Output",
+      "CONTEXT": "Context",
+      "RELEASED": "Released",
+      "OFF": "{pct}% off",
+      "FREE": "free"
+    },
+    "COMPARE": {
+      "BADGE": "Compare",
+      "TITLE": "AI Model Comparison",
+      "SUBTITLE": "Compare AI models side by side by price, context, capabilities and usage.",
+      "ADD_MODEL": "Add model",
+      "REMOVE": "Remove",
+      "CAPABILITIES": "Capabilities",
+      "PRESET_FLAGSHIP": "Flagship models",
+      "PRESET_AFFORDABLE": "Most affordable",
+      "PRESET_CODE": "Best for code",
+      "PRESET_IMAGE": "Image generation",
+      "META": {
+        "TITLE": "Compare AI Models - {appName}",
+        "DESCRIPTION": "Compare AI models side by side by price, context length, capabilities and usage on {appName}.",
+        "KEYWORDS": "compare AI models, model comparison, LLM comparison, AI pricing"
+      }
+    },
+    "LIST": {
+      "TOKENS": "tokens",
+      "BY": "by",
+      "CONTEXT": "context",
+      "INPUT": "input tokens",
+      "OUTPUT": "output tokens"
     }
   },
   "RANKINGS": {

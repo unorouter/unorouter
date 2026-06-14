@@ -26,7 +26,8 @@
     "LOG_IN": "登录",
     "CHAT": "对话",
     "PLAYGROUND": "游乐场",
-    "STATUS": "状态"
+    "STATUS": "状态",
+    "COMPARE": "对比"
   },
   "HOME": {
     "HERO": {
@@ -229,7 +230,16 @@
       "NO_PROVIDERS": "未找到提供方。",
       "SELECTED": "已选择",
       "CLEAR": "清除筛选",
-      "RESET": "重置"
+      "RESET": "重置",
+      "TITLE": "筛选",
+      "INPUT_MODALITIES": "输入模态",
+      "CONTEXT_LENGTH": "上下文长度",
+      "PROMPT_PRICING": "提示词价格",
+      "CATEGORIES": "类别",
+      "SUPPORTED_PARAMETERS": "支持的参数",
+      "PROVIDERS": "供应商",
+      "MIN": "最小",
+      "ANY": "任意"
     },
     "DETAIL": {
       "DESCRIPTION": "描述",
@@ -300,11 +310,16 @@
     "SORT": {
       "NAME": "名称（A 到 Z）",
       "PRICE_ASC": "价格（从低）",
-      "PRICE_DESC": "价格（从高）"
+      "PRICE_DESC": "价格（从高）",
+      "NEWEST": "最新",
+      "POPULAR": "最热门",
+      "TOP_WEEKLY": "本周热门",
+      "CONTEXT_DESC": "上下文（高到低）"
     },
     "VIEW": {
       "GRID": "网格视图",
-      "LIST": "列表视图"
+      "LIST": "列表视图",
+      "TABLE": "表格视图"
     },
     "META": {
       "TITLE": "AI 模型：{appName}",
@@ -346,6 +361,47 @@
       "LATENCY": "延迟",
       "TPS": "TPS",
       "STATUS": "状态"
+    },
+    "MODALITY": {
+      "TEXT": "文本",
+      "IMAGE": "图像",
+      "AUDIO": "音频",
+      "VIDEO": "视频",
+      "EMBEDDINGS": "嵌入"
+    },
+    "TABLE": {
+      "MODEL": "模型",
+      "WEEKLY_TOKENS": "每周 Token",
+      "INPUT": "输入",
+      "OUTPUT": "输出",
+      "CONTEXT": "上下文",
+      "RELEASED": "发布日期",
+      "OFF": "{pct}% 优惠",
+      "FREE": "免费"
+    },
+    "COMPARE": {
+      "BADGE": "对比",
+      "TITLE": "AI 模型对比",
+      "SUBTITLE": "按价格、上下文、能力和使用量并排对比 AI 模型。",
+      "ADD_MODEL": "添加模型",
+      "REMOVE": "移除",
+      "CAPABILITIES": "能力",
+      "PRESET_FLAGSHIP": "旗舰模型",
+      "PRESET_AFFORDABLE": "最实惠",
+      "PRESET_CODE": "最适合编程",
+      "PRESET_IMAGE": "图像生成",
+      "META": {
+        "TITLE": "对比 AI 模型 - {appName}",
+        "DESCRIPTION": "在 {appName} 上按价格、上下文长度、能力和使用量并排对比 AI 模型。",
+        "KEYWORDS": "对比 AI 模型，模型对比，LLM 对比，AI 价格"
+      }
+    },
+    "LIST": {
+      "TOKENS": "Token",
+      "BY": "来自",
+      "CONTEXT": "上下文",
+      "INPUT": "输入 Token",
+      "OUTPUT": "输出 Token"
     }
   },
   "RANKINGS": {

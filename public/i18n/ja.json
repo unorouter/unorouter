@@ -26,7 +26,8 @@
     "LOG_IN": "ログイン",
     "CHAT": "チャット",
     "PLAYGROUND": "プレイグラウンド",
-    "STATUS": "ステータス"
+    "STATUS": "ステータス",
+    "COMPARE": "比較"
   },
   "HOME": {
     "HERO": {
@@ -229,7 +230,16 @@
       "NO_PROVIDERS": "プロバイダーが見つかりません。",
       "SELECTED": "選択済み",
       "CLEAR": "フィルターをクリア",
-      "RESET": "リセット"
+      "RESET": "リセット",
+      "TITLE": "フィルター",
+      "INPUT_MODALITIES": "入力モダリティ",
+      "CONTEXT_LENGTH": "コンテキスト長",
+      "PROMPT_PRICING": "プロンプト料金",
+      "CATEGORIES": "カテゴリ",
+      "SUPPORTED_PARAMETERS": "対応パラメータ",
+      "PROVIDERS": "プロバイダー",
+      "MIN": "最小",
+      "ANY": "すべて"
     },
     "DETAIL": {
       "DESCRIPTION": "説明",
@@ -300,11 +310,16 @@
     "SORT": {
       "NAME": "名前（A〜Z）",
       "PRICE_ASC": "価格（安い順）",
-      "PRICE_DESC": "価格（高い順）"
+      "PRICE_DESC": "価格（高い順）",
+      "NEWEST": "新着順",
+      "POPULAR": "人気順",
+      "TOP_WEEKLY": "週間トップ",
+      "CONTEXT_DESC": "コンテキスト（大）"
     },
     "VIEW": {
       "GRID": "グリッド表示",
-      "LIST": "リスト表示"
+      "LIST": "リスト表示",
+      "TABLE": "テーブル表示"
     },
     "META": {
       "TITLE": "AIモデル {appName}",
@@ -346,6 +361,47 @@
       "LATENCY": "Lat.",
       "TPS": "TPS",
       "STATUS": "状態"
+    },
+    "MODALITY": {
+      "TEXT": "テキスト",
+      "IMAGE": "画像",
+      "AUDIO": "音声",
+      "VIDEO": "動画",
+      "EMBEDDINGS": "埋め込み"
+    },
+    "TABLE": {
+      "MODEL": "モデル",
+      "WEEKLY_TOKENS": "週間トークン",
+      "INPUT": "入力",
+      "OUTPUT": "出力",
+      "CONTEXT": "コンテキスト",
+      "RELEASED": "リリース",
+      "OFF": "{pct}%オフ",
+      "FREE": "無料"
+    },
+    "COMPARE": {
+      "BADGE": "比較",
+      "TITLE": "AIモデル比較",
+      "SUBTITLE": "価格、コンテキスト、機能、利用状況でAIモデルを並べて比較。",
+      "ADD_MODEL": "モデルを追加",
+      "REMOVE": "削除",
+      "CAPABILITIES": "機能",
+      "PRESET_FLAGSHIP": "フラッグシップモデル",
+      "PRESET_AFFORDABLE": "最も手頃",
+      "PRESET_CODE": "コードに最適",
+      "PRESET_IMAGE": "画像生成",
+      "META": {
+        "TITLE": "AIモデルを比較 - {appName}",
+        "DESCRIPTION": "{appName}で価格、コンテキスト長、機能、利用状況によりAIモデルを並べて比較。",
+        "KEYWORDS": "AIモデル比較, モデル比較, LLM比較, AI価格"
+      }
+    },
+    "LIST": {
+      "TOKENS": "トークン",
+      "BY": "提供",
+      "CONTEXT": "コンテキスト",
+      "INPUT": "入力トークン",
+      "OUTPUT": "出力トークン"
     }
   },
   "RANKINGS": {

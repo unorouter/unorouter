@@ -26,7 +26,8 @@
     "LOG_IN": "Giriş Yap",
     "CHAT": "Sohbet",
     "PLAYGROUND": "Playground",
-    "STATUS": "Durum"
+    "STATUS": "Durum",
+    "COMPARE": "Karşılaştır"
   },
   "HOME": {
     "HERO": {
@@ -229,7 +230,16 @@
       "NO_PROVIDERS": "Sağlayıcı bulunamadı.",
       "SELECTED": "seçildi",
       "CLEAR": "Filtreleri temizle",
-      "RESET": "Sıfırla"
+      "RESET": "Sıfırla",
+      "TITLE": "Filtreler",
+      "INPUT_MODALITIES": "Girdi Modaliteleri",
+      "CONTEXT_LENGTH": "Bağlam uzunluğu",
+      "PROMPT_PRICING": "İstem fiyatı",
+      "CATEGORIES": "Kategoriler",
+      "SUPPORTED_PARAMETERS": "Desteklenen Parametreler",
+      "PROVIDERS": "Sağlayıcılar",
+      "MIN": "Min",
+      "ANY": "Herhangi"
     },
     "DETAIL": {
       "DESCRIPTION": "Açıklama",
@@ -300,11 +310,16 @@
     "SORT": {
       "NAME": "İsim (A-Z)",
       "PRICE_ASC": "Fiyat (Düşük)",
-      "PRICE_DESC": "Fiyat (Yüksek)"
+      "PRICE_DESC": "Fiyat (Yüksek)",
+      "NEWEST": "En Yeni",
+      "POPULAR": "En Popüler",
+      "TOP_WEEKLY": "Haftanın En İyileri",
+      "CONTEXT_DESC": "Bağlam (Yüksek)"
     },
     "VIEW": {
       "GRID": "Tablo görünümü",
-      "LIST": "Liste görünümü"
+      "LIST": "Liste görünümü",
+      "TABLE": "Tablo görünümü"
     },
     "META": {
       "TITLE": "AI Modelleri - {appName}",
@@ -346,6 +361,47 @@
       "LATENCY": "Gec.",
       "TPS": "TPS",
       "STATUS": "Durum"
+    },
+    "MODALITY": {
+      "TEXT": "Metin",
+      "IMAGE": "Görsel",
+      "AUDIO": "Ses",
+      "VIDEO": "Video",
+      "EMBEDDINGS": "Gömme"
+    },
+    "TABLE": {
+      "MODEL": "Model",
+      "WEEKLY_TOKENS": "Haftalık Token",
+      "INPUT": "Girdi",
+      "OUTPUT": "Çıktı",
+      "CONTEXT": "Bağlam",
+      "RELEASED": "Yayınlanma",
+      "OFF": "%{pct} indirim",
+      "FREE": "ücretsiz"
+    },
+    "COMPARE": {
+      "BADGE": "Karşılaştır",
+      "TITLE": "Yapay Zeka Model Karşılaştırması",
+      "SUBTITLE": "Yapay zeka modellerini fiyat, bağlam, yetenekler ve kullanıma göre yan yana karşılaştırın.",
+      "ADD_MODEL": "Model ekle",
+      "REMOVE": "Kaldır",
+      "CAPABILITIES": "Yetenekler",
+      "PRESET_FLAGSHIP": "Amiral gemisi modeller",
+      "PRESET_AFFORDABLE": "En uygun fiyatlı",
+      "PRESET_CODE": "Kod için en iyi",
+      "PRESET_IMAGE": "Görsel üretimi",
+      "META": {
+        "TITLE": "Yapay Zeka Modellerini Karşılaştır - {appName}",
+        "DESCRIPTION": "{appName} üzerinde yapay zeka modellerini fiyat, bağlam uzunluğu, yetenekler ve kullanıma göre yan yana karşılaştırın.",
+        "KEYWORDS": "yapay zeka modellerini karşılaştır, model karşılaştırma, LLM karşılaştırma, yapay zeka fiyatları"
+      }
+    },
+    "LIST": {
+      "TOKENS": "token",
+      "BY": "sağlayan",
+      "CONTEXT": "bağlam",
+      "INPUT": "girdi token",
+      "OUTPUT": "çıktı token"
     }
   },
   "RANKINGS": {
