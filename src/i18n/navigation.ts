@@ -20,7 +20,10 @@ export function localeUrl(locale: Locale, href: Pathname): string {
 
 /** Map a runtime URL back to its typed {pathname, params} for typesafe re-routing. */
 type Params<T extends string> = T extends `${string}[${infer P}]${infer R}`
-  ? { [K in P]: string } & Params<R>
+  ? (P extends `...${infer C}`
+      ? { [K in C]: string[] }
+      : { [K in P]: string }) &
+      Params<R>
   : Record<never, never>;
 
 export type MatchedPathname = {
@@ -49,15 +52,26 @@ export function matchPathname(
   return null;
 }
 
-function match(tpl: string, path: string): Record<string, string> | null {
+function match(
+  tpl: string,
+  path: string,
+): Record<string, string | string[]> | null {
   const t = tpl.split("/").filter(Boolean);
   const p = path.split("/").filter(Boolean);
-  if (t.length !== p.length) return null;
-  const params: Record<string, string> = {};
+  const params: Record<string, string | string[]> = {};
   for (let i = 0; i < t.length; i++) {
+    const rest = t[i].match(/^\[\.\.\.([^\]]+)\]$/);
+    if (rest) {
+      // Catch-all consumes all remaining segments.
+      const tail = p.slice(i);
+      if (tail.length === 0) return null;
+      params[rest[1]] = tail.map((s) => decodeURIComponent(s));
+      return params;
+    }
+    if (i >= p.length) return null;
     const dyn = t[i].match(/^\[([^\]]+)\]$/);
     if (dyn) params[dyn[1]] = decodeURIComponent(p[i]);
     else if (t[i] !== p[i]) return null;
   }
-  return params;
+  return t.length === p.length ? params : null;
 }

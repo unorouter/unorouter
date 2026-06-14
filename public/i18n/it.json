@@ -398,8 +398,21 @@
       "META": {
         "TITLE": "Confronta modelli IA - {appName}",
         "DESCRIPTION": "Confronta i modelli IA fianco a fianco per prezzo, lunghezza del contesto, capacità e utilizzo su {appName}.",
-        "KEYWORDS": "confronta modelli IA, confronto modelli, confronto LLM, prezzi IA"
-      }
+        "KEYWORDS": "confronta modelli IA, confronto modelli, confronto LLM, prezzi IA",
+        "TITLE_COMBO": "{models} - Confronto modelli IA",
+        "DESCRIPTION_COMBO": "Confronta {models} per prezzo, lunghezza del contesto, capacità e utilizzo."
+      },
+      "OVERVIEW": "Panoramica",
+      "PRICING": "Prezzi",
+      "PERFORMANCE": "Prestazioni",
+      "FEATURES": "Funzionalità",
+      "ACTIVITY": "Attività",
+      "AUTHOR": "Autore",
+      "LATENCY": "Latenza",
+      "THROUGHPUT": "Throughput",
+      "HIGHLIGHT_BEST": "Evidenzia il migliore",
+      "CLEAR": "Pulisci",
+      "FROM": "di"
     },
     "LIST": {
       "TOKENS": "token",

@@ -43,6 +43,9 @@ export default async function Page(props: {
     prefetchElysia(queryClient, queryKeys.rankings("week"), () =>
       rpc.api.models.rankings.get({ query: { period: "week" } }),
     ),
+    prefetchElysia(queryClient, queryKeys.perfMetricsSummary(24), () =>
+      rpc.api.models["perf-metrics"].summary.get({ query: { hours: 24 } }),
+    ),
   ]);
 
   return (

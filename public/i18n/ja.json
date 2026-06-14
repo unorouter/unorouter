@@ -398,8 +398,21 @@
       "META": {
         "TITLE": "AIモデルを比較 - {appName}",
         "DESCRIPTION": "{appName}で価格、コンテキスト長、機能、利用状況によりAIモデルを並べて比較。",
-        "KEYWORDS": "AIモデル比較, モデル比較, LLM比較, AI価格"
-      }
+        "KEYWORDS": "AIモデル比較, モデル比較, LLM比較, AI価格",
+        "TITLE_COMBO": "{models} - AIモデル比較",
+        "DESCRIPTION_COMBO": "{models}を価格、コンテキスト長、機能、利用状況で比較。"
+      },
+      "OVERVIEW": "概要",
+      "PRICING": "価格",
+      "PERFORMANCE": "パフォーマンス",
+      "FEATURES": "機能",
+      "ACTIVITY": "アクティビティ",
+      "AUTHOR": "提供元",
+      "LATENCY": "レイテンシ",
+      "THROUGHPUT": "スループット",
+      "HIGHLIGHT_BEST": "最良を強調",
+      "CLEAR": "クリア",
+      "FROM": "提供"
     },
     "LIST": {
       "TOKENS": "トークン",

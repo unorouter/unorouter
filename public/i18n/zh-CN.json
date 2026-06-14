@@ -398,8 +398,21 @@
       "META": {
         "TITLE": "对比 AI 模型 - {appName}",
         "DESCRIPTION": "在 {appName} 上按价格、上下文长度、能力和使用量并排对比 AI 模型。",
-        "KEYWORDS": "对比 AI 模型，模型对比，LLM 对比，AI 价格"
-      }
+        "KEYWORDS": "对比 AI 模型，模型对比，LLM 对比，AI 价格",
+        "TITLE_COMBO": "{models} - AI 模型对比",
+        "DESCRIPTION_COMBO": "按价格、上下文长度、能力和使用量对比 {models}。"
+      },
+      "OVERVIEW": "概览",
+      "PRICING": "价格",
+      "PERFORMANCE": "性能",
+      "FEATURES": "功能",
+      "ACTIVITY": "活动",
+      "AUTHOR": "提供方",
+      "LATENCY": "延迟",
+      "THROUGHPUT": "吞吐量",
+      "HIGHLIGHT_BEST": "高亮最佳",
+      "CLEAR": "清除",
+      "FROM": "来自"
     },
     "LIST": {
       "TOKENS": "Token",

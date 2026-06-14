@@ -398,8 +398,21 @@
       "META": {
         "TITLE": "對比 AI 模型 - {appName}",
         "DESCRIPTION": "在 {appName} 上按價格、上下文長度、能力和使用量並排對比 AI 模型。",
-        "KEYWORDS": "對比 AI 模型，模型對比，LLM 對比，AI 價格"
-      }
+        "KEYWORDS": "對比 AI 模型，模型對比，LLM 對比，AI 價格",
+        "TITLE_COMBO": "{models} - AI 模型對比",
+        "DESCRIPTION_COMBO": "按價格、上下文長度、能力和使用量對比 {models}。"
+      },
+      "OVERVIEW": "概覽",
+      "PRICING": "價格",
+      "PERFORMANCE": "效能",
+      "FEATURES": "功能",
+      "ACTIVITY": "活動",
+      "AUTHOR": "提供方",
+      "LATENCY": "延遲",
+      "THROUGHPUT": "吞吐量",
+      "HIGHLIGHT_BEST": "突顯最佳",
+      "CLEAR": "清除",
+      "FROM": "來自"
     },
     "LIST": {
       "TOKENS": "Token",
