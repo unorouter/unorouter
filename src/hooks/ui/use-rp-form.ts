@@ -5,7 +5,7 @@ import { typeboxResolver } from "@hookform/resolvers/typebox";
 import type { Static, TObject } from "@sinclair/typebox/type";
 import { useForm, type DefaultValues } from "react-hook-form";
 
-    // Shared RP editor form wiring: values syncs the row in on settle; keepDirtyValues stops a background refetch clobbering typing. Callers pass row values mapped via formDefaults.
+    // Shared RP editor form wiring: values syncs the row on settle; keepDirtyValues stops a refetch clobbering typing.
 export function useRpForm<T extends TObject>(
   schema: T,
   values: Static<T> | undefined,

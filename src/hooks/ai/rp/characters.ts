@@ -34,7 +34,7 @@ export const useCreateCharacterMutation = characters.useCreate;
 export const useUpdateCharacterMutation = characters.useUpdate;
 export const useDeleteCharacterMutation = characters.useDelete;
 
-    // Client-side card parser: bytes -> media row + character row referencing it. Sync flow: media base64 -> server uploads to R2 -> Turso pointer-only.
+    // Client-side card parser: bytes become a media row plus a character row referencing it.
 export function useImportCharacterCardMutation() {
   const userId = useLocalUserId();
   return useApiMutation({

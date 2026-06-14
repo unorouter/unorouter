@@ -4,7 +4,7 @@ import { GuideIcon } from "@/components/pages/docs/guide-icon";
 import { SETUP_GUIDES } from "@/components/pages/docs/setup-guides";
 import { Link } from "@/i18n/navigation";
 
-    // Floating brand chips around the stats card. No JS animation (27 springs lagged): one shared CSS keyframe + per-chip delay drifts on the GPU.
+    // Floating brand chips around the stats card. No JS animation (27 springs lagged): one CSS keyframe + per-chip delay.
 
 const COLS = 7;
     // Span the stats card's x-range so chips wrap symmetrically instead of hanging off its right edge.

@@ -24,7 +24,7 @@ import {
 } from "@/store/models-store";
 import { useAtom, useSetAtom } from "jotai";
 
-    // Release timestamp (ms) for Newest sort + Released column: real OpenRouter launch date first, new-api insert date as fallback so no model is dateless.
+    // Release timestamp (ms) for Newest sort + Released column: OpenRouter launch date first, new-api insert date as fallback.
 export function modelReleaseTs(model: ProcessedModel): number {
   const iso = model.metadata.releaseDate;
   if (iso) {

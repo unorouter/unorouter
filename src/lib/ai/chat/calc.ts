@@ -1,8 +1,8 @@
-    // Isomorphic expression evaluator, RisuAI calcString port. Shunting-yard to RPN, no Function eval. Supports arithmetic, comparisons, logic, parens, unary minus, $var/@var substitution, null -> 0.
+    // Isomorphic expression evaluator (RisuAI calcString port): shunting-yard to RPN, no Function eval, $var/@var substitution.
 
 type VarLookup = (name: string) => string;
 
-    // Deterministic [0,1) keyed on a string: djb2 fold -> sfc32 PRNG (RisuAI pickHashRand analog). One shared source for macro rolls, @@probability, and group-order talkness.
+    // Deterministic [0,1) keyed on a string (djb2 fold into sfc32 PRNG); shared by macro rolls, @@probability, and group-order talkness.
 export function seededRand(key: string): number {
   let h = 5515;
   for (let i = 0; i < key.length; i++)

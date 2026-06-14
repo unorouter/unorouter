@@ -1,4 +1,4 @@
-    // CBS macro evaluator, full port of the RisuAI engine. App-coupled macros resolve to safe empty/passthrough server-side instead of leaking as literal {{...}}.
+    // CBS macro evaluator (full RisuAI port). App-coupled macros resolve to safe empties instead of leaking as literal {{...}}.
 
 import { calcString, seededRand } from "@/lib/ai/chat/calc";
 import { dayjs } from "@/lib/utils/format/date";
@@ -16,7 +16,7 @@ export type MacroScope = {
   globalVars?: Record<string, string>;
   // Per-assembly scratch store (settempvar/gettempvar). Never persisted.
   tempVars?: Record<string, string>;
-      // Newest last, for the {{history}}/{{lastmessage}} family. time is the message createdAt (unix ms) for the message_time/date/idle macros.
+      // Newest last, for the {{history}}/{{lastmessage}} family. time is createdAt (unix ms) for the message_time/date/idle macros.
   history?: {
     role: "user" | "assistant" | "system";
     text: string;
@@ -24,7 +24,7 @@ export type MacroScope = {
   }[];
   // Per-conv seed so roll/random/pick resolve identically across regenerates (RisuAI determinism).
   seed?: string;
-      // Browser environment (client-sent): screen size + locale-faithful time formatting. Absent in tokenize/fallback paths.
+      // Client-sent browser env: screen size + locale-faithful time formatting. Absent in tokenize/fallback paths.
   viewport?: { w: number; h: number };
   locale?: string;
   timeZone?: string;
@@ -36,7 +36,7 @@ export type MacroScope = {
   lorebooks?: unknown[]; // {{lorebook}}/{{worldinfo}} JSON reader
   triggerId?: string; // {{trigger_id}} when expanding inside a trigger
   prefillSupported?: boolean; // {{prefill_supported}}
-      // Index of the message being expanded (Risu chatID); undefined = field context so the message_time family returns the error strings.
+      // Index of the message being expanded (Risu chatID); undefined means field context, so message_time returns error strings.
   chatIndex?: number;
   // Introspection tokens; all optional so fallback assembly paths stay valid.
   model?: string; // {{model}} / metadata::modelname
@@ -51,7 +51,7 @@ export type MacroScope = {
 const MAX_RECURSION = 20;
 // Cap calc/{{?}} expression length so a pathological literal can't hang the eval.
 const MAX_CALC_LEN = 1000;
-    // Macros run server-side with card-authored args. Bound the allocation-driving ones so {{range::[0,1e9]}} or {{cbr::1e9}} can't OOM; 100k covers any legitimate use.
+    // Card-authored args run server-side; bound allocation-driving macros so {{range}}/{{cbr}} can't OOM. 100k covers any legitimate use.
 const MAX_MACRO_OUTPUT = 100_000;
 
 type ScopeField =
@@ -195,7 +195,7 @@ function trimLines(p1: string): string {
     .trim();
 }
 
-    // Risu risuEscape/risuUnescape: {}() to private-use chars; protects #escape content through later processing, un-mapped at request build.
+    // Risu risuEscape/risuUnescape: maps {}() to private-use chars to protect #escape content; un-mapped at request build.
 export function risuEscape(text: string): string {
   return text.replace(/[{}()]/g, (f) => {
     switch (f) {
@@ -230,7 +230,7 @@ function hmsPad(totalMs: number): string {
 const NO_TIME = "[Cannot get time]";
 const OLD_VERSION_TIME = "[Cannot get time, message was sent in older version]";
 
-    // toLocale* with the browser-sent locale + timeZone, which are client-controlled and only length-validated, so an invalid zone or tag throws RangeError; fall back to locale-default rendering instead of crashing assembly.
+    // toLocale* with the client-sent locale + timeZone; an invalid one throws RangeError, so fall back to locale-default instead of crashing assembly.
 function localeTime(ms: number, scope: MacroScope): string {
   try {
     return new Date(ms).toLocaleTimeString(scope.locale, {
@@ -758,7 +758,7 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
   }
 }
 
-    // Constant-result macros: literal escapes plus app-coupled tokens that resolve empty/"0" so they never leak to the model.
+    // Constant-result macros: literal escapes plus app-coupled tokens resolving empty so they never leak to the model.
 const LITERAL_MACROS: Record<string, string> = (() => {
   const out: Record<string, string> = {};
   const groups: [string, string[]][] = [
@@ -788,7 +788,7 @@ const LITERAL_MACROS: Record<string, string> = (() => {
   return out;
 })();
 
-    // {{#if cond}} or {{#when::...}}. #when is Risu's right-to-left stack evaluator: operators pop and push '1'/'0' so chains compose. keep/legacy pass through.
+    // {{#if cond}} or {{#when::...}}. #when is Risu's right-to-left stack evaluator: operators pop and push '1'/'0' so chains compose.
 function evalCondition(raw: string, scope: MacroScope): boolean {
   const t = raw.trim();
   if (t.startsWith("#if")) {
@@ -871,7 +871,7 @@ function evalCondition(raw: string, scope: MacroScope): boolean {
   return isTruthy(t);
 }
 
-    // Expand flat macros inside-out. Unknown macros are left verbatim by advancing a cursor past them so the loop always terminates.
+    // Expand flat macros inside-out. Unknown macros stay verbatim, cursor advances past them so the loop terminates.
 function expandFlat(text: string, scope: MacroScope): string {
   const inner = /\{\{((?:(?!\{\{|\}\}).)*?)\}\}/s;
   let guard = 0;
@@ -896,7 +896,7 @@ function expandFlat(text: string, scope: MacroScope): string {
   return text;
 }
 
-    // Block engine (Risu parser). Any {{/...}} closes the innermost open block (pops the stack by position, not by name). pure-ish bodies are captured raw.
+    // Block engine (Risu parser). Any {{/...}} closes the innermost open block (pops by position, not name). pure-ish bodies captured raw.
 const BLOCK_OPEN_RE =
   /\{\{#(if_pure|if|when|each|pure_display|puredisplay|pure|escape)\b/;
 
@@ -978,7 +978,7 @@ function applyWhenElse(body: string, truthy: boolean, keep: boolean): string {
   return keep ? result : trimLines(result);
 }
 
-    // Resolve the first block in text (which starts at the block opener). Returns null when malformed (caller emits verbatim).
+    // Resolve the first block in text (starts at the block opener). null when malformed (caller emits verbatim).
 function resolveFirstBlock(
   text: string,
   scope: MacroScope,

@@ -1102,7 +1102,7 @@ model: openai/YOUR_MODEL_ID`,
     ],
     gotchaKeys: ["DOCS.AIDER.GOTCHA_1", "DOCS.AIDER.GOTCHA_2"],
   },
-      // HARNESS: cc-switch keeps its deep-link installer; the others use OS-aware quickStart tabs. gemini-cli baseUrl is bare (SDK appends its path).
+      // HARNESS: cc-switch keeps its deep-link installer; others use OS-aware quickStart tabs.
   {
     slug: "cc-switch",
     href: { pathname: "/docs/[slug]", params: { slug: "cc-switch" } },

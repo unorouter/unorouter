@@ -37,7 +37,7 @@ export function SortableList<T extends { id: string }>(
     useSensor(PointerSensor, {
       activationConstraint: { distance: 4 },
     }),
-        // Touch: long-press to grab so a normal swipe still scrolls; without a dedicated TouchSensor the first move was read as scroll and drag never started.
+        // Touch: long-press to grab so a normal swipe still scrolls; without it the first move read as scroll.
     useSensor(TouchSensor, {
       activationConstraint: { delay: 200, tolerance: 6 },
     }),
@@ -103,7 +103,7 @@ function SortableRow(props: {
       {...sortable.listeners}
       // eslint-disable-next-line react-hooks/refs
       {...sortable.attributes}
-          // touch-none so the browser doesn't claim the gesture for scroll/zoom, else TouchSensor never sees the long-press.
+          // touch-none so the browser doesn't claim the gesture for scroll/zoom, else TouchSensor misses the long-press.
       className="text-muted-foreground hover:text-foreground flex size-6 shrink-0 cursor-grab touch-none items-center justify-center rounded transition active:cursor-grabbing"
       aria-label="Drag to reorder"
     >

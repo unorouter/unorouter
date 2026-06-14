@@ -52,7 +52,7 @@ function draftAtomFor(tab: GenerateTab) {
   return text2imgDraftAtom;
 }
 
-    // Owns the playground form: RHF instance + lifecycle effects (mode sync, seed restore, model-fallback guards, draft restore/autosave, snapshot restore).
+    // Owns the playground form: RHF instance + lifecycle effects (mode/seed sync, model-fallback guards, draft and snapshot restore).
 export function useGenerationForm() {
   const activeTab = useAtomValue(activeTabAtom);
   const activeSubPill = useAtomValue(activeSubPillAtom);
@@ -93,7 +93,7 @@ export function useGenerationForm() {
     const params = remembered
       ? { ...nextDesc.defaultParams, ...remembered }
       : { ...nextDesc.defaultParams };
-        // descriptor defaults type sampler/scheduler as string; the form's params union narrows them, safe since values come from the catalog.
+        // descriptor types sampler/scheduler as string; the params union narrows them, safe since values come from the catalog.
     form.setValue("params", params as GenerationFormValues["params"], {
       shouldDirty: true,
     });
@@ -195,7 +195,7 @@ export function useGenerationForm() {
     setDraftRef.current = setDraft;
   }, [setDraft]);
   useEffect(() => {
-        // watch's callback values are DeepPartial; read the full validated form state via getValues for the draft shape.
+        // watch's callback values are DeepPartial; read full validated state via getValues for the draft shape.
     const subscription = form.watch(() => {
       const timer = setTimeout(() => {
         const v = form.getValues();
