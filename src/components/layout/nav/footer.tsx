@@ -38,31 +38,37 @@ const FEATURED_BADGES = [
     href: "https://startupfa.me/s/unorouter?utm_source=unorouter.com",
     src: "https://startupfa.me/badges/featured/default.webp",
     alt: "UnoRouter - Featured on Startup Fame",
+    width: 76,
   },
   {
     href: "https://dang.ai",
     src: "https://assets.dang.ai/badges/dang-verified-dark.png",
     alt: "Verified on DANG!",
+    width: 67,
   },
   {
     href: "https://twelve.tools",
     src: "https://twelve.tools/badge0-dark.svg",
     alt: "Featured on Twelve Tools",
+    width: 89,
   },
   {
     href: "https://fazier.com",
     src: "https://fazier.com/api/v1//public/badges/launch_badges.svg?badge_type=featured&theme=neutral",
     alt: "Featured on Fazier",
+    width: 102,
   },
   {
     href: "https://code.market",
     src: "https://code.market/assets/manage-product/featured-logo-bright.svg",
     alt: "Featured on code.market",
+    width: 86,
   },
   {
     href: "https://showmebest.ai",
     src: "https://showmebest.ai/badge/feature-badge-white.webp",
     alt: "Featured on ShowMeBestAI",
+    width: 96,
   },
 ] as const;
 
@@ -235,9 +241,9 @@ export function Footer() {
               <img
                 src={badge.src}
                 alt={badge.alt}
+                width={badge.width}
                 height={24}
                 className="h-6 w-auto"
-                loading="lazy"
               />
             </NextLink>
           ))}
