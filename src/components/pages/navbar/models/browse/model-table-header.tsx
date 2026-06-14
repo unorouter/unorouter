@@ -42,7 +42,7 @@ export function ModelTableHeader(props: {
     <div
       className={cn(
         COLS,
-        "text-muted-foreground border-border items-center border-b px-3 py-2 font-mono text-xs",
+        "text-muted-foreground border-border items-center border-b px-1 py-2 font-mono text-xs lg:px-3",
       )}
     >
       {COLUMNS.map((col, i) => {

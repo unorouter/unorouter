@@ -79,16 +79,18 @@ export function ModelTableRow(props: {
       onClick={props.onClick}
       className={cn(
         MODEL_TABLE_COLS,
-        "border-border/50 hover:bg-muted/40 w-full border-b px-3 py-3 text-left transition-colors",
+        "border-border/50 hover:bg-muted/40 w-full border-b px-1 py-3 text-left transition-colors lg:px-3",
       )}
     >
-      <span className="flex min-w-0 items-center gap-2">
+      <span className="flex min-w-0 items-center gap-1.5">
         <VendorIcon vendor={model.vendor.name} size={18} />
-        <span className="truncate font-mono text-sm">{model.name}</span>
+        <span className="truncate font-mono text-xs lg:text-sm">
+          {model.name}
+        </span>
         {model.isFree && (
-          <span className="flex shrink-0 items-center gap-0.5 rounded bg-emerald-500/15 px-1.5 py-0.5 font-mono text-[10px] text-emerald-600 dark:text-emerald-400">
+          <span className="flex shrink-0 items-center gap-0.5 rounded bg-emerald-500/15 px-1 py-0.5 font-mono text-[10px] text-emerald-600 lg:px-1.5 dark:text-emerald-400">
             <Icon name="gift" className="h-3 w-3" />
-            {t("MODELS.TABLE.FREE")}
+            <span className="hidden lg:inline">{t("MODELS.TABLE.FREE")}</span>
           </span>
         )}
       </span>
