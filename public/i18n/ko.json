@@ -628,7 +628,7 @@
         "H_RP": "OpenRouter가 빠뜨린 부분",
         "P_RP": "코딩 에이전트(Claude Code, Cline, OpenCode, Kilo Code, Codex)를 {appName}로 향하게 하면 여느 OpenAI 호환 엔드포인트처럼 동작합니다. 하지만 같은 키는 페르소나, 로어북, 프리셋, SillyTavern 카드 가져오기를 갖춘 내장 채팅 및 캐릭터 클라이언트도 구동하며, SillyTavern, Janitor.AI, RisuAI, Chub에 바로 꽂힙니다. OpenRouter는 순전히 API 계층이라 모든 인터페이스는 당신이 직접 가져옵니다. {appName}는 인터페이스와 API를 함께 제공합니다.",
         "H_MIGRATE": "전환은 기본 URL 변경입니다",
-        "P_MIGRATE": "{appName}는 OpenAI 호환이므로 기존 앱을 옮기는 일은 한 줄입니다. 클라이언트를 <c>https://api.unorouter.ai/v1</c>로 향하게 하고 기존 코드를 그대로 두면 됩니다. 같은 키를 채팅 클라이언트의 사용자 지정 엔드포인트 칸에 붙여 넣으면 같은 카탈로그에 도달하므로 관리할 두 번째 계정이 없습니다.",
+        "P_MIGRATE": "{appName}는 OpenAI 호환이므로 기존 앱을 옮기는 일은 한 줄입니다. 클라이언트를 <c>https://api.unorouter.com/v1</c>로 향하게 하고 기존 코드를 그대로 두면 됩니다. 같은 키를 채팅 클라이언트의 사용자 지정 엔드포인트 칸에 붙여 넣으면 같은 카탈로그에 도달하므로 관리할 두 번째 계정이 없습니다.",
         "H_VERDICT": "무엇을 선택해야 하나",
         "P_VERDICT": "코드만 출시하고 인터페이스 없이 가장 넓은 카탈로그를 원한다면 OpenRouter가 좋은 기본값입니다. 추가 비용 없는 자체 호스팅 라우팅을 원한다면 LiteLLM이 이깁니다. 두 서비스를 운영하지 않고도 코딩 에이전트와 진짜 채팅 및 캐릭터 클라이언트에서 작동하는 하나의 키를 원한다면, 바로 그 공백을 {appName}가 채웁니다. 단일 승자는 없습니다. 순수한 API를 위해 최적화하느냐, API에 더해 사용할 곳을 위해 최적화하느냐에 달려 있습니다.",
         "CTA": "사용해 볼 준비가 되었나요? <register>무료 계정 만들기</register> 또는 <models>모델 둘러보기</models>."
