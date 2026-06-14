@@ -1,6 +1,6 @@
 "use client";
 
-    // Render cache for {{inlay::<mediaId>}} tokens: media rows resolve to a data URI once, then preprocess swaps tokens synchronously. inlayVersionAtom bumps on async load.
+    // Render cache for {{inlay::<mediaId>}} tokens: media rows resolve to a data URI once, then preprocess swaps tokens. inlayVersionAtom bumps on load.
 
 import { chatStore } from "@/store/chat-store";
 import { atom } from "jotai";

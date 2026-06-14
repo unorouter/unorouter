@@ -79,7 +79,7 @@ const TURN_BASED_MAIN_PROMPT = `1. This is a turn-based role-play. You play the 
 
 5. Use italics in markdown for non-dialogue narration.`;
 
-    // Clean in-character reminder (NOT Risu's jailbreak); rides postHistory so it lands after the chat as a final instruction.
+    // Clean in-character reminder (NOT Risu's jailbreak); rides postHistory so it lands after the chat.
 const IN_CHARACTER_POST_HISTORY = `[Stay fully in character. Never write or speak for {{user}}. Keep the scene moving and leave room for {{user}}'s next action.]`;
 
 export const STARTER_PRESETS: StarterPreset[] = [

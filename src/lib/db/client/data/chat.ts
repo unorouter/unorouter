@@ -151,7 +151,7 @@ export async function readConvRegexScripts(
   return parseRegexScripts(ch?.regexScripts);
 }
 
-    // Primary character's parsed trigger scripts; the history adapter runs output-mode triggers with them after a reply.
+    // Primary character's parsed trigger scripts; the history adapter runs output-mode triggers with them after reply.
 export async function readConvTriggers(
   userId: number | undefined,
   convId: string,
@@ -305,7 +305,7 @@ export const upsertLocalConversationSettings = (
   return conversationStore.upsert(userId, next);
 };
 
-    // Settings-only patch on an existing conversation row, never creates it. Avoids the upsert NOT NULL trip when a partial omits default_model.
+    // Settings-only patch on an existing conversation row, never creates it. Avoids the upsert NOT NULL trip on a partial.
 export const updateLocalConversationSettings = (
   userId: number | undefined,
   row: LocalRowInput & { convId: string },
@@ -475,7 +475,7 @@ export async function upsertLocalConversationBundle(
     await local.db.insert(messageItems).values(it as never);
   }
 
-      // Deletion propagation: a local message absent from the bundle was deleted remotely, UNLESS newer than the conv stamp (local-only, unpushed). Items cascade.
+      // Deletion propagation: a local message absent from the bundle was deleted remotely, UNLESS newer than the conv stamp. Items cascade.
   const remoteConvStamp = bundle.conversation.updatedAt
     ? new Date(
         bundle.conversation.updatedAt as Date | number | string,
@@ -492,7 +492,7 @@ export async function upsertLocalConversationBundle(
     await local.db.delete(messages).where(inArray(messages.id, staleMsgIds));
   }
 
-      // Same for bindings: joins absent from the bundle were unbound remotely. createdAt guards local-only bindings made after.
+      // Same for bindings: joins absent from the bundle were unbound remotely. createdAt guards local-only bindings.
   const remoteCharIds = new Set(
     bundle.conversationCharacters.map((c) => c.characterId as string),
   );

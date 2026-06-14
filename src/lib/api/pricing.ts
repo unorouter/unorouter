@@ -129,7 +129,7 @@ function processModels(response: PricingData) {
         fixedPrice = model.model_price ?? 0;
         isFreeStrict = fixedPrice === 0;
       } else if (isTiered) {
-            // Tiered: ratios ignored. Cards show the cheapest tier's input/output as a "from" price; the full table is on the detail page.
+            // Tiered: ratios ignored. Cards show the cheapest tier's input/output as a "from" price; full table on the detail page.
         const minRatio = computeMinGroupRatio(
           model.enable_groups ?? [],
           groupRatio,
@@ -159,7 +159,7 @@ function processModels(response: PricingData) {
         inputPrice = (model.model_ratio ?? 0) * 2 * minRatio;
         outputPrice = inputPrice * (model.completion_ratio ?? 0);
 
-            // Mirror new-api-sync isGroupPriceZero: reachable-free when any enabled group prices at 0. Guests have 0 balance, so auto-routing lands on the free group.
+            // Mirror new-api-sync isGroupPriceZero: reachable-free when any enabled group prices at 0. Guests auto-route to the free group.
         const modelRatio = model.model_ratio ?? 0;
         const modelPriceVal = model.model_price ?? 0;
         const groupIsFree = (g: string) =>
@@ -210,7 +210,7 @@ function processModels(response: PricingData) {
         enableGroups: model.enable_groups ?? [],
         originalInputPrice,
         originalOutputPrice,
-            // Fallback release date (new-api created_time, unix seconds); the Orval type lags the field, so read it defensively.
+            // Fallback release date (new-api created_time, unix seconds); the Orval type lags it, so read defensively.
         createdTime: (model as { created_time?: number }).created_time ?? null,
         metadata: parseModelMetadata(model.metadata),
       };

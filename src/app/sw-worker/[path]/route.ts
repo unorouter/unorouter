@@ -14,7 +14,7 @@ const buildId = (() => {
   }
 })();
 
-    // Serwist serves the SW at /sw-worker/<path>; GET sets Service-Worker-Allowed for root scope. Moved off /serwist after a deploy poisoned the CF cache.
+    // Serwist serves the SW at /sw-worker/<path>; GET sets Service-Worker-Allowed for root scope. Off /serwist after a CF cache poison.
 const serwistRoute = createSerwistRoute({
   swSrc: path.resolve(process.cwd(), "src/app/sw.ts"),
   // Native esbuild (transitive dep); esbuild-wasm is not installed.
@@ -25,6 +25,6 @@ const serwistRoute = createSerwistRoute({
   additionalPrecacheEntries: [{ url: "/en/offline", revision: buildId }],
 });
 
-    // Keep the factory's full config: GET reads a manifest from generateStaticParams. no-cache header on /sw-worker/* overrides force-static s-maxage.
+    // Keep the factory's full config: GET reads a manifest from generateStaticParams. no-cache on /sw-worker/* overrides force-static.
 export const { dynamic, dynamicParams, revalidate, generateStaticParams, GET } =
   serwistRoute;

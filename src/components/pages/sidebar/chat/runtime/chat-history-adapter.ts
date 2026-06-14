@@ -131,7 +131,7 @@ export function createChatHistoryAdapter(
           if (!id) return;
 
           const messageId = formatAdapter.getId(item.message);
-              // Idempotency guard: re-appending an already-persisted message would re-parent it and cycle the branch tree.
+              // Idempotency guard: re-appending a persisted message would re-parent it and cycle the branch tree.
           {
             const existingRows = (await readLocalMessages(userId, id)) ?? [];
             if (existingRows.some((m) => m.id === messageId)) return;
@@ -157,7 +157,7 @@ export function createChatHistoryAdapter(
                 // Output-mode triggers run after the assistant reply; their var mutations persist to conversation vars.
             const triggers = await readConvTriggers(userId, id);
             if (triggers.length > 0) {
-                  // Lua listenEdit('editOutput') transforms the reply text first (Risu order: edit pipeline then triggers).
+                  // Lua listenEdit('editOutput') transforms the reply text first (Risu order: edits then triggers).
               const { extractLuaCodes, runLuaEditTrigger } =
                 await import("@/lib/ai/chat/triggers/lua/engine");
               const luaCodes = extractLuaCodes(triggers);
@@ -192,7 +192,7 @@ export function createChatHistoryAdapter(
             content.role === "assistant" ? chatStore.get(chatModelAtom) : null;
 
           if (content.role === "assistant") {
-                // Failed run: persist the attempt as an error node so partial text survives. 30s window scopes the atom to the errored run.
+                // Failed run: persist the attempt as an error node so partial text survives. 30s window scopes the atom.
             const streamError = chatStore.get(lastStreamErrorAtom);
             // Media handlers already emit a `data-error` part; don't double up.
             const hasErrorItem = items.some((it) => it.type === "error");
@@ -241,7 +241,7 @@ export function createChatHistoryAdapter(
             chatStore.set(globalVarsAtom, metadata.globalVars);
           }
 
-              // Multi-character rotation: stamp who spoke. Prefer finish-frame metadata (race-free); the atom read is the fallback.
+              // Multi-character rotation: stamp who spoke. Prefer finish-frame metadata; the atom read is the fallback.
           const speakingCharId =
             content.role === "assistant"
               ? (metadata?.speakingCharacterId ??
@@ -321,7 +321,7 @@ export function createChatHistoryAdapter(
             queryClient.invalidateQueries({
               queryKey: queryKeys.requestLog(messageId),
             });
-                // Pull new-api's authoritative cost/tokens/channel once the upstream log lands. Queued so a reload still resolves it.
+                // Pull new-api's authoritative cost/tokens/channel once the log lands. Queued so a reload still resolves it.
             const reqId = (logRow as { requestId?: string | null }).requestId;
             if (reqId) {
               await enqueueLogEnrich(userId, messageId, reqId);
@@ -341,7 +341,7 @@ export function createChatHistoryAdapter(
               (convForTotals?.totalOutputTokens ?? 0) +
               (usage?.outputTokens ?? 0),
             totalCost: (convForTotals?.totalCost ?? 0) + (usage?.cost ?? 0),
-                // Persist chat-variable writeback when the stream reported a change; null leaves the stored value as-is.
+                // Persist chat-variable writeback when the stream reported a change; null keeps the stored value.
             ...(varsWriteback != null ? { vars: varsWriteback } : {}),
             // Persist rolling-summary memory update.
             ...(metadata?.summary
@@ -368,7 +368,7 @@ export function createChatHistoryAdapter(
   };
 }
 
-    // Output-mode triggers after a reply: var mutations persist to the conv var store; other mutations use their own CRUD paths.
+    // Output-mode triggers after a reply: var mutations persist to the conv var store; others use their own CRUD paths.
 async function runOutputTriggers(
   userId: number,
   convId: string,
@@ -399,7 +399,7 @@ async function runOutputTriggers(
     chat: [{ role: "assistant", data: replyText }],
     ops: makeClientTriggerOps(userId),
   });
-      // triggerlua runs against this context; lazy import keeps wasmoon (~1MB) off the chat bundle until a Lua trigger fires.
+      // triggerlua runs against this context; lazy import keeps wasmoon off the chat bundle until a Lua trigger fires.
   ctx.ops = {
     ...ctx.ops,
     runLua: async (code) => {

@@ -128,7 +128,7 @@ const VENDORS = [
 
 const BASE = "#070409";
 
-    // Glow spot: horizontal linearGradient clipped by a radialGradient mask into a soft blob so spots stack over the base. cx/cy = center %, rx/ry = radius %, of the canvas.
+    // Glow spot: horizontal linearGradient masked by a radialGradient into a soft blob. cx/cy are center %, rx/ry radius %, of the canvas.
 function spotSvg(
   id: string,
   cx: number,
@@ -171,7 +171,7 @@ function spotSvg(
   return { def, shape };
 }
 
-    // Black base + three two-color glow spots reading as a 6-color rainbow sweep. Layout differs by shape: grid spreads spots across the canvas; strip clusters tight spots behind the icon row with radii sized off height so they stay round.
+    // Black base + three glow spots reading as a rainbow sweep. grid spreads spots across the canvas; strip clusters them behind the icon row.
 function bgSvg(
   W: number,
   H: number,
@@ -251,11 +251,11 @@ function bgSvg(
 const RAINBOW =
   "linear-gradient(90deg, #ff2d55 0%, #ff8a00 18%, #ffd60a 34%, #34c759 52%, #00c7be 66%, #0a84ff 82%, #bf5af2 100%)";
 
-    // Black/currentColor-only brands read as invisible on the dark grid: force white. True multi-color logos keep their brand fills.
+    // Black/currentColor-only brands are invisible on the dark grid: force white. Multi-color logos keep their brand fills.
 const NEUTRAL_FILLS = ["#000", "#000000", "#fff", "#ffffff"];
 
 function prepIconSvg(svg: string): string {
-      // lobe ships some color variants with a malformed 4-digit white (#ffff) that satori renders transparent; normalize before anything else.
+      // lobe ships some variants with a malformed 4-digit white (#ffff) that satori renders transparent; normalize first.
   const normalized = svg.replace(
     /(fill[="':\s]+)#ffff(?![0-9a-fA-F])/gi,
     "$1#ffffff",
@@ -274,7 +274,7 @@ function prepIconSvg(svg: string): string {
   return whiten(normalized);
 }
 
-    // Recolor a mono logo to white. Root fill is replaced OR injected, never both: resvg rejects "Attribute fill redefined" and the cell goes blank.
+    // Recolor a mono logo to white. Root fill is replaced OR injected, never both, or resvg rejects "fill redefined" and the cell goes blank.
 function whiten(svg: string): string {
   const recolored = svg
     .replace(/fill="currentColor"/g, `fill="#ffffff"`)

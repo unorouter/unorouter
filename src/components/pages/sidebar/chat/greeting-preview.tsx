@@ -12,7 +12,7 @@ import { useAtom, useAtomValue } from "jotai";
 export function GreetingPreview() {
   const loadout = useAtomValue(chatLoadoutAtom);
   const [index, setIndex] = useAtom(greetingIndexAtom);
-      // List query (hydrator-seeded), not the item query: the item fetch can race auth hydration and cache a guest-DB miss.
+      // List query (hydrator-seeded), not the item query: the item fetch can race auth and cache a guest-DB miss.
   const charactersQuery = useCharactersQuery();
   const personaQuery = usePersonaQuery(loadout.personaId ?? undefined);
 

@@ -202,7 +202,7 @@ async function readBodyWithLimit(res: UndiciResponse): Promise<Buffer> {
   return Buffer.concat(chunks);
 }
 
-    // SSRF-safe fetch for caller-supplied URLs: full allowlist (CIDR/DNS, redirect:manual, port/protocol) and a byte cap. Returns body + content-type.
+    // SSRF-safe fetch for caller-supplied URLs: full allowlist (CIDR/DNS, redirect:manual, port/protocol) + byte cap. Returns body + type.
 export async function safeFetchBytes(
   url: string,
   maxBytes: number,
@@ -296,7 +296,7 @@ export async function pingR2(): Promise<boolean> {
   }
 }
 
-    // Hard ceiling on any single R2 object. Downloads cap via safeFetchBytes, but direct multipart uploads reach uploadToR2 uncapped, so cap here too.
+    // Hard ceiling on any single R2 object. Downloads cap via safeFetchBytes; direct multipart uploads reach uploadToR2, so cap here too.
 const MAX_UPLOAD_BYTES = 50 * 1024 * 1024;
 
 export async function uploadToR2(
@@ -394,7 +394,7 @@ async function putMedia(
   await assertUserQuota(owner.userId, buffer.length);
   const key = mediaKey(owner.scope, convId, msgId, uid(8));
   const { url } = await uploadToR2(key, buffer, declaredCt);
-      // Media rows live in client SQLocal only; the server records none here (R2 holds bytes, the local DB holds the row).
+      // Media rows live in client SQLocal only; the server records none here (R2 holds bytes, local DB holds the row).
   return url;
 }
 
@@ -472,7 +472,7 @@ export async function downloadGenerationBytes(
   };
 }
 
-    // Refs are scratch images outside the media table and never swept, so a guest could write unbounded objects. Cap per user: drop the oldest beyond MAX_REF_OBJECTS.
+    // Refs are scratch images outside the media table and never swept, so a guest could write unbounded objects. Cap per user, drop the oldest.
 const MAX_REF_OBJECTS = 20;
 
 async function pruneRefObjects(userId: number): Promise<void> {

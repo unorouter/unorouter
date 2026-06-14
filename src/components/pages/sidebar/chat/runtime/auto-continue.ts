@@ -8,7 +8,7 @@ import { chatStore, speakingCharacterIdAtom } from "@/store/chat-store";
 const autoContinueDepth = new Map<string, number>();
 const MAX_AUTO_CONTINUE = 3;
 
-    // RisuAI isLastCharPunctuation port: broad set (incl. * and ~) plus U+02B0-02FF; a narrow set causes spurious auto-continues.
+    // RisuAI isLastCharPunctuation port: broad set plus U+02B0-02FF; a narrow set causes spurious auto-continues.
 const TERMINAL_PUNCTUATION = new Set([
   ".",
   "!",
@@ -73,7 +73,7 @@ export async function maybeAutoContinue(
   userId: number | undefined,
 ): Promise<void> {
   if (!remoteId) return;
-      // Don't auto-continue mid-rotation: the multi-character loop drives its own sends and clears the speaking atom when done.
+      // Don't auto-continue mid-rotation: the multi-character loop drives its own sends and clears the atom when done.
   if (chatStore.get(speakingCharacterIdAtom) != null) return;
   const text = message.parts
     .filter((p) => p.type === "text")

@@ -35,7 +35,7 @@ export type ApiMessage = {
   [key: string]: unknown;
 };
 
-    // Joins messages + items, walks the parentId chain from active tip to root; returns the active-branch path plus the tip id.
+    // Joins messages + items, walks the parentId chain from active tip to root; returns the active-branch path + tip id.
 export function walkActiveBranch<
   M extends {
     id: string;
@@ -175,7 +175,7 @@ export function itemsToParts(items: ApiMessage["items"]): MessagePart[] {
         });
         break;
       case "error":
-            // Failed attempt persisted as a node so the error survives refresh. Never sent upstream (data-error is stripped).
+            // Failed attempt persisted as a node so the error survives refresh. Never sent upstream (data-error stripped).
         parts.push({
           type: "data-error",
           data: {

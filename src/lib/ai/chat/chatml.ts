@@ -1,4 +1,4 @@
-    // RisuAI parseChatML port: <|im_start|> blocks into role-tagged messages. null when input isn't ChatML, so callers fall back to a plain prompt.
+    // RisuAI parseChatML port: <|im_start|> blocks into role-tagged messages. null when input isn't ChatML.
 
 export type ChatMLMessage = {
   role: "system" | "user" | "assistant";

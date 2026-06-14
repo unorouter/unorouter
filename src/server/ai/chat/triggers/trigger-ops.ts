@@ -1,4 +1,4 @@
-    // Server-side TriggerOps for the V1 lowLevelAccess effects: direct service calls (the client modes go through POST /chat/trigger-op instead).
+    // Server-side TriggerOps for V1 lowLevelAccess effects: direct service calls (client modes POST /chat/trigger-op instead).
 
 import { parseChatML } from "@/lib/ai/chat/chatml";
 import { generateInlayImage, type InlayImage } from "../media/inlay.service";
@@ -51,7 +51,7 @@ export async function runTriggerSimilarity(
 export function makeServerTriggerOps(
   apiKey: string,
   model: string,
-      // Generated inlay bytes collect here; they ride finish-meta so the CLIENT persists the media rows (local-first asymmetric-base64 rule).
+      // Generated inlay bytes collect here; they ride finish-meta so the client persists the media rows.
   inlayCollector?: InlayImage[],
 ): TriggerOps {
   return {

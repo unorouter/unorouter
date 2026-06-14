@@ -30,7 +30,7 @@ export const logsRoute = new Elysia({ prefix: "/logs" })
     { query: logsQuery },
   )
 
-      // Authoritative upstream record for one already-owned request_id (real quota, tokens, channel, latency) the BFF can only estimate at stream time. Uses getAllLogs (the admin path) since getUserLogs blanks channel_name; ADMIN_HEADERS authorizes it, pinned to the caller's own request_id so no other user's data leaks.
+      // Authoritative upstream record for one owned request_id the BFF can only estimate at stream time. Pinned to the caller's request_id so no data leaks.
   .get(
     "/by-request",
     async ({ query }) => {

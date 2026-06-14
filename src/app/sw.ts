@@ -122,7 +122,7 @@ self.addEventListener("activate", (event) => {
   );
 });
 
-    // Passthrough before serwist: keep cross-origin and OPFS worker/wasm/sqlocal on native fetch, avoiding COEP opaque caches and SAB stalls.
+    // Passthrough before serwist: cross-origin and OPFS requests stay on native fetch, avoiding COEP opaque caches.
 self.addEventListener("fetch", (event) => {
   const url = new URL(event.request.url);
   if (

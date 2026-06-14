@@ -22,7 +22,7 @@ type SubscribeOptions = {
   isLoggedIn?: boolean;
 };
 
-    // Routes payments via paymentMethodAtom: card prefers Stripe over Creem when both enabled, crypto goes to NowPayments.
+    // Routes payments via paymentMethodAtom: card prefers Stripe over Creem when both on, crypto goes to NowPayments.
 export function useBillingActions() {
   const t = useTranslations();
   const topUpInfoQuery = useTopUpInfoQuery();
@@ -55,7 +55,7 @@ export function useBillingActions() {
     creemTopUpMutation.isPending ||
     nowPaymentsTopUpMutation.isPending;
 
-      // Auto-flip the atom when the selected method is unavailable, once topupInfo lands and the persisted choice is stale.
+      // Auto-flip the atom when the selected method is unavailable, once topupInfo lands and the choice is stale.
   useEffect(() => {
     if (!topUpInfo) return;
     if (paymentMethod === "card" && !enableCard && enableCrypto) {
