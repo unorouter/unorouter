@@ -1,4 +1,4 @@
-    // Inlay image generation (Risu runImgGen): one image via the first image-capable catalog model, returned as base64 for client persistence.
+    // Inlay image generation (Risu runImgGen): one image via the first image-capable catalog model, returned as base64.
 
 import { chooseEndpoint } from "@/lib/ai/playground/models-dynamic";
 import { getPricingSummary } from "@/lib/api/pricing-cache";

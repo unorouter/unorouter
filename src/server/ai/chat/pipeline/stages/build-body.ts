@@ -1,4 +1,4 @@
-    // Stage 5: derive streamText params, provider options, and per-model wire mutations, plus var writebacks and the request-log snapshot.
+    // Stage 5: derive streamText params, provider options, per-model wire mutations, var writebacks, and the request-log snapshot.
 
 import type { ProcessedModel } from "@/lib/api/pricing";
 import type { AssembledSystem } from "../../prompt/assembler.service";
@@ -34,7 +34,7 @@ export function buildProviderOptions(
   autoFlags: AutoFlags,
   modelInfo: ProcessedModel | undefined,
 ) {
-      // extraBody is free-form user JSON; a max_tokens key would override the clamped free cap, so strip token-limit keys for free models.
+      // extraBody is free-form user JSON; a max_tokens key would override the clamped free cap, so strip token-limit keys for free.
   const safeExtraBody =
     modelInfo?.isFree && assembled.extraBody
       ? Object.fromEntries(
@@ -59,7 +59,7 @@ export function buildProviderOptions(
         top_a: assembled.sampling.topA,
         repetition_penalty: assembled.sampling.repetitionPenalty,
         reasoning_effort: assembled.reasoningEffort,
-            // Gemini-only: threshold=OFF (stronger than BLOCK_NONE), no-op elsewhere. Thinking-exp variants exclude CIVIC_INTEGRITY.
+            // Gemini-only: threshold=OFF (stronger than BLOCK_NONE), no-op elsewhere. Thinking-exp drops CIVIC_INTEGRITY.
         safetySettings: assembled.flags.geminiBlockOff
           ? autoFlags.noCivilIntegrity
             ? GEMINI_SAFETY_OFF.filter(
@@ -74,7 +74,7 @@ export function buildProviderOptions(
   };
 }
 
-    // Per-model wire-body rewrites (Risu LLMFlags mutations). deepseek accepts low/medium/high; claude adaptive only fires on high/xhigh.
+    // Per-model wire-body rewrites (Risu LLMFlags mutations). deepseek accepts low/medium/high; claude adaptive fires on high/xhigh.
 export function buildBodyMutations(
   assembled: AssembledSystem,
   autoFlags: AutoFlags,
@@ -114,7 +114,7 @@ export function buildBodyMutations(
   };
 }
 
-    // Chat-var writeback rides finish metadata; the server is read-only on conv state, the client persists. Null when unchanged.
+    // Chat-var writeback rides finish metadata; the server is read-only on conv state, the client persists. Null if unchanged.
 export function buildWritebacks(
   assembled: AssembledSystem,
   storedVars: string | null | undefined,

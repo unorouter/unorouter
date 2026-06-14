@@ -58,11 +58,11 @@ export type ChatMessageMetadata = {
   usage?: MessageUsage;
   droppedParams?: string;
   debug?: RequestLogPayload;
-      // Serialized chat-variable map, emitted when setvar/addvar changed it. The history adapter persists it to conversation vars.
+      // Serialized chat-variable map, emitted when setvar/addvar changed it. The history adapter persists it to conv vars.
   vars?: string;
-      // Serialized per-user global-variable map (setglobalvar). The history adapter persists it to the global-var store.
+      // Serialized per-user global-variable map (setglobalvar). The history adapter persists it to the global store.
   globalVars?: string;
-      // Rolling-summary update: the running summary + how many leading messages it covers. Persisted to summaryMemory/anchor.
+      // Rolling-summary update: the running summary + how many leading messages it covers. Persisted to summaryMemory.
   summary?: { summary: string; anchor: number };
       // runImgGen inlay bytes generated server-side; the adapter persists them as local media rows for {{inlay::id}}.
   inlayMedia?: {
@@ -71,7 +71,7 @@ export type ChatMessageMetadata = {
     mimeType: string;
     sizeBytes: number;
   }[];
-      // Which character spoke (multi-character rotation). Rides the finish frame since the loop clears the speaking atom before persist.
+      // Which character spoke (multi-character rotation). Rides the finish frame since the loop clears the atom before persist.
   speakingCharacterId?: string;
 };
 

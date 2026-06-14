@@ -59,7 +59,7 @@ export async function runMigrations(sql: SQLocalDrizzle): Promise<void> {
     `;
   }
 
-      // Self-heal baseline drift: compare each table's stored DDL to the manifest and rebuild drifted tables. Runs every load, no-op when identical.
+      // Self-heal baseline drift: compare each table's stored DDL to the manifest and rebuild drifted tables. Every load, no-op if identical.
   await reconcileSchema(sql, migrations);
 }
 
@@ -97,11 +97,11 @@ type TableDdl = {
 
 const colName = (def: string) => def.match(/^`([^`]+)`/)?.[1] ?? "";
 
-    // Column defs first, constraints last: ALTER ADD must fold the new column in before constraint lines; appending after a PRIMARY KEY is a syntax error.
+    // Column defs first, constraints last: ALTER ADD must fold the new column in before constraint lines; after a PRIMARY KEY is a syntax error.
 const buildCreate = (t: TableDdl) =>
   `CREATE TABLE \`${t.name}\` (\n\t${[...t.colDefs, ...t.constraints].join(",\n\t")}\n)`;
 
-    // Effective DDL per table from the manifest: later CREATE wins, ALTER ADD/DROP COLUMN folds in like SQLite's sqlite_master rewrite.
+    // Effective DDL per table from the manifest: later CREATE wins, ALTER ADD/DROP COLUMN folds in like SQLite's rewrite.
 function parseManifestDdl(
   migrations: MigrationManifest["migrations"],
 ): Map<string, TableDdl> {
@@ -137,7 +137,7 @@ function parseManifestDdl(
     }
     m = stmt.match(/^ALTER TABLE\s+`([^`]+)`\s+RENAME TO\s+`([^`]+)`/);
     if (m) {
-          // drizzle's table-rebuild migrations (CREATE __new_x, copy, DROP x, RENAME): mirror the rename so the expected DDL lands under the final name.
+          // drizzle's table-rebuild migrations (CREATE __new_x, copy, DROP x, RENAME): mirror the rename so the DDL lands under the final name.
       const t = tables.get(m[1]);
       if (t) {
         tables.delete(m[1]);
@@ -188,7 +188,7 @@ async function reconcileSchema(
     // Absent tables were just created by the migration replay above.
     if (!current || normDdl(current) === normDdl(create)) continue;
 
-        // Rebuild (SQLite 12-step): new table from manifest DDL, copy the column intersection with OR IGNORE, swap, recreate indexes.
+        // Rebuild (SQLite 12-step): new table from manifest DDL, copy the column intersection, swap, recreate indexes.
     if (!fkOff) {
       await sql.sql`PRAGMA foreign_keys = OFF`;
       fkOff = true;

@@ -1,4 +1,4 @@
-    // Schema-free sync constants needed at first paint; importing from sync.ts dragged ~110KB of TypeBox into every load.
+    // Schema-free sync constants needed at first paint; importing from sync.ts dragged TypeBox into every load.
 
 export const SYNC_KINDS = [
   "characters",

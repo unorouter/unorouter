@@ -11,7 +11,7 @@ function stripComments(text: string): string {
     .replace(/\{\{comment:(.+?)\}\}/g, "");
 }
 
-    // Compiled-key cache: big lorebooks re-test the same keys every turn. null is an invalid pattern, cached so it isn't re-tried.
+    // Compiled-key cache: big lorebooks re-test the same keys every turn. null is an invalid pattern, cached so it isn't retried.
 const KEY_RE_CACHE = new Map<string, RegExp | null>();
 function compiledKey(cacheKey: string, build: () => RegExp): RegExp | null {
   let re = KEY_RE_CACHE.get(cacheKey);
@@ -74,7 +74,7 @@ export type LorebookPlacement =
   | "personality"
   | "scenario";
 
-    // Per-entry overrides parsed from @@decorator lines atop an entry's content; those lines are stripped from the body.
+    // Per-entry overrides parsed from @@decorator lines atop an entry's content; those lines are stripped from body.
 export type EntryDecorators = {
   body: string;
   probability?: number;
@@ -339,7 +339,7 @@ export function selectLorebookEntries(
   const vars = opts.vars;
   const rollSeed = opts.seed ?? String(chatLength);
 
-      // Single global pool (RisuAI fullLore): one priority ranking, one token budget, one recursion namespace. Per-book scanDepth applies to matching only.
+      // Single global pool (RisuAI fullLore): one priority ranking, one token budget, one recursion namespace. Per-book scanDepth only for matching.
   const globalBudget = Math.max(
     ...[...books.values()].map((b) => b.tokenBudget ?? 1500),
     1500,
@@ -415,7 +415,7 @@ export function selectLorebookEntries(
       if (vars && p.dec.dontActivateAfterMatch) vars[daKey(id)] = "true";
     }
     if (added === 0 || !globalRecursive) break;
-        // Append, not replace, so original chat keys still match on later passes. @@unrecursive keeps an entry out of the recursion text.
+        // Append, not replace, so original chat keys still match later. @@unrecursive keeps an entry out of the recursion text.
     recursiveText = accepted
       .filter((p) => p.dec.recursive !== false)
       .map((p) => p.dec.body)
@@ -432,7 +432,7 @@ export function selectLorebookEntries(
     return true;
   });
 
-      // @@inject_* entries splice their body into a target entry (matched by comment/name) and drop out of the normal flow.
+      // @@inject_* entries splice their body into a target entry (matched by comment/name) and drop out of normal flow.
   const injectors = survived.filter((p) => p.dec.inject);
   const placed = survived.filter((p) => !p.dec.inject);
   for (const inj of injectors) {
@@ -450,7 +450,7 @@ export function selectLorebookEntries(
       );
   }
 
-      // Sort by book binding order, then entry orderIndex, then priority. Without the book rank, books sharing a position interleave and scramble each block.
+      // Sort by book binding order, then entry orderIndex, then priority. Without the book rank, books sharing a position interleave.
   const bookRank = new Map([...books.keys()].map((id, i) => [id, i]));
   placed.sort(
     (a, b) =>
@@ -468,7 +468,7 @@ export function selectLorebookEntries(
   }));
 }
 
-    // Map RisuAI-only placement names onto the nearest stored slot so decorator placement works without widening the enum.
+    // Map RisuAI-only placement names onto the nearest stored slot so decorator placement works without widening enum.
 function toStoredPosition(pos: LorebookPlacement): LbEntry["position"] {
   switch (pos) {
     case "before_desc":

@@ -6,7 +6,7 @@ import { and, asc, eq, isNull, lte, or } from "drizzle-orm";
 import { getLocalDb } from "../../client";
 import { enrichRequestLogFromUpstream } from "../log-enrich";
 
-    // Outbox for ONE deferred task: logEnrich. After a stream settles, pull new-api's authoritative cost/tokens/channel and patch the local request_logs row. A not-yet-logged result throws to ride the backoff.
+    // Outbox for ONE deferred task: logEnrich. Patches the local request_logs row with new-api's authoritative cost/tokens/channel.
 
 const MAX_ATTEMPTS = 5;
 // Backoff ms by failure count; index 0 = no prior failure, drain immediately.
@@ -17,7 +17,7 @@ const backoff = (attempts: number) =>
     // logEnrich has no entity scope; the PK needs a non-null kind so it stores "". Only place that sentinel exists.
 const KIND = "";
 
-    // Enqueue a log enrichment for a finished message. Idempotent per msgId: a repeat resets backoff and bumps seq so an in-flight drain keeps the row.
+    // Enqueue a log enrichment for a finished message. Idempotent per msgId: a repeat resets backoff and bumps seq so a drain keeps the row.
 export async function enqueueLogEnrich(
   userId: number,
   msgId: string,
@@ -129,7 +129,7 @@ async function drainPending(userId: number): Promise<void> {
   }
 }
 
-    // In-tab single-flight: overlapping triggers share one drain instead of racing the transactionMutex. No cross-tab lock; a duplicate enrich is harmless.
+    // In-tab single-flight: overlapping triggers share one drain instead of racing the transactionMutex. No cross-tab lock; a dup enrich is harmless.
 const inFlight = new Map<number, Promise<void>>();
 
 export function drain(userId: number): Promise<void> {
