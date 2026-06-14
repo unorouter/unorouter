@@ -188,8 +188,7 @@ export function useChatTransport() {
       },
     }),
   );
-  // Built once in a ref; the body callback reads live state from the store, so
-  // returning current at render is safe.
+  // Built once in a ref; the body callback reads live state from the store, so returning current at render is safe.
   // eslint-disable-next-line react-hooks/refs -- stable transport built once
   return transportRef.current;
 }
