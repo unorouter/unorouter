@@ -74,6 +74,9 @@ export const VENDOR_LOADERS: Partial<Record<Vendor, IconLoader>> = {
     import("@/components/elements/brand/thedrummer-icon"),
   [Vendor.PFNET]: () => import("@/components/elements/brand/pfnet-icon"),
   [Vendor.NEXAGI]: () => import("@/components/elements/brand/nexagi-icon"),
+  [Vendor.AISINGAPORE]: () =>
+    import("@/components/elements/brand/aisingapore-icon"),
+  [Vendor.POLLINATIONS]: () => import("@lobehub/icons/es/Pollinations"),
   [Vendor.HUNYUAN]: () => import("@lobehub/icons/es/Hunyuan"),
   [Vendor.INCLUSIONAI]: () => import("@lobehub/icons/es/AntGroup"),
   [Vendor.JINA]: () => import("@lobehub/icons/es/Jina"),
