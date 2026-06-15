@@ -2396,7 +2396,9 @@
       "IP_WHITELIST_PLACEHOLDER": "Mỗi IP một dòng. Để trống để không giới hạn.",
       "IP_WHITELIST_DESC": "IP có thể bị giả mạo. Dùng kèm gateway để có hiệu lực mạnh hơn.",
       "SUBMIT": "Tạo",
-      "SAVE": "Lưu"
+      "SAVE": "Lưu",
+      "QUOTA_FREE_ONLY_HINT": "$0 tạo khóa chỉ dùng cho mô hình miễn phí. Mô hình trả phí sẽ bị từ chối.",
+      "QUOTA_EQUIVALENT": "= {quota} hạn mức"
     },
     "ENUM": {
       "ENABLED": "Đã bật",

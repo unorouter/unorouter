@@ -2396,7 +2396,9 @@
       "IP_WHITELIST_PLACEHOLDER": "Un IP per riga. Lascia vuoto per nessuna restrizione.",
       "IP_WHITELIST_DESC": "Gli IP possono essere falsificati. Usa con un gateway per applicazione più forte.",
       "SUBMIT": "Crea",
-      "SAVE": "Salva"
+      "SAVE": "Salva",
+      "QUOTA_FREE_ONLY_HINT": "$0 crea una chiave solo per modelli gratuiti. I modelli a pagamento vengono rifiutati.",
+      "QUOTA_EQUIVALENT": "= {quota} di quota"
     },
     "ENUM": {
       "ENABLED": "Abilitata",

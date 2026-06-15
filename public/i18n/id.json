@@ -2396,7 +2396,9 @@
       "IP_WHITELIST_PLACEHOLDER": "Satu IP per baris. Biarkan kosong untuk tidak ada pembatasan.",
       "IP_WHITELIST_DESC": "IP dapat dipalsukan. Gunakan dengan gateway untuk penegakan yang lebih kuat.",
       "SUBMIT": "Buat",
-      "SAVE": "Simpan"
+      "SAVE": "Simpan",
+      "QUOTA_FREE_ONLY_HINT": "$0 membuat kunci khusus model gratis. Model berbayar ditolak.",
+      "QUOTA_EQUIVALENT": "= {quota} kuota"
     },
     "ENUM": {
       "ENABLED": "Aktif",

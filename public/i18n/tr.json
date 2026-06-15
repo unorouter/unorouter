@@ -2396,7 +2396,9 @@
       "IP_WHITELIST_PLACEHOLDER": "Satır başına bir IP. Kısıtlama olmaması için boş bırakın.",
       "IP_WHITELIST_DESC": "IP'ler taklit edilebilir. Daha güçlü uygulama için bir gateway ile kullanın.",
       "SUBMIT": "Oluştur",
-      "SAVE": "Kaydet"
+      "SAVE": "Kaydet",
+      "QUOTA_FREE_ONLY_HINT": "$0 yalnızca ücretsiz modeller için bir anahtar oluşturur. Ücretli modeller reddedilir.",
+      "QUOTA_EQUIVALENT": "= {quota} kota"
     },
     "ENUM": {
       "ENABLED": "Etkin",

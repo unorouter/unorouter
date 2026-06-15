@@ -2396,7 +2396,9 @@
       "IP_WHITELIST_PLACEHOLDER": "Una IP por línea. Deja vacío para sin restricción.",
       "IP_WHITELIST_DESC": "Las IPs pueden ser falsificadas. Usa con un gateway para aplicación más fuerte.",
       "SUBMIT": "Crear",
-      "SAVE": "Guardar"
+      "SAVE": "Guardar",
+      "QUOTA_FREE_ONLY_HINT": "$0 crea una clave solo para modelos gratuitos. Los modelos de pago se rechazan.",
+      "QUOTA_EQUIVALENT": "= {quota} de cuota"
     },
     "ENUM": {
       "ENABLED": "Activada",

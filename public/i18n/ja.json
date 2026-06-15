@@ -2396,7 +2396,9 @@
       "IP_WHITELIST_PLACEHOLDER": "1 行につき 1 つの IP。空欄の場合は制限なし。",
       "IP_WHITELIST_DESC": "IP は偽装される可能性があります。強固に制御するにはゲートウェイと併用してください。",
       "SUBMIT": "作成",
-      "SAVE": "保存"
+      "SAVE": "保存",
+      "QUOTA_FREE_ONLY_HINT": "＄0 は無料モデル専用キーを作成します。有料モデルは拒否されます。",
+      "QUOTA_EQUIVALENT": "= {quota} クォータ"
     },
     "ENUM": {
       "ENABLED": "有効",
