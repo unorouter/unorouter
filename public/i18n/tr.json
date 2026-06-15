@@ -3104,7 +3104,8 @@
       "LOCAL_DB_UPLOAD_CONFIRM": "Yerel OPFS veritabanının üzerine bu dosyadan yaz? Mevcut veri silinir.",
       "CLEAR": "Sohbeti temizle",
       "CLEAR_SUCCESS": "Sohbet temizlendi",
-      "CLEAR_CONFIRM_DESC": "Bu sohbetteki her mesajı siler ama ayarları, karakter bağlantılarını ve başlığı korur. Bu geri alınamaz."
+      "CLEAR_CONFIRM_DESC": "Bu sohbetteki her mesajı siler ama ayarları, karakter bağlantılarını ve başlığı korur. Bu geri alınamaz.",
+      "DISPLAY": "Görünüm"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, one {# karakter} other {# karakter}}",

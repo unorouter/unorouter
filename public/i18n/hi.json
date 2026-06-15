@@ -3104,7 +3104,8 @@
       "LOCAL_DB_UPLOAD_CONFIRM": "इस फ़ाइल से local OPFS database को overwrite करें? मौजूदा डेटा wipe हो जाता है।",
       "CLEAR": "Chat clear करें",
       "CLEAR_SUCCESS": "Chat cleared",
-      "CLEAR_CONFIRM_DESC": "यह बातचीत में हर message को हटा देता है लेकिन settings, character bindings, और title रखता है। इसे पूर्ववत नहीं किया जा सकता।"
+      "CLEAR_CONFIRM_DESC": "यह बातचीत में हर message को हटा देता है लेकिन settings, character bindings, और title रखता है। इसे पूर्ववत नहीं किया जा सकता।",
+      "DISPLAY": "प्रदर्शन"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, one {# पात्र} other {# पात्र}}",
