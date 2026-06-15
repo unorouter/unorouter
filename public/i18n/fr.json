@@ -3111,7 +3111,10 @@
       "LOREBOOKS": "{count, plural, one {# codex} other {# codex}}"
     },
     "TRIGGER_ALERT_SELECT_DESC": "Choisissez une option pour continuer",
-    "TRIGGER_ALERT_OK": "OK"
+    "TRIGGER_ALERT_OK": "OK",
+    "SUCCESS": {
+      "ERROR_COPIED": "Détails de l'erreur copiés"
+    }
   },
   "RP": {
     "CHARACTERS_TITLE": "Personnages",

@@ -14,6 +14,57 @@ SetErrorFunction((error) => {
   return DefaultErrorFunction(error);
 });
 
+export type ErrorDetail = {
+  message: string;
+  code?: string;
+  status?: number;
+  requestId?: string;
+};
+
+const REQUEST_ID_RE = /request id:?\s*([A-Za-z0-9]+)/i;
+
+    // Full error detail (message + code + status + requestId) for display/debugging. Handles ai-sdk APICallError (responseBody/statusCode), Eden errors, and plain JSON bodies.
+export function extractErrorDetail(e: unknown): ErrorDetail {
+  let status: number | undefined;
+  let body: unknown = e;
+
+  if (e && typeof e === "object") {
+    const obj = e as Record<string, unknown>;
+    if (typeof obj.statusCode === "number") status = obj.statusCode;
+    if (typeof obj.responseBody === "string") body = obj.responseBody;
+    else if ("data" in obj) body = obj.data;
+    else if (e instanceof Error) body = e.message;
+  }
+
+  let parsed: unknown = body;
+  if (typeof body === "string") {
+    const s = body.trim();
+    if (s.startsWith("{") || s.startsWith("[")) {
+      try {
+        parsed = JSON.parse(s);
+      } catch {
+        parsed = body;
+      }
+    }
+  }
+
+  const errObj =
+    parsed && typeof parsed === "object" && "error" in parsed
+      ? (parsed as { error: unknown }).error
+      : parsed;
+  const found = pickMessage(errObj) ?? pickMessage(body);
+  const message = found?.message || String((e as Error)?.message ?? e);
+
+  let code: string | undefined;
+  if (errObj && typeof errObj === "object") {
+    const c = (errObj as { code?: unknown }).code;
+    if (typeof c === "string" && c) code = c;
+  }
+
+  const requestId = message.match(REQUEST_ID_RE)?.[1];
+  return { message, code, status, requestId };
+}
+
     // Pull {message, params} out of any error shape: JSON string, {message} object, or array. JSON strings recurse.
 function pickMessage(v: unknown): Extracted | null {
   if (typeof v === "string") {
@@ -70,7 +121,14 @@ export async function handleError(
       ? t(message as TranslationKey, found?.params)
       : message;
 
-  toast.error(title, { duration: 5000, id: toastId });
+  // Append the upstream code/status so a bare "bad request" is debuggable. requestId already rides inside the message.
+  const detail = extractErrorDetail(e);
+  const tag = [detail.status ? `HTTP ${detail.status}` : null, detail.code]
+    .filter(Boolean)
+    .join(" ");
+  const description = tag && !title.includes(tag) ? tag : undefined;
+
+  toast.error(title, { duration: 5000, id: toastId, description });
 }
 
 export function downloadBlob(blob: Blob, filename: string) {

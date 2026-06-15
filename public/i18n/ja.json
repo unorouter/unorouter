@@ -3111,7 +3111,10 @@
       "LOREBOOKS": "{count, plural, other {# ロアブック}}"
     },
     "TRIGGER_ALERT_SELECT_DESC": "続行するにはオプションを選択してください",
-    "TRIGGER_ALERT_OK": "OK"
+    "TRIGGER_ALERT_OK": "OK",
+    "SUCCESS": {
+      "ERROR_COPIED": "エラー詳細をコピーしました"
+    }
   },
   "RP": {
     "CHARACTERS_TITLE": "キャラクター",

@@ -3111,7 +3111,10 @@
       "LOREBOOKS": "{count, plural, one {# лорбук} few {# лорбука} many {# лорбуков} other {# лорбуков}}"
     },
     "TRIGGER_ALERT_SELECT_DESC": "Выберите вариант, чтобы продолжить",
-    "TRIGGER_ALERT_OK": "ОК"
+    "TRIGGER_ALERT_OK": "ОК",
+    "SUCCESS": {
+      "ERROR_COPIED": "Детали ошибки скопированы"
+    }
   },
   "RP": {
     "CHARACTERS_TITLE": "Персонажи",

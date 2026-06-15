@@ -3111,7 +3111,10 @@
       "LOREBOOKS": "{count, plural, one {# libro de saber} other {# libros de saber}}"
     },
     "TRIGGER_ALERT_SELECT_DESC": "Elige una opción para continuar",
-    "TRIGGER_ALERT_OK": "Aceptar"
+    "TRIGGER_ALERT_OK": "Aceptar",
+    "SUCCESS": {
+      "ERROR_COPIED": "Detalles del error copiados"
+    }
   },
   "RP": {
     "CHARACTERS_TITLE": "Personajes",

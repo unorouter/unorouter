@@ -3111,7 +3111,10 @@
       "LOREBOOKS": "{count, plural, other {# lorebook}}"
     },
     "TRIGGER_ALERT_SELECT_DESC": "Chọn một tùy chọn để tiếp tục",
-    "TRIGGER_ALERT_OK": "OK"
+    "TRIGGER_ALERT_OK": "OK",
+    "SUCCESS": {
+      "ERROR_COPIED": "Đã sao chép chi tiết lỗi"
+    }
   },
   "RP": {
     "CHARACTERS_TITLE": "Nhân vật",

@@ -3111,7 +3111,10 @@
       "LOREBOOKS": "{count, plural, zero {# كتاب معرفة} one {كتاب معرفة واحد} two {كتابا معرفة} few {# كتب معرفة} many {# كتاب معرفة} other {# كتاب معرفة}}"
     },
     "TRIGGER_ALERT_SELECT_DESC": "اختر خيارًا للمتابعة",
-    "TRIGGER_ALERT_OK": "موافق"
+    "TRIGGER_ALERT_OK": "موافق",
+    "SUCCESS": {
+      "ERROR_COPIED": "تم نسخ تفاصيل الخطأ"
+    }
   },
   "RP": {
     "CHARACTERS_TITLE": "الشخصيات",
