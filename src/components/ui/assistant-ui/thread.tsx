@@ -99,7 +99,7 @@ export const Thread: FC = () => {
           {() => <ThreadMessage />}
         </ThreadPrimitive.Messages>
 
-        <ThreadPrimitive.ViewportFooter className="aui-thread-viewport-footer bg-background sticky bottom-0 z-20 mx-auto mt-auto flex w-full max-w-(--thread-max-width) flex-col gap-4 overflow-visible rounded-t-(--composer-radius) pb-[max(--spacing(1),env(safe-area-inset-bottom))] md:pb-[max(--spacing(2.5),env(safe-area-inset-bottom))]">
+        <ThreadPrimitive.ViewportFooter className="aui-thread-viewport-footer bg-background mx-auto mt-auto flex w-full max-w-(--thread-max-width) flex-col gap-4 overflow-visible rounded-t-(--composer-radius) pb-[max(--spacing(1),env(safe-area-inset-bottom))] md:pb-[max(--spacing(2.5),env(safe-area-inset-bottom))]">
           <ThreadScrollToBottom />
           <Composer />
         </ThreadPrimitive.ViewportFooter>
@@ -576,7 +576,7 @@ const AssistantEditInPlace: FC<{ onClose: () => void }> = (props) => {
         onChange={(e) => setText(e.target.value)}
         rows={Math.min(20, Math.max(4, text.split("\n").length + 1))}
         autoFocus
-        className="font-sans text-sm"
+        className="max-h-[40dvh] overflow-y-auto font-sans text-sm"
       />
       <div className="flex justify-end gap-2">
         <Button
@@ -802,7 +802,7 @@ const EditComposer: FC = () => {
     <MessagePrimitive.Root className="aui-edit-composer-wrapper mx-auto flex w-full max-w-(--thread-max-width) flex-col px-2 py-3">
       <ComposerPrimitive.Root className="aui-edit-composer-root bg-muted ml-auto flex w-full max-w-[85%] flex-col rounded-2xl">
         <ComposerPrimitive.Input
-          className="aui-edit-composer-input text-foreground min-h-14 w-full resize-none bg-transparent p-4 text-base outline-none sm:text-sm"
+          className="aui-edit-composer-input text-foreground max-h-[40dvh] min-h-14 w-full resize-none overflow-y-auto bg-transparent p-4 text-base outline-none sm:text-sm"
           autoFocus
           submitMode={isMobile ? "none" : "enter"}
         />
