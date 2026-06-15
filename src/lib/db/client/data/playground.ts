@@ -56,11 +56,10 @@ export function toSnapshotView(
     model: snapshot.model,
     prompt: snapshot.prompt,
     negativePrompt: snapshot.negativePrompt,
-    params: (snapshot.params as Record<string, unknown> | null) ?? null,
+    params: snapshot.params ?? null,
     loras: snapshot.loras,
     references: snapshot.references,
-    extraParams:
-      (snapshot.extraParams as Record<string, unknown> | null) ?? null,
+    extraParams: snapshot.extraParams ?? null,
     status: snapshot.status,
     progress: snapshot.progress,
     taskId: snapshot.taskId,

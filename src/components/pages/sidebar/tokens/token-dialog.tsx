@@ -80,8 +80,7 @@ export function TokenDialog(props: TokenDialogProps) {
     defaultValues: Value.Default(tokenFormSchema, {}) as TokenFormSchema,
   });
 
-  // revealedKey is keyed by the dialog session (bumped on open / target change),
-  // derived null from the key. No setState in effects, no cascading renders.
+      // revealedKey is keyed by the dialog session (bumped on open/target change), derived null from the key. No setState in effects.
   const sessionKey = props.open ? `${props.token?.id ?? "new"}` : "";
   const [revealSession, setRevealSession] = useState({
     key: sessionKey,
@@ -372,15 +371,9 @@ export function TokenDialog(props: TokenDialogProps) {
                                   placeholder={t(
                                     "TOKEN.FORM.QUOTA_PLACEHOLDER",
                                   )}
-                                  value={
-                                    field.value
-                                      ? Number(
-                                          quotaToDollars(field.value).toFixed(
-                                            2,
-                                          ),
-                                        )
-                                      : ""
-                                  }
+                                  value={Number(
+                                    quotaToDollars(field.value).toFixed(2),
+                                  )}
                                   onChange={(e) => {
                                     const v = e.target.value;
                                     if (v === "") {
@@ -399,8 +392,15 @@ export function TokenDialog(props: TokenDialogProps) {
                               </div>
                             </FormControl>
                             <span className="text-muted-foreground font-mono text-[11px]">
-                              = {field.value.toLocaleString()} quota
+                              {t("TOKEN.FORM.QUOTA_EQUIVALENT", {
+                                quota: field.value.toLocaleString(),
+                              })}
                             </span>
+                            {field.value === 0 && (
+                              <p className="text-muted-foreground text-[11px]">
+                                {t("TOKEN.FORM.QUOTA_FREE_ONLY_HINT")}
+                              </p>
+                            )}
                             <MyFormError
                               name="remain_quota"
                               schema={tokenFormSchema}

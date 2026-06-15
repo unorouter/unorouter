@@ -26,7 +26,8 @@
     "LOG_IN": "Đăng nhập",
     "CHAT": "Trò chuyện",
     "PLAYGROUND": "Khu thử nghiệm",
-    "STATUS": "Trạng thái"
+    "STATUS": "Trạng thái",
+    "COMPARE": "So sánh"
   },
   "HOME": {
     "HERO": {
@@ -229,7 +230,17 @@
       "NO_PROVIDERS": "Không tìm thấy nhà cung cấp.",
       "SELECTED": "đã chọn",
       "CLEAR": "Xóa bộ lọc",
-      "RESET": "Đặt lại"
+      "RESET": "Đặt lại",
+      "TITLE": "Bộ lọc",
+      "INPUT_MODALITIES": "Phương thức đầu vào",
+      "CONTEXT_LENGTH": "Độ dài ngữ cảnh",
+      "PROMPT_PRICING": "Giá prompt",
+      "CATEGORIES": "Danh mục",
+      "SUPPORTED_PARAMETERS": "Tham số được hỗ trợ",
+      "PROVIDERS": "Nhà cung cấp",
+      "MIN": "Tối thiểu",
+      "ANY": "Bất kỳ",
+      "SERIES": "Dòng"
     },
     "DETAIL": {
       "DESCRIPTION": "Mô tả",
@@ -300,11 +311,16 @@
     "SORT": {
       "NAME": "Tên (A đến Z)",
       "PRICE_ASC": "Giá (Thấp)",
-      "PRICE_DESC": "Giá (Cao)"
+      "PRICE_DESC": "Giá (Cao)",
+      "NEWEST": "Mới nhất",
+      "POPULAR": "Phổ biến nhất",
+      "TOP_WEEKLY": "Top tuần",
+      "CONTEXT_DESC": "Ngữ cảnh (cao)"
     },
     "VIEW": {
       "GRID": "Chế độ lưới",
-      "LIST": "Chế độ danh sách"
+      "LIST": "Chế độ danh sách",
+      "TABLE": "Dạng bảng"
     },
     "META": {
       "TITLE": "Mô hình AI - {appName}",
@@ -346,6 +362,73 @@
       "LATENCY": "Lat.",
       "TPS": "TPS",
       "STATUS": "Trạng thái"
+    },
+    "MODALITY": {
+      "TEXT": "Văn bản",
+      "IMAGE": "Hình ảnh",
+      "AUDIO": "Âm thanh",
+      "VIDEO": "Video",
+      "EMBEDDINGS": "Embeddings",
+      "FILE": "Tệp"
+    },
+    "TABLE": {
+      "MODEL": "Mô hình",
+      "WEEKLY_TOKENS": "Token hàng tuần",
+      "INPUT": "Đầu vào",
+      "OUTPUT": "Đầu ra",
+      "CONTEXT": "Ngữ cảnh",
+      "RELEASED": "Phát hành",
+      "OFF": "giảm {pct}%",
+      "FREE": "miễn phí",
+      "SORT_ASC": "Tăng dần",
+      "SORT_DESC": "Giảm dần",
+      "SORT_RESET": "Đặt lại"
+    },
+    "COMPARE": {
+      "BADGE": "So sánh",
+      "TITLE": "So sánh mô hình AI",
+      "SUBTITLE": "So sánh các mô hình AI cạnh nhau theo giá, ngữ cảnh, khả năng và mức sử dụng.",
+      "ADD_MODEL": "Thêm mô hình",
+      "REMOVE": "Xóa",
+      "CAPABILITIES": "Khả năng",
+      "PRESET_FLAGSHIP": "Mô hình hàng đầu",
+      "PRESET_FLAGSHIP_DESC": "Các mô hình hàng đầu mới nhất từ những phòng thí nghiệm lớn.",
+      "PRESET_AFFORDABLE": "Phải chăng nhất",
+      "PRESET_AFFORDABLE_DESC": "Lựa chọn nhỏ gọn, chi phí thấp cho thông lượng cao.",
+      "PRESET_CODE": "Tốt nhất cho mã",
+      "PRESET_CODE_DESC": "Thường được chọn cho lập trình và tạo mã.",
+      "PRESET_IMAGE": "Tạo hình ảnh",
+      "PRESET_IMAGE_DESC": "Mô hình tạo ảnh tốt nhất về chi phí và chất lượng.",
+      "META": {
+        "TITLE": "So sánh mô hình AI - {appName}",
+        "DESCRIPTION": "So sánh các mô hình AI cạnh nhau theo giá, độ dài ngữ cảnh, khả năng và mức sử dụng trên {appName}.",
+        "KEYWORDS": "so sánh mô hình AI, so sánh mô hình, so sánh LLM, giá AI",
+        "TITLE_COMBO": "{models} - So sánh mô hình AI",
+        "DESCRIPTION_COMBO": "So sánh {models} theo giá, độ dài ngữ cảnh, khả năng và mức sử dụng."
+      },
+      "OVERVIEW": "Tổng quan",
+      "PRICING": "Giá",
+      "PERFORMANCE": "Hiệu năng",
+      "FEATURES": "Tính năng",
+      "ACTIVITY": "Hoạt động",
+      "AUTHOR": "Tác giả",
+      "LATENCY": "Độ trễ",
+      "THROUGHPUT": "Thông lượng",
+      "HIGHLIGHT_BEST": "Làm nổi bật tốt nhất",
+      "CLEAR": "Xóa",
+      "FROM": "bởi",
+      "SELECT_MODEL": "Chọn một mô hình"
+    },
+    "LIST": {
+      "TOKENS": "token",
+      "BY": "bởi",
+      "CONTEXT": "ngữ cảnh",
+      "INPUT": "token đầu vào",
+      "OUTPUT": "token đầu ra"
+    },
+    "ACTIONS": {
+      "OPEN_MENU": "Mở menu",
+      "COPY_NAME": "Sao chép tên mô hình"
     }
   },
   "RANKINGS": {
@@ -455,6 +538,20 @@
       "comparison": "So sánh"
     },
     "POSTS": {
+      "FEATURED_ON": {
+        "TITLE": "Tim {appName} o dau: cac muc liet ke trong thu muc",
+        "DESCRIPTION": "{appName} duoc liet ke trong cac thu muc cong cu AI va startup. Tai day ban co the tim thay chung toi, xac minh cac muc liet ke va doc danh gia doc lap.",
+        "AUTHOR": "Doi ngu {appName}",
+        "INTRO": "Mot phan cua viec la cong AI dang tin cay la de tim va de xac minh. {appName} duoc liet ke trong cac thu muc ma cac nha phat trien thuc su kiem tra truoc khi giao chia khoa API cho mot nha cung cap moi. Day la danh sach duoc cap nhat.",
+        "H_DIRECTORIES": "Cac thu muc liet ke chung toi",
+        "P_DIRECTORIES": "Moi huy hieu ben duoi lien ket den thu muc noi {appName} duoc gioi thieu. Day la cac muc liet ke doc lap, vi vay ban co the doc mo ta va danh gia cua ben thu ba thay vi chi tin loi chung toi.",
+        "H_WHY": "Tai sao dieu nay quan trong",
+        "P_WHY": "Long trung thanh voi thuong hieu trong ha tang AI rat mong manh va niem tin la tat ca. Mot nha cung cap an minh khoi cac thu muc cong khai la nha cung cap ban khong the tham dinh. Chung toi liet ke cong khai de ban co the so sanh {appName} voi moi lua chon thay the o cung mot noi.",
+        "H_VERIFY": "Xac minh truoc khi tin tuong",
+        "P_VERIFY": "Mo bat ky huy hieu nao, xac nhan muc liet ke tro ve ten mien that cua chung toi va kiem tra mo ta doc lap. Khong bao gio dan chia khoa API vao mot dich vu ma ban khong the truy nguon den mot nguon cong khai co the xac minh.",
+        "H_TRY": "Tu minh thu",
+        "CTA": "Da xem du chua? <register>Tao tai khoan mien phi</register> hoac <models>duyet cac mo hinh</models>."
+      },
       "LAUNCH": {
         "TITLE": "Chúng tôi quá mệt với Claude giả. Nên đã xây {appName}.",
         "DESCRIPTION": "Sập cứ vài tuần một lần. Mô hình premium âm thầm bị tráo bằng bản clone rẻ tiền. Hết kiên nhẫn, chúng tôi tự ship router và làm nó hoang tưởng ở cả hai mặt. Đây là câu chuyện ra mắt.",
@@ -585,16 +682,16 @@
         "CTA": "Sẵn sàng chưa? <invite>Tham gia Discord {appName}</invite>, sau đó <register>lấy API key</register> và <settings>liên kết tài khoản</settings> để nhận 1$ đầu tiên."
       },
       "FREE_MODELS_AGGREGATED": {
-        "TITLE": "Chúng tôi gom hơn 100 mô hình AI miễn phí vào một endpoint duy nhất",
-        "DESCRIPTION": "Trong hai ngày, chúng tôi đã kết nối 15 nhà cung cấp miễn phí vào {appName}: 134 dòng mô hình miễn phí, một endpoint OpenAI-compatible, $0 cho mỗi token. Chúng miễn phí là có lý do và đi kèm giới hạn tần suất mà chúng tôi không thể nâng lên. Đây là phiên bản thành thật.",
+        "TITLE": "Chúng tôi gom hơn 120 mô hình AI miễn phí vào một endpoint duy nhất",
+        "DESCRIPTION": "Chúng tôi đã kết nối 18 nhà cung cấp miễn phí vào {appName}: 126 dòng mô hình miễn phí, một endpoint OpenAI-compatible, $0 cho mỗi token. Chúng miễn phí là có lý do và đi kèm giới hạn tần suất mà chúng tôi không thể nâng lên. Đây là phiên bản thành thật.",
         "AUTHOR": "Đội ngũ {appName}",
-        "INTRO": "Thế giới LLM miễn phí là có thật nhưng manh mún: Groq, Gemini, Cloudflare, Mistral, OVHcloud và cả tá cái tên khác, mỗi bên đều cho đi năng lực thật sự, nhưng nằm sau cả tá trang đăng ký, cả tá định dạng key và cả tá API không tương thích với nhau. Trong hai ngày, chúng tôi đã tìm hiểu, kiểm thử và gộp mọi nhà cung cấp miễn phí vĩnh viễn hợp pháp mà chúng tôi tìm được vào {appName}. Kết quả: 134 dòng mô hình miễn phí từ 15 nhà cung cấp, đứng sau một endpoint OpenAI-compatible và một key duy nhất.",
+        "INTRO": "Thế giới LLM miễn phí là có thật nhưng manh mún: Groq, Gemini, Cloudflare, NVIDIA, SiliconFlow và cả tá cái tên khác, mỗi bên đều cho đi năng lực thật sự, nhưng nằm sau cả tá trang đăng ký, cả tá định dạng key và cả tá API không tương thích với nhau. Chúng tôi đã tìm hiểu, kiểm thử và gộp mọi nhà cung cấp miễn phí vĩnh viễn hợp pháp mà chúng tôi tìm được vào {appName}. Kết quả: 126 dòng mô hình miễn phí từ 18 nhà cung cấp, đứng sau một endpoint OpenAI-compatible và một key duy nhất.",
         "H_WHAT": "Những gì chúng tôi đã thêm",
-        "P_WHAT": "Mười lăm nhà cung cấp miễn phí, lần lượt từng cái một: Groq, Gemini, Cerebras, SambaNova, Mistral, Cloudflare Workers AI (hai tài khoản), GitHub Models, Z.ai, OVHcloud, AI Horde, Pollinations, Cohere, Jina, NVIDIA NIM và OpenRouter. Tổng cộng 134 dòng mô hình miễn phí: Llama, gpt-oss, Qwen, Mistral, GLM, Nemotron và nhiều hơn nữa, cộng thêm 30 mô hình embedding miễn phí và 13 mô hình hình ảnh và âm thanh miễn phí. Mỗi mô hình đều được kiểm tra từ đầu đến cuối về HTTP, streaming và tool call trước khi lên sóng, đúng những bài kiểm tra tính xác thực và bộ khung mà chúng tôi chạy cho các mô hình trả phí.",
+        "P_WHAT": "Mười tám nhà cung cấp miễn phí, lần lượt từng cái một: Groq, Gemini, Cerebras, SambaNova, Mistral, Cloudflare Workers AI (hai tài khoản), GitHub Models, Z.ai, OVHcloud, AI Horde, Pollinations, Cohere, Jina, NVIDIA NIM (toàn bộ danh mục mở: Nemotron, Llama, Qwen, gpt-oss, DeepSeek và nhiều hơn), SiliconFlow (DeepSeek-V4, GLM-5.1, Qwen3.5/3.6, Kimi-K2.6, MiniMax-M3), router HuggingFace và LLM7. Tổng cộng 126 dòng mô hình miễn phí: Llama, gpt-oss, Qwen, Mistral, GLM, Nemotron, DeepSeek và nhiều hơn nữa, cộng thêm các mô hình embedding, hình ảnh và âm thanh miễn phí. Mỗi mô hình đều được kiểm tra từ đầu đến cuối về HTTP, streaming và tool call trước khi lên sóng, đúng những bài kiểm tra tính xác thực và bộ khung mà chúng tôi chạy cho các mô hình trả phí.",
         "H_CAVEAT": "Miễn phí là có lý do",
         "P_CAVEAT": "Những mô hình này miễn phí thực sự, và đó chính là lý do chúng có giới hạn. <s>Nhà cung cấp đặt ra những giới hạn đó, không phải chúng tôi, và chúng tôi không thể nâng lên.</s> Mỗi nguồn thượng nguồn áp đặt giới hạn tần suất riêng: số request mỗi phút, hạn ngạch token mỗi ngày, ngân sách neuron của Cloudflare, mức ưu tiên trong hàng đợi tình nguyện. Chạm trần là nhà cung cấp đó trả về <c>429</c> cho tới khi reset. Một key miễn phí còn chạy được sáng nay có thể cạn kiệt vào chiều nay. Gói miễn phí là thông lượng theo kiểu cố hết sức, không phải một sự bảo đảm. Nếu khối lượng công việc của bạn cần độ trễ ổn định và không có những cú <c>429</c> bất ngờ, hãy dùng mô hình trả phí.",
         "H_AGGREGATE": "Tại sao phải gom chúng lại làm gì",
-        "P_AGGREGATE": "Vì lựa chọn còn lại là mười lăm tài khoản. Mỗi nhà cung cấp có trang đăng ký riêng, định dạng key riêng, base URL riêng và những điểm oái oăm riêng: Z.ai nói theo đường dẫn Zhipu V4, Cloudflare mang account id trong URL, AI Horde muốn một key ẩn danh, GitHub khóa các mô hình sau phạm vi của token. Chúng tôi gánh hết tất cả những thứ đó để bạn gọi chúng theo đúng cách bạn gọi mọi thứ khác: một endpoint OpenAI-compatible, một key, một tên mô hình. Nguyên tắc thành thật mà chúng tôi tự ràng buộc: một tài khoản thật cho mỗi nhà cung cấp, chấp nhận giới hạn, không gom gặt, không gộp chung. Chúng tôi mở ra gói miễn phí như một món quà, không phải bán lại hạn ngạch của người khác.",
+        "P_AGGREGATE": "Vì lựa chọn còn lại là mười tám tài khoản. Mỗi nhà cung cấp có trang đăng ký riêng, định dạng key riêng, base URL riêng và những điểm oái oăm riêng: Z.ai nói theo đường dẫn Zhipu V4, Cloudflare mang account id trong URL, AI Horde muốn một key ẩn danh, GitHub khóa các mô hình sau phạm vi của token. Chúng tôi gánh hết tất cả những thứ đó để bạn gọi chúng theo đúng cách bạn gọi mọi thứ khác: một endpoint OpenAI-compatible, một key, một tên mô hình. Nguyên tắc thành thật mà chúng tôi tự ràng buộc: một tài khoản thật cho mỗi nhà cung cấp, chấp nhận giới hạn, không gom gặt, không gộp chung. Chúng tôi mở ra gói miễn phí như một món quà, không phải bán lại hạn ngạch của người khác.",
         "H_FAILOVER": "Cách chúng tôi làm dịu các giới hạn",
         "P_FAILOVER": "Nhiều mô hình trong số này được phục vụ bởi hơn một nhà cung cấp miễn phí. Riêng Llama 3.3 70B đã chạy trên bảy nhà cung cấp. Khi nhiều nhà cung cấp cùng cung cấp một mô hình, chúng tôi gộp chúng thành một tên công bố duy nhất và tự động chuyển dự phòng: nếu một nguồn thượng nguồn trả về <c>429</c> hoặc im lặng, nhà cung cấp khỏe mạnh kế tiếp đang phục vụ mô hình đó sẽ nhận request. Đó là cái đòn bẩy duy nhất mà chúng tôi thực sự kiểm soát được. Nó không nâng trần của bất kỳ nhà cung cấp đơn lẻ nào, nhưng nó có nghĩa là một mô hình miễn phí đa nguồn vẫn tiếp tục trả lời rất lâu sau khi bất kỳ nhà cung cấp nào của nó cạn kiệt. Các mô hình miễn phí đơn nguồn không có dự phòng, nên chúng đứng khựng khi nguồn thượng nguồn duy nhất của chúng cạn sạch.",
         "H_HONEST": "Những gì chúng tôi đã không làm",
@@ -614,7 +711,7 @@
         "H_RP": "Phần mà OpenRouter bỏ qua",
         "P_RP": "Trỏ một tác nhân lập trình (Claude Code, Cline, OpenCode, Kilo Code, Codex) vào {appName} và nó hành xử như bất kỳ điểm cuối tương thích OpenAI nào. Nhưng cùng một khóa cũng vận hành một máy khách trò chuyện và nhân vật tích hợp sẵn với persona, lorebook, preset và nhập thẻ SillyTavern, đồng thời cắm thẳng vào SillyTavern, Janitor.AI, RisuAI hay Chub. OpenRouter thuần túy là lớp API, nên bạn tự mang theo mọi giao diện. {appName} giao cả giao diện lẫn API cùng nhau.",
         "H_MIGRATE": "Chuyển đổi chỉ là thay URL gốc",
-        "P_MIGRATE": "Vì {appName} tương thích OpenAI, việc chuyển một ứng dụng hiện có chỉ là một dòng: trỏ máy khách của bạn tới <c>https://api.unorouter.ai/v1</c> và giữ nguyên mã. Cùng một khóa dán vào ô điểm cuối tùy chỉnh của một máy khách trò chuyện sẽ tới cùng danh mục đó, nên không có tài khoản thứ hai để quản lý.",
+        "P_MIGRATE": "Vì {appName} tương thích OpenAI, việc chuyển một ứng dụng hiện có chỉ là một dòng: trỏ máy khách của bạn tới <c>https://api.unorouter.com/v1</c> và giữ nguyên mã. Cùng một khóa dán vào ô điểm cuối tùy chỉnh của một máy khách trò chuyện sẽ tới cùng danh mục đó, nên không có tài khoản thứ hai để quản lý.",
         "H_VERDICT": "Bạn nên chọn cái nào",
         "P_VERDICT": "Nếu bạn chỉ xuất bản mã và muốn danh mục rộng nhất mà không cần giao diện, OpenRouter là lựa chọn mặc định tốt. Nếu bạn muốn định tuyến tự lưu trữ không phụ phí, LiteLLM thắng. Nếu bạn muốn một khóa hoạt động trong tác nhân lập trình của bạn và trong một máy khách trò chuyện và nhân vật thực thụ mà không phải chạy hai dịch vụ, đó là khoảng trống mà {appName} lấp đầy. Không có người thắng duy nhất. Nó tùy thuộc bạn tối ưu cho API thuần hay cho API cộng với nơi để dùng nó.",
         "CTA": "Sẵn sàng thử chưa? <register>Tạo tài khoản miễn phí</register> hoặc <models>duyệt các mô hình</models>."
@@ -1521,7 +1618,7 @@
       "INTRO_DESC": "Chub.ai (trước đây là Venus) là nền tảng chat nhân vật trên trình duyệt với thư viện 60.000 nhân vật. Nền tảng này kết nối với các endpoint tương thích OpenAI qua bảng Secrets.",
       "INTRO_LINK_DOCS": "Tài liệu chính thức về API Connections của Chub.ai",
       "OVERVIEW": "Tổng quan",
-      "OVERVIEW_DESC": "Bảng Secrets của Chub chấp nhận URL `/v1/chat/completions` đầy đủ cùng với khóa API của bạn. Nút Check your proxy xác minh kết nối trước khi bạn chọn mô hình trong Prompt Structure.",
+      "OVERVIEW_DESC": "Bang Secrets cua Chub chap nhan URL co so cua API ket thuc bang `/v1` cung voi khoa API cua ban. Nut Check your proxy xac minh ket noi truoc khi ban chon mo hinh trong Prompt Structure.",
       "TRUST_TITLE": "{appName} là relay API bên thứ nhất",
       "TRUST_DESC": "Giao diện của Chub cảnh báo về ''reverse proxy do bên thứ ba không được ủy quyền tạo ra''. Cảnh báo đó nhắm tới các relay do cộng đồng vận hành. {appName} là relay API bên thứ nhất do chính chủ hạ tầng vận hành, tương tự OpenRouter. Khóa API, nhật ký sử dụng và thanh toán của bạn nằm trực tiếp trên {appName}.",
       "TRUST_LINK_PRIVACY": "Chính sách bảo mật",
@@ -1530,7 +1627,7 @@
       "QUICK_CONFIG_DESC": "Sao chép hai giá trị sau vào các trường Reverse proxy trong bảng Secrets của Chub.",
       "QUICK_CONFIG_URL_LABEL": "URL",
       "QUICK_CONFIG_KEY_LABEL": "Khóa",
-      "QUICK_CONFIG_NOTE": "Dán URL đầy đủ kết thúc bằng `/v1/chat/completions`. Chub yêu cầu đường dẫn đầy đủ; đừng chỉ dán URL gốc.",
+      "QUICK_CONFIG_NOTE": "Dan URL co so ket thuc bang `/v1`. Chub them `/models` cho buoc kiem tra proxy, nen mot URL day du `/v1/chat/completions` se that bai.",
       "STEPS": "Thiết lập từng bước",
       "STEP_1_TITLE": "Mở bảng Secrets",
       "STEP_1_DESC": "Nhấn biểu tượng hamburger ở góc trên bên phải của Chub, sau đó chọn Secrets.",
@@ -1539,7 +1636,7 @@
       "STEP_3_TITLE": "Cuộn đến Reverse proxy",
       "STEP_3_DESC": "Mục con Reverse proxy chứa các trường URL và Key cùng nút Check your proxy.",
       "STEP_4_TITLE": "Dán URL và khóa",
-      "STEP_4_DESC": "URL kết thúc bằng `/v1/chat/completions`. Key là khóa API {appName} của bạn.",
+      "STEP_4_DESC": "URL ket thuc bang `/v1` (chi URL co so, khong co `/chat/completions`). Key la khoa API {appName} cua ban.",
       "STEP_5_TITLE": "Nhấn Check your proxy",
       "STEP_5_DESC": "Chờ xác nhận màu xanh. Nếu thất bại, kiểm tra lại URL và dán lại khóa.",
       "STEP_6_TITLE": "Mở Configuration",
@@ -1552,7 +1649,7 @@
       "WARN_KEY_INVISIBLE_DESC": "Chub che khóa API sau khi lưu. Bạn không thể sao chép lại. Hãy lưu khóa vào trình quản lý mật khẩu trước khi dán, để khi xoay khóa hoặc dùng hồ sơ trình duyệt thứ hai, bạn không phải tạo khóa mới.",
       "TROUBLESHOOTING": "Xử lý sự cố",
       "TS_1_TITLE": "Nút Check your proxy thất bại.",
-      "TS_1_DESC": "URL sai. Nó phải kết thúc bằng `/v1/chat/completions`; chỉ dùng URL gốc sẽ không vượt qua.",
+      "TS_1_DESC": "URL sai. No phai la URL co so ket thuc bang `/v1`. Chub tu them `/models`, nen mot URL day du `/v1/chat/completions` tro thanh `/v1/chat/completions/models` va khong vuot qua.",
       "TS_2_TITLE": "Danh sách mô hình trống.",
       "TS_2_DESC": "Kiểm tra proxy chưa vượt qua. Chạy lại bước 5 và chờ trạng thái màu xanh.",
       "TS_3_TITLE": "Phản hồi trả về rỗng.",
@@ -1576,7 +1673,7 @@
       "TOC_TROUBLESHOOTING": "Xử lý sự cố",
       "STEP_CONFIG_TITLE": "Mo Configuration va chon OpenAI",
       "STEP_CONFIG_DESC": "Quay lai menu hamburger, mo Configuration, roi mo Prompt Structure. Dat danh sach API thanh OpenAI va chon mo hinh muc tieu tu danh sach mo hinh.",
-      "GOTCHA_1": "Dan toan bo URL ket thuc bang `/v1/chat/completions` vao truong Reverse proxy. Chi rieng URL co so se khong vuot qua kiem tra cua nut Check your proxy.",
+      "GOTCHA_1": "Dan URL co so ket thuc bang `/v1` vao truong Reverse proxy. Chub them `/models` cho buoc kiem tra, nen mot URL day du `/v1/chat/completions` se khong vuot qua nut Check your proxy.",
       "GOTCHA_2": "Danh sach mo hinh trong Prompt Structure van trong cho den khi kiem tra proxy thanh cong. Truoc tien hay chay Check your proxy trong muc Secrets, sau do quay lai chon mot mo hinh.",
       "GOTCHA_3": "Chub che giau khoa API sau khi luu va ban khong the sao chep no ra lai. Hay luu khoa vao trinh quan ly mat khau truoc khi dan de viec xoay khoa khong buoc ban tao khoa moi.",
       "GOTCHA_4": "Giao dien Chub canh bao ve cac reverse proxy tu ben thu ba khong duoc uy quyen; dieu do nham vao cac relay cong dong. {appName} la mot relay chinh chu, vi vay khoa, nhat ky va thanh toan cua ban van nam tren {appName}."
@@ -1944,7 +2041,9 @@
     "LEGAL_TERMS": "Điều khoản dịch vụ",
     "LEGAL_PRIVACY": "Chính sách bảo mật",
     "SOCIAL_TRUSTPILOT": "Trustpilot",
-    "EASTER_EGG_LABEL": "Chơi Token Breakout"
+    "EASTER_EGG_LABEL": "Chơi Token Breakout",
+    "BADGE_FEATURED_ON": "Duoc gioi thieu tren {name}",
+    "BADGE_VERIFIED_ON": "Da xac minh tren {name}"
   },
   "PRIVACY": {
     "META": {
@@ -2040,7 +2139,10 @@
       "UNEXPECTED_ERROR_OCCURRED": "Đã xảy ra lỗi không mong muốn. Vui lòng thử lại hoặc trở về trang chủ.",
       "ERROR_DETAILS": "Chi tiết lỗi",
       "DIGEST": "Mã tóm tắt",
-      "SECTION_LOAD_FAILED": "Phần này không tải được."
+      "SECTION_LOAD_FAILED": "Phần này không tải được.",
+      "COPY_ERROR": "Sao chep loi",
+      "RESET_APP_DATA": "Dat lai du lieu ung dung va tai lai",
+      "RESETTING": "Dang dat lai..."
     },
     "NOT_FOUND": {
       "TITLE": "Không tìm thấy trang",
@@ -2087,6 +2189,13 @@
       "CLEAR_CHAT_TITLE": "Xoá nội dung trò chuyện?",
       "WIPE_DB_TITLE": "Xoá sạch cơ sở dữ liệu cục bộ?",
       "UPLOAD_DB_TITLE": "Ghi đè cơ sở dữ liệu cục bộ?"
+    },
+    "COPIED": "Da sao chep",
+    "DATE_RANGE": {
+      "PICK": "Chọn khoảng thời gian",
+      "FROM": "Từ",
+      "TO": "Đến",
+      "APPLY": "Áp dụng"
     }
   },
   "LANGUAGE": {
@@ -2287,7 +2396,9 @@
       "IP_WHITELIST_PLACEHOLDER": "Mỗi IP một dòng. Để trống để không giới hạn.",
       "IP_WHITELIST_DESC": "IP có thể bị giả mạo. Dùng kèm gateway để có hiệu lực mạnh hơn.",
       "SUBMIT": "Tạo",
-      "SAVE": "Lưu"
+      "SAVE": "Lưu",
+      "QUOTA_FREE_ONLY_HINT": "$0 tạo khóa chỉ dùng cho mô hình miễn phí. Mô hình trả phí sẽ bị từ chối.",
+      "QUOTA_EQUIVALENT": "= {quota} hạn mức"
     },
     "ENUM": {
       "ENABLED": "Đã bật",
@@ -2567,6 +2678,7 @@
     "FONT_DEFAULT": "Mặc định dự án",
     "FONT_HEADING_INHERIT": "Theo nội dung",
     "BASE_COLOR": "Màu nền",
+    "CUSTOM_COLOR": "Tùy chỉnh",
     "THEME": "Chủ đề",
     "CHART_COLOR": "Màu biểu đồ",
     "HEADING_FONT": "Phông tiêu đề",
@@ -2603,6 +2715,8 @@
     "MD_SINGLE_QUOTE": "Văn bản trong dấu nháy đơn",
     "MD_DOUBLE_QUOTE": "Văn bản trong dấu nháy kép",
     "SURFACE_COLORS": "Màu bề mặt",
+    "MODE_LIGHT": "Sáng",
+    "MODE_DARK": "Tối",
     "COLOR_SIDEBAR": "Thanh bên",
     "BACKGROUND_IMAGE": "Ảnh nền",
     "BG_UPLOAD": "Tải ảnh lên",

@@ -1,195 +1,161 @@
 "use client";
 
-import { PageHeader } from "@/components/elements/content/page-header";
+import { DataTable } from "@/components/elements/table/data-table";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { Input } from "@/components/ui/input";
-import { usePerfMetricsSummaryQuery } from "@/hooks/models/perf-metrics-hook";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { useModelsFilter } from "@/hooks/ui/use-models-hook";
-import { FILTER_OPTIONS, selectedVendorsAtom } from "@/store/models-store";
-import { useAtom } from "jotai";
+import { useModelsUrlSync } from "@/hooks/ui/use-models-url-sync";
+import { Link } from "@/i18n/navigation";
+import type { OutputModality } from "@/lib/api/model-modality";
+import { DataTableId } from "@/lib/types/enums";
+import { createTableAtoms } from "@/store/data-table-store";
+import { clearFiltersAtom, isDirtyAtom } from "@/store/models-store";
+import { useAtomValue, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
-import { useSearchParams } from "next/navigation";
-import { useEffect } from "react";
-import { WindowVirtualizer } from "virtua";
-import { ModelCard } from "./browse/model-card";
-import { ModelListItem } from "./browse/model-list-item";
+import { buildModelColumns } from "./browse/model-columns";
+import { ModelListCard } from "./browse/model-list-card";
 import { ModelDetailSheet } from "./detail/model-detail-sheet";
+import { ModalityTabs } from "./filters/modality-tabs";
+import { ModelsFilterSidebar } from "./filters/models-filter-sidebar";
 import { SortFilter } from "./filters/sort-filter";
-import { VendorFilter } from "./filters/vendor-filter";
 import { ViewModeToggle } from "./filters/view-mode-toggle";
 
-// Fixed chunk size: each virtual row holds 3 cards and its own responsive
-// grid reflows them (3/2/1 per breakpoint). JS column detection started at 1
-// and corrected in an effect, flashing a one-column layout on every load.
-const GRID_CHUNK = 3;
-const GRID_SSR_ROWS = 8;
-const LIST_SSR_ROWS = 12;
-
-function Maybe(props: {
-  virtualize: boolean;
-  ssrCount: number;
-  vKey: string;
-  children: React.ReactNode;
-}) {
-  if (!props.virtualize) return <>{props.children}</>;
-  return (
-    <WindowVirtualizer key={props.vKey} ssrCount={props.ssrCount}>
-      {props.children}
-    </WindowVirtualizer>
-  );
-}
+const modelsTableAtoms = createTableAtoms(DataTableId.MODELS);
 
 export function ModelsPage() {
   const t = useTranslations();
   const m = useModelsFilter();
-  const perfQuery = usePerfMetricsSummaryQuery(24);
-  const perfMap = new Map(
-    (perfQuery.data?.models ?? []).map((row) => [row.model_name, row]),
-  );
+  useModelsUrlSync();
 
-  // Rendering all ~200 catalog entries at once cost ~20s main-thread on mobile
-  // (Lighthouse TBT 9.9s); window-virtualize like the status page.
-  const gridRows: (typeof m.filtered)[] = [];
-  for (let i = 0; i < m.filtered.length; i += GRID_CHUNK) {
-    gridRows.push(m.filtered.slice(i, i + GRID_CHUNK));
+  const clearFilters = useSetAtom(clearFiltersAtom);
+  const isDirty = useAtomValue(isDirtyAtom);
+  const columnSorting = useAtomValue(modelsTableAtoms.sortingAtom);
+  const setColumnSorting = useSetAtom(modelsTableAtoms.sortingAtom);
+  const showReset = isDirty || columnSorting.length > 0;
+
+  function resetAll() {
+    clearFilters();
+    setColumnSorting([]);
   }
 
-  const searchParams = useSearchParams();
-  const [selectedVendors, setSelectedVendors] = useAtom(selectedVendorsAtom);
-  useEffect(() => {
-    const vendorParam = searchParams.get("vendor");
-    if (vendorParam && selectedVendors.length === 0) {
-      setSelectedVendors([vendorParam]);
-    }
-    // Only seed once on mount; ignore subsequent searchParams changes so the
-    // user can clear the filter without it snapping back from the URL.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const priceLabels = {
-    from: t("MODELS.PRICE.FROM"),
-    perRequest: t("MODELS.PRICE.PER_REQUEST"),
-    input: t("MODELS.PRICE.INPUT"),
-    output: t("MODELS.PRICE.OUTPUT"),
-    perMillion: t("MODELS.PRICE.PER_MILLION"),
-    gridPricing: t("MODELS.PRICE.GRID"),
-    customBilling: t("MODELS.PRICE.CUSTOM"),
-    tiered: t("MODELS.PRICE.TIERED"),
-  };
+  const columns = buildModelColumns({
+    rankMap: m.rankMap,
+    offLabel: (pct) => t("MODELS.TABLE.OFF", { pct }),
+    freeLabel: t("MODELS.TABLE.FREE"),
+    onDetails: (model) => m.setSelectedModelName(model.name),
+  });
 
   return (
-    <div className="mx-auto max-w-6xl px-6 pt-24 pb-16">
-      <PageHeader
-        badge={t("MODELS.BADGE")}
-        badgeIcon="layers"
-        title={t("MODELS.TITLE")}
-        subtitle={t("MODELS.SUBTITLE")}
-        color="#22d3ee"
-        centered
-        className="mb-12"
-      />
+    <div className="w-full pt-20 pb-16">
+      <SidebarProvider
+        defaultOpen
+        className="h-auto min-h-0 overflow-visible"
+        style={{ "--sidebar-width": "16rem" } as React.CSSProperties}
+      >
+        <ModelsFilterSidebar models={m.models} />
 
-      <div className="mb-4 flex flex-wrap items-center justify-between gap-2 md:gap-4">
-        <p className="text-muted-foreground font-mono text-sm">
-          {m.filtered.length} {t("MODELS.MODEL_COUNT")}
-        </p>
-        <div className="flex flex-wrap items-center gap-1.5 md:gap-2">
-          {m.hasActiveFilters && (
-            <Button
-              variant="ghost"
-              onClick={() => m.clearFilters()}
-              className="h-8 px-2 md:h-9 lg:px-3"
-            >
-              {t("MODELS.FILTER.RESET")}
-              <Icon name="x" className="ml-1 h-4 w-4 md:ml-2" />
-            </Button>
-          )}
-          <VendorFilter models={m.models} />
-          <SortFilter />
-          <ViewModeToggle />
-        </div>
-      </div>
+        <SidebarInset className="max-h-none overflow-visible bg-transparent px-4 md:px-6">
+          <div className="mb-4 flex flex-wrap items-center gap-2">
+            <h1 className="mr-2 text-lg font-semibold tracking-tight">
+              {t("MODELS.TITLE")}
+            </h1>
+            <p className="text-muted-foreground sr-only">
+              {t("MODELS.SUBTITLE")}
+            </p>
+            <div className="ml-auto flex flex-1 items-center justify-end gap-2">
+              {showReset && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={resetAll}
+                  className="h-9 px-2 lg:px-3"
+                >
+                  {t("MODELS.FILTER.RESET")}
+                  <Icon name="x" className="ml-1 h-4 w-4" />
+                </Button>
+              )}
+              <div className="relative hidden w-full max-w-xs lg:block">
+                <Icon
+                  name="search"
+                  className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2"
+                />
+                <Input
+                  placeholder={t("MODELS.SEARCH_PLACEHOLDER")}
+                  value={m.search}
+                  onChange={(e) => m.setSearch(e.target.value)}
+                  className="pl-10"
+                />
+              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                nativeButton={false}
+                render={<Link href="/compare" />}
+                className="h-9 px-2 lg:px-3"
+              >
+                <Icon name="chart-column" className="h-4 w-4 lg:mr-1.5" />
+                <span className="hidden lg:inline">
+                  {t("MODELS.COMPARE.BADGE")}
+                </span>
+              </Button>
+              <SortFilter />
+              <ViewModeToggle />
+            </div>
+          </div>
 
-      <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center">
-        <div className="relative flex-1">
-          <Icon
-            name="search"
-            className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2"
-          />
-          <Input
-            placeholder={t("MODELS.SEARCH_PLACEHOLDER")}
-            value={m.search}
-            onChange={(e) => m.setSearch(e.target.value)}
-            className="pl-10"
-          />
-        </div>
-        <div className="flex flex-wrap gap-1">
-          {FILTER_OPTIONS.map((option) => (
-            <Button
-              key={option.key}
-              variant={m.filter === option.key ? "default" : "outline"}
-              size="sm"
-              onClick={() => m.setFilter(option.key)}
-              className="font-mono text-xs"
-            >
-              {t(option.labelKey)}
-            </Button>
-          ))}
-        </div>
-      </div>
+          {/* Tabs + table header stick together as one unit under the navbar
+              so the column labels stay flush below the tab row (no gap, no
+              half-row peeking through). */}
+          <div className="bg-background/95 supports-backdrop-blur:bg-background/80 sticky top-14 z-20 backdrop-blur">
+            <ModalityTabs
+              models={m.models}
+              value={m.outputModality as OutputModality}
+              onChange={(value) => m.setOutputModality(value)}
+            />
+          </div>
 
-      {m.filtered.length === 0 ? (
-        <div className="text-muted-foreground py-24 text-center">
-          {t("MODELS.EMPTY")}
-        </div>
-      ) : m.viewMode === "grid" ? (
-        // ssrCount: server-render the first rows so LCP comes from HTML
-        // instead of waiting for hydration + measurement.
-        // virtua keeps the unclamped [0, ssrCount-1] range until first scroll,
-        // so fewer children than ssrCount crashes (undefined.key); render small
-        // lists plain. Maybe wraps both branches so the type switch unmounts
-        // the virtualizer instead of reusing its store.
-        <Maybe
-          virtualize={gridRows.length > GRID_SSR_ROWS}
-          ssrCount={GRID_SSR_ROWS}
-          vKey="grid"
-        >
-          {gridRows.map((row) => (
-            <div
-              key={row[0].name}
-              className="grid grid-cols-1 gap-4 pb-4 sm:grid-cols-2 lg:grid-cols-3"
-            >
-              {row.map((model) => (
-                <ModelCard
+          <div className="relative mt-3 w-full lg:hidden">
+            <Icon
+              name="search"
+              className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2"
+            />
+            <Input
+              placeholder={t("MODELS.SEARCH_PLACEHOLDER")}
+              value={m.search}
+              onChange={(e) => m.setSearch(e.target.value)}
+              className="pl-10"
+            />
+          </div>
+
+          <div className="mt-4">
+            {m.filtered.length === 0 ? (
+              <div className="text-muted-foreground py-24 text-center">
+                {t("MODELS.EMPTY")}
+              </div>
+            ) : m.viewMode === "table" ? (
+              <DataTable
+                id={DataTableId.MODELS}
+                data={m.filtered}
+                columns={columns}
+                localSorting
+                windowVirtual
+                onRowClick={(model) => m.setSelectedModelName(model.name)}
+              />
+            ) : (
+              m.filtered.map((model) => (
+                <ModelListCard
                   key={model.name}
                   model={model}
+                  rank={m.rankMap.get(model.name)}
                   onClick={() => m.setSelectedModelName(model.name)}
-                  labels={priceLabels}
-                  perf={perfMap.get(model.name)}
                 />
-              ))}
-            </div>
-          ))}
-        </Maybe>
-      ) : (
-        <Maybe
-          virtualize={m.filtered.length > LIST_SSR_ROWS}
-          ssrCount={LIST_SSR_ROWS}
-          vKey="list"
-        >
-          {m.filtered.map((model) => (
-            <div key={model.name} className="pb-2">
-              <ModelListItem
-                model={model}
-                onClick={() => m.setSelectedModelName(model.name)}
-                labels={priceLabels}
-                perf={perfMap.get(model.name)}
-              />
-            </div>
-          ))}
-        </Maybe>
-      )}
+              ))
+            )}
+          </div>
+        </SidebarInset>
+      </SidebarProvider>
 
       <ModelDetailSheet
         model={m.selectedModel}

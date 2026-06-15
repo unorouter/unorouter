@@ -30,8 +30,7 @@ import {
   WEB_SEARCH_ENGINE_KEY,
 } from "./form-handler";
 
-// Per-conversation binding fields: persona, preset, characters, lorebooks.
-// Conversation mode only; the drawer gates its render.
+    // Per-conversation binding fields: persona, preset, characters, lorebooks. Conversation mode only; the drawer gates its render.
 export function OverridesBindingFields(props: {
   control: Control<ConversationOverridesForm>;
 }) {
@@ -43,7 +42,7 @@ export function OverridesBindingFields(props: {
 
   return (
     <>
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+      <div className="grid grid-cols-2 gap-3">
         <MyFormEntitySelect
           control={props.control}
           name="personaId"
@@ -173,7 +172,7 @@ export function OverridesGenerationFields(props: {
       </div>
 
       {props.showConversationFields && props.webSearchEnabled && (
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+        <div className="grid grid-cols-2 gap-3">
           <MyFormKeyedSelect
             control={props.control}
             name="webSearchEngine"

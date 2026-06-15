@@ -19,10 +19,7 @@ import { dollarsToQuota, renderQuota } from "@/lib/config/constants";
 import { cn } from "@/lib/utils";
 import { Link } from "@/i18n/navigation";
 import type { RestoredFromPng } from "@/components/pages/sidebar/playground/utils/png-metadata";
-import type {
-  GenerationFormValues,
-  GenerationMode,
-} from "@/lib/validation/playground";
+import type { GenerationMode } from "@/lib/validation/playground";
 import {
   activeSessionIdAtom,
   activeSnapshotIdAtom,
@@ -32,15 +29,12 @@ import {
 import { useAtom, useAtomValue } from "jotai";
 import { AspectRatioField } from "../fields/aspect-ratio-field";
 import { InitImageField } from "../fields/init-image-field";
-// react-canvas-masker is a UMD bundle referencing `self`; evaluating it during
-// SSR 500s the page. Load the canvas client-only on first inpaint render.
+    // react-canvas-masker is a UMD bundle referencing self; SSR 500s, so load client-only on first inpaint render.
 const InpaintCanvas = dynamic(
   () => import("../fields/inpaint-canvas").then((m) => m.InpaintCanvas),
   { ssr: false },
 );
-import type { LoraEntry } from "../fields/lora-picker";
 import { LoraPicker } from "../fields/lora-picker";
-import type { ReferenceEntry } from "../fields/reference-uploader";
 import { ReferenceUploader } from "../fields/reference-uploader";
 import { INITIAL_MODEL, VARIANT_CHOICES } from "../playground-constants";
 import { AdvancedFieldsStack } from "./advanced-fields-stack";
@@ -83,7 +77,7 @@ export function GenerateForm() {
       ? (variantsRaw as 1 | 2 | 4)
       : 1;
   const totalQuota = dollarsToQuota(descriptor.pricePerCall * variants);
-  const params = (form.watch("params") ?? {}) as Record<string, unknown>;
+  const params = form.watch("params") ?? {};
 
   const onPngImport = (data: RestoredFromPng) => {
     if (data.prompt !== undefined) {
@@ -108,7 +102,7 @@ export function GenerateForm() {
 
   const onSubmit = form.handleSubmit(async (data) => {
     const mode = deriveMode(activeTab, activeSubPill);
-    const body = await toSubmitBody(data as GenerationFormValues, {
+    const body = await toSubmitBody(data, {
       activeSessionId,
       mode,
       uploadMaskAsync: (file) => uploadMaskMut.mutateAsync(file),
@@ -119,14 +113,14 @@ export function GenerateForm() {
     });
 
     if (mode === "inpaint") {
-      const curUi = (data.ui as Record<string, unknown> | undefined) ?? {};
+      const curUi = data.ui ?? {};
       form.setValue("ui", { ...curUi, inpaintMaskDataUrl: undefined });
     }
 
-    const modelKey = (data.model as string) ?? INITIAL_MODEL;
+    const modelKey = data.model ?? INITIAL_MODEL;
     gen.setSamplerMemory({
       ...gen.samplerMemory,
-      [modelKey]: (data.params as Record<string, unknown> | undefined) ?? {},
+      [modelKey]: data.params ?? {},
     });
     gen.setDraft(null);
 
@@ -250,7 +244,7 @@ export function GenerateForm() {
         {descriptor.supportsLoraChain && (
           <LoraPicker
             family={descriptor.family}
-            value={(form.watch("loras") as LoraEntry[] | undefined) ?? []}
+            value={form.watch("loras") ?? []}
             onChange={(loras) =>
               form.setValue("loras", loras.length > 0 ? loras : undefined, {
                 shouldDirty: true,
@@ -262,9 +256,7 @@ export function GenerateForm() {
         {descriptor.supportsReferences && (
           <ReferenceUploader
             maxFiles={descriptor.maxReferenceImages}
-            value={
-              (form.watch("references") as ReferenceEntry[] | undefined) ?? []
-            }
+            value={form.watch("references") ?? []}
             onChange={(refs) =>
               form.setValue("references", refs.length > 0 ? refs : undefined, {
                 shouldDirty: true,

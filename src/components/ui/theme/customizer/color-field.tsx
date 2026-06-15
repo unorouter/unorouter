@@ -1,8 +1,13 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const HEX_RE = /^#[0-9a-fA-F]{6}$/;
+
+// The color input fires onChange continuously while dragging; each commit
+// re-renders the whole customizer (~40ms), which stutters. Keep the swatch/text
+// live locally and debounce the propagation up.
+const COMMIT_DELAY_MS = 100;
 
 function normalizeHex(v: string): string | null {
   let s = v.trim();
@@ -20,21 +25,46 @@ export function ColorField(props: {
   onChange: (next: string | undefined) => void;
 }) {
   const colorInputRef = useRef<HTMLInputElement | null>(null);
-  const value = props.value ?? "";
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // Local live value for instant input feedback; parent updates debounced.
+  const [local, setLocal] = useState(props.value ?? "");
+  // Adjust local when the prop changes externally (reset/import/shuffle) without
+  // an effect: the store-prev-prop-during-render pattern (react.dev).
+  const [prevValue, setPrevValue] = useState(props.value);
+  if (props.value !== prevValue) {
+    setPrevValue(props.value);
+    setLocal(props.value ?? "");
+  }
+  useEffect(
+    () => () => {
+      if (timer.current) clearTimeout(timer.current);
+    },
+    [],
+  );
+
+  const debouncedChange = (next: string | undefined) => {
+    if (timer.current) clearTimeout(timer.current);
+    timer.current = setTimeout(() => props.onChange(next), COMMIT_DELAY_MS);
+  };
+
   return (
     <div className="ring-foreground/10 hover:bg-muted relative flex w-full shrink-0 items-center gap-2 rounded-lg px-3 py-2 ring-1 select-none">
       <button
         type="button"
         onClick={() => colorInputRef.current?.click()}
         className="ring-foreground/15 size-6 shrink-0 cursor-pointer rounded-full ring-1"
-        style={{ backgroundColor: value || "transparent" }}
+        style={{ backgroundColor: local || "transparent" }}
         aria-label={`${props.label} swatch`}
       />
       <input
         ref={colorInputRef}
         type="color"
-        value={value || "#000000"}
-        onChange={(e) => props.onChange(e.target.value.toLowerCase())}
+        value={local || "#000000"}
+        onChange={(e) => {
+          const hex = e.target.value.toLowerCase();
+          setLocal(hex);
+          debouncedChange(hex);
+        }}
         className="sr-only"
         tabIndex={-1}
         aria-hidden
@@ -43,17 +73,18 @@ export function ColorField(props: {
         <div className="text-muted-foreground text-xs">{props.label}</div>
         <input
           type="text"
-          value={value}
+          value={local}
           placeholder="#rrggbb"
           onChange={(e) => {
             const raw = e.target.value;
-            if (raw === "") return props.onChange(undefined);
+            setLocal(raw);
+            if (raw === "") return debouncedChange(undefined);
             const hex = normalizeHex(raw);
-            if (hex) props.onChange(hex);
-            else props.onChange(raw); // let user keep typing; validates on blur
+            if (hex) debouncedChange(hex); // valid hex commits; blur normalizes the rest
           }}
           onBlur={(e) => {
             const hex = normalizeHex(e.target.value);
+            setLocal(hex ?? "");
             props.onChange(hex ?? undefined);
           }}
           className="text-foreground bg-transparent text-sm font-medium outline-none"
@@ -61,10 +92,13 @@ export function ColorField(props: {
           aria-label={props.label}
         />
       </div>
-      {props.value && (
+      {local && (
         <button
           type="button"
-          onClick={() => props.onChange(undefined)}
+          onClick={() => {
+            setLocal("");
+            props.onChange(undefined);
+          }}
           className="text-muted-foreground hover:text-foreground text-xs"
           aria-label="reset"
         >

@@ -17,6 +17,13 @@ export function formatLongDate(value: string | number | undefined): string {
   return d.format("MMM D, YYYY");
 }
 
+// Same format but input is a MILLISECONDS epoch, not unix seconds.
+export function formatMsDate(ms: number): string {
+  if (!ms) return "";
+  const d = dayjs(ms);
+  return d.isValid() ? d.format("MMM D, YYYY") : "";
+}
+
 export function formatYearMonth(
   value: string | number | undefined,
 ): string | null {

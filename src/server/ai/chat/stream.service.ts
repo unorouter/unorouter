@@ -19,8 +19,11 @@ import {
   handleEmbeddingStream,
   handleImageStream,
   handleVideoTaskStream,
-} from "./stream/media-stream";
-import { prepareChatRequest, type StreamBody } from "./stream/prepare";
+} from "./media/media-stream";
+import {
+  prepareChatRequest,
+  type StreamBody,
+} from "./pipeline/prepare.service";
 
 export async function streamChat(
   apiKey: string,
@@ -30,10 +33,7 @@ export async function streamChat(
 ) {
   const { buffered, mediaType } = await isMediaModel(body.model);
 
-  // Group resolution: the toolbar atom rides top-level `group`, but the
-  // authoritative per-conversation value lives in the sent conv settings
-  // (a new chat seeds the atom to null while its row already has a group).
-  // Prefer top-level, fall back to conv settings.
+      // Group resolution: prefer the top-level toolbar group, fall back to conv settings (a new chat nulls the atom while its row already has a group).
   const settingsGroup = (
     body.chatContext?.settings as { group?: string | null } | undefined
   )?.group;
@@ -87,15 +87,12 @@ export async function streamChat(
     });
     return createUIMessageStreamResponse({ stream: stopStream });
   }
-  // cacheControl flag limits cache_control to Claude: others (Mistral)
-  // advertise caching but 422 on the Anthropic block format.
+      // cacheControl flag limits cache_control to Claude: others advertise caching but 422 on the Anthropic block format.
   const provider = getProvider(apiKey, prepared.bodyMutations);
 
   // Per-request group override; new-api reads X-Group. Omit for null/auto.
   const groupHeaders =
-    body.group && body.group !== "auto"
-      ? { "X-Group": body.group }
-      : undefined;
+    body.group && body.group !== "auto" ? { "X-Group": body.group } : undefined;
 
   const droppedParamsRef = { value: null as string | null };
   // Captured in onFinish; emitted in messageMetadata to seed request log row.
@@ -121,8 +118,7 @@ export async function streamChat(
           : undefined,
     };
   };
-  // Upstream request id + dropped-params ride response headers; capture from
-  // whichever callback sees them first (finish-step beats onFinish on timing).
+      // Upstream request id + dropped-params ride response headers; capture from whichever callback sees them first.
   const captureHeaders = (
     hdrs: Record<string, string> | null | undefined,
   ): void => {
@@ -137,8 +133,7 @@ export async function streamChat(
     }
   };
   const result = streamText({
-    // Lift inline <think> text into a proper reasoning part: UI renders it
-    // collapsible, stripReasoningParts keeps it out of next turn's context.
+        // Lift inline <think> text into a reasoning part: UI renders it collapsible, stripReasoningParts keeps it out of next turn.
     model: wrapLanguageModel({
       model: provider.chatModel(body.model),
       middleware: extractReasoningMiddleware({ tagName: "think" }),
@@ -187,19 +182,19 @@ export async function streamChat(
     },
   });
 
-  // Server-generated id shared by the UI stream and the request-log row, so
-  // both sides key the log identically.
+      // Server-generated id shared by the UI stream and the request-log row, so both sides key the log identically.
   const responseMessageId = uid();
-  // One finish-metadata builder for both delivery paths (streamed finish frame,
-  // buffered synthesized chunk).
+      // One finish-metadata builder for both delivery paths (streamed finish frame, buffered synthesized chunk).
   const buildFinishMeta = (
     totalUsage: { inputTokens?: number; outputTokens?: number } | undefined,
   ): Record<string, unknown> => {
     const meta: Record<string, unknown> = {};
     if (droppedParamsRef.value) meta.droppedParams = droppedParamsRef.value;
     if (prepared.varsWriteback) meta.vars = prepared.varsWriteback;
-    if (prepared.globalVarsWriteback) meta.globalVars = prepared.globalVarsWriteback;
-    if (prepared.memory.summaryWriteback) meta.summary = prepared.memory.summaryWriteback;
+    if (prepared.globalVarsWriteback)
+      meta.globalVars = prepared.globalVarsWriteback;
+    if (prepared.memory.summaryWriteback)
+      meta.summary = prepared.memory.summaryWriteback;
     if (prepared.inlayMedia.length > 0) meta.inlayMedia = prepared.inlayMedia;
     // Per-message speaker tag (Risu `saying`), immune to the speaking-atom clear race.
     if (body.speakingCharacterId)
@@ -253,8 +248,7 @@ export async function streamChat(
     return createUIMessageStreamResponse({ stream: uiStream });
   }
 
-  // Buffered (media follow-ups + streaming-off): same metadata, synthesized
-  // after the full text resolves so usage/cost/writebacks are not lost.
+      // Buffered (media follow-ups + streaming-off): same metadata, synthesized after the full text resolves so usage/cost/writebacks survive.
   return handleBufferedStream(
     result,
     body,

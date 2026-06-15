@@ -6,9 +6,11 @@ import {
 } from "@/components/ui/theme/shadcn-themes";
 import { findStyle } from "@/components/ui/theme/shadcn-styles";
 import { FONT_OPTIONS } from "@/components/ui/theme/theme-fonts";
-import type {
-  BackgroundSettings,
-  UserTheme,
+import {
+  normalizeSurface,
+  type BackgroundSettings,
+  type SurfaceColors,
+  type UserTheme,
 } from "@/components/ui/theme/theme-store";
 
 function fontFamilyFor(
@@ -124,11 +126,11 @@ function markdownBlock(md: UserTheme["markdown"]): string {
   return [varsBlock, ...rules].filter(Boolean).join("");
 }
 
-// Freeform surface overrides. Emitted under `:root,.dark` so source order
-// (placed after the base/accent blocks) wins in either color scheme.
-function surfaceBlock(surface: UserTheme["surface"]): string {
-  if (!surface) return "";
+// Map one scheme's freeform surface overrides to css vars (a surface knob may
+// drive several vars, e.g. card also sets popover).
+function surfaceVars(surface: SurfaceColors | undefined): ThemeCssVars {
   const vars: ThemeCssVars = {};
+  if (!surface) return vars;
   if (surface.background) vars.background = surface.background;
   if (surface.foreground) vars.foreground = surface.foreground;
   if (surface.card) {
@@ -145,7 +147,91 @@ function surfaceBlock(surface: UserTheme["surface"]): string {
     vars.input = surface.border;
   }
   if (surface.sidebar) vars.sidebar = surface.sidebar;
-  return emitBlock(":root,.dark", vars);
+  return vars;
+}
+
+// Per-scheme surface overrides (RisuAI parity): light -> :root, dark -> .dark,
+// placed after the base/accent blocks so they win within their own scheme.
+function surfaceBlock(surface: UserTheme["surface"]): string {
+  const palette = normalizeSurface(surface);
+  return [
+    emitBlock(":root", surfaceVars(palette.light)),
+    emitBlock(".dark", surfaceVars(palette.dark)),
+  ]
+    .filter(Boolean)
+    .join("");
+}
+
+const HEX_RE = /^#?([0-9a-fA-F]{6}|[0-9a-fA-F]{3})$/;
+
+// Normalize "#abc" / "abc" / "#aabbcc" to "#aabbcc"; null if not a hex color.
+function normHex(v: string | undefined): string | null {
+  if (!v) return null;
+  const m = HEX_RE.exec(v.trim());
+  if (!m) return null;
+  let h = m[1];
+  if (h.length === 3) h = `${h[0]}${h[0]}${h[1]}${h[1]}${h[2]}${h[2]}`;
+  return `#${h.toLowerCase()}`;
+}
+
+// Relative luminance (sRGB, gamma-ignored approximation) to pick a readable
+// foreground over a custom background.
+function isLight(hex: string): boolean {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return (0.299 * r + 0.587 * g + 0.114 * b) / 255 > 0.6;
+}
+
+// Five chart shades from one hue via color-mix, lightest to darkest. The mix
+// targets flip per scheme so the ramp reads on both light and dark backgrounds.
+function chartShades(hex: string, dark: boolean): ThemeCssVars {
+  const lift = dark ? "white" : "black";
+  const drop = dark ? "black" : "white";
+  return {
+    "chart-1": `color-mix(in oklab, ${hex} 55%, ${lift})`,
+    "chart-2": `color-mix(in oklab, ${hex} 78%, ${lift})`,
+    "chart-3": hex,
+    "chart-4": `color-mix(in oklab, ${hex} 78%, ${drop})`,
+    "chart-5": `color-mix(in oklab, ${hex} 55%, ${drop})`,
+  };
+}
+
+// Custom-color overrides for the "custom" sentinel on base/theme/chart pickers.
+// Emitted after the base+accent merge so they win, but BEFORE surfaceBlock so an
+// explicit surface override still trumps a custom picker.
+function customVars(theme: UserTheme, dark: boolean): ThemeCssVars {
+  const out: ThemeCssVars = {};
+  if (theme.baseColor === "custom") {
+    const bg = normHex(theme.baseColorCustom);
+    if (bg) {
+      out.background = bg;
+      out.foreground = isLight(bg) ? "#0a0a0a" : "#fafafa";
+    }
+  }
+  if (theme.theme === "custom") {
+    const p = normHex(theme.themeCustom);
+    if (p) {
+      out.primary = p;
+      out.ring = p;
+      out["sidebar-primary"] = p;
+      out["primary-foreground"] = isLight(p) ? "#0a0a0a" : "#fafafa";
+    }
+  }
+  if (theme.chartColor === "custom") {
+    const c = normHex(theme.chartColorCustom);
+    if (c) Object.assign(out, chartShades(c, dark));
+  }
+  return out;
+}
+
+function customBlock(theme: UserTheme): string {
+  return [
+    emitBlock(":root", customVars(theme, false)),
+    emitBlock(".dark", customVars(theme, true)),
+  ]
+    .filter(Boolean)
+    .join("");
 }
 
 export function buildThemeCss(theme: UserTheme): string {
@@ -182,6 +268,9 @@ export function buildThemeCss(theme: UserTheme): string {
   return [
     emitBlock(":root", light),
     emitBlock(".dark", dark),
+    // Custom base/theme/chart colors win over the preset merge, but still lose
+    // to an explicit surface override below.
+    customBlock(theme),
     styleVarsBlock(theme.style),
     bodyFontBlock,
     menuBlock(theme.menu),

@@ -1,25 +1,15 @@
 "use client";
 
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
+import { ConversationStats } from "@/components/pages/sidebar/chat/chat-elements";
 import { ChatLoadout } from "@/components/pages/sidebar/chat/chat-loadout";
 import { GreetingPreview } from "@/components/pages/sidebar/chat/greeting-preview";
+import { RequestLogButton } from "@/components/pages/sidebar/chat/request-log/request-log-button";
 import {
   ComposerAddAttachment,
   ComposerAttachments,
   UserMessageAttachments,
 } from "@/components/ui/assistant-ui/attachment";
-import dynamic from "next/dynamic";
-// Markdown pipeline (~75KB gzip) loads with the first rendered message, not
-// with the empty-thread shell.
-const MarkdownText = dynamic(
-  () =>
-    import("@/components/ui/assistant-ui/markdown-text").then(
-      (m) => m.MarkdownText,
-    ),
-  { ssr: false },
-  // The message-part slot type carries part props MarkdownText ignores
-  // (it reads message context); restore the original signature.
-) as unknown as typeof import("@/components/ui/assistant-ui/markdown-text").MarkdownText;
 import {
   Reasoning,
   ReasoningGroup,
@@ -29,20 +19,19 @@ import { ToolFallback } from "@/components/ui/assistant-ui/tool-fallback";
 import { TooltipIconButton } from "@/components/ui/assistant-ui/tooltip-icon-button";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Textarea } from "@/components/ui/textarea";
-import { useAuthQuery } from "@/hooks/auth/auth-hook";
-import { ConversationStats } from "@/components/pages/sidebar/chat/chat-elements";
-import { RequestLogButton } from "@/components/pages/sidebar/chat/request-log/request-log-button";
 import {
   useDeleteMessageMutation,
   useEditMessageMutation,
   useSetActiveBranchMutation,
 } from "@/hooks/ai/chat-hook";
+import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { usePricingQuery } from "@/hooks/models/pricing-hook";
 import { useMessageMeta } from "@/hooks/ui/use-chat-hook";
 import { useIsMobile } from "@/hooks/ui/use-mobile";
-import { analytics } from "@/lib/analytics";
 import { partsToItems } from "@/lib/ai/chat/messages";
+import { analytics } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 import { formatPrice } from "@/lib/utils/format/number";
 import {
@@ -53,7 +42,6 @@ import {
   convIdAtom,
   historyLoadedAtom,
 } from "@/store/chat-store";
-import { Skeleton } from "@/components/ui/skeleton";
 import { useMessageError } from "@assistant-ui/core/react";
 import {
   ActionBarPrimitive,
@@ -64,18 +52,28 @@ import {
   SuggestionPrimitive,
   ThreadPrimitive,
   useAuiState,
+  type TextMessagePartProps,
 } from "@assistant-ui/react";
 import { useAtom, useAtomValue } from "jotai";
 import { useTranslations } from "next-intl";
+import dynamic from "next/dynamic";
 import { useParams } from "next/navigation";
 import {
   createContext,
-  type FC,
   useContext,
   useEffect,
   useRef,
   useState,
+  type FC,
 } from "react";
+
+const MarkdownText = dynamic<TextMessagePartProps>(
+  () =>
+    import("@/components/ui/assistant-ui/markdown-text").then(
+      (m) => m.MarkdownText,
+    ),
+  { ssr: false },
+);
 
 const AssistantEditContext = createContext<(() => void) | null>(null);
 
@@ -101,7 +99,7 @@ export const Thread: FC = () => {
           {() => <ThreadMessage />}
         </ThreadPrimitive.Messages>
 
-        <ThreadPrimitive.ViewportFooter className="aui-thread-viewport-footer before:from-background bg-background pointer-events-none sticky bottom-0 mx-auto mt-auto flex w-full max-w-(--thread-max-width) flex-col gap-4 overflow-visible rounded-t-(--composer-radius) pb-[max(--spacing(1),env(safe-area-inset-bottom))] *:pointer-events-auto before:pointer-events-none before:absolute before:inset-x-0 before:-top-6 before:h-6 before:bg-linear-to-t before:to-transparent md:pb-[max(--spacing(2.5),env(safe-area-inset-bottom))]">
+        <ThreadPrimitive.ViewportFooter className="aui-thread-viewport-footer bg-background mx-auto mt-auto flex w-full max-w-(--thread-max-width) flex-col gap-4 overflow-visible rounded-t-(--composer-radius) pb-[max(--spacing(1),env(safe-area-inset-bottom))] md:pb-[max(--spacing(2.5),env(safe-area-inset-bottom))]">
           <ThreadScrollToBottom />
           <Composer />
         </ThreadPrimitive.ViewportFooter>
@@ -160,7 +158,7 @@ const ThreadHistorySkeleton: FC = () => {
 const ThreadWelcome: FC = () => {
   const t = useTranslations();
   return (
-    <div className="aui-thread-welcome-root mx-auto my-auto flex w-full max-w-(--thread-max-width) grow flex-col">
+    <div className="aui-thread-welcome-root mx-auto my-auto flex w-full max-w-(--thread-max-width) grow flex-col pt-6">
       <div className="aui-thread-welcome-center flex w-full grow flex-col items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <div className="bg-muted flex h-16 w-16 items-center justify-center rounded-full">
@@ -227,7 +225,7 @@ const Composer: FC = () => {
           <ComposerAttachments />
           <ComposerPrimitive.Input
             placeholder={t("CHAT.INPUT_PLACEHOLDER")}
-            className="aui-composer-input placeholder:text-muted-foreground/80 max-h-32 min-h-10 w-full resize-none bg-transparent px-1.75 py-1 text-sm outline-none"
+            className="aui-composer-input placeholder:text-muted-foreground/80 max-h-32 min-h-10 w-full resize-none bg-transparent px-1.75 py-1 text-base outline-none sm:text-sm"
             rows={1}
             autoFocus
             aria-label={t("CHAT.MESSAGE_INPUT")}
@@ -515,6 +513,8 @@ const AssistantEditInPlace: FC<{ onClose: () => void }> = (props) => {
       .map((p) => p.text!)
       .join("\n\n");
   });
+  // Rendered parts drive the source of truth; chat.messages can be empty on a history-loaded conv (mobile hydration race), so reading from there drops reasoning and no-ops the repaint.
+  const renderedParts = useAuiState((s) => s.message.content);
   const [text, setText] = useState(initialText);
   const editMut = useEditMessageMutation();
 
@@ -523,7 +523,7 @@ const AssistantEditInPlace: FC<{ onClose: () => void }> = (props) => {
     if (!convId) return;
 
     const helpers = chatStore.get(chatHelpersAtom);
-    // Only swap text parts; preserve reasoning/tool/source parts.
+    // Only swap text parts; preserve reasoning/tool/source parts. Prefer chat.messages, fall back to the rendered runtime parts.
     const liveMsg = (
       helpers?.getMessages() as Array<{
         id: string;
@@ -531,7 +531,7 @@ const AssistantEditInPlace: FC<{ onClose: () => void }> = (props) => {
       }>
     )?.find((m) => m.id === messageId);
 
-    const liveParts = liveMsg?.parts ?? [];
+    const liveParts = liveMsg?.parts ?? renderedParts ?? [];
     const newParts: Array<{ type: string; [k: string]: unknown }> = [];
     let textInjected = false;
     for (const p of liveParts) {
@@ -576,7 +576,7 @@ const AssistantEditInPlace: FC<{ onClose: () => void }> = (props) => {
         onChange={(e) => setText(e.target.value)}
         rows={Math.min(20, Math.max(4, text.split("\n").length + 1))}
         autoFocus
-        className="font-sans text-sm"
+        className="max-h-[40dvh] overflow-y-auto font-sans text-sm"
       />
       <div className="flex justify-end gap-2">
         <Button
@@ -692,10 +692,6 @@ const DeleteMessageButton: FC = () => {
     <TooltipIconButton
       tooltip={t("CHAT.ACTION.DELETE")}
       onClick={handleClick}
-      onBlur={() => {
-        clearTimer();
-        setArmed(false);
-      }}
       className={cn(
         armed &&
           "bg-destructive/15 text-destructive hover:bg-destructive/25 hover:text-destructive",
@@ -806,7 +802,7 @@ const EditComposer: FC = () => {
     <MessagePrimitive.Root className="aui-edit-composer-wrapper mx-auto flex w-full max-w-(--thread-max-width) flex-col px-2 py-3">
       <ComposerPrimitive.Root className="aui-edit-composer-root bg-muted ml-auto flex w-full max-w-[85%] flex-col rounded-2xl">
         <ComposerPrimitive.Input
-          className="aui-edit-composer-input text-foreground min-h-14 w-full resize-none bg-transparent p-4 text-sm outline-none"
+          className="aui-edit-composer-input text-foreground max-h-[40dvh] min-h-14 w-full resize-none overflow-y-auto bg-transparent p-4 text-base outline-none sm:text-sm"
           autoFocus
           submitMode={isMobile ? "none" : "enter"}
         />

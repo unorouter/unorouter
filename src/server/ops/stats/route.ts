@@ -4,9 +4,7 @@ import { Elysia } from "elysia";
 import { ADMIN_HEADERS } from "@/server/constants";
 import { FAR_FUTURE } from "@/lib/config/constants";
 
-// The upstream quota-dates payload exceeds the Next data cache 2MB item limit
-// (3.2MB and growing), so PUBLIC_CACHE silently never stored it and every hit
-// refetched the full dump. Cache the computed summary in-module instead.
+    // The quota-dates payload exceeds the Next data cache 2MB limit, so PUBLIC_CACHE never stored it. Cache the computed summary in-module instead.
 const SUMMARY_TTL_MS = 5 * 60 * 1000;
 let cached: { at: number; value: HistorySummary } | null = null;
 

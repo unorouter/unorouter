@@ -25,12 +25,11 @@ import {
   type PromptItem,
   type PromptItemRole,
   type SlotName,
-} from "@/server/ai/chat/augmentation/prompt-template";
+} from "@/server/ai/chat/prompt/template";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 
-// Editor cards carry a stable synthetic id for drag-and-drop; the id is dropped
-// when serializing back to PromptItem[].
+    // Editor cards carry a stable synthetic id for drag-and-drop; dropped when serializing back to PromptItem[].
 type Card = PromptItem & { id: string };
 
 const SLOT_LABELS: Record<SlotName, string> = {
@@ -59,7 +58,7 @@ function toCards(items: PromptItem[]): Card[] {
 
 function toItems(cards: Card[]): PromptItem[] {
   // Strip the synthetic id without a delete (avoids the non-optional-delete rule).
-  return cards.map(({ id: _id, ...item }) => item as PromptItem);
+  return cards.map(({ id: _id, ...item }) => item);
 }
 
 type Props = {
@@ -73,8 +72,7 @@ export function PromptTemplateEditor(props: Props) {
   const [cards, setCards] = useState<Card[]>(() =>
     toCards(parsePromptTemplate(props.value) ?? DEFAULT_PROMPT_TEMPLATE),
   );
-  // Per-card collapse so a long jailbreak block doesn't make the list a
-  // scroll-trap; collapsed shows a capped preview, expanded auto-grows.
+      // Per-card collapse so a long jailbreak block isn't a scroll-trap; collapsed shows a capped preview, expanded auto-grows.
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
   const toggleExpanded = (id: string) =>
     setExpanded((prev) => {
@@ -91,7 +89,11 @@ export function PromptTemplateEditor(props: Props) {
 
   const reorder = (orderedIds: string[]) => {
     const byId = new Map(cards.map((c) => [c.id, c]));
-    commit(orderedIds.map((id) => byId.get(id)).filter(Boolean) as Card[]);
+    commit(
+      orderedIds
+        .map((id) => byId.get(id))
+        .filter((c): c is Card => c !== undefined),
+    );
   };
 
   const update = (id: string, patch: Partial<PromptItem>) => {

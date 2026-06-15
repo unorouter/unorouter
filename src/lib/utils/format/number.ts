@@ -23,6 +23,15 @@ export function formatPrice(price: number): string {
   return `$${price.toFixed(decimals)}`;
 }
 
+    // Discount percentage off an original price, rounded. Returns 0 when there's no meaningful discount so callers can skip the badge.
+export function discountPercent(
+  current: number,
+  original: number | null,
+): number {
+  if (original === null || original <= 0 || current >= original) return 0;
+  return Math.round(((original - current) / original) * 100);
+}
+
 export function parsePercent(progress: string | undefined | null): number {
   if (!progress) return 0;
   const m = progress.match(/(\d+)%/);

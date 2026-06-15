@@ -46,9 +46,7 @@ export function safeParse<T extends TSchema>(
   };
 }
 
-// RHF form values from a DB row. Value.Default only fills `undefined`, but DB
-// rows use `null`; strip nulls first so every schema default applies. Pass `{}`
-// for a fully default form.
+    // RHF form values from a DB row. Value.Default only fills undefined, so strip nulls first. Pass {} for a default form.
 export function formDefaults<T extends TObject>(
   schema: T,
   row: Record<string, unknown> = {},
@@ -66,9 +64,7 @@ export function unionLiterals<T extends string>(
   return union.anyOf.map((m) => m.const);
 }
 
-// Single source for the 9 sampling-knob schema fragments (they used to be
-// spelled out in chat.ts x2, rp.ts, and rp-forms.ts x2). Divergences ride the
-// options: presets allow temperature up to 4; rp.ts leaves maxTokens unbounded.
+    // Single source for the 9 sampling-knob schema fragments. Divergences ride the options: presets allow temp to 4, rp.ts unbounds maxTokens.
 type SamplingBoundOpts = {
   temperatureMax?: number;
   /** Omit for an unbounded maxTokens (preset body). */

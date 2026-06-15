@@ -71,8 +71,7 @@ export const generationMode = t.Union([
 ]);
 export type GenerationMode = Static<typeof generationMode>;
 
-// LoRA chain independent of main list: face-fixers often want a face-specific
-// LoRA the main pass shouldn't.
+    // LoRA chain independent of the main list: face-fixers often want a face-specific LoRA the main pass shouldn't.
 export const playgroundAdetailer = t.Object({
   yoloModel: t.String({ maxLength: 128 }),
   prompt: t.Optional(t.String({ maxLength: 2000 })),
@@ -156,14 +155,16 @@ export const generationReferenceEntry = t.Object({
 });
 export type ReferenceEntry = Static<typeof generationReferenceEntry>;
 
-// UI-only state stripped before submit by `toSubmitBody`
-// (components/pages/sidebar/playground/form/submit-transform.ts).
+export type GenerationParams = Static<typeof generationParams>;
+
+    // UI-only state stripped before submit by toSubmitBody (playground/form/submit-transform.ts).
 export const generationFormUi = t.Object({
   variants: t.Optional(t.Integer({ minimum: 1, maximum: 4 })),
   inpaintMaskDataUrl: t.Optional(t.String()),
   inpaintBrushSize: t.Optional(t.Integer({ minimum: 4, maximum: 128 })),
   inpaintBrushOpacity: t.Optional(t.Number({ minimum: 0.05, maximum: 1 })),
 });
+export type GenerationFormUi = Static<typeof generationFormUi>;
 
 export const playgroundSubmitBody = t.Object({
   model: playgroundModel,

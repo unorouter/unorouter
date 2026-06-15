@@ -13,15 +13,15 @@ export function ViewModeToggle() {
   return (
     <div className="border-border flex items-center gap-0.5 rounded-md border p-0.5 md:gap-1 md:p-1">
       <Button
-        variant={viewMode === "grid" ? "secondary" : "ghost"}
+        variant={viewMode === "table" ? "secondary" : "ghost"}
         size="icon-sm"
-        onClick={() => setViewMode("grid")}
-        aria-label={t("MODELS.VIEW.GRID")}
-        aria-pressed={viewMode === "grid"}
-        title={t("MODELS.VIEW.GRID")}
+        onClick={() => setViewMode("table")}
+        aria-label={t("MODELS.VIEW.TABLE")}
+        aria-pressed={viewMode === "table"}
+        title={t("MODELS.VIEW.TABLE")}
         className="h-6 w-6 md:h-7 md:w-7"
       >
-        <Icon name="layout-grid" className="h-3.5 w-3.5 md:h-4 md:w-4" />
+        <Icon name="layout-dashboard" className="h-3.5 w-3.5 md:h-4 md:w-4" />
       </Button>
       <Button
         variant={viewMode === "list" ? "secondary" : "ghost"}

@@ -15,12 +15,16 @@ function getHeader(
   return headers?.[key] ?? headers?.[key.toLowerCase()];
 }
 
-// Success body: strict by content-type (json -> object, binary -> blob, else
-// raw text; never speculatively parse a text body that looks like JSON).
+    // Success body: strict by content-type (json object, binary blob, else raw text); never parse text that looks like JSON.
 async function readOkBody(res: Response): Promise<unknown> {
   const ct = res.headers.get("content-type") ?? "";
   if (ct.includes("application/json")) return res.json();
-  if (ct && !ct.startsWith("text/") && !ct.includes("json") && !ct.includes("xml"))
+  if (
+    ct &&
+    !ct.startsWith("text/") &&
+    !ct.includes("json") &&
+    !ct.includes("xml")
+  )
     return res.blob();
   return res.text();
 }
@@ -41,8 +45,7 @@ export const customFetch = async <T>(
   options: RequestInit,
 ): Promise<T> => {
   const headers = options.headers as Record<string, string> | undefined;
-  // Skip auto-cookie when Authorization is set (ADMIN_HEADERS): upstream
-  // prefers the cookie, causing a New-Api-User mismatch.
+      // Skip auto-cookie when Authorization is set: upstream prefers the cookie, causing a New-Api-User mismatch.
   const hasExplicitAuth = !!getHeader(headers, "Authorization");
   const cookieHeader = hasExplicitAuth ? "" : await getServerCookieHeader();
   const hasCookie = !!getHeader(headers, "cookie");
@@ -58,7 +61,15 @@ export const customFetch = async <T>(
   });
 
   if (!res.ok) {
-    throw { status: res.status, data: await readErrBody(res), headers: res.headers };
+    throw {
+      status: res.status,
+      data: await readErrBody(res),
+      headers: res.headers,
+    };
   }
-  return { status: res.status, data: await readOkBody(res), headers: res.headers } as T;
+  return {
+    status: res.status,
+    data: await readOkBody(res),
+    headers: res.headers,
+  } as T;
 };

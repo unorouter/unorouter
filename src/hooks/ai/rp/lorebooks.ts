@@ -1,6 +1,6 @@
 "use client";
 
-import { useApiMutation } from "@/hooks/use-api-mutation";
+import { useApiMutation } from "@/lib/react-query/hooks";
 
 import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import {

@@ -19,8 +19,7 @@ import type { Control, FieldValues, Path } from "react-hook-form";
 
 type NamedEntity = { id: string; name: string };
 
-// Single-select bound to a string field with a "__none__" sentinel option
-// plus one option per entity. `noneLabel` renders for the sentinel.
+    // Single-select bound to a string field with a __none__ sentinel option plus one per entity.
 export function MyFormEntitySelect<T extends FieldValues>(props: {
   control: Control<T>;
   name: Path<T>;

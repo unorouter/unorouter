@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element, jsx-a11y/alt-text */
 import type { ReactNode } from "react";
 import type { SocialSize, Theme } from "@/lib/validation/badge";
+import { env } from "@/lib/config/env";
 import { FONT_SANS } from "../elements/typography";
 import { Logo } from "../elements/primitives";
 import {
@@ -9,10 +10,13 @@ import {
   svgDataUri,
 } from "../lib/utils";
 
+const brandTld = `.${new URL(env.apiUrl).hostname.split(".").pop()}`;
+
 interface SocialCtx {
   theme: Theme;
   size: SocialSize;
   staticMode?: boolean;
+  modelCount: number;
 }
 
 interface SocialDims {
@@ -124,9 +128,7 @@ const VENDORS = [
 
 const BASE = "#070409";
 
-// Glow spot: horizontal linearGradient (colorA left, colorB right) clipped by a
-// radialGradient mask into a soft blob so spots stack over the base.
-// cx/cy = center %, rx/ry = radius %, of the WxH canvas.
+    // Glow spot: horizontal linearGradient masked by a radialGradient into a soft blob. cx/cy are center %, rx/ry radius %, of the canvas.
 function spotSvg(
   id: string,
   cx: number,
@@ -145,8 +147,7 @@ function spotSvg(
   const rry = (ry / 100) * H;
   const x0 = (ccx - rrx).toFixed(1);
   const x1 = (ccx + rrx).toFixed(1);
-  // Mask opacities scale with intensity (short banners want a fainter glow so the
-  // icon grid stays the focus).
+      // Mask opacities scale with intensity (short banners want a fainter glow so the icon grid stays the focus).
   const o0 = (0.6 * intensity).toFixed(2);
   const o1 = (0.26 * intensity).toFixed(2);
   const def =
@@ -170,10 +171,7 @@ function spotSvg(
   return { def, shape };
 }
 
-// Black base + three two-color glow spots reading as a 6-color rainbow sweep.
-// Layout differs by shape: "grid" spreads spots across the canvas; "strip" would
-// smear those into muddy bands, so it clusters tight spots behind the icon row
-// with radii sized off height so they stay round.
+    // Black base + three glow spots reading as a rainbow sweep. grid spreads spots across the canvas; strip clusters them behind the icon row.
 function bgSvg(
   W: number,
   H: number,
@@ -253,13 +251,11 @@ function bgSvg(
 const RAINBOW =
   "linear-gradient(90deg, #ff2d55 0%, #ff8a00 18%, #ffd60a 34%, #34c759 52%, #00c7be 66%, #0a84ff 82%, #bf5af2 100%)";
 
-// Black/currentColor-only brands read as invisible on the dark grid: force
-// white. True multi-color logos keep their brand fills.
+    // Black/currentColor-only brands are invisible on the dark grid: force white. Multi-color logos keep their brand fills.
 const NEUTRAL_FILLS = ["#000", "#000000", "#fff", "#ffffff"];
 
 function prepIconSvg(svg: string): string {
-  // lobe ships some "color" variants with a malformed 4-digit white (#ffff);
-  // satori renders that transparent. Normalize before anything else.
+      // lobe ships some variants with a malformed 4-digit white (#ffff) that satori renders transparent; normalize first.
   const normalized = svg.replace(
     /(fill[="':\s]+)#ffff(?![0-9a-fA-F])/gi,
     "$1#ffffff",
@@ -278,8 +274,7 @@ function prepIconSvg(svg: string): string {
   return whiten(normalized);
 }
 
-// Recolor a mono logo to white. Root fill is replaced OR injected, never both:
-// resvg rejects "Attribute fill redefined" and the cell goes blank.
+    // Recolor a mono logo to white. Root fill is replaced OR injected, never both, or resvg rejects "fill redefined" and the cell goes blank.
 function whiten(svg: string): string {
   const recolored = svg
     .replace(/fill="currentColor"/g, `fill="#ffffff"`)
@@ -325,6 +320,7 @@ function Wordmark(props: {
   muted: string;
   showTagline: boolean;
   maxTaglineWidth: number;
+  modelCount: number;
 }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
@@ -341,7 +337,7 @@ function Wordmark(props: {
         >
           <span style={{ color: "#ffffff" }}>UNO</span>
           <span style={{ color: props.muted }}>ROUTER</span>
-          <span style={{ color: props.muted }}>.AI</span>
+          <span style={{ color: props.muted }}>{brandTld.toUpperCase()}</span>
         </div>
       </div>
       {props.showTagline && (
@@ -353,7 +349,8 @@ function Wordmark(props: {
             maxWidth: props.maxTaglineWidth,
           }}
         >
-          One API for 70+ AI models. OpenAI, Anthropic, Google, and more.
+          One API for {props.modelCount}+ AI models. OpenAI, Anthropic, Google,
+          and more.
         </span>
       )}
     </div>
@@ -394,6 +391,7 @@ export async function generateSocial(ctx: SocialCtx): Promise<string> {
             muted="#a7adb8"
             showTagline={d.showTagline}
             maxTaglineWidth={wmWidth - d.logoSize - 30}
+            modelCount={ctx.modelCount}
           />
         </div>
         <div
@@ -455,6 +453,7 @@ export async function generateSocial(ctx: SocialCtx): Promise<string> {
             muted="#a7adb8"
             showTagline={d.showTagline}
             maxTaglineWidth={d.W - d.gridWidth! - d.pad * 2 - 40}
+            modelCount={ctx.modelCount}
           />
         </div>
         <div

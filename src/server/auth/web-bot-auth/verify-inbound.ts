@@ -16,9 +16,7 @@ async function fetchDirectoryKeys(origin: string): Promise<PublicJwk[]> {
   if (cached && Date.now() - cached.fetchedAt < DIRECTORY_TTL_MS)
     return cached.keys;
 
-  // The Signature-Agent origin is attacker-controlled and this fetch runs on
-  // every signed inbound request before any verification: require https and
-  // run the SSRF allowlist so it can't probe internal/RFC1918 hosts.
+      // The Signature-Agent origin is attacker-controlled and fetched before verification: require https + the SSRF allowlist so it can't probe internal hosts.
   try {
     const parsed = new URL(origin);
     if (parsed.protocol !== "https:") return [];

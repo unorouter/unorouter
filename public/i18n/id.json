@@ -26,7 +26,8 @@
     "LOG_IN": "Masuk",
     "CHAT": "Chat",
     "PLAYGROUND": "Playground",
-    "STATUS": "Status"
+    "STATUS": "Status",
+    "COMPARE": "Bandingkan"
   },
   "HOME": {
     "HERO": {
@@ -229,7 +230,17 @@
       "NO_PROVIDERS": "Tidak ada penyedia ditemukan.",
       "SELECTED": "dipilih",
       "CLEAR": "Hapus filter",
-      "RESET": "Reset"
+      "RESET": "Reset",
+      "TITLE": "Filter",
+      "INPUT_MODALITIES": "Modalitas Input",
+      "CONTEXT_LENGTH": "Panjang konteks",
+      "PROMPT_PRICING": "Harga prompt",
+      "CATEGORIES": "Kategori",
+      "SUPPORTED_PARAMETERS": "Parameter yang Didukung",
+      "PROVIDERS": "Penyedia",
+      "MIN": "Min",
+      "ANY": "Apa saja",
+      "SERIES": "Seri"
     },
     "DETAIL": {
       "DESCRIPTION": "Deskripsi",
@@ -300,11 +311,16 @@
     "SORT": {
       "NAME": "Nama (A ke Z)",
       "PRICE_ASC": "Harga (Rendah)",
-      "PRICE_DESC": "Harga (Tinggi)"
+      "PRICE_DESC": "Harga (Tinggi)",
+      "NEWEST": "Terbaru",
+      "POPULAR": "Terpopuler",
+      "TOP_WEEKLY": "Teratas Mingguan",
+      "CONTEXT_DESC": "Konteks (Tinggi)"
     },
     "VIEW": {
       "GRID": "Tampilan grid",
-      "LIST": "Tampilan daftar"
+      "LIST": "Tampilan daftar",
+      "TABLE": "Tampilan tabel"
     },
     "META": {
       "TITLE": "Model AI - {appName}",
@@ -346,6 +362,73 @@
       "LATENCY": "Lat.",
       "TPS": "TPS",
       "STATUS": "Status"
+    },
+    "MODALITY": {
+      "TEXT": "Teks",
+      "IMAGE": "Gambar",
+      "AUDIO": "Audio",
+      "VIDEO": "Video",
+      "EMBEDDINGS": "Embedding",
+      "FILE": "Berkas"
+    },
+    "TABLE": {
+      "MODEL": "Model",
+      "WEEKLY_TOKENS": "Token Mingguan",
+      "INPUT": "Input",
+      "OUTPUT": "Output",
+      "CONTEXT": "Konteks",
+      "RELEASED": "Dirilis",
+      "OFF": "Diskon {pct}%",
+      "FREE": "gratis",
+      "SORT_ASC": "Menaik",
+      "SORT_DESC": "Menurun",
+      "SORT_RESET": "Atur ulang"
+    },
+    "COMPARE": {
+      "BADGE": "Bandingkan",
+      "TITLE": "Perbandingan Model AI",
+      "SUBTITLE": "Bandingkan model AI berdampingan berdasarkan harga, konteks, kemampuan, dan penggunaan.",
+      "ADD_MODEL": "Tambah model",
+      "REMOVE": "Hapus",
+      "CAPABILITIES": "Kemampuan",
+      "PRESET_FLAGSHIP": "Model unggulan",
+      "PRESET_FLAGSHIP_DESC": "Model papan atas terbaru dari laboratorium besar.",
+      "PRESET_AFFORDABLE": "Paling terjangkau",
+      "PRESET_AFFORDABLE_DESC": "Pilihan ringkas berbiaya rendah untuk throughput tinggi.",
+      "PRESET_CODE": "Terbaik untuk kode",
+      "PRESET_CODE_DESC": "Sering dipilih untuk pemrograman dan pembuatan kode.",
+      "PRESET_IMAGE": "Pembuatan gambar",
+      "PRESET_IMAGE_DESC": "Model pembuatan gambar terbaik dari sisi biaya dan kualitas.",
+      "META": {
+        "TITLE": "Bandingkan Model AI - {appName}",
+        "DESCRIPTION": "Bandingkan model AI berdampingan berdasarkan harga, panjang konteks, kemampuan, dan penggunaan di {appName}.",
+        "KEYWORDS": "bandingkan model AI, perbandingan model, perbandingan LLM, harga AI",
+        "TITLE_COMBO": "{models} - Perbandingan Model AI",
+        "DESCRIPTION_COMBO": "Bandingkan {models} berdasarkan harga, panjang konteks, kemampuan, dan penggunaan."
+      },
+      "OVERVIEW": "Ringkasan",
+      "PRICING": "Harga",
+      "PERFORMANCE": "Kinerja",
+      "FEATURES": "Fitur",
+      "ACTIVITY": "Aktivitas",
+      "AUTHOR": "Penulis",
+      "LATENCY": "Latensi",
+      "THROUGHPUT": "Throughput",
+      "HIGHLIGHT_BEST": "Sorot terbaik",
+      "CLEAR": "Bersihkan",
+      "FROM": "oleh",
+      "SELECT_MODEL": "Pilih model"
+    },
+    "LIST": {
+      "TOKENS": "token",
+      "BY": "oleh",
+      "CONTEXT": "konteks",
+      "INPUT": "token input",
+      "OUTPUT": "token output"
+    },
+    "ACTIONS": {
+      "OPEN_MENU": "Buka menu",
+      "COPY_NAME": "Salin nama model"
     }
   },
   "RANKINGS": {
@@ -455,6 +538,20 @@
       "comparison": "Perbandingan"
     },
     "POSTS": {
+      "FEATURED_ON": {
+        "TITLE": "Tempat menemukan {appName}: daftar direktori kami",
+        "DESCRIPTION": "{appName} terdaftar di berbagai direktori alat AI dan startup. Di sini Anda dapat menemukan kami, memverifikasi daftarnya, dan membaca ulasan independen.",
+        "AUTHOR": "Tim {appName}",
+        "INTRO": "Bagian dari menjadi gateway AI yang tepercaya adalah mudah ditemukan dan mudah diverifikasi. {appName} terdaftar di direktori yang benar-benar diperiksa para pengembang sebelum mempercayakan kunci API kepada penyedia baru. Inilah daftar terbarunya.",
+        "H_DIRECTORIES": "Direktori tempat kami terdaftar",
+        "P_DIRECTORIES": "Setiap lencana di bawah ini tertaut ke direktori tempat {appName} ditampilkan. Ini adalah daftar independen, jadi Anda dapat membaca deskripsi dan ulasan pihak ketiga alih-alih hanya percaya pada kata-kata kami.",
+        "H_WHY": "Mengapa ini penting",
+        "P_WHY": "Loyalitas merek di infrastruktur AI itu tipis dan kepercayaan adalah segalanya. Penyedia yang bersembunyi dari direktori publik adalah penyedia yang tidak bisa Anda telaah. Kami terdaftar secara terbuka agar Anda dapat membandingkan {appName} dengan setiap alternatif di tempat yang sama.",
+        "H_VERIFY": "Verifikasi sebelum percaya",
+        "P_VERIFY": "Buka lencana mana pun, pastikan daftarnya mengarah ke domain asli kami, dan periksa deskripsi independennya. Jangan pernah menempelkan kunci API ke layanan yang asal-usulnya tidak dapat Anda lacak ke sumber publik yang dapat diverifikasi.",
+        "H_TRY": "Coba sendiri",
+        "CTA": "Sudah cukup melihat? <register>Buat akun gratis</register> atau <models>jelajahi modelnya</models>."
+      },
       "LAUNCH": {
         "TITLE": "Kami lelah dengan Claude palsu. Jadi kami membangun {appName}.",
         "DESCRIPTION": "Pemadaman setiap minggu. Model premium diam-diam diganti dengan klon murah. Kami marah, meluncurkan router kami sendiri, dan membuatnya paranoid tentang keduanya. Berikut kisah peluncurannya.",
@@ -585,16 +682,16 @@
         "CTA": "Siap? <invite>Bergabunglah dengan Discord {appName}</invite>, lalu <register>ambil kunci API</register> dan <settings>tautkan akun Anda</settings> untuk mengklaim $1 pertama Anda."
       },
       "FREE_MODELS_AGGREGATED": {
-        "TITLE": "Kami menggabungkan 100+ model AI gratis ke dalam satu endpoint",
-        "DESCRIPTION": "Dalam dua hari kami menyambungkan 15 penyedia gratis ke {appName}: 134 baris model gratis, satu endpoint OpenAI-compatible, $0 per token. Ada alasan mengapa semuanya gratis, dan ada batas rate yang tidak bisa kami naikkan. Inilah versi jujurnya.",
+        "TITLE": "Kami menggabungkan 120+ model AI gratis ke dalam satu endpoint",
+        "DESCRIPTION": "Kami menyambungkan 18 penyedia gratis ke {appName}: 126 baris model gratis, satu endpoint OpenAI-compatible, $0 per token. Ada alasan mengapa semuanya gratis, dan ada batas rate yang tidak bisa kami naikkan. Inilah versi jujurnya.",
         "AUTHOR": "Tim {appName}",
-        "INTRO": "Lanskap LLM gratis itu nyata, tapi tercerai-berai: Groq, Gemini, Cloudflare, Mistral, OVHcloud dan belasan lainnya masing-masing memberikan kapasitas asli, tersembunyi di balik belasan halaman pendaftaran, belasan format key, dan belasan API yang tidak saling kompatibel. Dalam dua hari kami menemukan, menguji, dan menggabungkan setiap penyedia gratis-permanen yang sah yang bisa kami dapatkan ke dalam {appName}. Hasilnya: 134 baris model gratis dari 15 penyedia di balik satu endpoint OpenAI-compatible dan satu key.",
+        "INTRO": "Lanskap LLM gratis itu nyata, tapi tercerai-berai: Groq, Gemini, Cloudflare, NVIDIA, SiliconFlow dan belasan lainnya masing-masing memberikan kapasitas asli, tersembunyi di balik belasan halaman pendaftaran, belasan format key, dan belasan API yang tidak saling kompatibel. Kami menemukan, menguji, dan menggabungkan setiap penyedia gratis-permanen yang sah yang bisa kami dapatkan ke dalam {appName}. Hasilnya: 126 baris model gratis dari 18 penyedia di balik satu endpoint OpenAI-compatible dan satu key.",
         "H_WHAT": "Apa yang kami tambahkan",
-        "P_WHAT": "Lima belas penyedia gratis, satu per satu: Groq, Gemini, Cerebras, SambaNova, Mistral, Cloudflare Workers AI (dua akun), GitHub Models, Z.ai, OVHcloud, AI Horde, Pollinations, Cohere, Jina, NVIDIA NIM, dan OpenRouter. Total 134 baris model gratis: Llama, gpt-oss, Qwen, Mistral, GLM, Nemotron dan lainnya, ditambah 30 model embedding gratis serta 13 model gambar dan audio gratis. Setiap model diuji menyeluruh dari ujung ke ujung untuk HTTP, streaming, dan tool call sebelum aktif, dengan pemeriksaan keaslian dan harness yang sama seperti yang kami jalankan pada model berbayar.",
+        "P_WHAT": "Delapan belas penyedia gratis, satu per satu: Groq, Gemini, Cerebras, SambaNova, Mistral, Cloudflare Workers AI (dua akun), GitHub Models, Z.ai, OVHcloud, AI Horde, Pollinations, Cohere, Jina, NVIDIA NIM (katalog terbuka penuh: Nemotron, Llama, Qwen, gpt-oss, DeepSeek dan lainnya), SiliconFlow (DeepSeek-V4, GLM-5.1, Qwen3.5/3.6, Kimi-K2.6, MiniMax-M3), router HuggingFace, dan LLM7. Total 126 baris model gratis: Llama, gpt-oss, Qwen, Mistral, GLM, Nemotron, DeepSeek dan lainnya, ditambah model embedding, gambar, dan audio gratis. Setiap model diuji menyeluruh dari ujung ke ujung untuk HTTP, streaming, dan tool call sebelum aktif, dengan pemeriksaan keaslian dan harness yang sama seperti yang kami jalankan pada model berbayar.",
         "H_CAVEAT": "Gratis ada alasannya",
         "P_CAVEAT": "Model-model ini benar-benar gratis, dan justru itulah alasan mereka punya batasan. <s>Penyedialah yang menetapkan batasan tersebut, bukan kami, dan kami tidak bisa menaikkannya.</s> Setiap penyedia hulu menerapkan batas rate-nya sendiri: permintaan per menit, kuota token harian, anggaran neuron Cloudflare, prioritas antrean relawan. Begitu mencapai batas, penyedia itu mengembalikan <c>429</c> sampai batasnya direset. Key gratis yang berfungsi pagi ini bisa habis sebelum sore. Tier gratis adalah throughput sebatas kemampuan, bukan jaminan. Jika beban kerja Anda butuh latensi yang dapat diprediksi tanpa <c>429</c> yang mengejutkan, gunakan model berbayar.",
         "H_AGGREGATE": "Kenapa repot-repot menggabungkannya",
-        "P_AGGREGATE": "Karena pilihan satunya adalah lima belas akun. Setiap penyedia punya pendaftarannya sendiri, format key-nya sendiri, base URL-nya sendiri, dan keanehannya sendiri: Z.ai bicara lewat jalur Zhipu V4, Cloudflare menyimpan account id di dalam URL, AI Horde meminta key anonim, GitHub mengunci model di balik token scope. Kami menyerap semua itu agar Anda bisa memanggilnya sama seperti memanggil yang lain: satu endpoint OpenAI-compatible, satu key, satu nama model. Aturan jujur yang kami pegang untuk diri sendiri: satu akun asli per penyedia, batasan kami terima, tidak ada yang difarming, tidak ada yang dikumpulkan beramai-ramai. Kami menyajikan tier gratis sebagai pemberian, bukan menjual kembali kuota milik orang lain.",
+        "P_AGGREGATE": "Karena pilihan satunya adalah delapan belas akun. Setiap penyedia punya pendaftarannya sendiri, format key-nya sendiri, base URL-nya sendiri, dan keanehannya sendiri: Z.ai bicara lewat jalur Zhipu V4, Cloudflare menyimpan account id di dalam URL, AI Horde meminta key anonim, GitHub mengunci model di balik token scope. Kami menyerap semua itu agar Anda bisa memanggilnya sama seperti memanggil yang lain: satu endpoint OpenAI-compatible, satu key, satu nama model. Aturan jujur yang kami pegang untuk diri sendiri: satu akun asli per penyedia, batasan kami terima, tidak ada yang difarming, tidak ada yang dikumpulkan beramai-ramai. Kami menyajikan tier gratis sebagai pemberian, bukan menjual kembali kuota milik orang lain.",
         "H_FAILOVER": "Bagaimana kami meringankan batasannya",
         "P_FAILOVER": "Banyak dari model ini disajikan oleh lebih dari satu penyedia gratis. Llama 3.3 70B saja berjalan di tujuh di antaranya. Ketika beberapa penyedia menawarkan model yang sama, kami menyatukannya menjadi satu nama publik dan melakukan failover secara otomatis: jika satu penyedia hulu mengembalikan <c>429</c> atau diam, penyedia sehat berikutnya yang menyajikan model itu yang mengambil alih permintaan. Itulah satu tuas yang memang kami kendalikan. Ini tidak menaikkan batas penyedia mana pun, tapi berarti model gratis bersumber-banyak tetap menjawab jauh setelah salah satu penyedianya habis. Model gratis bersumber-tunggal tidak punya cadangan, jadi macet begitu satu-satunya penyedia hulunya terkuras.",
         "H_HONEST": "Apa yang tidak kami lakukan",
@@ -614,7 +711,7 @@
         "H_RP": "Bagian yang dilewatkan OpenRouter",
         "P_RP": "Arahkan agen pengkodean (Claude Code, Cline, OpenCode, Kilo Code, Codex) ke {appName} dan ia berperilaku seperti endpoint mana pun yang kompatibel dengan OpenAI. Tapi kunci yang sama juga menggerakkan klien chat dan karakter bawaan dengan persona, lorebook, preset, dan impor kartu SillyTavern, serta langsung masuk ke SillyTavern, Janitor.AI, RisuAI, atau Chub. OpenRouter murni lapisan API, jadi Anda membawa setiap antarmuka sendiri. {appName} mengirim antarmuka dan API bersama-sama.",
         "H_MIGRATE": "Beralih hanya mengubah URL dasar",
-        "P_MIGRATE": "Karena {appName} kompatibel dengan OpenAI, memindahkan aplikasi yang ada cukup satu baris: arahkan klien Anda ke <c>https://api.unorouter.ai/v1</c> dan pertahankan kode Anda. Kunci yang sama yang ditempel di kolom endpoint khusus pada klien chat mencapai katalog yang sama, jadi tidak ada akun kedua yang perlu dikelola.",
+        "P_MIGRATE": "Karena {appName} kompatibel dengan OpenAI, memindahkan aplikasi yang ada cukup satu baris: arahkan klien Anda ke <c>https://api.unorouter.com/v1</c> dan pertahankan kode Anda. Kunci yang sama yang ditempel di kolom endpoint khusus pada klien chat mencapai katalog yang sama, jadi tidak ada akun kedua yang perlu dikelola.",
         "H_VERDICT": "Mana yang sebaiknya Anda pilih",
         "P_VERDICT": "Jika Anda hanya merilis kode dan ingin katalog terluas tanpa antarmuka, OpenRouter pilihan default yang baik. Jika Anda ingin perutean swakelola tanpa markup, LiteLLM menang. Jika Anda ingin satu kunci yang bekerja di agen pengkodean Anda dan di klien chat dan karakter yang sesungguhnya tanpa menjalankan dua layanan, itulah celah yang diisi {appName}. Tidak ada pemenang tunggal. Itu tergantung apakah Anda mengoptimalkan untuk API murni atau untuk API plus tempat memakainya.",
         "CTA": "Siap mencoba? <register>Buat akun gratis</register> atau <models>jelajahi modelnya</models>."
@@ -1521,7 +1618,7 @@
       "INTRO_DESC": "Chub.ai (sebelumnya Venus) adalah platform chat karakter berbasis browser dengan perpustakaan 60.000 karakter. Ia terhubung ke endpoint kompatibel OpenAI melalui panel Secrets.",
       "INTRO_LINK_DOCS": "Dokumentasi API Connections Chub.ai resmi",
       "OVERVIEW": "Gambaran Umum",
-      "OVERVIEW_DESC": "Panel Secrets Chub menerima URL `/v1/chat/completions` lengkap plus kunci API Anda. Tombol Check your proxy memverifikasi koneksi sebelum Anda memilih model di Prompt Structure.",
+      "OVERVIEW_DESC": "Panel Secrets Chub menerima URL dasar API yang berakhir di `/v1` plus kunci API Anda. Tombol Check your proxy memverifikasi koneksi sebelum Anda memilih model di Prompt Structure.",
       "TRUST_TITLE": "{appName} adalah relay API first-party",
       "TRUST_DESC": "UI Chub memperingatkan tentang ''reverse proxy yang dibuat oleh pihak ketiga yang tidak sah.'' Peringatan itu menargetkan relay yang dijalankan komunitas. {appName} adalah relay API first-party yang dioperasikan oleh pemilik infrastruktur, analog dengan OpenRouter. Kunci API, log penggunaan, dan penagihan Anda berada langsung di {appName}.",
       "TRUST_LINK_PRIVACY": "Kebijakan privasi",
@@ -1530,7 +1627,7 @@
       "QUICK_CONFIG_DESC": "Salin dua nilai ini ke field Reverse proxy di panel Secrets Chub.",
       "QUICK_CONFIG_URL_LABEL": "URL",
       "QUICK_CONFIG_KEY_LABEL": "Kunci",
-      "QUICK_CONFIG_NOTE": "Tempel URL lengkap yang berakhir di `/v1/chat/completions`. Chub mengharapkan path lengkap; jangan tempel hanya base URL.",
+      "QUICK_CONFIG_NOTE": "Tempel URL dasar yang berakhir di `/v1`. Chub menambahkan `/models` untuk pemeriksaan proxy, jadi URL lengkap `/v1/chat/completions` akan gagal.",
       "STEPS": "Setup langkah demi langkah",
       "STEP_1_TITLE": "Buka panel Secrets",
       "STEP_1_DESC": "Klik menu hamburger di kanan atas Chub, lalu pilih Secrets.",
@@ -1539,7 +1636,7 @@
       "STEP_3_TITLE": "Gulir ke Reverse proxy",
       "STEP_3_DESC": "Subbagian Reverse proxy berisi field URL dan Key plus tombol Check your proxy.",
       "STEP_4_TITLE": "Tempel URL dan kunci",
-      "STEP_4_DESC": "URL berakhir di `/v1/chat/completions`. Key adalah kunci API {appName} Anda.",
+      "STEP_4_DESC": "URL berakhir di `/v1` (hanya dasar, tanpa `/chat/completions`). Key adalah kunci API {appName} Anda.",
       "STEP_5_TITLE": "Klik Check your proxy",
       "STEP_5_DESC": "Tunggu konfirmasi hijau. Jika gagal, periksa URL dan tempel ulang kunci.",
       "STEP_6_TITLE": "Buka Configuration",
@@ -1552,7 +1649,7 @@
       "WARN_KEY_INVISIBLE_DESC": "Chub menutupi kunci API setelah disimpan. Anda tidak dapat menyalinnya kembali. Simpan kunci di manajer kata sandi sebelum menempel sehingga rotasi atau profil browser kedua tidak memerlukan kunci baru.",
       "TROUBLESHOOTING": "Pemecahan Masalah",
       "TS_1_TITLE": "Tombol Check your proxy gagal.",
-      "TS_1_DESC": "URL salah. Harus berakhir di `/v1/chat/completions`; base URL saja tidak akan lulus.",
+      "TS_1_DESC": "URL salah. Harus berupa URL dasar yang berakhir di `/v1`. Chub menambahkan `/models` sendiri, jadi URL lengkap `/v1/chat/completions` menjadi `/v1/chat/completions/models` dan gagal.",
       "TS_2_TITLE": "Dropdown model kosong.",
       "TS_2_DESC": "Pemeriksaan proxy belum lulus. Jalankan kembali langkah 5 dan tunggu status hijau.",
       "TS_3_TITLE": "Respons kembali kosong.",
@@ -1576,7 +1673,7 @@
       "TOC_TROUBLESHOOTING": "Pemecahan Masalah",
       "STEP_CONFIG_TITLE": "Buka Configuration dan pilih OpenAI",
       "STEP_CONFIG_DESC": "Kembali ke menu hamburger, buka Configuration, lalu Prompt Structure. Atur daftar API menjadi OpenAI dan pilih model target Anda dari daftar model.",
-      "GOTCHA_1": "Tempel URL lengkap yang berakhir dengan `/v1/chat/completions` ke kolom Reverse proxy. URL dasar saja tidak akan lolos pemeriksaan tombol Check your proxy.",
+      "GOTCHA_1": "Tempel URL dasar yang berakhir di `/v1` ke kolom Reverse proxy. Chub menambahkan `/models` untuk pemeriksaan, jadi URL lengkap `/v1/chat/completions` tidak akan lolos tombol Check your proxy.",
       "GOTCHA_2": "Daftar model di Prompt Structure tetap kosong sampai pemeriksaan proxy berhasil. Jalankan dulu Check your proxy di bagian Secrets, lalu kembali untuk memilih model.",
       "GOTCHA_3": "Chub menyamarkan kunci API setelah disimpan dan Anda tidak bisa menyalinnya kembali. Simpan kunci di pengelola kata sandi sebelum menempel agar rotasi tidak memaksa Anda membuat kunci baru.",
       "GOTCHA_4": "Antarmuka Chub memperingatkan tentang reverse proxy dari pihak ketiga yang tidak sah; itu menyasar relai komunitas. {appName} adalah relai pihak pertama, jadi kunci, log, dan penagihan Anda tetap di {appName}."
@@ -1944,7 +2041,9 @@
     "LEGAL_TERMS": "Ketentuan Layanan",
     "LEGAL_PRIVACY": "Kebijakan Privasi",
     "SOCIAL_TRUSTPILOT": "Trustpilot",
-    "EASTER_EGG_LABEL": "Mainkan Token Breakout"
+    "EASTER_EGG_LABEL": "Mainkan Token Breakout",
+    "BADGE_FEATURED_ON": "Ditampilkan di {name}",
+    "BADGE_VERIFIED_ON": "Terverifikasi di {name}"
   },
   "PRIVACY": {
     "META": {
@@ -2040,7 +2139,10 @@
       "UNEXPECTED_ERROR_OCCURRED": "Terjadi error yang tidak terduga. Silakan coba lagi atau kembali ke halaman utama.",
       "ERROR_DETAILS": "Detail Error",
       "DIGEST": "Digest",
-      "SECTION_LOAD_FAILED": "Bagian ini gagal dimuat."
+      "SECTION_LOAD_FAILED": "Bagian ini gagal dimuat.",
+      "COPY_ERROR": "Salin kesalahan",
+      "RESET_APP_DATA": "Setel ulang data aplikasi & muat ulang",
+      "RESETTING": "Menyetel ulang..."
     },
     "NOT_FOUND": {
       "TITLE": "Halaman Tidak Ditemukan",
@@ -2087,6 +2189,13 @@
       "CLEAR_CHAT_TITLE": "Bersihkan chat?",
       "WIPE_DB_TITLE": "Hapus database lokal?",
       "UPLOAD_DB_TITLE": "Timpa database lokal?"
+    },
+    "COPIED": "Disalin",
+    "DATE_RANGE": {
+      "PICK": "Pilih rentang tanggal",
+      "FROM": "Dari",
+      "TO": "Sampai",
+      "APPLY": "Terapkan"
     }
   },
   "LANGUAGE": {
@@ -2287,7 +2396,9 @@
       "IP_WHITELIST_PLACEHOLDER": "Satu IP per baris. Biarkan kosong untuk tidak ada pembatasan.",
       "IP_WHITELIST_DESC": "IP dapat dipalsukan. Gunakan dengan gateway untuk penegakan yang lebih kuat.",
       "SUBMIT": "Buat",
-      "SAVE": "Simpan"
+      "SAVE": "Simpan",
+      "QUOTA_FREE_ONLY_HINT": "$0 membuat kunci khusus model gratis. Model berbayar ditolak.",
+      "QUOTA_EQUIVALENT": "= {quota} kuota"
     },
     "ENUM": {
       "ENABLED": "Aktif",
@@ -2567,6 +2678,7 @@
     "FONT_DEFAULT": "Default proyek",
     "FONT_HEADING_INHERIT": "Cocokkan body",
     "BASE_COLOR": "Warna dasar",
+    "CUSTOM_COLOR": "Kustom",
     "THEME": "Tema",
     "CHART_COLOR": "Warna grafik",
     "HEADING_FONT": "Font heading",
@@ -2603,6 +2715,8 @@
     "MD_SINGLE_QUOTE": "Teks dalam tanda kutip tunggal",
     "MD_DOUBLE_QUOTE": "Teks dalam tanda kutip ganda",
     "SURFACE_COLORS": "Warna permukaan",
+    "MODE_LIGHT": "Terang",
+    "MODE_DARK": "Gelap",
     "COLOR_SIDEBAR": "Bilah sisi",
     "BACKGROUND_IMAGE": "Gambar latar",
     "BG_UPLOAD": "Unggah gambar",

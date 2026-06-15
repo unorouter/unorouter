@@ -5,14 +5,18 @@ import { useBillingActions } from "@/hooks/ui/use-billing-actions";
 import type { PaymentMethod } from "@/store/client-store";
 import { useTranslations } from "next-intl";
 
-export function PaymentMethodToggle() {
+export function PaymentMethodToggle(props: { centered?: boolean }) {
   const t = useTranslations();
   const billing = useBillingActions();
 
   if (billing.availableMethods.length < 2) return null;
 
   return (
-    <div className="space-y-2">
+    <div
+      className={
+        props.centered ? "flex flex-col items-center space-y-2" : "space-y-2"
+      }
+    >
       <p className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
         {t("BILLING.PAYMENT_METHOD.LABEL")}
       </p>

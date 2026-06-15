@@ -51,7 +51,6 @@ export function Dashboard(props: DashboardProps) {
 
   return (
     <PageContent>
-      {/* Header */}
       <div className="mb-6 flex items-center justify-between">
         <div>
           <div className="flex items-center gap-2">
@@ -75,12 +74,10 @@ export function Dashboard(props: DashboardProps) {
         </div>
       </div>
 
-      {/* Stats Cards */}
       <div className="border-border mb-6 border">
         <StatsCards />
       </div>
 
-      {/* Charts + API Info */}
       <div
         className={`mb-6 grid gap-6 ${hasApiInfo ? "lg:grid-cols-[1fr_320px]" : ""}`}
       >
@@ -90,7 +87,6 @@ export function Dashboard(props: DashboardProps) {
         {hasApiInfo && <ApiInfoPanel />}
       </div>
 
-      {/* Info Panels */}
       {hasInfoRow && (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {hasAnnouncements && <AnnouncementsPanel />}

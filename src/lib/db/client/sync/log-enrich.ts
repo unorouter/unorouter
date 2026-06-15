@@ -8,17 +8,16 @@ import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
 import { quotaToDollars } from "@/lib/utils/format/number";
 
-// Pull new-api's authoritative record for a finished request (real quota/cost,
-// prompt/completion tokens, serving channel, latency) and overwrite the local
-// request_logs estimates. new-api logs the row asynchronously after the stream
-// closes, so a not-yet-present result throws to ride the pending-task backoff.
+    // Pull new-api's authoritative record for a finished request, overwriting local request_logs estimates. Missing result throws.
 export async function enrichRequestLogFromUpstream(
   userId: number,
   msgId: string,
   requestId: string,
 ): Promise<void> {
   const res = handleElysia(
-    await rpc.api.ops.logs["by-request"].get({ query: { request_id: requestId } }),
+    await rpc.api.ops.logs["by-request"].get({
+      query: { request_id: requestId },
+    }),
   );
   // Upstream hasn't logged the row yet: throw so the backoff retries.
   if (res.quota == null && res.channel == null) {

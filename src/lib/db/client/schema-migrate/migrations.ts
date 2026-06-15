@@ -14,14 +14,10 @@ export async function runMigrations(sql: SQLocalDrizzle): Promise<void> {
   // SQLite default is OFF; needed for schema cascade deletes to fire.
   await sql.sql`PRAGMA foreign_keys = ON`;
 
-  // The cursor table is read BEFORE the manifest runs, so it can't be renamed
-  // by a normal migration. Bootstrap the rename in place: pre-rename DBs carry
-  // local_meta(key,value,updated_at); recreate the cursor under the new
-  // local_migrations(name,tag,applied_at) and copy the row, then drop the old.
+      // The cursor table is read before the manifest, so a normal migration can't rename it. Bootstrap: recreate as local_migrations, copy the row, drop old.
   await migrateCursorTable(sql);
 
-  // On a fresh DB local_migrations doesn't exist; the SELECT throws and signals
-  // to run every migration from the start.
+      // On a fresh DB local_migrations doesn't exist; the SELECT throws, signaling a full migration run.
   let lastTag: string | null = null;
   try {
     const rows = await sql.sql<{ tag: string }>`
@@ -32,9 +28,7 @@ export async function runMigrations(sql: SQLocalDrizzle): Promise<void> {
     lastTag = null;
   }
 
-  // Stored tag absent from the manifest (rebuilt baseline) = untrusted cursor:
-  // run every migration (idempotent) then reconcile columns, else new columns
-  // are silently missed (the old column-mismatch failures).
+      // Stored tag absent from the manifest is an untrusted cursor: run every migration then reconcile, else new columns are missed.
   const knownTag = lastTag && migrations.some((m) => m.tag === lastTag);
   const startIndex = knownTag
     ? migrations.findIndex((m) => m.tag === lastTag) + 1
@@ -51,8 +45,7 @@ export async function runMigrations(sql: SQLocalDrizzle): Promise<void> {
       try {
         await sql.sql(statement);
       } catch (err) {
-        // Tolerate replays after partial application;
-        // CREATE/ADD COLUMN already-exists is harmless.
+            // Tolerate replays after partial application; CREATE/ADD COLUMN already-exists is harmless.
         if (isIdempotentMigrationError(err)) continue;
         throw err;
       }
@@ -66,15 +59,11 @@ export async function runMigrations(sql: SQLocalDrizzle): Promise<void> {
     `;
   }
 
-  // Self-heal drift from in-place regenerated baselines: compare each table's
-  // stored DDL to the manifest and rebuild drifted tables, recovering every row
-  // the new schema accepts. Runs every load, no-op when identical.
+      // Self-heal baseline drift: compare each table's stored DDL to the manifest and rebuild drifted tables. Every load, no-op if identical.
   await reconcileSchema(sql, migrations);
 }
 
-// One-time rename of the legacy cursor table local_meta(key,value,updated_at)
-// to local_migrations(name,tag,applied_at). No-op on fresh DBs (no local_meta)
-// and on already-migrated DBs. Runs before the cursor read in runMigrations.
+    // One-time rename of the legacy cursor table local_meta to local_migrations. No-op on fresh and migrated DBs.
 async function migrateCursorTable(sql: SQLocalDrizzle): Promise<void> {
   const existing = await sql.sql<{ name: string }>(
     `SELECT name FROM sqlite_master WHERE type = 'table' AND name IN ('local_meta', 'local_migrations')`,
@@ -108,15 +97,11 @@ type TableDdl = {
 
 const colName = (def: string) => def.match(/^`([^`]+)`/)?.[1] ?? "";
 
-// Column defs first, table constraints last: ALTER ADD must fold the new
-// column in BEFORE constraint lines (matching SQLite's sqlite_master rewrite);
-// appending after a PRIMARY KEY(...) line is a syntax error.
+    // Column defs first, constraints last: ALTER ADD must fold the new column in before constraint lines; after a PRIMARY KEY is a syntax error.
 const buildCreate = (t: TableDdl) =>
   `CREATE TABLE \`${t.name}\` (\n\t${[...t.colDefs, ...t.constraints].join(",\n\t")}\n)`;
 
-// Effective DDL per table from the manifest (trusted drizzle-kit output, light
-// regexes safe): later CREATE wins, ALTER ADD/DROP COLUMN folds in like SQLite
-// rewrites sqlite_master.
+    // Effective DDL per table from the manifest: later CREATE wins, ALTER ADD/DROP COLUMN folds in like SQLite's rewrite.
 function parseManifestDdl(
   migrations: MigrationManifest["migrations"],
 ): Map<string, TableDdl> {
@@ -152,9 +137,7 @@ function parseManifestDdl(
     }
     m = stmt.match(/^ALTER TABLE\s+`([^`]+)`\s+RENAME TO\s+`([^`]+)`/);
     if (m) {
-      // drizzle's table-rebuild migrations: CREATE __new_x, copy, DROP x,
-      // RENAME __new_x TO x. Mirror the rename so the expected DDL ends up
-      // under the final name (SQLite rewrites sqlite_master the same way).
+          // drizzle's table-rebuild migrations (CREATE __new_x, copy, DROP x, RENAME): mirror the rename so the DDL lands under the final name.
       const t = tables.get(m[1]);
       if (t) {
         tables.delete(m[1]);
@@ -179,8 +162,7 @@ function parseManifestDdl(
   return tables;
 }
 
-// Whitespace/quoting-insensitive DDL equality (SQLite's ALTER rewrite of
-// sqlite_master differs from drizzle's formatting in spacing only).
+    // Whitespace/quoting-insensitive DDL equality (SQLite's ALTER rewrite differs from drizzle only in spacing).
 const normDdl = (s: string) =>
   s
     .replace(/["[\]]/g, "`")
@@ -206,9 +188,7 @@ async function reconcileSchema(
     // Absent tables were just created by the migration replay above.
     if (!current || normDdl(current) === normDdl(create)) continue;
 
-    // Rebuild (SQLite 12-step): new table from manifest DDL, copy the column
-    // intersection with OR IGNORE (rows violating new constraints drop, the
-    // rest survive), swap, recreate indexes.
+        // Rebuild (SQLite 12-step): new table from manifest DDL, copy the column intersection, swap, recreate indexes.
     if (!fkOff) {
       await sql.sql`PRAGMA foreign_keys = OFF`;
       fkOff = true;
@@ -226,9 +206,7 @@ async function reconcileSchema(
       .filter((c) => actual.some((r) => r.name === c));
     if (shared.length > 0) {
       const colList = shared.map((c) => `\`${c}\``).join(", ");
-      // Count before/after: OR IGNORE silently drops rows the tightened schema
-      // (NOT NULL / UNIQUE / FK) rejects, so surface the loss instead of
-      // vanishing data without a trace.
+          // Count before/after: OR IGNORE silently drops rows the tightened schema rejects, so surface the loss.
       const before = await sql.sql<{ n: number }>(
         `SELECT count(*) AS n FROM \`${table}\``,
       );
@@ -264,8 +242,7 @@ async function reconcileSchema(
 
 function isIdempotentMigrationError(err: unknown): boolean {
   const msg = err instanceof Error ? err.message : String(err);
-  // sqlocal surfaces SQLite errors verbatim. These three cover every
-  // shape Drizzle currently emits.
+      // sqlocal surfaces SQLite errors verbatim. These three cover every shape Drizzle currently emits.
   return (
     /already exists/i.test(msg) ||
     /duplicate column name/i.test(msg) ||

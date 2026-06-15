@@ -54,7 +54,6 @@ export function CCSwitchDeepLinks(props: CCSwitchDeepLinksProps) {
 
   return (
     <div className="space-y-6">
-      {/* API Key display */}
       {token.apiKey && (
         <div className="border-border bg-card flex items-center gap-3 rounded-lg border px-4 py-3">
           <Icon name="key" className="text-muted-foreground size-4 shrink-0" />
@@ -67,7 +66,6 @@ export function CCSwitchDeepLinks(props: CCSwitchDeepLinksProps) {
         </div>
       )}
 
-      {/* Login or generate key prompts */}
       {!token.isLoggedIn && (
         <div className="border-border bg-card flex items-center gap-2 rounded-lg border px-4 py-3">
           <Icon
@@ -84,7 +82,6 @@ export function CCSwitchDeepLinks(props: CCSwitchDeepLinksProps) {
         <GenerateKeyBanner token={token} className="py-3" />
       )}
 
-      {/* App buttons */}
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         {props.apps.map((app) => (
           <a
@@ -109,7 +106,6 @@ export function CCSwitchDeepLinks(props: CCSwitchDeepLinksProps) {
         ))}
       </div>
 
-      {/* Not installed banner */}
       {showInstall && (
         <div
           ref={installRef}
@@ -139,7 +135,6 @@ export function CCSwitchDeepLinks(props: CCSwitchDeepLinksProps) {
         </div>
       )}
 
-      {/* CLI Alternative */}
       <div>
         <p className="text-muted-foreground mb-2 flex items-center gap-1.5 text-sm font-medium">
           <Icon name="terminal" className="size-3.5" />

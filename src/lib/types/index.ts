@@ -2,6 +2,12 @@ import type { Pathname, pathnames } from "@/i18n/routing";
 import type * as client from "@/lib/db/schema/client";
 import type * as shared from "@/lib/db/schema/shared";
 import type { RequestLogRow } from "@/lib/db/schema/rows";
+import type {
+  GenerationFormUi,
+  GenerationParams,
+  LoraEntry,
+  ReferenceEntry,
+} from "@/lib/validation/playground";
 import type { UIMessage } from "ai";
 import type { SQL } from "drizzle-orm";
 import type { SQLiteColumn, SQLiteTable } from "drizzle-orm/sqlite-core";
@@ -52,26 +58,20 @@ export type ChatMessageMetadata = {
   usage?: MessageUsage;
   droppedParams?: string;
   debug?: RequestLogPayload;
-  // Serialized chat-variable map (JSON string) emitted when macro setvar/addvar
-  // changed it this turn. The history adapter persists it to conversation vars.
+      // Serialized chat-variable map, emitted when setvar/addvar changed it. The history adapter persists it to conv vars.
   vars?: string;
-  // Serialized per-user global-variable map (setglobalvar). Persisted to the
-  // user's global-var store (userVars sync kind) by the history adapter.
+      // Serialized per-user global-variable map (setglobalvar). The history adapter persists it to the global store.
   globalVars?: string;
-  // Rolling-summary memory update: the running summary + how many leading
-  // messages it now covers. Persisted to conversation summaryMemory/anchor.
+      // Rolling-summary update: the running summary + how many leading messages it covers. Persisted to summaryMemory.
   summary?: { summary: string; anchor: number };
-  // runImgGen inlay bytes generated server-side this turn; the adapter
-  // persists them as local media rows ({{inlay::id}} renders from them).
+      // runImgGen inlay bytes generated server-side; the adapter persists them as local media rows for {{inlay::id}}.
   inlayMedia?: {
     id: string;
     dataBase64: string;
     mimeType: string;
     sizeBytes: number;
   }[];
-  // Which character spoke this turn (multi-character rotation). Rides the
-  // finish frame because the rotation loop clears the speaking atom before
-  // the history adapter persists, so an atom read at append time races.
+      // Which character spoke (multi-character rotation). Rides the finish frame since the loop clears the atom before persist.
   speakingCharacterId?: string;
 };
 
@@ -79,8 +79,7 @@ export type ChatUIMessage = UIMessage<ChatMessageMetadata>;
 
 export type EditorState = { mode: "list" } | { mode: "edit"; id?: string };
 
-// A generated playground image resolved for rendering: `src` is a data URI
-// (base64 priority) or the R2 URL fallback.
+    // A generated playground image resolved for rendering: src is a data URI (base64 priority) or the R2 URL fallback.
 export type PlaygroundImageView = {
   id: string;
   sequenceIndex: number;
@@ -98,10 +97,10 @@ export type SnapshotView = {
   model: string;
   prompt: string;
   negativePrompt: string | null;
-  params: Record<string, unknown> | null;
-  loras: unknown;
-  references: unknown;
-  extraParams: Record<string, unknown> | null;
+  params: GenerationParams | null;
+  loras: LoraEntry[] | null;
+  references: ReferenceEntry[] | null;
+  extraParams: GenerationFormUi | null;
   status: string;
   progress: string | null;
   taskId: string | null;
@@ -195,13 +194,12 @@ export function isSearchDoc(doc: unknown): doc is SearchResult {
   return typeof d.title === "string" && typeof d.url === "string";
 }
 
-// Generic loose-shape bundle inputs (sqlite-proxy cast boundary).
-// Co-located for assembler + lorebook selectors.
+    // Generic loose-shape bundle inputs (sqlite-proxy cast boundary). Co-located for assembler + lorebook selectors.
 export type LocalAnyRow = Record<string, unknown> & { id: string };
 export type LocalChildRow = Record<string, unknown>;
 export type LocalRowInput = Record<string, unknown>;
 
-import type { loadConvContext } from "@/server/ai/chat/augmentation/prompt-assembler/conv-context";
+import type { loadConvContext } from "@/server/ai/chat/prompt/conv-context";
 export type LoadedConvContext = Awaited<ReturnType<typeof loadConvContext>>;
 
 export type LbEntry = LoadedConvContext extends infer T
@@ -232,8 +230,7 @@ export class ParamError extends Error {
 
 // SEO / docs / blog registry types.
 
-// Static doc slugs only: the dynamic "/docs/[slug]" template is excluded so DocSlug
-// stays a subset of SeoTimestampSlug; the [slug] route casts its runtime slug.
+    // Static doc slugs only: the /docs/[slug] template is excluded so DocSlug stays a subset of SeoTimestampSlug.
 export type DocSlug = keyof typeof pathnames extends infer K
   ? K extends `/${infer R extends `docs/${string}`}`
     ? R extends `${string}[${string}`
@@ -310,11 +307,9 @@ type DocI18nPrefix = {
 }[TranslationKey];
 
 export type DocEntry = {
-  // For the static "/docs" index this is path.slice(1); for guides served by
-  // the single "/docs/[slug]" route it is `docs/${guide.slug}`.
+      // path.slice(1) for the static /docs index; docs/${guide.slug} for guides on the /docs/[slug] route.
   slug: string;
-  // Either a static route ("/docs") or a dynamic href ({ pathname:
-  // "/docs/[slug]", params }). getPathname/localeUrl resolve both.
+      // A static route ("/docs") or a dynamic href ({ pathname, params }). getPathname/localeUrl resolve both.
   path: Pathname;
   i18nPrefix: DocI18nPrefix;
   // Drive published/modified timestamps via git history.
@@ -337,8 +332,7 @@ export type BlogEntry = {
   heroImage?: string;
 };
 
-// On-disk conversation export envelopes. Untrusted JSON: every field optional,
-// per-importer boundary cast.
+    // On-disk conversation export envelopes. Untrusted JSON: every field optional, per-importer boundary cast.
 
 // Export row: arbitrary columns + known string id.
 export type ExportRow = Record<string, unknown> & { id: string };

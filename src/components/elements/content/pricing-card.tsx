@@ -46,7 +46,6 @@ export function PricingCard(props: Props) {
         </span>
       </div>
 
-      {/* Price hero: paid -> credit value */}
       <div className="mt-3 flex items-baseline gap-2">
         <span className="text-muted-foreground decoration-muted-foreground/60 text-2xl font-bold tracking-tight line-through">
           ${props.price}
@@ -78,7 +77,6 @@ export function PricingCard(props: Props) {
         })}
       </p>
 
-      {/* Spec row */}
       <div className="mt-5">
         <p className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
           {t("PRICING.CARD.SPEC_QUOTA")}
@@ -88,7 +86,6 @@ export function PricingCard(props: Props) {
         </p>
       </div>
 
-      {/* Features */}
       <div className="border-border mt-6 border-t pt-6">
         <ul className="space-y-3">
           {props.features.map((feature) => (
@@ -106,7 +103,6 @@ export function PricingCard(props: Props) {
         </ul>
       </div>
 
-      {/* CTA */}
       <div className="mt-auto pt-6">
         <button
           type="button"

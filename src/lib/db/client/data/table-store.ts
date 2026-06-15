@@ -133,10 +133,7 @@ export function makeTableStore<TTable extends ScopedTable>(
         .onConflictDoUpdate({ target: pk, set: row as never });
     },
 
-    // Partial UPDATE keyed on pk; never inserts. Use for settings-only writes
-    // on a row another path owns creating, so a partial that omits a NOT NULL
-    // column can't trip the constraint via an upsert's candidate INSERT row.
-    // No-op when the row is absent (the caller's parent-row guard handles that).
+        // Partial UPDATE keyed on pk, never inserts. For settings-only writes on a row another path creates, so a missing NOT NULL column is safe.
     async update(
       userId: number | undefined,
       id: StorePkValue,

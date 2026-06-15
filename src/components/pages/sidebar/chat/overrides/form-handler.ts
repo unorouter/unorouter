@@ -89,8 +89,7 @@ export function writeSamplerMemory(
   });
 }
 
-// Defaults mode: seed the form from the chat-defaults atom, layered with the
-// active model's remembered sampler values.
+    // Defaults mode: seed the form from the chat-defaults atom, layered with the active model's remembered sampler values.
 function buildDefaultsForm(
   chatDefaults: StreamOverrides,
   modelMemory: ModelSamplerMemory,
@@ -168,8 +167,7 @@ function buildSettingsForm(
   };
 }
 
-// Form seed by mode: defaults atom or persisted conv rows. Undefined while
-// loading = RHF "keep current".
+    // Form seed by mode: defaults atom or persisted conv rows. Undefined while loading = RHF keep current.
 export function computeFormValues(args: {
   isDefaultsMode: boolean;
   chatDefaults: StreamOverrides;
@@ -226,8 +224,7 @@ export function buildSettingsBody(data: ConversationOverridesForm) {
   };
 }
 
-// Bindings body. Form owns membership + order; isActive/overrides preserved
-// from the existing local rows (no UI surface yet).
+    // Bindings body. Form owns membership + order; isActive/overrides preserved from existing local rows.
 type ExistingCharBinding = Pick<
   typeof conversationCharacters.$inferSelect,
   "characterId" | "isActive" | "overrides"

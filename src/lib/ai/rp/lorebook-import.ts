@@ -127,8 +127,8 @@ export function serializeLorebookForExport(
     recursiveScanning: boolean | null;
   },
   entries: Array<{
-    keys: unknown;
-    secondaryKeys: unknown;
+    keys: string[];
+    secondaryKeys: string[] | null;
     content: string;
     constant: boolean | null;
     selective: boolean | null;
@@ -144,19 +144,11 @@ export function serializeLorebookForExport(
     const pos = (e.position ??
       "before_char") as keyof typeof DB_TO_FOUNDRY_POSITION;
     return {
-      keys: Array.isArray(e.keys)
-        ? (e.keys as unknown[]).filter(
-            (k): k is string => typeof k === "string",
-          )
-        : [],
+      keys: e.keys,
       content: e.content,
       enabled: e.enabled ?? true,
       insertion_order: e.orderIndex ?? i,
-      secondary_keys: Array.isArray(e.secondaryKeys)
-        ? (e.secondaryKeys as unknown[]).filter(
-            (k): k is string => typeof k === "string",
-          )
-        : undefined,
+      secondary_keys: e.secondaryKeys ?? undefined,
       constant: e.constant ?? false,
       selective: e.selective ?? false,
       priority: e.priority ?? 100,

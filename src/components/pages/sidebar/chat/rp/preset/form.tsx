@@ -36,8 +36,7 @@ type Props = {
   onDone: () => void;
 };
 
-// providers column holds an OpenRouter routing object as JSON. The form edits
-// it as a comma list of slugs plus an "only" toggle (order vs only).
+    // providers column is a JSON routing object; the form edits it as a comma list of slugs plus an only toggle.
 function parseProviderRouting(raw: string | null | undefined): {
   slugs: string;
   only: boolean;
@@ -54,8 +53,7 @@ function parseProviderRouting(raw: string | null | undefined): {
   }
 }
 
-// Build the DB body from form data: serialize the provider slugs into the
-// `providers` JSON and drop the form-only `providersOnly` field.
+    // Build the DB body: serialize provider slugs into the providers JSON and drop the form-only providersOnly field.
 function toPresetBody(data: SamplingPresetForm) {
   const slugs = data.providers
     .split(",")
@@ -87,23 +85,21 @@ export function PresetForm(props: Props) {
   const createMut = useCreatePresetMutation();
   const updateMut = useUpdatePresetMutation();
 
-  // `values` syncs the row on settle; keepDirtyValues stops a refetch clobbering
-  // in-progress typing. Parent keys by editingId so switching remounts clean.
+      // values syncs the row on settle; keepDirtyValues stops a refetch clobbering typing.
   const editing =
     props.editingId === "new"
       ? null
       : presetsQuery.data?.find((x) => x.id === props.editingId);
-  // providers is stored as a JSON routing object; the form edits it as a
-  // comma list + an "only" toggle, so expand it before seeding the form.
+      // providers is a JSON routing object; the form edits it as a comma list + only toggle, so expand before seeding.
   const routing = parseProviderRouting(editing?.providers);
-  const formValues = editing
-    ? formDefaults(samplingPresetFormSchema, {
-        ...editing,
-        providers: routing.slugs,
-        providersOnly: routing.only,
-        promptTemplate: editing.promptTemplate ?? "",
-      })
-    : undefined;
+      // null streamingEnabled means inherit (on) but the switch renders null as OFF; seed the default so toggling off persists false.
+  const formValues = formDefaults(samplingPresetFormSchema, {
+    ...(editing ?? {}),
+    providers: routing.slugs,
+    providersOnly: routing.only,
+    promptTemplate: editing?.promptTemplate ?? "",
+    streamingEnabled: editing?.streamingEnabled ?? true,
+  });
   const form = useRpForm(samplingPresetFormSchema, formValues);
 
   const resetSampling = () => {

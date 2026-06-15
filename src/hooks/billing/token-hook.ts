@@ -1,18 +1,16 @@
 "use client";
 
-import { useElysiaQuery } from "@/hooks/use-elysia-query";
+import { useApiMutation, useElysiaQuery } from "@/lib/react-query/hooks";
 
-import { useApiMutation } from "@/hooks/use-api-mutation";
-
+import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
-import { handleElysia } from "@/lib/utils/base";
 import type { EdenArgs, EdenQuery } from "@/lib/types/eden";
 import { DataTableId } from "@/lib/types/enums";
+import { handleElysia } from "@/lib/utils/base";
 import type { ResponseDtoPageDataModelTokenData } from "@/openapi";
 import { createTableAtoms } from "@/store/data-table-store";
 import { useAtomValue } from "jotai";
-import { useAuthQuery } from "@/hooks/auth/auth-hook";
 
 type TokenRoute = typeof rpc.api.billing.token;
 
@@ -33,6 +31,7 @@ export function useBestKeyQuery() {
     { enabled: false, select: (data) => (data?.key ? `sk-${data.key}` : null) },
   );
 }
+
 
 export function useTokensQuery(query?: EdenQuery<TokenRoute["search"]>) {
   const authQuery = useAuthQuery();

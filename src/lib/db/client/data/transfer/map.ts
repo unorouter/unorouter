@@ -43,6 +43,19 @@ const strArr = (v: unknown): string[] | null =>
   Array.isArray(v) && v.every((x) => typeof x === "string")
     ? (v as string[])
     : null;
+const rec = (v: unknown): Record<string, unknown> | undefined =>
+  v && typeof v === "object" && !Array.isArray(v)
+    ? (v as Record<string, unknown>)
+    : undefined;
+const recArr = (v: unknown): Record<string, unknown>[] => {
+  if (!Array.isArray(v)) return [];
+  const out: Record<string, unknown>[] = [];
+  for (const x of v) {
+    const r = rec(x);
+    if (r) out.push(r);
+  }
+  return out;
+};
 
 // Remap entity ids on import so a re-import does not collide with existing rows.
 function buildIdMap(
@@ -235,16 +248,10 @@ function orpgTextPayload(content: unknown): { text: string } {
   if (typeof content === "string") return { text: content };
   if (Array.isArray(content)) {
     // OpenRouter: user content is input_text, assistant is output_text.
-    const part = content.find((p) => {
-      const tp = (p as Record<string, unknown>).type;
-      return tp === "output_text" || tp === "input_text";
-    });
-    return {
-      text:
-        typeof part === "object" && part
-          ? String((part as Record<string, unknown>).text ?? "")
-          : "",
-    };
+    const part = recArr(content).find(
+      (p) => p.type === "output_text" || p.type === "input_text",
+    );
+    return { text: part ? String(part.text ?? "") : "" };
   }
   return { text: "" };
 }
@@ -307,7 +314,7 @@ export function mapOrpgImport(data: OrpgImport): MappedImport {
     const oldChar = str(m.characterId);
     const newChar =
       oldChar && oldChar !== "USER" ? (charIdMap.get(oldChar) ?? null) : null;
-    const meta = m.metadata as Record<string, unknown> | undefined;
+    const meta = rec(m.metadata);
     return {
       id: msgIdMap.get(str(m.id) ?? "")!,
       convId,
@@ -325,13 +332,11 @@ export function mapOrpgImport(data: OrpgImport): MappedImport {
 
   const messageItems: Array<LocalAnyRow> = [];
   for (const m of Object.values(orpgMessages)) {
-    const newMsgId = msgIdMap.get(m.id as string)!;
-    const itemRefs = (m.items as Array<Record<string, unknown>>) ?? [];
+    const newMsgId = msgIdMap.get(str(m.id) ?? "")!;
+    const itemRefs = recArr(m.items);
     let seq = 0;
     for (const ref of itemRefs) {
-      const itemData = orpgItems[str(ref.id) ?? ""]?.data as
-        | Record<string, unknown>
-        | undefined;
+      const itemData = rec(orpgItems[str(ref.id) ?? ""]?.data);
       if (!itemData) continue;
       const ourType = orpgItemType(
         str(ref.type) ?? str(itemData.type) ?? "text",

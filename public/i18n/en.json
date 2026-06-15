@@ -26,7 +26,8 @@
     "LOG_IN": "Log In",
     "CHAT": "Chat",
     "PLAYGROUND": "Playground",
-    "STATUS": "Status"
+    "STATUS": "Status",
+    "COMPARE": "Compare"
   },
   "HOME": {
     "HERO": {
@@ -229,7 +230,17 @@
       "NO_PROVIDERS": "No providers found.",
       "SELECTED": "selected",
       "CLEAR": "Clear filters",
-      "RESET": "Reset"
+      "RESET": "Reset",
+      "TITLE": "Filters",
+      "INPUT_MODALITIES": "Input Modalities",
+      "CONTEXT_LENGTH": "Context length",
+      "PROMPT_PRICING": "Prompt pricing",
+      "CATEGORIES": "Categories",
+      "SUPPORTED_PARAMETERS": "Supported Parameters",
+      "PROVIDERS": "Providers",
+      "MIN": "Min",
+      "ANY": "Any",
+      "SERIES": "Series"
     },
     "DETAIL": {
       "DESCRIPTION": "Description",
@@ -300,11 +311,16 @@
     "SORT": {
       "NAME": "Name (A to Z)",
       "PRICE_ASC": "Price (Low)",
-      "PRICE_DESC": "Price (High)"
+      "PRICE_DESC": "Price (High)",
+      "NEWEST": "Newest",
+      "POPULAR": "Most Popular",
+      "TOP_WEEKLY": "Top Weekly",
+      "CONTEXT_DESC": "Context (High)"
     },
     "VIEW": {
       "GRID": "Grid view",
-      "LIST": "List view"
+      "LIST": "List view",
+      "TABLE": "Table view"
     },
     "META": {
       "TITLE": "AI Models - {appName}",
@@ -346,6 +362,73 @@
       "LATENCY": "Lat.",
       "TPS": "TPS",
       "STATUS": "Status"
+    },
+    "MODALITY": {
+      "TEXT": "Text",
+      "IMAGE": "Image",
+      "AUDIO": "Audio",
+      "VIDEO": "Video",
+      "EMBEDDINGS": "Embeddings",
+      "FILE": "File"
+    },
+    "TABLE": {
+      "MODEL": "Model",
+      "WEEKLY_TOKENS": "Weekly Tokens",
+      "INPUT": "Input",
+      "OUTPUT": "Output",
+      "CONTEXT": "Context",
+      "RELEASED": "Released",
+      "OFF": "{pct}% off",
+      "FREE": "free",
+      "SORT_ASC": "Ascending",
+      "SORT_DESC": "Descending",
+      "SORT_RESET": "Reset"
+    },
+    "COMPARE": {
+      "BADGE": "Compare",
+      "TITLE": "AI Model Comparison",
+      "SUBTITLE": "Compare AI models side by side by price, context, capabilities and usage.",
+      "ADD_MODEL": "Add model",
+      "REMOVE": "Remove",
+      "CAPABILITIES": "Capabilities",
+      "PRESET_FLAGSHIP": "Flagship models",
+      "PRESET_FLAGSHIP_DESC": "The latest top-tier models from major labs.",
+      "PRESET_AFFORDABLE": "Most affordable",
+      "PRESET_AFFORDABLE_DESC": "Compact, lower-cost picks for high-throughput use.",
+      "PRESET_CODE": "Best for code",
+      "PRESET_CODE_DESC": "Frequently chosen for programming and code generation.",
+      "PRESET_IMAGE": "Image generation",
+      "PRESET_IMAGE_DESC": "Top image generation models on cost and quality.",
+      "META": {
+        "TITLE": "Compare AI Models - {appName}",
+        "DESCRIPTION": "Compare AI models side by side by price, context length, capabilities and usage on {appName}.",
+        "KEYWORDS": "compare AI models, model comparison, LLM comparison, AI pricing",
+        "TITLE_COMBO": "{models} - AI Model Comparison",
+        "DESCRIPTION_COMBO": "Compare {models} on key metrics including price, context length, capabilities and usage."
+      },
+      "OVERVIEW": "Overview",
+      "PRICING": "Pricing",
+      "PERFORMANCE": "Performance",
+      "FEATURES": "Features",
+      "ACTIVITY": "Activity",
+      "AUTHOR": "Author",
+      "LATENCY": "Latency",
+      "THROUGHPUT": "Throughput",
+      "HIGHLIGHT_BEST": "Highlight best",
+      "CLEAR": "Clear",
+      "FROM": "from",
+      "SELECT_MODEL": "Select a model"
+    },
+    "LIST": {
+      "TOKENS": "tokens",
+      "BY": "by",
+      "CONTEXT": "context",
+      "INPUT": "input tokens",
+      "OUTPUT": "output tokens"
+    },
+    "ACTIONS": {
+      "OPEN_MENU": "Open menu",
+      "COPY_NAME": "Copy model name"
     }
   },
   "RANKINGS": {
@@ -455,6 +538,20 @@
       "comparison": "Comparison"
     },
     "POSTS": {
+      "FEATURED_ON": {
+        "TITLE": "Where to find {appName}: our directory listings",
+        "DESCRIPTION": "{appName} is listed across the AI tool and startup directories. Here is where you can find us, verify the listings, and read independent takes.",
+        "AUTHOR": "{appName} team",
+        "INTRO": "Part of being a trustworthy AI gateway is being easy to find and easy to verify. {appName} is listed on the directories developers actually check before they trust a new provider with an API key. Here is the running list.",
+        "H_DIRECTORIES": "Directories we are listed on",
+        "P_DIRECTORIES": "Each badge below links to the directory where {appName} is featured. They are independent listings, so you can read third-party descriptions and reviews rather than taking our word for it.",
+        "H_WHY": "Why this matters",
+        "P_WHY": "Brand loyalty in AI infrastructure is thin and trust is everything. A provider that hides from public directories is a provider you cannot vet. We list openly so you can compare {appName} against every alternative in the same place.",
+        "H_VERIFY": "Verify before you trust",
+        "P_VERIFY": "Open any badge, confirm the listing points back to our real domain, and check the independent description. Never paste an API key into a service you cannot trace to a verifiable, publicly listed source.",
+        "H_TRY": "Try it yourself",
+        "CTA": "Seen enough? <register>Create a free account</register> or <models>browse the models</models>."
+      },
       "LAUNCH": {
         "TITLE": "We got tired of fake Claude. So we built {appName}.",
         "DESCRIPTION": "Outages every other week. Premium models silently swapped for cheap clones. We snapped, shipped our own router, and made it paranoid about both. Here is the launch story.",
@@ -585,16 +682,16 @@
         "CTA": "Ready? <invite>Join the {appName} Discord</invite>, then <register>grab an API key</register> and <settings>link your account</settings> to claim your first $1."
       },
       "FREE_MODELS_AGGREGATED": {
-        "TITLE": "We aggregated 100+ free AI models into one endpoint",
-        "DESCRIPTION": "Over two days we wired 15 free providers into {appName}: 134 free model rows, one OpenAI-compatible endpoint, $0 per token. They are free for a reason and carry rate limits we cannot raise. Here is the honest version.",
+        "TITLE": "We aggregated 120+ free AI models into one endpoint",
+        "DESCRIPTION": "We wired 18 free providers into {appName}: 126 free model rows, one OpenAI-compatible endpoint, $0 per token. They are free for a reason and carry rate limits we cannot raise. Here is the honest version.",
         "AUTHOR": "{appName} team",
-        "INTRO": "The free-LLM landscape is real but scattered: Groq, Gemini, Cloudflare, Mistral, OVHcloud and a dozen others each give away genuine capacity, behind a dozen signup pages, a dozen key formats, and a dozen incompatible APIs. Over two days we discovered, tested, and merged every legitimate permanent-free provider we could into {appName}. The result: 134 free model rows from 15 providers behind one OpenAI-compatible endpoint and one key.",
+        "INTRO": "The free-LLM landscape is real but scattered: Groq, Gemini, Cloudflare, NVIDIA, SiliconFlow and a dozen others each give away genuine capacity, behind a dozen signup pages, a dozen key formats, and a dozen incompatible APIs. We discovered, tested, and merged every legitimate permanent-free provider we could into {appName}. The result: 126 free model rows from 18 providers behind one OpenAI-compatible endpoint and one key.",
         "H_WHAT": "What we added",
-        "P_WHAT": "Fifteen free providers, one at a time: Groq, Gemini, Cerebras, SambaNova, Mistral, Cloudflare Workers AI (two accounts), GitHub Models, Z.ai, OVHcloud, AI Horde, Pollinations, Cohere, Jina, NVIDIA NIM, and OpenRouter. That is 134 free model rows: Llama, gpt-oss, Qwen, Mistral, GLM, Nemotron and more, plus 30 free embedding models and 13 free image and audio models. Every one is probed end to end for HTTP, streaming, and tool calls before it goes live, the same authenticity and harness checks we run on paid models.",
+        "P_WHAT": "Eighteen free providers, one at a time: Groq, Gemini, Cerebras, SambaNova, Mistral, Cloudflare Workers AI (two accounts), GitHub Models, Z.ai, OVHcloud, AI Horde, Pollinations, Cohere, Jina, NVIDIA NIM (full open catalog: Nemotron, Llama, Qwen, gpt-oss, DeepSeek and more), SiliconFlow (DeepSeek-V4, GLM-5.1, Qwen3.5/3.6, Kimi-K2.6, MiniMax-M3), the HuggingFace router, and LLM7. That is 126 free model rows: Llama, gpt-oss, Qwen, Mistral, GLM, Nemotron, DeepSeek and more, plus free embedding, image, and audio models. Every one is probed end to end for HTTP, streaming, and tool calls before it goes live, the same authenticity and harness checks we run on paid models.",
         "H_CAVEAT": "Free for a reason",
         "P_CAVEAT": "These models are genuinely free, and that is exactly why they have limits. <s>The provider sets those limits, not us, and we cannot raise them.</s> Each upstream enforces its own rate limits: requests per minute, daily token quotas, Cloudflare neuron budgets, volunteer-queue priority. Hit a cap and that provider returns <c>429</c> until it resets. A free key that worked this morning can be exhausted by this afternoon. Free tier is best-effort throughput, not a guarantee. If your workload needs predictable latency and no surprise <c>429</c>s, use a paid model.",
         "H_AGGREGATE": "Why aggregate them at all",
-        "P_AGGREGATE": "Because the alternative is fifteen accounts. Each provider has its own signup, its own key format, its own base URL, and its own quirks: Z.ai speaks the Zhipu V4 path, Cloudflare carries the account id in the URL, AI Horde wants an anonymous key, GitHub gates models behind a token scope. We absorbed all of that so you call them the way you call everything else: one OpenAI-compatible endpoint, one key, a model name. The honest rule we hold ourselves to: one real account per provider, caps accepted, nothing farmed, nothing pooled. We expose the free tier as a gift, not as a resale of someone else's quota.",
+        "P_AGGREGATE": "Because the alternative is eighteen accounts. Each provider has its own signup, its own key format, its own base URL, and its own quirks: Z.ai speaks the Zhipu V4 path, Cloudflare carries the account id in the URL, AI Horde wants an anonymous key, GitHub gates models behind a token scope, the HuggingFace router fans out across a dozen upstreams. We absorbed all of that so you call them the way you call everything else: one OpenAI-compatible endpoint, one key, a model name. The honest rule we hold ourselves to: one real account per provider, caps accepted, nothing farmed, nothing pooled. We expose the free tier as a gift, not as a resale of someone else's quota.",
         "H_FAILOVER": "How we soften the limits",
         "P_FAILOVER": "Many of these models are served by more than one free provider. Llama 3.3 70B alone runs on seven of them. When several providers offer the same model, we collapse them into one published name and fail over automatically: if one upstream returns a <c>429</c> or goes quiet, the next healthy provider serving that model takes the request. That is the one lever we do control. It does not raise any single provider's cap, but it means a multi-source free model keeps answering long after any one of its providers is exhausted. Single-source free models have no fallback, so they stall when their one upstream is spent.",
         "H_HONEST": "What we did not do",
@@ -614,7 +711,7 @@
         "H_RP": "The part OpenRouter leaves out",
         "P_RP": "Point a coding agent (Claude Code, Cline, OpenCode, Kilo Code, Codex) at {appName} and it behaves like any OpenAI-compatible endpoint. But the same key also drives a built-in chat and character client with personas, lorebooks, presets, and SillyTavern card import, and it drops straight into SillyTavern, Janitor.AI, RisuAI, or Chub. OpenRouter is purely the API layer, so you bring every interface yourself. {appName} ships the interface and the API together.",
         "H_MIGRATE": "Switching is a base-URL change",
-        "P_MIGRATE": "Because {appName} is OpenAI-compatible, moving an existing app over is one line: point your client at <c>https://api.unorouter.ai/v1</c> and keep your existing code. The same key pasted into a chat client's custom endpoint field reaches the same catalog, so there is no second account to manage.",
+        "P_MIGRATE": "Because {appName} is OpenAI-compatible, moving an existing app over is one line: point your client at <c>https://api.unorouter.com/v1</c> and keep your existing code. The same key pasted into a chat client's custom endpoint field reaches the same catalog, so there is no second account to manage.",
         "H_VERDICT": "Which should you pick",
         "P_VERDICT": "If you only ship code and want the widest catalog with zero interface, OpenRouter is a fine default. If you want self-hosted zero-markup routing, LiteLLM wins. If you want one key that works in your coding agent and in a real chat and character client without running two services, that is the gap {appName} fills. There is no single winner. It depends on whether you optimize for pure API or for API plus a place to use it.",
         "CTA": "Ready to try it? <register>Create a free account</register> or <models>browse the models</models>."
@@ -1521,7 +1618,7 @@
       "INTRO_DESC": "Chub.ai (formerly Venus) is a browser-based character chat platform with a 60,000-character library. It connects to OpenAI-compatible endpoints through its Secrets panel.",
       "INTRO_LINK_DOCS": "Official Chub.ai API Connections documentation",
       "OVERVIEW": "Overview",
-      "OVERVIEW_DESC": "Chub's Secrets panel accepts a full `/v1/chat/completions` URL plus your API key. A Check your proxy button verifies the connection before you pick a model in Prompt Structure.",
+      "OVERVIEW_DESC": "Chub's Secrets panel accepts the base API URL ending in `/v1` plus your API key. A Check your proxy button verifies the connection before you pick a model in Prompt Structure.",
       "TRUST_TITLE": "{appName} is a first-party API relay",
       "TRUST_DESC": "Chub''s UI warns about ''reverse proxies created by unauthorized third parties.'' That warning targets community-run relays. {appName} is a first-party API relay operated by the infrastructure owner, analogous to OpenRouter. Your API key, usage logs, and billing live on {appName} directly.",
       "TRUST_LINK_PRIVACY": "Privacy policy",
@@ -1530,7 +1627,7 @@
       "QUICK_CONFIG_DESC": "Copy these two values into the Reverse proxy fields in Chub's Secrets panel.",
       "QUICK_CONFIG_URL_LABEL": "URL",
       "QUICK_CONFIG_KEY_LABEL": "Key",
-      "QUICK_CONFIG_NOTE": "Paste the full URL ending in `/v1/chat/completions`. Chub expects the full path; do not paste only the base URL.",
+      "QUICK_CONFIG_NOTE": "Paste the base URL ending in `/v1`. Chub appends `/models` for the proxy check, so a full `/v1/chat/completions` URL fails.",
       "STEPS": "Step-by-step setup",
       "STEP_1_TITLE": "Open the Secrets panel",
       "STEP_1_DESC": "Click the hamburger menu at the top-right of Chub, then select Secrets.",
@@ -1539,7 +1636,7 @@
       "STEP_3_TITLE": "Scroll to Reverse proxy",
       "STEP_3_DESC": "The Reverse proxy subsection contains the URL and Key fields plus the Check your proxy button.",
       "STEP_4_TITLE": "Paste URL and key",
-      "STEP_4_DESC": "URL ends in `/v1/chat/completions`. Key is your {appName} API key.",
+      "STEP_4_DESC": "URL ends in `/v1` (base only, no `/chat/completions`). Key is your {appName} API key.",
       "STEP_5_TITLE": "Click Check your proxy",
       "STEP_5_DESC": "Wait for the green confirmation. If it fails, recheck the URL and re-paste the key.",
       "STEP_6_TITLE": "Open Configuration",
@@ -1552,7 +1649,7 @@
       "WARN_KEY_INVISIBLE_DESC": "Chub masks the API key after save. You cannot copy it back out. Save the key in a password manager before pasting so rotation or a second browser profile does not require a new key.",
       "TROUBLESHOOTING": "Troubleshooting",
       "TS_1_TITLE": "Check your proxy button fails.",
-      "TS_1_DESC": "URL is wrong. It must end in `/v1/chat/completions`; the base URL alone will not pass.",
+      "TS_1_DESC": "URL is wrong. It must be the base ending in `/v1`. Chub adds `/models` itself, so a full `/v1/chat/completions` URL becomes `/v1/chat/completions/models` and fails.",
       "TS_2_TITLE": "Model dropdown is empty.",
       "TS_2_DESC": "The proxy check has not passed yet. Re-run step 5 and wait for the green state.",
       "TS_3_TITLE": "Responses come back empty.",
@@ -1576,7 +1673,7 @@
       "TOC_TROUBLESHOOTING": "Troubleshooting",
       "STEP_CONFIG_TITLE": "Open Configuration and pick OpenAI",
       "STEP_CONFIG_DESC": "Return to the hamburger menu, open Configuration, then Prompt Structure. Set the API dropdown to OpenAI and select your target model from the model dropdown.",
-      "GOTCHA_1": "Paste the full URL ending in `/v1/chat/completions` into the Reverse proxy field. The base URL alone will fail the Check your proxy button.",
+      "GOTCHA_1": "Paste the base URL ending in `/v1` into the Reverse proxy field. Chub appends `/models` for the check, so a full `/v1/chat/completions` URL will fail the Check your proxy button.",
       "GOTCHA_2": "The model dropdown in Prompt Structure stays empty until the proxy check passes. Run Check your proxy in Secrets first, then return to pick a model.",
       "GOTCHA_3": "Chub masks the API key after save and you cannot copy it back out. Save the key in a password manager before pasting so rotation does not force a new key.",
       "GOTCHA_4": "Chub''s UI warns about reverse proxies from unauthorized third parties; that targets community relays. {appName} is a first-party relay, so your key, logs, and billing stay on {appName}."
@@ -1944,7 +2041,9 @@
     "LEGAL_TERMS": "Terms of Service",
     "LEGAL_PRIVACY": "Privacy Policy",
     "SOCIAL_TRUSTPILOT": "Trustpilot",
-    "EASTER_EGG_LABEL": "Play Token Breakout"
+    "EASTER_EGG_LABEL": "Play Token Breakout",
+    "BADGE_FEATURED_ON": "Featured on {name}",
+    "BADGE_VERIFIED_ON": "Verified on {name}"
   },
   "PRIVACY": {
     "META": {
@@ -2040,7 +2139,10 @@
       "UNEXPECTED_ERROR_OCCURRED": "An unexpected error occurred. Please try again or return to the home page.",
       "ERROR_DETAILS": "Error Details",
       "DIGEST": "Digest",
-      "SECTION_LOAD_FAILED": "This section failed to load."
+      "SECTION_LOAD_FAILED": "This section failed to load.",
+      "COPY_ERROR": "Copy error",
+      "RESET_APP_DATA": "Reset app data & reload",
+      "RESETTING": "Resetting..."
     },
     "NOT_FOUND": {
       "TITLE": "Page Not Found",
@@ -2087,6 +2189,13 @@
       "CLEAR_CHAT_TITLE": "Clear chat?",
       "WIPE_DB_TITLE": "Wipe local database?",
       "UPLOAD_DB_TITLE": "Overwrite local database?"
+    },
+    "COPIED": "Copied",
+    "DATE_RANGE": {
+      "PICK": "Pick a date range",
+      "FROM": "From",
+      "TO": "To",
+      "APPLY": "Apply"
     }
   },
   "LANGUAGE": {
@@ -2287,7 +2396,9 @@
       "IP_WHITELIST_PLACEHOLDER": "One IP per line. Leave empty for no restriction.",
       "IP_WHITELIST_DESC": "IPs can be spoofed. Use with a gateway for stronger enforcement.",
       "SUBMIT": "Create",
-      "SAVE": "Save"
+      "SAVE": "Save",
+      "QUOTA_FREE_ONLY_HINT": "$0 makes a free models only key. Paid models are rejected.",
+      "QUOTA_EQUIVALENT": "= {quota} quota"
     },
     "ENUM": {
       "ENABLED": "Enabled",
@@ -2567,6 +2678,7 @@
     "FONT_DEFAULT": "Project default",
     "FONT_HEADING_INHERIT": "Match body",
     "BASE_COLOR": "Base color",
+    "CUSTOM_COLOR": "Custom",
     "THEME": "Theme",
     "CHART_COLOR": "Chart color",
     "HEADING_FONT": "Heading font",
@@ -2603,6 +2715,8 @@
     "MD_SINGLE_QUOTE": "Single quoted text",
     "MD_DOUBLE_QUOTE": "Double quoted text",
     "SURFACE_COLORS": "Surface colors",
+    "MODE_LIGHT": "Light",
+    "MODE_DARK": "Dark",
     "COLOR_SIDEBAR": "Sidebar",
     "BACKGROUND_IMAGE": "Background image",
     "BG_UPLOAD": "Upload image",

@@ -7,9 +7,7 @@ import {
   SectionPriorities,
 } from "@/lib/types";
 
-// All setup guides render from "/docs/[slug]" with these shared content/timestamp
-// sources; search index, llms.txt, sitemap, and seo-timestamps enumerate this
-// list, so a new guide in SETUP_GUIDES flows through with no edit here.
+// Shared content/timestamp sources for all /docs/[slug] guides; search index, llms.txt, sitemap, seo-timestamps enumerate it.
 const SETUP_GUIDE_SOURCES = [
   "src/components/pages/docs/setup-guides.ts",
   "src/components/pages/docs/setup-guide-template.tsx",
@@ -61,6 +59,25 @@ export const LEGAL_REGISTRY = [
 
 export const BLOG_REGISTRY = [
   {
+    slug: "featured-on",
+    date: "2026-06-12",
+    tags: ["announcement", "product"],
+    i18nKey: "BLOG.POSTS.FEATURED_ON",
+    contentFiles: [
+      "src/components/pages/blog/posts/2026-06-12-featured-on-content.tsx",
+    ],
+    priority: 0.7,
+    changeFrequency: "monthly",
+    category: "product",
+    wordCount: 320,
+    headings: [
+      { id: "directories", i18nLeaf: "H_DIRECTORIES", level: 2 },
+      { id: "why", i18nLeaf: "H_WHY", level: 2 },
+      { id: "verify", i18nLeaf: "H_VERIFY", level: 2 },
+      { id: "try", i18nLeaf: "H_TRY", level: 2 },
+    ],
+  },
+  {
     slug: "unorouter-vs-openrouter",
     date: "2026-06-10",
     tags: ["comparison", "product"],
@@ -82,7 +99,7 @@ export const BLOG_REGISTRY = [
   },
   {
     slug: "free-models-aggregated",
-    date: "2026-06-08",
+    date: "2026-06-15",
     tags: ["announcement", "product"],
     i18nKey: "BLOG.POSTS.FREE_MODELS_AGGREGATED",
     contentFiles: [
@@ -91,7 +108,7 @@ export const BLOG_REGISTRY = [
     priority: 0.7,
     changeFrequency: "monthly",
     category: "product",
-    wordCount: 540,
+    wordCount: 560,
     headings: [
       { id: "what", i18nLeaf: "H_WHAT", level: 2 },
       { id: "caveat", i18nLeaf: "H_CAVEAT", level: 2 },

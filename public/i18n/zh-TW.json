@@ -26,7 +26,8 @@
     "LOG_IN": "登入",
     "CHAT": "對話",
     "PLAYGROUND": "遊樂場",
-    "STATUS": "狀態"
+    "STATUS": "狀態",
+    "COMPARE": "對比"
   },
   "HOME": {
     "HERO": {
@@ -229,7 +230,17 @@
       "NO_PROVIDERS": "找不到符合的供應商。",
       "SELECTED": "已選取",
       "CLEAR": "清除篩選",
-      "RESET": "重設"
+      "RESET": "重設",
+      "TITLE": "篩選",
+      "INPUT_MODALITIES": "輸入模態",
+      "CONTEXT_LENGTH": "上下文長度",
+      "PROMPT_PRICING": "提示詞價格",
+      "CATEGORIES": "類別",
+      "SUPPORTED_PARAMETERS": "支援的參數",
+      "PROVIDERS": "供應商",
+      "MIN": "最小",
+      "ANY": "任意",
+      "SERIES": "系列"
     },
     "DETAIL": {
       "DESCRIPTION": "說明",
@@ -300,11 +311,16 @@
     "SORT": {
       "NAME": "名稱（A 到 Z）",
       "PRICE_ASC": "價格（由低到高）",
-      "PRICE_DESC": "價格（由高到低）"
+      "PRICE_DESC": "價格（由高到低）",
+      "NEWEST": "最新",
+      "POPULAR": "最熱門",
+      "TOP_WEEKLY": "本週熱門",
+      "CONTEXT_DESC": "上下文（高到低）"
     },
     "VIEW": {
       "GRID": "網格檢視",
-      "LIST": "清單檢視"
+      "LIST": "清單檢視",
+      "TABLE": "表格檢視"
     },
     "META": {
       "TITLE": "AI 模型：{appName}",
@@ -346,6 +362,73 @@
       "LATENCY": "延遲",
       "TPS": "TPS",
       "STATUS": "狀態"
+    },
+    "MODALITY": {
+      "TEXT": "文字",
+      "IMAGE": "圖像",
+      "AUDIO": "音訊",
+      "VIDEO": "影片",
+      "EMBEDDINGS": "嵌入",
+      "FILE": "檔案"
+    },
+    "TABLE": {
+      "MODEL": "模型",
+      "WEEKLY_TOKENS": "每週 Token",
+      "INPUT": "輸入",
+      "OUTPUT": "輸出",
+      "CONTEXT": "上下文",
+      "RELEASED": "發布日期",
+      "OFF": "{pct}% 優惠",
+      "FREE": "免費",
+      "SORT_ASC": "升序",
+      "SORT_DESC": "降序",
+      "SORT_RESET": "重置"
+    },
+    "COMPARE": {
+      "BADGE": "對比",
+      "TITLE": "AI 模型對比",
+      "SUBTITLE": "按價格、上下文、能力和使用量並排對比 AI 模型。",
+      "ADD_MODEL": "新增模型",
+      "REMOVE": "移除",
+      "CAPABILITIES": "能力",
+      "PRESET_FLAGSHIP": "旗艦模型",
+      "PRESET_FLAGSHIP_DESC": "來自主要實驗室的最新頂級模型。",
+      "PRESET_AFFORDABLE": "最實惠",
+      "PRESET_AFFORDABLE_DESC": "適合高吞吐量的小巧低成本選擇。",
+      "PRESET_CODE": "最適合程式設計",
+      "PRESET_CODE_DESC": "常用於程式設計與程式碼生成。",
+      "PRESET_IMAGE": "圖像生成",
+      "PRESET_IMAGE_DESC": "在成本與品質上領先的影像生成模型。",
+      "META": {
+        "TITLE": "對比 AI 模型 - {appName}",
+        "DESCRIPTION": "在 {appName} 上按價格、上下文長度、能力和使用量並排對比 AI 模型。",
+        "KEYWORDS": "對比 AI 模型，模型對比，LLM 對比，AI 價格",
+        "TITLE_COMBO": "{models} - AI 模型對比",
+        "DESCRIPTION_COMBO": "按價格、上下文長度、能力和使用量對比 {models}。"
+      },
+      "OVERVIEW": "概覽",
+      "PRICING": "價格",
+      "PERFORMANCE": "效能",
+      "FEATURES": "功能",
+      "ACTIVITY": "活動",
+      "AUTHOR": "提供方",
+      "LATENCY": "延遲",
+      "THROUGHPUT": "吞吐量",
+      "HIGHLIGHT_BEST": "突顯最佳",
+      "CLEAR": "清除",
+      "FROM": "來自",
+      "SELECT_MODEL": "選擇一個模型"
+    },
+    "LIST": {
+      "TOKENS": "Token",
+      "BY": "來自",
+      "CONTEXT": "上下文",
+      "INPUT": "輸入 Token",
+      "OUTPUT": "輸出 Token"
+    },
+    "ACTIONS": {
+      "OPEN_MENU": "開啟選單",
+      "COPY_NAME": "複製模型名稱"
     }
   },
   "RANKINGS": {
@@ -455,6 +538,20 @@
       "comparison": "比較"
     },
     "POSTS": {
+      "FEATURED_ON": {
+        "TITLE": "在哪裡找到{appName}：我們的目錄收錄",
+        "DESCRIPTION": "{appName}已收錄於各大 AI 工具與新創產品目錄。您可以在這裡找到我們、核實收錄資訊並閱讀獨立評價。",
+        "AUTHOR": "{appName}團隊",
+        "INTRO": "成為值得信賴的 AI 閘道，意味著易於查找、易於核實。{appName}已收錄在開發者真正會查看的目錄中，他們會在把 API 金鑰交付給新服務商之前先行核實。以下是持續更新的清單。",
+        "H_DIRECTORIES": "收錄我們的目錄",
+        "P_DIRECTORIES": "下方每個徽章都連結到收錄{appName}的目錄。這些都是獨立收錄，因此您可以閱讀第三方的描述與評價，而不必只聽我們的片面之詞。",
+        "H_WHY": "為什麼這很重要",
+        "P_WHY": "AI 基礎設施領域的品牌忠誠度很薄弱，信任就是一切。一個躲避公開目錄的服務商，就是一個您無法考察的服務商。我們公開收錄，方便您在同一處將{appName}與每一個替代方案進行比較。",
+        "H_VERIFY": "信任之前先核實",
+        "P_VERIFY": "開啟任一徽章，確認收錄指向我們真實的網域，並查看獨立描述。切勿將 API 金鑰貼入無法追溯至可核實公開來源的服務中。",
+        "H_TRY": "親自試一試",
+        "CTA": "看夠了嗎？<register>建立免費帳戶</register>或<models>瀏覽模型</models>。"
+      },
       "LAUNCH": {
         "TITLE": "我們受夠了假 Claude。所以做了 {appName}。",
         "DESCRIPTION": "三天兩頭當機，旗艦模型還被偷偷換成廉價仿品。忍無可忍，我們自己動手做了路由器，並且對這兩件事都偏執到極點。這就是上線故事。",
@@ -585,16 +682,16 @@
         "CTA": "準備好了嗎？<invite>加入 {appName} Discord</invite>，再<register>領取 API 金鑰</register>並<settings>綁定帳號</settings>，把第一筆 1 美元收下。"
       },
       "FREE_MODELS_AGGREGATED": {
-        "TITLE": "我們將 100 多個免費 AI 模型整合進單一端點",
-        "DESCRIPTION": "短短兩天內，我們把 15 個免費供應商接入了 {appName}：134 個免費模型項目、一個 OpenAI-compatible 端點、每個 token $0。它們免費自有原因，並帶有我們無法調高的速率限制。以下是誠實版的說明。",
+        "TITLE": "我們將 120 多個免費 AI 模型整合進單一端點",
+        "DESCRIPTION": "我們把 18 個免費供應商接入了 {appName}：126 個免費模型項目、一個 OpenAI-compatible 端點、每個 token $0。它們免費自有原因，並帶有我們無法調高的速率限制。以下是誠實版的說明。",
         "AUTHOR": "{appName} 團隊",
-        "INTRO": "免費 LLM 的生態是真實存在的，只是散落各處：Groq、Gemini、Cloudflare、Mistral、OVHcloud 以及其他十幾家，各自釋出貨真價實的運算量，卻藏在十幾個註冊頁、十幾種金鑰格式，還有十幾套互不相容的 API 背後。短短兩天內，我們發掘、測試，並把每一個能找到的合法永久免費供應商都併入了 {appName}。成果就是：來自 15 個供應商的 134 個免費模型項目，全都藏在一個 OpenAI-compatible 端點與一把金鑰之後。",
+        "INTRO": "免費 LLM 的生態是真實存在的，只是散落各處：Groq、Gemini、Cloudflare、NVIDIA、SiliconFlow 以及其他十幾家，各自釋出貨真價實的運算量，卻藏在十幾個註冊頁、十幾種金鑰格式，還有十幾套互不相容的 API 背後。我們發掘、測試，並把每一個能找到的合法永久免費供應商都併入了 {appName}。成果就是：來自 18 個供應商的 126 個免費模型項目，全都藏在一個 OpenAI-compatible 端點與一把金鑰之後。",
         "H_WHAT": "我們新增了什麼",
-        "P_WHAT": "十五個免費供應商，一個一個接進來：Groq、Gemini、Cerebras、SambaNova、Mistral、Cloudflare Workers AI（兩個帳號）、GitHub Models、Z.ai、OVHcloud、AI Horde、Pollinations、Cohere、Jina、NVIDIA NIM 與 OpenRouter。總共 134 個免費模型項目：Llama、gpt-oss、Qwen、Mistral、GLM、Nemotron 等等，外加 30 個免費嵌入模型以及 13 個免費圖像與音訊模型。每一個在上線前都會就 HTTP、串流與工具呼叫做端到端探測，跟我們對付費模型一樣的真實性與測試框架檢驗。",
+        "P_WHAT": "十八個免費供應商，一個一個接進來：Groq、Gemini、Cerebras、SambaNova、Mistral、Cloudflare Workers AI（兩個帳號）、GitHub Models、Z.ai、OVHcloud、AI Horde、Pollinations、Cohere、Jina、NVIDIA NIM（完整開放目錄：Nemotron、Llama、Qwen、gpt-oss、DeepSeek 等）、SiliconFlow（DeepSeek-V4、GLM-5.1、Qwen3.5/3.6、Kimi-K2.6、MiniMax-M3）、HuggingFace 路由以及 LLM7。總共 126 個免費模型項目：Llama、gpt-oss、Qwen、Mistral、GLM、Nemotron、DeepSeek 等等，外加免費的嵌入、圖像與音訊模型。每一個在上線前都會就 HTTP、串流與工具呼叫做端到端探測，跟我們對付費模型一樣的真實性與測試框架檢驗。",
         "H_CAVEAT": "免費自有原因",
         "P_CAVEAT": "這些模型是真正免費的，而這正是它們有限制的原因。<s>那些限制是供應商設的，不是我們，我們也無法調高。</s>每個上游都有自己的一套速率限制：每分鐘請求數、每日 token 配額、Cloudflare 神經元預算、志願者佇列的優先序。一旦觸頂，該供應商就會回傳 <c>429</c>，直到限制重置為止。今天早上還能用的免費金鑰，到了下午可能就已耗盡。免費方案是盡力而為的吞吐量，不是保證。如果你的工作負載需要可預期的延遲、不容意外的 <c>429</c>，那就用付費模型。",
         "H_AGGREGATE": "為什麼要把它們整合起來",
-        "P_AGGREGATE": "因為不整合的話，就得管十五個帳號。每個供應商都有自己的註冊流程、自己的金鑰格式、自己的 base URL，還有各自的怪癖：Z.ai 走的是 Zhipu V4 路徑，Cloudflare 把帳號 id 放在 URL 裡，AI Horde 想要一把匿名金鑰，GitHub 則把模型擋在一道 token 權限範圍之後。這些我們全都消化掉了，讓你能用呼叫其他一切的方式來呼叫它們：一個 OpenAI-compatible 端點、一把金鑰、一個模型名稱。我們對自己堅守的誠實準則是：每家供應商只用一個真實帳號，配額照收，不刷量、不共池。我們把免費方案當成一份禮物提供，而不是轉售別人的配額。",
+        "P_AGGREGATE": "因為不整合的話，就得管十八個帳號。每個供應商都有自己的註冊流程、自己的金鑰格式、自己的 base URL，還有各自的怪癖：Z.ai 走的是 Zhipu V4 路徑，Cloudflare 把帳號 id 放在 URL 裡，AI Horde 想要一把匿名金鑰，GitHub 則把模型擋在一道 token 權限範圍之後。這些我們全都消化掉了，讓你能用呼叫其他一切的方式來呼叫它們：一個 OpenAI-compatible 端點、一把金鑰、一個模型名稱。我們對自己堅守的誠實準則是：每家供應商只用一個真實帳號，配額照收，不刷量、不共池。我們把免費方案當成一份禮物提供，而不是轉售別人的配額。",
         "H_FAILOVER": "我們如何緩和這些限制",
         "P_FAILOVER": "這些模型裡，有不少是由不只一家免費供應商提供的。光是 Llama 3.3 70B 就跑在其中七家上。當好幾家供應商提供同一個模型時，我們會把它們收斂成一個對外公開的名稱，並自動容錯切換：若某個上游回傳 <c>429</c> 或陷入沉默，下一個健康且提供該模型的供應商就會接手請求。這是我們唯一能掌控的槓桿。它不會調高任何單一供應商的配額上限，但意味著一個多來源的免費模型，在它任何一個供應商耗盡後仍能持續作答許久。單一來源的免費模型沒有後備，所以一旦它那唯一的上游用罄，就會卡住。",
         "H_HONEST": "我們沒有做什麼",
@@ -614,7 +711,7 @@
         "H_RP": "OpenRouter 略去的那部分",
         "P_RP": "把編碼代理（Claude Code、Cline、OpenCode、Kilo Code、Codex）指向 {appName}，它的表現就和任何 OpenAI 相容端點一樣。但同一把金鑰還驅動一個內建的聊天與角色用戶端，帶有人設、設定集、預設和 SillyTavern 卡片匯入，並能直接接入 SillyTavern、Janitor.AI、RisuAI 或 Chub。OpenRouter 純粹是 API 層，因此每個介面都得你自己準備。{appName} 把介面與 API 一併交付。",
         "H_MIGRATE": "切換只是更換基礎 URL",
-        "P_MIGRATE": "由於 {appName} 相容 OpenAI，遷移現有應用只需一行：把用戶端指向 <c>https://api.unorouter.ai/v1</c>，並保留你現有的程式碼。把同一把金鑰貼到聊天用戶端的自訂端點欄位，也會抵達同一個目錄，因此沒有第二個帳戶需要管理。",
+        "P_MIGRATE": "由於 {appName} 相容 OpenAI，遷移現有應用只需一行：把用戶端指向 <c>https://api.unorouter.com/v1</c>，並保留你現有的程式碼。把同一把金鑰貼到聊天用戶端的自訂端點欄位，也會抵達同一個目錄，因此沒有第二個帳戶需要管理。",
         "H_VERDICT": "你該選哪個",
         "P_VERDICT": "如果你只交付程式碼，並且想要無介面的最廣目錄，OpenRouter 是個不錯的預設選擇。如果你想要無加價的自架路由，LiteLLM 勝出。如果你想要一把金鑰，既能用在編碼代理裡，也能用在真正的聊天與角色用戶端裡，而不必執行兩套服務，這正是 {appName} 填補的空白。沒有唯一的贏家。這取決於你是為純粹的 API 最佳化，還是為 API 加上一個使用它的地方而最佳化。",
         "CTA": "準備好試試了嗎？<register>建立免費帳戶</register> 或 <models>瀏覽模型</models>。"
@@ -1521,7 +1618,7 @@
       "INTRO_DESC": "Chub.ai（舊稱 Venus）是一款瀏覽器型角色聊天平台，擁有 60,000 個角色的素材庫。它會透過 Secrets 面板連接 OpenAI 相容端點。",
       "INTRO_LINK_DOCS": "Chub.ai 官方 API Connections 文件",
       "OVERVIEW": "概觀",
-      "OVERVIEW_DESC": "Chub 的 Secrets 面板接受完整的 `/v1/chat/completions` URL 以及你的 API 金鑰。Check your proxy 按鈕會在你於 Prompt Structure 挑選模型之前先驗證連線。",
+      "OVERVIEW_DESC": "Chub 的 Secrets 面板接受以 `/v1` 結尾的基礎 API URL 以及你的 API 金鑰。在你於 Prompt Structure 挑選模型之前，Check your proxy 按鈕會先驗證連線。",
       "TRUST_TITLE": "{appName} 是第一方 API 中繼",
       "TRUST_DESC": "Chub 的介面會警告「由未授權第三方建立的反向代理」。該警告針對的是社群自行營運的中繼服務。{appName} 是由基礎設施擁有者營運的第一方 API 中繼，性質類似 OpenRouter。你的 API 金鑰、使用紀錄與帳單都直接存在 {appName} 上。",
       "TRUST_LINK_PRIVACY": "隱私權政策",
@@ -1530,7 +1627,7 @@
       "QUICK_CONFIG_DESC": "將以下兩個值複製到 Chub Secrets 面板中的 Reverse proxy 欄位。",
       "QUICK_CONFIG_URL_LABEL": "URL",
       "QUICK_CONFIG_KEY_LABEL": "金鑰",
-      "QUICK_CONFIG_NOTE": "請貼上以 `/v1/chat/completions` 結尾的完整 URL。Chub 要求完整路徑，請勿只貼基礎 URL。",
+      "QUICK_CONFIG_NOTE": "請貼上以 `/v1` 結尾的基礎 URL。Chub 會為代理檢查附加 `/models`，因此完整的 `/v1/chat/completions` URL 會失敗。",
       "STEPS": "逐步設定",
       "STEP_1_TITLE": "開啟 Secrets 面板",
       "STEP_1_DESC": "點選 Chub 右上角的漢堡選單，然後選擇 Secrets。",
@@ -1539,7 +1636,7 @@
       "STEP_3_TITLE": "捲到 Reverse proxy",
       "STEP_3_DESC": "Reverse proxy 子區塊包含 URL 與 Key 欄位，以及 Check your proxy 按鈕。",
       "STEP_4_TITLE": "貼上 URL 與金鑰",
-      "STEP_4_DESC": "URL 以 `/v1/chat/completions` 結尾，Key 為你的 {appName} API 金鑰。",
+      "STEP_4_DESC": "URL 以 `/v1` 結尾（僅基礎位址，不含 `/chat/completions`），Key 為你的 {appName} API 金鑰。",
       "STEP_5_TITLE": "點選 Check your proxy",
       "STEP_5_DESC": "等待綠色確認狀態。若失敗，請重新檢查 URL 並重新貼上金鑰。",
       "STEP_6_TITLE": "開啟 Configuration",
@@ -1552,7 +1649,7 @@
       "WARN_KEY_INVISIBLE_DESC": "Chub 在儲存後會遮蔽 API 金鑰，你無法再複製出來。請在貼上之前先將金鑰存進密碼管理員，這樣輪換金鑰或在第二個瀏覽器設定檔使用時，就不必重新產生新金鑰。",
       "TROUBLESHOOTING": "疑難排解",
       "TS_1_TITLE": "Check your proxy 按鈕驗證失敗。",
-      "TS_1_DESC": "URL 錯誤。它必須以 `/v1/chat/completions` 結尾，只有基礎 URL 無法通過。",
+      "TS_1_DESC": "URL 錯誤。它必須是以 `/v1` 結尾的基礎位址。Chub 會自行附加 `/models`，因此完整的 `/v1/chat/completions` URL 會變成 `/v1/chat/completions/models` 而失敗。",
       "TS_2_TITLE": "模型下拉式選單是空的。",
       "TS_2_DESC": "代理檢查尚未通過。請重新執行步驟 5 並等待綠色狀態。",
       "TS_3_TITLE": "回應內容為空。",
@@ -1576,7 +1673,7 @@
       "TOC_TROUBLESHOOTING": "疑難排解",
       "STEP_CONFIG_TITLE": "開啟 Configuration 並選擇 OpenAI",
       "STEP_CONFIG_DESC": "返回漢堡選單，開啟 Configuration，然後進入 Prompt Structure。將 API 下拉選單設定為 OpenAI，並從模型下拉選單中選擇目標模型。",
-      "GOTCHA_1": "請將以 `/v1/chat/completions` 結尾的完整 URL 貼到 Reverse proxy 欄位。僅使用基礎 URL 會導致 Check your proxy 按鈕失敗。",
+      "GOTCHA_1": "請將以 `/v1` 結尾的基礎 URL 貼到 Reverse proxy 欄位。Chub 會為檢查附加 `/models`，因此完整的 `/v1/chat/completions` URL 會導致 Check your proxy 按鈕失敗。",
       "GOTCHA_2": "在代理檢查通過之前，Prompt Structure 中的模型下拉選單會一直為空。請先在 Secrets 中執行 Check your proxy，然後返回選擇模型。",
       "GOTCHA_3": "Chub 在儲存後會遮罩 API 金鑰且無法再複製出來。請在貼上前將金鑰儲存到密碼管理器，以便輪換時無需新金鑰。",
       "GOTCHA_4": "Chub 的介面會警告來自未經授權第三方的反向代理；那針對的是社群運營的中繼。{appName} 是第一方中繼，因此你的金鑰、紀錄和帳單都保留在 {appName} 上。"
@@ -1944,7 +2041,9 @@
     "LEGAL_TERMS": "服務條款",
     "LEGAL_PRIVACY": "隱私權政策",
     "SOCIAL_TRUSTPILOT": "Trustpilot",
-    "EASTER_EGG_LABEL": "玩一場 Token Breakout"
+    "EASTER_EGG_LABEL": "玩一場 Token Breakout",
+    "BADGE_FEATURED_ON": "已在 {name} 推薦",
+    "BADGE_VERIFIED_ON": "已在 {name} 驗證"
   },
   "PRIVACY": {
     "META": {
@@ -2040,7 +2139,10 @@
       "UNEXPECTED_ERROR_OCCURRED": "發生未預期的錯誤。請再試一次或返回首頁。",
       "ERROR_DETAILS": "錯誤詳情",
       "DIGEST": "摘要",
-      "SECTION_LOAD_FAILED": "此區塊載入失敗。"
+      "SECTION_LOAD_FAILED": "此區塊載入失敗。",
+      "COPY_ERROR": "複製錯誤",
+      "RESET_APP_DATA": "重設應用程式資料並重新載入",
+      "RESETTING": "正在重設……"
     },
     "NOT_FOUND": {
       "TITLE": "找不到頁面",
@@ -2087,6 +2189,13 @@
       "CLEAR_CHAT_TITLE": "清空對話？",
       "WIPE_DB_TITLE": "清空本機資料庫？",
       "UPLOAD_DB_TITLE": "覆寫本機資料庫？"
+    },
+    "COPIED": "已複製",
+    "DATE_RANGE": {
+      "PICK": "選擇日期範圍",
+      "FROM": "從",
+      "TO": "至",
+      "APPLY": "套用"
     }
   },
   "LANGUAGE": {
@@ -2287,7 +2396,9 @@
       "IP_WHITELIST_PLACEHOLDER": "每行一個 IP。留空則無限制。",
       "IP_WHITELIST_DESC": "IP 可能被偽造，建議搭配閘道以加強保護。",
       "SUBMIT": "建立",
-      "SAVE": "儲存"
+      "SAVE": "儲存",
+      "QUOTA_FREE_ONLY_HINT": "＄0 建立僅限免費模型的金鑰。付費模型將被拒絕。",
+      "QUOTA_EQUIVALENT": "= {quota} 配額"
     },
     "ENUM": {
       "ENABLED": "已啟用",
@@ -2567,6 +2678,7 @@
     "FONT_DEFAULT": "專案預設",
     "FONT_HEADING_INHERIT": "跟隨內文",
     "BASE_COLOR": "基礎色",
+    "CUSTOM_COLOR": "自訂",
     "THEME": "主題",
     "CHART_COLOR": "圖表色",
     "HEADING_FONT": "標題字型",
@@ -2603,6 +2715,8 @@
     "MD_SINGLE_QUOTE": "單引號文字",
     "MD_DOUBLE_QUOTE": "雙引號文字",
     "SURFACE_COLORS": "介面顏色",
+    "MODE_LIGHT": "淺色",
+    "MODE_DARK": "深色",
     "COLOR_SIDEBAR": "側邊欄",
     "BACKGROUND_IMAGE": "背景圖片",
     "BG_UPLOAD": "上傳圖片",

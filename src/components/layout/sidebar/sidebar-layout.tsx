@@ -1,12 +1,13 @@
 "use client";
 
+import { ContentBoundary } from "@/components/elements/feedback/content-boundary";
 import type { SidebarNavConfig } from "@/components/layout/sidebar/app-sidebar";
 import { AppSidebar } from "@/components/layout/sidebar/app-sidebar";
 import { SidebarHeader } from "@/components/layout/sidebar/sidebar-header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { analytics } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
-import { sidebarOpenAtom } from "@/store/navigation-store";
+import { sidebarOpenAtom } from "@/store/client-store";
 import { useAtom } from "jotai";
 
 export function PageContent(props: {
@@ -35,8 +36,7 @@ interface SidebarLayoutProps {
 
 export function SidebarLayout(props: SidebarLayoutProps) {
   const [open, setOpen] = useAtom(sidebarOpenAtom);
-  // Chat and Generate own their own internal scrollers (Thread.Viewport / form
-  // column). Letting the inset also scroll produces two stacked scrollbars.
+      // Chat and Generate own their internal scrollers; letting the inset also scroll produces two stacked scrollbars.
   const isChat = props.navConfig === "chat" || props.navConfig === "generate";
 
   return (
@@ -59,7 +59,9 @@ export function SidebarLayout(props: SidebarLayoutProps) {
           showSearch={props.showSearch}
           navConfig={props.navConfig}
         />
-        <div className="flex min-h-0 min-w-0 flex-1">{props.children}</div>
+        <div className="flex min-h-0 min-w-0 flex-1">
+          <ContentBoundary>{props.children}</ContentBoundary>
+        </div>
       </SidebarInset>
     </SidebarProvider>
   );

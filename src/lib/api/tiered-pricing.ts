@@ -1,8 +1,6 @@
-// Tiered billing expression parser; ported from QuantumNous/new-api (AGPL-3.0).
-// Parses billing_mode=tiered_expr -> ParsedTier[]; unknown -> [].
+    // Tiered billing expression parser, ported from QuantumNous/new-api (AGPL-3.0). Parses billing_mode=tiered_expr; unknown gives [].
 
-// `key` = billing-expr token (parsed via BILLING_VAR_REGEX); `field` = the
-// price column it maps to (null for condition-only vars like `len`).
+    // key = billing-expr token; field = the price column it maps to (null for condition-only vars like len).
 type BillingVar = {
   key: string;
   field: string | null;

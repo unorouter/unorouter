@@ -45,7 +45,7 @@ export function createLocalAttachmentAdapter(
     async send(attachment) {
       const ctx = getContext();
 
-      // Pre-gen convId so media row has stable cascade parent.
+          // Pre-gen the convId for the stream but leave the media row conv-null: the conversations row inserts later (media.conv_id FK).
       ctx.convId = ensureConvId();
 
       const file = attachment.file!;
@@ -54,7 +54,7 @@ export function createLocalAttachmentAdapter(
 
       await upsertLocalMedia(chatStore.get(localUserIdAtom), {
         id: attachment.id,
-        convId: ctx.convId,
+        convId: null,
         mimeType: file.type,
         sizeBytes: file.size,
         dataBase64: base64,

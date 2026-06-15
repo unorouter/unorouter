@@ -1,17 +1,5 @@
 "use client";
 
-import dynamic from "next/dynamic";
-// Markdown pipeline (~75KB gzip) loads with the first rendered message, not
-// with the empty-thread shell.
-const MarkdownText = dynamic(
-  () =>
-    import("@/components/ui/assistant-ui/markdown-text").then(
-      (m) => m.MarkdownText,
-    ),
-  { ssr: false },
-  // The message-part slot type carries part props MarkdownText ignores
-  // (it reads message context); restore the original signature.
-) as unknown as typeof import("@/components/ui/assistant-ui/markdown-text").MarkdownText;
 import {
   Collapsible,
   CollapsibleContent,
@@ -23,51 +11,113 @@ import {
   useAuiState,
   useScrollLock,
   type ReasoningGroupComponent,
-  type ReasoningMessagePartComponent,
+  type ReasoningMessagePartComponent
 } from "@assistant-ui/react";
+import { cva, type VariantProps } from "class-variance-authority";
 import { useTranslations } from "next-intl";
-import { useEffect, useRef, useState } from "react";
+import dynamic from "next/dynamic";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
+
+const MarkdownText = dynamic(
+  () =>
+    import("@/components/ui/assistant-ui/markdown-text").then(
+      (m) => m.MarkdownText,
+    ),
+  { ssr: false },
+);
 
 const ANIMATION_DURATION = 200;
 
+// True only while reasoning streams AND the disclosure is auto-open; gates the
+// bottom-pinned live preview + the fade overlays.
+const ReasoningPreviewContext = createContext(false);
+
+const reasoningVariants = cva("aui-reasoning-root mb-4 w-full", {
+  variants: {
+    variant: {
+      outline: "rounded-lg border px-3 py-2",
+      ghost: "",
+      muted: "bg-muted/50 rounded-lg px-3 py-2",
+    },
+  },
+  defaultVariants: {
+    variant: "outline",
+  },
+});
+
+export type ReasoningRootProps = Omit<
+  React.ComponentProps<typeof Collapsible>,
+  "open" | "onOpenChange"
+> &
+  VariantProps<typeof reasoningVariants> & {
+    open?: boolean;
+    onOpenChange?: (open: boolean) => void;
+    defaultOpen?: boolean;
+    // Whether reasoning is currently streaming. When set it supersedes
+    // defaultOpen: auto-opens with a bottom-pinned preview while streaming,
+    // auto-collapses when it ends, and the first manual toggle takes over.
+    streaming?: boolean;
+  };
+
 function ReasoningRoot({
   className,
+  variant,
   open: controlledOpen,
   onOpenChange: controlledOnOpenChange,
   defaultOpen = false,
+  streaming,
   children,
   ...props
-}: Omit<React.ComponentProps<typeof Collapsible>, "open" | "onOpenChange"> & {
-  open?: boolean;
-  onOpenChange?: (open: boolean) => void;
-  defaultOpen?: boolean;
-}) {
+}: ReasoningRootProps) {
   const collapsibleRef = useRef<HTMLDivElement>(null);
-  const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
+  // First defaultOpen only; captured via state so the render path never reads a
+  // ref (React-compiler lint). Subsequent defaultOpen changes are ignored, same
+  // as the upstream initial-open ref.
+  const [initialOpen] = useState(defaultOpen);
+  const [userOpen, setUserOpen] = useState<boolean | null>(null);
   const lockScroll = useScrollLock(collapsibleRef, ANIMATION_DURATION);
 
   const isControlled = controlledOpen !== undefined;
-  const isOpen = isControlled ? controlledOpen : uncontrolledOpen;
+  const isOpen = isControlled
+    ? controlledOpen
+    : (userOpen ?? streaming ?? initialOpen);
+  const isAutoMode = isControlled || userOpen === null;
+  const isPreview = streaming === true && isOpen && isAutoMode;
 
-  const handleOpenChange = (open: boolean) => {
-    if (!open) {
+  const prevStreamingRef = useRef(streaming);
+  useLayoutEffect(() => {
+    if (prevStreamingRef.current === streaming) return;
+    prevStreamingRef.current = streaming;
+    if (!isControlled && userOpen === null) lockScroll();
+  }, [streaming, isControlled, userOpen, lockScroll]);
+
+  const handleOpenChange = useCallback(
+    (open: boolean) => {
       lockScroll();
-    }
-    if (!isControlled) {
-      setUncontrolledOpen(open);
-    }
-    controlledOnOpenChange?.(open);
-  };
+      if (!isControlled) setUserOpen(open);
+      controlledOnOpenChange?.(open);
+    },
+    [lockScroll, isControlled, controlledOnOpenChange],
+  );
 
   return (
     <Collapsible
       ref={collapsibleRef}
       data-slot="reasoning-root"
+      data-variant={variant}
       open={isOpen}
       onOpenChange={handleOpenChange}
       className={cn(
-        "group/reasoning-root aui-reasoning-root mb-4 w-full rounded-lg border px-3 py-2",
-        className,
+        "group/reasoning-root",
+        reasoningVariants({ variant, className }),
       )}
       style={
         {
@@ -76,8 +126,51 @@ function ReasoningRoot({
       }
       {...props}
     >
-      {children}
+      <ReasoningPreviewContext.Provider value={isPreview}>
+        {children}
+      </ReasoningPreviewContext.Provider>
     </Collapsible>
+  );
+}
+
+function ReasoningFade({
+  side = "bottom",
+  className,
+  ...props
+}: React.ComponentProps<"div"> & { side?: "top" | "bottom" }) {
+  if (side === "top") {
+    return (
+      <div
+        data-slot="reasoning-fade"
+        className={cn(
+          "aui-reasoning-fade pointer-events-none absolute inset-x-0 top-0 z-10 h-8",
+          "bg-[linear-gradient(to_bottom,var(--color-background),transparent)]",
+          "fade-in-0 animate-in",
+          "duration-(--animation-duration)",
+          className,
+        )}
+        {...props}
+      />
+    );
+  }
+
+  return (
+    <div
+      data-slot="reasoning-fade"
+      className={cn(
+        "aui-reasoning-fade pointer-events-none absolute inset-x-0 bottom-0 z-10 h-8",
+        "bg-[linear-gradient(to_top,var(--color-background),transparent)]",
+        "fade-in-0 animate-in",
+        "group-data-[state=open]/collapsible-content:animate-out",
+        "group-data-[state=open]/collapsible-content:fade-out-0",
+        "group-data-[state=open]/collapsible-content:delay-[calc(var(--animation-duration)*0.75)]",
+        "group-data-[state=open]/collapsible-content:fill-mode-forwards",
+        "duration-(--animation-duration)",
+        "group-data-[state=open]/collapsible-content:duration-(--animation-duration)",
+        className,
+      )}
+      {...props}
+    />
   );
 }
 
@@ -136,36 +229,11 @@ function ReasoningTrigger({
 }
 
 function ReasoningContent({
-  following,
   className,
   children,
   ...props
-}: React.ComponentProps<typeof CollapsibleContent> & {
-  /** While true (reasoning streaming), pin the scrollbox to the bottom. */
-  following?: boolean;
-}) {
-  const scrollRef = useRef<HTMLDivElement | null>(null);
-  const stickRef = useRef(true);
-
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el || !following) return;
-    // Release the pin when the user scrolls up; re-engage near the bottom.
-    const onScroll = () => {
-      stickRef.current = el.scrollHeight - el.scrollTop - el.clientHeight < 40;
-    };
-    el.addEventListener("scroll", onScroll, { passive: true });
-    const target = el.firstElementChild ?? el;
-    const ro = new ResizeObserver(() => {
-      if (stickRef.current) el.scrollTop = el.scrollHeight;
-    });
-    ro.observe(target);
-    el.scrollTop = el.scrollHeight;
-    return () => {
-      el.removeEventListener("scroll", onScroll);
-      ro.disconnect();
-    };
-  }, [following]);
+}: React.ComponentProps<typeof CollapsibleContent>) {
+  const isPreview = useContext(ReasoningPreviewContext);
 
   return (
     <CollapsibleContent
@@ -183,14 +251,60 @@ function ReasoningContent({
       )}
       {...props}
     >
-      <div
-        ref={scrollRef}
-        className="relative z-0 max-h-64 overflow-y-auto pt-2 pb-2 pl-6 leading-relaxed"
-      >
-        <div>{children}</div>
-      </div>
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 bg-[linear-gradient(to_top,var(--color-background),transparent)]" />
+      {isPreview ? <ReasoningFade side="top" /> : null}
+      {children}
+      <ReasoningFade />
     </CollapsibleContent>
+  );
+}
+
+function ReasoningText({
+  className,
+  children,
+  ...props
+}: React.ComponentProps<"div">) {
+  const isPreview = useContext(ReasoningPreviewContext);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!isPreview) return;
+    const scrollEl = scrollRef.current;
+    const contentEl = contentRef.current;
+    if (!scrollEl || !contentEl) return;
+    // Pin to the bottom while streaming so new reasoning stays in view.
+    const pin = () => {
+      scrollEl.scrollTop = scrollEl.scrollHeight;
+    };
+    pin();
+    const observer = new ResizeObserver(pin);
+    observer.observe(contentEl);
+    return () => observer.disconnect();
+  }, [isPreview]);
+
+  return (
+    <div
+      ref={scrollRef}
+      data-slot="reasoning-text"
+      className={cn(
+        "aui-reasoning-text relative z-0 max-h-64 overflow-y-auto ps-6 pt-2 pb-2 leading-relaxed",
+        "transform-gpu transition-[transform,opacity]",
+        "group-data-[state=open]/collapsible-content:animate-in",
+        "group-data-[state=closed]/collapsible-content:animate-out",
+        "group-data-[state=open]/collapsible-content:fade-in-0",
+        "group-data-[state=closed]/collapsible-content:fade-out-0",
+        "group-data-[state=open]/collapsible-content:slide-in-from-top-4",
+        "group-data-[state=closed]/collapsible-content:slide-out-to-top-4",
+        "group-data-[state=open]/collapsible-content:duration-(--animation-duration)",
+        "group-data-[state=closed]/collapsible-content:duration-(--animation-duration)",
+        className,
+      )}
+      {...props}
+    >
+      <div ref={contentRef} className="aui-reasoning-text-content space-y-4">
+        {children}
+      </div>
+    </div>
   );
 }
 
@@ -211,13 +325,10 @@ const ReasoningGroup: ReasoningGroupComponent = ({
   });
 
   return (
-    <ReasoningRoot defaultOpen={isReasoningStreaming}>
+    <ReasoningRoot streaming={isReasoningStreaming}>
       <ReasoningTrigger active={isReasoningStreaming} />
-      <ReasoningContent
-        aria-busy={isReasoningStreaming}
-        following={isReasoningStreaming}
-      >
-        {children}
+      <ReasoningContent aria-busy={isReasoningStreaming}>
+        <ReasoningText>{children}</ReasoningText>
       </ReasoningContent>
     </ReasoningRoot>
   );

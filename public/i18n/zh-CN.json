@@ -26,7 +26,8 @@
     "LOG_IN": "登录",
     "CHAT": "对话",
     "PLAYGROUND": "游乐场",
-    "STATUS": "状态"
+    "STATUS": "状态",
+    "COMPARE": "对比"
   },
   "HOME": {
     "HERO": {
@@ -229,7 +230,17 @@
       "NO_PROVIDERS": "未找到提供方。",
       "SELECTED": "已选择",
       "CLEAR": "清除筛选",
-      "RESET": "重置"
+      "RESET": "重置",
+      "TITLE": "筛选",
+      "INPUT_MODALITIES": "输入模态",
+      "CONTEXT_LENGTH": "上下文长度",
+      "PROMPT_PRICING": "提示词价格",
+      "CATEGORIES": "类别",
+      "SUPPORTED_PARAMETERS": "支持的参数",
+      "PROVIDERS": "供应商",
+      "MIN": "最小",
+      "ANY": "任意",
+      "SERIES": "系列"
     },
     "DETAIL": {
       "DESCRIPTION": "描述",
@@ -300,11 +311,16 @@
     "SORT": {
       "NAME": "名称（A 到 Z）",
       "PRICE_ASC": "价格（从低）",
-      "PRICE_DESC": "价格（从高）"
+      "PRICE_DESC": "价格（从高）",
+      "NEWEST": "最新",
+      "POPULAR": "最热门",
+      "TOP_WEEKLY": "本周热门",
+      "CONTEXT_DESC": "上下文（高到低）"
     },
     "VIEW": {
       "GRID": "网格视图",
-      "LIST": "列表视图"
+      "LIST": "列表视图",
+      "TABLE": "表格视图"
     },
     "META": {
       "TITLE": "AI 模型：{appName}",
@@ -346,6 +362,73 @@
       "LATENCY": "延迟",
       "TPS": "TPS",
       "STATUS": "状态"
+    },
+    "MODALITY": {
+      "TEXT": "文本",
+      "IMAGE": "图像",
+      "AUDIO": "音频",
+      "VIDEO": "视频",
+      "EMBEDDINGS": "嵌入",
+      "FILE": "文件"
+    },
+    "TABLE": {
+      "MODEL": "模型",
+      "WEEKLY_TOKENS": "每周 Token",
+      "INPUT": "输入",
+      "OUTPUT": "输出",
+      "CONTEXT": "上下文",
+      "RELEASED": "发布日期",
+      "OFF": "{pct}% 优惠",
+      "FREE": "免费",
+      "SORT_ASC": "升序",
+      "SORT_DESC": "降序",
+      "SORT_RESET": "重置"
+    },
+    "COMPARE": {
+      "BADGE": "对比",
+      "TITLE": "AI 模型对比",
+      "SUBTITLE": "按价格、上下文、能力和使用量并排对比 AI 模型。",
+      "ADD_MODEL": "添加模型",
+      "REMOVE": "移除",
+      "CAPABILITIES": "能力",
+      "PRESET_FLAGSHIP": "旗舰模型",
+      "PRESET_FLAGSHIP_DESC": "来自主要实验室的最新顶级模型。",
+      "PRESET_AFFORDABLE": "最实惠",
+      "PRESET_AFFORDABLE_DESC": "适合高吞吐量的小巧低成本选择。",
+      "PRESET_CODE": "最适合编程",
+      "PRESET_CODE_DESC": "常用于编程和代码生成。",
+      "PRESET_IMAGE": "图像生成",
+      "PRESET_IMAGE_DESC": "在成本和质量上领先的图像生成模型。",
+      "META": {
+        "TITLE": "对比 AI 模型 - {appName}",
+        "DESCRIPTION": "在 {appName} 上按价格、上下文长度、能力和使用量并排对比 AI 模型。",
+        "KEYWORDS": "对比 AI 模型，模型对比，LLM 对比，AI 价格",
+        "TITLE_COMBO": "{models} - AI 模型对比",
+        "DESCRIPTION_COMBO": "按价格、上下文长度、能力和使用量对比 {models}。"
+      },
+      "OVERVIEW": "概览",
+      "PRICING": "价格",
+      "PERFORMANCE": "性能",
+      "FEATURES": "功能",
+      "ACTIVITY": "活动",
+      "AUTHOR": "提供方",
+      "LATENCY": "延迟",
+      "THROUGHPUT": "吞吐量",
+      "HIGHLIGHT_BEST": "高亮最佳",
+      "CLEAR": "清除",
+      "FROM": "来自",
+      "SELECT_MODEL": "选择一个模型"
+    },
+    "LIST": {
+      "TOKENS": "Token",
+      "BY": "来自",
+      "CONTEXT": "上下文",
+      "INPUT": "输入 Token",
+      "OUTPUT": "输出 Token"
+    },
+    "ACTIONS": {
+      "OPEN_MENU": "打开菜单",
+      "COPY_NAME": "复制模型名称"
     }
   },
   "RANKINGS": {
@@ -455,6 +538,20 @@
       "comparison": "对比"
     },
     "POSTS": {
+      "FEATURED_ON": {
+        "TITLE": "在哪里找到{appName}：我们的目录收录",
+        "DESCRIPTION": "{appName}已收录于各大 AI 工具与创业产品目录。您可以在这里找到我们、核实收录信息并阅读独立评价。",
+        "AUTHOR": "{appName}团队",
+        "INTRO": "成为值得信赖的 AI 网关，意味着易于查找、易于核实。{appName}已收录在开发者真正会查看的目录中，他们会在把 API 密钥托付给新服务商之前先核实。以下是持续更新的清单。",
+        "H_DIRECTORIES": "收录我们的目录",
+        "P_DIRECTORIES": "下方每个徽章都链接到收录{appName}的目录。这些都是独立收录，因此您可以阅读第三方的描述与评价，而不必只听我们的一面之词。",
+        "H_WHY": "为什么这很重要",
+        "P_WHY": "AI 基础设施领域的品牌忠诚度很薄弱，信任就是一切。一个躲避公开目录的服务商，就是一个您无法考察的服务商。我们公开收录，方便您在同一处将{appName}与每一个替代方案进行比较。",
+        "H_VERIFY": "信任之前先核实",
+        "P_VERIFY": "打开任意徽章，确认收录指向我们真实的域名，并查看独立描述。切勿将 API 密钥粘贴到无法追溯至可核实公开来源的服务中。",
+        "H_TRY": "亲自试一试",
+        "CTA": "看够了吗？<register>创建免费账户</register>或<models>浏览模型</models>。"
+      },
       "LAUNCH": {
         "TITLE": "我们受够了假 Claude。所以做了 {appName}。",
         "DESCRIPTION": "三天两头宕机，旗舰模型还被偷偷换成廉价仿品。忍无可忍，我们自己上手做了路由器，并且对这两件事都偏执到极点。这就是上线故事。",
@@ -585,16 +682,16 @@
         "CTA": "准备好了？<invite>加入 {appName} Discord</invite>，然后<register>领取 API 密钥</register>并<settings>绑定账号</settings>，把第一笔 1 美元收入囊中。"
       },
       "FREE_MODELS_AGGREGATED": {
-        "TITLE": "我们把 100+ 个免费 AI 模型聚合到了一个端点",
-        "DESCRIPTION": "用两天时间，我们把 15 家免费服务商接入了 {appName}：134 个免费模型条目，一个 OpenAI-compatible 端点，每 token $0。它们免费是有原因的，并且带有我们无法提高的速率限制。下面是诚实版的说明。",
+        "TITLE": "我们把 120+ 个免费 AI 模型聚合到了一个端点",
+        "DESCRIPTION": "我们把 18 家免费服务商接入了 {appName}：126 个免费模型条目，一个 OpenAI-compatible 端点，每 token $0。它们免费是有原因的，并且带有我们无法提高的速率限制。下面是诚实版的说明。",
         "AUTHOR": "{appName} 团队",
-        "INTRO": "免费 LLM 的版图真实存在，却十分零散：Groq、Gemini、Cloudflare、Mistral、OVHcloud 以及其他十几家，每一家都拿出了实打实的算力，但都藏在各自的注册页面、各自的密钥格式和各自互不兼容的 API 背后。用两天时间，我们发现、测试并合并了所有能找到的、合法且永久免费的服务商，全部接入 {appName}。结果就是：来自 15 家服务商的 134 个免费模型条目，统一在一个 OpenAI-compatible 端点和一把密钥之后。",
+        "INTRO": "免费 LLM 的版图真实存在，却十分零散：Groq、Gemini、Cloudflare、NVIDIA、SiliconFlow 以及其他十几家，每一家都拿出了实打实的算力，但都藏在各自的注册页面、各自的密钥格式和各自互不兼容的 API 背后。我们发现、测试并合并了所有能找到的、合法且永久免费的服务商，全部接入 {appName}。结果就是：来自 18 家服务商的 126 个免费模型条目，统一在一个 OpenAI-compatible 端点和一把密钥之后。",
         "H_WHAT": "我们加了什么",
-        "P_WHAT": "15 家免费服务商，一家一家接入：Groq、Gemini、Cerebras、SambaNova、Mistral、Cloudflare Workers AI（两个账户）、GitHub Models、Z.ai、OVHcloud、AI Horde、Pollinations、Cohere、Jina、NVIDIA NIM 以及 OpenRouter。这就是 134 个免费模型条目：Llama、gpt-oss、Qwen、Mistral、GLM、Nemotron 等等，外加 30 个免费向量模型和 13 个免费图像与音频模型。在上线之前，每一个都会就 HTTP、流式输出和工具调用做端到端探测，和我们对付费模型跑的真实性与测试套件检查完全一致。",
+        "P_WHAT": "18 家免费服务商，一家一家接入：Groq、Gemini、Cerebras、SambaNova、Mistral、Cloudflare Workers AI（两个账户）、GitHub Models、Z.ai、OVHcloud、AI Horde、Pollinations、Cohere、Jina、NVIDIA NIM（完整开放目录：Nemotron、Llama、Qwen、gpt-oss、DeepSeek 等）、SiliconFlow（DeepSeek-V4、GLM-5.1、Qwen3.5/3.6、Kimi-K2.6、MiniMax-M3）、HuggingFace 路由以及 LLM7。这就是 126 个免费模型条目：Llama、gpt-oss、Qwen、Mistral、GLM、Nemotron、DeepSeek 等等，外加免费的向量、图像与音频模型。在上线之前，每一个都会就 HTTP、流式输出和工具调用做端到端探测，和我们对付费模型跑的真实性与测试套件检查完全一致。",
         "H_CAVEAT": "免费是有原因的",
         "P_CAVEAT": "这些模型确实是免费的，而这正是它们带有限制的原因。<s>这些限制是服务商设的，不是我们，我们也无法提高。</s>每一个上游都执行自己的速率限制：每分钟请求数、每日 token 配额、Cloudflare neuron 预算、志愿者队列优先级。一旦触顶，该服务商就会返回 <c>429</c>，直到额度重置。今天早上还能用的免费密钥，到下午可能就被耗尽了。免费层是尽力而为的吞吐，不是保证。如果你的工作负载需要可预测的延迟、不想被突如其来的 <c>429</c> 打断，请使用付费模型。",
         "H_AGGREGATE": "为什么要把它们聚合起来",
-        "P_AGGREGATE": "因为不聚合的代价就是 15 个账户。每家服务商都有自己的注册流程、自己的密钥格式、自己的 base URL 和自己的怪癖：Z.ai 走 Zhipu V4 的路径，Cloudflare 把账户 id 放在 URL 里，AI Horde 要的是匿名密钥，GitHub 把模型锁在某个 token scope 之后。我们把这一切都消化掉，让你像调用其他一切那样调用它们：一个 OpenAI-compatible 端点、一把密钥、一个模型名。我们对自己定下的诚实准则是：每家服务商只用一个真实账户，接受配额上限，不刷量、不拼池。我们把免费层当作一份礼物呈现，而不是转售别人配额的生意。",
+        "P_AGGREGATE": "因为不聚合的代价就是 18 个账户。每家服务商都有自己的注册流程、自己的密钥格式、自己的 base URL 和自己的怪癖：Z.ai 走 Zhipu V4 的路径，Cloudflare 把账户 id 放在 URL 里，AI Horde 要的是匿名密钥，GitHub 把模型锁在某个 token scope 之后。我们把这一切都消化掉，让你像调用其他一切那样调用它们：一个 OpenAI-compatible 端点、一把密钥、一个模型名。我们对自己定下的诚实准则是：每家服务商只用一个真实账户，接受配额上限，不刷量、不拼池。我们把免费层当作一份礼物呈现，而不是转售别人配额的生意。",
         "H_FAILOVER": "我们如何缓和这些限制",
         "P_FAILOVER": "这些模型中有很多由不止一家免费服务商提供。光是 Llama 3.3 70B 就跑在其中七家上。当多家服务商提供同一个模型时，我们会把它们合并成一个对外公布的名字，并自动故障转移：如果某个上游返回 <c>429</c> 或者沉默不响应，下一个健康且提供该模型的服务商就会接管这次请求。这是我们唯一能控制的杠杆。它不会提高任何单一服务商的配额，但意味着一个多源免费模型在其中某一家服务商耗尽很久之后，仍然能继续作答。单源的免费模型没有后备，所以一旦它唯一的上游用尽就会卡住。",
         "H_HONEST": "我们没有做什么",
@@ -614,7 +711,7 @@
         "H_RP": "OpenRouter 略去的那部分",
         "P_RP": "把编码代理（Claude Code、Cline、OpenCode、Kilo Code、Codex）指向 {appName}，它的表现就和任何 OpenAI 兼容端点一样。但同一把密钥还驱动一个内置的聊天与角色客户端，带有人设、设定集、预设和 SillyTavern 卡片导入，并能直接接入 SillyTavern、Janitor.AI、RisuAI 或 Chub。OpenRouter 纯粹是 API 层，因此每个界面都得你自己准备。{appName} 把界面与 API 一并交付。",
         "H_MIGRATE": "切换只是更换基础 URL",
-        "P_MIGRATE": "由于 {appName} 兼容 OpenAI，迁移现有应用只需一行：把客户端指向 <c>https://api.unorouter.ai/v1</c>，并保留你现有的代码。把同一把密钥粘贴到聊天客户端的自定义端点字段，也会抵达同一个目录，因此没有第二个账户需要管理。",
+        "P_MIGRATE": "由于 {appName} 兼容 OpenAI，迁移现有应用只需一行：把客户端指向 <c>https://api.unorouter.com/v1</c>，并保留你现有的代码。把同一把密钥粘贴到聊天客户端的自定义端点字段，也会抵达同一个目录，因此没有第二个账户需要管理。",
         "H_VERDICT": "你该选哪个",
         "P_VERDICT": "如果你只交付代码，并且想要无界面的最广目录，OpenRouter 是个不错的默认选择。如果你想要无加价的自托管路由，LiteLLM 胜出。如果你想要一把密钥，既能用在编码代理里，也能用在真正的聊天与角色客户端里，而不必运行两套服务，这正是 {appName} 填补的空白。没有唯一的赢家。这取决于你是为纯粹的 API 优化，还是为 API 加上一个使用它的地方而优化。",
         "CTA": "准备好试试了吗？<register>创建免费账户</register> 或 <models>浏览模型</models>。"
@@ -1521,7 +1618,7 @@
       "INTRO_DESC": "Chub.ai（前身为 Venus）是一个基于浏览器的角色聊天平台，拥有 60,000 个角色的内容库。它通过 Secrets 面板接入 OpenAI 兼容端点。",
       "INTRO_LINK_DOCS": "Chub.ai API Connections 官方文档",
       "OVERVIEW": "概览",
-      "OVERVIEW_DESC": "Chub 的 Secrets 面板接受完整的 `/v1/chat/completions` URL 以及你的 API 密钥。在 Prompt Structure 中选择模型之前，Check your proxy 按钮会验证连接。",
+      "OVERVIEW_DESC": "Chub 的 Secrets 面板接受以 `/v1` 结尾的基础 API URL 以及你的 API 密钥。在 Prompt Structure 中选择模型之前，Check your proxy 按钮会验证连接。",
       "TRUST_TITLE": "{appName} 是第一方 API 中继",
       "TRUST_DESC": "Chub 的界面会警告 reverse proxies created by unauthorized third parties。该警告针对的是社区运营的中继。{appName} 是由基础设施所有者运营的第一方 API 中继，类似于 OpenRouter。你的 API 密钥、使用日志和账单都直接位于 {appName} 上。",
       "TRUST_LINK_PRIVACY": "隐私政策",
@@ -1530,7 +1627,7 @@
       "QUICK_CONFIG_DESC": "将以下两个值复制到 Chub Secrets 面板的 Reverse proxy 字段中。",
       "QUICK_CONFIG_URL_LABEL": "URL",
       "QUICK_CONFIG_KEY_LABEL": "密钥",
-      "QUICK_CONFIG_NOTE": "请粘贴以 `/v1/chat/completions` 结尾的完整 URL。Chub 要求提供完整路径，不要只粘贴基础 URL。",
+      "QUICK_CONFIG_NOTE": "请粘贴以 `/v1` 结尾的基础 URL。Chub 会为代理检查附加 `/models`，因此完整的 `/v1/chat/completions` URL 会失败。",
       "STEPS": "逐步配置",
       "STEP_1_TITLE": "打开 Secrets 面板",
       "STEP_1_DESC": "点击 Chub 右上角的汉堡菜单，然后选择 Secrets。",
@@ -1539,7 +1636,7 @@
       "STEP_3_TITLE": "滚动到 Reverse proxy",
       "STEP_3_DESC": "Reverse proxy 子区块包含 URL 和 Key 字段，以及 Check your proxy 按钮。",
       "STEP_4_TITLE": "粘贴 URL 和密钥",
-      "STEP_4_DESC": "URL 以 `/v1/chat/completions` 结尾，Key 为你的 {appName} API 密钥。",
+      "STEP_4_DESC": "URL 以 `/v1` 结尾（仅基础地址，不含 `/chat/completions`），Key 为你的 {appName} API 密钥。",
       "STEP_5_TITLE": "点击 Check your proxy",
       "STEP_5_DESC": "等待绿色确认。如果失败，请重新检查 URL 并重新粘贴密钥。",
       "STEP_6_TITLE": "打开 Configuration",
@@ -1552,7 +1649,7 @@
       "WARN_KEY_INVISIBLE_DESC": "Chub 会在保存后遮蔽 API 密钥，你无法再复制出来。请先将密钥存入密码管理器再粘贴，这样轮换密钥或在第二个浏览器配置文件中使用时就无需重新生成。",
       "TROUBLESHOOTING": "故障排查",
       "TS_1_TITLE": "Check your proxy 按钮验证失败。",
-      "TS_1_DESC": "URL 不正确。它必须以 `/v1/chat/completions` 结尾，仅提供基础 URL 无法通过。",
+      "TS_1_DESC": "URL 不正确。它必须是以 `/v1` 结尾的基础地址。Chub 会自行附加 `/models`，因此完整的 `/v1/chat/completions` URL 会变成 `/v1/chat/completions/models` 而失败。",
       "TS_2_TITLE": "模型下拉菜单为空。",
       "TS_2_DESC": "代理检查尚未通过。请重新执行步骤 5，等待绿色状态出现。",
       "TS_3_TITLE": "回复为空。",
@@ -1576,7 +1673,7 @@
       "TOC_TROUBLESHOOTING": "故障排查",
       "STEP_CONFIG_TITLE": "打开 Configuration 并选择 OpenAI",
       "STEP_CONFIG_DESC": "返回汉堡菜单，打开 Configuration，然后进入 Prompt Structure。将 API 下拉菜单设置为 OpenAI，并从模型下拉菜单中选择目标模型。",
-      "GOTCHA_1": "请将以 `/v1/chat/completions` 结尾的完整 URL 粘贴到 Reverse proxy 字段。仅使用基础 URL 会导致 Check your proxy 按钮失败。",
+      "GOTCHA_1": "请将以 `/v1` 结尾的基础 URL 粘贴到 Reverse proxy 字段。Chub 会为检查附加 `/models`，因此完整的 `/v1/chat/completions` URL 会导致 Check your proxy 按钮失败。",
       "GOTCHA_2": "在代理检查通过之前，Prompt Structure 中的模型下拉菜单会一直为空。请先在 Secrets 中运行 Check your proxy，然后返回选择模型。",
       "GOTCHA_3": "Chub 在保存后会遮罩 API 密钥且无法再复制出来。请在粘贴前将密钥保存到密码管理器，以便轮换时无需新密钥。",
       "GOTCHA_4": "Chub 的界面会警告来自未经授权第三方的反向代理；那针对的是社区运营的中继。{appName} 是第一方中继，因此你的密钥、日志和账单都保留在 {appName} 上。"
@@ -1944,7 +2041,9 @@
     "LEGAL_TERMS": "服务条款",
     "LEGAL_PRIVACY": "隐私政策",
     "SOCIAL_TRUSTPILOT": "Trustpilot",
-    "EASTER_EGG_LABEL": "玩 Token 打砖块"
+    "EASTER_EGG_LABEL": "玩 Token 打砖块",
+    "BADGE_FEATURED_ON": "已在 {name} 推荐",
+    "BADGE_VERIFIED_ON": "已在 {name} 验证"
   },
   "PRIVACY": {
     "META": {
@@ -2040,7 +2139,10 @@
       "UNEXPECTED_ERROR_OCCURRED": "发生了意外错误。请重试或返回首页。",
       "ERROR_DETAILS": "错误详情",
       "DIGEST": "摘要",
-      "SECTION_LOAD_FAILED": "此部分加载失败。"
+      "SECTION_LOAD_FAILED": "此部分加载失败。",
+      "COPY_ERROR": "复制错误",
+      "RESET_APP_DATA": "重置应用数据并重新加载",
+      "RESETTING": "正在重置……"
     },
     "NOT_FOUND": {
       "TITLE": "页面未找到",
@@ -2087,6 +2189,13 @@
       "CLEAR_CHAT_TITLE": "清空对话？",
       "WIPE_DB_TITLE": "清空本地数据库？",
       "UPLOAD_DB_TITLE": "覆盖本地数据库？"
+    },
+    "COPIED": "已复制",
+    "DATE_RANGE": {
+      "PICK": "选择日期范围",
+      "FROM": "从",
+      "TO": "至",
+      "APPLY": "应用"
     }
   },
   "LANGUAGE": {
@@ -2287,7 +2396,9 @@
       "IP_WHITELIST_PLACEHOLDER": "每行一个 IP。留空表示不限制。",
       "IP_WHITELIST_DESC": "IP 可能被伪造。建议配合网关使用以增强管控。",
       "SUBMIT": "创建",
-      "SAVE": "保存"
+      "SAVE": "保存",
+      "QUOTA_FREE_ONLY_HINT": "＄0 创建仅限免费模型的密钥。付费模型将被拒绝。",
+      "QUOTA_EQUIVALENT": "= {quota} 配额"
     },
     "ENUM": {
       "ENABLED": "已启用",
@@ -2567,6 +2678,7 @@
     "FONT_DEFAULT": "项目默认",
     "FONT_HEADING_INHERIT": "跟随正文",
     "BASE_COLOR": "基础色",
+    "CUSTOM_COLOR": "自定义",
     "THEME": "主题",
     "CHART_COLOR": "图表色",
     "HEADING_FONT": "标题字体",
@@ -2603,6 +2715,8 @@
     "MD_SINGLE_QUOTE": "单引号文本",
     "MD_DOUBLE_QUOTE": "双引号文本",
     "SURFACE_COLORS": "界面颜色",
+    "MODE_LIGHT": "浅色",
+    "MODE_DARK": "深色",
     "COLOR_SIDEBAR": "侧边栏",
     "BACKGROUND_IMAGE": "背景图片",
     "BG_UPLOAD": "上传图片",

@@ -13,7 +13,6 @@ export function SettingsPage() {
 
   return (
     <PageContent>
-      {/* Header */}
       <div className="mb-6">
         <div className="flex items-center gap-2">
           <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-green-500" />
@@ -26,7 +25,6 @@ export function SettingsPage() {
         </h1>
       </div>
 
-      {/* Account Info */}
       <div className="mb-6">
         <div className="mb-3 flex items-center gap-2">
           <Icon name="settings" className="text-muted-foreground h-4 w-4" />
@@ -37,17 +35,14 @@ export function SettingsPage() {
         <AccountHeader />
       </div>
 
-      {/* Account Management */}
       <div className="mb-6">
         <AccountCard />
       </div>
 
-      {/* Security */}
       <div className="mb-6">
         <SecurityCard />
       </div>
 
-      {/* Notifications */}
       <div className="mb-6">
         <NotificationCard />
       </div>

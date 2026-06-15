@@ -163,7 +163,6 @@ ${t("DOCS.SETUP_GUIDE.API_KEY_LABEL")}: ${docs.placeholder}`;
           </section>
         )}
 
-        {/* Quick Config */}
         <section className="mt-12">
           <h2 className="mb-4 text-2xl font-semibold" id="quick-config">
             {t("DOCS.SETUP_GUIDE.QUICK_CONFIG")}
@@ -179,7 +178,6 @@ ${t("DOCS.SETUP_GUIDE.API_KEY_LABEL")}: ${docs.placeholder}`;
           />
         </section>
 
-        {/* Compatibility */}
         {hasCompat ? (
           <section className="mt-12">
             <h2 className="mb-4 text-2xl font-semibold" id="compatibility">
@@ -197,7 +195,6 @@ ${t("DOCS.SETUP_GUIDE.API_KEY_LABEL")}: ${docs.placeholder}`;
           </section>
         ) : null}
 
-        {/* Steps */}
         {hasSteps ? (
           <section className="mt-12">
             <h2 className="mb-4 text-2xl font-semibold" id="steps">
@@ -295,7 +292,6 @@ ${t("DOCS.SETUP_GUIDE.API_KEY_LABEL")}: ${docs.placeholder}`;
           </div>
         </section>
 
-        {/* Gotchas */}
         {hasGotchas ? (
           <section className="mt-12">
             <h2 className="mb-4 text-2xl font-semibold" id="gotchas">
@@ -314,7 +310,6 @@ ${t("DOCS.SETUP_GUIDE.API_KEY_LABEL")}: ${docs.placeholder}`;
           </section>
         ) : null}
 
-        {/* CTA */}
         <section className="border-border mt-16 border-t pt-12 text-center">
           <GetStartedButton
             translationKey="DOCS.GENERATE_API_KEY"

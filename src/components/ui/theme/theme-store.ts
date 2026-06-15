@@ -12,8 +12,8 @@ export type ChatMarkdownColors = {
   doubleQuote?: string;
 };
 
-// Freeform surface overrides. Win over the chosen base/accent presets in both
-// light + dark (emitted late under `:root,.dark`).
+// Freeform surface overrides for ONE color scheme. Win over the chosen
+// base/accent presets (emitted late, per scheme).
 export type SurfaceColors = {
   background?: string;
   foreground?: string;
@@ -22,6 +22,13 @@ export type SurfaceColors = {
   accent?: string;
   border?: string;
   sidebar?: string;
+};
+
+// Per-scheme custom palette (RisuAI parity: a custom theme declares light vs
+// dark values independently instead of one override hitting both schemes).
+export type SurfaceTheme = {
+  light?: SurfaceColors;
+  dark?: SurfaceColors;
 };
 
 export type BackgroundFit = "cover" | "contain" | "tile";
@@ -37,8 +44,14 @@ export type BackgroundSettings = {
 
 export type UserTheme = {
   baseColor?: string;
+  // Custom hex used when baseColor === "custom" (drives --background + derived
+  // --foreground). Same pattern for themeCustom (--primary) and chartColorCustom
+  // (--chart-1..5 generated from the hue).
+  baseColorCustom?: string;
   theme?: string;
+  themeCustom?: string;
   chartColor?: string;
+  chartColorCustom?: string;
   fontBody?: string;
   fontHeading?: string;
   radius?: string;
@@ -47,9 +60,24 @@ export type UserTheme = {
   menu?: string;
   menuAccent?: string;
   markdown?: ChatMarkdownColors;
-  surface?: SurfaceColors;
+  // Per-scheme custom surface colors. Legacy flat SurfaceColors is migrated to
+  // { light, dark } (same values both modes) by normalizeSurface at read time.
+  surface?: SurfaceTheme;
+  // Which scheme the customizer is editing; persisted so the toggle sticks.
+  surfaceMode?: "light" | "dark";
   background?: BackgroundSettings;
 };
+
+// Back-compat: an old flat surface object (pre per-scheme split) applied to both
+// schemes. Normalize it to the new shape so existing themes keep working.
+export function normalizeSurface(
+  surface: UserTheme["surface"] | SurfaceColors | undefined,
+): SurfaceTheme {
+  if (!surface) return {};
+  if ("light" in surface || "dark" in surface) return surface as SurfaceTheme;
+  const flat = surface as SurfaceColors;
+  return { light: flat, dark: flat };
+}
 
 export const USER_THEME_KEY = "user-theme";
 export const THEME_BG_KEY = "user-theme-bg";
@@ -66,6 +94,7 @@ export const INITIAL_USER_THEME: UserTheme = {
   menu: "default",
   menuAccent: "subtle",
   markdown: {},
+  surfaceMode: "dark",
 };
 
 export const userThemeAtom = atomWithStorage<UserTheme>(

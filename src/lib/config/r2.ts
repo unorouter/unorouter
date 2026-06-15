@@ -202,9 +202,7 @@ async function readBodyWithLimit(res: UndiciResponse): Promise<Buffer> {
   return Buffer.concat(chunks);
 }
 
-// SSRF-safe remote fetch for caller-supplied URLs (playground reference
-// images): runs the full allowlist (CIDR/DNS filter, redirect:manual, port +
-// protocol checks) and caps bytes. Returns the body + detected content-type.
+    // SSRF-safe fetch for caller-supplied URLs: full allowlist (CIDR/DNS, redirect:manual, port/protocol) + byte cap. Returns body + type.
 export async function safeFetchBytes(
   url: string,
   maxBytes: number,
@@ -298,10 +296,7 @@ export async function pingR2(): Promise<boolean> {
   }
 }
 
-// Hard ceiling on any single object written to R2. The download path caps via
-// safeFetchBytes, but direct multipart uploads (playground references/masks)
-// reach uploadToR2 without going through it, so the cap has to live here too
-// or a large multipart POST sails straight past it.
+    // Hard ceiling on any single R2 object. Downloads cap via safeFetchBytes; direct multipart uploads reach uploadToR2, so cap here too.
 const MAX_UPLOAD_BYTES = 50 * 1024 * 1024;
 
 export async function uploadToR2(
@@ -399,8 +394,7 @@ async function putMedia(
   await assertUserQuota(owner.userId, buffer.length);
   const key = mediaKey(owner.scope, convId, msgId, uid(8));
   const { url } = await uploadToR2(key, buffer, declaredCt);
-  // Media rows live in client SQLocal only; the server never records a `media`
-  // row here (R2 holds the bytes, the local DB holds the row).
+      // Media rows live in client SQLocal only; the server records none here (R2 holds bytes, local DB holds the row).
   return url;
 }
 
@@ -454,8 +448,7 @@ function generationReferenceKey(userId: number, filename: string): string {
   return `playgrounds-refs/${userId}/${filename}`;
 }
 
-// Client-first: download bytes only, no R2 upload (the client persists them
-// to local SQLocal as base64).
+    // Client-first: download bytes only, no R2 upload (the client persists them to local SQLocal as base64).
 export async function downloadGenerationBytes(
   url: string,
   authToken?: string,
@@ -479,10 +472,7 @@ export async function downloadGenerationBytes(
   };
 }
 
-// Refs are scratch input images, never in the `media` table (so the quota
-// SUM misses them) and the sweeper never prunes their prefix; a guest could
-// write unbounded never-expiring objects. Cap per user: before each upload,
-// drop the oldest beyond MAX_REF_OBJECTS so the prefix stays bounded.
+    // Refs are scratch images outside the media table and never swept, so a guest could write unbounded objects. Cap per user, drop the oldest.
 const MAX_REF_OBJECTS = 20;
 
 async function pruneRefObjects(userId: number): Promise<void> {
@@ -513,8 +503,7 @@ export async function uploadReferenceToR2(
 ): Promise<{ url: string; key: string; mime: string; sizeBytes: number }> {
   await pruneRefObjects(userId).catch(() => {});
   const key = generationReferenceKey(userId, uid(8));
-  // uploadToR2 magic-byte verifies + restricts to the image/video/pdf
-  // allowlist, so a non-image ref is rejected here.
+      // uploadToR2 magic-byte verifies against the image/video/pdf allowlist, so a non-image ref is rejected here.
   const { url, mime } = await uploadToR2(key, body, declaredCt);
   return { url, key, mime, sizeBytes: body.length };
 }

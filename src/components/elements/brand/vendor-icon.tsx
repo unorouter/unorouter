@@ -23,11 +23,7 @@ function getIcon(vendor: string): IconComponent | null {
   const key = Object.keys(LOADERS).find((k) => normalized.includes(k));
   if (!key) return null;
 
-  // SSR on: with ssr:false every server render shipped a spinner per card and
-  // each refresh flashed them until the per-vendor chunk loaded. Server-rendered
-  // dynamic chunks get preloaded into the page, so the real icon is in the HTML.
-  // Loading fallback (client-side only, e.g. filter changes) is a neutral block,
-  // not a spinner.
+      // SSR on so the real icon is in the HTML (ssr:false flashed a spinner per card); fallback is a neutral block.
   const Icon = dynamic(LOADERS[key], {
     loading: () => (
       <span className="bg-muted/50 inline-block size-full rounded-sm" />

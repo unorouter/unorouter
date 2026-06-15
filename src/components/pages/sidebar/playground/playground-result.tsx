@@ -143,8 +143,7 @@ export function GenerateResult(props: Props) {
     swapTo(snapshots[(currentIndex - 1 + total) % total].id);
   };
 
-  // On a non-newest snapshot, hand frozen params to the form for one-click
-  // resubmit. Skip the newest to avoid clobbering the live draft.
+      // On a non-newest snapshot, hand frozen params to the form for one-click resubmit. Skip the newest to avoid clobbering the live draft.
   useEffect(() => {
     if (!data || currentIndex === 0 || data.status === "failure") return;
     setRestore({

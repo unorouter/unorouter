@@ -14,6 +14,7 @@ import {
   type SubscriptionPlan,
 } from "@/lib/api/subscription";
 import { AUTH_REDIRECT_COOKIE } from "@/lib/config/constants";
+import { cn } from "@/lib/utils";
 import { setCookie } from "cookies-next/client";
 import { useTranslations } from "next-intl";
 
@@ -120,7 +121,44 @@ export function Pricing() {
           className="mb-16"
         />
 
-        <div className="mb-16 grid gap-6 md:grid-cols-3">
+        {topUpOptions.length > 0 && (
+          <div className="mx-auto mb-16 max-w-2xl">
+            <div className="mb-4 text-center">
+              <h3 className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
+                {t("PRICING.TOPUP.LABEL")}
+              </h3>
+              <p className="text-foreground mt-2 font-mono text-xs">
+                {t("PRICING.TOPUP.DESC")}
+              </p>
+            </div>
+            <div className="mb-6 flex justify-center">
+              <PaymentMethodToggle centered />
+            </div>
+            <div className="mx-auto flex max-w-xl flex-wrap justify-center gap-2">
+              {topUpOptions.map((option) => (
+                <button
+                  key={option.key}
+                  type="button"
+                  onClick={option.handler}
+                  disabled={billing.isTopUpMutating}
+                  className="border-border hover:border-foreground/50 text-foreground flex min-w-20 cursor-pointer items-center justify-center border px-4 py-2.5 font-mono text-sm font-bold tabular-nums transition-colors disabled:opacity-50"
+                >
+                  ${option.amount}
+                </button>
+              ))}
+            </div>
+            <p className="text-muted-foreground mt-3 text-center font-mono text-[10px] tracking-wider uppercase">
+              {t("PRICING.TOPUP.FOOTNOTE")}
+            </p>
+          </div>
+        )}
+
+        <div
+          className={cn(
+            "grid gap-6 md:grid-cols-3",
+            topUpOptions.length > 0 && "border-border/50 border-t pt-10",
+          )}
+        >
           {plans.map((plan, i) => {
             const multiplier = getMultiplier(plan);
             const resetLabel = t(
@@ -149,38 +187,6 @@ export function Pricing() {
             );
           })}
         </div>
-
-        {topUpOptions.length > 0 && (
-          <div className="border-border/50 mx-auto max-w-2xl border-t pt-10">
-            <div className="mb-4 text-center">
-              <h3 className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-                {t("PRICING.TOPUP.LABEL")}
-              </h3>
-              <p className="text-foreground mt-2 font-mono text-xs">
-                {t("PRICING.TOPUP.DESC")}
-              </p>
-            </div>
-            <div className="mb-6 flex justify-center">
-              <PaymentMethodToggle />
-            </div>
-            <div className="mx-auto flex max-w-xl flex-wrap justify-center gap-2">
-              {topUpOptions.map((option) => (
-                <button
-                  key={option.key}
-                  type="button"
-                  onClick={option.handler}
-                  disabled={billing.isTopUpMutating}
-                  className="border-border hover:border-foreground/50 text-foreground flex min-w-20 cursor-pointer items-center justify-center border px-4 py-2.5 font-mono text-sm font-bold tabular-nums transition-colors disabled:opacity-50"
-                >
-                  ${option.amount}
-                </button>
-              ))}
-            </div>
-            <p className="text-muted-foreground mt-3 text-center font-mono text-[10px] tracking-wider uppercase">
-              {t("PRICING.TOPUP.FOOTNOTE")}
-            </p>
-          </div>
-        )}
       </div>
     </section>
   );

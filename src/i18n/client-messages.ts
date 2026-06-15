@@ -1,6 +1,4 @@
-// Single source of truth for which messages reach the client; violations throw
-// in dev (ClientIntlProvider MISSING_MESSAGE). Interim until next-intl ships
-// message tree-shaking (amannn/next-intl#1); delete this module when that lands.
+    // Single source of truth for which messages reach the client; violations throw in dev. Interim until next-intl tree-shaking.
 
 type Messages = Record<string, unknown>;
 
@@ -48,8 +46,7 @@ export function pruneClientMessages(messages: Messages): Messages {
 
   const pruned: Messages = { ...messages, DOCS: prunedDocs };
   for (const subtree of CLIENT_STRIPPED_SUBTREES) {
-    // Clone the path before deleting: getMessages() returns a shared object
-    // and mutating it would strip the keys from server rendering too.
+        // Clone the path before deleting: getMessages() returns a shared object; mutating it would strip keys from server too.
     const segments = subtree.split(".");
     const leaf = segments.pop()!;
     let parent: Messages = pruned;

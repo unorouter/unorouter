@@ -26,7 +26,8 @@
     "LOG_IN": "Giriş Yap",
     "CHAT": "Sohbet",
     "PLAYGROUND": "Playground",
-    "STATUS": "Durum"
+    "STATUS": "Durum",
+    "COMPARE": "Karşılaştır"
   },
   "HOME": {
     "HERO": {
@@ -229,7 +230,17 @@
       "NO_PROVIDERS": "Sağlayıcı bulunamadı.",
       "SELECTED": "seçildi",
       "CLEAR": "Filtreleri temizle",
-      "RESET": "Sıfırla"
+      "RESET": "Sıfırla",
+      "TITLE": "Filtreler",
+      "INPUT_MODALITIES": "Girdi Modaliteleri",
+      "CONTEXT_LENGTH": "Bağlam uzunluğu",
+      "PROMPT_PRICING": "İstem fiyatı",
+      "CATEGORIES": "Kategoriler",
+      "SUPPORTED_PARAMETERS": "Desteklenen Parametreler",
+      "PROVIDERS": "Sağlayıcılar",
+      "MIN": "Min",
+      "ANY": "Herhangi",
+      "SERIES": "Seri"
     },
     "DETAIL": {
       "DESCRIPTION": "Açıklama",
@@ -300,11 +311,16 @@
     "SORT": {
       "NAME": "İsim (A-Z)",
       "PRICE_ASC": "Fiyat (Düşük)",
-      "PRICE_DESC": "Fiyat (Yüksek)"
+      "PRICE_DESC": "Fiyat (Yüksek)",
+      "NEWEST": "En Yeni",
+      "POPULAR": "En Popüler",
+      "TOP_WEEKLY": "Haftanın En İyileri",
+      "CONTEXT_DESC": "Bağlam (Yüksek)"
     },
     "VIEW": {
       "GRID": "Tablo görünümü",
-      "LIST": "Liste görünümü"
+      "LIST": "Liste görünümü",
+      "TABLE": "Tablo görünümü"
     },
     "META": {
       "TITLE": "AI Modelleri - {appName}",
@@ -346,6 +362,73 @@
       "LATENCY": "Gec.",
       "TPS": "TPS",
       "STATUS": "Durum"
+    },
+    "MODALITY": {
+      "TEXT": "Metin",
+      "IMAGE": "Görsel",
+      "AUDIO": "Ses",
+      "VIDEO": "Video",
+      "EMBEDDINGS": "Gömme",
+      "FILE": "Dosya"
+    },
+    "TABLE": {
+      "MODEL": "Model",
+      "WEEKLY_TOKENS": "Haftalık Token",
+      "INPUT": "Girdi",
+      "OUTPUT": "Çıktı",
+      "CONTEXT": "Bağlam",
+      "RELEASED": "Yayınlanma",
+      "OFF": "%{pct} indirim",
+      "FREE": "ücretsiz",
+      "SORT_ASC": "Artan",
+      "SORT_DESC": "Azalan",
+      "SORT_RESET": "Sıfırla"
+    },
+    "COMPARE": {
+      "BADGE": "Karşılaştır",
+      "TITLE": "Yapay Zeka Model Karşılaştırması",
+      "SUBTITLE": "Yapay zeka modellerini fiyat, bağlam, yetenekler ve kullanıma göre yan yana karşılaştırın.",
+      "ADD_MODEL": "Model ekle",
+      "REMOVE": "Kaldır",
+      "CAPABILITIES": "Yetenekler",
+      "PRESET_FLAGSHIP": "Amiral gemisi modeller",
+      "PRESET_FLAGSHIP_DESC": "Büyük laboratuvarların en yeni üst düzey modelleri.",
+      "PRESET_AFFORDABLE": "En uygun fiyatlı",
+      "PRESET_AFFORDABLE_DESC": "Yüksek verim için kompakt, düşük maliyetli seçimler.",
+      "PRESET_CODE": "Kod için en iyi",
+      "PRESET_CODE_DESC": "Programlama ve kod üretimi için sıkça seçilir.",
+      "PRESET_IMAGE": "Görsel üretimi",
+      "PRESET_IMAGE_DESC": "Maliyet ve kalite açısından en iyi görüntü üretim modelleri.",
+      "META": {
+        "TITLE": "Yapay Zeka Modellerini Karşılaştır - {appName}",
+        "DESCRIPTION": "{appName} üzerinde yapay zeka modellerini fiyat, bağlam uzunluğu, yetenekler ve kullanıma göre yan yana karşılaştırın.",
+        "KEYWORDS": "yapay zeka modellerini karşılaştır, model karşılaştırma, LLM karşılaştırma, yapay zeka fiyatları",
+        "TITLE_COMBO": "{models} - Yapay Zeka Model Karşılaştırması",
+        "DESCRIPTION_COMBO": "{models} modellerini fiyat, bağlam uzunluğu, yetenekler ve kullanıma göre karşılaştırın."
+      },
+      "OVERVIEW": "Genel bakış",
+      "PRICING": "Fiyatlandırma",
+      "PERFORMANCE": "Performans",
+      "FEATURES": "Özellikler",
+      "ACTIVITY": "Etkinlik",
+      "AUTHOR": "Sağlayıcı",
+      "LATENCY": "Gecikme",
+      "THROUGHPUT": "İşlem hacmi",
+      "HIGHLIGHT_BEST": "En iyiyi vurgula",
+      "CLEAR": "Temizle",
+      "FROM": "sağlayan",
+      "SELECT_MODEL": "Bir model seçin"
+    },
+    "LIST": {
+      "TOKENS": "token",
+      "BY": "sağlayan",
+      "CONTEXT": "bağlam",
+      "INPUT": "girdi token",
+      "OUTPUT": "çıktı token"
+    },
+    "ACTIONS": {
+      "OPEN_MENU": "Menüyü aç",
+      "COPY_NAME": "Model adını kopyala"
     }
   },
   "RANKINGS": {
@@ -455,6 +538,20 @@
       "comparison": "Karşılaştırma"
     },
     "POSTS": {
+      "FEATURED_ON": {
+        "TITLE": "{appName} nerede bulunur: dizin kayitlarimiz",
+        "DESCRIPTION": "{appName}, yapay zeka araci ve girisim dizinlerinde listelenmistir. Bizi burada bulabilir, kayitlari dogrulayabilir ve bagimsiz degerlendirmeleri okuyabilirsiniz.",
+        "AUTHOR": "{appName} ekibi",
+        "INTRO": "Guvenilir bir yapay zeka gecidi olmanin bir parcasi da kolay bulunmak ve kolay dogrulanmaktir. {appName}, gelistiricilerin yeni bir saglayiciya API anahtari emanet etmeden once gercekten kontrol ettigi dizinlerde yer alir. Guncel liste asagidadir.",
+        "H_DIRECTORIES": "Listelendigimiz dizinler",
+        "P_DIRECTORIES": "Asagidaki her rozet, {appName} oge olarak yer aldigi dizine baglanir. Bunlar bagimsiz kayitlardir, bu yuzden sadece bize inanmak yerine ucuncu taraf aciklamalarini ve incelemelerini okuyabilirsiniz.",
+        "H_WHY": "Bu neden onemli",
+        "P_WHY": "Yapay zeka altyapisinda marka sadakati zayiftir ve guven her seydir. Halka acik dizinlerden saklanan bir saglayici, degerlendiremeyeceginiz bir saglayicidir. Acikca listeleniyoruz ki {appName} uygulamasini her alternatifle ayni yerde karsilastirabilesiniz.",
+        "H_VERIFY": "Guvenmeden once dogrulayin",
+        "P_VERIFY": "Herhangi bir rozeti acin, kaydin gercek alan adimiza isaret ettigini dogrulayin ve bagimsiz aciklamayi inceleyin. Kaynagini dogrulanabilir, herkese acik bir kaynaga kadar izleyemediginiz bir hizmete asla API anahtari yapistirmayin.",
+        "H_TRY": "Kendiniz deneyin",
+        "CTA": "Yeterince gordunuz mu? <register>Ucretsiz hesap olusturun</register> ya da <models>modellere goz atin</models>."
+      },
       "LAUNCH": {
         "TITLE": "Sahte Claude'dan bıktık. Bu yüzden {appName}'i kurduk.",
         "DESCRIPTION": "Her hafta kesintiler. Premium modeller sessizce ucuz klonlarla değiştiriliyor. Patladık, kendi router'ımızı çıkardık ve onu ikisi konusunda da paranoyak yaptık. İşte lansman hikayesi.",
@@ -585,16 +682,16 @@
         "CTA": "Hazır mısın? <invite>{appName} Discord'a katıl</invite>, sonra <register>API anahtarı al</register> ve ilk 1$'ınızı talep etmek için <settings>hesabınızı bağlayın</settings>."
       },
       "FREE_MODELS_AGGREGATED": {
-        "TITLE": "100'den fazla ucretsiz AI modelini tek bir uc noktada topladik",
-        "DESCRIPTION": "Iki gunde 15 ucretsiz saglayiciyi {appName} icine baglladik: 134 ucretsiz model satiri, tek bir OpenAI-compatible uc nokta, token basina $0. Bunlar bir nedenle ucretsiz ve yukseltemeyecegimiz hiz limitleriyle geliyor. Iste durusun durust hali.",
+        "TITLE": "120'den fazla ucretsiz AI modelini tek bir uc noktada topladik",
+        "DESCRIPTION": "18 ucretsiz saglayiciyi {appName} icine baglladik: 126 ucretsiz model satiri, tek bir OpenAI-compatible uc nokta, token basina $0. Bunlar bir nedenle ucretsiz ve yukseltemeyecegimiz hiz limitleriyle geliyor. Iste durusun durust hali.",
         "AUTHOR": "{appName} ekibi",
-        "INTRO": "Ucretsiz LLM dunyasi gercek ama dagmik: Groq, Gemini, Cloudflare, Mistral, OVHcloud ve daha onlarcasi gercek kapasite sunuyor; ama her biri ayri bir kayit sayfasinin, ayri bir anahtar formatinin ve birbiriyle uyumsuz onlarca API'nin ardinda. Iki gun boyunca bulabildigimiz her mesru, kalici-ucretsiz saglayiciyi kesfettik, test ettik ve {appName} icine birlestirdik. Sonuc: 15 saglayicidan 134 ucretsiz model satiri, tek bir OpenAI-compatible uc nokta ve tek bir anahtar ardinda.",
+        "INTRO": "Ucretsiz LLM dunyasi gercek ama dagmik: Groq, Gemini, Cloudflare, NVIDIA, SiliconFlow ve daha onlarcasi gercek kapasite sunuyor; ama her biri ayri bir kayit sayfasinin, ayri bir anahtar formatinin ve birbiriyle uyumsuz onlarca API'nin ardinda. Bulabildigimiz her mesru, kalici-ucretsiz saglayiciyi kesfettik, test ettik ve {appName} icine birlestirdik. Sonuc: 18 saglayicidan 126 ucretsiz model satiri, tek bir OpenAI-compatible uc nokta ve tek bir anahtar ardinda.",
         "H_WHAT": "Neler ekledik",
-        "P_WHAT": "On bes ucretsiz saglayici, teker teker: Groq, Gemini, Cerebras, SambaNova, Mistral, Cloudflare Workers AI (iki hesap), GitHub Models, Z.ai, OVHcloud, AI Horde, Pollinations, Cohere, Jina, NVIDIA NIM ve OpenRouter. Bu da 134 ucretsiz model satiri demek: Llama, gpt-oss, Qwen, Mistral, GLM, Nemotron ve daha fazlasi, ayrica 30 ucretsiz gomme modeli ve 13 ucretsiz goruntu ve ses modeli. Her biri yayina alinmadan once HTTP, akis ve arac cagrilari icin bastan sona test edilir; tipki ucretli modellerde uyguladigimiz ayni dogrulama ve test kontrolleri.",
+        "P_WHAT": "On sekiz ucretsiz saglayici, teker teker: Groq, Gemini, Cerebras, SambaNova, Mistral, Cloudflare Workers AI (iki hesap), GitHub Models, Z.ai, OVHcloud, AI Horde, Pollinations, Cohere, Jina, NVIDIA NIM (tam acik katalog: Nemotron, Llama, Qwen, gpt-oss, DeepSeek ve daha fazlasi), SiliconFlow (DeepSeek-V4, GLM-5.1, Qwen3.5/3.6, Kimi-K2.6, MiniMax-M3), HuggingFace yonlendiricisi ve LLM7. Bu da 126 ucretsiz model satiri demek: Llama, gpt-oss, Qwen, Mistral, GLM, Nemotron, DeepSeek ve daha fazlasi, ayrica ucretsiz gomme, goruntu ve ses modelleri. Her biri yayina alinmadan once HTTP, akis ve arac cagrilari icin bastan sona test edilir; tipki ucretli modellerde uyguladigimiz ayni dogrulama ve test kontrolleri.",
         "H_CAVEAT": "Bir nedenle ucretsiz",
         "P_CAVEAT": "Bu modeller gercekten ucretsiz ve limitlerinin olmasinin nedeni de tam olarak bu. <s>O limitleri biz degil saglayici belirler ve biz onlari yukseltemeyiz.</s> Her ust kaynak kendi hiz limitlerini uygular: dakika basina istek, gunluk token kotalari, Cloudflare neuron butceleri, gonullu-kuyrugu onceligi. Bir limite ulastiginizda o saglayici, limit sifirlanana kadar <c>429</c> dondurur. Bu sabah calisan bir ucretsiz anahtar, oglene kadar tukenmis olabilir. Ucretsiz katman, garanti degil, elinden gelenin en iyisi olan bir verimdir. Is yukunuz ongorulebilir gecikme ve surpriz <c>429</c> hatasi olmamasini gerektiriyorsa ucretli bir model kullanin.",
         "H_AGGREGATE": "Neden hepsini bir araya getirelim ki",
-        "P_AGGREGATE": "Cunku alternatifi on bes ayri hesap. Her saglayicinin kendi kaydi, kendi anahtar formati, kendi temel URL'si ve kendi tuhafliklari var: Z.ai Zhipu V4 yolundan konusuyor, Cloudflare hesap kimligini URL icinde tasiyor, AI Horde anonim bir anahtar istiyor, GitHub modelleri bir token kapsami ardinda kilitliyor. Bunlarin hepsini biz ustlendik, boylece onlari diger her seyi cagirdiginiz gibi cagiriyorsunuz: tek bir OpenAI-compatible uc nokta, tek bir anahtar, bir model adi. Kendimize koydugumuz durust kural: saglayici basina tek bir gercek hesap, kabul edilen limitler, hicbir sey ciftliklenmez, hicbir sey havuzlanmaz. Ucretsiz katmani bir hediye olarak sunuyoruz, baskasinin kotasinin yeniden satisi olarak degil.",
+        "P_AGGREGATE": "Cunku alternatifi on sekiz ayri hesap. Her saglayicinin kendi kaydi, kendi anahtar formati, kendi temel URL'si ve kendi tuhafliklari var: Z.ai Zhipu V4 yolundan konusuyor, Cloudflare hesap kimligini URL icinde tasiyor, AI Horde anonim bir anahtar istiyor, GitHub modelleri bir token kapsami ardinda kilitliyor. Bunlarin hepsini biz ustlendik, boylece onlari diger her seyi cagirdiginiz gibi cagiriyorsunuz: tek bir OpenAI-compatible uc nokta, tek bir anahtar, bir model adi. Kendimize koydugumuz durust kural: saglayici basina tek bir gercek hesap, kabul edilen limitler, hicbir sey ciftliklenmez, hicbir sey havuzlanmaz. Ucretsiz katmani bir hediye olarak sunuyoruz, baskasinin kotasinin yeniden satisi olarak degil.",
         "H_FAILOVER": "Limitleri nasil yumusatiyoruz",
         "P_FAILOVER": "Bu modellerin cogu birden fazla ucretsiz saglayici tarafindan sunuluyor. Tek basina Llama 3.3 70B bunlardan yedisinde calisiyor. Birkac saglayici ayni modeli sundugunda, onlari tek bir yayinlanan ad altinda toplar ve otomatik olarak yedege geceriz: bir ust kaynak <c>429</c> dondururse ya da sessizlesirse, o modeli sunan bir sonraki saglikli saglayici istegi devralir. Bu, gercekten kontrol ettigimiz tek kaldirac. Bu, hicbir saglayicinin tekil limitini yukseltmez, ama coklu-kaynakli bir ucretsiz modelin, saglayicilarindan herhangi biri tukendikten cok sonra bile yanit vermeye devam etmesini saglar. Tek-kaynakli ucretsiz modellerin bir yedegi yoktur, bu yuzden tek ust kaynaklari tukendiginde takilirlar.",
         "H_HONEST": "Neleri yapmadik",
@@ -614,7 +711,7 @@
         "H_RP": "OpenRouter'ın atladığı kısım",
         "P_RP": "Bir kodlama ajanını (Claude Code, Cline, OpenCode, Kilo Code, Codex) {appName} adresine yöneltin, herhangi bir OpenAI uyumlu uç nokta gibi davranır. Ama aynı anahtar, personalar, lorebook'lar, hazır ayarlar ve SillyTavern kart içe aktarımıyla yerleşik bir sohbet ve karakter istemcisini de çalıştırır ve doğrudan SillyTavern, Janitor.AI, RisuAI veya Chub'a oturur. OpenRouter yalnızca API katmanıdır, bu yüzden her arayüzü siz getirirsiniz. {appName} arayüzü ve API'yi birlikte sunar.",
         "H_MIGRATE": "Geçiş, temel URL değişikliğidir",
-        "P_MIGRATE": "{appName} OpenAI uyumlu olduğundan, mevcut bir uygulamayı taşımak tek satırdır: istemcinizi <c>https://api.unorouter.ai/v1</c> adresine yöneltin ve mevcut kodunuzu koruyun. Bir sohbet istemcisinin özel uç nokta alanına yapıştırılan aynı anahtar aynı kataloğa ulaşır, dolayısıyla yönetilecek ikinci bir hesap yoktur.",
+        "P_MIGRATE": "{appName} OpenAI uyumlu olduğundan, mevcut bir uygulamayı taşımak tek satırdır: istemcinizi <c>https://api.unorouter.com/v1</c> adresine yöneltin ve mevcut kodunuzu koruyun. Bir sohbet istemcisinin özel uç nokta alanına yapıştırılan aynı anahtar aynı kataloğa ulaşır, dolayısıyla yönetilecek ikinci bir hesap yoktur.",
         "H_VERDICT": "Hangisini seçmelisiniz",
         "P_VERDICT": "Yalnızca kod yayınlıyor ve arayüz olmadan en geniş kataloğu istiyorsanız, OpenRouter iyi bir varsayılandır. Ek ücretsiz kendi sunucunuzda yönlendirme istiyorsanız, LiteLLM kazanır. Kodlama ajanınızda ve gerçek bir sohbet ve karakter istemcisinde iki hizmet çalıştırmadan işe yarayan tek bir anahtar istiyorsanız, işte {appName} tam bu boşluğu doldurur. Tek bir kazanan yoktur. Saf API için mi yoksa API artı onu kullanacağınız bir yer için mi optimize ettiğinize bağlıdır.",
         "CTA": "Denemeye hazır mısınız? <register>Ücretsiz hesap oluşturun</register> ya da <models>modellere göz atın</models>."
@@ -1521,7 +1618,7 @@
       "INTRO_DESC": "Chub.ai (eskiden Venus) 60,000 karakter kütüphanesi olan tarayıcı tabanlı bir karakter sohbet platformudur. Secrets paneli üzerinden OpenAI uyumlu endpointlere bağlanır.",
       "INTRO_LINK_DOCS": "Resmi Chub.ai API Connections dokümantasyonu",
       "OVERVIEW": "Genel Bakış",
-      "OVERVIEW_DESC": "Chub'ın Secrets paneli tam bir `/v1/chat/completions` URL'si artı API anahtarınızı kabul eder. Bir Check your proxy düğmesi Prompt Structure'da bir model seçmeden önce bağlantıyı doğrular.",
+      "OVERVIEW_DESC": "Chub'in Secrets paneli `/v1` ile biten temel API URL'sini ve API anahtarinizi kabul eder. Bir Check your proxy dugmesi, Prompt Structure'da bir model secmeden once baglantiyi dogrular.",
       "TRUST_TITLE": "{appName} bir first-party API relay''idir",
       "TRUST_DESC": "Chub''ın UI''si ''yetkisiz üçüncü taraflar tarafından oluşturulan reverse proxy''ler'' hakkında uyarır. Bu uyarı topluluk tarafından işletilen relay''leri hedefler. {appName} altyapı sahibi tarafından işletilen, OpenRouter''a benzer first-party bir API relay''idir. API anahtarınız, kullanım loglarınız ve faturalandırma doğrudan {appName}''de yaşar.",
       "TRUST_LINK_PRIVACY": "Gizlilik politikası",
@@ -1530,7 +1627,7 @@
       "QUICK_CONFIG_DESC": "Bu iki değeri Chub'ın Secrets panelindeki Reverse proxy alanlarına kopyalayın.",
       "QUICK_CONFIG_URL_LABEL": "URL",
       "QUICK_CONFIG_KEY_LABEL": "Anahtar",
-      "QUICK_CONFIG_NOTE": "`/v1/chat/completions` ile biten tam URL'yi yapıştırın. Chub tam yolu bekler; sadece base URL'yi yapıştırmayın.",
+      "QUICK_CONFIG_NOTE": "`/v1` ile biten temel URL'yi yapistirin. Chub proxy kontrolu icin `/models` ekler, bu yuzden tam bir `/v1/chat/completions` URL'si basarisiz olur.",
       "STEPS": "Adım adım kurulum",
       "STEP_1_TITLE": "Secrets panelini aç",
       "STEP_1_DESC": "Chub'ın sağ üstündeki hamburger menüye tıklayın, sonra Secrets'i seçin.",
@@ -1539,7 +1636,7 @@
       "STEP_3_TITLE": "Reverse proxy'ye kaydır",
       "STEP_3_DESC": "Reverse proxy alt bölümü URL ve Key alanları ile Check your proxy düğmesini içerir.",
       "STEP_4_TITLE": "URL ve anahtarı yapıştır",
-      "STEP_4_DESC": "URL `/v1/chat/completions` ile biter. Key sizin {appName} API anahtarınızdır.",
+      "STEP_4_DESC": "URL `/v1` ile biter (yalnizca temel, `/chat/completions` yok). Key sizin {appName} API anahtarinizdir.",
       "STEP_5_TITLE": "Check your proxy'ye tıkla",
       "STEP_5_DESC": "Yeşil onayı bekleyin. Başarısız olursa URL'yi yeniden kontrol edin ve anahtarı yeniden yapıştırın.",
       "STEP_6_TITLE": "Configuration aç",
@@ -1552,7 +1649,7 @@
       "WARN_KEY_INVISIBLE_DESC": "Chub kaydettikten sonra API anahtarını maskeler. Geri kopyalayamazsınız. Yapıştırmadan önce anahtarı bir şifre yöneticisine kaydedin, böylece rotasyon veya ikinci bir tarayıcı profili yeni bir anahtar gerektirmez.",
       "TROUBLESHOOTING": "Sorun Giderme",
       "TS_1_TITLE": "Check your proxy düğmesi başarısız.",
-      "TS_1_DESC": "URL yanlış. `/v1/chat/completions` ile bitmelidir; tek başına base URL geçmez.",
+      "TS_1_DESC": "URL yanlis. `/v1` ile biten temel URL olmalidir. Chub `/models` kismini kendisi ekler, bu yuzden tam bir `/v1/chat/completions` URL'si `/v1/chat/completions/models` olur ve gecmez.",
       "TS_2_TITLE": "Model dropdown boş.",
       "TS_2_DESC": "Proxy kontrolü henüz geçmedi. Adım 5'i yeniden çalıştırın ve yeşil durumu bekleyin.",
       "TS_3_TITLE": "Yanıtlar boş dönüyor.",
@@ -1576,7 +1673,7 @@
       "TOC_TROUBLESHOOTING": "Sorun Giderme",
       "STEP_CONFIG_TITLE": "Configuration'i acin ve OpenAI secin",
       "STEP_CONFIG_DESC": "Hamburger menusune donun, Configuration'i, ardindan Prompt Structure'i acin. API acilir listesini OpenAI olarak ayarlayin ve model acilir listesinden hedef modelinizi secin.",
-      "GOTCHA_1": "`/v1/chat/completions` ile biten tam URL'yi Reverse proxy alanina yapistirin. Tek basina temel URL, Check your proxy dugmesi kontrolunu gecmez.",
+      "GOTCHA_1": "`/v1` ile biten temel URL'yi Reverse proxy alanina yapistirin. Chub kontrol icin `/models` ekler, bu yuzden tam bir `/v1/chat/completions` URL'si Check your proxy dugmesi kontrolunu gecmez.",
       "GOTCHA_2": "Prompt Structure icindeki model acilir listesi, proxy kontrolu gecene kadar bos kalir. Once Secrets bolumunde Check your proxy calistirin, ardindan donup bir model secin.",
       "GOTCHA_3": "Chub kaydettikten sonra API anahtarini maskeler ve geri kopyalayamazsiniz. Anahtari yapistirmadan once bir parola yoneticisine kaydedin, boylece rotasyon yeni bir anahtar zorunlu kilmaz.",
       "GOTCHA_4": "Chub''in arayuzu yetkisiz ucuncu taraflardan gelen reverse proxy''ler hakkinda uyarir; bu, topluluk roleleri icindir. {appName} birinci taraf bir roledir, bu yuzden anahtariniz, gunlukleriniz ve faturalandirmaniz {appName} uzerinde kalir."
@@ -1944,7 +2041,9 @@
     "LEGAL_TERMS": "Hizmet Şartlarımızı",
     "LEGAL_PRIVACY": "Gizlilik Politikamızı okuyup kabul ettiğinizi onaylarsınız",
     "SOCIAL_TRUSTPILOT": "Trustpilot",
-    "EASTER_EGG_LABEL": "Token Breakout Oyna"
+    "EASTER_EGG_LABEL": "Token Breakout Oyna",
+    "BADGE_FEATURED_ON": "{name} uzerinde one cikan",
+    "BADGE_VERIFIED_ON": "{name} uzerinde dogrulandi"
   },
   "PRIVACY": {
     "META": {
@@ -2040,7 +2139,10 @@
       "UNEXPECTED_ERROR_OCCURRED": "Beklenmeyen bir hata oluştu. Lütfen tekrar deneyin veya ana sayfaya dönün.",
       "ERROR_DETAILS": "Hata Detayları",
       "DIGEST": "Özet",
-      "SECTION_LOAD_FAILED": "Bu bölüm yüklenemedi."
+      "SECTION_LOAD_FAILED": "Bu bölüm yüklenemedi.",
+      "COPY_ERROR": "Hatayi kopyala",
+      "RESET_APP_DATA": "Uygulama verilerini sifirla ve yeniden yukle",
+      "RESETTING": "Sifirlaniyor..."
     },
     "NOT_FOUND": {
       "TITLE": "Sayfa Bulunamadı",
@@ -2087,6 +2189,13 @@
       "CLEAR_CHAT_TITLE": "Sohbeti temizle?",
       "WIPE_DB_TITLE": "Yerel veritabanını sil?",
       "UPLOAD_DB_TITLE": "Yerel veritabanının üzerine yaz?"
+    },
+    "COPIED": "Kopyalandi",
+    "DATE_RANGE": {
+      "PICK": "Tarih aralığı seçin",
+      "FROM": "Başlangıç",
+      "TO": "Bitiş",
+      "APPLY": "Uygula"
     }
   },
   "LANGUAGE": {
@@ -2287,7 +2396,9 @@
       "IP_WHITELIST_PLACEHOLDER": "Satır başına bir IP. Kısıtlama olmaması için boş bırakın.",
       "IP_WHITELIST_DESC": "IP'ler taklit edilebilir. Daha güçlü uygulama için bir gateway ile kullanın.",
       "SUBMIT": "Oluştur",
-      "SAVE": "Kaydet"
+      "SAVE": "Kaydet",
+      "QUOTA_FREE_ONLY_HINT": "$0 yalnızca ücretsiz modeller için bir anahtar oluşturur. Ücretli modeller reddedilir.",
+      "QUOTA_EQUIVALENT": "= {quota} kota"
     },
     "ENUM": {
       "ENABLED": "Etkin",
@@ -2567,6 +2678,7 @@
     "FONT_DEFAULT": "Proje varsayılanı",
     "FONT_HEADING_INHERIT": "Gövde ile eşle",
     "BASE_COLOR": "Temel renk",
+    "CUSTOM_COLOR": "Özel",
     "THEME": "Tema",
     "CHART_COLOR": "Grafik rengi",
     "HEADING_FONT": "Başlık fontu",
@@ -2603,6 +2715,8 @@
     "MD_SINGLE_QUOTE": "Tek tırnaklı metin",
     "MD_DOUBLE_QUOTE": "Çift tırnaklı metin",
     "SURFACE_COLORS": "Yüzey renkleri",
+    "MODE_LIGHT": "Açık",
+    "MODE_DARK": "Koyu",
     "COLOR_SIDEBAR": "Kenar çubuğu",
     "BACKGROUND_IMAGE": "Arka plan resmi",
     "BG_UPLOAD": "Resim yükle",

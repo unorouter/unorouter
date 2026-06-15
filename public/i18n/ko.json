@@ -26,7 +26,8 @@
     "LOG_IN": "로그인",
     "CHAT": "채팅",
     "PLAYGROUND": "플레이그라운드",
-    "STATUS": "상태"
+    "STATUS": "상태",
+    "COMPARE": "비교"
   },
   "HOME": {
     "HERO": {
@@ -229,7 +230,17 @@
       "NO_PROVIDERS": "공급자를 찾을 수 없습니다.",
       "SELECTED": "선택됨",
       "CLEAR": "필터 지우기",
-      "RESET": "초기화"
+      "RESET": "초기화",
+      "TITLE": "필터",
+      "INPUT_MODALITIES": "입력 모달리티",
+      "CONTEXT_LENGTH": "컨텍스트 길이",
+      "PROMPT_PRICING": "프롬프트 가격",
+      "CATEGORIES": "카테고리",
+      "SUPPORTED_PARAMETERS": "지원 매개변수",
+      "PROVIDERS": "제공자",
+      "MIN": "최소",
+      "ANY": "모두",
+      "SERIES": "시리즈"
     },
     "DETAIL": {
       "DESCRIPTION": "설명",
@@ -300,11 +311,16 @@
     "SORT": {
       "NAME": "이름 (가나다순)",
       "PRICE_ASC": "가격 (낮은순)",
-      "PRICE_DESC": "가격 (높은순)"
+      "PRICE_DESC": "가격 (높은순)",
+      "NEWEST": "최신순",
+      "POPULAR": "인기순",
+      "TOP_WEEKLY": "주간 인기",
+      "CONTEXT_DESC": "컨텍스트 (높음)"
     },
     "VIEW": {
       "GRID": "그리드 보기",
-      "LIST": "리스트 보기"
+      "LIST": "리스트 보기",
+      "TABLE": "테이블 보기"
     },
     "META": {
       "TITLE": "AI 모델 - {appName}",
@@ -346,6 +362,73 @@
       "LATENCY": "지연",
       "TPS": "TPS",
       "STATUS": "상태"
+    },
+    "MODALITY": {
+      "TEXT": "텍스트",
+      "IMAGE": "이미지",
+      "AUDIO": "오디오",
+      "VIDEO": "비디오",
+      "EMBEDDINGS": "임베딩",
+      "FILE": "파일"
+    },
+    "TABLE": {
+      "MODEL": "모델",
+      "WEEKLY_TOKENS": "주간 토큰",
+      "INPUT": "입력",
+      "OUTPUT": "출력",
+      "CONTEXT": "컨텍스트",
+      "RELEASED": "출시일",
+      "OFF": "{pct}% 할인",
+      "FREE": "무료",
+      "SORT_ASC": "오름차순",
+      "SORT_DESC": "내림차순",
+      "SORT_RESET": "초기화"
+    },
+    "COMPARE": {
+      "BADGE": "비교",
+      "TITLE": "AI 모델 비교",
+      "SUBTITLE": "가격, 컨텍스트, 기능, 사용량으로 AI 모델을 나란히 비교하세요.",
+      "ADD_MODEL": "모델 추가",
+      "REMOVE": "제거",
+      "CAPABILITIES": "기능",
+      "PRESET_FLAGSHIP": "주력 모델",
+      "PRESET_FLAGSHIP_DESC": "주요 연구소의 최신 최상위 모델.",
+      "PRESET_AFFORDABLE": "가장 저렴",
+      "PRESET_AFFORDABLE_DESC": "높은 처리량을 위한 작고 저렴한 선택지.",
+      "PRESET_CODE": "코드에 최적",
+      "PRESET_CODE_DESC": "프로그래밍과 코드 생성에 자주 선택됩니다.",
+      "PRESET_IMAGE": "이미지 생성",
+      "PRESET_IMAGE_DESC": "비용과 품질 면에서 우수한 이미지 생성 모델.",
+      "META": {
+        "TITLE": "AI 모델 비교 - {appName}",
+        "DESCRIPTION": "{appName}에서 가격, 컨텍스트 길이, 기능, 사용량으로 AI 모델을 나란히 비교하세요.",
+        "KEYWORDS": "AI 모델 비교, 모델 비교, LLM 비교, AI 가격",
+        "TITLE_COMBO": "{models} - AI 모델 비교",
+        "DESCRIPTION_COMBO": "{models}을(를) 가격, 컨텍스트 길이, 기능, 사용량으로 비교하세요."
+      },
+      "OVERVIEW": "개요",
+      "PRICING": "가격",
+      "PERFORMANCE": "성능",
+      "FEATURES": "기능",
+      "ACTIVITY": "활동",
+      "AUTHOR": "제공자",
+      "LATENCY": "지연 시간",
+      "THROUGHPUT": "처리량",
+      "HIGHLIGHT_BEST": "최고 강조",
+      "CLEAR": "지우기",
+      "FROM": "제공",
+      "SELECT_MODEL": "모델 선택"
+    },
+    "LIST": {
+      "TOKENS": "토큰",
+      "BY": "제공",
+      "CONTEXT": "컨텍스트",
+      "INPUT": "입력 토큰",
+      "OUTPUT": "출력 토큰"
+    },
+    "ACTIONS": {
+      "OPEN_MENU": "메뉴 열기",
+      "COPY_NAME": "모델 이름 복사"
     }
   },
   "RANKINGS": {
@@ -455,6 +538,20 @@
       "comparison": "비교"
     },
     "POSTS": {
+      "FEATURED_ON": {
+        "TITLE": "{appName}을 찾을 수 있는 곳: 디렉터리 등록 목록",
+        "DESCRIPTION": "{appName}은 AI 도구 및 스타트업 디렉터리에 등록되어 있습니다. 여기에서 저희를 찾고, 등록 내용을 확인하고, 독립적인 평가를 읽어보세요.",
+        "AUTHOR": "{appName} 팀",
+        "INTRO": "신뢰할 수 있는 AI 게이트웨이가 되려면 찾기 쉽고 검증하기 쉬워야 합니다. {appName}은 개발자가 새 제공업체에 API 키를 맡기기 전에 실제로 확인하는 디렉터리에 등록되어 있습니다. 다음은 최신 목록입니다.",
+        "H_DIRECTORIES": "등록된 디렉터리",
+        "P_DIRECTORIES": "아래 각 배지는 {appName}이 소개된 디렉터리로 연결됩니다. 독립적인 등록이므로 저희 말을 그대로 믿는 대신 제3자의 설명과 리뷰를 읽어볼 수 있습니다.",
+        "H_WHY": "이것이 중요한 이유",
+        "P_WHY": "AI 인프라에서 브랜드 충성도는 약하고 신뢰가 전부입니다. 공개 디렉터리에서 숨는 제공업체는 검증할 수 없는 제공업체입니다. 저희는 공개적으로 등록하여 {appName}을 모든 대안과 같은 자리에서 비교할 수 있도록 합니다.",
+        "H_VERIFY": "신뢰하기 전에 검증하세요",
+        "P_VERIFY": "아무 배지나 열어 등록이 저희 실제 도메인을 가리키는지 확인하고 독립적인 설명을 살펴보세요. 검증 가능한 공개 출처로 추적할 수 없는 서비스에는 절대 API 키를 붙여넣지 마세요.",
+        "H_TRY": "직접 사용해 보세요",
+        "CTA": "충분히 보셨나요? <register>무료 계정을 만들거나</register> <models>모델을 둘러보세요</models>."
+      },
       "LAUNCH": {
         "TITLE": "가짜 Claude에 지쳤다. 그래서 {appName}을 만들었다.",
         "DESCRIPTION": "격주마다 발생하는 장애. 조용히 저렴한 복제품으로 바뀌는 프리미엄 모델. 우리는 폭발했고, 자체 라우터를 출시했으며, 양쪽 모두에 대해 편집증적이 되도록 만들었습니다. 출시 이야기입니다.",
@@ -585,16 +682,16 @@
         "CTA": "준비되셨나요? <invite>{appName} Discord에 가입</invite>한 다음 <register>API 키를 받고</register> <settings>계정을 연결</settings>해 첫 $1을 받으세요."
       },
       "FREE_MODELS_AGGREGATED": {
-        "TITLE": "100개 이상의 무료 AI 모델을 하나의 엔드포인트로 통합했습니다",
-        "DESCRIPTION": "이틀에 걸쳐 15개의 무료 제공업체를 {appName}에 연결했습니다. 134개의 무료 모델, 하나의 OpenAI-compatible 엔드포인트, 토큰당 $0입니다. 다만 이들이 무료인 데는 이유가 있으며, 우리가 올릴 수 없는 요청 제한이 따라붙습니다. 여기 솔직한 이야기를 들려드립니다.",
+        "TITLE": "120개 이상의 무료 AI 모델을 하나의 엔드포인트로 통합했습니다",
+        "DESCRIPTION": "18개의 무료 제공업체를 {appName}에 연결했습니다. 126개의 무료 모델, 하나의 OpenAI-compatible 엔드포인트, 토큰당 $0입니다. 다만 이들이 무료인 데는 이유가 있으며, 우리가 올릴 수 없는 요청 제한이 따라붙습니다. 여기 솔직한 이야기를 들려드립니다.",
         "AUTHOR": "{appName} 팀",
-        "INTRO": "무료 LLM 생태계는 분명히 존재하지만 여기저기 흩어져 있습니다. Groq, Gemini, Cloudflare, Mistral, OVHcloud를 비롯한 수십 곳이 진짜 사용 가능한 용량을 무료로 제공하지만, 각각 가입 페이지도, 키 형식도, 호환되지 않는 API도 제각각입니다. 우리는 이틀 동안 찾을 수 있는 모든 합법적인 영구 무료 제공업체를 발굴하고, 테스트하고, {appName}에 통합했습니다. 그 결과 15개 제공업체의 134개 무료 모델을 하나의 OpenAI-compatible 엔드포인트와 하나의 키 뒤에 담았습니다.",
+        "INTRO": "무료 LLM 생태계는 분명히 존재하지만 여기저기 흩어져 있습니다. Groq, Gemini, Cloudflare, NVIDIA, SiliconFlow를 비롯한 수십 곳이 진짜 사용 가능한 용량을 무료로 제공하지만, 각각 가입 페이지도, 키 형식도, 호환되지 않는 API도 제각각입니다. 우리는 찾을 수 있는 모든 합법적인 영구 무료 제공업체를 발굴하고, 테스트하고, {appName}에 통합했습니다. 그 결과 18개 제공업체의 126개 무료 모델을 하나의 OpenAI-compatible 엔드포인트와 하나의 키 뒤에 담았습니다.",
         "H_WHAT": "우리가 추가한 것",
-        "P_WHAT": "15개의 무료 제공업체를 하나씩 추가했습니다. Groq, Gemini, Cerebras, SambaNova, Mistral, Cloudflare Workers AI(계정 2개), GitHub Models, Z.ai, OVHcloud, AI Horde, Pollinations, Cohere, Jina, NVIDIA NIM, 그리고 OpenRouter입니다. 모두 합쳐 134개의 무료 모델입니다. Llama, gpt-oss, Qwen, Mistral, GLM, Nemotron 등에 더해 무료 임베딩 모델 30개와 무료 이미지 및 오디오 모델 13개가 포함됩니다. 모든 모델은 라이브로 전환되기 전에 HTTP, 스트리밍, 도구 호출까지 처음부터 끝까지 검증하며, 유료 모델에 적용하는 것과 동일한 진위 확인 및 하네스 검사를 거칩니다.",
+        "P_WHAT": "18개의 무료 제공업체를 하나씩 추가했습니다. Groq, Gemini, Cerebras, SambaNova, Mistral, Cloudflare Workers AI(계정 2개), GitHub Models, Z.ai, OVHcloud, AI Horde, Pollinations, Cohere, Jina, NVIDIA NIM(전체 오픈 카탈로그: Nemotron, Llama, Qwen, gpt-oss, DeepSeek 등), SiliconFlow(DeepSeek-V4, GLM-5.1, Qwen3.5/3.6, Kimi-K2.6, MiniMax-M3), HuggingFace 라우터, 그리고 LLM7입니다. 모두 합쳐 126개의 무료 모델입니다. Llama, gpt-oss, Qwen, Mistral, GLM, Nemotron, DeepSeek 등에 더해 무료 임베딩, 이미지, 오디오 모델이 포함됩니다. 모든 모델은 라이브로 전환되기 전에 HTTP, 스트리밍, 도구 호출까지 처음부터 끝까지 검증하며, 유료 모델에 적용하는 것과 동일한 진위 확인 및 하네스 검사를 거칩니다.",
         "H_CAVEAT": "무료인 데는 이유가 있습니다",
         "P_CAVEAT": "이 모델들은 정말로 무료이며, 바로 그래서 제한이 따릅니다. <s>그 제한은 제공업체가 정하는 것이지 우리가 정하는 것이 아니며, 우리가 올릴 수도 없습니다.</s> 각 상위 제공업체는 분당 요청 수, 일일 토큰 할당량, Cloudflare 뉴런 예산, 봉사자 대기열 우선순위 등 자체 요청 제한을 적용합니다. 한도에 도달하면 해당 제공업체는 재설정될 때까지 <c>429</c>를 반환합니다. 오늘 아침에 작동하던 무료 키가 오후에는 소진될 수 있습니다. 무료 등급은 최선의 노력으로 제공되는 처리량이지 보장이 아닙니다. 워크로드에 예측 가능한 지연 시간과 갑작스러운 <c>429</c> 없는 안정성이 필요하다면 유료 모델을 사용하세요.",
         "H_AGGREGATE": "왜 굳이 통합했을까요",
-        "P_AGGREGATE": "통합하지 않으면 계정 15개를 따로 관리해야 하기 때문입니다. 제공업체마다 가입 절차도, 키 형식도, 기본 URL도, 그리고 고유한 특이점도 제각각입니다. Z.ai는 Zhipu V4 경로를 사용하고, Cloudflare는 URL에 계정 ID를 담으며, AI Horde는 익명 키를 요구하고, GitHub은 토큰 범위로 모델 접근을 제한합니다. 우리는 그 모든 복잡함을 흡수해, 여러분이 다른 모든 것을 호출하듯 이들을 호출할 수 있게 했습니다. 하나의 OpenAI-compatible 엔드포인트, 하나의 키, 그리고 모델 이름만 있으면 됩니다. 우리가 스스로에게 지키는 솔직한 원칙은 이렇습니다. 제공업체당 실제 계정 하나, 한도는 그대로 수용, 어떤 것도 긁어모으지 않고, 어떤 것도 풀링하지 않습니다. 우리는 무료 등급을 선물로 제공할 뿐, 남의 할당량을 재판매하지 않습니다.",
+        "P_AGGREGATE": "통합하지 않으면 계정 18개를 따로 관리해야 하기 때문입니다. 제공업체마다 가입 절차도, 키 형식도, 기본 URL도, 그리고 고유한 특이점도 제각각입니다. Z.ai는 Zhipu V4 경로를 사용하고, Cloudflare는 URL에 계정 ID를 담으며, AI Horde는 익명 키를 요구하고, GitHub은 토큰 범위로 모델 접근을 제한합니다. 우리는 그 모든 복잡함을 흡수해, 여러분이 다른 모든 것을 호출하듯 이들을 호출할 수 있게 했습니다. 하나의 OpenAI-compatible 엔드포인트, 하나의 키, 그리고 모델 이름만 있으면 됩니다. 우리가 스스로에게 지키는 솔직한 원칙은 이렇습니다. 제공업체당 실제 계정 하나, 한도는 그대로 수용, 어떤 것도 긁어모으지 않고, 어떤 것도 풀링하지 않습니다. 우리는 무료 등급을 선물로 제공할 뿐, 남의 할당량을 재판매하지 않습니다.",
         "H_FAILOVER": "우리가 제한을 완화하는 방법",
         "P_FAILOVER": "이 모델 중 상당수는 둘 이상의 무료 제공업체를 통해 제공됩니다. Llama 3.3 70B만 해도 그중 7곳에서 실행됩니다. 여러 제공업체가 같은 모델을 제공할 때, 우리는 이들을 하나의 공개 이름으로 묶고 자동으로 장애 조치를 합니다. 한 상위 제공업체가 <c>429</c>를 반환하거나 응답이 끊기면, 그 모델을 제공하는 다음 정상 제공업체가 요청을 이어받습니다. 이것이 우리가 실제로 제어할 수 있는 유일한 지렛대입니다. 개별 제공업체의 한도를 올려주지는 못하지만, 다중 소스 무료 모델은 그중 어느 한 제공업체가 소진된 뒤에도 한참 동안 계속 응답합니다. 반면 단일 소스 무료 모델은 대체 경로가 없어, 유일한 상위 제공업체가 소진되면 멈춰버립니다.",
         "H_HONEST": "우리가 하지 않은 것",
@@ -614,7 +711,7 @@
         "H_RP": "OpenRouter가 빠뜨린 부분",
         "P_RP": "코딩 에이전트(Claude Code, Cline, OpenCode, Kilo Code, Codex)를 {appName}로 향하게 하면 여느 OpenAI 호환 엔드포인트처럼 동작합니다. 하지만 같은 키는 페르소나, 로어북, 프리셋, SillyTavern 카드 가져오기를 갖춘 내장 채팅 및 캐릭터 클라이언트도 구동하며, SillyTavern, Janitor.AI, RisuAI, Chub에 바로 꽂힙니다. OpenRouter는 순전히 API 계층이라 모든 인터페이스는 당신이 직접 가져옵니다. {appName}는 인터페이스와 API를 함께 제공합니다.",
         "H_MIGRATE": "전환은 기본 URL 변경입니다",
-        "P_MIGRATE": "{appName}는 OpenAI 호환이므로 기존 앱을 옮기는 일은 한 줄입니다. 클라이언트를 <c>https://api.unorouter.ai/v1</c>로 향하게 하고 기존 코드를 그대로 두면 됩니다. 같은 키를 채팅 클라이언트의 사용자 지정 엔드포인트 칸에 붙여 넣으면 같은 카탈로그에 도달하므로 관리할 두 번째 계정이 없습니다.",
+        "P_MIGRATE": "{appName}는 OpenAI 호환이므로 기존 앱을 옮기는 일은 한 줄입니다. 클라이언트를 <c>https://api.unorouter.com/v1</c>로 향하게 하고 기존 코드를 그대로 두면 됩니다. 같은 키를 채팅 클라이언트의 사용자 지정 엔드포인트 칸에 붙여 넣으면 같은 카탈로그에 도달하므로 관리할 두 번째 계정이 없습니다.",
         "H_VERDICT": "무엇을 선택해야 하나",
         "P_VERDICT": "코드만 출시하고 인터페이스 없이 가장 넓은 카탈로그를 원한다면 OpenRouter가 좋은 기본값입니다. 추가 비용 없는 자체 호스팅 라우팅을 원한다면 LiteLLM이 이깁니다. 두 서비스를 운영하지 않고도 코딩 에이전트와 진짜 채팅 및 캐릭터 클라이언트에서 작동하는 하나의 키를 원한다면, 바로 그 공백을 {appName}가 채웁니다. 단일 승자는 없습니다. 순수한 API를 위해 최적화하느냐, API에 더해 사용할 곳을 위해 최적화하느냐에 달려 있습니다.",
         "CTA": "사용해 볼 준비가 되었나요? <register>무료 계정 만들기</register> 또는 <models>모델 둘러보기</models>."
@@ -1521,7 +1618,7 @@
       "INTRO_DESC": "Chub.ai (이전 Venus)는 60,000개 캐릭터 라이브러리가 있는 브라우저 기반 캐릭터 채팅 플랫폼입니다. Secrets 패널을 통해 OpenAI 호환 엔드포인트에 연결합니다.",
       "INTRO_LINK_DOCS": "공식 Chub.ai API Connections 문서",
       "OVERVIEW": "개요",
-      "OVERVIEW_DESC": "Chub의 Secrets 패널은 전체 `/v1/chat/completions` URL과 API 키를 받아들입니다. Check your proxy 버튼이 Prompt Structure에서 모델을 선택하기 전에 연결을 확인합니다.",
+      "OVERVIEW_DESC": "Chub의 Secrets 패널은 `/v1`로 끝나는 베이스 API URL과 API 키를 받아들입니다. Check your proxy 버튼이 Prompt Structure에서 모델을 선택하기 전에 연결을 확인합니다.",
       "TRUST_TITLE": "{appName}은 1차 API 릴레이입니다",
       "TRUST_DESC": "Chub의 UI는 ''허가받지 않은 제3자가 만든 리버스 프록시''에 대해 경고합니다. 그 경고는 커뮤니티 운영 릴레이를 대상으로 합니다. {appName}은 OpenRouter와 유사하게 인프라 소유자가 운영하는 1차 API 릴레이입니다. API 키, 사용 로그, 결제가 {appName}에 직접 상주합니다.",
       "TRUST_LINK_PRIVACY": "개인정보 처리방침",
@@ -1530,7 +1627,7 @@
       "QUICK_CONFIG_DESC": "Chub의 Secrets 패널의 Reverse proxy 필드에 이 두 가지 값을 복사하세요.",
       "QUICK_CONFIG_URL_LABEL": "URL",
       "QUICK_CONFIG_KEY_LABEL": "키",
-      "QUICK_CONFIG_NOTE": "`/v1/chat/completions`으로 끝나는 전체 URL을 붙여넣으세요. Chub는 전체 경로를 기대합니다. 베이스 URL만 붙여넣지 마세요.",
+      "QUICK_CONFIG_NOTE": "`/v1`로 끝나는 베이스 URL을 붙여넣으세요. Chub는 프록시 확인을 위해 `/models`를 덧붙이므로, 전체 `/v1/chat/completions` URL은 실패합니다.",
       "STEPS": "단계별 설정",
       "STEP_1_TITLE": "Secrets 패널 열기",
       "STEP_1_DESC": "Chub 오른쪽 상단의 햄버거 메뉴를 클릭한 다음 Secrets를 선택하세요.",
@@ -1539,7 +1636,7 @@
       "STEP_3_TITLE": "Reverse proxy로 스크롤",
       "STEP_3_DESC": "Reverse proxy 하위 섹션에는 URL과 Key 필드, 그리고 Check your proxy 버튼이 포함되어 있습니다.",
       "STEP_4_TITLE": "URL과 키 붙여넣기",
-      "STEP_4_DESC": "URL은 `/v1/chat/completions`으로 끝납니다. 키는 {appName} API 키입니다.",
+      "STEP_4_DESC": "URL은 `/v1`로 끝납니다(베이스만, `/chat/completions` 없음). 키는 {appName} API 키입니다.",
       "STEP_5_TITLE": "Check your proxy 클릭",
       "STEP_5_DESC": "녹색 확인을 기다리세요. 실패하면 URL을 다시 확인하고 키를 다시 붙여넣으세요.",
       "STEP_6_TITLE": "Configuration 열기",
@@ -1552,7 +1649,7 @@
       "WARN_KEY_INVISIBLE_DESC": "Chub는 저장 후 API 키를 마스킹합니다. 다시 복사해 낼 수 없습니다. 키 회전이나 두 번째 브라우저 프로필 때문에 새 키가 필요하지 않도록 붙여넣기 전에 비밀번호 관리자에 키를 저장하세요.",
       "TROUBLESHOOTING": "문제 해결",
       "TS_1_TITLE": "Check your proxy 버튼 실패.",
-      "TS_1_DESC": "URL이 잘못되었습니다. `/v1/chat/completions`으로 끝나야 합니다. 베이스 URL만으로는 통과하지 않습니다.",
+      "TS_1_DESC": "URL이 잘못되었습니다. `/v1`로 끝나는 베이스 URL이어야 합니다. Chub가 직접 `/models`를 덧붙이므로, 전체 `/v1/chat/completions` URL은 `/v1/chat/completions/models`가 되어 실패합니다.",
       "TS_2_TITLE": "모델 드롭다운이 비어 있음.",
       "TS_2_DESC": "프록시 확인이 아직 통과하지 않았습니다. 5단계를 다시 실행하고 녹색 상태를 기다리세요.",
       "TS_3_TITLE": "응답이 비어 옴.",
@@ -1576,7 +1673,7 @@
       "TOC_TROUBLESHOOTING": "문제 해결",
       "STEP_CONFIG_TITLE": "Configuration을 열고 OpenAI 선택",
       "STEP_CONFIG_DESC": "햄버거 메뉴로 돌아가 Configuration을 연 다음 Prompt Structure를 여세요. API 드롭다운을 OpenAI로 설정하고 모델 드롭다운에서 대상 모델을 선택하세요.",
-      "GOTCHA_1": "`/v1/chat/completions`로 끝나는 전체 URL을 Reverse proxy 필드에 붙여넣으세요. 기본 URL만으로는 Check your proxy 버튼이 실패합니다.",
+      "GOTCHA_1": "`/v1`로 끝나는 베이스 URL을 Reverse proxy 필드에 붙여넣으세요. Chub가 확인을 위해 `/models`를 덧붙이므로, 전체 `/v1/chat/completions` URL은 Check your proxy 버튼에서 실패합니다.",
       "GOTCHA_2": "Prompt Structure의 모델 드롭다운은 프록시 검사가 통과할 때까지 비어 있습니다. 먼저 Secrets에서 Check your proxy를 실행한 다음 돌아와 모델을 선택하세요.",
       "GOTCHA_3": "Chub는 저장 후 API 키를 마스킹하며 다시 복사할 수 없습니다. 키 교체로 새 키가 필요 없도록 붙여넣기 전에 비밀번호 관리자에 키를 저장하세요.",
       "GOTCHA_4": "Chub의 UI는 승인되지 않은 제3자의 리버스 프록시를 경고하지만, 이는 커뮤니티 릴레이를 대상으로 합니다. {appName}은 일차 제공 릴레이이므로 키, 로그, 청구가 {appName}에 남습니다."
@@ -1944,7 +2041,9 @@
     "LEGAL_TERMS": "서비스 약관",
     "LEGAL_PRIVACY": "개인정보 처리방침",
     "SOCIAL_TRUSTPILOT": "Trustpilot",
-    "EASTER_EGG_LABEL": "Token Breakout 플레이"
+    "EASTER_EGG_LABEL": "Token Breakout 플레이",
+    "BADGE_FEATURED_ON": "{name}에 소개됨",
+    "BADGE_VERIFIED_ON": "{name}에서 인증됨"
   },
   "PRIVACY": {
     "META": {
@@ -2040,7 +2139,10 @@
       "UNEXPECTED_ERROR_OCCURRED": "예상치 못한 오류가 발생했습니다. 다시 시도하거나 홈페이지로 돌아가세요.",
       "ERROR_DETAILS": "오류 세부사항",
       "DIGEST": "다이제스트",
-      "SECTION_LOAD_FAILED": "이 섹션을 로드하지 못했습니다."
+      "SECTION_LOAD_FAILED": "이 섹션을 로드하지 못했습니다.",
+      "COPY_ERROR": "오류 복사",
+      "RESET_APP_DATA": "앱 데이터 초기화 후 새로고침",
+      "RESETTING": "초기화 중..."
     },
     "NOT_FOUND": {
       "TITLE": "페이지를 찾을 수 없음",
@@ -2087,6 +2189,13 @@
       "CLEAR_CHAT_TITLE": "채팅을 지우시겠습니까?",
       "WIPE_DB_TITLE": "로컬 데이터베이스를 지우시겠습니까?",
       "UPLOAD_DB_TITLE": "로컬 데이터베이스를 덮어쓰시겠습니까?"
+    },
+    "COPIED": "복사됨",
+    "DATE_RANGE": {
+      "PICK": "기간 선택",
+      "FROM": "시작",
+      "TO": "종료",
+      "APPLY": "적용"
     }
   },
   "LANGUAGE": {
@@ -2287,7 +2396,9 @@
       "IP_WHITELIST_PLACEHOLDER": "한 줄에 하나의 IP. 제한 없음을 위해 비워 두세요.",
       "IP_WHITELIST_DESC": "IP는 위조될 수 있습니다. 더 강력한 시행을 위해 게이트웨이와 함께 사용하세요.",
       "SUBMIT": "생성",
-      "SAVE": "저장"
+      "SAVE": "저장",
+      "QUOTA_FREE_ONLY_HINT": "＄0 은 무료 모델 전용 키를 만듭니다. 유료 모델은 거부됩니다.",
+      "QUOTA_EQUIVALENT": "= {quota} 쿼터"
     },
     "ENUM": {
       "ENABLED": "활성화됨",
@@ -2567,6 +2678,7 @@
     "FONT_DEFAULT": "프로젝트 기본값",
     "FONT_HEADING_INHERIT": "본문과 동일",
     "BASE_COLOR": "기본 색상",
+    "CUSTOM_COLOR": "사용자 지정",
     "THEME": "테마",
     "CHART_COLOR": "차트 색상",
     "HEADING_FONT": "제목 글꼴",
@@ -2603,6 +2715,8 @@
     "MD_SINGLE_QUOTE": "작은따옴표 텍스트",
     "MD_DOUBLE_QUOTE": "큰따옴표 텍스트",
     "SURFACE_COLORS": "표면 색상",
+    "MODE_LIGHT": "라이트",
+    "MODE_DARK": "다크",
     "COLOR_SIDEBAR": "사이드바",
     "BACKGROUND_IMAGE": "배경 이미지",
     "BG_UPLOAD": "이미지 업로드",

@@ -26,7 +26,8 @@
     "LOG_IN": "Anmelden",
     "CHAT": "Chat",
     "PLAYGROUND": "Playground",
-    "STATUS": "Status"
+    "STATUS": "Status",
+    "COMPARE": "Vergleich"
   },
   "HOME": {
     "HERO": {
@@ -229,7 +230,17 @@
       "NO_PROVIDERS": "Keine Anbieter gefunden.",
       "SELECTED": "ausgewählt",
       "CLEAR": "Filter zurücksetzen",
-      "RESET": "Zurücksetzen"
+      "RESET": "Zurücksetzen",
+      "TITLE": "Filter",
+      "INPUT_MODALITIES": "Eingabemodalitäten",
+      "CONTEXT_LENGTH": "Kontextlänge",
+      "PROMPT_PRICING": "Prompt-Preise",
+      "CATEGORIES": "Kategorien",
+      "SUPPORTED_PARAMETERS": "Unterstützte Parameter",
+      "PROVIDERS": "Anbieter",
+      "MIN": "Min",
+      "ANY": "Beliebig",
+      "SERIES": "Serie"
     },
     "DETAIL": {
       "DESCRIPTION": "Beschreibung",
@@ -300,11 +311,16 @@
     "SORT": {
       "NAME": "Name (A bis Z)",
       "PRICE_ASC": "Preis (aufsteigend)",
-      "PRICE_DESC": "Preis (absteigend)"
+      "PRICE_DESC": "Preis (absteigend)",
+      "NEWEST": "Neueste",
+      "POPULAR": "Beliebteste",
+      "TOP_WEEKLY": "Top der Woche",
+      "CONTEXT_DESC": "Kontext (hoch)"
     },
     "VIEW": {
       "GRID": "Rasteransicht",
-      "LIST": "Listenansicht"
+      "LIST": "Listenansicht",
+      "TABLE": "Tabellenansicht"
     },
     "META": {
       "TITLE": "KI-Modelle - {appName}",
@@ -346,6 +362,73 @@
       "LATENCY": "Lat.",
       "TPS": "TPS",
       "STATUS": "Status"
+    },
+    "MODALITY": {
+      "TEXT": "Text",
+      "IMAGE": "Bild",
+      "AUDIO": "Audio",
+      "VIDEO": "Video",
+      "EMBEDDINGS": "Embeddings",
+      "FILE": "Datei"
+    },
+    "TABLE": {
+      "MODEL": "Modell",
+      "WEEKLY_TOKENS": "Tokens/Woche",
+      "INPUT": "Eingabe",
+      "OUTPUT": "Ausgabe",
+      "CONTEXT": "Kontext",
+      "RELEASED": "Veröffentlicht",
+      "OFF": "{pct}% Rabatt",
+      "FREE": "gratis",
+      "SORT_ASC": "Aufsteigend",
+      "SORT_DESC": "Absteigend",
+      "SORT_RESET": "Zurücksetzen"
+    },
+    "COMPARE": {
+      "BADGE": "Vergleich",
+      "TITLE": "KI-Modellvergleich",
+      "SUBTITLE": "Vergleiche KI-Modelle nebeneinander nach Preis, Kontext, Fähigkeiten und Nutzung.",
+      "ADD_MODEL": "Modell hinzufügen",
+      "REMOVE": "Entfernen",
+      "CAPABILITIES": "Fähigkeiten",
+      "PRESET_FLAGSHIP": "Flaggschiff-Modelle",
+      "PRESET_FLAGSHIP_DESC": "Die neuesten Spitzenmodelle der großen Labore.",
+      "PRESET_AFFORDABLE": "Günstigste",
+      "PRESET_AFFORDABLE_DESC": "Kompakte, günstigere Modelle für hohen Durchsatz.",
+      "PRESET_CODE": "Beste für Code",
+      "PRESET_CODE_DESC": "Häufig für Programmierung und Codegenerierung gewählt.",
+      "PRESET_IMAGE": "Bildgenerierung",
+      "PRESET_IMAGE_DESC": "Top-Bildgenerierungsmodelle nach Kosten und Qualität.",
+      "META": {
+        "TITLE": "KI-Modelle vergleichen - {appName}",
+        "DESCRIPTION": "Vergleiche KI-Modelle nebeneinander nach Preis, Kontextlänge, Fähigkeiten und Nutzung auf {appName}.",
+        "KEYWORDS": "KI-Modelle vergleichen, Modellvergleich, LLM-Vergleich, KI-Preise",
+        "TITLE_COMBO": "{models} - KI-Modellvergleich",
+        "DESCRIPTION_COMBO": "Vergleiche {models} nach Preis, Kontextlänge, Fähigkeiten und Nutzung."
+      },
+      "OVERVIEW": "Übersicht",
+      "PRICING": "Preise",
+      "PERFORMANCE": "Leistung",
+      "FEATURES": "Funktionen",
+      "ACTIVITY": "Aktivität",
+      "AUTHOR": "Anbieter",
+      "LATENCY": "Latenz",
+      "THROUGHPUT": "Durchsatz",
+      "HIGHLIGHT_BEST": "Beste hervorheben",
+      "CLEAR": "Leeren",
+      "FROM": "von",
+      "SELECT_MODEL": "Modell auswählen"
+    },
+    "LIST": {
+      "TOKENS": "Tokens",
+      "BY": "von",
+      "CONTEXT": "Kontext",
+      "INPUT": "Eingabe-Tokens",
+      "OUTPUT": "Ausgabe-Tokens"
+    },
+    "ACTIONS": {
+      "OPEN_MENU": "Menü öffnen",
+      "COPY_NAME": "Modellname kopieren"
     }
   },
   "RANKINGS": {
@@ -455,6 +538,20 @@
       "comparison": "Vergleich"
     },
     "POSTS": {
+      "FEATURED_ON": {
+        "TITLE": "Wo Sie {appName} finden: unsere Verzeichniseintraege",
+        "DESCRIPTION": "{appName} ist in den KI-Tool- und Startup-Verzeichnissen gelistet. Hier finden Sie uns, pruefen die Eintraege und lesen unabhaengige Einschaetzungen.",
+        "AUTHOR": "{appName}-Team",
+        "INTRO": "Zu einem vertrauenswuerdigen KI-Gateway gehoert, leicht auffindbar und leicht ueberpruefbar zu sein. {appName} ist in den Verzeichnissen gelistet, die Entwickler tatsaechlich pruefen, bevor sie einem neuen Anbieter einen API-Schluessel anvertrauen. Hier ist die laufende Liste.",
+        "H_DIRECTORIES": "Verzeichnisse, in denen wir gelistet sind",
+        "P_DIRECTORIES": "Jedes Badge unten verweist auf das Verzeichnis, in dem {appName} vorgestellt wird. Es sind unabhaengige Eintraege, sodass Sie Beschreibungen und Bewertungen Dritter lesen koennen, statt uns einfach zu glauben.",
+        "H_WHY": "Warum das wichtig ist",
+        "P_WHY": "Markentreue in der KI-Infrastruktur ist gering und Vertrauen ist alles. Ein Anbieter, der sich vor oeffentlichen Verzeichnissen versteckt, ist ein Anbieter, den Sie nicht pruefen koennen. Wir listen offen, damit Sie {appName} mit jeder Alternative am selben Ort vergleichen koennen.",
+        "H_VERIFY": "Pruefen Sie, bevor Sie vertrauen",
+        "P_VERIFY": "Oeffnen Sie ein beliebiges Badge, bestaetigen Sie, dass der Eintrag auf unsere echte Domain verweist, und pruefen Sie die unabhaengige Beschreibung. Fuegen Sie niemals einen API-Schluessel in einen Dienst ein, dessen Quelle Sie nicht oeffentlich nachvollziehen koennen.",
+        "H_TRY": "Probieren Sie es selbst aus",
+        "CTA": "Genug gesehen? <register>Erstellen Sie ein kostenloses Konto</register> oder <models>durchsuchen Sie die Modelle</models>."
+      },
       "LAUNCH": {
         "TITLE": "Wir hatten genug von falschem Claude. Also haben wir {appName} gebaut.",
         "DESCRIPTION": "Ausfälle im Wochentakt. Premium-Modelle heimlich gegen billige Klone getauscht. Irgendwann war Schluss, also haben wir unseren eigenen Router gebaut und ihn paranoid gemacht. Das ist die Launch-Story.",
@@ -585,16 +682,16 @@
         "CTA": "Bereit? <invite>Tritt dem {appName} Discord bei</invite>, dann <register>schnapp dir einen API-Key</register> und <settings>verknüpf dein Konto</settings>, um dir den ersten 1 $ zu holen."
       },
       "FREE_MODELS_AGGREGATED": {
-        "TITLE": "Wir haben 100+ kostenlose KI-Modelle in einem einzigen Endpunkt gebündelt",
-        "DESCRIPTION": "In zwei Tagen haben wir 15 kostenlose Anbieter in {appName} eingebunden: 134 kostenlose Modell-Eintraege, ein OpenAI-compatible Endpunkt, $0 pro Token. Sie sind nicht ohne Grund kostenlos und bringen Rate-Limits mit, die wir nicht anheben koennen. Hier ist die ehrliche Version.",
+        "TITLE": "Wir haben 120+ kostenlose KI-Modelle in einem einzigen Endpunkt gebündelt",
+        "DESCRIPTION": "Wir haben 18 kostenlose Anbieter in {appName} eingebunden: 126 kostenlose Modell-Eintraege, ein OpenAI-compatible Endpunkt, $0 pro Token. Sie sind nicht ohne Grund kostenlos und bringen Rate-Limits mit, die wir nicht anheben koennen. Hier ist die ehrliche Version.",
         "AUTHOR": "{appName}-Team",
-        "INTRO": "Die Landschaft kostenloser LLMs ist real, aber zersplittert: Groq, Gemini, Cloudflare, Mistral, OVHcloud und ein Dutzend weitere verschenken jeweils echte Kapazitaet, versteckt hinter einem Dutzend Anmeldeseiten, einem Dutzend Schluesselformaten und einem Dutzend inkompatibler APIs. In zwei Tagen haben wir jeden legitimen, dauerhaft kostenlosen Anbieter entdeckt, getestet und in {appName} zusammengefuehrt, den wir finden konnten. Das Ergebnis: 134 kostenlose Modell-Eintraege von 15 Anbietern hinter einem OpenAI-compatible Endpunkt und einem einzigen Schluessel.",
+        "INTRO": "Die Landschaft kostenloser LLMs ist real, aber zersplittert: Groq, Gemini, Cloudflare, NVIDIA, SiliconFlow und ein Dutzend weitere verschenken jeweils echte Kapazitaet, versteckt hinter einem Dutzend Anmeldeseiten, einem Dutzend Schluesselformaten und einem Dutzend inkompatibler APIs. Wir haben jeden legitimen, dauerhaft kostenlosen Anbieter entdeckt, getestet und in {appName} zusammengefuehrt, den wir finden konnten. Das Ergebnis: 126 kostenlose Modell-Eintraege von 18 Anbietern hinter einem OpenAI-compatible Endpunkt und einem einzigen Schluessel.",
         "H_WHAT": "Was wir hinzugefuegt haben",
-        "P_WHAT": "Fuenfzehn kostenlose Anbieter, einer nach dem anderen: Groq, Gemini, Cerebras, SambaNova, Mistral, Cloudflare Workers AI (zwei Konten), GitHub Models, Z.ai, OVHcloud, AI Horde, Pollinations, Cohere, Jina, NVIDIA NIM und OpenRouter. Das sind 134 kostenlose Modell-Eintraege: Llama, gpt-oss, Qwen, Mistral, GLM, Nemotron und mehr, dazu 30 kostenlose Embedding-Modelle und 13 kostenlose Bild- und Audio-Modelle. Jedes einzelne wird durchgaengig auf HTTP, Streaming und Tool-Calls geprueft, bevor es live geht, dieselben Echtheits- und Harness-Pruefungen, die wir auch bei kostenpflichtigen Modellen durchfuehren.",
+        "P_WHAT": "Achtzehn kostenlose Anbieter, einer nach dem anderen: Groq, Gemini, Cerebras, SambaNova, Mistral, Cloudflare Workers AI (zwei Konten), GitHub Models, Z.ai, OVHcloud, AI Horde, Pollinations, Cohere, Jina, NVIDIA NIM (voller offener Katalog: Nemotron, Llama, Qwen, gpt-oss, DeepSeek und mehr), SiliconFlow (DeepSeek-V4, GLM-5.1, Qwen3.5/3.6, Kimi-K2.6, MiniMax-M3), der HuggingFace-Router und LLM7. Das sind 126 kostenlose Modell-Eintraege: Llama, gpt-oss, Qwen, Mistral, GLM, Nemotron, DeepSeek und mehr, dazu kostenlose Embedding-, Bild- und Audio-Modelle. Jedes einzelne wird durchgaengig auf HTTP, Streaming und Tool-Calls geprueft, bevor es live geht, dieselben Echtheits- und Harness-Pruefungen, die wir auch bei kostenpflichtigen Modellen durchfuehren.",
         "H_CAVEAT": "Nicht ohne Grund kostenlos",
         "P_CAVEAT": "Diese Modelle sind wirklich kostenlos, und genau deshalb haben sie Grenzen. <s>Der Anbieter legt diese Grenzen fest, nicht wir, und wir koennen sie nicht anheben.</s> Jeder Upstream erzwingt seine eigenen Rate-Limits: Anfragen pro Minute, taegliche Token-Kontingente, Cloudflare-Neuron-Budgets, Prioritaet in der Freiwilligen-Warteschlange. Wer ein Limit erreicht, bekommt von diesem Anbieter ein <c>429</c>, bis es zuruckgesetzt wird. Ein kostenloser Schluessel, der heute Morgen noch funktionierte, kann am Nachmittag schon erschoepft sein. Der kostenlose Tarif bietet Best-Effort-Durchsatz, keine Garantie. Wenn Ihr Workload vorhersehbare Latenz und keine ueberraschenden <c>429</c>er braucht, nutzen Sie ein kostenpflichtiges Modell.",
         "H_AGGREGATE": "Warum sie ueberhaupt buendeln",
-        "P_AGGREGATE": "Weil die Alternative fuenfzehn Konten waeren. Jeder Anbieter hat seine eigene Anmeldung, sein eigenes Schluesselformat, seine eigene Basis-URL und seine eigenen Eigenheiten: Z.ai spricht den Zhipu V4-Pfad, Cloudflare fuehrt die Konto-ID in der URL, AI Horde verlangt einen anonymen Schluessel, GitHub sperrt Modelle hinter einem Token-Scope. Wir haben all das abgefangen, sodass Sie sie genauso aufrufen wie alles andere: ein OpenAI-compatible Endpunkt, ein Schluessel, ein Modellname. Die ehrliche Regel, an die wir uns halten: ein echtes Konto pro Anbieter, Limits akzeptiert, nichts gefarmt, nichts gepoolt. Wir stellen den kostenlosen Tarif als Geschenk bereit, nicht als Weiterverkauf des Kontingents anderer.",
+        "P_AGGREGATE": "Weil die Alternative achtzehn Konten waeren. Jeder Anbieter hat seine eigene Anmeldung, sein eigenes Schluesselformat, seine eigene Basis-URL und seine eigenen Eigenheiten: Z.ai spricht den Zhipu V4-Pfad, Cloudflare fuehrt die Konto-ID in der URL, AI Horde verlangt einen anonymen Schluessel, GitHub sperrt Modelle hinter einem Token-Scope. Wir haben all das abgefangen, sodass Sie sie genauso aufrufen wie alles andere: ein OpenAI-compatible Endpunkt, ein Schluessel, ein Modellname. Die ehrliche Regel, an die wir uns halten: ein echtes Konto pro Anbieter, Limits akzeptiert, nichts gefarmt, nichts gepoolt. Wir stellen den kostenlosen Tarif als Geschenk bereit, nicht als Weiterverkauf des Kontingents anderer.",
         "H_FAILOVER": "Wie wir die Grenzen abfedern",
         "P_FAILOVER": "Viele dieser Modelle werden von mehr als einem kostenlosen Anbieter bereitgestellt. Allein Llama 3.3 70B laeuft bei sieben von ihnen. Wenn mehrere Anbieter dasselbe Modell anbieten, fassen wir sie unter einem veroeffentlichten Namen zusammen und schalten automatisch um: Wenn ein Upstream ein <c>429</c> zuruckgibt oder verstummt, uebernimmt der naechste gesunde Anbieter, der dieses Modell bereitstellt, die Anfrage. Das ist der eine Hebel, den wir tatsaechlich steuern. Er hebt kein Limit eines einzelnen Anbieters an, aber er sorgt dafuer, dass ein Modell mit mehreren Quellen noch lange weiter antwortet, nachdem einer seiner Anbieter erschoepft ist. Modelle mit nur einer Quelle haben kein Fallback und bleiben daher stehen, sobald ihr einziger Upstream aufgebraucht ist.",
         "H_HONEST": "Was wir nicht getan haben",
@@ -614,7 +711,7 @@
         "H_RP": "Der Teil, den OpenRouter weglässt",
         "P_RP": "Richte einen Coding-Agenten (Claude Code, Cline, OpenCode, Kilo Code, Codex) auf {appName} und er verhält sich wie jeder OpenAI-kompatible Endpunkt. Doch derselbe Schlüssel treibt auch einen integrierten Chat- und Charakter-Client mit Personas, Lorebooks, Presets und SillyTavern-Karten-Import an und passt direkt in SillyTavern, Janitor.AI, RisuAI oder Chub. OpenRouter ist rein die API-Schicht, du bringst also jede Oberfläche selbst mit. {appName} liefert Oberfläche und API zusammen.",
         "H_MIGRATE": "Der Wechsel ist eine Änderung der Basis-URL",
-        "P_MIGRATE": "Da {appName} OpenAI-kompatibel ist, ist der Umzug einer bestehenden App eine Zeile: Richte deinen Client auf <c>https://api.unorouter.ai/v1</c> und behalte deinen bestehenden Code. Derselbe Schlüssel, in das Feld für den eigenen Endpunkt eines Chat-Clients eingefügt, erreicht denselben Katalog, es gibt also kein zweites Konto zu verwalten.",
+        "P_MIGRATE": "Da {appName} OpenAI-kompatibel ist, ist der Umzug einer bestehenden App eine Zeile: Richte deinen Client auf <c>https://api.unorouter.com/v1</c> und behalte deinen bestehenden Code. Derselbe Schlüssel, in das Feld für den eigenen Endpunkt eines Chat-Clients eingefügt, erreicht denselben Katalog, es gibt also kein zweites Konto zu verwalten.",
         "H_VERDICT": "Was solltest du wählen",
         "P_VERDICT": "Wenn du nur Code auslieferst und den breitesten Katalog ohne Oberfläche willst, ist OpenRouter eine gute Standardwahl. Willst du selbstgehostetes Routing ohne Aufschlag, gewinnt LiteLLM. Willst du einen Schlüssel, der in deinem Coding-Agenten und in einem echten Chat- und Charakter-Client funktioniert, ohne zwei Dienste zu betreiben, genau diese Lücke füllt {appName}. Es gibt keinen einzigen Gewinner. Es hängt davon ab, ob du für die reine API oder für API plus einen Ort zum Nutzen optimierst.",
         "CTA": "Bereit zum Ausprobieren? <register>Erstelle ein kostenloses Konto</register> oder <models>durchstöbere die Modelle</models>."
@@ -1521,7 +1618,7 @@
       "INTRO_DESC": "Chub.ai (früher Venus) ist eine browserbasierte Charakter-Chat-Plattform mit einer Bibliothek von 60.000 Charakteren. Sie wird über das Secrets-Panel mit OpenAI-kompatiblen Endpunkten verbunden.",
       "INTRO_LINK_DOCS": "Offizielle Dokumentation zu API Connections von Chub.ai",
       "OVERVIEW": "Überblick",
-      "OVERVIEW_DESC": "Das Secrets-Panel von Chub akzeptiert eine vollständige URL `/v1/chat/completions` sowie Ihren API key. Eine Schaltfläche Check your proxy prüft die Verbindung, bevor Sie in Prompt Structure ein Modell auswählen.",
+      "OVERVIEW_DESC": "Das Secrets-Panel von Chub akzeptiert die Basis-API-URL mit Endung `/v1` sowie Ihren API key. Eine Schaltfläche Check your proxy prüft die Verbindung, bevor Sie in Prompt Structure ein Modell auswählen.",
       "TRUST_TITLE": "{appName} ist ein First-Party-API-Relay",
       "TRUST_DESC": "Die Oberfläche von Chub warnt vor ''reverse proxies created by unauthorized third parties''. Diese Warnung zielt auf Community-betriebene Relays ab. {appName} ist ein First-Party-API-Relay, das vom Infrastrukturbetreiber betrieben wird, vergleichbar mit OpenRouter. Ihr API key, Ihre Nutzungsprotokolle und Ihre Abrechnung liegen direkt bei {appName}.",
       "TRUST_LINK_PRIVACY": "Datenschutzerklärung",
@@ -1530,7 +1627,7 @@
       "QUICK_CONFIG_DESC": "Kopieren Sie diese beiden Werte in die Reverse-proxy-Felder im Secrets-Panel von Chub.",
       "QUICK_CONFIG_URL_LABEL": "URL",
       "QUICK_CONFIG_KEY_LABEL": "Key",
-      "QUICK_CONFIG_NOTE": "Fügen Sie die vollständige URL mit Endung `/v1/chat/completions` ein. Chub erwartet den vollständigen Pfad; fügen Sie nicht nur die base URL ein.",
+      "QUICK_CONFIG_NOTE": "Fügen Sie die Basis-URL mit Endung `/v1` ein. Chub hängt für die Proxy-Prüfung `/models` an, daher schlägt eine vollständige `/v1/chat/completions` URL fehl.",
       "STEPS": "Schritt-für-Schritt-Einrichtung",
       "STEP_1_TITLE": "Secrets-Panel öffnen",
       "STEP_1_DESC": "Klicken Sie oben rechts in Chub auf das Hamburger-Menü und wählen Sie Secrets.",
@@ -1539,7 +1636,7 @@
       "STEP_3_TITLE": "Zu Reverse proxy scrollen",
       "STEP_3_DESC": "Der Unterabschnitt Reverse proxy enthält die Felder URL und Key sowie die Schaltfläche Check your proxy.",
       "STEP_4_TITLE": "URL und Key einfügen",
-      "STEP_4_DESC": "Die URL endet auf `/v1/chat/completions`. Key ist Ihr {appName} API key.",
+      "STEP_4_DESC": "Die URL endet auf `/v1` (nur Basis, kein `/chat/completions`). Key ist Ihr {appName} API key.",
       "STEP_5_TITLE": "Auf Check your proxy klicken",
       "STEP_5_DESC": "Warten Sie auf die grüne Bestätigung. Schlägt sie fehl, prüfen Sie die URL und fügen Sie den Schlüssel erneut ein.",
       "STEP_6_TITLE": "Configuration öffnen",
@@ -1552,7 +1649,7 @@
       "WARN_KEY_INVISIBLE_DESC": "Chub maskiert den API key nach dem Speichern. Sie können ihn nicht mehr herauskopieren. Speichern Sie den Schlüssel vor dem Einfügen in einem Passwort-Manager, damit bei einer Rotation oder in einem zweiten Browserprofil kein neuer Schlüssel erzeugt werden muss.",
       "TROUBLESHOOTING": "Fehlerbehebung",
       "TS_1_TITLE": "Die Schaltfläche Check your proxy schlägt fehl.",
-      "TS_1_DESC": "Die URL ist falsch. Sie muss auf `/v1/chat/completions` enden; die base URL allein reicht nicht.",
+      "TS_1_DESC": "Die URL ist falsch. Sie muss die Basis mit Endung `/v1` sein. Chub fügt selbst `/models` hinzu, daher wird eine vollständige `/v1/chat/completions` URL zu `/v1/chat/completions/models` und schlägt fehl.",
       "TS_2_TITLE": "Modell-Dropdown ist leer.",
       "TS_2_DESC": "Die Proxy-Prüfung ist noch nicht bestanden. Führen Sie Schritt 5 erneut aus und warten Sie auf den grünen Status.",
       "TS_3_TITLE": "Antworten kommen leer zurück.",
@@ -1576,7 +1673,7 @@
       "TOC_TROUBLESHOOTING": "Fehlerbehebung",
       "STEP_CONFIG_TITLE": "Configuration öffnen und OpenAI wählen",
       "STEP_CONFIG_DESC": "Kehre zum Hamburger-Menü zurück, öffne Configuration und dann Prompt Structure. Setze das API-Dropdown auf OpenAI und wähle dein Zielmodell aus dem Modell-Dropdown.",
-      "GOTCHA_1": "Füge die vollständige URL, die auf `/v1/chat/completions` endet, in das Feld Reverse proxy ein. Die Basis-URL allein lässt die Schaltfläche Check your proxy fehlschlagen.",
+      "GOTCHA_1": "Fügen Sie die Basis-URL mit Endung `/v1` in das Feld Reverse proxy ein. Chub hängt für die Prüfung `/models` an, daher lässt eine vollständige `/v1/chat/completions` URL die Schaltfläche Check your proxy fehlschlagen.",
       "GOTCHA_2": "Das Modell-Dropdown in Prompt Structure bleibt leer, bis die Proxy-Prüfung besteht. Führe zuerst Check your proxy in Secrets aus und kehre dann zurück, um ein Modell zu wählen.",
       "GOTCHA_3": "Chub maskiert den API-Schlüssel nach dem Speichern und du kannst ihn nicht wieder herauskopieren. Speichere den Schlüssel vor dem Einfügen in einem Passwort-Manager, damit eine Rotation keinen neuen Schlüssel erzwingt.",
       "GOTCHA_4": "Die Oberfläche von Chub warnt vor Reverse-Proxys von nicht autorisierten Dritten; das zielt auf Community-Relays. {appName} ist ein First-Party-Relay, also bleiben dein Schlüssel, deine Logs und deine Abrechnung bei {appName}."
@@ -1944,7 +2041,9 @@
     "LEGAL_TERMS": "Nutzungsbedingungen",
     "LEGAL_PRIVACY": "Datenschutzrichtlinie",
     "SOCIAL_TRUSTPILOT": "Trustpilot",
-    "EASTER_EGG_LABEL": "Token Breakout spielen"
+    "EASTER_EGG_LABEL": "Token Breakout spielen",
+    "BADGE_FEATURED_ON": "Vorgestellt auf {name}",
+    "BADGE_VERIFIED_ON": "Verifiziert auf {name}"
   },
   "PRIVACY": {
     "META": {
@@ -2040,7 +2139,10 @@
       "UNEXPECTED_ERROR_OCCURRED": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuche es erneut oder kehre zur Startseite zurück.",
       "ERROR_DETAILS": "Fehlerdetails",
       "DIGEST": "Digest",
-      "SECTION_LOAD_FAILED": "Dieser Bereich konnte nicht geladen werden."
+      "SECTION_LOAD_FAILED": "Dieser Bereich konnte nicht geladen werden.",
+      "COPY_ERROR": "Fehler kopieren",
+      "RESET_APP_DATA": "App-Daten zuruecksetzen und neu laden",
+      "RESETTING": "Wird zurueckgesetzt..."
     },
     "NOT_FOUND": {
       "TITLE": "Seite nicht gefunden",
@@ -2087,6 +2189,13 @@
       "CLEAR_CHAT_TITLE": "Chat leeren?",
       "WIPE_DB_TITLE": "Lokale Datenbank löschen?",
       "UPLOAD_DB_TITLE": "Lokale Datenbank überschreiben?"
+    },
+    "COPIED": "Kopiert",
+    "DATE_RANGE": {
+      "PICK": "Zeitraum wählen",
+      "FROM": "Von",
+      "TO": "Bis",
+      "APPLY": "Anwenden"
     }
   },
   "LANGUAGE": {
@@ -2287,7 +2396,9 @@
       "IP_WHITELIST_PLACEHOLDER": "Eine IP pro Zeile. Leer lassen für keine Einschränkung.",
       "IP_WHITELIST_DESC": "IPs können gefälscht werden. Verwenden Sie ein Gateway für stärkere Durchsetzung.",
       "SUBMIT": "Erstellen",
-      "SAVE": "Speichern"
+      "SAVE": "Speichern",
+      "QUOTA_FREE_ONLY_HINT": "$0 erstellt einen Schlüssel nur für kostenlose Modelle. Kostenpflichtige Modelle werden abgelehnt.",
+      "QUOTA_EQUIVALENT": "= {quota} Kontingent"
     },
     "ENUM": {
       "ENABLED": "Aktiviert",
@@ -2567,6 +2678,7 @@
     "FONT_DEFAULT": "Projekt-Standard",
     "FONT_HEADING_INHERIT": "Wie Fließtext",
     "BASE_COLOR": "Basisfarbe",
+    "CUSTOM_COLOR": "Benutzerdefiniert",
     "THEME": "Theme",
     "CHART_COLOR": "Diagrammfarbe",
     "HEADING_FONT": "Überschrift-Schrift",
@@ -2603,6 +2715,8 @@
     "MD_SINGLE_QUOTE": "Einfach zitierter Text",
     "MD_DOUBLE_QUOTE": "Doppelt zitierter Text",
     "SURFACE_COLORS": "Oberflächenfarben",
+    "MODE_LIGHT": "Hell",
+    "MODE_DARK": "Dunkel",
     "COLOR_SIDEBAR": "Seitenleiste",
     "BACKGROUND_IMAGE": "Hintergrundbild",
     "BG_UPLOAD": "Bild hochladen",

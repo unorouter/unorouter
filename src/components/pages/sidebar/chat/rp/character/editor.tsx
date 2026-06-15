@@ -55,8 +55,7 @@ export function CharacterEditor(props: Props) {
         ? existingBgSrc
         : null;
 
-  // `values` syncs the row on settle; keepDirtyValues protects in-progress
-  // typing. tags/triggers are string[] columns edited comma-joined.
+      // values syncs the row on settle; keepDirtyValues protects in-progress typing. tags/triggers are string[] columns edited comma-joined.
   const formValues = existing
     ? formDefaults(characterFormSchema, {
         ...existing,

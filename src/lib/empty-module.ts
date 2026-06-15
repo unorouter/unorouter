@@ -1,5 +1,3 @@
-// Browser stub for node builtins that optional dependency branches probe for
-// (wasmoon's emscripten loader does `await import('module')` in its node
-// path). Aliased via next.config.ts turbopack.resolveAlias.
+    // Browser stub for node builtins optional deps probe for (wasmoon's loader does await import('module')). Aliased via turbopack.
 const emptyModule = {};
 export default emptyModule;

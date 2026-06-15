@@ -12,6 +12,8 @@ export type ClientState = {
   apiKeyRevealed: boolean;
   os: OS | undefined;
   paymentMethod: PaymentMethod;
+  sidebarOpen: boolean;
+  expanded: Record<string, boolean>;
 };
 
 export const INITIAL_CLIENT_STATE: ClientState = {
@@ -19,6 +21,8 @@ export const INITIAL_CLIENT_STATE: ClientState = {
   apiKeyRevealed: false,
   os: OS.WINDOWS,
   paymentMethod: "card",
+  sidebarOpen: true,
+  expanded: {},
 };
 
 export const clientStoreAtom = atomWithStorage<ClientState>(
@@ -56,8 +60,29 @@ export const osAtom = atom(
 
 export const paymentMethodAtom = atom(
   // Cookies written before the field existed lack it; fall back per field.
-  (get) => get(clientStoreAtom).paymentMethod ?? INITIAL_CLIENT_STATE.paymentMethod,
+  (get) =>
+    get(clientStoreAtom).paymentMethod ?? INITIAL_CLIENT_STATE.paymentMethod,
   (get, set, value: PaymentMethod) => {
     set(clientStoreAtom, { ...get(clientStoreAtom), paymentMethod: value });
   },
 );
+
+export const sidebarOpenAtom = atom(
+  (get) => get(clientStoreAtom).sidebarOpen ?? INITIAL_CLIENT_STATE.sidebarOpen,
+  (get, set, value: boolean) => {
+    set(clientStoreAtom, { ...get(clientStoreAtom), sidebarOpen: value });
+  },
+);
+
+export const expandedNavAtom = atom(
+  (get) => get(clientStoreAtom).expanded ?? INITIAL_CLIENT_STATE.expanded,
+);
+
+export const toggleNavigationAtom = atom(null, (get, set, key: string) => {
+  const state = get(clientStoreAtom);
+  const expanded = state.expanded ?? INITIAL_CLIENT_STATE.expanded;
+  set(clientStoreAtom, {
+    ...state,
+    expanded: { ...expanded, [key]: !expanded[key] },
+  });
+});

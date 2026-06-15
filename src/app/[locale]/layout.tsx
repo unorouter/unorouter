@@ -35,6 +35,7 @@ import "../globals.css";
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
+      // touch-action:manipulation + pinned sticky composer kill zoom-drift, so pinch-zoom stays enabled; cap 5x.
   maximumScale: 5,
   // Keyboard resizes layout instead of panning it; keeps header + composer in view.
   interactiveWidget: "resizes-content",
@@ -118,9 +119,7 @@ export default async function LocaleLayout(props: Props) {
           }}
         />
         {themeCss ? (
-          // href+precedence = React hoistable style tracked by href, so
-          // extension-injected <style> nodes (Dark Reader) can't be adopted in
-          // its place during hydration and replace the theme CSS.
+              // href+precedence = React hoistable style tracked by href, so extension-injected styles cannot replace theme CSS at hydration.
           <style
             id="user-theme"
             href="user-theme"

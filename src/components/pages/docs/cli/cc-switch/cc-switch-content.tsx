@@ -64,7 +64,6 @@ export async function CCSwitchContent() {
           centered
         />
 
-        {/* Project Intro */}
         <Callout type="info" title={t("DOCS.CC_SWITCH.INTRO_TITLE")}>
           <p>{t("DOCS.CC_SWITCH.INTRO_DESC")}</p>
           <ul className="mt-2 list-disc space-y-1 pl-4">
@@ -81,13 +80,11 @@ export async function CCSwitchContent() {
           </ul>
         </Callout>
 
-        {/* Features */}
         <section className="mt-12">
           <h2 className="mb-6 text-2xl font-semibold" id="features">
             {t("DOCS.CC_SWITCH.FEATURES")}
           </h2>
 
-          {/* Provider Management */}
           <h3 className="mb-3 text-lg font-medium" id="provider-management">
             {t("DOCS.CC_SWITCH.PROVIDER_MANAGEMENT")}
           </h3>
@@ -97,7 +94,6 @@ export async function CCSwitchContent() {
             <li>{t("DOCS.CC_SWITCH.PROVIDER_MODEL_CONFIG")}</li>
           </ul>
 
-          {/* MCP Server Management */}
           <h3 className="mb-3 text-lg font-medium" id="mcp-server-management">
             {t("DOCS.CC_SWITCH.MCP_MANAGEMENT")}
           </h3>
@@ -107,7 +103,6 @@ export async function CCSwitchContent() {
             <li>{t("DOCS.CC_SWITCH.MCP_IMPORT_EXPORT")}</li>
           </ul>
 
-          {/* Prompts Management */}
           <h3 className="mb-3 text-lg font-medium" id="prompts-management">
             {t("DOCS.CC_SWITCH.PROMPTS_MANAGEMENT")}
           </h3>
@@ -117,7 +112,6 @@ export async function CCSwitchContent() {
             <li>{t("DOCS.CC_SWITCH.PROMPTS_EDITOR")}</li>
           </ul>
 
-          {/* Multi-Platform Support */}
           <h3 className="mb-3 text-lg font-medium" id="multi-platform-support">
             {t("DOCS.CC_SWITCH.MULTI_PLATFORM")}
           </h3>
@@ -128,7 +122,6 @@ export async function CCSwitchContent() {
           </ul>
         </section>
 
-        {/* Installation */}
         <section className="mt-12">
           <h2 className="mb-4 text-2xl font-semibold" id="installation">
             {t("DOCS.CC_SWITCH.INSTALLATION")}
@@ -190,7 +183,6 @@ brew install --cask cc-switch`}
           />
         </section>
 
-        {/* Integration */}
         <section className="mt-12">
           <h2 className="mb-4 text-2xl font-semibold" id="integration">
             {t("DOCS.CC_SWITCH.INTEGRATION", APP_VALUES)}
@@ -218,7 +210,6 @@ brew install --cask cc-switch`}
           </div>
         </section>
 
-        {/* CTA */}
         <section className="border-border mt-16 border-t pt-12 text-center">
           <h2 className="text-2xl font-semibold">
             {t("DOCS.CC_SWITCH.CTA_TITLE")}

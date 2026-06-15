@@ -109,8 +109,7 @@ export type LorebookEntryBody = Static<typeof lorebookEntryBody>;
 export const samplingPresetBody = t.Object({
   name: t.String({ minLength: 1, maxLength: MAX_NAME_LEN }),
   ...samplingNullable({ temperatureMax: 4 }),
-  // Preset-level defaults the conversation overrides per chat. null = system
-  // default (streaming on, chatMemory 8).
+      // Preset-level defaults the conversation overrides per chat. null = system default (streaming on, chatMemory 8).
   streamingEnabled: nullable(t.Boolean()),
   chatMemory: nullable(t.Number({ minimum: 1, maximum: 1000 })),
   extraBody: nullable(t.String({ maxLength: 8_192 })),

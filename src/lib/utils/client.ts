@@ -1,6 +1,7 @@
 import { IMAGE_MAX_DIM } from "@/lib/config/constants";
 import type { TranslationKey } from "@/lib/config/constants";
 import type { Extracted } from "@/lib/types";
+import { asParams } from "@/lib/utils/base";
 import {
   DefaultErrorFunction,
   SetErrorFunction,
@@ -13,36 +14,34 @@ SetErrorFunction((error) => {
   return DefaultErrorFunction(error);
 });
 
-function extractMessageFromJson(raw: string): Extracted | null {
-  try {
-    const parsed = JSON.parse(raw);
-    if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
-      const m = (parsed as { message?: unknown }).message;
-      if (typeof m === "string") {
-        const p = (parsed as { params?: unknown }).params;
-        return {
-          message: m,
-          params:
-            p && typeof p === "object"
-              ? (p as Record<string, string | number>)
-              : undefined,
-        };
+    // Pull {message, params} out of any error shape: JSON string, {message} object, or array. JSON strings recurse.
+function pickMessage(v: unknown): Extracted | null {
+  if (typeof v === "string") {
+    const s = v.trim();
+    if (s.startsWith("{") || s.startsWith("[")) {
+      try {
+        return pickMessage(JSON.parse(s));
+      } catch {
+        // not JSON; fall through to the raw string
       }
     }
-    if (Array.isArray(parsed)) {
-      for (const item of parsed) {
-        if (typeof item === "string") return { message: item };
-        if (
-          item &&
-          typeof item === "object" &&
-          typeof (item as { message?: unknown }).message === "string"
-        ) {
-          return { message: (item as { message: string }).message };
-        }
-      }
+    return { message: v };
+  }
+  if (Array.isArray(v)) {
+    for (const item of v) {
+      const found = pickMessage(item);
+      if (found) return found;
     }
-  } catch {
-    // not JSON
+    return null;
+  }
+  if (v && typeof v === "object") {
+    const m = (v as { message?: unknown }).message;
+    if (typeof m === "string") {
+      return {
+        message: m,
+        params: asParams((v as { params?: unknown }).params),
+      };
+    }
   }
   return null;
 }
@@ -52,53 +51,23 @@ export async function handleError(
   t?: ReturnType<typeof useTranslations<never>>,
   toastId?: string,
 ) {
-  let message = "";
-  let params: Record<string, string | number> | undefined;
-
-  if (e instanceof Error) {
-    message = e.message;
-    // `ai` SDK surfaces failed stream responses as Error(bodyText).
-    if (message.startsWith("{") || message.startsWith("[")) {
-      const extracted = extractMessageFromJson(message);
-      if (extracted) {
-        message = extracted.message;
-        params = extracted.params;
-      }
-    }
-  } else if (e !== null && typeof e === "object") {
-    if (
-      "data" in e &&
-      e.data !== null &&
-      typeof e.data === "object" &&
-      "message" in e.data
-    ) {
-      const d = e.data as Record<string, unknown>;
-      message = String(d.message);
-      if (d.params && typeof d.params === "object") {
-        params = d.params as Record<string, string | number>;
-      }
-    } else if ("data" in e && typeof e.data === "string") {
-      message = e.data;
-    } else if ("response" in e && e.response instanceof Response) {
-      const body = await e.response
+      // Eden errors carry the body on .data, a thrown fetch on .response. Otherwise pickMessage walks the value.
+  let source: unknown = e;
+  if (e && typeof e === "object") {
+    if ("data" in e) source = e.data;
+    else if ("response" in e && e.response instanceof Response)
+      source = await e.response
         .clone()
         .json()
         .catch(() => null);
-      if (body && typeof body === "object" && "message" in body) {
-        message = String(body.message);
-        const p = (body as { params?: unknown }).params;
-        if (p && typeof p === "object") {
-          params = p as Record<string, string | number>;
-        }
-      }
-    }
+    else if (e instanceof Error) source = e.message;
   }
 
-  if (!message) message = "ERRORS.UNEXPECTED_ERROR";
-
+  const found = pickMessage(source);
+  const message = found?.message || "ERRORS.UNEXPECTED_ERROR";
   const title =
     t && t.has(message as TranslationKey)
-      ? t(message as TranslationKey, params)
+      ? t(message as TranslationKey, found?.params)
       : message;
 
   toast.error(title, { duration: 5000, id: toastId });

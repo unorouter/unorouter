@@ -1,7 +1,6 @@
 "use client";
 
 import { CopyButton } from "@/components/elements/code/copy-button";
-import { SmartImage } from "@/components/ui/smart-image";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -45,8 +44,7 @@ export function BadgeGenerator(props: BadgeGeneratorProps) {
   const [prevResolvedTheme, setPrevResolvedTheme] = useState(
     themes.resolvedTheme,
   );
-  // Derived-state pattern: sync the local theme selector with resolvedTheme during
-  // render. Manual override still works; the next system toggle resets it.
+      // Derived-state: sync local theme selector with resolvedTheme during render; manual override still works.
   if (
     prevResolvedTheme !== themes.resolvedTheme &&
     (themes.resolvedTheme === "light" || themes.resolvedTheme === "dark")
@@ -96,7 +94,6 @@ export function BadgeGenerator(props: BadgeGeneratorProps) {
         {t("AFFILIATE.BADGE_GENERATOR.DESCRIPTION", APP_VALUES)}
       </p>
 
-      {/* Controls */}
       <div className="mb-4 flex flex-wrap items-center gap-4">
         <div className="flex items-center gap-2">
           <span className="text-muted-foreground text-xs">
@@ -191,19 +188,20 @@ export function BadgeGenerator(props: BadgeGeneratorProps) {
         </div>
       </div>
 
-      {/* Preview */}
       <div className="mb-4">
         <span className="text-muted-foreground mb-2 block font-mono text-[10px] tracking-widest uppercase">
           {t("AFFILIATE.BADGE_GENERATOR.PREVIEW")}
         </span>
         <div className="bg-muted/50 border-border relative flex min-h-30 items-center justify-center overflow-hidden rounded-sm border p-6">
-          <SmartImage
+          {/* Plain img, not next/image: the badge is an already-optimized
+              same-origin SVG with a live-changing query string. The optimizer
+              adds nothing and 400s on the small (w=16) srcset candidate that
+              `width={0}` generates, blanking the preview. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
             key={previewUrl}
             src={previewUrl}
             alt={t("AFFILIATE.BADGE_GENERATOR.BADGE_ALT", APP_VALUES)}
-            width={0}
-            height={0}
-            sizes="100vw"
             className="h-auto max-w-full"
           />
           <CopyButton
@@ -213,7 +211,6 @@ export function BadgeGenerator(props: BadgeGeneratorProps) {
         </div>
       </div>
 
-      {/* Embed Code */}
       <div>
         <span className="text-muted-foreground mb-2 block font-mono text-[10px] tracking-widest uppercase">
           {t("AFFILIATE.BADGE_GENERATOR.EMBED_CODE")}

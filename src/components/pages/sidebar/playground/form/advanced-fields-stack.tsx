@@ -20,8 +20,7 @@ type Props = {
   descriptor: PlaygroundModelDescriptor;
 };
 
-// The optional advanced field block: embedding / VAE / adetailer /
-// layer-diffusion / upscaler / clip-skip, each gated on the model descriptor.
+    // The optional advanced field block (embedding/VAE/adetailer/layer-diffusion/upscaler/clip-skip), each gated on the model descriptor.
 export function AdvancedFieldsStack(props: Props) {
   const form = props.form;
   const descriptor = props.descriptor;

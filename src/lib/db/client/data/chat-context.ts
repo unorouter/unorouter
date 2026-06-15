@@ -12,19 +12,14 @@ import {
   readLocalPreset,
 } from "./rp";
 
-// Streamed RP context from SQLocal. Characters travel as `{binding, character}`
-// so the server assembler honors per-character isActive / overrides.
+    // Streamed RP context from SQLocal. Characters travel as {binding, character} so the assembler honors per-character overrides.
 export async function buildChatContextFromLocalDb(
   userId: number | undefined,
   convId: string,
-  // First send on a new conv: the sticky loadout says bindings are coming
-  // (initialize() writes them right after the conv row); wait for them so the
-  // character is in the prompt from turn 1.
+      // First send on a new conv: the loadout says bindings are coming; wait so the character is in the prompt at turn 1.
   opts?: { expectBindings?: boolean },
 ): Promise<ChatContext | undefined> {
-  // New conv: this can run the same tick initialize() writes the row (OPFS
-  // write-visibility lag). Retry briefly, else the first message silently
-  // ships with no preset/persona/lorebook.
+      // New conv: can run the same tick initialize() writes the row (OPFS lag). Retry briefly, else turn 1 ships no loadout.
   let settings = await readLocalConversationSettings(userId, convId);
   for (let attempt = 0; !settings && attempt < 5; attempt++) {
     await new Promise((r) => setTimeout(r, 40));
@@ -68,8 +63,7 @@ export async function buildChatContextFromLocalDb(
   const characters = characterRows
     .filter((c) => c.character != null)
     .map((c) => ({ binding: c.binding, character: c.character! }));
-  // Disabled entries never inject (Turso path filters enabled=true in SQL);
-  // dropping them here keeps parity AND off the wire.
+      // Disabled entries never inject (Turso path filters enabled=true); drop them here for parity and to stay off wire.
   const lorebooks = lorebookRows
     .filter((l) => l != null)
     .map((l) => ({

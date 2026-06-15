@@ -26,7 +26,8 @@
     "LOG_IN": "ログイン",
     "CHAT": "チャット",
     "PLAYGROUND": "プレイグラウンド",
-    "STATUS": "ステータス"
+    "STATUS": "ステータス",
+    "COMPARE": "比較"
   },
   "HOME": {
     "HERO": {
@@ -229,7 +230,17 @@
       "NO_PROVIDERS": "プロバイダーが見つかりません。",
       "SELECTED": "選択済み",
       "CLEAR": "フィルターをクリア",
-      "RESET": "リセット"
+      "RESET": "リセット",
+      "TITLE": "フィルター",
+      "INPUT_MODALITIES": "入力モダリティ",
+      "CONTEXT_LENGTH": "コンテキスト長",
+      "PROMPT_PRICING": "プロンプト料金",
+      "CATEGORIES": "カテゴリ",
+      "SUPPORTED_PARAMETERS": "対応パラメータ",
+      "PROVIDERS": "プロバイダー",
+      "MIN": "最小",
+      "ANY": "すべて",
+      "SERIES": "シリーズ"
     },
     "DETAIL": {
       "DESCRIPTION": "説明",
@@ -300,11 +311,16 @@
     "SORT": {
       "NAME": "名前（A〜Z）",
       "PRICE_ASC": "価格（安い順）",
-      "PRICE_DESC": "価格（高い順）"
+      "PRICE_DESC": "価格（高い順）",
+      "NEWEST": "新着順",
+      "POPULAR": "人気順",
+      "TOP_WEEKLY": "週間トップ",
+      "CONTEXT_DESC": "コンテキスト（大）"
     },
     "VIEW": {
       "GRID": "グリッド表示",
-      "LIST": "リスト表示"
+      "LIST": "リスト表示",
+      "TABLE": "テーブル表示"
     },
     "META": {
       "TITLE": "AIモデル {appName}",
@@ -346,6 +362,73 @@
       "LATENCY": "Lat.",
       "TPS": "TPS",
       "STATUS": "状態"
+    },
+    "MODALITY": {
+      "TEXT": "テキスト",
+      "IMAGE": "画像",
+      "AUDIO": "音声",
+      "VIDEO": "動画",
+      "EMBEDDINGS": "埋め込み",
+      "FILE": "ファイル"
+    },
+    "TABLE": {
+      "MODEL": "モデル",
+      "WEEKLY_TOKENS": "週間トークン",
+      "INPUT": "入力",
+      "OUTPUT": "出力",
+      "CONTEXT": "コンテキスト",
+      "RELEASED": "リリース",
+      "OFF": "{pct}%オフ",
+      "FREE": "無料",
+      "SORT_ASC": "昇順",
+      "SORT_DESC": "降順",
+      "SORT_RESET": "リセット"
+    },
+    "COMPARE": {
+      "BADGE": "比較",
+      "TITLE": "AIモデル比較",
+      "SUBTITLE": "価格、コンテキスト、機能、利用状況でAIモデルを並べて比較。",
+      "ADD_MODEL": "モデルを追加",
+      "REMOVE": "削除",
+      "CAPABILITIES": "機能",
+      "PRESET_FLAGSHIP": "フラッグシップモデル",
+      "PRESET_FLAGSHIP_DESC": "主要ラボの最新ハイエンドモデル。",
+      "PRESET_AFFORDABLE": "最も手頃",
+      "PRESET_AFFORDABLE_DESC": "高スループット向けのコンパクトで低コストな選択肢。",
+      "PRESET_CODE": "コードに最適",
+      "PRESET_CODE_DESC": "プログラミングやコード生成によく選ばれます。",
+      "PRESET_IMAGE": "画像生成",
+      "PRESET_IMAGE_DESC": "コストと品質で優れた画像生成モデル。",
+      "META": {
+        "TITLE": "AIモデルを比較 - {appName}",
+        "DESCRIPTION": "{appName}で価格、コンテキスト長、機能、利用状況によりAIモデルを並べて比較。",
+        "KEYWORDS": "AIモデル比較, モデル比較, LLM比較, AI価格",
+        "TITLE_COMBO": "{models} - AIモデル比較",
+        "DESCRIPTION_COMBO": "{models}を価格、コンテキスト長、機能、利用状況で比較。"
+      },
+      "OVERVIEW": "概要",
+      "PRICING": "価格",
+      "PERFORMANCE": "パフォーマンス",
+      "FEATURES": "機能",
+      "ACTIVITY": "アクティビティ",
+      "AUTHOR": "提供元",
+      "LATENCY": "レイテンシ",
+      "THROUGHPUT": "スループット",
+      "HIGHLIGHT_BEST": "最良を強調",
+      "CLEAR": "クリア",
+      "FROM": "提供",
+      "SELECT_MODEL": "モデルを選択"
+    },
+    "LIST": {
+      "TOKENS": "トークン",
+      "BY": "提供",
+      "CONTEXT": "コンテキスト",
+      "INPUT": "入力トークン",
+      "OUTPUT": "出力トークン"
+    },
+    "ACTIONS": {
+      "OPEN_MENU": "メニューを開く",
+      "COPY_NAME": "モデル名をコピー"
     }
   },
   "RANKINGS": {
@@ -455,6 +538,20 @@
       "comparison": "比較"
     },
     "POSTS": {
+      "FEATURED_ON": {
+        "TITLE": "{appName}を見つける場所：ディレクトリ掲載一覧",
+        "DESCRIPTION": "{appName}はAIツールおよびスタートアップのディレクトリに掲載されています。掲載先の確認や第三者の評価をこちらでご覧いただけます。",
+        "AUTHOR": "{appName}チーム",
+        "INTRO": "信頼できるAIゲートウェイであるためには、見つけやすく検証しやすいことが欠かせません。{appName}は、開発者が新しいプロバイダーにAPIキーを預ける前に実際に確認するディレクトリに掲載されています。これが最新の一覧です。",
+        "H_DIRECTORIES": "掲載されているディレクトリ",
+        "P_DIRECTORIES": "下の各バッジは、{appName}が紹介されているディレクトリにリンクしています。独立した掲載なので、私たちの言葉をうのみにするのではなく、第三者の説明やレビューを読むことができます。",
+        "H_WHY": "これが重要な理由",
+        "P_WHY": "AIインフラにおけるブランドへの忠誠心は薄く、信頼がすべてです。公開ディレクトリから身を隠すプロバイダーは、検証できないプロバイダーです。私たちは公開して掲載することで、{appName}をあらゆる代替手段と同じ場所で比較できるようにしています。",
+        "H_VERIFY": "信頼する前に検証してください",
+        "P_VERIFY": "いずれかのバッジを開き、掲載が当社の本物のドメインを指していることを確認し、独立した説明を確認してください。検証可能で公開された出所までたどれないサービスに、APIキーを貼り付けてはいけません。",
+        "H_TRY": "ご自身でお試しください",
+        "CTA": "十分にご覧いただけましたか。<register>無料アカウントを作成</register>するか、<models>モデルを見る</models>。"
+      },
       "LAUNCH": {
         "TITLE": "偽Claude にうんざりしたので、{appName} を作りました。",
         "DESCRIPTION": "毎週のように落ちる。プレミアムモデルがこっそり安物にすり替えられる。我慢の限界で自前のルーターを作り、その両方に病的なほど厳しくしました。ローンチ秘話です。",
@@ -585,16 +682,16 @@
         "CTA": "準備はいい？ <invite>{appName} のDiscordに参加</invite>して、<register>APIキーを取得</register>し、<settings>アカウントをリンク</settings>して最初の1ドルを受け取りましょう。"
       },
       "FREE_MODELS_AGGREGATED": {
-        "TITLE": "100以上の無料AIモデルを1つのエンドポイントに集約しました",
-        "DESCRIPTION": "2日間で、15の無料プロバイダーを{appName}に接続しました。134の無料モデル、1つのOpenAI-compatibleエンドポイント、トークンあたり$0。これらが無料なのには理由があり、私たちには引き上げられないレート制限が伴います。ここでは正直なところをお伝えします。",
+        "TITLE": "120以上の無料AIモデルを1つのエンドポイントに集約しました",
+        "DESCRIPTION": "18の無料プロバイダーを{appName}に接続しました。126の無料モデル、1つのOpenAI-compatibleエンドポイント、トークンあたり$0。これらが無料なのには理由があり、私たちには引き上げられないレート制限が伴います。ここでは正直なところをお伝えします。",
         "AUTHOR": "{appName}チーム",
-        "INTRO": "無料LLMの世界は確かに存在しますが、バラバラに散らばっています。Groq、Gemini、Cloudflare、Mistral、OVHcloudをはじめ十数社が本物のキャパシティを無償提供していますが、それぞれが別々の登録ページ、別々のキー形式、互換性のないAPIの向こう側にあります。2日間かけて、私たちは見つけられる限りの正規かつ恒久無料のプロバイダーをすべて発掘し、テストし、{appName}に統合しました。その結果が、15プロバイダー由来の134の無料モデルを、1つのOpenAI-compatibleエンドポイントと1つのキーの背後にまとめたものです。",
+        "INTRO": "無料LLMの世界は確かに存在しますが、バラバラに散らばっています。Groq、Gemini、Cloudflare、NVIDIA、SiliconFlowをはじめ十数社が本物のキャパシティを無償提供していますが、それぞれが別々の登録ページ、別々のキー形式、互換性のないAPIの向こう側にあります。私たちは見つけられる限りの正規かつ恒久無料のプロバイダーをすべて発掘し、テストし、{appName}に統合しました。その結果が、18プロバイダー由来の126の無料モデルを、1つのOpenAI-compatibleエンドポイントと1つのキーの背後にまとめたものです。",
         "H_WHAT": "追加したもの",
-        "P_WHAT": "15の無料プロバイダーを、1つずつ。Groq、Gemini、Cerebras、SambaNova、Mistral、Cloudflare Workers AI（2アカウント）、GitHub Models、Z.ai、OVHcloud、AI Horde、Pollinations、Cohere、Jina、NVIDIA NIM、そしてOpenRouter。合わせて134の無料モデルです。Llama、gpt-oss、Qwen、Mistral、GLM、Nemotronなど、さらに30の無料埋め込みモデルと13の無料の画像・音声モデルも含みます。どのモデルも公開前にHTTP、ストリーミング、ツール呼び出しについて端から端まで検証しており、有料モデルに対して実施しているのと同じ真正性とハーネスのチェックを通しています。",
+        "P_WHAT": "18の無料プロバイダーを、1つずつ。Groq、Gemini、Cerebras、SambaNova、Mistral、Cloudflare Workers AI（2アカウント）、GitHub Models、Z.ai、OVHcloud、AI Horde、Pollinations、Cohere、Jina、NVIDIA NIM（フルオープンカタログ：Nemotron、Llama、Qwen、gpt-oss、DeepSeekなど）、SiliconFlow（DeepSeek-V4、GLM-5.1、Qwen3.5/3.6、Kimi-K2.6、MiniMax-M3）、HuggingFaceルーター、そしてLLM7。合わせて126の無料モデルです。Llama、gpt-oss、Qwen、Mistral、GLM、Nemotron、DeepSeekなど、さらに無料の埋め込み・画像・音声モデルも含みます。どのモデルも公開前にHTTP、ストリーミング、ツール呼び出しについて端から端まで検証しており、有料モデルに対して実施しているのと同じ真正性とハーネスのチェックを通しています。",
         "H_CAVEAT": "無料には理由がある",
         "P_CAVEAT": "これらのモデルは本当に無料であり、だからこそ制限があります。<s>その制限を設定しているのはプロバイダーであって私たちではなく、私たちには引き上げることができません。</s>各アップストリームは独自のレート制限を課しています。毎分のリクエスト数、1日のトークン上限、Cloudflareのニューロン予算、ボランティアキューの優先度などです。上限に達すると、そのプロバイダーはリセットされるまで<c>429</c>を返します。今朝動いていた無料キーが、午後には使い果たされていることもあります。無料枠はベストエフォートのスループットであり、保証ではありません。予測可能なレイテンシと予期せぬ<c>429</c>のない動作が必要なワークロードには、有料モデルをお使いください。",
         "H_AGGREGATE": "そもそもなぜ集約するのか",
-        "P_AGGREGATE": "そうしなければ15個のアカウントが必要になるからです。各プロバイダーには独自の登録手順、独自のキー形式、独自のベースURL、そして独自のクセがあります。Z.aiはZhipu V4のパスを話し、CloudflareはアカウントIDをURLに載せ、AI Hordeは匿名キーを求め、GitHubはトークンのスコープでモデルをゲートします。私たちはそのすべてを吸収し、あなたが他のすべてを呼び出すのと同じやり方で呼び出せるようにしました。1つのOpenAI-compatibleエンドポイント、1つのキー、そしてモデル名です。私たちが自らに課している正直なルールは、プロバイダーごとに本物のアカウントを1つだけ、上限はそのまま受け入れ、何も水増しせず、何もプールしないことです。私たちは無料枠を贈り物として提供しているのであって、誰か他人の割り当ての転売ではありません。",
+        "P_AGGREGATE": "そうしなければ18個のアカウントが必要になるからです。各プロバイダーには独自の登録手順、独自のキー形式、独自のベースURL、そして独自のクセがあります。Z.aiはZhipu V4のパスを話し、CloudflareはアカウントIDをURLに載せ、AI Hordeは匿名キーを求め、GitHubはトークンのスコープでモデルをゲートします。私たちはそのすべてを吸収し、あなたが他のすべてを呼び出すのと同じやり方で呼び出せるようにしました。1つのOpenAI-compatibleエンドポイント、1つのキー、そしてモデル名です。私たちが自らに課している正直なルールは、プロバイダーごとに本物のアカウントを1つだけ、上限はそのまま受け入れ、何も水増しせず、何もプールしないことです。私たちは無料枠を贈り物として提供しているのであって、誰か他人の割り当ての転売ではありません。",
         "H_FAILOVER": "どうやって制限を和らげるか",
         "P_FAILOVER": "これらのモデルの多くは、複数の無料プロバイダーから提供されています。Llama 3.3 70Bだけでも、そのうち7社で動いています。同じモデルを複数のプロバイダーが提供している場合、私たちはそれらを1つの公開名にまとめ、自動でフェイルオーバーします。あるアップストリームが<c>429</c>を返したり応答しなくなったりすると、そのモデルを提供している次の健全なプロバイダーがリクエストを引き継ぎます。これが私たちが実際にコントロールできる唯一のレバーです。個々のプロバイダーの上限を引き上げるわけではありませんが、複数ソースの無料モデルは、どれか1つのプロバイダーが使い果たされた後もずっと応答し続けます。単一ソースの無料モデルにはフォールバックがないため、その唯一のアップストリームが尽きると止まってしまいます。",
         "H_HONEST": "私たちがやらなかったこと",
@@ -614,7 +711,7 @@
         "H_RP": "OpenRouter が省いている部分",
         "P_RP": "コーディングエージェント（Claude Code、Cline、OpenCode、Kilo Code、Codex）を {appName} に向ければ、どの OpenAI 互換エンドポイントとも同じように動きます。しかし同じキーは、ペルソナ、ロアブック、プリセット、SillyTavern カードのインポートを備えた組み込みのチャットおよびキャラクタークライアントも動かし、SillyTavern、Janitor.AI、RisuAI、Chub にそのまま差し込めます。OpenRouter は純粋に API 層なので、すべてのインターフェースは自分で用意します。{appName} はインターフェースと API を一緒に提供します。",
         "H_MIGRATE": "切り替えはベース URL の変更だけ",
-        "P_MIGRATE": "{appName} は OpenAI 互換なので、既存のアプリの移行は1行です。クライアントを <c>https://api.unorouter.ai/v1</c> に向け、既存のコードはそのままにします。チャットクライアントのカスタムエンドポイント欄に同じキーを貼れば同じカタログに届くので、管理する2つ目のアカウントはありません。",
+        "P_MIGRATE": "{appName} は OpenAI 互換なので、既存のアプリの移行は1行です。クライアントを <c>https://api.unorouter.com/v1</c> に向け、既存のコードはそのままにします。チャットクライアントのカスタムエンドポイント欄に同じキーを貼れば同じカタログに届くので、管理する2つ目のアカウントはありません。",
         "H_VERDICT": "どちらを選ぶべきか",
         "P_VERDICT": "コードを出荷するだけで、インターフェースなしに最も広いカタログが欲しいなら、OpenRouter は良い既定です。上乗せなしの自己ホスト型ルーティングが欲しいなら、LiteLLM が勝ちます。2つのサービスを動かさずに、コーディングエージェントでも本物のチャットおよびキャラクタークライアントでも使える1つのキーが欲しいなら、それこそ {appName} が埋める隙間です。唯一の勝者はいません。純粋な API のために最適化するのか、API に加えて使う場所のために最適化するのか次第です。",
         "CTA": "試す準備はできましたか？ <register>無料アカウントを作成</register> または <models>モデルを見る</models>。"
@@ -1521,7 +1618,7 @@
       "INTRO_DESC": "Chub.ai（旧 Venus）は 6 万体以上のキャラクターライブラリを擁する、ブラウザベースのキャラクターチャットプラットフォームです。Secrets パネルを通じて OpenAI 互換エンドポイントに接続します。",
       "INTRO_LINK_DOCS": "Chub.ai 公式 API Connections ドキュメント",
       "OVERVIEW": "概要",
-      "OVERVIEW_DESC": "Chub の Secrets パネルは、完全な `/v1/chat/completions` URL と API キーを受け付けます。Check your proxy ボタンで接続を検証した後、Prompt Structure でモデルを選択します。",
+      "OVERVIEW_DESC": "Chub の Secrets パネルは、末尾が `/v1` で終わるベース API URL と API キーを受け付けます。Check your proxy ボタンで接続を検証した後、Prompt Structure でモデルを選択します。",
       "TRUST_TITLE": "{appName} はファーストパーティの API リレーです",
       "TRUST_DESC": "Chub の UI は「不正な第三者によって作成されたリバースプロキシ」について警告を表示します。この警告はコミュニティ運営のリレーを対象としたものです。{appName} はインフラのオーナーが運営するファーストパーティの API リレーで、OpenRouter に相当します。API キー、使用ログ、請求はすべて {appName} 上で直接管理されます。",
       "TRUST_LINK_PRIVACY": "プライバシーポリシー",
@@ -1530,7 +1627,7 @@
       "QUICK_CONFIG_DESC": "これら 2 つの値を Chub の Secrets パネルにある Reverse proxy の各フィールドにコピーしてください。",
       "QUICK_CONFIG_URL_LABEL": "URL",
       "QUICK_CONFIG_KEY_LABEL": "Key",
-      "QUICK_CONFIG_NOTE": "末尾が `/v1/chat/completions` で終わる完全な URL を貼り付けてください。Chub は完全パスを要求しますので、ベース URL のみを貼り付けないでください。",
+      "QUICK_CONFIG_NOTE": "末尾が `/v1` で終わるベース URL を貼り付けてください。Chub はプロキシ確認のために `/models` を付加するため、完全な `/v1/chat/completions` URL は失敗します。",
       "STEPS": "手順ごとのセットアップ",
       "STEP_1_TITLE": "Secrets パネルを開く",
       "STEP_1_DESC": "Chub 右上のハンバーガーメニューをクリックし、Secrets を選択します。",
@@ -1539,7 +1636,7 @@
       "STEP_3_TITLE": "Reverse proxy までスクロール",
       "STEP_3_DESC": "Reverse proxy サブセクションには URL と Key のフィールド、および Check your proxy ボタンがあります。",
       "STEP_4_TITLE": "URL とキーを貼り付ける",
-      "STEP_4_DESC": "URL は `/v1/chat/completions` で終わるものを使用します。Key は {appName} の API キーです。",
+      "STEP_4_DESC": "URL は `/v1` で終わるもの（ベースのみ、`/chat/completions` なし）を使用します。Key は {appName} の API キーです。",
       "STEP_5_TITLE": "Check your proxy をクリック",
       "STEP_5_DESC": "緑色の確認表示が出るまでお待ちください。失敗した場合は URL を再確認し、キーを貼り付け直してください。",
       "STEP_6_TITLE": "Configuration を開く",
@@ -1552,7 +1649,7 @@
       "WARN_KEY_INVISIBLE_DESC": "Chub は保存後に API キーをマスクしますので、コピーし直すことはできません。貼り付ける前にパスワードマネージャーにキーを保存しておくと、ローテーションや別のブラウザプロファイルの利用時に新しいキーが不要になります。",
       "TROUBLESHOOTING": "トラブルシューティング",
       "TS_1_TITLE": "Check your proxy ボタンが失敗する。",
-      "TS_1_DESC": "URL が誤っています。末尾は `/v1/chat/completions` である必要があり、ベース URL のみでは通過しません。",
+      "TS_1_DESC": "URL が誤っています。末尾が `/v1` で終わるベース URL である必要があります。Chub は自動的に `/models` を付加するため、完全な `/v1/chat/completions` URL は `/v1/chat/completions/models` になり失敗します。",
       "TS_2_TITLE": "モデルドロップダウンが空。",
       "TS_2_DESC": "プロキシチェックがまだ通過していません。手順 5 を再実行し、緑色の状態になるまでお待ちください。",
       "TS_3_TITLE": "応答が空で返ってくる。",
@@ -1576,7 +1673,7 @@
       "TOC_TROUBLESHOOTING": "トラブルシューティング",
       "STEP_CONFIG_TITLE": "Configuration を開いて OpenAI を選ぶ",
       "STEP_CONFIG_DESC": "ハンバーガーメニューに戻り、Configuration を開いてから Prompt Structure を選びます。API ドロップダウンを OpenAI に設定し、モデルのドロップダウンから目的のモデルを選択してください。",
-      "GOTCHA_1": "`/v1/chat/completions` で終わる完全な URL を Reverse proxy フィールドに貼り付けてください。ベース URL だけでは Check your proxy ボタンが失敗します。",
+      "GOTCHA_1": "末尾が `/v1` で終わるベース URL を Reverse proxy フィールドに貼り付けてください。Chub は確認のために `/models` を付加するため、完全な `/v1/chat/completions` URL では Check your proxy ボタンが失敗します。",
       "GOTCHA_2": "Prompt Structure のモデルドロップダウンは、プロキシチェックが通るまで空のままです。まず Secrets で Check your proxy を実行し、その後モデルを選びに戻ってください。",
       "GOTCHA_3": "Chub は保存後に API キーをマスクし、再びコピーできません。ローテーションで新しいキーが不要になるよう、貼り付け前にパスワードマネージャーにキーを保存してください。",
       "GOTCHA_4": "Chub の UI は許可されていない第三者によるリバースプロキシについて警告しますが、それはコミュニティ運営のリレーを対象としています。{appName} は一次提供のリレーなので、キー、ログ、請求は {appName} 上に保持されます。"
@@ -1944,7 +2041,9 @@
     "LEGAL_TERMS": "利用規約",
     "LEGAL_PRIVACY": "プライバシーポリシー",
     "SOCIAL_TRUSTPILOT": "Trustpilot",
-    "EASTER_EGG_LABEL": "Token Breakout で遊ぶ"
+    "EASTER_EGG_LABEL": "Token Breakout で遊ぶ",
+    "BADGE_FEATURED_ON": "{name}に掲載",
+    "BADGE_VERIFIED_ON": "{name}で認証済み"
   },
   "PRIVACY": {
     "META": {
@@ -2040,7 +2139,10 @@
       "UNEXPECTED_ERROR_OCCURRED": "予期しないエラーが発生しました。もう一度お試しいただくか、ホームに戻ってください。",
       "ERROR_DETAILS": "エラーの詳細",
       "DIGEST": "ダイジェスト",
-      "SECTION_LOAD_FAILED": "このセクションの読み込みに失敗しました。"
+      "SECTION_LOAD_FAILED": "このセクションの読み込みに失敗しました。",
+      "COPY_ERROR": "エラーをコピー",
+      "RESET_APP_DATA": "アプリデータをリセットして再読み込み",
+      "RESETTING": "リセット中..."
     },
     "NOT_FOUND": {
       "TITLE": "ページが見つかりません",
@@ -2087,6 +2189,13 @@
       "CLEAR_CHAT_TITLE": "チャットを消去しますか？",
       "WIPE_DB_TITLE": "ローカルデータベースを消去しますか？",
       "UPLOAD_DB_TITLE": "ローカルデータベースを上書きしますか？"
+    },
+    "COPIED": "コピーしました",
+    "DATE_RANGE": {
+      "PICK": "期間を選択",
+      "FROM": "開始",
+      "TO": "終了",
+      "APPLY": "適用"
     }
   },
   "LANGUAGE": {
@@ -2287,7 +2396,9 @@
       "IP_WHITELIST_PLACEHOLDER": "1 行につき 1 つの IP。空欄の場合は制限なし。",
       "IP_WHITELIST_DESC": "IP は偽装される可能性があります。強固に制御するにはゲートウェイと併用してください。",
       "SUBMIT": "作成",
-      "SAVE": "保存"
+      "SAVE": "保存",
+      "QUOTA_FREE_ONLY_HINT": "＄0 は無料モデル専用キーを作成します。有料モデルは拒否されます。",
+      "QUOTA_EQUIVALENT": "= {quota} クォータ"
     },
     "ENUM": {
       "ENABLED": "有効",
@@ -2567,6 +2678,7 @@
     "FONT_DEFAULT": "プロジェクト既定",
     "FONT_HEADING_INHERIT": "本文に合わせる",
     "BASE_COLOR": "ベースカラー",
+    "CUSTOM_COLOR": "カスタム",
     "THEME": "テーマ",
     "CHART_COLOR": "チャートカラー",
     "HEADING_FONT": "見出しフォント",
@@ -2603,6 +2715,8 @@
     "MD_SINGLE_QUOTE": "シングルクォートテキスト",
     "MD_DOUBLE_QUOTE": "ダブルクォートテキスト",
     "SURFACE_COLORS": "表面の色",
+    "MODE_LIGHT": "ライト",
+    "MODE_DARK": "ダーク",
     "COLOR_SIDEBAR": "サイドバー",
     "BACKGROUND_IMAGE": "背景画像",
     "BG_UPLOAD": "画像をアップロード",

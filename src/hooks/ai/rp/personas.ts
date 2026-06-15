@@ -1,7 +1,7 @@
 "use client";
 
 import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
-import { useApiMutation } from "@/hooks/use-api-mutation";
+import { useApiMutation } from "@/lib/react-query/hooks";
 import { parsePersonaJson } from "@/lib/ai/rp/persona-import";
 import {
   deleteLocalPersona,

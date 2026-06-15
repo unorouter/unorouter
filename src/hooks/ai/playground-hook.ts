@@ -1,6 +1,6 @@
 "use client";
 
-import { useElysiaQuery } from "@/hooks/use-elysia-query";
+import { useElysiaQuery } from "@/lib/react-query/hooks";
 
 import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { PLAYGROUND_SESSION_TITLE_MAX } from "@/components/pages/sidebar/playground/playground-constants";
@@ -89,7 +89,7 @@ export function useSessionHistoryQuery() {
             userId,
             session.id,
           );
-          const snapshots = (bundle?.playgrounds ?? []) as Playground[];
+          const snapshots = bundle?.playgrounds ?? [];
           const latest = snapshots[snapshots.length - 1] ?? null;
           const latestView = latest
             ? toSnapshotView(latest, bundle?.media ?? [])
@@ -114,7 +114,7 @@ export function useSessionQuery(sessionId: string | null | undefined) {
       const bundle = await readLocalGenerationSessionBundle(userId, sessionId!);
       if (!bundle) throw new Error("playground-session-not-found");
       // Newest-first to match the result view's snapshot navigation.
-      const snapshots = (bundle.playgrounds as Playground[])
+      const snapshots = bundle.playgrounds
         .map((s) => toSnapshotView(s, bundle.media))
         .sort((a, b) => b.sessionOrder - a.sessionOrder);
       return { session: bundle.session, snapshots };
@@ -150,9 +150,7 @@ async function readLocalGenerationSessionBundleForSnapshot(
   const sessions = (await readLocalGenerationSessions(userId)) ?? [];
   for (const session of sessions) {
     const bundle = await readLocalGenerationSessionBundle(userId, session.id);
-    const match = (bundle?.playgrounds as Playground[] | undefined)?.find(
-      (s) => s.id === snapshotId,
-    );
+    const match = bundle?.playgrounds?.find((s) => s.id === snapshotId);
     if (match && bundle) return toSnapshotView(match, bundle.media);
   }
   return null;
@@ -223,8 +221,7 @@ export function useSnapshotStatusQuery(
     enabled: enabled && !!id,
     retry: false,
     refetchInterval: (query) => {
-      const status = (query.state.data as SnapshotView | null | undefined)
-        ?.status;
+      const status = query.state.data?.status;
       return isTerminal(status) ? false : POLL_INTERVAL_MS;
     },
     refetchIntervalInBackground: true,
@@ -237,9 +234,7 @@ async function snapshotRow(
   view: SnapshotView,
 ): Promise<Playground> {
   const bundle = await readLocalGenerationSessionBundle(userId, view.sessionId);
-  const row = (bundle?.playgrounds as Playground[] | undefined)?.find(
-    (s) => s.id === view.id,
-  );
+  const row = bundle?.playgrounds?.find((s) => s.id === view.id);
   if (!row) throw new Error("playground-snapshot-row-missing");
   return row;
 }

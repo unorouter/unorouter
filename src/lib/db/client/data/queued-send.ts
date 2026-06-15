@@ -8,9 +8,7 @@ import { getLocalDb } from "../client";
 
 export type UnansweredTurn = { convId: string; parentId: string };
 
-// "Queued" badge detection: active-branch leaf is a user message with no active
-// child or later active sibling. Detection only, no auto-replay (Risu semantics);
-// self-dedups once the assistant child lands.
+    // "Queued" badge: active-branch leaf is a user message with no active child or later sibling. Detection only; self-dedups once the reply lands.
 export async function findUnansweredUserTurns(
   userId: number | undefined,
 ): Promise<UnansweredTurn[]> {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useElysiaQuery } from "@/hooks/use-elysia-query";
+import { useElysiaQuery } from "@/lib/react-query/hooks";
 
 import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { joinItemsToMessages } from "@/lib/ai/chat/messages";
@@ -49,8 +49,7 @@ type EditMessageBody = {
   }>;
 };
 
-// Shared mutation scaffold: resolve userId, i18n error toast, invalidate +
-// broadcast the per-args keys on success. Every chat mutation rides this.
+    // Shared mutation scaffold for chat mutations: resolve userId, i18n error toast, invalidate + broadcast per-args keys on success.
 function useChatMutation<TArgs, TData>(
   fn: (userId: number, args: TArgs) => Promise<TData>,
   keysFor: (args: TArgs) => readonly (readonly unknown[])[],
@@ -72,7 +71,7 @@ function useChatMutation<TArgs, TData>(
 export function useConversationsInfiniteQuery(keyword?: string) {
   const userId = useLocalUserId();
   return useInfiniteQuery({
-    queryKey: queryKeys.conversations(keyword),
+    queryKey: [...queryKeys.conversations(keyword), userId],
     queryFn: async ({ pageParam }) => {
       const local = (await readLocalConversations(userId)) ?? [];
       const filtered = keyword
@@ -99,7 +98,7 @@ export function useConversationsInfiniteQuery(keyword?: string) {
 export function useConversationQuery(id?: string) {
   const userId = useLocalUserId();
   return useQuery({
-    queryKey: queryKeys.chatMeta(id!),
+    queryKey: [...queryKeys.chatMeta(id!), userId],
     queryFn: async () => {
       if (id) {
         const local = await readLocalConversation(userId, id);
@@ -115,7 +114,7 @@ export function useConversationQuery(id?: string) {
 export function useMessagesInfiniteQuery(id?: string) {
   const userId = useLocalUserId();
   return useInfiniteQuery({
-    queryKey: queryKeys.chatMessages(id!),
+    queryKey: [...queryKeys.chatMessages(id!), userId],
     queryFn: async ({ pageParam }) => {
       if (!id)
         return { messages: [], total: 0, page: pageParam, pageSize: PAGE_SIZE };
@@ -137,9 +136,7 @@ export function useMessagesInfiniteQuery(id?: string) {
   });
 }
 
-// History rewrites must bump the conversation row: reconcile staleness on
-// other devices keys on conversations.updatedAt, so an edit/branch/delete
-// that only touches message rows would otherwise never propagate.
+    // History rewrites must bump the conversation row: cross-device staleness reconciles on conversations.updatedAt.
 async function bumpConvUpdatedAt(userId: number, convId: string) {
   const conv = await readLocalConversation(userId, convId);
   if (conv) {
@@ -163,9 +160,7 @@ export function useUpdateConversationMutation() {
         }),
         updatedAt: now,
       };
-      // Patch-only: a rename/model change targets an existing row. Going
-      // through upsert would, on a missing row, attempt a candidate insert with
-      // null default_model and trip its NOT NULL constraint.
+          // Patch-only: a rename/model change targets an existing row. Upsert could insert with null default_model and trip NOT NULL.
       if (existing) {
         await updateLocalConversationSettings(userId, {
           convId: args.id,
@@ -217,8 +212,7 @@ export function useFinalizeTaskMutation() {
           resultUrl: args.resultUrl,
         }),
       );
-      // Mirror the server's task-to-text rewrite locally so the UI doesn't
-      // stay on the placeholder until the next sync pull.
+          // Mirror the server's task-to-text rewrite locally so the UI leaves the placeholder immediately.
       await replaceLocalMessageItems(userId, args.msgId, [
         {
           id: uid(),
@@ -363,8 +357,7 @@ export function useSetActiveBranchMutation() {
           });
         }
       }
-      // Root assistant siblings are greetings: track Risu fmIndex
-      // (branchIndex 0 = firstMessage -> -1, i = alternateGreetings[i-1]).
+          // Root assistant siblings are greetings: track Risu fmIndex (branch 0 is firstMessage at -1, i is alternate i-1).
       if (parentId === null && target?.role === "assistant") {
         await updateLocalConversationSettings(userId, {
           convId: args.convId,

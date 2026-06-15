@@ -49,14 +49,12 @@ export function AccountHeader() {
     <Card>
       <CardContent className="p-6">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center">
-          {/* Avatar */}
           <div
             className={`flex h-16 w-16 shrink-0 items-center justify-center text-2xl font-bold text-white ${getAvatarColor(user.username)}`}
           >
             {user.username.charAt(0).toUpperCase()}
           </div>
 
-          {/* User Info */}
           <div className="flex flex-1 flex-col gap-1">
             <div className="flex items-center gap-2">
               <span className="text-lg font-semibold">
@@ -72,7 +70,6 @@ export function AccountHeader() {
             </span>
           </div>
 
-          {/* Stats */}
           <div className="flex items-center gap-4 text-sm sm:gap-6">
             <div className="flex flex-col items-center gap-1">
               <span className="text-muted-foreground text-xs">

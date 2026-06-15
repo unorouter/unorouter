@@ -78,7 +78,6 @@ export function SubscriptionSection() {
 
   return (
     <div className="space-y-6">
-      {/* Header with preference */}
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <h2 className="text-foreground text-lg font-bold tracking-tight">
@@ -144,7 +143,6 @@ export function SubscriptionSection() {
         </div>
       </div>
 
-      {/* Active subscriptions */}
       {allSubscriptions.length > 0 && (
         <div className="border-border space-y-3 border p-4">
           {allSubscriptions.map((item) => {
@@ -209,7 +207,6 @@ export function SubscriptionSection() {
         </div>
       )}
 
-      {/* Plan cards */}
       {plans.length > 0 && (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           {plans.map((plan, i) => {

@@ -1,6 +1,5 @@
 "use client";
 
-
 import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { upsertLocalMedia } from "@/lib/db/client/data/media";
 import {
@@ -11,7 +10,7 @@ import {
 } from "@/lib/db/client/data/rp";
 import { queryKeys } from "@/lib/react-query/keys";
 import { uid, uint8ToBase64 } from "@/lib/utils/base";
-import { useApiMutation } from "@/hooks/use-api-mutation";
+import { useApiMutation } from "@/lib/react-query/hooks";
 import { dayjs } from "@/lib/utils/format/date";
 import { makeRpEntity } from "./factory";
 import type { CharacterRow } from "@/lib/db/schema/rows";
@@ -35,14 +34,12 @@ export const useCreateCharacterMutation = characters.useCreate;
 export const useUpdateCharacterMutation = characters.useUpdate;
 export const useDeleteCharacterMutation = characters.useDelete;
 
-// Client-side card parser: bytes -> media row + character row referencing it.
-// Sync flow: media base64 -> server uploads to R2 -> Turso pointer-only.
+    // Client-side card parser: bytes become a media row plus a character row referencing it.
 export function useImportCharacterCardMutation() {
   const userId = useLocalUserId();
   return useApiMutation({
     mutationFn: async (file: File) => {
-      // Dynamic: character-foundry + image codecs (~110KB gzip) load on the
-      // import action, not with the chat shell.
+          // Dynamic: character-foundry + image codecs (~110KB gzip) load on the import action, not with the chat shell.
       const { card, imageBytes, imageMime } =
         await import("@/lib/ai/rp/character-card").then((m) =>
           m.parseCharacterCardFile(file),

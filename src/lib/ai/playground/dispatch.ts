@@ -1,5 +1,4 @@
-// Body builders + extractors for new-api image endpoints
-// (/images, /chat, /generateContent).
+    // Body builders + extractors for new-api image endpoints (/images, /chat, /generateContent).
 
 import type { SyncImageEndpoint } from "@/lib/ai/playground/models-dynamic";
 import { safeFetchBytes } from "@/lib/config/r2";
@@ -15,8 +14,7 @@ type RefBytes = {
 };
 
 async function fetchRefBytes(url: string): Promise<RefBytes> {
-  // SSRF-safe: caller-supplied (guest-reachable) URL goes through the r2
-  // allowlist, never a bare fetch that could hit 169.254/RFC1918.
+      // SSRF-safe: caller-supplied URL goes through the r2 allowlist, never a bare fetch that could hit RFC1918.
   const { buffer: buf, contentType } = await safeFetchBytes(url, MAX_REF_BYTES);
   const mime = contentType?.split(";")[0]?.trim() || "image/png";
   const base64 = buf.toString("base64");
@@ -144,46 +142,56 @@ export function buildBody(
   }
 }
 
+    // Guards for walking untyped upstream JSON; centralizes the narrowing so the extractors stay cast-free.
+type JsonRecord = Record<string, unknown>;
+function rec(v: unknown): JsonRecord | undefined {
+  return v && typeof v === "object" && !Array.isArray(v)
+    ? (v as JsonRecord)
+    : undefined;
+}
+function str(v: unknown): string | undefined {
+  return typeof v === "string" && v.length > 0 ? v : undefined;
+}
+function recArray(v: unknown): JsonRecord[] {
+  if (!Array.isArray(v)) return [];
+  const out: JsonRecord[] = [];
+  for (const x of v) {
+    const r = rec(x);
+    if (r) out.push(r);
+  }
+  return out;
+}
+
 // Empty array means "no image found"; callers treat as failure.
 export function extractResultUris(
   endpoint: SyncImageEndpoint,
   payload: unknown,
 ): string[] {
-  if (!payload || typeof payload !== "object") return [];
-  const p = payload as Record<string, unknown>;
+  const p = rec(payload);
+  if (!p) return [];
   const out: string[] = [];
 
   if (endpoint === "image-generation") {
-    const data = (p.data as Array<Record<string, unknown>> | undefined) ?? [];
-    for (const entry of data) {
-      if (typeof entry.url === "string" && entry.url.length > 0) {
-        out.push(entry.url);
-      } else if (
-        typeof entry.b64_json === "string" &&
-        entry.b64_json.length > 0
-      ) {
-        out.push(base64ToDataUri(entry.b64_json, "image/png"));
-      }
+    for (const entry of recArray(p.data)) {
+      const url = str(entry.url);
+      const b64 = str(entry.b64_json);
+      if (url) out.push(url);
+      else if (b64) out.push(base64ToDataUri(b64, "image/png"));
     }
     return out;
   }
 
   if (endpoint === "openai") {
-    const choices = p.choices as Array<Record<string, unknown>> | undefined;
-    const msg = (choices?.[0]?.message ?? null) as Record<
-      string,
-      unknown
-    > | null;
+    const msg = rec(recArray(p.choices)[0]?.message);
     if (!msg) return [];
     // Two shapes: array of parts with image_url, or markdown/data-URI string.
     const content = msg.content;
     if (Array.isArray(content)) {
       for (const part of content) {
-        const pp = part as Record<string, unknown>;
-        if (pp.type === "image_url") {
-          const url = (pp.image_url as Record<string, unknown> | undefined)
-            ?.url;
-          if (typeof url === "string" && url.length > 0) out.push(url);
+        const pp = rec(part);
+        if (pp?.type === "image_url") {
+          const url = str(rec(pp.image_url)?.url);
+          if (url) out.push(url);
         }
       }
       return out;
@@ -195,17 +203,12 @@ export function extractResultUris(
     return out;
   }
 
-  const candidates = p.candidates as Array<Record<string, unknown>> | undefined;
-  const parts =
-    ((candidates?.[0]?.content as Record<string, unknown> | undefined)
-      ?.parts as Array<Record<string, unknown>> | undefined) ?? [];
+  const parts = recArray(rec(recArray(p.candidates)[0]?.content)?.parts);
   for (const part of parts) {
-    const inline =
-      (part.inline_data as Record<string, unknown> | undefined) ??
-      (part.inlineData as Record<string, unknown> | undefined);
+    const inline = rec(part.inline_data) ?? rec(part.inlineData);
     if (!inline) continue;
-    const mime = (inline.mime_type ?? inline.mimeType) as string | undefined;
-    const data = inline.data as string | undefined;
+    const mime = str(inline.mime_type) ?? str(inline.mimeType);
+    const data = str(inline.data);
     if (mime && data) out.push(base64ToDataUri(data, mime));
   }
   return out;

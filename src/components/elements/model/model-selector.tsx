@@ -55,14 +55,24 @@ export function ModelSelector(props: ModelSelectorProps) {
 
   const selected = models.find((m) => m.name === props.value);
 
-  // Nested group control: groups the selected model supports + their ratios.
-  const groupRatioMap = pricingData?.groupRatioMap ?? {};
+      // Per-user private groups from prefetched /account/self; each routes only on the models it serves.
+  const privateGroups = authQuery.data?.private_groups ?? [];
+  const groupRatioMap: Record<string, number> = { ...pricingData?.groupRatioMap };
+  for (const pg of privateGroups) groupRatioMap[pg.group] ??= pg.ratio;
   const enableGroups = selected?.enableGroups ?? [];
-  // Empty enableGroups = all priced groups allowed.
-  const groupEntries = buildGroupEntries(
-    enableGroups.length > 0 ? enableGroups : Object.keys(groupRatioMap),
-    groupRatioMap,
-  );
+  const privateForModel = props.value
+    ? privateGroups
+        .filter((pg) => (pg.models ?? []).includes(props.value!))
+        .map((pg) => pg.group)
+    : [];
+      // Empty enableGroups = all priced groups allowed; add the private groups serving the selected model.
+  const candidateGroups = [
+    ...new Set([
+      ...(enableGroups.length ? enableGroups : Object.keys(groupRatioMap)),
+      ...privateForModel,
+    ]),
+  ];
+  const groupEntries = buildGroupEntries(candidateGroups, groupRatioMap);
   const selectedGroupEntry = props.group
     ? groupEntries.find((e) => e.group === props.group)
     : null;
@@ -76,8 +86,7 @@ export function ModelSelector(props: ModelSelectorProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps -- only re-run on model change
   }, [props.value]);
 
-  // Auto-select a random free model (text preferred) when none is selected,
-  // or when the current pick isn't usable (guests can't use paid models).
+      // Auto-select a random free model (text preferred) when none is selected or the current pick isn't usable.
   useEffect(() => {
     if (models.length === 0) return;
     const current = models.find((m) => m.name === props.value);
@@ -264,7 +273,9 @@ export function ModelSelector(props: ModelSelectorProps) {
                   className="hover:bg-accent flex w-full items-center justify-between rounded px-2 py-1.5 text-xs"
                 >
                   <span className="font-mono">{t("CHAT.GROUP.AUTO")}</span>
-                  {!props.group && <Icon name="check" className="h-3.5 w-3.5" />}
+                  {!props.group && (
+                    <Icon name="check" className="h-3.5 w-3.5" />
+                  )}
                 </button>
                 {groupEntries.map((entry) => {
                   const groupDisabled =

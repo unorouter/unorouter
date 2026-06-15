@@ -8,7 +8,11 @@ import {
   upsertLocalMessage,
   upsertLocalMessageItem,
 } from "@/lib/db/client/data/chat";
-import { readLocalCharacter, readLocalPersona } from "@/lib/db/client/data/rp";
+import {
+  readLocalCharacter,
+  readLocalPersona,
+  readLocalPreset,
+} from "@/lib/db/client/data/rp";
 import { expandMacros } from "@/lib/ai/chat/macros";
 import { uid } from "@/lib/utils/base";
 import type { buildPricingSummary } from "@/lib/api/pricing";
@@ -45,8 +49,7 @@ export function createThreadListAdapter(
   const persistTitle = async (id: string, title: string) => {
     const now = dayjs().toDate();
     const existing = await readLocalConversation(userId(), id);
-    // Title patch on an existing row; never create via upsert (the candidate
-    // insert would null default_model and trip its NOT NULL constraint).
+        // Title patch on an existing row; never upsert (a candidate insert nulls default_model and trips NOT NULL).
     if (!existing) return;
     await updateLocalConversationSettings(userId(), {
       convId: id,
@@ -81,12 +84,18 @@ export function createThreadListAdapter(
 
       const now = dayjs().toDate();
 
-      // Settings cols live on the conversation row; write both in one upsert
-      // so the NOT NULL default_model is satisfied on insert.
+          // Settings cols live on the conversation row; write both in one upsert so NOT NULL default_model holds.
       const defaults = chatStore.get(chatDefaultsAtom);
-      // Sticky loadout: auto-equip new chats with the user's chosen
-      // preset/persona/characters/lorebooks so they don't re-bind each time.
+          // Sticky loadout: auto-equip new chats with the user's chosen preset/persona/characters/lorebooks.
       const loadout = chatStore.get(chatLoadoutAtom);
+          // Seed settings from the bound preset so the drawer shows what the stream uses. Per field: preset value, else app default.
+      const preset = loadout.presetId
+        ? await readLocalPreset(userId(), loadout.presetId)
+        : null;
+      const seed = <K extends keyof typeof defaults>(
+        key: K,
+        presetValue: number | boolean | string | null | undefined,
+      ) => presetValue ?? defaults[key] ?? null;
       await upsertLocalConversation(userId(), {
         id,
         title: null,
@@ -102,27 +111,28 @@ export function createThreadListAdapter(
         systemPromptOverride: null,
         authorNote: null,
         authorNoteDepth: 4,
-        chatMemory: 8,
+        chatMemory: preset?.chatMemory ?? defaults.chatMemory ?? null,
         reasoningEffort: defaults.reasoningEffort ?? null,
         webSearchEnabled: defaults.webSearchEnabled ?? false,
         webSearchEngine: defaults.webSearchEngine ?? "auto",
         webSearchContextSize: defaults.webSearchContextSize ?? "medium",
-        temperature: defaults.temperature ?? null,
-        topP: defaults.topP ?? null,
-        topK: defaults.topK ?? null,
-        minP: defaults.minP ?? null,
-        topA: defaults.topA ?? null,
-        frequencyPenalty: defaults.frequencyPenalty ?? null,
-        presencePenalty: defaults.presencePenalty ?? null,
-        repetitionPenalty: defaults.repetitionPenalty ?? null,
-        maxTokens: defaults.maxTokens ?? null,
-        extraBody: defaults.extraBody ?? null,
-        streamingEnabled: defaults.streamingEnabled ?? true,
+        temperature: seed("temperature", preset?.temperature),
+        topP: seed("topP", preset?.topP),
+        topK: seed("topK", preset?.topK),
+        minP: seed("minP", preset?.minP),
+        topA: seed("topA", preset?.topA),
+        frequencyPenalty: seed("frequencyPenalty", preset?.frequencyPenalty),
+        presencePenalty: seed("presencePenalty", preset?.presencePenalty),
+        repetitionPenalty: seed("repetitionPenalty", preset?.repetitionPenalty),
+        maxTokens: seed("maxTokens", preset?.maxTokens),
+        extraBody: preset?.extraBody ?? defaults.extraBody ?? null,
+        // null = inherit; the stream resolver falls back conv -> preset -> true.
+        streamingEnabled:
+          preset?.streamingEnabled ?? defaults.streamingEnabled ?? null,
         group: chatStore.get(chatGroupAtom),
       });
 
-      // Character + lorebook bindings live in join tables, written after the
-      // conversation row exists so the FK resolves.
+          // Character + lorebook bindings live in join tables, written after the conversation row exists for the FK.
       if (loadout.characterIds.length > 0 || loadout.lorebookIds.length > 0) {
         await replaceLocalConversationBindings(userId(), id, {
           conversationCharacters: loadout.characterIds.map((cid, i) => ({
@@ -136,9 +146,7 @@ export function createThreadListAdapter(
         });
       }
 
-      // Risu greeting parity: firstMessage + alternates seed as root branch
-      // siblings; the preview-picked greeting is the active branch, the rest
-      // swipe via the normal branch UI. firstMsgIndex = activeBranch - 1.
+          // Risu greeting parity: firstMessage + alternates seed as root branch siblings, preview-picked one active.
       if (loadout.characterIds.length > 0) {
         const char = await readLocalCharacter(
           userId(),
@@ -150,9 +158,7 @@ export function createThreadListAdapter(
             : null;
           const greetings = [
             char.firstMessage,
-            ...(Array.isArray(char.alternateGreetings)
-              ? (char.alternateGreetings as string[])
-              : []),
+            ...(char.alternateGreetings ?? []),
           ];
           const picked = Math.min(
             chatStore.get(greetingIndexAtom),
@@ -195,8 +201,7 @@ export function createThreadListAdapter(
             }
           }
           if (picked > 0) {
-            // Patch-only on the row just seeded above; omitting default_model
-            // in an upsert candidate row would trip its NOT NULL constraint.
+                // Patch-only on the row seeded above; omitting default_model in an upsert would trip NOT NULL.
             await updateLocalConversationSettings(userId(), {
               convId: id,
               firstMsgIndex: picked - 1,
@@ -204,10 +209,7 @@ export function createThreadListAdapter(
             });
           }
           chatStore.set(greetingIndexAtom, 0);
-          // Surface the picked greeting in the LIVE thread state: the runtime
-          // initialized before the seed, so without this it only appears
-          // after a reload. Prepend keeps the in-flight user turn intact;
-          // the seeded msgId matches what load() returns later.
+              // Surface the picked greeting in live thread state; prepend keeps the in-flight user turn intact.
           const helpers = chatStore.get(chatHelpersAtom);
           if (helpers && seededGreeting) {
             const greetingMessage = {

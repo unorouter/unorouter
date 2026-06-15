@@ -54,7 +54,7 @@ export function Picker(props: Props) {
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="end"
-        side="left"
+        side="bottom"
         sideOffset={8}
         className="min-w-44"
       >

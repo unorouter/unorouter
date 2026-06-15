@@ -63,6 +63,8 @@ export enum Vendor {
   PFNET = "preferred",
   NEXAGI = "nex agi",
   JINA = "jina",
+  AISINGAPORE = "ai singapore",
+  POLLINATIONS = "pollinations",
 }
 
 export enum OS {
@@ -74,6 +76,7 @@ export enum OS {
 export const OS_VALUES = Object.values(OS);
 
 export enum DataTableId {
+  MODELS = "MODELS",
   TOKENS = "TOKENS",
   LOGS = "LOGS",
   MIDJOURNEY_LOGS = "MIDJOURNEY_LOGS",

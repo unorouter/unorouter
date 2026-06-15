@@ -12,16 +12,11 @@ import {
 } from "@/lib/validation/badge";
 import { Elysia } from "elysia";
 import { getTranslations } from "next-intl/server";
-import sharp from "sharp";
 import { getPricingData, getStats } from "./lib/cache";
+import { loadSharp } from "./lib/sharp-loader";
 import { THEME_COLORS } from "./lib/theme";
 import type { BadgeCtx } from "./lib/types";
-import {
-  AllPage,
-  type PreviewGroup,
-  type PreviewSize,
-  type PreviewType,
-} from "./templates/all-page";
+import { AllPage, type PreviewGroup } from "./templates/all-page";
 import { generateBrand } from "./templates/brand";
 import { generateHero } from "./templates/hero";
 import { generatePricing } from "./templates/pricing";
@@ -34,7 +29,8 @@ import { generateTokensSquare } from "./templates/tokens-square";
 
 const HTML_HEADERS = { "content-type": "text/html; charset=utf-8" } as const;
 function htmlResponse(body: JSX.Element): Response {
-  return new Response(body as unknown as string, { headers: HTML_HEADERS });
+  // @kitajs/html renders to a string at runtime but is typed JSX.Element.
+  return new Response(body as unknown as BodyInit, { headers: HTML_HEADERS });
 }
 
 const CACHE_CONTROL =
@@ -53,6 +49,10 @@ const PNG_HEADERS = {
 };
 
 // http://localhost:3000/api/ops/badge/all?theme=dark
+
+async function svgToPng(svg: string): Promise<Buffer> {
+  return loadSharp()(Buffer.from(svg)).png().toBuffer();
+}
 
 const BADGES: Record<BadgeType, (ctx: BadgeCtx) => Promise<string>> = {
   banner: generateTokensBanner,
@@ -108,24 +108,27 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
                 pricing,
               };
               return {
-                size: s as PreviewSize,
+                size: s,
                 label: `${name} (${s})`,
                 svg: await BADGES[name](ctx),
               };
             }),
           );
-          return { type: name as PreviewType, badges };
+          return { type: name, badges };
         }),
       );
 
-      // Social banners: own sizes, no stats/pricing. Append as one group unless a
-      // different type filter is set.
+          // Social banners: own sizes, no stats/pricing. Append as one group unless a different type filter is set.
       if (!query.type) {
         const socialBadges = await Promise.all(
           SOCIAL_SIZES.map(async (s) => ({
-            size: s as PreviewSize,
+            size: s,
             label: `social (${s})`,
-            svg: await generateSocial({ theme, size: s }),
+            svg: await generateSocial({
+              theme,
+              size: s,
+              modelCount: pricing.modelCount,
+            }),
           })),
         );
         allBadges.push({ type: "social", badges: socialBadges });
@@ -150,16 +153,17 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
     async ({ params, query, locale, theme, size, set }) => {
       const isPng = query.format === "png";
 
-      // Social banners stand apart from the user-facing badge grid: their own
-      // sizes (SOCIAL_SIZES), no stats/pricing, excluded from /all + generator.
+          // Social banners stand apart from the user-facing badge grid: their own sizes, no stats/pricing, excluded from /all + generator.
       if (params.name === "social") {
+        const pricing = await getPricingData();
         const socialSvg = await generateSocial({
           theme,
           size: size as SocialSize,
           staticMode: isPng,
+          modelCount: pricing.modelCount,
         });
         if (isPng) {
-          const png = await sharp(Buffer.from(socialSvg)).png().toBuffer();
+          const png = await svgToPng(socialSvg);
           return new Response(new Uint8Array(png), { headers: PNG_HEADERS });
         }
         return socialSvg;
@@ -186,7 +190,7 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
       });
 
       if (isPng) {
-        const png = await sharp(Buffer.from(svg)).png().toBuffer();
+        const png = await svgToPng(svg);
         return new Response(new Uint8Array(png), { headers: PNG_HEADERS });
       }
       return svg;

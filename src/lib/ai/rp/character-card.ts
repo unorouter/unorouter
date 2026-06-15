@@ -110,11 +110,11 @@ type ExportableRow = {
   personality: string | null;
   scenario: string | null;
   firstMessage: string | null;
-  alternateGreetings: unknown;
+  alternateGreetings: string[] | null;
   exampleMessages: string | null;
   systemPrompt: string | null;
   postHistoryInstructions: string | null;
-  tags: unknown;
+  tags: string[] | null;
 };
 
 function buildCCv3Card(row: ExportableRow) {
@@ -127,17 +127,9 @@ function buildCCv3Card(row: ExportableRow) {
     mesExample: row.exampleMessages ?? "",
     systemPrompt: row.systemPrompt ?? undefined,
     postHistoryInstructions: row.postHistoryInstructions ?? undefined,
-    alternateGreetings: Array.isArray(row.alternateGreetings)
-      ? (row.alternateGreetings as unknown[]).filter(
-          (g): g is string => typeof g === "string",
-        )
-      : [],
+    alternateGreetings: row.alternateGreetings ?? [],
     groupOnlyGreetings: [],
-    tags: Array.isArray(row.tags)
-      ? (row.tags as unknown[]).filter(
-          (t): t is string => typeof t === "string",
-        )
-      : [],
+    tags: row.tags ?? [],
     extensions: {},
   };
   return denormalizeToV3(normalized);

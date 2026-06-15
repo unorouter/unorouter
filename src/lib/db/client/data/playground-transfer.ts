@@ -2,7 +2,6 @@
 
 import { PLAYGROUND_SESSION_TITLE_MAX } from "@/components/pages/sidebar/playground/playground-constants";
 import { GUEST_USER_ID, RETENTION_MS } from "@/lib/config/constants";
-import type { Playground } from "@/lib/db/schema/shared";
 import {
   isPlaygroundSessionFormat,
   PLAYGROUND_GENERATION_FORMAT,
@@ -21,8 +20,7 @@ import {
   upsertLocalSnapshotImages,
 } from "./playground";
 
-// Self-contained export: image bytes inlined as base64 so the file survives
-// R2 expiry and works for guests.
+    // Self-contained export: image bytes inlined as base64 so the file survives R2 expiry and works for guests.
 export async function exportLocalSession(
   userId: number | undefined,
   sessionId: string,
@@ -30,7 +28,7 @@ export async function exportLocalSession(
   const bundle = await readLocalGenerationSessionBundle(userId, sessionId);
   if (!bundle) throw new Error("playground-session-not-found");
   const snapshots: PlaygroundSnapshot[] = [];
-  for (const snap of bundle.playgrounds as Playground[]) {
+  for (const snap of bundle.playgrounds) {
     const imgs = bundle.media.filter((m) => m.playgroundId === snap.id);
     const images = await Promise.all(
       imgs.map(async (img) => ({
@@ -81,10 +79,10 @@ function snapshotToRows(
     model: snap.model,
     prompt: snap.prompt,
     negativePrompt: snap.negativePrompt,
-    params: (snap.params as Record<string, unknown> | null) ?? null,
+    params: snap.params ?? null,
     loras: snap.loras ?? null,
     references: snap.references ?? null,
-    extraParams: (snap.extraParams as Record<string, unknown> | null) ?? null,
+    extraParams: snap.extraParams ?? null,
     status: "success",
     progress: "100%",
     taskId: null,
@@ -113,8 +111,7 @@ function snapshotToRows(
   return { snapshotRow, mediaRows };
 }
 
-// "restore" import: writes a brand-new local session reproducing every
-// snapshot in success state. Single-snapshot payloads are the N=1 case.
+    // "restore" import: writes a brand-new local session reproducing every snapshot in success state. Single-snapshot payloads are the N=1 case.
 export async function importLocalSession(
   userId: number | undefined,
   payload: PlaygroundSnapshot | SessionSnapshot,

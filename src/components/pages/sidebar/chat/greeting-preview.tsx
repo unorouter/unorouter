@@ -8,14 +8,11 @@ import { expandMacros } from "@/lib/ai/chat/macros";
 import { chatLoadoutAtom, greetingIndexAtom } from "@/store/chat-store";
 import { useAtom, useAtomValue } from "jotai";
 
-// Empty-thread greeting preview (Risu first message + alternate greetings):
-// swipe through greetings before the first send; the picked index seeds the
-// conversation's root branches + firstMsgIndex.
+    // Empty-thread greeting preview: swipe before the first send; the picked index seeds root branches + firstMsgIndex.
 export function GreetingPreview() {
   const loadout = useAtomValue(chatLoadoutAtom);
   const [index, setIndex] = useAtom(greetingIndexAtom);
-  // List query (hydrator-seeded) instead of the item query: the item fetch
-  // can race auth hydration and cache a guest-DB miss.
+      // List query (hydrator-seeded), not the item query: the item fetch can race auth and cache a guest-DB miss.
   const charactersQuery = useCharactersQuery();
   const personaQuery = usePersonaQuery(loadout.personaId ?? undefined);
 
@@ -24,12 +21,7 @@ export function GreetingPreview() {
   );
   if (!char?.firstMessage) return null;
 
-  const greetings = [
-    char.firstMessage,
-    ...(Array.isArray(char.alternateGreetings)
-      ? (char.alternateGreetings as string[])
-      : []),
-  ];
+  const greetings = [char.firstMessage, ...(char.alternateGreetings ?? [])];
   const safeIndex = Math.min(index, greetings.length - 1);
   const text = expandMacros(greetings[safeIndex], {
     user: personaQuery.data?.name ?? "User",

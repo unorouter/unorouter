@@ -22,14 +22,17 @@ import type {
   LorebookInjectionRole,
 } from "@/lib/validation/rp";
 import type {
+  GenerationFormUi,
+  GenerationParams,
   GenerationStatus,
+  LoraEntry,
   PlaygroundVisibility,
+  ReferenceEntry,
 } from "@/lib/validation/playground";
 
 // syncExpiresAt: null=local-only; non-null=synced + server-purged past timestamp.
 
-// Fresh builder instances per call: drizzle binds a builder to its table, so
-// the shared column shapes must be factories, not constants.
+    // Fresh builder per call: drizzle binds a builder to its table, so shared column shapes must be factories.
 export const createdAtCol = () =>
   integer("created_at", { mode: "timestamp_ms" })
     .notNull()
@@ -93,19 +96,15 @@ export const conversations = sqliteTable(
     vars: text("vars"),
     // null = inherit the bound preset's streamingEnabled (else default true).
     streamingEnabled: integer("streaming_enabled", { mode: "boolean" }),
-    // Multi-character turn ordering: deterministic stored order vs name-mention
-    // + talkness. Auto-continue regenerates when a reply ends mid-sentence.
+        // Multi-character turn ordering: deterministic stored order vs name-mention + talkness.
     groupOrderByOrder: integer("group_order_by_order", { mode: "boolean" }),
     autoContinue: integer("auto_continue", { mode: "boolean" }),
-    // Rolling-summary memory: the running summary text + the count of messages
-    // already folded into it (anchor), so older history can be replaced by the
-    // compact summary once it overflows the context window.
+        // Rolling-summary memory: the running summary + the count of messages folded in (anchor), replacing older history on overflow.
     summaryMemory: text("summary_memory"),
     summaryAnchor: integer("summary_anchor"),
     // Toggle for the rolling summary + semantic retrieval memory features.
     memoryEnabled: integer("memory_enabled", { mode: "boolean" }),
-    // RisuAI fmIndex: which greeting opens the chat (-1 = firstMessage,
-    // 0..n = alternateGreetings index).
+        // RisuAI fmIndex: which greeting opens the chat (-1 = firstMessage, 0..n = alternateGreetings index).
     firstMsgIndex: integer("first_msg_index").notNull().default(-1),
     ...syncableTimestamps(),
   },
@@ -176,8 +175,7 @@ export const messageItems = sqliteTable(
 export const requestLogs = sqliteTable(
   "request_logs",
   {
-    // No FK to messages: the server writes this row at stream finish, BEFORE
-    // the client pushes the message row. convId cascade covers cleanup.
+        // No FK to messages: the server writes this at stream finish, before the client pushes the message row. convId cascade cleans up.
     msgId: text("msg_id").primaryKey(),
     convId: text("conv_id")
       .notNull()
@@ -220,17 +218,18 @@ export const characters = sqliteTable(
     scenario: text("scenario"),
     firstMessage: text("first_message"),
     // Card-spec alternate_greetings; conversation firstMsgIndex picks one.
-    alternateGreetings: text("alternate_greetings", { mode: "json" }),
+    alternateGreetings: text("alternate_greetings", {
+      mode: "json",
+    }).$type<string[]>(),
     exampleMessages: text("example_messages"),
     systemPrompt: text("system_prompt"),
     postHistoryInstructions: text("post_history_instructions"),
     defaultReasoningEffort: text("default_reasoning_effort"),
-    tags: text("tags", { mode: "json" }),
-    // RisuAI triggerscript[] (V2 effect VM). Keyword-array turn-gating moved to
-    // turn_triggers so this column carries the trigger programs.
+    tags: text("tags", { mode: "json" }).$type<string[]>(),
+        // RisuAI triggerscript[] (V2 effect VM). Keyword turn-gating moved to turn_triggers, so this column carries the programs.
     triggers: text("triggers", { mode: "json" }),
     // Keyword array for multi-character turn-gating (non-primary chars).
-    turnTriggers: text("turn_triggers", { mode: "json" }),
+    turnTriggers: text("turn_triggers", { mode: "json" }).$type<string[]>(),
     // RisuAI customscript / SillyTavern regex scripts (in/out/type/flag array).
     regexScripts: text("regex_scripts", { mode: "json" }),
     alwaysActive: integer("always_active", { mode: "boolean" })
@@ -303,8 +302,8 @@ export const lorebookEntries = sqliteTable(
     lorebookId: text("lorebook_id")
       .notNull()
       .references(() => lorebooks.id, { onDelete: "cascade" }),
-    keys: text("keys", { mode: "json" }).notNull(),
-    secondaryKeys: text("secondary_keys", { mode: "json" }),
+    keys: text("keys", { mode: "json" }).notNull().$type<string[]>(),
+    secondaryKeys: text("secondary_keys", { mode: "json" }).$type<string[]>(),
     content: text("content").notNull(),
     constant: integer("constant", { mode: "boolean" }).notNull().default(false),
     selective: integer("selective", { mode: "boolean" })
@@ -349,8 +348,7 @@ export const samplingPresets = sqliteTable(
     presencePenalty: real("presence_penalty"),
     repetitionPenalty: real("repetition_penalty"),
     maxTokens: integer("max_tokens"),
-    // Preset-level defaults; the conversation's own value overrides per chat.
-    // null = use the system default (streaming on, chatMemory 8).
+        // Preset-level defaults; the conversation's own value overrides per chat. null is the system default.
     streamingEnabled: integer("streaming_enabled", { mode: "boolean" }),
     chatMemory: integer("chat_memory"),
     extraBody: text("extra_body"),
@@ -489,8 +487,7 @@ export const userThemes = sqliteTable(
   (table) => [index("idx_theme_sync_expires").on(table.syncExpiresAt)],
 );
 
-// Generic blob store. Asymmetric: client base64 -> server R2 upload -> Turso
-// pointer-only. Rehydrator never overwrites existing local cache.
+    // Generic blob store. Asymmetric: client base64, server R2 upload, Turso pointer-only. Rehydrator never overwrites cache.
 export const media = sqliteTable(
   "media",
   {
@@ -562,10 +559,12 @@ export const playgrounds = sqliteTable(
     model: text("model").notNull(),
     prompt: text("prompt").notNull(),
     negativePrompt: text("negative_prompt"),
-    params: text("params", { mode: "json" }),
-    loras: text("loras", { mode: "json" }),
-    references: text("references", { mode: "json" }),
-    extraParams: text("extra_params", { mode: "json" }),
+    params: text("params", { mode: "json" }).$type<GenerationParams>(),
+    loras: text("loras", { mode: "json" }).$type<LoraEntry[]>(),
+    references: text("references", { mode: "json" }).$type<ReferenceEntry[]>(),
+    extraParams: text("extra_params", {
+      mode: "json",
+    }).$type<GenerationFormUi>(),
     status: text("status")
       .notNull()
       .default("pending")

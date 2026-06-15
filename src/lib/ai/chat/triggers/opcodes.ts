@@ -1,7 +1,4 @@
-// V2 trigger opcode handlers, field-accurate RisuAI port. Operand resolution:
-// `<field>Type === 'value' ? literal : getVar(name)` (default is var lookup);
-// operands + outputVar pass through ctx.parse first. Control flow lives in
-// vm.ts; app-coupled side effects (LLM/imggen/alerts/GUI) are no-ops here.
+    // V2 trigger opcode handlers (RisuAI port). Operands are literal when <field>Type is 'value' else a var lookup. Side effects no-op here.
 
 import { calcString } from "../calc";
 import type { TriggerContext, TriggerEffect } from "./types";
@@ -16,8 +13,7 @@ export function cbs(ctx: TriggerContext, s: unknown): string {
   return ctx.parse ? ctx.parse(raw) : raw;
 }
 
-// Resolve an operand per Risu semantics: literal when `<field>Type` is exactly
-// "value", else a var lookup of the (CBS-parsed) name.
+    // Resolve an operand per Risu: literal when <field>Type is "value", else a var lookup of the parsed name.
 function rv(
   e: TriggerEffect,
   ctx: TriggerContext,
@@ -54,10 +50,7 @@ function parseDict(s: string): Record<string, string> {
   return v as Record<string, string>;
 }
 
-// Array-var mutation boilerplate: parse the var as a JSON array, run `fn`
-// (its return value is the new array, or undefined to keep), write back.
-// On parse failure: Risu resets the var to '[]' and writes `errOut` to the
-// outputVar when given.
+    // Array-var mutation: parse the var as a JSON array, run fn, write back. On parse failure Risu resets to '[]' and writes errOut.
 function withArrVar(
   e: TriggerEffect,
   ctx: TriggerContext,
@@ -118,7 +111,6 @@ export function runDataOpcode(
   };
 
   switch (e.type) {
-    // ---- variables ----
     case "v2SetVar": {
       const value = rv(e, ctx, vr, "value");
       const varKey = cbs(ctx, e.var);
@@ -148,7 +140,6 @@ export function runDataOpcode(
       return true;
     }
 
-    // ---- legacy v1 effects (older cards; no *Type discriminators) ----
     case "setvar": {
       const value = cbs(ctx, e.value);
       const varKey = cbs(ctx, e.var);
@@ -205,7 +196,6 @@ export function runDataOpcode(
     case "command":
       return true; // recursion/commands: no-op in the isomorphic core
 
-    // ---- strings ----
     case "v2GetCharAt": {
       const source = rv(e, ctx, vr, "source");
       const i = rnum(e, ctx, vr, "index");
@@ -304,7 +294,6 @@ export function runDataOpcode(
       return true;
     }
 
-    // ---- arrays (var name is CBS-parsed, not var-resolved; Risu parity) ----
     case "v2MakeArrayVar": {
       const name = cbs(ctx, e.var);
       if (name.startsWith("[") && name.endsWith("]")) return true;
@@ -396,7 +385,6 @@ export function runDataOpcode(
       );
       return true;
 
-    // ---- dicts ----
     case "v2MakeDictVar": {
       const name = cbs(ctx, e.var);
       if (name.startsWith("{") && name.endsWith("}")) return true;
@@ -475,12 +463,10 @@ export function runDataOpcode(
       );
       return true;
 
-    // ---- math ----
     case "v2Random": {
       const min = rnum(e, ctx, vr, "min");
       const max = rnum(e, ctx, vr, "max");
-      // Deterministic LCG advanced through a hidden VM var: same script run
-      // yields the same SEQUENCE (resumable), but successive calls differ.
+          // Deterministic LCG advanced through a hidden VM var: a run yields the same sequence, later calls differ.
       const prev = Number(vr.get("__rand_state"));
       let seed =
         Number.isFinite(prev) && prev > 0
@@ -514,7 +500,6 @@ export function runDataOpcode(
       );
       return true;
 
-    // ---- chat access ----
     case "v2GetLastMessage":
       setOut(ctx.chat.at(-1)?.data ?? "null");
       return true;
@@ -563,7 +548,6 @@ export function runDataOpcode(
       return true;
     }
 
-    // ---- chat mutation ----
     case "v2CutChat": {
       const start = rnum(e, ctx, vr, "start");
       const end = rnum(e, ctx, vr, "end");
@@ -584,7 +568,6 @@ export function runDataOpcode(
     case "v2UpdateChatAt":
       return true; // GUI repaint hint
 
-    // ---- lorebook CRUD ----
     case "v2GetAllLorebooks":
       setOut(JSON.stringify(ctx.lore.map((l) => l.content)));
       return true;
@@ -679,7 +662,6 @@ export function runDataOpcode(
       return true;
     }
 
-    // ---- char / persona / note ----
     case "v2GetCharacterDesc":
       setOut(ctx.charDesc);
       return true;
@@ -705,7 +687,6 @@ export function runDataOpcode(
       ctx.replaceGlobalNote = rv(e, ctx, vr, "value");
       return true;
 
-    // ---- system ----
     case "v2SystemPrompt": {
       const loc = (e.location ?? "promptend") as
         | "start"
@@ -727,13 +708,11 @@ export function runDataOpcode(
     case "v2Wait":
       return true;
 
-    // ---- alerts: interactive, no isomorphic equivalent ----
     case "v2GetAlertInput":
     case "v2GetAlertSelect":
       setOut("null");
       return true;
 
-    // ---- sandbox: request / display state ----
     case "v2GetRequestStateLength":
       setOut(String(ctx.formated?.length ?? 0));
       return true;
@@ -762,7 +741,6 @@ export function runDataOpcode(
       ctx.displayData = rv(e, ctx, vr, "value");
       return true;
 
-    // ---- lowLevelAccess-gated side effects: no-op in the isomorphic core ----
     case "v2RunLLM":
     case "v2ImgGen":
     case "v2CheckSimilarity":
