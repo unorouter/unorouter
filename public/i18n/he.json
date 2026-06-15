@@ -3111,7 +3111,10 @@
       "LOREBOOKS": "{count, plural, one {ספר ידע אחד} two {# ספרי ידע} many {# ספרי ידע} other {# ספרי ידע}}"
     },
     "TRIGGER_ALERT_SELECT_DESC": "בחר אפשרות כדי להמשיך",
-    "TRIGGER_ALERT_OK": "אישור"
+    "TRIGGER_ALERT_OK": "אישור",
+    "SUCCESS": {
+      "ERROR_COPIED": "פרטי השגיאה הועתקו"
+    }
   },
   "RP": {
     "CHARACTERS_TITLE": "דמויות",

@@ -122,8 +122,14 @@ export type ChatRuntimeState = {
   historyLoaded: boolean;
       // Conversation settings drawer open; shared so the header badge and actions menu drive the same drawer.
   settingsOpen: boolean;
-      // Last stream failure; the adapter persists the failed run as an error node, not an empty ghost branch.
-  lastStreamError: { message: string; at: number } | null;
+      // Last stream failure; the adapter persists the failed run as an error node, not an empty ghost branch. code/status/requestId carry the full upstream detail for debugging.
+  lastStreamError: {
+    message: string;
+    at: number;
+    code?: string;
+    status?: number;
+    requestId?: string;
+  } | null;
   // Speaking character for the current stream (multi-character rotation).
   speakingCharacterId: string | null;
       // Greeting picked on the empty-thread preview (0 is firstMessage, i is alternateGreetings[i-1]); thread-list seeds branches from it.

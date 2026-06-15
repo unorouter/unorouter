@@ -204,6 +204,11 @@ export function createChatHistoryAdapter(
                   data: {
                     message: streamError.message,
                     ...(resolvedModel && { model: resolvedModel }),
+                    ...(streamError.code && { code: streamError.code }),
+                    ...(streamError.status && { status: streamError.status }),
+                    ...(streamError.requestId && {
+                      requestId: streamError.requestId,
+                    }),
                   },
                 });
               }

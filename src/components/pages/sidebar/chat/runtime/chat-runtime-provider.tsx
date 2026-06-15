@@ -18,7 +18,7 @@ import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { usePendingDrainScheduler } from "@/hooks/ai/use-pending-drain-scheduler";
 import { acquireLock, releaseLock } from "@/lib/db/client/sync/resource-lock";
 import type { ChatUIMessage } from "@/lib/types";
-import { handleError } from "@/lib/utils/client";
+import { extractErrorDetail, handleError } from "@/lib/utils/client";
 import {
   chatHelpersAtom,
   chatStore,
@@ -112,10 +112,14 @@ function ChatRuntimeHook() {
         toast.info(t("CHAT.QUEUED_OFFLINE"));
         return;
       }
-          // Stash for the history adapter: the failed assistant message persists with an error item so it survives refresh.
+          // Stash for the history adapter: the failed assistant message persists with an error item (full detail) so it survives refresh.
+      const detail = extractErrorDetail(e);
       chatStore.set(lastStreamErrorAtom, {
-        message: String((e as Error)?.message ?? e),
+        message: detail.message,
         at: Date.now(),
+        code: detail.code,
+        status: detail.status,
+        requestId: detail.requestId,
       });
       handleError(e, t);
     },

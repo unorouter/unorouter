@@ -3111,7 +3111,10 @@
       "LOREBOOKS": "{count, plural, other {# lorebook}}"
     },
     "TRIGGER_ALERT_SELECT_DESC": "Pilih salah satu opsi untuk melanjutkan",
-    "TRIGGER_ALERT_OK": "OK"
+    "TRIGGER_ALERT_OK": "OK",
+    "SUCCESS": {
+      "ERROR_COPIED": "Detail kesalahan disalin"
+    }
   },
   "RP": {
     "CHARACTERS_TITLE": "Karakter",

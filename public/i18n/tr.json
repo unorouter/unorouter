@@ -3111,7 +3111,10 @@
       "LOREBOOKS": "{count, plural, one {# lorebook} other {# lorebook}}"
     },
     "TRIGGER_ALERT_SELECT_DESC": "Devam etmek için bir seçenek seçin",
-    "TRIGGER_ALERT_OK": "Tamam"
+    "TRIGGER_ALERT_OK": "Tamam",
+    "SUCCESS": {
+      "ERROR_COPIED": "Hata ayrıntıları kopyalandı"
+    }
   },
   "RP": {
     "CHARACTERS_TITLE": "Karakterler",

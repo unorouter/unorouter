@@ -3111,7 +3111,10 @@
       "LOREBOOKS": "{count, plural, one {# लोरबुक} other {# लोरबुक}}"
     },
     "TRIGGER_ALERT_SELECT_DESC": "जारी रखने के लिए एक विकल्प चुनें",
-    "TRIGGER_ALERT_OK": "ठीक है"
+    "TRIGGER_ALERT_OK": "ठीक है",
+    "SUCCESS": {
+      "ERROR_COPIED": "त्रुटि विवरण कॉपी किया गया"
+    }
   },
   "RP": {
     "CHARACTERS_TITLE": "Characters",

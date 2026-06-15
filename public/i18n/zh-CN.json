@@ -3111,7 +3111,10 @@
       "LOREBOOKS": "{count, plural, other {# 个世界书}}"
     },
     "TRIGGER_ALERT_SELECT_DESC": "请选择一个选项以继续",
-    "TRIGGER_ALERT_OK": "确定"
+    "TRIGGER_ALERT_OK": "确定",
+    "SUCCESS": {
+      "ERROR_COPIED": "已复制错误详情"
+    }
   },
   "RP": {
     "CHARACTERS_TITLE": "角色",

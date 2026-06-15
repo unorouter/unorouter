@@ -33,6 +33,7 @@ import { useIsMobile } from "@/hooks/ui/use-mobile";
 import { partsToItems } from "@/lib/ai/chat/messages";
 import { analytics } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
+import { copyToClipboard } from "@/lib/utils/base";
 import { formatPrice } from "@/lib/utils/format/number";
 import {
   chatHelpersAtom,
@@ -58,6 +59,7 @@ import { useAtom, useAtomValue } from "jotai";
 import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
 import { useParams } from "next/navigation";
+import { toast } from "sonner";
 import {
   createContext,
   useContext,
@@ -368,16 +370,56 @@ function resolveErrorMessage(
 // after refresh / on inactive branches, unlike MessageError which only covers
 // the live run. Retry = the existing Refresh action (regenerate sibling).
 const PersistedErrorPart: FC<{ data?: unknown }> = (props) => {
-  const data = (props.data ?? {}) as { message?: string; model?: string };
+  const t = useTranslations();
+  const data = (props.data ?? {}) as {
+    message?: string;
+    model?: string;
+    code?: string;
+    status?: number;
+    requestId?: string;
+  };
   if (!data.message) return null;
+  const meta = [
+    data.status ? `HTTP ${data.status}` : null,
+    data.code ?? null,
+    data.requestId ? `#${data.requestId}` : null,
+  ].filter(Boolean);
+  const copyText = [
+    data.model ? `model: ${data.model}` : null,
+    data.status ? `status: ${data.status}` : null,
+    data.code ? `code: ${data.code}` : null,
+    data.requestId ? `request id: ${data.requestId}` : null,
+    `message: ${data.message}`,
+  ]
+    .filter(Boolean)
+    .join("\n");
   return (
     <div
       role="alert"
       className="aui-message-error-root border-destructive bg-destructive/10 text-destructive dark:bg-destructive/5 mt-2 rounded-md border p-3 text-sm dark:text-red-200"
     >
-      <span className="aui-message-error-message">
-        {data.model ? `${data.model}: ${data.message}` : data.message}
-      </span>
+      <div className="flex items-start justify-between gap-2">
+        <span className="aui-message-error-message">
+          {data.model ? `${data.model}: ${data.message}` : data.message}
+        </span>
+        <TooltipIconButton
+          tooltip={t("CHAT.ACTION.COPY")}
+          className="-mt-1 -mr-1 h-6 w-6 shrink-0"
+          onClick={() => {
+            copyToClipboard(copyText);
+            toast.success(t("CHAT.SUCCESS.ERROR_COPIED"));
+          }}
+        >
+          <Icon name="copy" className="h-3.5 w-3.5" />
+        </TooltipIconButton>
+      </div>
+      {meta.length > 0 && (
+        <div className="mt-1.5 flex flex-wrap gap-x-2 gap-y-0.5 font-mono text-[11px] opacity-70">
+          {meta.map((m) => (
+            <span key={m}>{m}</span>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

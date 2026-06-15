@@ -3111,7 +3111,10 @@
       "LOREBOOKS": "{count, plural, one {# lorebook} few {# lorebooki} many {# lorebooków} other {# lorebooków}}"
     },
     "TRIGGER_ALERT_SELECT_DESC": "Wybierz opcję, aby kontynuować",
-    "TRIGGER_ALERT_OK": "OK"
+    "TRIGGER_ALERT_OK": "OK",
+    "SUCCESS": {
+      "ERROR_COPIED": "Skopiowano szczegóły błędu"
+    }
   },
   "RP": {
     "CHARACTERS_TITLE": "Postacie",
