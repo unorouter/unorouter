@@ -3114,6 +3114,11 @@
     "TRIGGER_ALERT_OK": "OK",
     "SUCCESS": {
       "ERROR_COPIED": "エラー詳細をコピーしました"
+    },
+    "CHAT_TOTAL": "チャット合計",
+    "STATS": {
+      "SHOW_COST": "コストを表示",
+      "SHOW_TOKENS": "トークンを表示"
     }
   },
   "RP": {

@@ -3114,6 +3114,11 @@
     "TRIGGER_ALERT_OK": "확인",
     "SUCCESS": {
       "ERROR_COPIED": "오류 세부정보가 복사되었습니다"
+    },
+    "CHAT_TOTAL": "채팅 합계",
+    "STATS": {
+      "SHOW_COST": "비용 표시",
+      "SHOW_TOKENS": "토큰 표시"
     }
   },
   "RP": {

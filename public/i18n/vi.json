@@ -3114,6 +3114,11 @@
     "TRIGGER_ALERT_OK": "OK",
     "SUCCESS": {
       "ERROR_COPIED": "Đã sao chép chi tiết lỗi"
+    },
+    "CHAT_TOTAL": "Tổng cuộc trò chuyện",
+    "STATS": {
+      "SHOW_COST": "Hiển thị chi phí",
+      "SHOW_TOKENS": "Hiển thị token"
     }
   },
   "RP": {

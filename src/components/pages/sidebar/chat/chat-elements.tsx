@@ -19,9 +19,11 @@ import {
   chatGroupAtom,
   chatModelAtom,
   conversationSettingsOpenAtom,
+  showStatsCostAtom,
+  showStatsTokensAtom,
 } from "@/store/chat-store";
 import { useAui, useAuiState } from "@assistant-ui/react";
-import { useAtom, useSetAtom } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { Button } from "../../../ui/button";
 import { ChatActionsMenu } from "./chat-actions-menu";
@@ -124,21 +126,33 @@ export function ActiveConfigBadge() {
 export function ConversationStats(props: { convId?: string }) {
   const t = useTranslations();
   const convQuery = useConversationQuery(props.convId);
+  const showTokens = useAtomValue(showStatsTokensAtom);
+  const showCost = useAtomValue(showStatsCostAtom);
   const data = convQuery.data;
   if (!props.convId || !data) return null;
   if (data.totalInputTokens <= 0 && data.totalOutputTokens <= 0) return null;
+  const renderCost = showCost && data.totalCost > 0;
+  // Hide the line entirely when nothing follows the label (e.g. free chat, cost 0, tokens off).
+  if (!renderCost && !showTokens) return null;
   return (
     <div className="text-muted-foreground pointer-events-none flex items-center justify-start gap-2 px-1 pb-1 text-[11px] tabular-nums">
-      <span>
-        {data.totalInputTokens.toLocaleString()} {t("CHAT.TOKENS_IN")}
+      <span className="text-foreground/60 font-medium">
+        {t("CHAT.CHAT_TOTAL")}
       </span>
-      <span>
-        {data.totalOutputTokens.toLocaleString()} {t("CHAT.TOKENS_OUT")}
-      </span>
-      {data.totalCost > 0 && (
+      {renderCost && (
         <span className="text-foreground/70 font-medium">
           {formatPrice(data.totalCost)}
         </span>
+      )}
+      {showTokens && (
+        <>
+          <span>
+            {data.totalInputTokens.toLocaleString()} {t("CHAT.TOKENS_IN")}
+          </span>
+          <span>
+            {data.totalOutputTokens.toLocaleString()} {t("CHAT.TOKENS_OUT")}
+          </span>
+        </>
       )}
     </div>
   );

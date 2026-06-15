@@ -3114,6 +3114,11 @@
     "TRIGGER_ALERT_OK": "OK",
     "SUCCESS": {
       "ERROR_COPIED": "Détails de l'erreur copiés"
+    },
+    "CHAT_TOTAL": "Total du chat",
+    "STATS": {
+      "SHOW_COST": "Afficher le coût",
+      "SHOW_TOKENS": "Afficher les jetons"
     }
   },
   "RP": {

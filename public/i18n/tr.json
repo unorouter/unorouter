@@ -3114,6 +3114,11 @@
     "TRIGGER_ALERT_OK": "Tamam",
     "SUCCESS": {
       "ERROR_COPIED": "Hata ayrıntıları kopyalandı"
+    },
+    "CHAT_TOTAL": "Sohbet Toplamı",
+    "STATS": {
+      "SHOW_COST": "Maliyeti göster",
+      "SHOW_TOKENS": "Token'ları göster"
     }
   },
   "RP": {
