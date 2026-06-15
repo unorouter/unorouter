@@ -3104,7 +3104,8 @@
       "LOCAL_DB_UPLOAD_CONFIRM": "从此文件覆盖本地 OPFS 数据库？现有数据将被清空。",
       "CLEAR": "清空对话",
       "CLEAR_SUCCESS": "对话已清空",
-      "CLEAR_CONFIRM_DESC": "此操作将删除该对话中的所有消息，但保留设置、角色绑定和标题。此操作无法撤销。"
+      "CLEAR_CONFIRM_DESC": "此操作将删除该对话中的所有消息，但保留设置、角色绑定和标题。此操作无法撤销。",
+      "DISPLAY": "显示"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, other {# 个角色}}",

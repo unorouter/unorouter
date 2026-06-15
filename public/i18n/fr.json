@@ -3104,7 +3104,8 @@
       "LOCAL_DB_UPLOAD_CONFIRM": "Écraser la base OPFS locale à partir de ce fichier ? Les données existantes seront supprimées.",
       "CLEAR": "Vider le chat",
       "CLEAR_SUCCESS": "Chat vide",
-      "CLEAR_CONFIRM_DESC": "Cela supprime tous les messages de la conversation, mais conserve les parametres, les liaisons de personnages et le titre. Cette action est irreversible."
+      "CLEAR_CONFIRM_DESC": "Cela supprime tous les messages de la conversation, mais conserve les parametres, les liaisons de personnages et le titre. Cette action est irreversible.",
+      "DISPLAY": "Affichage"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, one {# personnage} other {# personnages}}",

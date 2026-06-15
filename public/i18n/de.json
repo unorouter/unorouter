@@ -3104,7 +3104,8 @@
       "LOCAL_DB_UPLOAD_CONFIRM": "Lokale OPFS-Datenbank aus dieser Datei überschreiben? Vorhandene Daten werden gelöscht.",
       "CLEAR": "Chat leeren",
       "CLEAR_SUCCESS": "Chat geleert",
-      "CLEAR_CONFIRM_DESC": "Dadurch werden alle Nachrichten dieser Unterhaltung gelöscht, die Einstellungen, Charakterbindungen und der Titel bleiben jedoch erhalten. Diese Aktion kann nicht rückgängig gemacht werden."
+      "CLEAR_CONFIRM_DESC": "Dadurch werden alle Nachrichten dieser Unterhaltung gelöscht, die Einstellungen, Charakterbindungen und der Titel bleiben jedoch erhalten. Diese Aktion kann nicht rückgängig gemacht werden.",
+      "DISPLAY": "Anzeige"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, one {# Charakter} other {# Charaktere}}",

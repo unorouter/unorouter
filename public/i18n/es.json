@@ -3104,7 +3104,8 @@
       "LOCAL_DB_UPLOAD_CONFIRM": "¿Sobrescribir base de datos OPFS local desde este archivo? Los datos existentes se borran.",
       "CLEAR": "Limpiar chat",
       "CLEAR_SUCCESS": "Chat limpiado",
-      "CLEAR_CONFIRM_DESC": "Esto elimina cada mensaje en la conversación pero mantiene la configuración, vínculos de personaje y título. Esto no se puede deshacer."
+      "CLEAR_CONFIRM_DESC": "Esto elimina cada mensaje en la conversación pero mantiene la configuración, vínculos de personaje y título. Esto no se puede deshacer.",
+      "DISPLAY": "Visualización"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, one {# personaje} other {# personajes}}",
