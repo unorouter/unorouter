@@ -143,7 +143,7 @@ export type LocalClient = {
   destroy: () => Promise<void>;
   deleteDatabaseFile: () => Promise<void>;
   getDatabaseFile: () => Promise<File>;
-  overwriteDatabaseFile: (file: File | Blob) => Promise<void>;
+  overwriteDatabaseFile: (file: File | Blob | ArrayBuffer) => Promise<void>;
   reactiveQuery: (query: unknown) => {
     subscribe: (
       onData: (data: unknown) => void,
