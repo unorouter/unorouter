@@ -35,7 +35,7 @@ services:
       - "autoheal=true"
       - "traefik.enable=true"
       - "traefik.docker.network=proxy"
-      - "traefik.http.routers.unorouter.rule=Host(`unorouter.com`) || Host(`www.unorouter.com`) || Host(`status.unorouter.com`) || Host(`www.status.unorouter.com`) || Host(`unorouter.ai`) || Host(`www.unorouter.ai`) || Host(`status.unorouter.ai`) || Host(`www.status.unorouter.ai`)"
+      - "traefik.http.routers.unorouter.rule=Host(`unorouter.com`) || Host(`www.unorouter.com`) || Host(`status.unorouter.com`) || Host(`www.status.unorouter.com`)"
       - "traefik.http.routers.unorouter.entrypoints=websecure"
       - "traefik.http.routers.unorouter.tls.certresolver=letsencrypt"
       - "traefik.http.routers.unorouter.service=unorouter"
