@@ -3114,6 +3114,11 @@
     "TRIGGER_ALERT_OK": "確定",
     "SUCCESS": {
       "ERROR_COPIED": "已複製錯誤詳情"
+    },
+    "CHAT_TOTAL": "對話總計",
+    "STATS": {
+      "SHOW_COST": "顯示費用",
+      "SHOW_TOKENS": "顯示權杖"
     }
   },
   "RP": {

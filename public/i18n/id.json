@@ -3114,6 +3114,11 @@
     "TRIGGER_ALERT_OK": "OK",
     "SUCCESS": {
       "ERROR_COPIED": "Detail kesalahan disalin"
+    },
+    "CHAT_TOTAL": "Total Obrolan",
+    "STATS": {
+      "SHOW_COST": "Tampilkan biaya",
+      "SHOW_TOKENS": "Tampilkan token"
     }
   },
   "RP": {

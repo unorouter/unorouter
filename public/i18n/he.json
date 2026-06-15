@@ -3114,6 +3114,11 @@
     "TRIGGER_ALERT_OK": "אישור",
     "SUCCESS": {
       "ERROR_COPIED": "פרטי השגיאה הועתקו"
+    },
+    "CHAT_TOTAL": "סך הצ'אט",
+    "STATS": {
+      "SHOW_COST": "הצג עלות",
+      "SHOW_TOKENS": "הצג טוקנים"
     }
   },
   "RP": {

@@ -3114,6 +3114,11 @@
     "TRIGGER_ALERT_OK": "موافق",
     "SUCCESS": {
       "ERROR_COPIED": "تم نسخ تفاصيل الخطأ"
+    },
+    "CHAT_TOTAL": "إجمالي المحادثة",
+    "STATS": {
+      "SHOW_COST": "إظهار التكلفة",
+      "SHOW_TOKENS": "إظهار الرموز"
     }
   },
   "RP": {

@@ -3114,6 +3114,11 @@
     "TRIGGER_ALERT_OK": "OK",
     "SUCCESS": {
       "ERROR_COPIED": "Error details copied"
+    },
+    "CHAT_TOTAL": "Chat Total",
+    "STATS": {
+      "SHOW_COST": "Show cost",
+      "SHOW_TOKENS": "Show tokens"
     }
   },
   "RP": {

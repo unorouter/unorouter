@@ -45,6 +45,9 @@ export type ChatState = {
   defaults: StreamOverrides;
   loadout: ChatLoadout;
   samplerMemoryByModel: Record<string, ModelSamplerMemory>;
+  // Chat-total display prefs (global). Tokens off by default: the cumulative billed-token sum confuses users; cost is the clear signal.
+  showStatsTokens: boolean;
+  showStatsCost: boolean;
 };
 
 export const INITIAL_CHAT_STATE: ChatState = {
@@ -54,6 +57,8 @@ export const INITIAL_CHAT_STATE: ChatState = {
   defaults: {},
   loadout: EMPTY_LOADOUT,
   samplerMemoryByModel: {},
+  showStatsTokens: false,
+  showStatsCost: true,
 };
 
 // SSR-hydrated from the cookie by ChatStoreProvider; no getOnInit needed.
@@ -82,6 +87,21 @@ export const chatWebSearchAtom = atom(
   (get) => get(chatStoreAtom).webSearch ?? INITIAL_CHAT_STATE.webSearch,
   (get, set, value: boolean) => {
     set(chatStoreAtom, { ...get(chatStoreAtom), webSearch: value });
+  },
+);
+
+export const showStatsTokensAtom = atom(
+  (get) =>
+    get(chatStoreAtom).showStatsTokens ?? INITIAL_CHAT_STATE.showStatsTokens,
+  (get, set, value: boolean) => {
+    set(chatStoreAtom, { ...get(chatStoreAtom), showStatsTokens: value });
+  },
+);
+
+export const showStatsCostAtom = atom(
+  (get) => get(chatStoreAtom).showStatsCost ?? INITIAL_CHAT_STATE.showStatsCost,
+  (get, set, value: boolean) => {
+    set(chatStoreAtom, { ...get(chatStoreAtom), showStatsCost: value });
   },
 );
 

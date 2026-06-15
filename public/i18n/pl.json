@@ -3114,6 +3114,11 @@
     "TRIGGER_ALERT_OK": "OK",
     "SUCCESS": {
       "ERROR_COPIED": "Skopiowano szczegóły błędu"
+    },
+    "CHAT_TOTAL": "Suma czatu",
+    "STATS": {
+      "SHOW_COST": "Pokaż koszt",
+      "SHOW_TOKENS": "Pokaż tokeny"
     }
   },
   "RP": {

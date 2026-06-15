@@ -3114,6 +3114,11 @@
     "TRIGGER_ALERT_OK": "ठीक है",
     "SUCCESS": {
       "ERROR_COPIED": "त्रुटि विवरण कॉपी किया गया"
+    },
+    "CHAT_TOTAL": "चैट कुल",
+    "STATS": {
+      "SHOW_COST": "लागत दिखाएं",
+      "SHOW_TOKENS": "टोकन दिखाएं"
     }
   },
   "RP": {

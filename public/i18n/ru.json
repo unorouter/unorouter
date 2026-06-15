@@ -3114,6 +3114,11 @@
     "TRIGGER_ALERT_OK": "ОК",
     "SUCCESS": {
       "ERROR_COPIED": "Детали ошибки скопированы"
+    },
+    "CHAT_TOTAL": "Итого по чату",
+    "STATS": {
+      "SHOW_COST": "Показать стоимость",
+      "SHOW_TOKENS": "Показать токены"
     }
   },
   "RP": {
