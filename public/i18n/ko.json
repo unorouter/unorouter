@@ -2396,7 +2396,9 @@
       "IP_WHITELIST_PLACEHOLDER": "한 줄에 하나의 IP. 제한 없음을 위해 비워 두세요.",
       "IP_WHITELIST_DESC": "IP는 위조될 수 있습니다. 더 강력한 시행을 위해 게이트웨이와 함께 사용하세요.",
       "SUBMIT": "생성",
-      "SAVE": "저장"
+      "SAVE": "저장",
+      "QUOTA_FREE_ONLY_HINT": "＄0 은 무료 모델 전용 키를 만듭니다. 유료 모델은 거부됩니다.",
+      "QUOTA_EQUIVALENT": "= {quota} 쿼터"
     },
     "ENUM": {
       "ENABLED": "활성화됨",

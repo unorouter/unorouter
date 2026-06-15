@@ -2396,7 +2396,9 @@
       "IP_WHITELIST_PLACEHOLDER": "प्रति line एक IP। कोई प्रतिबंध नहीं के लिए खाली छोड़ें।",
       "IP_WHITELIST_DESC": "IPs spoof हो सकते हैं। मजबूत enforcement के लिए एक gateway के साथ उपयोग करें।",
       "SUBMIT": "बनाएं",
-      "SAVE": "सहेजें"
+      "SAVE": "सहेजें",
+      "QUOTA_FREE_ONLY_HINT": "$0 केवल मुफ्त मॉडल वाली कुंजी बनाता है। सशुल्क मॉडल अस्वीकृत होते हैं।",
+      "QUOTA_EQUIVALENT": "= {quota} कोटा"
     },
     "ENUM": {
       "ENABLED": "सक्षम",

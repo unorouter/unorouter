@@ -2396,7 +2396,9 @@
       "IP_WHITELIST_PLACEHOLDER": "Une IP par ligne. Laissez vide pour aucune restriction.",
       "IP_WHITELIST_DESC": "Les IP peuvent être usurpées. Utilisez une passerelle pour un contrôle plus strict.",
       "SUBMIT": "Créer",
-      "SAVE": "Enregistrer"
+      "SAVE": "Enregistrer",
+      "QUOTA_FREE_ONLY_HINT": "$0 crée une clé réservée aux modèles gratuits. Les modèles payants sont refusés.",
+      "QUOTA_EQUIVALENT": "= {quota} de quota"
     },
     "ENUM": {
       "ENABLED": "Activée",

@@ -2396,7 +2396,9 @@
       "IP_WHITELIST_PLACEHOLDER": "IP אחד בכל שורה. השאירו ריק ללא הגבלה.",
       "IP_WHITELIST_DESC": "ניתן לזייף כתובות IP. השתמשו עם שער לאכיפה חזקה יותר.",
       "SUBMIT": "צור",
-      "SAVE": "שמור"
+      "SAVE": "שמור",
+      "QUOTA_FREE_ONLY_HINT": "‏$0 יוצר מפתח למודלים חינמיים בלבד. מודלים בתשלום נדחים.",
+      "QUOTA_EQUIVALENT": "‏= {quota} מכסה"
     },
     "ENUM": {
       "ENABLED": "מופעל",

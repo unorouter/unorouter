@@ -2396,7 +2396,9 @@
       "IP_WHITELIST_PLACEHOLDER": "Eine IP pro Zeile. Leer lassen für keine Einschränkung.",
       "IP_WHITELIST_DESC": "IPs können gefälscht werden. Verwenden Sie ein Gateway für stärkere Durchsetzung.",
       "SUBMIT": "Erstellen",
-      "SAVE": "Speichern"
+      "SAVE": "Speichern",
+      "QUOTA_FREE_ONLY_HINT": "$0 erstellt einen Schlüssel nur für kostenlose Modelle. Kostenpflichtige Modelle werden abgelehnt.",
+      "QUOTA_EQUIVALENT": "= {quota} Kontingent"
     },
     "ENUM": {
       "ENABLED": "Aktiviert",

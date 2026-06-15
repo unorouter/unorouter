@@ -2396,7 +2396,9 @@
       "IP_WHITELIST_PLACEHOLDER": "每行一个 IP。留空表示不限制。",
       "IP_WHITELIST_DESC": "IP 可能被伪造。建议配合网关使用以增强管控。",
       "SUBMIT": "创建",
-      "SAVE": "保存"
+      "SAVE": "保存",
+      "QUOTA_FREE_ONLY_HINT": "＄0 创建仅限免费模型的密钥。付费模型将被拒绝。",
+      "QUOTA_EQUIVALENT": "= {quota} 配额"
     },
     "ENUM": {
       "ENABLED": "已启用",

@@ -2396,7 +2396,9 @@
       "IP_WHITELIST_PLACEHOLDER": "One IP per line. Leave empty for no restriction.",
       "IP_WHITELIST_DESC": "IPs can be spoofed. Use with a gateway for stronger enforcement.",
       "SUBMIT": "Create",
-      "SAVE": "Save"
+      "SAVE": "Save",
+      "QUOTA_FREE_ONLY_HINT": "$0 makes a free models only key. Paid models are rejected.",
+      "QUOTA_EQUIVALENT": "= {quota} quota"
     },
     "ENUM": {
       "ENABLED": "Enabled",

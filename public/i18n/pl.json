@@ -2396,7 +2396,9 @@
       "IP_WHITELIST_PLACEHOLDER": "Jedno IP na linię. Pozostaw puste dla braku ograniczeń.",
       "IP_WHITELIST_DESC": "IP można sfałszować. Użyj z bramą dla silniejszego egzekwowania.",
       "SUBMIT": "Utwórz",
-      "SAVE": "Zapisz"
+      "SAVE": "Zapisz",
+      "QUOTA_FREE_ONLY_HINT": "$0 tworzy klucz tylko dla darmowych modeli. Płatne modele są odrzucane.",
+      "QUOTA_EQUIVALENT": "= {quota} limitu"
     },
     "ENUM": {
       "ENABLED": "Włączony",
