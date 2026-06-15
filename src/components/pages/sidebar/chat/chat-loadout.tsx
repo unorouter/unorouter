@@ -114,7 +114,7 @@ function MultiPicker(props: {
   );
 }
 
-    // Loadout panel on the empty chat: edits the sticky chatLoadoutAtom seeded into every new conversation.
+// Loadout panel on the empty chat: edits the sticky chatLoadoutAtom seeded into every new conversation.
 export function ChatLoadout() {
   const t = useTranslations();
   const [loadout, setLoadout] = useAtom(chatLoadoutAtom);
@@ -126,7 +126,7 @@ export function ChatLoadout() {
   const patch = (next: Partial<ChatLoadout>) =>
     setLoadout({ ...loadout, ...next });
 
-      // Nothing to equip yet: hide the panel so a fresh user isn't shown four empty dropdowns; appears once they create any RP entity.
+  // Nothing to equip yet: hide the panel so a fresh user isn't shown four empty dropdowns; appears once they create any RP entity.
   const hasNothing =
     (presets?.length ?? 0) === 0 &&
     (personas?.length ?? 0) === 0 &&

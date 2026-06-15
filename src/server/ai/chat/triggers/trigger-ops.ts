@@ -1,4 +1,4 @@
-    // Server-side TriggerOps for V1 lowLevelAccess effects: direct service calls (client modes POST /chat/trigger-op instead).
+// Server-side TriggerOps for V1 lowLevelAccess effects: direct service calls (client modes POST /chat/trigger-op instead).
 
 import { parseChatML } from "@/lib/ai/chat/chatml";
 import { generateInlayImage, type InlayImage } from "../media/inlay.service";
@@ -30,7 +30,7 @@ export async function runTriggerLLM(
   }
 }
 
-    // Rank values by similarity to source (Risu HypaProcesser.similaritySearch: all candidates, best first).
+// Rank values by similarity to source (Risu HypaProcesser.similaritySearch: all candidates, best first).
 export async function runTriggerSimilarity(
   apiKey: string,
   source: string,
@@ -51,7 +51,7 @@ export async function runTriggerSimilarity(
 export function makeServerTriggerOps(
   apiKey: string,
   model: string,
-      // Generated inlay bytes collect here; they ride finish-meta so the client persists the media rows.
+  // Generated inlay bytes collect here; they ride finish-meta so the client persists the media rows.
   inlayCollector?: InlayImage[],
 ): TriggerOps {
   return {
@@ -64,6 +64,6 @@ export function makeServerTriggerOps(
       inlayCollector?.push(img);
       return `{{inlay::${img.id}}}`;
     },
-        // runLua wired by the Lua module; alert is wrapped by runStartTriggers (collected, streamed as data-alert).
+    // runLua wired by the Lua module; alert is wrapped by runStartTriggers (collected, streamed as data-alert).
   };
 }

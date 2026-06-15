@@ -1,4 +1,4 @@
-    // CBS macro evaluator (full RisuAI port). App-coupled macros resolve to safe empties, not literal {{...}}.
+// CBS macro evaluator (full RisuAI port). App-coupled macros resolve to safe empties, not literal {{...}}.
 
 import { calcString, seededRand } from "@/lib/ai/chat/calc";
 import { dayjs } from "@/lib/utils/format/date";
@@ -16,7 +16,7 @@ export type MacroScope = {
   globalVars?: Record<string, string>;
   // Per-assembly scratch store (settempvar/gettempvar). Never persisted.
   tempVars?: Record<string, string>;
-      // Newest last, for the {{history}}/{{lastmessage}} family. time is createdAt (unix ms) for message_time/date/idle.
+  // Newest last, for the {{history}}/{{lastmessage}} family. time is createdAt (unix ms) for message_time/date/idle.
   history?: {
     role: "user" | "assistant" | "system";
     text: string;
@@ -24,7 +24,7 @@ export type MacroScope = {
   }[];
   // Per-conv seed so roll/random/pick resolve identically across regenerates (RisuAI determinism).
   seed?: string;
-      // Client-sent browser env: screen size + locale-faithful time formatting. Absent in tokenize/fallback paths.
+  // Client-sent browser env: screen size + locale-faithful time formatting. Absent in tokenize/fallback paths.
   viewport?: { w: number; h: number };
   locale?: string;
   timeZone?: string;
@@ -36,7 +36,7 @@ export type MacroScope = {
   lorebooks?: unknown[]; // {{lorebook}}/{{worldinfo}} JSON reader
   triggerId?: string; // {{trigger_id}} when expanding inside a trigger
   prefillSupported?: boolean; // {{prefill_supported}}
-      // Index of the message being expanded (Risu chatID); undefined means field context, so message_time errors.
+  // Index of the message being expanded (Risu chatID); undefined means field context, so message_time errors.
   chatIndex?: number;
   // Introspection tokens; all optional so fallback assembly paths stay valid.
   model?: string; // {{model}} / metadata::modelname
@@ -51,7 +51,7 @@ export type MacroScope = {
 const MAX_RECURSION = 20;
 // Cap calc/{{?}} expression length so a pathological literal can't hang the eval.
 const MAX_CALC_LEN = 1000;
-    // Card-authored args run server-side; bound allocation-driving macros so {{range}}/{{cbr}} can't OOM. 100k covers legit use.
+// Card-authored args run server-side; bound allocation-driving macros so {{range}}/{{cbr}} can't OOM. 100k covers legit use.
 const MAX_MACRO_OUTPUT = 100_000;
 
 type ScopeField =
@@ -195,7 +195,7 @@ function trimLines(p1: string): string {
     .trim();
 }
 
-    // Risu risuEscape/risuUnescape: maps {}() to private-use chars to protect #escape content; un-mapped at build.
+// Risu risuEscape/risuUnescape: maps {}() to private-use chars to protect #escape content; un-mapped at build.
 export function risuEscape(text: string): string {
   return text.replace(/[{}()]/g, (f) => {
     switch (f) {
@@ -230,7 +230,7 @@ function hmsPad(totalMs: number): string {
 const NO_TIME = "[Cannot get time]";
 const OLD_VERSION_TIME = "[Cannot get time, message was sent in older version]";
 
-    // toLocale* with the client-sent locale + timeZone; an invalid one throws RangeError, so fall back to locale-default.
+// toLocale* with the client-sent locale + timeZone; an invalid one throws RangeError, so fall back to locale-default.
 function localeTime(ms: number, scope: MacroScope): string {
   try {
     return new Date(ms).toLocaleTimeString(scope.locale, {
@@ -256,7 +256,7 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
   if (trimmed.startsWith("//")) return ""; // {{// comment}}
   if (trimmed.startsWith("?")) return calc(trimmed.slice(1), scope); // {{? 1+2}}
 
-      // Risu parser: :: args when first colon is doubled, else legacy : args. Name normalization strips whitespace/_/-.
+  // Risu parser: :: args when first colon is doubled, else legacy : args. Name normalization strips whitespace/_/-.
   const colonIndex = trimmed.indexOf(":");
   const parts =
     colonIndex !== -1 && trimmed[colonIndex + 1] === ":"
@@ -758,7 +758,7 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
   }
 }
 
-    // Constant-result macros: literal escapes plus app-coupled tokens resolving empty so they never leak to the model.
+// Constant-result macros: literal escapes plus app-coupled tokens resolving empty so they never leak to the model.
 const LITERAL_MACROS: Record<string, string> = (() => {
   const out: Record<string, string> = {};
   const groups: [string, string[]][] = [
@@ -788,7 +788,7 @@ const LITERAL_MACROS: Record<string, string> = (() => {
   return out;
 })();
 
-    // {{#if cond}} or {{#when::...}}. #when is Risu's right-to-left stack evaluator: operators pop and push '1'/'0'.
+// {{#if cond}} or {{#when::...}}. #when is Risu's right-to-left stack evaluator: operators pop and push '1'/'0'.
 function evalCondition(raw: string, scope: MacroScope): boolean {
   const t = raw.trim();
   if (t.startsWith("#if")) {
@@ -871,7 +871,7 @@ function evalCondition(raw: string, scope: MacroScope): boolean {
   return isTruthy(t);
 }
 
-    // Expand flat macros inside-out. Unknown macros stay verbatim, cursor advances past them so the loop terminates.
+// Expand flat macros inside-out. Unknown macros stay verbatim, cursor advances past them so the loop terminates.
 function expandFlat(text: string, scope: MacroScope): string {
   const inner = /\{\{((?:(?!\{\{|\}\}).)*?)\}\}/s;
   let guard = 0;
@@ -885,7 +885,7 @@ function expandFlat(text: string, scope: MacroScope): string {
       cursor = at + m[0].length; // skip unknown, leave verbatim
       continue;
     }
-        // {{return}}: exit expansion immediately; the remainder is dropped (Risu __force_return__ behavior).
+    // {{return}}: exit expansion immediately; the remainder is dropped (Risu __force_return__ behavior).
     if (scope.vars["__force_return__"] === "1") {
       return text.slice(0, at) + resolved;
     }
@@ -896,7 +896,7 @@ function expandFlat(text: string, scope: MacroScope): string {
   return text;
 }
 
-    // Block engine (Risu parser). Any {{/...}} closes the innermost open block (pops by position, not name).
+// Block engine (Risu parser). Any {{/...}} closes the innermost open block (pops by position, not name).
 const BLOCK_OPEN_RE =
   /\{\{#(if_pure|if|when|each|pure_display|puredisplay|pure|escape)\b/;
 
@@ -978,7 +978,7 @@ function applyWhenElse(body: string, truthy: boolean, keep: boolean): string {
   return keep ? result : trimLines(result);
 }
 
-    // Resolve the first block in text (starts at the block opener). null when malformed (caller emits verbatim).
+// Resolve the first block in text (starts at the block opener). null when malformed (caller emits verbatim).
 function resolveFirstBlock(
   text: string,
   scope: MacroScope,
@@ -1004,7 +1004,7 @@ function resolveFirstBlock(
   if (tag.startsWith("#when")) {
     const truthy = evalCondition(tag, scope);
     const keep = /(^|::|\s)keep(::|\s|$)/.test(tag.slice(5));
-        // Risu newif bodies are NOT pure: both branches expand (side effects run), then the else split cuts the text.
+    // Risu newif bodies are NOT pure: both branches expand (side effects run), then the else split cuts the text.
     const expanded = expandBlocks(body, scope, depth + 1);
     return { raw: applyWhenElse(expanded, truthy, keep), rest: tail };
   }

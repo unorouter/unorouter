@@ -32,7 +32,7 @@ import type {
 
 // syncExpiresAt: null=local-only; non-null=synced + server-purged past timestamp.
 
-    // Fresh builder per call: drizzle binds a builder to its table, so shared column shapes must be factories.
+// Fresh builder per call: drizzle binds a builder to its table, so shared column shapes must be factories.
 export const createdAtCol = () =>
   integer("created_at", { mode: "timestamp_ms" })
     .notNull()
@@ -96,15 +96,15 @@ export const conversations = sqliteTable(
     vars: text("vars"),
     // null = inherit the bound preset's streamingEnabled (else default true).
     streamingEnabled: integer("streaming_enabled", { mode: "boolean" }),
-        // Multi-character turn ordering: deterministic stored order vs name-mention + talkness.
+    // Multi-character turn ordering: deterministic stored order vs name-mention + talkness.
     groupOrderByOrder: integer("group_order_by_order", { mode: "boolean" }),
     autoContinue: integer("auto_continue", { mode: "boolean" }),
-        // Rolling-summary memory: the running summary + the count of messages folded in (anchor), replacing older history on overflow.
+    // Rolling-summary memory: the running summary + the count of messages folded in (anchor), replacing older history on overflow.
     summaryMemory: text("summary_memory"),
     summaryAnchor: integer("summary_anchor"),
     // Toggle for the rolling summary + semantic retrieval memory features.
     memoryEnabled: integer("memory_enabled", { mode: "boolean" }),
-        // RisuAI fmIndex: which greeting opens the chat (-1 = firstMessage, 0..n = alternateGreetings index).
+    // RisuAI fmIndex: which greeting opens the chat (-1 = firstMessage, 0..n = alternateGreetings index).
     firstMsgIndex: integer("first_msg_index").notNull().default(-1),
     ...syncableTimestamps(),
   },
@@ -175,7 +175,7 @@ export const messageItems = sqliteTable(
 export const requestLogs = sqliteTable(
   "request_logs",
   {
-        // No FK to messages: the server writes this at stream finish, before the client pushes the message row. convId cascade cleans up.
+    // No FK to messages: the server writes this at stream finish, before the client pushes the message row. convId cascade cleans up.
     msgId: text("msg_id").primaryKey(),
     convId: text("conv_id")
       .notNull()
@@ -226,7 +226,7 @@ export const characters = sqliteTable(
     postHistoryInstructions: text("post_history_instructions"),
     defaultReasoningEffort: text("default_reasoning_effort"),
     tags: text("tags", { mode: "json" }).$type<string[]>(),
-        // RisuAI triggerscript[] (V2 effect VM). Keyword turn-gating moved to turn_triggers, so this column carries the programs.
+    // RisuAI triggerscript[] (V2 effect VM). Keyword turn-gating moved to turn_triggers, so this column carries the programs.
     triggers: text("triggers", { mode: "json" }),
     // Keyword array for multi-character turn-gating (non-primary chars).
     turnTriggers: text("turn_triggers", { mode: "json" }).$type<string[]>(),
@@ -348,7 +348,7 @@ export const samplingPresets = sqliteTable(
     presencePenalty: real("presence_penalty"),
     repetitionPenalty: real("repetition_penalty"),
     maxTokens: integer("max_tokens"),
-        // Preset-level defaults; the conversation's own value overrides per chat. null is the system default.
+    // Preset-level defaults; the conversation's own value overrides per chat. null is the system default.
     streamingEnabled: integer("streaming_enabled", { mode: "boolean" }),
     chatMemory: integer("chat_memory"),
     extraBody: text("extra_body"),
@@ -487,7 +487,7 @@ export const userThemes = sqliteTable(
   (table) => [index("idx_theme_sync_expires").on(table.syncExpiresAt)],
 );
 
-    // Generic blob store. Asymmetric: client base64, server R2 upload, Turso pointer-only. Rehydrator never overwrites cache.
+// Generic blob store. Asymmetric: client base64, server R2 upload, Turso pointer-only. Rehydrator never overwrites cache.
 export const media = sqliteTable(
   "media",
   {

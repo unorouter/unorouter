@@ -44,7 +44,7 @@ export function BadgeGenerator(props: BadgeGeneratorProps) {
   const [prevResolvedTheme, setPrevResolvedTheme] = useState(
     themes.resolvedTheme,
   );
-      // Derived-state: sync local theme selector with resolvedTheme during render; manual override still works.
+  // Derived-state: sync local theme selector with resolvedTheme during render; manual override still works.
   if (
     prevResolvedTheme !== themes.resolvedTheme &&
     (themes.resolvedTheme === "light" || themes.resolvedTheme === "dark")

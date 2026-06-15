@@ -34,7 +34,7 @@ export default async function StatusRoute(props: {
   const t = await getTranslations({ locale });
   const queryClient = getQueryClient();
 
-      // modelStatusPage not prefetched: dehydrating inlines ~16MB into SSR HTML; client fetches after hydration.
+  // modelStatusPage not prefetched: dehydrating inlines ~16MB into SSR HTML; client fetches after hydration.
   await Promise.all([
     prefetchElysia(queryClient, queryKeys.modelStatusComponents(), () =>
       rpc.api.models["model-status"].components.get(),

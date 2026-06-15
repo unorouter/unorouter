@@ -30,7 +30,7 @@ export const logsRoute = new Elysia({ prefix: "/logs" })
     { query: logsQuery },
   )
 
-      // Authoritative upstream record for one owned request_id the BFF can only estimate at stream time. Pinned to the caller's request_id so no data leaks.
+  // Authoritative upstream record for one owned request_id the BFF can only estimate at stream time. Pinned to the caller's request_id so no data leaks.
   .get(
     "/by-request",
     async ({ query }) => {

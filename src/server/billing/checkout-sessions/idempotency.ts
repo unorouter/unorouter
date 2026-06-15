@@ -76,7 +76,7 @@ export async function withIdempotency<T>(
   fn: () => Promise<{ status: number; body: T }>,
 ): Promise<T> {
   const db = getDb();
-      // Derive path from the actual request so callers can't reuse one idempotency key across routes.
+  // Derive path from the actual request so callers can't reuse one idempotency key across routes.
   const url = new URL(args.request.url);
   const path = `${args.request.method} ${url.pathname}`;
   const bodyHash = await sha256Hex(canonicalize(args.body));
@@ -123,7 +123,7 @@ export async function withIdempotency<T>(
     return row.response as T;
   }
 
-      // Claim the key via an insert the unique index makes atomic: a concurrent insert throws and is treated as in-flight, not run twice (double-charge guard).
+  // Claim the key via an insert the unique index makes atomic: a concurrent insert throws and is treated as in-flight, not run twice (double-charge guard).
   try {
     await db.insert(acpIdempotencyKeys).values({
       userId: args.userId,

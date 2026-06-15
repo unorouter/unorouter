@@ -1,4 +1,4 @@
-    // start-mode trigger execution before assembly: surfaces system-prompt injections, var mutations, and the stop flag. Deeper mutations apply in-memory for this turn only.
+// start-mode trigger execution before assembly: surfaces system-prompt injections, var mutations, and the stop flag. Deeper mutations apply in-memory for this turn only.
 
 import {
   makeTriggerContext,
@@ -14,7 +14,7 @@ export type StartTriggerResult = {
   extraSystemPrompt: string;
   // True if a trigger requested the prompt not be sent.
   stopSending: boolean;
-      // showAlert frames collected server-side, streamed as transient data-alert parts (normal/error kinds only).
+  // showAlert frames collected server-side, streamed as transient data-alert parts (normal/error kinds only).
   alerts: { kind: string; text: string }[];
 };
 
@@ -47,7 +47,7 @@ export async function runStartTriggers(
   const personaDesc =
     (convCtx.persona as { description?: string })?.description ?? "";
 
-      // CBS expansion for operands. Shares the live var maps so {{getvar}} reads trigger writes.
+  // CBS expansion for operands. Shares the live var maps so {{getvar}} reads trigger writes.
   const macroScope: MacroScope = {
     user: userName,
     char: charName,
@@ -61,7 +61,7 @@ export async function runStartTriggers(
     history,
   };
 
-      // Server can't block on a modal: normal/error alerts collect and stream; input/select resolve '' (documented divergence).
+  // Server can't block on a modal: normal/error alerts collect and stream; input/select resolve '' (documented divergence).
   const serverAlerts: { kind: string; text: string }[] = [];
   const wrappedOps: TriggerOps = {
     ...ops,
@@ -89,7 +89,7 @@ export async function runStartTriggers(
     ops: wrappedOps,
   });
 
-      // triggerlua executes against this context; its mutations land in the run result. Lazy import keeps wasmoon off the hot path.
+  // triggerlua executes against this context; its mutations land in the run result. Lazy import keeps wasmoon off the hot path.
   ctx.ops = {
     ...ctx.ops,
     runLua: async (code) => {

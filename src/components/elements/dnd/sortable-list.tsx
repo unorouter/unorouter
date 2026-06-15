@@ -37,7 +37,7 @@ export function SortableList<T extends { id: string }>(
     useSensor(PointerSensor, {
       activationConstraint: { distance: 4 },
     }),
-        // Touch: long-press to grab so a normal swipe still scrolls; without it the first move read as scroll.
+    // Touch: long-press to grab so a normal swipe still scrolls; without it the first move read as scroll.
     useSensor(TouchSensor, {
       activationConstraint: { delay: 200, tolerance: 6 },
     }),
@@ -87,7 +87,7 @@ function SortableRow(props: {
   id: string;
   renderItem: (handle: ReactNode, isDragging: boolean) => ReactNode;
 }) {
-      // dnd-kit setters trip React Compiler's ref-access lint; they're the public API, so suppress at usage.
+  // dnd-kit setters trip React Compiler's ref-access lint; they're the public API, so suppress at usage.
   const sortable = useSortable({ id: props.id });
   const style = {
     transform: CSS.Transform.toString(sortable.transform),
@@ -103,7 +103,7 @@ function SortableRow(props: {
       {...sortable.listeners}
       // eslint-disable-next-line react-hooks/refs
       {...sortable.attributes}
-          // touch-none so the browser doesn't claim the gesture, else TouchSensor misses the long-press.
+      // touch-none so the browser doesn't claim the gesture, else TouchSensor misses the long-press.
       className="text-muted-foreground hover:text-foreground flex size-6 shrink-0 cursor-grab touch-none items-center justify-center rounded transition active:cursor-grabbing"
       aria-label="Drag to reorder"
     >

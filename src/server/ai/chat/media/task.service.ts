@@ -90,7 +90,7 @@ export async function submitVideoTask(
   };
 }
 
-    // Rehosts the upstream URL to R2 and rewrites the persisted task item to a text item containing a markdown video tag.
+// Rehosts the upstream URL to R2 and rewrites the persisted task item to a text item containing a markdown video tag.
 export async function finalizeVideoTask(
   userId: number,
   convId: string,

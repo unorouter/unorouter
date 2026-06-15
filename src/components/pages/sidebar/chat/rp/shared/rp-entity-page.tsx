@@ -19,11 +19,11 @@ type RpEntityPageProps = {
   list: ReactNode;
 };
 
-    // Shared shell for standalone RP entity pages: layout, header, New/Back toggle, edit-vs-list switch. Host page owns editingId.
+// Shared shell for standalone RP entity pages: layout, header, New/Back toggle, edit-vs-list switch. Host page owns editingId.
 export function RpEntityPage(props: RpEntityPageProps) {
   const t = useTranslations();
   return (
-        // Outer element owns the scroll so the scrollbar sits at the page edge, not the centered column. Inner element centers + constrains.
+    // Outer element owns the scroll so the scrollbar sits at the page edge, not the centered column. Inner element centers + constrains.
     <div className="h-full w-full overflow-y-auto">
       <div className="mx-auto flex w-full max-w-3xl flex-col gap-6 p-6">
         <div className="flex flex-wrap items-center justify-between gap-3">

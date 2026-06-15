@@ -54,7 +54,7 @@ export default async function ConsentPage(props: {
   const t = await getTranslations();
   const authRequestID = params.authRequestID ?? "";
 
-      // Consent requires a session: unauthed redirects to /login, then back here.
+  // Consent requires a session: unauthed redirects to /login, then back here.
   const response = await rpc.api.auth.account.self.get(await setCookies());
   if (response.status !== 200) {
     redirect({

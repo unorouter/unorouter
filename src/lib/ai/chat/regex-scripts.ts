@@ -1,4 +1,4 @@
-    // Isomorphic regex-script engine (RisuAI processScriptFull port). Server runs editprocess/editinput, client editoutput.
+// Isomorphic regex-script engine (RisuAI processScriptFull port). Server runs editprocess/editinput, client editoutput.
 
 export type RegexScriptMode =
   | "editinput" // user input before send
@@ -9,12 +9,12 @@ export type RegexScriptMode =
 export type RegexScript = {
   // Match pattern (regex source).
   in: string;
-      // Replacement template: $1..$n groups, $& whole match, {{data}} re-inserts it. @@-prefixed values are actions.
+  // Replacement template: $1..$n groups, $& whole match, {{data}} re-inserts it. @@-prefixed values are actions.
   out: string;
   type: RegexScriptMode;
   // Custom regex flags + `<meta>` brackets (<order N>, <cbs>, action names).
   flag?: string;
-      // RisuAI semantics: true uses the custom flag string, false defaults 'g'. NOT an enable toggle; scripts run.
+  // RisuAI semantics: true uses the custom flag string, false defaults 'g'. NOT an enable toggle; scripts run.
   ableFlag?: boolean;
 };
 
@@ -52,7 +52,7 @@ function parseScriptMeta(script: RegexScript): ParsedScript {
   return { script, order, actions, rawFlag };
 }
 
-    // Risu flag normalization: strip unsupported chars, dedupe, empty becomes 'u'. move_top/move_bottom drop 'g'.
+// Risu flag normalization: strip unsupported chars, dedupe, empty becomes 'u'. move_top/move_bottom drop 'g'.
 function normalizeFlag(p: ParsedScript, outScript: string): string {
   let flag = p.rawFlag;
   if (
@@ -72,7 +72,7 @@ function normalizeFlag(p: ParsedScript, outScript: string): string {
   return flag;
 }
 
-    // $N refs, $& whole match, $$N literal. No lookbehind: WebKit <16.4 rejects it at parse and bricks the chunk.
+// $N refs, $& whole match, $$N literal. No lookbehind: WebKit <16.4 rejects it at parse and bricks the chunk.
 function expandRefs(template: string, match: RegExpMatchArray): string {
   return template.replace(/\$\$[0-9]+|\$([0-9]+)|\$&/g, (m, idx) => {
     if (m.startsWith("$$")) return m; // escaped, stays verbatim
@@ -102,7 +102,7 @@ function plainReplace(
   return expand ? expand(replaced) : replaced;
 }
 
-    // Parse memo keyed by array identity: applyRegexScripts reuses the same scripts array per message, so skip re-parse.
+// Parse memo keyed by array identity: applyRegexScripts reuses the same scripts array per message, so skip re-parse.
 const PARSED_CACHE = new WeakMap<
   RegexScript[],
   Map<RegexScriptMode, ParsedScript[]>
@@ -130,10 +130,10 @@ function parsedFor(
   return parsed;
 }
 
-    // User-authored regex runs server-side; a pathological pattern stalls the event loop for ALL requests, so skip big strings (100k).
+// User-authored regex runs server-side; a pathological pattern stalls the event loop for ALL requests, so skip big strings (100k).
 const MAX_REGEX_INPUT = 100_000;
 
-    // Catastrophic-backtracking detector: flags nested unbounded quantifiers. Broad since false negatives are the danger.
+// Catastrophic-backtracking detector: flags nested unbounded quantifiers. Broad since false negatives are the danger.
 const NESTED_QUANTIFIER_RE =
   /\([^()]*(?:[+*]|\{\d+,\})[^()]*\)\s*(?:[+*]|\{\d+,\})/;
 
@@ -167,7 +167,7 @@ function executeScript(
   opts: RunRegexOpts,
 ): string {
   const script = p.script;
-      // Risu: $n becomes newline, then {{data}} becomes $&. Function replacement since a plain $& is special in String.replace.
+  // Risu: $n becomes newline, then {{data}} becomes $&. Function replacement since a plain $& is special in String.replace.
   let outScript = script.out
     .replaceAll("$n", "\n")
     .replace(/\{\{data\}\}/g, () => "$&");
@@ -181,7 +181,7 @@ function executeScript(
     input = opts.expand(input);
   }
   if (isReDoSProne(input)) {
-        // Nested unbounded quantifier: catastrophic-backtracking risk. Skip the whole script rather than run it.
+    // Nested unbounded quantifier: catastrophic-backtracking risk. Skip the whole script rather than run it.
     throw new Error("regex-redos-skip");
   }
   const reg = new RegExp(input, flag);
@@ -195,7 +195,7 @@ function executeScript(
       return data;
     }
     if (outScript.startsWith("@@inject") || p.actions.includes("inject")) {
-          // Risu strips the match from the outgoing copy; that strip is the isomorphic part.
+      // Risu strips the match from the outgoing copy; that strip is the isomorphic part.
       return data.replace(reg, "");
     }
     if (
@@ -226,11 +226,11 @@ function executeScript(
       }
       return stripped;
     }
-        // Unknown @@ action with a match: Risu falls through to a plain replace + CBS re-parse.
+    // Unknown @@ action with a match: Risu falls through to a plain replace + CBS re-parse.
     return plainReplace(data, reg, outScript, opts.expand);
   }
 
-      // No match: @@repeat_back copies the matched part of the previous same-role message onto this one.
+  // No match: @@repeat_back copies the matched part of the previous same-role message onto this one.
   if (
     (outScript.startsWith("@@repeat_back") ||
       p.actions.includes("repeat_back")) &&

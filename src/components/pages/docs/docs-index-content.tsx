@@ -26,7 +26,7 @@ type PopularPath = {
   descKey: TranslationKey;
 };
 
-    // free-ai links these cards to dedicated intent pages; unorouter has none, so they jump to category section anchors on this page.
+// free-ai links these cards to dedicated intent pages; unorouter has none, so they jump to category section anchors on this page.
 const POPULAR_PATHS: PopularPath[] = [
   {
     href: "#category-roleplay",
@@ -59,7 +59,7 @@ export async function DocsIndexContent() {
         url: "#popular-paths",
         depth: 2,
       },
-          // Category headings only (depth 2); per-guide depth-3 entries are omitted since the page body already lists every guide.
+      // Category headings only (depth 2); per-guide depth-3 entries are omitted since the page body already lists every guide.
       ...orderedCategories.map((category) => ({
         title: t(CATEGORY_LABELS[category], APP_VALUES),
         url: `#category-${category}`,

@@ -69,7 +69,7 @@ export function AccountCard() {
     return () => clearTimeout(timer);
   }, [countdown]);
 
-      // A failed OAuth bind redirects back with ?bind_error=<message>; toast it, then strip the param so refresh stays clean.
+  // A failed OAuth bind redirects back with ?bind_error=<message>; toast it, then strip the param so refresh stays clean.
   useEffect(() => {
     const bindError = searchParams.get("bind_error");
     if (!bindError) return;

@@ -8,7 +8,7 @@ import type { LocalClient } from "@/lib/types";
 import { drizzle } from "drizzle-orm/sqlite-proxy";
 import { LocalDbConnection, openMigratedSql } from "./connection";
 
-    // Per-user OPFS file, lazy WASM import. Open/salvage/self-heal live in connection.ts; this file is the cache + LocalClient surface wiring.
+// Per-user OPFS file, lazy WASM import. Open/salvage/self-heal live in connection.ts; this file is the cache + LocalClient surface wiring.
 
 let cached = new Map<number, Promise<LocalClient>>();
 
@@ -30,7 +30,7 @@ export async function getLocalDb(
   }
 }
 
-    // Every statement path routes through conn.run so a lost OPFS handle heals transparently.
+// Every statement path routes through conn.run so a lost OPFS handle heals transparently.
 function buildLocalClient(conn: LocalDbConnection): LocalClient {
   const db = drizzle(
     (sql, params, method) => conn.run((s) => s.driver(sql, params, method)),
@@ -56,7 +56,7 @@ async function openClient(userId: number): Promise<LocalClient> {
   const conn = new LocalDbConnection(sql, dbPath, userId);
   const wrapped = buildLocalClient(conn);
 
-      // Release SAH on unload (Chromium orphan state); cache eviction before destroy for BFcache.
+  // Release SAH on unload (Chromium orphan state); cache eviction before destroy for BFcache.
   if (typeof window !== "undefined") {
     const release = () => {
       cached.delete(userId);

@@ -23,7 +23,7 @@ function getIcon(vendor: string): IconComponent | null {
   const key = Object.keys(LOADERS).find((k) => normalized.includes(k));
   if (!key) return null;
 
-      // SSR on so the real icon is in the HTML (ssr:false flashed a spinner per card); fallback is a neutral block.
+  // SSR on so the real icon is in the HTML (ssr:false flashed a spinner per card); fallback is a neutral block.
   const Icon = dynamic(LOADERS[key], {
     loading: () => (
       <span className="bg-muted/50 inline-block size-full rounded-sm" />

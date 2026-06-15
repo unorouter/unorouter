@@ -33,7 +33,7 @@ export async function streamChat(
 ) {
   const { buffered, mediaType } = await isMediaModel(body.model);
 
-      // Group resolution: prefer the top-level toolbar group, fall back to conv settings (a new chat nulls the atom while its row already has a group).
+  // Group resolution: prefer the top-level toolbar group, fall back to conv settings (a new chat nulls the atom while its row already has a group).
   const settingsGroup = (
     body.chatContext?.settings as { group?: string | null } | undefined
   )?.group;
@@ -87,7 +87,7 @@ export async function streamChat(
     });
     return createUIMessageStreamResponse({ stream: stopStream });
   }
-      // cacheControl flag limits cache_control to Claude: others advertise caching but 422 on the Anthropic block format.
+  // cacheControl flag limits cache_control to Claude: others advertise caching but 422 on the Anthropic block format.
   const provider = getProvider(apiKey, prepared.bodyMutations);
 
   // Per-request group override; new-api reads X-Group. Omit for null/auto.
@@ -118,7 +118,7 @@ export async function streamChat(
           : undefined,
     };
   };
-      // Upstream request id + dropped-params ride response headers; capture from whichever callback sees them first.
+  // Upstream request id + dropped-params ride response headers; capture from whichever callback sees them first.
   const captureHeaders = (
     hdrs: Record<string, string> | null | undefined,
   ): void => {
@@ -133,7 +133,7 @@ export async function streamChat(
     }
   };
   const result = streamText({
-        // Lift inline <think> text into a reasoning part: UI renders it collapsible, stripReasoningParts keeps it out of next turn.
+    // Lift inline <think> text into a reasoning part: UI renders it collapsible, stripReasoningParts keeps it out of next turn.
     model: wrapLanguageModel({
       model: provider.chatModel(body.model),
       middleware: extractReasoningMiddleware({ tagName: "think" }),
@@ -182,9 +182,9 @@ export async function streamChat(
     },
   });
 
-      // Server-generated id shared by the UI stream and the request-log row, so both sides key the log identically.
+  // Server-generated id shared by the UI stream and the request-log row, so both sides key the log identically.
   const responseMessageId = uid();
-      // One finish-metadata builder for both delivery paths (streamed finish frame, buffered synthesized chunk).
+  // One finish-metadata builder for both delivery paths (streamed finish frame, buffered synthesized chunk).
   const buildFinishMeta = (
     totalUsage: { inputTokens?: number; outputTokens?: number } | undefined,
   ): Record<string, unknown> => {
@@ -248,7 +248,7 @@ export async function streamChat(
     return createUIMessageStreamResponse({ stream: uiStream });
   }
 
-      // Buffered (media follow-ups + streaming-off): same metadata, synthesized after the full text resolves so usage/cost/writebacks survive.
+  // Buffered (media follow-ups + streaming-off): same metadata, synthesized after the full text resolves so usage/cost/writebacks survive.
   return handleBufferedStream(
     result,
     body,

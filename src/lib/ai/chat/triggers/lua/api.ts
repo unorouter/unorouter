@@ -1,4 +1,4 @@
-    // Lua global API (RisuAI declareAPI port) bound to a TriggerContext. Access-key gating mirrors Risu; app-coupled calls fail Risu-style.
+// Lua global API (RisuAI declareAPI port) bound to a TriggerContext. Access-key gating mirrors Risu; app-coupled calls fail Risu-style.
 
 import { encode } from "gpt-tokenizer";
 import type { TriggerContext, TriggerMessage } from "../types";
