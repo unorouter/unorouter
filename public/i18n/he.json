@@ -2190,7 +2190,13 @@
       "WIPE_DB_TITLE": "למחוק את מסד הנתונים המקומי?",
       "UPLOAD_DB_TITLE": "לדרוס את מסד הנתונים המקומי?"
     },
-    "COPIED": "הועתק"
+    "COPIED": "הועתק",
+    "DATE_RANGE": {
+      "PICK": "בחר טווח תאריכים",
+      "FROM": "מ",
+      "TO": "עד",
+      "APPLY": "החל"
+    }
   },
   "LANGUAGE": {
     "EN": "English",

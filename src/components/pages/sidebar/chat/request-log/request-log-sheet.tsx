@@ -127,7 +127,7 @@ export function RequestLogSheet(props: {
             defaultValue="upstream"
             className="flex min-h-0 flex-1 flex-col px-4 pb-4"
           >
-            <TabsList className="w-full justify-start overflow-x-auto">
+            <TabsList className="w-full justify-start overflow-x-auto overflow-y-hidden scrollbar-none">
               <TabsTrigger value="upstream">
                 {t("CHAT.REQUEST_LOG.TAB_UPSTREAM")}
               </TabsTrigger>

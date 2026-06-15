@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { dayjs } from "@/lib/utils/format/date";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import type { DateRange } from "react-day-picker";
 
@@ -26,6 +27,7 @@ type DateTimeRangePickerProps = {
 };
 
 export function DateTimeRangePicker(props: DateTimeRangePickerProps) {
+  const t = useTranslations();
   const [open, setOpen] = useState(false);
   const [range, setRange] = useState<DateRange | undefined>({
     from: props.value.from,
@@ -56,22 +58,36 @@ export function DateTimeRangePicker(props: DateTimeRangePickerProps) {
     setOpen(false);
   }
 
-  const label =
-    props.value.from && props.value.to
-      ? `${dayjs(props.value.from).format("MMM D, YYYY HH:mm")} - ${dayjs(props.value.to).format("MMM D, YYYY HH:mm")}`
-      : "Pick a date range";
+  const hasRange = props.value.from && props.value.to;
+  const fromLabel = hasRange
+    ? dayjs(props.value.from).format("MMM D, YYYY HH:mm")
+    : "";
+  const toLabel = hasRange
+    ? dayjs(props.value.to).format("MMM D, YYYY HH:mm")
+    : "";
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger
         className={cn(
-          "border-input bg-background ring-offset-background hover:bg-accent hover:text-accent-foreground inline-flex h-8 items-center gap-2 rounded-md border px-3 font-mono text-xs whitespace-nowrap",
+          "border-input bg-background ring-offset-background hover:bg-accent hover:text-accent-foreground inline-flex min-h-8 items-center gap-2 rounded-md border px-3 font-mono text-xs",
           props.className,
         )}
         suppressHydrationWarning
       >
         <Icon name="calendar" className="h-3.5 w-3.5 shrink-0 opacity-50" />
-        {label}
+        {hasRange ? (
+          // Stack the two dates on narrow screens, single inline row from sm up.
+          <span className="flex flex-col items-start gap-x-1.5 sm:flex-row sm:items-center">
+            <span className="whitespace-nowrap">{fromLabel}</span>
+            <span className="whitespace-nowrap">
+              <span className="text-muted-foreground max-sm:hidden">- </span>
+              {toLabel}
+            </span>
+          </span>
+        ) : (
+          t("COMMON.DATE_RANGE.PICK")
+        )}
       </PopoverTrigger>
       <PopoverContent align="end" className="w-auto p-0">
         <Calendar
@@ -83,7 +99,9 @@ export function DateTimeRangePicker(props: DateTimeRangePickerProps) {
         />
         <div className="border-border flex items-center gap-3 border-t px-4 py-3">
           <div className="flex items-center gap-1.5">
-            <span className="text-muted-foreground text-xs">From</span>
+            <span className="text-muted-foreground text-xs">
+              {t("COMMON.DATE_RANGE.FROM")}
+            </span>
             <Input
               type="time"
               value={startTime}
@@ -92,7 +110,9 @@ export function DateTimeRangePicker(props: DateTimeRangePickerProps) {
             />
           </div>
           <div className="flex items-center gap-1.5">
-            <span className="text-muted-foreground text-xs">To</span>
+            <span className="text-muted-foreground text-xs">
+              {t("COMMON.DATE_RANGE.TO")}
+            </span>
             <Input
               type="time"
               value={endTime}
@@ -105,7 +125,7 @@ export function DateTimeRangePicker(props: DateTimeRangePickerProps) {
             className="ml-auto h-7 text-xs"
             onClick={handleApply}
           >
-            Apply
+            {t("COMMON.DATE_RANGE.APPLY")}
           </Button>
         </div>
       </PopoverContent>

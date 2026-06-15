@@ -2190,7 +2190,13 @@
       "WIPE_DB_TITLE": "로컬 데이터베이스를 지우시겠습니까?",
       "UPLOAD_DB_TITLE": "로컬 데이터베이스를 덮어쓰시겠습니까?"
     },
-    "COPIED": "복사됨"
+    "COPIED": "복사됨",
+    "DATE_RANGE": {
+      "PICK": "기간 선택",
+      "FROM": "시작",
+      "TO": "종료",
+      "APPLY": "적용"
+    }
   },
   "LANGUAGE": {
     "EN": "English",

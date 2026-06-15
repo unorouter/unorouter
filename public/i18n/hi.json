@@ -2190,7 +2190,13 @@
       "WIPE_DB_TITLE": "Local database wipe करें?",
       "UPLOAD_DB_TITLE": "Local database overwrite करें?"
     },
-    "COPIED": "कॉपी हो गया"
+    "COPIED": "कॉपी हो गया",
+    "DATE_RANGE": {
+      "PICK": "दिनांक सीमा चुनें",
+      "FROM": "से",
+      "TO": "तक",
+      "APPLY": "लागू करें"
+    }
   },
   "LANGUAGE": {
     "EN": "English",

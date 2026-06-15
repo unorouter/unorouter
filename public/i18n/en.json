@@ -2190,7 +2190,13 @@
       "WIPE_DB_TITLE": "Wipe local database?",
       "UPLOAD_DB_TITLE": "Overwrite local database?"
     },
-    "COPIED": "Copied"
+    "COPIED": "Copied",
+    "DATE_RANGE": {
+      "PICK": "Pick a date range",
+      "FROM": "From",
+      "TO": "To",
+      "APPLY": "Apply"
+    }
   },
   "LANGUAGE": {
     "EN": "English",
