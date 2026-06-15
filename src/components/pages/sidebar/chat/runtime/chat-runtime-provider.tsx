@@ -50,7 +50,7 @@ function useHistoryAdapter() {
   return adapterRef.current;
 }
 
-    // Helpers bridge for edit/delete/clear/empty-send from outside the React tree. sendEmpty uses the locked send path.
+// Helpers bridge for edit/delete/clear/empty-send from outside the React tree. sendEmpty uses the locked send path.
 function useChatHelpersBridge(chat: ReturnType<typeof useChat<ChatUIMessage>>) {
   const messagesRef = useRef(chat.messages);
   messagesRef.current = chat.messages;
@@ -82,7 +82,7 @@ function ChatRuntimeHook() {
   const historyAdapter = useHistoryAdapter();
   const transport = useChatTransport();
 
-      // Per-conv stream lock, released in onFinish/onError. The rotation loop holds it across speakers, so rotatingRef gates onFinish.
+  // Per-conv stream lock, released in onFinish/onError. The rotation loop holds it across speakers, so rotatingRef gates onFinish.
   const streamLockKeyRef = useRef<string | null>(null);
   const rotatingRef = useRef(false);
   const releaseStreamLock = () => {
@@ -107,12 +107,12 @@ function ChatRuntimeHook() {
     },
     onError: (e) => {
       releaseStreamLock();
-          // Offline: user turn already persisted, user resends manually. Show queued (no error node), still counts as unanswered.
+      // Offline: user turn already persisted, user resends manually. Show queued (no error node), still counts as unanswered.
       if (!navigator.onLine) {
         toast.info(t("CHAT.QUEUED_OFFLINE"));
         return;
       }
-          // Stash for the history adapter: the failed assistant message persists with an error item (full detail) so it survives refresh.
+      // Stash for the history adapter: the failed assistant message persists with an error item (full detail) so it survives refresh.
       const detail = extractErrorDetail(e);
       chatStore.set(lastStreamErrorAtom, {
         message: detail.message,
@@ -151,7 +151,7 @@ function ChatRuntimeHook() {
         }
         streamLockKeyRef.current = lockKey;
       }
-          // Multi-character rotation: one assistant stream per speaker; each send tags its speaker for assembler promotion.
+      // Multi-character rotation: one assistant stream per speaker; each send tags its speaker for assembler promotion.
       if (hasText && convId) {
         const order = await computeSpeakingOrder(userId, convId, args[0]);
         if (order.length > 1) {
@@ -171,7 +171,7 @@ function ChatRuntimeHook() {
           return;
         }
       }
-          // Offline: still send; the stream fails fast and the history adapter persists the user turn as unanswered.
+      // Offline: still send; the stream fails fast and the history adapter persists the user turn as unanswered.
       chatStore.set(speakingCharacterIdAtom, null);
       return chat.sendMessage(...args);
     },
@@ -194,7 +194,7 @@ export function ChatRuntimeProvider(props: { children: React.ReactNode }) {
   const queryClient = useQueryClient();
   const t = useTranslations();
   const userId = useLocalUserId();
-      // Drives the pending-task queue (logEnrich retries); drainSoon covers the happy path post-enqueue.
+  // Drives the pending-task queue (logEnrich retries); drainSoon covers the happy path post-enqueue.
   usePendingDrainScheduler(userId);
   const adapterRef = useRef(
     createThreadListAdapter(queryClient, t, () =>

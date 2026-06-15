@@ -16,7 +16,7 @@ import {
 import { DefaultChatTransport } from "ai";
 import { useRef } from "react";
 
-    // Context-dedup state per conv: sent is the last uploaded hash, built the last full context (replayed on 409). Bounded LRU.
+// Context-dedup state per conv: sent is the last uploaded hash, built the last full context (replayed on 409). Bounded LRU.
 const MAX_CTX_CONVS = 50;
 const ctxState = new Map<string, { sent?: string; built: ContextEntry }>();
 type ContextEntry = { hash: string; ctx: unknown };
@@ -39,7 +39,7 @@ function setCtx(convId: string, entry: { sent?: string; built: ContextEntry }) {
   }
 }
 
-    // settings carries the whole conversation row; drop server-unread bookkeeping before hashing so the dedup hits.
+// settings carries the whole conversation row; drop server-unread bookkeeping before hashing so the dedup hits.
 const SETTINGS_HASH_OMIT = [
   "totalInputTokens",
   "totalOutputTokens",
@@ -64,19 +64,19 @@ export function useChatTransport() {
       body: async () => {
         const userId = chatStore.get(localUserIdAtom);
         const convId = chatStore.get(convIdAtom);
-            // Dynamic: the RP context builder drags ~110KB lorebook/trigger machinery off first-paint chunks.
+        // Dynamic: the RP context builder drags ~110KB lorebook/trigger machinery off first-paint chunks.
         const loadout = chatStore.get(chatLoadoutAtom);
         const baseContext = convId
           ? await import("@/lib/db/client/data/chat-context").then((m) =>
               m.buildChatContextFromLocalDb(userId, convId, {
-                    // New conv first send races initialize(); wait for the loadout bindings so turn 1 carries the character.
+                // New conv first send races initialize(); wait for the loadout bindings so turn 1 carries the character.
                 expectBindings:
                   loadout.characterIds.length > 0 ||
                   loadout.lorebookIds.length > 0,
               }),
             )
           : undefined;
-            // Per-message createdAt for the CBS message_time/idle family; rides outside the hashed context.
+        // Per-message createdAt for the CBS message_time/idle family; rides outside the hashed context.
         let messageTimes: Record<string, number> | undefined;
         if (convId) {
           const rows = await import("@/lib/db/client/data/chat").then((m) =>
@@ -89,7 +89,7 @@ export function useChatTransport() {
             }
           }
         }
-            // Context-dedup: full payload only when the fingerprint changed, else just the hash (a miss 409s, retries full).
+        // Context-dedup: full payload only when the fingerprint changed, else just the hash (a miss 409s, retries full).
         let chatContext: typeof baseContext;
         let chatContextHash: string | undefined;
         if (convId && baseContext) {
@@ -142,10 +142,10 @@ export function useChatTransport() {
         if (!entry) return res;
         body.chatContext = entry.built.ctx;
         body.chatContextHash = entry.built.hash;
-            // Server lost its cache; the full payload reseeds it. Keep sent marked so the next send still dedups.
+        // Server lost its cache; the full payload reseeds it. Keep sent marked so the next send still dedups.
         return fetch(input, { ...init, body: JSON.stringify(body) });
       },
-            // Memory off: server consumes a window, trim to a superset. Rolling-summary convs need absolute indices.
+      // Memory off: server consumes a window, trim to a superset. Rolling-summary convs need absolute indices.
       prepareSendMessagesRequest: (opts) => {
         const body = (opts.body ?? {}) as Record<string, unknown> & {
           chatContext?: {

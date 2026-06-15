@@ -34,12 +34,12 @@ export const useCreateCharacterMutation = characters.useCreate;
 export const useUpdateCharacterMutation = characters.useUpdate;
 export const useDeleteCharacterMutation = characters.useDelete;
 
-    // Client-side card parser: bytes become a media row plus a character row referencing it.
+// Client-side card parser: bytes become a media row plus a character row referencing it.
 export function useImportCharacterCardMutation() {
   const userId = useLocalUserId();
   return useApiMutation({
     mutationFn: async (file: File) => {
-          // Dynamic: character-foundry + image codecs (~110KB gzip) load on the import action, not with the chat shell.
+      // Dynamic: character-foundry + image codecs (~110KB gzip) load on the import action, not with the chat shell.
       const { card, imageBytes, imageMime } =
         await import("@/lib/ai/rp/character-card").then((m) =>
           m.parseCharacterCardFile(file),

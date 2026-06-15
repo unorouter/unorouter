@@ -49,7 +49,7 @@ type EditMessageBody = {
   }>;
 };
 
-    // Shared mutation scaffold for chat mutations: resolve userId, i18n error toast, invalidate + broadcast per-args keys on success.
+// Shared mutation scaffold for chat mutations: resolve userId, i18n error toast, invalidate + broadcast per-args keys on success.
 function useChatMutation<TArgs, TData>(
   fn: (userId: number, args: TArgs) => Promise<TData>,
   keysFor: (args: TArgs) => readonly (readonly unknown[])[],
@@ -136,7 +136,7 @@ export function useMessagesInfiniteQuery(id?: string) {
   });
 }
 
-    // History rewrites must bump the conversation row: cross-device staleness reconciles on conversations.updatedAt.
+// History rewrites must bump the conversation row: cross-device staleness reconciles on conversations.updatedAt.
 async function bumpConvUpdatedAt(userId: number, convId: string) {
   const conv = await readLocalConversation(userId, convId);
   if (conv) {
@@ -160,7 +160,7 @@ export function useUpdateConversationMutation() {
         }),
         updatedAt: now,
       };
-          // Patch-only: a rename/model change targets an existing row. Upsert could insert with null default_model and trip NOT NULL.
+      // Patch-only: a rename/model change targets an existing row. Upsert could insert with null default_model and trip NOT NULL.
       if (existing) {
         await updateLocalConversationSettings(userId, {
           convId: args.id,
@@ -212,7 +212,7 @@ export function useFinalizeTaskMutation() {
           resultUrl: args.resultUrl,
         }),
       );
-          // Mirror the server's task-to-text rewrite locally so the UI leaves the placeholder immediately.
+      // Mirror the server's task-to-text rewrite locally so the UI leaves the placeholder immediately.
       await replaceLocalMessageItems(userId, args.msgId, [
         {
           id: uid(),
@@ -357,7 +357,7 @@ export function useSetActiveBranchMutation() {
           });
         }
       }
-          // Root assistant siblings are greetings: track Risu fmIndex (branch 0 is firstMessage at -1, i is alternate i-1).
+      // Root assistant siblings are greetings: track Risu fmIndex (branch 0 is firstMessage at -1, i is alternate i-1).
       if (parentId === null && target?.role === "assistant") {
         await updateLocalConversationSettings(userId, {
           convId: args.convId,

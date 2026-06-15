@@ -23,7 +23,7 @@ export type ErrorDetail = {
 
 const REQUEST_ID_RE = /request id:?\s*([A-Za-z0-9]+)/i;
 
-    // Full error detail (message + code + status + requestId) for display/debugging. Handles ai-sdk APICallError (responseBody/statusCode), Eden errors, and plain JSON bodies.
+// Full error detail (message + code + status + requestId) for display/debugging. Handles ai-sdk APICallError (responseBody/statusCode), Eden errors, and plain JSON bodies.
 export function extractErrorDetail(e: unknown): ErrorDetail {
   let status: number | undefined;
   let body: unknown = e;
@@ -65,7 +65,7 @@ export function extractErrorDetail(e: unknown): ErrorDetail {
   return { message, code, status, requestId };
 }
 
-    // Pull {message, params} out of any error shape: JSON string, {message} object, or array. JSON strings recurse.
+// Pull {message, params} out of any error shape: JSON string, {message} object, or array. JSON strings recurse.
 function pickMessage(v: unknown): Extracted | null {
   if (typeof v === "string") {
     const s = v.trim();
@@ -102,7 +102,7 @@ export async function handleError(
   t?: ReturnType<typeof useTranslations<never>>,
   toastId?: string,
 ) {
-      // Eden errors carry the body on .data, a thrown fetch on .response. Otherwise pickMessage walks the value.
+  // Eden errors carry the body on .data, a thrown fetch on .response. Otherwise pickMessage walks the value.
   let source: unknown = e;
   if (e && typeof e === "object") {
     if ("data" in e) source = e.data;

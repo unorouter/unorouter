@@ -74,7 +74,7 @@ export const acpIdempotencyKeys = sqliteTable(
     createdAt: createdAtCol(),
   },
   (table) => [
-        // Unique index makes the concurrent-insert race deterministic; loser conflicts instead of double-running fn().
+    // Unique index makes the concurrent-insert race deterministic; loser conflicts instead of double-running fn().
     uniqueIndex("uq_acp_idem_key").on(table.userId, table.key, table.path),
     index("idx_acp_idem_created").on(table.createdAt),
   ],

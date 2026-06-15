@@ -88,7 +88,7 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
   const settings = settingsQuery.data;
   const bindings = bindingsQuery.data;
 
-      // values resyncs the form whenever this object changes; keepDirtyValues protects in-flight edits from a background refetch.
+  // values resyncs the form whenever this object changes; keepDirtyValues protects in-flight edits from a background refetch.
   const formValues = computeFormValues({
     isDefaultsMode,
     chatDefaults,

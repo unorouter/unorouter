@@ -1,4 +1,4 @@
-    // wasmoon Lua engine (RisuAI port): engine-per-mode, mutex'd, recreated when code changes. json.lua via fetch or fs; wasmoon lazy.
+// wasmoon Lua engine (RisuAI port): engine-per-mode, mutex'd, recreated when code changes. json.lua via fetch or fs; wasmoon lazy.
 
 import type { TriggerContext } from "../types";
 import { buildLuaApi } from "./api";
@@ -18,7 +18,7 @@ type EngineState = {
   queue: Promise<unknown>;
 };
 
-    // Access-key gating (Risu ScriptingSafeIds): API calls carry the active run's key; stale callbacks are ignored.
+// Access-key gating (Risu ScriptingSafeIds): API calls carry the active run's key; stale callbacks are ignored.
 export const luaSafeIds = new Set<string>();
 export const luaEditDisplayIds = new Set<string>();
 export const luaLowLevelIds = new Set<string>();
@@ -57,7 +57,7 @@ function getState(mode: string): EngineState {
   return s;
 }
 
-    // Risu luaCodeWrapper: json/state helpers, listenEdit registries, coroutine-safe async wrapper, callListenMain.
+// Risu luaCodeWrapper: json/state helpers, listenEdit registries, coroutine-safe async wrapper, callListenMain.
 function luaCodeWrapper(code: string): string {
   return `
 json = require 'json'
@@ -311,7 +311,7 @@ export async function runScripted(
   return run;
 }
 
-    // Trigger scripts whose first effect is triggerlua carry the Lua program (Risu runLuaEditTrigger collection rule).
+// Trigger scripts whose first effect is triggerlua carry the Lua program (Risu runLuaEditTrigger collection rule).
 export function extractLuaCodes(
   scripts: { effect: { type: string; code?: unknown }[] }[],
 ): string[] {
@@ -325,7 +325,7 @@ export function extractLuaCodes(
   return out;
 }
 
-    // Risu runLuaEditTrigger: feed content through every script's listenEdit handlers. Errors return content untouched.
+// Risu runLuaEditTrigger: feed content through every script's listenEdit handlers. Errors return content untouched.
 export async function runLuaEditTrigger<T>(
   luaCodes: string[],
   mode: "editinput" | "editoutput" | "editdisplay" | "editrequest",

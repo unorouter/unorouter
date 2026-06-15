@@ -58,20 +58,20 @@ export type ChatMessageMetadata = {
   usage?: MessageUsage;
   droppedParams?: string;
   debug?: RequestLogPayload;
-      // Serialized chat-variable map, emitted when setvar/addvar changed it. The history adapter persists it to conv vars.
+  // Serialized chat-variable map, emitted when setvar/addvar changed it. The history adapter persists it to conv vars.
   vars?: string;
-      // Serialized per-user global-variable map (setglobalvar). The history adapter persists it to the global store.
+  // Serialized per-user global-variable map (setglobalvar). The history adapter persists it to the global store.
   globalVars?: string;
-      // Rolling-summary update: the running summary + how many leading messages it covers. Persisted to summaryMemory.
+  // Rolling-summary update: the running summary + how many leading messages it covers. Persisted to summaryMemory.
   summary?: { summary: string; anchor: number };
-      // runImgGen inlay bytes generated server-side; the adapter persists them as local media rows for {{inlay::id}}.
+  // runImgGen inlay bytes generated server-side; the adapter persists them as local media rows for {{inlay::id}}.
   inlayMedia?: {
     id: string;
     dataBase64: string;
     mimeType: string;
     sizeBytes: number;
   }[];
-      // Which character spoke (multi-character rotation). Rides the finish frame since the loop clears the atom before persist.
+  // Which character spoke (multi-character rotation). Rides the finish frame since the loop clears the atom before persist.
   speakingCharacterId?: string;
 };
 
@@ -79,7 +79,7 @@ export type ChatUIMessage = UIMessage<ChatMessageMetadata>;
 
 export type EditorState = { mode: "list" } | { mode: "edit"; id?: string };
 
-    // A generated playground image resolved for rendering: src is a data URI (base64 priority) or the R2 URL fallback.
+// A generated playground image resolved for rendering: src is a data URI (base64 priority) or the R2 URL fallback.
 export type PlaygroundImageView = {
   id: string;
   sequenceIndex: number;
@@ -194,7 +194,7 @@ export function isSearchDoc(doc: unknown): doc is SearchResult {
   return typeof d.title === "string" && typeof d.url === "string";
 }
 
-    // Generic loose-shape bundle inputs (sqlite-proxy cast boundary). Co-located for assembler + lorebook selectors.
+// Generic loose-shape bundle inputs (sqlite-proxy cast boundary). Co-located for assembler + lorebook selectors.
 export type LocalAnyRow = Record<string, unknown> & { id: string };
 export type LocalChildRow = Record<string, unknown>;
 export type LocalRowInput = Record<string, unknown>;
@@ -230,7 +230,7 @@ export class ParamError extends Error {
 
 // SEO / docs / blog registry types.
 
-    // Static doc slugs only: the /docs/[slug] template is excluded so DocSlug stays a subset of SeoTimestampSlug.
+// Static doc slugs only: the /docs/[slug] template is excluded so DocSlug stays a subset of SeoTimestampSlug.
 export type DocSlug = keyof typeof pathnames extends infer K
   ? K extends `/${infer R extends `docs/${string}`}`
     ? R extends `${string}[${string}`
@@ -307,9 +307,9 @@ type DocI18nPrefix = {
 }[TranslationKey];
 
 export type DocEntry = {
-      // path.slice(1) for the static /docs index; docs/${guide.slug} for guides on the /docs/[slug] route.
+  // path.slice(1) for the static /docs index; docs/${guide.slug} for guides on the /docs/[slug] route.
   slug: string;
-      // A static route ("/docs") or a dynamic href ({ pathname, params }). getPathname/localeUrl resolve both.
+  // A static route ("/docs") or a dynamic href ({ pathname, params }). getPathname/localeUrl resolve both.
   path: Pathname;
   i18nPrefix: DocI18nPrefix;
   // Drive published/modified timestamps via git history.
@@ -332,7 +332,7 @@ export type BlogEntry = {
   heroImage?: string;
 };
 
-    // On-disk conversation export envelopes. Untrusted JSON: every field optional, per-importer boundary cast.
+// On-disk conversation export envelopes. Untrusted JSON: every field optional, per-importer boundary cast.
 
 // Export row: arbitrary columns + known string id.
 export type ExportRow = Record<string, unknown> & { id: string };

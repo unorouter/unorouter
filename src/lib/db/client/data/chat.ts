@@ -46,7 +46,7 @@ const conversationStore = makeTableStore(conversations, conversations.id);
 const messageStore = makeTableStore(messages, messages.id);
 const messageItemStore = makeTableStore(messageItems, messageItems.id);
 
-    // List projection: select * would drag summaryMemory/vars/extraBody blobs through OPFS on every sidebar render.
+// List projection: select * would drag summaryMemory/vars/extraBody blobs through OPFS on every sidebar render.
 export const readLocalConversations = async (userId: number | undefined) => {
   const uid = userId ?? GUEST_USER_ID;
   const local = await getLocalDb(uid);
@@ -142,7 +142,7 @@ async function readPrimaryCharacter(
   return charRows[0] ?? null;
 }
 
-    // Primary character's regex scripts, parsed. History adapter runs editoutput on assistant replies with them.
+// Primary character's regex scripts, parsed. History adapter runs editoutput on assistant replies with them.
 export async function readConvRegexScripts(
   userId: number | undefined,
   convId: string,
@@ -151,7 +151,7 @@ export async function readConvRegexScripts(
   return parseRegexScripts(ch?.regexScripts);
 }
 
-    // Primary character's parsed trigger scripts; the history adapter runs output-mode triggers with them after reply.
+// Primary character's parsed trigger scripts; the history adapter runs output-mode triggers with them after reply.
 export async function readConvTriggers(
   userId: number | undefined,
   convId: string,
@@ -167,7 +167,7 @@ export async function readLocalMessagesByIds(
 ) {
   const local = await getLocalDb(userId);
   if (!local || ids.length === 0) return [];
-      // Parents before children: the server inserts in payload order and messages.parent_id is a FK.
+  // Parents before children: the server inserts in payload order and messages.parent_id is a FK.
   return local.db
     .select()
     .from(messages)
@@ -305,7 +305,7 @@ export const upsertLocalConversationSettings = (
   return conversationStore.upsert(userId, next);
 };
 
-    // Settings-only patch on an existing conversation row, never creates it. Avoids the upsert NOT NULL trip on a partial.
+// Settings-only patch on an existing conversation row, never creates it. Avoids the upsert NOT NULL trip on a partial.
 export const updateLocalConversationSettings = (
   userId: number | undefined,
   row: LocalRowInput & { convId: string },
@@ -475,7 +475,7 @@ export async function upsertLocalConversationBundle(
     await local.db.insert(messageItems).values(it as never);
   }
 
-      // Deletion propagation: a local message absent from the bundle was deleted remotely, UNLESS newer than the conv stamp. Items cascade.
+  // Deletion propagation: a local message absent from the bundle was deleted remotely, UNLESS newer than the conv stamp. Items cascade.
   const remoteConvStamp = bundle.conversation.updatedAt
     ? new Date(
         bundle.conversation.updatedAt as Date | number | string,
@@ -492,7 +492,7 @@ export async function upsertLocalConversationBundle(
     await local.db.delete(messages).where(inArray(messages.id, staleMsgIds));
   }
 
-      // Same for bindings: joins absent from the bundle were unbound remotely. createdAt guards local-only bindings.
+  // Same for bindings: joins absent from the bundle were unbound remotely. createdAt guards local-only bindings.
   const remoteCharIds = new Set(
     bundle.conversationCharacters.map((c) => c.characterId as string),
   );

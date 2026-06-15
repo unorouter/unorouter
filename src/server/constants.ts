@@ -58,7 +58,7 @@ export function getApiKey(cookie: Record<string, Cookie<unknown>>): string {
   }
 }
 
-    // Per-model request-body rewrites the ai-sdk provider can't express. Applied by a fetch wrapper.
+// Per-model request-body rewrites the ai-sdk provider can't express. Applied by a fetch wrapper.
 type BodyMutations = {
   // Anthropic prompt caching: cache_control markers on system + last user.
   injectCacheControl?: boolean;
@@ -84,7 +84,7 @@ export function getProvider(apiKey: string, opts?: BodyMutations) {
     name: env.appName,
     baseURL: `${upstreamApiUrl}/v1`,
     apiKey,
-        // ai-sdk's openai-compatible provider can't emit these fields; the fetch wrapper rewrites the JSON body. No-op when ignored.
+    // ai-sdk's openai-compatible provider can't emit these fields; the fetch wrapper rewrites the JSON body. No-op when ignored.
     ...(hasMutation ? { fetch: makeBodyMutationFetch(opts) } : {}),
   });
 }
@@ -92,7 +92,7 @@ export function getProvider(apiKey: string, opts?: BodyMutations) {
 type WireMessage = { role: string; content: unknown } & Record<string, unknown>;
 type WireBody = { messages?: WireMessage[] } & Record<string, unknown>;
 
-    // Mark system prompt + last user message cache_control: ephemeral so the stable RP prefix caches upstream.
+// Mark system prompt + last user message cache_control: ephemeral so the stable RP prefix caches upstream.
 function applyCacheControl(body: WireBody) {
   if (!Array.isArray(body.messages) || body.messages.length === 0) return;
   const mark = (content: unknown): unknown => {

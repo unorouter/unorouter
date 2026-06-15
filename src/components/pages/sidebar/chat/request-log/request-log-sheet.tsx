@@ -39,7 +39,7 @@ export function RequestLogSheet(props: {
 
   const row = log.data;
 
-      // Exact OpenAI-compatible wire body the upstream receives; the verification surface testers need. Raw client snapshot is debug-only, last.
+  // Exact OpenAI-compatible wire body the upstream receives; the verification surface testers need. Raw client snapshot is debug-only, last.
   const upstreamBody = row
     ? {
         model:
@@ -127,7 +127,7 @@ export function RequestLogSheet(props: {
             defaultValue="upstream"
             className="flex min-h-0 flex-1 flex-col px-4 pb-4"
           >
-            <TabsList className="w-full justify-start overflow-x-auto overflow-y-hidden scrollbar-none">
+            <TabsList className="w-full scrollbar-none justify-start overflow-x-auto overflow-y-hidden">
               <TabsTrigger value="upstream">
                 {t("CHAT.REQUEST_LOG.TAB_UPSTREAM")}
               </TabsTrigger>

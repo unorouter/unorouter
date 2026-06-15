@@ -36,7 +36,7 @@ type Props = {
   onDone: () => void;
 };
 
-    // providers column is a JSON routing object; the form edits it as a comma list of slugs plus an only toggle.
+// providers column is a JSON routing object; the form edits it as a comma list of slugs plus an only toggle.
 function parseProviderRouting(raw: string | null | undefined): {
   slugs: string;
   only: boolean;
@@ -53,7 +53,7 @@ function parseProviderRouting(raw: string | null | undefined): {
   }
 }
 
-    // Build the DB body: serialize provider slugs into the providers JSON and drop the form-only providersOnly field.
+// Build the DB body: serialize provider slugs into the providers JSON and drop the form-only providersOnly field.
 function toPresetBody(data: SamplingPresetForm) {
   const slugs = data.providers
     .split(",")
@@ -85,14 +85,14 @@ export function PresetForm(props: Props) {
   const createMut = useCreatePresetMutation();
   const updateMut = useUpdatePresetMutation();
 
-      // values syncs the row on settle; keepDirtyValues stops a refetch clobbering typing.
+  // values syncs the row on settle; keepDirtyValues stops a refetch clobbering typing.
   const editing =
     props.editingId === "new"
       ? null
       : presetsQuery.data?.find((x) => x.id === props.editingId);
-      // providers is a JSON routing object; the form edits it as a comma list + only toggle, so expand before seeding.
+  // providers is a JSON routing object; the form edits it as a comma list + only toggle, so expand before seeding.
   const routing = parseProviderRouting(editing?.providers);
-      // null streamingEnabled means inherit (on) but the switch renders null as OFF; seed the default so toggling off persists false.
+  // null streamingEnabled means inherit (on) but the switch renders null as OFF; seed the default so toggling off persists false.
   const formValues = formDefaults(samplingPresetFormSchema, {
     ...(editing ?? {}),
     providers: routing.slugs,

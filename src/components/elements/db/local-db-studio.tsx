@@ -44,7 +44,7 @@ export function LocalDbStudio(props: Props) {
       destructive: true,
     });
     if (!ok) return;
-        // Destroy the SQLocal worker first: its handle locks the sqlite file, and removeEntry() silently no-ops on locked files.
+    // Destroy the SQLocal worker first: its handle locks the sqlite file, and removeEntry() silently no-ops on locked files.
     try {
       const local = await getLocalDb(userId);
       if (local) {
@@ -197,7 +197,7 @@ let cachedSheet: CSSStyleSheet | null = null;
 async function loadStudioStylesheet(): Promise<CSSStyleSheet> {
   if (cachedSheet) return cachedSheet;
   const res = await fetch(STUDIO_CSS_URL);
-      // CSS targets :root/.dark which don't cross the shadow boundary; rewrite to :host / :host(.dark).
+  // CSS targets :root/.dark which don't cross the shadow boundary; rewrite to :host / :host(.dark).
   const text = (await res.text())
     .replace(/:root\b/g, ":host")
     .replace(/:is\(\.dark\s*\*\)/g, "")

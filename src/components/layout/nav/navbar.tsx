@@ -30,7 +30,7 @@ export function Navbar() {
   const t = useTranslations();
   const pathname = usePathname();
   const authQuery = useAuthQuery();
-      // Anchor the docs megamenu to the nav row (not the trigger) so it centers across the page.
+  // Anchor the docs megamenu to the nav row (not the trigger) so it centers across the page.
   const navRowRef = useRef<HTMLDivElement>(null);
 
   const navItems = navigation(!!authQuery.data).filter((item) => !item.hidden);

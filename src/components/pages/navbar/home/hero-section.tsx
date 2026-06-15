@@ -15,7 +15,7 @@ import { Icon } from "@/components/ui/icon";
 
 export async function HeroSection(props: { counts: HeroCounts }) {
   const t = await getTranslations();
-      // Chip titles resolved server-side to keep the DOCS namespace out of the hydrated messages payload.
+  // Chip titles resolved server-side to keep the DOCS namespace out of the hydrated messages payload.
   const chipTitles = Object.fromEntries(
     SETUP_GUIDES.map((g) => [g.slug, t(g.titleKey, APP_VALUES)]),
   );

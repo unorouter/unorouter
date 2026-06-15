@@ -128,7 +128,7 @@ const VENDORS = [
 
 const BASE = "#070409";
 
-    // Glow spot: horizontal linearGradient masked by a radialGradient into a soft blob. cx/cy are center %, rx/ry radius %, of the canvas.
+// Glow spot: horizontal linearGradient masked by a radialGradient into a soft blob. cx/cy are center %, rx/ry radius %, of the canvas.
 function spotSvg(
   id: string,
   cx: number,
@@ -147,7 +147,7 @@ function spotSvg(
   const rry = (ry / 100) * H;
   const x0 = (ccx - rrx).toFixed(1);
   const x1 = (ccx + rrx).toFixed(1);
-      // Mask opacities scale with intensity (short banners want a fainter glow so the icon grid stays the focus).
+  // Mask opacities scale with intensity (short banners want a fainter glow so the icon grid stays the focus).
   const o0 = (0.6 * intensity).toFixed(2);
   const o1 = (0.26 * intensity).toFixed(2);
   const def =
@@ -171,7 +171,7 @@ function spotSvg(
   return { def, shape };
 }
 
-    // Black base + three glow spots reading as a rainbow sweep. grid spreads spots across the canvas; strip clusters them behind the icon row.
+// Black base + three glow spots reading as a rainbow sweep. grid spreads spots across the canvas; strip clusters them behind the icon row.
 function bgSvg(
   W: number,
   H: number,
@@ -251,11 +251,11 @@ function bgSvg(
 const RAINBOW =
   "linear-gradient(90deg, #ff2d55 0%, #ff8a00 18%, #ffd60a 34%, #34c759 52%, #00c7be 66%, #0a84ff 82%, #bf5af2 100%)";
 
-    // Black/currentColor-only brands are invisible on the dark grid: force white. Multi-color logos keep their brand fills.
+// Black/currentColor-only brands are invisible on the dark grid: force white. Multi-color logos keep their brand fills.
 const NEUTRAL_FILLS = ["#000", "#000000", "#fff", "#ffffff"];
 
 function prepIconSvg(svg: string): string {
-      // lobe ships some variants with a malformed 4-digit white (#ffff) that satori renders transparent; normalize first.
+  // lobe ships some variants with a malformed 4-digit white (#ffff) that satori renders transparent; normalize first.
   const normalized = svg.replace(
     /(fill[="':\s]+)#ffff(?![0-9a-fA-F])/gi,
     "$1#ffffff",
@@ -274,7 +274,7 @@ function prepIconSvg(svg: string): string {
   return whiten(normalized);
 }
 
-    // Recolor a mono logo to white. Root fill is replaced OR injected, never both, or resvg rejects "fill redefined" and the cell goes blank.
+// Recolor a mono logo to white. Root fill is replaced OR injected, never both, or resvg rejects "fill redefined" and the cell goes blank.
 function whiten(svg: string): string {
   const recolored = svg
     .replace(/fill="currentColor"/g, `fill="#ffffff"`)

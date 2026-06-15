@@ -10,7 +10,7 @@ import type {
 import { quoteIdent } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 
-    // FKs off during copy; column intersect drops drift. No client.ts import (salvage cycle).
+// FKs off during copy; column intersect drops drift. No client.ts import (salvage cycle).
 export async function copyAllTables(
   source: CopyPeer,
   target: CopyPeer,

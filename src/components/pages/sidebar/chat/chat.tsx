@@ -46,7 +46,7 @@ export function Chat(props: ChatProps) {
 
   if (gate.needsToken)
     return (
-          // chat-shell-reveal drops the welcome placeholder; flex column gives the gate centering height.
+      // chat-shell-reveal drops the welcome placeholder; flex column gives the gate centering height.
       <div className="chat-shell-reveal flex min-h-0 flex-1 flex-col">
         <NeedsTokenGate />
       </div>

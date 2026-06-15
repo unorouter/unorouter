@@ -28,7 +28,7 @@ const KIND_BADGE: Record<ScopeKind, string> = {
 export function ConsentForm(props: ConsentFormProps) {
   const t = useTranslations();
 
-      // openid/offline_access are OIDC protocol scopes, not user-visible permissions; suppress them and surface refresh in the session note.
+  // openid/offline_access are OIDC protocol scopes, not user-visible permissions; suppress them and surface refresh in the session note.
   const PROTOCOL_SCOPES = new Set(["openid", "offline_access"]);
   const allScopes = props.scope
     .split(/\s+/)
@@ -37,7 +37,7 @@ export function ConsentForm(props: ConsentFormProps) {
   const scopes = allScopes.filter((s) => !PROTOCOL_SCOPES.has(s));
   const hasOfflineAccess = allScopes.includes("offline_access");
 
-      // Browser POSTs directly to new-api's /authorize/{callback_id}; the server responds with a 302 back to the agent's redirect_uri.
+  // Browser POSTs directly to new-api's /authorize/{callback_id}; the server responds with a 302 back to the agent's redirect_uri.
   const submitUrl = `${env.apiUrl}/oauth/v1/authorize/${encodeURIComponent(props.callbackId)}`;
 
   const invalid = !props.callbackId || !props.clientId;

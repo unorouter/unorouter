@@ -1,8 +1,8 @@
-    // RisuAI-style prompt template: user-orderable cards walked into the prompt. Cards are named SLOTS or LITERAL text, plus one chat card for history.
+// RisuAI-style prompt template: user-orderable cards walked into the prompt. Cards are named SLOTS or LITERAL text, plus one chat card for history.
 
 export type PromptItemRole = "system" | "user" | "assistant";
 
-    // Named content slots the assembler computes. A slot card emits its field; empty/missing slots are skipped.
+// Named content slots the assembler computes. A slot card emits its field; empty/missing slots are skipped.
 export type SlotName =
   | "main" // preset.mainPrompt + web-search/guest fallback
   | "description" // per-character blocks (desc/personality/scenario/examples)
@@ -18,15 +18,15 @@ export type PromptItem =
   | { type: "slot"; slot: SlotName; innerFormat?: string }
   // Literal block inserted in place with a chosen role.
   | { type: "plain"; text: string; role: PromptItemRole }
-      // Chat-history marker. range slices history: negative counts from the end, "end" is full length, ALL (-1000) is all.
+  // Chat-history marker. range slices history: negative counts from the end, "end" is full length, ALL (-1000) is all.
   | { type: "chat"; rangeStart: number; rangeEnd: number | "end" };
 
-    // One emitted prompt part: a role message or the history placeholder the stream service expands into messages.
+// One emitted prompt part: a role message or the history placeholder the stream service expands into messages.
 export type PromptPart =
   | { kind: "message"; role: PromptItemRole; text: string }
   | { kind: "chatHistory"; rangeStart: number; rangeEnd: number | "end" };
 
-    // Content for each slot, pre-built by the assembler: a finished macro-expanded string plus the role to emit it as.
+// Content for each slot, pre-built by the assembler: a finished macro-expanded string plus the role to emit it as.
 export type TemplateSlots = Record<
   SlotName,
   { text: string; role: PromptItemRole } | null
@@ -34,7 +34,7 @@ export type TemplateSlots = Record<
 
 export const CHAT_RANGE_ALL = -1000;
 
-    // Fixed assembly order, used when a preset has no promptTemplate. Tail: chat history, prefill, then post-history end inject.
+// Fixed assembly order, used when a preset has no promptTemplate. Tail: chat history, prefill, then post-history end inject.
 export const DEFAULT_PROMPT_TEMPLATE: PromptItem[] = [
   { type: "slot", slot: "main" },
   { type: "slot", slot: "loreTop" },
@@ -48,7 +48,7 @@ export const DEFAULT_PROMPT_TEMPLATE: PromptItem[] = [
   { type: "slot", slot: "postHistory" },
 ];
 
-    // Apply an innerFormat wrapper: replace {{slot}} with the content. No {{slot}} token means the format replaces entirely.
+// Apply an innerFormat wrapper: replace {{slot}} with the content. No {{slot}} token means the format replaces entirely.
 function applyInnerFormat(content: string, innerFormat?: string): string {
   if (!innerFormat) return content;
   return innerFormat.includes("{{slot}}")
@@ -56,7 +56,7 @@ function applyInnerFormat(content: string, innerFormat?: string): string {
     : innerFormat;
 }
 
-    // Walk a template into ordered prompt parts. Empty slots and blank text blocks are dropped; the chat card becomes a chatHistory placeholder.
+// Walk a template into ordered prompt parts. Empty slots and blank text blocks are dropped; the chat card becomes a chatHistory placeholder.
 export function walkTemplate(
   template: PromptItem[],
   slots: TemplateSlots,
@@ -92,7 +92,7 @@ export function walkTemplate(
   return parts;
 }
 
-    // Parse a stored promptTemplate JSON string. null (use default) on absent/invalid input. Unknown card types are dropped.
+// Parse a stored promptTemplate JSON string. null (use default) on absent/invalid input. Unknown card types are dropped.
 export function parsePromptTemplate(
   raw: string | null | undefined,
 ): PromptItem[] | null {
@@ -136,7 +136,7 @@ export function parsePromptTemplate(
   }
 }
 
-    // Resolve a chat card's [start, end) bounds against msgs. Negative counts from the end, ALL is the whole history.
+// Resolve a chat card's [start, end) bounds against msgs. Negative counts from the end, ALL is the whole history.
 export function resolveChatRange(
   rangeStart: number,
   rangeEnd: number | "end",

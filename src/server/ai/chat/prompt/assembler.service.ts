@@ -136,7 +136,7 @@ type ProviderRouting = {
   sort?: string;
 };
 
-    // JSON OpenRouter routing object, passed through verbatim; no-op on channels that don't route on it.
+// JSON OpenRouter routing object, passed through verbatim; no-op on channels that don't route on it.
 function parseProviderRouting(
   raw: string | null | undefined,
 ): ProviderRouting | undefined {
@@ -231,7 +231,7 @@ export type AssembleOpts = {
     text: string;
     time?: number;
   }[];
-      // Pre-mutated chat var store (start triggers); used over settings.vars so trigger writes reach prompt + writeback.
+  // Pre-mutated chat var store (start triggers); used over settings.vars so trigger writes reach prompt + writeback.
   seedVars?: Record<string, string>;
   model?: string;
   maxContext?: number;
@@ -252,7 +252,7 @@ export async function assembleForStream(
   convId: string,
   recentUserTexts: string[],
   fallbackSystemMessage: string | undefined,
-      // Required: the caller owns the scoped context load. A fallback here would re-resolve convId without userId, reopening the cross-user read.
+  // Required: the caller owns the scoped context load. A fallback here would re-resolve convId without userId, reopening the cross-user read.
   preloadedCtx: LoadedConvContext,
   opts?: AssembleOpts,
 ): Promise<AssembledSystem> {
@@ -284,7 +284,7 @@ export async function assembleForStream(
   const charDesc = primary?.description ?? "";
   const scenario = primary?.scenario ?? "";
 
-      // vars is mutated in place across expand() calls so writes reach later reads; the caller persists after stream.
+  // vars is mutated in place across expand() calls so writes reach later reads; the caller persists after stream.
   const macroScope: MacroScope = {
     user: userName,
     char: charName,
@@ -341,7 +341,7 @@ export async function assembleForStream(
     seed: macroScope.seed,
   });
 
-      // Named content slots ordered by the template; the default keeps the no-template path byte-identical.
+  // Named content slots ordered by the template; the default keeps the no-template path byte-identical.
   const joinNonEmpty = (parts: string[]) =>
     parts.filter(Boolean).join("\n\n").trim();
 
@@ -418,7 +418,7 @@ export async function assembleForStream(
     persona: sys(personaSlot),
     loreAfterChar: sys(loreAt("after_char")),
     systemPrompt: sys(systemPromptSlot),
-        // Prefill rides the template as a trailing assistant message so it orders with the stack (default: after chat).
+    // Prefill rides the template as a trailing assistant message so it orders with the stack (default: after chat).
     prefill: prefillText
       ? { text: prefillText, role: "assistant" as const }
       : null,
@@ -444,7 +444,7 @@ export async function assembleForStream(
     promptParts.splice(at, 0, ...exampleTurns);
   }
 
-      // system = only the leading run the stream hoists; later parts are emitted inline, not duplicated here.
+  // system = only the leading run the stream hoists; later parts are emitted inline, not duplicated here.
   const leadSystem: string[] = [];
   for (const p of promptParts) {
     if (p.kind === "message" && p.role === "system") leadSystem.push(p.text);
@@ -500,7 +500,7 @@ export async function assembleForStream(
     atDepthEntries,
     extraBody,
     providerRouting: parseProviderRouting(preset?.providers),
-        // Emitted as a prefill slot in promptParts; kept here for the GLM end-stub flag and no-prefill-card fallback.
+    // Emitted as a prefill slot in promptParts; kept here for the GLM end-stub flag and no-prefill-card fallback.
     prefill: prefillText || undefined,
     promptParts,
     promptTokens: estimatePromptTokens(promptParts, atDepthEntries, authorNote),

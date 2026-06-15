@@ -1,4 +1,4 @@
-    // Stage 3: build the assembled prompt and budget history. Runs start triggers + memory, assembles, clamps output cap, fits history, expands macros.
+// Stage 3: build the assembled prompt and budget history. Runs start triggers + memory, assembles, clamps output cap, fits history, expands macros.
 
 import {
   CONTEXT_SAFETY_MARGIN,
@@ -42,7 +42,7 @@ export type AssembledPrompt = {
   stopRequested: boolean;
   globalVarsIn: string | null;
   triggerVars: Record<string, string>;
-      // History sliced + budgeted + depth-spliced + macro-expanded, ready for the template walk.
+  // History sliced + budgeted + depth-spliced + macro-expanded, ready for the template walk.
   historyMessages: StreamMessages;
   effectiveMaxOutputTokens: number;
 };
@@ -58,10 +58,10 @@ export async function assemblePrompt(
 ): Promise<AssembledPrompt> {
   const recentUserTexts = collectRecentUserTexts(messages);
   const history = collectHistory(messages, body.messageTimes);
-      // Global vars ride outside the hashed context; hashing them would bust the cache every setglobalvar turn.
+  // Global vars ride outside the hashed context; hashing them would bust the cache every setglobalvar turn.
   const globalVarsIn = body.globalVars ?? clientCtx?.globalVars ?? null;
 
-      // start triggers mutate seed vars (persisted via writeback) and may inject a system prompt.
+  // start triggers mutate seed vars (persisted via writeback) and may inject a system prompt.
   const triggerVars: Record<string, string> = convCtx
     ? parseStringMap(convCtx.settings.vars)
     : {};
@@ -140,7 +140,7 @@ export async function assemblePrompt(
 
   const effectiveMaxOutputTokens = clampOutputTokens(assembled, modelInfo);
 
-      // Fit to context window, drop oldest first. Reserve = non-history prompt + clamped output cap, capped at half the window.
+  // Fit to context window, drop oldest first. Reserve = non-history prompt + clamped output cap, capped at half the window.
   const contextWindow = modelInfo?.metadata.contextWindow;
   const outputReserve = contextWindow
     ? Math.min(effectiveMaxOutputTokens, Math.floor(contextWindow / 2))
@@ -178,7 +178,7 @@ export async function assemblePrompt(
   };
 }
 
-    // Model maxOutputTokens is a hard ceiling; clamp preset to it + the free cap. Unknown cap falls back to the default cap.
+// Model maxOutputTokens is a hard ceiling; clamp preset to it + the free cap. Unknown cap falls back to the default cap.
 function clampOutputTokens(
   assembled: AssembledSystem,
   modelInfo: ProcessedModel | undefined,
