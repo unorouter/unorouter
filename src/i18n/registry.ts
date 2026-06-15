@@ -7,7 +7,7 @@ import {
   SectionPriorities,
 } from "@/lib/types";
 
-    // Shared content/timestamp sources for all /docs/[slug] guides; search index, llms.txt, sitemap, seo-timestamps enumerate it.
+// Shared content/timestamp sources for all /docs/[slug] guides; search index, llms.txt, sitemap, seo-timestamps enumerate it.
 const SETUP_GUIDE_SOURCES = [
   "src/components/pages/docs/setup-guides.ts",
   "src/components/pages/docs/setup-guide-template.tsx",
@@ -99,7 +99,7 @@ export const BLOG_REGISTRY = [
   },
   {
     slug: "free-models-aggregated",
-    date: "2026-06-08",
+    date: "2026-06-15",
     tags: ["announcement", "product"],
     i18nKey: "BLOG.POSTS.FREE_MODELS_AGGREGATED",
     contentFiles: [
@@ -108,7 +108,7 @@ export const BLOG_REGISTRY = [
     priority: 0.7,
     changeFrequency: "monthly",
     category: "product",
-    wordCount: 540,
+    wordCount: 560,
     headings: [
       { id: "what", i18nLeaf: "H_WHAT", level: 2 },
       { id: "caveat", i18nLeaf: "H_CAVEAT", level: 2 },
