@@ -2190,7 +2190,13 @@
       "WIPE_DB_TITLE": "清空本地数据库？",
       "UPLOAD_DB_TITLE": "覆盖本地数据库？"
     },
-    "COPIED": "已复制"
+    "COPIED": "已复制",
+    "DATE_RANGE": {
+      "PICK": "选择日期范围",
+      "FROM": "从",
+      "TO": "至",
+      "APPLY": "应用"
+    }
   },
   "LANGUAGE": {
     "EN": "English",

@@ -2190,7 +2190,13 @@
       "WIPE_DB_TITLE": "Hapus database lokal?",
       "UPLOAD_DB_TITLE": "Timpa database lokal?"
     },
-    "COPIED": "Disalin"
+    "COPIED": "Disalin",
+    "DATE_RANGE": {
+      "PICK": "Pilih rentang tanggal",
+      "FROM": "Dari",
+      "TO": "Sampai",
+      "APPLY": "Terapkan"
+    }
   },
   "LANGUAGE": {
     "EN": "English",

@@ -2190,7 +2190,13 @@
       "WIPE_DB_TITLE": "清空本機資料庫？",
       "UPLOAD_DB_TITLE": "覆寫本機資料庫？"
     },
-    "COPIED": "已複製"
+    "COPIED": "已複製",
+    "DATE_RANGE": {
+      "PICK": "選擇日期範圍",
+      "FROM": "從",
+      "TO": "至",
+      "APPLY": "套用"
+    }
   },
   "LANGUAGE": {
     "EN": "English",

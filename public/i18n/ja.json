@@ -2190,7 +2190,13 @@
       "WIPE_DB_TITLE": "ローカルデータベースを消去しますか？",
       "UPLOAD_DB_TITLE": "ローカルデータベースを上書きしますか？"
     },
-    "COPIED": "コピーしました"
+    "COPIED": "コピーしました",
+    "DATE_RANGE": {
+      "PICK": "期間を選択",
+      "FROM": "開始",
+      "TO": "終了",
+      "APPLY": "適用"
+    }
   },
   "LANGUAGE": {
     "EN": "English",

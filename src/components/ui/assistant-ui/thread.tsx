@@ -513,6 +513,8 @@ const AssistantEditInPlace: FC<{ onClose: () => void }> = (props) => {
       .map((p) => p.text!)
       .join("\n\n");
   });
+  // Rendered parts drive the source of truth; chat.messages can be empty on a history-loaded conv (mobile hydration race), so reading from there drops reasoning and no-ops the repaint.
+  const renderedParts = useAuiState((s) => s.message.content);
   const [text, setText] = useState(initialText);
   const editMut = useEditMessageMutation();
 
@@ -521,7 +523,7 @@ const AssistantEditInPlace: FC<{ onClose: () => void }> = (props) => {
     if (!convId) return;
 
     const helpers = chatStore.get(chatHelpersAtom);
-    // Only swap text parts; preserve reasoning/tool/source parts.
+    // Only swap text parts; preserve reasoning/tool/source parts. Prefer chat.messages, fall back to the rendered runtime parts.
     const liveMsg = (
       helpers?.getMessages() as Array<{
         id: string;
@@ -529,7 +531,7 @@ const AssistantEditInPlace: FC<{ onClose: () => void }> = (props) => {
       }>
     )?.find((m) => m.id === messageId);
 
-    const liveParts = liveMsg?.parts ?? [];
+    const liveParts = liveMsg?.parts ?? renderedParts ?? [];
     const newParts: Array<{ type: string; [k: string]: unknown }> = [];
     let textInjected = false;
     for (const p of liveParts) {
@@ -690,10 +692,6 @@ const DeleteMessageButton: FC = () => {
     <TooltipIconButton
       tooltip={t("CHAT.ACTION.DELETE")}
       onClick={handleClick}
-      onBlur={() => {
-        clearTimer();
-        setArmed(false);
-      }}
       className={cn(
         armed &&
           "bg-destructive/15 text-destructive hover:bg-destructive/25 hover:text-destructive",

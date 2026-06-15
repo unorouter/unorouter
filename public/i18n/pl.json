@@ -2190,7 +2190,13 @@
       "WIPE_DB_TITLE": "Wymazać lokalną bazę danych?",
       "UPLOAD_DB_TITLE": "Nadpisać lokalną bazę danych?"
     },
-    "COPIED": "Skopiowano"
+    "COPIED": "Skopiowano",
+    "DATE_RANGE": {
+      "PICK": "Wybierz zakres dat",
+      "FROM": "Od",
+      "TO": "Do",
+      "APPLY": "Zastosuj"
+    }
   },
   "LANGUAGE": {
     "EN": "English",

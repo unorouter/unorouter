@@ -2190,7 +2190,13 @@
       "WIPE_DB_TITLE": "Xoá sạch cơ sở dữ liệu cục bộ?",
       "UPLOAD_DB_TITLE": "Ghi đè cơ sở dữ liệu cục bộ?"
     },
-    "COPIED": "Da sao chep"
+    "COPIED": "Da sao chep",
+    "DATE_RANGE": {
+      "PICK": "Chọn khoảng thời gian",
+      "FROM": "Từ",
+      "TO": "Đến",
+      "APPLY": "Áp dụng"
+    }
   },
   "LANGUAGE": {
     "EN": "English",

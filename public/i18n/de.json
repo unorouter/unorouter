@@ -2190,7 +2190,13 @@
       "WIPE_DB_TITLE": "Lokale Datenbank löschen?",
       "UPLOAD_DB_TITLE": "Lokale Datenbank überschreiben?"
     },
-    "COPIED": "Kopiert"
+    "COPIED": "Kopiert",
+    "DATE_RANGE": {
+      "PICK": "Zeitraum wählen",
+      "FROM": "Von",
+      "TO": "Bis",
+      "APPLY": "Anwenden"
+    }
   },
   "LANGUAGE": {
     "EN": "English",

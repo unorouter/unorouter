@@ -2190,7 +2190,13 @@
       "WIPE_DB_TITLE": "Yerel veritabanını sil?",
       "UPLOAD_DB_TITLE": "Yerel veritabanının üzerine yaz?"
     },
-    "COPIED": "Kopyalandi"
+    "COPIED": "Kopyalandi",
+    "DATE_RANGE": {
+      "PICK": "Tarih aralığı seçin",
+      "FROM": "Başlangıç",
+      "TO": "Bitiş",
+      "APPLY": "Uygula"
+    }
   },
   "LANGUAGE": {
     "EN": "English",
