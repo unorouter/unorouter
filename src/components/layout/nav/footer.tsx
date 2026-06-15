@@ -144,6 +144,12 @@ export function Footer() {
       icon: "brand-reddit",
       label: "Reddit",
     },
+    {
+      id: "youtube",
+      href: env.youtubeUrl,
+      icon: "brand-youtube",
+      label: "YouTube",
+    },
   ] as const;
 
   return (
