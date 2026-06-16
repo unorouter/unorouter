@@ -3120,6 +3120,17 @@
     "STATS": {
       "SHOW_COST": "Mostrar custo",
       "SHOW_TOKENS": "Mostrar tokens"
+    },
+    "GROUPS": {
+      "NEW_GROUP": "Novo grupo",
+      "RENAME": "Renomear grupo",
+      "DELETE": "Excluir grupo",
+      "MOVE_TO": "Mover para o grupo",
+      "UNGROUPED": "Sem grupo",
+      "GROUP_UNTITLED": "Novo grupo",
+      "EMPTY": "Nenhuma conversa",
+      "DELETE_CONFIRM_TITLE": "Excluir grupo?",
+      "DELETE_CONFIRM_DESC": "O grupo é removido; suas conversas são mantidas e ficam sem grupo."
     }
   },
   "RP": {
@@ -3174,9 +3185,10 @@
     "LOREBOOK_ENTRY_KEYS": "Chaves de ativação (separadas por vírgula)",
     "LOREBOOK_ENTRY_KEYS_HINT": "Palavras que ativam esta entrada. Exemplo: dragão, serpe, draco.",
     "LOREBOOK_ENTRY_SECONDARY_KEYS": "Gatilhos secundários",
-    "LOREBOOK_ENTRY_PRIORITY_HINT": "Número menor injeta mais cedo no prompt.",
+    "LOREBOOK_ENTRY_PRIORITY_HINT": "Valor maior sobrevive ao orçamento de tokens.",
     "LOREBOOK_ENTRY_CONTENT": "Conteúdo",
-    "LOREBOOK_ENTRY_POSITION": "Posição",
+    "LOREBOOK_ENTRY_ORDER": "Ordem de inserção",
+    "LOREBOOK_ENTRY_ORDER_HINT": "Valor maior é inserido antes. Qualquer valor; só importa a ordem relativa.",
     "LOREBOOK_ENTRY_PRIORITY": "Prioridade",
     "LOREBOOK_ENTRY_CONSTANT": "Sempre ativo",
     "LOREBOOK_ENTRY_SELECTIVE": "Exigir uma chave secundária",
@@ -3187,11 +3199,6 @@
     "LOREBOOK_ENTRY_INJECTION_ROLE_USER": "Usuário",
     "LOREBOOK_ENTRY_INJECTION_ROLE_SYSTEM": "Sistema",
     "LOREBOOK_ENTRY_INJECTION_ROLE_HINT": "Papel usado ao injetar no array de mensagens. Recai automaticamente para 'user' em provedores que rejeitam mensagens de sistema no meio da conversa (ex. Gemini).",
-    "POSITION_BEFORE_CHAR": "Antes do personagem",
-    "POSITION_AFTER_CHAR": "Depois do personagem",
-    "POSITION_TOP": "Topo do prompt",
-    "POSITION_BOTTOM": "Fim do prompt",
-    "POSITION_AT_DEPTH": "Na profundidade",
     "PRESETS_TITLE": "Presets de sampling",
     "PRESETS_NEW": "Novo preset",
     "PRESETS_EXPORT": "Exportar preset",

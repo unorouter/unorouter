@@ -17,10 +17,7 @@ import type {
   WebSearchContextSize,
   WebSearchEngine,
 } from "@/lib/validation/chat";
-import type {
-  LorebookEntryPosition,
-  LorebookInjectionRole,
-} from "@/lib/validation/rp";
+import type { LorebookInjectionRole } from "@/lib/validation/rp";
 import type {
   GenerationFormUi,
   GenerationParams,
@@ -106,12 +103,31 @@ export const conversations = sqliteTable(
     memoryEnabled: integer("memory_enabled", { mode: "boolean" }),
     // RisuAI fmIndex: which greeting opens the chat (-1 = firstMessage, 0..n = alternateGreetings index).
     firstMsgIndex: integer("first_msg_index").notNull().default(-1),
+    // Sidebar grouping/folder; null = ungrouped. References chat_groups; SET NULL so deleting a group keeps its chats.
+    groupId: text("group_id"),
     ...syncableTimestamps(),
   },
   (table) => [
     index("idx_conv_user_updated").on(table.userId, table.updatedAt),
     index("idx_conv_sync_expires").on(table.syncExpiresAt),
+    index("idx_conv_user_group").on(table.userId, table.groupId),
   ],
+);
+
+// Sidebar chat groups (folders): global per user, user-named + ordered + collapsible. Local-first.
+export const chatGroups = sqliteTable(
+  "chat_groups",
+  {
+    id: text("id")
+      .primaryKey()
+      .$defaultFn(() => uid()),
+    userId: integer("user_id").notNull(),
+    name: text("name").notNull(),
+    orderIndex: integer("order_index").notNull().default(0),
+    folded: integer("folded", { mode: "boolean" }).notNull().default(false),
+    ...syncableTimestamps(),
+  },
+  (table) => [index("idx_chat_group_user_order").on(table.userId, table.orderIndex)],
 );
 
 export const messages = sqliteTable(
@@ -310,11 +326,6 @@ export const lorebookEntries = sqliteTable(
       .notNull()
       .default(false),
     priority: integer("priority").notNull().default(100),
-    position: text("position")
-      .notNull()
-      .default("before_char")
-      .$type<LorebookEntryPosition>(),
-    depth: integer("depth").notNull().default(4),
     enabled: integer("enabled", { mode: "boolean" }).notNull().default(true),
     orderIndex: integer("order_index").notNull().default(0),
     matchWholeWords: integer("match_whole_words", { mode: "boolean" })

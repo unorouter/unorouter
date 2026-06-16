@@ -799,39 +799,52 @@ const AssistantActionBar: FC = () => {
 };
 
 const UserMessage: FC = () => {
+  // Local in-place edit (persists via useEditMessageMutation), NOT the native composer edit which
+  // re-runs the model. Editing a user turn should only update stored context; regen has its own button.
+  const [editing, setEditing] = useState(false);
   return (
-    <MessagePrimitive.Root
-      className="aui-user-message-root fade-in slide-in-from-bottom-1 animate-in mx-auto grid w-full max-w-(--thread-max-width) auto-rows-auto grid-cols-[minmax(72px,1fr)_minmax(0,auto)] content-start gap-y-2 px-2 py-3 duration-150 [&:where(>*)]:col-start-2"
-      data-role="user"
-    >
-      <UserMessageAttachments />
+    <AssistantEditContext.Provider value={() => setEditing(true)}>
+      <MessagePrimitive.Root
+        className="aui-user-message-root fade-in slide-in-from-bottom-1 animate-in mx-auto grid w-full max-w-(--thread-max-width) auto-rows-auto grid-cols-[minmax(72px,1fr)_minmax(0,auto)] content-start gap-y-2 px-2 py-3 duration-150 [&:where(>*)]:col-start-2"
+        data-role="user"
+      >
+        {editing ? (
+          <div className="col-start-2">
+            <AssistantEditInPlace onClose={() => setEditing(false)} />
+          </div>
+        ) : (
+          <>
+            <UserMessageAttachments />
 
-      <div className="aui-user-message-content peer bg-muted text-foreground col-start-2 max-w-full rounded-2xl px-4 py-2.5 wrap-break-word empty:hidden">
-        <MessagePrimitive.Parts />
-      </div>
+            <div className="aui-user-message-content peer bg-muted text-foreground col-start-2 max-w-full rounded-2xl px-4 py-2.5 wrap-break-word empty:hidden">
+              <MessagePrimitive.Parts />
+            </div>
 
-      <div className="aui-user-message-footer col-span-full col-start-1 row-start-3 flex min-h-6 items-center justify-end gap-2 peer-empty:hidden">
-        <UserActionBar />
-        <BranchPicker className="aui-user-branch-picker -mr-1" />
-      </div>
-    </MessagePrimitive.Root>
+            <div className="aui-user-message-footer col-span-full col-start-1 row-start-3 flex min-h-6 items-center justify-end gap-2 peer-empty:hidden">
+              <UserActionBar />
+              <BranchPicker className="aui-user-branch-picker -mr-1" />
+            </div>
+          </>
+        )}
+      </MessagePrimitive.Root>
+    </AssistantEditContext.Provider>
   );
 };
 
 const UserActionBar: FC = () => {
   const t = useTranslations();
-  const isMobile = useIsMobile();
+  const beginEdit = useContext(AssistantEditContext);
   return (
     <ActionBarPrimitive.Root
       hideWhenRunning
-      autohide={isMobile ? undefined : "not-last"}
+      autohide={useIsMobile() ? undefined : "not-last"}
       className="aui-user-action-bar-root text-muted-foreground flex gap-1"
     >
-      <ActionBarPrimitive.Edit asChild>
-        <TooltipIconButton tooltip={t("CHAT.ACTION.EDIT")}>
+      {beginEdit && (
+        <TooltipIconButton tooltip={t("CHAT.ACTION.EDIT")} onClick={beginEdit}>
           <Icon name="pencil" />
         </TooltipIconButton>
-      </ActionBarPrimitive.Edit>
+      )}
       <DeleteMessageButton />
     </ActionBarPrimitive.Root>
   );

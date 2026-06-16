@@ -3120,6 +3120,17 @@
     "STATS": {
       "SHOW_COST": "Показать стоимость",
       "SHOW_TOKENS": "Показать токены"
+    },
+    "GROUPS": {
+      "NEW_GROUP": "Новая группа",
+      "RENAME": "Переименовать группу",
+      "DELETE": "Удалить группу",
+      "MOVE_TO": "Переместить в группу",
+      "UNGROUPED": "Без группы",
+      "GROUP_UNTITLED": "Новая группа",
+      "EMPTY": "Нет чатов",
+      "DELETE_CONFIRM_TITLE": "Удалить группу?",
+      "DELETE_CONFIRM_DESC": "Группа удаляется; её чаты сохраняются и становятся без группы."
     }
   },
   "RP": {
@@ -3174,9 +3185,10 @@
     "LOREBOOK_ENTRY_KEYS": "Ключи активации (через запятую)",
     "LOREBOOK_ENTRY_KEYS_HINT": "Слова, активирующие эту запись. Пример: дракон, змей, виверна.",
     "LOREBOOK_ENTRY_SECONDARY_KEYS": "Вторичные триггеры",
-    "LOREBOOK_ENTRY_PRIORITY_HINT": "Меньшее число вставляется раньше в промпте.",
+    "LOREBOOK_ENTRY_PRIORITY_HINT": "Более высокое значение остаётся в пределах бюджета токенов.",
     "LOREBOOK_ENTRY_CONTENT": "Содержание",
-    "LOREBOOK_ENTRY_POSITION": "Позиция",
+    "LOREBOOK_ENTRY_ORDER": "Порядок вставки",
+    "LOREBOOK_ENTRY_ORDER_HINT": "Более высокое значение вставляется раньше. Подойдёт любое значение, важен лишь относительный порядок.",
     "LOREBOOK_ENTRY_PRIORITY": "Приоритет",
     "LOREBOOK_ENTRY_CONSTANT": "Всегда активно",
     "LOREBOOK_ENTRY_SELECTIVE": "Требовать вторичный ключ",
@@ -3187,11 +3199,6 @@
     "LOREBOOK_ENTRY_INJECTION_ROLE_USER": "Пользователь",
     "LOREBOOK_ENTRY_INJECTION_ROLE_SYSTEM": "Система",
     "LOREBOOK_ENTRY_INJECTION_ROLE_HINT": "Роль при вставке в массив сообщений. Автоматически возвращается к 'Пользователь' для провайдеров, не принимающих системные сообщения в середине диалога (например, Gemini).",
-    "POSITION_BEFORE_CHAR": "Перед персонажем",
-    "POSITION_AFTER_CHAR": "После персонажа",
-    "POSITION_TOP": "Начало промпта",
-    "POSITION_BOTTOM": "Конец промпта",
-    "POSITION_AT_DEPTH": "На глубине",
     "PRESETS_TITLE": "Пресеты сэмплинга",
     "PRESETS_NEW": "Новый пресет",
     "PRESETS_EXPORT": "Экспорт пресета",

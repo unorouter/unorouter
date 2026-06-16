@@ -3120,6 +3120,17 @@
     "STATS": {
       "SHOW_COST": "Maliyeti göster",
       "SHOW_TOKENS": "Token'ları göster"
+    },
+    "GROUPS": {
+      "NEW_GROUP": "Yeni grup",
+      "RENAME": "Grubu yeniden adlandır",
+      "DELETE": "Grubu sil",
+      "MOVE_TO": "Gruba taşı",
+      "UNGROUPED": "Grupsuz",
+      "GROUP_UNTITLED": "Yeni grup",
+      "EMPTY": "Sohbet yok",
+      "DELETE_CONFIRM_TITLE": "Grup silinsin mi?",
+      "DELETE_CONFIRM_DESC": "Grup kaldırılır; sohbetleri korunur ve grupsuz olur."
     }
   },
   "RP": {
@@ -3174,9 +3185,10 @@
     "LOREBOOK_ENTRY_KEYS": "Etkinleştirme anahtarları (virgülle ayrılmış)",
     "LOREBOOK_ENTRY_KEYS_HINT": "Bu girdiyi etkinleştiren kelimeler. Örnek: ejderha, solucan, drake.",
     "LOREBOOK_ENTRY_SECONDARY_KEYS": "İkincil tetikleyiciler",
-    "LOREBOOK_ENTRY_PRIORITY_HINT": "Daha düşük sayı isteme daha erken enjekte edilir.",
+    "LOREBOOK_ENTRY_PRIORITY_HINT": "Daha yüksek değer token bütçesinde hayatta kalır.",
     "LOREBOOK_ENTRY_CONTENT": "İçerik",
-    "LOREBOOK_ENTRY_POSITION": "Konum",
+    "LOREBOOK_ENTRY_ORDER": "Ekleme sırası",
+    "LOREBOOK_ENTRY_ORDER_HINT": "Daha yüksek değer önce eklenir. Herhangi bir değer olabilir, yalnızca göreli sıra önemlidir.",
     "LOREBOOK_ENTRY_PRIORITY": "Öncelik",
     "LOREBOOK_ENTRY_CONSTANT": "Her zaman etkin",
     "LOREBOOK_ENTRY_SELECTIVE": "İkincil anahtar gerektir",
@@ -3187,11 +3199,6 @@
     "LOREBOOK_ENTRY_INJECTION_ROLE_USER": "User",
     "LOREBOOK_ENTRY_INJECTION_ROLE_SYSTEM": "System",
     "LOREBOOK_ENTRY_INJECTION_ROLE_HINT": "Mesaj dizisine enjekte ederken kullanılan rol. Sohbet ortası system mesajlarını reddeden sağlayıcılarda (ör. Gemini) otomatik olarak 'user'a geri döner.",
-    "POSITION_BEFORE_CHAR": "Karakterden önce",
-    "POSITION_AFTER_CHAR": "Karakterden sonra",
-    "POSITION_TOP": "İstem üstünde",
-    "POSITION_BOTTOM": "İstem altında",
-    "POSITION_AT_DEPTH": "Derinlikte",
     "PRESETS_TITLE": "Sampling presetleri",
     "PRESETS_NEW": "Yeni preset",
     "PRESETS_EXPORT": "Preset dışa aktar",

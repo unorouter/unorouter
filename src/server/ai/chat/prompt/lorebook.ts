@@ -63,29 +63,17 @@ function estimateTokens(text: string): number {
   return encode(text).length;
 }
 
-export type LorebookPlacement =
-  | "top"
-  | "before_char"
-  | "after_char"
-  | "bottom"
-  | "at_depth"
-  | "before_desc"
-  | "after_desc"
-  | "personality"
-  | "scenario";
-
 // Per-entry overrides parsed from @@decorator lines atop an entry's content; those lines are stripped from body.
 export type EntryDecorators = {
   body: string;
   probability?: number;
   priority?: number;
+  // Risu insertorder override; higher = earlier in the single lorebook slot.
+  order?: number;
   scanDepth?: number;
   additionalKeys?: string[];
   excludeKeys?: string[];
   excludeKeysAll?: string[];
-  position?: LorebookPlacement;
-  depth?: number;
-  reverseDepth?: boolean;
   role?: "user" | "assistant" | "system";
   // Match-mode override (@@match_full_word / @@match_partial_word).
   matchWholeWords?: boolean;
@@ -140,6 +128,10 @@ export function parseDecorators(content: string): EntryDecorators {
       case "priority":
         if (Number.isFinite(num)) out.priority = num;
         break;
+      case "order":
+      case "insertorder":
+        if (Number.isFinite(num)) out.order = num;
+        break;
       case "scan_depth":
         if (Number.isFinite(num) && num > 0) out.scanDepth = num;
         break;
@@ -152,33 +144,9 @@ export function parseDecorators(content: string): EntryDecorators {
       case "exclude_keys_all":
         out.excludeKeysAll = csv(arg);
         break;
-      case "depth":
-        if (Number.isFinite(num)) {
-          out.position = "at_depth";
-          out.depth = num;
-        }
-        break;
-      case "reverse_depth":
-        if (Number.isFinite(num)) {
-          out.position = "at_depth";
-          out.depth = num;
-          out.reverseDepth = true;
-        }
-        break;
-      case "end":
-        out.position = "at_depth";
-        out.depth = 0;
-        break;
       case "role":
         if (arg === "user" || arg === "assistant" || arg === "system")
           out.role = arg;
-        break;
-      case "position":
-        if (
-          ["before_desc", "after_desc", "personality", "scenario"].includes(arg)
-        ) {
-          out.position = arg as LorebookPlacement;
-        }
         break;
       case "match_full_word":
         out.matchWholeWords = true;
@@ -422,8 +390,12 @@ export function selectLorebookEntries(
       .join("\n");
   }
 
-  // Single global priority sort, then one shared token budget (RisuAI 603-615).
-  accepted.sort((a, b) => b.effectivePriority - a.effectivePriority);
+  // Single global priority sort, then one shared token budget (RisuAI 603-615). Id tiebreak keeps the survival set deterministic.
+  accepted.sort(
+    (a, b) =>
+      b.effectivePriority - a.effectivePriority ||
+      (a.entry.id < b.entry.id ? -1 : 1),
+  );
   let used = 0;
   const survived = accepted.filter((p) => {
     const cost = estimateTokens(p.dec.body);
@@ -450,34 +422,17 @@ export function selectLorebookEntries(
       );
   }
 
-  // Sort by book binding order, then entry orderIndex, then priority. Without the book rank, books sharing a position interleave.
-  const bookRank = new Map([...books.keys()].map((id, i) => [id, i]));
+  // Single lorebook slot: order purely by orderIndex DESC (insert order, higher = earlier), then priority DESC, then id for determinism.
+  const order = (p: Prepared) => p.dec.order ?? p.entry.orderIndex ?? 0;
   placed.sort(
     (a, b) =>
-      (bookRank.get(a.entry.lorebookId) ?? 0) -
-        (bookRank.get(b.entry.lorebookId) ?? 0) ||
-      (a.entry.orderIndex ?? 0) - (b.entry.orderIndex ?? 0) ||
-      b.effectivePriority - a.effectivePriority,
+      order(b) - order(a) ||
+      b.effectivePriority - a.effectivePriority ||
+      (a.entry.id < b.entry.id ? -1 : 1),
   );
   return placed.map((p) => ({
     ...p.entry,
     content: p.dec.body,
-    ...(p.dec.position ? { position: toStoredPosition(p.dec.position) } : {}),
-    ...(p.dec.depth !== undefined ? { depth: p.dec.depth } : {}),
     ...(p.dec.role ? { injectionRole: p.dec.role } : {}),
   }));
-}
-
-// Map RisuAI-only placement names onto the nearest stored slot so decorator placement works without widening enum.
-function toStoredPosition(pos: LorebookPlacement): LbEntry["position"] {
-  switch (pos) {
-    case "before_desc":
-      return "before_char";
-    case "after_desc":
-    case "personality":
-    case "scenario":
-      return "after_char";
-    default:
-      return pos as LbEntry["position"];
-  }
 }

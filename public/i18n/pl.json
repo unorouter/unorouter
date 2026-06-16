@@ -3120,6 +3120,17 @@
     "STATS": {
       "SHOW_COST": "Pokaż koszt",
       "SHOW_TOKENS": "Pokaż tokeny"
+    },
+    "GROUPS": {
+      "NEW_GROUP": "Nowa grupa",
+      "RENAME": "Zmień nazwę grupy",
+      "DELETE": "Usuń grupę",
+      "MOVE_TO": "Przenieś do grupy",
+      "UNGROUPED": "Bez grupy",
+      "GROUP_UNTITLED": "Nowa grupa",
+      "EMPTY": "Brak czatów",
+      "DELETE_CONFIRM_TITLE": "Usunąć grupę?",
+      "DELETE_CONFIRM_DESC": "Grupa zostanie usunięta; jej czaty pozostaną i staną się bez grupy."
     }
   },
   "RP": {
@@ -3174,9 +3185,10 @@
     "LOREBOOK_ENTRY_KEYS": "Klucze aktywacji (oddzielone przecinkami)",
     "LOREBOOK_ENTRY_KEYS_HINT": "Słowa aktywujące ten wpis. Przykład: smok, żmij, drak.",
     "LOREBOOK_ENTRY_SECONDARY_KEYS": "Wyzwalacze drugorzędne",
-    "LOREBOOK_ENTRY_PRIORITY_HINT": "Niższy numer wstrzykuje wcześniej w promptzie.",
+    "LOREBOOK_ENTRY_PRIORITY_HINT": "Wyższa wartość przetrwa budżet tokenów.",
     "LOREBOOK_ENTRY_CONTENT": "Treść",
-    "LOREBOOK_ENTRY_POSITION": "Pozycja",
+    "LOREBOOK_ENTRY_ORDER": "Kolejność wstawiania",
+    "LOREBOOK_ENTRY_ORDER_HINT": "Wyższa wartość wstawia się wcześniej. Dowolna wartość; liczy się tylko kolejność względna.",
     "LOREBOOK_ENTRY_PRIORITY": "Priorytet",
     "LOREBOOK_ENTRY_CONSTANT": "Zawsze aktywny",
     "LOREBOOK_ENTRY_SELECTIVE": "Wymagaj klucza drugorzędnego",
@@ -3187,11 +3199,6 @@
     "LOREBOOK_ENTRY_INJECTION_ROLE_USER": "Użytkownik",
     "LOREBOOK_ENTRY_INJECTION_ROLE_SYSTEM": "System",
     "LOREBOOK_ENTRY_INJECTION_ROLE_HINT": "Rola używana przy wstrzykiwaniu do tablicy wiadomości. Automatycznie wraca do 'user' u dostawców, którzy odrzucają wiadomości systemowe w środku rozmowy (np. Gemini).",
-    "POSITION_BEFORE_CHAR": "Przed postacią",
-    "POSITION_AFTER_CHAR": "Po postaci",
-    "POSITION_TOP": "Góra promptu",
-    "POSITION_BOTTOM": "Dół promptu",
-    "POSITION_AT_DEPTH": "Na głębokości",
     "PRESETS_TITLE": "Presety samplowania",
     "PRESETS_NEW": "Nowy preset",
     "PRESETS_EXPORT": "Eksportuj preset",

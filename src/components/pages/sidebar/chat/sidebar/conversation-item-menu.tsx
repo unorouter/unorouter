@@ -5,9 +5,17 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Icon } from "@/components/ui/icon";
+import {
+  useChatGroupsQuery,
+  useCreateChatGroupMutation,
+  useMoveConversationToGroupMutation,
+} from "@/hooks/ai/chat-hook";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 
@@ -20,6 +28,15 @@ export function ConversationItemMenu(props: {
   onDelete: () => void;
 }) {
   const t = useTranslations();
+  const groupsQuery = useChatGroupsQuery();
+  const moveToGroup = useMoveConversationToGroupMutation();
+  const createGroup = useCreateChatGroupMutation();
+  const groups = groupsQuery.data ?? [];
+
+  const move = (groupId: string | null) => {
+    moveToGroup.mutate({ convId: props.conversationId, groupId });
+    props.onOpenChange(false);
+  };
 
   return (
     <DropdownMenu open={props.open} onOpenChange={props.onOpenChange}>
@@ -43,6 +60,44 @@ export function ConversationItemMenu(props: {
           <Icon name="pencil" className="size-4" />
           {t("CHAT.ACTION.RENAME")}
         </DropdownMenuItem>
+        <DropdownMenuSub>
+          <DropdownMenuSubTrigger className="gap-2">
+            <Icon name="layers" className="size-4" />
+            {t("CHAT.GROUPS.MOVE_TO")}
+          </DropdownMenuSubTrigger>
+          <DropdownMenuSubContent>
+            <DropdownMenuItem onClick={() => move(null)} className="gap-2">
+              <Icon name="x" className="size-4" />
+              {t("CHAT.GROUPS.UNGROUPED")}
+            </DropdownMenuItem>
+            {groups.length > 0 && <DropdownMenuSeparator />}
+            {groups.map((g) => (
+              <DropdownMenuItem
+                key={g.id}
+                onClick={() => move(g.id)}
+                className="gap-2"
+              >
+                <Icon name="layers" className="size-4" />
+                <span className="truncate">{g.name}</span>
+              </DropdownMenuItem>
+            ))}
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              onClick={() =>
+                createGroup.mutate(
+                  { name: t("CHAT.GROUPS.GROUP_UNTITLED") },
+                  {
+                    onSuccess: (data) => move(data.id),
+                  },
+                )
+              }
+              className="gap-2"
+            >
+              <Icon name="plus-circle" className="size-4" />
+              {t("CHAT.GROUPS.NEW_GROUP")}
+            </DropdownMenuItem>
+          </DropdownMenuSubContent>
+        </DropdownMenuSub>
         <DropdownMenuSeparator />
         <DropdownMenuItem
           variant="destructive"
