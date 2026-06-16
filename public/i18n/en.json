@@ -3120,6 +3120,17 @@
     "STATS": {
       "SHOW_COST": "Show cost",
       "SHOW_TOKENS": "Show tokens"
+    },
+    "GROUPS": {
+      "NEW_GROUP": "New group",
+      "RENAME": "Rename group",
+      "DELETE": "Delete group",
+      "MOVE_TO": "Move to group",
+      "UNGROUPED": "Ungrouped",
+      "GROUP_UNTITLED": "New group",
+      "EMPTY": "No chats",
+      "DELETE_CONFIRM_TITLE": "Delete group?",
+      "DELETE_CONFIRM_DESC": "The group is removed; its chats are kept and become ungrouped."
     }
   },
   "RP": {
@@ -3174,9 +3185,10 @@
     "LOREBOOK_ENTRY_KEYS": "Activation keys (comma-separated)",
     "LOREBOOK_ENTRY_KEYS_HINT": "Words that activate this entry. Example: dragon, wyrm, drake.",
     "LOREBOOK_ENTRY_SECONDARY_KEYS": "Secondary triggers",
-    "LOREBOOK_ENTRY_PRIORITY_HINT": "Lower number injects earlier in the prompt.",
+    "LOREBOOK_ENTRY_PRIORITY_HINT": "Higher survives the token budget.",
     "LOREBOOK_ENTRY_CONTENT": "Content",
-    "LOREBOOK_ENTRY_POSITION": "Position",
+    "LOREBOOK_ENTRY_ORDER": "Insert order",
+    "LOREBOOK_ENTRY_ORDER_HINT": "Higher inserts earlier. Any value; only relative order matters.",
     "LOREBOOK_ENTRY_PRIORITY": "Priority",
     "LOREBOOK_ENTRY_CONSTANT": "Always active",
     "LOREBOOK_ENTRY_SELECTIVE": "Require a secondary key",
@@ -3187,11 +3199,6 @@
     "LOREBOOK_ENTRY_INJECTION_ROLE_USER": "User",
     "LOREBOOK_ENTRY_INJECTION_ROLE_SYSTEM": "System",
     "LOREBOOK_ENTRY_INJECTION_ROLE_HINT": "Role used when injecting into the message array. Auto-falls back to 'user' on providers that reject mid-conversation system messages (e.g. Gemini).",
-    "POSITION_BEFORE_CHAR": "Before character",
-    "POSITION_AFTER_CHAR": "After character",
-    "POSITION_TOP": "Top of prompt",
-    "POSITION_BOTTOM": "Bottom of prompt",
-    "POSITION_AT_DEPTH": "At depth",
     "PRESETS_TITLE": "Sampling presets",
     "PRESETS_NEW": "New preset",
     "PRESETS_EXPORT": "Export preset",

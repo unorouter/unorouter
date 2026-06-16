@@ -4,6 +4,7 @@ import { SectionBoundary } from "@/components/elements/feedback/section-boundary
 import { Icon } from "@/components/ui/icon";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
 import {
   Popover,
   PopoverContent,
@@ -18,14 +19,18 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import {
+  useChatGroupsQuery,
   useConversationsInfiniteQuery,
+  useCreateChatGroupMutation,
   useDeleteConversationMutation,
+  useToggleChatGroupFoldedMutation,
 } from "@/hooks/ai/chat-hook";
 import { analytics } from "@/lib/analytics";
 import { useAui, useAuiState } from "@assistant-ui/react";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import { ConversationItem } from "./conversation-item";
+import { ChatGroupSection } from "./chat-group-section";
 
 export function ConversationList() {
   const t = useTranslations();
@@ -46,9 +51,15 @@ export function ConversationList() {
     debouncedSearch || undefined,
   );
   const deleteMutation = useDeleteConversationMutation();
+  const groupsQuery = useChatGroupsQuery();
+  const createGroup = useCreateChatGroupMutation();
+  const toggleFolded = useToggleChatGroupFoldedMutation();
 
   const conversations =
     conversationsQuery.data?.pages.flatMap((p) => p.items) ?? [];
+  const groups = groupsQuery.data ?? [];
+  // Group view only when not searching; search flattens across all groups.
+  const grouped = !debouncedSearch && groups.length > 0;
 
   useEffect(() => {
     if (!debouncedSearch) return;
@@ -114,6 +125,18 @@ export function ConversationList() {
     </div>
   );
 
+  const renderItem = (conv: (typeof conversations)[number]) => (
+    <ConversationItem
+      key={conv.id}
+      conversation={conv}
+      isSelected={conv.id === activeThreadId}
+      onSelect={() => handleSelect(conv.id)}
+      onDelete={() => handleDelete(conv.id)}
+    />
+  );
+
+  const ungrouped = conversations.filter((c) => !c.groupId);
+
   const conversationItems = (
     <div className="flex flex-col gap-1">
       {conversationsQuery.isPending ? (
@@ -126,15 +149,45 @@ export function ConversationList() {
         </div>
       ) : (
         <>
-          {conversations.map((conv) => (
-            <ConversationItem
-              key={conv.id}
-              conversation={conv}
-              isSelected={conv.id === activeThreadId}
-              onSelect={() => handleSelect(conv.id)}
-              onDelete={() => handleDelete(conv.id)}
-            />
-          ))}
+          {!debouncedSearch && (
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-muted-foreground h-7 justify-start gap-1.5 px-2 text-xs"
+              onClick={() =>
+                createGroup.mutate({ name: t("CHAT.GROUPS.GROUP_UNTITLED") })
+              }
+            >
+              <Icon name="plus-circle" className="size-3.5" />
+              {t("CHAT.GROUPS.NEW_GROUP")}
+            </Button>
+          )}
+
+          {grouped &&
+            groups.map((g) => {
+              const items = conversations.filter((c) => c.groupId === g.id);
+              return (
+                <ChatGroupSection
+                  key={g.id}
+                  group={g}
+                  count={items.length}
+                  onToggle={() =>
+                    toggleFolded.mutate({ id: g.id, folded: !g.folded })
+                  }
+                >
+                  {items.length === 0 ? (
+                    <div className="text-muted-foreground px-2 py-1 text-xs">
+                      {t("CHAT.GROUPS.EMPTY")}
+                    </div>
+                  ) : (
+                    items.map(renderItem)
+                  )}
+                </ChatGroupSection>
+              );
+            })}
+
+          {ungrouped.map(renderItem)}
+
           <div ref={sentinelRef} className="h-1" />
           {conversationsQuery.isFetchingNextPage && (
             <div className="flex items-center justify-center py-2">

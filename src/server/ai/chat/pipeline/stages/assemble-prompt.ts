@@ -155,10 +155,7 @@ export async function assemblePrompt(
     reserveTokens,
   );
 
-  const depthInjections = [
-    ...assembled.atDepthEntries,
-    ...(assembled.authorNote ? [assembled.authorNote] : []),
-  ];
+  const depthInjections = assembled.authorNote ? [assembled.authorNote] : [];
   const splicedMessages =
     depthInjections.length > 0
       ? spliceDepthInjections(slicedMessages, depthInjections)

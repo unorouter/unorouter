@@ -74,8 +74,8 @@ export function LorebookList(props: Props) {
 
   return (
     <Dialog open={props.open} onOpenChange={props.onOpenChange}>
-      <DialogContent className="max-h-[85vh] overflow-x-hidden overflow-y-auto sm:max-w-2xl">
-        <DialogHeader>
+      <DialogContent className="flex max-h-[85vh] flex-col overflow-hidden sm:max-w-2xl">
+        <DialogHeader className="shrink-0">
           <DialogTitle className="flex items-center gap-2">
             {openLbId && (
               <Button
@@ -93,14 +93,15 @@ export function LorebookList(props: Props) {
           </DialogTitle>
         </DialogHeader>
 
-        {openLbId ? (
-          <LorebookEditor
-            key={openLbId}
-            lorebookId={openLbId}
-            onDeleted={() => setOpenLbId(null)}
-          />
-        ) : (
-          <div className="flex flex-col gap-3">
+        <div className="-mx-6 min-h-0 flex-1 overflow-x-hidden overflow-y-auto px-6">
+          {openLbId ? (
+            <LorebookEditor
+              key={openLbId}
+              lorebookId={openLbId}
+              onDeleted={() => setOpenLbId(null)}
+            />
+          ) : (
+            <div className="flex flex-col gap-3">
             <div className="flex flex-wrap items-center justify-end gap-2">
               <RpImportControl
                 entity="lorebooks"
@@ -164,7 +165,8 @@ export function LorebookList(props: Props) {
               ))}
             </div>
           </div>
-        )}
+          )}
+        </div>
       </DialogContent>
     </Dialog>
   );

@@ -3120,6 +3120,17 @@
     "STATS": {
       "SHOW_COST": "Kosten anzeigen",
       "SHOW_TOKENS": "Tokens anzeigen"
+    },
+    "GROUPS": {
+      "NEW_GROUP": "Neue Gruppe",
+      "RENAME": "Gruppe umbenennen",
+      "DELETE": "Gruppe löschen",
+      "MOVE_TO": "In Gruppe verschieben",
+      "UNGROUPED": "Ohne Gruppe",
+      "GROUP_UNTITLED": "Neue Gruppe",
+      "EMPTY": "Keine Chats",
+      "DELETE_CONFIRM_TITLE": "Gruppe löschen?",
+      "DELETE_CONFIRM_DESC": "Die Gruppe wird entfernt; ihre Chats bleiben erhalten und sind dann ohne Gruppe."
     }
   },
   "RP": {
@@ -3174,9 +3185,10 @@
     "LOREBOOK_ENTRY_KEYS": "Aktivierungsschlüssel (kommagetrennt)",
     "LOREBOOK_ENTRY_KEYS_HINT": "Wörter, die diesen Eintrag aktivieren. Beispiel: Drache, Wurm, Lindwurm.",
     "LOREBOOK_ENTRY_SECONDARY_KEYS": "Sekundäre Auslöser",
-    "LOREBOOK_ENTRY_PRIORITY_HINT": "Niedrigere Zahl wird früher im Prompt eingefügt.",
+    "LOREBOOK_ENTRY_PRIORITY_HINT": "Höherer Wert überlebt das Token-Budget.",
     "LOREBOOK_ENTRY_CONTENT": "Inhalt",
-    "LOREBOOK_ENTRY_POSITION": "Position",
+    "LOREBOOK_ENTRY_ORDER": "Einfügereihenfolge",
+    "LOREBOOK_ENTRY_ORDER_HINT": "Höher wird früher eingefügt. Beliebiger Wert; nur die relative Reihenfolge zählt.",
     "LOREBOOK_ENTRY_PRIORITY": "Priorität",
     "LOREBOOK_ENTRY_CONSTANT": "Immer aktiv",
     "LOREBOOK_ENTRY_SELECTIVE": "Sekundärschlüssel erforderlich",
@@ -3187,11 +3199,6 @@
     "LOREBOOK_ENTRY_INJECTION_ROLE_USER": "Benutzer",
     "LOREBOOK_ENTRY_INJECTION_ROLE_SYSTEM": "System",
     "LOREBOOK_ENTRY_INJECTION_ROLE_HINT": "Rolle beim Einfügen in das Nachrichten-Array. Fällt automatisch auf 'Benutzer' zurück bei Anbietern, die Mid-Conversation-System-Nachrichten ablehnen (z. B. Gemini).",
-    "POSITION_BEFORE_CHAR": "Vor Charakter",
-    "POSITION_AFTER_CHAR": "Nach Charakter",
-    "POSITION_TOP": "Oben im Prompt",
-    "POSITION_BOTTOM": "Unten im Prompt",
-    "POSITION_AT_DEPTH": "Bei Tiefe",
     "PRESETS_TITLE": "Sampling-Voreinstellungen",
     "PRESETS_NEW": "Neue Voreinstellung",
     "PRESETS_EXPORT": "Voreinstellung exportieren",

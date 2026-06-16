@@ -3120,6 +3120,17 @@
     "STATS": {
       "SHOW_COST": "显示费用",
       "SHOW_TOKENS": "显示令牌"
+    },
+    "GROUPS": {
+      "NEW_GROUP": "新建分组",
+      "RENAME": "重命名分组",
+      "DELETE": "删除分组",
+      "MOVE_TO": "移动到分组",
+      "UNGROUPED": "未分组",
+      "GROUP_UNTITLED": "新建分组",
+      "EMPTY": "暂无对话",
+      "DELETE_CONFIRM_TITLE": "删除分组？",
+      "DELETE_CONFIRM_DESC": "分组将被移除；其对话会保留并变为未分组。"
     }
   },
   "RP": {
@@ -3174,9 +3185,10 @@
     "LOREBOOK_ENTRY_KEYS": "激活关键词（逗号分隔）",
     "LOREBOOK_ENTRY_KEYS_HINT": "激活此条目的词语。例如：龙、蛟、翼龙。",
     "LOREBOOK_ENTRY_SECONDARY_KEYS": "次级触发词",
-    "LOREBOOK_ENTRY_PRIORITY_HINT": "数字越小，注入提示词的位置越靠前。",
+    "LOREBOOK_ENTRY_PRIORITY_HINT": "数值越高越能在词元预算内保留。",
     "LOREBOOK_ENTRY_CONTENT": "内容",
-    "LOREBOOK_ENTRY_POSITION": "位置",
+    "LOREBOOK_ENTRY_ORDER": "插入顺序",
+    "LOREBOOK_ENTRY_ORDER_HINT": "数值越高越先插入。任意数值皆可，只看相对顺序。",
     "LOREBOOK_ENTRY_PRIORITY": "优先级",
     "LOREBOOK_ENTRY_CONSTANT": "始终激活",
     "LOREBOOK_ENTRY_SELECTIVE": "需要次级关键词",
@@ -3187,11 +3199,6 @@
     "LOREBOOK_ENTRY_INJECTION_ROLE_USER": "用户",
     "LOREBOOK_ENTRY_INJECTION_ROLE_SYSTEM": "系统",
     "LOREBOOK_ENTRY_INJECTION_ROLE_HINT": "注入消息数组时使用的角色。对于不接受会话中系统消息的提供商（如 Gemini），自动回退为「用户」。",
-    "POSITION_BEFORE_CHAR": "角色之前",
-    "POSITION_AFTER_CHAR": "角色之后",
-    "POSITION_TOP": "提示词顶部",
-    "POSITION_BOTTOM": "提示词底部",
-    "POSITION_AT_DEPTH": "指定深度",
     "PRESETS_TITLE": "采样预设",
     "PRESETS_NEW": "新建预设",
     "PRESETS_EXPORT": "导出预设",

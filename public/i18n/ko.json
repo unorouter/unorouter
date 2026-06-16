@@ -3120,6 +3120,17 @@
     "STATS": {
       "SHOW_COST": "비용 표시",
       "SHOW_TOKENS": "토큰 표시"
+    },
+    "GROUPS": {
+      "NEW_GROUP": "새 그룹",
+      "RENAME": "그룹 이름 변경",
+      "DELETE": "그룹 삭제",
+      "MOVE_TO": "그룹으로 이동",
+      "UNGROUPED": "그룹 없음",
+      "GROUP_UNTITLED": "새 그룹",
+      "EMPTY": "채팅 없음",
+      "DELETE_CONFIRM_TITLE": "그룹을 삭제할까요？",
+      "DELETE_CONFIRM_DESC": "그룹은 삭제되지만 채팅은 유지되며 그룹 없음이 됩니다."
     }
   },
   "RP": {
@@ -3174,9 +3185,10 @@
     "LOREBOOK_ENTRY_KEYS": "활성화 키 (쉼표로 구분)",
     "LOREBOOK_ENTRY_KEYS_HINT": "이 항목을 활성화하는 단어. 예: 드래곤, 웜, 드레이크.",
     "LOREBOOK_ENTRY_SECONDARY_KEYS": "보조 트리거",
-    "LOREBOOK_ENTRY_PRIORITY_HINT": "낮은 숫자가 프롬프트에 더 일찍 주입됩니다.",
+    "LOREBOOK_ENTRY_PRIORITY_HINT": "값이 클수록 토큰 예산 안에서 살아남습니다.",
     "LOREBOOK_ENTRY_CONTENT": "내용",
-    "LOREBOOK_ENTRY_POSITION": "위치",
+    "LOREBOOK_ENTRY_ORDER": "삽입 순서",
+    "LOREBOOK_ENTRY_ORDER_HINT": "값이 클수록 먼저 삽입됩니다. 값은 무엇이든 되며 상대적인 순서만 중요합니다.",
     "LOREBOOK_ENTRY_PRIORITY": "우선순위",
     "LOREBOOK_ENTRY_CONSTANT": "항상 활성",
     "LOREBOOK_ENTRY_SELECTIVE": "보조 키 필요",
@@ -3187,11 +3199,6 @@
     "LOREBOOK_ENTRY_INJECTION_ROLE_USER": "사용자",
     "LOREBOOK_ENTRY_INJECTION_ROLE_SYSTEM": "시스템",
     "LOREBOOK_ENTRY_INJECTION_ROLE_HINT": "메시지 배열에 주입할 때 사용되는 역할. 대화 중간 시스템 메시지를 거부하는 공급자 (예: Gemini)에서는 자동으로 'user'로 폴백됩니다.",
-    "POSITION_BEFORE_CHAR": "캐릭터 앞",
-    "POSITION_AFTER_CHAR": "캐릭터 뒤",
-    "POSITION_TOP": "프롬프트 상단",
-    "POSITION_BOTTOM": "프롬프트 하단",
-    "POSITION_AT_DEPTH": "지정 깊이",
     "PRESETS_TITLE": "샘플링 프리셋",
     "PRESETS_NEW": "새 프리셋",
     "PRESETS_EXPORT": "프리셋 내보내기",

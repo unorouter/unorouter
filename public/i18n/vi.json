@@ -3120,6 +3120,17 @@
     "STATS": {
       "SHOW_COST": "Hiển thị chi phí",
       "SHOW_TOKENS": "Hiển thị token"
+    },
+    "GROUPS": {
+      "NEW_GROUP": "Nhóm mới",
+      "RENAME": "Đổi tên nhóm",
+      "DELETE": "Xóa nhóm",
+      "MOVE_TO": "Chuyển vào nhóm",
+      "UNGROUPED": "Chưa phân nhóm",
+      "GROUP_UNTITLED": "Nhóm mới",
+      "EMPTY": "Không có cuộc trò chuyện",
+      "DELETE_CONFIRM_TITLE": "Xóa nhóm?",
+      "DELETE_CONFIRM_DESC": "Nhóm bị xóa; các cuộc trò chuyện được giữ lại và trở thành chưa phân nhóm."
     }
   },
   "RP": {
@@ -3174,9 +3185,10 @@
     "LOREBOOK_ENTRY_KEYS": "Khóa kích hoạt (phân tách bằng dấu phẩy)",
     "LOREBOOK_ENTRY_KEYS_HINT": "Các từ kích hoạt mục này. Ví dụ: rồng, giun, drake.",
     "LOREBOOK_ENTRY_SECONDARY_KEYS": "Trigger phụ",
-    "LOREBOOK_ENTRY_PRIORITY_HINT": "Số nhỏ hơn được chèn sớm hơn trong prompt.",
+    "LOREBOOK_ENTRY_PRIORITY_HINT": "Giá trị cao hơn sẽ tồn tại trong ngân sách token.",
     "LOREBOOK_ENTRY_CONTENT": "Nội dung",
-    "LOREBOOK_ENTRY_POSITION": "Vị trí",
+    "LOREBOOK_ENTRY_ORDER": "Thứ tự chèn",
+    "LOREBOOK_ENTRY_ORDER_HINT": "Giá trị cao hơn được chèn trước. Giá trị tùy ý, chỉ thứ tự tương đối mới quan trọng.",
     "LOREBOOK_ENTRY_PRIORITY": "Ưu tiên",
     "LOREBOOK_ENTRY_CONSTANT": "Luôn hoạt động",
     "LOREBOOK_ENTRY_SELECTIVE": "Yêu cầu khoá phụ",
@@ -3187,11 +3199,6 @@
     "LOREBOOK_ENTRY_INJECTION_ROLE_USER": "Người dùng",
     "LOREBOOK_ENTRY_INJECTION_ROLE_SYSTEM": "Hệ thống",
     "LOREBOOK_ENTRY_INJECTION_ROLE_HINT": "Vai trò khi chèn vào mảng tin nhắn. Tự động chuyển về 'Người dùng' với nhà cung cấp không nhận tin nhắn hệ thống giữa hội thoại (ví dụ: Gemini).",
-    "POSITION_BEFORE_CHAR": "Trước nhân vật",
-    "POSITION_AFTER_CHAR": "Sau nhân vật",
-    "POSITION_TOP": "Đầu prompt",
-    "POSITION_BOTTOM": "Cuối prompt",
-    "POSITION_AT_DEPTH": "Ở độ sâu",
     "PRESETS_TITLE": "Preset sampling",
     "PRESETS_NEW": "Preset mới",
     "PRESETS_EXPORT": "Xuất preset",

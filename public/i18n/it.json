@@ -3120,6 +3120,17 @@
     "STATS": {
       "SHOW_COST": "Mostra costo",
       "SHOW_TOKENS": "Mostra token"
+    },
+    "GROUPS": {
+      "NEW_GROUP": "Nuovo gruppo",
+      "RENAME": "Rinomina gruppo",
+      "DELETE": "Elimina gruppo",
+      "MOVE_TO": "Sposta nel gruppo",
+      "UNGROUPED": "Senza gruppo",
+      "GROUP_UNTITLED": "Nuovo gruppo",
+      "EMPTY": "Nessuna chat",
+      "DELETE_CONFIRM_TITLE": "Eliminare il gruppo?",
+      "DELETE_CONFIRM_DESC": "Il gruppo viene rimosso; le sue chat vengono mantenute e diventano senza gruppo."
     }
   },
   "RP": {
@@ -3174,9 +3185,10 @@
     "LOREBOOK_ENTRY_KEYS": "Chiavi di attivazione (separate da virgole)",
     "LOREBOOK_ENTRY_KEYS_HINT": "Parole che attivano questa voce. Esempio: drago, verme, draco.",
     "LOREBOOK_ENTRY_SECONDARY_KEYS": "Trigger secondari",
-    "LOREBOOK_ENTRY_PRIORITY_HINT": "Numero più basso inietta prima nel prompt.",
+    "LOREBOOK_ENTRY_PRIORITY_HINT": "Un valore più alto sopravvive al budget di token.",
     "LOREBOOK_ENTRY_CONTENT": "Contenuto",
-    "LOREBOOK_ENTRY_POSITION": "Posizione",
+    "LOREBOOK_ENTRY_ORDER": "Ordine di inserimento",
+    "LOREBOOK_ENTRY_ORDER_HINT": "Un valore più alto viene inserito prima. Qualsiasi valore; conta solo l'ordine relativo.",
     "LOREBOOK_ENTRY_PRIORITY": "Priorità",
     "LOREBOOK_ENTRY_CONSTANT": "Sempre attivo",
     "LOREBOOK_ENTRY_SELECTIVE": "Richiedi una chiave secondaria",
@@ -3187,11 +3199,6 @@
     "LOREBOOK_ENTRY_INJECTION_ROLE_USER": "User",
     "LOREBOOK_ENTRY_INJECTION_ROLE_SYSTEM": "System",
     "LOREBOOK_ENTRY_INJECTION_ROLE_HINT": "Ruolo usato quando si inietta nell'array di messaggi. Ricade automaticamente su 'user' su provider che rifiutano messaggi di sistema a metà conversazione (es. Gemini).",
-    "POSITION_BEFORE_CHAR": "Prima del personaggio",
-    "POSITION_AFTER_CHAR": "Dopo il personaggio",
-    "POSITION_TOP": "Cima del prompt",
-    "POSITION_BOTTOM": "Fondo del prompt",
-    "POSITION_AT_DEPTH": "Alla profondità",
     "PRESETS_TITLE": "Preset di sampling",
     "PRESETS_NEW": "Nuovo preset",
     "PRESETS_EXPORT": "Esporta preset",

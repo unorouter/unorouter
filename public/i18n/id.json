@@ -3120,6 +3120,17 @@
     "STATS": {
       "SHOW_COST": "Tampilkan biaya",
       "SHOW_TOKENS": "Tampilkan token"
+    },
+    "GROUPS": {
+      "NEW_GROUP": "Grup baru",
+      "RENAME": "Ganti nama grup",
+      "DELETE": "Hapus grup",
+      "MOVE_TO": "Pindahkan ke grup",
+      "UNGROUPED": "Tanpa grup",
+      "GROUP_UNTITLED": "Grup baru",
+      "EMPTY": "Tidak ada obrolan",
+      "DELETE_CONFIRM_TITLE": "Hapus grup?",
+      "DELETE_CONFIRM_DESC": "Grup dihapus; obrolannya tetap ada dan menjadi tanpa grup."
     }
   },
   "RP": {
@@ -3174,9 +3185,10 @@
     "LOREBOOK_ENTRY_KEYS": "Kunci aktivasi (dipisahkan koma)",
     "LOREBOOK_ENTRY_KEYS_HINT": "Kata yang mengaktifkan entri ini. Contoh: naga, ular, drake.",
     "LOREBOOK_ENTRY_SECONDARY_KEYS": "Pemicu sekunder",
-    "LOREBOOK_ENTRY_PRIORITY_HINT": "Nomor lebih rendah disuntikkan lebih awal di prompt.",
+    "LOREBOOK_ENTRY_PRIORITY_HINT": "Nilai lebih tinggi bertahan dalam anggaran token.",
     "LOREBOOK_ENTRY_CONTENT": "Konten",
-    "LOREBOOK_ENTRY_POSITION": "Posisi",
+    "LOREBOOK_ENTRY_ORDER": "Urutan penyisipan",
+    "LOREBOOK_ENTRY_ORDER_HINT": "Nilai lebih tinggi disisipkan lebih dulu. Nilai apa pun; hanya urutan relatif yang penting.",
     "LOREBOOK_ENTRY_PRIORITY": "Prioritas",
     "LOREBOOK_ENTRY_CONSTANT": "Selalu aktif",
     "LOREBOOK_ENTRY_SELECTIVE": "Wajibkan kunci sekunder",
@@ -3187,11 +3199,6 @@
     "LOREBOOK_ENTRY_INJECTION_ROLE_USER": "User",
     "LOREBOOK_ENTRY_INJECTION_ROLE_SYSTEM": "System",
     "LOREBOOK_ENTRY_INJECTION_ROLE_HINT": "Peran yang digunakan saat menyuntikkan ke dalam array pesan. Otomatis kembali ke 'user' pada penyedia yang menolak pesan sistem di tengah sohbet (mis. Gemini).",
-    "POSITION_BEFORE_CHAR": "Sebelum karakter",
-    "POSITION_AFTER_CHAR": "Setelah karakter",
-    "POSITION_TOP": "Atas prompt",
-    "POSITION_BOTTOM": "Bawah prompt",
-    "POSITION_AT_DEPTH": "Pada kedalaman",
     "PRESETS_TITLE": "Preset sampling",
     "PRESETS_NEW": "Preset baru",
     "PRESETS_EXPORT": "Ekspor preset",

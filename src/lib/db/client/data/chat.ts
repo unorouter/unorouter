@@ -3,6 +3,7 @@
 import { GUEST_USER_ID } from "@/lib/config/constants";
 import {
   characters,
+  chatGroups,
   conversationCharacters,
   conversationLorebooks,
   conversations,
@@ -60,6 +61,7 @@ export const readLocalConversations = async (userId: number | undefined) => {
       totalInputTokens: conversations.totalInputTokens,
       totalOutputTokens: conversations.totalOutputTokens,
       totalCost: conversations.totalCost,
+      groupId: conversations.groupId,
       syncExpiresAt: conversations.syncExpiresAt,
       createdAt: conversations.createdAt,
       updatedAt: conversations.updatedAt,
@@ -69,6 +71,69 @@ export const readLocalConversations = async (userId: number | undefined) => {
     .orderBy(desc(conversations.updatedAt));
   return rows.map((r) => ({ ...r, model: r.defaultModel ?? null }));
 };
+
+const chatGroupStore = makeTableStore(chatGroups, chatGroups.id);
+
+export const readLocalChatGroups = async (userId: number | undefined) => {
+  const uid = userId ?? GUEST_USER_ID;
+  const local = await getLocalDb(uid);
+  if (!local) return [];
+  return local.db
+    .select()
+    .from(chatGroups)
+    .where(eq(chatGroups.userId, uid))
+    .orderBy(asc(chatGroups.orderIndex), asc(chatGroups.createdAt));
+};
+
+export const upsertLocalChatGroup = (
+  userId: number | undefined,
+  row: LocalRowInput & { id: string },
+) => chatGroupStore.upsert(userId, row);
+
+export const deleteLocalChatGroup = async (
+  userId: number | undefined,
+  groupId: string,
+) => {
+  const uid = userId ?? GUEST_USER_ID;
+  const local = await getLocalDb(uid);
+  if (!local) return;
+  // Ungroup the chats first (keep them), then drop the group row.
+  await local.db
+    .update(conversations)
+    .set({ groupId: null })
+    .where(
+      and(eq(conversations.userId, uid), eq(conversations.groupId, groupId)),
+    );
+  await chatGroupStore.drop(userId, groupId);
+};
+
+export const reorderLocalChatGroups = async (
+  userId: number | undefined,
+  orderedIds: string[],
+) => {
+  for (let i = 0; i < orderedIds.length; i++) {
+    await chatGroupStore.update(userId, orderedIds[i], { orderIndex: i });
+  }
+};
+
+export const renameLocalChatGroup = (
+  userId: number | undefined,
+  groupId: string,
+  name: string,
+) => chatGroupStore.update(userId, groupId, { name });
+
+export const setChatGroupFolded = (
+  userId: number | undefined,
+  groupId: string,
+  folded: boolean,
+) => chatGroupStore.update(userId, groupId, { folded });
+
+// Partial update (never insert): the conversation row is owned by the create/stream path.
+export const setConversationGroup = (
+  userId: number | undefined,
+  convId: string,
+  groupId: string | null,
+) => conversationStore.update(userId, convId, { groupId });
 
 export const readLocalConversation = async (
   userId: number | undefined,

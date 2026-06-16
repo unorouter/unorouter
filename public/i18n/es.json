@@ -3120,6 +3120,17 @@
     "STATS": {
       "SHOW_COST": "Mostrar costo",
       "SHOW_TOKENS": "Mostrar tokens"
+    },
+    "GROUPS": {
+      "NEW_GROUP": "Nuevo grupo",
+      "RENAME": "Renombrar grupo",
+      "DELETE": "Eliminar grupo",
+      "MOVE_TO": "Mover al grupo",
+      "UNGROUPED": "Sin grupo",
+      "GROUP_UNTITLED": "Nuevo grupo",
+      "EMPTY": "Sin chats",
+      "DELETE_CONFIRM_TITLE": "¿Eliminar grupo?",
+      "DELETE_CONFIRM_DESC": "El grupo se elimina; sus chats se conservan y quedan sin grupo."
     }
   },
   "RP": {
@@ -3174,9 +3185,10 @@
     "LOREBOOK_ENTRY_KEYS": "Claves de activación (separadas por comas)",
     "LOREBOOK_ENTRY_KEYS_HINT": "Palabras que activan esta entrada. Ejemplo: dragón, sierpe, draco.",
     "LOREBOOK_ENTRY_SECONDARY_KEYS": "Activadores secundarios",
-    "LOREBOOK_ENTRY_PRIORITY_HINT": "Número más bajo se inyecta más temprano en el prompt.",
+    "LOREBOOK_ENTRY_PRIORITY_HINT": "Un valor más alto sobrevive al presupuesto de tokens.",
     "LOREBOOK_ENTRY_CONTENT": "Contenido",
-    "LOREBOOK_ENTRY_POSITION": "Posición",
+    "LOREBOOK_ENTRY_ORDER": "Orden de inserción",
+    "LOREBOOK_ENTRY_ORDER_HINT": "Un valor más alto se inserta antes. Cualquier valor; solo importa el orden relativo.",
     "LOREBOOK_ENTRY_PRIORITY": "Prioridad",
     "LOREBOOK_ENTRY_CONSTANT": "Siempre activo",
     "LOREBOOK_ENTRY_SELECTIVE": "Requerir una clave secundaria",
@@ -3187,11 +3199,6 @@
     "LOREBOOK_ENTRY_INJECTION_ROLE_USER": "Usuario",
     "LOREBOOK_ENTRY_INJECTION_ROLE_SYSTEM": "Sistema",
     "LOREBOOK_ENTRY_INJECTION_ROLE_HINT": "Rol usado al inyectar en el array de mensajes. Recae automáticamente a 'user' en proveedores que rechazan mensajes de sistema a mitad de conversación (ej. Gemini).",
-    "POSITION_BEFORE_CHAR": "Antes del personaje",
-    "POSITION_AFTER_CHAR": "Después del personaje",
-    "POSITION_TOP": "Arriba del prompt",
-    "POSITION_BOTTOM": "Abajo del prompt",
-    "POSITION_AT_DEPTH": "A profundidad",
     "PRESETS_TITLE": "Presets de muestreo",
     "PRESETS_NEW": "Nuevo preset",
     "PRESETS_EXPORT": "Exportar preset",

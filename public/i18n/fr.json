@@ -3120,6 +3120,17 @@
     "STATS": {
       "SHOW_COST": "Afficher le coût",
       "SHOW_TOKENS": "Afficher les jetons"
+    },
+    "GROUPS": {
+      "NEW_GROUP": "Nouveau groupe",
+      "RENAME": "Renommer le groupe",
+      "DELETE": "Supprimer le groupe",
+      "MOVE_TO": "Déplacer vers le groupe",
+      "UNGROUPED": "Sans groupe",
+      "GROUP_UNTITLED": "Nouveau groupe",
+      "EMPTY": "Aucun chat",
+      "DELETE_CONFIRM_TITLE": "Supprimer le groupe ?",
+      "DELETE_CONFIRM_DESC": "Le groupe est supprimé ; ses chats sont conservés et deviennent sans groupe."
     }
   },
   "RP": {
@@ -3174,9 +3185,10 @@
     "LOREBOOK_ENTRY_KEYS": "Mots-clés d'activation (séparés par des virgules)",
     "LOREBOOK_ENTRY_KEYS_HINT": "Mots qui activent cette entrée. Exemple : dragon, vouivre, drake.",
     "LOREBOOK_ENTRY_SECONDARY_KEYS": "Déclencheurs secondaires",
-    "LOREBOOK_ENTRY_PRIORITY_HINT": "Un nombre plus bas est injecté plus tôt dans le prompt.",
+    "LOREBOOK_ENTRY_PRIORITY_HINT": "Une valeur plus élevée survit au budget de jetons.",
     "LOREBOOK_ENTRY_CONTENT": "Contenu",
-    "LOREBOOK_ENTRY_POSITION": "Position",
+    "LOREBOOK_ENTRY_ORDER": "Ordre d'insertion",
+    "LOREBOOK_ENTRY_ORDER_HINT": "Une valeur plus élevée s'insère plus tôt. N'importe quelle valeur; seul l'ordre relatif compte.",
     "LOREBOOK_ENTRY_PRIORITY": "Priorité",
     "LOREBOOK_ENTRY_CONSTANT": "Toujours actif",
     "LOREBOOK_ENTRY_SELECTIVE": "Clé secondaire requise",
@@ -3187,11 +3199,6 @@
     "LOREBOOK_ENTRY_INJECTION_ROLE_USER": "Utilisateur",
     "LOREBOOK_ENTRY_INJECTION_ROLE_SYSTEM": "Système",
     "LOREBOOK_ENTRY_INJECTION_ROLE_HINT": "Rôle utilisé lors de l'injection dans la liste des messages. Bascule automatiquement sur 'Utilisateur' pour les fournisseurs qui rejettent les messages système en cours de conversation (ex : Gemini).",
-    "POSITION_BEFORE_CHAR": "Avant le personnage",
-    "POSITION_AFTER_CHAR": "Après le personnage",
-    "POSITION_TOP": "Haut du prompt",
-    "POSITION_BOTTOM": "Bas du prompt",
-    "POSITION_AT_DEPTH": "À la profondeur",
     "PRESETS_TITLE": "Préréglages d'échantillonnage",
     "PRESETS_NEW": "Nouveau préréglage",
     "PRESETS_EXPORT": "Exporter le préréglage",

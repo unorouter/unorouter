@@ -61,18 +61,6 @@ export const lorebookBody = t.Object({
 });
 export type LorebookBody = Static<typeof lorebookBody>;
 
-export const LOREBOOK_POSITIONS = [
-  "before_char",
-  "after_char",
-  "top",
-  "bottom",
-  "at_depth",
-] as const;
-export type LorebookEntryPosition = (typeof LOREBOOK_POSITIONS)[number];
-export const lorebookEntryPosition = t.Union(
-  LOREBOOK_POSITIONS.map((p) => t.Literal(p)),
-);
-
 export const LOREBOOK_INJECTION_ROLES = [
   "user",
   "system",
@@ -95,12 +83,11 @@ export const lorebookEntryBody = t.Object({
   content: t.String({ minLength: 1, maxLength: MAX_DESC_LEN }),
   constant: t.Boolean({ default: false }),
   selective: t.Boolean({ default: false }),
-  priority: t.Number({ minimum: 0, maximum: 1000, default: 100 }),
-  position: t.Union(lorebookEntryPosition.anyOf, { default: "before_char" }),
-  depth: t.Number({ minimum: 0, maximum: 100, default: 4 }),
+  // Token-budget survival rank (Risu priority), uncapped + relative; higher survives the budget.
+  priority: t.Integer({ default: 100 }),
+  // Placement within the single lorebook slot (Risu insertorder), uncapped + relative; higher = earlier.
+  orderIndex: t.Integer({ default: 0 }),
   enabled: t.Boolean({ default: true }),
-  // Owned by create/update/reorder hooks (Risu insertorder), not the form.
-  orderIndex: t.Optional(t.Number()),
   matchWholeWords: t.Boolean({ default: false }),
   injectionRole: t.Union(lorebookInjectionRole.anyOf, { default: "system" }),
 });

@@ -3120,6 +3120,17 @@
     "STATS": {
       "SHOW_COST": "إظهار التكلفة",
       "SHOW_TOKENS": "إظهار الرموز"
+    },
+    "GROUPS": {
+      "NEW_GROUP": "مجموعة جديدة",
+      "RENAME": "إعادة تسمية المجموعة",
+      "DELETE": "حذف المجموعة",
+      "MOVE_TO": "نقل إلى مجموعة",
+      "UNGROUPED": "بدون مجموعة",
+      "GROUP_UNTITLED": "مجموعة جديدة",
+      "EMPTY": "لا توجد محادثات",
+      "DELETE_CONFIRM_TITLE": "حذف المجموعة؟",
+      "DELETE_CONFIRM_DESC": "تتم إزالة المجموعة؛ وتبقى محادثاتها وتصبح بدون مجموعة."
     }
   },
   "RP": {
@@ -3174,9 +3185,10 @@
     "LOREBOOK_ENTRY_KEYS": "مفاتيح التفعيل (مفصولة بفواصل)",
     "LOREBOOK_ENTRY_KEYS_HINT": "الكلمات التي تفعّل هذا المدخل. مثال: تنين، حية، سحلية.",
     "LOREBOOK_ENTRY_SECONDARY_KEYS": "محفّزات ثانوية",
-    "LOREBOOK_ENTRY_PRIORITY_HINT": "الرقم الأقل يُحقن أبكر في المطالبة.",
+    "LOREBOOK_ENTRY_PRIORITY_HINT": "القيمة الأعلى تبقى ضمن ميزانية الرموز.",
     "LOREBOOK_ENTRY_CONTENT": "المحتوى",
-    "LOREBOOK_ENTRY_POSITION": "الموقع",
+    "LOREBOOK_ENTRY_ORDER": "ترتيب الإدراج",
+    "LOREBOOK_ENTRY_ORDER_HINT": "القيمة الأعلى تُدرَج أولاً. أي قيمة مقبولة، المهم الترتيب النسبي.",
     "LOREBOOK_ENTRY_PRIORITY": "الأولوية",
     "LOREBOOK_ENTRY_CONSTANT": "نشط دائمًا",
     "LOREBOOK_ENTRY_SELECTIVE": "يتطلّب مفتاحاً ثانوياً",
@@ -3187,11 +3199,6 @@
     "LOREBOOK_ENTRY_INJECTION_ROLE_USER": "مستخدم",
     "LOREBOOK_ENTRY_INJECTION_ROLE_SYSTEM": "نظام",
     "LOREBOOK_ENTRY_INJECTION_ROLE_HINT": "الدور المستخدم عند الحقن في مصفوفة الرسائل. يتراجع تلقائياً إلى 'user' على المزوّدين الذين يرفضون رسائل النظام في منتصف المحادثة (مثل Gemini).",
-    "POSITION_BEFORE_CHAR": "قبل الشخصية",
-    "POSITION_AFTER_CHAR": "بعد الشخصية",
-    "POSITION_TOP": "أعلى المطالبة",
-    "POSITION_BOTTOM": "أسفل المطالبة",
-    "POSITION_AT_DEPTH": "عند العمق",
     "PRESETS_TITLE": "إعدادات العيّنات المسبقة",
     "PRESETS_NEW": "إعداد مسبق جديد",
     "PRESETS_EXPORT": "تصدير إعداد مسبق",

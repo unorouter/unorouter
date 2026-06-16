@@ -3120,6 +3120,17 @@
     "STATS": {
       "SHOW_COST": "הצג עלות",
       "SHOW_TOKENS": "הצג טוקנים"
+    },
+    "GROUPS": {
+      "NEW_GROUP": "קבוצה חדשה",
+      "RENAME": "שינוי שם הקבוצה",
+      "DELETE": "מחיקת הקבוצה",
+      "MOVE_TO": "העברה לקבוצה",
+      "UNGROUPED": "ללא קבוצה",
+      "GROUP_UNTITLED": "קבוצה חדשה",
+      "EMPTY": "אין צ'אטים",
+      "DELETE_CONFIRM_TITLE": "למחוק את הקבוצה?",
+      "DELETE_CONFIRM_DESC": "הקבוצה מוסרת; הצ'אטים שלה נשמרים והופכים ללא קבוצה."
     }
   },
   "RP": {
@@ -3174,9 +3185,10 @@
     "LOREBOOK_ENTRY_KEYS": "מפתחות הפעלה (מופרדים בפסיקים)",
     "LOREBOOK_ENTRY_KEYS_HINT": "מילים שמפעילות ערך זה. דוגמה: דרקון, תנין, לטאה.",
     "LOREBOOK_ENTRY_SECONDARY_KEYS": "טריגרים משניים",
-    "LOREBOOK_ENTRY_PRIORITY_HINT": "מספר נמוך יותר מוזרק מוקדם יותר בהנחיה.",
+    "LOREBOOK_ENTRY_PRIORITY_HINT": "ערך גבוה יותר שורד את תקציב הטוקנים.",
     "LOREBOOK_ENTRY_CONTENT": "תוכן",
-    "LOREBOOK_ENTRY_POSITION": "מיקום",
+    "LOREBOOK_ENTRY_ORDER": "סדר הוספה",
+    "LOREBOOK_ENTRY_ORDER_HINT": "ערך גבוה יותר מוכנס מוקדם יותר. כל ערך מתאים, רק הסדר היחסי קובע.",
     "LOREBOOK_ENTRY_PRIORITY": "עדיפות",
     "LOREBOOK_ENTRY_CONSTANT": "תמיד פעיל",
     "LOREBOOK_ENTRY_SELECTIVE": "דרוש מפתח משני",
@@ -3187,11 +3199,6 @@
     "LOREBOOK_ENTRY_INJECTION_ROLE_USER": "משתמש",
     "LOREBOOK_ENTRY_INJECTION_ROLE_SYSTEM": "מערכת",
     "LOREBOOK_ENTRY_INJECTION_ROLE_HINT": "Role שמשמש בהזרקה למערך ההודעות. נופל אוטומטית ל-'user' על ספקים שדוחים הודעות מערכת באמצע שיחה (לדוגמה Gemini).",
-    "POSITION_BEFORE_CHAR": "לפני הדמות",
-    "POSITION_AFTER_CHAR": "אחרי הדמות",
-    "POSITION_TOP": "ראש ההנחיה",
-    "POSITION_BOTTOM": "תחתית ההנחיה",
-    "POSITION_AT_DEPTH": "בעומק",
     "PRESETS_TITLE": "Presets של sampling",
     "PRESETS_NEW": "Preset חדש",
     "PRESETS_EXPORT": "ייצוא preset",

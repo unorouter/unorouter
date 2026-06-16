@@ -138,8 +138,6 @@ export function mapNativeImport(native: NativeImport): MappedImport {
           constant: bool(e.constant) ?? false,
           selective: bool(e.selective) ?? false,
           priority: num(e.priority) ?? 100,
-          position: str(e.position) ?? "before_char",
-          depth: num(e.depth) ?? 4,
           enabled: bool(e.enabled) ?? true,
           orderIndex: num(e.orderIndex) ?? 0,
         })),

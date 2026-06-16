@@ -3120,6 +3120,17 @@
     "STATS": {
       "SHOW_COST": "顯示費用",
       "SHOW_TOKENS": "顯示權杖"
+    },
+    "GROUPS": {
+      "NEW_GROUP": "新增分組",
+      "RENAME": "重新命名分組",
+      "DELETE": "刪除分組",
+      "MOVE_TO": "移動到分組",
+      "UNGROUPED": "未分組",
+      "GROUP_UNTITLED": "新增分組",
+      "EMPTY": "暫無對話",
+      "DELETE_CONFIRM_TITLE": "刪除分組？",
+      "DELETE_CONFIRM_DESC": "分組將被移除；其對話會保留並變為未分組。"
     }
   },
   "RP": {
@@ -3174,9 +3185,10 @@
     "LOREBOOK_ENTRY_KEYS": "啟用關鍵字（以逗號分隔）",
     "LOREBOOK_ENTRY_KEYS_HINT": "啟用此條目的詞語。例如：龍、蛟、翼龍。",
     "LOREBOOK_ENTRY_SECONDARY_KEYS": "次級觸發詞",
-    "LOREBOOK_ENTRY_PRIORITY_HINT": "數字越小，注入提示詞的位置越靠前。",
+    "LOREBOOK_ENTRY_PRIORITY_HINT": "數值越高越能在權杖預算內保留。",
     "LOREBOOK_ENTRY_CONTENT": "內容",
-    "LOREBOOK_ENTRY_POSITION": "位置",
+    "LOREBOOK_ENTRY_ORDER": "插入順序",
+    "LOREBOOK_ENTRY_ORDER_HINT": "數值越高越先插入。任意數值皆可，只看相對順序。",
     "LOREBOOK_ENTRY_PRIORITY": "優先順序",
     "LOREBOOK_ENTRY_CONSTANT": "始終啟用",
     "LOREBOOK_ENTRY_SELECTIVE": "需要次級關鍵字",
@@ -3187,11 +3199,6 @@
     "LOREBOOK_ENTRY_INJECTION_ROLE_USER": "使用者",
     "LOREBOOK_ENTRY_INJECTION_ROLE_SYSTEM": "系統",
     "LOREBOOK_ENTRY_INJECTION_ROLE_HINT": "注入訊息陣列時使用的角色。對於不接受對話中系統訊息的供應商（例如 Gemini），自動回退為「使用者」。",
-    "POSITION_BEFORE_CHAR": "角色之前",
-    "POSITION_AFTER_CHAR": "角色之後",
-    "POSITION_TOP": "提示詞頂部",
-    "POSITION_BOTTOM": "提示詞底部",
-    "POSITION_AT_DEPTH": "指定深度",
     "PRESETS_TITLE": "取樣預設",
     "PRESETS_NEW": "新增預設",
     "PRESETS_EXPORT": "匯出預設",

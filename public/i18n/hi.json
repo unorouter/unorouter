@@ -3120,6 +3120,17 @@
     "STATS": {
       "SHOW_COST": "लागत दिखाएं",
       "SHOW_TOKENS": "टोकन दिखाएं"
+    },
+    "GROUPS": {
+      "NEW_GROUP": "नया समूह",
+      "RENAME": "समूह का नाम बदलें",
+      "DELETE": "समूह हटाएं",
+      "MOVE_TO": "समूह में ले जाएं",
+      "UNGROUPED": "बिना समूह",
+      "GROUP_UNTITLED": "नया समूह",
+      "EMPTY": "कोई चैट नहीं",
+      "DELETE_CONFIRM_TITLE": "समूह हटाएं?",
+      "DELETE_CONFIRM_DESC": "समूह हटा दिया जाता है; इसकी चैट बनी रहती हैं और बिना समूह की हो जाती हैं।"
     }
   },
   "RP": {
@@ -3174,9 +3185,10 @@
     "LOREBOOK_ENTRY_KEYS": "सक्रियण कुंजियाँ (अल्पविराम से अलग)",
     "LOREBOOK_ENTRY_KEYS_HINT": "वे शब्द जो इस प्रविष्टि को सक्रिय करते हैं। उदाहरण: ड्रैगन, वर्म, ड्रेक।",
     "LOREBOOK_ENTRY_SECONDARY_KEYS": "Secondary triggers",
-    "LOREBOOK_ENTRY_PRIORITY_HINT": "कम संख्या prompt में पहले inject होती है।",
+    "LOREBOOK_ENTRY_PRIORITY_HINT": "अधिक मान टोकन बजट में बचा रहता है।",
     "LOREBOOK_ENTRY_CONTENT": "सामग्री",
-    "LOREBOOK_ENTRY_POSITION": "Position",
+    "LOREBOOK_ENTRY_ORDER": "सम्मिलन क्रम",
+    "LOREBOOK_ENTRY_ORDER_HINT": "अधिक मान पहले डाला जाता है। कोई भी मान चलेगा, केवल सापेक्ष क्रम मायने रखता है।",
     "LOREBOOK_ENTRY_PRIORITY": "Priority",
     "LOREBOOK_ENTRY_CONSTANT": "हमेशा सक्रिय",
     "LOREBOOK_ENTRY_SELECTIVE": "एक secondary key की आवश्यकता है",
@@ -3187,11 +3199,6 @@
     "LOREBOOK_ENTRY_INJECTION_ROLE_USER": "User",
     "LOREBOOK_ENTRY_INJECTION_ROLE_SYSTEM": "System",
     "LOREBOOK_ENTRY_INJECTION_ROLE_HINT": "Message array में inject करते समय उपयोग किया गया role। Mid-conversation system messages को reject करने वाले providers (जैसे Gemini) पर 'user' पर auto-falls back होता है।",
-    "POSITION_BEFORE_CHAR": "Character से पहले",
-    "POSITION_AFTER_CHAR": "Character के बाद",
-    "POSITION_TOP": "Prompt के ऊपर",
-    "POSITION_BOTTOM": "Prompt के नीचे",
-    "POSITION_AT_DEPTH": "Depth पर",
     "PRESETS_TITLE": "Sampling presets",
     "PRESETS_NEW": "नया preset",
     "PRESETS_EXPORT": "Preset export करें",
