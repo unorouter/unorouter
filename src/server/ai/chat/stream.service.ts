@@ -219,6 +219,9 @@ export async function streamChat(
   if (!buffered && !userOptedOutOfStreaming) {
     const uiStream = result.toUIMessageStream({
       generateMessageId: () => responseMessageId,
+      // ai-sdk masks errors to "An error occurred." by default; surface the real
+      // upstream reason (e.g. a free provider's 429 daily-limit) so the client toasts it.
+      onError: (error) => errMessage(error),
       messageMetadata: ({ part }) => {
         // `finish-step` carries response.headers synchronously; onFinish races stream end.
         if (part.type === "finish-step") {

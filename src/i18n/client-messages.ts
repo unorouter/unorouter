@@ -6,6 +6,7 @@ type Messages = Record<string, unknown>;
 export const CLIENT_STRIPPED_NAMESPACES = [
   "TERMS",
   "PRIVACY",
+  "REFUND",
   "WELL_KNOWN",
 ] as const;
 
