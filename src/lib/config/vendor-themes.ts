@@ -355,6 +355,14 @@ const VENDOR_THEMES: Record<string, VendorTheme> = {
     tagBorder: "border-blue-500/20",
     primary: "#005bff",
   },
+  [Vendor.KATANEMO]: {
+    bg: "bg-teal-500/5",
+    border: "border-teal-500/20",
+    text: "text-teal-700 dark:text-teal-300",
+    tagBg: "bg-teal-500/10",
+    tagBorder: "border-teal-500/20",
+    primary: "#0d9488",
+  },
 };
 
 export const DEFAULT_THEME: VendorTheme = {
