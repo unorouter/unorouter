@@ -776,6 +776,25 @@ export const pathnames = {
     id: "/ketentuan",
     pl: "/regulamin",
   },
+  "/refund": {
+    de: "/rueckerstattung",
+    fr: "/remboursement",
+    ja: "/henkin",
+    ru: "/возврат-средств",
+    vi: "/hoan-tien",
+    "zh-CN": "/tuikuan",
+    "zh-TW": "/tuikuan",
+    it: "/rimborso",
+    es: "/reembolso",
+    "pt-BR": "/reembolso",
+    ko: "/hwanbul",
+    tr: "/iade",
+    ar: "/استرداد",
+    he: "/החזר",
+    hi: "/refund-niti",
+    id: "/pengembalian",
+    pl: "/zwroty",
+  },
 } as const;
 
 export const routing = defineRouting({
