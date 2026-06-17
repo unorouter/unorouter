@@ -538,6 +538,23 @@
       "comparison": "Vergleich"
     },
     "POSTS": {
+      "UNOROUTER_VS_LITELLM": {
+        "TITLE": "{appName} vs LiteLLM: gehostetes Gateway oder selbst gehosteter Proxy",
+        "DESCRIPTION": "LiteLLM ist der beliebteste selbst gehostete LLM-Proxy. {appName} ist ein gehostetes Gateway mit eingebautem Chat-Client. Die eigentliche Frage ist, ob Sie die Infrastruktur selbst betreiben wollen.",
+        "AUTHOR": "{appName}-Team",
+        "INTRO": "LiteLLM ist die Open-Source-Standardantwort auf ein Schluessel fuer jedes Modell: ein MIT-lizenzierter Python-Proxy, den Sie selbst betreiben. {appName} loest denselben Bedarf, aber gehostet und mit Client obendrauf. Der ehrliche Unterschied sind nicht die Funktionen, sondern ob Sie den Proxy betreiben oder nur einen Endpunkt aufrufen wollen.",
+        "H_HOSTED": "Selbst gehostet vs gehostet",
+        "P_HOSTED": "LiteLLM ist Software, die Sie bereitstellen und betreiben: Proxy starten, Prozess verwalten, Logs beobachten, unter Last skalieren. Das gibt volle Kontrolle ohne Mittelsmann, genau das, was ein Plattform-Team will. {appName} ist der umgekehrte Kompromiss. Es gibt nichts zu deployen oder am Leben zu halten. Sie bekommen Endpunkt und Schluessel, und Verfuegbarkeit, Routing und Failover sind unser Problem, nicht Ihres.",
+        "H_SETUP": "Einrichtung und Wartung",
+        "P_SETUP": "Mit LiteLLM schreiben Sie eine Konfiguration, liefern die API-Schluessel jedes Anbieters, betreiben den Server (Python, also Vorsicht beim GIL unter Nebenlaeufigkeit) und verantworten Upgrades und Monitoring auf Dauer. Mit {appName} registrieren Sie sich und richten Ihren Client auf <c>https://api.unorouter.com/v1</c>. Keine Konfigurationsdatei, keine Anbieter-Schluessel zu sammeln, kein Server zu betreuen. Das eine ist Infrastruktur, die Sie warten; das andere ein Dienst, den Sie nutzen.",
+        "H_INTERFACE": "Es gibt kein LiteLLM, in dem man chatten kann",
+        "P_INTERFACE": "LiteLLM ist von Grund auf headless: eine API-Schicht, jede Oberflaeche bringen Sie selbst mit. {appName} liefert dieselbe OpenAI-kompatible API plus einen eingebauten Chat- und Charakter-Client (Personas, Lorebooks, Presets, SillyTavern-Karten-Import), und derselbe Schluessel passt in SillyTavern, Janitor.AI, RisuAI oder Chub. So laufen ein Coding-Agent und ein Ort zum Chatten ueber einen Schluessel, statt eines Proxys, fuer den Sie noch eine Oberflaeche bauen muessen.",
+        "H_COST": "Kosten und Schluessel",
+        "P_COST": "LiteLLM nimmt keinen Aufschlag, aber Sie zahlen jeden Anbieter direkt und tragen die Infrastrukturkosten plus die DevOps-Zeit. Das gewinnt bei hohem Volumen, wenn Sie das Team haben. {appName} ist nutzungsbasiert ueber 200+ Modelle mit Guthaben ohne Ablauf und einem Gratis-Tier, ein Saldo statt einer Geldboerse bei jedem Anbieter und keine Server zu bezahlen. Unterhalb ernsthafter Groessenordnung ist der gehostete Weg meist guenstiger, sobald man die Stunden mitrechnet.",
+        "H_VERDICT": "Was sollten Sie waehlen",
+        "P_VERDICT": "Wenn Sie ein Plattform-Team haben, null Aufschlag wollen und gern den Proxy verantworten, ist LiteLLM das richtige Werkzeug. Wenn Sie einen OpenAI-kompatiblen Schluessel ohne Deployment wollen, der in Ihrem Coding-Agent und in einem echten Chat-Client funktioniert, passt {appName}. Es gibt keinen einzelnen Gewinner. Es haengt davon ab, ob Sie das Gateway betreiben oder nur eines nutzen wollen.",
+        "CTA": "Ein Gateway ohne Deployment? <register>Erstellen Sie ein kostenloses Konto</register> oder <models>durchsuchen Sie die Modelle</models>."
+      },
       "FEATURED_ON": {
         "TITLE": "Wo Sie {appName} finden: unsere Verzeichniseintraege",
         "DESCRIPTION": "{appName} ist in den KI-Tool- und Startup-Verzeichnissen gelistet. Hier finden Sie uns, pruefen die Eintraege und lesen unabhaengige Einschaetzungen.",
