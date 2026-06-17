@@ -363,6 +363,22 @@ const VENDOR_THEMES: Record<string, VendorTheme> = {
     tagBorder: "border-teal-500/20",
     primary: "#0d9488",
   },
+  [Vendor.NAVYAI]: {
+    bg: "bg-indigo-500/5",
+    border: "border-indigo-500/20",
+    text: "text-indigo-700 dark:text-indigo-300",
+    tagBg: "bg-indigo-500/10",
+    tagBorder: "border-indigo-500/20",
+    primary: "#1e3a8a",
+  },
+  [Vendor.HCOMPANY]: {
+    bg: "bg-violet-500/5",
+    border: "border-violet-500/20",
+    text: "text-violet-700 dark:text-violet-300",
+    tagBg: "bg-violet-500/10",
+    tagBorder: "border-violet-500/20",
+    primary: "#7c3aed",
+  },
 };
 
 export const DEFAULT_THEME: VendorTheme = {

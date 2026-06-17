@@ -77,6 +77,8 @@ export const VENDOR_LOADERS: Partial<Record<Vendor, IconLoader>> = {
   [Vendor.AISINGAPORE]: () =>
     import("@/components/elements/brand/aisingapore-icon"),
   [Vendor.POLLINATIONS]: () => import("@lobehub/icons/es/Pollinations"),
+  [Vendor.NAVYAI]: () => import("@/components/elements/brand/navyai-icon"),
+  [Vendor.HCOMPANY]: () => import("@/components/elements/brand/hcompany-icon"),
   [Vendor.STEPFUN]: () => import("@lobehub/icons/es/Stepfun"),
   [Vendor.HUNYUAN]: () => import("@lobehub/icons/es/Hunyuan"),
   [Vendor.INCLUSIONAI]: () => import("@lobehub/icons/es/AntGroup"),
