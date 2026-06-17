@@ -538,6 +538,23 @@
       "comparison": "Perbandingan"
     },
     "POSTS": {
+      "UNOROUTER_VS_LITELLM": {
+        "TITLE": "{appName} vs LiteLLM: gateway terkelola atau proxy swakelola",
+        "DESCRIPTION": "LiteLLM adalah proxy LLM swakelola paling populer. {appName} adalah gateway terkelola dengan klien chat bawaan. Pilihan sebenarnya adalah apakah kamu ingin menjalankan infrastruktur sendiri.",
+        "AUTHOR": "Tim {appName}",
+        "INTRO": "LiteLLM adalah jawaban open source default untuk satu kunci bagi setiap model: proxy Python berlisensi MIT yang kamu jalankan sendiri. {appName} menjawab kebutuhan yang sama, tetapi terkelola dan dengan klien di atasnya. Perbedaan jujurnya bukan fitur, melainkan apakah kamu ingin mengoperasikan proxy atau cukup memanggil sebuah endpoint.",
+        "H_HOSTED": "Swakelola vs terkelola",
+        "P_HOSTED": "LiteLLM adalah perangkat lunak yang kamu deploy dan jalankan: menyalakan proxy, mengelola proses, mengawasi log, menskalakan saat beban. Itu memberi kendali penuh tanpa perantara, persis yang diinginkan tim platform. {appName} adalah kompromi sebaliknya. Tidak ada yang perlu di-deploy atau dijaga tetap hidup. Kamu mendapat endpoint dan kunci, dan ketersediaan, perutean, serta failover adalah masalah kami, bukan kamu.",
+        "H_SETUP": "Penyiapan dan pemeliharaan",
+        "P_SETUP": "Dengan LiteLLM kamu menulis konfigurasi, menyediakan kunci API tiap penyedia, menjalankan server (Python, jadi perhatikan GIL saat konkurensi), dan menanggung pembaruan serta pemantauan selamanya. Dengan {appName} kamu mendaftar lalu mengarahkan klien ke <c>https://api.unorouter.com/v1</c>. Tanpa berkas konfigurasi, tanpa kunci penyedia untuk dikumpulkan, tanpa server untuk dijaga. Yang satu infrastruktur yang kamu pelihara; yang lain layanan yang kamu konsumsi.",
+        "H_INTERFACE": "Tidak ada LiteLLM tempat kamu bisa mengobrol",
+        "P_INTERFACE": "LiteLLM headless secara desain: sebuah lapisan API, setiap antarmuka kamu bawa sendiri. {appName} menghadirkan API kompatibel OpenAI yang sama plus klien chat dan karakter bawaan (persona, lorebook, preset, impor kartu SillyTavern), dan kunci yang sama masuk ke SillyTavern, Janitor.AI, RisuAI, atau Chub. Jadi agen koding dan tempat untuk benar-benar mengobrol berjalan dengan satu kunci, alih-alih proxy yang masih harus kamu buatkan UI.",
+        "H_COST": "Biaya dan kunci",
+        "P_COST": "LiteLLM tidak mengambil markup, tetapi kamu membayar tiap penyedia langsung dan menanggung tagihan infrastruktur plus waktu DevOps. Itu menang pada volume tinggi jika kamu punya timnya. {appName} bayar sesuai pakai di 200+ model dengan kredit yang tidak kedaluwarsa dan tier gratis, satu saldo alih-alih dompet di tiap penyedia, dan tanpa server untuk dibayar. Di bawah skala serius, jalur terkelola biasanya lebih murah setelah jam kerja dihitung.",
+        "H_VERDICT": "Mana yang harus dipilih",
+        "P_VERDICT": "Jika kamu punya tim platform, ingin markup nol, dan senang mengoperasikan proxy, LiteLLM adalah alat yang tepat. Jika kamu ingin satu kunci kompatibel OpenAI tanpa apa pun untuk di-deploy, yang bekerja di agen koding dan di klien chat sungguhan, {appName} cocok. Tidak ada pemenang tunggal. Intinya apakah kamu ingin menjalankan gateway atau cukup memakainya.",
+        "CTA": "Ingin gateway tanpa apa pun untuk di-deploy? <register>Buat akun gratis</register> atau <models>jelajahi modelnya</models>."
+      },
       "FEATURED_ON": {
         "TITLE": "Tempat menemukan {appName}: daftar direktori kami",
         "DESCRIPTION": "{appName} terdaftar di berbagai direktori alat AI dan startup. Di sini Anda dapat menemukan kami, memverifikasi daftarnya, dan membaca ulasan independen.",

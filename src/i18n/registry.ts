@@ -63,6 +63,26 @@ export const LEGAL_REGISTRY = [
 
 export const BLOG_REGISTRY = [
   {
+    slug: "unorouter-vs-litellm",
+    date: "2026-06-17",
+    tags: ["comparison", "product"],
+    i18nKey: "BLOG.POSTS.UNOROUTER_VS_LITELLM",
+    contentFiles: [
+      "src/components/pages/blog/posts/2026-06-17-unorouter-vs-litellm-content.tsx",
+    ],
+    priority: 0.7,
+    changeFrequency: "monthly",
+    category: "product",
+    wordCount: 580,
+    headings: [
+      { id: "hosted", i18nLeaf: "H_HOSTED", level: 2 },
+      { id: "setup", i18nLeaf: "H_SETUP", level: 2 },
+      { id: "interface", i18nLeaf: "H_INTERFACE", level: 2 },
+      { id: "cost", i18nLeaf: "H_COST", level: 2 },
+      { id: "verdict", i18nLeaf: "H_VERDICT", level: 2 },
+    ],
+  },
+  {
     slug: "featured-on",
     date: "2026-06-12",
     tags: ["announcement", "product"],

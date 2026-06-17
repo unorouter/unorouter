@@ -538,6 +538,23 @@
       "comparison": "Porównanie"
     },
     "POSTS": {
+      "UNOROUTER_VS_LITELLM": {
+        "TITLE": "{appName} kontra LiteLLM: hostowana brama czy samodzielnie hostowane proxy",
+        "DESCRIPTION": "LiteLLM to najpopularniejsze samodzielnie hostowane proxy LLM. {appName} to hostowana brama z wbudowanym klientem czatu. Prawdziwy wybor to czy chcesz sam prowadzic infrastrukture.",
+        "AUTHOR": "Zespol {appName}",
+        "INTRO": "LiteLLM to domyslna open source odpowiedz na jeden klucz do kazdego modelu: proxy w Pythonie na licencji MIT, ktore uruchamiasz sam. {appName} odpowiada na te sama potrzebe, ale hostowane i z klientem na wierzchu. Uczciwa roznica to nie funkcje, lecz to, czy chcesz prowadzic proxy, czy tylko wywolac endpoint.",
+        "H_HOSTED": "Samodzielnie hostowane kontra hostowane",
+        "P_HOSTED": "LiteLLM to oprogramowanie, ktore wdrazasz i uruchamiasz: postawic proxy, zarzadzac procesem, pilnowac logow, skalowac pod obciazeniem. Daje to pelna kontrole bez posrednika, dokladnie to, czego chce zespol platformowy. {appName} to odwrotny kompromis. Nie ma nic do wdrozenia ani utrzymywania przy zyciu. Dostajesz endpoint i klucz, a dostepnosc, routing i failover to nasz problem, nie twoj.",
+        "H_SETUP": "Konfiguracja i utrzymanie",
+        "P_SETUP": "Z LiteLLM piszesz konfiguracje, dostarczasz klucze API kazdego dostawcy, uruchamiasz serwer (Python, wiec uwazaj na GIL przy wspolbieznosci) i na zawsze odpowiadasz za aktualizacje i monitoring. Z {appName} rejestrujesz sie i kierujesz klienta na <c>https://api.unorouter.com/v1</c>. Bez pliku konfiguracji, bez kluczy dostawcow do zebrania, bez serwera do pilnowania. Jedno to infrastruktura, ktora utrzymujesz; drugie to usluga, ktora konsumujesz.",
+        "H_INTERFACE": "Nie ma LiteLLM, w ktorym mozesz rozmawiac",
+        "P_INTERFACE": "LiteLLM jest bezglowy z zalozenia: warstwa API, kazdy interfejs przynosisz sam. {appName} dostarcza to samo zgodne z OpenAI API plus wbudowany klient czatu i postaci (persony, lorebooki, presety, import kart SillyTavern), a ten sam klucz wpina sie w SillyTavern, Janitor.AI, RisuAI lub Chub. Tak agent kodujacy i miejsce do faktycznej rozmowy dzialaja na jednym kluczu, zamiast proxy, do ktorego wciaz musisz zbudowac interfejs.",
+        "H_COST": "Koszt i klucze",
+        "P_COST": "LiteLLM nie bierze marzy, ale placisz kazdemu dostawcy bezposrednio i ponosisz rachunek za infrastrukture plus czas DevOps. Wygrywa przy duzym wolumenie, jesli masz zespol. {appName} to platnosc za uzycie na 200+ modelach z kredytami, ktore nie wygasaja, i darmowym poziomem, jedno saldo zamiast portfela u kazdego dostawcy i bez serwerow do oplacania. Ponizej powaznej skali sciezka hostowana zwykle wychodzi taniej, gdy policzysz godziny.",
+        "H_VERDICT": "Co wybrac",
+        "P_VERDICT": "Jesli masz zespol platformowy, chcesz zerowej marzy i z checia prowadzisz proxy, LiteLLM to wlasciwe narzedzie. Jesli chcesz jeden zgodny z OpenAI klucz bez niczego do wdrozenia, ktory dziala w twoim agencie kodujacym i w prawdziwym kliencie czatu, {appName} pasuje. Nie ma jednego zwyciezcy. Sprowadza sie to do tego, czy chcesz prowadzic brame, czy tylko z niej korzystac.",
+        "CTA": "Chcesz brame bez niczego do wdrozenia? <register>Zaloz darmowe konto</register> lub <models>przejrzyj modele</models>."
+      },
       "FEATURED_ON": {
         "TITLE": "Gdzie znalezc {appName}: nasze wpisy w katalogach",
         "DESCRIPTION": "{appName} jest wymieniony w katalogach narzedzi AI i startupow. Tutaj nas znajdziesz, zweryfikujesz wpisy i przeczytasz niezalezne opinie.",

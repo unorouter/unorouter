@@ -538,6 +538,23 @@
       "comparison": "Confronto"
     },
     "POSTS": {
+      "UNOROUTER_VS_LITELLM": {
+        "TITLE": "{appName} vs LiteLLM: gateway gestito o proxy self-hosted",
+        "DESCRIPTION": "LiteLLM e il proxy LLM self-hosted piu popolare. {appName} e un gateway gestito con client di chat integrato. La vera scelta e se vuoi gestire tu stesso l infrastruttura.",
+        "AUTHOR": "Team {appName}",
+        "INTRO": "LiteLLM e la risposta open source predefinita a una chiave per ogni modello: un proxy Python con licenza MIT che esegui tu stesso. {appName} risponde alla stessa esigenza, ma gestito e con un client sopra. La differenza onesta non sono le funzioni, e se vuoi gestire il proxy o solo chiamare un endpoint.",
+        "H_HOSTED": "Self-hosted vs gestito",
+        "P_HOSTED": "LiteLLM e software che distribuisci ed esegui: avviare il proxy, gestire il processo, osservare i log, scalare sotto carico. Questo da controllo totale senza intermediari, esattamente cio che vuole un team di piattaforma. {appName} e il compromesso opposto. Non c e nulla da distribuire o tenere in vita. Ottieni un endpoint e una chiave, e disponibilita, routing e failover sono un problema nostro, non tuo.",
+        "H_SETUP": "Configurazione e manutenzione",
+        "P_SETUP": "Con LiteLLM scrivi una configurazione, fornisci le chiavi API di ogni provider, esegui il server (Python, quindi attenzione al GIL in concorrenza) e ti fai carico di aggiornamenti e monitoraggio per sempre. Con {appName} ti registri e punti il client a <c>https://api.unorouter.com/v1</c>. Nessun file di configurazione, nessuna chiave provider da raccogliere, nessun server da accudire. Uno e infrastruttura che mantieni; l altro un servizio che consumi.",
+        "H_INTERFACE": "Non esiste un LiteLLM in cui chattare",
+        "P_INTERFACE": "LiteLLM e headless per progettazione: un livello API, ogni interfaccia la porti tu. {appName} offre la stessa API compatibile con OpenAI piu un client di chat e personaggi integrato (personas, lorebook, preset, import di card SillyTavern), e la stessa chiave entra in SillyTavern, Janitor.AI, RisuAI o Chub. Cosi un agente di codice e un posto dove chattare girano su una sola chiave, invece di un proxy a cui devi ancora costruire un interfaccia.",
+        "H_COST": "Costo e chiavi",
+        "P_COST": "LiteLLM non prende ricarico, ma paghi ogni provider direttamente e ti accolli la bolletta dell infrastruttura piu il tempo DevOps. Vince ad alto volume se hai il team. {appName} e a consumo su 200+ modelli con crediti che non scadono e un piano gratuito, un solo saldo invece di un portafoglio per ogni provider e nessun server da pagare. Sotto una scala seria, la via gestita di solito costa meno una volta contate le ore.",
+        "H_VERDICT": "Quale scegliere",
+        "P_VERDICT": "Se hai un team di piattaforma, vuoi zero ricarico e sei contento di gestire il proxy, LiteLLM e lo strumento giusto. Se vuoi una chiave compatibile con OpenAI senza nulla da distribuire, che funziona nel tuo agente di codice e in un vero client di chat, {appName} e adatto. Non c e un unico vincitore. Si riduce a se vuoi gestire il gateway o solo usarne uno.",
+        "CTA": "Vuoi un gateway senza nulla da distribuire? <register>Crea un account gratuito</register> o <models>esplora i modelli</models>."
+      },
       "FEATURED_ON": {
         "TITLE": "Dove trovare {appName}: i nostri elenchi nelle directory",
         "DESCRIPTION": "{appName} e elencato nelle directory di strumenti IA e startup. Ecco dove trovarci, verificare gli elenchi e leggere opinioni indipendenti.",

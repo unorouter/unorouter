@@ -538,6 +538,23 @@
       "comparison": "Karşılaştırma"
     },
     "POSTS": {
+      "UNOROUTER_VS_LITELLM": {
+        "TITLE": "{appName} vs LiteLLM: barindirilan ag gecidi mi yoksa kendin barindiran vekil mi",
+        "DESCRIPTION": "LiteLLM en populer kendin barindiran LLM vekilidir. {appName} dahili sohbet istemcili barindirilan bir ag gecididir. Asil secim altyapiyi kendin mi calistirmak istedigin.",
+        "AUTHOR": "{appName} ekibi",
+        "INTRO": "Her model icin tek anahtar fikrine varsayilan acik kaynak yanit LiteLLM'dir: kendin calistirdigin MIT lisansli bir Python vekili. {appName} ayni ihtiyaca yanit verir ama barindirilir ve ustunde bir istemci vardir. Durust fark ozellikler degil; vekili calistirmak mi yoksa sadece bir uc nokta cagirmak mi istedigin.",
+        "H_HOSTED": "Kendin barindirma vs barindirilan",
+        "P_HOSTED": "LiteLLM dagittigin ve calistirdigin bir yazilimdir: vekili ayaga kaldir, sureci yonet, gunlukleri izle, yuk altinda olcekle. Bu, araci olmadan tam kontrol verir, tam da bir platform ekibinin istedigi sey. {appName} ters takastir. Dagitilacak ya da ayakta tutulacak hicbir sey yok. Bir uc nokta ve anahtar alirsin; erisilebilirlik, yonlendirme ve yedege gecis bizim sorunumuz, senin degil.",
+        "H_SETUP": "Kurulum ve bakim",
+        "P_SETUP": "LiteLLM ile bir yapilandirma yazarsin, her saglayicinin API anahtarlarini verirsin, sunucuyu calistirirsin (Python, bu yuzden eszamanlilikta GIL'e dikkat) ve yukseltmeleri ve izlemeyi sonsuza dek ustlenirsin. {appName} ile kayit olur ve istemcini <c>https://api.unorouter.com/v1</c> adresine yonlendirirsin. Yapilandirma dosyasi yok, toplanacak saglayici anahtari yok, bakilacak sunucu yok. Biri bakimini yaptigin altyapi; digeri tukettigin bir hizmet.",
+        "H_INTERFACE": "Icinde sohbet edebilecegin bir LiteLLM yok",
+        "P_INTERFACE": "LiteLLM tasarim geregi arayuzsuzdur: bir API katmani, her arayuzu sen getirirsin. {appName} ayni OpenAI uyumlu API'yi arti dahili bir sohbet ve karakter istemcisini (personalar, lorebook'lar, hazir ayarlar, SillyTavern kart ice aktarimi) sunar ve ayni anahtar SillyTavern, Janitor.AI, RisuAI veya Chub'a takilir. Boylece bir kodlama ajani ve gercekten sohbet edilecek bir yer tek anahtarla calisir; hala arayuz insa etmen gereken bir vekil yerine.",
+        "H_COST": "Maliyet ve anahtarlar",
+        "P_COST": "LiteLLM kar payi almaz ama her saglayiciya dogrudan odersin ve altyapi faturasiyla birlikte DevOps zamanini tasirsin. Ekibin varsa yuksek hacimde kazanir. {appName} 200'den fazla model genelinde kullandikca ode seklindedir, suresi dolmayan krediler ve ucretsiz bir katman ile; her saglayicida bir cuzdan yerine tek bakiye ve odenecek sunucu yok. Ciddi olcegin altinda, saatleri saydiginda barindirilan yol genellikle daha ucuzdur.",
+        "H_VERDICT": "Hangisini secmelisin",
+        "P_VERDICT": "Bir platform ekibin varsa, sifir kar payi istiyorsan ve vekili calistirmaktan memnunsan, LiteLLM dogru aractir. Dagitilacak hicbir sey olmadan, kodlama ajaninda ve gercek bir sohbet istemcisinde calisan OpenAI uyumlu tek bir anahtar istiyorsan {appName} uyar. Tek bir kazanan yok. Sonucta ag gecidini calistirmak mi yoksa sadece birini kullanmak mi istedigine baglidir.",
+        "CTA": "Dagitilacak hicbir sey olmayan bir ag gecidi mi istiyorsun? <register>Ucretsiz hesap olustur</register> ya da <models>modellere goz at</models>."
+      },
       "FEATURED_ON": {
         "TITLE": "{appName} nerede bulunur: dizin kayitlarimiz",
         "DESCRIPTION": "{appName}, yapay zeka araci ve girisim dizinlerinde listelenmistir. Bizi burada bulabilir, kayitlari dogrulayabilir ve bagimsiz degerlendirmeleri okuyabilirsiniz.",

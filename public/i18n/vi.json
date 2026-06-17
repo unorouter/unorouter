@@ -538,6 +538,23 @@
       "comparison": "So sánh"
     },
     "POSTS": {
+      "UNOROUTER_VS_LITELLM": {
+        "TITLE": "{appName} so voi LiteLLM: cong duoc luu tru hay proxy tu luu tru",
+        "DESCRIPTION": "LiteLLM la proxy LLM tu luu tru pho bien nhat. {appName} la mot cong duoc luu tru kem client chat tich hop. Lua chon thuc su la ban co muon tu van hanh ha tang hay khong.",
+        "AUTHOR": "Doi ngu {appName}",
+        "INTRO": "LiteLLM la cau tra loi ma nguon mo mac dinh cho y tuong mot khoa cho moi mo hinh: mot proxy Python giay phep MIT ma ban tu chay. {appName} dap ung cung nhu cau do, nhung duoc luu tru va co mot client ben tren. Khac biet trung thuc khong phai tinh nang, ma la ban muon van hanh proxy hay chi goi mot endpoint.",
+        "H_HOSTED": "Tu luu tru so voi duoc luu tru",
+        "P_HOSTED": "LiteLLM la phan mem ban trien khai va chay: dung proxy len, quan ly tien trinh, theo doi log, mo rong khi tai cao. Dieu do cho toan quyen kiem soat khong qua trung gian, dung thu mot doi ngu nen tang muon. {appName} la danh doi nguoc lai. Khong co gi de trien khai hay giu cho song. Ban nhan mot endpoint va mot khoa, con tinh san sang, dinh tuyen va chuyen du phong la van de cua chung toi, khong phai cua ban.",
+        "H_SETUP": "Thiet lap va bao tri",
+        "P_SETUP": "Voi LiteLLM ban viet mot cau hinh, cung cap khoa API cua tung nha cung cap, chay may chu (Python, nen luu y GIL khi dong thoi) va chiu trach nhiem nang cap va giam sat mai mai. Voi {appName} ban dang ky va tro client den <c>https://api.unorouter.com/v1</c>. Khong tep cau hinh, khong khoa nha cung cap can thu thap, khong may chu can trong nom. Mot ben la ha tang ban bao tri; ben kia la dich vu ban su dung.",
+        "H_INTERFACE": "Khong co LiteLLM nao de ban tro chuyen ben trong",
+        "P_INTERFACE": "LiteLLM khong giao dien theo thiet ke: mot lop API, moi giao dien ban tu mang den. {appName} cung cap chinh API tuong thich OpenAI do cong them mot client chat va nhan vat tich hop (persona, lorebook, preset, nhap the SillyTavern), va cung mot khoa do cam vao SillyTavern, Janitor.AI, RisuAI hay Chub. Nho vay mot tac nhan lap trinh va mot noi de thuc su tro chuyen chay tren mot khoa, thay vi mot proxy ma ban van phai xay giao dien cho no.",
+        "H_COST": "Chi phi va khoa",
+        "P_COST": "LiteLLM khong lay phu phi, nhung ban tra truc tiep tung nha cung cap va ganh hoa don ha tang cong thoi gian DevOps. No thang o khoi luong lon neu ban co doi ngu. {appName} la tra theo dung tren hon 200 mo hinh voi tin dung khong het han va mot bac mien phi, mot so du thay vi mot vi o moi nha cung cap, va khong co may chu de tra tien. Duoi quy mo nghiem tuc, con duong duoc luu tru thuong re hon khi tinh ca gio cong.",
+        "H_VERDICT": "Ban nen chon cai nao",
+        "P_VERDICT": "Neu ban co doi ngu nen tang, muon phu phi bang khong, va vui long van hanh proxy, LiteLLM la cong cu dung. Neu ban muon mot khoa tuong thich OpenAI khong can trien khai gi, hoat dong trong tac nhan lap trinh va trong mot client chat thuc su, thi {appName} phu hop. Khong co mot nguoi thang duy nhat. Tat ca quy ve viec ban muon van hanh cong hay chi su dung mot cai.",
+        "CTA": "Muon mot cong khong can trien khai gi? <register>Tao tai khoan mien phi</register> hoac <models>duyet cac mo hinh</models>."
+      },
       "FEATURED_ON": {
         "TITLE": "Tim {appName} o dau: cac muc liet ke trong thu muc",
         "DESCRIPTION": "{appName} duoc liet ke trong cac thu muc cong cu AI va startup. Tai day ban co the tim thay chung toi, xac minh cac muc liet ke va doc danh gia doc lap.",

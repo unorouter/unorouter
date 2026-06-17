@@ -538,6 +538,23 @@
       "comparison": "Comparison"
     },
     "POSTS": {
+      "UNOROUTER_VS_LITELLM": {
+        "TITLE": "{appName} vs LiteLLM: hosted gateway or self-hosted proxy",
+        "DESCRIPTION": "LiteLLM is the most popular self-hosted LLM proxy. {appName} is a hosted gateway with a built-in chat client. The real choice is whether you want to run the infrastructure yourself.",
+        "AUTHOR": "{appName} team",
+        "INTRO": "LiteLLM is the default open-source answer to one key for every model: an MIT-licensed Python proxy you run yourself. {appName} answers the same need, but hosted, with a client on top. The honest split is not features. It is whether you want to operate the proxy or just call an endpoint.",
+        "H_HOSTED": "Self-hosted vs hosted",
+        "P_HOSTED": "LiteLLM is software you deploy and run: spin up the proxy, manage the process, watch the logs, scale it under load. That gives you total control and no middleman, which is exactly what a platform team wants. {appName} is the opposite tradeoff. There is nothing to deploy or keep alive. You get an endpoint and a key, and uptime, routing, and failover are our problem, not yours.",
+        "H_SETUP": "Setup and maintenance",
+        "P_SETUP": "With LiteLLM you write a config, supply every provider's API keys, run the server (Python, so watch the GIL under concurrency), and own upgrades and monitoring forever. With {appName} you sign up and point your client at <c>https://api.unorouter.com/v1</c>. No config file, no provider keys to collect, no server to babysit. One is infrastructure you maintain; the other is a service you consume.",
+        "H_INTERFACE": "There is no LiteLLM you can chat in",
+        "P_INTERFACE": "LiteLLM is headless by design: an API layer, you bring every interface. {appName} ships the same OpenAI-compatible API plus a built-in chat and character client (personas, lorebooks, presets, SillyTavern card import), and the same key drops into SillyTavern, Janitor.AI, RisuAI, or Chub. So a coding agent and a place to actually chat run off one key, instead of a proxy you still have to build a UI for.",
+        "H_COST": "Cost and keys",
+        "P_COST": "LiteLLM takes no markup, but you pay each provider directly and carry the infra bill plus the DevOps time. That wins at high volume if you have the team. {appName} is pay-as-you-go across 200+ models with credits that do not expire and a free tier, one balance instead of a wallet at every provider, and no servers to pay for. Below serious scale, the hosted route is usually cheaper once you count the hours.",
+        "H_VERDICT": "Which should you pick",
+        "P_VERDICT": "If you have a platform team, want zero markup, and are happy owning the proxy, LiteLLM is the right tool. If you want one OpenAI-compatible key with nothing to deploy, that works in your coding agent and in a real chat client, {appName} fits. There is no single winner. It comes down to whether you want to run the gateway or just use one.",
+        "CTA": "Want a gateway with nothing to deploy? <register>Create a free account</register> or <models>browse the models</models>."
+      },
       "FEATURED_ON": {
         "TITLE": "Where to find {appName}: our directory listings",
         "DESCRIPTION": "{appName} is listed across the AI tool and startup directories. Here is where you can find us, verify the listings, and read independent takes.",

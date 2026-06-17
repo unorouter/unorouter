@@ -538,6 +538,23 @@
       "comparison": "Comparatif"
     },
     "POSTS": {
+      "UNOROUTER_VS_LITELLM": {
+        "TITLE": "{appName} vs LiteLLM : passerelle hebergee ou proxy auto-heberge",
+        "DESCRIPTION": "LiteLLM est le proxy LLM auto-heberge le plus populaire. {appName} est une passerelle hebergee avec client de chat integre. Le vrai choix est de savoir si vous voulez gerer l infrastructure vous-meme.",
+        "AUTHOR": "Equipe {appName}",
+        "INTRO": "LiteLLM est la reponse open source par defaut a une cle pour chaque modele : un proxy Python sous licence MIT que vous executez vous-meme. {appName} repond au meme besoin, mais heberge et avec un client par-dessus. La vraie difference, ce ne sont pas les fonctionnalites, c est de savoir si vous voulez gerer le proxy ou juste appeler un endpoint.",
+        "H_HOSTED": "Auto-heberge vs heberge",
+        "P_HOSTED": "LiteLLM est un logiciel que vous deployez et executez : lancer le proxy, gerer le processus, surveiller les logs, monter en charge. Cela donne un controle total sans intermediaire, exactement ce que veut une equipe plateforme. {appName} est le compromis inverse. Il n y a rien a deployer ni a maintenir en vie. Vous obtenez un endpoint et une cle, et la disponibilite, le routage et le failover sont notre probleme, pas le votre.",
+        "H_SETUP": "Installation et maintenance",
+        "P_SETUP": "Avec LiteLLM vous ecrivez une configuration, fournissez les cles API de chaque fournisseur, executez le serveur (Python, donc attention au GIL en concurrence) et assumez les mises a jour et la surveillance pour toujours. Avec {appName} vous vous inscrivez et pointez votre client vers <c>https://api.unorouter.com/v1</c>. Pas de fichier de config, pas de cles fournisseur a collecter, pas de serveur a surveiller. L un est une infrastructure que vous maintenez ; l autre un service que vous consommez.",
+        "H_INTERFACE": "Il n existe pas de LiteLLM dans lequel discuter",
+        "P_INTERFACE": "LiteLLM est headless par conception : une couche API, vous apportez chaque interface. {appName} fournit la meme API compatible OpenAI plus un client de chat et de personnages integre (personas, lorebooks, presets, import de cartes SillyTavern), et la meme cle s insere dans SillyTavern, Janitor.AI, RisuAI ou Chub. Ainsi un agent de code et un endroit pour discuter tournent sur une seule cle, au lieu d un proxy auquel il faut encore construire une interface.",
+        "H_COST": "Cout et cles",
+        "P_COST": "LiteLLM ne prend aucune marge, mais vous payez chaque fournisseur directement et portez la facture d infrastructure plus le temps DevOps. Cela gagne a fort volume si vous avez l equipe. {appName} est a l usage sur 200+ modeles avec des credits qui n expirent pas et une offre gratuite, un seul solde au lieu d un portefeuille chez chaque fournisseur et aucun serveur a payer. En dessous d une vraie echelle, la voie hebergee revient souvent moins cher une fois les heures comptees.",
+        "H_VERDICT": "Lequel choisir",
+        "P_VERDICT": "Si vous avez une equipe plateforme, voulez zero marge et etes content de gerer le proxy, LiteLLM est le bon outil. Si vous voulez une cle compatible OpenAI sans rien a deployer, qui marche dans votre agent de code et dans un vrai client de chat, {appName} convient. Il n y a pas de gagnant unique. Tout depend si vous voulez gerer la passerelle ou simplement en utiliser une.",
+        "CTA": "Une passerelle sans rien a deployer ? <register>Creez un compte gratuit</register> ou <models>parcourez les modeles</models>."
+      },
       "FEATURED_ON": {
         "TITLE": "Ou trouver {appName} : nos inscriptions dans les annuaires",
         "DESCRIPTION": "{appName} est reference dans les annuaires d outils IA et de startups. Voici ou nous trouver, verifier les inscriptions et lire des avis independants.",
