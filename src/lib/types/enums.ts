@@ -69,6 +69,12 @@ export enum Vendor {
   KATANEMO = "katanemo",
   NAVYAI = "navyai",
   HCOMPANY = "h company",
+  AIONLABS = "aion labs",
+  GRYPHE = "gryphe",
+  ANTHRACITE = "anthracite",
+  ALLENAI = "ai2",
+  AI21 = "ai21 labs",
+  NOUS = "nous research",
 }
 
 export enum OS {
