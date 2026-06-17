@@ -534,8 +534,8 @@
       "product": "ürün",
       "engineering": "mühendislik",
       "update": "güncelleme",
-      "community": "Topluluk",
-      "comparison": "Karşılaştırma"
+      "community": "topluluk",
+      "comparison": "karşılaştırma"
     },
     "POSTS": {
       "UNOROUTER_VS_LITELLM": {

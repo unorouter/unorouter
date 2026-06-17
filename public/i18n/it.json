@@ -534,8 +534,8 @@
       "product": "prodotto",
       "engineering": "ingegneria",
       "update": "aggiornamento",
-      "community": "Comunità",
-      "comparison": "Confronto"
+      "community": "comunità",
+      "comparison": "confronto"
     },
     "POSTS": {
       "UNOROUTER_VS_LITELLM": {
