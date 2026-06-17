@@ -65,6 +65,7 @@ export enum Vendor {
   JINA = "jina",
   AISINGAPORE = "ai singapore",
   POLLINATIONS = "pollinations",
+  STEPFUN = "stepfun",
 }
 
 export enum OS {
