@@ -3160,11 +3160,8 @@
       "CLEAR_SUCCESS": "Chat dibersihkan",
       "CLEAR_CONFIRM_DESC": "Ini menghapus setiap pesan dalam sohbet tetapi mempertahankan pengaturan, pengikatan karakter, dan judul. Ini tidak dapat dibatalkan.",
       "DISPLAY": "Tampilan",
-      "DEBUG": "Debug",
-      "DEBUG_LOGGING": "Aktifkan pencatatan debug",
       "DIAGNOSTICS": "Unduh log (tanpa pesan)",
       "DIAGNOSTICS_FULL": "Unduh log + pesan",
-      "RP_LIBRARY": "Pustaka RP",
       "DEBUG_CLEAR": "Hapus log debug",
       "DEBUG_CLEARED": "Log debug dihapus"
     },

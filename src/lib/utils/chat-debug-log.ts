@@ -1,12 +1,10 @@
-// Opt-in chat debug ring buffer. Off by default (zero overhead); a user enables it via the
-// chat Debug menu, reproduces an issue, then downloads diagnostics. Reusable for any chat bug.
-// `enabled` is a plain module flag mirrored from debugLoggingEnabledAtom (client-store) by the
-// effect in ChatRuntimeProvider so logChatDebug stays synchronous for non-React callers.
+// Always-on chat debug ring buffer for diagnosing chat bugs (e.g. the iOS chat-merge race).
+// A user reproduces an issue then exports the log via the chat Import/Export/Debug menu.
 //
-// PERSISTED to localStorage: refreshing the page is itself a repro step for some bugs (chat
-// merge), and an in-memory buffer would be wiped on reload before the user can export. The
-// buffer survives reloads so the export covers before AND after the refresh. NOT in OPFS/SQLocal
-// (that DB is often the subsystem under test); localStorage is independent + synchronous.
+// PERSISTED to localStorage: refreshing is itself a repro step for some bugs (chat merge), so an
+// in-memory buffer would be wiped before export. Survives reloads so the export covers before AND
+// after the refresh. NOT in OPFS/SQLocal (that DB is the subsystem under test); localStorage is
+// independent + synchronous, so it also works from non-React callers without a hydration race.
 
 export type ChatDebugEntry = {
   ts: number;
@@ -18,7 +16,6 @@ const MAX_ENTRIES = 500;
 const STORAGE_KEY = "unorouter-chat-debug-log";
 
 let buffer: ChatDebugEntry[] = load();
-let enabled = false;
 let saveQueued = false;
 
 function load(): ChatDebugEntry[] {
@@ -46,16 +43,7 @@ function save(): void {
   });
 }
 
-export function setChatDebugEnabled(value: boolean): void {
-  enabled = value;
-}
-
-export function isChatDebugEnabled(): boolean {
-  return enabled;
-}
-
 export function logChatDebug(event: string, data?: Record<string, unknown>): void {
-  if (!enabled) return;
   buffer.push({ ts: Date.now(), event, ...data });
   if (buffer.length > MAX_ENTRIES) buffer.splice(0, buffer.length - MAX_ENTRIES);
   save();

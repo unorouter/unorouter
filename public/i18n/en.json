@@ -3160,11 +3160,8 @@
       "CLEAR_SUCCESS": "Chat cleared",
       "CLEAR_CONFIRM_DESC": "This deletes every message in the conversation but keeps the settings, character bindings, and title. This cannot be undone.",
       "DISPLAY": "Display",
-      "DEBUG": "Debug",
-      "DEBUG_LOGGING": "Enable debug logging",
       "DIAGNOSTICS": "Download log (no messages)",
       "DIAGNOSTICS_FULL": "Download log + messages",
-      "RP_LIBRARY": "RP library",
       "DEBUG_CLEAR": "Clear debug log",
       "DEBUG_CLEARED": "Debug log cleared"
     },

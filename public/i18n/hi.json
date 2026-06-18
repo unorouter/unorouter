@@ -3160,11 +3160,8 @@
       "CLEAR_SUCCESS": "Chat cleared",
       "CLEAR_CONFIRM_DESC": "यह बातचीत में हर message को हटा देता है लेकिन settings, character bindings, और title रखता है। इसे पूर्ववत नहीं किया जा सकता।",
       "DISPLAY": "प्रदर्शन",
-      "DEBUG": "डिबग",
-      "DEBUG_LOGGING": "डिबग लॉगिंग सक्षम करें",
       "DIAGNOSTICS": "लॉग डाउनलोड करें (संदेश रहित)",
       "DIAGNOSTICS_FULL": "लॉग + संदेश डाउनलोड करें",
-      "RP_LIBRARY": "आरपी लाइब्रेरी",
       "DEBUG_CLEAR": "डिबग लॉग साफ़ करें",
       "DEBUG_CLEARED": "डिबग लॉग साफ़ हो गया"
     },

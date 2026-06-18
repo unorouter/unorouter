@@ -1,5 +1,4 @@
 import {
-  DropdownMenuCheckboxItem,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuSub,
@@ -20,9 +19,7 @@ import { exportLocalConversationSillyTavern } from "@/lib/db/client/data/transfe
 import { dayjs } from "@/lib/utils/format/date";
 import { downloadBlob, downloadJson } from "@/lib/utils/client";
 import type { ExportFormat } from "@/lib/validation/rp";
-import { debugLoggingEnabledAtom } from "@/store/client-store";
 import { useAui } from "@assistant-ui/react";
-import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useRef } from "react";
 import { toast } from "sonner";
@@ -38,8 +35,6 @@ export function ImportExportSubmenu(props: Props) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const exportMut = useExportConversation();
   const importMut = useImportConversationMutation();
-  const [debugEnabled, setDebugEnabled] = useAtom(debugLoggingEnabledAtom);
-
   const hasConv = !!props.convId;
 
   const downloadDiagnostics = async (includeContent: boolean) => {
@@ -138,13 +133,6 @@ export function ImportExportSubmenu(props: Props) {
             {t("CHAT.MORE.IMPORT")}
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuCheckboxItem
-            checked={debugEnabled}
-            onCheckedChange={(v) => setDebugEnabled(v === true)}
-            closeOnClick={false}
-          >
-            {t("CHAT.MORE.DEBUG_LOGGING")}
-          </DropdownMenuCheckboxItem>
           <DropdownMenuItem onClick={() => downloadDiagnostics(false)}>
             <Icon name="clipboard-copy" className="size-4" />
             {t("CHAT.MORE.DIAGNOSTICS")}

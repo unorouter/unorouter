@@ -3160,11 +3160,8 @@
       "CLEAR_SUCCESS": "Chat vide",
       "CLEAR_CONFIRM_DESC": "Cela supprime tous les messages de la conversation, mais conserve les parametres, les liaisons de personnages et le titre. Cette action est irreversible.",
       "DISPLAY": "Affichage",
-      "DEBUG": "Débogage",
-      "DEBUG_LOGGING": "Activer la journalisation de débogage",
       "DIAGNOSTICS": "Télécharger le journal (sans messages)",
       "DIAGNOSTICS_FULL": "Télécharger le journal + messages",
-      "RP_LIBRARY": "Bibliothèque RP",
       "DEBUG_CLEAR": "Effacer le journal de débogage",
       "DEBUG_CLEARED": "Journal de débogage effacé"
     },

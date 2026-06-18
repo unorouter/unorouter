@@ -3160,11 +3160,8 @@
       "CLEAR_SUCCESS": "Sohbet temizlendi",
       "CLEAR_CONFIRM_DESC": "Bu sohbetteki her mesajı siler ama ayarları, karakter bağlantılarını ve başlığı korur. Bu geri alınamaz.",
       "DISPLAY": "Görünüm",
-      "DEBUG": "Hata ayıklama",
-      "DEBUG_LOGGING": "Hata ayıklama günlüğünü etkinleştir",
       "DIAGNOSTICS": "Günlüğü indir (mesajsız)",
       "DIAGNOSTICS_FULL": "Günlük + mesajları indir",
-      "RP_LIBRARY": "RP kitaplığı",
       "DEBUG_CLEAR": "Hata ayıklama günlüğünü temizle",
       "DEBUG_CLEARED": "Hata ayıklama günlüğü temizlendi"
     },

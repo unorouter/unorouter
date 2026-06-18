@@ -3160,11 +3160,8 @@
       "CLEAR_SUCCESS": "对话已清空",
       "CLEAR_CONFIRM_DESC": "此操作将删除该对话中的所有消息，但保留设置、角色绑定和标题。此操作无法撤销。",
       "DISPLAY": "显示",
-      "DEBUG": "调试",
-      "DEBUG_LOGGING": "启用调试日志",
       "DIAGNOSTICS": "下载日志（不含消息）",
       "DIAGNOSTICS_FULL": "下载日志 + 消息",
-      "RP_LIBRARY": "角色扮演库",
       "DEBUG_CLEAR": "清除调试日志",
       "DEBUG_CLEARED": "调试日志已清除"
     },
