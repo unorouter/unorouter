@@ -1,4 +1,4 @@
-    // Per-icon dynamic loaders; each enters the chunk graph on first render, missing key falls back to lucide. GENERATED; edit the script.
+// Per-icon dynamic loaders; each enters the chunk graph on first render, missing key falls back to lucide. GENERATED; edit the script.
 
 export type IconLibraryName =
   | "lucide"
