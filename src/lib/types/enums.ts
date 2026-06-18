@@ -85,6 +85,7 @@ export enum Vendor {
   DEEPL = "deepl",
   ELEVENLABS = "elevenlabs",
   SPEECHIFY = "speechify",
+  ESSENTIALAI = "essential ai",
 }
 
 export enum OS {
