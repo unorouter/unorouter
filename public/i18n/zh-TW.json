@@ -3164,7 +3164,9 @@
       "DEBUG_LOGGING": "啟用除錯日誌",
       "DIAGNOSTICS": "下載日誌（不含訊息）",
       "DIAGNOSTICS_FULL": "下載日誌 + 訊息",
-      "RP_LIBRARY": "角色扮演庫"
+      "RP_LIBRARY": "角色扮演庫",
+      "DEBUG_CLEAR": "清除除錯日誌",
+      "DEBUG_CLEARED": "除錯日誌已清除"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, other {# 個角色}}",

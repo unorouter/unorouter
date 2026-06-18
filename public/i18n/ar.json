@@ -3164,7 +3164,9 @@
       "DEBUG_LOGGING": "تفعيل تسجيل التصحيح",
       "DIAGNOSTICS": "تنزيل السجل (بدون رسائل)",
       "DIAGNOSTICS_FULL": "تنزيل السجل + الرسائل",
-      "RP_LIBRARY": "مكتبة تقمص الأدوار"
+      "RP_LIBRARY": "مكتبة تقمص الأدوار",
+      "DEBUG_CLEAR": "مسح سجل التصحيح",
+      "DEBUG_CLEARED": "تم مسح سجل التصحيح"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, zero {# شخصية} one {شخصية واحدة} two {شخصيتان} few {# شخصيات} many {# شخصية} other {# شخصية}}",

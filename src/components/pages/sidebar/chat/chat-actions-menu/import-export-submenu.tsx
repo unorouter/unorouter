@@ -15,6 +15,7 @@ import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { analytics } from "@/lib/analytics";
 import { env } from "@/lib/config/env";
 import { buildDiagnostics } from "@/lib/db/client/data/diagnostics";
+import { clearChatDebugLog } from "@/lib/utils/chat-debug-log";
 import { exportLocalConversationSillyTavern } from "@/lib/db/client/data/transfer/sillytavern";
 import { dayjs } from "@/lib/utils/format/date";
 import { downloadBlob, downloadJson } from "@/lib/utils/client";
@@ -151,6 +152,15 @@ export function ImportExportSubmenu(props: Props) {
           <DropdownMenuItem onClick={() => downloadDiagnostics(true)}>
             <Icon name="file-text" className="size-4" />
             {t("CHAT.MORE.DIAGNOSTICS_FULL")}
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => {
+              clearChatDebugLog();
+              toast.success(t("CHAT.MORE.DEBUG_CLEARED"));
+            }}
+          >
+            <Icon name="trash-2" className="size-4" />
+            {t("CHAT.MORE.DEBUG_CLEAR")}
           </DropdownMenuItem>
         </DropdownMenuSubContent>
       </DropdownMenuSub>

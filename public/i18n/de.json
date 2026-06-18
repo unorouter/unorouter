@@ -3164,7 +3164,9 @@
       "DEBUG_LOGGING": "Debug-Protokollierung aktivieren",
       "DIAGNOSTICS": "Protokoll herunterladen (ohne Nachrichten)",
       "DIAGNOSTICS_FULL": "Protokoll + Nachrichten herunterladen",
-      "RP_LIBRARY": "RP-Bibliothek"
+      "RP_LIBRARY": "RP-Bibliothek",
+      "DEBUG_CLEAR": "Debug-Protokoll löschen",
+      "DEBUG_CLEARED": "Debug-Protokoll gelöscht"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, one {# Charakter} other {# Charaktere}}",

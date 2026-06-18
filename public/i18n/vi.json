@@ -3164,7 +3164,9 @@
       "DEBUG_LOGGING": "Bật ghi nhật ký gỡ lỗi",
       "DIAGNOSTICS": "Tải nhật ký (không có tin nhắn)",
       "DIAGNOSTICS_FULL": "Tải nhật ký + tin nhắn",
-      "RP_LIBRARY": "Thư viện RP"
+      "RP_LIBRARY": "Thư viện RP",
+      "DEBUG_CLEAR": "Xóa nhật ký gỡ lỗi",
+      "DEBUG_CLEARED": "Đã xóa nhật ký gỡ lỗi"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, other {# nhân vật}}",

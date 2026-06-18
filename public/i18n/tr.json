@@ -3164,7 +3164,9 @@
       "DEBUG_LOGGING": "Hata ayıklama günlüğünü etkinleştir",
       "DIAGNOSTICS": "Günlüğü indir (mesajsız)",
       "DIAGNOSTICS_FULL": "Günlük + mesajları indir",
-      "RP_LIBRARY": "RP kitaplığı"
+      "RP_LIBRARY": "RP kitaplığı",
+      "DEBUG_CLEAR": "Hata ayıklama günlüğünü temizle",
+      "DEBUG_CLEARED": "Hata ayıklama günlüğü temizlendi"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, one {# karakter} other {# karakter}}",

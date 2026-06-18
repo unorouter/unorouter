@@ -3164,7 +3164,9 @@
       "DEBUG_LOGGING": "デバッグログを有効化",
       "DIAGNOSTICS": "ログをダウンロード（メッセージなし）",
       "DIAGNOSTICS_FULL": "ログ + メッセージをダウンロード",
-      "RP_LIBRARY": "RPライブラリ"
+      "RP_LIBRARY": "RPライブラリ",
+      "DEBUG_CLEAR": "デバッグログを消去",
+      "DEBUG_CLEARED": "デバッグログを消去しました"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, other {# キャラクター}}",

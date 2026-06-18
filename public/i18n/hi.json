@@ -3164,7 +3164,9 @@
       "DEBUG_LOGGING": "डिबग लॉगिंग सक्षम करें",
       "DIAGNOSTICS": "लॉग डाउनलोड करें (संदेश रहित)",
       "DIAGNOSTICS_FULL": "लॉग + संदेश डाउनलोड करें",
-      "RP_LIBRARY": "आरपी लाइब्रेरी"
+      "RP_LIBRARY": "आरपी लाइब्रेरी",
+      "DEBUG_CLEAR": "डिबग लॉग साफ़ करें",
+      "DEBUG_CLEARED": "डिबग लॉग साफ़ हो गया"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, one {# पात्र} other {# पात्र}}",

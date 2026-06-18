@@ -3164,7 +3164,9 @@
       "DEBUG_LOGGING": "Ativar registro de depuração",
       "DIAGNOSTICS": "Baixar registro (sem mensagens)",
       "DIAGNOSTICS_FULL": "Baixar registro + mensagens",
-      "RP_LIBRARY": "Biblioteca RP"
+      "RP_LIBRARY": "Biblioteca RP",
+      "DEBUG_CLEAR": "Limpar registro de depuração",
+      "DEBUG_CLEARED": "Registro de depuração limpo"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, one {# personagem} other {# personagens}}",
