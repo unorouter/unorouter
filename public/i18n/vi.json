@@ -3139,7 +3139,7 @@
     },
     "MORE": {
       "OPEN": "Thao tác khác",
-      "IMPORT_EXPORT": "Nhập / Xuất",
+      "IMPORT_EXPORT": "Nhập / Xuất / Gỡ lỗi",
       "EXPORT_NATIVE": "Xuất (gốc)",
       "EXPORT_ORPG": "Xuất (OpenRouter)",
       "EXPORT_SILLYTAVERN": "Xuất (SillyTavern JSONL)",
@@ -3159,7 +3159,12 @@
       "CLEAR": "Xóa cuộc trò chuyện",
       "CLEAR_SUCCESS": "Đã xóa cuộc trò chuyện",
       "CLEAR_CONFIRM_DESC": "Hành động này sẽ xóa mọi tin nhắn trong cuộc trò chuyện nhưng giữ lại cài đặt, ràng buộc nhân vật và tiêu đề. Không thể hoàn tác.",
-      "DISPLAY": "Hiển thị"
+      "DISPLAY": "Hiển thị",
+      "DEBUG": "Gỡ lỗi",
+      "DEBUG_LOGGING": "Bật ghi nhật ký gỡ lỗi",
+      "DIAGNOSTICS": "Tải xuống chẩn đoán",
+      "DIAGNOSTICS_FULL": "Tải xuống chẩn đoán (đầy đủ)",
+      "RP_LIBRARY": "Thư viện RP"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, other {# nhân vật}}",

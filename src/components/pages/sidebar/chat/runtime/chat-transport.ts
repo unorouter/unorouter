@@ -1,6 +1,7 @@
 "use client";
 
 import { fnv1aHex } from "@/lib/utils/base";
+import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import {
   chatDefaultsAtom,
   chatGroupAtom,
@@ -8,6 +9,7 @@ import {
   chatModelAtom,
   chatStore,
   chatWebSearchAtom,
+  convIdAtom,
   globalVarsAtom,
   localUserIdAtom,
   speakingCharacterIdAtom,
@@ -107,6 +109,13 @@ export function useChatTransport(getConvId: () => string | null) {
         } else {
           chatContext = baseContext;
         }
+        logChatDebug("transport.body", {
+          resolvedConvId: convId,
+          convIdAtom: chatStore.get(convIdAtom),
+          chatContextHash,
+          sentFullContext: chatContext !== undefined,
+          messageTimesCount: messageTimes ? Object.keys(messageTimes).length : 0,
+        });
         return {
           model: chatStore.get(chatModelAtom),
           convId,

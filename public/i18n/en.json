@@ -3139,7 +3139,7 @@
     },
     "MORE": {
       "OPEN": "More actions",
-      "IMPORT_EXPORT": "Import / Export",
+      "IMPORT_EXPORT": "Import / Export / Debug",
       "EXPORT_NATIVE": "Export (native)",
       "EXPORT_ORPG": "Export (OpenRouter)",
       "EXPORT_SILLYTAVERN": "Export (SillyTavern JSONL)",
@@ -3159,7 +3159,12 @@
       "CLEAR": "Clear chat",
       "CLEAR_SUCCESS": "Chat cleared",
       "CLEAR_CONFIRM_DESC": "This deletes every message in the conversation but keeps the settings, character bindings, and title. This cannot be undone.",
-      "DISPLAY": "Display"
+      "DISPLAY": "Display",
+      "DEBUG": "Debug",
+      "DEBUG_LOGGING": "Enable debug logging",
+      "DIAGNOSTICS": "Download diagnostics",
+      "DIAGNOSTICS_FULL": "Download diagnostics (full)",
+      "RP_LIBRARY": "RP library"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, one {# character} other {# characters}}",

@@ -3139,7 +3139,7 @@
     },
     "MORE": {
       "OPEN": "Tindakan lainnya",
-      "IMPORT_EXPORT": "Impor / Ekspor",
+      "IMPORT_EXPORT": "Impor / Ekspor / Debug",
       "EXPORT_NATIVE": "Ekspor (native)",
       "EXPORT_ORPG": "Ekspor (OpenRouter)",
       "EXPORT_SILLYTAVERN": "Ekspor (SillyTavern JSONL)",
@@ -3159,7 +3159,12 @@
       "CLEAR": "Bersihkan chat",
       "CLEAR_SUCCESS": "Chat dibersihkan",
       "CLEAR_CONFIRM_DESC": "Ini menghapus setiap pesan dalam sohbet tetapi mempertahankan pengaturan, pengikatan karakter, dan judul. Ini tidak dapat dibatalkan.",
-      "DISPLAY": "Tampilan"
+      "DISPLAY": "Tampilan",
+      "DEBUG": "Debug",
+      "DEBUG_LOGGING": "Aktifkan pencatatan debug",
+      "DIAGNOSTICS": "Unduh diagnostik",
+      "DIAGNOSTICS_FULL": "Unduh diagnostik (lengkap)",
+      "RP_LIBRARY": "Pustaka RP"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, other {# karakter}}",

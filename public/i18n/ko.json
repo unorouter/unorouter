@@ -3139,7 +3139,7 @@
     },
     "MORE": {
       "OPEN": "더 많은 작업",
-      "IMPORT_EXPORT": "가져오기 / 내보내기",
+      "IMPORT_EXPORT": "가져오기 / 내보내기 / 디버그",
       "EXPORT_NATIVE": "내보내기 (네이티브)",
       "EXPORT_ORPG": "내보내기 (OpenRouter)",
       "EXPORT_SILLYTAVERN": "내보내기 (SillyTavern JSONL)",
@@ -3159,7 +3159,12 @@
       "CLEAR": "채팅 지우기",
       "CLEAR_SUCCESS": "채팅 지워짐",
       "CLEAR_CONFIRM_DESC": "대화의 모든 메시지를 삭제하지만 설정, 캐릭터 바인딩, 제목은 유지합니다. 이 작업은 취소할 수 없습니다.",
-      "DISPLAY": "표시"
+      "DISPLAY": "표시",
+      "DEBUG": "디버그",
+      "DEBUG_LOGGING": "디버그 로깅 활성화",
+      "DIAGNOSTICS": "진단 다운로드",
+      "DIAGNOSTICS_FULL": "진단 다운로드(전체)",
+      "RP_LIBRARY": "RP 라이브러리"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, other {캐릭터 #개}}",

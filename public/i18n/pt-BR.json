@@ -3139,7 +3139,7 @@
     },
     "MORE": {
       "OPEN": "Mais ações",
-      "IMPORT_EXPORT": "Importar / Exportar",
+      "IMPORT_EXPORT": "Importar / Exportar / Depurar",
       "EXPORT_NATIVE": "Exportar (nativo)",
       "EXPORT_ORPG": "Exportar (OpenRouter)",
       "EXPORT_SILLYTAVERN": "Exportar (SillyTavern JSONL)",
@@ -3159,7 +3159,12 @@
       "CLEAR": "Limpar chat",
       "CLEAR_SUCCESS": "Chat limpo",
       "CLEAR_CONFIRM_DESC": "Isso deleta toda mensagem da conversa mas mantém as configurações, vinculações de personagem e título. Isso não pode ser desfeito.",
-      "DISPLAY": "Exibição"
+      "DISPLAY": "Exibição",
+      "DEBUG": "Depuração",
+      "DEBUG_LOGGING": "Ativar registro de depuração",
+      "DIAGNOSTICS": "Baixar diagnóstico",
+      "DIAGNOSTICS_FULL": "Baixar diagnóstico (completo)",
+      "RP_LIBRARY": "Biblioteca RP"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, one {# personagem} other {# personagens}}",

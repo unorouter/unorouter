@@ -3139,7 +3139,7 @@
     },
     "MORE": {
       "OPEN": "अधिक क्रियाएं",
-      "IMPORT_EXPORT": "Import / Export",
+      "IMPORT_EXPORT": "आयात / निर्यात / डिबग",
       "EXPORT_NATIVE": "Export (native)",
       "EXPORT_ORPG": "Export (OpenRouter)",
       "EXPORT_SILLYTAVERN": "Export (SillyTavern JSONL)",
@@ -3159,7 +3159,12 @@
       "CLEAR": "Chat clear करें",
       "CLEAR_SUCCESS": "Chat cleared",
       "CLEAR_CONFIRM_DESC": "यह बातचीत में हर message को हटा देता है लेकिन settings, character bindings, और title रखता है। इसे पूर्ववत नहीं किया जा सकता।",
-      "DISPLAY": "प्रदर्शन"
+      "DISPLAY": "प्रदर्शन",
+      "DEBUG": "डिबग",
+      "DEBUG_LOGGING": "डिबग लॉगिंग सक्षम करें",
+      "DIAGNOSTICS": "निदान डाउनलोड करें",
+      "DIAGNOSTICS_FULL": "निदान डाउनलोड करें (पूर्ण)",
+      "RP_LIBRARY": "आरपी लाइब्रेरी"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, one {# पात्र} other {# पात्र}}",

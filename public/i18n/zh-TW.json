@@ -3139,7 +3139,7 @@
     },
     "MORE": {
       "OPEN": "更多操作",
-      "IMPORT_EXPORT": "匯入 / 匯出",
+      "IMPORT_EXPORT": "匯入 / 匯出 / 除錯",
       "EXPORT_NATIVE": "匯出（原生）",
       "EXPORT_ORPG": "匯出（OpenRouter）",
       "EXPORT_SILLYTAVERN": "匯出（SillyTavern JSONL）",
@@ -3159,7 +3159,12 @@
       "CLEAR": "清空對話",
       "CLEAR_SUCCESS": "對話已清空",
       "CLEAR_CONFIRM_DESC": "此操作會刪除該對話中的所有訊息，但保留設定、角色綁定與標題。此操作無法復原。",
-      "DISPLAY": "顯示"
+      "DISPLAY": "顯示",
+      "DEBUG": "除錯",
+      "DEBUG_LOGGING": "啟用除錯日誌",
+      "DIAGNOSTICS": "下載診斷",
+      "DIAGNOSTICS_FULL": "下載診斷（完整）",
+      "RP_LIBRARY": "角色扮演庫"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, other {# 個角色}}",

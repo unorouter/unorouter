@@ -3139,7 +3139,7 @@
     },
     "MORE": {
       "OPEN": "مزيد من الإجراءات",
-      "IMPORT_EXPORT": "استيراد / تصدير",
+      "IMPORT_EXPORT": "استيراد / تصدير / تصحيح",
       "EXPORT_NATIVE": "تصدير (أصلي)",
       "EXPORT_ORPG": "تصدير (OpenRouter)",
       "EXPORT_SILLYTAVERN": "تصدير (SillyTavern JSONL)",
@@ -3159,7 +3159,12 @@
       "CLEAR": "مسح الدردشة",
       "CLEAR_SUCCESS": "تمّ مسح الدردشة",
       "CLEAR_CONFIRM_DESC": "هذا يحذف كل رسالة في المحادثة لكنّه يحتفظ بالإعدادات وروابط الشخصية والعنوان. لا يمكن التراجع.",
-      "DISPLAY": "العرض"
+      "DISPLAY": "العرض",
+      "DEBUG": "تصحيح الأخطاء",
+      "DEBUG_LOGGING": "تفعيل تسجيل التصحيح",
+      "DIAGNOSTICS": "تنزيل التشخيص",
+      "DIAGNOSTICS_FULL": "تنزيل التشخيص (كامل)",
+      "RP_LIBRARY": "مكتبة تقمص الأدوار"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, zero {# شخصية} one {شخصية واحدة} two {شخصيتان} few {# شخصيات} many {# شخصية} other {# شخصية}}",

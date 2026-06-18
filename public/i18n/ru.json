@@ -3139,7 +3139,7 @@
     },
     "MORE": {
       "OPEN": "Другие действия",
-      "IMPORT_EXPORT": "Импорт / Экспорт",
+      "IMPORT_EXPORT": "Импорт / Экспорт / Отладка",
       "EXPORT_NATIVE": "Экспорт (нативный)",
       "EXPORT_ORPG": "Экспорт (OpenRouter)",
       "EXPORT_SILLYTAVERN": "Экспорт (SillyTavern JSONL)",
@@ -3159,7 +3159,12 @@
       "CLEAR": "Очистить чат",
       "CLEAR_SUCCESS": "Чат очищен",
       "CLEAR_CONFIRM_DESC": "Будут удалены все сообщения в этой беседе, но настройки, привязанные персонажи и заголовок сохранятся. Это действие необратимо.",
-      "DISPLAY": "Отображение"
+      "DISPLAY": "Отображение",
+      "DEBUG": "Отладка",
+      "DEBUG_LOGGING": "Включить журнал отладки",
+      "DIAGNOSTICS": "Скачать диагностику",
+      "DIAGNOSTICS_FULL": "Скачать диагностику (полную)",
+      "RP_LIBRARY": "Библиотека RP"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, one {# персонаж} few {# персонажа} many {# персонажей} other {# персонажей}}",

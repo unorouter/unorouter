@@ -18,7 +18,13 @@ import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { usePendingDrainScheduler } from "@/hooks/ai/use-pending-drain-scheduler";
 import { acquireLock, releaseLock } from "@/lib/db/client/sync/resource-lock";
 import type { ChatUIMessage } from "@/lib/types";
+import {
+  logChatDebug,
+  setChatDebugEnabled,
+} from "@/lib/utils/chat-debug-log";
+import { debugLoggingEnabledAtom } from "@/store/client-store";
 import { extractErrorDetail, handleError } from "@/lib/utils/client";
+import { useAtomValue } from "jotai";
 import {
   chatHelpersAtom,
   chatStore,
@@ -92,6 +98,14 @@ function ChatRuntimeHook() {
   const remoteIdRef = useRef<string | null>(remoteId ?? null);
   remoteIdRef.current = remoteId ?? null;
   const getConvId = () => remoteIdRef.current ?? chatStore.get(convIdAtom);
+  // Log only on actual thread change, not every render.
+  useEffect(() => {
+    logChatDebug("thread.active", {
+      threadId,
+      remoteId,
+      convIdAtom: chatStore.get(convIdAtom),
+    });
+  }, [threadId, remoteId]);
   const historyAdapter = useHistoryAdapter(getConvId);
   const transport = useChatTransport(getConvId);
 
@@ -120,6 +134,12 @@ function ChatRuntimeHook() {
     },
     onError: (e) => {
       releaseStreamLock();
+      logChatDebug("stream.error", {
+        threadId,
+        remoteId,
+        online: navigator.onLine,
+        error: String(e).slice(0, 200),
+      });
       // Offline: user turn already persisted, user resends manually. Show queued (no error node), still counts as unanswered.
       if (!navigator.onLine) {
         toast.info(t("CHAT.QUEUED_OFFLINE"));
@@ -138,6 +158,7 @@ function ChatRuntimeHook() {
     },
     onFinish: ({ message }) => {
       releaseStreamLock();
+      logChatDebug("stream.finish", { threadId, remoteId, messageId: message.id });
       if (message.metadata?.droppedParams) {
         toast.warning(
           t("RP.DROPPED_PARAMS", { params: message.metadata.droppedParams }),
@@ -156,6 +177,13 @@ function ChatRuntimeHook() {
       // ensureConvId idempotent; reuses attachment seed.
       if (hasText && !remoteId) ensureConvId();
       const convId = chatStore.get(convIdAtom);
+      logChatDebug("send.start", {
+        threadId,
+        remoteId,
+        resolvedConvId: getConvId(),
+        convIdAtom: convId,
+        hasText,
+      });
       if (convId) {
         const lockKey = `conv:${convId}`;
         if (!(await acquireLock(lockKey))) {
@@ -207,6 +235,9 @@ export function ChatRuntimeProvider(props: { children: React.ReactNode }) {
   const queryClient = useQueryClient();
   const t = useTranslations();
   const userId = useLocalUserId();
+  // Mirror the opt-in debug flag into the logger's module scope so logChatDebug stays sync.
+  const debugEnabled = useAtomValue(debugLoggingEnabledAtom);
+  useEffect(() => setChatDebugEnabled(debugEnabled), [debugEnabled]);
   // Drives the pending-task queue (logEnrich retries); drainSoon covers the happy path post-enqueue.
   usePendingDrainScheduler(userId);
   const adapterRef = useRef(

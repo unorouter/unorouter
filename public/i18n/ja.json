@@ -3139,7 +3139,7 @@
     },
     "MORE": {
       "OPEN": "その他の操作",
-      "IMPORT_EXPORT": "Import / Export",
+      "IMPORT_EXPORT": "インポート / エクスポート / デバッグ",
       "EXPORT_NATIVE": "エクスポート (ネイティブ)",
       "EXPORT_ORPG": "エクスポート (OpenRouter)",
       "EXPORT_SILLYTAVERN": "エクスポート (SillyTavern JSONL)",
@@ -3159,7 +3159,12 @@
       "CLEAR": "チャットをクリア",
       "CLEAR_SUCCESS": "チャットをクリアしました",
       "CLEAR_CONFIRM_DESC": "会話内のすべてのメッセージを削除しますが、設定、キャラクターのバインディング、タイトルは保持されます。この操作は取り消せません。",
-      "DISPLAY": "表示"
+      "DISPLAY": "表示",
+      "DEBUG": "デバッグ",
+      "DEBUG_LOGGING": "デバッグログを有効化",
+      "DIAGNOSTICS": "診断をダウンロード",
+      "DIAGNOSTICS_FULL": "診断をダウンロード（完全）",
+      "RP_LIBRARY": "RPライブラリ"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, other {# キャラクター}}",

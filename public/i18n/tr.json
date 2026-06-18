@@ -3139,7 +3139,7 @@
     },
     "MORE": {
       "OPEN": "Daha fazla eylem",
-      "IMPORT_EXPORT": "İçe / Dışa Aktar",
+      "IMPORT_EXPORT": "İçe / Dışa Aktar / Hata Ayıklama",
       "EXPORT_NATIVE": "Dışa Aktar (yerel)",
       "EXPORT_ORPG": "Dışa Aktar (OpenRouter)",
       "EXPORT_SILLYTAVERN": "Dışa Aktar (SillyTavern JSONL)",
@@ -3159,7 +3159,12 @@
       "CLEAR": "Sohbeti temizle",
       "CLEAR_SUCCESS": "Sohbet temizlendi",
       "CLEAR_CONFIRM_DESC": "Bu sohbetteki her mesajı siler ama ayarları, karakter bağlantılarını ve başlığı korur. Bu geri alınamaz.",
-      "DISPLAY": "Görünüm"
+      "DISPLAY": "Görünüm",
+      "DEBUG": "Hata ayıklama",
+      "DEBUG_LOGGING": "Hata ayıklama günlüğünü etkinleştir",
+      "DIAGNOSTICS": "Tanılamayı indir",
+      "DIAGNOSTICS_FULL": "Tanılamayı indir (tam)",
+      "RP_LIBRARY": "RP kitaplığı"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, one {# karakter} other {# karakter}}",

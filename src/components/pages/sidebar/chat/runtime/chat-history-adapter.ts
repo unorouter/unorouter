@@ -36,11 +36,13 @@ import {
   chatHelpersAtom,
   chatModelAtom,
   chatStore,
+  convIdAtom,
   globalVarsAtom,
   historyLoadedAtom,
   lastStreamErrorAtom,
   speakingCharacterIdAtom,
 } from "@/store/chat-store";
+import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import type {
   MessageFormatAdapter,
   MessageFormatItem,
@@ -119,6 +121,12 @@ export function createChatHistoryAdapter(
               allMessages = joinItemsToMessages(msgs, items);
             }
 
+            logChatDebug("history.load", {
+              convId: id,
+              convIdAtom: chatStore.get(convIdAtom),
+              count: allMessages.length,
+              source: cached ? "cache" : "db",
+            });
             return buildRepository(allMessages, formatAdapter);
           } finally {
             chatStore.set(historyLoadedAtom, true);
@@ -131,6 +139,12 @@ export function createChatHistoryAdapter(
           if (!id) return;
 
           const messageId = formatAdapter.getId(item.message);
+          logChatDebug("history.append", {
+            convId: id,
+            convIdAtom: chatStore.get(convIdAtom),
+            messageId,
+            role: (item.message as { role?: string }).role,
+          });
           // Idempotency guard: re-appending a persisted message would re-parent it and cycle the branch tree.
           {
             const existingRows = (await readLocalMessages(userId, id)) ?? [];
@@ -292,7 +306,23 @@ export function createChatHistoryAdapter(
               updatedAt: now,
             });
           }
-          await upsertLocalMessage(userId, newMessage);
+          try {
+            await upsertLocalMessage(userId, newMessage);
+            logChatDebug("history.persisted", {
+              convId: id,
+              userId,
+              messageId,
+              role: content.role,
+            });
+          } catch (e) {
+            logChatDebug("history.persist_error", {
+              convId: id,
+              userId,
+              messageId,
+              error: String(e).slice(0, 200),
+            });
+            throw e;
+          }
 
           const itemRows = items.map((it, seq) => ({
             id: it.id ?? uid(),
