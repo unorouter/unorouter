@@ -192,9 +192,9 @@ async function reconcileSchema(
     // Absent tables were just created by the migration replay above.
     if (!current || normDdl(current) === normDdl(create)) continue;
 
-    // Rebuild (SQLite 12-step): the manifest is the source of truth. Build a new table from its
+    // Rebuild (SQLite 12-step): the manifest is the source of truth. Build a new from its
     // DDL, copy the column intersection (a column only in the old table is intentionally dropped),
-    // swap, recreate indexes. Wrapping the swap so a failure leaves the original table intact.
+    // swap, recreate indexes. Wrapping the swap so a failure leaves the original intact.
     if (!fkOff) {
       await sql.sql`PRAGMA foreign_keys = OFF`;
       fkOff = true;
