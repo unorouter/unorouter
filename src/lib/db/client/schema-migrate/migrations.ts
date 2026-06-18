@@ -14,6 +14,10 @@ export async function runMigrations(sql: SQLocalDrizzle): Promise<void> {
   // SQLite default is OFF; needed for schema cascade deletes to fire.
   await sql.sql`PRAGMA foreign_keys = ON`;
 
+  // One cached connection serves all reads+writes; sequential upserts (conversation -> message
+  // -> items) can collide. Wait out a transient lock instead of failing into a full reopen.
+  await sql.sql`PRAGMA busy_timeout = 5000`;
+
   // The cursor table is read before the manifest, so a normal migration can't rename it. Bootstrap: recreate as local_migrations, copy the row, drop old.
   await migrateCursorTable(sql);
 
@@ -188,6 +192,24 @@ async function reconcileSchema(
     // Absent tables were just created by the migration replay above.
     if (!current || normDdl(current) === normDdl(create)) continue;
 
+    // A live column missing from the manifest = a schema change shipped without a migration
+    // (edit shared.ts, forget db:generate). Rebuilding drops that column's data, so skip it.
+    const actual = await sql.sql<{ name: string }>(
+      `PRAGMA table_info(\`${table}\`)`,
+    );
+    const manifestCols = ddl.colDefs.map(colName);
+    const orphans = actual
+      .map((r) => r.name)
+      .filter((c) => !manifestCols.includes(c));
+    if (orphans.length > 0) {
+      logger.error("reconcileSchema skipped rebuild: unmigrated columns", {
+        context: "local-db.migrations.reconcile",
+        table,
+        orphans,
+      });
+      continue;
+    }
+
     // Rebuild (SQLite 12-step): new table from manifest DDL, copy the column intersection, swap, recreate indexes.
     if (!fkOff) {
       await sql.sql`PRAGMA foreign_keys = OFF`;
@@ -198,15 +220,12 @@ async function reconcileSchema(
     await sql.sql(
       create.replace(/^CREATE TABLE\s+`[^`]+`/, `CREATE TABLE \`${tmp}\``),
     );
-    const actual = await sql.sql<{ name: string }>(
-      `PRAGMA table_info(\`${table}\`)`,
+    const shared = manifestCols.filter((c) =>
+      actual.some((r) => r.name === c),
     );
-    const shared = ddl.colDefs
-      .map(colName)
-      .filter((c) => actual.some((r) => r.name === c));
+
     if (shared.length > 0) {
       const colList = shared.map((c) => `\`${c}\``).join(", ");
-      // Count before/after: OR IGNORE silently drops rows the tightened schema rejects, so surface the loss.
       const before = await sql.sql<{ n: number }>(
         `SELECT count(*) AS n FROM \`${table}\``,
       );
@@ -217,14 +236,15 @@ async function reconcileSchema(
         `SELECT count(*) AS n FROM \`${tmp}\``,
       );
       const dropped = (before[0]?.n ?? 0) - (after[0]?.n ?? 0);
+      // OR IGNORE drops rows the tightened schema rejects. Don't destroy them: skip the swap.
       if (dropped > 0) {
-        logger.warn("reconcileSchema dropped rows on rebuild", {
+        await sql.sql(`DROP TABLE IF EXISTS \`${tmp}\``);
+        logger.error("reconcileSchema skipped rebuild: would drop rows", {
           context: "local-db.migrations.reconcile",
           table,
-          sourceRows: before[0]?.n ?? 0,
-          keptRows: after[0]?.n ?? 0,
           dropped,
         });
+        continue;
       }
     }
     await sql.sql(`DROP TABLE \`${table}\``);
