@@ -42,10 +42,16 @@ import { useParams } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { toast } from "sonner";
 
-function useHistoryAdapter() {
+// getConvId resolves THIS thread's conv id (not the global convIdAtom): the adapter
+// load()/append() must be thread-scoped or refreshing with >1 chat merges their histories.
+function useHistoryAdapter(getConvId: () => string | null) {
   const queryClient = useQueryClient();
   const adapterRef = useRef(
-    createChatHistoryAdapter(queryClient, () => chatStore.get(localUserIdAtom)),
+    createChatHistoryAdapter(
+      queryClient,
+      () => chatStore.get(localUserIdAtom),
+      getConvId,
+    ),
   );
   return adapterRef.current;
 }
@@ -79,7 +85,14 @@ function ChatRuntimeHook() {
   useConvIdSync(remoteId);
   useModelSync(remoteId);
   useGroupSync(remoteId);
-  const historyAdapter = useHistoryAdapter();
+  // Thread-scoped conv id for the history adapter. remoteId is this thread's DB id;
+  // the convIdAtom fallback covers the first send of a brand-new unsaved thread
+  // (no remoteId yet, no other thread to merge with).
+  const remoteIdRef = useRef<string | null>(remoteId ?? null);
+  remoteIdRef.current = remoteId ?? null;
+  const historyAdapter = useHistoryAdapter(
+    () => remoteIdRef.current ?? chatStore.get(convIdAtom),
+  );
   const transport = useChatTransport();
 
   // Per-conv stream lock, released in onFinish/onError. The rotation loop holds it across speakers, so rotatingRef gates onFinish.

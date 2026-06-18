@@ -36,7 +36,6 @@ import {
   chatHelpersAtom,
   chatModelAtom,
   chatStore,
-  convIdAtom,
   globalVarsAtom,
   historyLoadedAtom,
   lastStreamErrorAtom,
@@ -80,6 +79,7 @@ function buildRepository<TMessage>(
 export function createChatHistoryAdapter(
   queryClient: QueryClient,
   getUserId: () => number,
+  getConvId: () => string | null,
 ): ThreadHistoryAdapter {
   return {
     async load() {
@@ -100,7 +100,7 @@ export function createChatHistoryAdapter(
       return {
         async load(): Promise<MessageFormatRepository<TMessage>> {
           try {
-            const id = chatStore.get(convIdAtom);
+            const id = getConvId();
             if (!id) return { messages: [] };
             const userId = getUserId();
 
@@ -126,7 +126,7 @@ export function createChatHistoryAdapter(
         },
 
         async append(item: MessageFormatItem<TMessage>) {
-          const id = chatStore.get(convIdAtom);
+          const id = getConvId();
           const userId = getUserId();
           if (!id) return;
 
