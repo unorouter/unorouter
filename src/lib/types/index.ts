@@ -143,6 +143,12 @@ export type LocalClient = {
   destroy: () => Promise<void>;
   deleteDatabaseFile: () => Promise<void>;
   getDatabaseFile: () => Promise<File>;
+  getDatabaseInfo: () => Promise<{
+    databasePath?: string;
+    databaseSizeBytes?: number;
+    storageType?: string;
+    persisted?: boolean;
+  }>;
   overwriteDatabaseFile: (file: File | Blob | ArrayBuffer) => Promise<void>;
   reactiveQuery: (query: unknown) => {
     subscribe: (

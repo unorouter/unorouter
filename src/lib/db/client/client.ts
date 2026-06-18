@@ -119,6 +119,7 @@ async function openClient(userId: number): Promise<LocalClient> {
     destroy: () => sql.destroy(),
     deleteDatabaseFile: () => sql.deleteDatabaseFile(),
     getDatabaseFile: () => sql.getDatabaseFile(),
+    getDatabaseInfo: () => sql.getDatabaseInfo(),
     overwriteDatabaseFile: (file) => sql.overwriteDatabaseFile(file),
     reactiveQuery: (query) => sql.reactiveQuery(query),
   };
