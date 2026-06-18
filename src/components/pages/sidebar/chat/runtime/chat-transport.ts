@@ -8,7 +8,6 @@ import {
   chatModelAtom,
   chatStore,
   chatWebSearchAtom,
-  convIdAtom,
   globalVarsAtom,
   localUserIdAtom,
   speakingCharacterIdAtom,
@@ -56,14 +55,18 @@ function hashableContext(ctx: unknown): string {
   return JSON.stringify({ ...c, settings });
 }
 
-// Built once; the body callback reads the live local user from the store.
-export function useChatTransport() {
+// getConvId resolves THIS thread's conv id (not the global convIdAtom). With >1 chat the global
+// atom holds the last-active conv, so an async body() (delayed on iOS background tabs) would build
+// the WRONG conversation's context and merge it into this send. The ref keeps it thread-scoped.
+export function useChatTransport(getConvId: () => string | null) {
+  const getConvIdRef = useRef(getConvId);
+  getConvIdRef.current = getConvId;
   const transportRef = useRef(
     new DefaultChatTransport({
       api: "/api/ai/chat/stream",
       body: async () => {
         const userId = chatStore.get(localUserIdAtom);
-        const convId = chatStore.get(convIdAtom);
+        const convId = getConvIdRef.current();
         // Dynamic: the RP context builder drags ~110KB lorebook/trigger machinery off first-paint chunks.
         const loadout = chatStore.get(chatLoadoutAtom);
         const baseContext = convId

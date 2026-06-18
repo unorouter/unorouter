@@ -85,15 +85,15 @@ function ChatRuntimeHook() {
   useConvIdSync(remoteId);
   useModelSync(remoteId);
   useGroupSync(remoteId);
-  // Thread-scoped conv id for the history adapter. remoteId is this thread's DB id;
-  // the convIdAtom fallback covers the first send of a brand-new unsaved thread
-  // (no remoteId yet, no other thread to merge with).
+  // Thread-scoped conv id for the history adapter AND the stream transport. remoteId is this
+  // thread's DB id; the convIdAtom fallback covers the first send of a brand-new unsaved thread
+  // (no remoteId yet, no other thread to merge with). Reading the global atom directly would
+  // build the wrong conversation's context when >1 chat is open (merge bug).
   const remoteIdRef = useRef<string | null>(remoteId ?? null);
   remoteIdRef.current = remoteId ?? null;
-  const historyAdapter = useHistoryAdapter(
-    () => remoteIdRef.current ?? chatStore.get(convIdAtom),
-  );
-  const transport = useChatTransport();
+  const getConvId = () => remoteIdRef.current ?? chatStore.get(convIdAtom);
+  const historyAdapter = useHistoryAdapter(getConvId);
+  const transport = useChatTransport(getConvId);
 
   // Per-conv stream lock, released in onFinish/onError. The rotation loop holds it across speakers, so rotatingRef gates onFinish.
   const streamLockKeyRef = useRef<string | null>(null);
