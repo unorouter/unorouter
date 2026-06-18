@@ -3162,8 +3162,8 @@
       "DISPLAY": "顯示",
       "DEBUG": "除錯",
       "DEBUG_LOGGING": "啟用除錯日誌",
-      "DIAGNOSTICS": "下載診斷",
-      "DIAGNOSTICS_FULL": "下載診斷（完整）",
+      "DIAGNOSTICS": "下載日誌（不含訊息）",
+      "DIAGNOSTICS_FULL": "下載日誌 + 訊息",
       "RP_LIBRARY": "角色扮演庫"
     },
     "ACTIVE_CONFIG": {

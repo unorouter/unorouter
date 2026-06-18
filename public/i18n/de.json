@@ -3162,8 +3162,8 @@
       "DISPLAY": "Anzeige",
       "DEBUG": "Diagnose",
       "DEBUG_LOGGING": "Debug-Protokollierung aktivieren",
-      "DIAGNOSTICS": "Diagnose herunterladen",
-      "DIAGNOSTICS_FULL": "Diagnose herunterladen (vollständig)",
+      "DIAGNOSTICS": "Protokoll herunterladen (ohne Nachrichten)",
+      "DIAGNOSTICS_FULL": "Protokoll + Nachrichten herunterladen",
       "RP_LIBRARY": "RP-Bibliothek"
     },
     "ACTIVE_CONFIG": {

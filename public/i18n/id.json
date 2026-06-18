@@ -3162,8 +3162,8 @@
       "DISPLAY": "Tampilan",
       "DEBUG": "Debug",
       "DEBUG_LOGGING": "Aktifkan pencatatan debug",
-      "DIAGNOSTICS": "Unduh diagnostik",
-      "DIAGNOSTICS_FULL": "Unduh diagnostik (lengkap)",
+      "DIAGNOSTICS": "Unduh log (tanpa pesan)",
+      "DIAGNOSTICS_FULL": "Unduh log + pesan",
       "RP_LIBRARY": "Pustaka RP"
     },
     "ACTIVE_CONFIG": {

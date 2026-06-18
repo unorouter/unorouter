@@ -3162,8 +3162,8 @@
       "DISPLAY": "Exibição",
       "DEBUG": "Depuração",
       "DEBUG_LOGGING": "Ativar registro de depuração",
-      "DIAGNOSTICS": "Baixar diagnóstico",
-      "DIAGNOSTICS_FULL": "Baixar diagnóstico (completo)",
+      "DIAGNOSTICS": "Baixar registro (sem mensagens)",
+      "DIAGNOSTICS_FULL": "Baixar registro + mensagens",
       "RP_LIBRARY": "Biblioteca RP"
     },
     "ACTIVE_CONFIG": {

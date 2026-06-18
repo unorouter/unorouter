@@ -3162,8 +3162,8 @@
       "DISPLAY": "Visualizzazione",
       "DEBUG": "Debug",
       "DEBUG_LOGGING": "Attiva registrazione di debug",
-      "DIAGNOSTICS": "Scarica diagnostica",
-      "DIAGNOSTICS_FULL": "Scarica diagnostica (completa)",
+      "DIAGNOSTICS": "Scarica registro (senza messaggi)",
+      "DIAGNOSTICS_FULL": "Scarica registro + messaggi",
       "RP_LIBRARY": "Libreria RP"
     },
     "ACTIVE_CONFIG": {

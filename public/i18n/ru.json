@@ -3162,8 +3162,8 @@
       "DISPLAY": "Отображение",
       "DEBUG": "Отладка",
       "DEBUG_LOGGING": "Включить журнал отладки",
-      "DIAGNOSTICS": "Скачать диагностику",
-      "DIAGNOSTICS_FULL": "Скачать диагностику (полную)",
+      "DIAGNOSTICS": "Скачать журнал (без сообщений)",
+      "DIAGNOSTICS_FULL": "Скачать журнал + сообщения",
       "RP_LIBRARY": "Библиотека RP"
     },
     "ACTIVE_CONFIG": {

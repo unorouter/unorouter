@@ -3162,8 +3162,8 @@
       "DISPLAY": "显示",
       "DEBUG": "调试",
       "DEBUG_LOGGING": "启用调试日志",
-      "DIAGNOSTICS": "下载诊断",
-      "DIAGNOSTICS_FULL": "下载诊断（完整）",
+      "DIAGNOSTICS": "下载日志（不含消息）",
+      "DIAGNOSTICS_FULL": "下载日志 + 消息",
       "RP_LIBRARY": "角色扮演库"
     },
     "ACTIVE_CONFIG": {

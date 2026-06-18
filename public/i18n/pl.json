@@ -3162,8 +3162,8 @@
       "DISPLAY": "Wyświetlanie",
       "DEBUG": "Debugowanie",
       "DEBUG_LOGGING": "Włącz rejestrowanie debugowania",
-      "DIAGNOSTICS": "Pobierz diagnostykę",
-      "DIAGNOSTICS_FULL": "Pobierz diagnostykę (pełną)",
+      "DIAGNOSTICS": "Pobierz dziennik (bez wiadomości)",
+      "DIAGNOSTICS_FULL": "Pobierz dziennik + wiadomości",
       "RP_LIBRARY": "Biblioteka RP"
     },
     "ACTIVE_CONFIG": {
