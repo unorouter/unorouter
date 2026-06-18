@@ -27,7 +27,7 @@ import {
   chatLoadoutAtom,
   chatModelAtom,
   chatStore,
-  ensureConvId,
+  freshConvId,
   greetingIndexAtom,
 } from "@/store/chat-store";
 import type { RemoteThreadListAdapter } from "@assistant-ui/react";
@@ -80,7 +80,8 @@ export function createThreadListAdapter(
         model = pricing?.firstFreeModel?.name ?? null;
       }
       if (!model) throw new Error(t("ERRORS.NO_TEXT_MODELS"));
-      const id = ensureConvId();
+      // A new chat must get a FRESH id, never inherit a stale convIdAtom (the merge bug).
+      const id = freshConvId();
 
       const now = dayjs().toDate();
 

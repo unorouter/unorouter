@@ -3160,11 +3160,8 @@
       "CLEAR_SUCCESS": "Chat geleert",
       "CLEAR_CONFIRM_DESC": "Dadurch werden alle Nachrichten dieser Unterhaltung gelöscht, die Einstellungen, Charakterbindungen und der Titel bleiben jedoch erhalten. Diese Aktion kann nicht rückgängig gemacht werden.",
       "DISPLAY": "Anzeige",
-      "DEBUG": "Diagnose",
-      "DEBUG_LOGGING": "Debug-Protokollierung aktivieren",
       "DIAGNOSTICS": "Protokoll herunterladen (ohne Nachrichten)",
       "DIAGNOSTICS_FULL": "Protokoll + Nachrichten herunterladen",
-      "RP_LIBRARY": "RP-Bibliothek",
       "DEBUG_CLEAR": "Debug-Protokoll löschen",
       "DEBUG_CLEARED": "Debug-Protokoll gelöscht"
     },

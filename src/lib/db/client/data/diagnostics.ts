@@ -4,10 +4,7 @@ import {
   readLocalMessages,
 } from "@/lib/db/client/data/chat";
 import { readLocalRequestLogsForConv } from "@/lib/db/client/data/request-log";
-import {
-  getChatDebugLog,
-  isChatDebugEnabled,
-} from "@/lib/utils/chat-debug-log";
+import { getChatDebugLog } from "@/lib/utils/chat-debug-log";
 import { chatStore, convIdAtom, historyLoadedAtom } from "@/store/chat-store";
 import { dayjs } from "@/lib/utils/format/date";
 
@@ -43,7 +40,6 @@ export async function buildDiagnostics(
     url: location.href,
     convIdAtom: chatStore.get(convIdAtom),
     historyLoaded: chatStore.get(historyLoadedAtom),
-    debugLoggingEnabled: isChatDebugEnabled(),
   };
 
   let dbInfo: Record<string, unknown> = {};

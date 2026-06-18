@@ -14,7 +14,6 @@ export type ClientState = {
   paymentMethod: PaymentMethod;
   sidebarOpen: boolean;
   expanded: Record<string, boolean>;
-  debugLoggingEnabled: boolean;
 };
 
 export const INITIAL_CLIENT_STATE: ClientState = {
@@ -24,7 +23,6 @@ export const INITIAL_CLIENT_STATE: ClientState = {
   paymentMethod: "card",
   sidebarOpen: true,
   expanded: {},
-  debugLoggingEnabled: false,
 };
 
 export const clientStoreAtom = atomWithStorage<ClientState>(
@@ -73,15 +71,6 @@ export const sidebarOpenAtom = atom(
   (get) => get(clientStoreAtom).sidebarOpen ?? INITIAL_CLIENT_STATE.sidebarOpen,
   (get, set, value: boolean) => {
     set(clientStoreAtom, { ...get(clientStoreAtom), sidebarOpen: value });
-  },
-);
-
-export const debugLoggingEnabledAtom = atom(
-  (get) =>
-    get(clientStoreAtom).debugLoggingEnabled ??
-    INITIAL_CLIENT_STATE.debugLoggingEnabled,
-  (get, set, value: boolean) => {
-    set(clientStoreAtom, { ...get(clientStoreAtom), debugLoggingEnabled: value });
   },
 );
 

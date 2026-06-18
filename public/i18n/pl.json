@@ -3160,11 +3160,8 @@
       "CLEAR_SUCCESS": "Chat wyczyszczony",
       "CLEAR_CONFIRM_DESC": "To usuwa każdą wiadomość w rozmowie, ale zachowuje ustawienia, powiązania postaci i tytuł. Nie można cofnąć.",
       "DISPLAY": "Wyświetlanie",
-      "DEBUG": "Debugowanie",
-      "DEBUG_LOGGING": "Włącz rejestrowanie debugowania",
       "DIAGNOSTICS": "Pobierz dziennik (bez wiadomości)",
       "DIAGNOSTICS_FULL": "Pobierz dziennik + wiadomości",
-      "RP_LIBRARY": "Biblioteka RP",
       "DEBUG_CLEAR": "Wyczyść dziennik debugowania",
       "DEBUG_CLEARED": "Dziennik debugowania wyczyszczony"
     },

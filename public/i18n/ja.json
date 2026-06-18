@@ -3160,11 +3160,8 @@
       "CLEAR_SUCCESS": "チャットをクリアしました",
       "CLEAR_CONFIRM_DESC": "会話内のすべてのメッセージを削除しますが、設定、キャラクターのバインディング、タイトルは保持されます。この操作は取り消せません。",
       "DISPLAY": "表示",
-      "DEBUG": "デバッグ",
-      "DEBUG_LOGGING": "デバッグログを有効化",
       "DIAGNOSTICS": "ログをダウンロード（メッセージなし）",
       "DIAGNOSTICS_FULL": "ログ + メッセージをダウンロード",
-      "RP_LIBRARY": "RPライブラリ",
       "DEBUG_CLEAR": "デバッグログを消去",
       "DEBUG_CLEARED": "デバッグログを消去しました"
     },

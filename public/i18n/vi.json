@@ -3160,11 +3160,8 @@
       "CLEAR_SUCCESS": "Đã xóa cuộc trò chuyện",
       "CLEAR_CONFIRM_DESC": "Hành động này sẽ xóa mọi tin nhắn trong cuộc trò chuyện nhưng giữ lại cài đặt, ràng buộc nhân vật và tiêu đề. Không thể hoàn tác.",
       "DISPLAY": "Hiển thị",
-      "DEBUG": "Gỡ lỗi",
-      "DEBUG_LOGGING": "Bật ghi nhật ký gỡ lỗi",
       "DIAGNOSTICS": "Tải nhật ký (không có tin nhắn)",
       "DIAGNOSTICS_FULL": "Tải nhật ký + tin nhắn",
-      "RP_LIBRARY": "Thư viện RP",
       "DEBUG_CLEAR": "Xóa nhật ký gỡ lỗi",
       "DEBUG_CLEARED": "Đã xóa nhật ký gỡ lỗi"
     },
