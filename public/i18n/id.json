@@ -3164,7 +3164,9 @@
       "DEBUG_LOGGING": "Aktifkan pencatatan debug",
       "DIAGNOSTICS": "Unduh log (tanpa pesan)",
       "DIAGNOSTICS_FULL": "Unduh log + pesan",
-      "RP_LIBRARY": "Pustaka RP"
+      "RP_LIBRARY": "Pustaka RP",
+      "DEBUG_CLEAR": "Hapus log debug",
+      "DEBUG_CLEARED": "Log debug dihapus"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, other {# karakter}}",

@@ -3164,7 +3164,9 @@
       "DEBUG_LOGGING": "디버그 로깅 활성화",
       "DIAGNOSTICS": "로그 다운로드(메시지 제외)",
       "DIAGNOSTICS_FULL": "로그 + 메시지 다운로드",
-      "RP_LIBRARY": "RP 라이브러리"
+      "RP_LIBRARY": "RP 라이브러리",
+      "DEBUG_CLEAR": "디버그 로그 지우기",
+      "DEBUG_CLEARED": "디버그 로그를 지웠습니다"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, other {캐릭터 #개}}",

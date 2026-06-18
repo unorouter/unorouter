@@ -3164,7 +3164,9 @@
       "DEBUG_LOGGING": "Attiva registrazione di debug",
       "DIAGNOSTICS": "Scarica registro (senza messaggi)",
       "DIAGNOSTICS_FULL": "Scarica registro + messaggi",
-      "RP_LIBRARY": "Libreria RP"
+      "RP_LIBRARY": "Libreria RP",
+      "DEBUG_CLEAR": "Cancella registro di debug",
+      "DEBUG_CLEARED": "Registro di debug cancellato"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, one {# personaggio} other {# personaggi}}",

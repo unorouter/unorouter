@@ -3164,7 +3164,9 @@
       "DEBUG_LOGGING": "启用调试日志",
       "DIAGNOSTICS": "下载日志（不含消息）",
       "DIAGNOSTICS_FULL": "下载日志 + 消息",
-      "RP_LIBRARY": "角色扮演库"
+      "RP_LIBRARY": "角色扮演库",
+      "DEBUG_CLEAR": "清除调试日志",
+      "DEBUG_CLEARED": "调试日志已清除"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, other {# 个角色}}",

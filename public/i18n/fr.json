@@ -3164,7 +3164,9 @@
       "DEBUG_LOGGING": "Activer la journalisation de débogage",
       "DIAGNOSTICS": "Télécharger le journal (sans messages)",
       "DIAGNOSTICS_FULL": "Télécharger le journal + messages",
-      "RP_LIBRARY": "Bibliothèque RP"
+      "RP_LIBRARY": "Bibliothèque RP",
+      "DEBUG_CLEAR": "Effacer le journal de débogage",
+      "DEBUG_CLEARED": "Journal de débogage effacé"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, one {# personnage} other {# personnages}}",

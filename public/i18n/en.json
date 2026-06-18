@@ -3164,7 +3164,9 @@
       "DEBUG_LOGGING": "Enable debug logging",
       "DIAGNOSTICS": "Download log (no messages)",
       "DIAGNOSTICS_FULL": "Download log + messages",
-      "RP_LIBRARY": "RP library"
+      "RP_LIBRARY": "RP library",
+      "DEBUG_CLEAR": "Clear debug log",
+      "DEBUG_CLEARED": "Debug log cleared"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, one {# character} other {# characters}}",
