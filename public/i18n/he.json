@@ -3162,8 +3162,8 @@
       "DISPLAY": "תצוגה",
       "DEBUG": "ניפוי באגים",
       "DEBUG_LOGGING": "הפעלת רישום ניפוי באגים",
-      "DIAGNOSTICS": "הורדת אבחון",
-      "DIAGNOSTICS_FULL": "הורדת אבחון (מלא)",
+      "DIAGNOSTICS": "הורדת יומן (ללא הודעות)",
+      "DIAGNOSTICS_FULL": "הורדת יומן + הודעות",
       "RP_LIBRARY": "ספריית RP"
     },
     "ACTIVE_CONFIG": {

@@ -3162,8 +3162,8 @@
       "DISPLAY": "प्रदर्शन",
       "DEBUG": "डिबग",
       "DEBUG_LOGGING": "डिबग लॉगिंग सक्षम करें",
-      "DIAGNOSTICS": "निदान डाउनलोड करें",
-      "DIAGNOSTICS_FULL": "निदान डाउनलोड करें (पूर्ण)",
+      "DIAGNOSTICS": "लॉग डाउनलोड करें (संदेश रहित)",
+      "DIAGNOSTICS_FULL": "लॉग + संदेश डाउनलोड करें",
       "RP_LIBRARY": "आरपी लाइब्रेरी"
     },
     "ACTIVE_CONFIG": {

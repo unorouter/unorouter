@@ -3162,8 +3162,8 @@
       "DISPLAY": "Display",
       "DEBUG": "Debug",
       "DEBUG_LOGGING": "Enable debug logging",
-      "DIAGNOSTICS": "Download diagnostics",
-      "DIAGNOSTICS_FULL": "Download diagnostics (full)",
+      "DIAGNOSTICS": "Download log (no messages)",
+      "DIAGNOSTICS_FULL": "Download log + messages",
       "RP_LIBRARY": "RP library"
     },
     "ACTIVE_CONFIG": {

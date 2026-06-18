@@ -3162,8 +3162,8 @@
       "DISPLAY": "Görünüm",
       "DEBUG": "Hata ayıklama",
       "DEBUG_LOGGING": "Hata ayıklama günlüğünü etkinleştir",
-      "DIAGNOSTICS": "Tanılamayı indir",
-      "DIAGNOSTICS_FULL": "Tanılamayı indir (tam)",
+      "DIAGNOSTICS": "Günlüğü indir (mesajsız)",
+      "DIAGNOSTICS_FULL": "Günlük + mesajları indir",
       "RP_LIBRARY": "RP kitaplığı"
     },
     "ACTIVE_CONFIG": {

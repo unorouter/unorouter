@@ -3162,8 +3162,8 @@
       "DISPLAY": "العرض",
       "DEBUG": "تصحيح الأخطاء",
       "DEBUG_LOGGING": "تفعيل تسجيل التصحيح",
-      "DIAGNOSTICS": "تنزيل التشخيص",
-      "DIAGNOSTICS_FULL": "تنزيل التشخيص (كامل)",
+      "DIAGNOSTICS": "تنزيل السجل (بدون رسائل)",
+      "DIAGNOSTICS_FULL": "تنزيل السجل + الرسائل",
       "RP_LIBRARY": "مكتبة تقمص الأدوار"
     },
     "ACTIVE_CONFIG": {

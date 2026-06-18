@@ -3162,8 +3162,8 @@
       "DISPLAY": "Hiển thị",
       "DEBUG": "Gỡ lỗi",
       "DEBUG_LOGGING": "Bật ghi nhật ký gỡ lỗi",
-      "DIAGNOSTICS": "Tải xuống chẩn đoán",
-      "DIAGNOSTICS_FULL": "Tải xuống chẩn đoán (đầy đủ)",
+      "DIAGNOSTICS": "Tải nhật ký (không có tin nhắn)",
+      "DIAGNOSTICS_FULL": "Tải nhật ký + tin nhắn",
       "RP_LIBRARY": "Thư viện RP"
     },
     "ACTIVE_CONFIG": {

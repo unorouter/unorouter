@@ -3162,8 +3162,8 @@
       "DISPLAY": "Affichage",
       "DEBUG": "Débogage",
       "DEBUG_LOGGING": "Activer la journalisation de débogage",
-      "DIAGNOSTICS": "Télécharger le diagnostic",
-      "DIAGNOSTICS_FULL": "Télécharger le diagnostic (complet)",
+      "DIAGNOSTICS": "Télécharger le journal (sans messages)",
+      "DIAGNOSTICS_FULL": "Télécharger le journal + messages",
       "RP_LIBRARY": "Bibliothèque RP"
     },
     "ACTIVE_CONFIG": {
