@@ -80,6 +80,11 @@ export enum Vendor {
   ALLENAI = "ai2",
   AI21 = "ai21 labs",
   NOUS = "nous research",
+  VOIDAI = "voidai",
+  ZANITY = "zanity",
+  DEEPL = "deepl",
+  ELEVENLABS = "elevenlabs",
+  SPEECHIFY = "speechify",
 }
 
 export enum OS {

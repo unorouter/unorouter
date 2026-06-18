@@ -467,6 +467,46 @@ const VENDOR_THEMES: Record<string, VendorTheme> = {
     tagBorder: "border-stone-500/20",
     primary: "#57534e",
   },
+  [Vendor.VOIDAI]: {
+    bg: "bg-violet-500/5",
+    border: "border-violet-500/20",
+    text: "text-violet-700 dark:text-violet-300",
+    tagBg: "bg-violet-500/10",
+    tagBorder: "border-violet-500/20",
+    primary: "#7c3aed",
+  },
+  [Vendor.ZANITY]: {
+    bg: "bg-pink-500/5",
+    border: "border-pink-500/20",
+    text: "text-pink-700 dark:text-pink-300",
+    tagBg: "bg-pink-500/10",
+    tagBorder: "border-pink-500/20",
+    primary: "#ec4899",
+  },
+  [Vendor.DEEPL]: {
+    bg: "bg-blue-500/5",
+    border: "border-blue-500/20",
+    text: "text-blue-700 dark:text-blue-300",
+    tagBg: "bg-blue-500/10",
+    tagBorder: "border-blue-500/20",
+    primary: "#0f2b46",
+  },
+  [Vendor.ELEVENLABS]: {
+    bg: "bg-zinc-500/5",
+    border: "border-zinc-500/20",
+    text: "text-zinc-700 dark:text-zinc-300",
+    tagBg: "bg-zinc-500/10",
+    tagBorder: "border-zinc-500/20",
+    primary: "#1a1a1a",
+  },
+  [Vendor.SPEECHIFY]: {
+    bg: "bg-red-500/5",
+    border: "border-red-500/20",
+    text: "text-red-700 dark:text-red-300",
+    tagBg: "bg-red-500/10",
+    tagBorder: "border-red-500/20",
+    primary: "#ef4444",
+  },
 };
 
 export const DEFAULT_THEME: VendorTheme = {

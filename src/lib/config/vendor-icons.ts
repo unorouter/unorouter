@@ -113,6 +113,12 @@ export const VENDOR_LOADERS: Partial<Record<Vendor, IconLoader>> = {
   [Vendor.X_AI]: () => import("@lobehub/icons/es/XAI"),
   [Vendor.XIAOMI]: () => import("@lobehub/icons/es/XiaomiMiMo"),
   [Vendor.ZHIPU]: () => import("@lobehub/icons/es/Zhipu"),
+  [Vendor.DEEPL]: () => import("@lobehub/icons/es/DeepL"),
+  [Vendor.ELEVENLABS]: () => import("@lobehub/icons/es/ElevenLabs"),
+  [Vendor.VOIDAI]: () => import("@/components/elements/brand/voidai-icon"),
+  [Vendor.ZANITY]: () => import("@/components/elements/brand/zanity-icon"),
+  [Vendor.SPEECHIFY]: () =>
+    import("@/components/elements/brand/speechify-icon"),
 };
 
 /** Aliases for vendor strings that don't match a `Vendor` enum value (e.g.
