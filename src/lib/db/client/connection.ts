@@ -24,7 +24,12 @@ function isContentionDbError(err: unknown): boolean {
     s.includes("NotFoundError") ||
     s.includes("SQLITE_IOERR") ||
     s.includes("SQLITE_CANTOPEN") ||
-    s.includes("SQLITE_BUSY")
+    s.includes("SQLITE_BUSY") ||
+    // The handle was destroyed under us (a pagehide/beforeunload release() that fired on a
+    // BFcache restore, tab background, or mobile minimize, but the page did not actually
+    // unload). The data is fine; reopen and replay. Without this, every later query throws
+    // "client has been destroyed" and the chat looks empty until a manual refresh.
+    s.includes("client has been destroyed")
   );
 }
 
@@ -41,7 +46,9 @@ function isCorruptionDbError(err: unknown): boolean {
   );
 }
 
-const RECOVERABLE_OPEN_RETRIES = 6;
+// 8 tries -> backoff 50,100,200,400,800,1600,3200,6400ms (~12.75s total). A cross-tab SAH
+// can stay locked for seconds after the holder's destroy; the ceiling must outlast that.
+const RECOVERABLE_OPEN_RETRIES = 8;
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 // Open + migrate. Contention -> retry the open (a racing tab's handle releases in ms). Genuine

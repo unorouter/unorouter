@@ -11,6 +11,11 @@ import { LocalDbConnection, openMigratedSql } from "./connection";
 // Per-user OPFS file, lazy WASM import. Open/salvage/self-heal live in connection.ts; this file is the cache + LocalClient surface wiring.
 
 let cached = new Map<number, Promise<LocalClient>>();
+// A pagehide/beforeunload release() destroys the handle fire-and-forget; the SAH can stay
+// locked for seconds after. A reopen racing that release hits sustained contention and can
+// exhaust the open retries -> the DB looks empty on load. Track the in-flight release per
+// userId and await it before reopening so destroy->reopen is serialized, not raced.
+const releasing = new Map<number, Promise<void>>();
 
 export async function getLocalDb(
   userId: number | undefined = GUEST_USER_ID,
@@ -20,7 +25,12 @@ export async function getLocalDb(
   const existing = cached.get(userId);
   if (existing) return existing;
 
-  const promise = openClient(userId);
+  const pendingRelease = releasing.get(userId);
+
+  const promise = (async () => {
+    if (pendingRelease) await pendingRelease.catch(() => {});
+    return openClient(userId);
+  })();
   cached.set(userId, promise);
   try {
     return await promise;
@@ -60,7 +70,15 @@ async function openClient(userId: number): Promise<LocalClient> {
   if (typeof window !== "undefined") {
     const release = () => {
       cached.delete(userId);
-      void wrapped.destroy().catch(() => {});
+      // Record the destroy so a racing reopen (BFcache restore, fast reload) awaits it instead
+      // of fighting the still-locked SAH. Cleared once destroy settles.
+      const done = wrapped
+        .destroy()
+        .catch(() => {})
+        .finally(() => {
+          if (releasing.get(userId) === done) releasing.delete(userId);
+        });
+      releasing.set(userId, done);
     };
     window.addEventListener("pagehide", release, { once: true });
     window.addEventListener("beforeunload", release, { once: true });
