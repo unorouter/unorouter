@@ -4,7 +4,7 @@
   "private": true,
   "overrides": {
     "@assistant-ui/core": "0.2.18",
-    "@assistant-ui/store": "0.2.16"
+    "@assistant-ui/store": "0.2.18"
   },
   "scripts": {
     "dev": "next dev",
@@ -131,6 +131,6 @@
     "typescript": "6.0.3"
   },
   "patchedDependencies": {
-    "iconoir-react@7.11.0": "patches/iconoir-react@7.11.0.patch"
+    "iconoir-react@7.11.1": "patches/iconoir-react@7.11.1.patch"
   }
 }
