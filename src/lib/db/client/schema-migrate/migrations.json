@@ -6,7 +6,7 @@
     },
     {
       "tag": "0001_lush_ogun",
-      "sql": "ALTER TABLE `lorebook_entries` DROP COLUMN `position`;--> statement-breakpoint\nALTER TABLE `lorebook_entries` DROP COLUMN `depth`;\n"
+      "sql": "ALTER TABLE `lorebook_entries` DROP COLUMN `position`;--> statement-breakpoint\nALTER TABLE `lorebook_entries` DROP COLUMN `depth`;\n\n"
     },
     {
       "tag": "0002_conscious_mach_iv",

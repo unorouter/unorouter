@@ -192,25 +192,9 @@ async function reconcileSchema(
     // Absent tables were just created by the migration replay above.
     if (!current || normDdl(current) === normDdl(create)) continue;
 
-    // A live column missing from the manifest = a schema change shipped without a migration
-    // (edit shared.ts, forget db:generate). Rebuilding drops that column's data, so skip it.
-    const actual = await sql.sql<{ name: string }>(
-      `PRAGMA table_info(\`${table}\`)`,
-    );
-    const manifestCols = ddl.colDefs.map(colName);
-    const orphans = actual
-      .map((r) => r.name)
-      .filter((c) => !manifestCols.includes(c));
-    if (orphans.length > 0) {
-      logger.error("reconcileSchema skipped rebuild: unmigrated columns", {
-        context: "local-db.migrations.reconcile",
-        table,
-        orphans,
-      });
-      continue;
-    }
-
-    // Rebuild (SQLite 12-step): new table from manifest DDL, copy the column intersection, swap, recreate indexes.
+    // Rebuild (SQLite 12-step): the manifest is the source of truth. Build a new table from its
+    // DDL, copy the column intersection (a column only in the old table is intentionally dropped),
+    // swap, recreate indexes. Wrapping the swap so a failure leaves the original table intact.
     if (!fkOff) {
       await sql.sql`PRAGMA foreign_keys = OFF`;
       fkOff = true;
@@ -220,9 +204,12 @@ async function reconcileSchema(
     await sql.sql(
       create.replace(/^CREATE TABLE\s+`[^`]+`/, `CREATE TABLE \`${tmp}\``),
     );
-    const shared = manifestCols.filter((c) =>
-      actual.some((r) => r.name === c),
+    const actual = await sql.sql<{ name: string }>(
+      `PRAGMA table_info(\`${table}\`)`,
     );
+    const shared = ddl.colDefs
+      .map(colName)
+      .filter((c) => actual.some((r) => r.name === c));
 
     if (shared.length > 0) {
       const colList = shared.map((c) => `\`${c}\``).join(", ");
@@ -235,8 +222,9 @@ async function reconcileSchema(
       const after = await sql.sql<{ n: number }>(
         `SELECT count(*) AS n FROM \`${tmp}\``,
       );
+      // OR IGNORE drops rows the tightened schema rejects (NOT NULL/UNIQUE/FK). Dropping COLUMNS
+      // is intended; dropping ROWS is data loss, so abort the swap and keep the original table.
       const dropped = (before[0]?.n ?? 0) - (after[0]?.n ?? 0);
-      // OR IGNORE drops rows the tightened schema rejects. Don't destroy them: skip the swap.
       if (dropped > 0) {
         await sql.sql(`DROP TABLE IF EXISTS \`${tmp}\``);
         logger.error("reconcileSchema skipped rebuild: would drop rows", {
