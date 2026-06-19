@@ -41,7 +41,7 @@ export const MyFormSwitch = <T extends FieldValues>({
           </div>
           <FormControl>
             <Switch
-              checked={field.value}
+              checked={field.value ?? false}
               onCheckedChange={field.onChange}
               size={size}
             />
