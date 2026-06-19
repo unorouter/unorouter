@@ -538,6 +538,23 @@
       "comparison": "porównanie"
     },
     "POSTS": {
+      "UNOROUTER_VS_RISUAI": {
+        "TITLE": "{appName} kontra RisuAI: przeniesliśmy silnik RP do hostowanego 2-w-1",
+        "DESCRIPTION": "RisuAI to frontend RP dla zaawansowanych. {appName} przeniosl jego silnik (lorebooki, makra CBS, triggery, regex, import kart) do hostowanego produktu, w ktorym ten sam klucz napedza tez agentow kodujacych. Nie rywal, lecz 2-w-1.",
+        "AUTHOR": "Zespol {appName}",
+        "INTRO": "RisuAI to jeden z najlepszych frontendow do roleplay, jakie istnieja, i mowimy to jako ludzie, ktorzy dokladnie przestudiowali jego kod. {appName} nie probowal go przescignac funkcjami. Przeniesliśmy jego silnik i umiescilismy w nowym miejscu: hostowanym produkcie, w ktorym jeden klucz zgodny z OpenAI napedza tez twoich agentow kodujacych. Wiec to mniej porownanie rywali, a bardziej uczciwe wyjasnienie 2-w-1, napisane przez ludzi, ktorzy podziwiaja Risu.",
+        "H_ENGINE": "Przeniesliśmy silnik, nie sklonowalismy aplikacji",
+        "P_ENGINE": "To, co czyni Risu swietnym do roleplay, jest w {appName}, bo to przeniesliśmy: system lorebookow (jedna globalna pula, dekoratory @@, rekurencja), pelny jezyk makr CBS (zmienne, warunki, losowosc z ziarnem, bloki), maszyne triggerow V1/V2 z runtime Lua, regexowe customscripty (editinput/output/display), import kart SillyTavern v2/v3, kolejnosc czatu grupowego, persony, presety i pamiec z toczacym sie podsumowaniem. Jesli znasz lorebooki i triggery Risu, dzialaja tu tak, jak oczekujesz.",
+        "H_TWO_IN_ONE": "2-w-1: ten sam klucz do kodu i czatu postaci",
+        "P_TWO_IN_ONE": "To czesc, ktora Risu z zalozenia byc nie moze. Risu to BYOK: przynosisz wlasny klucz OpenAI lub Claude i jest to czysty frontend czatu. {appName} to klucz i klient. Ten sam klucz, ktory napedza wbudowany czat postaci, kieruje tez agenta kodujacego (Claude Code, Cline, OpenCode, Codex) do 200+ modeli i wpina sie wprost w SillyTavern, Janitor.AI, RisuAI lub Chub, jesli wolisz tamte. Jedno konto, jedno saldo, jedna lista modeli, do pracy i do zabawy. Nie probujemy zastapic Risu jako frontendu, jestesmy brama plus klientem w jednym.",
+        "H_HOSTING": "Hostowany kontra samodzielnie hostowany, i bez zonglowania kluczami",
+        "P_HOSTING": "Risu uruchamiasz sam (web, desktop Tauri lub Docker) i zbierasz oraz wklejasz klucz API kazdego dostawcy. {appName} jest hostowany: nic do instalowania ani utrzymywania przy zyciu i bez kluczy dostawcow do zebrania, bo klucz to konto. Rejestrujesz sie i piszesz. Dla tych, ktorzy chca po prostu doswiadczenia w stylu Risu bez stawiania aplikacji i zarzadzania kluczami, usuwa to caly etap konfiguracji.",
+        "H_RISU_WINS": "Gdzie Risu wciaz wygrywa (uczciwie)",
+        "P_RISU_WINS": "Nie bedziemy udawac, ze pokrywamy wszystko. Risu ma HypaMemory V2/V3, glebsza kompresje pamieci dlugoterminowej niz nasze toczace sie podsumowanie plus wyszukiwanie semantyczne. Ma prawdziwy ekosystem wtyczek uzytkownika, ktory mozesz rozszerzac i udostepniac; my nie. Jego wbudowane tlumacze do automatycznego tlumaczenia wejscia/wyjscia sa pelniejsze niz nasze. A jako samodzielnie hostowana aplikacja open source daje pelna lokalna kontrole, jakiej hostowana usluga nigdy nie da. Jesli to dla ciebie najwazniejsze, Risu jest lepszym wyborem, i mowimy to szczerze.",
+        "H_VERDICT": "Co wybrac",
+        "P_VERDICT": "Chcesz samodzielnie hostowany, otwarty, gleboko rozszerzalny frontend do roleplay z najbogatsza pamiecia i ekosystemem wtyczek, i z checia przynosisz wlasne klucze? Uzyj Risu. Chcesz te same funkcje lorebookow, CBS, triggerow i kart w hostowanym produkcie, w ktorym jeden klucz napedza tez twoich agentow kodujacych i dziala w innych frontendach? To jest 2-w-1, ktorym jest {appName}. Nie ma jednego zwyciezcy. Po prostu zbudowalismy most, ktorym Risu, bedac frontendem, nigdy nie mial byc.",
+        "CTA": "Wyprobuj czat z wszystkim przeniesionym. <register>Zaloz darmowe konto</register> lub <chat>otworz czat</chat>."
+      },
       "UNOROUTER_VS_LITELLM": {
         "TITLE": "{appName} kontra LiteLLM: hostowana brama czy samodzielnie hostowane proxy",
         "DESCRIPTION": "LiteLLM to najpopularniejsze samodzielnie hostowane proxy LLM. {appName} to hostowana brama z wbudowanym klientem czatu. Prawdziwy wybor to czy chcesz sam prowadzic infrastrukture.",

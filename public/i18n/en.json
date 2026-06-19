@@ -538,6 +538,23 @@
       "comparison": "comparison"
     },
     "POSTS": {
+      "UNOROUTER_VS_RISUAI": {
+        "TITLE": "{appName} vs RisuAI: we ported the RP engine into a hosted 2-in-1",
+        "DESCRIPTION": "RisuAI is the power-user RP frontend. {appName} ported its engine (lorebooks, CBS macros, triggers, regex, card import) into a hosted product where the same key also drives coding agents. Not a rival, a 2-in-1.",
+        "AUTHOR": "{appName} team",
+        "INTRO": "RisuAI is one of the best roleplay frontends there is, and we say that as people who studied its source closely. {appName} did not try to out-feature it. We ported its engine, then put it somewhere new: a hosted product where one OpenAI-compatible key also runs your coding agents. So this is less a rival comparison than an honest 2-in-1 explanation, written by people who admire Risu.",
+        "H_ENGINE": "We ported the engine, not cloned the app",
+        "P_ENGINE": "The parts that make Risu great for roleplay are in {appName} because we ported them: the lorebook system (single global pool, @@decorators, recursion), the full CBS macro language (variables, conditionals, seeded random, blocks), the V1/V2 trigger VM with a Lua runtime, regex customscripts (editinput/output/display), SillyTavern card v2/v3 import, group chat ordering, personas, presets, and a rolling-summary memory. If you know Risu's lorebooks and triggers, they work the way you expect here.",
+        "H_TWO_IN_ONE": "The 2-in-1: same key for code and character chat",
+        "P_TWO_IN_ONE": "This is the part Risu cannot be, by design. Risu is BYOK: you bring your own OpenAI or Claude key and it is purely a chat frontend. {appName} is the key and the client. The same key that drives the built-in character chat also points a coding agent (Claude Code, Cline, OpenCode, Codex) at 200+ models, and drops straight into SillyTavern, Janitor.AI, RisuAI, or Chub if you prefer those. One account, one balance, one model list, for work and for play. We are not trying to replace Risu the frontend, we are the gateway plus a client in one.",
+        "H_HOSTING": "Hosted vs self-hosted, and no keys to juggle",
+        "P_HOSTING": "Risu you run yourself (web, Tauri desktop, or Docker) and you collect and paste each provider's API key. {appName} is hosted: nothing to install or keep alive, and no provider keys to gather, since the key is the account. You sign up and chat. For people who just want the Risu-style experience without standing up an app or managing keys, that removes the whole setup step.",
+        "H_RISU_WINS": "Where Risu still wins (honestly)",
+        "P_RISU_WINS": "We will not pretend we cover everything. Risu has HypaMemory V2/V3, a deeper long-term memory compression than our rolling summary plus semantic retrieval. It has a real user-plugin ecosystem you can extend and share; we do not. Its built-in translators for automatic input/output translation are more complete than ours. And as a self-hosted, open-source app it gives you total local control that a hosted service never will. If those matter most to you, Risu is the better pick and we mean that.",
+        "H_VERDICT": "Which should you pick",
+        "P_VERDICT": "Want a self-hosted, open, deeply extensible roleplay frontend with the richest memory and a plugin ecosystem, and you are happy bringing your own keys? Use Risu. Want the same lorebook, CBS, trigger, and card features in a hosted product where one key also runs your coding agents and works in other frontends too? That is the 2-in-1 {appName} is. There is no single winner. We just built the bridge that Risu, being a frontend, was never meant to be.",
+        "CTA": "Try the chat with everything ported in. <register>Create a free account</register> or <chat>open the chat</chat>."
+      },
       "UNOROUTER_VS_LITELLM": {
         "TITLE": "{appName} vs LiteLLM: hosted gateway or self-hosted proxy",
         "DESCRIPTION": "LiteLLM is the most popular self-hosted LLM proxy. {appName} is a hosted gateway with a built-in chat client. The real choice is whether you want to run the infrastructure yourself.",

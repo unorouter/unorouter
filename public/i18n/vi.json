@@ -538,6 +538,23 @@
       "comparison": "so sánh"
     },
     "POSTS": {
+      "UNOROUTER_VS_RISUAI": {
+        "TITLE": "{appName} so voi RisuAI: chung toi da chuyen dong co RP vao mot 2-trong-1 duoc luu tru",
+        "DESCRIPTION": "RisuAI la giao dien RP cho nguoi dung chuyen sau. {appName} da chuyen dong co cua no (lorebook, macro CBS, trigger, regex, nhap the) vao mot san pham duoc luu tru noi cung mot khoa con van hanh ca tac nhan lap trinh. Khong phai doi thu, ma la 2-trong-1.",
+        "AUTHOR": "Doi ngu {appName}",
+        "INTRO": "RisuAI la mot trong nhung giao dien nhap vai tot nhat hien co, va chung toi noi dieu nay voi tu cach nhung nguoi da nghien cuu ky ma nguon cua no. {appName} khong co gang vuot no ve tinh nang. Chung toi chuyen dong co cua no va dat vao mot noi moi: mot san pham duoc luu tru noi mot khoa tuong thich OpenAI con van hanh ca tac nhan lap trinh cua ban. Vi vay day it la mot so sanh doi thu hon, ma la mot giai thich trung thuc ve 2-trong-1, viet boi nhung nguoi nguong mo Risu.",
+        "H_ENGINE": "Chung toi chuyen dong co, khong sao chep ung dung",
+        "P_ENGINE": "Nhung gi khien Risu tuyet voi cho nhap vai deu o trong {appName} vi chung toi da chuyen chung: he thong lorebook (mot ho toan cuc, decorator @@, de quy), ngon ngu macro CBS day du (bien, dieu kien, ngau nhien co hat giong, khoi), VM trigger V1/V2 voi runtime Lua, customscript regex (editinput/output/display), nhap the SillyTavern v2/v3, thu tu chat nhom, persona, preset, va bo nho tom tat cuon. Neu ban biet lorebook va trigger cua Risu, o day chung hoat dong dung nhu ban mong doi.",
+        "H_TWO_IN_ONE": "2-trong-1: cung mot khoa cho code va chat nhan vat",
+        "P_TWO_IN_ONE": "Day la phan ma Risu khong the la, theo thiet ke. Risu la tu mang khoa: ban mang khoa OpenAI hay Claude cua minh va no thuan tuy la mot giao dien chat. {appName} vua la khoa vua la client. Cung mot khoa van hanh chat nhan vat tich hop con tro mot tac nhan lap trinh (Claude Code, Cline, OpenCode, Codex) den hon 200 mo hinh, va cam thang vao SillyTavern, Janitor.AI, RisuAI hay Chub neu ban thich. Mot tai khoan, mot so du, mot danh sach mo hinh, cho ca cong viec lan giai tri. Chung toi khong tim cach thay the Risu voi tu cach giao dien, chung toi la cong cong them mot client trong mot.",
+        "H_HOSTING": "Duoc luu tru so voi tu luu tru, va khong khoa de tung hung",
+        "P_HOSTING": "Risu ban tu chay (web, may tinh de ban Tauri, hoac Docker) va thu thap roi dan khoa API cua tung nha cung cap. {appName} duoc luu tru: khong co gi de cai dat hay giu cho song, va khong khoa nha cung cap de thu thap, vi khoa chinh la tai khoan. Ban dang ky roi tro chuyen. Voi nguoi chi muon trai nghiem kieu Risu ma khong dung mot ung dung hay quan ly khoa, dieu nay loai bo toan bo buoc thiet lap.",
+        "H_RISU_WINS": "Noi Risu van thang (mot cach trung thuc)",
+        "P_RISU_WINS": "Chung toi se khong gia vo bao quat moi thu. Risu co HypaMemory V2/V3, mot nen bo nho dai han sau hon ban tom tat cuon cong truy xuat ngu nghia cua chung toi. No co mot he sinh thai plugin nguoi dung that su ma ban co the mo rong va chia se; chung toi thi khong. Cac trinh dich tich hop cua no cho dich tu dong dau vao/dau ra day du hon cua chung toi. Va voi tu cach mot ung dung ma nguon mo tu luu tru, no cho ban toan quyen kiem soat cuc bo ma mot dich vu duoc luu tru se khong bao gio cho. Neu nhung dieu do quan trong nhat voi ban, Risu la lua chon tot hon, va chung toi noi that.",
+        "H_VERDICT": "Ban nen chon cai nao",
+        "P_VERDICT": "Muon mot giao dien nhap vai tu luu tru, mo va mo rong sau voi bo nho phong phu nhat va mot he sinh thai plugin, va vui long mang khoa cua minh? Dung Risu. Muon cung nhung tinh nang lorebook, CBS, trigger va the trong mot san pham duoc luu tru noi mot khoa con van hanh ca tac nhan lap trinh va hoat dong o cac giao dien khac? Do la 2-trong-1 ma {appName} la. Khong co mot nguoi thang duy nhat. Chung toi chi xay cay cau ma Risu, voi tu cach mot giao dien, von khong bao gio duoc dinh la.",
+        "CTA": "Hay thu chat voi tat ca da duoc chuyen vao. <register>Tao tai khoan mien phi</register> hoac <chat>mo chat</chat>."
+      },
       "UNOROUTER_VS_LITELLM": {
         "TITLE": "{appName} so voi LiteLLM: cong duoc luu tru hay proxy tu luu tru",
         "DESCRIPTION": "LiteLLM la proxy LLM tu luu tru pho bien nhat. {appName} la mot cong duoc luu tru kem client chat tich hop. Lua chon thuc su la ban co muon tu van hanh ha tang hay khong.",

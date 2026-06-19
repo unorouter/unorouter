@@ -538,6 +538,23 @@
       "comparison": "comparativa"
     },
     "POSTS": {
+      "UNOROUTER_VS_RISUAI": {
+        "TITLE": "{appName} vs RisuAI: portamos el motor de RP a un 2 en 1 alojado",
+        "DESCRIPTION": "RisuAI es el frontend de RP para usuarios avanzados. {appName} porto su motor (lorebooks, macros CBS, triggers, regex, importacion de tarjetas) a un producto alojado donde la misma clave tambien impulsa agentes de codigo. No un rival, un 2 en 1.",
+        "AUTHOR": "Equipo de {appName}",
+        "INTRO": "RisuAI es uno de los mejores frontends de rol que existen, y lo decimos como gente que estudio su codigo de cerca. {appName} no intento superarlo en funciones. Portamos su motor y lo pusimos en un lugar nuevo: un producto alojado donde una clave compatible con OpenAI tambien ejecuta tus agentes de codigo. Asi que esto es menos una comparativa rival que una explicacion honesta de 2 en 1, escrita por gente que admira a Risu.",
+        "H_ENGINE": "Portamos el motor, no clonamos la app",
+        "P_ENGINE": "Lo que hace a Risu genial para el rol esta en {appName} porque lo portamos: el sistema de lorebook (un pool global, decoradores @@, recursion), el lenguaje completo de macros CBS (variables, condicionales, aleatorio con semilla, bloques), la VM de triggers V1/V2 con un runtime Lua, customscripts regex (editinput/output/display), importacion de tarjetas SillyTavern v2/v3, orden de chat grupal, personas, presets y una memoria de resumen continuo. Si conoces los lorebooks y triggers de Risu, aqui funcionan como esperas.",
+        "H_TWO_IN_ONE": "El 2 en 1: misma clave para codigo y chat de personajes",
+        "P_TWO_IN_ONE": "Esta es la parte que Risu no puede ser, por diseno. Risu es BYOK: traes tu propia clave de OpenAI o Claude y es puramente un frontend de chat. {appName} es la clave y el cliente. La misma clave que impulsa el chat de personajes integrado tambien apunta un agente de codigo (Claude Code, Cline, OpenCode, Codex) a 200+ modelos, y entra directo en SillyTavern, Janitor.AI, RisuAI o Chub si prefieres esos. Una cuenta, un saldo, una lista de modelos, para trabajo y juego. No buscamos reemplazar a Risu el frontend, somos el gateway mas un cliente en uno.",
+        "H_HOSTING": "Alojado vs autoalojado, y sin claves que malabarear",
+        "P_HOSTING": "Risu lo ejecutas tu (web, escritorio Tauri o Docker) y recopilas y pegas la clave API de cada proveedor. {appName} esta alojado: nada que instalar ni mantener vivo, y sin claves de proveedor que reunir, ya que la clave es la cuenta. Te registras y chateas. Para quien solo quiere la experiencia estilo Risu sin levantar una app ni gestionar claves, eso elimina todo el paso de configuracion.",
+        "H_RISU_WINS": "Donde Risu aun gana (con honestidad)",
+        "P_RISU_WINS": "No fingiremos que cubrimos todo. Risu tiene HypaMemory V2/V3, una compresion de memoria a largo plazo mas profunda que nuestro resumen continuo mas recuperacion semantica. Tiene un ecosistema real de plugins de usuario que puedes extender y compartir; nosotros no. Sus traductores integrados para traduccion automatica de entrada/salida son mas completos que los nuestros. Y como app open source autoalojada te da un control local total que un servicio alojado nunca dara. Si eso es lo que mas te importa, Risu es la mejor opcion, y lo decimos en serio.",
+        "H_VERDICT": "Cual deberias elegir",
+        "P_VERDICT": "Quieres un frontend de rol autoalojado, abierto y profundamente extensible con la memoria mas rica y un ecosistema de plugins, y te complace traer tus propias claves? Usa Risu. Quieres las mismas funciones de lorebook, CBS, triggers y tarjetas en un producto alojado donde una clave tambien ejecuta tus agentes de codigo y funciona en otros frontends? Ese es el 2 en 1 que es {appName}. No hay un unico ganador. Solo construimos el puente que Risu, al ser un frontend, nunca debia ser.",
+        "CTA": "Prueba el chat con todo portado. <register>Crea una cuenta gratis</register> o <chat>abre el chat</chat>."
+      },
       "UNOROUTER_VS_LITELLM": {
         "TITLE": "{appName} vs LiteLLM: gateway alojado o proxy autoalojado",
         "DESCRIPTION": "LiteLLM es el proxy LLM autoalojado mas popular. {appName} es un gateway alojado con cliente de chat integrado. La verdadera eleccion es si quieres operar la infraestructura tu mismo.",

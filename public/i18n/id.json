@@ -538,6 +538,23 @@
       "comparison": "perbandingan"
     },
     "POSTS": {
+      "UNOROUTER_VS_RISUAI": {
+        "TITLE": "{appName} vs RisuAI: kami memporting mesin RP ke 2-in-1 terkelola",
+        "DESCRIPTION": "RisuAI adalah frontend RP untuk pengguna mahir. {appName} memporting mesinnya (lorebook, makro CBS, trigger, regex, impor kartu) ke produk terkelola di mana kunci yang sama juga menjalankan agen koding. Bukan rival, tapi 2-in-1.",
+        "AUTHOR": "Tim {appName}",
+        "INTRO": "RisuAI adalah salah satu frontend roleplay terbaik yang ada, dan kami mengatakannya sebagai orang yang mempelajari sumbernya dengan cermat. {appName} tidak mencoba mengunggulinya dalam fitur. Kami memporting mesinnya lalu menaruhnya di tempat baru: produk terkelola di mana satu kunci kompatibel OpenAI juga menjalankan agen koding kamu. Jadi ini bukan perbandingan rival, melainkan penjelasan jujur 2-in-1, ditulis oleh orang yang mengagumi Risu.",
+        "H_ENGINE": "Kami memporting mesinnya, bukan mengkloning aplikasinya",
+        "P_ENGINE": "Bagian yang membuat Risu hebat untuk roleplay ada di {appName} karena kami memportingnya: sistem lorebook (satu pool global, dekorator @@, rekursi), bahasa makro CBS penuh (variabel, kondisional, acak ber-seed, blok), VM trigger V1/V2 dengan runtime Lua, customscript regex (editinput/output/display), impor kartu SillyTavern v2/v3, urutan obrolan grup, persona, preset, dan memori ringkasan bergulir. Jika kamu tahu lorebook dan trigger Risu, di sini mereka bekerja sesuai harapanmu.",
+        "H_TWO_IN_ONE": "2-in-1: kunci yang sama untuk kode dan chat karakter",
+        "P_TWO_IN_ONE": "Ini bagian yang Risu tidak bisa jadi, secara desain. Risu itu BYOK: kamu bawa kunci OpenAI atau Claude sendiri dan ia murni frontend chat. {appName} adalah kunci sekaligus klien. Kunci yang sama yang menjalankan chat karakter bawaan juga mengarahkan agen koding (Claude Code, Cline, OpenCode, Codex) ke 200+ model, dan masuk langsung ke SillyTavern, Janitor.AI, RisuAI, atau Chub jika kamu lebih suka itu. Satu akun, satu saldo, satu daftar model, untuk kerja dan main. Kami tidak ingin menggantikan Risu sebagai frontend, kami adalah gateway plus klien dalam satu.",
+        "H_HOSTING": "Terkelola vs swakelola, dan tanpa kunci untuk dijuggle",
+        "P_HOSTING": "Risu kamu jalankan sendiri (web, desktop Tauri, atau Docker) dan kamu kumpulkan serta tempel kunci API tiap penyedia. {appName} terkelola: tidak ada yang perlu diinstal atau dijaga hidup, dan tanpa kunci penyedia untuk dikumpulkan, karena kuncinya adalah akunnya. Kamu mendaftar lalu mengobrol. Bagi yang hanya ingin pengalaman bergaya Risu tanpa mendirikan aplikasi atau mengelola kunci, ini menghapus seluruh langkah penyiapan.",
+        "H_RISU_WINS": "Di mana Risu masih menang (jujur)",
+        "P_RISU_WINS": "Kami tidak akan berpura-pura mencakup semuanya. Risu punya HypaMemory V2/V3, kompresi memori jangka panjang yang lebih dalam daripada ringkasan bergulir kami plus pengambilan semantik. Ia punya ekosistem plugin pengguna sungguhan yang bisa kamu perluas dan bagikan; kami tidak. Penerjemah bawaannya untuk terjemahan otomatis input/output lebih lengkap dari milik kami. Dan sebagai aplikasi open source swakelola, ia memberi kendali lokal penuh yang tak akan pernah diberikan layanan terkelola. Jika itu paling penting bagimu, Risu pilihan lebih baik, dan kami serius.",
+        "H_VERDICT": "Mana yang harus dipilih",
+        "P_VERDICT": "Ingin frontend roleplay swakelola, terbuka, dan sangat dapat diperluas dengan memori terkaya dan ekosistem plugin, dan senang membawa kunci sendiri? Pakai Risu. Ingin fitur lorebook, CBS, trigger, dan kartu yang sama dalam produk terkelola di mana satu kunci juga menjalankan agen kodingmu dan bekerja di frontend lain juga? Itulah 2-in-1 yang adalah {appName}. Tidak ada pemenang tunggal. Kami hanya membangun jembatan yang Risu, sebagai frontend, memang tak pernah dimaksudkan menjadi.",
+        "CTA": "Coba chat dengan semua yang diporting. <register>Buat akun gratis</register> atau <chat>buka chat</chat>."
+      },
       "UNOROUTER_VS_LITELLM": {
         "TITLE": "{appName} vs LiteLLM: gateway terkelola atau proxy swakelola",
         "DESCRIPTION": "LiteLLM adalah proxy LLM swakelola paling populer. {appName} adalah gateway terkelola dengan klien chat bawaan. Pilihan sebenarnya adalah apakah kamu ingin menjalankan infrastruktur sendiri.",

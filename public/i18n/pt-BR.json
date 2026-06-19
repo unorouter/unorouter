@@ -538,6 +538,23 @@
       "comparison": "comparativo"
     },
     "POSTS": {
+      "UNOROUTER_VS_RISUAI": {
+        "TITLE": "{appName} vs RisuAI: portamos o motor de RP para um 2-em-1 hospedado",
+        "DESCRIPTION": "RisuAI e o frontend de RP para usuarios avancados. O {appName} portou seu motor (lorebooks, macros CBS, triggers, regex, importacao de cards) para um produto hospedado onde a mesma chave tambem move agentes de codigo. Nao um rival, um 2-em-1.",
+        "AUTHOR": "Equipe {appName}",
+        "INTRO": "RisuAI e um dos melhores frontends de roleplay que existem, e dizemos isso como gente que estudou seu codigo de perto. O {appName} nao tentou supera-lo em recursos. Portamos seu motor e o colocamos em um lugar novo: um produto hospedado onde uma chave compativel com OpenAI tambem executa seus agentes de codigo. Entao isto e menos uma comparacao rival do que uma explicacao honesta de 2-em-1, escrita por gente que admira o Risu.",
+        "H_ENGINE": "Portamos o motor, nao clonamos o app",
+        "P_ENGINE": "O que torna o Risu otimo para roleplay esta no {appName} porque portamos: o sistema de lorebook (um pool global, decoradores @@, recursao), a linguagem completa de macros CBS (variaveis, condicionais, aleatorio com semente, blocos), a VM de triggers V1/V2 com runtime Lua, customscripts regex (editinput/output/display), importacao de cards SillyTavern v2/v3, ordem de chat em grupo, personas, presets e uma memoria de resumo continuo. Se voce conhece os lorebooks e triggers do Risu, aqui eles funcionam como voce espera.",
+        "H_TWO_IN_ONE": "O 2-em-1: a mesma chave para codigo e chat de personagens",
+        "P_TWO_IN_ONE": "Esta e a parte que o Risu nao pode ser, por design. O Risu e BYOK: voce traz sua propria chave OpenAI ou Claude e ele e puramente um frontend de chat. O {appName} e a chave e o cliente. A mesma chave que move o chat de personagens integrado tambem aponta um agente de codigo (Claude Code, Cline, OpenCode, Codex) para 200+ modelos, e entra direto no SillyTavern, Janitor.AI, RisuAI ou Chub se voce preferir esses. Uma conta, um saldo, uma lista de modelos, para trabalho e para diversao. Nao queremos substituir o Risu como frontend, somos o gateway mais um cliente em um.",
+        "H_HOSTING": "Hospedado vs auto-hospedado, e sem chaves para malabarismos",
+        "P_HOSTING": "O Risu voce executa (web, desktop Tauri ou Docker) e reune e cola a chave de API de cada provedor. O {appName} e hospedado: nada para instalar ou manter vivo, e sem chaves de provedor para reunir, ja que a chave e a conta. Voce se cadastra e conversa. Para quem so quer a experiencia estilo Risu sem subir um app ou gerenciar chaves, isso elimina toda a etapa de configuracao.",
+        "H_RISU_WINS": "Onde o Risu ainda vence (honestamente)",
+        "P_RISU_WINS": "Nao vamos fingir que cobrimos tudo. O Risu tem HypaMemory V2/V3, uma compressao de memoria de longo prazo mais profunda do que nosso resumo continuo mais recuperacao semantica. Tem um ecossistema real de plugins de usuario que voce pode estender e compartilhar; nos nao. Seus tradutores integrados para traducao automatica de entrada/saida sao mais completos que os nossos. E como app open source auto-hospedado, da um controle local total que um servico hospedado nunca dara. Se isso importa mais para voce, o Risu e a melhor escolha, e falamos serio.",
+        "H_VERDICT": "Qual escolher",
+        "P_VERDICT": "Quer um frontend de roleplay auto-hospedado, aberto e profundamente extensivel com a memoria mais rica e um ecossistema de plugins, e gosta de trazer suas proprias chaves? Use o Risu. Quer os mesmos recursos de lorebook, CBS, triggers e cards em um produto hospedado onde uma chave tambem executa seus agentes de codigo e funciona em outros frontends? Esse e o 2-em-1 que o {appName} e. Nao ha um unico vencedor. So construimos a ponte que o Risu, sendo um frontend, nunca foi feito para ser.",
+        "CTA": "Experimente o chat com tudo portado. <register>Crie uma conta gratis</register> ou <chat>abra o chat</chat>."
+      },
       "UNOROUTER_VS_LITELLM": {
         "TITLE": "{appName} vs LiteLLM: gateway hospedado ou proxy auto-hospedado",
         "DESCRIPTION": "O LiteLLM e o proxy LLM auto-hospedado mais popular. O {appName} e um gateway hospedado com cliente de chat integrado. A escolha real e se voce quer operar a infraestrutura voce mesmo.",
