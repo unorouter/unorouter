@@ -210,6 +210,8 @@ export const streamOverrides = t.Object({
   extraBody: t.Optional(t.Union([t.String({ maxLength: 8_192 }), t.Null()])),
   // null inherits the bound preset (else streaming on). false buffers the full upstream reply, then emits a chunk.
   streamingEnabled: t.Optional(t.Union([t.Boolean(), t.Null()])),
+  // null inherits the bound preset (else shown). false hides thinking at render; reasoning still streams + persists.
+  showReasoning: t.Optional(t.Union([t.Boolean(), t.Null()])),
 });
 export type StreamOverrides = Static<typeof streamOverrides>;
 
@@ -242,6 +244,7 @@ export const updateConversationSettingsBody = t.Object({
   // Chat-variable store (setvar + sticky lorebook state). Must sync or cross-device hydration wipes it.
   vars: t.Optional(t.Union([t.String({ maxLength: 65_536 }), t.Null()])),
   streamingEnabled: t.Optional(t.Union([t.Boolean(), t.Null()])),
+  showReasoning: t.Optional(t.Union([t.Boolean(), t.Null()])),
   groupOrderByOrder: t.Optional(t.Union([t.Boolean(), t.Null()])),
   autoContinue: t.Optional(t.Union([t.Boolean(), t.Null()])),
   memoryEnabled: t.Optional(t.Union([t.Boolean(), t.Null()])),

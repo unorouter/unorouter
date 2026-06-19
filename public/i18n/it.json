@@ -3101,6 +3101,7 @@
       "CHAT_MEMORY_HINT": "Numero di messaggi recenti inviati con ogni richiesta.",
       "STREAMING_ENABLED": "Streaming",
       "STREAMING_ENABLED_HINT": "Off = aspetta la risposta completa, poi mostrala. Alcuni modelli producono output puliti solo quando bufferizzati. Per lo più preferenza utente.",
+      "SHOW_REASONING": "Mostra ragionamento",
       "SYSTEM_PROMPT": "Override prompt di sistema",
       "SYSTEM_PROMPT_PLACEHOLDER": "Lascia vuoto per usare il prompt di sistema del personaggio.",
       "AUTHOR_NOTE": "Nota dell'autore",
@@ -3356,6 +3357,8 @@
     "PRESET_CHAT_MEMORY_HINT": "Quanti messaggi recenti inviare per richiesta. Vuoto = predefinito (8); l'impostazione della chat prevale.",
     "PRESET_STREAMING": "Streaming",
     "PRESET_STREAMING_HINT": "Trasmetti la risposta token per token. Off = ricevi tutta la risposta in una volta. L'impostazione della chat prevale.",
+    "PRESET_SHOW_REASONING": "Mostra ragionamento",
+    "PRESET_SHOW_REASONING_HINT": "Mostra il ragionamento del modello nelle risposte. Off = nascondilo (il ragionamento viene comunque generato e conservato, quindi riattivandolo viene rivelato). L'impostazione della chat prevale.",
     "CHARACTER_BACKGROUND": "Immagine di sfondo",
     "CHARACTER_BACKGROUND_HINT": "Mostrata dietro la chat quando questo personaggio guida la conversazione."
   },

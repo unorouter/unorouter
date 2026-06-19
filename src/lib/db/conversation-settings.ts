@@ -26,6 +26,7 @@ export const CONVERSATION_SETTINGS_KEYS = [
   "extraBody",
   "vars",
   "streamingEnabled",
+  "showReasoning",
   "groupOrderByOrder",
   "autoContinue",
   "memoryEnabled",

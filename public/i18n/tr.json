@@ -3101,6 +3101,7 @@
       "CHAT_MEMORY_HINT": "Her istekle gönderilen son mesajların sayısı.",
       "STREAMING_ENABLED": "Streaming",
       "STREAMING_ENABLED_HINT": "Kapalı = tam yanıtı bekle, sonra göster. Bazı modeller sadece buffered olduğunda temiz çıktı verir. Çoğunlukla kullanıcı tercihi.",
+      "SHOW_REASONING": "Akıl yürütmeyi göster",
       "SYSTEM_PROMPT": "Sistem istemi geçersiz kılma",
       "SYSTEM_PROMPT_PLACEHOLDER": "Karakterin sistem istemini kullanmak için boş bırakın.",
       "AUTHOR_NOTE": "Yazar notu",
@@ -3356,6 +3357,8 @@
     "PRESET_CHAT_MEMORY_HINT": "Her istekte gönderilecek son mesaj sayısı. Boş = varsayılan (8); sohbet ayarı geçersiz kılar.",
     "PRESET_STREAMING": "Akış",
     "PRESET_STREAMING_HINT": "Yanıtı token token akıt. Kapalı = tüm yanıtı bir kerede al. Sohbet ayarı geçersiz kılar.",
+    "PRESET_SHOW_REASONING": "Akıl yürütmeyi göster",
+    "PRESET_SHOW_REASONING_HINT": "Modelin düşünme sürecini yanıtlarda gösterir. Kapalı = gizle (akıl yürütme yine de üretilir ve saklanır, bu yüzden tekrar açmak onu ortaya çıkarır). Sohbet ayarı geçersiz kılar.",
     "CHARACTER_BACKGROUND": "Arka plan resmi",
     "CHARACTER_BACKGROUND_HINT": "Bu karakter sohbeti yönetirken sohbetin arkasında gösterilir."
   },

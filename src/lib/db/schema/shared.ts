@@ -93,6 +93,8 @@ export const conversations = sqliteTable(
     vars: text("vars"),
     // null = inherit the bound preset's streamingEnabled (else default true).
     streamingEnabled: integer("streaming_enabled", { mode: "boolean" }),
+    // null = inherit the bound preset's showReasoning (else default true). Hides thinking at render only.
+    showReasoning: integer("show_reasoning", { mode: "boolean" }),
     // Multi-character turn ordering: deterministic stored order vs name-mention + talkness.
     groupOrderByOrder: integer("group_order_by_order", { mode: "boolean" }),
     autoContinue: integer("auto_continue", { mode: "boolean" }),
@@ -361,6 +363,7 @@ export const samplingPresets = sqliteTable(
     maxTokens: integer("max_tokens"),
     // Preset-level defaults; the conversation's own value overrides per chat. null is the system default.
     streamingEnabled: integer("streaming_enabled", { mode: "boolean" }),
+    showReasoning: integer("show_reasoning", { mode: "boolean" }),
     chatMemory: integer("chat_memory"),
     extraBody: text("extra_body"),
     providers: text("providers"),

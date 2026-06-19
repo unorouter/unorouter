@@ -3101,6 +3101,7 @@
       "CHAT_MEMORY_HINT": "Jumlah pesan terbaru yang dikirim dengan setiap permintaan.",
       "STREAMING_ENABLED": "Streaming",
       "STREAMING_ENABLED_HINT": "Mati = tunggu balasan lengkap, lalu tampilkan. Beberapa model menghasilkan output bersih hanya saat di-buffer. Sebagian besar preferensi pengguna.",
+      "SHOW_REASONING": "Tampilkan penalaran",
       "SYSTEM_PROMPT": "Override prompt sistem",
       "SYSTEM_PROMPT_PLACEHOLDER": "Biarkan kosong untuk menggunakan prompt sistem karakter.",
       "AUTHOR_NOTE": "Catatan penulis",
@@ -3356,6 +3357,8 @@
     "PRESET_CHAT_MEMORY_HINT": "Berapa pesan terbaru yang dikirim per permintaan. Kosong = default (8); pengaturan chat menimpanya.",
     "PRESET_STREAMING": "Streaming",
     "PRESET_STREAMING_HINT": "Streaming balasan token demi token. Mati = terima balasan penuh sekaligus. Pengaturan chat menimpanya.",
+    "PRESET_SHOW_REASONING": "Tampilkan penalaran",
+    "PRESET_SHOW_REASONING_HINT": "Tampilkan proses berpikir model dalam balasan. Mati = sembunyikan (penalaran tetap dihasilkan dan disimpan, jadi mengaktifkannya kembali akan menampilkannya). Pengaturan chat menimpanya.",
     "CHARACTER_BACKGROUND": "Gambar latar",
     "CHARACTER_BACKGROUND_HINT": "Ditampilkan di belakang obrolan saat karakter ini memimpin percakapan."
   },

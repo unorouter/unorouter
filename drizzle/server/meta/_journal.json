@@ -22,6 +22,13 @@
       "when": 1781634372296,
       "tag": "0002_early_marvel_zombies",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1781887486712,
+      "tag": "0003_solid_gideon",
+      "breakpoints": true
     }
   ]
 }

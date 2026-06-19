@@ -3101,6 +3101,7 @@
       "CHAT_MEMORY_HINT": "Number of recent messages sent with each request.",
       "STREAMING_ENABLED": "Streaming",
       "STREAMING_ENABLED_HINT": "Off = wait for the full reply, then show it. Some models output cleanly only when buffered. Mostly user preference.",
+      "SHOW_REASONING": "Show reasoning",
       "SYSTEM_PROMPT": "System prompt override",
       "SYSTEM_PROMPT_PLACEHOLDER": "Leave empty to use the character's system prompt.",
       "AUTHOR_NOTE": "Author's note",
@@ -3356,6 +3357,8 @@
     "PRESET_CHAT_MEMORY_HINT": "How many recent messages to send with each request. Empty = default (8); the chat setting overrides this.",
     "PRESET_STREAMING": "Streaming",
     "PRESET_STREAMING_HINT": "Stream the reply token-by-token. Off = receive the full reply at once. The chat setting overrides this.",
+    "PRESET_SHOW_REASONING": "Show reasoning",
+    "PRESET_SHOW_REASONING_HINT": "Show the model's thinking in replies. Off = hide it (the reasoning is still generated and kept, so turning this back on reveals it). The chat setting overrides this.",
     "CHARACTER_BACKGROUND": "Background image",
     "CHARACTER_BACKGROUND_HINT": "Shown behind the chat when this character leads the conversation."
   },

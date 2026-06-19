@@ -3101,6 +3101,7 @@
       "CHAT_MEMORY_HINT": "每次请求随附的最近消息条数。",
       "STREAMING_ENABLED": "流式输出",
       "STREAMING_ENABLED_HINT": "关闭 = 等待完整回复后再显示。部分模型仅在缓冲后输出干净。主要是用户偏好。",
+      "SHOW_REASONING": "显示推理过程",
       "SYSTEM_PROMPT": "覆盖系统提示词",
       "SYSTEM_PROMPT_PLACEHOLDER": "留空则使用角色自带的系统提示词。",
       "AUTHOR_NOTE": "作者注释",
@@ -3356,6 +3357,8 @@
     "PRESET_CHAT_MEMORY_HINT": "每次请求发送多少条最近消息。留空 = 默认（8）；聊天设置会覆盖此项。",
     "PRESET_STREAMING": "流式输出",
     "PRESET_STREAMING_HINT": "逐 token 流式返回回复。关闭 = 一次性接收完整回复。聊天设置会覆盖此项。",
+    "PRESET_SHOW_REASONING": "显示推理过程",
+    "PRESET_SHOW_REASONING_HINT": "在回复中显示模型的思考过程。关闭 = 隐藏它（推理仍会生成并保留，因此重新开启即可显示）。聊天设置会覆盖此项。",
     "CHARACTER_BACKGROUND": "背景图片",
     "CHARACTER_BACKGROUND_HINT": "当此角色主导对话时，显示在聊天背后。"
   },

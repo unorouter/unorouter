@@ -127,6 +127,7 @@ function buildDefaultsForm(
     ...samplingValues(layered),
     extraBody: modelMemory.extraBody ?? chatDefaults.extraBody ?? "",
     streamingEnabled: chatDefaults.streamingEnabled ?? null,
+    showReasoning: chatDefaults.showReasoning ?? null,
   };
 }
 
@@ -164,6 +165,7 @@ function buildSettingsForm(
     ...samplingValues(settings),
     extraBody: settings.extraBody ?? "",
     streamingEnabled: settings.streamingEnabled ?? null,
+    showReasoning: settings.showReasoning ?? null,
   };
 }
 
@@ -202,6 +204,7 @@ export function buildDefaultsOverrides(
     ...samplingValues(data),
     extraBody: data.extraBody || null,
     streamingEnabled: data.streamingEnabled,
+    showReasoning: data.showReasoning,
   };
 }
 
@@ -221,6 +224,7 @@ export function buildSettingsBody(data: ConversationOverridesForm) {
     ...samplingValues(data),
     extraBody: data.extraBody || null,
     streamingEnabled: data.streamingEnabled,
+    showReasoning: data.showReasoning,
   };
 }
 

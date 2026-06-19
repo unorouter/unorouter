@@ -22,6 +22,7 @@ const NULL_SAMPLING: Pick<
   | "extraBody"
   | "prefill"
   | "streamingEnabled"
+  | "showReasoning"
   | "chatMemory"
 > = {
   topP: null,
@@ -33,8 +34,9 @@ const NULL_SAMPLING: Pick<
   repetitionPenalty: null,
   extraBody: null,
   prefill: null,
-  // null = system default (streaming on, chatMemory 8).
+  // null = system default (streaming on, reasoning shown, chatMemory 8).
   streamingEnabled: null,
+  showReasoning: null,
   chatMemory: null,
 };
 

@@ -3101,6 +3101,7 @@
       "CHAT_MEMORY_HINT": "Anzahl der zuletzt gesendeten Nachrichten pro Anfrage.",
       "STREAMING_ENABLED": "Streaming",
       "STREAMING_ENABLED_HINT": "Aus = warten, bis die ganze Antwort fertig ist, dann anzeigen. Manche Modelle liefern nur gepuffert sauber. Meist Geschmackssache.",
+      "SHOW_REASONING": "Denkprozess anzeigen",
       "SYSTEM_PROMPT": "System-Prompt überschreiben",
       "SYSTEM_PROMPT_PLACEHOLDER": "Leer lassen, um den System-Prompt des Charakters zu verwenden.",
       "AUTHOR_NOTE": "Autorenhinweis",
@@ -3356,6 +3357,8 @@
     "PRESET_CHAT_MEMORY_HINT": "Anzahl der letzten Nachrichten pro Anfrage. Leer = Standard (8); die Chat-Einstellung überschreibt.",
     "PRESET_STREAMING": "Streaming",
     "PRESET_STREAMING_HINT": "Antwort Token für Token streamen. Aus = ganze Antwort auf einmal. Die Chat-Einstellung überschreibt.",
+    "PRESET_SHOW_REASONING": "Denkprozess anzeigen",
+    "PRESET_SHOW_REASONING_HINT": "Zeigt den Denkprozess des Modells in den Antworten. Aus = ausblenden (der Denkprozess wird weiterhin erzeugt und gespeichert, durch erneutes Aktivieren wird er also sichtbar). Die Chat-Einstellung überschreibt dies.",
     "CHARACTER_BACKGROUND": "Hintergrundbild",
     "CHARACTER_BACKGROUND_HINT": "Wird hinter dem Chat angezeigt, wenn dieser Charakter das Gespräch führt."
   },
