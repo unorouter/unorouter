@@ -93,10 +93,15 @@ export function createThreadListAdapter(
       const preset = loadout.presetId
         ? await readLocalPreset(userId(), loadout.presetId)
         : null;
+      // A bound preset is inherited LIVE: store null so the server/UI resolve
+      // conv(null) -> preset -> default every render. This lets a mid-chat preset
+      // edit reach existing chats (an explicit per-chat drawer override writes a
+      // concrete value and still wins). With NO preset there is nothing to inherit,
+      // so snapshot the user's chatDefaults at creation.
       const seed = <K extends keyof typeof defaults>(
         key: K,
         presetValue: number | boolean | string | null | undefined,
-      ) => presetValue ?? defaults[key] ?? null;
+      ) => (preset ? null : (presetValue ?? defaults[key] ?? null));
       await upsertLocalConversation(userId(), {
         id,
         title: null,
@@ -112,7 +117,7 @@ export function createThreadListAdapter(
         systemPromptOverride: null,
         authorNote: null,
         authorNoteDepth: 4,
-        chatMemory: preset?.chatMemory ?? defaults.chatMemory ?? null,
+        chatMemory: preset ? null : (defaults.chatMemory ?? null),
         reasoningEffort: defaults.reasoningEffort ?? null,
         webSearchEnabled: defaults.webSearchEnabled ?? false,
         webSearchEngine: defaults.webSearchEngine ?? "auto",
@@ -126,11 +131,11 @@ export function createThreadListAdapter(
         presencePenalty: seed("presencePenalty", preset?.presencePenalty),
         repetitionPenalty: seed("repetitionPenalty", preset?.repetitionPenalty),
         maxTokens: seed("maxTokens", preset?.maxTokens),
-        extraBody: preset?.extraBody ?? defaults.extraBody ?? null,
-        // null = inherit; the stream resolver falls back conv -> preset -> true.
-        streamingEnabled:
-          preset?.streamingEnabled ?? defaults.streamingEnabled ?? null,
-        showReasoning: preset?.showReasoning ?? defaults.showReasoning ?? null,
+        extraBody: preset ? null : (defaults.extraBody ?? null),
+        // null = inherit; the resolver falls back conv -> preset -> default. A bound
+        // preset stays null so its later edits propagate to this chat (Matic).
+        streamingEnabled: preset ? null : (defaults.streamingEnabled ?? null),
+        showReasoning: preset ? null : (defaults.showReasoning ?? null),
         group: chatStore.get(chatGroupAtom),
       });
 
