@@ -55,9 +55,11 @@ export function ModelSelector(props: ModelSelectorProps) {
 
   const selected = models.find((m) => m.name === props.value);
 
-      // Per-user private groups from prefetched /account/self; each routes only on the models it serves.
+  // Per-user private groups from prefetched /account/self; each routes only on the models it serves.
   const privateGroups = authQuery.data?.private_groups ?? [];
-  const groupRatioMap: Record<string, number> = { ...pricingData?.groupRatioMap };
+  const groupRatioMap: Record<string, number> = {
+    ...pricingData?.groupRatioMap,
+  };
   for (const pg of privateGroups) groupRatioMap[pg.group] ??= pg.ratio;
   const enableGroups = selected?.enableGroups ?? [];
   const privateForModel = props.value
@@ -65,7 +67,7 @@ export function ModelSelector(props: ModelSelectorProps) {
         .filter((pg) => (pg.models ?? []).includes(props.value!))
         .map((pg) => pg.group)
     : [];
-      // Empty enableGroups = all priced groups allowed; add the private groups serving the selected model.
+  // Empty enableGroups = all priced groups allowed; add the private groups serving the selected model.
   const candidateGroups = [
     ...new Set([
       ...(enableGroups.length ? enableGroups : Object.keys(groupRatioMap)),
@@ -86,7 +88,7 @@ export function ModelSelector(props: ModelSelectorProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps -- only re-run on model change
   }, [props.value]);
 
-      // Auto-select a random free model (text preferred) when none is selected or the current pick isn't usable.
+  // Auto-select a random free model (text preferred) when none is selected or the current pick isn't usable.
   useEffect(() => {
     if (models.length === 0) return;
     const current = models.find((m) => m.name === props.value);

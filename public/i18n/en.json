@@ -534,10 +534,61 @@
       "product": "product",
       "engineering": "engineering",
       "update": "update",
-      "community": "Community",
-      "comparison": "Comparison"
+      "community": "community",
+      "comparison": "comparison"
     },
     "POSTS": {
+      "UNOROUTER_VS_MEGALLM": {
+        "TITLE": "{appName} vs MegaLLM: same coder gateway, plus a chat client",
+        "DESCRIPTION": "MegaLLM is a popular frontier-model gateway for coding agents. {appName} does the same job and adds a built-in chat and character client. The difference is whether you only ship code or also want a place to chat.",
+        "AUTHOR": "{appName} team",
+        "INTRO": "MegaLLM grew one of the biggest communities in this space as a clean gateway for coding agents: one OpenAI-compatible key, frontier models, automatic failover. {appName} is the same kind of gateway, with one addition that decides the fit. Here is the honest comparison from one of the two.",
+        "H_SAME_LANE": "We are in the same lane",
+        "P_SAME_LANE": "Both {appName} and MegaLLM are OpenAI-compatible gateways built for developers. Both put GPT, Claude, and Gemini behind one key, both do automatic failover when a provider goes down, both drop into Claude Code, Codex, and OpenCode with a base-URL swap. If your goal is pointing a coding agent at frontier models without juggling provider keys, either one does that. So the catalog and the failover are not where the decision is.",
+        "H_MODELS": "Catalog and pricing",
+        "P_MODELS": "MegaLLM advertises 70+ frontier and vision models and markets itself on cost, up to 60% cheaper than going direct through cost-aware routing, with plans from about $10/mo plus pay-as-you-go. {appName} carries 200+ models, a broader catalog that includes the open and roleplay-tuned models MegaLLM's frontier-only focus leaves out, also pay-as-you-go, with credits that do not expire and a free tier for prototyping. If you only ever call GPT and Claude, the price-per-token story is the comparison. If you want the wider catalog, {appName} simply has more of it.",
+        "H_CHAT": "The part MegaLLM does not have",
+        "P_CHAT": "MegaLLM is a headless gateway, an API and a dashboard, nothing to chat in. {appName} is the gateway plus a built-in chat and character client: personas, lorebooks, presets, SillyTavern card import, and the same key drops into SillyTavern, Janitor.AI, RisuAI, or Chub. So the one key that drives your coding agent also runs a real character chat, for work and for play. That is the line between a pure dev gateway and a 2-in-1.",
+        "H_MIGRATE": "Switching is a base-URL change",
+        "P_MIGRATE": "Like MegaLLM, {appName} is OpenAI-compatible, so moving over is one line: point your client at <c>https://api.unorouter.com/v1</c> and keep your code. The same key pasted into a chat client's custom-endpoint field reaches the same catalog, so there is no second account, and no separate tool for the chat side.",
+        "H_VERDICT": "Which should you pick",
+        "P_VERDICT": "If you only ship code and want a lean frontier-model gateway optimized for token cost, MegaLLM is a solid choice and its community shows it. If you want one key that drives your coding agents and a built-in chat and character client off the same balance and a wider catalog, that is the gap {appName} fills. There is no single winner. It depends on whether a pure dev gateway is enough, or you want the chat client built in.",
+        "CTA": "Want the gateway and the chat in one? <register>Create a free account</register> or <models>browse the models</models>."
+      },
+      "UNOROUTER_VS_RISUAI": {
+        "TITLE": "{appName} vs RisuAI: we ported the RP engine into a hosted 2-in-1",
+        "DESCRIPTION": "RisuAI is the power-user RP frontend. {appName} ported its engine (lorebooks, CBS macros, triggers, regex, card import) into a hosted product where the same key also drives coding agents. Not a rival, a 2-in-1.",
+        "AUTHOR": "{appName} team",
+        "INTRO": "RisuAI is one of the best roleplay frontends there is, and we say that as people who studied its source closely. {appName} did not try to out-feature it. We ported its engine, then put it somewhere new: a hosted product where one OpenAI-compatible key also runs your coding agents. So this is less a rival comparison than an honest 2-in-1 explanation, written by people who admire Risu.",
+        "H_ENGINE": "We ported the engine, not cloned the app",
+        "P_ENGINE": "The parts that make Risu great for roleplay are in {appName} because we ported them: the lorebook system (single global pool, @@decorators, recursion), the full CBS macro language (variables, conditionals, seeded random, blocks), the V1/V2 trigger VM with a Lua runtime, regex customscripts (editinput/output/display), SillyTavern card v2/v3 import, group chat ordering, personas, presets, and a rolling-summary memory. If you know Risu's lorebooks and triggers, they work the way you expect here.",
+        "H_TWO_IN_ONE": "The 2-in-1: same key for code and character chat",
+        "P_TWO_IN_ONE": "This is the part Risu cannot be, by design. Risu is BYOK: you bring your own OpenAI or Claude key and it is purely a chat frontend. {appName} is the key and the client. The same key that drives the built-in character chat also points a coding agent (Claude Code, Cline, OpenCode, Codex) at 200+ models, and drops straight into SillyTavern, Janitor.AI, RisuAI, or Chub if you prefer those. One account, one balance, one model list, for work and for play. We are not trying to replace Risu the frontend, we are the gateway plus a client in one.",
+        "H_HOSTING": "Hosted vs self-hosted, and no keys to juggle",
+        "P_HOSTING": "Risu you run yourself (web, Tauri desktop, or Docker) and you collect and paste each provider's API key. {appName} is hosted: nothing to install or keep alive, and no provider keys to gather, since the key is the account. You sign up and chat. For people who just want the Risu-style experience without standing up an app or managing keys, that removes the whole setup step.",
+        "H_RISU_WINS": "Where Risu still wins (honestly)",
+        "P_RISU_WINS": "We will not pretend we cover everything. Risu has HypaMemory V2/V3, a deeper long-term memory compression than our rolling summary plus semantic retrieval. It has a real user-plugin ecosystem you can extend and share; we do not. Its built-in translators for automatic input/output translation are more complete than ours. And as a self-hosted, open-source app it gives you total local control that a hosted service never will. If those matter most to you, Risu is the better pick and we mean that.",
+        "H_VERDICT": "Which should you pick",
+        "P_VERDICT": "Want a self-hosted, open, deeply extensible roleplay frontend with the richest memory and a plugin ecosystem, and you are happy bringing your own keys? Use Risu. Want the same lorebook, CBS, trigger, and card features in a hosted product where one key also runs your coding agents and works in other frontends too? That is the 2-in-1 {appName} is. There is no single winner. We just built the bridge that Risu, being a frontend, was never meant to be.",
+        "CTA": "Try the chat with everything ported in. <register>Create a free account</register> or <chat>open the chat</chat>."
+      },
+      "UNOROUTER_VS_LITELLM": {
+        "TITLE": "{appName} vs LiteLLM: hosted gateway or self-hosted proxy",
+        "DESCRIPTION": "LiteLLM is the most popular self-hosted LLM proxy. {appName} is a hosted gateway with a built-in chat client. The real choice is whether you want to run the infrastructure yourself.",
+        "AUTHOR": "{appName} team",
+        "INTRO": "LiteLLM is the default open-source answer to one key for every model: an MIT-licensed Python proxy you run yourself. {appName} answers the same need, but hosted, with a client on top. The honest split is not features. It is whether you want to operate the proxy or just call an endpoint.",
+        "H_HOSTED": "Self-hosted vs hosted",
+        "P_HOSTED": "LiteLLM is software you deploy and run: spin up the proxy, manage the process, watch the logs, scale it under load. That gives you total control and no middleman, which is exactly what a platform team wants. {appName} is the opposite tradeoff. There is nothing to deploy or keep alive. You get an endpoint and a key, and uptime, routing, and failover are our problem, not yours.",
+        "H_SETUP": "Setup and maintenance",
+        "P_SETUP": "With LiteLLM you write a config, supply every provider's API keys, run the server (Python, so watch the GIL under concurrency), and own upgrades and monitoring forever. With {appName} you sign up and point your client at <c>https://api.unorouter.com/v1</c>. No config file, no provider keys to collect, no server to babysit. One is infrastructure you maintain; the other is a service you consume.",
+        "H_INTERFACE": "There is no LiteLLM you can chat in",
+        "P_INTERFACE": "LiteLLM is headless by design: an API layer, you bring every interface. {appName} ships the same OpenAI-compatible API plus a built-in chat and character client (personas, lorebooks, presets, SillyTavern card import), and the same key drops into SillyTavern, Janitor.AI, RisuAI, or Chub. So a coding agent and a place to actually chat run off one key, instead of a proxy you still have to build a UI for.",
+        "H_COST": "Cost and keys",
+        "P_COST": "LiteLLM takes no markup, but you pay each provider directly and carry the infra bill plus the DevOps time. That wins at high volume if you have the team. {appName} is pay-as-you-go across 200+ models with credits that do not expire and a free tier, one balance instead of a wallet at every provider, and no servers to pay for. Below serious scale, the hosted route is usually cheaper once you count the hours.",
+        "H_VERDICT": "Which should you pick",
+        "P_VERDICT": "If you have a platform team, want zero markup, and are happy owning the proxy, LiteLLM is the right tool. If you want one OpenAI-compatible key with nothing to deploy, that works in your coding agent and in a real chat client, {appName} fits. There is no single winner. It comes down to whether you want to run the gateway or just use one.",
+        "CTA": "Want a gateway with nothing to deploy? <register>Create a free account</register> or <models>browse the models</models>."
+      },
       "FEATURED_ON": {
         "TITLE": "Where to find {appName}: our directory listings",
         "DESCRIPTION": "{appName} is listed across the AI tool and startup directories. Here is where you can find us, verify the listings, and read independent takes.",
@@ -2034,6 +2085,7 @@
     "LEGAL": "Legal",
     "PRIVACY": "Privacy Policy",
     "TERMS": "Terms & Conditions",
+    "REFUND": "Refund Policy",
     "CONTACT_TITLE": "Contact",
     "CONTACT_SUBTITLE": "Questions or concerns?",
     "DESCRIPTION": "Unified AI API platform providing access to hundreds of models from multiple providers through a single, intelligent endpoint.",
@@ -2122,6 +2174,42 @@
     "CHANGES_CONTENT": "We may update these Terms from time to time. Material changes will be communicated with at least 30 days' advance notice via email or in-product notification. Your continued use of the Services after any changes constitutes your acceptance of the updated Terms.",
     "CONTACT_TITLE": "14. Contact Us",
     "CONTACT_CONTENT": "If you have any questions about these Terms, please contact us at {supportEmail}."
+  },
+  "REFUND": {
+    "META": {
+      "TITLE": "Refund Policy - {appName}",
+      "DESCRIPTION": "Learn how refunds are handled for credits and subscriptions purchased through {appName}, including eligibility, timelines, and how to request one.",
+      "KEYWORDS": "refund policy, refunds, {appName} refund, AI API refund, subscription refund"
+    },
+    "TITLE": "Refund Policy",
+    "LAST_UPDATED": "Last Updated: June 17, 2026",
+    "INTRO": "This Refund Policy explains how refunds are handled for credits, subscriptions, and other payments made through {appName}. By purchasing through our platform, you agree to this policy.",
+    "PAYMENTS_TITLE": "1. Payments",
+    "PAYMENTS_CONTENT": "All payments for credits and subscription plans are processed securely through our payment providers. Subscriptions auto-renew until canceled, and all transactions are encrypted in transit. Recurring billing applies unless otherwise specified at the time of purchase.",
+    "ELIGIBILITY_TITLE": "2. Eligibility for Refunds",
+    "ELIGIBILITY_INTRO": "To be eligible for a refund, you must meet all of the following criteria:",
+    "ELIGIBILITY_WINDOW": "7-Day Window: Refund requests must be submitted within 7 days of the original payment.",
+    "ELIGIBILITY_USAGE": "Usage Limit: You must not have consumed more than 20% of the credits or quota included in the purchase during the billing cycle.",
+    "ELIGIBILITY_COMPLIANCE": "Terms Compliance: No refunds are issued for accounts with Terms of Service violations.",
+    "NON_REFUNDABLE_TITLE": "3. Non-Refundable Items",
+    "NON_REFUNDABLE_INTRO": "We do not offer refunds for the following:",
+    "NON_REFUNDABLE_PARTIAL": "Partially used subscription periods or credits beyond the 7-day window.",
+    "NON_REFUNDABLE_FEES": "One-time fees, platform fees, or add-on services.",
+    "NON_REFUNDABLE_TERMINATED": "Accounts terminated for policy violations.",
+    "REQUEST_TITLE": "4. How to Request a Refund",
+    "REQUEST_INTRO": "To request a refund, contact our support team at {supportEmail} with the following information:",
+    "REQUEST_ACCOUNT": "Your account username or email address.",
+    "REQUEST_PROOF": "Payment proof, such as a transaction ID or receipt.",
+    "REQUEST_REASON": "The reason for your refund request.",
+    "REQUEST_VERIFY": "We may require additional information to verify your claim.",
+    "PROCESSING_TITLE": "5. Refund Processing",
+    "PROCESSING_CONTENT": "Approved refunds are issued to your original payment method. Refunds are typically processed within 5 to 10 business days. The actual arrival time may vary depending on your bank or payment provider.",
+    "LAW_TITLE": "6. Compliance with Applicable Laws",
+    "LAW_CONTENT": "This Refund Policy is provided in addition to, and does not limit, any statutory rights you may have under applicable consumer protection laws in your jurisdiction. Where local law grants a mandatory withdrawal or refund right that exceeds this policy, that right prevails.",
+    "CHANGES_TITLE": "7. Changes to This Policy",
+    "CHANGES_CONTENT": "We may amend this Refund Policy at any time to maintain compliance with evolving consumer protection frameworks. Updates will be reflected on this page with a revised date, and where required, affected customers will be notified in advance of significant changes.",
+    "CONTACT_TITLE": "8. Contact Us",
+    "CONTACT_CONTENT": "For refund requests or any questions about this policy, please contact us at {supportEmail}."
   },
   "MAIN": {
     "ENUM": {
@@ -3047,6 +3135,7 @@
       "CHAT_MEMORY_HINT": "Number of recent messages sent with each request.",
       "STREAMING_ENABLED": "Streaming",
       "STREAMING_ENABLED_HINT": "Off = wait for the full reply, then show it. Some models output cleanly only when buffered. Mostly user preference.",
+      "SHOW_REASONING": "Show reasoning",
       "SYSTEM_PROMPT": "System prompt override",
       "SYSTEM_PROMPT_PLACEHOLDER": "Leave empty to use the character's system prompt.",
       "AUTHOR_NOTE": "Author's note",
@@ -3085,7 +3174,7 @@
     },
     "MORE": {
       "OPEN": "More actions",
-      "IMPORT_EXPORT": "Import / Export",
+      "IMPORT_EXPORT": "Import / Export / Debug",
       "EXPORT_NATIVE": "Export (native)",
       "EXPORT_ORPG": "Export (OpenRouter)",
       "EXPORT_SILLYTAVERN": "Export (SillyTavern JSONL)",
@@ -3104,14 +3193,38 @@
       "LOCAL_DB_UPLOAD_CONFIRM": "Overwrite local OPFS database from this file? Existing data is wiped.",
       "CLEAR": "Clear chat",
       "CLEAR_SUCCESS": "Chat cleared",
-      "CLEAR_CONFIRM_DESC": "This deletes every message in the conversation but keeps the settings, character bindings, and title. This cannot be undone."
+      "CLEAR_CONFIRM_DESC": "This deletes every message in the conversation but keeps the settings, character bindings, and title. This cannot be undone.",
+      "DISPLAY": "Display",
+      "DIAGNOSTICS": "Download log (no messages)",
+      "DIAGNOSTICS_FULL": "Download log + messages",
+      "DEBUG_CLEAR": "Clear debug log",
+      "DEBUG_CLEARED": "Debug log cleared"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, one {# character} other {# characters}}",
       "LOREBOOKS": "{count, plural, one {# lorebook} other {# lorebooks}}"
     },
     "TRIGGER_ALERT_SELECT_DESC": "Choose an option to continue",
-    "TRIGGER_ALERT_OK": "OK"
+    "TRIGGER_ALERT_OK": "OK",
+    "SUCCESS": {
+      "ERROR_COPIED": "Error details copied"
+    },
+    "CHAT_TOTAL": "Chat Total",
+    "STATS": {
+      "SHOW_COST": "Show cost",
+      "SHOW_TOKENS": "Show tokens"
+    },
+    "GROUPS": {
+      "NEW_GROUP": "New group",
+      "RENAME": "Rename group",
+      "DELETE": "Delete group",
+      "MOVE_TO": "Move to group",
+      "UNGROUPED": "Ungrouped",
+      "GROUP_UNTITLED": "New group",
+      "EMPTY": "No chats",
+      "DELETE_CONFIRM_TITLE": "Delete group?",
+      "DELETE_CONFIRM_DESC": "The group is removed; its chats are kept and become ungrouped."
+    }
   },
   "RP": {
     "CHARACTERS_TITLE": "Characters",
@@ -3165,9 +3278,10 @@
     "LOREBOOK_ENTRY_KEYS": "Activation keys (comma-separated)",
     "LOREBOOK_ENTRY_KEYS_HINT": "Words that activate this entry. Example: dragon, wyrm, drake.",
     "LOREBOOK_ENTRY_SECONDARY_KEYS": "Secondary triggers",
-    "LOREBOOK_ENTRY_PRIORITY_HINT": "Lower number injects earlier in the prompt.",
+    "LOREBOOK_ENTRY_PRIORITY_HINT": "Higher survives the token budget.",
     "LOREBOOK_ENTRY_CONTENT": "Content",
-    "LOREBOOK_ENTRY_POSITION": "Position",
+    "LOREBOOK_ENTRY_ORDER": "Insert order",
+    "LOREBOOK_ENTRY_ORDER_HINT": "Higher inserts earlier. Any value; only relative order matters.",
     "LOREBOOK_ENTRY_PRIORITY": "Priority",
     "LOREBOOK_ENTRY_CONSTANT": "Always active",
     "LOREBOOK_ENTRY_SELECTIVE": "Require a secondary key",
@@ -3178,11 +3292,6 @@
     "LOREBOOK_ENTRY_INJECTION_ROLE_USER": "User",
     "LOREBOOK_ENTRY_INJECTION_ROLE_SYSTEM": "System",
     "LOREBOOK_ENTRY_INJECTION_ROLE_HINT": "Role used when injecting into the message array. Auto-falls back to 'user' on providers that reject mid-conversation system messages (e.g. Gemini).",
-    "POSITION_BEFORE_CHAR": "Before character",
-    "POSITION_AFTER_CHAR": "After character",
-    "POSITION_TOP": "Top of prompt",
-    "POSITION_BOTTOM": "Bottom of prompt",
-    "POSITION_AT_DEPTH": "At depth",
     "PRESETS_TITLE": "Sampling presets",
     "PRESETS_NEW": "New preset",
     "PRESETS_EXPORT": "Export preset",
@@ -3282,6 +3391,8 @@
     "PRESET_CHAT_MEMORY_HINT": "How many recent messages to send with each request. Empty = default (8); the chat setting overrides this.",
     "PRESET_STREAMING": "Streaming",
     "PRESET_STREAMING_HINT": "Stream the reply token-by-token. Off = receive the full reply at once. The chat setting overrides this.",
+    "PRESET_SHOW_REASONING": "Show reasoning",
+    "PRESET_SHOW_REASONING_HINT": "Show the model's thinking in replies. Off = hide it (the reasoning is still generated and kept, so turning this back on reveals it). The chat setting overrides this.",
     "CHARACTER_BACKGROUND": "Background image",
     "CHARACTER_BACKGROUND_HINT": "Shown behind the chat when this character leads the conversation."
   },

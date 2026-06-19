@@ -6,20 +6,13 @@ import { reasoningEffort, webSearchContextSize, webSearchEngine } from "./chat";
 import { msg, NONE_VALUE, type TranslationKey } from "../config/constants";
 import {
   LOREBOOK_INJECTION_ROLES,
-  LOREBOOK_POSITIONS,
   MAX_DESC_LEN,
   MAX_NAME_LEN,
-  type LorebookEntryPosition,
   type LorebookInjectionRole,
 } from "./rp";
-export {
-  LOREBOOK_INJECTION_ROLES,
-  LOREBOOK_POSITIONS,
-  type LorebookEntryPosition as LorebookPosition,
-  type LorebookInjectionRole,
-};
+export { LOREBOOK_INJECTION_ROLES, type LorebookInjectionRole };
 
-    // Single source for sampling knobs. field = camelCase DB; apiKey = snake_case upstream.
+// Single source for sampling knobs. field = camelCase DB; apiKey = snake_case upstream.
 export const SAMPLING_PARAMS = [
   {
     field: "temperature",
@@ -125,7 +118,6 @@ const reasoningEffortLiterals = [
 const webSearchEngineLiterals = webSearchEngine.anyOf;
 const webSearchContextSizeLiterals = webSearchContextSize.anyOf;
 
-const lorebookPositionLiterals = LOREBOOK_POSITIONS.map((p) => t.Literal(p));
 const lorebookInjectionRoleLiterals = LOREBOOK_INJECTION_ROLES.map((r) =>
   t.Literal(r),
 );
@@ -151,8 +143,10 @@ export const conversationOverridesFormSchema = t.Object({
   lorebookIds: t.Array(t.String(), { default: [] }),
   ...samplingNullable({ maxTokensMax: 1_000_000 }),
   extraBody: t.String({ default: "", maxLength: 8_192 }),
-      // null = inherit the bound preset (else system default: streaming on). false = BFF buffers the full reply, then streams as one chunk.
+  // null = inherit the bound preset (else system default: streaming on). false = BFF buffers the full reply, then streams as one chunk.
   streamingEnabled: nullable(t.Boolean()),
+  // null = inherit the bound preset (else shown). false hides thinking at render.
+  showReasoning: nullable(t.Boolean()),
 });
 export type ConversationOverridesForm = Static<
   typeof conversationOverridesFormSchema
@@ -166,8 +160,9 @@ export const samplingPresetFormSchema = t.Object({
     error: msg("FORM.ERROR.REQUIRED"),
   }),
   ...samplingNullable({ temperatureMax: 4, maxTokensMax: 1_000_000 }),
-      // Preset-level defaults (the conversation overrides per chat). null = system default (streaming on, chatMemory 8).
+  // Preset-level defaults (the conversation overrides per chat). null = system default (streaming on, chatMemory 8).
   streamingEnabled: nullable(t.Boolean()),
+  showReasoning: nullable(t.Boolean()),
   chatMemory: nullableNumber(1, 1000),
   mainPrompt: t.String({ default: "", maxLength: MAX_DESC_LEN }),
   postHistory: t.String({ default: "", maxLength: MAX_DESC_LEN }),
@@ -176,7 +171,7 @@ export const samplingPresetFormSchema = t.Object({
   providers: t.String({ default: "", maxLength: 2_048 }),
   // When true the slugs become `only` (hard pin), else `order` (preference).
   providersOnly: t.Boolean({ default: false }),
-      // Prompt template JSON (PromptItem[]); empty = default fixed order. Serialized straight to the promptTemplate column.
+  // Prompt template JSON (PromptItem[]); empty = default fixed order. Serialized straight to the promptTemplate column.
   promptTemplate: t.String({ default: "", maxLength: 32_768 }),
   forceAlternateRoles: t.Boolean({ default: false }),
   noSystemRole: t.Boolean({ default: false }),
@@ -223,13 +218,14 @@ export const lorebookEntryFormSchema = t.Object({
     default: "",
     error: msg("FORM.ERROR.REQUIRED"),
   }),
-  position: t.Union(lorebookPositionLiterals, { default: "before_char" }),
-  priority: t.Number({ minimum: 0, maximum: 1000, default: 100 }),
+  // Token-budget survival rank (Risu priority), uncapped + relative; higher survives the budget.
+  priority: t.Integer({ default: 100 }),
+  // Placement within the single lorebook slot (Risu insertorder), uncapped + relative; higher = earlier.
+  orderIndex: t.Integer({ default: 0 }),
   // Form-only; stored as a @@probability decorator line in content (no column).
   probability: t.Number({ minimum: 0, maximum: 100, default: 100 }),
   // Form-only; 0 = inherit book scan depth. Stored as a @@scan_depth decorator line.
   entryScanDepth: t.Number({ minimum: 0, maximum: 100, default: 0 }),
-  depth: t.Number({ minimum: 0, maximum: 100, default: 4 }),
   constant: t.Boolean({ default: false }),
   selective: t.Boolean({ default: false }),
   enabled: t.Boolean({ default: true }),

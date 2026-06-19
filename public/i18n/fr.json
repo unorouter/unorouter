@@ -534,10 +534,61 @@
       "product": "produit",
       "engineering": "ingénierie",
       "update": "mise à jour",
-      "community": "Communauté",
-      "comparison": "Comparatif"
+      "community": "communauté",
+      "comparison": "comparatif"
     },
     "POSTS": {
+      "UNOROUTER_VS_MEGALLM": {
+        "TITLE": "{appName} vs MegaLLM : la meme passerelle pour le code, plus un client de chat",
+        "DESCRIPTION": "MegaLLM est une passerelle de modeles de pointe populaire pour les agents de code. {appName} fait le meme travail et ajoute un client de chat et de personnages integre. La difference est de savoir si vous ne faites que du code ou voulez aussi un endroit pour discuter.",
+        "AUTHOR": "Equipe {appName}",
+        "INTRO": "MegaLLM a bati l une des plus grandes communautes du secteur comme passerelle propre pour agents de code : une cle compatible OpenAI, des modeles de pointe, un failover automatique. {appName} est le meme type de passerelle, avec un ajout qui fait la difference. Voici la comparaison honnete depuis l un des deux.",
+        "H_SAME_LANE": "Nous sommes sur la meme voie",
+        "P_SAME_LANE": "{appName} comme MegaLLM sont des passerelles compatibles OpenAI faites pour les developpeurs. Les deux mettent GPT, Claude et Gemini derriere une cle, font un failover automatique quand un fournisseur tombe, s inserent dans Claude Code, Codex et OpenCode avec un changement d URL de base. Si votre but est de pointer un agent de code vers des modeles de pointe sans jongler avec les cles fournisseur, l un comme l autre le fait. Le catalogue et le failover ne sont donc pas le point de decision.",
+        "H_MODELS": "Catalogue et tarifs",
+        "P_MODELS": "MegaLLM annonce 70+ modeles de pointe et de vision et se vend sur le cout, jusqu a 60% moins cher qu en direct grace a un routage soucieux du cout, avec des forfaits a partir d environ 10 $/mois plus paiement a l usage. {appName} porte 200+ modeles, un catalogue plus large incluant les modeles ouverts et regles pour le jeu de role que le focus pointe-uniquement de MegaLLM laisse de cote, aussi a l usage, avec des credits qui n expirent pas et une offre gratuite. Si vous n appelez que GPT et Claude, le prix au token est la comparaison. Si vous voulez le catalogue plus large, {appName} en a simplement plus.",
+        "H_CHAT": "La partie que MegaLLM n a pas",
+        "P_CHAT": "MegaLLM est une passerelle headless, une API et un tableau de bord, rien ou discuter. {appName} est la passerelle plus un client de chat et de personnages integre : personas, lorebooks, presets, import de cartes SillyTavern, et la meme cle s insere dans SillyTavern, Janitor.AI, RisuAI ou Chub. Ainsi la meme cle qui pilote votre agent de code execute aussi un vrai chat de personnages, pour le travail et le jeu. C est la ligne entre une passerelle de dev pure et un 2-en-1.",
+        "H_MIGRATE": "Changer est un changement d URL de base",
+        "P_MIGRATE": "Comme MegaLLM, {appName} est compatible OpenAI, donc migrer est une ligne : pointez votre client vers <c>https://api.unorouter.com/v1</c> et gardez votre code. La meme cle collee dans le champ endpoint personnalise d un client de chat atteint le meme catalogue, donc pas de second compte ni d outil separe pour le cote chat.",
+        "H_VERDICT": "Lequel choisir",
+        "P_VERDICT": "Si vous ne faites que du code et voulez une passerelle de modeles de pointe epuree optimisee pour le cout au token, MegaLLM est un choix solide et sa communaute le montre. Si vous voulez une cle qui pilote vos agents de code et un client de chat et de personnages integre sur le meme solde et un catalogue plus large, c est la breche que {appName} comble. Il n y a pas de gagnant unique. Tout depend si une passerelle de dev pure suffit, ou si vous voulez le client de chat integre.",
+        "CTA": "Vous voulez la passerelle et le chat en un ? <register>Creez un compte gratuit</register> ou <models>parcourez les modeles</models>."
+      },
+      "UNOROUTER_VS_RISUAI": {
+        "TITLE": "{appName} vs RisuAI : nous avons porte le moteur RP dans un 2-en-1 heberge",
+        "DESCRIPTION": "RisuAI est le frontend RP pour utilisateurs avances. {appName} a porte son moteur (lorebooks, macros CBS, triggers, regex, import de cartes) dans un produit heberge ou la meme cle pilote aussi des agents de code. Pas un rival, un 2-en-1.",
+        "AUTHOR": "Equipe {appName}",
+        "INTRO": "RisuAI est l un des meilleurs frontends de jeu de role qui soient, et nous le disons en tant que gens qui ont etudie son code de pres. {appName} n a pas cherche a le surpasser en fonctionnalites. Nous avons porte son moteur et l avons mis ailleurs : un produit heberge ou une cle compatible OpenAI execute aussi vos agents de code. C est donc moins une comparaison rivale qu une explication honnete de 2-en-1, ecrite par des gens qui admirent Risu.",
+        "H_ENGINE": "Nous avons porte le moteur, pas clone l appli",
+        "P_ENGINE": "Ce qui rend Risu excellent pour le jeu de role est dans {appName} parce que nous l avons porte : le systeme de lorebook (un pool global, decorateurs @@, recursion), le langage complet de macros CBS (variables, conditions, aleatoire a graine, blocs), la VM de triggers V1/V2 avec un runtime Lua, les customscripts regex (editinput/output/display), l import de cartes SillyTavern v2/v3, l ordre de chat de groupe, les personas, les presets et une memoire a resume glissant. Si vous connaissez les lorebooks et triggers de Risu, ils fonctionnent ici comme prevu.",
+        "H_TWO_IN_ONE": "Le 2-en-1 : une cle pour le code et le chat de personnages",
+        "P_TWO_IN_ONE": "C est la partie que Risu ne peut pas etre, par conception. Risu est BYOK : vous apportez votre propre cle OpenAI ou Claude et c est purement un frontend de chat. {appName} est la cle et le client. La meme cle qui pilote le chat de personnages integre pointe aussi un agent de code (Claude Code, Cline, OpenCode, Codex) vers 200+ modeles, et s insere directement dans SillyTavern, Janitor.AI, RisuAI ou Chub si vous preferez. Un compte, un solde, une liste de modeles, pour le travail et le jeu. Nous ne cherchons pas a remplacer Risu le frontend, nous sommes la passerelle plus un client en un.",
+        "H_HOSTING": "Heberge vs auto-heberge, et aucune cle a jongler",
+        "P_HOSTING": "Risu, vous l executez vous-meme (web, bureau Tauri ou Docker) et vous collectez et collez la cle API de chaque fournisseur. {appName} est heberge : rien a installer ni a maintenir en vie, et aucune cle fournisseur a rassembler, puisque la cle est le compte. Vous vous inscrivez et discutez. Pour qui veut juste l experience facon Risu sans monter une appli ni gerer de cles, cela supprime toute l etape d installation.",
+        "H_RISU_WINS": "La ou Risu gagne encore (honnetement)",
+        "P_RISU_WINS": "Nous ne pretendrons pas tout couvrir. Risu a HypaMemory V2/V3, une compression de memoire a long terme plus poussee que notre resume glissant plus recuperation semantique. Il a un vrai ecosysteme de plugins utilisateur que vous pouvez etendre et partager ; pas nous. Ses traducteurs integres pour la traduction automatique entree/sortie sont plus complets que les notres. Et en tant qu appli open source auto-hebergee, il donne un controle local total qu un service heberge n offrira jamais. Si cela compte le plus pour vous, Risu est le meilleur choix, et nous le pensons.",
+        "H_VERDICT": "Lequel choisir",
+        "P_VERDICT": "Vous voulez un frontend de jeu de role auto-heberge, ouvert et profondement extensible avec la memoire la plus riche et un ecosysteme de plugins, et vous etes content d apporter vos propres cles ? Utilisez Risu. Vous voulez les memes fonctions de lorebook, CBS, triggers et cartes dans un produit heberge ou une cle execute aussi vos agents de code et marche dans d autres frontends ? C est le 2-en-1 qu est {appName}. Il n y a pas de gagnant unique. Nous avons juste bati le pont que Risu, etant un frontend, n etait jamais cense etre.",
+        "CTA": "Essayez le chat avec tout porte. <register>Creez un compte gratuit</register> ou <chat>ouvrez le chat</chat>."
+      },
+      "UNOROUTER_VS_LITELLM": {
+        "TITLE": "{appName} vs LiteLLM : passerelle hebergee ou proxy auto-heberge",
+        "DESCRIPTION": "LiteLLM est le proxy LLM auto-heberge le plus populaire. {appName} est une passerelle hebergee avec client de chat integre. Le vrai choix est de savoir si vous voulez gerer l infrastructure vous-meme.",
+        "AUTHOR": "Equipe {appName}",
+        "INTRO": "LiteLLM est la reponse open source par defaut a une cle pour chaque modele : un proxy Python sous licence MIT que vous executez vous-meme. {appName} repond au meme besoin, mais heberge et avec un client par-dessus. La vraie difference, ce ne sont pas les fonctionnalites, c est de savoir si vous voulez gerer le proxy ou juste appeler un endpoint.",
+        "H_HOSTED": "Auto-heberge vs heberge",
+        "P_HOSTED": "LiteLLM est un logiciel que vous deployez et executez : lancer le proxy, gerer le processus, surveiller les logs, monter en charge. Cela donne un controle total sans intermediaire, exactement ce que veut une equipe plateforme. {appName} est le compromis inverse. Il n y a rien a deployer ni a maintenir en vie. Vous obtenez un endpoint et une cle, et la disponibilite, le routage et le failover sont notre probleme, pas le votre.",
+        "H_SETUP": "Installation et maintenance",
+        "P_SETUP": "Avec LiteLLM vous ecrivez une configuration, fournissez les cles API de chaque fournisseur, executez le serveur (Python, donc attention au GIL en concurrence) et assumez les mises a jour et la surveillance pour toujours. Avec {appName} vous vous inscrivez et pointez votre client vers <c>https://api.unorouter.com/v1</c>. Pas de fichier de config, pas de cles fournisseur a collecter, pas de serveur a surveiller. L un est une infrastructure que vous maintenez ; l autre un service que vous consommez.",
+        "H_INTERFACE": "Il n existe pas de LiteLLM dans lequel discuter",
+        "P_INTERFACE": "LiteLLM est headless par conception : une couche API, vous apportez chaque interface. {appName} fournit la meme API compatible OpenAI plus un client de chat et de personnages integre (personas, lorebooks, presets, import de cartes SillyTavern), et la meme cle s insere dans SillyTavern, Janitor.AI, RisuAI ou Chub. Ainsi un agent de code et un endroit pour discuter tournent sur une seule cle, au lieu d un proxy auquel il faut encore construire une interface.",
+        "H_COST": "Cout et cles",
+        "P_COST": "LiteLLM ne prend aucune marge, mais vous payez chaque fournisseur directement et portez la facture d infrastructure plus le temps DevOps. Cela gagne a fort volume si vous avez l equipe. {appName} est a l usage sur 200+ modeles avec des credits qui n expirent pas et une offre gratuite, un seul solde au lieu d un portefeuille chez chaque fournisseur et aucun serveur a payer. En dessous d une vraie echelle, la voie hebergee revient souvent moins cher une fois les heures comptees.",
+        "H_VERDICT": "Lequel choisir",
+        "P_VERDICT": "Si vous avez une equipe plateforme, voulez zero marge et etes content de gerer le proxy, LiteLLM est le bon outil. Si vous voulez une cle compatible OpenAI sans rien a deployer, qui marche dans votre agent de code et dans un vrai client de chat, {appName} convient. Il n y a pas de gagnant unique. Tout depend si vous voulez gerer la passerelle ou simplement en utiliser une.",
+        "CTA": "Une passerelle sans rien a deployer ? <register>Creez un compte gratuit</register> ou <models>parcourez les modeles</models>."
+      },
       "FEATURED_ON": {
         "TITLE": "Ou trouver {appName} : nos inscriptions dans les annuaires",
         "DESCRIPTION": "{appName} est reference dans les annuaires d outils IA et de startups. Voici ou nous trouver, verifier les inscriptions et lire des avis independants.",
@@ -2034,6 +2085,7 @@
     "LEGAL": "Mentions légales",
     "PRIVACY": "Politique de confidentialité",
     "TERMS": "Conditions générales",
+    "REFUND": "Politique de remboursement",
     "CONTACT_TITLE": "Contact",
     "CONTACT_SUBTITLE": "Des questions ou des préoccupations ?",
     "DESCRIPTION": "Plateforme d'API IA unifiée donnant accès à des centaines de modèles de plusieurs fournisseurs via un unique point d'accès intelligent.",
@@ -2122,6 +2174,42 @@
     "CHANGES_CONTENT": "Nous pouvons mettre à jour ces Conditions de temps à autre. Les modifications importantes seront communiquées avec au moins 30 jours de préavis par email ou notification dans le produit. Votre utilisation continue des Services après toute modification constitue votre acceptation des Conditions mises à jour.",
     "CONTACT_TITLE": "14. Nous contacter",
     "CONTACT_CONTENT": "Si vous avez des questions concernant ces Conditions, veuillez nous contacter à {supportEmail}."
+  },
+  "REFUND": {
+    "META": {
+      "TITLE": "Politique de remboursement - {appName}",
+      "DESCRIPTION": "Découvrez comment les remboursements sont gérés pour les crédits et abonnements achetés via {appName}, y compris les conditions d'éligibilité, les délais et la marche à suivre.",
+      "KEYWORDS": "politique de remboursement, remboursements, remboursement {appName}, remboursement API IA, remboursement abonnement"
+    },
+    "TITLE": "Politique de remboursement",
+    "LAST_UPDATED": "Dernière mise à jour : 17 juin 2026",
+    "INTRO": "Cette politique de remboursement explique comment sont gérés les remboursements des crédits, abonnements et autres paiements effectués via {appName}. En achetant sur notre plateforme, vous acceptez cette politique.",
+    "PAYMENTS_TITLE": "1. Paiements",
+    "PAYMENTS_CONTENT": "Tous les paiements de crédits et de formules d'abonnement sont traités en toute sécurité par nos prestataires de paiement. Les abonnements se renouvellent automatiquement jusqu'à leur annulation, et toutes les transactions sont chiffrées lors de leur transmission. La facturation récurrente s'applique sauf indication contraire au moment de l'achat.",
+    "ELIGIBILITY_TITLE": "2. Conditions d'éligibilité au remboursement",
+    "ELIGIBILITY_INTRO": "Pour être éligible à un remboursement, vous devez remplir tous les critères suivants :",
+    "ELIGIBILITY_WINDOW": "Délai de 7 jours : les demandes de remboursement doivent être soumises dans les 7 jours suivant le paiement initial.",
+    "ELIGIBILITY_USAGE": "Limite d'utilisation : vous ne devez pas avoir consommé plus de 20 % des crédits ou du quota inclus dans l'achat au cours du cycle de facturation.",
+    "ELIGIBILITY_COMPLIANCE": "Respect des conditions : aucun remboursement n'est accordé pour les comptes ayant enfreint les Conditions générales.",
+    "NON_REFUNDABLE_TITLE": "3. Éléments non remboursables",
+    "NON_REFUNDABLE_INTRO": "Nous n'offrons pas de remboursement pour les éléments suivants :",
+    "NON_REFUNDABLE_PARTIAL": "Les périodes d'abonnement ou crédits partiellement utilisés au-delà du délai de 7 jours.",
+    "NON_REFUNDABLE_FEES": "Les frais uniques, frais de plateforme ou services complémentaires.",
+    "NON_REFUNDABLE_TERMINATED": "Les comptes résiliés pour violation des règles.",
+    "REQUEST_TITLE": "4. Comment demander un remboursement",
+    "REQUEST_INTRO": "Pour demander un remboursement, contactez notre équipe d'assistance à {supportEmail} en fournissant les informations suivantes :",
+    "REQUEST_ACCOUNT": "Votre nom d'utilisateur ou votre adresse e-mail.",
+    "REQUEST_PROOF": "Une preuve de paiement, telle qu'un identifiant de transaction ou un reçu.",
+    "REQUEST_REASON": "Le motif de votre demande de remboursement.",
+    "REQUEST_VERIFY": "Nous pouvons exiger des informations supplémentaires pour vérifier votre demande.",
+    "PROCESSING_TITLE": "5. Traitement des remboursements",
+    "PROCESSING_CONTENT": "Les remboursements approuvés sont effectués sur votre moyen de paiement d'origine. Les remboursements sont généralement traités sous 5 à 10 jours ouvrés. Le délai réel de réception peut varier selon votre banque ou votre prestataire de paiement.",
+    "LAW_TITLE": "6. Conformité aux lois applicables",
+    "LAW_CONTENT": "Cette politique de remboursement s'ajoute aux droits légaux dont vous pouvez disposer en vertu des lois applicables sur la protection des consommateurs dans votre juridiction, sans les limiter. Lorsque la loi locale accorde un droit de rétractation ou de remboursement obligatoire supérieur à cette politique, ce droit prévaut.",
+    "CHANGES_TITLE": "7. Modifications de cette politique",
+    "CHANGES_CONTENT": "Nous pouvons modifier cette politique de remboursement à tout moment afin de rester conformes à l'évolution des cadres de protection des consommateurs. Les mises à jour seront publiées sur cette page avec une date révisée et, le cas échéant, les clients concernés seront informés à l'avance des changements importants.",
+    "CONTACT_TITLE": "8. Nous contacter",
+    "CONTACT_CONTENT": "Pour toute demande de remboursement ou question concernant cette politique, veuillez nous contacter à {supportEmail}."
   },
   "MAIN": {
     "ENUM": {
@@ -3047,6 +3135,7 @@
       "CHAT_MEMORY_HINT": "Nombre de messages récents envoyés à chaque requête.",
       "STREAMING_ENABLED": "Streaming",
       "STREAMING_ENABLED_HINT": "Désactivé = attendre la réponse complète, puis l'afficher. Certains modèles ne sortent proprement qu'en mode tampon. Surtout une préférence utilisateur.",
+      "SHOW_REASONING": "Afficher le raisonnement",
       "SYSTEM_PROMPT": "Surcharge du prompt système",
       "SYSTEM_PROMPT_PLACEHOLDER": "Laissez vide pour utiliser le prompt système du personnage.",
       "AUTHOR_NOTE": "Note de l'auteur",
@@ -3085,7 +3174,7 @@
     },
     "MORE": {
       "OPEN": "Plus d'actions",
-      "IMPORT_EXPORT": "Import / Export",
+      "IMPORT_EXPORT": "Importer / Exporter / Déboguer",
       "EXPORT_NATIVE": "Exporter (natif)",
       "EXPORT_ORPG": "Exporter (OpenRouter)",
       "EXPORT_SILLYTAVERN": "Exporter (SillyTavern JSONL)",
@@ -3104,14 +3193,38 @@
       "LOCAL_DB_UPLOAD_CONFIRM": "Écraser la base OPFS locale à partir de ce fichier ? Les données existantes seront supprimées.",
       "CLEAR": "Vider le chat",
       "CLEAR_SUCCESS": "Chat vide",
-      "CLEAR_CONFIRM_DESC": "Cela supprime tous les messages de la conversation, mais conserve les parametres, les liaisons de personnages et le titre. Cette action est irreversible."
+      "CLEAR_CONFIRM_DESC": "Cela supprime tous les messages de la conversation, mais conserve les parametres, les liaisons de personnages et le titre. Cette action est irreversible.",
+      "DISPLAY": "Affichage",
+      "DIAGNOSTICS": "Télécharger le journal (sans messages)",
+      "DIAGNOSTICS_FULL": "Télécharger le journal + messages",
+      "DEBUG_CLEAR": "Effacer le journal de débogage",
+      "DEBUG_CLEARED": "Journal de débogage effacé"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, one {# personnage} other {# personnages}}",
       "LOREBOOKS": "{count, plural, one {# codex} other {# codex}}"
     },
     "TRIGGER_ALERT_SELECT_DESC": "Choisissez une option pour continuer",
-    "TRIGGER_ALERT_OK": "OK"
+    "TRIGGER_ALERT_OK": "OK",
+    "SUCCESS": {
+      "ERROR_COPIED": "Détails de l'erreur copiés"
+    },
+    "CHAT_TOTAL": "Total du chat",
+    "STATS": {
+      "SHOW_COST": "Afficher le coût",
+      "SHOW_TOKENS": "Afficher les jetons"
+    },
+    "GROUPS": {
+      "NEW_GROUP": "Nouveau groupe",
+      "RENAME": "Renommer le groupe",
+      "DELETE": "Supprimer le groupe",
+      "MOVE_TO": "Déplacer vers le groupe",
+      "UNGROUPED": "Sans groupe",
+      "GROUP_UNTITLED": "Nouveau groupe",
+      "EMPTY": "Aucun chat",
+      "DELETE_CONFIRM_TITLE": "Supprimer le groupe ?",
+      "DELETE_CONFIRM_DESC": "Le groupe est supprimé ; ses chats sont conservés et deviennent sans groupe."
+    }
   },
   "RP": {
     "CHARACTERS_TITLE": "Personnages",
@@ -3165,9 +3278,10 @@
     "LOREBOOK_ENTRY_KEYS": "Mots-clés d'activation (séparés par des virgules)",
     "LOREBOOK_ENTRY_KEYS_HINT": "Mots qui activent cette entrée. Exemple : dragon, vouivre, drake.",
     "LOREBOOK_ENTRY_SECONDARY_KEYS": "Déclencheurs secondaires",
-    "LOREBOOK_ENTRY_PRIORITY_HINT": "Un nombre plus bas est injecté plus tôt dans le prompt.",
+    "LOREBOOK_ENTRY_PRIORITY_HINT": "Une valeur plus élevée survit au budget de jetons.",
     "LOREBOOK_ENTRY_CONTENT": "Contenu",
-    "LOREBOOK_ENTRY_POSITION": "Position",
+    "LOREBOOK_ENTRY_ORDER": "Ordre d'insertion",
+    "LOREBOOK_ENTRY_ORDER_HINT": "Une valeur plus élevée s'insère plus tôt. N'importe quelle valeur; seul l'ordre relatif compte.",
     "LOREBOOK_ENTRY_PRIORITY": "Priorité",
     "LOREBOOK_ENTRY_CONSTANT": "Toujours actif",
     "LOREBOOK_ENTRY_SELECTIVE": "Clé secondaire requise",
@@ -3178,11 +3292,6 @@
     "LOREBOOK_ENTRY_INJECTION_ROLE_USER": "Utilisateur",
     "LOREBOOK_ENTRY_INJECTION_ROLE_SYSTEM": "Système",
     "LOREBOOK_ENTRY_INJECTION_ROLE_HINT": "Rôle utilisé lors de l'injection dans la liste des messages. Bascule automatiquement sur 'Utilisateur' pour les fournisseurs qui rejettent les messages système en cours de conversation (ex : Gemini).",
-    "POSITION_BEFORE_CHAR": "Avant le personnage",
-    "POSITION_AFTER_CHAR": "Après le personnage",
-    "POSITION_TOP": "Haut du prompt",
-    "POSITION_BOTTOM": "Bas du prompt",
-    "POSITION_AT_DEPTH": "À la profondeur",
     "PRESETS_TITLE": "Préréglages d'échantillonnage",
     "PRESETS_NEW": "Nouveau préréglage",
     "PRESETS_EXPORT": "Exporter le préréglage",
@@ -3282,6 +3391,8 @@
     "PRESET_CHAT_MEMORY_HINT": "Nombre de messages récents envoyés à chaque requête. Vide = défaut (8) ; le réglage du chat l'emporte.",
     "PRESET_STREAMING": "Streaming",
     "PRESET_STREAMING_HINT": "Diffuser la réponse jeton par jeton. Désactivé = recevoir toute la réponse d'un coup. Le réglage du chat l'emporte.",
+    "PRESET_SHOW_REASONING": "Afficher le raisonnement",
+    "PRESET_SHOW_REASONING_HINT": "Affiche le raisonnement du modele dans les reponses. Desactive = le masquer (le raisonnement est toujours genere et conserve, donc le reactiver le revele). Le reglage du chat l'emporte.",
     "CHARACTER_BACKGROUND": "Image d'arrière-plan",
     "CHARACTER_BACKGROUND_HINT": "Affichée derrière la discussion quand ce personnage mène la conversation."
   },

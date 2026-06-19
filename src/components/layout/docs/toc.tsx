@@ -247,7 +247,7 @@ interface TOCLayoutProps {
 }
 
 export function TOCLayout(props: TOCLayoutProps) {
-      // min-h-min so this flex row grows to content height instead of being clamped by the scrolling inset, else the sticky TOC scrolls off early.
+  // min-h-min so this flex row grows to content height instead of being clamped by the scrolling inset, else the sticky TOC scrolls off early.
   return (
     <div className="flex min-h-min w-full min-w-0 items-start">
       <main className="min-w-0 flex-1">{props.children}</main>

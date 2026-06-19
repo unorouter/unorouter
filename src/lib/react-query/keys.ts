@@ -38,6 +38,7 @@ export const queryKeys = {
     ["task-logs", params] as const,
 
   conversations: (keyword?: string) => ["conversations", keyword] as const,
+  chatGroups: () => ["chat-groups"] as const,
   chatMeta: (id: string) => ["chat-meta", id] as const,
   chatMessages: (id: string) => ["chat-messages", id] as const,
   chatSettings: (id: string) => ["chat-settings", id] as const,

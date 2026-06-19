@@ -77,7 +77,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
     { body: streamBody },
   )
 
-      // V1 lowLevelAccess effects from client trigger modes. One endpoint per op for a concrete Eden return type. Auth required.
+  // V1 lowLevelAccess effects from client trigger modes. One endpoint per op for a concrete Eden return type. Auth required.
   .post(
     "/trigger-op/llm",
     async ({ body, cookie }) => {

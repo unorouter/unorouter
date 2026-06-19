@@ -538,6 +538,57 @@
       "comparison": "비교"
     },
     "POSTS": {
+      "UNOROUTER_VS_MEGALLM": {
+        "TITLE": "{appName} vs MegaLLM: 같은 코더 게이트웨이에 채팅 클라이언트까지",
+        "DESCRIPTION": "MegaLLM은 코딩 에이전트용 인기 프런티어 모델 게이트웨이입니다. {appName}은 같은 일을 하면서 내장 채팅·캐릭터 클라이언트를 더합니다. 차이는 코드만 짜는지, 아니면 채팅할 곳도 원하는지입니다.",
+        "AUTHOR": "{appName} 팀",
+        "INTRO": "MegaLLM은 코딩 에이전트용 깔끔한 게이트웨이로 이 분야 최대급 커뮤니티를 키웠습니다. 하나의 OpenAI 호환 키, 프런티어 모델, 자동 페일오버. {appName}은 같은 종류의 게이트웨이이며, 적합성을 결정하는 한 가지 추가가 있습니다. 둘 중 한쪽이 쓴 정직한 비교입니다.",
+        "H_SAME_LANE": "우리는 같은 차선에 있다",
+        "P_SAME_LANE": "{appName}과 MegaLLM 모두 개발자용 OpenAI 호환 게이트웨이입니다. 둘 다 GPT, Claude, Gemini를 키 하나 뒤에 두고, 제공자가 다운되면 자동 페일오버하며, 베이스 URL 교체로 Claude Code, Codex, OpenCode에 들어갑니다. 제공자 키를 저글링하지 않고 코딩 에이전트를 프런티어 모델로 향하게 하는 게 목표라면 둘 다 됩니다. 그래서 카탈로그와 페일오버는 결정 지점이 아닙니다.",
+        "H_MODELS": "카탈로그와 가격",
+        "P_MODELS": "MegaLLM은 70개 이상 프런티어·비전 모델을 내세우고 비용으로 마케팅합니다. 비용 인식 라우팅으로 직접 가는 것보다 최대 60% 저렴, 월 약 10달러부터의 플랜에 사용량 기반 추가. {appName}은 200개 이상 모델을 싣고, MegaLLM의 프런티어 전용 초점이 빠뜨리는 오픈·롤플레이 튜닝 모델을 포함한 더 넓은 카탈로그이며, 역시 사용량 기반, 만료되지 않는 크레딧과 무료 등급 포함. GPT와 Claude만 부른다면 토큰당 가격이 비교점입니다. 더 넓은 카탈로그를 원한다면 {appName}이 그냥 더 많습니다.",
+        "H_CHAT": "MegaLLM에 없는 부분",
+        "P_CHAT": "MegaLLM은 헤드리스 게이트웨이, API와 대시보드일 뿐 채팅할 곳이 없습니다. {appName}은 게이트웨이에 더해 내장 채팅·캐릭터 클라이언트입니다. 페르소나, 로어북, 프리셋, SillyTavern 카드 임포트, 그리고 같은 키가 SillyTavern, Janitor.AI, RisuAI, Chub에 꽂힙니다. 그래서 코딩 에이전트를 구동하는 같은 키가 진짜 캐릭터 채팅도 구동합니다, 업무에도 놀이에도. 그게 순수 개발 게이트웨이와 2-in-1의 경계입니다.",
+        "H_MIGRATE": "전환은 베이스 URL 변경",
+        "P_MIGRATE": "MegaLLM처럼 {appName}도 OpenAI 호환이라, 이전은 한 줄입니다. 클라이언트를 <c>https://api.unorouter.com/v1</c>로 향하게 하고 코드는 그대로. 채팅 클라이언트의 커스텀 엔드포인트 칸에 붙인 같은 키가 같은 카탈로그에 닿으니, 두 번째 계정도, 채팅 쪽 별도 도구도 필요 없습니다.",
+        "H_VERDICT": "무엇을 골라야 하나",
+        "P_VERDICT": "코드만 짜고 토큰 비용에 최적화된 군더더기 없는 프런티어 모델 게이트웨이를 원한다면, MegaLLM은 탄탄한 선택이고 커뮤니티가 그걸 보여줍니다. 코딩 에이전트와, 같은 잔액·더 넓은 카탈로그에서 구동되는 내장 채팅·캐릭터 클라이언트를 구동하는 키 하나를 원한다면, 그게 {appName}이 채우는 빈틈입니다. 단일 승자는 없습니다. 순수 개발 게이트웨이로 충분한지, 채팅 클라이언트가 내장돼 있길 원하는지에 달렸습니다.",
+        "CTA": "게이트웨이와 채팅을 하나로? <register>무료 계정을 만들거나</register> <models>모델을 둘러보세요</models>."
+      },
+      "UNOROUTER_VS_RISUAI": {
+        "TITLE": "{appName} vs RisuAI: RP 엔진을 호스팅 2-in-1로 이식했습니다",
+        "DESCRIPTION": "RisuAI는 파워 유저용 RP 프런트엔드입니다. {appName}은 그 엔진(로어북, CBS 매크로, 트리거, 정규식, 카드 임포트)을, 같은 키가 코딩 에이전트도 구동하는 호스팅 제품으로 이식했습니다. 경쟁자가 아니라 2-in-1입니다.",
+        "AUTHOR": "{appName} 팀",
+        "INTRO": "RisuAI는 존재하는 것 중 최고의 롤플레이 프런트엔드 중 하나이며, 그 소스를 면밀히 들여다본 우리가 그렇게 말합니다. {appName}은 기능으로 능가하려 하지 않았습니다. 그 엔진을 이식하고 새로운 곳에 두었습니다. OpenAI 호환 키 하나가 코딩 에이전트도 구동하는 호스팅 제품입니다. 그래서 이것은 경쟁 비교라기보다, Risu를 존경하는 사람들이 쓴 정직한 2-in-1 설명입니다.",
+        "H_ENGINE": "앱을 복제한 게 아니라 엔진을 이식했다",
+        "P_ENGINE": "Risu를 롤플레이에 훌륭하게 만드는 부분은 우리가 이식했기에 {appName}에 있습니다. 로어북 시스템(단일 글로벌 풀, @@데코레이터, 재귀), 완전한 CBS 매크로 언어(변수, 조건문, 시드 난수, 블록), Lua 런타임이 있는 V1/V2 트리거 VM, 정규식 커스텀스크립트(editinput/output/display), SillyTavern 카드 v2/v3 임포트, 그룹 채팅 순서, 페르소나, 프리셋, 그리고 롤링 요약 메모리. Risu의 로어북과 트리거를 안다면 여기서도 예상대로 작동합니다.",
+        "H_TWO_IN_ONE": "2-in-1: 코드와 캐릭터 채팅에 같은 키",
+        "P_TWO_IN_ONE": "이것은 설계상 Risu가 될 수 없는 부분입니다. Risu는 BYOK입니다. 자신의 OpenAI나 Claude 키를 가져오며 순수 채팅 프런트엔드입니다. {appName}은 키이자 클라이언트입니다. 내장 캐릭터 채팅을 구동하는 같은 키가 코딩 에이전트(Claude Code, Cline, OpenCode, Codex)를 200개 이상 모델로 향하게 하고, 원하면 SillyTavern, Janitor.AI, RisuAI, Chub에도 바로 꽂힙니다. 하나의 계정, 하나의 잔액, 하나의 모델 목록으로 업무에도 놀이에도. 프런트엔드로서의 Risu를 대체하려는 게 아니라, 우리는 게이트웨이 겸 클라이언트입니다.",
+        "H_HOSTING": "호스팅 vs 자체 호스팅, 그리고 저글링할 키가 없다",
+        "P_HOSTING": "Risu는 당신이 직접 돌리고(웹, Tauri 데스크톱, 또는 Docker) 각 제공자의 API 키를 모아 붙입니다. {appName}은 호스팅됩니다. 설치하거나 살려둘 것이 없고, 키가 계정이라 모을 제공자 키도 없습니다. 가입하고 채팅하면 됩니다. 앱을 세우거나 키를 관리하지 않고 Risu 스타일 경험만 원하는 사람에겐, 이것이 설정 단계 전체를 없앱니다.",
+        "H_RISU_WINS": "Risu가 여전히 이기는 곳(정직하게)",
+        "P_RISU_WINS": "모든 걸 다룬다고 가장하지 않겠습니다. Risu에는 HypaMemory V2/V3가 있어, 우리의 롤링 요약과 의미 검색보다 더 깊은 장기 메모리 압축입니다. 확장하고 공유할 수 있는 진짜 사용자 플러그인 생태계가 있고, 우리에겐 없습니다. 입출력 자동 번역을 위한 내장 번역기는 우리 것보다 완성도가 높습니다. 그리고 자체 호스팅 오픈소스 앱으로서, 호스팅 서비스가 결코 줄 수 없는 완전한 로컬 제어를 줍니다. 그게 가장 중요하다면 Risu가 더 나은 선택이고, 진심입니다.",
+        "H_VERDICT": "무엇을 골라야 하나",
+        "P_VERDICT": "가장 풍부한 메모리와 플러그인 생태계를 갖춘, 자체 호스팅의 개방적이고 깊이 확장 가능한 롤플레이 프런트엔드를 원하고, 자기 키 가져오는 것도 좋다면? Risu를 쓰세요. 같은 로어북, CBS, 트리거, 카드 기능을, 키 하나가 코딩 에이전트도 구동하고 다른 프런트엔드에서도 작동하는 호스팅 제품에서 원한다면? 그게 {appName}이라는 2-in-1입니다. 단일 승자는 없습니다. 우리는 그저 프런트엔드인 Risu가 결코 될 수 없었던 다리를 놓았을 뿐입니다.",
+        "CTA": "모든 게 이식된 채팅을 사용해 보세요. <register>무료 계정을 만들거나</register> <chat>채팅을 여세요</chat>."
+      },
+      "UNOROUTER_VS_LITELLM": {
+        "TITLE": "{appName} vs LiteLLM: 호스팅 게이트웨이냐 자체 호스팅 프록시냐",
+        "DESCRIPTION": "LiteLLM은 가장 인기 있는 자체 호스팅 LLM 프록시입니다. {appName}은 채팅 클라이언트가 내장된 호스팅 게이트웨이입니다. 진짜 선택은 인프라를 직접 운영할지 여부입니다.",
+        "AUTHOR": "{appName} 팀",
+        "INTRO": "LiteLLM은 모든 모델에 하나의 키라는 발상에 대한 오픈소스의 기본 답입니다. MIT 라이선스 파이썬 프록시를 직접 돌립니다. {appName}은 같은 필요에 응답하지만, 호스팅되고 위에 클라이언트가 있습니다. 솔직한 차이는 기능이 아니라, 프록시를 운영하고 싶은지 아니면 그냥 엔드포인트를 호출하고 싶은지입니다.",
+        "H_HOSTED": "자체 호스팅 vs 호스팅",
+        "P_HOSTED": "LiteLLM은 당신이 배포하고 운영하는 소프트웨어입니다. 프록시를 띄우고, 프로세스를 관리하고, 로그를 지켜보고, 부하에 맞춰 확장합니다. 중간자 없는 완전한 제어를 주며, 바로 플랫폼 팀이 원하는 것입니다. {appName}은 정반대의 절충입니다. 배포하거나 살려둘 것이 없습니다. 엔드포인트와 키를 받고, 가용성, 라우팅, 페일오버는 당신이 아니라 우리의 문제입니다.",
+        "H_SETUP": "설정과 유지보수",
+        "P_SETUP": "LiteLLM에서는 설정을 작성하고, 모든 제공자의 API 키를 제공하고, 서버를 돌리고(파이썬이라 동시성에서 GIL 주의), 업그레이드와 모니터링을 영원히 책임집니다. {appName}에서는 가입하고 클라이언트를 <c>https://api.unorouter.com/v1</c>로 가리키면 됩니다. 설정 파일도, 모을 제공자 키도, 돌볼 서버도 없습니다. 하나는 당신이 유지하는 인프라이고, 다른 하나는 당신이 소비하는 서비스입니다.",
+        "H_INTERFACE": "채팅할 수 있는 LiteLLM은 없다",
+        "P_INTERFACE": "LiteLLM은 설계상 헤드리스입니다. API 계층이고, 모든 인터페이스는 당신이 가져옵니다. {appName}은 같은 OpenAI 호환 API에 더해 내장 채팅·캐릭터 클라이언트(페르소나, 로어북, 프리셋, SillyTavern 카드 임포트)를 제공하고, 같은 키가 SillyTavern, Janitor.AI, RisuAI, Chub에 꽂힙니다. 그래서 아직 UI를 만들어야 하는 프록시 대신, 코딩 에이전트와 실제로 채팅할 곳이 하나의 키로 돌아갑니다.",
+        "H_COST": "비용과 키",
+        "P_COST": "LiteLLM은 마진을 떼지 않지만, 각 제공자에게 직접 지불하고 인프라 비용에 더해 DevOps 시간을 부담합니다. 팀이 있다면 대량에서 유리합니다. {appName}은 200개 이상 모델에 걸친 사용량 기반이며, 만료되지 않는 크레딧과 무료 등급이 있고, 제공자마다의 지갑이 아니라 하나의 잔액이며, 지불할 서버가 없습니다. 본격적인 규모 아래에서는 시간까지 계산하면 호스팅 경로가 대개 더 저렴합니다.",
+        "H_VERDICT": "무엇을 골라야 하나",
+        "P_VERDICT": "플랫폼 팀이 있고, 마진 제로를 원하고, 프록시 운영도 좋다면 LiteLLM이 올바른 도구입니다. 배포할 것 없는 OpenAI 호환 키가, 코딩 에이전트와 진짜 채팅 클라이언트 양쪽에서 작동하길 원한다면 {appName}이 맞습니다. 단일 승자는 없습니다. 게이트웨이를 운영하고 싶은지, 그냥 쓰고 싶은지로 귀결됩니다.",
+        "CTA": "배포할 것 없는 게이트웨이를 원하시나요? <register>무료 계정을 만들거나</register> <models>모델을 둘러보세요</models>."
+      },
       "FEATURED_ON": {
         "TITLE": "{appName}을 찾을 수 있는 곳: 디렉터리 등록 목록",
         "DESCRIPTION": "{appName}은 AI 도구 및 스타트업 디렉터리에 등록되어 있습니다. 여기에서 저희를 찾고, 등록 내용을 확인하고, 독립적인 평가를 읽어보세요.",
@@ -2034,6 +2085,7 @@
     "LEGAL": "법적 정보",
     "PRIVACY": "개인정보 처리방침",
     "TERMS": "이용 약관",
+    "REFUND": "환불 정책",
     "CONTACT_TITLE": "문의",
     "CONTACT_SUBTITLE": "질문이나 문의 사항이 있으신가요?",
     "DESCRIPTION": "단일 지능형 엔드포인트를 통해 여러 공급자의 수백 개 모델에 액세스할 수 있는 통합 AI API 플랫폼.",
@@ -2122,6 +2174,42 @@
     "CHANGES_CONTENT": "당사는 본 약관을 수시로 업데이트할 수 있습니다. 중대한 변경 사항은 이메일 또는 제품 내 알림을 통해 최소 30일 사전 통지로 전달됩니다. 변경 후 서비스의 지속적인 사용은 업데이트된 약관에 대한 귀하의 수락을 구성합니다.",
     "CONTACT_TITLE": "14. 문의",
     "CONTACT_CONTENT": "본 약관에 대한 질문이 있으시면 {supportEmail}로 문의하세요."
+  },
+  "REFUND": {
+    "META": {
+      "TITLE": "환불 정책 - {appName}",
+      "DESCRIPTION": "{appName}을 통해 구매한 크레딧 및 구독에 대한 환불 처리 방법과 자격 요건, 소요 기간, 신청 방법을 알아보세요.",
+      "KEYWORDS": "환불 정책, 환불, {appName} 환불, AI API 환불, 구독 환불"
+    },
+    "TITLE": "환불 정책",
+    "LAST_UPDATED": "최종 업데이트: 2026년 6월 17일",
+    "INTRO": "본 환불 정책은 {appName}을 통해 구매한 크레딧, 구독 및 기타 결제에 대한 환불 처리 방법을 설명합니다. 당사 플랫폼을 통해 구매함으로써 귀하는 본 정책에 동의하는 것으로 간주됩니다.",
+    "PAYMENTS_TITLE": "1. 결제",
+    "PAYMENTS_CONTENT": "크레딧 및 구독 요금제에 대한 모든 결제는 당사 결제 대행사를 통해 안전하게 처리됩니다. 구독은 취소될 때까지 자동으로 갱신되며, 모든 거래는 전송 중에 암호화됩니다. 구매 시 달리 명시되지 않는 한 정기 결제가 적용됩니다.",
+    "ELIGIBILITY_TITLE": "2. 환불 자격",
+    "ELIGIBILITY_INTRO": "환불 자격을 얻으려면 다음 기준을 모두 충족해야 합니다.",
+    "ELIGIBILITY_WINDOW": "7일 기한: 환불 요청은 최초 결제일로부터 7일 이내에 제출해야 합니다.",
+    "ELIGIBILITY_USAGE": "사용 한도: 청구 주기 동안 구매에 포함된 크레딧 또는 할당량의 20%를 초과하여 사용하지 않았어야 합니다.",
+    "ELIGIBILITY_COMPLIANCE": "약관 준수: 이용 약관을 위반한 계정에는 환불이 제공되지 않습니다.",
+    "NON_REFUNDABLE_TITLE": "3. 환불 불가 항목",
+    "NON_REFUNDABLE_INTRO": "다음 항목에 대해서는 환불을 제공하지 않습니다.",
+    "NON_REFUNDABLE_PARTIAL": "7일 기한이 지난 후 일부 사용된 구독 기간 또는 크레딧.",
+    "NON_REFUNDABLE_FEES": "일회성 수수료, 플랫폼 수수료 또는 부가 서비스.",
+    "NON_REFUNDABLE_TERMINATED": "정책 위반으로 종료된 계정.",
+    "REQUEST_TITLE": "4. 환불 요청 방법",
+    "REQUEST_INTRO": "환불을 요청하려면 다음 정보와 함께 당사 지원팀({supportEmail})으로 문의하세요.",
+    "REQUEST_ACCOUNT": "계정 사용자 이름 또는 이메일 주소.",
+    "REQUEST_PROOF": "거래 ID 또는 영수증과 같은 결제 증빙.",
+    "REQUEST_REASON": "환불 요청 사유.",
+    "REQUEST_VERIFY": "요청 내용을 확인하기 위해 추가 정보를 요청할 수 있습니다.",
+    "PROCESSING_TITLE": "5. 환불 처리",
+    "PROCESSING_CONTENT": "승인된 환불은 원래 결제 수단으로 지급됩니다. 환불은 일반적으로 영업일 기준 5~10일 이내에 처리됩니다. 실제 입금 시점은 거래 은행 또는 결제 대행사에 따라 달라질 수 있습니다.",
+    "LAW_TITLE": "6. 관련 법규 준수",
+    "LAW_CONTENT": "본 환불 정책은 귀하의 관할권에서 적용되는 소비자 보호법에 따라 귀하가 가질 수 있는 법적 권리에 추가되는 것이며 이를 제한하지 않습니다. 현지 법률이 본 정책을 초과하는 강제적 철회권 또는 환불권을 부여하는 경우 해당 권리가 우선합니다.",
+    "CHANGES_TITLE": "7. 본 정책의 변경",
+    "CHANGES_CONTENT": "당사는 변화하는 소비자 보호 체계를 준수하기 위해 언제든지 본 환불 정책을 변경할 수 있습니다. 변경 사항은 개정일과 함께 본 페이지에 반영되며, 필요한 경우 중요한 변경 사항에 대해 영향을 받는 고객에게 사전에 통지합니다.",
+    "CONTACT_TITLE": "8. 문의",
+    "CONTACT_CONTENT": "환불 요청이나 본 정책에 대한 문의 사항은 {supportEmail}로 연락해 주세요."
   },
   "MAIN": {
     "ENUM": {
@@ -3047,6 +3135,7 @@
       "CHAT_MEMORY_HINT": "각 요청과 함께 보내는 최근 메시지 수.",
       "STREAMING_ENABLED": "스트리밍",
       "STREAMING_ENABLED_HINT": "끄기 = 전체 응답을 기다린 후 표시. 일부 모델은 버퍼링될 때만 깔끔하게 출력합니다. 대부분 사용자 환경 설정.",
+      "SHOW_REASONING": "추론 표시",
       "SYSTEM_PROMPT": "시스템 프롬프트 재정의",
       "SYSTEM_PROMPT_PLACEHOLDER": "캐릭터의 시스템 프롬프트를 사용하려면 비워 두세요.",
       "AUTHOR_NOTE": "작성자 메모",
@@ -3085,7 +3174,7 @@
     },
     "MORE": {
       "OPEN": "더 많은 작업",
-      "IMPORT_EXPORT": "가져오기 / 내보내기",
+      "IMPORT_EXPORT": "가져오기 / 내보내기 / 디버그",
       "EXPORT_NATIVE": "내보내기 (네이티브)",
       "EXPORT_ORPG": "내보내기 (OpenRouter)",
       "EXPORT_SILLYTAVERN": "내보내기 (SillyTavern JSONL)",
@@ -3104,14 +3193,38 @@
       "LOCAL_DB_UPLOAD_CONFIRM": "이 파일에서 로컬 OPFS 데이터베이스를 덮어쓰시겠습니까? 기존 데이터가 지워집니다.",
       "CLEAR": "채팅 지우기",
       "CLEAR_SUCCESS": "채팅 지워짐",
-      "CLEAR_CONFIRM_DESC": "대화의 모든 메시지를 삭제하지만 설정, 캐릭터 바인딩, 제목은 유지합니다. 이 작업은 취소할 수 없습니다."
+      "CLEAR_CONFIRM_DESC": "대화의 모든 메시지를 삭제하지만 설정, 캐릭터 바인딩, 제목은 유지합니다. 이 작업은 취소할 수 없습니다.",
+      "DISPLAY": "표시",
+      "DIAGNOSTICS": "로그 다운로드(메시지 제외)",
+      "DIAGNOSTICS_FULL": "로그 + 메시지 다운로드",
+      "DEBUG_CLEAR": "디버그 로그 지우기",
+      "DEBUG_CLEARED": "디버그 로그를 지웠습니다"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, other {캐릭터 #개}}",
       "LOREBOOKS": "{count, plural, other {로어북 #개}}"
     },
     "TRIGGER_ALERT_SELECT_DESC": "계속하려면 옵션을 선택하세요",
-    "TRIGGER_ALERT_OK": "확인"
+    "TRIGGER_ALERT_OK": "확인",
+    "SUCCESS": {
+      "ERROR_COPIED": "오류 세부정보가 복사되었습니다"
+    },
+    "CHAT_TOTAL": "채팅 합계",
+    "STATS": {
+      "SHOW_COST": "비용 표시",
+      "SHOW_TOKENS": "토큰 표시"
+    },
+    "GROUPS": {
+      "NEW_GROUP": "새 그룹",
+      "RENAME": "그룹 이름 변경",
+      "DELETE": "그룹 삭제",
+      "MOVE_TO": "그룹으로 이동",
+      "UNGROUPED": "그룹 없음",
+      "GROUP_UNTITLED": "새 그룹",
+      "EMPTY": "채팅 없음",
+      "DELETE_CONFIRM_TITLE": "그룹을 삭제할까요？",
+      "DELETE_CONFIRM_DESC": "그룹은 삭제되지만 채팅은 유지되며 그룹 없음이 됩니다."
+    }
   },
   "RP": {
     "CHARACTERS_TITLE": "캐릭터",
@@ -3165,9 +3278,10 @@
     "LOREBOOK_ENTRY_KEYS": "활성화 키 (쉼표로 구분)",
     "LOREBOOK_ENTRY_KEYS_HINT": "이 항목을 활성화하는 단어. 예: 드래곤, 웜, 드레이크.",
     "LOREBOOK_ENTRY_SECONDARY_KEYS": "보조 트리거",
-    "LOREBOOK_ENTRY_PRIORITY_HINT": "낮은 숫자가 프롬프트에 더 일찍 주입됩니다.",
+    "LOREBOOK_ENTRY_PRIORITY_HINT": "값이 클수록 토큰 예산 안에서 살아남습니다.",
     "LOREBOOK_ENTRY_CONTENT": "내용",
-    "LOREBOOK_ENTRY_POSITION": "위치",
+    "LOREBOOK_ENTRY_ORDER": "삽입 순서",
+    "LOREBOOK_ENTRY_ORDER_HINT": "값이 클수록 먼저 삽입됩니다. 값은 무엇이든 되며 상대적인 순서만 중요합니다.",
     "LOREBOOK_ENTRY_PRIORITY": "우선순위",
     "LOREBOOK_ENTRY_CONSTANT": "항상 활성",
     "LOREBOOK_ENTRY_SELECTIVE": "보조 키 필요",
@@ -3178,11 +3292,6 @@
     "LOREBOOK_ENTRY_INJECTION_ROLE_USER": "사용자",
     "LOREBOOK_ENTRY_INJECTION_ROLE_SYSTEM": "시스템",
     "LOREBOOK_ENTRY_INJECTION_ROLE_HINT": "메시지 배열에 주입할 때 사용되는 역할. 대화 중간 시스템 메시지를 거부하는 공급자 (예: Gemini)에서는 자동으로 'user'로 폴백됩니다.",
-    "POSITION_BEFORE_CHAR": "캐릭터 앞",
-    "POSITION_AFTER_CHAR": "캐릭터 뒤",
-    "POSITION_TOP": "프롬프트 상단",
-    "POSITION_BOTTOM": "프롬프트 하단",
-    "POSITION_AT_DEPTH": "지정 깊이",
     "PRESETS_TITLE": "샘플링 프리셋",
     "PRESETS_NEW": "새 프리셋",
     "PRESETS_EXPORT": "프리셋 내보내기",
@@ -3282,6 +3391,8 @@
     "PRESET_CHAT_MEMORY_HINT": "요청마다 보낼 최근 메시지 수. 비움 = 기본값(8); 채팅 설정이 우선합니다.",
     "PRESET_STREAMING": "스트리밍",
     "PRESET_STREAMING_HINT": "응답을 토큰 단위로 스트리밍. 끄면 전체 응답을 한 번에 받음. 채팅 설정이 우선합니다.",
+    "PRESET_SHOW_REASONING": "추론 표시",
+    "PRESET_SHOW_REASONING_HINT": "응답에 모델의 사고 과정을 표시합니다. 끄기 = 숨김 (추론은 여전히 생성되어 보관되므로 다시 켜면 나타납니다). 채팅 설정이 우선합니다.",
     "CHARACTER_BACKGROUND": "배경 이미지",
     "CHARACTER_BACKGROUND_HINT": "이 캐릭터가 대화를 주도할 때 채팅 뒤에 표시됩니다."
   },

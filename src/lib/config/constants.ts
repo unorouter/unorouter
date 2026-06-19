@@ -161,6 +161,15 @@ export const TITLE_SYSTEM_PROMPT = `Generate a concise title (max 8 words) for t
 The title MUST be in the same language as the user's message.
 Return only the title text, no quotes or formatting.`;
 
+// Title gen is pinned to these (raced via Promise.any) instead of a random free model: they are
+// English/OpenAI-native + have the most free channels, so titles stop drifting into other
+// languages (e.g. a random Arabic-biased free model) and rarely all fail at once.
+export const TITLE_MODELS = [
+  "gpt-oss-120b:free",
+  "gpt-oss-20b:free",
+  "llama-3.3-70b:free",
+] as const;
+
 export const TITLE_FALLBACK_MAX_CHARS = 60;
 
 export const WEB_SEARCH_CLASSIFIER_SYSTEM_PROMPT = `Decide if this query needs current or real-time web information to answer accurately. Reply only "yes" or "no".`;

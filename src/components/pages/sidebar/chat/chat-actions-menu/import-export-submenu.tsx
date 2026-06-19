@@ -13,7 +13,10 @@ import {
 import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { analytics } from "@/lib/analytics";
 import { env } from "@/lib/config/env";
+import { buildDiagnostics } from "@/lib/db/client/data/diagnostics";
+import { clearChatDebugLog } from "@/lib/utils/chat-debug-log";
 import { exportLocalConversationSillyTavern } from "@/lib/db/client/data/transfer/sillytavern";
+import { dayjs } from "@/lib/utils/format/date";
 import { downloadBlob, downloadJson } from "@/lib/utils/client";
 import type { ExportFormat } from "@/lib/validation/rp";
 import { useAui } from "@assistant-ui/react";
@@ -32,14 +35,23 @@ export function ImportExportSubmenu(props: Props) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const exportMut = useExportConversation();
   const importMut = useImportConversationMutation();
-
   const hasConv = !!props.convId;
+
+  const downloadDiagnostics = async (includeContent: boolean) => {
+    try {
+      const data = await buildDiagnostics(userId, { includeContent });
+      const stamp = dayjs().format("YYYYMMDD-HHmmss");
+      downloadJson(data, `unorouter-diagnostics-${stamp}.json`);
+    } catch (e) {
+      toast.error(String(e).slice(0, 120));
+    }
+  };
 
   const handleExport = async (format: ExportFormat) => {
     if (!props.convId) return;
 
     if (format === "sillytavern") {
-          // SillyTavern is a JSONL download (not a JSON envelope) built from the local DB; download the raw string as a blob.
+      // SillyTavern is a JSONL download (not a JSON envelope) built from the local DB; download the raw string as a blob.
       try {
         const result = await exportLocalConversationSillyTavern(
           userId,
@@ -119,6 +131,24 @@ export function ImportExportSubmenu(props: Props) {
           >
             <Icon name="upload" className="size-4" />
             {t("CHAT.MORE.IMPORT")}
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem onClick={() => downloadDiagnostics(false)}>
+            <Icon name="clipboard-copy" className="size-4" />
+            {t("CHAT.MORE.DIAGNOSTICS")}
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => downloadDiagnostics(true)}>
+            <Icon name="file-text" className="size-4" />
+            {t("CHAT.MORE.DIAGNOSTICS_FULL")}
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => {
+              clearChatDebugLog();
+              toast.success(t("CHAT.MORE.DEBUG_CLEARED"));
+            }}
+          >
+            <Icon name="trash-2" className="size-4" />
+            {t("CHAT.MORE.DEBUG_CLEAR")}
           </DropdownMenuItem>
         </DropdownMenuSubContent>
       </DropdownMenuSub>

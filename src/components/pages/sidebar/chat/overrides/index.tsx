@@ -18,6 +18,7 @@ import {
   useUpdateChatBindingsMutation,
   useUpdateChatSettingsMutation,
 } from "@/hooks/ai/rp/conversations";
+import { usePresetsQuery } from "@/hooks/ai/rp/presets";
 import { usePricingQuery } from "@/hooks/models/pricing-hook";
 import { useIsMobile } from "@/hooks/ui/use-mobile";
 import { analytics } from "@/lib/analytics";
@@ -88,7 +89,15 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
   const settings = settingsQuery.data;
   const bindings = bindingsQuery.data;
 
-      // values resyncs the form whenever this object changes; keepDirtyValues protects in-flight edits from a background refetch.
+  // The bound preset is the live inheritance source: the drawer shows resolved values and
+  // save writes null (inherit) unless the user diverged. null presetId = no preset bound.
+  const presetsQuery = usePresetsQuery();
+  const boundPreset =
+    (settings?.presetId
+      ? presetsQuery.data?.find((p) => p.id === settings.presetId)
+      : null) ?? null;
+
+  // values resyncs the form whenever this object changes; keepDirtyValues protects in-flight edits from a background refetch.
   const formValues = computeFormValues({
     isDefaultsMode,
     chatDefaults,
@@ -96,6 +105,7 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
     samplerMemoryByModel,
     settings,
     bindings,
+    preset: boundPreset,
   });
 
   const form = useForm({
@@ -147,7 +157,7 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
     try {
       await updateSettings.mutateAsync({
         convId: props.convId!,
-        body: buildSettingsBody(data),
+        body: buildSettingsBody(data, boundPreset),
       });
       await updateBindings.mutateAsync({
         convId: props.convId!,

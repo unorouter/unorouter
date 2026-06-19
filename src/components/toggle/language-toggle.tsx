@@ -25,7 +25,7 @@ export function LanguageToggle() {
 
   const handleLanguageChange = (newLocale: Locale) => {
     analytics.settings.localeChanged(newLocale);
-        // Resolve the localized URL back to its typed { pathname, params } shape so next-intl's router can re-localize against the pathnames map.
+    // Resolve the localized URL back to its typed { pathname, params } shape so next-intl's router can re-localize against the pathnames map.
     const matched = matchPathname(pathname, locale);
     startTransition(() => {
       if (matched) {

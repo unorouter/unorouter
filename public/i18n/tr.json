@@ -534,10 +534,61 @@
       "product": "ürün",
       "engineering": "mühendislik",
       "update": "güncelleme",
-      "community": "Topluluk",
-      "comparison": "Karşılaştırma"
+      "community": "topluluk",
+      "comparison": "karşılaştırma"
     },
     "POSTS": {
+      "UNOROUTER_VS_MEGALLM": {
+        "TITLE": "{appName} vs MegaLLM: ayni kodlama ag gecidi, arti bir sohbet istemcisi",
+        "DESCRIPTION": "MegaLLM, kodlama ajanlari icin populer bir oncu model ag gecididir. {appName} ayni isi yapar ve dahili bir sohbet ve karakter istemcisi ekler. Fark, yalnizca kod mu yazdiginiz yoksa sohbet edecek bir yer de mi istediginizdir.",
+        "AUTHOR": "{appName} ekibi",
+        "INTRO": "MegaLLM, kodlama ajanlari icin temiz bir ag gecidi olarak bu alandaki en buyuk topluluklardan birini kurdu: tek OpenAI uyumlu anahtar, oncu modeller, otomatik yedege gecis. {appName} ayni tur ag gecididir, uyumu belirleyen tek bir eklemeyle. Iste ikisinden birinden durust karsilastirma.",
+        "H_SAME_LANE": "Ayni seritteyiz",
+        "P_SAME_LANE": "Hem {appName} hem MegaLLM, gelistiriciler icin yapilmis OpenAI uyumlu ag gecitleridir. Ikisi de GPT, Claude ve Gemini'yi tek anahtarin arkasina koyar, bir saglayici dustugunde otomatik yedege gecer, taban URL degisikligiyle Claude Code, Codex ve OpenCode'a girer. Amaciniz saglayici anahtarlariyla ugrasmadan bir kodlama ajanini oncu modellere yonlendirmekse, ikisi de bunu yapar. Yani katalog ve yedege gecis kararin oldugu yer degil.",
+        "H_MODELS": "Katalog ve fiyatlandirma",
+        "P_MODELS": "MegaLLM 70'ten fazla oncu ve gorus modelini duyurur ve kendini maliyet uzerinden pazarlar, maliyet bilincli yonlendirmeyle dogrudan gitmekten %60'a kadar ucuz, aylik yaklasik 10 dolardan baslayan planlar arti kullandikca ode. {appName} 200'den fazla model tasir, MegaLLM'in yalnizca oncu odaginin disarida biraktigi acik ve rol yapma icin ayarlanmis modelleri iceren daha genis bir katalog, yine kullandikca ode, suresi dolmayan krediler ve ucretsiz katmanla. Yalnizca GPT ve Claude'u cagiriyorsaniz, token basina fiyat karsilastirmadir. Daha genis katalog istiyorsaniz, {appName}'de sadece daha fazlasi var.",
+        "H_CHAT": "MegaLLM'in sahip olmadigi parca",
+        "P_CHAT": "MegaLLM arayuzsuz bir ag gecididir, bir API ve bir panel, sohbet edecek bir sey yok. {appName} ag gecidine ek olarak dahili bir sohbet ve karakter istemcisidir: personalar, lorebook'lar, hazir ayarlar, SillyTavern kart ice aktarma ve ayni anahtar SillyTavern, Janitor.AI, RisuAI veya Chub'a takilir. Boylece kodlama ajaninizi calistiran ayni anahtar gercek bir karakter sohbetini de calistirir, is ve oyun icin. Iste saf bir gelistirici ag gecidi ile 2-si-1-arada arasindaki cizgi.",
+        "H_MIGRATE": "Gecis bir taban URL degisikligidir",
+        "P_MIGRATE": "MegaLLM gibi {appName} de OpenAI uyumludur, yani gecmek tek satir: istemcinizi <c>https://api.unorouter.com/v1</c> adresine yonlendirin ve kodunuzu koruyun. Bir sohbet istemcisinin ozel uc nokta alanina yapistirilan ayni anahtar ayni kataloga ulasir, yani ne ikinci hesap ne de sohbet tarafi icin ayri bir arac.",
+        "H_VERDICT": "Hangisini secmelisin",
+        "P_VERDICT": "Yalnizca kod yaziyor ve token maliyetine gore optimize edilmis yalin bir oncu model ag gecidi istiyorsaniz, MegaLLM saglam bir secimdir ve toplulugu bunu gosterir. Kodlama ajanlarinizi ve ayni bakiyeden, daha genis bir katalogdan calisan dahili bir sohbet ve karakter istemcisini calistiran tek bir anahtar istiyorsaniz, iste {appName}'in doldurdugu bosluk budur. Tek bir kazanan yok. Saf bir gelistirici ag gecidinin yeterli olup olmadigina ya da sohbet istemcisini dahili istemenize bagli.",
+        "CTA": "Ag gecidini ve sohbeti tek arada mi istiyorsun? <register>Ucretsiz hesap olustur</register> ya da <models>modellere goz at</models>."
+      },
+      "UNOROUTER_VS_RISUAI": {
+        "TITLE": "{appName} vs RisuAI: RP motorunu barindirilan bir 2-si-1-arada'ya tasidik",
+        "DESCRIPTION": "RisuAI ileri kullanicilara yonelik RP arayuzudur. {appName} onun motorunu (lorebook'lar, CBS makrolari, tetikleyiciler, regex, kart ice aktarma) ayni anahtarin kodlama ajanlarini da calistirdigi barindirilan bir urune tasidi. Rakip degil, bir 2-si-1-arada.",
+        "AUTHOR": "{appName} ekibi",
+        "INTRO": "RisuAI var olan en iyi rol yapma arayuzlerinden biridir ve bunu kaynagini yakindan inceleyen kisiler olarak soyluyoruz. {appName} onu ozelliklerde gecmeye calismadi. Motorunu tasidik ve yeni bir yere koyduk: OpenAI uyumlu tek bir anahtarin kodlama ajanlarinizi da calistirdigi barindirilan bir urun. Yani bu bir rakip karsilastirmasindan cok, Risu'ya hayran kisilerce yazilmis durust bir 2-si-1-arada aciklamasidir.",
+        "H_ENGINE": "Uygulamayi klonlamadik, motoru tasidik",
+        "P_ENGINE": "Risu'yu rol yapma icin harika kilan parcalar {appName}'de, cunku onlari tasidik: lorebook sistemi (tek kuresel havuz, @@ susleyiciler, ozyineleme), tam CBS makro dili (degiskenler, kosullar, tohumlu rastgele, bloklar), Lua calisma zamanli V1/V2 tetikleyici VM'i, regex customscript'leri (editinput/output/display), SillyTavern kart v2/v3 ice aktarma, grup sohbeti sirasi, personalar, hazir ayarlar ve kayan ozet bellegi. Risu'nun lorebook ve tetikleyicilerini biliyorsaniz, burada bekledigiSiniz gibi calisirlar.",
+        "H_TWO_IN_ONE": "2-si-1-arada: kod ve karakter sohbeti icin ayni anahtar",
+        "P_TWO_IN_ONE": "Bu, Risu'nun tasarim geregi olamayacagi kisim. Risu BYOK'tur: kendi OpenAI veya Claude anahtarinizi getirirsiniz ve o salt bir sohbet arayuzudur. {appName} hem anahtar hem istemcidir. Yerlesik karakter sohbetini calistiran ayni anahtar, bir kodlama ajanini (Claude Code, Cline, OpenCode, Codex) 200'den fazla modele yonlendirir ve tercih ederseniz SillyTavern, Janitor.AI, RisuAI veya Chub'a dogrudan takilir. Tek hesap, tek bakiye, tek model listesi; is ve oyun icin. Arayuz olarak Risu'nun yerini almaya calismiyoruz, tek parcada ag gecidi arti istemciyiz.",
+        "H_HOSTING": "Barindirilan vs kendin barindiran ve jonglurluk yapacak anahtar yok",
+        "P_HOSTING": "Risu'yu kendiniz calistirirsiniz (web, Tauri masaustu veya Docker) ve her saglayicinin API anahtarini toplayip yapistirirsiniz. {appName} barindirilir: kurulacak ya da ayakta tutulacak bir sey yok ve toplanacak saglayici anahtari yok, cunku anahtar hesabin kendisi. Kayit olur ve sohbet edersiniz. Sadece Risu tarzi deneyimi bir uygulama ayaga kaldirmadan ya da anahtar yonetmeden isteyenler icin bu, tum kurulum adimini ortadan kaldirir.",
+        "H_RISU_WINS": "Risu'nun hala kazandigi yerler (durustce)",
+        "P_RISU_WINS": "Her seyi kapsadigimiz numarasi yapmayacagiz. Risu'da HypaMemory V2/V3 var; kayan ozetimiz arti anlamsal getirmeden daha derin bir uzun vadeli bellek sikistirmasi. Genisletip paylasabileceginiz gercek bir kullanici eklenti ekosistemi var; bizde yok. Girdi/cikti otomatik cevirisi icin yerlesik cevirmenleri bizimkilerden daha eksiksiz. Ve kendin barindiran acik kaynak bir uygulama olarak, barindirilan bir hizmetin asla veremeyecegi tam yerel kontrol sunar. Bunlar sizin icin en onemliyse, Risu daha iyi secimdir ve bunu ciddi soyluyoruz.",
+        "H_VERDICT": "Hangisini secmelisin",
+        "P_VERDICT": "En zengin bellek ve eklenti ekosistemine sahip, kendin barindiran, acik ve derinlemesine genisletilebilir bir rol yapma arayuzu istiyor ve kendi anahtarlarinizi getirmekten memnun musunuz? Risu'yu kullanin. Ayni lorebook, CBS, tetikleyici ve kart ozelliklerini, tek anahtarin kodlama ajanlarinizi da calistirdigi ve baska arayuzlerde de calistigi barindirilan bir urunde mi istiyorsunuz? Iste {appName} olan 2-si-1-arada budur. Tek bir kazanan yok. Biz sadece, bir arayuz olan Risu'nun olmasi asla amaclanmamis koprusunu kurduk.",
+        "CTA": "Her seyi tasinmis sohbeti deneyin. <register>Ucretsiz hesap olusturun</register> ya da <chat>sohbeti acin</chat>."
+      },
+      "UNOROUTER_VS_LITELLM": {
+        "TITLE": "{appName} vs LiteLLM: barindirilan ag gecidi mi yoksa kendin barindiran vekil mi",
+        "DESCRIPTION": "LiteLLM en populer kendin barindiran LLM vekilidir. {appName} dahili sohbet istemcili barindirilan bir ag gecididir. Asil secim altyapiyi kendin mi calistirmak istedigin.",
+        "AUTHOR": "{appName} ekibi",
+        "INTRO": "Her model icin tek anahtar fikrine varsayilan acik kaynak yanit LiteLLM'dir: kendin calistirdigin MIT lisansli bir Python vekili. {appName} ayni ihtiyaca yanit verir ama barindirilir ve ustunde bir istemci vardir. Durust fark ozellikler degil; vekili calistirmak mi yoksa sadece bir uc nokta cagirmak mi istedigin.",
+        "H_HOSTED": "Kendin barindirma vs barindirilan",
+        "P_HOSTED": "LiteLLM dagittigin ve calistirdigin bir yazilimdir: vekili ayaga kaldir, sureci yonet, gunlukleri izle, yuk altinda olcekle. Bu, araci olmadan tam kontrol verir, tam da bir platform ekibinin istedigi sey. {appName} ters takastir. Dagitilacak ya da ayakta tutulacak hicbir sey yok. Bir uc nokta ve anahtar alirsin; erisilebilirlik, yonlendirme ve yedege gecis bizim sorunumuz, senin degil.",
+        "H_SETUP": "Kurulum ve bakim",
+        "P_SETUP": "LiteLLM ile bir yapilandirma yazarsin, her saglayicinin API anahtarlarini verirsin, sunucuyu calistirirsin (Python, bu yuzden eszamanlilikta GIL'e dikkat) ve yukseltmeleri ve izlemeyi sonsuza dek ustlenirsin. {appName} ile kayit olur ve istemcini <c>https://api.unorouter.com/v1</c> adresine yonlendirirsin. Yapilandirma dosyasi yok, toplanacak saglayici anahtari yok, bakilacak sunucu yok. Biri bakimini yaptigin altyapi; digeri tukettigin bir hizmet.",
+        "H_INTERFACE": "Icinde sohbet edebilecegin bir LiteLLM yok",
+        "P_INTERFACE": "LiteLLM tasarim geregi arayuzsuzdur: bir API katmani, her arayuzu sen getirirsin. {appName} ayni OpenAI uyumlu API'yi arti dahili bir sohbet ve karakter istemcisini (personalar, lorebook'lar, hazir ayarlar, SillyTavern kart ice aktarimi) sunar ve ayni anahtar SillyTavern, Janitor.AI, RisuAI veya Chub'a takilir. Boylece bir kodlama ajani ve gercekten sohbet edilecek bir yer tek anahtarla calisir; hala arayuz insa etmen gereken bir vekil yerine.",
+        "H_COST": "Maliyet ve anahtarlar",
+        "P_COST": "LiteLLM kar payi almaz ama her saglayiciya dogrudan odersin ve altyapi faturasiyla birlikte DevOps zamanini tasirsin. Ekibin varsa yuksek hacimde kazanir. {appName} 200'den fazla model genelinde kullandikca ode seklindedir, suresi dolmayan krediler ve ucretsiz bir katman ile; her saglayicida bir cuzdan yerine tek bakiye ve odenecek sunucu yok. Ciddi olcegin altinda, saatleri saydiginda barindirilan yol genellikle daha ucuzdur.",
+        "H_VERDICT": "Hangisini secmelisin",
+        "P_VERDICT": "Bir platform ekibin varsa, sifir kar payi istiyorsan ve vekili calistirmaktan memnunsan, LiteLLM dogru aractir. Dagitilacak hicbir sey olmadan, kodlama ajaninda ve gercek bir sohbet istemcisinde calisan OpenAI uyumlu tek bir anahtar istiyorsan {appName} uyar. Tek bir kazanan yok. Sonucta ag gecidini calistirmak mi yoksa sadece birini kullanmak mi istedigine baglidir.",
+        "CTA": "Dagitilacak hicbir sey olmayan bir ag gecidi mi istiyorsun? <register>Ucretsiz hesap olustur</register> ya da <models>modellere goz at</models>."
+      },
       "FEATURED_ON": {
         "TITLE": "{appName} nerede bulunur: dizin kayitlarimiz",
         "DESCRIPTION": "{appName}, yapay zeka araci ve girisim dizinlerinde listelenmistir. Bizi burada bulabilir, kayitlari dogrulayabilir ve bagimsiz degerlendirmeleri okuyabilirsiniz.",
@@ -2034,6 +2085,7 @@
     "LEGAL": "Yasal",
     "PRIVACY": "Gizlilik Politikası",
     "TERMS": "Şartlar ve Koşullar",
+    "REFUND": "İade Politikası",
     "CONTACT_TITLE": "İletişim",
     "CONTACT_SUBTITLE": "Sorular veya endişeler?",
     "DESCRIPTION": "Birden çok sağlayıcıdan yüzlerce modele tek, akıllı bir endpoint üzerinden erişim sağlayan birleşik AI API platformu.",
@@ -2122,6 +2174,42 @@
     "CHANGES_CONTENT": "Bu Şartları zaman zaman güncelleyebiliriz. Önemli değişiklikler e-posta veya ürün içi bildirim yoluyla en az 30 gün önceden bildirilecektir. Herhangi bir değişiklikten sonra Hizmetleri kullanmaya devam etmeniz güncellenmiş Şartları kabul ettiğiniz anlamına gelir.",
     "CONTACT_TITLE": "14. Bize Ulaşın",
     "CONTACT_CONTENT": "Bu Şartlar hakkında herhangi bir sorunuz varsa, lütfen {supportEmail} adresinden bizimle iletişime geçin."
+  },
+  "REFUND": {
+    "META": {
+      "TITLE": "İade Politikası - {appName}",
+      "DESCRIPTION": "{appName} üzerinden satın alınan krediler ve abonelikler için iadelerin nasıl işlendiğini; uygunluk koşullarını, süreleri ve nasıl talep edileceğini öğrenin.",
+      "KEYWORDS": "iade politikası, iadeler, {appName} iade, AI API iadesi, abonelik iadesi"
+    },
+    "TITLE": "İade Politikası",
+    "LAST_UPDATED": "Son güncelleme: 17 Haziran 2026",
+    "INTRO": "Bu İade Politikası, {appName} üzerinden yapılan kredi, abonelik ve diğer ödemelere ilişkin iadelerin nasıl ele alındığını açıklar. Platformumuz üzerinden satın alarak bu politikayı kabul etmiş olursunuz.",
+    "PAYMENTS_TITLE": "1. Ödemeler",
+    "PAYMENTS_CONTENT": "Krediler ve abonelik planları için yapılan tüm ödemeler, ödeme sağlayıcılarımız aracılığıyla güvenli bir şekilde işlenir. Abonelikler iptal edilene kadar otomatik olarak yenilenir ve tüm işlemler aktarım sırasında şifrelenir. Satın alma sırasında aksi belirtilmedikçe yinelenen faturalandırma geçerlidir.",
+    "ELIGIBILITY_TITLE": "2. İade Uygunluğu",
+    "ELIGIBILITY_INTRO": "İadeye hak kazanmak için aşağıdaki koşulların tümünü karşılamanız gerekir:",
+    "ELIGIBILITY_WINDOW": "7 günlük süre: İade talepleri ilk ödemeden itibaren 7 gün içinde iletilmelidir.",
+    "ELIGIBILITY_USAGE": "Kullanım sınırı: Faturalandırma döngüsü boyunca satın almaya dahil edilen kredilerin veya kotanın %20'sinden fazlasını tüketmemiş olmanız gerekir.",
+    "ELIGIBILITY_COMPLIANCE": "Şartlara uyum: Hizmet Şartları ihlali bulunan hesaplar için iade yapılmaz.",
+    "NON_REFUNDABLE_TITLE": "3. İade Edilemeyen Kalemler",
+    "NON_REFUNDABLE_INTRO": "Aşağıdakiler için iade sunmuyoruz:",
+    "NON_REFUNDABLE_PARTIAL": "7 günlük sürenin ötesinde kısmen kullanılmış abonelik dönemleri veya krediler.",
+    "NON_REFUNDABLE_FEES": "Tek seferlik ücretler, platform ücretleri veya ek hizmetler.",
+    "NON_REFUNDABLE_TERMINATED": "Politika ihlalleri nedeniyle sonlandırılan hesaplar.",
+    "REQUEST_TITLE": "4. İade Nasıl Talep Edilir",
+    "REQUEST_INTRO": "İade talep etmek için aşağıdaki bilgilerle birlikte {supportEmail} adresinden destek ekibimizle iletişime geçin:",
+    "REQUEST_ACCOUNT": "Hesap kullanıcı adınız veya e-posta adresiniz.",
+    "REQUEST_PROOF": "İşlem kimliği veya makbuz gibi bir ödeme kanıtı.",
+    "REQUEST_REASON": "İade talebinizin nedeni.",
+    "REQUEST_VERIFY": "Talebinizi doğrulamak için ek bilgi isteyebiliriz.",
+    "PROCESSING_TITLE": "5. İade İşlemi",
+    "PROCESSING_CONTENT": "Onaylanan iadeler, orijinal ödeme yönteminize aktarılır. İadeler genellikle 5 ila 10 iş günü içinde işlenir. Gerçek ulaşma süresi bankanıza veya ödeme sağlayıcınıza bağlı olarak değişebilir.",
+    "LAW_TITLE": "6. Geçerli Yasalara Uygunluk",
+    "LAW_CONTENT": "Bu İade Politikası, bulunduğunuz yargı bölgesinde geçerli tüketici koruma yasaları kapsamında sahip olabileceğiniz yasal haklara ek olarak sunulur ve bu hakları sınırlamaz. Yerel yasaların bu politikayı aşan zorunlu bir cayma veya iade hakkı tanıdığı durumlarda, o hak geçerli olur.",
+    "CHANGES_TITLE": "7. Bu Politikadaki Değişiklikler",
+    "CHANGES_CONTENT": "Gelişen tüketici koruma çerçevelerine uyumu sürdürmek için bu İade Politikasını dilediğimiz zaman değiştirebiliriz. Güncellemeler, gözden geçirilmiş bir tarihle bu sayfaya yansıtılır ve gerektiğinde önemli değişiklikler hakkında etkilenen müşteriler önceden bilgilendirilir.",
+    "CONTACT_TITLE": "8. Bize Ulaşın",
+    "CONTACT_CONTENT": "İade talepleri veya bu politika hakkındaki sorularınız için lütfen {supportEmail} adresinden bizimle iletişime geçin."
   },
   "MAIN": {
     "ENUM": {
@@ -3047,6 +3135,7 @@
       "CHAT_MEMORY_HINT": "Her istekle gönderilen son mesajların sayısı.",
       "STREAMING_ENABLED": "Streaming",
       "STREAMING_ENABLED_HINT": "Kapalı = tam yanıtı bekle, sonra göster. Bazı modeller sadece buffered olduğunda temiz çıktı verir. Çoğunlukla kullanıcı tercihi.",
+      "SHOW_REASONING": "Akıl yürütmeyi göster",
       "SYSTEM_PROMPT": "Sistem istemi geçersiz kılma",
       "SYSTEM_PROMPT_PLACEHOLDER": "Karakterin sistem istemini kullanmak için boş bırakın.",
       "AUTHOR_NOTE": "Yazar notu",
@@ -3085,7 +3174,7 @@
     },
     "MORE": {
       "OPEN": "Daha fazla eylem",
-      "IMPORT_EXPORT": "İçe / Dışa Aktar",
+      "IMPORT_EXPORT": "İçe / Dışa Aktar / Hata Ayıklama",
       "EXPORT_NATIVE": "Dışa Aktar (yerel)",
       "EXPORT_ORPG": "Dışa Aktar (OpenRouter)",
       "EXPORT_SILLYTAVERN": "Dışa Aktar (SillyTavern JSONL)",
@@ -3104,14 +3193,38 @@
       "LOCAL_DB_UPLOAD_CONFIRM": "Yerel OPFS veritabanının üzerine bu dosyadan yaz? Mevcut veri silinir.",
       "CLEAR": "Sohbeti temizle",
       "CLEAR_SUCCESS": "Sohbet temizlendi",
-      "CLEAR_CONFIRM_DESC": "Bu sohbetteki her mesajı siler ama ayarları, karakter bağlantılarını ve başlığı korur. Bu geri alınamaz."
+      "CLEAR_CONFIRM_DESC": "Bu sohbetteki her mesajı siler ama ayarları, karakter bağlantılarını ve başlığı korur. Bu geri alınamaz.",
+      "DISPLAY": "Görünüm",
+      "DIAGNOSTICS": "Günlüğü indir (mesajsız)",
+      "DIAGNOSTICS_FULL": "Günlük + mesajları indir",
+      "DEBUG_CLEAR": "Hata ayıklama günlüğünü temizle",
+      "DEBUG_CLEARED": "Hata ayıklama günlüğü temizlendi"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, one {# karakter} other {# karakter}}",
       "LOREBOOKS": "{count, plural, one {# lorebook} other {# lorebook}}"
     },
     "TRIGGER_ALERT_SELECT_DESC": "Devam etmek için bir seçenek seçin",
-    "TRIGGER_ALERT_OK": "Tamam"
+    "TRIGGER_ALERT_OK": "Tamam",
+    "SUCCESS": {
+      "ERROR_COPIED": "Hata ayrıntıları kopyalandı"
+    },
+    "CHAT_TOTAL": "Sohbet Toplamı",
+    "STATS": {
+      "SHOW_COST": "Maliyeti göster",
+      "SHOW_TOKENS": "Token'ları göster"
+    },
+    "GROUPS": {
+      "NEW_GROUP": "Yeni grup",
+      "RENAME": "Grubu yeniden adlandır",
+      "DELETE": "Grubu sil",
+      "MOVE_TO": "Gruba taşı",
+      "UNGROUPED": "Grupsuz",
+      "GROUP_UNTITLED": "Yeni grup",
+      "EMPTY": "Sohbet yok",
+      "DELETE_CONFIRM_TITLE": "Grup silinsin mi?",
+      "DELETE_CONFIRM_DESC": "Grup kaldırılır; sohbetleri korunur ve grupsuz olur."
+    }
   },
   "RP": {
     "CHARACTERS_TITLE": "Karakterler",
@@ -3165,9 +3278,10 @@
     "LOREBOOK_ENTRY_KEYS": "Etkinleştirme anahtarları (virgülle ayrılmış)",
     "LOREBOOK_ENTRY_KEYS_HINT": "Bu girdiyi etkinleştiren kelimeler. Örnek: ejderha, solucan, drake.",
     "LOREBOOK_ENTRY_SECONDARY_KEYS": "İkincil tetikleyiciler",
-    "LOREBOOK_ENTRY_PRIORITY_HINT": "Daha düşük sayı isteme daha erken enjekte edilir.",
+    "LOREBOOK_ENTRY_PRIORITY_HINT": "Daha yüksek değer token bütçesinde hayatta kalır.",
     "LOREBOOK_ENTRY_CONTENT": "İçerik",
-    "LOREBOOK_ENTRY_POSITION": "Konum",
+    "LOREBOOK_ENTRY_ORDER": "Ekleme sırası",
+    "LOREBOOK_ENTRY_ORDER_HINT": "Daha yüksek değer önce eklenir. Herhangi bir değer olabilir, yalnızca göreli sıra önemlidir.",
     "LOREBOOK_ENTRY_PRIORITY": "Öncelik",
     "LOREBOOK_ENTRY_CONSTANT": "Her zaman etkin",
     "LOREBOOK_ENTRY_SELECTIVE": "İkincil anahtar gerektir",
@@ -3178,11 +3292,6 @@
     "LOREBOOK_ENTRY_INJECTION_ROLE_USER": "User",
     "LOREBOOK_ENTRY_INJECTION_ROLE_SYSTEM": "System",
     "LOREBOOK_ENTRY_INJECTION_ROLE_HINT": "Mesaj dizisine enjekte ederken kullanılan rol. Sohbet ortası system mesajlarını reddeden sağlayıcılarda (ör. Gemini) otomatik olarak 'user'a geri döner.",
-    "POSITION_BEFORE_CHAR": "Karakterden önce",
-    "POSITION_AFTER_CHAR": "Karakterden sonra",
-    "POSITION_TOP": "İstem üstünde",
-    "POSITION_BOTTOM": "İstem altında",
-    "POSITION_AT_DEPTH": "Derinlikte",
     "PRESETS_TITLE": "Sampling presetleri",
     "PRESETS_NEW": "Yeni preset",
     "PRESETS_EXPORT": "Preset dışa aktar",
@@ -3282,6 +3391,8 @@
     "PRESET_CHAT_MEMORY_HINT": "Her istekte gönderilecek son mesaj sayısı. Boş = varsayılan (8); sohbet ayarı geçersiz kılar.",
     "PRESET_STREAMING": "Akış",
     "PRESET_STREAMING_HINT": "Yanıtı token token akıt. Kapalı = tüm yanıtı bir kerede al. Sohbet ayarı geçersiz kılar.",
+    "PRESET_SHOW_REASONING": "Akıl yürütmeyi göster",
+    "PRESET_SHOW_REASONING_HINT": "Modelin düşünme sürecini yanıtlarda gösterir. Kapalı = gizle (akıl yürütme yine de üretilir ve saklanır, bu yüzden tekrar açmak onu ortaya çıkarır). Sohbet ayarı geçersiz kılar.",
     "CHARACTER_BACKGROUND": "Arka plan resmi",
     "CHARACTER_BACKGROUND_HINT": "Bu karakter sohbeti yönetirken sohbetin arkasında gösterilir."
   },

@@ -18,7 +18,8 @@ import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { usePendingDrainScheduler } from "@/hooks/ai/use-pending-drain-scheduler";
 import { acquireLock, releaseLock } from "@/lib/db/client/sync/resource-lock";
 import type { ChatUIMessage } from "@/lib/types";
-import { handleError } from "@/lib/utils/client";
+import { logChatDebug } from "@/lib/utils/chat-debug-log";
+import { extractErrorDetail, handleError } from "@/lib/utils/client";
 import {
   chatHelpersAtom,
   chatStore,
@@ -42,15 +43,21 @@ import { useParams } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { toast } from "sonner";
 
-function useHistoryAdapter() {
+// getConvId resolves THIS thread's conv id (not the global convIdAtom): the adapter
+// load()/append() must be thread-scoped or refreshing with >1 chat merges their histories.
+function useHistoryAdapter(getConvId: () => string | null) {
   const queryClient = useQueryClient();
   const adapterRef = useRef(
-    createChatHistoryAdapter(queryClient, () => chatStore.get(localUserIdAtom)),
+    createChatHistoryAdapter(
+      queryClient,
+      () => chatStore.get(localUserIdAtom),
+      getConvId,
+    ),
   );
   return adapterRef.current;
 }
 
-    // Helpers bridge for edit/delete/clear/empty-send from outside the React tree. sendEmpty uses the locked send path.
+// Helpers bridge for edit/delete/clear/empty-send from outside the React tree. sendEmpty uses the locked send path.
 function useChatHelpersBridge(chat: ReturnType<typeof useChat<ChatUIMessage>>) {
   const messagesRef = useRef(chat.messages);
   messagesRef.current = chat.messages;
@@ -79,10 +86,25 @@ function ChatRuntimeHook() {
   useConvIdSync(remoteId);
   useModelSync(remoteId);
   useGroupSync(remoteId);
-  const historyAdapter = useHistoryAdapter();
-  const transport = useChatTransport();
+  // Thread-scoped conv id for the history adapter AND the stream transport. remoteId is this
+  // thread's DB id; the convIdAtom fallback covers the first send of a brand-new unsaved thread
+  // (no remoteId yet, no other thread to merge with). Reading the global atom directly would
+  // build the wrong conversation's context when >1 chat is open (merge bug).
+  const remoteIdRef = useRef<string | null>(remoteId ?? null);
+  remoteIdRef.current = remoteId ?? null;
+  const getConvId = () => remoteIdRef.current ?? chatStore.get(convIdAtom);
+  // Log only on actual thread change, not every render.
+  useEffect(() => {
+    logChatDebug("thread.active", {
+      threadId,
+      remoteId,
+      convIdAtom: chatStore.get(convIdAtom),
+    });
+  }, [threadId, remoteId]);
+  const historyAdapter = useHistoryAdapter(getConvId);
+  const transport = useChatTransport(getConvId);
 
-      // Per-conv stream lock, released in onFinish/onError. The rotation loop holds it across speakers, so rotatingRef gates onFinish.
+  // Per-conv stream lock, released in onFinish/onError. The rotation loop holds it across speakers, so rotatingRef gates onFinish.
   const streamLockKeyRef = useRef<string | null>(null);
   const rotatingRef = useRef(false);
   const releaseStreamLock = () => {
@@ -107,20 +129,31 @@ function ChatRuntimeHook() {
     },
     onError: (e) => {
       releaseStreamLock();
-          // Offline: user turn already persisted, user resends manually. Show queued (no error node), still counts as unanswered.
+      logChatDebug("stream.error", {
+        threadId,
+        remoteId,
+        online: navigator.onLine,
+        error: String(e).slice(0, 200),
+      });
+      // Offline: user turn already persisted, user resends manually. Show queued (no error node), still counts as unanswered.
       if (!navigator.onLine) {
         toast.info(t("CHAT.QUEUED_OFFLINE"));
         return;
       }
-          // Stash for the history adapter: the failed assistant message persists with an error item so it survives refresh.
+      // Stash for the history adapter: the failed assistant message persists with an error item (full detail) so it survives refresh.
+      const detail = extractErrorDetail(e);
       chatStore.set(lastStreamErrorAtom, {
-        message: String((e as Error)?.message ?? e),
+        message: detail.message,
         at: Date.now(),
+        code: detail.code,
+        status: detail.status,
+        requestId: detail.requestId,
       });
       handleError(e, t);
     },
     onFinish: ({ message }) => {
       releaseStreamLock();
+      logChatDebug("stream.finish", { threadId, remoteId, messageId: message.id });
       if (message.metadata?.droppedParams) {
         toast.warning(
           t("RP.DROPPED_PARAMS", { params: message.metadata.droppedParams }),
@@ -139,6 +172,13 @@ function ChatRuntimeHook() {
       // ensureConvId idempotent; reuses attachment seed.
       if (hasText && !remoteId) ensureConvId();
       const convId = chatStore.get(convIdAtom);
+      logChatDebug("send.start", {
+        threadId,
+        remoteId,
+        resolvedConvId: getConvId(),
+        convIdAtom: convId,
+        hasText,
+      });
       if (convId) {
         const lockKey = `conv:${convId}`;
         if (!(await acquireLock(lockKey))) {
@@ -147,7 +187,7 @@ function ChatRuntimeHook() {
         }
         streamLockKeyRef.current = lockKey;
       }
-          // Multi-character rotation: one assistant stream per speaker; each send tags its speaker for assembler promotion.
+      // Multi-character rotation: one assistant stream per speaker; each send tags its speaker for assembler promotion.
       if (hasText && convId) {
         const order = await computeSpeakingOrder(userId, convId, args[0]);
         if (order.length > 1) {
@@ -167,7 +207,7 @@ function ChatRuntimeHook() {
           return;
         }
       }
-          // Offline: still send; the stream fails fast and the history adapter persists the user turn as unanswered.
+      // Offline: still send; the stream fails fast and the history adapter persists the user turn as unanswered.
       chatStore.set(speakingCharacterIdAtom, null);
       return chat.sendMessage(...args);
     },
@@ -190,7 +230,7 @@ export function ChatRuntimeProvider(props: { children: React.ReactNode }) {
   const queryClient = useQueryClient();
   const t = useTranslations();
   const userId = useLocalUserId();
-      // Drives the pending-task queue (logEnrich retries); drainSoon covers the happy path post-enqueue.
+  // Drives the pending-task queue (logEnrich retries); drainSoon covers the happy path post-enqueue.
   usePendingDrainScheduler(userId);
   const adapterRef = useRef(
     createThreadListAdapter(queryClient, t, () =>

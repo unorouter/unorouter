@@ -29,23 +29,13 @@ import { csvToArray } from "@/lib/utils/base";
 import { formDefaults } from "@/lib/validation/helpers";
 import {
   LOREBOOK_INJECTION_ROLES,
-  LOREBOOK_POSITIONS,
   lorebookEntryFormSchema,
   type LorebookEntryForm as LorebookEntryFormValues,
   type LorebookInjectionRole,
-  type LorebookPosition,
 } from "@/lib/validation/rp-forms";
 import type { LorebookEntryRow } from "@/lib/db/schema/rows";
 import { useTranslations } from "next-intl";
 import { useEffect } from "react";
-
-const POSITION_LABEL_KEY: Record<LorebookPosition, TranslationKey> = {
-  before_char: "RP.POSITION_BEFORE_CHAR",
-  after_char: "RP.POSITION_AFTER_CHAR",
-  top: "RP.POSITION_TOP",
-  bottom: "RP.POSITION_BOTTOM",
-  at_depth: "RP.POSITION_AT_DEPTH",
-};
 
 const INJECTION_ROLE_LABEL_KEY: Record<LorebookInjectionRole, TranslationKey> =
   {
@@ -54,7 +44,7 @@ const INJECTION_ROLE_LABEL_KEY: Record<LorebookInjectionRole, TranslationKey> =
     assistant: "RP.LOREBOOK_ENTRY_INJECTION_ROLE_ASSISTANT",
   };
 
-    // Pull leading @@probability/@@scan_depth out of content for the form; other decorators stay raw-edited. scanDepth 0 = book default.
+// Pull leading @@probability/@@scan_depth out of content for the form; other decorators stay raw-edited. scanDepth 0 = book default.
 function splitDecorators(content: string): {
   content: string;
   probability: number;
@@ -108,7 +98,7 @@ export function LorebookEntryForm(props: {
   const createMut = useCreateLorebookEntryMutation(props.lorebookId);
   const updateMut = useUpdateLorebookEntryMutation(props.lorebookId);
 
-      // values syncs the row on settle; keepDirtyValues protects in-progress typing. Split decorators into fields; keys edit comma-joined.
+  // values syncs the row on settle; keepDirtyValues protects in-progress typing. Split decorators into fields; keys edit comma-joined.
   const entry = props.entry;
   const split = splitDecorators(entry?.content ?? "");
   const formValues = entry
@@ -123,7 +113,7 @@ export function LorebookEntryForm(props: {
     : undefined;
   const form = useRpForm(lorebookEntryFormSchema, formValues);
 
-      // Form hook outlives entry switches; explicit reset per switch, keepDirtyValues only guards refetches while editing one entry.
+  // Form hook outlives entry switches; explicit reset per switch, keepDirtyValues only guards refetches while editing one entry.
   const reset = form.reset;
   useEffect(() => {
     reset(formValues ?? formDefaults(lorebookEntryFormSchema));
@@ -136,7 +126,6 @@ export function LorebookEntryForm(props: {
 
   const onSubmit = async (data: LorebookEntryFormValues) => {
     const secondary = csvToArray(data.secondaryKeys);
-    // orderIndex owned by create/update/reorder hooks, never the form.
     const body = {
       ...data,
       content: embedDecorators(
@@ -146,7 +135,6 @@ export function LorebookEntryForm(props: {
       ),
       keys: csvToArray(data.keys),
       secondaryKeys: secondary.length > 0 ? secondary : null,
-      position: data.position,
       injectionRole: data.injectionRole,
     };
     // probability + entryScanDepth are form-only; they now live inside content.
@@ -234,31 +222,18 @@ export function LorebookEntryForm(props: {
           )}
 
           <div className="grid grid-cols-2 gap-3">
-            <FormField
-              control={form.control}
-              name="position"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{t("RP.LOREBOOK_ENTRY_POSITION")}</FormLabel>
-                  <FormControl>
-                    <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger>
-                        <SelectValue>
-                          {t(POSITION_LABEL_KEY[field.value])}
-                        </SelectValue>
-                      </SelectTrigger>
-                      <SelectContent>
-                        {LOREBOOK_POSITIONS.map((pos) => (
-                          <SelectItem key={pos} value={pos}>
-                            {t(POSITION_LABEL_KEY[pos])}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                </FormItem>
-              )}
-            />
+            <div className="flex flex-col gap-1">
+              <MyFormInput
+                control={form.control}
+                name="orderIndex"
+                schema={lorebookEntryFormSchema}
+                label={t("RP.LOREBOOK_ENTRY_ORDER")}
+                type="number"
+              />
+              <p className="text-muted-foreground text-xs">
+                {t("RP.LOREBOOK_ENTRY_ORDER_HINT")}
+              </p>
+            </div>
             <div className="flex flex-col gap-1">
               <MyFormInput
                 control={form.control}

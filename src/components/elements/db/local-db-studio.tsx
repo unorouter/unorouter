@@ -44,7 +44,7 @@ export function LocalDbStudio(props: Props) {
       destructive: true,
     });
     if (!ok) return;
-        // Destroy the SQLocal worker first: its handle locks the sqlite file, and removeEntry() silently no-ops on locked files.
+    // Destroy the SQLocal worker first: its handle locks the sqlite file, and removeEntry() silently no-ops on locked files.
     try {
       const local = await getLocalDb(userId);
       if (local) {
@@ -101,7 +101,11 @@ export function LocalDbStudio(props: Props) {
     try {
       const local = await getLocalDb(userId);
       if (!local) throw new Error("SQLocal unavailable");
-      await local.overwriteDatabaseFile(file);
+      // Pass a plain ArrayBuffer, not the File: a File goes through Blob.stream() inside SQLocal,
+      // and under this app's COEP isolation the resulting buffer is not transferable to the worker
+      // (DataCloneError "not a transferable type"). A regular ArrayBuffer is forwarded as-is and transfers cleanly.
+      const buffer = await file.arrayBuffer();
+      await local.overwriteDatabaseFile(buffer);
       location.reload();
     } catch (err) {
       logger.error("DB overwrite failed", {
@@ -109,6 +113,7 @@ export function LocalDbStudio(props: Props) {
         error: String(err),
       });
       toast.error(String(err));
+      resetLocalDbCache();
     }
   };
 
@@ -192,7 +197,7 @@ let cachedSheet: CSSStyleSheet | null = null;
 async function loadStudioStylesheet(): Promise<CSSStyleSheet> {
   if (cachedSheet) return cachedSheet;
   const res = await fetch(STUDIO_CSS_URL);
-      // CSS targets :root/.dark which don't cross the shadow boundary; rewrite to :host / :host(.dark).
+  // CSS targets :root/.dark which don't cross the shadow boundary; rewrite to :host / :host(.dark).
   const text = (await res.text())
     .replace(/:root\b/g, ":host")
     .replace(/:is\(\.dark\s*\*\)/g, "")

@@ -15,6 +15,7 @@ import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import { ConversationMenuItems } from "./conversation-menu-items";
+import { DisplaySettingsSubmenu } from "./display-settings-submenu";
 import { ImportExportSubmenu } from "./import-export-submenu";
 import { RpNavItems } from "./rp-nav-items";
 
@@ -68,6 +69,7 @@ export function ChatActionsMenu(props: Props) {
           <DropdownMenuSeparator />
           <RpNavItems />
           <DropdownMenuSeparator />
+          <DisplaySettingsSubmenu />
           <ImportExportSubmenu convId={props.convId} />
           <DropdownMenuSeparator />
           <ConversationMenuItems

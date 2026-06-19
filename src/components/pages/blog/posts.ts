@@ -6,6 +6,9 @@ import { DiscordCommunityContent } from "@/components/pages/blog/posts/2026-06-0
 import { FreeModelsAggregatedContent } from "@/components/pages/blog/posts/2026-06-08-free-models-aggregated-content";
 import { UnorouterVsOpenrouterContent } from "@/components/pages/blog/posts/2026-06-10-unorouter-vs-openrouter-content";
 import { FeaturedOnContent } from "@/components/pages/blog/posts/2026-06-12-featured-on-content";
+import { UnorouterVsLitellmContent } from "@/components/pages/blog/posts/2026-06-17-unorouter-vs-litellm-content";
+import { UnorouterVsRisuaiContent } from "@/components/pages/blog/posts/2026-06-19-unorouter-vs-risuai-content";
+import { UnorouterVsMegallmContent } from "@/components/pages/blog/posts/2026-06-20-unorouter-vs-megallm-content";
 import { BLOG_REGISTRY, type BlogSlug } from "@/i18n/registry";
 import { APP_VALUES } from "@/lib/config/constants";
 import type { BlogPost } from "@/lib/types";
@@ -21,6 +24,9 @@ const COMPONENTS: Record<BlogSlug, ComponentType> = {
   "free-models-aggregated": FreeModelsAggregatedContent,
   "unorouter-vs-openrouter": UnorouterVsOpenrouterContent,
   "featured-on": FeaturedOnContent,
+  "unorouter-vs-litellm": UnorouterVsLitellmContent,
+  "unorouter-vs-risuai": UnorouterVsRisuaiContent,
+  "unorouter-vs-megallm": UnorouterVsMegallmContent,
 };
 
 export const POSTS: BlogPost<BlogSlug>[] = BLOG_REGISTRY.map((entry) => ({

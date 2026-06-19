@@ -534,10 +534,61 @@
       "product": "produkt",
       "engineering": "inżynieria",
       "update": "aktualizacja",
-      "community": "Społeczność",
-      "comparison": "Porównanie"
+      "community": "społeczność",
+      "comparison": "porównanie"
     },
     "POSTS": {
+      "UNOROUTER_VS_MEGALLM": {
+        "TITLE": "{appName} kontra MegaLLM: ta sama brama dla kodu, plus klient czatu",
+        "DESCRIPTION": "MegaLLM to popularna brama modeli frontier dla agentow kodujacych. {appName} robi te sama prace i dodaje wbudowanego klienta czatu i postaci. Roznica to czy tylko piszesz kod, czy chcesz tez miejsce do rozmowy.",
+        "AUTHOR": "Zespol {appName}",
+        "INTRO": "MegaLLM zbudowal jedna z najwiekszych spolecznosci w tej dziedzinie jako schludna brama dla agentow kodujacych: jeden klucz zgodny z OpenAI, modele frontier, automatyczny failover. {appName} to brama tego samego rodzaju, z jednym dodatkiem, ktory przesadza o dopasowaniu. Oto uczciwe porownanie od jednego z dwoch.",
+        "H_SAME_LANE": "Jestesmy na tym samym pasie",
+        "P_SAME_LANE": "Zarowno {appName}, jak i MegaLLM to bramy zgodne z OpenAI stworzone dla deweloperow. Obie stawiaja GPT, Claude i Gemini za jednym kluczem, obie robia automatyczny failover, gdy dostawca padnie, obie wpinaja sie w Claude Code, Codex i OpenCode przez zmiane URL bazowego. Jesli twoim celem jest skierowanie agenta kodujacego na modele frontier bez zonglowania kluczami dostawcow, robi to kazda z nich. Wiec katalog i failover nie sa miejscem decyzji.",
+        "H_MODELS": "Katalog i ceny",
+        "P_MODELS": "MegaLLM reklamuje 70+ modeli frontier i wizyjnych i sprzedaje sie na koszcie, do 60% taniej niz bezposrednio dzieki routingowi swiadomemu kosztow, z planami od okolo 10 $/mies plus platnosc za uzycie. {appName} niesie 200+ modeli, szerszy katalog obejmujacy otwarte i dostrojone do roleplay modele, ktore frontier-tylko fokus MegaLLM pomija, takze za uzycie, z kredytami, ktore nie wygasaja, i darmowym poziomem. Jesli wolasz tylko GPT i Claude, cena za token to porownanie. Jesli chcesz szerszy katalog, {appName} ma go po prostu wiecej.",
+        "H_CHAT": "Czesc, ktorej MegaLLM nie ma",
+        "P_CHAT": "MegaLLM to bezglowa brama, API i panel, nie ma w czym rozmawiac. {appName} to brama plus wbudowany klient czatu i postaci: persony, lorebooki, presety, import kart SillyTavern, a ten sam klucz wpina sie w SillyTavern, Janitor.AI, RisuAI lub Chub. Tak ten sam klucz, ktory napedza twojego agenta kodujacego, uruchamia tez prawdziwy czat postaci, do pracy i do zabawy. To granica miedzy czysta brama deweloperska a 2-w-1.",
+        "H_MIGRATE": "Przelaczenie to zmiana URL bazowego",
+        "P_MIGRATE": "Jak MegaLLM, {appName} jest zgodny z OpenAI, wiec przeniesienie to jedna linia: skieruj klienta na <c>https://api.unorouter.com/v1</c> i zachowaj kod. Ten sam klucz wklejony w pole niestandardowego endpointu klienta czatu siega tego samego katalogu, wiec nie ma drugiego konta ani osobnego narzedzia dla strony czatu.",
+        "H_VERDICT": "Co wybrac",
+        "P_VERDICT": "Jesli tylko piszesz kod i chcesz szczupla brame modeli frontier zoptymalizowana pod koszt za token, MegaLLM to solidny wybor, a jego spolecznosc to pokazuje. Jesli chcesz jeden klucz, ktory napedza twoich agentow kodujacych i wbudowanego klienta czatu i postaci z tego samego salda i szerszego katalogu, to jest luka, ktora wypelnia {appName}. Nie ma jednego zwyciezcy. Zalezy, czy czysta brama deweloperska wystarczy, czy chcesz wbudowanego klienta czatu.",
+        "CTA": "Chcesz brame i czat w jednym? <register>Zaloz darmowe konto</register> lub <models>przejrzyj modele</models>."
+      },
+      "UNOROUTER_VS_RISUAI": {
+        "TITLE": "{appName} kontra RisuAI: przeniesliśmy silnik RP do hostowanego 2-w-1",
+        "DESCRIPTION": "RisuAI to frontend RP dla zaawansowanych. {appName} przeniosl jego silnik (lorebooki, makra CBS, triggery, regex, import kart) do hostowanego produktu, w ktorym ten sam klucz napedza tez agentow kodujacych. Nie rywal, lecz 2-w-1.",
+        "AUTHOR": "Zespol {appName}",
+        "INTRO": "RisuAI to jeden z najlepszych frontendow do roleplay, jakie istnieja, i mowimy to jako ludzie, ktorzy dokladnie przestudiowali jego kod. {appName} nie probowal go przescignac funkcjami. Przeniesliśmy jego silnik i umiescilismy w nowym miejscu: hostowanym produkcie, w ktorym jeden klucz zgodny z OpenAI napedza tez twoich agentow kodujacych. Wiec to mniej porownanie rywali, a bardziej uczciwe wyjasnienie 2-w-1, napisane przez ludzi, ktorzy podziwiaja Risu.",
+        "H_ENGINE": "Przeniesliśmy silnik, nie sklonowalismy aplikacji",
+        "P_ENGINE": "To, co czyni Risu swietnym do roleplay, jest w {appName}, bo to przeniesliśmy: system lorebookow (jedna globalna pula, dekoratory @@, rekurencja), pelny jezyk makr CBS (zmienne, warunki, losowosc z ziarnem, bloki), maszyne triggerow V1/V2 z runtime Lua, regexowe customscripty (editinput/output/display), import kart SillyTavern v2/v3, kolejnosc czatu grupowego, persony, presety i pamiec z toczacym sie podsumowaniem. Jesli znasz lorebooki i triggery Risu, dzialaja tu tak, jak oczekujesz.",
+        "H_TWO_IN_ONE": "2-w-1: ten sam klucz do kodu i czatu postaci",
+        "P_TWO_IN_ONE": "To czesc, ktora Risu z zalozenia byc nie moze. Risu to BYOK: przynosisz wlasny klucz OpenAI lub Claude i jest to czysty frontend czatu. {appName} to klucz i klient. Ten sam klucz, ktory napedza wbudowany czat postaci, kieruje tez agenta kodujacego (Claude Code, Cline, OpenCode, Codex) do 200+ modeli i wpina sie wprost w SillyTavern, Janitor.AI, RisuAI lub Chub, jesli wolisz tamte. Jedno konto, jedno saldo, jedna lista modeli, do pracy i do zabawy. Nie probujemy zastapic Risu jako frontendu, jestesmy brama plus klientem w jednym.",
+        "H_HOSTING": "Hostowany kontra samodzielnie hostowany, i bez zonglowania kluczami",
+        "P_HOSTING": "Risu uruchamiasz sam (web, desktop Tauri lub Docker) i zbierasz oraz wklejasz klucz API kazdego dostawcy. {appName} jest hostowany: nic do instalowania ani utrzymywania przy zyciu i bez kluczy dostawcow do zebrania, bo klucz to konto. Rejestrujesz sie i piszesz. Dla tych, ktorzy chca po prostu doswiadczenia w stylu Risu bez stawiania aplikacji i zarzadzania kluczami, usuwa to caly etap konfiguracji.",
+        "H_RISU_WINS": "Gdzie Risu wciaz wygrywa (uczciwie)",
+        "P_RISU_WINS": "Nie bedziemy udawac, ze pokrywamy wszystko. Risu ma HypaMemory V2/V3, glebsza kompresje pamieci dlugoterminowej niz nasze toczace sie podsumowanie plus wyszukiwanie semantyczne. Ma prawdziwy ekosystem wtyczek uzytkownika, ktory mozesz rozszerzac i udostepniac; my nie. Jego wbudowane tlumacze do automatycznego tlumaczenia wejscia/wyjscia sa pelniejsze niz nasze. A jako samodzielnie hostowana aplikacja open source daje pelna lokalna kontrole, jakiej hostowana usluga nigdy nie da. Jesli to dla ciebie najwazniejsze, Risu jest lepszym wyborem, i mowimy to szczerze.",
+        "H_VERDICT": "Co wybrac",
+        "P_VERDICT": "Chcesz samodzielnie hostowany, otwarty, gleboko rozszerzalny frontend do roleplay z najbogatsza pamiecia i ekosystemem wtyczek, i z checia przynosisz wlasne klucze? Uzyj Risu. Chcesz te same funkcje lorebookow, CBS, triggerow i kart w hostowanym produkcie, w ktorym jeden klucz napedza tez twoich agentow kodujacych i dziala w innych frontendach? To jest 2-w-1, ktorym jest {appName}. Nie ma jednego zwyciezcy. Po prostu zbudowalismy most, ktorym Risu, bedac frontendem, nigdy nie mial byc.",
+        "CTA": "Wyprobuj czat z wszystkim przeniesionym. <register>Zaloz darmowe konto</register> lub <chat>otworz czat</chat>."
+      },
+      "UNOROUTER_VS_LITELLM": {
+        "TITLE": "{appName} kontra LiteLLM: hostowana brama czy samodzielnie hostowane proxy",
+        "DESCRIPTION": "LiteLLM to najpopularniejsze samodzielnie hostowane proxy LLM. {appName} to hostowana brama z wbudowanym klientem czatu. Prawdziwy wybor to czy chcesz sam prowadzic infrastrukture.",
+        "AUTHOR": "Zespol {appName}",
+        "INTRO": "LiteLLM to domyslna open source odpowiedz na jeden klucz do kazdego modelu: proxy w Pythonie na licencji MIT, ktore uruchamiasz sam. {appName} odpowiada na te sama potrzebe, ale hostowane i z klientem na wierzchu. Uczciwa roznica to nie funkcje, lecz to, czy chcesz prowadzic proxy, czy tylko wywolac endpoint.",
+        "H_HOSTED": "Samodzielnie hostowane kontra hostowane",
+        "P_HOSTED": "LiteLLM to oprogramowanie, ktore wdrazasz i uruchamiasz: postawic proxy, zarzadzac procesem, pilnowac logow, skalowac pod obciazeniem. Daje to pelna kontrole bez posrednika, dokladnie to, czego chce zespol platformowy. {appName} to odwrotny kompromis. Nie ma nic do wdrozenia ani utrzymywania przy zyciu. Dostajesz endpoint i klucz, a dostepnosc, routing i failover to nasz problem, nie twoj.",
+        "H_SETUP": "Konfiguracja i utrzymanie",
+        "P_SETUP": "Z LiteLLM piszesz konfiguracje, dostarczasz klucze API kazdego dostawcy, uruchamiasz serwer (Python, wiec uwazaj na GIL przy wspolbieznosci) i na zawsze odpowiadasz za aktualizacje i monitoring. Z {appName} rejestrujesz sie i kierujesz klienta na <c>https://api.unorouter.com/v1</c>. Bez pliku konfiguracji, bez kluczy dostawcow do zebrania, bez serwera do pilnowania. Jedno to infrastruktura, ktora utrzymujesz; drugie to usluga, ktora konsumujesz.",
+        "H_INTERFACE": "Nie ma LiteLLM, w ktorym mozesz rozmawiac",
+        "P_INTERFACE": "LiteLLM jest bezglowy z zalozenia: warstwa API, kazdy interfejs przynosisz sam. {appName} dostarcza to samo zgodne z OpenAI API plus wbudowany klient czatu i postaci (persony, lorebooki, presety, import kart SillyTavern), a ten sam klucz wpina sie w SillyTavern, Janitor.AI, RisuAI lub Chub. Tak agent kodujacy i miejsce do faktycznej rozmowy dzialaja na jednym kluczu, zamiast proxy, do ktorego wciaz musisz zbudowac interfejs.",
+        "H_COST": "Koszt i klucze",
+        "P_COST": "LiteLLM nie bierze marzy, ale placisz kazdemu dostawcy bezposrednio i ponosisz rachunek za infrastrukture plus czas DevOps. Wygrywa przy duzym wolumenie, jesli masz zespol. {appName} to platnosc za uzycie na 200+ modelach z kredytami, ktore nie wygasaja, i darmowym poziomem, jedno saldo zamiast portfela u kazdego dostawcy i bez serwerow do oplacania. Ponizej powaznej skali sciezka hostowana zwykle wychodzi taniej, gdy policzysz godziny.",
+        "H_VERDICT": "Co wybrac",
+        "P_VERDICT": "Jesli masz zespol platformowy, chcesz zerowej marzy i z checia prowadzisz proxy, LiteLLM to wlasciwe narzedzie. Jesli chcesz jeden zgodny z OpenAI klucz bez niczego do wdrozenia, ktory dziala w twoim agencie kodujacym i w prawdziwym kliencie czatu, {appName} pasuje. Nie ma jednego zwyciezcy. Sprowadza sie to do tego, czy chcesz prowadzic brame, czy tylko z niej korzystac.",
+        "CTA": "Chcesz brame bez niczego do wdrozenia? <register>Zaloz darmowe konto</register> lub <models>przejrzyj modele</models>."
+      },
       "FEATURED_ON": {
         "TITLE": "Gdzie znalezc {appName}: nasze wpisy w katalogach",
         "DESCRIPTION": "{appName} jest wymieniony w katalogach narzedzi AI i startupow. Tutaj nas znajdziesz, zweryfikujesz wpisy i przeczytasz niezalezne opinie.",
@@ -2034,6 +2085,7 @@
     "LEGAL": "Prawne",
     "PRIVACY": "Polityka prywatności",
     "TERMS": "Warunki i postanowienia",
+    "REFUND": "Polityka zwrotów",
     "CONTACT_TITLE": "Kontakt",
     "CONTACT_SUBTITLE": "Pytania lub wątpliwości?",
     "DESCRIPTION": "Ujednolicona platforma API AI dająca dostęp do setek modeli od wielu dostawców przez jeden, inteligentny endpoint.",
@@ -2122,6 +2174,42 @@
     "CHANGES_CONTENT": "Możemy aktualizować niniejsze Warunki od czasu do czasu. Istotne zmiany będą komunikowane z co najmniej 30-dniowym uprzedzeniem przez e-mail lub powiadomienie w produkcie. Twoje dalsze korzystanie z Usług po wszelkich zmianach stanowi twoją akceptację zaktualizowanych Warunków.",
     "CONTACT_TITLE": "14. Skontaktuj się z nami",
     "CONTACT_CONTENT": "Jeśli masz jakiekolwiek pytania dotyczące niniejszych Warunków, skontaktuj się z nami pod adresem {supportEmail}."
+  },
+  "REFUND": {
+    "META": {
+      "TITLE": "Polityka zwrotów - {appName}",
+      "DESCRIPTION": "Dowiedz się, jak obsługiwane są zwroty za kredyty i subskrypcje zakupione za pośrednictwem {appName}, w tym warunki, terminy i sposób złożenia wniosku.",
+      "KEYWORDS": "polityka zwrotów, zwroty, zwrot {appName}, zwrot za API AI, zwrot za subskrypcję"
+    },
+    "TITLE": "Polityka zwrotów",
+    "LAST_UPDATED": "Ostatnia aktualizacja: 17 czerwca 2026",
+    "INTRO": "Niniejsza Polityka zwrotów wyjaśnia, w jaki sposób obsługiwane są zwroty za kredyty, subskrypcje i inne płatności dokonane za pośrednictwem {appName}. Dokonując zakupu za pośrednictwem naszej platformy, wyrażasz zgodę na niniejszą politykę.",
+    "PAYMENTS_TITLE": "1. Płatności",
+    "PAYMENTS_CONTENT": "Wszystkie płatności za kredyty i plany subskrypcji są bezpiecznie przetwarzane przez naszych dostawców płatności. Subskrypcje odnawiają się automatycznie do momentu anulowania, a wszystkie transakcje są szyfrowane podczas przesyłania. Rozliczenie cykliczne obowiązuje, o ile nie określono inaczej w chwili zakupu.",
+    "ELIGIBILITY_TITLE": "2. Warunki uzyskania zwrotu",
+    "ELIGIBILITY_INTRO": "Aby kwalifikować się do zwrotu, musisz spełnić wszystkie poniższe warunki:",
+    "ELIGIBILITY_WINDOW": "Termin 7 dni: wnioski o zwrot należy złożyć w ciągu 7 dni od pierwotnej płatności.",
+    "ELIGIBILITY_USAGE": "Limit wykorzystania: w danym okresie rozliczeniowym nie możesz wykorzystać więcej niż 20% kredytów lub limitu zawartego w zakupie.",
+    "ELIGIBILITY_COMPLIANCE": "Zgodność z warunkami: zwroty nie są realizowane dla kont z naruszeniami Warunków świadczenia usług.",
+    "NON_REFUNDABLE_TITLE": "3. Pozycje niepodlegające zwrotowi",
+    "NON_REFUNDABLE_INTRO": "Nie oferujemy zwrotów za następujące pozycje:",
+    "NON_REFUNDABLE_PARTIAL": "Częściowo wykorzystane okresy subskrypcji lub kredyty po upływie 7-dniowego terminu.",
+    "NON_REFUNDABLE_FEES": "Opłaty jednorazowe, opłaty platformy lub usługi dodatkowe.",
+    "NON_REFUNDABLE_TERMINATED": "Konta zamknięte z powodu naruszenia zasad.",
+    "REQUEST_TITLE": "4. Jak złożyć wniosek o zwrot",
+    "REQUEST_INTRO": "Aby złożyć wniosek o zwrot, skontaktuj się z naszym zespołem wsparcia pod adresem {supportEmail}, podając następujące informacje:",
+    "REQUEST_ACCOUNT": "Nazwę użytkownika konta lub adres e-mail.",
+    "REQUEST_PROOF": "Potwierdzenie płatności, takie jak identyfikator transakcji lub paragon.",
+    "REQUEST_REASON": "Powód wniosku o zwrot.",
+    "REQUEST_VERIFY": "W celu weryfikacji wniosku możemy poprosić o dodatkowe informacje.",
+    "PROCESSING_TITLE": "5. Realizacja zwrotu",
+    "PROCESSING_CONTENT": "Zatwierdzone zwroty są realizowane na pierwotną metodę płatności. Zwroty są zazwyczaj przetwarzane w ciągu 5 do 10 dni roboczych. Rzeczywisty czas zaksięgowania może się różnić w zależności od banku lub dostawcy płatności.",
+    "LAW_TITLE": "6. Zgodność z obowiązującym prawem",
+    "LAW_CONTENT": "Niniejsza Polityka zwrotów stanowi uzupełnienie i nie ogranicza jakichkolwiek ustawowych praw, które mogą Ci przysługiwać na mocy obowiązujących przepisów o ochronie konsumentów w Twojej jurysdykcji. Jeżeli prawo lokalne przyznaje obowiązkowe prawo do odstąpienia lub zwrotu wykraczające poza niniejszą politykę, pierwszeństwo ma to prawo.",
+    "CHANGES_TITLE": "7. Zmiany niniejszej polityki",
+    "CHANGES_CONTENT": "Możemy w dowolnym momencie zmienić niniejszą Politykę zwrotów, aby zachować zgodność ze zmieniającymi się ramami ochrony konsumentów. Aktualizacje będą publikowane na tej stronie wraz ze zmienioną datą, a w razie potrzeby klienci, których to dotyczy, zostaną z wyprzedzeniem powiadomieni o istotnych zmianach.",
+    "CONTACT_TITLE": "8. Kontakt",
+    "CONTACT_CONTENT": "W sprawie wniosków o zwrot lub pytań dotyczących niniejszej polityki skontaktuj się z nami pod adresem {supportEmail}."
   },
   "MAIN": {
     "ENUM": {
@@ -3047,6 +3135,7 @@
       "CHAT_MEMORY_HINT": "Liczba ostatnich wiadomości wysyłanych z każdym zapytaniem.",
       "STREAMING_ENABLED": "Streaming",
       "STREAMING_ENABLED_HINT": "Wyłączone = poczekaj na pełną odpowiedź, potem pokaż ją. Niektóre modele wypisują czysto tylko, gdy są buforowane. Głównie preferencja użytkownika.",
+      "SHOW_REASONING": "Pokaż rozumowanie",
       "SYSTEM_PROMPT": "Nadpisanie promptu systemowego",
       "SYSTEM_PROMPT_PLACEHOLDER": "Pozostaw puste, aby użyć promptu systemowego postaci.",
       "AUTHOR_NOTE": "Notatka autora",
@@ -3085,7 +3174,7 @@
     },
     "MORE": {
       "OPEN": "Więcej akcji",
-      "IMPORT_EXPORT": "Import / Eksport",
+      "IMPORT_EXPORT": "Import / Eksport / Debugowanie",
       "EXPORT_NATIVE": "Eksportuj (natywny)",
       "EXPORT_ORPG": "Eksportuj (OpenRouter)",
       "EXPORT_SILLYTAVERN": "Eksportuj (SillyTavern JSONL)",
@@ -3104,14 +3193,38 @@
       "LOCAL_DB_UPLOAD_CONFIRM": "Nadpisać lokalną bazę OPFS z tego pliku? Istniejące dane są usuwane.",
       "CLEAR": "Wyczyść chat",
       "CLEAR_SUCCESS": "Chat wyczyszczony",
-      "CLEAR_CONFIRM_DESC": "To usuwa każdą wiadomość w rozmowie, ale zachowuje ustawienia, powiązania postaci i tytuł. Nie można cofnąć."
+      "CLEAR_CONFIRM_DESC": "To usuwa każdą wiadomość w rozmowie, ale zachowuje ustawienia, powiązania postaci i tytuł. Nie można cofnąć.",
+      "DISPLAY": "Wyświetlanie",
+      "DIAGNOSTICS": "Pobierz dziennik (bez wiadomości)",
+      "DIAGNOSTICS_FULL": "Pobierz dziennik + wiadomości",
+      "DEBUG_CLEAR": "Wyczyść dziennik debugowania",
+      "DEBUG_CLEARED": "Dziennik debugowania wyczyszczony"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, one {# postać} few {# postacie} many {# postaci} other {# postaci}}",
       "LOREBOOKS": "{count, plural, one {# lorebook} few {# lorebooki} many {# lorebooków} other {# lorebooków}}"
     },
     "TRIGGER_ALERT_SELECT_DESC": "Wybierz opcję, aby kontynuować",
-    "TRIGGER_ALERT_OK": "OK"
+    "TRIGGER_ALERT_OK": "OK",
+    "SUCCESS": {
+      "ERROR_COPIED": "Skopiowano szczegóły błędu"
+    },
+    "CHAT_TOTAL": "Suma czatu",
+    "STATS": {
+      "SHOW_COST": "Pokaż koszt",
+      "SHOW_TOKENS": "Pokaż tokeny"
+    },
+    "GROUPS": {
+      "NEW_GROUP": "Nowa grupa",
+      "RENAME": "Zmień nazwę grupy",
+      "DELETE": "Usuń grupę",
+      "MOVE_TO": "Przenieś do grupy",
+      "UNGROUPED": "Bez grupy",
+      "GROUP_UNTITLED": "Nowa grupa",
+      "EMPTY": "Brak czatów",
+      "DELETE_CONFIRM_TITLE": "Usunąć grupę?",
+      "DELETE_CONFIRM_DESC": "Grupa zostanie usunięta; jej czaty pozostaną i staną się bez grupy."
+    }
   },
   "RP": {
     "CHARACTERS_TITLE": "Postacie",
@@ -3165,9 +3278,10 @@
     "LOREBOOK_ENTRY_KEYS": "Klucze aktywacji (oddzielone przecinkami)",
     "LOREBOOK_ENTRY_KEYS_HINT": "Słowa aktywujące ten wpis. Przykład: smok, żmij, drak.",
     "LOREBOOK_ENTRY_SECONDARY_KEYS": "Wyzwalacze drugorzędne",
-    "LOREBOOK_ENTRY_PRIORITY_HINT": "Niższy numer wstrzykuje wcześniej w promptzie.",
+    "LOREBOOK_ENTRY_PRIORITY_HINT": "Wyższa wartość przetrwa budżet tokenów.",
     "LOREBOOK_ENTRY_CONTENT": "Treść",
-    "LOREBOOK_ENTRY_POSITION": "Pozycja",
+    "LOREBOOK_ENTRY_ORDER": "Kolejność wstawiania",
+    "LOREBOOK_ENTRY_ORDER_HINT": "Wyższa wartość wstawia się wcześniej. Dowolna wartość; liczy się tylko kolejność względna.",
     "LOREBOOK_ENTRY_PRIORITY": "Priorytet",
     "LOREBOOK_ENTRY_CONSTANT": "Zawsze aktywny",
     "LOREBOOK_ENTRY_SELECTIVE": "Wymagaj klucza drugorzędnego",
@@ -3178,11 +3292,6 @@
     "LOREBOOK_ENTRY_INJECTION_ROLE_USER": "Użytkownik",
     "LOREBOOK_ENTRY_INJECTION_ROLE_SYSTEM": "System",
     "LOREBOOK_ENTRY_INJECTION_ROLE_HINT": "Rola używana przy wstrzykiwaniu do tablicy wiadomości. Automatycznie wraca do 'user' u dostawców, którzy odrzucają wiadomości systemowe w środku rozmowy (np. Gemini).",
-    "POSITION_BEFORE_CHAR": "Przed postacią",
-    "POSITION_AFTER_CHAR": "Po postaci",
-    "POSITION_TOP": "Góra promptu",
-    "POSITION_BOTTOM": "Dół promptu",
-    "POSITION_AT_DEPTH": "Na głębokości",
     "PRESETS_TITLE": "Presety samplowania",
     "PRESETS_NEW": "Nowy preset",
     "PRESETS_EXPORT": "Eksportuj preset",
@@ -3282,6 +3391,8 @@
     "PRESET_CHAT_MEMORY_HINT": "Ile ostatnich wiadomości wysyłać na żądanie. Puste = domyślne (8); ustawienie czatu ma pierwszeństwo.",
     "PRESET_STREAMING": "Streaming",
     "PRESET_STREAMING_HINT": "Strumieniuj odpowiedź token po tokenie. Wył. = cała odpowiedź naraz. Ustawienie czatu ma pierwszeństwo.",
+    "PRESET_SHOW_REASONING": "Pokaż rozumowanie",
+    "PRESET_SHOW_REASONING_HINT": "Pokazuje rozumowanie modelu w odpowiedziach. Wył. = ukryj je (rozumowanie nadal jest generowane i zapisywane, więc ponowne włączenie je odsłania). Ustawienie czatu ma pierwszeństwo.",
     "CHARACTER_BACKGROUND": "Obraz tła",
     "CHARACTER_BACKGROUND_HINT": "Wyświetlany za czatem, gdy ta postać prowadzi rozmowę."
   },

@@ -52,12 +52,76 @@ export const LEGAL_REGISTRY = [
     slug: "legal/terms",
     contentFiles: ["src/app/[locale]/(legal)/terms/page.tsx"],
   },
+  {
+    slug: "legal/refund",
+    contentFiles: ["src/app/[locale]/(legal)/refund/page.tsx"],
+  },
 ] as const satisfies readonly {
   slug: `legal/${string}`;
   contentFiles: readonly string[];
 }[];
 
 export const BLOG_REGISTRY = [
+  {
+    slug: "unorouter-vs-megallm",
+    date: "2026-06-20",
+    tags: ["comparison", "product"],
+    i18nKey: "BLOG.POSTS.UNOROUTER_VS_MEGALLM",
+    contentFiles: [
+      "src/components/pages/blog/posts/2026-06-20-unorouter-vs-megallm-content.tsx",
+    ],
+    priority: 0.7,
+    changeFrequency: "monthly",
+    category: "product",
+    wordCount: 580,
+    headings: [
+      { id: "same-lane", i18nLeaf: "H_SAME_LANE", level: 2 },
+      { id: "models", i18nLeaf: "H_MODELS", level: 2 },
+      { id: "chat", i18nLeaf: "H_CHAT", level: 2 },
+      { id: "migrate", i18nLeaf: "H_MIGRATE", level: 2 },
+      { id: "verdict", i18nLeaf: "H_VERDICT", level: 2 },
+    ],
+  },
+  {
+    slug: "unorouter-vs-risuai",
+    date: "2026-06-19",
+    tags: ["comparison", "product"],
+    i18nKey: "BLOG.POSTS.UNOROUTER_VS_RISUAI",
+    contentFiles: [
+      "src/components/pages/blog/posts/2026-06-19-unorouter-vs-risuai-content.tsx",
+    ],
+    priority: 0.7,
+    changeFrequency: "monthly",
+    category: "product",
+    wordCount: 600,
+    headings: [
+      { id: "engine", i18nLeaf: "H_ENGINE", level: 2 },
+      { id: "two-in-one", i18nLeaf: "H_TWO_IN_ONE", level: 2 },
+      { id: "hosting", i18nLeaf: "H_HOSTING", level: 2 },
+      { id: "risu-wins", i18nLeaf: "H_RISU_WINS", level: 2 },
+      { id: "verdict", i18nLeaf: "H_VERDICT", level: 2 },
+    ],
+  },
+  {
+    slug: "unorouter-vs-litellm",
+    date: "2026-06-17",
+    tags: ["comparison", "product"],
+    i18nKey: "BLOG.POSTS.UNOROUTER_VS_LITELLM",
+    contentFiles: [
+      "src/components/pages/blog/posts/2026-06-17-unorouter-vs-litellm-content.tsx",
+    ],
+    priority: 0.7,
+    changeFrequency: "monthly",
+    category: "product",
+    wordCount: 580,
+    headings: [
+      { id: "hosted", i18nLeaf: "H_HOSTED", level: 2 },
+      { id: "setup", i18nLeaf: "H_SETUP", level: 2 },
+      { id: "interface", i18nLeaf: "H_INTERFACE", level: 2 },
+      { id: "cost", i18nLeaf: "H_COST", level: 2 },
+      { id: "verdict", i18nLeaf: "H_VERDICT", level: 2 },
+    ],
+  },
   {
     slug: "featured-on",
     date: "2026-06-12",

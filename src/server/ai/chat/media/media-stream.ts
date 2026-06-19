@@ -41,7 +41,7 @@ function groupHeader(group?: string | null): Record<string, string> {
   return group && group !== "auto" ? { "X-Group": group } : {};
 }
 
-    // One-shot UI-message response: run execute, stream its output. On a throw, emit a data-error part so the adapter persists an error node.
+// One-shot UI-message response: run execute, stream its output. On a throw, emit a data-error part so the adapter persists an error node.
 function streamResponse(
   execute: (writer: UIMessageStreamWriter) => Promise<void>,
 ) {
@@ -172,7 +172,7 @@ async function processUrls(
   return (await Promise.all(matches.map(process))).filter(Boolean).join("\n\n");
 }
 
-    // Dispatch by advertised endpoint: image-generation POSTs /v1/images/generations; openai-only image models MUST use /v1/chat/completions.
+// Dispatch by advertised endpoint: image-generation POSTs /v1/images/generations; openai-only image models MUST use /v1/chat/completions.
 async function generateImage(
   apiKey: string,
   model: string,
@@ -228,7 +228,7 @@ export async function handleImageStream(
       body.group,
     );
 
-        // Stream inline data URLs; client persists base64. Guests never touch Turso/R2: no FK violation, no blocked embeds.
+    // Stream inline data URLs; client persists base64. Guests never touch Turso/R2: no FK violation, no blocked embeds.
     const dataUrls = await Promise.all(
       images.map(async (img: string) => {
         if (img.startsWith("data:")) return img;
@@ -281,7 +281,7 @@ export async function handleVideoTaskStream(
   });
 }
 
-    // TTS models advertise no dedicated endpoint tag; detect speech vs transcription by name to pick the audio path.
+// TTS models advertise no dedicated endpoint tag; detect speech vs transcription by name to pick the audio path.
 const isSttModel = (model: string) =>
   /whisper|transcrib|asr|speech-to-text|stt/i.test(model);
 
@@ -305,7 +305,7 @@ async function generateSpeech(
 }
 
 export async function handleAudioStream(apiKey: string, body: MediaStreamBody) {
-      // STT needs an audio input the composer can't yet attach; guide the user. Plain text since it's persisted, not translated.
+  // STT needs an audio input the composer can't yet attach; guide the user. Plain text since it's persisted, not translated.
   if (isSttModel(body.model)) {
     return streamResponse(async (writer) => {
       writeBufferedMessage(
@@ -325,7 +325,7 @@ export async function handleAudioStream(apiKey: string, body: MediaStreamBody) {
       input,
       body.group,
     );
-        // data:audio/ markdown renders as <audio>; client persists the base64 into local media like generated images.
+    // data:audio/ markdown renders as <audio>; client persists the base64 into local media like generated images.
     writeBufferedMessage(writer, `![audio](${dataUri})`);
   });
 }
@@ -383,19 +383,28 @@ export function handleBufferedStream(
   result: ReturnType<typeof streamText>,
   body: MediaStreamBody,
   mediaType: ModelType,
-      // Caller-synthesized finish metadata, emitted as a chunk so the buffered path persists the same fields as the stream.
+  // Caller-synthesized finish metadata, emitted as a chunk so the buffered path persists the same fields as the stream.
   finishMeta?: () => Promise<Record<string, unknown>>,
   // Server-generated message id (keys the server-persisted request log).
   messageId?: string,
 ) {
   return streamResponse(async (writer) => {
     const fullText = await result.text;
+    const reasoning = await result.reasoningText;
     const convId = body.convId ?? `tmp-${uid(8)}`;
     const cleanText = await processUrls(fullText, convId, mediaType);
     const meta = await finishMeta?.();
     const partId = uid(12);
     writer.write(messageId ? { type: "start", messageId } : { type: "start" });
     writer.write({ type: "start-step" });
+    // Streaming-off still surfaces the model's thinking (collapsible in the UI); the upstream
+    // is always streamed, so reasoning is available even when we buffer the final text.
+    if (reasoning) {
+      const reasonId = uid(12);
+      writer.write({ type: "reasoning-start", id: reasonId });
+      writer.write({ type: "reasoning-delta", delta: reasoning, id: reasonId });
+      writer.write({ type: "reasoning-end", id: reasonId });
+    }
     writer.write({ type: "text-start", id: partId });
     writer.write({ type: "text-delta", delta: cleanText, id: partId });
     writer.write({ type: "text-end", id: partId });

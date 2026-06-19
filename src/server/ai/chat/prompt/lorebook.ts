@@ -4,14 +4,14 @@ import type { LbEntry, LbRow } from "@/lib/types";
 import { escapeRegex } from "@/lib/utils/base";
 import { seededRand } from "@/lib/ai/chat/calc";
 
-    // Strip {{//...}} and {{comment:...}} from scan text before matching; hidden comments never trigger keys.
+// Strip {{//...}} and {{comment:...}} from scan text before matching; hidden comments never trigger keys.
 function stripComments(text: string): string {
   return text
     .replace(/\{\{\/\/(.+?)\}\}/g, "")
     .replace(/\{\{comment:(.+?)\}\}/g, "");
 }
 
-    // Compiled-key cache: big lorebooks re-test the same keys every turn. null is an invalid pattern, cached so it isn't retried.
+// Compiled-key cache: big lorebooks re-test the same keys every turn. null is an invalid pattern, cached so it isn't retried.
 const KEY_RE_CACHE = new Map<string, RegExp | null>();
 function compiledKey(cacheKey: string, build: () => RegExp): RegExp | null {
   let re = KEY_RE_CACHE.get(cacheKey);
@@ -50,7 +50,7 @@ export function keyHits(
     );
     return re ? re.test(cleaned) : false;
   }
-      // Risu partial matching strips all spaces from both sides, so multi-word keys match regardless of spacing.
+  // Risu partial matching strips all spaces from both sides, so multi-word keys match regardless of spacing.
   return cleaned
     .toLowerCase()
     .replace(/ /g, "")
@@ -63,29 +63,17 @@ function estimateTokens(text: string): number {
   return encode(text).length;
 }
 
-export type LorebookPlacement =
-  | "top"
-  | "before_char"
-  | "after_char"
-  | "bottom"
-  | "at_depth"
-  | "before_desc"
-  | "after_desc"
-  | "personality"
-  | "scenario";
-
-    // Per-entry overrides parsed from @@decorator lines atop an entry's content; those lines are stripped from body.
+// Per-entry overrides parsed from @@decorator lines atop an entry's content; those lines are stripped from body.
 export type EntryDecorators = {
   body: string;
   probability?: number;
   priority?: number;
+  // Risu insertorder override; higher = earlier in the single lorebook slot.
+  order?: number;
   scanDepth?: number;
   additionalKeys?: string[];
   excludeKeys?: string[];
   excludeKeysAll?: string[];
-  position?: LorebookPlacement;
-  depth?: number;
-  reverseDepth?: boolean;
   role?: "user" | "assistant" | "system";
   // Match-mode override (@@match_full_word / @@match_partial_word).
   matchWholeWords?: boolean;
@@ -103,7 +91,7 @@ export type EntryDecorators = {
   noRecursiveSearch?: boolean;
   // @@ignore_on_max_context -> priority floor.
   ignoreOnMaxContext?: boolean;
-      // Lore-into-lore injection (@@inject_*). location is the target entry's comment/name.
+  // Lore-into-lore injection (@@inject_*). location is the target entry's comment/name.
   inject?: {
     operation: "append" | "prepend" | "replace";
     location: string;
@@ -120,7 +108,7 @@ const csv = (s: string) =>
     .map((x) => x.trim())
     .filter(Boolean);
 
-    // Parse leading @@decorator lines, stripped from the body; unknown decorators are consumed with no effect.
+// Parse leading @@decorator lines, stripped from the body; unknown decorators are consumed with no effect.
 export function parseDecorators(content: string): EntryDecorators {
   const out: EntryDecorators = { body: content };
   if (!content.includes("@@")) return out;
@@ -140,6 +128,10 @@ export function parseDecorators(content: string): EntryDecorators {
       case "priority":
         if (Number.isFinite(num)) out.priority = num;
         break;
+      case "order":
+      case "insertorder":
+        if (Number.isFinite(num)) out.order = num;
+        break;
       case "scan_depth":
         if (Number.isFinite(num) && num > 0) out.scanDepth = num;
         break;
@@ -152,33 +144,9 @@ export function parseDecorators(content: string): EntryDecorators {
       case "exclude_keys_all":
         out.excludeKeysAll = csv(arg);
         break;
-      case "depth":
-        if (Number.isFinite(num)) {
-          out.position = "at_depth";
-          out.depth = num;
-        }
-        break;
-      case "reverse_depth":
-        if (Number.isFinite(num)) {
-          out.position = "at_depth";
-          out.depth = num;
-          out.reverseDepth = true;
-        }
-        break;
-      case "end":
-        out.position = "at_depth";
-        out.depth = 0;
-        break;
       case "role":
         if (arg === "user" || arg === "assistant" || arg === "system")
           out.role = arg;
-        break;
-      case "position":
-        if (
-          ["before_desc", "after_desc", "personality", "scenario"].includes(arg)
-        ) {
-          out.position = arg as LorebookPlacement;
-        }
         break;
       case "match_full_word":
         out.matchWholeWords = true;
@@ -282,7 +250,7 @@ function entryMatches(p: Prepared, text: string): boolean {
   const keys = e.keys ?? [];
   if (!keys.some((k) => keyHits(k, text, whole))) return false;
 
-      // Risu additional_keys is AND-ed with the main keys (any additional key must ALSO match), not more alternatives.
+  // Risu additional_keys is AND-ed with the main keys (any additional key must ALSO match), not more alternatives.
   if (
     p.dec.additionalKeys &&
     p.dec.additionalKeys.length > 0 &&
@@ -321,7 +289,7 @@ export type SelectOpts = {
   chatLength?: number;
   // Shown greeting index (-1 = none), for @@is_greeting.
   greetingIndex?: number;
-      // Per-conv var store; sticky-match state mutates in place, caller persists via var writeback.
+  // Per-conv var store; sticky-match state mutates in place, caller persists via var writeback.
   vars?: Record<string, string>;
   // Per-turn seed for @@probability: stable across regenerates, fresh each turn.
   seed?: string;
@@ -339,7 +307,7 @@ export function selectLorebookEntries(
   const vars = opts.vars;
   const rollSeed = opts.seed ?? String(chatLength);
 
-      // Single global pool (RisuAI fullLore): one priority ranking, one token budget, one recursion namespace. Per-book scanDepth only for matching.
+  // Single global pool (RisuAI fullLore): one priority ranking, one token budget, one recursion namespace. Per-book scanDepth only for matching.
   const globalBudget = Math.max(
     ...[...books.values()].map((b) => b.tokenBudget ?? 1500),
     1500,
@@ -396,7 +364,7 @@ export function selectLorebookEntries(
         // Sticky activation: previously matched with keep_activate_after_match.
         active = true;
       } else {
-            // On a recursion pass, @@no_recursive_search entries only see the base chat text, not accumulated lore.
+        // On a recursion pass, @@no_recursive_search entries only see the base chat text, not accumulated lore.
         const text =
           recursiveText && !p.dec.noRecursiveSearch
             ? `${p.scanText}\n${recursiveText}`
@@ -415,15 +383,19 @@ export function selectLorebookEntries(
       if (vars && p.dec.dontActivateAfterMatch) vars[daKey(id)] = "true";
     }
     if (added === 0 || !globalRecursive) break;
-        // Append, not replace, so original chat keys still match later. @@unrecursive keeps an entry out of the recursion text.
+    // Append, not replace, so original chat keys still match later. @@unrecursive keeps an entry out of the recursion text.
     recursiveText = accepted
       .filter((p) => p.dec.recursive !== false)
       .map((p) => p.dec.body)
       .join("\n");
   }
 
-  // Single global priority sort, then one shared token budget (RisuAI 603-615).
-  accepted.sort((a, b) => b.effectivePriority - a.effectivePriority);
+  // Single global priority sort, then one shared token budget (RisuAI 603-615). Id tiebreak keeps the survival set deterministic.
+  accepted.sort(
+    (a, b) =>
+      b.effectivePriority - a.effectivePriority ||
+      (a.entry.id < b.entry.id ? -1 : 1),
+  );
   let used = 0;
   const survived = accepted.filter((p) => {
     const cost = estimateTokens(p.dec.body);
@@ -432,7 +404,7 @@ export function selectLorebookEntries(
     return true;
   });
 
-      // @@inject_* entries splice their body into a target entry (matched by comment/name) and drop out of normal flow.
+  // @@inject_* entries splice their body into a target entry (matched by comment/name) and drop out of normal flow.
   const injectors = survived.filter((p) => p.dec.inject);
   const placed = survived.filter((p) => !p.dec.inject);
   for (const inj of injectors) {
@@ -450,34 +422,17 @@ export function selectLorebookEntries(
       );
   }
 
-      // Sort by book binding order, then entry orderIndex, then priority. Without the book rank, books sharing a position interleave.
-  const bookRank = new Map([...books.keys()].map((id, i) => [id, i]));
+  // Single lorebook slot: order purely by orderIndex DESC (insert order, higher = earlier), then priority DESC, then id for determinism.
+  const order = (p: Prepared) => p.dec.order ?? p.entry.orderIndex ?? 0;
   placed.sort(
     (a, b) =>
-      (bookRank.get(a.entry.lorebookId) ?? 0) -
-        (bookRank.get(b.entry.lorebookId) ?? 0) ||
-      (a.entry.orderIndex ?? 0) - (b.entry.orderIndex ?? 0) ||
-      b.effectivePriority - a.effectivePriority,
+      order(b) - order(a) ||
+      b.effectivePriority - a.effectivePriority ||
+      (a.entry.id < b.entry.id ? -1 : 1),
   );
   return placed.map((p) => ({
     ...p.entry,
     content: p.dec.body,
-    ...(p.dec.position ? { position: toStoredPosition(p.dec.position) } : {}),
-    ...(p.dec.depth !== undefined ? { depth: p.dec.depth } : {}),
     ...(p.dec.role ? { injectionRole: p.dec.role } : {}),
   }));
-}
-
-    // Map RisuAI-only placement names onto the nearest stored slot so decorator placement works without widening enum.
-function toStoredPosition(pos: LorebookPlacement): LbEntry["position"] {
-  switch (pos) {
-    case "before_desc":
-      return "before_char";
-    case "after_desc":
-    case "personality":
-    case "scenario":
-      return "after_char";
-    default:
-      return pos as LbEntry["position"];
-  }
 }

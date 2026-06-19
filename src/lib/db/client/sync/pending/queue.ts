@@ -6,7 +6,7 @@ import { and, asc, eq, isNull, lte, or } from "drizzle-orm";
 import { getLocalDb } from "../../client";
 import { enrichRequestLogFromUpstream } from "../log-enrich";
 
-    // Outbox for ONE deferred task: logEnrich. Patches the local request_logs row with new-api's authoritative cost/tokens/channel.
+// Outbox for ONE deferred task: logEnrich. Patches the local request_logs row with new-api's authoritative cost/tokens/channel.
 
 const MAX_ATTEMPTS = 5;
 // Backoff ms by failure count; index 0 = no prior failure, drain immediately.
@@ -14,10 +14,10 @@ const BACKOFF_MS = [0, 30_000, 120_000, 480_000, 1_800_000];
 const backoff = (attempts: number) =>
   BACKOFF_MS[Math.min(attempts, BACKOFF_MS.length - 1)] ?? 0;
 
-    // logEnrich has no entity scope; the PK needs a non-null kind so it stores "". Only place that sentinel exists.
+// logEnrich has no entity scope; the PK needs a non-null kind so it stores "". Only place that sentinel exists.
 const KIND = "";
 
-    // Enqueue a log enrichment for a finished message. Idempotent per msgId: a repeat resets backoff and bumps seq so a drain keeps the row.
+// Enqueue a log enrichment for a finished message. Idempotent per msgId: a repeat resets backoff and bumps seq so a drain keeps the row.
 export async function enqueueLogEnrich(
   userId: number,
   msgId: string,
@@ -91,7 +91,7 @@ async function drainPending(userId: number): Promise<void> {
     if (row.attempts >= MAX_ATTEMPTS) continue; // dead-lettered; stays for record
     try {
       await runTask(userId, row.id, row.payload);
-          // seq guard: only delete the exact row we drained, so a re-enqueue that landed mid-drain survives.
+      // seq guard: only delete the exact row we drained, so a re-enqueue that landed mid-drain survives.
       await local.db
         .delete(localPendingTasks)
         .where(
@@ -129,7 +129,7 @@ async function drainPending(userId: number): Promise<void> {
   }
 }
 
-    // In-tab single-flight: overlapping triggers share one drain instead of racing the transactionMutex. No cross-tab lock; a dup enrich is harmless.
+// In-tab single-flight: overlapping triggers share one drain instead of racing the transactionMutex. No cross-tab lock; a dup enrich is harmless.
 const inFlight = new Map<number, Promise<void>>();
 
 export function drain(userId: number): Promise<void> {
@@ -151,7 +151,7 @@ export function drain(userId: number): Promise<void> {
 const DRAIN_SOON_MS = 250;
 const drainTimers = new Map<number, ReturnType<typeof setTimeout>>();
 
-    // Debounced drain after an enqueue so a burst (drawer save, multi-message persist) coalesces into one pass.
+// Debounced drain after an enqueue so a burst (drawer save, multi-message persist) coalesces into one pass.
 export function drainSoon(userId: number): void {
   const prev = drainTimers.get(userId);
   if (prev) clearTimeout(prev);

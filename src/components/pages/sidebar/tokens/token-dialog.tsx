@@ -58,6 +58,7 @@ type TokenDialogProps = {
 };
 
 const QUOTA_PRESETS = [
+  { label: "$0", value: dollarsToQuota(0) },
   { label: "$1", value: dollarsToQuota(1) },
   { label: "$10", value: dollarsToQuota(10) },
   { label: "$50", value: dollarsToQuota(50) },
@@ -80,7 +81,7 @@ export function TokenDialog(props: TokenDialogProps) {
     defaultValues: Value.Default(tokenFormSchema, {}) as TokenFormSchema,
   });
 
-      // revealedKey is keyed by the dialog session (bumped on open/target change), derived null from the key. No setState in effects.
+  // revealedKey is keyed by the dialog session (bumped on open/target change), derived null from the key. No setState in effects.
   const sessionKey = props.open ? `${props.token?.id ?? "new"}` : "";
   const [revealSession, setRevealSession] = useState({
     key: sessionKey,

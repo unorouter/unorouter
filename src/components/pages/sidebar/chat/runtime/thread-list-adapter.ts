@@ -27,7 +27,7 @@ import {
   chatLoadoutAtom,
   chatModelAtom,
   chatStore,
-  ensureConvId,
+  freshConvId,
   greetingIndexAtom,
 } from "@/store/chat-store";
 import type { RemoteThreadListAdapter } from "@assistant-ui/react";
@@ -49,7 +49,7 @@ export function createThreadListAdapter(
   const persistTitle = async (id: string, title: string) => {
     const now = dayjs().toDate();
     const existing = await readLocalConversation(userId(), id);
-        // Title patch on an existing row; never upsert (a candidate insert nulls default_model and trips NOT NULL).
+    // Title patch on an existing row; never upsert (a candidate insert nulls default_model and trips NOT NULL).
     if (!existing) return;
     await updateLocalConversationSettings(userId(), {
       convId: id,
@@ -80,22 +80,28 @@ export function createThreadListAdapter(
         model = pricing?.firstFreeModel?.name ?? null;
       }
       if (!model) throw new Error(t("ERRORS.NO_TEXT_MODELS"));
-      const id = ensureConvId();
+      // A new chat must get a FRESH id, never inherit a stale convIdAtom (the merge bug).
+      const id = freshConvId();
 
       const now = dayjs().toDate();
 
-          // Settings cols live on the conversation row; write both in one upsert so NOT NULL default_model holds.
+      // Settings cols live on the conversation row; write both in one upsert so NOT NULL default_model holds.
       const defaults = chatStore.get(chatDefaultsAtom);
-          // Sticky loadout: auto-equip new chats with the user's chosen preset/persona/characters/lorebooks.
+      // Sticky loadout: auto-equip new chats with the user's chosen preset/persona/characters/lorebooks.
       const loadout = chatStore.get(chatLoadoutAtom);
-          // Seed settings from the bound preset so the drawer shows what the stream uses. Per field: preset value, else app default.
+      // Seed settings from the bound preset so the drawer shows what the stream uses. Per field: preset value, else app default.
       const preset = loadout.presetId
         ? await readLocalPreset(userId(), loadout.presetId)
         : null;
+      // A bound preset is inherited LIVE: store null so the server/UI resolve
+      // conv(null) -> preset -> default every render. This lets a mid-chat preset
+      // edit reach existing chats (an explicit per-chat drawer override writes a
+      // concrete value and still wins). With NO preset there is nothing to inherit,
+      // so snapshot the user's chatDefaults at creation.
       const seed = <K extends keyof typeof defaults>(
         key: K,
         presetValue: number | boolean | string | null | undefined,
-      ) => presetValue ?? defaults[key] ?? null;
+      ) => (preset ? null : (presetValue ?? defaults[key] ?? null));
       await upsertLocalConversation(userId(), {
         id,
         title: null,
@@ -111,7 +117,7 @@ export function createThreadListAdapter(
         systemPromptOverride: null,
         authorNote: null,
         authorNoteDepth: 4,
-        chatMemory: preset?.chatMemory ?? defaults.chatMemory ?? null,
+        chatMemory: preset ? null : (defaults.chatMemory ?? null),
         reasoningEffort: defaults.reasoningEffort ?? null,
         webSearchEnabled: defaults.webSearchEnabled ?? false,
         webSearchEngine: defaults.webSearchEngine ?? "auto",
@@ -125,14 +131,15 @@ export function createThreadListAdapter(
         presencePenalty: seed("presencePenalty", preset?.presencePenalty),
         repetitionPenalty: seed("repetitionPenalty", preset?.repetitionPenalty),
         maxTokens: seed("maxTokens", preset?.maxTokens),
-        extraBody: preset?.extraBody ?? defaults.extraBody ?? null,
-        // null = inherit; the stream resolver falls back conv -> preset -> true.
-        streamingEnabled:
-          preset?.streamingEnabled ?? defaults.streamingEnabled ?? null,
+        extraBody: preset ? null : (defaults.extraBody ?? null),
+        // null = inherit; the resolver falls back conv -> preset -> default. A bound
+        // preset stays null so its later edits propagate to this chat (Matic).
+        streamingEnabled: preset ? null : (defaults.streamingEnabled ?? null),
+        showReasoning: preset ? null : (defaults.showReasoning ?? null),
         group: chatStore.get(chatGroupAtom),
       });
 
-          // Character + lorebook bindings live in join tables, written after the conversation row exists for the FK.
+      // Character + lorebook bindings live in join tables, written after the conversation row exists for the FK.
       if (loadout.characterIds.length > 0 || loadout.lorebookIds.length > 0) {
         await replaceLocalConversationBindings(userId(), id, {
           conversationCharacters: loadout.characterIds.map((cid, i) => ({
@@ -146,7 +153,7 @@ export function createThreadListAdapter(
         });
       }
 
-          // Risu greeting parity: firstMessage + alternates seed as root branch siblings, preview-picked one active.
+      // Risu greeting parity: firstMessage + alternates seed as root branch siblings, preview-picked one active.
       if (loadout.characterIds.length > 0) {
         const char = await readLocalCharacter(
           userId(),
@@ -201,7 +208,7 @@ export function createThreadListAdapter(
             }
           }
           if (picked > 0) {
-                // Patch-only on the row seeded above; omitting default_model in an upsert would trip NOT NULL.
+            // Patch-only on the row seeded above; omitting default_model in an upsert would trip NOT NULL.
             await updateLocalConversationSettings(userId(), {
               convId: id,
               firstMsgIndex: picked - 1,
@@ -209,7 +216,7 @@ export function createThreadListAdapter(
             });
           }
           chatStore.set(greetingIndexAtom, 0);
-              // Surface the picked greeting in live thread state; prepend keeps the in-flight user turn intact.
+          // Surface the picked greeting in live thread state; prepend keeps the in-flight user turn intact.
           const helpers = chatStore.get(chatHelpersAtom);
           if (helpers && seededGreeting) {
             const greetingMessage = {

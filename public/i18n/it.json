@@ -534,10 +534,61 @@
       "product": "prodotto",
       "engineering": "ingegneria",
       "update": "aggiornamento",
-      "community": "Comunità",
-      "comparison": "Confronto"
+      "community": "comunità",
+      "comparison": "confronto"
     },
     "POSTS": {
+      "UNOROUTER_VS_MEGALLM": {
+        "TITLE": "{appName} vs MegaLLM: lo stesso gateway per il codice, piu un client di chat",
+        "DESCRIPTION": "MegaLLM e un popolare gateway di modelli di frontiera per agenti di codice. {appName} fa lo stesso lavoro e aggiunge un client di chat e personaggi integrato. La differenza e se scrivi solo codice o vuoi anche un posto dove chattare.",
+        "AUTHOR": "Team {appName}",
+        "INTRO": "MegaLLM ha costruito una delle community piu grandi del settore come gateway pulito per agenti di codice: una chiave compatibile con OpenAI, modelli di frontiera, failover automatico. {appName} e lo stesso tipo di gateway, con un aggiunta che decide l adattamento. Ecco il confronto onesto da uno dei due.",
+        "H_SAME_LANE": "Siamo nella stessa corsia",
+        "P_SAME_LANE": "Sia {appName} sia MegaLLM sono gateway compatibili con OpenAI fatti per sviluppatori. Entrambi mettono GPT, Claude e Gemini dietro una chiave, fanno failover automatico quando un provider cade, entrano in Claude Code, Codex e OpenCode con un cambio di URL base. Se il tuo obiettivo e puntare un agente di codice a modelli di frontiera senza destreggiarti tra chiavi provider, lo fa entrambi. Quindi il catalogo e il failover non sono dove sta la decisione.",
+        "H_MODELS": "Catalogo e prezzi",
+        "P_MODELS": "MegaLLM pubblicizza 70+ modelli di frontiera e visione e si promuove sul costo, fino al 60% piu economico che andare diretti grazie al routing attento ai costi, con piani da circa 10 $/mese piu pagamento a consumo. {appName} porta 200+ modelli, un catalogo piu ampio che include i modelli aperti e ottimizzati per il ruolo che il focus solo-frontiera di MegaLLM lascia fuori, anche a consumo, con crediti che non scadono e un piano gratuito. Se chiami solo GPT e Claude, il prezzo per token e il confronto. Se vuoi il catalogo piu ampio, {appName} ne ha semplicemente di piu.",
+        "H_CHAT": "La parte che MegaLLM non ha",
+        "P_CHAT": "MegaLLM e un gateway headless, una API e una dashboard, niente in cui chattare. {appName} e il gateway piu un client di chat e personaggi integrato: personas, lorebook, preset, import di carte SillyTavern, e la stessa chiave entra in SillyTavern, Janitor.AI, RisuAI o Chub. Cosi la stessa chiave che guida il tuo agente di codice esegue anche una vera chat di personaggi, per lavoro e per gioco. Questa e la linea tra un gateway di dev puro e un 2-in-1.",
+        "H_MIGRATE": "Cambiare e un cambio di URL base",
+        "P_MIGRATE": "Come MegaLLM, {appName} e compatibile con OpenAI, quindi migrare e una riga: punta il client a <c>https://api.unorouter.com/v1</c> e tieni il codice. La stessa chiave incollata nel campo endpoint personalizzato di un client di chat raggiunge lo stesso catalogo, quindi nessun secondo account ne uno strumento separato per il lato chat.",
+        "H_VERDICT": "Quale scegliere",
+        "P_VERDICT": "Se scrivi solo codice e vuoi un gateway di modelli di frontiera snello ottimizzato per il costo per token, MegaLLM e una scelta solida e la sua community lo dimostra. Se vuoi una chiave che guida i tuoi agenti di codice e un client di chat e personaggi integrato dallo stesso saldo e un catalogo piu ampio, e la lacuna che {appName} colma. Non c e un unico vincitore. Dipende se un gateway di dev puro basta, o vuoi il client di chat integrato.",
+        "CTA": "Vuoi il gateway e la chat in uno? <register>Crea un account gratuito</register> o <models>esplora i modelli</models>."
+      },
+      "UNOROUTER_VS_RISUAI": {
+        "TITLE": "{appName} vs RisuAI: abbiamo portato il motore RP in un 2-in-1 gestito",
+        "DESCRIPTION": "RisuAI e il frontend RP per utenti esperti. {appName} ha portato il suo motore (lorebook, macro CBS, trigger, regex, import di carte) in un prodotto gestito dove la stessa chiave guida anche agenti di codice. Non un rivale, un 2-in-1.",
+        "AUTHOR": "Team {appName}",
+        "INTRO": "RisuAI e uno dei migliori frontend di gioco di ruolo in circolazione, e lo diciamo da persone che ne hanno studiato il codice da vicino. {appName} non ha cercato di superarlo nelle funzioni. Ne abbiamo portato il motore e lo abbiamo messo altrove: un prodotto gestito dove una chiave compatibile con OpenAI esegue anche i tuoi agenti di codice. Quindi questa e meno una comparazione rivale che una onesta spiegazione di 2-in-1, scritta da gente che ammira Risu.",
+        "H_ENGINE": "Abbiamo portato il motore, non clonato l app",
+        "P_ENGINE": "Cio che rende Risu ottimo per il ruolo e in {appName} perche lo abbiamo portato: il sistema di lorebook (un pool globale, decoratori @@, ricorsione), il linguaggio completo di macro CBS (variabili, condizioni, casuale con seme, blocchi), la VM di trigger V1/V2 con un runtime Lua, i customscript regex (editinput/output/display), l import di carte SillyTavern v2/v3, l ordine della chat di gruppo, i personas, i preset e una memoria a riassunto continuo. Se conosci i lorebook e i trigger di Risu, qui funzionano come ti aspetti.",
+        "H_TWO_IN_ONE": "Il 2-in-1: stessa chiave per codice e chat dei personaggi",
+        "P_TWO_IN_ONE": "Questa e la parte che Risu non puo essere, per progettazione. Risu e BYOK: porti la tua chiave OpenAI o Claude ed e puramente un frontend di chat. {appName} e la chiave e il client. La stessa chiave che guida la chat dei personaggi integrata punta anche un agente di codice (Claude Code, Cline, OpenCode, Codex) a oltre 200 modelli, e si inserisce direttamente in SillyTavern, Janitor.AI, RisuAI o Chub se preferisci quelli. Un account, un saldo, una lista di modelli, per lavoro e per gioco. Non cerchiamo di sostituire Risu il frontend, siamo il gateway piu un client in uno.",
+        "H_HOSTING": "Gestito vs self-hosted, e nessuna chiave da gestire",
+        "P_HOSTING": "Risu lo esegui tu (web, desktop Tauri o Docker) e raccogli e incolli la chiave API di ogni provider. {appName} e gestito: nulla da installare o tenere in vita, e nessuna chiave provider da raccogliere, dato che la chiave e l account. Ti registri e chatti. Per chi vuole solo l esperienza in stile Risu senza tirare su un app o gestire chiavi, questo elimina l intero passaggio di configurazione.",
+        "H_RISU_WINS": "Dove Risu vince ancora (onestamente)",
+        "P_RISU_WINS": "Non fingeremo di coprire tutto. Risu ha HypaMemory V2/V3, una compressione della memoria a lungo termine piu profonda del nostro riassunto continuo piu recupero semantico. Ha un vero ecosistema di plugin utente che puoi estendere e condividere; noi no. I suoi traduttori integrati per la traduzione automatica input/output sono piu completi dei nostri. E come app open source self-hosted ti da un controllo locale totale che un servizio gestito non dara mai. Se questo ti importa di piu, Risu e la scelta migliore, e lo intendiamo davvero.",
+        "H_VERDICT": "Quale scegliere",
+        "P_VERDICT": "Vuoi un frontend di ruolo self-hosted, aperto e profondamente estensibile con la memoria piu ricca e un ecosistema di plugin, e sei contento di portare le tue chiavi? Usa Risu. Vuoi le stesse funzioni di lorebook, CBS, trigger e carte in un prodotto gestito dove una chiave esegue anche i tuoi agenti di codice e funziona in altri frontend? E il 2-in-1 che e {appName}. Non c e un unico vincitore. Abbiamo solo costruito il ponte che Risu, essendo un frontend, non era mai destinato a essere.",
+        "CTA": "Prova la chat con tutto portato dentro. <register>Crea un account gratuito</register> o <chat>apri la chat</chat>."
+      },
+      "UNOROUTER_VS_LITELLM": {
+        "TITLE": "{appName} vs LiteLLM: gateway gestito o proxy self-hosted",
+        "DESCRIPTION": "LiteLLM e il proxy LLM self-hosted piu popolare. {appName} e un gateway gestito con client di chat integrato. La vera scelta e se vuoi gestire tu stesso l infrastruttura.",
+        "AUTHOR": "Team {appName}",
+        "INTRO": "LiteLLM e la risposta open source predefinita a una chiave per ogni modello: un proxy Python con licenza MIT che esegui tu stesso. {appName} risponde alla stessa esigenza, ma gestito e con un client sopra. La differenza onesta non sono le funzioni, e se vuoi gestire il proxy o solo chiamare un endpoint.",
+        "H_HOSTED": "Self-hosted vs gestito",
+        "P_HOSTED": "LiteLLM e software che distribuisci ed esegui: avviare il proxy, gestire il processo, osservare i log, scalare sotto carico. Questo da controllo totale senza intermediari, esattamente cio che vuole un team di piattaforma. {appName} e il compromesso opposto. Non c e nulla da distribuire o tenere in vita. Ottieni un endpoint e una chiave, e disponibilita, routing e failover sono un problema nostro, non tuo.",
+        "H_SETUP": "Configurazione e manutenzione",
+        "P_SETUP": "Con LiteLLM scrivi una configurazione, fornisci le chiavi API di ogni provider, esegui il server (Python, quindi attenzione al GIL in concorrenza) e ti fai carico di aggiornamenti e monitoraggio per sempre. Con {appName} ti registri e punti il client a <c>https://api.unorouter.com/v1</c>. Nessun file di configurazione, nessuna chiave provider da raccogliere, nessun server da accudire. Uno e infrastruttura che mantieni; l altro un servizio che consumi.",
+        "H_INTERFACE": "Non esiste un LiteLLM in cui chattare",
+        "P_INTERFACE": "LiteLLM e headless per progettazione: un livello API, ogni interfaccia la porti tu. {appName} offre la stessa API compatibile con OpenAI piu un client di chat e personaggi integrato (personas, lorebook, preset, import di card SillyTavern), e la stessa chiave entra in SillyTavern, Janitor.AI, RisuAI o Chub. Cosi un agente di codice e un posto dove chattare girano su una sola chiave, invece di un proxy a cui devi ancora costruire un interfaccia.",
+        "H_COST": "Costo e chiavi",
+        "P_COST": "LiteLLM non prende ricarico, ma paghi ogni provider direttamente e ti accolli la bolletta dell infrastruttura piu il tempo DevOps. Vince ad alto volume se hai il team. {appName} e a consumo su 200+ modelli con crediti che non scadono e un piano gratuito, un solo saldo invece di un portafoglio per ogni provider e nessun server da pagare. Sotto una scala seria, la via gestita di solito costa meno una volta contate le ore.",
+        "H_VERDICT": "Quale scegliere",
+        "P_VERDICT": "Se hai un team di piattaforma, vuoi zero ricarico e sei contento di gestire il proxy, LiteLLM e lo strumento giusto. Se vuoi una chiave compatibile con OpenAI senza nulla da distribuire, che funziona nel tuo agente di codice e in un vero client di chat, {appName} e adatto. Non c e un unico vincitore. Si riduce a se vuoi gestire il gateway o solo usarne uno.",
+        "CTA": "Vuoi un gateway senza nulla da distribuire? <register>Crea un account gratuito</register> o <models>esplora i modelli</models>."
+      },
       "FEATURED_ON": {
         "TITLE": "Dove trovare {appName}: i nostri elenchi nelle directory",
         "DESCRIPTION": "{appName} e elencato nelle directory di strumenti IA e startup. Ecco dove trovarci, verificare gli elenchi e leggere opinioni indipendenti.",
@@ -2034,6 +2085,7 @@
     "LEGAL": "Legale",
     "PRIVACY": "Informativa sulla privacy",
     "TERMS": "Termini e condizioni",
+    "REFUND": "Politica di rimborso",
     "CONTACT_TITLE": "Contatto",
     "CONTACT_SUBTITLE": "Domande o preoccupazioni?",
     "DESCRIPTION": "Piattaforma API AI unificata che fornisce accesso a centinaia di modelli da più provider tramite un singolo endpoint intelligente.",
@@ -2122,6 +2174,42 @@
     "CHANGES_CONTENT": "Possiamo aggiornare questi Termini di tanto in tanto. Le modifiche materiali saranno comunicate con almeno 30 giorni di preavviso tramite email o notifica in-app. Il tuo uso continuato dei Servizi dopo qualsiasi modifica costituisce la tua accettazione dei Termini aggiornati.",
     "CONTACT_TITLE": "14. Contattaci",
     "CONTACT_CONTENT": "Se hai domande su questi Termini, contattaci a {supportEmail}."
+  },
+  "REFUND": {
+    "META": {
+      "TITLE": "Politica di rimborso - {appName}",
+      "DESCRIPTION": "Scopri come vengono gestiti i rimborsi per i crediti e gli abbonamenti acquistati tramite {appName}, inclusi i requisiti, i tempi e come richiederli.",
+      "KEYWORDS": "politica di rimborso, rimborsi, rimborso {appName}, rimborso API IA, rimborso abbonamento"
+    },
+    "TITLE": "Politica di rimborso",
+    "LAST_UPDATED": "Ultimo aggiornamento: 17 giugno 2026",
+    "INTRO": "Questa Politica di rimborso spiega come vengono gestiti i rimborsi per i crediti, gli abbonamenti e gli altri pagamenti effettuati tramite {appName}. Effettuando un acquisto sulla nostra piattaforma, accetti questa politica.",
+    "PAYMENTS_TITLE": "1. Pagamenti",
+    "PAYMENTS_CONTENT": "Tutti i pagamenti per crediti e piani di abbonamento vengono elaborati in modo sicuro tramite i nostri fornitori di servizi di pagamento. Gli abbonamenti si rinnovano automaticamente fino alla cancellazione e tutte le transazioni sono cifrate durante la trasmissione. La fatturazione ricorrente si applica salvo diversa indicazione al momento dell'acquisto.",
+    "ELIGIBILITY_TITLE": "2. Requisiti per il rimborso",
+    "ELIGIBILITY_INTRO": "Per avere diritto a un rimborso, devi soddisfare tutti i seguenti criteri:",
+    "ELIGIBILITY_WINDOW": "Finestra di 7 giorni: le richieste di rimborso devono essere inviate entro 7 giorni dal pagamento originale.",
+    "ELIGIBILITY_USAGE": "Limite di utilizzo: non devi aver consumato più del 20% dei crediti o della quota inclusi nell'acquisto durante il ciclo di fatturazione.",
+    "ELIGIBILITY_COMPLIANCE": "Rispetto dei termini: non vengono emessi rimborsi per gli account con violazioni dei Termini di servizio.",
+    "NON_REFUNDABLE_TITLE": "3. Voci non rimborsabili",
+    "NON_REFUNDABLE_INTRO": "Non offriamo rimborsi per quanto segue:",
+    "NON_REFUNDABLE_PARTIAL": "Periodi di abbonamento o crediti parzialmente utilizzati oltre la finestra di 7 giorni.",
+    "NON_REFUNDABLE_FEES": "Commissioni una tantum, commissioni della piattaforma o servizi aggiuntivi.",
+    "NON_REFUNDABLE_TERMINATED": "Account chiusi per violazioni delle policy.",
+    "REQUEST_TITLE": "4. Come richiedere un rimborso",
+    "REQUEST_INTRO": "Per richiedere un rimborso, contatta il nostro team di assistenza all'indirizzo {supportEmail} fornendo le seguenti informazioni:",
+    "REQUEST_ACCOUNT": "Il tuo nome utente o indirizzo e-mail.",
+    "REQUEST_PROOF": "Una prova di pagamento, come un ID transazione o una ricevuta.",
+    "REQUEST_REASON": "Il motivo della tua richiesta di rimborso.",
+    "REQUEST_VERIFY": "Potremmo richiedere informazioni aggiuntive per verificare la tua richiesta.",
+    "PROCESSING_TITLE": "5. Elaborazione del rimborso",
+    "PROCESSING_CONTENT": "I rimborsi approvati vengono emessi sul tuo metodo di pagamento originale. I rimborsi vengono generalmente elaborati entro 5-10 giorni lavorativi. Il tempo di accredito effettivo può variare a seconda della tua banca o del fornitore di servizi di pagamento.",
+    "LAW_TITLE": "6. Conformità alle leggi applicabili",
+    "LAW_CONTENT": "Questa Politica di rimborso si aggiunge a, e non limita, eventuali diritti di legge che potresti avere ai sensi delle leggi sulla protezione dei consumatori applicabili nella tua giurisdizione. Laddove la legge locale conceda un diritto obbligatorio di recesso o rimborso superiore a questa politica, tale diritto prevale.",
+    "CHANGES_TITLE": "7. Modifiche a questa politica",
+    "CHANGES_CONTENT": "Possiamo modificare questa Politica di rimborso in qualsiasi momento per mantenere la conformità con i quadri di protezione dei consumatori in evoluzione. Gli aggiornamenti saranno riportati in questa pagina con una data revisionata e, ove richiesto, i clienti interessati saranno informati in anticipo delle modifiche significative.",
+    "CONTACT_TITLE": "8. Contattaci",
+    "CONTACT_CONTENT": "Per richieste di rimborso o domande su questa politica, contattaci all'indirizzo {supportEmail}."
   },
   "MAIN": {
     "ENUM": {
@@ -3047,6 +3135,7 @@
       "CHAT_MEMORY_HINT": "Numero di messaggi recenti inviati con ogni richiesta.",
       "STREAMING_ENABLED": "Streaming",
       "STREAMING_ENABLED_HINT": "Off = aspetta la risposta completa, poi mostrala. Alcuni modelli producono output puliti solo quando bufferizzati. Per lo più preferenza utente.",
+      "SHOW_REASONING": "Mostra ragionamento",
       "SYSTEM_PROMPT": "Override prompt di sistema",
       "SYSTEM_PROMPT_PLACEHOLDER": "Lascia vuoto per usare il prompt di sistema del personaggio.",
       "AUTHOR_NOTE": "Nota dell'autore",
@@ -3085,7 +3174,7 @@
     },
     "MORE": {
       "OPEN": "Altre azioni",
-      "IMPORT_EXPORT": "Importa / Esporta",
+      "IMPORT_EXPORT": "Importa / Esporta / Debug",
       "EXPORT_NATIVE": "Esporta (nativo)",
       "EXPORT_ORPG": "Esporta (OpenRouter)",
       "EXPORT_SILLYTAVERN": "Esporta (SillyTavern JSONL)",
@@ -3104,14 +3193,38 @@
       "LOCAL_DB_UPLOAD_CONFIRM": "Sovrascrivere il database OPFS locale da questo file? I dati esistenti vengono cancellati.",
       "CLEAR": "Cancella chat",
       "CLEAR_SUCCESS": "Chat cancellata",
-      "CLEAR_CONFIRM_DESC": "Questo elimina ogni messaggio nella conversazione ma mantiene le impostazioni, i binding del personaggio e il titolo. Questo non può essere annullato."
+      "CLEAR_CONFIRM_DESC": "Questo elimina ogni messaggio nella conversazione ma mantiene le impostazioni, i binding del personaggio e il titolo. Questo non può essere annullato.",
+      "DISPLAY": "Visualizzazione",
+      "DIAGNOSTICS": "Scarica registro (senza messaggi)",
+      "DIAGNOSTICS_FULL": "Scarica registro + messaggi",
+      "DEBUG_CLEAR": "Cancella registro di debug",
+      "DEBUG_CLEARED": "Registro di debug cancellato"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, one {# personaggio} other {# personaggi}}",
       "LOREBOOKS": "{count, plural, one {# lorebook} other {# lorebook}}"
     },
     "TRIGGER_ALERT_SELECT_DESC": "Scegli un'opzione per continuare",
-    "TRIGGER_ALERT_OK": "OK"
+    "TRIGGER_ALERT_OK": "OK",
+    "SUCCESS": {
+      "ERROR_COPIED": "Dettagli dell'errore copiati"
+    },
+    "CHAT_TOTAL": "Totale chat",
+    "STATS": {
+      "SHOW_COST": "Mostra costo",
+      "SHOW_TOKENS": "Mostra token"
+    },
+    "GROUPS": {
+      "NEW_GROUP": "Nuovo gruppo",
+      "RENAME": "Rinomina gruppo",
+      "DELETE": "Elimina gruppo",
+      "MOVE_TO": "Sposta nel gruppo",
+      "UNGROUPED": "Senza gruppo",
+      "GROUP_UNTITLED": "Nuovo gruppo",
+      "EMPTY": "Nessuna chat",
+      "DELETE_CONFIRM_TITLE": "Eliminare il gruppo?",
+      "DELETE_CONFIRM_DESC": "Il gruppo viene rimosso; le sue chat vengono mantenute e diventano senza gruppo."
+    }
   },
   "RP": {
     "CHARACTERS_TITLE": "Personaggi",
@@ -3165,9 +3278,10 @@
     "LOREBOOK_ENTRY_KEYS": "Chiavi di attivazione (separate da virgole)",
     "LOREBOOK_ENTRY_KEYS_HINT": "Parole che attivano questa voce. Esempio: drago, verme, draco.",
     "LOREBOOK_ENTRY_SECONDARY_KEYS": "Trigger secondari",
-    "LOREBOOK_ENTRY_PRIORITY_HINT": "Numero più basso inietta prima nel prompt.",
+    "LOREBOOK_ENTRY_PRIORITY_HINT": "Un valore più alto sopravvive al budget di token.",
     "LOREBOOK_ENTRY_CONTENT": "Contenuto",
-    "LOREBOOK_ENTRY_POSITION": "Posizione",
+    "LOREBOOK_ENTRY_ORDER": "Ordine di inserimento",
+    "LOREBOOK_ENTRY_ORDER_HINT": "Un valore più alto viene inserito prima. Qualsiasi valore; conta solo l'ordine relativo.",
     "LOREBOOK_ENTRY_PRIORITY": "Priorità",
     "LOREBOOK_ENTRY_CONSTANT": "Sempre attivo",
     "LOREBOOK_ENTRY_SELECTIVE": "Richiedi una chiave secondaria",
@@ -3178,11 +3292,6 @@
     "LOREBOOK_ENTRY_INJECTION_ROLE_USER": "User",
     "LOREBOOK_ENTRY_INJECTION_ROLE_SYSTEM": "System",
     "LOREBOOK_ENTRY_INJECTION_ROLE_HINT": "Ruolo usato quando si inietta nell'array di messaggi. Ricade automaticamente su 'user' su provider che rifiutano messaggi di sistema a metà conversazione (es. Gemini).",
-    "POSITION_BEFORE_CHAR": "Prima del personaggio",
-    "POSITION_AFTER_CHAR": "Dopo il personaggio",
-    "POSITION_TOP": "Cima del prompt",
-    "POSITION_BOTTOM": "Fondo del prompt",
-    "POSITION_AT_DEPTH": "Alla profondità",
     "PRESETS_TITLE": "Preset di sampling",
     "PRESETS_NEW": "Nuovo preset",
     "PRESETS_EXPORT": "Esporta preset",
@@ -3282,6 +3391,8 @@
     "PRESET_CHAT_MEMORY_HINT": "Quanti messaggi recenti inviare per richiesta. Vuoto = predefinito (8); l'impostazione della chat prevale.",
     "PRESET_STREAMING": "Streaming",
     "PRESET_STREAMING_HINT": "Trasmetti la risposta token per token. Off = ricevi tutta la risposta in una volta. L'impostazione della chat prevale.",
+    "PRESET_SHOW_REASONING": "Mostra ragionamento",
+    "PRESET_SHOW_REASONING_HINT": "Mostra il ragionamento del modello nelle risposte. Off = nascondilo (il ragionamento viene comunque generato e conservato, quindi riattivandolo viene rivelato). L'impostazione della chat prevale.",
     "CHARACTER_BACKGROUND": "Immagine di sfondo",
     "CHARACTER_BACKGROUND_HINT": "Mostrata dietro la chat quando questo personaggio guida la conversazione."
   },

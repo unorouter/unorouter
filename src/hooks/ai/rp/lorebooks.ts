@@ -93,12 +93,10 @@ export function useImportLorebookMutation() {
         constant: e.constant,
         selective: e.selective,
         priority: e.priority,
-        position: e.position,
-        depth: e.depth,
         enabled: e.enabled,
         orderIndex: e.orderIndex ?? i,
         matchWholeWords: false,
-        injectionRole: "user" as const,
+        injectionRole: "system" as const,
         createdAt: now,
         updatedAt: now,
       }));
@@ -119,14 +117,14 @@ export function useCreateLorebookEntryMutation(lorebookId: string) {
   return useApiMutation({
     mutationFn: async (body: LorebookEntryBody) => {
       const now = dayjs().toDate();
-      // Append to the end: next orderIndex above the current max (Risu insertorder).
+      // Append to the end (next orderIndex above current max, Risu insertorder) UNLESS the user typed a value in the form.
       const lb = await readLocalLorebook(userId, lorebookId);
       const nextOrder =
         (lb?.entries.reduce((m, e) => Math.max(m, e.orderIndex ?? 0), -1) ??
           -1) + 1;
       const row = {
         ...body,
-        orderIndex: nextOrder,
+        orderIndex: body.orderIndex || nextOrder,
         id: uid(),
         lorebookId,
         createdAt: now,
@@ -146,13 +144,12 @@ export function useUpdateLorebookEntryMutation(lorebookId: string) {
       const now = dayjs().toDate();
       const lb = await readLocalLorebook(userId, lorebookId);
       const existing = lb?.entries.find((e) => e.id === args.entryId);
+      // Form owns orderIndex (Risu insertorder) in args.body; existing only fills gaps.
       const updated = {
         ...(existing ?? {}),
         id: args.entryId,
         lorebookId,
         ...args.body,
-        // Preserve placement: form edits never reset insertion order.
-        orderIndex: existing?.orderIndex ?? 0,
         updatedAt: now,
       };
       await upsertLocalLorebookEntry(userId, updated);

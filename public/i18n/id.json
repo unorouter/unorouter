@@ -534,10 +534,61 @@
       "product": "produk",
       "engineering": "engineering",
       "update": "pembaruan",
-      "community": "Komunitas",
-      "comparison": "Perbandingan"
+      "community": "komunitas",
+      "comparison": "perbandingan"
     },
     "POSTS": {
+      "UNOROUTER_VS_MEGALLM": {
+        "TITLE": "{appName} vs MegaLLM: gateway koding yang sama, plus klien chat",
+        "DESCRIPTION": "MegaLLM adalah gateway model frontier populer untuk agen koding. {appName} melakukan pekerjaan yang sama dan menambahkan klien chat dan karakter bawaan. Bedanya apakah kamu hanya menulis kode atau juga ingin tempat untuk mengobrol.",
+        "AUTHOR": "Tim {appName}",
+        "INTRO": "MegaLLM membangun salah satu komunitas terbesar di bidang ini sebagai gateway bersih untuk agen koding: satu kunci kompatibel OpenAI, model frontier, failover otomatis. {appName} adalah jenis gateway yang sama, dengan satu tambahan yang menentukan kecocokan. Inilah perbandingan jujur dari salah satu dari keduanya.",
+        "H_SAME_LANE": "Kami di jalur yang sama",
+        "P_SAME_LANE": "Baik {appName} maupun MegaLLM adalah gateway kompatibel OpenAI yang dibuat untuk pengembang. Keduanya menaruh GPT, Claude, dan Gemini di balik satu kunci, keduanya melakukan failover otomatis saat penyedia turun, keduanya masuk ke Claude Code, Codex, dan OpenCode dengan penggantian URL dasar. Jika tujuanmu mengarahkan agen koding ke model frontier tanpa menjuggle kunci penyedia, keduanya melakukannya. Jadi katalog dan failover bukan tempat keputusannya.",
+        "H_MODELS": "Katalog dan harga",
+        "P_MODELS": "MegaLLM mengiklankan 70+ model frontier dan visi dan memasarkan dirinya soal biaya, hingga 60% lebih murah daripada langsung lewat perutean sadar-biaya, dengan paket mulai sekitar 10 $/bulan plus bayar sesuai pakai. {appName} membawa 200+ model, katalog lebih luas yang mencakup model terbuka dan yang disetel untuk roleplay yang ditinggalkan fokus hanya-frontier MegaLLM, juga bayar sesuai pakai, dengan kredit yang tidak kedaluwarsa dan tier gratis. Jika kamu hanya memanggil GPT dan Claude, harga per token adalah perbandingannya. Jika kamu ingin katalog lebih luas, {appName} sekadar punya lebih banyak.",
+        "H_CHAT": "Bagian yang tidak dimiliki MegaLLM",
+        "P_CHAT": "MegaLLM adalah gateway headless, sebuah API dan dasbor, tidak ada tempat untuk mengobrol. {appName} adalah gateway plus klien chat dan karakter bawaan: persona, lorebook, preset, impor kartu SillyTavern, dan kunci yang sama masuk ke SillyTavern, Janitor.AI, RisuAI, atau Chub. Jadi kunci yang sama yang menjalankan agen kodingmu juga menjalankan chat karakter sungguhan, untuk kerja dan main. Itulah garis antara gateway dev murni dan 2-in-1.",
+        "H_MIGRATE": "Beralih adalah penggantian URL dasar",
+        "P_MIGRATE": "Seperti MegaLLM, {appName} kompatibel OpenAI, jadi pindah cuma satu baris: arahkan klienmu ke <c>https://api.unorouter.com/v1</c> dan pertahankan kodemu. Kunci yang sama yang ditempel di kolom endpoint kustom klien chat menjangkau katalog yang sama, jadi tidak ada akun kedua maupun alat terpisah untuk sisi chat.",
+        "H_VERDICT": "Mana yang harus dipilih",
+        "P_VERDICT": "Jika kamu hanya menulis kode dan ingin gateway model frontier ramping yang dioptimalkan untuk biaya per token, MegaLLM pilihan solid dan komunitasnya menunjukkannya. Jika kamu ingin satu kunci yang menjalankan agen kodingmu dan klien chat dan karakter bawaan dari saldo yang sama dan katalog lebih luas, itulah celah yang diisi {appName}. Tidak ada pemenang tunggal. Tergantung apakah gateway dev murni cukup, atau kamu ingin klien chat tertanam.",
+        "CTA": "Ingin gateway dan chat dalam satu? <register>Buat akun gratis</register> atau <models>jelajahi modelnya</models>."
+      },
+      "UNOROUTER_VS_RISUAI": {
+        "TITLE": "{appName} vs RisuAI: kami memporting mesin RP ke 2-in-1 terkelola",
+        "DESCRIPTION": "RisuAI adalah frontend RP untuk pengguna mahir. {appName} memporting mesinnya (lorebook, makro CBS, trigger, regex, impor kartu) ke produk terkelola di mana kunci yang sama juga menjalankan agen koding. Bukan rival, tapi 2-in-1.",
+        "AUTHOR": "Tim {appName}",
+        "INTRO": "RisuAI adalah salah satu frontend roleplay terbaik yang ada, dan kami mengatakannya sebagai orang yang mempelajari sumbernya dengan cermat. {appName} tidak mencoba mengunggulinya dalam fitur. Kami memporting mesinnya lalu menaruhnya di tempat baru: produk terkelola di mana satu kunci kompatibel OpenAI juga menjalankan agen koding kamu. Jadi ini bukan perbandingan rival, melainkan penjelasan jujur 2-in-1, ditulis oleh orang yang mengagumi Risu.",
+        "H_ENGINE": "Kami memporting mesinnya, bukan mengkloning aplikasinya",
+        "P_ENGINE": "Bagian yang membuat Risu hebat untuk roleplay ada di {appName} karena kami memportingnya: sistem lorebook (satu pool global, dekorator @@, rekursi), bahasa makro CBS penuh (variabel, kondisional, acak ber-seed, blok), VM trigger V1/V2 dengan runtime Lua, customscript regex (editinput/output/display), impor kartu SillyTavern v2/v3, urutan obrolan grup, persona, preset, dan memori ringkasan bergulir. Jika kamu tahu lorebook dan trigger Risu, di sini mereka bekerja sesuai harapanmu.",
+        "H_TWO_IN_ONE": "2-in-1: kunci yang sama untuk kode dan chat karakter",
+        "P_TWO_IN_ONE": "Ini bagian yang Risu tidak bisa jadi, secara desain. Risu itu BYOK: kamu bawa kunci OpenAI atau Claude sendiri dan ia murni frontend chat. {appName} adalah kunci sekaligus klien. Kunci yang sama yang menjalankan chat karakter bawaan juga mengarahkan agen koding (Claude Code, Cline, OpenCode, Codex) ke 200+ model, dan masuk langsung ke SillyTavern, Janitor.AI, RisuAI, atau Chub jika kamu lebih suka itu. Satu akun, satu saldo, satu daftar model, untuk kerja dan main. Kami tidak ingin menggantikan Risu sebagai frontend, kami adalah gateway plus klien dalam satu.",
+        "H_HOSTING": "Terkelola vs swakelola, dan tanpa kunci untuk dijuggle",
+        "P_HOSTING": "Risu kamu jalankan sendiri (web, desktop Tauri, atau Docker) dan kamu kumpulkan serta tempel kunci API tiap penyedia. {appName} terkelola: tidak ada yang perlu diinstal atau dijaga hidup, dan tanpa kunci penyedia untuk dikumpulkan, karena kuncinya adalah akunnya. Kamu mendaftar lalu mengobrol. Bagi yang hanya ingin pengalaman bergaya Risu tanpa mendirikan aplikasi atau mengelola kunci, ini menghapus seluruh langkah penyiapan.",
+        "H_RISU_WINS": "Di mana Risu masih menang (jujur)",
+        "P_RISU_WINS": "Kami tidak akan berpura-pura mencakup semuanya. Risu punya HypaMemory V2/V3, kompresi memori jangka panjang yang lebih dalam daripada ringkasan bergulir kami plus pengambilan semantik. Ia punya ekosistem plugin pengguna sungguhan yang bisa kamu perluas dan bagikan; kami tidak. Penerjemah bawaannya untuk terjemahan otomatis input/output lebih lengkap dari milik kami. Dan sebagai aplikasi open source swakelola, ia memberi kendali lokal penuh yang tak akan pernah diberikan layanan terkelola. Jika itu paling penting bagimu, Risu pilihan lebih baik, dan kami serius.",
+        "H_VERDICT": "Mana yang harus dipilih",
+        "P_VERDICT": "Ingin frontend roleplay swakelola, terbuka, dan sangat dapat diperluas dengan memori terkaya dan ekosistem plugin, dan senang membawa kunci sendiri? Pakai Risu. Ingin fitur lorebook, CBS, trigger, dan kartu yang sama dalam produk terkelola di mana satu kunci juga menjalankan agen kodingmu dan bekerja di frontend lain juga? Itulah 2-in-1 yang adalah {appName}. Tidak ada pemenang tunggal. Kami hanya membangun jembatan yang Risu, sebagai frontend, memang tak pernah dimaksudkan menjadi.",
+        "CTA": "Coba chat dengan semua yang diporting. <register>Buat akun gratis</register> atau <chat>buka chat</chat>."
+      },
+      "UNOROUTER_VS_LITELLM": {
+        "TITLE": "{appName} vs LiteLLM: gateway terkelola atau proxy swakelola",
+        "DESCRIPTION": "LiteLLM adalah proxy LLM swakelola paling populer. {appName} adalah gateway terkelola dengan klien chat bawaan. Pilihan sebenarnya adalah apakah kamu ingin menjalankan infrastruktur sendiri.",
+        "AUTHOR": "Tim {appName}",
+        "INTRO": "LiteLLM adalah jawaban open source default untuk satu kunci bagi setiap model: proxy Python berlisensi MIT yang kamu jalankan sendiri. {appName} menjawab kebutuhan yang sama, tetapi terkelola dan dengan klien di atasnya. Perbedaan jujurnya bukan fitur, melainkan apakah kamu ingin mengoperasikan proxy atau cukup memanggil sebuah endpoint.",
+        "H_HOSTED": "Swakelola vs terkelola",
+        "P_HOSTED": "LiteLLM adalah perangkat lunak yang kamu deploy dan jalankan: menyalakan proxy, mengelola proses, mengawasi log, menskalakan saat beban. Itu memberi kendali penuh tanpa perantara, persis yang diinginkan tim platform. {appName} adalah kompromi sebaliknya. Tidak ada yang perlu di-deploy atau dijaga tetap hidup. Kamu mendapat endpoint dan kunci, dan ketersediaan, perutean, serta failover adalah masalah kami, bukan kamu.",
+        "H_SETUP": "Penyiapan dan pemeliharaan",
+        "P_SETUP": "Dengan LiteLLM kamu menulis konfigurasi, menyediakan kunci API tiap penyedia, menjalankan server (Python, jadi perhatikan GIL saat konkurensi), dan menanggung pembaruan serta pemantauan selamanya. Dengan {appName} kamu mendaftar lalu mengarahkan klien ke <c>https://api.unorouter.com/v1</c>. Tanpa berkas konfigurasi, tanpa kunci penyedia untuk dikumpulkan, tanpa server untuk dijaga. Yang satu infrastruktur yang kamu pelihara; yang lain layanan yang kamu konsumsi.",
+        "H_INTERFACE": "Tidak ada LiteLLM tempat kamu bisa mengobrol",
+        "P_INTERFACE": "LiteLLM headless secara desain: sebuah lapisan API, setiap antarmuka kamu bawa sendiri. {appName} menghadirkan API kompatibel OpenAI yang sama plus klien chat dan karakter bawaan (persona, lorebook, preset, impor kartu SillyTavern), dan kunci yang sama masuk ke SillyTavern, Janitor.AI, RisuAI, atau Chub. Jadi agen koding dan tempat untuk benar-benar mengobrol berjalan dengan satu kunci, alih-alih proxy yang masih harus kamu buatkan UI.",
+        "H_COST": "Biaya dan kunci",
+        "P_COST": "LiteLLM tidak mengambil markup, tetapi kamu membayar tiap penyedia langsung dan menanggung tagihan infrastruktur plus waktu DevOps. Itu menang pada volume tinggi jika kamu punya timnya. {appName} bayar sesuai pakai di 200+ model dengan kredit yang tidak kedaluwarsa dan tier gratis, satu saldo alih-alih dompet di tiap penyedia, dan tanpa server untuk dibayar. Di bawah skala serius, jalur terkelola biasanya lebih murah setelah jam kerja dihitung.",
+        "H_VERDICT": "Mana yang harus dipilih",
+        "P_VERDICT": "Jika kamu punya tim platform, ingin markup nol, dan senang mengoperasikan proxy, LiteLLM adalah alat yang tepat. Jika kamu ingin satu kunci kompatibel OpenAI tanpa apa pun untuk di-deploy, yang bekerja di agen koding dan di klien chat sungguhan, {appName} cocok. Tidak ada pemenang tunggal. Intinya apakah kamu ingin menjalankan gateway atau cukup memakainya.",
+        "CTA": "Ingin gateway tanpa apa pun untuk di-deploy? <register>Buat akun gratis</register> atau <models>jelajahi modelnya</models>."
+      },
       "FEATURED_ON": {
         "TITLE": "Tempat menemukan {appName}: daftar direktori kami",
         "DESCRIPTION": "{appName} terdaftar di berbagai direktori alat AI dan startup. Di sini Anda dapat menemukan kami, memverifikasi daftarnya, dan membaca ulasan independen.",
@@ -2034,6 +2085,7 @@
     "LEGAL": "Hukum",
     "PRIVACY": "Kebijakan Privasi",
     "TERMS": "Syarat & Ketentuan",
+    "REFUND": "Kebijakan Pengembalian Dana",
     "CONTACT_TITLE": "Kontak",
     "CONTACT_SUBTITLE": "Pertanyaan atau kekhawatiran?",
     "DESCRIPTION": "Platform AI API terpadu yang menyediakan akses ke ratusan model dari berbagai penyedia melalui satu endpoint cerdas.",
@@ -2122,6 +2174,42 @@
     "CHANGES_CONTENT": "Kami dapat memperbarui Ketentuan ini dari waktu ke waktu. Perubahan material akan dikomunikasikan dengan pemberitahuan setidaknya 30 hari sebelumnya melalui email atau pemberitahuan dalam produk. Penggunaan Layanan Anda yang berkelanjutan setelah perubahan apa pun merupakan penerimaan Anda atas Ketentuan yang diperbarui.",
     "CONTACT_TITLE": "14. Hubungi Kami",
     "CONTACT_CONTENT": "Jika Anda memiliki pertanyaan tentang Ketentuan ini, silakan hubungi kami di {supportEmail}."
+  },
+  "REFUND": {
+    "META": {
+      "TITLE": "Kebijakan Pengembalian Dana - {appName}",
+      "DESCRIPTION": "Pelajari cara penanganan pengembalian dana untuk kredit dan langganan yang dibeli melalui {appName}, termasuk kelayakan, jangka waktu, dan cara mengajukannya.",
+      "KEYWORDS": "kebijakan pengembalian dana, pengembalian dana, refund {appName}, refund API AI, refund langganan"
+    },
+    "TITLE": "Kebijakan Pengembalian Dana",
+    "LAST_UPDATED": "Terakhir diperbarui: 17 Juni 2026",
+    "INTRO": "Kebijakan Pengembalian Dana ini menjelaskan cara penanganan pengembalian dana untuk kredit, langganan, dan pembayaran lain yang dilakukan melalui {appName}. Dengan melakukan pembelian melalui platform kami, Anda menyetujui kebijakan ini.",
+    "PAYMENTS_TITLE": "1. Pembayaran",
+    "PAYMENTS_CONTENT": "Semua pembayaran untuk kredit dan paket langganan diproses dengan aman melalui penyedia pembayaran kami. Langganan diperpanjang otomatis hingga dibatalkan, dan semua transaksi dienkripsi saat transmisi. Penagihan berulang berlaku kecuali dinyatakan lain saat pembelian.",
+    "ELIGIBILITY_TITLE": "2. Kelayakan Pengembalian Dana",
+    "ELIGIBILITY_INTRO": "Agar memenuhi syarat untuk pengembalian dana, Anda harus memenuhi semua kriteria berikut:",
+    "ELIGIBILITY_WINDOW": "Batas 7 hari: permintaan pengembalian dana harus diajukan dalam waktu 7 hari sejak pembayaran awal.",
+    "ELIGIBILITY_USAGE": "Batas penggunaan: Anda tidak boleh menggunakan lebih dari 20% kredit atau kuota yang termasuk dalam pembelian selama siklus penagihan.",
+    "ELIGIBILITY_COMPLIANCE": "Kepatuhan terhadap ketentuan: tidak ada pengembalian dana untuk akun dengan pelanggaran Ketentuan Layanan.",
+    "NON_REFUNDABLE_TITLE": "3. Item yang Tidak Dapat Dikembalikan",
+    "NON_REFUNDABLE_INTRO": "Kami tidak menawarkan pengembalian dana untuk hal berikut:",
+    "NON_REFUNDABLE_PARTIAL": "Periode langganan atau kredit yang sebagian sudah digunakan setelah melewati batas 7 hari.",
+    "NON_REFUNDABLE_FEES": "Biaya sekali bayar, biaya platform, atau layanan tambahan.",
+    "NON_REFUNDABLE_TERMINATED": "Akun yang dihentikan karena pelanggaran kebijakan.",
+    "REQUEST_TITLE": "4. Cara Mengajukan Pengembalian Dana",
+    "REQUEST_INTRO": "Untuk mengajukan pengembalian dana, hubungi tim dukungan kami di {supportEmail} dengan menyertakan informasi berikut:",
+    "REQUEST_ACCOUNT": "Nama pengguna akun atau alamat email Anda.",
+    "REQUEST_PROOF": "Bukti pembayaran, seperti ID transaksi atau tanda terima.",
+    "REQUEST_REASON": "Alasan permintaan pengembalian dana Anda.",
+    "REQUEST_VERIFY": "Kami mungkin memerlukan informasi tambahan untuk memverifikasi klaim Anda.",
+    "PROCESSING_TITLE": "5. Pemrosesan Pengembalian Dana",
+    "PROCESSING_CONTENT": "Pengembalian dana yang disetujui akan dikembalikan ke metode pembayaran asal Anda. Pengembalian dana biasanya diproses dalam 5 hingga 10 hari kerja. Waktu penerimaan sebenarnya dapat bervariasi tergantung bank atau penyedia pembayaran Anda.",
+    "LAW_TITLE": "6. Kepatuhan terhadap Hukum yang Berlaku",
+    "LAW_CONTENT": "Kebijakan Pengembalian Dana ini disediakan sebagai tambahan atas, dan tidak membatasi, hak-hak hukum apa pun yang mungkin Anda miliki berdasarkan undang-undang perlindungan konsumen yang berlaku di yurisdiksi Anda. Apabila hukum setempat memberikan hak penarikan atau pengembalian dana wajib yang melebihi kebijakan ini, hak tersebut yang berlaku.",
+    "CHANGES_TITLE": "7. Perubahan Kebijakan Ini",
+    "CHANGES_CONTENT": "Kami dapat mengubah Kebijakan Pengembalian Dana ini kapan saja untuk menjaga kepatuhan terhadap kerangka perlindungan konsumen yang terus berkembang. Pembaruan akan ditampilkan pada halaman ini dengan tanggal revisi, dan jika diperlukan, pelanggan yang terdampak akan diberi tahu sebelumnya mengenai perubahan signifikan.",
+    "CONTACT_TITLE": "8. Hubungi Kami",
+    "CONTACT_CONTENT": "Untuk permintaan pengembalian dana atau pertanyaan tentang kebijakan ini, silakan hubungi kami di {supportEmail}."
   },
   "MAIN": {
     "ENUM": {
@@ -3047,6 +3135,7 @@
       "CHAT_MEMORY_HINT": "Jumlah pesan terbaru yang dikirim dengan setiap permintaan.",
       "STREAMING_ENABLED": "Streaming",
       "STREAMING_ENABLED_HINT": "Mati = tunggu balasan lengkap, lalu tampilkan. Beberapa model menghasilkan output bersih hanya saat di-buffer. Sebagian besar preferensi pengguna.",
+      "SHOW_REASONING": "Tampilkan penalaran",
       "SYSTEM_PROMPT": "Override prompt sistem",
       "SYSTEM_PROMPT_PLACEHOLDER": "Biarkan kosong untuk menggunakan prompt sistem karakter.",
       "AUTHOR_NOTE": "Catatan penulis",
@@ -3085,7 +3174,7 @@
     },
     "MORE": {
       "OPEN": "Tindakan lainnya",
-      "IMPORT_EXPORT": "Impor / Ekspor",
+      "IMPORT_EXPORT": "Impor / Ekspor / Debug",
       "EXPORT_NATIVE": "Ekspor (native)",
       "EXPORT_ORPG": "Ekspor (OpenRouter)",
       "EXPORT_SILLYTAVERN": "Ekspor (SillyTavern JSONL)",
@@ -3104,14 +3193,38 @@
       "LOCAL_DB_UPLOAD_CONFIRM": "Timpa database OPFS lokal dari file ini? Data yang ada dihapus.",
       "CLEAR": "Bersihkan chat",
       "CLEAR_SUCCESS": "Chat dibersihkan",
-      "CLEAR_CONFIRM_DESC": "Ini menghapus setiap pesan dalam sohbet tetapi mempertahankan pengaturan, pengikatan karakter, dan judul. Ini tidak dapat dibatalkan."
+      "CLEAR_CONFIRM_DESC": "Ini menghapus setiap pesan dalam sohbet tetapi mempertahankan pengaturan, pengikatan karakter, dan judul. Ini tidak dapat dibatalkan.",
+      "DISPLAY": "Tampilan",
+      "DIAGNOSTICS": "Unduh log (tanpa pesan)",
+      "DIAGNOSTICS_FULL": "Unduh log + pesan",
+      "DEBUG_CLEAR": "Hapus log debug",
+      "DEBUG_CLEARED": "Log debug dihapus"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, other {# karakter}}",
       "LOREBOOKS": "{count, plural, other {# lorebook}}"
     },
     "TRIGGER_ALERT_SELECT_DESC": "Pilih salah satu opsi untuk melanjutkan",
-    "TRIGGER_ALERT_OK": "OK"
+    "TRIGGER_ALERT_OK": "OK",
+    "SUCCESS": {
+      "ERROR_COPIED": "Detail kesalahan disalin"
+    },
+    "CHAT_TOTAL": "Total Obrolan",
+    "STATS": {
+      "SHOW_COST": "Tampilkan biaya",
+      "SHOW_TOKENS": "Tampilkan token"
+    },
+    "GROUPS": {
+      "NEW_GROUP": "Grup baru",
+      "RENAME": "Ganti nama grup",
+      "DELETE": "Hapus grup",
+      "MOVE_TO": "Pindahkan ke grup",
+      "UNGROUPED": "Tanpa grup",
+      "GROUP_UNTITLED": "Grup baru",
+      "EMPTY": "Tidak ada obrolan",
+      "DELETE_CONFIRM_TITLE": "Hapus grup?",
+      "DELETE_CONFIRM_DESC": "Grup dihapus; obrolannya tetap ada dan menjadi tanpa grup."
+    }
   },
   "RP": {
     "CHARACTERS_TITLE": "Karakter",
@@ -3165,9 +3278,10 @@
     "LOREBOOK_ENTRY_KEYS": "Kunci aktivasi (dipisahkan koma)",
     "LOREBOOK_ENTRY_KEYS_HINT": "Kata yang mengaktifkan entri ini. Contoh: naga, ular, drake.",
     "LOREBOOK_ENTRY_SECONDARY_KEYS": "Pemicu sekunder",
-    "LOREBOOK_ENTRY_PRIORITY_HINT": "Nomor lebih rendah disuntikkan lebih awal di prompt.",
+    "LOREBOOK_ENTRY_PRIORITY_HINT": "Nilai lebih tinggi bertahan dalam anggaran token.",
     "LOREBOOK_ENTRY_CONTENT": "Konten",
-    "LOREBOOK_ENTRY_POSITION": "Posisi",
+    "LOREBOOK_ENTRY_ORDER": "Urutan penyisipan",
+    "LOREBOOK_ENTRY_ORDER_HINT": "Nilai lebih tinggi disisipkan lebih dulu. Nilai apa pun; hanya urutan relatif yang penting.",
     "LOREBOOK_ENTRY_PRIORITY": "Prioritas",
     "LOREBOOK_ENTRY_CONSTANT": "Selalu aktif",
     "LOREBOOK_ENTRY_SELECTIVE": "Wajibkan kunci sekunder",
@@ -3178,11 +3292,6 @@
     "LOREBOOK_ENTRY_INJECTION_ROLE_USER": "User",
     "LOREBOOK_ENTRY_INJECTION_ROLE_SYSTEM": "System",
     "LOREBOOK_ENTRY_INJECTION_ROLE_HINT": "Peran yang digunakan saat menyuntikkan ke dalam array pesan. Otomatis kembali ke 'user' pada penyedia yang menolak pesan sistem di tengah sohbet (mis. Gemini).",
-    "POSITION_BEFORE_CHAR": "Sebelum karakter",
-    "POSITION_AFTER_CHAR": "Setelah karakter",
-    "POSITION_TOP": "Atas prompt",
-    "POSITION_BOTTOM": "Bawah prompt",
-    "POSITION_AT_DEPTH": "Pada kedalaman",
     "PRESETS_TITLE": "Preset sampling",
     "PRESETS_NEW": "Preset baru",
     "PRESETS_EXPORT": "Ekspor preset",
@@ -3282,6 +3391,8 @@
     "PRESET_CHAT_MEMORY_HINT": "Berapa pesan terbaru yang dikirim per permintaan. Kosong = default (8); pengaturan chat menimpanya.",
     "PRESET_STREAMING": "Streaming",
     "PRESET_STREAMING_HINT": "Streaming balasan token demi token. Mati = terima balasan penuh sekaligus. Pengaturan chat menimpanya.",
+    "PRESET_SHOW_REASONING": "Tampilkan penalaran",
+    "PRESET_SHOW_REASONING_HINT": "Tampilkan proses berpikir model dalam balasan. Mati = sembunyikan (penalaran tetap dihasilkan dan disimpan, jadi mengaktifkannya kembali akan menampilkannya). Pengaturan chat menimpanya.",
     "CHARACTER_BACKGROUND": "Gambar latar",
     "CHARACTER_BACKGROUND_HINT": "Ditampilkan di belakang obrolan saat karakter ini memimpin percakapan."
   },

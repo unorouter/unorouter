@@ -538,6 +538,57 @@
       "comparison": "对比"
     },
     "POSTS": {
+      "UNOROUTER_VS_MEGALLM": {
+        "TITLE": "{appName} 对比 MegaLLM：同样的编程网关，外加一个聊天客户端",
+        "DESCRIPTION": "MegaLLM 是面向编程智能体的热门前沿模型网关。{appName} 做同样的事，并加上一个内置的聊天与角色客户端。区别在于你只写代码，还是也想要一个聊天的地方。",
+        "AUTHOR": "{appName}团队",
+        "INTRO": "MegaLLM 作为面向编程智能体的简洁网关，建立了本领域最大的社区之一：一把 OpenAI 兼容的钥匙、前沿模型、自动故障转移。{appName} 是同一类网关，只多了一项决定是否合适的补充。这是来自两者之一的诚实对比。",
+        "H_SAME_LANE": "我们在同一条道上",
+        "P_SAME_LANE": "{appName} 和 MegaLLM 都是为开发者打造的 OpenAI 兼容网关。两者都把 GPT、Claude 和 Gemini 放在一把钥匙之后，都在某个供应商宕机时自动故障转移，都能通过更换基础 URL 接入 Claude Code、Codex 和 OpenCode。如果你的目标是把编程智能体指向前沿模型而不在供应商钥匙间周旋，两者都能做到。所以模型清单和故障转移不是决策所在。",
+        "H_MODELS": "模型清单与价格",
+        "P_MODELS": "MegaLLM 宣传 70 多个前沿和视觉模型，并以成本为卖点，通过成本感知路由比直连最多便宜 60%，套餐从约每月 10 美元起，外加按量付费。{appName} 拥有 200 多个模型，是一个更广的清单，包含 MegaLLM 纯前沿定位漏掉的开放模型和角色扮演调优模型，同样按量付费，额度不过期且有免费档。如果你只调用 GPT 和 Claude，每 token 价格就是比较点。如果你想要更广的清单，{appName} 就是更多。",
+        "H_CHAT": "MegaLLM 没有的部分",
+        "P_CHAT": "MegaLLM 是一个无界面网关，一个 API 加一个仪表盘，没有可聊天的地方。{appName} 是网关外加一个内置的聊天与角色客户端：人设、知识书、预设、SillyTavern 卡片导入，同一把钥匙还能接入 SillyTavern、Janitor.AI、RisuAI 或 Chub。于是驱动你编程智能体的同一把钥匙，也运行一个真正的角色聊天，工作与玩乐通用。这就是纯开发网关与二合一之间的界线。",
+        "H_MIGRATE": "切换就是改基础 URL",
+        "P_MIGRATE": "和 MegaLLM 一样，{appName} 是 OpenAI 兼容的，所以迁移就一行：把你的客户端指向 <c>https://api.unorouter.com/v1</c>，代码不动。把同一把钥匙粘进聊天客户端的自定义端点栏，就能触达同一份清单，所以没有第二个账户，也没有聊天端的单独工具。",
+        "H_VERDICT": "你该选哪个",
+        "P_VERDICT": "如果你只写代码，想要一个为每 token 成本优化的精简前沿模型网关，MegaLLM 是个扎实的选择，它的社区也证明了这点。如果你想要一把钥匙既驱动你的编程智能体，又从同一余额、更广清单驱动一个内置的聊天与角色客户端，那就是 {appName} 填补的空白。没有唯一赢家。这取决于一个纯开发网关够不够，还是你想要内置的聊天客户端。",
+        "CTA": "想要网关和聊天合二为一？<register>创建免费账户</register>或<models>浏览模型</models>。"
+      },
+      "UNOROUTER_VS_RISUAI": {
+        "TITLE": "{appName} 对比 RisuAI：我们把 RP 引擎搬进了托管的二合一",
+        "DESCRIPTION": "RisuAI 是面向高级用户的 RP 前端。{appName} 把它的引擎（知识书、CBS 宏、触发器、正则、卡片导入）搬进一个托管产品，同一把钥匙还能驱动编程智能体。不是对手，而是二合一。",
+        "AUTHOR": "{appName}团队",
+        "INTRO": "RisuAI 是现存最好的角色扮演前端之一，作为仔细研读过它源码的人，我们这样说。{appName} 没有试图在功能上胜过它。我们移植了它的引擎，并把它放到一个新地方：一个托管产品，一把 OpenAI 兼容的钥匙还能运行你的编程智能体。所以这与其说是对手对比，不如说是一群敬佩 Risu 的人写的诚实的二合一说明。",
+        "H_ENGINE": "我们移植了引擎，而非克隆应用",
+        "P_ENGINE": "让 Risu 在角色扮演上出色的部分都在 {appName} 里，因为我们移植了它们：知识书系统（单一全局池、@@装饰器、递归）、完整的 CBS 宏语言（变量、条件、带种子随机、代码块）、带 Lua 运行时的 V1/V2 触发器虚拟机、正则自定义脚本（editinput/output/display）、SillyTavern 卡片 v2/v3 导入、群聊顺序、人设、预设，以及滚动摘要记忆。如果你熟悉 Risu 的知识书和触发器，它们在这里就按你预期的方式工作。",
+        "H_TWO_IN_ONE": "二合一：同一把钥匙用于代码和角色聊天",
+        "P_TWO_IN_ONE": "这是 Risu 因设计而无法成为的部分。Risu 是自带钥匙：你带来自己的 OpenAI 或 Claude 钥匙，它纯粹是一个聊天前端。{appName} 既是钥匙也是客户端。驱动内置角色聊天的同一把钥匙，也能把编程智能体（Claude Code、Cline、OpenCode、Codex）指向 200 多个模型，如果你更喜欢，还能直接接入 SillyTavern、Janitor.AI、RisuAI 或 Chub。一个账户、一个余额、一份模型清单，工作与玩乐通用。我们不想取代作为前端的 Risu，我们是网关加客户端的合体。",
+        "H_HOSTING": "托管对比自托管，且无需在钥匙间周旋",
+        "P_HOSTING": "Risu 由你自己运行（网页、Tauri 桌面或 Docker），并收集和粘贴每个供应商的 API 钥匙。{appName} 是托管的：没有要安装或维持运行的东西，也没有要收集的供应商钥匙，因为钥匙就是账户。你注册后即可聊天。对于只想要 Risu 风格体验、又不想搭应用或管钥匙的人，这省去了整个搭建步骤。",
+        "H_RISU_WINS": "Risu 仍然胜出之处（诚实地说）",
+        "P_RISU_WINS": "我们不会假装无所不包。Risu 有 HypaMemory V2/V3，比我们的滚动摘要加语义检索更深入的长期记忆压缩。它有一个真正的用户插件生态，你可以扩展和分享；我们没有。它内置的输入/输出自动翻译器比我们的更完整。而作为一个自托管的开源应用，它给你托管服务永远给不了的完全本地掌控。如果这些对你最重要，Risu 是更好的选择，我们是认真的。",
+        "H_VERDICT": "你该选哪个",
+        "P_VERDICT": "想要一个自托管、开放、可深度扩展的角色扮演前端，拥有最丰富的记忆和插件生态，并乐意自带钥匙？用 Risu。想要同样的知识书、CBS、触发器和卡片功能，却在一个托管产品里，一把钥匙还能运行你的编程智能体、也能在其他前端里用？那就是 {appName} 这个二合一。没有唯一赢家。我们只是搭起了那座 Risu 作为前端本就无意成为的桥。",
+        "CTA": "试试把一切都移植进来的聊天。<register>创建免费账户</register>或<chat>打开聊天</chat>。"
+      },
+      "UNOROUTER_VS_LITELLM": {
+        "TITLE": "{appName} 对比 LiteLLM：托管网关还是自托管代理",
+        "DESCRIPTION": "LiteLLM 是最受欢迎的自托管 LLM 代理。{appName} 是内置聊天客户端的托管网关。真正的选择在于你是否想自己运维基础设施。",
+        "AUTHOR": "{appName}团队",
+        "INTRO": "对于一把钥匙通用所有模型这个理念，LiteLLM 是默认的开源答案：一个采用 MIT 许可、由你自己运行的 Python 代理。{appName} 回应同样的需求，但是托管的，并在其上配了客户端。诚实的区别不是功能，而是你想运维代理，还是只想调用一个端点。",
+        "H_HOSTED": "自托管对比托管",
+        "P_HOSTED": "LiteLLM 是你来部署并运行的软件：启动代理、管理进程、盯着日志、在负载下扩容。这带来无中间方的完全掌控，正是平台团队想要的。{appName} 是相反的取舍。没有什么要部署或维持运行。你拿到一个端点和一把钥匙，而可用性、路由和故障转移是我们的问题，不是你的。",
+        "H_SETUP": "搭建与维护",
+        "P_SETUP": "用 LiteLLM，你要写配置、提供每个供应商的 API 密钥、运行服务器（Python，所以并发时要留意 GIL），并长期负责升级和监控。用 {appName}，你注册后把客户端指向 <c>https://api.unorouter.com/v1</c> 即可。没有配置文件，没有要收集的供应商密钥，没有要照看的服务器。一个是你维护的基础设施；另一个是你消费的服务。",
+        "H_INTERFACE": "没有一个可以在里面聊天的 LiteLLM",
+        "P_INTERFACE": "LiteLLM 在设计上是无界面的：一个 API 层，每个界面都由你自带。{appName} 提供同样的 OpenAI 兼容 API，外加内置的聊天与角色客户端（人设、知识书、预设、SillyTavern 卡片导入），同一把钥匙还能接入 SillyTavern、Janitor.AI、RisuAI 或 Chub。于是编程智能体和一个真正能聊天的地方靠一把钥匙运行，而不是一个你还得为其搭建界面的代理。",
+        "H_COST": "成本与密钥",
+        "P_COST": "LiteLLM 不加价，但你直接付钱给每个供应商，并承担基础设施账单加上 DevOps 时间。如果你有团队，在大用量时占优。{appName} 是覆盖 200 多个模型的按量付费，额度不过期且有免费档，是一个余额而非在每个供应商各有一个钱包，也没有要付费的服务器。在真正的规模之下，把工时算进去后，托管这条路通常更便宜。",
+        "H_VERDICT": "你该选哪个",
+        "P_VERDICT": "如果你有平台团队、想要零加价、也乐意运维代理，LiteLLM 是对的工具。如果你想要一把无需部署的 OpenAI 兼容钥匙，能在你的编程智能体和一个真正的聊天客户端里都好用，那么 {appName} 合适。没有唯一赢家。归根结底是你想运维网关，还是只想用一个。",
+        "CTA": "想要一个无需部署的网关吗？<register>创建免费账户</register>或<models>浏览模型</models>。"
+      },
       "FEATURED_ON": {
         "TITLE": "在哪里找到{appName}：我们的目录收录",
         "DESCRIPTION": "{appName}已收录于各大 AI 工具与创业产品目录。您可以在这里找到我们、核实收录信息并阅读独立评价。",
@@ -2034,6 +2085,7 @@
     "LEGAL": "法律",
     "PRIVACY": "隐私政策",
     "TERMS": "条款与条件",
+    "REFUND": "退款政策",
     "CONTACT_TITLE": "联系我们",
     "CONTACT_SUBTITLE": "有疑问或建议？",
     "DESCRIPTION": "统一的 AI API 平台，通过单一智能端点接入多家提供方的数百个模型。",
@@ -2122,6 +2174,42 @@
     "CHANGES_CONTENT": "我们可能会不时更新本条款。重大变更将在至少 30 天前通过电子邮件或产品内通知告知。变更发布后您继续使用本服务即表示接受更新后的条款。",
     "CONTACT_TITLE": "14. 联系我们",
     "CONTACT_CONTENT": "如您对本条款有任何疑问，请通过 {supportEmail} 联系我们。"
+  },
+  "REFUND": {
+    "META": {
+      "TITLE": "退款政策 - {appName}",
+      "DESCRIPTION": "了解通过 {appName} 购买的额度和订阅如何办理退款，包括退款资格、处理时长及申请方式。",
+      "KEYWORDS": "退款政策，退款，{appName} 退款，AI API 退款，订阅退款"
+    },
+    "TITLE": "退款政策",
+    "LAST_UPDATED": "最后更新：2026年6月17日",
+    "INTRO": "本退款政策说明通过 {appName} 购买的额度、订阅及其他付款的退款处理方式。在我们平台上进行购买即表示您同意本政策。",
+    "PAYMENTS_TITLE": "1. 付款",
+    "PAYMENTS_CONTENT": "所有额度和订阅套餐的付款均通过我们的支付服务商安全处理。订阅会自动续订，直至取消，且所有交易在传输过程中均经过加密。除购买时另有说明外，将适用周期性扣费。",
+    "ELIGIBILITY_TITLE": "2. 退款资格",
+    "ELIGIBILITY_INTRO": "要符合退款条件，您必须满足以下全部条件：",
+    "ELIGIBILITY_WINDOW": "7天期限：退款申请须在原始付款后7天内提交。",
+    "ELIGIBILITY_USAGE": "使用上限：在该计费周期内，您消耗的额度或配额不得超过本次购买所含数量的20%。",
+    "ELIGIBILITY_COMPLIANCE": "遵守条款：违反服务条款的账户不予退款。",
+    "NON_REFUNDABLE_TITLE": "3. 不可退款项目",
+    "NON_REFUNDABLE_INTRO": "以下项目不提供退款：",
+    "NON_REFUNDABLE_PARTIAL": "超过7天期限后部分使用的订阅周期或额度。",
+    "NON_REFUNDABLE_FEES": "一次性费用、平台费用或附加服务。",
+    "NON_REFUNDABLE_TERMINATED": "因违反政策而被终止的账户。",
+    "REQUEST_TITLE": "4. 如何申请退款",
+    "REQUEST_INTRO": "如需申请退款，请通过 {supportEmail} 联系我们的支持团队，并提供以下信息：",
+    "REQUEST_ACCOUNT": "您的账户用户名或电子邮箱地址。",
+    "REQUEST_PROOF": "付款凭证，例如交易ID或收据。",
+    "REQUEST_REASON": "您申请退款的原因。",
+    "REQUEST_VERIFY": "我们可能需要额外信息以核实您的申请。",
+    "PROCESSING_TITLE": "5. 退款处理",
+    "PROCESSING_CONTENT": "经批准的退款将退回至您的原始付款方式。退款通常在5至10个工作日内处理完成。实际到账时间可能因您的银行或支付服务商而有所不同。",
+    "LAW_TITLE": "6. 遵守适用法律",
+    "LAW_CONTENT": "本退款政策是对您所在司法管辖区适用的消费者保护法所赋予的任何法定权利的补充，并不构成对该等权利的限制。若当地法律赋予的强制撤回权或退款权超出本政策范围，则以该等权利为准。",
+    "CHANGES_TITLE": "7. 本政策的变更",
+    "CHANGES_CONTENT": "为持续符合不断演进的消费者保护框架，我们可能随时修订本退款政策。更新内容将连同修订日期在本页面公布；如有需要，我们会就重大变更提前通知受影响的客户。",
+    "CONTACT_TITLE": "8. 联系我们",
+    "CONTACT_CONTENT": "如需申请退款或对本政策有任何疑问，请通过 {supportEmail} 联系我们。"
   },
   "MAIN": {
     "ENUM": {
@@ -3047,6 +3135,7 @@
       "CHAT_MEMORY_HINT": "每次请求随附的最近消息条数。",
       "STREAMING_ENABLED": "流式输出",
       "STREAMING_ENABLED_HINT": "关闭 = 等待完整回复后再显示。部分模型仅在缓冲后输出干净。主要是用户偏好。",
+      "SHOW_REASONING": "显示推理过程",
       "SYSTEM_PROMPT": "覆盖系统提示词",
       "SYSTEM_PROMPT_PLACEHOLDER": "留空则使用角色自带的系统提示词。",
       "AUTHOR_NOTE": "作者注释",
@@ -3085,7 +3174,7 @@
     },
     "MORE": {
       "OPEN": "更多操作",
-      "IMPORT_EXPORT": "导入 / 导出",
+      "IMPORT_EXPORT": "导入 / 导出 / 调试",
       "EXPORT_NATIVE": "导出（原生）",
       "EXPORT_ORPG": "导出（OpenRouter）",
       "EXPORT_SILLYTAVERN": "导出（SillyTavern JSONL）",
@@ -3104,14 +3193,38 @@
       "LOCAL_DB_UPLOAD_CONFIRM": "从此文件覆盖本地 OPFS 数据库？现有数据将被清空。",
       "CLEAR": "清空对话",
       "CLEAR_SUCCESS": "对话已清空",
-      "CLEAR_CONFIRM_DESC": "此操作将删除该对话中的所有消息，但保留设置、角色绑定和标题。此操作无法撤销。"
+      "CLEAR_CONFIRM_DESC": "此操作将删除该对话中的所有消息，但保留设置、角色绑定和标题。此操作无法撤销。",
+      "DISPLAY": "显示",
+      "DIAGNOSTICS": "下载日志（不含消息）",
+      "DIAGNOSTICS_FULL": "下载日志 + 消息",
+      "DEBUG_CLEAR": "清除调试日志",
+      "DEBUG_CLEARED": "调试日志已清除"
     },
     "ACTIVE_CONFIG": {
       "CHARACTERS": "{count, plural, other {# 个角色}}",
       "LOREBOOKS": "{count, plural, other {# 个世界书}}"
     },
     "TRIGGER_ALERT_SELECT_DESC": "请选择一个选项以继续",
-    "TRIGGER_ALERT_OK": "确定"
+    "TRIGGER_ALERT_OK": "确定",
+    "SUCCESS": {
+      "ERROR_COPIED": "已复制错误详情"
+    },
+    "CHAT_TOTAL": "对话总计",
+    "STATS": {
+      "SHOW_COST": "显示费用",
+      "SHOW_TOKENS": "显示令牌"
+    },
+    "GROUPS": {
+      "NEW_GROUP": "新建分组",
+      "RENAME": "重命名分组",
+      "DELETE": "删除分组",
+      "MOVE_TO": "移动到分组",
+      "UNGROUPED": "未分组",
+      "GROUP_UNTITLED": "新建分组",
+      "EMPTY": "暂无对话",
+      "DELETE_CONFIRM_TITLE": "删除分组？",
+      "DELETE_CONFIRM_DESC": "分组将被移除；其对话会保留并变为未分组。"
+    }
   },
   "RP": {
     "CHARACTERS_TITLE": "角色",
@@ -3165,9 +3278,10 @@
     "LOREBOOK_ENTRY_KEYS": "激活关键词（逗号分隔）",
     "LOREBOOK_ENTRY_KEYS_HINT": "激活此条目的词语。例如：龙、蛟、翼龙。",
     "LOREBOOK_ENTRY_SECONDARY_KEYS": "次级触发词",
-    "LOREBOOK_ENTRY_PRIORITY_HINT": "数字越小，注入提示词的位置越靠前。",
+    "LOREBOOK_ENTRY_PRIORITY_HINT": "数值越高越能在词元预算内保留。",
     "LOREBOOK_ENTRY_CONTENT": "内容",
-    "LOREBOOK_ENTRY_POSITION": "位置",
+    "LOREBOOK_ENTRY_ORDER": "插入顺序",
+    "LOREBOOK_ENTRY_ORDER_HINT": "数值越高越先插入。任意数值皆可，只看相对顺序。",
     "LOREBOOK_ENTRY_PRIORITY": "优先级",
     "LOREBOOK_ENTRY_CONSTANT": "始终激活",
     "LOREBOOK_ENTRY_SELECTIVE": "需要次级关键词",
@@ -3178,11 +3292,6 @@
     "LOREBOOK_ENTRY_INJECTION_ROLE_USER": "用户",
     "LOREBOOK_ENTRY_INJECTION_ROLE_SYSTEM": "系统",
     "LOREBOOK_ENTRY_INJECTION_ROLE_HINT": "注入消息数组时使用的角色。对于不接受会话中系统消息的提供商（如 Gemini），自动回退为「用户」。",
-    "POSITION_BEFORE_CHAR": "角色之前",
-    "POSITION_AFTER_CHAR": "角色之后",
-    "POSITION_TOP": "提示词顶部",
-    "POSITION_BOTTOM": "提示词底部",
-    "POSITION_AT_DEPTH": "指定深度",
     "PRESETS_TITLE": "采样预设",
     "PRESETS_NEW": "新建预设",
     "PRESETS_EXPORT": "导出预设",
@@ -3282,6 +3391,8 @@
     "PRESET_CHAT_MEMORY_HINT": "每次请求发送多少条最近消息。留空 = 默认（8）；聊天设置会覆盖此项。",
     "PRESET_STREAMING": "流式输出",
     "PRESET_STREAMING_HINT": "逐 token 流式返回回复。关闭 = 一次性接收完整回复。聊天设置会覆盖此项。",
+    "PRESET_SHOW_REASONING": "显示推理过程",
+    "PRESET_SHOW_REASONING_HINT": "在回复中显示模型的思考过程。关闭 = 隐藏它（推理仍会生成并保留，因此重新开启即可显示）。聊天设置会覆盖此项。",
     "CHARACTER_BACKGROUND": "背景图片",
     "CHARACTER_BACKGROUND_HINT": "当此角色主导对话时，显示在聊天背后。"
   },

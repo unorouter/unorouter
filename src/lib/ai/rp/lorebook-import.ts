@@ -5,7 +5,6 @@ import {
   type CCv3LorebookEntry,
   type LorebookFormat,
 } from "@character-foundry/character-foundry/lorebook";
-import type { LorebookPosition } from "@/lib/validation/rp-forms";
 
 type ParsedLorebook = {
   name: string;
@@ -20,52 +19,10 @@ type ParsedLorebook = {
     constant: boolean;
     selective: boolean;
     priority: number;
-    position: LorebookPosition;
-    depth: number;
     enabled: boolean;
     orderIndex: number;
   }>;
 };
-
-// CCv3 numeric positions, SillyTavern convention.
-const NUMERIC_POSITION: LorebookPosition[] = [
-  "before_char",
-  "after_char",
-  "top",
-  "bottom",
-  "at_depth",
-];
-
-// String positions: foundry's `in_chat` plus pass-through for DB-native names.
-const STRING_POSITION: Record<LorebookPosition | "in_chat", LorebookPosition> =
-  {
-    in_chat: "at_depth",
-    before_char: "before_char",
-    after_char: "after_char",
-    top: "top",
-    bottom: "bottom",
-    at_depth: "at_depth",
-  };
-
-type FoundryPosition = "before_char" | "after_char" | "in_chat";
-
-const DB_TO_FOUNDRY_POSITION: Record<LorebookPosition, FoundryPosition> = {
-  before_char: "before_char",
-  after_char: "after_char",
-  top: "before_char",
-  bottom: "after_char",
-  at_depth: "in_chat",
-};
-
-function mapPositionToDb(raw: unknown): LorebookPosition {
-  if (typeof raw === "number") {
-    return NUMERIC_POSITION[raw] ?? "before_char";
-  }
-  if (typeof raw === "string" && raw in STRING_POSITION) {
-    return STRING_POSITION[raw as LorebookPosition | "in_chat"];
-  }
-  return "before_char";
-}
 
 export function parseLorebookJson(raw: unknown): ParsedLorebook | null {
   if (!raw || typeof raw !== "object") return null;
@@ -95,12 +52,7 @@ export function parseLorebookJson(raw: unknown): ParsedLorebook | null {
       constant: e.constant ?? false,
       selective: e.selective ?? false,
       priority: e.priority ?? 100,
-      position: mapPositionToDb(e.position),
-      // CCv3 has no per-entry depth; ST stores in extensions.
-      depth:
-        typeof (e as Record<string, unknown>).depth === "number"
-          ? ((e as Record<string, unknown>).depth as number)
-          : 4,
+      // Imported Risu/ST order maps to orderIndex; position is dropped (single-slot model).
       enabled: e.enabled,
       orderIndex: typeof e.insertion_order === "number" ? e.insertion_order : i,
     });
@@ -133,28 +85,22 @@ export function serializeLorebookForExport(
     constant: boolean | null;
     selective: boolean | null;
     priority: number | null;
-    position: string | null;
-    depth: number | null;
     enabled: boolean | null;
     orderIndex: number | null;
   }>,
   format: LorebookFormat = "sillytavern",
 ): string {
-  const ccv3Entries: CCv3LorebookEntry[] = entries.map((e, i) => {
-    const pos = (e.position ??
-      "before_char") as keyof typeof DB_TO_FOUNDRY_POSITION;
-    return {
-      keys: e.keys,
-      content: e.content,
-      enabled: e.enabled ?? true,
-      insertion_order: e.orderIndex ?? i,
-      secondary_keys: e.secondaryKeys ?? undefined,
-      constant: e.constant ?? false,
-      selective: e.selective ?? false,
-      priority: e.priority ?? 100,
-      position: DB_TO_FOUNDRY_POSITION[pos] ?? "before_char",
-    };
-  });
+  // orderIndex maps to insertion_order; no position concept (single-slot model).
+  const ccv3Entries: CCv3LorebookEntry[] = entries.map((e, i) => ({
+    keys: e.keys,
+    content: e.content,
+    enabled: e.enabled ?? true,
+    insertion_order: e.orderIndex ?? i,
+    secondary_keys: e.secondaryKeys ?? undefined,
+    constant: e.constant ?? false,
+    selective: e.selective ?? false,
+    priority: e.priority ?? 100,
+  }));
 
   const ccv3Book: CCv3CharacterBook = {
     name: book.name,

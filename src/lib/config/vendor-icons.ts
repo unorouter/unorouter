@@ -74,9 +74,27 @@ export const VENDOR_LOADERS: Partial<Record<Vendor, IconLoader>> = {
     import("@/components/elements/brand/thedrummer-icon"),
   [Vendor.PFNET]: () => import("@/components/elements/brand/pfnet-icon"),
   [Vendor.NEXAGI]: () => import("@/components/elements/brand/nexagi-icon"),
+  [Vendor.POOLSIDE]: () => import("@/components/elements/brand/poolside-icon"),
   [Vendor.AISINGAPORE]: () =>
     import("@/components/elements/brand/aisingapore-icon"),
   [Vendor.POLLINATIONS]: () => import("@lobehub/icons/es/Pollinations"),
+  [Vendor.NAVYAI]: () => import("@/components/elements/brand/navyai-icon"),
+  [Vendor.HCOMPANY]: () => import("@/components/elements/brand/hcompany-icon"),
+  [Vendor.AIONLABS]: () => import("@lobehub/icons/es/AionLabs"),
+  [Vendor.SAO10K]: () => import("@/components/elements/brand/sao10k-icon"),
+  [Vendor.STEELSKULL]: () =>
+    import("@/components/elements/brand/steelskull-icon"),
+  [Vendor.BRUHZWATER]: () =>
+    import("@/components/elements/brand/bruhzwater-icon"),
+  [Vendor.FALLENMERICK]: () =>
+    import("@/components/elements/brand/fallenmerick-icon"),
+  [Vendor.MEGANOVA]: () => import("@/components/elements/brand/meganova-icon"),
+  [Vendor.AI21]: () => import("@lobehub/icons/es/Ai21"),
+  [Vendor.ALLENAI]: () => import("@lobehub/icons/es/Ai2"),
+  [Vendor.NOUS]: () => import("@lobehub/icons/es/NousResearch"),
+  [Vendor.GRYPHE]: () => import("@/components/elements/brand/gryphe-icon"),
+  [Vendor.ANTHRACITE]: () => import("@/components/elements/brand/anthracite-icon"),
+  [Vendor.STEPFUN]: () => import("@lobehub/icons/es/Stepfun"),
   [Vendor.HUNYUAN]: () => import("@lobehub/icons/es/Hunyuan"),
   [Vendor.INCLUSIONAI]: () => import("@lobehub/icons/es/AntGroup"),
   [Vendor.JINA]: () => import("@lobehub/icons/es/Jina"),
@@ -96,6 +114,16 @@ export const VENDOR_LOADERS: Partial<Record<Vendor, IconLoader>> = {
   [Vendor.X_AI]: () => import("@lobehub/icons/es/XAI"),
   [Vendor.XIAOMI]: () => import("@lobehub/icons/es/XiaomiMiMo"),
   [Vendor.ZHIPU]: () => import("@lobehub/icons/es/Zhipu"),
+  [Vendor.DEEPL]: () => import("@lobehub/icons/es/DeepL"),
+  [Vendor.ELEVENLABS]: () => import("@lobehub/icons/es/ElevenLabs"),
+  [Vendor.VOIDAI]: () => import("@/components/elements/brand/voidai-icon"),
+  [Vendor.ZANITY]: () => import("@/components/elements/brand/zanity-icon"),
+  [Vendor.SPEECHIFY]: () =>
+    import("@/components/elements/brand/speechify-icon"),
+  [Vendor.ESSENTIALAI]: () => import("@lobehub/icons/es/EssentialAI"),
+  [Vendor.KUAISHOU]: () => import("@lobehub/icons/es/Kwaipilot"),
+  [Vendor.INTERNLM]: () => import("@lobehub/icons/es/InternLM"),
+  [Vendor.SENSENOVA]: () => import("@lobehub/icons/es/SenseNova"),
 };
 
 /** Aliases for vendor strings that don't match a `Vendor` enum value (e.g.

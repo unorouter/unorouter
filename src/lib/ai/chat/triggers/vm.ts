@@ -1,4 +1,4 @@
-    // Trigger VM: RisuAI runTrigger port over the flat effect[] layout. A block at indent N closes at a v2EndIndent of N+1. Side effects no-op here.
+// Trigger VM: RisuAI runTrigger port over the flat effect[] layout. A block at indent N closes at a v2EndIndent of N+1. Side effects no-op here.
 
 import { runDataOpcode, type VarResolver } from "./opcodes";
 import type {
@@ -61,7 +61,7 @@ const SAFE_SUBSET = new Set([
   "v2GetDictKeys",
   "v2GetDictValues",
 ]);
-    // V1 lowLevelAccess effects: allowed in ANY mode when the script carries the flag (Risu gates on lowLevelAccess).
+// V1 lowLevelAccess effects: allowed in ANY mode when the script carries the flag (Risu gates on lowLevelAccess).
 const V1_LOW_LEVEL = new Set([
   "runLLM",
   "sendAIprompt",
@@ -100,7 +100,7 @@ type Resolver = VarResolver & {
   setIndent: (indent: number) => void;
 };
 
-    // Indent-scoped local var resolution (Risu port). Order: locals, chat vars, global vars, defaultVars, 'null'. Display mode scratches chat-var writes.
+// Indent-scoped local var resolution (Risu port). Order: locals, chat vars, global vars, defaultVars, 'null'. Display mode scratches chat-var writes.
 function makeResolver(ctx: TriggerContext): Resolver {
   const locals: Record<number, Record<string, string>> = {};
   const displayScratch: Record<string, string> = {};
@@ -215,7 +215,7 @@ function evalCondition(
   }
 }
 
-    // Plain v2If's source is a var name; v2IfAdvanced honors sourceType. Targets are var lookups unless targetType is 'value'.
+// Plain v2If's source is a var name; v2IfAdvanced honors sourceType. Targets are var lookups unless targetType is 'value'.
 function evalIf(
   e: TriggerEffect,
   ctx: TriggerContext,
@@ -281,7 +281,7 @@ function parseList(s: string): string[] {
   }
 }
 
-    // Run one script's effects against the context. Control flow mirrors Risu: direct index jumps over the flat effect array.
+// Run one script's effects against the context. Control flow mirrors Risu: direct index jumps over the flat effect array.
 async function runEffects(
   script: TriggerScript,
   ctx: TriggerContext,
@@ -295,7 +295,7 @@ async function runEffects(
   // Operand resolution: explicit 'value' is a literal, default is a var lookup.
   const resolve = (value: unknown, valueType: unknown): string =>
     valueType === "value" ? parse(value) : vr.get(parse(value));
-      // Index of the block-closing v2EndIndent at bodyIndent; effect end when missing (malformed data skips out).
+  // Index of the block-closing v2EndIndent at bodyIndent; effect end when missing (malformed data skips out).
   const findEnd = (from: number, bodyIndent: number): number => {
     for (let j = from; j < eff.length; j++) {
       const ef = eff[j];
@@ -419,7 +419,7 @@ async function runEffects(
       case "v2If":
       case "v2IfAdvanced": {
         if (!evalIf(e, ctx, vr)) {
-              // Skip to this block's EndIndent; if this if's v2Else follows, step past it so the else body runs.
+          // Skip to this block's EndIndent; if this if's v2Else follows, step past it so the else body runs.
           i = findEnd(i + 1, indent + 1);
           const next = eff[i + 1];
           if (next?.type === "v2Else" && (next.indent ?? 0) === indent) i++;
