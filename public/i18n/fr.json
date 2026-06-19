@@ -538,6 +538,23 @@
       "comparison": "comparatif"
     },
     "POSTS": {
+      "UNOROUTER_VS_MEGALLM": {
+        "TITLE": "{appName} vs MegaLLM : la meme passerelle pour le code, plus un client de chat",
+        "DESCRIPTION": "MegaLLM est une passerelle de modeles de pointe populaire pour les agents de code. {appName} fait le meme travail et ajoute un client de chat et de personnages integre. La difference est de savoir si vous ne faites que du code ou voulez aussi un endroit pour discuter.",
+        "AUTHOR": "Equipe {appName}",
+        "INTRO": "MegaLLM a bati l une des plus grandes communautes du secteur comme passerelle propre pour agents de code : une cle compatible OpenAI, des modeles de pointe, un failover automatique. {appName} est le meme type de passerelle, avec un ajout qui fait la difference. Voici la comparaison honnete depuis l un des deux.",
+        "H_SAME_LANE": "Nous sommes sur la meme voie",
+        "P_SAME_LANE": "{appName} comme MegaLLM sont des passerelles compatibles OpenAI faites pour les developpeurs. Les deux mettent GPT, Claude et Gemini derriere une cle, font un failover automatique quand un fournisseur tombe, s inserent dans Claude Code, Codex et OpenCode avec un changement d URL de base. Si votre but est de pointer un agent de code vers des modeles de pointe sans jongler avec les cles fournisseur, l un comme l autre le fait. Le catalogue et le failover ne sont donc pas le point de decision.",
+        "H_MODELS": "Catalogue et tarifs",
+        "P_MODELS": "MegaLLM annonce 70+ modeles de pointe et de vision et se vend sur le cout, jusqu a 60% moins cher qu en direct grace a un routage soucieux du cout, avec des forfaits a partir d environ 10 $/mois plus paiement a l usage. {appName} porte 200+ modeles, un catalogue plus large incluant les modeles ouverts et regles pour le jeu de role que le focus pointe-uniquement de MegaLLM laisse de cote, aussi a l usage, avec des credits qui n expirent pas et une offre gratuite. Si vous n appelez que GPT et Claude, le prix au token est la comparaison. Si vous voulez le catalogue plus large, {appName} en a simplement plus.",
+        "H_CHAT": "La partie que MegaLLM n a pas",
+        "P_CHAT": "MegaLLM est une passerelle headless, une API et un tableau de bord, rien ou discuter. {appName} est la passerelle plus un client de chat et de personnages integre : personas, lorebooks, presets, import de cartes SillyTavern, et la meme cle s insere dans SillyTavern, Janitor.AI, RisuAI ou Chub. Ainsi la meme cle qui pilote votre agent de code execute aussi un vrai chat de personnages, pour le travail et le jeu. C est la ligne entre une passerelle de dev pure et un 2-en-1.",
+        "H_MIGRATE": "Changer est un changement d URL de base",
+        "P_MIGRATE": "Comme MegaLLM, {appName} est compatible OpenAI, donc migrer est une ligne : pointez votre client vers <c>https://api.unorouter.com/v1</c> et gardez votre code. La meme cle collee dans le champ endpoint personnalise d un client de chat atteint le meme catalogue, donc pas de second compte ni d outil separe pour le cote chat.",
+        "H_VERDICT": "Lequel choisir",
+        "P_VERDICT": "Si vous ne faites que du code et voulez une passerelle de modeles de pointe epuree optimisee pour le cout au token, MegaLLM est un choix solide et sa communaute le montre. Si vous voulez une cle qui pilote vos agents de code et un client de chat et de personnages integre sur le meme solde et un catalogue plus large, c est la breche que {appName} comble. Il n y a pas de gagnant unique. Tout depend si une passerelle de dev pure suffit, ou si vous voulez le client de chat integre.",
+        "CTA": "Vous voulez la passerelle et le chat en un ? <register>Creez un compte gratuit</register> ou <models>parcourez les modeles</models>."
+      },
       "UNOROUTER_VS_RISUAI": {
         "TITLE": "{appName} vs RisuAI : nous avons porte le moteur RP dans un 2-en-1 heberge",
         "DESCRIPTION": "RisuAI est le frontend RP pour utilisateurs avances. {appName} a porte son moteur (lorebooks, macros CBS, triggers, regex, import de cartes) dans un produit heberge ou la meme cle pilote aussi des agents de code. Pas un rival, un 2-en-1.",
