@@ -523,6 +523,22 @@ const VENDOR_THEMES: Record<string, VendorTheme> = {
     tagBorder: "border-orange-500/20",
     primary: "#ff6600",
   },
+  [Vendor.INTERNLM]: {
+    bg: "bg-sky-500/5",
+    border: "border-sky-500/20",
+    text: "text-sky-700 dark:text-sky-300",
+    tagBg: "bg-sky-500/10",
+    tagBorder: "border-sky-500/20",
+    primary: "#0ea5e9",
+  },
+  [Vendor.SENSENOVA]: {
+    bg: "bg-rose-500/5",
+    border: "border-rose-500/20",
+    text: "text-rose-700 dark:text-rose-300",
+    tagBg: "bg-rose-500/10",
+    tagBorder: "border-rose-500/20",
+    primary: "#e11d48",
+  },
 };
 
 export const DEFAULT_THEME: VendorTheme = {
