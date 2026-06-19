@@ -120,6 +120,7 @@ export const VENDOR_LOADERS: Partial<Record<Vendor, IconLoader>> = {
   [Vendor.SPEECHIFY]: () =>
     import("@/components/elements/brand/speechify-icon"),
   [Vendor.ESSENTIALAI]: () => import("@lobehub/icons/es/EssentialAI"),
+  [Vendor.KUAISHOU]: () => import("@lobehub/icons/es/Kwaipilot"),
 };
 
 /** Aliases for vendor strings that don't match a `Vendor` enum value (e.g.
