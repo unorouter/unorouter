@@ -62,6 +62,7 @@ export enum Vendor {
   THEDRUMMER = "thedrummer",
   PFNET = "preferred",
   NEXAGI = "nex agi",
+  POOLSIDE = "poolside",
   JINA = "jina",
   AISINGAPORE = "ai singapore",
   POLLINATIONS = "pollinations",

@@ -323,6 +323,14 @@ const VENDOR_THEMES: Record<string, VendorTheme> = {
     tagBorder: "border-indigo-500/20",
     primary: "#6366f1",
   },
+  [Vendor.POOLSIDE]: {
+    bg: "bg-teal-500/5",
+    border: "border-teal-500/20",
+    text: "text-teal-700 dark:text-teal-300",
+    tagBg: "bg-teal-500/10",
+    tagBorder: "border-teal-500/20",
+    primary: "#14b8a6",
+  },
   [Vendor.JINA]: {
     bg: "bg-red-500/5",
     border: "border-red-500/20",
