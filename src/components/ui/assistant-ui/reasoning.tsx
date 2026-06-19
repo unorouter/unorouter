@@ -26,10 +26,15 @@ import {
   useState,
 } from "react";
 
-const MarkdownText = dynamic(
+// Reasoning renders with a LIGHTWEIGHT markdown (remark-gfm only) instead of the full
+// answer pipeline (inlay media, quote-span theming, mathjax). Reasoning is plain thinking
+// text and never carries those; reusing the heavy pipeline also crashed react-markdown
+// ("Cannot use 'in' operator to search for 'children' in undefined") when the thinking
+// disclosure expanded. Minimal plugins + prose components keep formatting without the crash.
+const ReasoningMarkdown = dynamic(
   () =>
-    import("@/components/ui/assistant-ui/markdown-text").then(
-      (m) => m.MarkdownText,
+    import("@/components/ui/assistant-ui/reasoning-markdown").then(
+      (m) => m.ReasoningMarkdown,
     ),
   { ssr: false },
 );
@@ -308,7 +313,7 @@ function ReasoningText({
   );
 }
 
-const Reasoning: ReasoningMessagePartComponent = () => <MarkdownText />;
+const Reasoning: ReasoningMessagePartComponent = () => <ReasoningMarkdown />;
 
 const ReasoningGroup: ReasoningGroupComponent = ({
   children,

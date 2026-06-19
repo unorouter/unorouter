@@ -136,15 +136,18 @@ export function OverridesGenerationFields(props: {
         />
       </div>
 
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 rounded-md border p-3">
         <FormField
           control={props.control}
           name="streamingEnabled"
           render={({ field }) => (
-            <FormItem className="flex-row items-center justify-between rounded-md border p-3">
-              <FormLabel>{t("CHAT.OVERRIDES.STREAMING_ENABLED")}</FormLabel>
+            <FormItem className="flex-row items-center gap-2">
+              <FormLabel className="text-xs">
+                {t("CHAT.OVERRIDES.STREAMING_ENABLED")}
+              </FormLabel>
               <FormControl>
                 <Switch
+                  size="sm"
                   checked={field.value ?? true}
                   onCheckedChange={field.onChange}
                 />
@@ -156,10 +159,13 @@ export function OverridesGenerationFields(props: {
           control={props.control}
           name="showReasoning"
           render={({ field }) => (
-            <FormItem className="flex-row items-center justify-between rounded-md border p-3">
-              <FormLabel>{t("CHAT.OVERRIDES.SHOW_REASONING")}</FormLabel>
+            <FormItem className="flex-row items-center gap-2">
+              <FormLabel className="text-xs">
+                {t("CHAT.OVERRIDES.SHOW_REASONING")}
+              </FormLabel>
               <FormControl>
                 <Switch
+                  size="sm"
                   checked={field.value ?? true}
                   onCheckedChange={field.onChange}
                 />
@@ -172,10 +178,13 @@ export function OverridesGenerationFields(props: {
             control={props.control}
             name="webSearchEnabled"
             render={({ field }) => (
-              <FormItem className="flex-row items-center justify-between rounded-md border p-3">
-                <FormLabel>{t("CHAT.OVERRIDES.WEB_SEARCH")}</FormLabel>
+              <FormItem className="flex-row items-center gap-2">
+                <FormLabel className="text-xs">
+                  {t("CHAT.OVERRIDES.WEB_SEARCH")}
+                </FormLabel>
                 <FormControl>
                   <Switch
+                    size="sm"
                     checked={field.value}
                     onCheckedChange={field.onChange}
                   />

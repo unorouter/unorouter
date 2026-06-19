@@ -116,6 +116,7 @@ function splitTextNode(node: Text): ElementContent[] {
 }
 
 function walkElement(node: Element): void {
+  if (!node.children) return;
   const out: ElementContent[] = [];
   for (const child of node.children) {
     if (child.type === "text") {
@@ -131,6 +132,7 @@ function walkElement(node: Element): void {
 }
 
 function walkRoot(node: Root): void {
+  if (!node.children) return;
   const out: RootContent[] = [];
   for (const child of node.children) {
     if (child.type === "text") {
