@@ -63,6 +63,26 @@ export const LEGAL_REGISTRY = [
 
 export const BLOG_REGISTRY = [
   {
+    slug: "unorouter-vs-risuai",
+    date: "2026-06-19",
+    tags: ["comparison", "product"],
+    i18nKey: "BLOG.POSTS.UNOROUTER_VS_RISUAI",
+    contentFiles: [
+      "src/components/pages/blog/posts/2026-06-19-unorouter-vs-risuai-content.tsx",
+    ],
+    priority: 0.7,
+    changeFrequency: "monthly",
+    category: "product",
+    wordCount: 600,
+    headings: [
+      { id: "engine", i18nLeaf: "H_ENGINE", level: 2 },
+      { id: "two-in-one", i18nLeaf: "H_TWO_IN_ONE", level: 2 },
+      { id: "hosting", i18nLeaf: "H_HOSTING", level: 2 },
+      { id: "risu-wins", i18nLeaf: "H_RISU_WINS", level: 2 },
+      { id: "verdict", i18nLeaf: "H_VERDICT", level: 2 },
+    ],
+  },
+  {
     slug: "unorouter-vs-litellm",
     date: "2026-06-17",
     tags: ["comparison", "product"],

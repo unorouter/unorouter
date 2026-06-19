@@ -538,6 +538,23 @@
       "comparison": "karşılaştırma"
     },
     "POSTS": {
+      "UNOROUTER_VS_RISUAI": {
+        "TITLE": "{appName} vs RisuAI: RP motorunu barindirilan bir 2-si-1-arada'ya tasidik",
+        "DESCRIPTION": "RisuAI ileri kullanicilara yonelik RP arayuzudur. {appName} onun motorunu (lorebook'lar, CBS makrolari, tetikleyiciler, regex, kart ice aktarma) ayni anahtarin kodlama ajanlarini da calistirdigi barindirilan bir urune tasidi. Rakip degil, bir 2-si-1-arada.",
+        "AUTHOR": "{appName} ekibi",
+        "INTRO": "RisuAI var olan en iyi rol yapma arayuzlerinden biridir ve bunu kaynagini yakindan inceleyen kisiler olarak soyluyoruz. {appName} onu ozelliklerde gecmeye calismadi. Motorunu tasidik ve yeni bir yere koyduk: OpenAI uyumlu tek bir anahtarin kodlama ajanlarinizi da calistirdigi barindirilan bir urun. Yani bu bir rakip karsilastirmasindan cok, Risu'ya hayran kisilerce yazilmis durust bir 2-si-1-arada aciklamasidir.",
+        "H_ENGINE": "Uygulamayi klonlamadik, motoru tasidik",
+        "P_ENGINE": "Risu'yu rol yapma icin harika kilan parcalar {appName}'de, cunku onlari tasidik: lorebook sistemi (tek kuresel havuz, @@ susleyiciler, ozyineleme), tam CBS makro dili (degiskenler, kosullar, tohumlu rastgele, bloklar), Lua calisma zamanli V1/V2 tetikleyici VM'i, regex customscript'leri (editinput/output/display), SillyTavern kart v2/v3 ice aktarma, grup sohbeti sirasi, personalar, hazir ayarlar ve kayan ozet bellegi. Risu'nun lorebook ve tetikleyicilerini biliyorsaniz, burada bekledigiSiniz gibi calisirlar.",
+        "H_TWO_IN_ONE": "2-si-1-arada: kod ve karakter sohbeti icin ayni anahtar",
+        "P_TWO_IN_ONE": "Bu, Risu'nun tasarim geregi olamayacagi kisim. Risu BYOK'tur: kendi OpenAI veya Claude anahtarinizi getirirsiniz ve o salt bir sohbet arayuzudur. {appName} hem anahtar hem istemcidir. Yerlesik karakter sohbetini calistiran ayni anahtar, bir kodlama ajanini (Claude Code, Cline, OpenCode, Codex) 200'den fazla modele yonlendirir ve tercih ederseniz SillyTavern, Janitor.AI, RisuAI veya Chub'a dogrudan takilir. Tek hesap, tek bakiye, tek model listesi; is ve oyun icin. Arayuz olarak Risu'nun yerini almaya calismiyoruz, tek parcada ag gecidi arti istemciyiz.",
+        "H_HOSTING": "Barindirilan vs kendin barindiran ve jonglurluk yapacak anahtar yok",
+        "P_HOSTING": "Risu'yu kendiniz calistirirsiniz (web, Tauri masaustu veya Docker) ve her saglayicinin API anahtarini toplayip yapistirirsiniz. {appName} barindirilir: kurulacak ya da ayakta tutulacak bir sey yok ve toplanacak saglayici anahtari yok, cunku anahtar hesabin kendisi. Kayit olur ve sohbet edersiniz. Sadece Risu tarzi deneyimi bir uygulama ayaga kaldirmadan ya da anahtar yonetmeden isteyenler icin bu, tum kurulum adimini ortadan kaldirir.",
+        "H_RISU_WINS": "Risu'nun hala kazandigi yerler (durustce)",
+        "P_RISU_WINS": "Her seyi kapsadigimiz numarasi yapmayacagiz. Risu'da HypaMemory V2/V3 var; kayan ozetimiz arti anlamsal getirmeden daha derin bir uzun vadeli bellek sikistirmasi. Genisletip paylasabileceginiz gercek bir kullanici eklenti ekosistemi var; bizde yok. Girdi/cikti otomatik cevirisi icin yerlesik cevirmenleri bizimkilerden daha eksiksiz. Ve kendin barindiran acik kaynak bir uygulama olarak, barindirilan bir hizmetin asla veremeyecegi tam yerel kontrol sunar. Bunlar sizin icin en onemliyse, Risu daha iyi secimdir ve bunu ciddi soyluyoruz.",
+        "H_VERDICT": "Hangisini secmelisin",
+        "P_VERDICT": "En zengin bellek ve eklenti ekosistemine sahip, kendin barindiran, acik ve derinlemesine genisletilebilir bir rol yapma arayuzu istiyor ve kendi anahtarlarinizi getirmekten memnun musunuz? Risu'yu kullanin. Ayni lorebook, CBS, tetikleyici ve kart ozelliklerini, tek anahtarin kodlama ajanlarinizi da calistirdigi ve baska arayuzlerde de calistigi barindirilan bir urunde mi istiyorsunuz? Iste {appName} olan 2-si-1-arada budur. Tek bir kazanan yok. Biz sadece, bir arayuz olan Risu'nun olmasi asla amaclanmamis koprusunu kurduk.",
+        "CTA": "Her seyi tasinmis sohbeti deneyin. <register>Ucretsiz hesap olusturun</register> ya da <chat>sohbeti acin</chat>."
+      },
       "UNOROUTER_VS_LITELLM": {
         "TITLE": "{appName} vs LiteLLM: barindirilan ag gecidi mi yoksa kendin barindiran vekil mi",
         "DESCRIPTION": "LiteLLM en populer kendin barindiran LLM vekilidir. {appName} dahili sohbet istemcili barindirilan bir ag gecididir. Asil secim altyapiyi kendin mi calistirmak istedigin.",

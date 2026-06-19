@@ -538,6 +538,23 @@
       "comparison": "Vergleich"
     },
     "POSTS": {
+      "UNOROUTER_VS_RISUAI": {
+        "TITLE": "{appName} vs RisuAI: wir haben die RP-Engine in ein gehostetes 2-in-1 portiert",
+        "DESCRIPTION": "RisuAI ist das Power-User-RP-Frontend. {appName} hat seine Engine (Lorebooks, CBS-Makros, Trigger, Regex, Karten-Import) in ein gehostetes Produkt portiert, in dem derselbe Schluessel auch Coding-Agenten antreibt. Kein Rivale, ein 2-in-1.",
+        "AUTHOR": "{appName}-Team",
+        "INTRO": "RisuAI ist eines der besten Rollenspiel-Frontends ueberhaupt, und das sagen wir als Leute, die seinen Quellcode genau studiert haben. {appName} wollte es nicht in Funktionen ueberbieten. Wir haben seine Engine portiert und sie an einen neuen Ort gestellt: ein gehostetes Produkt, in dem ein OpenAI-kompatibler Schluessel auch Ihre Coding-Agenten betreibt. Das ist weniger ein Rivalen-Vergleich als eine ehrliche 2-in-1-Erklaerung, geschrieben von Leuten, die Risu bewundern.",
+        "H_ENGINE": "Wir haben die Engine portiert, nicht die App geklont",
+        "P_ENGINE": "Was Risu fuer Rollenspiel grossartig macht, steckt in {appName}, weil wir es portiert haben: das Lorebook-System (ein globaler Pool, @@Dekoratoren, Rekursion), die vollstaendige CBS-Makrosprache (Variablen, Bedingungen, geseedeter Zufall, Bloecke), die V1/V2-Trigger-VM mit Lua-Runtime, Regex-Customscripts (editinput/output/display), SillyTavern-Karten-Import v2/v3, Gruppenchat-Reihenfolge, Personas, Presets und ein Rolling-Summary-Gedaechtnis. Wenn Sie Risus Lorebooks und Trigger kennen, funktionieren sie hier wie erwartet.",
+        "H_TWO_IN_ONE": "Das 2-in-1: ein Schluessel fuer Code und Charakter-Chat",
+        "P_TWO_IN_ONE": "Das ist der Teil, der Risu von Natur aus nicht sein kann. Risu ist BYOK: Sie bringen Ihren eigenen OpenAI- oder Claude-Schluessel mit, und es ist rein ein Chat-Frontend. {appName} ist der Schluessel und der Client. Derselbe Schluessel, der den eingebauten Charakter-Chat antreibt, richtet auch einen Coding-Agenten (Claude Code, Cline, OpenCode, Codex) auf 200+ Modelle und passt direkt in SillyTavern, Janitor.AI, RisuAI oder Chub, wenn Sie die bevorzugen. Ein Konto, ein Saldo, eine Modell-Liste, fuer Arbeit und Spiel. Wir wollen Risu als Frontend nicht ersetzen, wir sind Gateway plus Client in einem.",
+        "H_HOSTING": "Gehostet vs selbst gehostet, und keine Schluessel zu jonglieren",
+        "P_HOSTING": "Risu betreiben Sie selbst (Web, Tauri-Desktop oder Docker) und sammeln und fuegen die API-Schluessel jedes Anbieters ein. {appName} ist gehostet: nichts zu installieren oder am Leben zu halten und keine Anbieter-Schluessel zu sammeln, da der Schluessel das Konto ist. Sie registrieren sich und chatten. Fuer Leute, die einfach das Risu-Erlebnis ohne App-Aufbau oder Schlusselverwaltung wollen, faellt der ganze Einrichtungsschritt weg.",
+        "H_RISU_WINS": "Wo Risu weiterhin gewinnt (ehrlich)",
+        "P_RISU_WINS": "Wir tun nicht so, als deckten wir alles ab. Risu hat HypaMemory V2/V3, eine tiefere Langzeitgedaechtnis-Kompression als unsere Rolling-Summary plus semantische Suche. Es hat ein echtes Benutzer-Plugin-Oekosystem, das Sie erweitern und teilen koennen; wir nicht. Seine eingebauten Uebersetzer fuer automatische Ein-/Ausgabe sind vollstaendiger als unsere. Und als selbst gehostete Open-Source-App gibt es Ihnen totale lokale Kontrolle, die ein gehosteter Dienst nie bietet. Wenn Ihnen das am wichtigsten ist, ist Risu die bessere Wahl, und das meinen wir so.",
+        "H_VERDICT": "Was sollten Sie waehlen",
+        "P_VERDICT": "Wollen Sie ein selbst gehostetes, offenes, tief erweiterbares Rollenspiel-Frontend mit dem reichsten Gedaechtnis und einem Plugin-Oekosystem, und bringen gern eigene Schluessel mit? Nutzen Sie Risu. Wollen Sie dieselben Lorebook-, CBS-, Trigger- und Karten-Funktionen in einem gehosteten Produkt, in dem ein Schluessel auch Ihre Coding-Agenten betreibt und in anderen Frontends funktioniert? Das ist das 2-in-1, das {appName} ist. Es gibt keinen einzelnen Gewinner. Wir haben nur die Bruecke gebaut, die Risu als Frontend nie sein sollte.",
+        "CTA": "Probieren Sie den Chat mit allem Portierten. <register>Erstellen Sie ein kostenloses Konto</register> oder <chat>oeffnen Sie den Chat</chat>."
+      },
       "UNOROUTER_VS_LITELLM": {
         "TITLE": "{appName} vs LiteLLM: gehostetes Gateway oder selbst gehosteter Proxy",
         "DESCRIPTION": "LiteLLM ist der beliebteste selbst gehostete LLM-Proxy. {appName} ist ein gehostetes Gateway mit eingebautem Chat-Client. Die eigentliche Frage ist, ob Sie die Infrastruktur selbst betreiben wollen.",

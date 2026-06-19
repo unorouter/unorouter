@@ -538,6 +538,23 @@
       "comparison": "confronto"
     },
     "POSTS": {
+      "UNOROUTER_VS_RISUAI": {
+        "TITLE": "{appName} vs RisuAI: abbiamo portato il motore RP in un 2-in-1 gestito",
+        "DESCRIPTION": "RisuAI e il frontend RP per utenti esperti. {appName} ha portato il suo motore (lorebook, macro CBS, trigger, regex, import di carte) in un prodotto gestito dove la stessa chiave guida anche agenti di codice. Non un rivale, un 2-in-1.",
+        "AUTHOR": "Team {appName}",
+        "INTRO": "RisuAI e uno dei migliori frontend di gioco di ruolo in circolazione, e lo diciamo da persone che ne hanno studiato il codice da vicino. {appName} non ha cercato di superarlo nelle funzioni. Ne abbiamo portato il motore e lo abbiamo messo altrove: un prodotto gestito dove una chiave compatibile con OpenAI esegue anche i tuoi agenti di codice. Quindi questa e meno una comparazione rivale che una onesta spiegazione di 2-in-1, scritta da gente che ammira Risu.",
+        "H_ENGINE": "Abbiamo portato il motore, non clonato l app",
+        "P_ENGINE": "Cio che rende Risu ottimo per il ruolo e in {appName} perche lo abbiamo portato: il sistema di lorebook (un pool globale, decoratori @@, ricorsione), il linguaggio completo di macro CBS (variabili, condizioni, casuale con seme, blocchi), la VM di trigger V1/V2 con un runtime Lua, i customscript regex (editinput/output/display), l import di carte SillyTavern v2/v3, l ordine della chat di gruppo, i personas, i preset e una memoria a riassunto continuo. Se conosci i lorebook e i trigger di Risu, qui funzionano come ti aspetti.",
+        "H_TWO_IN_ONE": "Il 2-in-1: stessa chiave per codice e chat dei personaggi",
+        "P_TWO_IN_ONE": "Questa e la parte che Risu non puo essere, per progettazione. Risu e BYOK: porti la tua chiave OpenAI o Claude ed e puramente un frontend di chat. {appName} e la chiave e il client. La stessa chiave che guida la chat dei personaggi integrata punta anche un agente di codice (Claude Code, Cline, OpenCode, Codex) a oltre 200 modelli, e si inserisce direttamente in SillyTavern, Janitor.AI, RisuAI o Chub se preferisci quelli. Un account, un saldo, una lista di modelli, per lavoro e per gioco. Non cerchiamo di sostituire Risu il frontend, siamo il gateway piu un client in uno.",
+        "H_HOSTING": "Gestito vs self-hosted, e nessuna chiave da gestire",
+        "P_HOSTING": "Risu lo esegui tu (web, desktop Tauri o Docker) e raccogli e incolli la chiave API di ogni provider. {appName} e gestito: nulla da installare o tenere in vita, e nessuna chiave provider da raccogliere, dato che la chiave e l account. Ti registri e chatti. Per chi vuole solo l esperienza in stile Risu senza tirare su un app o gestire chiavi, questo elimina l intero passaggio di configurazione.",
+        "H_RISU_WINS": "Dove Risu vince ancora (onestamente)",
+        "P_RISU_WINS": "Non fingeremo di coprire tutto. Risu ha HypaMemory V2/V3, una compressione della memoria a lungo termine piu profonda del nostro riassunto continuo piu recupero semantico. Ha un vero ecosistema di plugin utente che puoi estendere e condividere; noi no. I suoi traduttori integrati per la traduzione automatica input/output sono piu completi dei nostri. E come app open source self-hosted ti da un controllo locale totale che un servizio gestito non dara mai. Se questo ti importa di piu, Risu e la scelta migliore, e lo intendiamo davvero.",
+        "H_VERDICT": "Quale scegliere",
+        "P_VERDICT": "Vuoi un frontend di ruolo self-hosted, aperto e profondamente estensibile con la memoria piu ricca e un ecosistema di plugin, e sei contento di portare le tue chiavi? Usa Risu. Vuoi le stesse funzioni di lorebook, CBS, trigger e carte in un prodotto gestito dove una chiave esegue anche i tuoi agenti di codice e funziona in altri frontend? E il 2-in-1 che e {appName}. Non c e un unico vincitore. Abbiamo solo costruito il ponte che Risu, essendo un frontend, non era mai destinato a essere.",
+        "CTA": "Prova la chat con tutto portato dentro. <register>Crea un account gratuito</register> o <chat>apri la chat</chat>."
+      },
       "UNOROUTER_VS_LITELLM": {
         "TITLE": "{appName} vs LiteLLM: gateway gestito o proxy self-hosted",
         "DESCRIPTION": "LiteLLM e il proxy LLM self-hosted piu popolare. {appName} e un gateway gestito con client di chat integrato. La vera scelta e se vuoi gestire tu stesso l infrastruttura.",

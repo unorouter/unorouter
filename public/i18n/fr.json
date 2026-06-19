@@ -538,6 +538,23 @@
       "comparison": "comparatif"
     },
     "POSTS": {
+      "UNOROUTER_VS_RISUAI": {
+        "TITLE": "{appName} vs RisuAI : nous avons porte le moteur RP dans un 2-en-1 heberge",
+        "DESCRIPTION": "RisuAI est le frontend RP pour utilisateurs avances. {appName} a porte son moteur (lorebooks, macros CBS, triggers, regex, import de cartes) dans un produit heberge ou la meme cle pilote aussi des agents de code. Pas un rival, un 2-en-1.",
+        "AUTHOR": "Equipe {appName}",
+        "INTRO": "RisuAI est l un des meilleurs frontends de jeu de role qui soient, et nous le disons en tant que gens qui ont etudie son code de pres. {appName} n a pas cherche a le surpasser en fonctionnalites. Nous avons porte son moteur et l avons mis ailleurs : un produit heberge ou une cle compatible OpenAI execute aussi vos agents de code. C est donc moins une comparaison rivale qu une explication honnete de 2-en-1, ecrite par des gens qui admirent Risu.",
+        "H_ENGINE": "Nous avons porte le moteur, pas clone l appli",
+        "P_ENGINE": "Ce qui rend Risu excellent pour le jeu de role est dans {appName} parce que nous l avons porte : le systeme de lorebook (un pool global, decorateurs @@, recursion), le langage complet de macros CBS (variables, conditions, aleatoire a graine, blocs), la VM de triggers V1/V2 avec un runtime Lua, les customscripts regex (editinput/output/display), l import de cartes SillyTavern v2/v3, l ordre de chat de groupe, les personas, les presets et une memoire a resume glissant. Si vous connaissez les lorebooks et triggers de Risu, ils fonctionnent ici comme prevu.",
+        "H_TWO_IN_ONE": "Le 2-en-1 : une cle pour le code et le chat de personnages",
+        "P_TWO_IN_ONE": "C est la partie que Risu ne peut pas etre, par conception. Risu est BYOK : vous apportez votre propre cle OpenAI ou Claude et c est purement un frontend de chat. {appName} est la cle et le client. La meme cle qui pilote le chat de personnages integre pointe aussi un agent de code (Claude Code, Cline, OpenCode, Codex) vers 200+ modeles, et s insere directement dans SillyTavern, Janitor.AI, RisuAI ou Chub si vous preferez. Un compte, un solde, une liste de modeles, pour le travail et le jeu. Nous ne cherchons pas a remplacer Risu le frontend, nous sommes la passerelle plus un client en un.",
+        "H_HOSTING": "Heberge vs auto-heberge, et aucune cle a jongler",
+        "P_HOSTING": "Risu, vous l executez vous-meme (web, bureau Tauri ou Docker) et vous collectez et collez la cle API de chaque fournisseur. {appName} est heberge : rien a installer ni a maintenir en vie, et aucune cle fournisseur a rassembler, puisque la cle est le compte. Vous vous inscrivez et discutez. Pour qui veut juste l experience facon Risu sans monter une appli ni gerer de cles, cela supprime toute l etape d installation.",
+        "H_RISU_WINS": "La ou Risu gagne encore (honnetement)",
+        "P_RISU_WINS": "Nous ne pretendrons pas tout couvrir. Risu a HypaMemory V2/V3, une compression de memoire a long terme plus poussee que notre resume glissant plus recuperation semantique. Il a un vrai ecosysteme de plugins utilisateur que vous pouvez etendre et partager ; pas nous. Ses traducteurs integres pour la traduction automatique entree/sortie sont plus complets que les notres. Et en tant qu appli open source auto-hebergee, il donne un controle local total qu un service heberge n offrira jamais. Si cela compte le plus pour vous, Risu est le meilleur choix, et nous le pensons.",
+        "H_VERDICT": "Lequel choisir",
+        "P_VERDICT": "Vous voulez un frontend de jeu de role auto-heberge, ouvert et profondement extensible avec la memoire la plus riche et un ecosysteme de plugins, et vous etes content d apporter vos propres cles ? Utilisez Risu. Vous voulez les memes fonctions de lorebook, CBS, triggers et cartes dans un produit heberge ou une cle execute aussi vos agents de code et marche dans d autres frontends ? C est le 2-en-1 qu est {appName}. Il n y a pas de gagnant unique. Nous avons juste bati le pont que Risu, etant un frontend, n etait jamais cense etre.",
+        "CTA": "Essayez le chat avec tout porte. <register>Creez un compte gratuit</register> ou <chat>ouvrez le chat</chat>."
+      },
       "UNOROUTER_VS_LITELLM": {
         "TITLE": "{appName} vs LiteLLM : passerelle hebergee ou proxy auto-heberge",
         "DESCRIPTION": "LiteLLM est le proxy LLM auto-heberge le plus populaire. {appName} est une passerelle hebergee avec client de chat integre. Le vrai choix est de savoir si vous voulez gerer l infrastructure vous-meme.",
