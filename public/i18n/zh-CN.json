@@ -538,6 +538,23 @@
       "comparison": "对比"
     },
     "POSTS": {
+      "UNOROUTER_VS_MEGALLM": {
+        "TITLE": "{appName} 对比 MegaLLM：同样的编程网关，外加一个聊天客户端",
+        "DESCRIPTION": "MegaLLM 是面向编程智能体的热门前沿模型网关。{appName} 做同样的事，并加上一个内置的聊天与角色客户端。区别在于你只写代码，还是也想要一个聊天的地方。",
+        "AUTHOR": "{appName}团队",
+        "INTRO": "MegaLLM 作为面向编程智能体的简洁网关，建立了本领域最大的社区之一：一把 OpenAI 兼容的钥匙、前沿模型、自动故障转移。{appName} 是同一类网关，只多了一项决定是否合适的补充。这是来自两者之一的诚实对比。",
+        "H_SAME_LANE": "我们在同一条道上",
+        "P_SAME_LANE": "{appName} 和 MegaLLM 都是为开发者打造的 OpenAI 兼容网关。两者都把 GPT、Claude 和 Gemini 放在一把钥匙之后，都在某个供应商宕机时自动故障转移，都能通过更换基础 URL 接入 Claude Code、Codex 和 OpenCode。如果你的目标是把编程智能体指向前沿模型而不在供应商钥匙间周旋，两者都能做到。所以模型清单和故障转移不是决策所在。",
+        "H_MODELS": "模型清单与价格",
+        "P_MODELS": "MegaLLM 宣传 70 多个前沿和视觉模型，并以成本为卖点，通过成本感知路由比直连最多便宜 60%，套餐从约每月 10 美元起，外加按量付费。{appName} 拥有 200 多个模型，是一个更广的清单，包含 MegaLLM 纯前沿定位漏掉的开放模型和角色扮演调优模型，同样按量付费，额度不过期且有免费档。如果你只调用 GPT 和 Claude，每 token 价格就是比较点。如果你想要更广的清单，{appName} 就是更多。",
+        "H_CHAT": "MegaLLM 没有的部分",
+        "P_CHAT": "MegaLLM 是一个无界面网关，一个 API 加一个仪表盘，没有可聊天的地方。{appName} 是网关外加一个内置的聊天与角色客户端：人设、知识书、预设、SillyTavern 卡片导入，同一把钥匙还能接入 SillyTavern、Janitor.AI、RisuAI 或 Chub。于是驱动你编程智能体的同一把钥匙，也运行一个真正的角色聊天，工作与玩乐通用。这就是纯开发网关与二合一之间的界线。",
+        "H_MIGRATE": "切换就是改基础 URL",
+        "P_MIGRATE": "和 MegaLLM 一样，{appName} 是 OpenAI 兼容的，所以迁移就一行：把你的客户端指向 <c>https://api.unorouter.com/v1</c>，代码不动。把同一把钥匙粘进聊天客户端的自定义端点栏，就能触达同一份清单，所以没有第二个账户，也没有聊天端的单独工具。",
+        "H_VERDICT": "你该选哪个",
+        "P_VERDICT": "如果你只写代码，想要一个为每 token 成本优化的精简前沿模型网关，MegaLLM 是个扎实的选择，它的社区也证明了这点。如果你想要一把钥匙既驱动你的编程智能体，又从同一余额、更广清单驱动一个内置的聊天与角色客户端，那就是 {appName} 填补的空白。没有唯一赢家。这取决于一个纯开发网关够不够，还是你想要内置的聊天客户端。",
+        "CTA": "想要网关和聊天合二为一？<register>创建免费账户</register>或<models>浏览模型</models>。"
+      },
       "UNOROUTER_VS_RISUAI": {
         "TITLE": "{appName} 对比 RisuAI：我们把 RP 引擎搬进了托管的二合一",
         "DESCRIPTION": "RisuAI 是面向高级用户的 RP 前端。{appName} 把它的引擎（知识书、CBS 宏、触发器、正则、卡片导入）搬进一个托管产品，同一把钥匙还能驱动编程智能体。不是对手，而是二合一。",

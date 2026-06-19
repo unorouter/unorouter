@@ -538,6 +538,23 @@
       "comparison": "比較"
     },
     "POSTS": {
+      "UNOROUTER_VS_MEGALLM": {
+        "TITLE": "{appName} 對比 MegaLLM：同樣的編程閘道，外加一個聊天用戶端",
+        "DESCRIPTION": "MegaLLM 是面向編程智能體的熱門前沿模型閘道。{appName} 做同樣的事，並加上一個內建的聊天與角色用戶端。區別在於你只寫程式碼，還是也想要一個聊天的地方。",
+        "AUTHOR": "{appName}團隊",
+        "INTRO": "MegaLLM 作為面向編程智能體的簡潔閘道，建立了本領域最大的社群之一：一把 OpenAI 相容的鑰匙、前沿模型、自動故障轉移。{appName} 是同一類閘道，只多了一項決定是否合適的補充。這是來自兩者之一的誠實對比。",
+        "H_SAME_LANE": "我們在同一條道上",
+        "P_SAME_LANE": "{appName} 和 MegaLLM 都是為開發者打造的 OpenAI 相容閘道。兩者都把 GPT、Claude 和 Gemini 放在一把鑰匙之後，都在某個供應商當機時自動故障轉移，都能透過更換基礎 URL 接入 Claude Code、Codex 和 OpenCode。如果你的目標是把編程智能體指向前沿模型而不在供應商鑰匙間周旋，兩者都能做到。所以模型清單和故障轉移不是決策所在。",
+        "H_MODELS": "模型清單與價格",
+        "P_MODELS": "MegaLLM 宣傳 70 多個前沿和視覺模型，並以成本為賣點，透過成本感知路由比直連最多便宜 60%，方案從約每月 10 美元起，外加按量付費。{appName} 擁有 200 多個模型，是一個更廣的清單，包含 MegaLLM 純前沿定位漏掉的開放模型和角色扮演調優模型，同樣按量付費，額度不過期且有免費檔。如果你只呼叫 GPT 和 Claude，每 token 價格就是比較點。如果你想要更廣的清單，{appName} 就是更多。",
+        "H_CHAT": "MegaLLM 沒有的部分",
+        "P_CHAT": "MegaLLM 是一個無介面閘道，一個 API 加一個儀表板，沒有可聊天的地方。{appName} 是閘道外加一個內建的聊天與角色用戶端：人設、知識書、預設、SillyTavern 卡片匯入，同一把鑰匙還能接入 SillyTavern、Janitor.AI、RisuAI 或 Chub。於是驅動你編程智能體的同一把鑰匙，也執行一個真正的角色聊天，工作與玩樂通用。這就是純開發閘道與二合一之間的界線。",
+        "H_MIGRATE": "切換就是改基礎 URL",
+        "P_MIGRATE": "和 MegaLLM 一樣，{appName} 是 OpenAI 相容的，所以遷移就一行：把你的用戶端指向 <c>https://api.unorouter.com/v1</c>，程式碼不動。把同一把鑰匙貼進聊天用戶端的自訂端點欄，就能觸達同一份清單，所以沒有第二個帳戶，也沒有聊天端的單獨工具。",
+        "H_VERDICT": "你該選哪個",
+        "P_VERDICT": "如果你只寫程式碼，想要一個為每 token 成本最佳化的精簡前沿模型閘道，MegaLLM 是個扎實的選擇，它的社群也證明了這點。如果你想要一把鑰匙既驅動你的編程智能體，又從同一餘額、更廣清單驅動一個內建的聊天與角色用戶端，那就是 {appName} 填補的空白。沒有唯一贏家。這取決於一個純開發閘道夠不夠，還是你想要內建的聊天用戶端。",
+        "CTA": "想要閘道和聊天合二為一？<register>建立免費帳戶</register>或<models>瀏覽模型</models>。"
+      },
       "UNOROUTER_VS_RISUAI": {
         "TITLE": "{appName} 對比 RisuAI：我們把 RP 引擎搬進了託管的二合一",
         "DESCRIPTION": "RisuAI 是面向進階使用者的 RP 前端。{appName} 把它的引擎（知識書、CBS 巨集、觸發器、正則、卡片匯入）搬進一個託管產品，同一把鑰匙還能驅動編程智能體。不是對手，而是二合一。",

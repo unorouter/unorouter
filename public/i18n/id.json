@@ -538,6 +538,23 @@
       "comparison": "perbandingan"
     },
     "POSTS": {
+      "UNOROUTER_VS_MEGALLM": {
+        "TITLE": "{appName} vs MegaLLM: gateway koding yang sama, plus klien chat",
+        "DESCRIPTION": "MegaLLM adalah gateway model frontier populer untuk agen koding. {appName} melakukan pekerjaan yang sama dan menambahkan klien chat dan karakter bawaan. Bedanya apakah kamu hanya menulis kode atau juga ingin tempat untuk mengobrol.",
+        "AUTHOR": "Tim {appName}",
+        "INTRO": "MegaLLM membangun salah satu komunitas terbesar di bidang ini sebagai gateway bersih untuk agen koding: satu kunci kompatibel OpenAI, model frontier, failover otomatis. {appName} adalah jenis gateway yang sama, dengan satu tambahan yang menentukan kecocokan. Inilah perbandingan jujur dari salah satu dari keduanya.",
+        "H_SAME_LANE": "Kami di jalur yang sama",
+        "P_SAME_LANE": "Baik {appName} maupun MegaLLM adalah gateway kompatibel OpenAI yang dibuat untuk pengembang. Keduanya menaruh GPT, Claude, dan Gemini di balik satu kunci, keduanya melakukan failover otomatis saat penyedia turun, keduanya masuk ke Claude Code, Codex, dan OpenCode dengan penggantian URL dasar. Jika tujuanmu mengarahkan agen koding ke model frontier tanpa menjuggle kunci penyedia, keduanya melakukannya. Jadi katalog dan failover bukan tempat keputusannya.",
+        "H_MODELS": "Katalog dan harga",
+        "P_MODELS": "MegaLLM mengiklankan 70+ model frontier dan visi dan memasarkan dirinya soal biaya, hingga 60% lebih murah daripada langsung lewat perutean sadar-biaya, dengan paket mulai sekitar 10 $/bulan plus bayar sesuai pakai. {appName} membawa 200+ model, katalog lebih luas yang mencakup model terbuka dan yang disetel untuk roleplay yang ditinggalkan fokus hanya-frontier MegaLLM, juga bayar sesuai pakai, dengan kredit yang tidak kedaluwarsa dan tier gratis. Jika kamu hanya memanggil GPT dan Claude, harga per token adalah perbandingannya. Jika kamu ingin katalog lebih luas, {appName} sekadar punya lebih banyak.",
+        "H_CHAT": "Bagian yang tidak dimiliki MegaLLM",
+        "P_CHAT": "MegaLLM adalah gateway headless, sebuah API dan dasbor, tidak ada tempat untuk mengobrol. {appName} adalah gateway plus klien chat dan karakter bawaan: persona, lorebook, preset, impor kartu SillyTavern, dan kunci yang sama masuk ke SillyTavern, Janitor.AI, RisuAI, atau Chub. Jadi kunci yang sama yang menjalankan agen kodingmu juga menjalankan chat karakter sungguhan, untuk kerja dan main. Itulah garis antara gateway dev murni dan 2-in-1.",
+        "H_MIGRATE": "Beralih adalah penggantian URL dasar",
+        "P_MIGRATE": "Seperti MegaLLM, {appName} kompatibel OpenAI, jadi pindah cuma satu baris: arahkan klienmu ke <c>https://api.unorouter.com/v1</c> dan pertahankan kodemu. Kunci yang sama yang ditempel di kolom endpoint kustom klien chat menjangkau katalog yang sama, jadi tidak ada akun kedua maupun alat terpisah untuk sisi chat.",
+        "H_VERDICT": "Mana yang harus dipilih",
+        "P_VERDICT": "Jika kamu hanya menulis kode dan ingin gateway model frontier ramping yang dioptimalkan untuk biaya per token, MegaLLM pilihan solid dan komunitasnya menunjukkannya. Jika kamu ingin satu kunci yang menjalankan agen kodingmu dan klien chat dan karakter bawaan dari saldo yang sama dan katalog lebih luas, itulah celah yang diisi {appName}. Tidak ada pemenang tunggal. Tergantung apakah gateway dev murni cukup, atau kamu ingin klien chat tertanam.",
+        "CTA": "Ingin gateway dan chat dalam satu? <register>Buat akun gratis</register> atau <models>jelajahi modelnya</models>."
+      },
       "UNOROUTER_VS_RISUAI": {
         "TITLE": "{appName} vs RisuAI: kami memporting mesin RP ke 2-in-1 terkelola",
         "DESCRIPTION": "RisuAI adalah frontend RP untuk pengguna mahir. {appName} memporting mesinnya (lorebook, makro CBS, trigger, regex, impor kartu) ke produk terkelola di mana kunci yang sama juga menjalankan agen koding. Bukan rival, tapi 2-in-1.",

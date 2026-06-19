@@ -538,6 +538,23 @@
       "comparison": "Vergleich"
     },
     "POSTS": {
+      "UNOROUTER_VS_MEGALLM": {
+        "TITLE": "{appName} vs MegaLLM: dasselbe Coder-Gateway, plus ein Chat-Client",
+        "DESCRIPTION": "MegaLLM ist ein beliebtes Frontier-Modell-Gateway fuer Coding-Agenten. {appName} macht dieselbe Aufgabe und fuegt einen eingebauten Chat- und Charakter-Client hinzu. Der Unterschied ist, ob Sie nur Code liefern oder auch einen Ort zum Chatten wollen.",
+        "AUTHOR": "{appName}-Team",
+        "INTRO": "MegaLLM baute eine der groessten Communities in diesem Bereich auf als sauberes Gateway fuer Coding-Agenten: ein OpenAI-kompatibler Schluessel, Frontier-Modelle, automatischer Failover. {appName} ist dieselbe Art Gateway, mit einer Ergaenzung, die den Ausschlag gibt. Hier der ehrliche Vergleich von einem der beiden.",
+        "H_SAME_LANE": "Wir sind in derselben Spur",
+        "P_SAME_LANE": "Sowohl {appName} als auch MegaLLM sind OpenAI-kompatible Gateways fuer Entwickler. Beide stellen GPT, Claude und Gemini hinter einen Schluessel, beide machen automatischen Failover, wenn ein Anbieter ausfaellt, beide passen mit einem Basis-URL-Wechsel in Claude Code, Codex und OpenCode. Wenn Ihr Ziel ist, einen Coding-Agenten auf Frontier-Modelle zu richten, ohne mit Anbieter-Schluesseln zu jonglieren, schafft das jedes von beiden. Katalog und Failover sind also nicht der Entscheidungspunkt.",
+        "H_MODELS": "Katalog und Preise",
+        "P_MODELS": "MegaLLM wirbt mit 70+ Frontier- und Vision-Modellen und vermarktet sich ueber Kosten, bis zu 60% guenstiger als direkt, durch kostenbewusstes Routing, mit Plaenen ab etwa 10 $/Monat plus nutzungsbasiert. {appName} fuehrt 200+ Modelle, ein breiterer Katalog inklusive der offenen und Rollenspiel-getunten Modelle, die MegaLLMs reiner Frontier-Fokus auslaesst, ebenfalls nutzungsbasiert, mit Guthaben ohne Ablauf und einem Gratis-Tier. Wenn Sie nur GPT und Claude aufrufen, ist der Preis-pro-Token die Frage. Wollen Sie den breiteren Katalog, hat {appName} schlicht mehr davon.",
+        "H_CHAT": "Der Teil, den MegaLLM nicht hat",
+        "P_CHAT": "MegaLLM ist ein headless Gateway, eine API und ein Dashboard, nichts zum Chatten. {appName} ist das Gateway plus ein eingebauter Chat- und Charakter-Client: Personas, Lorebooks, Presets, SillyTavern-Karten-Import, und derselbe Schluessel passt in SillyTavern, Janitor.AI, RisuAI oder Chub. So betreibt der eine Schluessel, der Ihren Coding-Agenten antreibt, auch einen echten Charakter-Chat, fuer Arbeit und Spiel. Das ist die Grenze zwischen einem reinen Dev-Gateway und einem 2-in-1.",
+        "H_MIGRATE": "Wechsel ist eine Basis-URL-Aenderung",
+        "P_MIGRATE": "Wie MegaLLM ist {appName} OpenAI-kompatibel, der Umzug ist eine Zeile: Richten Sie Ihren Client auf <c>https://api.unorouter.com/v1</c> und behalten Sie Ihren Code. Derselbe Schluessel im Custom-Endpoint-Feld eines Chat-Clients erreicht denselben Katalog, also kein zweites Konto und kein separates Tool fuer die Chat-Seite.",
+        "H_VERDICT": "Was sollten Sie waehlen",
+        "P_VERDICT": "Wenn Sie nur Code liefern und ein schlankes Frontier-Modell-Gateway optimiert auf Token-Kosten wollen, ist MegaLLM eine solide Wahl, und seine Community zeigt es. Wenn Sie einen Schluessel wollen, der Ihre Coding-Agenten und einen eingebauten Chat- und Charakter-Client vom selben Saldo und einem breiteren Katalog antreibt, ist das die Luecke, die {appName} fuellt. Es gibt keinen einzelnen Gewinner. Es haengt davon ab, ob ein reines Dev-Gateway reicht, oder Sie den Chat-Client eingebaut wollen.",
+        "CTA": "Gateway und Chat in einem? <register>Erstellen Sie ein kostenloses Konto</register> oder <models>durchsuchen Sie die Modelle</models>."
+      },
       "UNOROUTER_VS_RISUAI": {
         "TITLE": "{appName} vs RisuAI: wir haben die RP-Engine in ein gehostetes 2-in-1 portiert",
         "DESCRIPTION": "RisuAI ist das Power-User-RP-Frontend. {appName} hat seine Engine (Lorebooks, CBS-Makros, Trigger, Regex, Karten-Import) in ein gehostetes Produkt portiert, in dem derselbe Schluessel auch Coding-Agenten antreibt. Kein Rivale, ein 2-in-1.",
