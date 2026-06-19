@@ -50,7 +50,11 @@ function isRecoverable(err: unknown): boolean {
   );
 }
 
-const RETRIES = 4;
+// Reload races: a prior tab's SyncAccessHandle can take >1s to release (worse on iOS, where
+// background-tab teardown is throttled). 7 tries with capped backoff (50,100,200,400,800,1500,1500
+// ~ 4.5s) rides that out so a fast refresh doesn't surface the in-memory fallback to the user.
+const RETRIES = 7;
+const MAX_BACKOFF = 1500;
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 const newSql = (dbPath: string) =>
   new SQLocalDrizzle({ databasePath: dbPath, reactive: false, releaseOnUnload: true });
@@ -80,7 +84,7 @@ async function openMigratedSql(
         error: String(err),
       });
       await sql.destroy().catch(() => {});
-      await sleep(50 * 2 ** attempt);
+      await sleep(Math.min(50 * 2 ** attempt, MAX_BACKOFF));
       sql = newSql(dbPath);
     }
   }
