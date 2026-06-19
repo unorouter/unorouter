@@ -538,6 +538,23 @@
       "comparison": "so sánh"
     },
     "POSTS": {
+      "UNOROUTER_VS_MEGALLM": {
+        "TITLE": "{appName} so voi MegaLLM: cung mot cong cho lap trinh, them mot client chat",
+        "DESCRIPTION": "MegaLLM la mot cong mo hinh tien phong pho bien cho tac nhan lap trinh. {appName} lam cung cong viec do va them mot client chat va nhan vat tich hop. Khac biet la ban chi viet code hay con muon mot noi de tro chuyen.",
+        "AUTHOR": "Doi ngu {appName}",
+        "INTRO": "MegaLLM xay dung mot trong nhung cong dong lon nhat trong linh vuc nay nhu mot cong gon gang cho tac nhan lap trinh: mot khoa tuong thich OpenAI, cac mo hinh tien phong, chuyen du phong tu dong. {appName} la cung loai cong, voi mot bo sung quyet dinh su phu hop. Day la so sanh trung thuc tu mot trong hai.",
+        "H_SAME_LANE": "Chung ta cung mot lan",
+        "P_SAME_LANE": "Ca {appName} va MegaLLM deu la cong tuong thich OpenAI lam cho nha phat trien. Ca hai dat GPT, Claude va Gemini sau mot khoa, ca hai chuyen du phong tu dong khi mot nha cung cap gap su co, ca hai cam vao Claude Code, Codex va OpenCode bang cach doi URL co so. Neu muc tieu cua ban la tro mot tac nhan lap trinh den cac mo hinh tien phong ma khong tung hung khoa nha cung cap, ca hai deu lam duoc. Vi vay danh muc va chuyen du phong khong phai noi co quyet dinh.",
+        "H_MODELS": "Danh muc va gia",
+        "P_MODELS": "MegaLLM quang cao hon 70 mo hinh tien phong va thi giac va tiep thi minh bang chi phi, re hon den 60% so voi di truc tiep nho dinh tuyen y thuc chi phi, voi cac goi tu khoang 10 $/thang cong tra theo dung. {appName} mang hon 200 mo hinh, mot danh muc rong hon bao gom cac mo hinh mo va tinh chinh cho nhap vai ma trong tam chi-tien-phong cua MegaLLM bo qua, cung tra theo dung, voi tin dung khong het han va mot bac mien phi. Neu ban chi goi GPT va Claude, gia moi token la diem so sanh. Neu ban muon danh muc rong hon, {appName} don gian la co nhieu hon.",
+        "H_CHAT": "Phan ma MegaLLM khong co",
+        "P_CHAT": "MegaLLM la mot cong khong giao dien, mot API va mot bang dieu khien, khong co cho de tro chuyen. {appName} la cong cong them mot client chat va nhan vat tich hop: persona, lorebook, preset, nhap the SillyTavern, va cung mot khoa cam vao SillyTavern, Janitor.AI, RisuAI hay Chub. Vay nen cung mot khoa van hanh tac nhan lap trinh cua ban cung chay mot cuoc chat nhan vat that su, cho ca cong viec lan giai tri. Do la ranh gioi giua mot cong lap trinh thuan tuy va mot 2-trong-1.",
+        "H_MIGRATE": "Chuyen doi la mot thay doi URL co so",
+        "P_MIGRATE": "Giong MegaLLM, {appName} tuong thich OpenAI, nen chuyen sang chi mot dong: tro client cua ban den <c>https://api.unorouter.com/v1</c> va giu nguyen code. Cung mot khoa dan vao o endpoint tuy chinh cua mot client chat se cham toi cung danh muc, nen khong co tai khoan thu hai lan cong cu rieng cho phia chat.",
+        "H_VERDICT": "Ban nen chon cai nao",
+        "P_VERDICT": "Neu ban chi viet code va muon mot cong mo hinh tien phong gon nhe toi uu cho chi phi moi token, MegaLLM la lua chon vung chac va cong dong cua no cho thay dieu do. Neu ban muon mot khoa van hanh tac nhan lap trinh cua ban va mot client chat va nhan vat tich hop tu cung so du va danh muc rong hon, do la khoang trong ma {appName} lap day. Khong co mot nguoi thang duy nhat. No phu thuoc vao viec mot cong lap trinh thuan tuy co du khong, hay ban muon client chat duoc tich hop san.",
+        "CTA": "Muon cong va chat trong mot? <register>Tao tai khoan mien phi</register> hoac <models>duyet cac mo hinh</models>."
+      },
       "UNOROUTER_VS_RISUAI": {
         "TITLE": "{appName} so voi RisuAI: chung toi da chuyen dong co RP vao mot 2-trong-1 duoc luu tru",
         "DESCRIPTION": "RisuAI la giao dien RP cho nguoi dung chuyen sau. {appName} da chuyen dong co cua no (lorebook, macro CBS, trigger, regex, nhap the) vao mot san pham duoc luu tru noi cung mot khoa con van hanh ca tac nhan lap trinh. Khong phai doi thu, ma la 2-trong-1.",

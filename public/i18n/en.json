@@ -538,6 +538,23 @@
       "comparison": "comparison"
     },
     "POSTS": {
+      "UNOROUTER_VS_MEGALLM": {
+        "TITLE": "{appName} vs MegaLLM: same coder gateway, plus a chat client",
+        "DESCRIPTION": "MegaLLM is a popular frontier-model gateway for coding agents. {appName} does the same job and adds a built-in chat and character client. The difference is whether you only ship code or also want a place to chat.",
+        "AUTHOR": "{appName} team",
+        "INTRO": "MegaLLM grew one of the biggest communities in this space as a clean gateway for coding agents: one OpenAI-compatible key, frontier models, automatic failover. {appName} is the same kind of gateway, with one addition that decides the fit. Here is the honest comparison from one of the two.",
+        "H_SAME_LANE": "We are in the same lane",
+        "P_SAME_LANE": "Both {appName} and MegaLLM are OpenAI-compatible gateways built for developers. Both put GPT, Claude, and Gemini behind one key, both do automatic failover when a provider goes down, both drop into Claude Code, Codex, and OpenCode with a base-URL swap. If your goal is pointing a coding agent at frontier models without juggling provider keys, either one does that. So the catalog and the failover are not where the decision is.",
+        "H_MODELS": "Catalog and pricing",
+        "P_MODELS": "MegaLLM advertises 70+ frontier and vision models and markets itself on cost, up to 60% cheaper than going direct through cost-aware routing, with plans from about $10/mo plus pay-as-you-go. {appName} carries 200+ models, a broader catalog that includes the open and roleplay-tuned models MegaLLM's frontier-only focus leaves out, also pay-as-you-go, with credits that do not expire and a free tier for prototyping. If you only ever call GPT and Claude, the price-per-token story is the comparison. If you want the wider catalog, {appName} simply has more of it.",
+        "H_CHAT": "The part MegaLLM does not have",
+        "P_CHAT": "MegaLLM is a headless gateway, an API and a dashboard, nothing to chat in. {appName} is the gateway plus a built-in chat and character client: personas, lorebooks, presets, SillyTavern card import, and the same key drops into SillyTavern, Janitor.AI, RisuAI, or Chub. So the one key that drives your coding agent also runs a real character chat, for work and for play. That is the line between a pure dev gateway and a 2-in-1.",
+        "H_MIGRATE": "Switching is a base-URL change",
+        "P_MIGRATE": "Like MegaLLM, {appName} is OpenAI-compatible, so moving over is one line: point your client at <c>https://api.unorouter.com/v1</c> and keep your code. The same key pasted into a chat client's custom-endpoint field reaches the same catalog, so there is no second account, and no separate tool for the chat side.",
+        "H_VERDICT": "Which should you pick",
+        "P_VERDICT": "If you only ship code and want a lean frontier-model gateway optimized for token cost, MegaLLM is a solid choice and its community shows it. If you want one key that drives your coding agents and a built-in chat and character client off the same balance and a wider catalog, that is the gap {appName} fills. There is no single winner. It depends on whether a pure dev gateway is enough, or you want the chat client built in.",
+        "CTA": "Want the gateway and the chat in one? <register>Create a free account</register> or <models>browse the models</models>."
+      },
       "UNOROUTER_VS_RISUAI": {
         "TITLE": "{appName} vs RisuAI: we ported the RP engine into a hosted 2-in-1",
         "DESCRIPTION": "RisuAI is the power-user RP frontend. {appName} ported its engine (lorebooks, CBS macros, triggers, regex, card import) into a hosted product where the same key also drives coding agents. Not a rival, a 2-in-1.",

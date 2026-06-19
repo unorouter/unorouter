@@ -63,6 +63,26 @@ export const LEGAL_REGISTRY = [
 
 export const BLOG_REGISTRY = [
   {
+    slug: "unorouter-vs-megallm",
+    date: "2026-06-20",
+    tags: ["comparison", "product"],
+    i18nKey: "BLOG.POSTS.UNOROUTER_VS_MEGALLM",
+    contentFiles: [
+      "src/components/pages/blog/posts/2026-06-20-unorouter-vs-megallm-content.tsx",
+    ],
+    priority: 0.7,
+    changeFrequency: "monthly",
+    category: "product",
+    wordCount: 580,
+    headings: [
+      { id: "same-lane", i18nLeaf: "H_SAME_LANE", level: 2 },
+      { id: "models", i18nLeaf: "H_MODELS", level: 2 },
+      { id: "chat", i18nLeaf: "H_CHAT", level: 2 },
+      { id: "migrate", i18nLeaf: "H_MIGRATE", level: 2 },
+      { id: "verdict", i18nLeaf: "H_VERDICT", level: 2 },
+    ],
+  },
+  {
     slug: "unorouter-vs-risuai",
     date: "2026-06-19",
     tags: ["comparison", "product"],

@@ -538,6 +538,23 @@
       "comparison": "karşılaştırma"
     },
     "POSTS": {
+      "UNOROUTER_VS_MEGALLM": {
+        "TITLE": "{appName} vs MegaLLM: ayni kodlama ag gecidi, arti bir sohbet istemcisi",
+        "DESCRIPTION": "MegaLLM, kodlama ajanlari icin populer bir oncu model ag gecididir. {appName} ayni isi yapar ve dahili bir sohbet ve karakter istemcisi ekler. Fark, yalnizca kod mu yazdiginiz yoksa sohbet edecek bir yer de mi istediginizdir.",
+        "AUTHOR": "{appName} ekibi",
+        "INTRO": "MegaLLM, kodlama ajanlari icin temiz bir ag gecidi olarak bu alandaki en buyuk topluluklardan birini kurdu: tek OpenAI uyumlu anahtar, oncu modeller, otomatik yedege gecis. {appName} ayni tur ag gecididir, uyumu belirleyen tek bir eklemeyle. Iste ikisinden birinden durust karsilastirma.",
+        "H_SAME_LANE": "Ayni seritteyiz",
+        "P_SAME_LANE": "Hem {appName} hem MegaLLM, gelistiriciler icin yapilmis OpenAI uyumlu ag gecitleridir. Ikisi de GPT, Claude ve Gemini'yi tek anahtarin arkasina koyar, bir saglayici dustugunde otomatik yedege gecer, taban URL degisikligiyle Claude Code, Codex ve OpenCode'a girer. Amaciniz saglayici anahtarlariyla ugrasmadan bir kodlama ajanini oncu modellere yonlendirmekse, ikisi de bunu yapar. Yani katalog ve yedege gecis kararin oldugu yer degil.",
+        "H_MODELS": "Katalog ve fiyatlandirma",
+        "P_MODELS": "MegaLLM 70'ten fazla oncu ve gorus modelini duyurur ve kendini maliyet uzerinden pazarlar, maliyet bilincli yonlendirmeyle dogrudan gitmekten %60'a kadar ucuz, aylik yaklasik 10 dolardan baslayan planlar arti kullandikca ode. {appName} 200'den fazla model tasir, MegaLLM'in yalnizca oncu odaginin disarida biraktigi acik ve rol yapma icin ayarlanmis modelleri iceren daha genis bir katalog, yine kullandikca ode, suresi dolmayan krediler ve ucretsiz katmanla. Yalnizca GPT ve Claude'u cagiriyorsaniz, token basina fiyat karsilastirmadir. Daha genis katalog istiyorsaniz, {appName}'de sadece daha fazlasi var.",
+        "H_CHAT": "MegaLLM'in sahip olmadigi parca",
+        "P_CHAT": "MegaLLM arayuzsuz bir ag gecididir, bir API ve bir panel, sohbet edecek bir sey yok. {appName} ag gecidine ek olarak dahili bir sohbet ve karakter istemcisidir: personalar, lorebook'lar, hazir ayarlar, SillyTavern kart ice aktarma ve ayni anahtar SillyTavern, Janitor.AI, RisuAI veya Chub'a takilir. Boylece kodlama ajaninizi calistiran ayni anahtar gercek bir karakter sohbetini de calistirir, is ve oyun icin. Iste saf bir gelistirici ag gecidi ile 2-si-1-arada arasindaki cizgi.",
+        "H_MIGRATE": "Gecis bir taban URL degisikligidir",
+        "P_MIGRATE": "MegaLLM gibi {appName} de OpenAI uyumludur, yani gecmek tek satir: istemcinizi <c>https://api.unorouter.com/v1</c> adresine yonlendirin ve kodunuzu koruyun. Bir sohbet istemcisinin ozel uc nokta alanina yapistirilan ayni anahtar ayni kataloga ulasir, yani ne ikinci hesap ne de sohbet tarafi icin ayri bir arac.",
+        "H_VERDICT": "Hangisini secmelisin",
+        "P_VERDICT": "Yalnizca kod yaziyor ve token maliyetine gore optimize edilmis yalin bir oncu model ag gecidi istiyorsaniz, MegaLLM saglam bir secimdir ve toplulugu bunu gosterir. Kodlama ajanlarinizi ve ayni bakiyeden, daha genis bir katalogdan calisan dahili bir sohbet ve karakter istemcisini calistiran tek bir anahtar istiyorsaniz, iste {appName}'in doldurdugu bosluk budur. Tek bir kazanan yok. Saf bir gelistirici ag gecidinin yeterli olup olmadigina ya da sohbet istemcisini dahili istemenize bagli.",
+        "CTA": "Ag gecidini ve sohbeti tek arada mi istiyorsun? <register>Ucretsiz hesap olustur</register> ya da <models>modellere goz at</models>."
+      },
       "UNOROUTER_VS_RISUAI": {
         "TITLE": "{appName} vs RisuAI: RP motorunu barindirilan bir 2-si-1-arada'ya tasidik",
         "DESCRIPTION": "RisuAI ileri kullanicilara yonelik RP arayuzudur. {appName} onun motorunu (lorebook'lar, CBS makrolari, tetikleyiciler, regex, kart ice aktarma) ayni anahtarin kodlama ajanlarini da calistirdigi barindirilan bir urune tasidi. Rakip degil, bir 2-si-1-arada.",
