@@ -515,6 +515,14 @@ const VENDOR_THEMES: Record<string, VendorTheme> = {
     tagBorder: "border-teal-500/20",
     primary: "#14b8a6",
   },
+  [Vendor.KUAISHOU]: {
+    bg: "bg-orange-500/5",
+    border: "border-orange-500/20",
+    text: "text-orange-700 dark:text-orange-300",
+    tagBg: "bg-orange-500/10",
+    tagBorder: "border-orange-500/20",
+    primary: "#ff6600",
+  },
 };
 
 export const DEFAULT_THEME: VendorTheme = {
