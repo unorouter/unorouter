@@ -145,6 +145,8 @@ export const conversationOverridesFormSchema = t.Object({
   extraBody: t.String({ default: "", maxLength: 8_192 }),
   // null = inherit the bound preset (else system default: streaming on). false = BFF buffers the full reply, then streams as one chunk.
   streamingEnabled: nullable(t.Boolean()),
+  // null = inherit the bound preset (else shown). false hides thinking at render.
+  showReasoning: nullable(t.Boolean()),
 });
 export type ConversationOverridesForm = Static<
   typeof conversationOverridesFormSchema
@@ -160,6 +162,7 @@ export const samplingPresetFormSchema = t.Object({
   ...samplingNullable({ temperatureMax: 4, maxTokensMax: 1_000_000 }),
   // Preset-level defaults (the conversation overrides per chat). null = system default (streaming on, chatMemory 8).
   streamingEnabled: nullable(t.Boolean()),
+  showReasoning: nullable(t.Boolean()),
   chatMemory: nullableNumber(1, 1000),
   mainPrompt: t.String({ default: "", maxLength: MAX_DESC_LEN }),
   postHistory: t.String({ default: "", maxLength: MAX_DESC_LEN }),

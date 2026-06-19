@@ -152,6 +152,21 @@ export function OverridesGenerationFields(props: {
             </FormItem>
           )}
         />
+        <FormField
+          control={props.control}
+          name="showReasoning"
+          render={({ field }) => (
+            <FormItem className="flex-row items-center justify-between rounded-md border p-3">
+              <FormLabel>{t("CHAT.OVERRIDES.SHOW_REASONING")}</FormLabel>
+              <FormControl>
+                <Switch
+                  checked={field.value ?? true}
+                  onCheckedChange={field.onChange}
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
         {props.showConversationFields && (
           <FormField
             control={props.control}

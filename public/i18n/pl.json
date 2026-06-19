@@ -3101,6 +3101,7 @@
       "CHAT_MEMORY_HINT": "Liczba ostatnich wiadomości wysyłanych z każdym zapytaniem.",
       "STREAMING_ENABLED": "Streaming",
       "STREAMING_ENABLED_HINT": "Wyłączone = poczekaj na pełną odpowiedź, potem pokaż ją. Niektóre modele wypisują czysto tylko, gdy są buforowane. Głównie preferencja użytkownika.",
+      "SHOW_REASONING": "Pokaż rozumowanie",
       "SYSTEM_PROMPT": "Nadpisanie promptu systemowego",
       "SYSTEM_PROMPT_PLACEHOLDER": "Pozostaw puste, aby użyć promptu systemowego postaci.",
       "AUTHOR_NOTE": "Notatka autora",
@@ -3356,6 +3357,8 @@
     "PRESET_CHAT_MEMORY_HINT": "Ile ostatnich wiadomości wysyłać na żądanie. Puste = domyślne (8); ustawienie czatu ma pierwszeństwo.",
     "PRESET_STREAMING": "Streaming",
     "PRESET_STREAMING_HINT": "Strumieniuj odpowiedź token po tokenie. Wył. = cała odpowiedź naraz. Ustawienie czatu ma pierwszeństwo.",
+    "PRESET_SHOW_REASONING": "Pokaż rozumowanie",
+    "PRESET_SHOW_REASONING_HINT": "Pokazuje rozumowanie modelu w odpowiedziach. Wył. = ukryj je (rozumowanie nadal jest generowane i zapisywane, więc ponowne włączenie je odsłania). Ustawienie czatu ma pierwszeństwo.",
     "CHARACTER_BACKGROUND": "Obraz tła",
     "CHARACTER_BACKGROUND_HINT": "Wyświetlany za czatem, gdy ta postać prowadzi rozmowę."
   },

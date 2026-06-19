@@ -98,6 +98,7 @@ export const samplingPresetBody = t.Object({
   ...samplingNullable({ temperatureMax: 4 }),
   // Preset-level defaults the conversation overrides per chat. null = system default (streaming on, chatMemory 8).
   streamingEnabled: nullable(t.Boolean()),
+  showReasoning: nullable(t.Boolean()),
   chatMemory: nullable(t.Number({ minimum: 1, maximum: 1000 })),
   extraBody: nullable(t.String({ maxLength: 8_192 })),
   providers: nullable(t.String({ maxLength: 4_096 })),

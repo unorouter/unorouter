@@ -99,6 +99,7 @@ export function PresetForm(props: Props) {
     providersOnly: routing.only,
     promptTemplate: editing?.promptTemplate ?? "",
     streamingEnabled: editing?.streamingEnabled ?? true,
+    showReasoning: editing?.showReasoning ?? true,
   });
   const form = useRpForm(samplingPresetFormSchema, formValues);
 
@@ -201,6 +202,16 @@ export function PresetForm(props: Props) {
                 />
                 <p className="text-muted-foreground text-xs">
                   {t("RP.PRESET_STREAMING_HINT")}
+                </p>
+              </div>
+              <div className="flex flex-col gap-1">
+                <MyFormSwitch
+                  control={form.control}
+                  name="showReasoning"
+                  label={t("RP.PRESET_SHOW_REASONING")}
+                />
+                <p className="text-muted-foreground text-xs">
+                  {t("RP.PRESET_SHOW_REASONING_HINT")}
                 </p>
               </div>
               <MyFormSwitch

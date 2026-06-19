@@ -3101,6 +3101,7 @@
       "CHAT_MEMORY_HINT": "リクエストごとに送信される直近のメッセージ数。",
       "STREAMING_ENABLED": "ストリーミング",
       "STREAMING_ENABLED_HINT": "オフ = 全文の応答を待ってから表示します。バッファ時のみ綺麗に出力するモデルがあります。基本はユーザーの好みです。",
+      "SHOW_REASONING": "推論を表示",
       "SYSTEM_PROMPT": "システムプロンプトの上書き",
       "SYSTEM_PROMPT_PLACEHOLDER": "空欄にするとキャラクターのシステムプロンプトが使われます。",
       "AUTHOR_NOTE": "作者ノート",
@@ -3356,6 +3357,8 @@
     "PRESET_CHAT_MEMORY_HINT": "各リクエストで送る直近メッセージ数。空 = 既定（8）。チャット設定が優先します。",
     "PRESET_STREAMING": "ストリーミング",
     "PRESET_STREAMING_HINT": "応答をトークンごとにストリーミング。オフ = 応答全体を一度に受信。チャット設定が優先します。",
+    "PRESET_SHOW_REASONING": "推論を表示",
+    "PRESET_SHOW_REASONING_HINT": "応答にモデルの思考過程を表示します。オフ = 非表示にします（推論は引き続き生成され保存されるため、再度オンにすると表示されます）。チャット設定が優先します。",
     "CHARACTER_BACKGROUND": "背景画像",
     "CHARACTER_BACKGROUND_HINT": "このキャラクターが会話の主役のとき、チャットの背後に表示されます。"
   },

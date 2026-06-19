@@ -3101,6 +3101,7 @@
       "CHAT_MEMORY_HINT": "Nombre de messages récents envoyés à chaque requête.",
       "STREAMING_ENABLED": "Streaming",
       "STREAMING_ENABLED_HINT": "Désactivé = attendre la réponse complète, puis l'afficher. Certains modèles ne sortent proprement qu'en mode tampon. Surtout une préférence utilisateur.",
+      "SHOW_REASONING": "Afficher le raisonnement",
       "SYSTEM_PROMPT": "Surcharge du prompt système",
       "SYSTEM_PROMPT_PLACEHOLDER": "Laissez vide pour utiliser le prompt système du personnage.",
       "AUTHOR_NOTE": "Note de l'auteur",
@@ -3356,6 +3357,8 @@
     "PRESET_CHAT_MEMORY_HINT": "Nombre de messages récents envoyés à chaque requête. Vide = défaut (8) ; le réglage du chat l'emporte.",
     "PRESET_STREAMING": "Streaming",
     "PRESET_STREAMING_HINT": "Diffuser la réponse jeton par jeton. Désactivé = recevoir toute la réponse d'un coup. Le réglage du chat l'emporte.",
+    "PRESET_SHOW_REASONING": "Afficher le raisonnement",
+    "PRESET_SHOW_REASONING_HINT": "Affiche le raisonnement du modele dans les reponses. Desactive = le masquer (le raisonnement est toujours genere et conserve, donc le reactiver le revele). Le reglage du chat l'emporte.",
     "CHARACTER_BACKGROUND": "Image d'arrière-plan",
     "CHARACTER_BACKGROUND_HINT": "Affichée derrière la discussion quand ce personnage mène la conversation."
   },

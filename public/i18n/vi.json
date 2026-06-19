@@ -3101,6 +3101,7 @@
       "CHAT_MEMORY_HINT": "Số tin nhắn gần đây gửi kèm mỗi yêu cầu.",
       "STREAMING_ENABLED": "Streaming",
       "STREAMING_ENABLED_HINT": "Tắt = chờ phản hồi đầy đủ rồi hiển thị. Một số mô hình chỉ xuất sạch khi đệm. Chủ yếu là sở thích người dùng.",
+      "SHOW_REASONING": "Hiển thị suy luận",
       "SYSTEM_PROMPT": "Ghi đè prompt hệ thống",
       "SYSTEM_PROMPT_PLACEHOLDER": "Để trống để dùng prompt hệ thống của nhân vật.",
       "AUTHOR_NOTE": "Ghi chú của tác giả",
@@ -3356,6 +3357,8 @@
     "PRESET_CHAT_MEMORY_HINT": "Số tin nhắn gần đây gửi mỗi yêu cầu. Trống = mặc định (8); cài đặt trò chuyện ghi đè.",
     "PRESET_STREAMING": "Truyền phát",
     "PRESET_STREAMING_HINT": "Truyền phản hồi theo từng token. Tắt = nhận toàn bộ phản hồi cùng lúc. Cài đặt trò chuyện ghi đè.",
+    "PRESET_SHOW_REASONING": "Hiển thị suy luận",
+    "PRESET_SHOW_REASONING_HINT": "Hiển thị suy luận của mô hình trong phản hồi. Tắt = ẩn nó (suy luận vẫn được tạo và lưu lại, nên bật lại sẽ hiển thị nó). Cài đặt trò chuyện ghi đè.",
     "CHARACTER_BACKGROUND": "Ảnh nền",
     "CHARACTER_BACKGROUND_HINT": "Hiển thị phía sau cuộc trò chuyện khi nhân vật này dẫn dắt hội thoại."
   },

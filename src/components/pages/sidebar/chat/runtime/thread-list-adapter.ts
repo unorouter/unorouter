@@ -130,6 +130,7 @@ export function createThreadListAdapter(
         // null = inherit; the stream resolver falls back conv -> preset -> true.
         streamingEnabled:
           preset?.streamingEnabled ?? defaults.streamingEnabled ?? null,
+        showReasoning: preset?.showReasoning ?? defaults.showReasoning ?? null,
         group: chatStore.get(chatGroupAtom),
       });
 

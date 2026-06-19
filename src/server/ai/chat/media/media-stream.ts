@@ -390,12 +390,21 @@ export function handleBufferedStream(
 ) {
   return streamResponse(async (writer) => {
     const fullText = await result.text;
+    const reasoning = await result.reasoningText;
     const convId = body.convId ?? `tmp-${uid(8)}`;
     const cleanText = await processUrls(fullText, convId, mediaType);
     const meta = await finishMeta?.();
     const partId = uid(12);
     writer.write(messageId ? { type: "start", messageId } : { type: "start" });
     writer.write({ type: "start-step" });
+    // Streaming-off still surfaces the model's thinking (collapsible in the UI); the upstream
+    // is always streamed, so reasoning is available even when we buffer the final text.
+    if (reasoning) {
+      const reasonId = uid(12);
+      writer.write({ type: "reasoning-start", id: reasonId });
+      writer.write({ type: "reasoning-delta", delta: reasoning, id: reasonId });
+      writer.write({ type: "reasoning-end", id: reasonId });
+    }
     writer.write({ type: "text-start", id: partId });
     writer.write({ type: "text-delta", delta: cleanText, id: partId });
     writer.write({ type: "text-end", id: partId });

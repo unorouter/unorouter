@@ -11,6 +11,10 @@
     {
       "tag": "0002_conscious_mach_iv",
       "sql": "CREATE TABLE `chat_groups` (\n\t`id` text PRIMARY KEY NOT NULL,\n\t`user_id` integer NOT NULL,\n\t`name` text NOT NULL,\n\t`order_index` integer DEFAULT 0 NOT NULL,\n\t`folded` integer DEFAULT false NOT NULL,\n\t`sync_expires_at` integer,\n\t`created_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,\n\t`updated_at` integer DEFAULT (unixepoch() * 1000) NOT NULL\n);\n--> statement-breakpoint\nCREATE INDEX `idx_chat_group_user_order` ON `chat_groups` (`user_id`,`order_index`);--> statement-breakpoint\nALTER TABLE `conversations` ADD `group_id` text;--> statement-breakpoint\nCREATE INDEX `idx_conv_user_group` ON `conversations` (`user_id`,`group_id`);\n"
+    },
+    {
+      "tag": "0003_great_calypso",
+      "sql": "ALTER TABLE `conversations` ADD `show_reasoning` integer;--> statement-breakpoint\nALTER TABLE `sampling_presets` ADD `show_reasoning` integer;"
     }
   ]
 }

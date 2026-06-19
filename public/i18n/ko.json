@@ -3101,6 +3101,7 @@
       "CHAT_MEMORY_HINT": "각 요청과 함께 보내는 최근 메시지 수.",
       "STREAMING_ENABLED": "스트리밍",
       "STREAMING_ENABLED_HINT": "끄기 = 전체 응답을 기다린 후 표시. 일부 모델은 버퍼링될 때만 깔끔하게 출력합니다. 대부분 사용자 환경 설정.",
+      "SHOW_REASONING": "추론 표시",
       "SYSTEM_PROMPT": "시스템 프롬프트 재정의",
       "SYSTEM_PROMPT_PLACEHOLDER": "캐릭터의 시스템 프롬프트를 사용하려면 비워 두세요.",
       "AUTHOR_NOTE": "작성자 메모",
@@ -3356,6 +3357,8 @@
     "PRESET_CHAT_MEMORY_HINT": "요청마다 보낼 최근 메시지 수. 비움 = 기본값(8); 채팅 설정이 우선합니다.",
     "PRESET_STREAMING": "스트리밍",
     "PRESET_STREAMING_HINT": "응답을 토큰 단위로 스트리밍. 끄면 전체 응답을 한 번에 받음. 채팅 설정이 우선합니다.",
+    "PRESET_SHOW_REASONING": "추론 표시",
+    "PRESET_SHOW_REASONING_HINT": "응답에 모델의 사고 과정을 표시합니다. 끄기 = 숨김 (추론은 여전히 생성되어 보관되므로 다시 켜면 나타납니다). 채팅 설정이 우선합니다.",
     "CHARACTER_BACKGROUND": "배경 이미지",
     "CHARACTER_BACKGROUND_HINT": "이 캐릭터가 대화를 주도할 때 채팅 뒤에 표시됩니다."
   },

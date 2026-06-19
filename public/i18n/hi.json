@@ -3101,6 +3101,7 @@
       "CHAT_MEMORY_HINT": "प्रत्येक अनुरोध के साथ भेजे गए recent messages की संख्या।",
       "STREAMING_ENABLED": "Streaming",
       "STREAMING_ENABLED_HINT": "बंद = पूरे जवाब की प्रतीक्षा करें, फिर इसे दिखाएं। कुछ मॉडल केवल buffered होने पर साफ़ output करते हैं। अधिकतर user वरीयता।",
+      "SHOW_REASONING": "तर्क दिखाएं",
       "SYSTEM_PROMPT": "System prompt override",
       "SYSTEM_PROMPT_PLACEHOLDER": "Character के system prompt का उपयोग करने के लिए खाली छोड़ें।",
       "AUTHOR_NOTE": "लेखक का नोट",
@@ -3356,6 +3357,8 @@
     "PRESET_CHAT_MEMORY_HINT": "प्रत्येक अनुरोध के साथ कितने हाल के संदेश भेजें। खाली = डिफ़ॉल्ट (8); चैट सेटिंग इसे ओवरराइड करती है।",
     "PRESET_STREAMING": "स्ट्रीमिंग",
     "PRESET_STREAMING_HINT": "उत्तर को टोकन-दर-टोकन स्ट्रीम करें। बंद = पूरा उत्तर एक साथ। चैट सेटिंग इसे ओवरराइड करती है।",
+    "PRESET_SHOW_REASONING": "तर्क दिखाएं",
+    "PRESET_SHOW_REASONING_HINT": "जवाबों में मॉडल की सोच दिखाएं। बंद = इसे छिपाएं (तर्क फिर भी उत्पन्न और सहेजा जाता है, इसलिए इसे वापस चालू करने पर यह दिख जाता है)। चैट सेटिंग इसे ओवरराइड करती है।",
     "CHARACTER_BACKGROUND": "पृष्ठभूमि छवि",
     "CHARACTER_BACKGROUND_HINT": "जब यह पात्र बातचीत का नेतृत्व करता है तो चैट के पीछे दिखाई जाती है।"
   },

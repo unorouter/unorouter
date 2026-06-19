@@ -28,7 +28,7 @@ import {
 } from "@/hooks/ai/chat-hook";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { usePricingQuery } from "@/hooks/models/pricing-hook";
-import { useMessageMeta } from "@/hooks/ui/use-chat-hook";
+import { useMessageMeta, useShowReasoning } from "@/hooks/ui/use-chat-hook";
 import { useIsMobile } from "@/hooks/ui/use-mobile";
 import { partsToItems } from "@/lib/ai/chat/messages";
 import { analytics } from "@/lib/analytics";
@@ -497,8 +497,11 @@ const StreamingIndicator: FC = () => {
   );
 };
 
+const HideReasoning: FC = () => null;
+
 const AssistantMessage: FC = () => {
   const [editing, setEditing] = useState(false);
+  const showReasoning = useShowReasoning();
   return (
     <AssistantEditContext.Provider value={() => setEditing(true)}>
       <MessagePrimitive.Root
@@ -515,8 +518,8 @@ const AssistantMessage: FC = () => {
               <MessagePrimitive.Parts
                 components={{
                   Text: MarkdownText,
-                  Reasoning,
-                  ReasoningGroup,
+                  Reasoning: showReasoning ? Reasoning : HideReasoning,
+                  ReasoningGroup: showReasoning ? ReasoningGroup : HideReasoning,
                   tools: {
                     Fallback: ToolFallback,
                   },
