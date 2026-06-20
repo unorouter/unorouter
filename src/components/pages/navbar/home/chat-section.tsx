@@ -1,24 +1,39 @@
 import { CompanyName, LogoImage } from "@/components/elements/brand/brand";
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Link } from "@/i18n/navigation";
-import { getFreeTextModels } from "@/lib/api/pricing-cache";
+import { getPricingSummary } from "@/lib/api/pricing-cache";
 import { getTranslations } from "next-intl/server";
 import { Icon } from "@/components/ui/icon";
 
 export async function ChatSection() {
   const t = await getTranslations();
-  const freeModels = await getFreeTextModels(12);
-  const modelName =
-    freeModels.length > 0
-      ? freeModels[Math.floor(Math.random() * freeModels.length)]!
-      : t("HOME.CHAT.MOCK.MODEL_NAME");
+  const { models } = await getPricingSummary();
+  // Prefer a free text model whose vendor has an icon, so the pill always shows one.
+  const freeText = models.filter((m) => m.type === "text" && m.isFree);
+  const withVendor = freeText.filter((m) => {
+    const v =
+      typeof m.vendor === "string" ? m.vendor : (m.vendor?.name ?? "");
+    return v.length > 0;
+  });
+  const pool = withVendor.length > 0 ? withVendor : freeText;
+  const picked = pool.length > 0 ? pool[0]! : null;
+  const modelName = picked?.name ?? t("HOME.CHAT.MOCK.MODEL_NAME");
+  const modelVendor = picked
+    ? typeof picked.vendor === "string"
+      ? picked.vendor
+      : (picked.vendor?.name ?? modelName)
+    : modelName;
 
   return (
     <section className="border-border/50 relative border-t py-16 lg:py-32">
       <div className="mx-auto max-w-360 px-6">
         <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-16">
           <div className="relative order-2 lg:order-1">
-            <ChatMock t={t as (key: string) => string} modelName={modelName} />
+            <ChatMock
+              t={t as (key: string) => string}
+              modelName={modelName}
+              modelVendor={modelVendor}
+            />
             <div className="absolute -inset-px -z-10 rounded-xl bg-linear-to-br from-purple-500/20 via-transparent to-cyan-500/20 opacity-60 blur-2xl" />
           </div>
 
@@ -95,7 +110,11 @@ export async function ChatSection() {
 // Faithful miniature of the real chat app: sidebar + conv list, top bar with a
 // FREE model pill, the actual RP feature menu (Characters/Personas/Lorebooks/
 // Presets/Cards), a real assistant message with the token-count footer.
-function ChatMock(props: { t: (key: string) => string; modelName: string }) {
+function ChatMock(props: {
+  t: (key: string) => string;
+  modelName: string;
+  modelVendor: string;
+}) {
   const t = props.t;
   const convs: { vendor: string; label: string; active?: boolean }[] = [
     { vendor: "nemotron", label: t("HOME.CHAT.MOCK.CONV1"), active: true },
@@ -147,7 +166,7 @@ function ChatMock(props: { t: (key: string) => string; modelName: string }) {
         <div className="border-border/60 flex items-center gap-2 border-b px-3 py-2.5">
           <div className="border-border bg-background/60 flex items-center gap-1.5 rounded border px-2 py-1">
             <span className="flex size-3.5 shrink-0 items-center justify-center">
-              <VendorIcon vendor={props.modelName} size={14} />
+              <VendorIcon vendor={props.modelVendor} size={14} />
             </span>
             <span className="text-foreground/80 max-w-28 truncate font-mono text-[9px]">
               {props.modelName}

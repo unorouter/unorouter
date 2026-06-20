@@ -66,10 +66,19 @@ async function openMigratedSql(
   userId: number,
 ): Promise<SQLocalDrizzle> {
   const { runMigrations } = await import("./schema-migrate/migrations");
+  // OPFS needs SharedArrayBuffer, i.e. a cross-origin-isolated document. Non-isolated pages
+  // (marketing routes that don't get COOP/COEP) can never persist; accept the in-memory DB
+  // once instead of retrying 7x into a guaranteed failure (theme/etc still ride the cookie atom).
+  const isolated =
+    typeof window === "undefined" || window.crossOriginIsolated !== false;
   let sql = newSql(dbPath);
   for (let attempt = 0; ; attempt++) {
     try {
       if ((await sql.getDatabaseInfo()).storageType !== "opfs") {
+        if (!isolated) {
+          await runMigrations(sql);
+          return sql;
+        }
         throw new Error("GetSyncHandleError: fell back to in-memory");
       }
       await runMigrations(sql);
