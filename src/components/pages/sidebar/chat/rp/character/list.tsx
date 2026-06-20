@@ -13,6 +13,7 @@ import {
   useCharactersQuery,
   useDeleteCharacterMutation,
   useImportCharacterCardMutation,
+  useImportCharacterFromUrlMutation,
 } from "@/hooks/ai/rp/characters";
 import { analytics } from "@/lib/analytics";
 import type { EditorState } from "@/lib/types";
@@ -40,6 +41,7 @@ export function CharacterList(props: Props) {
   const charsQuery = useCharactersQuery();
   const deleteMut = useDeleteCharacterMutation();
   const importMut = useImportCharacterCardMutation();
+  const importUrlMut = useImportCharacterFromUrlMutation();
   const exportMut = useRpExportMutation();
 
   const [view, setView] = useState<EditorState>({ mode: "list" });
@@ -81,8 +83,13 @@ export function CharacterList(props: Props) {
                 entity="characters"
                 accept="image/png,image/webp,application/json"
                 labelKey="RP.CHARACTERS_IMPORT"
-                isPending={importMut.isPending}
+                isPending={importMut.isPending || importUrlMut.isPending}
                 onFile={(file) => importMut.mutateAsync(file).then(() => {})}
+                onUrl={(input) =>
+                  importUrlMut.mutateAsync(input).then(() => {})
+                }
+                urlLabelKey="RP.CHARACTERS_IMPORT_LINK"
+                urlPlaceholderKey="RP.CHARACTERS_IMPORT_LINK_PLACEHOLDER"
               />
               <Button
                 onClick={() => {
