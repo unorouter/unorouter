@@ -168,7 +168,16 @@
         "MSG_AI": "Melduje sie, rekrucie. Schowaj sprzet, skaczemy za dziesiec.",
         "MSG_USER": "Tak jest, kapitanie. Gotowy.",
         "TYPING": "pisze",
-        "INPUT": "Wpisz wiadomosc..."
+        "INPUT": "Wpisz wiadomosc...",
+        "BRAND": "UnoRouter",
+        "NEW_CHAT": "Nowy czat",
+        "CONV1": "Kapitan Elara Voss",
+        "CONV2": "Lyra Alchemiczka",
+        "CONV3": "Mochi w kawiarni",
+        "MODEL_NAME": "nemotron-3",
+        "TOKENS": "148 in  /  297 out",
+        "MENU_LABEL": "RPG",
+        "LOCAL_DB": "Lokalna BD"
       }
     },
     "FEATURES": {

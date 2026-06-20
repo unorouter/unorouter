@@ -168,7 +168,16 @@
         "MSG_AI": "Mi presento, recluta. Sistema l'attrezzatura, saltiamo tra dieci.",
         "MSG_USER": "Si, capitano. Pronta.",
         "TYPING": "sta scrivendo",
-        "INPUT": "Scrivi un messaggio..."
+        "INPUT": "Scrivi un messaggio...",
+        "BRAND": "UnoRouter",
+        "NEW_CHAT": "Nuova chat",
+        "CONV1": "Capitano Elara Voss",
+        "CONV2": "Lyra l'Alchimista",
+        "CONV3": "Mochi al Cafe",
+        "MODEL_NAME": "nemotron-3",
+        "TOKENS": "148 in  /  297 out",
+        "MENU_LABEL": "Gioco di ruolo",
+        "LOCAL_DB": "DB locale"
       }
     },
     "FEATURES": {
