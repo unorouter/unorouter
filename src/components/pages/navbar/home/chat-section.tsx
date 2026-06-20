@@ -1,16 +1,24 @@
+import { CompanyName, LogoImage } from "@/components/elements/brand/brand";
+import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Link } from "@/i18n/navigation";
+import { getFreeTextModels } from "@/lib/api/pricing-cache";
 import { getTranslations } from "next-intl/server";
 import { Icon } from "@/components/ui/icon";
 
 export async function ChatSection() {
   const t = await getTranslations();
+  const freeModels = await getFreeTextModels(12);
+  const modelName =
+    freeModels.length > 0
+      ? freeModels[Math.floor(Math.random() * freeModels.length)]!
+      : t("HOME.CHAT.MOCK.MODEL_NAME");
 
   return (
     <section className="border-border/50 relative border-t py-16 lg:py-32">
       <div className="mx-auto max-w-360 px-6">
         <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-16">
           <div className="relative order-2 lg:order-1">
-            <ChatMock t={t as (key: string) => string} />
+            <ChatMock t={t as (key: string) => string} modelName={modelName} />
             <div className="absolute -inset-px -z-10 rounded-xl bg-linear-to-br from-purple-500/20 via-transparent to-cyan-500/20 opacity-60 blur-2xl" />
           </div>
 
@@ -87,12 +95,12 @@ export async function ChatSection() {
 // Faithful miniature of the real chat app: sidebar + conv list, top bar with a
 // FREE model pill, the actual RP feature menu (Characters/Personas/Lorebooks/
 // Presets/Cards), a real assistant message with the token-count footer.
-function ChatMock(props: { t: (key: string) => string }) {
+function ChatMock(props: { t: (key: string) => string; modelName: string }) {
   const t = props.t;
-  const convs: { icon: string; label: string; active?: boolean }[] = [
-    { icon: "drama", label: t("HOME.CHAT.MOCK.CONV1"), active: true },
-    { icon: "wand", label: t("HOME.CHAT.MOCK.CONV2") },
-    { icon: "message-circle", label: t("HOME.CHAT.MOCK.CONV3") },
+  const convs: { vendor: string; label: string; active?: boolean }[] = [
+    { vendor: "nemotron", label: t("HOME.CHAT.MOCK.CONV1"), active: true },
+    { vendor: "claude", label: t("HOME.CHAT.MOCK.CONV2") },
+    { vendor: "gemini", label: t("HOME.CHAT.MOCK.CONV3") },
   ];
   const menu: { icon: string; label: string; accent?: boolean }[] = [
     { icon: "users", label: t("RP.SIDEBAR_TAB_CHARACTERS"), accent: true },
@@ -103,14 +111,12 @@ function ChatMock(props: { t: (key: string) => string }) {
   ];
 
   return (
-    <div className="bg-card border-border flex h-104 w-full overflow-hidden rounded-xl border font-sans shadow-2xl shadow-purple-500/5">
+    <div className="bg-card border-border flex h-104 w-full overflow-hidden rounded-xl border font-sans shadow-2xl">
       {/* sidebar */}
       <div className="border-border/60 bg-muted/30 hidden w-40 shrink-0 flex-col border-r p-2.5 sm:flex">
         <div className="mb-3 flex items-center gap-1.5 px-1">
-          <div className="h-4 w-4 rounded-sm bg-linear-to-br from-purple-500 to-cyan-500" />
-          <span className="text-foreground font-mono text-[10px] font-bold tracking-wider">
-            {t("HOME.CHAT.MOCK.BRAND")}
-          </span>
+          <LogoImage width={16} height={16} className="h-4 w-4" />
+          <CompanyName className="text-[10px]" />
         </div>
         <div className="bg-background/60 border-border/50 text-muted-foreground mb-2 flex items-center gap-1.5 rounded border px-2 py-1.5">
           <Icon name="plus" className="h-2.5 w-2.5" />
@@ -122,12 +128,11 @@ function ChatMock(props: { t: (key: string) => string }) {
           {convs.map((c) => (
             <div
               key={c.label}
-              className={`flex items-center gap-1.5 rounded px-2 py-1.5 ${c.active ? "bg-purple-500/15 text-foreground" : "text-muted-foreground"}`}
+              className={`flex items-center gap-1.5 rounded px-2 py-1.5 ${c.active ? "bg-accent text-foreground" : "text-muted-foreground"}`}
             >
-              <Icon
-                name={c.icon}
-                className={`h-2.5 w-2.5 shrink-0 ${c.active ? "text-purple-600 dark:text-purple-400" : ""}`}
-              />
+              <span className="size-2.5 shrink-0">
+                <VendorIcon vendor={c.vendor} size={10} />
+              </span>
               <span className="truncate font-mono text-[9px] tracking-tight">
                 {c.label}
               </span>
@@ -141,10 +146,10 @@ function ChatMock(props: { t: (key: string) => string }) {
         {/* top bar */}
         <div className="border-border/60 flex items-center gap-2 border-b px-3 py-2.5">
           <div className="border-border bg-background/60 flex items-center gap-1.5 rounded border px-2 py-1">
-            <span className="text-foreground/80 font-mono text-[9px]">
-              {t("HOME.CHAT.MOCK.MODEL_NAME")}
+            <span className="text-foreground/80 max-w-28 truncate font-mono text-[9px]">
+              {props.modelName}
             </span>
-            <span className="rounded-sm bg-green-500/20 px-1 font-mono text-[8px] font-bold tracking-wider text-green-700 uppercase dark:text-green-400">
+            <span className="rounded bg-emerald-500/15 px-1 py-0.5 text-[8px] leading-none font-medium text-emerald-700 dark:text-emerald-300">
               {t("HOME.CHAT.MOCK.MODEL")}
             </span>
           </div>
@@ -188,11 +193,11 @@ function ChatMock(props: { t: (key: string) => string }) {
           {menu.map((m) => (
             <div
               key={m.label}
-              className={`flex items-center gap-2.5 px-3 py-1.5 ${m.accent ? "bg-purple-500/10" : ""}`}
+              className={`flex items-center gap-2.5 px-3 py-1.5 ${m.accent ? "bg-accent" : ""}`}
             >
               <Icon
                 name={m.icon}
-                className={`h-3 w-3 shrink-0 ${m.accent ? "text-purple-600 dark:text-purple-400" : "text-muted-foreground"}`}
+                className="text-muted-foreground h-3 w-3 shrink-0"
               />
               <span className="text-foreground/90 font-sans text-[11px]">
                 {m.label}
