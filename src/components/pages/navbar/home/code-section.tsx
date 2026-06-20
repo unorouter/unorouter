@@ -66,13 +66,22 @@ export async function CodeSection() {
             <p className="text-foreground/80 mb-3 font-mono text-sm leading-relaxed">
               {t("HOME.CODE.NO_CODE_OPTION")}
             </p>
-            <Link
-              href="/docs"
-              className="text-foreground hover:text-muted-foreground inline-flex items-center gap-2 font-mono text-xs font-bold tracking-wider uppercase transition-colors"
-            >
-              {t("HOME.CODE.NO_CODE_LINK")}
-              <Icon name="arrow-right" className="h-3.5 w-3.5" />
-            </Link>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-5">
+              <Link
+                href="/chat"
+                className="inline-flex items-center gap-2 font-mono text-xs font-bold tracking-wider text-purple-600 uppercase transition-colors hover:text-purple-500 dark:text-purple-400 dark:hover:text-purple-300"
+              >
+                <Icon name="message-circle" className="h-3.5 w-3.5" />
+                {t("HOME.CODE.NO_CODE_CHAT_LINK")}
+              </Link>
+              <Link
+                href="/docs"
+                className="text-foreground hover:text-muted-foreground inline-flex items-center gap-2 font-mono text-xs font-bold tracking-wider uppercase transition-colors"
+              >
+                {t("HOME.CODE.NO_CODE_LINK")}
+                <Icon name="arrow-right" className="h-3.5 w-3.5" />
+              </Link>
+            </div>
           </div>
         </div>
 

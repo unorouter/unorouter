@@ -33,10 +33,10 @@
     "HERO": {
       "BADGE": "Router online",
       "TITLE_LINE1": "VEREINTE",
-      "SUBTITLE": "{appName} verbindet dich mit {modelCount}+ KI-Modellen über einen Schlüssel. Apps bauen, Agenten betreiben oder Charaktere im Rollenspiel führen. Gleicher Schlüssel, gleiches Tempo, gleicher Preis.",
+      "SUBTITLE": "{appName} verbindet dich mit {modelCount}+ KI-Modellen ueber einen Schluessel. Baue Apps und betreibe Agenten damit, oder spare dir das Einrichten und chatte direkt hier auf der Seite mit Charakteren. Gleicher Schluessel, gleiche Geschwindigkeit, gleicher Preis.",
       "CTA_PRIMARY": "Loslegen",
       "CTA_SECONDARY": "Modelle ansehen",
-      "TITLE_ROTATE": "INTELLIGENZ,ROLLENSPIEL,CHARAKTERE,CODE,CHAT"
+      "TITLE_ROTATE": "CHAT,CHARAKTERE,ROLLENSPIEL,CODE,INTELLIGENZ"
     },
     "STATS": {
       "MODELS": "Modelle",
@@ -117,6 +117,38 @@
         "TITLE": "Anfrage-Ablauf"
       }
     },
+    "CHAT": {
+      "BADGE": "Integrierter Chat",
+      "TITLE_1": "Nicht nur eine API.",
+      "TITLE_2": "Auch ein Chat-Client.",
+      "DESCRIPTION": "Oeffne ihn und leg los. Gratis-Modelle sind schon verbunden, also keine Anmeldung, kein Schluessel, kein Einrichten. Waehle einen Charakter oder importiere deinen eigenen, und deine Chats bleiben in deinem Browser.",
+      "CARD1": {
+        "TITLE": "Kein Setup",
+        "DESC": "Gratis-Modelle im Backend verdrahtet. Einfach oeffnen und chatten, kein Konto noetig."
+      },
+      "CARD2": {
+        "TITLE": "Charaktere",
+        "DESC": "Personas, Presets, Prompt-Vorlagen und SillyTavern-Karten-Import integriert."
+      },
+      "CARD3": {
+        "TITLE": "Privat",
+        "DESC": "Deine Gespraeche bleiben in deinem Browser, nie auf unserem Server. Wir koennen sie nicht lesen."
+      },
+      "CARD4": {
+        "TITLE": "Volles Rollenspiel",
+        "DESC": "Lorebooks, Gruppenchat, Swipes und eine echte RP-Engine, kein Spielzeug."
+      },
+      "CTA_OPEN": "Chat oeffnen",
+      "CTA_CONNECT": "Client verbinden",
+      "MOCK": {
+        "CHARACTER": "Captain Elara Voss",
+        "MODEL": "Gratis",
+        "MSG_AI": "Melde mich, Rekrut. Verstau deine Ausruestung, wir springen in zehn.",
+        "MSG_USER": "Aye, Captain. Bereit.",
+        "TYPING": "schreibt",
+        "INPUT": "Nachricht schreiben..."
+      }
+    },
     "FEATURES": {
       "TITLE": "Warum {appName}",
       "DESCRIPTION": "Ein Endpunkt, jedes KI-Modell. Intelligentes Routing wählt den schnellsten Anbieter, während automatisches Failover sicherstellt, dass deine Anfragen immer ankommen.",
@@ -179,7 +211,8 @@
       "FEATURE_3": "Multi-Protokoll-Support",
       "READ_DOCS": "Vollständige API-Docs lesen",
       "NO_CODE_LABEL": "Kein Coder?",
-      "NO_CODE_OPTION": "Kein Code nötig. Füge die URL in SillyTavern, Janitor.AI, RisuAI oder Chub ein und du chattest.",
+      "NO_CODE_OPTION": "Spar dir den Code. Chatte direkt hier auf der Seite mit Charakteren, oder fuege die URL in SillyTavern, Janitor.AI, RisuAI oder Chub ein.",
+      "NO_CODE_CHAT_LINK": "Chat oeffnen",
       "NO_CODE_LINK": "Integrationsanleitungen ansehen"
     },
     "CTA": {
@@ -187,7 +220,8 @@
       "TITLE_2": "verbinden",
       "SUBTITLE": "Jedes KI-Modell, ein Schlüssel. Bauen, chatten, programmieren oder Rollenspiel. Du entscheidest.",
       "PRIMARY": "Jetzt starten",
-      "SECONDARY": "Integrationen"
+      "SECONDARY": "Integrationen",
+      "CHAT": "Chat oeffnen"
     },
     "META": {
       "TITLE": "{appName} - Ein Schlüssel für jedes KI-Modell",

@@ -33,8 +33,8 @@
     "HERO": {
       "BADGE": "Router Online",
       "TITLE_LINE1": "UNIFIED",
-      "TITLE_ROTATE": "INTELLIGENCE,ROLEPLAY,CHARACTERS,CODE,CHAT",
-      "SUBTITLE": "{appName} connects you to {modelCount}+ AI models through one key. Build apps, run agents, or roleplay with characters. Same key, same speed, same price.",
+      "TITLE_ROTATE": "CHAT,CHARACTERS,ROLEPLAY,CODE,INTELLIGENCE",
+      "SUBTITLE": "{appName} connects you to {modelCount}+ AI models through one key. Build apps and run agents with it, or skip the setup and chat with characters right here on the site. Same key, same speed, same price.",
       "CTA_PRIMARY": "Get Started",
       "CTA_SECONDARY": "View Models"
     },
@@ -137,6 +137,38 @@
         "TITLE": "Request Flow"
       }
     },
+    "CHAT": {
+      "BADGE": "Built-in Chat",
+      "TITLE_1": "Not just an API.",
+      "TITLE_2": "A chat client too.",
+      "DESCRIPTION": "Open it and start talking. Free models are already connected, so there's no signup, no key, and no setup. Pick a character or import your own, and your chats stay in your browser.",
+      "CARD1": {
+        "TITLE": "No Setup",
+        "DESC": "Free models wired in on the backend. Just open and chat, no account needed."
+      },
+      "CARD2": {
+        "TITLE": "Characters",
+        "DESC": "Personas, presets, prompt templates, and SillyTavern card import built in."
+      },
+      "CARD3": {
+        "TITLE": "Private",
+        "DESC": "Your conversations live in your browser, never on our server. We can't read them."
+      },
+      "CARD4": {
+        "TITLE": "Full Roleplay",
+        "DESC": "Lorebooks, group chat, swipes, and a real RP engine, not a toy box."
+      },
+      "CTA_OPEN": "Open Chat",
+      "CTA_CONNECT": "Connect Your Client",
+      "MOCK": {
+        "CHARACTER": "Captain Elara Voss",
+        "MODEL": "Free",
+        "MSG_AI": "Reporting in, recruit. Stow your gear, we jump in ten.",
+        "MSG_USER": "Aye, Captain. Locked and ready.",
+        "TYPING": "typing",
+        "INPUT": "Type a message..."
+      }
+    },
     "FEATURES": {
       "TITLE": "Why {appName}",
       "DESCRIPTION": "One endpoint, every AI model. Intelligent routing picks the fastest provider while automatic failover ensures your requests always succeed.",
@@ -199,7 +231,8 @@
       "FEATURE_3": "Multi-protocol support",
       "READ_DOCS": "Read Full API Docs",
       "NO_CODE_LABEL": "Not a coder?",
-      "NO_CODE_OPTION": "Skip the code. Paste the URL into SillyTavern, Janitor.AI, RisuAI, or Chub and you are chatting.",
+      "NO_CODE_OPTION": "Skip the code. Chat with characters right here on the site, or paste the URL into SillyTavern, Janitor.AI, RisuAI, or Chub.",
+      "NO_CODE_CHAT_LINK": "Open the chat",
       "NO_CODE_LINK": "See the integration guides"
     },
     "CTA": {
@@ -207,7 +240,8 @@
       "TITLE_2": "Connect",
       "SUBTITLE": "Every AI model, one key. Build, chat, code, or roleplay. Your call.",
       "PRIMARY": "Get Started",
-      "SECONDARY": "Browse Integrations"
+      "SECONDARY": "Browse Integrations",
+      "CHAT": "Open Chat"
     },
     "META": {
       "TITLE": "{appName} - One Key for Every AI Model",

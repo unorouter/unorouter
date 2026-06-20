@@ -33,8 +33,8 @@
     "HERO": {
       "BADGE": "Router Çevrimiçi",
       "TITLE_LINE1": "BİRLEŞİK",
-      "TITLE_ROTATE": "ZEKA,ROLEPLAY,KARAKTERLER,KOD,SOHBET",
-      "SUBTITLE": "{appName} sizi tek anahtarla {modelCount}+ AI modeline bağlar. Uygulamalar geliştirin, ajanlar çalıştırın veya karakterlerle roleplay yapın. Aynı anahtar, aynı hız, aynı fiyat.",
+      "TITLE_ROTATE": "SOHBET,KARAKTERLER,ROL YAPMA,KOD,ZEKA",
+      "SUBTITLE": "{appName} seni tek anahtarla {modelCount}+ yapay zeka modeline baglar. Onunla uygulama gelistir ve ajanlar calistir, ya da kurulumu atla ve karakterlerle tam burada sitede sohbet et. Ayni anahtar, ayni hiz, ayni fiyat.",
       "CTA_PRIMARY": "Başla",
       "CTA_SECONDARY": "Modelleri Görüntüle"
     },
@@ -137,6 +137,38 @@
         "TITLE": "İstek Akışı"
       }
     },
+    "CHAT": {
+      "BADGE": "Dahili Sohbet",
+      "TITLE_1": "Sadece bir API degil.",
+      "TITLE_2": "Ayni zamanda bir sohbet istemcisi.",
+      "DESCRIPTION": "Ac ve konusmaya basla. Ucretsiz modeller zaten bagli, yani kayit yok, anahtar yok, kurulum yok. Bir karakter sec ya da kendininkini ice aktar, sohbetlerin tarayicinda kalir.",
+      "CARD1": {
+        "TITLE": "Kurulum Yok",
+        "DESC": "Ucretsiz modeller arka uca bagli. Sadece ac ve sohbet et, hesap gerekmez."
+      },
+      "CARD2": {
+        "TITLE": "Karakterler",
+        "DESC": "Personalar, hazir ayarlar, istem sablonlari ve SillyTavern kart ice aktarma dahili."
+      },
+      "CARD3": {
+        "TITLE": "Gizli",
+        "DESC": "Konusmalarin tarayicinda yasar, asla sunucumuzda degil. Onlari okuyamayiz."
+      },
+      "CARD4": {
+        "TITLE": "Tam Rol Yapma",
+        "DESC": "Lorebook'lar, grup sohbeti, kaydirma ve gercek bir RP motoru, oyuncak degil."
+      },
+      "CTA_OPEN": "Sohbeti ac",
+      "CTA_CONNECT": "Istemcini Bagla",
+      "MOCK": {
+        "CHARACTER": "Kaptan Elara Voss",
+        "MODEL": "Ucretsiz",
+        "MSG_AI": "Rapor ver, acemi. Techizatini topla, on saniyeye siçriyoruz.",
+        "MSG_USER": "Emredersiniz Kaptan. Hazirim.",
+        "TYPING": "yaziyor",
+        "INPUT": "Bir mesaj yaz..."
+      }
+    },
     "FEATURES": {
       "TITLE": "Neden {appName}",
       "DESCRIPTION": "Bir endpoint, her AI modeli. Akıllı yönlendirme en hızlı sağlayıcıyı seçerken otomatik failover isteklerinizin her zaman başarılı olmasını sağlar.",
@@ -199,7 +231,8 @@
       "FEATURE_3": "Çoklu protokol desteği",
       "READ_DOCS": "Tam API Dokümantasyonunu Oku",
       "NO_CODE_LABEL": "Kodlayıcı değil misiniz?",
-      "NO_CODE_OPTION": "Kodu atla. URL'yi SillyTavern, Janitor.AI, RisuAI veya Chub'a yapıştır ve sohbet etmeye başla.",
+      "NO_CODE_OPTION": "Kodu atla. Karakterlerle tam burada sitede sohbet et, ya da URL'yi SillyTavern, Janitor.AI, RisuAI veya Chub'a yapistir.",
+      "NO_CODE_CHAT_LINK": "Sohbeti ac",
       "NO_CODE_LINK": "Entegrasyon kılavuzlarını gör"
     },
     "CTA": {
@@ -207,7 +240,8 @@
       "TITLE_2": "Hazır",
       "SUBTITLE": "Her AI modeli, bir anahtar. İnşa et, sohbet et, kod yaz veya roleplay yap. Sizin kararınız.",
       "PRIMARY": "Başla",
-      "SECONDARY": "Entegrasyonlara Göz At"
+      "SECONDARY": "Entegrasyonlara Göz At",
+      "CHAT": "Sohbeti ac"
     },
     "META": {
       "TITLE": "{appName} - Her AI Modeli için Tek Anahtar",
