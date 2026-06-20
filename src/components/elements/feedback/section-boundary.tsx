@@ -8,10 +8,6 @@ import { Component, type PropsWithChildren, type ReactNode } from "react";
 type FallbackProps = { error: Error; reset: () => void };
 
 function SectionFallback(props: FallbackProps) {
-  return <SectionFallbackInner error={props.error} reset={props.reset} />;
-}
-
-function SectionFallbackInner(props: FallbackProps) {
   const t = useTranslations();
 
   return (

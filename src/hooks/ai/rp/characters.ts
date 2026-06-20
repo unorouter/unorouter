@@ -34,7 +34,7 @@ export const useCreateCharacterMutation = characters.useCreate;
 export const useUpdateCharacterMutation = characters.useUpdate;
 export const useDeleteCharacterMutation = characters.useDelete;
 
-// Client-side card parser: bytes become a media row plus a character row referencing it.
+// card image bytes become a media row referenced by the character
 export function useImportCharacterCardMutation() {
   const userId = useLocalUserId();
   return useApiMutation({

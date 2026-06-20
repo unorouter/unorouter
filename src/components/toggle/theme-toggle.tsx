@@ -41,8 +41,8 @@ export function ThemeToggle() {
 
   const handleThemeChange = (theme: string) => {
     analytics.settings.themeChanged(theme);
-    const { variant: randomVariant, start: randomStart } = getRandomAnimation();
-    const animation = createAnimation(randomVariant, randomStart);
+    const anim = getRandomAnimation();
+    const animation = createAnimation(anim.variant, anim.start);
     updateStyles(animation.css);
 
     if (typeof window === "undefined") return;

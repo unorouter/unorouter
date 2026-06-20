@@ -103,11 +103,7 @@ export function handleElysia<T extends { data: unknown; status: number }>(
 }
 
 export function arrayBufferToBase64(buf: ArrayBuffer): string {
-  const bytes = new Uint8Array(buf);
-  let binary = "";
-  for (let i = 0; i < bytes.length; i++)
-    binary += String.fromCharCode(bytes[i]);
-  return btoa(binary);
+  return uint8ToBase64(new Uint8Array(buf));
 }
 
 export function uint8ToBase64(bytes: Uint8Array): string {

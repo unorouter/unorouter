@@ -17,10 +17,10 @@ export async function generateInlayImage(
   apiKey: string,
   prompt: string,
 ): Promise<InlayImage | null> {
-  const { models } = await getPricingSummary();
+  const summary = await getPricingSummary();
   const model =
-    models.find((m) => m.type === "image" && m.isFree) ??
-    models.find((m) => m.type === "image");
+    summary.models.find((m) => m.type === "image" && m.isFree) ??
+    summary.models.find((m) => m.type === "image");
   if (!model) return null;
   const endpoint = chooseEndpoint(model.endpointTypes ?? []);
   if (!endpoint) return null;

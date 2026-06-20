@@ -302,7 +302,7 @@ export async function readLocalConversationBundle(
     readLocalRequestLogsForConv(userId, convId),
   ]);
 
-  // Inline RP entity bodies so sync push is self-contained (FK resolves on server).
+  // Inline RP entity bodies so the export bundle is self-contained.
   const characterIds = (bindings?.conversationCharacters ?? []).map(
     (b) => b.characterId,
   );
@@ -540,7 +540,7 @@ export async function upsertLocalConversationBundle(
     await local.db.insert(messageItems).values(it as never);
   }
 
-  // Deletion propagation: a local message absent from the bundle was deleted remotely, UNLESS newer than the conv stamp. Items cascade.
+  // Import merge: a local message absent from the bundle is dropped UNLESS newer than the conv stamp. Items cascade.
   const remoteConvStamp = bundle.conversation.updatedAt
     ? new Date(
         bundle.conversation.updatedAt as Date | number | string,
@@ -557,7 +557,7 @@ export async function upsertLocalConversationBundle(
     await local.db.delete(messages).where(inArray(messages.id, staleMsgIds));
   }
 
-  // Same for bindings: joins absent from the bundle were unbound remotely. createdAt guards local-only bindings.
+  // Same for bindings: joins absent from the bundle are dropped. createdAt guards local-only bindings.
   const remoteCharIds = new Set(
     bundle.conversationCharacters.map((c) => c.characterId as string),
   );
