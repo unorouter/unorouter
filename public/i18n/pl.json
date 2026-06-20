@@ -33,7 +33,7 @@
     "HERO": {
       "BADGE": "Router online",
       "TITLE_LINE1": "ZJEDNOCZONA",
-      "TITLE_ROTATE": "CZAT,POSTACIE,RPG,KOD,INTELIGENCJA",
+      "TITLE_ROTATE": "API,CZAT,POSTACIE,RPG,KOD,INTELIGENCJA",
       "SUBTITLE": "{appName} laczy cie z {modelCount}+ modelami AI przez jeden klucz. Buduj aplikacje i uruchamiaj agentow, albo pomin konfiguracje i rozmawiaj z postaciami tutaj na stronie. Ten sam klucz, ta sama szybkosc, ta sama cena.",
       "CTA_PRIMARY": "Rozpocznij",
       "CTA_SECONDARY": "Zobacz modele"
