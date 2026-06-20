@@ -124,7 +124,7 @@ export function useSessionQuery(sessionId: string | null | undefined) {
   });
 }
 
-// Single snapshot read; the form's "seed" lookup uses this.
+// Used by the form's seed lookup.
 export function useSnapshotQuery(id: string | null) {
   const userId = useLocalUserId();
   return useQuery({
@@ -227,7 +227,7 @@ export function useSnapshotStatusQuery(
   });
 }
 
-// Re-reads the raw playground row so an update keeps every column.
+// Re-read raw row so updates don't drop columns.
 async function snapshotRow(
   userId: number,
   view: SnapshotView,

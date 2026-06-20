@@ -101,7 +101,7 @@ export function useGenerationForm() {
     if (!nextDesc.supportsLoraChain) form.setValue("loras", undefined);
   };
 
-  // Effect 1: keep `mode` in sync with the active tab + sub-pill.
+  // keep `mode` in sync with the active tab + sub-pill.
   useEffect(() => {
     const mode =
       activeTab === "text2img"
@@ -113,7 +113,7 @@ export function useGenerationForm() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTab, activeSubPill]);
 
-  // Effect 2: seed the form from a ?remix= snapshot exactly once per source.
+  // seed the form from a ?remix= snapshot exactly once per source.
   const seededIdRef = useRef<string | null>(null);
   useEffect(() => {
     const data = seedQuery.data;
@@ -141,7 +141,7 @@ export function useGenerationForm() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [seedQuery.data, form]);
 
-  // Effect 3: drop to a free model when the current pick is locked for guests.
+  // drop to a free model when the current pick is locked for guests.
   useEffect(() => {
     if (effectiveModels.length === 0) return;
     const current = form.watch("model") ?? "";
@@ -152,7 +152,7 @@ export function useGenerationForm() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoggedIn, effectiveModels.length]);
 
-  // Effect 4: fall back to a tab-compatible model when the tab changes.
+  // fall back to a tab-compatible model when the tab changes.
   useEffect(() => {
     if (effectiveModels.length === 0) return;
     const current = form.watch("model") ?? "";
@@ -163,7 +163,7 @@ export function useGenerationForm() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTab, effectiveModels.length]);
 
-  // Effect 5: restore the per-tab draft once when switching tabs.
+  // restore the per-tab draft once when switching tabs.
   const draftRestoredRef = useRef<string | null>(null);
   useEffect(() => {
     if (draftRestoredRef.current === activeTab || remixId) return;
@@ -188,7 +188,7 @@ export function useGenerationForm() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTab, remixId, draft, form]);
 
-  // Effect 6: debounced draft autosave on every form change.
+  // debounced draft autosave on every form change.
   const setDraftRef = useRef(setDraft);
   useEffect(() => {
     setDraftRef.current = setDraft;

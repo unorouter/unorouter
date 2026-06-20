@@ -48,8 +48,6 @@ export function getMjStatusColor(status: string): string {
     case MJ_STATUS.SUBMITTED:
     case MJ_STATUS.MODAL:
       return "bg-orange-500/10 text-orange-700 dark:text-orange-400";
-    case MJ_STATUS.NOT_START:
-      return "bg-muted text-muted-foreground";
     default:
       return "bg-muted text-muted-foreground";
   }

@@ -1,6 +1,6 @@
 import { useTranslations } from "next-intl";
 
-// Server component: counts come from the page's server-side pricing fetch.
+// counts are fetched server-side by the page.
 export type HeroCounts = {
   modelCount: number;
   vendorCount: number;

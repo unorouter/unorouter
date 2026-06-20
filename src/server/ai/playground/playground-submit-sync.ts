@@ -17,26 +17,25 @@ export async function submitSyncImage(args: {
   endpoint: SyncImageEndpoint;
   n: number;
 }): Promise<GeneratedImage[]> {
-  const { apiKey, body, endpoint, n } = args;
-  const params = body.params ?? {};
-  const size = paramsToSize(body.params);
+  const params = args.body.params ?? {};
+  const size = paramsToSize(args.body.params);
 
   const meta = (await getPricingSummary()).models.find(
-    (m) => m.name === body.model,
+    (m) => m.name === args.body.model,
   );
   const cap = meta?.metadata.maxImageInputs ?? 6;
-  const refUrls = (body.references ?? []).slice(0, cap).map((r) => r.url);
+  const refUrls = (args.body.references ?? []).slice(0, cap).map((r) => r.url);
   const refs = refUrls.length > 0 ? await fetchAllRefs(refUrls) : [];
 
-  const supportsNativeBatch = endpoint === "image-generation";
-  const callsToMake = supportsNativeBatch ? 1 : n;
-  const perCallN = supportsNativeBatch ? n : 1;
+  const supportsNativeBatch = args.endpoint === "image-generation";
+  const callsToMake = supportsNativeBatch ? 1 : args.n;
+  const perCallN = supportsNativeBatch ? args.n : 1;
 
   const collected: GeneratedImage[] = [];
   for (let i = 0; i < callsToMake; i++) {
-    const built = buildBody(endpoint, {
-      model: body.model,
-      prompt: body.prompt,
+    const built = buildBody(args.endpoint, {
+      model: args.body.model,
+      prompt: args.body.prompt,
       size,
       refs,
       n: perCallN,
@@ -49,7 +48,7 @@ export async function submitSyncImage(args: {
     });
 
     const headers: Record<string, string> = {
-      Authorization: `Bearer ${apiKey}`,
+      Authorization: `Bearer ${args.apiKey}`,
     };
     let res: Response;
     if (built.kind === "json") {
@@ -78,14 +77,14 @@ export async function submitSyncImage(args: {
       throw new Error(`upstream returned non-JSON: ${text.slice(0, 200)}`);
     }
 
-    const uris = extractResultUris(endpoint, payload);
+    const uris = extractResultUris(args.endpoint, payload);
     if (uris.length === 0) {
       throw new Error(
-        `no image in upstream response (${endpoint}): ${text.slice(0, 200)}`,
+        `no image in upstream response (${args.endpoint}): ${text.slice(0, 200)}`,
       );
     }
     for (const uri of uris) {
-      const bytes = await downloadGenerationBytes(uri, apiKey);
+      const bytes = await downloadGenerationBytes(uri, args.apiKey);
       collected.push({
         resultUrl: uri.startsWith("data:") ? null : uri,
         base64: bytes.buffer.toString("base64"),

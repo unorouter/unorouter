@@ -39,7 +39,6 @@ export type TriggerEffect = {
   indent?: number;
   // Loop-closing v2EndIndent marker.
   endOfLoop?: boolean;
-  // Common operand fields across opcodes.
   var?: string;
   varType?: "value" | "var";
   value?: string | boolean;
@@ -53,7 +52,6 @@ export type TriggerEffect = {
   keyType?: "value" | "var";
   outputVar?: string;
   inputVar?: string;
-  // Conditional / advanced-if operands.
   source?: string;
   sourceType?: "value" | "var";
   target?: string;
@@ -62,7 +60,6 @@ export type TriggerEffect = {
   source1Type?: "value" | "var";
   source2?: string;
   source2Type?: "value" | "var";
-  // Range / numeric operands.
   start?: string;
   startType?: "value" | "var";
   end?: string;
@@ -75,7 +72,6 @@ export type TriggerEffect = {
   itemType?: "value" | "var";
   depth?: string;
   depthType?: "value" | "var";
-  // String / regex operands.
   delimiter?: string;
   delimiterType?: "value" | "var" | "regex";
   regex?: string;
@@ -90,7 +86,7 @@ export type TriggerEffect = {
   expressionType?: "value" | "var";
   display?: string;
   displayType?: "value" | "var";
-  // Chat / lorebook / role operands. Risu v1/v2 use 'char' for assistant.
+  // Risu v1/v2 use 'char' for assistant.
   role?: "user" | "assistant" | "system" | "char";
   location?: "start" | "historyend" | "promptend";
   content?: string;

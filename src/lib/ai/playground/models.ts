@@ -95,7 +95,6 @@ export const PLAYGROUND_MODELS: PlaygroundModelDescriptor[] = [
     supportsAdetailer: true,
     supportsEmbedding: true,
     supportsVae: true,
-    // LayerDiffuse patches SDXL base+SD1.5; only sdxl-txt2img-lora opts in.
     supportsClipSkip: true,
     tabs: ["text2img", "img2img"],
   },

@@ -89,7 +89,7 @@ export type PlaygroundImageView = {
   height: number | null;
 };
 
-// Playground snapshot + resolved images. Loose params for legacy synced rows.
+// Playground snapshot + resolved images. Loose params for legacy rows.
 export type SnapshotView = {
   id: string;
   sessionId: string;
@@ -133,7 +133,7 @@ export type LocalRawExec = (
   numAffectedRows?: number;
 }>;
 
-// Minimal peer for cross-DB copies (salvage, guest migrate): exec only.
+// Minimal peer for cross-DB copies (salvage): exec only.
 export type CopyPeer = { exec: LocalRawExec };
 
 export type LocalClient = {

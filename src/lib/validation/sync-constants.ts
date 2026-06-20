@@ -25,9 +25,3 @@ export const RP_SYNC_KINDS = [
 ] as const;
 
 export type RpSyncKind = (typeof RP_SYNC_KINDS)[number];
-
-// Cap batch request count server-side to bound query fanout.
-export const BATCH_BUNDLE_MAX_REQUESTS = 20;
-
-// Stage-2 chunk size; keep <= BATCH_BUNDLE_MAX_REQUESTS.
-export const SYNC_BUNDLE_CHUNK_SIZE = 16;

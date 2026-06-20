@@ -234,7 +234,7 @@ export function createChatHistoryAdapter(
 
           const now = dayjs().toDate();
 
-          // Usage from message.metadata.usage (set by stream finish frame).
+          // usage set by the stream finish frame
           const metadata =
             (item.message as { metadata?: ChatMessageMetadata }).metadata ??
             null;

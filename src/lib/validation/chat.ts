@@ -241,7 +241,7 @@ export const updateConversationSettingsBody = t.Object({
   group: t.Optional(t.Union([t.String({ maxLength: MAX_ID_LEN }), t.Null()])),
   ...samplingOptional(),
   extraBody: t.Optional(t.Union([t.String({ maxLength: 8_192 }), t.Null()])),
-  // Chat-variable store (setvar + sticky lorebook state). Must sync or cross-device hydration wipes it.
+  // Chat-variable store (setvar + sticky lorebook state).
   vars: t.Optional(t.Union([t.String({ maxLength: 65_536 }), t.Null()])),
   streamingEnabled: t.Optional(t.Union([t.Boolean(), t.Null()])),
   showReasoning: t.Optional(t.Union([t.Boolean(), t.Null()])),
