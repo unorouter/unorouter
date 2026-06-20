@@ -16,26 +16,24 @@ type MyFormSwitchProps<T extends FieldValues> = {
   size?: "sm" | "default";
 };
 
-export const MyFormSwitch = <T extends FieldValues>({
-  control,
-  name,
-  label,
-  description,
-  size,
-}: MyFormSwitchProps<T>) => {
+export const MyFormSwitch = <T extends FieldValues>(
+  props: MyFormSwitchProps<T>,
+) => {
   return (
     <FormField
-      control={control}
-      name={name}
+      control={props.control}
+      name={props.name}
       render={({ field }) => (
         <FormItem className="flex items-center justify-between">
           <div className="flex flex-col gap-0.5">
-            {label && (
-              <FormLabel className="text-xs font-medium">{label}</FormLabel>
+            {props.label && (
+              <FormLabel className="text-xs font-medium">
+                {props.label}
+              </FormLabel>
             )}
-            {description && (
+            {props.description && (
               <span className="text-muted-foreground max-w-75 text-[11px]">
-                {description}
+                {props.description}
               </span>
             )}
           </div>
@@ -43,7 +41,7 @@ export const MyFormSwitch = <T extends FieldValues>({
             <Switch
               checked={field.value ?? false}
               onCheckedChange={field.onChange}
-              size={size}
+              size={props.size}
             />
           </FormControl>
         </FormItem>

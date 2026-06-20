@@ -16,12 +16,11 @@ export async function AppPrefetchProvider(props: Props) {
   );
   const isLoggedIn = !!queryClient.getQueryData(queryKeys.auth());
 
-  await Promise.all([
-    isLoggedIn &&
-      prefetchElysia(queryClient, queryKeys.subscriptionSelf(), (cookies) =>
-        rpc.api.billing.core["subscription-self"].get(cookies),
-      ),
-  ]);
+  if (isLoggedIn) {
+    await prefetchElysia(queryClient, queryKeys.subscriptionSelf(), (cookies) =>
+      rpc.api.billing.core["subscription-self"].get(cookies),
+    );
+  }
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

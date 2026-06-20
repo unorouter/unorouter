@@ -232,7 +232,7 @@ export const playgroundPollBody = t.Object({
   taskId: t.String({ minLength: 1, maxLength: 128 }),
 });
 
-// Inline image; client writes media; R2 upload deferred to sync.
+// Inline image; client writes media.
 export const generatedImage = t.Object({
   resultUrl: t.Union([t.String(), t.Null()]),
   base64: t.String(),

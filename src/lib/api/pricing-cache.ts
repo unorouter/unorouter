@@ -13,7 +13,7 @@ let cache: {
   endpointMap: Record<string, EndpointInfo>;
   fetchedAt: number;
 } | null = null;
-const CACHE_TTL = 5 * 60 * 1000; // 5 min
+const CACHE_TTL = 5 * 60 * 1000;
 
 export async function getPricingSummary() {
   if (cache && Date.now() - cache.fetchedAt < CACHE_TTL) return cache;

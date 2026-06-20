@@ -142,7 +142,6 @@ export function useSnapshotQuery(id: string | null) {
   });
 }
 
-// Helper: resolve a snapshot view by snapshot id (walks its session bundle).
 async function readLocalGenerationSessionBundleForSnapshot(
   userId: number,
   snapshotId: string,

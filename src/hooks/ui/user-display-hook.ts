@@ -11,12 +11,13 @@ const ROLE_LABELS: Record<number, TranslationKey> = {
 };
 
 export function useUserDisplay() {
-  const { data: user, isLoading } = useAuthQuery();
+  const authQuery = useAuthQuery();
+  const user = authQuery.data;
 
   if (!user) {
     return {
       user: null,
-      isLoading,
+      isLoading: authQuery.isLoading,
       displayName: "",
       initials: "",
       roleKey: undefined as TranslationKey | undefined,
@@ -30,5 +31,12 @@ export function useUserDisplay() {
   const balanceDisplay =
     user.quota !== undefined ? renderQuota(user.quota) : null;
 
-  return { user, isLoading, displayName, initials, roleKey, balanceDisplay };
+  return {
+    user,
+    isLoading: authQuery.isLoading,
+    displayName,
+    initials,
+    roleKey,
+    balanceDisplay,
+  };
 }
