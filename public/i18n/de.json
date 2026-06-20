@@ -146,7 +146,16 @@
         "MSG_AI": "Melde mich, Rekrut. Verstau deine Ausruestung, wir springen in zehn.",
         "MSG_USER": "Aye, Captain. Bereit.",
         "TYPING": "schreibt",
-        "INPUT": "Nachricht schreiben..."
+        "INPUT": "Nachricht schreiben...",
+        "BRAND": "UnoRouter",
+        "NEW_CHAT": "Neuer Chat",
+        "CONV1": "Captain Elara Voss",
+        "CONV2": "Lyra die Alchemistin",
+        "CONV3": "Mochi im Cafe",
+        "MODEL_NAME": "nemotron-3",
+        "TOKENS": "148 in  /  297 out",
+        "MENU_LABEL": "Rollenspiel",
+        "LOCAL_DB": "Lokale DB"
       }
     },
     "FEATURES": {

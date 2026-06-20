@@ -168,7 +168,16 @@
         "MSG_AI": "Rapor ver, acemi. Techizatini topla, on saniyeye siçriyoruz.",
         "MSG_USER": "Emredersiniz Kaptan. Hazirim.",
         "TYPING": "yaziyor",
-        "INPUT": "Bir mesaj yaz..."
+        "INPUT": "Bir mesaj yaz...",
+        "BRAND": "UnoRouter",
+        "NEW_CHAT": "Yeni sohbet",
+        "CONV1": "Kaptan Elara Voss",
+        "CONV2": "Simyaci Lyra",
+        "CONV3": "Kafedeki Mochi",
+        "MODEL_NAME": "nemotron-3",
+        "TOKENS": "148 in  /  297 out",
+        "MENU_LABEL": "Rol yapma",
+        "LOCAL_DB": "Yerel VT"
       }
     },
     "FEATURES": {

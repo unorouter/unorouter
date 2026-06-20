@@ -146,7 +146,16 @@
         "MSG_AI": "Je me presente, recrue. Range ton equipement, on saute dans dix.",
         "MSG_USER": "Oui, capitaine. Prete.",
         "TYPING": "ecrit",
-        "INPUT": "Tapez un message..."
+        "INPUT": "Tapez un message...",
+        "BRAND": "UnoRouter",
+        "NEW_CHAT": "Nouveau chat",
+        "CONV1": "Capitaine Elara Voss",
+        "CONV2": "Lyra l'Alchimiste",
+        "CONV3": "Mochi au Cafe",
+        "MODEL_NAME": "nemotron-3",
+        "TOKENS": "148 in  /  297 out",
+        "MENU_LABEL": "Jeu de role",
+        "LOCAL_DB": "BD locale"
       }
     },
     "FEATURES": {

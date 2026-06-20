@@ -146,7 +146,16 @@
         "MSG_AI": "Bao cao di, tan binh. Cat do nghe, muoi giay nua nhay.",
         "MSG_USER": "Ro, thuyen truong. San sang.",
         "TYPING": "dang go",
-        "INPUT": "Nhap tin nhan..."
+        "INPUT": "Nhap tin nhan...",
+        "BRAND": "UnoRouter",
+        "NEW_CHAT": "Tro chuyen moi",
+        "CONV1": "Thuyen truong Elara Voss",
+        "CONV2": "Lyra nha gia kim",
+        "CONV3": "Mochi o quan ca phe",
+        "MODEL_NAME": "nemotron-3",
+        "TOKENS": "148 in  /  297 out",
+        "MENU_LABEL": "Nhap vai",
+        "LOCAL_DB": "CSDL cuc bo"
       }
     },
     "FEATURES": {

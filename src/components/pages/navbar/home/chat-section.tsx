@@ -10,14 +10,7 @@ export async function ChatSection() {
       <div className="mx-auto max-w-360 px-6">
         <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-16">
           <div className="relative order-2 lg:order-1">
-            <ChatMock
-              character={t("HOME.CHAT.MOCK.CHARACTER")}
-              model={t("HOME.CHAT.MOCK.MODEL")}
-              msgAi={t("HOME.CHAT.MOCK.MSG_AI")}
-              msgUser={t("HOME.CHAT.MOCK.MSG_USER")}
-              typing={t("HOME.CHAT.MOCK.TYPING")}
-              input={t("HOME.CHAT.MOCK.INPUT")}
-            />
+            <ChatMock t={t as (key: string) => string} />
             <div className="absolute -inset-px -z-10 rounded-xl bg-linear-to-br from-purple-500/20 via-transparent to-cyan-500/20 opacity-60 blur-2xl" />
           </div>
 
@@ -91,95 +84,128 @@ export async function ChatSection() {
   );
 }
 
-function ChatMock(props: {
-  character: string;
-  model: string;
-  msgAi: string;
-  msgUser: string;
-  typing: string;
-  input: string;
-}) {
-  const initial = props.character.trim().charAt(0).toUpperCase();
+// Faithful miniature of the real chat app: sidebar + conv list, top bar with a
+// FREE model pill, the actual RP feature menu (Characters/Personas/Lorebooks/
+// Presets/Cards), a real assistant message with the token-count footer.
+function ChatMock(props: { t: (key: string) => string }) {
+  const t = props.t;
+  const convs: { icon: string; label: string; active?: boolean }[] = [
+    { icon: "drama", label: t("HOME.CHAT.MOCK.CONV1"), active: true },
+    { icon: "wand", label: t("HOME.CHAT.MOCK.CONV2") },
+    { icon: "message-circle", label: t("HOME.CHAT.MOCK.CONV3") },
+  ];
+  const menu: { icon: string; label: string; accent?: boolean }[] = [
+    { icon: "users", label: t("RP.SIDEBAR_TAB_CHARACTERS"), accent: true },
+    { icon: "user", label: t("RP.SIDEBAR_TAB_PERSONAS") },
+    { icon: "book-text", label: t("RP.SIDEBAR_TAB_LOREBOOKS") },
+    { icon: "sliders-horizontal", label: t("RP.SIDEBAR_TAB_PRESETS") },
+    { icon: "layers", label: t("RP.SIDEBAR_TAB_CARDS") },
+  ];
+
   return (
-    <div className="bg-card border-border w-full overflow-hidden rounded-xl border shadow-2xl shadow-purple-500/5">
-      <div className="border-border/60 bg-muted/40 flex items-center gap-3 border-b px-4 py-3">
-        <div className="flex gap-1.5">
-          <span className="h-2.5 w-2.5 rounded-full bg-red-400/70" />
-          <span className="h-2.5 w-2.5 rounded-full bg-yellow-400/70" />
-          <span className="h-2.5 w-2.5 rounded-full bg-green-400/70" />
+    <div className="bg-card border-border flex h-104 w-full overflow-hidden rounded-xl border font-sans shadow-2xl shadow-purple-500/5">
+      {/* sidebar */}
+      <div className="border-border/60 bg-muted/30 hidden w-40 shrink-0 flex-col border-r p-2.5 sm:flex">
+        <div className="mb-3 flex items-center gap-1.5 px-1">
+          <div className="h-4 w-4 rounded-sm bg-linear-to-br from-purple-500 to-cyan-500" />
+          <span className="text-foreground font-mono text-[10px] font-bold tracking-wider">
+            {t("HOME.CHAT.MOCK.BRAND")}
+          </span>
         </div>
-        <div className="flex flex-1 items-center justify-center gap-2.5">
-          <div className="relative">
-            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-linear-to-br from-purple-500 to-cyan-500 font-mono text-[11px] font-bold text-white">
-              {initial}
+        <div className="bg-background/60 border-border/50 text-muted-foreground mb-2 flex items-center gap-1.5 rounded border px-2 py-1.5">
+          <Icon name="plus" className="h-2.5 w-2.5" />
+          <span className="font-mono text-[9px] tracking-wide">
+            {t("HOME.CHAT.MOCK.NEW_CHAT")}
+          </span>
+        </div>
+        <div className="space-y-0.5">
+          {convs.map((c) => (
+            <div
+              key={c.label}
+              className={`flex items-center gap-1.5 rounded px-2 py-1.5 ${c.active ? "bg-purple-500/15 text-foreground" : "text-muted-foreground"}`}
+            >
+              <Icon
+                name={c.icon}
+                className={`h-2.5 w-2.5 shrink-0 ${c.active ? "text-purple-600 dark:text-purple-400" : ""}`}
+              />
+              <span className="truncate font-mono text-[9px] tracking-tight">
+                {c.label}
+              </span>
             </div>
-            <span className="border-card absolute -right-0.5 -bottom-0.5 h-2.5 w-2.5 rounded-full border-2 bg-green-500" />
-          </div>
-          <span className="text-foreground font-sans text-sm font-semibold">
-            {props.character}
-          </span>
-        </div>
-        <div className="border-border bg-background/60 inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1">
-          <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
-          <span className="text-muted-foreground font-mono text-[9px] font-bold tracking-wider uppercase">
-            {props.model}
-          </span>
+          ))}
         </div>
       </div>
 
-      <div className="space-y-4 bg-linear-to-b from-transparent to-purple-500/2 p-5">
-        <ChatBubble text={props.msgAi} side="left" initial={initial} />
-        <ChatBubble text={props.msgUser} side="right" />
-        <div className="flex items-end gap-2.5">
-          <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-linear-to-br from-purple-500 to-cyan-500 font-mono text-[10px] font-bold text-white">
-            {initial}
+      {/* main pane */}
+      <div className="relative flex min-w-0 flex-1 flex-col">
+        {/* top bar */}
+        <div className="border-border/60 flex items-center gap-2 border-b px-3 py-2.5">
+          <div className="border-border bg-background/60 flex items-center gap-1.5 rounded border px-2 py-1">
+            <span className="text-foreground/80 font-mono text-[9px]">
+              {t("HOME.CHAT.MOCK.MODEL_NAME")}
+            </span>
+            <span className="rounded-sm bg-green-500/20 px-1 font-mono text-[8px] font-bold tracking-wider text-green-700 uppercase dark:text-green-400">
+              {t("HOME.CHAT.MOCK.MODEL")}
+            </span>
           </div>
-          <div className="bg-accent border-border/60 flex items-center gap-1.5 rounded-2xl rounded-bl-sm border px-3.5 py-2.5">
-            <span className="bg-muted-foreground/70 h-1.5 w-1.5 animate-bounce rounded-full" />
-            <span className="bg-muted-foreground/70 h-1.5 w-1.5 animate-bounce rounded-full [animation-delay:150ms]" />
-            <span className="bg-muted-foreground/70 h-1.5 w-1.5 animate-bounce rounded-full [animation-delay:300ms]" />
+          <div className="flex-1" />
+          <Icon
+            name="ellipsis-vertical"
+            className="text-muted-foreground h-3.5 w-3.5"
+          />
+        </div>
+
+        {/* message */}
+        <div className="flex-1 space-y-2 overflow-hidden px-4 py-3">
+          <div className="text-muted-foreground/70 font-mono text-[9px] tracking-wider uppercase">
+            {t("HOME.CHAT.MOCK.CHARACTER")}
+          </div>
+          <p className="text-foreground/90 line-clamp-5 text-[13px] leading-relaxed">
+            {t("HOME.CHAT.MOCK.MSG_AI")}
+          </p>
+          <div className="text-muted-foreground/60 flex items-center gap-2 pt-1 font-mono text-[9px]">
+            <Icon name="copy" className="h-3 w-3" />
+            <Icon name="refresh-cw" className="h-3 w-3" />
+            <Icon name="pencil" className="h-3 w-3" />
+            <span className="ml-auto tabular-nums">
+              {t("HOME.CHAT.MOCK.TOKENS")}
+            </span>
           </div>
         </div>
-      </div>
 
-      <div className="border-border/60 flex items-center gap-2 border-t px-4 py-3">
-        <div className="border-border bg-background/60 text-muted-foreground flex-1 rounded-full border px-4 py-2.5 font-sans text-xs">
-          {props.input}
+        {/* input */}
+        <div className="border-border/60 border-t px-3 py-2.5">
+          <div className="border-border bg-background/60 text-muted-foreground rounded border px-3 py-2 font-mono text-[10px]">
+            {t("HOME.CHAT.MOCK.INPUT")}
+          </div>
         </div>
-        <button
-          type="button"
-          aria-hidden
-          tabIndex={-1}
-          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-linear-to-br from-purple-500 to-purple-600 text-white"
-        >
-          <Icon name="arrow-up" className="h-4 w-4" />
-        </button>
-      </div>
-    </div>
-  );
-}
 
-function ChatBubble(props: {
-  text: string;
-  side: "left" | "right";
-  initial?: string;
-}) {
-  if (props.side === "right") {
-    return (
-      <div className="flex justify-end">
-        <div className="max-w-[80%] rounded-2xl rounded-br-sm bg-linear-to-br from-purple-500 to-purple-600 px-3.5 py-2.5 font-sans text-[13px] leading-relaxed text-white shadow-sm">
-          {props.text}
+        {/* RP feature menu, floating like the real one */}
+        <div className="border-border bg-popover absolute top-9 right-2 w-44 overflow-hidden rounded-md border shadow-xl">
+          <div className="border-border/50 text-muted-foreground border-b px-3 py-1.5 font-mono text-[8px] tracking-[0.2em] uppercase">
+            {t("HOME.CHAT.MOCK.MENU_LABEL")}
+          </div>
+          {menu.map((m) => (
+            <div
+              key={m.label}
+              className={`flex items-center gap-2.5 px-3 py-1.5 ${m.accent ? "bg-purple-500/10" : ""}`}
+            >
+              <Icon
+                name={m.icon}
+                className={`h-3 w-3 shrink-0 ${m.accent ? "text-purple-600 dark:text-purple-400" : "text-muted-foreground"}`}
+              />
+              <span className="text-foreground/90 font-sans text-[11px]">
+                {m.label}
+              </span>
+            </div>
+          ))}
+          <div className="border-border/50 flex items-center gap-2.5 border-t px-3 py-1.5">
+            <Icon name="database" className="text-muted-foreground h-3 w-3" />
+            <span className="text-foreground/90 font-sans text-[11px]">
+              {t("HOME.CHAT.MOCK.LOCAL_DB")}
+            </span>
+          </div>
         </div>
-      </div>
-    );
-  }
-  return (
-    <div className="flex items-end gap-2.5">
-      <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-linear-to-br from-purple-500 to-cyan-500 font-mono text-[10px] font-bold text-white">
-        {props.initial}
-      </div>
-      <div className="bg-accent border-border/60 text-foreground max-w-[80%] rounded-2xl rounded-bl-sm border px-3.5 py-2.5 font-sans text-[13px] leading-relaxed">
-        {props.text}
       </div>
     </div>
   );

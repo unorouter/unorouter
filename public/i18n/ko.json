@@ -168,7 +168,16 @@
         "MSG_AI": "보고해라, 신병. 장비 챙기고, 10초 후 점프한다.",
         "MSG_USER": "네, 함장님. 준비됐습니다.",
         "TYPING": "입력 중",
-        "INPUT": "메시지 입력..."
+        "INPUT": "메시지 입력...",
+        "BRAND": "UnoRouter",
+        "NEW_CHAT": "새 채팅",
+        "CONV1": "엘라라 보스 함장",
+        "CONV2": "연금술사 리라",
+        "CONV3": "카페의 모치",
+        "MODEL_NAME": "nemotron-3",
+        "TOKENS": "148 in  /  297 out",
+        "MENU_LABEL": "롤플레이",
+        "LOCAL_DB": "로컬 DB"
       }
     },
     "FEATURES": {

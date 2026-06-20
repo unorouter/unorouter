@@ -168,7 +168,16 @@
         "MSG_AI": "Lapor, rekrut. Simpan perlengkapanmu, kita lompat sepuluh detik lagi.",
         "MSG_USER": "Siap, Kapten. Sudah siap.",
         "TYPING": "mengetik",
-        "INPUT": "Ketik pesan..."
+        "INPUT": "Ketik pesan...",
+        "BRAND": "UnoRouter",
+        "NEW_CHAT": "Obrolan baru",
+        "CONV1": "Kapten Elara Voss",
+        "CONV2": "Lyra sang Alkemis",
+        "CONV3": "Mochi di Kafe",
+        "MODEL_NAME": "nemotron-3",
+        "TOKENS": "148 in  /  297 out",
+        "MENU_LABEL": "Roleplay",
+        "LOCAL_DB": "DB lokal"
       }
     },
     "FEATURES": {

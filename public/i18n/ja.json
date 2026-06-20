@@ -146,7 +146,16 @@
         "MSG_AI": "報告しろ、新兵。装備をしまえ、十秒でジャンプだ。",
         "MSG_USER": "はい、艦長。準備完了です。",
         "TYPING": "入力中",
-        "INPUT": "メッセージを入力..."
+        "INPUT": "メッセージを入力...",
+        "BRAND": "UnoRouter",
+        "NEW_CHAT": "新規チャット",
+        "CONV1": "エララ・ヴォス艦長",
+        "CONV2": "錬金術師リラ",
+        "CONV3": "カフェのモチ",
+        "MODEL_NAME": "nemotron-3",
+        "TOKENS": "148 in  /  297 out",
+        "MENU_LABEL": "ロールプレイ",
+        "LOCAL_DB": "ローカルDB"
       }
     },
     "FEATURES": {
