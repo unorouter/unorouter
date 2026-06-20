@@ -881,7 +881,7 @@ function expandFlat(text: string, scope: MacroScope): string {
     const at = cursor + m.index;
     const resolved = resolveMacro(m[1], scope);
     if (resolved === null) {
-      cursor = at + m[0].length; // skip unknown, leave verbatim
+      cursor = at + m[0].length;
       continue;
     }
     // {{return}}: exit expansion immediately; the remainder is dropped (Risu __force_return__ behavior).
@@ -934,8 +934,7 @@ function findBlockClose(
     const close = text.indexOf("{{/", i);
     if (close === -1) return null;
     if (text.startsWith("{{//", close)) {
-      // Comment macro, not a close tag.
-      i = close + 4;
+      i = close + 4; // {{//}} comment, not a close tag
       continue;
     }
     if (open !== -1 && open < close) {
