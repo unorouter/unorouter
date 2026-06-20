@@ -115,15 +115,10 @@ export default async function LocaleLayout(props: Props) {
             __html: `try{var t=localStorage.getItem("theme");var d=t==="dark"||((!t||t==="system")&&matchMedia("(prefers-color-scheme: dark)").matches);var c=document.documentElement.classList;c.toggle("dark",d);c.toggle("light",!d)}catch(e){}`,
           }}
         />
-        {themeCss ? (
-          // href+precedence = React hoistable style tracked by href, so extension-injected styles cannot replace theme CSS at hydration.
-          <style
-            id="user-theme"
-            href="user-theme"
-            precedence="user-theme"
-            dangerouslySetInnerHTML={{ __html: themeCss }}
-          />
-        ) : null}
+        {/* User-theme CSS SSR'd from the cookie (authoritative, matches the <html data-*> above, no
+            FOUC). UserThemeProvider mutates THIS node's content client-side for live edits; a plain
+            style (no href/precedence) lets that imperative update stick without React's float cache. */}
+        <style id="user-theme" dangerouslySetInnerHTML={{ __html: themeCss }} />
       </head>
       <body
         className={`${plusJakartaSans.variable} ${jetbrainsMono.variable} ${spaceGrotesk.variable} ${allFontVariablesClass} flex min-h-dvh flex-col font-sans antialiased`}
