@@ -130,8 +130,8 @@ function ChatMock(props: { t: (key: string) => string; modelName: string }) {
               key={c.label}
               className={`flex items-center gap-1.5 rounded px-2 py-1.5 ${c.active ? "bg-accent text-foreground" : "text-muted-foreground"}`}
             >
-              <span className="size-2.5 shrink-0">
-                <VendorIcon vendor={c.vendor} size={10} />
+              <span className="flex size-3 shrink-0 items-center justify-center">
+                <VendorIcon vendor={c.vendor} size={12} />
               </span>
               <span className="truncate font-mono text-[9px] tracking-tight">
                 {c.label}
@@ -146,6 +146,9 @@ function ChatMock(props: { t: (key: string) => string; modelName: string }) {
         {/* top bar */}
         <div className="border-border/60 flex items-center gap-2 border-b px-3 py-2.5">
           <div className="border-border bg-background/60 flex items-center gap-1.5 rounded border px-2 py-1">
+            <span className="flex size-3.5 shrink-0 items-center justify-center">
+              <VendorIcon vendor={props.modelName} size={14} />
+            </span>
             <span className="text-foreground/80 max-w-28 truncate font-mono text-[9px]">
               {props.modelName}
             </span>
