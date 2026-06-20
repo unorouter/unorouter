@@ -1,4 +1,4 @@
-// Retention sweep for synced playground sessions (Turso TTL mirror).
+// Retention sweep: deletes expired playground sessions + their R2 objects from Turso.
 
 import { deleteGenerationObject } from "@/lib/config/r2";
 import { getDb } from "@/lib/db/server/client";

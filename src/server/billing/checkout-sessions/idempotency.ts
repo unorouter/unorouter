@@ -29,12 +29,6 @@ async function sha256Hex(input: string): Promise<string> {
     .join("");
 }
 
-type _IdempotentResult<T> = {
-  status: number;
-  body: T;
-  replayed: boolean;
-};
-
 // Mirrors Elysia's `set` shape: HTTPHeaders is Record<string, string | number>.
 type SetLike = {
   status?: number | string;

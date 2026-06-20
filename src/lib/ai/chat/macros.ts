@@ -512,8 +512,7 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
     case "objectelement":
       return elemStr(parseDictJSON(arg0)[args[1]] ?? "null");
     case "objectassert":
-    case "dictassert":
-    case "objectassert": {
+    case "dictassert": {
       const dict = parseDictJSON(arg0);
       if (!dict[args[1]]) dict[args[1]] = args[2];
       return JSON.stringify(dict);

@@ -84,15 +84,14 @@ function ClerkTOCItem(props: {
   upper: number;
   lower: number;
 }) {
-  const { item, upper, lower } = props;
-  const offset = getLineOffset(item.depth);
-  const upperOffset = getLineOffset(upper);
-  const lowerOffset = getLineOffset(lower);
+  const offset = getLineOffset(props.item.depth);
+  const upperOffset = getLineOffset(props.upper);
+  const lowerOffset = getLineOffset(props.lower);
 
   return (
     <TOCItem
-      href={item.url}
-      style={{ paddingInlineStart: getItemOffset(item.depth) }}
+      href={props.item.url}
+      style={{ paddingInlineStart: getItemOffset(props.item.depth) }}
       className={cn(
         "relative py-1.5 text-sm wrap-anywhere transition-colors",
         "text-muted-foreground hover:text-accent-foreground",
@@ -125,7 +124,7 @@ function ClerkTOCItem(props: {
         )}
         style={{ insetInlineStart: offset }}
       />
-      {item.title}
+      {props.item.title}
     </TOCItem>
   );
 }

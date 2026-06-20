@@ -86,10 +86,9 @@ export function useGenerationForm() {
   const descriptor = findDescriptor(selectedModel);
 
   const changeModel = (next: string) => {
-    const nextModel = next;
-    const nextDesc = findDescriptor(nextModel);
-    form.setValue("model", nextModel);
-    const remembered = samplerMemory[nextModel];
+    const nextDesc = findDescriptor(next);
+    form.setValue("model", next);
+    const remembered = samplerMemory[next];
     const params = remembered
       ? { ...nextDesc.defaultParams, ...remembered }
       : { ...nextDesc.defaultParams };
