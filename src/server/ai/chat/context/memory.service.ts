@@ -1,10 +1,10 @@
-    // Rolling-summary memory (RisuAI supaMemory port): oldest unsummarized chunk folds into a running summary injected as a top system block.
+// Rolling-summary memory (RisuAI supaMemory port): oldest unsummarized chunk folds into a running summary injected as a top system block.
 
 import { freeModelRace } from "@/lib/ai/chat/free-model-race";
 import { logger } from "@/lib/utils/logger";
 import { retrieveSemantic } from "./retrieval.service";
 
-    // Rolling-summary thresholds: fold only once the conversation is long, in modest chunks so each call stays cheap.
+// Rolling-summary thresholds: fold only once the conversation is long, in modest chunks so each call stays cheap.
 const MEMORY_HISTORY_TRIGGER = 20;
 const MEMORY_CHUNK_SIZE = 10;
 
@@ -99,7 +99,7 @@ type MemorySettings = {
   summaryAnchor?: number | null;
 };
 
-    // Opt-in per-conversation memory: rolling summary of overflow history + semantic lore retrieval. Best-effort; failure leaves prompt as-is.
+// Opt-in per-conversation memory: rolling summary of overflow history + semantic lore retrieval. Best-effort; failure leaves prompt as-is.
 export async function buildMemoryContext(
   apiKey: string,
   settings: MemorySettings | undefined,

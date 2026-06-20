@@ -1,6 +1,6 @@
 import type { ProcessedModel } from "@/lib/api/pricing";
 
-    // OpenRouter-style output-modality tabs. Only modalities derivable from our data; rerank/speech/transcription need tagging we lack.
+// OpenRouter-style output-modality tabs. Only modalities derivable from our data; rerank/speech/transcription need tagging we lack.
 export const OUTPUT_MODALITIES = [
   "text",
   "image",
@@ -35,7 +35,7 @@ export function countByOutputModality(
 
 export type PriceUnit = "perM" | "perImage" | "perChars" | "dash";
 
-    // Per-modality unit for Input/Output columns: image gen per image, embeddings none, audio/TTS per 1M chars.
+// Per-modality unit for Input/Output columns: image gen per image, embeddings none, audio/TTS per 1M chars.
 export function outputPriceUnit(modality: OutputModality): PriceUnit {
   switch (modality) {
     case "image":

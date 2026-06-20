@@ -11,7 +11,7 @@ import {
   useAuiState,
   useScrollLock,
   type ReasoningGroupComponent,
-  type ReasoningMessagePartComponent
+  type ReasoningMessagePartComponent,
 } from "@assistant-ui/react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { useTranslations } from "next-intl";

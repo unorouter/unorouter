@@ -60,8 +60,7 @@ export function useMessageMeta(messageIndex: number): MessageMeta | null {
   };
 }
 
-// Effective reasoning-visibility for the active conversation: conv override -> bound preset -> shown.
-// Render-only gate; reasoning still streams + persists, so toggling reveals past thinking.
+// Effective reasoning visibility: conv override -> bound preset -> shown. Render-only gate.
 export function useShowReasoning(): boolean {
   const remoteId = useAuiState((s) => s.threadListItem?.remoteId);
   const loadout = useAtomValue(chatLoadoutAtom);

@@ -80,12 +80,7 @@ export async function FeaturedOnContent() {
         }}
       >
         {BADGES.map((badge) => (
-          <a
-            key={badge.href}
-            href={badge.href}
-            target="_blank"
-            rel={badge.rel}
-          >
+          <a key={badge.href} href={badge.href} target="_blank" rel={badge.rel}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={badge.src}

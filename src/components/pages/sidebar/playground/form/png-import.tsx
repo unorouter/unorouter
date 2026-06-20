@@ -9,7 +9,7 @@ import {
 import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 
-    // Positioned above the model picker: the imported model hint must apply before the form re-renders with model-specific controls.
+// Positioned above the model picker: the imported model hint must apply before the form re-renders with model-specific controls.
 type Props = {
   onImport: (data: RestoredFromPng) => void;
 };

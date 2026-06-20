@@ -156,7 +156,7 @@ function ChatSidebarNav(props: { authenticated: boolean }) {
   return <NavGroup label={t("SIDEBAR.NAVIGATE")} items={items} />;
 }
 
-    // Mirrors chat's sidebar shape (just the Navigate group); the history rail renders separately as chatContent in the (generate) layout.
+// Mirrors chat's sidebar shape (just the Navigate group); the history rail renders separately as chatContent in the (generate) layout.
 function GenerateSidebarNav(props: { authenticated: boolean }) {
   const t = useTranslations();
   const items = navigation(props.authenticated).filter((item) => !item.hidden);

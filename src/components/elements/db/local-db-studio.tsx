@@ -101,9 +101,8 @@ export function LocalDbStudio(props: Props) {
     try {
       const local = await getLocalDb(userId);
       if (!local) throw new Error("SQLocal unavailable");
-      // Pass a plain ArrayBuffer, not the File: a File goes through Blob.stream() inside SQLocal,
-      // and under this app's COEP isolation the resulting buffer is not transferable to the worker
-      // (DataCloneError "not a transferable type"). A regular ArrayBuffer is forwarded as-is and transfers cleanly.
+      // Plain ArrayBuffer, not the File: a File's Blob.stream() buffer isn't transferable to the
+      // worker under COEP isolation (DataCloneError); an ArrayBuffer transfers cleanly.
       const buffer = await file.arrayBuffer();
       await local.overwriteDatabaseFile(buffer);
       location.reload();

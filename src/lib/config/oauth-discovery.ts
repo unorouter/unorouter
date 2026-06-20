@@ -1,7 +1,7 @@
 import { env } from "@/lib/config/env";
 import { OAUTH_SCOPES } from "@/lib/config/oauth-scopes";
 
-    // RFC 8414 + OIDC 1.0 (delta: userinfo_endpoint + claims_supported). issuer = API origin. No registration_endpoint (new-api lacks RFC 7591).
+// RFC 8414 + OIDC 1.0 (delta: userinfo_endpoint + claims_supported). issuer = API origin. No registration_endpoint (new-api lacks RFC 7591).
 export function buildOAuthDiscoveryDoc(opts: { includeOidc: boolean }) {
   const base = {
     issuer: env.apiOrigin,

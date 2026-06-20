@@ -32,7 +32,6 @@ export function useBestKeyQuery() {
   );
 }
 
-
 export function useTokensQuery(query?: EdenQuery<TokenRoute["search"]>) {
   const authQuery = useAuthQuery();
   return useElysiaQuery(

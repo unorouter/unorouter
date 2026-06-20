@@ -1,6 +1,6 @@
 // Client crash recovery helpers shared by the global + in-app error boundaries.
 
-    // Wipe every client storage surface (cookies, OPFS DBs, local/sessionStorage, IndexedDB, SW caches). Corrupt state usually survives reloads.
+// Wipe every client storage surface; corrupt state usually survives a plain reload.
 export async function clearAllClientStorage() {
   try {
     for (const cookie of document.cookie.split(";")) {
@@ -38,7 +38,7 @@ export async function clearAllClientStorage() {
   } catch {}
 }
 
-    // Flatten an Error (plus Next's digest) into a copy-pasteable string with full stack and cause chain for support.
+// Flatten an Error (plus Next's digest) into a copy-pasteable string with full stack and cause chain for support.
 export function formatError(error: Error & { digest?: string }) {
   const parts = [
     `Name: ${error.name ?? "Error"}`,

@@ -1,7 +1,6 @@
 import type { IconComponent } from "@/lib/config/vendor-icons";
 
-// Anthracite (Magnum RP finetunes). No brand mark in any icon pack, so this is an
-// inline mono "A" monogram in a rounded square stand-in.
+// Anthracite (Magnum RP finetunes). No packaged brand mark; inline "A" monogram stand-in.
 const AnthraciteIcon: IconComponent = (props) => (
   <svg
     role="img"

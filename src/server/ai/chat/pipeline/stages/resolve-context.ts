@@ -1,4 +1,4 @@
-    // Stage 1: resolve the conversation context + run web search. Client context (or cached hash, 409 on stale) wins; Turso is the fallback.
+// Stage 1: resolve the conversation context + run web search. Client context (or cached hash, 409 on stale) wins; Turso is the fallback.
 
 import { GUEST_USER_ID } from "@/lib/config/constants";
 import { captureServerEvent } from "@/lib/posthog-server";

@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
 
-    // Server-rendered stand-in hiding the runtime's staged assembly; globals.css drops it once the composer exists.
+// Server-rendered stand-in hiding the runtime's staged assembly; globals.css drops it once the composer exists.
 export async function ChatWelcomePlaceholder() {
   const t = await getTranslations();
   return (

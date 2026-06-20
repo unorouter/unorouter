@@ -177,7 +177,10 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
         </div>
       )}
 
-      <div ref={tableContainerRef} className="border-border overflow-hidden border">
+      <div
+        ref={tableContainerRef}
+        className="border-border overflow-hidden border"
+      >
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

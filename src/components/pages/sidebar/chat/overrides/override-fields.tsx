@@ -30,7 +30,7 @@ import {
   WEB_SEARCH_ENGINE_KEY,
 } from "./form-handler";
 
-    // Per-conversation binding fields: persona, preset, characters, lorebooks. Conversation mode only; the drawer gates its render.
+// Per-conversation binding fields: persona, preset, characters, lorebooks. Conversation mode only; the drawer gates its render.
 export function OverridesBindingFields(props: {
   control: Control<ConversationOverridesForm>;
 }) {

@@ -68,7 +68,7 @@ export const getCookieValue = async <T>(
   }
 };
 
-    // Local-DB owner from the sealed user-id cookie (GUEST_USER_ID when absent). Server-only, here not constants, to keep iron-session client-free.
+// Local-DB owner from the sealed user-id cookie (GUEST_USER_ID when absent). Server-only, here not constants, to keep iron-session client-free.
 export const getResolvedUserId = async (): Promise<number> => {
   const sealed = (await cookies()).get(USER_ID_COOKIE)?.value;
   return (await verifyUserId(sealed)) ?? GUEST_USER_ID;
@@ -131,7 +131,7 @@ export function assertFound<T>(
   if (rows.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
 }
 
-    // Redirect unauthed to /login, preserving the target path via AUTH_REDIRECT_COOKIE for login-form + OAuth callback.
+// Redirect unauthed to /login, preserving the target path via AUTH_REDIRECT_COOKIE for login-form + OAuth callback.
 export async function redirectToLogin(): Promise<never> {
   const locale = await serverLocale();
   const incoming = (await headers()).get(SERVER_URL_KEY);
@@ -144,7 +144,7 @@ export async function redirectToLogin(): Promise<never> {
   });
 }
 
-    // Store the redirect target locale-less: useRouter re-prepends the locale on push, so a prefixed path doubles it.
+// Store the redirect target locale-less: useRouter re-prepends the locale on push, so a prefixed path doubles it.
 function stripLocalePrefix(url: string, locale: string): string {
   try {
     const u = new URL(url);

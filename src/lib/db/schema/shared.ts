@@ -129,7 +129,9 @@ export const chatGroups = sqliteTable(
     folded: integer("folded", { mode: "boolean" }).notNull().default(false),
     ...syncableTimestamps(),
   },
-  (table) => [index("idx_chat_group_user_order").on(table.userId, table.orderIndex)],
+  (table) => [
+    index("idx_chat_group_user_order").on(table.userId, table.orderIndex),
+  ],
 );
 
 export const messages = sqliteTable(

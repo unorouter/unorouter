@@ -1,7 +1,7 @@
 import { APP_VALUES } from "@/lib/config/constants";
 import { useTranslations } from "next-intl";
 
-    // Server component: count comes from the page's server-side pricing fetch so the full catalog never enters hydration.
+// Server component: count comes from the page's server-side pricing fetch so the full catalog never enters hydration.
 export function HeroSubtitle(props: { modelCount: number }) {
   const t = useTranslations();
 

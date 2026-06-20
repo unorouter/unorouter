@@ -67,7 +67,7 @@ function toOrpgItemData(type: string, data: unknown): unknown {
   return data;
 }
 
-    // orpg.3.0: openrouter-compatible subset; lossless extras live under _${appName}_extension (see ORPG_EXTENSION_KEY).
+// orpg.3.0: openrouter-compatible subset; lossless extras live under _${appName}_extension (see ORPG_EXTENSION_KEY).
 export function toOrpg(native: NativeExport) {
   const itemsByMsg = new Map<string, NativeExport["items"]>();
   for (const it of native.items) {

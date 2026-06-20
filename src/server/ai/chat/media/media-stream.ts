@@ -397,8 +397,7 @@ export function handleBufferedStream(
     const partId = uid(12);
     writer.write(messageId ? { type: "start", messageId } : { type: "start" });
     writer.write({ type: "start-step" });
-    // Streaming-off still surfaces the model's thinking (collapsible in the UI); the upstream
-    // is always streamed, so reasoning is available even when we buffer the final text.
+    // Upstream always streams, so surface reasoning even when the final text is buffered.
     if (reasoning) {
       const reasonId = uid(12);
       writer.write({ type: "reasoning-start", id: reasonId });

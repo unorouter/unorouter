@@ -105,14 +105,11 @@ export default async function LocaleLayout(props: Props) {
     <html
       lang={params.locale}
       {...themeDataAttrs(theme)}
-      /* suppressHydrationWarning required: next-themes injects a class
-         attribute via inline script before hydration to prevent theme flicker */
+      /* next-themes injects the class via inline script pre-hydration */
       suppressHydrationWarning
     >
       <head>
-        {/* Anti-FOUC: next-themes' own script streams inside <body> after first
-            paint, leaving a white frame for dark users. Mirror its class logic
-            (storageKey "theme", defaultTheme "system") before paint. */}
+        {/* Anti-FOUC: set the theme class before paint (next-themes' own script runs too late, in body). */}
         <script
           dangerouslySetInnerHTML={{
             __html: `try{var t=localStorage.getItem("theme");var d=t==="dark"||((!t||t==="system")&&matchMedia("(prefers-color-scheme: dark)").matches);var c=document.documentElement.classList;c.toggle("dark",d);c.toggle("light",!d)}catch(e){}`,

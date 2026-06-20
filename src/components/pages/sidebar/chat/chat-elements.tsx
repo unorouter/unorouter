@@ -64,7 +64,7 @@ export function ChatControls() {
   );
 }
 
-    // Strip above the thread showing what's bound to this conversation; a chip click opens the overrides drawer. Hidden when nothing is bound.
+// Strip above the thread showing what's bound to this conversation; a chip click opens the overrides drawer. Hidden when nothing is bound.
 export function ActiveConfigBadge() {
   const t = useTranslations();
   const threadId = useAuiState((s) => s.threadListItem?.remoteId);
@@ -158,7 +158,7 @@ export function ConversationStats(props: { convId?: string }) {
   );
 }
 
-    // Primary character's background painted behind the thread; parent must be relative isolate so the -z-10 layers stay inside it.
+// Primary character's background painted behind the thread; parent must be relative isolate so the -z-10 layers stay inside it.
 export function CharacterBackground(props: { convId?: string }) {
   const bindings = useChatBindingsQuery(props.convId);
   const primary = (bindings.data?.characters ?? [])

@@ -1,6 +1,6 @@
 import type { ConversationRow } from "@/lib/db/schema/rows";
 
-    // Settings columns live on the conversations row; these helpers project them into the { convId, ...settings } shape callers want.
+// Settings columns live on the conversations row; these helpers project them into the { convId, ...settings } shape callers want.
 export const CONVERSATION_SETTINGS_KEYS = [
   "defaultModel",
   "personaId",
@@ -39,7 +39,7 @@ export type ConversationSettingsProjection = ConversationRow & {
   convId: string;
 };
 
-    // The projection is just the row plus a convId alias: every settings column already lives on the row, so picking gains nothing.
+// The projection is just the row plus a convId alias: every settings column already lives on the row, so picking gains nothing.
 export function projectConversationSettings(
   conv: ConversationRow,
 ): ConversationSettingsProjection {

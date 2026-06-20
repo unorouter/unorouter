@@ -94,7 +94,11 @@ export function walkTemplate(
 }
 
 // Legacy single-slot lorebook positions collapse onto the one `lorebook` slot.
-const LEGACY_LORE_SLOTS = new Set(["loreTop", "loreBeforeChar", "loreAfterChar"]);
+const LEGACY_LORE_SLOTS = new Set([
+  "loreTop",
+  "loreBeforeChar",
+  "loreAfterChar",
+]);
 
 // Parse a stored promptTemplate JSON string. null (use default) on absent/invalid input. Unknown card types are dropped.
 export function parsePromptTemplate(
