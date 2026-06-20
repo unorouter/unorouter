@@ -168,7 +168,16 @@
         "MSG_AI": "Me apresentando, recruta. Guarde o equipamento, saltamos em dez.",
         "MSG_USER": "Sim, capita. Pronta.",
         "TYPING": "digitando",
-        "INPUT": "Digite uma mensagem..."
+        "INPUT": "Digite uma mensagem...",
+        "BRAND": "UnoRouter",
+        "NEW_CHAT": "Nova conversa",
+        "CONV1": "Capita Elara Voss",
+        "CONV2": "Lyra a Alquimista",
+        "CONV3": "Mochi no Cafe",
+        "MODEL_NAME": "nemotron-3",
+        "TOKENS": "148 in  /  297 out",
+        "MENU_LABEL": "RPG",
+        "LOCAL_DB": "BD local"
       }
     },
     "FEATURES": {

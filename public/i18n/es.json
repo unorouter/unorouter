@@ -168,7 +168,16 @@
         "MSG_AI": "Presentandome, recluta. Guarda tu equipo, saltamos en diez.",
         "MSG_USER": "Si, capitana. Lista.",
         "TYPING": "escribiendo",
-        "INPUT": "Escribe un mensaje..."
+        "INPUT": "Escribe un mensaje...",
+        "BRAND": "UnoRouter",
+        "NEW_CHAT": "Nuevo chat",
+        "CONV1": "Capitana Elara Voss",
+        "CONV2": "Lyra la Alquimista",
+        "CONV3": "Mochi en el Cafe",
+        "MODEL_NAME": "nemotron-3",
+        "TOKENS": "148 in  /  297 out",
+        "MENU_LABEL": "Rol",
+        "LOCAL_DB": "BD local"
       }
     },
     "FEATURES": {

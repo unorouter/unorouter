@@ -168,7 +168,16 @@
         "MSG_AI": "Reporting in, recruit. Stow your gear, we jump in ten.",
         "MSG_USER": "Aye, Captain. Locked and ready.",
         "TYPING": "typing",
-        "INPUT": "Type a message..."
+        "INPUT": "Type a message...",
+        "BRAND": "UnoRouter",
+        "NEW_CHAT": "New Chat",
+        "CONV1": "Captain Elara Voss",
+        "CONV2": "Lyra the Alchemist",
+        "CONV3": "Mochi at the Cafe",
+        "MODEL_NAME": "nemotron-3",
+        "TOKENS": "148 in  /  297 out",
+        "MENU_LABEL": "Roleplay",
+        "LOCAL_DB": "Local DB browser"
       }
     },
     "FEATURES": {

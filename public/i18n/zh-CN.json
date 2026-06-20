@@ -146,7 +146,16 @@
         "MSG_AI": "报到，新兵。收好装备，十秒后跃迁。",
         "MSG_USER": "是，舰长。准备就绪。",
         "TYPING": "正在输入",
-        "INPUT": "输入消息..."
+        "INPUT": "输入消息...",
+        "BRAND": "UnoRouter",
+        "NEW_CHAT": "新建聊天",
+        "CONV1": "埃拉拉·沃斯舰长",
+        "CONV2": "炼金术士莉拉",
+        "CONV3": "咖啡馆的麻糬",
+        "MODEL_NAME": "nemotron-3",
+        "TOKENS": "148 in  /  297 out",
+        "MENU_LABEL": "角色扮演",
+        "LOCAL_DB": "本地数据库"
       }
     },
     "FEATURES": {
