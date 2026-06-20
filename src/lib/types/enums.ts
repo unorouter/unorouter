@@ -67,6 +67,7 @@ export enum Vendor {
   AISINGAPORE = "ai singapore",
   POLLINATIONS = "pollinations",
   STEPFUN = "stepfun",
+  PERPLEXITY = "perplexity",
   KATANEMO = "katanemo",
   NAVYAI = "navyai",
   HCOMPANY = "h company",

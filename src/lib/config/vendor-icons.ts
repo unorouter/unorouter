@@ -108,6 +108,7 @@ export const VENDOR_LOADERS: Partial<Record<Vendor, IconLoader>> = {
   [Vendor.MOONSHOT]: () => import("@lobehub/icons/es/Moonshot"),
   [Vendor.NVIDIA]: () => import("@lobehub/icons/es/Nvidia"),
   [Vendor.OPENAI]: () => import("@lobehub/icons/es/OpenAI"),
+  [Vendor.PERPLEXITY]: () => import("@lobehub/icons/es/Perplexity"),
   [Vendor.QIANFAN]: () => import("@lobehub/icons/es/Baidu"),
   [Vendor.STABILITY]: () => import("@lobehub/icons/es/Stability"),
   [Vendor.TENCENT]: () => import("@lobehub/icons/es/Tencent"),
