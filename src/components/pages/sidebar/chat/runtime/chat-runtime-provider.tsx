@@ -43,8 +43,7 @@ import { useParams } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { toast } from "sonner";
 
-// getConvId resolves THIS thread's conv id (not the global convIdAtom): the adapter
-// load()/append() must be thread-scoped or refreshing with >1 chat merges their histories.
+// getConvId is thread-scoped; the global convIdAtom would merge histories when >1 chat is open.
 function useHistoryAdapter(getConvId: () => string | null) {
   const queryClient = useQueryClient();
   const adapterRef = useRef(
@@ -86,10 +85,7 @@ function ChatRuntimeHook() {
   useConvIdSync(remoteId);
   useModelSync(remoteId);
   useGroupSync(remoteId);
-  // Thread-scoped conv id for the history adapter AND the stream transport. remoteId is this
-  // thread's DB id; the convIdAtom fallback covers the first send of a brand-new unsaved thread
-  // (no remoteId yet, no other thread to merge with). Reading the global atom directly would
-  // build the wrong conversation's context when >1 chat is open (merge bug).
+  // Thread-scoped conv id; convIdAtom fallback covers the first send of an unsaved thread.
   const remoteIdRef = useRef<string | null>(remoteId ?? null);
   remoteIdRef.current = remoteId ?? null;
   const getConvId = () => remoteIdRef.current ?? chatStore.get(convIdAtom);
@@ -153,7 +149,11 @@ function ChatRuntimeHook() {
     },
     onFinish: ({ message }) => {
       releaseStreamLock();
-      logChatDebug("stream.finish", { threadId, remoteId, messageId: message.id });
+      logChatDebug("stream.finish", {
+        threadId,
+        remoteId,
+        messageId: message.id,
+      });
       if (message.metadata?.droppedParams) {
         toast.warning(
           t("RP.DROPPED_PARAMS", { params: message.metadata.droppedParams }),

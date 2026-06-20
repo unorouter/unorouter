@@ -24,7 +24,7 @@ import type { Control, FieldValues, Path, PathValue } from "react-hook-form";
 
 type NamedEntity = { id: string; name: string };
 
-    // Multi-select combobox bound to a string[] field: chips picker plus a drag-to-reorder list once more than one is selected.
+// Multi-select combobox bound to a string[] field: chips picker plus a drag-to-reorder list once more than one is selected.
 export function MyFormCombobox<T extends FieldValues>(props: {
   control: Control<T>;
   name: Path<T>;

@@ -2,7 +2,7 @@ import { IS_DEV, POSTHOG_DISABLED } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
 import type { PostHog } from "posthog-js";
 
-    // Lazy proxy keeping posthog-js out of page bundles: the module loads on first call. Pre-resolve calls queue; disabled calls drop.
+// Lazy proxy keeping posthog-js out of page bundles: the module loads on first call. Pre-resolve calls queue; disabled calls drop.
 let instance: PostHog | null = null;
 let loading = false;
 const queue: Array<(p: PostHog) => void> = [];

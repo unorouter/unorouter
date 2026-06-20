@@ -14,7 +14,8 @@ import type { Element, ElementContent, Root, RootContent, Text } from "hast";
 
 const DQ_RE = /["“”][^"“”]+["“”]/g;
 const OPEN_SINGLE = /['‘’]/g;
-const isWord = (ch: string | undefined) => ch !== undefined && /[\p{L}\p{N}]/u.test(ch);
+const isWord = (ch: string | undefined) =>
+  ch !== undefined && /[\p{L}\p{N}]/u.test(ch);
 const isCloseQuote = (ch: string) => ch === "'" || ch === "’" || ch === "‘";
 
 const SKIP_TAGS = new Set([

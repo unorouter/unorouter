@@ -85,19 +85,13 @@ export function createThreadListAdapter(
 
       const now = dayjs().toDate();
 
-      // Settings cols live on the conversation row; write both in one upsert so NOT NULL default_model holds.
       const defaults = chatStore.get(chatDefaultsAtom);
-      // Sticky loadout: auto-equip new chats with the user's chosen preset/persona/characters/lorebooks.
+      // Sticky loadout: auto-equip new chats with the chosen preset/persona/characters/lorebooks.
       const loadout = chatStore.get(chatLoadoutAtom);
-      // Seed settings from the bound preset so the drawer shows what the stream uses. Per field: preset value, else app default.
       const preset = loadout.presetId
         ? await readLocalPreset(userId(), loadout.presetId)
         : null;
-      // A bound preset is inherited LIVE: store null so the server/UI resolve
-      // conv(null) -> preset -> default every render. This lets a mid-chat preset
-      // edit reach existing chats (an explicit per-chat drawer override writes a
-      // concrete value and still wins). With NO preset there is nothing to inherit,
-      // so snapshot the user's chatDefaults at creation.
+      // Bound preset = inherit live (store null, resolve conv -> preset -> default). No preset = snapshot chatDefaults.
       const seed = <K extends keyof typeof defaults>(
         key: K,
         presetValue: number | boolean | string | null | undefined,
@@ -132,8 +126,7 @@ export function createThreadListAdapter(
         repetitionPenalty: seed("repetitionPenalty", preset?.repetitionPenalty),
         maxTokens: seed("maxTokens", preset?.maxTokens),
         extraBody: preset ? null : (defaults.extraBody ?? null),
-        // null = inherit; the resolver falls back conv -> preset -> default. A bound
-        // preset stays null so its later edits propagate to this chat (Matic).
+        // null = inherit; bound preset stays null so its later edits propagate to this chat (Matic).
         streamingEnabled: preset ? null : (defaults.streamingEnabled ?? null),
         showReasoning: preset ? null : (defaults.showReasoning ?? null),
         group: chatStore.get(chatGroupAtom),

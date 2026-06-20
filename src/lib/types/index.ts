@@ -234,8 +234,6 @@ export class ParamError extends Error {
   }
 }
 
-// SEO / docs / blog registry types.
-
 // Static doc slugs only: the /docs/[slug] template is excluded so DocSlug stays a subset of SeoTimestampSlug.
 export type DocSlug = keyof typeof pathnames extends infer K
   ? K extends `/${infer R extends `docs/${string}`}`
@@ -338,9 +336,7 @@ export type BlogEntry = {
   heroImage?: string;
 };
 
-// On-disk conversation export envelopes. Untrusted JSON: every field optional, per-importer boundary cast.
-
-// Export row: arbitrary columns + known string id.
+// On-disk conversation export envelopes. Untrusted JSON: every field optional, cast at the importer.
 export type ExportRow = Record<string, unknown> & { id: string };
 
 export type NativeImport = {

@@ -14,11 +14,10 @@ export async function runMigrations(sql: SQLocalDrizzle): Promise<void> {
   // SQLite default is OFF; needed for schema cascade deletes to fire.
   await sql.sql`PRAGMA foreign_keys = ON`;
 
-  // One cached connection serves all reads+writes; sequential upserts (conversation -> message
-  // -> items) can collide. Wait out a transient lock instead of failing into a full reopen.
+  // One connection serves all reads+writes; wait out a transient lock instead of a full reopen.
   await sql.sql`PRAGMA busy_timeout = 5000`;
 
-  // The cursor table is read before the manifest, so a normal migration can't rename it. Bootstrap: recreate as local_migrations, copy the row, drop old.
+  // Cursor table is read before the manifest, so a normal migration can't rename it; bootstrap it.
   await migrateCursorTable(sql);
 
   // On a fresh DB local_migrations doesn't exist; the SELECT throws, signaling a full migration run.
@@ -192,9 +191,7 @@ async function reconcileSchema(
     // Absent tables were just created by the migration replay above.
     if (!current || normDdl(current) === normDdl(create)) continue;
 
-    // Rebuild (SQLite 12-step): the manifest is the source of truth. Build a new from its
-    // DDL, copy the column intersection (a column only in the old table is intentionally dropped),
-    // swap, recreate indexes. Wrapping the swap so a failure leaves the original intact.
+    // Rebuild (SQLite 12-step) from the manifest DDL: copy the column intersection, swap, recreate indexes.
     if (!fkOff) {
       await sql.sql`PRAGMA foreign_keys = OFF`;
       fkOff = true;

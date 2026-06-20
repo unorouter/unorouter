@@ -1,4 +1,4 @@
-    // exampleMessages string into role-tagged few-shot turns. <START> separates blocks; {{char}}:/{{user}}: prefix lines, bare lines continue.
+// exampleMessages string into role-tagged few-shot turns. <START> separates blocks; {{char}}:/{{user}}: prefix lines, bare lines continue.
 
 type ExampleTurn = {
   role: "system" | "user" | "assistant";

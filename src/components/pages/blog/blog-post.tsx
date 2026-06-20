@@ -52,9 +52,7 @@ export async function BlogPost(props: BlogPostProps) {
     year: "numeric",
     month: "long",
     day: "numeric",
-    // post.date is a calendar date parsed as midnight UTC. Pin UTC so SSR (UTC)
-    // and the client (local TZ) format the same day - else timezones behind UTC
-    // render the previous day and React throws a hydration mismatch (#418).
+    // UTC so SSR + client format the same calendar day (hydration mismatch #418).
     timeZone: "UTC",
   }).format(dayjs(post.date).toDate());
 

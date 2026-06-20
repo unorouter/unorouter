@@ -11,7 +11,7 @@ export const readLocalMedia = (userId: number | undefined, id: string) =>
 export const deleteLocalMedia = (userId: number | undefined, id: string) =>
   mediaStore.drop(userId, id);
 
-    // sync.service.ts uploads base64 bytes to R2 and stamps r2_url on Turso so cross-device pulls carry only a pointer.
+// sync.service.ts uploads base64 bytes to R2 and stamps r2_url on Turso so cross-device pulls carry only a pointer.
 export const upsertLocalMedia = (
   userId: number | undefined,
   row: {

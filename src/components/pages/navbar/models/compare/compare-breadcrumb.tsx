@@ -3,7 +3,7 @@
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 
-    // Home / Compare / <combo>. No shared breadcrumb primitive in uno, so a small inline one with ASCII separators.
+// Home / Compare / <combo>. No shared breadcrumb primitive in uno, so a small inline one with ASCII separators.
 export function CompareBreadcrumb(props: { combo?: string }) {
   const t = useTranslations();
   return (

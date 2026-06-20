@@ -5,7 +5,7 @@ export function comboTitle(models: ProcessedModel[]): string {
   return models.map((m) => m.name).join(" vs ");
 }
 
-    // The model+vendor listing for the description; the surrounding sentence is i18n.
+// The model+vendor listing for the description; the surrounding sentence is i18n.
 export function comboModelList(
   models: ProcessedModel[],
   fromWord: string,

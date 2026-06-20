@@ -519,7 +519,9 @@ const AssistantMessage: FC = () => {
                 components={{
                   Text: MarkdownText,
                   Reasoning: showReasoning ? Reasoning : HideReasoning,
-                  ReasoningGroup: showReasoning ? ReasoningGroup : HideReasoning,
+                  ReasoningGroup: showReasoning
+                    ? ReasoningGroup
+                    : HideReasoning,
                   tools: {
                     Fallback: ToolFallback,
                   },

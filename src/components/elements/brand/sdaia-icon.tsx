@@ -1,6 +1,6 @@
 import type { IconComponent } from "@/lib/config/vendor-icons";
 
-    // SDAIA (ALLaM models). No icon ships anywhere, so this is an inline mono monogram stand-in.
+// SDAIA (ALLaM models). No icon ships anywhere, so this is an inline mono monogram stand-in.
 const SdaiaIcon: IconComponent = (props) => (
   <svg
     role="img"

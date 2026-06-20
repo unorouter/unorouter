@@ -6,7 +6,6 @@ export const dynamic = "force-static";
 const defaultLocale = routing.defaultLocale;
 
 // ACP discovery per https://github.com/agentic-commerce-protocol/agentic-commerce-protocol/blob/main/rfcs/rfc.discovery.md
-// services=[checkout]; legal URLs pinned to defaultLocale (doc is locale-agnostic).
 export function GET() {
   const body = {
     protocol: {

@@ -44,7 +44,7 @@ const ICON_COMPONENTS: Partial<Record<IntegrationIconKey, LobeIcon>> = {
   hermes: HermesAgent,
 };
 
-    // Icon source order: self-hosted logoSrc, lucide name, lobehub brand component. Shared by docs index cards and the guide hero.
+// Icon source order: self-hosted logoSrc, lucide name, lobehub brand component. Shared by docs index cards and the guide hero.
 export function GuideIcon(props: {
   iconKey: IntegrationIconKey;
   logoSrc?: string;

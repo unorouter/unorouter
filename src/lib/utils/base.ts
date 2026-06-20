@@ -17,7 +17,7 @@ export function safeJsonParse<T = Record<string, unknown>>(
   }
 }
 
-    // Parse a JSON object string into a string map (var stores). Invalid input yields {}; non-strings are stringified.
+// Parse a JSON object string into a string map (var stores). Invalid input yields {}; non-strings are stringified.
 export function parseStringMap(
   raw: string | null | undefined,
 ): Record<string, string> {
@@ -63,12 +63,12 @@ export function copyToClipboardAsync(
   ]);
 }
 
-    // next-intl rejects raw [ ] and a raw / splits into extra segments; encode all three into one URL-safe segment.
+// next-intl rejects raw [ ] and a raw / splits into extra segments; encode all three into one URL-safe segment.
 export function modelSlug(name: string): string {
   return name.replace(/\[/g, "%5B").replace(/\]/g, "%5D").replace(/\//g, "%2F");
 }
 
-    // params.slug arrives URL-decoded, so a name with a raw / never round-trips. Compare the encoded form too, plus legacy raw-name.
+// params.slug arrives URL-decoded, so a name with a raw / never round-trips. Compare the encoded form too, plus legacy raw-name.
 export function modelMatchesSlug(name: string, slug: string): boolean {
   return name === slug || modelSlug(name) === slug;
 }
@@ -154,7 +154,7 @@ export function quoteIdent(s: string): string {
   return `"${s.replace(/"/g, '""')}"`;
 }
 
-    // Splits a comma-separated form field into a trimmed, empty-stripped array. RP forms edit as text; DB stores arrays.
+// Splits a comma-separated form field into a trimmed, empty-stripped array. RP forms edit as text; DB stores arrays.
 export function csvToArray(value: string): string[] {
   return value
     .split(",")
@@ -187,7 +187,7 @@ export function formatJson(value: unknown): string {
   return value == null ? "" : JSON.stringify(value, null, 2);
 }
 
-    // FNV-1a 32-bit hex over a string. A content fingerprint for chat-context dedup, not security.
+// FNV-1a 32-bit hex over a string. A content fingerprint for chat-context dedup, not security.
 export function fnv1aHex(input: string): string {
   let h = 0x811c9dc5;
   for (let i = 0; i < input.length; i++) {

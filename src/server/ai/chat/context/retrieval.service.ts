@@ -1,4 +1,4 @@
-    // Semantic retrieval (RisuAI hypa analog): embed recent chat + candidates, cosine-rank, return top-K lore keywords missed. Best-effort.
+// Semantic retrieval (RisuAI hypa analog): embed recent chat + candidates, cosine-rank, return top-K lore keywords missed. Best-effort.
 
 import { generateEmbedding } from "../media/media-stream";
 import { logger } from "@/lib/utils/logger";

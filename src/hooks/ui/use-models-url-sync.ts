@@ -36,7 +36,7 @@ function csv(value: string | null): string[] {
     : [];
 }
 
-    // Two-way sync of models filter atoms with the URL. Seeds from the URL once on mount (only when empty), then mirrors atoms back.
+// Two-way sync of models filter atoms with the URL. Seeds from the URL once on mount (only when empty), then mirrors atoms back.
 export function useModelsUrlSync() {
   const router = useRouter();
   const searchParams = useSearchParams();

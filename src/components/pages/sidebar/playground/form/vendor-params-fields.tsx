@@ -40,7 +40,7 @@ function hasVendorFields(d: PlaygroundModelDescriptor): boolean {
   );
 }
 
-    // Hosted vendor knobs (quality/output format/background/watermark/strength/seed); renders nothing for ComfyUI-family models.
+// Hosted vendor knobs (quality/output format/background/watermark/strength/seed); renders nothing for ComfyUI-family models.
 export function VendorParamsFields(props: Props) {
   const t = useTranslations();
   const form = props.form;
