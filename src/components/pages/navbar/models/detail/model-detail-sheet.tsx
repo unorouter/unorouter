@@ -244,8 +244,7 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
             <GridPricingSection gridPricing={model.gridPricing} theme={theme} />
           )}
 
-          {/* Group Pricing (collapsible) — skipped for tiered models, which
-              don't have a single per-token price to multiply per group. */}
+          {/* Group pricing: skipped for tiered models (no single per-token price to multiply). */}
           {model.enableGroups.length > 0 && !model.isTiered && (
             <GroupPricingSection
               model={model}

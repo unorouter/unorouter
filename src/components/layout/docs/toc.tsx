@@ -140,7 +140,6 @@ function TOCPanel(props: { toc: TOCState; className?: string }) {
     height: number;
   }>();
 
-  // Build SVG path for tree connector lines
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;

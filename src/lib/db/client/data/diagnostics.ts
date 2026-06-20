@@ -49,9 +49,7 @@ export async function buildDiagnostics(
   try {
     const est = await navigator.storage?.estimate?.();
     if (est) dbInfo.storageEstimate = { usage: est.usage, quota: est.quota };
-  } catch {
-    // ignore
-  }
+  } catch {}
 
   const convs = (await readLocalConversations(userId)) ?? [];
   const conversations = convs.map((c) => ({

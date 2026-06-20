@@ -122,7 +122,6 @@ export function useChatTransport(getConvId: () => string | null) {
           webSearch: chatStore.get(chatWebSearchAtom),
           // null == auto; server omits the X-Group header for null/auto.
           group: chatStore.get(chatGroupAtom),
-          // Guest fallback.
           overrides: chatStore.get(chatDefaultsAtom),
           chatContext,
           chatContextHash,

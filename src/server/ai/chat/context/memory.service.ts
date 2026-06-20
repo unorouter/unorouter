@@ -46,7 +46,6 @@ export async function rollSummary(
   });
 
   const unsummarized = input.history.slice(input.priorAnchor);
-  // Nothing new to fold.
   if (unsummarized.length <= input.chunkSize) return unchanged();
 
   const chunk = unsummarized.slice(0, input.chunkSize);

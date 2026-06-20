@@ -378,7 +378,6 @@ export function createChatHistoryAdapter(
             totalCost: (convForTotals?.totalCost ?? 0) + (usage?.cost ?? 0),
             // Persist chat-variable writeback when the stream reported a change; null keeps the stored value.
             ...(varsWriteback != null ? { vars: varsWriteback } : {}),
-            // Persist rolling-summary memory update.
             ...(metadata?.summary
               ? {
                   summaryMemory: metadata.summary.summary,

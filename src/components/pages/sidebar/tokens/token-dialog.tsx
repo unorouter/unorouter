@@ -383,7 +383,6 @@ export function TokenDialog(props: TokenDialogProps) {
                                     }
                                     const dollars = Number(v);
                                     if (Number.isNaN(dollars)) return;
-                                    // Clamp to 2 decimal places (cents).
                                     const clamped =
                                       Math.round(dollars * 100) / 100;
                                     field.onChange(dollarsToQuota(clamped));
