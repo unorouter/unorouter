@@ -33,10 +33,10 @@
     "HERO": {
       "BADGE": "ルーター稼働中",
       "TITLE_LINE1": "統合された",
-      "SUBTITLE": "{appName} はひとつの鍵で {modelCount}+ のAIモデルにつながります。アプリ開発、エージェント運用、キャラクターとのロールプレイ。同じ鍵、同じ速さ、同じ価格。",
+      "SUBTITLE": "{appName} は一つの鍵で {modelCount}+ の AI モデルにつなぎます。アプリを作りエージェントを動かすも、設定を飛ばしてこのサイト上でキャラクターと話すも自由。同じ鍵、同じ速さ、同じ価格。",
       "CTA_PRIMARY": "はじめる",
       "CTA_SECONDARY": "モデルを見る",
-      "TITLE_ROTATE": "INTELLIGENCE,ROLEPLAY,CHARACTERS,CODE,CHAT"
+      "TITLE_ROTATE": "チャット,キャラクター,ロールプレイ,コード,知能"
     },
     "STATS": {
       "MODELS": "モデル",
@@ -117,6 +117,38 @@
         "TITLE": "リクエストフロー"
       }
     },
+    "CHAT": {
+      "BADGE": "内蔵チャット",
+      "TITLE_1": "API だけではない。",
+      "TITLE_2": "チャットクライアントでもある。",
+      "DESCRIPTION": "開いて話し始めるだけ。無料モデルはすでに接続済みなので、登録も鍵も設定も不要。キャラクターを選ぶか自分のを取り込み、チャットはブラウザに残ります。",
+      "CARD1": {
+        "TITLE": "設定不要",
+        "DESC": "無料モデルをバックエンドで接続済み。開いて話すだけ、アカウント不要。"
+      },
+      "CARD2": {
+        "TITLE": "キャラクター",
+        "DESC": "ペルソナ、プリセット、プロンプトテンプレート、SillyTavern カード取り込みを内蔵。"
+      },
+      "CARD3": {
+        "TITLE": "プライベート",
+        "DESC": "会話はブラウザに残り、当社サーバーには残りません。私たちは読めません。"
+      },
+      "CARD4": {
+        "TITLE": "本格ロールプレイ",
+        "DESC": "ロアブック、グループチャット、スワイプ、本物の RP エンジン。おもちゃではない。"
+      },
+      "CTA_OPEN": "チャットを開く",
+      "CTA_CONNECT": "クライアントを接続",
+      "MOCK": {
+        "CHARACTER": "エララ・ヴォス艦長",
+        "MODEL": "無料",
+        "MSG_AI": "報告しろ、新兵。装備をしまえ、十秒でジャンプだ。",
+        "MSG_USER": "はい、艦長。準備完了です。",
+        "TYPING": "入力中",
+        "INPUT": "メッセージを入力..."
+      }
+    },
     "FEATURES": {
       "TITLE": "{appName} を選ぶ理由",
       "DESCRIPTION": "ひとつのエンドポイントで、あらゆるAIモデルを。インテリジェントルーティングが最速のプロバイダーを選び、自動フェイルオーバーがリクエストの成功を保証します。",
@@ -179,7 +211,8 @@
       "FEATURE_3": "マルチプロトコル対応",
       "READ_DOCS": "APIドキュメントを読む",
       "NO_CODE_LABEL": "コードを書かない方へ",
-      "NO_CODE_OPTION": "コードは不要。SillyTavern、Janitor.AI、RisuAI、Chub にURLを貼るだけでチャットできます。",
+      "NO_CODE_OPTION": "コードは不要。このサイト上でキャラクターと話すか、SillyTavern、Janitor.AI、RisuAI、Chub に URL を貼り付けてください。",
+      "NO_CODE_CHAT_LINK": "チャットを開く",
       "NO_CODE_LINK": "連携ガイドを見る"
     },
     "CTA": {
@@ -187,7 +220,8 @@
       "TITLE_2": "つなぐ",
       "SUBTITLE": "すべてのAIモデルに、ひとつの鍵。作る、話す、書く、ロールプレイする。あなた次第。",
       "PRIMARY": "はじめる",
-      "SECONDARY": "連携を見る"
+      "SECONDARY": "連携を見る",
+      "CHAT": "チャットを開く"
     },
     "META": {
       "TITLE": "{appName} - すべてのAIモデルに、ひとつの鍵",

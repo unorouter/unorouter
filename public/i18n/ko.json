@@ -33,8 +33,8 @@
     "HERO": {
       "BADGE": "라우터 온라인",
       "TITLE_LINE1": "통합",
-      "TITLE_ROTATE": "인텔리전스,롤플레이,캐릭터,코드,채팅",
-      "SUBTITLE": "{appName}은 단 하나의 키로 {modelCount}개 이상의 AI 모델에 연결해 줍니다. 앱을 만들고, 에이전트를 실행하고, 캐릭터와 롤플레이하세요. 같은 키, 같은 속도, 같은 가격.",
+      "TITLE_ROTATE": "채팅,캐릭터,롤플레이,코드,지능",
+      "SUBTITLE": "{appName}은 키 하나로 {modelCount}+ 개의 AI 모델에 연결합니다. 앱을 만들고 에이전트를 돌리거나, 설정을 건너뛰고 이 사이트에서 바로 캐릭터와 대화하세요. 같은 키, 같은 속도, 같은 가격.",
       "CTA_PRIMARY": "시작하기",
       "CTA_SECONDARY": "모델 보기"
     },
@@ -137,6 +137,38 @@
         "TITLE": "요청 흐름"
       }
     },
+    "CHAT": {
+      "BADGE": "내장 채팅",
+      "TITLE_1": "API만이 아닙니다.",
+      "TITLE_2": "채팅 클라이언트이기도 합니다.",
+      "DESCRIPTION": "열고 바로 대화하세요. 무료 모델이 이미 연결되어 있어 가입도, 키도, 설정도 없습니다. 캐릭터를 고르거나 직접 가져오고, 대화는 브라우저에 남습니다.",
+      "CARD1": {
+        "TITLE": "설정 없음",
+        "DESC": "무료 모델이 백엔드에 연결됨. 그냥 열고 대화, 계정 불필요."
+      },
+      "CARD2": {
+        "TITLE": "캐릭터",
+        "DESC": "페르소나, 프리셋, 프롬프트 템플릿, SillyTavern 카드 가져오기 내장."
+      },
+      "CARD3": {
+        "TITLE": "프라이버시",
+        "DESC": "대화는 브라우저에 있고 우리 서버에는 없습니다. 우리는 읽을 수 없습니다."
+      },
+      "CARD4": {
+        "TITLE": "완전한 롤플레이",
+        "DESC": "로어북, 그룹 채팅, 스와이프, 진짜 RP 엔진. 장난감이 아닙니다."
+      },
+      "CTA_OPEN": "채팅 열기",
+      "CTA_CONNECT": "클라이언트 연결",
+      "MOCK": {
+        "CHARACTER": "엘라라 보스 함장",
+        "MODEL": "무료",
+        "MSG_AI": "보고해라, 신병. 장비 챙기고, 10초 후 점프한다.",
+        "MSG_USER": "네, 함장님. 준비됐습니다.",
+        "TYPING": "입력 중",
+        "INPUT": "메시지 입력..."
+      }
+    },
     "FEATURES": {
       "TITLE": "{appName}을 선택하는 이유",
       "DESCRIPTION": "하나의 엔드포인트로 모든 AI 모델을. 지능형 라우팅이 가장 빠른 공급자를 골라 주고, 자동 페일오버가 요청이 항상 성공하도록 보장합니다.",
@@ -199,7 +231,8 @@
       "FEATURE_3": "멀티 프로토콜 지원",
       "READ_DOCS": "전체 API 문서 읽기",
       "NO_CODE_LABEL": "개발자가 아니신가요?",
-      "NO_CODE_OPTION": "코드 없이도 가능합니다. SillyTavern, Janitor.AI, RisuAI, Chub에 URL을 붙여넣기만 하면 채팅이 시작됩니다.",
+      "NO_CODE_OPTION": "코드는 건너뛰세요. 이 사이트에서 바로 캐릭터와 대화하거나, SillyTavern, Janitor.AI, RisuAI, Chub에 URL을 붙여넣으세요.",
+      "NO_CODE_CHAT_LINK": "채팅 열기",
       "NO_CODE_LINK": "통합 가이드 보기"
     },
     "CTA": {
@@ -207,7 +240,8 @@
       "TITLE_2": "연결할 시간",
       "SUBTITLE": "모든 AI 모델, 키 하나. 만들고, 채팅하고, 코딩하고, 롤플레이하세요. 선택은 당신의 것.",
       "PRIMARY": "시작하기",
-      "SECONDARY": "통합 둘러보기"
+      "SECONDARY": "통합 둘러보기",
+      "CHAT": "채팅 열기"
     },
     "META": {
       "TITLE": "{appName} - 모든 AI 모델을 위한 단 하나의 키",

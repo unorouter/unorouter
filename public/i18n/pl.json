@@ -33,8 +33,8 @@
     "HERO": {
       "BADGE": "Router online",
       "TITLE_LINE1": "ZJEDNOCZONA",
-      "TITLE_ROTATE": "INTELIGENCJA,ROLEPLAY,POSTACIE,KOD,CHAT",
-      "SUBTITLE": "{appName} łączy cię z ponad {modelCount} modelami AI przez jeden klucz. Buduj aplikacje, uruchamiaj agentów lub odgrywaj postacie. Ten sam klucz, ta sama prędkość, ta sama cena.",
+      "TITLE_ROTATE": "CZAT,POSTACIE,RPG,KOD,INTELIGENCJA",
+      "SUBTITLE": "{appName} laczy cie z {modelCount}+ modelami AI przez jeden klucz. Buduj aplikacje i uruchamiaj agentow, albo pomin konfiguracje i rozmawiaj z postaciami tutaj na stronie. Ten sam klucz, ta sama szybkosc, ta sama cena.",
       "CTA_PRIMARY": "Rozpocznij",
       "CTA_SECONDARY": "Zobacz modele"
     },
@@ -137,6 +137,38 @@
         "TITLE": "Przepływ zapytania"
       }
     },
+    "CHAT": {
+      "BADGE": "Wbudowany czat",
+      "TITLE_1": "Nie tylko API.",
+      "TITLE_2": "Takze klient czatu.",
+      "DESCRIPTION": "Otworz i zacznij rozmawiac. Darmowe modele sa juz podlaczone, wiec bez rejestracji, bez klucza, bez konfiguracji. Wybierz postac lub zaimportuj wlasna, a twoje rozmowy zostaja w przegladarce.",
+      "CARD1": {
+        "TITLE": "Bez konfiguracji",
+        "DESC": "Darmowe modele podlaczone na backendzie. Po prostu otworz i rozmawiaj, bez konta."
+      },
+      "CARD2": {
+        "TITLE": "Postacie",
+        "DESC": "Persony, presety, szablony promptow i import kart SillyTavern wbudowane."
+      },
+      "CARD3": {
+        "TITLE": "Prywatnie",
+        "DESC": "Twoje rozmowy zyja w twojej przegladarce, nigdy na naszym serwerze. Nie mozemy ich czytac."
+      },
+      "CARD4": {
+        "TITLE": "Pelny RPG",
+        "DESC": "Lorebooki, czat grupowy, swipe i prawdziwy silnik RP, nie zabawka."
+      },
+      "CTA_OPEN": "Otworz czat",
+      "CTA_CONNECT": "Podlacz swojego klienta",
+      "MOCK": {
+        "CHARACTER": "Kapitan Elara Voss",
+        "MODEL": "Darmowy",
+        "MSG_AI": "Melduje sie, rekrucie. Schowaj sprzet, skaczemy za dziesiec.",
+        "MSG_USER": "Tak jest, kapitanie. Gotowy.",
+        "TYPING": "pisze",
+        "INPUT": "Wpisz wiadomosc..."
+      }
+    },
     "FEATURES": {
       "TITLE": "Dlaczego {appName}",
       "DESCRIPTION": "Jeden endpoint, każdy model AI. Inteligentny routing wybiera najszybszego dostawcę, podczas gdy automatyczny failover gwarantuje, że twoje zapytania zawsze się powiodą.",
@@ -199,7 +231,8 @@
       "FEATURE_3": "Wsparcie wielu protokołów",
       "READ_DOCS": "Przeczytaj pełną dokumentację API",
       "NO_CODE_LABEL": "Nie jesteś programistą?",
-      "NO_CODE_OPTION": "Pomiń kod. Wklej URL do SillyTavern, Janitor.AI, RisuAI lub Chub i już czatujesz.",
+      "NO_CODE_OPTION": "Pomin kod. Rozmawiaj z postaciami tutaj na stronie, albo wklej URL do SillyTavern, Janitor.AI, RisuAI lub Chub.",
+      "NO_CODE_CHAT_LINK": "Otworz czat",
       "NO_CODE_LINK": "Zobacz przewodniki integracji"
     },
     "CTA": {
@@ -207,7 +240,8 @@
       "TITLE_2": "Połączyć",
       "SUBTITLE": "Każdy model AI, jeden klucz. Buduj, czatuj, koduj lub odgrywaj. Twój wybór.",
       "PRIMARY": "Rozpocznij",
-      "SECONDARY": "Przeglądaj integracje"
+      "SECONDARY": "Przeglądaj integracje",
+      "CHAT": "Otworz czat"
     },
     "META": {
       "TITLE": "{appName} - Jeden klucz do każdego modelu AI",

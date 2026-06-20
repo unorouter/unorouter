@@ -33,8 +33,8 @@
     "HERO": {
       "BADGE": "Router Online",
       "TITLE_LINE1": "KECERDASAN",
-      "TITLE_ROTATE": "KECERDASAN,ROLEPLAY,KARAKTER,KODE,CHAT",
-      "SUBTITLE": "{appName} menghubungkan Anda ke {modelCount}+ model AI melalui satu kunci. Bangun aplikasi, jalankan agen, atau roleplay dengan karakter. Kunci sama, kecepatan sama, harga sama.",
+      "TITLE_ROTATE": "OBROLAN,KARAKTER,ROLEPLAY,KODE,KECERDASAN",
+      "SUBTITLE": "{appName} menghubungkanmu ke {modelCount}+ model AI lewat satu kunci. Bangun aplikasi dan jalankan agen dengannya, atau lewati penyiapan dan ngobrol dengan karakter langsung di situs ini. Kunci sama, kecepatan sama, harga sama.",
       "CTA_PRIMARY": "Mulai",
       "CTA_SECONDARY": "Lihat Model"
     },
@@ -137,6 +137,38 @@
         "TITLE": "Alur Permintaan"
       }
     },
+    "CHAT": {
+      "BADGE": "Obrolan bawaan",
+      "TITLE_1": "Bukan cuma API.",
+      "TITLE_2": "Juga klien obrolan.",
+      "DESCRIPTION": "Buka dan mulai bicara. Model gratis sudah terhubung, jadi tanpa daftar, tanpa kunci, tanpa penyiapan. Pilih karakter atau impor milikmu, dan obrolanmu tetap di browsermu.",
+      "CARD1": {
+        "TITLE": "Tanpa Setup",
+        "DESC": "Model gratis terhubung di backend. Tinggal buka dan ngobrol, tanpa akun."
+      },
+      "CARD2": {
+        "TITLE": "Karakter",
+        "DESC": "Persona, preset, templat prompt, dan impor kartu SillyTavern sudah terpasang."
+      },
+      "CARD3": {
+        "TITLE": "Privat",
+        "DESC": "Percakapanmu ada di browsermu, tidak pernah di server kami. Kami tidak bisa membacanya."
+      },
+      "CARD4": {
+        "TITLE": "Roleplay Penuh",
+        "DESC": "Lorebook, obrolan grup, swipe, dan mesin RP sungguhan, bukan mainan."
+      },
+      "CTA_OPEN": "Buka obrolan",
+      "CTA_CONNECT": "Hubungkan klienmu",
+      "MOCK": {
+        "CHARACTER": "Kapten Elara Voss",
+        "MODEL": "Gratis",
+        "MSG_AI": "Lapor, rekrut. Simpan perlengkapanmu, kita lompat sepuluh detik lagi.",
+        "MSG_USER": "Siap, Kapten. Sudah siap.",
+        "TYPING": "mengetik",
+        "INPUT": "Ketik pesan..."
+      }
+    },
     "FEATURES": {
       "TITLE": "Mengapa {appName}",
       "DESCRIPTION": "Satu endpoint, setiap model AI. Routing cerdas memilih penyedia tercepat sementara failover otomatis memastikan permintaan Anda selalu berhasil.",
@@ -199,7 +231,8 @@
       "FEATURE_3": "Dukungan multi-protokol",
       "READ_DOCS": "Baca Dokumen API Lengkap",
       "NO_CODE_LABEL": "Bukan coder?",
-      "NO_CODE_OPTION": "Lewati kode. Tempel URL ke SillyTavern, Janitor.AI, RisuAI, atau Chub dan Anda sedang chatting.",
+      "NO_CODE_OPTION": "Lewati kodenya. Ngobrol dengan karakter langsung di situs ini, atau tempel URL ke SillyTavern, Janitor.AI, RisuAI, atau Chub.",
+      "NO_CODE_CHAT_LINK": "Buka obrolan",
       "NO_CODE_LINK": "Lihat panduan integrasi"
     },
     "CTA": {
@@ -207,7 +240,8 @@
       "TITLE_2": "Terhubung",
       "SUBTITLE": "Setiap model AI, satu kunci. Bangun, chat, kode, atau roleplay. Pilihan Anda.",
       "PRIMARY": "Mulai",
-      "SECONDARY": "Jelajahi Integrasi"
+      "SECONDARY": "Jelajahi Integrasi",
+      "CHAT": "Buka obrolan"
     },
     "META": {
       "TITLE": "{appName} - Satu Kunci untuk Setiap Model AI",

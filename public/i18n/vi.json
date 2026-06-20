@@ -33,10 +33,10 @@
     "HERO": {
       "BADGE": "Router đang hoạt động",
       "TITLE_LINE1": "TRÍ TUỆ",
-      "SUBTITLE": "{appName} kết nối bạn với hơn {modelCount} mô hình AI qua một khoá duy nhất. Xây ứng dụng, chạy agent, hay roleplay với nhân vật. Cùng một khoá, cùng tốc độ, cùng giá.",
+      "SUBTITLE": "{appName} ket noi ban toi hon {modelCount} mo hinh AI qua mot khoa. Xay app va chay tac nhan voi no, hoac bo qua thiet lap va tro chuyen voi nhan vat ngay tren trang. Cung mot khoa, cung toc do, cung gia.",
       "CTA_PRIMARY": "Bắt đầu",
       "CTA_SECONDARY": "Xem mô hình",
-      "TITLE_ROTATE": "TRÍ TUỆ,ROLEPLAY,NHÂN VẬT,CODE,CHAT"
+      "TITLE_ROTATE": "TRO CHUYEN,NHAN VAT,NHAP VAI,MA,TRI TUE"
     },
     "STATS": {
       "MODELS": "Mô hình",
@@ -117,6 +117,38 @@
         "TITLE": "Luồng yêu cầu"
       }
     },
+    "CHAT": {
+      "BADGE": "Tro chuyen tich hop",
+      "TITLE_1": "Khong chi la API.",
+      "TITLE_2": "Con la mot client tro chuyen.",
+      "DESCRIPTION": "Mo ra va bat dau noi chuyen. Cac mo hinh mien phi da duoc ket noi san, nen khong dang ky, khong khoa, khong thiet lap. Chon mot nhan vat hoac nhap cua rieng ban, va cuoc tro chuyen cua ban o lai trong trinh duyet.",
+      "CARD1": {
+        "TITLE": "Khong thiet lap",
+        "DESC": "Mo hinh mien phi noi san o backend. Cu mo va tro chuyen, khong can tai khoan."
+      },
+      "CARD2": {
+        "TITLE": "Nhan vat",
+        "DESC": "Persona, preset, mau prompt va nhap the SillyTavern tich hop san."
+      },
+      "CARD3": {
+        "TITLE": "Rieng tu",
+        "DESC": "Cuoc tro chuyen cua ban song trong trinh duyet, khong bao gio tren may chu chung toi. Chung toi khong doc duoc."
+      },
+      "CARD4": {
+        "TITLE": "Nhap vai day du",
+        "DESC": "Lorebook, tro chuyen nhom, vuot va mot dong co RP that su, khong phai do choi."
+      },
+      "CTA_OPEN": "Mo tro chuyen",
+      "CTA_CONNECT": "Ket noi client cua ban",
+      "MOCK": {
+        "CHARACTER": "Thuyen truong Elara Voss",
+        "MODEL": "Mien phi",
+        "MSG_AI": "Bao cao di, tan binh. Cat do nghe, muoi giay nua nhay.",
+        "MSG_USER": "Ro, thuyen truong. San sang.",
+        "TYPING": "dang go",
+        "INPUT": "Nhap tin nhan..."
+      }
+    },
     "FEATURES": {
       "TITLE": "Vì sao chọn {appName}",
       "DESCRIPTION": "Một endpoint, mọi mô hình AI. Định tuyến thông minh chọn nhà cung cấp nhanh nhất, tự động chuyển đổi dự phòng đảm bảo yêu cầu của bạn luôn thành công.",
@@ -179,7 +211,8 @@
       "FEATURE_3": "Hỗ trợ đa giao thức",
       "READ_DOCS": "Đọc toàn bộ tài liệu API",
       "NO_CODE_LABEL": "Không phải lập trình viên?",
-      "NO_CODE_OPTION": "Không cần code. Dán URL vào SillyTavern, Janitor.AI, RisuAI hay Chub là chat được luôn.",
+      "NO_CODE_OPTION": "Bo qua code. Tro chuyen voi nhan vat ngay tren trang, hoac dan URL vao SillyTavern, Janitor.AI, RisuAI hay Chub.",
+      "NO_CODE_CHAT_LINK": "Mo tro chuyen",
       "NO_CODE_LINK": "Xem hướng dẫn tích hợp"
     },
     "CTA": {
@@ -187,7 +220,8 @@
       "TITLE_2": "kết nối",
       "SUBTITLE": "Mọi mô hình AI, một khoá. Xây, chat, code, hay roleplay. Bạn chọn.",
       "PRIMARY": "Bắt đầu",
-      "SECONDARY": "Tích hợp"
+      "SECONDARY": "Tích hợp",
+      "CHAT": "Mo tro chuyen"
     },
     "META": {
       "TITLE": "{appName} - Một khoá cho mọi mô hình AI",
