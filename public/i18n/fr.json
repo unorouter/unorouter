@@ -36,7 +36,7 @@
       "SUBTITLE": "{appName} vous connecte a {modelCount}+ modeles d'IA avec une seule cle. Creez des applis et lancez des agents avec, ou sautez la configuration et discutez avec des personnages directement sur le site. Meme cle, meme vitesse, meme prix.",
       "CTA_PRIMARY": "Commencer",
       "CTA_SECONDARY": "Voir les modèles",
-      "TITLE_ROTATE": "CHAT,PERSONNAGES,JEU DE ROLE,CODE,INTELLIGENCE"
+      "TITLE_ROTATE": "API,CHAT,PERSONNAGES,JEU DE ROLE,CODE,INTELLIGENCE"
     },
     "STATS": {
       "MODELS": "Modèles",

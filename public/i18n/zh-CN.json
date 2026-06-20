@@ -36,7 +36,7 @@
       "SUBTITLE": "{appName} 用一把钥匙把你连到 {modelCount}+ 个 AI 模型。用它构建应用、运行智能体，或者跳过设置，直接在本站和角色聊天。同一把钥匙，同样的速度，同样的价格。",
       "CTA_PRIMARY": "立即开始",
       "CTA_SECONDARY": "查看模型",
-      "TITLE_ROTATE": "聊天,角色,角色扮演,代码,智能"
+      "TITLE_ROTATE": "API,聊天,角色,角色扮演,代码,智能"
     },
     "STATS": {
       "MODELS": "模型",

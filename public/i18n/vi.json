@@ -36,7 +36,7 @@
       "SUBTITLE": "{appName} ket noi ban toi hon {modelCount} mo hinh AI qua mot khoa. Xay app va chay tac nhan voi no, hoac bo qua thiet lap va tro chuyen voi nhan vat ngay tren trang. Cung mot khoa, cung toc do, cung gia.",
       "CTA_PRIMARY": "Bắt đầu",
       "CTA_SECONDARY": "Xem mô hình",
-      "TITLE_ROTATE": "TRO CHUYEN,NHAN VAT,NHAP VAI,MA,TRI TUE"
+      "TITLE_ROTATE": "API,TRO CHUYEN,NHAN VAT,NHAP VAI,MA,TRI TUE"
     },
     "STATS": {
       "MODELS": "Mô hình",

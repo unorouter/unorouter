@@ -33,7 +33,7 @@
     "HERO": {
       "BADGE": "Router Çevrimiçi",
       "TITLE_LINE1": "BİRLEŞİK",
-      "TITLE_ROTATE": "SOHBET,KARAKTERLER,ROL YAPMA,KOD,ZEKA",
+      "TITLE_ROTATE": "API,SOHBET,KARAKTERLER,ROL YAPMA,KOD,ZEKA",
       "SUBTITLE": "{appName} seni tek anahtarla {modelCount}+ yapay zeka modeline baglar. Onunla uygulama gelistir ve ajanlar calistir, ya da kurulumu atla ve karakterlerle tam burada sitede sohbet et. Ayni anahtar, ayni hiz, ayni fiyat.",
       "CTA_PRIMARY": "Başla",
       "CTA_SECONDARY": "Modelleri Görüntüle"

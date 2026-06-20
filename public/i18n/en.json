@@ -33,7 +33,7 @@
     "HERO": {
       "BADGE": "Router Online",
       "TITLE_LINE1": "UNIFIED",
-      "TITLE_ROTATE": "CHAT,CHARACTERS,ROLEPLAY,CODE,INTELLIGENCE",
+      "TITLE_ROTATE": "API,CHAT,CHARACTERS,ROLEPLAY,CODE,INTELLIGENCE",
       "SUBTITLE": "{appName} connects you to {modelCount}+ AI models through one key. Build apps and run agents with it, or skip the setup and chat with characters right here on the site. Same key, same speed, same price.",
       "CTA_PRIMARY": "Get Started",
       "CTA_SECONDARY": "View Models"

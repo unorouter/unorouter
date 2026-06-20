@@ -33,7 +33,7 @@
     "HERO": {
       "BADGE": "Router Online",
       "TITLE_LINE1": "KECERDASAN",
-      "TITLE_ROTATE": "OBROLAN,KARAKTER,ROLEPLAY,KODE,KECERDASAN",
+      "TITLE_ROTATE": "API,OBROLAN,KARAKTER,ROLEPLAY,KODE,KECERDASAN",
       "SUBTITLE": "{appName} menghubungkanmu ke {modelCount}+ model AI lewat satu kunci. Bangun aplikasi dan jalankan agen dengannya, atau lewati penyiapan dan ngobrol dengan karakter langsung di situs ini. Kunci sama, kecepatan sama, harga sama.",
       "CTA_PRIMARY": "Mulai",
       "CTA_SECONDARY": "Lihat Model"
