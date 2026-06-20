@@ -33,7 +33,7 @@
     "HERO": {
       "BADGE": "Roteador online",
       "TITLE_LINE1": "INTELIGÊNCIA",
-      "TITLE_ROTATE": "CHAT,PERSONAGENS,RPG,CODIGO,INTELIGENCIA",
+      "TITLE_ROTATE": "API,CHAT,PERSONAGENS,RPG,CODIGO,INTELIGENCIA",
       "SUBTITLE": "{appName} conecta voce a {modelCount}+ modelos de IA com uma so chave. Crie apps e rode agentes com ela, ou pule a configuracao e converse com personagens aqui mesmo no site. Mesma chave, mesma velocidade, mesmo preco.",
       "CTA_PRIMARY": "Começar",
       "CTA_SECONDARY": "Ver modelos"

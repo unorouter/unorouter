@@ -33,7 +33,7 @@
     "HERO": {
       "BADGE": "Router online",
       "TITLE_LINE1": "INTELLIGENZA",
-      "TITLE_ROTATE": "CHAT,PERSONAGGI,GIOCO DI RUOLO,CODICE,INTELLIGENZA",
+      "TITLE_ROTATE": "API,CHAT,PERSONAGGI,GIOCO DI RUOLO,CODICE,INTELLIGENZA",
       "SUBTITLE": "{appName} ti connette a {modelCount}+ modelli di IA con una sola chiave. Crea app ed esegui agenti, oppure salta la configurazione e chatta con i personaggi proprio qui sul sito. Stessa chiave, stessa velocita, stesso prezzo.",
       "CTA_PRIMARY": "Inizia",
       "CTA_SECONDARY": "Vedi modelli"

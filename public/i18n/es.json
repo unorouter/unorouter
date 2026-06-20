@@ -33,7 +33,7 @@
     "HERO": {
       "BADGE": "Router en línea",
       "TITLE_LINE1": "INTELIGENCIA",
-      "TITLE_ROTATE": "CHAT,PERSONAJES,ROL,CODIGO,INTELIGENCIA",
+      "TITLE_ROTATE": "API,CHAT,PERSONAJES,ROL,CODIGO,INTELIGENCIA",
       "SUBTITLE": "{appName} te conecta a {modelCount}+ modelos de IA con una sola clave. Crea apps y ejecuta agentes con ella, o saltate la configuracion y chatea con personajes aqui mismo en el sitio. Misma clave, misma velocidad, mismo precio.",
       "CTA_PRIMARY": "Comenzar",
       "CTA_SECONDARY": "Ver modelos"

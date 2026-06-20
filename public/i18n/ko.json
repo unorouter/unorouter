@@ -33,7 +33,7 @@
     "HERO": {
       "BADGE": "라우터 온라인",
       "TITLE_LINE1": "통합",
-      "TITLE_ROTATE": "채팅,캐릭터,롤플레이,코드,지능",
+      "TITLE_ROTATE": "API,채팅,캐릭터,롤플레이,코드,지능",
       "SUBTITLE": "{appName}은 키 하나로 {modelCount}+ 개의 AI 모델에 연결합니다. 앱을 만들고 에이전트를 돌리거나, 설정을 건너뛰고 이 사이트에서 바로 캐릭터와 대화하세요. 같은 키, 같은 속도, 같은 가격.",
       "CTA_PRIMARY": "시작하기",
       "CTA_SECONDARY": "모델 보기"
