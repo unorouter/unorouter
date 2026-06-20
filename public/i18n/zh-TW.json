@@ -33,10 +33,10 @@
     "HERO": {
       "BADGE": "路由器在線",
       "TITLE_LINE1": "統一",
-      "SUBTITLE": "{appName} 用一把鑰匙連接 {modelCount}+ 個 AI 模型。打造應用、執行 Agent，或與角色進行角色扮演。同一把鑰匙、同樣的速度、同樣的價格。",
+      "SUBTITLE": "{appName} 用一把鑰匙把你連到 {modelCount}+ 個 AI 模型。用它建構應用、執行智能體，或是跳過設定，直接在本站和角色聊天。同一把鑰匙，同樣的速度，同樣的價格。",
       "CTA_PRIMARY": "立即開始",
       "CTA_SECONDARY": "查看模型",
-      "TITLE_ROTATE": "智慧,角色扮演,角色,程式,對話"
+      "TITLE_ROTATE": "聊天,角色,角色扮演,程式碼,智慧"
     },
     "STATS": {
       "MODELS": "模型",
@@ -117,6 +117,38 @@
         "TITLE": "請求流程"
       }
     },
+    "CHAT": {
+      "BADGE": "內建聊天",
+      "TITLE_1": "不只是一個 API。",
+      "TITLE_2": "也是一個聊天用戶端。",
+      "DESCRIPTION": "打開就能聊。免費模型已經接好，無需註冊、無需鑰匙、無需設定。挑一個角色或匯入你自己的，聊天紀錄留在你的瀏覽器裡。",
+      "CARD1": {
+        "TITLE": "免設定",
+        "DESC": "免費模型在後端接好。打開就聊，無需帳戶。"
+      },
+      "CARD2": {
+        "TITLE": "角色",
+        "DESC": "內建人設、預設、提示詞範本和 SillyTavern 卡片匯入。"
+      },
+      "CARD3": {
+        "TITLE": "私密",
+        "DESC": "你的對話存在你的瀏覽器裡，絕不在我們的伺服器上。我們讀不到。"
+      },
+      "CARD4": {
+        "TITLE": "完整角色扮演",
+        "DESC": "知識書、群聊、滑動重生成和真正的 RP 引擎，不是玩具。"
+      },
+      "CTA_OPEN": "開啟聊天",
+      "CTA_CONNECT": "接入你的用戶端",
+      "MOCK": {
+        "CHARACTER": "埃拉拉·沃斯艦長",
+        "MODEL": "免費",
+        "MSG_AI": "報到，新兵。收好裝備，十秒後躍遷。",
+        "MSG_USER": "是，艦長。準備就緒。",
+        "TYPING": "正在輸入",
+        "INPUT": "輸入訊息..."
+      }
+    },
     "FEATURES": {
       "TITLE": "為什麼選擇 {appName}",
       "DESCRIPTION": "一個端點串連所有 AI 模型。智慧路由挑選最快的供應商，自動容錯確保您的請求永不失敗。",
@@ -179,7 +211,8 @@
       "FEATURE_3": "多協定支援",
       "READ_DOCS": "閱讀完整 API 文件",
       "NO_CODE_LABEL": "不是開發者？",
-      "NO_CODE_OPTION": "不必寫程式。把 URL 貼到 SillyTavern、Janitor.AI、RisuAI 或 Chub，馬上開始聊。",
+      "NO_CODE_OPTION": "跳過程式碼。直接在本站和角色聊天，或把網址貼進 SillyTavern、Janitor.AI、RisuAI 或 Chub。",
+      "NO_CODE_CHAT_LINK": "開啟聊天",
       "NO_CODE_LINK": "查看整合指南"
     },
     "CTA": {
@@ -187,7 +220,8 @@
       "TITLE_2": "連接",
       "SUBTITLE": "每一個 AI 模型，一把鑰匙。打造、聊天、寫程式或角色扮演，由你決定。",
       "PRIMARY": "開始使用",
-      "SECONDARY": "查看整合"
+      "SECONDARY": "查看整合",
+      "CHAT": "開啟聊天"
     },
     "META": {
       "TITLE": "{appName} - 一把鑰匙，連接所有 AI 模型",
