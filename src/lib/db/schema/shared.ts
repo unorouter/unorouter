@@ -490,7 +490,6 @@ export const cardLorebooks = sqliteTable(
   ],
 );
 
-// One row per user (PK on userId).
 export const userThemes = sqliteTable(
   "user_themes",
   {

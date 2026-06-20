@@ -71,7 +71,6 @@ export async function HeroSection(props: { counts: HeroCounts }) {
         <HeroStatsGrid counts={props.counts} />
       </div>
 
-      {/* Right column - Stats panel with floating integration logos on desktop */}
       <div className="flex w-full max-w-lg flex-1 justify-center lg:max-w-none lg:justify-end">
         <div className="relative w-full max-w-lg">
           <FloatingIntegrations titles={chipTitles} />

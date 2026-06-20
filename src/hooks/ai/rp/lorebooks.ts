@@ -110,8 +110,6 @@ export function useImportLorebookMutation() {
   });
 }
 
-// Entries.
-
 export function useCreateLorebookEntryMutation(lorebookId: string) {
   const userId = useLocalUserId();
   return useApiMutation({

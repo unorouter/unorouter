@@ -56,8 +56,6 @@ export function clearChatDebugLog(): void {
   if (typeof localStorage !== "undefined") {
     try {
       localStorage.removeItem(STORAGE_KEY);
-    } catch {
-      // ignore
-    }
+    } catch {}
   }
 }

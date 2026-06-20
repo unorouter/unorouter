@@ -1,6 +1,6 @@
 import type { ProcessedModel } from "@/lib/api/pricing";
 
-// "<A> vs <B> vs <C>" - shared by metadata title, breadcrumb crumb, and the H1.
+// "<A> vs <B> vs <C>": shared by metadata title, breadcrumb crumb, and the H1.
 export function comboTitle(models: ProcessedModel[]): string {
   return models.map((m) => m.name).join(" vs ");
 }

@@ -136,12 +136,10 @@ export function StreakCanvas() {
       animationId = requestAnimationFrame(animate);
     };
 
-    // pause when tab is hidden
     const onVisibilityChange = () => {
       paused = document.hidden;
     };
 
-    // debounced resize
     let resizeTimer: ReturnType<typeof setTimeout>;
     const onResize = () => {
       clearTimeout(resizeTimer);
