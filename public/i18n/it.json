@@ -177,7 +177,37 @@
         "MODEL_NAME": "nemotron-3",
         "TOKENS": "148 in  /  297 out",
         "MENU_LABEL": "Gioco di ruolo",
-        "LOCAL_DB": "DB locale"
+        "LOCAL_DB": "DB locale",
+        "MSG_AI_2": "Il crogiolo brilla al punto giusto. Mi passi quella fiala?",
+        "MSG_AI_3": "Bentornato! Il solito latte d'avena, con extra schiuma?",
+        "NEW_CHAT_EMPTY": "Inizia una nuova conversazione...",
+        "DEMO_USER": "Parlami di te, capitano.",
+        "DEMO_AI": "Capitano Elara Voss, quindici anni nello spazio profondo. Resta vicino a me e tornerai a casa.",
+        "DLG": {
+          "CHAR1": "Capitana di astronave, segnata dalle battaglie",
+          "CHAR2": "Curiosa preparatrice di pozioni",
+          "CHAR3": "Barista di un caffè accogliente",
+          "PERSONA1": "Recluta alle prime armi",
+          "PERSONA1_SUB": "Entusiasta, fa molte domande",
+          "PERSONA2": "Pilota veterano",
+          "PERSONA2_SUB": "Calmo sotto pressione",
+          "LORE1": "Il Margine Esterno",
+          "LORE1_SUB": "Mappe stellari e rotte commerciali",
+          "LORE2": "Manifesto di bordo",
+          "LORE2_SUB": "Elenco equipaggio e carico",
+          "PRESET1": "GdR cinematografico",
+          "PRESET1_SUB": "Prosa vivida e descrittiva",
+          "PRESET2": "Dialoghi serrati",
+          "PRESET2_SUB": "Risposte brevi e incisive",
+          "CARD1": "Capitano Elara (v2)",
+          "CARD1_SUB": "Scheda SillyTavern",
+          "CARD2": "Lyra l'Alchimista",
+          "CARD2_SUB": "Scheda personaggio importata",
+          "DB1": "conversazioni",
+          "DB1_SUB": "128 righe",
+          "DB2": "personaggi",
+          "DB2_SUB": "12 righe"
+        }
       }
     },
     "FEATURES": {

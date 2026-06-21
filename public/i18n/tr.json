@@ -177,7 +177,37 @@
         "MODEL_NAME": "nemotron-3",
         "TOKENS": "148 in  /  297 out",
         "MENU_LABEL": "Rol yapma",
-        "LOCAL_DB": "Yerel VT"
+        "LOCAL_DB": "Yerel VT",
+        "MSG_AI_2": "Pota tam kıvamında parlıyor. Şu küçük şişeyi uzatır mısın?",
+        "MSG_AI_3": "Tekrar hoş geldin! Her zamanki yulaf sütlü latte, bol köpüklü olsun mu?",
+        "NEW_CHAT_EMPTY": "Yeni bir sohbet başlat...",
+        "DEMO_USER": "Bana kendinden bahset, kaptan.",
+        "DEMO_AI": "Kaptan Elara Voss, derin uzayda on beş yıl. Yanımdan ayrılma, sağ salim eve dönersin.",
+        "DLG": {
+          "CHAR1": "Savaşlarda yıpranmış uzay gemisi kaptanı",
+          "CHAR2": "Meraklı iksir ustası",
+          "CHAR3": "Sıcak bir kafenin baristası",
+          "PERSONA1": "Acemi er",
+          "PERSONA1_SUB": "Hevesli, bol soru sorar",
+          "PERSONA2": "Tecrübeli pilot",
+          "PERSONA2_SUB": "Baskı altında sakin",
+          "LORE1": "Dış Sınır",
+          "LORE1_SUB": "Yıldız haritaları ve ticaret yolları",
+          "LORE2": "Gemi manifestosu",
+          "LORE2_SUB": "Mürettebat listesi ve kargo",
+          "PRESET1": "Sinematik RP",
+          "PRESET1_SUB": "Canlı, betimleyici anlatım",
+          "PRESET2": "Hızlı diyalog",
+          "PRESET2_SUB": "Kısa, vurucu yanıtlar",
+          "CARD1": "Kaptan Elara (v2)",
+          "CARD1_SUB": "SillyTavern kartı",
+          "CARD2": "Simyacı Lyra",
+          "CARD2_SUB": "İçe aktarılmış karakter kartı",
+          "DB1": "konuşmalar",
+          "DB1_SUB": "128 satır",
+          "DB2": "karakterler",
+          "DB2_SUB": "12 satır"
+        }
       }
     },
     "FEATURES": {

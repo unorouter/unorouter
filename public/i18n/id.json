@@ -177,7 +177,37 @@
         "MODEL_NAME": "nemotron-3",
         "TOKENS": "148 in  /  297 out",
         "MENU_LABEL": "Roleplay",
-        "LOCAL_DB": "DB lokal"
+        "LOCAL_DB": "DB lokal",
+        "MSG_AI_2": "Wadah leburnya menyala pas sekali. Tolong ambilkan vial itu, ya?",
+        "MSG_AI_3": "Selamat datang kembali! Oat latte seperti biasa, busa ekstra?",
+        "NEW_CHAT_EMPTY": "Mulai percakapan baru...",
+        "DEMO_USER": "Ceritakan tentang dirimu, Kapten.",
+        "DEMO_AI": "Kapten Elara Voss, lima belas tahun di luar angkasa. Tetap dekat denganku dan kau akan pulang dengan selamat.",
+        "DLG": {
+          "CHAR1": "Kapten kapal luar angkasa, kenyang bertempur",
+          "CHAR2": "Peramu ramuan yang penasaran",
+          "CHAR3": "Barista kafe yang nyaman",
+          "PERSONA1": "Rekrut pemula",
+          "PERSONA1_SUB": "Bersemangat, banyak bertanya",
+          "PERSONA2": "Pilot veteran",
+          "PERSONA2_SUB": "Tenang di bawah tekanan",
+          "LORE1": "Tepi Terluar",
+          "LORE1_SUB": "Peta bintang dan jalur dagang",
+          "LORE2": "Manifes Kapal",
+          "LORE2_SUB": "Daftar awak dan muatan",
+          "PRESET1": "RP Sinematik",
+          "PRESET1_SUB": "Prosa hidup dan deskriptif",
+          "PRESET2": "Dialog Cepat",
+          "PRESET2_SUB": "Balasan singkat dan tajam",
+          "CARD1": "Kapten Elara (v2)",
+          "CARD1_SUB": "Kartu SillyTavern",
+          "CARD2": "Lyra sang Alkemis",
+          "CARD2_SUB": "Kartu karakter impor",
+          "DB1": "percakapan",
+          "DB1_SUB": "128 baris",
+          "DB2": "karakter",
+          "DB2_SUB": "12 baris"
+        }
       }
     },
     "FEATURES": {

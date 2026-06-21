@@ -155,7 +155,37 @@
         "MODEL_NAME": "nemotron-3",
         "TOKENS": "148 in  /  297 out",
         "MENU_LABEL": "角色扮演",
-        "LOCAL_DB": "本機資料庫"
+        "LOCAL_DB": "本機資料庫",
+        "MSG_AI_2": "坩堝燒得正好。幫我把那個小瓶遞過來，好嗎？",
+        "MSG_AI_3": "歡迎回來！還是老樣子，燕麥拿鐵多加奶泡？",
+        "NEW_CHAT_EMPTY": "開始新的對話……",
+        "DEMO_USER": "艦長，說說你自己吧。",
+        "DEMO_AI": "埃拉拉·沃斯艦長，在深空闖蕩了十五年。緊跟著我，你就能平安回家。",
+        "DLG": {
+          "CHAR1": "身經百戰的星艦艦長",
+          "CHAR2": "好奇的藥劑調配師",
+          "CHAR3": "溫馨咖啡館的咖啡師",
+          "PERSONA1": "菜鳥新兵",
+          "PERSONA1_SUB": "熱情十足，問個不停",
+          "PERSONA2": "資深飛行員",
+          "PERSONA2_SUB": "臨危不亂",
+          "LORE1": "外環星域",
+          "LORE1_SUB": "星圖與貿易航線",
+          "LORE2": "艦船載貨清單",
+          "LORE2_SUB": "船員名冊與貨物",
+          "PRESET1": "電影感角色扮演",
+          "PRESET1_SUB": "鮮活而富有畫面感的文字",
+          "PRESET2": "俐落對白",
+          "PRESET2_SUB": "簡短有力的回覆",
+          "CARD1": "埃拉拉艦長（v2）",
+          "CARD1_SUB": "SillyTavern 角色卡",
+          "CARD2": "煉金術士萊拉",
+          "CARD2_SUB": "匯入的角色卡",
+          "DB1": "對話",
+          "DB1_SUB": "128 列",
+          "DB2": "角色",
+          "DB2_SUB": "12 列"
+        }
       }
     },
     "FEATURES": {

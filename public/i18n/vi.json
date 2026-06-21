@@ -155,7 +155,37 @@
         "MODEL_NAME": "nemotron-3",
         "TOKENS": "148 in  /  297 out",
         "MENU_LABEL": "Nhap vai",
-        "LOCAL_DB": "CSDL cuc bo"
+        "LOCAL_DB": "CSDL cuc bo",
+        "MSG_AI_2": "Lò nung đang rực lên vừa độ. Lấy giúp tôi cái lọ kia nhé?",
+        "MSG_AI_3": "Mừng bạn quay lại! Vẫn ly latte yến mạch như mọi khi, thêm bọt chứ?",
+        "NEW_CHAT_EMPTY": "Bắt đầu cuộc trò chuyện mới...",
+        "DEMO_USER": "Hãy kể cho tôi nghe về cô, thuyền trưởng.",
+        "DEMO_AI": "Thuyền trưởng Elara Voss, mười lăm năm giữa vũ trụ sâu thẳm. Bám sát tôi thì cậu sẽ về nhà an toàn.",
+        "DLG": {
+          "CHAR1": "Nữ thuyền trưởng phi thuyền, dày dạn trận mạc",
+          "CHAR2": "Người pha chế thuốc tò mò",
+          "CHAR3": "Nhân viên pha chế quán cà phê ấm cúng",
+          "PERSONA1": "Tân binh",
+          "PERSONA1_SUB": "Hăng hái, hỏi rất nhiều",
+          "PERSONA2": "Phi công kỳ cựu",
+          "PERSONA2_SUB": "Điềm tĩnh trước áp lực",
+          "LORE1": "Vành Đai Ngoài",
+          "LORE1_SUB": "Bản đồ sao và tuyến thương mại",
+          "LORE2": "Bản kê khai phi thuyền",
+          "LORE2_SUB": "Danh sách thủy thủ và hàng hóa",
+          "PRESET1": "Nhập vai điện ảnh",
+          "PRESET1_SUB": "Văn phong sống động, giàu mô tả",
+          "PRESET2": "Đối thoại nhanh gọn",
+          "PRESET2_SUB": "Câu trả lời ngắn, sắc bén",
+          "CARD1": "Thuyền trưởng Elara (v2)",
+          "CARD1_SUB": "Thẻ SillyTavern",
+          "CARD2": "Lyra nhà giả kim",
+          "CARD2_SUB": "Thẻ nhân vật đã nhập",
+          "DB1": "cuộc trò chuyện",
+          "DB1_SUB": "128 hàng",
+          "DB2": "nhân vật",
+          "DB2_SUB": "12 hàng"
+        }
       }
     },
     "FEATURES": {
