@@ -94,6 +94,7 @@ export enum Vendor {
   SWISSAI = "swiss ai",
   EUROLLM = "eurollm",
   DICTA = "dicta",
+  VOYAGE = "voyage",
 }
 
 export enum OS {

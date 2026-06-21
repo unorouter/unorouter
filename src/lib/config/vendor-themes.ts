@@ -547,6 +547,22 @@ const VENDOR_THEMES: Record<string, VendorTheme> = {
     tagBorder: "border-rose-500/20",
     primary: "#e11d48",
   },
+  [Vendor.VOYAGE]: {
+    bg: "bg-cyan-500/5",
+    border: "border-cyan-500/20",
+    text: "text-cyan-700 dark:text-cyan-300",
+    tagBg: "bg-cyan-500/10",
+    tagBorder: "border-cyan-500/20",
+    primary: "#0891b2",
+  },
+  [Vendor.OPENCODE]: {
+    bg: "bg-slate-500/5",
+    border: "border-slate-500/20",
+    text: "text-slate-700 dark:text-slate-300",
+    tagBg: "bg-slate-500/10",
+    tagBorder: "border-slate-500/20",
+    primary: "#64748b",
+  },
 };
 
 export const DEFAULT_THEME: VendorTheme = {
