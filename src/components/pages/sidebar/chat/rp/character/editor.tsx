@@ -30,8 +30,8 @@ type Props = {
   onSaved: () => void;
 };
 
-// Background image edit state: keep existing, remove, or replace with new bytes.
-type BgDraft =
+// Image edit state: keep existing, remove, or replace with new bytes.
+type ImgDraft =
   | { kind: "keep" }
   | { kind: "remove" }
   | { kind: "new"; dataUrl: string };
@@ -43,16 +43,27 @@ export function CharacterEditor(props: Props) {
   const createMut = useCreateCharacterMutation();
   const updateMut = useUpdateCharacterMutation();
   const existing = characterQuery.data;
-  const [bgDraft, setBgDraft] = useState<BgDraft>({ kind: "keep" });
+  const [bgDraft, setBgDraft] = useState<ImgDraft>({ kind: "keep" });
+  const [avatarDraft, setAvatarDraft] = useState<ImgDraft>({ kind: "keep" });
   const bgFileInputRef = useRef<HTMLInputElement | null>(null);
+  const avatarFileInputRef = useRef<HTMLInputElement | null>(null);
   const existingBgSrc = useMediaSrc(
     bgDraft.kind === "keep" ? existing?.backgroundMediaId : null,
+  );
+  const existingAvatarSrc = useMediaSrc(
+    avatarDraft.kind === "keep" ? existing?.avatarMediaId : null,
   );
   const bgPreview =
     bgDraft.kind === "new"
       ? bgDraft.dataUrl
       : bgDraft.kind === "keep"
         ? existingBgSrc
+        : null;
+  const avatarPreview =
+    avatarDraft.kind === "new"
+      ? avatarDraft.dataUrl
+      : avatarDraft.kind === "keep"
+        ? existingAvatarSrc
         : null;
 
   // values syncs the row on settle; keepDirtyValues protects in-progress typing. tags/triggers are string[] columns edited comma-joined.
@@ -71,13 +82,20 @@ export function CharacterEditor(props: Props) {
     const dataUrl = await fileToScaledDataUrl(file);
     setBgDraft({ kind: "new", dataUrl });
   };
+  const pickAvatarFile = async (file: File) => {
+    const dataUrl = await fileToScaledDataUrl(file);
+    setAvatarDraft({ kind: "new", dataUrl });
+  };
 
   // Media row is only written on save so an abandoned edit leaves no orphan.
-  const resolveBackgroundMediaId = async (): Promise<string | null> => {
-    if (bgDraft.kind === "remove") return null;
-    if (bgDraft.kind === "keep") return existing?.backgroundMediaId ?? null;
-    const parts = splitDataUrl(bgDraft.dataUrl);
-    if (!parts) return existing?.backgroundMediaId ?? null;
+  const resolveMediaId = async (
+    draft: ImgDraft,
+    existingId: string | null | undefined,
+  ): Promise<string | null> => {
+    if (draft.kind === "remove") return null;
+    if (draft.kind === "keep") return existingId ?? null;
+    const parts = splitDataUrl(draft.dataUrl);
+    if (!parts) return existingId ?? null;
     const mediaId = uid();
     await upsertLocalMedia(userId, {
       id: mediaId,
@@ -95,7 +113,11 @@ export function CharacterEditor(props: Props) {
       // tags/triggers go back to string[] columns.
       tags: csvToArray(data.tags),
       triggers: csvToArray(data.triggers),
-      backgroundMediaId: await resolveBackgroundMediaId(),
+      avatarMediaId: await resolveMediaId(avatarDraft, existing?.avatarMediaId),
+      backgroundMediaId: await resolveMediaId(
+        bgDraft,
+        existing?.backgroundMediaId,
+      ),
     };
     if (props.characterId) {
       await updateMut.mutateAsync({ id: props.characterId, body });
@@ -174,6 +196,59 @@ export function CharacterEditor(props: Props) {
           label={t("RP.CHARACTER_TAGS")}
           placeholder="fantasy, adventure"
         />
+        <div className="border-border/40 flex flex-col gap-3 rounded-lg border p-3">
+          <div className="text-foreground text-xs font-medium tracking-wide uppercase">
+            {t("RP.CHARACTER_AVATAR")}
+          </div>
+          <p className="text-muted-foreground text-xs">
+            {t("RP.CHARACTER_AVATAR_HINT")}
+          </p>
+          {avatarPreview && (
+            <div className="border-border/40 relative size-24 overflow-hidden rounded-full border">
+              {/* eslint-disable-next-line @next/next/no-img-element -- local data-URL preview, next/image can't optimize it */}
+              <img
+                src={avatarPreview}
+                alt=""
+                className="h-full w-full object-cover"
+              />
+            </div>
+          )}
+          <div className="flex gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="flex-1"
+              onClick={() => avatarFileInputRef.current?.click()}
+            >
+              <Icon name="upload" className="mr-1.5 size-3.5" />
+              {avatarPreview ? t("THEME.BG_REPLACE") : t("THEME.BG_UPLOAD")}
+            </Button>
+            {avatarPreview && (
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="flex-1"
+                onClick={() => setAvatarDraft({ kind: "remove" })}
+              >
+                <Icon name="trash-2" className="mr-1.5 size-3.5" />
+                {t("THEME.BG_REMOVE")}
+              </Button>
+            )}
+          </div>
+          <input
+            ref={avatarFileInputRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={(e) => {
+              const f = e.target.files?.[0];
+              if (f) void pickAvatarFile(f);
+              e.target.value = "";
+            }}
+          />
+        </div>
         <div className="border-border/40 flex flex-col gap-3 rounded-lg border p-3">
           <div className="text-foreground text-xs font-medium tracking-wide uppercase">
             {t("RP.CHARACTER_BACKGROUND")}
