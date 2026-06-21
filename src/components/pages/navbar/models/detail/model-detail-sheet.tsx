@@ -84,6 +84,7 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
               size="sm"
               variant="outline"
               className="flex-1"
+              nativeButton={false}
               render={
                 <Link
                   href={{
@@ -99,6 +100,7 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
             <Button
               size="sm"
               className="flex-1"
+              nativeButton={false}
               onClick={() => setChatModel(model.name)}
               render={<Link href="/chat" />}
             >
