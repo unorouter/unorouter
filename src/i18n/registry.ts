@@ -63,6 +63,66 @@ export const LEGAL_REGISTRY = [
 
 export const BLOG_REGISTRY = [
   {
+    slug: "best-ai-gateway-for-sillytavern",
+    date: "2026-06-25",
+    tags: ["comparison", "product"],
+    i18nKey: "BLOG.POSTS.BEST_AI_GATEWAY_FOR_SILLYTAVERN",
+    contentFiles: [
+      "src/components/pages/blog/posts/2026-06-25-best-ai-gateway-for-sillytavern-content.tsx",
+    ],
+    priority: 0.7,
+    changeFrequency: "monthly",
+    category: "product",
+    wordCount: 620,
+    headings: [
+      { id: "what-matters", i18nLeaf: "H_WHAT_MATTERS", level: 2 },
+      { id: "options", i18nLeaf: "H_OPTIONS", level: 2 },
+      { id: "connect", i18nLeaf: "H_CONNECT", level: 2 },
+      { id: "free", i18nLeaf: "H_FREE", level: 2 },
+      { id: "verdict", i18nLeaf: "H_VERDICT", level: 2 },
+    ],
+  },
+  {
+    slug: "unorouter-vs-nano-gpt",
+    date: "2026-06-23",
+    tags: ["comparison", "product"],
+    i18nKey: "BLOG.POSTS.UNOROUTER_VS_NANO_GPT",
+    contentFiles: [
+      "src/components/pages/blog/posts/2026-06-23-unorouter-vs-nano-gpt-content.tsx",
+    ],
+    priority: 0.7,
+    changeFrequency: "monthly",
+    category: "product",
+    wordCount: 600,
+    headings: [
+      { id: "catalog", i18nLeaf: "H_CATALOG", level: 2 },
+      { id: "dev", i18nLeaf: "H_DEV", level: 2 },
+      { id: "chat", i18nLeaf: "H_CHAT", level: 2 },
+      { id: "pay", i18nLeaf: "H_PAY", level: 2 },
+      { id: "verdict", i18nLeaf: "H_VERDICT", level: 2 },
+    ],
+  },
+  {
+    slug: "unorouter-vs-portkey",
+    date: "2026-06-21",
+    tags: ["comparison", "product"],
+    i18nKey: "BLOG.POSTS.UNOROUTER_VS_PORTKEY",
+    contentFiles: [
+      "src/components/pages/blog/posts/2026-06-21-unorouter-vs-portkey-content.tsx",
+    ],
+    priority: 0.7,
+    changeFrequency: "monthly",
+    category: "product",
+    wordCount: 590,
+    headings: [
+      { id: "audience", i18nLeaf: "H_AUDIENCE", level: 2 },
+      { id: "setup", i18nLeaf: "H_SETUP", level: 2 },
+      { id: "interface", i18nLeaf: "H_INTERFACE", level: 2 },
+      { id: "cost", i18nLeaf: "H_COST", level: 2 },
+      { id: "verdict", i18nLeaf: "H_VERDICT", level: 2 },
+    ],
+  },
+  {
     slug: "unorouter-vs-megallm",
     date: "2026-06-20",
     tags: ["comparison", "product"],
