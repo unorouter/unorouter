@@ -11,14 +11,13 @@ import {
 import { Icon } from "@/components/ui/icon";
 import { useRouter } from "@/i18n/navigation";
 import type { ProcessedModel } from "@/lib/api/pricing";
-import { copyToClipboard } from "@/lib/utils/base";
+import { copyToClipboard, modelSlug } from "@/lib/utils/base";
 import { chatModelAtom } from "@/store/chat-store";
 import { useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 
 export function ModelRowActions(props: {
   model: ProcessedModel;
-  onDetails: (model: ProcessedModel) => void;
 }) {
   const t = useTranslations();
   const router = useRouter();
@@ -45,7 +44,10 @@ export function ModelRowActions(props: {
           <DropdownMenuItem
             onClick={(e) => {
               e.stopPropagation();
-              props.onDetails(model);
+              router.push({
+                pathname: "/models/[slug]",
+                params: { slug: modelSlug(model.name) },
+              });
             }}
           >
             <Icon

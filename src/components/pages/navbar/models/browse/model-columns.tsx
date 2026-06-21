@@ -67,7 +67,6 @@ export function buildModelColumns(opts: {
   rankMap: Map<string, RankedModel>;
   offLabel: (pct: number) => string;
   freeLabel: string;
-  onDetails: (model: ProcessedModel) => void;
 }): ColumnDef<ProcessedModel>[] {
   const rankTokens = (m: ProcessedModel) =>
     opts.rankMap.get(m.name)?.total_tokens ?? 0;
@@ -217,9 +216,7 @@ export function buildModelColumns(opts: {
       enableSorting: false,
       header: () => null,
       meta: { headerClassName: "w-10", cellClassName: "text-right" },
-      cell: ({ row }) => (
-        <ModelRowActions model={row.original} onDetails={opts.onDetails} />
-      ),
+      cell: ({ row }) => <ModelRowActions model={row.original} />,
     },
   ];
 }
