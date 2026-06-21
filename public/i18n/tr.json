@@ -175,7 +175,7 @@
         "CONV2": "Simyaci Lyra",
         "CONV3": "Kafedeki Mochi",
         "MODEL_NAME": "nemotron-3",
-        "TOKENS": "148 in  /  297 out",
+        "TOKENS": "{in} gir. / {out} çık.",
         "MENU_LABEL": "Rol yapma",
         "LOCAL_DB": "Yerel VT",
         "MSG_AI_2": "Pota tam kıvamında parlıyor. Şu küçük şişeyi uzatır mısın?",
@@ -207,7 +207,11 @@
           "DB1_SUB": "128 satır",
           "DB2": "karakterler",
           "DB2_SUB": "12 satır"
-        }
+        },
+        "DEMO_USER_2": "Bugün ne karıştırıyorsun?",
+        "DEMO_AI_2": "Berraklık iksiri. Üç damla, zihnin işlenmiş cam gibi keskinleşir. Tatmak ister misin?",
+        "DEMO_USER_3": "Bir içecekle beni şaşırt.",
+        "DEMO_AI_3": "Bir lavanta ballı latte, hemen geliyor. Şurubu bu sabah kendim yaptım."
       }
     },
     "FEATURES": {

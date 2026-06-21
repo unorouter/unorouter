@@ -153,7 +153,7 @@
         "CONV2": "Lyra nha gia kim",
         "CONV3": "Mochi o quan ca phe",
         "MODEL_NAME": "nemotron-3",
-        "TOKENS": "148 in  /  297 out",
+        "TOKENS": "{in} vào / {out} ra",
         "MENU_LABEL": "Nhap vai",
         "LOCAL_DB": "CSDL cuc bo",
         "MSG_AI_2": "Lò nung đang rực lên vừa độ. Lấy giúp tôi cái lọ kia nhé?",
@@ -185,7 +185,11 @@
           "DB1_SUB": "128 hàng",
           "DB2": "nhân vật",
           "DB2_SUB": "12 hàng"
-        }
+        },
+        "DEMO_USER_2": "Hôm nay cô đang pha chế gì thế?",
+        "DEMO_AI_2": "Một loại tiên dược minh mẫn. Ba giọt thôi là tâm trí sắc bén như thủy tinh mài. Muốn nếm thử không?",
+        "DEMO_USER_3": "Pha cho tôi một thức uống bất ngờ đi.",
+        "DEMO_AI_3": "Một ly latte mật ong oải hương, có ngay đây. Sáng nay tôi tự tay nấu siro đấy."
       }
     },
     "FEATURES": {

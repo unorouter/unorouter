@@ -175,7 +175,7 @@
         "CONV2": "Lyra the Alchemist",
         "CONV3": "Mochi at the Cafe",
         "MODEL_NAME": "nemotron-3",
-        "TOKENS": "148 in  /  297 out",
+        "TOKENS": "{in} in / {out} out",
         "MENU_LABEL": "Roleplay",
         "LOCAL_DB": "Local DB browser",
         "MSG_AI_2": "The crucible glows just right. Hand me that vial, would you?",
@@ -207,7 +207,11 @@
           "DB1_SUB": "128 rows",
           "DB2": "characters",
           "DB2_SUB": "12 rows"
-        }
+        },
+        "DEMO_USER_2": "What are you brewing today?",
+        "DEMO_AI_2": "A clarity elixir. Three drops and your mind sharpens like cut glass. Want a taste?",
+        "DEMO_USER_3": "Surprise me with a drink.",
+        "DEMO_AI_3": "One lavender honey latte, coming up. I made the syrup myself this morning."
       }
     },
     "FEATURES": {

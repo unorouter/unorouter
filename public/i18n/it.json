@@ -175,7 +175,7 @@
         "CONV2": "Lyra l'Alchimista",
         "CONV3": "Mochi al Cafe",
         "MODEL_NAME": "nemotron-3",
-        "TOKENS": "148 in  /  297 out",
+        "TOKENS": "{in} ent. / {out} usc.",
         "MENU_LABEL": "Gioco di ruolo",
         "LOCAL_DB": "DB locale",
         "MSG_AI_2": "Il crogiolo brilla al punto giusto. Mi passi quella fiala?",
@@ -207,7 +207,11 @@
           "DB1_SUB": "128 righe",
           "DB2": "personaggi",
           "DB2_SUB": "12 righe"
-        }
+        },
+        "DEMO_USER_2": "Cosa stai preparando oggi?",
+        "DEMO_AI_2": "Un elisir di lucidità. Tre gocce e la tua mente diventa affilata come vetro tagliato. Vuoi assaggiarlo?",
+        "DEMO_USER_3": "Sorprendimi con qualcosa da bere.",
+        "DEMO_AI_3": "Un latte alla lavanda e miele, in arrivo. Lo sciroppo l'ho fatto io stamattina."
       }
     },
     "FEATURES": {

@@ -2,7 +2,14 @@ import { CompanyName, LogoImage } from "@/components/elements/brand/brand";
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Icon } from "@/components/ui/icon";
 
-export type MockConv = { vendor: string; label: string; message: string };
+export type MockConv = {
+  vendor: string;
+  label: string;
+  message: string;
+  demoUser: string;
+  demoAi: string;
+  tokens: string;
+};
 export type MockModel = { vendor: string; name: string };
 export type MockMenuItem = { icon: string; label: string };
 // One RP feature's dialog: a title + a few representative rows (name + subtitle).
@@ -27,8 +34,6 @@ export type MockData = {
     menuLabel: string;
     localDb: string;
     newChatEmpty: string;
-    demoUser: string;
-    demoAi: string;
   };
 };
 
@@ -50,6 +55,10 @@ export type MockState = {
   // Which RP feature dialog is open (index into data.menu + the trailing Local DB row), or
   // null. Opening a menu row pops its real dialog; the demo then closes it.
   rpDialog: number | null;
+  // Title of a freshly-created conversation shown at the top of the sidebar during the
+  // new-chat beat ("" = no new row). Starts as the New Chat label, then the demo swaps in
+  // a title once the message is sent, like the real app.
+  newConvTitle: string;
 };
 
 export const DEFAULT_MOCK_STATE: MockState = {
@@ -64,6 +73,7 @@ export const DEFAULT_MOCK_STATE: MockState = {
   aiTyping: false,
   aiMsg: "",
   rpDialog: null,
+  newConvTitle: "",
 };
 
 export function ChatMockView(props: { data: MockData; state: MockState }) {
@@ -84,8 +94,8 @@ export function ChatMockView(props: { data: MockData; state: MockState }) {
           data-demo="newChat"
           className={`mb-2 flex items-center gap-1.5 rounded border px-2 py-1.5 transition-colors ${
             state.isNewChat
-              ? "text-foreground border-purple-500/50 bg-purple-500/10"
-              : "bg-background/60 border-border/50 text-muted-foreground"
+              ? "text-foreground border-cyan-500/50 bg-cyan-500/10"
+              : "border-border/50 bg-background/60 text-muted-foreground"
           }`}
         >
           <Icon name="plus" className="h-2.5 w-2.5" />
@@ -94,6 +104,17 @@ export function ChatMockView(props: { data: MockData; state: MockState }) {
           </span>
         </div>
         <div className="space-y-0.5">
+          {/* Freshly-created conversation row during the new-chat beat */}
+          {state.newConvTitle ? (
+            <div className="bg-accent text-foreground flex items-center gap-1.5 rounded px-2 py-1.5 transition-colors">
+              <span className="flex size-3 shrink-0 items-center justify-center">
+                <VendorIcon vendor={data.convs[0]?.vendor ?? ""} size={12} />
+              </span>
+              <span className="truncate font-mono text-[9px] tracking-tight">
+                {state.newConvTitle}
+              </span>
+            </div>
+          ) : null}
           {data.convs.map((c, i) => (
             <div
               key={c.label}
@@ -186,9 +207,19 @@ export function ChatMockView(props: { data: MockData; state: MockState }) {
                     <span className="bg-muted-foreground/50 size-1.5 animate-bounce rounded-full" />
                   </div>
                 ) : state.aiMsg ? (
-                  <p className="text-foreground/90 text-[13px] leading-relaxed">
-                    {state.aiMsg}
-                  </p>
+                  <>
+                    <p className="text-foreground/90 text-[13px] leading-relaxed">
+                      {state.aiMsg}
+                    </p>
+                    <div className="text-muted-foreground/60 flex items-center gap-2 pt-1 font-mono text-[9px]">
+                      <Icon name="copy" className="h-3 w-3" />
+                      <Icon name="refresh-cw" className="h-3 w-3" />
+                      <Icon name="pencil" className="h-3 w-3" />
+                      <span className="ml-auto tabular-nums">
+                        {data.strings.tokens}
+                      </span>
+                    </div>
+                  </>
                 ) : null}
               </div>
             ) : (
@@ -203,15 +234,36 @@ export function ChatMockView(props: { data: MockData; state: MockState }) {
               <div className="text-muted-foreground/70 font-mono text-[9px] tracking-wider uppercase">
                 {activeConvData?.label}
               </div>
-              <p className="text-foreground/90 line-clamp-5 text-[13px] leading-relaxed">
+              <p className="text-foreground/90 line-clamp-3 text-[13px] leading-relaxed">
                 {activeConvData?.message}
               </p>
+              {/* Appended exchange typed into this existing chat (a 2nd message) */}
+              {state.userMsg ? (
+                <div className="space-y-3 pt-1">
+                  <div className="flex justify-end">
+                    <span className="bg-primary/15 text-foreground/90 max-w-[80%] rounded-lg px-3 py-1.5 text-[12px] leading-relaxed">
+                      {state.userMsg}
+                    </span>
+                  </div>
+                  {state.aiTyping ? (
+                    <div className="flex items-center gap-1 px-1">
+                      <span className="bg-muted-foreground/50 size-1.5 animate-bounce rounded-full [animation-delay:-0.2s]" />
+                      <span className="bg-muted-foreground/50 size-1.5 animate-bounce rounded-full [animation-delay:-0.1s]" />
+                      <span className="bg-muted-foreground/50 size-1.5 animate-bounce rounded-full" />
+                    </div>
+                  ) : state.aiMsg ? (
+                    <p className="text-foreground/90 line-clamp-3 text-[13px] leading-relaxed">
+                      {state.aiMsg}
+                    </p>
+                  ) : null}
+                </div>
+              ) : null}
               <div className="text-muted-foreground/60 flex items-center gap-2 pt-1 font-mono text-[9px]">
                 <Icon name="copy" className="h-3 w-3" />
                 <Icon name="refresh-cw" className="h-3 w-3" />
                 <Icon name="pencil" className="h-3 w-3" />
                 <span className="ml-auto tabular-nums">
-                  {data.strings.tokens}
+                  {activeConvData?.tokens}
                 </span>
               </div>
             </>
