@@ -126,6 +126,10 @@ export const VENDOR_LOADERS: Partial<Record<Vendor, IconLoader>> = {
   [Vendor.KUAISHOU]: () => import("@lobehub/icons/es/Kwaipilot"),
   [Vendor.INTERNLM]: () => import("@lobehub/icons/es/InternLM"),
   [Vendor.SENSENOVA]: () => import("@lobehub/icons/es/SenseNova"),
+  [Vendor.MEITUAN]: () => import("@lobehub/icons/es/LongCat"),
+  [Vendor.SWISSAI]: () => import("@/components/elements/brand/swissai-icon"),
+  [Vendor.EUROLLM]: () => import("@/components/elements/brand/eurollm-icon"),
+  [Vendor.DICTA]: () => import("@/components/elements/brand/dicta-icon"),
 };
 
 /** Aliases for vendor strings that don't match a `Vendor` enum value (e.g.

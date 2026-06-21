@@ -90,6 +90,10 @@ export enum Vendor {
   ESSENTIALAI = "essential ai",
   INTERNLM = "internlm",
   SENSENOVA = "sensenova",
+  MEITUAN = "meituan",
+  SWISSAI = "swiss ai",
+  EUROLLM = "eurollm",
+  DICTA = "dicta",
 }
 
 export enum OS {
