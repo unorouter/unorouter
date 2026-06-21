@@ -153,7 +153,7 @@
         "CONV2": "Lyra l'Alchimiste",
         "CONV3": "Mochi au Cafe",
         "MODEL_NAME": "nemotron-3",
-        "TOKENS": "148 in  /  297 out",
+        "TOKENS": "{in} ent. / {out} sort.",
         "MENU_LABEL": "Jeu de role",
         "LOCAL_DB": "BD locale",
         "MSG_AI_2": "Le creuset rougeoie juste comme il faut. Tu me passes cette fiole ?",
@@ -185,7 +185,11 @@
           "DB1_SUB": "128 lignes",
           "DB2": "personnages",
           "DB2_SUB": "12 lignes"
-        }
+        },
+        "DEMO_USER_2": "Que prépares-tu aujourd'hui ?",
+        "DEMO_AI_2": "Un élixir de clarté. Trois gouttes et ton esprit s'aiguise comme du verre taillé. Tu veux goûter ?",
+        "DEMO_USER_3": "Surprends-moi avec une boisson.",
+        "DEMO_AI_3": "Un latte lavande-miel, ça arrive. J'ai fait le sirop moi-même ce matin."
       }
     },
     "FEATURES": {

@@ -175,7 +175,7 @@
         "CONV2": "Lyra sang Alkemis",
         "CONV3": "Mochi di Kafe",
         "MODEL_NAME": "nemotron-3",
-        "TOKENS": "148 in  /  297 out",
+        "TOKENS": "{in} masuk / {out} keluar",
         "MENU_LABEL": "Roleplay",
         "LOCAL_DB": "DB lokal",
         "MSG_AI_2": "Wadah leburnya menyala pas sekali. Tolong ambilkan vial itu, ya?",
@@ -207,7 +207,11 @@
           "DB1_SUB": "128 baris",
           "DB2": "karakter",
           "DB2_SUB": "12 baris"
-        }
+        },
+        "DEMO_USER_2": "Kamu lagi meracik apa hari ini?",
+        "DEMO_AI_2": "Ramuan kejernihan. Tiga tetes dan pikiranmu setajam kaca terasah. Mau cicip?",
+        "DEMO_USER_3": "Kejutkan aku dengan minuman.",
+        "DEMO_AI_3": "Satu latte lavender madu, segera datang. Sirupnya kubuat sendiri tadi pagi."
       }
     },
     "FEATURES": {

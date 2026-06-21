@@ -175,7 +175,7 @@
         "CONV2": "Lyra a Alquimista",
         "CONV3": "Mochi no Cafe",
         "MODEL_NAME": "nemotron-3",
-        "TOKENS": "148 in  /  297 out",
+        "TOKENS": "{in} ent. / {out} saí.",
         "MENU_LABEL": "RPG",
         "LOCAL_DB": "BD local",
         "MSG_AI_2": "O cadinho está brilhando no ponto certo. Me passa aquele frasco?",
@@ -207,7 +207,11 @@
           "DB1_SUB": "128 linhas",
           "DB2": "personagens",
           "DB2_SUB": "12 linhas"
-        }
+        },
+        "DEMO_USER_2": "O que você está preparando hoje?",
+        "DEMO_AI_2": "Um elixir de clareza. Três gotas e sua mente fica afiada como vidro lapidado. Quer provar?",
+        "DEMO_USER_3": "Me surpreenda com uma bebida.",
+        "DEMO_AI_3": "Um latte de lavanda com mel, saindo. Fiz a calda eu mesma hoje de manhã."
       }
     },
     "FEATURES": {

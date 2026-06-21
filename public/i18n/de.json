@@ -153,7 +153,7 @@
         "CONV2": "Lyra die Alchemistin",
         "CONV3": "Mochi im Cafe",
         "MODEL_NAME": "nemotron-3",
-        "TOKENS": "148 in  /  297 out",
+        "TOKENS": "{in} Ein. / {out} Aus.",
         "MENU_LABEL": "Rollenspiel",
         "LOCAL_DB": "Lokale DB",
         "MSG_AI_2": "Der Schmelztiegel glüht genau richtig. Reichst du mir das Fläschchen?",
@@ -185,7 +185,11 @@
           "DB1_SUB": "128 Zeilen",
           "DB2": "Charaktere",
           "DB2_SUB": "12 Zeilen"
-        }
+        },
+        "DEMO_USER_2": "Was braust du heute zusammen?",
+        "DEMO_AI_2": "Ein Elixier der Klarheit. Drei Tropfen, und dein Geist wird scharf wie geschliffenes Glas. Magst du kosten?",
+        "DEMO_USER_3": "Überrasch mich mit einem Getränk.",
+        "DEMO_AI_3": "Ein Lavendel-Honig-Latte, kommt sofort. Den Sirup habe ich heute Morgen selbst gemacht."
       }
     },
     "FEATURES": {

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/refs */
 "use client";
 
 import {
@@ -30,7 +31,6 @@ export function ChatMockAnimated(props: { data: MockData }) {
 
     const data = dataRef.current;
     const menuLen = data.menu.length;
-    const modelCount = data.models.length;
     let alive = true;
 
     const sleep = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
@@ -75,74 +75,103 @@ export function ChatMockAnimated(props: { data: MockData }) {
       await sleep(hold);
     };
 
-    const demoUser = data.strings.demoUser;
-    const demoAi = data.strings.demoAi;
-
-    // Type the user message into the composer, send, show typing, stream the reply in.
-    const chatSim = async (base: MockState) => {
+    // Type the character-specific message into the active chat, send it, show typing,
+    // stream the reply in. `base` carries activeConv + isNewChat; an existing chat keeps
+    // its greeting above the new exchange, a new chat shows just the exchange. `newTitle`
+    // (new-chat beat only) shows a fresh sidebar row: the New Chat label while typing,
+    // then the populated title once the message is sent (like the real app).
+    const chatSim = async (
+      base: MockState,
+      user: string,
+      ai: string,
+      newTitle?: string,
+    ) => {
+      const typingBase: MockState = newTitle
+        ? { ...base, newConvTitle: data.strings.newChat }
+        : base;
+      const sentBase: MockState = newTitle
+        ? { ...base, newConvTitle: newTitle }
+        : base;
       await moveTo("input");
-      for (let i = 1; i <= demoUser.length && alive; i++) {
-        setState({ ...base, isNewChat: true, typedText: demoUser.slice(0, i) });
-        await sleep(38);
+      for (let i = 1; i <= user.length && alive; i++) {
+        setState({ ...typingBase, typedText: user.slice(0, i) });
+        await sleep(34);
       }
-      await sleep(350);
-      // Send: clear composer, show the user turn + typing indicator.
-      setState({
-        ...base,
-        isNewChat: true,
-        typedText: "",
-        userMsg: demoUser,
-        aiTyping: true,
-      });
-      await sleep(1100);
+      await sleep(300);
+      // Send: clear composer, populate the title, show the user turn + typing indicator.
+      setState({ ...sentBase, typedText: "", userMsg: user, aiTyping: true });
+      await sleep(1000);
       // Stream the reply word by word.
-      const words = demoAi.split(" ");
+      const words = ai.split(" ");
       for (let w = 1; w <= words.length && alive; w++) {
         setState({
-          ...base,
-          isNewChat: true,
-          userMsg: demoUser,
+          ...sentBase,
+          userMsg: user,
           aiTyping: false,
           aiMsg: words.slice(0, w).join(" "),
         });
-        await sleep(85);
+        await sleep(80);
       }
-      await sleep(1600);
+      await sleep(1400);
     };
+
+    const convCount = data.convs.length;
 
     const loop = async () => {
       while (alive) {
         await waitVisible();
-        // 1. Walk the three chats.
-        await beat({ ...BASE, activeConv: 0 }, "conv0", 1500);
-        await beat({ ...BASE, activeConv: 1 }, "conv1", 1700);
-        await beat({ ...BASE, activeConv: 2 }, "conv2", 1700);
-        if (!alive) break;
-
-        // 2. New chat, then simulate a full exchange.
-        await beat({ ...BASE, isNewChat: true }, "newChat", 700);
-        await waitVisible();
-        await chatSim(BASE);
-        if (!alive) break;
-
-        // 3. Model dropdown - cycle the real free models, pick the last.
-        await beat(
-          { ...BASE, modelOpen: true, modelPicked: 0 },
-          "modelPill",
-          900,
+        // 1. Start in the existing first chat: type its character-specific reply so a 2nd
+        // message appears under the greeting.
+        await chatSim(
+          { ...BASE, activeConv: 0 },
+          data.convs[0].demoUser,
+          data.convs[0].demoAi,
         );
-        for (let i = 0; i < modelCount && alive; i++) {
-          await beat(
-            { ...BASE, modelOpen: true, modelPicked: i },
-            `model${i}`,
-            750,
-          );
-        }
-        await beat({ ...BASE, modelPicked: modelCount - 1 }, "modelPill", 900);
         if (!alive) break;
 
-        // 4. RP menu - open each feature's real dialog, then close it.
-        const picked = modelCount - 1;
+        // 2. Click through the other chats just to switch (show each greeting, no typing);
+        // only on the LAST one type a reply.
+        for (let c = 1; c < convCount && alive; c++) {
+          const last = c === convCount - 1;
+          await beat({ ...BASE, activeConv: c }, `conv${c}`, last ? 900 : 1600);
+          if (last) {
+            await waitVisible();
+            await chatSim(
+              { ...BASE, activeConv: c },
+              data.convs[c].demoUser,
+              data.convs[c].demoAi,
+            );
+          }
+        }
+        if (!alive) break;
+
+        // 3. New chat: a fresh sidebar conv appears (New Chat placeholder), type a message
+        // which populates its title, then the reply streams back.
+        await beat(
+          { ...BASE, isNewChat: true, newConvTitle: data.strings.newChat },
+          "newChat",
+          700,
+        );
+        await waitVisible();
+        await chatSim(
+          { ...BASE, isNewChat: true },
+          data.convs[0].demoUser,
+          data.convs[0].demoAi,
+          data.convs[0].label,
+        );
+        if (!alive) break;
+
+        // 4. Model dropdown - open it to show the free models, then move on. Opening the
+        // RP menu next auto-closes it (like the real app), no explicit close click.
+        const picked = 0;
+        await beat(
+          { ...BASE, modelOpen: true, modelPicked: picked },
+          "modelPill",
+          1600,
+        );
+        if (!alive) break;
+
+        // 5. RP menu - opening it closes the model dropdown; walk each feature's dialog.
         await beat(
           { ...BASE, modelPicked: picked, rpOpen: true, rpActive: 0 },
           "rpToggle",
