@@ -50,11 +50,8 @@ export async function CodeSection() {
               </span>
             </div>
             <div className="text-foreground group flex items-center gap-4 text-sm">
-              <div className="flex h-6 w-6 items-center justify-center rounded border border-purple-500/40 bg-purple-500/10 transition-colors group-hover:border-purple-500/60">
-                <Icon
-                  name="check"
-                  className="h-3 w-3 text-purple-600 dark:text-purple-400"
-                />
+              <div className="border-border group-hover:border-foreground/30 flex h-6 w-6 items-center justify-center rounded border transition-colors">
+                <Icon name="check" className="text-foreground h-3 w-3" />
               </div>
               <span className="font-mono text-xs tracking-wide uppercase">
                 {t("HOME.CODE.FEATURE_4")}
@@ -72,7 +69,7 @@ export async function CodeSection() {
             </Link>
             <Link
               href="/chat"
-              className="flex w-fit items-center gap-2 border-b border-purple-500/60 pb-1 font-mono text-xs font-bold tracking-widest text-purple-600 uppercase transition-colors hover:border-purple-400 hover:text-purple-500 dark:text-purple-400 dark:hover:text-purple-300"
+              className="flex w-fit items-center gap-2 border-b border-cyan-500/60 pb-1 font-mono text-xs font-bold tracking-widest text-cyan-600 uppercase transition-colors hover:border-cyan-400 hover:text-cyan-500 dark:text-cyan-400 dark:hover:text-cyan-300"
             >
               <Icon name="message-circle" className="h-3.5 w-3.5" />
               {t("HOME.CODE.NO_CODE_CHAT_LINK")}

@@ -30,10 +30,10 @@ const CATEGORY_CARDS: Record<SetupCategory, Omit<CategoryCard, "category">> = {
   roleplay: {
     titleKey: "DOCS_INDEX.PATH_ROLEPLAY_TITLE",
     descKey: "DOCS_INDEX.PATH_ROLEPLAY_DESC",
-    accent: "text-fuchsia-700 dark:text-fuchsia-400",
-    glow: "bg-fuchsia-600/20",
-    border: "border-fuchsia-600/20 hover:border-fuchsia-600/50",
-    ring: "border-fuchsia-600/30 group-hover:bg-fuchsia-600 group-hover:border-fuchsia-600",
+    accent: "text-rose-700 dark:text-rose-400",
+    glow: "bg-rose-600/20",
+    border: "border-rose-600/20 hover:border-rose-600/50",
+    ring: "border-rose-600/30 group-hover:bg-rose-600 group-hover:border-rose-600",
   },
   general: {
     titleKey: "DOCS_INDEX.PATH_GENERAL_TITLE",
