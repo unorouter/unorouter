@@ -171,23 +171,23 @@ export async function ChatSection() {
             <div className="hidden lg:block">
               <ChatMockLazy data={data} />
             </div>
-            <div className="absolute -inset-px -z-10 rounded-xl bg-linear-to-br from-purple-500/20 via-transparent to-cyan-500/20 opacity-60 blur-2xl" />
+            <div className="absolute -inset-px -z-10 rounded-xl bg-linear-to-br from-cyan-500/20 via-transparent to-cyan-500/10 opacity-60 blur-2xl" />
           </div>
 
           <div className="order-1 space-y-6 lg:order-2 lg:space-y-8">
-            <div className="inline-flex items-center gap-2 rounded-sm border border-purple-500/30 bg-purple-500/10 px-3 py-1.5">
+            <div className="inline-flex items-center gap-2 rounded-sm border border-cyan-500/30 bg-cyan-500/10 px-3 py-1.5">
               <Icon
                 name="message-circle"
-                className="h-3 w-3 text-purple-700 dark:text-purple-400"
+                className="h-3 w-3 text-cyan-700 dark:text-cyan-400"
               />
-              <span className="font-mono text-[10px] tracking-[0.2em] text-purple-700 uppercase dark:text-purple-400">
+              <span className="font-mono text-[10px] tracking-[0.2em] text-cyan-700 uppercase dark:text-cyan-400">
                 {t("HOME.CHAT.BADGE")}
               </span>
             </div>
             <h2 className="text-4xl font-bold tracking-tighter md:text-5xl">
               {t("HOME.CHAT.TITLE_1")}
               <br />
-              <span className="text-purple-600 dark:text-purple-400">
+              <span className="text-cyan-600 dark:text-cyan-400">
                 {t("HOME.CHAT.TITLE_2")}
               </span>
             </h2>
@@ -200,32 +200,32 @@ export async function ChatSection() {
                 icon="zap"
                 title={t("HOME.CHAT.CARD1.TITLE")}
                 description={t("HOME.CHAT.CARD1.DESC")}
-                color="purple"
+                color="cyan"
               />
               <FeatureCard
                 icon="users"
                 title={t("HOME.CHAT.CARD2.TITLE")}
                 description={t("HOME.CHAT.CARD2.DESC")}
-                color="cyan"
+                color="emerald"
               />
               <FeatureCard
                 icon="lock"
                 title={t("HOME.CHAT.CARD3.TITLE")}
                 description={t("HOME.CHAT.CARD3.DESC")}
-                color="cyan"
+                color="blue"
               />
               <FeatureCard
                 icon="drama"
                 title={t("HOME.CHAT.CARD4.TITLE")}
                 description={t("HOME.CHAT.CARD4.DESC")}
-                color="purple"
+                color="rose"
               />
             </div>
 
             <div className="flex flex-col items-start gap-4 pt-4 sm:flex-row">
               <Link
                 href="/chat"
-                className="flex h-11 items-center gap-2 bg-linear-to-r from-purple-500 to-purple-600 px-6 font-mono text-xs font-bold tracking-widest text-white uppercase transition-all hover:from-purple-400 hover:to-purple-500"
+                className="flex h-11 items-center gap-2 bg-linear-to-r from-cyan-500 to-cyan-600 px-6 font-mono text-xs font-bold tracking-widest text-white uppercase transition-all hover:from-cyan-400 hover:to-cyan-500"
               >
                 <Icon name="message-circle" className="h-3.5 w-3.5" />
                 {t("HOME.CHAT.CTA_OPEN")}
@@ -244,32 +244,52 @@ export async function ChatSection() {
   );
 }
 
+type CardColor = "cyan" | "emerald" | "blue" | "rose";
+
+// Full static class strings per color so Tailwind's JIT keeps them. One distinct accent
+// per feature card (docs-card style variety) instead of a single flat hue.
+const CARD_COLORS: Record<
+  CardColor,
+  { ring: string; tile: string; icon: string }
+> = {
+  cyan: {
+    ring: "hover:border-cyan-500/40",
+    tile: "bg-cyan-500/15",
+    icon: "text-cyan-700 dark:text-cyan-400",
+  },
+  emerald: {
+    ring: "hover:border-emerald-500/40",
+    tile: "bg-emerald-500/15",
+    icon: "text-emerald-700 dark:text-emerald-400",
+  },
+  blue: {
+    ring: "hover:border-blue-500/40",
+    tile: "bg-blue-500/15",
+    icon: "text-blue-700 dark:text-blue-400",
+  },
+  rose: {
+    ring: "hover:border-rose-500/40",
+    tile: "bg-rose-500/15",
+    icon: "text-rose-700 dark:text-rose-400",
+  },
+};
+
 function FeatureCard(props: {
   icon: string;
   title: string;
   description: string;
-  color: "purple" | "cyan";
+  color: CardColor;
 }) {
-  const ring =
-    props.color === "purple"
-      ? "hover:border-purple-500/40"
-      : "hover:border-cyan-500/40";
-  const bgColor =
-    props.color === "purple" ? "bg-purple-500/15" : "bg-cyan-500/15";
-  const iconColor =
-    props.color === "purple"
-      ? "text-purple-700 dark:text-purple-400"
-      : "text-cyan-700 dark:text-cyan-400";
-
+  const c = CARD_COLORS[props.color];
   return (
     <div
-      className={`border-border bg-accent/60 rounded-lg border p-4 backdrop-blur-sm transition-colors ${ring}`}
+      className={`border-border bg-accent/60 rounded-lg border p-4 backdrop-blur-sm transition-colors ${c.ring}`}
     >
       <div className="mb-3 flex items-center gap-3">
         <div
-          className={`h-8 w-8 rounded-lg ${bgColor} flex items-center justify-center`}
+          className={`flex h-8 w-8 items-center justify-center rounded-lg ${c.tile}`}
         >
-          <Icon name={props.icon} className={`h-3.5 w-3.5 ${iconColor}`} />
+          <Icon name={props.icon} className={`h-3.5 w-3.5 ${c.icon}`} />
         </div>
         <span className="text-foreground font-mono text-xs tracking-wider uppercase">
           {props.title}
