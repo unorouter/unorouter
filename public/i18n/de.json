@@ -189,7 +189,10 @@
         "DEMO_USER_2": "Was braust du heute zusammen?",
         "DEMO_AI_2": "Ein Elixier der Klarheit. Drei Tropfen, und dein Geist wird scharf wie geschliffenes Glas. Magst du kosten?",
         "DEMO_USER_3": "Überrasch mich mit einem Getränk.",
-        "DEMO_AI_3": "Ein Lavendel-Honig-Latte, kommt sofort. Den Sirup habe ich heute Morgen selbst gemacht."
+        "DEMO_AI_3": "Ein Lavendel-Honig-Latte, kommt sofort. Den Sirup habe ich heute Morgen selbst gemacht.",
+        "NEW_CONV_TITLE": "Kai der Navigator",
+        "NEW_DEMO_USER": "Setz uns einen Kurs zum nächsten Hafen.",
+        "NEW_DEMO_AI": "Plotte gerade. Drei Sprünge entfernt, Treibstoff im Überfluss. Anschnallen."
       }
     },
     "FEATURES": {

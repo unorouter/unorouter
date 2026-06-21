@@ -211,7 +211,10 @@
         "DEMO_USER_2": "What are you brewing today?",
         "DEMO_AI_2": "A clarity elixir. Three drops and your mind sharpens like cut glass. Want a taste?",
         "DEMO_USER_3": "Surprise me with a drink.",
-        "DEMO_AI_3": "One lavender honey latte, coming up. I made the syrup myself this morning."
+        "DEMO_AI_3": "One lavender honey latte, coming up. I made the syrup myself this morning.",
+        "NEW_CONV_TITLE": "Kai the Navigator",
+        "NEW_DEMO_USER": "Chart us a course to the nearest port.",
+        "NEW_DEMO_AI": "Plotting now. Three jumps out, fuel to spare. Strap in."
       }
     },
     "FEATURES": {

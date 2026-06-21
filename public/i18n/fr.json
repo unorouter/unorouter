@@ -189,7 +189,10 @@
         "DEMO_USER_2": "Que prépares-tu aujourd'hui ?",
         "DEMO_AI_2": "Un élixir de clarté. Trois gouttes et ton esprit s'aiguise comme du verre taillé. Tu veux goûter ?",
         "DEMO_USER_3": "Surprends-moi avec une boisson.",
-        "DEMO_AI_3": "Un latte lavande-miel, ça arrive. J'ai fait le sirop moi-même ce matin."
+        "DEMO_AI_3": "Un latte lavande-miel, ça arrive. J'ai fait le sirop moi-même ce matin.",
+        "NEW_CONV_TITLE": "Kai le Navigateur",
+        "NEW_DEMO_USER": "Trace-nous un cap vers le port le plus proche.",
+        "NEW_DEMO_AI": "Calcul en cours. Trois sauts, du carburant à revendre. Accrochez-vous."
       }
     },
     "FEATURES": {

@@ -154,6 +154,12 @@ export async function ChatSection() {
         ],
       },
     ],
+    newChat: {
+      title: t("HOME.CHAT.MOCK.NEW_CONV_TITLE"),
+      demoUser: t("HOME.CHAT.MOCK.NEW_DEMO_USER"),
+      demoAi: t("HOME.CHAT.MOCK.NEW_DEMO_AI"),
+      tokens: t("HOME.CHAT.MOCK.TOKENS", { in: 64, out: 128 }),
+    },
     strings: {
       newChat: t("HOME.CHAT.MOCK.NEW_CHAT"),
       free: t("HOME.CHAT.MOCK.MODEL"),

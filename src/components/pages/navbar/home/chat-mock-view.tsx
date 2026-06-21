@@ -26,6 +26,9 @@ export type MockData = {
   menu: MockMenuItem[];
   // Per-RP-feature dialog content, indexed parallel to menu + the trailing Local DB row.
   dialogs: MockDialog[];
+  // Distinct character used for the new-chat beat (so its sidebar row + title don't
+  // duplicate an existing conversation).
+  newChat: { title: string; demoUser: string; demoAi: string; tokens: string };
   strings: {
     newChat: string;
     free: string;
@@ -108,7 +111,7 @@ export function ChatMockView(props: { data: MockData; state: MockState }) {
           {state.newConvTitle ? (
             <div className="bg-accent text-foreground flex items-center gap-1.5 rounded px-2 py-1.5 transition-colors">
               <span className="flex size-3 shrink-0 items-center justify-center">
-                <VendorIcon vendor={data.convs[0]?.vendor ?? ""} size={12} />
+                <VendorIcon vendor="openai" size={12} />
               </span>
               <span className="truncate font-mono text-[9px] tracking-tight">
                 {state.newConvTitle}

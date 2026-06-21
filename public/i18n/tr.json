@@ -211,7 +211,10 @@
         "DEMO_USER_2": "Bugün ne karıştırıyorsun?",
         "DEMO_AI_2": "Berraklık iksiri. Üç damla, zihnin işlenmiş cam gibi keskinleşir. Tatmak ister misin?",
         "DEMO_USER_3": "Bir içecekle beni şaşırt.",
-        "DEMO_AI_3": "Bir lavanta ballı latte, hemen geliyor. Şurubu bu sabah kendim yaptım."
+        "DEMO_AI_3": "Bir lavanta ballı latte, hemen geliyor. Şurubu bu sabah kendim yaptım.",
+        "NEW_CONV_TITLE": "Seyir Subayı Kai",
+        "NEW_DEMO_USER": "Bize en yakın limana bir rota çiz.",
+        "NEW_DEMO_AI": "Hesaplıyorum. Üç sıçrama ötede, yakıt da bol. Kemerleri bağlayın."
       }
     },
     "FEATURES": {

@@ -145,19 +145,22 @@ export function ChatMockAnimated(props: { data: MockData }) {
         }
         if (!alive) break;
 
-        // 3. New chat: a fresh sidebar conv appears (New Chat placeholder), type a message
-        // which populates its title, then the reply streams back.
-        await beat(
-          { ...BASE, isNewChat: true, newConvTitle: data.strings.newChat },
-          "newChat",
-          700,
-        );
+        // 3. New chat: move to New Chat and click FIRST (no row yet), THEN the fresh conv
+        // appears + title populates as the message is typed/sent (distinct character).
+        await moveTo("newChat");
+        await click();
+        setState({
+          ...BASE,
+          isNewChat: true,
+          newConvTitle: data.strings.newChat,
+        });
+        await sleep(700);
         await waitVisible();
         await chatSim(
           { ...BASE, isNewChat: true },
-          data.convs[0].demoUser,
-          data.convs[0].demoAi,
-          data.convs[0].label,
+          data.newChat.demoUser,
+          data.newChat.demoAi,
+          data.newChat.title,
         );
         if (!alive) break;
 

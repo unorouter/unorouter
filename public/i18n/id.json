@@ -211,7 +211,10 @@
         "DEMO_USER_2": "Kamu lagi meracik apa hari ini?",
         "DEMO_AI_2": "Ramuan kejernihan. Tiga tetes dan pikiranmu setajam kaca terasah. Mau cicip?",
         "DEMO_USER_3": "Kejutkan aku dengan minuman.",
-        "DEMO_AI_3": "Satu latte lavender madu, segera datang. Sirupnya kubuat sendiri tadi pagi."
+        "DEMO_AI_3": "Satu latte lavender madu, segera datang. Sirupnya kubuat sendiri tadi pagi.",
+        "NEW_CONV_TITLE": "Kai sang Navigator",
+        "NEW_DEMO_USER": "Petakan jalur ke pelabuhan terdekat.",
+        "NEW_DEMO_AI": "Sedang menghitung. Tiga lompatan lagi, bahan bakar masih melimpah. Bersiaplah."
       }
     },
     "FEATURES": {
