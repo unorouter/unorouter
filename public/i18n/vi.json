@@ -189,7 +189,10 @@
         "DEMO_USER_2": "Hôm nay cô đang pha chế gì thế?",
         "DEMO_AI_2": "Một loại tiên dược minh mẫn. Ba giọt thôi là tâm trí sắc bén như thủy tinh mài. Muốn nếm thử không?",
         "DEMO_USER_3": "Pha cho tôi một thức uống bất ngờ đi.",
-        "DEMO_AI_3": "Một ly latte mật ong oải hương, có ngay đây. Sáng nay tôi tự tay nấu siro đấy."
+        "DEMO_AI_3": "Một ly latte mật ong oải hương, có ngay đây. Sáng nay tôi tự tay nấu siro đấy.",
+        "NEW_CONV_TITLE": "Kai Hoa Tiêu",
+        "NEW_DEMO_USER": "Vạch cho chúng ta một lộ trình đến bến cảng gần nhất.",
+        "NEW_DEMO_AI": "Đang tính toán đây. Ba bước nhảy nữa thôi, nhiên liệu vẫn còn dư. Cài dây an toàn vào."
       }
     },
     "FEATURES": {

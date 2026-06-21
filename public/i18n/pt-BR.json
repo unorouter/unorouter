@@ -211,7 +211,10 @@
         "DEMO_USER_2": "O que você está preparando hoje?",
         "DEMO_AI_2": "Um elixir de clareza. Três gotas e sua mente fica afiada como vidro lapidado. Quer provar?",
         "DEMO_USER_3": "Me surpreenda com uma bebida.",
-        "DEMO_AI_3": "Um latte de lavanda com mel, saindo. Fiz a calda eu mesma hoje de manhã."
+        "DEMO_AI_3": "Um latte de lavanda com mel, saindo. Fiz a calda eu mesma hoje de manhã.",
+        "NEW_CONV_TITLE": "Kai, o Navegador",
+        "NEW_DEMO_USER": "Trace uma rota até o porto mais próximo.",
+        "NEW_DEMO_AI": "Calculando agora. Três saltos e combustível de sobra. Se segurem."
       }
     },
     "FEATURES": {

@@ -211,7 +211,10 @@
         "DEMO_USER_2": "Co dziś warzysz?",
         "DEMO_AI_2": "Eliksir jasności umysłu. Trzy krople i myśli stają się ostre jak szlifowane szkło. Chcesz spróbować?",
         "DEMO_USER_3": "Zaskocz mnie jakimś napojem.",
-        "DEMO_AI_3": "Latte lawendowo-miodowe, już się robi. Syrop zrobiłam dziś rano sama."
+        "DEMO_AI_3": "Latte lawendowo-miodowe, już się robi. Syrop zrobiłam dziś rano sama.",
+        "NEW_CONV_TITLE": "Kai Nawigator",
+        "NEW_DEMO_USER": "Wyznacz nam kurs do najbliższego portu.",
+        "NEW_DEMO_AI": "Wyliczam. Trzy skoki stąd, paliwa aż nadto. Zapnijcie pasy."
       }
     },
     "FEATURES": {
