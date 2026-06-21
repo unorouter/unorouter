@@ -11,7 +11,8 @@ import {
   upsertLocalLorebookBundle,
 } from "@/lib/db/client/data/rp";
 import { queryKeys } from "@/lib/react-query/keys";
-import { uid, uint8ToBase64 } from "@/lib/utils/base";
+import { base64ToUint8, handleElysia, uid, uint8ToBase64 } from "@/lib/utils/base";
+import { rpc } from "@/lib/rpc";
 import { useApiMutation } from "@/lib/react-query/hooks";
 import { dayjs } from "@/lib/utils/format/date";
 import { makeRpEntity } from "./factory";
@@ -169,14 +170,20 @@ export function useImportCharacterCardMutation() {
   });
 }
 
-// Paste a JanitorAI/JannyAI link -> fetch the card -> full import (local-first).
+// Paste a card link (JanitorAI/JannyAI, Chub, RisuRealm, or a direct card URL).
+// The BFF proxy fetches it server-side (SSRF-safe, CORS-proof) and returns the
+// card bytes; persistence stays local-first.
 export function useImportCharacterFromUrlMutation() {
   const userId = useLocalUserId();
   return useApiMutation({
     mutationFn: async (input: string) => {
-      const file = await import("@/lib/ai/rp/janitor-import").then((m) =>
-        m.fetchJanitorCharacterFile(input),
+      const data = handleElysia(
+        await rpc.api.ai["character-cards"].import.post({ url: input }),
       );
+      const bytes = base64ToUint8(data.cardData);
+      const file = new File([new Uint8Array(bytes)], "card", {
+        type: data.mimeType,
+      });
       return persistCharacterSetupFromFile(userId, file);
     },
     invalidates: IMPORT_INVALIDATES,
