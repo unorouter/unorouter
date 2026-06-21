@@ -22,14 +22,18 @@ import {
 } from "@/lib/utils/format/number";
 import type { ColumnDef } from "@tanstack/react-table";
 
-function fmtUnit(value: number, unit: PriceUnit): string {
+function fmtUnit(value: number, unit: PriceUnit, perCall?: boolean): string {
   if (unit === "dash" || value <= 0) return "-";
+  if (perCall) return `${formatPrice(value)}/call`;
   if (unit === "perImage") return `${formatPrice(value)}/img`;
   return formatPrice(value);
 }
 
+// Fixed-price (quotaType >= 1) models charge a flat per-CALL fee, not per-token.
+// Show it once in the input column as "$x/call"; dash the output column so the
+// flat fee never reads as an impossibly-cheap per-token rate.
 function priceValue(m: ProcessedModel, side: "input" | "output"): number {
-  if (m.isFixedPrice) return m.fixedPrice;
+  if (m.isFixedPrice) return side === "input" ? m.fixedPrice : 0;
   return side === "input" ? m.inputPrice : m.outputPrice;
 }
 
@@ -38,6 +42,7 @@ function PriceCell(props: {
   original: number | null;
   unit: PriceUnit;
   offLabel: string;
+  perCall?: boolean;
 }) {
   if (props.unit === "dash" || props.value <= 0) {
     return <span className="text-muted-foreground">-</span>;
@@ -45,12 +50,12 @@ function PriceCell(props: {
   const pct = discountPercent(props.value, props.original);
   return (
     <span className="flex flex-col items-end">
-      <span>{fmtUnit(props.value, props.unit)}</span>
+      <span>{fmtUnit(props.value, props.unit, props.perCall)}</span>
       {pct > 0 && (
         <span className="flex flex-col items-end gap-0.5 text-[10px] lg:flex-row lg:items-center lg:gap-1">
           {props.original !== null && (
             <span className="text-muted-foreground/60 line-through">
-              {fmtUnit(props.original, props.unit)}
+              {fmtUnit(props.original, props.unit, props.perCall)}
             </span>
           )}
           <span className="rounded bg-green-500/15 px-1 text-green-600 dark:text-green-400">
@@ -139,6 +144,7 @@ export function buildModelColumns(opts: {
             value={priceValue(m, "input")}
             original={m.originalInputPrice}
             unit={inputPriceUnit(deriveOutputModality(m))}
+            perCall={m.isFixedPrice}
             offLabel={opts.offLabel(
               discountPercent(priceValue(m, "input"), m.originalInputPrice),
             )}

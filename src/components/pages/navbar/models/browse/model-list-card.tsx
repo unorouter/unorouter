@@ -22,8 +22,9 @@ import {
 } from "@/lib/utils/format/number";
 import { useTranslations } from "next-intl";
 
-function fmtUnit(value: number, unit: PriceUnit): string {
+function fmtUnit(value: number, unit: PriceUnit, perCall?: boolean): string {
   if (unit === "dash" || value <= 0) return "-";
+  if (perCall) return `${formatPrice(value)}/call`;
   if (unit === "perImage") return `${formatPrice(value)}/img`;
   return formatPrice(value);
 }
@@ -34,19 +35,20 @@ function PriceMeta(props: {
   unit: PriceUnit;
   label: string;
   offLabel: (pct: number) => string;
+  perCall?: boolean;
 }) {
   if (props.unit === "dash" || props.value <= 0) return null;
   const pct = discountPercent(props.value, props.original);
   return (
     <span className="flex items-center gap-1">
       <span>
-        {fmtUnit(props.value, props.unit)} {props.label}
+        {fmtUnit(props.value, props.unit, props.perCall)} {props.label}
       </span>
       {pct > 0 && (
         <>
           {props.original !== null && (
             <span className="text-muted-foreground/50 line-through">
-              {fmtUnit(props.original, props.unit)}
+              {fmtUnit(props.original, props.unit, props.perCall)}
             </span>
           )}
           <span className="rounded bg-green-500/15 px-1 text-green-600 dark:text-green-400">
@@ -67,8 +69,10 @@ export function ModelListCard(props: {
   const model = props.model;
   const theme = getVendorTheme(model.vendor.name);
   const modality = deriveOutputModality(model);
+  // Fixed-price models charge a flat per-call fee: show it once (input slot, /call),
+  // hide the output slot so the flat fee never reads as a per-token rate.
   const input = model.isFixedPrice ? model.fixedPrice : model.inputPrice;
-  const output = model.isFixedPrice ? model.fixedPrice : model.outputPrice;
+  const output = model.isFixedPrice ? 0 : model.outputPrice;
   const ctx = model.metadata.contextWindow ?? model.metadata.maxInputTokens;
   const releaseTs = modelReleaseTs(model);
   const offLabel = (pct: number) => t("MODELS.TABLE.OFF", { pct });
@@ -140,7 +144,8 @@ export function ModelListCard(props: {
           value={input}
           original={model.originalInputPrice}
           unit={inputPriceUnit(modality)}
-          label={t("MODELS.LIST.INPUT")}
+          label={model.isFixedPrice ? "" : t("MODELS.LIST.INPUT")}
+          perCall={model.isFixedPrice}
           offLabel={offLabel}
         />
         <PriceMeta
