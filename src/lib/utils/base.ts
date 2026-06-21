@@ -68,9 +68,22 @@ export function modelSlug(name: string): string {
   return name.replace(/\[/g, "%5B").replace(/\]/g, "%5D").replace(/\//g, "%2F");
 }
 
-// params.slug arrives URL-decoded, so a name with a raw / never round-trips. Compare the encoded form too, plus legacy raw-name.
+// params.slug round-trips inconsistently: Next leaves some reserved chars (`:`)
+// percent-encoded in the segment while `modelSlug` only escapes `[ ] /`. Compare
+// the raw name, the encoded form, and the decoded slug so `{model}:free` matches.
 export function modelMatchesSlug(name: string, slug: string): boolean {
-  return name === slug || modelSlug(name) === slug;
+  let decoded = slug;
+  try {
+    decoded = decodeURIComponent(slug);
+  } catch {
+    decoded = slug;
+  }
+  return (
+    name === slug ||
+    name === decoded ||
+    modelSlug(name) === slug ||
+    modelSlug(name) === decoded
+  );
 }
 
 export function unwrap<T extends { data: unknown }>(

@@ -44,7 +44,6 @@ export function ModelsPage() {
     rankMap: m.rankMap,
     offLabel: (pct) => t("MODELS.TABLE.OFF", { pct }),
     freeLabel: t("MODELS.TABLE.FREE"),
-    onDetails: (model) => m.setSelectedModelName(model.name),
   });
 
   return (
