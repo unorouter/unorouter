@@ -240,6 +240,43 @@ export async function safeFetchBytes(
   };
 }
 
+// SSRF-safe fetch that supports POST + a JSON body, returns raw bytes + status +
+// content-type (no media magic-byte gate). Reuses the same allowlist/agent as
+// safeFetchBytes. Used by the character-card import proxy (JannyAI POST step
+// returns JSON; final card is a PNG; both flow through here).
+export async function safeFetchRaw(
+  url: string,
+  opts: {
+    method?: "GET" | "POST";
+    headers?: Record<string, string>;
+    body?: string;
+    maxBytes?: number;
+  } = {},
+): Promise<{ buffer: Buffer; contentType: string | null; status: number }> {
+  const maxBytes = opts.maxBytes ?? MAX_DOWNLOAD_BYTES;
+  parseAndCheckUrl(url);
+  const res = await undiciFetch(url, {
+    method: opts.method ?? "GET",
+    headers: opts.headers,
+    body: opts.body,
+    signal: AbortSignal.timeout(DOWNLOAD_TIMEOUT),
+    dispatcher: safeAgent,
+    redirect: "manual",
+  });
+  if (res.status >= 300 && res.status < 400) {
+    throw new Error(msg("ERRORS.BLOCKED_URL"));
+  }
+  const buffer = await readBodyWithLimit(res);
+  if (buffer.length > maxBytes) {
+    throw new Error(msg("ERRORS.RESPONSE_TOO_LARGE"));
+  }
+  return {
+    buffer,
+    contentType: res.headers.get("content-type"),
+    status: res.status,
+  };
+}
+
 async function verifyMagicBytes(
   body: Buffer | Uint8Array,
   declaredCt?: string,
