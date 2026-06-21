@@ -1,39 +1,176 @@
-import { CompanyName, LogoImage } from "@/components/elements/brand/brand";
-import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Link } from "@/i18n/navigation";
 import { getPricingSummary } from "@/lib/api/pricing-cache";
 import { getTranslations } from "next-intl/server";
 import { Icon } from "@/components/ui/icon";
+import {
+  ChatMockView,
+  DEFAULT_MOCK_STATE,
+  type MockData,
+  type MockModel,
+} from "./chat-mock-view";
+import { ChatMockLazy } from "./chat-mock-lazy";
+
+const vendorOf = (m: { vendor: string | { name?: string } }): string =>
+  typeof m.vendor === "string" ? m.vendor : (m.vendor?.name ?? "");
 
 export async function ChatSection() {
   const t = await getTranslations();
   const { models } = await getPricingSummary();
-  // Prefer a free text model whose vendor has an icon, so the pill always shows one.
-  const freeText = models.filter((m) => m.type === "text" && m.isFree);
-  const withVendor = freeText.filter((m) => {
-    const v =
-      typeof m.vendor === "string" ? m.vendor : (m.vendor?.name ?? "");
-    return v.length > 0;
-  });
+  // Real free CHAT models for the demo: drop embeddings/rerankers/audio + the `auto`
+  // router alias that `type === "text"` lets slip through (they read odd in a chat pill).
+  const NON_CHAT = /embed|bge|rerank|whisper|tts|moderation|^auto/i;
+  const freeText = models.filter(
+    (m) => m.type === "text" && m.isFree && !NON_CHAT.test(m.name),
+  );
+  const withVendor = freeText.filter((m) => vendorOf(m).length > 0);
   const pool = withVendor.length > 0 ? withVendor : freeText;
-  const picked = pool.length > 0 ? pool[0]! : null;
-  const modelName = picked?.name ?? t("HOME.CHAT.MOCK.MODEL_NAME");
-  const modelVendor = picked
-    ? typeof picked.vendor === "string"
-      ? picked.vendor
-      : (picked.vendor?.name ?? modelName)
-    : modelName;
+  const demoModels: MockModel[] = pool.slice(0, 4).map((m) => ({
+    name: m.name,
+    vendor: vendorOf(m) || m.name,
+  }));
+  if (demoModels.length === 0) {
+    demoModels.push({
+      name: t("HOME.CHAT.MOCK.MODEL_NAME"),
+      vendor: t("HOME.CHAT.MOCK.MODEL_NAME"),
+    });
+  }
+
+  const data: MockData = {
+    models: demoModels,
+    convs: [
+      {
+        vendor: "nemotron",
+        label: t("HOME.CHAT.MOCK.CONV1"),
+        message: t("HOME.CHAT.MOCK.MSG_AI"),
+      },
+      {
+        vendor: "claude",
+        label: t("HOME.CHAT.MOCK.CONV2"),
+        message: t("HOME.CHAT.MOCK.MSG_AI_2"),
+      },
+      {
+        vendor: "gemini",
+        label: t("HOME.CHAT.MOCK.CONV3"),
+        message: t("HOME.CHAT.MOCK.MSG_AI_3"),
+      },
+    ],
+    menu: [
+      { icon: "users", label: t("RP.SIDEBAR_TAB_CHARACTERS") },
+      { icon: "user", label: t("RP.SIDEBAR_TAB_PERSONAS") },
+      { icon: "book-text", label: t("RP.SIDEBAR_TAB_LOREBOOKS") },
+      { icon: "sliders-horizontal", label: t("RP.SIDEBAR_TAB_PRESETS") },
+      { icon: "layers", label: t("RP.SIDEBAR_TAB_CARDS") },
+    ],
+    dialogs: [
+      {
+        title: t("RP.SIDEBAR_TAB_CHARACTERS"),
+        rows: [
+          {
+            name: t("HOME.CHAT.MOCK.CONV1"),
+            sub: t("HOME.CHAT.MOCK.DLG.CHAR1"),
+          },
+          {
+            name: t("HOME.CHAT.MOCK.CONV2"),
+            sub: t("HOME.CHAT.MOCK.DLG.CHAR2"),
+          },
+          {
+            name: t("HOME.CHAT.MOCK.CONV3"),
+            sub: t("HOME.CHAT.MOCK.DLG.CHAR3"),
+          },
+        ],
+      },
+      {
+        title: t("RP.SIDEBAR_TAB_PERSONAS"),
+        rows: [
+          {
+            name: t("HOME.CHAT.MOCK.DLG.PERSONA1"),
+            sub: t("HOME.CHAT.MOCK.DLG.PERSONA1_SUB"),
+          },
+          {
+            name: t("HOME.CHAT.MOCK.DLG.PERSONA2"),
+            sub: t("HOME.CHAT.MOCK.DLG.PERSONA2_SUB"),
+          },
+        ],
+      },
+      {
+        title: t("RP.SIDEBAR_TAB_LOREBOOKS"),
+        rows: [
+          {
+            name: t("HOME.CHAT.MOCK.DLG.LORE1"),
+            sub: t("HOME.CHAT.MOCK.DLG.LORE1_SUB"),
+          },
+          {
+            name: t("HOME.CHAT.MOCK.DLG.LORE2"),
+            sub: t("HOME.CHAT.MOCK.DLG.LORE2_SUB"),
+          },
+        ],
+      },
+      {
+        title: t("RP.SIDEBAR_TAB_PRESETS"),
+        rows: [
+          {
+            name: t("HOME.CHAT.MOCK.DLG.PRESET1"),
+            sub: t("HOME.CHAT.MOCK.DLG.PRESET1_SUB"),
+          },
+          {
+            name: t("HOME.CHAT.MOCK.DLG.PRESET2"),
+            sub: t("HOME.CHAT.MOCK.DLG.PRESET2_SUB"),
+          },
+        ],
+      },
+      {
+        title: t("RP.SIDEBAR_TAB_CARDS"),
+        rows: [
+          {
+            name: t("HOME.CHAT.MOCK.DLG.CARD1"),
+            sub: t("HOME.CHAT.MOCK.DLG.CARD1_SUB"),
+          },
+          {
+            name: t("HOME.CHAT.MOCK.DLG.CARD2"),
+            sub: t("HOME.CHAT.MOCK.DLG.CARD2_SUB"),
+          },
+        ],
+      },
+      {
+        title: t("HOME.CHAT.MOCK.LOCAL_DB"),
+        rows: [
+          {
+            name: t("HOME.CHAT.MOCK.DLG.DB1"),
+            sub: t("HOME.CHAT.MOCK.DLG.DB1_SUB"),
+          },
+          {
+            name: t("HOME.CHAT.MOCK.DLG.DB2"),
+            sub: t("HOME.CHAT.MOCK.DLG.DB2_SUB"),
+          },
+        ],
+      },
+    ],
+    strings: {
+      newChat: t("HOME.CHAT.MOCK.NEW_CHAT"),
+      free: t("HOME.CHAT.MOCK.MODEL"),
+      input: t("HOME.CHAT.MOCK.INPUT"),
+      tokens: t("HOME.CHAT.MOCK.TOKENS"),
+      menuLabel: t("HOME.CHAT.MOCK.MENU_LABEL"),
+      localDb: t("HOME.CHAT.MOCK.LOCAL_DB"),
+      newChatEmpty: t("HOME.CHAT.MOCK.NEW_CHAT_EMPTY"),
+      demoUser: t("HOME.CHAT.MOCK.DEMO_USER"),
+      demoAi: t("HOME.CHAT.MOCK.DEMO_AI"),
+    },
+  };
 
   return (
     <section className="border-border/50 relative border-t py-16 lg:py-32">
       <div className="mx-auto max-w-360 px-6">
         <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-16">
           <div className="relative order-2 lg:order-1">
-            <ChatMock
-              t={t as (key: string) => string}
-              modelName={modelName}
-              modelVendor={modelVendor}
-            />
+            {/* Static SSR shell (first paint, no FOUC); the lazy animated layer takes over
+                client-side and self-plays the demo. */}
+            <div className="lg:hidden">
+              <ChatMockView data={data} state={DEFAULT_MOCK_STATE} />
+            </div>
+            <div className="hidden lg:block">
+              <ChatMockLazy data={data} />
+            </div>
             <div className="absolute -inset-px -z-10 rounded-xl bg-linear-to-br from-purple-500/20 via-transparent to-cyan-500/20 opacity-60 blur-2xl" />
           </div>
 
@@ -104,137 +241,6 @@ export async function ChatSection() {
         </div>
       </div>
     </section>
-  );
-}
-
-// Faithful miniature of the real chat app: sidebar + conv list, top bar with a
-// FREE model pill, the actual RP feature menu (Characters/Personas/Lorebooks/
-// Presets/Cards), a real assistant message with the token-count footer.
-function ChatMock(props: {
-  t: (key: string) => string;
-  modelName: string;
-  modelVendor: string;
-}) {
-  const t = props.t;
-  const convs: { vendor: string; label: string; active?: boolean }[] = [
-    { vendor: "nemotron", label: t("HOME.CHAT.MOCK.CONV1"), active: true },
-    { vendor: "claude", label: t("HOME.CHAT.MOCK.CONV2") },
-    { vendor: "gemini", label: t("HOME.CHAT.MOCK.CONV3") },
-  ];
-  const menu: { icon: string; label: string; accent?: boolean }[] = [
-    { icon: "users", label: t("RP.SIDEBAR_TAB_CHARACTERS"), accent: true },
-    { icon: "user", label: t("RP.SIDEBAR_TAB_PERSONAS") },
-    { icon: "book-text", label: t("RP.SIDEBAR_TAB_LOREBOOKS") },
-    { icon: "sliders-horizontal", label: t("RP.SIDEBAR_TAB_PRESETS") },
-    { icon: "layers", label: t("RP.SIDEBAR_TAB_CARDS") },
-  ];
-
-  return (
-    <div className="bg-card border-border flex h-104 w-full overflow-hidden rounded-xl border font-sans shadow-2xl">
-      {/* sidebar */}
-      <div className="border-border/60 bg-muted/30 hidden w-40 shrink-0 flex-col border-r p-2.5 sm:flex">
-        <div className="mb-3 flex items-center gap-1.5 px-1">
-          <LogoImage width={16} height={16} className="h-4 w-4" />
-          <CompanyName className="text-[10px]" />
-        </div>
-        <div className="bg-background/60 border-border/50 text-muted-foreground mb-2 flex items-center gap-1.5 rounded border px-2 py-1.5">
-          <Icon name="plus" className="h-2.5 w-2.5" />
-          <span className="font-mono text-[9px] tracking-wide">
-            {t("HOME.CHAT.MOCK.NEW_CHAT")}
-          </span>
-        </div>
-        <div className="space-y-0.5">
-          {convs.map((c) => (
-            <div
-              key={c.label}
-              className={`flex items-center gap-1.5 rounded px-2 py-1.5 ${c.active ? "bg-accent text-foreground" : "text-muted-foreground"}`}
-            >
-              <span className="flex size-3 shrink-0 items-center justify-center">
-                <VendorIcon vendor={c.vendor} size={12} />
-              </span>
-              <span className="truncate font-mono text-[9px] tracking-tight">
-                {c.label}
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* main pane */}
-      <div className="relative flex min-w-0 flex-1 flex-col">
-        {/* top bar */}
-        <div className="border-border/60 flex items-center gap-2 border-b px-3 py-2.5">
-          <div className="border-border bg-background/60 flex items-center gap-1.5 rounded border px-2 py-1">
-            <span className="flex size-3.5 shrink-0 items-center justify-center">
-              <VendorIcon vendor={props.modelVendor} size={14} />
-            </span>
-            <span className="text-foreground/80 max-w-28 truncate font-mono text-[9px]">
-              {props.modelName}
-            </span>
-            <span className="rounded bg-emerald-500/15 px-1 py-0.5 text-[8px] leading-none font-medium text-emerald-700 dark:text-emerald-300">
-              {t("HOME.CHAT.MOCK.MODEL")}
-            </span>
-          </div>
-          <div className="flex-1" />
-          <Icon
-            name="ellipsis-vertical"
-            className="text-muted-foreground h-3.5 w-3.5"
-          />
-        </div>
-
-        {/* message */}
-        <div className="flex-1 space-y-2 overflow-hidden px-4 py-3">
-          <div className="text-muted-foreground/70 font-mono text-[9px] tracking-wider uppercase">
-            {t("HOME.CHAT.MOCK.CHARACTER")}
-          </div>
-          <p className="text-foreground/90 line-clamp-5 text-[13px] leading-relaxed">
-            {t("HOME.CHAT.MOCK.MSG_AI")}
-          </p>
-          <div className="text-muted-foreground/60 flex items-center gap-2 pt-1 font-mono text-[9px]">
-            <Icon name="copy" className="h-3 w-3" />
-            <Icon name="refresh-cw" className="h-3 w-3" />
-            <Icon name="pencil" className="h-3 w-3" />
-            <span className="ml-auto tabular-nums">
-              {t("HOME.CHAT.MOCK.TOKENS")}
-            </span>
-          </div>
-        </div>
-
-        {/* input */}
-        <div className="border-border/60 border-t px-3 py-2.5">
-          <div className="border-border bg-background/60 text-muted-foreground rounded border px-3 py-2 font-mono text-[10px]">
-            {t("HOME.CHAT.MOCK.INPUT")}
-          </div>
-        </div>
-
-        {/* RP feature menu, floating like the real one */}
-        <div className="border-border bg-popover absolute top-9 right-2 w-44 overflow-hidden rounded-md border shadow-xl">
-          <div className="border-border/50 text-muted-foreground border-b px-3 py-1.5 font-mono text-[8px] tracking-[0.2em] uppercase">
-            {t("HOME.CHAT.MOCK.MENU_LABEL")}
-          </div>
-          {menu.map((m) => (
-            <div
-              key={m.label}
-              className={`flex items-center gap-2.5 px-3 py-1.5 ${m.accent ? "bg-accent" : ""}`}
-            >
-              <Icon
-                name={m.icon}
-                className="text-muted-foreground h-3 w-3 shrink-0"
-              />
-              <span className="text-foreground/90 font-sans text-[11px]">
-                {m.label}
-              </span>
-            </div>
-          ))}
-          <div className="border-border/50 flex items-center gap-2.5 border-t px-3 py-1.5">
-            <Icon name="database" className="text-muted-foreground h-3 w-3" />
-            <span className="text-foreground/90 font-sans text-[11px]">
-              {t("HOME.CHAT.MOCK.LOCAL_DB")}
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
   );
 }
 

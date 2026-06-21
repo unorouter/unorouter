@@ -155,7 +155,37 @@
         "MODEL_NAME": "nemotron-3",
         "TOKENS": "148 in  /  297 out",
         "MENU_LABEL": "Jeu de role",
-        "LOCAL_DB": "BD locale"
+        "LOCAL_DB": "BD locale",
+        "MSG_AI_2": "Le creuset rougeoie juste comme il faut. Tu me passes cette fiole ?",
+        "MSG_AI_3": "Content de te revoir ! Ton latte d'avoine habituel, mousse en plus ?",
+        "NEW_CHAT_EMPTY": "Démarrez une nouvelle conversation...",
+        "DEMO_USER": "Parle-moi de toi, capitaine.",
+        "DEMO_AI": "Capitaine Elara Voss, quinze ans dans l'espace profond. Reste près de moi et tu rentreras chez toi.",
+        "DLG": {
+          "CHAR1": "Capitaine de vaisseau, aguerrie au combat",
+          "CHAR2": "Préparatrice de potions curieuse",
+          "CHAR3": "Barista de café douillet",
+          "PERSONA1": "Recrue débutante",
+          "PERSONA1_SUB": "Enthousiaste, pose beaucoup de questions",
+          "PERSONA2": "Pilote chevronné",
+          "PERSONA2_SUB": "Calme sous la pression",
+          "LORE1": "La Bordure extérieure",
+          "LORE1_SUB": "Cartes stellaires et routes commerciales",
+          "LORE2": "Manifeste du vaisseau",
+          "LORE2_SUB": "Liste d'équipage et cargaison",
+          "PRESET1": "Jeu de rôle cinématographique",
+          "PRESET1_SUB": "Prose vive et descriptive",
+          "PRESET2": "Dialogue percutant",
+          "PRESET2_SUB": "Réponses courtes et incisives",
+          "CARD1": "Capitaine Elara (v2)",
+          "CARD1_SUB": "Carte SillyTavern",
+          "CARD2": "Lyra l'Alchimiste",
+          "CARD2_SUB": "Carte de personnage importée",
+          "DB1": "conversations",
+          "DB1_SUB": "128 lignes",
+          "DB2": "personnages",
+          "DB2_SUB": "12 lignes"
+        }
       }
     },
     "FEATURES": {

@@ -155,7 +155,37 @@
         "MODEL_NAME": "nemotron-3",
         "TOKENS": "148 in  /  297 out",
         "MENU_LABEL": "角色扮演",
-        "LOCAL_DB": "本地数据库"
+        "LOCAL_DB": "本地数据库",
+        "MSG_AI_2": "坩埚烧得正好。帮我把那个小瓶递过来，好吗？",
+        "MSG_AI_3": "欢迎回来！还是老样子，燕麦拿铁多加奶泡？",
+        "NEW_CHAT_EMPTY": "开始新的对话……",
+        "DEMO_USER": "舰长，说说你自己吧。",
+        "DEMO_AI": "埃拉拉·沃斯舰长，在深空闯荡了十五年。紧跟着我，你就能平安回家。",
+        "DLG": {
+          "CHAR1": "身经百战的星舰舰长",
+          "CHAR2": "好奇的药剂调配师",
+          "CHAR3": "温馨咖啡馆的咖啡师",
+          "PERSONA1": "新兵蛋子",
+          "PERSONA1_SUB": "热情十足，问个不停",
+          "PERSONA2": "资深飞行员",
+          "PERSONA2_SUB": "临危不乱",
+          "LORE1": "外环星域",
+          "LORE1_SUB": "星图与贸易航线",
+          "LORE2": "舰船载货清单",
+          "LORE2_SUB": "船员名册与货物",
+          "PRESET1": "电影感角色扮演",
+          "PRESET1_SUB": "鲜活而富有画面感的文字",
+          "PRESET2": "利落对白",
+          "PRESET2_SUB": "简短有力的回复",
+          "CARD1": "埃拉拉舰长（v2）",
+          "CARD1_SUB": "SillyTavern 角色卡",
+          "CARD2": "炼金术士莱拉",
+          "CARD2_SUB": "导入的角色卡",
+          "DB1": "对话",
+          "DB1_SUB": "128 行",
+          "DB2": "角色",
+          "DB2_SUB": "12 行"
+        }
       }
     },
     "FEATURES": {

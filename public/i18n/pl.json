@@ -177,7 +177,37 @@
         "MODEL_NAME": "nemotron-3",
         "TOKENS": "148 in  /  297 out",
         "MENU_LABEL": "RPG",
-        "LOCAL_DB": "Lokalna BD"
+        "LOCAL_DB": "Lokalna BD",
+        "MSG_AI_2": "Tygiel rozżarzył się w sam raz. Podasz mi tę fiolkę?",
+        "MSG_AI_3": "Witaj z powrotem! Twoja zwykła owsiana latte, z dodatkową pianką?",
+        "NEW_CHAT_EMPTY": "Rozpocznij nową rozmowę...",
+        "DEMO_USER": "Opowiedz mi o sobie, kapitanie.",
+        "DEMO_AI": "Kapitan Elara Voss, piętnaście lat w głębokim kosmosie. Trzymaj się blisko mnie, a wrócisz do domu cały.",
+        "DLG": {
+          "CHAR1": "Kapitan statku kosmicznego, zaprawiona w bojach",
+          "CHAR2": "Ciekawska warzycielka mikstur",
+          "CHAR3": "Barista z przytulnej kawiarni",
+          "PERSONA1": "Świeży rekrut",
+          "PERSONA1_SUB": "Zapalony, zadaje mnóstwo pytań",
+          "PERSONA2": "Doświadczony pilot",
+          "PERSONA2_SUB": "Spokojny pod presją",
+          "LORE1": "Zewnętrzny Kres",
+          "LORE1_SUB": "Mapy gwiezdne i szlaki handlowe",
+          "LORE2": "Manifest statku",
+          "LORE2_SUB": "Lista załogi i ładunek",
+          "PRESET1": "Filmowy RPG",
+          "PRESET1_SUB": "Barwna, opisowa proza",
+          "PRESET2": "Cięte dialogi",
+          "PRESET2_SUB": "Krótkie, treściwe odpowiedzi",
+          "CARD1": "Kapitan Elara (v2)",
+          "CARD1_SUB": "Karta SillyTavern",
+          "CARD2": "Lyra Alchemiczka",
+          "CARD2_SUB": "Zaimportowana karta postaci",
+          "DB1": "rozmowy",
+          "DB1_SUB": "128 wierszy",
+          "DB2": "postacie",
+          "DB2_SUB": "12 wierszy"
+        }
       }
     },
     "FEATURES": {
