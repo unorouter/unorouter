@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 562.29 617.59">
+<defs>
+  <clipPath id="upA"><path d="M281.33,124.89l-45.54,30.03-39,26.01c-10.17,6.73-19.59,13.97-31.32,19.78L281.19,0l115.84,201.15c-13.15-7.63-25.02-15.74-37.37-24.17l-39.51-26.35-38.82-25.74Z"/></clipPath>
+  <clipPath id="dnA"><polygon points="212.72 447.14 240.17 465.64 281.35 493.09 331.81 459.26 397.41 415.88 281.19 617.59 165.33 416.53 212.72 447.14"/></clipPath>
+  <clipPath id="rtA"><path d="M487.34,308.1c-1.35,2.02-1.43,4.25.44,6.05l74.39,112.7-201.08-115.94,201.21-116.24-24.56,38-19.06,28.54-31.34,46.89Z"/></clipPath>
+  <clipPath id="lfA"><polygon points="24.99 388.75 53.47 345.98 76.73 310.9 15.13 218.32 .32 194.8 201.21 310.89 0 427.11 24.99 388.75"/></clipPath>
+</defs>
+
+<!-- WHITE arrows (up/down): split along vertical axis x=281.15. left=lit #fff, right=shadow #cfcfcf -->
+<g clip-path="url(#upA)">
+  <rect x="0" y="0" width="281.15" height="617.59" fill="#ffffff"/>
+  <rect x="281.15" y="0" width="281.15" height="617.59" fill="#cfcfcf"/>
+</g>
+<g clip-path="url(#dnA)">
+  <rect x="0" y="0" width="281.15" height="617.59" fill="#ffffff"/>
+  <rect x="281.15" y="0" width="281.15" height="617.59" fill="#cfcfcf"/>
+</g>
+
+<!-- RED arrows (left/right): split along horizontal axis y=308.8. top=lit red, bottom=shadow dark red -->
+<g clip-path="url(#rtA)">
+  <rect x="0" y="0" width="562.29" height="308.8" fill="#ff2a0c"/>
+  <rect x="0" y="308.8" width="562.29" height="308.79" fill="#c41f08"/>
+</g>
+<g clip-path="url(#lfA)">
+  <rect x="0" y="0" width="562.29" height="308.8" fill="#ff2a0c"/>
+  <rect x="0" y="308.8" width="562.29" height="308.79" fill="#c41f08"/>
+</g>
+
+<!-- cube -->
+<g transform="translate(281.15 308.8)">
+  <polygon fill="#ffffff" points="0,-62 54,-31 0,0 -54,-31"/>
+  <polygon fill="#e6e6e6" points="-54,-31 0,0 0,62 -54,31"/>
+  <polygon fill="#cfcfcf" points="54,-31 0,0 0,62 54,31"/>
+</g>
+</svg>
