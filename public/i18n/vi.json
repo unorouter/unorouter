@@ -500,7 +500,8 @@
       "HIGHLIGHT_BEST": "Làm nổi bật tốt nhất",
       "CLEAR": "Xóa",
       "FROM": "bởi",
-      "SELECT_MODEL": "Chọn một mô hình"
+      "SELECT_MODEL": "Chọn một mô hình",
+      "POPULAR": "So sánh phổ biến"
     },
     "LIST": {
       "TOKENS": "token",

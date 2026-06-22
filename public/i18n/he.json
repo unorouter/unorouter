@@ -500,7 +500,8 @@
       "HIGHLIGHT_BEST": "הדגש את הטוב ביותר",
       "CLEAR": "נקה",
       "FROM": "מאת",
-      "SELECT_MODEL": "בחר דגם"
+      "SELECT_MODEL": "בחר דגם",
+      "POPULAR": "השוואות פופולריות"
     },
     "LIST": {
       "TOKENS": "טוקנים",

@@ -500,7 +500,8 @@
       "HIGHLIGHT_BEST": "Beste hervorheben",
       "CLEAR": "Leeren",
       "FROM": "von",
-      "SELECT_MODEL": "Modell auswählen"
+      "SELECT_MODEL": "Modell auswählen",
+      "POPULAR": "Beliebte Vergleiche"
     },
     "LIST": {
       "TOKENS": "Tokens",

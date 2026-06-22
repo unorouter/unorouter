@@ -500,7 +500,8 @@
       "HIGHLIGHT_BEST": "최고 강조",
       "CLEAR": "지우기",
       "FROM": "제공",
-      "SELECT_MODEL": "모델 선택"
+      "SELECT_MODEL": "모델 선택",
+      "POPULAR": "인기 비교"
     },
     "LIST": {
       "TOKENS": "토큰",

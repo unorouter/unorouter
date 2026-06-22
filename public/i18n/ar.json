@@ -500,7 +500,8 @@
       "HIGHLIGHT_BEST": "إبراز الأفضل",
       "CLEAR": "مسح",
       "FROM": "من",
-      "SELECT_MODEL": "اختر نموذجًا"
+      "SELECT_MODEL": "اختر نموذجًا",
+      "POPULAR": "مقارنات شائعة"
     },
     "LIST": {
       "TOKENS": "رمز",

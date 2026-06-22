@@ -500,7 +500,8 @@
       "HIGHLIGHT_BEST": "Sorot terbaik",
       "CLEAR": "Bersihkan",
       "FROM": "oleh",
-      "SELECT_MODEL": "Pilih model"
+      "SELECT_MODEL": "Pilih model",
+      "POPULAR": "Perbandingan populer"
     },
     "LIST": {
       "TOKENS": "token",

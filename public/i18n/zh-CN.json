@@ -500,7 +500,8 @@
       "HIGHLIGHT_BEST": "高亮最佳",
       "CLEAR": "清除",
       "FROM": "来自",
-      "SELECT_MODEL": "选择一个模型"
+      "SELECT_MODEL": "选择一个模型",
+      "POPULAR": "热门对比"
     },
     "LIST": {
       "TOKENS": "Token",

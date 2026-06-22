@@ -500,7 +500,8 @@
       "HIGHLIGHT_BEST": "Highlight best",
       "CLEAR": "Clear",
       "FROM": "from",
-      "SELECT_MODEL": "Select a model"
+      "SELECT_MODEL": "Select a model",
+      "POPULAR": "Popular comparisons"
     },
     "LIST": {
       "TOKENS": "tokens",
