@@ -1,3 +1,4 @@
+import { COMPARE_PAIRS } from "@/components/pages/navbar/models/compare/compare-pairs";
 import { getPathname } from "@/i18n/navigation";
 import {
   BLOG_REGISTRY,
@@ -120,6 +121,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       localizedEntries(
         { pathname: "/models/[slug]", params: { slug: modelSlug(model.name) } },
         { priority: 0.6, changeFrequency: "weekly" },
+      ),
+    ),
+    // Curated head-to-head pairs only; drop any pair whose models aren't live so
+    // a retired model never emits a dead compare URL.
+    ...COMPARE_PAIRS.filter(([a, b]) =>
+      [a, b].every((name) =>
+        (pricing?.models ?? []).some((m) => m.name === name),
+      ),
+    ).flatMap(([a, b]) =>
+      localizedEntries(
+        {
+          pathname: "/compare/[...slugs]",
+          params: { slugs: [modelSlug(a), modelSlug(b)] },
+        },
+        { priority: 0.5, changeFrequency: "weekly" },
       ),
     ),
   ];

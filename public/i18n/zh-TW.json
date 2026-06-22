@@ -500,7 +500,8 @@
       "HIGHLIGHT_BEST": "突顯最佳",
       "CLEAR": "清除",
       "FROM": "來自",
-      "SELECT_MODEL": "選擇一個模型"
+      "SELECT_MODEL": "選擇一個模型",
+      "POPULAR": "熱門比較"
     },
     "LIST": {
       "TOKENS": "Token",

@@ -500,7 +500,8 @@
       "HIGHLIGHT_BEST": "Surligner le meilleur",
       "CLEAR": "Effacer",
       "FROM": "de",
-      "SELECT_MODEL": "Sélectionner un modèle"
+      "SELECT_MODEL": "Sélectionner un modèle",
+      "POPULAR": "Comparaisons populaires"
     },
     "LIST": {
       "TOKENS": "tokens",

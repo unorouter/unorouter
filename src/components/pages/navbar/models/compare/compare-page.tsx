@@ -13,6 +13,7 @@ import { ComparisonTable } from "./comparison-table";
 import { CompareBreadcrumb } from "./compare-breadcrumb";
 import { comboTitle } from "./compare-text";
 import { ModelPicker } from "./model-picker";
+import { PopularPairs } from "./popular-pairs";
 import { PresetCards } from "./preset-cards";
 
 export function ComparePage() {
@@ -88,6 +89,7 @@ export function ComparePage() {
               variant="slot"
             />
           </div>
+          <PopularPairs models={models} />
         </>
       ) : (
         <>

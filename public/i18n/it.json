@@ -500,7 +500,8 @@
       "HIGHLIGHT_BEST": "Evidenzia il migliore",
       "CLEAR": "Pulisci",
       "FROM": "di",
-      "SELECT_MODEL": "Seleziona un modello"
+      "SELECT_MODEL": "Seleziona un modello",
+      "POPULAR": "Confronti popolari"
     },
     "LIST": {
       "TOKENS": "token",

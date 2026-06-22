@@ -500,7 +500,8 @@
       "HIGHLIGHT_BEST": "En iyiyi vurgula",
       "CLEAR": "Temizle",
       "FROM": "sağlayan",
-      "SELECT_MODEL": "Bir model seçin"
+      "SELECT_MODEL": "Bir model seçin",
+      "POPULAR": "Popüler karşılaştırmalar"
     },
     "LIST": {
       "TOKENS": "token",

@@ -500,7 +500,8 @@
       "HIGHLIGHT_BEST": "最良を強調",
       "CLEAR": "クリア",
       "FROM": "提供",
-      "SELECT_MODEL": "モデルを選択"
+      "SELECT_MODEL": "モデルを選択",
+      "POPULAR": "人気の比較"
     },
     "LIST": {
       "TOKENS": "トークン",

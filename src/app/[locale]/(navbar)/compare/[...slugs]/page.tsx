@@ -1,9 +1,11 @@
+import { comparePairSlugs } from "@/components/pages/navbar/models/compare/compare-pairs";
 import { ComparePage } from "@/components/pages/navbar/models/compare/compare-page";
 import {
   comboModelList,
   comboTitle,
 } from "@/components/pages/navbar/models/compare/compare-text";
 import { localeUrl } from "@/i18n/navigation";
+import { LOCALES } from "@/lib/config/constants";
 import type { ProcessedModel } from "@/lib/api/pricing";
 import { APP_VALUES } from "@/lib/config/constants";
 import getQueryClient from "@/lib/react-query/client";
@@ -18,9 +20,16 @@ import { serverLocale } from "@/lib/utils/server";
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
 
-// Combos render on-demand; never pre-generated (avoids the crawl trap).
+// Live pricing per request (matches /models/[slug]); generateStaticParams still
+// registers the curated routes so they're sitemap-listed + crawlable.
+export const dynamic = "force-dynamic";
+
+// Only a curated allowlist of high-volume pairs prerenders + enters the sitemap;
+// every other combo still renders on-demand (avoids the crawl trap).
 export function generateStaticParams() {
-  return [];
+  return LOCALES.flatMap((locale) =>
+    comparePairSlugs().map((slugs) => ({ locale, slugs })),
+  );
 }
 
 async function resolveModels(
