@@ -1,16 +1,40 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg id="Layer_2" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 250 250">
-  <circle fill="#1f2022" cx="120.46" cy="125" r="105"/>
-  <g>
-    <polyline fill="#ff2a0c" points="38.63 92.56 38.09 122.28 120.46 85.88 119.49 56.91"/>
-    <polyline fill="#fff" points="119.49 157.79 120.46 128.5 71.85 107.36 38.09 122.28"/>
-    <polyline fill="#ff2a0c" points="202.29 157.44 202.84 127.72 120.46 164.12 121.44 193.09"/>
-    <polyline fill="#fff" points="121.44 92.21 120.46 121.5 169.08 142.64 202.84 127.72"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-80 -80 722.29 777.59">
+  <defs>
+    <clipPath id="upA">
+      <path d="M281.33,124.89l-45.54,30.03-39,26.01c-10.17,6.73-19.59,13.97-31.32,19.78L281.19,0l115.84,201.15c-13.15-7.63-25.02-15.74-37.37-24.17l-39.51-26.35-38.82-25.74Z"/>
+    </clipPath>
+    <clipPath id="dnA">
+      <polygon points="212.72 447.14 240.17 465.64 281.35 493.09 331.81 459.26 397.41 415.88 281.19 617.59 165.33 416.53 212.72 447.14"/>
+    </clipPath>
+    <clipPath id="rtA">
+      <path d="M487.34,308.1c-1.35,2.02-1.43,4.25.44,6.05l74.39,112.7-201.08-115.94,201.21-116.24-24.56,38-19.06,28.54-31.34,46.89Z"/>
+    </clipPath>
+    <clipPath id="lfA">
+      <polygon points="24.99 388.75 53.47 345.98 76.73 310.9 15.13 218.32 .32 194.8 201.21 310.89 0 427.11 24.99 388.75"/>
+    </clipPath>
+  </defs>
+  <!-- WHITE arrows (up/down): split along vertical axis x=281.15. left=lit #fff, right=shadow #cfcfcf -->
+  <g clip-path="url(#upA)">
+    <rect x="0" y="0" width="281.15" height="617.59" fill="#ffffff"/>
+    <rect x="281.15" y="0" width="281.15" height="617.59" fill="#cfcfcf"/>
   </g>
-  <g fill="none" stroke="#ff2a0c" stroke-linecap="round" stroke-miterlimit="10" stroke-width="5">
-    <animateTransform attributeName="transform" type="rotate" from="0 120.46 125" to="360 120.46 125" dur="10s" repeatCount="indefinite"/>
-    <path d="M198.95,43.71 A113,113 0 0 1 198.95,206.29"/>
-    <path d="M41.97,43.71 A113,113 0 0 0 41.97,206.29"/>
+  <g clip-path="url(#dnA)">
+    <rect x="0" y="0" width="281.15" height="617.59" fill="#ffffff"/>
+    <rect x="281.15" y="0" width="281.15" height="617.59" fill="#cfcfcf"/>
   </g>
-  <path fill="#fff" d="M120.46,20.8c-57.55,0-104.2,46.65-104.2,104.2s46.65,104.2,104.2,104.2,104.2-46.65,104.2-104.2S178.01,20.8,120.46,20.8ZM120.46,225c-55.23,0-100-44.77-100-100S65.24,25,120.46,25s100,44.77,100,100-44.77,100-100,100Z"/>
+  <!-- RED arrows (left/right): split along horizontal axis y=308.8. top=lit red, bottom=shadow dark red -->
+  <g clip-path="url(#rtA)">
+    <rect x="0" y="0" width="562.29" height="308.8" fill="#ff2a0c"/>
+    <rect x="0" y="308.8" width="562.29" height="308.79" fill="#c41f08"/>
+  </g>
+  <g clip-path="url(#lfA)">
+    <rect x="0" y="0" width="562.29" height="308.8" fill="#ff2a0c"/>
+    <rect x="0" y="308.8" width="562.29" height="308.79" fill="#c41f08"/>
+  </g>
+  <!-- cube -->
+  <g transform="translate(281.15 308.8)">
+    <polygon fill="#ffffff" points="0,-62 54,-31 0,0 -54,-31"/>
+    <polygon fill="#e6e6e6" points="-54,-31 0,0 0,62 -54,31"/>
+    <polygon fill="#cfcfcf" points="54,-31 0,0 0,62 54,31"/>
+  </g>
 </svg>
