@@ -40,14 +40,14 @@ const FEATURED_BADGES = [
     width: 76,
   },
   {
-    href: "https://dang.ai",
+    href: "https://dang.ai/tool/unorouter-openai-compatible-llm-gateway",
     src: "/badges/dang.png",
     name: "DANG!",
     verified: true,
     width: 67,
   },
   {
-    href: "https://twelve.tools",
+    href: "https://twelve.tools/unorouter-ai",
     src: "/badges/twelvetools.svg",
     name: "Twelve Tools",
     verified: false,
@@ -59,20 +59,6 @@ const FEATURED_BADGES = [
     name: "Fazier",
     verified: false,
     width: 102,
-  },
-  {
-    href: "https://code.market",
-    src: "/badges/codemarket.svg",
-    name: "code.market",
-    verified: false,
-    width: 86,
-  },
-  {
-    href: "https://showmebest.ai",
-    src: "/badges/showmebest.webp",
-    name: "ShowMeBestAI",
-    verified: false,
-    width: 96,
   },
   {
     href: "https://www.producthunt.com/products/unorouter",
