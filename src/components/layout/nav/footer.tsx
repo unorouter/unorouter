@@ -54,7 +54,7 @@ const FEATURED_BADGES = [
     width: 89,
   },
   {
-    href: "https://fazier.com",
+    href: "https://fazier.com/launches/unorouter",
     src: "/badges/fazier.svg",
     name: "Fazier",
     verified: false,
