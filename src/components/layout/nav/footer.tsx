@@ -88,6 +88,13 @@ const RECIPROCAL_LINKS = [
     width: 168,
     height: 46,
   },
+  {
+    href: "https://turbo0.com/item/unorouter",
+    src: "/badges/turbo0.svg",
+    name: "Turbo0",
+    width: 72,
+    height: 46,
+  },
 ] as const;
 
 function FooterLinks(props: {
