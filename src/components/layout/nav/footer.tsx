@@ -248,8 +248,8 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="border-muted/50 flex flex-wrap items-center justify-center gap-4 border-t pt-8 pb-2 opacity-70">
-          {FEATURED_BADGES.map((badge) => (
+        <div className="border-muted/50 flex flex-wrap items-center justify-center gap-4 border-t pt-8 pb-4 opacity-70">
+          {[...FEATURED_BADGES, ...RECIPROCAL_LINKS].map((badge) => (
             <NextLink
               key={badge.href}
               href={badge.href}
@@ -260,7 +260,7 @@ export function Footer() {
               <img
                 src={badge.src}
                 alt={t(
-                  badge.verified
+                  "verified" in badge && badge.verified
                     ? "FOOTER.BADGE_VERIFIED_ON"
                     : "FOOTER.BADGE_FEATURED_ON",
                   { name: badge.name },
@@ -271,38 +271,6 @@ export function Footer() {
               />
             </NextLink>
           ))}
-        </div>
-
-        <div className="flex flex-wrap items-center justify-center gap-4 pb-4 opacity-70">
-          {RECIPROCAL_LINKS.map((link) =>
-            link.src ? (
-              <NextLink
-                key={link.href}
-                href={link.href}
-                target="_blank"
-                rel="noopener"
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={link.src}
-                  alt={t("FOOTER.BADGE_FEATURED_ON", { name: link.name })}
-                  width={link.width ?? undefined}
-                  height={24}
-                  className="h-6 w-auto"
-                />
-              </NextLink>
-            ) : (
-              <NextLink
-                key={link.href}
-                href={link.href}
-                target="_blank"
-                rel="noopener"
-                className="text-foreground/70 hover:text-foreground inline-flex h-6 items-center rounded-md border px-3 text-xs font-medium transition-colors"
-              >
-                {link.name}
-              </NextLink>
-            ),
-          )}
         </div>
 
         <div className="border-muted/50 relative border-t pt-8">
