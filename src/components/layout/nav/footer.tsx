@@ -70,16 +70,23 @@ const FEATURED_BADGES = [
 ] as const;
 
 // Reciprocal verification links: each directory crawls unorouter.com for ITS own
-// link before approving our listing. Text links (no image embed). Intentional
-// dofollow (reciprocal exchange), not nofollow.
+// link before approving our listing. Intentional dofollow (reciprocal exchange),
+// not nofollow. TheSaaSDir badge img stays on their domain so their verifier finds
+// its own asset; AI Toolz Dir offers no image badge, so it renders as a text link.
 const RECIPROCAL_LINKS = [
   {
     href: "https://thesaasdir.com/product/unorouter?ref=badge",
+    src: "https://thesaasdir.com/badge/unorouter.svg",
     name: "TheSaaSDir",
+    width: 182,
+    height: 46,
   },
   {
     href: "https://www.aitoolzdir.com",
+    src: null,
     name: "AI Toolz Dir",
+    width: null,
+    height: null,
   },
 ] as const;
 
@@ -266,18 +273,36 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 pb-4 opacity-60">
-          {RECIPROCAL_LINKS.map((link) => (
-            <NextLink
-              key={link.href}
-              href={link.href}
-              target="_blank"
-              rel="noopener"
-              className="text-foreground/60 hover:text-foreground text-xs transition-colors"
-            >
-              {link.name}
-            </NextLink>
-          ))}
+        <div className="flex flex-wrap items-center justify-center gap-4 pb-4 opacity-70">
+          {RECIPROCAL_LINKS.map((link) =>
+            link.src ? (
+              <NextLink
+                key={link.href}
+                href={link.href}
+                target="_blank"
+                rel="noopener"
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={link.src}
+                  alt={t("FOOTER.BADGE_FEATURED_ON", { name: link.name })}
+                  width={link.width ?? undefined}
+                  height={24}
+                  className="h-6 w-auto"
+                />
+              </NextLink>
+            ) : (
+              <NextLink
+                key={link.href}
+                href={link.href}
+                target="_blank"
+                rel="noopener"
+                className="text-foreground/70 hover:text-foreground inline-flex h-6 items-center rounded-md border px-3 text-xs font-medium transition-colors"
+              >
+                {link.name}
+              </NextLink>
+            ),
+          )}
         </div>
 
         <div className="border-muted/50 relative border-t pt-8">
