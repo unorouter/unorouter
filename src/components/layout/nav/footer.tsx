@@ -69,6 +69,20 @@ const FEATURED_BADGES = [
   },
 ] as const;
 
+// Reciprocal verification links: each directory crawls unorouter.com for ITS own
+// link before approving our listing. Text links (no image embed). Intentional
+// dofollow (reciprocal exchange), not nofollow.
+const RECIPROCAL_LINKS = [
+  {
+    href: "https://thesaasdir.com/product/unorouter?ref=badge",
+    name: "TheSaaSDir",
+  },
+  {
+    href: "https://www.aitoolzdir.com",
+    name: "AI Toolz Dir",
+  },
+] as const;
+
 function FooterLinks(props: {
   links: typeof NAV_LINKS | typeof LEGAL_LINKS;
   pathname: string;
@@ -248,6 +262,20 @@ export function Footer() {
                 height={24}
                 className="h-6 w-auto"
               />
+            </NextLink>
+          ))}
+        </div>
+
+        <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 pb-4 opacity-60">
+          {RECIPROCAL_LINKS.map((link) => (
+            <NextLink
+              key={link.href}
+              href={link.href}
+              target="_blank"
+              rel="noopener"
+              className="text-foreground/60 hover:text-foreground text-xs transition-colors"
+            >
+              {link.name}
             </NextLink>
           ))}
         </div>
