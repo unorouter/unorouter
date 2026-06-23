@@ -269,7 +269,18 @@ export function buildPricingSummary(response: PricingData) {
     const idx = typeOrder.indexOf(tag);
     return idx === -1 ? typeOrder.length : idx;
   };
+  // Match the models-page ordering: free first, then newest release first.
+  const releaseTs = (m: ProcessedModel) => {
+    const iso = m.metadata.releaseDate;
+    const ms = iso ? Date.parse(iso) : NaN;
+    if (Number.isFinite(ms)) return ms;
+    return m.createdTime ? m.createdTime * 1000 : 0;
+  };
   for (const [tag, tagModels] of typeMap) {
+    tagModels.sort((a, b) => {
+      if (a.isFree !== b.isFree) return a.isFree ? -1 : 1;
+      return releaseTs(b) - releaseTs(a);
+    });
     modelsByType.push({ tag, models: tagModels });
   }
   modelsByType.sort((a, b) => {
