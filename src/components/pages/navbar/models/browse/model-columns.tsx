@@ -43,6 +43,14 @@ function priceValue(m: ProcessedModel, side: "input" | "output"): number {
   if (m.isFixedPrice) return side === fixedPriceSide(m) ? m.fixedPrice : 0;
   return side === "input" ? m.inputPrice : m.outputPrice;
 }
+function originalPriceValue(
+  m: ProcessedModel,
+  side: "input" | "output",
+): number | null {
+  if (m.isFixedPrice)
+    return side === fixedPriceSide(m) ? m.originalFixedPrice : null;
+  return side === "input" ? m.originalInputPrice : m.originalOutputPrice;
+}
 
 function PriceCell(props: {
   value: number;
@@ -149,11 +157,14 @@ export function buildModelColumns(opts: {
         return (
           <PriceCell
             value={priceValue(m, "input")}
-            original={m.originalInputPrice}
+            original={originalPriceValue(m, "input")}
             unit={inputPriceUnit(deriveOutputModality(m))}
             perCall={m.isFixedPrice}
             offLabel={opts.offLabel(
-              discountPercent(priceValue(m, "input"), m.originalInputPrice),
+              discountPercent(
+                priceValue(m, "input"),
+                originalPriceValue(m, "input"),
+              ),
             )}
           />
         );
@@ -176,10 +187,14 @@ export function buildModelColumns(opts: {
         return (
           <PriceCell
             value={priceValue(m, "output")}
-            original={m.originalOutputPrice}
+            original={originalPriceValue(m, "output")}
             unit={outputPriceUnit(deriveOutputModality(m))}
+            perCall={m.isFixedPrice}
             offLabel={opts.offLabel(
-              discountPercent(priceValue(m, "output"), m.originalOutputPrice),
+              discountPercent(
+                priceValue(m, "output"),
+                originalPriceValue(m, "output"),
+              ),
             )}
           />
         );

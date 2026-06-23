@@ -120,13 +120,25 @@ function processModels(response: PricingData) {
       let inputPrice = 0;
       let outputPrice = 0;
       let fixedPrice = 0;
+      let originalFixedPrice: number | null = null;
       let originalInputPrice: number | null = null;
       let originalOutputPrice: number | null = null;
       // Mirrors new-api-sync guest-token allowlist so FREE badge tracks guest-callable.
       let isFreeStrict = false;
 
       if (isFixedPrice) {
-        fixedPrice = model.model_price ?? 0;
+        // Per-call sticker is model_price; the cheapest enabled group ratio is the
+        // real retail (new-api bills modelPrice * QuotaPerUnit * groupRatio). Show
+        // the discounted retail, strike through the sticker.
+        const sticker = model.model_price ?? 0;
+        const minRatio = computeMinGroupRatio(
+          model.enable_groups ?? [],
+          groupRatio,
+        );
+        fixedPrice = sticker * minRatio;
+        if (showOriginalPrice && minRatio < 1 && sticker > 0) {
+          originalFixedPrice = sticker;
+        }
         isFreeStrict = fixedPrice === 0;
       } else if (isTiered) {
         // Tiered: ratios ignored. Cards show the cheapest tier's input/output as a "from" price; full table on the detail page.
@@ -186,6 +198,7 @@ function processModels(response: PricingData) {
         inputPrice,
         outputPrice,
         fixedPrice,
+        originalFixedPrice,
         isFixedPrice,
         isTiered,
         isFree: isFreeStrict,

@@ -208,15 +208,24 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
               className={cn("rounded-lg border p-4", theme.bg, theme.border)}
             >
               {model.isFixedPrice ? (
-                <div className="flex items-baseline gap-2">
-                  <span
-                    className={cn("font-mono text-lg font-bold", theme.text)}
-                  >
-                    {formatPrice(model.fixedPrice)}
-                  </span>
-                  <span className="text-muted-foreground font-mono text-xs">
-                    {t("MODELS.PRICE.PER_REQUEST")}
-                  </span>
+                <div className="space-y-1">
+                  <div className="flex items-baseline gap-2">
+                    <span
+                      className={cn("font-mono text-lg font-bold", theme.text)}
+                    >
+                      {formatPrice(model.fixedPrice)}
+                    </span>
+                    <span className="text-muted-foreground font-mono text-xs">
+                      {t("MODELS.PRICE.PER_REQUEST")}
+                    </span>
+                  </div>
+                  {model.originalFixedPrice !== null && (
+                    <div className="text-muted-foreground/50 font-mono text-xs line-through">
+                      {t("MODELS.PRICE.ORIGINAL")}:{" "}
+                      {formatPrice(model.originalFixedPrice)}{" "}
+                      {t("MODELS.PRICE.PER_REQUEST")}
+                    </div>
+                  )}
                 </div>
               ) : model.isTiered ? (
                 <TieredPricing
@@ -503,6 +512,7 @@ function GroupPricingSection(props: {
       <AutoGroupChain
         enableGroups={model.enableGroups}
         autoGroups={props.autoGroups}
+        groupRatioMap={props.groupRatioMap}
         className="mb-3"
       />
       <button
@@ -534,7 +544,7 @@ function GroupPricingSection(props: {
           ) : model.isFixedPrice ? (
             <GroupPricingFixed
               entries={groupEntries}
-              fixedPrice={model.fixedPrice}
+              fixedPrice={model.originalFixedPrice ?? model.fixedPrice}
               theme={theme}
             />
           ) : (

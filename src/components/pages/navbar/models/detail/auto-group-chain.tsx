@@ -6,13 +6,18 @@ import { useTranslations } from "next-intl";
 type Props = {
   enableGroups: string[];
   autoGroups: string[];
+  groupRatioMap?: Record<string, number>;
   className?: string;
 };
 
 export function AutoGroupChain(props: Props) {
   const t = useTranslations();
   const enabled = new Set(props.enableGroups);
+  const ratios = props.groupRatioMap;
   const chain = props.autoGroups.filter((g) => enabled.has(g));
+  // Show cheapest first to match the group-pricing table ordering.
+  if (ratios)
+    chain.sort((a, b) => (ratios[a] ?? Infinity) - (ratios[b] ?? Infinity));
 
   if (chain.length === 0) return null;
 
