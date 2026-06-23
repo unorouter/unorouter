@@ -84,6 +84,16 @@ export function ModelListCard(props: {
       ? model.fixedPrice
       : 0
     : model.outputPrice;
+  const originalInput = model.isFixedPrice
+    ? fixedOnOutput
+      ? null
+      : model.originalFixedPrice
+    : model.originalInputPrice;
+  const originalOutput = model.isFixedPrice
+    ? fixedOnOutput
+      ? model.originalFixedPrice
+      : null
+    : model.originalOutputPrice;
   const ctx = model.metadata.contextWindow ?? model.metadata.maxInputTokens;
   const releaseTs = modelReleaseTs(model);
   const offLabel = (pct: number) => t("MODELS.TABLE.OFF", { pct });
@@ -153,7 +163,7 @@ export function ModelListCard(props: {
         ) : null}
         <PriceMeta
           value={input}
-          original={model.originalInputPrice}
+          original={originalInput}
           unit={inputPriceUnit(modality)}
           label={model.isFixedPrice ? "" : t("MODELS.LIST.INPUT")}
           perCall={model.isFixedPrice}
@@ -161,9 +171,10 @@ export function ModelListCard(props: {
         />
         <PriceMeta
           value={output}
-          original={model.originalOutputPrice}
+          original={originalOutput}
           unit={outputPriceUnit(modality)}
           label={model.isFixedPrice ? "" : t("MODELS.LIST.OUTPUT")}
+          perCall={model.isFixedPrice}
           offLabel={offLabel}
         />
       </div>
