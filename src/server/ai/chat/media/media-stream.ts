@@ -41,6 +41,13 @@ function groupHeader(group?: string | null): Record<string, string> {
   return group && group !== "auto" ? { "X-Group": group } : {};
 }
 
+// Media gen (image especially) can run >100s, longer than Cloudflare's 100s
+// origin-response window. Without any byte on the wire, CF kills the browser
+// connection with a 524 before the result arrives. Emit a transient
+// data-keepalive part on an interval so SSE frames keep flowing and CF's timer
+// resets; the client ignores these parts (onData).
+const KEEPALIVE_INTERVAL_MS = 20_000;
+
 // One-shot UI-message response: run execute, stream its output. On a throw, emit a data-error part so the adapter persists an error node.
 function streamResponse(
   execute: (writer: UIMessageStreamWriter) => Promise<void>,
@@ -48,6 +55,9 @@ function streamResponse(
   return createUIMessageStreamResponse({
     stream: createUIMessageStream({
       execute: async ({ writer }) => {
+        const heartbeat = setInterval(() => {
+          writer.write({ type: "data-keepalive", data: {}, transient: true });
+        }, KEEPALIVE_INTERVAL_MS);
         try {
           await execute(writer);
         } catch (err) {
@@ -59,6 +69,8 @@ function streamResponse(
           });
           writer.write({ type: "finish-step" });
           writer.write({ type: "finish", finishReason: "error" });
+        } finally {
+          clearInterval(heartbeat);
         }
       },
     }),
