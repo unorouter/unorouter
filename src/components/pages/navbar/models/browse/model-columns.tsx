@@ -24,16 +24,23 @@ import type { ColumnDef } from "@tanstack/react-table";
 
 function fmtUnit(value: number, unit: PriceUnit, perCall?: boolean): string {
   if (unit === "dash" || value <= 0) return "-";
-  if (perCall) return `${formatPrice(value)}/call`;
+  // Image fixed-price is per generated image; only non-image fixed fees are /call.
   if (unit === "perImage") return `${formatPrice(value)}/img`;
+  if (perCall) return `${formatPrice(value)}/call`;
   return formatPrice(value);
 }
 
-// Fixed-price (quotaType >= 1) models charge a flat per-CALL fee, not per-token.
-// Show it once in the input column as "$x/call"; dash the output column so the
-// flat fee never reads as an impossibly-cheap per-token rate.
+// Fixed-price (quotaType >= 1) models charge a flat fee, not per-token. The
+// input column dashes for image/video (its unit is "dash"), so route the flat
+// fee to whichever column actually renders a unit: output (per-img) for image/
+// video, input (/call) otherwise. The other column dashes so the flat fee never
+// shows twice or reads as an impossibly-cheap per-token rate.
+function fixedPriceSide(m: ProcessedModel): "input" | "output" {
+  const modality = deriveOutputModality(m);
+  return modality === "image" || modality === "video" ? "output" : "input";
+}
 function priceValue(m: ProcessedModel, side: "input" | "output"): number {
-  if (m.isFixedPrice) return side === "input" ? m.fixedPrice : 0;
+  if (m.isFixedPrice) return side === fixedPriceSide(m) ? m.fixedPrice : 0;
   return side === "input" ? m.inputPrice : m.outputPrice;
 }
 
