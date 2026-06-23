@@ -83,10 +83,10 @@ const RECIPROCAL_LINKS = [
   },
   {
     href: "https://www.aitoolzdir.com",
-    src: null,
+    src: "/badges/aitoolzdir.svg",
     name: "AI Toolz Dir",
-    width: null,
-    height: null,
+    width: 168,
+    height: 46,
   },
 ] as const;
 
