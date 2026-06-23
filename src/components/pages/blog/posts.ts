@@ -12,6 +12,10 @@ import { UnorouterVsMegallmContent } from "@/components/pages/blog/posts/2026-06
 import { UnorouterVsPortkeyContent } from "@/components/pages/blog/posts/2026-06-21-unorouter-vs-portkey-content";
 import { UnorouterVsNanoGptContent } from "@/components/pages/blog/posts/2026-06-23-unorouter-vs-nano-gpt-content";
 import { BestAiGatewayForSillytavernContent } from "@/components/pages/blog/posts/2026-06-25-best-ai-gateway-for-sillytavern-content";
+import { BestOpenrouterAlternatives2026Content } from "@/components/pages/blog/posts/2026-06-27-best-openrouter-alternatives-2026-content";
+import { WhatIsAnLlmGatewayContent } from "@/components/pages/blog/posts/2026-06-29-what-is-an-llm-gateway-content";
+import { HowToConnectAnyLlmToSillytavernContent } from "@/components/pages/blog/posts/2026-07-01-how-to-connect-any-llm-to-sillytavern-content";
+import { OneApiKeyForClaudeCodeAndRoleplayContent } from "@/components/pages/blog/posts/2026-07-03-one-api-key-for-claude-code-and-roleplay-content";
 import { BLOG_REGISTRY, type BlogSlug } from "@/i18n/registry";
 import { APP_VALUES } from "@/lib/config/constants";
 import { dayjs } from "@/lib/utils/format/date";
@@ -34,6 +38,12 @@ const COMPONENTS: Record<BlogSlug, ComponentType> = {
   "unorouter-vs-portkey": UnorouterVsPortkeyContent,
   "unorouter-vs-nano-gpt": UnorouterVsNanoGptContent,
   "best-ai-gateway-for-sillytavern": BestAiGatewayForSillytavernContent,
+  "best-openrouter-alternatives-2026": BestOpenrouterAlternatives2026Content,
+  "what-is-an-llm-gateway": WhatIsAnLlmGatewayContent,
+  "how-to-connect-any-llm-to-sillytavern":
+    HowToConnectAnyLlmToSillytavernContent,
+  "one-api-key-for-claude-code-and-roleplay":
+    OneApiKeyForClaudeCodeAndRoleplayContent,
 };
 
 export const POSTS: BlogPost<BlogSlug>[] = BLOG_REGISTRY.map((entry) => ({
