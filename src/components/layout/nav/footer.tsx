@@ -90,7 +90,7 @@ const RECIPROCAL_LINKS = [
   },
   {
     href: "https://turbo0.com/item/unorouter",
-    src: "/badges/turbo0.svg",
+    src: "https://img.turbo0.com/badge-listed-light.svg",
     name: "Turbo0",
     width: 72,
     height: 46,
@@ -261,7 +261,7 @@ export function Footer() {
               key={badge.href}
               href={badge.href}
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
