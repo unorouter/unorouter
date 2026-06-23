@@ -24,8 +24,9 @@ import { useTranslations } from "next-intl";
 
 function fmtUnit(value: number, unit: PriceUnit, perCall?: boolean): string {
   if (unit === "dash" || value <= 0) return "-";
-  if (perCall) return `${formatPrice(value)}/call`;
+  // Image fixed-price is per generated image; only non-image fixed fees are /call.
   if (unit === "perImage") return `${formatPrice(value)}/img`;
+  if (perCall) return `${formatPrice(value)}/call`;
   return formatPrice(value);
 }
 
@@ -69,10 +70,20 @@ export function ModelListCard(props: {
   const model = props.model;
   const theme = getVendorTheme(model.vendor.name);
   const modality = deriveOutputModality(model);
-  // Fixed-price models charge a flat per-call fee: show it once (input slot, /call),
-  // hide the output slot so the flat fee never reads as a per-token rate.
-  const input = model.isFixedPrice ? model.fixedPrice : model.inputPrice;
-  const output = model.isFixedPrice ? 0 : model.outputPrice;
+  // Fixed-price models charge a flat fee. image/video render it on the output
+  // slot (per-img), everything else on the input slot (/call); the other slot
+  // dashes so the flat fee never doubles or reads as a per-token rate.
+  const fixedOnOutput = modality === "image" || modality === "video";
+  const input = model.isFixedPrice
+    ? fixedOnOutput
+      ? 0
+      : model.fixedPrice
+    : model.inputPrice;
+  const output = model.isFixedPrice
+    ? fixedOnOutput
+      ? model.fixedPrice
+      : 0
+    : model.outputPrice;
   const ctx = model.metadata.contextWindow ?? model.metadata.maxInputTokens;
   const releaseTs = modelReleaseTs(model);
   const offLabel = (pct: number) => t("MODELS.TABLE.OFF", { pct });
@@ -152,7 +163,7 @@ export function ModelListCard(props: {
           value={output}
           original={model.originalOutputPrice}
           unit={outputPriceUnit(modality)}
-          label={t("MODELS.LIST.OUTPUT")}
+          label={model.isFixedPrice ? "" : t("MODELS.LIST.OUTPUT")}
           offLabel={offLabel}
         />
       </div>
