@@ -22,9 +22,11 @@ import {
 } from "@/lib/utils/format/number";
 import { useTranslations } from "next-intl";
 
-function fmtUnit(value: number, unit: PriceUnit): string {
+function fmtUnit(value: number, unit: PriceUnit, perCall?: boolean): string {
   if (unit === "dash" || value <= 0) return "-";
+  // Image fixed-price is per generated image; only non-image fixed fees are /call.
   if (unit === "perImage") return `${formatPrice(value)}/img`;
+  if (perCall) return `${formatPrice(value)}/call`;
   return formatPrice(value);
 }
 
@@ -34,19 +36,20 @@ function PriceMeta(props: {
   unit: PriceUnit;
   label: string;
   offLabel: (pct: number) => string;
+  perCall?: boolean;
 }) {
   if (props.unit === "dash" || props.value <= 0) return null;
   const pct = discountPercent(props.value, props.original);
   return (
     <span className="flex items-center gap-1">
       <span>
-        {fmtUnit(props.value, props.unit)} {props.label}
+        {fmtUnit(props.value, props.unit, props.perCall)} {props.label}
       </span>
       {pct > 0 && (
         <>
           {props.original !== null && (
             <span className="text-muted-foreground/50 line-through">
-              {fmtUnit(props.original, props.unit)}
+              {fmtUnit(props.original, props.unit, props.perCall)}
             </span>
           )}
           <span className="rounded bg-green-500/15 px-1 text-green-600 dark:text-green-400">
@@ -67,8 +70,20 @@ export function ModelListCard(props: {
   const model = props.model;
   const theme = getVendorTheme(model.vendor.name);
   const modality = deriveOutputModality(model);
-  const input = model.isFixedPrice ? model.fixedPrice : model.inputPrice;
-  const output = model.isFixedPrice ? model.fixedPrice : model.outputPrice;
+  // Fixed-price models charge a flat fee. image/video render it on the output
+  // slot (per-img), everything else on the input slot (/call); the other slot
+  // dashes so the flat fee never doubles or reads as a per-token rate.
+  const fixedOnOutput = modality === "image" || modality === "video";
+  const input = model.isFixedPrice
+    ? fixedOnOutput
+      ? 0
+      : model.fixedPrice
+    : model.inputPrice;
+  const output = model.isFixedPrice
+    ? fixedOnOutput
+      ? model.fixedPrice
+      : 0
+    : model.outputPrice;
   const ctx = model.metadata.contextWindow ?? model.metadata.maxInputTokens;
   const releaseTs = modelReleaseTs(model);
   const offLabel = (pct: number) => t("MODELS.TABLE.OFF", { pct });
@@ -140,14 +155,15 @@ export function ModelListCard(props: {
           value={input}
           original={model.originalInputPrice}
           unit={inputPriceUnit(modality)}
-          label={t("MODELS.LIST.INPUT")}
+          label={model.isFixedPrice ? "" : t("MODELS.LIST.INPUT")}
+          perCall={model.isFixedPrice}
           offLabel={offLabel}
         />
         <PriceMeta
           value={output}
           original={model.originalOutputPrice}
           unit={outputPriceUnit(modality)}
-          label={t("MODELS.LIST.OUTPUT")}
+          label={model.isFixedPrice ? "" : t("MODELS.LIST.OUTPUT")}
           offLabel={offLabel}
         />
       </div>

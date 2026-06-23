@@ -21,7 +21,8 @@ import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
 
 function resolvePeriod(value: string | undefined): RankingPeriod {
-  const match = RANKING_PERIODS.find((p) => p === value);
+  // "all" is intentionally not selectable (no all-time tab); fall back to week.
+  const match = RANKING_PERIODS.find((p) => p === value && p !== "all");
   return match ?? "week";
 }
 

@@ -34,9 +34,7 @@ export function resetLocalDbCache() {
   cached = new Map();
 }
 
-// Recoverable = the SyncAccessHandle is held/lost (a prior tab still releasing on reload,
-// cleared site data, destroyed-under-us). The file is fine; reopen and retry. Anything else
-// rethrows so getLocalDb drops the cache and the next open retries: a hiccup never wipes data.
+// Recoverable = the SyncAccessHandle is held/lost; the file is fine, reopen and retry. Else rethrow.
 function isRecoverable(err: unknown): boolean {
   const s = String(err);
   return (
@@ -50,27 +48,37 @@ function isRecoverable(err: unknown): boolean {
   );
 }
 
-// Reload races: a prior tab's SyncAccessHandle can take >1s to release (worse on iOS, where
-// background-tab teardown is throttled). 7 tries with capped backoff (50,100,200,400,800,1500,1500
-// ~ 4.5s) rides that out so a fast refresh doesn't surface the in-memory fallback to the user.
+// A prior tab's SAH can take >1s to release (worse on iOS); 7 capped-backoff tries (~4.5s) ride it out.
 const RETRIES = 7;
 const MAX_BACKOFF = 1500;
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 const newSql = (dbPath: string) =>
-  new SQLocalDrizzle({ databasePath: dbPath, reactive: false, releaseOnUnload: true });
+  new SQLocalDrizzle({
+    databasePath: dbPath,
+    reactive: false,
+    releaseOnUnload: true,
+  });
 
-// Open + migrate, retrying transient handle contention with backoff. SQLocal silently serves an
-// EMPTY in-memory DB when OPFS init fails (real file intact on disk) -> getDatabaseInfo is the
-// only signal; treat the fallback as contention so a retry lands on the real file.
+// SQLocal silently serves an empty in-memory DB when OPFS init fails; getDatabaseInfo is the only
+// signal, so treat the in-memory fallback as contention and retry onto the real file.
 async function openMigratedSql(
   dbPath: string,
   userId: number,
 ): Promise<SQLocalDrizzle> {
   const { runMigrations } = await import("./schema-migrate/migrations");
+  // OPFS needs SharedArrayBuffer, i.e. a cross-origin-isolated document. Non-isolated pages
+  // (marketing routes that don't get COOP/COEP) can never persist; accept the in-memory DB
+  // once instead of retrying 7x into a guaranteed failure (theme/etc still ride the cookie atom).
+  const isolated =
+    typeof window === "undefined" || window.crossOriginIsolated !== false;
   let sql = newSql(dbPath);
   for (let attempt = 0; ; attempt++) {
     try {
       if ((await sql.getDatabaseInfo()).storageType !== "opfs") {
+        if (!isolated) {
+          await runMigrations(sql);
+          return sql;
+        }
         throw new Error("GetSyncHandleError: fell back to in-memory");
       }
       await runMigrations(sql);
@@ -95,8 +103,7 @@ async function openClient(userId: number): Promise<LocalClient> {
   let sql = await openMigratedSql(dbPath, userId);
   let reopening: Promise<void> | null = null;
 
-  // Self-heal a handle lost mid-session: single-flight reopen, replay the failed call once
-  // (it never ran on the dead handle, so replay is safe).
+  // Handle lost mid-session: single-flight reopen, replay the failed call once (it never ran).
   const run = async <T>(fn: (s: SQLocalDrizzle) => Promise<T>): Promise<T> => {
     try {
       return await fn(sql);

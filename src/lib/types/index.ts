@@ -89,7 +89,7 @@ export type PlaygroundImageView = {
   height: number | null;
 };
 
-// Playground snapshot + resolved images. Loose params for legacy synced rows.
+// Playground snapshot + resolved images. Loose params for legacy rows.
 export type SnapshotView = {
   id: string;
   sessionId: string;
@@ -133,7 +133,7 @@ export type LocalRawExec = (
   numAffectedRows?: number;
 }>;
 
-// Minimal peer for cross-DB copies (salvage, guest migrate): exec only.
+// Minimal peer for cross-DB copies (salvage): exec only.
 export type CopyPeer = { exec: LocalRawExec };
 
 export type LocalClient = {
@@ -233,8 +233,6 @@ export class ParamError extends Error {
     this.params = params;
   }
 }
-
-// SEO / docs / blog registry types.
 
 // Static doc slugs only: the /docs/[slug] template is excluded so DocSlug stays a subset of SeoTimestampSlug.
 export type DocSlug = keyof typeof pathnames extends infer K
@@ -338,9 +336,7 @@ export type BlogEntry = {
   heroImage?: string;
 };
 
-// On-disk conversation export envelopes. Untrusted JSON: every field optional, per-importer boundary cast.
-
-// Export row: arbitrary columns + known string id.
+// On-disk conversation export envelopes. Untrusted JSON: every field optional, cast at the importer.
 export type ExportRow = Record<string, unknown> & { id: string };
 
 export type NativeImport = {

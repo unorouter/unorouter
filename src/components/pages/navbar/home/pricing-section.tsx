@@ -135,7 +135,8 @@ async function SignupDemo() {
   );
 }
 
-function TopUpDemo() {
+async function TopUpDemo() {
+  const t = await getTranslations();
   const rows: { label: string; amount: string; widthPct: number }[] = [
     { label: "May 02", amount: "$50", widthPct: 100 },
     { label: "Apr 18", amount: "$20", widthPct: 50 },
@@ -143,6 +144,17 @@ function TopUpDemo() {
   ];
   return (
     <div className="space-y-2.5 font-mono text-[11px]">
+      <div className="flex items-center gap-3">
+        <span className="w-12 shrink-0 text-green-600 dark:text-green-400">
+          {t("HOME.HOW_IT_WORKS.TOPUP_FREE_LABEL")}
+        </span>
+        <div className="relative h-1.5 flex-1 overflow-hidden rounded-full bg-green-500/20">
+          <div className="h-full w-full bg-linear-to-r from-green-500 to-green-400" />
+        </div>
+        <span className="w-10 shrink-0 text-right font-bold text-green-600 tabular-nums dark:text-green-400">
+          {t("HOME.HOW_IT_WORKS.TOPUP_FREE_AMOUNT")}
+        </span>
+      </div>
       {rows.map((row) => (
         <div key={row.label} className="flex items-center gap-3">
           <span className="text-foreground/70 w-12 shrink-0">{row.label}</span>

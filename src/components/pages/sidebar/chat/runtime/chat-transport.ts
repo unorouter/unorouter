@@ -17,7 +17,7 @@ import {
 import { DefaultChatTransport } from "ai";
 import { useRef } from "react";
 
-// Context-dedup state per conv: sent is the last uploaded hash, built the last full context (replayed on 409). Bounded LRU.
+// Per-conv dedup: sent = last uploaded hash, built = last full context (replayed on 409). Bounded LRU.
 const MAX_CTX_CONVS = 50;
 const ctxState = new Map<string, { sent?: string; built: ContextEntry }>();
 type ContextEntry = { hash: string; ctx: unknown };
@@ -57,9 +57,7 @@ function hashableContext(ctx: unknown): string {
   return JSON.stringify({ ...c, settings });
 }
 
-// getConvId resolves THIS thread's conv id (not the global convIdAtom). With >1 chat the global
-// atom holds the last-active conv, so an async body() (delayed on iOS background tabs) would build
-// the WRONG conversation's context and merge it into this send. The ref keeps it thread-scoped.
+// getConvId stays thread-scoped via a ref: an async body() must not build the last-active conv's context.
 export function useChatTransport(getConvId: () => string | null) {
   const getConvIdRef = useRef(getConvId);
   getConvIdRef.current = getConvId;
@@ -114,7 +112,9 @@ export function useChatTransport(getConvId: () => string | null) {
           convIdAtom: chatStore.get(convIdAtom),
           chatContextHash,
           sentFullContext: chatContext !== undefined,
-          messageTimesCount: messageTimes ? Object.keys(messageTimes).length : 0,
+          messageTimesCount: messageTimes
+            ? Object.keys(messageTimes).length
+            : 0,
         });
         return {
           model: chatStore.get(chatModelAtom),
@@ -122,7 +122,6 @@ export function useChatTransport(getConvId: () => string | null) {
           webSearch: chatStore.get(chatWebSearchAtom),
           // null == auto; server omits the X-Group header for null/auto.
           group: chatStore.get(chatGroupAtom),
-          // Guest fallback.
           overrides: chatStore.get(chatDefaultsAtom),
           chatContext,
           chatContextHash,

@@ -9,8 +9,16 @@ import { FeaturedOnContent } from "@/components/pages/blog/posts/2026-06-12-feat
 import { UnorouterVsLitellmContent } from "@/components/pages/blog/posts/2026-06-17-unorouter-vs-litellm-content";
 import { UnorouterVsRisuaiContent } from "@/components/pages/blog/posts/2026-06-19-unorouter-vs-risuai-content";
 import { UnorouterVsMegallmContent } from "@/components/pages/blog/posts/2026-06-20-unorouter-vs-megallm-content";
+import { UnorouterVsPortkeyContent } from "@/components/pages/blog/posts/2026-06-21-unorouter-vs-portkey-content";
+import { UnorouterVsNanoGptContent } from "@/components/pages/blog/posts/2026-06-23-unorouter-vs-nano-gpt-content";
+import { BestAiGatewayForSillytavernContent } from "@/components/pages/blog/posts/2026-06-25-best-ai-gateway-for-sillytavern-content";
+import { BestOpenrouterAlternatives2026Content } from "@/components/pages/blog/posts/2026-06-27-best-openrouter-alternatives-2026-content";
+import { WhatIsAnLlmGatewayContent } from "@/components/pages/blog/posts/2026-06-29-what-is-an-llm-gateway-content";
+import { HowToConnectAnyLlmToSillytavernContent } from "@/components/pages/blog/posts/2026-07-01-how-to-connect-any-llm-to-sillytavern-content";
+import { OneApiKeyForClaudeCodeAndRoleplayContent } from "@/components/pages/blog/posts/2026-07-03-one-api-key-for-claude-code-and-roleplay-content";
 import { BLOG_REGISTRY, type BlogSlug } from "@/i18n/registry";
 import { APP_VALUES } from "@/lib/config/constants";
+import { dayjs } from "@/lib/utils/format/date";
 import type { BlogPost } from "@/lib/types";
 import type { useTranslations } from "next-intl";
 import type { ComponentType } from "react";
@@ -27,6 +35,15 @@ const COMPONENTS: Record<BlogSlug, ComponentType> = {
   "unorouter-vs-litellm": UnorouterVsLitellmContent,
   "unorouter-vs-risuai": UnorouterVsRisuaiContent,
   "unorouter-vs-megallm": UnorouterVsMegallmContent,
+  "unorouter-vs-portkey": UnorouterVsPortkeyContent,
+  "unorouter-vs-nano-gpt": UnorouterVsNanoGptContent,
+  "best-ai-gateway-for-sillytavern": BestAiGatewayForSillytavernContent,
+  "best-openrouter-alternatives-2026": BestOpenrouterAlternatives2026Content,
+  "what-is-an-llm-gateway": WhatIsAnLlmGatewayContent,
+  "how-to-connect-any-llm-to-sillytavern":
+    HowToConnectAnyLlmToSillytavernContent,
+  "one-api-key-for-claude-code-and-roleplay":
+    OneApiKeyForClaudeCodeAndRoleplayContent,
 };
 
 export const POSTS: BlogPost<BlogSlug>[] = BLOG_REGISTRY.map((entry) => ({
@@ -42,7 +59,11 @@ export const POSTS: BlogPost<BlogSlug>[] = BLOG_REGISTRY.map((entry) => ({
 }));
 
 export function getAllPostsSorted(): BlogPost<BlogSlug>[] {
-  return [...POSTS].sort((a, b) => b.date.localeCompare(a.date));
+  // Future-dated posts stay out of listings/RSS until their date (direct URL still resolves via getPost).
+  const today = dayjs().format("YYYY-MM-DD");
+  return [...POSTS]
+    .filter((p) => p.date <= today)
+    .sort((a, b) => b.date.localeCompare(a.date));
 }
 
 export function getPost(slug: string): BlogPost<BlogSlug> | undefined {

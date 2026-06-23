@@ -16,7 +16,6 @@ export const serverEnv = {
   creemApiKey: process.env.CREEM_API_KEY,
   creemApiUrl: process.env.CREEM_API_URL,
   creemModerationEnabled: process.env.CREEM_MODERATION_ENABLED === "1",
-  syncIncludeRequestLogPii: process.env.SYNC_INCLUDE_REQUEST_LOG_PII !== "0",
   standalone: process.env.STANDALONE,
   port: process.env.PORT ?? "3000",
 } as const;

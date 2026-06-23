@@ -40,39 +40,25 @@ const FEATURED_BADGES = [
     width: 76,
   },
   {
-    href: "https://dang.ai",
+    href: "https://dang.ai/tool/unorouter-openai-compatible-llm-gateway",
     src: "/badges/dang.png",
     name: "DANG!",
     verified: true,
     width: 67,
   },
   {
-    href: "https://twelve.tools",
+    href: "https://twelve.tools/unorouter-ai",
     src: "/badges/twelvetools.svg",
     name: "Twelve Tools",
     verified: false,
     width: 89,
   },
   {
-    href: "https://fazier.com",
+    href: "https://fazier.com/launches/unorouter",
     src: "/badges/fazier.svg",
     name: "Fazier",
     verified: false,
     width: 102,
-  },
-  {
-    href: "https://code.market",
-    src: "/badges/codemarket.svg",
-    name: "code.market",
-    verified: false,
-    width: 86,
-  },
-  {
-    href: "https://showmebest.ai",
-    src: "/badges/showmebest.webp",
-    name: "ShowMeBestAI",
-    verified: false,
-    width: 96,
   },
   {
     href: "https://www.producthunt.com/products/unorouter",
@@ -80,6 +66,34 @@ const FEATURED_BADGES = [
     name: "Product Hunt",
     verified: false,
     width: 111,
+  },
+] as const;
+
+// Reciprocal verification links: each directory crawls unorouter.com for ITS own
+// link before approving our listing. Intentional dofollow (reciprocal exchange),
+// not nofollow. TheSaaSDir badge img stays on their domain so their verifier finds
+// its own asset; AI Toolz Dir offers no image badge, so it renders as a text link.
+const RECIPROCAL_LINKS = [
+  {
+    href: "https://thesaasdir.com/product/unorouter?ref=badge",
+    src: "https://thesaasdir.com/badge/unorouter.svg",
+    name: "TheSaaSDir",
+    width: 182,
+    height: 46,
+  },
+  {
+    href: "https://www.aitoolzdir.com",
+    src: "/badges/aitoolzdir.svg",
+    name: "AI Toolz Dir",
+    width: 168,
+    height: 46,
+  },
+  {
+    href: "https://turbo0.com/item/unorouter",
+    src: "https://img.turbo0.com/badge-listed-light.svg",
+    name: "Turbo0",
+    width: 72,
+    height: 46,
   },
 ] as const;
 
@@ -241,19 +255,19 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="border-muted/50 flex flex-wrap items-center justify-center gap-4 border-t pt-8 pb-2 opacity-70">
-          {FEATURED_BADGES.map((badge) => (
+        <div className="border-muted/50 flex flex-wrap items-center justify-center gap-4 border-t pt-8 pb-4 opacity-70">
+          {[...FEATURED_BADGES, ...RECIPROCAL_LINKS].map((badge) => (
             <NextLink
               key={badge.href}
               href={badge.href}
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={badge.src}
                 alt={t(
-                  badge.verified
+                  "verified" in badge && badge.verified
                     ? "FOOTER.BADGE_VERIFIED_ON"
                     : "FOOTER.BADGE_FEATURED_ON",
                   { name: badge.name },

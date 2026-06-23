@@ -8,10 +8,7 @@ import { getChatDebugLog } from "@/lib/utils/chat-debug-log";
 import { chatStore, convIdAtom, historyLoadedAtom } from "@/store/chat-store";
 import { dayjs } from "@/lib/utils/format/date";
 
-// One-file chat diagnostics for users to download + send (e.g. via Discord) when a chat issue
-// can't be reproduced on our devices (iOS-only bugs). Safe mode = metadata only (no message text);
-// full mode adds content. The ring buffer is only populated if the user enabled debug logging.
-
+// One-file chat diagnostics for users to download + send. Safe mode = metadata only; full adds content.
 type DiagnosticsOptions = { includeContent: boolean };
 
 const MAX_LOG_CONVS = 25;
@@ -52,9 +49,7 @@ export async function buildDiagnostics(
   try {
     const est = await navigator.storage?.estimate?.();
     if (est) dbInfo.storageEstimate = { usage: est.usage, quota: est.quota };
-  } catch {
-    // ignore
-  }
+  } catch {}
 
   const convs = (await readLocalConversations(userId)) ?? [];
   const conversations = convs.map((c) => ({

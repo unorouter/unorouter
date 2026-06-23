@@ -4,9 +4,7 @@ import { getTranslations } from "next-intl/server";
 
 export const dynamic = "force-dynamic";
 
-// Discovery alias for /.well-known/mcp/server-card.json. Some agents probe
-// /.well-known/mcp.json, others the SEP-2127 path; both return the same
-// SEP-2127 server card so either probe finds a valid document.
+// Discovery alias for /.well-known/mcp/server-card.json (same SEP-2127 card, both probe paths).
 export async function GET() {
   const locale = await serverLocale();
   const t = await getTranslations({ locale });

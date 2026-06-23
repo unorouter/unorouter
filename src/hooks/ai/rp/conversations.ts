@@ -76,7 +76,6 @@ export function useChatBindingsQuery(convId?: string) {
     queryFn: async () => {
       if (!convId) throw new Error("not-found");
       const local = await readLocalConversationBindings(userId, convId);
-      // Surface server keys (characters/lorebooks).
       return {
         characters: local?.conversationCharacters ?? [],
         lorebooks: local?.conversationLorebooks ?? [],

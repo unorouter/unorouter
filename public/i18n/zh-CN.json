@@ -33,10 +33,10 @@
     "HERO": {
       "BADGE": "路由器在线",
       "TITLE_LINE1": "统一",
-      "SUBTITLE": "{appName} 用一把钥匙连接 {modelCount}+ 个 AI 模型。构建应用、运行 Agent，或与角色进行角色扮演。同一把钥匙、同样的速度、同样的价格。",
+      "SUBTITLE": "{appName} 用一把钥匙把你连到 {modelCount}+ 个 AI 模型。用它构建应用、运行智能体，或者跳过设置，直接在本站和角色聊天。同一把钥匙，同样的速度，同样的价格。",
       "CTA_PRIMARY": "立即开始",
       "CTA_SECONDARY": "查看模型",
-      "TITLE_ROTATE": "智能,角色扮演,角色,代码,对话"
+      "TITLE_ROTATE": "API,聊天,角色,角色扮演,代码,智能"
     },
     "STATS": {
       "MODELS": "模型",
@@ -117,6 +117,84 @@
         "TITLE": "请求流程"
       }
     },
+    "CHAT": {
+      "BADGE": "内置聊天",
+      "TITLE_1": "不只是一个 API。",
+      "TITLE_2": "也是一个聊天客户端。",
+      "DESCRIPTION": "打开就能聊。免费模型已经接好，无需注册、无需钥匙、无需设置。挑一个角色或导入你自己的，聊天记录留在你的浏览器里。",
+      "CARD1": {
+        "TITLE": "免设置",
+        "DESC": "免费模型在后端接好。打开就聊，无需账户。"
+      },
+      "CARD2": {
+        "TITLE": "角色",
+        "DESC": "内置人设、预设、提示词模板和 SillyTavern 卡片导入。"
+      },
+      "CARD3": {
+        "TITLE": "私密",
+        "DESC": "你的对话存在你的浏览器里，绝不在我们的服务器上。我们读不到。"
+      },
+      "CARD4": {
+        "TITLE": "完整角色扮演",
+        "DESC": "知识书、群聊、滑动重生成和真正的 RP 引擎，不是玩具。"
+      },
+      "CTA_OPEN": "打开聊天",
+      "CTA_CONNECT": "接入你的客户端",
+      "MOCK": {
+        "CHARACTER": "埃拉拉·沃斯舰长",
+        "MODEL": "免费",
+        "MSG_AI": "报到，新兵。收好装备，十秒后跃迁。",
+        "MSG_USER": "是，舰长。准备就绪。",
+        "TYPING": "正在输入",
+        "INPUT": "输入消息...",
+        "BRAND": "UnoRouter",
+        "NEW_CHAT": "新建聊天",
+        "CONV1": "埃拉拉·沃斯舰长",
+        "CONV2": "炼金术士莉拉",
+        "CONV3": "咖啡馆的麻糬",
+        "MODEL_NAME": "nemotron-3",
+        "TOKENS": "输入 {in} ／ 输出 {out}",
+        "MENU_LABEL": "角色扮演",
+        "LOCAL_DB": "本地数据库",
+        "MSG_AI_2": "坩埚烧得正好。帮我把那个小瓶递过来，好吗？",
+        "MSG_AI_3": "欢迎回来！还是老样子，燕麦拿铁多加奶泡？",
+        "NEW_CHAT_EMPTY": "开始新的对话……",
+        "DEMO_USER": "舰长，说说你自己吧。",
+        "DEMO_AI": "埃拉拉·沃斯舰长，在深空闯荡了十五年。紧跟着我，你就能平安回家。",
+        "DLG": {
+          "CHAR1": "身经百战的星舰舰长",
+          "CHAR2": "好奇的药剂调配师",
+          "CHAR3": "温馨咖啡馆的咖啡师",
+          "PERSONA1": "新兵蛋子",
+          "PERSONA1_SUB": "热情十足，问个不停",
+          "PERSONA2": "资深飞行员",
+          "PERSONA2_SUB": "临危不乱",
+          "LORE1": "外环星域",
+          "LORE1_SUB": "星图与贸易航线",
+          "LORE2": "舰船载货清单",
+          "LORE2_SUB": "船员名册与货物",
+          "PRESET1": "电影感角色扮演",
+          "PRESET1_SUB": "鲜活而富有画面感的文字",
+          "PRESET2": "利落对白",
+          "PRESET2_SUB": "简短有力的回复",
+          "CARD1": "埃拉拉舰长（v2）",
+          "CARD1_SUB": "SillyTavern 角色卡",
+          "CARD2": "炼金术士莱拉",
+          "CARD2_SUB": "导入的角色卡",
+          "DB1": "对话",
+          "DB1_SUB": "128 行",
+          "DB2": "角色",
+          "DB2_SUB": "12 行"
+        },
+        "DEMO_USER_2": "你今天在熬制什么呀？",
+        "DEMO_AI_2": "一瓶清明灵药。三滴下肚，思绪便如琢磨过的玻璃般通透锋利。想尝一口吗？",
+        "DEMO_USER_3": "随便给我来杯惊喜吧。",
+        "DEMO_AI_3": "一杯薰衣草蜂蜜拿铁，马上就好。这糖浆是我今早亲手熬的哦。",
+        "NEW_CONV_TITLE": "领航员凯",
+        "NEW_DEMO_USER": "给我们规划一条通往最近港口的航线。",
+        "NEW_DEMO_AI": "正在计算。三次跃迁就到，燃料还绰绰有余。坐稳了。"
+      }
+    },
     "FEATURES": {
       "TITLE": "为什么选择 {appName}",
       "DESCRIPTION": "一个端点，每个 AI 模型。智能路由选择最快的提供方，自动容灾确保您的请求始终成功。",
@@ -177,9 +255,11 @@
       "FEATURE_1": "兼容 OpenAI 的端点",
       "FEATURE_2": "自动提供方容灾",
       "FEATURE_3": "多协议支持",
+      "FEATURE_4": "无需代码，在站内聊天",
       "READ_DOCS": "阅读完整 API 文档",
       "NO_CODE_LABEL": "不是开发者？",
-      "NO_CODE_OPTION": "无需代码。把 URL 粘贴到 SillyTavern、Janitor.AI、RisuAI 或 Chub，立刻开始聊天。",
+      "NO_CODE_OPTION": "跳过代码。直接在本站和角色聊天，或把网址粘进 SillyTavern、Janitor.AI、RisuAI 或 Chub。",
+      "NO_CODE_CHAT_LINK": "打开聊天",
       "NO_CODE_LINK": "查看集成指南"
     },
     "CTA": {
@@ -187,7 +267,8 @@
       "TITLE_2": "连接",
       "SUBTITLE": "每一个 AI 模型，一把钥匙。开发、聊天、写代码或角色扮演，你说了算。",
       "PRIMARY": "开始使用",
-      "SECONDARY": "查看集成"
+      "SECONDARY": "查看集成",
+      "CHAT": "打开聊天"
     },
     "META": {
       "TITLE": "{appName} - 一把钥匙，连接所有 AI 模型",
@@ -204,7 +285,9 @@
       "STEP1_DESC": "一分钟内完成注册，开始时无需信用卡。",
       "STEP2_NUM": "2",
       "STEP2_TITLE": "充值或订阅",
-      "STEP2_DESC": "按需付费或选择套餐。Credits 可用于任意模型，永不过期。",
+      "STEP2_DESC": "免费开始，无需银行卡。只有想用付费模型时再充值或选套餐。额度永不过期。",
+      "TOPUP_FREE_LABEL": "免费",
+      "TOPUP_FREE_AMOUNT": "$0",
       "STEP3_NUM": "3",
       "STEP3_TITLE": "获取 API Key",
       "STEP3_DESC": "在代码里、在 Claude Code 里使用，或贴到 SillyTavern、Janitor.AI、RisuAI、Chub 里。",
@@ -417,7 +500,8 @@
       "HIGHLIGHT_BEST": "高亮最佳",
       "CLEAR": "清除",
       "FROM": "来自",
-      "SELECT_MODEL": "选择一个模型"
+      "SELECT_MODEL": "选择一个模型",
+      "POPULAR": "热门对比"
     },
     "LIST": {
       "TOKENS": "Token",
@@ -554,6 +638,57 @@
         "H_VERDICT": "你该选哪个",
         "P_VERDICT": "如果你只写代码，想要一个为每 token 成本优化的精简前沿模型网关，MegaLLM 是个扎实的选择，它的社区也证明了这点。如果你想要一把钥匙既驱动你的编程智能体，又从同一余额、更广清单驱动一个内置的聊天与角色客户端，那就是 {appName} 填补的空白。没有唯一赢家。这取决于一个纯开发网关够不够，还是你想要内置的聊天客户端。",
         "CTA": "想要网关和聊天合二为一？<register>创建免费账户</register>或<models>浏览模型</models>。"
+      },
+      "UNOROUTER_VS_PORTKEY": {
+        "TITLE": "{appName} 对比 Portkey：AI 网关，还是完整的 LLMOps 平台",
+        "DESCRIPTION": "Portkey 是一个面向企业的 LLMOps 平台，具备可观测性、护栏和治理能力。{appName} 是一个更精简的托管网关，内置聊天客户端。关键在于你究竟需要多少平台能力。",
+        "AUTHOR": "{appName}团队",
+        "INTRO": "Portkey 和 {appName} 都在每个模型前面放置一个 OpenAI 兼容的端点。从这里开始，两者就分道扬镳了。Portkey 是为需要可观测性、护栏和治理的工程团队打造的完整 LLMOps 平台。{appName} 是同一思路的精简版：一把密钥、200 多个模型，再加上一个聊天客户端，无需任何配置。",
+        "H_AUDIENCE": "各自为谁而造",
+        "P_AUDIENCE": "Portkey 面向大规模交付 LLM 功能的平台团队和 AI 团队。它的价值在于围绕调用的控制平面：请求日志、指标、预算、提示词管理、护栏、回退，以及面向组织的基于角色的访问。{appName} 面向个人开发者和 RP 用户，他们只想要一把能在编码代理和聊天客户端中都好用的密钥，而不必先搭起一层治理。",
+        "H_SETUP": "搭建与覆盖面",
+        "P_SETUP": "用 Portkey，你要配置一把虚拟密钥、各项配置和路由规则，然后对应用进行埋点，把所有流量都走网关，让仪表盘填满数据。当你有团队、有合规需求时，这才有意义。用 {appName}，你只需注册，并把客户端指向 <c>https://api.unorouter.com/v1</c>。没有配置文件，没有要管理的虚拟密钥，也没有要学的可观测性栈。一个是你采纳的平台，另一个是你调用的端点。",
+        "H_INTERFACE": "Portkey 没有聊天客户端",
+        "P_INTERFACE": "Portkey 是基础设施：一个网关和一个仪表盘，面向用户的界面都得你自己来。{appName} 提供同样的 OpenAI 兼容 API，外加内置的聊天与角色客户端（人设、世界书、预设、SillyTavern 角色卡导入），而且同一把密钥可直接用于 SillyTavern、Janitor.AI、RisuAI 或 Chub。于是你用同一把密钥就能拥有一个真正可以聊天的地方，而不只是一个为应用仍要自行发起的调用准备的控制平面。",
+        "H_COST": "成本与开销",
+        "P_COST": "Portkey 围绕平台收费：低用量有免费档，再往上是为组织所需的可观测性、治理和支持而设的付费方案，这些都叠加在你付给各家供应商的费用之上。当控制平面能为团队节省真金白银的时间时，它就值得。{appName} 是横跨 200 多个模型的按量付费，额度不过期，并设有免费档，是一个余额，而不是一份平台订阅外加每家供应商的钱包。在团队规模以下，精简路线花得更少，对你的要求也更少。",
+        "H_VERDICT": "你该选哪个",
+        "P_VERDICT": "如果你为组织运营 LLM 功能，需要可观测性、护栏和治理，Portkey 正是为此而造。如果你想要一把无需运维、能在编码代理和真正的聊天客户端中都好用的 OpenAI 兼容密钥，那么 {appName} 更合适。没有谁好谁坏，只是平台的成分更少。按你是需要控制平面，还是只需要网关来选。",
+        "CTA": "想要一个无需运维的网关？<register>创建免费账户</register>，或<models>浏览模型</models>。"
+      },
+      "UNOROUTER_VS_NANO_GPT": {
+        "TITLE": "{appName} 对比 nano-gpt：聊天市场，还是一把密钥两头通吃",
+        "DESCRIPTION": "nano-gpt 在聊天界面背后提供一个庞大的模型目录。{appName} 给你同样的按量付费访问，外加一套真正的开发者 API 和内置的角色客户端，都在一把干净的密钥之下。",
+        "AUTHOR": "{appName}团队",
+        "INTRO": "nano-gpt 和 {appName} 在最显而易见的一点上重叠：无需订阅，按量付费地访问大量模型。nano-gpt 主打聊天市场背后的广度。{appName} 主打一把在编码代理和聊天客户端中同样自如的 OpenAI 兼容密钥。同样的额度，两扇截然不同的入口。",
+        "H_CATALOG": "目录与广度",
+        "P_CATALOG": "nano-gpt 的卖点是目录的规模：数百个文本和图像模型集中一处，如果你的目标是把一切都试一遍，这确实有用。{appName} 在对编码和角色扮演真正重要的供应商之间运行 200 多个模型，是精选并保持最新，而非为了凑数而最大化。如果你在意的只有纯粹的广度，那 nano-gpt 胜出。如果你想要人们真正用来干活的模型，差距很快就会缩小。",
+        "H_DEV": "开发者这一面",
+        "P_DEV": "聊天市场是界面优先造出来的：网页 UI 是产品，API 是侧门。{appName} 在设计上就是 OpenAI 兼容的。把任何 SDK 或代理指向 <c>https://api.unorouter.com/v1</c>，保留你现有的代码，同一把密钥就能驱动 Claude Code、Cline、OpenCode、Kilo Code 或 Codex。你不是在给一个聊天站点硬装一个 API，而是在用一个恰好也带聊天客户端的网关。",
+        "H_CHAT": "聊天与角色这一面",
+        "P_CHAT": "两者都让你在浏览器里聊天，但 {appName} 的客户端是为角色扮演而造，而不仅是问答：人设、世界书、预设、SillyTavern 角色卡导入，而当你想要更重的前端时，同一把密钥可进入 SillyTavern、Janitor.AI、RisuAI 或 Chub。你永远不会被锁死在一个 UI 里。额度会跟着你穿行于每一个客户端。",
+        "H_PAY": "定价与密钥",
+        "P_PAY": "两者都是无订阅的按量付费，这正是对突发式、多模型使用最合适的模式。{appName} 把它收敛为一个余额，额度不过期，并设有免费档，是一把跨编码与聊天的密钥，而不是一只只能在一个 UI 里花的市场钱包。计费形态相同，区别在于这一把密钥能触达多远。",
+        "H_VERDICT": "你该选哪个",
+        "P_VERDICT": "如果你主要想要一个网页 UI 来试用尽可能广的模型清单，nano-gpt 在这方面做得不错。如果你想要一把能在编码代理和真正的角色客户端中都好用、额度还能随身带走的 OpenAI 兼容密钥，那么 {appName} 更合适。同样的按量付费内核，一把密钥的触达更远。",
+        "CTA": "想要一把同时管代码和角色聊天的密钥？<register>创建免费账户</register>，或<models>浏览模型</models>。"
+      },
+      "BEST_AI_GATEWAY_FOR_SILLYTAVERN": {
+        "TITLE": "2026 年最适合 SillyTavern 的 AI 网关",
+        "DESCRIPTION": "SillyTavern 需要一个 OpenAI 兼容的端点和一把密钥。这里讲清楚挑选网关时真正重要的是什么，以及如何在一分钟内连上。",
+        "AUTHOR": "{appName}团队",
+        "INTRO": "SillyTavern 是前端，它本身不托管模型。要用它，你把它指向一个 OpenAI 兼容的端点并粘上一把密钥。问题在于背后是哪个网关。大多数教程递给你单一供应商，而更好的答案是一把能触达众多模型、又不会过期的密钥。下面讲该权衡什么，以及 {appName} 如何契合。",
+        "H_WHAT_MATTERS": "对 SillyTavern 真正重要的是什么",
+        "P_WHAT_MATTERS": "决定一个好 SillyTavern 网关的有四点。OpenAI 兼容的 Chat Completions，这样 SillyTavern 无需适配器即可连接。模型广度，这样你无需新建账户就能在强力写手和廉价主力之间切换。诚实的按量付费计费，因为角色扮演是突发式的，按月席位的形态并不合适。还有一个免费档，让你在花钱之前先试一个角色。模型的纯粹数量，远不如该有的模型是否齐备且最新来得重要。",
+        "H_OPTIONS": "现实的选项",
+        "P_OPTIONS": "你有三类选择。单一供应商密钥（OpenAI、Anthropic、DeepSeek）最简单，但把你锁在一家实验室的模型和定价上。无头的开发者网关给你广度，却没有自己的客户端，这没关系，因为 SillyTavern 就是你的客户端。或者一个既是 API 又是聊天客户端的网关，这样当你不想启动整个应用时，同一把密钥在 SillyTavern 和内置 UI 中都能用。{appName} 就是第三种。",
+        "H_CONNECT": "把 {appName} 连接到 SillyTavern",
+        "P_CONNECT": "在 SillyTavern 中，选择 Chat Completion API 和 OpenAI 兼容（Custom）来源。把基础 URL 设为 <c>https://api.unorouter.com/v1</c>，粘上你的 {appName} 密钥，然后加载模型列表。选一个模型，你的角色、世界书和预设照旧运行。同一把密钥在 Janitor.AI、RisuAI 和 Chub 里也能用，所以你不必为每个应用重做设置。",
+        "H_FREE": "免费模型与成本控制",
+        "P_FREE": "{appName} 有免费档和 200 多个模型，所以你可以先用免费模型试一张角色卡，等场景值得了再换到更强的付费模型。额度不过期，计费是按量付费，一个余额覆盖每个客户端和每个模型。没有需要为之辩护的按月席位，歇一个月也没有什么要取消。",
+        "H_VERDICT": "简短的答案",
+        "P_VERDICT": "最好的 SillyTavern 网关，是那个有 OpenAI 兼容端点、真正的模型广度、按量付费额度，以及一个起步用的免费档的网关，让一把密钥就能撑起你的整套配置。{appName} 正是为这种情形而造，而且同一把密钥会在你使用的其他每一个 RP 前端中继续好用。",
+        "CTA": "准备好连接 SillyTavern 了吗？<register>创建免费账户</register>，或<models>浏览模型</models>。"
       },
       "UNOROUTER_VS_RISUAI": {
         "TITLE": "{appName} 对比 RisuAI：我们把 RP 引擎搬进了托管的二合一",
@@ -766,6 +901,74 @@
         "H_VERDICT": "你该选哪个",
         "P_VERDICT": "如果你只交付代码，并且想要无界面的最广目录，OpenRouter 是个不错的默认选择。如果你想要无加价的自托管路由，LiteLLM 胜出。如果你想要一把密钥，既能用在编码代理里，也能用在真正的聊天与角色客户端里，而不必运行两套服务，这正是 {appName} 填补的空白。没有唯一的赢家。这取决于你是为纯粹的 API 优化，还是为 API 加上一个使用它的地方而优化。",
         "CTA": "准备好试试了吗？<register>创建免费账户</register> 或 <models>浏览模型</models>。"
+      },
+      "BEST_OPENROUTER_ALTERNATIVES_2026": {
+        "TITLE": "2026 年最佳的 OpenRouter 替代方案",
+        "DESCRIPTION": "用一把密钥触达众多模型，OpenRouter 并非唯一的路。下面是 2026 年值得了解的替代方案、各自擅长什么，以及如何挑选。",
+        "AUTHOR": "{appName}团队",
+        "INTRO": "OpenRouter 让一个简单的想法流行起来：一把兼容 OpenAI 的密钥，触达众多模型供应商。它是一个稳妥的默认选择，但不是唯一的选项，也不是对每种用途都最好。如果你在 2026 年权衡替代方案，正确的选择取决于你最在意价格、模型广度、计费形态，还是拥有自己的聊天客户端。下面是一张诚实的地图，以及 {appName} 落在何处。",
+        "H_WHY_SWITCH": "为什么要看 OpenRouter 之外",
+        "P_WHY_SWITCH": "人们出于几个具体原因货比三家。加价：每个聚合方都在供应商原始价格之上加一层利润，幅度各不相同。模型覆盖：你需要的某个模型，可能在一个网关上缺席或陈旧，在另一个上却是最新的。计费形态：有些套餐按席位或订阅计费，与突发式用量并不相配。还有客户端这一环：大多数网关是无界面的，所以你仍需要一个单独的前端来做聊天或角色扮演。其中任何一条，都足以成为比较的理由。",
+        "H_WHAT_TO_COMPARE": "到底该比较什么",
+        "P_WHAT_TO_COMPARE": "用五件事来评判一个替代方案。兼容 OpenAI 的 Chat Completions，这样你现有的代码和工具无需重写即可接入。模型的广度与新鲜度，这样你不会被困在昨天的目录里。透明的按用量付费，且额度不过期，这样清淡的月份不会惩罚你。你真正使用的那些模型的覆盖，而不仅是一个很大的原始数字。以及它是否附带一个可用的客户端，还是假定你自带。按这些打分，而不是按营销说辞。",
+        "H_ALTERNATIVES": "值得了解的替代方案",
+        "P_ALTERNATIVES": "单一供应商密钥（OpenAI、Anthropic、DeepSeek）最简单，但把你绑在一个实验室上。LiteLLM 和 Portkey 这类无界面的开发者网关给你广度和治理，却没有客户端，所以适合拥有自家应用的团队。自托管代理用便利换取掌控。而组合型网关把一个宽广的兼容 OpenAI 的 API 与内置聊天客户端配在一起，于是一把密钥在代码里和界面里都能用。{appName} 正是最后这一类：把任意 OpenAI SDK 指向 <c>https://api.unorouter.com/v1</c>，触达 200 多个模型，并在内置聊天客户端或 SillyTavern 这类工具里使用同一把密钥。",
+        "H_FOR_ROLEPLAY": "如果你的用途是角色扮演",
+        "P_FOR_ROLEPLAY": "角色扮演自成一类。你想要一个宽广的目录，以便在一个强写手和一匹便宜的劳力之间切换；想要按用量付费的计费，因为会话是突发式的；还想要一把能直接塞进 SillyTavern、Janitor.AI、RisuAI 或 Chub 的密钥。纯开发者网关覆盖了 API 那一半，却不给你客户端，而按席位的套餐与这种突发式的节奏相抵触。{appName} 生来就是为了跨越两边：给代码一个干净的 API，再加上在同一把密钥、模型和额度上运作的聊天与角色客户端。",
+        "H_VERDICT": "如何选择",
+        "P_VERDICT": "如果你始终只用一个实验室，单一供应商密钥就够了。如果你是一个想在自家应用前面加上路由和治理的团队，无界面的开发者网关合适。如果你想要一把能触达众多最新模型、按用量计费、并在代码和聊天客户端两边都能用的密钥，那正是 {appName} 填补的空缺。按你真实的用途来选，而不是按原始的模型数量。",
+        "CTA": "想要一把密钥用于每个模型吗？<register>创建免费账户</register>，或<models>浏览模型</models>。"
+      },
+      "WHAT_IS_AN_LLM_GATEWAY": {
+        "TITLE": "什么是 LLM 网关？",
+        "DESCRIPTION": "LLM 网关是一个端点和一把密钥，把请求路由到众多模型供应商。下面讲它做什么、为何有帮助，以及谁真正需要它。",
+        "AUTHOR": "{appName}团队",
+        "INTRO": "LLM 网关是一个单一的 API 端点，坐落在众多模型供应商前面，把你的请求路由到你所要的那个模型。与其为每个实验室分别持有一把密钥、一个基础 URL 和各自的 SDK 怪癖，不如持有一把密钥和一个兼容 OpenAI 的端点，其余的交给网关处理。这与经典后端工作中的 API 网关是同一个想法，只是用到了语言模型上。下面讲它给你带来什么。",
+        "H_DEFINITION": "朴素的定义",
+        "P_DEFINITION": "网关暴露一个兼容 OpenAI 的接口，通常是 <c>/v1/chat/completions</c>，并在幕后把你请求中的 <c>model</c> 字段映射到一个真实供应商。你每次发送同样形状的请求；网关挑选上游，附上正确的供应商凭证，翻译任何怪癖，并把响应以流的形式传回。换模型时你的代码不变，因为你编程所针对的契约保持恒定。",
+        "H_WHY_IT_HELPS": "它为何有帮助",
+        "P_WHY_IT_HELPS": "三处收益。一次集成：针对一个端点编程，你就能使用网关承载的每个模型，无需按供应商各设一个客户端。一张账单：跨所有供应商的用量落在一个余额上，而不是十几张分开的发票。以及轻松切换：改一个模型只是一行编辑，于是你可以按任务追逐最佳价格或质量，而无需重新铺设你的应用。对多数构建者而言，单是在集成上省下的时间，就是全部的理由。",
+        "H_HOW_IT_WORKS": "它在底层如何运作",
+        "P_HOW_IT_WORKS": "当一个请求到来，网关读取 <c>model</c> 中的名称，查出匹配的上游供应商，换入该供应商的凭证，重写供应商特有的请求体字段，再把调用转发出去。流式的 token 经由同一连接返回，所以在你这边看起来就是一次普通的 OpenAI 调用。好的网关会加上对瞬时错误的重试、用量与成本的记账，以及一份最新的模型目录，于是新发布会自行出现，而你什么都不必动。",
+        "H_WHO_NEEDS_ONE": "谁真正需要它",
+        "P_WHO_NEEDS_ONE": "如果你使用不止一个模型、打算随价格和质量变动而换模型，或者要构建任何不该被硬接到单一实验室的东西，你就会想要一个网关。编码代理、聊天应用、角色扮演前端和内部工具都会受益。如果你真的只调用一个供应商的一个模型，且从不指望更换，那么直接的供应商密钥更简单。其余所有人都能用网关省下真实的功夫。",
+        "H_VERDICT": "简而言之",
+        "P_VERDICT": "LLM 网关把众多供应商变成一个端点、一把密钥和一张账单，于是你集成一次，便能自由换模型。{appName} 正是这种模子里的兼容 OpenAI 的网关：一把密钥为代码和聊天同样触达 200 多个模型，配上不会过期的按用量付费额度。如果你触及不止一个模型，网关是更干净的根基。",
+        "CTA": "自己试一个网关：<register>创建免费账户</register>，或<models>浏览模型</models>。"
+      },
+      "HOW_TO_CONNECT_ANY_LLM_TO_SILLYTAVERN": {
+        "TITLE": "如何把任意 LLM 连接到 SillyTavern",
+        "DESCRIPTION": "SillyTavern 能通过一个兼容 OpenAI 的端点与几乎任何模型对话。下面是确切的设置、如何换模型，以及如何修复常见错误。",
+        "AUTHOR": "{appName}团队",
+        "INTRO": "SillyTavern 是一个前端，不是模型宿主。要用它，你把它指向一个兼容 OpenAI 的端点并粘上一把密钥，随后它就能驱动那个端点背后几乎任何模型。触达众多模型最干净的办法是网关，于是一把密钥和一个基础 URL 解锁整个目录，而不是单一供应商。下面是确切的设置，外加如何换模型，以及如何修复人们通常会碰到的错误。",
+        "H_WHAT_YOU_NEED": "你首先需要什么",
+        "P_WHAT_YOU_NEED": "三样东西：一个运行中的 SillyTavern 安装、一个兼容 OpenAI 的端点，以及给它的一把密钥。网关把后两样一并覆盖，因为它给你一个基础 URL 和一把触达众多模型的密钥。用 {appName}，你创建账户、取得密钥，便准备就绪；有一个免费档位，让你在花任何钱之前先试一个角色。把密钥放在手边，别把它粘到任何公开的地方。",
+        "H_STEPS": "设置步骤",
+        "P_STEPS": "在 SillyTavern 中，打开 API 面板并选择 Chat Completion，然后选 OpenAI 兼容（Custom）来源。把基础 URL 设为 <c>https://api.unorouter.com/v1</c>，粘上你的 {appName} 密钥，点击以加载模型列表。从下拉中挑一个模型，发一条测试消息。你的角色、世界书和预设照旧运行，因为 SillyTavern 需要的只是一个端点和一把密钥。同一把密钥在 Janitor.AI、RisuAI 和 Chub 里也能用。",
+        "H_SWITCHING_MODELS": "之后换模型",
+        "P_SWITCHING_MODELS": "因为一切都经由一个端点，换模型只是在模型下拉里选另一项；没有新账户、新密钥或新基础 URL。这让你在搭建一个场景时跑一个便宜的免费模型，再在关键时刻切到一个更强的付费模型。一把密钥上有 200 多个模型，你便能让模型贴合场景，而不必将就单一供应商所提供的东西。",
+        "H_TROUBLESHOOTING": "常见错误与修复",
+        "P_TROUBLESHOOTING": "如果模型列表加载不出来，再次检查基础 URL 是否以 <c>/v1</c> 结尾，以及密钥是否粘得没有多余空格。401 意味着密钥错误或已过期；再复制一遍。某个模型上的 404 意味着那个模型名没有从已加载的列表中选中。如果回复被截断，在 SillyTavern 的设置里把响应长度调高。多数设置失败是基础 URL 打错或密钥带空格，所以先查这些。",
+        "H_VERDICT": "全部诀窍就这些",
+        "P_VERDICT": "把任意 LLM 连接到 SillyTavern，归结为一个兼容 OpenAI 的端点加一把密钥，而网关把这变成单一设置背后的众多模型。{appName} 给你那个基础 URL、一个起步的免费档位，以及 200 多个无需重做任何事即可来回切换的模型。设置一次，同一把密钥便随你走遍每个 RP 前端。",
+        "CTA": "准备好连接 SillyTavern 了吗？<register>创建免费账户</register>，或<models>浏览模型</models>。"
+      },
+      "ONE_API_KEY_FOR_CLAUDE_CODE_AND_ROLEPLAY": {
+        "TITLE": "一把 API 密钥同时用于 Claude Code 和角色扮演",
+        "DESCRIPTION": "编码代理和角色扮演客户端都讲兼容 OpenAI 的 API。下面讲一把密钥如何从一个余额为 Claude Code 和你的角色聊天供能。",
+        "AUTHOR": "{appName}团队",
+        "INTRO": "编码代理和角色扮演客户端感觉像是不同的世界，但在底层它们讲同一种语言：兼容 OpenAI 的 Chat Completions。这意味着一把密钥和一个端点能服务两者。你可以让 Claude Code 对着一个网关跑你真正的工作，到了晚上再用一模一样的密钥做角色聊天，从一个余额计费。下面讲这如何运作，以及为何方便。",
+        "H_TWO_WORLDS": "两个世界，一个协议",
+        "P_TWO_WORLDS": "Claude Code、Cline、Codex 和 Kilo Code 是编码代理；SillyTavern、Janitor.AI 和 RisuAI 是角色扮演客户端。它们看起来毫不相干，但每一个都连接到一个兼容 OpenAI 的端点和一把密钥。一个网关坐在两者背后，于是同一份凭证早上驱动一次重构，晚上驱动一个故事。没有理由为两个讲同一协议的工具保留分开的账户和分开的账单。",
+        "H_CLAUDE_CODE": "配合 Claude Code 使用",
+        "P_CLAUDE_CODE": "把你的编码代理指向网关：将基础 URL 设为 <c>https://api.unorouter.com/v1</c> 并填上你的 {appName} 密钥，然后挑一个强的编码模型。Claude Code、Cline、Codex 和 Kilo Code 都接受一个兼容 OpenAI 的基础 URL，于是代理照常工作，而网关把请求路由到你所选的模型。为了成本或质量换模型，只是一行改动，无需新密钥。",
+        "H_ROLEPLAY": "用于角色扮演",
+        "P_ROLEPLAY": "同一把密钥塞进 SillyTavern、Janitor.AI、RisuAI 和 Chub：选兼容 OpenAI 的来源，把基础 URL 设为 <c>https://api.unorouter.com/v1</c>，粘上密钥，加载模型。你的角色、世界书和预设照旧运行。{appName} 还有一个内置的聊天与角色客户端，于是当你不想启动一整个应用时，同一把密钥和额度在那里也能用。",
+        "H_ONE_BALANCE": "两边共用一个余额",
+        "P_ONE_BALANCE": "因为两边都跑在同一把密钥上，你的编码用量和角色扮演用量从一个按用量付费的余额里扣。额度不过期，没有需要去凑数的月度席位，你在一个地方看到全部花费，而不是把它分散到各个供应商。一个免费档位让你在付费之前先试任一边。一个账户覆盖你的一整天，工作与玩乐。",
+        "H_VERDICT": "要点",
+        "P_VERDICT": "编码代理和角色扮演客户端共享兼容 OpenAI 的协议，于是一把密钥能从一个余额为两者供能。{appName} 正是为这种跨度而建：给 Claude Code 及同类一个干净的 API，给 RP 一个聊天与角色客户端，200 多个模型，以及不会过期的额度。一把密钥，一张账单，两个世界。",
+        "CTA": "想要一把密钥用于代码和聊天吗？<register>创建免费账户</register>，或<models>浏览模型</models>。"
       }
     }
   },
@@ -3231,6 +3434,9 @@
     "CHARACTERS_NEW": "新建角色",
     "CHARACTERS_IMPORT": "导入角色卡",
     "CHARACTERS_EXPORT": "导出角色卡",
+    "CHARACTERS_IMPORT_LINK": "从链接导入",
+    "CHARACTERS_IMPORT_LINK_PLACEHOLDER": "粘贴 JanitorAI、Chub、RisuRealm 或角色卡链接",
+    "CHARACTERS_IMPORT_FROM_LINK": "导入",
     "CHARACTERS_EMPTY": "暂无角色。",
     "EXPORT_PNG": "导出为 PNG 卡片",
     "EXPORT_JSON": "导出为 JSON",
@@ -3394,7 +3600,9 @@
     "PRESET_SHOW_REASONING": "显示推理过程",
     "PRESET_SHOW_REASONING_HINT": "在回复中显示模型的思考过程。关闭 = 隐藏它（推理仍会生成并保留，因此重新开启即可显示）。聊天设置会覆盖此项。",
     "CHARACTER_BACKGROUND": "背景图片",
-    "CHARACTER_BACKGROUND_HINT": "当此角色主导对话时，显示在聊天背后。"
+    "CHARACTER_BACKGROUND_HINT": "当此角色主导对话时，显示在聊天背后。",
+    "CHARACTER_AVATAR": "头像",
+    "CHARACTER_AVATAR_HINT": "在聊天和列表中显示在该角色旁边。"
   },
   "ERRORS": {
     "MISSING_ENV": "缺少必需的环境变量：{var}",
@@ -3422,6 +3630,9 @@
     "IMPORT_UNSUPPORTED_VERSION": "不支持的导出版本。",
     "CARD_PARSE_FAILED": "无法解析角色卡。",
     "CARD_MISSING_NAME": "角色卡缺少必填的名称字段。",
+    "CARD_IMPORT_INVALID_URL": "这看起来不是有效的角色链接。",
+    "CARD_IMPORT_NOT_FOUND": "找不到该角色。它可能是私密的或已被删除。",
+    "CARD_IMPORT_FETCH_FAILED": "无法下载该角色，请重试。",
     "UNEXPECTED_ERROR": "发生意外错误",
     "AUDIO_GENERATION_FAILED": "音频生成失败",
     "NO_AUDIO_PROMPT": "未提供用于语音生成的文本",

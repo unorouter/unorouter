@@ -4,6 +4,7 @@ import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Icon } from "@/components/ui/icon";
 import { CopyButton } from "@/components/elements/code/copy-button";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Sheet,
   SheetContent,
@@ -11,6 +12,10 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
+import { Link } from "@/i18n/navigation";
+import { modelSlug } from "@/lib/utils/base";
+import { chatModelAtom } from "@/store/chat-store";
+import { useSetAtom } from "jotai";
 import {
   buildGroupEntries,
   type GroupEntry,
@@ -51,6 +56,7 @@ type ModelDetailSheetProps = {
 
 export function ModelDetailSheet(props: ModelDetailSheetProps) {
   const t = useTranslations();
+  const setChatModel = useSetAtom(chatModelAtom);
   const model = props.model;
 
   if (!model) return null;
@@ -72,6 +78,35 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
                 {model.vendor.name}
               </SheetDescription>
             </div>
+          </div>
+          <div className="flex gap-2 pt-2">
+            <Button
+              size="sm"
+              variant="outline"
+              className="flex-1"
+              nativeButton={false}
+              render={
+                <Link
+                  href={{
+                    pathname: "/models/[slug]",
+                    params: { slug: modelSlug(model.name) },
+                  }}
+                />
+              }
+            >
+              <Icon name="external-link" className="mr-2 h-3.5 w-3.5" />
+              {t("MODELS.VIEW_DETAILS")}
+            </Button>
+            <Button
+              size="sm"
+              className="flex-1"
+              nativeButton={false}
+              onClick={() => setChatModel(model.name)}
+              render={<Link href="/chat" />}
+            >
+              <Icon name="message-circle" className="mr-2 h-3.5 w-3.5" />
+              {t("MODELS.OPEN_IN_CHAT")}
+            </Button>
           </div>
         </SheetHeader>
 
@@ -244,8 +279,7 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
             <GridPricingSection gridPricing={model.gridPricing} theme={theme} />
           )}
 
-          {/* Group Pricing (collapsible) — skipped for tiered models, which
-              don't have a single per-token price to multiply per group. */}
+          {/* Group pricing: skipped for tiered models (no single per-token price to multiply). */}
           {model.enableGroups.length > 0 && !model.isTiered && (
             <GroupPricingSection
               model={model}

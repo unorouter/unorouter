@@ -7,7 +7,7 @@ import { useTranslations } from "next-intl";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
 
-    // Both sections hydrate recharts (the page's TBT driver); load client-side after first paint with reserved height.
+// Both sections hydrate recharts (the page's TBT driver); load client-side after first paint with reserved height.
 const ModelsSection = dynamic(
   () => import("./models-section").then((m) => m.ModelsSection),
   { ssr: false, loading: () => <Skeleton className="h-150 w-full" /> },

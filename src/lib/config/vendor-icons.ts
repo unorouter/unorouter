@@ -93,7 +93,8 @@ export const VENDOR_LOADERS: Partial<Record<Vendor, IconLoader>> = {
   [Vendor.ALLENAI]: () => import("@lobehub/icons/es/Ai2"),
   [Vendor.NOUS]: () => import("@lobehub/icons/es/NousResearch"),
   [Vendor.GRYPHE]: () => import("@/components/elements/brand/gryphe-icon"),
-  [Vendor.ANTHRACITE]: () => import("@/components/elements/brand/anthracite-icon"),
+  [Vendor.ANTHRACITE]: () =>
+    import("@/components/elements/brand/anthracite-icon"),
   [Vendor.STEPFUN]: () => import("@lobehub/icons/es/Stepfun"),
   [Vendor.HUNYUAN]: () => import("@lobehub/icons/es/Hunyuan"),
   [Vendor.INCLUSIONAI]: () => import("@lobehub/icons/es/AntGroup"),
@@ -107,6 +108,7 @@ export const VENDOR_LOADERS: Partial<Record<Vendor, IconLoader>> = {
   [Vendor.MOONSHOT]: () => import("@lobehub/icons/es/Moonshot"),
   [Vendor.NVIDIA]: () => import("@lobehub/icons/es/Nvidia"),
   [Vendor.OPENAI]: () => import("@lobehub/icons/es/OpenAI"),
+  [Vendor.PERPLEXITY]: () => import("@lobehub/icons/es/Perplexity"),
   [Vendor.QIANFAN]: () => import("@lobehub/icons/es/Baidu"),
   [Vendor.STABILITY]: () => import("@lobehub/icons/es/Stability"),
   [Vendor.TENCENT]: () => import("@lobehub/icons/es/Tencent"),
@@ -124,6 +126,12 @@ export const VENDOR_LOADERS: Partial<Record<Vendor, IconLoader>> = {
   [Vendor.KUAISHOU]: () => import("@lobehub/icons/es/Kwaipilot"),
   [Vendor.INTERNLM]: () => import("@lobehub/icons/es/InternLM"),
   [Vendor.SENSENOVA]: () => import("@lobehub/icons/es/SenseNova"),
+  [Vendor.MEITUAN]: () => import("@lobehub/icons/es/LongCat"),
+  [Vendor.SWISSAI]: () => import("@/components/elements/brand/swissai-icon"),
+  [Vendor.EUROLLM]: () => import("@/components/elements/brand/eurollm-icon"),
+  [Vendor.DICTA]: () => import("@/components/elements/brand/dicta-icon"),
+  [Vendor.VOYAGE]: () => import("@lobehub/icons/es/Voyage"),
+  [Vendor.OPENCODE]: () => import("@lobehub/icons/es/OpenCode"),
 };
 
 /** Aliases for vendor strings that don't match a `Vendor` enum value (e.g.
@@ -136,7 +144,7 @@ export const ALIAS_LOADERS: Record<string, IconLoader> = {
   nemotron: () => import("@lobehub/icons/es/Nvidia"),
 };
 
-    // No arcee SVG string upstream (only a React component), so the satori-inline path uses the extracted Mono path.
+// No arcee SVG string upstream (only a React component), so the satori-inline path uses the extracted Mono path.
 const ARCEE_SVG =
   '<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Arcee</title><path d="M13.236 2.377L2.751 20.493H0L11.863 0l1.373 2.377zm3.554 6.156l-9.606 11.96H4.13L15.511 6.32l1.279 2.212zm6.908 11.96H14.05l8.406-2.151 1.242 2.15zm-3.42-5.922l-7.843 5.92H8.482l10.597-7.997 1.2 2.077z"></path></svg>';
 

@@ -33,8 +33,8 @@
     "HERO": {
       "BADGE": "Router Online",
       "TITLE_LINE1": "UNIFIED",
-      "TITLE_ROTATE": "INTELLIGENCE,ROLEPLAY,CHARACTERS,CODE,CHAT",
-      "SUBTITLE": "{appName} connects you to {modelCount}+ AI models through one key. Build apps, run agents, or roleplay with characters. Same key, same speed, same price.",
+      "TITLE_ROTATE": "API,CHAT,CHARACTERS,ROLEPLAY,CODE,INTELLIGENCE",
+      "SUBTITLE": "{appName} connects you to {modelCount}+ AI models through one key. Build apps and run agents with it, or skip the setup and chat with characters right here on the site. Same key, same speed, same price.",
       "CTA_PRIMARY": "Get Started",
       "CTA_SECONDARY": "View Models"
     },
@@ -114,7 +114,9 @@
       "STEP1_DESC": "Create an account in under a minute. No credit card needed to start.",
       "STEP2_NUM": "2",
       "STEP2_TITLE": "Top up or subscribe",
-      "STEP2_DESC": "Pay as you go or pick a plan. Credits work with every model and never expire.",
+      "STEP2_DESC": "Start free, no card. Top up or pick a plan only when you want the paid models. Credits never expire.",
+      "TOPUP_FREE_LABEL": "Free",
+      "TOPUP_FREE_AMOUNT": "$0",
       "STEP3_NUM": "3",
       "STEP3_TITLE": "Get your API key",
       "STEP3_DESC": "Use it in your code, in Claude Code, or paste it into SillyTavern, Janitor.AI, RisuAI, or Chub.",
@@ -135,6 +137,84 @@
       },
       "FLOW": {
         "TITLE": "Request Flow"
+      }
+    },
+    "CHAT": {
+      "BADGE": "Built-in Chat",
+      "TITLE_1": "Not just an API.",
+      "TITLE_2": "A chat client too.",
+      "DESCRIPTION": "Open it and start talking. Free models are already connected, so there's no signup, no key, and no setup. Pick a character or import your own, and your chats stay in your browser.",
+      "CARD1": {
+        "TITLE": "No Setup",
+        "DESC": "Free models wired in on the backend. Just open and chat, no account needed."
+      },
+      "CARD2": {
+        "TITLE": "Characters",
+        "DESC": "Personas, presets, prompt templates, and SillyTavern card import built in."
+      },
+      "CARD3": {
+        "TITLE": "Private",
+        "DESC": "Your conversations live in your browser, never on our server. We can't read them."
+      },
+      "CARD4": {
+        "TITLE": "Full Roleplay",
+        "DESC": "Lorebooks, group chat, swipes, and a real RP engine, not a toy box."
+      },
+      "CTA_OPEN": "Open Chat",
+      "CTA_CONNECT": "Connect Your Client",
+      "MOCK": {
+        "CHARACTER": "Captain Elara Voss",
+        "MODEL": "Free",
+        "MSG_AI": "Reporting in, recruit. Stow your gear, we jump in ten.",
+        "MSG_USER": "Aye, Captain. Locked and ready.",
+        "TYPING": "typing",
+        "INPUT": "Type a message...",
+        "BRAND": "UnoRouter",
+        "NEW_CHAT": "New Chat",
+        "CONV1": "Captain Elara Voss",
+        "CONV2": "Lyra the Alchemist",
+        "CONV3": "Mochi at the Cafe",
+        "MODEL_NAME": "nemotron-3",
+        "TOKENS": "{in} in / {out} out",
+        "MENU_LABEL": "Roleplay",
+        "LOCAL_DB": "Local DB browser",
+        "MSG_AI_2": "The crucible glows just right. Hand me that vial, would you?",
+        "MSG_AI_3": "Welcome back! Your usual oat latte, extra foam?",
+        "NEW_CHAT_EMPTY": "Start a new conversation...",
+        "DEMO_USER": "Tell me about yourself, Captain.",
+        "DEMO_AI": "Captain Elara Voss, fifteen years in deep space. Stick close and you will make it home.",
+        "DLG": {
+          "CHAR1": "Starship captain, battle-worn",
+          "CHAR2": "Curious potion-brewer",
+          "CHAR3": "Cozy cafe barista",
+          "PERSONA1": "Rookie Recruit",
+          "PERSONA1_SUB": "Eager, asks a lot of questions",
+          "PERSONA2": "Veteran Pilot",
+          "PERSONA2_SUB": "Calm under pressure",
+          "LORE1": "The Outer Rim",
+          "LORE1_SUB": "Star charts and trade routes",
+          "LORE2": "Ship Manifest",
+          "LORE2_SUB": "Crew roster and cargo",
+          "PRESET1": "Cinematic RP",
+          "PRESET1_SUB": "Vivid, descriptive prose",
+          "PRESET2": "Snappy Dialogue",
+          "PRESET2_SUB": "Short, punchy replies",
+          "CARD1": "Captain Elara (v2)",
+          "CARD1_SUB": "SillyTavern card",
+          "CARD2": "Lyra the Alchemist",
+          "CARD2_SUB": "Imported character card",
+          "DB1": "conversations",
+          "DB1_SUB": "128 rows",
+          "DB2": "characters",
+          "DB2_SUB": "12 rows"
+        },
+        "DEMO_USER_2": "What are you brewing today?",
+        "DEMO_AI_2": "A clarity elixir. Three drops and your mind sharpens like cut glass. Want a taste?",
+        "DEMO_USER_3": "Surprise me with a drink.",
+        "DEMO_AI_3": "One lavender honey latte, coming up. I made the syrup myself this morning.",
+        "NEW_CONV_TITLE": "Kai the Navigator",
+        "NEW_DEMO_USER": "Chart us a course to the nearest port.",
+        "NEW_DEMO_AI": "Plotting now. Three jumps out, fuel to spare. Strap in."
       }
     },
     "FEATURES": {
@@ -197,9 +277,11 @@
       "FEATURE_1": "OpenAI-compatible endpoints",
       "FEATURE_2": "Automatic provider failover",
       "FEATURE_3": "Multi-protocol support",
+      "FEATURE_4": "No code? Chat on the site",
       "READ_DOCS": "Read Full API Docs",
       "NO_CODE_LABEL": "Not a coder?",
-      "NO_CODE_OPTION": "Skip the code. Paste the URL into SillyTavern, Janitor.AI, RisuAI, or Chub and you are chatting.",
+      "NO_CODE_OPTION": "Skip the code. Chat with characters right here on the site, or paste the URL into SillyTavern, Janitor.AI, RisuAI, or Chub.",
+      "NO_CODE_CHAT_LINK": "Open the chat",
       "NO_CODE_LINK": "See the integration guides"
     },
     "CTA": {
@@ -207,7 +289,8 @@
       "TITLE_2": "Connect",
       "SUBTITLE": "Every AI model, one key. Build, chat, code, or roleplay. Your call.",
       "PRIMARY": "Get Started",
-      "SECONDARY": "Browse Integrations"
+      "SECONDARY": "Browse Integrations",
+      "CHAT": "Open Chat"
     },
     "META": {
       "TITLE": "{appName} - One Key for Every AI Model",
@@ -417,7 +500,8 @@
       "HIGHLIGHT_BEST": "Highlight best",
       "CLEAR": "Clear",
       "FROM": "from",
-      "SELECT_MODEL": "Select a model"
+      "SELECT_MODEL": "Select a model",
+      "POPULAR": "Popular comparisons"
     },
     "LIST": {
       "TOKENS": "tokens",
@@ -554,6 +638,57 @@
         "H_VERDICT": "Which should you pick",
         "P_VERDICT": "If you only ship code and want a lean frontier-model gateway optimized for token cost, MegaLLM is a solid choice and its community shows it. If you want one key that drives your coding agents and a built-in chat and character client off the same balance and a wider catalog, that is the gap {appName} fills. There is no single winner. It depends on whether a pure dev gateway is enough, or you want the chat client built in.",
         "CTA": "Want the gateway and the chat in one? <register>Create a free account</register> or <models>browse the models</models>."
+      },
+      "UNOROUTER_VS_PORTKEY": {
+        "TITLE": "{appName} vs Portkey: AI gateway or full LLMOps platform",
+        "DESCRIPTION": "Portkey is an enterprise LLMOps platform with observability, guardrails, and governance. {appName} is a simpler hosted gateway with a built-in chat client. The choice is how much platform you actually need.",
+        "AUTHOR": "{appName} team",
+        "INTRO": "Portkey and {appName} both give you one OpenAI-compatible endpoint in front of every model. From there they pull apart. Portkey is a full LLMOps platform built for engineering teams that need observability, guardrails, and governance. {appName} is the lean version of the same idea: one key, 200+ models, and a chat client on top, with nothing to configure.",
+        "H_AUDIENCE": "Who each one is built for",
+        "P_AUDIENCE": "Portkey targets platform and AI teams shipping LLM features at scale. Its value is the control plane around the calls: request logs, metrics, budgets, prompt management, guardrails, fallbacks, and role-based access for an org. {appName} targets the individual developer and the RP user who just wants one key that works in a coding agent and in a chat client, without standing up a governance layer first.",
+        "H_SETUP": "Setup and surface area",
+        "P_SETUP": "With Portkey you wire up a virtual key, configs, and routing rules, then instrument your app to send everything through the gateway so the dashboards fill in. That is the point when you have a team and compliance needs. With {appName} you sign up and point your client at <c>https://api.unorouter.com/v1</c>. No configs, no virtual keys to manage, no observability stack to learn. One is a platform you adopt; the other is an endpoint you call.",
+        "H_INTERFACE": "Portkey has no chat client",
+        "P_INTERFACE": "Portkey is infrastructure: a gateway and a dashboard, you bring every user-facing interface. {appName} ships the same OpenAI-compatible API plus a built-in chat and character client (personas, lorebooks, presets, SillyTavern card import), and the same key drops straight into SillyTavern, Janitor.AI, RisuAI, or Chub. So you get a place to actually chat off the same key, not just a control plane for calls your app still has to make.",
+        "H_COST": "Cost and overhead",
+        "P_COST": "Portkey prices around the platform: a free tier for low volume, then paid plans for the observability, governance, and support an org needs, on top of what you pay each provider. That is worth it when the control plane saves a team real time. {appName} is pay-as-you-go across 200+ models with credits that do not expire and a free tier, one balance instead of a platform subscription plus per-provider wallets. Below team scale, the lean route costs less and asks less of you.",
+        "H_VERDICT": "Which should you pick",
+        "P_VERDICT": "If you run LLM features for an org and need observability, guardrails, and governance, Portkey is built for exactly that. If you want one OpenAI-compatible key with nothing to operate, that works in your coding agent and in a real chat client, {appName} fits. It is not better or worse, it is less platform. Pick by whether you need the control plane or just the gateway.",
+        "CTA": "Want a gateway with nothing to operate? <register>Create a free account</register> or <models>browse the models</models>."
+      },
+      "UNOROUTER_VS_NANO_GPT": {
+        "TITLE": "{appName} vs nano-gpt: chat marketplace or one key for both",
+        "DESCRIPTION": "nano-gpt offers a huge model catalog behind a chat UI. {appName} gives you the same pay-as-you-go access plus a real developer API and a built-in character client, under one clean key.",
+        "AUTHOR": "{appName} team",
+        "INTRO": "nano-gpt and {appName} overlap on the obvious thing: pay-as-you-go access to a lot of models without a subscription. nano-gpt leads with breadth behind a chat marketplace. {appName} leads with one OpenAI-compatible key that is equally at home in a coding agent and in a chat client. Same credits, two very different front doors.",
+        "H_CATALOG": "Catalog and breadth",
+        "P_CATALOG": "nano-gpt's pitch is the size of the catalog: hundreds of text and image models in one place, which is genuinely useful if your goal is to try everything. {appName} runs 200+ models across the providers that matter for coding and roleplay, chosen and kept current rather than maximized for a count. If raw breadth is the only axis you care about, nano-gpt wins it. If you want the models people actually ship on, the gap closes fast.",
+        "H_DEV": "The developer story",
+        "P_DEV": "A chat marketplace is built mouth-first: the web UI is the product, the API is a side door. {appName} is OpenAI-compatible by design. Point any SDK or agent at <c>https://api.unorouter.com/v1</c>, keep your existing code, and the same key drives Claude Code, Cline, OpenCode, Kilo Code, or Codex. You are not bolting an API onto a chat site; you are using a gateway that happens to also have a chat client.",
+        "H_CHAT": "The chat and character side",
+        "P_CHAT": "Both let you chat in the browser, but {appName}'s client is built for roleplay, not just Q and A: personas, lorebooks, presets, and SillyTavern card import, plus the same key drops into SillyTavern, Janitor.AI, RisuAI, or Chub when you want a heavier front end. You are never locked into one UI. The credits follow you across every client.",
+        "H_PAY": "Pricing and keys",
+        "P_PAY": "Both are pay-as-you-go with no subscription, which is the right model for bursty, multi-model use. {appName} keeps it to one balance with credits that do not expire and a free tier, one key across coding and chat instead of a marketplace wallet you only spend in one UI. The billing is the same shape; the difference is how far the one key reaches.",
+        "H_VERDICT": "Which should you pick",
+        "P_VERDICT": "If you mostly want a web UI to sample the widest possible model list, nano-gpt is good at that. If you want one OpenAI-compatible key that works in your coding agent and in a real character client, with credits that travel, {appName} fits. Same pay-as-you-go core, more reach on the one key.",
+        "CTA": "Want one key for code and character chat? <register>Create a free account</register> or <models>browse the models</models>."
+      },
+      "BEST_AI_GATEWAY_FOR_SILLYTAVERN": {
+        "TITLE": "The best AI gateway for SillyTavern in 2026",
+        "DESCRIPTION": "SillyTavern needs an OpenAI-compatible endpoint and a key. Here is what actually matters when you pick a gateway, and how to connect one in under a minute.",
+        "AUTHOR": "{appName} team",
+        "INTRO": "SillyTavern is the front end; it does not host models. To use it you point it at an OpenAI-compatible endpoint and paste a key. The question is which gateway sits behind it. Most guides hand you a single provider; the better answer is one key that reaches many models and does not expire on you. Here is what to weigh, and how {appName} fits.",
+        "H_WHAT_MATTERS": "What actually matters for SillyTavern",
+        "P_WHAT_MATTERS": "Four things decide a good SillyTavern gateway. OpenAI-compatible Chat Completions, so SillyTavern connects with no adapter. Model breadth, so you can swap between a strong writer and a cheap workhorse without new accounts. Honest pay-as-you-go billing, because roleplay is bursty and a monthly seat is the wrong shape. And a free tier to test a character before you spend anything. Raw model count matters less than whether the right models are present and current.",
+        "H_OPTIONS": "The realistic options",
+        "P_OPTIONS": "You have three classes of choice. A single provider key (OpenAI, Anthropic, DeepSeek) is simplest but locks you to one lab's models and pricing. A headless dev gateway gives you breadth but no client of its own, which is fine since SillyTavern is your client. Or a gateway that is both API and chat client, so the same key works in SillyTavern and in a built-in UI when you do not want to launch the full app. {appName} is that third kind.",
+        "H_CONNECT": "Connecting {appName} to SillyTavern",
+        "P_CONNECT": "In SillyTavern, choose the Chat Completion API and the OpenAI-compatible (Custom) source. Set the base URL to <c>https://api.unorouter.com/v1</c>, paste your {appName} key, and load the model list. Pick a model, and your characters, lorebooks, and presets run unchanged. The same key also works in Janitor.AI, RisuAI, and Chub, so you are not redoing setup per app.",
+        "H_FREE": "Free models and cost control",
+        "P_FREE": "{appName} has a free tier and 200+ models, so you can test a card on a free model, then move to a stronger paid one only when the scene is worth it. Credits do not expire, billing is pay-as-you-go, and one balance covers every client and every model. There is no monthly seat to justify and nothing to cancel if you take a month off.",
+        "H_VERDICT": "The short answer",
+        "P_VERDICT": "The best SillyTavern gateway is the one with an OpenAI-compatible endpoint, real model breadth, pay-as-you-go credits, and a free tier to start, so a single key carries your whole setup. {appName} is built for exactly that case, and the same key keeps working in every other RP front end you use.",
+        "CTA": "Ready to connect SillyTavern? <register>Create a free account</register> or <models>browse the models</models>."
       },
       "UNOROUTER_VS_RISUAI": {
         "TITLE": "{appName} vs RisuAI: we ported the RP engine into a hosted 2-in-1",
@@ -766,6 +901,74 @@
         "H_VERDICT": "Which should you pick",
         "P_VERDICT": "If you only ship code and want the widest catalog with zero interface, OpenRouter is a fine default. If you want self-hosted zero-markup routing, LiteLLM wins. If you want one key that works in your coding agent and in a real chat and character client without running two services, that is the gap {appName} fills. There is no single winner. It depends on whether you optimize for pure API or for API plus a place to use it.",
         "CTA": "Ready to try it? <register>Create a free account</register> or <models>browse the models</models>."
+      },
+      "BEST_OPENROUTER_ALTERNATIVES_2026": {
+        "TITLE": "The best OpenRouter alternatives in 2026",
+        "DESCRIPTION": "OpenRouter is not the only way to reach many models from one key. Here are the alternatives worth knowing in 2026, what each is good for, and how to pick.",
+        "AUTHOR": "{appName} team",
+        "INTRO": "OpenRouter popularized a simple idea: one OpenAI-compatible key that reaches many model providers. It is a solid default, but it is not the only option, and it is not the best fit for every use. If you are weighing alternatives in 2026, the right choice depends on whether you care most about price, model breadth, billing shape, or having a chat client of your own. Here is an honest map, and where {appName} fits.",
+        "H_WHY_SWITCH": "Why look past OpenRouter",
+        "P_WHY_SWITCH": "People shop around for a few concrete reasons. Markup: every aggregator adds a margin on top of raw provider pricing, and the size differs. Model coverage: a model you need may be missing or stale on one gateway and current on another. Billing shape: some plans are seat or subscription based, which is the wrong fit for bursty usage. And client story: most gateways are headless, so you still need a separate front end for chat or roleplay. Any one of those can be reason enough to compare.",
+        "H_WHAT_TO_COMPARE": "What to actually compare",
+        "P_WHAT_TO_COMPARE": "Judge an alternative on five things. OpenAI-compatible Chat Completions, so your existing code and tools connect with no rewrite. Model breadth and freshness, so you are not stuck on yesterday's catalog. Transparent pay-as-you-go pricing with credits that do not expire, so light months do not punish you. Coverage of the models you actually use, not just a big raw count. And whether it ships a usable client, or assumes you bring your own. Score on those, not on marketing claims.",
+        "H_ALTERNATIVES": "The alternatives worth knowing",
+        "P_ALTERNATIVES": "Single-provider keys (OpenAI, Anthropic, DeepSeek) are simplest but lock you to one lab. Headless dev gateways like LiteLLM and Portkey give breadth and governance but no client, so they suit teams with their own apps. Self-hosted proxies trade convenience for control. And combined gateways pair a broad OpenAI-compatible API with a built-in chat client, so one key works in code and in a UI. {appName} is that last kind: point any OpenAI SDK at <c>https://api.unorouter.com/v1</c>, reach 200+ models, and use the same key in a built-in chat client or in tools like SillyTavern.",
+        "H_FOR_ROLEPLAY": "If your use case is roleplay",
+        "P_FOR_ROLEPLAY": "Roleplay is its own case. You want a broad catalog so you can swap between a strong writer and a cheap workhorse, pay-as-you-go billing because sessions are bursty, and a key that drops straight into SillyTavern, Janitor.AI, RisuAI, or Chub. Pure dev gateways cover the API half but give you no client, and seat-based plans fight the bursty pattern. {appName} was built to span both: clean API for code, plus a chat and character client on the same key, models, and credits.",
+        "H_VERDICT": "How to choose",
+        "P_VERDICT": "If you only ever use one lab, a single-provider key is fine. If you are a team that wants routing and governance in front of your own app, a headless dev gateway fits. If you want one key that reaches many current models, bills pay-as-you-go, and works in both code and a chat client, that is the gap {appName} fills. Pick by your real use, not by raw model count.",
+        "CTA": "Want one key for every model? <register>Create a free account</register> or <models>browse the models</models>."
+      },
+      "WHAT_IS_AN_LLM_GATEWAY": {
+        "TITLE": "What is an LLM gateway?",
+        "DESCRIPTION": "An LLM gateway is one endpoint and key that routes requests to many model providers. Here is what it does, why it helps, and who actually needs one.",
+        "AUTHOR": "{appName} team",
+        "INTRO": "An LLM gateway is a single API endpoint that sits in front of many model providers and routes your request to whichever model you ask for. Instead of holding a separate key, base URL, and SDK quirk for each lab, you hold one key and one OpenAI-compatible endpoint, and the gateway handles the rest. It is the same idea as an API gateway in classic backend work, applied to language models. Here is what that buys you.",
+        "H_DEFINITION": "The plain definition",
+        "P_DEFINITION": "A gateway exposes one OpenAI-compatible interface, usually <c>/v1/chat/completions</c>, and maps the <c>model</c> field in your request to a real provider behind the scenes. You send the same request shape every time; the gateway picks the upstream, attaches the right provider credentials, translates any quirks, and streams the response back. Your code does not change when you switch models, because the contract you code against stays constant.",
+        "H_WHY_IT_HELPS": "Why it helps",
+        "P_WHY_IT_HELPS": "Three wins. One integration: write against one endpoint and you can use every model the gateway carries, with no per-provider client. One bill: usage across all providers lands on a single balance instead of a dozen separate invoices. And easy switching: changing a model is a one-line edit, so you can chase the best price or quality per task without re-plumbing your app. For most builders the time saved on integration alone is the whole reason.",
+        "H_HOW_IT_WORKS": "How it works under the hood",
+        "P_HOW_IT_WORKS": "When a request arrives, the gateway reads the <c>model</c> name, looks up the matching upstream provider, swaps in that provider's credentials, rewrites any provider-specific body fields, and forwards the call. The streamed tokens come back through the same connection, so from your side it looks like one normal OpenAI call. Good gateways add retries on transient errors, usage and cost accounting, and a current model catalog so new releases appear without you touching anything.",
+        "H_WHO_NEEDS_ONE": "Who actually needs one",
+        "P_WHO_NEEDS_ONE": "You want a gateway if you use more than one model, plan to switch models as prices and quality move, or build anything that should not be hard-wired to a single lab. Coding agents, chat apps, roleplay front ends, and internal tools all benefit. If you genuinely only ever call one model from one provider and never expect to change, a direct provider key is simpler. Everyone else saves real effort with a gateway.",
+        "H_VERDICT": "In short",
+        "P_VERDICT": "An LLM gateway turns many providers into one endpoint, one key, and one bill, so you integrate once and switch models freely. {appName} is an OpenAI-compatible gateway in exactly this mold: one key reaches 200+ models for code and chat alike, with pay-as-you-go credits that do not expire. If you touch more than one model, a gateway is the cleaner foundation.",
+        "CTA": "Try a gateway yourself: <register>create a free account</register> or <models>browse the models</models>."
+      },
+      "HOW_TO_CONNECT_ANY_LLM_TO_SILLYTAVERN": {
+        "TITLE": "How to connect any LLM to SillyTavern",
+        "DESCRIPTION": "SillyTavern can talk to almost any model through one OpenAI-compatible endpoint. Here is the exact setup, how to switch models, and how to fix common errors.",
+        "AUTHOR": "{appName} team",
+        "INTRO": "SillyTavern is a front end, not a model host. To use it you point it at an OpenAI-compatible endpoint and paste a key, and then it can drive almost any model behind that endpoint. The cleanest way to reach many models is a gateway, so one key and base URL unlock the whole catalog instead of a single provider. Here is the exact setup, plus how to switch models and fix the errors people usually hit.",
+        "H_WHAT_YOU_NEED": "What you need first",
+        "P_WHAT_YOU_NEED": "Three things: a running SillyTavern install, an OpenAI-compatible endpoint, and a key for it. A gateway covers the last two at once, because it gives you one base URL and one key that reach many models. With {appName} you create an account, grab your key, and you are ready; there is a free tier so you can test a character before spending anything. Keep your key handy and do not paste it anywhere public.",
+        "H_STEPS": "The setup steps",
+        "P_STEPS": "In SillyTavern, open the API panel and choose Chat Completion, then the OpenAI-compatible (Custom) source. Set the base URL to <c>https://api.unorouter.com/v1</c>, paste your {appName} key, and click to load the model list. Pick a model from the dropdown and send a test message. Your characters, lorebooks, and presets work unchanged, because SillyTavern only needed an endpoint and a key. The same key also works in Janitor.AI, RisuAI, and Chub.",
+        "H_SWITCHING_MODELS": "Switching models later",
+        "P_SWITCHING_MODELS": "Because everything routes through one endpoint, changing models is just picking a different entry in the model dropdown; no new account, key, or base URL. That lets you run a cheap free model while you build a scene, then switch to a stronger paid model for the moment that matters. With 200+ models on one key you can match the model to the scene instead of settling for whatever a single provider offers.",
+        "H_TROUBLESHOOTING": "Common errors and fixes",
+        "P_TROUBLESHOOTING": "If the model list will not load, recheck the base URL ends in <c>/v1</c> and the key is pasted with no stray spaces. A 401 means the key is wrong or expired; copy it again. A 404 on a model means that model name is not selected from the loaded list. If replies cut off, raise the response length in SillyTavern's settings. Most setup failures are a typo'd base URL or a key with whitespace, so check those first.",
+        "H_VERDICT": "That is the whole trick",
+        "P_VERDICT": "Connecting any LLM to SillyTavern comes down to one OpenAI-compatible endpoint plus a key, and a gateway turns that into many models behind a single setup. {appName} gives you that base URL, a free tier to start, and 200+ models you can switch between without redoing anything. Set it once and the same key follows you across every RP front end.",
+        "CTA": "Ready to connect SillyTavern? <register>Create a free account</register> or <models>browse the models</models>."
+      },
+      "ONE_API_KEY_FOR_CLAUDE_CODE_AND_ROLEPLAY": {
+        "TITLE": "One API key for Claude Code and roleplay",
+        "DESCRIPTION": "Coding agents and roleplay clients both speak OpenAI-compatible APIs. Here is how one key powers Claude Code and your character chats from a single balance.",
+        "AUTHOR": "{appName} team",
+        "INTRO": "Coding agents and roleplay clients feel like different worlds, but under the hood they speak the same language: OpenAI-compatible Chat Completions. That means one key and one endpoint can serve both. You can run Claude Code against a gateway for your real work, then use the exact same key for character chat in the evening, billed from one balance. Here is how that works and why it is convenient.",
+        "H_TWO_WORLDS": "Two worlds, one protocol",
+        "P_TWO_WORLDS": "Claude Code, Cline, Codex, and Kilo Code are coding agents; SillyTavern, Janitor.AI, and RisuAI are roleplay clients. They look unrelated, but each one connects to an OpenAI-compatible endpoint and a key. A gateway sits behind both, so the same credentials drive a refactor in the morning and a story at night. There is no reason to keep separate accounts and separate bills for two tools that talk the same protocol.",
+        "H_CLAUDE_CODE": "Using it with Claude Code",
+        "P_CLAUDE_CODE": "Point your coding agent at the gateway by setting the base URL to <c>https://api.unorouter.com/v1</c> and your {appName} key, then pick a strong coding model. Claude Code, Cline, Codex, and Kilo Code all accept an OpenAI-compatible base URL, so the agent works as usual while the gateway routes to whichever model you chose. Switch models for cost or quality with a one-line change, no new key required.",
+        "H_ROLEPLAY": "Using it for roleplay",
+        "P_ROLEPLAY": "The same key drops into SillyTavern, Janitor.AI, RisuAI, and Chub: choose the OpenAI-compatible source, set the base URL to <c>https://api.unorouter.com/v1</c>, paste the key, and load models. Your characters, lorebooks, and presets run unchanged. {appName} also has a built-in chat and character client, so when you do not want to launch a full app, the same key and credits work there too.",
+        "H_ONE_BALANCE": "One balance for both",
+        "P_ONE_BALANCE": "Because both sides run on the same key, your coding usage and your roleplay usage draw from one pay-as-you-go balance. Credits do not expire, there is no monthly seat to justify, and you see all spending in one place instead of splitting it across providers. A free tier lets you test either side before paying. One account covers your whole day, work and play.",
+        "H_VERDICT": "The takeaway",
+        "P_VERDICT": "Coding agents and roleplay clients share the OpenAI-compatible protocol, so one key can power both from a single balance. {appName} is built for exactly that span: a clean API for Claude Code and friends, a chat and character client for RP, 200+ models, and credits that do not expire. One key, one bill, both worlds.",
+        "CTA": "Want one key for code and chat? <register>Create a free account</register> or <models>browse the models</models>."
       }
     }
   },
@@ -3231,6 +3434,9 @@
     "CHARACTERS_NEW": "New character",
     "CHARACTERS_IMPORT": "Import card",
     "CHARACTERS_EXPORT": "Export card",
+    "CHARACTERS_IMPORT_LINK": "Import from link",
+    "CHARACTERS_IMPORT_LINK_PLACEHOLDER": "Paste a JanitorAI, Chub, RisuRealm or card link",
+    "CHARACTERS_IMPORT_FROM_LINK": "Import",
     "CHARACTERS_EMPTY": "No characters yet.",
     "EXPORT_PNG": "Export as PNG card",
     "EXPORT_JSON": "Export as JSON",
@@ -3394,7 +3600,9 @@
     "PRESET_SHOW_REASONING": "Show reasoning",
     "PRESET_SHOW_REASONING_HINT": "Show the model's thinking in replies. Off = hide it (the reasoning is still generated and kept, so turning this back on reveals it). The chat setting overrides this.",
     "CHARACTER_BACKGROUND": "Background image",
-    "CHARACTER_BACKGROUND_HINT": "Shown behind the chat when this character leads the conversation."
+    "CHARACTER_BACKGROUND_HINT": "Shown behind the chat when this character leads the conversation.",
+    "CHARACTER_AVATAR": "Avatar",
+    "CHARACTER_AVATAR_HINT": "Shown next to this character in chats and lists."
   },
   "ERRORS": {
     "MISSING_ENV": "Missing required env: {var}",
@@ -3422,6 +3630,9 @@
     "IMPORT_UNSUPPORTED_VERSION": "Unsupported export version.",
     "CARD_PARSE_FAILED": "Could not parse character card.",
     "CARD_MISSING_NAME": "Character card is missing the required name field.",
+    "CARD_IMPORT_INVALID_URL": "That doesn't look like a valid character link.",
+    "CARD_IMPORT_NOT_FOUND": "This character could not be found. It may be private or deleted.",
+    "CARD_IMPORT_FETCH_FAILED": "Could not download this character. Please try again.",
     "UNEXPECTED_ERROR": "An unexpected error occurred",
     "AUDIO_GENERATION_FAILED": "Audio generation failed",
     "NO_AUDIO_PROMPT": "No text provided for speech generation",

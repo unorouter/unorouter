@@ -140,8 +140,8 @@ export async function streamChat(
     }),
     messages: await convertToModelMessages(prepared.messagesForUpstream),
     system: prepared.effectiveSystem,
-    // Retries retryable errors only (429/5xx/network); 4xx surface verbatim (Risu parity).
-    maxRetries: 2,
+    // new-api performs cross-group/key retries; disable SDK aggregation so the user sees real upstream errors verbatim.
+    maxRetries: 0,
     ...(groupHeaders ? { headers: groupHeaders } : {}),
     ...prepared.modelParams,
     providerOptions: prepared.providerOptions,
@@ -219,8 +219,7 @@ export async function streamChat(
   if (!buffered && !userOptedOutOfStreaming) {
     const uiStream = result.toUIMessageStream({
       generateMessageId: () => responseMessageId,
-      // ai-sdk masks errors to "An error occurred." by default; surface the real
-      // upstream reason (e.g. a free provider's 429 daily-limit) so the client toasts it.
+      // ai-sdk masks errors to "An error occurred."; surface the real upstream reason instead.
       onError: (error) => errMessage(error),
       messageMetadata: ({ part }) => {
         // `finish-step` carries response.headers synchronously; onFinish races stream end.

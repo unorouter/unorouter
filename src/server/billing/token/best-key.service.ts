@@ -10,7 +10,7 @@ import { getApiKey } from "@/server/constants";
 import { serverEnv } from "@/server/env";
 import type { Cookie } from "elysia";
 
-    // Best usable upstream token: enabled, unlimited-quota, auto-group, no model limits; falls back to the first enabled token, then null. Returns the RAW key.
+// Best usable upstream token: enabled, unlimited-quota, auto-group, no model limits; falls back to the first enabled token, then null. Returns the RAW key.
 export async function resolveBestKey(
   headers: Record<string, string>,
 ): Promise<string | null> {
@@ -45,7 +45,7 @@ async function authedUpstreamHeaders(
   return { Authorization: accessToken, [NEW_API_USER]: String(userId) };
 }
 
-    // Key order: client-store apiKey, then best key via the user's access_token (closes the pre-hydration race that 403'd paid models), then guestApiKey, then throw.
+// Key order: client-store apiKey, then best key via the user's access_token (closes the pre-hydration race that 403'd paid models), then guestApiKey, then throw.
 export async function resolveChatApiKey(
   cookie: Record<string, Cookie<unknown>>,
 ): Promise<string> {

@@ -27,6 +27,13 @@ export async function CtaSection() {
               translationKey="HOME.CTA.PRIMARY"
             />
             <Link
+              href="/chat"
+              className="border-border text-foreground hover:border-foreground flex h-12 w-full items-center justify-center gap-2 border bg-transparent px-10 font-bold tracking-widest uppercase transition-all sm:w-auto"
+            >
+              <Icon name="message-circle" className="h-3.5 w-3.5" />
+              {t("HOME.CTA.CHAT")}
+            </Link>
+            <Link
               href="/docs"
               className="border-border text-foreground hover:border-foreground group flex h-12 w-full items-center justify-center gap-2 border bg-transparent px-10 font-bold tracking-widest uppercase transition-all sm:w-auto"
             >

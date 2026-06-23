@@ -10,10 +10,16 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Icon } from "@/components/ui/icon";
+import { Input } from "@/components/ui/input";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { analytics } from "@/lib/analytics";
 import type { TranslationKey } from "@/lib/config/constants";
 import { useTranslations } from "next-intl";
-import { type ReactNode, useRef } from "react";
+import { type ReactNode, useRef, useState } from "react";
 
 type RpAnalyticsEntity = Parameters<
   typeof analytics.rp.entityAction
@@ -43,7 +49,7 @@ export function RpEmptyCard(props: { labelKey: TranslationKey }) {
   );
 }
 
-    // One list row: Card shell + optional leading slot + name/description + custom actions + trailing delete. Click elsewhere opens the entity.
+// One list row: Card shell + optional leading slot + name/description + custom actions + trailing delete. Click elsewhere opens the entity.
 export function RpEntityRow(props: {
   onOpen: () => void;
   name: ReactNode;
@@ -83,15 +89,22 @@ export function RpEntityRow(props: {
 }
 
 // Hidden file input + outline import button (the toolbar trio's left half).
+// When onUrl is provided, also renders a "import from link" popover (characters
+// use this for JanitorAI/JannyAI links).
 export function RpImportControl(props: {
   entity: RpAnalyticsEntity;
   accept: string;
   labelKey: TranslationKey;
   isPending: boolean;
   onFile: (file: File) => Promise<void>;
+  onUrl?: (input: string) => Promise<void>;
+  urlLabelKey?: TranslationKey;
+  urlPlaceholderKey?: TranslationKey;
 }) {
   const t = useTranslations();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [linkOpen, setLinkOpen] = useState(false);
+  const [url, setUrl] = useState("");
   return (
     <>
       <input
@@ -132,6 +145,58 @@ export function RpImportControl(props: {
         <Icon name="upload" className="size-4" />
         <span className="truncate">{t(props.labelKey)}</span>
       </Button>
+      {props.onUrl && (
+        <Popover open={linkOpen} onOpenChange={setLinkOpen}>
+          <PopoverTrigger
+            render={
+              <Button
+                variant="outline"
+                disabled={props.isPending}
+                className="min-w-0 flex-1 sm:flex-initial"
+              />
+            }
+          >
+            <Icon name="link" className="size-4" />
+            <span className="truncate">
+              {t(props.urlLabelKey ?? props.labelKey)}
+            </span>
+          </PopoverTrigger>
+          <PopoverContent align="start" className="gap-2">
+            <Input
+              value={url}
+              placeholder={
+                props.urlPlaceholderKey ? t(props.urlPlaceholderKey) : undefined
+              }
+              onChange={(e) => setUrl(e.target.value)}
+            />
+            <Button
+              disabled={props.isPending || url.trim() === ""}
+              onClick={async () => {
+                analytics.rp.entityAction({
+                  entity: props.entity,
+                  action: "import_picker_opened",
+                });
+                try {
+                  await props.onUrl!(url.trim());
+                  setUrl("");
+                  setLinkOpen(false);
+                  analytics.rp.entityAction({
+                    entity: props.entity,
+                    action: "imported",
+                  });
+                } catch {
+                  analytics.rp.entityAction({
+                    entity: props.entity,
+                    action: "import_failed",
+                  });
+                }
+              }}
+            >
+              {t("RP.CHARACTERS_IMPORT_FROM_LINK")}
+            </Button>
+          </PopoverContent>
+        </Popover>
+      )}
     </>
   );
 }

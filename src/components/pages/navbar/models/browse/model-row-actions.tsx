@@ -9,19 +9,17 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Icon } from "@/components/ui/icon";
-import { useRouter } from "@/i18n/navigation";
+import { Link } from "@/i18n/navigation";
 import type { ProcessedModel } from "@/lib/api/pricing";
-import { copyToClipboard } from "@/lib/utils/base";
+import { copyToClipboard, modelSlug } from "@/lib/utils/base";
 import { chatModelAtom } from "@/store/chat-store";
 import { useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 
 export function ModelRowActions(props: {
   model: ProcessedModel;
-  onDetails: (model: ProcessedModel) => void;
 }) {
   const t = useTranslations();
-  const router = useRouter();
   const setChatModel = useSetAtom(chatModelAtom);
   const model = props.model;
 
@@ -43,10 +41,15 @@ export function ModelRowActions(props: {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuItem
-            onClick={(e) => {
-              e.stopPropagation();
-              props.onDetails(model);
-            }}
+            onClick={(e) => e.stopPropagation()}
+            render={
+              <Link
+                href={{
+                  pathname: "/models/[slug]",
+                  params: { slug: modelSlug(model.name) },
+                }}
+              />
+            }
           >
             <Icon
               name="external-link"
@@ -58,8 +61,8 @@ export function ModelRowActions(props: {
             onClick={(e) => {
               e.stopPropagation();
               setChatModel(model.name);
-              router.push("/chat");
             }}
+            render={<Link href="/chat" />}
           >
             <Icon
               name="message-circle"

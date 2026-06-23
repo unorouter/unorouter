@@ -49,29 +49,30 @@ export async function CodeSection() {
                 {t("HOME.CODE.FEATURE_3")}
               </span>
             </div>
+            <div className="text-foreground group flex items-center gap-4 text-sm">
+              <div className="border-border group-hover:border-foreground/30 flex h-6 w-6 items-center justify-center rounded border transition-colors">
+                <Icon name="check" className="text-foreground h-3 w-3" />
+              </div>
+              <span className="font-mono text-xs tracking-wide uppercase">
+                {t("HOME.CODE.FEATURE_4")}
+              </span>
+            </div>
           </div>
 
-          <Link
-            href="/docs/claude-code"
-            className="text-foreground border-foreground hover:text-muted-foreground hover:border-muted-foreground flex w-fit items-center gap-2 border-b pb-1 font-mono text-xs font-bold tracking-widest uppercase transition-colors"
-          >
-            {t("HOME.CODE.READ_DOCS")}
-            <Icon name="arrow-right" className="h-3.5 w-3.5" />
-          </Link>
-
-          <div className="border-border/50 bg-card/40 mt-4 rounded-lg border p-4">
-            <div className="text-muted-foreground mb-2 font-mono text-[10px] tracking-[0.2em] uppercase">
-              {t("HOME.CODE.NO_CODE_LABEL")}
-            </div>
-            <p className="text-foreground/80 mb-3 font-mono text-sm leading-relaxed">
-              {t("HOME.CODE.NO_CODE_OPTION")}
-            </p>
+          <div className="flex flex-col gap-4 pt-2 sm:flex-row sm:items-center sm:gap-6">
             <Link
-              href="/docs"
-              className="text-foreground hover:text-muted-foreground inline-flex items-center gap-2 font-mono text-xs font-bold tracking-wider uppercase transition-colors"
+              href="/docs/claude-code"
+              className="text-foreground border-foreground hover:text-muted-foreground hover:border-muted-foreground flex w-fit items-center gap-2 border-b pb-1 font-mono text-xs font-bold tracking-widest uppercase transition-colors"
             >
-              {t("HOME.CODE.NO_CODE_LINK")}
+              {t("HOME.CODE.READ_DOCS")}
               <Icon name="arrow-right" className="h-3.5 w-3.5" />
+            </Link>
+            <Link
+              href="/chat"
+              className="flex w-fit items-center gap-2 border-b border-cyan-500/60 pb-1 font-mono text-xs font-bold tracking-widest text-cyan-600 uppercase transition-colors hover:border-cyan-400 hover:text-cyan-500 dark:text-cyan-400 dark:hover:text-cyan-300"
+            >
+              <Icon name="message-circle" className="h-3.5 w-3.5" />
+              {t("HOME.CODE.NO_CODE_CHAT_LINK")}
             </Link>
           </div>
         </div>

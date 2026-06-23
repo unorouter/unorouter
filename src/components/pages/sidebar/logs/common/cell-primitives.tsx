@@ -12,7 +12,7 @@ import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 
 export const EMPTY_CELL = (
-  <span className="text-muted-foreground text-xs">{"-"}</span>
+  <span className="text-muted-foreground text-xs">-</span>
 );
 
 export function StackedCell(props: {

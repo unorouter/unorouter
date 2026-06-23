@@ -6,7 +6,6 @@ export const RANKING_PERIODS = [
   { id: "week", labelKey: msg("RANKINGS.PERIODS.WEEK") },
   { id: "month", labelKey: msg("RANKINGS.PERIODS.MONTH") },
   { id: "year", labelKey: msg("RANKINGS.PERIODS.YEAR") },
-  { id: "all", labelKey: msg("RANKINGS.PERIODS.ALL") },
 ] as const satisfies readonly { id: RankingPeriod; labelKey: TranslationKey }[];
 
 const VALID_PERIODS = new Set<string>(RANKING_PERIODS.map((p) => p.id));
@@ -63,7 +62,7 @@ function tsToSortable(ts: string): number {
   return 0;
 }
 
-    // Rows sorted by min ts per label so the time axis stays monotonic regardless of upstream ordering.
+// Rows sorted by min ts per label so the time axis stays monotonic regardless of upstream ordering.
 export function pivotSeries(
   points: readonly PivotPoint[],
   keys: readonly string[],

@@ -33,10 +33,10 @@
     "HERO": {
       "BADGE": "Router đang hoạt động",
       "TITLE_LINE1": "TRÍ TUỆ",
-      "SUBTITLE": "{appName} kết nối bạn với hơn {modelCount} mô hình AI qua một khoá duy nhất. Xây ứng dụng, chạy agent, hay roleplay với nhân vật. Cùng một khoá, cùng tốc độ, cùng giá.",
+      "SUBTITLE": "{appName} ket noi ban toi hon {modelCount} mo hinh AI qua mot khoa. Xay app va chay tac nhan voi no, hoac bo qua thiet lap va tro chuyen voi nhan vat ngay tren trang. Cung mot khoa, cung toc do, cung gia.",
       "CTA_PRIMARY": "Bắt đầu",
       "CTA_SECONDARY": "Xem mô hình",
-      "TITLE_ROTATE": "TRÍ TUỆ,ROLEPLAY,NHÂN VẬT,CODE,CHAT"
+      "TITLE_ROTATE": "API,TRO CHUYEN,NHAN VAT,NHAP VAI,MA,TRI TUE"
     },
     "STATS": {
       "MODELS": "Mô hình",
@@ -117,6 +117,84 @@
         "TITLE": "Luồng yêu cầu"
       }
     },
+    "CHAT": {
+      "BADGE": "Tro chuyen tich hop",
+      "TITLE_1": "Khong chi la API.",
+      "TITLE_2": "Con la mot client tro chuyen.",
+      "DESCRIPTION": "Mo ra va bat dau noi chuyen. Cac mo hinh mien phi da duoc ket noi san, nen khong dang ky, khong khoa, khong thiet lap. Chon mot nhan vat hoac nhap cua rieng ban, va cuoc tro chuyen cua ban o lai trong trinh duyet.",
+      "CARD1": {
+        "TITLE": "Khong thiet lap",
+        "DESC": "Mo hinh mien phi noi san o backend. Cu mo va tro chuyen, khong can tai khoan."
+      },
+      "CARD2": {
+        "TITLE": "Nhan vat",
+        "DESC": "Persona, preset, mau prompt va nhap the SillyTavern tich hop san."
+      },
+      "CARD3": {
+        "TITLE": "Rieng tu",
+        "DESC": "Cuoc tro chuyen cua ban song trong trinh duyet, khong bao gio tren may chu chung toi. Chung toi khong doc duoc."
+      },
+      "CARD4": {
+        "TITLE": "Nhap vai day du",
+        "DESC": "Lorebook, tro chuyen nhom, vuot va mot dong co RP that su, khong phai do choi."
+      },
+      "CTA_OPEN": "Mo tro chuyen",
+      "CTA_CONNECT": "Ket noi client cua ban",
+      "MOCK": {
+        "CHARACTER": "Thuyen truong Elara Voss",
+        "MODEL": "Mien phi",
+        "MSG_AI": "Bao cao di, tan binh. Cat do nghe, muoi giay nua nhay.",
+        "MSG_USER": "Ro, thuyen truong. San sang.",
+        "TYPING": "dang go",
+        "INPUT": "Nhap tin nhan...",
+        "BRAND": "UnoRouter",
+        "NEW_CHAT": "Tro chuyen moi",
+        "CONV1": "Thuyen truong Elara Voss",
+        "CONV2": "Lyra nha gia kim",
+        "CONV3": "Mochi o quan ca phe",
+        "MODEL_NAME": "nemotron-3",
+        "TOKENS": "{in} vào / {out} ra",
+        "MENU_LABEL": "Nhap vai",
+        "LOCAL_DB": "CSDL cuc bo",
+        "MSG_AI_2": "Lò nung đang rực lên vừa độ. Lấy giúp tôi cái lọ kia nhé?",
+        "MSG_AI_3": "Mừng bạn quay lại! Vẫn ly latte yến mạch như mọi khi, thêm bọt chứ?",
+        "NEW_CHAT_EMPTY": "Bắt đầu cuộc trò chuyện mới...",
+        "DEMO_USER": "Hãy kể cho tôi nghe về cô, thuyền trưởng.",
+        "DEMO_AI": "Thuyền trưởng Elara Voss, mười lăm năm giữa vũ trụ sâu thẳm. Bám sát tôi thì cậu sẽ về nhà an toàn.",
+        "DLG": {
+          "CHAR1": "Nữ thuyền trưởng phi thuyền, dày dạn trận mạc",
+          "CHAR2": "Người pha chế thuốc tò mò",
+          "CHAR3": "Nhân viên pha chế quán cà phê ấm cúng",
+          "PERSONA1": "Tân binh",
+          "PERSONA1_SUB": "Hăng hái, hỏi rất nhiều",
+          "PERSONA2": "Phi công kỳ cựu",
+          "PERSONA2_SUB": "Điềm tĩnh trước áp lực",
+          "LORE1": "Vành Đai Ngoài",
+          "LORE1_SUB": "Bản đồ sao và tuyến thương mại",
+          "LORE2": "Bản kê khai phi thuyền",
+          "LORE2_SUB": "Danh sách thủy thủ và hàng hóa",
+          "PRESET1": "Nhập vai điện ảnh",
+          "PRESET1_SUB": "Văn phong sống động, giàu mô tả",
+          "PRESET2": "Đối thoại nhanh gọn",
+          "PRESET2_SUB": "Câu trả lời ngắn, sắc bén",
+          "CARD1": "Thuyền trưởng Elara (v2)",
+          "CARD1_SUB": "Thẻ SillyTavern",
+          "CARD2": "Lyra nhà giả kim",
+          "CARD2_SUB": "Thẻ nhân vật đã nhập",
+          "DB1": "cuộc trò chuyện",
+          "DB1_SUB": "128 hàng",
+          "DB2": "nhân vật",
+          "DB2_SUB": "12 hàng"
+        },
+        "DEMO_USER_2": "Hôm nay cô đang pha chế gì thế?",
+        "DEMO_AI_2": "Một loại tiên dược minh mẫn. Ba giọt thôi là tâm trí sắc bén như thủy tinh mài. Muốn nếm thử không?",
+        "DEMO_USER_3": "Pha cho tôi một thức uống bất ngờ đi.",
+        "DEMO_AI_3": "Một ly latte mật ong oải hương, có ngay đây. Sáng nay tôi tự tay nấu siro đấy.",
+        "NEW_CONV_TITLE": "Kai Hoa Tiêu",
+        "NEW_DEMO_USER": "Vạch cho chúng ta một lộ trình đến bến cảng gần nhất.",
+        "NEW_DEMO_AI": "Đang tính toán đây. Ba bước nhảy nữa thôi, nhiên liệu vẫn còn dư. Cài dây an toàn vào."
+      }
+    },
     "FEATURES": {
       "TITLE": "Vì sao chọn {appName}",
       "DESCRIPTION": "Một endpoint, mọi mô hình AI. Định tuyến thông minh chọn nhà cung cấp nhanh nhất, tự động chuyển đổi dự phòng đảm bảo yêu cầu của bạn luôn thành công.",
@@ -177,9 +255,11 @@
       "FEATURE_1": "Endpoint tương thích OpenAI",
       "FEATURE_2": "Tự động chuyển đổi dự phòng giữa nhà cung cấp",
       "FEATURE_3": "Hỗ trợ đa giao thức",
+      "FEATURE_4": "Khong code? Tro chuyen tren trang",
       "READ_DOCS": "Đọc toàn bộ tài liệu API",
       "NO_CODE_LABEL": "Không phải lập trình viên?",
-      "NO_CODE_OPTION": "Không cần code. Dán URL vào SillyTavern, Janitor.AI, RisuAI hay Chub là chat được luôn.",
+      "NO_CODE_OPTION": "Bo qua code. Tro chuyen voi nhan vat ngay tren trang, hoac dan URL vao SillyTavern, Janitor.AI, RisuAI hay Chub.",
+      "NO_CODE_CHAT_LINK": "Mo tro chuyen",
       "NO_CODE_LINK": "Xem hướng dẫn tích hợp"
     },
     "CTA": {
@@ -187,7 +267,8 @@
       "TITLE_2": "kết nối",
       "SUBTITLE": "Mọi mô hình AI, một khoá. Xây, chat, code, hay roleplay. Bạn chọn.",
       "PRIMARY": "Bắt đầu",
-      "SECONDARY": "Tích hợp"
+      "SECONDARY": "Tích hợp",
+      "CHAT": "Mo tro chuyen"
     },
     "META": {
       "TITLE": "{appName} - Một khoá cho mọi mô hình AI",
@@ -204,7 +285,9 @@
       "STEP1_DESC": "Tạo tài khoản trong chưa tới một phút. Không cần thẻ để bắt đầu.",
       "STEP2_NUM": "2",
       "STEP2_TITLE": "Nạp hoặc đăng ký gói",
-      "STEP2_DESC": "Trả theo mức dùng hoặc chọn gói. Credit dùng được với mọi mô hình và không hết hạn.",
+      "STEP2_DESC": "Bat dau mien phi, khong can the. Nap them hoac chon goi chi khi ban muon cac mo hinh tra phi. Tin dung khong bao gio het han.",
+      "TOPUP_FREE_LABEL": "Mien phi",
+      "TOPUP_FREE_AMOUNT": "$0",
       "STEP3_NUM": "3",
       "STEP3_TITLE": "Lấy API key",
       "STEP3_DESC": "Dùng trong code, trong Claude Code, hay dán vào SillyTavern, Janitor.AI, RisuAI hoặc Chub.",
@@ -417,7 +500,8 @@
       "HIGHLIGHT_BEST": "Làm nổi bật tốt nhất",
       "CLEAR": "Xóa",
       "FROM": "bởi",
-      "SELECT_MODEL": "Chọn một mô hình"
+      "SELECT_MODEL": "Chọn một mô hình",
+      "POPULAR": "So sánh phổ biến"
     },
     "LIST": {
       "TOKENS": "token",
@@ -554,6 +638,57 @@
         "H_VERDICT": "Ban nen chon cai nao",
         "P_VERDICT": "Neu ban chi viet code va muon mot cong mo hinh tien phong gon nhe toi uu cho chi phi moi token, MegaLLM la lua chon vung chac va cong dong cua no cho thay dieu do. Neu ban muon mot khoa van hanh tac nhan lap trinh cua ban va mot client chat va nhan vat tich hop tu cung so du va danh muc rong hon, do la khoang trong ma {appName} lap day. Khong co mot nguoi thang duy nhat. No phu thuoc vao viec mot cong lap trinh thuan tuy co du khong, hay ban muon client chat duoc tich hop san.",
         "CTA": "Muon cong va chat trong mot? <register>Tao tai khoan mien phi</register> hoac <models>duyet cac mo hinh</models>."
+      },
+      "UNOROUTER_VS_PORTKEY": {
+        "TITLE": "{appName} so voi Portkey: cong AI hay nen tang LLMOps day du",
+        "DESCRIPTION": "Portkey la nen tang LLMOps cho doanh nghiep voi kha nang quan sat, rao chan an toan va quan tri. {appName} la mot cong duoc lưu tru gon hon, co san trinh khach chat. Lua chon nam o cho ban thuc su can bao nhieu nen tang.",
+        "AUTHOR": "Doi ngu {appName}",
+        "INTRO": "Portkey va {appName} deu dat mot endpoint tuong thich OpenAI truoc moi mo hinh. Tu day chung tach ra. Portkey la nen tang LLMOps day du, dung cho cac doi ky thuat can kha nang quan sat, rao chan an toan va quan tri. {appName} la phien ban gon cua cung y tuong: mot khoa, hon 200 mo hinh, va mot trinh khach chat ben tren, khong can cau hinh gi.",
+        "H_AUDIENCE": "Moi ben duoc tao cho ai",
+        "P_AUDIENCE": "Portkey nham vao cac doi nen tang va AI dua tinh nang LLM ra o quy mo lon. Gia tri cua no la lop dieu khien quanh cac loi goi: nhat ky yeu cau, chi so, ngan sach, quan ly prompt, rao chan an toan, duong du phong va truy cap theo vai tro cho mot to chuc. {appName} nham vao lap trinh vien ca nhan va nguoi dung RP chi muon mot khoa chay duoc trong tac tu lap trinh va trong trinh khach chat, ma khong phai dung mot lop quan tri truoc.",
+        "H_SETUP": "Thiet lap va pham vi",
+        "P_SETUP": "Voi Portkey ban dau noi mot khoa ao, cac cau hinh va quy tac dinh tuyen, roi do dac ung dung de moi thu di qua cong cho bang dieu khien duoc lap day. Dieu do hop ly khi ban co mot doi va cac yeu cau tuan thu. Voi {appName} ban dang ky va tro trinh khach toi <c>https://api.unorouter.com/v1</c>. Khong cau hinh, khong khoa ao phai quan ly, khong ngan xep quan sat phai hoc. Mot ben la nen tang ban ap dung, ben kia la endpoint ban goi.",
+        "H_INTERFACE": "Portkey khong co trinh khach chat",
+        "P_INTERFACE": "Portkey la ha tang: mot cong va mot bang dieu khien, moi giao dien huong toi nguoi dung deu do ban mang den. {appName} cung cap chinh API tuong thich OpenAI do cong them mot trinh khach chat va nhan vat co san (persona, lorebook, preset, nhap the SillyTavern), va cung khoa do vao thang SillyTavern, Janitor.AI, RisuAI hoac Chub. Vay nen ban co mot noi de thuc su tro chuyen bang cung mot khoa, khong chi la lop dieu khien cho cac loi goi ma ung dung cua ban van phai tu thuc hien.",
+        "H_COST": "Chi phi va gánh nang",
+        "P_COST": "Portkey dinh gia quanh nen tang: mot bac mien phi cho luong thap, roi cac goi tra phi cho kha nang quan sat, quan tri va ho tro ma mot to chuc can, cong them nhung gi ban tra cho moi nha cung cap. Dieu do dang gia khi lop dieu khien tiet kiem thoi gian thuc cho mot doi. {appName} la tra theo muc dung tren hon 200 mo hinh voi tin dung khong het han va mot bac mien phi, mot so du thay vi mot goi dang ky nen tang cong cac vi tien theo tung nha cung cap. Duoi quy mo doi, con duong gon ton it hon va doi hoi o ban it hon.",
+        "H_VERDICT": "Nen chon cai nao",
+        "P_VERDICT": "Neu ban van hanh cac tinh nang LLM cho mot to chuc va can kha nang quan sat, rao chan an toan va quan tri, Portkey duoc tao ra dung cho dieu do. Neu ban muon mot khoa tuong thich OpenAI khong co gi de van hanh, chay duoc trong tac tu lap trinh va trong mot trinh khach chat that su, thi {appName} phu hop. Khong tot hon hay te hon, chi la it nen tang hon. Hay chon theo viec ban can lop dieu khien hay chi can cong.",
+        "CTA": "Muon mot cong khong co gi de van hanh? <register>Tao tai khoan mien phi</register> hoac <models>duyet cac mo hinh</models>."
+      },
+      "UNOROUTER_VS_NANO_GPT": {
+        "TITLE": "{appName} so voi nano-gpt: cho chat hay mot khoa cho ca hai",
+        "DESCRIPTION": "nano-gpt cung cap mot kho mo hinh khong lo phia sau mot giao dien chat. {appName} cho ban cung quyen truy cap tra theo muc dung cong them mot API danh cho lap trinh vien that su va mot trinh khach nhan vat co san, duoi mot khoa gon gang.",
+        "AUTHOR": "Doi ngu {appName}",
+        "INTRO": "nano-gpt va {appName} chong lan o dieu hien nhien: truy cap tra theo muc dung toi rat nhieu mo hinh ma khong can dang ky. nano-gpt dan dau bang be rong phia sau mot cho chat. {appName} dan dau bang mot khoa tuong thich OpenAI thoai mai nhu nhau trong tac tu lap trinh va trong trinh khach chat. Cung tin dung, hai cua vao rat khac nhau.",
+        "H_CATALOG": "Kho va be rong",
+        "P_CATALOG": "Diem manh cua nano-gpt la quy mo cua kho: hang tram mo hinh van ban va hinh anh o cung mot noi, that su huu ich neu muc tieu cua ban la thu het moi thu. {appName} chay hon 200 mo hinh tren cac nha cung cap quan trong cho lap trinh va nhap vai, duoc chon loc va giu cap nhat thay vi toi da hoa de chay theo con so. Neu ban chi quan tam toi be rong tho, nano-gpt thang. Neu ban muon nhung mo hinh ma moi nguoi thuc su dung de lam viec, khoang cach se thu hep nhanh.",
+        "H_DEV": "Phia lap trinh vien",
+        "P_DEV": "Mot cho chat duoc dung tu giao dien truoc: UI web la san pham, API la cua hong. {appName} tuong thich OpenAI ngay tu thiet ke. Tro bat ky SDK hay tac tu nao toi <c>https://api.unorouter.com/v1</c>, giu nguyen ma hien co, va cung khoa do dieu khien Claude Code, Cline, OpenCode, Kilo Code hoac Codex. Ban khong gan mot API vao mot trang chat, ban dang dung mot cong tinh co cung co ca trinh khach chat.",
+        "H_CHAT": "Phia chat va nhan vat",
+        "P_CHAT": "Ca hai deu cho ban tro chuyen trong trinh duyet, nhung trinh khach cua {appName} duoc tao cho nhap vai, khong chi de hoi dap: persona, lorebook, preset va nhap the SillyTavern, va cung khoa do vao SillyTavern, Janitor.AI, RisuAI hoac Chub khi ban muon mot frontend nang hon. Ban khong bao gio bi khoa trong mot UI. Tin dung di theo ban qua moi trinh khach.",
+        "H_PAY": "Gia va khoa",
+        "P_PAY": "Ca hai deu tra theo muc dung khong can dang ky, mo hinh dung cho viec dung dot bien, nhieu mo hinh. {appName} giu o mot so du voi tin dung khong het han va mot bac mien phi, mot khoa cho lap trinh va chat thay vi mot vi cho chi tieu trong mot UI duy nhat. Cach tinh phi cung hinh dang, khac biet la mot khoa do voi xa toi dau.",
+        "H_VERDICT": "Nen chon cai nao",
+        "P_VERDICT": "Neu ban chu yeu muon mot UI web de thu danh sach mo hinh rong nhat co the, nano-gpt lam tot dieu do. Neu ban muon mot khoa tuong thich OpenAI chay duoc trong tac tu lap trinh va trong mot trinh khach nhan vat that su, voi tin dung di theo, thi {appName} phu hop. Cung loi tra theo muc dung, tam voi rong hon tren mot khoa.",
+        "CTA": "Muon mot khoa cho ca ma nguon va chat nhan vat? <register>Tao tai khoan mien phi</register> hoac <models>duyet cac mo hinh</models>."
+      },
+      "BEST_AI_GATEWAY_FOR_SILLYTAVERN": {
+        "TITLE": "Cong AI tot nhat cho SillyTavern nam 2026",
+        "DESCRIPTION": "SillyTavern can mot endpoint tuong thich OpenAI va mot khoa. Day la nhung gi thuc su quan trong khi ban chon mot cong, va cach ket noi mot cong trong duoi mot phut.",
+        "AUTHOR": "Doi ngu {appName}",
+        "INTRO": "SillyTavern la frontend; no khong luu tru mo hinh. De dung no, ban tro no toi mot endpoint tuong thich OpenAI va dan mot khoa. Cau hoi la cong nao dung phia sau. Hau het cac huong dan trao cho ban mot nha cung cap duy nhat; cau tra loi tot hon la mot khoa vuon toi nhieu mo hinh va khong het han. Day la nhung gi can can nhac, va {appName} phu hop ra sao.",
+        "H_WHAT_MATTERS": "Dieu gi thuc su quan trong voi SillyTavern",
+        "P_WHAT_MATTERS": "Bon dieu quyet dinh mot cong SillyTavern tot. Chat Completions tuong thich OpenAI, de SillyTavern ket noi ma khong can bo chuyen doi. Be rong mo hinh, de ban doi giua mot cay viet manh va mot con ngua tho re ma khong can tai khoan moi. Cach tinh phi tra theo muc dung trung thuc, vi nhap vai mang tinh dot bien va mot cho ngoi theo thang la hinh dang sai. Va mot bac mien phi de thu mot nhan vat truoc khi tieu bat cu thu gi. So luong mo hinh tho it quan trong hon viec dung mo hinh co mat va cap nhat hay khong.",
+        "H_OPTIONS": "Cac lua chon thuc te",
+        "P_OPTIONS": "Ban co ba loai lua chon. Khoa cua mot nha cung cap (OpenAI, Anthropic, DeepSeek) la don gian nhat nhung khoa ban vao mo hinh va gia cua mot phong thi nghiem. Mot cong dev khong giao dien cho ban be rong nhung khong co trinh khach rieng, dieu do on vi SillyTavern la trinh khach cua ban. Hoac mot cong vua la API vua la trinh khach chat, de cung khoa chay duoc trong SillyTavern va trong mot UI co san khi ban khong muon mo ca ung dung. {appName} la loai thu ba do.",
+        "H_CONNECT": "Ket noi {appName} voi SillyTavern",
+        "P_CONNECT": "Trong SillyTavern, chon Chat Completion API va nguon tuong thich OpenAI (Custom). Dat URL co so thanh <c>https://api.unorouter.com/v1</c>, dan khoa {appName} cua ban, va tai danh sach mo hinh. Chon mot mo hinh, va cac nhan vat, lorebook va preset cua ban chay khong doi. Cung khoa cung chay trong Janitor.AI, RisuAI va Chub, nen ban khong phai lam lai thiet lap cho tung ung dung.",
+        "H_FREE": "Mo hinh mien phi va kiem soat chi phi",
+        "P_FREE": "{appName} co mot bac mien phi va hon 200 mo hinh, nen ban co the thu mot the tren mot mo hinh mien phi, roi chuyen sang mot mo hinh tra phi manh hon chi khi canh do dang gia. Tin dung khong het han, cach tinh phi la tra theo muc dung, va mot so du bao phu moi trinh khach va moi mo hinh. Khong co cho ngoi theo thang phai bien minh va khong co gi de huy neu ban nghi mot thang.",
+        "H_VERDICT": "Cau tra loi ngan gon",
+        "P_VERDICT": "Cong SillyTavern tot nhat la cong co endpoint tuong thich OpenAI, be rong mo hinh that su, tin dung tra theo muc dung va mot bac mien phi de bat dau, de mot khoa duy nhat ganh ca thiet lap cua ban. {appName} duoc tao ra dung cho truong hop do, va cung khoa do tiep tuc chay trong moi frontend RP khac ma ban dung.",
+        "CTA": "San sang ket noi SillyTavern? <register>Tao tai khoan mien phi</register> hoac <models>duyet cac mo hinh</models>."
       },
       "UNOROUTER_VS_RISUAI": {
         "TITLE": "{appName} so voi RisuAI: chung toi da chuyen dong co RP vao mot 2-trong-1 duoc luu tru",
@@ -766,6 +901,74 @@
         "H_VERDICT": "Bạn nên chọn cái nào",
         "P_VERDICT": "Nếu bạn chỉ xuất bản mã và muốn danh mục rộng nhất mà không cần giao diện, OpenRouter là lựa chọn mặc định tốt. Nếu bạn muốn định tuyến tự lưu trữ không phụ phí, LiteLLM thắng. Nếu bạn muốn một khóa hoạt động trong tác nhân lập trình của bạn và trong một máy khách trò chuyện và nhân vật thực thụ mà không phải chạy hai dịch vụ, đó là khoảng trống mà {appName} lấp đầy. Không có người thắng duy nhất. Nó tùy thuộc bạn tối ưu cho API thuần hay cho API cộng với nơi để dùng nó.",
         "CTA": "Sẵn sàng thử chưa? <register>Tạo tài khoản miễn phí</register> hoặc <models>duyệt các mô hình</models>."
+      },
+      "BEST_OPENROUTER_ALTERNATIVES_2026": {
+        "TITLE": "Cac lua chon thay the OpenRouter tot nhat nam 2026",
+        "DESCRIPTION": "OpenRouter khong phai cach duy nhat de cham toi nhieu mo hinh bang mot khoa. Day la cac lua chon thay the dang biet nam 2026, moi cai hop voi viec gi va cach chon.",
+        "AUTHOR": "Doi ngu {appName}",
+        "INTRO": "OpenRouter pho bien mot y tuong don gian: mot khoa tuong thich OpenAI cham toi nhieu nha cung cap mo hinh. Day la mac dinh vung chac, nhung khong phai lua chon duy nhat, cung khong phai tot nhat cho moi muc dich. Neu ban dang can nhac cac lua chon thay the nam 2026, lua chon dung phu thuoc vao viec ban quan tam nhat den gia, do rong mo hinh, hinh thuc tinh phi, hay co mot trinh khach chat rieng. Day la mot ban do trung thuc, va {appName} phu hop o dau.",
+        "H_WHY_SWITCH": "Tai sao nhin xa hon OpenRouter",
+        "P_WHY_SWITCH": "Nguoi ta tim hieu vi vai ly do cu the. Bien loi: moi nha tong hop cong them mot bien tren gia goc cua nha cung cap, va muc do khac nhau. Pham vi mo hinh: mot mo hinh ban can co the thieu hoac cu o mot cong va moi o cong khac. Hinh thuc tinh phi: mot so goi tinh theo ghe hoac thue bao, von hop kem voi viec dung theo dot. Va chuyen trinh khach: hau het cac cong la khong giao dien, nen ban van can mot frontend rieng cho chat hoac nhap vai. Bat ky dieu nao trong so do cung du de so sanh.",
+        "H_WHAT_TO_COMPARE": "Thuc su nen so sanh gi",
+        "P_WHAT_TO_COMPARE": "Danh gia mot lua chon thay the qua nam thu. Chat Completions tuong thich OpenAI, de ma nguon va cong cu hien co cua ban ket noi ma khong viet lai. Do rong va do moi cua mo hinh, de ban khong mac ket o danh muc cua hom qua. Gia tra theo dung minh bach voi tin dung khong het han, de nhung thang it dung khong phat ban. Pham vi cac mo hinh ban thuc su dung, khong chi mot con so tho lon. Va liu no kem theo mot trinh khach dung duoc, hay gia dinh ban mang theo cua minh. Cham diem theo do, khong theo loi quang cao.",
+        "H_ALTERNATIVES": "Cac lua chon thay the dang biet",
+        "P_ALTERNATIVES": "Khoa mot nha cung cap (OpenAI, Anthropic, DeepSeek) la don gian nhat nhung trois ban vao mot phong thi nghiem. Cac cong phat trien khong giao dien nhu LiteLLM va Portkey cho do rong va quan tri nhung khong co trinh khach, nen hop voi cac doi co ung dung rieng. Cac proxy tu lu tru danh doi su tien loi lay quyen kiem soat. Va cac cong ket hop ghep mot API tuong thich OpenAI rong voi mot trinh khach chat tich hop, nen mot khoa chay trong ma va trong giao dien. {appName} thuoc loai cuoi cung do: tro bat ky SDK OpenAI nao toi <c>https://api.unorouter.com/v1</c>, cham toi hon 200 mo hinh va dung cung khoa trong mot trinh khach chat tich hop hoac trong cong cu nhu SillyTavern.",
+        "H_FOR_ROLEPLAY": "Neu truong hop cua ban la nhap vai",
+        "P_FOR_ROLEPLAY": "Nhap vai la mot truong hop rieng. Ban muon mot danh muc rong de doi giua mot cay viet manh va mot con ngua tho re, tinh phi tra theo dung vi cac phien chay theo dot, va mot khoa cam thang vao SillyTavern, Janitor.AI, RisuAI hoac Chub. Cac cong phat trien thuan tuy phu nua phan API nhung khong cho ban trinh khach, va cac goi theo ghe choi voi nhip theo dot do. {appName} duoc xay de bao ca hai: API sach cho ma, cong them mot trinh khach chat va nhan vat tren cung khoa, mo hinh va tin dung.",
+        "H_VERDICT": "Cach chon",
+        "P_VERDICT": "Neu ban chi luon dung mot phong thi nghiem, mot khoa mot nha cung cap la on. Neu ban la mot doi muon dinh tuyen va quan tri truoc ung dung cua minh, mot cong phat trien khong giao dien phu hop. Neu ban muon mot khoa cham toi nhieu mo hinh hien tai, tinh phi tra theo dung va chay ca trong ma lan trong trinh khach chat, do la khoang trong {appName} lap day. Chon theo nhu cau thuc cua ban, khong theo so mo hinh tho.",
+        "CTA": "Muon mot khoa cho moi mo hinh? <register>Tao tai khoan mien phi</register> hoac <models>duyet cac mo hinh</models>."
+      },
+      "WHAT_IS_AN_LLM_GATEWAY": {
+        "TITLE": "Cong LLM la gi?",
+        "DESCRIPTION": "Cong LLM la mot diem cuoi va mot khoa dinh tuyen yeu cau toi nhieu nha cung cap mo hinh. Day la viec no lam, vi sao no giup va ai thuc su can mot cai.",
+        "AUTHOR": "Doi ngu {appName}",
+        "INTRO": "Cong LLM la mot diem cuoi API duy nhat dung truoc nhieu nha cung cap mo hinh va dinh tuyen yeu cau cua ban toi bat ky mo hinh nao ban yeu cau. Thay vi giu mot khoa, URL co so va dac diem SDK rieng cho moi phong thi nghiem, ban giu mot khoa va mot diem cuoi tuong thich OpenAI, va cong lo phan con lai. Day la cung y tuong nhu mot cong API trong cong viec backend co dien, ap dung cho mo hinh ngon ngu. Day la dieu no mang lai cho ban.",
+        "H_DEFINITION": "Dinh nghia don gian",
+        "P_DEFINITION": "Mot cong phoi bay mot giao dien tuong thich OpenAI, thuong la <c>/v1/chat/completions</c>, va anh xa truong <c>model</c> trong yeu cau cua ban toi mot nha cung cap thuc o hau truong. Ban gui cung mot hinh dang yeu cau moi lan; cong chon upstream, gan dung thong tin xac thuc cua nha cung cap, dich moi dac diem va truyen ket qua ve theo dong. Ma cua ban khong doi khi ban doi mo hinh, vi hop dong ban lap trinh chong lai van giu nguyen.",
+        "H_WHY_IT_HELPS": "Vi sao no giup",
+        "P_WHY_IT_HELPS": "Ba cai loi. Mot tich hop: lap trinh chong lai mot diem cuoi va ban co the dung moi mo hinh cong mang, khong can trinh khach theo nha cung cap. Mot hoa don: muc su dung tren tat ca nha cung cap roi vao mot so du thay vi mot ta hoa don rieng. Va doi de dang: doi mot mo hinh la mot chinh sua mot dong, nen ban co the duoi theo gia hoac chat luong tot nhat moi tac vu ma khong dau lai ung dung. Voi hau het nguoi xay, chi rieng thoi gian tiet kiem o khau tich hop da la toan bo ly do.",
+        "H_HOW_IT_WORKS": "No hoat dong the nao ben trong",
+        "P_HOW_IT_WORKS": "Khi mot yeu cau toi, cong doc ten trong <c>model</c>, tra cuu nha cung cap upstream phu hop, hoan doi thong tin xac thuc cua nha cung cap do, viet lai cac truong than rieng cua nha cung cap va chuyen tiep cuoc goi. Cac token truyen theo dong tro lai qua cung ket noi, nen tu phia ban no trong nhu mot cuoc goi OpenAI binh thuong. Cac cong tot them viec thu lai khi loi tam thoi, hoach toan su dung va chi phi, va mot danh muc mo hinh cap nhat de cac ban phat hanh moi xuat hien ma ban khong cham vao gi.",
+        "H_WHO_NEEDS_ONE": "Ai thuc su can mot cai",
+        "P_WHO_NEEDS_ONE": "Ban muon mot cong neu ban dung hon mot mo hinh, du dinh doi mo hinh khi gia va chat luong thay doi, hoac xay bat cu thu gi khong nen dau cung vao mot phong thi nghiem. Tac nhan ma, ung dung chat, frontend nhap vai va cong cu noi bo deu huong loi. Neu ban thuc su chi goi mot mo hinh tu mot nha cung cap va khong bao gio mong doi doi, mot khoa truc tiep cua nha cung cap la don gian hon. Tat ca nguoi khac tiet kiem cong suc thuc su voi mot cong.",
+        "H_VERDICT": "Tom lai",
+        "P_VERDICT": "Cong LLM bien nhieu nha cung cap thanh mot diem cuoi, mot khoa va mot hoa don, nen ban tich hop mot lan va doi mo hinh tu do. {appName} la mot cong tuong thich OpenAI dung khuon do: mot khoa cham toi hon 200 mo hinh cho ma va chat nhu nhau, voi tin dung tra theo dung khong het han. Neu ban cham hon mot mo hinh, mot cong la nen tang sach hon.",
+        "CTA": "Tu thu mot cong: <register>tao tai khoan mien phi</register> hoac <models>duyet cac mo hinh</models>."
+      },
+      "HOW_TO_CONNECT_ANY_LLM_TO_SILLYTAVERN": {
+        "TITLE": "Cach ket noi bat ky LLM nao voi SillyTavern",
+        "DESCRIPTION": "SillyTavern co the noi chuyen voi gan nhu moi mo hinh qua mot diem cuoi tuong thich OpenAI. Day la cach thiet lap chinh xac, cach doi mo hinh va cach sua cac loi thuong gap.",
+        "AUTHOR": "Doi ngu {appName}",
+        "INTRO": "SillyTavern la mot frontend, khong phai noi luu tru mo hinh. De dung no, ban tro no toi mot diem cuoi tuong thich OpenAI va dan mot khoa, roi no co the dieu khien gan nhu moi mo hinh dang sau diem cuoi do. Cach sach nhat de cham toi nhieu mo hinh la mot cong, nen mot khoa va URL co so mo khoa toan bo danh muc thay vi mot nha cung cap. Day la cach thiet lap chinh xac, cong them cach doi mo hinh va sua cac loi nguoi ta thuong gap.",
+        "H_WHAT_YOU_NEED": "Ban can gi truoc",
+        "P_WHAT_YOU_NEED": "Ba thu: mot ban cai SillyTavern dang chay, mot diem cuoi tuong thich OpenAI va mot khoa cho no. Mot cong phu hai thu cuoi cung lien, vi no cho ban mot URL co so va mot khoa cham toi nhieu mo hinh. Voi {appName} ban tao mot tai khoan, lay khoa va san sang; co mot bac mien phi de ban thu mot nhan vat truoc khi chi tieu bat cu gi. Giu khoa trong tam tay va dung dan no o bat cu noi cong cong nao.",
+        "H_STEPS": "Cac buoc thiet lap",
+        "P_STEPS": "Trong SillyTavern, mo bang API va chon Chat Completion, roi nguon tuong thich OpenAI (Custom). Dat URL co so thanh <c>https://api.unorouter.com/v1</c>, dan khoa {appName} cua ban va bam de tai danh sach mo hinh. Chon mot mo hinh tu menu tha xuong va gui mot tin nhan thu. Cac nhan vat, lorebook va preset cua ban chay khong doi, vi SillyTavern chi can mot diem cuoi va mot khoa. Cung khoa cung chay trong Janitor.AI, RisuAI va Chub.",
+        "H_SWITCHING_MODELS": "Doi mo hinh ve sau",
+        "P_SWITCHING_MODELS": "Vi moi thu di qua mot diem cuoi, doi mo hinh chi la chon mot muc khac trong menu tha xuong mo hinh; khong tai khoan, khoa hay URL co so moi. Dieu do cho ban chay mot mo hinh mien phi re trong khi dung mot canh, roi chuyen sang mot mo hinh tra phi manh hon cho khoanh khac quan trong. Voi hon 200 mo hinh tren mot khoa, ban co the khop mo hinh voi canh thay vi chap nhan bat cu gi mot nha cung cap dua ra.",
+        "H_TROUBLESHOOTING": "Loi thuong gap va cach sua",
+        "P_TROUBLESHOOTING": "Neu danh sach mo hinh khong tai, kiem tra lai URL co so ket thuc bang <c>/v1</c> va khoa duoc dan khong co khoang trang thua. Loi 401 nghia la khoa sai hoac het han; sao chep lai. Loi 404 tren mot mo hinh nghia la ten mo hinh do chua duoc chon tu danh sach da tai. Neu cac cau tra loi bi cat, tang do dai tra loi trong cai dat cua SillyTavern. Hau het cac that bai thiet lap la mot URL co so go sai hoac mot khoa co khoang trang, nen kiem tra nhung cai do truoc.",
+        "H_VERDICT": "Do la toan bo meo",
+        "P_VERDICT": "Ket noi bat ky LLM nao voi SillyTavern quy ve mot diem cuoi tuong thich OpenAI cong mot khoa, va mot cong bien dieu do thanh nhieu mo hinh dang sau mot thiet lap duy nhat. {appName} cho ban URL co so do, mot bac mien phi de bat dau va hon 200 mo hinh de doi giua chung ma khong lam lai gi. Thiet lap mot lan va cung khoa theo ban qua moi frontend RP.",
+        "CTA": "San sang ket noi SillyTavern? <register>Tao tai khoan mien phi</register> hoac <models>duyet cac mo hinh</models>."
+      },
+      "ONE_API_KEY_FOR_CLAUDE_CODE_AND_ROLEPLAY": {
+        "TITLE": "Mot khoa API cho Claude Code va nhap vai",
+        "DESCRIPTION": "Tac nhan ma va trinh khach nhap vai deu noi API tuong thich OpenAI. Day la cach mot khoa cap nguon cho Claude Code va cac cuoc chat nhan vat cua ban tu mot so du.",
+        "AUTHOR": "Doi ngu {appName}",
+        "INTRO": "Tac nhan ma va trinh khach nhap vai cam giac nhu nhung the gioi khac nhau, nhung ben duoi chung noi cung mot ngon ngu: Chat Completions tuong thich OpenAI. Dieu do nghia la mot khoa va mot diem cuoi co the phuc vu ca hai. Ban co the chay Claude Code chong lai mot cong cho cong viec thuc cua minh, roi dung dung cung khoa do cho chat nhan vat vao buoi toi, tinh phi tu mot so du. Day la cach no hoat dong va vi sao no tien.",
+        "H_TWO_WORLDS": "Hai the gioi, mot giao thuc",
+        "P_TWO_WORLDS": "Claude Code, Cline, Codex va Kilo Code la tac nhan ma; SillyTavern, Janitor.AI va RisuAI la trinh khach nhap vai. Chung trong khong lien quan, nhung moi cai ket noi voi mot diem cuoi tuong thich OpenAI va mot khoa. Mot cong dung sau ca hai, nen cung thong tin xac thuc dieu khien mot lan tai cau truc vao buoi sang va mot cau chuyen vao buoi toi. Khong co ly do giu tai khoan rieng va hoa don rieng cho hai cong cu noi cung mot giao thuc.",
+        "H_CLAUDE_CODE": "Dung no voi Claude Code",
+        "P_CLAUDE_CODE": "Tro tac nhan ma cua ban toi cong bang cach dat URL co so thanh <c>https://api.unorouter.com/v1</c> va khoa {appName} cua ban, roi chon mot mo hinh ma manh. Claude Code, Cline, Codex va Kilo Code deu chap nhan mot URL co so tuong thich OpenAI, nen tac nhan lam viec nhu thuong le trong khi cong dinh tuyen toi mo hinh ban da chon. Doi mo hinh vi chi phi hay chat luong bang mot thay doi mot dong, khong can khoa moi.",
+        "H_ROLEPLAY": "Dung no cho nhap vai",
+        "P_ROLEPLAY": "Cung khoa cam vao SillyTavern, Janitor.AI, RisuAI va Chub: chon nguon tuong thich OpenAI, dat URL co so thanh <c>https://api.unorouter.com/v1</c>, dan khoa va tai mo hinh. Cac nhan vat, lorebook va preset cua ban chay khong doi. {appName} cung co mot trinh khach chat va nhan vat tich hop, nen khi ban khong muon mo mot ung dung day du, cung khoa va tin dung cung chay o do.",
+        "H_ONE_BALANCE": "Mot so du cho ca hai",
+        "P_ONE_BALANCE": "Vi ca hai ben chay tren cung mot khoa, muc dung ma va muc dung nhap vai cua ban rut tu mot so du tra theo dung. Tin dung khong het han, khong co ghe hang thang phai bien minh, va ban thay toan bo chi tieu o mot noi thay vi chia no qua cac nha cung cap. Mot bac mien phi cho ban thu moi ben truoc khi tra tien. Mot tai khoan bao tron ngay cua ban, ca lam lan choi.",
+        "H_VERDICT": "Diem mau chot",
+        "P_VERDICT": "Tac nhan ma va trinh khach nhap vai chia se giao thuc tuong thich OpenAI, nen mot khoa co the cap nguon cho ca hai tu mot so du. {appName} duoc xay dung dung cho khoang do: mot API sach cho Claude Code va ban be, mot trinh khach chat va nhan vat cho RP, hon 200 mo hinh va tin dung khong het han. Mot khoa, mot hoa don, ca hai the gioi.",
+        "CTA": "Muon mot khoa cho ma va chat? <register>Tao tai khoan mien phi</register> hoac <models>duyet cac mo hinh</models>."
       }
     }
   },
@@ -3231,6 +3434,9 @@
     "CHARACTERS_NEW": "Nhân vật mới",
     "CHARACTERS_IMPORT": "Nhập thẻ",
     "CHARACTERS_EXPORT": "Xuất thẻ",
+    "CHARACTERS_IMPORT_LINK": "Nhap tu lien ket",
+    "CHARACTERS_IMPORT_LINK_PLACEHOLDER": "Dan lien ket JanitorAI, Chub, RisuRealm hoac lien ket card",
+    "CHARACTERS_IMPORT_FROM_LINK": "Nhap",
     "CHARACTERS_EMPTY": "Chưa có nhân vật.",
     "EXPORT_PNG": "Xuất thẻ PNG",
     "EXPORT_JSON": "Xuất JSON",
@@ -3394,7 +3600,9 @@
     "PRESET_SHOW_REASONING": "Hiển thị suy luận",
     "PRESET_SHOW_REASONING_HINT": "Hiển thị suy luận của mô hình trong phản hồi. Tắt = ẩn nó (suy luận vẫn được tạo và lưu lại, nên bật lại sẽ hiển thị nó). Cài đặt trò chuyện ghi đè.",
     "CHARACTER_BACKGROUND": "Ảnh nền",
-    "CHARACTER_BACKGROUND_HINT": "Hiển thị phía sau cuộc trò chuyện khi nhân vật này dẫn dắt hội thoại."
+    "CHARACTER_BACKGROUND_HINT": "Hiển thị phía sau cuộc trò chuyện khi nhân vật này dẫn dắt hội thoại.",
+    "CHARACTER_AVATAR": "Anh dai dien",
+    "CHARACTER_AVATAR_HINT": "Hien thi ben canh nhan vat nay trong cac cuoc tro chuyen va danh sach."
   },
   "ERRORS": {
     "MISSING_ENV": "Thiếu biến môi trường bắt buộc: {var}",
@@ -3422,6 +3630,9 @@
     "IMPORT_UNSUPPORTED_VERSION": "Phiên bản xuất không được hỗ trợ.",
     "CARD_PARSE_FAILED": "Không thể phân tích thẻ nhân vật.",
     "CARD_MISSING_NAME": "Thẻ nhân vật thiếu trường tên bắt buộc.",
+    "CARD_IMPORT_INVALID_URL": "Day khong giong mot lien ket nhan vat hop le.",
+    "CARD_IMPORT_NOT_FOUND": "Khong tim thay nhan vat nay. Co the no la rieng tu hoac da bi xoa.",
+    "CARD_IMPORT_FETCH_FAILED": "Khong the tai nhan vat nay. Vui long thu lai.",
     "UNEXPECTED_ERROR": "Đã xảy ra lỗi không mong muốn",
     "AUDIO_GENERATION_FAILED": "Tạo âm thanh thất bại",
     "NO_AUDIO_PROMPT": "Không có văn bản để tạo giọng nói",

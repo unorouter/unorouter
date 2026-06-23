@@ -33,8 +33,8 @@
     "HERO": {
       "BADGE": "Router Online",
       "TITLE_LINE1": "KECERDASAN",
-      "TITLE_ROTATE": "KECERDASAN,ROLEPLAY,KARAKTER,KODE,CHAT",
-      "SUBTITLE": "{appName} menghubungkan Anda ke {modelCount}+ model AI melalui satu kunci. Bangun aplikasi, jalankan agen, atau roleplay dengan karakter. Kunci sama, kecepatan sama, harga sama.",
+      "TITLE_ROTATE": "API,OBROLAN,KARAKTER,ROLEPLAY,KODE,KECERDASAN",
+      "SUBTITLE": "{appName} menghubungkanmu ke {modelCount}+ model AI lewat satu kunci. Bangun aplikasi dan jalankan agen dengannya, atau lewati penyiapan dan ngobrol dengan karakter langsung di situs ini. Kunci sama, kecepatan sama, harga sama.",
       "CTA_PRIMARY": "Mulai",
       "CTA_SECONDARY": "Lihat Model"
     },
@@ -114,7 +114,9 @@
       "STEP1_DESC": "Buat akun dalam kurang dari satu menit. Tidak perlu kartu kredit untuk memulai.",
       "STEP2_NUM": "2",
       "STEP2_TITLE": "Isi ulang atau berlangganan",
-      "STEP2_DESC": "Bayar sesuai pemakaian atau pilih paket. Kredit bekerja dengan setiap model dan tidak pernah kedaluwarsa.",
+      "STEP2_DESC": "Mulai gratis, tanpa kartu. Isi ulang atau pilih paket hanya saat kamu mau model berbayar. Kredit tidak pernah hangus.",
+      "TOPUP_FREE_LABEL": "Gratis",
+      "TOPUP_FREE_AMOUNT": "$0",
       "STEP3_NUM": "3",
       "STEP3_TITLE": "Dapatkan kunci API Anda",
       "STEP3_DESC": "Gunakan di kode Anda, di Claude Code, atau tempel ke SillyTavern, Janitor.AI, RisuAI, atau Chub.",
@@ -135,6 +137,84 @@
       },
       "FLOW": {
         "TITLE": "Alur Permintaan"
+      }
+    },
+    "CHAT": {
+      "BADGE": "Obrolan bawaan",
+      "TITLE_1": "Bukan cuma API.",
+      "TITLE_2": "Juga klien obrolan.",
+      "DESCRIPTION": "Buka dan mulai bicara. Model gratis sudah terhubung, jadi tanpa daftar, tanpa kunci, tanpa penyiapan. Pilih karakter atau impor milikmu, dan obrolanmu tetap di browsermu.",
+      "CARD1": {
+        "TITLE": "Tanpa Setup",
+        "DESC": "Model gratis terhubung di backend. Tinggal buka dan ngobrol, tanpa akun."
+      },
+      "CARD2": {
+        "TITLE": "Karakter",
+        "DESC": "Persona, preset, templat prompt, dan impor kartu SillyTavern sudah terpasang."
+      },
+      "CARD3": {
+        "TITLE": "Privat",
+        "DESC": "Percakapanmu ada di browsermu, tidak pernah di server kami. Kami tidak bisa membacanya."
+      },
+      "CARD4": {
+        "TITLE": "Roleplay Penuh",
+        "DESC": "Lorebook, obrolan grup, swipe, dan mesin RP sungguhan, bukan mainan."
+      },
+      "CTA_OPEN": "Buka obrolan",
+      "CTA_CONNECT": "Hubungkan klienmu",
+      "MOCK": {
+        "CHARACTER": "Kapten Elara Voss",
+        "MODEL": "Gratis",
+        "MSG_AI": "Lapor, rekrut. Simpan perlengkapanmu, kita lompat sepuluh detik lagi.",
+        "MSG_USER": "Siap, Kapten. Sudah siap.",
+        "TYPING": "mengetik",
+        "INPUT": "Ketik pesan...",
+        "BRAND": "UnoRouter",
+        "NEW_CHAT": "Obrolan baru",
+        "CONV1": "Kapten Elara Voss",
+        "CONV2": "Lyra sang Alkemis",
+        "CONV3": "Mochi di Kafe",
+        "MODEL_NAME": "nemotron-3",
+        "TOKENS": "{in} masuk / {out} keluar",
+        "MENU_LABEL": "Roleplay",
+        "LOCAL_DB": "DB lokal",
+        "MSG_AI_2": "Wadah leburnya menyala pas sekali. Tolong ambilkan vial itu, ya?",
+        "MSG_AI_3": "Selamat datang kembali! Oat latte seperti biasa, busa ekstra?",
+        "NEW_CHAT_EMPTY": "Mulai percakapan baru...",
+        "DEMO_USER": "Ceritakan tentang dirimu, Kapten.",
+        "DEMO_AI": "Kapten Elara Voss, lima belas tahun di luar angkasa. Tetap dekat denganku dan kau akan pulang dengan selamat.",
+        "DLG": {
+          "CHAR1": "Kapten kapal luar angkasa, kenyang bertempur",
+          "CHAR2": "Peramu ramuan yang penasaran",
+          "CHAR3": "Barista kafe yang nyaman",
+          "PERSONA1": "Rekrut pemula",
+          "PERSONA1_SUB": "Bersemangat, banyak bertanya",
+          "PERSONA2": "Pilot veteran",
+          "PERSONA2_SUB": "Tenang di bawah tekanan",
+          "LORE1": "Tepi Terluar",
+          "LORE1_SUB": "Peta bintang dan jalur dagang",
+          "LORE2": "Manifes Kapal",
+          "LORE2_SUB": "Daftar awak dan muatan",
+          "PRESET1": "RP Sinematik",
+          "PRESET1_SUB": "Prosa hidup dan deskriptif",
+          "PRESET2": "Dialog Cepat",
+          "PRESET2_SUB": "Balasan singkat dan tajam",
+          "CARD1": "Kapten Elara (v2)",
+          "CARD1_SUB": "Kartu SillyTavern",
+          "CARD2": "Lyra sang Alkemis",
+          "CARD2_SUB": "Kartu karakter impor",
+          "DB1": "percakapan",
+          "DB1_SUB": "128 baris",
+          "DB2": "karakter",
+          "DB2_SUB": "12 baris"
+        },
+        "DEMO_USER_2": "Kamu lagi meracik apa hari ini?",
+        "DEMO_AI_2": "Ramuan kejernihan. Tiga tetes dan pikiranmu setajam kaca terasah. Mau cicip?",
+        "DEMO_USER_3": "Kejutkan aku dengan minuman.",
+        "DEMO_AI_3": "Satu latte lavender madu, segera datang. Sirupnya kubuat sendiri tadi pagi.",
+        "NEW_CONV_TITLE": "Kai sang Navigator",
+        "NEW_DEMO_USER": "Petakan jalur ke pelabuhan terdekat.",
+        "NEW_DEMO_AI": "Sedang menghitung. Tiga lompatan lagi, bahan bakar masih melimpah. Bersiaplah."
       }
     },
     "FEATURES": {
@@ -197,9 +277,11 @@
       "FEATURE_1": "Endpoint kompatibel OpenAI",
       "FEATURE_2": "Failover penyedia otomatis",
       "FEATURE_3": "Dukungan multi-protokol",
+      "FEATURE_4": "Tanpa kode? Ngobrol di situs",
       "READ_DOCS": "Baca Dokumen API Lengkap",
       "NO_CODE_LABEL": "Bukan coder?",
-      "NO_CODE_OPTION": "Lewati kode. Tempel URL ke SillyTavern, Janitor.AI, RisuAI, atau Chub dan Anda sedang chatting.",
+      "NO_CODE_OPTION": "Lewati kodenya. Ngobrol dengan karakter langsung di situs ini, atau tempel URL ke SillyTavern, Janitor.AI, RisuAI, atau Chub.",
+      "NO_CODE_CHAT_LINK": "Buka obrolan",
       "NO_CODE_LINK": "Lihat panduan integrasi"
     },
     "CTA": {
@@ -207,7 +289,8 @@
       "TITLE_2": "Terhubung",
       "SUBTITLE": "Setiap model AI, satu kunci. Bangun, chat, kode, atau roleplay. Pilihan Anda.",
       "PRIMARY": "Mulai",
-      "SECONDARY": "Jelajahi Integrasi"
+      "SECONDARY": "Jelajahi Integrasi",
+      "CHAT": "Buka obrolan"
     },
     "META": {
       "TITLE": "{appName} - Satu Kunci untuk Setiap Model AI",
@@ -417,7 +500,8 @@
       "HIGHLIGHT_BEST": "Sorot terbaik",
       "CLEAR": "Bersihkan",
       "FROM": "oleh",
-      "SELECT_MODEL": "Pilih model"
+      "SELECT_MODEL": "Pilih model",
+      "POPULAR": "Perbandingan populer"
     },
     "LIST": {
       "TOKENS": "token",
@@ -554,6 +638,57 @@
         "H_VERDICT": "Mana yang harus dipilih",
         "P_VERDICT": "Jika kamu hanya menulis kode dan ingin gateway model frontier ramping yang dioptimalkan untuk biaya per token, MegaLLM pilihan solid dan komunitasnya menunjukkannya. Jika kamu ingin satu kunci yang menjalankan agen kodingmu dan klien chat dan karakter bawaan dari saldo yang sama dan katalog lebih luas, itulah celah yang diisi {appName}. Tidak ada pemenang tunggal. Tergantung apakah gateway dev murni cukup, atau kamu ingin klien chat tertanam.",
         "CTA": "Ingin gateway dan chat dalam satu? <register>Buat akun gratis</register> atau <models>jelajahi modelnya</models>."
+      },
+      "UNOROUTER_VS_PORTKEY": {
+        "TITLE": "{appName} vs Portkey: gateway AI atau platform LLMOps lengkap",
+        "DESCRIPTION": "Portkey adalah platform LLMOps enterprise dengan observability, guardrail, dan tata kelola. {appName} adalah gateway terkelola yang lebih ramping dengan klien chat bawaan. Pilihannya adalah seberapa banyak platform yang benar-benar Anda butuhkan.",
+        "AUTHOR": "Tim {appName}",
+        "INTRO": "Portkey dan {appName} sama-sama menempatkan satu endpoint yang kompatibel dengan OpenAI di depan setiap model. Dari sana keduanya berpisah. Portkey adalah platform LLMOps lengkap untuk tim engineering yang butuh observability, guardrail, dan tata kelola. {appName} adalah versi ramping dari ide yang sama: satu kunci, lebih dari 200 model, dan klien chat di atasnya, tanpa perlu konfigurasi.",
+        "H_AUDIENCE": "Untuk siapa masing-masing dibuat",
+        "P_AUDIENCE": "Portkey membidik tim platform dan AI yang merilis fitur LLM dalam skala besar. Nilainya ada pada control plane di sekitar panggilan: log permintaan, metrik, anggaran, manajemen prompt, guardrail, fallback, dan akses berbasis peran untuk sebuah organisasi. {appName} membidik developer perorangan dan pengguna RP yang hanya ingin satu kunci yang bekerja di agen koding dan di klien chat, tanpa harus mendirikan lapisan tata kelola lebih dulu.",
+        "H_SETUP": "Penyiapan dan cakupan",
+        "P_SETUP": "Dengan Portkey Anda menyiapkan kunci virtual, konfigurasi, dan aturan routing, lalu menginstrumentasi aplikasi agar semuanya melewati gateway sehingga dasbor terisi. Itu masuk akal saat Anda punya tim dan kebutuhan kepatuhan. Dengan {appName} Anda mendaftar dan mengarahkan klien ke <c>https://api.unorouter.com/v1</c>. Tanpa konfigurasi, tanpa kunci virtual untuk dikelola, tanpa stack observability untuk dipelajari. Yang satu platform yang Anda adopsi, yang lain endpoint yang Anda panggil.",
+        "H_INTERFACE": "Portkey tidak punya klien chat",
+        "P_INTERFACE": "Portkey adalah infrastruktur: sebuah gateway dan dasbor, setiap antarmuka untuk pengguna Anda bawa sendiri. {appName} memberikan API yang kompatibel dengan OpenAI yang sama plus klien chat dan karakter bawaan (persona, lorebook, preset, impor kartu SillyTavern), dan kunci yang sama langsung masuk ke SillyTavern, Janitor.AI, RisuAI, atau Chub. Jadi Anda mendapat tempat untuk benar-benar mengobrol dengan kunci yang sama, bukan sekadar control plane untuk panggilan yang tetap harus dibuat aplikasi Anda.",
+        "H_COST": "Biaya dan beban",
+        "P_COST": "Portkey memasang harga di sekitar platform: tingkat gratis untuk volume rendah, lalu paket berbayar untuk observability, tata kelola, dan dukungan yang dibutuhkan organisasi, di atas yang Anda bayar ke tiap penyedia. Itu sepadan saat control plane menghemat waktu nyata sebuah tim. {appName} adalah bayar sesuai pemakaian di lebih dari 200 model dengan kredit yang tidak kedaluwarsa dan tingkat gratis, satu saldo alih-alih langganan platform plus dompet per penyedia. Di bawah skala tim, jalur ramping lebih murah dan menuntut lebih sedikit dari Anda.",
+        "H_VERDICT": "Mana yang harus dipilih",
+        "P_VERDICT": "Jika Anda menjalankan fitur LLM untuk organisasi dan butuh observability, guardrail, dan tata kelola, Portkey dibuat tepat untuk itu. Jika Anda ingin satu kunci kompatibel OpenAI tanpa perlu dioperasikan, yang bekerja di agen koding dan di klien chat sungguhan, {appName} cocok. Bukan lebih baik atau lebih buruk, hanya lebih sedikit platform. Pilih berdasarkan apakah Anda butuh control plane atau cukup gateway.",
+        "CTA": "Ingin gateway tanpa perlu dioperasikan? <register>Buat akun gratis</register> atau <models>jelajahi model</models>."
+      },
+      "UNOROUTER_VS_NANO_GPT": {
+        "TITLE": "{appName} vs nano-gpt: marketplace chat atau satu kunci untuk keduanya",
+        "DESCRIPTION": "nano-gpt menawarkan katalog model yang besar di balik UI chat. {appName} memberi Anda akses bayar sesuai pemakaian yang sama plus API developer sungguhan dan klien karakter bawaan, di bawah satu kunci yang bersih.",
+        "AUTHOR": "Tim {appName}",
+        "INTRO": "nano-gpt dan {appName} bertumpang tindih pada hal yang jelas: akses bayar sesuai pemakaian ke banyak model tanpa langganan. nano-gpt memimpin dengan keluasan di balik marketplace chat. {appName} memimpin dengan satu kunci kompatibel OpenAI yang sama nyamannya di agen koding dan di klien chat. Kredit yang sama, dua pintu masuk yang sangat berbeda.",
+        "H_CATALOG": "Katalog dan keluasan",
+        "P_CATALOG": "Daya tarik nano-gpt adalah ukuran katalog: ratusan model teks dan gambar di satu tempat, benar-benar berguna jika tujuan Anda mencoba segalanya. {appName} menjalankan lebih dari 200 model di antara penyedia yang penting untuk koding dan roleplay, dipilih dan dijaga tetap terkini alih-alih dimaksimalkan demi sebuah angka. Jika hanya keluasan mentah yang Anda pedulikan, nano-gpt menang. Jika Anda ingin model yang benar-benar dipakai orang, jaraknya cepat menyempit.",
+        "H_DEV": "Sisi developer",
+        "P_DEV": "Marketplace chat dibangun dari antarmuka lebih dulu: UI web adalah produknya, API adalah pintu samping. {appName} kompatibel dengan OpenAI sejak rancangannya. Arahkan SDK atau agen apa pun ke <c>https://api.unorouter.com/v1</c>, pertahankan kode Anda yang ada, dan kunci yang sama menggerakkan Claude Code, Cline, OpenCode, Kilo Code, atau Codex. Anda tidak memasang API pada situs chat, Anda memakai gateway yang kebetulan juga punya klien chat.",
+        "H_CHAT": "Sisi chat dan karakter",
+        "P_CHAT": "Keduanya membiarkan Anda mengobrol di browser, tetapi klien {appName} dibuat untuk roleplay, bukan sekadar tanya jawab: persona, lorebook, preset, dan impor kartu SillyTavern, dan kunci yang sama masuk ke SillyTavern, Janitor.AI, RisuAI, atau Chub saat Anda ingin frontend yang lebih berat. Anda tidak pernah terkunci di satu UI. Kredit mengikuti Anda di setiap klien.",
+        "H_PAY": "Harga dan kunci",
+        "P_PAY": "Keduanya bayar sesuai pemakaian tanpa langganan, model yang tepat untuk pemakaian meledak-ledak dan multi-model. {appName} menjaganya di satu saldo dengan kredit yang tidak kedaluwarsa dan tingkat gratis, satu kunci untuk koding dan chat alih-alih dompet marketplace yang hanya Anda belanjakan di satu UI. Penagihannya sebentuk, bedanya seberapa jauh satu kunci itu menjangkau.",
+        "H_VERDICT": "Mana yang harus dipilih",
+        "P_VERDICT": "Jika Anda terutama ingin UI web untuk mencicipi daftar model seluas mungkin, nano-gpt bagus di situ. Jika Anda ingin satu kunci kompatibel OpenAI yang bekerja di agen koding dan di klien karakter sungguhan, dengan kredit yang ikut bepergian, {appName} cocok. Inti bayar sesuai pemakaian yang sama, jangkauan lebih luas pada satu kunci.",
+        "CTA": "Ingin satu kunci untuk kode dan chat karakter? <register>Buat akun gratis</register> atau <models>jelajahi model</models>."
+      },
+      "BEST_AI_GATEWAY_FOR_SILLYTAVERN": {
+        "TITLE": "Gateway AI terbaik untuk SillyTavern pada 2026",
+        "DESCRIPTION": "SillyTavern butuh endpoint kompatibel OpenAI dan sebuah kunci. Inilah yang benar-benar penting saat memilih gateway, dan cara menghubungkan satu dalam waktu kurang dari satu menit.",
+        "AUTHOR": "Tim {appName}",
+        "INTRO": "SillyTavern adalah frontend; ia tidak menghosting model. Untuk memakainya, Anda mengarahkannya ke endpoint kompatibel OpenAI dan menempelkan sebuah kunci. Pertanyaannya, gateway mana yang ada di belakangnya. Sebagian besar panduan menyodorkan satu penyedia, jawaban yang lebih baik adalah satu kunci yang menjangkau banyak model dan tidak kedaluwarsa. Inilah yang perlu ditimbang, dan bagaimana {appName} cocok.",
+        "H_WHAT_MATTERS": "Apa yang benar-benar penting untuk SillyTavern",
+        "P_WHAT_MATTERS": "Empat hal menentukan gateway SillyTavern yang baik. Chat Completions kompatibel OpenAI, agar SillyTavern terhubung tanpa adapter. Keluasan model, agar Anda bisa berpindah antara penulis kuat dan kuda beban murah tanpa akun baru. Penagihan bayar sesuai pemakaian yang jujur, karena roleplay meledak-ledak dan kursi bulanan adalah bentuk yang salah. Dan tingkat gratis untuk menguji karakter sebelum membelanjakan apa pun. Jumlah model mentah kurang penting dibanding apakah model yang tepat hadir dan terkini.",
+        "H_OPTIONS": "Pilihan yang realistis",
+        "P_OPTIONS": "Anda punya tiga kelas pilihan. Kunci satu penyedia (OpenAI, Anthropic, DeepSeek) paling sederhana tetapi mengunci Anda ke model dan harga satu lab. Gateway dev tanpa antarmuka memberi keluasan tetapi tanpa klien sendiri, yang tidak masalah karena SillyTavern adalah klien Anda. Atau gateway yang sekaligus API dan klien chat, sehingga kunci yang sama bekerja di SillyTavern dan di UI bawaan saat Anda tak ingin membuka aplikasi penuh. {appName} adalah jenis ketiga itu.",
+        "H_CONNECT": "Menghubungkan {appName} ke SillyTavern",
+        "P_CONNECT": "Di SillyTavern, pilih Chat Completion API dan sumber kompatibel OpenAI (Custom). Setel URL dasar ke <c>https://api.unorouter.com/v1</c>, tempel kunci {appName} Anda, dan muat daftar model. Pilih sebuah model, dan karakter, lorebook, serta preset Anda berjalan tanpa perubahan. Kunci yang sama juga bekerja di Janitor.AI, RisuAI, dan Chub, jadi Anda tidak mengulang penyiapan per aplikasi.",
+        "H_FREE": "Model gratis dan kendali biaya",
+        "P_FREE": "{appName} punya tingkat gratis dan lebih dari 200 model, jadi Anda bisa menguji sebuah kartu pada model gratis, lalu beralih ke model berbayar yang lebih kuat hanya saat adegannya sepadan. Kredit tidak kedaluwarsa, penagihan bayar sesuai pemakaian, dan satu saldo mencakup setiap klien dan setiap model. Tak ada kursi bulanan yang harus dibenarkan dan tak ada yang perlu dibatalkan jika Anda istirahat sebulan.",
+        "H_VERDICT": "Jawaban singkatnya",
+        "P_VERDICT": "Gateway SillyTavern terbaik adalah yang punya endpoint kompatibel OpenAI, keluasan model yang nyata, kredit bayar sesuai pemakaian, dan tingkat gratis untuk memulai, sehingga satu kunci membawa seluruh penyiapan Anda. {appName} dibuat tepat untuk kasus itu, dan kunci yang sama terus bekerja di setiap frontend RP lain yang Anda pakai.",
+        "CTA": "Siap menghubungkan SillyTavern? <register>Buat akun gratis</register> atau <models>jelajahi model</models>."
       },
       "UNOROUTER_VS_RISUAI": {
         "TITLE": "{appName} vs RisuAI: kami memporting mesin RP ke 2-in-1 terkelola",
@@ -766,6 +901,74 @@
         "H_VERDICT": "Mana yang sebaiknya Anda pilih",
         "P_VERDICT": "Jika Anda hanya merilis kode dan ingin katalog terluas tanpa antarmuka, OpenRouter pilihan default yang baik. Jika Anda ingin perutean swakelola tanpa markup, LiteLLM menang. Jika Anda ingin satu kunci yang bekerja di agen pengkodean Anda dan di klien chat dan karakter yang sesungguhnya tanpa menjalankan dua layanan, itulah celah yang diisi {appName}. Tidak ada pemenang tunggal. Itu tergantung apakah Anda mengoptimalkan untuk API murni atau untuk API plus tempat memakainya.",
         "CTA": "Siap mencoba? <register>Buat akun gratis</register> atau <models>jelajahi modelnya</models>."
+      },
+      "BEST_OPENROUTER_ALTERNATIVES_2026": {
+        "TITLE": "Alternatif OpenRouter terbaik pada 2026",
+        "DESCRIPTION": "OpenRouter bukan satu-satunya cara menjangkau banyak model dengan satu kunci. Inilah alternatif yang layak diketahui pada 2026, untuk apa masing-masing, dan cara memilih.",
+        "AUTHOR": "Tim {appName}",
+        "INTRO": "OpenRouter mempopulerkan ide sederhana: satu kunci kompatibel OpenAI yang menjangkau banyak penyedia model. Ia pilihan default yang solid, tetapi bukan satu-satunya opsi, dan bukan yang terbaik untuk setiap kebutuhan. Jika Anda menimbang alternatif pada 2026, pilihan yang tepat bergantung pada apakah Anda paling peduli pada harga, keluasan model, bentuk penagihan, atau memiliki klien chat sendiri. Inilah peta yang jujur, dan di mana {appName} cocok.",
+        "H_WHY_SWITCH": "Mengapa melihat melampaui OpenRouter",
+        "P_WHY_SWITCH": "Orang membandingkan karena beberapa alasan konkret. Markup: setiap agregator menambah margin di atas harga mentah penyedia, dan besarnya berbeda. Cakupan model: model yang Anda butuhkan bisa hilang atau usang di satu gateway dan terkini di gateway lain. Bentuk penagihan: sebagian paket berbasis kursi atau langganan, yang kurang cocok untuk pemakaian bergelombang. Dan soal klien: kebanyakan gateway headless, jadi Anda tetap butuh frontend terpisah untuk chat atau roleplay. Salah satu saja sudah cukup untuk membandingkan.",
+        "H_WHAT_TO_COMPARE": "Apa yang sebenarnya dibandingkan",
+        "P_WHAT_TO_COMPARE": "Nilai sebuah alternatif lewat lima hal. Chat Completions kompatibel OpenAI, agar kode dan alat Anda yang sudah ada terhubung tanpa menulis ulang. Keluasan dan kesegaran model, agar Anda tidak terjebak di katalog kemarin. Harga bayar sesuai pemakaian yang transparan dengan kredit yang tak kedaluwarsa, agar bulan-bulan sepi tak menghukum Anda. Cakupan model yang benar-benar Anda pakai, bukan sekadar angka mentah yang besar. Dan apakah ia menyertakan klien yang bisa dipakai, atau mengandaikan Anda membawa milik sendiri. Beri skor lewat itu, bukan lewat klaim pemasaran.",
+        "H_ALTERNATIVES": "Alternatif yang layak diketahui",
+        "P_ALTERNATIVES": "Kunci satu penyedia (OpenAI, Anthropic, DeepSeek) paling sederhana tetapi mengikat Anda ke satu lab. Gateway dev headless seperti LiteLLM dan Portkey memberi keluasan dan tata kelola tetapi tanpa klien, jadi cocok untuk tim dengan aplikasi sendiri. Proxy yang dihos sendiri menukar kenyamanan dengan kendali. Dan gateway gabungan memadukan API kompatibel OpenAI yang luas dengan klien chat bawaan, jadi satu kunci bekerja di kode dan di antarmuka. {appName} adalah jenis terakhir itu: arahkan SDK OpenAI mana pun ke <c>https://api.unorouter.com/v1</c>, jangkau lebih dari 200 model, dan pakai kunci yang sama di klien chat bawaan atau di alat seperti SillyTavern.",
+        "H_FOR_ROLEPLAY": "Jika kasus Anda adalah roleplay",
+        "P_FOR_ROLEPLAY": "Roleplay adalah kasus tersendiri. Anda ingin katalog luas agar bisa berganti antara penulis kuat dan kuda beban murah, penagihan bayar sesuai pemakaian karena sesi bergelombang, dan kunci yang langsung masuk ke SillyTavern, Janitor.AI, RisuAI, atau Chub. Gateway dev murni menutup separuh API tetapi tak memberi klien, dan paket berbasis kursi bertabrakan dengan pola bergelombang itu. {appName} dibangun untuk merentang keduanya: API bersih untuk kode, plus klien chat dan karakter pada kunci, model, dan kredit yang sama.",
+        "H_VERDICT": "Cara memilih",
+        "P_VERDICT": "Jika Anda hanya selalu memakai satu lab, kunci satu penyedia sudah cukup. Jika Anda tim yang ingin perutean dan tata kelola di depan aplikasi sendiri, gateway dev headless cocok. Jika Anda ingin satu kunci yang menjangkau banyak model terkini, menagih bayar sesuai pemakaian, dan bekerja di kode maupun klien chat, itulah celah yang diisi {appName}. Pilih berdasarkan pemakaian nyata Anda, bukan jumlah model mentah.",
+        "CTA": "Mau satu kunci untuk setiap model? <register>Buat akun gratis</register> atau <models>jelajahi model</models>."
+      },
+      "WHAT_IS_AN_LLM_GATEWAY": {
+        "TITLE": "Apa itu gateway LLM?",
+        "DESCRIPTION": "Gateway LLM adalah satu endpoint dan kunci yang merutekan permintaan ke banyak penyedia model. Inilah apa yang dilakukannya, mengapa membantu, dan siapa yang benar-benar membutuhkannya.",
+        "AUTHOR": "Tim {appName}",
+        "INTRO": "Gateway LLM adalah satu endpoint API yang duduk di depan banyak penyedia model dan merutekan permintaan Anda ke model mana pun yang Anda minta. Alih-alih memegang kunci, URL dasar, dan keanehan SDK terpisah untuk tiap lab, Anda memegang satu kunci dan satu endpoint kompatibel OpenAI, dan gateway menangani sisanya. Ini ide yang sama dengan gateway API pada pekerjaan backend klasik, diterapkan pada model bahasa. Inilah yang Anda dapat darinya.",
+        "H_DEFINITION": "Definisi sederhana",
+        "P_DEFINITION": "Gateway mengekspos satu antarmuka kompatibel OpenAI, biasanya <c>/v1/chat/completions</c>, dan memetakan field <c>model</c> di permintaan Anda ke penyedia nyata di balik layar. Anda mengirim bentuk permintaan yang sama setiap kali; gateway memilih upstream, melampirkan kredensial penyedia yang tepat, menerjemahkan keanehan apa pun, dan menstreamkan respons kembali. Kode Anda tak berubah saat Anda berganti model, karena kontrak yang Anda kodekan tetap konstan.",
+        "H_WHY_IT_HELPS": "Mengapa membantu",
+        "P_WHY_IT_HELPS": "Tiga keuntungan. Satu integrasi: kodekan terhadap satu endpoint dan Anda bisa memakai setiap model yang dibawa gateway, tanpa klien per penyedia. Satu tagihan: pemakaian lintas semua penyedia jatuh ke satu saldo alih-alih selusin tagihan terpisah. Dan pergantian mudah: mengubah model adalah suntingan satu baris, jadi Anda bisa mengejar harga atau kualitas terbaik per tugas tanpa membenahi ulang aplikasi. Bagi kebanyakan pembangun, waktu yang dihemat pada integrasi saja sudah menjadi seluruh alasannya.",
+        "H_HOW_IT_WORKS": "Cara kerjanya di balik kap",
+        "P_HOW_IT_WORKS": "Saat permintaan tiba, gateway membaca nama di <c>model</c>, mencari penyedia upstream yang cocok, menukar dengan kredensial penyedia itu, menulis ulang field body khas penyedia, dan meneruskan panggilan. Token yang distream kembali lewat koneksi yang sama, jadi dari sisi Anda tampak seperti panggilan OpenAI biasa. Gateway yang baik menambah percobaan ulang pada galat sementara, akuntansi pemakaian dan biaya, serta katalog model terkini agar rilis baru muncul tanpa Anda menyentuh apa pun.",
+        "H_WHO_NEEDS_ONE": "Siapa yang benar-benar membutuhkannya",
+        "P_WHO_NEEDS_ONE": "Anda ingin gateway jika memakai lebih dari satu model, berencana berganti model seiring harga dan kualitas bergerak, atau membangun apa pun yang tak seharusnya terpaku ke satu lab. Agen koding, aplikasi chat, frontend roleplay, dan alat internal semuanya diuntungkan. Jika Anda benar-benar hanya memanggil satu model dari satu penyedia dan tak pernah berniat berganti, kunci penyedia langsung lebih sederhana. Semua yang lain menghemat usaha nyata dengan gateway.",
+        "H_VERDICT": "Singkatnya",
+        "P_VERDICT": "Gateway LLM mengubah banyak penyedia menjadi satu endpoint, satu kunci, dan satu tagihan, jadi Anda berintegrasi sekali dan berganti model dengan bebas. {appName} adalah gateway kompatibel OpenAI persis cetakan ini: satu kunci menjangkau lebih dari 200 model untuk kode dan chat sama saja, dengan kredit bayar sesuai pemakaian yang tak kedaluwarsa. Jika Anda menyentuh lebih dari satu model, gateway adalah fondasi yang lebih bersih.",
+        "CTA": "Coba gateway sendiri: <register>buat akun gratis</register> atau <models>jelajahi model</models>."
+      },
+      "HOW_TO_CONNECT_ANY_LLM_TO_SILLYTAVERN": {
+        "TITLE": "Cara menghubungkan LLM apa pun ke SillyTavern",
+        "DESCRIPTION": "SillyTavern bisa berbicara dengan hampir semua model lewat satu endpoint kompatibel OpenAI. Inilah penyiapan persisnya, cara berganti model, dan cara memperbaiki galat umum.",
+        "AUTHOR": "Tim {appName}",
+        "INTRO": "SillyTavern adalah frontend, bukan host model. Untuk memakainya, Anda mengarahkannya ke endpoint kompatibel OpenAI dan menempelkan kunci, lalu ia bisa menggerakkan hampir semua model di balik endpoint itu. Cara terbersih menjangkau banyak model adalah gateway, jadi satu kunci dan URL dasar membuka seluruh katalog alih-alih satu penyedia. Inilah penyiapan persisnya, plus cara berganti model dan memperbaiki galat yang biasanya ditemui orang.",
+        "H_WHAT_YOU_NEED": "Apa yang Anda butuhkan dulu",
+        "P_WHAT_YOU_NEED": "Tiga hal: instalasi SillyTavern yang berjalan, endpoint kompatibel OpenAI, dan kunci untuknya. Gateway menutup dua yang terakhir sekaligus, karena memberi Anda satu URL dasar dan satu kunci yang menjangkau banyak model. Dengan {appName} Anda membuat akun, mengambil kunci, dan siap; ada tingkat gratis agar Anda bisa menguji karakter sebelum mengeluarkan apa pun. Simpan kunci Anda dekat dan jangan menempelkannya di tempat publik mana pun.",
+        "H_STEPS": "Langkah-langkah penyiapan",
+        "P_STEPS": "Di SillyTavern, buka panel API dan pilih Chat Completion, lalu sumber kompatibel OpenAI (Custom). Setel URL dasar ke <c>https://api.unorouter.com/v1</c>, tempel kunci {appName} Anda, dan klik untuk memuat daftar model. Pilih model dari menu drop-down dan kirim pesan uji. Karakter, lorebook, dan preset Anda berjalan tanpa perubahan, karena SillyTavern hanya perlu endpoint dan kunci. Kunci yang sama juga bekerja di Janitor.AI, RisuAI, dan Chub.",
+        "H_SWITCHING_MODELS": "Berganti model nanti",
+        "P_SWITCHING_MODELS": "Karena semuanya lewat satu endpoint, berganti model hanya memilih entri lain di menu drop-down model; tanpa akun, kunci, atau URL dasar baru. Itu membuat Anda bisa menjalankan model gratis yang murah sembari menyusun adegan, lalu beralih ke model berbayar yang lebih kuat untuk momen yang penting. Dengan lebih dari 200 model pada satu kunci, Anda bisa mencocokkan model dengan adegan alih-alih puas dengan apa pun yang ditawarkan satu penyedia.",
+        "H_TROUBLESHOOTING": "Galat umum dan perbaikannya",
+        "P_TROUBLESHOOTING": "Jika daftar model tak mau dimuat, periksa lagi bahwa URL dasar diakhiri <c>/v1</c> dan kunci ditempel tanpa spasi liar. 401 berarti kunci salah atau kedaluwarsa; salin lagi. 404 pada model berarti nama model itu tak terpilih dari daftar yang dimuat. Jika balasan terpotong, naikkan panjang respons di pengaturan SillyTavern. Kebanyakan kegagalan penyiapan adalah URL dasar yang salah ketik atau kunci dengan spasi, jadi periksa itu dulu.",
+        "H_VERDICT": "Itulah seluruh triknya",
+        "P_VERDICT": "Menghubungkan LLM apa pun ke SillyTavern berujung pada satu endpoint kompatibel OpenAI plus kunci, dan gateway mengubahnya menjadi banyak model di balik satu penyiapan. {appName} memberi Anda URL dasar itu, tingkat gratis untuk mulai, dan lebih dari 200 model untuk diganti tanpa mengulang apa pun. Siapkan sekali dan kunci yang sama mengikuti Anda di setiap frontend RP.",
+        "CTA": "Siap menghubungkan SillyTavern? <register>Buat akun gratis</register> atau <models>jelajahi model</models>."
+      },
+      "ONE_API_KEY_FOR_CLAUDE_CODE_AND_ROLEPLAY": {
+        "TITLE": "Satu kunci API untuk Claude Code dan roleplay",
+        "DESCRIPTION": "Agen koding dan klien roleplay sama-sama berbicara API kompatibel OpenAI. Inilah cara satu kunci menggerakkan Claude Code dan chat karakter Anda dari satu saldo.",
+        "AUTHOR": "Tim {appName}",
+        "INTRO": "Agen koding dan klien roleplay terasa seperti dunia yang berbeda, tetapi di balik kap mereka berbicara bahasa yang sama: Chat Completions kompatibel OpenAI. Itu berarti satu kunci dan satu endpoint bisa melayani keduanya. Anda bisa menjalankan Claude Code terhadap gateway untuk pekerjaan nyata, lalu memakai kunci yang persis sama untuk chat karakter di malam hari, ditagih dari satu saldo. Inilah cara kerjanya dan mengapa ia praktis.",
+        "H_TWO_WORLDS": "Dua dunia, satu protokol",
+        "P_TWO_WORLDS": "Claude Code, Cline, Codex, dan Kilo Code adalah agen koding; SillyTavern, Janitor.AI, dan RisuAI adalah klien roleplay. Mereka tampak tak berkaitan, tetapi masing-masing terhubung ke endpoint kompatibel OpenAI dan sebuah kunci. Gateway duduk di belakang keduanya, jadi kredensial yang sama menggerakkan refaktor di pagi hari dan cerita di malam hari. Tak ada alasan memegang akun terpisah dan tagihan terpisah untuk dua alat yang berbicara protokol yang sama.",
+        "H_CLAUDE_CODE": "Memakainya dengan Claude Code",
+        "P_CLAUDE_CODE": "Arahkan agen koding Anda ke gateway dengan menyetel URL dasar ke <c>https://api.unorouter.com/v1</c> dan kunci {appName} Anda, lalu pilih model koding yang kuat. Claude Code, Cline, Codex, dan Kilo Code semuanya menerima URL dasar kompatibel OpenAI, jadi agen bekerja seperti biasa sembari gateway merutekan ke model mana pun yang Anda pilih. Ganti model demi biaya atau kualitas dengan perubahan satu baris, tanpa kunci baru.",
+        "H_ROLEPLAY": "Memakainya untuk roleplay",
+        "P_ROLEPLAY": "Kunci yang sama masuk ke SillyTavern, Janitor.AI, RisuAI, dan Chub: pilih sumber kompatibel OpenAI, setel URL dasar ke <c>https://api.unorouter.com/v1</c>, tempel kunci, dan muat model. Karakter, lorebook, dan preset Anda berjalan tanpa perubahan. {appName} juga punya klien chat dan karakter bawaan, jadi saat Anda tak ingin meluncurkan aplikasi penuh, kunci dan kredit yang sama bekerja di sana juga.",
+        "H_ONE_BALANCE": "Satu saldo untuk keduanya",
+        "P_ONE_BALANCE": "Karena kedua sisi berjalan pada kunci yang sama, pemakaian koding dan pemakaian roleplay Anda menarik dari satu saldo bayar sesuai pemakaian. Kredit tak kedaluwarsa, tak ada kursi bulanan untuk dibenarkan, dan Anda melihat semua pengeluaran di satu tempat alih-alih membaginya lintas penyedia. Tingkat gratis membuat Anda bisa menguji sisi mana pun sebelum membayar. Satu akun menutup seluruh hari Anda, kerja dan main.",
+        "H_VERDICT": "Intinya",
+        "P_VERDICT": "Agen koding dan klien roleplay berbagi protokol kompatibel OpenAI, jadi satu kunci bisa menggerakkan keduanya dari satu saldo. {appName} dibangun persis untuk rentang itu: API bersih untuk Claude Code dan kawan-kawan, klien chat dan karakter untuk RP, lebih dari 200 model, dan kredit yang tak kedaluwarsa. Satu kunci, satu tagihan, kedua dunia.",
+        "CTA": "Mau satu kunci untuk kode dan chat? <register>Buat akun gratis</register> atau <models>jelajahi model</models>."
       }
     }
   },
@@ -3231,6 +3434,9 @@
     "CHARACTERS_NEW": "Karakter baru",
     "CHARACTERS_IMPORT": "Impor kartu",
     "CHARACTERS_EXPORT": "Ekspor kartu",
+    "CHARACTERS_IMPORT_LINK": "Impor dari tautan",
+    "CHARACTERS_IMPORT_LINK_PLACEHOLDER": "Tempel tautan JanitorAI, Chub, RisuRealm, atau tautan kartu",
+    "CHARACTERS_IMPORT_FROM_LINK": "Impor",
     "CHARACTERS_EMPTY": "Belum ada karakter.",
     "EXPORT_PNG": "Ekspor sebagai kartu PNG",
     "EXPORT_JSON": "Ekspor sebagai JSON",
@@ -3394,7 +3600,9 @@
     "PRESET_SHOW_REASONING": "Tampilkan penalaran",
     "PRESET_SHOW_REASONING_HINT": "Tampilkan proses berpikir model dalam balasan. Mati = sembunyikan (penalaran tetap dihasilkan dan disimpan, jadi mengaktifkannya kembali akan menampilkannya). Pengaturan chat menimpanya.",
     "CHARACTER_BACKGROUND": "Gambar latar",
-    "CHARACTER_BACKGROUND_HINT": "Ditampilkan di belakang obrolan saat karakter ini memimpin percakapan."
+    "CHARACTER_BACKGROUND_HINT": "Ditampilkan di belakang obrolan saat karakter ini memimpin percakapan.",
+    "CHARACTER_AVATAR": "Avatar",
+    "CHARACTER_AVATAR_HINT": "Ditampilkan di samping karakter ini dalam obrolan dan daftar."
   },
   "ERRORS": {
     "MISSING_ENV": "Env yang diperlukan hilang: {var}",
@@ -3422,6 +3630,9 @@
     "IMPORT_UNSUPPORTED_VERSION": "Versi ekspor tidak didukung.",
     "CARD_PARSE_FAILED": "Tidak dapat mengurai kartu karakter.",
     "CARD_MISSING_NAME": "Kartu karakter kehilangan field nama yang diperlukan.",
+    "CARD_IMPORT_INVALID_URL": "Itu sepertinya bukan tautan karakter yang valid.",
+    "CARD_IMPORT_NOT_FOUND": "Karakter ini tidak ditemukan. Mungkin bersifat pribadi atau telah dihapus.",
+    "CARD_IMPORT_FETCH_FAILED": "Tidak dapat mengunduh karakter ini. Silakan coba lagi.",
     "UNEXPECTED_ERROR": "Terjadi error tak terduga",
     "AUDIO_GENERATION_FAILED": "Pembuatan audio gagal",
     "NO_AUDIO_PROMPT": "Tidak ada teks untuk pembuatan suara",

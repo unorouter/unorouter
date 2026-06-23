@@ -22,14 +22,25 @@ import {
 } from "@/lib/utils/format/number";
 import type { ColumnDef } from "@tanstack/react-table";
 
-function fmtUnit(value: number, unit: PriceUnit): string {
+function fmtUnit(value: number, unit: PriceUnit, perCall?: boolean): string {
   if (unit === "dash" || value <= 0) return "-";
+  // Image fixed-price is per generated image; only non-image fixed fees are /call.
   if (unit === "perImage") return `${formatPrice(value)}/img`;
+  if (perCall) return `${formatPrice(value)}/call`;
   return formatPrice(value);
 }
 
+// Fixed-price (quotaType >= 1) models charge a flat fee, not per-token. The
+// input column dashes for image/video (its unit is "dash"), so route the flat
+// fee to whichever column actually renders a unit: output (per-img) for image/
+// video, input (/call) otherwise. The other column dashes so the flat fee never
+// shows twice or reads as an impossibly-cheap per-token rate.
+function fixedPriceSide(m: ProcessedModel): "input" | "output" {
+  const modality = deriveOutputModality(m);
+  return modality === "image" || modality === "video" ? "output" : "input";
+}
 function priceValue(m: ProcessedModel, side: "input" | "output"): number {
-  if (m.isFixedPrice) return m.fixedPrice;
+  if (m.isFixedPrice) return side === fixedPriceSide(m) ? m.fixedPrice : 0;
   return side === "input" ? m.inputPrice : m.outputPrice;
 }
 
@@ -38,6 +49,7 @@ function PriceCell(props: {
   original: number | null;
   unit: PriceUnit;
   offLabel: string;
+  perCall?: boolean;
 }) {
   if (props.unit === "dash" || props.value <= 0) {
     return <span className="text-muted-foreground">-</span>;
@@ -45,12 +57,12 @@ function PriceCell(props: {
   const pct = discountPercent(props.value, props.original);
   return (
     <span className="flex flex-col items-end">
-      <span>{fmtUnit(props.value, props.unit)}</span>
+      <span>{fmtUnit(props.value, props.unit, props.perCall)}</span>
       {pct > 0 && (
         <span className="flex flex-col items-end gap-0.5 text-[10px] lg:flex-row lg:items-center lg:gap-1">
           {props.original !== null && (
             <span className="text-muted-foreground/60 line-through">
-              {fmtUnit(props.original, props.unit)}
+              {fmtUnit(props.original, props.unit, props.perCall)}
             </span>
           )}
           <span className="rounded bg-green-500/15 px-1 text-green-600 dark:text-green-400">
@@ -67,7 +79,6 @@ export function buildModelColumns(opts: {
   rankMap: Map<string, RankedModel>;
   offLabel: (pct: number) => string;
   freeLabel: string;
-  onDetails: (model: ProcessedModel) => void;
 }): ColumnDef<ProcessedModel>[] {
   const rankTokens = (m: ProcessedModel) =>
     opts.rankMap.get(m.name)?.total_tokens ?? 0;
@@ -140,6 +151,7 @@ export function buildModelColumns(opts: {
             value={priceValue(m, "input")}
             original={m.originalInputPrice}
             unit={inputPriceUnit(deriveOutputModality(m))}
+            perCall={m.isFixedPrice}
             offLabel={opts.offLabel(
               discountPercent(priceValue(m, "input"), m.originalInputPrice),
             )}
@@ -217,9 +229,7 @@ export function buildModelColumns(opts: {
       enableSorting: false,
       header: () => null,
       meta: { headerClassName: "w-10", cellClassName: "text-right" },
-      cell: ({ row }) => (
-        <ModelRowActions model={row.original} onDetails={opts.onDetails} />
-      ),
+      cell: ({ row }) => <ModelRowActions model={row.original} />,
     },
   ];
 }

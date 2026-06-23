@@ -207,9 +207,7 @@ export function ensureConvId(): string {
   return id;
 }
 
-// A NEW conversation: always mint a fresh id, never inherit the global convIdAtom. Reusing the
-// atom let a new chat adopt the previous chat's id/messages when the atom hadn't cleared yet
-// (iOS: the thread-switch effect that resets it runs late) -> the two conversations merged.
+// New conv: fresh id, never inherit the global convIdAtom (a stale atom merged two chats on iOS).
 export function freshConvId(): string {
   const id = uid();
   chatStore.set(convIdAtom, id);

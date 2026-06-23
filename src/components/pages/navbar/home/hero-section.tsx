@@ -66,12 +66,18 @@ export async function HeroSection(props: { counts: HeroCounts }) {
               className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1"
             />
           </Link>
+          <Link
+            href="/chat"
+            className="border-border text-foreground hover:border-foreground group flex h-11 w-full items-center justify-center gap-2 border bg-transparent px-8 font-bold tracking-widest uppercase transition-all sm:w-auto"
+          >
+            <Icon name="message-circle" className="h-3.5 w-3.5" />
+            {t("HOME.CHAT.CTA_OPEN")}
+          </Link>
         </div>
 
         <HeroStatsGrid counts={props.counts} />
       </div>
 
-      {/* Right column - Stats panel with floating integration logos on desktop */}
       <div className="flex w-full max-w-lg flex-1 justify-center lg:max-w-none lg:justify-end">
         <div className="relative w-full max-w-lg">
           <FloatingIntegrations titles={chipTitles} />

@@ -1,6 +1,6 @@
 "use client";
 
-    // Render cache for {{inlay::<mediaId>}} tokens: media rows resolve to a data URI once, then preprocess swaps tokens. inlayVersionAtom bumps on load.
+// Render cache for {{inlay::<mediaId>}} tokens: media rows resolve to a data URI once, then preprocess swaps tokens. inlayVersionAtom bumps on load.
 
 import { chatStore } from "@/store/chat-store";
 import { atom } from "jotai";
@@ -33,7 +33,7 @@ export function requestInlay(userId: number, id: string): void {
     .finally(() => pending.delete(id));
 }
 
-    // Sync swap for markdown preprocess; unresolved tokens disappear (load kicks off, the version bump re-renders).
+// Sync swap for markdown preprocess; unresolved tokens disappear (load kicks off, the version bump re-renders).
 export function replaceInlayTokens(text: string, userId: number): string {
   return text.replace(INLAY_TOKEN_RE, (_m, id: string) => {
     const src = getInlaySrc(id);

@@ -24,7 +24,7 @@ type SnapshotInput = Record<string, unknown> & {
 };
 type MediaInput = typeof media.$inferInsert;
 
-// base64-priority; R2 fallback for synced rows.
+// base64 first, R2 url fallback for legacy rows.
 function resolveImageSrc(row: Media): string | null {
   if (row.dataBase64) {
     return base64ToDataUri(row.dataBase64, row.mimeType ?? "image/png");
@@ -146,7 +146,6 @@ export async function upsertLocalSnapshotImages(
   );
 }
 
-// base64-priority; fetch R2, cache back.
 export async function readLocalGenerationImage(
   userId: number | undefined,
   mediaId: string,

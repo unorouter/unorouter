@@ -67,6 +67,7 @@ export enum Vendor {
   AISINGAPORE = "ai singapore",
   POLLINATIONS = "pollinations",
   STEPFUN = "stepfun",
+  PERPLEXITY = "perplexity",
   KATANEMO = "katanemo",
   NAVYAI = "navyai",
   HCOMPANY = "h company",
@@ -89,6 +90,11 @@ export enum Vendor {
   ESSENTIALAI = "essential ai",
   INTERNLM = "internlm",
   SENSENOVA = "sensenova",
+  MEITUAN = "meituan",
+  SWISSAI = "swiss ai",
+  EUROLLM = "eurollm",
+  DICTA = "dicta",
+  VOYAGE = "voyage",
 }
 
 export enum OS {

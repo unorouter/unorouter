@@ -3,6 +3,7 @@ import type {
   StatusEventType,
   StatusType,
 } from "@/components/ui/status/status.types";
+import { dayjs } from "@/lib/utils/format/date";
 
 type CompactBucket = [
   number, // ok
@@ -137,14 +138,14 @@ export function decodeCompactPage(p: CompactPagePayload): DecodedStatusPage {
               id: inc.id,
               name: inc.name,
               type: inc.type,
-              from: new Date(inc.from),
-              to: inc.to ? new Date(inc.to) : null,
+              from: dayjs(inc.from).toDate(),
+              to: inc.to ? dayjs(inc.to).toDate() : null,
             },
           ];
         });
       }
       out[i] = {
-        day: new Date(ts).toISOString(),
+        day: dayjs(ts).toISOString(),
         bar: buildBar(b),
         card: buildCard(b),
         events,

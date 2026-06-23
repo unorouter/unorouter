@@ -33,10 +33,10 @@
     "HERO": {
       "BADGE": "路由器在線",
       "TITLE_LINE1": "統一",
-      "SUBTITLE": "{appName} 用一把鑰匙連接 {modelCount}+ 個 AI 模型。打造應用、執行 Agent，或與角色進行角色扮演。同一把鑰匙、同樣的速度、同樣的價格。",
+      "SUBTITLE": "{appName} 用一把鑰匙把你連到 {modelCount}+ 個 AI 模型。用它建構應用、執行智能體，或是跳過設定，直接在本站和角色聊天。同一把鑰匙，同樣的速度，同樣的價格。",
       "CTA_PRIMARY": "立即開始",
       "CTA_SECONDARY": "查看模型",
-      "TITLE_ROTATE": "智慧,角色扮演,角色,程式,對話"
+      "TITLE_ROTATE": "API,聊天,角色,角色扮演,程式碼,智慧"
     },
     "STATS": {
       "MODELS": "模型",
@@ -117,6 +117,84 @@
         "TITLE": "請求流程"
       }
     },
+    "CHAT": {
+      "BADGE": "內建聊天",
+      "TITLE_1": "不只是一個 API。",
+      "TITLE_2": "也是一個聊天用戶端。",
+      "DESCRIPTION": "打開就能聊。免費模型已經接好，無需註冊、無需鑰匙、無需設定。挑一個角色或匯入你自己的，聊天紀錄留在你的瀏覽器裡。",
+      "CARD1": {
+        "TITLE": "免設定",
+        "DESC": "免費模型在後端接好。打開就聊，無需帳戶。"
+      },
+      "CARD2": {
+        "TITLE": "角色",
+        "DESC": "內建人設、預設、提示詞範本和 SillyTavern 卡片匯入。"
+      },
+      "CARD3": {
+        "TITLE": "私密",
+        "DESC": "你的對話存在你的瀏覽器裡，絕不在我們的伺服器上。我們讀不到。"
+      },
+      "CARD4": {
+        "TITLE": "完整角色扮演",
+        "DESC": "知識書、群聊、滑動重生成和真正的 RP 引擎，不是玩具。"
+      },
+      "CTA_OPEN": "開啟聊天",
+      "CTA_CONNECT": "接入你的用戶端",
+      "MOCK": {
+        "CHARACTER": "埃拉拉·沃斯艦長",
+        "MODEL": "免費",
+        "MSG_AI": "報到，新兵。收好裝備，十秒後躍遷。",
+        "MSG_USER": "是，艦長。準備就緒。",
+        "TYPING": "正在輸入",
+        "INPUT": "輸入訊息...",
+        "BRAND": "UnoRouter",
+        "NEW_CHAT": "新增聊天",
+        "CONV1": "埃拉拉·沃斯艦長",
+        "CONV2": "煉金術士莉拉",
+        "CONV3": "咖啡館的麻糬",
+        "MODEL_NAME": "nemotron-3",
+        "TOKENS": "輸入 {in} ／ 輸出 {out}",
+        "MENU_LABEL": "角色扮演",
+        "LOCAL_DB": "本機資料庫",
+        "MSG_AI_2": "坩堝燒得正好。幫我把那個小瓶遞過來，好嗎？",
+        "MSG_AI_3": "歡迎回來！還是老樣子，燕麥拿鐵多加奶泡？",
+        "NEW_CHAT_EMPTY": "開始新的對話……",
+        "DEMO_USER": "艦長，說說你自己吧。",
+        "DEMO_AI": "埃拉拉·沃斯艦長，在深空闖蕩了十五年。緊跟著我，你就能平安回家。",
+        "DLG": {
+          "CHAR1": "身經百戰的星艦艦長",
+          "CHAR2": "好奇的藥劑調配師",
+          "CHAR3": "溫馨咖啡館的咖啡師",
+          "PERSONA1": "菜鳥新兵",
+          "PERSONA1_SUB": "熱情十足，問個不停",
+          "PERSONA2": "資深飛行員",
+          "PERSONA2_SUB": "臨危不亂",
+          "LORE1": "外環星域",
+          "LORE1_SUB": "星圖與貿易航線",
+          "LORE2": "艦船載貨清單",
+          "LORE2_SUB": "船員名冊與貨物",
+          "PRESET1": "電影感角色扮演",
+          "PRESET1_SUB": "鮮活而富有畫面感的文字",
+          "PRESET2": "俐落對白",
+          "PRESET2_SUB": "簡短有力的回覆",
+          "CARD1": "埃拉拉艦長（v2）",
+          "CARD1_SUB": "SillyTavern 角色卡",
+          "CARD2": "煉金術士萊拉",
+          "CARD2_SUB": "匯入的角色卡",
+          "DB1": "對話",
+          "DB1_SUB": "128 列",
+          "DB2": "角色",
+          "DB2_SUB": "12 列"
+        },
+        "DEMO_USER_2": "你今天在熬製什麼呀？",
+        "DEMO_AI_2": "一瓶清明靈藥。三滴下肚，思緒便如琢磨過的玻璃般通透銳利。想嚐一口嗎？",
+        "DEMO_USER_3": "隨便給我來杯驚喜吧。",
+        "DEMO_AI_3": "一杯薰衣草蜂蜜拿鐵，馬上就好。這糖漿是我今早親手熬的喔。",
+        "NEW_CONV_TITLE": "領航員凱",
+        "NEW_DEMO_USER": "幫我們規劃一條通往最近港口的航線。",
+        "NEW_DEMO_AI": "正在計算。三次躍遷就到，燃料還綽綽有餘。坐穩了。"
+      }
+    },
     "FEATURES": {
       "TITLE": "為什麼選擇 {appName}",
       "DESCRIPTION": "一個端點串連所有 AI 模型。智慧路由挑選最快的供應商，自動容錯確保您的請求永不失敗。",
@@ -177,9 +255,11 @@
       "FEATURE_1": "OpenAI 相容端點",
       "FEATURE_2": "供應商自動容錯",
       "FEATURE_3": "多協定支援",
+      "FEATURE_4": "無需程式碼，在站內聊天",
       "READ_DOCS": "閱讀完整 API 文件",
       "NO_CODE_LABEL": "不是開發者？",
-      "NO_CODE_OPTION": "不必寫程式。把 URL 貼到 SillyTavern、Janitor.AI、RisuAI 或 Chub，馬上開始聊。",
+      "NO_CODE_OPTION": "跳過程式碼。直接在本站和角色聊天，或把網址貼進 SillyTavern、Janitor.AI、RisuAI 或 Chub。",
+      "NO_CODE_CHAT_LINK": "開啟聊天",
       "NO_CODE_LINK": "查看整合指南"
     },
     "CTA": {
@@ -187,7 +267,8 @@
       "TITLE_2": "連接",
       "SUBTITLE": "每一個 AI 模型，一把鑰匙。打造、聊天、寫程式或角色扮演，由你決定。",
       "PRIMARY": "開始使用",
-      "SECONDARY": "查看整合"
+      "SECONDARY": "查看整合",
+      "CHAT": "開啟聊天"
     },
     "META": {
       "TITLE": "{appName} - 一把鑰匙，連接所有 AI 模型",
@@ -204,7 +285,9 @@
       "STEP1_DESC": "一分鐘內完成註冊，開始時無需信用卡。",
       "STEP2_NUM": "2",
       "STEP2_TITLE": "儲值或訂閱",
-      "STEP2_DESC": "依用量付費或選擇方案。Credits 可用於任何模型，永不過期。",
+      "STEP2_DESC": "免費開始，無需信用卡。只有想用付費模型時再儲值或選方案。額度永不過期。",
+      "TOPUP_FREE_LABEL": "免費",
+      "TOPUP_FREE_AMOUNT": "$0",
       "STEP3_NUM": "3",
       "STEP3_TITLE": "取得 API Key",
       "STEP3_DESC": "在程式碼裡、在 Claude Code 裡使用，或貼到 SillyTavern、Janitor.AI、RisuAI、Chub 裡。",
@@ -417,7 +500,8 @@
       "HIGHLIGHT_BEST": "突顯最佳",
       "CLEAR": "清除",
       "FROM": "來自",
-      "SELECT_MODEL": "選擇一個模型"
+      "SELECT_MODEL": "選擇一個模型",
+      "POPULAR": "熱門比較"
     },
     "LIST": {
       "TOKENS": "Token",
@@ -554,6 +638,57 @@
         "H_VERDICT": "你該選哪個",
         "P_VERDICT": "如果你只寫程式碼，想要一個為每 token 成本最佳化的精簡前沿模型閘道，MegaLLM 是個扎實的選擇，它的社群也證明了這點。如果你想要一把鑰匙既驅動你的編程智能體，又從同一餘額、更廣清單驅動一個內建的聊天與角色用戶端，那就是 {appName} 填補的空白。沒有唯一贏家。這取決於一個純開發閘道夠不夠，還是你想要內建的聊天用戶端。",
         "CTA": "想要閘道和聊天合二為一？<register>建立免費帳戶</register>或<models>瀏覽模型</models>。"
+      },
+      "UNOROUTER_VS_PORTKEY": {
+        "TITLE": "{appName} 對比 Portkey：AI 閘道，還是完整的 LLMOps 平台",
+        "DESCRIPTION": "Portkey 是一個面向企業的 LLMOps 平台，具備可觀測性、護欄與治理能力。{appName} 是一個更精簡的託管閘道，內建聊天用戶端。關鍵在於你究竟需要多少平台能力。",
+        "AUTHOR": "{appName}團隊",
+        "INTRO": "Portkey 和 {appName} 都在每個模型前面放置一個 OpenAI 相容的端點。從這裡開始，兩者就分道揚鑣了。Portkey 是為需要可觀測性、護欄與治理的工程團隊打造的完整 LLMOps 平台。{appName} 是同一思路的精簡版：一把金鑰、200 多個模型，再加上一個聊天用戶端，無需任何設定。",
+        "H_AUDIENCE": "各自為誰而造",
+        "P_AUDIENCE": "Portkey 面向大規模交付 LLM 功能的平台團隊與 AI 團隊。它的價值在於圍繞呼叫的控制平面：請求記錄、指標、預算、提示詞管理、護欄、回退，以及面向組織的角色式存取。{appName} 面向個人開發者與 RP 使用者，他們只想要一把能在程式設計代理和聊天用戶端中都好用的金鑰，而不必先搭起一層治理。",
+        "H_SETUP": "搭建與涵蓋面",
+        "P_SETUP": "用 Portkey，你要設定一把虛擬金鑰、各項設定與路由規則，然後對應用程式進行埋點，把所有流量都走閘道，讓儀表板填滿資料。當你有團隊、有合規需求時，這才有意義。用 {appName}，你只需註冊，並把用戶端指向 <c>https://api.unorouter.com/v1</c>。沒有設定檔，沒有要管理的虛擬金鑰，也沒有要學的可觀測性堆疊。一個是你採用的平台，另一個是你呼叫的端點。",
+        "H_INTERFACE": "Portkey 沒有聊天用戶端",
+        "P_INTERFACE": "Portkey 是基礎設施：一個閘道和一個儀表板，面向使用者的介面都得你自己來。{appName} 提供同樣的 OpenAI 相容 API，外加內建的聊天與角色用戶端（人設、世界書、預設、SillyTavern 角色卡匯入），而且同一把金鑰可直接用於 SillyTavern、Janitor.AI、RisuAI 或 Chub。於是你用同一把金鑰就能擁有一個真正可以聊天的地方，而不只是一個為應用程式仍要自行發起的呼叫準備的控制平面。",
+        "H_COST": "成本與開銷",
+        "P_COST": "Portkey 圍繞平台收費：低用量有免費方案，再往上是為組織所需的可觀測性、治理與支援而設的付費方案，這些都疊加在你付給各家供應商的費用之上。當控制平面能為團隊省下真金白銀的時間時，它就值得。{appName} 是橫跨 200 多個模型的按量付費，額度不過期，並設有免費方案，是一個餘額，而不是一份平台訂閱外加每家供應商的錢包。在團隊規模以下，精簡路線花得更少，對你的要求也更少。",
+        "H_VERDICT": "你該選哪個",
+        "P_VERDICT": "如果你為組織營運 LLM 功能，需要可觀測性、護欄與治理，Portkey 正是為此而造。如果你想要一把無需維運、能在程式設計代理和真正的聊天用戶端中都好用的 OpenAI 相容金鑰，那麼 {appName} 更合適。沒有誰好誰壞，只是平台的成分更少。按你是需要控制平面，還是只需要閘道來選。",
+        "CTA": "想要一個無需維運的閘道？<register>建立免費帳戶</register>，或<models>瀏覽模型</models>。"
+      },
+      "UNOROUTER_VS_NANO_GPT": {
+        "TITLE": "{appName} 對比 nano-gpt：聊天市集，還是一把金鑰兩頭通吃",
+        "DESCRIPTION": "nano-gpt 在聊天介面背後提供一個龐大的模型目錄。{appName} 給你同樣的按量付費存取，外加一套真正的開發者 API 與內建的角色用戶端，都在一把乾淨的金鑰之下。",
+        "AUTHOR": "{appName}團隊",
+        "INTRO": "nano-gpt 和 {appName} 在最顯而易見的一點上重疊：無需訂閱，按量付費地存取大量模型。nano-gpt 主打聊天市集背後的廣度。{appName} 主打一把在程式設計代理和聊天用戶端中同樣自如的 OpenAI 相容金鑰。同樣的額度，兩扇截然不同的入口。",
+        "H_CATALOG": "目錄與廣度",
+        "P_CATALOG": "nano-gpt 的賣點是目錄的規模：數百個文字與圖像模型集中一處，如果你的目標是把一切都試一遍，這確實有用。{appName} 在對程式設計和角色扮演真正重要的供應商之間執行 200 多個模型，是精選並保持最新，而非為了湊數而最大化。如果你在意的只有純粹的廣度，那 nano-gpt 勝出。如果你想要人們真正用來幹活的模型，差距很快就會縮小。",
+        "H_DEV": "開發者這一面",
+        "P_DEV": "聊天市集是介面優先造出來的：網頁 UI 是產品，API 是側門。{appName} 在設計上就是 OpenAI 相容的。把任何 SDK 或代理指向 <c>https://api.unorouter.com/v1</c>，保留你現有的程式碼，同一把金鑰就能驅動 Claude Code、Cline、OpenCode、Kilo Code 或 Codex。你不是在給一個聊天站點硬裝一個 API，而是在用一個恰好也帶聊天用戶端的閘道。",
+        "H_CHAT": "聊天與角色這一面",
+        "P_CHAT": "兩者都讓你在瀏覽器裡聊天，但 {appName} 的用戶端是為角色扮演而造，而不僅是問答：人設、世界書、預設、SillyTavern 角色卡匯入，而當你想要更重的前端時，同一把金鑰可進入 SillyTavern、Janitor.AI、RisuAI 或 Chub。你永遠不會被鎖死在一個 UI 裡。額度會跟著你穿行於每一個用戶端。",
+        "H_PAY": "定價與金鑰",
+        "P_PAY": "兩者都是無訂閱的按量付費，這正是對突發式、多模型使用最合適的模式。{appName} 把它收斂為一個餘額，額度不過期，並設有免費方案，是一把跨程式設計與聊天的金鑰，而不是一只只能在一個 UI 裡花的市集錢包。計費形態相同，區別在於這一把金鑰能觸達多遠。",
+        "H_VERDICT": "你該選哪個",
+        "P_VERDICT": "如果你主要想要一個網頁 UI 來試用盡可能廣的模型清單，nano-gpt 在這方面做得不錯。如果你想要一把能在程式設計代理和真正的角色用戶端中都好用、額度還能隨身帶走的 OpenAI 相容金鑰，那麼 {appName} 更合適。同樣的按量付費核心，一把金鑰的觸達更遠。",
+        "CTA": "想要一把同時管程式碼和角色聊天的金鑰？<register>建立免費帳戶</register>，或<models>瀏覽模型</models>。"
+      },
+      "BEST_AI_GATEWAY_FOR_SILLYTAVERN": {
+        "TITLE": "2026 年最適合 SillyTavern 的 AI 閘道",
+        "DESCRIPTION": "SillyTavern 需要一個 OpenAI 相容的端點和一把金鑰。這裡講清楚挑選閘道時真正重要的是什麼，以及如何在一分鐘內連上。",
+        "AUTHOR": "{appName}團隊",
+        "INTRO": "SillyTavern 是前端，它本身不託管模型。要用它，你把它指向一個 OpenAI 相容的端點並貼上一把金鑰。問題在於背後是哪個閘道。大多數教學遞給你單一供應商，而更好的答案是一把能觸達眾多模型、又不會過期的金鑰。下面講該權衡什麼，以及 {appName} 如何契合。",
+        "H_WHAT_MATTERS": "對 SillyTavern 真正重要的是什麼",
+        "P_WHAT_MATTERS": "決定一個好 SillyTavern 閘道的有四點。OpenAI 相容的 Chat Completions，這樣 SillyTavern 無需轉接器即可連線。模型廣度，這樣你無需新建帳戶就能在強力寫手和廉價主力之間切換。誠實的按量付費計費，因為角色扮演是突發式的，按月席位的形態並不合適。還有一個免費方案，讓你在花錢之前先試一個角色。模型的純粹數量，遠不如該有的模型是否齊備且最新來得重要。",
+        "H_OPTIONS": "現實的選項",
+        "P_OPTIONS": "你有三類選擇。單一供應商金鑰（OpenAI、Anthropic、DeepSeek）最簡單，但把你鎖在一家實驗室的模型和定價上。無頭的開發者閘道給你廣度，卻沒有自己的用戶端，這沒關係，因為 SillyTavern 就是你的用戶端。或者一個既是 API 又是聊天用戶端的閘道，這樣當你不想啟動整個應用程式時，同一把金鑰在 SillyTavern 和內建 UI 中都能用。{appName} 就是第三種。",
+        "H_CONNECT": "把 {appName} 連接到 SillyTavern",
+        "P_CONNECT": "在 SillyTavern 中，選擇 Chat Completion API 和 OpenAI 相容（Custom）來源。把基礎 URL 設為 <c>https://api.unorouter.com/v1</c>，貼上你的 {appName} 金鑰，然後載入模型清單。選一個模型，你的角色、世界書和預設照舊執行。同一把金鑰在 Janitor.AI、RisuAI 和 Chub 裡也能用，所以你不必為每個應用程式重做設定。",
+        "H_FREE": "免費模型與成本控制",
+        "P_FREE": "{appName} 有免費方案和 200 多個模型，所以你可以先用免費模型試一張角色卡，等場景值得了再換到更強的付費模型。額度不過期，計費是按量付費，一個餘額涵蓋每個用戶端和每個模型。沒有需要為之辯護的按月席位，歇一個月也沒有什麼要取消。",
+        "H_VERDICT": "簡短的答案",
+        "P_VERDICT": "最好的 SillyTavern 閘道，是那個有 OpenAI 相容端點、真正的模型廣度、按量付費額度，以及一個起步用的免費方案的閘道，讓一把金鑰就能撐起你的整套設定。{appName} 正是為這種情形而造，而且同一把金鑰會在你使用的其他每一個 RP 前端中繼續好用。",
+        "CTA": "準備好連接 SillyTavern 了嗎？<register>建立免費帳戶</register>，或<models>瀏覽模型</models>。"
       },
       "UNOROUTER_VS_RISUAI": {
         "TITLE": "{appName} 對比 RisuAI：我們把 RP 引擎搬進了託管的二合一",
@@ -766,6 +901,74 @@
         "H_VERDICT": "你該選哪個",
         "P_VERDICT": "如果你只交付程式碼，並且想要無介面的最廣目錄，OpenRouter 是個不錯的預設選擇。如果你想要無加價的自架路由，LiteLLM 勝出。如果你想要一把金鑰，既能用在編碼代理裡，也能用在真正的聊天與角色用戶端裡，而不必執行兩套服務，這正是 {appName} 填補的空白。沒有唯一的贏家。這取決於你是為純粹的 API 最佳化，還是為 API 加上一個使用它的地方而最佳化。",
         "CTA": "準備好試試了嗎？<register>建立免費帳戶</register> 或 <models>瀏覽模型</models>。"
+      },
+      "BEST_OPENROUTER_ALTERNATIVES_2026": {
+        "TITLE": "2026 年最佳的 OpenRouter 替代方案",
+        "DESCRIPTION": "用一把金鑰觸達眾多模型，OpenRouter 並非唯一的路。下面是 2026 年值得了解的替代方案、各自擅長什麼，以及如何挑選。",
+        "AUTHOR": "{appName}團隊",
+        "INTRO": "OpenRouter 讓一個簡單的想法流行起來：一把相容 OpenAI 的金鑰，觸達眾多模型供應商。它是一個穩妥的預設選擇，但不是唯一的選項，也不是對每種用途都最好。如果你在 2026 年權衡替代方案，正確的選擇取決於你最在意價格、模型廣度、計費形態，還是擁有自己的聊天用戶端。下面是一張誠實的地圖，以及 {appName} 落在何處。",
+        "H_WHY_SWITCH": "為什麼要看 OpenRouter 之外",
+        "P_WHY_SWITCH": "人們出於幾個具體原因貨比三家。加價：每個彙整方都在供應商原始價格之上加一層利潤，幅度各不相同。模型涵蓋：你需要的某個模型，可能在一個閘道上缺席或陳舊，在另一個上卻是最新的。計費形態：有些方案按席位或訂閱計費，與突發式用量並不相配。還有用戶端這一環：大多數閘道是無介面的，所以你仍需要一個單獨的前端來做聊天或角色扮演。其中任何一條，都足以成為比較的理由。",
+        "H_WHAT_TO_COMPARE": "到底該比較什麼",
+        "P_WHAT_TO_COMPARE": "用五件事來評判一個替代方案。相容 OpenAI 的 Chat Completions，這樣你現有的程式碼和工具無需重寫即可接入。模型的廣度與新鮮度，這樣你不會被困在昨天的目錄裡。透明的按用量付費，且額度不過期，這樣清淡的月份不會懲罰你。你真正使用的那些模型的涵蓋，而不僅是一個很大的原始數字。以及它是否附帶一個可用的用戶端，還是假定你自帶。按這些打分，而不是按行銷說辭。",
+        "H_ALTERNATIVES": "值得了解的替代方案",
+        "P_ALTERNATIVES": "單一供應商金鑰（OpenAI、Anthropic、DeepSeek）最簡單，但把你綁在一個實驗室上。LiteLLM 和 Portkey 這類無介面的開發者閘道給你廣度和治理，卻沒有用戶端，所以適合擁有自家應用程式的團隊。自架代理用便利換取掌控。而組合型閘道把一個寬廣的相容 OpenAI 的 API 與內建聊天用戶端配在一起，於是一把金鑰在程式碼裡和介面裡都能用。{appName} 正是最後這一類：把任意 OpenAI SDK 指向 <c>https://api.unorouter.com/v1</c>，觸達 200 多個模型，並在內建聊天用戶端或 SillyTavern 這類工具裡使用同一把金鑰。",
+        "H_FOR_ROLEPLAY": "如果你的用途是角色扮演",
+        "P_FOR_ROLEPLAY": "角色扮演自成一類。你想要一個寬廣的目錄，以便在一個強寫手和一匹便宜的勞力之間切換；想要按用量付費的計費，因為對話是突發式的；還想要一把能直接塞進 SillyTavern、Janitor.AI、RisuAI 或 Chub 的金鑰。純開發者閘道涵蓋了 API 那一半，卻不給你用戶端，而按席位的方案與這種突發式的節奏相牴觸。{appName} 生來就是為了跨越兩邊：給程式碼一個乾淨的 API，再加上在同一把金鑰、模型和額度上運作的聊天與角色用戶端。",
+        "H_VERDICT": "如何選擇",
+        "P_VERDICT": "如果你始終只用一個實驗室，單一供應商金鑰就夠了。如果你是一個想在自家應用程式前面加上路由和治理的團隊，無介面的開發者閘道合適。如果你想要一把能觸達眾多最新模型、按用量計費、並在程式碼和聊天用戶端兩邊都能用的金鑰，那正是 {appName} 填補的空缺。按你真實的用途來選，而不是按原始的模型數量。",
+        "CTA": "想要一把金鑰用於每個模型嗎？<register>建立免費帳戶</register>，或<models>瀏覽模型</models>。"
+      },
+      "WHAT_IS_AN_LLM_GATEWAY": {
+        "TITLE": "什麼是 LLM 閘道？",
+        "DESCRIPTION": "LLM 閘道是一個端點和一把金鑰，把請求路由到眾多模型供應商。下面講它做什麼、為何有幫助，以及誰真正需要它。",
+        "AUTHOR": "{appName}團隊",
+        "INTRO": "LLM 閘道是一個單一的 API 端點，坐落在眾多模型供應商前面，把你的請求路由到你所要的那個模型。與其為每個實驗室分別持有一把金鑰、一個基礎 URL 和各自的 SDK 怪癖，不如持有一把金鑰和一個相容 OpenAI 的端點，其餘的交給閘道處理。這與經典後端工作中的 API 閘道是同一個想法，只是用到了語言模型上。下面講它給你帶來什麼。",
+        "H_DEFINITION": "樸素的定義",
+        "P_DEFINITION": "閘道暴露一個相容 OpenAI 的介面，通常是 <c>/v1/chat/completions</c>，並在幕後把你請求中的 <c>model</c> 欄位對應到一個真實供應商。你每次傳送同樣形狀的請求；閘道挑選上游，附上正確的供應商憑證，翻譯任何怪癖，並把回應以串流的形式傳回。換模型時你的程式碼不變，因為你程式設計所針對的合約保持恆定。",
+        "H_WHY_IT_HELPS": "它為何有幫助",
+        "P_WHY_IT_HELPS": "三處收益。一次整合：針對一個端點程式設計，你就能使用閘道承載的每個模型，無需按供應商各設一個用戶端。一張帳單：跨所有供應商的用量落在一個餘額上，而不是十幾張分開的發票。以及輕鬆切換：改一個模型只是一行編輯，於是你可以按任務追逐最佳價格或品質，而無需重新鋪設你的應用程式。對多數建構者而言，單是在整合上省下的時間，就是全部的理由。",
+        "H_HOW_IT_WORKS": "它在底層如何運作",
+        "P_HOW_IT_WORKS": "當一個請求到來，閘道讀取 <c>model</c> 中的名稱，查出相符的上游供應商，換入該供應商的憑證，重寫供應商特有的請求主體欄位，再把呼叫轉發出去。串流的 token 經由同一連線返回，所以在你這邊看起來就是一次普通的 OpenAI 呼叫。好的閘道會加上對瞬時錯誤的重試、用量與成本的記帳，以及一份最新的模型目錄，於是新發布會自行出現，而你什麼都不必動。",
+        "H_WHO_NEEDS_ONE": "誰真正需要它",
+        "P_WHO_NEEDS_ONE": "如果你使用不止一個模型、打算隨價格和品質變動而換模型，或者要建構任何不該被硬接到單一實驗室的東西，你就會想要一個閘道。編碼代理、聊天應用程式、角色扮演前端和內部工具都會受益。如果你真的只呼叫一個供應商的一個模型，且從不指望更換，那麼直接的供應商金鑰更簡單。其餘所有人都能用閘道省下真實的功夫。",
+        "H_VERDICT": "簡而言之",
+        "P_VERDICT": "LLM 閘道把眾多供應商變成一個端點、一把金鑰和一張帳單，於是你整合一次，便能自由換模型。{appName} 正是這種模子裡的相容 OpenAI 的閘道：一把金鑰為程式碼和聊天同樣觸達 200 多個模型，配上不會過期的按用量付費額度。如果你觸及不止一個模型，閘道是更乾淨的根基。",
+        "CTA": "自己試一個閘道：<register>建立免費帳戶</register>，或<models>瀏覽模型</models>。"
+      },
+      "HOW_TO_CONNECT_ANY_LLM_TO_SILLYTAVERN": {
+        "TITLE": "如何把任意 LLM 連接到 SillyTavern",
+        "DESCRIPTION": "SillyTavern 能透過一個相容 OpenAI 的端點與幾乎任何模型對話。下面是確切的設定、如何換模型，以及如何修復常見錯誤。",
+        "AUTHOR": "{appName}團隊",
+        "INTRO": "SillyTavern 是一個前端，不是模型主機。要用它，你把它指向一個相容 OpenAI 的端點並貼上一把金鑰，隨後它就能驅動那個端點背後幾乎任何模型。觸達眾多模型最乾淨的辦法是閘道，於是一把金鑰和一個基礎 URL 解鎖整個目錄，而不是單一供應商。下面是確切的設定，外加如何換模型，以及如何修復人們通常會碰到的錯誤。",
+        "H_WHAT_YOU_NEED": "你首先需要什麼",
+        "P_WHAT_YOU_NEED": "三樣東西：一個執行中的 SillyTavern 安裝、一個相容 OpenAI 的端點，以及給它的一把金鑰。閘道把後兩樣一併涵蓋，因為它給你一個基礎 URL 和一把觸達眾多模型的金鑰。用 {appName}，你建立帳戶、取得金鑰，便準備就緒；有一個免費方案，讓你在花任何錢之前先試一個角色。把金鑰放在手邊，別把它貼到任何公開的地方。",
+        "H_STEPS": "設定步驟",
+        "P_STEPS": "在 SillyTavern 中，開啟 API 面板並選擇 Chat Completion，然後選 OpenAI 相容（Custom）來源。把基礎 URL 設為 <c>https://api.unorouter.com/v1</c>，貼上你的 {appName} 金鑰，點擊以載入模型清單。從下拉中挑一個模型，發一則測試訊息。你的角色、世界書和預設照舊執行，因為 SillyTavern 需要的只是一個端點和一把金鑰。同一把金鑰在 Janitor.AI、RisuAI 和 Chub 裡也能用。",
+        "H_SWITCHING_MODELS": "之後換模型",
+        "P_SWITCHING_MODELS": "因為一切都經由一個端點，換模型只是在模型下拉裡選另一項；沒有新帳戶、新金鑰或新基礎 URL。這讓你在搭建一個場景時跑一個便宜的免費模型，再在關鍵時刻切到一個更強的付費模型。一把金鑰上有 200 多個模型，你便能讓模型貼合場景，而不必將就單一供應商所提供的東西。",
+        "H_TROUBLESHOOTING": "常見錯誤與修復",
+        "P_TROUBLESHOOTING": "如果模型清單載入不出來，再次檢查基礎 URL 是否以 <c>/v1</c> 結尾，以及金鑰是否貼得沒有多餘空格。401 意味著金鑰錯誤或已過期；再複製一遍。某個模型上的 404 意味著那個模型名沒有從已載入的清單中選中。如果回覆被截斷，在 SillyTavern 的設定裡把回應長度調高。多數設定失敗是基礎 URL 打錯或金鑰帶空格，所以先查這些。",
+        "H_VERDICT": "全部訣竅就這些",
+        "P_VERDICT": "把任意 LLM 連接到 SillyTavern，歸結為一個相容 OpenAI 的端點加一把金鑰，而閘道把這變成單一設定背後的眾多模型。{appName} 給你那個基礎 URL、一個起步的免費方案，以及 200 多個無需重做任何事即可來回切換的模型。設定一次，同一把金鑰便隨你走遍每個 RP 前端。",
+        "CTA": "準備好連接 SillyTavern 了嗎？<register>建立免費帳戶</register>，或<models>瀏覽模型</models>。"
+      },
+      "ONE_API_KEY_FOR_CLAUDE_CODE_AND_ROLEPLAY": {
+        "TITLE": "一把 API 金鑰同時用於 Claude Code 和角色扮演",
+        "DESCRIPTION": "編碼代理和角色扮演用戶端都講相容 OpenAI 的 API。下面講一把金鑰如何從一個餘額為 Claude Code 和你的角色聊天供能。",
+        "AUTHOR": "{appName}團隊",
+        "INTRO": "編碼代理和角色扮演用戶端感覺像是不同的世界，但在底層它們講同一種語言：相容 OpenAI 的 Chat Completions。這意味著一把金鑰和一個端點能服務兩者。你可以讓 Claude Code 對著一個閘道跑你真正的工作，到了晚上再用一模一樣的金鑰做角色聊天，從一個餘額計費。下面講這如何運作，以及為何方便。",
+        "H_TWO_WORLDS": "兩個世界，一個協定",
+        "P_TWO_WORLDS": "Claude Code、Cline、Codex 和 Kilo Code 是編碼代理；SillyTavern、Janitor.AI 和 RisuAI 是角色扮演用戶端。它們看起來毫不相干，但每一個都連接到一個相容 OpenAI 的端點和一把金鑰。一個閘道坐在兩者背後，於是同一份憑證早上驅動一次重構，晚上驅動一個故事。沒有理由為兩個講同一協定的工具保留分開的帳戶和分開的帳單。",
+        "H_CLAUDE_CODE": "搭配 Claude Code 使用",
+        "P_CLAUDE_CODE": "把你的編碼代理指向閘道：將基礎 URL 設為 <c>https://api.unorouter.com/v1</c> 並填上你的 {appName} 金鑰，然後挑一個強的編碼模型。Claude Code、Cline、Codex 和 Kilo Code 都接受一個相容 OpenAI 的基礎 URL，於是代理照常工作，而閘道把請求路由到你所選的模型。為了成本或品質換模型，只是一行改動，無需新金鑰。",
+        "H_ROLEPLAY": "用於角色扮演",
+        "P_ROLEPLAY": "同一把金鑰塞進 SillyTavern、Janitor.AI、RisuAI 和 Chub：選相容 OpenAI 的來源，把基礎 URL 設為 <c>https://api.unorouter.com/v1</c>，貼上金鑰，載入模型。你的角色、世界書和預設照舊執行。{appName} 還有一個內建的聊天與角色用戶端，於是當你不想啟動一整個應用程式時，同一把金鑰和額度在那裡也能用。",
+        "H_ONE_BALANCE": "兩邊共用一個餘額",
+        "P_ONE_BALANCE": "因為兩邊都跑在同一把金鑰上，你的編碼用量和角色扮演用量從一個按用量付費的餘額裡扣。額度不過期，沒有需要去湊數的月度席位，你在一個地方看到全部花費，而不是把它分散到各個供應商。一個免費方案讓你在付費之前先試任一邊。一個帳戶涵蓋你的一整天，工作與玩樂。",
+        "H_VERDICT": "要點",
+        "P_VERDICT": "編碼代理和角色扮演用戶端共享相容 OpenAI 的協定，於是一把金鑰能從一個餘額為兩者供能。{appName} 正是為這種跨度而建：給 Claude Code 及同類一個乾淨的 API，給 RP 一個聊天與角色用戶端，200 多個模型，以及不會過期的額度。一把金鑰，一張帳單，兩個世界。",
+        "CTA": "想要一把金鑰用於程式碼和聊天嗎？<register>建立免費帳戶</register>，或<models>瀏覽模型</models>。"
       }
     }
   },
@@ -3231,6 +3434,9 @@
     "CHARACTERS_NEW": "新增角色",
     "CHARACTERS_IMPORT": "匯入角色卡",
     "CHARACTERS_EXPORT": "匯出角色卡",
+    "CHARACTERS_IMPORT_LINK": "從連結匯入",
+    "CHARACTERS_IMPORT_LINK_PLACEHOLDER": "貼上 JanitorAI、Chub、RisuRealm 或角色卡連結",
+    "CHARACTERS_IMPORT_FROM_LINK": "匯入",
     "CHARACTERS_EMPTY": "尚無角色。",
     "EXPORT_PNG": "匯出為 PNG 卡片",
     "EXPORT_JSON": "匯出為 JSON",
@@ -3394,7 +3600,9 @@
     "PRESET_SHOW_REASONING": "顯示推理過程",
     "PRESET_SHOW_REASONING_HINT": "在回覆中顯示模型的思考過程。關閉 = 隱藏它（推理仍會生成並保留，因此重新開啟即可顯示）。聊天設定會覆寫此項。",
     "CHARACTER_BACKGROUND": "背景圖片",
-    "CHARACTER_BACKGROUND_HINT": "當此角色主導對話時，顯示在聊天背後。"
+    "CHARACTER_BACKGROUND_HINT": "當此角色主導對話時，顯示在聊天背後。",
+    "CHARACTER_AVATAR": "頭像",
+    "CHARACTER_AVATAR_HINT": "在聊天和清單中顯示在該角色旁邊。"
   },
   "ERRORS": {
     "MISSING_ENV": "缺少必要的環境變數：{var}",
@@ -3422,6 +3630,9 @@
     "IMPORT_UNSUPPORTED_VERSION": "不支援的匯出版本。",
     "CARD_PARSE_FAILED": "無法解析角色卡。",
     "CARD_MISSING_NAME": "角色卡缺少必填的名稱欄位。",
+    "CARD_IMPORT_INVALID_URL": "這看起來不是有效的角色連結。",
+    "CARD_IMPORT_NOT_FOUND": "找不到該角色。它可能是私密的或已被刪除。",
+    "CARD_IMPORT_FETCH_FAILED": "無法下載該角色，請重試。",
     "UNEXPECTED_ERROR": "發生未預期的錯誤",
     "AUDIO_GENERATION_FAILED": "音訊生成失敗",
     "NO_AUDIO_PROMPT": "未提供用於語音生成的文字",

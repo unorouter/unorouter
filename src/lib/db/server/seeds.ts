@@ -185,7 +185,6 @@ export async function runSeeds(
 ): Promise<void> {
   // Size-check fast-path skips N-row INSERTs on cold start; ON CONFLICT handles race.
   await seedCatalog(
-    db,
     "lora_catalog",
     LORA_SEEDS,
     async (row) => {
@@ -204,7 +203,6 @@ export async function runSeeds(
   );
 
   await seedCatalog(
-    db,
     "upscaler_catalog",
     UPSCALER_SEEDS,
     async (row) => {
@@ -223,7 +221,6 @@ export async function runSeeds(
   );
 
   await seedCatalog(
-    db,
     "embedding_catalog",
     EMBEDDING_SEEDS,
     async (row) => {
@@ -243,7 +240,6 @@ export async function runSeeds(
 }
 
 async function seedCatalog<T>(
-  _db: LibSQLDatabase<typeof schema>,
   label: string,
   seeds: T[],
   insertOne: (row: T) => Promise<boolean>,

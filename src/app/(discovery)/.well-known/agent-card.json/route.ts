@@ -9,9 +9,7 @@ import { getTranslations } from "next-intl/server";
 
 export const dynamic = "force-dynamic";
 
-// A2A AgentCard per https://github.com/a2aproject/A2A (main).
-// supportedInterfaces is required by the scanner; the field name is stable
-// across v0.3.x and v1.x, only the entry shape evolved.
+// A2A AgentCard per https://github.com/a2aproject/A2A (main). supportedInterfaces required by the scanner.
 export async function GET() {
   const locale = await serverLocale();
   const t = await getTranslations({ locale });

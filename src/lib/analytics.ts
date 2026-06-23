@@ -1,7 +1,7 @@
 import type { RpSyncKind } from "@/lib/validation/sync-constants";
 import { posthog } from "@/lib/posthog-lazy";
 
-    // Conversations report through the chat.* events; lorebook entries are a sub-entity with no sync kind of their own.
+// Conversations report through the chat.* events; lorebook entries are a sub-entity with no sync kind of their own.
 type RpAnalyticsEntity =
   | Exclude<RpSyncKind, "conversations">
   | "lorebook_entries";

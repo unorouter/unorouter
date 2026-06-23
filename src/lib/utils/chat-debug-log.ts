@@ -1,11 +1,5 @@
-// Always-on chat debug ring buffer for diagnosing chat bugs (e.g. the iOS chat-merge race).
-// A user reproduces an issue then exports the log via the chat Import/Export/Debug menu.
-//
-// PERSISTED to localStorage: refreshing is itself a repro step for some bugs (chat merge), so an
-// in-memory buffer would be wiped before export. Survives reloads so the export covers before AND
-// after the refresh. NOT in OPFS/SQLocal (that DB is the subsystem under test); localStorage is
-// independent + synchronous, so it also works from non-React callers without a hydration race.
-
+// Chat debug ring buffer. localStorage (not OPFS, the subsystem under test) so it survives the
+// reloads that are themselves repro steps, and works synchronously from non-React callers.
 export type ChatDebugEntry = {
   ts: number;
   event: string;
@@ -43,9 +37,13 @@ function save(): void {
   });
 }
 
-export function logChatDebug(event: string, data?: Record<string, unknown>): void {
+export function logChatDebug(
+  event: string,
+  data?: Record<string, unknown>,
+): void {
   buffer.push({ ts: Date.now(), event, ...data });
-  if (buffer.length > MAX_ENTRIES) buffer.splice(0, buffer.length - MAX_ENTRIES);
+  if (buffer.length > MAX_ENTRIES)
+    buffer.splice(0, buffer.length - MAX_ENTRIES);
   save();
 }
 
@@ -58,8 +56,6 @@ export function clearChatDebugLog(): void {
   if (typeof localStorage !== "undefined") {
     try {
       localStorage.removeItem(STORAGE_KEY);
-    } catch {
-      // ignore
-    }
+    } catch {}
   }
 }

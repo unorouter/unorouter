@@ -33,8 +33,8 @@
     "HERO": {
       "BADGE": "Router online",
       "TITLE_LINE1": "ZJEDNOCZONA",
-      "TITLE_ROTATE": "INTELIGENCJA,ROLEPLAY,POSTACIE,KOD,CHAT",
-      "SUBTITLE": "{appName} łączy cię z ponad {modelCount} modelami AI przez jeden klucz. Buduj aplikacje, uruchamiaj agentów lub odgrywaj postacie. Ten sam klucz, ta sama prędkość, ta sama cena.",
+      "TITLE_ROTATE": "API,CZAT,POSTACIE,RPG,KOD,INTELIGENCJA",
+      "SUBTITLE": "{appName} laczy cie z {modelCount}+ modelami AI przez jeden klucz. Buduj aplikacje i uruchamiaj agentow, albo pomin konfiguracje i rozmawiaj z postaciami tutaj na stronie. Ten sam klucz, ta sama szybkosc, ta sama cena.",
       "CTA_PRIMARY": "Rozpocznij",
       "CTA_SECONDARY": "Zobacz modele"
     },
@@ -114,7 +114,9 @@
       "STEP1_DESC": "Utwórz konto w mniej niż minutę. Karta kredytowa nie jest potrzebna do startu.",
       "STEP2_NUM": "2",
       "STEP2_TITLE": "Doładuj lub subskrybuj",
-      "STEP2_DESC": "Płać za użycie lub wybierz plan. Kredyty działają z każdym modelem i nigdy nie wygasają.",
+      "STEP2_DESC": "Zacznij za darmo, bez karty. Doladuj lub wybierz plan tylko gdy chcesz platne modele. Kredyty nigdy nie wygasaja.",
+      "TOPUP_FREE_LABEL": "Darmowy",
+      "TOPUP_FREE_AMOUNT": "0 $",
       "STEP3_NUM": "3",
       "STEP3_TITLE": "Otrzymaj klucz API",
       "STEP3_DESC": "Użyj go w swoim kodzie, w Claude Code, lub wklej do SillyTavern, Janitor.AI, RisuAI lub Chub.",
@@ -135,6 +137,84 @@
       },
       "FLOW": {
         "TITLE": "Przepływ zapytania"
+      }
+    },
+    "CHAT": {
+      "BADGE": "Wbudowany czat",
+      "TITLE_1": "Nie tylko API.",
+      "TITLE_2": "Takze klient czatu.",
+      "DESCRIPTION": "Otworz i zacznij rozmawiac. Darmowe modele sa juz podlaczone, wiec bez rejestracji, bez klucza, bez konfiguracji. Wybierz postac lub zaimportuj wlasna, a twoje rozmowy zostaja w przegladarce.",
+      "CARD1": {
+        "TITLE": "Bez konfiguracji",
+        "DESC": "Darmowe modele podlaczone na backendzie. Po prostu otworz i rozmawiaj, bez konta."
+      },
+      "CARD2": {
+        "TITLE": "Postacie",
+        "DESC": "Persony, presety, szablony promptow i import kart SillyTavern wbudowane."
+      },
+      "CARD3": {
+        "TITLE": "Prywatnie",
+        "DESC": "Twoje rozmowy zyja w twojej przegladarce, nigdy na naszym serwerze. Nie mozemy ich czytac."
+      },
+      "CARD4": {
+        "TITLE": "Pelny RPG",
+        "DESC": "Lorebooki, czat grupowy, swipe i prawdziwy silnik RP, nie zabawka."
+      },
+      "CTA_OPEN": "Otworz czat",
+      "CTA_CONNECT": "Podlacz swojego klienta",
+      "MOCK": {
+        "CHARACTER": "Kapitan Elara Voss",
+        "MODEL": "Darmowy",
+        "MSG_AI": "Melduje sie, rekrucie. Schowaj sprzet, skaczemy za dziesiec.",
+        "MSG_USER": "Tak jest, kapitanie. Gotowy.",
+        "TYPING": "pisze",
+        "INPUT": "Wpisz wiadomosc...",
+        "BRAND": "UnoRouter",
+        "NEW_CHAT": "Nowy czat",
+        "CONV1": "Kapitan Elara Voss",
+        "CONV2": "Lyra Alchemiczka",
+        "CONV3": "Mochi w kawiarni",
+        "MODEL_NAME": "nemotron-3",
+        "TOKENS": "{in} wej. / {out} wyj.",
+        "MENU_LABEL": "RPG",
+        "LOCAL_DB": "Lokalna BD",
+        "MSG_AI_2": "Tygiel rozżarzył się w sam raz. Podasz mi tę fiolkę?",
+        "MSG_AI_3": "Witaj z powrotem! Twoja zwykła owsiana latte, z dodatkową pianką?",
+        "NEW_CHAT_EMPTY": "Rozpocznij nową rozmowę...",
+        "DEMO_USER": "Opowiedz mi o sobie, kapitanie.",
+        "DEMO_AI": "Kapitan Elara Voss, piętnaście lat w głębokim kosmosie. Trzymaj się blisko mnie, a wrócisz do domu cały.",
+        "DLG": {
+          "CHAR1": "Kapitan statku kosmicznego, zaprawiona w bojach",
+          "CHAR2": "Ciekawska warzycielka mikstur",
+          "CHAR3": "Barista z przytulnej kawiarni",
+          "PERSONA1": "Świeży rekrut",
+          "PERSONA1_SUB": "Zapalony, zadaje mnóstwo pytań",
+          "PERSONA2": "Doświadczony pilot",
+          "PERSONA2_SUB": "Spokojny pod presją",
+          "LORE1": "Zewnętrzny Kres",
+          "LORE1_SUB": "Mapy gwiezdne i szlaki handlowe",
+          "LORE2": "Manifest statku",
+          "LORE2_SUB": "Lista załogi i ładunek",
+          "PRESET1": "Filmowy RPG",
+          "PRESET1_SUB": "Barwna, opisowa proza",
+          "PRESET2": "Cięte dialogi",
+          "PRESET2_SUB": "Krótkie, treściwe odpowiedzi",
+          "CARD1": "Kapitan Elara (v2)",
+          "CARD1_SUB": "Karta SillyTavern",
+          "CARD2": "Lyra Alchemiczka",
+          "CARD2_SUB": "Zaimportowana karta postaci",
+          "DB1": "rozmowy",
+          "DB1_SUB": "128 wierszy",
+          "DB2": "postacie",
+          "DB2_SUB": "12 wierszy"
+        },
+        "DEMO_USER_2": "Co dziś warzysz?",
+        "DEMO_AI_2": "Eliksir jasności umysłu. Trzy krople i myśli stają się ostre jak szlifowane szkło. Chcesz spróbować?",
+        "DEMO_USER_3": "Zaskocz mnie jakimś napojem.",
+        "DEMO_AI_3": "Latte lawendowo-miodowe, już się robi. Syrop zrobiłam dziś rano sama.",
+        "NEW_CONV_TITLE": "Kai Nawigator",
+        "NEW_DEMO_USER": "Wyznacz nam kurs do najbliższego portu.",
+        "NEW_DEMO_AI": "Wyliczam. Trzy skoki stąd, paliwa aż nadto. Zapnijcie pasy."
       }
     },
     "FEATURES": {
@@ -197,9 +277,11 @@
       "FEATURE_1": "Endpointy kompatybilne z OpenAI",
       "FEATURE_2": "Automatyczny failover dostawców",
       "FEATURE_3": "Wsparcie wielu protokołów",
+      "FEATURE_4": "Bez kodu? Rozmawiaj na stronie",
       "READ_DOCS": "Przeczytaj pełną dokumentację API",
       "NO_CODE_LABEL": "Nie jesteś programistą?",
-      "NO_CODE_OPTION": "Pomiń kod. Wklej URL do SillyTavern, Janitor.AI, RisuAI lub Chub i już czatujesz.",
+      "NO_CODE_OPTION": "Pomin kod. Rozmawiaj z postaciami tutaj na stronie, albo wklej URL do SillyTavern, Janitor.AI, RisuAI lub Chub.",
+      "NO_CODE_CHAT_LINK": "Otworz czat",
       "NO_CODE_LINK": "Zobacz przewodniki integracji"
     },
     "CTA": {
@@ -207,7 +289,8 @@
       "TITLE_2": "Połączyć",
       "SUBTITLE": "Każdy model AI, jeden klucz. Buduj, czatuj, koduj lub odgrywaj. Twój wybór.",
       "PRIMARY": "Rozpocznij",
-      "SECONDARY": "Przeglądaj integracje"
+      "SECONDARY": "Przeglądaj integracje",
+      "CHAT": "Otworz czat"
     },
     "META": {
       "TITLE": "{appName} - Jeden klucz do każdego modelu AI",
@@ -417,7 +500,8 @@
       "HIGHLIGHT_BEST": "Wyróżnij najlepsze",
       "CLEAR": "Wyczyść",
       "FROM": "od",
-      "SELECT_MODEL": "Wybierz model"
+      "SELECT_MODEL": "Wybierz model",
+      "POPULAR": "Popularne porównania"
     },
     "LIST": {
       "TOKENS": "tokenów",
@@ -554,6 +638,57 @@
         "H_VERDICT": "Co wybrac",
         "P_VERDICT": "Jesli tylko piszesz kod i chcesz szczupla brame modeli frontier zoptymalizowana pod koszt za token, MegaLLM to solidny wybor, a jego spolecznosc to pokazuje. Jesli chcesz jeden klucz, ktory napedza twoich agentow kodujacych i wbudowanego klienta czatu i postaci z tego samego salda i szerszego katalogu, to jest luka, ktora wypelnia {appName}. Nie ma jednego zwyciezcy. Zalezy, czy czysta brama deweloperska wystarczy, czy chcesz wbudowanego klienta czatu.",
         "CTA": "Chcesz brame i czat w jednym? <register>Zaloz darmowe konto</register> lub <models>przejrzyj modele</models>."
+      },
+      "UNOROUTER_VS_PORTKEY": {
+        "TITLE": "{appName} vs Portkey: brama AI czy pelna platforma LLMOps",
+        "DESCRIPTION": "Portkey to firmowa platforma LLMOps z obserwowalnoscia, barierami bezpieczenstwa i zarzadzaniem. {appName} to prostsza hostowana brama z wbudowanym klientem czatu. Wybor sprowadza sie do tego, ile platformy naprawde potrzebujesz.",
+        "AUTHOR": "Zespol {appName}",
+        "INTRO": "Portkey i {appName} stawiaja przed kazdym modelem jeden endpoint zgodny z OpenAI. Stad sie rozchodza. Portkey to pelna platforma LLMOps zbudowana dla zespolow inzynieryjnych, ktore potrzebuja obserwowalnosci, barier bezpieczenstwa i zarzadzania. {appName} to lekka wersja tej samej idei: jeden klucz, ponad 200 modeli i klient czatu na wierzchu, bez zadnej konfiguracji.",
+        "H_AUDIENCE": "Dla kogo jest kazde z nich",
+        "P_AUDIENCE": "Portkey celuje w zespoly platformowe i AI dostarczajace funkcje LLM na duza skale. Jego wartoscia jest warstwa kontroli wokol wywolan: logi zadan, metryki, budzety, zarzadzanie promptami, bariery bezpieczenstwa, awaryjne sciezki i dostep oparty na rolach dla organizacji. {appName} celuje w pojedynczego dewelopera i uzytkownika RP, ktory chce tylko jednego klucza dzialajacego w agencie kodowania i w kliencie czatu, bez wczesniejszego stawiania warstwy zarzadzania.",
+        "H_SETUP": "Konfiguracja i zakres",
+        "P_SETUP": "Z Portkey ustawiasz klucz wirtualny, konfiguracje i reguly routingu, a potem instrumentujesz aplikacje, by wszystko szlo przez brame i pulpity sie wypelnialy. To ma sens, gdy masz zespol i wymogi zgodnosci. Z {appName} rejestrujesz sie i kierujesz klienta na <c>https://api.unorouter.com/v1</c>. Zadnych konfiguracji, zadnych kluczy wirtualnych do zarzadzania, zadnego stosu obserwowalnosci do nauki. Jedno to platforma, ktora wdrazasz, drugie to endpoint, ktory wywolujesz.",
+        "H_INTERFACE": "Portkey nie ma klienta czatu",
+        "P_INTERFACE": "Portkey to infrastruktura: brama i pulpit, a kazdy interfejs dla uzytkownika przynosisz sam. {appName} daje to samo API zgodne z OpenAI oraz wbudowanego klienta czatu i postaci (persony, lorebooki, presety, import kart SillyTavern), a ten sam klucz wchodzi wprost do SillyTavern, Janitor.AI, RisuAI lub Chub. Dostajesz wiec miejsce, w ktorym naprawde mozesz rozmawiac tym samym kluczem, a nie tylko warstwe kontroli dla wywolan, ktore i tak musi wykonac twoja aplikacja.",
+        "H_COST": "Koszt i naklad",
+        "P_COST": "Portkey wycenia platforme: darmowy poziom dla malego wolumenu, a dalej platne plany za obserwowalnosc, zarzadzanie i wsparcie potrzebne organizacji, ponad to, co placisz kazdemu dostawcy. To sie oplaca, gdy warstwa kontroli oszczedza zespolowi realny czas. {appName} to placenie za uzycie na ponad 200 modelach z kredytami, ktore nie wygasaja, i darmowym poziomem, jedno saldo zamiast subskrypcji platformy i portfeli u kazdego dostawcy. Ponizej skali zespolu lekka sciezka kosztuje mniej i wymaga mniej.",
+        "H_VERDICT": "Co wybrac",
+        "P_VERDICT": "Jesli prowadzisz funkcje LLM dla organizacji i potrzebujesz obserwowalnosci, barier bezpieczenstwa i zarzadzania, Portkey jest stworzony wlasnie do tego. Jesli chcesz jednego klucza zgodnego z OpenAI bez niczego do obslugi, dzialajacego w twoim agencie kodowania i w prawdziwym kliencie czatu, pasuje {appName}. Nie lepszy ani gorszy, po prostu mniej platformy. Wybierz wedlug tego, czy potrzebujesz warstwy kontroli, czy tylko bramy.",
+        "CTA": "Chcesz brame bez niczego do obslugi? <register>Zaloz darmowe konto</register> lub <models>przejrzyj modele</models>."
+      },
+      "UNOROUTER_VS_NANO_GPT": {
+        "TITLE": "{appName} vs nano-gpt: marketplace czatu czy jeden klucz do obu",
+        "DESCRIPTION": "nano-gpt oferuje ogromny katalog modeli za interfejsem czatu. {appName} daje ten sam dostep z placeniem za uzycie oraz prawdziwe API dla deweloperow i wbudowanego klienta postaci, pod jednym czystym kluczem.",
+        "AUTHOR": "Zespol {appName}",
+        "INTRO": "nano-gpt i {appName} pokrywaja sie w rzeczy oczywistej: dostep z placeniem za uzycie do wielu modeli bez subskrypcji. nano-gpt stawia na szerokosc za marketplace czatu. {appName} stawia na jeden klucz zgodny z OpenAI, rownie u siebie w agencie kodowania i w kliencie czatu. Te same kredyty, dwa bardzo rozne wejscia.",
+        "H_CATALOG": "Katalog i szerokosc",
+        "P_CATALOG": "Atutem nano-gpt jest rozmiar katalogu: setki modeli tekstowych i obrazowych w jednym miejscu, naprawde przydatne, jesli celem jest sprobowac wszystkiego. {appName} uruchamia ponad 200 modeli u dostawcow waznych dla kodowania i roleplay, dobranych i utrzymywanych aktualnie, a nie maksymalizowanych dla liczby. Jesli liczy sie tylko surowa szerokosc, wygrywa nano-gpt. Jesli chcesz modeli, na ktorych ludzie naprawde pracuja, roznica szybko sie zmniejsza.",
+        "H_DEV": "Strona deweloperska",
+        "P_DEV": "Marketplace czatu buduje sie od interfejsu: UI w przegladarce to produkt, API to boczne drzwi. {appName} jest zgodny z OpenAI z zalozenia. Skieruj dowolny SDK lub agent na <c>https://api.unorouter.com/v1</c>, zachowaj istniejacy kod, a ten sam klucz napedza Claude Code, Cline, OpenCode, Kilo Code lub Codex. Nie przykrecasz API do strony czatu, uzywasz bramy, ktora ma takze klienta czatu.",
+        "H_CHAT": "Strona czatu i postaci",
+        "P_CHAT": "Oba pozwalaja rozmawiac w przegladarce, ale klient {appName} jest zrobiony do roleplay, a nie tylko do pytan i odpowiedzi: persony, lorebooki, presety i import kart SillyTavern, a ten sam klucz wchodzi do SillyTavern, Janitor.AI, RisuAI lub Chub, gdy chcesz ciezszego frontendu. Nigdy nie jestes zamkniety w jednym UI. Kredyty ida za toba przez kazdego klienta.",
+        "H_PAY": "Ceny i klucze",
+        "P_PAY": "Oba to placenie za uzycie bez subskrypcji, wlasciwy model dla skokowego, wielomodelowego uzycia. {appName} trzyma to na jednym saldzie z kredytami, ktore nie wygasaja, i darmowym poziomem, jeden klucz do kodowania i czatu zamiast portfela marketplace, ktory wydajesz tylko w jednym UI. Rozliczenie ma ten sam ksztalt, roznica to jak daleko siega ten jeden klucz.",
+        "H_VERDICT": "Co wybrac",
+        "P_VERDICT": "Jesli chcesz glownie UI w przegladarce, by probowac jak najszerszej listy modeli, nano-gpt jest w tym dobry. Jesli chcesz jednego klucza zgodnego z OpenAI dzialajacego w twoim agencie kodowania i w prawdziwym kliencie postaci, z kredytami, ktore podrozuja, pasuje {appName}. Ten sam rdzen placenia za uzycie, wiekszy zasieg na jednym kluczu.",
+        "CTA": "Chcesz jeden klucz do kodu i czatu z postaciami? <register>Zaloz darmowe konto</register> lub <models>przejrzyj modele</models>."
+      },
+      "BEST_AI_GATEWAY_FOR_SILLYTAVERN": {
+        "TITLE": "Najlepsza brama AI dla SillyTavern w 2026",
+        "DESCRIPTION": "SillyTavern potrzebuje endpointu zgodnego z OpenAI i klucza. Oto co naprawde sie liczy przy wyborze bramy i jak podlaczyc ja w mniej niz minute.",
+        "AUTHOR": "Zespol {appName}",
+        "INTRO": "SillyTavern to frontend; nie hostuje modeli. Aby go uzywac, kierujesz go na endpoint zgodny z OpenAI i wklejasz klucz. Pytanie brzmi, jaka brama stoi za nim. Wiekszosc poradnikow podaje ci jednego dostawce, lepsza odpowiedz to jeden klucz, ktory siega do wielu modeli i nie wygasa. Oto co rozwazyc i jak pasuje {appName}.",
+        "H_WHAT_MATTERS": "Co naprawde liczy sie dla SillyTavern",
+        "P_WHAT_MATTERS": "O dobrej bramie do SillyTavern decyduja cztery rzeczy. Chat Completions zgodne z OpenAI, by SillyTavern laczyl sie bez adaptera. Szerokosc modeli, by przelaczac sie miedzy mocnym pisarzem a tanim koniem roboczym bez nowych kont. Uczciwe rozliczenie za uzycie, bo roleplay jest skokowy, a miesieczne miejsce to zly ksztalt. I darmowy poziom, by przetestowac postac, zanim cokolwiek wydasz. Surowa liczba modeli liczy sie mniej niz to, czy wlasciwe modele sa obecne i aktualne.",
+        "H_OPTIONS": "Realistyczne opcje",
+        "P_OPTIONS": "Masz trzy klasy wyboru. Klucz jednego dostawcy (OpenAI, Anthropic, DeepSeek) jest najprostszy, ale wiaze cie z modelami i cenami jednego laboratorium. Bezglowa brama deweloperska daje szerokosc, ale bez wlasnego klienta, co jest w porzadku, skoro SillyTavern jest twoim klientem. Albo brama, ktora jest i API, i klientem czatu, by ten sam klucz dzialal w SillyTavern i we wbudowanym UI, gdy nie chcesz uruchamiac calej aplikacji. {appName} to ten trzeci rodzaj.",
+        "H_CONNECT": "Podlaczanie {appName} do SillyTavern",
+        "P_CONNECT": "W SillyTavern wybierz Chat Completion API i zrodlo zgodne z OpenAI (Custom). Ustaw bazowy URL na <c>https://api.unorouter.com/v1</c>, wklej swoj klucz {appName} i zaladuj liste modeli. Wybierz model, a twoje postacie, lorebooki i presety dzialaja bez zmian. Ten sam klucz dziala tez w Janitor.AI, RisuAI i Chub, wiec nie powtarzasz konfiguracji dla kazdej aplikacji.",
+        "H_FREE": "Darmowe modele i kontrola kosztow",
+        "P_FREE": "{appName} ma darmowy poziom i ponad 200 modeli, wiec mozesz przetestowac karte na darmowym modelu, a przejsc na mocniejszy platny dopiero, gdy scena jest tego warta. Kredyty nie wygasaja, rozliczenie to placenie za uzycie, a jedno saldo obejmuje kazdego klienta i kazdy model. Nie ma miesiecznego miejsca do uzasadniania ani niczego do anulowania, jesli zrobisz miesiac przerwy.",
+        "H_VERDICT": "Krotka odpowiedz",
+        "P_VERDICT": "Najlepsza brama do SillyTavern to ta z endpointem zgodnym z OpenAI, prawdziwa szerokoscia modeli, kredytami za uzycie i darmowym poziomem na poczatek, by jeden klucz niosl cala twoja konfiguracje. {appName} jest stworzony dokladnie do tego przypadku, a ten sam klucz dziala dalej w kazdym innym frontendzie RP, ktorego uzywasz.",
+        "CTA": "Gotowy podlaczyc SillyTavern? <register>Zaloz darmowe konto</register> lub <models>przejrzyj modele</models>."
       },
       "UNOROUTER_VS_RISUAI": {
         "TITLE": "{appName} kontra RisuAI: przeniesliśmy silnik RP do hostowanego 2-w-1",
@@ -766,6 +901,74 @@
         "H_VERDICT": "Co wybrać",
         "P_VERDICT": "Jeśli tylko wdrażasz kod i chcesz najszerszy katalog bez interfejsu, OpenRouter to dobry domyślny wybór. Jeśli chcesz samodzielnie hostowany routing bez narzutu, wygrywa LiteLLM. Jeśli chcesz jeden klucz, który działa w twoim agencie kodowania i w prawdziwym kliencie czatu i postaci bez prowadzenia dwóch usług, to właśnie tę lukę wypełnia {appName}. Nie ma jednego zwycięzcy. Zależy to od tego, czy optymalizujesz pod czyste API, czy pod API plus miejsce, by z niego korzystać.",
         "CTA": "Gotowy, by spróbować? <register>Załóż darmowe konto</register> lub <models>przeglądaj modele</models>."
+      },
+      "BEST_OPENROUTER_ALTERNATIVES_2026": {
+        "TITLE": "Najlepsze alternatywy dla OpenRouter w 2026",
+        "DESCRIPTION": "OpenRouter to nie jedyny sposob, by dosiegnac wielu modeli jednym kluczem. Oto alternatywy warte poznania w 2026, do czego nadaje sie kazda i jak wybrac.",
+        "AUTHOR": "Zespol {appName}",
+        "INTRO": "OpenRouter spopularyzowal prosta idee: jeden klucz zgodny z OpenAI, ktory dosiega wielu dostawcow modeli. To solidny wybor domyslny, ale nie jedyna opcja i nie najlepszy do kazdego zastosowania. Jesli wazysz alternatywy w 2026, wlasciwy wybor zalezy od tego, czy najbardziej liczy sie cena, szerokosc modeli, forma rozliczen, czy posiadanie wlasnego klienta czatu. Oto uczciwa mapa i gdzie wpasowuje sie {appName}.",
+        "H_WHY_SWITCH": "Dlaczego patrzec dalej niz OpenRouter",
+        "P_WHY_SWITCH": "Ludzie porownuja z kilku konkretnych powodow. Narzut: kazdy agregator dodaje marze na surowe ceny dostawcy, a jej wielkosc sie rozni. Pokrycie modeli: model, ktorego potrzebujesz, moze brakowac lub byc nieaktualny na jednej bramie, a aktualny na innej. Forma rozliczen: niektore plany sa za stanowisko lub abonamentowe, co zle pasuje do uzycia zrywami. I kwestia klienta: wiekszosc bram jest bezglowych, wiec nadal potrzebujesz osobnego frontendu do czatu lub odgrywania rol. Kazdy z tych powodow moze wystarczyc, by porownac.",
+        "H_WHAT_TO_COMPARE": "Co naprawde porownywac",
+        "P_WHAT_TO_COMPARE": "Oceniaj alternatywe po pieciu rzeczach. Chat Completions zgodny z OpenAI, by twoj istniejacy kod i narzedzia laczyly sie bez przepisywania. Szerokosc i swiezosc modeli, bys nie tkwil na wczorajszym katalogu. Przejrzyste ceny placisz za uzycie z kredytami, ktore nie wygasaja, by chude miesiace cie nie karaly. Pokrycie modeli, ktorych naprawde uzywasz, nie tylko duza surowa liczba. I czy dostarcza uzytecznego klienta, czy zaklada, ze przyniesiesz wlasnego. Oceniaj po tym, nie po obietnicach marketingowych.",
+        "H_ALTERNATIVES": "Alternatywy warte poznania",
+        "P_ALTERNATIVES": "Klucze jednego dostawcy (OpenAI, Anthropic, DeepSeek) sa najprostsze, ale przywiazuja cie do jednego laboratorium. Bezglowe bramy deweloperskie jak LiteLLM i Portkey daja szerokosc i nadzor, ale zadnego klienta, wiec pasuja zespolom z wlasnymi aplikacjami. Samodzielnie hostowane proxy wymieniaja wygode na kontrole. A bramy laczone parzuja szeroka API zgodna z OpenAI z wbudowanym klientem czatu, wiec jeden klucz dziala w kodzie i w interfejsie. {appName} jest tym ostatnim rodzajem: skieruj dowolny SDK OpenAI na <c>https://api.unorouter.com/v1</c>, dosiegnij ponad 200 modeli i uzyj tego samego klucza we wbudowanym kliencie czatu lub w narzedziach jak SillyTavern.",
+        "H_FOR_ROLEPLAY": "Jesli twoim przypadkiem jest odgrywanie rol",
+        "P_FOR_ROLEPLAY": "Odgrywanie rol to osobny przypadek. Chcesz szerokiego katalogu, by przeskakiwac miedzy dobrym pisarzem a tanim koniem roboczym, rozliczen placisz za uzycie, bo sesje ida zrywami, i klucza, ktory wpada prosto do SillyTavern, Janitor.AI, RisuAI lub Chub. Czyste bramy deweloperskie pokrywaja polowe API, ale nie daja klienta, a plany za stanowisko walcza z tym rytmem zrywow. {appName} zbudowano, by objac oba: czysta API dla kodu plus klient czatu i postaci na tym samym kluczu, modelach i kredytach.",
+        "H_VERDICT": "Jak wybrac",
+        "P_VERDICT": "Jesli zawsze uzywasz tylko jednego laboratorium, klucz jednego dostawcy wystarczy. Jesli jestes zespolem, ktory chce routingu i nadzoru przed wlasna aplikacja, pasuje bezglowa brama deweloperska. Jesli chcesz klucza, ktory dosiega wielu aktualnych modeli, rozlicza placisz za uzycie i dziala zarowno w kodzie, jak i w kliencie czatu, to luke, ktora wypelnia {appName}. Wybieraj po realnym uzyciu, nie po surowej liczbie modeli.",
+        "CTA": "Chcesz jeden klucz do kazdego modelu? <register>Zaloz darmowe konto</register> lub <models>przejrzyj modele</models>."
+      },
+      "WHAT_IS_AN_LLM_GATEWAY": {
+        "TITLE": "Czym jest brama LLM?",
+        "DESCRIPTION": "Brama LLM to jeden punkt koncowy i klucz, ktory kieruje zadania do wielu dostawcow modeli. Oto co robi, dlaczego pomaga i kto naprawde jej potrzebuje.",
+        "AUTHOR": "Zespol {appName}",
+        "INTRO": "Brama LLM to pojedynczy punkt koncowy API, ktory stoi przed wieloma dostawcami modeli i kieruje twoje zadanie do modelu, o ktory prosisz. Zamiast trzymac osobny klucz, bazowy URL i dziwactwo SDK dla kazdego laboratorium, trzymasz jeden klucz i jeden punkt koncowy zgodny z OpenAI, a brama robi reszte. To ta sama idea co brama API w klasycznej pracy backendowej, zastosowana do modeli jezykowych. Oto co ci to daje.",
+        "H_DEFINITION": "Prosta definicja",
+        "P_DEFINITION": "Brama wystawia jeden interfejs zgodny z OpenAI, zwykle <c>/v1/chat/completions</c>, i mapuje pole <c>model</c> w twoim zadaniu na prawdziwego dostawce za kulisami. Wysylasz te sama forme zadania za kazdym razem; brama wybiera upstream, dolacza wlasciwe poswiadczenia dostawcy, tlumaczy wszelkie dziwactwa i odsyla odpowiedz strumieniem. Twoj kod nie zmienia sie przy zmianie modelu, bo kontrakt, przeciw ktoremu kodujesz, pozostaje staly.",
+        "H_WHY_IT_HELPS": "Dlaczego pomaga",
+        "P_WHY_IT_HELPS": "Trzy korzysci. Jedna integracja: koduj przeciw jednemu punktowi koncowemu i mozesz uzyc kazdego modelu, ktory brama niesie, bez klienta na dostawce. Jeden rachunek: uzycie u wszystkich dostawcow trafia na jedno saldo zamiast tuzina osobnych faktur. I latwa zmiana: zmiana modelu to edycja jednej linii, wiec mozesz scigac najlepsza cene lub jakosc na zadanie bez przebudowy aplikacji. Dla wiekszosci tworcow sam czas zaoszczedzony na integracji to caly powod.",
+        "H_HOW_IT_WORKS": "Jak dziala pod maska",
+        "P_HOW_IT_WORKS": "Gdy zadanie nadchodzi, brama czyta nazwe w <c>model</c>, wyszukuje pasujacego dostawce upstream, podmienia poswiadczenia tego dostawcy, przepisuje pola ciala specyficzne dla dostawcy i przekazuje wywolanie. Tokeny strumieniowe wracaja tym samym polaczeniem, wiec z twojej strony wyglada to jak zwykle wywolanie OpenAI. Dobre bramy dodaja ponawiania przy bledach przejsciowych, rozliczanie uzycia i kosztu oraz aktualny katalog modeli, by nowe wydania pojawialy sie bez tego, bys czegokolwiek dotykal.",
+        "H_WHO_NEEDS_ONE": "Kto naprawde jej potrzebuje",
+        "P_WHO_NEEDS_ONE": "Chcesz bramy, jesli uzywasz wiecej niz jednego modelu, planujesz zmieniac modele w miare jak cena i jakosc sie zmieniaja, lub budujesz cos, co nie powinno byc na sztywno wpiete w jedno laboratorium. Agenci kodu, aplikacje czatu, frontendy odgrywania rol i narzedzia wewnetrzne wszystkie zyskuja. Jesli naprawde wolasz tylko jeden model od jednego dostawcy i nigdy nie spodziewasz sie zmiany, bezposredni klucz dostawcy jest prostszy. Wszyscy inni oszczedzaja realny wysilek z brama.",
+        "H_VERDICT": "W skrocie",
+        "P_VERDICT": "Brama LLM zamienia wielu dostawcow w jeden punkt koncowy, jeden klucz i jeden rachunek, wiec integrujesz raz i zmieniasz modele dowolnie. {appName} to brama zgodna z OpenAI dokladnie tego rodzaju: jeden klucz dosiega ponad 200 modeli dla kodu i czatu na rowni, z kredytami placisz za uzycie, ktore nie wygasaja. Jesli dotykasz wiecej niz jednego modelu, brama to czystszy fundament.",
+        "CTA": "Wyprobuj brame sam: <register>zaloz darmowe konto</register> lub <models>przejrzyj modele</models>."
+      },
+      "HOW_TO_CONNECT_ANY_LLM_TO_SILLYTAVERN": {
+        "TITLE": "Jak podlaczyc dowolny LLM do SillyTavern",
+        "DESCRIPTION": "SillyTavern moze rozmawiac z niemal kazdym modelem przez jeden punkt koncowy zgodny z OpenAI. Oto dokladna konfiguracja, jak zmieniac modele i jak naprawiac czeste bledy.",
+        "AUTHOR": "Zespol {appName}",
+        "INTRO": "SillyTavern to frontend, nie host modeli. Aby go uzywac, kierujesz go na punkt koncowy zgodny z OpenAI i wklejasz klucz, a wtedy moze prowadzic niemal kazdy model za tym punktem koncowym. Najczystszym sposobem na dosiegniecie wielu modeli jest brama, wiec jeden klucz i bazowy URL odblokowuja caly katalog zamiast jednego dostawcy. Oto dokladna konfiguracja plus jak zmieniac modele i naprawiac bledy, na ktore ludzie zwykle trafiaja.",
+        "H_WHAT_YOU_NEED": "Czego potrzebujesz najpierw",
+        "P_WHAT_YOU_NEED": "Trzech rzeczy: dzialajacej instalacji SillyTavern, punktu koncowego zgodnego z OpenAI i klucza do niego. Brama pokrywa dwie ostatnie naraz, bo daje ci jeden bazowy URL i jeden klucz, ktore dosiegaja wielu modeli. Z {appName} zakladasz konto, bierzesz swoj klucz i jestes gotowy; jest darmowy poziom, wiec mozesz przetestowac postac, zanim cokolwiek wydasz. Trzymaj klucz pod reka i nie wklejaj go nigdzie publicznie.",
+        "H_STEPS": "Kroki konfiguracji",
+        "P_STEPS": "W SillyTavern otworz panel API i wybierz Chat Completion, potem zrodlo zgodne z OpenAI (Custom). Ustaw bazowy URL na <c>https://api.unorouter.com/v1</c>, wklej swoj klucz {appName} i kliknij, by zaladowac liste modeli. Wybierz model z listy rozwijanej i wyslij wiadomosc testowa. Twoje postacie, lorebooki i presety dzialaja bez zmian, bo SillyTavern potrzebowal tylko punktu koncowego i klucza. Ten sam klucz dziala tez w Janitor.AI, RisuAI i Chub.",
+        "H_SWITCHING_MODELS": "Zmiana modeli pozniej",
+        "P_SWITCHING_MODELS": "Poniewaz wszystko idzie przez jeden punkt koncowy, zmiana modeli to po prostu wybor innej pozycji na liscie rozwijanej; zadnego nowego konta, klucza ani bazowego URL. To pozwala ci uruchomic tani darmowy model podczas budowania sceny, a potem przelaczyc na mocniejszy platny model na moment, ktory sie liczy. Z ponad 200 modelami na jednym kluczu mozesz dopasowac model do sceny zamiast godzic sie na to, co oferuje jeden dostawca.",
+        "H_TROUBLESHOOTING": "Czeste bledy i naprawy",
+        "P_TROUBLESHOOTING": "Jesli lista modeli sie nie laduje, sprawdz ponownie, czy bazowy URL konczy sie na <c>/v1</c> i czy klucz jest wklejony bez zbednych spacji. 401 oznacza, ze klucz jest bledny lub wygasl; skopiuj go ponownie. 404 na modelu oznacza, ze ta nazwa modelu nie jest wybrana z zaladowanej listy. Jesli odpowiedzi sie urywaja, zwieksz dlugosc odpowiedzi w ustawieniach SillyTavern. Wiekszosc awarii konfiguracji to zle wpisany bazowy URL lub klucz ze spacjami, wiec sprawdz to najpierw.",
+        "H_VERDICT": "To caly trik",
+        "P_VERDICT": "Podlaczenie dowolnego LLM do SillyTavern sprowadza sie do jednego punktu koncowego zgodnego z OpenAI plus klucza, a brama zamienia to w wiele modeli za jedna konfiguracja. {appName} daje ci ten bazowy URL, darmowy poziom na start i ponad 200 modeli, miedzy ktorymi przeskakujesz bez powtarzania czegokolwiek. Ustaw raz, a ten sam klucz podaza za toba przez kazdy frontend RP.",
+        "CTA": "Gotowy podlaczyc SillyTavern? <register>Zaloz darmowe konto</register> lub <models>przejrzyj modele</models>."
+      },
+      "ONE_API_KEY_FOR_CLAUDE_CODE_AND_ROLEPLAY": {
+        "TITLE": "Jeden klucz API do Claude Code i odgrywania rol",
+        "DESCRIPTION": "Agenci kodu i klienci odgrywania rol mowia API zgodnymi z OpenAI. Oto jak jeden klucz zasila Claude Code i twoje czaty z postaciami z jednego salda.",
+        "AUTHOR": "Zespol {appName}",
+        "INTRO": "Agenci kodu i klienci odgrywania rol wydaja sie roznymi swiatami, ale pod maska mowia tym samym jezykiem: Chat Completions zgodnym z OpenAI. To znaczy, ze jeden klucz i jeden punkt koncowy moga obsluzyc oba. Mozesz uruchomic Claude Code przeciw bramie do prawdziwej pracy, a potem uzyc dokladnie tego samego klucza do czatu z postaciami wieczorem, rozliczanego z jednego salda. Oto jak to dziala i dlaczego jest wygodne.",
+        "H_TWO_WORLDS": "Dwa swiaty, jeden protokol",
+        "P_TWO_WORLDS": "Claude Code, Cline, Codex i Kilo Code to agenci kodu; SillyTavern, Janitor.AI i RisuAI to klienci odgrywania rol. Wygladaja na niepowiazane, ale kazdy laczy sie z punktem koncowym zgodnym z OpenAI i kluczem. Brama stoi za oboma, wiec te same poswiadczenia napedzaja refaktoryzacje rano i opowiesc wieczorem. Nie ma powodu, by trzymac osobne konta i osobne rachunki dla dwoch narzedzi, ktore mowia tym samym protokolem.",
+        "H_CLAUDE_CODE": "Uzywanie z Claude Code",
+        "P_CLAUDE_CODE": "Skieruj swojego agenta kodu na brame, ustawiajac bazowy URL na <c>https://api.unorouter.com/v1</c> i twoj klucz {appName}, potem wybierz mocny model do kodu. Claude Code, Cline, Codex i Kilo Code wszystkie przyjmuja bazowy URL zgodny z OpenAI, wiec agent dziala jak zwykle, podczas gdy brama kieruje do modelu, ktory wybrales. Zmieniaj modele dla kosztu lub jakosci zmiana jednej linii, bez nowego klucza.",
+        "H_ROLEPLAY": "Uzywanie do odgrywania rol",
+        "P_ROLEPLAY": "Ten sam klucz wpada do SillyTavern, Janitor.AI, RisuAI i Chub: wybierz zrodlo zgodne z OpenAI, ustaw bazowy URL na <c>https://api.unorouter.com/v1</c>, wklej klucz i zaladuj modele. Twoje postacie, lorebooki i presety dzialaja bez zmian. {appName} ma tez wbudowanego klienta czatu i postaci, wiec gdy nie chcesz uruchamiac calej aplikacji, ten sam klucz i kredyty dzialaja rowniez tam.",
+        "H_ONE_BALANCE": "Jedno saldo dla obu",
+        "P_ONE_BALANCE": "Poniewaz obie strony dzialaja na tym samym kluczu, twoje uzycie kodu i twoje uzycie odgrywania rol czerpia z jednego salda placisz za uzycie. Kredyty nie wygasaja, nie ma miesiecznego stanowiska do uzasadnienia, a caly wydatek widzisz w jednym miejscu zamiast dzielic go miedzy dostawcow. Darmowy poziom pozwala przetestowac kazda strone przed zaplata. Jedno konto pokrywa caly twoj dzien, prace i zabawe.",
+        "H_VERDICT": "Wniosek",
+        "P_VERDICT": "Agenci kodu i klienci odgrywania rol dziela protokol zgodny z OpenAI, wiec jeden klucz moze zasilac oba z jednego salda. {appName} jest zbudowany dokladnie pod ten zakres: czysta API dla Claude Code i przyjaciol, klient czatu i postaci do RP, ponad 200 modeli i kredyty, ktore nie wygasaja. Jeden klucz, jeden rachunek, oba swiaty.",
+        "CTA": "Chcesz jeden klucz do kodu i czatu? <register>Zaloz darmowe konto</register> lub <models>przejrzyj modele</models>."
       }
     }
   },
@@ -3231,6 +3434,9 @@
     "CHARACTERS_NEW": "Nowa postać",
     "CHARACTERS_IMPORT": "Importuj kartę",
     "CHARACTERS_EXPORT": "Eksportuj kartę",
+    "CHARACTERS_IMPORT_LINK": "Importuj z linku",
+    "CHARACTERS_IMPORT_LINK_PLACEHOLDER": "Wklej link JanitorAI, Chub, RisuRealm lub link do karty",
+    "CHARACTERS_IMPORT_FROM_LINK": "Importuj",
     "CHARACTERS_EMPTY": "Brak postaci.",
     "EXPORT_PNG": "Eksportuj jako kartę PNG",
     "EXPORT_JSON": "Eksportuj jako JSON",
@@ -3394,7 +3600,9 @@
     "PRESET_SHOW_REASONING": "Pokaż rozumowanie",
     "PRESET_SHOW_REASONING_HINT": "Pokazuje rozumowanie modelu w odpowiedziach. Wył. = ukryj je (rozumowanie nadal jest generowane i zapisywane, więc ponowne włączenie je odsłania). Ustawienie czatu ma pierwszeństwo.",
     "CHARACTER_BACKGROUND": "Obraz tła",
-    "CHARACTER_BACKGROUND_HINT": "Wyświetlany za czatem, gdy ta postać prowadzi rozmowę."
+    "CHARACTER_BACKGROUND_HINT": "Wyświetlany za czatem, gdy ta postać prowadzi rozmowę.",
+    "CHARACTER_AVATAR": "Awatar",
+    "CHARACTER_AVATAR_HINT": "Wyswietlany obok tej postaci w czatach i listach."
   },
   "ERRORS": {
     "MISSING_ENV": "Brakująca wymagana zmienna env: {var}",
@@ -3422,6 +3630,9 @@
     "IMPORT_UNSUPPORTED_VERSION": "Nieobsługiwana wersja eksportu.",
     "CARD_PARSE_FAILED": "Nie można sparsować karty postaci.",
     "CARD_MISSING_NAME": "Karta postaci nie ma wymaganego pola nazwy.",
+    "CARD_IMPORT_INVALID_URL": "To nie wyglada na prawidlowy link do postaci.",
+    "CARD_IMPORT_NOT_FOUND": "Nie znaleziono tej postaci. Moze byc prywatna lub usunieta.",
+    "CARD_IMPORT_FETCH_FAILED": "Nie udalo sie pobrac tej postaci. Sprobuj ponownie.",
     "UNEXPECTED_ERROR": "Wystąpił nieoczekiwany błąd",
     "AUDIO_GENERATION_FAILED": "Generowanie dźwięku nie powiodło się",
     "NO_AUDIO_PROMPT": "Nie podano tekstu do generowania mowy",

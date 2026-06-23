@@ -213,7 +213,7 @@ export function assembleFromOverrides(
     ...baseAssembled(overridesSystem),
     sampling,
     reasoningEffort: overrides?.reasoningEffort ?? undefined,
-    // 0 default silently disabled chat memory for guests.
+    // default to 8, not 0: a 0 default would silently disable chat memory for guests.
     chatMemory: overrides?.chatMemory ?? 8,
     streamingEnabled: overrides?.streamingEnabled ?? true,
     authorNote,

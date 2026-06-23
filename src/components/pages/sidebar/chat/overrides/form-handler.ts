@@ -89,7 +89,7 @@ export function writeSamplerMemory(
   });
 }
 
-    // Defaults mode: seed the form from the chat-defaults atom, layered with the active model's remembered sampler values.
+// Defaults mode: chat-defaults atom layered with the model's remembered sampler values.
 function buildDefaultsForm(
   chatDefaults: StreamOverrides,
   modelMemory: ModelSamplerMemory,
@@ -138,11 +138,11 @@ type ConvBindings = {
   lorebooks: { lorebookId: string }[];
 };
 
-// Resolved switch display for an inheritable boolean: conv override -> preset -> true.
-// The drawer shows the EFFECTIVE value (like Risu's single-source preset binding), not raw
-// null, so a chat inheriting a streaming/reasoning-off preset reads correctly. buildSettingsBody
-// writes null back when the value still equals the inherited one, preserving live inheritance.
-type InheritSource = { streamingEnabled?: boolean | null; showReasoning?: boolean | null };
+// Inheritable booleans resolve conv override -> preset -> true; the drawer shows the effective value.
+type InheritSource = {
+  streamingEnabled?: boolean | null;
+  showReasoning?: boolean | null;
+};
 
 function resolveBool(
   convValue: boolean | null | undefined,
@@ -178,13 +178,15 @@ function buildSettingsForm(
     lorebookIds: bindings.lorebooks.map((l) => l.lorebookId),
     ...samplingValues(settings),
     extraBody: settings.extraBody ?? "",
-    // Show the resolved (inherited) value so the switch reflects what the chat actually does.
-    streamingEnabled: resolveBool(settings.streamingEnabled, preset?.streamingEnabled),
+    streamingEnabled: resolveBool(
+      settings.streamingEnabled,
+      preset?.streamingEnabled,
+    ),
     showReasoning: resolveBool(settings.showReasoning, preset?.showReasoning),
   };
 }
 
-    // Form seed by mode: defaults atom or persisted conv rows. Undefined while loading = RHF keep current.
+// Seed by mode: defaults atom or persisted conv rows. Undefined while loading = RHF keeps current.
 export function computeFormValues(args: {
   isDefaultsMode: boolean;
   chatDefaults: StreamOverrides;
@@ -224,9 +226,7 @@ export function buildDefaultsOverrides(
   };
 }
 
-// Store an inheritable boolean as null (inherit the live preset) when the form value still
-// equals the inherited value, else as the explicit per-chat override. Keeps preset edits
-// propagating unless the user deliberately diverged this chat.
+// null (inherit live preset) when the value still matches the inherited one, else explicit override.
 function overrideOrInherit(
   formValue: boolean | null | undefined,
   presetValue: boolean | null | undefined,
@@ -254,12 +254,15 @@ export function buildSettingsBody(
     webSearchContextSize: data.webSearchContextSize,
     ...samplingValues(data),
     extraBody: data.extraBody || null,
-    streamingEnabled: overrideOrInherit(data.streamingEnabled, preset?.streamingEnabled),
+    streamingEnabled: overrideOrInherit(
+      data.streamingEnabled,
+      preset?.streamingEnabled,
+    ),
     showReasoning: overrideOrInherit(data.showReasoning, preset?.showReasoning),
   };
 }
 
-    // Bindings body. Form owns membership + order; isActive/overrides preserved from existing local rows.
+// Form owns membership + order; isActive/overrides preserved from existing rows.
 type ExistingCharBinding = Pick<
   typeof conversationCharacters.$inferSelect,
   "characterId" | "isActive" | "overrides"

@@ -234,7 +234,7 @@ export function createChatHistoryAdapter(
 
           const now = dayjs().toDate();
 
-          // Usage from message.metadata.usage (set by stream finish frame).
+          // usage set by the stream finish frame
           const metadata =
             (item.message as { metadata?: ChatMessageMetadata }).metadata ??
             null;
@@ -378,7 +378,6 @@ export function createChatHistoryAdapter(
             totalCost: (convForTotals?.totalCost ?? 0) + (usage?.cost ?? 0),
             // Persist chat-variable writeback when the stream reported a change; null keeps the stored value.
             ...(varsWriteback != null ? { vars: varsWriteback } : {}),
-            // Persist rolling-summary memory update.
             ...(metadata?.summary
               ? {
                   summaryMemory: metadata.summary.summary,
