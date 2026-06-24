@@ -3030,7 +3030,8 @@
     "BG_FIT_CONTAIN": "कंटेन",
     "BG_FIT_TILE": "टाइल",
     "BG_OPACITY": "अपारदर्शिता",
-    "BG_BLUR": "धुंधलापन"
+    "BG_BLUR": "धुंधलापन",
+    "BG_PANEL_OPACITY": "पैनल अपारदर्शिता"
   },
   "BILLING": {
     "SUBSCRIPTION": {

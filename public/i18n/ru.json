@@ -3030,7 +3030,8 @@
     "BG_FIT_CONTAIN": "Вместить",
     "BG_FIT_TILE": "Плитка",
     "BG_OPACITY": "Непрозрачность",
-    "BG_BLUR": "Размытие"
+    "BG_BLUR": "Размытие",
+    "BG_PANEL_OPACITY": "Непрозрачность панелей"
   },
   "BILLING": {
     "SUBSCRIPTION": {

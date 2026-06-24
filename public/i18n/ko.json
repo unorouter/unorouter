@@ -3030,7 +3030,8 @@
     "BG_FIT_CONTAIN": "맞추기",
     "BG_FIT_TILE": "타일",
     "BG_OPACITY": "불투명도",
-    "BG_BLUR": "흐림"
+    "BG_BLUR": "흐림",
+    "BG_PANEL_OPACITY": "패널 불투명도"
   },
   "BILLING": {
     "SUBSCRIPTION": {

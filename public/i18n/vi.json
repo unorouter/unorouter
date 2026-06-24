@@ -3030,7 +3030,8 @@
     "BG_FIT_CONTAIN": "Vừa khung",
     "BG_FIT_TILE": "Lát",
     "BG_OPACITY": "Độ mờ đục",
-    "BG_BLUR": "Làm mờ"
+    "BG_BLUR": "Làm mờ",
+    "BG_PANEL_OPACITY": "Độ mờ của bảng"
   },
   "BILLING": {
     "SUBSCRIPTION": {

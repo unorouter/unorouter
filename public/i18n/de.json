@@ -3030,7 +3030,8 @@
     "BG_FIT_CONTAIN": "Einpassen",
     "BG_FIT_TILE": "Kacheln",
     "BG_OPACITY": "Deckkraft",
-    "BG_BLUR": "Unschärfe"
+    "BG_BLUR": "Unschärfe",
+    "BG_PANEL_OPACITY": "Deckkraft der Flächen"
   },
   "BILLING": {
     "SUBSCRIPTION": {

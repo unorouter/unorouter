@@ -3030,7 +3030,8 @@
     "BG_FIT_CONTAIN": "Contieni",
     "BG_FIT_TILE": "Affianca",
     "BG_OPACITY": "Opacità",
-    "BG_BLUR": "Sfocatura"
+    "BG_BLUR": "Sfocatura",
+    "BG_PANEL_OPACITY": "Opacità dei pannelli"
   },
   "BILLING": {
     "SUBSCRIPTION": {

@@ -3030,7 +3030,8 @@
     "BG_FIT_CONTAIN": "Contenir",
     "BG_FIT_TILE": "Mosaïque",
     "BG_OPACITY": "Opacité",
-    "BG_BLUR": "Flou"
+    "BG_BLUR": "Flou",
+    "BG_PANEL_OPACITY": "Opacité des panneaux"
   },
   "BILLING": {
     "SUBSCRIPTION": {

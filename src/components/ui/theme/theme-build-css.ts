@@ -293,11 +293,30 @@ export function buildBackgroundCss(
   const fit = bg?.fit ?? "cover";
   const opacity = bg?.opacity ?? 1;
   const blur = bg?.blur ?? 0;
+  // RisuAI float-over-background: panels go translucent so the image reads behind
+  // every surface. clamp to [0,1]; 1 = fully opaque (image only in gaps).
+  const panelOpacity = Math.min(1, Math.max(0, bg?.panelOpacity ?? 0.75));
+  const pct = Math.round(panelOpacity * 100);
   const sizeRule =
     fit === "tile"
       ? "background-repeat:repeat;background-size:auto;"
       : `background-repeat:no-repeat;background-size:${fit};`;
   const safeUrl = image.replace(/["\\]/g, "");
+  // The opaque surface wrappers (SidebarInset .bg-background, Sidebar .bg-sidebar,
+  // cards/popovers) paint over body::before. With an image active, knock them back
+  // to a color-mix translucency + backdrop-blur so the image shows through. Scoped
+  // under [data-bg-active] so the no-image state is byte-identical to before.
+  const surfaceMix = (varName: string) =>
+    `color-mix(in srgb, var(--${varName}) ${pct}%, transparent)`;
+  const translucent =
+    panelOpacity < 1
+      ? [
+          `[data-bg-active] .bg-background{background-color:${surfaceMix("background")} !important;backdrop-filter:blur(8px);}`,
+          `[data-bg-active] .bg-sidebar{background-color:${surfaceMix("sidebar")} !important;backdrop-filter:blur(8px);}`,
+          `[data-bg-active] .bg-card{background-color:${surfaceMix("card")} !important;}`,
+          `[data-bg-active] .bg-muted{background-color:${surfaceMix("muted")} !important;}`,
+        ].join("")
+      : "";
   return [
     "html{background-color:var(--background);}",
     "body{background-color:transparent !important;}",
@@ -308,6 +327,7 @@ export function buildBackgroundCss(
     `opacity:${opacity};`,
     blur > 0 ? `filter:blur(${blur}px);` : "",
     "}",
+    translucent,
   ].join("");
 }
 

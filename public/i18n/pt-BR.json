@@ -3030,7 +3030,8 @@
     "BG_FIT_CONTAIN": "Conter",
     "BG_FIT_TILE": "Lado a lado",
     "BG_OPACITY": "Opacidade",
-    "BG_BLUR": "Desfoque"
+    "BG_BLUR": "Desfoque",
+    "BG_PANEL_OPACITY": "Opacidade dos painéis"
   },
   "BILLING": {
     "SUBSCRIPTION": {

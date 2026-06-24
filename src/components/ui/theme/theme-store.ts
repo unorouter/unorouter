@@ -40,6 +40,7 @@ export type BackgroundSettings = {
   opacity?: number; // 0..1
   blur?: number; // px
   fit?: BackgroundFit;
+  panelOpacity?: number; // 0..1, surface translucency so the image floats behind panels
 };
 
 export type UserTheme = {
