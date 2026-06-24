@@ -39,6 +39,7 @@ import {
   normalizeBaseUrl,
   parseCustomModelId,
 } from "@/lib/ai/chat/custom-provider-id";
+import type { TokenizerRef } from "@/lib/ai/chat/tokenizer";
 import { readLocalCustomProvider } from "@/lib/db/client/data/custom-providers";
 import { chatModelAtom, chatStore, localUserIdAtom } from "@/store/chat-store";
 import getQueryClient from "@/lib/react-query/client";
@@ -70,6 +71,8 @@ async function runClientStream(args: {
   deps: AssemblerDeps;
   options: SendOptions;
   getConvId: () => string | null;
+  // Per-model tokenizer for budget counting (custom path). Omitted on the default path -> inferred from model.
+  tokenizer?: TokenizerRef;
 }): Promise<ReadableStream<UIMessageChunk>> {
   const userId = chatStore.get(localUserIdAtom);
   const fields = await buildChatRequestBody(args.getConvId);
@@ -77,6 +80,7 @@ async function runClientStream(args: {
     ...fields,
     model: args.model,
     messages: args.options.messages,
+    ...(args.tokenizer ? { tokenizer: args.tokenizer } : {}),
   };
   const prepared: PreparedChatRequest = await prepareChatRequest(
     args.apiKey,
@@ -183,6 +187,7 @@ export function makeRoutingTransport(
     if (!parsed) throw new Error("invalid custom model id");
     const provider = await readLocalCustomProvider(userId, parsed.providerId);
     if (!provider) throw new Error("custom provider not found");
+    const modelRow = provider.models.find((m) => m.key === parsed.modelKey);
     return runClientStream({
       apiKey: provider.apiKey,
       baseURL: normalizeBaseUrl(provider.baseUrl),
@@ -190,6 +195,7 @@ export function makeRoutingTransport(
       deps: buildClientDeps(userId, provider),
       options,
       getConvId: getConvIdRef.current,
+      tokenizer: (modelRow?.tokenizer as TokenizerRef | undefined) ?? undefined,
     });
   };
 

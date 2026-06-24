@@ -1,0 +1,1 @@
+ALTER TABLE `lorebook_entries` ADD `comment` text;

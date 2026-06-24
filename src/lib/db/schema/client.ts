@@ -2,8 +2,8 @@ import type { SyncKindName } from "@/lib/validation/sync-constants";
 import type {
   CustomProviderFormat,
   CustomProviderModel,
-  CustomProviderTokenizer,
 } from "@/lib/validation/custom-provider";
+import type { TokenizerKind } from "@/lib/ai/chat/tokenizer";
 import { uid } from "@/lib/utils/base";
 import { getTableName, sql } from "drizzle-orm";
 import {
@@ -67,7 +67,7 @@ export const customProviders = sqliteTable(
     baseUrl: text("base_url").notNull(),
     apiKey: text("api_key").notNull().default(""),
     format: text("format").$type<CustomProviderFormat>().notNull(),
-    tokenizer: text("tokenizer").$type<CustomProviderTokenizer>().notNull(),
+    // Tokenizer is per-model now (rides each CustomProviderModel in the models json), not a provider column.
     models: text("models", { mode: "json" })
       .$type<CustomProviderModel[]>()
       .notNull(),
@@ -85,6 +85,25 @@ export const customProviders = sqliteTable(
   ],
 );
 
+// Downloaded tokenizer cache (OPFS). Tokenizer files (HF tokenizer.json + tokenizer_config.json) are fetched
+// on demand for per-model token budgeting and cached here so a reload doesn't re-download. NOT user-scoped:
+// tokenizer files are public + identical across users, keyed by their canonical `source` (HF slug or URL).
+export const tokenizers = sqliteTable("tokenizers", {
+  // Canonical source key: an HF slug ("owner/repo"), a direct tokenizer.json URL, or a built-in id ("cl100k").
+  source: text("source").primaryKey(),
+  // Display name (built-in label or derived from the slug).
+  name: text("name").notNull(),
+  // Loader family: "tiktoken" (gpt-tokenizer cl100k/o200k), "huggingface" (@lenml tokenizer.json), "approximate".
+  type: text("type").$type<TokenizerKind>().notNull(),
+  // HF tokenizer.json contents (JSON string). Null for built-in/package tokenizers that need no download.
+  tokenizerJson: text("tokenizer_json"),
+  // Optional HF tokenizer_config.json contents (JSON string).
+  tokenizerConfig: text("tokenizer_config"),
+  fetchedAt: integer("fetched_at", { mode: "timestamp_ms" })
+    .notNull()
+    .default(sql`(unixepoch() * 1000)`),
+});
+
 // Per-device migration cursor: one row tracks the last applied migration tag.
 export const localMigrations = sqliteTable("local_migrations", {
   name: text("name").primaryKey(),
@@ -94,10 +113,11 @@ export const localMigrations = sqliteTable("local_migrations", {
     .default(sql`(unixepoch() * 1000)`),
 });
 
-// Tables never cross-copied between OPFS DBs (per-DB cursors/queues).
+// Tables never cross-copied between OPFS DBs (per-DB cursors/queues + the re-downloadable tokenizer cache).
 export const LOCAL_ONLY_TABLES = [
   getTableName(localMigrations),
   getTableName(localPendingTasks),
+  getTableName(tokenizers),
 ] as const;
 
 // Cursor-row names in local_migrations. migrationVersion holds the last tag.

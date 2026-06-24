@@ -104,6 +104,7 @@ export function LorebookEntryForm(props: {
   const formValues = entry
     ? formDefaults(lorebookEntryFormSchema, {
         ...entry,
+        comment: entry.comment ?? "",
         content: split.content,
         probability: split.probability,
         entryScanDepth: split.scanDepth,
@@ -128,6 +129,8 @@ export function LorebookEntryForm(props: {
     const secondary = csvToArray(data.secondaryKeys);
     const body = {
       ...data,
+      // Empty comment stored as null (no display name).
+      comment: data.comment.trim() || null,
       content: embedDecorators(
         data.content,
         data.probability,
@@ -155,6 +158,19 @@ export function LorebookEntryForm(props: {
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col gap-3"
         >
+          <div className="flex flex-col gap-1">
+            <MyFormInput
+              control={form.control}
+              name="comment"
+              schema={lorebookEntryFormSchema}
+              label={t("RP.LOREBOOK_ENTRY_COMMENT")}
+              placeholder={t("RP.LOREBOOK_ENTRY_COMMENT_PLACEHOLDER")}
+            />
+            <p className="text-muted-foreground text-xs">
+              {t("RP.LOREBOOK_ENTRY_COMMENT_HINT")}
+            </p>
+          </div>
+
           <MyFormTextarea
             control={form.control}
             name="content"

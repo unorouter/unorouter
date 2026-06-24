@@ -5,6 +5,11 @@
 import type { ChatContext, StreamOverrides } from "@/lib/validation/chat";
 import type { AssemblerDeps } from "./deps";
 import type { StreamMessages } from "./transforms";
+import {
+  setActiveTokenizer,
+  tokenizerRefForModel,
+  type TokenizerRef,
+} from "@/lib/ai/chat/tokenizer";
 import { resolveContext } from "./stages/resolve-context";
 import { preprocessMessages } from "./stages/preprocess";
 import { assemblePrompt } from "./stages/assemble-prompt";
@@ -30,6 +35,9 @@ export type StreamBody = {
   globalVars?: string | null;
   speakingCharacterId?: string | null;
   messageTimes?: Record<string, number>;
+  // Per-model tokenizer selection for budget counting. Custom path sets it from the selected model's row;
+  // the default path omits it (the active tokenizer is inferred from `model`). "auto"/absent == infer.
+  tokenizer?: TokenizerRef;
   clientEnv?: {
     viewportW?: number;
     viewportH?: number;
@@ -46,6 +54,10 @@ export async function prepareChatRequest(
   userId: number,
   deps: AssemblerDeps,
 ) {
+  // Preload the per-model tokenizer BEFORE any counting (history fit / lorebook budget run sync against the
+  // module-active tokenizer). Best-effort: a failed load falls back to cl100k/char-4 inside countTokens.
+  await setActiveTokenizer(tokenizerRefForModel(body.tokenizer, body.model));
+
   const { clientCtx, convCtx, effectiveWebSearch, searchSystemMessage } =
     await resolveContext(apiKey, body, userId, deps);
 

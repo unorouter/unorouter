@@ -102,10 +102,11 @@ export function LorebookEntries(props: { lorebookId: string }) {
                     </span>
                   )}
                   <span className="truncate text-sm font-medium">
-                    {e.constant
-                      ? t("RP.LOREBOOK_ENTRY_ALWAYS_LABEL")
-                      : (e.keys ?? []).join(", ") ||
-                        t("RP.LOREBOOK_ENTRY_NO_KEYS")}
+                    {e.comment ||
+                      (e.constant
+                        ? t("RP.LOREBOOK_ENTRY_ALWAYS_LABEL")
+                        : (e.keys ?? []).join(", ") ||
+                          t("RP.LOREBOOK_ENTRY_NO_KEYS"))}
                   </span>
                 </div>
                 <span className="text-muted-foreground line-clamp-2 text-xs">

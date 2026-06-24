@@ -215,6 +215,8 @@ export type LorebookForm = Static<typeof lorebookFormSchema>;
 
 // Keys stored as arrays; form edits as comma-separated strings.
 export const lorebookEntryFormSchema = t.Object({
+  // Non-AI display name (ST/Risu `comment`); identifies the entry, never sent to the model.
+  comment: t.String({ maxLength: MAX_NAME_LEN, default: "" }),
   keys: t.String({ default: "" }),
   secondaryKeys: t.String({ default: "" }),
   content: t.String({

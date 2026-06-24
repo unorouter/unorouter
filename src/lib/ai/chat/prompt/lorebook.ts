@@ -1,4 +1,4 @@
-import { encode } from "gpt-tokenizer";
+import { countTokens } from "@/lib/ai/chat/tokenizer";
 import { MAX_RECURSIVE_LOREBOOK_PASSES } from "@/lib/config/constants";
 import type { LbEntry, LbRow } from "@/lib/types";
 import { escapeRegex } from "@/lib/utils/base";
@@ -57,10 +57,9 @@ export function keyHits(
     .includes(key.toLowerCase().replace(/ /g, ""));
 }
 
-// gpt-tokenizer (cl100k_base) is off by ~10-20% on Claude/Gemini, fine here.
+// Counts against the active per-model tokenizer (preloaded in assemble-prompt).
 function estimateTokens(text: string): number {
-  if (!text) return 0;
-  return encode(text).length;
+  return countTokens(text);
 }
 
 // Per-entry overrides parsed from @@decorator lines atop an entry's content; those lines are stripped from body.
