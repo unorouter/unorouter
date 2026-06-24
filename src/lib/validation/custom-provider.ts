@@ -2,6 +2,7 @@
 // these schemas drive the client form + the SQLocal row narrowing.
 
 import { Type as t, type Static } from "@sinclair/typebox/type";
+import { TOKENIZER_PRESETS } from "@/lib/ai/chat/tokenizer";
 import { MAX_NAME_LEN } from "./rp";
 
 // Request format. Only the installed @ai-sdk/openai-compatible path for now; the union is the extension point.
@@ -11,34 +12,26 @@ export const customProviderFormat = t.Union(
 );
 export type CustomProviderFormat = Static<typeof customProviderFormat>;
 
-// Tokenizer drives history-budget estimation only (approximated via gpt-tokenizer + a per-option fudge factor).
-export const CUSTOM_PROVIDER_TOKENIZERS = [
-  "cl100k",
-  "o200k",
-  "claude",
-  "gemini",
-] as const;
-export const customProviderTokenizer = t.Union(
-  CUSTOM_PROVIDER_TOKENIZERS.map((tk) => t.Literal(tk)),
-);
+// Tokenizer lives PER MODEL (different model families tokenize differently; a mismatch mis-budgets history).
+// A selection is either a built-in preset (TOKENIZER_PRESETS) or `hf:<owner/repo|url>` for a user-supplied
+// HuggingFace tokenizer (downloaded + cached on demand). "auto" infers from the model key name. Counts drive
+// budgeting only, not billing (see src/lib/ai/chat/tokenizer.ts).
+export const customProviderTokenizer = t.Union([
+  ...TOKENIZER_PRESETS.map((tk) => t.Literal(tk)),
+  t.TemplateLiteral([t.Literal("hf:"), t.String()]),
+]);
 export type CustomProviderTokenizer = Static<typeof customProviderTokenizer>;
-
-// Budget fudge multiplier: gpt-tokenizer is cl100k; Claude/Gemini run ~15% denser, so scale up to avoid under-budgeting.
-export const TOKENIZER_FUDGE: Record<CustomProviderTokenizer, number> = {
-  cl100k: 1,
-  o200k: 1,
-  claude: 1.15,
-  gemini: 1.15,
-};
 
 const MAX_URL_LEN = 2_048;
 const MAX_KEY_LEN = 4_096;
 const MAX_MODELS = 256;
 
-// One selectable model: key = the real id sent to the API; label = display name.
+// One selectable model: key = the real id sent to the API; label = display name; tokenizer = which tokenizer
+// to count this model's history with ("auto" = infer from the key).
 export const customProviderModel = t.Object({
   key: t.String({ minLength: 1, maxLength: 256 }),
   label: t.String({ minLength: 1, maxLength: 256 }),
+  tokenizer: t.Optional(customProviderTokenizer),
 });
 export type CustomProviderModel = Static<typeof customProviderModel>;
 
@@ -47,12 +40,11 @@ export const customProviderBody = t.Object({
   baseUrl: t.String({ minLength: 1, maxLength: MAX_URL_LEN }),
   apiKey: t.String({ maxLength: MAX_KEY_LEN }),
   format: customProviderFormat,
-  tokenizer: customProviderTokenizer,
   models: t.Array(customProviderModel, { maxItems: MAX_MODELS }),
 });
 export type CustomProviderBody = Static<typeof customProviderBody>;
 
-// RHF form mirror with defaults.
+// RHF form mirror with defaults. New model rows default tokenizer to "auto".
 export const customProviderForm = t.Object({
   name: t.String({ minLength: 1, maxLength: MAX_NAME_LEN, default: "" }),
   baseUrl: t.String({ minLength: 1, maxLength: MAX_URL_LEN, default: "" }),
@@ -60,10 +52,6 @@ export const customProviderForm = t.Object({
   format: t.Union(
     CUSTOM_PROVIDER_FORMATS.map((f) => t.Literal(f)),
     { default: "openai-compatible" },
-  ),
-  tokenizer: t.Union(
-    CUSTOM_PROVIDER_TOKENIZERS.map((tk) => t.Literal(tk)),
-    { default: "cl100k" },
   ),
   models: t.Array(customProviderModel, { maxItems: MAX_MODELS, default: [] }),
 });

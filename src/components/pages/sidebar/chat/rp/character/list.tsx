@@ -12,6 +12,7 @@ import {
 import {
   useCharactersQuery,
   useDeleteCharacterMutation,
+  useDuplicateCharacterMutation,
   useImportCharacterCardMutation,
   useImportCharacterFromUrlMutation,
 } from "@/hooks/ai/rp/characters";
@@ -40,6 +41,7 @@ export function CharacterList(props: Props) {
   const t = useTranslations();
   const charsQuery = useCharactersQuery();
   const deleteMut = useDeleteCharacterMutation();
+  const duplicateMut = useDuplicateCharacterMutation();
   const importMut = useImportCharacterCardMutation();
   const importUrlMut = useImportCharacterFromUrlMutation();
   const exportMut = useRpExportMutation();
@@ -145,6 +147,7 @@ export function CharacterList(props: Props) {
                       ]}
                     />
                   }
+                  onDuplicate={() => duplicateMut.mutate(c.id)}
                   onDelete={async () => {
                     const ok = await confirmRpDelete(
                       t,

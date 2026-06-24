@@ -20,21 +20,34 @@ import {
   type CustomProviderForm,
 } from "@/lib/validation/custom-provider";
 import { useRpForm } from "@/hooks/ui/use-rp-form";
+import type { TranslationKey } from "@/lib/types";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { useFieldArray } from "react-hook-form";
+import { useFieldArray, type UseFormReturn } from "react-hook-form";
 import { FormFooter } from "../shared/form-footer";
 
 const FORMAT_KEYS = {
   "openai-compatible": "CHAT.CUSTOM_PROVIDER.FORMAT_OPENAI",
 } as const;
 
-const TOKENIZER_KEYS = {
-  cl100k: "CHAT.CUSTOM_PROVIDER.TOKENIZER_CL100K",
-  o200k: "CHAT.CUSTOM_PROVIDER.TOKENIZER_O200K",
-  claude: "CHAT.CUSTOM_PROVIDER.TOKENIZER_CLAUDE",
-  gemini: "CHAT.CUSTOM_PROVIDER.TOKENIZER_GEMINI",
-} as const;
+// Per-model tokenizer presets (budget counting). "hf-custom" is a sentinel that reveals an HF-slug input;
+// the stored value becomes `hf:<slug>`. Order mirrors TOKENIZER_PRESETS + the custom option last.
+const TOKENIZER_OPTIONS: { value: string; labelKey: TranslationKey }[] = [
+  { value: "auto", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_AUTO" },
+  { value: "cl100k", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_CL100K" },
+  { value: "o200k", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_O200K" },
+  { value: "claude", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_CLAUDE" },
+  { value: "glm5", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_GLM5" },
+  { value: "glm4", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_GLM4" },
+  { value: "deepseek", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_DEEPSEEK" },
+  { value: "deepseek-v4", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_DEEPSEEK_V4" },
+  { value: "llama3", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_LLAMA3" },
+  { value: "gemma", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_GEMMA" },
+  { value: "qwen", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_QWEN" },
+  { value: "mistral", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_MISTRAL" },
+  { value: "cohere", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_COHERE" },
+  { value: "hf-custom", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_HF_CUSTOM" },
+];
 
 type Props = {
   editingId: string | "new";
@@ -77,7 +90,8 @@ export function CustomProviderEditor(props: Props) {
         form.getValues("models").map((m) => m.key),
       );
       for (const id of ids) {
-        if (!existingKeys.has(id)) modelsArray.append({ key: id, label: id });
+        if (!existingKeys.has(id))
+          modelsArray.append({ key: id, label: id, tokenizer: "auto" });
       }
     } catch (e) {
       const status = (e as { status?: number }).status;
@@ -116,22 +130,13 @@ export function CustomProviderEditor(props: Props) {
             label={t("CHAT.CUSTOM_PROVIDER.API_KEY")}
             type="password"
           />
-          <div className="grid grid-cols-2 gap-3">
-            <MyFormKeyedSelect
-              control={form.control}
-              name="format"
-              label={t("CHAT.CUSTOM_PROVIDER.FORMAT")}
-              fallback="openai-compatible"
-              optionKeys={FORMAT_KEYS}
-            />
-            <MyFormKeyedSelect
-              control={form.control}
-              name="tokenizer"
-              label={t("CHAT.CUSTOM_PROVIDER.TOKENIZER")}
-              fallback="cl100k"
-              optionKeys={TOKENIZER_KEYS}
-            />
-          </div>
+          <MyFormKeyedSelect
+            control={form.control}
+            name="format"
+            label={t("CHAT.CUSTOM_PROVIDER.FORMAT")}
+            fallback="openai-compatible"
+            optionKeys={FORMAT_KEYS}
+          />
 
           <div className="flex flex-col gap-2">
             <div className="flex items-center justify-between">
@@ -156,7 +161,9 @@ export function CustomProviderEditor(props: Props) {
                   type="button"
                   variant="outline"
                   size="sm"
-                  onClick={() => modelsArray.append({ key: "", label: "" })}
+                  onClick={() =>
+                    modelsArray.append({ key: "", label: "", tokenizer: "auto" })
+                  }
                 >
                   <Icon name="plus" className="size-4" />
                   <span>{t("CHAT.CUSTOM_PROVIDER.ADD_MODEL")}</span>
@@ -171,26 +178,12 @@ export function CustomProviderEditor(props: Props) {
             )}
 
             {modelsArray.fields.map((fieldItem, index) => (
-              <div key={fieldItem.id} className="flex items-center gap-2">
-                <Input
-                  className="flex-1 font-mono text-xs"
-                  placeholder={t("CHAT.CUSTOM_PROVIDER.MODEL_KEY")}
-                  {...form.register(`models.${index}.key`)}
-                />
-                <Input
-                  className="flex-1 text-xs"
-                  placeholder={t("CHAT.CUSTOM_PROVIDER.MODEL_LABEL")}
-                  {...form.register(`models.${index}.label`)}
-                />
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => modelsArray.remove(index)}
-                >
-                  <Icon name="trash-2" className="size-4" />
-                </Button>
-              </div>
+              <ModelRow
+                key={fieldItem.id}
+                form={form}
+                index={index}
+                onRemove={() => modelsArray.remove(index)}
+              />
             ))}
           </div>
 
@@ -198,5 +191,81 @@ export function CustomProviderEditor(props: Props) {
         </form>
       </Form>
     </Card>
+  );
+}
+
+// One model row: key + label inputs, a per-model tokenizer select, and (for "Custom HF") a slug input.
+// The stored value at models.${index}.tokenizer is a TokenizerRef: a preset id, "auto", or `hf:<slug>`.
+function ModelRow(props: {
+  form: UseFormReturn<CustomProviderForm>;
+  index: number;
+  onRemove: () => void;
+}) {
+  const t = useTranslations();
+  const tokenizerField = `models.${props.index}.tokenizer` as const;
+  const stored = props.form.watch(tokenizerField) ?? "auto";
+  const isHf = typeof stored === "string" && stored.startsWith("hf:");
+  const selectValue = isHf ? "hf-custom" : stored;
+  const hfSlug = isHf ? stored.slice(3) : "";
+
+  const onSelect = (value: string) => {
+    // "hf-custom" stores an empty hf: ref until the user types a slug; presets store verbatim.
+    const next = (
+      value === "hf-custom" ? "hf:" : value
+    ) as CustomProviderForm["models"][number]["tokenizer"];
+    props.form.setValue(tokenizerField, next, { shouldDirty: true });
+  };
+
+  return (
+    <div className="flex flex-col gap-1.5 rounded-md border p-2">
+      <div className="flex items-center gap-2">
+        <Input
+          className="flex-1 font-mono text-xs"
+          placeholder={t("CHAT.CUSTOM_PROVIDER.MODEL_KEY")}
+          {...props.form.register(`models.${props.index}.key`)}
+        />
+        <Input
+          className="flex-1 text-xs"
+          placeholder={t("CHAT.CUSTOM_PROVIDER.MODEL_LABEL")}
+          {...props.form.register(`models.${props.index}.label`)}
+        />
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon"
+          onClick={props.onRemove}
+        >
+          <Icon name="trash-2" className="size-4" />
+        </Button>
+      </div>
+      <div className="flex items-center gap-2">
+        <span className="text-muted-foreground shrink-0 text-[11px]">
+          {t("CHAT.CUSTOM_PROVIDER.TOKENIZER")}
+        </span>
+        <select
+          className="border-input bg-background h-7 rounded-md border px-2 text-xs"
+          value={selectValue}
+          onChange={(e) => onSelect(e.target.value)}
+        >
+          {TOKENIZER_OPTIONS.map((opt) => (
+            <option key={opt.value} value={opt.value}>
+              {t(opt.labelKey)}
+            </option>
+          ))}
+        </select>
+        {isHf && (
+          <Input
+            className="flex-1 font-mono text-xs"
+            placeholder={t("CHAT.CUSTOM_PROVIDER.TOKENIZER_HF_PLACEHOLDER")}
+            value={hfSlug}
+            onChange={(e) =>
+              props.form.setValue(tokenizerField, `hf:${e.target.value}`, {
+                shouldDirty: true,
+              })
+            }
+          />
+        )}
+      </div>
+    </div>
   );
 }

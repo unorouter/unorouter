@@ -322,6 +322,8 @@ export const lorebookEntries = sqliteTable(
     lorebookId: text("lorebook_id")
       .notNull()
       .references(() => lorebooks.id, { onDelete: "cascade" }),
+    // Non-AI display name (SillyTavern/RisuAI `comment`). Identifies the entry in the UI; never sent to the model.
+    comment: text("comment"),
     keys: text("keys", { mode: "json" }).notNull().$type<string[]>(),
     secondaryKeys: text("secondary_keys", { mode: "json" }).$type<string[]>(),
     content: text("content").notNull(),

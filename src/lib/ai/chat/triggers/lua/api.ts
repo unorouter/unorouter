@@ -1,6 +1,6 @@
 // Lua global API (RisuAI declareAPI port) bound to a TriggerContext. Access-key gating mirrors Risu; app-coupled calls fail Risu-style.
 
-import { encode } from "gpt-tokenizer";
+import { countTokens } from "@/lib/ai/chat/tokenizer";
 import type { TriggerContext, TriggerMessage } from "../types";
 import { luaLowLevelIds, luaSafeIds } from "./engine";
 
@@ -218,7 +218,7 @@ export function buildLuaApi(
     cbs: (value: string) => parse(value),
     getTokens: (id: string, value: string) => {
       if (!safe(id)) return;
-      return encode(value ?? "").length;
+      return countTokens(value ?? "");
     },
     hash: (_id: string, value: string) => sha256Hex(value),
     sleep: (id: string, time: number) => {

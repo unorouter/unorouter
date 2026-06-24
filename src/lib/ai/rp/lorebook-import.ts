@@ -13,6 +13,7 @@ type ParsedLorebook = {
   tokenBudget?: number;
   recursiveScanning?: boolean;
   entries: Array<{
+    comment?: string;
     keys: string[];
     secondaryKeys?: string[];
     content: string;
@@ -43,6 +44,8 @@ export function parseLorebookJson(raw: unknown): ParsedLorebook | null {
     if (keys.length === 0 && !e.constant) return;
 
     entries.push({
+      // ST/CCv3 `comment` = the non-AI entry name.
+      comment: typeof e.comment === "string" && e.comment ? e.comment : undefined,
       keys,
       secondaryKeys:
         Array.isArray(e.secondary_keys) && e.secondary_keys.length > 0
@@ -79,6 +82,7 @@ export function serializeLorebookForExport(
     recursiveScanning: boolean | null;
   },
   entries: Array<{
+    comment: string | null;
     keys: string[];
     secondaryKeys: string[] | null;
     content: string;
@@ -94,6 +98,7 @@ export function serializeLorebookForExport(
   const ccv3Entries: CCv3LorebookEntry[] = entries.map((e, i) => ({
     keys: e.keys,
     content: e.content,
+    comment: e.comment ?? undefined,
     enabled: e.enabled ?? true,
     insertion_order: e.orderIndex ?? i,
     secondary_keys: e.secondaryKeys ?? undefined,

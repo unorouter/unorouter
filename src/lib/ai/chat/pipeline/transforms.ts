@@ -1,5 +1,5 @@
 import type { convertToModelMessages } from "ai";
-import { encode } from "gpt-tokenizer";
+import { countTokens } from "@/lib/ai/chat/tokenizer";
 import { runRegexScripts, type RegexScript } from "@/lib/ai/chat/regex-scripts";
 import type {
   AssembledSystem,
@@ -312,18 +312,18 @@ export function dropSummarizedPrefix(
   return messages.slice(cutIdx);
 }
 
+// Counts against the ACTIVE tokenizer (preloaded per-model in assemble-prompt via setActiveTokenizer).
 export function estimateTokens(text: string | undefined): number {
-  if (!text) return 0;
-  return encode(text).length;
+  return countTokens(text);
 }
 
-// gpt-tokenizer is cl100k, ~10-20% off on Claude/Gemini, fine for budgeting; non-text parts get a flat estimate.
+// Per-model tokenizer (active) for text; non-text parts get a flat estimate.
 function messageTokens(m: StreamMessages[number]): number {
   let n = 4; // per-message role/format overhead
   if (!Array.isArray(m.parts)) return n;
   for (const part of m.parts) {
     if (part.type === "text" && typeof part.text === "string") {
-      n += encode(part.text).length;
+      n += countTokens(part.text);
     } else {
       n += 256; // flat estimate for an image/file/other part
     }

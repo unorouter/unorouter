@@ -4,6 +4,7 @@ import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 import {
   useDeletePresetMutation,
+  useDuplicatePresetMutation,
   usePresetsQuery,
 } from "@/hooks/ai/rp/presets";
 import { analytics } from "@/lib/analytics";
@@ -24,6 +25,7 @@ export function PresetsPage() {
   const t = useTranslations();
   const presetsQuery = usePresetsQuery();
   const deleteMut = useDeletePresetMutation();
+  const duplicateMut = useDuplicatePresetMutation();
   const exportMut = useRpExportMutation();
   const [editingId, setEditingId] = useState<EntityEditId>(null);
 
@@ -111,6 +113,7 @@ export function PresetsPage() {
                   <Icon name="download" className="size-4" />
                 </Button>
               }
+              onDuplicate={() => duplicateMut.mutate(p.id)}
               onDelete={() => handleDelete(p.id)}
             />
           ))}

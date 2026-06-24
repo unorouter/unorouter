@@ -21,6 +21,10 @@ type EntityHooks<TItem extends WithId, TCreateBody, TUpdateBody, TDetail> = {
   useDelete: () => ReturnType<
     typeof useMutation<{ id: string }, Error, string>
   >;
+  // Duplicate an entity by id: an exact replica with a fresh id + name suffixed " copy" (RisuAI parity).
+  useDuplicate: () => ReturnType<
+    typeof useMutation<{ id: string }, Error, string>
+  >;
 };
 
 export function makeRpEntity<
@@ -36,7 +40,18 @@ export function makeRpEntity<
   readItem: (userId: number, id: string) => Promise<TDetail | null>;
   upsertLocal: (userId: number, row: TItem) => Promise<void>;
   deleteLocal: (userId: number, id: string) => Promise<void>;
+  // Entity name field for the " copy" suffix. Most entities use "name"; cards/etc may differ. Default "name".
+  nameField?: string;
+  // Optional deep-clone writer for entities with child rows (lorebook entries, cards). Receives the source
+  // DETAIL row + a fresh id and must persist the full copy (re-id-ing children). Defaults to a flat upsertLocal.
+  cloneEntity?: (
+    userId: number,
+    detail: TDetail,
+    newId: string,
+    copyName: string,
+  ) => Promise<void>;
 }): EntityHooks<TItem, TCreateBody, TUpdateBody, TDetail> {
+  const nameField = opts.nameField ?? "name";
   return {
     useList: () => {
       const userId = useLocalUserId();
@@ -123,6 +138,42 @@ export function makeRpEntity<
         },
         onSuccess: (_data, id) => {
           qc.removeQueries({ queryKey: opts.itemKey(id) as string[] });
+          invalidateAndBroadcast(qc, [opts.listKey() as string[]]);
+        },
+        onError: (e) => handleError(e, t),
+      });
+    },
+
+    useDuplicate: () => {
+      const t = useTranslations();
+      const qc = useQueryClient();
+      const userId = useLocalUserId();
+      return useMutation({
+        mutationFn: async (id: string) => {
+          const detail = await opts.readItem(userId, id);
+          if (!detail) throw new Error("not-found");
+          const newId = uid();
+          const srcName = (detail as Record<string, unknown>)[nameField];
+          const copyName = `${typeof srcName === "string" ? srcName : ""} ${t("RP.COPY_SUFFIX")}`.trim();
+          if (opts.cloneEntity) {
+            await opts.cloneEntity(userId, detail, newId, copyName);
+          } else {
+            // Flat clone: fresh id + timestamps + renamed; child-row entities provide cloneEntity instead.
+            const now = dayjs().toDate();
+            const row = {
+              ...(detail as Record<string, unknown>),
+              id: newId,
+              userId,
+              [nameField]: copyName,
+              syncExpiresAt: null,
+              createdAt: now,
+              updatedAt: now,
+            } as unknown as TItem;
+            await opts.upsertLocal(userId, row);
+          }
+          return { id: newId };
+        },
+        onSuccess: () => {
           invalidateAndBroadcast(qc, [opts.listKey() as string[]]);
         },
         onError: (e) => handleError(e, t),

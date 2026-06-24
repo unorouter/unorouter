@@ -5,7 +5,7 @@ import {
   type StreamOverrides,
 } from "@/lib/validation/chat";
 import type { LoadedConvContext } from "@/lib/types";
-import { encode } from "gpt-tokenizer";
+import { countTokens } from "@/lib/ai/chat/tokenizer";
 import { keyHits, selectLorebookEntries } from "./lorebook";
 import { parseExampleMessages } from "./example-messages";
 import { expandMacros, type MacroScope } from "@/lib/ai/chat/macros";
@@ -507,9 +507,8 @@ function estimatePromptTokens(
   parts: PromptPart[],
   authorNote: DepthInjection | undefined,
 ): number {
-  const est = (t: string) => (t ? encode(t).length : 0);
   let total = 0;
-  for (const p of parts) if (p.kind === "message") total += est(p.text);
-  if (authorNote) total += est(authorNote.text);
+  for (const p of parts) if (p.kind === "message") total += countTokens(p.text);
+  if (authorNote) total += countTokens(authorNote.text);
   return total;
 }

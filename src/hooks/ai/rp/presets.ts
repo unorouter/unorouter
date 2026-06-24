@@ -27,3 +27,4 @@ export const usePresetsQuery = presets.useList;
 export const useCreatePresetMutation = presets.useCreate;
 export const useUpdatePresetMutation = presets.useUpdate;
 export const useDeletePresetMutation = presets.useDelete;
+export const useDuplicatePresetMutation = presets.useDuplicate;
