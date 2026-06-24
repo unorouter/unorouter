@@ -8,7 +8,6 @@ type Props = {
   name: string;
   price: number;
   value: number;
-  multiplier: string;
   deliveryLabel?: string;
   features: string[];
   popular?: boolean;
@@ -50,27 +49,22 @@ export function PricingCard(props: Props) {
         </span>
       </div>
 
-      <div className="mt-4 flex items-center gap-2.5 rounded-md border border-emerald-500/30 bg-emerald-500/10 px-3 py-2">
-        <span className="text-3xl font-bold tracking-tight text-emerald-600 tabular-nums dark:text-emerald-400">
-          {props.multiplier}
-        </span>
-        <span className="font-mono text-[11px] leading-tight tracking-wide text-emerald-700 uppercase dark:text-emerald-300">
-          {t("PRICING.CARD.VALUE_HERO")}
-        </span>
-      </div>
-
-      <p className="text-muted-foreground mt-3 font-mono text-[11px] leading-relaxed">
-        {t("PRICING.CARD.VALUE_EXPLAIN", {
-          paid: `$${props.price}`,
-          credit: `$${props.value}`,
-        })}
-      </p>
-
-      {props.deliveryLabel && (
-        <p className="text-muted-foreground/70 mt-1 font-mono text-[10px] tracking-wide">
-          {props.deliveryLabel}
+      <div className="mt-4 border-t border-emerald-500/20 pt-4">
+        <p className="text-lg font-bold tracking-tight text-emerald-600 dark:text-emerald-400">
+          {t("PRICING.CARD.CREDIT_MONTH", { credit: `$${props.value}` })}
         </p>
-      )}
+        {props.deliveryLabel && (
+          <p className="text-muted-foreground/70 mt-1 font-mono text-[10px] tracking-wide">
+            {props.deliveryLabel}
+          </p>
+        )}
+        <p className="text-muted-foreground mt-2 font-mono text-[11px] leading-relaxed">
+          {t("PRICING.CARD.VALUE_EXPLAIN", {
+            paid: `$${props.price}`,
+            credit: `$${props.value}`,
+          })}
+        </p>
+      </div>
 
       <div className="border-border mt-6 border-t pt-6">
         <ul className="space-y-3">

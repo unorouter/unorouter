@@ -1036,11 +1036,12 @@
       "PER_MONTH": " · 月",
       "VALUE": "{value} 相当",
       "VALUE_EXPLAIN": "{paid}/月で{credit}分のAPIクレジット。どのモデルでも使えます。",
-      "VALUE_HERO": "クレジット価値",
       "DELIVERY": "{period}ごとに{amount}を補充。",
       "PERIOD_DAY": "日",
       "PERIOD_WEEK": "週",
-      "PERIOD_MONTH": "月"
+      "PERIOD_MONTH": "月",
+      "CREDIT_MONTH": "月あたり{credit}のAPIクレジット",
+      "DELIVERED": "{period}ごとに{amount}を付与。"
     },
     "BANNER": {
       "TITLE": "Telegram で使える OpenClaw AI アシスタント",
@@ -1082,13 +1083,23 @@
       "STEP": "最高の価値"
     },
     "BRIDGE": {
-      "TITLE": "よく使いますか？サブスクで最大2倍のクレジットを獲得。",
-      "DESC": "柔軟に使いたいときはチャージを。利用量が安定したらサブスクへ。同じ金額で2倍のクレジットになります。"
+      "TITLE": "よく使いますか？毎月の利用分込みでサブスクを。",
+      "DESC": "柔軟に使いたいときはいつでもチャージ。サブスクは毎週の利用分を含み、超過分は残高でカバーします。"
     },
     "TIER": {
       "1": "スターター",
       "2": "プロ",
       "3": "スケール"
+    },
+    "SELFSELECT": {
+      "TITLE": "どちらが向いている？",
+      "DESC": "柔軟に使いたいときはチャージし、使った分だけ支払い。利用量が安定したらサブスクで毎月より多くのクレジットを。"
+    },
+    "TABLE": {
+      "TITLE": "プラン比較",
+      "PRICE": "価格",
+      "CREDIT": "月あたりクレジット",
+      "WEEKLY": "毎週付与"
     }
   },
   "DOCS_INDEX": {

@@ -1036,11 +1036,12 @@
       "PER_MONTH": " · ay",
       "VALUE": "{value} değer",
       "VALUE_EXPLAIN": "{paid}/ay ode, {credit} API kredisi al. Her modelde kullan.",
-      "VALUE_HERO": "Kredi degeri",
       "DELIVERY": "Her {period} {amount} yeniler.",
       "PERIOD_DAY": "gun",
       "PERIOD_WEEK": "hafta",
-      "PERIOD_MONTH": "ay"
+      "PERIOD_MONTH": "ay",
+      "CREDIT_MONTH": "aylik {credit} API kredisi",
+      "DELIVERED": "Her {period} {amount} saglar."
     },
     "BANNER": {
       "TITLE": "Telegram'da OpenClaw AI Asistanı",
@@ -1082,13 +1083,23 @@
       "STEP": "En iyi deger"
     },
     "BRIDGE": {
-      "TITLE": "Duzenli kullaniyor musun? Abone ol ve 2 katina kadar kredi kazan.",
-      "DESC": "Esneklik istedginde bakiye yukle. Kullanimin ongorulebilir oldugunda abone ol; ayni dolar iki kat kredi alir."
+      "TITLE": "Duzenli mi kullaniyorsun? Her ay dahil kullanim icin abone ol.",
+      "DESC": "Esneklik icin istedigin zaman bakiye yukle. Abonelik her hafta kullanim icerir ve bakiyen her tasmayi karsilar."
     },
     "TIER": {
       "1": "Baslangic",
       "2": "Pro",
       "3": "Olcek"
+    },
+    "SELFSELECT": {
+      "TITLE": "Hangisi bana uygun?",
+      "DESC": "Esneklik icin bakiye yukle ve yalnizca kullandigin kadar ode. Kullanimin duzenli oldugunda abone ol ve her ay daha fazla kredi kazan."
+    },
+    "TABLE": {
+      "TITLE": "Planlari karsilastir",
+      "PRICE": "Fiyat",
+      "CREDIT": "Aylik kredi",
+      "WEEKLY": "Haftalik teslim"
     }
   },
   "DOCS_INDEX": {

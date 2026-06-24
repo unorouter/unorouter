@@ -1036,11 +1036,12 @@
       "PER_MONTH": " · 月",
       "VALUE": "价值 {value}",
       "VALUE_EXPLAIN": "支付 {paid}／月，获得 {credit} API 额度。可用于任意模型。",
-      "VALUE_HERO": "额度价值",
       "DELIVERY": "每{period}补充 {amount}。",
       "PERIOD_DAY": "天",
       "PERIOD_WEEK": "周",
-      "PERIOD_MONTH": "月"
+      "PERIOD_MONTH": "月",
+      "CREDIT_MONTH": "每月 {credit} API 额度",
+      "DELIVERED": "每{period}发放 {amount}。"
     },
     "BANNER": {
       "TITLE": "Telegram 上的 OpenClaw AI 助手",
@@ -1082,13 +1083,23 @@
       "STEP": "最超值"
     },
     "BRIDGE": {
-      "TITLE": "经常使用？订阅即可获得最多 2 倍额度。",
-      "DESC": "需要灵活时就充值。用量稳定后再订阅，同样的钱可获得双倍额度。"
+      "TITLE": "经常使用？订阅可获得每月包含的用量。",
+      "DESC": "想要灵活时随时充值。订阅每周包含用量，超出部分由余额支付。"
     },
     "TIER": {
       "1": "入门版",
       "2": "专业版",
       "3": "规模版"
+    },
+    "SELFSELECT": {
+      "TITLE": "哪种更适合我？",
+      "DESC": "想要灵活就充值，用多少付多少。用量稳定后订阅，每月获得更多额度。"
+    },
+    "TABLE": {
+      "TITLE": "方案对比",
+      "PRICE": "价格",
+      "CREDIT": "每月额度",
+      "WEEKLY": "每周发放"
     }
   },
   "DOCS_INDEX": {
