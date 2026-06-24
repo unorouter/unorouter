@@ -153,8 +153,8 @@
         "DESC": "Persona, preset, templat prompt, dan impor kartu SillyTavern sudah terpasang."
       },
       "CARD3": {
-        "TITLE": "Privat",
-        "DESC": "Percakapanmu ada di browsermu, tidak pernah di server kami. Kami tidak bisa membacanya."
+        "TITLE": "Privat & BYOK",
+        "DESC": "Percakapan ada di browsermu, tidak pernah di server kami. Gunakan juga endpoint dan kunci milikmu yang kompatibel dengan OpenAI, langsung dari browser."
       },
       "CARD4": {
         "TITLE": "Roleplay Penuh",
@@ -3335,8 +3335,8 @@
     "META": {
       "TITLE": "AI Chat - {appName}",
       "TITLE_WITH_NAME": "{title} | AI Chat - {appName}",
-      "DESCRIPTION": "Chat dengan model AI apa pun. Uji GPT, Claude, Gemini, DeepSeek dan lainnya melalui satu antarmuka.",
-      "KEYWORDS": "AI chat, chat dengan AI, GPT chat, Claude chat, Gemini chat, AI playground, pengujian model"
+      "DESCRIPTION": "Chat dengan model AI apa pun: GPT, Claude, Gemini, DeepSeek dan lainnya dalam satu antarmuka, atau gunakan endpoint dan kunci milikmu yang kompatibel dengan OpenAI.",
+      "KEYWORDS": "AI chat, chat dengan AI, GPT chat, Claude chat, Gemini chat, AI playground, pengujian model, BYOK, penyedia AI khusus"
     },
     "OVERRIDES": {
       "OPEN": "Pengaturan sohbet",

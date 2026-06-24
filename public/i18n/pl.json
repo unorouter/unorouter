@@ -153,8 +153,8 @@
         "DESC": "Persony, presety, szablony promptów i import kart SillyTavern wbudowane."
       },
       "CARD3": {
-        "TITLE": "Prywatnie",
-        "DESC": "Twoje rozmowy żyją w twojej przeglądarce, nigdy na naszym serwerze. Nie możemy ich czytać."
+        "TITLE": "Prywatnie i BYOK",
+        "DESC": "Rozmowy żyją w twojej przeglądarce, nigdy na naszym serwerze. Podłącz też własny endpoint i klucz zgodny z OpenAI, prosto z przeglądarki."
       },
       "CARD4": {
         "TITLE": "Pełny RPG",
@@ -3335,8 +3335,8 @@
     "META": {
       "TITLE": "Chat AI - {appName}",
       "TITLE_WITH_NAME": "{title} | Chat AI - {appName}",
-      "DESCRIPTION": "Czatuj z dowolnym modelem AI. Testuj GPT, Claude, Gemini, DeepSeek i więcej przez jeden interfejs.",
-      "KEYWORDS": "chat AI, rozmowa z AI, chat GPT, chat Claude, chat Gemini, playground AI, testowanie modeli"
+      "DESCRIPTION": "Czatuj z dowolnym modelem AI: GPT, Claude, Gemini, DeepSeek i więcej w jednym interfejsie, albo podłącz własny endpoint i klucz zgodny z OpenAI.",
+      "KEYWORDS": "chat AI, rozmowa z AI, chat GPT, chat Claude, chat Gemini, playground AI, testowanie modeli, BYOK, własny dostawca AI"
     },
     "OVERRIDES": {
       "OPEN": "Ustawienia rozmowy",

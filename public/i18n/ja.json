@@ -131,8 +131,8 @@
         "DESC": "ペルソナ、プリセット、プロンプトテンプレート、SillyTavern カード取り込みを内蔵。"
       },
       "CARD3": {
-        "TITLE": "プライベート",
-        "DESC": "会話はブラウザに残り、当社サーバーには残りません。私たちは読めません。"
+        "TITLE": "プライベート＆BYOK",
+        "DESC": "会話はブラウザに残り、当社サーバーには残りません。自分の OpenAI 互換エンドポイントとキーもブラウザから直接使えます。"
       },
       "CARD4": {
         "TITLE": "本格ロールプレイ",
@@ -3335,8 +3335,8 @@
     "META": {
       "TITLE": "AI チャット {appName}",
       "TITLE_WITH_NAME": "{title} | AI チャット {appName}",
-      "DESCRIPTION": "あらゆる AI モデルとチャット。GPT、Claude、Gemini、DeepSeek など複数モデルを単一インターフェースで試せます。",
-      "KEYWORDS": "AI チャット, AI と会話, GPT チャット, Claude チャット, Gemini チャット, AI プレイグラウンド, モデルテスト"
+      "DESCRIPTION": "あらゆる AI モデルとチャット。GPT、Claude、Gemini、DeepSeek などを単一インターフェースで、または自分の OpenAI 互換エンドポイントとキーを使って利用できます。",
+      "KEYWORDS": "AI チャット, AI と会話, GPT チャット, Claude チャット, Gemini チャット, AI プレイグラウンド, モデルテスト, BYOK, カスタム AI プロバイダー"
     },
     "OVERRIDES": {
       "OPEN": "会話設定",

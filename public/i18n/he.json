@@ -153,8 +153,8 @@
         "DESC": "פרסונות, פריסטים, תבניות הנחיה וייבוא כרטיסי SillyTavern מובנים."
       },
       "CARD3": {
-        "TITLE": "פרטי",
-        "DESC": "השיחות שלך חיות בדפדפן שלך, לעולם לא בשרת שלנו. אנחנו לא יכולים לקרוא אותן."
+        "TITLE": "פרטי ו-BYOK",
+        "DESC": "השיחות חיות בדפדפן שלך, לעולם לא בשרת שלנו. חברו גם נקודת קצה ומפתח משלכם תואמי OpenAI, ישירות מהדפדפן."
       },
       "CARD4": {
         "TITLE": "משחק תפקידים מלא",
@@ -3335,8 +3335,8 @@
     "META": {
       "TITLE": "צ'אט AI - {appName}",
       "TITLE_WITH_NAME": "{title} | צ'אט AI - {appName}",
-      "DESCRIPTION": "צ'אטו עם כל מודל AI. בדקו GPT, Claude, Gemini, DeepSeek ועוד דרך ממשק יחיד.",
-      "KEYWORDS": "צ'אט AI, צ'אט עם AI, צ'אט GPT, צ'אט Claude, צ'אט Gemini, מגרש משחקים AI, בדיקת מודלים"
+      "DESCRIPTION": "צ'אטו עם כל מודל AI: GPT, Claude, Gemini, DeepSeek ועוד בממשק יחיד, או חברו נקודת קצה ומפתח משלכם תואמי OpenAI.",
+      "KEYWORDS": "צ'אט AI, צ'אט עם AI, צ'אט GPT, צ'אט Claude, צ'אט Gemini, מגרש משחקים AI, בדיקת מודלים, BYOK, ספק AI מותאם"
     },
     "OVERRIDES": {
       "OPEN": "הגדרות שיחה",

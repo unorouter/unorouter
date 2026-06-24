@@ -131,8 +131,8 @@
         "DESC": "Personas, Presets, Prompt-Vorlagen und SillyTavern-Karten-Import integriert."
       },
       "CARD3": {
-        "TITLE": "Privat",
-        "DESC": "Deine Gespräche bleiben in deinem Browser, nie auf unserem Server. Wir können sie nicht lesen."
+        "TITLE": "Privat & BYOK",
+        "DESC": "Gespräche bleiben in deinem Browser, nie auf unserem Server. Binde auch deinen eigenen OpenAI-kompatiblen Endpunkt und Schlüssel ein, direkt aus dem Browser."
       },
       "CARD4": {
         "TITLE": "Volles Rollenspiel",
@@ -3335,8 +3335,8 @@
     "META": {
       "TITLE": "KI-Chat - {appName}",
       "TITLE_WITH_NAME": "{title} | KI-Chat - {appName}",
-      "DESCRIPTION": "Chatten Sie mit jedem KI-Modell. Testen Sie GPT, Claude, Gemini, DeepSeek und mehr über eine einzige Oberfläche.",
-      "KEYWORDS": "KI-Chat, mit KI chatten, GPT-Chat, Claude-Chat, Gemini-Chat, KI-Spielplatz, Modell testen"
+      "DESCRIPTION": "Chatte mit jedem KI-Modell: GPT, Claude, Gemini, DeepSeek und mehr in einer Oberfläche, oder binde deinen eigenen OpenAI-kompatiblen Endpunkt und Schlüssel ein.",
+      "KEYWORDS": "KI-Chat, mit KI chatten, GPT-Chat, Claude-Chat, Gemini-Chat, KI-Spielplatz, Modell testen, BYOK, eigener KI-Anbieter"
     },
     "OVERRIDES": {
       "OPEN": "Konversationseinstellungen",

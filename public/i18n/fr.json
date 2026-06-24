@@ -131,8 +131,8 @@
         "DESC": "Personas, presets, modèles de prompt et import de cartes SillyTavern inclus."
       },
       "CARD3": {
-        "TITLE": "Prive",
-        "DESC": "Vos conversations vivent dans votre navigateur, jamais sur notre serveur. On ne peut pas les lire."
+        "TITLE": "Privé & BYOK",
+        "DESC": "Vos conversations vivent dans votre navigateur, jamais sur notre serveur. Branchez aussi votre propre endpoint et clé compatibles OpenAI, directement depuis le navigateur."
       },
       "CARD4": {
         "TITLE": "Jeu de rôle complet",
@@ -3335,8 +3335,8 @@
     "META": {
       "TITLE": "Chat IA, {appName}",
       "TITLE_WITH_NAME": "{title} | Chat IA, {appName}",
-      "DESCRIPTION": "Discutez avec n'importe quel modèle IA. Testez GPT, Claude, Gemini, DeepSeek et plus encore via une interface unique.",
-      "KEYWORDS": "chat IA, discuter avec l'IA, chat GPT, chat Claude, chat Gemini, terrain de jeu IA, test de modèle"
+      "DESCRIPTION": "Discutez avec n'importe quel modèle IA : GPT, Claude, Gemini, DeepSeek et plus dans une seule interface, ou utilisez votre propre endpoint et clé compatibles OpenAI.",
+      "KEYWORDS": "chat IA, discuter avec l'IA, chat GPT, chat Claude, chat Gemini, terrain de jeu IA, test de modèle, BYOK, fournisseur IA personnalisé"
     },
     "OVERRIDES": {
       "OPEN": "Paramètres de la conversation",

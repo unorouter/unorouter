@@ -153,8 +153,8 @@
         "DESC": "पर्सोना, प्रीसेट, प्रॉम्प्ट टेम्पलेट और SillyTavern कार्ड इंपोर्ट अंतर्निहित।"
       },
       "CARD3": {
-        "TITLE": "निजी",
-        "DESC": "आपकी बातचीत आपके ब्राउज़र में रहती है, हमारे सर्वर पर कभी नहीं। हम उन्हें नहीं पढ़ सकते।"
+        "TITLE": "निजी और BYOK",
+        "DESC": "बातचीत आपके ब्राउज़र में रहती है, हमारे सर्वर पर कभी नहीं। अपना खुद का OpenAI-compatible endpoint और key भी जोड़ें, सीधे ब्राउज़र से।"
       },
       "CARD4": {
         "TITLE": "पूरा रोलप्ले",
@@ -3335,8 +3335,8 @@
     "META": {
       "TITLE": "AI Chat - {appName}",
       "TITLE_WITH_NAME": "{title} | AI Chat - {appName}",
-      "DESCRIPTION": "किसी भी AI मॉडल के साथ Chat करें। एक interface के माध्यम से GPT, Claude, Gemini, DeepSeek और अधिक का परीक्षण करें।",
-      "KEYWORDS": "AI chat, AI के साथ chat, GPT chat, Claude chat, Gemini chat, AI playground, मॉडल परीक्षण"
+      "DESCRIPTION": "किसी भी AI मॉडल के साथ Chat करें: एक ही interface में GPT, Claude, Gemini, DeepSeek और अधिक, या अपना खुद का OpenAI-compatible endpoint और key जोड़ें।",
+      "KEYWORDS": "AI chat, AI के साथ chat, GPT chat, Claude chat, Gemini chat, AI playground, मॉडल परीक्षण, BYOK, कस्टम AI provider"
     },
     "OVERRIDES": {
       "OPEN": "बातचीत settings",
