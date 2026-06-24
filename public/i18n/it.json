@@ -1035,9 +1035,12 @@
       "POPULAR": "Popolare",
       "PER_MONTH": " · mese",
       "VALUE": "valore {value}",
-      "SPEC_QUOTA": "Quota/Reset",
-      "VALUE_BADGE": "Valore",
-      "VALUE_EXPLAIN": "Paga {paid}, ottieni {credit} in credito API. Usalo su qualsiasi modello."
+      "VALUE_EXPLAIN": "Paghi {paid}/mese, ottieni {credit} di credito API. Usalo su qualsiasi modello.",
+      "VALUE_HERO": "Valore in credito",
+      "DELIVERY": "Ricarica {amount} ogni {period}.",
+      "PERIOD_DAY": "giorno",
+      "PERIOD_WEEK": "settimana",
+      "PERIOD_MONTH": "mese"
     },
     "BANNER": {
       "TITLE": "Assistente AI OpenClaw su Telegram",
@@ -1053,8 +1056,9 @@
     "CTA": "Abbonati",
     "TOPUP": {
       "LABEL": "Pagamento a consumo",
-      "DESC": "Preferisci non abbonarti? Ricarica crediti.",
-      "FOOTNOTE": "I crediti non scadono mai."
+      "DESC": "Aggiungi credito, usa qualsiasi modello.",
+      "FOOTNOTE": "I crediti non scadono mai.",
+      "STEP": "Inizia qui"
     },
     "FAQ": {
       "Q1": "Come funzionano i prezzi di {appName}?",
@@ -1073,6 +1077,18 @@
       "A7": "Sì. Ogni piano funziona come sorgente personalizzata compatibile con OpenAI in qualsiasi importante client di roleplay. SillyTavern, Janitor.AI, RisuAI e Chub hanno ciascuno una guida di configurazione nella documentazione.",
       "Q8": "Quanto possono essere lunghe le mie conversazioni o cronologia di personaggi?",
       "A8": "{appName} supporta la finestra di contesto completa di ogni modello, fino a 1M token su Gemini e 200k su Claude. Sia i roleplay lunghi che le codebase lunghe funzionano."
+    },
+    "PLANS": {
+      "STEP": "Miglior valore"
+    },
+    "BRIDGE": {
+      "TITLE": "Lo usi spesso? Abbonati e ottieni fino a 2x di credito.",
+      "DESC": "Ricarica quando vuoi flessibilita. Abbonati quando il tuo utilizzo e prevedibile e lo stesso dollaro acquista il doppio del credito."
+    },
+    "TIER": {
+      "1": "Base",
+      "2": "Pro",
+      "3": "Scala"
     }
   },
   "DOCS_INDEX": {

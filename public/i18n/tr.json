@@ -1035,9 +1035,12 @@
       "POPULAR": "Popüler",
       "PER_MONTH": " · ay",
       "VALUE": "{value} değer",
-      "SPEC_QUOTA": "Kota/Sıfırlama",
-      "VALUE_BADGE": "Değer",
-      "VALUE_EXPLAIN": "{paid} ödeyin, API kredisinde {credit} alın. Herhangi bir modelde kullanın."
+      "VALUE_EXPLAIN": "{paid}/ay ode, {credit} API kredisi al. Her modelde kullan.",
+      "VALUE_HERO": "Kredi degeri",
+      "DELIVERY": "Her {period} {amount} yeniler.",
+      "PERIOD_DAY": "gun",
+      "PERIOD_WEEK": "hafta",
+      "PERIOD_MONTH": "ay"
     },
     "BANNER": {
       "TITLE": "Telegram'da OpenClaw AI Asistanı",
@@ -1053,8 +1056,9 @@
     "CTA": "Abone ol",
     "TOPUP": {
       "LABEL": "Kullandıkça öde",
-      "DESC": "Abone olmayı tercih etmiyor musunuz? Kredi yükleyin.",
-      "FOOTNOTE": "Krediler asla süresi dolmaz."
+      "DESC": "Kredi ekle, herhangi bir modeli kullan.",
+      "FOOTNOTE": "Krediler asla süresi dolmaz.",
+      "STEP": "Buradan basla"
     },
     "FAQ": {
       "Q1": "{appName} fiyatlandırma nasıl çalışır?",
@@ -1073,6 +1077,18 @@
       "A7": "Evet. Her plan herhangi bir büyük roleplay istemcisinde özel OpenAI uyumlu bir kaynak olarak çalışır. SillyTavern, Janitor.AI, RisuAI ve Chub'un her birinin dokümanda kurulum kılavuzu vardır.",
       "Q8": "Sohbetlerim veya karakter geçmişim ne kadar uzun olabilir?",
       "A8": "{appName} her modelin tam context penceresini destekler, Gemini'de 1M tokene ve Claude'da 200k'a kadar. Uzun roleplayler ve uzun kod tabanları çalışır."
+    },
+    "PLANS": {
+      "STEP": "En iyi deger"
+    },
+    "BRIDGE": {
+      "TITLE": "Duzenli kullaniyor musun? Abone ol ve 2 katina kadar kredi kazan.",
+      "DESC": "Esneklik istedginde bakiye yukle. Kullanimin ongorulebilir oldugunda abone ol; ayni dolar iki kat kredi alir."
+    },
+    "TIER": {
+      "1": "Baslangic",
+      "2": "Pro",
+      "3": "Olcek"
     }
   },
   "DOCS_INDEX": {

@@ -1035,9 +1035,12 @@
       "POPULAR": "Popular",
       "PER_MONTH": " · mo",
       "VALUE": "{value} value",
-      "SPEC_QUOTA": "Quota/Reset",
-      "VALUE_BADGE": "Value",
-      "VALUE_EXPLAIN": "Pay {paid}, get {credit} in API credit. Use it on any model."
+      "VALUE_EXPLAIN": "Pay {paid}/mo, get {credit} in API credit. Use it on any model.",
+      "VALUE_HERO": "Credit value",
+      "DELIVERY": "Refills {amount} each {period}.",
+      "PERIOD_DAY": "day",
+      "PERIOD_WEEK": "week",
+      "PERIOD_MONTH": "month"
     },
     "BANNER": {
       "TITLE": "OpenClaw AI Assistant on Telegram",
@@ -1053,8 +1056,9 @@
     "CTA": "Subscribe",
     "TOPUP": {
       "LABEL": "Pay as you go",
-      "DESC": "Prefer not to subscribe? Top up credits.",
-      "FOOTNOTE": "Credits never expire."
+      "DESC": "Add credit, use any model.",
+      "FOOTNOTE": "Credits never expire.",
+      "STEP": "Start here"
     },
     "FAQ": {
       "Q1": "How does {appName} pricing work?",
@@ -1073,6 +1077,18 @@
       "A7": "Yes. Every plan works as a custom OpenAI-compatible source in any major roleplay client. SillyTavern, Janitor.AI, RisuAI, and Chub each have a setup guide in the docs.",
       "Q8": "How long can my conversations or character history be?",
       "A8": "{appName} supports the full context window of every model, up to 1M tokens on Gemini and 200k on Claude. Long roleplays and long codebases both work."
+    },
+    "PLANS": {
+      "STEP": "Best value"
+    },
+    "BRIDGE": {
+      "TITLE": "Using it regularly? Subscribe and get up to 2x the credit.",
+      "DESC": "Top up when you want flexibility. Subscribe once your usage is predictable and the same dollar buys twice the credit."
+    },
+    "TIER": {
+      "1": "Starter",
+      "2": "Pro",
+      "3": "Scale"
     }
   },
   "DOCS_INDEX": {

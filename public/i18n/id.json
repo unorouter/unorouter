@@ -1035,9 +1035,12 @@
       "POPULAR": "Populer",
       "PER_MONTH": " · bln",
       "VALUE": "Nilai {value}",
-      "SPEC_QUOTA": "Kuota/Reset",
-      "VALUE_BADGE": "Nilai",
-      "VALUE_EXPLAIN": "Bayar {paid}, dapatkan {credit} dalam kredit API. Gunakan pada model apa pun."
+      "VALUE_EXPLAIN": "Bayar {paid}/bln, dapat {credit} kredit API. Pakai di model apa pun.",
+      "VALUE_HERO": "Nilai kredit",
+      "DELIVERY": "Mengisi ulang {amount} setiap {period}.",
+      "PERIOD_DAY": "hari",
+      "PERIOD_WEEK": "minggu",
+      "PERIOD_MONTH": "bulan"
     },
     "BANNER": {
       "TITLE": "Asisten AI OpenClaw di Telegram",
@@ -1053,8 +1056,9 @@
     "CTA": "Berlangganan",
     "TOPUP": {
       "LABEL": "Bayar sesuai pemakaian",
-      "DESC": "Lebih suka tidak berlangganan? Isi ulang kredit.",
-      "FOOTNOTE": "Kredit tidak pernah kedaluwarsa."
+      "DESC": "Tambah kredit, gunakan model apa pun.",
+      "FOOTNOTE": "Kredit tidak pernah kedaluwarsa.",
+      "STEP": "Mulai di sini"
     },
     "FAQ": {
       "Q1": "Bagaimana harga {appName} bekerja?",
@@ -1073,6 +1077,18 @@
       "A7": "Ya. Setiap paket bekerja sebagai sumber kustom kompatibel OpenAI di klien roleplay utama mana pun. SillyTavern, Janitor.AI, RisuAI, dan Chub masing-masing memiliki panduan setup di dokumen.",
       "Q8": "Berapa panjang sohbet atau riwayat karakter saya?",
       "A8": "{appName} mendukung jendela konteks penuh setiap model, hingga 1M token di Gemini dan 200k di Claude. Roleplay panjang dan kode panjang keduanya bekerja."
+    },
+    "PLANS": {
+      "STEP": "Nilai terbaik"
+    },
+    "BRIDGE": {
+      "TITLE": "Sering memakainya? Berlangganan dan dapatkan kredit hingga 2x lipat.",
+      "DESC": "Isi ulang saat butuh fleksibilitas. Berlangganan begitu pemakaianmu bisa diprediksi, dan dolar yang sama memberi dua kali lipat kredit."
+    },
+    "TIER": {
+      "1": "Pemula",
+      "2": "Pro",
+      "3": "Skala"
     }
   },
   "DOCS_INDEX": {
