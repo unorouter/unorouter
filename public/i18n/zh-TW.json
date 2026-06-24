@@ -1028,20 +1028,12 @@
       "UPTIME": "99.9% 運行時間 SLA",
       "OPENAI_COMPAT": "OpenAI 相容端點"
     },
-    "COMPARE": {
-      "TITLE": "方案比較"
-    },
     "CARD": {
       "POPULAR": "熱門",
       "PER_MONTH": "／月",
-      "VALUE": "{value} 價值",
-      "VALUE_EXPLAIN": "支付 {paid}／月，獲得 {credit} API 額度。可用於任意模型。",
-      "DELIVERY": "每{period}補充 {amount}。",
       "PERIOD_DAY": "天",
       "PERIOD_WEEK": "週",
-      "PERIOD_MONTH": "月",
-      "CREDIT_MONTH": "每月 {credit} API 額度",
-      "DELIVERED": "每{period}發放 {amount}。"
+      "PERIOD_MONTH": "月"
     },
     "BANNER": {
       "TITLE": "Telegram 上的 OpenClaw AI 助理",
@@ -1055,12 +1047,6 @@
     "TITLE": "價格",
     "SUBTITLE": "無論你是上線應用還是進行長時間角色扮演。一個方案，涵蓋所有模型。",
     "CTA": "訂閱",
-    "TOPUP": {
-      "LABEL": "按量儲值",
-      "DESC": "儲值額度，暢用任意模型。",
-      "FOOTNOTE": "餘額永不過期。",
-      "STEP": "從這裡開始"
-    },
     "FAQ": {
       "Q1": "{appName} 的計費方式是什麼？",
       "A1": "您依消耗的 token 付費。每個模型都有各自的輸入、輸出與快取費率，從您帳戶的額度中扣除。按用量付費方案無需任何月費訂閱。",
@@ -1079,27 +1065,27 @@
       "Q8": "對話或角色歷史可以保留多長？",
       "A8": "{appName} 支援每個模型的完整上下文視窗，Gemini 最高 1M tokens，Claude 最高 200k tokens。長篇角色扮演與大型程式碼庫都能從容應對。"
     },
-    "PLANS": {
-      "STEP": "最超值"
-    },
-    "BRIDGE": {
-      "TITLE": "經常使用？訂閱可獲得每月包含的用量。",
-      "DESC": "想要彈性時隨時儲值。訂閱每週包含用量，超出部分由餘額支付。"
-    },
     "TIER": {
       "1": "入門版",
       "2": "專業版",
       "3": "規模版"
     },
-    "SELFSELECT": {
-      "TITLE": "哪種更適合我？",
-      "DESC": "想要彈性就儲值，用多少付多少。用量穩定後訂閱，每月獲得更多額度。"
-    },
-    "TABLE": {
-      "TITLE": "方案比較",
-      "PRICE": "價格",
-      "CREDIT": "每月額度",
-      "WEEKLY": "每週發放"
+    "MATRIX": {
+      "TOPUP_NAME": "按量付費",
+      "TOPUP_TAGLINE": "無需承諾",
+      "SUB_TAGLINE": "按月計費",
+      "UPFRONT": "你支付",
+      "ANY_AMOUNT": "任意金額",
+      "CREDIT": "你獲得",
+      "ONE_TO_ONE": "按支付金額 1:1",
+      "DELIVERY": "發放",
+      "INSTANT": "即時，一次到帳",
+      "WEEKLY_VALUE": "{amount} / {period}",
+      "NA": "-",
+      "EXPIRES": "額度有效期",
+      "NEVER": "永不過期",
+      "CYCLE": "按週期",
+      "FOOTNOTE": "想要彈性就儲值，用多少付多少。用量穩定後訂閱；超出每週額度的部分由餘額支付。"
     }
   },
   "DOCS_INDEX": {

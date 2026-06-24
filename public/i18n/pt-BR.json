@@ -1028,20 +1028,12 @@
       "UPTIME": "SLA de 99.9% de tempo ativo",
       "OPENAI_COMPAT": "Endpoint compatível com OpenAI"
     },
-    "COMPARE": {
-      "TITLE": "Comparar planos"
-    },
     "CARD": {
       "POPULAR": "Popular",
       "PER_MONTH": " · mês",
-      "VALUE": "valor {value}",
-      "VALUE_EXPLAIN": "Pague {paid}/mes, ganhe {credit} em credito de API. Use em qualquer modelo.",
-      "DELIVERY": "Recarrega {amount} a cada {period}.",
       "PERIOD_DAY": "dia",
       "PERIOD_WEEK": "semana",
-      "PERIOD_MONTH": "mes",
-      "CREDIT_MONTH": "{credit} em credito de API / mes",
-      "DELIVERED": "Entrega {amount} a cada {period}."
+      "PERIOD_MONTH": "mes"
     },
     "BANNER": {
       "TITLE": "Assistente OpenClaw AI no Telegram",
@@ -1055,12 +1047,6 @@
     "TITLE": "Preços",
     "SUBTITLE": "Seja você lançando um app ou rodando longas sessões de roleplay. Um plano, todos os modelos.",
     "CTA": "Assinar",
-    "TOPUP": {
-      "LABEL": "Pagamento por uso",
-      "DESC": "Adicione credito, use qualquer modelo.",
-      "FOOTNOTE": "Créditos nunca expiram.",
-      "STEP": "Comece aqui"
-    },
     "FAQ": {
       "Q1": "Como funcionam os preços de {appName}?",
       "A1": "Você paga por token consumido. Cada modelo tem sua própria taxa de entrada, saída e cache, cobrada do seu crédito de conta. Não há assinatura mensal necessária para Pagamento por Uso.",
@@ -1079,27 +1065,27 @@
       "Q8": "Quão longas podem ser minhas conversas ou históricos de personagem?",
       "A8": "{appName} suporta a janela de contexto completa de todo modelo, até 1M tokens no Gemini e 200k no Claude. Roleplays longos e bases de código longas, ambos funcionam."
     },
-    "PLANS": {
-      "STEP": "Melhor valor"
-    },
-    "BRIDGE": {
-      "TITLE": "Usa com frequencia? Assine e tenha uso incluido todo mes.",
-      "DESC": "Recarregue quando quiser flexibilidade. A assinatura inclui uso toda semana, e seu saldo cobre qualquer excedente."
-    },
     "TIER": {
       "1": "Inicial",
       "2": "Pro",
       "3": "Escala"
     },
-    "SELFSELECT": {
-      "TITLE": "Qual e melhor para mim?",
-      "DESC": "Recarregue para ter flexibilidade e pague apenas pelo que usar. Assine quando seu uso for constante e ganhe mais credito por mes."
-    },
-    "TABLE": {
-      "TITLE": "Comparar planos",
-      "PRICE": "Preco",
-      "CREDIT": "Credito / mes",
-      "WEEKLY": "Entrega semanal"
+    "MATRIX": {
+      "TOPUP_NAME": "Pague conforme o uso",
+      "TOPUP_TAGLINE": "Sem compromisso",
+      "SUB_TAGLINE": "Cobranca mensal",
+      "UPFRONT": "Voce paga",
+      "ANY_AMOUNT": "Qualquer valor",
+      "CREDIT": "Voce recebe",
+      "ONE_TO_ONE": "1:1 do que paga",
+      "DELIVERY": "Entrega",
+      "INSTANT": "Na hora, tudo de uma vez",
+      "WEEKLY_VALUE": "{amount} / {period}",
+      "NA": "-",
+      "EXPIRES": "Validade do credito",
+      "NEVER": "Nunca",
+      "CYCLE": "Por ciclo",
+      "FOOTNOTE": "Recarregue para ter flexibilidade e pague apenas pelo que usar. Assine quando seu uso for constante; seu saldo cobre o que exceder o valor semanal."
     }
   },
   "DOCS_INDEX": {

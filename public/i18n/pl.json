@@ -1028,20 +1028,12 @@
       "UPTIME": "SLA 99.9% dostępności",
       "OPENAI_COMPAT": "Endpoint kompatybilny z OpenAI"
     },
-    "COMPARE": {
-      "TITLE": "Porównaj plany"
-    },
     "CARD": {
       "POPULAR": "Popularne",
       "PER_MONTH": " · mc",
-      "VALUE": "Wartość {value}",
-      "VALUE_EXPLAIN": "Zaplac {paid}/mies., otrzymaj {credit} kredytu API. Uzyj na dowolnym modelu.",
-      "DELIVERY": "Doladowuje {amount} co {period}.",
       "PERIOD_DAY": "dzien",
       "PERIOD_WEEK": "tydzien",
-      "PERIOD_MONTH": "miesiac",
-      "CREDIT_MONTH": "{credit} kredytu API / miesiac",
-      "DELIVERED": "Dostarcza {amount} co {period}."
+      "PERIOD_MONTH": "miesiac"
     },
     "BANNER": {
       "TITLE": "Asystent OpenClaw AI na Telegramie",
@@ -1055,12 +1047,6 @@
     "TITLE": "Cennik",
     "SUBTITLE": "Niezależnie od tego, czy wypuszczasz aplikację, czy prowadzisz długie sesje roleplay. Jeden plan, każdy model.",
     "CTA": "Subskrybuj",
-    "TOPUP": {
-      "LABEL": "Płatność za użycie",
-      "DESC": "Dodaj kredyt, uzywaj dowolnego modelu.",
-      "FOOTNOTE": "Kredyty nigdy nie wygasają.",
-      "STEP": "Zacznij tutaj"
-    },
     "FAQ": {
       "Q1": "Jak działa cennik {appName}?",
       "A1": "Płacisz za zużyty token. Każdy model ma własną stawkę wejścia, wyjścia i cache, rozliczaną z kredytu konta. Brak miesięcznej subskrypcji wymaganej dla Pay As You Go.",
@@ -1079,27 +1065,27 @@
       "Q8": "Jak długie mogą być moje rozmowy lub historia postaci?",
       "A8": "{appName} obsługuje pełne okno kontekstu każdego modelu, do 1M tokenów na Gemini i 200k na Claude. Długie roleplaye i długie codebase'y działają obie."
     },
-    "PLANS": {
-      "STEP": "Najlepsza wartosc"
-    },
-    "BRIDGE": {
-      "TITLE": "Uzywasz regularnie? Wykup subskrypcje z uzyciem wliczonym co miesiac.",
-      "DESC": "Doladowuj w dowolnej chwili dla elastycznosci. Subskrypcja obejmuje uzycie co tydzien, a saldo pokrywa kazda nadwyzke."
-    },
     "TIER": {
       "1": "Poczatkowy",
       "2": "Pro",
       "3": "Skala"
     },
-    "SELFSELECT": {
-      "TITLE": "Co bedzie dla mnie lepsze?",
-      "DESC": "Doladowuj dla elastycznosci i placic tylko za to, czego uzywasz. Wykup subskrypcje przy stalym zuzyciu i zyskaj wiecej kredytu co miesiac."
-    },
-    "TABLE": {
-      "TITLE": "Porownaj plany",
-      "PRICE": "Cena",
-      "CREDIT": "Kredyt / miesiac",
-      "WEEKLY": "Dostawa tygodniowa"
+    "MATRIX": {
+      "TOPUP_NAME": "Placisz za uzycie",
+      "TOPUP_TAGLINE": "Bez zobowiazan",
+      "SUB_TAGLINE": "Rozliczenie miesieczne",
+      "UPFRONT": "Placisz",
+      "ANY_AMOUNT": "Dowolna kwota",
+      "CREDIT": "Otrzymujesz",
+      "ONE_TO_ONE": "1:1 zaplaconej kwoty",
+      "DELIVERY": "Dostarczanie",
+      "INSTANT": "Od razu, w calosci",
+      "WEEKLY_VALUE": "{amount} / {period}",
+      "NA": "-",
+      "EXPIRES": "Waznosc kredytu",
+      "NEVER": "Nigdy",
+      "CYCLE": "Na cykl",
+      "FOOTNOTE": "Doladowuj dla elastycznosci i placic tylko za to, czego uzywasz. Wykup subskrypcje przy stalym zuzyciu; saldo pokrywa wszystko ponad kwote tygodniowa."
     }
   },
   "DOCS_INDEX": {

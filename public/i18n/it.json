@@ -1028,20 +1028,12 @@
       "UPTIME": "SLA uptime 99.9%",
       "OPENAI_COMPAT": "Endpoint compatibile con OpenAI"
     },
-    "COMPARE": {
-      "TITLE": "Confronta piani"
-    },
     "CARD": {
       "POPULAR": "Popolare",
       "PER_MONTH": " · mese",
-      "VALUE": "valore {value}",
-      "VALUE_EXPLAIN": "Paghi {paid}/mese, ottieni {credit} di credito API. Usalo su qualsiasi modello.",
-      "DELIVERY": "Ricarica {amount} ogni {period}.",
       "PERIOD_DAY": "giorno",
       "PERIOD_WEEK": "settimana",
-      "PERIOD_MONTH": "mese",
-      "CREDIT_MONTH": "{credit} di credito API / mese",
-      "DELIVERED": "Eroga {amount} ogni {period}."
+      "PERIOD_MONTH": "mese"
     },
     "BANNER": {
       "TITLE": "Assistente AI OpenClaw su Telegram",
@@ -1055,12 +1047,6 @@
     "TITLE": "Prezzi",
     "SUBTITLE": "Che tu stia spedendo un'app o eseguendo lunghe sessioni di roleplay. Un piano, ogni modello.",
     "CTA": "Abbonati",
-    "TOPUP": {
-      "LABEL": "Pagamento a consumo",
-      "DESC": "Aggiungi credito, usa qualsiasi modello.",
-      "FOOTNOTE": "I crediti non scadono mai.",
-      "STEP": "Inizia qui"
-    },
     "FAQ": {
       "Q1": "Come funzionano i prezzi di {appName}?",
       "A1": "Paghi per token consumato. Ogni modello ha la sua tariffa di input, output e cache, fatturata dal credito del tuo account. Non è richiesto alcun abbonamento mensile per Pagamento a consumo.",
@@ -1079,27 +1065,27 @@
       "Q8": "Quanto possono essere lunghe le mie conversazioni o cronologia di personaggi?",
       "A8": "{appName} supporta la finestra di contesto completa di ogni modello, fino a 1M token su Gemini e 200k su Claude. Sia i roleplay lunghi che le codebase lunghe funzionano."
     },
-    "PLANS": {
-      "STEP": "Miglior valore"
-    },
-    "BRIDGE": {
-      "TITLE": "Lo usi spesso? Abbonati per l'utilizzo incluso ogni mese.",
-      "DESC": "Ricarica quando vuoi flessibilita. Un abbonamento include l'utilizzo ogni settimana, e il tuo saldo copre eventuali eccedenze."
-    },
     "TIER": {
       "1": "Base",
       "2": "Pro",
       "3": "Scala"
     },
-    "SELFSELECT": {
-      "TITLE": "Quale fa per me?",
-      "DESC": "Ricarica per avere flessibilita e paga solo cio che usi. Abbonati quando l'utilizzo e costante e ottieni piu credito ogni mese."
-    },
-    "TABLE": {
-      "TITLE": "Confronta i piani",
-      "PRICE": "Prezzo",
-      "CREDIT": "Credito / mese",
-      "WEEKLY": "Erogazione settimanale"
+    "MATRIX": {
+      "TOPUP_NAME": "Pagamento a consumo",
+      "TOPUP_TAGLINE": "Nessun vincolo",
+      "SUB_TAGLINE": "Addebito mensile",
+      "UPFRONT": "Paghi",
+      "ANY_AMOUNT": "Importo libero",
+      "CREDIT": "Ricevi",
+      "ONE_TO_ONE": "1:1 di cio che paghi",
+      "DELIVERY": "Erogazione",
+      "INSTANT": "Subito, tutto insieme",
+      "WEEKLY_VALUE": "{amount} / {period}",
+      "NA": "-",
+      "EXPIRES": "Scadenza credito",
+      "NEVER": "Mai",
+      "CYCLE": "Per ciclo",
+      "FOOTNOTE": "Ricarica per avere flessibilita e paga solo cio che usi. Abbonati quando l'utilizzo e costante; il tuo saldo copre tutto cio che supera l'importo settimanale."
     }
   },
   "DOCS_INDEX": {
