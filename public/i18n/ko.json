@@ -153,8 +153,8 @@
         "DESC": "페르소나, 프리셋, 프롬프트 템플릿, SillyTavern 카드 가져오기 내장."
       },
       "CARD3": {
-        "TITLE": "프라이버시",
-        "DESC": "대화는 브라우저에 있고 우리 서버에는 없습니다. 우리는 읽을 수 없습니다."
+        "TITLE": "프라이버시 & BYOK",
+        "DESC": "대화는 브라우저에 있고 우리 서버에는 없습니다. 자신의 OpenAI 호환 엔드포인트와 키도 브라우저에서 바로 사용하세요."
       },
       "CARD4": {
         "TITLE": "완전한 롤플레이",
@@ -3335,8 +3335,8 @@
     "META": {
       "TITLE": "AI 채팅 - {appName}",
       "TITLE_WITH_NAME": "{title} | AI 채팅 - {appName}",
-      "DESCRIPTION": "어떤 AI 모델과도 채팅하세요. 단일 인터페이스를 통해 GPT, Claude, Gemini, DeepSeek 등을 테스트하세요.",
-      "KEYWORDS": "AI 채팅, AI와 채팅, GPT 채팅, Claude 채팅, Gemini 채팅, AI 플레이그라운드, 모델 테스트"
+      "DESCRIPTION": "어떤 AI 모델과도 채팅하세요. GPT, Claude, Gemini, DeepSeek 등을 단일 인터페이스에서, 또는 자신의 OpenAI 호환 엔드포인트와 키로 사용할 수 있습니다.",
+      "KEYWORDS": "AI 채팅, AI와 채팅, GPT 채팅, Claude 채팅, Gemini 채팅, AI 플레이그라운드, 모델 테스트, BYOK, 맞춤 AI 제공자"
     },
     "OVERRIDES": {
       "OPEN": "대화 설정",

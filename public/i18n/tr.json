@@ -153,8 +153,8 @@
         "DESC": "Personalar, hazır ayarlar, istem şablonları ve SillyTavern kart içe aktarma dahili."
       },
       "CARD3": {
-        "TITLE": "Gizli",
-        "DESC": "Konuşmaların tarayıcında yaşar, asla sunucumuzda değil. Onları okuyamayız."
+        "TITLE": "Gizli ve BYOK",
+        "DESC": "Konuşmalar tarayıcında yaşar, asla sunucumuzda değil. Kendi OpenAI uyumlu uç noktanı ve anahtarını da doğrudan tarayıcıdan kullan."
       },
       "CARD4": {
         "TITLE": "Tam Rol Yapma",
@@ -3335,8 +3335,8 @@
     "META": {
       "TITLE": "AI Sohbet - {appName}",
       "TITLE_WITH_NAME": "{title} | AI Sohbet - {appName}",
-      "DESCRIPTION": "Herhangi bir AI modeli ile sohbet edin. GPT, Claude, Gemini, DeepSeek ve daha fazlasını tek bir arayüz üzerinden test edin.",
-      "KEYWORDS": "AI sohbet, AI ile sohbet, GPT sohbet, Claude sohbet, Gemini sohbet, AI playground, model test"
+      "DESCRIPTION": "Herhangi bir AI modeliyle sohbet edin: GPT, Claude, Gemini, DeepSeek ve daha fazlası tek bir arayüzde ya da kendi OpenAI uyumlu uç noktanız ve anahtarınızla.",
+      "KEYWORDS": "AI sohbet, AI ile sohbet, GPT sohbet, Claude sohbet, Gemini sohbet, AI playground, model test, BYOK, özel AI sağlayıcı"
     },
     "OVERRIDES": {
       "OPEN": "Sohbet ayarları",

@@ -131,8 +131,8 @@
         "DESC": "內建人設、預設、提示詞範本和 SillyTavern 卡片匯入。"
       },
       "CARD3": {
-        "TITLE": "私密",
-        "DESC": "你的對話存在你的瀏覽器裡，絕不在我們的伺服器上。我們讀不到。"
+        "TITLE": "私密與 BYOK",
+        "DESC": "對話存在你的瀏覽器裡，絕不在我們的伺服器上。也可接入你自己的 OpenAI 相容端點與金鑰，直接從瀏覽器發起。"
       },
       "CARD4": {
         "TITLE": "完整角色扮演",
@@ -3335,8 +3335,8 @@
     "META": {
       "TITLE": "AI 對話：{appName}",
       "TITLE_WITH_NAME": "{title}｜AI 對話：{appName}",
-      "DESCRIPTION": "與任何 AI 模型對話。透過單一介面測試 GPT、Claude、Gemini、DeepSeek 等模型。",
-      "KEYWORDS": "AI 對話、與 AI 聊天、GPT 對話、Claude 對話、Gemini 對話、AI playground、模型測試"
+      "DESCRIPTION": "與任何 AI 模型對話：在單一介面中使用 GPT、Claude、Gemini、DeepSeek 等，或接入你自己的 OpenAI 相容端點與金鑰。",
+      "KEYWORDS": "AI 對話、與 AI 聊天、GPT 對話、Claude 對話、Gemini 對話、AI playground、模型測試、BYOK、自訂 AI 供應商"
     },
     "OVERRIDES": {
       "OPEN": "對話設定",

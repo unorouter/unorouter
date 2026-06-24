@@ -131,8 +131,8 @@
         "DESC": "Persona, preset, mẫu prompt và nhập thẻ SillyTavern tích hợp sẵn."
       },
       "CARD3": {
-        "TITLE": "Riêng tư",
-        "DESC": "Cuộc trò chuyện của bạn sống trong trình duyệt, không bao giờ trên máy chủ chúng tôi. Chúng tôi không đọc được."
+        "TITLE": "Riêng tư & BYOK",
+        "DESC": "Cuộc trò chuyện sống trong trình duyệt của bạn, không bao giờ trên máy chủ chúng tôi. Dùng cả endpoint và khóa tương thích OpenAI của riêng bạn, ngay từ trình duyệt."
       },
       "CARD4": {
         "TITLE": "Nhập vai đầy đủ",
@@ -3335,8 +3335,8 @@
     "META": {
       "TITLE": "Trò chuyện AI - {appName}",
       "TITLE_WITH_NAME": "{title} | Trò chuyện AI - {appName}",
-      "DESCRIPTION": "Trò chuyện với bất kỳ mô hình AI nào. Thử GPT, Claude, Gemini, DeepSeek và nhiều hơn nữa qua một giao diện duy nhất.",
-      "KEYWORDS": "trò chuyện AI, chat với AI, chat GPT, chat Claude, chat Gemini, sân chơi AI, thử nghiệm mô hình"
+      "DESCRIPTION": "Trò chuyện với bất kỳ mô hình AI nào: GPT, Claude, Gemini, DeepSeek và nhiều hơn trong một giao diện, hoặc dùng endpoint và khóa tương thích OpenAI của riêng bạn.",
+      "KEYWORDS": "trò chuyện AI, chat với AI, chat GPT, chat Claude, chat Gemini, sân chơi AI, thử nghiệm mô hình, BYOK, nhà cung cấp AI tùy chỉnh"
     },
     "OVERRIDES": {
       "OPEN": "Cài đặt cuộc trò chuyện",
