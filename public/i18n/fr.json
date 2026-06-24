@@ -3227,7 +3227,8 @@
       "SEARCH": "Rechercher des modèles...",
       "NO_RESULTS": "Aucun modèle trouvé",
       "FREE_BADGE": "GRATUIT",
-      "LOGIN_REQUIRED": "Connexion requise"
+      "LOGIN_REQUIRED": "Connexion requise",
+      "CUSTOM_PROVIDERS": "Fournisseurs personnalisés"
     },
     "GROUP": {
       "SELECT": "Groupe de facturation",
@@ -3403,9 +3404,10 @@
       "LOCAL_DB": "Navigateur BD locale",
       "LOCAL_DB_WIPE": "Effacer la base locale et recharger",
       "LOCAL_DB_DOWNLOAD": "Télécharger le fichier SQLite local",
-      "LOCAL_DB_UPLOAD": "Téléverser un fichier SQLite (écrase la base locale)",
+      "LOCAL_DB_UPLOAD": "Importer un fichier SQLite (remplace la base locale)",
       "LOCAL_DB_WIPE_CONFIRM": "Effacer TOUTES les données OPFS locales et recharger ?",
-      "LOCAL_DB_UPLOAD_CONFIRM": "Écraser la base OPFS locale à partir de ce fichier ? Les données existantes seront supprimées.",
+      "LOCAL_DB_UPLOAD_CONFIRM": "Importer les enregistrements de ce fichier ? Il est migré vers le schéma actuel et remplace vos données locales ; les enregistrements sont réattribués à cette session.",
+      "LOCAL_DB_IMPORT_SUMMARY": "{imported} enregistrements importés dans {tables} tables ({skipped} ignorés).",
       "CLEAR": "Vider le chat",
       "CLEAR_SUCCESS": "Chat vide",
       "CLEAR_CONFIRM_DESC": "Cela supprime tous les messages de la conversation, mais conserve les paramètres, les liaisons de personnages et le titre. Cette action est irreversible.",
@@ -3439,6 +3441,32 @@
       "EMPTY": "Aucun chat",
       "DELETE_CONFIRM_TITLE": "Supprimer le groupe ?",
       "DELETE_CONFIRM_DESC": "Le groupe est supprimé ; ses chats sont conservés et deviennent sans groupe."
+    },
+    "CUSTOM_PROVIDER": {
+      "TITLE": "Fournisseurs personnalisés",
+      "SIDEBAR_TAB": "Fournisseurs personnalisés",
+      "NEW": "Nouveau fournisseur",
+      "EMPTY": "Aucun fournisseur personnalisé pour l'instant.",
+      "NAME": "Nom",
+      "BASE_URL": "URL du point de terminaison",
+      "API_KEY": "Clé API",
+      "FORMAT": "Format",
+      "TOKENIZER": "Tokeniseur",
+      "FORMAT_OPENAI": "Compatible OpenAI",
+      "TOKENIZER_CL100K": "GPT (cl100k)",
+      "TOKENIZER_O200K": "GPT-4o/5 (o200k)",
+      "TOKENIZER_CLAUDE": "Claude (approx.)",
+      "TOKENIZER_GEMINI": "Gemini (approx.)",
+      "MODELS": "Modèles",
+      "MODELS_EMPTY": "Aucun modèle ajouté pour l'instant.",
+      "ADD_MODEL": "Ajouter un modèle",
+      "FETCH_MODELS": "Récupérer les modèles",
+      "FETCH_FAILED": "Impossible de récupérer les modèles (HTTP {status}). Vérifiez l'URL du point de terminaison et la clé API.",
+      "MODEL_KEY": "Clé du modèle",
+      "MODEL_LABEL": "Nom affiché",
+      "MODEL_COUNT": "{count} modèle(s)",
+      "DELETE_TITLE": "Supprimer le fournisseur ?",
+      "DELETE_DESC": "Cela supprime le fournisseur et ses modèles. Vos conversations sont conservées."
     }
   },
   "RP": {

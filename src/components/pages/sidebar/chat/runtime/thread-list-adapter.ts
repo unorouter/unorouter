@@ -13,6 +13,7 @@ import {
   readLocalPersona,
 } from "@/lib/db/client/data/rp";
 import { expandMacros } from "@/lib/ai/chat/macros";
+import { isCustomModelId } from "@/lib/ai/chat/custom-provider-id";
 import { uid } from "@/lib/utils/base";
 import type { buildPricingSummary } from "@/lib/api/pricing";
 import { queryKeys } from "@/lib/react-query/keys";
@@ -269,7 +270,11 @@ export function createThreadListAdapter(
           return;
         }
 
-        const model = chatStore.get(chatModelAtom) ?? undefined;
+        // Title gen always runs on OUR free models (server picks TITLE_MODELS). A custom-provider id isn't a
+        // catalog model, so omit it: passing it would fail the guest free-model guard and is ignored anyway.
+        const selected = chatStore.get(chatModelAtom);
+        const model =
+          selected && !isCustomModelId(selected) ? selected : undefined;
         const res = await rpc.api.ai.chat.title.post({ text, model });
         const data = handleElysia(res);
         controller.appendText(data.title);

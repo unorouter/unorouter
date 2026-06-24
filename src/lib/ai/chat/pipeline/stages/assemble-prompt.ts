@@ -9,8 +9,7 @@ import { parseStringMap } from "@/lib/utils/base";
 import type { ProcessedModel } from "@/lib/api/pricing";
 import type { LoadedConvContext } from "@/lib/types";
 import { runStartTriggers } from "../../triggers/run-triggers";
-import { makeServerTriggerOps } from "../../triggers/trigger-ops";
-import type { InlayImage } from "../../media/inlay.service";
+import type { AssemblerDeps, InlayImage } from "../deps";
 import {
   buildMemoryContext,
   type MemoryContext,
@@ -55,6 +54,7 @@ export async function assemblePrompt(
   messages: StreamMessages,
   searchSystemMessage: string | undefined,
   modelInfo: ProcessedModel | undefined,
+  deps: AssemblerDeps,
 ): Promise<AssembledPrompt> {
   const recentUserTexts = collectRecentUserTexts(messages);
   const history = collectHistory(messages, body.messageTimes);
@@ -72,7 +72,7 @@ export async function assemblePrompt(
         triggerVars,
         parseStringMap(globalVarsIn),
         history,
-        makeServerTriggerOps(apiKey, body.model, inlayMedia),
+        deps.triggerOps(apiKey, body.model, inlayMedia),
       )
     : { extraSystemPrompt: "", stopSending: false, alerts: [] };
 
@@ -85,6 +85,8 @@ export async function assemblePrompt(
     | undefined;
   const memory = await buildMemoryContext(
     apiKey,
+    deps.runFreeModelRace,
+    deps.retrieveSemantic,
     memorySettings,
     history,
     extractLastUserText(messages),

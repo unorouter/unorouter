@@ -3227,7 +3227,8 @@
       "SEARCH": "Buscar modelos...",
       "NO_RESULTS": "Nenhum modelo encontrado",
       "FREE_BADGE": "GRÁTIS",
-      "LOGIN_REQUIRED": "Login necessário"
+      "LOGIN_REQUIRED": "Login necessário",
+      "CUSTOM_PROVIDERS": "Provedores personalizados"
     },
     "GROUP": {
       "SELECT": "Grupo de cobrança",
@@ -3403,9 +3404,10 @@
       "LOCAL_DB": "Navegador de DB local",
       "LOCAL_DB_WIPE": "Limpar banco de dados local e recarregar",
       "LOCAL_DB_DOWNLOAD": "Baixar arquivo SQLite local",
-      "LOCAL_DB_UPLOAD": "Upload de arquivo SQLite (sobrescreve local)",
+      "LOCAL_DB_UPLOAD": "Importar arquivo SQLite (substitui local)",
       "LOCAL_DB_WIPE_CONFIRM": "Limpar TODOS os dados OPFS locais e recarregar?",
-      "LOCAL_DB_UPLOAD_CONFIRM": "Sobrescrever banco de dados OPFS local deste arquivo? Dados existentes são apagados.",
+      "LOCAL_DB_UPLOAD_CONFIRM": "Importar registros deste arquivo? Ele é migrado para o esquema atual e substitui seus dados locais; os registros passam a pertencer a esta sessão.",
+      "LOCAL_DB_IMPORT_SUMMARY": "{imported} registros importados em {tables} tabelas ({skipped} ignorados).",
       "CLEAR": "Limpar chat",
       "CLEAR_SUCCESS": "Chat limpo",
       "CLEAR_CONFIRM_DESC": "Isso deleta toda mensagem da conversa mas mantém as configurações, vinculações de personagem e título. Isso não pode ser desfeito.",
@@ -3439,6 +3441,32 @@
       "EMPTY": "Nenhuma conversa",
       "DELETE_CONFIRM_TITLE": "Excluir grupo?",
       "DELETE_CONFIRM_DESC": "O grupo é removido; suas conversas são mantidas e ficam sem grupo."
+    },
+    "CUSTOM_PROVIDER": {
+      "TITLE": "Provedores personalizados",
+      "SIDEBAR_TAB": "Provedores personalizados",
+      "NEW": "Novo provedor",
+      "EMPTY": "Ainda não há provedores personalizados.",
+      "NAME": "Nome",
+      "BASE_URL": "URL do endpoint",
+      "API_KEY": "Chave de API",
+      "FORMAT": "Formato",
+      "TOKENIZER": "Tokenizador",
+      "FORMAT_OPENAI": "Compatível com OpenAI",
+      "TOKENIZER_CL100K": "GPT (cl100k)",
+      "TOKENIZER_O200K": "GPT-4o/5 (o200k)",
+      "TOKENIZER_CLAUDE": "Claude (aprox.)",
+      "TOKENIZER_GEMINI": "Gemini (aprox.)",
+      "MODELS": "Modelos",
+      "MODELS_EMPTY": "Ainda não há modelos adicionados.",
+      "ADD_MODEL": "Adicionar modelo",
+      "FETCH_MODELS": "Buscar modelos",
+      "FETCH_FAILED": "Não foi possível buscar os modelos (HTTP {status}). Verifique a URL do endpoint e a chave de API.",
+      "MODEL_KEY": "Chave do modelo",
+      "MODEL_LABEL": "Nome de exibição",
+      "MODEL_COUNT": "{count} modelo(s)",
+      "DELETE_TITLE": "Excluir provedor?",
+      "DELETE_DESC": "Isso remove o provedor e seus modelos. Suas conversas são mantidas."
     }
   },
   "RP": {

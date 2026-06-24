@@ -206,6 +206,20 @@ export function fnv1aHex(input: string): string {
   return (h >>> 0).toString(16).padStart(8, "0") + ":" + input.length;
 }
 
+// Cosine similarity of two vectors. 0 for empty, length-mismatched, or zero-norm inputs.
+export function cosineSimilarity(a: number[], b: number[]): number {
+  if (a.length === 0 || a.length !== b.length) return 0;
+  let dot = 0;
+  let na = 0;
+  let nb = 0;
+  for (let i = 0; i < a.length; i++) {
+    dot += a[i] * b[i];
+    na += a[i] * a[i];
+    nb += b[i] * b[i];
+  }
+  return na === 0 || nb === 0 ? 0 : dot / (Math.sqrt(na) * Math.sqrt(nb));
+}
+
 // Coerce an unknown value to an i18n params record, or undefined.
 export const asParams = (
   v: unknown,

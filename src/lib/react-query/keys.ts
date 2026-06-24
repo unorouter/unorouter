@@ -59,6 +59,8 @@ export const queryKeys = {
   preset: (id: string) => ["sampling-preset", id] as const,
   cards: () => ["rp-cards"] as const,
   card: (id: string) => ["rp-card", id] as const,
+  customProviders: () => ["custom-providers"] as const,
+  customProvider: (id: string) => ["custom-providers", id] as const,
 
   requestLog: (msgId: string) => ["request-log", msgId] as const,
 

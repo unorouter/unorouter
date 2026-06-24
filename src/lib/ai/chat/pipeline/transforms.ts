@@ -1,8 +1,4 @@
-import { getDb } from "@/lib/db/server/client";
-import { media } from "@/lib/db/schema";
-import { serverEnv } from "@/server/env";
 import type { convertToModelMessages } from "ai";
-import { inArray } from "drizzle-orm";
 import { encode } from "gpt-tokenizer";
 import { runRegexScripts, type RegexScript } from "@/lib/ai/chat/regex-scripts";
 import type {
@@ -48,69 +44,6 @@ function mapTextParts(
     return { ...p, text: next };
   });
   return changed ? { ...m, parts } : m;
-}
-
-type PdfFilePart = {
-  type: "file";
-  mediaType: "application/pdf";
-  url: string;
-  filename?: string;
-};
-
-function isPdfFilePart(part: unknown): part is PdfFilePart {
-  const p = part as Partial<PdfFilePart>;
-  return (
-    p?.type === "file" &&
-    p.mediaType === "application/pdf" &&
-    typeof p.url === "string"
-  );
-}
-
-export async function inlinePdfText(
-  messages: StreamMessages,
-): Promise<StreamMessages> {
-  const r2Base = serverEnv.r2PublicUrl;
-  if (!r2Base) return messages;
-  const urlToKey = (url: string) => url.slice(r2Base.length + 1);
-
-  const pdfUrls = new Set<string>();
-  for (const m of messages) {
-    if (m.role !== "user" || !Array.isArray(m.parts)) continue;
-    for (const part of m.parts) {
-      if (isPdfFilePart(part) && part.url.startsWith(r2Base)) {
-        pdfUrls.add(part.url);
-      }
-    }
-  }
-  if (pdfUrls.size === 0) return messages;
-
-  const rows = await getDb()
-    .select({ r2Key: media.r2Key, extractedText: media.extractedText })
-    .from(media)
-    .where(inArray(media.r2Key, [...pdfUrls].map(urlToKey)));
-  const textByUrl = new Map<string, string | null>();
-  for (const row of rows) {
-    const url = `${r2Base}/${row.r2Key}`;
-    // null = extraction never produced text; placeholder keeps the stream alive.
-    textByUrl.set(url, row.extractedText ?? null);
-  }
-  if (textByUrl.size === 0) return messages;
-
-  return messages.map((m) => {
-    if (m.role !== "user" || !Array.isArray(m.parts)) return m;
-    const parts = m.parts.flatMap((part) => {
-      if (!isPdfFilePart(part)) return [part];
-      const text = textByUrl.get(part.url);
-      if (text === undefined) return [part];
-      const name = part.filename ?? "document.pdf";
-      const body =
-        text != null
-          ? `[Attached PDF "${name}":\n${text}\n]`
-          : `[Attached PDF "${name}": extraction unavailable]`;
-      return [{ type: "text" as const, text: body }];
-    });
-    return { ...m, parts };
-  });
 }
 
 export function extractLastUserText(messages: StreamMessages): string | null {

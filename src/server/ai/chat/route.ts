@@ -2,11 +2,13 @@ import { getPricingSummary } from "@/lib/api/pricing-cache";
 import { GUEST_USER_ID, msg } from "@/lib/config/constants";
 import {
   finalizeTaskBody,
+  forwardBody,
   streamBody,
   titleGenerationBody,
   triggerImggenBody,
   triggerLlmBody,
   triggerSimilarityBody,
+  webSearchBody,
 } from "@/lib/validation/chat";
 import { resolveChatApiKey } from "@/server/billing/token/best-key.service";
 import { getApiKey, getUserId } from "@/server/constants";
@@ -19,8 +21,9 @@ import {
   getConversation,
   getConversationMarkdown,
 } from "./conversation.service";
-import { streamChat } from "./stream.service";
-import { ContextRequiredError } from "./pipeline/context-cache";
+import { streamMedia } from "./media-stream.service";
+import { forwardChatCompletions } from "./forward.service";
+import { resolveWebSearch } from "./context/web-search.service";
 
 export const chatRoute = new Elysia({ prefix: "/chat" })
 
@@ -51,30 +54,49 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
     { body: titleGenerationBody },
   )
 
+  // Media generation only (image/video/audio/embedding). Text models stream client-side via /forward.
   .post(
     "/stream",
     async ({ body, cookie, request }) => {
       const apiKey = await resolveChatApiKey(cookie);
       const userId = (await getUserId(cookie, true)) ?? GUEST_USER_ID;
       if (userId === GUEST_USER_ID) {
-        body.webSearch = false;
         const meta = (await getPricingSummary()).byName.get(body.model);
         if (!meta?.isFree) throw new Error(msg("ERRORS.UNAUTHORIZED"));
       }
-      try {
-        return await streamChat(apiKey, body, request, userId);
-      } catch (err) {
-        // Context-cache miss: tell the client to retry with the full context.
-        if (err instanceof ContextRequiredError) {
-          return new Response(JSON.stringify({ code: "context-required" }), {
-            status: 409,
-            headers: { "content-type": "application/json" },
-          });
-        }
-        throw err;
-      }
+      return streamMedia(apiKey, body, request, userId);
     },
     { body: streamBody },
+  )
+
+  // Token-injecting SSE proxy for the default path. The browser ran the engine + streamText and POSTs the
+  // assembled OpenAI wire body; this resolves the token + guest-gates + raw-pipes to new-api. The SDK appends
+  // `/chat/completions` to its baseURL (`.../forward`), so the handler path is `/forward/chat/completions`.
+  .post(
+    "/forward/chat/completions",
+    async ({ body, cookie, request }) => {
+      const apiKey = await resolveChatApiKey(cookie);
+      const userId = (await getUserId(cookie, true)) ?? GUEST_USER_ID;
+      return forwardChatCompletions({
+        apiKey,
+        userId,
+        body,
+        requestId: request.headers.get("x-request-id"),
+      });
+    },
+    { body: forwardBody },
+  )
+
+  // Tavily web-search BFF: the client classifies need + injects the block. Keeps the Tavily secret server-side.
+  .post(
+    "/web-search",
+    async ({ body, cookie }) => {
+      const apiKey = await resolveChatApiKey(cookie);
+      const userId = (await getUserId(cookie, true)) ?? GUEST_USER_ID;
+      const block = await resolveWebSearch(apiKey, userId, body.text);
+      return { success: true, data: { block } };
+    },
+    { body: webSearchBody },
   )
 
   // V1 lowLevelAccess effects from client trigger modes. One endpoint per op for a concrete Eden return type. Auth required.

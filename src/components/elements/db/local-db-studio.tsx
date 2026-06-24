@@ -99,15 +99,30 @@ export function LocalDbStudio(props: Props) {
     });
     if (!ok) return;
     try {
-      const local = await getLocalDb(userId);
-      if (!local) throw new Error("SQLocal unavailable");
       // Plain ArrayBuffer, not the File: a File's Blob.stream() buffer isn't transferable to the
       // worker under COEP isolation (DataCloneError); an ArrayBuffer transfers cleanly.
       const buffer = await file.arrayBuffer();
-      await local.overwriteDatabaseFile(buffer);
-      location.reload();
+      // Reconcile-import (not a raw overwrite): forward-migrate the dump to the current schema, then copy its
+      // records into a fresh DB, remapping user_id to THIS session (guest or logged-in). Release the cached
+      // live handle first so the reconcile worker can take the file's SyncAccessHandle.
+      const local = await getLocalDb(userId);
+      if (local) await local.destroy();
+      resetLocalDbCache();
+      const { reconcileImport } = await import(
+        "@/lib/db/client/data-migrate/reconcile-import"
+      );
+      const res = await reconcileImport(userId, buffer);
+      toast.success(
+        t("CHAT.MORE.LOCAL_DB_IMPORT_SUMMARY", {
+          imported: res.imported,
+          skipped: res.skipped,
+          tables: res.tables,
+        }),
+      );
+      // Brief pause so the toast paints before the reload tears the page down.
+      setTimeout(() => location.reload(), 1200);
     } catch (err) {
-      logger.error("DB overwrite failed", {
+      logger.error("DB reconcile-import failed", {
         context: "local-db.studio",
         error: String(err),
       });

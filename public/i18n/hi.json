@@ -3227,7 +3227,8 @@
       "SEARCH": "मॉडल खोजें...",
       "NO_RESULTS": "कोई मॉडल नहीं मिला",
       "FREE_BADGE": "मुफ्त",
-      "LOGIN_REQUIRED": "Login आवश्यक"
+      "LOGIN_REQUIRED": "Login आवश्यक",
+      "CUSTOM_PROVIDERS": "कस्टम प्रदाता"
     },
     "GROUP": {
       "SELECT": "बिलिंग समूह",
@@ -3403,9 +3404,10 @@
       "LOCAL_DB": "Local DB browser",
       "LOCAL_DB_WIPE": "Local database wipe करें और reload करें",
       "LOCAL_DB_DOWNLOAD": "Local SQLite फ़ाइल download करें",
-      "LOCAL_DB_UPLOAD": "SQLite फ़ाइल अपलोड करें (local को overwrite करता है)",
+      "LOCAL_DB_UPLOAD": "SQLite फ़ाइल इम्पोर्ट करें (local को बदलता है)",
       "LOCAL_DB_WIPE_CONFIRM": "सभी local OPFS डेटा wipe करें और reload करें?",
-      "LOCAL_DB_UPLOAD_CONFIRM": "इस फ़ाइल से local OPFS database को overwrite करें? मौजूदा डेटा wipe हो जाता है।",
+      "LOCAL_DB_UPLOAD_CONFIRM": "इस फ़ाइल से records इम्पोर्ट करें? यह मौजूदा schema में माइग्रेट होती है और आपके local data को बदल देती है; records इस session के स्वामित्व में आ जाते हैं।",
+      "LOCAL_DB_IMPORT_SUMMARY": "{tables} tables में {imported} records इम्पोर्ट किए गए ({skipped} छोड़े गए)।",
       "CLEAR": "Chat clear करें",
       "CLEAR_SUCCESS": "Chat cleared",
       "CLEAR_CONFIRM_DESC": "यह बातचीत में हर message को हटा देता है लेकिन settings, character bindings, और title रखता है। इसे पूर्ववत नहीं किया जा सकता।",
@@ -3439,6 +3441,32 @@
       "EMPTY": "कोई चैट नहीं",
       "DELETE_CONFIRM_TITLE": "समूह हटाएं?",
       "DELETE_CONFIRM_DESC": "समूह हटा दिया जाता है; इसकी चैट बनी रहती हैं और बिना समूह की हो जाती हैं।"
+    },
+    "CUSTOM_PROVIDER": {
+      "TITLE": "कस्टम प्रदाता",
+      "SIDEBAR_TAB": "कस्टम प्रदाता",
+      "NEW": "नया प्रदाता",
+      "EMPTY": "अभी तक कोई कस्टम प्रदाता नहीं।",
+      "NAME": "नाम",
+      "BASE_URL": "एंडपॉइंट URL",
+      "API_KEY": "API कुंजी",
+      "FORMAT": "प्रारूप",
+      "TOKENIZER": "टोकनाइज़र",
+      "FORMAT_OPENAI": "OpenAI-संगत",
+      "TOKENIZER_CL100K": "GPT (cl100k)",
+      "TOKENIZER_O200K": "GPT-4o/5 (o200k)",
+      "TOKENIZER_CLAUDE": "Claude (लगभग)",
+      "TOKENIZER_GEMINI": "Gemini (लगभग)",
+      "MODELS": "मॉडल",
+      "MODELS_EMPTY": "अभी तक कोई मॉडल नहीं जोड़ा गया।",
+      "ADD_MODEL": "मॉडल जोड़ें",
+      "FETCH_MODELS": "मॉडल प्राप्त करें",
+      "FETCH_FAILED": "मॉडल प्राप्त नहीं हो सके (HTTP {status})। एंडपॉइंट URL और API कुंजी जाँचें।",
+      "MODEL_KEY": "मॉडल कुंजी",
+      "MODEL_LABEL": "प्रदर्शित नाम",
+      "MODEL_COUNT": "{count} मॉडल",
+      "DELETE_TITLE": "प्रदाता हटाएं?",
+      "DELETE_DESC": "यह प्रदाता और उसके मॉडल हटा देता है। आपकी बातचीत सुरक्षित रहती है।"
     }
   },
   "RP": {

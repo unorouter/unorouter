@@ -1,9 +1,11 @@
 import { freeModelRace } from "@/lib/ai/chat/free-model-race";
 import {
+  GUEST_USER_ID,
   TAVILY_TIMEOUT_MS,
   WEB_SEARCH_CLASSIFIER_SYSTEM_PROMPT,
 } from "@/lib/config/constants";
 import { logger } from "@/lib/utils/logger";
+import { serverFreeModelRaceDeps } from "@/server/ai/chat/free-model-race-server";
 import { serverEnv } from "@/server/env";
 
 type TavilyResult = {
@@ -24,7 +26,7 @@ export async function needsWebSearch(
 ): Promise<boolean> {
   try {
     const result = await freeModelRace({
-      apiKey,
+      ...serverFreeModelRaceDeps(apiKey),
       systemPrompt: WEB_SEARCH_CLASSIFIER_SYSTEM_PROMPT,
       prompt: userText,
       maxOutputTokens: 3,
@@ -86,6 +88,20 @@ export async function searchTavily(
     });
     return null;
   }
+}
+
+// BFF entrypoint: classify need + run Tavily + format the system block. Guests get nothing (paid-only).
+// Returns null when no search ran or there were no results.
+export async function resolveWebSearch(
+  apiKey: string,
+  userId: number,
+  text: string,
+): Promise<string | null> {
+  if (userId === GUEST_USER_ID) return null;
+  if (!text || !(await needsWebSearch(apiKey, text))) return null;
+  const result = await searchTavily(text);
+  if (!result || result.results.length === 0) return null;
+  return formatSearchContext(result);
 }
 
 export function formatSearchContext(search: TavilySearchResponse): string {

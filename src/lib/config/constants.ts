@@ -147,9 +147,6 @@ export const UNKNOWN_MODEL_OUTPUT_CAP = 4096;
 // Headroom kept clear when fitting history to the context window: covers tokenizer drift plus post-truncation injects.
 export const CONTEXT_SAFETY_MARGIN = 2048;
 
-// Free models are flaky; race N parallel calls for short aux requests.
-export const FREE_MODEL_RACE_COUNT = 5;
-
 export const TAVILY_TIMEOUT_MS = 5_000;
 
 export const MODERATION_TIMEOUT_MS = 5_000;

@@ -3227,7 +3227,8 @@
       "SEARCH": "Szukaj modeli...",
       "NO_RESULTS": "Nie znaleziono modeli",
       "FREE_BADGE": "DARMOWE",
-      "LOGIN_REQUIRED": "Wymagane logowanie"
+      "LOGIN_REQUIRED": "Wymagane logowanie",
+      "CUSTOM_PROVIDERS": "Niestandardowi dostawcy"
     },
     "GROUP": {
       "SELECT": "Grupa rozliczeniowa",
@@ -3403,9 +3404,10 @@
       "LOCAL_DB": "Przeglądarka lokalnej DB",
       "LOCAL_DB_WIPE": "Wymaż lokalną bazę danych i przeładuj",
       "LOCAL_DB_DOWNLOAD": "Pobierz lokalny plik SQLite",
-      "LOCAL_DB_UPLOAD": "Prześlij plik SQLite (nadpisuje lokalny)",
+      "LOCAL_DB_UPLOAD": "Importuj plik SQLite (zastępuje lokalny)",
       "LOCAL_DB_WIPE_CONFIRM": "Wymazać WSZYSTKIE lokalne dane OPFS i przeładować?",
-      "LOCAL_DB_UPLOAD_CONFIRM": "Nadpisać lokalną bazę OPFS z tego pliku? Istniejące dane są usuwane.",
+      "LOCAL_DB_UPLOAD_CONFIRM": "Zaimportować rekordy z tego pliku? Zostanie zmigrowany do bieżącego schematu i zastąpi Twoje dane lokalne; rekordy są przypisywane do tej sesji.",
+      "LOCAL_DB_IMPORT_SUMMARY": "Zaimportowano {imported} rekordów w {tables} tabelach (pominięto {skipped}).",
       "CLEAR": "Wyczyść chat",
       "CLEAR_SUCCESS": "Chat wyczyszczony",
       "CLEAR_CONFIRM_DESC": "To usuwa każdą wiadomość w rozmowie, ale zachowuje ustawienia, powiązania postaci i tytuł. Nie można cofnąć.",
@@ -3439,6 +3441,32 @@
       "EMPTY": "Brak czatów",
       "DELETE_CONFIRM_TITLE": "Usunąć grupę?",
       "DELETE_CONFIRM_DESC": "Grupa zostanie usunięta; jej czaty pozostaną i staną się bez grupy."
+    },
+    "CUSTOM_PROVIDER": {
+      "TITLE": "Niestandardowi dostawcy",
+      "SIDEBAR_TAB": "Niestandardowi dostawcy",
+      "NEW": "Nowy dostawca",
+      "EMPTY": "Brak niestandardowych dostawców.",
+      "NAME": "Nazwa",
+      "BASE_URL": "Adres URL punktu końcowego",
+      "API_KEY": "Klucz API",
+      "FORMAT": "Format",
+      "TOKENIZER": "Tokenizator",
+      "FORMAT_OPENAI": "Zgodny z OpenAI",
+      "TOKENIZER_CL100K": "GPT (cl100k)",
+      "TOKENIZER_O200K": "GPT-4o/5 (o200k)",
+      "TOKENIZER_CLAUDE": "Claude (w przybliżeniu)",
+      "TOKENIZER_GEMINI": "Gemini (w przybliżeniu)",
+      "MODELS": "Modele",
+      "MODELS_EMPTY": "Nie dodano jeszcze modeli.",
+      "ADD_MODEL": "Dodaj model",
+      "FETCH_MODELS": "Pobierz modele",
+      "FETCH_FAILED": "Nie udało się pobrać modeli (HTTP {status}). Sprawdź adres URL punktu końcowego i klucz API.",
+      "MODEL_KEY": "Klucz modelu",
+      "MODEL_LABEL": "Nazwa wyświetlana",
+      "MODEL_COUNT": "Modele: {count}",
+      "DELETE_TITLE": "Usunąć dostawcę?",
+      "DELETE_DESC": "Spowoduje to usunięcie dostawcy i jego modeli. Twoje rozmowy zostaną zachowane."
     }
   },
   "RP": {

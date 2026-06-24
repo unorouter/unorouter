@@ -139,9 +139,7 @@ export function buildDebugSnapshot(
     requestBody: {
       model: body.model,
       messagesCount: body.messages.length,
-      // Full-context sends only; hash hits log just the fingerprint.
       chatContext: body.chatContext,
-      chatContextHash: body.chatContextHash,
       overrides: body.overrides,
       webSearch: body.webSearch,
       convId: body.convId,

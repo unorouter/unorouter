@@ -60,6 +60,18 @@ CREATE TABLE `characters` (
 CREATE INDEX `idx_char_user_updated` ON `characters` (`user_id`,`updated_at`);--> statement-breakpoint
 CREATE INDEX `idx_char_user_name` ON `characters` (`user_id`,`name`);--> statement-breakpoint
 CREATE INDEX `idx_char_sync_expires` ON `characters` (`sync_expires_at`);--> statement-breakpoint
+CREATE TABLE `chat_groups` (
+	`id` text PRIMARY KEY NOT NULL,
+	`user_id` integer NOT NULL,
+	`name` text NOT NULL,
+	`order_index` integer DEFAULT 0 NOT NULL,
+	`folded` integer DEFAULT false NOT NULL,
+	`sync_expires_at` integer,
+	`created_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,
+	`updated_at` integer DEFAULT (unixepoch() * 1000) NOT NULL
+);
+--> statement-breakpoint
+CREATE INDEX `idx_chat_group_user_order` ON `chat_groups` (`user_id`,`order_index`);--> statement-breakpoint
 CREATE TABLE `conversation_characters` (
 	`conv_id` text NOT NULL,
 	`character_id` text NOT NULL,
@@ -116,12 +128,14 @@ CREATE TABLE `conversations` (
 	`extra_body` text,
 	`vars` text,
 	`streaming_enabled` integer,
+	`show_reasoning` integer,
 	`group_order_by_order` integer,
 	`auto_continue` integer,
 	`summary_memory` text,
 	`summary_anchor` integer,
 	`memory_enabled` integer,
 	`first_msg_index` integer DEFAULT -1 NOT NULL,
+	`group_id` text,
 	`sync_expires_at` integer,
 	`created_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,
 	`updated_at` integer DEFAULT (unixepoch() * 1000) NOT NULL
@@ -129,6 +143,7 @@ CREATE TABLE `conversations` (
 --> statement-breakpoint
 CREATE INDEX `idx_conv_user_updated` ON `conversations` (`user_id`,`updated_at`);--> statement-breakpoint
 CREATE INDEX `idx_conv_sync_expires` ON `conversations` (`sync_expires_at`);--> statement-breakpoint
+CREATE INDEX `idx_conv_user_group` ON `conversations` (`user_id`,`group_id`);--> statement-breakpoint
 CREATE TABLE `lorebook_entries` (
 	`id` text PRIMARY KEY NOT NULL,
 	`lorebook_id` text NOT NULL,
@@ -138,8 +153,6 @@ CREATE TABLE `lorebook_entries` (
 	`constant` integer DEFAULT false NOT NULL,
 	`selective` integer DEFAULT false NOT NULL,
 	`priority` integer DEFAULT 100 NOT NULL,
-	`position` text DEFAULT 'before_char' NOT NULL,
-	`depth` integer DEFAULT 4 NOT NULL,
 	`enabled` integer DEFAULT true NOT NULL,
 	`order_index` integer DEFAULT 0 NOT NULL,
 	`match_whole_words` integer DEFAULT false NOT NULL,
@@ -329,6 +342,7 @@ CREATE TABLE `sampling_presets` (
 	`repetition_penalty` real,
 	`max_tokens` integer,
 	`streaming_enabled` integer,
+	`show_reasoning` integer,
 	`chat_memory` integer,
 	`extra_body` text,
 	`providers` text,
@@ -357,6 +371,22 @@ CREATE TABLE `user_themes` (
 );
 --> statement-breakpoint
 CREATE INDEX `idx_theme_sync_expires` ON `user_themes` (`sync_expires_at`);--> statement-breakpoint
+CREATE TABLE `custom_providers` (
+	`id` text PRIMARY KEY NOT NULL,
+	`user_id` integer NOT NULL,
+	`name` text NOT NULL,
+	`base_url` text NOT NULL,
+	`api_key` text DEFAULT '' NOT NULL,
+	`format` text NOT NULL,
+	`tokenizer` text NOT NULL,
+	`models` text NOT NULL,
+	`sync_expires_at` integer,
+	`created_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,
+	`updated_at` integer DEFAULT (unixepoch() * 1000) NOT NULL
+);
+--> statement-breakpoint
+CREATE INDEX `idx_custom_providers_user` ON `custom_providers` (`user_id`);--> statement-breakpoint
+CREATE INDEX `idx_custom_providers_sync_expires` ON `custom_providers` (`sync_expires_at`);--> statement-breakpoint
 CREATE TABLE `local_migrations` (
 	`name` text PRIMARY KEY NOT NULL,
 	`tag` text NOT NULL,
@@ -364,7 +394,7 @@ CREATE TABLE `local_migrations` (
 );
 --> statement-breakpoint
 CREATE TABLE `local_pending_tasks` (
-	`task_type` text DEFAULT 'sync' NOT NULL,
+	`task_type` text DEFAULT 'logEnrich' NOT NULL,
 	`kind` text NOT NULL,
 	`id` text NOT NULL,
 	`op` text NOT NULL,
