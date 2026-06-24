@@ -58,7 +58,6 @@ type TokenDialogProps = {
 };
 
 const QUOTA_PRESETS = [
-  { label: "$0", value: dollarsToQuota(0) },
   { label: "$1", value: dollarsToQuota(1) },
   { label: "$10", value: dollarsToQuota(10) },
   { label: "$50", value: dollarsToQuota(50) },
