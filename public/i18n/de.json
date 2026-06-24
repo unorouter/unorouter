@@ -1077,11 +1077,11 @@
       "STEP": "Hier starten",
       "LABEL": "Pay as you go",
       "DESC": "Guthaben aufladen, jedes Modell nutzen.",
-      "FOOTNOTE": "Guthaben verfaellt nie."
+      "FOOTNOTE": "Guthaben verfällt nie."
     },
     "BRIDGE": {
-      "TITLE": "Nutzt du es regelmaessig? Abonniere und erhalte jeden Monat mehr Guthaben.",
-      "DESC": "Lade auf fuer Flexibilitaet. Abonniere bei absehbarem Verbrauch und erhalte zusaetzliches Guthaben obendrauf."
+      "TITLE": "Nutzt du es regelmäßig? Abonniere und erhalte jeden Monat mehr Guthaben.",
+      "DESC": "Lade auf für Flexibilität. Abonniere bei absehbarem Verbrauch und erhalte zusätzliches Guthaben obendrauf."
     },
     "PLANS": {
       "STEP": "Bestes Angebot"

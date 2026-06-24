@@ -1031,12 +1031,12 @@
     "CARD": {
       "POPULAR": "Phổ biến",
       "PER_MONTH": " · tháng",
-      "PERIOD_DAY": "ngay",
-      "PERIOD_WEEK": "tuan",
-      "PERIOD_MONTH": "thang",
-      "VALUE_HERO": "tin dung API / thang",
-      "VALUE_EXPLAIN": "Tra {paid}/thang, nhan {credit} tin dung API. Dung tren moi mo hinh.",
-      "DELIVERED": "Nap lai {amount} moi {period}."
+      "PERIOD_DAY": "ngày",
+      "PERIOD_WEEK": "tuần",
+      "PERIOD_MONTH": "tháng",
+      "VALUE_HERO": "tín dụng API / tháng",
+      "VALUE_EXPLAIN": "Trả {paid}/tháng, nhận {credit} tín dụng API. Dùng trên mọi mô hình.",
+      "DELIVERED": "Nạp lại {amount} mỗi {period}."
     },
     "BANNER": {
       "TITLE": "Trợ lý AI OpenClaw trên Telegram",
@@ -1074,17 +1074,17 @@
       "3": "Mo rong"
     },
     "TOPUP": {
-      "STEP": "Bat dau o day",
-      "LABEL": "Tra theo dung",
-      "DESC": "Them tin dung, dung moi mo hinh.",
-      "FOOTNOTE": "Tin dung khong bao gio het han."
+      "STEP": "Bắt đầu ở đây",
+      "LABEL": "Trả theo dùng",
+      "DESC": "Thêm tín dụng, dùng mọi mô hình.",
+      "FOOTNOTE": "Tín dụng không bao giờ hết hạn."
     },
     "BRIDGE": {
-      "TITLE": "Dung thuong xuyen? Dang ky de nhan them tin dung moi thang.",
-      "DESC": "Nap them de linh hoat. Dang ky khi muc dung co the du doan va nhan tin dung bo sung ngoai so tien ban tra."
+      "TITLE": "Dùng thường xuyên? Đăng ký để nhận thêm tín dụng mỗi tháng.",
+      "DESC": "Nạp thêm để linh hoạt. Đăng ký khi mức dùng có thể dự đoán và nhận tín dụng bổ sung ngoài số tiền bạn trả."
     },
     "PLANS": {
-      "STEP": "Gia tri tot nhat"
+      "STEP": "Giá trị tốt nhất"
     }
   },
   "DOCS_INDEX": {
