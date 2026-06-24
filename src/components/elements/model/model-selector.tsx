@@ -305,7 +305,9 @@ export function ModelSelector(props: ModelSelectorProps) {
               </CommandGroup>
             )}
           </CommandList>
-          {isLoggedIn && groupEntries.length > 0 && (
+          {/* Billing group routes via new-api's X-Group; custom models fire browser -> user endpoint and never
+              hit new-api, so the group selector is meaningless for them. */}
+          {isLoggedIn && groupEntries.length > 0 && !selectedCustom && (
             <Popover open={groupOpen} onOpenChange={setGroupOpen}>
               <PopoverTrigger
                 data-testid="group-submenu-trigger"
