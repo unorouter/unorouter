@@ -3030,7 +3030,8 @@
     "BG_FIT_CONTAIN": "احتواء",
     "BG_FIT_TILE": "تكرار",
     "BG_OPACITY": "الشفافية",
-    "BG_BLUR": "ضبابية"
+    "BG_BLUR": "ضبابية",
+    "BG_PANEL_OPACITY": "شفافية اللوحات"
   },
   "BILLING": {
     "SUBSCRIPTION": {

@@ -3030,7 +3030,8 @@
     "BG_FIT_CONTAIN": "Muat",
     "BG_FIT_TILE": "Ubin",
     "BG_OPACITY": "Opasitas",
-    "BG_BLUR": "Buram"
+    "BG_BLUR": "Buram",
+    "BG_PANEL_OPACITY": "Opasitas panel"
   },
   "BILLING": {
     "SUBSCRIPTION": {

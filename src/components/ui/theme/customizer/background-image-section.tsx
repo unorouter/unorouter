@@ -117,6 +117,23 @@ export function BackgroundImageSection(props: {
               }
             />
           </div>
+          <div className="flex flex-col gap-1.5 px-1">
+            <div className="text-muted-foreground flex justify-between text-xs">
+              <span>{t("THEME.BG_PANEL_OPACITY")}</span>
+              <span>
+                {Math.round((props.background?.panelOpacity ?? 0.75) * 100)}%
+              </span>
+            </div>
+            <Slider
+              min={0}
+              max={1}
+              step={0.05}
+              value={props.background?.panelOpacity ?? 0.75}
+              onValueChange={(v) =>
+                props.onChange({ panelOpacity: Array.isArray(v) ? v[0] : v })
+              }
+            />
+          </div>
         </div>
       ) : (
         <Button

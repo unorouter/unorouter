@@ -3030,7 +3030,8 @@
     "BG_FIT_CONTAIN": "Contener",
     "BG_FIT_TILE": "Mosaico",
     "BG_OPACITY": "Opacidad",
-    "BG_BLUR": "Desenfoque"
+    "BG_BLUR": "Desenfoque",
+    "BG_PANEL_OPACITY": "Opacidad de los paneles"
   },
   "BILLING": {
     "SUBSCRIPTION": {

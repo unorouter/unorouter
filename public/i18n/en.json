@@ -3030,7 +3030,8 @@
     "BG_FIT_CONTAIN": "Contain",
     "BG_FIT_TILE": "Tile",
     "BG_OPACITY": "Opacity",
-    "BG_BLUR": "Blur"
+    "BG_BLUR": "Blur",
+    "BG_PANEL_OPACITY": "Panel opacity"
   },
   "BILLING": {
     "SUBSCRIPTION": {

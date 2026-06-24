@@ -3030,7 +3030,8 @@
     "BG_FIT_CONTAIN": "הכלה",
     "BG_FIT_TILE": "אריחים",
     "BG_OPACITY": "אטימות",
-    "BG_BLUR": "טשטוש"
+    "BG_BLUR": "טשטוש",
+    "BG_PANEL_OPACITY": "אטימות הלוחות"
   },
   "BILLING": {
     "SUBSCRIPTION": {

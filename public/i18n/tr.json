@@ -3030,7 +3030,8 @@
     "BG_FIT_CONTAIN": "Sığdır",
     "BG_FIT_TILE": "Döşe",
     "BG_OPACITY": "Saydamlık",
-    "BG_BLUR": "Bulanıklık"
+    "BG_BLUR": "Bulanıklık",
+    "BG_PANEL_OPACITY": "Panel saydamlığı"
   },
   "BILLING": {
     "SUBSCRIPTION": {

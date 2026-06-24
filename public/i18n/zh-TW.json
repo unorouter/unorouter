@@ -3030,7 +3030,8 @@
     "BG_FIT_CONTAIN": "包含",
     "BG_FIT_TILE": "平鋪",
     "BG_OPACITY": "不透明度",
-    "BG_BLUR": "模糊"
+    "BG_BLUR": "模糊",
+    "BG_PANEL_OPACITY": "面板不透明度"
   },
   "BILLING": {
     "SUBSCRIPTION": {

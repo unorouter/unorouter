@@ -3030,7 +3030,8 @@
     "BG_FIT_CONTAIN": "Zmieść",
     "BG_FIT_TILE": "Kafelki",
     "BG_OPACITY": "Krycie",
-    "BG_BLUR": "Rozmycie"
+    "BG_BLUR": "Rozmycie",
+    "BG_PANEL_OPACITY": "Krycie paneli"
   },
   "BILLING": {
     "SUBSCRIPTION": {
