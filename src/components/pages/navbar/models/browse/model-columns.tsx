@@ -158,7 +158,7 @@ export function buildModelColumns(opts: {
           <PriceCell
             value={priceValue(m, "input")}
             original={originalPriceValue(m, "input")}
-            unit={inputPriceUnit(deriveOutputModality(m))}
+            unit={inputPriceUnit(deriveOutputModality(m), m.isFixedPrice)}
             perCall={m.isFixedPrice}
             offLabel={opts.offLabel(
               discountPercent(
@@ -188,7 +188,7 @@ export function buildModelColumns(opts: {
           <PriceCell
             value={priceValue(m, "output")}
             original={originalPriceValue(m, "output")}
-            unit={outputPriceUnit(deriveOutputModality(m))}
+            unit={outputPriceUnit(deriveOutputModality(m), m.isFixedPrice)}
             perCall={m.isFixedPrice}
             offLabel={opts.offLabel(
               discountPercent(
