@@ -1033,7 +1033,10 @@
       "PER_MONTH": " · mc",
       "PERIOD_DAY": "dzien",
       "PERIOD_WEEK": "tydzien",
-      "PERIOD_MONTH": "miesiac"
+      "PERIOD_MONTH": "miesiac",
+      "VALUE_HERO": "kredyt API / miesiac",
+      "VALUE_EXPLAIN": "Zaplac {paid}/mies., otrzymaj {credit} kredytu API. Uzyj na dowolnym modelu.",
+      "DELIVERED": "Doladowuje {amount} co {period}."
     },
     "BANNER": {
       "TITLE": "Asystent OpenClaw AI na Telegramie",
@@ -1070,22 +1073,18 @@
       "2": "Pro",
       "3": "Skala"
     },
-    "MATRIX": {
-      "TOPUP_NAME": "Placisz za uzycie",
-      "TOPUP_TAGLINE": "Bez zobowiazan",
-      "SUB_TAGLINE": "Rozliczenie miesieczne",
-      "UPFRONT": "Placisz",
-      "ANY_AMOUNT": "Dowolna kwota",
-      "CREDIT": "Otrzymujesz",
-      "ONE_TO_ONE": "1:1 zaplaconej kwoty",
-      "DELIVERY": "Dostarczanie",
-      "INSTANT": "Od razu, w calosci",
-      "WEEKLY_VALUE": "{amount} / {period}",
-      "NA": "-",
-      "EXPIRES": "Waznosc kredytu",
-      "NEVER": "Nigdy",
-      "CYCLE": "Na cykl",
-      "FOOTNOTE": "Doladowuj dla elastycznosci i placic tylko za to, czego uzywasz. Wykup subskrypcje przy stalym zuzyciu; saldo pokrywa wszystko ponad kwote tygodniowa."
+    "TOPUP": {
+      "STEP": "Zacznij tutaj",
+      "LABEL": "Placisz za uzycie",
+      "DESC": "Dodaj kredyt, uzywaj dowolnego modelu.",
+      "FOOTNOTE": "Kredyt nigdy nie wygasa."
+    },
+    "BRIDGE": {
+      "TITLE": "Uzywasz regularnie? Wykup subskrypcje i zyskaj wiecej kredytu co miesiac.",
+      "DESC": "Doladowuj dla elastycznosci. Wykup subskrypcje przy przewidywalnym zuzyciu i zyskaj dodatkowy kredyt ponad to, co placisz."
+    },
+    "PLANS": {
+      "STEP": "Najlepsza wartosc"
     }
   },
   "DOCS_INDEX": {

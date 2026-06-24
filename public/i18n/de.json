@@ -1033,7 +1033,10 @@
       "PER_MONTH": " · Monat",
       "PERIOD_DAY": "Tag",
       "PERIOD_WEEK": "Woche",
-      "PERIOD_MONTH": "Monat"
+      "PERIOD_MONTH": "Monat",
+      "VALUE_HERO": "API-Guthaben / Monat",
+      "VALUE_EXPLAIN": "Zahle {paid}/Mon., erhalte {credit} an API-Guthaben. Auf jedem Modell nutzbar.",
+      "DELIVERED": "Stellt {amount} pro {period} bereit."
     },
     "BANNER": {
       "TITLE": "OpenClaw KI-Assistent auf Telegram",
@@ -1070,22 +1073,18 @@
       "2": "Pro",
       "3": "Scale"
     },
-    "MATRIX": {
-      "TOPUP_NAME": "Pay as you go",
-      "TOPUP_TAGLINE": "Keine Bindung",
-      "SUB_TAGLINE": "Monatlich abgerechnet",
-      "UPFRONT": "Du zahlst",
-      "ANY_AMOUNT": "Beliebig",
-      "CREDIT": "Du erhaeltst",
-      "ONE_TO_ONE": "1:1 zum Zahlbetrag",
-      "DELIVERY": "Bereitstellung",
-      "INSTANT": "Sofort, auf einmal",
-      "WEEKLY_VALUE": "{amount} / {period}",
-      "NA": "-",
-      "EXPIRES": "Guthaben gueltig",
-      "NEVER": "Nie",
-      "CYCLE": "Pro Zyklus",
-      "FOOTNOTE": "Lade auf fuer Flexibilitaet und zahle nur, was du nutzt. Abonniere bei gleichmaessigem Verbrauch; dein Guthaben deckt alles ueber dem Wochenbetrag."
+    "TOPUP": {
+      "STEP": "Hier starten",
+      "LABEL": "Pay as you go",
+      "DESC": "Guthaben aufladen, jedes Modell nutzen.",
+      "FOOTNOTE": "Guthaben verfaellt nie."
+    },
+    "BRIDGE": {
+      "TITLE": "Nutzt du es regelmaessig? Abonniere und erhalte jeden Monat mehr Guthaben.",
+      "DESC": "Lade auf fuer Flexibilitaet. Abonniere bei absehbarem Verbrauch und erhalte zusaetzliches Guthaben obendrauf."
+    },
+    "PLANS": {
+      "STEP": "Bestes Angebot"
     }
   },
   "DOCS_INDEX": {

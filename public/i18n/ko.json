@@ -1033,7 +1033,10 @@
       "PER_MONTH": " · 월",
       "PERIOD_DAY": "일",
       "PERIOD_WEEK": "주",
-      "PERIOD_MONTH": "월"
+      "PERIOD_MONTH": "월",
+      "VALUE_HERO": "월 API 크레딧",
+      "VALUE_EXPLAIN": "{paid}/월 결제로 {credit} API 크레딧 제공. 어떤 모델에서나 사용하세요.",
+      "DELIVERED": "{period}마다 {amount} 충전됩니다."
     },
     "BANNER": {
       "TITLE": "Telegram의 OpenClaw AI 어시스턴트",
@@ -1070,22 +1073,18 @@
       "2": "프로",
       "3": "스케일"
     },
-    "MATRIX": {
-      "TOPUP_NAME": "사용한 만큼 결제",
-      "TOPUP_TAGLINE": "약정 없음",
-      "SUB_TAGLINE": "월 단위 청구",
-      "UPFRONT": "결제 금액",
-      "ANY_AMOUNT": "자유 금액",
-      "CREDIT": "받는 크레딧",
-      "ONE_TO_ONE": "결제액의 1:1",
-      "DELIVERY": "제공",
-      "INSTANT": "즉시, 한 번에",
-      "WEEKLY_VALUE": "{amount} / {period}",
-      "NA": "-",
-      "EXPIRES": "크레딧 만료",
-      "NEVER": "없음",
-      "CYCLE": "주기마다",
-      "FOOTNOTE": "유연하게 쓰려면 충전하고 사용한 만큼만 결제하세요. 사용량이 일정하면 구독하세요. 주간 금액을 넘는 부분은 잔액으로 충당됩니다."
+    "TOPUP": {
+      "STEP": "여기서 시작",
+      "LABEL": "사용한 만큼 결제",
+      "DESC": "크레딧을 추가하고 어떤 모델이든 사용하세요.",
+      "FOOTNOTE": "크레딧은 만료되지 않습니다."
+    },
+    "BRIDGE": {
+      "TITLE": "자주 쓰시나요? 구독하면 매달 더 많은 크레딧을 받습니다.",
+      "DESC": "유연하게 쓰려면 충전하세요. 사용량이 예측되면 구독하고 결제액에 더해 추가 크레딧을 받으세요."
+    },
+    "PLANS": {
+      "STEP": "최고의 가치"
     }
   },
   "DOCS_INDEX": {

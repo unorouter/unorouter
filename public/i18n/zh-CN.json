@@ -1033,7 +1033,10 @@
       "PER_MONTH": " · 月",
       "PERIOD_DAY": "天",
       "PERIOD_WEEK": "周",
-      "PERIOD_MONTH": "月"
+      "PERIOD_MONTH": "月",
+      "VALUE_HERO": "API 额度 / 月",
+      "VALUE_EXPLAIN": "支付 {paid}／月，获得 {credit} API 额度。可用于任意模型。",
+      "DELIVERED": "每{period}补充 {amount}。"
     },
     "BANNER": {
       "TITLE": "Telegram 上的 OpenClaw AI 助手",
@@ -1070,22 +1073,18 @@
       "2": "专业版",
       "3": "规模版"
     },
-    "MATRIX": {
-      "TOPUP_NAME": "按量付费",
-      "TOPUP_TAGLINE": "无需承诺",
-      "SUB_TAGLINE": "按月计费",
-      "UPFRONT": "你支付",
-      "ANY_AMOUNT": "任意金额",
-      "CREDIT": "你获得",
-      "ONE_TO_ONE": "按支付金额 1:1",
-      "DELIVERY": "发放",
-      "INSTANT": "即时，一次到账",
-      "WEEKLY_VALUE": "{amount} / {period}",
-      "NA": "-",
-      "EXPIRES": "额度有效期",
-      "NEVER": "永不过期",
-      "CYCLE": "按周期",
-      "FOOTNOTE": "想要灵活就充值，用多少付多少。用量稳定后订阅；超出每周额度的部分由余额支付。"
+    "TOPUP": {
+      "STEP": "从这里开始",
+      "LABEL": "按量付费",
+      "DESC": "充值额度，畅用任意模型。",
+      "FOOTNOTE": "额度永不过期。"
+    },
+    "BRIDGE": {
+      "TITLE": "经常使用？订阅可每月获得更多额度。",
+      "DESC": "想要灵活就充值。用量稳定后订阅，在支付金额之外额外获得额度。"
+    },
+    "PLANS": {
+      "STEP": "最超值"
     }
   },
   "DOCS_INDEX": {

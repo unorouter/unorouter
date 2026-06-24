@@ -1033,7 +1033,10 @@
       "PER_MONTH": " · mois",
       "PERIOD_DAY": "jour",
       "PERIOD_WEEK": "semaine",
-      "PERIOD_MONTH": "mois"
+      "PERIOD_MONTH": "mois",
+      "VALUE_HERO": "credit API / mois",
+      "VALUE_EXPLAIN": "Payez {paid}/mois, obtenez {credit} de credit API. Utilisable sur tout modele.",
+      "DELIVERED": "Recharge {amount} chaque {period}."
     },
     "BANNER": {
       "TITLE": "Assistant IA OpenClaw sur Telegram",
@@ -1070,22 +1073,18 @@
       "2": "Pro",
       "3": "Echelle"
     },
-    "MATRIX": {
-      "TOPUP_NAME": "Paiement a l'usage",
-      "TOPUP_TAGLINE": "Sans engagement",
-      "SUB_TAGLINE": "Facture mensuelle",
-      "UPFRONT": "Vous payez",
-      "ANY_AMOUNT": "Montant libre",
-      "CREDIT": "Vous recevez",
-      "ONE_TO_ONE": "1:1 de ce que vous payez",
-      "DELIVERY": "Livraison",
-      "INSTANT": "Immediat, en une fois",
-      "WEEKLY_VALUE": "{amount} / {period}",
-      "NA": "-",
-      "EXPIRES": "Expiration du credit",
-      "NEVER": "Jamais",
-      "CYCLE": "Par cycle",
-      "FOOTNOTE": "Rechargez pour plus de flexibilite et ne payez que ce que vous utilisez. Abonnez-vous lorsque votre usage est regulier ; votre solde couvre tout depassement du montant hebdomadaire."
+    "TOPUP": {
+      "STEP": "Commencez ici",
+      "LABEL": "Paiement a l'usage",
+      "DESC": "Ajoutez du credit, utilisez n'importe quel modele.",
+      "FOOTNOTE": "Le credit n'expire jamais."
+    },
+    "BRIDGE": {
+      "TITLE": "Vous l'utilisez regulierement ? Abonnez-vous et obtenez plus de credit chaque mois.",
+      "DESC": "Rechargez pour plus de flexibilite. Abonnez-vous lorsque votre usage est previsible et obtenez du credit supplementaire en plus de ce que vous payez."
+    },
+    "PLANS": {
+      "STEP": "Meilleure valeur"
     }
   },
   "DOCS_INDEX": {
