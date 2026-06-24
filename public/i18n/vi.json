@@ -1036,11 +1036,12 @@
       "PER_MONTH": " · tháng",
       "VALUE": "giá trị {value}",
       "VALUE_EXPLAIN": "Tra {paid}/thang, nhan {credit} tin dung API. Dung tren moi mo hinh.",
-      "VALUE_HERO": "Gia tri tin dung",
       "DELIVERY": "Nap lai {amount} moi {period}.",
       "PERIOD_DAY": "ngay",
       "PERIOD_WEEK": "tuan",
-      "PERIOD_MONTH": "thang"
+      "PERIOD_MONTH": "thang",
+      "CREDIT_MONTH": "{credit} tin dung API / thang",
+      "DELIVERED": "Cap {amount} moi {period}."
     },
     "BANNER": {
       "TITLE": "Trợ lý AI OpenClaw trên Telegram",
@@ -1082,13 +1083,23 @@
       "STEP": "Gia tri tot nhat"
     },
     "BRIDGE": {
-      "TITLE": "Dung thuong xuyen? Dang ky de nhan toi 2 lan tin dung.",
-      "DESC": "Nap them khi ban can linh hoat. Dang ky khi muc dung da on dinh va cung mot do la mua duoc gap doi tin dung."
+      "TITLE": "Dung thuong xuyen? Dang ky de co muc dung bao gom moi thang.",
+      "DESC": "Nap them bat cu luc nao de linh hoat. Goi dang ky bao gom muc dung moi tuan, va so du cua ban bu cho phan vuot."
     },
     "TIER": {
       "1": "Khoi dau",
       "2": "Pro",
       "3": "Mo rong"
+    },
+    "SELFSELECT": {
+      "TITLE": "Lua chon nao phu hop?",
+      "DESC": "Nap them de linh hoat va chi tra cho phan ban dung. Dang ky khi muc dung on dinh va nhan them tin dung moi thang."
+    },
+    "TABLE": {
+      "TITLE": "So sanh goi",
+      "PRICE": "Gia",
+      "CREDIT": "Tin dung / thang",
+      "WEEKLY": "Cap moi tuan"
     }
   },
   "DOCS_INDEX": {

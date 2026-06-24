@@ -1036,11 +1036,12 @@
       "PER_MONTH": " · mois",
       "VALUE": "{value} de valeur",
       "VALUE_EXPLAIN": "Payez {paid}/mois, obtenez {credit} de credit API. Utilisable sur tout modele.",
-      "VALUE_HERO": "Valeur en credit",
       "DELIVERY": "Recharge {amount} chaque {period}.",
       "PERIOD_DAY": "jour",
       "PERIOD_WEEK": "semaine",
-      "PERIOD_MONTH": "mois"
+      "PERIOD_MONTH": "mois",
+      "CREDIT_MONTH": "{credit} de credit API / mois",
+      "DELIVERED": "Fournit {amount} chaque {period}."
     },
     "BANNER": {
       "TITLE": "Assistant IA OpenClaw sur Telegram",
@@ -1082,13 +1083,23 @@
       "STEP": "Meilleure valeur"
     },
     "BRIDGE": {
-      "TITLE": "Vous l'utilisez regulierement ? Abonnez-vous et obtenez jusqu'a 2x de credit.",
-      "DESC": "Rechargez quand vous voulez de la flexibilite. Abonnez-vous des que votre usage est previsible et le meme dollar achete deux fois plus de credit."
+      "TITLE": "Vous l'utilisez regulierement ? Abonnez-vous pour un usage inclus chaque mois.",
+      "DESC": "Rechargez quand vous voulez de la flexibilite. Un abonnement inclut un usage chaque semaine, et votre solde couvre tout depassement."
     },
     "TIER": {
       "1": "Demarrage",
       "2": "Pro",
       "3": "Echelle"
+    },
+    "SELFSELECT": {
+      "TITLE": "Quelle option choisir ?",
+      "DESC": "Rechargez pour plus de flexibilite et ne payez que ce que vous utilisez. Abonnez-vous lorsque votre usage est regulier et obtenez plus de credit chaque mois."
+    },
+    "TABLE": {
+      "TITLE": "Comparer les offres",
+      "PRICE": "Prix",
+      "CREDIT": "Credit / mois",
+      "WEEKLY": "Livraison hebdo"
     }
   },
   "DOCS_INDEX": {

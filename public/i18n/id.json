@@ -1036,11 +1036,12 @@
       "PER_MONTH": " · bln",
       "VALUE": "Nilai {value}",
       "VALUE_EXPLAIN": "Bayar {paid}/bln, dapat {credit} kredit API. Pakai di model apa pun.",
-      "VALUE_HERO": "Nilai kredit",
       "DELIVERY": "Mengisi ulang {amount} setiap {period}.",
       "PERIOD_DAY": "hari",
       "PERIOD_WEEK": "minggu",
-      "PERIOD_MONTH": "bulan"
+      "PERIOD_MONTH": "bulan",
+      "CREDIT_MONTH": "{credit} kredit API / bulan",
+      "DELIVERED": "Memberikan {amount} setiap {period}."
     },
     "BANNER": {
       "TITLE": "Asisten AI OpenClaw di Telegram",
@@ -1082,13 +1083,23 @@
       "STEP": "Nilai terbaik"
     },
     "BRIDGE": {
-      "TITLE": "Sering memakainya? Berlangganan dan dapatkan kredit hingga 2x lipat.",
-      "DESC": "Isi ulang saat butuh fleksibilitas. Berlangganan begitu pemakaianmu bisa diprediksi, dan dolar yang sama memberi dua kali lipat kredit."
+      "TITLE": "Sering memakainya? Berlangganan untuk pemakaian termasuk tiap bulan.",
+      "DESC": "Isi ulang kapan saja untuk fleksibilitas. Langganan mencakup pemakaian tiap minggu, dan saldomu menutup kelebihan apa pun."
     },
     "TIER": {
       "1": "Pemula",
       "2": "Pro",
       "3": "Skala"
+    },
+    "SELFSELECT": {
+      "TITLE": "Mana yang cocok untukku?",
+      "DESC": "Isi ulang untuk fleksibilitas dan bayar hanya yang kamu pakai. Berlangganan saat pemakaian stabil dan dapatkan lebih banyak kredit tiap bulan."
+    },
+    "TABLE": {
+      "TITLE": "Bandingkan paket",
+      "PRICE": "Harga",
+      "CREDIT": "Kredit / bulan",
+      "WEEKLY": "Pengiriman mingguan"
     }
   },
   "DOCS_INDEX": {

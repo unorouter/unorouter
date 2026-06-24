@@ -1036,11 +1036,12 @@
       "PER_MONTH": " · mc",
       "VALUE": "Wartość {value}",
       "VALUE_EXPLAIN": "Zaplac {paid}/mies., otrzymaj {credit} kredytu API. Uzyj na dowolnym modelu.",
-      "VALUE_HERO": "Wartosc kredytu",
       "DELIVERY": "Doladowuje {amount} co {period}.",
       "PERIOD_DAY": "dzien",
       "PERIOD_WEEK": "tydzien",
-      "PERIOD_MONTH": "miesiac"
+      "PERIOD_MONTH": "miesiac",
+      "CREDIT_MONTH": "{credit} kredytu API / miesiac",
+      "DELIVERED": "Dostarcza {amount} co {period}."
     },
     "BANNER": {
       "TITLE": "Asystent OpenClaw AI na Telegramie",
@@ -1082,13 +1083,23 @@
       "STEP": "Najlepsza wartosc"
     },
     "BRIDGE": {
-      "TITLE": "Uzywasz regularnie? Wykup subskrypcje i zyskaj nawet 2x kredytu.",
-      "DESC": "Doladowuj, gdy chcesz elastycznosci. Wykup subskrypcje, gdy zuzycie stanie sie przewidywalne, a ten sam dolar kupi dwa razy wiecej kredytu."
+      "TITLE": "Uzywasz regularnie? Wykup subskrypcje z uzyciem wliczonym co miesiac.",
+      "DESC": "Doladowuj w dowolnej chwili dla elastycznosci. Subskrypcja obejmuje uzycie co tydzien, a saldo pokrywa kazda nadwyzke."
     },
     "TIER": {
       "1": "Poczatkowy",
       "2": "Pro",
       "3": "Skala"
+    },
+    "SELFSELECT": {
+      "TITLE": "Co bedzie dla mnie lepsze?",
+      "DESC": "Doladowuj dla elastycznosci i placic tylko za to, czego uzywasz. Wykup subskrypcje przy stalym zuzyciu i zyskaj wiecej kredytu co miesiac."
+    },
+    "TABLE": {
+      "TITLE": "Porownaj plany",
+      "PRICE": "Cena",
+      "CREDIT": "Kredyt / miesiac",
+      "WEEKLY": "Dostawa tygodniowa"
     }
   },
   "DOCS_INDEX": {

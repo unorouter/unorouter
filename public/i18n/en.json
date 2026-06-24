@@ -1036,11 +1036,12 @@
       "PER_MONTH": " · mo",
       "VALUE": "{value} value",
       "VALUE_EXPLAIN": "Pay {paid}/mo, get {credit} in API credit. Use it on any model.",
-      "VALUE_HERO": "Credit value",
       "DELIVERY": "Refills {amount} each {period}.",
       "PERIOD_DAY": "day",
       "PERIOD_WEEK": "week",
-      "PERIOD_MONTH": "month"
+      "PERIOD_MONTH": "month",
+      "CREDIT_MONTH": "{credit} in API credit / month",
+      "DELIVERED": "Delivered {amount} each {period}."
     },
     "BANNER": {
       "TITLE": "OpenClaw AI Assistant on Telegram",
@@ -1082,13 +1083,23 @@
       "STEP": "Best value"
     },
     "BRIDGE": {
-      "TITLE": "Using it regularly? Subscribe and get up to 2x the credit.",
-      "DESC": "Top up when you want flexibility. Subscribe once your usage is predictable and the same dollar buys twice the credit."
+      "TITLE": "Use it regularly? Subscribe for monthly included usage.",
+      "DESC": "Top up anytime for flexibility. A subscription includes usage every week, and your balance covers any overflow."
     },
     "TIER": {
       "1": "Starter",
       "2": "Pro",
       "3": "Scale"
+    },
+    "SELFSELECT": {
+      "TITLE": "Which is right for me?",
+      "DESC": "Top up for flexibility and pay only for what you use. Subscribe when your usage is steady and get more credit each month."
+    },
+    "TABLE": {
+      "TITLE": "Compare plans",
+      "PRICE": "Price",
+      "CREDIT": "Credit / month",
+      "WEEKLY": "Weekly delivery"
     }
   },
   "DOCS_INDEX": {

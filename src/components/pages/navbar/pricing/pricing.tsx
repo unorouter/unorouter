@@ -9,7 +9,6 @@ import { useBillingActions } from "@/hooks/ui/use-billing-actions";
 import { useRouter } from "@/i18n/navigation";
 import {
   DEFAULT_TOPUP_AMOUNTS,
-  getMultiplier,
   periodWordKey,
   type SubscriptionPlan,
 } from "@/lib/api/subscription";
@@ -18,8 +17,17 @@ import {
   AUTH_REDIRECT_COOKIE,
   type TranslationKey,
 } from "@/lib/config/constants";
+import { cn } from "@/lib/utils";
 import { setCookie } from "cookies-next/client";
 import { useTranslations } from "next-intl";
+
+function Bool(props: { on: boolean }) {
+  return props.on ? (
+    <Icon name="check" className="h-4 w-4 text-emerald-500" />
+  ) : (
+    <span className="text-muted-foreground/40">-</span>
+  );
+}
 
 type TopUpOption = {
   key: string;
@@ -110,6 +118,15 @@ export function Pricing() {
     return features;
   }
 
+  function deliveryLabelFor(plan: SubscriptionPlan): string | undefined {
+    const periodKey = periodWordKey(plan.quotaResetPeriod);
+    if (plan.quotaPerResetUsd <= 0 || !periodKey) return undefined;
+    return t("PRICING.CARD.DELIVERED", {
+      amount: `$${plan.quotaPerResetUsd}`,
+      period: t(periodKey),
+    });
+  }
+
   const topUpOptions = buildTopUpOptions();
 
   return (
@@ -184,14 +201,6 @@ export function Pricing() {
           {plans.map((plan, i) => {
             const tierKey = `PRICING.TIER.${i + 1}` as TranslationKey;
             const name = t.has(tierKey) ? t(tierKey) : plan.title;
-            const periodKey = periodWordKey(plan.quotaResetPeriod);
-            const deliveryLabel =
-              plan.quotaPerResetUsd > 0 && periodKey
-                ? t("PRICING.CARD.DELIVERY", {
-                    amount: `$${plan.quotaPerResetUsd}`,
-                    period: t(periodKey),
-                  })
-                : undefined;
 
             return (
               <PricingCard
@@ -199,8 +208,7 @@ export function Pricing() {
                 name={name}
                 price={plan.priceAmount}
                 value={plan.estimatedTotalUsd}
-                multiplier={`${getMultiplier(plan)}x`}
-                deliveryLabel={deliveryLabel}
+                deliveryLabel={deliveryLabelFor(plan)}
                 popular={i === 1}
                 features={buildFeatures(i)}
                 cta={t("PRICING.CTA")}
@@ -210,7 +218,130 @@ export function Pricing() {
             );
           })}
         </div>
+
+        {plans.length > 0 && (
+          <div className="mx-auto mt-16 max-w-4xl">
+            <h3 className="text-muted-foreground mb-6 text-center font-mono text-[10px] tracking-[0.2em] uppercase">
+              {t("PRICING.TABLE.TITLE")}
+            </h3>
+            <PlanComparison
+              plans={plans}
+              tierName={(i) => {
+                const k = `PRICING.TIER.${i + 1}` as TranslationKey;
+                return t.has(k) ? t(k) : plans[i].title;
+              }}
+            />
+          </div>
+        )}
+
+        {plans.length > 0 && (
+          <div className="mx-auto mt-16 max-w-2xl text-center">
+            <h3 className="text-foreground font-mono text-sm font-bold tracking-wide">
+              {t("PRICING.SELFSELECT.TITLE")}
+            </h3>
+            <p className="text-muted-foreground mx-auto mt-2 max-w-md font-mono text-xs leading-relaxed">
+              {t("PRICING.SELFSELECT.DESC")}
+            </p>
+          </div>
+        )}
       </div>
     </section>
+  );
+}
+
+function PlanComparison(props: {
+  plans: SubscriptionPlan[];
+  tierName: (index: number) => string;
+}) {
+  const t = useTranslations();
+  const plans = props.plans;
+
+  const gridCols = {
+    gridTemplateColumns: `minmax(8rem,1.2fr) repeat(${plans.length}, minmax(6rem,1fr))`,
+  };
+
+  type Row = {
+    label: string;
+    render: (p: SubscriptionPlan, i: number) => React.ReactNode;
+  };
+  const rows: Row[] = [
+    {
+      label: t("PRICING.TABLE.PRICE"),
+      render: (p) => (
+        <span className="font-bold tabular-nums">${p.priceAmount}</span>
+      ),
+    },
+    {
+      label: t("PRICING.TABLE.CREDIT"),
+      render: (p) => (
+        <span className="font-bold text-emerald-600 tabular-nums dark:text-emerald-400">
+          ${p.estimatedTotalUsd}
+        </span>
+      ),
+    },
+    {
+      label: t("PRICING.TABLE.WEEKLY"),
+      render: (p) =>
+        p.quotaPerResetUsd > 0 ? (
+          <span className="tabular-nums">${p.quotaPerResetUsd}</span>
+        ) : (
+          <span className="text-muted-foreground/40">-</span>
+        ),
+    },
+    { label: t("PRICING.FEATURE.MODELS"), render: () => <Bool on /> },
+    { label: t("PRICING.FEATURE.FAILOVER"), render: () => <Bool on /> },
+    { label: t("PRICING.FEATURE.OPENAI_COMPAT"), render: () => <Bool on /> },
+    {
+      label: t("PRICING.FEATURE.PRIORITY"),
+      render: (_p, i) => <Bool on={i >= 1} />,
+    },
+    {
+      label: t("PRICING.FEATURE.DEDICATED"),
+      render: (_p, i) => <Bool on={i >= 2} />,
+    },
+    { label: t("PRICING.FEATURE.UPTIME"), render: () => <Bool on /> },
+  ];
+
+  return (
+    <div className="overflow-x-auto">
+      <div className="min-w-fit">
+        <div
+          className="border-border grid items-end gap-3 border-b pb-3"
+          style={gridCols}
+        >
+          <span />
+          {plans.map((p, i) => (
+            <span
+              key={p.id}
+              className={cn(
+                "text-center font-mono text-xs font-medium tracking-widest uppercase",
+                i === 1
+                  ? "text-emerald-600 dark:text-emerald-400"
+                  : "text-foreground",
+              )}
+            >
+              {props.tierName(i)}
+            </span>
+          ))}
+        </div>
+
+        {rows.map((row) => (
+          <div
+            key={row.label}
+            className="border-border/40 grid items-center gap-3 border-b py-2.5"
+            style={gridCols}
+          >
+            <span className="text-muted-foreground font-mono text-xs">
+              {row.label}
+            </span>
+            {plans.map((p, i) => (
+              <div key={p.id} className="flex justify-center font-mono text-sm">
+                {row.render(p, i)}
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }

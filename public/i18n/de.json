@@ -1036,11 +1036,12 @@
       "PER_MONTH": " · Monat",
       "VALUE": "{value} Guthaben",
       "VALUE_EXPLAIN": "Zahle {paid}/Mon., erhalte {credit} an API-Guthaben. Auf jedem Modell nutzbar.",
-      "VALUE_HERO": "Guthabenwert",
       "DELIVERY": "Laedt {amount} pro {period} nach.",
       "PERIOD_DAY": "Tag",
       "PERIOD_WEEK": "Woche",
-      "PERIOD_MONTH": "Monat"
+      "PERIOD_MONTH": "Monat",
+      "CREDIT_MONTH": "{credit} API-Guthaben / Monat",
+      "DELIVERED": "Stellt {amount} pro {period} bereit."
     },
     "BANNER": {
       "TITLE": "OpenClaw KI-Assistent auf Telegram",
@@ -1082,13 +1083,23 @@
       "STEP": "Bestes Angebot"
     },
     "BRIDGE": {
-      "TITLE": "Nutzt du es regelmaessig? Abonniere und erhalte bis zu 2x Guthaben.",
-      "DESC": "Lade auf, wenn du Flexibilitaet willst. Abonniere, sobald dein Verbrauch absehbar ist, und derselbe Dollar bringt doppelt so viel Guthaben."
+      "TITLE": "Nutzt du es regelmaessig? Abonniere fuer monatlich inbegriffene Nutzung.",
+      "DESC": "Lade jederzeit fuer Flexibilitaet auf. Ein Abo enthaelt woechentliche Nutzung, und dein Guthaben deckt jeden Mehrbedarf."
     },
     "TIER": {
       "1": "Starter",
       "2": "Pro",
       "3": "Scale"
+    },
+    "SELFSELECT": {
+      "TITLE": "Was passt zu mir?",
+      "DESC": "Lade auf fuer Flexibilitaet und zahle nur, was du nutzt. Abonniere bei gleichmaessigem Verbrauch und erhalte jeden Monat mehr Guthaben."
+    },
+    "TABLE": {
+      "TITLE": "Plaene vergleichen",
+      "PRICE": "Preis",
+      "CREDIT": "Guthaben / Monat",
+      "WEEKLY": "Woechentlich"
     }
   },
   "DOCS_INDEX": {

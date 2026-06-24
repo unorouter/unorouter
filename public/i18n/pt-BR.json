@@ -1036,11 +1036,12 @@
       "PER_MONTH": " · mês",
       "VALUE": "valor {value}",
       "VALUE_EXPLAIN": "Pague {paid}/mes, ganhe {credit} em credito de API. Use em qualquer modelo.",
-      "VALUE_HERO": "Valor em credito",
       "DELIVERY": "Recarrega {amount} a cada {period}.",
       "PERIOD_DAY": "dia",
       "PERIOD_WEEK": "semana",
-      "PERIOD_MONTH": "mes"
+      "PERIOD_MONTH": "mes",
+      "CREDIT_MONTH": "{credit} em credito de API / mes",
+      "DELIVERED": "Entrega {amount} a cada {period}."
     },
     "BANNER": {
       "TITLE": "Assistente OpenClaw AI no Telegram",
@@ -1082,13 +1083,23 @@
       "STEP": "Melhor valor"
     },
     "BRIDGE": {
-      "TITLE": "Usa com frequencia? Assine e ganhe ate 2x de credito.",
-      "DESC": "Recarregue quando quiser flexibilidade. Assine quando seu uso for previsivel e o mesmo dolar compra o dobro de credito."
+      "TITLE": "Usa com frequencia? Assine e tenha uso incluido todo mes.",
+      "DESC": "Recarregue quando quiser flexibilidade. A assinatura inclui uso toda semana, e seu saldo cobre qualquer excedente."
     },
     "TIER": {
       "1": "Inicial",
       "2": "Pro",
       "3": "Escala"
+    },
+    "SELFSELECT": {
+      "TITLE": "Qual e melhor para mim?",
+      "DESC": "Recarregue para ter flexibilidade e pague apenas pelo que usar. Assine quando seu uso for constante e ganhe mais credito por mes."
+    },
+    "TABLE": {
+      "TITLE": "Comparar planos",
+      "PRICE": "Preco",
+      "CREDIT": "Credito / mes",
+      "WEEKLY": "Entrega semanal"
     }
   },
   "DOCS_INDEX": {
