@@ -1033,7 +1033,10 @@
       "PER_MONTH": " · mese",
       "PERIOD_DAY": "giorno",
       "PERIOD_WEEK": "settimana",
-      "PERIOD_MONTH": "mese"
+      "PERIOD_MONTH": "mese",
+      "VALUE_HERO": "credito API / mese",
+      "VALUE_EXPLAIN": "Paghi {paid}/mese, ottieni {credit} di credito API. Usalo su qualsiasi modello.",
+      "DELIVERED": "Ricarica {amount} ogni {period}."
     },
     "BANNER": {
       "TITLE": "Assistente AI OpenClaw su Telegram",
@@ -1070,22 +1073,18 @@
       "2": "Pro",
       "3": "Scala"
     },
-    "MATRIX": {
-      "TOPUP_NAME": "Pagamento a consumo",
-      "TOPUP_TAGLINE": "Nessun vincolo",
-      "SUB_TAGLINE": "Addebito mensile",
-      "UPFRONT": "Paghi",
-      "ANY_AMOUNT": "Importo libero",
-      "CREDIT": "Ricevi",
-      "ONE_TO_ONE": "1:1 di cio che paghi",
-      "DELIVERY": "Erogazione",
-      "INSTANT": "Subito, tutto insieme",
-      "WEEKLY_VALUE": "{amount} / {period}",
-      "NA": "-",
-      "EXPIRES": "Scadenza credito",
-      "NEVER": "Mai",
-      "CYCLE": "Per ciclo",
-      "FOOTNOTE": "Ricarica per avere flessibilita e paga solo cio che usi. Abbonati quando l'utilizzo e costante; il tuo saldo copre tutto cio che supera l'importo settimanale."
+    "TOPUP": {
+      "STEP": "Inizia qui",
+      "LABEL": "Pagamento a consumo",
+      "DESC": "Aggiungi credito, usa qualsiasi modello.",
+      "FOOTNOTE": "Il credito non scade mai."
+    },
+    "BRIDGE": {
+      "TITLE": "Lo usi spesso? Abbonati e ottieni piu credito ogni mese.",
+      "DESC": "Ricarica per flessibilita. Abbonati quando l'utilizzo e prevedibile e ottieni credito extra oltre a cio che paghi."
+    },
+    "PLANS": {
+      "STEP": "Miglior valore"
     }
   },
   "DOCS_INDEX": {

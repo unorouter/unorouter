@@ -1033,7 +1033,10 @@
       "PER_MONTH": " · ay",
       "PERIOD_DAY": "gun",
       "PERIOD_WEEK": "hafta",
-      "PERIOD_MONTH": "ay"
+      "PERIOD_MONTH": "ay",
+      "VALUE_HERO": "aylik API kredisi",
+      "VALUE_EXPLAIN": "{paid}/ay ode, {credit} API kredisi al. Her modelde kullan.",
+      "DELIVERED": "Her {period} {amount} yeniler."
     },
     "BANNER": {
       "TITLE": "Telegram'da OpenClaw AI Asistanı",
@@ -1070,22 +1073,18 @@
       "2": "Pro",
       "3": "Olcek"
     },
-    "MATRIX": {
-      "TOPUP_NAME": "Kullandikca ode",
-      "TOPUP_TAGLINE": "Taahhut yok",
-      "SUB_TAGLINE": "Aylik faturalandirma",
-      "UPFRONT": "Odersin",
-      "ANY_AMOUNT": "Herhangi bir tutar",
-      "CREDIT": "Alirsin",
-      "ONE_TO_ONE": "odedigin tutarin 1:1",
-      "DELIVERY": "Teslim",
-      "INSTANT": "Aninda, tek seferde",
-      "WEEKLY_VALUE": "{amount} / {period}",
-      "NA": "-",
-      "EXPIRES": "Kredi suresi",
-      "NEVER": "Asla",
-      "CYCLE": "Donem basina",
-      "FOOTNOTE": "Esneklik icin bakiye yukle ve yalnizca kullandigin kadar ode. Kullanimin duzenli oldugunda abone ol; bakiyen haftalik tutarin uzerindeki her seyi karsilar."
+    "TOPUP": {
+      "STEP": "Buradan basla",
+      "LABEL": "Kullandikca ode",
+      "DESC": "Kredi ekle, herhangi bir modeli kullan.",
+      "FOOTNOTE": "Krediler asla sona ermez."
+    },
+    "BRIDGE": {
+      "TITLE": "Duzenli mi kullaniyorsun? Abone ol ve her ay daha fazla kredi kazan.",
+      "DESC": "Esneklik icin bakiye yukle. Kullanimin ongorulebilir oldugunda abone ol ve odedigin tutarin ustune ekstra kredi kazan."
+    },
+    "PLANS": {
+      "STEP": "En iyi deger"
     }
   },
   "DOCS_INDEX": {

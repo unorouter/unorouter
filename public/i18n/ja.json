@@ -1033,7 +1033,10 @@
       "PER_MONTH": " · 月",
       "PERIOD_DAY": "日",
       "PERIOD_WEEK": "週",
-      "PERIOD_MONTH": "月"
+      "PERIOD_MONTH": "月",
+      "VALUE_HERO": "APIクレジット / 月",
+      "VALUE_EXPLAIN": "{paid}/月で{credit}分のAPIクレジット。どのモデルでも使えます。",
+      "DELIVERED": "{period}ごとに{amount}を補充。"
     },
     "BANNER": {
       "TITLE": "Telegram で使える OpenClaw AI アシスタント",
@@ -1070,22 +1073,18 @@
       "2": "プロ",
       "3": "スケール"
     },
-    "MATRIX": {
-      "TOPUP_NAME": "従量課金",
-      "TOPUP_TAGLINE": "契約なし",
-      "SUB_TAGLINE": "月額請求",
-      "UPFRONT": "支払い",
-      "ANY_AMOUNT": "任意の金額",
-      "CREDIT": "取得クレジット",
-      "ONE_TO_ONE": "支払額の1:1",
-      "DELIVERY": "付与",
-      "INSTANT": "即時、一括",
-      "WEEKLY_VALUE": "{amount} / {period}",
-      "NA": "-",
-      "EXPIRES": "クレジット有効期限",
-      "NEVER": "無期限",
-      "CYCLE": "サイクルごと",
-      "FOOTNOTE": "柔軟に使いたいときはチャージし、使った分だけ支払い。利用量が安定したらサブスクへ。週あたりの額を超えた分は残高でカバーします。"
+    "TOPUP": {
+      "STEP": "ここから始める",
+      "LABEL": "従量課金",
+      "DESC": "クレジットを追加して、どのモデルでも利用。",
+      "FOOTNOTE": "クレジットは無期限です。"
+    },
+    "BRIDGE": {
+      "TITLE": "よく使いますか？サブスクで毎月より多くのクレジットを。",
+      "DESC": "柔軟に使いたいときはチャージを。利用量が安定したらサブスクへ。支払額に上乗せでクレジットがもらえます。"
+    },
+    "PLANS": {
+      "STEP": "最高の価値"
     }
   },
   "DOCS_INDEX": {

@@ -1033,7 +1033,10 @@
       "PER_MONTH": "／月",
       "PERIOD_DAY": "天",
       "PERIOD_WEEK": "週",
-      "PERIOD_MONTH": "月"
+      "PERIOD_MONTH": "月",
+      "VALUE_HERO": "API 額度 / 月",
+      "VALUE_EXPLAIN": "支付 {paid}／月，獲得 {credit} API 額度。可用於任意模型。",
+      "DELIVERED": "每{period}補充 {amount}。"
     },
     "BANNER": {
       "TITLE": "Telegram 上的 OpenClaw AI 助理",
@@ -1070,22 +1073,18 @@
       "2": "專業版",
       "3": "規模版"
     },
-    "MATRIX": {
-      "TOPUP_NAME": "按量付費",
-      "TOPUP_TAGLINE": "無需承諾",
-      "SUB_TAGLINE": "按月計費",
-      "UPFRONT": "你支付",
-      "ANY_AMOUNT": "任意金額",
-      "CREDIT": "你獲得",
-      "ONE_TO_ONE": "按支付金額 1:1",
-      "DELIVERY": "發放",
-      "INSTANT": "即時，一次到帳",
-      "WEEKLY_VALUE": "{amount} / {period}",
-      "NA": "-",
-      "EXPIRES": "額度有效期",
-      "NEVER": "永不過期",
-      "CYCLE": "按週期",
-      "FOOTNOTE": "想要彈性就儲值，用多少付多少。用量穩定後訂閱；超出每週額度的部分由餘額支付。"
+    "TOPUP": {
+      "STEP": "從這裡開始",
+      "LABEL": "按量付費",
+      "DESC": "儲值額度，暢用任意模型。",
+      "FOOTNOTE": "額度永不過期。"
+    },
+    "BRIDGE": {
+      "TITLE": "經常使用？訂閱可每月獲得更多額度。",
+      "DESC": "想要彈性就儲值。用量穩定後訂閱，在支付金額之外額外獲得額度。"
+    },
+    "PLANS": {
+      "STEP": "最超值"
     }
   },
   "DOCS_INDEX": {

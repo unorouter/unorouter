@@ -1033,7 +1033,10 @@
       "PER_MONTH": " · mo",
       "PERIOD_DAY": "day",
       "PERIOD_WEEK": "week",
-      "PERIOD_MONTH": "month"
+      "PERIOD_MONTH": "month",
+      "VALUE_HERO": "API credit / month",
+      "VALUE_EXPLAIN": "Pay {paid}/mo, get {credit} in API credit. Use it on any model.",
+      "DELIVERED": "Delivered {amount} each {period}."
     },
     "BANNER": {
       "TITLE": "OpenClaw AI Assistant on Telegram",
@@ -1070,22 +1073,18 @@
       "2": "Pro",
       "3": "Scale"
     },
-    "MATRIX": {
-      "TOPUP_NAME": "Pay as you go",
-      "TOPUP_TAGLINE": "No commitment",
-      "SUB_TAGLINE": "Billed monthly",
-      "UPFRONT": "You pay",
-      "ANY_AMOUNT": "Any amount",
-      "CREDIT": "Credit you get",
-      "ONE_TO_ONE": "1:1 of what you pay",
-      "DELIVERY": "Delivery",
-      "INSTANT": "Instant, all at once",
-      "WEEKLY_VALUE": "{amount} / {period}",
-      "NA": "-",
-      "EXPIRES": "Credit expiry",
-      "NEVER": "Never",
-      "CYCLE": "Per cycle",
-      "FOOTNOTE": "Top up for flexibility and pay only for what you use. Subscribe when your usage is steady; your balance covers anything beyond the weekly amount."
+    "TOPUP": {
+      "STEP": "Start here",
+      "LABEL": "Pay as you go",
+      "DESC": "Add credit, use any model.",
+      "FOOTNOTE": "Credits never expire."
+    },
+    "BRIDGE": {
+      "TITLE": "Using it regularly? Subscribe and get more credit each month.",
+      "DESC": "Top up when you want flexibility. Subscribe once your usage is predictable and get extra credit on top of what you pay."
+    },
+    "PLANS": {
+      "STEP": "Best value"
     }
   },
   "DOCS_INDEX": {

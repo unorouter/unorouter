@@ -1033,7 +1033,10 @@
       "PER_MONTH": " · tháng",
       "PERIOD_DAY": "ngay",
       "PERIOD_WEEK": "tuan",
-      "PERIOD_MONTH": "thang"
+      "PERIOD_MONTH": "thang",
+      "VALUE_HERO": "tin dung API / thang",
+      "VALUE_EXPLAIN": "Tra {paid}/thang, nhan {credit} tin dung API. Dung tren moi mo hinh.",
+      "DELIVERED": "Nap lai {amount} moi {period}."
     },
     "BANNER": {
       "TITLE": "Trợ lý AI OpenClaw trên Telegram",
@@ -1070,22 +1073,18 @@
       "2": "Pro",
       "3": "Mo rong"
     },
-    "MATRIX": {
-      "TOPUP_NAME": "Tra theo dung",
-      "TOPUP_TAGLINE": "Khong rang buoc",
-      "SUB_TAGLINE": "Tinh phi hang thang",
-      "UPFRONT": "Ban tra",
-      "ANY_AMOUNT": "So tien tuy y",
-      "CREDIT": "Ban nhan",
-      "ONE_TO_ONE": "1:1 so tien tra",
-      "DELIVERY": "Cap phat",
-      "INSTANT": "Tuc thi, mot lan",
-      "WEEKLY_VALUE": "{amount} / {period}",
-      "NA": "-",
-      "EXPIRES": "Han tin dung",
-      "NEVER": "Khong bao gio",
-      "CYCLE": "Moi chu ky",
-      "FOOTNOTE": "Nap them de linh hoat va chi tra cho phan ban dung. Dang ky khi muc dung on dinh; so du cua ban bu cho phan vuot qua muc hang tuan."
+    "TOPUP": {
+      "STEP": "Bat dau o day",
+      "LABEL": "Tra theo dung",
+      "DESC": "Them tin dung, dung moi mo hinh.",
+      "FOOTNOTE": "Tin dung khong bao gio het han."
+    },
+    "BRIDGE": {
+      "TITLE": "Dung thuong xuyen? Dang ky de nhan them tin dung moi thang.",
+      "DESC": "Nap them de linh hoat. Dang ky khi muc dung co the du doan va nhan tin dung bo sung ngoai so tien ban tra."
+    },
+    "PLANS": {
+      "STEP": "Gia tri tot nhat"
     }
   },
   "DOCS_INDEX": {

@@ -1033,7 +1033,10 @@
       "PER_MONTH": " · bln",
       "PERIOD_DAY": "hari",
       "PERIOD_WEEK": "minggu",
-      "PERIOD_MONTH": "bulan"
+      "PERIOD_MONTH": "bulan",
+      "VALUE_HERO": "kredit API / bulan",
+      "VALUE_EXPLAIN": "Bayar {paid}/bln, dapat {credit} kredit API. Pakai di model apa pun.",
+      "DELIVERED": "Mengisi ulang {amount} setiap {period}."
     },
     "BANNER": {
       "TITLE": "Asisten AI OpenClaw di Telegram",
@@ -1070,22 +1073,18 @@
       "2": "Pro",
       "3": "Skala"
     },
-    "MATRIX": {
-      "TOPUP_NAME": "Bayar sesuai pakai",
-      "TOPUP_TAGLINE": "Tanpa komitmen",
-      "SUB_TAGLINE": "Ditagih bulanan",
-      "UPFRONT": "Kamu bayar",
-      "ANY_AMOUNT": "Jumlah bebas",
-      "CREDIT": "Kamu dapat",
-      "ONE_TO_ONE": "1:1 dari yang dibayar",
-      "DELIVERY": "Pengiriman",
-      "INSTANT": "Langsung, sekaligus",
-      "WEEKLY_VALUE": "{amount} / {period}",
-      "NA": "-",
-      "EXPIRES": "Masa berlaku kredit",
-      "NEVER": "Tidak pernah",
-      "CYCLE": "Per siklus",
-      "FOOTNOTE": "Isi ulang untuk fleksibilitas dan bayar hanya yang kamu pakai. Berlangganan saat pemakaian stabil; saldomu menutup apa pun di atas jumlah mingguan."
+    "TOPUP": {
+      "STEP": "Mulai di sini",
+      "LABEL": "Bayar sesuai pakai",
+      "DESC": "Tambah kredit, gunakan model apa pun.",
+      "FOOTNOTE": "Kredit tidak pernah kedaluwarsa."
+    },
+    "BRIDGE": {
+      "TITLE": "Sering memakainya? Berlangganan dan dapatkan lebih banyak kredit tiap bulan.",
+      "DESC": "Isi ulang untuk fleksibilitas. Berlangganan saat pemakaian bisa diprediksi dan dapatkan kredit ekstra di atas yang kamu bayar."
+    },
+    "PLANS": {
+      "STEP": "Nilai terbaik"
     }
   },
   "DOCS_INDEX": {
