@@ -3228,7 +3228,8 @@
       "NO_RESULTS": "Tidak ada model ditemukan",
       "FREE_BADGE": "GRATIS",
       "LOGIN_REQUIRED": "Login diperlukan",
-      "CUSTOM_PROVIDERS": "Penyedia khusus"
+      "CUSTOM_PROVIDERS": "Penyedia khusus",
+      "UNAVAILABLE_TOOLTIP": "{model} (sementara tidak tersedia)"
     },
     "GROUP": {
       "SELECT": "Grup penagihan",

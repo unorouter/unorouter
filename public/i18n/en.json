@@ -3228,7 +3228,8 @@
       "NO_RESULTS": "No models found",
       "FREE_BADGE": "FREE",
       "LOGIN_REQUIRED": "Login required",
-      "CUSTOM_PROVIDERS": "Custom providers"
+      "CUSTOM_PROVIDERS": "Custom providers",
+      "UNAVAILABLE_TOOLTIP": "{model} (temporarily unavailable)"
     },
     "GROUP": {
       "SELECT": "Billing group",

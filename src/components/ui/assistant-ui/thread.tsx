@@ -384,6 +384,11 @@ const PersistedErrorPart: FC<{ data?: unknown }> = (props) => {
     requestId?: string;
   };
   if (!data.message) return null;
+  // Custom-provider ids are namespaced; show just the model key to the user (raw id stays in copyText for debug).
+  const displayModel =
+    data.model && isCustomModelId(data.model)
+      ? (parseCustomModelId(data.model)?.modelKey ?? data.model)
+      : data.model;
   const meta = [
     data.status ? `HTTP ${data.status}` : null,
     data.code ?? null,
@@ -405,7 +410,7 @@ const PersistedErrorPart: FC<{ data?: unknown }> = (props) => {
     >
       <div className="flex items-start justify-between gap-2">
         <span className="aui-message-error-message">
-          {data.model ? `${data.model}: ${data.message}` : data.message}
+          {displayModel ? `${displayModel}: ${data.message}` : data.message}
         </span>
         <TooltipIconButton
           tooltip={t("CHAT.ACTION.COPY")}

@@ -3228,7 +3228,8 @@
       "NO_RESULTS": "לא נמצאו מודלים",
       "FREE_BADGE": "חינם",
       "LOGIN_REQUIRED": "התחברות נדרשת",
-      "CUSTOM_PROVIDERS": "ספקים מותאמים אישית"
+      "CUSTOM_PROVIDERS": "ספקים מותאמים אישית",
+      "UNAVAILABLE_TOOLTIP": "{model} (לא זמין באופן זמני)"
     },
     "GROUP": {
       "SELECT": "קבוצת חיוב",

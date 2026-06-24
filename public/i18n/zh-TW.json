@@ -3228,7 +3228,8 @@
       "NO_RESULTS": "找不到模型",
       "FREE_BADGE": "免費",
       "LOGIN_REQUIRED": "需先登入",
-      "CUSTOM_PROVIDERS": "自訂提供商"
+      "CUSTOM_PROVIDERS": "自訂提供商",
+      "UNAVAILABLE_TOOLTIP": "{model}（暫時無法使用）"
     },
     "GROUP": {
       "SELECT": "計費分組",

@@ -3228,7 +3228,8 @@
       "NO_RESULTS": "Không tìm thấy mô hình",
       "FREE_BADGE": "MIỄN PHÍ",
       "LOGIN_REQUIRED": "Yêu cầu đăng nhập",
-      "CUSTOM_PROVIDERS": "Nhà cung cấp tùy chỉnh"
+      "CUSTOM_PROVIDERS": "Nhà cung cấp tùy chỉnh",
+      "UNAVAILABLE_TOOLTIP": "{model} (tạm thời không khả dụng)"
     },
     "GROUP": {
       "SELECT": "Nhóm tính phí",
