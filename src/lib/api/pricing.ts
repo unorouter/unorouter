@@ -9,6 +9,11 @@ import {
 const MODEL_TYPES = ["text", "image", "video", "audio", "embedding"] as const;
 export type ModelType = (typeof MODEL_TYPES)[number];
 
+// Media = any non-text type: not an OpenAI chat-completion, so it dispatches to a media endpoint.
+export function isMediaType(type: ModelType | undefined): boolean {
+  return type != null && type !== "text";
+}
+
 export type GridPricingRow = Record<string, string | number>;
 
 export type EndpointInfo = {

@@ -107,7 +107,12 @@ export const SAMPLING_FIELDS = SAMPLING_PARAMS.map(
 ) as SamplingFieldName[];
 
 // RP entity tabs shown in the sidebar dialog + nav.
-export const RP_TABS = ["characters", "personas", "lorebooks"] as const;
+export const RP_TABS = [
+  "characters",
+  "personas",
+  "lorebooks",
+  "custom-providers",
+] as const;
 export type RpTab = (typeof RP_TABS)[number];
 
 // Reuse the canonical unions from chat.ts (anyOf spread keeps one source).

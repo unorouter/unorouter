@@ -1,7 +1,9 @@
-// Text-stream request assembly (chat body into streamText args). Orchestrates the five stages; stream.service.ts owns the streamText call.
+// Text-stream request assembly (chat body into streamText args). Orchestrates the five stages; the
+// client transport (runClientStream, default + custom paths) owns the streamText call.
+// Isomorphic: all server-secret/data-source touches are injected via AssemblerDeps.
 
-import { getPricingSummary } from "@/lib/api/pricing-cache";
 import type { ChatContext, StreamOverrides } from "@/lib/validation/chat";
+import type { AssemblerDeps } from "./deps";
 import type { StreamMessages } from "./transforms";
 import { resolveContext } from "./stages/resolve-context";
 import { preprocessMessages } from "./stages/preprocess";
@@ -25,7 +27,6 @@ export type StreamBody = {
   group?: string | null;
   overrides?: StreamOverrides;
   chatContext?: ChatContext;
-  chatContextHash?: string;
   globalVars?: string | null;
   speakingCharacterId?: string | null;
   messageTimes?: Record<string, number>;
@@ -37,19 +38,22 @@ export type StreamBody = {
   };
 };
 
+export type PreparedChatRequest = Awaited<ReturnType<typeof prepareChatRequest>>;
+
 export async function prepareChatRequest(
   apiKey: string,
   body: StreamBody,
-  request: Request,
   userId: number,
+  deps: AssemblerDeps,
 ) {
   const { clientCtx, convCtx, effectiveWebSearch, searchSystemMessage } =
-    await resolveContext(apiKey, body, request, userId);
+    await resolveContext(apiKey, body, userId, deps);
 
-  const modelInfo = (await getPricingSummary()).byName.get(body.model);
+  const modelInfo = deps.getModelInfo(body.model);
   const { messages, luaCodes } = await preprocessMessages(
     body.messages,
     convCtx,
+    deps.inlinePdfText,
   );
 
   const prompt = await assemblePrompt(
@@ -60,6 +64,7 @@ export async function prepareChatRequest(
     messages,
     searchSystemMessage,
     modelInfo,
+    deps,
   );
 
   const {

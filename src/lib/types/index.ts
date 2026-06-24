@@ -1,7 +1,15 @@
 import type { Pathname, pathnames } from "@/i18n/routing";
 import type * as client from "@/lib/db/schema/client";
 import type * as shared from "@/lib/db/schema/shared";
-import type { RequestLogRow } from "@/lib/db/schema/rows";
+import type {
+  CharacterRow,
+  LorebookEntryRow,
+  LorebookRow,
+  PersonaRow,
+  PresetRow,
+  RequestLogRow,
+} from "@/lib/db/schema/rows";
+import type { ConversationSettingsProjection } from "@/lib/db/conversation-settings";
 import type {
   GenerationFormUi,
   GenerationParams,
@@ -53,7 +61,7 @@ type RequestLogPayload = Omit<
   | "tokensPerSecond"
 >;
 
-// Mirror of the `messageMetadata` shape emitted by stream.service finish frame.
+// Mirror of the `messageMetadata` shape emitted by the chat finish frame.
 export type ChatMessageMetadata = {
   usage?: MessageUsage;
   droppedParams?: string;
@@ -205,8 +213,24 @@ export type LocalAnyRow = Record<string, unknown> & { id: string };
 export type LocalChildRow = Record<string, unknown>;
 export type LocalRowInput = Record<string, unknown>;
 
-import type { loadConvContext } from "@/server/ai/chat/prompt/conv-context";
-export type LoadedConvContext = Awaited<ReturnType<typeof loadConvContext>>;
+// Structural definition for the assembled conversation context. `buildContextFromClient` produces this
+// exact shape from the client-supplied ChatContext (the browser is the sole source of truth).
+export type LoadedConvContext = {
+  settings: ConversationSettingsProjection;
+  boundCharacters: {
+    binding: {
+      characterId: string;
+      orderIndex: number | null;
+      isActive: boolean | null;
+      overrides: unknown;
+    };
+    character: CharacterRow;
+  }[];
+  persona: PersonaRow | undefined;
+  preset: PresetRow | undefined;
+  lbRows: LorebookRow[];
+  lbEntries: LorebookEntryRow[];
+} | null;
 
 export type LbEntry = LoadedConvContext extends infer T
   ? T extends { lbEntries: infer E }

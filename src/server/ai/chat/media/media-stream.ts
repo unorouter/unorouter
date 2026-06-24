@@ -26,7 +26,7 @@ import { submitVideoTask } from "./task.service";
 import {
   extractLastUserText,
   type StreamMessages,
-} from "../pipeline/transforms";
+} from "@/lib/ai/chat/pipeline/transforms";
 
 type MediaStreamBody = {
   model: string;

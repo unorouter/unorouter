@@ -3227,7 +3227,8 @@
       "SEARCH": "Modelle durchsuchen...",
       "NO_RESULTS": "Keine Modelle gefunden",
       "FREE_BADGE": "GRATIS",
-      "LOGIN_REQUIRED": "Anmeldung erforderlich"
+      "LOGIN_REQUIRED": "Anmeldung erforderlich",
+      "CUSTOM_PROVIDERS": "Eigene Anbieter"
     },
     "GROUP": {
       "SELECT": "Abrechnungsgruppe",
@@ -3403,9 +3404,10 @@
       "LOCAL_DB": "Lokaler DB-Browser",
       "LOCAL_DB_WIPE": "Lokale Datenbank löschen und neu laden",
       "LOCAL_DB_DOWNLOAD": "Lokale SQLite-Datei herunterladen",
-      "LOCAL_DB_UPLOAD": "SQLite-Datei hochladen (überschreibt lokal)",
+      "LOCAL_DB_UPLOAD": "SQLite-Datei importieren (ersetzt lokal)",
       "LOCAL_DB_WIPE_CONFIRM": "ALLE lokalen OPFS-Daten löschen und neu laden?",
-      "LOCAL_DB_UPLOAD_CONFIRM": "Lokale OPFS-Datenbank aus dieser Datei überschreiben? Vorhandene Daten werden gelöscht.",
+      "LOCAL_DB_UPLOAD_CONFIRM": "Datensätze aus dieser Datei importieren? Sie wird auf das aktuelle Schema migriert und ersetzt deine lokalen Daten; die Datensätze werden dieser Sitzung zugeordnet.",
+      "LOCAL_DB_IMPORT_SUMMARY": "{imported} Datensätze in {tables} Tabellen importiert ({skipped} übersprungen).",
       "CLEAR": "Chat leeren",
       "CLEAR_SUCCESS": "Chat geleert",
       "CLEAR_CONFIRM_DESC": "Dadurch werden alle Nachrichten dieser Unterhaltung gelöscht, die Einstellungen, Charakterbindungen und der Titel bleiben jedoch erhalten. Diese Aktion kann nicht rückgängig gemacht werden.",
@@ -3439,6 +3441,32 @@
       "EMPTY": "Keine Chats",
       "DELETE_CONFIRM_TITLE": "Gruppe löschen?",
       "DELETE_CONFIRM_DESC": "Die Gruppe wird entfernt; ihre Chats bleiben erhalten und sind dann ohne Gruppe."
+    },
+    "CUSTOM_PROVIDER": {
+      "TITLE": "Eigene Anbieter",
+      "SIDEBAR_TAB": "Eigene Anbieter",
+      "NEW": "Neuer Anbieter",
+      "EMPTY": "Noch keine eigenen Anbieter.",
+      "NAME": "Name",
+      "BASE_URL": "Endpunkt-URL",
+      "API_KEY": "API-Schlüssel",
+      "FORMAT": "Format",
+      "TOKENIZER": "Tokenizer",
+      "FORMAT_OPENAI": "OpenAI-kompatibel",
+      "TOKENIZER_CL100K": "GPT (cl100k)",
+      "TOKENIZER_O200K": "GPT-4o/5 (o200k)",
+      "TOKENIZER_CLAUDE": "Claude (ungefähr)",
+      "TOKENIZER_GEMINI": "Gemini (ungefähr)",
+      "MODELS": "Modelle",
+      "MODELS_EMPTY": "Noch keine Modelle hinzugefügt.",
+      "ADD_MODEL": "Modell hinzufügen",
+      "FETCH_MODELS": "Modelle abrufen",
+      "FETCH_FAILED": "Modelle konnten nicht abgerufen werden (HTTP {status}). Überprüfe die Endpunkt-URL und den API-Schlüssel.",
+      "MODEL_KEY": "Modell-Schlüssel",
+      "MODEL_LABEL": "Anzeigename",
+      "MODEL_COUNT": "{count} Modell(e)",
+      "DELETE_TITLE": "Anbieter löschen?",
+      "DELETE_DESC": "Damit werden der Anbieter und seine Modelle entfernt. Deine Unterhaltungen bleiben erhalten."
     }
   },
   "RP": {

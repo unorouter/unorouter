@@ -3227,7 +3227,8 @@
       "SEARCH": "חיפוש מודלים...",
       "NO_RESULTS": "לא נמצאו מודלים",
       "FREE_BADGE": "חינם",
-      "LOGIN_REQUIRED": "התחברות נדרשת"
+      "LOGIN_REQUIRED": "התחברות נדרשת",
+      "CUSTOM_PROVIDERS": "ספקים מותאמים אישית"
     },
     "GROUP": {
       "SELECT": "קבוצת חיוב",
@@ -3403,9 +3404,10 @@
       "LOCAL_DB": "דפדפן מסד נתונים מקומי",
       "LOCAL_DB_WIPE": "מחק את מסד הנתונים המקומי וטען מחדש",
       "LOCAL_DB_DOWNLOAD": "הורד קובץ SQLite מקומי",
-      "LOCAL_DB_UPLOAD": "העלה קובץ SQLite (דורס מקומי)",
+      "LOCAL_DB_UPLOAD": "ייבא קובץ SQLite (מחליף מקומי)",
       "LOCAL_DB_WIPE_CONFIRM": "למחוק את כל הנתונים המקומיים של OPFS ולטעון מחדש?",
-      "LOCAL_DB_UPLOAD_CONFIRM": "לדרוס את מסד הנתונים המקומי של OPFS מהקובץ הזה? נתונים קיימים נמחקים.",
+      "LOCAL_DB_UPLOAD_CONFIRM": "לייבא רשומות מהקובץ הזה? הוא עובר מיגרציה לסכמה הנוכחית ומחליף את הנתונים המקומיים שלך; הרשומות מועברות לבעלות ההפעלה הנוכחית.",
+      "LOCAL_DB_IMPORT_SUMMARY": "יובאו {imported} רשומות ב-{tables} טבלאות ({skipped} דולגו).",
       "CLEAR": "נקה צ'אט",
       "CLEAR_SUCCESS": "הצ'אט נוקה",
       "CLEAR_CONFIRM_DESC": "פעולה זו מוחקת כל הודעה בשיחה אבל שומרת על ההגדרות, קישורי הדמויות והכותרת. לא ניתן לבטל.",
@@ -3439,6 +3441,32 @@
       "EMPTY": "אין צ'אטים",
       "DELETE_CONFIRM_TITLE": "למחוק את הקבוצה?",
       "DELETE_CONFIRM_DESC": "הקבוצה מוסרת; הצ'אטים שלה נשמרים והופכים ללא קבוצה."
+    },
+    "CUSTOM_PROVIDER": {
+      "TITLE": "ספקים מותאמים אישית",
+      "SIDEBAR_TAB": "ספקים מותאמים אישית",
+      "NEW": "ספק חדש",
+      "EMPTY": "אין עדיין ספקים מותאמים אישית.",
+      "NAME": "שם",
+      "BASE_URL": "כתובת נקודת הקצה",
+      "API_KEY": "מפתח API",
+      "FORMAT": "פורמט",
+      "TOKENIZER": "מטמיע אסימונים",
+      "FORMAT_OPENAI": "תואם OpenAI",
+      "TOKENIZER_CL100K": "GPT (cl100k)",
+      "TOKENIZER_O200K": "GPT-4o/5 (o200k)",
+      "TOKENIZER_CLAUDE": "Claude (משוער)",
+      "TOKENIZER_GEMINI": "Gemini (משוער)",
+      "MODELS": "מודלים",
+      "MODELS_EMPTY": "עדיין לא נוספו מודלים.",
+      "ADD_MODEL": "הוספת מודל",
+      "FETCH_MODELS": "אחזור מודלים",
+      "FETCH_FAILED": "לא ניתן לאחזר את המודלים (HTTP {status}). בדוק את כתובת נקודת הקצה ואת מפתח ה-API.",
+      "MODEL_KEY": "מפתח המודל",
+      "MODEL_LABEL": "שם תצוגה",
+      "MODEL_COUNT": "{count} מודלים",
+      "DELETE_TITLE": "למחוק את הספק?",
+      "DELETE_DESC": "פעולה זו מסירה את הספק ואת המודלים שלו. השיחות שלך נשמרות."
     }
   },
   "RP": {

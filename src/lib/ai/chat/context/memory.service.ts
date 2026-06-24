@@ -1,20 +1,33 @@
 // Rolling-summary memory (RisuAI supaMemory port): oldest unsummarized chunk folds into a running summary injected as a top system block.
+// Isomorphic: the free-model race + semantic retrieval are injected (server: getProvider/embeddings; client: the custom provider's models).
 
-import { freeModelRace } from "@/lib/ai/chat/free-model-race";
-import { logger } from "@/lib/utils/logger";
-import { retrieveSemantic } from "./retrieval.service";
+import { freeModelRace, type FreeModelRaceArgs } from "@/lib/ai/chat/free-model-race";
+import type { SemanticHit } from "@/lib/ai/chat/pipeline/deps";
 
 // Rolling-summary thresholds: fold only once the conversation is long, in modest chunks so each call stays cheap.
 const MEMORY_HISTORY_TRIGGER = 20;
 const MEMORY_CHUNK_SIZE = 10;
 
 const SUMMARIZE_SYSTEM_PROMPT =
-  "Summarize the role-play story so far. Keep characters, relationships, " +
-  "key events, and the current situation. Remove redundancy and filler. Write " +
-  "a tight third-person recap that another model can use to continue the scene.";
+  "Summarize the conversation so far. Keep the key facts, decisions, entities, " +
+  "and the current state or topic. Remove redundancy and filler. Write a tight, " +
+  "neutral recap that another model can use to continue the conversation.";
+
+type FreeModelRaceDeps = Pick<
+  FreeModelRaceArgs,
+  "listFreeModels" | "generate"
+>;
+
+type RetrieveSemantic = (
+  apiKey: string,
+  query: string,
+  candidates: { id: string; text: string }[],
+  opts: { topK: number },
+) => Promise<SemanticHit[]>;
 
 export type RollingSummaryInput = {
   apiKey: string;
+  race: FreeModelRaceDeps;
   // Whole role-tagged history (oldest first).
   history: { role: "user" | "assistant" | "system"; text: string }[];
   // Existing running summary + how many leading messages it already covers.
@@ -59,7 +72,7 @@ export async function rollSummary(
 
   try {
     const result = await freeModelRace({
-      apiKey: input.apiKey,
+      ...input.race,
       systemPrompt: SUMMARIZE_SYSTEM_PROMPT,
       prompt,
       maxOutputTokens: 512,
@@ -67,18 +80,9 @@ export async function rollSummary(
     const summary = result.text.trim();
     if (!summary) return unchanged();
     const anchor = input.priorAnchor + chunk.length;
-    logger.debug("Rolling summary updated", {
-      context: "stream.memory",
-      foldedMessages: chunk.length,
-      anchor,
-      summaryChars: summary.length,
-    });
     return { summary, anchor, memoryBlock: `[Story so far]\n${summary}` };
-  } catch (e) {
-    logger.warn("Rolling summary failed; continuing without it", {
-      context: "stream.memory",
-      error: e instanceof Error ? e.message : String(e),
-    });
+  } catch {
+    // Best-effort: summary failure leaves the prompt as-is.
     return unchanged();
   }
 }
@@ -101,6 +105,8 @@ type MemorySettings = {
 // Opt-in per-conversation memory: rolling summary of overflow history + semantic lore retrieval. Best-effort; failure leaves prompt as-is.
 export async function buildMemoryContext(
   apiKey: string,
+  race: FreeModelRaceDeps,
+  retrieveSemantic: RetrieveSemantic,
   settings: MemorySettings | undefined,
   history: { role: "user" | "assistant" | "system"; text: string }[],
   lastUserText: string | null,
@@ -116,6 +122,7 @@ export async function buildMemoryContext(
   if (history.length > MEMORY_HISTORY_TRIGGER) {
     const rolled = await rollSummary({
       apiKey,
+      race,
       history,
       priorSummary: settings.summaryMemory ?? "",
       priorAnchor: settings.summaryAnchor ?? 0,

@@ -33,7 +33,7 @@ const nextConfig: NextConfig = {
       module: { browser: "./src/lib/empty-module.ts" },
     },
   },
-  serverExternalPackages: ["wasmoon", "sharp"],
+  serverExternalPackages: ["wasmoon", "sharp", "unpdf"],
   // productionBrowserSourceMaps: true,
   experimental: {
     // allowDevelopmentBuild: true,

@@ -3227,7 +3227,8 @@
       "SEARCH": "Search models...",
       "NO_RESULTS": "No models found",
       "FREE_BADGE": "FREE",
-      "LOGIN_REQUIRED": "Login required"
+      "LOGIN_REQUIRED": "Login required",
+      "CUSTOM_PROVIDERS": "Custom providers"
     },
     "GROUP": {
       "SELECT": "Billing group",
@@ -3403,9 +3404,10 @@
       "LOCAL_DB": "Local DB browser",
       "LOCAL_DB_WIPE": "Wipe local database and reload",
       "LOCAL_DB_DOWNLOAD": "Download local SQLite file",
-      "LOCAL_DB_UPLOAD": "Upload SQLite file (overwrites local)",
+      "LOCAL_DB_UPLOAD": "Import SQLite file (replaces local)",
       "LOCAL_DB_WIPE_CONFIRM": "Wipe ALL local OPFS data and reload?",
-      "LOCAL_DB_UPLOAD_CONFIRM": "Overwrite local OPFS database from this file? Existing data is wiped.",
+      "LOCAL_DB_UPLOAD_CONFIRM": "Import records from this file? It is migrated to the current schema and replaces your local data; records are re-owned by this session.",
+      "LOCAL_DB_IMPORT_SUMMARY": "Imported {imported} records across {tables} tables ({skipped} skipped).",
       "CLEAR": "Clear chat",
       "CLEAR_SUCCESS": "Chat cleared",
       "CLEAR_CONFIRM_DESC": "This deletes every message in the conversation but keeps the settings, character bindings, and title. This cannot be undone.",
@@ -3439,6 +3441,32 @@
       "EMPTY": "No chats",
       "DELETE_CONFIRM_TITLE": "Delete group?",
       "DELETE_CONFIRM_DESC": "The group is removed; its chats are kept and become ungrouped."
+    },
+    "CUSTOM_PROVIDER": {
+      "TITLE": "Custom providers",
+      "SIDEBAR_TAB": "Custom providers",
+      "NEW": "New provider",
+      "EMPTY": "No custom providers yet.",
+      "NAME": "Name",
+      "BASE_URL": "Endpoint URL",
+      "API_KEY": "API key",
+      "FORMAT": "Format",
+      "TOKENIZER": "Tokenizer",
+      "FORMAT_OPENAI": "OpenAI-compatible",
+      "TOKENIZER_CL100K": "GPT (cl100k)",
+      "TOKENIZER_O200K": "GPT-4o/5 (o200k)",
+      "TOKENIZER_CLAUDE": "Claude (approx.)",
+      "TOKENIZER_GEMINI": "Gemini (approx.)",
+      "MODELS": "Models",
+      "MODELS_EMPTY": "No models added yet.",
+      "ADD_MODEL": "Add model",
+      "FETCH_MODELS": "Fetch models",
+      "FETCH_FAILED": "Could not fetch models (HTTP {status}). Check the endpoint URL and API key.",
+      "MODEL_KEY": "Model key",
+      "MODEL_LABEL": "Display name",
+      "MODEL_COUNT": "{count} model(s)",
+      "DELETE_TITLE": "Delete provider?",
+      "DELETE_DESC": "This removes the provider and its models. Your conversations are kept."
     }
   },
   "RP": {

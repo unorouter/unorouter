@@ -1,4 +1,10 @@
 import type { SyncKindName } from "@/lib/validation/sync-constants";
+import type {
+  CustomProviderFormat,
+  CustomProviderModel,
+  CustomProviderTokenizer,
+} from "@/lib/validation/custom-provider";
+import { uid } from "@/lib/utils/base";
 import { getTableName, sql } from "drizzle-orm";
 import {
   index,
@@ -44,6 +50,38 @@ export const localPendingTasks = sqliteTable(
   (table) => [
     primaryKey({ columns: [table.taskType, table.kind, table.id] }),
     index("idx_pending_queued").on(table.queuedAt),
+  ],
+);
+
+// Bring-your-own OpenAI-compatible providers (Risu customModels analog). CLIENT-ONLY: no server route,
+// never written to Turso. apiKey stored plaintext (local OPFS, only sent to the user's own endpoint).
+// Kept OUT of LOCAL_ONLY_TABLES so it survives cross-DB copy/salvage like other user data.
+export const customProviders = sqliteTable(
+  "custom_providers",
+  {
+    id: text("id")
+      .primaryKey()
+      .$defaultFn(() => uid()),
+    userId: integer("user_id").notNull(),
+    name: text("name").notNull(),
+    baseUrl: text("base_url").notNull(),
+    apiKey: text("api_key").notNull().default(""),
+    format: text("format").$type<CustomProviderFormat>().notNull(),
+    tokenizer: text("tokenizer").$type<CustomProviderTokenizer>().notNull(),
+    models: text("models", { mode: "json" })
+      .$type<CustomProviderModel[]>()
+      .notNull(),
+    syncExpiresAt: integer("sync_expires_at", { mode: "timestamp_ms" }),
+    createdAt: integer("created_at", { mode: "timestamp_ms" })
+      .notNull()
+      .default(sql`(unixepoch() * 1000)`),
+    updatedAt: integer("updated_at", { mode: "timestamp_ms" })
+      .notNull()
+      .default(sql`(unixepoch() * 1000)`),
+  },
+  (table) => [
+    index("idx_custom_providers_user").on(table.userId),
+    index("idx_custom_providers_sync_expires").on(table.syncExpiresAt),
   ],
 );
 

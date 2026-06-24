@@ -10,11 +10,8 @@ import {
   parseTriggerScripts,
 } from "@/lib/ai/chat/triggers/vm";
 import type { LoadedConvContext } from "@/lib/types";
-import {
-  applyRegexScripts,
-  inlinePdfText,
-  type StreamMessages,
-} from "../transforms";
+import type { AssemblerDeps } from "../deps";
+import { applyRegexScripts, type StreamMessages } from "../transforms";
 
 export type Preprocessed = {
   messages: StreamMessages;
@@ -25,6 +22,7 @@ export type Preprocessed = {
 export async function preprocessMessages(
   messages: StreamMessages,
   convCtx: LoadedConvContext,
+  inlinePdfText: AssemblerDeps["inlinePdfText"],
 ): Promise<Preprocessed> {
   const primaryChar = convCtx?.boundCharacters[0]?.character as
     | { regexScripts?: unknown; triggers?: unknown }

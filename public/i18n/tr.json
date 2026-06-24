@@ -3227,7 +3227,8 @@
       "SEARCH": "Modelleri ara...",
       "NO_RESULTS": "Model bulunamadı",
       "FREE_BADGE": "ÜCRETSİZ",
-      "LOGIN_REQUIRED": "Giriş gerekli"
+      "LOGIN_REQUIRED": "Giriş gerekli",
+      "CUSTOM_PROVIDERS": "Özel sağlayıcılar"
     },
     "GROUP": {
       "SELECT": "Faturalandırma grubu",
@@ -3403,9 +3404,10 @@
       "LOCAL_DB": "Yerel DB tarayıcısı",
       "LOCAL_DB_WIPE": "Yerel veritabanını sil ve yeniden yükle",
       "LOCAL_DB_DOWNLOAD": "Yerel SQLite dosyasını indir",
-      "LOCAL_DB_UPLOAD": "SQLite dosyası yükle (yerelin üzerine yazar)",
+      "LOCAL_DB_UPLOAD": "SQLite dosyasını içe aktar (yereli değiştirir)",
       "LOCAL_DB_WIPE_CONFIRM": "TÜM yerel OPFS verisini sil ve yeniden yükle?",
-      "LOCAL_DB_UPLOAD_CONFIRM": "Yerel OPFS veritabanının üzerine bu dosyadan yaz? Mevcut veri silinir.",
+      "LOCAL_DB_UPLOAD_CONFIRM": "Bu dosyadaki kayıtlar içe aktarılsın mı? Geçerli şemaya taşınır ve yerel verilerinizin yerini alır; kayıtlar bu oturuma devredilir.",
+      "LOCAL_DB_IMPORT_SUMMARY": "{tables} tabloda {imported} kayıt içe aktarıldı ({skipped} atlandı).",
       "CLEAR": "Sohbeti temizle",
       "CLEAR_SUCCESS": "Sohbet temizlendi",
       "CLEAR_CONFIRM_DESC": "Bu sohbetteki her mesajı siler ama ayarları, karakter bağlantılarını ve başlığı korur. Bu geri alınamaz.",
@@ -3439,6 +3441,32 @@
       "EMPTY": "Sohbet yok",
       "DELETE_CONFIRM_TITLE": "Grup silinsin mi?",
       "DELETE_CONFIRM_DESC": "Grup kaldırılır; sohbetleri korunur ve grupsuz olur."
+    },
+    "CUSTOM_PROVIDER": {
+      "TITLE": "Özel sağlayıcılar",
+      "SIDEBAR_TAB": "Özel sağlayıcılar",
+      "NEW": "Yeni sağlayıcı",
+      "EMPTY": "Henüz özel sağlayıcı yok.",
+      "NAME": "Ad",
+      "BASE_URL": "Uç nokta URL'si",
+      "API_KEY": "API anahtarı",
+      "FORMAT": "Biçim",
+      "TOKENIZER": "Belirteçleyici",
+      "FORMAT_OPENAI": "OpenAI uyumlu",
+      "TOKENIZER_CL100K": "GPT (cl100k)",
+      "TOKENIZER_O200K": "GPT-4o/5 (o200k)",
+      "TOKENIZER_CLAUDE": "Claude (yaklaşık)",
+      "TOKENIZER_GEMINI": "Gemini (yaklaşık)",
+      "MODELS": "Modeller",
+      "MODELS_EMPTY": "Henüz model eklenmedi.",
+      "ADD_MODEL": "Model ekle",
+      "FETCH_MODELS": "Modelleri getir",
+      "FETCH_FAILED": "Modeller getirilemedi (HTTP {status}). Uç nokta URL'sini ve API anahtarını kontrol edin.",
+      "MODEL_KEY": "Model anahtarı",
+      "MODEL_LABEL": "Görünen ad",
+      "MODEL_COUNT": "{count} model",
+      "DELETE_TITLE": "Sağlayıcı silinsin mi?",
+      "DELETE_DESC": "Bu işlem sağlayıcıyı ve modellerini kaldırır. Sohbetleriniz korunur."
     }
   },
   "RP": {

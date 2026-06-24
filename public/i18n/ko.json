@@ -3227,7 +3227,8 @@
       "SEARCH": "모델 검색...",
       "NO_RESULTS": "모델을 찾을 수 없음",
       "FREE_BADGE": "무료",
-      "LOGIN_REQUIRED": "로그인 필요"
+      "LOGIN_REQUIRED": "로그인 필요",
+      "CUSTOM_PROVIDERS": "사용자 지정 공급자"
     },
     "GROUP": {
       "SELECT": "청구 그룹",
@@ -3403,9 +3404,10 @@
       "LOCAL_DB": "로컬 DB 브라우저",
       "LOCAL_DB_WIPE": "로컬 데이터베이스 지우고 다시 로드",
       "LOCAL_DB_DOWNLOAD": "로컬 SQLite 파일 다운로드",
-      "LOCAL_DB_UPLOAD": "SQLite 파일 업로드 (로컬 덮어쓰기)",
+      "LOCAL_DB_UPLOAD": "SQLite 파일 가져오기 (로컬 교체)",
       "LOCAL_DB_WIPE_CONFIRM": "모든 로컬 OPFS 데이터를 지우고 다시 로드하시겠습니까?",
-      "LOCAL_DB_UPLOAD_CONFIRM": "이 파일에서 로컬 OPFS 데이터베이스를 덮어쓰시겠습니까? 기존 데이터가 지워집니다.",
+      "LOCAL_DB_UPLOAD_CONFIRM": "이 파일에서 레코드를 가져오시겠습니까? 현재 스키마로 마이그레이션되어 로컬 데이터를 교체하며, 레코드는 이 세션으로 재할당됩니다.",
+      "LOCAL_DB_IMPORT_SUMMARY": "{tables}개 테이블에 {imported}개 레코드를 가져왔습니다 ({skipped}개 건너뜀).",
       "CLEAR": "채팅 지우기",
       "CLEAR_SUCCESS": "채팅 지워짐",
       "CLEAR_CONFIRM_DESC": "대화의 모든 메시지를 삭제하지만 설정, 캐릭터 바인딩, 제목은 유지합니다. 이 작업은 취소할 수 없습니다.",
@@ -3439,6 +3441,32 @@
       "EMPTY": "채팅 없음",
       "DELETE_CONFIRM_TITLE": "그룹을 삭제할까요？",
       "DELETE_CONFIRM_DESC": "그룹은 삭제되지만 채팅은 유지되며 그룹 없음이 됩니다."
+    },
+    "CUSTOM_PROVIDER": {
+      "TITLE": "사용자 지정 공급자",
+      "SIDEBAR_TAB": "사용자 지정 공급자",
+      "NEW": "새 공급자",
+      "EMPTY": "아직 사용자 지정 공급자가 없습니다.",
+      "NAME": "이름",
+      "BASE_URL": "엔드포인트 URL",
+      "API_KEY": "API 키",
+      "FORMAT": "형식",
+      "TOKENIZER": "토크나이저",
+      "FORMAT_OPENAI": "OpenAI 호환",
+      "TOKENIZER_CL100K": "GPT (cl100k)",
+      "TOKENIZER_O200K": "GPT-4o/5 (o200k)",
+      "TOKENIZER_CLAUDE": "Claude (근사치)",
+      "TOKENIZER_GEMINI": "Gemini (근사치)",
+      "MODELS": "모델",
+      "MODELS_EMPTY": "아직 추가된 모델이 없습니다.",
+      "ADD_MODEL": "모델 추가",
+      "FETCH_MODELS": "모델 가져오기",
+      "FETCH_FAILED": "모델을 가져올 수 없습니다 (HTTP {status}). 엔드포인트 URL과 API 키를 확인하세요.",
+      "MODEL_KEY": "모델 키",
+      "MODEL_LABEL": "표시 이름",
+      "MODEL_COUNT": "{count}개 모델",
+      "DELETE_TITLE": "공급자를 삭제할까요?",
+      "DELETE_DESC": "공급자와 해당 모델이 제거됩니다. 대화는 유지됩니다."
     }
   },
   "RP": {

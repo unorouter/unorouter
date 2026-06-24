@@ -3227,7 +3227,8 @@
       "SEARCH": "Tìm mô hình...",
       "NO_RESULTS": "Không tìm thấy mô hình",
       "FREE_BADGE": "MIỄN PHÍ",
-      "LOGIN_REQUIRED": "Yêu cầu đăng nhập"
+      "LOGIN_REQUIRED": "Yêu cầu đăng nhập",
+      "CUSTOM_PROVIDERS": "Nhà cung cấp tùy chỉnh"
     },
     "GROUP": {
       "SELECT": "Nhóm tính phí",
@@ -3403,9 +3404,10 @@
       "LOCAL_DB": "Trình duyệt CSDL cục bộ",
       "LOCAL_DB_WIPE": "Xóa CSDL cục bộ và tải lại",
       "LOCAL_DB_DOWNLOAD": "Tải xuống tệp SQLite cục bộ",
-      "LOCAL_DB_UPLOAD": "Tải lên tệp SQLite (ghi đè cục bộ)",
+      "LOCAL_DB_UPLOAD": "Nhập tệp SQLite (thay thế cục bộ)",
       "LOCAL_DB_WIPE_CONFIRM": "Xóa TẤT CẢ dữ liệu OPFS cục bộ và tải lại?",
-      "LOCAL_DB_UPLOAD_CONFIRM": "Ghi đè CSDL OPFS cục bộ từ tệp này? Dữ liệu hiện tại sẽ bị xóa.",
+      "LOCAL_DB_UPLOAD_CONFIRM": "Nhập bản ghi từ tệp này? Tệp được di chuyển sang lược đồ hiện tại và thay thế dữ liệu cục bộ của bạn; các bản ghi được chuyển quyền sở hữu sang phiên này.",
+      "LOCAL_DB_IMPORT_SUMMARY": "Đã nhập {imported} bản ghi trên {tables} bảng ({skipped} bị bỏ qua).",
       "CLEAR": "Xóa cuộc trò chuyện",
       "CLEAR_SUCCESS": "Đã xóa cuộc trò chuyện",
       "CLEAR_CONFIRM_DESC": "Hành động này sẽ xóa mọi tin nhắn trong cuộc trò chuyện nhưng giữ lại cài đặt, ràng buộc nhân vật và tiêu đề. Không thể hoàn tác.",
@@ -3439,6 +3441,32 @@
       "EMPTY": "Không có cuộc trò chuyện",
       "DELETE_CONFIRM_TITLE": "Xóa nhóm?",
       "DELETE_CONFIRM_DESC": "Nhóm bị xóa; các cuộc trò chuyện được giữ lại và trở thành chưa phân nhóm."
+    },
+    "CUSTOM_PROVIDER": {
+      "TITLE": "Nhà cung cấp tùy chỉnh",
+      "SIDEBAR_TAB": "Nhà cung cấp tùy chỉnh",
+      "NEW": "Nhà cung cấp mới",
+      "EMPTY": "Chưa có nhà cung cấp tùy chỉnh nào.",
+      "NAME": "Tên",
+      "BASE_URL": "URL điểm cuối",
+      "API_KEY": "Khóa API",
+      "FORMAT": "Định dạng",
+      "TOKENIZER": "Bộ tách token",
+      "FORMAT_OPENAI": "Tương thích OpenAI",
+      "TOKENIZER_CL100K": "GPT (cl100k)",
+      "TOKENIZER_O200K": "GPT-4o/5 (o200k)",
+      "TOKENIZER_CLAUDE": "Claude (xấp xỉ)",
+      "TOKENIZER_GEMINI": "Gemini (xấp xỉ)",
+      "MODELS": "Mô hình",
+      "MODELS_EMPTY": "Chưa thêm mô hình nào.",
+      "ADD_MODEL": "Thêm mô hình",
+      "FETCH_MODELS": "Lấy danh sách mô hình",
+      "FETCH_FAILED": "Không thể lấy danh sách mô hình (HTTP {status}). Kiểm tra URL điểm cuối và khóa API.",
+      "MODEL_KEY": "Khóa mô hình",
+      "MODEL_LABEL": "Tên hiển thị",
+      "MODEL_COUNT": "{count} mô hình",
+      "DELETE_TITLE": "Xóa nhà cung cấp?",
+      "DELETE_DESC": "Thao tác này xóa nhà cung cấp và các mô hình của nó. Cuộc trò chuyện của bạn được giữ lại."
     }
   },
   "RP": {

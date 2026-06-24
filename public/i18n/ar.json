@@ -3227,7 +3227,8 @@
       "SEARCH": "بحث النماذج...",
       "NO_RESULTS": "لا توجد نماذج",
       "FREE_BADGE": "مجاني",
-      "LOGIN_REQUIRED": "تسجيل الدخول مطلوب"
+      "LOGIN_REQUIRED": "تسجيل الدخول مطلوب",
+      "CUSTOM_PROVIDERS": "مزودون مخصصون"
     },
     "GROUP": {
       "SELECT": "مجموعة الفوترة",
@@ -3403,9 +3404,10 @@
       "LOCAL_DB": "متصفّح DB المحلية",
       "LOCAL_DB_WIPE": "محو قاعدة البيانات المحلية وإعادة التحميل",
       "LOCAL_DB_DOWNLOAD": "تنزيل ملف SQLite المحلي",
-      "LOCAL_DB_UPLOAD": "رفع ملف SQLite (يكتب فوق المحلي)",
+      "LOCAL_DB_UPLOAD": "استيراد ملف SQLite (يستبدل المحلي)",
       "LOCAL_DB_WIPE_CONFIRM": "محو كل بيانات OPFS المحلية وإعادة التحميل؟",
-      "LOCAL_DB_UPLOAD_CONFIRM": "الكتابة فوق قاعدة بيانات OPFS المحلية من هذا الملف؟ ستُمحى البيانات الموجودة.",
+      "LOCAL_DB_UPLOAD_CONFIRM": "استيراد السجلات من هذا الملف؟ يُرحَّل إلى المخطط الحالي ويستبدل بياناتك المحلية، وتُعاد ملكية السجلات إلى هذه الجلسة.",
+      "LOCAL_DB_IMPORT_SUMMARY": "تم استيراد {imported} سجلًا عبر {tables} جداول (تم تخطي {skipped}).",
       "CLEAR": "مسح الدردشة",
       "CLEAR_SUCCESS": "تمّ مسح الدردشة",
       "CLEAR_CONFIRM_DESC": "هذا يحذف كل رسالة في المحادثة لكنّه يحتفظ بالإعدادات وروابط الشخصية والعنوان. لا يمكن التراجع.",
@@ -3439,6 +3441,32 @@
       "EMPTY": "لا توجد محادثات",
       "DELETE_CONFIRM_TITLE": "حذف المجموعة؟",
       "DELETE_CONFIRM_DESC": "تتم إزالة المجموعة؛ وتبقى محادثاتها وتصبح بدون مجموعة."
+    },
+    "CUSTOM_PROVIDER": {
+      "TITLE": "مزودون مخصصون",
+      "SIDEBAR_TAB": "مزودون مخصصون",
+      "NEW": "مزود جديد",
+      "EMPTY": "لا يوجد مزودون مخصصون بعد.",
+      "NAME": "الاسم",
+      "BASE_URL": "رابط نقطة النهاية",
+      "API_KEY": "مفتاح API",
+      "FORMAT": "التنسيق",
+      "TOKENIZER": "المُرمِّز",
+      "FORMAT_OPENAI": "متوافق مع OpenAI",
+      "TOKENIZER_CL100K": "GPT (cl100k)",
+      "TOKENIZER_O200K": "GPT-4o/5 (o200k)",
+      "TOKENIZER_CLAUDE": "Claude (تقريبي)",
+      "TOKENIZER_GEMINI": "Gemini (تقريبي)",
+      "MODELS": "النماذج",
+      "MODELS_EMPTY": "لم تتم إضافة أي نماذج بعد.",
+      "ADD_MODEL": "إضافة نموذج",
+      "FETCH_MODELS": "جلب النماذج",
+      "FETCH_FAILED": "تعذّر جلب النماذج (HTTP {status}). تحقّق من رابط نقطة النهاية ومفتاح الـ API.",
+      "MODEL_KEY": "مفتاح النموذج",
+      "MODEL_LABEL": "الاسم المعروض",
+      "MODEL_COUNT": "{count} نموذج",
+      "DELETE_TITLE": "حذف المزود؟",
+      "DELETE_DESC": "سيؤدي هذا إلى إزالة المزود ونماذجه. سيتم الاحتفاظ بمحادثاتك."
     }
   },
   "RP": {

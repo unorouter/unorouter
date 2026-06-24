@@ -3227,7 +3227,8 @@
       "SEARCH": "Cari model...",
       "NO_RESULTS": "Tidak ada model ditemukan",
       "FREE_BADGE": "GRATIS",
-      "LOGIN_REQUIRED": "Login diperlukan"
+      "LOGIN_REQUIRED": "Login diperlukan",
+      "CUSTOM_PROVIDERS": "Penyedia khusus"
     },
     "GROUP": {
       "SELECT": "Grup penagihan",
@@ -3403,9 +3404,10 @@
       "LOCAL_DB": "Browser DB lokal",
       "LOCAL_DB_WIPE": "Hapus database lokal dan muat ulang",
       "LOCAL_DB_DOWNLOAD": "Unduh file SQLite lokal",
-      "LOCAL_DB_UPLOAD": "Unggah file SQLite (menimpa lokal)",
+      "LOCAL_DB_UPLOAD": "Impor file SQLite (mengganti lokal)",
       "LOCAL_DB_WIPE_CONFIRM": "Hapus SEMUA data OPFS lokal dan muat ulang?",
-      "LOCAL_DB_UPLOAD_CONFIRM": "Timpa database OPFS lokal dari file ini? Data yang ada dihapus.",
+      "LOCAL_DB_UPLOAD_CONFIRM": "Impor record dari file ini? File dimigrasikan ke skema saat ini dan mengganti data lokal Anda; record dialihkan ke sesi ini.",
+      "LOCAL_DB_IMPORT_SUMMARY": "Mengimpor {imported} record di {tables} tabel ({skipped} dilewati).",
       "CLEAR": "Bersihkan chat",
       "CLEAR_SUCCESS": "Chat dibersihkan",
       "CLEAR_CONFIRM_DESC": "Ini menghapus setiap pesan dalam sohbet tetapi mempertahankan pengaturan, pengikatan karakter, dan judul. Ini tidak dapat dibatalkan.",
@@ -3439,6 +3441,32 @@
       "EMPTY": "Tidak ada obrolan",
       "DELETE_CONFIRM_TITLE": "Hapus grup?",
       "DELETE_CONFIRM_DESC": "Grup dihapus; obrolannya tetap ada dan menjadi tanpa grup."
+    },
+    "CUSTOM_PROVIDER": {
+      "TITLE": "Penyedia khusus",
+      "SIDEBAR_TAB": "Penyedia khusus",
+      "NEW": "Penyedia baru",
+      "EMPTY": "Belum ada penyedia khusus.",
+      "NAME": "Nama",
+      "BASE_URL": "URL endpoint",
+      "API_KEY": "Kunci API",
+      "FORMAT": "Format",
+      "TOKENIZER": "Tokenizer",
+      "FORMAT_OPENAI": "Kompatibel dengan OpenAI",
+      "TOKENIZER_CL100K": "GPT (cl100k)",
+      "TOKENIZER_O200K": "GPT-4o/5 (o200k)",
+      "TOKENIZER_CLAUDE": "Claude (perkiraan)",
+      "TOKENIZER_GEMINI": "Gemini (perkiraan)",
+      "MODELS": "Model",
+      "MODELS_EMPTY": "Belum ada model yang ditambahkan.",
+      "ADD_MODEL": "Tambah model",
+      "FETCH_MODELS": "Ambil model",
+      "FETCH_FAILED": "Tidak dapat mengambil model (HTTP {status}). Periksa URL endpoint dan kunci API.",
+      "MODEL_KEY": "Kunci model",
+      "MODEL_LABEL": "Nama tampilan",
+      "MODEL_COUNT": "{count} model",
+      "DELETE_TITLE": "Hapus penyedia?",
+      "DELETE_DESC": "Ini menghapus penyedia dan modelnya. Percakapan Anda tetap disimpan."
     }
   },
   "RP": {

@@ -51,11 +51,15 @@ export async function isMediaModel(model: string) {
   };
 }
 
-export async function getFreeTextModels(limit = 5): Promise<string[]> {
+export async function getFreeTextModels(limit?: number): Promise<string[]> {
   const { models } = await getPricingSummary();
-  return models
+  const free = models
     .filter((m) => m.type === "text" && m.isFree)
-    .sort(() => Math.random() - 0.5)
-    .slice(0, limit)
     .map((m) => m.name);
+  // Fisher-Yates: an unbiased shuffle so the race samples free models uniformly (sort-by-random is skewed).
+  for (let i = free.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [free[i], free[j]] = [free[j], free[i]];
+  }
+  return limit == null ? free : free.slice(0, limit);
 }

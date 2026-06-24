@@ -31,6 +31,10 @@ export function RpNavItems() {
         <Icon name="layers" className="size-4" />
         {t("RP.SIDEBAR_TAB_CARDS")}
       </DropdownMenuItem>
+      <DropdownMenuItem onClick={() => setOpenRpTab("custom-providers")}>
+        <Icon name="server" className="size-4" />
+        {t("CHAT.CUSTOM_PROVIDER.SIDEBAR_TAB")}
+      </DropdownMenuItem>
     </>
   );
 }

@@ -5,13 +5,7 @@ import { getPricingSummary } from "@/lib/api/pricing-cache";
 import { uid } from "@/lib/utils/base";
 import type { PlaygroundSubmitBody } from "@/lib/validation/playground";
 import { submitSyncImage } from "@/server/ai/playground/playground-submit-sync";
-
-export type InlayImage = {
-  id: string;
-  dataBase64: string;
-  mimeType: string;
-  sizeBytes: number;
-};
+import type { InlayImage } from "@/lib/ai/chat/pipeline/deps";
 
 export async function generateInlayImage(
   apiKey: string,
