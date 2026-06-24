@@ -1033,9 +1033,9 @@
       "PER_MONTH": " · mês",
       "PERIOD_DAY": "dia",
       "PERIOD_WEEK": "semana",
-      "PERIOD_MONTH": "mes",
-      "VALUE_HERO": "credito de API / mes",
-      "VALUE_EXPLAIN": "Pague {paid}/mes, ganhe {credit} em credito de API. Use em qualquer modelo.",
+      "PERIOD_MONTH": "mês",
+      "VALUE_HERO": "crédito de API / mês",
+      "VALUE_EXPLAIN": "Pague {paid}/mês, ganhe {credit} em crédito de API. Use em qualquer modelo.",
       "DELIVERED": "Recarrega {amount} a cada {period}."
     },
     "BANNER": {
@@ -1076,12 +1076,12 @@
     "TOPUP": {
       "STEP": "Comece aqui",
       "LABEL": "Pague conforme o uso",
-      "DESC": "Adicione credito, use qualquer modelo.",
-      "FOOTNOTE": "O credito nunca expira."
+      "DESC": "Adicione crédito, use qualquer modelo.",
+      "FOOTNOTE": "O crédito nunca expira."
     },
     "BRIDGE": {
-      "TITLE": "Usa com frequencia? Assine e ganhe mais credito todo mes.",
-      "DESC": "Recarregue quando quiser flexibilidade. Assine quando seu uso for previsivel e ganhe credito extra alem do que paga."
+      "TITLE": "Usa com frequência? Assine e ganhe mais crédito todo mês.",
+      "DESC": "Recarregue quando quiser flexibilidade. Assine quando seu uso for previsível e ganhe crédito extra além do que paga."
     },
     "PLANS": {
       "STEP": "Melhor valor"

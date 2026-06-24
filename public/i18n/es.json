@@ -1031,11 +1031,11 @@
     "CARD": {
       "POPULAR": "Popular",
       "PER_MONTH": " · mes",
-      "PERIOD_DAY": "dia",
+      "PERIOD_DAY": "día",
       "PERIOD_WEEK": "semana",
       "PERIOD_MONTH": "mes",
-      "VALUE_HERO": "credito de API / mes",
-      "VALUE_EXPLAIN": "Paga {paid}/mes, obten {credit} en credito de API. Usalo en cualquier modelo.",
+      "VALUE_HERO": "crédito de API / mes",
+      "VALUE_EXPLAIN": "Paga {paid}/mes, obtén {credit} en crédito de API. Úsalo en cualquier modelo.",
       "DELIVERED": "Recarga {amount} cada {period}."
     },
     "BANNER": {
@@ -1074,14 +1074,14 @@
       "3": "Escala"
     },
     "TOPUP": {
-      "STEP": "Empieza aqui",
+      "STEP": "Empieza aquí",
       "LABEL": "Pago por uso",
-      "DESC": "Agrega credito, usa cualquier modelo.",
-      "FOOTNOTE": "El credito nunca caduca."
+      "DESC": "Agrega crédito, usa cualquier modelo.",
+      "FOOTNOTE": "El crédito nunca caduca."
     },
     "BRIDGE": {
-      "TITLE": "Lo usas con frecuencia? Suscribete y obten mas credito cada mes.",
-      "DESC": "Recarga cuando quieras flexibilidad. Suscribete cuando tu uso sea predecible y obten credito extra sobre lo que pagas."
+      "TITLE": "¿Lo usas con frecuencia? Suscríbete y obtén más crédito cada mes.",
+      "DESC": "Recarga cuando quieras flexibilidad. Suscríbete cuando tu uso sea predecible y obtén crédito extra sobre lo que pagas."
     },
     "PLANS": {
       "STEP": "Mejor valor"

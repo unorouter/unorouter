@@ -1031,11 +1031,11 @@
     "CARD": {
       "POPULAR": "Popüler",
       "PER_MONTH": " · ay",
-      "PERIOD_DAY": "gun",
+      "PERIOD_DAY": "gün",
       "PERIOD_WEEK": "hafta",
       "PERIOD_MONTH": "ay",
-      "VALUE_HERO": "aylik API kredisi",
-      "VALUE_EXPLAIN": "{paid}/ay ode, {credit} API kredisi al. Her modelde kullan.",
+      "VALUE_HERO": "aylık API kredisi",
+      "VALUE_EXPLAIN": "{paid}/ay öde, {credit} API kredisi al. Her modelde kullan.",
       "DELIVERED": "Her {period} {amount} yeniler."
     },
     "BANNER": {
@@ -1074,17 +1074,17 @@
       "3": "Olcek"
     },
     "TOPUP": {
-      "STEP": "Buradan basla",
-      "LABEL": "Kullandikca ode",
+      "STEP": "Buradan başla",
+      "LABEL": "Kullandıkça öde",
       "DESC": "Kredi ekle, herhangi bir modeli kullan.",
       "FOOTNOTE": "Krediler asla sona ermez."
     },
     "BRIDGE": {
-      "TITLE": "Duzenli mi kullaniyorsun? Abone ol ve her ay daha fazla kredi kazan.",
-      "DESC": "Esneklik icin bakiye yukle. Kullanimin ongorulebilir oldugunda abone ol ve odedigin tutarin ustune ekstra kredi kazan."
+      "TITLE": "Düzenli mi kullanıyorsun? Abone ol ve her ay daha fazla kredi kazan.",
+      "DESC": "Esneklik için bakiye yükle. Kullanımın öngörülebilir olduğunda abone ol ve ödediğin tutarın üstüne ekstra kredi kazan."
     },
     "PLANS": {
-      "STEP": "En iyi deger"
+      "STEP": "En iyi değer"
     }
   },
   "DOCS_INDEX": {

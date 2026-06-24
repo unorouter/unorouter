@@ -1031,12 +1031,12 @@
     "CARD": {
       "POPULAR": "Popularne",
       "PER_MONTH": " · mc",
-      "PERIOD_DAY": "dzien",
-      "PERIOD_WEEK": "tydzien",
-      "PERIOD_MONTH": "miesiac",
-      "VALUE_HERO": "kredyt API / miesiac",
-      "VALUE_EXPLAIN": "Zaplac {paid}/mies., otrzymaj {credit} kredytu API. Uzyj na dowolnym modelu.",
-      "DELIVERED": "Doladowuje {amount} co {period}."
+      "PERIOD_DAY": "dzień",
+      "PERIOD_WEEK": "tydzień",
+      "PERIOD_MONTH": "miesiąc",
+      "VALUE_HERO": "kredyt API / miesiąc",
+      "VALUE_EXPLAIN": "Zapłać {paid}/mies., otrzymaj {credit} kredytu API. Użyj na dowolnym modelu.",
+      "DELIVERED": "Doładowuje {amount} co {period}."
     },
     "BANNER": {
       "TITLE": "Asystent OpenClaw AI na Telegramie",
@@ -1075,16 +1075,16 @@
     },
     "TOPUP": {
       "STEP": "Zacznij tutaj",
-      "LABEL": "Placisz za uzycie",
-      "DESC": "Dodaj kredyt, uzywaj dowolnego modelu.",
+      "LABEL": "Płacisz za użycie",
+      "DESC": "Dodaj kredyt, używaj dowolnego modelu.",
       "FOOTNOTE": "Kredyt nigdy nie wygasa."
     },
     "BRIDGE": {
-      "TITLE": "Uzywasz regularnie? Wykup subskrypcje i zyskaj wiecej kredytu co miesiac.",
-      "DESC": "Doladowuj dla elastycznosci. Wykup subskrypcje przy przewidywalnym zuzyciu i zyskaj dodatkowy kredyt ponad to, co placisz."
+      "TITLE": "Używasz regularnie? Wykup subskrypcję i zyskaj więcej kredytu co miesiąc.",
+      "DESC": "Doładowuj dla elastyczności. Wykup subskrypcję przy przewidywalnym zużyciu i zyskaj dodatkowy kredyt ponad to, co płacisz."
     },
     "PLANS": {
-      "STEP": "Najlepsza wartosc"
+      "STEP": "Najlepsza wartość"
     }
   },
   "DOCS_INDEX": {
