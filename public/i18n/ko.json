@@ -1028,20 +1028,12 @@
       "UPTIME": "99.9% 가동 시간 SLA",
       "OPENAI_COMPAT": "OpenAI 호환 엔드포인트"
     },
-    "COMPARE": {
-      "TITLE": "플랜 비교"
-    },
     "CARD": {
       "POPULAR": "인기",
       "PER_MONTH": " · 월",
-      "VALUE": "{value} 가치",
-      "VALUE_EXPLAIN": "{paid}/월 결제로 {credit} API 크레딧 제공. 어떤 모델에서나 사용하세요.",
-      "DELIVERY": "{period}마다 {amount} 충전됩니다.",
       "PERIOD_DAY": "일",
       "PERIOD_WEEK": "주",
-      "PERIOD_MONTH": "월",
-      "CREDIT_MONTH": "월 {credit} API 크레딧",
-      "DELIVERED": "{period}마다 {amount} 제공."
+      "PERIOD_MONTH": "월"
     },
     "BANNER": {
       "TITLE": "Telegram의 OpenClaw AI 어시스턴트",
@@ -1055,12 +1047,6 @@
     "TITLE": "요금",
     "SUBTITLE": "앱을 출시하든 긴 롤플레이 세션을 운영하든. 하나의 플랜, 모든 모델.",
     "CTA": "구독",
-    "TOPUP": {
-      "LABEL": "종량제",
-      "DESC": "크레딧을 추가하고 어떤 모델이든 사용하세요.",
-      "FOOTNOTE": "크레딧은 만료되지 않습니다.",
-      "STEP": "여기서 시작"
-    },
     "FAQ": {
       "Q1": "{appName} 요금은 어떻게 작동하나요?",
       "A1": "소비한 토큰만큼 지불합니다. 각 모델은 자체 입력, 출력, 캐시 요금이 있으며 계정 크레딧에서 청구됩니다. 종량제에는 월 구독이 필요하지 않습니다.",
@@ -1079,27 +1065,27 @@
       "Q8": "대화 또는 캐릭터 히스토리는 얼마나 길 수 있나요?",
       "A8": "{appName}은 모든 모델의 전체 컨텍스트 윈도우를 지원합니다. Gemini에서는 최대 100만 토큰, Claude에서는 20만 토큰. 긴 롤플레이와 긴 코드베이스 모두 작동합니다."
     },
-    "PLANS": {
-      "STEP": "최고의 가치"
-    },
-    "BRIDGE": {
-      "TITLE": "자주 쓰시나요? 매달 포함된 사용량으로 구독하세요.",
-      "DESC": "유연하게 쓰려면 언제든 충전하세요. 구독은 매주 사용량을 포함하며, 초과분은 잔액으로 충당됩니다."
-    },
     "TIER": {
       "1": "스타터",
       "2": "프로",
       "3": "스케일"
     },
-    "SELFSELECT": {
-      "TITLE": "어떤 게 맞을까요?",
-      "DESC": "유연하게 쓰려면 충전하고 사용한 만큼만 결제하세요. 사용량이 일정하면 구독해 매달 더 많은 크레딧을 받으세요."
-    },
-    "TABLE": {
-      "TITLE": "플랜 비교",
-      "PRICE": "가격",
-      "CREDIT": "월 크레딧",
-      "WEEKLY": "주간 제공"
+    "MATRIX": {
+      "TOPUP_NAME": "사용한 만큼 결제",
+      "TOPUP_TAGLINE": "약정 없음",
+      "SUB_TAGLINE": "월 단위 청구",
+      "UPFRONT": "결제 금액",
+      "ANY_AMOUNT": "자유 금액",
+      "CREDIT": "받는 크레딧",
+      "ONE_TO_ONE": "결제액의 1:1",
+      "DELIVERY": "제공",
+      "INSTANT": "즉시, 한 번에",
+      "WEEKLY_VALUE": "{amount} / {period}",
+      "NA": "-",
+      "EXPIRES": "크레딧 만료",
+      "NEVER": "없음",
+      "CYCLE": "주기마다",
+      "FOOTNOTE": "유연하게 쓰려면 충전하고 사용한 만큼만 결제하세요. 사용량이 일정하면 구독하세요. 주간 금액을 넘는 부분은 잔액으로 충당됩니다."
     }
   },
   "DOCS_INDEX": {

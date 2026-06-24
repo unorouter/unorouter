@@ -1028,20 +1028,12 @@
       "UPTIME": "99.9% uptime SLA",
       "OPENAI_COMPAT": "OpenAI compatible endpoint"
     },
-    "COMPARE": {
-      "TITLE": "Compare plans"
-    },
     "CARD": {
       "POPULAR": "Popular",
       "PER_MONTH": " · mo",
-      "VALUE": "{value} value",
-      "VALUE_EXPLAIN": "Pay {paid}/mo, get {credit} in API credit. Use it on any model.",
-      "DELIVERY": "Refills {amount} each {period}.",
       "PERIOD_DAY": "day",
       "PERIOD_WEEK": "week",
-      "PERIOD_MONTH": "month",
-      "CREDIT_MONTH": "{credit} in API credit / month",
-      "DELIVERED": "Delivered {amount} each {period}."
+      "PERIOD_MONTH": "month"
     },
     "BANNER": {
       "TITLE": "OpenClaw AI Assistant on Telegram",
@@ -1055,12 +1047,6 @@
     "TITLE": "Pricing",
     "SUBTITLE": "Whether you are shipping an app or running long roleplay sessions. One plan, every model.",
     "CTA": "Subscribe",
-    "TOPUP": {
-      "LABEL": "Pay as you go",
-      "DESC": "Add credit, use any model.",
-      "FOOTNOTE": "Credits never expire.",
-      "STEP": "Start here"
-    },
     "FAQ": {
       "Q1": "How does {appName} pricing work?",
       "A1": "You pay per token consumed. Each model has its own input, output and cache rate, billed from your account credit. There is no monthly subscription required for Pay As You Go.",
@@ -1079,27 +1065,27 @@
       "Q8": "How long can my conversations or character history be?",
       "A8": "{appName} supports the full context window of every model, up to 1M tokens on Gemini and 200k on Claude. Long roleplays and long codebases both work."
     },
-    "PLANS": {
-      "STEP": "Best value"
-    },
-    "BRIDGE": {
-      "TITLE": "Use it regularly? Subscribe for monthly included usage.",
-      "DESC": "Top up anytime for flexibility. A subscription includes usage every week, and your balance covers any overflow."
-    },
     "TIER": {
       "1": "Starter",
       "2": "Pro",
       "3": "Scale"
     },
-    "SELFSELECT": {
-      "TITLE": "Which is right for me?",
-      "DESC": "Top up for flexibility and pay only for what you use. Subscribe when your usage is steady and get more credit each month."
-    },
-    "TABLE": {
-      "TITLE": "Compare plans",
-      "PRICE": "Price",
-      "CREDIT": "Credit / month",
-      "WEEKLY": "Weekly delivery"
+    "MATRIX": {
+      "TOPUP_NAME": "Pay as you go",
+      "TOPUP_TAGLINE": "No commitment",
+      "SUB_TAGLINE": "Billed monthly",
+      "UPFRONT": "You pay",
+      "ANY_AMOUNT": "Any amount",
+      "CREDIT": "Credit you get",
+      "ONE_TO_ONE": "1:1 of what you pay",
+      "DELIVERY": "Delivery",
+      "INSTANT": "Instant, all at once",
+      "WEEKLY_VALUE": "{amount} / {period}",
+      "NA": "-",
+      "EXPIRES": "Credit expiry",
+      "NEVER": "Never",
+      "CYCLE": "Per cycle",
+      "FOOTNOTE": "Top up for flexibility and pay only for what you use. Subscribe when your usage is steady; your balance covers anything beyond the weekly amount."
     }
   },
   "DOCS_INDEX": {

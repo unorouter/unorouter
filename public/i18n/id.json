@@ -1028,20 +1028,12 @@
       "UPTIME": "SLA uptime 99,9%",
       "OPENAI_COMPAT": "Endpoint kompatibel OpenAI"
     },
-    "COMPARE": {
-      "TITLE": "Bandingkan paket"
-    },
     "CARD": {
       "POPULAR": "Populer",
       "PER_MONTH": " · bln",
-      "VALUE": "Nilai {value}",
-      "VALUE_EXPLAIN": "Bayar {paid}/bln, dapat {credit} kredit API. Pakai di model apa pun.",
-      "DELIVERY": "Mengisi ulang {amount} setiap {period}.",
       "PERIOD_DAY": "hari",
       "PERIOD_WEEK": "minggu",
-      "PERIOD_MONTH": "bulan",
-      "CREDIT_MONTH": "{credit} kredit API / bulan",
-      "DELIVERED": "Memberikan {amount} setiap {period}."
+      "PERIOD_MONTH": "bulan"
     },
     "BANNER": {
       "TITLE": "Asisten AI OpenClaw di Telegram",
@@ -1055,12 +1047,6 @@
     "TITLE": "Harga",
     "SUBTITLE": "Baik Anda merilis aplikasi atau menjalankan sesi roleplay panjang. Satu paket, setiap model.",
     "CTA": "Berlangganan",
-    "TOPUP": {
-      "LABEL": "Bayar sesuai pemakaian",
-      "DESC": "Tambah kredit, gunakan model apa pun.",
-      "FOOTNOTE": "Kredit tidak pernah kedaluwarsa.",
-      "STEP": "Mulai di sini"
-    },
     "FAQ": {
       "Q1": "Bagaimana harga {appName} bekerja?",
       "A1": "Anda membayar per token yang dikonsumsi. Setiap model memiliki tarif input, output, dan cache sendiri, ditagih dari kredit akun Anda. Tidak ada langganan bulanan yang diperlukan untuk Pay As You Go.",
@@ -1079,27 +1065,27 @@
       "Q8": "Berapa panjang sohbet atau riwayat karakter saya?",
       "A8": "{appName} mendukung jendela konteks penuh setiap model, hingga 1M token di Gemini dan 200k di Claude. Roleplay panjang dan kode panjang keduanya bekerja."
     },
-    "PLANS": {
-      "STEP": "Nilai terbaik"
-    },
-    "BRIDGE": {
-      "TITLE": "Sering memakainya? Berlangganan untuk pemakaian termasuk tiap bulan.",
-      "DESC": "Isi ulang kapan saja untuk fleksibilitas. Langganan mencakup pemakaian tiap minggu, dan saldomu menutup kelebihan apa pun."
-    },
     "TIER": {
       "1": "Pemula",
       "2": "Pro",
       "3": "Skala"
     },
-    "SELFSELECT": {
-      "TITLE": "Mana yang cocok untukku?",
-      "DESC": "Isi ulang untuk fleksibilitas dan bayar hanya yang kamu pakai. Berlangganan saat pemakaian stabil dan dapatkan lebih banyak kredit tiap bulan."
-    },
-    "TABLE": {
-      "TITLE": "Bandingkan paket",
-      "PRICE": "Harga",
-      "CREDIT": "Kredit / bulan",
-      "WEEKLY": "Pengiriman mingguan"
+    "MATRIX": {
+      "TOPUP_NAME": "Bayar sesuai pakai",
+      "TOPUP_TAGLINE": "Tanpa komitmen",
+      "SUB_TAGLINE": "Ditagih bulanan",
+      "UPFRONT": "Kamu bayar",
+      "ANY_AMOUNT": "Jumlah bebas",
+      "CREDIT": "Kamu dapat",
+      "ONE_TO_ONE": "1:1 dari yang dibayar",
+      "DELIVERY": "Pengiriman",
+      "INSTANT": "Langsung, sekaligus",
+      "WEEKLY_VALUE": "{amount} / {period}",
+      "NA": "-",
+      "EXPIRES": "Masa berlaku kredit",
+      "NEVER": "Tidak pernah",
+      "CYCLE": "Per siklus",
+      "FOOTNOTE": "Isi ulang untuk fleksibilitas dan bayar hanya yang kamu pakai. Berlangganan saat pemakaian stabil; saldomu menutup apa pun di atas jumlah mingguan."
     }
   },
   "DOCS_INDEX": {

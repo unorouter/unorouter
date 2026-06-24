@@ -1028,20 +1028,12 @@
       "UPTIME": "99,9% Verfügbarkeits-SLA",
       "OPENAI_COMPAT": "OpenAI kompatibler Endpunkt"
     },
-    "COMPARE": {
-      "TITLE": "Pläne vergleichen"
-    },
     "CARD": {
       "POPULAR": "Beliebt",
       "PER_MONTH": " · Monat",
-      "VALUE": "{value} Guthaben",
-      "VALUE_EXPLAIN": "Zahle {paid}/Mon., erhalte {credit} an API-Guthaben. Auf jedem Modell nutzbar.",
-      "DELIVERY": "Laedt {amount} pro {period} nach.",
       "PERIOD_DAY": "Tag",
       "PERIOD_WEEK": "Woche",
-      "PERIOD_MONTH": "Monat",
-      "CREDIT_MONTH": "{credit} API-Guthaben / Monat",
-      "DELIVERED": "Stellt {amount} pro {period} bereit."
+      "PERIOD_MONTH": "Monat"
     },
     "BANNER": {
       "TITLE": "OpenClaw KI-Assistent auf Telegram",
@@ -1055,12 +1047,6 @@
     "TITLE": "Preise",
     "SUBTITLE": "Egal ob du eine App ausspielst oder lange Rollenspiel-Sessions führst. Ein Plan, jedes Modell.",
     "CTA": "Abonnieren",
-    "TOPUP": {
-      "LABEL": "Guthaben aufladen",
-      "DESC": "Guthaben aufladen, jedes Modell nutzen.",
-      "FOOTNOTE": "Guthaben verfällt nie.",
-      "STEP": "Hier starten"
-    },
     "FAQ": {
       "Q1": "Wie funktioniert das {appName}-Pricing?",
       "A1": "Du zahlst pro verbrauchtem Token. Jedes Modell hat eigene Raten für Input, Output und Cache, die von deinem Kontoguthaben abgezogen werden. Für Pay As You Go ist kein Abonnement erforderlich.",
@@ -1079,27 +1065,27 @@
       "Q8": "Wie lang können meine Gespräche oder Charakter-Verläufe sein?",
       "A8": "{appName} unterstützt das volle Kontextfenster jedes Modells, bis zu 1M Tokens bei Gemini und 200k bei Claude. Lange Rollenspiele und große Codebasen funktionieren beide."
     },
-    "PLANS": {
-      "STEP": "Bestes Angebot"
-    },
-    "BRIDGE": {
-      "TITLE": "Nutzt du es regelmaessig? Abonniere fuer monatlich inbegriffene Nutzung.",
-      "DESC": "Lade jederzeit fuer Flexibilitaet auf. Ein Abo enthaelt woechentliche Nutzung, und dein Guthaben deckt jeden Mehrbedarf."
-    },
     "TIER": {
       "1": "Starter",
       "2": "Pro",
       "3": "Scale"
     },
-    "SELFSELECT": {
-      "TITLE": "Was passt zu mir?",
-      "DESC": "Lade auf fuer Flexibilitaet und zahle nur, was du nutzt. Abonniere bei gleichmaessigem Verbrauch und erhalte jeden Monat mehr Guthaben."
-    },
-    "TABLE": {
-      "TITLE": "Plaene vergleichen",
-      "PRICE": "Preis",
-      "CREDIT": "Guthaben / Monat",
-      "WEEKLY": "Woechentlich"
+    "MATRIX": {
+      "TOPUP_NAME": "Pay as you go",
+      "TOPUP_TAGLINE": "Keine Bindung",
+      "SUB_TAGLINE": "Monatlich abgerechnet",
+      "UPFRONT": "Du zahlst",
+      "ANY_AMOUNT": "Beliebig",
+      "CREDIT": "Du erhaeltst",
+      "ONE_TO_ONE": "1:1 zum Zahlbetrag",
+      "DELIVERY": "Bereitstellung",
+      "INSTANT": "Sofort, auf einmal",
+      "WEEKLY_VALUE": "{amount} / {period}",
+      "NA": "-",
+      "EXPIRES": "Guthaben gueltig",
+      "NEVER": "Nie",
+      "CYCLE": "Pro Zyklus",
+      "FOOTNOTE": "Lade auf fuer Flexibilitaet und zahle nur, was du nutzt. Abonniere bei gleichmaessigem Verbrauch; dein Guthaben deckt alles ueber dem Wochenbetrag."
     }
   },
   "DOCS_INDEX": {

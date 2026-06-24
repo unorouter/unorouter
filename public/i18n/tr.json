@@ -1028,20 +1028,12 @@
       "UPTIME": "%99.9 uptime SLA",
       "OPENAI_COMPAT": "OpenAI uyumlu endpoint"
     },
-    "COMPARE": {
-      "TITLE": "Planları karşılaştır"
-    },
     "CARD": {
       "POPULAR": "Popüler",
       "PER_MONTH": " · ay",
-      "VALUE": "{value} değer",
-      "VALUE_EXPLAIN": "{paid}/ay ode, {credit} API kredisi al. Her modelde kullan.",
-      "DELIVERY": "Her {period} {amount} yeniler.",
       "PERIOD_DAY": "gun",
       "PERIOD_WEEK": "hafta",
-      "PERIOD_MONTH": "ay",
-      "CREDIT_MONTH": "aylik {credit} API kredisi",
-      "DELIVERED": "Her {period} {amount} saglar."
+      "PERIOD_MONTH": "ay"
     },
     "BANNER": {
       "TITLE": "Telegram'da OpenClaw AI Asistanı",
@@ -1055,12 +1047,6 @@
     "TITLE": "Fiyatlandırma",
     "SUBTITLE": "İster bir uygulama yayınlıyor olun ister uzun roleplay oturumları çalıştırıyor olun. Bir plan, her model.",
     "CTA": "Abone ol",
-    "TOPUP": {
-      "LABEL": "Kullandıkça öde",
-      "DESC": "Kredi ekle, herhangi bir modeli kullan.",
-      "FOOTNOTE": "Krediler asla süresi dolmaz.",
-      "STEP": "Buradan basla"
-    },
     "FAQ": {
       "Q1": "{appName} fiyatlandırma nasıl çalışır?",
       "A1": "Tüketilen token başına ödersiniz. Her modelin kendi girdi, çıktı ve cache oranı vardır, hesap kredinizden faturalandırılır. Pay As You Go için aylık abonelik gerekmez.",
@@ -1079,27 +1065,27 @@
       "Q8": "Sohbetlerim veya karakter geçmişim ne kadar uzun olabilir?",
       "A8": "{appName} her modelin tam context penceresini destekler, Gemini'de 1M tokene ve Claude'da 200k'a kadar. Uzun roleplayler ve uzun kod tabanları çalışır."
     },
-    "PLANS": {
-      "STEP": "En iyi deger"
-    },
-    "BRIDGE": {
-      "TITLE": "Duzenli mi kullaniyorsun? Her ay dahil kullanim icin abone ol.",
-      "DESC": "Esneklik icin istedigin zaman bakiye yukle. Abonelik her hafta kullanim icerir ve bakiyen her tasmayi karsilar."
-    },
     "TIER": {
       "1": "Baslangic",
       "2": "Pro",
       "3": "Olcek"
     },
-    "SELFSELECT": {
-      "TITLE": "Hangisi bana uygun?",
-      "DESC": "Esneklik icin bakiye yukle ve yalnizca kullandigin kadar ode. Kullanimin duzenli oldugunda abone ol ve her ay daha fazla kredi kazan."
-    },
-    "TABLE": {
-      "TITLE": "Planlari karsilastir",
-      "PRICE": "Fiyat",
-      "CREDIT": "Aylik kredi",
-      "WEEKLY": "Haftalik teslim"
+    "MATRIX": {
+      "TOPUP_NAME": "Kullandikca ode",
+      "TOPUP_TAGLINE": "Taahhut yok",
+      "SUB_TAGLINE": "Aylik faturalandirma",
+      "UPFRONT": "Odersin",
+      "ANY_AMOUNT": "Herhangi bir tutar",
+      "CREDIT": "Alirsin",
+      "ONE_TO_ONE": "odedigin tutarin 1:1",
+      "DELIVERY": "Teslim",
+      "INSTANT": "Aninda, tek seferde",
+      "WEEKLY_VALUE": "{amount} / {period}",
+      "NA": "-",
+      "EXPIRES": "Kredi suresi",
+      "NEVER": "Asla",
+      "CYCLE": "Donem basina",
+      "FOOTNOTE": "Esneklik icin bakiye yukle ve yalnizca kullandigin kadar ode. Kullanimin duzenli oldugunda abone ol; bakiyen haftalik tutarin uzerindeki her seyi karsilar."
     }
   },
   "DOCS_INDEX": {

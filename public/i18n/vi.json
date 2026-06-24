@@ -1028,20 +1028,12 @@
       "UPTIME": "SLA 99.9% thời gian hoạt động",
       "OPENAI_COMPAT": "Endpoint tương thích OpenAI"
     },
-    "COMPARE": {
-      "TITLE": "So sánh các gói"
-    },
     "CARD": {
       "POPULAR": "Phổ biến",
       "PER_MONTH": " · tháng",
-      "VALUE": "giá trị {value}",
-      "VALUE_EXPLAIN": "Tra {paid}/thang, nhan {credit} tin dung API. Dung tren moi mo hinh.",
-      "DELIVERY": "Nap lai {amount} moi {period}.",
       "PERIOD_DAY": "ngay",
       "PERIOD_WEEK": "tuan",
-      "PERIOD_MONTH": "thang",
-      "CREDIT_MONTH": "{credit} tin dung API / thang",
-      "DELIVERED": "Cap {amount} moi {period}."
+      "PERIOD_MONTH": "thang"
     },
     "BANNER": {
       "TITLE": "Trợ lý AI OpenClaw trên Telegram",
@@ -1055,12 +1047,6 @@
     "TITLE": "Bảng giá",
     "SUBTITLE": "Dù bạn deploy ứng dụng hay roleplay dài hơi. Một gói, mọi mô hình.",
     "CTA": "Đăng ký",
-    "TOPUP": {
-      "LABEL": "Trả theo mức dùng",
-      "DESC": "Them tin dung, dung moi mo hinh.",
-      "FOOTNOTE": "Tín dụng không hết hạn.",
-      "STEP": "Bat dau o day"
-    },
     "FAQ": {
       "Q1": "Giá cả {appName} hoạt động ra sao?",
       "A1": "Bạn trả phí theo token tiêu thụ. Mỗi mô hình có mức giá đầu vào, đầu ra và bộ nhớ đệm riêng, trừ vào tín dụng tài khoản của bạn. Không bắt buộc thuê bao hàng tháng đối với Trả theo nhu cầu.",
@@ -1079,27 +1065,27 @@
       "Q8": "Cuộc trò chuyện hoặc lịch sử nhân vật có thể dài đến đâu?",
       "A8": "{appName} hỗ trợ toàn bộ context window của mỗi mô hình, lên tới 1M token trên Gemini và 200k trên Claude. Roleplay dài hay codebase lớn đều chạy ổn."
     },
-    "PLANS": {
-      "STEP": "Gia tri tot nhat"
-    },
-    "BRIDGE": {
-      "TITLE": "Dung thuong xuyen? Dang ky de co muc dung bao gom moi thang.",
-      "DESC": "Nap them bat cu luc nao de linh hoat. Goi dang ky bao gom muc dung moi tuan, va so du cua ban bu cho phan vuot."
-    },
     "TIER": {
       "1": "Khoi dau",
       "2": "Pro",
       "3": "Mo rong"
     },
-    "SELFSELECT": {
-      "TITLE": "Lua chon nao phu hop?",
-      "DESC": "Nap them de linh hoat va chi tra cho phan ban dung. Dang ky khi muc dung on dinh va nhan them tin dung moi thang."
-    },
-    "TABLE": {
-      "TITLE": "So sanh goi",
-      "PRICE": "Gia",
-      "CREDIT": "Tin dung / thang",
-      "WEEKLY": "Cap moi tuan"
+    "MATRIX": {
+      "TOPUP_NAME": "Tra theo dung",
+      "TOPUP_TAGLINE": "Khong rang buoc",
+      "SUB_TAGLINE": "Tinh phi hang thang",
+      "UPFRONT": "Ban tra",
+      "ANY_AMOUNT": "So tien tuy y",
+      "CREDIT": "Ban nhan",
+      "ONE_TO_ONE": "1:1 so tien tra",
+      "DELIVERY": "Cap phat",
+      "INSTANT": "Tuc thi, mot lan",
+      "WEEKLY_VALUE": "{amount} / {period}",
+      "NA": "-",
+      "EXPIRES": "Han tin dung",
+      "NEVER": "Khong bao gio",
+      "CYCLE": "Moi chu ky",
+      "FOOTNOTE": "Nap them de linh hoat va chi tra cho phan ban dung. Dang ky khi muc dung on dinh; so du cua ban bu cho phan vuot qua muc hang tuan."
     }
   },
   "DOCS_INDEX": {
