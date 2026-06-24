@@ -164,7 +164,7 @@ export function ModelListCard(props: {
         <PriceMeta
           value={input}
           original={originalInput}
-          unit={inputPriceUnit(modality)}
+          unit={inputPriceUnit(modality, model.isFixedPrice)}
           label={model.isFixedPrice ? "" : t("MODELS.LIST.INPUT")}
           perCall={model.isFixedPrice}
           offLabel={offLabel}
@@ -172,7 +172,7 @@ export function ModelListCard(props: {
         <PriceMeta
           value={output}
           original={originalOutput}
-          unit={outputPriceUnit(modality)}
+          unit={outputPriceUnit(modality, model.isFixedPrice)}
           label={model.isFixedPrice ? "" : t("MODELS.LIST.OUTPUT")}
           perCall={model.isFixedPrice}
           offLabel={offLabel}
