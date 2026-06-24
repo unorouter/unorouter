@@ -1035,9 +1035,12 @@
       "POPULAR": "Popular",
       "PER_MONTH": " · mês",
       "VALUE": "valor {value}",
-      "SPEC_QUOTA": "Cota/Reset",
-      "VALUE_BADGE": "Valor",
-      "VALUE_EXPLAIN": "Pague {paid}, receba {credit} em crédito API. Use em qualquer modelo."
+      "VALUE_EXPLAIN": "Pague {paid}/mes, ganhe {credit} em credito de API. Use em qualquer modelo.",
+      "VALUE_HERO": "Valor em credito",
+      "DELIVERY": "Recarrega {amount} a cada {period}.",
+      "PERIOD_DAY": "dia",
+      "PERIOD_WEEK": "semana",
+      "PERIOD_MONTH": "mes"
     },
     "BANNER": {
       "TITLE": "Assistente OpenClaw AI no Telegram",
@@ -1053,8 +1056,9 @@
     "CTA": "Assinar",
     "TOPUP": {
       "LABEL": "Pagamento por uso",
-      "DESC": "Prefere não assinar? Recarregue créditos.",
-      "FOOTNOTE": "Créditos nunca expiram."
+      "DESC": "Adicione credito, use qualquer modelo.",
+      "FOOTNOTE": "Créditos nunca expiram.",
+      "STEP": "Comece aqui"
     },
     "FAQ": {
       "Q1": "Como funcionam os preços de {appName}?",
@@ -1073,6 +1077,18 @@
       "A7": "Sim. Todo plano funciona como fonte customizada compatível com OpenAI em qualquer cliente principal de roleplay. SillyTavern, Janitor.AI, RisuAI e Chub têm cada um um guia de configuração nos documentos.",
       "Q8": "Quão longas podem ser minhas conversas ou históricos de personagem?",
       "A8": "{appName} suporta a janela de contexto completa de todo modelo, até 1M tokens no Gemini e 200k no Claude. Roleplays longos e bases de código longas, ambos funcionam."
+    },
+    "PLANS": {
+      "STEP": "Melhor valor"
+    },
+    "BRIDGE": {
+      "TITLE": "Usa com frequencia? Assine e ganhe ate 2x de credito.",
+      "DESC": "Recarregue quando quiser flexibilidade. Assine quando seu uso for previsivel e o mesmo dolar compra o dobro de credito."
+    },
+    "TIER": {
+      "1": "Inicial",
+      "2": "Pro",
+      "3": "Escala"
     }
   },
   "DOCS_INDEX": {

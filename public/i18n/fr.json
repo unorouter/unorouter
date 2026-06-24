@@ -1035,9 +1035,12 @@
       "POPULAR": "Populaire",
       "PER_MONTH": " · mois",
       "VALUE": "{value} de valeur",
-      "SPEC_QUOTA": "Quota/Réinitialisation",
-      "VALUE_BADGE": "valeur",
-      "VALUE_EXPLAIN": "Payez {paid}, recevez {credit} en crédit API. Utilisable sur tout modèle."
+      "VALUE_EXPLAIN": "Payez {paid}/mois, obtenez {credit} de credit API. Utilisable sur tout modele.",
+      "VALUE_HERO": "Valeur en credit",
+      "DELIVERY": "Recharge {amount} chaque {period}.",
+      "PERIOD_DAY": "jour",
+      "PERIOD_WEEK": "semaine",
+      "PERIOD_MONTH": "mois"
     },
     "BANNER": {
       "TITLE": "Assistant IA OpenClaw sur Telegram",
@@ -1053,8 +1056,9 @@
     "CTA": "S'abonner",
     "TOPUP": {
       "LABEL": "Paiement à l'usage",
-      "DESC": "Pas envie de vous abonner ? Rechargez des crédits.",
-      "FOOTNOTE": "Les crédits n'expirent jamais."
+      "DESC": "Ajoutez du credit, utilisez n'importe quel modele.",
+      "FOOTNOTE": "Les crédits n'expirent jamais.",
+      "STEP": "Commencez ici"
     },
     "FAQ": {
       "Q1": "Comment fonctionne la tarification de {appName} ?",
@@ -1073,6 +1077,18 @@
       "A7": "Oui. Chaque plan fonctionne comme source personnalisée compatible OpenAI dans tout client de jeu de rôle majeur. SillyTavern, Janitor.AI, RisuAI et Chub ont chacun un guide d'installation dans les docs.",
       "Q8": "Quelle peut être la longueur de mes conversations ou de l'historique de personnage ?",
       "A8": "{appName} prend en charge la fenêtre de contexte complète de chaque modèle, jusqu'à 1M tokens sur Gemini et 200k sur Claude. Longs jeux de rôle et longues bases de code, les deux fonctionnent."
+    },
+    "PLANS": {
+      "STEP": "Meilleure valeur"
+    },
+    "BRIDGE": {
+      "TITLE": "Vous l'utilisez regulierement ? Abonnez-vous et obtenez jusqu'a 2x de credit.",
+      "DESC": "Rechargez quand vous voulez de la flexibilite. Abonnez-vous des que votre usage est previsible et le meme dollar achete deux fois plus de credit."
+    },
+    "TIER": {
+      "1": "Demarrage",
+      "2": "Pro",
+      "3": "Echelle"
     }
   },
   "DOCS_INDEX": {

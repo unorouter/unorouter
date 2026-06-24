@@ -41,6 +41,17 @@ export function resetPeriodSuffixKey(period: string): TranslationKey {
   return RESET_TRANSLATION_KEYS[period] ?? ("" as TranslationKey);
 }
 
+// Lowercase noun ("week") for the card's "Refills $X each {period}" delivery line.
+const PERIOD_WORD_KEYS: Record<string, TranslationKey> = {
+  daily: "PRICING.CARD.PERIOD_DAY",
+  weekly: "PRICING.CARD.PERIOD_WEEK",
+  monthly: "PRICING.CARD.PERIOD_MONTH",
+};
+
+export function periodWordKey(period: string): TranslationKey | null {
+  return PERIOD_WORD_KEYS[period] ?? null;
+}
+
 export type SubscriptionPlan = ReturnType<typeof processPlans>[number];
 
 export function getMultiplier(plan: SubscriptionPlan): number {

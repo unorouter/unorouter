@@ -9,7 +9,7 @@ type Props = {
   price: number;
   value: number;
   multiplier: string;
-  quotaLabel: string;
+  deliveryLabel?: string;
   features: string[];
   popular?: boolean;
   cta: string;
@@ -25,66 +25,52 @@ export function PricingCard(props: Props) {
       className={cn(
         "bg-card group relative flex flex-col rounded-lg border p-6 transition-all",
         props.popular
-          ? "border-foreground/50"
+          ? "border-emerald-500/50"
           : "border-border hover:border-foreground/30",
       )}
     >
       {props.popular && (
-        <div className="bg-card border-foreground/30 absolute -top-4.5 left-1/2 z-10 -translate-x-1/2 rounded-sm border px-3 py-1 shadow-[0_4px_0_var(--color-card)]">
-          <span className="text-foreground font-mono text-[10px] tracking-[0.2em] uppercase">
+        <div className="bg-card absolute -top-4.5 left-1/2 z-10 -translate-x-1/2 rounded-sm border border-emerald-500/40 px-3 py-1 shadow-[0_4px_0_var(--color-card)]">
+          <span className="font-mono text-[10px] tracking-[0.2em] text-emerald-600 uppercase dark:text-emerald-400">
             {t("PRICING.CARD.POPULAR")}
           </span>
         </div>
       )}
 
-      <div className="flex items-center justify-between gap-2">
-        <h2 className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-          {props.name}
-        </h2>
-        <span className="rounded-sm border border-emerald-500/40 bg-emerald-500/10 px-2 py-0.5 font-mono text-[10px] font-bold tracking-widest text-emerald-600 uppercase dark:text-emerald-400">
-          {props.multiplier} {t("PRICING.CARD.VALUE_BADGE")}
-        </span>
-      </div>
+      <h2 className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
+        {props.name}
+      </h2>
 
-      <div className="mt-3 flex items-baseline gap-2">
-        <span className="text-muted-foreground decoration-muted-foreground/60 text-2xl font-bold tracking-tight line-through">
-          ${props.price}
-        </span>
-        <svg
-          aria-hidden
-          viewBox="0 0 24 24"
-          className="text-muted-foreground/70 h-4 w-4 self-center"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M5 12h14" />
-          <path d="m13 6 6 6-6 6" />
-        </svg>
+      <div className="mt-3 flex items-baseline gap-1.5">
         <span className="text-foreground text-4xl font-bold tracking-tight">
-          ${props.value}
+          ${props.price}
         </span>
         <span className="text-muted-foreground font-mono text-xs">
           {t("PRICING.CARD.PER_MONTH")}
         </span>
       </div>
-      <p className="text-muted-foreground mt-1.5 font-mono text-[11px] leading-relaxed">
+
+      <div className="mt-4 flex items-center gap-2.5 rounded-md border border-emerald-500/30 bg-emerald-500/10 px-3 py-2">
+        <span className="text-3xl font-bold tracking-tight text-emerald-600 tabular-nums dark:text-emerald-400">
+          {props.multiplier}
+        </span>
+        <span className="font-mono text-[11px] leading-tight tracking-wide text-emerald-700 uppercase dark:text-emerald-300">
+          {t("PRICING.CARD.VALUE_HERO")}
+        </span>
+      </div>
+
+      <p className="text-muted-foreground mt-3 font-mono text-[11px] leading-relaxed">
         {t("PRICING.CARD.VALUE_EXPLAIN", {
           paid: `$${props.price}`,
           credit: `$${props.value}`,
         })}
       </p>
 
-      <div className="mt-5">
-        <p className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-          {t("PRICING.CARD.SPEC_QUOTA")}
+      {props.deliveryLabel && (
+        <p className="text-muted-foreground/70 mt-1 font-mono text-[10px] tracking-wide">
+          {props.deliveryLabel}
         </p>
-        <p className="text-foreground text-lg font-bold tracking-tight">
-          {props.quotaLabel}
-        </p>
-      </div>
+      )}
 
       <div className="border-border mt-6 border-t pt-6">
         <ul className="space-y-3">
@@ -121,7 +107,7 @@ export function PricingCard(props: Props) {
       </div>
 
       {props.popular && (
-        <div className="bg-foreground/5 absolute -inset-px -z-10 rounded-lg blur-xl" />
+        <div className="absolute -inset-px -z-10 rounded-lg bg-emerald-500/5 blur-xl" />
       )}
     </div>
   );

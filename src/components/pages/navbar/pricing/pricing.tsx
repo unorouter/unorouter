@@ -9,12 +9,15 @@ import { useBillingActions } from "@/hooks/ui/use-billing-actions";
 import { useRouter } from "@/i18n/navigation";
 import {
   DEFAULT_TOPUP_AMOUNTS,
-  RESET_TRANSLATION_KEYS,
   getMultiplier,
+  periodWordKey,
   type SubscriptionPlan,
 } from "@/lib/api/subscription";
-import { AUTH_REDIRECT_COOKIE } from "@/lib/config/constants";
-import { cn } from "@/lib/utils";
+import { Icon } from "@/components/ui/icon";
+import {
+  AUTH_REDIRECT_COOKIE,
+  type TranslationKey,
+} from "@/lib/config/constants";
 import { setCookie } from "cookies-next/client";
 import { useTranslations } from "next-intl";
 
@@ -122,12 +125,15 @@ export function Pricing() {
         />
 
         {topUpOptions.length > 0 && (
-          <div className="mx-auto mb-16 max-w-2xl">
+          <div className="mx-auto mb-12 max-w-2xl">
             <div className="mb-4 text-center">
-              <h3 className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
+              <p className="font-mono text-[10px] tracking-[0.2em] text-emerald-600 uppercase dark:text-emerald-400">
+                {t("PRICING.TOPUP.STEP")}
+              </p>
+              <h3 className="text-foreground mt-2 font-mono text-sm font-bold tracking-widest uppercase">
                 {t("PRICING.TOPUP.LABEL")}
               </h3>
-              <p className="text-foreground mt-2 font-mono text-xs">
+              <p className="text-muted-foreground mt-2 font-mono text-xs">
                 {t("PRICING.TOPUP.DESC")}
               </p>
             </div>
@@ -153,31 +159,48 @@ export function Pricing() {
           </div>
         )}
 
-        <div
-          className={cn(
-            "grid gap-6 md:grid-cols-3",
-            topUpOptions.length > 0 && "border-border/50 border-t pt-10",
-          )}
-        >
+        {topUpOptions.length > 0 && plans.length > 0 && (
+          <div className="border-border/50 mx-auto mb-12 max-w-2xl border-t pt-10 text-center">
+            <h3 className="text-foreground font-mono text-sm font-bold tracking-wide">
+              {t("PRICING.BRIDGE.TITLE")}
+            </h3>
+            <p className="text-muted-foreground mx-auto mt-2 max-w-md font-mono text-xs leading-relaxed">
+              {t("PRICING.BRIDGE.DESC")}
+            </p>
+            <Icon
+              name="chevron-down"
+              className="mx-auto mt-4 h-5 w-5 text-emerald-500/70"
+            />
+          </div>
+        )}
+
+        {plans.length > 0 && (
+          <p className="mb-6 text-center font-mono text-[10px] tracking-[0.2em] text-emerald-600 uppercase dark:text-emerald-400">
+            {t("PRICING.PLANS.STEP")}
+          </p>
+        )}
+
+        <div className="grid gap-6 md:grid-cols-3">
           {plans.map((plan, i) => {
-            const multiplier = getMultiplier(plan);
-            const resetLabel = t(
-              RESET_TRANSLATION_KEYS[plan.quotaResetPeriod] ??
-                "BILLING.SUBSCRIPTION.PER_MONTH",
-            );
-            const quotaLabel =
-              plan.quotaPerResetUsd > 0
-                ? `$${plan.quotaPerResetUsd}${resetLabel}`
-                : t("TOKEN.UNLIMITED");
+            const tierKey = `PRICING.TIER.${i + 1}` as TranslationKey;
+            const name = t.has(tierKey) ? t(tierKey) : plan.title;
+            const periodKey = periodWordKey(plan.quotaResetPeriod);
+            const deliveryLabel =
+              plan.quotaPerResetUsd > 0 && periodKey
+                ? t("PRICING.CARD.DELIVERY", {
+                    amount: `$${plan.quotaPerResetUsd}`,
+                    period: t(periodKey),
+                  })
+                : undefined;
 
             return (
               <PricingCard
                 key={plan.id}
-                name={plan.title}
+                name={name}
                 price={plan.priceAmount}
                 value={plan.estimatedTotalUsd}
-                multiplier={`${multiplier}x`}
-                quotaLabel={quotaLabel}
+                multiplier={`${getMultiplier(plan)}x`}
+                deliveryLabel={deliveryLabel}
                 popular={i === 1}
                 features={buildFeatures(i)}
                 cta={t("PRICING.CTA")}

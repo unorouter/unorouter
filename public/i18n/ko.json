@@ -1035,9 +1035,12 @@
       "POPULAR": "인기",
       "PER_MONTH": " · 월",
       "VALUE": "{value} 가치",
-      "SPEC_QUOTA": "할당량/초기화",
-      "VALUE_BADGE": "가치",
-      "VALUE_EXPLAIN": "{paid}를 지불하고 API 크레딧 {credit}을 받으세요. 어떤 모델에서나 사용하세요."
+      "VALUE_EXPLAIN": "{paid}/월 결제로 {credit} API 크레딧 제공. 어떤 모델에서나 사용하세요.",
+      "VALUE_HERO": "크레딧 가치",
+      "DELIVERY": "{period}마다 {amount} 충전됩니다.",
+      "PERIOD_DAY": "일",
+      "PERIOD_WEEK": "주",
+      "PERIOD_MONTH": "월"
     },
     "BANNER": {
       "TITLE": "Telegram의 OpenClaw AI 어시스턴트",
@@ -1053,8 +1056,9 @@
     "CTA": "구독",
     "TOPUP": {
       "LABEL": "종량제",
-      "DESC": "구독하지 않으시겠어요? 크레딧을 충전하세요.",
-      "FOOTNOTE": "크레딧은 만료되지 않습니다."
+      "DESC": "크레딧을 추가하고 어떤 모델이든 사용하세요.",
+      "FOOTNOTE": "크레딧은 만료되지 않습니다.",
+      "STEP": "여기서 시작"
     },
     "FAQ": {
       "Q1": "{appName} 요금은 어떻게 작동하나요?",
@@ -1073,6 +1077,18 @@
       "A7": "네. 모든 플랜은 주요 롤플레이 클라이언트에서 커스텀 OpenAI 호환 소스로 작동합니다. SillyTavern, Janitor.AI, RisuAI, Chub 각각 문서에 설정 가이드가 있습니다.",
       "Q8": "대화 또는 캐릭터 히스토리는 얼마나 길 수 있나요?",
       "A8": "{appName}은 모든 모델의 전체 컨텍스트 윈도우를 지원합니다. Gemini에서는 최대 100만 토큰, Claude에서는 20만 토큰. 긴 롤플레이와 긴 코드베이스 모두 작동합니다."
+    },
+    "PLANS": {
+      "STEP": "최고의 가치"
+    },
+    "BRIDGE": {
+      "TITLE": "자주 쓰시나요? 구독하면 최대 2배 크레딧을 받습니다.",
+      "DESC": "유연함이 필요할 땐 충전하세요. 사용량이 예측되면 구독하세요. 같은 금액으로 두 배의 크레딧을 받습니다."
+    },
+    "TIER": {
+      "1": "스타터",
+      "2": "프로",
+      "3": "스케일"
     }
   },
   "DOCS_INDEX": {

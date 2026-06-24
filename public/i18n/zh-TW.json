@@ -1035,9 +1035,12 @@
       "POPULAR": "熱門",
       "PER_MONTH": "／月",
       "VALUE": "{value} 價值",
-      "SPEC_QUOTA": "額度／重置",
-      "VALUE_BADGE": "價值",
-      "VALUE_EXPLAIN": "支付 {paid}，獲得 {credit} API 額度，可用於任意模型。"
+      "VALUE_EXPLAIN": "支付 {paid}／月，獲得 {credit} API 額度。可用於任意模型。",
+      "VALUE_HERO": "額度價值",
+      "DELIVERY": "每{period}補充 {amount}。",
+      "PERIOD_DAY": "天",
+      "PERIOD_WEEK": "週",
+      "PERIOD_MONTH": "月"
     },
     "BANNER": {
       "TITLE": "Telegram 上的 OpenClaw AI 助理",
@@ -1053,8 +1056,9 @@
     "CTA": "訂閱",
     "TOPUP": {
       "LABEL": "按量儲值",
-      "DESC": "不想訂閱？直接儲值使用。",
-      "FOOTNOTE": "餘額永不過期。"
+      "DESC": "儲值額度，暢用任意模型。",
+      "FOOTNOTE": "餘額永不過期。",
+      "STEP": "從這裡開始"
     },
     "FAQ": {
       "Q1": "{appName} 的計費方式是什麼？",
@@ -1073,6 +1077,18 @@
       "A7": "可以。每個方案都能在主流角色扮演用戶端中作為自訂 OpenAI 相容來源使用。SillyTavern、Janitor.AI、RisuAI 與 Chub 在文件中都有各自的設定指南。",
       "Q8": "對話或角色歷史可以保留多長？",
       "A8": "{appName} 支援每個模型的完整上下文視窗，Gemini 最高 1M tokens，Claude 最高 200k tokens。長篇角色扮演與大型程式碼庫都能從容應對。"
+    },
+    "PLANS": {
+      "STEP": "最超值"
+    },
+    "BRIDGE": {
+      "TITLE": "經常使用？訂閱即可獲得最多 2 倍額度。",
+      "DESC": "需要彈性時就儲值。用量穩定後再訂閱，同樣的錢可獲得雙倍額度。"
+    },
+    "TIER": {
+      "1": "入門版",
+      "2": "專業版",
+      "3": "規模版"
     }
   },
   "DOCS_INDEX": {

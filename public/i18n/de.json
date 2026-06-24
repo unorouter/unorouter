@@ -1035,9 +1035,12 @@
       "POPULAR": "Beliebt",
       "PER_MONTH": " · Monat",
       "VALUE": "{value} Guthaben",
-      "SPEC_QUOTA": "Quota/Reset",
-      "VALUE_BADGE": "Wert",
-      "VALUE_EXPLAIN": "Zahle {paid}, bekomme {credit} an API-Guthaben. Nutzbar mit jedem Modell."
+      "VALUE_EXPLAIN": "Zahle {paid}/Mon., erhalte {credit} an API-Guthaben. Auf jedem Modell nutzbar.",
+      "VALUE_HERO": "Guthabenwert",
+      "DELIVERY": "Laedt {amount} pro {period} nach.",
+      "PERIOD_DAY": "Tag",
+      "PERIOD_WEEK": "Woche",
+      "PERIOD_MONTH": "Monat"
     },
     "BANNER": {
       "TITLE": "OpenClaw KI-Assistent auf Telegram",
@@ -1053,8 +1056,9 @@
     "CTA": "Abonnieren",
     "TOPUP": {
       "LABEL": "Guthaben aufladen",
-      "DESC": "Kein Abo? Lade Guthaben auf.",
-      "FOOTNOTE": "Guthaben verfällt nie."
+      "DESC": "Guthaben aufladen, jedes Modell nutzen.",
+      "FOOTNOTE": "Guthaben verfällt nie.",
+      "STEP": "Hier starten"
     },
     "FAQ": {
       "Q1": "Wie funktioniert das {appName}-Pricing?",
@@ -1073,6 +1077,18 @@
       "A7": "Ja. Jeder Plan funktioniert als Custom-OpenAI-kompatible Quelle in jedem großen Rollenspiel-Client. SillyTavern, Janitor.AI, RisuAI und Chub haben jeweils eine Anleitung in den Docs.",
       "Q8": "Wie lang können meine Gespräche oder Charakter-Verläufe sein?",
       "A8": "{appName} unterstützt das volle Kontextfenster jedes Modells, bis zu 1M Tokens bei Gemini und 200k bei Claude. Lange Rollenspiele und große Codebasen funktionieren beide."
+    },
+    "PLANS": {
+      "STEP": "Bestes Angebot"
+    },
+    "BRIDGE": {
+      "TITLE": "Nutzt du es regelmaessig? Abonniere und erhalte bis zu 2x Guthaben.",
+      "DESC": "Lade auf, wenn du Flexibilitaet willst. Abonniere, sobald dein Verbrauch absehbar ist, und derselbe Dollar bringt doppelt so viel Guthaben."
+    },
+    "TIER": {
+      "1": "Starter",
+      "2": "Pro",
+      "3": "Scale"
     }
   },
   "DOCS_INDEX": {
