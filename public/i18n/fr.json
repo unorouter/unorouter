@@ -3228,7 +3228,8 @@
       "NO_RESULTS": "Aucun modèle trouvé",
       "FREE_BADGE": "GRATUIT",
       "LOGIN_REQUIRED": "Connexion requise",
-      "CUSTOM_PROVIDERS": "Fournisseurs personnalisés"
+      "CUSTOM_PROVIDERS": "Fournisseurs personnalisés",
+      "UNAVAILABLE_TOOLTIP": "{model} (temporairement indisponible)"
     },
     "GROUP": {
       "SELECT": "Groupe de facturation",

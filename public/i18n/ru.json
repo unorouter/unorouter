@@ -3228,7 +3228,8 @@
       "NO_RESULTS": "Модели не найдены",
       "FREE_BADGE": "БЕСПЛАТНО",
       "LOGIN_REQUIRED": "Требуется вход",
-      "CUSTOM_PROVIDERS": "Свои провайдеры"
+      "CUSTOM_PROVIDERS": "Свои провайдеры",
+      "UNAVAILABLE_TOOLTIP": "{model} (временно недоступна)"
     },
     "GROUP": {
       "SELECT": "Группа тарификации",

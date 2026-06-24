@@ -3228,7 +3228,8 @@
       "NO_RESULTS": "モデルが見つかりません",
       "FREE_BADGE": "無料",
       "LOGIN_REQUIRED": "ログインが必要です",
-      "CUSTOM_PROVIDERS": "カスタムプロバイダー"
+      "CUSTOM_PROVIDERS": "カスタムプロバイダー",
+      "UNAVAILABLE_TOOLTIP": "{model}（一時的に利用できません）"
     },
     "GROUP": {
       "SELECT": "課金グループ",

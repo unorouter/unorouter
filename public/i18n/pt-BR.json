@@ -3228,7 +3228,8 @@
       "NO_RESULTS": "Nenhum modelo encontrado",
       "FREE_BADGE": "GRÁTIS",
       "LOGIN_REQUIRED": "Login necessário",
-      "CUSTOM_PROVIDERS": "Provedores personalizados"
+      "CUSTOM_PROVIDERS": "Provedores personalizados",
+      "UNAVAILABLE_TOOLTIP": "{model} (temporariamente indisponível)"
     },
     "GROUP": {
       "SELECT": "Grupo de cobrança",

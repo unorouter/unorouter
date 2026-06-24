@@ -76,6 +76,13 @@ export function ModelSelector(props: ModelSelectorProps) {
   const triggerLabel = selectedCustomProvider
     ? `${selectedCustomProvider.name} / ${selectedCustomLabel}`
     : props.value || t("CHAT.MODEL.SELECT");
+  // Value set but absent from the catalog + not a custom id: upstream temporarily dropped this model
+  // (ratelimited/disabled). Show a placeholder icon instead of no icon; the pick is preserved.
+  const selectedUnavailable =
+    !!props.value &&
+    !selected &&
+    !selectedCustom &&
+    pricingQuery.isSuccess;
 
   // Per-user private groups from prefetched /account/self; each routes only on the models it serves.
   const privateGroups = authQuery.data?.private_groups ?? [];
@@ -117,6 +124,10 @@ export function ModelSelector(props: ModelSelectorProps) {
     if (isCustomModelId(props.value)) return;
     const current = models.find((m) => m.name === props.value);
     if (current && (isLoggedIn || current.isFree)) return;
+    // A non-empty value that just isn't in the current pricing snapshot is a model upstream temporarily
+    // dropped (ratelimited/disabled). Keep the user's pick; it reappears when the model comes back. Only
+    // auto-pick for an EMPTY value or a found-but-not-usable one (a guest on a paid model).
+    if (props.value && !current) return;
 
     const freeText = models.filter((m) => m.isFree && m.type === "text");
     const pool =
@@ -144,6 +155,12 @@ export function ModelSelector(props: ModelSelectorProps) {
           {selected && <VendorIcon vendor={selected.vendor.name} size={14} />}
           {selectedCustomProvider && (
             <Icon name="server" className="h-3.5 w-3.5 shrink-0" />
+          )}
+          {selectedUnavailable && (
+            <Icon
+              name="circle-help"
+              className="text-muted-foreground h-3.5 w-3.5 shrink-0"
+            />
           )}
           <span className="truncate font-mono">{triggerLabel}</span>
           {selected?.isFree && (

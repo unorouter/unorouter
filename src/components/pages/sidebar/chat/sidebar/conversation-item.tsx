@@ -3,8 +3,13 @@
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Icon } from "@/components/ui/icon";
 import { useUpdateConversationMutation } from "@/hooks/ai/chat-hook";
+import { useCustomProvidersQuery } from "@/hooks/ai/custom-providers-hook";
 import { useQueuedSends } from "@/hooks/ai/use-queued-sends";
 import { usePricingQuery } from "@/hooks/models/pricing-hook";
+import {
+  isCustomModelId,
+  parseCustomModelId,
+} from "@/lib/ai/chat/custom-provider-id";
 import { analytics } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
@@ -34,13 +39,37 @@ export function ConversationItem(props: ConversationItemProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const modelData = pricingQuery.data?.models?.find(
-    (m) => m.name === props.conversation.model,
-  );
+  const customProvidersQuery = useCustomProvidersQuery();
+  const model = props.conversation.model;
+  const isCustom = isCustomModelId(model);
+
+  const modelData = pricingQuery.data?.models?.find((m) => m.name === model);
   const vendorName =
     typeof modelData?.vendor === "string"
       ? modelData.vendor
       : (modelData?.vendor?.name ?? "");
+  // Catalog model that isn't in the pricing response: upstream can temporarily drop a model when it's
+  // ratelimited/disabled. The conversation still references it, so show a neutral placeholder (not a blank
+  // VendorIcon) + keep the real name in the tooltip. Wait for pricing to load before deciding it's unknown.
+  const isUnknownCatalog =
+    !isCustom &&
+    !!model &&
+    pricingQuery.isSuccess &&
+    !modelData;
+
+  // Custom-provider model: a `custom:::<providerId>:::<modelKey>` id never matches the catalog, so resolve
+  // the provider name + the model's label for the tooltip and show the generic server icon.
+  const customParsed = isCustom && model ? parseCustomModelId(model) : null;
+  const customProvider = customParsed
+    ? customProvidersQuery.data?.find((p) => p.id === customParsed.providerId)
+    : undefined;
+  const customLabel = customParsed
+    ? (customProvider?.models.find((m) => m.key === customParsed.modelKey)
+        ?.label ?? customParsed.modelKey)
+    : "";
+  const customTooltip = customProvider
+    ? `${customProvider.name} / ${customLabel}`
+    : customLabel;
 
   function startEditing() {
     analytics.chat.conversationRenameStarted();
@@ -79,20 +108,34 @@ export function ConversationItem(props: ConversationItemProps) {
         />
       ) : (
         <div className="relative flex min-w-0 flex-1 items-center gap-2 px-3 py-1.5 text-start text-sm">
-          <span
-            title={
-              vendorName
-                ? `${vendorName} · ${props.conversation.model ?? ""}`
-                : (props.conversation.model ?? "")
-            }
-            className="shrink-0"
-          >
-            <VendorIcon
-              vendor={vendorName}
-              size={14}
-              className="pointer-events-none"
-            />
-          </span>
+          {isCustom ? (
+            <span title={customTooltip} className="text-muted-foreground shrink-0">
+              <Icon name="server" className="pointer-events-none size-3.5" />
+            </span>
+          ) : isUnknownCatalog ? (
+            <span
+              title={t("CHAT.MODEL.UNAVAILABLE_TOOLTIP", { model: model ?? "" })}
+              className="text-muted-foreground shrink-0"
+            >
+              <Icon
+                name="circle-help"
+                className="pointer-events-none size-3.5"
+              />
+            </span>
+          ) : (
+            <span
+              title={
+                vendorName ? `${vendorName} · ${model ?? ""}` : (model ?? "")
+              }
+              className="shrink-0"
+            >
+              <VendorIcon
+                vendor={vendorName}
+                size={14}
+                className="pointer-events-none"
+              />
+            </span>
+          )}
           <div
             className={cn(
               "flex min-w-0 flex-1 flex-col transition-[padding]",

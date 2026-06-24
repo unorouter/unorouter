@@ -3228,7 +3228,8 @@
       "NO_RESULTS": "कोई मॉडल नहीं मिला",
       "FREE_BADGE": "मुफ्त",
       "LOGIN_REQUIRED": "Login आवश्यक",
-      "CUSTOM_PROVIDERS": "कस्टम प्रदाता"
+      "CUSTOM_PROVIDERS": "कस्टम प्रदाता",
+      "UNAVAILABLE_TOOLTIP": "{model} (अस्थायी रूप से अनुपलब्ध)"
     },
     "GROUP": {
       "SELECT": "बिलिंग समूह",

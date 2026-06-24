@@ -3228,7 +3228,8 @@
       "NO_RESULTS": "لا توجد نماذج",
       "FREE_BADGE": "مجاني",
       "LOGIN_REQUIRED": "تسجيل الدخول مطلوب",
-      "CUSTOM_PROVIDERS": "مزودون مخصصون"
+      "CUSTOM_PROVIDERS": "مزودون مخصصون",
+      "UNAVAILABLE_TOOLTIP": "{model} (غير متاح مؤقتًا)"
     },
     "GROUP": {
       "SELECT": "مجموعة الفوترة",

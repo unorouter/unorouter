@@ -3228,7 +3228,8 @@
       "NO_RESULTS": "Model bulunamadı",
       "FREE_BADGE": "ÜCRETSİZ",
       "LOGIN_REQUIRED": "Giriş gerekli",
-      "CUSTOM_PROVIDERS": "Özel sağlayıcılar"
+      "CUSTOM_PROVIDERS": "Özel sağlayıcılar",
+      "UNAVAILABLE_TOOLTIP": "{model} (geçici olarak kullanılamıyor)"
     },
     "GROUP": {
       "SELECT": "Faturalandırma grubu",

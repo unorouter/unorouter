@@ -3228,7 +3228,8 @@
       "NO_RESULTS": "Nie znaleziono modeli",
       "FREE_BADGE": "DARMOWE",
       "LOGIN_REQUIRED": "Wymagane logowanie",
-      "CUSTOM_PROVIDERS": "Niestandardowi dostawcy"
+      "CUSTOM_PROVIDERS": "Niestandardowi dostawcy",
+      "UNAVAILABLE_TOOLTIP": "{model} (chwilowo niedostępny)"
     },
     "GROUP": {
       "SELECT": "Grupa rozliczeniowa",
