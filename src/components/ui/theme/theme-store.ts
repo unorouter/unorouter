@@ -55,6 +55,8 @@ export type UserTheme = {
   chartColorCustom?: string;
   fontBody?: string;
   fontHeading?: string;
+  // Chat message font scale (multiplier, 1 = default). Accessibility: scales ONLY chat message text, not UI chrome.
+  chatFontScale?: number;
   radius?: string;
   style?: string;
   iconLibrary?: string;

@@ -3017,6 +3017,7 @@
     "MD_ITALIC_BOLD": "טקסט נטוי ומודגש",
     "MD_SINGLE_QUOTE": "טקסט במירכאות בודדות",
     "MD_DOUBLE_QUOTE": "טקסט במירכאות כפולות",
+    "CHAT_FONT_SIZE": "גודל גופן ההודעות",
     "SURFACE_COLORS": "צבעי משטח",
     "MODE_LIGHT": "בהיר",
     "MODE_DARK": "כהה",

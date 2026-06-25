@@ -3017,6 +3017,7 @@
     "MD_ITALIC_BOLD": "Texte en italique gras",
     "MD_SINGLE_QUOTE": "Texte entre apostrophes",
     "MD_DOUBLE_QUOTE": "Texte entre guillemets",
+    "CHAT_FONT_SIZE": "Taille du texte des messages",
     "SURFACE_COLORS": "Couleurs de surface",
     "MODE_LIGHT": "Clair",
     "MODE_DARK": "Sombre",

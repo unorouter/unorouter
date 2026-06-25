@@ -3017,6 +3017,7 @@
     "MD_ITALIC_BOLD": "Texto itálico em negrito",
     "MD_SINGLE_QUOTE": "Texto entre aspas simples",
     "MD_DOUBLE_QUOTE": "Texto entre aspas duplas",
+    "CHAT_FONT_SIZE": "Tamanho da fonte das mensagens",
     "SURFACE_COLORS": "Cores de superfície",
     "MODE_LIGHT": "Claro",
     "MODE_DARK": "Escuro",

@@ -15,6 +15,7 @@ import { BackgroundImageSection } from "@/components/ui/theme/customizer/backgro
 import { RegistryPickers } from "@/components/ui/theme/customizer/registry-pickers";
 import {
   ChatTextSection,
+  FontSizeSection,
   SurfaceColorsSection,
 } from "@/components/ui/theme/customizer/color-sections";
 import { STYLES } from "@/components/ui/theme/shadcn-styles";
@@ -153,6 +154,10 @@ export function ThemeCustomizerBody() {
           <RegistryPickers theme={theme} setTheme={setTheme} />
           <FieldSeparator />
           <ChatTextSection markdown={theme.markdown} onChange={setMarkdown} />
+          <FontSizeSection
+            scale={theme.chatFontScale}
+            onChange={(chatFontScale) => setTheme({ ...theme, chatFontScale })}
+          />
           <FieldSeparator />
           <SurfaceColorsSection
             surface={surfacePalette[surfaceMode]}

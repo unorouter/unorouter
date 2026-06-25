@@ -3017,6 +3017,7 @@
     "MD_ITALIC_BOLD": "İtalik kalın metin",
     "MD_SINGLE_QUOTE": "Tek tırnaklı metin",
     "MD_DOUBLE_QUOTE": "Çift tırnaklı metin",
+    "CHAT_FONT_SIZE": "Mesaj yazı boyutu",
     "SURFACE_COLORS": "Yüzey renkleri",
     "MODE_LIGHT": "Açık",
     "MODE_DARK": "Koyu",

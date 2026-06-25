@@ -3017,6 +3017,7 @@
     "MD_ITALIC_BOLD": "Tekst pogrubiony kursywą",
     "MD_SINGLE_QUOTE": "Tekst w pojedynczych cudzysłowach",
     "MD_DOUBLE_QUOTE": "Tekst w podwójnych cudzysłowach",
+    "CHAT_FONT_SIZE": "Rozmiar czcionki wiadomości",
     "SURFACE_COLORS": "Kolory powierzchni",
     "MODE_LIGHT": "Jasny",
     "MODE_DARK": "Ciemny",

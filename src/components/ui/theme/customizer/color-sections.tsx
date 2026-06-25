@@ -1,12 +1,48 @@
 "use client";
 
 import { ColorField } from "@/components/ui/theme/customizer/color-field";
+import { Slider } from "@/components/ui/slider";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type {
   ChatMarkdownColors,
   SurfaceColors,
 } from "@/components/ui/theme/theme-store";
 import { useTranslations } from "next-intl";
+
+// Chat message font scale (accessibility). 1 = default; scales only message text.
+const FONT_SCALE_MIN = 0.85;
+const FONT_SCALE_MAX = 1.6;
+const FONT_SCALE_STEP = 0.05;
+
+export function FontSizeSection(props: {
+  scale: number | undefined;
+  onChange: (scale: number) => void;
+}) {
+  const t = useTranslations();
+  const value = props.scale ?? 1;
+  return (
+    <div className="flex flex-col gap-1.5 px-1 pt-1">
+      <div className="flex items-center justify-between gap-2">
+        <span className="text-muted-foreground text-xs">
+          {t("THEME.CHAT_FONT_SIZE")}
+        </span>
+        <span className="text-muted-foreground font-mono text-xs tabular-nums">
+          {Math.round(value * 100)}%
+        </span>
+      </div>
+      <Slider
+        aria-label={t("THEME.CHAT_FONT_SIZE")}
+        min={FONT_SCALE_MIN}
+        max={FONT_SCALE_MAX}
+        step={FONT_SCALE_STEP}
+        value={value}
+        onValueChange={(v) =>
+          props.onChange(Array.isArray(v) ? (v[0] ?? 1) : v)
+        }
+      />
+    </div>
+  );
+}
 
 const MARKDOWN_FIELDS = [
   ["normal", "THEME.MD_NORMAL"],
