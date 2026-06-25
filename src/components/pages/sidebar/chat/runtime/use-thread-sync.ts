@@ -1,17 +1,21 @@
 "use client";
 
 import { useConversationQuery } from "@/hooks/ai/chat-hook";
+import { useChatSettingsQuery } from "@/hooks/ai/rp/conversations";
 import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import {
   readLocalConversation,
   updateLocalConversationSettings,
 } from "@/lib/db/client/data/chat";
 import { queryKeys } from "@/lib/react-query/keys";
+import type { StreamOverrides } from "@/lib/validation/chat";
 import { dayjs } from "@/lib/utils/format/date";
 import {
+  chatDefaultsAtom,
   chatGroupAtom,
   chatModelAtom,
   chatStore,
+  chatWebSearchAtom,
   convIdAtom,
 } from "@/store/chat-store";
 import { useQueryClient } from "@tanstack/react-query";
@@ -101,6 +105,53 @@ export function useGroupSync(remoteId: string | null | undefined) {
       })();
     });
   }, [queryClient, userId]);
+}
+
+// Seeds the per-conversation overrides used by buildChatRequestBody (sampling in chatDefaultsAtom + the
+// separate chatWebSearchAtom) from the conversation's saved DB settings when a conversation opens. Without this
+// these atoms keep the global cookie defaults on refresh, so a conversation's saved sampling/web-search silently
+// reverted to defaults (model + group already had their own seeding in useModelSync/useGroupSync).
+const OVERRIDE_KEYS = [
+  "reasoningEffort",
+  "temperature",
+  "topP",
+  "topK",
+  "minP",
+  "topA",
+  "frequencyPenalty",
+  "presencePenalty",
+  "repetitionPenalty",
+  "maxTokens",
+  "extraBody",
+  "systemPromptOverride",
+  "authorNote",
+  "authorNoteDepth",
+  "chatMemory",
+  "streamingEnabled",
+  "showReasoning",
+] as const;
+
+export function useSettingsSync(remoteId: string | null | undefined) {
+  const setDefaults = useSetAtom(chatDefaultsAtom);
+  const setWebSearch = useSetAtom(chatWebSearchAtom);
+  const settingsQuery = useChatSettingsQuery(remoteId ?? undefined);
+  const lastSyncedIdRef = useRef<string | undefined>(undefined);
+
+  const settings = settingsQuery.data;
+  useEffect(() => {
+    if (!remoteId || !settings || remoteId === lastSyncedIdRef.current) return;
+    lastSyncedIdRef.current = remoteId;
+    const overrides: StreamOverrides = {};
+    const row = settings as Record<string, unknown>;
+    for (const k of OVERRIDE_KEYS) {
+      const v = row[k];
+      if (v !== null && v !== undefined) {
+        (overrides as Record<string, unknown>)[k] = v;
+      }
+    }
+    setDefaults(overrides);
+    setWebSearch(Boolean(row.webSearchEnabled));
+  }, [remoteId, settings, setDefaults, setWebSearch]);
 }
 
 // Pin scroll on thread load. Releases on user scroll > USER_SCROLL_THRESHOLD.

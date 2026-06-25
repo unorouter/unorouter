@@ -13,6 +13,7 @@ import {
   useGroupSync,
   useModelSync,
   useScrollToBottom,
+  useSettingsSync,
 } from "@/components/pages/sidebar/chat/runtime/use-thread-sync";
 import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { usePendingDrainScheduler } from "@/hooks/ai/use-pending-drain-scheduler";
@@ -85,6 +86,7 @@ function ChatRuntimeHook() {
   useConvIdSync(remoteId);
   useModelSync(remoteId);
   useGroupSync(remoteId);
+  useSettingsSync(remoteId);
   // Thread-scoped conv id; convIdAtom fallback covers the first send of an unsaved thread.
   const remoteIdRef = useRef<string | null>(remoteId ?? null);
   remoteIdRef.current = remoteId ?? null;
