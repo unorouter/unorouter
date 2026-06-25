@@ -25,6 +25,26 @@ export async function fetchAllRefs(urls: string[]): Promise<RefBytes[]> {
   return Promise.all(urls.map(fetchRefBytes));
 }
 
+function dataUriToRefBytes(dataUri: string): RefBytes {
+  const header = dataUri.slice(0, dataUri.indexOf(","));
+  const mime = header.match(/data:([^;]+)/)?.[1]?.trim() || "image/png";
+  const base64 = dataUri.slice(dataUri.indexOf(",") + 1);
+  const buf = Buffer.from(base64, "base64");
+  return { buf, mime, base64, dataUri };
+}
+
+// Chat refs arrive as inline data: URIs (OPFS bytes) or http(s) R2 urls. Decode
+// data URIs locally; http urls go through the SSRF-safe fetch.
+export async function loadRefs(urls: string[]): Promise<RefBytes[]> {
+  return Promise.all(
+    urls.map((url) =>
+      url.startsWith("data:")
+        ? Promise.resolve(dataUriToRefBytes(url))
+        : fetchRefBytes(url),
+    ),
+  );
+}
+
 type SubmitArgs = {
   model: string;
   prompt: string;

@@ -8,7 +8,11 @@ import {
 } from "@/lib/config/r2";
 import { base64ToDataUri, uid } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
-import { buildBody, extractResultUris } from "@/lib/ai/playground/dispatch";
+import {
+  buildBody,
+  extractResultUris,
+  loadRefs,
+} from "@/lib/ai/playground/dispatch";
 import {
   chooseEndpoint,
   type SyncImageEndpoint,
@@ -24,6 +28,7 @@ import {
 import { assertPromptAllowed } from "./moderation.service";
 import { submitVideoTask } from "./task.service";
 import {
+  extractLastUserImageRefs,
   extractLastUserText,
   type StreamMessages,
 } from "@/lib/ai/chat/pipeline/transforms";
@@ -184,26 +189,33 @@ async function processUrls(
   return (await Promise.all(matches.map(process))).filter(Boolean).join("\n\n");
 }
 
-// Dispatch by advertised endpoint: image-generation POSTs /v1/images/generations; openai-only image models MUST use /v1/chat/completions.
+// Max reference images per chat image-gen turn (matches playground cap intent).
+const MAX_CHAT_REFS = 4;
+
+// Dispatch by advertised endpoint: image-generation POSTs /v1/images/generations
+// (or multipart /v1/images/edits when refs are attached); openai image models use
+// /v1/chat/completions; gemini uses generateContent. Refs are the user's attached
+// images for edit/combine turns.
 async function generateImage(
   apiKey: string,
   model: string,
   prompt: string,
   endpoint: SyncImageEndpoint,
+  refUrls: string[],
   group?: string | null,
 ): Promise<string[]> {
-  const built = buildBody(endpoint, { model, prompt, refs: [], n: 1 });
-  if (built.kind !== "json") {
-    throw new Error(msg("ERRORS.IMAGE_GENERATION_FAILED"));
-  }
+  const refs = refUrls.length > 0 ? await loadRefs(refUrls) : [];
+  const built = buildBody(endpoint, { model, prompt, refs, n: 1 });
+  const headers: Record<string, string> = {
+    Authorization: `Bearer ${apiKey}`,
+    ...groupHeader(group),
+  };
+  if (built.kind === "json") headers["Content-Type"] = "application/json";
   const res = await fetch(`${upstreamApiUrl}${built.path}`, {
     method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-      ...groupHeader(group),
-    },
-    body: built.body,
+    headers,
+    // multipart: FormData sets its own boundary content-type; json: string body.
+    body: built.kind === "json" ? built.body : built.form,
   });
   if (!res.ok) {
     const err = await res.text();
@@ -211,6 +223,7 @@ async function generateImage(
       context: "stream.image",
       model,
       endpoint,
+      refs: refs.length,
       error: err.slice(0, 200),
     });
     throw new Error(`${msg("ERRORS.IMAGE_GENERATION_FAILED")}: ${err}`);
@@ -231,12 +244,16 @@ export async function handleImageStream(
   const model = (await getPricingSummary()).byName.get(body.model);
   const endpoint = chooseEndpoint(model?.endpointTypes ?? []);
   if (!endpoint) throw new Error(msg("ERRORS.IMAGE_GENERATION_FAILED"));
+  const refUrls = extractLastUserImageRefs(body.messages)
+    .map((r) => r.url)
+    .slice(0, MAX_CHAT_REFS);
   return streamResponse(async (writer) => {
     const images = await generateImage(
       apiKey,
       body.model,
       prompt,
       endpoint,
+      refUrls,
       body.group,
     );
 

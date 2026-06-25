@@ -65,6 +65,34 @@ export function extractLastUserText(messages: StreamMessages): string | null {
   return null;
 }
 
+export type ImageRef = { url: string; mimeType: string };
+
+// Reference images attached to the last user turn (image edit/combine).
+// file/source-url parts carry a data: URI or http(s) R2 url; PDFs/non-images skipped.
+export function extractLastUserImageRefs(messages: StreamMessages): ImageRef[] {
+  for (let i = messages.length - 1; i >= 0; i--) {
+    const msg = messages[i];
+    if (msg.role !== "user") continue;
+    if (!Array.isArray(msg.parts)) return [];
+    const refs: ImageRef[] = [];
+    for (const part of msg.parts) {
+      if (part.type !== "file" && part.type !== "source-url") continue;
+      const p = part as { url?: unknown; mediaType?: unknown; mimeType?: unknown };
+      const url = typeof p.url === "string" ? p.url : "";
+      const mimeType =
+        (typeof p.mediaType === "string" && p.mediaType) ||
+        (typeof p.mimeType === "string" && p.mimeType) ||
+        "";
+      if (!url) continue;
+      const isImage = mimeType.startsWith("image/") || url.startsWith("data:image/");
+      if (!isImage) continue;
+      refs.push({ url, mimeType: mimeType || "image/png" });
+    }
+    return refs;
+  }
+  return [];
+}
+
 // SillyTavern depth: counts back from end (0=after last, 1=before last). First-passed wins ties.
 export function spliceDepthInjections(
   messages: StreamMessages,
