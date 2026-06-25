@@ -27,7 +27,8 @@
     "CHAT": "Chat",
     "PLAYGROUND": "Playground",
     "STATUS": "Status",
-    "COMPARE": "Vergleich"
+    "COMPARE": "Vergleich",
+    "LANGUAGE": "Sprache"
   },
   "HOME": {
     "HERO": {
@@ -3415,6 +3416,8 @@
       "CLEAR_SUCCESS": "Chat geleert",
       "CLEAR_CONFIRM_DESC": "Dadurch werden alle Nachrichten dieser Unterhaltung gelöscht, die Einstellungen, Charakterbindungen und der Titel bleiben jedoch erhalten. Diese Aktion kann nicht rückgängig gemacht werden.",
       "DISPLAY": "Anzeige",
+      "APPEARANCE": "Darstellung",
+      "TOOLS": "Werkzeuge",
       "DIAGNOSTICS": "Protokoll herunterladen (ohne Nachrichten)",
       "DIAGNOSTICS_FULL": "Protokoll + Nachrichten herunterladen",
       "DEBUG_CLEAR": "Debug-Protokoll löschen",

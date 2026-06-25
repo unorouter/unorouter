@@ -27,7 +27,8 @@
     "CHAT": "Chat",
     "PLAYGROUND": "Playground",
     "STATUS": "Stato",
-    "COMPARE": "Confronta"
+    "COMPARE": "Confronta",
+    "LANGUAGE": "Lingua"
   },
   "HOME": {
     "HERO": {
@@ -3415,6 +3416,8 @@
       "CLEAR_SUCCESS": "Chat cancellata",
       "CLEAR_CONFIRM_DESC": "Questo elimina ogni messaggio nella conversazione ma mantiene le impostazioni, i binding del personaggio e il titolo. Questo non può essere annullato.",
       "DISPLAY": "Visualizzazione",
+      "APPEARANCE": "Aspetto",
+      "TOOLS": "Strumenti",
       "DIAGNOSTICS": "Scarica registro (senza messaggi)",
       "DIAGNOSTICS_FULL": "Scarica registro + messaggi",
       "DEBUG_CLEAR": "Cancella registro di debug",

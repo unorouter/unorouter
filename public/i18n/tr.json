@@ -27,7 +27,8 @@
     "CHAT": "Sohbet",
     "PLAYGROUND": "Playground",
     "STATUS": "Durum",
-    "COMPARE": "Karşılaştır"
+    "COMPARE": "Karşılaştır",
+    "LANGUAGE": "Dil"
   },
   "HOME": {
     "HERO": {
@@ -3415,6 +3416,8 @@
       "CLEAR_SUCCESS": "Sohbet temizlendi",
       "CLEAR_CONFIRM_DESC": "Bu sohbetteki her mesajı siler ama ayarları, karakter bağlantılarını ve başlığı korur. Bu geri alınamaz.",
       "DISPLAY": "Görünüm",
+      "APPEARANCE": "Görünüm",
+      "TOOLS": "Araçlar",
       "DIAGNOSTICS": "Günlüğü indir (mesajsız)",
       "DIAGNOSTICS_FULL": "Günlük + mesajları indir",
       "DEBUG_CLEAR": "Hata ayıklama günlüğünü temizle",

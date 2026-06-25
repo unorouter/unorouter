@@ -27,7 +27,8 @@
     "CHAT": "對話",
     "PLAYGROUND": "遊樂場",
     "STATUS": "狀態",
-    "COMPARE": "對比"
+    "COMPARE": "對比",
+    "LANGUAGE": "語言"
   },
   "HOME": {
     "HERO": {
@@ -3415,6 +3416,8 @@
       "CLEAR_SUCCESS": "對話已清空",
       "CLEAR_CONFIRM_DESC": "此操作會刪除該對話中的所有訊息，但保留設定、角色綁定與標題。此操作無法復原。",
       "DISPLAY": "顯示",
+      "APPEARANCE": "外觀",
+      "TOOLS": "工具",
       "DIAGNOSTICS": "下載日誌（不含訊息）",
       "DIAGNOSTICS_FULL": "下載日誌 + 訊息",
       "DEBUG_CLEAR": "清除除錯日誌",

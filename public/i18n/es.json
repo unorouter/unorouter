@@ -27,7 +27,8 @@
     "CHAT": "Chat",
     "PLAYGROUND": "Playground",
     "STATUS": "Estado",
-    "COMPARE": "Comparar"
+    "COMPARE": "Comparar",
+    "LANGUAGE": "Idioma"
   },
   "HOME": {
     "HERO": {
@@ -3415,6 +3416,8 @@
       "CLEAR_SUCCESS": "Chat limpiado",
       "CLEAR_CONFIRM_DESC": "Esto elimina cada mensaje en la conversación pero mantiene la configuración, vínculos de personaje y título. Esto no se puede deshacer.",
       "DISPLAY": "Visualización",
+      "APPEARANCE": "Apariencia",
+      "TOOLS": "Herramientas",
       "DIAGNOSTICS": "Descargar registro (sin mensajes)",
       "DIAGNOSTICS_FULL": "Descargar registro + mensajes",
       "DEBUG_CLEAR": "Borrar registro de depuración",

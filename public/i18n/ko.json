@@ -27,7 +27,8 @@
     "CHAT": "채팅",
     "PLAYGROUND": "플레이그라운드",
     "STATUS": "상태",
-    "COMPARE": "비교"
+    "COMPARE": "비교",
+    "LANGUAGE": "언어"
   },
   "HOME": {
     "HERO": {
@@ -3415,6 +3416,8 @@
       "CLEAR_SUCCESS": "채팅 지워짐",
       "CLEAR_CONFIRM_DESC": "대화의 모든 메시지를 삭제하지만 설정, 캐릭터 바인딩, 제목은 유지합니다. 이 작업은 취소할 수 없습니다.",
       "DISPLAY": "표시",
+      "APPEARANCE": "모양",
+      "TOOLS": "도구",
       "DIAGNOSTICS": "로그 다운로드(메시지 제외)",
       "DIAGNOSTICS_FULL": "로그 + 메시지 다운로드",
       "DEBUG_CLEAR": "디버그 로그 지우기",

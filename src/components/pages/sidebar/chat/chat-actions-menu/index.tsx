@@ -14,10 +14,9 @@ import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
 import { useState } from "react";
-import { ConversationMenuItems } from "./conversation-menu-items";
-import { DisplaySettingsSubmenu } from "./display-settings-submenu";
-import { ImportExportSubmenu } from "./import-export-submenu";
+import { AppearanceSubmenu } from "./appearance-submenu";
 import { RpNavItems } from "./rp-nav-items";
+import { ToolsSubmenu } from "./tools-submenu";
 
 type Props = {
   convId: string | null;
@@ -67,12 +66,12 @@ export function ChatActionsMenu(props: Props) {
             {t("CHAT.OVERRIDES.OPEN")}
           </DropdownMenuItem>
           <DropdownMenuSeparator />
+          {/* Library: priority, flat + top-level. */}
           <RpNavItems />
           <DropdownMenuSeparator />
-          <DisplaySettingsSubmenu />
-          <ImportExportSubmenu convId={props.convId} />
-          <DropdownMenuSeparator />
-          <ConversationMenuItems
+          {/* Everything else grouped: look-and-feel + utilities. */}
+          <AppearanceSubmenu />
+          <ToolsSubmenu
             convId={props.convId}
             onOpenDbStudio={() => setDbStudioOpen(true)}
           />
