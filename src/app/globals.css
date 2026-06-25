@@ -303,6 +303,32 @@ html.dark .shiki span[style*="#758575"] {
   }
 }
 
+/* Bottom fade hint on a scroll container: the lower edge fades out while there is
+   more content below, and resolves to fully visible once scrolled to the end. Tells
+   users "there's more" without a JS scroll listener. Scroll-driven animation
+   (animation-timeline: scroll) is the gate; browsers without it just show no fade
+   (a thin scrollbar still cues scrollability). */
+@utility scroll-fade-bottom {
+  @supports (animation-timeline: scroll()) {
+    animation: scroll-fade-bottom-mask linear both;
+    animation-timeline: scroll(self);
+    animation-range: calc(100% - 3rem) 100%;
+  }
+}
+
+@keyframes scroll-fade-bottom-mask {
+  from {
+    mask-image: linear-gradient(
+      to bottom,
+      black calc(100% - 2.5rem),
+      transparent 100%
+    );
+  }
+  to {
+    mask-image: linear-gradient(to bottom, black 100%, black 100%);
+  }
+}
+
 .dark .thin-scrollbar:hover {
   scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
 }
