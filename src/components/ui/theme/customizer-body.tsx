@@ -149,7 +149,7 @@ export function ThemeCustomizerBody() {
       <CardHeader className="flex flex-row flex-wrap items-center justify-between gap-2 border-b py-4">
         <CardTitle className="shrink-0">{t("THEME.TITLE")}</CardTitle>
       </CardHeader>
-      <CardContent className="thin-scrollbar scroll-fade-bottom min-h-0 flex-1 overflow-y-auto py-4">
+      <CardContent className="min-h-0 flex-1 overflow-y-auto py-4">
         <FieldGroup>
           <RegistryPickers theme={theme} setTheme={setTheme} />
           <FieldSeparator />

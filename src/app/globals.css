@@ -294,38 +294,14 @@ html.dark .shiki span[style*="#758575"] {
   display: none !important;
 }
 
-/* Thin overlay scrollbar that fades when idle */
+/* Thin overlay scrollbar that fades when idle. Native-thin (no fat webkit pill);
+   the permanent mobile bar is handled by the DOM ScrollIndicator overlay where
+   needed (iOS Safari ignores ::-webkit-scrollbar). */
 @utility thin-scrollbar {
   scrollbar-width: thin;
   scrollbar-color: transparent transparent;
   &:hover {
     scrollbar-color: rgba(0, 0, 0, 0.15) transparent;
-  }
-}
-
-/* Bottom fade hint on a scroll container: the lower edge fades out while there is
-   more content below, and resolves to fully visible once scrolled to the end. Tells
-   users "there's more" without a JS scroll listener. Scroll-driven animation
-   (animation-timeline: scroll) is the gate; browsers without it just show no fade
-   (a thin scrollbar still cues scrollability). */
-@utility scroll-fade-bottom {
-  @supports (animation-timeline: scroll()) {
-    animation: scroll-fade-bottom-mask linear both;
-    animation-timeline: scroll(self);
-    animation-range: calc(100% - 3rem) 100%;
-  }
-}
-
-@keyframes scroll-fade-bottom-mask {
-  from {
-    mask-image: linear-gradient(
-      to bottom,
-      black calc(100% - 2.5rem),
-      transparent 100%
-    );
-  }
-  to {
-    mask-image: linear-gradient(to bottom, black 100%, black 100%);
   }
 }
 
