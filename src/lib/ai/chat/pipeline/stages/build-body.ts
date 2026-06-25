@@ -134,6 +134,8 @@ export function buildDebugSnapshot(
   body: StreamBody,
   effectiveSystem: string | undefined,
   messagesForUpstream: StreamMessages,
+  // Upstream target for the request-log curl: bare endpoint path + full url.
+  target?: { endpoint: string; url: string },
 ) {
   return {
     requestBody: {
@@ -147,6 +149,8 @@ export function buildDebugSnapshot(
     // Mirrors upstream: null for noSystemRole models.
     assembledSystem: effectiveSystem ?? null,
     finalMessages: messagesForUpstream,
+    endpoint: target?.endpoint ?? null,
+    url: target?.url ?? null,
   };
 }
 

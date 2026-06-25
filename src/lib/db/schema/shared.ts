@@ -206,6 +206,10 @@ export const requestLogs = sqliteTable(
     responseHeaders: text("response_headers", { mode: "json" }),
     droppedParams: text("dropped_params"),
     requestId: text("request_id"),
+    // Upstream HTTP target this request hit: full url + the bare endpoint path (e.g. /v1/images/generations).
+    // Drives an accurate "copy as curl" for both text and media paths.
+    url: text("url"),
+    endpoint: text("endpoint"),
     inputTokens: integer("input_tokens"),
     outputTokens: integer("output_tokens"),
     cost: real("cost"),

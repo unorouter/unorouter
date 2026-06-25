@@ -1,6 +1,7 @@
 // Body builders + extractors for new-api image endpoints (/images, /chat, /generateContent).
 
 import type { SyncImageEndpoint } from "@/lib/ai/playground/models-dynamic";
+import { API_ENDPOINTS } from "@/lib/ai/endpoints";
 import { safeFetchBytes } from "@/lib/config/r2";
 import { base64ToDataUri } from "@/lib/utils/base";
 
@@ -81,7 +82,7 @@ function buildImageGenerationsBody(args: SubmitArgs): Built {
   if (args.refs.length === 0) {
     return {
       kind: "json",
-      path: "/v1/images/generations",
+      path: API_ENDPOINTS.imagesGenerations,
       body: JSON.stringify(Object.fromEntries(fields)),
     };
   }
@@ -95,7 +96,7 @@ function buildImageGenerationsBody(args: SubmitArgs): Built {
       `ref-${form.getAll("image[]").length}.${mimeExt(r.mime)}`,
     );
   }
-  return { kind: "multipart", path: "/v1/images/edits", form };
+  return { kind: "multipart", path: API_ENDPOINTS.imagesEdits, form };
 }
 
 function buildChatCompletionsBody(args: SubmitArgs): Built {
@@ -118,7 +119,7 @@ function buildChatCompletionsBody(args: SubmitArgs): Built {
   if (args.strength !== undefined) body.strength = args.strength;
   return {
     kind: "json",
-    path: "/v1/chat/completions",
+    path: API_ENDPOINTS.chatCompletions,
     body: JSON.stringify(body),
   };
 }

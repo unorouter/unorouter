@@ -53,8 +53,13 @@ export function buildClientDeps(
       ...(opts.abortSignal ? { abortSignal: opts.abortSignal } : {}),
     });
 
+  const baseUrl = normalizeBaseUrl(provider.baseUrl);
   return {
     getModelInfo: () => undefined,
+    upstreamTarget: {
+      endpoint: "/chat/completions",
+      url: `${baseUrl}/chat/completions`,
+    },
     inlinePdfText,
     // No Turso fallback: the client always supplies context.
     webSearch: async () => undefined,

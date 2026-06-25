@@ -11,6 +11,10 @@
     {
       "tag": "0002_wet_sumo",
       "sql": "ALTER TABLE `lorebook_entries` ADD `comment` text;"
+    },
+    {
+      "tag": "0003_many_aqueduct",
+      "sql": "ALTER TABLE `request_logs` ADD `url` text;--> statement-breakpoint\nALTER TABLE `request_logs` ADD `endpoint` text;"
     }
   ]
 }
