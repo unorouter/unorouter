@@ -189,8 +189,8 @@ async function processUrls(
   return (await Promise.all(matches.map(process))).filter(Boolean).join("\n\n");
 }
 
-// Max reference images per chat image-gen turn (matches playground cap intent).
-const MAX_CHAT_REFS = 4;
+// Fallback ref cap when a model declares no maxImageInputs metadata.
+const DEFAULT_MAX_CHAT_REFS = 4;
 
 // Dispatch by advertised endpoint: image-generation POSTs /v1/images/generations
 // (or multipart /v1/images/edits when refs are attached); openai image models use
@@ -244,9 +244,10 @@ export async function handleImageStream(
   const model = (await getPricingSummary()).byName.get(body.model);
   const endpoint = chooseEndpoint(model?.endpointTypes ?? []);
   if (!endpoint) throw new Error(msg("ERRORS.IMAGE_GENERATION_FAILED"));
+  const maxRefs = model?.metadata.maxImageInputs ?? DEFAULT_MAX_CHAT_REFS;
   const refUrls = extractLastUserImageRefs(body.messages)
     .map((r) => r.url)
-    .slice(0, MAX_CHAT_REFS);
+    .slice(0, maxRefs);
   return streamResponse(async (writer) => {
     const images = await generateImage(
       apiKey,
