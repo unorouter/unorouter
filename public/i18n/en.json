@@ -27,7 +27,8 @@
     "CHAT": "Chat",
     "PLAYGROUND": "Playground",
     "STATUS": "Status",
-    "COMPARE": "Compare"
+    "COMPARE": "Compare",
+    "LANGUAGE": "Language"
   },
   "HOME": {
     "HERO": {
@@ -3415,6 +3416,8 @@
       "CLEAR_SUCCESS": "Chat cleared",
       "CLEAR_CONFIRM_DESC": "This deletes every message in the conversation but keeps the settings, character bindings, and title. This cannot be undone.",
       "DISPLAY": "Display",
+      "APPEARANCE": "Appearance",
+      "TOOLS": "Tools",
       "DIAGNOSTICS": "Download log (no messages)",
       "DIAGNOSTICS_FULL": "Download log + messages",
       "DEBUG_CLEAR": "Clear debug log",

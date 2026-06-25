@@ -27,7 +27,8 @@
     "CHAT": "Trò chuyện",
     "PLAYGROUND": "Khu thử nghiệm",
     "STATUS": "Trạng thái",
-    "COMPARE": "So sánh"
+    "COMPARE": "So sánh",
+    "LANGUAGE": "Ngôn ngữ"
   },
   "HOME": {
     "HERO": {
@@ -3415,6 +3416,8 @@
       "CLEAR_SUCCESS": "Đã xóa cuộc trò chuyện",
       "CLEAR_CONFIRM_DESC": "Hành động này sẽ xóa mọi tin nhắn trong cuộc trò chuyện nhưng giữ lại cài đặt, ràng buộc nhân vật và tiêu đề. Không thể hoàn tác.",
       "DISPLAY": "Hiển thị",
+      "APPEARANCE": "Giao diện",
+      "TOOLS": "Công cụ",
       "DIAGNOSTICS": "Tải nhật ký (không có tin nhắn)",
       "DIAGNOSTICS_FULL": "Tải nhật ký + tin nhắn",
       "DEBUG_CLEAR": "Xóa nhật ký gỡ lỗi",

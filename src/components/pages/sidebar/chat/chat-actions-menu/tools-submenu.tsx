@@ -1,7 +1,15 @@
+"use client";
+
+// Tools submenu: conversation actions (copy markdown, duplicate, clear), Import/Export/Debug (nested), and the
+// Local DB browser. Groups the non-priority utilities so the top-level "..." menu stays short under Library.
+
 import { confirm } from "@/components/ui/confirm";
 import {
   DropdownMenuItem,
   DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Icon } from "@/components/ui/icon";
 import {
@@ -14,19 +22,19 @@ import { copyToClipboard } from "@/lib/utils/base";
 import { useAui } from "@assistant-ui/react";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
+import { ImportExportSubmenu } from "./import-export-submenu";
 
 type Props = {
   convId: string | null;
   onOpenDbStudio: () => void;
 };
 
-export function ConversationMenuItems(props: Props) {
+export function ToolsSubmenu(props: Props) {
   const t = useTranslations();
   const aui = useAui();
   const markdownMut = useConversationMarkdown();
   const duplicateMut = useDuplicateConversationMutation();
   const clearMut = useClearConversationMutation();
-
   const hasConv = !!props.convId;
 
   const handleMarkdown = async () => {
@@ -62,34 +70,41 @@ export function ConversationMenuItems(props: Props) {
   };
 
   return (
-    <>
-      <DropdownMenuItem
-        disabled={!hasConv || markdownMut.isPending}
-        onClick={handleMarkdown}
-      >
-        <Icon name="clipboard-copy" className="size-4" />
-        {t("CHAT.MORE.GET_MARKDOWN")}
-      </DropdownMenuItem>
-      <DropdownMenuItem
-        disabled={!hasConv || duplicateMut.isPending}
-        onClick={handleDuplicate}
-      >
-        <Icon name="copy" className="size-4" />
-        {t("CHAT.MORE.DUPLICATE")}
-      </DropdownMenuItem>
-      <DropdownMenuSeparator />
-      <DropdownMenuItem onClick={props.onOpenDbStudio}>
-        <Icon name="database" className="size-4" />
-        {t("CHAT.MORE.LOCAL_DB")}
-      </DropdownMenuItem>
-      <DropdownMenuItem
-        variant="destructive"
-        disabled={!hasConv || clearMut.isPending}
-        onClick={handleClear}
-      >
-        <Icon name="trash-2" className="size-4" />
-        {t("CHAT.MORE.CLEAR")}
-      </DropdownMenuItem>
-    </>
+    <DropdownMenuSub>
+      <DropdownMenuSubTrigger>
+        <Icon name="wrench" className="size-4" />
+        {t("CHAT.MORE.TOOLS")}
+      </DropdownMenuSubTrigger>
+      <DropdownMenuSubContent>
+        <DropdownMenuItem
+          disabled={!hasConv || markdownMut.isPending}
+          onClick={handleMarkdown}
+        >
+          <Icon name="clipboard-copy" className="size-4" />
+          {t("CHAT.MORE.GET_MARKDOWN")}
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          disabled={!hasConv || duplicateMut.isPending}
+          onClick={handleDuplicate}
+        >
+          <Icon name="copy" className="size-4" />
+          {t("CHAT.MORE.DUPLICATE")}
+        </DropdownMenuItem>
+        <ImportExportSubmenu convId={props.convId} />
+        <DropdownMenuItem onClick={props.onOpenDbStudio}>
+          <Icon name="database" className="size-4" />
+          {t("CHAT.MORE.LOCAL_DB")}
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem
+          variant="destructive"
+          disabled={!hasConv || clearMut.isPending}
+          onClick={handleClear}
+        >
+          <Icon name="trash-2" className="size-4" />
+          {t("CHAT.MORE.CLEAR")}
+        </DropdownMenuItem>
+      </DropdownMenuSubContent>
+    </DropdownMenuSub>
   );
 }

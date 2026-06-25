@@ -27,7 +27,8 @@
     "CHAT": "对话",
     "PLAYGROUND": "游乐场",
     "STATUS": "状态",
-    "COMPARE": "对比"
+    "COMPARE": "对比",
+    "LANGUAGE": "语言"
   },
   "HOME": {
     "HERO": {
@@ -3415,6 +3416,8 @@
       "CLEAR_SUCCESS": "对话已清空",
       "CLEAR_CONFIRM_DESC": "此操作将删除该对话中的所有消息，但保留设置、角色绑定和标题。此操作无法撤销。",
       "DISPLAY": "显示",
+      "APPEARANCE": "外观",
+      "TOOLS": "工具",
       "DIAGNOSTICS": "下载日志（不含消息）",
       "DIAGNOSTICS_FULL": "下载日志 + 消息",
       "DEBUG_CLEAR": "清除调试日志",

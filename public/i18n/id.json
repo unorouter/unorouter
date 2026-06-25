@@ -27,7 +27,8 @@
     "CHAT": "Chat",
     "PLAYGROUND": "Playground",
     "STATUS": "Status",
-    "COMPARE": "Bandingkan"
+    "COMPARE": "Bandingkan",
+    "LANGUAGE": "Bahasa"
   },
   "HOME": {
     "HERO": {
@@ -3415,6 +3416,8 @@
       "CLEAR_SUCCESS": "Chat dibersihkan",
       "CLEAR_CONFIRM_DESC": "Ini menghapus setiap pesan dalam sohbet tetapi mempertahankan pengaturan, pengikatan karakter, dan judul. Ini tidak dapat dibatalkan.",
       "DISPLAY": "Tampilan",
+      "APPEARANCE": "Tampilan",
+      "TOOLS": "Alat",
       "DIAGNOSTICS": "Unduh log (tanpa pesan)",
       "DIAGNOSTICS_FULL": "Unduh log + pesan",
       "DEBUG_CLEAR": "Hapus log debug",

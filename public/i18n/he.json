@@ -27,7 +27,8 @@
     "CHAT": "צ'אט",
     "PLAYGROUND": "מגרש משחקים",
     "STATUS": "סטטוס",
-    "COMPARE": "השוואה"
+    "COMPARE": "השוואה",
+    "LANGUAGE": "שפה"
   },
   "HOME": {
     "HERO": {
@@ -3415,6 +3416,8 @@
       "CLEAR_SUCCESS": "הצ'אט נוקה",
       "CLEAR_CONFIRM_DESC": "פעולה זו מוחקת כל הודעה בשיחה אבל שומרת על ההגדרות, קישורי הדמויות והכותרת. לא ניתן לבטל.",
       "DISPLAY": "תצוגה",
+      "APPEARANCE": "מראה",
+      "TOOLS": "כלים",
       "DIAGNOSTICS": "הורדת יומן (ללא הודעות)",
       "DIAGNOSTICS_FULL": "הורדת יומן + הודעות",
       "DEBUG_CLEAR": "ניקוי יומן ניפוי",

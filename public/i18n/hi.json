@@ -27,7 +27,8 @@
     "CHAT": "चैट",
     "PLAYGROUND": "Playground",
     "STATUS": "स्थिति",
-    "COMPARE": "तुलना"
+    "COMPARE": "तुलना",
+    "LANGUAGE": "भाषा"
   },
   "HOME": {
     "HERO": {
@@ -3415,6 +3416,8 @@
       "CLEAR_SUCCESS": "Chat cleared",
       "CLEAR_CONFIRM_DESC": "यह बातचीत में हर message को हटा देता है लेकिन settings, character bindings, और title रखता है। इसे पूर्ववत नहीं किया जा सकता।",
       "DISPLAY": "प्रदर्शन",
+      "APPEARANCE": "रूप",
+      "TOOLS": "उपकरण",
       "DIAGNOSTICS": "लॉग डाउनलोड करें (संदेश रहित)",
       "DIAGNOSTICS_FULL": "लॉग + संदेश डाउनलोड करें",
       "DEBUG_CLEAR": "डिबग लॉग साफ़ करें",
