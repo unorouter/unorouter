@@ -3017,6 +3017,7 @@
     "MD_ITALIC_BOLD": "Testo corsivo grassetto",
     "MD_SINGLE_QUOTE": "Testo virgolette singole",
     "MD_DOUBLE_QUOTE": "Testo virgolette doppie",
+    "CHAT_FONT_SIZE": "Dimensione del testo dei messaggi",
     "SURFACE_COLORS": "Colori superficie",
     "MODE_LIGHT": "Chiaro",
     "MODE_DARK": "Scuro",

@@ -3017,6 +3017,7 @@
     "MD_ITALIC_BOLD": "斜體粗體文字",
     "MD_SINGLE_QUOTE": "單引號文字",
     "MD_DOUBLE_QUOTE": "雙引號文字",
+    "CHAT_FONT_SIZE": "訊息字型大小",
     "SURFACE_COLORS": "介面顏色",
     "MODE_LIGHT": "淺色",
     "MODE_DARK": "深色",

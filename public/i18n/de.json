@@ -3017,6 +3017,7 @@
     "MD_ITALIC_BOLD": "Kursiv-fetter Text",
     "MD_SINGLE_QUOTE": "Einfach zitierter Text",
     "MD_DOUBLE_QUOTE": "Doppelt zitierter Text",
+    "CHAT_FONT_SIZE": "Schriftgröße der Nachrichten",
     "SURFACE_COLORS": "Oberflächenfarben",
     "MODE_LIGHT": "Hell",
     "MODE_DARK": "Dunkel",

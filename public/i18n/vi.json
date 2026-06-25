@@ -3017,6 +3017,7 @@
     "MD_ITALIC_BOLD": "Văn bản in nghiêng đậm",
     "MD_SINGLE_QUOTE": "Văn bản trong dấu nháy đơn",
     "MD_DOUBLE_QUOTE": "Văn bản trong dấu nháy kép",
+    "CHAT_FONT_SIZE": "Cỡ chữ tin nhắn",
     "SURFACE_COLORS": "Màu bề mặt",
     "MODE_LIGHT": "Sáng",
     "MODE_DARK": "Tối",

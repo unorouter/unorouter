@@ -3017,6 +3017,7 @@
     "MD_ITALIC_BOLD": "Texto itálico en negrita",
     "MD_SINGLE_QUOTE": "Texto entre comillas simples",
     "MD_DOUBLE_QUOTE": "Texto entre comillas dobles",
+    "CHAT_FONT_SIZE": "Tamaño de fuente del mensaje",
     "SURFACE_COLORS": "Colores de superficie",
     "MODE_LIGHT": "Claro",
     "MODE_DARK": "Oscuro",

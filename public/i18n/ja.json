@@ -3017,6 +3017,7 @@
     "MD_ITALIC_BOLD": "斜体太字テキスト",
     "MD_SINGLE_QUOTE": "シングルクォートテキスト",
     "MD_DOUBLE_QUOTE": "ダブルクォートテキスト",
+    "CHAT_FONT_SIZE": "メッセージの文字サイズ",
     "SURFACE_COLORS": "表面の色",
     "MODE_LIGHT": "ライト",
     "MODE_DARK": "ダーク",

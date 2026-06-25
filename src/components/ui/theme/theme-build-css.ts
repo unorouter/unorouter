@@ -276,10 +276,19 @@ export function buildThemeCss(theme: UserTheme): string {
     menuBlock(theme.menu),
     menuAccentBlock(theme.menuAccent),
     markdownBlock(theme.markdown),
+    chatFontSizeBlock(theme.chatFontScale),
     surfaceBlock(theme.surface),
   ]
     .filter(Boolean)
     .join("\n");
+}
+
+// Scale ONLY chat message text (accessibility). em-relative so it compounds with
+// the user's font choice + responsive sizes instead of a hard px. No-op at 1.
+function chatFontSizeBlock(scale: number | undefined): string {
+  if (!scale || scale === 1) return "";
+  const s = Math.max(0.5, Math.min(3, scale));
+  return `:root{--chat-font-scale:${s};}.aui-md,.aui-user-message-content{font-size:calc(1em * var(--chat-font-scale,1));}`;
 }
 
 // Image data URL injected client-side (localStorage, not cookie). Painted on

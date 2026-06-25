@@ -3017,6 +3017,7 @@
     "MD_ITALIC_BOLD": "기울임 굵은 텍스트",
     "MD_SINGLE_QUOTE": "작은따옴표 텍스트",
     "MD_DOUBLE_QUOTE": "큰따옴표 텍스트",
+    "CHAT_FONT_SIZE": "메시지 글자 크기",
     "SURFACE_COLORS": "표면 색상",
     "MODE_LIGHT": "라이트",
     "MODE_DARK": "다크",
