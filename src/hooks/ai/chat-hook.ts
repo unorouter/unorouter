@@ -452,6 +452,7 @@ export function useSetActiveBranchMutation() {
 }
 
 export function useDeleteMessageMutation() {
+  const qc = useQueryClient();
   return useChatMutation(
     async (userId, args: { convId: string; msgId: string }) => {
       // Splice-delete: rewire children parentId locally, then drop the row.
@@ -470,6 +471,10 @@ export function useDeleteMessageMutation() {
       }
       await deleteLocalMessage(userId, args.msgId);
       await bumpConvUpdatedAt(userId, args.convId);
+      // Drop the stale messages cache so the history adapter's load() re-reads the spliced state from the DB.
+      // Invalidate alone leaves getQueryData returning the pre-delete pages, which the runtime would restore on
+      // the next load (the message reappeared until a manual refresh). removeQueries forces the DB read.
+      qc.removeQueries({ queryKey: queryKeys.chatMessages(args.convId) });
       return { id: args.msgId };
     },
     (args) => [queryKeys.chatMessages(args.convId)],

@@ -4,6 +4,7 @@ import { GUEST_USER_ID, IS_DEV } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
 import * as client from "@/lib/db/schema/client";
 import * as shared from "@/lib/db/schema/shared";
+import { runMigrations } from "@/lib/db/client/schema-migrate/migrations";
 import type { LocalClient } from "@/lib/types";
 import { logger } from "@/lib/utils/logger";
 import { drizzle } from "drizzle-orm/sqlite-proxy";
@@ -65,7 +66,9 @@ async function openMigratedSql(
   dbPath: string,
   userId: number,
 ): Promise<SQLocalDrizzle> {
-  const { runMigrations } = await import("./schema-migrate/migrations");
+  // runMigrations is STATIC-imported (it + its 20K manifest fold into this client chunk). It was lazily
+  // imported before, which spun a separate chunk that ChunkLoadError'd on the DB-open path whenever the tab
+  // held a stale chunk URL (every dev rebuild; a network blip in prod) - the pending-drain hit it repeatedly.
   // OPFS needs SharedArrayBuffer, i.e. a cross-origin-isolated document. Non-isolated pages
   // (marketing routes that don't get COOP/COEP) can never persist; accept the in-memory DB
   // once instead of retrying 7x into a guaranteed failure (theme/etc still ride the cookie atom).
