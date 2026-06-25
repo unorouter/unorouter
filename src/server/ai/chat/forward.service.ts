@@ -7,6 +7,7 @@
 import { getPricingSummary } from "@/lib/api/pricing-cache";
 import { GUEST_USER_ID, msg } from "@/lib/config/constants";
 import { uid } from "@/lib/utils/base";
+import { API_ENDPOINTS } from "@/lib/ai/endpoints";
 import { upstreamApiUrl } from "@/server/constants";
 
 // Headers from new-api the client stream collector reads off the response.
@@ -45,7 +46,7 @@ export async function forwardChatCompletions(args: {
   const wire = { ...args.body };
   delete wire.group;
 
-  const upstream = await fetch(`${upstreamApiUrl}/v1/chat/completions`, {
+  const upstream = await fetch(`${upstreamApiUrl}${API_ENDPOINTS.chatCompletions}`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${args.apiKey}`,

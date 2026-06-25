@@ -120,6 +120,7 @@ export async function prepareChatRequest(
       body,
       effectiveSystem,
       messagesForUpstream,
+      deps.upstreamTarget,
     ),
     bodyMutations: buildBodyMutations(
       prompt.assembled,

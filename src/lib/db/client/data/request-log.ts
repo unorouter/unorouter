@@ -1,23 +1,35 @@
 "use client";
 
 import { env } from "@/lib/config/env";
+import { API_ENDPOINTS } from "@/lib/ai/endpoints";
 import { requestLogs } from "@/lib/db/schema/shared";
 import type { RequestLogRow } from "@/lib/db/schema/rows";
 import { eq } from "drizzle-orm";
 import { getLocalDb } from "../client";
 
+// Reproducible curl for a logged request. Token is intentionally a placeholder ($UNOROUTER_API_KEY),
+// never the real key. Uses the stored upstream url/endpoint (text -> chat/completions, media -> the
+// image/audio/embedding path); falls back to the chat-completions default for older rows.
 export function buildRequestLogCurl(row: {
   requestBody: unknown;
   requestId: string | null;
+  url?: string | null;
+  endpoint?: string | null;
 }): string {
+  const target =
+    row.url ||
+    `${env.apiUrl}${row.endpoint ?? API_ENDPOINTS.chatCompletions}`;
   const body =
     typeof row.requestBody === "string"
       ? row.requestBody
       : JSON.stringify(row.requestBody);
-  const headers = ['-H "Content-Type: application/json"'];
+  const headers = [
+    '-H "Authorization: Bearer $UNOROUTER_API_KEY"',
+    '-H "Content-Type: application/json"',
+  ];
   if (row.requestId) headers.push(`-H "x-request-id: ${row.requestId}"`);
   return [
-    `curl ${env.apiUrl}/v1/chat/completions`,
+    `curl ${target}`,
     ...headers.map((h) => `  ${h}`),
     `  -d '${body.replace(/'/g, "'\\''")}'`,
   ].join(" \\\n");

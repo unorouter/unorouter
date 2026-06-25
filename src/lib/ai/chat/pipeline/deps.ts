@@ -32,6 +32,9 @@ export type AssemblerDeps = {
   // Catalog model metadata (price/context window/caps). Server: getPricingSummary; client: pricing query map (undefined for custom ids).
   getModelInfo: (model: string) => ProcessedModel | undefined;
 
+  // Upstream chat-completions target for the request-log curl. Default: our api (env.apiUrl); custom: the user's own baseURL.
+  upstreamTarget?: { endpoint: string; url: string };
+
   // Replace inline PDF file parts with extracted text. Both paths use the shared isomorphic unpdf extractor.
   inlinePdfText: (messages: StreamMessages) => Promise<StreamMessages>;
 

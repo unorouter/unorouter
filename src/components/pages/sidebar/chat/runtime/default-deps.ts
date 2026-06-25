@@ -12,6 +12,8 @@
 import type { ProcessedModel } from "@/lib/api/pricing";
 import type { AssemblerDeps } from "@/lib/ai/chat/pipeline/deps";
 import type { FreeModelGenerate } from "@/lib/ai/chat/free-model-race";
+import { env } from "@/lib/config/env";
+import { API_ENDPOINTS } from "@/lib/ai/endpoints";
 import { inlinePdfText } from "@/lib/ai/chat/pdf-extract";
 import { handleElysia } from "@/lib/utils/base";
 import { rpc } from "@/lib/rpc";
@@ -48,6 +50,10 @@ export function buildDefaultClientDeps(userId: number): AssemblerDeps {
   const getModelInfo = modelLookup();
   return {
     getModelInfo,
+    upstreamTarget: {
+      endpoint: API_ENDPOINTS.chatCompletions,
+      url: `${env.apiUrl}${API_ENDPOINTS.chatCompletions}`,
+    },
     inlinePdfText,
     webSearch: async (args) => {
       if (!args.lastUserText) return undefined;
