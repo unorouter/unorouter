@@ -1,6 +1,7 @@
 {
   "name": "unorouter",
   "version": "1.0.0",
+  "license": "AGPL-3.0-only",
   "private": true,
   "overrides": {
     "@assistant-ui/core": "0.2.19",
