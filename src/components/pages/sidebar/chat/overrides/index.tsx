@@ -31,12 +31,13 @@ import {
 } from "@/lib/validation/rp-forms";
 import {
   chatDefaultsAtom,
+  chatLoadoutAtom,
   chatModelAtom,
   samplerMemoryByModelAtom,
 } from "@/store/chat-store";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { Value } from "@sinclair/typebox/value";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
@@ -68,6 +69,7 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
   const isDefaultsMode = !props.convId;
   const showConversationFields = !isDefaultsMode;
   const [chatDefaults, setChatDefaults] = useAtom(chatDefaultsAtom);
+  const setLoadout = useSetAtom(chatLoadoutAtom);
   const [samplerMemoryByModel, setSamplerMemoryByModel] = useAtom(
     samplerMemoryByModelAtom,
   );
@@ -161,6 +163,14 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
       await updateBindings.mutateAsync({
         convId: props.convId!,
         body: buildBindingsBody(data, bindings),
+      });
+      // Last-used loadout becomes sticky: an in-chat preset/persona/char/lorebook pick seeds the next NEW chat,
+      // so the user's selection acts as the default instead of staying scoped to this one conversation (Matic).
+      setLoadout({
+        presetId: data.presetId === NONE_VALUE ? null : data.presetId,
+        personaId: data.personaId === NONE_VALUE ? null : data.personaId,
+        characterIds: data.characterIds,
+        lorebookIds: data.lorebookIds,
       });
       toast.success(t("COMMON.SAVED"));
     } catch (e) {
