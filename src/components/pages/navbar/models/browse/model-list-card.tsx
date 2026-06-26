@@ -6,6 +6,7 @@ import { modelReleaseTs } from "@/hooks/ui/use-models-hook";
 import {
   deriveOutputModality,
   inputPriceUnit,
+  isFlatVariant,
   outputPriceUnit,
   type PriceUnit,
 } from "@/lib/api/model-modality";
@@ -129,6 +130,15 @@ export function ModelListCard(props: {
               className="h-4 w-4 shrink-0 text-emerald-500"
               aria-label={t("MODELS.TABLE.FREE")}
             />
+          )}
+          {isFlatVariant(model) && (
+            <span
+              className="text-muted-foreground/70 flex shrink-0 items-center"
+              aria-label={t("MODELS.TABLE.FLAT_NO_PARAMS")}
+              title={t("MODELS.TABLE.FLAT_NO_PARAMS")}
+            >
+              <Icon name="circle-help" className="h-4 w-4" />
+            </span>
           )}
         </div>
         {props.rank && (

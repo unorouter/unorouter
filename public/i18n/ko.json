@@ -466,7 +466,8 @@
       "FREE": "무료",
       "SORT_ASC": "오름차순",
       "SORT_DESC": "내림차순",
-      "SORT_RESET": "초기화"
+      "SORT_RESET": "초기화",
+      "FLAT_NO_PARAMS": "호출당 정액 요금입니다. 이 변형에서는 크기, 품질 등의 매개변수가 지원되지 않습니다."
     },
     "COMPARE": {
       "BADGE": "비교",

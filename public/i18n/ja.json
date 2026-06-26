@@ -466,7 +466,8 @@
       "FREE": "無料",
       "SORT_ASC": "昇順",
       "SORT_DESC": "降順",
-      "SORT_RESET": "リセット"
+      "SORT_RESET": "リセット",
+      "FLAT_NO_PARAMS": "呼び出しごとの定額料金。このバリアントではサイズ、品質などのパラメータはサポートされていません。"
     },
     "COMPARE": {
       "BADGE": "比較",

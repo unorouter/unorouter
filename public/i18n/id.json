@@ -466,7 +466,8 @@
       "FREE": "gratis",
       "SORT_ASC": "Menaik",
       "SORT_DESC": "Menurun",
-      "SORT_RESET": "Atur ulang"
+      "SORT_RESET": "Atur ulang",
+      "FLAT_NO_PARAMS": "Harga tetap per panggilan. Ukuran, kualitas, dan parameter lain tidak didukung pada varian ini."
     },
     "COMPARE": {
       "BADGE": "Bandingkan",

@@ -466,7 +466,8 @@
       "FREE": "free",
       "SORT_ASC": "Ascending",
       "SORT_DESC": "Descending",
-      "SORT_RESET": "Reset"
+      "SORT_RESET": "Reset",
+      "FLAT_NO_PARAMS": "Flat per-call price. Size, quality and other parameters are not supported on this variant."
     },
     "COMPARE": {
       "BADGE": "Compare",

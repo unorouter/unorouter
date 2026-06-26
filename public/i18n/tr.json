@@ -466,7 +466,8 @@
       "FREE": "ücretsiz",
       "SORT_ASC": "Artan",
       "SORT_DESC": "Azalan",
-      "SORT_RESET": "Sıfırla"
+      "SORT_RESET": "Sıfırla",
+      "FLAT_NO_PARAMS": "Çağrı başına sabit fiyat. Boyut, kalite ve diğer parametreler bu varyantta desteklenmez."
     },
     "COMPARE": {
       "BADGE": "Karşılaştır",
