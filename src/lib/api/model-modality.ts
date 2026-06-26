@@ -10,6 +10,12 @@ export const OUTPUT_MODALITIES = [
 ] as const;
 export type OutputModality = (typeof OUTPUT_MODALITIES)[number];
 
+// `:flat` published variants bill flat per-call and ignore request params (size, quality). The
+// per-token base name keeps the same model without the suffix.
+export const FLAT_VARIANT_SUFFIX = ":flat";
+export const isFlatVariant = (model: ProcessedModel): boolean =>
+  model.name.endsWith(FLAT_VARIANT_SUFFIX);
+
 export function deriveOutputModality(model: ProcessedModel): OutputModality {
   if (model.type === "embedding") return "embeddings";
   const out = model.metadata.outputModalities ?? [];

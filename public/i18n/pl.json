@@ -466,7 +466,8 @@
       "FREE": "za darmo",
       "SORT_ASC": "Rosnąco",
       "SORT_DESC": "Malejąco",
-      "SORT_RESET": "Resetuj"
+      "SORT_RESET": "Resetuj",
+      "FLAT_NO_PARAMS": "Stała cena za wywołanie. Rozmiar, jakość i inne parametry nie są obsługiwane w tym wariancie."
     },
     "COMPARE": {
       "BADGE": "Porównaj",

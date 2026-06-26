@@ -466,7 +466,8 @@
       "FREE": "gratis",
       "SORT_ASC": "Ascendente",
       "SORT_DESC": "Descendente",
-      "SORT_RESET": "Restablecer"
+      "SORT_RESET": "Restablecer",
+      "FLAT_NO_PARAMS": "Precio fijo por llamada. El tamaño, la calidad y otros parámetros no se admiten en esta variante."
     },
     "COMPARE": {
       "BADGE": "Comparar",

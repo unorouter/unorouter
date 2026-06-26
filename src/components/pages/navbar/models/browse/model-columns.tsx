@@ -4,10 +4,16 @@ import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { ModelRowActions } from "./model-row-actions";
 import { DataTableColumnHeader } from "@/components/elements/table/data-table-column-header";
 import { Icon } from "@/components/ui/icon";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { modelReleaseTs } from "@/hooks/ui/use-models-hook";
 import {
   deriveOutputModality,
   inputPriceUnit,
+  isFlatVariant,
   outputPriceUnit,
   type PriceUnit,
 } from "@/lib/api/model-modality";
@@ -87,6 +93,7 @@ export function buildModelColumns(opts: {
   rankMap: Map<string, RankedModel>;
   offLabel: (pct: number) => string;
   freeLabel: string;
+  flatNoParamsLabel: string;
 }): ColumnDef<ProcessedModel>[] {
   const rankTokens = (m: ProcessedModel) =>
     opts.rankMap.get(m.name)?.total_tokens ?? 0;
@@ -115,6 +122,20 @@ export function buildModelColumns(opts: {
                 <Icon name="gift" className="h-3 w-3" />
                 <span className="hidden lg:inline">{opts.freeLabel}</span>
               </span>
+            )}
+            {isFlatVariant(m) && (
+              <Tooltip>
+                <TooltipTrigger
+                  render={
+                    <span className="text-muted-foreground/70 hover:text-muted-foreground flex shrink-0 items-center" />
+                  }
+                >
+                  <Icon name="circle-help" className="h-3.5 w-3.5" />
+                </TooltipTrigger>
+                <TooltipContent className="max-w-60 text-xs">
+                  {opts.flatNoParamsLabel}
+                </TooltipContent>
+              </Tooltip>
             )}
           </span>
         );

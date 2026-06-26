@@ -466,7 +466,8 @@
       "FREE": "gratuit",
       "SORT_ASC": "Croissant",
       "SORT_DESC": "Décroissant",
-      "SORT_RESET": "Réinitialiser"
+      "SORT_RESET": "Réinitialiser",
+      "FLAT_NO_PARAMS": "Prix forfaitaire par appel. La taille, la qualité et les autres paramètres ne sont pas pris en charge sur cette variante."
     },
     "COMPARE": {
       "BADGE": "Comparer",

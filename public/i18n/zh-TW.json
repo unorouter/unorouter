@@ -466,7 +466,8 @@
       "FREE": "免費",
       "SORT_ASC": "升序",
       "SORT_DESC": "降序",
-      "SORT_RESET": "重置"
+      "SORT_RESET": "重置",
+      "FLAT_NO_PARAMS": "按次固定計費。此變體不支援尺寸、品質等參數。"
     },
     "COMPARE": {
       "BADGE": "對比",

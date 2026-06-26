@@ -44,6 +44,7 @@ export function ModelsPage() {
     rankMap: m.rankMap,
     offLabel: (pct) => t("MODELS.TABLE.OFF", { pct }),
     freeLabel: t("MODELS.TABLE.FREE"),
+    flatNoParamsLabel: t("MODELS.TABLE.FLAT_NO_PARAMS"),
   });
 
   return (
