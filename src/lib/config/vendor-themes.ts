@@ -163,6 +163,14 @@ const VENDOR_THEMES: Record<string, VendorTheme> = {
     tagBorder: "border-violet-500/20",
     primary: "#a855f7",
   },
+  [Vendor.VIDU]: {
+    bg: "bg-indigo-500/5",
+    border: "border-indigo-500/20",
+    text: "text-indigo-700 dark:text-indigo-300",
+    tagBg: "bg-indigo-500/10",
+    tagBorder: "border-indigo-500/20",
+    primary: "#6366f1",
+  },
   [Vendor.NVIDIA]: {
     bg: "bg-lime-500/5",
     border: "border-lime-500/20",

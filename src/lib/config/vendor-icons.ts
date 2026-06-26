@@ -104,6 +104,7 @@ export const VENDOR_LOADERS: Partial<Record<Vendor, IconLoader>> = {
   [Vendor.LIQUID]: () => import("@lobehub/icons/es/Liquid"),
   [Vendor.META]: () => import("@lobehub/icons/es/Meta"),
   [Vendor.MINIMAX]: () => import("@lobehub/icons/es/Minimax"),
+  [Vendor.VIDU]: () => import("@lobehub/icons/es/Vidu"),
   [Vendor.MISTRAL]: () => import("@lobehub/icons/es/Mistral"),
   [Vendor.MOONSHOT]: () => import("@lobehub/icons/es/Moonshot"),
   [Vendor.NVIDIA]: () => import("@lobehub/icons/es/Nvidia"),
