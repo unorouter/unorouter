@@ -1,4 +1,4 @@
-import { parseSetCookie, serialize } from "cookie";
+import { parseSetCookie, stringifySetCookie } from "cookie";
 import { Context } from "elysia";
 import { COOKIE_MAX_AGE, USER_ID_COOKIE } from "../config/constants";
 import { signUserId } from "../utils/server";
@@ -18,12 +18,14 @@ export async function handleAuthResponse(
     delete cookie.domain;
     cookie.secure = false;
     cookie.sameSite = "lax";
-    return serialize(cookie, { encode: String });
+    return stringifySetCookie(cookie, { encode: String });
   });
   const id = res.data?.data?.id;
   if (id) {
     cookies.push(
-      serialize(USER_ID_COOKIE, await signUserId(id), {
+      stringifySetCookie({
+        name: USER_ID_COOKIE,
+        value: await signUserId(id),
         path: "/",
         maxAge: COOKIE_MAX_AGE,
         sameSite: "lax",
