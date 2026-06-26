@@ -1,4 +1,5 @@
 import type { ApiMessage, MessagePart } from "@/lib/ai/chat/messages";
+import { isCustomModelId } from "@/lib/ai/chat/custom-provider-id";
 import {
   itemsToParts,
   joinItemsToMessages,
@@ -357,8 +358,9 @@ export function createChatHistoryAdapter(
               queryKey: queryKeys.requestLog(messageId),
             });
             // Pull new-api's authoritative cost/tokens/channel once the log lands. Queued so a reload still resolves it.
+            // Custom-provider turns bypass new-api entirely (no request id, no upstream log), so never enrich them.
             const reqId = (logRow as { requestId?: string | null }).requestId;
-            if (reqId) {
+            if (reqId && !isCustomModelId(resolvedModel)) {
               await enqueueLogEnrich(userId, messageId, reqId);
               drainSoon(userId);
             }

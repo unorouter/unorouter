@@ -20,7 +20,7 @@ interface CCSwitchSetupProps {
 export function CCSwitchSetup(props: CCSwitchSetupProps) {
   const t = useTranslations();
   const token = useApiKey();
-  const deepLinkHook = useDeepLink();
+  const { showInstall, installRef, openDeepLink } = useDeepLink();
 
   const deepLinkParams = new URLSearchParams({
     resource: "provider",
@@ -46,7 +46,7 @@ export function CCSwitchSetup(props: CCSwitchSetupProps) {
         <a
           href={deepLink}
           className="block"
-          onClick={(e) => deepLinkHook.openDeepLink(e, deepLink)}
+          onClick={(e) => openDeepLink(e, deepLink)}
         >
           <Button
             className="w-full gap-2"
@@ -98,9 +98,9 @@ export function CCSwitchSetup(props: CCSwitchSetupProps) {
           </div>
         )}
 
-        {deepLinkHook.showInstall && (
+        {showInstall && (
           <div
-            ref={deepLinkHook.installRef}
+            ref={installRef}
             className="animate-in fade-in slide-in-from-top-2 mt-3 flex items-center gap-2"
           >
             <Icon

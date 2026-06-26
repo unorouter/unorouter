@@ -34,6 +34,7 @@ export const usePersonaQuery = personas.useItem;
 export const useCreatePersonaMutation = personas.useCreate;
 export const useUpdatePersonaMutation = personas.useUpdate;
 export const useDeletePersonaMutation = personas.useDelete;
+export const useDuplicatePersonaMutation = personas.useDuplicate;
 
 export function useImportPersonaMutation() {
   const t = useTranslations();

@@ -15,6 +15,7 @@ import { BackgroundImageSection } from "@/components/ui/theme/customizer/backgro
 import { RegistryPickers } from "@/components/ui/theme/customizer/registry-pickers";
 import {
   ChatTextSection,
+  FontSizeSection,
   SurfaceColorsSection,
 } from "@/components/ui/theme/customizer/color-sections";
 import { STYLES } from "@/components/ui/theme/shadcn-styles";
@@ -148,11 +149,15 @@ export function ThemeCustomizerBody() {
       <CardHeader className="flex flex-row flex-wrap items-center justify-between gap-2 border-b py-4">
         <CardTitle className="shrink-0">{t("THEME.TITLE")}</CardTitle>
       </CardHeader>
-      <CardContent className="no-scrollbar min-h-0 flex-1 overflow-y-auto py-4">
+      <CardContent className="min-h-0 flex-1 overflow-y-auto py-4">
         <FieldGroup>
           <RegistryPickers theme={theme} setTheme={setTheme} />
           <FieldSeparator />
           <ChatTextSection markdown={theme.markdown} onChange={setMarkdown} />
+          <FontSizeSection
+            scale={theme.chatFontScale}
+            onChange={(chatFontScale) => setTheme({ ...theme, chatFontScale })}
+          />
           <FieldSeparator />
           <SurfaceColorsSection
             surface={surfacePalette[surfaceMode]}

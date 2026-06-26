@@ -4,7 +4,7 @@
 
 import { maybeAutoContinue } from "@/components/pages/sidebar/chat/runtime/auto-continue";
 import { createChatHistoryAdapter } from "@/components/pages/sidebar/chat/runtime/chat-history-adapter";
-import { useChatTransport } from "@/components/pages/sidebar/chat/runtime/chat-transport";
+import { makeRoutingTransport } from "@/components/pages/sidebar/chat/runtime/routing-chat-transport";
 import { createLocalAttachmentAdapter } from "@/components/pages/sidebar/chat/runtime/chat-utils";
 import { computeSpeakingOrder } from "@/components/pages/sidebar/chat/runtime/group-rotation";
 import { createThreadListAdapter } from "@/components/pages/sidebar/chat/runtime/thread-list-adapter";
@@ -13,6 +13,7 @@ import {
   useGroupSync,
   useModelSync,
   useScrollToBottom,
+  useSettingsSync,
 } from "@/components/pages/sidebar/chat/runtime/use-thread-sync";
 import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { usePendingDrainScheduler } from "@/hooks/ai/use-pending-drain-scheduler";
@@ -85,6 +86,7 @@ function ChatRuntimeHook() {
   useConvIdSync(remoteId);
   useModelSync(remoteId);
   useGroupSync(remoteId);
+  useSettingsSync(remoteId);
   // Thread-scoped conv id; convIdAtom fallback covers the first send of an unsaved thread.
   const remoteIdRef = useRef<string | null>(remoteId ?? null);
   remoteIdRef.current = remoteId ?? null;
@@ -98,7 +100,14 @@ function ChatRuntimeHook() {
     });
   }, [threadId, remoteId]);
   const historyAdapter = useHistoryAdapter(getConvId);
-  const transport = useChatTransport(getConvId);
+  // Routing transport built once (lazy ref init; getConvId reads the live remoteIdRef/atom at send time).
+  const transportRef = useRef<ReturnType<typeof makeRoutingTransport> | null>(
+    null,
+  );
+  if (transportRef.current === null) {
+    transportRef.current = makeRoutingTransport(getConvId);
+  }
+  const transport = transportRef.current;
 
   // Per-conv stream lock, released in onFinish/onError. The rotation loop holds it across speakers, so rotatingRef gates onFinish.
   const streamLockKeyRef = useRef<string | null>(null);

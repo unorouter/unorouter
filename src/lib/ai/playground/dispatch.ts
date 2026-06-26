@@ -1,6 +1,7 @@
 // Body builders + extractors for new-api image endpoints (/images, /chat, /generateContent).
 
 import type { SyncImageEndpoint } from "@/lib/ai/playground/models-dynamic";
+import { API_ENDPOINTS } from "@/lib/ai/endpoints";
 import { safeFetchBytes } from "@/lib/config/r2";
 import { base64ToDataUri } from "@/lib/utils/base";
 
@@ -23,6 +24,26 @@ async function fetchRefBytes(url: string): Promise<RefBytes> {
 
 export async function fetchAllRefs(urls: string[]): Promise<RefBytes[]> {
   return Promise.all(urls.map(fetchRefBytes));
+}
+
+function dataUriToRefBytes(dataUri: string): RefBytes {
+  const header = dataUri.slice(0, dataUri.indexOf(","));
+  const mime = header.match(/data:([^;]+)/)?.[1]?.trim() || "image/png";
+  const base64 = dataUri.slice(dataUri.indexOf(",") + 1);
+  const buf = Buffer.from(base64, "base64");
+  return { buf, mime, base64, dataUri };
+}
+
+// Chat refs arrive as inline data: URIs (OPFS bytes) or http(s) R2 urls. Decode
+// data URIs locally; http urls go through the SSRF-safe fetch.
+export async function loadRefs(urls: string[]): Promise<RefBytes[]> {
+  return Promise.all(
+    urls.map((url) =>
+      url.startsWith("data:")
+        ? Promise.resolve(dataUriToRefBytes(url))
+        : fetchRefBytes(url),
+    ),
+  );
 }
 
 type SubmitArgs = {
@@ -61,7 +82,7 @@ function buildImageGenerationsBody(args: SubmitArgs): Built {
   if (args.refs.length === 0) {
     return {
       kind: "json",
-      path: "/v1/images/generations",
+      path: API_ENDPOINTS.imagesGenerations,
       body: JSON.stringify(Object.fromEntries(fields)),
     };
   }
@@ -75,7 +96,7 @@ function buildImageGenerationsBody(args: SubmitArgs): Built {
       `ref-${form.getAll("image[]").length}.${mimeExt(r.mime)}`,
     );
   }
-  return { kind: "multipart", path: "/v1/images/edits", form };
+  return { kind: "multipart", path: API_ENDPOINTS.imagesEdits, form };
 }
 
 function buildChatCompletionsBody(args: SubmitArgs): Built {
@@ -98,7 +119,7 @@ function buildChatCompletionsBody(args: SubmitArgs): Built {
   if (args.strength !== undefined) body.strength = args.strength;
   return {
     kind: "json",
-    path: "/v1/chat/completions",
+    path: API_ENDPOINTS.chatCompletions,
     body: JSON.stringify(body),
   };
 }

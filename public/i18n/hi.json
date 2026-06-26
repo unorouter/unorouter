@@ -27,7 +27,8 @@
     "CHAT": "चैट",
     "PLAYGROUND": "Playground",
     "STATUS": "स्थिति",
-    "COMPARE": "तुलना"
+    "COMPARE": "तुलना",
+    "LANGUAGE": "भाषा"
   },
   "HOME": {
     "HERO": {
@@ -153,8 +154,8 @@
         "DESC": "पर्सोना, प्रीसेट, प्रॉम्प्ट टेम्पलेट और SillyTavern कार्ड इंपोर्ट अंतर्निहित।"
       },
       "CARD3": {
-        "TITLE": "निजी",
-        "DESC": "आपकी बातचीत आपके ब्राउज़र में रहती है, हमारे सर्वर पर कभी नहीं। हम उन्हें नहीं पढ़ सकते।"
+        "TITLE": "निजी और BYOK",
+        "DESC": "बातचीत आपके ब्राउज़र में रहती है, हमारे सर्वर पर कभी नहीं। अपना खुद का OpenAI-compatible endpoint और key भी जोड़ें, सीधे ब्राउज़र से।"
       },
       "CARD4": {
         "TITLE": "पूरा रोलप्ले",
@@ -465,7 +466,8 @@
       "FREE": "मुफ़्त",
       "SORT_ASC": "आरोही",
       "SORT_DESC": "अवरोही",
-      "SORT_RESET": "रीसेट"
+      "SORT_RESET": "रीसेट",
+      "FLAT_NO_PARAMS": "प्रति कॉल निश्चित मूल्य। इस वैरिएंट पर आकार, गुणवत्ता और अन्य पैरामीटर समर्थित नहीं हैं।"
     },
     "COMPARE": {
       "BADGE": "तुलना",
@@ -1028,16 +1030,15 @@
       "UPTIME": "99.9% अपटाइम SLA",
       "OPENAI_COMPAT": "OpenAI संगत एंडपॉइंट"
     },
-    "COMPARE": {
-      "TITLE": "प्लान की तुलना करें"
-    },
     "CARD": {
       "POPULAR": "लोकप्रिय",
       "PER_MONTH": " · माह",
-      "VALUE": "{value} मूल्य",
-      "SPEC_QUOTA": "Quota/Reset",
-      "VALUE_BADGE": "मूल्य",
-      "VALUE_EXPLAIN": "{paid} भुगतान करें, {credit} API क्रेडिट में पाएं। इसे किसी भी मॉडल पर उपयोग करें।"
+      "PERIOD_DAY": "दिन",
+      "PERIOD_WEEK": "सप्ताह",
+      "PERIOD_MONTH": "महीने",
+      "VALUE_HERO": "एपीआई क्रेडिट / माह",
+      "VALUE_EXPLAIN": "{paid}/माह चुकाएँ, {credit} एपीआई क्रेडिट पाएँ। किसी भी मॉडल पर उपयोग करें।",
+      "DELIVERED": "हर {period} {amount} फिर से भरता है।"
     },
     "BANNER": {
       "TITLE": "Telegram पर OpenClaw AI Assistant",
@@ -1051,11 +1052,6 @@
     "TITLE": "मूल्य निर्धारण",
     "SUBTITLE": "चाहे आप ऐप शिप कर रहे हों या लंबे रोलप्ले सेशन चला रहे हों। एक प्लान, हर मॉडल।",
     "CTA": "सब्सक्राइब करें",
-    "TOPUP": {
-      "LABEL": "उपयोग के अनुसार भुगतान",
-      "DESC": "सब्सक्राइब नहीं करना चाहते? क्रेडिट टॉप अप करें।",
-      "FOOTNOTE": "क्रेडिट कभी समाप्त नहीं होते।"
-    },
     "FAQ": {
       "Q1": "{appName} मूल्य निर्धारण कैसे काम करता है?",
       "A1": "आप उपभोग किए गए प्रति टोकन भुगतान करते हैं। प्रत्येक मॉडल की अपनी input, output और cache दर होती है, जो आपके अकाउंट क्रेडिट से बिल की जाती है। Pay As You Go के लिए कोई मासिक सब्सक्रिप्शन आवश्यक नहीं है।",
@@ -1073,6 +1069,24 @@
       "A7": "हां। हर प्लान किसी भी प्रमुख रोलप्ले क्लाइंट में एक कस्टम OpenAI-संगत स्रोत के रूप में काम करता है। SillyTavern, Janitor.AI, RisuAI, और Chub में से प्रत्येक के पास docs में एक सेटअप गाइड है।",
       "Q8": "मेरी बातचीत या चरित्र इतिहास कितना लंबा हो सकता है?",
       "A8": "{appName} हर मॉडल की पूरी कॉन्टेक्स्ट विंडो का समर्थन करता है, Gemini पर 1M टोकन तक और Claude पर 200k। लंबे रोलप्ले और लंबे codebases दोनों काम करते हैं।"
+    },
+    "TIER": {
+      "1": "स्टार्टर",
+      "2": "प्रो",
+      "3": "स्केल"
+    },
+    "TOPUP": {
+      "STEP": "यहाँ से शुरू करें",
+      "LABEL": "उपयोग अनुसार भुगतान",
+      "DESC": "क्रेडिट जोड़ें, कोई भी मॉडल उपयोग करें।",
+      "FOOTNOTE": "क्रेडिट कभी समाप्त नहीं होता।"
+    },
+    "BRIDGE": {
+      "TITLE": "नियमित उपयोग करते हैं? सब्सक्राइब करें और हर महीने अधिक क्रेडिट पाएँ।",
+      "DESC": "लचीलेपन के लिए टॉप अप करें। उपयोग अनुमानित होने पर सब्सक्राइब करें और भुगतान के ऊपर अतिरिक्त क्रेडिट पाएँ।"
+    },
+    "PLANS": {
+      "STEP": "सर्वोत्तम मूल्य"
     }
   },
   "DOCS_INDEX": {
@@ -3005,6 +3019,7 @@
     "MD_ITALIC_BOLD": "Italic bold text",
     "MD_SINGLE_QUOTE": "Single quoted text",
     "MD_DOUBLE_QUOTE": "Double quoted text",
+    "CHAT_FONT_SIZE": "संदेश फ़ॉन्ट आकार",
     "SURFACE_COLORS": "सतह के रंग",
     "MODE_LIGHT": "लाइट",
     "MODE_DARK": "डार्क",
@@ -3018,7 +3033,8 @@
     "BG_FIT_CONTAIN": "कंटेन",
     "BG_FIT_TILE": "टाइल",
     "BG_OPACITY": "अपारदर्शिता",
-    "BG_BLUR": "धुंधलापन"
+    "BG_BLUR": "धुंधलापन",
+    "BG_PANEL_OPACITY": "पैनल अपारदर्शिता"
   },
   "BILLING": {
     "SUBSCRIPTION": {
@@ -3215,7 +3231,9 @@
       "SEARCH": "मॉडल खोजें...",
       "NO_RESULTS": "कोई मॉडल नहीं मिला",
       "FREE_BADGE": "मुफ्त",
-      "LOGIN_REQUIRED": "Login आवश्यक"
+      "LOGIN_REQUIRED": "Login आवश्यक",
+      "CUSTOM_PROVIDERS": "कस्टम प्रदाता",
+      "UNAVAILABLE_TOOLTIP": "{model} (अस्थायी रूप से अनुपलब्ध)"
     },
     "GROUP": {
       "SELECT": "बिलिंग समूह",
@@ -3320,8 +3338,8 @@
     "META": {
       "TITLE": "AI Chat - {appName}",
       "TITLE_WITH_NAME": "{title} | AI Chat - {appName}",
-      "DESCRIPTION": "किसी भी AI मॉडल के साथ Chat करें। एक interface के माध्यम से GPT, Claude, Gemini, DeepSeek और अधिक का परीक्षण करें।",
-      "KEYWORDS": "AI chat, AI के साथ chat, GPT chat, Claude chat, Gemini chat, AI playground, मॉडल परीक्षण"
+      "DESCRIPTION": "किसी भी AI मॉडल के साथ Chat करें: एक ही interface में GPT, Claude, Gemini, DeepSeek और अधिक, या अपना खुद का OpenAI-compatible endpoint और key जोड़ें।",
+      "KEYWORDS": "AI chat, AI के साथ chat, GPT chat, Claude chat, Gemini chat, AI playground, मॉडल परीक्षण, BYOK, कस्टम AI provider"
     },
     "OVERRIDES": {
       "OPEN": "बातचीत settings",
@@ -3391,13 +3409,16 @@
       "LOCAL_DB": "Local DB browser",
       "LOCAL_DB_WIPE": "Local database wipe करें और reload करें",
       "LOCAL_DB_DOWNLOAD": "Local SQLite फ़ाइल download करें",
-      "LOCAL_DB_UPLOAD": "SQLite फ़ाइल अपलोड करें (local को overwrite करता है)",
+      "LOCAL_DB_UPLOAD": "SQLite फ़ाइल इम्पोर्ट करें (local को बदलता है)",
       "LOCAL_DB_WIPE_CONFIRM": "सभी local OPFS डेटा wipe करें और reload करें?",
-      "LOCAL_DB_UPLOAD_CONFIRM": "इस फ़ाइल से local OPFS database को overwrite करें? मौजूदा डेटा wipe हो जाता है।",
+      "LOCAL_DB_UPLOAD_CONFIRM": "इस फ़ाइल से records इम्पोर्ट करें? यह मौजूदा schema में माइग्रेट होती है और आपके local data को बदल देती है; records इस session के स्वामित्व में आ जाते हैं।",
+      "LOCAL_DB_IMPORT_SUMMARY": "{tables} tables में {imported} records इम्पोर्ट किए गए ({skipped} छोड़े गए)।",
       "CLEAR": "Chat clear करें",
       "CLEAR_SUCCESS": "Chat cleared",
       "CLEAR_CONFIRM_DESC": "यह बातचीत में हर message को हटा देता है लेकिन settings, character bindings, और title रखता है। इसे पूर्ववत नहीं किया जा सकता।",
       "DISPLAY": "प्रदर्शन",
+      "APPEARANCE": "रूप",
+      "TOOLS": "उपकरण",
       "DIAGNOSTICS": "लॉग डाउनलोड करें (संदेश रहित)",
       "DIAGNOSTICS_FULL": "लॉग + संदेश डाउनलोड करें",
       "DEBUG_CLEAR": "डिबग लॉग साफ़ करें",
@@ -3427,6 +3448,43 @@
       "EMPTY": "कोई चैट नहीं",
       "DELETE_CONFIRM_TITLE": "समूह हटाएं?",
       "DELETE_CONFIRM_DESC": "समूह हटा दिया जाता है; इसकी चैट बनी रहती हैं और बिना समूह की हो जाती हैं।"
+    },
+    "CUSTOM_PROVIDER": {
+      "TITLE": "कस्टम प्रदाता",
+      "SIDEBAR_TAB": "कस्टम प्रदाता",
+      "NEW": "नया प्रदाता",
+      "EMPTY": "अभी तक कोई कस्टम प्रदाता नहीं।",
+      "NAME": "नाम",
+      "BASE_URL": "एंडपॉइंट URL",
+      "API_KEY": "API कुंजी",
+      "FORMAT": "प्रारूप",
+      "TOKENIZER": "टोकनाइज़र",
+      "FORMAT_OPENAI": "OpenAI-संगत",
+      "TOKENIZER_AUTO": "स्वचालित (नाम से मिलान)",
+      "TOKENIZER_CL100K": "GPT (cl100k)",
+      "TOKENIZER_O200K": "GPT-4o/5 (o200k)",
+      "TOKENIZER_CLAUDE": "Claude",
+      "TOKENIZER_GLM5": "GLM-5",
+      "TOKENIZER_GLM4": "GLM-4",
+      "TOKENIZER_DEEPSEEK": "DeepSeek (V3/R1)",
+      "TOKENIZER_DEEPSEEK_V4": "DeepSeek (V3.2/V4)",
+      "TOKENIZER_LLAMA3": "Llama 3",
+      "TOKENIZER_GEMMA": "Gemma",
+      "TOKENIZER_QWEN": "Qwen",
+      "TOKENIZER_MISTRAL": "Mistral",
+      "TOKENIZER_COHERE": "Cohere / Command",
+      "TOKENIZER_HF_CUSTOM": "कस्टम (HuggingFace)",
+      "TOKENIZER_HF_PLACEHOLDER": "owner/model या tokenizer.json URL",
+      "MODELS": "मॉडल",
+      "MODELS_EMPTY": "अभी तक कोई मॉडल नहीं जोड़ा गया।",
+      "ADD_MODEL": "मॉडल जोड़ें",
+      "FETCH_MODELS": "मॉडल प्राप्त करें",
+      "FETCH_FAILED": "मॉडल प्राप्त नहीं हो सके (HTTP {status})। एंडपॉइंट URL और API कुंजी जाँचें।",
+      "MODEL_KEY": "मॉडल कुंजी",
+      "MODEL_LABEL": "प्रदर्शित नाम",
+      "MODEL_COUNT": "{count} मॉडल",
+      "DELETE_TITLE": "प्रदाता हटाएं?",
+      "DELETE_DESC": "यह प्रदाता और उसके मॉडल हटा देता है। आपकी बातचीत सुरक्षित रहती है।"
     }
   },
   "RP": {
@@ -3477,7 +3535,12 @@
     "LOREBOOK_TOKEN_BUDGET": "Token budget",
     "LOREBOOK_TOKEN_BUDGET_HINT": "प्रति turn inject की गई entries के अधिकतम tokens।",
     "LOREBOOK_ENTRIES_TITLE": "Entries",
+    "DUPLICATE": "डुप्लिकेट करें",
+    "COPY_SUFFIX": "कॉपी",
     "LOREBOOK_ENTRY_NEW": "नई entry",
+    "LOREBOOK_ENTRY_COMMENT": "नाम",
+    "LOREBOOK_ENTRY_COMMENT_PLACEHOLDER": "इस प्रविष्टि के लिए वैकल्पिक लेबल",
+    "LOREBOOK_ENTRY_COMMENT_HINT": "केवल आपके संदर्भ के लिए। AI को कभी नहीं भेजा जाता।",
     "LOREBOOK_UNTITLED": "बिना शीर्षक lorebook",
     "LOREBOOK_ENTRY_NO_KEYS": "(कोई triggers नहीं)",
     "LOREBOOK_ENTRY_ALWAYS_LABEL": "हमेशा सम्मिलित",

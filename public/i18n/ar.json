@@ -27,7 +27,8 @@
     "CHAT": "الدردشة",
     "PLAYGROUND": "ساحة اللعب",
     "STATUS": "الحالة",
-    "COMPARE": "مقارنة"
+    "COMPARE": "مقارنة",
+    "LANGUAGE": "اللغة"
   },
   "HOME": {
     "HERO": {
@@ -153,8 +154,8 @@
         "DESC": "شخصيات وإعدادات مسبقة وقوالب موجهات واستيراد بطاقات SillyTavern مدمجة."
       },
       "CARD3": {
-        "TITLE": "خصوصية",
-        "DESC": "محادثاتك تعيش في متصفحك، لا على خادمنا أبدا. لا يمكننا قراءتها."
+        "TITLE": "خصوصية وBYOK",
+        "DESC": "المحادثات تعيش في متصفحك، لا على خادمنا أبدا. واستخدم أيضا نقطة النهاية والمفتاح الخاصين بك المتوافقين مع OpenAI، مباشرة من المتصفح."
       },
       "CARD4": {
         "TITLE": "لعب أدوار كامل",
@@ -465,7 +466,8 @@
       "FREE": "مجاني",
       "SORT_ASC": "تصاعدي",
       "SORT_DESC": "تنازلي",
-      "SORT_RESET": "إعادة تعيين"
+      "SORT_RESET": "إعادة تعيين",
+      "FLAT_NO_PARAMS": "سعر ثابت لكل طلب. لا تدعم هذه الصيغة المعلمات مثل الحجم والجودة."
     },
     "COMPARE": {
       "BADGE": "مقارنة",
@@ -1028,16 +1030,15 @@
       "UPTIME": "اتفاقية مستوى خدمة 99.9%",
       "OPENAI_COMPAT": "نقطة طرفية متوافقة مع OpenAI"
     },
-    "COMPARE": {
-      "TITLE": "قارن الخطط"
-    },
     "CARD": {
       "POPULAR": "شائع",
       "PER_MONTH": " · شهر",
-      "VALUE": "قيمة {value}",
-      "SPEC_QUOTA": "الحصّة/إعادة التعيين",
-      "VALUE_BADGE": "القيمة",
-      "VALUE_EXPLAIN": "ادفع {paid}، احصل على {credit} رصيد API. استخدمه على أيّ نموذج."
+      "PERIOD_DAY": "يوم",
+      "PERIOD_WEEK": "أسبوع",
+      "PERIOD_MONTH": "شهر",
+      "VALUE_HERO": "رصيد API شهرياً",
+      "VALUE_EXPLAIN": "ادفع {paid}/شهر، واحصل على {credit} رصيد API. استخدمه على أي نموذج.",
+      "DELIVERED": "يُجدّد {amount} كل {period}."
     },
     "BANNER": {
       "TITLE": "مساعد OpenClaw للذكاء الاصطناعي على Telegram",
@@ -1051,11 +1052,6 @@
     "TITLE": "الأسعار",
     "SUBTITLE": "سواء كنت تُطلق تطبيقاً أو تشغّل جلسات لعب أدوار طويلة. خطّة واحدة، كل النماذج.",
     "CTA": "اشترك",
-    "TOPUP": {
-      "LABEL": "ادفع حسب الاستخدام",
-      "DESC": "تُفضّل عدم الاشتراك؟ اشحن الرصيد.",
-      "FOOTNOTE": "الرصيد لا ينتهي أبداً."
-    },
     "FAQ": {
       "Q1": "كيف تعمل أسعار {appName}؟",
       "A1": "تدفع لكل token مُستهلَك. كل نموذج لديه سعر إدخال وإخراج وذاكرة مؤقّتة خاصّ به، يُخصم من رصيد حسابك. لا اشتراك شهري مطلوب للدفع حسب الاستخدام.",
@@ -1073,6 +1069,24 @@
       "A7": "نعم. كل خطّة تعمل كمصدر مخصّص متوافق مع OpenAI في أيّ عميل لعب أدوار رئيسي. SillyTavern وJanitor.AI وRisuAI وChub لكلّ منها دليل إعداد في المستندات.",
       "Q8": "كم يمكن أن يكون طول محادثاتي أو سجل الشخصية؟",
       "A8": "{appName} يدعم نافذة السياق الكاملة لكل نموذج، حتى مليون token على Gemini و200 ألف على Claude. لعب الأدوار الطويل وقواعد الكود الطويلة كلاهما يعمل."
+    },
+    "TIER": {
+      "1": "المبتدئ",
+      "2": "المحترف",
+      "3": "الموسّع"
+    },
+    "TOPUP": {
+      "STEP": "ابدأ من هنا",
+      "LABEL": "الدفع حسب الاستخدام",
+      "DESC": "أضف رصيداً واستخدم أي نموذج.",
+      "FOOTNOTE": "الرصيد لا ينتهي أبداً."
+    },
+    "BRIDGE": {
+      "TITLE": "تستخدمه بانتظام؟ اشترك واحصل على رصيد أكثر كل شهر.",
+      "DESC": "اشحن للمرونة. اشترك عندما يصبح استخدامك متوقعاً واحصل على رصيد إضافي فوق ما تدفعه."
+    },
+    "PLANS": {
+      "STEP": "أفضل قيمة"
     }
   },
   "DOCS_INDEX": {
@@ -3005,6 +3019,7 @@
     "MD_ITALIC_BOLD": "نصّ مائل عريض",
     "MD_SINGLE_QUOTE": "نصّ بين علامتي اقتباس مفردتين",
     "MD_DOUBLE_QUOTE": "نصّ بين علامتي اقتباس مزدوجتين",
+    "CHAT_FONT_SIZE": "حجم خط الرسائل",
     "SURFACE_COLORS": "ألوان السطح",
     "MODE_LIGHT": "فاتح",
     "MODE_DARK": "داكن",
@@ -3018,7 +3033,8 @@
     "BG_FIT_CONTAIN": "احتواء",
     "BG_FIT_TILE": "تكرار",
     "BG_OPACITY": "الشفافية",
-    "BG_BLUR": "ضبابية"
+    "BG_BLUR": "ضبابية",
+    "BG_PANEL_OPACITY": "شفافية اللوحات"
   },
   "BILLING": {
     "SUBSCRIPTION": {
@@ -3215,7 +3231,9 @@
       "SEARCH": "بحث النماذج...",
       "NO_RESULTS": "لا توجد نماذج",
       "FREE_BADGE": "مجاني",
-      "LOGIN_REQUIRED": "تسجيل الدخول مطلوب"
+      "LOGIN_REQUIRED": "تسجيل الدخول مطلوب",
+      "CUSTOM_PROVIDERS": "مزودون مخصصون",
+      "UNAVAILABLE_TOOLTIP": "{model} (غير متاح مؤقتًا)"
     },
     "GROUP": {
       "SELECT": "مجموعة الفوترة",
@@ -3320,8 +3338,8 @@
     "META": {
       "TITLE": "دردشة الذكاء الاصطناعي - {appName}",
       "TITLE_WITH_NAME": "{title} | دردشة الذكاء الاصطناعي - {appName}",
-      "DESCRIPTION": "دردش مع أيّ نموذج ذكاء اصطناعي. اختبر GPT وClaude وGemini وDeepSeek وغيرها عبر واجهة واحدة.",
-      "KEYWORDS": "دردشة الذكاء الاصطناعي، دردش مع AI، دردشة GPT، دردشة Claude، دردشة Gemini، ساحة AI، اختبار النماذج"
+      "DESCRIPTION": "دردش مع أيّ نموذج ذكاء اصطناعي: GPT وClaude وGemini وDeepSeek وغيرها في واجهة واحدة، أو استخدم نقطة النهاية والمفتاح الخاصين بك المتوافقين مع OpenAI.",
+      "KEYWORDS": "دردشة الذكاء الاصطناعي، دردش مع AI، دردشة GPT، دردشة Claude، دردشة Gemini، ساحة AI، اختبار النماذج، BYOK، مزوّد ذكاء اصطناعي مخصص"
     },
     "OVERRIDES": {
       "OPEN": "إعدادات المحادثة",
@@ -3391,13 +3409,16 @@
       "LOCAL_DB": "متصفّح DB المحلية",
       "LOCAL_DB_WIPE": "محو قاعدة البيانات المحلية وإعادة التحميل",
       "LOCAL_DB_DOWNLOAD": "تنزيل ملف SQLite المحلي",
-      "LOCAL_DB_UPLOAD": "رفع ملف SQLite (يكتب فوق المحلي)",
+      "LOCAL_DB_UPLOAD": "استيراد ملف SQLite (يستبدل المحلي)",
       "LOCAL_DB_WIPE_CONFIRM": "محو كل بيانات OPFS المحلية وإعادة التحميل؟",
-      "LOCAL_DB_UPLOAD_CONFIRM": "الكتابة فوق قاعدة بيانات OPFS المحلية من هذا الملف؟ ستُمحى البيانات الموجودة.",
+      "LOCAL_DB_UPLOAD_CONFIRM": "استيراد السجلات من هذا الملف؟ يُرحَّل إلى المخطط الحالي ويستبدل بياناتك المحلية، وتُعاد ملكية السجلات إلى هذه الجلسة.",
+      "LOCAL_DB_IMPORT_SUMMARY": "تم استيراد {imported} سجلًا عبر {tables} جداول (تم تخطي {skipped}).",
       "CLEAR": "مسح الدردشة",
       "CLEAR_SUCCESS": "تمّ مسح الدردشة",
       "CLEAR_CONFIRM_DESC": "هذا يحذف كل رسالة في المحادثة لكنّه يحتفظ بالإعدادات وروابط الشخصية والعنوان. لا يمكن التراجع.",
       "DISPLAY": "العرض",
+      "APPEARANCE": "المظهر",
+      "TOOLS": "الأدوات",
       "DIAGNOSTICS": "تنزيل السجل (بدون رسائل)",
       "DIAGNOSTICS_FULL": "تنزيل السجل + الرسائل",
       "DEBUG_CLEAR": "مسح سجل التصحيح",
@@ -3427,6 +3448,43 @@
       "EMPTY": "لا توجد محادثات",
       "DELETE_CONFIRM_TITLE": "حذف المجموعة؟",
       "DELETE_CONFIRM_DESC": "تتم إزالة المجموعة؛ وتبقى محادثاتها وتصبح بدون مجموعة."
+    },
+    "CUSTOM_PROVIDER": {
+      "TITLE": "مزودون مخصصون",
+      "SIDEBAR_TAB": "مزودون مخصصون",
+      "NEW": "مزود جديد",
+      "EMPTY": "لا يوجد مزودون مخصصون بعد.",
+      "NAME": "الاسم",
+      "BASE_URL": "رابط نقطة النهاية",
+      "API_KEY": "مفتاح API",
+      "FORMAT": "التنسيق",
+      "TOKENIZER": "المُرمِّز",
+      "FORMAT_OPENAI": "متوافق مع OpenAI",
+      "TOKENIZER_AUTO": "تلقائي (حسب الاسم)",
+      "TOKENIZER_CL100K": "GPT (cl100k)",
+      "TOKENIZER_O200K": "GPT-4o/5 (o200k)",
+      "TOKENIZER_CLAUDE": "Claude",
+      "TOKENIZER_GLM5": "GLM-5",
+      "TOKENIZER_GLM4": "GLM-4",
+      "TOKENIZER_DEEPSEEK": "DeepSeek (V3/R1)",
+      "TOKENIZER_DEEPSEEK_V4": "DeepSeek (V3.2/V4)",
+      "TOKENIZER_LLAMA3": "Llama 3",
+      "TOKENIZER_GEMMA": "Gemma",
+      "TOKENIZER_QWEN": "Qwen",
+      "TOKENIZER_MISTRAL": "Mistral",
+      "TOKENIZER_COHERE": "Cohere / Command",
+      "TOKENIZER_HF_CUSTOM": "مخصص (HuggingFace)",
+      "TOKENIZER_HF_PLACEHOLDER": "owner/model أو رابط tokenizer.json",
+      "MODELS": "النماذج",
+      "MODELS_EMPTY": "لم تتم إضافة أي نماذج بعد.",
+      "ADD_MODEL": "إضافة نموذج",
+      "FETCH_MODELS": "جلب النماذج",
+      "FETCH_FAILED": "تعذّر جلب النماذج (HTTP {status}). تحقّق من رابط نقطة النهاية ومفتاح الـ API.",
+      "MODEL_KEY": "مفتاح النموذج",
+      "MODEL_LABEL": "الاسم المعروض",
+      "MODEL_COUNT": "{count} نموذج",
+      "DELETE_TITLE": "حذف المزود؟",
+      "DELETE_DESC": "سيؤدي هذا إلى إزالة المزود ونماذجه. سيتم الاحتفاظ بمحادثاتك."
     }
   },
   "RP": {
@@ -3477,7 +3535,12 @@
     "LOREBOOK_TOKEN_BUDGET": "ميزانية tokens",
     "LOREBOOK_TOKEN_BUDGET_HINT": "أقصى tokens للمدخلات المحقونة لكل دور.",
     "LOREBOOK_ENTRIES_TITLE": "المدخلات",
+    "DUPLICATE": "تكرار",
+    "COPY_SUFFIX": "نسخة",
     "LOREBOOK_ENTRY_NEW": "مدخل جديد",
+    "LOREBOOK_ENTRY_COMMENT": "الاسم",
+    "LOREBOOK_ENTRY_COMMENT_PLACEHOLDER": "تسمية اختيارية لهذا المُدخل",
+    "LOREBOOK_ENTRY_COMMENT_HINT": "للرجوع إليه فقط. لا يُرسل إلى الذكاء الاصطناعي أبدًا.",
     "LOREBOOK_UNTITLED": "كتاب تاريخ بلا عنوان",
     "LOREBOOK_ENTRY_NO_KEYS": "(لا محفّزات)",
     "LOREBOOK_ENTRY_ALWAYS_LABEL": "يُحقن دائماً",

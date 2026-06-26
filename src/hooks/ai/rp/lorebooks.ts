@@ -31,12 +31,37 @@ const lorebooks = makeRpEntity<
   readItem: readLocalLorebook,
   upsertLocal: upsertLocalLorebook,
   deleteLocal: deleteLocalLorebook,
+  // Deep clone: copy the book + every entry under fresh ids re-parented to the new book.
+  cloneEntity: async (userId, detail, newId, copyName) => {
+    const now = dayjs().toDate();
+    const { entries, ...book } = detail;
+    const lorebook = {
+      ...book,
+      id: newId,
+      name: copyName,
+      syncExpiresAt: null,
+      createdAt: now,
+      updatedAt: now,
+    };
+    const clonedEntries = (entries ?? []).map((e) => ({
+      ...e,
+      id: uid(),
+      lorebookId: newId,
+      createdAt: now,
+      updatedAt: now,
+    }));
+    await upsertLocalLorebookBundle(userId, {
+      lorebook: lorebook as never,
+      entries: clonedEntries as never,
+    });
+  },
 });
 
 export const useLorebooksQuery = lorebooks.useList;
 export const useLorebookQuery = lorebooks.useItem;
 export const useCreateLorebookMutation = lorebooks.useCreate;
 export const useDeleteLorebookMutation = lorebooks.useDelete;
+export const useDuplicateLorebookMutation = lorebooks.useDuplicate;
 
 // Bespoke update re-mirrors bundle after edit.
 export function useUpdateLorebookMutation() {
@@ -87,6 +112,7 @@ export function useImportLorebookMutation() {
       const entries = parsed.entries.map((e, i) => ({
         id: uid(),
         lorebookId: id,
+        comment: e.comment ?? null,
         keys: e.keys,
         secondaryKeys: e.secondaryKeys ?? null,
         content: e.content,

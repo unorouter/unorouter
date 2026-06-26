@@ -1,7 +1,8 @@
 // Server-side TriggerOps for V1 lowLevelAccess effects: direct service calls (client modes POST /chat/trigger-op instead).
 
 import { parseChatML } from "@/lib/ai/chat/chatml";
-import { generateInlayImage, type InlayImage } from "../media/inlay.service";
+import { generateInlayImage } from "../media/inlay.service";
+import type { InlayImage } from "@/lib/ai/chat/pipeline/deps";
 import type { TriggerOps } from "@/lib/ai/chat/triggers/types";
 import { getProvider } from "@/server/constants";
 import { generateText } from "ai";

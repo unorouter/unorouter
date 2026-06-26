@@ -6,6 +6,7 @@ import { modelReleaseTs } from "@/hooks/ui/use-models-hook";
 import {
   deriveOutputModality,
   inputPriceUnit,
+  isFlatVariant,
   outputPriceUnit,
   type PriceUnit,
 } from "@/lib/api/model-modality";
@@ -84,6 +85,16 @@ export function ModelListCard(props: {
       ? model.fixedPrice
       : 0
     : model.outputPrice;
+  const originalInput = model.isFixedPrice
+    ? fixedOnOutput
+      ? null
+      : model.originalFixedPrice
+    : model.originalInputPrice;
+  const originalOutput = model.isFixedPrice
+    ? fixedOnOutput
+      ? model.originalFixedPrice
+      : null
+    : model.originalOutputPrice;
   const ctx = model.metadata.contextWindow ?? model.metadata.maxInputTokens;
   const releaseTs = modelReleaseTs(model);
   const offLabel = (pct: number) => t("MODELS.TABLE.OFF", { pct });
@@ -120,6 +131,15 @@ export function ModelListCard(props: {
               aria-label={t("MODELS.TABLE.FREE")}
             />
           )}
+          {isFlatVariant(model) && (
+            <span
+              className="text-muted-foreground/70 flex shrink-0 items-center"
+              aria-label={t("MODELS.TABLE.FLAT_NO_PARAMS")}
+              title={t("MODELS.TABLE.FLAT_NO_PARAMS")}
+            >
+              <Icon name="circle-help" className="h-4 w-4" />
+            </span>
+          )}
         </div>
         {props.rank && (
           <span className="text-muted-foreground shrink-0 font-mono text-sm">
@@ -153,17 +173,18 @@ export function ModelListCard(props: {
         ) : null}
         <PriceMeta
           value={input}
-          original={model.originalInputPrice}
-          unit={inputPriceUnit(modality)}
+          original={originalInput}
+          unit={inputPriceUnit(modality, model.isFixedPrice)}
           label={model.isFixedPrice ? "" : t("MODELS.LIST.INPUT")}
           perCall={model.isFixedPrice}
           offLabel={offLabel}
         />
         <PriceMeta
           value={output}
-          original={model.originalOutputPrice}
-          unit={outputPriceUnit(modality)}
+          original={originalOutput}
+          unit={outputPriceUnit(modality, model.isFixedPrice)}
           label={model.isFixedPrice ? "" : t("MODELS.LIST.OUTPUT")}
+          perCall={model.isFixedPrice}
           offLabel={offLabel}
         />
       </div>

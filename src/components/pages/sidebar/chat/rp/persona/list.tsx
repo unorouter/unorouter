@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import {
   useDeletePersonaMutation,
+  useDuplicatePersonaMutation,
   useImportPersonaMutation,
   usePersonasQuery,
 } from "@/hooks/ai/rp/personas";
@@ -35,6 +36,7 @@ export function PersonaList(props: Props) {
   const t = useTranslations();
   const personasQuery = usePersonasQuery();
   const deleteMut = useDeletePersonaMutation();
+  const duplicateMut = useDuplicatePersonaMutation();
   const importMut = useImportPersonaMutation();
 
   const [editingId, setEditingId] = useState<EntityEditId>(null);
@@ -129,6 +131,7 @@ export function PersonaList(props: Props) {
                     </>
                   }
                   description={p.description}
+                  onDuplicate={() => duplicateMut.mutate(p.id)}
                   onDelete={() => handleDelete(p.id)}
                 />
               ))}

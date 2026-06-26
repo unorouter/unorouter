@@ -27,7 +27,8 @@
     "CHAT": "對話",
     "PLAYGROUND": "遊樂場",
     "STATUS": "狀態",
-    "COMPARE": "對比"
+    "COMPARE": "對比",
+    "LANGUAGE": "語言"
   },
   "HOME": {
     "HERO": {
@@ -131,8 +132,8 @@
         "DESC": "內建人設、預設、提示詞範本和 SillyTavern 卡片匯入。"
       },
       "CARD3": {
-        "TITLE": "私密",
-        "DESC": "你的對話存在你的瀏覽器裡，絕不在我們的伺服器上。我們讀不到。"
+        "TITLE": "私密與 BYOK",
+        "DESC": "對話存在你的瀏覽器裡，絕不在我們的伺服器上。也可接入你自己的 OpenAI 相容端點與金鑰，直接從瀏覽器發起。"
       },
       "CARD4": {
         "TITLE": "完整角色扮演",
@@ -465,7 +466,8 @@
       "FREE": "免費",
       "SORT_ASC": "升序",
       "SORT_DESC": "降序",
-      "SORT_RESET": "重置"
+      "SORT_RESET": "重置",
+      "FLAT_NO_PARAMS": "按次固定計費。此變體不支援尺寸、品質等參數。"
     },
     "COMPARE": {
       "BADGE": "對比",
@@ -1028,16 +1030,15 @@
       "UPTIME": "99.9% 運行時間 SLA",
       "OPENAI_COMPAT": "OpenAI 相容端點"
     },
-    "COMPARE": {
-      "TITLE": "方案比較"
-    },
     "CARD": {
       "POPULAR": "熱門",
       "PER_MONTH": "／月",
-      "VALUE": "{value} 價值",
-      "SPEC_QUOTA": "額度／重置",
-      "VALUE_BADGE": "價值",
-      "VALUE_EXPLAIN": "支付 {paid}，獲得 {credit} API 額度，可用於任意模型。"
+      "PERIOD_DAY": "天",
+      "PERIOD_WEEK": "週",
+      "PERIOD_MONTH": "月",
+      "VALUE_HERO": "API 額度 / 月",
+      "VALUE_EXPLAIN": "支付 {paid}／月，獲得 {credit} API 額度。可用於任意模型。",
+      "DELIVERED": "每{period}補充 {amount}。"
     },
     "BANNER": {
       "TITLE": "Telegram 上的 OpenClaw AI 助理",
@@ -1051,11 +1052,6 @@
     "TITLE": "價格",
     "SUBTITLE": "無論你是上線應用還是進行長時間角色扮演。一個方案，涵蓋所有模型。",
     "CTA": "訂閱",
-    "TOPUP": {
-      "LABEL": "按量儲值",
-      "DESC": "不想訂閱？直接儲值使用。",
-      "FOOTNOTE": "餘額永不過期。"
-    },
     "FAQ": {
       "Q1": "{appName} 的計費方式是什麼？",
       "A1": "您依消耗的 token 付費。每個模型都有各自的輸入、輸出與快取費率，從您帳戶的額度中扣除。按用量付費方案無需任何月費訂閱。",
@@ -1073,6 +1069,24 @@
       "A7": "可以。每個方案都能在主流角色扮演用戶端中作為自訂 OpenAI 相容來源使用。SillyTavern、Janitor.AI、RisuAI 與 Chub 在文件中都有各自的設定指南。",
       "Q8": "對話或角色歷史可以保留多長？",
       "A8": "{appName} 支援每個模型的完整上下文視窗，Gemini 最高 1M tokens，Claude 最高 200k tokens。長篇角色扮演與大型程式碼庫都能從容應對。"
+    },
+    "TIER": {
+      "1": "入門版",
+      "2": "專業版",
+      "3": "規模版"
+    },
+    "TOPUP": {
+      "STEP": "從這裡開始",
+      "LABEL": "按量付費",
+      "DESC": "儲值額度，暢用任意模型。",
+      "FOOTNOTE": "額度永不過期。"
+    },
+    "BRIDGE": {
+      "TITLE": "經常使用？訂閱可每月獲得更多額度。",
+      "DESC": "想要彈性就儲值。用量穩定後訂閱，在支付金額之外額外獲得額度。"
+    },
+    "PLANS": {
+      "STEP": "最超值"
     }
   },
   "DOCS_INDEX": {
@@ -3005,6 +3019,7 @@
     "MD_ITALIC_BOLD": "斜體粗體文字",
     "MD_SINGLE_QUOTE": "單引號文字",
     "MD_DOUBLE_QUOTE": "雙引號文字",
+    "CHAT_FONT_SIZE": "訊息字型大小",
     "SURFACE_COLORS": "介面顏色",
     "MODE_LIGHT": "淺色",
     "MODE_DARK": "深色",
@@ -3018,7 +3033,8 @@
     "BG_FIT_CONTAIN": "包含",
     "BG_FIT_TILE": "平鋪",
     "BG_OPACITY": "不透明度",
-    "BG_BLUR": "模糊"
+    "BG_BLUR": "模糊",
+    "BG_PANEL_OPACITY": "面板不透明度"
   },
   "BILLING": {
     "SUBSCRIPTION": {
@@ -3215,7 +3231,9 @@
       "SEARCH": "搜尋模型...",
       "NO_RESULTS": "找不到模型",
       "FREE_BADGE": "免費",
-      "LOGIN_REQUIRED": "需先登入"
+      "LOGIN_REQUIRED": "需先登入",
+      "CUSTOM_PROVIDERS": "自訂提供商",
+      "UNAVAILABLE_TOOLTIP": "{model}（暫時無法使用）"
     },
     "GROUP": {
       "SELECT": "計費分組",
@@ -3320,8 +3338,8 @@
     "META": {
       "TITLE": "AI 對話：{appName}",
       "TITLE_WITH_NAME": "{title}｜AI 對話：{appName}",
-      "DESCRIPTION": "與任何 AI 模型對話。透過單一介面測試 GPT、Claude、Gemini、DeepSeek 等模型。",
-      "KEYWORDS": "AI 對話、與 AI 聊天、GPT 對話、Claude 對話、Gemini 對話、AI playground、模型測試"
+      "DESCRIPTION": "與任何 AI 模型對話：在單一介面中使用 GPT、Claude、Gemini、DeepSeek 等，或接入你自己的 OpenAI 相容端點與金鑰。",
+      "KEYWORDS": "AI 對話、與 AI 聊天、GPT 對話、Claude 對話、Gemini 對話、AI playground、模型測試、BYOK、自訂 AI 供應商"
     },
     "OVERRIDES": {
       "OPEN": "對話設定",
@@ -3391,13 +3409,16 @@
       "LOCAL_DB": "本地資料庫瀏覽器",
       "LOCAL_DB_WIPE": "清空本地資料庫並重新載入",
       "LOCAL_DB_DOWNLOAD": "下載本地 SQLite 檔案",
-      "LOCAL_DB_UPLOAD": "上傳 SQLite 檔案（覆蓋本地）",
+      "LOCAL_DB_UPLOAD": "匯入 SQLite 檔案（取代本地）",
       "LOCAL_DB_WIPE_CONFIRM": "清空所有本地 OPFS 資料並重新載入？",
-      "LOCAL_DB_UPLOAD_CONFIRM": "從此檔案覆蓋本地 OPFS 資料庫？現有資料將被清空。",
+      "LOCAL_DB_UPLOAD_CONFIRM": "從此檔案匯入記錄？它會遷移到目前的結構並取代你的本地資料；記錄將歸屬目前的工作階段。",
+      "LOCAL_DB_IMPORT_SUMMARY": "已將 {imported} 筆記錄匯入 {tables} 個資料表（略過 {skipped} 筆）。",
       "CLEAR": "清空對話",
       "CLEAR_SUCCESS": "對話已清空",
       "CLEAR_CONFIRM_DESC": "此操作會刪除該對話中的所有訊息，但保留設定、角色綁定與標題。此操作無法復原。",
       "DISPLAY": "顯示",
+      "APPEARANCE": "外觀",
+      "TOOLS": "工具",
       "DIAGNOSTICS": "下載日誌（不含訊息）",
       "DIAGNOSTICS_FULL": "下載日誌 + 訊息",
       "DEBUG_CLEAR": "清除除錯日誌",
@@ -3427,6 +3448,43 @@
       "EMPTY": "暫無對話",
       "DELETE_CONFIRM_TITLE": "刪除分組？",
       "DELETE_CONFIRM_DESC": "分組將被移除；其對話會保留並變為未分組。"
+    },
+    "CUSTOM_PROVIDER": {
+      "TITLE": "自訂提供商",
+      "SIDEBAR_TAB": "自訂提供商",
+      "NEW": "新增提供商",
+      "EMPTY": "尚無自訂提供商。",
+      "NAME": "名稱",
+      "BASE_URL": "端點網址",
+      "API_KEY": "API 金鑰",
+      "FORMAT": "格式",
+      "TOKENIZER": "分詞器",
+      "FORMAT_OPENAI": "相容 OpenAI",
+      "TOKENIZER_AUTO": "自動（依名稱比對）",
+      "TOKENIZER_CL100K": "GPT（cl100k）",
+      "TOKENIZER_O200K": "GPT-4o/5（o200k）",
+      "TOKENIZER_CLAUDE": "Claude",
+      "TOKENIZER_GLM5": "GLM-5",
+      "TOKENIZER_GLM4": "GLM-4",
+      "TOKENIZER_DEEPSEEK": "DeepSeek (V3/R1)",
+      "TOKENIZER_DEEPSEEK_V4": "DeepSeek (V3.2/V4)",
+      "TOKENIZER_LLAMA3": "Llama 3",
+      "TOKENIZER_GEMMA": "Gemma",
+      "TOKENIZER_QWEN": "Qwen",
+      "TOKENIZER_MISTRAL": "Mistral",
+      "TOKENIZER_COHERE": "Cohere / Command",
+      "TOKENIZER_HF_CUSTOM": "自訂（HuggingFace）",
+      "TOKENIZER_HF_PLACEHOLDER": "owner/model 或 tokenizer.json 連結",
+      "MODELS": "模型",
+      "MODELS_EMPTY": "尚未新增模型。",
+      "ADD_MODEL": "新增模型",
+      "FETCH_MODELS": "取得模型",
+      "FETCH_FAILED": "無法取得模型（HTTP {status}）。請檢查端點 URL 與 API 金鑰。",
+      "MODEL_KEY": "模型識別碼",
+      "MODEL_LABEL": "顯示名稱",
+      "MODEL_COUNT": "{count} 個模型",
+      "DELETE_TITLE": "刪除提供商？",
+      "DELETE_DESC": "這會移除該提供商及其模型。你的對話會保留。"
     }
   },
   "RP": {
@@ -3477,7 +3535,12 @@
     "LOREBOOK_TOKEN_BUDGET": "Token 預算",
     "LOREBOOK_TOKEN_BUDGET_HINT": "每輪注入條目的最大 Token 數。",
     "LOREBOOK_ENTRIES_TITLE": "條目",
+    "DUPLICATE": "複製",
+    "COPY_SUFFIX": "副本",
     "LOREBOOK_ENTRY_NEW": "新增條目",
+    "LOREBOOK_ENTRY_COMMENT": "名稱",
+    "LOREBOOK_ENTRY_COMMENT_PLACEHOLDER": "此條目的選用標籤",
+    "LOREBOOK_ENTRY_COMMENT_HINT": "僅供你參考，絕不會傳送給 AI。",
     "LOREBOOK_UNTITLED": "未命名世界書",
     "LOREBOOK_ENTRY_NO_KEYS": "（無觸發詞）",
     "LOREBOOK_ENTRY_ALWAYS_LABEL": "始終注入",

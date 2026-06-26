@@ -313,9 +313,6 @@ export const streamBody = t.Object({
   // Fallback for guest convs (no settings row).
   overrides: t.Optional(streamOverrides),
   chatContext: t.Optional(chatContext),
-  // Content fingerprint of chatContext (sans globalVars). On a cache hit the client omits chatContext; a miss 409s and retries full.
-  chatContextHash: t.Optional(t.String({ maxLength: 64 })),
-  // Always-sent (small, changes often); rides outside the hashed context.
   globalVars: t.Optional(t.Union([t.String(), t.Null()])),
   // Multi-character rotation: who speaks this turn. When set, the assembler promotes that character to primary.
   speakingCharacterId: t.Optional(
@@ -352,6 +349,21 @@ export const triggerImggenBody = t.Object({
 export const titleGenerationBody = t.Object({
   text: t.String({ maxLength: MAX_TITLE_SEED_LEN }),
   model: t.Optional(t.String()),
+});
+
+// Default-path forward proxy: the client already built the OpenAI wire body. Permissive passthrough
+// (model/messages/stream/sampling/provider options...) plus our out-of-band `group`. The proxy resolves
+// the token + guest-gates + pipes to new-api; it never inspects the message contents.
+export const forwardBody = t.Object(
+  {
+    model: t.String({ maxLength: MAX_MODEL_LEN }),
+    group: t.Optional(t.Union([t.String({ maxLength: MAX_MODEL_LEN }), t.Null()])),
+  },
+  { additionalProperties: true },
+);
+
+export const webSearchBody = t.Object({
+  text: t.String({ maxLength: MAX_TEXT_LEN }),
 });
 
 export const finalizeTaskBody = t.Object({

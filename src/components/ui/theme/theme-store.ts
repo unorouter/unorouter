@@ -40,6 +40,7 @@ export type BackgroundSettings = {
   opacity?: number; // 0..1
   blur?: number; // px
   fit?: BackgroundFit;
+  panelOpacity?: number; // 0..1, surface translucency so the image floats behind panels
 };
 
 export type UserTheme = {
@@ -54,6 +55,8 @@ export type UserTheme = {
   chartColorCustom?: string;
   fontBody?: string;
   fontHeading?: string;
+  // Chat message font scale (multiplier, 1 = default). Accessibility: scales ONLY chat message text, not UI chrome.
+  chatFontScale?: number;
   radius?: string;
   style?: string;
   iconLibrary?: string;

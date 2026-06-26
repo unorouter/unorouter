@@ -27,7 +27,8 @@
     "CHAT": "对话",
     "PLAYGROUND": "游乐场",
     "STATUS": "状态",
-    "COMPARE": "对比"
+    "COMPARE": "对比",
+    "LANGUAGE": "语言"
   },
   "HOME": {
     "HERO": {
@@ -131,8 +132,8 @@
         "DESC": "内置人设、预设、提示词模板和 SillyTavern 卡片导入。"
       },
       "CARD3": {
-        "TITLE": "私密",
-        "DESC": "你的对话存在你的浏览器里，绝不在我们的服务器上。我们读不到。"
+        "TITLE": "私密与 BYOK",
+        "DESC": "对话存在你的浏览器里，绝不在我们的服务器上。也可接入你自己的 OpenAI 兼容端点和密钥，直接从浏览器发起。"
       },
       "CARD4": {
         "TITLE": "完整角色扮演",
@@ -465,7 +466,8 @@
       "FREE": "免费",
       "SORT_ASC": "升序",
       "SORT_DESC": "降序",
-      "SORT_RESET": "重置"
+      "SORT_RESET": "重置",
+      "FLAT_NO_PARAMS": "按次固定计费。此变体不支持尺寸、质量等参数。"
     },
     "COMPARE": {
       "BADGE": "对比",
@@ -1028,16 +1030,15 @@
       "UPTIME": "99.9% 可用率 SLA",
       "OPENAI_COMPAT": "OpenAI 兼容端点"
     },
-    "COMPARE": {
-      "TITLE": "套餐对比"
-    },
     "CARD": {
       "POPULAR": "热门",
       "PER_MONTH": " · 月",
-      "VALUE": "价值 {value}",
-      "SPEC_QUOTA": "额度/重置",
-      "VALUE_BADGE": "价值",
-      "VALUE_EXPLAIN": "支付 {paid}，获得 {credit} API 余额，可用于任意模型。"
+      "PERIOD_DAY": "天",
+      "PERIOD_WEEK": "周",
+      "PERIOD_MONTH": "月",
+      "VALUE_HERO": "API 额度 / 月",
+      "VALUE_EXPLAIN": "支付 {paid}／月，获得 {credit} API 额度。可用于任意模型。",
+      "DELIVERED": "每{period}补充 {amount}。"
     },
     "BANNER": {
       "TITLE": "Telegram 上的 OpenClaw AI 助手",
@@ -1051,11 +1052,6 @@
     "TITLE": "价格",
     "SUBTITLE": "无论你是上线应用还是进行长时间角色扮演。一个套餐，覆盖所有模型。",
     "CTA": "订阅",
-    "TOPUP": {
-      "LABEL": "按量充值",
-      "DESC": "不想订阅？直接充值使用。",
-      "FOOTNOTE": "余额永不过期。"
-    },
     "FAQ": {
       "Q1": "{appName} 如何计费？",
       "A1": "按消耗的 Token 计费。每个模型都有各自的输入、输出和缓存费率，从您的账户余额中扣除。按量付费无需订阅。",
@@ -1073,6 +1069,24 @@
       "A7": "可以。每个套餐都能在主流角色扮演客户端里作为自定义 OpenAI 兼容来源使用。SillyTavern、Janitor.AI、RisuAI 和 Chub 在文档里都有各自的设置指南。",
       "Q8": "对话或角色历史最长能保留多久？",
       "A8": "{appName} 支持每个模型的完整上下文窗口，Gemini 最高 1M tokens，Claude 最高 200k tokens。长篇角色扮演和大型代码库都能从容应对。"
+    },
+    "TIER": {
+      "1": "入门版",
+      "2": "专业版",
+      "3": "规模版"
+    },
+    "TOPUP": {
+      "STEP": "从这里开始",
+      "LABEL": "按量付费",
+      "DESC": "充值额度，畅用任意模型。",
+      "FOOTNOTE": "额度永不过期。"
+    },
+    "BRIDGE": {
+      "TITLE": "经常使用？订阅可每月获得更多额度。",
+      "DESC": "想要灵活就充值。用量稳定后订阅，在支付金额之外额外获得额度。"
+    },
+    "PLANS": {
+      "STEP": "最超值"
     }
   },
   "DOCS_INDEX": {
@@ -3005,6 +3019,7 @@
     "MD_ITALIC_BOLD": "斜体粗体文本",
     "MD_SINGLE_QUOTE": "单引号文本",
     "MD_DOUBLE_QUOTE": "双引号文本",
+    "CHAT_FONT_SIZE": "消息字体大小",
     "SURFACE_COLORS": "界面颜色",
     "MODE_LIGHT": "浅色",
     "MODE_DARK": "深色",
@@ -3018,7 +3033,8 @@
     "BG_FIT_CONTAIN": "包含",
     "BG_FIT_TILE": "平铺",
     "BG_OPACITY": "不透明度",
-    "BG_BLUR": "模糊"
+    "BG_BLUR": "模糊",
+    "BG_PANEL_OPACITY": "面板不透明度"
   },
   "BILLING": {
     "SUBSCRIPTION": {
@@ -3215,7 +3231,9 @@
       "SEARCH": "搜索模型...",
       "NO_RESULTS": "未找到模型",
       "FREE_BADGE": "免费",
-      "LOGIN_REQUIRED": "需要登录"
+      "LOGIN_REQUIRED": "需要登录",
+      "CUSTOM_PROVIDERS": "自定义提供商",
+      "UNAVAILABLE_TOOLTIP": "{model}（暂时不可用）"
     },
     "GROUP": {
       "SELECT": "计费分组",
@@ -3320,8 +3338,8 @@
     "META": {
       "TITLE": "AI 对话：{appName}",
       "TITLE_WITH_NAME": "{title} | AI 对话：{appName}",
-      "DESCRIPTION": "与任意 AI 模型对话。通过一个界面测试 GPT、Claude、Gemini、DeepSeek 等模型。",
-      "KEYWORDS": "AI 对话, 与 AI 聊天, GPT 对话, Claude 对话, Gemini 对话, AI 实验场, 模型测试"
+      "DESCRIPTION": "与任意 AI 模型对话：在一个界面中使用 GPT、Claude、Gemini、DeepSeek 等，或接入你自己的 OpenAI 兼容端点和密钥。",
+      "KEYWORDS": "AI 对话, 与 AI 聊天, GPT 对话, Claude 对话, Gemini 对话, AI 实验场, 模型测试, BYOK, 自定义 AI 提供方"
     },
     "OVERRIDES": {
       "OPEN": "对话设置",
@@ -3391,13 +3409,16 @@
       "LOCAL_DB": "本地数据库浏览器",
       "LOCAL_DB_WIPE": "清空本地数据库并重新加载",
       "LOCAL_DB_DOWNLOAD": "下载本地 SQLite 文件",
-      "LOCAL_DB_UPLOAD": "上传 SQLite 文件（覆盖本地）",
+      "LOCAL_DB_UPLOAD": "导入 SQLite 文件（替换本地）",
       "LOCAL_DB_WIPE_CONFIRM": "清空所有本地 OPFS 数据并重新加载？",
-      "LOCAL_DB_UPLOAD_CONFIRM": "从此文件覆盖本地 OPFS 数据库？现有数据将被清空。",
+      "LOCAL_DB_UPLOAD_CONFIRM": "从此文件导入记录？它会迁移到当前架构并替换你的本地数据；记录将归属当前会话。",
+      "LOCAL_DB_IMPORT_SUMMARY": "已将 {imported} 条记录导入 {tables} 个表（跳过 {skipped} 条）。",
       "CLEAR": "清空对话",
       "CLEAR_SUCCESS": "对话已清空",
       "CLEAR_CONFIRM_DESC": "此操作将删除该对话中的所有消息，但保留设置、角色绑定和标题。此操作无法撤销。",
       "DISPLAY": "显示",
+      "APPEARANCE": "外观",
+      "TOOLS": "工具",
       "DIAGNOSTICS": "下载日志（不含消息）",
       "DIAGNOSTICS_FULL": "下载日志 + 消息",
       "DEBUG_CLEAR": "清除调试日志",
@@ -3427,6 +3448,43 @@
       "EMPTY": "暂无对话",
       "DELETE_CONFIRM_TITLE": "删除分组？",
       "DELETE_CONFIRM_DESC": "分组将被移除；其对话会保留并变为未分组。"
+    },
+    "CUSTOM_PROVIDER": {
+      "TITLE": "自定义提供商",
+      "SIDEBAR_TAB": "自定义提供商",
+      "NEW": "新建提供商",
+      "EMPTY": "暂无自定义提供商。",
+      "NAME": "名称",
+      "BASE_URL": "端点地址",
+      "API_KEY": "API 密钥",
+      "FORMAT": "格式",
+      "TOKENIZER": "分词器",
+      "FORMAT_OPENAI": "兼容 OpenAI",
+      "TOKENIZER_AUTO": "自动（按名称匹配）",
+      "TOKENIZER_CL100K": "GPT（cl100k）",
+      "TOKENIZER_O200K": "GPT-4o/5（o200k）",
+      "TOKENIZER_CLAUDE": "Claude",
+      "TOKENIZER_GLM5": "GLM-5",
+      "TOKENIZER_GLM4": "GLM-4",
+      "TOKENIZER_DEEPSEEK": "DeepSeek (V3/R1)",
+      "TOKENIZER_DEEPSEEK_V4": "DeepSeek (V3.2/V4)",
+      "TOKENIZER_LLAMA3": "Llama 3",
+      "TOKENIZER_GEMMA": "Gemma",
+      "TOKENIZER_QWEN": "Qwen",
+      "TOKENIZER_MISTRAL": "Mistral",
+      "TOKENIZER_COHERE": "Cohere / Command",
+      "TOKENIZER_HF_CUSTOM": "自定义（HuggingFace）",
+      "TOKENIZER_HF_PLACEHOLDER": "owner/model 或 tokenizer.json 链接",
+      "MODELS": "模型",
+      "MODELS_EMPTY": "尚未添加模型。",
+      "ADD_MODEL": "添加模型",
+      "FETCH_MODELS": "获取模型",
+      "FETCH_FAILED": "无法获取模型（HTTP {status}）。请检查端点 URL 和 API 密钥。",
+      "MODEL_KEY": "模型标识",
+      "MODEL_LABEL": "显示名称",
+      "MODEL_COUNT": "{count} 个模型",
+      "DELETE_TITLE": "删除提供商？",
+      "DELETE_DESC": "这将移除该提供商及其模型。你的对话会保留。"
     }
   },
   "RP": {
@@ -3477,7 +3535,12 @@
     "LOREBOOK_TOKEN_BUDGET": "Token 预算",
     "LOREBOOK_TOKEN_BUDGET_HINT": "每轮注入条目的最大 Token 数。",
     "LOREBOOK_ENTRIES_TITLE": "条目",
+    "DUPLICATE": "复制",
+    "COPY_SUFFIX": "副本",
     "LOREBOOK_ENTRY_NEW": "新建条目",
+    "LOREBOOK_ENTRY_COMMENT": "名称",
+    "LOREBOOK_ENTRY_COMMENT_PLACEHOLDER": "此条目的可选标签",
+    "LOREBOOK_ENTRY_COMMENT_HINT": "仅供你参考，绝不会发送给 AI。",
     "LOREBOOK_UNTITLED": "未命名世界书",
     "LOREBOOK_ENTRY_NO_KEYS": "（无触发词）",
     "LOREBOOK_ENTRY_ALWAYS_LABEL": "始终注入",

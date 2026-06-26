@@ -27,7 +27,8 @@
     "CHAT": "チャット",
     "PLAYGROUND": "プレイグラウンド",
     "STATUS": "ステータス",
-    "COMPARE": "比較"
+    "COMPARE": "比較",
+    "LANGUAGE": "言語"
   },
   "HOME": {
     "HERO": {
@@ -131,8 +132,8 @@
         "DESC": "ペルソナ、プリセット、プロンプトテンプレート、SillyTavern カード取り込みを内蔵。"
       },
       "CARD3": {
-        "TITLE": "プライベート",
-        "DESC": "会話はブラウザに残り、当社サーバーには残りません。私たちは読めません。"
+        "TITLE": "プライベート＆BYOK",
+        "DESC": "会話はブラウザに残り、当社サーバーには残りません。自分の OpenAI 互換エンドポイントとキーもブラウザから直接使えます。"
       },
       "CARD4": {
         "TITLE": "本格ロールプレイ",
@@ -465,7 +466,8 @@
       "FREE": "無料",
       "SORT_ASC": "昇順",
       "SORT_DESC": "降順",
-      "SORT_RESET": "リセット"
+      "SORT_RESET": "リセット",
+      "FLAT_NO_PARAMS": "呼び出しごとの定額料金。このバリアントではサイズ、品質などのパラメータはサポートされていません。"
     },
     "COMPARE": {
       "BADGE": "比較",
@@ -1028,16 +1030,15 @@
       "UPTIME": "99.9% アップタイム SLA",
       "OPENAI_COMPAT": "OpenAI 互換エンドポイント"
     },
-    "COMPARE": {
-      "TITLE": "プランを比較"
-    },
     "CARD": {
       "POPULAR": "人気",
       "PER_MONTH": " · 月",
-      "VALUE": "{value} 相当",
-      "SPEC_QUOTA": "クォータ/リセット",
-      "VALUE_BADGE": "の価値",
-      "VALUE_EXPLAIN": "{paid} で {credit} 分の API クレジット。どのモデルにも使えます。"
+      "PERIOD_DAY": "日",
+      "PERIOD_WEEK": "週",
+      "PERIOD_MONTH": "月",
+      "VALUE_HERO": "APIクレジット / 月",
+      "VALUE_EXPLAIN": "{paid}/月で{credit}分のAPIクレジット。どのモデルでも使えます。",
+      "DELIVERED": "{period}ごとに{amount}を補充。"
     },
     "BANNER": {
       "TITLE": "Telegram で使える OpenClaw AI アシスタント",
@@ -1051,11 +1052,6 @@
     "TITLE": "料金",
     "SUBTITLE": "アプリを出すときも、長時間のロールプレイを楽しむときも。ひとつのプランで、すべてのモデル。",
     "CTA": "サブスクライブ",
-    "TOPUP": {
-      "LABEL": "都度払い",
-      "DESC": "サブスクなしでクレジットをチャージ。",
-      "FOOTNOTE": "クレジットは失効しません。"
-    },
     "FAQ": {
       "Q1": "{appName} の料金はどのように計算されますか？",
       "A1": "消費したトークン単位でお支払いいただきます。各モデルには入力、出力、キャッシュの料金があり、アカウントクレジットから差し引かれます。従量課金には月額サブスクリプションは不要です。",
@@ -1073,6 +1069,24 @@
       "A7": "はい。すべてのプランが主要なロールプレイクライアントのカスタム OpenAI 互換ソースとして使えます。SillyTavern、Janitor.AI、RisuAI、Chub にはそれぞれセットアップガイドがあります。",
       "Q8": "会話やキャラクターの履歴はどれくらい長くできますか？",
       "A8": "{appName} は各モデルの最大コンテキストに対応します。Gemini で最大100万トークン、Claude で20万トークン。長いロールプレイも、長いコードベースも問題ありません。"
+    },
+    "TIER": {
+      "1": "スターター",
+      "2": "プロ",
+      "3": "スケール"
+    },
+    "TOPUP": {
+      "STEP": "ここから始める",
+      "LABEL": "従量課金",
+      "DESC": "クレジットを追加して、どのモデルでも利用。",
+      "FOOTNOTE": "クレジットは無期限です。"
+    },
+    "BRIDGE": {
+      "TITLE": "よく使いますか？サブスクで毎月より多くのクレジットを。",
+      "DESC": "柔軟に使いたいときはチャージを。利用量が安定したらサブスクへ。支払額に上乗せでクレジットがもらえます。"
+    },
+    "PLANS": {
+      "STEP": "最高の価値"
     }
   },
   "DOCS_INDEX": {
@@ -3005,6 +3019,7 @@
     "MD_ITALIC_BOLD": "斜体太字テキスト",
     "MD_SINGLE_QUOTE": "シングルクォートテキスト",
     "MD_DOUBLE_QUOTE": "ダブルクォートテキスト",
+    "CHAT_FONT_SIZE": "メッセージの文字サイズ",
     "SURFACE_COLORS": "表面の色",
     "MODE_LIGHT": "ライト",
     "MODE_DARK": "ダーク",
@@ -3018,7 +3033,8 @@
     "BG_FIT_CONTAIN": "フィット",
     "BG_FIT_TILE": "タイル",
     "BG_OPACITY": "不透明度",
-    "BG_BLUR": "ぼかし"
+    "BG_BLUR": "ぼかし",
+    "BG_PANEL_OPACITY": "パネルの不透明度"
   },
   "BILLING": {
     "SUBSCRIPTION": {
@@ -3215,7 +3231,9 @@
       "SEARCH": "モデルを検索...",
       "NO_RESULTS": "モデルが見つかりません",
       "FREE_BADGE": "無料",
-      "LOGIN_REQUIRED": "ログインが必要です"
+      "LOGIN_REQUIRED": "ログインが必要です",
+      "CUSTOM_PROVIDERS": "カスタムプロバイダー",
+      "UNAVAILABLE_TOOLTIP": "{model}（一時的に利用できません）"
     },
     "GROUP": {
       "SELECT": "課金グループ",
@@ -3320,8 +3338,8 @@
     "META": {
       "TITLE": "AI チャット {appName}",
       "TITLE_WITH_NAME": "{title} | AI チャット {appName}",
-      "DESCRIPTION": "あらゆる AI モデルとチャット。GPT、Claude、Gemini、DeepSeek など複数モデルを単一インターフェースで試せます。",
-      "KEYWORDS": "AI チャット, AI と会話, GPT チャット, Claude チャット, Gemini チャット, AI プレイグラウンド, モデルテスト"
+      "DESCRIPTION": "あらゆる AI モデルとチャット。GPT、Claude、Gemini、DeepSeek などを単一インターフェースで、または自分の OpenAI 互換エンドポイントとキーを使って利用できます。",
+      "KEYWORDS": "AI チャット, AI と会話, GPT チャット, Claude チャット, Gemini チャット, AI プレイグラウンド, モデルテスト, BYOK, カスタム AI プロバイダー"
     },
     "OVERRIDES": {
       "OPEN": "会話設定",
@@ -3391,13 +3409,16 @@
       "LOCAL_DB": "ローカルDBブラウザ",
       "LOCAL_DB_WIPE": "ローカルDBを削除して再読み込み",
       "LOCAL_DB_DOWNLOAD": "ローカルSQLiteファイルをダウンロード",
-      "LOCAL_DB_UPLOAD": "SQLiteファイルをアップロード（ローカルを上書き）",
+      "LOCAL_DB_UPLOAD": "SQLiteファイルをインポート（ローカルを置き換え）",
       "LOCAL_DB_WIPE_CONFIRM": "ローカルOPFSデータをすべて削除して再読み込みしますか？",
-      "LOCAL_DB_UPLOAD_CONFIRM": "このファイルからローカルOPFSデータベースを上書きしますか？既存のデータは削除されます。",
+      "LOCAL_DB_UPLOAD_CONFIRM": "このファイルからレコードをインポートしますか？現在のスキーマに移行され、ローカルデータを置き換えます。レコードはこのセッションに再割り当てされます。",
+      "LOCAL_DB_IMPORT_SUMMARY": "{tables}個のテーブルに{imported}件のレコードをインポートしました（{skipped}件スキップ）。",
       "CLEAR": "チャットをクリア",
       "CLEAR_SUCCESS": "チャットをクリアしました",
       "CLEAR_CONFIRM_DESC": "会話内のすべてのメッセージを削除しますが、設定、キャラクターのバインディング、タイトルは保持されます。この操作は取り消せません。",
       "DISPLAY": "表示",
+      "APPEARANCE": "外観",
+      "TOOLS": "ツール",
       "DIAGNOSTICS": "ログをダウンロード（メッセージなし）",
       "DIAGNOSTICS_FULL": "ログ + メッセージをダウンロード",
       "DEBUG_CLEAR": "デバッグログを消去",
@@ -3427,6 +3448,43 @@
       "EMPTY": "チャットなし",
       "DELETE_CONFIRM_TITLE": "グループを削除しますか？",
       "DELETE_CONFIRM_DESC": "グループは削除されますが、チャットは残り未分類になります。"
+    },
+    "CUSTOM_PROVIDER": {
+      "TITLE": "カスタムプロバイダー",
+      "SIDEBAR_TAB": "カスタムプロバイダー",
+      "NEW": "新しいプロバイダー",
+      "EMPTY": "カスタムプロバイダーはまだありません。",
+      "NAME": "名前",
+      "BASE_URL": "エンドポイントURL",
+      "API_KEY": "APIキー",
+      "FORMAT": "形式",
+      "TOKENIZER": "トークナイザー",
+      "FORMAT_OPENAI": "OpenAI互換",
+      "TOKENIZER_AUTO": "自動（名前で判定）",
+      "TOKENIZER_CL100K": "GPT (cl100k)",
+      "TOKENIZER_O200K": "GPT-4o/5 (o200k)",
+      "TOKENIZER_CLAUDE": "Claude",
+      "TOKENIZER_GLM5": "GLM-5",
+      "TOKENIZER_GLM4": "GLM-4",
+      "TOKENIZER_DEEPSEEK": "DeepSeek (V3/R1)",
+      "TOKENIZER_DEEPSEEK_V4": "DeepSeek (V3.2/V4)",
+      "TOKENIZER_LLAMA3": "Llama 3",
+      "TOKENIZER_GEMMA": "Gemma",
+      "TOKENIZER_QWEN": "Qwen",
+      "TOKENIZER_MISTRAL": "Mistral",
+      "TOKENIZER_COHERE": "Cohere / Command",
+      "TOKENIZER_HF_CUSTOM": "カスタム（HuggingFace）",
+      "TOKENIZER_HF_PLACEHOLDER": "owner/model または tokenizer.json の URL",
+      "MODELS": "モデル",
+      "MODELS_EMPTY": "モデルがまだ追加されていません。",
+      "ADD_MODEL": "モデルを追加",
+      "FETCH_MODELS": "モデルを取得",
+      "FETCH_FAILED": "モデルを取得できませんでした（HTTP {status}）。エンドポイントURLとAPIキーを確認してください。",
+      "MODEL_KEY": "モデルキー",
+      "MODEL_LABEL": "表示名",
+      "MODEL_COUNT": "{count} モデル",
+      "DELETE_TITLE": "プロバイダーを削除しますか？",
+      "DELETE_DESC": "プロバイダーとそのモデルが削除されます。会話は保持されます。"
     }
   },
   "RP": {
@@ -3477,7 +3535,12 @@
     "LOREBOOK_TOKEN_BUDGET": "トークン予算",
     "LOREBOOK_TOKEN_BUDGET_HINT": "1ターンに挿入されるエントリの最大トークン数。",
     "LOREBOOK_ENTRIES_TITLE": "エントリ",
+    "DUPLICATE": "複製",
+    "COPY_SUFFIX": "コピー",
     "LOREBOOK_ENTRY_NEW": "新しいエントリ",
+    "LOREBOOK_ENTRY_COMMENT": "名前",
+    "LOREBOOK_ENTRY_COMMENT_PLACEHOLDER": "このエントリーの任意のラベル",
+    "LOREBOOK_ENTRY_COMMENT_HINT": "自分用の目印です。AIには送信されません。",
     "LOREBOOK_UNTITLED": "無題のロアブック",
     "LOREBOOK_ENTRY_NO_KEYS": "（トリガーなし）",
     "LOREBOOK_ENTRY_ALWAYS_LABEL": "常に挿入",

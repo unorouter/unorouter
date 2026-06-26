@@ -27,7 +27,8 @@
     "CHAT": "채팅",
     "PLAYGROUND": "플레이그라운드",
     "STATUS": "상태",
-    "COMPARE": "비교"
+    "COMPARE": "비교",
+    "LANGUAGE": "언어"
   },
   "HOME": {
     "HERO": {
@@ -153,8 +154,8 @@
         "DESC": "페르소나, 프리셋, 프롬프트 템플릿, SillyTavern 카드 가져오기 내장."
       },
       "CARD3": {
-        "TITLE": "프라이버시",
-        "DESC": "대화는 브라우저에 있고 우리 서버에는 없습니다. 우리는 읽을 수 없습니다."
+        "TITLE": "프라이버시 & BYOK",
+        "DESC": "대화는 브라우저에 있고 우리 서버에는 없습니다. 자신의 OpenAI 호환 엔드포인트와 키도 브라우저에서 바로 사용하세요."
       },
       "CARD4": {
         "TITLE": "완전한 롤플레이",
@@ -465,7 +466,8 @@
       "FREE": "무료",
       "SORT_ASC": "오름차순",
       "SORT_DESC": "내림차순",
-      "SORT_RESET": "초기화"
+      "SORT_RESET": "초기화",
+      "FLAT_NO_PARAMS": "호출당 정액 요금입니다. 이 변형에서는 크기, 품질 등의 매개변수가 지원되지 않습니다."
     },
     "COMPARE": {
       "BADGE": "비교",
@@ -1028,16 +1030,15 @@
       "UPTIME": "99.9% 가동 시간 SLA",
       "OPENAI_COMPAT": "OpenAI 호환 엔드포인트"
     },
-    "COMPARE": {
-      "TITLE": "플랜 비교"
-    },
     "CARD": {
       "POPULAR": "인기",
       "PER_MONTH": " · 월",
-      "VALUE": "{value} 가치",
-      "SPEC_QUOTA": "할당량/초기화",
-      "VALUE_BADGE": "가치",
-      "VALUE_EXPLAIN": "{paid}를 지불하고 API 크레딧 {credit}을 받으세요. 어떤 모델에서나 사용하세요."
+      "PERIOD_DAY": "일",
+      "PERIOD_WEEK": "주",
+      "PERIOD_MONTH": "월",
+      "VALUE_HERO": "월 API 크레딧",
+      "VALUE_EXPLAIN": "{paid}/월 결제로 {credit} API 크레딧 제공. 어떤 모델에서나 사용하세요.",
+      "DELIVERED": "{period}마다 {amount} 충전됩니다."
     },
     "BANNER": {
       "TITLE": "Telegram의 OpenClaw AI 어시스턴트",
@@ -1051,11 +1052,6 @@
     "TITLE": "요금",
     "SUBTITLE": "앱을 출시하든 긴 롤플레이 세션을 운영하든. 하나의 플랜, 모든 모델.",
     "CTA": "구독",
-    "TOPUP": {
-      "LABEL": "종량제",
-      "DESC": "구독하지 않으시겠어요? 크레딧을 충전하세요.",
-      "FOOTNOTE": "크레딧은 만료되지 않습니다."
-    },
     "FAQ": {
       "Q1": "{appName} 요금은 어떻게 작동하나요?",
       "A1": "소비한 토큰만큼 지불합니다. 각 모델은 자체 입력, 출력, 캐시 요금이 있으며 계정 크레딧에서 청구됩니다. 종량제에는 월 구독이 필요하지 않습니다.",
@@ -1073,6 +1069,24 @@
       "A7": "네. 모든 플랜은 주요 롤플레이 클라이언트에서 커스텀 OpenAI 호환 소스로 작동합니다. SillyTavern, Janitor.AI, RisuAI, Chub 각각 문서에 설정 가이드가 있습니다.",
       "Q8": "대화 또는 캐릭터 히스토리는 얼마나 길 수 있나요?",
       "A8": "{appName}은 모든 모델의 전체 컨텍스트 윈도우를 지원합니다. Gemini에서는 최대 100만 토큰, Claude에서는 20만 토큰. 긴 롤플레이와 긴 코드베이스 모두 작동합니다."
+    },
+    "TIER": {
+      "1": "스타터",
+      "2": "프로",
+      "3": "스케일"
+    },
+    "TOPUP": {
+      "STEP": "여기서 시작",
+      "LABEL": "사용한 만큼 결제",
+      "DESC": "크레딧을 추가하고 어떤 모델이든 사용하세요.",
+      "FOOTNOTE": "크레딧은 만료되지 않습니다."
+    },
+    "BRIDGE": {
+      "TITLE": "자주 쓰시나요? 구독하면 매달 더 많은 크레딧을 받습니다.",
+      "DESC": "유연하게 쓰려면 충전하세요. 사용량이 예측되면 구독하고 결제액에 더해 추가 크레딧을 받으세요."
+    },
+    "PLANS": {
+      "STEP": "최고의 가치"
     }
   },
   "DOCS_INDEX": {
@@ -3005,6 +3019,7 @@
     "MD_ITALIC_BOLD": "기울임 굵은 텍스트",
     "MD_SINGLE_QUOTE": "작은따옴표 텍스트",
     "MD_DOUBLE_QUOTE": "큰따옴표 텍스트",
+    "CHAT_FONT_SIZE": "메시지 글자 크기",
     "SURFACE_COLORS": "표면 색상",
     "MODE_LIGHT": "라이트",
     "MODE_DARK": "다크",
@@ -3018,7 +3033,8 @@
     "BG_FIT_CONTAIN": "맞추기",
     "BG_FIT_TILE": "타일",
     "BG_OPACITY": "불투명도",
-    "BG_BLUR": "흐림"
+    "BG_BLUR": "흐림",
+    "BG_PANEL_OPACITY": "패널 불투명도"
   },
   "BILLING": {
     "SUBSCRIPTION": {
@@ -3215,7 +3231,9 @@
       "SEARCH": "모델 검색...",
       "NO_RESULTS": "모델을 찾을 수 없음",
       "FREE_BADGE": "무료",
-      "LOGIN_REQUIRED": "로그인 필요"
+      "LOGIN_REQUIRED": "로그인 필요",
+      "CUSTOM_PROVIDERS": "사용자 지정 공급자",
+      "UNAVAILABLE_TOOLTIP": "{model} (일시적으로 사용 불가)"
     },
     "GROUP": {
       "SELECT": "청구 그룹",
@@ -3320,8 +3338,8 @@
     "META": {
       "TITLE": "AI 채팅 - {appName}",
       "TITLE_WITH_NAME": "{title} | AI 채팅 - {appName}",
-      "DESCRIPTION": "어떤 AI 모델과도 채팅하세요. 단일 인터페이스를 통해 GPT, Claude, Gemini, DeepSeek 등을 테스트하세요.",
-      "KEYWORDS": "AI 채팅, AI와 채팅, GPT 채팅, Claude 채팅, Gemini 채팅, AI 플레이그라운드, 모델 테스트"
+      "DESCRIPTION": "어떤 AI 모델과도 채팅하세요. GPT, Claude, Gemini, DeepSeek 등을 단일 인터페이스에서, 또는 자신의 OpenAI 호환 엔드포인트와 키로 사용할 수 있습니다.",
+      "KEYWORDS": "AI 채팅, AI와 채팅, GPT 채팅, Claude 채팅, Gemini 채팅, AI 플레이그라운드, 모델 테스트, BYOK, 맞춤 AI 제공자"
     },
     "OVERRIDES": {
       "OPEN": "대화 설정",
@@ -3391,13 +3409,16 @@
       "LOCAL_DB": "로컬 DB 브라우저",
       "LOCAL_DB_WIPE": "로컬 데이터베이스 지우고 다시 로드",
       "LOCAL_DB_DOWNLOAD": "로컬 SQLite 파일 다운로드",
-      "LOCAL_DB_UPLOAD": "SQLite 파일 업로드 (로컬 덮어쓰기)",
+      "LOCAL_DB_UPLOAD": "SQLite 파일 가져오기 (로컬 교체)",
       "LOCAL_DB_WIPE_CONFIRM": "모든 로컬 OPFS 데이터를 지우고 다시 로드하시겠습니까?",
-      "LOCAL_DB_UPLOAD_CONFIRM": "이 파일에서 로컬 OPFS 데이터베이스를 덮어쓰시겠습니까? 기존 데이터가 지워집니다.",
+      "LOCAL_DB_UPLOAD_CONFIRM": "이 파일에서 레코드를 가져오시겠습니까? 현재 스키마로 마이그레이션되어 로컬 데이터를 교체하며, 레코드는 이 세션으로 재할당됩니다.",
+      "LOCAL_DB_IMPORT_SUMMARY": "{tables}개 테이블에 {imported}개 레코드를 가져왔습니다 ({skipped}개 건너뜀).",
       "CLEAR": "채팅 지우기",
       "CLEAR_SUCCESS": "채팅 지워짐",
       "CLEAR_CONFIRM_DESC": "대화의 모든 메시지를 삭제하지만 설정, 캐릭터 바인딩, 제목은 유지합니다. 이 작업은 취소할 수 없습니다.",
       "DISPLAY": "표시",
+      "APPEARANCE": "모양",
+      "TOOLS": "도구",
       "DIAGNOSTICS": "로그 다운로드(메시지 제외)",
       "DIAGNOSTICS_FULL": "로그 + 메시지 다운로드",
       "DEBUG_CLEAR": "디버그 로그 지우기",
@@ -3427,6 +3448,43 @@
       "EMPTY": "채팅 없음",
       "DELETE_CONFIRM_TITLE": "그룹을 삭제할까요？",
       "DELETE_CONFIRM_DESC": "그룹은 삭제되지만 채팅은 유지되며 그룹 없음이 됩니다."
+    },
+    "CUSTOM_PROVIDER": {
+      "TITLE": "사용자 지정 공급자",
+      "SIDEBAR_TAB": "사용자 지정 공급자",
+      "NEW": "새 공급자",
+      "EMPTY": "아직 사용자 지정 공급자가 없습니다.",
+      "NAME": "이름",
+      "BASE_URL": "엔드포인트 URL",
+      "API_KEY": "API 키",
+      "FORMAT": "형식",
+      "TOKENIZER": "토크나이저",
+      "FORMAT_OPENAI": "OpenAI 호환",
+      "TOKENIZER_AUTO": "자동 (이름으로 매칭)",
+      "TOKENIZER_CL100K": "GPT (cl100k)",
+      "TOKENIZER_O200K": "GPT-4o/5 (o200k)",
+      "TOKENIZER_CLAUDE": "Claude",
+      "TOKENIZER_GLM5": "GLM-5",
+      "TOKENIZER_GLM4": "GLM-4",
+      "TOKENIZER_DEEPSEEK": "DeepSeek (V3/R1)",
+      "TOKENIZER_DEEPSEEK_V4": "DeepSeek (V3.2/V4)",
+      "TOKENIZER_LLAMA3": "Llama 3",
+      "TOKENIZER_GEMMA": "Gemma",
+      "TOKENIZER_QWEN": "Qwen",
+      "TOKENIZER_MISTRAL": "Mistral",
+      "TOKENIZER_COHERE": "Cohere / Command",
+      "TOKENIZER_HF_CUSTOM": "사용자 지정 (HuggingFace)",
+      "TOKENIZER_HF_PLACEHOLDER": "owner/model 또는 tokenizer.json URL",
+      "MODELS": "모델",
+      "MODELS_EMPTY": "아직 추가된 모델이 없습니다.",
+      "ADD_MODEL": "모델 추가",
+      "FETCH_MODELS": "모델 가져오기",
+      "FETCH_FAILED": "모델을 가져올 수 없습니다 (HTTP {status}). 엔드포인트 URL과 API 키를 확인하세요.",
+      "MODEL_KEY": "모델 키",
+      "MODEL_LABEL": "표시 이름",
+      "MODEL_COUNT": "{count}개 모델",
+      "DELETE_TITLE": "공급자를 삭제할까요?",
+      "DELETE_DESC": "공급자와 해당 모델이 제거됩니다. 대화는 유지됩니다."
     }
   },
   "RP": {
@@ -3477,7 +3535,12 @@
     "LOREBOOK_TOKEN_BUDGET": "토큰 예산",
     "LOREBOOK_TOKEN_BUDGET_HINT": "턴당 주입되는 항목의 최대 토큰.",
     "LOREBOOK_ENTRIES_TITLE": "항목",
+    "DUPLICATE": "복제",
+    "COPY_SUFFIX": "사본",
     "LOREBOOK_ENTRY_NEW": "새 항목",
+    "LOREBOOK_ENTRY_COMMENT": "이름",
+    "LOREBOOK_ENTRY_COMMENT_PLACEHOLDER": "이 항목의 선택적 라벨",
+    "LOREBOOK_ENTRY_COMMENT_HINT": "참고용입니다. AI로 전송되지 않습니다.",
     "LOREBOOK_UNTITLED": "제목 없는 로어북",
     "LOREBOOK_ENTRY_NO_KEYS": "(트리거 없음)",
     "LOREBOOK_ENTRY_ALWAYS_LABEL": "항상 삽입",

@@ -206,6 +206,10 @@ export const requestLogs = sqliteTable(
     responseHeaders: text("response_headers", { mode: "json" }),
     droppedParams: text("dropped_params"),
     requestId: text("request_id"),
+    // Upstream HTTP target this request hit: full url + the bare endpoint path (e.g. /v1/images/generations).
+    // Drives an accurate "copy as curl" for both text and media paths.
+    url: text("url"),
+    endpoint: text("endpoint"),
     inputTokens: integer("input_tokens"),
     outputTokens: integer("output_tokens"),
     cost: real("cost"),
@@ -322,6 +326,8 @@ export const lorebookEntries = sqliteTable(
     lorebookId: text("lorebook_id")
       .notNull()
       .references(() => lorebooks.id, { onDelete: "cascade" }),
+    // Non-AI display name (SillyTavern/RisuAI `comment`). Identifies the entry in the UI; never sent to the model.
+    comment: text("comment"),
     keys: text("keys", { mode: "json" }).notNull().$type<string[]>(),
     secondaryKeys: text("secondary_keys", { mode: "json" }).$type<string[]>(),
     content: text("content").notNull(),
@@ -501,6 +507,7 @@ export const userThemes = sqliteTable(
   },
   (table) => [index("idx_theme_sync_expires").on(table.syncExpiresAt)],
 );
+
 
 // Generic blob store. Asymmetric: client writes inline base64; server-side path uploads to R2 and keeps only the pointer.
 export const media = sqliteTable(

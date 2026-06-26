@@ -68,13 +68,19 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
       <SheetContent side="right" className="overflow-y-auto sm:max-w-2xl">
         <SheetHeader className="border-border border-b pb-4">
           <div className="flex items-center gap-3">
-            <VendorIcon vendor={model.vendor.name} size={28} />
+            <span
+              className={`flex size-11 shrink-0 items-center justify-center rounded-lg border ${theme.bg} ${theme.border}`}
+            >
+              <VendorIcon vendor={model.vendor.name} size={28} />
+            </span>
             <div className="min-w-0 flex-1">
               <SheetTitle className="flex items-center gap-2 font-mono text-base tracking-wide">
                 <span className="truncate">{model.name}</span>
                 <CopyButton text={model.name} />
               </SheetTitle>
-              <SheetDescription className="font-mono text-[10px] tracking-wider uppercase">
+              <SheetDescription
+                className={`font-mono text-[10px] tracking-wider uppercase ${theme.text}`}
+              >
                 {model.vendor.name}
               </SheetDescription>
             </div>
@@ -208,15 +214,24 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
               className={cn("rounded-lg border p-4", theme.bg, theme.border)}
             >
               {model.isFixedPrice ? (
-                <div className="flex items-baseline gap-2">
-                  <span
-                    className={cn("font-mono text-lg font-bold", theme.text)}
-                  >
-                    {formatPrice(model.fixedPrice)}
-                  </span>
-                  <span className="text-muted-foreground font-mono text-xs">
-                    {t("MODELS.PRICE.PER_REQUEST")}
-                  </span>
+                <div className="space-y-1">
+                  <div className="flex items-baseline gap-2">
+                    <span
+                      className={cn("font-mono text-lg font-bold", theme.text)}
+                    >
+                      {formatPrice(model.fixedPrice)}
+                    </span>
+                    <span className="text-muted-foreground font-mono text-xs">
+                      {t("MODELS.PRICE.PER_REQUEST")}
+                    </span>
+                  </div>
+                  {model.originalFixedPrice !== null && (
+                    <div className="text-muted-foreground/50 font-mono text-xs line-through">
+                      {t("MODELS.PRICE.ORIGINAL")}:{" "}
+                      {formatPrice(model.originalFixedPrice)}{" "}
+                      {t("MODELS.PRICE.PER_REQUEST")}
+                    </div>
+                  )}
                 </div>
               ) : model.isTiered ? (
                 <TieredPricing
@@ -503,6 +518,7 @@ function GroupPricingSection(props: {
       <AutoGroupChain
         enableGroups={model.enableGroups}
         autoGroups={props.autoGroups}
+        groupRatioMap={props.groupRatioMap}
         className="mb-3"
       />
       <button
@@ -534,7 +550,7 @@ function GroupPricingSection(props: {
           ) : model.isFixedPrice ? (
             <GroupPricingFixed
               entries={groupEntries}
-              fixedPrice={model.fixedPrice}
+              fixedPrice={model.originalFixedPrice ?? model.fixedPrice}
               theme={theme}
             />
           ) : (

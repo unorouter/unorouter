@@ -135,14 +135,20 @@ export function ComparisonTable(props: {
         {
           label: t("MODELS.TABLE.INPUT"),
           render: (m) =>
-            priceCell(inPrice(m), inputPriceUnit(deriveOutputModality(m))),
+            priceCell(
+              inPrice(m),
+              inputPriceUnit(deriveOutputModality(m), m.isFixedPrice),
+            ),
           best: (m) => inPrice(m) || null,
           lowerBetter: true,
         },
         {
           label: t("MODELS.TABLE.OUTPUT"),
           render: (m) =>
-            priceCell(outPrice(m), outputPriceUnit(deriveOutputModality(m))),
+            priceCell(
+              outPrice(m),
+              outputPriceUnit(deriveOutputModality(m), m.isFixedPrice),
+            ),
           best: (m) => outPrice(m) || null,
           lowerBetter: true,
         },

@@ -1,4 +1,4 @@
-import type { ModelType } from "@/lib/api/pricing";
+import type { ModelType, ProcessedModel } from "@/lib/api/pricing";
 import { getPricingSummary } from "@/lib/api/pricing-cache";
 import { msg } from "@/lib/config/constants";
 import {
@@ -8,11 +8,16 @@ import {
 } from "@/lib/config/r2";
 import { base64ToDataUri, uid } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
-import { buildBody, extractResultUris } from "@/lib/ai/playground/dispatch";
+import {
+  buildBody,
+  extractResultUris,
+  loadRefs,
+} from "@/lib/ai/playground/dispatch";
 import {
   chooseEndpoint,
   type SyncImageEndpoint,
 } from "@/lib/ai/playground/models-dynamic";
+import { API_ENDPOINTS } from "@/lib/ai/endpoints";
 import { upstreamApiUrl } from "@/server/constants";
 import { serverEnv } from "@/server/env";
 import {
@@ -24,9 +29,10 @@ import {
 import { assertPromptAllowed } from "./moderation.service";
 import { submitVideoTask } from "./task.service";
 import {
+  extractLastUserImageRefs,
   extractLastUserText,
   type StreamMessages,
-} from "../pipeline/transforms";
+} from "@/lib/ai/chat/pipeline/transforms";
 
 type MediaStreamBody = {
   model: string;
@@ -36,10 +42,83 @@ type MediaStreamBody = {
   group?: string | null;
 };
 
+// Upstream usage shape (OpenAI images + chat). input/output may be absent on some adapters.
+type UpstreamUsage = {
+  input_tokens?: number;
+  output_tokens?: number;
+  prompt_tokens?: number;
+  completion_tokens?: number;
+};
+
+// Finish-metadata for a media turn, mirroring the text path's `messageMetadata` shape so the history
+// adapter persists usage/cost + a request-log row identically. Built by media handlers, written by
+// writeBufferedMessage. `debug` carries the curl-reproducible upstream target + the real wire body.
+function buildMediaMeta(args: {
+  model: string;
+  usage: UpstreamUsage | undefined;
+  cost: number;
+  requestId: string | null;
+  url: string;
+  endpoint: string;
+  wireBody: unknown;
+  durationMs: number;
+}): Record<string, unknown> {
+  const inputTokens =
+    args.usage?.input_tokens ?? args.usage?.prompt_tokens ?? 0;
+  const outputTokens =
+    args.usage?.output_tokens ?? args.usage?.completion_tokens ?? 0;
+  const meta: Record<string, unknown> = {
+    debug: {
+      requestBody: args.wireBody,
+      assembledSystem: null,
+      finalMessages: [],
+      responseHeaders: null,
+      droppedParams: null,
+      requestId: args.requestId,
+      url: args.url,
+      endpoint: args.endpoint,
+    },
+  };
+  if (inputTokens > 0 || outputTokens > 0 || args.cost > 0) {
+    meta.usage = {
+      inputTokens,
+      outputTokens,
+      cost: args.cost,
+      durationMs: args.durationMs,
+      tokensPerSecond:
+        outputTokens > 0 && args.durationMs > 0
+          ? outputTokens / (args.durationMs / 1000)
+          : undefined,
+    };
+  }
+  return meta;
+}
+
+// Per-request fixed price wins for media; else token estimate from catalog prices.
+function mediaCost(
+  model: ProcessedModel | undefined,
+  inputTokens: number,
+  outputTokens: number,
+): number {
+  if (!model || model.isFree) return 0;
+  if (model.isFixedPrice) return model.fixedPrice ?? 0;
+  return (
+    (inputTokens * model.inputPrice + outputTokens * model.outputPrice) /
+    1_000_000
+  );
+}
+
 // Per-request group override header; omitted for null/auto (gateway default).
 function groupHeader(group?: string | null): Record<string, string> {
   return group && group !== "auto" ? { "X-Group": group } : {};
 }
+
+// Media gen (image especially) can run >100s, longer than Cloudflare's 100s
+// origin-response window. Without any byte on the wire, CF kills the browser
+// connection with a 524 before the result arrives. Emit a transient
+// data-keepalive part on an interval so SSE frames keep flowing and CF's timer
+// resets; the client ignores these parts (onData).
+const KEEPALIVE_INTERVAL_MS = 20_000;
 
 // One-shot UI-message response: run execute, stream its output. On a throw, emit a data-error part so the adapter persists an error node.
 function streamResponse(
@@ -48,6 +127,9 @@ function streamResponse(
   return createUIMessageStreamResponse({
     stream: createUIMessageStream({
       execute: async ({ writer }) => {
+        const heartbeat = setInterval(() => {
+          writer.write({ type: "data-keepalive", data: {}, transient: true });
+        }, KEEPALIVE_INTERVAL_MS);
         try {
           await execute(writer);
         } catch (err) {
@@ -59,6 +141,8 @@ function streamResponse(
           });
           writer.write({ type: "finish-step" });
           writer.write({ type: "finish", finishReason: "error" });
+        } finally {
+          clearInterval(heartbeat);
         }
       },
     }),
@@ -113,7 +197,12 @@ async function moderatedPrompt(
   return prompt;
 }
 
-function writeBufferedMessage(writer: UIMessageStreamWriter, text: string) {
+function writeBufferedMessage(
+  writer: UIMessageStreamWriter,
+  text: string,
+  // Optional finish metadata (usage/cost/debug) so media messages persist the same footer + request log as text.
+  meta?: Record<string, unknown>,
+) {
   const partId = uid(12);
   writer.write({ type: "start" });
   writer.write({ type: "start-step" });
@@ -121,6 +210,9 @@ function writeBufferedMessage(writer: UIMessageStreamWriter, text: string) {
   writer.write({ type: "text-delta", delta: text, id: partId });
   writer.write({ type: "text-end", id: partId });
   writer.write({ type: "finish-step" });
+  if (meta && Object.keys(meta).length > 0) {
+    writer.write({ type: "message-metadata", messageMetadata: meta });
+  }
   writer.write({ type: "finish", finishReason: "stop" });
 }
 
@@ -172,26 +264,44 @@ async function processUrls(
   return (await Promise.all(matches.map(process))).filter(Boolean).join("\n\n");
 }
 
-// Dispatch by advertised endpoint: image-generation POSTs /v1/images/generations; openai-only image models MUST use /v1/chat/completions.
+// Fallback ref cap when a model declares no maxImageInputs metadata.
+const DEFAULT_MAX_CHAT_REFS = 4;
+
+// Dispatch by advertised endpoint: image-generation POSTs /v1/images/generations
+// (or multipart /v1/images/edits when refs are attached); openai image models use
+// /v1/chat/completions; gemini uses generateContent. Refs are the user's attached
+// images for edit/combine turns.
+type ImageGenResult = {
+  uris: string[];
+  usage: UpstreamUsage | undefined;
+  requestId: string | null;
+  endpointPath: string;
+  url: string;
+  // Curl-reproducible wire body: the JSON we sent, or a summary for multipart (binary can't be inlined).
+  wireBody: unknown;
+};
+
 async function generateImage(
   apiKey: string,
   model: string,
   prompt: string,
   endpoint: SyncImageEndpoint,
+  refUrls: string[],
   group?: string | null,
-): Promise<string[]> {
-  const built = buildBody(endpoint, { model, prompt, refs: [], n: 1 });
-  if (built.kind !== "json") {
-    throw new Error(msg("ERRORS.IMAGE_GENERATION_FAILED"));
-  }
-  const res = await fetch(`${upstreamApiUrl}${built.path}`, {
+): Promise<ImageGenResult> {
+  const refs = refUrls.length > 0 ? await loadRefs(refUrls) : [];
+  const built = buildBody(endpoint, { model, prompt, refs, n: 1 });
+  const headers: Record<string, string> = {
+    Authorization: `Bearer ${apiKey}`,
+    ...groupHeader(group),
+  };
+  if (built.kind === "json") headers["Content-Type"] = "application/json";
+  const url = `${upstreamApiUrl}${built.path}`;
+  const res = await fetch(url, {
     method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-      ...groupHeader(group),
-    },
-    body: built.body,
+    headers,
+    // multipart: FormData sets its own boundary content-type; json: string body.
+    body: built.kind === "json" ? built.body : built.form,
   });
   if (!res.ok) {
     const err = await res.text();
@@ -199,15 +309,29 @@ async function generateImage(
       context: "stream.image",
       model,
       endpoint,
+      refs: refs.length,
       error: err.slice(0, 200),
     });
     throw new Error(`${msg("ERRORS.IMAGE_GENERATION_FAILED")}: ${err}`);
   }
-  const uris = extractResultUris(endpoint, await res.json());
+  const json = (await res.json()) as { usage?: UpstreamUsage };
+  const uris = extractResultUris(endpoint, json);
   if (uris.length === 0) {
     throw new Error(msg("ERRORS.IMAGE_GENERATION_FAILED"));
   }
-  return uris;
+  // multipart edits send binary files; record a JSON-equivalent summary curls can run with public refs.
+  const wireBody =
+    built.kind === "json"
+      ? JSON.parse(built.body)
+      : { model, prompt, image_urls: refUrls, note: "multipart image[] upload" };
+  return {
+    uris,
+    usage: json.usage,
+    requestId: res.headers.get("x-oneapi-request-id"),
+    endpointPath: built.path,
+    url,
+    wireBody,
+  };
 }
 
 export async function handleImageStream(
@@ -219,18 +343,24 @@ export async function handleImageStream(
   const model = (await getPricingSummary()).byName.get(body.model);
   const endpoint = chooseEndpoint(model?.endpointTypes ?? []);
   if (!endpoint) throw new Error(msg("ERRORS.IMAGE_GENERATION_FAILED"));
+  const maxRefs = model?.metadata.maxImageInputs ?? DEFAULT_MAX_CHAT_REFS;
+  const refUrls = extractLastUserImageRefs(body.messages)
+    .map((r) => r.url)
+    .slice(0, maxRefs);
   return streamResponse(async (writer) => {
-    const images = await generateImage(
+    const startedAt = Date.now();
+    const result = await generateImage(
       apiKey,
       body.model,
       prompt,
       endpoint,
+      refUrls,
       body.group,
     );
 
     // Stream inline data URLs; client persists base64. Guests never touch Turso/R2: no FK violation, no blocked embeds.
     const dataUrls = await Promise.all(
-      images.map(async (img: string) => {
+      result.uris.map(async (img: string) => {
         if (img.startsWith("data:")) return img;
         try {
           const { buffer, mime } = await downloadGenerationBytes(img);
@@ -251,7 +381,21 @@ export async function handleImageStream(
       .map((url) => `![image](${url})`)
       .join("\n\n");
 
-    writeBufferedMessage(writer, markdown);
+    const inputTokens =
+      result.usage?.input_tokens ?? result.usage?.prompt_tokens ?? 0;
+    const outputTokens =
+      result.usage?.output_tokens ?? result.usage?.completion_tokens ?? 0;
+    const meta = buildMediaMeta({
+      model: body.model,
+      usage: result.usage,
+      cost: mediaCost(model, inputTokens, outputTokens),
+      requestId: result.requestId,
+      url: result.url,
+      endpoint: result.endpointPath,
+      wireBody: result.wireBody,
+      durationMs: Date.now() - startedAt,
+    });
+    writeBufferedMessage(writer, markdown, meta);
   });
 }
 
@@ -290,18 +434,23 @@ async function generateSpeech(
   model: string,
   input: string,
   group?: string | null,
-): Promise<{ dataUri: string }> {
+): Promise<{ dataUri: string; requestId: string | null; wireBody: unknown }> {
+  const wireBody = { model, input, voice: "alloy" };
   const res = await upstreamPost(
     apiKey,
-    "/v1/audio/speech",
-    { model, input, voice: "alloy" },
+    API_ENDPOINTS.audioSpeech,
+    wireBody,
     "ERRORS.AUDIO_GENERATION_FAILED",
     "stream.audio",
     group,
   );
   const mime = res.headers.get("content-type") ?? "audio/mpeg";
   const buf = Buffer.from(await res.arrayBuffer());
-  return { dataUri: base64ToDataUri(buf.toString("base64"), mime) };
+  return {
+    dataUri: base64ToDataUri(buf.toString("base64"), mime),
+    requestId: res.headers.get("x-oneapi-request-id"),
+    wireBody,
+  };
 }
 
 export async function handleAudioStream(apiKey: string, body: MediaStreamBody) {
@@ -317,16 +466,23 @@ export async function handleAudioStream(apiKey: string, body: MediaStreamBody) {
 
   const input = extractLastUserText(body.messages);
   if (!input) throw new Error(msg("ERRORS.NO_AUDIO_PROMPT"));
+  const model = (await getPricingSummary()).byName.get(body.model);
 
   return streamResponse(async (writer) => {
-    const { dataUri } = await generateSpeech(
-      apiKey,
-      body.model,
-      input,
-      body.group,
-    );
+    const startedAt = Date.now();
+    const speech = await generateSpeech(apiKey, body.model, input, body.group);
+    const meta = buildMediaMeta({
+      model: body.model,
+      usage: undefined,
+      cost: mediaCost(model, 0, 0),
+      requestId: speech.requestId,
+      url: `${upstreamApiUrl}${API_ENDPOINTS.audioSpeech}`,
+      endpoint: API_ENDPOINTS.audioSpeech,
+      wireBody: speech.wireBody,
+      durationMs: Date.now() - startedAt,
+    });
     // data:audio/ markdown renders as <audio>; client persists the base64 into local media like generated images.
-    writeBufferedMessage(writer, `![audio](${dataUri})`);
+    writeBufferedMessage(writer, `![audio](${speech.dataUri})`, meta);
   });
 }
 
@@ -335,20 +491,34 @@ export async function generateEmbedding(
   model: string,
   input: string,
   group?: string | null,
-): Promise<{ dims: number; vector: number[] }> {
+): Promise<{
+  dims: number;
+  vector: number[];
+  usage: UpstreamUsage | undefined;
+  requestId: string | null;
+  wireBody: unknown;
+}> {
+  const wireBody = { model, input };
   const res = await upstreamPost(
     apiKey,
-    "/v1/embeddings",
-    { model, input },
+    API_ENDPOINTS.embeddings,
+    wireBody,
     "ERRORS.EMBEDDING_FAILED",
     "stream.embedding",
     group,
   );
   const json = (await res.json()) as {
     data?: { embedding?: number[] }[];
+    usage?: UpstreamUsage;
   };
   const vector = json.data?.[0]?.embedding ?? [];
-  return { dims: vector.length, vector };
+  return {
+    dims: vector.length,
+    vector,
+    usage: json.usage,
+    requestId: res.headers.get("x-oneapi-request-id"),
+    wireBody,
+  };
 }
 
 export async function handleEmbeddingStream(
@@ -357,25 +527,33 @@ export async function handleEmbeddingStream(
 ) {
   const input = extractLastUserText(body.messages);
   if (!input) throw new Error(msg("ERRORS.NO_EMBEDDING_INPUT"));
+  const model = (await getPricingSummary()).byName.get(body.model);
 
   return streamResponse(async (writer) => {
-    const { dims, vector } = await generateEmbedding(
-      apiKey,
-      body.model,
-      input,
-      body.group,
-    );
-    const preview = vector.slice(0, 8).map((n) => n.toFixed(6));
-    const tail = vector.length > 8 ? ", ..." : "";
+    const startedAt = Date.now();
+    const emb = await generateEmbedding(apiKey, body.model, input, body.group);
+    const preview = emb.vector.slice(0, 8).map((n) => n.toFixed(6));
+    const tail = emb.vector.length > 8 ? ", ..." : "";
     // Plain text (not a t() key): persisted message content, not re-translated.
     const text = [
-      `Embedding vector (${dims} dimensions):`,
+      `Embedding vector (${emb.dims} dimensions):`,
       "",
       "```json",
       `[${preview.join(", ")}${tail}]`,
       "```",
     ].join("\n");
-    writeBufferedMessage(writer, text);
+    const inputTokens = emb.usage?.input_tokens ?? emb.usage?.prompt_tokens ?? 0;
+    const meta = buildMediaMeta({
+      model: body.model,
+      usage: emb.usage,
+      cost: mediaCost(model, inputTokens, 0),
+      requestId: emb.requestId,
+      url: `${upstreamApiUrl}${API_ENDPOINTS.embeddings}`,
+      endpoint: API_ENDPOINTS.embeddings,
+      wireBody: emb.wireBody,
+      durationMs: Date.now() - startedAt,
+    });
+    writeBufferedMessage(writer, text, meta);
   });
 }
 

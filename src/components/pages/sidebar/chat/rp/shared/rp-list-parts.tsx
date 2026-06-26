@@ -49,7 +49,8 @@ export function RpEmptyCard(props: { labelKey: TranslationKey }) {
   );
 }
 
-// One list row: Card shell + optional leading slot + name/description + custom actions + trailing delete. Click elsewhere opens the entity.
+// One list row: Card shell + optional leading slot + name/description + custom actions + optional duplicate +
+// trailing delete. Click elsewhere opens the entity.
 export function RpEntityRow(props: {
   onOpen: () => void;
   name: ReactNode;
@@ -57,8 +58,11 @@ export function RpEntityRow(props: {
   leading?: ReactNode;
   /** Extra row actions (export menu, apply button, ...). */
   actions?: ReactNode;
+  /** Optional duplicate action (RisuAI parity): exact replica with a " copy" name. */
+  onDuplicate?: () => void | Promise<void>;
   onDelete: () => void | Promise<void>;
 }) {
+  const t = useTranslations();
   return (
     <Card
       className="hover:bg-accent flex cursor-pointer flex-row items-center gap-3 p-3 transition-colors"
@@ -74,6 +78,19 @@ export function RpEntityRow(props: {
         )}
       </div>
       {props.actions}
+      {props.onDuplicate && (
+        <Button
+          variant="ghost"
+          size="icon-sm"
+          aria-label={t("RP.DUPLICATE")}
+          onClick={(e) => {
+            e.stopPropagation();
+            void props.onDuplicate!();
+          }}
+        >
+          <Icon name="copy" className="size-4" />
+        </Button>
+      )}
       <Button
         variant="ghost"
         size="icon-sm"

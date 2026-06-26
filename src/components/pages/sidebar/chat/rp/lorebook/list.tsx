@@ -11,6 +11,7 @@ import {
 import {
   useCreateLorebookMutation,
   useDeleteLorebookMutation,
+  useDuplicateLorebookMutation,
   useImportLorebookMutation,
   useLorebooksQuery,
 } from "@/hooks/ai/rp/lorebooks";
@@ -38,6 +39,7 @@ export function LorebookList(props: Props) {
   const lorebooksQuery = useLorebooksQuery();
   const createMut = useCreateLorebookMutation();
   const deleteMut = useDeleteLorebookMutation();
+  const duplicateMut = useDuplicateLorebookMutation();
   const importMut = useImportLorebookMutation();
   const exportMut = useRpExportMutation();
 
@@ -160,6 +162,7 @@ export function LorebookList(props: Props) {
                         ]}
                       />
                     }
+                    onDuplicate={() => duplicateMut.mutate(l.id)}
                     onDelete={() => handleDelete(l.id)}
                   />
                 ))}

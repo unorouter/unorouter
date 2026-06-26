@@ -18,8 +18,14 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
+import { useCustomProvidersQuery } from "@/hooks/ai/custom-providers-hook";
 import { analytics } from "@/lib/analytics";
 import { buildGroupEntries, groupDisplayLabel } from "@/lib/api/pricing";
+import {
+  isCustomModelId,
+  makeCustomModelId,
+  parseCustomModelId,
+} from "@/lib/ai/chat/custom-provider-id";
 import { usePricingQuery } from "@/hooks/models/pricing-hook";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { Badge } from "@/components/ui/badge";
@@ -53,7 +59,30 @@ export function ModelSelector(props: ModelSelectorProps) {
   const models = pricingData?.models ?? [];
   const modelsByType = pricingData?.modelsByType ?? [];
 
+  const customProvidersQuery = useCustomProvidersQuery();
+  const customProviders = customProvidersQuery.data ?? [];
+
   const selected = models.find((m) => m.name === props.value);
+  // Custom model selected: resolve its provider + label for the trigger display.
+  const selectedCustom = props.value ? parseCustomModelId(props.value) : null;
+  const selectedCustomProvider = selectedCustom
+    ? customProviders.find((p) => p.id === selectedCustom.providerId)
+    : undefined;
+  const selectedCustomLabel = selectedCustom
+    ? (selectedCustomProvider?.models.find(
+        (m) => m.key === selectedCustom.modelKey,
+      )?.label ?? selectedCustom.modelKey)
+    : null;
+  const triggerLabel = selectedCustomProvider
+    ? `${selectedCustomProvider.name} / ${selectedCustomLabel}`
+    : props.value || t("CHAT.MODEL.SELECT");
+  // Value set but absent from the catalog + not a custom id: upstream temporarily dropped this model
+  // (ratelimited/disabled). Show a placeholder icon instead of no icon; the pick is preserved.
+  const selectedUnavailable =
+    !!props.value &&
+    !selected &&
+    !selectedCustom &&
+    pricingQuery.isSuccess;
 
   // Per-user private groups from prefetched /account/self; each routes only on the models it serves.
   const privateGroups = authQuery.data?.private_groups ?? [];
@@ -91,8 +120,14 @@ export function ModelSelector(props: ModelSelectorProps) {
   // Auto-select a random free model (text preferred) when none is selected or the current pick isn't usable.
   useEffect(() => {
     if (models.length === 0) return;
+    // A custom-provider model is a valid intentional pick; never override it.
+    if (isCustomModelId(props.value)) return;
     const current = models.find((m) => m.name === props.value);
     if (current && (isLoggedIn || current.isFree)) return;
+    // A non-empty value that just isn't in the current pricing snapshot is a model upstream temporarily
+    // dropped (ratelimited/disabled). Keep the user's pick; it reappears when the model comes back. Only
+    // auto-pick for an EMPTY value or a found-but-not-usable one (a guest on a paid model).
+    if (props.value && !current) return;
 
     const freeText = models.filter((m) => m.isFree && m.type === "text");
     const pool =
@@ -118,9 +153,16 @@ export function ModelSelector(props: ModelSelectorProps) {
       >
         <div className="flex items-center gap-2 truncate">
           {selected && <VendorIcon vendor={selected.vendor.name} size={14} />}
-          <span className="truncate font-mono">
-            {props.value || t("CHAT.MODEL.SELECT")}
-          </span>
+          {selectedCustomProvider && (
+            <Icon name="server" className="h-3.5 w-3.5 shrink-0" />
+          )}
+          {selectedUnavailable && (
+            <Icon
+              name="circle-help"
+              className="text-muted-foreground h-3.5 w-3.5 shrink-0"
+            />
+          )}
+          <span className="truncate font-mono">{triggerLabel}</span>
           {selected?.isFree && (
             <span className="rounded bg-emerald-500/15 px-1 py-0.5 text-[10px] leading-none font-medium text-emerald-700 dark:text-emerald-300">
               {t("CHAT.MODEL.FREE_BADGE")}
@@ -229,8 +271,43 @@ export function ModelSelector(props: ModelSelectorProps) {
                 })}
               </CommandGroup>
             ))}
+            {customProviders.length > 0 && typeFilter === null && (
+              <CommandGroup heading={t("CHAT.MODEL.CUSTOM_PROVIDERS")}>
+                {customProviders.flatMap((provider) =>
+                  provider.models.map((model) => {
+                    const id = makeCustomModelId(provider.id, model.key);
+                    return (
+                      <CommandItem
+                        key={id}
+                        value={id}
+                        keywords={[provider.name, model.label, model.key]}
+                        data-testid={`model-option-${id}`}
+                        data-model={id}
+                        data-checked={id === props.value || undefined}
+                        onSelect={() => {
+                          analytics.chat.modelChanged({
+                            from: props.value,
+                            to: id,
+                          });
+                          props.onChange(id);
+                          setOpen(false);
+                        }}
+                        className="text-xs"
+                      >
+                        <Icon name="server" className="h-3.5 w-3.5 shrink-0" />
+                        <span className="min-w-0 flex-1 truncate font-mono">
+                          {provider.name} / {model.label}
+                        </span>
+                      </CommandItem>
+                    );
+                  }),
+                )}
+              </CommandGroup>
+            )}
           </CommandList>
-          {isLoggedIn && groupEntries.length > 0 && (
+          {/* Billing group routes via new-api's X-Group; custom models fire browser -> user endpoint and never
+              hit new-api, so the group selector is meaningless for them. */}
+          {isLoggedIn && groupEntries.length > 0 && !selectedCustom && (
             <Popover open={groupOpen} onOpenChange={setGroupOpen}>
               <PopoverTrigger
                 data-testid="group-submenu-trigger"

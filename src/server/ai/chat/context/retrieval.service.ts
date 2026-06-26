@@ -2,22 +2,9 @@
 
 import { generateEmbedding } from "../media/media-stream";
 import { logger } from "@/lib/utils/logger";
+import { cosineSimilarity } from "@/lib/utils/base";
 
 const DEFAULT_EMBED_MODEL = "text-embedding-3-small";
-
-function cosine(a: number[], b: number[]): number {
-  if (a.length === 0 || a.length !== b.length) return 0;
-  let dot = 0;
-  let na = 0;
-  let nb = 0;
-  for (let i = 0; i < a.length; i++) {
-    dot += a[i] * b[i];
-    na += a[i] * a[i];
-    nb += b[i] * b[i];
-  }
-  if (na === 0 || nb === 0) return 0;
-  return dot / (Math.sqrt(na) * Math.sqrt(nb));
-}
 
 type RetrievalCandidate = { id: string; text: string };
 
@@ -44,7 +31,7 @@ export async function retrieveSemantic(
     const scored = candidates
       .map((c, i) => ({
         c,
-        score: cosine(queryEmb.vector, candEmbs[i].vector),
+        score: cosineSimilarity(queryEmb.vector, candEmbs[i].vector),
       }))
       .filter((x) => x.score >= minScore)
       .sort((a, b) => b.score - a.score)

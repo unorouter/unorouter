@@ -11,9 +11,9 @@ import {
 import {
   readLocalCharacter,
   readLocalPersona,
-  readLocalPreset,
 } from "@/lib/db/client/data/rp";
 import { expandMacros } from "@/lib/ai/chat/macros";
+import { isCustomModelId } from "@/lib/ai/chat/custom-provider-id";
 import { uid } from "@/lib/utils/base";
 import type { buildPricingSummary } from "@/lib/api/pricing";
 import { queryKeys } from "@/lib/react-query/keys";
@@ -88,14 +88,13 @@ export function createThreadListAdapter(
       const defaults = chatStore.get(chatDefaultsAtom);
       // Sticky loadout: auto-equip new chats with the chosen preset/persona/characters/lorebooks.
       const loadout = chatStore.get(chatLoadoutAtom);
-      const preset = loadout.presetId
-        ? await readLocalPreset(userId(), loadout.presetId)
-        : null;
-      // Bound preset = inherit live (store null, resolve conv -> preset -> default). No preset = snapshot chatDefaults.
-      const seed = <K extends keyof typeof defaults>(
-        key: K,
-        presetValue: number | boolean | string | null | undefined,
-      ) => (preset ? null : (presetValue ?? defaults[key] ?? null));
+      // A bound presetId is the inherit signal; the preset BODY is never read here. A cold/contended SQLocal
+      // open used to return null for the body, the seed then snapshotted chatDefaults, and wrong sampling
+      // froze until a refresh (Matic's on/off bug). Now: presetId bound = store null, the server resolves the
+      // preset live every request (conv null -> preset -> default), so a slow DB open can't corrupt the seed.
+      const hasPreset = !!loadout.presetId;
+      const seed = <K extends keyof typeof defaults>(key: K) =>
+        hasPreset ? null : (defaults[key] ?? null);
       await upsertLocalConversation(userId(), {
         id,
         title: null,
@@ -111,24 +110,24 @@ export function createThreadListAdapter(
         systemPromptOverride: null,
         authorNote: null,
         authorNoteDepth: 4,
-        chatMemory: preset ? null : (defaults.chatMemory ?? null),
+        chatMemory: hasPreset ? null : (defaults.chatMemory ?? null),
         reasoningEffort: defaults.reasoningEffort ?? null,
         webSearchEnabled: defaults.webSearchEnabled ?? false,
         webSearchEngine: defaults.webSearchEngine ?? "auto",
         webSearchContextSize: defaults.webSearchContextSize ?? "medium",
-        temperature: seed("temperature", preset?.temperature),
-        topP: seed("topP", preset?.topP),
-        topK: seed("topK", preset?.topK),
-        minP: seed("minP", preset?.minP),
-        topA: seed("topA", preset?.topA),
-        frequencyPenalty: seed("frequencyPenalty", preset?.frequencyPenalty),
-        presencePenalty: seed("presencePenalty", preset?.presencePenalty),
-        repetitionPenalty: seed("repetitionPenalty", preset?.repetitionPenalty),
-        maxTokens: seed("maxTokens", preset?.maxTokens),
-        extraBody: preset ? null : (defaults.extraBody ?? null),
+        temperature: seed("temperature"),
+        topP: seed("topP"),
+        topK: seed("topK"),
+        minP: seed("minP"),
+        topA: seed("topA"),
+        frequencyPenalty: seed("frequencyPenalty"),
+        presencePenalty: seed("presencePenalty"),
+        repetitionPenalty: seed("repetitionPenalty"),
+        maxTokens: seed("maxTokens"),
+        extraBody: hasPreset ? null : (defaults.extraBody ?? null),
         // null = inherit; bound preset stays null so its later edits propagate to this chat (Matic).
-        streamingEnabled: preset ? null : (defaults.streamingEnabled ?? null),
-        showReasoning: preset ? null : (defaults.showReasoning ?? null),
+        streamingEnabled: hasPreset ? null : (defaults.streamingEnabled ?? null),
+        showReasoning: hasPreset ? null : (defaults.showReasoning ?? null),
         group: chatStore.get(chatGroupAtom),
       });
 
@@ -271,7 +270,11 @@ export function createThreadListAdapter(
           return;
         }
 
-        const model = chatStore.get(chatModelAtom) ?? undefined;
+        // Title gen always runs on OUR free models (server picks TITLE_MODELS). A custom-provider id isn't a
+        // catalog model, so omit it: passing it would fail the guest free-model guard and is ignored anyway.
+        const selected = chatStore.get(chatModelAtom);
+        const model =
+          selected && !isCustomModelId(selected) ? selected : undefined;
         const res = await rpc.api.ai.chat.title.post({ text, model });
         const data = handleElysia(res);
         controller.appendText(data.title);

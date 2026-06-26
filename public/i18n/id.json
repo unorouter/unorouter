@@ -27,7 +27,8 @@
     "CHAT": "Chat",
     "PLAYGROUND": "Playground",
     "STATUS": "Status",
-    "COMPARE": "Bandingkan"
+    "COMPARE": "Bandingkan",
+    "LANGUAGE": "Bahasa"
   },
   "HOME": {
     "HERO": {
@@ -153,8 +154,8 @@
         "DESC": "Persona, preset, templat prompt, dan impor kartu SillyTavern sudah terpasang."
       },
       "CARD3": {
-        "TITLE": "Privat",
-        "DESC": "Percakapanmu ada di browsermu, tidak pernah di server kami. Kami tidak bisa membacanya."
+        "TITLE": "Privat & BYOK",
+        "DESC": "Percakapan ada di browsermu, tidak pernah di server kami. Gunakan juga endpoint dan kunci milikmu yang kompatibel dengan OpenAI, langsung dari browser."
       },
       "CARD4": {
         "TITLE": "Roleplay Penuh",
@@ -465,7 +466,8 @@
       "FREE": "gratis",
       "SORT_ASC": "Menaik",
       "SORT_DESC": "Menurun",
-      "SORT_RESET": "Atur ulang"
+      "SORT_RESET": "Atur ulang",
+      "FLAT_NO_PARAMS": "Harga tetap per panggilan. Ukuran, kualitas, dan parameter lain tidak didukung pada varian ini."
     },
     "COMPARE": {
       "BADGE": "Bandingkan",
@@ -1028,16 +1030,15 @@
       "UPTIME": "SLA uptime 99,9%",
       "OPENAI_COMPAT": "Endpoint kompatibel OpenAI"
     },
-    "COMPARE": {
-      "TITLE": "Bandingkan paket"
-    },
     "CARD": {
       "POPULAR": "Populer",
       "PER_MONTH": " · bln",
-      "VALUE": "Nilai {value}",
-      "SPEC_QUOTA": "Kuota/Reset",
-      "VALUE_BADGE": "Nilai",
-      "VALUE_EXPLAIN": "Bayar {paid}, dapatkan {credit} dalam kredit API. Gunakan pada model apa pun."
+      "PERIOD_DAY": "hari",
+      "PERIOD_WEEK": "minggu",
+      "PERIOD_MONTH": "bulan",
+      "VALUE_HERO": "kredit API / bulan",
+      "VALUE_EXPLAIN": "Bayar {paid}/bln, dapat {credit} kredit API. Pakai di model apa pun.",
+      "DELIVERED": "Mengisi ulang {amount} setiap {period}."
     },
     "BANNER": {
       "TITLE": "Asisten AI OpenClaw di Telegram",
@@ -1051,11 +1052,6 @@
     "TITLE": "Harga",
     "SUBTITLE": "Baik Anda merilis aplikasi atau menjalankan sesi roleplay panjang. Satu paket, setiap model.",
     "CTA": "Berlangganan",
-    "TOPUP": {
-      "LABEL": "Bayar sesuai pemakaian",
-      "DESC": "Lebih suka tidak berlangganan? Isi ulang kredit.",
-      "FOOTNOTE": "Kredit tidak pernah kedaluwarsa."
-    },
     "FAQ": {
       "Q1": "Bagaimana harga {appName} bekerja?",
       "A1": "Anda membayar per token yang dikonsumsi. Setiap model memiliki tarif input, output, dan cache sendiri, ditagih dari kredit akun Anda. Tidak ada langganan bulanan yang diperlukan untuk Pay As You Go.",
@@ -1073,6 +1069,24 @@
       "A7": "Ya. Setiap paket bekerja sebagai sumber kustom kompatibel OpenAI di klien roleplay utama mana pun. SillyTavern, Janitor.AI, RisuAI, dan Chub masing-masing memiliki panduan setup di dokumen.",
       "Q8": "Berapa panjang sohbet atau riwayat karakter saya?",
       "A8": "{appName} mendukung jendela konteks penuh setiap model, hingga 1M token di Gemini dan 200k di Claude. Roleplay panjang dan kode panjang keduanya bekerja."
+    },
+    "TIER": {
+      "1": "Pemula",
+      "2": "Pro",
+      "3": "Skala"
+    },
+    "TOPUP": {
+      "STEP": "Mulai di sini",
+      "LABEL": "Bayar sesuai pakai",
+      "DESC": "Tambah kredit, gunakan model apa pun.",
+      "FOOTNOTE": "Kredit tidak pernah kedaluwarsa."
+    },
+    "BRIDGE": {
+      "TITLE": "Sering memakainya? Berlangganan dan dapatkan lebih banyak kredit tiap bulan.",
+      "DESC": "Isi ulang untuk fleksibilitas. Berlangganan saat pemakaian bisa diprediksi dan dapatkan kredit ekstra di atas yang kamu bayar."
+    },
+    "PLANS": {
+      "STEP": "Nilai terbaik"
     }
   },
   "DOCS_INDEX": {
@@ -3005,6 +3019,7 @@
     "MD_ITALIC_BOLD": "Teks miring tebal",
     "MD_SINGLE_QUOTE": "Teks dalam tanda kutip tunggal",
     "MD_DOUBLE_QUOTE": "Teks dalam tanda kutip ganda",
+    "CHAT_FONT_SIZE": "Ukuran font pesan",
     "SURFACE_COLORS": "Warna permukaan",
     "MODE_LIGHT": "Terang",
     "MODE_DARK": "Gelap",
@@ -3018,7 +3033,8 @@
     "BG_FIT_CONTAIN": "Muat",
     "BG_FIT_TILE": "Ubin",
     "BG_OPACITY": "Opasitas",
-    "BG_BLUR": "Buram"
+    "BG_BLUR": "Buram",
+    "BG_PANEL_OPACITY": "Opasitas panel"
   },
   "BILLING": {
     "SUBSCRIPTION": {
@@ -3215,7 +3231,9 @@
       "SEARCH": "Cari model...",
       "NO_RESULTS": "Tidak ada model ditemukan",
       "FREE_BADGE": "GRATIS",
-      "LOGIN_REQUIRED": "Login diperlukan"
+      "LOGIN_REQUIRED": "Login diperlukan",
+      "CUSTOM_PROVIDERS": "Penyedia khusus",
+      "UNAVAILABLE_TOOLTIP": "{model} (sementara tidak tersedia)"
     },
     "GROUP": {
       "SELECT": "Grup penagihan",
@@ -3320,8 +3338,8 @@
     "META": {
       "TITLE": "AI Chat - {appName}",
       "TITLE_WITH_NAME": "{title} | AI Chat - {appName}",
-      "DESCRIPTION": "Chat dengan model AI apa pun. Uji GPT, Claude, Gemini, DeepSeek dan lainnya melalui satu antarmuka.",
-      "KEYWORDS": "AI chat, chat dengan AI, GPT chat, Claude chat, Gemini chat, AI playground, pengujian model"
+      "DESCRIPTION": "Chat dengan model AI apa pun: GPT, Claude, Gemini, DeepSeek dan lainnya dalam satu antarmuka, atau gunakan endpoint dan kunci milikmu yang kompatibel dengan OpenAI.",
+      "KEYWORDS": "AI chat, chat dengan AI, GPT chat, Claude chat, Gemini chat, AI playground, pengujian model, BYOK, penyedia AI khusus"
     },
     "OVERRIDES": {
       "OPEN": "Pengaturan sohbet",
@@ -3391,13 +3409,16 @@
       "LOCAL_DB": "Browser DB lokal",
       "LOCAL_DB_WIPE": "Hapus database lokal dan muat ulang",
       "LOCAL_DB_DOWNLOAD": "Unduh file SQLite lokal",
-      "LOCAL_DB_UPLOAD": "Unggah file SQLite (menimpa lokal)",
+      "LOCAL_DB_UPLOAD": "Impor file SQLite (mengganti lokal)",
       "LOCAL_DB_WIPE_CONFIRM": "Hapus SEMUA data OPFS lokal dan muat ulang?",
-      "LOCAL_DB_UPLOAD_CONFIRM": "Timpa database OPFS lokal dari file ini? Data yang ada dihapus.",
+      "LOCAL_DB_UPLOAD_CONFIRM": "Impor record dari file ini? File dimigrasikan ke skema saat ini dan mengganti data lokal Anda; record dialihkan ke sesi ini.",
+      "LOCAL_DB_IMPORT_SUMMARY": "Mengimpor {imported} record di {tables} tabel ({skipped} dilewati).",
       "CLEAR": "Bersihkan chat",
       "CLEAR_SUCCESS": "Chat dibersihkan",
       "CLEAR_CONFIRM_DESC": "Ini menghapus setiap pesan dalam sohbet tetapi mempertahankan pengaturan, pengikatan karakter, dan judul. Ini tidak dapat dibatalkan.",
       "DISPLAY": "Tampilan",
+      "APPEARANCE": "Tampilan",
+      "TOOLS": "Alat",
       "DIAGNOSTICS": "Unduh log (tanpa pesan)",
       "DIAGNOSTICS_FULL": "Unduh log + pesan",
       "DEBUG_CLEAR": "Hapus log debug",
@@ -3427,6 +3448,43 @@
       "EMPTY": "Tidak ada obrolan",
       "DELETE_CONFIRM_TITLE": "Hapus grup?",
       "DELETE_CONFIRM_DESC": "Grup dihapus; obrolannya tetap ada dan menjadi tanpa grup."
+    },
+    "CUSTOM_PROVIDER": {
+      "TITLE": "Penyedia khusus",
+      "SIDEBAR_TAB": "Penyedia khusus",
+      "NEW": "Penyedia baru",
+      "EMPTY": "Belum ada penyedia khusus.",
+      "NAME": "Nama",
+      "BASE_URL": "URL endpoint",
+      "API_KEY": "Kunci API",
+      "FORMAT": "Format",
+      "TOKENIZER": "Tokenizer",
+      "FORMAT_OPENAI": "Kompatibel dengan OpenAI",
+      "TOKENIZER_AUTO": "Otomatis (cocokkan nama)",
+      "TOKENIZER_CL100K": "GPT (cl100k)",
+      "TOKENIZER_O200K": "GPT-4o/5 (o200k)",
+      "TOKENIZER_CLAUDE": "Claude",
+      "TOKENIZER_GLM5": "GLM-5",
+      "TOKENIZER_GLM4": "GLM-4",
+      "TOKENIZER_DEEPSEEK": "DeepSeek (V3/R1)",
+      "TOKENIZER_DEEPSEEK_V4": "DeepSeek (V3.2/V4)",
+      "TOKENIZER_LLAMA3": "Llama 3",
+      "TOKENIZER_GEMMA": "Gemma",
+      "TOKENIZER_QWEN": "Qwen",
+      "TOKENIZER_MISTRAL": "Mistral",
+      "TOKENIZER_COHERE": "Cohere / Command",
+      "TOKENIZER_HF_CUSTOM": "Kustom (HuggingFace)",
+      "TOKENIZER_HF_PLACEHOLDER": "owner/model atau URL tokenizer.json",
+      "MODELS": "Model",
+      "MODELS_EMPTY": "Belum ada model yang ditambahkan.",
+      "ADD_MODEL": "Tambah model",
+      "FETCH_MODELS": "Ambil model",
+      "FETCH_FAILED": "Tidak dapat mengambil model (HTTP {status}). Periksa URL endpoint dan kunci API.",
+      "MODEL_KEY": "Kunci model",
+      "MODEL_LABEL": "Nama tampilan",
+      "MODEL_COUNT": "{count} model",
+      "DELETE_TITLE": "Hapus penyedia?",
+      "DELETE_DESC": "Ini menghapus penyedia dan modelnya. Percakapan Anda tetap disimpan."
     }
   },
   "RP": {
@@ -3477,7 +3535,12 @@
     "LOREBOOK_TOKEN_BUDGET": "Anggaran token",
     "LOREBOOK_TOKEN_BUDGET_HINT": "Token maksimal entri yang disuntikkan per giliran.",
     "LOREBOOK_ENTRIES_TITLE": "Entri",
+    "DUPLICATE": "Duplikat",
+    "COPY_SUFFIX": "salinan",
     "LOREBOOK_ENTRY_NEW": "Entri baru",
+    "LOREBOOK_ENTRY_COMMENT": "Nama",
+    "LOREBOOK_ENTRY_COMMENT_PLACEHOLDER": "Label opsional untuk entri ini",
+    "LOREBOOK_ENTRY_COMMENT_HINT": "Hanya untuk referensi Anda. Tidak pernah dikirim ke AI.",
     "LOREBOOK_UNTITLED": "Lorebook tanpa judul",
     "LOREBOOK_ENTRY_NO_KEYS": "(tidak ada pemicu)",
     "LOREBOOK_ENTRY_ALWAYS_LABEL": "Selalu disisipkan",

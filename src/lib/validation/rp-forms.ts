@@ -107,7 +107,12 @@ export const SAMPLING_FIELDS = SAMPLING_PARAMS.map(
 ) as SamplingFieldName[];
 
 // RP entity tabs shown in the sidebar dialog + nav.
-export const RP_TABS = ["characters", "personas", "lorebooks"] as const;
+export const RP_TABS = [
+  "characters",
+  "personas",
+  "lorebooks",
+  "custom-providers",
+] as const;
 export type RpTab = (typeof RP_TABS)[number];
 
 // Reuse the canonical unions from chat.ts (anyOf spread keeps one source).
@@ -210,6 +215,8 @@ export type LorebookForm = Static<typeof lorebookFormSchema>;
 
 // Keys stored as arrays; form edits as comma-separated strings.
 export const lorebookEntryFormSchema = t.Object({
+  // Non-AI display name (ST/Risu `comment`); identifies the entry, never sent to the model.
+  comment: t.String({ maxLength: MAX_NAME_LEN, default: "" }),
   keys: t.String({ default: "" }),
   secondaryKeys: t.String({ default: "" }),
   content: t.String({

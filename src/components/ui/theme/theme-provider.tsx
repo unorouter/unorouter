@@ -45,7 +45,10 @@ export function UserThemeProvider(props: { children: React.ReactNode }) {
       el.id = BG_STYLE_ID;
       document.head.appendChild(el);
     }
-    el.textContent = buildBackgroundCss(backgroundImage, theme.background);
+    const css = buildBackgroundCss(backgroundImage, theme.background);
+    el.textContent = css;
+    // The translucent-panel rules key off this attr so the no-image state stays inert.
+    document.documentElement.toggleAttribute("data-bg-active", Boolean(css));
   }, [backgroundImage, theme.background]);
 
   return <>{props.children}</>;

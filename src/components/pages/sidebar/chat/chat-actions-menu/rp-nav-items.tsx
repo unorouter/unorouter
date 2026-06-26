@@ -5,6 +5,7 @@ import { Link } from "@/i18n/navigation";
 import { useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 
+// Library: the 6 RP managers, kept FLAT + top-level (priority) so they're one tap, not buried in a submenu.
 export function RpNavItems() {
   const t = useTranslations();
   const setOpenRpTab = useSetAtom(openRpTabAtom);
@@ -30,6 +31,10 @@ export function RpNavItems() {
       <DropdownMenuItem render={<Link href="/chat/cards" />}>
         <Icon name="layers" className="size-4" />
         {t("RP.SIDEBAR_TAB_CARDS")}
+      </DropdownMenuItem>
+      <DropdownMenuItem onClick={() => setOpenRpTab("custom-providers")}>
+        <Icon name="server" className="size-4" />
+        {t("CHAT.CUSTOM_PROVIDER.SIDEBAR_TAB")}
       </DropdownMenuItem>
     </>
   );

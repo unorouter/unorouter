@@ -28,6 +28,11 @@ import {
 } from "@/hooks/ai/chat-hook";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { usePricingQuery } from "@/hooks/models/pricing-hook";
+import { useCustomProvidersQuery } from "@/hooks/ai/custom-providers-hook";
+import {
+  isCustomModelId,
+  parseCustomModelId,
+} from "@/lib/ai/chat/custom-provider-id";
 import { useMessageMeta, useShowReasoning } from "@/hooks/ui/use-chat-hook";
 import { useIsMobile } from "@/hooks/ui/use-mobile";
 import { partsToItems } from "@/lib/ai/chat/messages";
@@ -379,6 +384,11 @@ const PersistedErrorPart: FC<{ data?: unknown }> = (props) => {
     requestId?: string;
   };
   if (!data.message) return null;
+  // Custom-provider ids are namespaced; show just the model key to the user (raw id stays in copyText for debug).
+  const displayModel =
+    data.model && isCustomModelId(data.model)
+      ? (parseCustomModelId(data.model)?.modelKey ?? data.model)
+      : data.model;
   const meta = [
     data.status ? `HTTP ${data.status}` : null,
     data.code ?? null,
@@ -400,7 +410,7 @@ const PersistedErrorPart: FC<{ data?: unknown }> = (props) => {
     >
       <div className="flex items-start justify-between gap-2">
         <span className="aui-message-error-message">
-          {data.model ? `${data.model}: ${data.message}` : data.message}
+          {displayModel ? `${displayModel}: ${data.message}` : data.message}
         </span>
         <TooltipIconButton
           tooltip={t("CHAT.ACTION.COPY")}
@@ -679,8 +689,30 @@ const AssistantMessageHeader: FC = () => {
   const messageIndex = useAuiState((s) => s.message.index);
   const meta = useMessageMeta(messageIndex);
   const pricingQuery = usePricingQuery();
+  const customProvidersQuery = useCustomProvidersQuery();
 
   if (!meta?.model) return null;
+
+  // Custom-provider model: show "Provider / Label" + a generic provider icon, matching the model selector.
+  if (isCustomModelId(meta.model)) {
+    const parsed = parseCustomModelId(meta.model);
+    const provider = parsed
+      ? customProvidersQuery.data?.find((p) => p.id === parsed.providerId)
+      : undefined;
+    const label =
+      provider?.models.find((m) => m.key === parsed?.modelKey)?.label ??
+      parsed?.modelKey ??
+      meta.model;
+    return (
+      <div className="text-muted-foreground mb-1 ml-2 flex items-center gap-1.5 text-[11px]">
+        <Icon name="server" className="size-3" />
+        <span className="opacity-70">
+          {provider ? `${provider.name} / ${label}` : label}
+        </span>
+      </div>
+    );
+  }
+
   const modelData = pricingQuery.data?.models?.find(
     (m) => m.name === meta.model,
   );

@@ -10,6 +10,12 @@ export const OUTPUT_MODALITIES = [
 ] as const;
 export type OutputModality = (typeof OUTPUT_MODALITIES)[number];
 
+// `:flat` published variants bill flat per-call and ignore request params (size, quality). The
+// per-token base name keeps the same model without the suffix.
+export const FLAT_VARIANT_SUFFIX = ":flat";
+export const isFlatVariant = (model: ProcessedModel): boolean =>
+  model.name.endsWith(FLAT_VARIANT_SUFFIX);
+
 export function deriveOutputModality(model: ProcessedModel): OutputModality {
   if (model.type === "embedding") return "embeddings";
   const out = model.metadata.outputModalities ?? [];
@@ -35,11 +41,18 @@ export function countByOutputModality(
 
 export type PriceUnit = "perM" | "perImage" | "perChars" | "dash";
 
-// Per-modality unit for Input/Output columns: image gen per image, embeddings none, audio/TTS per 1M chars.
-export function outputPriceUnit(modality: OutputModality): PriceUnit {
+// Per-modality unit for Input/Output columns: fixed-price image gen is per image,
+// embeddings none, audio/TTS per 1M chars. Per-TOKEN image models (e.g.
+// gpt-image-1-mini, gpt-4o-image: quotaType 0) are billed per token, so they use
+// the perM unit like text - rendering their per-M rate as "/img" overstates cost
+// ~10^6x.
+export function outputPriceUnit(
+  modality: OutputModality,
+  isFixedPrice?: boolean,
+): PriceUnit {
   switch (modality) {
     case "image":
-      return "perImage";
+      return isFixedPrice ? "perImage" : "perM";
     case "embeddings":
       return "dash";
     case "audio":
@@ -49,6 +62,13 @@ export function outputPriceUnit(modality: OutputModality): PriceUnit {
   }
 }
 
-export function inputPriceUnit(modality: OutputModality): PriceUnit {
-  return modality === "image" || modality === "video" ? "dash" : "perM";
+export function inputPriceUnit(
+  modality: OutputModality,
+  isFixedPrice?: boolean,
+): PriceUnit {
+  // Fixed-price image/video dash the input slot (flat fee lives on output);
+  // per-token image bills input tokens, so show perM.
+  if (modality === "image" || modality === "video")
+    return isFixedPrice ? "dash" : "perM";
+  return "perM";
 }

@@ -4,10 +4,16 @@ import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { ModelRowActions } from "./model-row-actions";
 import { DataTableColumnHeader } from "@/components/elements/table/data-table-column-header";
 import { Icon } from "@/components/ui/icon";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { modelReleaseTs } from "@/hooks/ui/use-models-hook";
 import {
   deriveOutputModality,
   inputPriceUnit,
+  isFlatVariant,
   outputPriceUnit,
   type PriceUnit,
 } from "@/lib/api/model-modality";
@@ -42,6 +48,14 @@ function fixedPriceSide(m: ProcessedModel): "input" | "output" {
 function priceValue(m: ProcessedModel, side: "input" | "output"): number {
   if (m.isFixedPrice) return side === fixedPriceSide(m) ? m.fixedPrice : 0;
   return side === "input" ? m.inputPrice : m.outputPrice;
+}
+function originalPriceValue(
+  m: ProcessedModel,
+  side: "input" | "output",
+): number | null {
+  if (m.isFixedPrice)
+    return side === fixedPriceSide(m) ? m.originalFixedPrice : null;
+  return side === "input" ? m.originalInputPrice : m.originalOutputPrice;
 }
 
 function PriceCell(props: {
@@ -79,6 +93,7 @@ export function buildModelColumns(opts: {
   rankMap: Map<string, RankedModel>;
   offLabel: (pct: number) => string;
   freeLabel: string;
+  flatNoParamsLabel: string;
 }): ColumnDef<ProcessedModel>[] {
   const rankTokens = (m: ProcessedModel) =>
     opts.rankMap.get(m.name)?.total_tokens ?? 0;
@@ -107,6 +122,20 @@ export function buildModelColumns(opts: {
                 <Icon name="gift" className="h-3 w-3" />
                 <span className="hidden lg:inline">{opts.freeLabel}</span>
               </span>
+            )}
+            {isFlatVariant(m) && (
+              <Tooltip>
+                <TooltipTrigger
+                  render={
+                    <span className="text-muted-foreground/70 hover:text-muted-foreground flex shrink-0 items-center" />
+                  }
+                >
+                  <Icon name="circle-help" className="h-3.5 w-3.5" />
+                </TooltipTrigger>
+                <TooltipContent className="max-w-60 text-xs">
+                  {opts.flatNoParamsLabel}
+                </TooltipContent>
+              </Tooltip>
             )}
           </span>
         );
@@ -149,11 +178,14 @@ export function buildModelColumns(opts: {
         return (
           <PriceCell
             value={priceValue(m, "input")}
-            original={m.originalInputPrice}
-            unit={inputPriceUnit(deriveOutputModality(m))}
+            original={originalPriceValue(m, "input")}
+            unit={inputPriceUnit(deriveOutputModality(m), m.isFixedPrice)}
             perCall={m.isFixedPrice}
             offLabel={opts.offLabel(
-              discountPercent(priceValue(m, "input"), m.originalInputPrice),
+              discountPercent(
+                priceValue(m, "input"),
+                originalPriceValue(m, "input"),
+              ),
             )}
           />
         );
@@ -176,10 +208,14 @@ export function buildModelColumns(opts: {
         return (
           <PriceCell
             value={priceValue(m, "output")}
-            original={m.originalOutputPrice}
-            unit={outputPriceUnit(deriveOutputModality(m))}
+            original={originalPriceValue(m, "output")}
+            unit={outputPriceUnit(deriveOutputModality(m), m.isFixedPrice)}
+            perCall={m.isFixedPrice}
             offLabel={opts.offLabel(
-              discountPercent(priceValue(m, "output"), m.originalOutputPrice),
+              discountPercent(
+                priceValue(m, "output"),
+                originalPriceValue(m, "output"),
+              ),
             )}
           />
         );

@@ -294,7 +294,9 @@ html.dark .shiki span[style*="#758575"] {
   display: none !important;
 }
 
-/* Thin overlay scrollbar that fades when idle */
+/* Thin overlay scrollbar that fades when idle. Native-thin (no fat webkit pill);
+   the permanent mobile bar is handled by the DOM ScrollIndicator overlay where
+   needed (iOS Safari ignores ::-webkit-scrollbar). */
 @utility thin-scrollbar {
   scrollbar-width: thin;
   scrollbar-color: transparent transparent;

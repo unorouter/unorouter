@@ -19,6 +19,11 @@ const LorebookList = dynamic(() =>
     (m) => m.LorebookList,
   ),
 );
+const CustomProviderList = dynamic(() =>
+  import("@/components/pages/sidebar/chat/rp/custom-provider/list").then(
+    (m) => m.CustomProviderList,
+  ),
+);
 
 // Rendered at layout root so the mobile sidebar Sheet can't unmount them on close; dialog chunks load lazily on first open.
 export const openRpTabAtom = atom<RpTab | null>(null);
@@ -43,6 +48,12 @@ export function RpDialogs() {
         <LorebookList
           open
           onOpenChange={(o) => setOpenTab(o ? "lorebooks" : null)}
+        />
+      )}
+      {openTab === "custom-providers" && (
+        <CustomProviderList
+          open
+          onOpenChange={(o) => setOpenTab(o ? "custom-providers" : null)}
         />
       )}
     </>

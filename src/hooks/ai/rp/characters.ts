@@ -36,6 +36,7 @@ export const useCharacterQuery = characters.useItem;
 export const useCreateCharacterMutation = characters.useCreate;
 export const useUpdateCharacterMutation = characters.useUpdate;
 export const useDeleteCharacterMutation = characters.useDelete;
+export const useDuplicateCharacterMutation = characters.useDuplicate;
 
 // Full import: a card file becomes a character (+ avatar), its embedded lorebook
 // (if any), AND a Card binding them, so the user opens the Card and chats with
