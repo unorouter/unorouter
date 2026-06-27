@@ -154,7 +154,8 @@ export function makeRpEntity<
           if (!detail) throw new Error("not-found");
           const newId = uid();
           const srcName = (detail as Record<string, unknown>)[nameField];
-          const copyName = `${typeof srcName === "string" ? srcName : ""} ${t("RP.COPY_SUFFIX")}`.trim();
+          const copyName =
+            `${typeof srcName === "string" ? srcName : ""} ${t("RP.COPY_SUFFIX")}`.trim();
           if (opts.cloneEntity) {
             await opts.cloneEntity(userId, detail, newId, copyName);
           } else {

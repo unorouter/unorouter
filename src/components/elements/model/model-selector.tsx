@@ -79,10 +79,7 @@ export function ModelSelector(props: ModelSelectorProps) {
   // Value set but absent from the catalog + not a custom id: upstream temporarily dropped this model
   // (ratelimited/disabled). Show a placeholder icon instead of no icon; the pick is preserved.
   const selectedUnavailable =
-    !!props.value &&
-    !selected &&
-    !selectedCustom &&
-    pricingQuery.isSuccess;
+    !!props.value && !selected && !selectedCustom && pricingQuery.isSuccess;
 
   // Per-user private groups from prefetched /account/self; each routes only on the models it serves.
   const privateGroups = authQuery.data?.private_groups ?? [];

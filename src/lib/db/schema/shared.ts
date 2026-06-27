@@ -508,7 +508,6 @@ export const userThemes = sqliteTable(
   (table) => [index("idx_theme_sync_expires").on(table.syncExpiresAt)],
 );
 
-
 // Generic blob store. Asymmetric: client writes inline base64; server-side path uploads to R2 and keeps only the pointer.
 export const media = sqliteTable(
   "media",

@@ -128,7 +128,12 @@ function flatten(children: ElementContent[]): { text: string; segs: Seg[] } {
   for (const node of children) {
     const real = node.type === "text" ? node.value : elementText(node);
     const flat = node.type === "text" ? real : MASK.repeat(real.length);
-    segs.push({ node, start: text.length, end: text.length + real.length, text: real });
+    segs.push({
+      node,
+      start: text.length,
+      end: text.length + real.length,
+      text: real,
+    });
     text += flat;
   }
   return { text, segs };

@@ -18,11 +18,11 @@ export type BodyMutations = {
 export function hasBodyMutation(opts?: BodyMutations): boolean {
   return Boolean(
     opts &&
-      (opts.injectCacheControl ||
-        opts.deepSeekPrefix ||
-        opts.deepSeekThinking ||
-        opts.deepSeekReasoningContent ||
-        opts.claudeAdaptive),
+    (opts.injectCacheControl ||
+      opts.deepSeekPrefix ||
+      opts.deepSeekThinking ||
+      opts.deepSeekReasoningContent ||
+      opts.claudeAdaptive),
   );
 }
 

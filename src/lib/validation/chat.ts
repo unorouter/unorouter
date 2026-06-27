@@ -357,7 +357,9 @@ export const titleGenerationBody = t.Object({
 export const forwardBody = t.Object(
   {
     model: t.String({ maxLength: MAX_MODEL_LEN }),
-    group: t.Optional(t.Union([t.String({ maxLength: MAX_MODEL_LEN }), t.Null()])),
+    group: t.Optional(
+      t.Union([t.String({ maxLength: MAX_MODEL_LEN }), t.Null()]),
+    ),
   },
   { additionalProperties: true },
 );

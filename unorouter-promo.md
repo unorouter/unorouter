@@ -12,7 +12,7 @@
 
 **Your chats stay on your device.** Conversations live in your browser, not on my server, I can't read them. It's open source, so you don't have to take my word for it.
 
-__Honest part:__ the free models are upstream free tiers, so they rate limit and can get busy. It fails over to another, but that's the tradeoff for free. Paid models are there when you want frontier + reliability (credits don't expire).
+**Honest part:** the free models are upstream free tiers, so they rate limit and can get busy. It fails over to another, but that's the tradeoff for free. Paid models are there when you want frontier + reliability (credits don't expire).
 
 Solo project, open source. Drop feature requests and I'll actually build them.
 

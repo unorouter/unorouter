@@ -9,7 +9,10 @@ export function isCustomModelId(id: string | null | undefined): boolean {
   return typeof id === "string" && id.startsWith(PREFIX);
 }
 
-export function makeCustomModelId(providerId: string, modelKey: string): string {
+export function makeCustomModelId(
+  providerId: string,
+  modelKey: string,
+): string {
   return `${PREFIX}${providerId}${SEP}${modelKey}`;
 }
 
