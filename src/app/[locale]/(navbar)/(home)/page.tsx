@@ -7,7 +7,7 @@ import { rpc } from "@/lib/rpc";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
 import { buildSoftwareApplicationSchema } from "@/lib/seo/structured-data";
-import { handleElysia } from "@/lib/utils/base";
+import type { buildPricingSummary } from "@/lib/api/pricing";
 import { serverLocale } from "@/lib/utils/server";
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
@@ -34,9 +34,10 @@ export default async function HomePage(props: {
   const locale = await serverLocale(props);
   const t = await getTranslations({ locale });
 
-  // Pricing fetched outside the query client: dehydrating it inlined ~1MB catalog into the RSC payload; hero needs only counts.
-  const [pricing] = await Promise.all([
-    handleElysia(await rpc.api.models.pricing.get()),
+  await Promise.all([
+    prefetchElysia(queryClient, queryKeys.pricing(), () =>
+      rpc.api.models.pricing.get(),
+    ),
     prefetchElysia(queryClient, queryKeys.statsHistory(), () =>
       rpc.api.ops.stats.history.get(),
     ),
@@ -44,6 +45,10 @@ export default async function HomePage(props: {
       rpc.api.models.pricing.subscriptions.get(),
     ),
   ]);
+
+  const pricing = queryClient.getQueryData<
+    ReturnType<typeof buildPricingSummary>
+  >(queryKeys.pricing());
 
   return (
     <>
@@ -58,10 +63,10 @@ export default async function HomePage(props: {
       <HydrationBoundary state={dehydrate(queryClient)}>
         <Home
           counts={{
-            modelCount: pricing.modelCount,
-            vendorCount: pricing.vendorCount,
-            freeCount: pricing.freeCount,
-            paidCount: pricing.paidCount,
+            modelCount: pricing?.modelCount ?? 0,
+            vendorCount: pricing?.vendorCount ?? 0,
+            freeCount: pricing?.freeCount ?? 0,
+            paidCount: pricing?.paidCount ?? 0,
           }}
         />
       </HydrationBoundary>
