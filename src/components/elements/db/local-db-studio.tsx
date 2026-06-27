@@ -108,9 +108,8 @@ export function LocalDbStudio(props: Props) {
       const local = await getLocalDb(userId);
       if (local) await local.destroy();
       resetLocalDbCache();
-      const { reconcileImport } = await import(
-        "@/lib/db/client/data-migrate/reconcile-import"
-      );
+      const { reconcileImport } =
+        await import("@/lib/db/client/data-migrate/reconcile-import");
       const res = await reconcileImport(userId, buffer);
       toast.success(
         t("CHAT.MORE.LOCAL_DB_IMPORT_SUMMARY", {

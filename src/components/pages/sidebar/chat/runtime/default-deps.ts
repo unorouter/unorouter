@@ -25,12 +25,10 @@ type PricingData = { models?: ProcessedModel[] };
 
 // Read the catalog from the pricing query cache (populated by usePricingQuery). Built once per send.
 function modelLookup(): (model: string) => ProcessedModel | undefined {
-  const data = getQueryClient().getQueryData(
-    queryKeys.pricing(),
-  ) as PricingData | undefined;
-  const byName = new Map(
-    (data?.models ?? []).map((m) => [m.name, m]),
-  );
+  const data = getQueryClient().getQueryData(queryKeys.pricing()) as
+    | PricingData
+    | undefined;
+  const byName = new Map((data?.models ?? []).map((m) => [m.name, m]));
   return (model) => byName.get(model);
 }
 

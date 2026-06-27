@@ -46,7 +46,9 @@ export type StreamBody = {
   };
 };
 
-export type PreparedChatRequest = Awaited<ReturnType<typeof prepareChatRequest>>;
+export type PreparedChatRequest = Awaited<
+  ReturnType<typeof prepareChatRequest>
+>;
 
 export async function prepareChatRequest(
   apiKey: string,

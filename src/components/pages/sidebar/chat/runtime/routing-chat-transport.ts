@@ -133,7 +133,9 @@ async function runClientStream(args: {
     maxRetries: 0,
     ...prepared.modelParams,
     providerOptions: prepared.providerOptions,
-    ...(args.options.abortSignal ? { abortSignal: args.options.abortSignal } : {}),
+    ...(args.options.abortSignal
+      ? { abortSignal: args.options.abortSignal }
+      : {}),
   });
 
   const responseMessageId = uid();

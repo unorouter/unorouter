@@ -16,9 +16,7 @@ import { chatModelAtom } from "@/store/chat-store";
 import { useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 
-export function ModelRowActions(props: {
-  model: ProcessedModel;
-}) {
+export function ModelRowActions(props: { model: ProcessedModel }) {
   const t = useTranslations();
   const setChatModel = useSetAtom(chatModelAtom);
   const model = props.model;

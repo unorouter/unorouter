@@ -1,7 +1,10 @@
 // Rolling-summary memory (RisuAI supaMemory port): oldest unsummarized chunk folds into a running summary injected as a top system block.
 // Isomorphic: the free-model race + semantic retrieval are injected (server: getProvider/embeddings; client: the custom provider's models).
 
-import { freeModelRace, type FreeModelRaceArgs } from "@/lib/ai/chat/free-model-race";
+import {
+  freeModelRace,
+  type FreeModelRaceArgs,
+} from "@/lib/ai/chat/free-model-race";
 import type { SemanticHit } from "@/lib/ai/chat/pipeline/deps";
 
 // Rolling-summary thresholds: fold only once the conversation is long, in modest chunks so each call stays cheap.
@@ -13,10 +16,7 @@ const SUMMARIZE_SYSTEM_PROMPT =
   "and the current state or topic. Remove redundancy and filler. Write a tight, " +
   "neutral recap that another model can use to continue the conversation.";
 
-type FreeModelRaceDeps = Pick<
-  FreeModelRaceArgs,
-  "listFreeModels" | "generate"
->;
+type FreeModelRaceDeps = Pick<FreeModelRaceArgs, "listFreeModels" | "generate">;
 
 type RetrieveSemantic = (
   apiKey: string,

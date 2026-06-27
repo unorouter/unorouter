@@ -6,7 +6,9 @@
 import type { StreamMessages } from "@/lib/ai/chat/pipeline/transforms";
 import { base64ToUint8 } from "@/lib/utils/base";
 
-export async function extractPdfText(bytes: Uint8Array): Promise<string | null> {
+export async function extractPdfText(
+  bytes: Uint8Array,
+): Promise<string | null> {
   try {
     const { extractText, getDocumentProxy } = await import("unpdf");
     const pdf = await getDocumentProxy(bytes);

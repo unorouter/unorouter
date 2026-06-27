@@ -34,10 +34,13 @@ export async function forwardChatCompletions(args: {
   if (args.userId === GUEST_USER_ID) {
     const meta = (await getPricingSummary()).byName.get(model);
     if (!meta?.isFree) {
-      return new Response(JSON.stringify({ error: msg("ERRORS.UNAUTHORIZED") }), {
-        status: 401,
-        headers: { "content-type": "application/json" },
-      });
+      return new Response(
+        JSON.stringify({ error: msg("ERRORS.UNAUTHORIZED") }),
+        {
+          status: 401,
+          headers: { "content-type": "application/json" },
+        },
+      );
     }
   }
 
@@ -46,16 +49,19 @@ export async function forwardChatCompletions(args: {
   const wire = { ...args.body };
   delete wire.group;
 
-  const upstream = await fetch(`${upstreamApiUrl}${API_ENDPOINTS.chatCompletions}`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${args.apiKey}`,
-      "Content-Type": "application/json",
-      ...(group && group !== "auto" ? { "X-Group": group } : {}),
-      "x-request-id": args.requestId ?? uid(),
+  const upstream = await fetch(
+    `${upstreamApiUrl}${API_ENDPOINTS.chatCompletions}`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${args.apiKey}`,
+        "Content-Type": "application/json",
+        ...(group && group !== "auto" ? { "X-Group": group } : {}),
+        "x-request-id": args.requestId ?? uid(),
+      },
+      body: JSON.stringify(wire),
     },
-    body: JSON.stringify(wire),
-  });
+  );
 
   const headers = new Headers();
   for (const h of FORWARD_RESPONSE_HEADERS) {

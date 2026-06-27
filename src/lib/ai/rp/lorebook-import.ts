@@ -45,7 +45,8 @@ export function parseLorebookJson(raw: unknown): ParsedLorebook | null {
 
     entries.push({
       // ST/CCv3 `comment` = the non-AI entry name.
-      comment: typeof e.comment === "string" && e.comment ? e.comment : undefined,
+      comment:
+        typeof e.comment === "string" && e.comment ? e.comment : undefined,
       keys,
       secondaryKeys:
         Array.isArray(e.secondary_keys) && e.secondary_keys.length > 0

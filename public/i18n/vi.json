@@ -33,7 +33,7 @@
   "HOME": {
     "HERO": {
       "BADGE": "Router đang hoạt động",
-      "TITLE_LINE1": "TRÍ TUỆ",
+      "TITLE_LINE1": "TẤT CẢ TRONG MỘT",
       "SUBTITLE": "{appName} kết nối bạn tới hơn {modelCount} mô hình AI qua một khoá. Xây app và chạy tác nhân với nó, hoặc bỏ qua thiết lập và trò chuyện với nhân vật ngay trên trang. Cùng một khoá, cùng tốc độ, cùng giá.",
       "CTA_PRIMARY": "Bắt đầu",
       "CTA_SECONDARY": "Xem mô hình",

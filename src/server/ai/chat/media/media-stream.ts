@@ -323,7 +323,12 @@ async function generateImage(
   const wireBody =
     built.kind === "json"
       ? JSON.parse(built.body)
-      : { model, prompt, image_urls: refUrls, note: "multipart image[] upload" };
+      : {
+          model,
+          prompt,
+          image_urls: refUrls,
+          note: "multipart image[] upload",
+        };
   return {
     uris,
     usage: json.usage,
@@ -542,7 +547,8 @@ export async function handleEmbeddingStream(
       `[${preview.join(", ")}${tail}]`,
       "```",
     ].join("\n");
-    const inputTokens = emb.usage?.input_tokens ?? emb.usage?.prompt_tokens ?? 0;
+    const inputTokens =
+      emb.usage?.input_tokens ?? emb.usage?.prompt_tokens ?? 0;
     const meta = buildMediaMeta({
       model: body.model,
       usage: emb.usage,

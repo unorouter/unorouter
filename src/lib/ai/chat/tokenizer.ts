@@ -119,7 +119,11 @@ async function loadFromJson(
   // it doesn't have a named backend for; the base backend still encodes correctly. Mute just that line.
   const origWarn = console.warn;
   console.warn = (...args: unknown[]) => {
-    if (typeof args[0] === "string" && args[0].includes("Unknown tokenizer class")) return;
+    if (
+      typeof args[0] === "string" &&
+      args[0].includes("Unknown tokenizer class")
+    )
+      return;
     origWarn(...args);
   };
   try {
@@ -137,18 +141,25 @@ async function loadFromJson(
 function hfFileUrls(source: string): { json: string; config: string | null } {
   if (/^https?:\/\//i.test(source)) {
     // A direct tokenizer.json URL: config sits next to it if present.
-    return { json: source, config: source.replace(/tokenizer\.json$/, "tokenizer_config.json") };
+    return {
+      json: source,
+      config: source.replace(/tokenizer\.json$/, "tokenizer_config.json"),
+    };
   }
   const slug = source.replace(/^hf:/, "");
   const base = `https://huggingface.co/${slug}/resolve/main`;
-  return { json: `${base}/tokenizer.json`, config: `${base}/tokenizer_config.json` };
+  return {
+    json: `${base}/tokenizer.json`,
+    config: `${base}/tokenizer_config.json`,
+  };
 }
 
 // The DB cache is best-effort: a failure (no OPFS, import throw, quota) must NOT lose the tokenizer - we just
 // re-fetch. So cache reads/writes are isolated and never propagate out of loadHuggingFace.
 async function readCache(source: string) {
   try {
-    const { getTokenizerCache } = await import("@/lib/db/client/data/tokenizers");
+    const { getTokenizerCache } =
+      await import("@/lib/db/client/data/tokenizers");
     return await getTokenizerCache(source);
   } catch {
     return null;
@@ -161,7 +172,8 @@ async function writeCache(row: {
   tokenizerConfig: string | null;
 }) {
   try {
-    const { putTokenizerCache } = await import("@/lib/db/client/data/tokenizers");
+    const { putTokenizerCache } =
+      await import("@/lib/db/client/data/tokenizers");
     await putTokenizerCache({ type: "huggingface", ...row });
   } catch {
     /* cache write is best-effort */
@@ -176,7 +188,8 @@ async function loadHuggingFace(source: string, name: string): Promise<Encoder> {
   }
   const urls = hfFileUrls(source);
   const jsonRes = await fetch(urls.json);
-  if (!jsonRes.ok) throw new Error(`tokenizer fetch failed: ${urls.json} (${jsonRes.status})`);
+  if (!jsonRes.ok)
+    throw new Error(`tokenizer fetch failed: ${urls.json} (${jsonRes.status})`);
   const tokenizerJson = await jsonRes.text();
   let tokenizerConfig: string | null = null;
   if (urls.config) {
@@ -209,7 +222,11 @@ function resolveSource(ref: TokenizerRef): {
   }
   const hf = PRESET_HF_SOURCE[preset];
   if (hf) {
-    return { source: hf, name: preset, load: () => loadHuggingFace(hf, preset) };
+    return {
+      source: hf,
+      name: preset,
+      load: () => loadHuggingFace(hf, preset),
+    };
   }
   return { source: "cl100k", name: "cl100k", load: async () => CL100K };
 }
@@ -283,7 +300,9 @@ export function tokenizerRefForModel(
 }
 
 // Infer a preset from a model name. Substring match, most-specific-first. Unknown -> cl100k.
-export function inferTokenizerPreset(model: string | undefined): TokenizerPreset {
+export function inferTokenizerPreset(
+  model: string | undefined,
+): TokenizerPreset {
   if (!model) return "cl100k";
   const m = model.toLowerCase();
   if (/glm[-_ ]?5/.test(m)) return "glm5";
@@ -292,7 +311,8 @@ export function inferTokenizerPreset(model: string | undefined): TokenizerPreset
   if (m.includes("deepseek")) return "deepseek";
   if (m.includes("claude")) return "claude";
   if (m.includes("gemma")) return "gemma";
-  if (m.includes("command") || m.includes("cohere") || m.includes("aya")) return "cohere";
+  if (m.includes("command") || m.includes("cohere") || m.includes("aya"))
+    return "cohere";
   if (m.includes("qwen")) return "qwen";
   if (m.includes("mistral") || m.includes("mixtral")) return "mistral";
   if (/llama[-_ ]?3/.test(m) || m.includes("llama")) return "llama3";

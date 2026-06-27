@@ -11,7 +11,12 @@ import {
   upsertLocalLorebookBundle,
 } from "@/lib/db/client/data/rp";
 import { queryKeys } from "@/lib/react-query/keys";
-import { base64ToUint8, handleElysia, uid, uint8ToBase64 } from "@/lib/utils/base";
+import {
+  base64ToUint8,
+  handleElysia,
+  uid,
+  uint8ToBase64,
+} from "@/lib/utils/base";
 import { rpc } from "@/lib/rpc";
 import { useApiMutation } from "@/lib/react-query/hooks";
 import { dayjs } from "@/lib/utils/format/date";
@@ -46,9 +51,10 @@ async function persistCharacterSetupFromFile(
   file: File,
 ) {
   // Dynamic: character-foundry + image codecs (~110KB gzip) load on the import action, not with the chat shell.
-  const { card, imageBytes, imageMime } = await import(
-    "@/lib/ai/rp/character-card"
-  ).then((m) => m.parseCharacterCardFile(file));
+  const { card, imageBytes, imageMime } =
+    await import("@/lib/ai/rp/character-card").then((m) =>
+      m.parseCharacterCardFile(file),
+    );
 
   const now = dayjs().toDate();
   const characterId = uid();
