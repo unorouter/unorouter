@@ -3673,6 +3673,7 @@
     "UNAUTHORIZED": "認証されていません",
     "NO_API_KEY": "APIキーが設定されていません",
     "NOT_FOUND": "リソースが見つかりません",
+    "MESSAGE_NOT_FOUND": "このメッセージは存在しません。ページを再読み込みしてもう一度お試しください。",
     "NO_TASK_ID": "応答にタスク ID または URL がありません",
     "REQUEST_FAILED": "リクエストに失敗しました",
     "PRICING_FETCH_FAILED": "料金データの取得に失敗しました",

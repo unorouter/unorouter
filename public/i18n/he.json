@@ -3673,6 +3673,7 @@
     "UNAUTHORIZED": "לא מורשה",
     "NO_API_KEY": "לא מוגדר מפתח API",
     "NOT_FOUND": "המשאב לא נמצא",
+    "MESSAGE_NOT_FOUND": "הודעה זו כבר לא קיימת. רענן את הדף ונסה שוב.",
     "NO_TASK_ID": "אין מזהה משימה או URL בתגובה",
     "REQUEST_FAILED": "הבקשה נכשלה",
     "PRICING_FETCH_FAILED": "כשל בקבלת נתוני תמחור",
