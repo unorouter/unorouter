@@ -47,9 +47,26 @@ export function formatPriceCompact(price: number): string {
   return `$${Math.round(price)}`;
 }
 
-export function formatTokenCount(tokens: number | undefined): string {
+// Locales whose compact notation groups by myriads (萬/万 = 1e4, 億/亿 = 1e8)
+// instead of Western thousands. Intl renders these natively, so "509.6M" becomes
+// "5.096億" (zh-TW) / "5.096亿" (zh-CN). Passing no locale keeps the Western K/M/B/T
+// form for en + non-React callers (so existing output is byte-identical).
+function isCjkMyriadLocale(locale: string | undefined): boolean {
+  return locale === "zh-CN" || locale === "zh-TW" || locale === "ja";
+}
+
+export function formatTokenCount(
+  tokens: number | undefined,
+  locale?: string,
+): string {
   if (tokens === undefined || !Number.isFinite(tokens) || tokens <= 0) {
     return "-";
+  }
+  if (isCjkMyriadLocale(locale)) {
+    return new Intl.NumberFormat(locale, {
+      notation: "compact",
+      maximumFractionDigits: 1,
+    }).format(tokens);
   }
   if (tokens >= 1_000_000) {
     const m = tokens / 1_000_000;
@@ -62,8 +79,14 @@ export function formatTokenCount(tokens: number | undefined): string {
   return String(tokens);
 }
 
-export function formatTokens(value: number): string {
+export function formatTokens(value: number, locale?: string): string {
   if (!Number.isFinite(value) || value <= 0) return "0";
+  if (isCjkMyriadLocale(locale)) {
+    return new Intl.NumberFormat(locale, {
+      notation: "compact",
+      maximumFractionDigits: 2,
+    }).format(value);
+  }
   if (value >= 1_000_000_000_000)
     return `${(value / 1_000_000_000_000).toFixed(2)}T`;
   if (value >= 1_000_000_000)
@@ -72,7 +95,7 @@ export function formatTokens(value: number): string {
     return `${(value / 1_000_000).toFixed(value >= 10_000_000 ? 1 : 2)}M`;
   if (value >= 1_000)
     return `${(value / 1_000).toFixed(value >= 10_000 ? 0 : 1)}K`;
-  return value.toLocaleString();
+  return value.toLocaleString(locale);
 }
 
 export function formatShare(share: number): string {
