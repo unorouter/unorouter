@@ -9,6 +9,10 @@ import {
 import { uid } from "@/lib/utils/base";
 import { createdAtCol, timestamps } from "./shared";
 import type {
+  VerifyProviderValue,
+  VerifyVerdictValue,
+} from "@/lib/validation/model-tester";
+import type {
   ModerationDecision,
   ModerationMediaType,
 } from "@/server/ai/chat/media/moderation.service";
@@ -143,7 +147,86 @@ export const upscalerCatalog = sqliteTable(
   ],
 );
 
+// Public rankings feed, NORMALIZED: provider -> model -> test. Append-only,
+// NO key and NO probe text ever. Aggregated on read.
+export const publishedProviders = sqliteTable(
+  "published_providers",
+  {
+    id: text("id")
+      .primaryKey()
+      .$defaultFn(() => uid()),
+    kind: text("kind").notNull().$type<VerifyProviderValue>(),
+    baseUrlHost: text("base_url_host").notNull(),
+    firstSeenAt: integer("first_seen_at", { mode: "timestamp_ms" }).notNull(),
+    lastTestedAt: integer("last_tested_at", { mode: "timestamp_ms" }).notNull(),
+    createdAt: createdAtCol(),
+  },
+  (table) => [uniqueIndex("uq_pubprovider").on(table.kind, table.baseUrlHost)],
+);
+
+export const publishedModels = sqliteTable(
+  "published_models",
+  {
+    id: text("id")
+      .primaryKey()
+      .$defaultFn(() => uid()),
+    providerId: text("provider_id")
+      .notNull()
+      .references(() => publishedProviders.id, { onDelete: "cascade" }),
+    requestedModel: text("requested_model").notNull(),
+    lastTestedAt: integer("last_tested_at", { mode: "timestamp_ms" }).notNull(),
+    createdAt: createdAtCol(),
+  },
+  (table) => [
+    uniqueIndex("uq_pubmodel").on(table.providerId, table.requestedModel),
+  ],
+);
+
+export const publishedTests = sqliteTable(
+  "published_tests",
+  {
+    id: text("id")
+      .primaryKey()
+      .$defaultFn(() => uid()),
+    modelId: text("model_id")
+      .notNull()
+      .references(() => publishedModels.id, { onDelete: "cascade" }),
+    providerId: text("provider_id").notNull(),
+    submitterUserId: integer("submitter_user_id"),
+    submitterUsername: text("submitter_username"),
+    kind: text("kind").notNull().$type<VerifyProviderValue>(),
+    baseUrlHost: text("base_url_host").notNull(),
+    requestedModel: text("requested_model").notNull(),
+    detectedModel: text("detected_model"),
+    verdict: text("verdict").notNull().$type<VerifyVerdictValue>(),
+    versionUnverifiable: integer("version_unverifiable", { mode: "boolean" })
+      .notNull()
+      .default(false),
+    probesPassed: integer("probes_passed").notNull(),
+    probesTotal: integer("probes_total").notNull(),
+    latencyMs: integer("latency_ms").notNull(),
+    totalTokens: integer("total_tokens"),
+    testedAt: integer("tested_at", { mode: "timestamp_ms" }).notNull(),
+    // Set ONLY when the server itself ran the probes (unforgeable). The public
+    // leaderboard reads verified rows only.
+    verifiedAt: integer("verified_at", { mode: "timestamp_ms" }),
+    createdAt: createdAtCol(),
+  },
+  (table) => [
+    index("idx_pubtest_host_model").on(table.baseUrlHost, table.requestedModel),
+    index("idx_pubtest_created").on(table.createdAt),
+    index("idx_pubtest_submitter").on(
+      table.submitterUserId,
+      table.baseUrlHost,
+      table.requestedModel,
+    ),
+  ],
+);
+
 export type AcpCheckoutSession = typeof acpCheckoutSessions.$inferSelect;
 export type LoraCatalogEntry = typeof loraCatalog.$inferSelect;
 export type EmbeddingCatalogEntry = typeof embeddingCatalog.$inferSelect;
 export type UpscalerCatalogEntry = typeof upscalerCatalog.$inferSelect;
+export type PublishedProvider = typeof publishedProviders.$inferSelect;
+export type PublishedModel = typeof publishedModels.$inferSelect;
+export type PublishedTest = typeof publishedTests.$inferSelect;

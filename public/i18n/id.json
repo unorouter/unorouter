@@ -28,7 +28,8 @@
     "PLAYGROUND": "Playground",
     "STATUS": "Status",
     "COMPARE": "Bandingkan",
-    "LANGUAGE": "Bahasa"
+    "LANGUAGE": "Bahasa",
+    "MODEL_TESTER": "Inspektor"
   },
   "HOME": {
     "HERO": {
@@ -2298,6 +2299,7 @@
     "MODELS": "Model",
     "PRICING": "Harga",
     "DOCUMENTATION": "Dokumentasi",
+    "BLOG": "Blog",
     "STATUS": "Status",
     "LEGAL": "Hukum",
     "PRIVACY": "Kebijakan Privasi",
@@ -3275,6 +3277,7 @@
       "STATUS_IN_PROGRESS": "Membuat",
       "STATUS_SUCCESS": "Selesai",
       "STATUS_FAILURE": "Gagal",
+      "GENERATING_IMAGE": "Membuat gambar...",
       "REFRESH": "Segarkan"
     },
     "ATTACHMENT": {
@@ -3356,6 +3359,12 @@
       "CHAT_MEMORY_HINT": "Jumlah pesan terbaru yang dikirim dengan setiap permintaan.",
       "STREAMING_ENABLED": "Streaming",
       "STREAMING_ENABLED_HINT": "Mati = tunggu balasan lengkap, lalu tampilkan. Beberapa model menghasilkan output bersih hanya saat di-buffer. Sebagian besar preferensi pengguna.",
+      "MEMORY_ENABLED": "Memori",
+      "IMAGE_ENABLED": "Gambar dalam obrolan",
+      "UTILITY_MODEL": "Model utilitas",
+      "UTILITY_MODEL_PLACEHOLDER": "Bawaan ke model obrolan",
+      "IMAGE_PROMPT_INSTRUCTION": "Instruksi prompt gambar",
+      "IMAGE_PROMPT_INSTRUCTION_PLACEHOLDER": "Bagaimana model kedua harus menulis prompt gambar (opsional)",
       "SHOW_REASONING": "Tampilkan penalaran",
       "SYSTEM_PROMPT": "Override prompt sistem",
       "SYSTEM_PROMPT_PLACEHOLDER": "Biarkan kosong untuk menggunakan prompt sistem karakter.",
@@ -3996,5 +4005,262 @@
     "UPLOAD_IMAGE": "Unggah gambar",
     "UPLOADING": "Mengunggah...",
     "INIT_IMAGE": "Gambar sumber"
+  },
+  "MODEL_TESTER": {
+    "META": {
+      "TITLE": "Penguji Model API AI | {appName}",
+      "DESCRIPTION": "Verifikasi model apa yang sebenarnya dilayani oleh endpoint API. Pemeriksaan keaslian deterministik untuk Claude, GPT, dan Gemini, berjalan di browser Anda.",
+      "KEYWORDS": "penguji model, keaslian api, model palsu, claude, gpt, gemini"
+    },
+    "HERO": {
+      "TITLE": "Penguji Model API AI",
+      "SUBTITLE": "Periksa apakah endpoint melayani model asli yang diklaimnya. Berjalan di browser Anda, kunci Anda tidak dikirim ke server kami.",
+      "EYEBROW": "Verifikasi sebelum percaya",
+      "TRUST_BADGE": "100% di sisi browser. Kunci Anda tidak pernah dikirim ke server kami."
+    },
+    "TABS": {
+      "TEST": "Uji",
+      "HISTORY": "Riwayat",
+      "RANKINGS": "Peringkat"
+    },
+    "PROVIDER": {
+      "ANTHROPIC": "Anthropic (Claude)",
+      "OPENAI": "OpenAI (GPT)",
+      "GEMINI": "Google (Gemini)"
+    },
+    "FORM": {
+      "PROVIDER": "Format API",
+      "BASE_URL": "URL dasar API",
+      "API_KEY": "Kunci API",
+      "MODEL": "Model",
+      "PUBLISH": "Publikasikan ke peringkat publik",
+      "PUBLISH_HINT": "Hanya host, model, dan skor yang dibagikan. Tidak pernah kunci Anda.",
+      "RUN": "Jalankan uji",
+      "RUN_BACKEND": "Uji via server",
+      "CORS_TITLE": "Endpoint ini memblokir permintaan browser",
+      "CORS_WARNING": "Sebagai gantinya dapat diuji melalui server kami. Kunci Anda hanya melewati memori dan tidak pernah disimpan. Ganti kunci sesudahnya untuk keamanan.",
+      "RUN_PUBLISH": "Verifikasi di server kami & publikasikan",
+      "SECTION_TITLE": "Konfigurasi permintaan",
+      "SECTION_DESC": "Konfigurasikan endpoint dan kunci, lalu jalankan uji di browser Anda."
+    },
+    "VERDICT": {
+      "GENUINE": "Asli",
+      "SUSPICIOUS": "Mencurigakan",
+      "UNVERIFIED": "Tidak terverifikasi",
+      "VERSION_UNVERIFIABLE": "Model asli dikonfirmasi. Versi pasti tidak dapat diverifikasi dengan pemeriksaan."
+    },
+    "PROBE": {
+      "EMOTIONAL": "Emosional",
+      "CREATIVE": "Kreatif",
+      "IDENTITY": "Identitas",
+      "MODEL-NAME": "Nama model"
+    },
+    "RESULT": {
+      "PASSED": "{passed}/{total} probe lulus",
+      "LATENCY": "{ms}ms",
+      "TRANSPORT": "via {mode}",
+      "IDLE": "Jalankan uji untuk melihat hasilnya di sini.",
+      "DETECTED_MODEL": "Model terdeteksi",
+      "TOTAL_TOKENS": "{tokens} token",
+      "FORMAT_FELL_BACK": "Format asli tidak didukung; diuji melalui {format}.",
+      "EVIDENCE": "Bukti",
+      "HIGHLIGHT_LEGEND": {
+        "FOREIGN": "Vendor asing disebut",
+        "CODING_TOOL": "Frasa pembungkus alat pemrograman",
+        "SCAM": "Teks penipuan / pencurian token",
+        "CJK": "Karakter CJK tak terduga",
+        "HOME": "Identitas yang diharapkan cocok"
+      }
+    },
+    "HISTORY": {
+      "EMPTY": "Belum ada uji. Jalankan satu untuk membangun riwayat Anda.",
+      "PUBLISH": "Publikasikan",
+      "DELETE_TITLE": "Hapus uji",
+      "DELETE_BODY": "Menghapus uji dari riwayat lokal Anda.",
+      "DELETE_CONFIRM": "Hapus",
+      "DELETE_CANCEL": "Batal",
+      "META_TITLE": "Riwayat Uji | {appName}"
+    },
+    "RANKINGS": {
+      "EMPTY": "Belum ada hasil yang dipublikasikan.",
+      "SAMPLES": "{count} uji",
+      "LAST_TESTED": "terakhir diuji {when}",
+      "PREV": "Sebelumnya",
+      "NEXT": "Berikutnya",
+      "STAT_DETECTIONS": "Total deteksi",
+      "STAT_PROVIDERS": "Penyedia yang dilacak",
+      "STAT_PASS_RATE": "Rata-rata tingkat lulus",
+      "META_TITLE": "Peringkat Keaslian Model | {appName}",
+      "META_DESCRIPTION": "Lihat penyedia API mana yang melayani model asli yang diklaim, diurutkan berdasarkan tingkat lulus deterministik.",
+      "DISCLAIMER": "Setiap hasil yang dipublikasikan dijalankan ulang di server kami sebelum dihitung, dan setiap putusan menautkan bukti persis yang menghasilkannya. Hasil yang Anda yakini keliru dapat disanggah.",
+      "REPORT_DISCORD": "Laporkan di Discord",
+      "REPORT_GITHUB": "Buka issue di GitHub",
+      "NOT_TESTED": "Belum diuji",
+      "LOW_CONFIDENCE": "Keyakinan rendah ({count} pengujian)",
+      "SELF_TITLE": "Kami menerapkan tolok ukur yang sama pada diri sendiri",
+      "SELF_BODY": "{appName} diuji dengan alat yang sama ini. Lihat buktinya."
+    },
+    "DETAIL": {
+      "BACK": "Kembali ke penguji",
+      "NOT_FOUND": "Uji tidak ditemukan.",
+      "LOCAL_ONLY": "Uji lokal, disimpan hanya di perangkat Anda. Publikasikan agar server kami memverifikasinya dan muncul di papan publik.",
+      "DISCLAIMER": "Skor dihitung hanya dari probe yang diverifikasi server. Model asli memastikan vendor dan tingkatnya; versi persisnya tak pernah diklaim. Sanggah hasil yang Anda yakini keliru melalui tautan di bawah.",
+      "SUBMISSIONS": "Kiriman terbaru",
+      "SUBMITTED_BY": "Dikirim oleh {who}",
+      "ANONYMOUS": "anonim",
+      "DELETE_MINE": "Hapus",
+      "REPORT": "Laporkan",
+      "REPORT_HELP": "Bukan hasil Anda? Sanggah:",
+      "DELETE_TITLE": "Hapus hasil yang dipublikasikan ini?",
+      "DELETE_BODY": "Ini menarik kiriman Anda dari peringkat publik. Riwayat lokal Anda tidak terpengaruh.",
+      "DELETE_CONFIRM": "Hapus",
+      "DELETE_CANCEL": "Batal",
+      "GUEST_CANNOT_DELETE": "Kiriman tamu tak dapat dihapus di sini. Laporkan melalui Discord atau GitHub."
+    },
+    "PROBE_DETAIL": {
+      "PROMPT": "Prompt yang dikirim",
+      "RESPONSE": "Respons model",
+      "STATUS": "HTTP",
+      "TOKENS": "Token (masuk/keluar)",
+      "SIGNAL": "Sinyal",
+      "REASON": "Alasan",
+      "NO_RESPONSE": "Tidak ada respons yang ditangkap."
+    },
+    "NAV": {
+      "TEST_DESC": "Uji endpoint langsung",
+      "HISTORY_DESC": "Uji Anda sebelumnya",
+      "RANKINGS_DESC": "Peringkat publik"
+    },
+    "CONNECTIVITY": {
+      "CORS": "Endpoint memblokir permintaan browser. Gunakan uji backend.",
+      "UNREACHABLE": "Endpoint tidak dapat dijangkau. Periksa URL dasar.",
+      "INVALID_KEY": "Kunci API tidak valid.",
+      "NO_FORMAT": "Endpoint tidak menerima format API yang didukung."
+    },
+    "PUBLISH": {
+      "WARN_TITLE": "Ini mengirim kunci Anda ke backend kami",
+      "WARN_BODY": "Untuk mencegah hasil palsu, publikasi menjalankan seluruh uji di server kami, sehingga kami yang menghasilkan vonis. Kunci Anda hanya melewati memori server dan tidak pernah disimpan.",
+      "WARN_THROWAWAY": "Gunakan kunci sekali pakai berlimit rendah dan ganti sesudahnya.",
+      "DONE": "Diverifikasi oleh server kami dan dipublikasikan ke peringkat publik. Disimpan juga ke riwayat Anda.",
+      "DEDUPED": "Sudah dipublikasikan baru-baru ini untuk endpoint ini.",
+      "FAILED": "Tidak dapat memverifikasi endpoint ini. Tidak ada yang dipublikasikan."
+    },
+    "TRUST": {
+      "TITLE": "Sumber terbuka. Verifikasi dan tingkatkan.",
+      "BODY": "Kode uji bersifat terbuka. Lihat persis probe mana yang berjalan dan mengapa, sarankan uji baru, atau diskusikan deteksi di Discord kami.",
+      "GITHUB": "Lihat kode di GitHub",
+      "DISCORD": "Diskusikan uji di Discord"
+    },
+    "RULES": {
+      "SECTION_TITLE": "Cara kerja deteksi",
+      "WHY_LABEL": "Alasan:",
+      "NOT_FLAGGED_LABEL": "Tidak ditandai bila:",
+      "NOT_FRAUD_TITLE": "Apa yang TIDAK dihitung sebagai palsu",
+      "PROOF": "Seluruh penguji ini bersifat open source. Baca persis probe mana yang berjalan dan mengapa:",
+      "CODING-TOOL": {
+        "TITLE": "Pembungkus alat pemrograman",
+        "MEANS": "Balasan memakai frasa baku dari asisten pemrograman (Kiro, Cascade, Codeium, dan sejenisnya), menolak permintaan kreatif atau emosional yang biasa.",
+        "WHY": "Claude/GPT/Gemini asli menjawab cerita anak kucing atau haiku. Distilasi alat pemrograman menolaknya, yang menyingkap model yang ditukar di balik endpoint.",
+        "EXCEPTION": "model sekadar menolak karena alasan keamanan tanpa frasa baku asisten pemrograman."
+      },
+      "SCAM": {
+        "TITLE": "Halaman penipuan / pencurian token",
+        "MEANS": "Balasan berisi teks pencurian token atau phishing yang dikenal, alih-alih jawaban model.",
+        "WHY": "Endpoint yang mengembalikan halaman penipuan sama sekali tidak menyajikan model apa pun.",
+        "EXCEPTION": "model membahas kata «token» secara sah dalam jawaban biasa."
+      },
+      "CJK-LEAK": {
+        "TITLE": "Kebocoran bahasa tak terduga",
+        "MEANS": "Permintaan yang hanya berbahasa Inggris kembali dengan empat karakter CJK (Mandarin/Jepang/Korea) atau lebih.",
+        "WHY": "Bocornya CJK ke jawaban berbahasa Inggris adalah pertanda kuat adanya model Tiongkok yang ditukar atau proxy yang merusak data, bahkan ketika pertanyaan identitas dijawab dengan benar.",
+        "EXCEPTION": "Anda bertanya dalam atau tentang bahasa CJK, sehingga kehadiran CJK dalam balasan memang diharapkan."
+      },
+      "MUX": {
+        "TITLE": "Pencampuran balasan (proxy tidak aman)",
+        "MEANS": "Setiap probe membawa nonce unik; dua balasan atau lebih kembali tanpa nonce yang kami kirim, setelah upaya ulang.",
+        "WHY": "Proxy yang memultipleks satu permintaan ke beberapa upstream mengembalikan jawaban yang tidak cocok dengan permintaan yang kami buat, hal yang tak pernah dilakukan endpoint jujur bermodel tunggal.",
+        "EXCEPTION": "satu nonce yang meleset terjadi sekali (kami coba ulang dulu); hanya ketidakcocokan yang berulang yang dihitung."
+      },
+      "FOREIGN": {
+        "TITLE": "Identitas vendor asing",
+        "MEANS": "Pada probe identitas atau nama model, balasan menyebut vendor yang berbeda dari yang diminta (misalnya OpenAI atau Gemini padahal yang diminta Claude).",
+        "WHY": "Model yang menyebut lab pesaing sebagai pembuatnya berarti disajikan oleh pesaing itu, bukan oleh pihak yang Anda bayar.",
+        "EXCEPTION": "model bersikap samar tentang versinya atau menolak menyebut dirinya, yang sering dilakukan model asli."
+      },
+      "TIER-MISMATCH": {
+        "TITLE": "Penurunan tingkat (Claude)",
+        "MEANS": "Anda meminta satu tingkat Claude (Opus) tetapi model menyebut tingkat yang lebih murah (Sonnet atau Haiku).",
+        "WHY": "Claude mungkin samar tentang versi persisnya tetapi tak pernah salah menyebut tingkatnya, jadi tingkat lebih rendah yang disebut namanya adalah penurunan yang disengaja.",
+        "EXCEPTION": "model tidak yakin akan nomor versinya; hanya tingkat berbeda yang disebut dengan jelas yang dihitung."
+      },
+      "EXCEPTION": {
+        "VERSION": {
+          "TITLE": "Kesamaran versi",
+          "BODY": "model asli memastikan vendor dan tingkatnya tetapi sering tidak yakin akan versi persisnya. Itu saja tak pernah dianggap gagal, hanya ditandai sebagai informasi."
+        },
+        "TRANSIENT": {
+          "TITLE": "Galat sementara",
+          "BODY": "batas laju (429), 5xx, dan waktu habis menandai sebuah jalannya pengujian sebagai belum terverifikasi, tak pernah mencurigakan. Endpoint asli yang sedang bermasalah sesaat tidak dihukum."
+        },
+        "CLOUD-HOST": {
+          "TITLE": "Nama host awan",
+          "BODY": "menyebut AWS Bedrock, Google Vertex, atau Azure sebagai host dapat diterima, karena itu cara yang sah untuk menjual ulang model asli."
+        },
+        "RESHAPING": {
+          "TITLE": "Pembentukan ulang protokol",
+          "BODY": "menerjemahkan antara chat-completions dan format messages asli adalah perilaku gateway yang normal dan bukan sinyal penipuan selama modelnya sendiri asli."
+        },
+        "THRESHOLD": {
+          "TITLE": "Satu probe yang labil",
+          "BODY": "tiga dari empat probe yang lolos sudah cukup untuk dianggap asli, jadi satu jawaban yang meleset tidak menghukum endpoint yang jujur."
+        }
+      },
+      "COMMUNITY": "Punya ide untuk probe yang lebih baik? Ajukan di sini:",
+      "SOURCE_LINK": "Lihat kode deteksi"
+    },
+    "FAQ": {
+      "TITLE": "Pertanyaan yang sering diajukan",
+      "ITEMS": {
+        "KEY_SAFE": {
+          "Q": "Apakah kunci API saya aman?",
+          "A": "Untuk pengujian lokal, kunci tak pernah meninggalkan peramban Anda, kunci dikirim langsung ke endpoint yang Anda masukkan. Hanya ketika Anda memilih memublikasikan, kunci masuk ke server kami, yang menjalankan pengujian di memori dan tak pernah menyimpannya. Gunakan kunci sekali pakai jika ragu."
+        },
+        "SERVER_PROXY": {
+          "Q": "Mengapa kadang dibutuhkan proxy server?",
+          "A": "Beberapa endpoint memblokir permintaan langsung dari peramban (<cors>CORS</cors>). Bila itu terjadi, kami menawarkan pengujian backend opsional yang merelai probe untuk Anda. Publikasi selalu berjalan di sisi server sehingga hasil publik tak dapat dipalsukan."
+        },
+        "RELIABILITY": {
+          "Q": "Seberapa andal skornya?",
+          "A": "Deteksi bersifat deterministik, bukan tebakan pembelajaran mesin. Setiap probe cocok atau tidak dengan sinyal konkret, dan hasilnya menunjukkan bukti yang persis kepada Anda. Kami mensyaratkan tiga dari empat probe lolos dan memperlakukan galat sementara sebagai belum terverifikasi, bukan sebagai kegagalan."
+        },
+        "FALSE_POSITIVE": {
+          "Q": "Bagaimana cara melaporkan positif palsu?",
+          "A": "Setiap hasil yang dipublikasikan dapat disanggah. Jika Anda memublikasikannya sendiri saat masuk, Anda bisa menghapusnya langsung; jika tidak, buka issue di <ghIssue>GitHub</ghIssue> atau hubungi kami di <discord>Discord</discord> dan kami akan memeriksa ulang serta menghapus entri yang keliru."
+        },
+        "PROTOCOLS": {
+          "Q": "Protokol API mana saja yang didukung?",
+          "A": "Anthropic (/v1/messages), OpenAI (/v1/chat/completions), dan Google Gemini (generateContent). Kami mencoba format asli penyedia terlebih dahulu lalu beralih ke format yang kompatibel dengan OpenAI jika perlu."
+        },
+        "OPEN_SOURCE": {
+          "Q": "Apakah ini sumber terbuka?",
+          "A": "Ya. Penguji ini berjalan sepenuhnya di browser Anda dan pustaka deteksinya bersifat publik di <gh>GitHub</gh>, sehingga Anda dapat membaca persis probe mana yang berjalan dan mengapa, mengusulkan yang baru, atau mendiskusikannya di <discord>Discord</discord>."
+        }
+      }
+    },
+    "GAUGE": {
+      "READY": "Siap",
+      "RUNNING": "Sedang menguji",
+      "RUNNING_HINT": "Menjalankan probe terhadap endpoint Anda.",
+      "DONE_HINT": "Setiap busur adalah satu probe. Bentangkan sebuah probe di bawah untuk melihat prompt, balasan, dan buktinya."
+    },
+    "WHY": {
+      "TITLE": "Mengapa penguji ini berbeda",
+      "DETERMINISTIC_TITLE": "Deterministik, bukan tebakan",
+      "DETERMINISTIC_BODY": "Setiap pemeriksaan cocok dengan sinyal konkret dalam balasan, jadi kami tidak menandai model asli sebagai palsu seperti yang dilakukan sidik jari statistik. Baca kode persisnya.",
+      "VERIFIED_TITLE": "Diverifikasi server untuk dipublikasikan",
+      "VERIFIED_BODY": "Sebuah hasil baru mencapai papan publik setelah server kami menjalankan ulang seluruh pengujian itu sendiri, sehingga peringkat tak dapat dipalsukan.",
+      "EVIDENCE_TITLE": "Bukti yang bisa Anda lihat",
+      "EVIDENCE_BODY": "Setiap putusan menampilkan prompt yang dikirim, balasan mentah, dan teks cocok yang memicunya. Tak ada yang disembunyikan."
+    }
   }
 }

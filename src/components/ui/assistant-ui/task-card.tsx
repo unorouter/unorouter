@@ -17,6 +17,7 @@ type TaskPart = {
   status: string;
   progress: string;
   model: string;
+  kind?: string;
 };
 
 type AnyPart = { type: string; [k: string]: unknown };
@@ -28,7 +29,20 @@ function buildTaskPart(source: Partial<TaskPart> | undefined): TaskPart | null {
     status: source.status ?? "SUBMITTED",
     progress: source.progress ?? "10%",
     model: source.model,
+    ...(source.kind && { kind: source.kind }),
   };
+}
+
+// Illustrator image placeholder: the agent generates + amends this item asynchronously (no manual refresh,
+// no server poll). Just show a "generating image" state until the rewrite replaces it with the inlay.
+function ImagePlaceholder() {
+  const t = useTranslations();
+  return (
+    <div className="bg-muted/40 text-muted-foreground flex items-center gap-2 rounded-lg border px-4 py-3 text-sm">
+      <Icon name="loader" className="size-4 animate-spin" />
+      <span>{t("CHAT.TASK.GENERATING_IMAGE")}</span>
+    </div>
+  );
 }
 
 type Props = {
@@ -169,9 +183,18 @@ export function TaskCardRenderer() {
 
   return (
     <div className="flex flex-col gap-2">
-      {taskParts.map((part) => (
-        <TaskCard key={part.taskId} part={part} convId={convId} msgId={msgId} />
-      ))}
+      {taskParts.map((part) =>
+        part.kind === "image" ? (
+          <ImagePlaceholder key={part.taskId} />
+        ) : (
+          <TaskCard
+            key={part.taskId}
+            part={part}
+            convId={convId}
+            msgId={msgId}
+          />
+        ),
+      )}
     </div>
   );
 }

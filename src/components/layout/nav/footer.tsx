@@ -19,6 +19,7 @@ const NAV_LINKS = [
   { href: "/models", key: msg("FOOTER.MODELS") },
   { href: "/pricing", key: msg("FOOTER.PRICING") },
   { href: "/docs", key: msg("FOOTER.DOCUMENTATION") },
+  { href: "/blog", key: msg("FOOTER.BLOG") },
 ] as const;
 
 const EXTERNAL_NAV_LINKS = [

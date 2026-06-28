@@ -28,7 +28,8 @@
     "PLAYGROUND": "Playground",
     "STATUS": "Durum",
     "COMPARE": "Karşılaştır",
-    "LANGUAGE": "Dil"
+    "LANGUAGE": "Dil",
+    "MODEL_TESTER": "Denetleyici"
   },
   "HOME": {
     "HERO": {
@@ -2298,6 +2299,7 @@
     "MODELS": "Modeller",
     "PRICING": "Fiyatlandırma",
     "DOCUMENTATION": "Dokümantasyon",
+    "BLOG": "Blog",
     "STATUS": "Durum",
     "LEGAL": "Yasal",
     "PRIVACY": "Gizlilik Politikası",
@@ -3275,6 +3277,7 @@
       "STATUS_IN_PROGRESS": "Üretiyor",
       "STATUS_SUCCESS": "Bitti",
       "STATUS_FAILURE": "Başarısız",
+      "GENERATING_IMAGE": "Görsel oluşturuluyor...",
       "REFRESH": "Yenile"
     },
     "ATTACHMENT": {
@@ -3356,6 +3359,12 @@
       "CHAT_MEMORY_HINT": "Her istekle gönderilen son mesajların sayısı.",
       "STREAMING_ENABLED": "Streaming",
       "STREAMING_ENABLED_HINT": "Kapalı = tam yanıtı bekle, sonra göster. Bazı modeller sadece buffered olduğunda temiz çıktı verir. Çoğunlukla kullanıcı tercihi.",
+      "MEMORY_ENABLED": "Bellek",
+      "IMAGE_ENABLED": "Sohbette görseller",
+      "UTILITY_MODEL": "Yardımcı model",
+      "UTILITY_MODEL_PLACEHOLDER": "Varsayılan olarak sohbet modeli",
+      "IMAGE_PROMPT_INSTRUCTION": "Görsel istemi talimatı",
+      "IMAGE_PROMPT_INSTRUCTION_PLACEHOLDER": "İkinci model görsel istemini nasıl yazmalı (isteğe bağlı)",
       "SHOW_REASONING": "Akıl yürütmeyi göster",
       "SYSTEM_PROMPT": "Sistem istemi geçersiz kılma",
       "SYSTEM_PROMPT_PLACEHOLDER": "Karakterin sistem istemini kullanmak için boş bırakın.",
@@ -3996,5 +4005,262 @@
     "UPLOAD_IMAGE": "Görsel yükle",
     "UPLOADING": "Yükleniyor...",
     "INIT_IMAGE": "Kaynak görsel"
+  },
+  "MODEL_TESTER": {
+    "META": {
+      "TITLE": "Yapay Zeka API Model Testleyici | {appName}",
+      "DESCRIPTION": "Bir API uc noktasinin gercekte hangi modeli sundugunu dogrulayin. Claude, GPT ve Gemini icin tarayicida calisan deterministik dogruluk kontrolleri.",
+      "KEYWORDS": "model testleyici, api dogrulugu, sahte model, claude, gpt, gemini"
+    },
+    "HERO": {
+      "TITLE": "Yapay Zeka API Model Testleyici",
+      "SUBTITLE": "Bir uc noktanin iddia ettigi gercek modeli sunup sunmadigini kontrol edin. Tarayicida calisir, anahtariniz sunucularimiza gonderilmez.",
+      "EYEBROW": "Guvenmeden once dogrulayin",
+      "TRUST_BADGE": "100% tarayici tarafinda. Anahtariniz asla sunucularimiza gonderilmez."
+    },
+    "TABS": {
+      "TEST": "Test",
+      "HISTORY": "Gecmis",
+      "RANKINGS": "Siralama"
+    },
+    "PROVIDER": {
+      "ANTHROPIC": "Anthropic (Claude)",
+      "OPENAI": "OpenAI (GPT)",
+      "GEMINI": "Google (Gemini)"
+    },
+    "FORM": {
+      "PROVIDER": "API bicimi",
+      "BASE_URL": "API temel URL",
+      "API_KEY": "API anahtari",
+      "MODEL": "Model",
+      "PUBLISH": "Genel siralamada yayinla",
+      "PUBLISH_HINT": "Yalnizca host, model ve puan paylasilir. Anahtariniz asla paylasilmaz.",
+      "RUN": "Testi calistir",
+      "RUN_BACKEND": "Sunucu uzerinden test et",
+      "CORS_TITLE": "Bu uc nokta tarayici isteklerini engelliyor",
+      "CORS_WARNING": "Bunun yerine sunucumuz uzerinden test edilebilir. Anahtariniz yalnizca bellekten gecer ve asla saklanmaz. Guvenlik icin sonra anahtari degistirin.",
+      "RUN_PUBLISH": "Sunucumuzda dogrula ve yayinla",
+      "SECTION_TITLE": "Istek yapilandirmasi",
+      "SECTION_DESC": "Uc noktayi ve anahtari yapilandirin, sonra testi tarayicinizda calistirin."
+    },
+    "VERDICT": {
+      "GENUINE": "Gercek",
+      "SUSPICIOUS": "Supheli",
+      "UNVERIFIED": "Dogrulanmadi",
+      "VERSION_UNVERIFIABLE": "Gercek model dogrulandi. Tam surum, sondalama ile dogrulanamaz."
+    },
+    "PROBE": {
+      "EMOTIONAL": "Duygusal",
+      "CREATIVE": "Yaratici",
+      "IDENTITY": "Kimlik",
+      "MODEL-NAME": "Model adi"
+    },
+    "RESULT": {
+      "PASSED": "{passed}/{total} sonda gecti",
+      "LATENCY": "{ms}ms",
+      "TRANSPORT": "{mode} uzerinden",
+      "IDLE": "Sonucu burada gormek icin bir test calistirin.",
+      "DETECTED_MODEL": "Algilanan model",
+      "TOTAL_TOKENS": "{tokens} token",
+      "FORMAT_FELL_BACK": "Yerel bicim desteklenmiyor; bunun yerine {format} ile test edildi.",
+      "EVIDENCE": "Kanıt",
+      "HIGHLIGHT_LEGEND": {
+        "FOREIGN": "Yabancı sağlayıcı adlandırıldı",
+        "CODING_TOOL": "Kodlama aracı sarmalayıcısı ifadesi",
+        "SCAM": "Dolandırıcılık / belirteç hırsızlığı metni",
+        "CJK": "Beklenmedik CJK karakterleri",
+        "HOME": "Beklenen kimlik eşleşmesi"
+      }
+    },
+    "HISTORY": {
+      "EMPTY": "Henuz test yok. Gecmis olusturmak icin bir tane calistirin.",
+      "PUBLISH": "Yayinla",
+      "DELETE_TITLE": "Testi sil",
+      "DELETE_BODY": "Testi yerel gecmisinizden kaldirir.",
+      "DELETE_CONFIRM": "Sil",
+      "DELETE_CANCEL": "Iptal",
+      "META_TITLE": "Test Gecmisi | {appName}"
+    },
+    "RANKINGS": {
+      "EMPTY": "Henuz yayinlanmis sonuc yok.",
+      "SAMPLES": "{count} test",
+      "LAST_TESTED": "son test {when}",
+      "PREV": "Onceki",
+      "NEXT": "Sonraki",
+      "STAT_DETECTIONS": "Toplam tespit",
+      "STAT_PROVIDERS": "Izlenen saglayicilar",
+      "STAT_PASS_RATE": "Ortalama gecme orani",
+      "META_TITLE": "Model Gercekligi Siralamasi | {appName}",
+      "META_DESCRIPTION": "Hangi API saglayicilarinin iddia ettikleri gercek modeli sundugunu deterministik gecme oranina gore siralanmis olarak gorun.",
+      "DISCLAIMER": "Yayınlanan her sonuç sayılmadan önce sunucumuzda yeniden çalıştırılır ve her karar, onu üreten tam kanıta bağlanır. Yanlış olduğunu düşündüğünüz bir sonuca itiraz edilebilir.",
+      "REPORT_DISCORD": "Discord'da bildir",
+      "REPORT_GITHUB": "GitHub'da bir sorun aç",
+      "NOT_TESTED": "Henüz test edilmedi",
+      "LOW_CONFIDENCE": "Düşük güven ({count} test)",
+      "SELF_TITLE": "Aynı ölçütü kendimize de uyguluyoruz",
+      "SELF_BODY": "{appName} tam da bu araçla test edilir. Kanıtı görüntüleyin."
+    },
+    "DETAIL": {
+      "BACK": "Testleyiciye don",
+      "NOT_FOUND": "Test bulunamadi.",
+      "LOCAL_ONLY": "Yerel test, yalnizca cihazinizda saklanir. Genel tabloda gorunmesi icin sunucumuzun dogrulayabilmesi adina yayinlayin.",
+      "DISCLAIMER": "Puanlar yalnızca sunucuda doğrulanmış sondalardan hesaplanır. Gerçek bir model sağlayıcıyı ve kademeyi doğrular; tam sürüm asla iddia edilmez. Yanlış olduğunu düşündüğünüz bir sonuca aşağıdaki bağlantılardan itiraz edin.",
+      "SUBMISSIONS": "Son gönderimler",
+      "SUBMITTED_BY": "{who} tarafından gönderildi",
+      "ANONYMOUS": "anonim",
+      "DELETE_MINE": "Sil",
+      "REPORT": "Bildir",
+      "REPORT_HELP": "Sizin sonucunuz değil mi? İtiraz edin:",
+      "DELETE_TITLE": "Bu yayınlanan sonuç kaldırılsın mı?",
+      "DELETE_BODY": "Bu, gönderiminizi herkese açık sıralamalardan çeker. Yerel geçmişiniz etkilenmez.",
+      "DELETE_CONFIRM": "Kaldır",
+      "DELETE_CANCEL": "İptal",
+      "GUEST_CANNOT_DELETE": "Misafir gönderimleri burada silinemez. Bunları Discord ya da GitHub üzerinden bildirin."
+    },
+    "PROBE_DETAIL": {
+      "PROMPT": "Gonderilen istem",
+      "RESPONSE": "Model yaniti",
+      "STATUS": "HTTP",
+      "TOKENS": "Token (giris/cikis)",
+      "SIGNAL": "Sinyal",
+      "REASON": "Neden",
+      "NO_RESPONSE": "Yanit yakalanmadi."
+    },
+    "NAV": {
+      "TEST_DESC": "Bir uc noktayi canli test et",
+      "HISTORY_DESC": "Gecmis testleriniz",
+      "RANKINGS_DESC": "Genel siralama"
+    },
+    "CONNECTIVITY": {
+      "CORS": "Uc nokta tarayici isteklerini engelliyor. Sunucu testini kullanin.",
+      "UNREACHABLE": "Uc noktaya ulasilamiyor. Temel URL'yi kontrol edin.",
+      "INVALID_KEY": "Gecersiz API anahtari.",
+      "NO_FORMAT": "Uc nokta desteklenen hicbir API bicimini kabul etmedi."
+    },
+    "PUBLISH": {
+      "WARN_TITLE": "Bu, anahtarinizi sunucumuza gonderir",
+      "WARN_BODY": "Sahte sonuclari onlemek icin yayinlama sirasinda tum test sunucumuzda calisir, boylece kararı biz uretiriz. Anahtariniz yalnizca sunucu belleginden gecer ve asla saklanmaz.",
+      "WARN_THROWAWAY": "Dusuk limitli, tek kullanimlik bir anahtar kullanin ve sonra degistirin.",
+      "DONE": "Sunucumuz tarafindan dogrulandi ve genel siralamada yayinlandi. Gecmisinize de kaydedildi.",
+      "DEDUPED": "Bu uc nokta icin yakin zamanda zaten yayinlandi.",
+      "FAILED": "Bu uc nokta dogrulanamadi. Hicbir sey yayinlanmadi."
+    },
+    "TRUST": {
+      "TITLE": "Acik kaynak. Dogrulayin ve gelistirin.",
+      "BODY": "Test kodu aciktir. Hangi sondalarin neden calistigini tam olarak gorun, yeni testler onerin veya tespiti Discord'umuzda tartisin.",
+      "GITHUB": "Kodu GitHub'da gor",
+      "DISCORD": "Testleri Discord'da tartis"
+    },
+    "RULES": {
+      "SECTION_TITLE": "Tespit nasıl çalışır",
+      "WHY_LABEL": "Neden:",
+      "NOT_FLAGGED_LABEL": "Şu durumda işaretlenmez:",
+      "NOT_FRAUD_TITLE": "Sahte olarak SAYILMAYAN nedir",
+      "PROOF": "Bu test aracının tamamı açık kaynaktır. Hangi probların neden çalıştığını tam olarak okuyun:",
+      "CODING-TOOL": {
+        "TITLE": "Kodlama aracı sarmalayıcısı",
+        "MEANS": "Yanıt, bir kodlama asistanının (Kiro, Cascade, Codeium ve benzerleri) kalıplaşmış ifadelerini kullanır ve sıradan bir yaratıcı ya da duygusal istemi reddeder.",
+        "WHY": "Gerçek bir Claude/GPT/Gemini, bir kedi yavrusu hikayesini ya da bir haikuyu yanıtlar. Kodlama aracı damıtması bunu reddeder ve böylece uç noktanın arkasındaki değiştirilmiş modeli açığa çıkarır.",
+        "EXCEPTION": "model, kodlama asistanı kalıplarına başvurmadan yalnızca bir güvenlik nedeniyle reddeder."
+      },
+      "SCAM": {
+        "TITLE": "Dolandırıcılık / belirteç hırsızlığı sayfası",
+        "MEANS": "Yanıt, bir model cevabı yerine bilinen belirteç hırsızlığı ya da kimlik avı metni içerir.",
+        "WHY": "Dolandırıcılık açılış sayfası döndüren bir uç nokta aslında hiçbir model sunmuyordur.",
+        "EXCEPTION": "model, normal bir yanıtta «token» kelimesini meşru şekilde ele alır."
+      },
+      "CJK-LEAK": {
+        "TITLE": "Beklenmedik dil sızıntısı",
+        "MEANS": "Yalnızca İngilizce bir istem, dört ya da daha fazla CJK (Çince/Japonca/Korece) karakterle geri döner.",
+        "WHY": "İngilizce bir yanıta CJK sızması, kimlik sorusu doğru yanıtlansa bile değiştirilmiş bir Çin modelinin ya da bozucu bir proxy'nin güçlü bir işaretidir.",
+        "EXCEPTION": "bir CJK dilinde ya da onun hakkında sordunuz, dolayısıyla yanıtta CJK bulunması beklenir."
+      },
+      "MUX": {
+        "TITLE": "Yanıt karışması (güvensiz proxy)",
+        "MEANS": "Her sonda benzersiz bir nonce taşır; yeniden denemelerden sonra dahi gönderdiğimiz nonce olmadan iki ya da daha fazla yanıt geri döner.",
+        "WHY": "Bir isteği birden çok üst kaynağa çoğullayan bir proxy, yaptığımız istekle eşleşmeyen yanıtlar döndürür; dürüst, tek modelli bir uç nokta bunu asla yapmaz.",
+        "EXCEPTION": "tek bir nonce kaçağı bir kez olur (önce yeniden deneriz); yalnızca tekrarlayan uyumsuzluklar sayılır."
+      },
+      "FOREIGN": {
+        "TITLE": "Yabancı sağlayıcı kimliği",
+        "MEANS": "Kimlik ya da model adı sondasında yanıt, istenenden farklı bir sağlayıcıyı adlandırır (örneğin Claude istenirken OpenAI ya da Gemini söyler).",
+        "WHY": "Yapımcısı olarak rakip bir laboratuvarı adlandıran bir model, o rakip tarafından sunuluyordur; ödeme yaptığınız taraf değil.",
+        "EXCEPTION": "model sürümü konusunda belirsizdir ya da kendini adlandırmayı reddeder; gerçek modeller de bunu sık yapar."
+      },
+      "TIER-MISMATCH": {
+        "TITLE": "Kademe düşürme (Claude)",
+        "MEANS": "Bir Claude kademesi (Opus) istediniz ama model daha ucuz bir kademe (Sonnet ya da Haiku) adlandırıyor.",
+        "WHY": "Claude tam sürümü konusunda belirsiz olabilir ama kademesini asla karıştırmaz, bu yüzden adı verilmiş daha düşük bir kademe kasıtlı bir düşürmedir.",
+        "EXCEPTION": "model sürüm numarasından emin değildir; yalnızca açıkça adlandırılmış farklı bir kademe sayılır."
+      },
+      "EXCEPTION": {
+        "VERSION": {
+          "TITLE": "Sürüm belirsizliği",
+          "BODY": "gerçek bir model sağlayıcıyı ve kademeyi doğrular ama tam sürümünden çoğu zaman emin değildir. Bu tek başına asla bir başarısızlık değildir, yalnızca bilgilendirme olarak işaretlenir."
+        },
+        "TRANSIENT": {
+          "TITLE": "Geçici hatalar",
+          "BODY": "hız sınırları (429), 5xx ve zaman aşımları bir çalışmayı doğrulanmamış olarak işaretler, asla şüpheli olarak değil. Kötü bir an yaşayan gerçek bir uç nokta cezalandırılmaz."
+        },
+        "CLOUD-HOST": {
+          "TITLE": "Bulut sunucu adları",
+          "BODY": "AWS Bedrock, Google Vertex ya da Azure'u sunucu olarak adlandırmak kabul edilir, çünkü bunlar gerçek modeli yeniden satmanın meşru yollarıdır."
+        },
+        "RESHAPING": {
+          "TITLE": "Protokol yeniden biçimlendirme",
+          "BODY": "chat-completions ile yerel messages biçimi arasında çeviri yapmak normal bir ağ geçidi davranışıdır ve modelin kendisi gerçekse bir dolandırıcılık işareti değildir."
+        },
+        "THRESHOLD": {
+          "TITLE": "Tek bir kararsız sonda",
+          "BODY": "dört sondadan üçünün geçmesi gerçek olmak için yeterlidir, dolayısıyla tek bir tutarsız yanıt dürüst bir uç noktayı mahkum etmez."
+        }
+      },
+      "COMMUNITY": "Daha iyi bir prob için fikrin mi var? Buradan öner:",
+      "SOURCE_LINK": "Tespit kodunu görüntüle"
+    },
+    "FAQ": {
+      "TITLE": "Sıkça sorulan sorular",
+      "ITEMS": {
+        "KEY_SAFE": {
+          "Q": "API anahtarım güvende mi?",
+          "A": "Yerel bir testte anahtar tarayıcınızdan asla çıkmaz, doğrudan girdiğiniz uç noktaya gönderilir. Yalnızca yayınlamayı seçtiğinizde anahtar sunucumuza gider; sunucu testi bellekte çalıştırır ve onu asla saklamaz. Kuşkunuz varsa tek kullanımlık bir anahtar kullanın."
+        },
+        "SERVER_PROXY": {
+          "Q": "Neden bazen bir sunucu proxy'si gerekir?",
+          "A": "Bazı uç noktalar doğrudan tarayıcı isteklerini engeller (<cors>CORS</cors>). Bu olduğunda, sondaları sizin için ileten isteğe bağlı bir arka uç testi sunarız. Yayınlama her zaman sunucu tarafında çalışır, böylece herkese açık sonuç sahte olarak üretilemez."
+        },
+        "RELIABILITY": {
+          "Q": "Puan ne kadar güvenilir?",
+          "A": "Tespit, makine öğrenmesi tahmini değil belirlenimcidir. Her sonda ya somut bir sinyalle eşleşir ya da eşleşmez ve sonuç size tam kanıtı gösterir. Dört sondadan üçünün geçmesini şart koşar ve geçici hataları başarısızlık olarak değil doğrulanmamış olarak ele alırız."
+        },
+        "FALSE_POSITIVE": {
+          "Q": "Yanlış pozitifi nasıl bildiririm?",
+          "A": "Yayınlanan her sonuç itiraza açıktır. Oturum açıkken kendiniz yayınladıysanız doğrudan silebilirsiniz; aksi halde <ghIssue>GitHub</ghIssue>'da bir sorun açın ya da <discord>Discord</discord> üzerinden bize yazın, yeniden kontrol edip hatalı kayıtları kaldıralım."
+        },
+        "PROTOCOLS": {
+          "Q": "Hangi API protokolleri destekleniyor?",
+          "A": "Anthropic (/v1/messages), OpenAI (/v1/chat/completions) ve Google Gemini (generateContent). Önce sağlayıcının yerel biçimini deneriz, gerekirse OpenAI uyumlu biçime geri döneriz."
+        },
+        "OPEN_SOURCE": {
+          "Q": "Açık kaynak mı?",
+          "A": "Evet. Bu test aracı tamamen tarayıcınızda çalışır ve tespit kütüphanesi <gh>GitHub</gh>'da herkese açıktır, böylece hangi probların neden çalıştığını tam olarak okuyabilir, yenilerini önerebilir veya <discord>Discord</discord>'da tartışabilirsiniz."
+        }
+      }
+    },
+    "GAUGE": {
+      "READY": "Hazır",
+      "RUNNING": "Test ediliyor",
+      "RUNNING_HINT": "Sondalar uç noktanıza karşı çalıştırılıyor.",
+      "DONE_HINT": "Her yay bir sondadır. Aşağıdaki bir sondayı genişleterek istemi, yanıtı ve kanıtı görün."
+    },
+    "WHY": {
+      "TITLE": "Bu test aracı neden farklı",
+      "DETERMINISTIC_TITLE": "Belirlenimci, tahmin değil",
+      "DETERMINISTIC_BODY": "Her kontrol yanıttaki somut bir sinyalle eşleşir, bu yüzden istatistiksel parmak izi yönteminin yaptığı gibi gerçek modelleri sahte olarak işaretlemeyiz. Tam kodu okuyun.",
+      "VERIFIED_TITLE": "Yayınlamak için sunucuda doğrulanır",
+      "VERIFIED_BODY": "Bir sonuç, ancak sunucumuz tüm testi kendisi yeniden çalıştırdıktan sonra herkese açık panoya ulaşır, böylece sıralamalar sahte olarak üretilemez.",
+      "EVIDENCE_TITLE": "Görebileceğiniz kanıt",
+      "EVIDENCE_BODY": "Her karar, gönderilen istemi, ham yanıtı ve onu tetikleyen eşleşen metni gösterir. Hiçbir şey gizlenmez."
+    }
   }
 }

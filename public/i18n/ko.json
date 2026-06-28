@@ -28,7 +28,8 @@
     "PLAYGROUND": "플레이그라운드",
     "STATUS": "상태",
     "COMPARE": "비교",
-    "LANGUAGE": "언어"
+    "LANGUAGE": "언어",
+    "MODEL_TESTER": "인스펙터"
   },
   "HOME": {
     "HERO": {
@@ -2298,6 +2299,7 @@
     "MODELS": "모델",
     "PRICING": "요금",
     "DOCUMENTATION": "문서",
+    "BLOG": "블로그",
     "STATUS": "상태",
     "LEGAL": "법적 정보",
     "PRIVACY": "개인정보 처리방침",
@@ -3275,6 +3277,7 @@
       "STATUS_IN_PROGRESS": "생성 중",
       "STATUS_SUCCESS": "완료",
       "STATUS_FAILURE": "실패",
+      "GENERATING_IMAGE": "이미지 생성 중...",
       "REFRESH": "새로고침"
     },
     "ATTACHMENT": {
@@ -3356,6 +3359,12 @@
       "CHAT_MEMORY_HINT": "각 요청과 함께 보내는 최근 메시지 수.",
       "STREAMING_ENABLED": "스트리밍",
       "STREAMING_ENABLED_HINT": "끄기 = 전체 응답을 기다린 후 표시. 일부 모델은 버퍼링될 때만 깔끔하게 출력합니다. 대부분 사용자 환경 설정.",
+      "MEMORY_ENABLED": "메모리",
+      "IMAGE_ENABLED": "채팅 내 이미지",
+      "UTILITY_MODEL": "유틸리티 모델",
+      "UTILITY_MODEL_PLACEHOLDER": "기본값은 채팅 모델",
+      "IMAGE_PROMPT_INSTRUCTION": "이미지 프롬프트 지침",
+      "IMAGE_PROMPT_INSTRUCTION_PLACEHOLDER": "두 번째 모델이 이미지 프롬프트를 작성하는 방식 (선택)",
       "SHOW_REASONING": "추론 표시",
       "SYSTEM_PROMPT": "시스템 프롬프트 재정의",
       "SYSTEM_PROMPT_PLACEHOLDER": "캐릭터의 시스템 프롬프트를 사용하려면 비워 두세요.",
@@ -3996,5 +4005,262 @@
     "UPLOAD_IMAGE": "이미지 업로드",
     "UPLOADING": "업로드 중...",
     "INIT_IMAGE": "원본 이미지"
+  },
+  "MODEL_TESTER": {
+    "META": {
+      "TITLE": "AI API 모델 테스터 | {appName}",
+      "DESCRIPTION": "API 엔드포인트가 실제로 제공하는 모델을 검증합니다. Claude, GPT, Gemini에 대한 결정론적 진위 검사를 브라우저에서 실행합니다.",
+      "KEYWORDS": "모델 테스터, API 진위, 가짜 모델 탐지, claude, gpt, gemini"
+    },
+    "HERO": {
+      "TITLE": "AI API 모델 테스터",
+      "SUBTITLE": "엔드포인트가 주장하는 실제 모델을 제공하는지 확인합니다. 브라우저에서 실행되며 키는 당사 서버로 전송되지 않습니다.",
+      "EYEBROW": "신뢰하기 전에 검증하세요",
+      "TRUST_BADGE": "100% 브라우저에서 실행됩니다. 키는 당사 서버로 전송되지 않습니다."
+    },
+    "TABS": {
+      "TEST": "테스트",
+      "HISTORY": "기록",
+      "RANKINGS": "순위"
+    },
+    "PROVIDER": {
+      "ANTHROPIC": "Anthropic (Claude)",
+      "OPENAI": "OpenAI (GPT)",
+      "GEMINI": "Google (Gemini)"
+    },
+    "FORM": {
+      "PROVIDER": "API 형식",
+      "BASE_URL": "API 기본 URL",
+      "API_KEY": "API 키",
+      "MODEL": "모델",
+      "PUBLISH": "공개 순위에 게시",
+      "PUBLISH_HINT": "호스트, 모델, 점수만 공유됩니다. 키는 절대 공유되지 않습니다.",
+      "RUN": "테스트 실행",
+      "RUN_BACKEND": "서버를 통해 테스트",
+      "CORS_TITLE": "이 엔드포인트는 브라우저 요청을 차단합니다",
+      "CORS_WARNING": "대신 당사 서버를 통해 테스트할 수 있습니다. 키는 메모리만 거치며 저장되지 않습니다. 안전을 위해 이후 키를 교체하세요.",
+      "RUN_PUBLISH": "서버에서 검증 후 게시",
+      "SECTION_TITLE": "요청 구성",
+      "SECTION_DESC": "엔드포인트와 키를 설정한 후 브라우저에서 테스트를 실행하세요."
+    },
+    "VERDICT": {
+      "GENUINE": "진짜",
+      "SUSPICIOUS": "의심스러움",
+      "UNVERIFIED": "미확인",
+      "VERSION_UNVERIFIABLE": "진짜 모델이 확인되었습니다. 정확한 버전은 프로브로 검증할 수 없습니다."
+    },
+    "PROBE": {
+      "EMOTIONAL": "감성",
+      "CREATIVE": "창의",
+      "IDENTITY": "정체성",
+      "MODEL-NAME": "모델 이름"
+    },
+    "RESULT": {
+      "PASSED": "{passed}/{total}개 프로브 통과",
+      "LATENCY": "{ms}ms",
+      "TRANSPORT": "{mode} 경유",
+      "IDLE": "테스트를 실행하면 여기에 결과가 표시됩니다.",
+      "DETECTED_MODEL": "감지된 모델",
+      "TOTAL_TOKENS": "토큰 {tokens}개",
+      "FORMAT_FELL_BACK": "네이티브 형식을 지원하지 않아 {format}로 테스트했습니다.",
+      "EVIDENCE": "증거",
+      "HIGHLIGHT_LEGEND": {
+        "FOREIGN": "다른 공급사를 언급함",
+        "CODING_TOOL": "코딩 도구 래퍼 문구",
+        "SCAM": "사기 / 토큰 탈취 문구",
+        "CJK": "예상치 못한 CJK 문자",
+        "HOME": "예상한 정체성 일치"
+      }
+    },
+    "HISTORY": {
+      "EMPTY": "아직 테스트가 없습니다. 실행하여 기록을 만드세요.",
+      "PUBLISH": "게시",
+      "DELETE_TITLE": "테스트 삭제",
+      "DELETE_BODY": "이 테스트를 로컬 기록에서 제거합니다.",
+      "DELETE_CONFIRM": "삭제",
+      "DELETE_CANCEL": "취소",
+      "META_TITLE": "테스트 기록 | {appName}"
+    },
+    "RANKINGS": {
+      "EMPTY": "아직 게시된 결과가 없습니다.",
+      "SAMPLES": "{count}개 테스트",
+      "LAST_TESTED": "마지막 테스트 {when}",
+      "PREV": "이전",
+      "NEXT": "다음",
+      "STAT_DETECTIONS": "총 탐지 수",
+      "STAT_PROVIDERS": "추적 중인 제공자",
+      "STAT_PASS_RATE": "평균 통과율",
+      "META_TITLE": "모델 진위 순위 | {appName}",
+      "META_DESCRIPTION": "어떤 API 제공자가 주장하는 실제 모델을 제공하는지 결정론적 통과율로 순위를 매겨 확인하세요.",
+      "DISCLAIMER": "게시된 모든 결과는 집계되기 전에 우리 서버에서 다시 실행되며, 각 판정은 그것을 만들어 낸 정확한 증거에 연결됩니다. 잘못되었다고 생각하는 결과에는 이의를 제기할 수 있습니다.",
+      "REPORT_DISCORD": "Discord에 신고",
+      "REPORT_GITHUB": "GitHub 이슈 열기",
+      "NOT_TESTED": "아직 테스트되지 않음",
+      "LOW_CONFIDENCE": "낮은 신뢰도({count}회 테스트)",
+      "SELF_TITLE": "우리 자신에게도 같은 기준을 적용합니다",
+      "SELF_BODY": "{appName}은(는) 바로 이 도구로 테스트됩니다. 증거를 확인하세요."
+    },
+    "DETAIL": {
+      "BACK": "테스터로 돌아가기",
+      "NOT_FOUND": "테스트를 찾을 수 없습니다.",
+      "LOCAL_ONLY": "로컬 테스트로 기기에만 저장됩니다. 공개 보드에 표시하려면 당사 서버가 검증할 수 있도록 게시하세요.",
+      "DISCLAIMER": "점수는 서버에서 검증된 프로브만으로 계산됩니다. 진짜 모델은 공급사와 등급을 확인하지만 정확한 버전은 결코 주장하지 않습니다. 잘못되었다고 생각하는 결과는 아래 링크로 이의를 제기하세요.",
+      "SUBMISSIONS": "최근 제출",
+      "SUBMITTED_BY": "{who} 제출",
+      "ANONYMOUS": "익명",
+      "DELETE_MINE": "삭제",
+      "REPORT": "신고",
+      "REPORT_HELP": "당신의 결과가 아닌가요? 이의를 제기하세요:",
+      "DELETE_TITLE": "이 게시된 결과를 제거할까요?",
+      "DELETE_BODY": "이렇게 하면 제출이 공개 순위에서 내려갑니다. 로컬 기록에는 영향이 없습니다.",
+      "DELETE_CONFIRM": "제거",
+      "DELETE_CANCEL": "취소",
+      "GUEST_CANNOT_DELETE": "게스트 제출은 여기서 삭제할 수 없습니다. Discord나 GitHub로 신고하세요."
+    },
+    "PROBE_DETAIL": {
+      "PROMPT": "전송된 프롬프트",
+      "RESPONSE": "모델 응답",
+      "STATUS": "HTTP",
+      "TOKENS": "토큰 (입력/출력)",
+      "SIGNAL": "신호",
+      "REASON": "이유",
+      "NO_RESPONSE": "캡처된 응답이 없습니다."
+    },
+    "NAV": {
+      "TEST_DESC": "엔드포인트 실시간 테스트",
+      "HISTORY_DESC": "지난 테스트",
+      "RANKINGS_DESC": "공개 순위"
+    },
+    "CONNECTIVITY": {
+      "CORS": "엔드포인트가 브라우저 요청을 차단합니다. 백엔드 테스트를 사용하세요.",
+      "UNREACHABLE": "엔드포인트에 연결할 수 없습니다. 기본 URL을 확인하세요.",
+      "INVALID_KEY": "잘못된 API 키입니다.",
+      "NO_FORMAT": "엔드포인트가 지원되는 API 형식을 받아들이지 않았습니다."
+    },
+    "PUBLISH": {
+      "WARN_TITLE": "이 작업은 키를 당사 백엔드로 전송합니다",
+      "WARN_BODY": "위조된 결과를 막기 위해 게시 시 전체 테스트를 당사 서버에서 실행하여 판정을 직접 생성합니다. 키는 서버 메모리만 거치며 저장되지 않습니다.",
+      "WARN_THROWAWAY": "한도가 낮은 일회용 키를 사용하고 이후 교체하세요.",
+      "DONE": "당사 서버에서 검증하여 공개 순위에 게시했습니다. 기록에도 저장되었습니다.",
+      "DEDUPED": "이 엔드포인트는 최근에 이미 게시되었습니다.",
+      "FAILED": "이 엔드포인트를 검증할 수 없습니다. 아무것도 게시되지 않았습니다."
+    },
+    "TRUST": {
+      "TITLE": "오픈 소스. 검증하고 개선하세요.",
+      "BODY": "테스트 코드는 공개되어 있습니다. 어떤 프로브가 왜 실행되는지 확인하고, 새 테스트를 제안하거나 Discord에서 탐지에 대해 논의하세요.",
+      "GITHUB": "GitHub에서 코드 보기",
+      "DISCORD": "Discord에서 테스트 논의"
+    },
+    "RULES": {
+      "SECTION_TITLE": "탐지 작동 방식",
+      "WHY_LABEL": "이유:",
+      "NOT_FLAGGED_LABEL": "다음의 경우 표시되지 않음:",
+      "NOT_FRAUD_TITLE": "가짜로 집계되지 않는 것",
+      "PROOF": "이 테스터는 전체가 오픈 소스입니다. 어떤 프로브가 왜 실행되는지 정확히 확인하세요:",
+      "CODING-TOOL": {
+        "TITLE": "코딩 도구 래퍼",
+        "MEANS": "응답이 코딩 어시스턴트(Kiro, Cascade, Codeium 등)의 정형화된 문구를 사용하며, 평범한 창작이나 감정 관련 프롬프트를 거부합니다.",
+        "WHY": "진짜 Claude/GPT/Gemini는 새끼 고양이 이야기나 하이쿠에 답합니다. 코딩 도구의 증류 모델은 이를 거부하여 엔드포인트 뒤에 바꿔치기된 모델을 드러냅니다.",
+        "EXCEPTION": "모델이 코딩 어시스턴트의 상투적 문구 없이 단지 안전상의 이유로 거절하는 경우."
+      },
+      "SCAM": {
+        "TITLE": "사기 / 토큰 탈취 페이지",
+        "MEANS": "응답에 모델의 답변 대신 알려진 토큰 탈취나 피싱 문구가 포함되어 있습니다.",
+        "WHY": "사기 랜딩 페이지를 반환하는 엔드포인트는 애초에 모델을 제공하고 있지 않습니다.",
+        "EXCEPTION": "모델이 일반적인 답변에서 「token」이라는 단어를 정당하게 다루는 경우."
+      },
+      "CJK-LEAK": {
+        "TITLE": "예상치 못한 언어 누출",
+        "MEANS": "영어로만 된 프롬프트에 CJK(중국어/일본어/한국어) 문자가 4자 이상 포함되어 돌아옵니다.",
+        "WHY": "영어 답변에 CJK가 새어 든 것은, 정체성 질문에 정확히 답하더라도 바꿔치기된 중국 모델이나 데이터를 변조하는 프록시의 강력한 단서입니다.",
+        "EXCEPTION": "CJK 언어로 또는 CJK 언어에 대해 질문했으므로 응답에 CJK가 포함되는 것이 예상되는 경우."
+      },
+      "MUX": {
+        "TITLE": "응답 혼합(안전하지 않은 프록시)",
+        "MEANS": "각 프로브에는 고유한 nonce가 들어 있는데, 재시도 후에도 우리가 보낸 nonce가 없는 응답이 두 개 이상 돌아옵니다.",
+        "WHY": "하나의 요청을 여러 업스트림으로 다중화하는 프록시는 우리가 보낸 요청과 일치하지 않는 답변을 반환하는데, 정직한 단일 모델 엔드포인트는 결코 그러지 않습니다.",
+        "EXCEPTION": "nonce 누락이 한 번만 발생하는 경우(먼저 재시도합니다). 반복되는 불일치만 집계합니다."
+      },
+      "FOREIGN": {
+        "TITLE": "다른 공급사 정체성",
+        "MEANS": "정체성 또는 모델명 프로브에서 응답이 요청한 것과 다른 공급사를 댑니다(예: Claude를 요청했는데 OpenAI나 Gemini를 언급).",
+        "WHY": "경쟁 연구소를 자신의 제작자라고 대는 모델은 그 경쟁사가 제공하는 것이며, 당신이 비용을 지불한 곳이 아닙니다.",
+        "EXCEPTION": "모델이 자신의 버전에 대해 모호하게 말하거나 스스로를 밝히기를 거부하는 경우. 진짜 모델도 흔히 그렇게 합니다."
+      },
+      "TIER-MISMATCH": {
+        "TITLE": "등급 강등(Claude)",
+        "MEANS": "Claude의 한 등급(Opus)을 요청했는데 모델이 더 저렴한 등급(Sonnet 또는 Haiku)을 댑니다.",
+        "WHY": "Claude는 정확한 버전에 대해서는 모호할 수 있어도 자신의 등급을 혼동하는 일은 결코 없으므로, 이름이 지목된 하위 등급은 의도적인 강등입니다.",
+        "EXCEPTION": "모델이 버전 번호에 확신이 없는 경우. 명확히 지목된 다른 등급만 집계합니다."
+      },
+      "EXCEPTION": {
+        "VERSION": {
+          "TITLE": "버전 모호성",
+          "BODY": "진짜 모델은 공급사와 등급을 확인하지만 정확한 버전에 대해서는 종종 확신하지 못합니다. 그것만으로는 결코 실패가 아니며 참고 사항으로만 표시됩니다."
+        },
+        "TRANSIENT": {
+          "TITLE": "일시적 오류",
+          "BODY": "속도 제한(429), 5xx, 시간 초과는 실행을 미검증으로 표시할 뿐 결코 의심스러운 것으로 보지 않습니다. 진짜 엔드포인트가 잠시 좋지 않은 순간을 겪는다고 해서 불이익을 받지 않습니다."
+        },
+        "CLOUD-HOST": {
+          "TITLE": "클라우드 호스트 이름",
+          "BODY": "호스트로 AWS Bedrock, Google Vertex, Azure를 대는 것은 허용됩니다. 이는 진짜 모델을 재판매하는 정당한 방법이기 때문입니다."
+        },
+        "RESHAPING": {
+          "TITLE": "프로토콜 재구성",
+          "BODY": "chat-completions와 네이티브 messages 형식 사이를 변환하는 것은 정상적인 게이트웨이 동작이며, 모델 자체가 진짜라면 사기 신호가 아닙니다."
+        },
+        "THRESHOLD": {
+          "TITLE": "불안정한 프로브 하나",
+          "BODY": "네 개 중 세 개의 프로브를 통과하면 진짜로 보기에 충분하므로, 빗나간 답변 하나로 정직한 엔드포인트를 단죄하지 않습니다."
+        }
+      },
+      "COMMUNITY": "더 나은 프로브에 대한 아이디어가 있나요? 여기에서 제안해 주세요:",
+      "SOURCE_LINK": "감지 코드 보기"
+    },
+    "FAQ": {
+      "TITLE": "자주 묻는 질문",
+      "ITEMS": {
+        "KEY_SAFE": {
+          "Q": "내 API 키는 안전한가요?",
+          "A": "로컬 테스트에서는 키가 브라우저를 절대 벗어나지 않으며, 입력한 엔드포인트로 곧장 전송됩니다. 게시하기로 선택할 때만 키가 우리 서버로 전달되며, 서버는 테스트를 메모리에서 실행하고 결코 저장하지 않습니다. 의심스럽다면 일회용 키를 사용하세요."
+        },
+        "SERVER_PROXY": {
+          "Q": "왜 가끔 서버 프록시가 필요한가요?",
+          "A": "일부 엔드포인트는 브라우저의 직접 요청을 차단합니다(<cors>CORS</cors>). 그럴 때 우리는 프로브를 대신 중계하는 선택적 백엔드 테스트를 제공합니다. 게시는 항상 서버 측에서 실행되어 공개 결과를 위조할 수 없습니다."
+        },
+        "RELIABILITY": {
+          "Q": "점수는 얼마나 신뢰할 수 있나요?",
+          "A": "탐지는 머신러닝의 추측이 아니라 결정론적입니다. 각 프로브는 구체적인 신호와 일치하거나 하지 않거나 둘 중 하나이며, 결과는 정확한 증거를 보여 줍니다. 네 개 중 세 개의 프로브 통과를 요구하며 일시적 오류는 실패가 아닌 미검증으로 처리합니다."
+        },
+        "FALSE_POSITIVE": {
+          "Q": "오탐은 어떻게 신고하나요?",
+          "A": "게시된 모든 결과에 이의를 제기할 수 있습니다. 로그인 상태에서 직접 게시했다면 곧바로 삭제할 수 있고, 그렇지 않으면 <ghIssue>GitHub</ghIssue> 이슈를 열거나 <discord>Discord</discord>로 알려 주세요. 재확인 후 잘못된 항목을 제거하겠습니다."
+        },
+        "PROTOCOLS": {
+          "Q": "어떤 API 프로토콜을 지원하나요?",
+          "A": "Anthropic(/v1/messages), OpenAI(/v1/chat/completions), Google Gemini(generateContent)입니다. 먼저 공급자의 네이티브 형식을 시도하고 필요하면 OpenAI 호환 형식으로 대체합니다."
+        },
+        "OPEN_SOURCE": {
+          "Q": "오픈 소스인가요?",
+          "A": "네. 이 테스터는 전적으로 브라우저에서 실행되며 감지 라이브러리가 <gh>GitHub</gh>에 공개되어 있어, 어떤 프로브가 왜 실행되는지 정확히 읽고 새로운 것을 제안하거나 <discord>Discord</discord>에서 논의할 수 있습니다."
+        }
+      }
+    },
+    "GAUGE": {
+      "READY": "준비됨",
+      "RUNNING": "테스트 중",
+      "RUNNING_HINT": "당신의 엔드포인트에 대해 프로브를 실행하고 있습니다.",
+      "DONE_HINT": "각 호는 하나의 프로브입니다. 아래에서 프로브를 펼치면 프롬프트, 응답, 증거를 볼 수 있습니다."
+    },
+    "WHY": {
+      "TITLE": "이 테스터가 다른 이유",
+      "DETERMINISTIC_TITLE": "추측이 아닌 결정론적",
+      "DETERMINISTIC_BODY": "각 검사는 응답 속의 구체적인 신호와 일치하므로, 통계적 핑거프린팅처럼 진짜 모델을 가짜로 표시하지 않습니다. 정확한 코드를 읽어 보세요.",
+      "VERIFIED_TITLE": "게시하려면 서버 검증 필요",
+      "VERIFIED_BODY": "결과는 우리 서버가 전체 테스트를 직접 다시 실행한 뒤에야 공개 게시판에 오르므로 순위를 위조할 수 없습니다.",
+      "EVIDENCE_TITLE": "눈으로 볼 수 있는 증거",
+      "EVIDENCE_BODY": "모든 판정은 보낸 프롬프트, 원본 응답, 그리고 그것을 촉발한 일치 텍스트를 보여 줍니다. 숨기는 것은 없습니다."
+    }
   }
 }

@@ -22,6 +22,13 @@
       "when": 1782417843380,
       "tag": "0002_brown_the_spike",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1782676268774,
+      "tag": "0003_elite_purple_man",
+      "breakpoints": true
     }
   ]
 }

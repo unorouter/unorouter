@@ -118,6 +118,8 @@ export function partsToItems(parts: MessagePart[]): MessageItemData[] {
           model: String(data.model ?? ""),
           status: String(data.status ?? "pending"),
           ...(typeof data.progress === "string" && { progress: data.progress }),
+          // kind distinguishes the async-amend image placeholder from the video task.
+          ...(typeof data.kind === "string" && { kind: data.kind }),
         },
       });
     } else if (
@@ -195,6 +197,7 @@ export function itemsToParts(items: ApiMessage["items"]): MessagePart[] {
             ...(typeof data.progress === "string" && {
               progress: data.progress,
             }),
+            ...(typeof data.kind === "string" && { kind: data.kind }),
           },
         });
         break;

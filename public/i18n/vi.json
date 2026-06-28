@@ -28,7 +28,8 @@
     "PLAYGROUND": "Khu thử nghiệm",
     "STATUS": "Trạng thái",
     "COMPARE": "So sánh",
-    "LANGUAGE": "Ngôn ngữ"
+    "LANGUAGE": "Ngôn ngữ",
+    "MODEL_TESTER": "Trình kiểm tra"
   },
   "HOME": {
     "HERO": {
@@ -2298,6 +2299,7 @@
     "MODELS": "Mô hình",
     "PRICING": "Bảng giá",
     "DOCUMENTATION": "Tài liệu",
+    "BLOG": "Blog",
     "STATUS": "Trạng thái",
     "LEGAL": "Pháp lý",
     "PRIVACY": "Chính sách bảo mật",
@@ -3275,6 +3277,7 @@
       "STATUS_IN_PROGRESS": "Đang tạo",
       "STATUS_SUCCESS": "Hoàn tất",
       "STATUS_FAILURE": "Thất bại",
+      "GENERATING_IMAGE": "Đang tạo hình ảnh...",
       "REFRESH": "Làm mới"
     },
     "ATTACHMENT": {
@@ -3356,6 +3359,12 @@
       "CHAT_MEMORY_HINT": "Số tin nhắn gần đây gửi kèm mỗi yêu cầu.",
       "STREAMING_ENABLED": "Streaming",
       "STREAMING_ENABLED_HINT": "Tắt = chờ phản hồi đầy đủ rồi hiển thị. Một số mô hình chỉ xuất sạch khi đệm. Chủ yếu là sở thích người dùng.",
+      "MEMORY_ENABLED": "Bộ nhớ",
+      "IMAGE_ENABLED": "Hình ảnh trong trò chuyện",
+      "UTILITY_MODEL": "Mô hình tiện ích",
+      "UTILITY_MODEL_PLACEHOLDER": "Mặc định là mô hình trò chuyện",
+      "IMAGE_PROMPT_INSTRUCTION": "Hướng dẫn lời nhắc hình ảnh",
+      "IMAGE_PROMPT_INSTRUCTION_PLACEHOLDER": "Cách mô hình thứ hai viết lời nhắc hình ảnh (tùy chọn)",
       "SHOW_REASONING": "Hiển thị suy luận",
       "SYSTEM_PROMPT": "Ghi đè prompt hệ thống",
       "SYSTEM_PROMPT_PLACEHOLDER": "Để trống để dùng prompt hệ thống của nhân vật.",
@@ -3996,5 +4005,262 @@
     "UPLOAD_IMAGE": "Tải ảnh lên",
     "UPLOADING": "Đang tải lên...",
     "INIT_IMAGE": "Ảnh nguồn"
+  },
+  "MODEL_TESTER": {
+    "META": {
+      "TITLE": "Trinh kiem tra mo hinh API AI | {appName}",
+      "DESCRIPTION": "Xac minh mo hinh ma mot diem cuoi API thuc su cung cap. Kiem tra tinh xac thuc tat dinh cho Claude, GPT va Gemini, chay trong trinh duyet cua ban.",
+      "KEYWORDS": "trinh kiem tra mo hinh, tinh xac thuc api, mo hinh gia, claude, gpt, gemini"
+    },
+    "HERO": {
+      "TITLE": "Trinh kiem tra mo hinh API AI",
+      "SUBTITLE": "Kiem tra xem mot diem cuoi co cung cap dung mo hinh ma no tuyen bo khong. Chay trong trinh duyet, khoa cua ban khong duoc gui den may chu cua chung toi.",
+      "EYEBROW": "Xac minh truoc khi tin tuong",
+      "TRUST_BADGE": "Chay 100% phia trinh duyet. Khoa cua ban khong bao gio duoc gui den may chu cua chung toi."
+    },
+    "TABS": {
+      "TEST": "Kiem tra",
+      "HISTORY": "Lich su",
+      "RANKINGS": "Xep hang"
+    },
+    "PROVIDER": {
+      "ANTHROPIC": "Anthropic (Claude)",
+      "OPENAI": "OpenAI (GPT)",
+      "GEMINI": "Google (Gemini)"
+    },
+    "FORM": {
+      "PROVIDER": "Dinh dang API",
+      "BASE_URL": "URL co so API",
+      "API_KEY": "Khoa API",
+      "MODEL": "Mo hinh",
+      "PUBLISH": "Dang len bang xep hang cong khai",
+      "PUBLISH_HINT": "Chi chia se host, mo hinh va diem so. Khong bao gio chia se khoa cua ban.",
+      "RUN": "Chay kiem tra",
+      "RUN_BACKEND": "Kiem tra qua may chu",
+      "CORS_TITLE": "Diem cuoi nay chan yeu cau tu trinh duyet",
+      "CORS_WARNING": "Thay vao do co the kiem tra qua may chu cua chung toi. Khoa cua ban chi di qua bo nho va khong bao gio duoc luu. Hay doi khoa sau do de an toan.",
+      "RUN_PUBLISH": "Xac minh tren may chu cua chung toi va dang",
+      "SECTION_TITLE": "Cau hinh yeu cau",
+      "SECTION_DESC": "Cau hinh diem cuoi va khoa, sau do chay bai kiem tra trong trinh duyet cua ban."
+    },
+    "VERDICT": {
+      "GENUINE": "That",
+      "SUSPICIOUS": "Dang ngo",
+      "UNVERIFIED": "Chua xac minh",
+      "VERSION_UNVERIFIABLE": "Da xac nhan mo hinh that. Khong the xac minh phien ban chinh xac bang tham do."
+    },
+    "PROBE": {
+      "EMOTIONAL": "Cam xuc",
+      "CREATIVE": "Sang tao",
+      "IDENTITY": "Danh tinh",
+      "MODEL-NAME": "Ten mo hinh"
+    },
+    "RESULT": {
+      "PASSED": "Dat {passed}/{total} tham do",
+      "LATENCY": "{ms}ms",
+      "TRANSPORT": "qua {mode}",
+      "IDLE": "Chay mot bai kiem tra de xem ket qua o day.",
+      "DETECTED_MODEL": "Mo hinh phat hien",
+      "TOTAL_TOKENS": "{tokens} token",
+      "FORMAT_FELL_BACK": "Dinh dang goc khong duoc ho tro; da kiem tra qua {format}.",
+      "EVIDENCE": "Bằng chứng",
+      "HIGHLIGHT_LEGEND": {
+        "FOREIGN": "Đã nêu tên nhà cung cấp ngoại lai",
+        "CODING_TOOL": "Cụm từ lớp bọc công cụ lập trình",
+        "SCAM": "Văn bản lừa đảo / đánh cắp token",
+        "CJK": "Ký tự CJK ngoài dự kiến",
+        "HOME": "Khớp danh tính như dự kiến"
+      }
+    },
+    "HISTORY": {
+      "EMPTY": "Chua co bai kiem tra nao. Chay mot bai de tao lich su.",
+      "PUBLISH": "Dang",
+      "DELETE_TITLE": "Xoa bai kiem tra",
+      "DELETE_BODY": "Xoa bai kiem tra khoi lich su cuc bo cua ban.",
+      "DELETE_CONFIRM": "Xoa",
+      "DELETE_CANCEL": "Huy",
+      "META_TITLE": "Lich su kiem tra | {appName}"
+    },
+    "RANKINGS": {
+      "EMPTY": "Chua co ket qua nao duoc dang.",
+      "SAMPLES": "{count} bai kiem tra",
+      "LAST_TESTED": "kiem tra lan cuoi {when}",
+      "PREV": "Truoc",
+      "NEXT": "Tiep",
+      "STAT_DETECTIONS": "Tong so phat hien",
+      "STAT_PROVIDERS": "Nha cung cap duoc theo doi",
+      "STAT_PASS_RATE": "Ty le dat trung binh",
+      "META_TITLE": "Xep hang tinh xac thuc mo hinh | {appName}",
+      "META_DESCRIPTION": "Xem nha cung cap API nao phuc vu dung mo hinh that ma ho tuyen bo, xep hang theo ty le dat tat dinh.",
+      "DISCLAIMER": "Mọi kết quả đã công bố đều được chạy lại trên máy chủ của chúng tôi trước khi được tính, và mỗi phán quyết đều liên kết tới bằng chứng chính xác đã tạo ra nó. Một kết quả mà bạn cho là sai có thể được khiếu nại.",
+      "REPORT_DISCORD": "Báo cáo trên Discord",
+      "REPORT_GITHUB": "Mở một issue trên GitHub",
+      "NOT_TESTED": "Chưa được kiểm tra",
+      "LOW_CONFIDENCE": "Độ tin cậy thấp ({count} lần kiểm tra)",
+      "SELF_TITLE": "Chúng tôi tự đặt mình theo cùng một chuẩn mực",
+      "SELF_BODY": "{appName} được kiểm tra bằng chính công cụ này. Xem bằng chứng."
+    },
+    "DETAIL": {
+      "BACK": "Quay lai trinh kiem tra",
+      "NOT_FOUND": "Khong tim thay bai kiem tra.",
+      "LOCAL_ONLY": "Bai kiem tra cuc bo, chi luu tren thiet bi cua ban. Hay dang de may chu cua chung toi xac minh va no xuat hien tren bang cong khai.",
+      "DISCLAIMER": "Điểm số chỉ được tính từ các lượt thăm dò đã được máy chủ xác minh. Một mô hình chính hãng xác nhận nhà cung cấp và cấp bậc; phiên bản chính xác không bao giờ được khẳng định. Hãy khiếu nại một kết quả mà bạn cho là sai qua các liên kết bên dưới.",
+      "SUBMISSIONS": "Lượt gửi gần đây",
+      "SUBMITTED_BY": "Được gửi bởi {who}",
+      "ANONYMOUS": "ẩn danh",
+      "DELETE_MINE": "Xóa",
+      "REPORT": "Báo cáo",
+      "REPORT_HELP": "Không phải kết quả của bạn? Hãy khiếu nại:",
+      "DELETE_TITLE": "Gỡ kết quả đã công bố này?",
+      "DELETE_BODY": "Thao tác này rút lượt gửi của bạn khỏi bảng xếp hạng công khai. Lịch sử cục bộ của bạn không bị ảnh hưởng.",
+      "DELETE_CONFIRM": "Gỡ",
+      "DELETE_CANCEL": "Hủy",
+      "GUEST_CANNOT_DELETE": "Lượt gửi của khách không thể xóa ở đây. Hãy báo cáo qua Discord hoặc GitHub."
+    },
+    "PROBE_DETAIL": {
+      "PROMPT": "Loi nhac da gui",
+      "RESPONSE": "Phan hoi cua mo hinh",
+      "STATUS": "HTTP",
+      "TOKENS": "Token (vao/ra)",
+      "SIGNAL": "Tin hieu",
+      "REASON": "Ly do",
+      "NO_RESPONSE": "Khong co phan hoi nao duoc ghi lai."
+    },
+    "NAV": {
+      "TEST_DESC": "Kiem tra diem cuoi truc tiep",
+      "HISTORY_DESC": "Cac bai kiem tra truoc cua ban",
+      "RANKINGS_DESC": "Bang xep hang cong khai"
+    },
+    "CONNECTIVITY": {
+      "CORS": "Diem cuoi chan yeu cau tu trinh duyet. Hay dung kiem tra qua may chu.",
+      "UNREACHABLE": "Khong the ket noi diem cuoi. Kiem tra URL co so.",
+      "INVALID_KEY": "Khoa API khong hop le.",
+      "NO_FORMAT": "Diem cuoi khong chap nhan dinh dang API nao duoc ho tro."
+    },
+    "PUBLISH": {
+      "WARN_TITLE": "Thao tac nay gui khoa cua ban den backend cua chung toi",
+      "WARN_BODY": "De ngan ket qua gia mao, khi dang toan bo bai kiem tra chay tren may chu cua chung toi, nen chung toi tao ket luan. Khoa cua ban chi di qua bo nho may chu va khong bao gio duoc luu.",
+      "WARN_THROWAWAY": "Dung khoa dung mot lan voi han muc thap va doi sau do.",
+      "DONE": "Da duoc may chu cua chung toi xac minh va dang len bang xep hang cong khai. Cung da luu vao lich su cua ban.",
+      "DEDUPED": "Da dang gan day cho diem cuoi nay.",
+      "FAILED": "Khong the xac minh diem cuoi nay. Khong co gi duoc dang."
+    },
+    "TRUST": {
+      "TITLE": "Ma nguon mo. Hay xac minh va cai thien.",
+      "BODY": "Ma kiem tra duoc cong khai. Xem chinh xac tham do nao chay va tai sao, de xuat bai kiem tra moi, hoac thao luan ve phat hien tren Discord cua chung toi.",
+      "GITHUB": "Xem ma tren GitHub",
+      "DISCORD": "Thao luan bai kiem tra tren Discord"
+    },
+    "RULES": {
+      "SECTION_TITLE": "Cách thức phát hiện hoạt động",
+      "WHY_LABEL": "Lý do:",
+      "NOT_FLAGGED_LABEL": "Không bị gắn cờ khi:",
+      "NOT_FRAUD_TITLE": "Điều gì KHÔNG bị tính là giả mạo",
+      "PROOF": "Toàn bộ công cụ kiểm tra này là mã nguồn mở. Đọc chính xác phép thử nào chạy và vì sao:",
+      "CODING-TOOL": {
+        "TITLE": "Lớp bọc công cụ lập trình",
+        "MEANS": "Câu trả lời dùng những cụm từ rập khuôn của một trợ lý lập trình (Kiro, Cascade, Codeium và tương tự), từ chối một lời nhắc sáng tạo hoặc cảm xúc thông thường.",
+        "WHY": "Một Claude/GPT/Gemini thật sẽ trả lời câu chuyện về chú mèo con hay một bài haiku. Bản chưng cất của công cụ lập trình từ chối điều đó, qua đó phơi bày một mô hình bị thay thế đằng sau điểm cuối.",
+        "EXCEPTION": "mô hình chỉ đơn giản từ chối vì lý do an toàn mà không dùng các cụm từ khuôn mẫu của trợ lý lập trình."
+      },
+      "SCAM": {
+        "TITLE": "Trang lừa đảo / đánh cắp token",
+        "MEANS": "Câu trả lời chứa văn bản đánh cắp token hoặc lừa đảo đã biết thay vì một câu trả lời của mô hình.",
+        "WHY": "Một điểm cuối trả về trang lừa đảo thì hoàn toàn không phục vụ mô hình nào cả.",
+        "EXCEPTION": "mô hình bàn về từ «token» một cách chính đáng trong một câu trả lời thông thường."
+      },
+      "CJK-LEAK": {
+        "TITLE": "Rò rỉ ngôn ngữ ngoài dự kiến",
+        "MEANS": "Một lời nhắc chỉ bằng tiếng Anh trở về với bốn ký tự CJK (Trung/Nhật/Hàn) trở lên.",
+        "WHY": "Việc CJK rò rỉ vào một câu trả lời tiếng Anh là dấu hiệu mạnh của một mô hình Trung Quốc bị thay thế hoặc một proxy làm hỏng dữ liệu, ngay cả khi câu hỏi về danh tính được trả lời đúng.",
+        "EXCEPTION": "bạn đã hỏi bằng hoặc về một ngôn ngữ CJK, nên việc có CJK trong câu trả lời là điều dự kiến."
+      },
+      "MUX": {
+        "TITLE": "Trộn lẫn câu trả lời (proxy không an toàn)",
+        "MEANS": "Mỗi lượt thăm dò mang một nonce duy nhất; hai câu trả lời trở lên trở về mà không có nonce chúng tôi đã gửi, sau các lần thử lại.",
+        "WHY": "Một proxy ghép kênh một yêu cầu lên nhiều máy chủ thượng nguồn trả về những câu trả lời không khớp với yêu cầu chúng tôi đã đưa ra, điều mà một điểm cuối trung thực với mô hình đơn không bao giờ làm.",
+        "EXCEPTION": "một lần thiếu nonce đơn lẻ xảy ra một lần (chúng tôi thử lại trước); chỉ những sai lệch lặp lại mới được tính."
+      },
+      "FOREIGN": {
+        "TITLE": "Danh tính nhà cung cấp ngoại lai",
+        "MEANS": "Ở lượt thăm dò danh tính hoặc tên mô hình, câu trả lời nêu tên một nhà cung cấp khác với yêu cầu (ví dụ OpenAI hoặc Gemini khi yêu cầu là Claude).",
+        "WHY": "Một mô hình nêu tên phòng thí nghiệm đối thủ là người tạo ra mình thì đang được phục vụ bởi chính đối thủ đó, chứ không phải bên bạn đã trả tiền.",
+        "EXCEPTION": "mô hình mơ hồ về phiên bản của mình hoặc từ chối nêu tên mình, điều mà các mô hình thật thường làm."
+      },
+      "TIER-MISMATCH": {
+        "TITLE": "Hạ cấp bậc (Claude)",
+        "MEANS": "Bạn đã yêu cầu một bậc của Claude (Opus) nhưng mô hình nêu tên một bậc rẻ hơn (Sonnet hoặc Haiku).",
+        "WHY": "Claude có thể mơ hồ về phiên bản chính xác nhưng không bao giờ nhầm lẫn cấp bậc của mình, nên một bậc thấp hơn được nêu đích danh là một sự hạ cấp có chủ ý.",
+        "EXCEPTION": "mô hình không chắc về số phiên bản của mình; chỉ một bậc khác được nêu rõ ràng mới được tính."
+      },
+      "EXCEPTION": {
+        "VERSION": {
+          "TITLE": "Mơ hồ về phiên bản",
+          "BODY": "một mô hình chính hãng xác nhận nhà cung cấp và cấp bậc nhưng thường không chắc về phiên bản chính xác. Riêng điều đó không bao giờ là một lần thất bại, chỉ được đánh dấu mang tính tham khảo."
+        },
+        "TRANSIENT": {
+          "TITLE": "Lỗi tạm thời",
+          "BODY": "giới hạn tốc độ (429), lỗi 5xx và hết thời gian chờ đánh dấu một lần chạy là chưa xác minh, không bao giờ là đáng ngờ. Một điểm cuối thật đang gặp một khoảnh khắc tồi tệ sẽ không bị phạt."
+        },
+        "CLOUD-HOST": {
+          "TITLE": "Tên máy chủ đám mây",
+          "BODY": "việc nêu AWS Bedrock, Google Vertex hoặc Azure làm máy chủ được chấp nhận, vì đó là những cách hợp lệ để bán lại mô hình thật."
+        },
+        "RESHAPING": {
+          "TITLE": "Định hình lại giao thức",
+          "BODY": "việc chuyển đổi giữa chat-completions và định dạng messages gốc là hành vi cổng kết nối bình thường và không phải tín hiệu gian lận khi bản thân mô hình là chính hãng."
+        },
+        "THRESHOLD": {
+          "TITLE": "Một lượt thăm dò chập chờn",
+          "BODY": "ba trong bốn lượt thăm dò đạt là đủ để được xem là chính hãng, nên một câu trả lời lệch lạc đơn lẻ không kết tội một điểm cuối trung thực."
+        }
+      },
+      "COMMUNITY": "Có ý tưởng cho một phép thử tốt hơn? Đề xuất tại đây:",
+      "SOURCE_LINK": "Xem mã phát hiện"
+    },
+    "FAQ": {
+      "TITLE": "Câu hỏi thường gặp",
+      "ITEMS": {
+        "KEY_SAFE": {
+          "Q": "Khóa API của tôi có an toàn không?",
+          "A": "Với một bài kiểm tra cục bộ, khóa không bao giờ rời khỏi trình duyệt của bạn, nó được gửi thẳng tới điểm cuối bạn đã nhập. Chỉ khi bạn chọn công bố thì khóa mới đến máy chủ của chúng tôi, máy chủ chạy bài kiểm tra trong bộ nhớ và không bao giờ lưu nó. Hãy dùng một khóa dùng một lần nếu còn nghi ngại."
+        },
+        "SERVER_PROXY": {
+          "Q": "Vì sao đôi khi cần một proxy phía máy chủ?",
+          "A": "Một số điểm cuối chặn các yêu cầu trực tiếp từ trình duyệt (<cors>CORS</cors>). Khi điều đó xảy ra, chúng tôi cung cấp một bài kiểm tra phía máy chủ tùy chọn để chuyển tiếp các lượt thăm dò thay cho bạn. Việc công bố luôn chạy phía máy chủ để kết quả công khai không thể bị làm giả."
+        },
+        "RELIABILITY": {
+          "Q": "Điểm số đáng tin đến mức nào?",
+          "A": "Việc phát hiện mang tính tất định, không phải phỏng đoán bằng học máy. Mỗi lượt thăm dò hoặc khớp với một tín hiệu cụ thể hoặc không, và kết quả cho bạn thấy bằng chứng chính xác. Chúng tôi yêu cầu ba trong bốn lượt thăm dò phải đạt và xem các lỗi tạm thời là chưa xác minh chứ không phải thất bại."
+        },
+        "FALSE_POSITIVE": {
+          "Q": "Tôi báo cáo một kết quả dương tính giả như thế nào?",
+          "A": "Mọi kết quả đã công bố đều có thể khiếu nại. Nếu chính bạn công bố nó khi đang đăng nhập thì bạn có thể xóa trực tiếp; nếu không, hãy mở một issue trên <ghIssue>GitHub</ghIssue> hoặc nhắn cho chúng tôi trên <discord>Discord</discord>, chúng tôi sẽ kiểm tra lại và gỡ các mục sai."
+        },
+        "PROTOCOLS": {
+          "Q": "Những giao thức API nào được hỗ trợ?",
+          "A": "Anthropic (/v1/messages), OpenAI (/v1/chat/completions) và Google Gemini (generateContent). Chúng tôi thử định dạng gốc của nhà cung cấp trước rồi chuyển sang định dạng tương thích OpenAI nếu cần."
+        },
+        "OPEN_SOURCE": {
+          "Q": "Nó có phải mã nguồn mở không?",
+          "A": "Có. Công cụ kiểm tra này chạy hoàn toàn trong trình duyệt của bạn và thư viện phát hiện của nó được công khai trên <gh>GitHub</gh>, vì vậy bạn có thể đọc chính xác phép thử nào chạy và vì sao, đề xuất phép thử mới hoặc thảo luận trên <discord>Discord</discord>."
+        }
+      }
+    },
+    "GAUGE": {
+      "READY": "Sẵn sàng",
+      "RUNNING": "Đang kiểm tra",
+      "RUNNING_HINT": "Đang chạy các lượt thăm dò đối với điểm cuối của bạn.",
+      "DONE_HINT": "Mỗi cung tròn là một lượt thăm dò. Mở rộng một lượt thăm dò bên dưới để xem lời nhắc, câu trả lời và bằng chứng."
+    },
+    "WHY": {
+      "TITLE": "Vì sao trình kiểm tra này khác biệt",
+      "DETERMINISTIC_TITLE": "Tất định, không phải phỏng đoán",
+      "DETERMINISTIC_BODY": "Mỗi lần kiểm tra đều khớp với một tín hiệu cụ thể trong câu trả lời, nên chúng tôi không gắn cờ các mô hình thật là giả theo cách mà việc lấy dấu vân tay thống kê làm. Hãy đọc mã chính xác.",
+      "VERIFIED_TITLE": "Được máy chủ xác minh để công bố",
+      "VERIFIED_BODY": "Một kết quả chỉ lên bảng công khai sau khi máy chủ của chúng tôi tự chạy lại toàn bộ bài kiểm tra, nên các bảng xếp hạng không thể bị làm giả.",
+      "EVIDENCE_TITLE": "Bằng chứng bạn có thể thấy",
+      "EVIDENCE_BODY": "Mỗi phán quyết đều cho thấy lời nhắc đã gửi, câu trả lời thô và đoạn văn bản khớp đã kích hoạt nó. Không có gì bị che giấu."
+    }
   }
 }

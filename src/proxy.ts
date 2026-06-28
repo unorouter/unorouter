@@ -34,6 +34,16 @@ export default function proxy(request: NextRequest) {
     return res;
   }
 
+  // Tester route needs cross-origin isolation for SQLocal/OPFS history persistence.
+  // next.config headers() covers prod; dev/turbopack bypasses it, so stamp here too.
+  if (/^\/[a-z-]+\/ai-api-model-tester(\/|$)/.test(pathname)) {
+    request.headers.set(SERVER_URL_KEY, request.url);
+    const res = createMiddleware(routing)(request);
+    res.headers.set("Cross-Origin-Embedder-Policy", "require-corp");
+    res.headers.set("Cross-Origin-Opener-Policy", "same-origin");
+    return res;
+  }
+
   // Stamp the request URL so server components can read it (sidebar layout's /login?redirect=<path>).
   request.headers.set(SERVER_URL_KEY, request.url);
   return createMiddleware(routing)(request);

@@ -1,0 +1,44 @@
+// Model-tester validation. Local-first entity: drives the client form, narrows the
+// SQLocal row, and (minus the key) the publish payload.
+
+import { Type as t, type Static } from "@sinclair/typebox/type";
+
+// Verdict is a CLOSED union (narrows the column). Provider is an OPEN bounded
+// string (the real proprietary-model set is unbounded and curated in the lib).
+export const VERIFY_VERDICTS = ["genuine", "suspicious", "unverified"] as const;
+export const verifyVerdict = t.Union(VERIFY_VERDICTS.map((v) => t.Literal(v)));
+export type VerifyVerdictValue = Static<typeof verifyVerdict>;
+
+export const VERIFY_PROVIDERS = ["anthropic", "openai", "gemini"] as const;
+export const verifyProviderValue = t.Union(
+  VERIFY_PROVIDERS.map((p) => t.Literal(p)),
+);
+export type VerifyProviderValue = Static<typeof verifyProviderValue>;
+
+export const probeOutcome = t.Object({
+  label: t.String(),
+  pass: t.Boolean(),
+  signal: t.Union([t.String(), t.Null()]),
+  muxFailure: t.Boolean(),
+  transient: t.Boolean(),
+  latencyMs: t.Number(),
+});
+export type ProbeOutcomeValue = Static<typeof probeOutcome>;
+
+const MAX_URL_LEN = 2_048;
+const MAX_KEY_LEN = 4_096;
+
+// Form state only. apiKey never persists and never reaches the publish payload.
+export const modelTesterForm = t.Object({
+  provider: t.Union(
+    VERIFY_PROVIDERS.map((p) => t.Literal(p)),
+    {
+      default: "anthropic",
+    },
+  ),
+  baseUrl: t.String({ minLength: 1, maxLength: MAX_URL_LEN, default: "" }),
+  apiKey: t.String({ maxLength: MAX_KEY_LEN, default: "" }),
+  model: t.String({ minLength: 1, maxLength: 256, default: "" }),
+  publish: t.Boolean({ default: false }),
+});
+export type ModelTesterForm = Static<typeof modelTesterForm>;
