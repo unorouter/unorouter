@@ -3673,6 +3673,7 @@
     "UNAUTHORIZED": "未授權",
     "NO_API_KEY": "未設定 API 金鑰",
     "NOT_FOUND": "找不到資源",
+    "MESSAGE_NOT_FOUND": "此訊息已不存在。請重新整理頁面後再試一次。",
     "NO_TASK_ID": "回應中缺少任務 ID 或 URL",
     "REQUEST_FAILED": "請求失敗",
     "PRICING_FETCH_FAILED": "取得價格資料失敗",

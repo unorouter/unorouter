@@ -3673,6 +3673,7 @@
     "UNAUTHORIZED": "Nicht autorisiert",
     "NO_API_KEY": "Kein API-Schlüssel konfiguriert",
     "NOT_FOUND": "Ressource nicht gefunden",
+    "MESSAGE_NOT_FOUND": "Diese Nachricht existiert nicht mehr. Aktualisiere die Seite und versuche es erneut.",
     "NO_TASK_ID": "Keine Aufgaben-ID oder URL in der Antwort",
     "REQUEST_FAILED": "Anfrage fehlgeschlagen",
     "PRICING_FETCH_FAILED": "Preisdaten konnten nicht abgerufen werden",

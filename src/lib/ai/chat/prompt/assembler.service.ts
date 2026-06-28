@@ -1,4 +1,5 @@
 import { parseStringMap } from "@/lib/utils/base";
+import { DEFAULT_CHAT_MEMORY } from "@/lib/config/constants";
 import { logger } from "@/lib/utils/logger";
 import {
   parseExtraBody as parseExtraBodyShared,
@@ -213,8 +214,8 @@ export function assembleFromOverrides(
     ...baseAssembled(overridesSystem),
     sampling,
     reasoningEffort: overrides?.reasoningEffort ?? undefined,
-    // default to 8, not 0: a 0 default would silently disable chat memory for guests.
-    chatMemory: overrides?.chatMemory ?? 8,
+    // non-zero default (a 0 default would silently disable chat memory for guests).
+    chatMemory: overrides?.chatMemory ?? DEFAULT_CHAT_MEMORY,
     streamingEnabled: overrides?.streamingEnabled ?? true,
     authorNote,
     extraBody: parseExtraBody(overrides?.extraBody),
@@ -483,7 +484,8 @@ export async function assembleForStream(
     sampling,
     reasoningEffort: reasoningEffort ?? undefined,
     // Precedence: conv override -> preset -> default; null conv = inherit preset.
-    chatMemory: settings.chatMemory ?? preset?.chatMemory ?? 8,
+    chatMemory:
+      settings.chatMemory ?? preset?.chatMemory ?? DEFAULT_CHAT_MEMORY,
     streamingEnabled:
       settings.streamingEnabled ?? preset?.streamingEnabled ?? true,
     authorNote,

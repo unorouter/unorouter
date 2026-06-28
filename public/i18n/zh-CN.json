@@ -3673,6 +3673,7 @@
     "UNAUTHORIZED": "未授权",
     "NO_API_KEY": "未配置 API 密钥",
     "NOT_FOUND": "资源未找到",
+    "MESSAGE_NOT_FOUND": "该消息已不存在。请刷新页面后重试。",
     "NO_TASK_ID": "响应中没有任务 ID 或 URL",
     "REQUEST_FAILED": "请求失败",
     "PRICING_FETCH_FAILED": "获取价格数据失败",

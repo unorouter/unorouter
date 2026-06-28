@@ -3673,6 +3673,7 @@
     "UNAUTHORIZED": "Tidak diotorisasi",
     "NO_API_KEY": "Kunci API tidak dikonfigurasi",
     "NOT_FOUND": "Sumber daya tidak ditemukan",
+    "MESSAGE_NOT_FOUND": "Pesan ini sudah tidak ada. Muat ulang halaman dan coba lagi.",
     "NO_TASK_ID": "Tidak ada ID tugas atau URL dalam respons",
     "REQUEST_FAILED": "Permintaan gagal",
     "PRICING_FETCH_FAILED": "Gagal mengambil data harga",

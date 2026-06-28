@@ -3673,6 +3673,7 @@
     "UNAUTHORIZED": "Không có quyền",
     "NO_API_KEY": "Chưa cấu hình API key",
     "NOT_FOUND": "Không tìm thấy tài nguyên",
+    "MESSAGE_NOT_FOUND": "Tin nhắn này không còn tồn tại. Hãy tải lại trang và thử lại.",
     "NO_TASK_ID": "Không có ID tác vụ hoặc URL trong phản hồi",
     "REQUEST_FAILED": "Yêu cầu thất bại",
     "PRICING_FETCH_FAILED": "Không lấy được dữ liệu giá",

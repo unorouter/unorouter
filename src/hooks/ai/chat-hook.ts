@@ -4,7 +4,7 @@ import { useElysiaQuery } from "@/lib/react-query/hooks";
 
 import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { joinItemsToMessages } from "@/lib/ai/chat/messages";
-import { PAGE_SIZE } from "@/lib/config/constants";
+import { msg, PAGE_SIZE } from "@/lib/config/constants";
 import { invalidateAndBroadcast } from "@/lib/react-query/cross-tab-invalidate";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
@@ -315,6 +315,12 @@ export function useEditMessageMutation() {
       userId,
       args: { convId: string; msgId: string; body: EditMessageBody },
     ) => {
+      // Existence check FIRST: a delete (e.g. of the AI response) can splice/drop the
+      // row before this edit fires. Writing items under a gone message left orphan rows
+      // that showed in runtime state but vanished on refresh (Matic's ghost message).
+      const msgs = (await readLocalMessages(userId, args.convId)) ?? [];
+      const existing = msgs.find((m) => m.id === args.msgId);
+      if (!existing) throw new Error(msg("ERRORS.MESSAGE_NOT_FOUND"));
       const itemsWithMsg = args.body.items.map((it, seq) => ({
         id: it.id ?? uid(),
         messageId: args.msgId,
@@ -325,14 +331,11 @@ export function useEditMessageMutation() {
       }));
       await replaceLocalMessageItems(userId, args.msgId, itemsWithMsg);
       const now = dayjs().toDate();
-      const msgs = (await readLocalMessages(userId, args.convId)) ?? [];
-      const existing = msgs.find((m) => m.id === args.msgId);
-      const updatedMsg = existing
-        ? { ...existing, isEdited: true, updatedAt: now }
-        : null;
-      if (updatedMsg) {
-        await upsertLocalMessage(userId, updatedMsg);
-      }
+      await upsertLocalMessage(userId, {
+        ...existing,
+        isEdited: true,
+        updatedAt: now,
+      });
       await bumpConvUpdatedAt(userId, args.convId);
       return { items: itemsWithMsg };
     },

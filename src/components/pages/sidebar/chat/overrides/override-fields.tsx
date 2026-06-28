@@ -19,7 +19,7 @@ import { useCharactersQuery } from "@/hooks/ai/rp/characters";
 import { useLorebooksQuery } from "@/hooks/ai/rp/lorebooks";
 import { usePersonasQuery } from "@/hooks/ai/rp/personas";
 import { usePresetsQuery } from "@/hooks/ai/rp/presets";
-import { msg, NONE_VALUE } from "@/lib/config/constants";
+import { DEFAULT_CHAT_MEMORY, msg, NONE_VALUE } from "@/lib/config/constants";
 import { parseExtraBody } from "@/lib/validation/chat";
 import type { ConversationOverridesForm } from "@/lib/validation/rp-forms";
 import { useTranslations } from "next-intl";
@@ -124,8 +124,8 @@ export function OverridesGenerationFields(props: {
               <FormControl>
                 <Slider
                   min={1}
-                  max={200}
-                  value={[field.value ?? 8]}
+                  max={DEFAULT_CHAT_MEMORY}
+                  value={[field.value ?? DEFAULT_CHAT_MEMORY]}
                   onValueChange={(v) =>
                     field.onChange(Array.isArray(v) ? v[0] : v)
                   }

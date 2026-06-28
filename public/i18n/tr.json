@@ -3673,6 +3673,7 @@
     "UNAUTHORIZED": "Yetkisiz",
     "NO_API_KEY": "API anahtarı yapılandırılmamış",
     "NOT_FOUND": "Kaynak bulunamadı",
+    "MESSAGE_NOT_FOUND": "Bu mesaj artık mevcut değil. Sayfayı yenileyip tekrar deneyin.",
     "NO_TASK_ID": "Yanıtta görev ID veya URL yok",
     "REQUEST_FAILED": "İstek başarısız",
     "PRICING_FETCH_FAILED": "Fiyatlandırma verisi alınamadı",

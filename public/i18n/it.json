@@ -3673,6 +3673,7 @@
     "UNAUTHORIZED": "Non autorizzato",
     "NO_API_KEY": "Nessuna chiave API configurata",
     "NOT_FOUND": "Risorsa non trovata",
+    "MESSAGE_NOT_FOUND": "Questo messaggio non esiste più. Aggiorna la pagina e riprova.",
     "NO_TASK_ID": "Nessun ID attività o URL nella risposta",
     "REQUEST_FAILED": "Richiesta fallita",
     "PRICING_FETCH_FAILED": "Recupero dati di prezzo fallito",

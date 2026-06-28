@@ -147,6 +147,10 @@ export const UNKNOWN_MODEL_OUTPUT_CAP = 4096;
 // Headroom kept clear when fitting history to the context window: covers tokenizer drift plus post-truncation injects.
 export const CONTEXT_SAFETY_MARGIN = 2048;
 
+// Chat-memory fallback when neither conv nor preset sets it. Matches the slider max
+// so a fresh chat sits at the top; non-zero so memory isn't silently disabled for guests.
+export const DEFAULT_CHAT_MEMORY = 200;
+
 export const TAVILY_TIMEOUT_MS = 5_000;
 
 export const MODERATION_TIMEOUT_MS = 5_000;
