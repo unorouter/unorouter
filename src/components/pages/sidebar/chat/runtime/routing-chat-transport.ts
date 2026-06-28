@@ -34,20 +34,13 @@ import {
   hasBodyMutation,
   makeBodyMutationFetch,
 } from "@/lib/ai/chat/provider-mutations";
-import {
-  isCustomModelId,
-  normalizeBaseUrl,
-  parseCustomModelId,
-} from "@/lib/ai/chat/custom-provider-id";
 import type { TokenizerRef } from "@/lib/ai/chat/tokenizer";
-import { readLocalCustomProvider } from "@/lib/db/client/data/custom-providers";
 import { chatModelAtom, chatStore, localUserIdAtom } from "@/store/chat-store";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { isMediaType, type ProcessedModel } from "@/lib/api/pricing";
 import { buildChatRequestBody } from "./chat-transport";
-import { buildClientDeps } from "./client-deps";
-import { buildDefaultClientDeps } from "./default-deps";
+import { resolveModelTargetFromStore } from "./resolve-model-target";
 
 type SendOptions = Parameters<ChatTransport<ChatUIMessage>["sendMessages"]>[0];
 
@@ -87,6 +80,8 @@ async function runClientStream(args: {
     body,
     userId,
     args.deps,
+    // Cancel assembly (tokenizer load, context resolve, lorebook scan) if the user aborts before streaming.
+    args.options.abortSignal,
   );
 
   const collector = createMetaCollector();
@@ -180,41 +175,20 @@ export function makeRoutingTransport(
     body: () => buildChatRequestBody(getConvIdRef.current),
   });
 
-  const sendCustom = async (
+  // Both text paths (custom + default) resolve through the shared model-target resolver, then stream identically.
+  const sendText = async (
     modelId: string,
     options: SendOptions,
   ): Promise<ReadableStream<UIMessageChunk>> => {
-    const userId = chatStore.get(localUserIdAtom);
-    const parsed = parseCustomModelId(modelId);
-    if (!parsed) throw new Error("invalid custom model id");
-    const provider = await readLocalCustomProvider(userId, parsed.providerId);
-    if (!provider) throw new Error("custom provider not found");
-    const modelRow = provider.models.find((m) => m.key === parsed.modelKey);
+    const target = await resolveModelTargetFromStore(modelId);
     return runClientStream({
-      apiKey: provider.apiKey,
-      baseURL: normalizeBaseUrl(provider.baseUrl),
-      model: parsed.modelKey,
-      deps: buildClientDeps(userId, provider),
+      apiKey: target.apiKey,
+      baseURL: target.baseURL,
+      model: target.model,
+      deps: target.deps,
       options,
       getConvId: getConvIdRef.current,
-      tokenizer: (modelRow?.tokenizer as TokenizerRef | undefined) ?? undefined,
-    });
-  };
-
-  const sendDefault = async (
-    model: string,
-    options: SendOptions,
-  ): Promise<ReadableStream<UIMessageChunk>> => {
-    const userId = chatStore.get(localUserIdAtom);
-    return runClientStream({
-      // The proxy injects the real token from cookies; the SDK only needs a truthy placeholder. ABSOLUTE
-      // same-origin URL because the SDK does `new URL(baseURL + path)` (a relative base throws).
-      apiKey: "proxy",
-      baseURL: `${window.location.origin}/api/ai/chat/forward`,
-      model,
-      deps: buildDefaultClientDeps(userId),
-      options,
-      getConvId: getConvIdRef.current,
+      ...(target.tokenizer ? { tokenizer: target.tokenizer } : {}),
     });
   };
 
@@ -222,10 +196,9 @@ export function makeRoutingTransport(
     sendMessages: (options) => {
       // Snapshot the model once: the routing decision and the async build must agree if the atom changes mid-send.
       const modelId = chatStore.get(chatModelAtom) ?? "";
-      if (isCustomModelId(modelId)) return sendCustom(modelId, options);
-      // Media -> server route (moderation + per-modality dispatch); text -> client engine via the proxy.
+      // Media -> server route (moderation + per-modality dispatch); text (custom + default) -> client engine.
       if (isMediaModel(modelId)) return mediaTransport.sendMessages(options);
-      return sendDefault(modelId, options);
+      return sendText(modelId, options);
     },
     // No server-side stream to reconnect to (client owns the stream). Resume is not supported.
     reconnectToStream: async () => null,

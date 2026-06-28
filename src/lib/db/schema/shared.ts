@@ -103,6 +103,12 @@ export const conversations = sqliteTable(
     summaryAnchor: integer("summary_anchor"),
     // Toggle for the rolling summary + semantic retrieval memory features.
     memoryEnabled: integer("memory_enabled", { mode: "boolean" }),
+    // Agent utility model: the summarizer + illustrator prompt-writer use this (full context). null = the chat model.
+    utilityModel: text("utility_model"),
+    // Illustrator agent: auto in-chat image generation after each reply.
+    imageEnabled: integer("image_enabled", { mode: "boolean" }),
+    // Illustrator prompt-writer instruction (overrides the default); null = default instruction.
+    promptInstruction: text("prompt_instruction"),
     // RisuAI fmIndex: which greeting opens the chat (-1 = firstMessage, 0..n = alternateGreetings index).
     firstMsgIndex: integer("first_msg_index").notNull().default(-1),
     // Sidebar grouping/folder; null = ungrouped. References chat_groups; SET NULL so deleting a group keeps its chats.
@@ -162,6 +168,10 @@ export const messages = sqliteTable(
     isEdited: integer("is_edited", { mode: "boolean" })
       .notNull()
       .default(false),
+    // Per-branch chat-variable snapshot (JSON map) taken AFTER this turn's triggers/macros ran. Assembly
+    // seeds vars from the active tip's branchVars (falling back to conversations.vars), so sibling swipes
+    // don't leak each other's setvar state. null = inherit the conversation-level vars (pre-branch-vars rows).
+    branchVars: text("branch_vars"),
     ...timestamps(),
   },
   (table) => [

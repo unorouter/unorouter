@@ -28,7 +28,8 @@
     "PLAYGROUND": "Playground",
     "STATUS": "Status",
     "COMPARE": "Compare",
-    "LANGUAGE": "Language"
+    "LANGUAGE": "Language",
+    "MODEL_TESTER": "Inspector"
   },
   "HOME": {
     "HERO": {
@@ -2298,6 +2299,7 @@
     "MODELS": "Models",
     "PRICING": "Pricing",
     "DOCUMENTATION": "Documentation",
+    "BLOG": "Blog",
     "STATUS": "Status",
     "LEGAL": "Legal",
     "PRIVACY": "Privacy Policy",
@@ -3275,6 +3277,7 @@
       "STATUS_IN_PROGRESS": "Generating",
       "STATUS_SUCCESS": "Done",
       "STATUS_FAILURE": "Failed",
+      "GENERATING_IMAGE": "Generating image...",
       "REFRESH": "Refresh"
     },
     "ATTACHMENT": {
@@ -3356,6 +3359,12 @@
       "CHAT_MEMORY_HINT": "Number of recent messages sent with each request.",
       "STREAMING_ENABLED": "Streaming",
       "STREAMING_ENABLED_HINT": "Off = wait for the full reply, then show it. Some models output cleanly only when buffered. Mostly user preference.",
+      "MEMORY_ENABLED": "Memory",
+      "IMAGE_ENABLED": "In-chat images",
+      "UTILITY_MODEL": "Utility model",
+      "UTILITY_MODEL_PLACEHOLDER": "Defaults to the chat model",
+      "IMAGE_PROMPT_INSTRUCTION": "Image prompt instruction",
+      "IMAGE_PROMPT_INSTRUCTION_PLACEHOLDER": "How the second model should write the image prompt (optional)",
       "SHOW_REASONING": "Show reasoning",
       "SYSTEM_PROMPT": "System prompt override",
       "SYSTEM_PROMPT_PLACEHOLDER": "Leave empty to use the character's system prompt.",
@@ -3996,5 +4005,262 @@
     "UPLOAD_IMAGE": "Upload image",
     "UPLOADING": "Uploading...",
     "INIT_IMAGE": "Source image"
+  },
+  "MODEL_TESTER": {
+    "META": {
+      "TITLE": "AI API Model Tester | {appName}",
+      "DESCRIPTION": "Verify which model an API endpoint actually serves. Deterministic authenticity checks for Claude, GPT and Gemini, run in your browser.",
+      "KEYWORDS": "model tester, api authenticity, fake model detection, claude, gpt, gemini"
+    },
+    "HERO": {
+      "TITLE": "AI API Model Tester",
+      "SUBTITLE": "Check whether an endpoint serves the real model it claims. Runs in your browser, your key is not sent to our servers.",
+      "EYEBROW": "Verify before you trust",
+      "TRUST_BADGE": "100% browser-side. Your key is never sent to our servers."
+    },
+    "TABS": {
+      "TEST": "Test",
+      "HISTORY": "History",
+      "RANKINGS": "Rankings"
+    },
+    "PROVIDER": {
+      "ANTHROPIC": "Anthropic (Claude)",
+      "OPENAI": "OpenAI (GPT)",
+      "GEMINI": "Google (Gemini)"
+    },
+    "FORM": {
+      "PROVIDER": "API format",
+      "BASE_URL": "API base URL",
+      "API_KEY": "API key",
+      "MODEL": "Model",
+      "PUBLISH": "Publish to public rankings",
+      "PUBLISH_HINT": "Only host, model and score are shared. Never your key.",
+      "RUN": "Run test",
+      "RUN_BACKEND": "Test via backend",
+      "CORS_TITLE": "This endpoint blocks browser requests",
+      "CORS_WARNING": "It can be tested through our server instead. Your key passes through memory only and is never stored. Rotate the key afterwards to be safe.",
+      "RUN_PUBLISH": "Verify on our backend & publish",
+      "SECTION_TITLE": "Request configuration",
+      "SECTION_DESC": "Configure the endpoint and key, then run the test in your browser."
+    },
+    "VERDICT": {
+      "GENUINE": "Genuine",
+      "SUSPICIOUS": "Suspicious",
+      "UNVERIFIED": "Unverified",
+      "VERSION_UNVERIFIABLE": "Real model confirmed. The exact version cannot be verified by probing."
+    },
+    "PROBE": {
+      "EMOTIONAL": "Emotional",
+      "CREATIVE": "Creative",
+      "IDENTITY": "Identity",
+      "MODEL-NAME": "Model name"
+    },
+    "RESULT": {
+      "PASSED": "{passed}/{total} probes passed",
+      "LATENCY": "{ms}ms",
+      "TRANSPORT": "via {mode}",
+      "IDLE": "Run a test to see the result here.",
+      "DETECTED_MODEL": "Detected model",
+      "TOTAL_TOKENS": "{tokens} tokens",
+      "FORMAT_FELL_BACK": "Native format not supported, tested via {format} instead.",
+      "EVIDENCE": "Evidence",
+      "HIGHLIGHT_LEGEND": {
+        "FOREIGN": "Foreign vendor named",
+        "CODING_TOOL": "Coding-tool wrapper phrase",
+        "SCAM": "Scam / token-theft text",
+        "CJK": "Unexpected CJK characters",
+        "HOME": "Expected identity match"
+      }
+    },
+    "HISTORY": {
+      "EMPTY": "No tests yet. Run one to build your history.",
+      "PUBLISH": "Publish",
+      "DELETE_TITLE": "Delete test",
+      "DELETE_BODY": "This removes the test from your local history.",
+      "DELETE_CONFIRM": "Delete",
+      "DELETE_CANCEL": "Cancel",
+      "META_TITLE": "Test History | {appName}"
+    },
+    "RANKINGS": {
+      "EMPTY": "No published results yet.",
+      "SAMPLES": "{count} tests",
+      "LAST_TESTED": "last tested {when}",
+      "PREV": "Previous",
+      "NEXT": "Next",
+      "STAT_DETECTIONS": "Total detections",
+      "STAT_PROVIDERS": "Providers tracked",
+      "STAT_PASS_RATE": "Avg pass rate",
+      "META_TITLE": "Model Authenticity Rankings | {appName}",
+      "META_DESCRIPTION": "See which API providers serve the real model they claim, ranked by deterministic fingerprint pass rate.",
+      "DISCLAIMER": "Every published result is re-run on our server before it counts, and each verdict links the exact evidence that produced it. A result you believe is wrong can be disputed.",
+      "REPORT_DISCORD": "Report on Discord",
+      "REPORT_GITHUB": "Open a GitHub issue",
+      "NOT_TESTED": "Not yet tested",
+      "LOW_CONFIDENCE": "Low confidence ({count} tests)",
+      "SELF_TITLE": "We hold ourselves to the same bar",
+      "SELF_BODY": "{appName} is tested by this same tool. View the evidence."
+    },
+    "DETAIL": {
+      "BACK": "Back to tester",
+      "NOT_FOUND": "Test not found.",
+      "LOCAL_ONLY": "Local test, stored on your device only. To appear on the public board, publish so our server can verify it.",
+      "DISCLAIMER": "Scores are computed from server-verified probes only. A genuine model confirms the vendor and tier. The exact version is never claimed. Dispute a result you believe is wrong via the links below.",
+      "SUBMISSIONS": "Recent submissions",
+      "SUBMITTED_BY": "Submitted by {who}",
+      "ANONYMOUS": "anonymous",
+      "DELETE_MINE": "Delete",
+      "REPORT": "Report",
+      "REPORT_HELP": "Not your result? Dispute it:",
+      "DELETE_TITLE": "Remove this published result?",
+      "DELETE_BODY": "This pulls your submission from the public rankings. Your local history is unaffected.",
+      "DELETE_CONFIRM": "Remove",
+      "DELETE_CANCEL": "Cancel",
+      "GUEST_CANNOT_DELETE": "Guest submissions cannot be deleted here. Report them via Discord or GitHub."
+    },
+    "PROBE_DETAIL": {
+      "PROMPT": "Prompt sent",
+      "RESPONSE": "Model response",
+      "STATUS": "HTTP",
+      "TOKENS": "Tokens (in/out)",
+      "SIGNAL": "Signal",
+      "REASON": "Reason",
+      "NO_RESPONSE": "No response captured."
+    },
+    "NAV": {
+      "TEST_DESC": "Test an endpoint live",
+      "HISTORY_DESC": "Your past tests",
+      "RANKINGS_DESC": "Public leaderboard"
+    },
+    "CONNECTIVITY": {
+      "CORS": "Endpoint blocks browser requests. Use the backend test.",
+      "UNREACHABLE": "Endpoint unreachable. Check the base URL.",
+      "INVALID_KEY": "Invalid API key.",
+      "NO_FORMAT": "Endpoint did not accept any supported API format."
+    },
+    "PUBLISH": {
+      "WARN_TITLE": "This sends your key to our backend",
+      "WARN_BODY": "To stop forged results, publishing runs the whole test on our server, so we produce the verdict ourselves. Your key passes through server memory only and is never stored.",
+      "WARN_THROWAWAY": "Use a low-limit, throwaway key and rotate it afterwards.",
+      "DONE": "Verified by our server and published to the public rankings. Saved to your history too.",
+      "DEDUPED": "Already published recently for this endpoint.",
+      "FAILED": "Could not verify this endpoint. Nothing was published."
+    },
+    "TRUST": {
+      "TITLE": "Open source. Verify and improve it.",
+      "BODY": "The test code is open. Read exactly which probes run and why, suggest new tests, or discuss the detection on our Discord.",
+      "GITHUB": "View the code on GitHub",
+      "DISCORD": "Discuss tests on Discord"
+    },
+    "RULES": {
+      "SECTION_TITLE": "How detection works",
+      "WHY_LABEL": "Why:",
+      "NOT_FLAGGED_LABEL": "Not flagged when:",
+      "NOT_FRAUD_TITLE": "What is NOT counted as fake",
+      "PROOF": "This whole tester is open source. Read exactly which probes run and why:",
+      "CODING-TOOL": {
+        "TITLE": "Coding-tool wrapper",
+        "MEANS": "The reply uses canned phrases from a coding assistant (Kiro, Cascade, Codeium and similar), refusing an ordinary creative or emotional prompt.",
+        "WHY": "A real Claude/GPT/Gemini answers a kitten story or a haiku. A coding-tool distill refuses it, which exposes a substituted model behind the endpoint.",
+        "EXCEPTION": "the model simply declines for a safety reason without the coding-assistant boilerplate."
+      },
+      "SCAM": {
+        "TITLE": "Scam / token-theft page",
+        "MEANS": "The response contains known token-theft or phishing text instead of a model answer.",
+        "WHY": "An endpoint returning a scam landing page is not serving a model at all.",
+        "EXCEPTION": "the model legitimately discusses the word \"token\" in a normal answer."
+      },
+      "CJK-LEAK": {
+        "TITLE": "Unexpected language leak",
+        "MEANS": "An English-only prompt comes back with four or more CJK (Chinese/Japanese/Korean) characters.",
+        "WHY": "A leak of CJK into an English answer is a strong tell of a substituted Chinese model or a corrupting proxy, even when the identity question is answered correctly.",
+        "EXCEPTION": "you asked in or about a CJK language, so CJK in the reply is expected."
+      },
+      "MUX": {
+        "TITLE": "Response mixing (unsafe proxy)",
+        "MEANS": "Each probe carries a unique nonce. Two or more replies come back without the nonce we sent, after retries.",
+        "WHY": "A proxy that multiplexes one request across several upstreams returns answers that do not match the request we made, which an honest single-model endpoint never does.",
+        "EXCEPTION": "a single nonce miss happens once (we retry first), so only repeated mismatches count."
+      },
+      "FOREIGN": {
+        "TITLE": "Foreign vendor identity",
+        "MEANS": "On the identity or model-name probe the reply names a different vendor than requested (for example OpenAI or Gemini when Claude was asked for).",
+        "WHY": "A model naming a rival lab as its maker is being served by that rival, not the one you paid for.",
+        "EXCEPTION": "the model is vague about its version or declines to name itself, which real models often do."
+      },
+      "TIER-MISMATCH": {
+        "TITLE": "Tier downgrade (Claude)",
+        "MEANS": "You requested one Claude tier (Opus) but the model names a cheaper tier (Sonnet or Haiku).",
+        "WHY": "Claude may be vague about its exact version but never confuses its tier, so a named lower tier is a deliberate downgrade.",
+        "EXCEPTION": "the model is unsure of its version number. Only a clearly named different tier counts."
+      },
+      "EXCEPTION": {
+        "VERSION": {
+          "TITLE": "Version vagueness",
+          "BODY": "a genuine model confirms the vendor and tier but is often unsure of its exact version. That alone is never a fail, only marked as advisory."
+        },
+        "TRANSIENT": {
+          "TITLE": "Temporary errors",
+          "BODY": "rate limits (429), 5xx and timeouts mark a run as unverified, never suspicious. A real endpoint having a bad moment is not penalised."
+        },
+        "CLOUD-HOST": {
+          "TITLE": "Cloud host names",
+          "BODY": "naming AWS Bedrock, Google Vertex or Azure as the host is accepted, since those are legitimate ways to resell the real model."
+        },
+        "RESHAPING": {
+          "TITLE": "Protocol reshaping",
+          "BODY": "translating between chat-completions and the native messages format is normal gateway behaviour and is not a fraud signal when the model itself is genuine."
+        },
+        "THRESHOLD": {
+          "TITLE": "One flaky probe",
+          "BODY": "three of four probes passing is enough to be genuine, so a single off answer does not condemn an honest endpoint."
+        }
+      },
+      "COMMUNITY": "Have an idea for a better probe? Suggest one here:",
+      "SOURCE_LINK": "View the detection code"
+    },
+    "FAQ": {
+      "TITLE": "Frequently asked questions",
+      "ITEMS": {
+        "KEY_SAFE": {
+          "Q": "Is my API key safe?",
+          "A": "For a local test the key never leaves your browser, it is sent straight to the endpoint you entered. Only when you choose to publish does the key go to our server, which runs the test in memory and never stores it. Use a throwaway key if in doubt."
+        },
+        "SERVER_PROXY": {
+          "Q": "Why does it sometimes need a server proxy?",
+          "A": "Some endpoints block direct browser requests (<cors>CORS</cors>). When that happens we offer an optional backend test that relays the probes for you. Publishing always runs server-side so the public result cannot be forged."
+        },
+        "RELIABILITY": {
+          "Q": "How reliable is the score?",
+          "A": "Detection is deterministic, not a machine-learning guess. Each probe either matches a concrete signal or it does not, and the result shows you the exact evidence. We require three of four probes to pass and treat temporary errors as unverified, not as failures."
+        },
+        "FALSE_POSITIVE": {
+          "Q": "How do I report a false positive?",
+          "A": "Every published result is disputable. If you publish it yourself while logged in you can delete it directly. Otherwise open a <ghIssue>GitHub issue</ghIssue> or message us on <discord>Discord</discord> and we will re-check and remove wrong entries."
+        },
+        "PROTOCOLS": {
+          "Q": "Which API protocols are supported?",
+          "A": "Anthropic (/v1/messages), OpenAI (/v1/chat/completions) and Google Gemini (generateContent). We try the provider's native format first and fall back to the OpenAI-compatible format if needed."
+        },
+        "OPEN_SOURCE": {
+          "Q": "Is it open source?",
+          "A": "Yes. This tester runs entirely in your browser and its detection library is public on <gh>GitHub</gh>, so you can read exactly which probes run and why, suggest new ones, or discuss them on <discord>Discord</discord>."
+        }
+      }
+    },
+    "GAUGE": {
+      "READY": "Ready",
+      "RUNNING": "Testing",
+      "RUNNING_HINT": "Running the probes against your endpoint.",
+      "DONE_HINT": "Each arc is one probe. Expand a probe below to see the prompt, the reply, and the evidence."
+    },
+    "WHY": {
+      "TITLE": "Why this tester is different",
+      "DETERMINISTIC_TITLE": "Deterministic, not a guess",
+      "DETERMINISTIC_BODY": "Each check matches a concrete signal in the reply, so we don't flag real models as fake the way statistical fingerprinting does. Read the exact code.",
+      "VERIFIED_TITLE": "Server-verified to publish",
+      "VERIFIED_BODY": "A result only reaches the public board after our server re-runs the whole test itself, so the rankings cannot be forged.",
+      "EVIDENCE_TITLE": "Evidence you can see",
+      "EVIDENCE_BODY": "Every verdict shows the prompt sent, the raw reply, and the matched text that triggered it. Nothing is hidden."
+    }
   }
 }

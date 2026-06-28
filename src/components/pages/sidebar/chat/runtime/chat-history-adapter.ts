@@ -155,6 +155,18 @@ export function createChatHistoryAdapter(
             item,
           ) as unknown as EncodedContent;
 
+          // Original assistant text (pre regex/Lua mutation) - the illustrator writes its image prompt from this.
+          const originalAssistantText =
+            content.role === "assistant"
+              ? content.parts
+                  .filter(
+                    (p): p is MessagePart & { text: string } =>
+                      p.type === "text" && typeof p.text === "string",
+                  )
+                  .map((p) => p.text)
+                  .join("\n")
+              : "";
+
           // Primary character's editoutput scripts run on the finished assistant text before persist.
           let parts = content.parts;
           if (content.role === "assistant") {
@@ -233,6 +245,40 @@ export function createChatHistoryAdapter(
             }
           }
 
+          // Illustrator: append an image placeholder (a `task` item, kind:"image") on a successful assistant
+          // reply when enabled. The image generates ASYNC after persist and amends this item (no reply freeze).
+          let illustratorJob: { taskId: string; utilityModel: string } | null =
+            null;
+          if (content.role === "assistant" && originalAssistantText.trim()) {
+            const convSettings = await readLocalConversationSettings(
+              userId,
+              id,
+            );
+            const s = convSettings as {
+              imageEnabled?: boolean | null;
+              utilityModel?: string | null;
+              defaultModel?: string | null;
+            } | null;
+            const hasError = items.some((it) => it.type === "error");
+            if (s?.imageEnabled && !hasError) {
+              const taskId = uid();
+              illustratorJob = {
+                taskId,
+                utilityModel:
+                  s.utilityModel || resolvedModel || s.defaultModel || "",
+              };
+              items.push({
+                type: "task",
+                data: {
+                  task_id: taskId,
+                  kind: "image",
+                  model: illustratorJob.utilityModel,
+                  status: "generating",
+                },
+              });
+            }
+          }
+
           const now = dayjs().toDate();
 
           // usage set by the stream finish frame
@@ -269,12 +315,31 @@ export function createChatHistoryAdapter(
               : null;
 
           // Null-parent fallback: a seeded greeting isn't in UI state on first send; anchor to the DB active tip.
+          // Reuse the same read to find the parent branch's vars snapshot for carry-forward.
           let parentId = item.parentId ?? null;
-          if (parentId === null) {
+          let parentBranchVars: string | null = null;
+          {
             const existing = (await readLocalMessages(userId, id)) ?? [];
-            const tip = walkActiveBranch(existing).tipId;
-            if (tip) parentId = tip;
+            if (existing.length > 0) {
+              const tipRow = walkActiveBranch(existing).path.at(-1) as
+                | { id: string; branchVars?: string | null }
+                | undefined;
+              if (parentId === null && tipRow) parentId = tipRow.id;
+              const parentRow = parentId
+                ? existing.find((m) => m.id === parentId)
+                : tipRow;
+              parentBranchVars =
+                (parentRow as { branchVars?: string | null } | undefined)
+                  ?.branchVars ?? null;
+            }
           }
+          // Branch-vars snapshot: the post-turn chat vars for THIS branch. Prefer the stream writeback
+          // (vars changed this turn); else carry forward the PARENT branch's snapshot so sibling swipes
+          // stay isolated. Only assistant turns run triggers/macros, so only they snapshot; user turns inherit.
+          const branchVars =
+            content.role === "assistant"
+              ? (varsWriteback ?? parentBranchVars)
+              : parentBranchVars;
           const newMessage = {
             id: messageId,
             convId: id,
@@ -288,6 +353,7 @@ export function createChatHistoryAdapter(
             isActiveBranch: true,
             isEdited: false,
             branchIndex: 0,
+            branchVars,
             createdAt: now,
             updatedAt: now,
           };
@@ -397,6 +463,35 @@ export function createChatHistoryAdapter(
             queryKeys.queuedSends(),
           ]) {
             queryClient.invalidateQueries({ queryKey });
+          }
+
+          // Fire the illustrator AFTER the reply is persisted + shown (async-amend; never blocks the reply).
+          // It rewrites the image placeholder item to the inlay token when the image lands, then refreshes.
+          if (illustratorJob) {
+            const job = illustratorJob;
+            void (async () => {
+              try {
+                const { runIllustrator } = await import("./illustrator-run");
+                const s = (await readLocalConversationSettings(userId, id)) as {
+                  promptInstruction?: string | null;
+                } | null;
+                await runIllustrator({
+                  userId,
+                  convId: id,
+                  messageId,
+                  taskId: job.taskId,
+                  responseText: originalAssistantText,
+                  utilityModel: job.utilityModel,
+                  promptInstruction: s?.promptInstruction ?? undefined,
+                });
+              } catch {
+                // Best-effort: a failure leaves the reply intact; the placeholder is dropped on the rewrite.
+              } finally {
+                queryClient.invalidateQueries({
+                  queryKey: queryKeys.chatMessages(id),
+                });
+              }
+            })();
           }
         },
       };

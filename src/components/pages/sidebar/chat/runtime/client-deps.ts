@@ -67,6 +67,9 @@ export function buildClientDeps(
       listFreeModels: async () => raceModels,
       generate,
     },
+    // Custom path: `generate` already targets the named model on the user's endpoint (full context), so the
+    // utility LLM is the same call - the agent passes the resolved utility/chat model name.
+    runUtilityLLM: generate,
     retrieveSemantic: async (_apiKey, query, candidates, opts) => {
       if (!firstModel || candidates.length === 0) return [];
       try {

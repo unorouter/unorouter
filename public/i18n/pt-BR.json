@@ -28,7 +28,8 @@
     "PLAYGROUND": "Playground",
     "STATUS": "Status",
     "COMPARE": "Comparar",
-    "LANGUAGE": "Idioma"
+    "LANGUAGE": "Idioma",
+    "MODEL_TESTER": "Inspetor"
   },
   "HOME": {
     "HERO": {
@@ -2298,6 +2299,7 @@
     "MODELS": "Modelos",
     "PRICING": "Preços",
     "DOCUMENTATION": "Documentação",
+    "BLOG": "Blog",
     "STATUS": "Status",
     "LEGAL": "Legal",
     "PRIVACY": "Política de privacidade",
@@ -3275,6 +3277,7 @@
       "STATUS_IN_PROGRESS": "Gerando",
       "STATUS_SUCCESS": "Feito",
       "STATUS_FAILURE": "Falhou",
+      "GENERATING_IMAGE": "Gerando imagem...",
       "REFRESH": "Atualizar"
     },
     "ATTACHMENT": {
@@ -3356,6 +3359,12 @@
       "CHAT_MEMORY_HINT": "Número de mensagens recentes enviadas com cada solicitação.",
       "STREAMING_ENABLED": "Streaming",
       "STREAMING_ENABLED_HINT": "Desligado = espera resposta completa, então mostra. Alguns modelos saem limpos só quando bufferizados. Principalmente preferência do usuário.",
+      "MEMORY_ENABLED": "Memória",
+      "IMAGE_ENABLED": "Imagens no chat",
+      "UTILITY_MODEL": "Modelo utilitário",
+      "UTILITY_MODEL_PLACEHOLDER": "Padrão: o modelo do chat",
+      "IMAGE_PROMPT_INSTRUCTION": "Instrução do prompt de imagem",
+      "IMAGE_PROMPT_INSTRUCTION_PLACEHOLDER": "Como o segundo modelo deve escrever o prompt de imagem (opcional)",
       "SHOW_REASONING": "Mostrar raciocínio",
       "SYSTEM_PROMPT": "Sobrescrita de prompt de sistema",
       "SYSTEM_PROMPT_PLACEHOLDER": "Deixe vazio para usar o prompt de sistema do personagem.",
@@ -3996,5 +4005,262 @@
     "UPLOAD_IMAGE": "Upload de imagem",
     "UPLOADING": "Fazendo upload...",
     "INIT_IMAGE": "Imagem fonte"
+  },
+  "MODEL_TESTER": {
+    "META": {
+      "TITLE": "Testador de modelos de API IA | {appName}",
+      "DESCRIPTION": "Verifique qual modelo um endpoint de API realmente serve. Verificacoes de autenticidade deterministicas para Claude, GPT e Gemini, no navegador.",
+      "KEYWORDS": "testador de modelos, autenticidade api, modelo falso, claude, gpt, gemini"
+    },
+    "HERO": {
+      "TITLE": "Testador de modelos de API IA",
+      "SUBTITLE": "Verifique se um endpoint serve o modelo real que afirma. Roda no navegador, sua chave nao e enviada aos nossos servidores.",
+      "EYEBROW": "Verifique antes de confiar",
+      "TRUST_BADGE": "100% no navegador. Sua chave nunca e enviada aos nossos servidores."
+    },
+    "TABS": {
+      "TEST": "Teste",
+      "HISTORY": "Historico",
+      "RANKINGS": "Ranking"
+    },
+    "PROVIDER": {
+      "ANTHROPIC": "Anthropic (Claude)",
+      "OPENAI": "OpenAI (GPT)",
+      "GEMINI": "Google (Gemini)"
+    },
+    "FORM": {
+      "PROVIDER": "Formato da API",
+      "BASE_URL": "URL base da API",
+      "API_KEY": "Chave da API",
+      "MODEL": "Modelo",
+      "PUBLISH": "Publicar no ranking publico",
+      "PUBLISH_HINT": "Apenas host, modelo e pontuacao sao compartilhados. Nunca sua chave.",
+      "RUN": "Executar teste",
+      "RUN_BACKEND": "Testar via servidor",
+      "CORS_TITLE": "Este endpoint bloqueia requisicoes do navegador",
+      "CORS_WARNING": "Ele pode ser testado pelo nosso servidor. Sua chave passa apenas pela memoria e nunca e armazenada. Troque a chave depois, por seguranca.",
+      "RUN_PUBLISH": "Verificar no nosso servidor e publicar",
+      "SECTION_TITLE": "Configuracao da requisicao",
+      "SECTION_DESC": "Configure o endpoint e a chave e execute o teste no navegador."
+    },
+    "VERDICT": {
+      "GENUINE": "Autentico",
+      "SUSPICIOUS": "Suspeito",
+      "UNVERIFIED": "Nao verificado",
+      "VERSION_UNVERIFIABLE": "Modelo real confirmado. A versao exata nao pode ser verificada por sondagem."
+    },
+    "PROBE": {
+      "EMOTIONAL": "Emocional",
+      "CREATIVE": "Criativo",
+      "IDENTITY": "Identidade",
+      "MODEL-NAME": "Nome do modelo"
+    },
+    "RESULT": {
+      "PASSED": "{passed}/{total} sondas aprovadas",
+      "LATENCY": "{ms}ms",
+      "TRANSPORT": "via {mode}",
+      "IDLE": "Execute um teste para ver o resultado aqui.",
+      "DETECTED_MODEL": "Modelo detectado",
+      "TOTAL_TOKENS": "{tokens} tokens",
+      "FORMAT_FELL_BACK": "Formato nativo nao suportado; testado via {format}.",
+      "EVIDENCE": "Evidências",
+      "HIGHLIGHT_LEGEND": {
+        "FOREIGN": "Fornecedor alheio nomeado",
+        "CODING_TOOL": "Frase de invólucro de ferramenta de programação",
+        "SCAM": "Texto de golpe / roubo de token",
+        "CJK": "Caracteres CJK inesperados",
+        "HOME": "Identidade esperada confirmada"
+      }
+    },
+    "HISTORY": {
+      "EMPTY": "Ainda sem testes. Execute um para criar seu historico.",
+      "PUBLISH": "Publicar",
+      "DELETE_TITLE": "Excluir teste",
+      "DELETE_BODY": "Remove o teste do seu historico local.",
+      "DELETE_CONFIRM": "Excluir",
+      "DELETE_CANCEL": "Cancelar",
+      "META_TITLE": "Historico de testes | {appName}"
+    },
+    "RANKINGS": {
+      "EMPTY": "Ainda sem resultados publicados.",
+      "SAMPLES": "{count} testes",
+      "LAST_TESTED": "ultimo teste {when}",
+      "PREV": "Anterior",
+      "NEXT": "Proximo",
+      "STAT_DETECTIONS": "Deteccoes totais",
+      "STAT_PROVIDERS": "Provedores monitorados",
+      "STAT_PASS_RATE": "Taxa media de aprovacao",
+      "META_TITLE": "Ranking de autenticidade de modelos | {appName}",
+      "META_DESCRIPTION": "Veja quais provedores de API servem o modelo real que afirmam, classificados por taxa de aprovacao deterministica.",
+      "DISCLAIMER": "Todo resultado publicado é reexecutado no nosso servidor antes de contar, e cada veredito leva às evidências exatas que o produziram. Um resultado que você considere errado pode ser contestado.",
+      "REPORT_DISCORD": "Reportar no Discord",
+      "REPORT_GITHUB": "Abrir uma issue no GitHub",
+      "NOT_TESTED": "Ainda não testado",
+      "LOW_CONFIDENCE": "Baixa confiança ({count} testes)",
+      "SELF_TITLE": "Aplicamos a nós mesmos o mesmo padrão",
+      "SELF_BODY": "{appName} é testado por esta mesma ferramenta. Veja as evidências."
+    },
+    "DETAIL": {
+      "BACK": "Voltar ao testador",
+      "NOT_FOUND": "Teste nao encontrado.",
+      "LOCAL_ONLY": "Teste local, salvo apenas no seu dispositivo. Publique para que nosso servidor o verifique e ele apareca no ranking publico.",
+      "DISCLAIMER": "As pontuações são calculadas apenas a partir de sondas verificadas no servidor. Um modelo genuíno confirma o fornecedor e o nível; a versão exata nunca é afirmada. Conteste um resultado que você considere errado pelos links abaixo.",
+      "SUBMISSIONS": "Envios recentes",
+      "SUBMITTED_BY": "Enviado por {who}",
+      "ANONYMOUS": "anônimo",
+      "DELETE_MINE": "Excluir",
+      "REPORT": "Reportar",
+      "REPORT_HELP": "Não é o seu resultado? Conteste:",
+      "DELETE_TITLE": "Remover este resultado publicado?",
+      "DELETE_BODY": "Isto retira o seu envio das classificações públicas. Seu histórico local não é afetado.",
+      "DELETE_CONFIRM": "Remover",
+      "DELETE_CANCEL": "Cancelar",
+      "GUEST_CANNOT_DELETE": "Envios de convidados não podem ser excluídos aqui. Reporte-os pelo Discord ou GitHub."
+    },
+    "PROBE_DETAIL": {
+      "PROMPT": "Prompt enviado",
+      "RESPONSE": "Resposta do modelo",
+      "STATUS": "HTTP",
+      "TOKENS": "Tokens (ent/sai)",
+      "SIGNAL": "Sinal",
+      "REASON": "Motivo",
+      "NO_RESPONSE": "Nenhuma resposta capturada."
+    },
+    "NAV": {
+      "TEST_DESC": "Teste um endpoint ao vivo",
+      "HISTORY_DESC": "Seus testes anteriores",
+      "RANKINGS_DESC": "Ranking publico"
+    },
+    "CONNECTIVITY": {
+      "CORS": "O endpoint bloqueia requisicoes do navegador. Use o teste pelo servidor.",
+      "UNREACHABLE": "Endpoint inacessivel. Verifique a URL base.",
+      "INVALID_KEY": "Chave de API invalida.",
+      "NO_FORMAT": "O endpoint nao aceitou nenhum formato de API suportado."
+    },
+    "PUBLISH": {
+      "WARN_TITLE": "Isto envia sua chave ao nosso servidor",
+      "WARN_BODY": "Para impedir resultados falsificados, a publicacao executa todo o teste no nosso servidor, para que nos mesmos produzamos o veredito. Sua chave passa apenas pela memoria do servidor e nunca e armazenada.",
+      "WARN_THROWAWAY": "Use uma chave descartavel de baixo limite e troque-a depois.",
+      "DONE": "Verificado pelo nosso servidor e publicado no ranking publico. Tambem salvo no seu historico.",
+      "DEDUPED": "Ja publicado recentemente para este endpoint.",
+      "FAILED": "Nao foi possivel verificar este endpoint. Nada foi publicado."
+    },
+    "TRUST": {
+      "TITLE": "Codigo aberto. Verifique e melhore.",
+      "BODY": "O codigo dos testes e aberto. Veja exatamente quais sondas rodam e por que, sugira novos testes ou discuta a deteccao no nosso Discord.",
+      "GITHUB": "Ver o codigo no GitHub",
+      "DISCORD": "Discutir os testes no Discord"
+    },
+    "RULES": {
+      "SECTION_TITLE": "Como funciona a detecção",
+      "WHY_LABEL": "Por quê:",
+      "NOT_FLAGGED_LABEL": "Não sinalizado quando:",
+      "NOT_FRAUD_TITLE": "O que NÃO é contado como falso",
+      "PROOF": "Todo este testador é de código aberto. Leia exatamente quais sondas são executadas e por quê:",
+      "CODING-TOOL": {
+        "TITLE": "Invólucro de ferramenta de programação",
+        "MEANS": "A resposta usa frases prontas de um assistente de programação (Kiro, Cascade, Codeium e similares) e recusa um pedido criativo ou emocional comum.",
+        "WHY": "Um Claude/GPT/Gemini de verdade responde a uma história de gatinhos ou a um haicai. Uma destilação de ferramenta de programação a recusa, o que expõe um modelo substituído por trás do endpoint.",
+        "EXCEPTION": "o modelo simplesmente recusa por um motivo de segurança, sem as frases típicas de um assistente de programação."
+      },
+      "SCAM": {
+        "TITLE": "Página de golpe / roubo de token",
+        "MEANS": "A resposta contém texto conhecido de roubo de token ou de phishing em vez de uma resposta do modelo.",
+        "WHY": "Um endpoint que retorna uma página de golpe não está servindo modelo algum.",
+        "EXCEPTION": "o modelo aborda legitimamente a palavra «token» em uma resposta normal."
+      },
+      "CJK-LEAK": {
+        "TITLE": "Vazamento de idioma inesperado",
+        "MEANS": "Um pedido apenas em inglês volta com quatro ou mais caracteres CJK (chinês/japonês/coreano).",
+        "WHY": "Um vazamento de CJK em uma resposta em inglês é um forte indício de um modelo chinês substituído ou de um proxy que corrompe os dados, mesmo quando a pergunta de identidade é respondida corretamente.",
+        "EXCEPTION": "você perguntou em um idioma CJK ou sobre ele, então a presença de CJK na resposta é esperada."
+      },
+      "MUX": {
+        "TITLE": "Mistura de respostas (proxy inseguro)",
+        "MEANS": "Cada sonda carrega um nonce único; duas ou mais respostas voltam sem o nonce que enviamos, após as novas tentativas.",
+        "WHY": "Um proxy que multiplexa uma requisição entre vários upstreams retorna respostas que não correspondem à requisição que fizemos, algo que um endpoint honesto de modelo único nunca faz.",
+        "EXCEPTION": "uma única falha de nonce acontece uma vez (tentamos de novo primeiro); só contam as divergências repetidas."
+      },
+      "FOREIGN": {
+        "TITLE": "Identidade de fornecedor alheio",
+        "MEANS": "Na sonda de identidade ou de nome do modelo a resposta nomeia um fornecedor diferente do solicitado (por exemplo OpenAI ou Gemini quando se pediu Claude).",
+        "WHY": "Um modelo que aponta um laboratório rival como seu criador está sendo servido por esse rival, não por aquele que você pagou.",
+        "EXCEPTION": "o modelo é vago sobre sua versão ou recusa-se a se nomear, o que os modelos reais costumam fazer."
+      },
+      "TIER-MISMATCH": {
+        "TITLE": "Rebaixamento de nível (Claude)",
+        "MEANS": "Você solicitou um nível do Claude (Opus) mas o modelo nomeia um nível mais barato (Sonnet ou Haiku).",
+        "WHY": "O Claude pode ser vago sobre sua versão exata mas nunca confunde seu nível, então um nível inferior nomeado é um rebaixamento deliberado.",
+        "EXCEPTION": "o modelo não tem certeza do número da versão; só conta um nível diferente claramente nomeado."
+      },
+      "EXCEPTION": {
+        "VERSION": {
+          "TITLE": "Imprecisão de versão",
+          "BODY": "um modelo genuíno confirma o fornecedor e o nível mas muitas vezes não tem certeza da versão exata. Isso sozinho nunca é uma falha, apenas é marcado como informativo."
+        },
+        "TRANSIENT": {
+          "TITLE": "Erros temporários",
+          "BODY": "limites de taxa (429), 5xx e tempos esgotados marcam uma execução como não verificada, nunca como suspeita. Um endpoint real passando por um mau momento não é penalizado."
+        },
+        "CLOUD-HOST": {
+          "TITLE": "Nomes de hosts na nuvem",
+          "BODY": "nomear AWS Bedrock, Google Vertex ou Azure como host é aceito, já que são formas legítimas de revender o modelo real."
+        },
+        "RESHAPING": {
+          "TITLE": "Remodelagem de protocolo",
+          "BODY": "traduzir entre chat-completions e o formato messages nativo é comportamento normal de gateway e não é sinal de fraude quando o modelo em si é genuíno."
+        },
+        "THRESHOLD": {
+          "TITLE": "Uma sonda instável",
+          "BODY": "três de quatro sondas aprovadas bastam para ser genuíno, então uma única resposta fora do padrão não condena um endpoint honesto."
+        }
+      },
+      "COMMUNITY": "Tem uma ideia para uma sonda melhor? Sugira aqui:",
+      "SOURCE_LINK": "Ver o código de detecção"
+    },
+    "FAQ": {
+      "TITLE": "Perguntas frequentes",
+      "ITEMS": {
+        "KEY_SAFE": {
+          "Q": "Minha chave de API está segura?",
+          "A": "Em um teste local a chave nunca sai do seu navegador, ela é enviada diretamente ao endpoint que você informou. Só quando você escolhe publicar é que a chave chega ao nosso servidor, que roda o teste em memória e nunca a armazena. Use uma chave descartável se estiver em dúvida."
+        },
+        "SERVER_PROXY": {
+          "Q": "Por que às vezes é preciso um proxy de servidor?",
+          "A": "Alguns endpoints bloqueiam requisições diretas do navegador (<cors>CORS</cors>). Quando isso acontece oferecemos um teste de backend opcional que retransmite as sondas por você. A publicação roda sempre no servidor para que o resultado público não possa ser forjado."
+        },
+        "RELIABILITY": {
+          "Q": "Quão confiável é a pontuação?",
+          "A": "A detecção é determinística, não um palpite de aprendizado de máquina. Cada sonda corresponde ou não a um sinal concreto, e o resultado mostra a você as evidências exatas. Exigimos que três de quatro sondas passem e tratamos erros temporários como não verificados, não como falhas."
+        },
+        "FALSE_POSITIVE": {
+          "Q": "Como reporto um falso positivo?",
+          "A": "Todo resultado publicado é contestável. Se você mesmo o publicou estando conectado, pode excluí-lo diretamente; caso contrário, abra uma issue no <ghIssue>GitHub</ghIssue> ou nos escreva no <discord>Discord</discord> e iremos reverificar e remover as entradas erradas."
+        },
+        "PROTOCOLS": {
+          "Q": "Quais protocolos de API são suportados?",
+          "A": "Anthropic (/v1/messages), OpenAI (/v1/chat/completions) e Google Gemini (generateContent). Tentamos primeiro o formato nativo do fornecedor e recorremos ao formato compatível com OpenAI se necessário."
+        },
+        "OPEN_SOURCE": {
+          "Q": "É de código aberto?",
+          "A": "Sim. Este testador roda inteiramente no seu navegador e sua biblioteca de detecção é pública no <gh>GitHub</gh>, então você pode ler exatamente quais sondas são executadas e por quê, sugerir novas ou discuti-las no <discord>Discord</discord>."
+        }
+      }
+    },
+    "GAUGE": {
+      "READY": "Pronto",
+      "RUNNING": "Testando",
+      "RUNNING_HINT": "Executando as sondas contra o seu endpoint.",
+      "DONE_HINT": "Cada arco é uma sonda. Expanda uma sonda abaixo para ver o prompt, a resposta e as evidências."
+    },
+    "WHY": {
+      "TITLE": "Por que este testador é diferente",
+      "DETERMINISTIC_TITLE": "Determinístico, não um palpite",
+      "DETERMINISTIC_BODY": "Cada verificação corresponde a um sinal concreto na resposta, então não marcamos modelos reais como falsos do jeito que a impressão digital estatística faz. Leia o código exato.",
+      "VERIFIED_TITLE": "Verificado no servidor para publicar",
+      "VERIFIED_BODY": "Um resultado só chega ao quadro público depois que o nosso servidor reexecuta o teste inteiro por conta própria, de modo que as classificações não podem ser forjadas.",
+      "EVIDENCE_TITLE": "Evidências que você pode ver",
+      "EVIDENCE_BODY": "Cada veredito mostra o prompt enviado, a resposta bruta e o texto correspondente que o acionou. Nada fica escondido."
+    }
   }
 }

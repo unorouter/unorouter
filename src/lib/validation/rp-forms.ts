@@ -144,6 +144,13 @@ export const conversationOverridesFormSchema = t.Object({
   webSearchContextSize: t.Union(webSearchContextSizeLiterals, {
     default: "medium",
   }),
+  // Agent features (conversation-scoped; no preset inheritance).
+  memoryEnabled: t.Boolean({ default: false }),
+  imageEnabled: t.Boolean({ default: false }),
+  // Utility model for the summarizer + illustrator prompt-writer; NONE_VALUE = the chat model.
+  utilityModel: t.String({ default: NONE_VALUE }),
+  // Illustrator prompt-writer instruction override; "" = default instruction.
+  promptInstruction: t.String({ default: "", maxLength: 4_096 }),
   characterIds: t.Array(t.String(), { default: [] }),
   lorebookIds: t.Array(t.String(), { default: [] }),
   ...samplingNullable({ maxTokensMax: 1_000_000 }),

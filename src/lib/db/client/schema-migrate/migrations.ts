@@ -64,6 +64,13 @@ export async function runMigrations(sql: SQLocalDrizzle): Promise<void> {
 
   // Self-heal baseline drift: compare each table's stored DDL to the manifest and rebuild drifted tables. Every load, no-op if identical.
   await reconcileSchema(sql, migrations);
+
+  // Last-resort column validation: reconcile can SKIP a rebuild (row-loss guard) or a table can drift in a
+  // way the DDL compare misses, leaving a stored table missing a column the live code SELECTs - which then
+  // crashes at query time with a cryptic "no such column". Catch that class here: per manifest table, add any
+  // missing nullable column (cheap ALTER ADD), and LOUDLY log whatever can't be auto-fixed so it surfaces at
+  // DB-open instead of as a random runtime failure.
+  await validateColumns(sql, migrations);
 }
 
 // One-time rename of the legacy cursor table local_meta to local_migrations. No-op on fresh and migrated DBs.
@@ -243,6 +250,139 @@ async function reconcileSchema(
     }
   }
   if (fkOff) await sql.sql`PRAGMA foreign_keys = ON`;
+}
+
+// A column def is auto-addable when it has no NOT NULL (or carries a DEFAULT): ALTER ADD on an existing
+// table can't add a NOT NULL column without a default. Everything else needs a rebuild we couldn't do.
+function isAddableColumn(def: string): boolean {
+  const upper = def.toUpperCase();
+  return !/\bNOT NULL\b/.test(upper) || /\bDEFAULT\b/.test(upper);
+}
+
+// Post-reconcile safety net: ensure every column the manifest expects actually exists on the stored table.
+// Adds missing nullable columns in place; loudly logs any table whose missing columns can't be auto-added
+// (a NOT NULL with no default) so the drift is caught at DB-open, not as a runtime "no such column".
+async function validateColumns(
+  sql: SQLocalDrizzle,
+  migrations: MigrationManifest["migrations"],
+): Promise<void> {
+  const expected = parseManifestDdl(migrations);
+  const tableRows = await sql.sql<{ name: string }>(
+    `SELECT name FROM sqlite_master WHERE type = 'table'`,
+  );
+  const existing = new Set(tableRows.map((r) => r.name));
+
+  for (const [table, ddl] of expected) {
+    if (!existing.has(table)) continue; // absent tables are a separate (create) concern
+    const actual = await sql.sql<{ name: string }>(
+      `PRAGMA table_info(\`${table}\`)`,
+    );
+    const have = new Set(actual.map((r) => r.name));
+    const unfixable: string[] = [];
+    for (const def of ddl.colDefs) {
+      const col = colName(def);
+      if (!col || have.has(col)) continue;
+      if (isAddableColumn(def)) {
+        try {
+          await sql.sql(`ALTER TABLE \`${table}\` ADD COLUMN ${def}`);
+        } catch (err) {
+          if (!isIdempotentMigrationError(err)) unfixable.push(col);
+        }
+      } else {
+        unfixable.push(col);
+      }
+    }
+    if (unfixable.length > 0) {
+      // A required (NOT NULL, no default) column is missing and reconcile's rebuild was declined (its row-loss
+      // guard aborts when the existing rows can't satisfy the tightened schema). Recover by force-rebuilding
+      // with a synthesized default for the missing NOT NULL columns, so rows survive AND the column exists.
+      // This is the last line of defense against a cryptic runtime "no such column".
+      const recovered = await forceRebuildWithDefaults(sql, table, ddl);
+      const ctx = { context: "local-db.migrations.validate", table, missing: unfixable };
+      if (recovered) {
+        // Success: notable (the db was drifted) but not a failure - we repaired it without data loss.
+        logger.warn(
+          "validateColumns: recovered a stored table missing required columns via force-rebuild",
+          ctx,
+        );
+      } else {
+        logger.error(
+          "validateColumns: stored table is missing required columns and could not be auto-recovered",
+          ctx,
+        );
+      }
+    }
+  }
+}
+
+// A safe literal default for a column def whose value the rebuild must synthesize (the old rows lack it).
+// Honors an explicit DEFAULT; else picks an empty value by declared type. Quoted/escaped for inline SQL.
+function synthDefault(def: string): string {
+  const explicit = def.match(/\bDEFAULT\s+(.+?)(?:\s+(?:NOT NULL|UNIQUE|PRIMARY KEY|REFERENCES)\b|$)/i);
+  if (explicit) return explicit[1].trim();
+  const lower = def.toLowerCase();
+  if (/\b(integer|int|real|numeric)\b/.test(lower)) return "0";
+  return "''";
+}
+
+// Force a 12-step rebuild that BACKFILLS missing NOT-NULL columns with a synthesized default, so the rebuild
+// can't drop rows. Used only when validateColumns finds a required column the in-place ALTER can't add and the
+// normal reconcile already declined. Returns false (and leaves the table untouched) on any failure.
+async function forceRebuildWithDefaults(
+  sql: SQLocalDrizzle,
+  table: string,
+  ddl: TableDdl,
+): Promise<boolean> {
+  try {
+    await sql.sql`PRAGMA foreign_keys = OFF`;
+    const tmp = `__recover_${table}`;
+    await sql.sql(`DROP TABLE IF EXISTS \`${tmp}\``);
+    await sql.sql(
+      buildCreate(ddl).replace(
+        /^CREATE TABLE\s+`[^`]+`/,
+        `CREATE TABLE \`${tmp}\``,
+      ),
+    );
+    const actual = await sql.sql<{ name: string }>(
+      `PRAGMA table_info(\`${table}\`)`,
+    );
+    const have = new Set(actual.map((r) => r.name));
+    // Build the SELECT: existing columns map across; missing columns get their synthesized default.
+    const targets: string[] = [];
+    const sources: string[] = [];
+    for (const def of ddl.colDefs) {
+      const col = colName(def);
+      if (!col) continue;
+      targets.push(`\`${col}\``);
+      sources.push(have.has(col) ? `\`${col}\`` : synthDefault(def));
+    }
+    await sql.sql(
+      `INSERT OR IGNORE INTO \`${tmp}\` (${targets.join(", ")}) SELECT ${sources.join(", ")} FROM \`${table}\``,
+    );
+    await sql.sql(`DROP TABLE \`${table}\``);
+    await sql.sql(`ALTER TABLE \`${tmp}\` RENAME TO \`${table}\``);
+    for (const idx of ddl.indexes) {
+      try {
+        await sql.sql(idx);
+      } catch (err) {
+        if (!isIdempotentMigrationError(err)) throw err;
+      }
+    }
+    await sql.sql`PRAGMA foreign_keys = ON`;
+    return true;
+  } catch (err) {
+    logger.error("forceRebuildWithDefaults failed", {
+      context: "local-db.migrations.validate",
+      table,
+      error: err instanceof Error ? err.message : String(err),
+    });
+    try {
+      await sql.sql`PRAGMA foreign_keys = ON`;
+    } catch {
+      // best effort
+    }
+    return false;
+  }
 }
 
 function isIdempotentMigrationError(err: unknown): boolean {
