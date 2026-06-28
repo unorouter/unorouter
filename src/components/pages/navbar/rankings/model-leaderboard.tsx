@@ -4,7 +4,7 @@ import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import type { RankedModel } from "@/lib/api/typebox/rankings";
 import { cn } from "@/lib/utils";
 import { formatTokens } from "@/lib/utils/format/number";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { ModelLink, VendorLink } from "./entity-links";
 import { GrowthText } from "./growth-text";
 import { splitHalf } from "./rankings-helpers";
@@ -37,6 +37,7 @@ function ModelList(props: {
   variant: LeaderboardVariant;
 }) {
   const t = useTranslations();
+  const locale = useLocale();
   const compact = props.variant === "compact";
   return (
     <ul>
@@ -80,7 +81,7 @@ function ModelList(props: {
                 compact ? "text-xs" : "text-sm",
               )}
             >
-              {formatTokens(row.total_tokens)}
+              {formatTokens(row.total_tokens, locale)}
               {!compact && (
                 <>
                   {" "}

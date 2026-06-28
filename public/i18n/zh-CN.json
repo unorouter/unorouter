@@ -28,7 +28,8 @@
     "PLAYGROUND": "游乐场",
     "STATUS": "状态",
     "COMPARE": "对比",
-    "LANGUAGE": "语言"
+    "LANGUAGE": "语言",
+    "MODEL_TESTER": "检测器"
   },
   "HOME": {
     "HERO": {
@@ -520,7 +521,7 @@
   "RANKINGS": {
     "META": {
       "TITLE": "排行榜 | {appName}",
-      "DESCRIPTION": "在 {appName} 上发现最受欢迎的 AI 模型与正在崛起的供应商，按实时令牌用量排序。基于平台真实使用数据持续更新。",
+      "DESCRIPTION": "在 {appName} 上发现最受欢迎的 AI 模型与正在崛起的供应商，按实时词元用量排序。基于平台真实使用数据持续更新。",
       "KEYWORDS": "AI 模型排行榜，LLM 排行榜，热门 AI 模型，AI 供应商市场份额，最常用 AI 模型，模型使用统计"
     },
     "HERO": {
@@ -537,33 +538,33 @@
     },
     "MODELS": {
       "TITLE": "热门模型",
-      "SUBTITLE": "按所选时段令牌用量排序的模型",
+      "SUBTITLE": "按所选时段词元用量排序的模型",
       "PERIOD_DESCRIPTIONS": {
-        "TODAY": "过去 24 小时内各模型的小时级令牌用量",
-        "WEEK": "过去几周内各模型的周令牌用量",
-        "MONTH": "过去一个月内各模型的日令牌用量",
-        "YEAR": "过去一年内各模型的周令牌用量",
-        "ALL": "自上线以来各模型的令牌用量"
+        "TODAY": "过去 24 小时内各模型的小时级词元用量",
+        "WEEK": "过去几周内各模型的周词元用量",
+        "MONTH": "过去一个月内各模型的日词元用量",
+        "YEAR": "过去一年内各模型的周词元用量",
+        "ALL": "自上线以来各模型的词元用量"
       },
       "LEADERBOARD_TITLE": "LLM 排行榜",
       "LEADERBOARD_SUBTITLE": "比较平台上最受欢迎的模型",
       "EMPTY": "没有模型符合所选筛选条件",
-      "TOKENS_SUFFIX": "令牌",
+      "TOKENS_SUFFIX": "词元",
       "TOOLTIP_TOTAL": "合计",
       "BY_AUTHOR_LABEL": "作者："
     },
     "VENDORS": {
       "TITLE": "市场份额",
-      "SUBTITLE": "按模型作者划分的令牌占比",
+      "SUBTITLE": "按模型作者划分的词元占比",
       "PERIOD_DESCRIPTIONS": {
-        "TODAY": "过去 24 小时内各供应商的令牌占比",
-        "WEEK": "过去几周内各供应商的令牌占比",
-        "MONTH": "过去一个月内各供应商的令牌占比",
-        "YEAR": "过去一年内各供应商的令牌占比",
-        "ALL": "自上线以来各供应商的令牌占比"
+        "TODAY": "过去 24 小时内各供应商的词元占比",
+        "WEEK": "过去几周内各供应商的词元占比",
+        "MONTH": "过去一个月内各供应商的词元占比",
+        "YEAR": "过去一年内各供应商的词元占比",
+        "ALL": "自上线以来各供应商的词元占比"
       },
       "LIST_TITLE": "按模型作者",
-      "LIST_SUBTITLE": "按累计令牌用量排序的供应商",
+      "LIST_SUBTITLE": "按累计词元用量排序的供应商",
       "EMPTY": "暂无供应商数据"
     },
     "PULSE": {
@@ -2298,6 +2299,7 @@
     "MODELS": "模型",
     "PRICING": "价格",
     "DOCUMENTATION": "文档",
+    "BLOG": "博客",
     "STATUS": "状态",
     "LEGAL": "法律",
     "PRIVACY": "隐私政策",
@@ -2762,7 +2764,7 @@
       "TOKEN": "令牌",
       "INPUT": "输入",
       "OUTPUT": "输出",
-      "TOKENS": "令牌数",
+      "TOKENS": "词元数",
       "TIME_FIRST": "耗时",
       "SPEND": "费用",
       "DETAILS": "价格"
@@ -3275,6 +3277,7 @@
       "STATUS_IN_PROGRESS": "生成中",
       "STATUS_SUCCESS": "已完成",
       "STATUS_FAILURE": "已失败",
+      "GENERATING_IMAGE": "正在生成图片……",
       "REFRESH": "刷新"
     },
     "ATTACHMENT": {
@@ -3356,6 +3359,12 @@
       "CHAT_MEMORY_HINT": "每次请求随附的最近消息条数。",
       "STREAMING_ENABLED": "流式输出",
       "STREAMING_ENABLED_HINT": "关闭 = 等待完整回复后再显示。部分模型仅在缓冲后输出干净。主要是用户偏好。",
+      "MEMORY_ENABLED": "记忆",
+      "IMAGE_ENABLED": "聊天内图片",
+      "UTILITY_MODEL": "工具模型",
+      "UTILITY_MODEL_PLACEHOLDER": "默认使用聊天模型",
+      "IMAGE_PROMPT_INSTRUCTION": "图片提示词指令",
+      "IMAGE_PROMPT_INSTRUCTION_PLACEHOLDER": "第二个模型应如何撰写图片提示词（可选）",
       "SHOW_REASONING": "显示推理过程",
       "SYSTEM_PROMPT": "覆盖系统提示词",
       "SYSTEM_PROMPT_PLACEHOLDER": "留空则使用角色自带的系统提示词。",
@@ -3436,7 +3445,7 @@
     "CHAT_TOTAL": "对话总计",
     "STATS": {
       "SHOW_COST": "显示费用",
-      "SHOW_TOKENS": "显示令牌"
+      "SHOW_TOKENS": "显示词元"
     },
     "GROUPS": {
       "NEW_GROUP": "新建分组",
@@ -3996,5 +4005,262 @@
     "UPLOAD_IMAGE": "上传图片",
     "UPLOADING": "上传中…",
     "INIT_IMAGE": "源图像"
+  },
+  "MODEL_TESTER": {
+    "META": {
+      "TITLE": "AI API 模型检测器｜{appName}",
+      "DESCRIPTION": "验证某个 API 端点实际提供的模型。在浏览器中对 Claude、GPT 和 Gemini 进行确定性的真实性检测。",
+      "KEYWORDS": "模型检测,API 真实性,假模型检测,claude,gpt,gemini"
+    },
+    "HERO": {
+      "TITLE": "AI API 模型检测器",
+      "SUBTITLE": "检查端点是否真正提供其声称的模型。在你的浏览器中运行，你的密钥不会发送到我们的服务器。",
+      "EYEBROW": "先验证再信任",
+      "TRUST_BADGE": "100% 在浏览器中运行。你的密钥绝不会发送到我们的服务器。"
+    },
+    "TABS": {
+      "TEST": "检测",
+      "HISTORY": "历史",
+      "RANKINGS": "排行榜"
+    },
+    "PROVIDER": {
+      "ANTHROPIC": "Anthropic (Claude)",
+      "OPENAI": "OpenAI (GPT)",
+      "GEMINI": "Google (Gemini)"
+    },
+    "FORM": {
+      "PROVIDER": "API 格式",
+      "BASE_URL": "API 基础地址",
+      "API_KEY": "API 密钥",
+      "MODEL": "模型",
+      "PUBLISH": "发布到公开排行榜",
+      "PUBLISH_HINT": "仅分享主机、模型和分数，绝不分享你的密钥。",
+      "RUN": "开始检测",
+      "RUN_BACKEND": "通过后端检测",
+      "CORS_TITLE": "该端点阻止浏览器请求",
+      "CORS_WARNING": "可以改为通过我们的服务器检测。你的密钥仅经过内存，绝不存储。为安全起见，请在之后更换密钥。",
+      "RUN_PUBLISH": "在我们的服务器上验证并发布",
+      "SECTION_TITLE": "请求配置",
+      "SECTION_DESC": "配置端点和密钥，然后在浏览器中运行检测。"
+    },
+    "VERDICT": {
+      "GENUINE": "真实",
+      "SUSPICIOUS": "可疑",
+      "UNVERIFIED": "未确认",
+      "VERSION_UNVERIFIABLE": "已确认为真实模型。具体版本无法通过探测验证。"
+    },
+    "PROBE": {
+      "EMOTIONAL": "情感",
+      "CREATIVE": "创意",
+      "IDENTITY": "身份",
+      "MODEL-NAME": "模型名称"
+    },
+    "RESULT": {
+      "PASSED": "通过 {passed}/{total} 项探测",
+      "LATENCY": "{ms} 毫秒",
+      "TRANSPORT": "经由 {mode}",
+      "IDLE": "运行一次检测，结果将显示在这里。",
+      "DETECTED_MODEL": "检测到的模型",
+      "TOTAL_TOKENS": "{tokens} 个词元",
+      "FORMAT_FELL_BACK": "不支持原生格式，已改用 {format} 检测。",
+      "EVIDENCE": "证据",
+      "HIGHLIGHT_LEGEND": {
+        "FOREIGN": "提到了外来厂商",
+        "CODING_TOOL": "编程工具外壳套话",
+        "SCAM": "诈骗／盗取令牌文本",
+        "CJK": "意外的 CJK 字符",
+        "HOME": "符合预期的身份"
+      }
+    },
+    "HISTORY": {
+      "EMPTY": "暂无检测记录。运行一次以建立历史。",
+      "PUBLISH": "发布",
+      "DELETE_TITLE": "删除检测",
+      "DELETE_BODY": "将该检测从你的本地历史中移除。",
+      "DELETE_CONFIRM": "删除",
+      "DELETE_CANCEL": "取消",
+      "META_TITLE": "检测历史｜{appName}"
+    },
+    "RANKINGS": {
+      "EMPTY": "暂无已发布的结果。",
+      "SAMPLES": "{count} 次检测",
+      "LAST_TESTED": "最近检测 {when}",
+      "PREV": "上一页",
+      "NEXT": "下一页",
+      "STAT_DETECTIONS": "检测总数",
+      "STAT_PROVIDERS": "追踪的提供商",
+      "STAT_PASS_RATE": "平均通过率",
+      "META_TITLE": "模型真实性排行榜｜{appName}",
+      "META_DESCRIPTION": "查看哪些 API 提供商真正提供其声称的模型，按确定性通过率排名。",
+      "DISCLAIMER": "每条已发布的结果在计入之前都会在我们的服务器上重新运行，且每条判定都会链接到产生它的确切证据。你认为有误的结果可以申诉。",
+      "REPORT_DISCORD": "在 Discord 上报告",
+      "REPORT_GITHUB": "提交一个 GitHub issue",
+      "NOT_TESTED": "尚未测试",
+      "LOW_CONFIDENCE": "置信度低（{count} 次测试）",
+      "SELF_TITLE": "我们对自己也坚持同样的标准",
+      "SELF_BODY": "{appName} 也由这同一款工具测试。查看证据。"
+    },
+    "DETAIL": {
+      "BACK": "返回检测器",
+      "NOT_FOUND": "未找到检测。",
+      "LOCAL_ONLY": "本地检测，仅存储在你的设备上。发布后我们的服务器会进行验证，才会出现在公开榜单上。",
+      "DISCLAIMER": "评分仅根据经服务器验证的探针计算。真实模型会确认厂商和层级；确切版本从不被声称。如认为某结果有误，请通过下方链接申诉。",
+      "SUBMISSIONS": "近期提交",
+      "SUBMITTED_BY": "由 {who} 提交",
+      "ANONYMOUS": "匿名",
+      "DELETE_MINE": "删除",
+      "REPORT": "报告",
+      "REPORT_HELP": "不是你的结果？申诉它：",
+      "DELETE_TITLE": "移除这条已发布的结果？",
+      "DELETE_BODY": "此操作会将你的提交从公开排名中撤下。你的本地历史不受影响。",
+      "DELETE_CONFIRM": "移除",
+      "DELETE_CANCEL": "取消",
+      "GUEST_CANNOT_DELETE": "访客提交无法在此删除。请通过 Discord 或 GitHub 报告。"
+    },
+    "PROBE_DETAIL": {
+      "PROMPT": "发送的提示",
+      "RESPONSE": "模型响应",
+      "STATUS": "HTTP",
+      "TOKENS": "词元（入/出）",
+      "SIGNAL": "信号",
+      "REASON": "原因",
+      "NO_RESPONSE": "未捕获到响应。"
+    },
+    "NAV": {
+      "TEST_DESC": "实时检测端点",
+      "HISTORY_DESC": "你过去的检测",
+      "RANKINGS_DESC": "公开排行榜"
+    },
+    "CONNECTIVITY": {
+      "CORS": "端点阻止浏览器请求。请使用后端检测。",
+      "UNREACHABLE": "无法访问端点。请检查基础地址。",
+      "INVALID_KEY": "API 密钥无效。",
+      "NO_FORMAT": "端点未接受任何受支持的 API 格式。"
+    },
+    "PUBLISH": {
+      "WARN_TITLE": "这会将你的密钥发送到我们的后端",
+      "WARN_BODY": "为防止伪造结果，发布时整个检测在我们的服务器上运行，因此判定由我们自己生成。你的密钥仅经过服务器内存，绝不存储。",
+      "WARN_THROWAWAY": "请使用低额度的一次性密钥，并在之后更换。",
+      "DONE": "已由我们的服务器验证并发布到公开排行榜，同时已保存到你的历史记录。",
+      "DEDUPED": "该端点最近已发布过。",
+      "FAILED": "无法验证该端点，未发布任何内容。"
+    },
+    "TRUST": {
+      "TITLE": "开源。欢迎验证与改进。",
+      "BODY": "检测代码是开源的。你可以查看具体运行了哪些探测以及原因，建议新的检测，或在我们的 Discord 上讨论检测方法。",
+      "GITHUB": "在 GitHub 上查看代码",
+      "DISCORD": "在 Discord 上讨论检测"
+    },
+    "RULES": {
+      "SECTION_TITLE": "检测如何工作",
+      "WHY_LABEL": "原因：",
+      "NOT_FLAGGED_LABEL": "以下情况不会被标记：",
+      "NOT_FRAUD_TITLE": "什么不会被计为伪造",
+      "PROOF": "整个测试器都是开源的。准确了解运行了哪些探测以及原因：",
+      "CODING-TOOL": {
+        "TITLE": "编程工具外壳",
+        "MEANS": "回复使用了编程助手（Kiro、Cascade、Codeium 等）的套话，拒绝一个普通的创意或情感类提示。",
+        "WHY": "真正的 Claude/GPT/Gemini 会回答小猫故事或俳句。编程工具的蒸馏模型会拒绝，从而暴露出端点背后被替换的模型。",
+        "EXCEPTION": "模型只是出于安全原因拒绝，并没有使用编程助手的套话。"
+      },
+      "SCAM": {
+        "TITLE": "诈骗／盗取令牌页面",
+        "MEANS": "回复包含已知的盗取令牌或钓鱼文本，而非模型的回答。",
+        "WHY": "返回诈骗落地页的端点根本没有提供任何模型。",
+        "EXCEPTION": "模型在正常回答中合理地谈到「token」一词。"
+      },
+      "CJK-LEAK": {
+        "TITLE": "意外的语言泄漏",
+        "MEANS": "仅用英文的提示返回了四个或更多 CJK（中文／日文／韩文）字符。",
+        "WHY": "CJK 泄漏进英文回答是被替换的中文模型或破坏数据的代理的强烈迹象，即使身份问题回答正确也是如此。",
+        "EXCEPTION": "你用 CJK 语言提问或询问与之相关的内容，因此回复中出现 CJK 是预期之中的。"
+      },
+      "MUX": {
+        "TITLE": "回复混淆（不安全的代理）",
+        "MEANS": "每个探针都携带唯一的 nonce；在重试之后，仍有两个或更多回复返回时缺少我们发送的 nonce。",
+        "WHY": "将一个请求多路复用到多个上游的代理会返回与我们所发请求不匹配的回答，而诚实的单模型端点绝不会这样。",
+        "EXCEPTION": "单次 nonce 丢失只发生一次（我们会先重试）；只有反复出现的不匹配才计入。"
+      },
+      "FOREIGN": {
+        "TITLE": "外来厂商身份",
+        "MEANS": "在身份或模型名称探针上，回复给出的厂商与请求的不同（例如请求 Claude 时却说成 OpenAI 或 Gemini）。",
+        "WHY": "把竞争对手实验室说成自己制造者的模型，正由该竞争对手提供，而非你付费的那一方。",
+        "EXCEPTION": "模型对自己的版本含糊其辞或拒绝表明身份，真实模型常常如此。"
+      },
+      "TIER-MISMATCH": {
+        "TITLE": "层级降级（Claude）",
+        "MEANS": "你请求了某个 Claude 层级（Opus），但模型说出的是更便宜的层级（Sonnet 或 Haiku）。",
+        "WHY": "Claude 对确切版本可能含糊，但从不混淆自己的层级，因此明确说出的较低层级是蓄意降级。",
+        "EXCEPTION": "模型不确定自己的版本号；只有明确说出的不同层级才计入。"
+      },
+      "EXCEPTION": {
+        "VERSION": {
+          "TITLE": "版本含糊",
+          "BODY": "真实模型会确认厂商和层级，但往往不确定自己的确切版本。仅此一点绝不算失败，只标记为提示性信息。"
+        },
+        "TRANSIENT": {
+          "TITLE": "临时错误",
+          "BODY": "速率限制（429）、5xx 和超时会把一次运行标记为未验证，绝不标记为可疑。真实端点偶尔状态不佳并不会被惩罚。"
+        },
+        "CLOUD-HOST": {
+          "TITLE": "云主机名称",
+          "BODY": "把 AWS Bedrock、Google Vertex 或 Azure 说成主机是被接受的，因为这些都是转售真实模型的合法方式。"
+        },
+        "RESHAPING": {
+          "TITLE": "协议重塑",
+          "BODY": "在 chat-completions 与原生 messages 格式之间转换是正常的网关行为，只要模型本身是真实的，就不是欺诈信号。"
+        },
+        "THRESHOLD": {
+          "TITLE": "单个不稳定的探针",
+          "BODY": "四个探针中通过三个就足以判定为真实，因此单个偏差回答不会让诚实的端点蒙冤。"
+        }
+      },
+      "COMMUNITY": "对更好的探测有想法吗？在这里提交：",
+      "SOURCE_LINK": "查看检测代码"
+    },
+    "FAQ": {
+      "TITLE": "常见问题",
+      "ITEMS": {
+        "KEY_SAFE": {
+          "Q": "我的 API 密钥安全吗？",
+          "A": "本地测试时，密钥绝不会离开你的浏览器，它会直接发送到你输入的端点。只有当你选择发布时，密钥才会送到我们的服务器，服务器在内存中运行测试，从不存储它。如有顾虑，请使用一次性密钥。"
+        },
+        "SERVER_PROXY": {
+          "Q": "为什么有时需要服务器代理？",
+          "A": "有些端点会阻止来自浏览器的直接请求（<cors>CORS</cors>）。发生这种情况时，我们会提供一个可选的后端测试，替你转发探针。发布始终在服务器端运行，因此公开结果无法伪造。"
+        },
+        "RELIABILITY": {
+          "Q": "评分有多可靠？",
+          "A": "检测是确定性的，而非机器学习的猜测。每个探针要么匹配某个具体信号，要么不匹配，结果会向你展示确切证据。我们要求四个探针中通过三个，并把临时错误视为未验证，而非失败。"
+        },
+        "FALSE_POSITIVE": {
+          "Q": "我如何报告误报？",
+          "A": "每条已发布的结果都可申诉。如果是你在登录状态下自己发布的，可以直接删除；否则请在 <ghIssue>GitHub</ghIssue> 上提交 issue 或在 <discord>Discord</discord> 上联系我们，我们会重新核查并移除错误条目。"
+        },
+        "PROTOCOLS": {
+          "Q": "支持哪些 API 协议？",
+          "A": "Anthropic（/v1/messages）、OpenAI（/v1/chat/completions）和 Google Gemini（generateContent）。我们会先尝试提供商的原生格式，必要时回退到兼容 OpenAI 的格式。"
+        },
+        "OPEN_SOURCE": {
+          "Q": "它是开源的吗？",
+          "A": "是的。此测试器完全在你的浏览器中运行，其检测库在 <gh>GitHub</gh> 上公开，因此你可以准确了解运行了哪些探测以及原因，提交新的探测，或在 <discord>Discord</discord> 上讨论。"
+        }
+      }
+    },
+    "GAUGE": {
+      "READY": "就绪",
+      "RUNNING": "测试中",
+      "RUNNING_HINT": "正在针对你的端点运行探针。",
+      "DONE_HINT": "每段弧线是一个探针。展开下方的探针即可查看提示、回复和证据。"
+    },
+    "WHY": {
+      "TITLE": "这款检测器为何与众不同",
+      "DETERMINISTIC_TITLE": "确定性的，而非猜测",
+      "DETERMINISTIC_BODY": "每项检查都匹配回复中的具体信号，因此我们不会像统计指纹那样把真实模型误标为伪造。请阅读确切的代码。",
+      "VERIFIED_TITLE": "经服务器验证方可发布",
+      "VERIFIED_BODY": "结果只有在我们的服务器亲自重新运行整套测试之后才会登上公开榜单，因此排名无法伪造。",
+      "EVIDENCE_TITLE": "你能看见的证据",
+      "EVIDENCE_BODY": "每条判定都会显示发送的提示、原始回复，以及触发它的匹配文本。没有任何东西被隐藏。"
+    }
   }
 }

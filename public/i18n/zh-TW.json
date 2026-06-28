@@ -28,7 +28,8 @@
     "PLAYGROUND": "遊樂場",
     "STATUS": "狀態",
     "COMPARE": "對比",
-    "LANGUAGE": "語言"
+    "LANGUAGE": "語言",
+    "MODEL_TESTER": "檢測器"
   },
   "HOME": {
     "HERO": {
@@ -520,7 +521,7 @@
   "RANKINGS": {
     "META": {
       "TITLE": "排行榜｜{appName}",
-      "DESCRIPTION": "在 {appName} 上探索最熱門的 AI 模型與崛起中的供應商，依即時令牌用量排序。根據平台真實使用資料持續更新。",
+      "DESCRIPTION": "在 {appName} 上探索最熱門的 AI 模型與崛起中的供應商，依即時詞元用量排序。根據平台真實使用資料持續更新。",
       "KEYWORDS": "AI 模型排行榜，LLM 排行榜，熱門 AI 模型，AI 供應商市佔率，最常用 AI 模型，模型使用統計"
     },
     "HERO": {
@@ -537,33 +538,33 @@
     },
     "MODELS": {
       "TITLE": "熱門模型",
-      "SUBTITLE": "依所選期間令牌用量排序的模型",
+      "SUBTITLE": "依所選期間詞元用量排序的模型",
       "PERIOD_DESCRIPTIONS": {
-        "TODAY": "過去 24 小時內各模型的每小時令牌用量",
-        "WEEK": "過去數週各模型的每週令牌用量",
-        "MONTH": "過去一個月各模型的每日令牌用量",
-        "YEAR": "過去一年各模型的每週令牌用量",
-        "ALL": "上線以來各模型的令牌用量"
+        "TODAY": "過去 24 小時內各模型的每小時詞元用量",
+        "WEEK": "過去數週各模型的每週詞元用量",
+        "MONTH": "過去一個月各模型的每日詞元用量",
+        "YEAR": "過去一年各模型的每週詞元用量",
+        "ALL": "上線以來各模型的詞元用量"
       },
       "LEADERBOARD_TITLE": "LLM 排行榜",
       "LEADERBOARD_SUBTITLE": "比較平台上最熱門的模型",
       "EMPTY": "沒有模型符合所選的篩選條件",
-      "TOKENS_SUFFIX": "令牌",
+      "TOKENS_SUFFIX": "詞元",
       "TOOLTIP_TOTAL": "合計",
       "BY_AUTHOR_LABEL": "作者："
     },
     "VENDORS": {
       "TITLE": "市場份額",
-      "SUBTITLE": "依模型作者劃分的令牌佔比",
+      "SUBTITLE": "依模型作者劃分的詞元佔比",
       "PERIOD_DESCRIPTIONS": {
-        "TODAY": "過去 24 小時內各供應商的令牌佔比",
-        "WEEK": "過去數週各供應商的令牌佔比",
-        "MONTH": "過去一個月各供應商的令牌佔比",
-        "YEAR": "過去一年各供應商的令牌佔比",
-        "ALL": "上線以來各供應商的令牌佔比"
+        "TODAY": "過去 24 小時內各供應商的詞元佔比",
+        "WEEK": "過去數週各供應商的詞元佔比",
+        "MONTH": "過去一個月各供應商的詞元佔比",
+        "YEAR": "過去一年各供應商的詞元佔比",
+        "ALL": "上線以來各供應商的詞元佔比"
       },
       "LIST_TITLE": "依模型作者",
-      "LIST_SUBTITLE": "依累計令牌用量排序的供應商",
+      "LIST_SUBTITLE": "依累計詞元用量排序的供應商",
       "EMPTY": "暫無供應商資料"
     },
     "PULSE": {
@@ -2298,6 +2299,7 @@
     "MODELS": "模型",
     "PRICING": "價格",
     "DOCUMENTATION": "文件",
+    "BLOG": "部落格",
     "STATUS": "狀態",
     "LEGAL": "法律",
     "PRIVACY": "隱私權政策",
@@ -3275,6 +3277,7 @@
       "STATUS_IN_PROGRESS": "生成中",
       "STATUS_SUCCESS": "完成",
       "STATUS_FAILURE": "失敗",
+      "GENERATING_IMAGE": "正在產生圖片……",
       "REFRESH": "重新整理"
     },
     "ATTACHMENT": {
@@ -3356,6 +3359,12 @@
       "CHAT_MEMORY_HINT": "每次請求隨附的最近訊息數量。",
       "STREAMING_ENABLED": "串流輸出",
       "STREAMING_ENABLED_HINT": "關閉 = 等待完整回覆後再顯示。部分模型僅在緩衝後輸出乾淨。主要是使用者偏好。",
+      "MEMORY_ENABLED": "記憶",
+      "IMAGE_ENABLED": "聊天內圖片",
+      "UTILITY_MODEL": "工具模型",
+      "UTILITY_MODEL_PLACEHOLDER": "預設使用聊天模型",
+      "IMAGE_PROMPT_INSTRUCTION": "圖片提示詞指令",
+      "IMAGE_PROMPT_INSTRUCTION_PLACEHOLDER": "第二個模型應如何撰寫圖片提示詞（選填）",
       "SHOW_REASONING": "顯示推理過程",
       "SYSTEM_PROMPT": "覆寫系統提示詞",
       "SYSTEM_PROMPT_PLACEHOLDER": "留空則使用角色內建的系統提示詞。",
@@ -3996,5 +4005,262 @@
     "UPLOAD_IMAGE": "上傳圖片",
     "UPLOADING": "上傳中…",
     "INIT_IMAGE": "來源圖像"
+  },
+  "MODEL_TESTER": {
+    "META": {
+      "TITLE": "AI API 模型檢測器｜{appName}",
+      "DESCRIPTION": "驗證某個 API 端點實際提供的模型。在瀏覽器中對 Claude、GPT 和 Gemini 進行確定性的真實性檢測。",
+      "KEYWORDS": "模型檢測,API 真實性,假模型檢測,claude,gpt,gemini"
+    },
+    "HERO": {
+      "TITLE": "AI API 模型檢測器",
+      "SUBTITLE": "檢查端點是否真正提供其聲稱的模型。在你的瀏覽器中執行，你的金鑰不會傳送到我們的伺服器。",
+      "EYEBROW": "先驗證再信任",
+      "TRUST_BADGE": "100% 在瀏覽器中執行。你的金鑰絕不會傳送到我們的伺服器。"
+    },
+    "TABS": {
+      "TEST": "檢測",
+      "HISTORY": "歷史",
+      "RANKINGS": "排行榜"
+    },
+    "PROVIDER": {
+      "ANTHROPIC": "Anthropic (Claude)",
+      "OPENAI": "OpenAI (GPT)",
+      "GEMINI": "Google (Gemini)"
+    },
+    "FORM": {
+      "PROVIDER": "API 格式",
+      "BASE_URL": "API 基礎位址",
+      "API_KEY": "API 金鑰",
+      "MODEL": "模型",
+      "PUBLISH": "發佈到公開排行榜",
+      "PUBLISH_HINT": "僅分享主機、模型和分數，絕不分享你的金鑰。",
+      "RUN": "開始檢測",
+      "RUN_BACKEND": "透過後端檢測",
+      "CORS_TITLE": "該端點封鎖瀏覽器請求",
+      "CORS_WARNING": "可以改為透過我們的伺服器檢測。你的金鑰僅經過記憶體，絕不儲存。為安全起見，請在之後更換金鑰。",
+      "RUN_PUBLISH": "在我們的伺服器上驗證並發佈",
+      "SECTION_TITLE": "請求配置",
+      "SECTION_DESC": "配置端點和金鑰，然後在瀏覽器中執行檢測。"
+    },
+    "VERDICT": {
+      "GENUINE": "真實",
+      "SUSPICIOUS": "可疑",
+      "UNVERIFIED": "未確認",
+      "VERSION_UNVERIFIABLE": "已確認為真實模型。具體版本無法透過探測驗證。"
+    },
+    "PROBE": {
+      "EMOTIONAL": "情感",
+      "CREATIVE": "創意",
+      "IDENTITY": "身分",
+      "MODEL-NAME": "模型名稱"
+    },
+    "RESULT": {
+      "PASSED": "通過 {passed}/{total} 項探測",
+      "LATENCY": "{ms} 毫秒",
+      "TRANSPORT": "經由 {mode}",
+      "IDLE": "執行一次檢測，結果將顯示在這裡。",
+      "DETECTED_MODEL": "偵測到的模型",
+      "TOTAL_TOKENS": "{tokens} 個權杖",
+      "FORMAT_FELL_BACK": "不支援原生格式，已改用 {format} 檢測。",
+      "EVIDENCE": "證據",
+      "HIGHLIGHT_LEGEND": {
+        "FOREIGN": "提到了外來廠商",
+        "CODING_TOOL": "程式設計工具外殼套話",
+        "SCAM": "詐騙／竊取權杖文字",
+        "CJK": "意外的 CJK 字元",
+        "HOME": "符合預期的身分"
+      }
+    },
+    "HISTORY": {
+      "EMPTY": "尚無檢測記錄。執行一次以建立歷史。",
+      "PUBLISH": "發佈",
+      "DELETE_TITLE": "刪除檢測",
+      "DELETE_BODY": "將該檢測從你的本機歷史中移除。",
+      "DELETE_CONFIRM": "刪除",
+      "DELETE_CANCEL": "取消",
+      "META_TITLE": "檢測歷史｜{appName}"
+    },
+    "RANKINGS": {
+      "EMPTY": "尚無已發佈的結果。",
+      "SAMPLES": "{count} 次檢測",
+      "LAST_TESTED": "最近檢測 {when}",
+      "PREV": "上一頁",
+      "NEXT": "下一頁",
+      "STAT_DETECTIONS": "檢測總數",
+      "STAT_PROVIDERS": "追蹤的提供商",
+      "STAT_PASS_RATE": "平均通過率",
+      "META_TITLE": "模型真實性排行榜｜{appName}",
+      "META_DESCRIPTION": "查看哪些 API 提供商真正提供其聲稱的模型，按確定性通過率排名。",
+      "DISCLAIMER": "每筆已發佈的結果在計入之前都會在我們的伺服器上重新執行，且每筆判定都會連結到產生它的確切證據。你認為有誤的結果可以申訴。",
+      "REPORT_DISCORD": "在 Discord 上回報",
+      "REPORT_GITHUB": "提交一個 GitHub issue",
+      "NOT_TESTED": "尚未測試",
+      "LOW_CONFIDENCE": "信賴度低（{count} 次測試）",
+      "SELF_TITLE": "我們對自己也堅持同樣的標準",
+      "SELF_BODY": "{appName} 也由這同一款工具測試。查看證據。"
+    },
+    "DETAIL": {
+      "BACK": "返回檢測器",
+      "NOT_FOUND": "找不到檢測。",
+      "LOCAL_ONLY": "本機檢測，僅儲存在你的裝置上。發佈後我們的伺服器會進行驗證，才會出現在公開榜單上。",
+      "DISCLAIMER": "評分僅依據經伺服器驗證的探針計算。真實模型會確認廠商和層級；確切版本從不被宣稱。如認為某結果有誤，請透過下方連結申訴。",
+      "SUBMISSIONS": "近期提交",
+      "SUBMITTED_BY": "由 {who} 提交",
+      "ANONYMOUS": "匿名",
+      "DELETE_MINE": "刪除",
+      "REPORT": "回報",
+      "REPORT_HELP": "不是你的結果？申訴它：",
+      "DELETE_TITLE": "移除這筆已發佈的結果？",
+      "DELETE_BODY": "此操作會將你的提交從公開排名中撤下。你的本機歷史不受影響。",
+      "DELETE_CONFIRM": "移除",
+      "DELETE_CANCEL": "取消",
+      "GUEST_CANNOT_DELETE": "訪客提交無法在此刪除。請透過 Discord 或 GitHub 回報。"
+    },
+    "PROBE_DETAIL": {
+      "PROMPT": "傳送的提示",
+      "RESPONSE": "模型回應",
+      "STATUS": "HTTP",
+      "TOKENS": "權杖（入/出）",
+      "SIGNAL": "信號",
+      "REASON": "原因",
+      "NO_RESPONSE": "未擷取到回應。"
+    },
+    "NAV": {
+      "TEST_DESC": "即時檢測端點",
+      "HISTORY_DESC": "你過去的檢測",
+      "RANKINGS_DESC": "公開排行榜"
+    },
+    "CONNECTIVITY": {
+      "CORS": "端點封鎖瀏覽器請求。請使用後端檢測。",
+      "UNREACHABLE": "無法存取端點。請檢查基礎位址。",
+      "INVALID_KEY": "API 金鑰無效。",
+      "NO_FORMAT": "端點未接受任何受支援的 API 格式。"
+    },
+    "PUBLISH": {
+      "WARN_TITLE": "這會將你的金鑰傳送到我們的後端",
+      "WARN_BODY": "為防止偽造結果，發佈時整個檢測在我們的伺服器上執行，因此判定由我們自己產生。你的金鑰僅經過伺服器記憶體，絕不儲存。",
+      "WARN_THROWAWAY": "請使用低額度的一次性金鑰，並在之後更換。",
+      "DONE": "已由我們的伺服器驗證並發佈到公開排行榜，同時已儲存到你的歷史記錄。",
+      "DEDUPED": "該端點最近已發佈過。",
+      "FAILED": "無法驗證該端點，未發佈任何內容。"
+    },
+    "TRUST": {
+      "TITLE": "開源。歡迎驗證與改進。",
+      "BODY": "檢測程式碼是開源的。你可以查看具體執行了哪些探測以及原因，建議新的檢測，或在我們的 Discord 上討論檢測方法。",
+      "GITHUB": "在 GitHub 上查看程式碼",
+      "DISCORD": "在 Discord 上討論檢測"
+    },
+    "RULES": {
+      "SECTION_TITLE": "偵測如何運作",
+      "WHY_LABEL": "原因：",
+      "NOT_FLAGGED_LABEL": "以下情況不會被標記：",
+      "NOT_FRAUD_TITLE": "什麼不會被計為偽造",
+      "PROOF": "整個測試器都是開源的。準確了解執行了哪些探測以及原因：",
+      "CODING-TOOL": {
+        "TITLE": "程式設計工具外殼",
+        "MEANS": "回覆使用了程式設計助理（Kiro、Cascade、Codeium 等）的套話，拒絕一個普通的創意或情感類提示。",
+        "WHY": "真正的 Claude/GPT/Gemini 會回答小貓故事或俳句。程式設計工具的蒸餾模型會拒絕，從而暴露出端點背後被替換的模型。",
+        "EXCEPTION": "模型只是出於安全原因拒絕，並未使用程式設計助理的套話。"
+      },
+      "SCAM": {
+        "TITLE": "詐騙／竊取權杖頁面",
+        "MEANS": "回覆包含已知的竊取權杖或釣魚文字，而非模型的回答。",
+        "WHY": "回傳詐騙到達頁的端點根本沒有提供任何模型。",
+        "EXCEPTION": "模型在正常回答中合理地談到「token」一詞。"
+      },
+      "CJK-LEAK": {
+        "TITLE": "意外的語言外洩",
+        "MEANS": "僅用英文的提示回傳了四個或更多 CJK（中文／日文／韓文）字元。",
+        "WHY": "CJK 外洩進英文回答是被替換的中文模型或破壞資料的代理的強烈跡象，即使身分問題回答正確也是如此。",
+        "EXCEPTION": "你以 CJK 語言提問或詢問與之相關的內容，因此回覆中出現 CJK 是預期之中的。"
+      },
+      "MUX": {
+        "TITLE": "回覆混淆（不安全的代理）",
+        "MEANS": "每個探針都攜帶唯一的 nonce；在重試之後，仍有兩個或更多回覆回傳時缺少我們傳送的 nonce。",
+        "WHY": "將一個請求多工複用到多個上游的代理會回傳與我們所發請求不相符的回答，而誠實的單一模型端點絕不會這樣。",
+        "EXCEPTION": "單次 nonce 遺漏只發生一次（我們會先重試）；只有反覆出現的不相符才計入。"
+      },
+      "FOREIGN": {
+        "TITLE": "外來廠商身分",
+        "MEANS": "在身分或模型名稱探針上，回覆給出的廠商與請求的不同（例如請求 Claude 時卻說成 OpenAI 或 Gemini）。",
+        "WHY": "把競爭對手實驗室說成自己製造者的模型，正由該競爭對手提供，而非你付費的那一方。",
+        "EXCEPTION": "模型對自己的版本含糊其辭或拒絕表明身分，真實模型常常如此。"
+      },
+      "TIER-MISMATCH": {
+        "TITLE": "層級降級（Claude）",
+        "MEANS": "你請求了某個 Claude 層級（Opus），但模型說出的是更便宜的層級（Sonnet 或 Haiku）。",
+        "WHY": "Claude 對確切版本可能含糊，但從不混淆自己的層級，因此明確說出的較低層級是蓄意降級。",
+        "EXCEPTION": "模型不確定自己的版本號；只有明確說出的不同層級才計入。"
+      },
+      "EXCEPTION": {
+        "VERSION": {
+          "TITLE": "版本含糊",
+          "BODY": "真實模型會確認廠商和層級，但往往不確定自己的確切版本。僅此一點絕不算失敗，只標記為提示性資訊。"
+        },
+        "TRANSIENT": {
+          "TITLE": "暫時性錯誤",
+          "BODY": "速率限制（429）、5xx 和逾時會把一次執行標記為未驗證，絕不標記為可疑。真實端點偶爾狀態不佳並不會被懲罰。"
+        },
+        "CLOUD-HOST": {
+          "TITLE": "雲端主機名稱",
+          "BODY": "把 AWS Bedrock、Google Vertex 或 Azure 說成主機是被接受的，因為這些都是轉售真實模型的合法方式。"
+        },
+        "RESHAPING": {
+          "TITLE": "協定重塑",
+          "BODY": "在 chat-completions 與原生 messages 格式之間轉換是正常的閘道行為，只要模型本身是真實的，就不是詐欺訊號。"
+        },
+        "THRESHOLD": {
+          "TITLE": "單個不穩定的探針",
+          "BODY": "四個探針中通過三個就足以判定為真實，因此單個偏差回答不會讓誠實的端點蒙冤。"
+        }
+      },
+      "COMMUNITY": "對更好的探測有想法嗎？在這裡提交：",
+      "SOURCE_LINK": "查看偵測程式碼"
+    },
+    "FAQ": {
+      "TITLE": "常見問題",
+      "ITEMS": {
+        "KEY_SAFE": {
+          "Q": "我的 API 金鑰安全嗎？",
+          "A": "本機測試時，金鑰絕不會離開你的瀏覽器，它會直接傳送到你輸入的端點。只有當你選擇發佈時，金鑰才會送到我們的伺服器，伺服器在記憶體中執行測試，從不儲存它。如有疑慮，請使用一次性金鑰。"
+        },
+        "SERVER_PROXY": {
+          "Q": "為什麼有時需要伺服器代理？",
+          "A": "有些端點會封鎖來自瀏覽器的直接請求（<cors>CORS</cors>）。發生這種情況時，我們會提供一個選用的後端測試，替你轉發探針。發佈一律在伺服器端執行，因此公開結果無法偽造。"
+        },
+        "RELIABILITY": {
+          "Q": "評分有多可靠？",
+          "A": "偵測是確定性的，而非機器學習的猜測。每個探針要麼符合某個具體訊號，要麼不符合，結果會向你展示確切證據。我們要求四個探針中通過三個，並把暫時性錯誤視為未驗證，而非失敗。"
+        },
+        "FALSE_POSITIVE": {
+          "Q": "我如何回報誤判？",
+          "A": "每筆已發佈的結果都可申訴。如果是你在登入狀態下自己發佈的，可以直接刪除；否則請在 <ghIssue>GitHub</ghIssue> 上提交 issue 或在 <discord>Discord</discord> 上聯絡我們，我們會重新查核並移除錯誤項目。"
+        },
+        "PROTOCOLS": {
+          "Q": "支援哪些 API 協定？",
+          "A": "Anthropic（/v1/messages）、OpenAI（/v1/chat/completions）和 Google Gemini（generateContent）。我們會先嘗試供應商的原生格式，必要時回退到相容 OpenAI 的格式。"
+        },
+        "OPEN_SOURCE": {
+          "Q": "它是開源的嗎？",
+          "A": "是的。此測試器完全在你的瀏覽器中執行，其偵測函式庫在 <gh>GitHub</gh> 上公開，因此你可以準確了解執行了哪些探測以及原因，提交新的探測，或在 <discord>Discord</discord> 上討論。"
+        }
+      }
+    },
+    "GAUGE": {
+      "READY": "就緒",
+      "RUNNING": "測試中",
+      "RUNNING_HINT": "正在針對你的端點執行探針。",
+      "DONE_HINT": "每段弧線是一個探針。展開下方的探針即可查看提示、回覆和證據。"
+    },
+    "WHY": {
+      "TITLE": "這款偵測器為何與眾不同",
+      "DETERMINISTIC_TITLE": "確定性的，而非猜測",
+      "DETERMINISTIC_BODY": "每項檢查都符合回覆中的具體訊號，因此我們不會像統計指紋那樣把真實模型誤標為偽造。請閱讀確切的程式碼。",
+      "VERIFIED_TITLE": "經伺服器驗證方可發佈",
+      "VERIFIED_BODY": "結果只有在我們的伺服器親自重新執行整套測試之後才會登上公開榜單，因此排名無法偽造。",
+      "EVIDENCE_TITLE": "你能看見的證據",
+      "EVIDENCE_BODY": "每筆判定都會顯示傳送的提示、原始回覆，以及觸發它的相符文字。沒有任何東西被隱藏。"
+    }
   }
 }

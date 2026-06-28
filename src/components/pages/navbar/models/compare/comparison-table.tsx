@@ -22,7 +22,7 @@ import {
   formatTokens,
 } from "@/lib/utils/format/number";
 import type { ModelSummary } from "@/openapi";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
 
 const MODALITY_ICON: Record<string, IconName> = {
@@ -84,6 +84,7 @@ export function ComparisonTable(props: {
   onRemove: (name: string) => void;
 }) {
   const t = useTranslations();
+  const locale = useLocale();
   const [highlight, setHighlight] = useState(false);
   const models = props.models;
 
@@ -105,7 +106,7 @@ export function ComparisonTable(props: {
         },
         {
           label: t("MODELS.TABLE.CONTEXT"),
-          render: (m) => formatTokenCount(ctxOf(m)),
+          render: (m) => formatTokenCount(ctxOf(m), locale),
           best: (m) => ctxOf(m) || null,
         },
         {
@@ -181,7 +182,7 @@ export function ComparisonTable(props: {
       rows: [
         {
           label: t("MODELS.DETAIL.MAX_OUTPUT"),
-          render: (m) => formatTokenCount(m.metadata.maxOutputTokens),
+          render: (m) => formatTokenCount(m.metadata.maxOutputTokens, locale),
           best: (m) => m.metadata.maxOutputTokens ?? null,
         },
         {
@@ -213,7 +214,7 @@ export function ComparisonTable(props: {
           label: t("MODELS.TABLE.WEEKLY_TOKENS"),
           render: (m) => {
             const v = props.rankMap.get(m.name)?.total_tokens ?? 0;
-            return v > 0 ? formatTokens(v) : "-";
+            return v > 0 ? formatTokens(v, locale) : "-";
           },
           best: (m) => props.rankMap.get(m.name)?.total_tokens ?? null,
         },

@@ -21,7 +21,7 @@ import {
   formatTokenCount,
   formatTokens,
 } from "@/lib/utils/format/number";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 function fmtUnit(value: number, unit: PriceUnit, perCall?: boolean): string {
   if (unit === "dash" || value <= 0) return "-";
@@ -68,6 +68,7 @@ export function ModelListCard(props: {
   onClick: () => void;
 }) {
   const t = useTranslations();
+  const locale = useLocale();
   const model = props.model;
   const theme = getVendorTheme(model.vendor.name);
   const modality = deriveOutputModality(model);
@@ -143,7 +144,8 @@ export function ModelListCard(props: {
         </div>
         {props.rank && (
           <span className="text-muted-foreground shrink-0 font-mono text-sm">
-            {formatTokens(props.rank.total_tokens)} {t("MODELS.LIST.TOKENS")}
+            {formatTokens(props.rank.total_tokens, locale)}{" "}
+            {t("MODELS.LIST.TOKENS")}
           </span>
         )}
       </div>
@@ -168,7 +170,7 @@ export function ModelListCard(props: {
         {releaseTs > 0 && <span>{formatMsDate(releaseTs)}</span>}
         {ctx ? (
           <span>
-            {formatTokenCount(ctx)} {t("MODELS.LIST.CONTEXT")}
+            {formatTokenCount(ctx, locale)} {t("MODELS.LIST.CONTEXT")}
           </span>
         ) : null}
         <PriceMeta

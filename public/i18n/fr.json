@@ -28,13 +28,14 @@
     "PLAYGROUND": "Bac à sable",
     "STATUS": "État",
     "COMPARE": "Comparer",
-    "LANGUAGE": "Langue"
+    "LANGUAGE": "Langue",
+    "MODEL_TESTER": "Inspecteur"
   },
   "HOME": {
     "HERO": {
       "BADGE": "Routeur en ligne",
       "TITLE_LINE1": "TOUT-EN-UN",
-      "SUBTITLE": "{appName} vous connecte a {modelCount}+ modèles d'IA avec une seule clé. Créez des applis et lancez des agents avec, ou sautez la configuration et discutez avec des personnages directement sur le site. Même clé, même vitesse, même prix.",
+      "SUBTITLE": "{appName} vous connecte à {modelCount}+ modèles d'IA avec une seule clé. Créez des applis et lancez des agents avec, ou sautez la configuration et discutez avec des personnages directement sur le site. Même clé, même vitesse, même prix.",
       "CTA_PRIMARY": "Commencer",
       "CTA_SECONDARY": "Voir les modèles",
       "TITLE_ROTATE": "API,CHAT,PERSONNAGES,JEU DE RÔLE,CODE,INTELLIGENCE"
@@ -122,7 +123,7 @@
       "BADGE": "Chat intégré",
       "TITLE_1": "Pas qu'une API.",
       "TITLE_2": "Aussi un client de chat.",
-      "DESCRIPTION": "Ouvrez-le et commencez a parler. Les modèles gratuits sont déjà connectes, donc pas d'inscription, pas de clé, pas de configuration. Choisissez un personnage ou importez le votre, et vos discussions restent dans votre navigateur.",
+      "DESCRIPTION": "Ouvrez-le et commencez à parler. Les modèles gratuits sont déjà connectés, donc pas d'inscription, pas de clé, pas de configuration. Choisissez un personnage ou importez le vôtre, et vos discussions restent dans votre navigateur.",
       "CARD1": {
         "TITLE": "Aucune config",
         "DESC": "Modèles gratuits câblés côté serveur. Ouvrez et discutez, sans compte."
@@ -961,7 +962,7 @@
         "AUTHOR": "Équipe {appName}",
         "INTRO": "Les agents de code et les clients de jeu de rôle semblent des mondes différents, mais sous le capot ils parlent la même langue : Chat Completions compatible OpenAI. Cela veut dire qu'une clé et un endpoint peuvent servir les deux. Vous pouvez faire tourner Claude Code contre une passerelle pour votre vrai travail, puis utiliser exactement la même clé pour le chat de personnages le soir, facture depuis un seul solde. Voici comment cela marche et pourquoi c'est pratique.",
         "H_TWO_WORLDS": "Deux mondes, un protocole",
-        "P_TWO_WORLDS": "Claude Code, Cline, Codex et Kilo Code sont des agents de code ; SillyTavern, Janitor.AI et RisuAI sont des clients de jeu de rôle. Ils paraissent sans rapport, mais chacun se connecte a un endpoint compatible OpenAI et une clé. Une passerelle se place derrière les deux, donc les mêmes identifiants pilotent un refactoring le matin et une histoire le soir. Il n'y a aucune raison de garder des comptes séparés et des factures séparées pour deux outils qui parlent le même protocole.",
+        "P_TWO_WORLDS": "Claude Code, Cline, Codex et Kilo Code sont des agents de code ; SillyTavern, Janitor.AI et RisuAI sont des clients de jeu de rôle. Ils paraissent sans rapport, mais chacun se connecte à un endpoint compatible OpenAI et une clé. Une passerelle se place derrière les deux, donc les mêmes identifiants pilotent un refactoring le matin et une histoire le soir. Il n'y a aucune raison de garder des comptes séparés et des factures séparées pour deux outils qui parlent le même protocole.",
         "H_CLAUDE_CODE": "L'utiliser avec Claude Code",
         "P_CLAUDE_CODE": "Pointez votre agent de code vers la passerelle en mettant l'URL de base sur <c>https://api.unorouter.com/v1</c> et votre clé {appName}, puis choisissez un modèle de code solide. Claude Code, Cline, Codex et Kilo Code acceptent tous une URL de base compatible OpenAI, donc l'agent marche comme d'habitude pendant que la passerelle achemine vers le modèle que vous avez choisi. Changez de modèles pour le coût ou la qualité avec un changement d'une ligne, sans nouvelle clé.",
         "H_ROLEPLAY": "L'utiliser pour le jeu de rôle",
@@ -1082,7 +1083,7 @@
       "FOOTNOTE": "Le crédit n'expire jamais."
     },
     "BRIDGE": {
-      "TITLE": "Vous l'utilisez régulièrement ? Abonnez-vous et obtenez plus de crédit chaque mois.",
+      "TITLE": "Utilisateur régulier ? Abonnez-vous et obtenez plus de crédit chaque mois.",
       "DESC": "Rechargez pour plus de flexibilité. Abonnez-vous lorsque votre usage est prévisible et obtenez du crédit supplémentaire en plus de ce que vous payez."
     },
     "PLANS": {
@@ -1641,7 +1642,7 @@
       "RUN": "Lancer Hermes",
       "RUN_DESC": "Démarrez une session, changez de modèle ou de fournisseur a tout moment, ou diagnostiquez votre configuration :",
       "CTA_TITLE": "Prêt a commencer ?",
-      "CTA_DESC": "Obtenez votre clé API et commencez a utiliser {appName} avec Hermes Agent.",
+      "CTA_DESC": "Obtenez votre clé API et commencez à utiliser {appName} avec Hermes Agent.",
       "CTA_SIGNUP": "S'inscrire pour une clé API",
       "CTA_DASHBOARD": "Aller au tableau de bord",
       "CTA_MODELS": "Voir tous les modèles",
@@ -2298,6 +2299,7 @@
     "MODELS": "Modèles",
     "PRICING": "Tarifs",
     "DOCUMENTATION": "Documentation",
+    "BLOG": "Blog",
     "STATUS": "Statut",
     "LEGAL": "Mentions légales",
     "PRIVACY": "Politique de confidentialité",
@@ -3275,6 +3277,7 @@
       "STATUS_IN_PROGRESS": "Génération",
       "STATUS_SUCCESS": "Terminé",
       "STATUS_FAILURE": "Échec",
+      "GENERATING_IMAGE": "Génération de l'image...",
       "REFRESH": "Actualiser"
     },
     "ATTACHMENT": {
@@ -3356,6 +3359,12 @@
       "CHAT_MEMORY_HINT": "Nombre de messages récents envoyés à chaque requête.",
       "STREAMING_ENABLED": "Streaming",
       "STREAMING_ENABLED_HINT": "Désactivé = attendre la réponse complète, puis l'afficher. Certains modèles ne sortent proprement qu'en mode tampon. Surtout une préférence utilisateur.",
+      "MEMORY_ENABLED": "Mémoire",
+      "IMAGE_ENABLED": "Images dans le chat",
+      "UTILITY_MODEL": "Modèle utilitaire",
+      "UTILITY_MODEL_PLACEHOLDER": "Par défaut, le modèle du chat",
+      "IMAGE_PROMPT_INSTRUCTION": "Instruction du prompt d'image",
+      "IMAGE_PROMPT_INSTRUCTION_PLACEHOLDER": "Comment le second modèle doit écrire le prompt d'image (facultatif)",
       "SHOW_REASONING": "Afficher le raisonnement",
       "SYSTEM_PROMPT": "Surcharge du prompt système",
       "SYSTEM_PROMPT_PLACEHOLDER": "Laissez vide pour utiliser le prompt système du personnage.",
@@ -3996,5 +4005,262 @@
     "UPLOAD_IMAGE": "Téléverser une image",
     "UPLOADING": "Téléversement...",
     "INIT_IMAGE": "Image source"
+  },
+  "MODEL_TESTER": {
+    "META": {
+      "TITLE": "Testeur de modeles d'API IA | {appName}",
+      "DESCRIPTION": "Verifiez quel modele un point de terminaison d'API fournit reellement. Controles d'authenticite deterministes pour Claude, GPT et Gemini, dans votre navigateur.",
+      "KEYWORDS": "testeur de modele, authenticite api, faux modele, claude, gpt, gemini"
+    },
+    "HERO": {
+      "TITLE": "Testeur de modeles d'API IA",
+      "SUBTITLE": "Verifiez si un point de terminaison fournit le vrai modele annonce. S'execute dans votre navigateur, votre cle n'est pas envoyee a nos serveurs.",
+      "EYEBROW": "Verifier avant de faire confiance",
+      "TRUST_BADGE": "100% cote navigateur. Votre cle n'est jamais envoyee a nos serveurs."
+    },
+    "TABS": {
+      "TEST": "Test",
+      "HISTORY": "Historique",
+      "RANKINGS": "Classement"
+    },
+    "PROVIDER": {
+      "ANTHROPIC": "Anthropic (Claude)",
+      "OPENAI": "OpenAI (GPT)",
+      "GEMINI": "Google (Gemini)"
+    },
+    "FORM": {
+      "PROVIDER": "Format d'API",
+      "BASE_URL": "URL de base de l'API",
+      "API_KEY": "Cle d'API",
+      "MODEL": "Modele",
+      "PUBLISH": "Publier au classement public",
+      "PUBLISH_HINT": "Seuls l'hote, le modele et le score sont partages. Jamais votre cle.",
+      "RUN": "Lancer le test",
+      "RUN_BACKEND": "Tester via le serveur",
+      "CORS_TITLE": "Ce point de terminaison bloque les requetes du navigateur",
+      "CORS_WARNING": "Il peut etre teste via notre serveur a la place. Votre cle ne transite qu'en memoire et n'est jamais stockee. Renouvelez la cle ensuite par securite.",
+      "RUN_PUBLISH": "Verifier sur notre serveur et publier",
+      "SECTION_TITLE": "Configuration de la requete",
+      "SECTION_DESC": "Configurez le point de terminaison et la cle, puis lancez le test dans votre navigateur."
+    },
+    "VERDICT": {
+      "GENUINE": "Authentique",
+      "SUSPICIOUS": "Suspect",
+      "UNVERIFIED": "Non verifie",
+      "VERSION_UNVERIFIABLE": "Vrai modele confirme. La version exacte ne peut pas etre verifiee par sondage."
+    },
+    "PROBE": {
+      "EMOTIONAL": "Emotionnel",
+      "CREATIVE": "Creatif",
+      "IDENTITY": "Identite",
+      "MODEL-NAME": "Nom du modele"
+    },
+    "RESULT": {
+      "PASSED": "{passed}/{total} sondes reussies",
+      "LATENCY": "{ms}ms",
+      "TRANSPORT": "via {mode}",
+      "IDLE": "Lancez un test pour voir le resultat ici.",
+      "DETECTED_MODEL": "Modele detecte",
+      "TOTAL_TOKENS": "{tokens} jetons",
+      "FORMAT_FELL_BACK": "Format natif non pris en charge; teste via {format} a la place.",
+      "EVIDENCE": "Preuves",
+      "HIGHLIGHT_LEGEND": {
+        "FOREIGN": "Fournisseur étranger nommé",
+        "CODING_TOOL": "Formule de surcouche d'outil de codage",
+        "SCAM": "Texte d'arnaque / de vol de jeton",
+        "CJK": "Caractères CJC inattendus",
+        "HOME": "Identité attendue confirmée"
+      }
+    },
+    "HISTORY": {
+      "EMPTY": "Aucun test pour l'instant. Lancez-en un pour constituer votre historique.",
+      "PUBLISH": "Publier",
+      "DELETE_TITLE": "Supprimer le test",
+      "DELETE_BODY": "Retire le test de votre historique local.",
+      "DELETE_CONFIRM": "Supprimer",
+      "DELETE_CANCEL": "Annuler",
+      "META_TITLE": "Historique des tests | {appName}"
+    },
+    "RANKINGS": {
+      "EMPTY": "Aucun resultat publie pour l'instant.",
+      "SAMPLES": "{count} tests",
+      "LAST_TESTED": "dernier test {when}",
+      "PREV": "Precedent",
+      "NEXT": "Suivant",
+      "STAT_DETECTIONS": "Detections totales",
+      "STAT_PROVIDERS": "Fournisseurs suivis",
+      "STAT_PASS_RATE": "Taux de reussite moyen",
+      "META_TITLE": "Classement d'authenticite des modeles | {appName}",
+      "META_DESCRIPTION": "Voyez quels fournisseurs d'API servent le vrai modele annonce, classes par taux de reussite deterministe.",
+      "DISCLAIMER": "Chaque résultat publié est réexécuté sur notre serveur avant d'être comptabilisé, et chaque verdict renvoie aux preuves exactes qui l'ont produit. Un résultat que vous estimez erroné peut être contesté.",
+      "REPORT_DISCORD": "Signaler sur Discord",
+      "REPORT_GITHUB": "Ouvrir un ticket GitHub",
+      "NOT_TESTED": "Pas encore testé",
+      "LOW_CONFIDENCE": "Faible fiabilité ({count} tests)",
+      "SELF_TITLE": "Nous nous appliquons les mêmes exigences",
+      "SELF_BODY": "{appName} est testé par ce même outil. Consultez les preuves."
+    },
+    "DETAIL": {
+      "BACK": "Retour au testeur",
+      "NOT_FOUND": "Test introuvable.",
+      "LOCAL_ONLY": "Test local, stocke uniquement sur votre appareil. Publiez-le pour que notre serveur le verifie et qu'il apparaisse au classement public.",
+      "DISCLAIMER": "Les scores sont calculés uniquement à partir de sondes vérifiées côté serveur. Un modèle authentique confirme le fournisseur et le niveau ; la version exacte n'est jamais revendiquée. Contestez un résultat que vous estimez erroné via les liens ci-dessous.",
+      "SUBMISSIONS": "Soumissions récentes",
+      "SUBMITTED_BY": "Soumis par {who}",
+      "ANONYMOUS": "anonyme",
+      "DELETE_MINE": "Supprimer",
+      "REPORT": "Signaler",
+      "REPORT_HELP": "Pas votre résultat ? Contestez-le :",
+      "DELETE_TITLE": "Retirer ce résultat publié ?",
+      "DELETE_BODY": "Cela retire votre soumission des classements publics. Votre historique local n'est pas affecté.",
+      "DELETE_CONFIRM": "Retirer",
+      "DELETE_CANCEL": "Annuler",
+      "GUEST_CANNOT_DELETE": "Les soumissions d'invités ne peuvent pas être supprimées ici. Signalez-les via Discord ou GitHub."
+    },
+    "PROBE_DETAIL": {
+      "PROMPT": "Invite envoyee",
+      "RESPONSE": "Reponse du modele",
+      "STATUS": "HTTP",
+      "TOKENS": "Jetons (entree/sortie)",
+      "SIGNAL": "Signal",
+      "REASON": "Raison",
+      "NO_RESPONSE": "Aucune reponse capturee."
+    },
+    "NAV": {
+      "TEST_DESC": "Tester un point de terminaison",
+      "HISTORY_DESC": "Vos tests passes",
+      "RANKINGS_DESC": "Classement public"
+    },
+    "CONNECTIVITY": {
+      "CORS": "Le point de terminaison bloque les requetes du navigateur. Utilisez le test serveur.",
+      "UNREACHABLE": "Point de terminaison injoignable. Verifiez l'URL de base.",
+      "INVALID_KEY": "Cle d'API invalide.",
+      "NO_FORMAT": "Le point de terminaison n'a accepte aucun format d'API pris en charge."
+    },
+    "PUBLISH": {
+      "WARN_TITLE": "Ceci envoie votre cle a notre serveur",
+      "WARN_BODY": "Pour empecher les resultats falsifies, la publication execute tout le test sur notre serveur, afin que nous produisions le verdict nous-memes. Votre cle ne transite que par la memoire du serveur et n'est jamais stockee.",
+      "WARN_THROWAWAY": "Utilisez une cle jetable a faible limite et renouvelez-la ensuite.",
+      "DONE": "Verifie par notre serveur et publie au classement public. Egalement enregistre dans votre historique.",
+      "DEDUPED": "Deja publie recemment pour ce point de terminaison.",
+      "FAILED": "Impossible de verifier ce point de terminaison. Rien n'a ete publie."
+    },
+    "TRUST": {
+      "TITLE": "Open source. Verifiez-le et ameliorez-le.",
+      "BODY": "Le code des tests est ouvert. Voyez exactement quelles sondes s'executent et pourquoi, proposez de nouveaux tests, ou discutez de la detection sur notre Discord.",
+      "GITHUB": "Voir le code sur GitHub",
+      "DISCORD": "Discuter des tests sur Discord"
+    },
+    "RULES": {
+      "SECTION_TITLE": "Comment fonctionne la détection",
+      "WHY_LABEL": "Pourquoi :",
+      "NOT_FLAGGED_LABEL": "Non signalé lorsque :",
+      "NOT_FRAUD_TITLE": "Ce qui n'est PAS compté comme falsification",
+      "PROOF": "Tout ce testeur est open source. Lisez exactement quelles sondes s'exécutent et pourquoi :",
+      "CODING-TOOL": {
+        "TITLE": "Surcouche d'outil de codage",
+        "MEANS": "La réponse emploie des formules toutes faites d'un assistant de codage (Kiro, Cascade, Codeium et similaires) et refuse une demande créative ou émotionnelle ordinaire.",
+        "WHY": "Un vrai Claude/GPT/Gemini répond à une histoire de chaton ou à un haïku. Une distillation d'outil de codage la refuse, ce qui révèle un modèle substitué derrière le point de terminaison.",
+        "EXCEPTION": "le modèle décline simplement pour une raison de sécurité, sans les formules typiques d'un assistant de codage."
+      },
+      "SCAM": {
+        "TITLE": "Page d'arnaque / de vol de jeton",
+        "MEANS": "La réponse contient un texte connu de vol de jeton ou d'hameçonnage au lieu d'une réponse de modèle.",
+        "WHY": "Un point de terminaison qui renvoie une page d'arnaque ne sert aucun modèle du tout.",
+        "EXCEPTION": "le modèle évoque légitimement le mot « token » dans une réponse normale."
+      },
+      "CJK-LEAK": {
+        "TITLE": "Fuite de langue inattendue",
+        "MEANS": "Une demande uniquement en anglais revient avec quatre caractères CJC (chinois/japonais/coréen) ou plus.",
+        "WHY": "Une fuite de CJC dans une réponse en anglais est un fort indice d'un modèle chinois substitué ou d'un proxy corrupteur, même lorsque la question d'identité reçoit une réponse correcte.",
+        "EXCEPTION": "vous avez posé une question dans une langue CJC ou à son sujet, donc la présence de CJC dans la réponse est attendue."
+      },
+      "MUX": {
+        "TITLE": "Mélange de réponses (proxy non fiable)",
+        "MEANS": "Chaque sonde porte un nonce unique ; deux réponses ou plus reviennent sans le nonce envoyé, après de nouvelles tentatives.",
+        "WHY": "Un proxy qui multiplexe une requête sur plusieurs serveurs en amont renvoie des réponses qui ne correspondent pas à la requête envoyée, ce qu'un point de terminaison honnête à modèle unique ne fait jamais.",
+        "EXCEPTION": "un seul nonce manquant survient une fois (nous réessayons d'abord) ; seules les divergences répétées comptent."
+      },
+      "FOREIGN": {
+        "TITLE": "Identité de fournisseur étranger",
+        "MEANS": "Sur la sonde d'identité ou de nom de modèle, la réponse nomme un fournisseur différent de celui demandé (par exemple OpenAI ou Gemini alors que Claude était demandé).",
+        "WHY": "Un modèle qui désigne un laboratoire rival comme son créateur est servi par ce rival, et non par celui que vous avez payé.",
+        "EXCEPTION": "le modèle reste vague sur sa version ou refuse de se nommer, ce que font souvent les vrais modèles."
+      },
+      "TIER-MISMATCH": {
+        "TITLE": "Rétrogradation de niveau (Claude)",
+        "MEANS": "Vous avez demandé un niveau de Claude (Opus) mais le modèle nomme un niveau moins cher (Sonnet ou Haiku).",
+        "WHY": "Claude peut rester vague sur sa version exacte mais ne confond jamais son niveau, donc un niveau inférieur nommé est une rétrogradation délibérée.",
+        "EXCEPTION": "le modèle n'est pas sûr de son numéro de version ; seul un niveau différent clairement nommé compte."
+      },
+      "EXCEPTION": {
+        "VERSION": {
+          "TITLE": "Imprécision de version",
+          "BODY": "un modèle authentique confirme le fournisseur et le niveau mais reste souvent incertain de sa version exacte. Cela seul n'est jamais un échec, c'est seulement noté à titre indicatif."
+        },
+        "TRANSIENT": {
+          "TITLE": "Erreurs temporaires",
+          "BODY": "les limitations de débit (429), les 5xx et les délais d'attente marquent une exécution comme non vérifiée, jamais comme suspecte. Un vrai point de terminaison traversant un mauvais moment n'est pas pénalisé."
+        },
+        "CLOUD-HOST": {
+          "TITLE": "Noms d'hébergeurs cloud",
+          "BODY": "nommer AWS Bedrock, Google Vertex ou Azure comme hôte est accepté, car ce sont des moyens légitimes de revendre le vrai modèle."
+        },
+        "RESHAPING": {
+          "TITLE": "Reformatage de protocole",
+          "BODY": "la traduction entre chat-completions et le format messages natif est un comportement normal de passerelle et n'est pas un signal de fraude lorsque le modèle lui-même est authentique."
+        },
+        "THRESHOLD": {
+          "TITLE": "Une sonde capricieuse",
+          "BODY": "trois sondes réussies sur quatre suffisent pour être authentique, donc une seule réponse à côté ne condamne pas un point de terminaison honnête."
+        }
+      },
+      "COMMUNITY": "Une idée pour une meilleure sonde ? Proposez-la ici :",
+      "SOURCE_LINK": "Voir le code de détection"
+    },
+    "FAQ": {
+      "TITLE": "Questions fréquentes",
+      "ITEMS": {
+        "KEY_SAFE": {
+          "Q": "Ma clé d'API est-elle en sécurité ?",
+          "A": "Pour un test local, la clé ne quitte jamais votre navigateur, elle est envoyée directement au point de terminaison que vous avez saisi. Ce n'est que lorsque vous choisissez de publier que la clé est transmise à notre serveur, qui exécute le test en mémoire et ne la stocke jamais. En cas de doute, utilisez une clé jetable."
+        },
+        "SERVER_PROXY": {
+          "Q": "Pourquoi un proxy serveur est-il parfois nécessaire ?",
+          "A": "Certains points de terminaison bloquent les requêtes directes du navigateur (<cors>CORS</cors>). Dans ce cas, nous proposons un test côté serveur optionnel qui relaie les sondes à votre place. La publication s'exécute toujours côté serveur afin que le résultat public ne puisse pas être falsifié."
+        },
+        "RELIABILITY": {
+          "Q": "Quelle est la fiabilité du score ?",
+          "A": "La détection est déterministe, ce n'est pas une estimation par apprentissage automatique. Chaque sonde correspond ou non à un signal concret, et le résultat vous montre les preuves exactes. Nous exigeons que trois sondes sur quatre réussissent et traitons les erreurs temporaires comme non vérifiées, et non comme des échecs."
+        },
+        "FALSE_POSITIVE": {
+          "Q": "Comment signaler un faux positif ?",
+          "A": "Tout résultat publié est contestable. Si vous l'avez publié vous-même en étant connecté, vous pouvez le supprimer directement ; sinon, ouvrez un ticket <ghIssue>GitHub</ghIssue> ou écrivez-nous sur <discord>Discord</discord> et nous revérifierons et retirerons les entrées erronées."
+        },
+        "PROTOCOLS": {
+          "Q": "Quels protocoles d'API sont pris en charge ?",
+          "A": "Anthropic (/v1/messages), OpenAI (/v1/chat/completions) et Google Gemini (generateContent). Nous essayons d'abord le format natif du fournisseur et basculons vers le format compatible OpenAI si nécessaire."
+        },
+        "OPEN_SOURCE": {
+          "Q": "Est-ce open source ?",
+          "A": "Oui. Ce testeur s'exécute entièrement dans votre navigateur et sa bibliothèque de détection est publique sur <gh>GitHub</gh>, vous pouvez donc lire exactement quelles sondes s'exécutent et pourquoi, en proposer de nouvelles ou en discuter sur <discord>Discord</discord>."
+        }
+      }
+    },
+    "GAUGE": {
+      "READY": "Prêt",
+      "RUNNING": "Test en cours",
+      "RUNNING_HINT": "Exécution des sondes sur votre point de terminaison.",
+      "DONE_HINT": "Chaque arc est une sonde. Dépliez une sonde ci-dessous pour voir la demande, la réponse et les preuves."
+    },
+    "WHY": {
+      "TITLE": "Pourquoi ce testeur est différent",
+      "DETERMINISTIC_TITLE": "Déterministe, pas une estimation",
+      "DETERMINISTIC_BODY": "Chaque vérification correspond à un signal concret dans la réponse, donc nous ne signalons pas les vrais modèles comme faux à la manière de l'empreinte statistique. Lisez le code exact.",
+      "VERIFIED_TITLE": "Vérifié côté serveur pour publier",
+      "VERIFIED_BODY": "Un résultat n'atteint le tableau public qu'après que notre serveur a réexécuté lui-même tout le test, de sorte que les classements ne peuvent pas être falsifiés.",
+      "EVIDENCE_TITLE": "Des preuves que vous pouvez voir",
+      "EVIDENCE_BODY": "Chaque verdict montre la demande envoyée, la réponse brute et le texte correspondant qui l'a déclenché. Rien n'est caché."
+    }
   }
 }

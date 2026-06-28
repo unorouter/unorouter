@@ -14,7 +14,7 @@ import type {
 } from "@/lib/api/typebox/rankings";
 import { formatTokens } from "@/lib/utils/format/number";
 import { modelColor } from "@/lib/utils/format/color";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import { ModelLeaderboard } from "./model-leaderboard";
 import { periodDescriptionKey, pivotSeries } from "./rankings-helpers";
@@ -27,6 +27,8 @@ type ModelsSectionProps = {
 
 export function ModelsSection(props: ModelsSectionProps) {
   const t = useTranslations();
+  const locale = useLocale();
+  const fmtTokens = (v: number) => formatTokens(v, locale);
 
   const totalTokens = props.rows.reduce((s, r) => s + r.total_tokens, 0);
 
@@ -65,7 +67,7 @@ export function ModelsSection(props: ModelsSectionProps) {
         </div>
         <div className="shrink-0 text-right">
           <div className="text-foreground font-mono text-2xl font-semibold tabular-nums">
-            {formatTokens(totalTokens)}
+            {fmtTokens(totalTokens)}
           </div>
           <div className="text-muted-foreground/80 text-[10px] font-medium tracking-widest uppercase">
             {t("RANKINGS.MODELS.TOKENS_SUFFIX")}
@@ -96,12 +98,12 @@ export function ModelsSection(props: ModelsSectionProps) {
                   axisLine={false}
                   fontSize={10}
                   fontFamily="monospace"
-                  tickFormatter={(v: number) => formatTokens(v)}
+                  tickFormatter={fmtTokens}
                 />
                 <ChartTooltip
                   content={
                     <ChartTooltipContent
-                      valueFormatter={formatTokens}
+                      valueFormatter={fmtTokens}
                       sortDesc
                       showTotal
                       totalLabel={t("RANKINGS.MODELS.TOOLTIP_TOTAL")}

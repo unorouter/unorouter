@@ -14,7 +14,7 @@ import type {
 } from "@/lib/api/typebox/rankings";
 import { DEFAULT_THEME, getVendorTheme } from "@/lib/config/vendor-themes";
 import { formatShare, formatTokens } from "@/lib/utils/format/number";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import { VendorLink } from "./entity-links";
 import {
@@ -183,6 +183,7 @@ function VendorList(props: {
   rows: RankedVendor[];
   colourMap: Record<string, string>;
 }) {
+  const locale = useLocale();
   return (
     <ul>
       {props.rows.map((vendor) => (
@@ -205,7 +206,7 @@ function VendorList(props: {
           </VendorLink>
           <div className="shrink-0 text-right">
             <div className="text-foreground font-mono text-sm font-semibold tabular-nums">
-              {formatTokens(vendor.total_tokens)}
+              {formatTokens(vendor.total_tokens, locale)}
             </div>
             <div className="text-muted-foreground/80 font-mono text-[11px] tabular-nums">
               {formatShare(vendor.share)}
