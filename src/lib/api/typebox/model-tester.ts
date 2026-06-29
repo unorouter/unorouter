@@ -47,9 +47,29 @@ export const rankingDetailParams = t.Object({
   model: t.String({ minLength: 1, maxLength: 256 }),
 });
 
+export const providerDetailParams = t.Object({
+  host: t.String({ minLength: 1, maxLength: 256 }),
+});
+
 export const deletePublishedParams = t.Object({
   id: t.String({ minLength: 1, maxLength: 64 }),
 });
+
+// Level 1 row: one provider (grouped by host) with its model count + stats.
+export type ProviderAggregateRow = {
+  baseUrlHost: string;
+  provider: string;
+  modelCount: number;
+  sampleCount: number;
+  avgPassRate: number;
+  avgLatencyMs: number;
+  p95LatencyMs: number | null;
+  avgTotalTokens: number | null;
+  genuineCount: number;
+  suspiciousCount: number;
+  unverifiedCount: number;
+  lastTestedAt: number;
+};
 
 // One published submission shown in the ranking detail (no probe text). The
 // submitter fields let the UI offer a self-delete to the row's logged-in owner.
@@ -60,6 +80,8 @@ export type RankingRecentRow = {
   probesPassed: number;
   probesTotal: number;
   latencyMs: number;
+  totalTokens: number | null;
+  transport: string | null;
   testedAt: number;
   submitterUserId: number | null;
   submitterUsername: string | null;
@@ -72,6 +94,8 @@ export type RankingAggregateRow = {
   sampleCount: number;
   avgPassRate: number;
   avgLatencyMs: number;
+  p95LatencyMs: number | null;
+  avgTotalTokens: number | null;
   genuineCount: number;
   suspiciousCount: number;
   unverifiedCount: number;

@@ -206,6 +206,11 @@ export const publishedTests = sqliteTable(
     probesTotal: integer("probes_total").notNull(),
     latencyMs: integer("latency_ms").notNull(),
     totalTokens: integer("total_tokens"),
+    promptTokens: integer("prompt_tokens"),
+    completionTokens: integer("completion_tokens"),
+    transport: text("transport"),
+    formatFellBack: integer("format_fell_back", { mode: "boolean" }),
+    resolvedFormat: text("resolved_format"),
     testedAt: integer("tested_at", { mode: "timestamp_ms" }).notNull(),
     // Set ONLY when the server itself ran the probes (unforgeable). The public
     // leaderboard reads verified rows only.

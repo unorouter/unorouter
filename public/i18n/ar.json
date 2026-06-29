@@ -3671,6 +3671,11 @@
     "PRESET_STREAMING_HINT": "بث الرد رمزاً برمز. أوقفه لاستلام الرد كاملاً دفعة واحدة. يتجاوزه إعداد الدردشة.",
     "PRESET_SHOW_REASONING": "إظهار الاستدلال",
     "PRESET_SHOW_REASONING_HINT": "إظهار تفكير النموذج في الردود. مُعطّل = إخفاؤه (يبقى الاستدلال مُولّداً ومحفوظاً، لذا إعادة تشغيل هذا الخيار تكشفه). يتجاوزه إعداد الدردشة.",
+    "PRESET_MEMORY_ENABLED": "الذاكرة (افتراضي)",
+    "PRESET_IMAGE_ENABLED": "صور داخل المحادثة (افتراضي)",
+    "PRESET_UTILITY_MODEL": "النموذج المساعد",
+    "PRESET_UTILITY_MODEL_HINT": "النموذج الذي يستخدمه الملخّص وكاتب موجه الصورة. فارغ = نموذج المحادثة؛ إعداد المحادثة يتجاوز هذا.",
+    "PRESET_IMAGE_PROMPT_INSTRUCTION": "تعليمات موجه الصورة",
     "CHARACTER_BACKGROUND": "صورة الخلفية",
     "CHARACTER_BACKGROUND_HINT": "تظهر خلف المحادثة عندما تقود هذه الشخصية الحوار.",
     "CHARACTER_AVATAR": "الصورة الرمزية",
@@ -4098,7 +4103,12 @@
       "NOT_TESTED": "لم يُختبر بعد",
       "LOW_CONFIDENCE": "ثقة منخفضة ({count} اختبارات)",
       "SELF_TITLE": "نلزم أنفسنا بالمعيار ذاته",
-      "SELF_BODY": "يُختبر {appName} بالأداة نفسها. اطّلع على الدليل."
+      "SELF_BODY": "يُختبر {appName} بالأداة نفسها. اطّلع على الدليل.",
+      "MODELS_TRACKED": "{count} نماذج",
+      "STAT_MODELS": "النماذج المختبرة",
+      "STAT_P95": "زمن استجابة P95",
+      "P95": "p95 {ms}مللي ثانية",
+      "PROVIDER_MODELS_TITLE": "النتائج حسب النموذج"
     },
     "DETAIL": {
       "BACK": "العودة الى الفاحص",
@@ -4115,7 +4125,9 @@
       "DELETE_BODY": "هذا يسحب إرساليتك من الترتيب العام. لا يتأثر سجلّك المحلي.",
       "DELETE_CONFIRM": "إزالة",
       "DELETE_CANCEL": "إلغاء",
-      "GUEST_CANNOT_DELETE": "لا يمكن حذف إرساليات الضيوف من هنا. أبلِغ عنها عبر Discord أو GitHub."
+      "GUEST_CANNOT_DELETE": "لا يمكن حذف إرساليات الضيوف من هنا. أبلِغ عنها عبر Discord أو GitHub.",
+      "BACK_TO_PROVIDER": "العودة إلى المزود",
+      "BACK_TO_MODEL": "العودة إلى النموذج"
     },
     "PROBE_DETAIL": {
       "PROMPT": "الطلب المرسل",

@@ -134,6 +134,9 @@ CREATE TABLE `conversations` (
 	`summary_memory` text,
 	`summary_anchor` integer,
 	`memory_enabled` integer,
+	`utility_model` text,
+	`image_enabled` integer,
+	`prompt_instruction` text,
 	`first_msg_index` integer DEFAULT -1 NOT NULL,
 	`group_id` text,
 	`sync_expires_at` integer,
@@ -147,6 +150,7 @@ CREATE INDEX `idx_conv_user_group` ON `conversations` (`user_id`,`group_id`);-->
 CREATE TABLE `lorebook_entries` (
 	`id` text PRIMARY KEY NOT NULL,
 	`lorebook_id` text NOT NULL,
+	`comment` text,
 	`keys` text NOT NULL,
 	`secondary_keys` text,
 	`content` text NOT NULL,
@@ -229,6 +233,7 @@ CREATE TABLE `messages` (
 	`branch_index` integer DEFAULT 0 NOT NULL,
 	`is_active_branch` integer DEFAULT true NOT NULL,
 	`is_edited` integer DEFAULT false NOT NULL,
+	`branch_vars` text,
 	`created_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,
 	`updated_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,
 	FOREIGN KEY (`conv_id`) REFERENCES `conversations`(`id`) ON UPDATE no action ON DELETE cascade,
@@ -316,6 +321,8 @@ CREATE TABLE `request_logs` (
 	`response_headers` text,
 	`dropped_params` text,
 	`request_id` text,
+	`url` text,
+	`endpoint` text,
 	`input_tokens` integer,
 	`output_tokens` integer,
 	`cost` real,
@@ -344,6 +351,10 @@ CREATE TABLE `sampling_presets` (
 	`streaming_enabled` integer,
 	`show_reasoning` integer,
 	`chat_memory` integer,
+	`utility_model` text,
+	`memory_enabled` integer,
+	`image_enabled` integer,
+	`prompt_instruction` text,
 	`extra_body` text,
 	`providers` text,
 	`prompt_template` text,
@@ -456,6 +467,56 @@ CREATE TABLE `moderation_log` (
 --> statement-breakpoint
 CREATE INDEX `idx_modlog_user_created` ON `moderation_log` (`user_id`,`created_at`);--> statement-breakpoint
 CREATE INDEX `idx_modlog_decision` ON `moderation_log` (`decision`,`created_at`);--> statement-breakpoint
+CREATE TABLE `published_models` (
+	`id` text PRIMARY KEY NOT NULL,
+	`provider_id` text NOT NULL,
+	`requested_model` text NOT NULL,
+	`last_tested_at` integer NOT NULL,
+	`created_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,
+	FOREIGN KEY (`provider_id`) REFERENCES `published_providers`(`id`) ON UPDATE no action ON DELETE cascade
+);
+--> statement-breakpoint
+CREATE UNIQUE INDEX `uq_pubmodel` ON `published_models` (`provider_id`,`requested_model`);--> statement-breakpoint
+CREATE TABLE `published_providers` (
+	`id` text PRIMARY KEY NOT NULL,
+	`kind` text NOT NULL,
+	`base_url_host` text NOT NULL,
+	`first_seen_at` integer NOT NULL,
+	`last_tested_at` integer NOT NULL,
+	`created_at` integer DEFAULT (unixepoch() * 1000) NOT NULL
+);
+--> statement-breakpoint
+CREATE UNIQUE INDEX `uq_pubprovider` ON `published_providers` (`kind`,`base_url_host`);--> statement-breakpoint
+CREATE TABLE `published_tests` (
+	`id` text PRIMARY KEY NOT NULL,
+	`model_id` text NOT NULL,
+	`provider_id` text NOT NULL,
+	`submitter_user_id` integer,
+	`submitter_username` text,
+	`kind` text NOT NULL,
+	`base_url_host` text NOT NULL,
+	`requested_model` text NOT NULL,
+	`detected_model` text,
+	`verdict` text NOT NULL,
+	`version_unverifiable` integer DEFAULT false NOT NULL,
+	`probes_passed` integer NOT NULL,
+	`probes_total` integer NOT NULL,
+	`latency_ms` integer NOT NULL,
+	`total_tokens` integer,
+	`prompt_tokens` integer,
+	`completion_tokens` integer,
+	`transport` text,
+	`format_fell_back` integer,
+	`resolved_format` text,
+	`tested_at` integer NOT NULL,
+	`verified_at` integer,
+	`created_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,
+	FOREIGN KEY (`model_id`) REFERENCES `published_models`(`id`) ON UPDATE no action ON DELETE cascade
+);
+--> statement-breakpoint
+CREATE INDEX `idx_pubtest_host_model` ON `published_tests` (`base_url_host`,`requested_model`);--> statement-breakpoint
+CREATE INDEX `idx_pubtest_created` ON `published_tests` (`created_at`);--> statement-breakpoint
+CREATE INDEX `idx_pubtest_submitter` ON `published_tests` (`submitter_user_id`,`base_url_host`,`requested_model`);--> statement-breakpoint
 CREATE TABLE `upscaler_catalog` (
 	`id` text PRIMARY KEY NOT NULL,
 	`name` text NOT NULL,

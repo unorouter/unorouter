@@ -3671,6 +3671,11 @@
     "PRESET_STREAMING_HINT": "Transmite la respuesta token a token. Apagado = recibir toda la respuesta de una vez. El ajuste del chat lo anula.",
     "PRESET_SHOW_REASONING": "Mostrar razonamiento",
     "PRESET_SHOW_REASONING_HINT": "Muestra el razonamiento del modelo en las respuestas. Apagado = ocultarlo (el razonamiento se sigue generando y guardando, así que volver a activarlo lo revela). El ajuste del chat lo anula.",
+    "PRESET_MEMORY_ENABLED": "Memoria (predeterminado)",
+    "PRESET_IMAGE_ENABLED": "Imágenes en el chat (predeterminado)",
+    "PRESET_UTILITY_MODEL": "Modelo auxiliar",
+    "PRESET_UTILITY_MODEL_HINT": "Modelo que usan el resumidor + el generador de prompts de imagen. Vacío = el modelo del chat; el ajuste del chat lo anula.",
+    "PRESET_IMAGE_PROMPT_INSTRUCTION": "Instrucción del prompt de imagen",
     "CHARACTER_BACKGROUND": "Imagen de fondo",
     "CHARACTER_BACKGROUND_HINT": "Se muestra detrás del chat cuando este personaje lidera la conversación.",
     "CHARACTER_AVATAR": "Avatar",
@@ -4098,7 +4103,12 @@
       "NOT_TESTED": "Aún sin probar",
       "LOW_CONFIDENCE": "Baja confianza ({count} pruebas)",
       "SELF_TITLE": "Nos exigimos el mismo nivel",
-      "SELF_BODY": "{appName} se prueba con esta misma herramienta. Mira las pruebas."
+      "SELF_BODY": "{appName} se prueba con esta misma herramienta. Mira las pruebas.",
+      "MODELS_TRACKED": "{count} modelos",
+      "STAT_MODELS": "Modelos probados",
+      "STAT_P95": "Latencia P95",
+      "P95": "p95 {ms}ms",
+      "PROVIDER_MODELS_TITLE": "Resultados por modelo"
     },
     "DETAIL": {
       "BACK": "Volver al probador",
@@ -4115,7 +4125,9 @@
       "DELETE_BODY": "Esto retira tu envío de las clasificaciones públicas. Tu historial local no se ve afectado.",
       "DELETE_CONFIRM": "Quitar",
       "DELETE_CANCEL": "Cancelar",
-      "GUEST_CANNOT_DELETE": "Los envíos de invitados no se pueden eliminar aquí. Infórmalos mediante Discord o GitHub."
+      "GUEST_CANNOT_DELETE": "Los envíos de invitados no se pueden eliminar aquí. Infórmalos mediante Discord o GitHub.",
+      "BACK_TO_PROVIDER": "Volver al proveedor",
+      "BACK_TO_MODEL": "Volver al modelo"
     },
     "PROBE_DETAIL": {
       "PROMPT": "Prompt enviado",

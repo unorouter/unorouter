@@ -8,6 +8,7 @@ import { GUEST_USER_ID } from "@/lib/config/constants";
 import { runServerVerification } from "./server-verify.service";
 import { and, desc, eq, gt, isNotNull, ne, sql } from "drizzle-orm";
 import type {
+  ProviderAggregateRow,
   RankingAggregateRow,
   RankingRecentRow,
   VerifyAndPublishBody,
@@ -150,10 +151,53 @@ export async function verifyAndPublish(
     probesTotal: result.probesTotal,
     latencyMs: result.latencyMs,
     totalTokens: result.totalUsage?.total ?? null,
+    promptTokens: result.totalUsage?.prompt ?? null,
+    completionTokens: result.totalUsage?.completion ?? null,
+    transport: result.transport,
+    formatFellBack: result.resolvedProvider !== result.provider,
+    resolvedFormat: result.resolvedProvider,
     testedAt: now,
     verifiedAt: now,
   });
   return { published: true, deduped: false, result };
+}
+
+// Honest p95 per group, computed in ONE query (correlated subqueries against a
+// GROUP BY column are fragile in SQLite, so we use a window-ranked CTE instead).
+// `byHostModel` keys p95 per host+model (level 3 / model lists); otherwise per
+// host (level 1 providers). Merge the result into the grouped rows app-side.
+async function p95ByGroup(
+  where: ReturnType<typeof and>,
+  byHostModel: boolean,
+): Promise<Map<string, number>> {
+  const db = getDb();
+  // Pull the scoped latencies + their group key, ordered; pick the 95th-pctile
+  // index per group in JS (small data; avoids brittle correlated SQL).
+  const rows = await db
+    .select({
+      host: publishedTests.baseUrlHost,
+      model: publishedTests.requestedModel,
+      latencyMs: publishedTests.latencyMs,
+    })
+    .from(publishedTests)
+    .where(where)
+    .orderBy(publishedTests.latencyMs);
+
+  const groups = new Map<string, number[]>();
+  for (const r of rows) {
+    const key = byHostModel ? `${r.host}:::${r.model}` : r.host;
+    const arr = groups.get(key);
+    if (arr) arr.push(r.latencyMs);
+    else groups.set(key, [r.latencyMs]);
+  }
+  const out = new Map<string, number>();
+  for (const [key, arr] of groups) {
+    // arr is globally latency-sorted; per-group order is preserved by the global
+    // sort, so the per-group slice is already ascending.
+    const idx = Math.floor(0.95 * (arr.length - 1));
+    out.set(key, arr[idx]!);
+  }
+  return out;
 }
 
 const AGG_SELECT = {
@@ -163,6 +207,21 @@ const AGG_SELECT = {
   sampleCount: sql<number>`count(*)`,
   avgPassRate: sql<number>`avg(cast(${publishedTests.probesPassed} as real) / max(${publishedTests.probesTotal}, 1))`,
   avgLatencyMs: sql<number>`avg(${publishedTests.latencyMs})`,
+  avgTotalTokens: sql<number | null>`avg(${publishedTests.totalTokens})`,
+  genuineCount: sql<number>`sum(case when ${publishedTests.verdict} = 'genuine' then 1 else 0 end)`,
+  suspiciousCount: sql<number>`sum(case when ${publishedTests.verdict} = 'suspicious' then 1 else 0 end)`,
+  unverifiedCount: sql<number>`sum(case when ${publishedTests.verdict} = 'unverified' then 1 else 0 end)`,
+  lastTestedAt: sql<number>`max(${publishedTests.testedAt})`,
+};
+
+const PROVIDER_SELECT = {
+  provider: sql<string>`max(${publishedTests.kind})`,
+  baseUrlHost: publishedTests.baseUrlHost,
+  modelCount: sql<number>`count(distinct ${publishedTests.requestedModel})`,
+  sampleCount: sql<number>`count(*)`,
+  avgPassRate: sql<number>`avg(cast(${publishedTests.probesPassed} as real) / max(${publishedTests.probesTotal}, 1))`,
+  avgLatencyMs: sql<number>`avg(${publishedTests.latencyMs})`,
+  avgTotalTokens: sql<number | null>`avg(${publishedTests.totalTokens})`,
   genuineCount: sql<number>`sum(case when ${publishedTests.verdict} = 'genuine' then 1 else 0 end)`,
   suspiciousCount: sql<number>`sum(case when ${publishedTests.verdict} = 'suspicious' then 1 else 0 end)`,
   unverifiedCount: sql<number>`sum(case when ${publishedTests.verdict} = 'unverified' then 1 else 0 end)`,
@@ -171,11 +230,13 @@ const AGG_SELECT = {
 
 const PASS_RATE_SQL = sql`avg(cast(${publishedTests.probesPassed} as real) / max(${publishedTests.probesTotal}, 1))`;
 
-export async function getRankings(
+// Level 1: PROVIDERS grouped by host. Each row is one provider with its model
+// count + aggregate stats.
+export async function getProviders(
   page: number,
   pageSize: number,
 ): Promise<{
-  rows: RankingAggregateRow[];
+  rows: ProviderAggregateRow[];
   total: number;
   page: number;
   pageSize: number;
@@ -184,26 +245,73 @@ export async function getRankings(
   const offset = (page - 1) * pageSize;
 
   const rows = await db
-    .select(AGG_SELECT)
+    .select(PROVIDER_SELECT)
     .from(publishedTests)
     .where(isNotNull(publishedTests.verifiedAt))
-    .groupBy(publishedTests.baseUrlHost, publishedTests.requestedModel)
+    .groupBy(publishedTests.baseUrlHost)
     .orderBy(desc(PASS_RATE_SQL))
     .limit(pageSize)
     .offset(offset);
 
   const distinct = await db
     .select({
-      c: sql<number>`count(distinct ${publishedTests.baseUrlHost} || '|' || ${publishedTests.requestedModel})`,
+      c: sql<number>`count(distinct ${publishedTests.baseUrlHost})`,
     })
     .from(publishedTests)
     .where(isNotNull(publishedTests.verifiedAt));
 
+  const p95 = await p95ByGroup(isNotNull(publishedTests.verifiedAt), false);
+
   return {
-    rows: rows as RankingAggregateRow[],
+    rows: rows.map((r) => ({
+      ...r,
+      p95LatencyMs: p95.get(r.baseUrlHost) ?? null,
+    })) as ProviderAggregateRow[],
     total: distinct[0]?.c ?? 0,
     page,
     pageSize,
+  };
+}
+
+// Level 2: one provider's aggregate + the list of MODELS it serves.
+export async function getProviderDetail(host: string): Promise<{
+  provider: ProviderAggregateRow | null;
+  models: RankingAggregateRow[];
+}> {
+  const db = getDb();
+  const where = and(
+    eq(publishedTests.baseUrlHost, host),
+    isNotNull(publishedTests.verifiedAt),
+  );
+
+  const provider = await db
+    .select(PROVIDER_SELECT)
+    .from(publishedTests)
+    .where(where)
+    .groupBy(publishedTests.baseUrlHost)
+    .limit(1);
+
+  const models = await db
+    .select(AGG_SELECT)
+    .from(publishedTests)
+    .where(where)
+    .groupBy(publishedTests.requestedModel)
+    .orderBy(desc(PASS_RATE_SQL));
+
+  const providerP95 = await p95ByGroup(where, false);
+  const modelP95 = await p95ByGroup(where, true);
+
+  return {
+    provider: provider[0]
+      ? ({
+          ...provider[0],
+          p95LatencyMs: providerP95.get(host) ?? null,
+        } as ProviderAggregateRow)
+      : null,
+    models: models.map((m) => ({
+      ...m,
+      p95LatencyMs: modelP95.get(`${host}:::${m.model}`) ?? null,
+    })) as RankingAggregateRow[],
   };
 }
 
@@ -252,6 +360,8 @@ export async function getRankingDetail(host: string, model: string) {
       probesPassed: publishedTests.probesPassed,
       probesTotal: publishedTests.probesTotal,
       latencyMs: publishedTests.latencyMs,
+      totalTokens: publishedTests.totalTokens,
+      transport: publishedTests.transport,
       testedAt: publishedTests.testedAt,
       submitterUserId: publishedTests.submitterUserId,
       submitterUsername: publishedTests.submitterUsername,
@@ -267,8 +377,22 @@ export async function getRankingDetail(host: string, model: string) {
     .orderBy(desc(publishedTests.testedAt))
     .limit(20);
 
+  const p95 = await p95ByGroup(
+    and(
+      eq(publishedTests.baseUrlHost, host),
+      eq(publishedTests.requestedModel, model),
+      isNotNull(publishedTests.verifiedAt),
+    ),
+    true,
+  );
+
   return {
-    aggregate: (agg[0] as RankingAggregateRow) ?? null,
+    aggregate: agg[0]
+      ? ({
+          ...agg[0],
+          p95LatencyMs: p95.get(`${host}:::${model}`) ?? null,
+        } as RankingAggregateRow)
+      : null,
     recent: recent.map((r) => ({
       ...r,
       testedAt: r.testedAt.getTime(),
