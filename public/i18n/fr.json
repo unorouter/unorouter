@@ -4047,7 +4047,8 @@
       "CORS_WARNING": "Il peut etre teste via notre serveur a la place. Votre cle ne transite qu'en memoire et n'est jamais stockee. Renouvelez la cle ensuite par securite.",
       "RUN_PUBLISH": "Verifier sur notre serveur et publier",
       "SECTION_TITLE": "Configuration de la requete",
-      "SECTION_DESC": "Configurez le point de terminaison et la cle, puis lancez le test dans votre navigateur."
+      "SECTION_DESC": "Configurez le point de terminaison et la cle, puis lancez le test dans votre navigateur.",
+      "FORMAT_MISMATCH": "{model} est un modèle {format}. Changez le format d'API pour {format} afin de le tester."
     },
     "VERDICT": {
       "GENUINE": "Authentique",
@@ -4076,7 +4077,9 @@
         "SCAM": "Texte d'arnaque / de vol de jeton",
         "CJK": "Caractères CJC inattendus",
         "HOME": "Identité attendue confirmée"
-      }
+      },
+      "INSPECT_PROBES": "Voir le détail des tests",
+      "HIDE_PROBES": "Masquer le détail des tests"
     },
     "HISTORY": {
       "EMPTY": "Aucun test pour l'instant. Lancez-en un pour constituer votre historique.",
@@ -4130,7 +4133,12 @@
       "BACK_TO_PROVIDER": "Retour au fournisseur",
       "BACK_TO_MODEL": "Retour au modèle",
       "PUBLISHED_NOTE": "Vérifié côté serveur. Les sondes et les réponses sont publiques pour que chacun puisse auditer ce verdict.",
-      "LOADING": "Chargement ..."
+      "LOADING": "Chargement ...",
+      "EXPAND_ALL": "Tout déplier",
+      "COLLAPSE_ALL": "Tout replier",
+      "PREV": "Précédent",
+      "NEXT": "Suivant",
+      "PAGE_OF": "Page {page} sur {total}"
     },
     "PROBE_DETAIL": {
       "PROMPT": "Invite envoyee",
@@ -4139,7 +4147,8 @@
       "TOKENS": "Jetons (entree/sortie)",
       "SIGNAL": "Signal",
       "REASON": "Raison",
-      "NO_RESPONSE": "Aucune reponse capturee."
+      "NO_RESPONSE": "Aucune reponse capturee.",
+      "WHAT_WE_CHECK": "Ce que vérifie ce test"
     },
     "NAV": {
       "TEST_DESC": "Tester un point de terminaison",
@@ -4276,6 +4285,24 @@
       "VERIFIED_BODY": "Un résultat n'atteint le tableau public qu'après que notre serveur a réexécuté lui-même tout le test, de sorte que les classements ne peuvent pas être falsifiés.",
       "EVIDENCE_TITLE": "Des preuves que vous pouvez voir",
       "EVIDENCE_BODY": "Chaque verdict montre la demande envoyée, la réponse brute et le texte correspondant qui l'a déclenché. Rien n'est caché."
+    },
+    "PROBE_INTENT": {
+      "EMOTIONAL": {
+        "CHECKS": "Demande une histoire courte et émotionnellement ancrée.",
+        "WHY": "Un vrai modèle de pointe écrit une prose réellement empathique. Une distillation d'outil de codage ou un substitut bon marché la refuse ou renvoie un texte plat et tout fait."
+      },
+      "CREATIVE": {
+        "CHECKS": "Demande un haïku ou un court poème de forme fixe.",
+        "WHY": "Les vrais Claude, GPT et Gemini respectent la forme poétique. Un modèle substitué casse la forme, ignore la contrainte ou refuse."
+      },
+      "IDENTITY": {
+        "CHECKS": "Demande en un mot quel laboratoire d'IA a entraîné le modèle.",
+        "WHY": "La réponse devrait nommer le laboratoire attendu. Un autre laboratoire, ou une identité d'assistant de codage, trahit un backend remplacé derrière le point de terminaison."
+      },
+      "MODEL-NAME": {
+        "CHECKS": "Demande au modèle d'indiquer son propre nom de modèle.",
+        "WHY": "Un nom erroné, vague ou refusé signale que le point de terminaison ne sert pas le modèle annoncé."
+      }
     }
   }
 }

@@ -4047,7 +4047,8 @@
       "CORS_WARNING": "可以改为通过我们的服务器检测。你的密钥仅经过内存，绝不存储。为安全起见，请在之后更换密钥。",
       "RUN_PUBLISH": "在我们的服务器上验证并发布",
       "SECTION_TITLE": "请求配置",
-      "SECTION_DESC": "配置端点和密钥，然后在浏览器中运行检测。"
+      "SECTION_DESC": "配置端点和密钥，然后在浏览器中运行检测。",
+      "FORMAT_MISMATCH": "{model} 是 {format} 模型。请将 API 格式切换为 {format} 后再测试。"
     },
     "VERDICT": {
       "GENUINE": "真实",
@@ -4076,7 +4077,9 @@
         "SCAM": "诈骗／盗取令牌文本",
         "CJK": "意外的 CJK 字符",
         "HOME": "符合预期的身份"
-      }
+      },
+      "INSPECT_PROBES": "查看探测详情",
+      "HIDE_PROBES": "隐藏探测详情"
     },
     "HISTORY": {
       "EMPTY": "暂无检测记录。运行一次以建立历史。",
@@ -4130,7 +4133,12 @@
       "BACK_TO_PROVIDER": "返回提供商",
       "BACK_TO_MODEL": "返回模型",
       "PUBLISHED_NOTE": "服务器已验证。探测和回复均公开，任何人都可以审核此判定。",
-      "LOADING": "加载中"
+      "LOADING": "加载中",
+      "EXPAND_ALL": "全部展开",
+      "COLLAPSE_ALL": "全部收起",
+      "PREV": "上一页",
+      "NEXT": "下一页",
+      "PAGE_OF": "第 {page} 页，共 {total} 页"
     },
     "PROBE_DETAIL": {
       "PROMPT": "发送的提示",
@@ -4139,7 +4147,8 @@
       "TOKENS": "词元（入/出）",
       "SIGNAL": "信号",
       "REASON": "原因",
-      "NO_RESPONSE": "未捕获到响应。"
+      "NO_RESPONSE": "未捕获到响应。",
+      "WHAT_WE_CHECK": "该探测检查什么"
     },
     "NAV": {
       "TEST_DESC": "实时检测端点",
@@ -4276,6 +4285,24 @@
       "VERIFIED_BODY": "结果只有在我们的服务器亲自重新运行整套测试之后才会登上公开榜单，因此排名无法伪造。",
       "EVIDENCE_TITLE": "你能看见的证据",
       "EVIDENCE_BODY": "每条判定都会显示发送的提示、原始回复，以及触发它的匹配文本。没有任何东西被隐藏。"
+    },
+    "PROBE_INTENT": {
+      "EMOTIONAL": {
+        "CHECKS": "要求写一个简短、有情感基础的故事。",
+        "WHY": "真正的前沿模型会写出真正有同理心的文字。编程工具蒸馏版或廉价替代品会拒绝，或返回平淡的套话。"
+      },
+      "CREATIVE": {
+        "CHECKS": "要求按固定形式写一首俳句或短诗。",
+        "WHY": "真正的Claude、GPT和Gemini会保持诗歌形式。被替换的模型会破坏形式、忽略约束或拒绝。"
+      },
+      "IDENTITY": {
+        "CHECKS": "用一个词询问是哪个AI实验室训练了该模型。",
+        "WHY": "答案应说出预期的实验室。换成别的实验室，或暴露出编程助手身份，就揭穿了端点背后被替换的后端。"
+      },
+      "MODEL-NAME": {
+        "CHECKS": "要求模型说出自己的模型名称。",
+        "WHY": "名称错误、含糊或拒答，说明该端点提供的并非其所宣传的模型。"
+      }
     }
   }
 }

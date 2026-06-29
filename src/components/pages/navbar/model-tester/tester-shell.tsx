@@ -68,8 +68,8 @@ export function TesterShell(props: { children: ReactNode }) {
         >
           {SUB_NAV.map((item) => {
             const href = item.href as string;
-            // History/rankings match by prefix; tester is the bare path (and any
-            // /history/[id] or /rankings/... still highlights its parent tab).
+            // History/rankings match by prefix; tester is the bare path (so a
+            // /history/provider/... or /rankings/... child highlights its tab).
             const isTester = href === "/ai-api-model-tester";
             const active = isTester
               ? pathname.endsWith("/ai-api-model-tester")
@@ -103,7 +103,7 @@ export function TesterShell(props: { children: ReactNode }) {
 
         {props.children}
 
-        <WhyUs />
+        <WhyUs className="mt-16 sm:mt-24" />
         <DetectionRules />
         <TesterFaq />
 
@@ -163,10 +163,10 @@ const WHY_CARDS: {
   },
 ];
 
-function WhyUs() {
+function WhyUs(props: { className?: string }) {
   const t = useTranslations();
   return (
-    <section className="flex flex-col gap-3">
+    <section className={cn("flex flex-col gap-3", props.className)}>
       <h2 className="text-base font-semibold">{t("MODEL_TESTER.WHY.TITLE")}</h2>
       <div className="grid gap-3 sm:grid-cols-3">
         {WHY_CARDS.map((card) => (

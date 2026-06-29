@@ -2,7 +2,7 @@
 
 import {
   deleteTest,
-  readHistoryModelTests,
+  readHistoryModelTestDetails,
   readHistoryModels,
   readHistoryProviders,
   readTestDetail,
@@ -47,13 +47,14 @@ export function useHistoryModels(host: string) {
   });
 }
 
-// Level 3: every test for one provider+model.
+// Level 3: every test for one provider+model, WITH probes, so each test renders
+// inline as an accordion (no deeper click into a per-test page).
 export function useHistoryModelTests(host: string, model: string) {
   const userId = useLocalUserId();
   return useQuery({
     queryKey: [...queryKeys.modelTestHistoryModelTests(host, model), userId],
-    queryFn: (): Promise<TestListItem[]> =>
-      readHistoryModelTests(userId, host, model),
+    queryFn: (): Promise<TestDetail[]> =>
+      readHistoryModelTestDetails(userId, host, model),
   });
 }
 

@@ -2,6 +2,7 @@
 
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { highlightSpans } from "@/lib/ai/verify/highlight";
 import type { HighlightKind } from "@/lib/ai/verify/highlight";
@@ -79,6 +80,21 @@ const PROBE_KEY: Record<string, TranslationKey> = {
   creative: "MODEL_TESTER.PROBE.CREATIVE",
   identity: "MODEL_TESTER.PROBE.IDENTITY",
   "model-name": "MODEL_TESTER.PROBE.MODEL-NAME",
+};
+
+// Always-on per-probe intent: what the probe asks + why it exposes a fake. Shown
+// for every probe regardless of pass/fail, so the card explains itself.
+const PROBE_INTENT_CHECKS: Record<string, TranslationKey> = {
+  emotional: "MODEL_TESTER.PROBE_INTENT.EMOTIONAL.CHECKS",
+  creative: "MODEL_TESTER.PROBE_INTENT.CREATIVE.CHECKS",
+  identity: "MODEL_TESTER.PROBE_INTENT.IDENTITY.CHECKS",
+  "model-name": "MODEL_TESTER.PROBE_INTENT.MODEL-NAME.CHECKS",
+};
+const PROBE_INTENT_WHY: Record<string, TranslationKey> = {
+  emotional: "MODEL_TESTER.PROBE_INTENT.EMOTIONAL.WHY",
+  creative: "MODEL_TESTER.PROBE_INTENT.CREATIVE.WHY",
+  identity: "MODEL_TESTER.PROBE_INTENT.IDENTITY.WHY",
+  "model-name": "MODEL_TESTER.PROBE_INTENT.MODEL-NAME.WHY",
 };
 
 const CONN_KEY: Record<string, TranslationKey> = {
@@ -185,6 +201,8 @@ function ProbeRow(props: { probe: ResultProbe; provider: VerifyProvider }) {
     : null;
   const ruleTitleKey = ruleId ? RULE_TITLE_KEY[ruleId] : undefined;
   const ruleWhyKey = ruleId ? RULE_WHY_KEY[ruleId] : undefined;
+  const intentChecksKey = PROBE_INTENT_CHECKS[probe.label];
+  const intentWhyKey = PROBE_INTENT_WHY[probe.label];
 
   return (
     <div className="border-border/60 rounded-lg border">
@@ -230,8 +248,22 @@ function ProbeRow(props: { probe: ResultProbe; provider: VerifyProvider }) {
             ) : null}
           </div>
 
-          {ruleTitleKey && ruleWhyKey ? (
+          {intentChecksKey && intentWhyKey ? (
             <div className="border-border/60 bg-muted/30 flex flex-col gap-1 rounded-md border p-2">
+              <span className="text-foreground inline-flex items-center gap-1.5 font-medium">
+                <Icon
+                  name="circle-help"
+                  className="text-muted-foreground size-3.5"
+                />
+                {t("MODEL_TESTER.PROBE_DETAIL.WHAT_WE_CHECK")}
+              </span>
+              <span className="text-muted-foreground">{t(intentChecksKey)}</span>
+              <span className="text-muted-foreground">{t(intentWhyKey)}</span>
+            </div>
+          ) : null}
+
+          {ruleTitleKey && ruleWhyKey ? (
+            <div className="border-destructive/40 bg-destructive/5 flex flex-col gap-1 rounded-md border p-2">
               <span className="text-foreground inline-flex items-center gap-1.5 font-medium">
                 <Icon
                   name="triangle-alert"
@@ -273,36 +305,125 @@ function ProbeRow(props: { probe: ResultProbe; provider: VerifyProvider }) {
   );
 }
 
-export function TestResultCard(props: { result: ResultCardData }) {
+// Compact pass/fail pill per probe, shown on the card header so all four probe
+// outcomes are visible WITHOUT expanding. Expanding only opens the deep detail.
+function ProbePill(props: { probe: ResultProbe }) {
   const t = useTranslations();
+  const probe = props.probe;
+  const labelKey = PROBE_KEY[probe.label];
+  return (
+    <span
+      className={cn(
+        "inline-flex items-center gap-1 rounded-md border px-1.5 py-0.5 text-xs",
+        probe.pass
+          ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-400"
+          : "border-destructive/30 bg-destructive/10 text-destructive",
+      )}
+    >
+      <Icon
+        name={probe.pass ? "circle-check" : "circle-x"}
+        className="size-3"
+      />
+      {labelKey ? t(labelKey) : probe.label}
+    </span>
+  );
+}
+
+// The result card. Everything SCANNABLE (verdict, model, the four probe pills,
+// evidence, latency/tokens/detected) lives on the card and stays visible. The
+// outer accordion only gates the deep per-probe inspection (prompt/response/
+// intent). Delete + timestamp ride ON the card; delete stops propagation so it
+// never toggles the accordion.
+export function TestResultCard(props: {
+  result: ResultCardData;
+  defaultOpen?: boolean;
+  timestamp?: string;
+  onDelete?: () => void;
+}) {
+  const t = useTranslations();
+  const [open, setOpen] = useState(props.defaultOpen ?? false);
   const result = props.result;
   const tone = VERDICT_TONE[result.verdict];
   const evidence = result.reasons.filter(Boolean);
 
   return (
     <section className="bg-card overflow-hidden rounded-lg border">
-      <header className="flex flex-row items-center justify-between gap-3 px-5 py-4">
-        <div className="flex min-w-0 items-center gap-2.5">
-          <VendorIcon
-            vendor={vendorForRow(result.provider, result.model)}
-            size={22}
-            className="shrink-0"
-          />
-          <div className="flex min-w-0 flex-col gap-0.5">
-            <span className="truncate text-base font-semibold">
-              {result.model}
+      <div className="flex flex-col gap-3 px-5 py-4">
+        <div className="flex items-start justify-between gap-3">
+          <div className="flex min-w-0 items-center gap-2.5">
+            <VendorIcon
+              vendor={vendorForRow(result.provider, result.model)}
+              size={22}
+              className="shrink-0"
+            />
+            <div className="flex min-w-0 flex-col gap-0.5">
+              <span className="truncate text-base font-semibold">
+                {result.model}
+              </span>
+              <span className="text-muted-foreground truncate text-sm">
+                {result.baseUrlHost}
+              </span>
+            </div>
+          </div>
+          <div className="flex shrink-0 items-center gap-2.5">
+            {props.timestamp ? (
+              <span className="text-muted-foreground hidden text-xs sm:inline">
+                {props.timestamp}
+              </span>
+            ) : null}
+            <Badge variant={tone.badge} className="gap-1.5">
+              <Icon name={tone.icon} className="size-3.5" />
+              {t(tone.labelKey)}
+            </Badge>
+            <span className="text-muted-foreground text-xs tabular-nums">
+              {result.probesPassed}/{result.probesTotal}
             </span>
-            <span className="text-muted-foreground truncate text-sm">
-              {result.baseUrlHost}
-            </span>
+            {props.onDelete ? (
+              <Button
+                size="icon"
+                variant="ghost"
+                className="size-7"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  props.onDelete?.();
+                }}
+              >
+                <Icon name="trash-2" className="size-4" />
+              </Button>
+            ) : null}
           </div>
         </div>
-        <Badge variant={tone.badge} className="shrink-0 gap-1.5">
-          <Icon name={tone.icon} className="size-3.5" />
-          {t(tone.labelKey)}
-        </Badge>
-      </header>
-      <div className="flex flex-col gap-4 border-t px-5 py-5">
+
+        {/* Four probe outcomes, always visible. */}
+        <div className="flex flex-wrap gap-1.5">
+          {result.probes.map((probe, i) => (
+            <ProbePill key={`${probe.label}-${i}`} probe={probe} />
+          ))}
+        </div>
+
+        {/* Scannable metadata, always visible. */}
+        <div className="text-muted-foreground flex flex-wrap gap-x-5 gap-y-1 text-sm">
+          <span>{t("MODEL_TESTER.RESULT.LATENCY", { ms: result.latencyMs })}</span>
+          <span>
+            {t("MODEL_TESTER.RESULT.TRANSPORT", { mode: result.transport })}
+          </span>
+          {result.totalTokens !== null ? (
+            <span>
+              {t("MODEL_TESTER.RESULT.TOTAL_TOKENS", {
+                tokens: result.totalTokens,
+              })}
+            </span>
+          ) : null}
+          {result.detectedModel ? (
+            <span>
+              {t("MODEL_TESTER.RESULT.DETECTED_MODEL")}:{" "}
+              <span className="text-foreground font-mono">
+                {result.detectedModel}
+              </span>
+            </span>
+          ) : null}
+        </div>
+
         {evidence.length > 0 ? (
           <div className="border-border/60 bg-muted/30 flex flex-col gap-1 rounded-md border px-3 py-2">
             <span className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
@@ -315,28 +436,6 @@ export function TestResultCard(props: { result: ResultCardData }) {
             ))}
           </div>
         ) : null}
-
-        <div className="text-muted-foreground flex flex-wrap gap-x-6 gap-y-1 text-sm">
-          <span>
-            {t("MODEL_TESTER.RESULT.PASSED", {
-              passed: result.probesPassed,
-              total: result.probesTotal,
-            })}
-          </span>
-          <span>
-            {t("MODEL_TESTER.RESULT.LATENCY", { ms: result.latencyMs })}
-          </span>
-          <span>
-            {t("MODEL_TESTER.RESULT.TRANSPORT", { mode: result.transport })}
-          </span>
-          {result.totalTokens !== null ? (
-            <span>
-              {t("MODEL_TESTER.RESULT.TOTAL_TOKENS", {
-                tokens: result.totalTokens,
-              })}
-            </span>
-          ) : null}
-        </div>
 
         {result.connectivityError ? (
           <p className="text-destructive flex items-center gap-2 text-sm">
@@ -356,20 +455,28 @@ export function TestResultCard(props: { result: ResultCardData }) {
           </p>
         ) : null}
 
-        {result.detectedModel ? (
-          <div className="text-sm">
-            {t("MODEL_TESTER.RESULT.DETECTED_MODEL")}:{" "}
-            <span className="font-mono">{result.detectedModel}</span>
-          </div>
-        ) : null}
+        <button
+          type="button"
+          onClick={() => setOpen((v) => !v)}
+          className="text-muted-foreground hover:text-foreground -mb-1 flex w-fit items-center gap-1 text-xs transition-colors"
+        >
+          <Icon
+            name={open ? "chevrons-up-down" : "chevron-down"}
+            className="size-3.5"
+          />
+          {open
+            ? t("MODEL_TESTER.RESULT.HIDE_PROBES")
+            : t("MODEL_TESTER.RESULT.INSPECT_PROBES")}
+        </button>
+      </div>
 
-        {result.versionUnverifiable ? (
-          <p className="text-muted-foreground text-sm">
-            {t("MODEL_TESTER.VERDICT.VERSION_UNVERIFIABLE")}
-          </p>
-        ) : null}
-
-        <div className="flex flex-col gap-2">
+      {!open ? null : (
+        <div className="flex flex-col gap-2 border-t px-5 py-4">
+          {result.versionUnverifiable ? (
+            <p className="text-muted-foreground text-sm">
+              {t("MODEL_TESTER.VERDICT.VERSION_UNVERIFIABLE")}
+            </p>
+          ) : null}
           {result.probes.map((probe, i) => (
             <ProbeRow
               key={`${probe.label}-${i}`}
@@ -378,7 +485,7 @@ export function TestResultCard(props: { result: ResultCardData }) {
             />
           ))}
         </div>
-      </div>
+      )}
     </section>
   );
 }

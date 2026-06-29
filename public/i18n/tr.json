@@ -4047,7 +4047,8 @@
       "CORS_WARNING": "Bunun yerine sunucumuz uzerinden test edilebilir. Anahtariniz yalnizca bellekten gecer ve asla saklanmaz. Guvenlik icin sonra anahtari degistirin.",
       "RUN_PUBLISH": "Sunucumuzda dogrula ve yayinla",
       "SECTION_TITLE": "Istek yapilandirmasi",
-      "SECTION_DESC": "Uc noktayi ve anahtari yapilandirin, sonra testi tarayicinizda calistirin."
+      "SECTION_DESC": "Uc noktayi ve anahtari yapilandirin, sonra testi tarayicinizda calistirin.",
+      "FORMAT_MISMATCH": "{model} bir {format} modelidir. Test etmek için API biçimini {format} olarak değiştirin."
     },
     "VERDICT": {
       "GENUINE": "Gercek",
@@ -4076,7 +4077,9 @@
         "SCAM": "Dolandırıcılık / belirteç hırsızlığı metni",
         "CJK": "Beklenmedik CJK karakterleri",
         "HOME": "Beklenen kimlik eşleşmesi"
-      }
+      },
+      "INSPECT_PROBES": "Denetim ayrıntılarını incele",
+      "HIDE_PROBES": "Denetim ayrıntılarını gizle"
     },
     "HISTORY": {
       "EMPTY": "Henuz test yok. Gecmis olusturmak icin bir tane calistirin.",
@@ -4130,7 +4133,12 @@
       "BACK_TO_PROVIDER": "Sağlayıcıya dön",
       "BACK_TO_MODEL": "Modele dön",
       "PUBLISHED_NOTE": "Sunucuda doğrulandı. Problar ve yanıtlar herkesin bu kararı denetleyebilmesi için herkese açıktır.",
-      "LOADING": "Yükleniyor ..."
+      "LOADING": "Yükleniyor ...",
+      "EXPAND_ALL": "Tümünü genişlet",
+      "COLLAPSE_ALL": "Tümünü daralt",
+      "PREV": "Önceki",
+      "NEXT": "Sonraki",
+      "PAGE_OF": "Sayfa {page} / {total}"
     },
     "PROBE_DETAIL": {
       "PROMPT": "Gonderilen istem",
@@ -4139,7 +4147,8 @@
       "TOKENS": "Token (giris/cikis)",
       "SIGNAL": "Sinyal",
       "REASON": "Neden",
-      "NO_RESPONSE": "Yanit yakalanmadi."
+      "NO_RESPONSE": "Yanit yakalanmadi.",
+      "WHAT_WE_CHECK": "Bu denetimin neyi sınadığı"
     },
     "NAV": {
       "TEST_DESC": "Bir uc noktayi canli test et",
@@ -4276,6 +4285,24 @@
       "VERIFIED_BODY": "Bir sonuç, ancak sunucumuz tüm testi kendisi yeniden çalıştırdıktan sonra herkese açık panoya ulaşır, böylece sıralamalar sahte olarak üretilemez.",
       "EVIDENCE_TITLE": "Görebileceğiniz kanıt",
       "EVIDENCE_BODY": "Her karar, gönderilen istemi, ham yanıtı ve onu tetikleyen eşleşen metni gösterir. Hiçbir şey gizlenmez."
+    },
+    "PROBE_INTENT": {
+      "EMOTIONAL": {
+        "CHECKS": "Duygusal temeli olan kısa bir hikaye ister.",
+        "WHY": "Gerçek bir öncü model gerçekten empatik bir düzyazı yazar. Bir kodlama aracı damıtması ya da ucuz bir ikame bunu reddeder veya düz, kalıplaşmış metin döndürür."
+      },
+      "CREATIVE": {
+        "CHECKS": "Sabit biçimde bir haiku ya da kısa şiir ister.",
+        "WHY": "Gerçek Claude, GPT ve Gemini şiir biçimini korur. Yerine konan bir model biçimi bozar, kısıtı yok sayar veya reddeder."
+      },
+      "IDENTITY": {
+        "CHECKS": "Modeli hangi yapay zeka laboratuvarının eğittiğini tek kelimeyle sorar.",
+        "WHY": "Yanıt beklenen laboratuvarı söylemelidir. Farklı bir laboratuvar veya kodlama asistanı kimliği, uç noktanın ardındaki değiştirilmiş arka ucu açığa çıkarır."
+      },
+      "MODEL-NAME": {
+        "CHECKS": "Modelden kendi model adını belirtmesini ister.",
+        "WHY": "Yanlış, belirsiz veya reddedilen bir ad, uç noktanın tanıtılan modeli sunmadığını gösterir."
+      }
     }
   }
 }

@@ -50,6 +50,12 @@ export function TesterForm() {
   const [publishMsg, setPublishMsg] = useState<string | null>(null);
 
   const publish = form.watch("publish");
+  const watchedModel = form.watch("model");
+  const watchedProvider = form.watch("provider");
+  // Hard block: a model whose id resolves to a different format than the picked
+  // one would fail every probe (wrong wire). Block the run instead.
+  const inferredFmt = watchedModel ? providerForModel(watchedModel) : null;
+  const formatMismatch = inferredFmt !== null && inferredFmt !== watchedProvider;
 
   // Local test: runs client-side, stays on device, never published.
   async function runLocal(values: ModelTesterForm, mode: "direct" | "server") {
@@ -137,7 +143,14 @@ export function TesterForm() {
                   render={({ field }) => (
                     <ProviderCards
                       value={field.value}
-                      onChange={field.onChange}
+                      onChange={(next) => {
+                        field.onChange(next);
+                        // Switching format clears a model that belongs to a
+                        // different format, so a claude id can't sit under OpenAI.
+                        const cur = form.getValues("model");
+                        const fmt = cur ? providerForModel(cur) : null;
+                        if (fmt && fmt !== next) form.setValue("model", "");
+                      }}
                     />
                   )}
                 />
@@ -224,7 +237,21 @@ export function TesterForm() {
                 </div>
               ) : null}
 
-              <Button type="submit" disabled={running} className="w-full">
+              {formatMismatch ? (
+                <p className="flex items-center gap-2 text-sm text-amber-600 dark:text-amber-400">
+                  <Icon name="triangle-alert" className="size-4 shrink-0" />
+                  {t("MODEL_TESTER.FORM.FORMAT_MISMATCH", {
+                    model: watchedModel,
+                    format: inferredFmt ?? "",
+                  })}
+                </p>
+              ) : null}
+
+              <Button
+                type="submit"
+                disabled={running || formatMismatch}
+                className="w-full"
+              >
                 <Icon
                   name="refresh-cw"
                   className={running ? "size-4 animate-spin" : "size-4"}
@@ -282,7 +309,7 @@ export function TesterForm() {
       ) : null}
 
       {result && !corsBlocked ? (
-        <TestResultCard result={fromVerifyResult(result)} />
+        <TestResultCard result={fromVerifyResult(result)} defaultOpen />
       ) : null}
     </div>
   );

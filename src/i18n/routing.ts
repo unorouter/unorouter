@@ -185,25 +185,6 @@ export const pathnames = {
     id: "/ai-api-model-tester/history/provider/[host]/[model]",
     pl: "/ai-api-model-tester/history/provider/[host]/[model]",
   },
-  "/ai-api-model-tester/history/[id]": {
-    de: "/ai-api-model-tester/history/[id]",
-    fr: "/ai-api-model-tester/history/[id]",
-    ja: "/ai-api-model-tester/history/[id]",
-    ru: "/ai-api-model-tester/history/[id]",
-    vi: "/ai-api-model-tester/history/[id]",
-    "zh-CN": "/ai-api-model-tester/history/[id]",
-    "zh-TW": "/ai-api-model-tester/history/[id]",
-    it: "/ai-api-model-tester/history/[id]",
-    es: "/ai-api-model-tester/history/[id]",
-    "pt-BR": "/ai-api-model-tester/history/[id]",
-    ko: "/ai-api-model-tester/history/[id]",
-    tr: "/ai-api-model-tester/history/[id]",
-    ar: "/ai-api-model-tester/history/[id]",
-    he: "/ai-api-model-tester/history/[id]",
-    hi: "/ai-api-model-tester/history/[id]",
-    id: "/ai-api-model-tester/history/[id]",
-    pl: "/ai-api-model-tester/history/[id]",
-  },
   "/ai-api-model-tester/rankings/[host]": {
     de: "/ai-api-model-tester/rankings/[host]",
     fr: "/ai-api-model-tester/rankings/[host]",
@@ -241,25 +222,6 @@ export const pathnames = {
     hi: "/ai-api-model-tester/rankings/[host]/[model]",
     id: "/ai-api-model-tester/rankings/[host]/[model]",
     pl: "/ai-api-model-tester/rankings/[host]/[model]",
-  },
-  "/ai-api-model-tester/rankings/[host]/[model]/[test]": {
-    de: "/ai-api-model-tester/rankings/[host]/[model]/[test]",
-    fr: "/ai-api-model-tester/rankings/[host]/[model]/[test]",
-    ja: "/ai-api-model-tester/rankings/[host]/[model]/[test]",
-    ru: "/ai-api-model-tester/rankings/[host]/[model]/[test]",
-    vi: "/ai-api-model-tester/rankings/[host]/[model]/[test]",
-    "zh-CN": "/ai-api-model-tester/rankings/[host]/[model]/[test]",
-    "zh-TW": "/ai-api-model-tester/rankings/[host]/[model]/[test]",
-    it: "/ai-api-model-tester/rankings/[host]/[model]/[test]",
-    es: "/ai-api-model-tester/rankings/[host]/[model]/[test]",
-    "pt-BR": "/ai-api-model-tester/rankings/[host]/[model]/[test]",
-    ko: "/ai-api-model-tester/rankings/[host]/[model]/[test]",
-    tr: "/ai-api-model-tester/rankings/[host]/[model]/[test]",
-    ar: "/ai-api-model-tester/rankings/[host]/[model]/[test]",
-    he: "/ai-api-model-tester/rankings/[host]/[model]/[test]",
-    hi: "/ai-api-model-tester/rankings/[host]/[model]/[test]",
-    id: "/ai-api-model-tester/rankings/[host]/[model]/[test]",
-    pl: "/ai-api-model-tester/rankings/[host]/[model]/[test]",
   },
   "/compare": {
     de: "/vergleich",
@@ -992,11 +954,7 @@ export const privateRoutes = {
   ],
   // Parent path covers every child. /chat itself is public; /chat/[convId] and /playground/[id] are per-user.
   // The tester history detail reads local OPFS data, no SEO value; the rankings detail stays public.
-  dynamicParents: [
-    "/chat/[convId]",
-    "/playground/[id]",
-    "/ai-api-model-tester/history/[id]",
-  ],
+  dynamicParents: ["/chat/[convId]", "/playground/[id]"],
 } as const satisfies {
   static: readonly (keyof typeof pathnames)[];
   dynamicParents: readonly (keyof typeof pathnames)[];

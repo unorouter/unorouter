@@ -4047,7 +4047,8 @@
       "CORS_WARNING": "It can be tested through our server instead. Your key passes through memory only and is never stored. Rotate the key afterwards to be safe.",
       "RUN_PUBLISH": "Verify on our backend & publish",
       "SECTION_TITLE": "Request configuration",
-      "SECTION_DESC": "Configure the endpoint and key, then run the test in your browser."
+      "SECTION_DESC": "Configure the endpoint and key, then run the test in your browser.",
+      "FORMAT_MISMATCH": "{model} is a {format} model. Switch the API format to {format} to test it."
     },
     "VERDICT": {
       "GENUINE": "Genuine",
@@ -4076,7 +4077,9 @@
         "SCAM": "Scam / token-theft text",
         "CJK": "Unexpected CJK characters",
         "HOME": "Expected identity match"
-      }
+      },
+      "INSPECT_PROBES": "Inspect probe details",
+      "HIDE_PROBES": "Hide probe details"
     },
     "HISTORY": {
       "EMPTY": "No tests yet. Run one to build your history.",
@@ -4130,7 +4133,12 @@
       "BACK_TO_PROVIDER": "Back to provider",
       "BACK_TO_MODEL": "Back to model",
       "PUBLISHED_NOTE": "Server-verified. The probes and replies are public so anyone can audit this verdict.",
-      "LOADING": "Loading..."
+      "LOADING": "Loading...",
+      "EXPAND_ALL": "Expand all",
+      "COLLAPSE_ALL": "Collapse all",
+      "PREV": "Prev",
+      "NEXT": "Next",
+      "PAGE_OF": "Page {page} of {total}"
     },
     "PROBE_DETAIL": {
       "PROMPT": "Prompt sent",
@@ -4139,7 +4147,8 @@
       "TOKENS": "Tokens (in/out)",
       "SIGNAL": "Signal",
       "REASON": "Reason",
-      "NO_RESPONSE": "No response captured."
+      "NO_RESPONSE": "No response captured.",
+      "WHAT_WE_CHECK": "What this probe checks"
     },
     "NAV": {
       "TEST_DESC": "Test an endpoint live",
@@ -4276,6 +4285,24 @@
       "VERIFIED_BODY": "A result only reaches the public board after our server re-runs the whole test itself, so the rankings cannot be forged.",
       "EVIDENCE_TITLE": "Evidence you can see",
       "EVIDENCE_BODY": "Every verdict shows the prompt sent, the raw reply, and the matched text that triggered it. Nothing is hidden."
+    },
+    "PROBE_INTENT": {
+      "EMOTIONAL": {
+        "CHECKS": "Asks for a short, emotionally grounded story.",
+        "WHY": "A genuine frontier model writes real empathetic prose. A coding-tool distill or cheap substitute refuses it or returns flat, canned text."
+      },
+      "CREATIVE": {
+        "CHECKS": "Asks for a haiku or short poem in a fixed form.",
+        "WHY": "Real Claude, GPT and Gemini hold poetic form. A substituted model breaks the form, ignores the constraint, or declines."
+      },
+      "IDENTITY": {
+        "CHECKS": "Asks which AI lab trained the model, in one word.",
+        "WHY": "The answer should name the expected lab. A different lab, or a coding-assistant identity, exposes a swapped backend behind the endpoint."
+      },
+      "MODEL-NAME": {
+        "CHECKS": "Asks the model to state its own model name.",
+        "WHY": "A wrong, vague or refused name signals the endpoint is not serving the model it advertises."
+      }
     }
   }
 }
