@@ -2704,8 +2704,9 @@
       "IP_WHITELIST_DESC": "IP 可能被偽造，建議搭配閘道以加強保護。",
       "SUBMIT": "建立",
       "SAVE": "儲存",
-      "QUOTA_FREE_ONLY_HINT": "＄0 建立僅限免費模型的金鑰。付費模型將被拒絕。",
-      "QUOTA_EQUIVALENT": "= {quota} 配額"
+      "QUOTA_EQUIVALENT": "= {quota} 配額",
+      "QUOTA_POSITIVE": "權杖額度必須大於 0。如需僅免費模型的金鑰，請啟用無限額度。",
+      "QUOTA_ZERO_HINT": "額度為 0 將無法使用。免費模型（以 :free 結尾）可用於任何有效金鑰。"
     },
     "ENUM": {
       "ENABLED": "已啟用",

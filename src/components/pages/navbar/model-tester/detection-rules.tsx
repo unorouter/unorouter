@@ -1,10 +1,7 @@
 "use client";
 
 import { Icon } from "@/components/ui/icon";
-import {
-  DETECTION_EXCEPTIONS,
-  DETECTION_RULES,
-} from "@/lib/ai/verify/rules";
+import { DETECTION_EXCEPTIONS, DETECTION_RULES } from "@/lib/ai/verify/rules";
 import type {
   DetectionExceptionId,
   DetectionRuleId,
@@ -62,7 +59,6 @@ const EXCEPTION_BODY: Record<DetectionExceptionId, TranslationKey> = {
   reshaping: "MODEL_TESTER.RULES.EXCEPTION.RESHAPING.BODY",
   threshold: "MODEL_TESTER.RULES.EXCEPTION.THRESHOLD.BODY",
 };
-
 
 export function DetectionRules() {
   const t = useTranslations();

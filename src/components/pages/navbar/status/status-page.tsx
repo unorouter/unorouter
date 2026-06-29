@@ -27,10 +27,7 @@ import {
   StatusComponentTitle,
   StatusComponentUptime,
 } from "@/components/ui/status/status-component";
-import type {
-  StatusBarData,
-  StatusType,
-} from "@/components/ui/status/status.types";
+import type { StatusType } from "@/components/ui/status/status.types";
 import type { StatusBucket } from "@/lib/types";
 import { usePerfMetricsSummaryQuery } from "@/hooks/models/perf-metrics-hook";
 import { usePricingQuery } from "@/hooks/models/pricing-hook";
@@ -257,12 +254,7 @@ export function StatusPage() {
                         </StatusComponentHeaderRight>
                       </StatusComponentHeader>
                       <StatusComponentBody>
-                        <StatusBar
-                          data={
-                            (s.bars[item.component.name] ??
-                              []) as unknown as StatusBarData[]
-                          }
-                        />
+                        <StatusBar data={s.bars[item.component.name] ?? []} />
                       </StatusComponentBody>
                     </StatusComponent>
                   </div>

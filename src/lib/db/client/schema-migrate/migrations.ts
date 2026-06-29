@@ -298,7 +298,11 @@ async function validateColumns(
       // with a synthesized default for the missing NOT NULL columns, so rows survive AND the column exists.
       // This is the last line of defense against a cryptic runtime "no such column".
       const recovered = await forceRebuildWithDefaults(sql, table, ddl);
-      const ctx = { context: "local-db.migrations.validate", table, missing: unfixable };
+      const ctx = {
+        context: "local-db.migrations.validate",
+        table,
+        missing: unfixable,
+      };
       if (recovered) {
         // Success: notable (the db was drifted) but not a failure - we repaired it without data loss.
         logger.warn(
@@ -318,7 +322,9 @@ async function validateColumns(
 // A safe literal default for a column def whose value the rebuild must synthesize (the old rows lack it).
 // Honors an explicit DEFAULT; else picks an empty value by declared type. Quoted/escaped for inline SQL.
 function synthDefault(def: string): string {
-  const explicit = def.match(/\bDEFAULT\s+(.+?)(?:\s+(?:NOT NULL|UNIQUE|PRIMARY KEY|REFERENCES)\b|$)/i);
+  const explicit = def.match(
+    /\bDEFAULT\s+(.+?)(?:\s+(?:NOT NULL|UNIQUE|PRIMARY KEY|REFERENCES)\b|$)/i,
+  );
   if (explicit) return explicit[1].trim();
   const lower = def.toLowerCase();
   if (/\b(integer|int|real|numeric)\b/.test(lower)) return "0";

@@ -2704,8 +2704,9 @@
       "IP_WHITELIST_DESC": "Gli IP possono essere falsificati. Usa con un gateway per applicazione più forte.",
       "SUBMIT": "Crea",
       "SAVE": "Salva",
-      "QUOTA_FREE_ONLY_HINT": "$0 crea una chiave solo per modelli gratuiti. I modelli a pagamento vengono rifiutati.",
-      "QUOTA_EQUIVALENT": "= {quota} di quota"
+      "QUOTA_EQUIVALENT": "= {quota} di quota",
+      "QUOTA_POSITIVE": "La quota del token deve essere maggiore di 0. Abilita la quota illimitata per una chiave con modelli gratuiti.",
+      "QUOTA_ZERO_HINT": "Una quota di 0 non funziona. I modelli gratuiti (che terminano con :free) funzionano con qualsiasi chiave valida."
     },
     "ENUM": {
       "ENABLED": "Abilitata",

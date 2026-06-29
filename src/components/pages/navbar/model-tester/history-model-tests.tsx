@@ -98,10 +98,15 @@ export function HistoryModelTests(props: { host: string; model: string }) {
                     ) : null}
                   </span>
                   <span className="text-muted-foreground truncate font-mono text-[11px] tabular-nums">
-                    {Math.round(row.latencyMs)}ms · {dayjs(row.testedAt).fromNow()}
+                    {Math.round(row.latencyMs)}ms ·{" "}
+                    {dayjs(row.testedAt).fromNow()}
                   </span>
                 </Link>
-                <Button size="icon" variant="ghost" onClick={() => onDelete(row)}>
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  onClick={() => onDelete(row)}
+                >
                   <Icon name="trash-2" className="size-4" />
                 </Button>
               </div>

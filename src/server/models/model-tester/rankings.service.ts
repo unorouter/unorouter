@@ -96,7 +96,7 @@ export async function verifyAndPublish(
   | { published: false; error: string }
 > {
   const db = getDb();
-  const kind = body.provider as VerifyProviderValue;
+  const kind = body.provider;
   let host = body.baseUrl;
   try {
     host = new URL(body.baseUrl).host;
@@ -201,7 +201,7 @@ async function p95ByGroup(
 }
 
 const AGG_SELECT = {
-  provider: sql<string>`max(${publishedTests.kind})`,
+  provider: sql<VerifyProviderValue>`max(${publishedTests.kind})`,
   model: publishedTests.requestedModel,
   baseUrlHost: publishedTests.baseUrlHost,
   sampleCount: sql<number>`count(*)`,
@@ -215,7 +215,7 @@ const AGG_SELECT = {
 };
 
 const PROVIDER_SELECT = {
-  provider: sql<string>`max(${publishedTests.kind})`,
+  provider: sql<VerifyProviderValue>`max(${publishedTests.kind})`,
   baseUrlHost: publishedTests.baseUrlHost,
   modelCount: sql<number>`count(distinct ${publishedTests.requestedModel})`,
   sampleCount: sql<number>`count(*)`,

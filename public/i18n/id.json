@@ -2704,8 +2704,9 @@
       "IP_WHITELIST_DESC": "IP dapat dipalsukan. Gunakan dengan gateway untuk penegakan yang lebih kuat.",
       "SUBMIT": "Buat",
       "SAVE": "Simpan",
-      "QUOTA_FREE_ONLY_HINT": "$0 membuat kunci khusus model gratis. Model berbayar ditolak.",
-      "QUOTA_EQUIVALENT": "= {quota} kuota"
+      "QUOTA_EQUIVALENT": "= {quota} kuota",
+      "QUOTA_POSITIVE": "Kuota token harus lebih dari 0. Aktifkan kuota tak terbatas untuk kunci model gratis.",
+      "QUOTA_ZERO_HINT": "Kuota 0 tidak akan berfungsi. Model gratis (berakhiran :free) berfungsi dengan kunci valid apa pun."
     },
     "ENUM": {
       "ENABLED": "Aktif",

@@ -1,4 +1,5 @@
 import { t, type Static } from "elysia";
+import type { VerifyProviderValue } from "@/lib/validation/model-tester";
 
 const verdict = t.Union([
   t.Literal("genuine"),
@@ -58,7 +59,7 @@ export const deletePublishedParams = t.Object({
 // Level 1 row: one provider (grouped by host) with its model count + stats.
 export type ProviderAggregateRow = {
   baseUrlHost: string;
-  provider: string;
+  provider: VerifyProviderValue;
   modelCount: number;
   sampleCount: number;
   avgPassRate: number;
@@ -88,7 +89,7 @@ export type RankingRecentRow = {
 };
 
 export type RankingAggregateRow = {
-  provider: string;
+  provider: VerifyProviderValue;
   model: string;
   baseUrlHost: string;
   sampleCount: number;

@@ -4,7 +4,10 @@ import { env } from "@/lib/config/env";
 // is never hardcoded per component. The web tester (this feature) lives in the
 // unorouter repo itself; the detection library is src/lib/ai/verify. Links point
 // THERE, not at the separate new-api-sync backend CLI.
-const ORG = (env.githubUrl ?? "https://github.com/unorouter").replace(/\/+$/, "");
+const ORG = (env.githubUrl ?? "https://github.com/unorouter").replace(
+  /\/+$/,
+  "",
+);
 const REPO = `${ORG}/unorouter`;
 const VERIFY_DIR = `${REPO}/tree/main/src/lib/ai/verify`;
 

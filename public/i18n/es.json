@@ -2704,8 +2704,9 @@
       "IP_WHITELIST_DESC": "Las IPs pueden ser falsificadas. Usa con un gateway para aplicación más fuerte.",
       "SUBMIT": "Crear",
       "SAVE": "Guardar",
-      "QUOTA_FREE_ONLY_HINT": "$0 crea una clave solo para modelos gratuitos. Los modelos de pago se rechazan.",
-      "QUOTA_EQUIVALENT": "= {quota} de cuota"
+      "QUOTA_EQUIVALENT": "= {quota} de cuota",
+      "QUOTA_POSITIVE": "La cuota del token debe ser mayor que 0. Activa la cuota ilimitada para una clave de modelos gratuitos.",
+      "QUOTA_ZERO_HINT": "Una cuota de 0 no funciona. Los modelos gratuitos (terminados en :free) funcionan con cualquier clave válida."
     },
     "ENUM": {
       "ENABLED": "Activada",

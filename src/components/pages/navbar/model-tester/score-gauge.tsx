@@ -30,7 +30,8 @@ export function ScoreGauge(props: {
   const gap = 6; // px gap between arcs
   const n = Math.max(props.arcs.length, 1);
   const arcLen = circumference / n - gap;
-  const pct = props.total > 0 ? Math.round((props.passed / props.total) * 100) : 0;
+  const pct =
+    props.total > 0 ? Math.round((props.passed / props.total) * 100) : 0;
 
   return (
     <div className="flex flex-col items-center gap-2">

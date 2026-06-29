@@ -40,16 +40,16 @@ function getIcon(name: IconName, lib: IconLibraryName): IconComponent {
       .then((m) => {
         const entry = m.ICON_MAP[name];
         const loader = entry?.[lib] ?? entry?.lucide;
-        if (!loader) return { default: (() => null) as IconComponent };
+        if (!loader) return { default: () => null };
         return loader();
       })
       // Chunk timeout degrades to an empty slot instead of throwing into the
       // global error boundary; evict so the next render retries.
       .catch(() => {
         cache.delete(key);
-        return { default: (() => null) as IconComponent };
+        return { default: () => null };
       }),
-  ) as unknown as IconComponent;
+  );
   cache.set(key, Lazy);
   return Lazy;
 }

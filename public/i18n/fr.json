@@ -2704,8 +2704,9 @@
       "IP_WHITELIST_DESC": "Les IP peuvent être usurpées. Utilisez une passerelle pour un contrôle plus strict.",
       "SUBMIT": "Créer",
       "SAVE": "Enregistrer",
-      "QUOTA_FREE_ONLY_HINT": "$0 crée une clé réservée aux modèles gratuits. Les modèles payants sont refusés.",
-      "QUOTA_EQUIVALENT": "= {quota} de quota"
+      "QUOTA_EQUIVALENT": "= {quota} de quota",
+      "QUOTA_POSITIVE": "Le quota du jeton doit être supérieur à 0. Activez le quota illimité pour une clé de modèles gratuits.",
+      "QUOTA_ZERO_HINT": "Un quota de 0 ne fonctionne pas. Les modèles gratuits (suffixe :free) fonctionnent avec n'importe quelle clé valide."
     },
     "ENUM": {
       "ENABLED": "Activée",

@@ -24,8 +24,9 @@ async function resolveUsername(
 ): Promise<string | null> {
   try {
     const res = await getSelf({ headers });
-    const data = (res as unknown as { data?: { data?: Record<string, unknown> } })
-      ?.data?.data;
+    const data = (
+      res as unknown as { data?: { data?: Record<string, unknown> } }
+    )?.data?.data;
     const name = data?.display_name || data?.username;
     return typeof name === "string" && name.length > 0 ? name : null;
   } catch {

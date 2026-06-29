@@ -8,7 +8,6 @@ import {
   readTestDetail,
   readTestHistory,
   recordTestRun,
-  type HistoryModelRow,
   type HistoryProviderRow,
   type TestDetail,
   type TestListItem,
@@ -44,8 +43,7 @@ export function useHistoryModels(host: string) {
   const userId = useLocalUserId();
   return useQuery({
     queryKey: [...queryKeys.modelTestHistoryModels(host), userId],
-    queryFn: (): Promise<{ provider: string; models: HistoryModelRow[] }> =>
-      readHistoryModels(userId, host),
+    queryFn: () => readHistoryModels(userId, host),
   });
 }
 

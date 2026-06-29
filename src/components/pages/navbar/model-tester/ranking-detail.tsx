@@ -17,7 +17,6 @@ import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
 import { RankBar, RankPill } from "./rank-bar";
 import { TESTER_LINKS, githubReportUrl } from "./links";
-import type { VerifyProvider } from "@/lib/ai/verify/types";
 import type { TranslationKey } from "@/lib/types";
 
 const VERDICT_BADGE: Record<string, "default" | "destructive" | "secondary"> = {
@@ -76,10 +75,7 @@ export function RankingDetail(props: { host: string; model: string }) {
                 <span className="text-base font-semibold">{props.host}</span>
                 <span className="text-muted-foreground flex items-center gap-1.5 text-sm">
                   <VendorIcon
-                    vendor={vendorForRow(
-                      agg.provider as VerifyProvider,
-                      props.model,
-                    )}
+                    vendor={vendorForRow(agg.provider, props.model)}
                     size={14}
                     className="shrink-0"
                   />

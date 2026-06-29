@@ -2704,8 +2704,9 @@
       "IP_WHITELIST_DESC": "IP'ler taklit edilebilir. Daha güçlü uygulama için bir gateway ile kullanın.",
       "SUBMIT": "Oluştur",
       "SAVE": "Kaydet",
-      "QUOTA_FREE_ONLY_HINT": "$0 yalnızca ücretsiz modeller için bir anahtar oluşturur. Ücretli modeller reddedilir.",
-      "QUOTA_EQUIVALENT": "= {quota} kota"
+      "QUOTA_EQUIVALENT": "= {quota} kota",
+      "QUOTA_POSITIVE": "Anahtar kotası 0'dan büyük olmalıdır. Ücretsiz modeller için anahtar oluşturmak üzere sınırsız kotayı etkinleştirin.",
+      "QUOTA_ZERO_HINT": "0 kotası çalışmaz. Ücretsiz modeller (:free ile bitenler) geçerli herhangi bir anahtarla çalışır."
     },
     "ENUM": {
       "ENABLED": "Etkin",

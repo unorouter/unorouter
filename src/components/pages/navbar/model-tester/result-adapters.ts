@@ -1,6 +1,6 @@
 import type { ResultCardData } from "./test-result-card";
 import type { TestDetail } from "@/lib/db/client/data/tester";
-import type { VerifyProvider, VerifyResult } from "@/lib/ai/verify/types";
+import type { VerifyResult } from "@/lib/ai/verify/types";
 
 // Live result from the runner -> card data.
 export function fromVerifyResult(r: VerifyResult): ResultCardData {
@@ -44,7 +44,7 @@ export function fromTestDetail(detail: TestDetail): ResultCardData {
   return {
     model: detail.model.requestedModel,
     baseUrlHost: detail.provider.baseUrlHost,
-    provider: detail.provider.kind as VerifyProvider,
+    provider: detail.provider.kind,
     verdict: detail.test.verdict,
     reasons,
     versionUnverifiable: detail.test.versionUnverifiable,

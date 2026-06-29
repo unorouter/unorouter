@@ -13,6 +13,7 @@ import {
   supportedParametersAtom,
   type SortOrder,
 } from "@/store/models-store";
+import { OUTPUT_MODALITIES } from "@/lib/api/model-modality";
 import { useAtom } from "jotai";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef } from "react";
@@ -75,15 +76,12 @@ export function useModelsUrlSync() {
     const maxP = Number(searchParams.get("max_price"));
     if (Number.isFinite(maxP) && maxP > 0 && priceRange[1] >= PRICE_MAX)
       setPriceRange([0, maxP]);
-    const mod = searchParams.get("modality");
+    const mod = OUTPUT_MODALITIES.find(
+      (x) => x === searchParams.get("modality"),
+    );
     if (mod && outputModality === "text") setOutputModality(mod);
-    const order = searchParams.get("order");
-    if (
-      order &&
-      SORT_VALUES.includes(order as SortOrder) &&
-      sortOrder === "newest"
-    )
-      setSortOrder(order as SortOrder);
+    const order = SORT_VALUES.find((x) => x === searchParams.get("order"));
+    if (order && sortOrder === "newest") setSortOrder(order);
     // Mount-only seed; deps intentionally omitted.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

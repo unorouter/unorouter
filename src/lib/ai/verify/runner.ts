@@ -176,7 +176,9 @@ async function runProbe(args: {
       httpStatus: weakNonce.res.status,
       usage: meta.usage,
       detectedModel: meta.detectedModel,
-      reason: pass ? "passed (no nonce echo)" : probeReason(pass, signal, false, false),
+      reason: pass
+        ? "passed (no nonce echo)"
+        : probeReason(pass, signal, false, false),
       text,
       corsBlocked: false,
     };

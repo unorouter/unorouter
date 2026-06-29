@@ -3,6 +3,8 @@
 import {
   GENERATION_SAMPLERS,
   GENERATION_SCHEDULERS,
+  type GenerationSamplerValue,
+  type GenerationSchedulerValue,
   type PlaygroundModel,
 } from "@/lib/validation/playground";
 
@@ -38,8 +40,8 @@ export type PlaygroundModelDescriptor = {
     steps: number;
     cfg?: number;
     guidance?: number;
-    sampler?: string;
-    scheduler?: string;
+    sampler?: GenerationSamplerValue;
+    scheduler?: GenerationSchedulerValue;
   };
   fixedSize?: { width: number; height: number };
   samplers?: string[];

@@ -2704,8 +2704,9 @@
       "IP_WHITELIST_DESC": "IPs können gefälscht werden. Verwenden Sie ein Gateway für stärkere Durchsetzung.",
       "SUBMIT": "Erstellen",
       "SAVE": "Speichern",
-      "QUOTA_FREE_ONLY_HINT": "$0 erstellt einen Schlüssel nur für kostenlose Modelle. Kostenpflichtige Modelle werden abgelehnt.",
-      "QUOTA_EQUIVALENT": "= {quota} Kontingent"
+      "QUOTA_EQUIVALENT": "= {quota} Kontingent",
+      "QUOTA_POSITIVE": "Das Token-Guthaben muss größer als 0 sein. Aktiviere unbegrenztes Guthaben für einen Schlüssel mit freien Modellen.",
+      "QUOTA_ZERO_HINT": "Ein Guthaben von 0 funktioniert nicht. Freie Modelle (Endung :free) sind mit jedem gültigen Schlüssel nutzbar."
     },
     "ENUM": {
       "ENABLED": "Aktiviert",
