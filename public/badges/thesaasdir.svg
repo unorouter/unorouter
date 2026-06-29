@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="182" height="46" viewBox="0 0 182 46">
+  <rect x="1" y="1" width="180" height="44" rx="9" fill="white" stroke="#c4c1ba" stroke-width="1.5"/>
+  <rect x="12" y="10" width="26" height="26" rx="7" fill="#4338ca" fill-opacity="0.08"/>
+  <path d="M21 16a1.5 1.5 0 00-1.5 1.5v2a1.5 1.5 0 001.5 1.5h2a1.5 1.5 0 001.5-1.5v-2A1.5 1.5 0 0023 16h-2zm0 6a1.5 1.5 0 00-1.5 1.5v2A1.5 1.5 0 0021 27h2a1.5 1.5 0 001.5-1.5v-2A1.5 1.5 0 0023 22h-2zm6-4.5A1.5 1.5 0 0128.5 16h2a1.5 1.5 0 011.5 1.5v2a1.5 1.5 0 01-1.5 1.5h-2A1.5 1.5 0 0127 19.5v-2zm2.5 5a.75.75 0 01.75.75v.75h.75a.75.75 0 010 1.5h-.75v.75a.75.75 0 01-1.5 0v-.75h-.75a.75.75 0 010-1.5h.75v-.75a.75.75 0 01.75-.75z" fill="#4338ca"/>
+  <text x="102" y="17.5" text-anchor="middle" fill="#94938e" font-family="system-ui,-apple-system,sans-serif" font-size="8" font-weight="500" letter-spacing="0.8">FEATURED ON</text>
+  <text x="102" y="33" text-anchor="middle" fill="#1a1a1a" font-family="system-ui,-apple-system,sans-serif" font-size="14" font-weight="700" letter-spacing="-0.3">TheSaaSDir</text>
+  <circle cx="164" cy="23" r="5" fill="#4338ca" fill-opacity="0.1"/>
+  <path d="M161.5 23.2l1.8 1.8 3.2-3.2" stroke="#4338ca" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+</svg>

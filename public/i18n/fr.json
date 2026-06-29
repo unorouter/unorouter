@@ -3671,6 +3671,11 @@
     "PRESET_STREAMING_HINT": "Diffuser la réponse jeton par jeton. Désactivé = recevoir toute la réponse d'un coup. Le réglage du chat l'emporte.",
     "PRESET_SHOW_REASONING": "Afficher le raisonnement",
     "PRESET_SHOW_REASONING_HINT": "Affiche le raisonnement du modèle dans les réponses. Désactivé = le masquer (le raisonnement est toujours généré et conservé, donc le réactiver le révèle). Le réglage du chat l'emporte.",
+    "PRESET_MEMORY_ENABLED": "Mémoire (par défaut)",
+    "PRESET_IMAGE_ENABLED": "Images dans le chat (par défaut)",
+    "PRESET_UTILITY_MODEL": "Modèle utilitaire",
+    "PRESET_UTILITY_MODEL_HINT": "Modèle utilisé par le résumeur + le générateur de prompt d'image. Vide = le modèle du chat ; le réglage du chat le remplace.",
+    "PRESET_IMAGE_PROMPT_INSTRUCTION": "Instruction du prompt d'image",
     "CHARACTER_BACKGROUND": "Image d'arrière-plan",
     "CHARACTER_BACKGROUND_HINT": "Affichée derrière la discussion quand ce personnage mène la conversation.",
     "CHARACTER_AVATAR": "Avatar",
@@ -4098,7 +4103,12 @@
       "NOT_TESTED": "Pas encore testé",
       "LOW_CONFIDENCE": "Faible fiabilité ({count} tests)",
       "SELF_TITLE": "Nous nous appliquons les mêmes exigences",
-      "SELF_BODY": "{appName} est testé par ce même outil. Consultez les preuves."
+      "SELF_BODY": "{appName} est testé par ce même outil. Consultez les preuves.",
+      "MODELS_TRACKED": "{count} modèles",
+      "STAT_MODELS": "Modèles testés",
+      "STAT_P95": "Latence P95",
+      "P95": "p95 {ms}ms",
+      "PROVIDER_MODELS_TITLE": "Résultats par modèle"
     },
     "DETAIL": {
       "BACK": "Retour au testeur",
@@ -4115,7 +4125,9 @@
       "DELETE_BODY": "Cela retire votre soumission des classements publics. Votre historique local n'est pas affecté.",
       "DELETE_CONFIRM": "Retirer",
       "DELETE_CANCEL": "Annuler",
-      "GUEST_CANNOT_DELETE": "Les soumissions d'invités ne peuvent pas être supprimées ici. Signalez-les via Discord ou GitHub."
+      "GUEST_CANNOT_DELETE": "Les soumissions d'invités ne peuvent pas être supprimées ici. Signalez-les via Discord ou GitHub.",
+      "BACK_TO_PROVIDER": "Retour au fournisseur",
+      "BACK_TO_MODEL": "Retour au modèle"
     },
     "PROBE_DETAIL": {
       "PROMPT": "Invite envoyee",

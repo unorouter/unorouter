@@ -106,12 +106,6 @@ export const navigation = (authenticated?: boolean): NavigationItem[] => [
     iconName: "search",
     submenu: [
       {
-        name: "MODEL_TESTER.TABS.TEST",
-        subtitle: "MODEL_TESTER.NAV.TEST_DESC",
-        href: "/ai-api-model-tester",
-        iconName: "shield-check",
-      },
-      {
         name: "MODEL_TESTER.TABS.HISTORY",
         subtitle: "MODEL_TESTER.NAV.HISTORY_DESC",
         href: "/ai-api-model-tester/history",

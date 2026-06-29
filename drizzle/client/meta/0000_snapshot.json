@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "ce0be2cf-58f1-4c55-b071-fd629bec899c",
+  "id": "1efaca10-b772-4126-9102-c34f6ba6cc52",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "card_characters": {
@@ -2491,6 +2491,34 @@
         "chat_memory": {
           "name": "chat_memory",
           "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "utility_model": {
+          "name": "utility_model",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "memory_enabled": {
+          "name": "memory_enabled",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "image_enabled": {
+          "name": "image_enabled",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "prompt_instruction": {
+          "name": "prompt_instruction",
+          "type": "text",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false

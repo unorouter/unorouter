@@ -76,7 +76,9 @@ export async function assemblePrompt(
       )
     : { extraSystemPrompt: "", stopSending: false, alerts: [] };
 
-  const memorySettings = convCtx?.settings as
+  // Agent settings inherit from the bound preset (Risu subModel/seperateModels parity): conv override ??
+  // preset default ?? unset. summaryMemory/summaryAnchor are runtime state, conv-only (never a preset default).
+  const convSettings = convCtx?.settings as
     | {
         memoryEnabled?: boolean | null;
         summaryMemory?: string | null;
@@ -84,6 +86,15 @@ export async function assemblePrompt(
         utilityModel?: string | null;
       }
     | undefined;
+  const presetDefaults = convCtx?.preset as
+    | { memoryEnabled?: boolean | null; utilityModel?: string | null }
+    | undefined;
+  const memorySettings = {
+    memoryEnabled: convSettings?.memoryEnabled ?? presetDefaults?.memoryEnabled,
+    utilityModel: convSettings?.utilityModel ?? presetDefaults?.utilityModel,
+    summaryMemory: convSettings?.summaryMemory,
+    summaryAnchor: convSettings?.summaryAnchor,
+  };
   const memory = await buildMemoryViaAgent(
     apiKey,
     body,

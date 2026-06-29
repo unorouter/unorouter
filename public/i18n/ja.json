@@ -3671,6 +3671,11 @@
     "PRESET_STREAMING_HINT": "応答をトークンごとにストリーミング。オフ = 応答全体を一度に受信。チャット設定が優先します。",
     "PRESET_SHOW_REASONING": "推論を表示",
     "PRESET_SHOW_REASONING_HINT": "応答にモデルの思考過程を表示します。オフ = 非表示にします（推論は引き続き生成され保存されるため、再度オンにすると表示されます）。チャット設定が優先します。",
+    "PRESET_MEMORY_ENABLED": "メモリー（既定）",
+    "PRESET_IMAGE_ENABLED": "チャット内画像（既定）",
+    "PRESET_UTILITY_MODEL": "ユーティリティモデル",
+    "PRESET_UTILITY_MODEL_HINT": "要約と画像プロンプト作成に使うモデル。空欄＝チャットモデル。チャット設定が優先されます。",
+    "PRESET_IMAGE_PROMPT_INSTRUCTION": "画像プロンプトの指示",
     "CHARACTER_BACKGROUND": "背景画像",
     "CHARACTER_BACKGROUND_HINT": "このキャラクターが会話の主役のとき、チャットの背後に表示されます。",
     "CHARACTER_AVATAR": "アバター",
@@ -4098,7 +4103,12 @@
       "NOT_TESTED": "まだテストされていません",
       "LOW_CONFIDENCE": "信頼度が低い（{count} 回のテスト）",
       "SELF_TITLE": "私たち自身にも同じ基準を課しています",
-      "SELF_BODY": "{appName} はこの同じツールでテストされています。証拠をご覧ください。"
+      "SELF_BODY": "{appName} はこの同じツールでテストされています。証拠をご覧ください。",
+      "MODELS_TRACKED": "{count} モデル",
+      "STAT_MODELS": "テスト済みモデル",
+      "STAT_P95": "P95 レイテンシ",
+      "P95": "p95 {ms}ms",
+      "PROVIDER_MODELS_TITLE": "モデル別の結果"
     },
     "DETAIL": {
       "BACK": "テスターに戻る",
@@ -4115,7 +4125,9 @@
       "DELETE_BODY": "これにより、あなたの提出が公開ランキングから取り下げられます。ローカルの履歴には影響しません。",
       "DELETE_CONFIRM": "削除",
       "DELETE_CANCEL": "キャンセル",
-      "GUEST_CANNOT_DELETE": "ゲストの提出はここでは削除できません。Discord または GitHub で報告してください。"
+      "GUEST_CANNOT_DELETE": "ゲストの提出はここでは削除できません。Discord または GitHub で報告してください。",
+      "BACK_TO_PROVIDER": "プロバイダーに戻る",
+      "BACK_TO_MODEL": "モデルに戻る"
     },
     "PROBE_DETAIL": {
       "PROMPT": "送信したプロンプト",

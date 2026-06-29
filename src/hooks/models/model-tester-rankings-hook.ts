@@ -19,6 +19,13 @@ export function useModelTesterStats() {
   );
 }
 
+// Level 2: one provider + its models.
+export function useProviderDetail(host: string) {
+  return useElysiaQuery(queryKeys.modelTesterProviderDetail(host), () =>
+    rpc.api.models["model-tester"].rankings({ host }).get(),
+  );
+}
+
 export function useRankingDetail(host: string, model: string) {
   return useElysiaQuery(queryKeys.modelTesterRankingDetail(host, model), () =>
     rpc.api.models["model-tester"].rankings({ host })({ model }).get(),
@@ -35,6 +42,7 @@ export function useDeletePublishedTest(host: string, model: string) {
       ) as { deleted: boolean },
     invalidates: [
       queryKeys.modelTesterRankingDetail(host, model),
+      queryKeys.modelTesterProviderDetail(host),
       queryKeys.modelTesterRankings(1, 20),
       queryKeys.modelTesterStats(),
     ],

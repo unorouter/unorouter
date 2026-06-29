@@ -71,13 +71,14 @@ const FEATURED_BADGES = [
 ] as const;
 
 // Reciprocal verification links: each directory crawls unorouter.com for ITS own
-// link before approving our listing. Intentional dofollow (reciprocal exchange),
-// not nofollow. TheSaaSDir badge img stays on their domain so their verifier finds
-// its own asset; AI Toolz Dir offers no image badge, so it renders as a text link.
+// dofollow link (the href) before approving our listing. The badge IMAGES are
+// served locally (mirrored into public/badges) because the page is cross-origin
+// isolated (COEP require-corp) and remote SVGs without CORP headers are blocked.
+// AI Toolz Dir offers no image badge, so it renders as a text link.
 const RECIPROCAL_LINKS = [
   {
     href: "https://thesaasdir.com/product/unorouter?ref=badge",
-    src: "https://thesaasdir.com/badge/unorouter.svg",
+    src: "/badges/thesaasdir.svg",
     name: "TheSaaSDir",
     width: 182,
     height: 46,
@@ -91,7 +92,7 @@ const RECIPROCAL_LINKS = [
   },
   {
     href: "https://turbo0.com/item/unorouter",
-    src: "https://img.turbo0.com/badge-listed-light.svg",
+    src: "/badges/turbo0.svg",
     name: "Turbo0",
     width: 72,
     height: 46,

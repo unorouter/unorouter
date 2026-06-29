@@ -3671,6 +3671,11 @@
     "PRESET_STREAMING_HINT": "응답을 토큰 단위로 스트리밍. 끄면 전체 응답을 한 번에 받음. 채팅 설정이 우선합니다.",
     "PRESET_SHOW_REASONING": "추론 표시",
     "PRESET_SHOW_REASONING_HINT": "응답에 모델의 사고 과정을 표시합니다. 끄기 = 숨김 (추론은 여전히 생성되어 보관되므로 다시 켜면 나타납니다). 채팅 설정이 우선합니다.",
+    "PRESET_MEMORY_ENABLED": "메모리 (기본값)",
+    "PRESET_IMAGE_ENABLED": "채팅 내 이미지 (기본값)",
+    "PRESET_UTILITY_MODEL": "유틸리티 모델",
+    "PRESET_UTILITY_MODEL_HINT": "요약기와 이미지 프롬프트 작성기가 쓰는 모델. 비우면 채팅 모델; 채팅 설정이 우선합니다.",
+    "PRESET_IMAGE_PROMPT_INSTRUCTION": "이미지 프롬프트 지침",
     "CHARACTER_BACKGROUND": "배경 이미지",
     "CHARACTER_BACKGROUND_HINT": "이 캐릭터가 대화를 주도할 때 채팅 뒤에 표시됩니다.",
     "CHARACTER_AVATAR": "아바타",
@@ -4098,7 +4103,12 @@
       "NOT_TESTED": "아직 테스트되지 않음",
       "LOW_CONFIDENCE": "낮은 신뢰도({count}회 테스트)",
       "SELF_TITLE": "우리 자신에게도 같은 기준을 적용합니다",
-      "SELF_BODY": "{appName}은(는) 바로 이 도구로 테스트됩니다. 증거를 확인하세요."
+      "SELF_BODY": "{appName}은(는) 바로 이 도구로 테스트됩니다. 증거를 확인하세요.",
+      "MODELS_TRACKED": "{count}개 모델",
+      "STAT_MODELS": "테스트한 모델",
+      "STAT_P95": "P95 지연",
+      "P95": "p95 {ms}ms",
+      "PROVIDER_MODELS_TITLE": "모델별 결과"
     },
     "DETAIL": {
       "BACK": "테스터로 돌아가기",
@@ -4115,7 +4125,9 @@
       "DELETE_BODY": "이렇게 하면 제출이 공개 순위에서 내려갑니다. 로컬 기록에는 영향이 없습니다.",
       "DELETE_CONFIRM": "제거",
       "DELETE_CANCEL": "취소",
-      "GUEST_CANNOT_DELETE": "게스트 제출은 여기서 삭제할 수 없습니다. Discord나 GitHub로 신고하세요."
+      "GUEST_CANNOT_DELETE": "게스트 제출은 여기서 삭제할 수 없습니다. Discord나 GitHub로 신고하세요.",
+      "BACK_TO_PROVIDER": "제공자로 돌아가기",
+      "BACK_TO_MODEL": "모델로 돌아가기"
     },
     "PROBE_DETAIL": {
       "PROMPT": "전송된 프롬프트",

@@ -3671,6 +3671,11 @@
     "PRESET_STREAMING_HINT": "Transmite a resposta token a token. Off = recebe a resposta inteira de uma vez. A config do chat sobrepõe.",
     "PRESET_SHOW_REASONING": "Mostrar raciocínio",
     "PRESET_SHOW_REASONING_HINT": "Mostra o raciocínio do modelo nas respostas. Off = ocultá-lo (o raciocínio continua sendo gerado e guardado, então reativar isto o revela). A config do chat sobrepõe.",
+    "PRESET_MEMORY_ENABLED": "Memória (padrão)",
+    "PRESET_IMAGE_ENABLED": "Imagens no chat (padrão)",
+    "PRESET_UTILITY_MODEL": "Modelo utilitário",
+    "PRESET_UTILITY_MODEL_HINT": "Modelo usado pelo resumidor + gerador de prompt de imagem. Vazio = o modelo do chat; a configuração do chat substitui.",
+    "PRESET_IMAGE_PROMPT_INSTRUCTION": "Instrução do prompt de imagem",
     "CHARACTER_BACKGROUND": "Imagem de fundo",
     "CHARACTER_BACKGROUND_HINT": "Exibida atrás do chat quando este personagem lidera a conversa.",
     "CHARACTER_AVATAR": "Avatar",
@@ -4098,7 +4103,12 @@
       "NOT_TESTED": "Ainda não testado",
       "LOW_CONFIDENCE": "Baixa confiança ({count} testes)",
       "SELF_TITLE": "Aplicamos a nós mesmos o mesmo padrão",
-      "SELF_BODY": "{appName} é testado por esta mesma ferramenta. Veja as evidências."
+      "SELF_BODY": "{appName} é testado por esta mesma ferramenta. Veja as evidências.",
+      "MODELS_TRACKED": "{count} modelos",
+      "STAT_MODELS": "Modelos testados",
+      "STAT_P95": "Latência P95",
+      "P95": "p95 {ms}ms",
+      "PROVIDER_MODELS_TITLE": "Resultados por modelo"
     },
     "DETAIL": {
       "BACK": "Voltar ao testador",
@@ -4115,7 +4125,9 @@
       "DELETE_BODY": "Isto retira o seu envio das classificações públicas. Seu histórico local não é afetado.",
       "DELETE_CONFIRM": "Remover",
       "DELETE_CANCEL": "Cancelar",
-      "GUEST_CANNOT_DELETE": "Envios de convidados não podem ser excluídos aqui. Reporte-os pelo Discord ou GitHub."
+      "GUEST_CANNOT_DELETE": "Envios de convidados não podem ser excluídos aqui. Reporte-os pelo Discord ou GitHub.",
+      "BACK_TO_PROVIDER": "Voltar ao provedor",
+      "BACK_TO_MODEL": "Voltar ao modelo"
     },
     "PROBE_DETAIL": {
       "PROMPT": "Prompt enviado",

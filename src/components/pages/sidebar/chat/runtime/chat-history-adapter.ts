@@ -19,6 +19,7 @@ import {
   upsertLocalMessage,
   upsertLocalMessageItem,
 } from "@/lib/db/client/data/chat";
+import { readLocalPreset } from "@/lib/db/client/data/rp";
 import { runRegexScripts } from "@/lib/ai/chat/regex-scripts";
 import { makeTriggerContext, runTriggers } from "@/lib/ai/chat/triggers/vm";
 import type { TriggerScript } from "@/lib/ai/chat/triggers/types";
@@ -258,14 +259,24 @@ export function createChatHistoryAdapter(
               imageEnabled?: boolean | null;
               utilityModel?: string | null;
               defaultModel?: string | null;
+              presetId?: string | null;
             } | null;
+            // Inherit from the bound preset: conv override ?? preset default.
+            const preset = s?.presetId
+              ? ((await readLocalPreset(userId, s.presetId)) as {
+                  imageEnabled?: boolean | null;
+                  utilityModel?: string | null;
+                } | null)
+              : null;
+            const imageEnabled = s?.imageEnabled ?? preset?.imageEnabled;
+            const utilityModel = s?.utilityModel ?? preset?.utilityModel;
             const hasError = items.some((it) => it.type === "error");
-            if (s?.imageEnabled && !hasError) {
+            if (imageEnabled && !hasError) {
               const taskId = uid();
               illustratorJob = {
                 taskId,
                 utilityModel:
-                  s.utilityModel || resolvedModel || s.defaultModel || "",
+                  utilityModel || resolvedModel || s?.defaultModel || "",
               };
               items.push({
                 type: "task",
@@ -474,7 +485,14 @@ export function createChatHistoryAdapter(
                 const { runIllustrator } = await import("./illustrator-run");
                 const s = (await readLocalConversationSettings(userId, id)) as {
                   promptInstruction?: string | null;
+                  presetId?: string | null;
                 } | null;
+                // promptInstruction inherits from the bound preset when the chat has no override.
+                const preset = s?.presetId
+                  ? ((await readLocalPreset(userId, s.presetId)) as {
+                      promptInstruction?: string | null;
+                    } | null)
+                  : null;
                 await runIllustrator({
                   userId,
                   convId: id,
@@ -482,7 +500,10 @@ export function createChatHistoryAdapter(
                   taskId: job.taskId,
                   responseText: originalAssistantText,
                   utilityModel: job.utilityModel,
-                  promptInstruction: s?.promptInstruction ?? undefined,
+                  promptInstruction:
+                    s?.promptInstruction ??
+                    preset?.promptInstruction ??
+                    undefined,
                 });
               } catch {
                 // Best-effort: a failure leaves the reply intact; the placeholder is dropped on the rewrite.

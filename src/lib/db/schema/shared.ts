@@ -383,6 +383,12 @@ export const samplingPresets = sqliteTable(
     streamingEnabled: integer("streaming_enabled", { mode: "boolean" }),
     showReasoning: integer("show_reasoning", { mode: "boolean" }),
     chatMemory: integer("chat_memory"),
+    // Agent feature defaults (Risu subModel/seperateModels parity): a chat inherits these from its bound
+    // preset unless it sets its own per-chat override. null = unset (chat falls back to its own default).
+    utilityModel: text("utility_model"),
+    memoryEnabled: integer("memory_enabled", { mode: "boolean" }),
+    imageEnabled: integer("image_enabled", { mode: "boolean" }),
+    promptInstruction: text("prompt_instruction"),
     extraBody: text("extra_body"),
     providers: text("providers"),
     promptTemplate: text("prompt_template"),

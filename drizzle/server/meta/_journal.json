@@ -5,29 +5,8 @@
     {
       "idx": 0,
       "version": "6",
-      "when": 1782322280097,
-      "tag": "0000_smooth_shaman",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "6",
-      "when": 1782338975878,
-      "tag": "0001_curvy_wraith",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "6",
-      "when": 1782417843380,
-      "tag": "0002_brown_the_spike",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "6",
-      "when": 1782676268774,
-      "tag": "0003_elite_purple_man",
+      "when": 1782691788838,
+      "tag": "0000_happy_magus",
       "breakpoints": true
     }
   ]

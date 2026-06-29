@@ -3671,6 +3671,11 @@
     "PRESET_STREAMING_HINT": "Streaming balasan token demi token. Mati = terima balasan penuh sekaligus. Pengaturan chat menimpanya.",
     "PRESET_SHOW_REASONING": "Tampilkan penalaran",
     "PRESET_SHOW_REASONING_HINT": "Tampilkan proses berpikir model dalam balasan. Mati = sembunyikan (penalaran tetap dihasilkan dan disimpan, jadi mengaktifkannya kembali akan menampilkannya). Pengaturan chat menimpanya.",
+    "PRESET_MEMORY_ENABLED": "Memori (bawaan)",
+    "PRESET_IMAGE_ENABLED": "Gambar dalam obrolan (bawaan)",
+    "PRESET_UTILITY_MODEL": "Model utilitas",
+    "PRESET_UTILITY_MODEL_HINT": "Model yang dipakai peringkas + penulis prompt gambar. Kosong = model obrolan; pengaturan obrolan menggantikan ini.",
+    "PRESET_IMAGE_PROMPT_INSTRUCTION": "Instruksi prompt gambar",
     "CHARACTER_BACKGROUND": "Gambar latar",
     "CHARACTER_BACKGROUND_HINT": "Ditampilkan di belakang obrolan saat karakter ini memimpin percakapan.",
     "CHARACTER_AVATAR": "Avatar",
@@ -4098,7 +4103,12 @@
       "NOT_TESTED": "Belum diuji",
       "LOW_CONFIDENCE": "Keyakinan rendah ({count} pengujian)",
       "SELF_TITLE": "Kami menerapkan tolok ukur yang sama pada diri sendiri",
-      "SELF_BODY": "{appName} diuji dengan alat yang sama ini. Lihat buktinya."
+      "SELF_BODY": "{appName} diuji dengan alat yang sama ini. Lihat buktinya.",
+      "MODELS_TRACKED": "{count} model",
+      "STAT_MODELS": "Model yang diuji",
+      "STAT_P95": "Latensi P95",
+      "P95": "p95 {ms}ms",
+      "PROVIDER_MODELS_TITLE": "Hasil per model"
     },
     "DETAIL": {
       "BACK": "Kembali ke penguji",
@@ -4115,7 +4125,9 @@
       "DELETE_BODY": "Ini menarik kiriman Anda dari peringkat publik. Riwayat lokal Anda tidak terpengaruh.",
       "DELETE_CONFIRM": "Hapus",
       "DELETE_CANCEL": "Batal",
-      "GUEST_CANNOT_DELETE": "Kiriman tamu tak dapat dihapus di sini. Laporkan melalui Discord atau GitHub."
+      "GUEST_CANNOT_DELETE": "Kiriman tamu tak dapat dihapus di sini. Laporkan melalui Discord atau GitHub.",
+      "BACK_TO_PROVIDER": "Kembali ke penyedia",
+      "BACK_TO_MODEL": "Kembali ke model"
     },
     "PROBE_DETAIL": {
       "PROMPT": "Prompt yang dikirim",

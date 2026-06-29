@@ -54,11 +54,14 @@ export function RankingDetail(props: { host: string; model: string }) {
   return (
     <div className="flex flex-col gap-4">
       <Link
-        href="/ai-api-model-tester/rankings"
+        href={{
+          pathname: "/ai-api-model-tester/rankings/[host]",
+          params: { host: encodeURIComponent(props.host) },
+        }}
         className="text-muted-foreground hover:text-foreground flex w-fit items-center gap-1 text-sm transition-colors"
       >
         <Icon name="arrow-left" className="size-4" />
-        {t("MODEL_TESTER.DETAIL.BACK")}
+        {t("MODEL_TESTER.DETAIL.BACK_TO_PROVIDER")}
       </Link>
 
       {!agg ? (
@@ -100,6 +103,20 @@ export function RankingDetail(props: { host: string; model: string }) {
                     ms: Math.round(agg.avgLatencyMs),
                   })}
                 </span>
+                {agg.p95LatencyMs !== null ? (
+                  <span>
+                    {t("MODEL_TESTER.RANKINGS.P95", {
+                      ms: Math.round(agg.p95LatencyMs),
+                    })}
+                  </span>
+                ) : null}
+                {agg.avgTotalTokens !== null ? (
+                  <span>
+                    {t("MODEL_TESTER.RESULT.TOTAL_TOKENS", {
+                      tokens: Math.round(agg.avgTotalTokens),
+                    })}
+                  </span>
+                ) : null}
                 <span>
                   {t("MODEL_TESTER.RANKINGS.LAST_TESTED", {
                     when: dayjs(agg.lastTestedAt).fromNow(),
@@ -169,6 +186,13 @@ export function RankingDetail(props: { host: string; model: string }) {
                           <span className="font-mono">{row.detectedModel}</span>
                         </span>
                       ) : null}
+                      <span className="text-muted-foreground truncate font-mono text-[11px] tabular-nums">
+                        {Math.round(row.latencyMs)}ms
+                        {row.totalTokens !== null
+                          ? ` · ${row.totalTokens} tok`
+                          : ""}
+                        {row.transport ? ` · ${row.transport}` : ""}
+                      </span>
                     </div>
                     {mine ? (
                       <Button

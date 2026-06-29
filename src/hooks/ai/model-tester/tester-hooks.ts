@@ -2,9 +2,14 @@
 
 import {
   deleteTest,
+  readHistoryModelTests,
+  readHistoryModels,
+  readHistoryProviders,
   readTestDetail,
   readTestHistory,
   recordTestRun,
+  type HistoryModelRow,
+  type HistoryProviderRow,
   type TestDetail,
   type TestListItem,
 } from "@/lib/db/client/data/tester";
@@ -22,6 +27,35 @@ export function useTestHistory() {
   return useQuery({
     queryKey: [...queryKeys.modelTests(), userId],
     queryFn: (): Promise<TestListItem[]> => readTestHistory(userId),
+  });
+}
+
+// Level 1: the user's providers (grouped by host).
+export function useHistoryProviders() {
+  const userId = useLocalUserId();
+  return useQuery({
+    queryKey: [...queryKeys.modelTestHistoryProviders(), userId],
+    queryFn: (): Promise<HistoryProviderRow[]> => readHistoryProviders(userId),
+  });
+}
+
+// Level 2: one provider's models.
+export function useHistoryModels(host: string) {
+  const userId = useLocalUserId();
+  return useQuery({
+    queryKey: [...queryKeys.modelTestHistoryModels(host), userId],
+    queryFn: (): Promise<{ provider: string; models: HistoryModelRow[] }> =>
+      readHistoryModels(userId, host),
+  });
+}
+
+// Level 3: every test for one provider+model.
+export function useHistoryModelTests(host: string, model: string) {
+  const userId = useLocalUserId();
+  return useQuery({
+    queryKey: [...queryKeys.modelTestHistoryModelTests(host, model), userId],
+    queryFn: (): Promise<TestListItem[]> =>
+      readHistoryModelTests(userId, host, model),
   });
 }
 
@@ -49,7 +83,10 @@ export function useDeleteTest() {
   const userId = useLocalUserId();
   return useApiMutation<void, string>({
     mutationFn: (testId) => deleteTest(userId, testId),
-    invalidates: [queryKeys.modelTests()],
+    invalidates: [
+      queryKeys.modelTests(),
+      queryKeys.modelTestHistoryProviders(),
+    ],
   });
 }
 

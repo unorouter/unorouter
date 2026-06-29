@@ -26,6 +26,14 @@ export function ModelTestDetail(props: { id: string }) {
       </p>
     );
 
+  const backHref = {
+    pathname: "/ai-api-model-tester/history/provider/[host]/[model]" as const,
+    params: {
+      host: encodeURIComponent(detail.provider.baseUrlHost),
+      model: encodeURIComponent(detail.model.requestedModel),
+    },
+  };
+
   async function onDelete() {
     const ok = await confirm({
       title: t("MODEL_TESTER.HISTORY.DELETE_TITLE"),
@@ -44,11 +52,11 @@ export function ModelTestDetail(props: { id: string }) {
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between gap-3">
         <Link
-          href="/ai-api-model-tester/history"
+          href={backHref}
           className="text-muted-foreground hover:text-foreground flex w-fit items-center gap-1 text-sm transition-colors"
         >
           <Icon name="arrow-left" className="size-4" />
-          {t("MODEL_TESTER.DETAIL.BACK")}
+          {t("MODEL_TESTER.DETAIL.BACK_TO_MODEL")}
         </Link>
         <Button size="sm" variant="ghost" onClick={onDelete}>
           <Icon name="trash-2" className="size-4" />

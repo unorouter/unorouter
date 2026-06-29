@@ -3671,6 +3671,11 @@
     "PRESET_STREAMING_HINT": "Yanıtı token token akıt. Kapalı = tüm yanıtı bir kerede al. Sohbet ayarı geçersiz kılar.",
     "PRESET_SHOW_REASONING": "Akıl yürütmeyi göster",
     "PRESET_SHOW_REASONING_HINT": "Modelin düşünme sürecini yanıtlarda gösterir. Kapalı = gizle (akıl yürütme yine de üretilir ve saklanır, bu yüzden tekrar açmak onu ortaya çıkarır). Sohbet ayarı geçersiz kılar.",
+    "PRESET_MEMORY_ENABLED": "Bellek (varsayılan)",
+    "PRESET_IMAGE_ENABLED": "Sohbette görseller (varsayılan)",
+    "PRESET_UTILITY_MODEL": "Yardımcı model",
+    "PRESET_UTILITY_MODEL_HINT": "Özetleyici + görsel istemi yazıcısının kullandığı model. Boş = sohbet modeli; sohbet ayarı bunu geçersiz kılar.",
+    "PRESET_IMAGE_PROMPT_INSTRUCTION": "Görsel istemi talimatı",
     "CHARACTER_BACKGROUND": "Arka plan resmi",
     "CHARACTER_BACKGROUND_HINT": "Bu karakter sohbeti yönetirken sohbetin arkasında gösterilir.",
     "CHARACTER_AVATAR": "Avatar",
@@ -4098,7 +4103,12 @@
       "NOT_TESTED": "Henüz test edilmedi",
       "LOW_CONFIDENCE": "Düşük güven ({count} test)",
       "SELF_TITLE": "Aynı ölçütü kendimize de uyguluyoruz",
-      "SELF_BODY": "{appName} tam da bu araçla test edilir. Kanıtı görüntüleyin."
+      "SELF_BODY": "{appName} tam da bu araçla test edilir. Kanıtı görüntüleyin.",
+      "MODELS_TRACKED": "{count} model",
+      "STAT_MODELS": "Test edilen modeller",
+      "STAT_P95": "P95 gecikme",
+      "P95": "p95 {ms}ms",
+      "PROVIDER_MODELS_TITLE": "Modele göre sonuçlar"
     },
     "DETAIL": {
       "BACK": "Testleyiciye don",
@@ -4115,7 +4125,9 @@
       "DELETE_BODY": "Bu, gönderiminizi herkese açık sıralamalardan çeker. Yerel geçmişiniz etkilenmez.",
       "DELETE_CONFIRM": "Kaldır",
       "DELETE_CANCEL": "İptal",
-      "GUEST_CANNOT_DELETE": "Misafir gönderimleri burada silinemez. Bunları Discord ya da GitHub üzerinden bildirin."
+      "GUEST_CANNOT_DELETE": "Misafir gönderimleri burada silinemez. Bunları Discord ya da GitHub üzerinden bildirin.",
+      "BACK_TO_PROVIDER": "Sağlayıcıya dön",
+      "BACK_TO_MODEL": "Modele dön"
     },
     "PROBE_DETAIL": {
       "PROMPT": "Gonderilen istem",

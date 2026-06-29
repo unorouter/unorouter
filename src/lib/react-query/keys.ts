@@ -74,9 +74,16 @@ export const queryKeys = {
 
   modelTests: () => ["model-tests"] as const,
   modelTest: (id: string) => ["model-tests", id] as const,
+  modelTestHistoryProviders: () => ["model-tests-providers"] as const,
+  modelTestHistoryModels: (host: string) =>
+    ["model-tests-models", host] as const,
+  modelTestHistoryModelTests: (host: string, model: string) =>
+    ["model-tests-model-tests", host, model] as const,
   modelTesterRankings: (page: number, pageSize: number) =>
     ["model-tester-rankings", page, pageSize] as const,
   modelTesterStats: () => ["model-tester-stats"] as const,
+  modelTesterProviderDetail: (host: string) =>
+    ["model-tester-provider", host] as const,
   modelTesterRankingDetail: (host: string, model: string) =>
     ["model-tester-ranking", host, model] as const,
 

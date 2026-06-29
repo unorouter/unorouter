@@ -3671,6 +3671,11 @@
     "PRESET_STREAMING_HINT": "Stream the reply token-by-token. Off = receive the full reply at once. The chat setting overrides this.",
     "PRESET_SHOW_REASONING": "Show reasoning",
     "PRESET_SHOW_REASONING_HINT": "Show the model's thinking in replies. Off = hide it (the reasoning is still generated and kept, so turning this back on reveals it). The chat setting overrides this.",
+    "PRESET_MEMORY_ENABLED": "Memory (default)",
+    "PRESET_IMAGE_ENABLED": "In-chat images (default)",
+    "PRESET_UTILITY_MODEL": "Utility model",
+    "PRESET_UTILITY_MODEL_HINT": "Model the summarizer + image prompt-writer use. Empty = the chat model; the chat setting overrides this.",
+    "PRESET_IMAGE_PROMPT_INSTRUCTION": "Image prompt instruction",
     "CHARACTER_BACKGROUND": "Background image",
     "CHARACTER_BACKGROUND_HINT": "Shown behind the chat when this character leads the conversation.",
     "CHARACTER_AVATAR": "Avatar",
@@ -4098,7 +4103,12 @@
       "NOT_TESTED": "Not yet tested",
       "LOW_CONFIDENCE": "Low confidence ({count} tests)",
       "SELF_TITLE": "We hold ourselves to the same bar",
-      "SELF_BODY": "{appName} is tested by this same tool. View the evidence."
+      "SELF_BODY": "{appName} is tested by this same tool. View the evidence.",
+      "MODELS_TRACKED": "{count} models",
+      "STAT_MODELS": "Models tested",
+      "STAT_P95": "P95 latency",
+      "P95": "p95 {ms}ms",
+      "PROVIDER_MODELS_TITLE": "Results by model"
     },
     "DETAIL": {
       "BACK": "Back to tester",
@@ -4115,7 +4125,9 @@
       "DELETE_BODY": "This pulls your submission from the public rankings. Your local history is unaffected.",
       "DELETE_CONFIRM": "Remove",
       "DELETE_CANCEL": "Cancel",
-      "GUEST_CANNOT_DELETE": "Guest submissions cannot be deleted here. Report them via Discord or GitHub."
+      "GUEST_CANNOT_DELETE": "Guest submissions cannot be deleted here. Report them via Discord or GitHub.",
+      "BACK_TO_PROVIDER": "Back to provider",
+      "BACK_TO_MODEL": "Back to model"
     },
     "PROBE_DETAIL": {
       "PROMPT": "Prompt sent",

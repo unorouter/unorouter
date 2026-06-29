@@ -3671,6 +3671,11 @@
     "PRESET_STREAMING_HINT": "Truyền phản hồi theo từng token. Tắt = nhận toàn bộ phản hồi cùng lúc. Cài đặt trò chuyện ghi đè.",
     "PRESET_SHOW_REASONING": "Hiển thị suy luận",
     "PRESET_SHOW_REASONING_HINT": "Hiển thị suy luận của mô hình trong phản hồi. Tắt = ẩn nó (suy luận vẫn được tạo và lưu lại, nên bật lại sẽ hiển thị nó). Cài đặt trò chuyện ghi đè.",
+    "PRESET_MEMORY_ENABLED": "Bộ nhớ (mặc định)",
+    "PRESET_IMAGE_ENABLED": "Hình ảnh trong trò chuyện (mặc định)",
+    "PRESET_UTILITY_MODEL": "Mô hình tiện ích",
+    "PRESET_UTILITY_MODEL_HINT": "Mô hình mà bộ tóm tắt + trình viết lời nhắc hình ảnh dùng. Trống = mô hình trò chuyện; cài đặt trò chuyện ghi đè.",
+    "PRESET_IMAGE_PROMPT_INSTRUCTION": "Hướng dẫn lời nhắc hình ảnh",
     "CHARACTER_BACKGROUND": "Ảnh nền",
     "CHARACTER_BACKGROUND_HINT": "Hiển thị phía sau cuộc trò chuyện khi nhân vật này dẫn dắt hội thoại.",
     "CHARACTER_AVATAR": "Ảnh đại diện",
@@ -4098,7 +4103,12 @@
       "NOT_TESTED": "Chưa được kiểm tra",
       "LOW_CONFIDENCE": "Độ tin cậy thấp ({count} lần kiểm tra)",
       "SELF_TITLE": "Chúng tôi tự đặt mình theo cùng một chuẩn mực",
-      "SELF_BODY": "{appName} được kiểm tra bằng chính công cụ này. Xem bằng chứng."
+      "SELF_BODY": "{appName} được kiểm tra bằng chính công cụ này. Xem bằng chứng.",
+      "MODELS_TRACKED": "{count} mô hình",
+      "STAT_MODELS": "Mô hình đã kiểm tra",
+      "STAT_P95": "Độ trễ P95",
+      "P95": "p95 {ms}ms",
+      "PROVIDER_MODELS_TITLE": "Kết quả theo mô hình"
     },
     "DETAIL": {
       "BACK": "Quay lai trinh kiem tra",
@@ -4115,7 +4125,9 @@
       "DELETE_BODY": "Thao tác này rút lượt gửi của bạn khỏi bảng xếp hạng công khai. Lịch sử cục bộ của bạn không bị ảnh hưởng.",
       "DELETE_CONFIRM": "Gỡ",
       "DELETE_CANCEL": "Hủy",
-      "GUEST_CANNOT_DELETE": "Lượt gửi của khách không thể xóa ở đây. Hãy báo cáo qua Discord hoặc GitHub."
+      "GUEST_CANNOT_DELETE": "Lượt gửi của khách không thể xóa ở đây. Hãy báo cáo qua Discord hoặc GitHub.",
+      "BACK_TO_PROVIDER": "Quay lại nhà cung cấp",
+      "BACK_TO_MODEL": "Quay lại mô hình"
     },
     "PROBE_DETAIL": {
       "PROMPT": "Loi nhac da gui",

@@ -12,6 +12,14 @@ type GeminiResponse = {
   };
 };
 
+// Gemini 3+ Pro is a THINKING model: it spends maxOutputTokens on internal
+// reasoning before any visible text, and it rejects thinkingBudget:0 ("only works
+// in thinking mode"). A small probe budget is consumed entirely by thoughts and
+// the reply comes back EMPTY (finishReason MAX_TOKENS), which the detector would
+// misread as a blank/mux failure. So give Gemini enough room for thinking PLUS the
+// short answer. The extra tokens are reasoning, not output bloat.
+const GEMINI_MIN_OUTPUT_TOKENS = 1024;
+
 function buildRequest(args: ProbeRequestArgs): BuiltRequest {
   return {
     url: `${args.baseUrl}/v1beta/models/${args.model}:generateContent`,
@@ -21,7 +29,9 @@ function buildRequest(args: ProbeRequestArgs): BuiltRequest {
     },
     body: {
       contents: [{ role: "user", parts: [{ text: args.prompt }] }],
-      generationConfig: { maxOutputTokens: args.maxTokens },
+      generationConfig: {
+        maxOutputTokens: Math.max(args.maxTokens, GEMINI_MIN_OUTPUT_TOKENS),
+      },
     },
   };
 }

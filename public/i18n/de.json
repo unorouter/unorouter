@@ -3671,6 +3671,11 @@
     "PRESET_STREAMING_HINT": "Antwort Token für Token streamen. Aus = ganze Antwort auf einmal. Die Chat-Einstellung überschreibt.",
     "PRESET_SHOW_REASONING": "Denkprozess anzeigen",
     "PRESET_SHOW_REASONING_HINT": "Zeigt den Denkprozess des Modells in den Antworten. Aus = ausblenden (der Denkprozess wird weiterhin erzeugt und gespeichert, durch erneutes Aktivieren wird er also sichtbar). Die Chat-Einstellung überschreibt dies.",
+    "PRESET_MEMORY_ENABLED": "Gedächtnis (Standard)",
+    "PRESET_IMAGE_ENABLED": "Bilder im Chat (Standard)",
+    "PRESET_UTILITY_MODEL": "Hilfsmodell",
+    "PRESET_UTILITY_MODEL_HINT": "Modell für Zusammenfassung + Bild-Prompt. Leer = Chat-Modell; die Chat-Einstellung hat Vorrang.",
+    "PRESET_IMAGE_PROMPT_INSTRUCTION": "Anweisung für Bild-Prompt",
     "CHARACTER_BACKGROUND": "Hintergrundbild",
     "CHARACTER_BACKGROUND_HINT": "Wird hinter dem Chat angezeigt, wenn dieser Charakter das Gespräch führt.",
     "CHARACTER_AVATAR": "Avatar",
@@ -4098,7 +4103,12 @@
       "NOT_TESTED": "Noch nicht getestet",
       "LOW_CONFIDENCE": "Geringe Zuverlässigkeit ({count} Tests)",
       "SELF_TITLE": "Wir halten uns an denselben Maßstab",
-      "SELF_BODY": "{appName} wird mit genau diesem Werkzeug getestet. Sehen Sie sich die Belege an."
+      "SELF_BODY": "{appName} wird mit genau diesem Werkzeug getestet. Sehen Sie sich die Belege an.",
+      "MODELS_TRACKED": "{count} Modelle",
+      "STAT_MODELS": "Getestete Modelle",
+      "STAT_P95": "P95-Latenz",
+      "P95": "p95 {ms}ms",
+      "PROVIDER_MODELS_TITLE": "Ergebnisse nach Modell"
     },
     "DETAIL": {
       "BACK": "Zurueck zum Tester",
@@ -4115,7 +4125,9 @@
       "DELETE_BODY": "Dies zieht Ihre Einreichung aus den öffentlichen Ranglisten zurück. Ihr lokaler Verlauf bleibt unberührt.",
       "DELETE_CONFIRM": "Entfernen",
       "DELETE_CANCEL": "Abbrechen",
-      "GUEST_CANNOT_DELETE": "Gast-Einreichungen können hier nicht gelöscht werden. Melden Sie sie über Discord oder GitHub."
+      "GUEST_CANNOT_DELETE": "Gast-Einreichungen können hier nicht gelöscht werden. Melden Sie sie über Discord oder GitHub.",
+      "BACK_TO_PROVIDER": "Zurück zum Anbieter",
+      "BACK_TO_MODEL": "Zurück zum Modell"
     },
     "PROBE_DETAIL": {
       "PROMPT": "Gesendeter Prompt",

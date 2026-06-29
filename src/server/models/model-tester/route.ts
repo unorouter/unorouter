@@ -1,5 +1,6 @@
 import {
   deletePublishedParams,
+  providerDetailParams,
   rankingDetailParams,
   rankingsQuery,
   verifyAndPublishBody,
@@ -9,8 +10,9 @@ import { getSelf } from "@/openapi";
 import { Elysia } from "elysia";
 import {
   deletePublishedTest,
+  getProviderDetail,
+  getProviders,
   getRankingDetail,
-  getRankings,
   getRankingsStats,
   verifyAndPublish,
 } from "./rankings.service";
@@ -60,13 +62,23 @@ export const modelTesterRoute = new Elysia({ prefix: "/model-tester" })
   .get("/stats", async () => {
     return getRankingsStats();
   })
+  // Level 1: providers grouped by host.
   .get(
     "/rankings",
     async ({ query }) => {
-      return getRankings(query.page ?? 1, query.pageSize ?? 20);
+      return getProviders(query.page ?? 1, query.pageSize ?? 20);
     },
     { query: rankingsQuery },
   )
+  // Level 2: one provider + its models.
+  .get(
+    "/rankings/:host",
+    async ({ params }) => {
+      return getProviderDetail(params.host);
+    },
+    { params: providerDetailParams },
+  )
+  // Level 3: one model + every individual test.
   .get(
     "/rankings/:host/:model",
     async ({ params }) => {

@@ -8,10 +8,32 @@ import {
   testerTests,
 } from "@/lib/db/schema/client";
 import { uid as genId } from "@/lib/utils/base";
-import { and, desc, eq } from "drizzle-orm";
+import { and, desc, eq, sql } from "drizzle-orm";
 import { getLocalDb } from "../client";
 import type { TesterProbeRow, TesterTestRow } from "@/lib/db/schema/rows";
 import type { VerifyResult } from "@/lib/ai/verify/types";
+
+// Aggregate rows for the grouped history (mirrors the rankings hierarchy).
+export type HistoryProviderRow = {
+  baseUrlHost: string;
+  provider: string;
+  modelCount: number;
+  sampleCount: number;
+  avgPassRate: number;
+  avgLatencyMs: number;
+  lastTestedAt: Date;
+};
+
+export type HistoryModelRow = {
+  baseUrlHost: string;
+  provider: string;
+  requestedModel: string;
+  sampleCount: number;
+  avgPassRate: number;
+  avgLatencyMs: number;
+  lastVerdict: string | null;
+  lastTestedAt: Date;
+};
 
 // A history-list item: the test joined to its provider + model for display.
 export type TestListItem = {
@@ -195,6 +217,106 @@ export async function readTestHistory(
     .innerJoin(testerModels, eq(testerModels.id, testerTests.modelId))
     .innerJoin(testerProviders, eq(testerProviders.id, testerTests.providerId))
     .where(eq(testerTests.userId, uid))
+    .orderBy(desc(testerTests.testedAt));
+  return rows as TestListItem[];
+}
+
+// Level 1: the user's providers (grouped by host) with aggregate stats.
+export async function readHistoryProviders(
+  userId: number | undefined,
+): Promise<HistoryProviderRow[]> {
+  const uid = userId ?? GUEST_USER_ID;
+  const local = await getLocalDb(uid);
+  if (!local) return [];
+  const rows = await local.db
+    .select({
+      baseUrlHost: testerProviders.baseUrlHost,
+      provider: sql<string>`max(${testerProviders.kind})`,
+      modelCount: sql<number>`count(distinct ${testerModels.requestedModel})`,
+      sampleCount: sql<number>`count(*)`,
+      avgPassRate: sql<number>`avg(cast(${testerTests.probesPassed} as real) / max(${testerTests.probesTotal}, 1))`,
+      avgLatencyMs: sql<number>`avg(${testerTests.latencyMs})`,
+      lastTestedAt: sql<Date>`max(${testerTests.testedAt})`,
+    })
+    .from(testerTests)
+    .innerJoin(testerModels, eq(testerModels.id, testerTests.modelId))
+    .innerJoin(testerProviders, eq(testerProviders.id, testerTests.providerId))
+    .where(eq(testerTests.userId, uid))
+    .groupBy(testerProviders.baseUrlHost)
+    .orderBy(desc(sql`max(${testerTests.testedAt})`));
+  return rows.map((r) => ({
+    ...r,
+    lastTestedAt: new Date(r.lastTestedAt),
+  })) as HistoryProviderRow[];
+}
+
+// Level 2: one provider's models with aggregate stats.
+export async function readHistoryModels(
+  userId: number | undefined,
+  host: string,
+): Promise<{ provider: string; models: HistoryModelRow[] }> {
+  const uid = userId ?? GUEST_USER_ID;
+  const local = await getLocalDb(uid);
+  if (!local) return { provider: "", models: [] };
+  const rows = await local.db
+    .select({
+      baseUrlHost: testerProviders.baseUrlHost,
+      provider: sql<string>`max(${testerProviders.kind})`,
+      requestedModel: testerModels.requestedModel,
+      sampleCount: sql<number>`count(*)`,
+      avgPassRate: sql<number>`avg(cast(${testerTests.probesPassed} as real) / max(${testerTests.probesTotal}, 1))`,
+      avgLatencyMs: sql<number>`avg(${testerTests.latencyMs})`,
+      lastVerdict: sql<string | null>`max(${testerModels.lastVerdict})`,
+      lastTestedAt: sql<Date>`max(${testerTests.testedAt})`,
+    })
+    .from(testerTests)
+    .innerJoin(testerModels, eq(testerModels.id, testerTests.modelId))
+    .innerJoin(testerProviders, eq(testerProviders.id, testerTests.providerId))
+    .where(
+      and(eq(testerTests.userId, uid), eq(testerProviders.baseUrlHost, host)),
+    )
+    .groupBy(testerModels.requestedModel)
+    .orderBy(desc(sql`max(${testerTests.testedAt})`));
+  const models = rows.map((r) => ({
+    ...r,
+    lastTestedAt: new Date(r.lastTestedAt),
+  })) as HistoryModelRow[];
+  return { provider: models[0]?.provider ?? "", models };
+}
+
+// Level 3: every test for one provider+model (the user's runs).
+export async function readHistoryModelTests(
+  userId: number | undefined,
+  host: string,
+  model: string,
+): Promise<TestListItem[]> {
+  const uid = userId ?? GUEST_USER_ID;
+  const local = await getLocalDb(uid);
+  if (!local) return [];
+  const rows = await local.db
+    .select({
+      id: testerTests.id,
+      provider: testerProviders.kind,
+      baseUrlHost: testerProviders.baseUrlHost,
+      requestedModel: testerModels.requestedModel,
+      detectedModel: testerTests.detectedModel,
+      verdict: testerTests.verdict,
+      probesPassed: testerTests.probesPassed,
+      probesTotal: testerTests.probesTotal,
+      latencyMs: testerTests.latencyMs,
+      testedAt: testerTests.testedAt,
+      publishedAt: testerTests.publishedAt,
+    })
+    .from(testerTests)
+    .innerJoin(testerModels, eq(testerModels.id, testerTests.modelId))
+    .innerJoin(testerProviders, eq(testerProviders.id, testerTests.providerId))
+    .where(
+      and(
+        eq(testerTests.userId, uid),
+        eq(testerProviders.baseUrlHost, host),
+        eq(testerModels.requestedModel, model),
+      ),
+    )
     .orderBy(desc(testerTests.testedAt));
   return rows as TestListItem[];
 }
