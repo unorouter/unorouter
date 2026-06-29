@@ -4128,7 +4128,9 @@
       "DELETE_CANCEL": "Cancelar",
       "GUEST_CANNOT_DELETE": "Los envíos de invitados no se pueden eliminar aquí. Infórmalos mediante Discord o GitHub.",
       "BACK_TO_PROVIDER": "Volver al proveedor",
-      "BACK_TO_MODEL": "Volver al modelo"
+      "BACK_TO_MODEL": "Volver al modelo",
+      "PUBLISHED_NOTE": "Verificado en el servidor. Las sondas y las respuestas son públicas para que cualquiera pueda auditar este veredicto.",
+      "LOADING": "Cargando ..."
     },
     "PROBE_DETAIL": {
       "PROMPT": "Prompt enviado",

@@ -4128,7 +4128,9 @@
       "DELETE_CANCEL": "Abbrechen",
       "GUEST_CANNOT_DELETE": "Gast-Einreichungen können hier nicht gelöscht werden. Melden Sie sie über Discord oder GitHub.",
       "BACK_TO_PROVIDER": "Zurück zum Anbieter",
-      "BACK_TO_MODEL": "Zurück zum Modell"
+      "BACK_TO_MODEL": "Zurück zum Modell",
+      "PUBLISHED_NOTE": "Serverseitig verifiziert. Die Tests und Antworten sind öffentlich, damit jeder dieses Urteil prüfen kann.",
+      "LOADING": "Wird geladen ..."
     },
     "PROBE_DETAIL": {
       "PROMPT": "Gesendeter Prompt",

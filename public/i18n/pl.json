@@ -4128,7 +4128,9 @@
       "DELETE_CANCEL": "Anuluj",
       "GUEST_CANNOT_DELETE": "Zgłoszeń gości nie można tu usunąć. Zgłoś je przez Discord lub GitHub.",
       "BACK_TO_PROVIDER": "Powrót do dostawcy",
-      "BACK_TO_MODEL": "Powrót do modelu"
+      "BACK_TO_MODEL": "Powrót do modelu",
+      "PUBLISHED_NOTE": "Zweryfikowane po stronie serwera. Sondy i odpowiedzi są publiczne, więc każdy może zweryfikować ten werdykt.",
+      "LOADING": "Ładowanie ..."
     },
     "PROBE_DETAIL": {
       "PROMPT": "Wyslany prompt",

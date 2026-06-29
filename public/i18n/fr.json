@@ -4128,7 +4128,9 @@
       "DELETE_CANCEL": "Annuler",
       "GUEST_CANNOT_DELETE": "Les soumissions d'invités ne peuvent pas être supprimées ici. Signalez-les via Discord ou GitHub.",
       "BACK_TO_PROVIDER": "Retour au fournisseur",
-      "BACK_TO_MODEL": "Retour au modèle"
+      "BACK_TO_MODEL": "Retour au modèle",
+      "PUBLISHED_NOTE": "Vérifié côté serveur. Les sondes et les réponses sont publiques pour que chacun puisse auditer ce verdict.",
+      "LOADING": "Chargement ..."
     },
     "PROBE_DETAIL": {
       "PROMPT": "Invite envoyee",

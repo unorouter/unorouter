@@ -4128,7 +4128,9 @@
       "DELETE_CANCEL": "Hủy",
       "GUEST_CANNOT_DELETE": "Lượt gửi của khách không thể xóa ở đây. Hãy báo cáo qua Discord hoặc GitHub.",
       "BACK_TO_PROVIDER": "Quay lại nhà cung cấp",
-      "BACK_TO_MODEL": "Quay lại mô hình"
+      "BACK_TO_MODEL": "Quay lại mô hình",
+      "PUBLISHED_NOTE": "Đã xác minh phía máy chủ. Các phép thử và phản hồi đều công khai để bất kỳ ai cũng có thể kiểm chứng phán quyết này.",
+      "LOADING": "Đang tải ..."
     },
     "PROBE_DETAIL": {
       "PROMPT": "Loi nhac da gui",

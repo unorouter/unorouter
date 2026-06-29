@@ -4128,7 +4128,9 @@
       "DELETE_CANCEL": "İptal",
       "GUEST_CANNOT_DELETE": "Misafir gönderimleri burada silinemez. Bunları Discord ya da GitHub üzerinden bildirin.",
       "BACK_TO_PROVIDER": "Sağlayıcıya dön",
-      "BACK_TO_MODEL": "Modele dön"
+      "BACK_TO_MODEL": "Modele dön",
+      "PUBLISHED_NOTE": "Sunucuda doğrulandı. Problar ve yanıtlar herkesin bu kararı denetleyebilmesi için herkese açıktır.",
+      "LOADING": "Yükleniyor ..."
     },
     "PROBE_DETAIL": {
       "PROMPT": "Gonderilen istem",

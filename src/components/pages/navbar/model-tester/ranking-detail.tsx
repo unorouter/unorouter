@@ -154,7 +154,18 @@ export function RankingDetail(props: { host: string; model: string }) {
                     className="flex items-center justify-between gap-3 px-5 py-3"
                   >
                     <RankPill rank={i + 1} />
-                    <div className="flex min-w-0 flex-1 flex-col">
+                    <Link
+                      href={{
+                        pathname:
+                          "/ai-api-model-tester/rankings/[host]/[model]/[test]",
+                        params: {
+                          host: encodeURIComponent(props.host),
+                          model: encodeURIComponent(props.model),
+                          test: row.id,
+                        },
+                      }}
+                      className="flex min-w-0 flex-1 flex-col"
+                    >
                       <span className="flex items-center gap-2 text-sm">
                         <Badge
                           variant={VERDICT_BADGE[row.verdict] ?? "secondary"}
@@ -189,7 +200,7 @@ export function RankingDetail(props: { host: string; model: string }) {
                           : ""}
                         {row.transport ? ` · ${row.transport}` : ""}
                       </span>
-                    </div>
+                    </Link>
                     {mine ? (
                       <Button
                         size="sm"

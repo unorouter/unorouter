@@ -86,6 +86,8 @@ export const queryKeys = {
     ["model-tester-provider", host] as const,
   modelTesterRankingDetail: (host: string, model: string) =>
     ["model-tester-ranking", host, model] as const,
+  modelTesterPublishedTest: (id: string) =>
+    ["model-tester-published-test", id] as const,
 
   perfMetricsSummary: (hours: number) =>
     ["perf-metrics", "summary", hours] as const,

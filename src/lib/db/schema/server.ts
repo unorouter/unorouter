@@ -232,6 +232,34 @@ export type AcpCheckoutSession = typeof acpCheckoutSessions.$inferSelect;
 export type LoraCatalogEntry = typeof loraCatalog.$inferSelect;
 export type EmbeddingCatalogEntry = typeof embeddingCatalog.$inferSelect;
 export type UpscalerCatalogEntry = typeof upscalerCatalog.$inferSelect;
+// Probe evidence for a published test. Public on purpose: the prompts are ours
+// (open source) and the responses are normal model answers (capped ~2000 chars,
+// no key, no user data), so the board can show WHY a verdict was reached.
+export const publishedProbes = sqliteTable(
+  "published_probes",
+  {
+    id: text("id")
+      .primaryKey()
+      .$defaultFn(() => uid()),
+    testId: text("test_id")
+      .notNull()
+      .references(() => publishedTests.id, { onDelete: "cascade" }),
+    orderIndex: integer("order_index").notNull().default(0),
+    label: text("label").notNull(),
+    prompt: text("prompt").notNull(),
+    responseText: text("response_text"),
+    httpStatus: integer("http_status"),
+    pass: integer("pass", { mode: "boolean" }).notNull().default(false),
+    signal: text("signal"),
+    reason: text("reason"),
+    promptTokens: integer("prompt_tokens"),
+    completionTokens: integer("completion_tokens"),
+    latencyMs: integer("latency_ms").notNull().default(0),
+  },
+  (table) => [index("idx_pubprobe_test").on(table.testId, table.orderIndex)],
+);
+
 export type PublishedProvider = typeof publishedProviders.$inferSelect;
 export type PublishedModel = typeof publishedModels.$inferSelect;
 export type PublishedTest = typeof publishedTests.$inferSelect;
+export type PublishedProbe = typeof publishedProbes.$inferSelect;
