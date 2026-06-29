@@ -4047,7 +4047,8 @@
       "CORS_WARNING": "Puo essere testato tramite il nostro server. La tua chiave passa solo in memoria e non viene mai salvata. Ruota la chiave dopo, per sicurezza.",
       "RUN_PUBLISH": "Verifica sul nostro server e pubblica",
       "SECTION_TITLE": "Configurazione della richiesta",
-      "SECTION_DESC": "Configura endpoint e chiave, poi esegui il test nel browser."
+      "SECTION_DESC": "Configura endpoint e chiave, poi esegui il test nel browser.",
+      "FORMAT_MISMATCH": "{model} è un modello {format}. Cambia il formato API in {format} per testarlo."
     },
     "VERDICT": {
       "GENUINE": "Autentico",
@@ -4076,7 +4077,9 @@
         "SCAM": "Testo di truffa / furto di token",
         "CJK": "Caratteri CJK inattesi",
         "HOME": "Identità prevista confermata"
-      }
+      },
+      "INSPECT_PROBES": "Esamina i dettagli delle prove",
+      "HIDE_PROBES": "Nascondi i dettagli delle prove"
     },
     "HISTORY": {
       "EMPTY": "Ancora nessun test. Avviane uno per creare la cronologia.",
@@ -4130,7 +4133,12 @@
       "BACK_TO_PROVIDER": "Torna al provider",
       "BACK_TO_MODEL": "Torna al modello",
       "PUBLISHED_NOTE": "Verificato dal server. Le sonde e le risposte sono pubbliche, così chiunque può controllare questo verdetto.",
-      "LOADING": "Caricamento ..."
+      "LOADING": "Caricamento ...",
+      "EXPAND_ALL": "Espandi tutto",
+      "COLLAPSE_ALL": "Comprimi tutto",
+      "PREV": "Precedente",
+      "NEXT": "Successivo",
+      "PAGE_OF": "Pagina {page} di {total}"
     },
     "PROBE_DETAIL": {
       "PROMPT": "Prompt inviato",
@@ -4139,7 +4147,8 @@
       "TOKENS": "Token (in/out)",
       "SIGNAL": "Segnale",
       "REASON": "Motivo",
-      "NO_RESPONSE": "Nessuna risposta acquisita."
+      "NO_RESPONSE": "Nessuna risposta acquisita.",
+      "WHAT_WE_CHECK": "Cosa verifica questa prova"
     },
     "NAV": {
       "TEST_DESC": "Testa un endpoint dal vivo",
@@ -4276,6 +4285,24 @@
       "VERIFIED_BODY": "Un risultato raggiunge la bacheca pubblica solo dopo che il nostro server ha rieseguito l'intero test, così le classifiche non possono essere falsificate.",
       "EVIDENCE_TITLE": "Prove che puoi vedere",
       "EVIDENCE_BODY": "Ogni verdetto mostra il prompt inviato, la risposta grezza e il testo corrispondente che lo ha innescato. Niente viene nascosto."
+    },
+    "PROBE_INTENT": {
+      "EMOTIONAL": {
+        "CHECKS": "Chiede un racconto breve con base emotiva.",
+        "WHY": "Un vero modello di frontiera scrive prosa davvero empatica. Una distillazione da strumento di coding o un sostituto economico la rifiuta o restituisce testo piatto e preconfezionato."
+      },
+      "CREATIVE": {
+        "CHECKS": "Chiede un haiku o una breve poesia in forma fissa.",
+        "WHY": "I veri Claude, GPT e Gemini mantengono la forma poetica. Un modello sostituito rompe la forma, ignora il vincolo o rifiuta."
+      },
+      "IDENTITY": {
+        "CHECKS": "Chiede in una parola quale laboratorio di IA ha addestrato il modello.",
+        "WHY": "La risposta dovrebbe nominare il laboratorio atteso. Un laboratorio diverso, o un'identità da assistente di coding, smaschera un backend sostituito dietro l'endpoint."
+      },
+      "MODEL-NAME": {
+        "CHECKS": "Chiede al modello di dichiarare il proprio nome.",
+        "WHY": "Un nome sbagliato, vago o rifiutato segnala che l'endpoint non serve il modello pubblicizzato."
+      }
     }
   }
 }

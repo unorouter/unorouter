@@ -7,6 +7,7 @@ import {
   publishedTests,
 } from "@/lib/db/schema/server";
 import { GUEST_USER_ID } from "@/lib/config/constants";
+import { providerForModel } from "@/lib/ai/verify/models";
 import { runServerVerification } from "./server-verify.service";
 import { and, desc, eq, gt, isNotNull, ne, sql } from "drizzle-orm";
 import type {
@@ -97,6 +98,14 @@ export async function verifyAndPublish(
   | { published: false; deduped: true }
   | { published: false; error: string }
 > {
+  // Hard block a format/model mismatch: a model whose id resolves to a known
+  // format (e.g. a claude id) may only be published under that format. Stops a
+  // claude id being submitted on the OpenAI wire (UI auto-corrects, direct API
+  // calls do not). Unknown/custom ids carry no inferred format and pass through.
+  const inferred = providerForModel(body.model);
+  if (inferred !== null && inferred !== body.provider)
+    return { published: false, error: "format-mismatch" };
+
   const db = getDb();
   const kind = body.provider;
   let host = body.baseUrl;

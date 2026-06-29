@@ -4047,7 +4047,8 @@
       "CORS_WARNING": "可以改為透過我們的伺服器檢測。你的金鑰僅經過記憶體，絕不儲存。為安全起見，請在之後更換金鑰。",
       "RUN_PUBLISH": "在我們的伺服器上驗證並發佈",
       "SECTION_TITLE": "請求配置",
-      "SECTION_DESC": "配置端點和金鑰，然後在瀏覽器中執行檢測。"
+      "SECTION_DESC": "配置端點和金鑰，然後在瀏覽器中執行檢測。",
+      "FORMAT_MISMATCH": "{model} 是 {format} 模型。請將 API 格式切換為 {format} 後再測試。"
     },
     "VERDICT": {
       "GENUINE": "真實",
@@ -4076,7 +4077,9 @@
         "SCAM": "詐騙／竊取權杖文字",
         "CJK": "意外的 CJK 字元",
         "HOME": "符合預期的身分"
-      }
+      },
+      "INSPECT_PROBES": "查看探測詳情",
+      "HIDE_PROBES": "隱藏探測詳情"
     },
     "HISTORY": {
       "EMPTY": "尚無檢測記錄。執行一次以建立歷史。",
@@ -4130,7 +4133,12 @@
       "BACK_TO_PROVIDER": "返回提供商",
       "BACK_TO_MODEL": "返回模型",
       "PUBLISHED_NOTE": "伺服器已驗證。探測與回覆皆公開，任何人都可以稽核此判定。",
-      "LOADING": "載入中"
+      "LOADING": "載入中",
+      "EXPAND_ALL": "全部展開",
+      "COLLAPSE_ALL": "全部收合",
+      "PREV": "上一頁",
+      "NEXT": "下一頁",
+      "PAGE_OF": "第 {page} 頁，共 {total} 頁"
     },
     "PROBE_DETAIL": {
       "PROMPT": "傳送的提示",
@@ -4139,7 +4147,8 @@
       "TOKENS": "權杖（入/出）",
       "SIGNAL": "信號",
       "REASON": "原因",
-      "NO_RESPONSE": "未擷取到回應。"
+      "NO_RESPONSE": "未擷取到回應。",
+      "WHAT_WE_CHECK": "此探測檢查什麼"
     },
     "NAV": {
       "TEST_DESC": "即時檢測端點",
@@ -4276,6 +4285,24 @@
       "VERIFIED_BODY": "結果只有在我們的伺服器親自重新執行整套測試之後才會登上公開榜單，因此排名無法偽造。",
       "EVIDENCE_TITLE": "你能看見的證據",
       "EVIDENCE_BODY": "每筆判定都會顯示傳送的提示、原始回覆，以及觸發它的相符文字。沒有任何東西被隱藏。"
+    },
+    "PROBE_INTENT": {
+      "EMOTIONAL": {
+        "CHECKS": "要求寫一個簡短、有情感基礎的故事。",
+        "WHY": "真正的前沿模型會寫出真正有同理心的文字。程式工具蒸餾版或廉價替代品會拒絕，或回傳平淡的套話。"
+      },
+      "CREATIVE": {
+        "CHECKS": "要求按固定形式寫一首俳句或短詩。",
+        "WHY": "真正的Claude、GPT和Gemini會保持詩歌形式。被替換的模型會破壞形式、忽略限制或拒絕。"
+      },
+      "IDENTITY": {
+        "CHECKS": "用一個詞詢問是哪個AI實驗室訓練了該模型。",
+        "WHY": "答案應說出預期的實驗室。換成別的實驗室，或暴露出程式助手身分，就揭穿了端點背後被替換的後端。"
+      },
+      "MODEL-NAME": {
+        "CHECKS": "要求模型說出自己的模型名稱。",
+        "WHY": "名稱錯誤、含糊或拒答，說明該端點提供的並非其所宣傳的模型。"
+      }
     }
   }
 }

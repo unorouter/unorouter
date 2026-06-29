@@ -4047,7 +4047,8 @@
       "CORS_WARNING": "Thay vao do co the kiem tra qua may chu cua chung toi. Khoa cua ban chi di qua bo nho va khong bao gio duoc luu. Hay doi khoa sau do de an toan.",
       "RUN_PUBLISH": "Xac minh tren may chu cua chung toi va dang",
       "SECTION_TITLE": "Cau hinh yeu cau",
-      "SECTION_DESC": "Cau hinh diem cuoi va khoa, sau do chay bai kiem tra trong trinh duyet cua ban."
+      "SECTION_DESC": "Cau hinh diem cuoi va khoa, sau do chay bai kiem tra trong trinh duyet cua ban.",
+      "FORMAT_MISMATCH": "{model} là mô hình {format}. Hãy đổi định dạng API sang {format} để kiểm tra."
     },
     "VERDICT": {
       "GENUINE": "That",
@@ -4076,7 +4077,9 @@
         "SCAM": "Văn bản lừa đảo / đánh cắp token",
         "CJK": "Ký tự CJK ngoài dự kiến",
         "HOME": "Khớp danh tính như dự kiến"
-      }
+      },
+      "INSPECT_PROBES": "Xem chi tiết phép thử",
+      "HIDE_PROBES": "Ẩn chi tiết phép thử"
     },
     "HISTORY": {
       "EMPTY": "Chua co bai kiem tra nao. Chay mot bai de tao lich su.",
@@ -4130,7 +4133,12 @@
       "BACK_TO_PROVIDER": "Quay lại nhà cung cấp",
       "BACK_TO_MODEL": "Quay lại mô hình",
       "PUBLISHED_NOTE": "Đã xác minh phía máy chủ. Các phép thử và phản hồi đều công khai để bất kỳ ai cũng có thể kiểm chứng phán quyết này.",
-      "LOADING": "Đang tải ..."
+      "LOADING": "Đang tải ...",
+      "EXPAND_ALL": "Mở rộng tất cả",
+      "COLLAPSE_ALL": "Thu gọn tất cả",
+      "PREV": "Trước",
+      "NEXT": "Sau",
+      "PAGE_OF": "Trang {page} trên {total}"
     },
     "PROBE_DETAIL": {
       "PROMPT": "Loi nhac da gui",
@@ -4139,7 +4147,8 @@
       "TOKENS": "Token (vao/ra)",
       "SIGNAL": "Tin hieu",
       "REASON": "Ly do",
-      "NO_RESPONSE": "Khong co phan hoi nao duoc ghi lai."
+      "NO_RESPONSE": "Khong co phan hoi nao duoc ghi lai.",
+      "WHAT_WE_CHECK": "Phép thử này kiểm tra gì"
     },
     "NAV": {
       "TEST_DESC": "Kiem tra diem cuoi truc tiep",
@@ -4276,6 +4285,24 @@
       "VERIFIED_BODY": "Một kết quả chỉ lên bảng công khai sau khi máy chủ của chúng tôi tự chạy lại toàn bộ bài kiểm tra, nên các bảng xếp hạng không thể bị làm giả.",
       "EVIDENCE_TITLE": "Bằng chứng bạn có thể thấy",
       "EVIDENCE_BODY": "Mỗi phán quyết đều cho thấy lời nhắc đã gửi, câu trả lời thô và đoạn văn bản khớp đã kích hoạt nó. Không có gì bị che giấu."
+    },
+    "PROBE_INTENT": {
+      "EMOTIONAL": {
+        "CHECKS": "Yêu cầu một câu chuyện ngắn có nền tảng cảm xúc.",
+        "WHY": "Một mô hình tiên phong thực thụ viết văn xuôi thực sự đồng cảm. Bản chưng cất từ công cụ lập trình hay bản thay thế rẻ tiền sẽ từ chối hoặc trả về văn bản nhạt nhẽo, rập khuôn."
+      },
+      "CREATIVE": {
+        "CHECKS": "Yêu cầu một bài haiku hoặc bài thơ ngắn theo thể cố định.",
+        "WHY": "Claude, GPT và Gemini thật giữ đúng thể thơ. Mô hình bị thay thế phá vỡ thể thơ, bỏ qua ràng buộc hoặc từ chối."
+      },
+      "IDENTITY": {
+        "CHECKS": "Hỏi bằng một từ phòng thí nghiệm AI nào đã huấn luyện mô hình.",
+        "WHY": "Câu trả lời phải nêu đúng phòng thí nghiệm dự kiến. Một phòng thí nghiệm khác, hoặc danh tính trợ lý lập trình, lộ ra backend bị tráo phía sau điểm cuối."
+      },
+      "MODEL-NAME": {
+        "CHECKS": "Yêu cầu mô hình nêu tên mô hình của chính nó.",
+        "WHY": "Tên sai, mơ hồ hoặc bị từ chối cho thấy điểm cuối không phục vụ mô hình như quảng cáo."
+      }
     }
   }
 }

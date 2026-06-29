@@ -4047,7 +4047,8 @@
       "CORS_WARNING": "Mozna go przetestowac przez nasz serwer. Twoj klucz przechodzi tylko przez pamiec i nigdy nie jest przechowywany. Dla bezpieczenstwa zmien potem klucz.",
       "RUN_PUBLISH": "Zweryfikuj na naszym serwerze i opublikuj",
       "SECTION_TITLE": "Konfiguracja zadania",
-      "SECTION_DESC": "Skonfiguruj punkt koncowy i klucz, a nastepnie uruchom test w przegladarce."
+      "SECTION_DESC": "Skonfiguruj punkt koncowy i klucz, a nastepnie uruchom test w przegladarce.",
+      "FORMAT_MISMATCH": "{model} to model {format}. Zmień format API na {format}, aby go przetestować."
     },
     "VERDICT": {
       "GENUINE": "Autentyczny",
@@ -4076,7 +4077,9 @@
         "SCAM": "Tekst oszustwa / kradzieży tokenów",
         "CJK": "Nieoczekiwane znaki CJK",
         "HOME": "Zgodność oczekiwanej tożsamości"
-      }
+      },
+      "INSPECT_PROBES": "Zobacz szczegóły testów",
+      "HIDE_PROBES": "Ukryj szczegóły testów"
     },
     "HISTORY": {
       "EMPTY": "Brak testow. Uruchom jeden, aby zbudowac historie.",
@@ -4130,7 +4133,12 @@
       "BACK_TO_PROVIDER": "Powrót do dostawcy",
       "BACK_TO_MODEL": "Powrót do modelu",
       "PUBLISHED_NOTE": "Zweryfikowane po stronie serwera. Sondy i odpowiedzi są publiczne, więc każdy może zweryfikować ten werdykt.",
-      "LOADING": "Ładowanie ..."
+      "LOADING": "Ładowanie ...",
+      "EXPAND_ALL": "Rozwiń wszystko",
+      "COLLAPSE_ALL": "Zwiń wszystko",
+      "PREV": "Wstecz",
+      "NEXT": "Dalej",
+      "PAGE_OF": "Strona {page} z {total}"
     },
     "PROBE_DETAIL": {
       "PROMPT": "Wyslany prompt",
@@ -4139,7 +4147,8 @@
       "TOKENS": "Tokeny (we/wy)",
       "SIGNAL": "Sygnal",
       "REASON": "Powod",
-      "NO_RESPONSE": "Nie przechwycono odpowiedzi."
+      "NO_RESPONSE": "Nie przechwycono odpowiedzi.",
+      "WHAT_WE_CHECK": "Co sprawdza ten test"
     },
     "NAV": {
       "TEST_DESC": "Przetestuj punkt koncowy na zywo",
@@ -4276,6 +4285,24 @@
       "VERIFIED_BODY": "Wynik trafia na publiczną tablicę dopiero po tym, jak nasz serwer sam ponownie przeprowadzi cały test, więc rankingów nie da się sfałszować.",
       "EVIDENCE_TITLE": "Dowody, które możesz zobaczyć",
       "EVIDENCE_BODY": "Każdy werdykt pokazuje wysłane polecenie, surową odpowiedź i pasujący tekst, który go wywołał. Nic nie jest ukrywane."
+    },
+    "PROBE_INTENT": {
+      "EMOTIONAL": {
+        "CHECKS": "Prosi o krótką, emocjonalnie osadzoną historię.",
+        "WHY": "Prawdziwy model z czołówki pisze naprawdę empatyczną prozę. Destylat narzędzia do kodowania lub tani zamiennik odmawia albo zwraca płaski, gotowy tekst."
+      },
+      "CREATIVE": {
+        "CHECKS": "Prosi o haiku lub krótki wiersz w ustalonej formie.",
+        "WHY": "Prawdziwe Claude, GPT i Gemini trzymają formę poetycką. Podmieniony model łamie formę, ignoruje ograniczenie lub odmawia."
+      },
+      "IDENTITY": {
+        "CHECKS": "Pyta jednym słowem, które laboratorium AI wytrenowało model.",
+        "WHY": "Odpowiedź powinna wskazać oczekiwane laboratorium. Inne laboratorium lub tożsamość asystenta kodowania ujawnia podmieniony backend za punktem końcowym."
+      },
+      "MODEL-NAME": {
+        "CHECKS": "Prosi model o podanie własnej nazwy modelu.",
+        "WHY": "Błędna, niejasna lub odmówiona nazwa sygnalizuje, że punkt końcowy nie udostępnia reklamowanego modelu."
+      }
     }
   }
 }

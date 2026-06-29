@@ -8,7 +8,7 @@ import {
   testerTests,
 } from "@/lib/db/schema/client";
 import { uid as genId } from "@/lib/utils/base";
-import { and, desc, eq, sql } from "drizzle-orm";
+import { and, desc, eq, inArray, sql } from "drizzle-orm";
 import { getLocalDb } from "../client";
 import type { TesterProbeRow, TesterTestRow } from "@/lib/db/schema/rows";
 import type { VerifyResult } from "@/lib/ai/verify/types";
@@ -323,6 +323,59 @@ export async function readHistoryModelTests(
     )
     .orderBy(desc(testerTests.testedAt));
   return rows as TestListItem[];
+}
+
+// Full details (test + provider + model + probes) for every test of one model,
+// newest first. Powers the inline-accordion model-detail list (no deeper click).
+export async function readHistoryModelTestDetails(
+  userId: number | undefined,
+  host: string,
+  model: string,
+): Promise<TestDetail[]> {
+  const uid = userId ?? GUEST_USER_ID;
+  const local = await getLocalDb(uid);
+  if (!local) return [];
+  const db = local.db;
+
+  const tests = await db
+    .select({
+      test: testerTests,
+      kind: testerProviders.kind,
+      baseUrlHost: testerProviders.baseUrlHost,
+      requestedModel: testerModels.requestedModel,
+    })
+    .from(testerTests)
+    .innerJoin(testerModels, eq(testerModels.id, testerTests.modelId))
+    .innerJoin(testerProviders, eq(testerProviders.id, testerTests.providerId))
+    .where(
+      and(
+        eq(testerTests.userId, uid),
+        eq(testerProviders.baseUrlHost, host),
+        eq(testerModels.requestedModel, model),
+      ),
+    )
+    .orderBy(desc(testerTests.testedAt));
+  if (tests.length === 0) return [];
+
+  const ids = tests.map((r) => r.test.id);
+  const probes = await db
+    .select()
+    .from(testerProbes)
+    .where(inArray(testerProbes.testId, ids))
+    .orderBy(testerProbes.orderIndex);
+  const byTest = new Map<string, TesterProbeRow[]>();
+  for (const p of probes) {
+    const list = byTest.get(p.testId) ?? [];
+    list.push(p);
+    byTest.set(p.testId, list);
+  }
+
+  return tests.map((r) => ({
+    test: r.test,
+    provider: { kind: r.kind, baseUrlHost: r.baseUrlHost },
+    model: { requestedModel: r.requestedModel },
+    probes: byTest.get(r.test.id) ?? [],
+  }));
 }
 
 export async function readTestDetail(

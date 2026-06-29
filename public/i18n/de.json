@@ -4047,7 +4047,8 @@
       "CORS_WARNING": "Er kann stattdessen ueber unseren Server getestet werden. Dein Schluessel durchlaeuft nur den Speicher und wird nie gespeichert. Wechsle den Schluessel danach zur Sicherheit.",
       "RUN_PUBLISH": "Auf unserem Server pruefen und veroeffentlichen",
       "SECTION_TITLE": "Anfragekonfiguration",
-      "SECTION_DESC": "Konfiguriere Endpunkt und Schluessel und fuehre den Test im Browser aus."
+      "SECTION_DESC": "Konfiguriere Endpunkt und Schluessel und fuehre den Test im Browser aus.",
+      "FORMAT_MISMATCH": "{model} ist ein {format}-Modell. Wechsle das API-Format zu {format}, um es zu testen."
     },
     "VERDICT": {
       "GENUINE": "Echt",
@@ -4076,7 +4077,9 @@
         "SCAM": "Betrugs- / Token-Diebstahl-Text",
         "CJK": "Unerwartete CJK-Zeichen",
         "HOME": "Erwartete Identität stimmt überein"
-      }
+      },
+      "INSPECT_PROBES": "Probe-Details ansehen",
+      "HIDE_PROBES": "Probe-Details ausblenden"
     },
     "HISTORY": {
       "EMPTY": "Noch keine Tests. Starte einen, um deinen Verlauf aufzubauen.",
@@ -4130,7 +4133,12 @@
       "BACK_TO_PROVIDER": "Zurück zum Anbieter",
       "BACK_TO_MODEL": "Zurück zum Modell",
       "PUBLISHED_NOTE": "Serverseitig verifiziert. Die Tests und Antworten sind öffentlich, damit jeder dieses Urteil prüfen kann.",
-      "LOADING": "Wird geladen ..."
+      "LOADING": "Wird geladen ...",
+      "EXPAND_ALL": "Alle ausklappen",
+      "COLLAPSE_ALL": "Alle einklappen",
+      "PREV": "Zurück",
+      "NEXT": "Weiter",
+      "PAGE_OF": "Seite {page} von {total}"
     },
     "PROBE_DETAIL": {
       "PROMPT": "Gesendeter Prompt",
@@ -4139,7 +4147,8 @@
       "TOKENS": "Tokens (ein/aus)",
       "SIGNAL": "Signal",
       "REASON": "Grund",
-      "NO_RESPONSE": "Keine Antwort erfasst."
+      "NO_RESPONSE": "Keine Antwort erfasst.",
+      "WHAT_WE_CHECK": "Was diese Prüfung testet"
     },
     "NAV": {
       "TEST_DESC": "Endpunkt live testen",
@@ -4276,6 +4285,24 @@
       "VERIFIED_BODY": "Ein Ergebnis erreicht die öffentliche Tafel erst, nachdem unser Server den gesamten Test selbst erneut ausgeführt hat, sodass die Ranglisten nicht gefälscht werden können.",
       "EVIDENCE_TITLE": "Belege, die Sie sehen können",
       "EVIDENCE_BODY": "Jedes Urteil zeigt den gesendeten Prompt, die rohe Antwort und den passenden Text, der es ausgelöst hat. Nichts wird verborgen."
+    },
+    "PROBE_INTENT": {
+      "EMOTIONAL": {
+        "CHECKS": "Verlangt eine kurze, emotional verankerte Geschichte.",
+        "WHY": "Ein echtes Spitzenmodell schreibt wirklich einfühlsame Prosa. Ein Coding-Tool-Destillat oder billiger Ersatz verweigert das oder liefert flachen, vorgefertigten Text."
+      },
+      "CREATIVE": {
+        "CHECKS": "Verlangt ein Haiku oder kurzes Gedicht in fester Form.",
+        "WHY": "Echte Modelle wie Claude, GPT und Gemini halten die poetische Form ein. Ein ausgetauschtes Modell bricht die Form, ignoriert die Vorgabe oder lehnt ab."
+      },
+      "IDENTITY": {
+        "CHECKS": "Fragt in einem Wort, welches KI-Labor das Modell trainiert hat.",
+        "WHY": "Die Antwort sollte das erwartete Labor nennen. Ein anderes Labor oder eine Coding-Assistenten-Identität entlarvt ein ausgetauschtes Backend hinter dem Endpunkt."
+      },
+      "MODEL-NAME": {
+        "CHECKS": "Fordert das Modell auf, seinen eigenen Modellnamen zu nennen.",
+        "WHY": "Ein falscher, vager oder verweigerter Name zeigt, dass der Endpunkt nicht das beworbene Modell ausliefert."
+      }
     }
   }
 }

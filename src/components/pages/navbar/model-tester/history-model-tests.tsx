@@ -1,6 +1,5 @@
 "use client";
 
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { confirm } from "@/components/ui/confirm";
 import { Icon } from "@/components/ui/icon";
@@ -11,28 +10,25 @@ import {
 import { Link } from "@/i18n/navigation";
 import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
-import { RankPill } from "./rank-bar";
-import type { TestListItem } from "@/lib/db/client/data/tester";
-import type { TranslationKey } from "@/lib/types";
+import { useState } from "react";
+import { fromTestDetail } from "./result-adapters";
+import { TestResultCard } from "./test-result-card";
+import type { TestDetail } from "@/lib/db/client/data/tester";
 
-const VERDICT_BADGE: Record<string, "default" | "destructive" | "secondary"> = {
-  genuine: "default",
-  suspicious: "destructive",
-  unverified: "secondary",
-};
-const VERDICT_KEY: Record<string, TranslationKey> = {
-  genuine: "MODEL_TESTER.VERDICT.GENUINE",
-  suspicious: "MODEL_TESTER.VERDICT.SUSPICIOUS",
-  unverified: "MODEL_TESTER.VERDICT.UNVERIFIED",
-};
+const PAGE_SIZE = 5;
 
 export function HistoryModelTests(props: { host: string; model: string }) {
   const t = useTranslations();
   const testsQuery = useHistoryModelTests(props.host, props.model);
   const deleteTest = useDeleteTest();
+  const [page, setPage] = useState(0);
   const rows = testsQuery.data ?? [];
 
-  async function onDelete(row: TestListItem) {
+  const pageCount = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
+  const current = Math.min(page, pageCount - 1);
+  const pageRows = rows.slice(current * PAGE_SIZE, current * PAGE_SIZE + PAGE_SIZE);
+
+  async function onDelete(detail: TestDetail) {
     const ok = await confirm({
       title: t("MODEL_TESTER.HISTORY.DELETE_TITLE"),
       description: t("MODEL_TESTER.HISTORY.DELETE_BODY"),
@@ -40,7 +36,7 @@ export function HistoryModelTests(props: { host: string; model: string }) {
       cancelLabel: t("MODEL_TESTER.HISTORY.DELETE_CANCEL"),
       destructive: true,
     });
-    if (ok) deleteTest.mutate(row.id);
+    if (ok) deleteTest.mutate(detail.test.id);
   }
 
   return (
@@ -56,64 +52,62 @@ export function HistoryModelTests(props: { host: string; model: string }) {
         {t("MODEL_TESTER.DETAIL.BACK_TO_PROVIDER")}
       </Link>
 
-      <section className="bg-card overflow-hidden rounded-lg border">
-        <header className="flex flex-col gap-0.5 border-b px-5 py-4">
-          <span className="text-base font-semibold">{props.model}</span>
-          <span className="text-muted-foreground text-xs">{props.host}</span>
-        </header>
-        {rows.length === 0 ? (
-          <p className="text-muted-foreground py-8 text-center text-sm">
-            {t("MODEL_TESTER.HISTORY.EMPTY")}
-          </p>
-        ) : (
-          <div className="divide-border divide-y">
-            {rows.map((row, i) => (
-              <div
-                key={row.id}
-                className="flex items-center justify-between gap-3 px-5 py-3"
-              >
-                <RankPill rank={i + 1} />
-                <Link
-                  href={{
-                    pathname: "/ai-api-model-tester/history/[id]",
-                    params: { id: row.id },
-                  }}
-                  className="flex min-w-0 flex-1 flex-col gap-1"
-                >
-                  <span className="flex items-center gap-2 text-sm">
-                    <Badge variant={VERDICT_BADGE[row.verdict] ?? "secondary"}>
-                      {t(
-                        VERDICT_KEY[row.verdict] ??
-                          "MODEL_TESTER.VERDICT.UNVERIFIED",
-                      )}
-                    </Badge>
-                    <span className="text-muted-foreground">
-                      {row.probesPassed}/{row.probesTotal}
-                    </span>
-                    {row.publishedAt ? (
-                      <Icon
-                        name="cloud-upload"
-                        className="text-muted-foreground size-3.5"
-                      />
-                    ) : null}
-                  </span>
-                  <span className="text-muted-foreground truncate font-mono text-[11px] tabular-nums">
-                    {Math.round(row.latencyMs)}ms ·{" "}
-                    {dayjs(row.testedAt).fromNow()}
-                  </span>
-                </Link>
-                <Button
-                  size="icon"
-                  variant="ghost"
-                  onClick={() => onDelete(row)}
-                >
-                  <Icon name="trash-2" className="size-4" />
-                </Button>
-              </div>
+      <div className="flex flex-col gap-0.5">
+        <span className="text-base font-semibold">{props.model}</span>
+        <span className="text-muted-foreground text-xs">{props.host}</span>
+      </div>
+
+      {rows.length === 0 ? (
+        <p className="text-muted-foreground py-8 text-center text-sm">
+          {t("MODEL_TESTER.HISTORY.EMPTY")}
+        </p>
+      ) : (
+        <>
+          <div className="flex flex-col gap-3">
+            {pageRows.map((detail) => (
+              <TestResultCard
+                key={detail.test.id}
+                result={fromTestDetail(detail)}
+                timestamp={dayjs(detail.test.testedAt).fromNow()}
+                onDelete={() => onDelete(detail)}
+              />
             ))}
           </div>
-        )}
-      </section>
+
+          {pageCount > 1 ? (
+            <div className="flex items-center justify-center gap-3 pt-1">
+              <Button
+                size="sm"
+                variant="outline"
+                disabled={current === 0}
+                onClick={() => setPage(current - 1)}
+              >
+                <Icon name="chevron-left" className="size-4" />
+                {t("MODEL_TESTER.DETAIL.PREV")}
+              </Button>
+              <span className="text-muted-foreground text-sm tabular-nums">
+                {t("MODEL_TESTER.DETAIL.PAGE_OF", {
+                  page: current + 1,
+                  total: pageCount,
+                })}
+              </span>
+              <Button
+                size="sm"
+                variant="outline"
+                disabled={current >= pageCount - 1}
+                onClick={() => setPage(current + 1)}
+              >
+                {t("MODEL_TESTER.DETAIL.NEXT")}
+                <Icon name="chevron-right" className="size-4" />
+              </Button>
+            </div>
+          ) : null}
+
+          <p className="text-muted-foreground text-xs">
+            {t("MODEL_TESTER.DETAIL.LOCAL_ONLY")}
+          </p>
+        </>
+      )}
     </div>
   );
 }

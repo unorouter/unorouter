@@ -4047,7 +4047,8 @@
       "CORS_WARNING": "Sebagai gantinya dapat diuji melalui server kami. Kunci Anda hanya melewati memori dan tidak pernah disimpan. Ganti kunci sesudahnya untuk keamanan.",
       "RUN_PUBLISH": "Verifikasi di server kami & publikasikan",
       "SECTION_TITLE": "Konfigurasi permintaan",
-      "SECTION_DESC": "Konfigurasikan endpoint dan kunci, lalu jalankan uji di browser Anda."
+      "SECTION_DESC": "Konfigurasikan endpoint dan kunci, lalu jalankan uji di browser Anda.",
+      "FORMAT_MISMATCH": "{model} adalah model {format}. Ganti format API ke {format} untuk mengujinya."
     },
     "VERDICT": {
       "GENUINE": "Asli",
@@ -4076,7 +4077,9 @@
         "SCAM": "Teks penipuan / pencurian token",
         "CJK": "Karakter CJK tak terduga",
         "HOME": "Identitas yang diharapkan cocok"
-      }
+      },
+      "INSPECT_PROBES": "Lihat detail probe",
+      "HIDE_PROBES": "Sembunyikan detail probe"
     },
     "HISTORY": {
       "EMPTY": "Belum ada uji. Jalankan satu untuk membangun riwayat Anda.",
@@ -4130,7 +4133,12 @@
       "BACK_TO_PROVIDER": "Kembali ke penyedia",
       "BACK_TO_MODEL": "Kembali ke model",
       "PUBLISHED_NOTE": "Diverifikasi server. Probe dan balasan bersifat publik sehingga siapa pun dapat mengaudit putusan ini.",
-      "LOADING": "Memuat ..."
+      "LOADING": "Memuat ...",
+      "EXPAND_ALL": "Buka semua",
+      "COLLAPSE_ALL": "Tutup semua",
+      "PREV": "Sebelumnya",
+      "NEXT": "Berikutnya",
+      "PAGE_OF": "Halaman {page} dari {total}"
     },
     "PROBE_DETAIL": {
       "PROMPT": "Prompt yang dikirim",
@@ -4139,7 +4147,8 @@
       "TOKENS": "Token (masuk/keluar)",
       "SIGNAL": "Sinyal",
       "REASON": "Alasan",
-      "NO_RESPONSE": "Tidak ada respons yang ditangkap."
+      "NO_RESPONSE": "Tidak ada respons yang ditangkap.",
+      "WHAT_WE_CHECK": "Apa yang diperiksa probe ini"
     },
     "NAV": {
       "TEST_DESC": "Uji endpoint langsung",
@@ -4276,6 +4285,24 @@
       "VERIFIED_BODY": "Sebuah hasil baru mencapai papan publik setelah server kami menjalankan ulang seluruh pengujian itu sendiri, sehingga peringkat tak dapat dipalsukan.",
       "EVIDENCE_TITLE": "Bukti yang bisa Anda lihat",
       "EVIDENCE_BODY": "Setiap putusan menampilkan prompt yang dikirim, balasan mentah, dan teks cocok yang memicunya. Tak ada yang disembunyikan."
+    },
+    "PROBE_INTENT": {
+      "EMOTIONAL": {
+        "CHECKS": "Meminta cerita pendek yang berlandaskan emosi.",
+        "WHY": "Model frontier asli menulis prosa yang benar-benar empatik. Distilasi alat coding atau pengganti murah menolaknya atau mengembalikan teks datar yang sudah jadi."
+      },
+      "CREATIVE": {
+        "CHECKS": "Meminta haiku atau puisi pendek dalam bentuk baku.",
+        "WHY": "Claude, GPT, dan Gemini asli menjaga bentuk puitis. Model yang diganti merusak bentuk, mengabaikan batasan, atau menolak."
+      },
+      "IDENTITY": {
+        "CHECKS": "Menanyakan dalam satu kata lab AI mana yang melatih model.",
+        "WHY": "Jawaban seharusnya menyebut lab yang diharapkan. Lab yang berbeda, atau identitas asisten coding, membongkar backend yang ditukar di balik endpoint."
+      },
+      "MODEL-NAME": {
+        "CHECKS": "Meminta model menyebutkan nama modelnya sendiri.",
+        "WHY": "Nama yang salah, kabur, atau ditolak menandakan endpoint tidak menyajikan model yang diiklankan."
+      }
     }
   }
 }
