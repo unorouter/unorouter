@@ -7,7 +7,6 @@ import { Link } from "@/i18n/navigation";
 import { vendorForRow } from "@/lib/ai/verify/models";
 import { useTranslations } from "next-intl";
 import { RankBar } from "./rank-bar";
-import type { VerifyProvider } from "@/lib/ai/verify/types";
 
 export function HistoryProviderDetail(props: { host: string }) {
   const t = useTranslations();
@@ -33,9 +32,7 @@ export function HistoryProviderDetail(props: { host: string }) {
         <section className="bg-card overflow-hidden rounded-lg border">
           <header className="flex items-center gap-2.5 border-b px-5 py-4">
             <VendorIcon
-              vendor={vendorForRow(
-                (data?.provider ?? "") as VerifyProvider,
-              )}
+              vendor={vendorForRow(data?.provider ?? models[0]!.provider)}
               size={22}
               className="shrink-0"
             />
@@ -91,10 +88,7 @@ export function HistoryProviderDetail(props: { host: string }) {
                   className="hover:bg-muted/30 flex items-center gap-3 px-4 py-3 transition-colors sm:gap-4 sm:px-5"
                 >
                   <VendorIcon
-                    vendor={vendorForRow(
-                      model.provider as VerifyProvider,
-                      model.requestedModel,
-                    )}
+                    vendor={vendorForRow(model.provider, model.requestedModel)}
                     size={22}
                     className="shrink-0"
                   />

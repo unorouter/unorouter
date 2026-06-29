@@ -180,6 +180,13 @@ export function TokenDialog(props: TokenDialogProps) {
   }
 
   function onSubmit(data: TokenFormSchema) {
+    if (!data.unlimited_quota && data.remain_quota <= 0) {
+      form.setError("remain_quota", {
+        type: "manual",
+        message: t("TOKEN.FORM.QUOTA_POSITIVE"),
+      });
+      return;
+    }
     const payload = {
       name: data.name.trim(),
       remain_quota: data.unlimited_quota ? 0 : data.remain_quota,
@@ -395,9 +402,9 @@ export function TokenDialog(props: TokenDialogProps) {
                                 quota: field.value.toLocaleString(),
                               })}
                             </span>
-                            {field.value === 0 && (
+                            {field.value <= 0 && (
                               <p className="text-muted-foreground text-[11px]">
-                                {t("TOKEN.FORM.QUOTA_FREE_ONLY_HINT")}
+                                {t("TOKEN.FORM.QUOTA_ZERO_HINT")}
                               </p>
                             )}
                             <MyFormError

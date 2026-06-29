@@ -14,7 +14,6 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { RankBar } from "./rank-bar";
 import { TESTER_LINKS } from "./links";
-import type { VerifyProvider } from "@/lib/ai/verify/types";
 
 const PAGE_SIZE = 20;
 
@@ -133,7 +132,7 @@ export function RankingsTable() {
                   className="hover:bg-muted/30 flex items-center gap-3 px-4 py-3 transition-colors sm:gap-4 sm:px-5"
                 >
                   <VendorIcon
-                    vendor={vendorForRow(row.provider as VerifyProvider)}
+                    vendor={vendorForRow(row.provider)}
                     size={22}
                     className="shrink-0"
                   />

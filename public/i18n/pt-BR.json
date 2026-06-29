@@ -2704,8 +2704,9 @@
       "IP_WHITELIST_DESC": "IPs podem ser falsificados. Use com gateway para aplicação mais forte.",
       "SUBMIT": "Criar",
       "SAVE": "Salvar",
-      "QUOTA_FREE_ONLY_HINT": "$0 cria uma chave apenas para modelos gratuitos. Modelos pagos são rejeitados.",
-      "QUOTA_EQUIVALENT": "= {quota} de cota"
+      "QUOTA_EQUIVALENT": "= {quota} de cota",
+      "QUOTA_POSITIVE": "A cota do token deve ser maior que 0. Ative a cota ilimitada para uma chave de modelos gratuitos.",
+      "QUOTA_ZERO_HINT": "Uma cota de 0 não funciona. Modelos gratuitos (terminados em :free) funcionam com qualquer chave válida."
     },
     "ENUM": {
       "ENABLED": "Ativada",

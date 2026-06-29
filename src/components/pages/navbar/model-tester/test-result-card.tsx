@@ -133,7 +133,11 @@ function HighlightedResponse(props: {
     props.label as ProbeLabel,
   );
   const kinds = Array.from(
-    new Set(segments.map((s) => s.kind).filter((k): k is NonNullable<HighlightKind> => k !== null)),
+    new Set(
+      segments
+        .map((s) => s.kind)
+        .filter((k): k is NonNullable<HighlightKind> => k !== null),
+    ),
   );
 
   return (
@@ -145,7 +149,9 @@ function HighlightedResponse(props: {
               key={kind}
               className="text-muted-foreground inline-flex items-center gap-1 text-[10px]"
             >
-              <span className={cn("size-2 rounded-full", HIGHLIGHT_CLASS[kind])} />
+              <span
+                className={cn("size-2 rounded-full", HIGHLIGHT_CLASS[kind])}
+              />
               {t(LEGEND_KEY[kind])}
             </span>
           ))}
@@ -154,7 +160,10 @@ function HighlightedResponse(props: {
       <pre className="bg-muted/50 max-h-48 overflow-auto rounded-md p-2 font-mono text-[11px] whitespace-pre-wrap">
         {segments.map((seg, i) =>
           seg.kind ? (
-            <mark key={i} className={cn("bg-transparent", HIGHLIGHT_CLASS[seg.kind])}>
+            <mark
+              key={i}
+              className={cn("bg-transparent", HIGHLIGHT_CLASS[seg.kind])}
+            >
               {seg.text}
             </mark>
           ) : (
@@ -224,7 +233,10 @@ function ProbeRow(props: { probe: ResultProbe; provider: VerifyProvider }) {
           {ruleTitleKey && ruleWhyKey ? (
             <div className="border-border/60 bg-muted/30 flex flex-col gap-1 rounded-md border p-2">
               <span className="text-foreground inline-flex items-center gap-1.5 font-medium">
-                <Icon name="triangle-alert" className="text-destructive size-3.5" />
+                <Icon
+                  name="triangle-alert"
+                  className="text-destructive size-3.5"
+                />
                 {t(ruleTitleKey)}
               </span>
               <span className="text-muted-foreground">{t(ruleWhyKey)}</span>

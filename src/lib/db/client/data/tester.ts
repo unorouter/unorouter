@@ -12,11 +12,12 @@ import { and, desc, eq, sql } from "drizzle-orm";
 import { getLocalDb } from "../client";
 import type { TesterProbeRow, TesterTestRow } from "@/lib/db/schema/rows";
 import type { VerifyResult } from "@/lib/ai/verify/types";
+import type { VerifyProviderValue } from "@/lib/validation/model-tester";
 
 // Aggregate rows for the grouped history (mirrors the rankings hierarchy).
 export type HistoryProviderRow = {
   baseUrlHost: string;
-  provider: string;
+  provider: VerifyProviderValue;
   modelCount: number;
   sampleCount: number;
   avgPassRate: number;
@@ -26,7 +27,7 @@ export type HistoryProviderRow = {
 
 export type HistoryModelRow = {
   baseUrlHost: string;
-  provider: string;
+  provider: VerifyProviderValue;
   requestedModel: string;
   sampleCount: number;
   avgPassRate: number;
@@ -38,7 +39,7 @@ export type HistoryModelRow = {
 // A history-list item: the test joined to its provider + model for display.
 export type TestListItem = {
   id: string;
-  provider: string;
+  provider: VerifyProviderValue;
   baseUrlHost: string;
   requestedModel: string;
   detectedModel: string | null;
@@ -52,7 +53,7 @@ export type TestListItem = {
 
 export type TestDetail = {
   test: TesterTestRow;
-  provider: { kind: string; baseUrlHost: string };
+  provider: { kind: VerifyProviderValue; baseUrlHost: string };
   model: { requestedModel: string };
   probes: TesterProbeRow[];
 };
@@ -231,7 +232,7 @@ export async function readHistoryProviders(
   const rows = await local.db
     .select({
       baseUrlHost: testerProviders.baseUrlHost,
-      provider: sql<string>`max(${testerProviders.kind})`,
+      provider: sql<VerifyProviderValue>`max(${testerProviders.kind})`,
       modelCount: sql<number>`count(distinct ${testerModels.requestedModel})`,
       sampleCount: sql<number>`count(*)`,
       avgPassRate: sql<number>`avg(cast(${testerTests.probesPassed} as real) / max(${testerTests.probesTotal}, 1))`,
@@ -254,14 +255,17 @@ export async function readHistoryProviders(
 export async function readHistoryModels(
   userId: number | undefined,
   host: string,
-): Promise<{ provider: string; models: HistoryModelRow[] }> {
+): Promise<{
+  provider: VerifyProviderValue | null;
+  models: HistoryModelRow[];
+}> {
   const uid = userId ?? GUEST_USER_ID;
   const local = await getLocalDb(uid);
-  if (!local) return { provider: "", models: [] };
+  if (!local) return { provider: null, models: [] };
   const rows = await local.db
     .select({
       baseUrlHost: testerProviders.baseUrlHost,
-      provider: sql<string>`max(${testerProviders.kind})`,
+      provider: sql<VerifyProviderValue>`max(${testerProviders.kind})`,
       requestedModel: testerModels.requestedModel,
       sampleCount: sql<number>`count(*)`,
       avgPassRate: sql<number>`avg(cast(${testerTests.probesPassed} as real) / max(${testerTests.probesTotal}, 1))`,
@@ -281,7 +285,7 @@ export async function readHistoryModels(
     ...r,
     lastTestedAt: new Date(r.lastTestedAt),
   })) as HistoryModelRow[];
-  return { provider: models[0]?.provider ?? "", models };
+  return { provider: models[0]?.provider ?? null, models };
 }
 
 // Level 3: every test for one provider+model (the user's runs).

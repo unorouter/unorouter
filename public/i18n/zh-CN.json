@@ -2704,8 +2704,9 @@
       "IP_WHITELIST_DESC": "IP 可能被伪造。建议配合网关使用以增强管控。",
       "SUBMIT": "创建",
       "SAVE": "保存",
-      "QUOTA_FREE_ONLY_HINT": "＄0 创建仅限免费模型的密钥。付费模型将被拒绝。",
-      "QUOTA_EQUIVALENT": "= {quota} 配额"
+      "QUOTA_EQUIVALENT": "= {quota} 配额",
+      "QUOTA_POSITIVE": "令牌额度必须大于 0。如需仅免费模型的密钥，请启用无限额度。",
+      "QUOTA_ZERO_HINT": "额度为 0 将无法使用。免费模型（以 :free 结尾）可用于任何有效密钥。"
     },
     "ENUM": {
       "ENABLED": "已启用",

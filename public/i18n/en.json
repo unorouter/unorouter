@@ -2704,8 +2704,9 @@
       "IP_WHITELIST_DESC": "IPs can be spoofed. Use with a gateway for stronger enforcement.",
       "SUBMIT": "Create",
       "SAVE": "Save",
-      "QUOTA_FREE_ONLY_HINT": "$0 makes a free models only key. Paid models are rejected.",
-      "QUOTA_EQUIVALENT": "= {quota} quota"
+      "QUOTA_EQUIVALENT": "= {quota} quota",
+      "QUOTA_POSITIVE": "Token quota must be greater than 0. Enable unlimited quota for a free-models key.",
+      "QUOTA_ZERO_HINT": "A quota of 0 won't work. Free models (ending in :free) work on any valid key."
     },
     "ENUM": {
       "ENABLED": "Enabled",

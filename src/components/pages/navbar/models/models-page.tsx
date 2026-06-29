@@ -8,7 +8,6 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { useModelsFilter } from "@/hooks/ui/use-models-hook";
 import { useModelsUrlSync } from "@/hooks/ui/use-models-url-sync";
 import { Link } from "@/i18n/navigation";
-import type { OutputModality } from "@/lib/api/model-modality";
 import { DataTableId } from "@/lib/types/enums";
 import { createTableAtoms } from "@/store/data-table-store";
 import { clearFiltersAtom, isDirtyAtom } from "@/store/models-store";
@@ -111,7 +110,7 @@ export function ModelsPage() {
           <div className="bg-background/95 supports-backdrop-blur:bg-background/80 sticky top-14 z-20 backdrop-blur">
             <ModalityTabs
               models={m.models}
-              value={m.outputModality as OutputModality}
+              value={m.outputModality}
               onChange={(value) => m.setOutputModality(value)}
             />
           </div>

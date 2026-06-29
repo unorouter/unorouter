@@ -57,7 +57,7 @@ export const editDraftAtom = atomWithStorage<GenerateDraft | null>(
   null,
 );
 
-type ModelParamsMemory = Record<string, Record<string, unknown>>;
+type ModelParamsMemory = Record<string, Partial<GenerationParams>>;
 
 export const samplerMemoryAtom = atomWithStorage<ModelParamsMemory>(
   "generate-sampler-memory-v1",

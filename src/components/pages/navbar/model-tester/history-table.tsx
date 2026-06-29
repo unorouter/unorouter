@@ -6,7 +6,6 @@ import { Link } from "@/i18n/navigation";
 import { vendorForRow } from "@/lib/ai/verify/models";
 import { useTranslations } from "next-intl";
 import { RankBar } from "./rank-bar";
-import type { VerifyProvider } from "@/lib/ai/verify/types";
 
 // Level 1 of the local history: the user's providers (grouped by host), mirroring
 // the public rankings layout.
@@ -64,7 +63,7 @@ export function HistoryTable() {
               className="hover:bg-muted/30 flex items-center gap-3 px-4 py-3 transition-colors sm:gap-4 sm:px-5"
             >
               <VendorIcon
-                vendor={vendorForRow(row.provider as VerifyProvider)}
+                vendor={vendorForRow(row.provider)}
                 size={22}
                 className="shrink-0"
               />

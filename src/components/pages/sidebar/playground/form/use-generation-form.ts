@@ -43,7 +43,7 @@ function defaultsFor(d: PlaygroundModelDescriptor): GenerationFormValues {
     params: { ...d.defaultParams },
     visibility: "private",
     ui: { variants: 1 },
-  } as GenerationFormValues;
+  };
 }
 
 function draftAtomFor(tab: GenerateTab) {
@@ -92,8 +92,7 @@ export function useGenerationForm() {
     const params = remembered
       ? { ...nextDesc.defaultParams, ...remembered }
       : { ...nextDesc.defaultParams };
-    // descriptor types sampler/scheduler as string; the params union narrows them, safe since values come from catalog.
-    form.setValue("params", params as GenerationFormValues["params"], {
+    form.setValue("params", params, {
       shouldDirty: true,
     });
     if (!nextDesc.supportsNegativePrompt) form.setValue("negativePrompt", "");
@@ -137,7 +136,7 @@ export function useGenerationForm() {
       references: data.references ?? undefined,
       visibility: "private",
       ui: { variants: 1 },
-    } as GenerationFormValues);
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [seedQuery.data, form]);
 
@@ -184,7 +183,7 @@ export function useGenerationForm() {
       loras: draft.loras,
       references: draft.references,
       ui: draft.extraParams ?? { variants: 1 },
-    } as GenerationFormValues);
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTab, remixId, draft, form]);
 
@@ -235,7 +234,7 @@ export function useGenerationForm() {
       loras: restorePayload.loras ?? undefined,
       references: restorePayload.references ?? undefined,
       ui: restorePayload.extraParams ?? { variants: 1 },
-    } as GenerationFormValues);
+    });
     setRestorePayload(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [restorePayload]);

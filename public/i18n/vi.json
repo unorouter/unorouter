@@ -2704,8 +2704,9 @@
       "IP_WHITELIST_DESC": "IP có thể bị giả mạo. Dùng kèm gateway để có hiệu lực mạnh hơn.",
       "SUBMIT": "Tạo",
       "SAVE": "Lưu",
-      "QUOTA_FREE_ONLY_HINT": "$0 tạo khóa chỉ dùng cho mô hình miễn phí. Mô hình trả phí sẽ bị từ chối.",
-      "QUOTA_EQUIVALENT": "= {quota} hạn mức"
+      "QUOTA_EQUIVALENT": "= {quota} hạn mức",
+      "QUOTA_POSITIVE": "Hạn mức token phải lớn hơn 0. Bật hạn mức không giới hạn để tạo khóa cho các mô hình miễn phí.",
+      "QUOTA_ZERO_HINT": "Hạn mức 0 sẽ không hoạt động. Các mô hình miễn phí (kết thúc bằng :free) hoạt động với bất kỳ khóa hợp lệ nào."
     },
     "ENUM": {
       "ENABLED": "Đã bật",

@@ -57,6 +57,9 @@ export const generationScheduler = t.Union([
   t.Literal("simple"),
 ]);
 
+export type GenerationSamplerValue = Static<typeof generationSampler>;
+export type GenerationSchedulerValue = Static<typeof generationScheduler>;
+
 // models.ts derives from these; prevents drift.
 export const GENERATION_SAMPLERS = unionLiterals(generationSampler);
 export const GENERATION_SCHEDULERS = unionLiterals(generationScheduler);

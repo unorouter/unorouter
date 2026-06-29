@@ -29,7 +29,10 @@ export function RankBar(props: { pct: number; lowN?: boolean }) {
       <div className="bg-muted relative h-2 flex-1 overflow-hidden rounded-[2px]">
         <div
           className="absolute inset-y-0 left-0 rounded-[2px]"
-          style={{ width: `${Math.max(props.pct, 2)}%`, backgroundColor: color }}
+          style={{
+            width: `${Math.max(props.pct, 2)}%`,
+            backgroundColor: color,
+          }}
         />
       </div>
       <span

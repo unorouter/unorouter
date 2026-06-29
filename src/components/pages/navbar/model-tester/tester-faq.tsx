@@ -17,7 +17,7 @@ function inlineLink(href: string) {
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="underline decoration-muted-foreground/40 underline-offset-4 transition-colors hover:decoration-foreground"
+      className="decoration-muted-foreground/40 hover:decoration-foreground underline underline-offset-4 transition-colors"
     >
       {chunks}
     </a>
@@ -35,7 +35,10 @@ function answerTags() {
 }
 
 const ITEMS: { q: TranslationKey; a: TranslationKey }[] = [
-  { q: "MODEL_TESTER.FAQ.ITEMS.KEY_SAFE.Q", a: "MODEL_TESTER.FAQ.ITEMS.KEY_SAFE.A" },
+  {
+    q: "MODEL_TESTER.FAQ.ITEMS.KEY_SAFE.Q",
+    a: "MODEL_TESTER.FAQ.ITEMS.KEY_SAFE.A",
+  },
   {
     q: "MODEL_TESTER.FAQ.ITEMS.SERVER_PROXY.Q",
     a: "MODEL_TESTER.FAQ.ITEMS.SERVER_PROXY.A",

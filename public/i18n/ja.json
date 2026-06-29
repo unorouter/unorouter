@@ -2704,8 +2704,9 @@
       "IP_WHITELIST_DESC": "IP は偽装される可能性があります。強固に制御するにはゲートウェイと併用してください。",
       "SUBMIT": "作成",
       "SAVE": "保存",
-      "QUOTA_FREE_ONLY_HINT": "＄0 は無料モデル専用キーを作成します。有料モデルは拒否されます。",
-      "QUOTA_EQUIVALENT": "= {quota} クォータ"
+      "QUOTA_EQUIVALENT": "= {quota} クォータ",
+      "QUOTA_POSITIVE": "トークンのクォータは0より大きい必要があります。無料モデル用のキーには無制限クォータを有効にしてください。",
+      "QUOTA_ZERO_HINT": "クォータ0では動作しません。無料モデル（:free で終わるもの）はどの有効なキーでも利用できます。"
     },
     "ENUM": {
       "ENABLED": "有効",

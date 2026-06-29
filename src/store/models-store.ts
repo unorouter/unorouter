@@ -1,4 +1,5 @@
 import { jotaiCookieStorage } from "@/lib/config/table-storage";
+import type { OutputModality } from "@/lib/api/model-modality";
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 
@@ -14,7 +15,7 @@ export type SortOrder =
 
 export type ModelsStoreState = {
   search: string;
-  outputModality: string;
+  outputModality: OutputModality;
   selectedVendors: string[];
   selectedModelName: string | null;
   viewMode: ViewMode;
@@ -83,7 +84,7 @@ export const selectedModelNameAtom = atom(
 
 export const outputModalityAtom = atom(
   (get) => get(modelsStoreAtom).outputModality ?? "text",
-  (get, set, value: string) => {
+  (get, set, value: OutputModality) => {
     set(modelsStoreAtom, { ...get(modelsStoreAtom), outputModality: value });
   },
 );

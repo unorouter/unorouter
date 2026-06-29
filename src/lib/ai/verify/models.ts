@@ -33,10 +33,7 @@ const PROVIDER_VENDOR: Record<VerifyProvider, string> = {
 // Vendor-icon name for a row. Prefers the model id (so a custom/non-curated id
 // still resolves by its prefix), falling back to the format. Returns the format
 // vendor when nothing is inferable.
-export function vendorForRow(
-  provider: VerifyProvider,
-  model?: string,
-): string {
+export function vendorForRow(provider: VerifyProvider, model?: string): string {
   const inferred = model ? providerForModel(model) : null;
   return PROVIDER_VENDOR[inferred ?? provider];
 }
