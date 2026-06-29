@@ -12,6 +12,7 @@ import {
   deletePublishedTest,
   getProviderDetail,
   getProviders,
+  getPublishedTestDetail,
   getRankingDetail,
   getRankingsStats,
   verifyAndPublish,
@@ -57,6 +58,14 @@ export const modelTesterRoute = new Elysia({ prefix: "/model-tester" })
     async ({ params, cookie }) => {
       const userId = await getUserId(cookie, true);
       return deletePublishedTest(params.id, userId);
+    },
+    { params: deletePublishedParams },
+  )
+  // A published test + its probe evidence (public, for the unified result card).
+  .get(
+    "/published/:id/detail",
+    async ({ params }) => {
+      return getPublishedTestDetail(params.id);
     },
     { params: deletePublishedParams },
   )

@@ -4128,7 +4128,9 @@
       "DELETE_CANCEL": "取消",
       "GUEST_CANNOT_DELETE": "访客提交无法在此删除。请通过 Discord 或 GitHub 报告。",
       "BACK_TO_PROVIDER": "返回提供商",
-      "BACK_TO_MODEL": "返回模型"
+      "BACK_TO_MODEL": "返回模型",
+      "PUBLISHED_NOTE": "服务器已验证。探测和回复均公开，任何人都可以审核此判定。",
+      "LOADING": "加载中"
     },
     "PROBE_DETAIL": {
       "PROMPT": "发送的提示",

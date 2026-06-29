@@ -1,6 +1,8 @@
 import { getDb } from "@/lib/db/server/client";
+import { uid } from "@/lib/utils/base";
 import {
   publishedModels,
+  publishedProbes,
   publishedProviders,
   publishedTests,
 } from "@/lib/db/schema/server";
@@ -136,7 +138,9 @@ export async function verifyAndPublish(
   const providerId = await findOrCreateProvider(kind, host, now);
   const modelId = await findOrCreateModel(providerId, body.model, now);
 
+  const testId = uid();
   await db.insert(publishedTests).values({
+    id: testId,
     modelId,
     providerId,
     submitterUserId,
@@ -159,6 +163,26 @@ export async function verifyAndPublish(
     testedAt: now,
     verifiedAt: now,
   });
+
+  // Publish the probe evidence too (transparency: open prompts + model replies,
+  // no key). Bare loop, no tx (mirrors the local recordTestRun probe loop).
+  for (let i = 0; i < result.probes.length; i++) {
+    const p = result.probes[i]!;
+    await db.insert(publishedProbes).values({
+      testId,
+      orderIndex: i,
+      label: p.label,
+      prompt: p.prompt,
+      responseText: p.responseText,
+      httpStatus: p.httpStatus,
+      pass: p.pass,
+      signal: p.signal,
+      reason: p.reason,
+      promptTokens: p.usage?.prompt ?? null,
+      completionTokens: p.usage?.completion ?? null,
+      latencyMs: p.latencyMs,
+    });
+  }
   return { published: true, deduped: false, result };
 }
 
@@ -397,6 +421,40 @@ export async function getRankingDetail(host: string, model: string) {
       ...r,
       testedAt: r.testedAt.getTime(),
     })) as RankingRecentRow[],
+  };
+}
+
+// One published test + its probe evidence, for the unified result card. Only
+// verified rows are exposed. Returns null when the id is unknown/unverified.
+export async function getPublishedTestDetail(testId: string) {
+  const db = getDb();
+  const rows = await db
+    .select()
+    .from(publishedTests)
+    .where(
+      and(
+        eq(publishedTests.id, testId),
+        isNotNull(publishedTests.verifiedAt),
+      ),
+    )
+    .limit(1);
+  const test = rows[0];
+  if (!test) return null;
+
+  const probes = await db
+    .select()
+    .from(publishedProbes)
+    .where(eq(publishedProbes.testId, testId))
+    .orderBy(publishedProbes.orderIndex);
+
+  return {
+    test: {
+      ...test,
+      testedAt: test.testedAt.getTime(),
+      verifiedAt: test.verifiedAt ? test.verifiedAt.getTime() : null,
+      createdAt: test.createdAt ? test.createdAt.getTime() : null,
+    },
+    probes,
   };
 }
 

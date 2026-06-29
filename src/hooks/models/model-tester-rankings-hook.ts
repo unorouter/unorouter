@@ -32,6 +32,13 @@ export function useRankingDetail(host: string, model: string) {
   );
 }
 
+// One published test + probe evidence (the unified result-card detail).
+export function usePublishedTestDetail(id: string) {
+  return useElysiaQuery(queryKeys.modelTesterPublishedTest(id), () =>
+    rpc.api.models["model-tester"].published({ id }).detail.get(),
+  );
+}
+
 // Submitter self-retract of a published row. The server enforces ownership; a
 // non-owner delete returns { deleted: false } and the board is unchanged.
 export function useDeletePublishedTest(host: string, model: string) {

@@ -4128,7 +4128,9 @@
       "DELETE_CANCEL": "Batal",
       "GUEST_CANNOT_DELETE": "Kiriman tamu tak dapat dihapus di sini. Laporkan melalui Discord atau GitHub.",
       "BACK_TO_PROVIDER": "Kembali ke penyedia",
-      "BACK_TO_MODEL": "Kembali ke model"
+      "BACK_TO_MODEL": "Kembali ke model",
+      "PUBLISHED_NOTE": "Diverifikasi server. Probe dan balasan bersifat publik sehingga siapa pun dapat mengaudit putusan ini.",
+      "LOADING": "Memuat ..."
     },
     "PROBE_DETAIL": {
       "PROMPT": "Prompt yang dikirim",

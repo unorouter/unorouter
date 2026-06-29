@@ -4128,7 +4128,9 @@
       "DELETE_CANCEL": "Cancel",
       "GUEST_CANNOT_DELETE": "Guest submissions cannot be deleted here. Report them via Discord or GitHub.",
       "BACK_TO_PROVIDER": "Back to provider",
-      "BACK_TO_MODEL": "Back to model"
+      "BACK_TO_MODEL": "Back to model",
+      "PUBLISHED_NOTE": "Server-verified. The probes and replies are public so anyone can audit this verdict.",
+      "LOADING": "Loading..."
     },
     "PROBE_DETAIL": {
       "PROMPT": "Prompt sent",

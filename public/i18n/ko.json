@@ -4128,7 +4128,9 @@
       "DELETE_CANCEL": "취소",
       "GUEST_CANNOT_DELETE": "게스트 제출은 여기서 삭제할 수 없습니다. Discord나 GitHub로 신고하세요.",
       "BACK_TO_PROVIDER": "제공자로 돌아가기",
-      "BACK_TO_MODEL": "모델로 돌아가기"
+      "BACK_TO_MODEL": "모델로 돌아가기",
+      "PUBLISHED_NOTE": "서버에서 검증됨. 프로브와 응답이 공개되어 누구나 이 판정을 감사할 수 있습니다.",
+      "LOADING": "불러오는 중"
     },
     "PROBE_DETAIL": {
       "PROMPT": "전송된 프롬프트",

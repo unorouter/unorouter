@@ -4128,7 +4128,9 @@
       "DELETE_CANCEL": "キャンセル",
       "GUEST_CANNOT_DELETE": "ゲストの提出はここでは削除できません。Discord または GitHub で報告してください。",
       "BACK_TO_PROVIDER": "プロバイダーに戻る",
-      "BACK_TO_MODEL": "モデルに戻る"
+      "BACK_TO_MODEL": "モデルに戻る",
+      "PUBLISHED_NOTE": "サーバーで検証済み。プローブと応答は公開されており、誰でもこの判定を検証できます。",
+      "LOADING": "読み込み中"
     },
     "PROBE_DETAIL": {
       "PROMPT": "送信したプロンプト",

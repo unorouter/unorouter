@@ -4128,7 +4128,9 @@
       "DELETE_CANCEL": "Annulla",
       "GUEST_CANNOT_DELETE": "Gli invii degli ospiti non possono essere eliminati qui. Segnalali tramite Discord o GitHub.",
       "BACK_TO_PROVIDER": "Torna al provider",
-      "BACK_TO_MODEL": "Torna al modello"
+      "BACK_TO_MODEL": "Torna al modello",
+      "PUBLISHED_NOTE": "Verificato dal server. Le sonde e le risposte sono pubbliche, così chiunque può controllare questo verdetto.",
+      "LOADING": "Caricamento ..."
     },
     "PROBE_DETAIL": {
       "PROMPT": "Prompt inviato",

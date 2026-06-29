@@ -4128,7 +4128,9 @@
       "DELETE_CANCEL": "ביטול",
       "GUEST_CANNOT_DELETE": "לא ניתן למחוק כאן הגשות של אורחים. דווח עליהן דרך Discord או GitHub.",
       "BACK_TO_PROVIDER": "חזרה לספק",
-      "BACK_TO_MODEL": "חזרה למודל"
+      "BACK_TO_MODEL": "חזרה למודל",
+      "PUBLISHED_NOTE": "מאומת בשרת. הבדיקות והתשובות פומביות כך שכל אחד יכול לבדוק את הפסיקה הזו.",
+      "LOADING": "טוען ..."
     },
     "PROBE_DETAIL": {
       "PROMPT": "הבקשה שנשלחה",

@@ -4128,7 +4128,9 @@
       "DELETE_CANCEL": "Cancelar",
       "GUEST_CANNOT_DELETE": "Envios de convidados não podem ser excluídos aqui. Reporte-os pelo Discord ou GitHub.",
       "BACK_TO_PROVIDER": "Voltar ao provedor",
-      "BACK_TO_MODEL": "Voltar ao modelo"
+      "BACK_TO_MODEL": "Voltar ao modelo",
+      "PUBLISHED_NOTE": "Verificado no servidor. As sondas e as respostas são públicas para que qualquer pessoa possa auditar este veredito.",
+      "LOADING": "Carregando ..."
     },
     "PROBE_DETAIL": {
       "PROMPT": "Prompt enviado",

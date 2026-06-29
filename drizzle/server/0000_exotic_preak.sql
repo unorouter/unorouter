@@ -477,6 +477,24 @@ CREATE TABLE `published_models` (
 );
 --> statement-breakpoint
 CREATE UNIQUE INDEX `uq_pubmodel` ON `published_models` (`provider_id`,`requested_model`);--> statement-breakpoint
+CREATE TABLE `published_probes` (
+	`id` text PRIMARY KEY NOT NULL,
+	`test_id` text NOT NULL,
+	`order_index` integer DEFAULT 0 NOT NULL,
+	`label` text NOT NULL,
+	`prompt` text NOT NULL,
+	`response_text` text,
+	`http_status` integer,
+	`pass` integer DEFAULT false NOT NULL,
+	`signal` text,
+	`reason` text,
+	`prompt_tokens` integer,
+	`completion_tokens` integer,
+	`latency_ms` integer DEFAULT 0 NOT NULL,
+	FOREIGN KEY (`test_id`) REFERENCES `published_tests`(`id`) ON UPDATE no action ON DELETE cascade
+);
+--> statement-breakpoint
+CREATE INDEX `idx_pubprobe_test` ON `published_probes` (`test_id`,`order_index`);--> statement-breakpoint
 CREATE TABLE `published_providers` (
 	`id` text PRIMARY KEY NOT NULL,
 	`kind` text NOT NULL,
