@@ -38,7 +38,7 @@
       "SUBTITLE": "{appName} 用一把鑰匙把你連到 {modelCount}+ 個 AI 模型。用它建構應用、執行智能體，或是跳過設定，直接在本站和角色聊天。同一把鑰匙，同樣的速度，同樣的價格。",
       "CTA_PRIMARY": "立即開始",
       "CTA_SECONDARY": "查看模型",
-      "TITLE_ROTATE": "API,聊天,角色,角色扮演,程式碼,智慧"
+      "TITLE_ROTATE": "API,聊天,角色,故事,程式碼,智慧"
     },
     "STATS": {
       "MODELS": "模型",
@@ -3109,6 +3109,8 @@
       "ERROR": "無法開啟帳務中心，請重試。"
     },
     "TITLE": "帳務",
+    "SUPPORT_TITLE": "需要協助嗎？",
+    "SUPPORT_TEXT": "對帳單或帳戶有疑問？請寄送電子郵件至 {supportEmail}，我們將在一個工作日內回覆您。",
     "ACCOUNT_STATS": "帳戶統計",
     "CURRENT_BALANCE": "目前餘額",
     "CONSUMPTION": "用量",
@@ -3635,7 +3637,7 @@
     "PRESET_POST_HISTORY_HINT": "附加在系統覆蓋之後。適合像 GLM 這樣更尊重末尾注入指令的模型。",
     "PRESET_PREFILL": "預填充",
     "PRESET_PREFILL_PLACEHOLDER": "好的，回覆如下：",
-    "PRESET_PREFILL_HINT": "作為最後一則助理訊息傳送。LLM 會從這段種子文字繼續生成。強大的越獄技巧。支援 user 與 char 巨集。",
+    "PRESET_PREFILL_HINT": "作為最後一則助理訊息傳送。LLM 會從這段種子文字繼續生成。強大的引導技巧。支援 user 與 char 巨集。",
     "PRESET_FLAGS_TITLE": "自訂旗標",
     "PRESET_FLAGS_HINT": "為挑剔的模型調整請求主體。需要時依模型自動套用；開啟以強制啟用。",
     "PRESET_FORCE_ALTERNATE_ROLES": "強制角色交替",

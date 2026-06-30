@@ -35,7 +35,7 @@
     "HERO": {
       "BADGE": "Router en línea",
       "TITLE_LINE1": "TODO EN UNO",
-      "TITLE_ROTATE": "API,CHAT,PERSONAJES,ROL,CÓDIGO,INTELIGENCIA",
+      "TITLE_ROTATE": "API,CHAT,PERSONAJES,RELATOS,CÓDIGO,INTELIGENCIA",
       "SUBTITLE": "{appName} te conecta a {modelCount}+ modelos de IA con una sola clave. Crea apps y ejecuta agentes con ella, o saltate la configuración y chatea con personajes aquí mismo en el sitio. Misma clave, misma velocidad, mismo precio.",
       "CTA_PRIMARY": "Comenzar",
       "CTA_SECONDARY": "Ver modelos"
@@ -3109,6 +3109,8 @@
       "ERROR": "No se pudo abrir el portal de facturación. Inténtalo de nuevo."
     },
     "TITLE": "Facturación",
+    "SUPPORT_TITLE": "¿Necesitas ayuda?",
+    "SUPPORT_TEXT": "¿Tienes preguntas sobre la facturación o tu cuenta? Escríbenos a {supportEmail} y te responderemos en un día hábil.",
     "ACCOUNT_STATS": "Estadísticas de cuenta",
     "CURRENT_BALANCE": "Saldo actual",
     "CONSUMPTION": "Consumo",
@@ -3635,7 +3637,7 @@
     "PRESET_POST_HISTORY_HINT": "Añadido después de la anulación de sistema. Mejor para modelos como GLM que respetan instrucciones inyectadas al final más que las del inicio del prompt.",
     "PRESET_PREFILL": "Prefill",
     "PRESET_PREFILL_PLACEHOLDER": "Claro, aquí está la respuesta:",
-    "PRESET_PREFILL_HINT": "Enviado al final como mensaje de asistente. El LLM continúa desde este texto semilla. Técnica poderosa de jailbreak. Soporta las macros user y char.",
+    "PRESET_PREFILL_HINT": "Enviado al final como mensaje de asistente. El LLM continúa desde este texto semilla. Potente técnica de direccionamiento. Soporta las macros user y char.",
     "PRESET_FLAGS_TITLE": "Flags personalizados",
     "PRESET_FLAGS_HINT": "Ajusta el cuerpo de la solicitud para modelos exigentes. Se aplican automáticamente por modelo cuando hace falta; actívalos para forzar.",
     "PRESET_FORCE_ALTERNATE_ROLES": "Forzar alternancia de roles",

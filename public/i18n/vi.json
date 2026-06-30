@@ -38,7 +38,7 @@
       "SUBTITLE": "{appName} kết nối bạn tới hơn {modelCount} mô hình AI qua một khoá. Xây app và chạy tác nhân với nó, hoặc bỏ qua thiết lập và trò chuyện với nhân vật ngay trên trang. Cùng một khoá, cùng tốc độ, cùng giá.",
       "CTA_PRIMARY": "Bắt đầu",
       "CTA_SECONDARY": "Xem mô hình",
-      "TITLE_ROTATE": "API,TRÒ CHUYỆN,NHÂN VẬT,NHẬP VAI,MÃ,TRÍ TUỆ"
+      "TITLE_ROTATE": "API,TRÒ CHUYỆN,NHÂN VẬT,KỂ CHUYỆN,MÃ,TRÍ TUỆ"
     },
     "STATS": {
       "MODELS": "Mô hình",
@@ -3109,6 +3109,8 @@
       "ERROR": "Không thể mở cổng quản lý thanh toán. Vui lòng thử lại."
     },
     "TITLE": "Thanh toán",
+    "SUPPORT_TITLE": "Bạn cần trợ giúp?",
+    "SUPPORT_TEXT": "Bạn có câu hỏi về thanh toán hoặc tài khoản của mình? Hãy gửi email cho chúng tôi tại {supportEmail} và chúng tôi sẽ phản hồi trong vòng một ngày làm việc.",
     "ACCOUNT_STATS": "Thống kê tài khoản",
     "CURRENT_BALANCE": "Số dư hiện tại",
     "CONSUMPTION": "Tiêu thụ",
@@ -3635,7 +3637,7 @@
     "PRESET_POST_HISTORY_HINT": "Thêm vào sau system override. Tốt cho mô hình như GLM tôn trọng hướng dẫn cuối hơn đầu.",
     "PRESET_PREFILL": "Prefill",
     "PRESET_PREFILL_PLACEHOLDER": "Chắc chắn rồi, đây là câu trả lời:",
-    "PRESET_PREFILL_HINT": "Gửi cuối cùng dưới dạng tin nhắn assistant. LLM tiếp nối từ văn bản mồi này. Kỹ thuật jailbreak mạnh. Hỗ trợ macro user và char.",
+    "PRESET_PREFILL_HINT": "Gửi cuối cùng dưới dạng tin nhắn assistant. LLM tiếp nối từ văn bản mồi này. Kỹ thuật định hướng mạnh. Hỗ trợ macro user và char.",
     "PRESET_FLAGS_TITLE": "Cờ tuỳ chỉnh",
     "PRESET_FLAGS_HINT": "Tinh chỉnh nội dung yêu cầu cho các mô hình khó tính. Tự động áp dụng theo từng mô hình khi cần; bật để buộc.",
     "PRESET_FORCE_ALTERNATE_ROLES": "Bắt buộc xen kẽ vai trò",

@@ -38,7 +38,7 @@
       "SUBTITLE": "{appName} は一つの鍵で {modelCount}+ の AI モデルにつなぎます。アプリを作りエージェントを動かすも、設定を飛ばしてこのサイト上でキャラクターと話すも自由。同じ鍵、同じ速さ、同じ価格。",
       "CTA_PRIMARY": "はじめる",
       "CTA_SECONDARY": "モデルを見る",
-      "TITLE_ROTATE": "API,チャット,キャラクター,ロールプレイ,コード,知能"
+      "TITLE_ROTATE": "API,チャット,キャラクター,ストーリー,コード,知能"
     },
     "STATS": {
       "MODELS": "モデル",
@@ -3109,6 +3109,8 @@
       "ERROR": "請求ポータルを開けませんでした。もう一度お試しください。"
     },
     "TITLE": "請求",
+    "SUPPORT_TITLE": "お困りですか？",
+    "SUPPORT_TEXT": "請求やアカウントについてご質問がありますか？{supportEmail} までメールでお問い合わせいただければ、1営業日以内にご返信いたします。",
     "ACCOUNT_STATS": "アカウント統計",
     "CURRENT_BALANCE": "現在の残高",
     "CONSUMPTION": "消費",
@@ -3635,7 +3637,7 @@
     "PRESET_POST_HISTORY_HINT": "システムオーバーライドの後に追加。先頭よりも末尾注入指示を尊重するGLMなどのモデルに最適。",
     "PRESET_PREFILL": "プレフィル",
     "PRESET_PREFILL_PLACEHOLDER": "もちろん、回答はこちらです：",
-    "PRESET_PREFILL_HINT": "アシスタントメッセージとして最後に送信。LLMはこのシードテキストから継続します。強力な脱獄手法。user および char マクロに対応。",
+    "PRESET_PREFILL_HINT": "アシスタントメッセージとして最後に送信。LLMはこのシードテキストから継続します。強力なステアリング技術。user および char マクロに対応。",
     "PRESET_FLAGS_TITLE": "カスタムフラグ",
     "PRESET_FLAGS_HINT": "気難しいモデル向けにリクエスト本文を調整します。必要に応じてモデルごとに自動適用されます。強制するにはオンにします。",
     "PRESET_FORCE_ALTERNATE_ROLES": "ロールの強制交互",

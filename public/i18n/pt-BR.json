@@ -35,7 +35,7 @@
     "HERO": {
       "BADGE": "Roteador online",
       "TITLE_LINE1": "TUDO EM UM",
-      "TITLE_ROTATE": "API,CHAT,PERSONAGENS,RPG,CÓDIGO,INTELIGÊNCIA",
+      "TITLE_ROTATE": "API,CHAT,PERSONAGENS,HISTÓRIAS,CÓDIGO,INTELIGÊNCIA",
       "SUBTITLE": "{appName} conecta você a {modelCount}+ modelos de IA com uma só chave. Crie apps e rode agentes com ela, ou pule a configuração e converse com personagens aqui mesmo no site. Mesma chave, mesma velocidade, mesmo preço.",
       "CTA_PRIMARY": "Começar",
       "CTA_SECONDARY": "Ver modelos"
@@ -3109,6 +3109,8 @@
       "ERROR": "Não foi possível abrir o portal de faturamento. Tente novamente."
     },
     "TITLE": "Faturamento",
+    "SUPPORT_TITLE": "Precisa de ajuda?",
+    "SUPPORT_TEXT": "Tem dúvidas sobre cobrança ou sua conta? Envie um e-mail para {supportEmail} e responderemos em até um dia útil.",
     "ACCOUNT_STATS": "Estatísticas da conta",
     "CURRENT_BALANCE": "Saldo atual",
     "CONSUMPTION": "Consumo",
@@ -3635,7 +3637,7 @@
     "PRESET_POST_HISTORY_HINT": "Anexado após sobrescrita de sistema. Melhor para modelos como GLM que respeitam instruções injetadas no fim mais que as do topo do prompt.",
     "PRESET_PREFILL": "Prefill",
     "PRESET_PREFILL_PLACEHOLDER": "Claro, aqui está a resposta:",
-    "PRESET_PREFILL_HINT": "Enviado por último como mensagem de assistant. O LLM continua deste texto semente. Técnica poderosa de jailbreak. Suporta as macros user e char.",
+    "PRESET_PREFILL_HINT": "Enviado por último como mensagem de assistant. O LLM continua deste texto semente. Técnica poderosa de direcionamento. Suporta as macros user e char.",
     "PRESET_FLAGS_TITLE": "Flags customizadas",
     "PRESET_FLAGS_HINT": "Ajuste o corpo da requisição para modelos exigentes. Aplicados automaticamente por modelo quando preciso; ative para forçar.",
     "PRESET_FORCE_ALTERNATE_ROLES": "Forçar papéis alternados",

@@ -35,7 +35,7 @@
     "HERO": {
       "BADGE": "Router Online",
       "TITLE_LINE1": "SEMUA DALAM SATU",
-      "TITLE_ROTATE": "API,OBROLAN,KARAKTER,ROLEPLAY,KODE,KECERDASAN",
+      "TITLE_ROTATE": "API,OBROLAN,KARAKTER,CERITA,KODE,KECERDASAN",
       "SUBTITLE": "{appName} menghubungkanmu ke {modelCount}+ model AI lewat satu kunci. Bangun aplikasi dan jalankan agen dengannya, atau lewati penyiapan dan ngobrol dengan karakter langsung di situs ini. Kunci sama, kecepatan sama, harga sama.",
       "CTA_PRIMARY": "Mulai",
       "CTA_SECONDARY": "Lihat Model"
@@ -3109,6 +3109,8 @@
       "ERROR": "Tidak dapat membuka portal penagihan. Silakan coba lagi."
     },
     "TITLE": "Penagihan",
+    "SUPPORT_TITLE": "Butuh bantuan?",
+    "SUPPORT_TEXT": "Ada pertanyaan tentang penagihan atau akun Anda? Kirim email kepada kami di {supportEmail} dan kami akan membalas dalam satu hari kerja.",
     "ACCOUNT_STATS": "Statistik Akun",
     "CURRENT_BALANCE": "Saldo Saat Ini",
     "CONSUMPTION": "Konsumsi",
@@ -3635,7 +3637,7 @@
     "PRESET_POST_HISTORY_HINT": "Ditambahkan setelah override sistem. Terbaik untuk model seperti GLM yang lebih menghormati instruksi akhir disuntikkan daripada di awal prompt.",
     "PRESET_PREFILL": "Prefill",
     "PRESET_PREFILL_PLACEHOLDER": "Tentu, ini responsnya:",
-    "PRESET_PREFILL_HINT": "Dikirim terakhir sebagai pesan assistant. LLM melanjutkan dari teks benih ini. Teknik jailbreak yang kuat. Mendukung makro user dan char.",
+    "PRESET_PREFILL_HINT": "Dikirim terakhir sebagai pesan assistant. LLM melanjutkan dari teks benih ini. Teknik pengarahan yang kuat. Mendukung makro user dan char.",
     "PRESET_FLAGS_TITLE": "Flag kustom",
     "PRESET_FLAGS_HINT": "Sesuaikan body permintaan untuk model rewel. Diterapkan otomatis per model bila perlu; aktifkan untuk memaksa.",
     "PRESET_FORCE_ALTERNATE_ROLES": "Paksa pergantian peran",

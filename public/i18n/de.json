@@ -38,7 +38,7 @@
       "SUBTITLE": "{appName} verbindet dich mit {modelCount}+ KI-Modellen über einen Schlüssel. Baue Apps und betreibe Agenten damit, oder spare dir das Einrichten und chatte direkt hier auf der Seite mit Charakteren. Gleicher Schlüssel, gleiche Geschwindigkeit, gleicher Preis.",
       "CTA_PRIMARY": "Loslegen",
       "CTA_SECONDARY": "Modelle ansehen",
-      "TITLE_ROTATE": "API,CHAT,CHARAKTERE,ROLLENSPIEL,CODE,INTELLIGENZ"
+      "TITLE_ROTATE": "API,CHAT,CHARAKTERE,ERZÄHLUNGEN,CODE,INTELLIGENZ"
     },
     "STATS": {
       "MODELS": "Modelle",
@@ -3109,6 +3109,8 @@
       "ERROR": "Das Abrechnungsportal konnte nicht geöffnet werden. Bitte versuchen Sie es erneut."
     },
     "TITLE": "Abrechnung",
+    "SUPPORT_TITLE": "Brauchen Sie Hilfe?",
+    "SUPPORT_TEXT": "Fragen zur Abrechnung oder zu Ihrem Konto? Schreiben Sie uns an {supportEmail} und wir antworten innerhalb eines Werktags.",
     "ACCOUNT_STATS": "Kontostatistiken",
     "CURRENT_BALANCE": "Aktuelles Guthaben",
     "CONSUMPTION": "Verbrauch",
@@ -3635,7 +3637,7 @@
     "PRESET_POST_HISTORY_HINT": "Wird nach dem System-Override angehängt. Geeignet für Modelle wie GLM, die endinjizierte Anweisungen mehr beachten als Anweisungen am Anfang.",
     "PRESET_PREFILL": "Prefill",
     "PRESET_PREFILL_PLACEHOLDER": "Klar, hier ist die Antwort:",
-    "PRESET_PREFILL_HINT": "Wird zuletzt als Assistant-Nachricht gesendet. Das LLM setzt diesen Seed-Text fort. Mächtige Jailbreak-Technik. Unterstützt die user- und char-Makros.",
+    "PRESET_PREFILL_HINT": "Wird zuletzt als Assistant-Nachricht gesendet. Das LLM setzt diesen Seed-Text fort. Mächtige Steuerungstechnik. Unterstützt die user- und char-Makros.",
     "PRESET_FLAGS_TITLE": "Eigene Flags",
     "PRESET_FLAGS_HINT": "Passe den Anfragetext für heikle Modelle an. Wird je Modell automatisch angewendet; einschalten zum Erzwingen.",
     "PRESET_FORCE_ALTERNATE_ROLES": "Rollen erzwungen alternieren",

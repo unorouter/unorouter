@@ -35,7 +35,7 @@
     "HERO": {
       "BADGE": "Router online",
       "TITLE_LINE1": "WSZYSTKO W JEDNYM",
-      "TITLE_ROTATE": "API,CZAT,POSTACIE,RPG,KOD,INTELIGENCJA",
+      "TITLE_ROTATE": "API,CZAT,POSTACIE,OPOWIEŚCI,KOD,INTELIGENCJA",
       "SUBTITLE": "{appName} łączy cię z {modelCount}+ modelami AI przez jeden klucz. Buduj aplikacje i uruchamiaj agentów, albo pomiń konfigurację i rozmawiaj z postaciami tutaj na stronie. Ten sam klucz, ta sama szybkość, ta sama cena.",
       "CTA_PRIMARY": "Rozpocznij",
       "CTA_SECONDARY": "Zobacz modele"
@@ -3109,6 +3109,8 @@
       "ERROR": "Nie można otworzyć portalu rozliczeń. Spróbuj ponownie."
     },
     "TITLE": "Rozliczenia",
+    "SUPPORT_TITLE": "Potrzebujesz pomocy?",
+    "SUPPORT_TEXT": "Masz pytania dotyczące rozliczeń lub swojego konta? Napisz do nas na adres {supportEmail}, a odpowiemy w ciągu jednego dnia roboczego.",
     "ACCOUNT_STATS": "Statystyki konta",
     "CURRENT_BALANCE": "Obecne saldo",
     "CONSUMPTION": "Zużycie",
@@ -3635,7 +3637,7 @@
     "PRESET_POST_HISTORY_HINT": "Dołączony po nadpisaniu systemu. Najlepsze dla modeli jak GLM, które respektują instrukcje wstrzykiwane na końcu bardziej niż te na górze promptu.",
     "PRESET_PREFILL": "Prefill",
     "PRESET_PREFILL_PLACEHOLDER": "Jasne, oto odpowiedź:",
-    "PRESET_PREFILL_HINT": "Wysłany na końcu jako wiadomość asystenta. LLM kontynuuje z tego tekstu nasiennego. Potężna technika jailbreak. Obsługuje makra user i char.",
+    "PRESET_PREFILL_HINT": "Wysłany na końcu jako wiadomość asystenta. LLM kontynuuje z tego tekstu nasiennego. Potężna technika sterowania. Obsługuje makra user i char.",
     "PRESET_FLAGS_TITLE": "Niestandardowe flagi",
     "PRESET_FLAGS_HINT": "Dostosuj treść żądania dla wymagających modeli. Stosowane automatycznie dla modelu w razie potrzeby; włącz, aby wymusić.",
     "PRESET_FORCE_ALTERNATE_ROLES": "Wymuś naprzemienne role",

@@ -35,7 +35,7 @@
     "HERO": {
       "BADGE": "Router online",
       "TITLE_LINE1": "TUTTO IN UNO",
-      "TITLE_ROTATE": "API,CHAT,PERSONAGGI,GIOCO DI RUOLO,CODICE,INTELLIGENZA",
+      "TITLE_ROTATE": "API,CHAT,PERSONAGGI,STORIE,CODICE,INTELLIGENZA",
       "SUBTITLE": "{appName} ti connette a {modelCount}+ modelli di IA con una sola chiave. Crea app ed esegui agenti, oppure salta la configurazione e chatta con i personaggi proprio qui sul sito. Stessa chiave, stessa velocità, stesso prezzo.",
       "CTA_PRIMARY": "Inizia",
       "CTA_SECONDARY": "Vedi modelli"
@@ -3109,6 +3109,8 @@
       "ERROR": "Impossibile aprire il portale di fatturazione. Riprova."
     },
     "TITLE": "Fatturazione",
+    "SUPPORT_TITLE": "Hai bisogno di aiuto?",
+    "SUPPORT_TEXT": "Domande sulla fatturazione o sul tuo account? Scrivici a {supportEmail} e ti risponderemo entro un giorno lavorativo.",
     "ACCOUNT_STATS": "Statistiche account",
     "CURRENT_BALANCE": "Saldo corrente",
     "CONSUMPTION": "Consumo",
@@ -3635,7 +3637,7 @@
     "PRESET_POST_HISTORY_HINT": "Aggiunto dopo l'override di sistema. Migliore per modelli come GLM che rispettano istruzioni iniettate alla fine più di quelle in cima al prompt.",
     "PRESET_PREFILL": "Prefill",
     "PRESET_PREFILL_PLACEHOLDER": "Certo, ecco la risposta:",
-    "PRESET_PREFILL_HINT": "Inviato per ultimo come messaggio dell'assistente. L'LLM continua da questo testo seed. Tecnica di jailbreak potente. Supporta le macro user e char.",
+    "PRESET_PREFILL_HINT": "Inviato per ultimo come messaggio dell'assistente. L'LLM continua da questo testo seed. Tecnica di guida potente. Supporta le macro user e char.",
     "PRESET_FLAGS_TITLE": "Flag personalizzati",
     "PRESET_FLAGS_HINT": "Regola il corpo della richiesta per modelli schizzinosi. Applicati automaticamente per modello se serve; attiva per forzare.",
     "PRESET_FORCE_ALTERNATE_ROLES": "Forza ruoli alternati",
