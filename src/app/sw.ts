@@ -133,79 +133,80 @@ self.addEventListener("fetch", (event) => {
   }
 });
 
-// Streaming download: the page pumps raw chunks (transferable ArrayBuffers - ReadableStream
-// transfer needs Safari 27) over a MessagePort; we build the stream HERE and answer the magic
-// URL with a streamed attachment Response. Peak memory = credits * chunk, not the whole file,
-// so a 500MB OPFS DB or a large diagnostics JSON downloads without OOMing iOS.
+// Streaming download. Two magic same-origin paths answered with a streamed attachment Response
+// so a 500MB OPFS DB or a large diagnostics JSON downloads without ever materializing the whole
+// payload (no OOM on memory-starved iOS):
+//   /__download/db?u=<id>&name=<f>   - the SW reads the OPFS DB file ITSELF (origin-scoped, shared)
+//                                      and streams file.stream(); no page involvement.
+//   /__download/json/<token>?name=<f> - the page generates JSON in JS and posts chunks over a
+//                                       MessagePort (a ReadableStream is not postMessage-transferable
+//                                       before Safari 27); the SW enqueues them.
 const DOWNLOAD_PREFIX = "/__download/";
-const DOWNLOAD_CREDITS = 8;
-const DOWNLOAD_TTL_MS = 2 * 60 * 1000;
-type DownloadEntry = {
-  controller: ReadableStreamDefaultController<Uint8Array>;
-  stream?: ReadableStream<Uint8Array>;
-  filename: string;
-  contentType: string;
-  contentLength?: number;
-  port: MessagePort;
-  createdAt: number;
-};
-const downloads = new Map<string, DownloadEntry>();
-
-// createdAt is passed in by the page (Date.now() is fine in the SW, but the page already stamps).
-const sweepDownloads = (now: number) => {
-  for (const [token, entry] of downloads) {
-    if (now - entry.createdAt > DOWNLOAD_TTL_MS) {
-      try {
-        entry.controller.error(new Error("download expired"));
-      } catch {}
-      downloads.delete(token);
-    }
-  }
-};
+const JSON_TTL_MS = 2 * 60 * 1000;
 
 // Strip only header-breaking chars (quote, backslash, CR/LF/tab); keep dots/dashes in the name.
 const sanitizeFilename = (name: string) =>
   name.replace(/["\\]/g, "_").replace(/[\r\n\t]/g, "_");
 
+const attachmentHeaders = (
+  filename: string,
+  contentType: string,
+  contentLength?: number,
+): Headers => {
+  const headers = new Headers({
+    "Content-Type": contentType,
+    "Content-Disposition": `attachment; filename="${sanitizeFilename(filename)}"`,
+    "Cache-Control": "no-store",
+  });
+  if (typeof contentLength === "number")
+    headers.set("Content-Length", String(contentLength));
+  return headers;
+};
+
+// Pending JSON streams: token -> the stream the page feeds via its MessagePort. Diagnostics JSON
+// is small now (metadata only), so no credit backpressure - enqueue and let highWaterMark apply.
+type JsonEntry = {
+  controller: ReadableStreamDefaultController<Uint8Array>;
+  stream: ReadableStream<Uint8Array>;
+  filename: string;
+  createdAt: number;
+};
+const jsonStreams = new Map<string, JsonEntry>();
+
 self.addEventListener("message", (event) => {
   const data = event.data;
-  if (!data || typeof data !== "object" || data.type !== "download-start")
+  if (!data || typeof data !== "object" || data.type !== "json-download-start")
     return;
   const port = event.ports[0];
   if (!port) return;
   const token = String(data.token);
-  sweepDownloads(data.now ?? 0);
+  const now = data.now ?? 0;
+  // Sweep abandoned JSON registrations.
+  for (const [t, e] of jsonStreams) {
+    if (now - e.createdAt > JSON_TTL_MS) {
+      try {
+        e.controller.error(new Error("download expired"));
+      } catch {}
+      jsonStreams.delete(t);
+    }
+  }
 
+  let entryController!: ReadableStreamDefaultController<Uint8Array>;
   const stream = new ReadableStream<Uint8Array>({
     start(controller) {
-      downloads.set(token, {
-        controller,
-        filename: String(data.filename ?? "download"),
-        contentType: String(data.contentType ?? "application/octet-stream"),
-        contentLength:
-          typeof data.contentLength === "number"
-            ? data.contentLength
-            : undefined,
-        port,
-        createdAt: data.now ?? 0,
-      });
-    },
-    // The browser drains the body -> ask the page for one more chunk (credit-based backpressure).
-    pull() {
-      port.postMessage({ type: "pull" });
-    },
-    cancel() {
-      port.postMessage({ type: "cancelled" });
-      downloads.delete(token);
+      entryController = controller;
     },
   });
-  // Stash the stream so the fetch handler can hand it to the Response.
-  const created = downloads.get(token);
-  if (created) created.stream = stream;
+  jsonStreams.set(token, {
+    controller: entryController,
+    stream,
+    filename: String(data.filename ?? "download.json"),
+    createdAt: now,
+  });
 
   port.onmessage = (e) => {
     const msg = e.data;
-    const entry = downloads.get(token);
+    const entry = jsonStreams.get(token);
     if (!entry || !msg) return;
     if (msg.type === "chunk") {
       try {
@@ -215,38 +216,69 @@ self.addEventListener("message", (event) => {
       try {
         entry.controller.close();
       } catch {}
-      downloads.delete(token);
     } else if (msg.type === "abort") {
       try {
         entry.controller.error(new Error(String(msg.error ?? "aborted")));
       } catch {}
-      downloads.delete(token);
+      jsonStreams.delete(token);
     }
   };
-  // ACK so the page navigates only after the stream exists; grant the initial credit budget.
-  port.postMessage({ type: "ready", credits: DOWNLOAD_CREDITS });
+  // ACK so the page navigates only after the stream exists.
+  port.postMessage({ type: "ready" });
 });
+
+// Read the per-user OPFS DB file and stream it. Async getFile() works in a SW; file.stream() is
+// lazy/disk-backed so peak memory is one chunk, not the whole DB.
+async function streamOpfsDb(name: string): Promise<Response> {
+  try {
+    const root = await navigator.storage.getDirectory();
+    const handle = await root.getFileHandle(name);
+    const file = await handle.getFile();
+    return new Response(file.stream(), {
+      status: 200,
+      headers: attachmentHeaders(name, "application/octet-stream", file.size),
+    });
+  } catch (e) {
+    return new Response(`db read failed: ${String(e)}`, { status: 500 });
+  }
+}
 
 self.addEventListener("fetch", (event) => {
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) return;
   if (!url.pathname.startsWith(DOWNLOAD_PREFIX)) return;
   event.stopImmediatePropagation();
-  const token = url.pathname.slice(DOWNLOAD_PREFIX.length);
-  const entry = downloads.get(token);
-  if (!entry || !entry.stream) {
-    // Token unknown (SW restarted between start and navigation): 404 so the page falls back.
-    event.respondWith(new Response("download expired", { status: 404 }));
+  const rest = url.pathname.slice(DOWNLOAD_PREFIX.length);
+
+  if (rest === "db") {
+    // The page validated/released the SQLocal handle before navigating here; just read + stream.
+    const dbName = url.searchParams.get("f");
+    if (!dbName) {
+      event.respondWith(new Response("missing db name", { status: 400 }));
+      return;
+    }
+    event.respondWith(streamOpfsDb(dbName));
     return;
   }
-  const headers = new Headers({
-    "Content-Type": entry.contentType,
-    "Content-Disposition": `attachment; filename="${sanitizeFilename(entry.filename)}"`,
-    "Cache-Control": "no-store",
-  });
-  if (typeof entry.contentLength === "number")
-    headers.set("Content-Length", String(entry.contentLength));
-  event.respondWith(new Response(entry.stream, { status: 200, headers }));
+
+  if (rest.startsWith("json/")) {
+    const token = rest.slice("json/".length);
+    const entry = jsonStreams.get(token);
+    if (!entry) {
+      event.respondWith(new Response("download expired", { status: 404 }));
+      return;
+    }
+    jsonStreams.delete(token);
+    event.respondWith(
+      new Response(entry.stream, {
+        status: 200,
+        headers: attachmentHeaders(entry.filename, "application/json"),
+      }),
+    );
+    return;
+  }
+
+  event.respondWith(new Response("not found", { status: 404 }));
 });
 
 serwist.addEventListeners();
