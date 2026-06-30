@@ -56,6 +56,7 @@ export const VENDOR_PATTERNS = {
     "meta",
     "grok",
     "xai",
+    "zhipu",
   ],
 } as const;
 

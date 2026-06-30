@@ -140,10 +140,15 @@ export function downloadBlob(blob: Blob, filename: string) {
   URL.revokeObjectURL(url);
 }
 
-export function downloadJson(obj: unknown, filename: string) {
-  const blob = new Blob([JSON.stringify(obj, null, 2)], {
-    type: "application/json",
-  });
+export function downloadJson(
+  obj: unknown,
+  filename: string,
+  opts?: { pretty?: boolean },
+) {
+  // Compact when pretty is false (diagnostics: halves bytes / memory); indented by default.
+  const pretty = opts?.pretty ?? true;
+  const json = pretty ? JSON.stringify(obj, null, 2) : JSON.stringify(obj);
+  const blob = new Blob([json], { type: "application/json" });
   downloadBlob(blob, filename);
 }
 
