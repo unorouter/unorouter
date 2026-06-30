@@ -3338,6 +3338,7 @@
     "SEARCH_CHATS": "Rechercher des chats",
     "TOKENS_IN": "entrée",
     "TOKENS_OUT": "sortie",
+    "MESSAGES_COUNT": "messages",
     "FILTER_ALL": "Tous",
     "META": {
       "TITLE": "Chat IA, {appName}",
@@ -3446,7 +3447,8 @@
     "CHAT_TOTAL": "Total du chat",
     "STATS": {
       "SHOW_COST": "Afficher le coût",
-      "SHOW_TOKENS": "Afficher les jetons"
+      "SHOW_TOKENS": "Afficher les jetons",
+      "SHOW_MESSAGES": "Afficher le nombre de messages"
     },
     "GROUPS": {
       "NEW_GROUP": "Nouveau groupe",

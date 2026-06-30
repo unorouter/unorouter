@@ -15,7 +15,11 @@ import { Icon } from "@/components/ui/icon";
 import { matchPathname, useRouter } from "@/i18n/navigation";
 import { analytics } from "@/lib/analytics";
 import { LANGUAGES } from "@/lib/config/constants";
-import { showStatsCostAtom, showStatsTokensAtom } from "@/store/chat-store";
+import {
+  showStatsCostAtom,
+  showStatsMessagesAtom,
+  showStatsTokensAtom,
+} from "@/store/chat-store";
 import { useAtom } from "jotai";
 import type { Locale } from "next-intl";
 import { useLocale, useTranslations } from "next-intl";
@@ -28,6 +32,7 @@ export function AppearanceSubmenu(props: { onOpenCustomizer: () => void }) {
   const t = useTranslations();
   const [showCost, setShowCost] = useAtom(showStatsCostAtom);
   const [showTokens, setShowTokens] = useAtom(showStatsTokensAtom);
+  const [showMessages, setShowMessages] = useAtom(showStatsMessagesAtom);
   const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
@@ -106,6 +111,13 @@ export function AppearanceSubmenu(props: { onOpenCustomizer: () => void }) {
           closeOnClick={false}
         >
           {t("CHAT.STATS.SHOW_TOKENS")}
+        </DropdownMenuCheckboxItem>
+        <DropdownMenuCheckboxItem
+          checked={showMessages}
+          onCheckedChange={setShowMessages}
+          closeOnClick={false}
+        >
+          {t("CHAT.STATS.SHOW_MESSAGES")}
         </DropdownMenuCheckboxItem>
       </DropdownMenuSubContent>
     </DropdownMenuSub>

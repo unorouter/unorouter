@@ -3338,6 +3338,7 @@
     "SEARCH_CHATS": "Search chats",
     "TOKENS_IN": "in",
     "TOKENS_OUT": "out",
+    "MESSAGES_COUNT": "messages",
     "FILTER_ALL": "All",
     "META": {
       "TITLE": "AI Chat - {appName}",
@@ -3446,7 +3447,8 @@
     "CHAT_TOTAL": "Chat Total",
     "STATS": {
       "SHOW_COST": "Show cost",
-      "SHOW_TOKENS": "Show tokens"
+      "SHOW_TOKENS": "Show tokens",
+      "SHOW_MESSAGES": "Show message count"
     },
     "GROUPS": {
       "NEW_GROUP": "New group",

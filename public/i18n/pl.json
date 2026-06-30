@@ -3338,6 +3338,7 @@
     "SEARCH_CHATS": "Szukaj chatów",
     "TOKENS_IN": "we",
     "TOKENS_OUT": "wy",
+    "MESSAGES_COUNT": "wiadomości",
     "FILTER_ALL": "Wszystkie",
     "META": {
       "TITLE": "Chat AI - {appName}",
@@ -3446,7 +3447,8 @@
     "CHAT_TOTAL": "Suma czatu",
     "STATS": {
       "SHOW_COST": "Pokaż koszt",
-      "SHOW_TOKENS": "Pokaż tokeny"
+      "SHOW_TOKENS": "Pokaż tokeny",
+      "SHOW_MESSAGES": "Pokaż liczbę wiadomości"
     },
     "GROUPS": {
       "NEW_GROUP": "Nowa grupa",
