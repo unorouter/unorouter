@@ -9,10 +9,6 @@ import {
 import { uid } from "@/lib/utils/base";
 import { createdAtCol, timestamps } from "./shared";
 import type {
-  VerifyProviderValue,
-  VerifyVerdictValue,
-} from "@/lib/validation/model-tester";
-import type {
   ModerationDecision,
   ModerationMediaType,
 } from "@/server/ai/chat/media/moderation.service";
@@ -147,119 +143,12 @@ export const upscalerCatalog = sqliteTable(
   ],
 );
 
-// Public rankings feed, NORMALIZED: provider -> model -> test. Append-only,
-// NO key and NO probe text ever. Aggregated on read.
-export const publishedProviders = sqliteTable(
-  "published_providers",
-  {
-    id: text("id")
-      .primaryKey()
-      .$defaultFn(() => uid()),
-    kind: text("kind").notNull().$type<VerifyProviderValue>(),
-    baseUrlHost: text("base_url_host").notNull(),
-    firstSeenAt: integer("first_seen_at", { mode: "timestamp_ms" }).notNull(),
-    lastTestedAt: integer("last_tested_at", { mode: "timestamp_ms" }).notNull(),
-    createdAt: createdAtCol(),
-  },
-  (table) => [uniqueIndex("uq_pubprovider").on(table.kind, table.baseUrlHost)],
-);
-
-export const publishedModels = sqliteTable(
-  "published_models",
-  {
-    id: text("id")
-      .primaryKey()
-      .$defaultFn(() => uid()),
-    providerId: text("provider_id")
-      .notNull()
-      .references(() => publishedProviders.id, { onDelete: "cascade" }),
-    requestedModel: text("requested_model").notNull(),
-    lastTestedAt: integer("last_tested_at", { mode: "timestamp_ms" }).notNull(),
-    createdAt: createdAtCol(),
-  },
-  (table) => [
-    uniqueIndex("uq_pubmodel").on(table.providerId, table.requestedModel),
-  ],
-);
-
-export const publishedTests = sqliteTable(
-  "published_tests",
-  {
-    id: text("id")
-      .primaryKey()
-      .$defaultFn(() => uid()),
-    modelId: text("model_id")
-      .notNull()
-      .references(() => publishedModels.id, { onDelete: "cascade" }),
-    providerId: text("provider_id").notNull(),
-    submitterUserId: integer("submitter_user_id"),
-    submitterUsername: text("submitter_username"),
-    kind: text("kind").notNull().$type<VerifyProviderValue>(),
-    baseUrlHost: text("base_url_host").notNull(),
-    requestedModel: text("requested_model").notNull(),
-    detectedModel: text("detected_model"),
-    verdict: text("verdict").notNull().$type<VerifyVerdictValue>(),
-    versionUnverifiable: integer("version_unverifiable", { mode: "boolean" })
-      .notNull()
-      .default(false),
-    probesPassed: integer("probes_passed").notNull(),
-    probesTotal: integer("probes_total").notNull(),
-    latencyMs: integer("latency_ms").notNull(),
-    totalTokens: integer("total_tokens"),
-    promptTokens: integer("prompt_tokens"),
-    completionTokens: integer("completion_tokens"),
-    transport: text("transport"),
-    formatFellBack: integer("format_fell_back", { mode: "boolean" }),
-    resolvedFormat: text("resolved_format"),
-    testedAt: integer("tested_at", { mode: "timestamp_ms" }).notNull(),
-    // Set ONLY when the server itself ran the probes (unforgeable). The public
-    // leaderboard reads verified rows only.
-    verifiedAt: integer("verified_at", { mode: "timestamp_ms" }),
-    createdAt: createdAtCol(),
-  },
-  (table) => [
-    index("idx_pubtest_host_model").on(table.baseUrlHost, table.requestedModel),
-    index("idx_pubtest_created").on(table.createdAt),
-    index("idx_pubtest_submitter").on(
-      table.submitterUserId,
-      table.baseUrlHost,
-      table.requestedModel,
-    ),
-  ],
-);
+// NOTE: the public rankings tables moved to schema/shared.ts as the merged
+// tester tables (testerProviders/Models/Tests/Probes), ONE definition shared by
+// the client (private history) and server (public board, userId=0 + verifiedAt).
+// Import them from "./shared". See the comment there.
 
 export type AcpCheckoutSession = typeof acpCheckoutSessions.$inferSelect;
 export type LoraCatalogEntry = typeof loraCatalog.$inferSelect;
 export type EmbeddingCatalogEntry = typeof embeddingCatalog.$inferSelect;
 export type UpscalerCatalogEntry = typeof upscalerCatalog.$inferSelect;
-// Probe evidence for a published test. Public on purpose: the prompts are ours
-// (open source) and the responses are normal model answers (capped ~2000 chars,
-// no key, no user data), so the board can show WHY a verdict was reached.
-export const publishedProbes = sqliteTable(
-  "published_probes",
-  {
-    id: text("id")
-      .primaryKey()
-      .$defaultFn(() => uid()),
-    testId: text("test_id")
-      .notNull()
-      .references(() => publishedTests.id, { onDelete: "cascade" }),
-    orderIndex: integer("order_index").notNull().default(0),
-    label: text("label").notNull(),
-    prompt: text("prompt").notNull(),
-    responseText: text("response_text"),
-    httpStatus: integer("http_status"),
-    pass: integer("pass", { mode: "boolean" }).notNull().default(false),
-    signal: text("signal"),
-    reason: text("reason"),
-    promptTokens: integer("prompt_tokens"),
-    completionTokens: integer("completion_tokens"),
-    latencyMs: integer("latency_ms").notNull().default(0),
-  },
-  (table) => [index("idx_pubprobe_test").on(table.testId, table.orderIndex)],
-);
-
-export type PublishedProvider = typeof publishedProviders.$inferSelect;
-export type PublishedModel = typeof publishedModels.$inferSelect;
-export type PublishedTest = typeof publishedTests.$inferSelect;
-export type PublishedProbe = typeof publishedProbes.$inferSelect;

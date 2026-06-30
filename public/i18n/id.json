@@ -4120,6 +4120,7 @@
       "LOCAL_ONLY": "Uji lokal, disimpan hanya di perangkat Anda. Publikasikan agar server kami memverifikasinya dan muncul di papan publik.",
       "DISCLAIMER": "Skor dihitung hanya dari probe yang diverifikasi server. Model asli memastikan vendor dan tingkatnya; versi persisnya tak pernah diklaim. Sanggah hasil yang Anda yakini keliru melalui tautan di bawah.",
       "SUBMISSIONS": "Kiriman terbaru",
+      "NO_SUBMISSIONS": "Belum ada kiriman. Jadilah yang pertama memublikasikan tes terverifikasi.",
       "SUBMITTED_BY": "Dikirim oleh {who}",
       "ANONYMOUS": "anonim",
       "DELETE_MINE": "Hapus",

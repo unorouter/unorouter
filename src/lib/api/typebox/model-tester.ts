@@ -102,3 +102,40 @@ export type RankingAggregateRow = {
   unverifiedCount: number;
   lastTestedAt: number;
 };
+
+// One probe row in the unified result card. SHARED by both detail sources
+// (local history + published board) so one adapter renders both.
+export type TestResultProbe = {
+  label: string;
+  pass: boolean;
+  // Transient failure (429/5xx/timeout/CORS/no-response): an amber skip, not red.
+  transient: boolean;
+  signal: string | null;
+  reason: string | null;
+  prompt: string;
+  responseText: string | null;
+  httpStatus: number | null;
+  promptTokens: number | null;
+  completionTokens: number | null;
+  latencyMs: number;
+};
+
+// The ONE detail shape both the local history read and the server published-test
+// read map into; `toResultCardData` turns it into the card's `ResultCardData`.
+export type TestResultDetail = {
+  model: string;
+  baseUrlHost: string;
+  provider: VerifyProviderValue;
+  verdict: "genuine" | "suspicious" | "unverified";
+  versionUnverifiable: boolean;
+  detectedModel: string | null;
+  probesPassed: number;
+  probesTotal: number;
+  totalTokens: number | null;
+  latencyMs: number;
+  transport: string;
+  resolvedFormat: string;
+  formatFellBack: boolean;
+  testedAt: number;
+  probes: TestResultProbe[];
+};

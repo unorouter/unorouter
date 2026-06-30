@@ -4120,6 +4120,7 @@
       "LOCAL_ONLY": "Local test, stored on your device only. To appear on the public board, publish so our server can verify it.",
       "DISCLAIMER": "Scores are computed from server-verified probes only. A genuine model confirms the vendor and tier. The exact version is never claimed. Dispute a result you believe is wrong via the links below.",
       "SUBMISSIONS": "Recent submissions",
+      "NO_SUBMISSIONS": "No submissions yet. Be the first to publish a verified test.",
       "SUBMITTED_BY": "Submitted by {who}",
       "ANONYMOUS": "anonymous",
       "DELETE_MINE": "Delete",

@@ -4120,6 +4120,7 @@
       "LOCAL_ONLY": "Test lokalny, przechowywany tylko na twoim urzadzeniu. Opublikuj, aby nasz serwer go zweryfikowal i pojawil sie na publicznej tablicy.",
       "DISCLAIMER": "Wyniki są obliczane wyłącznie z sond zweryfikowanych na serwerze. Prawdziwy model potwierdza dostawcę i poziom; dokładna wersja nigdy nie jest deklarowana. Zakwestionuj wynik, który uważasz za błędny, za pomocą poniższych łączy.",
       "SUBMISSIONS": "Ostatnie zgłoszenia",
+      "NO_SUBMISSIONS": "Nie ma jeszcze zgłoszeń. Opublikuj jako pierwszy zweryfikowany test.",
       "SUBMITTED_BY": "Przesłane przez {who}",
       "ANONYMOUS": "anonimowo",
       "DELETE_MINE": "Usuń",

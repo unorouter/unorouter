@@ -9,14 +9,12 @@ import type {
   personas,
   requestLogs,
   samplingPresets,
-} from "./shared";
-import type {
-  customProviders,
   testerModels,
   testerProbes,
   testerProviders,
   testerTests,
-} from "./client";
+} from "./shared";
+import type { customProviders } from "./client";
 
 export type ConversationRow = typeof conversations.$inferSelect;
 export type ChatGroupRow = typeof chatGroups.$inferSelect;

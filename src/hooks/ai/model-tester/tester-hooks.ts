@@ -9,7 +9,7 @@ import {
   readTestHistory,
   recordTestRun,
   type HistoryProviderRow,
-  type TestDetail,
+  type HistoryTestDetail,
   type TestListItem,
 } from "@/lib/db/client/data/tester";
 import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
@@ -53,7 +53,7 @@ export function useHistoryModelTests(host: string, model: string) {
   const userId = useLocalUserId();
   return useQuery({
     queryKey: [...queryKeys.modelTestHistoryModelTests(host, model), userId],
-    queryFn: (): Promise<TestDetail[]> =>
+    queryFn: (): Promise<HistoryTestDetail[]> =>
       readHistoryModelTestDetails(userId, host, model),
   });
 }
@@ -62,7 +62,7 @@ export function useTestDetail(testId: string | undefined) {
   const userId = useLocalUserId();
   return useQuery({
     queryKey: [...queryKeys.modelTest(testId ?? ""), userId],
-    queryFn: (): Promise<TestDetail | null> =>
+    queryFn: (): Promise<HistoryTestDetail | null> =>
       testId ? readTestDetail(userId, testId) : Promise.resolve(null),
     enabled: !!testId,
   });

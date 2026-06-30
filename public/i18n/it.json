@@ -4120,6 +4120,7 @@
       "LOCAL_ONLY": "Test locale, salvato solo sul tuo dispositivo. Pubblicalo affinche il nostro server lo verifichi e appaia nella classifica pubblica.",
       "DISCLAIMER": "I punteggi sono calcolati solo da sonde verificate lato server. Un modello autentico conferma il fornitore e il livello; la versione esatta non viene mai dichiarata. Contesta un risultato che ritieni errato tramite i link qui sotto.",
       "SUBMISSIONS": "Invii recenti",
+      "NO_SUBMISSIONS": "Ancora nessun invio. Sii il primo a pubblicare un test verificato.",
       "SUBMITTED_BY": "Inviato da {who}",
       "ANONYMOUS": "anonimo",
       "DELETE_MINE": "Elimina",

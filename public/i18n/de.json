@@ -4120,6 +4120,7 @@
       "LOCAL_ONLY": "Lokaler Test, nur auf deinem Geraet gespeichert. Veroeffentliche ihn, damit unser Server ihn verifiziert und er auf der oeffentlichen Tafel erscheint.",
       "DISCLAIMER": "Die Bewertungen werden ausschließlich aus serverseitig verifizierten Proben berechnet. Ein echtes Modell bestätigt Anbieter und Stufe; die genaue Version wird nie behauptet. Fechten Sie ein Ergebnis, das Sie für falsch halten, über die Links unten an.",
       "SUBMISSIONS": "Aktuelle Einreichungen",
+      "NO_SUBMISSIONS": "Noch keine Einreichungen. Veröffentliche als Erste:r einen verifizierten Test.",
       "SUBMITTED_BY": "Eingereicht von {who}",
       "ANONYMOUS": "anonym",
       "DELETE_MINE": "Löschen",
