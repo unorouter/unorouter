@@ -4,7 +4,7 @@ import { env } from "@/lib/config/env";
 import { API_ENDPOINTS } from "@/lib/ai/endpoints";
 import { requestLogs } from "@/lib/db/schema/shared";
 import type { RequestLogRow } from "@/lib/db/schema/rows";
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { getLocalDb } from "../client";
 
 // Reproducible curl for a logged request. Token is intentionally a placeholder ($UNOROUTER_API_KEY),
@@ -90,4 +90,38 @@ export async function readLocalRequestLogsForConv(
     .select()
     .from(requestLogs)
     .where(eq(requestLogs.convId, convId));
+}
+
+// Lean reader for diagnostics: projects ONLY metadata columns (NEVER the giant
+// finalMessages/requestBody prompt snapshots) and caps rows in SQL, so a 50-100MB
+// request_logs table can't materialize its blobs in memory and OOM the export.
+export type RequestLogMeta = {
+  msgId: string | null;
+  convId: string | null;
+  requestId: string | null;
+  channelName: string | null;
+  inputTokens: number | null;
+  createdAt: Date | null;
+};
+
+export async function readLocalRequestLogMetaForConv(
+  userId: number | undefined,
+  convId: string,
+  limit: number,
+): Promise<RequestLogMeta[]> {
+  const local = await getLocalDb(userId);
+  if (!local) return [];
+  return local.db
+    .select({
+      msgId: requestLogs.msgId,
+      convId: requestLogs.convId,
+      requestId: requestLogs.requestId,
+      channelName: requestLogs.channelName,
+      inputTokens: requestLogs.inputTokens,
+      createdAt: requestLogs.createdAt,
+    })
+    .from(requestLogs)
+    .where(eq(requestLogs.convId, convId))
+    .orderBy(desc(requestLogs.createdAt))
+    .limit(limit);
 }

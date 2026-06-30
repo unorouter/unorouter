@@ -165,6 +165,30 @@ export async function readLocalMessages(
     .orderBy(messages.createdAt);
 }
 
+// Metadata-only message projection for diagnostics: skips heavy item/content columns so a
+// chat-heavy DB doesn't materialize every full message row into memory (mobile OOM on export).
+export async function readLocalMessageMetaForConv(
+  userId: number | undefined,
+  convId: string,
+) {
+  const local = await getLocalDb(userId);
+  if (!local) return [];
+  return local.db
+    .select({
+      id: messages.id,
+      convId: messages.convId,
+      parentId: messages.parentId,
+      role: messages.role,
+      model: messages.model,
+      branchIndex: messages.branchIndex,
+      isActiveBranch: messages.isActiveBranch,
+      createdAt: messages.createdAt,
+    })
+    .from(messages)
+    .where(eq(messages.convId, convId))
+    .orderBy(messages.createdAt);
+}
+
 export async function readLocalConversationBindings(
   userId: number | undefined,
   convId: string,

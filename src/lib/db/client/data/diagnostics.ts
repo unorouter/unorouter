@@ -1,9 +1,12 @@
 import { getLocalDb } from "@/lib/db/client/client";
 import {
   readLocalConversations,
-  readLocalMessages,
+  readLocalMessageMetaForConv,
 } from "@/lib/db/client/data/chat";
-import { readLocalRequestLogsForConv } from "@/lib/db/client/data/request-log";
+import {
+  readLocalRequestLogMetaForConv,
+  readLocalRequestLogsForConv,
+} from "@/lib/db/client/data/request-log";
 import {
   getChatDebugLog,
   logChatDebug,
@@ -186,33 +189,34 @@ export async function buildDiagnostics(
   }));
 
   // Per-conv message metadata: parentId/convId cross-links reveal a merge without exposing text.
+  // SAFE/metadata mode NEVER loads the request_logs prompt snapshots (finalMessages/requestBody) -
+  // those are the 50-100MB bloat and would OOM the export on a chat-heavy DB. The lean reader
+  // projects only metadata columns in SQL. Full mode opts INTO the blobs (capped per conv).
   const messagesByConv: Record<string, unknown[]> = {};
   const requestLogsByConv: Record<string, unknown[]> = {};
   for (const c of convs) {
-    const rows = (await readLocalMessages(userId, c.id)) ?? [];
-    messagesByConv[c.id] = rows.map((m) => ({
-      id: m.id,
-      convId: m.convId,
-      parentId: m.parentId,
-      role: m.role,
-      model: m.model,
-      branchIndex: m.branchIndex,
-      isActiveBranch: m.isActiveBranch,
-      createdAt: m.createdAt,
-    }));
+    messagesByConv[c.id] = await readLocalMessageMetaForConv(userId, c.id);
 
-    const logs = await readLocalRequestLogsForConv(userId, c.id);
-    requestLogsByConv[c.id] = logs.slice(-MAX_LOG_CONVS).map((l) => ({
-      msgId: l.msgId,
-      convId: l.convId,
-      requestId: l.requestId,
-      channelName: l.channelName,
-      inputTokens: l.inputTokens,
-      createdAt: l.createdAt,
-      // Full mode: the actual sent payload shows if a request carried the wrong conv's context.
-      finalMessages: includeContent ? l.finalMessages : undefined,
-      requestBody: includeContent ? l.requestBody : undefined,
-    }));
+    if (includeContent) {
+      const logs = await readLocalRequestLogsForConv(userId, c.id);
+      requestLogsByConv[c.id] = logs.slice(-MAX_LOG_CONVS).map((l) => ({
+        msgId: l.msgId,
+        convId: l.convId,
+        requestId: l.requestId,
+        channelName: l.channelName,
+        inputTokens: l.inputTokens,
+        createdAt: l.createdAt,
+        // Full mode: the actual sent payload shows if a request carried the wrong conv's context.
+        finalMessages: l.finalMessages,
+        requestBody: l.requestBody,
+      }));
+    } else {
+      requestLogsByConv[c.id] = await readLocalRequestLogMetaForConv(
+        userId,
+        c.id,
+        MAX_LOG_CONVS,
+      );
+    }
   }
 
   // Per-table storage stats, computed ON EXPORT only (not on every chat write). Appended to the debug log
