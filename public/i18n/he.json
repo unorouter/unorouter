@@ -3631,6 +3631,7 @@
     "SAMPLING_PRESENCE_PENALTY": "עונש נוכחות",
     "SAMPLING_REPETITION_PENALTY": "עונש חזרה",
     "SAMPLING_MAX_TOKENS": "טוקנים מקסימליים",
+    "SAMPLING_MAX_TOKENS_CAP": "מקס׳ טוקנים (תקרה {cap})",
     "PRESET_DEFAULT": "Preset ברירת מחדל",
     "PRESET_SAMPLING_OFF": "כבוי",
     "PRESET_MAIN_PROMPT": "הנחיה ראשית (מתווספת לפני המערכת)",

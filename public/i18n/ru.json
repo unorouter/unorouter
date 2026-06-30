@@ -3631,6 +3631,7 @@
     "SAMPLING_PRESENCE_PENALTY": "Штраф за присутствие",
     "SAMPLING_REPETITION_PENALTY": "Штраф за повторение",
     "SAMPLING_MAX_TOKENS": "Макс. токенов",
+    "SAMPLING_MAX_TOKENS_CAP": "Макс. токенов (предел {cap})",
     "PRESET_DEFAULT": "Пресет по умолчанию",
     "PRESET_SAMPLING_OFF": "выкл",
     "PRESET_MAIN_PROMPT": "Основной промпт (перед системным)",

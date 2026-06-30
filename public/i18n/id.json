@@ -3631,6 +3631,7 @@
     "SAMPLING_PRESENCE_PENALTY": "Penalti kehadiran",
     "SAMPLING_REPETITION_PENALTY": "Penalti pengulangan",
     "SAMPLING_MAX_TOKENS": "Token maks",
+    "SAMPLING_MAX_TOKENS_CAP": "Token maks (batas {cap})",
     "PRESET_DEFAULT": "Preset default",
     "PRESET_SAMPLING_OFF": "mati",
     "PRESET_MAIN_PROMPT": "Prompt utama (diawali ke sistem)",

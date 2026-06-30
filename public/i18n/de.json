@@ -3631,6 +3631,7 @@
     "SAMPLING_PRESENCE_PENALTY": "Anwesenheitsstrafe",
     "SAMPLING_REPETITION_PENALTY": "Wiederholungsstrafe",
     "SAMPLING_MAX_TOKENS": "Max. Tokens",
+    "SAMPLING_MAX_TOKENS_CAP": "Max. Tokens (Grenze {cap})",
     "PRESET_DEFAULT": "Standard-Voreinstellung",
     "PRESET_SAMPLING_OFF": "aus",
     "PRESET_MAIN_PROMPT": "Haupt-Prompt (vor dem System)",

@@ -3631,6 +3631,7 @@
     "SAMPLING_PRESENCE_PENALTY": "存在懲罰",
     "SAMPLING_REPETITION_PENALTY": "重複懲罰",
     "SAMPLING_MAX_TOKENS": "最大 Token 數",
+    "SAMPLING_MAX_TOKENS_CAP": "最大權杖（上限 {cap}）",
     "PRESET_DEFAULT": "預設取樣設定",
     "PRESET_SAMPLING_OFF": "關閉",
     "PRESET_MAIN_PROMPT": "主提示詞（位於系統提示之前）",

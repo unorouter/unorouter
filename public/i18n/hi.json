@@ -3631,6 +3631,7 @@
     "SAMPLING_PRESENCE_PENALTY": "Presence penalty",
     "SAMPLING_REPETITION_PENALTY": "Repetition penalty",
     "SAMPLING_MAX_TOKENS": "Max tokens",
+    "SAMPLING_MAX_TOKENS_CAP": "अधिकतम टोकन (सीमा {cap})",
     "PRESET_DEFAULT": "Default preset",
     "PRESET_SAMPLING_OFF": "off",
     "PRESET_MAIN_PROMPT": "Main prompt (system से पहले prepended)",
