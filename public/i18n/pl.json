@@ -1,8 +1,8 @@
 {
   "METADATA": {
     "TITLE": "{appName} - Jeden klucz do każdego modelu AI",
-    "DESCRIPTION": "Jeden klucz do każdego modelu AI. Użyj go w swoim kodzie, w Claude Code, lub w SillyTavern, Janitor.AI, RisuAI i Chub. Inteligentny routing przez każdego głównego dostawcę.",
-    "KEYWORDS": "API AI, ujednolicony endpoint AI, alternatywa dla OpenAI, API Claude, API GPT, API Gemini, API DeepSeek, router AI, brama AI, API multi-model, proxy SillyTavern, proxy Janitor.AI, proxy Chub, RisuAI, roleplay AI, alternatywa dla character AI",
+    "DESCRIPTION": "Jeden klucz do każdego modelu AI. Użyj go w swoim kodzie, w Claude Code, lub w ulubionych klientach AI. Inteligentny routing przez każdego głównego dostawcę.",
+    "KEYWORDS": "API AI, ujednolicony endpoint AI, alternatywa dla OpenAI, API Claude, API GPT, API Gemini, API DeepSeek, router AI, brama AI, API multi-model, API kompatybilne z OpenAI, klient czatu AI",
     "ACCOUNT": {
       "TITLE": "Konto {appName}",
       "DESC": "Zarządzaj swoim kontem {appName}, tokenami, zużyciem i rozliczeniami.",
@@ -159,7 +159,7 @@
         "DESC": "Rozmowy żyją w twojej przeglądarce, nigdy na naszym serwerze. Podłącz też własny endpoint i klucz zgodny z OpenAI, prosto z przeglądarki."
       },
       "CARD4": {
-        "TITLE": "Pełny RPG",
+        "TITLE": "Czat z postaciami",
         "DESC": "Lorebooki, czat grupowy, swipe i prawdziwy silnik RP, nie zabawka."
       },
       "CTA_OPEN": "Otwórz czat",
@@ -296,8 +296,8 @@
     },
     "META": {
       "TITLE": "{appName} - Jeden klucz do każdego modelu AI",
-      "DESCRIPTION": "Jeden klucz do każdego modelu AI. Użyj go w swoim kodzie, w Claude Code, lub w SillyTavern, Janitor.AI, RisuAI i Chub. Inteligentny routing przez każdego głównego dostawcę.",
-      "KEYWORDS": "brama API AI, ujednolicony endpoint AI, kompatybilne z OpenAI, API Claude, API GPT, API Gemini, automatyczny failover, inteligentny routing, proxy SillyTavern, proxy Janitor.AI, proxy Chub, RisuAI, roleplay AI, alternatywa character AI"
+      "DESCRIPTION": "Jeden klucz do każdego modelu AI. Użyj go w swoim kodzie, w Claude Code, lub w ulubionych klientach AI. Inteligentny routing przez każdego głównego dostawcę.",
+      "KEYWORDS": "brama API AI, ujednolicony endpoint AI, kompatybilne z OpenAI, API Claude, API GPT, API Gemini, automatyczny failover, inteligentny routing, API multi-model, klient czatu AI"
     },
     "TITLE": "{appName}"
   },
@@ -410,7 +410,7 @@
     "META": {
       "TITLE": "Modele AI - {appName}",
       "DESCRIPTION": "Każdy model AI w jednym miejscu. GPT, Claude, Gemini, DeepSeek i więcej. Używaj ich w swoim kodzie lub w SillyTavern, Janitor.AI, RisuAI i Chub. Te same ceny dla obu.",
-      "KEYWORDS": "modele AI, biblioteka modeli, cennik AI, modele GPT, modele Claude, modele Gemini, modele DeepSeek, porównanie modeli AI, modele AI do roleplay, modele SillyTavern, modele Janitor.AI, modele character AI"
+      "KEYWORDS": "modele AI, biblioteka modeli, cennik AI, modele GPT, modele Claude, modele Gemini, modele DeepSeek, porównanie modeli AI, API multi-model, modele czatu AI"
     },
     "BADGE": "Biblioteka modeli",
     "TITLE": "Biblioteka modeli",
@@ -1048,7 +1048,7 @@
     "META": {
       "TITLE": "Cennik - {appName}",
       "DESCRIPTION": "Prosty cennik dla każdego modelu AI. Subskrybuj dla lepszej wartości lub płać za użycie. Działa z twoim kodem, z Claude Code i z SillyTavern, Janitor.AI, RisuAI i Chub.",
-      "KEYWORDS": "cennik API AI, subskrypcja AI, płatność za token, cennik modeli AI, tanie API AI, niedrogie AI, cennik SillyTavern, cennik Janitor.AI, cennik roleplay AI, cennik character AI"
+      "KEYWORDS": "cennik API AI, subskrypcja AI, płatność za token, cennik modeli AI, tanie API AI, niedrogie AI, cennik kompatybilny z OpenAI, cennik API multi-model"
     },
     "TITLE": "Cennik",
     "SUBTITLE": "Niezależnie od tego, czy wypuszczasz aplikację, czy prowadzisz długie sesje roleplay. Jeden plan, każdy model.",
@@ -2314,7 +2314,8 @@
     "SOCIAL_TRUSTPILOT": "Trustpilot",
     "EASTER_EGG_LABEL": "Zagraj w Token Breakout",
     "BADGE_FEATURED_ON": "Wyróżniony w {name}",
-    "BADGE_VERIFIED_ON": "Zweryfikowany w {name}"
+    "BADGE_VERIFIED_ON": "Zweryfikowany w {name}",
+    "AUP": "Zasady dopuszczalnego użytkowania"
   },
   "PRIVACY": {
     "META": {
@@ -2376,7 +2377,7 @@
     "USER_CONTENT_TITLE": "5. Treści i dane użytkownika",
     "USER_CONTENT_CONTENT": "Zachowujesz własność treści, które przesyłasz przez Usługi (\"Treści użytkownika\"). Własność wyników wygenerowanych przez AI zależy od warunków konkretnego użytego modelu AI. Nie używamy twoich Treści użytkownika do trenowania modeli AI. Udzielasz nam ograniczonej licencji na przetwarzanie twoich Treści użytkownika wyłącznie w celu świadczenia Usług.",
     "PROHIBITED_TITLE": "6. Zabronione zachowanie",
-    "PROHIBITED_CONTENT": "Zgadzasz się nie używać Usług do naruszania jakichkolwiek obowiązujących praw lub przepisów; tworzenia fałszywych tożsamości lub podszywania się pod innych; zaangażowania w automatyczne skrapowanie lub wydobywanie danych; naruszania praw własności intelektualnej trzecich stron; prób zakłócania, przeciążania lub ingerencji w Usługi; angażowania się w oszustwa; lub odsprzedaży dostępu do swojego konta bez autoryzacji.",
+    "PROHIBITED_CONTENT": "Zgadzasz się nie używać Usług do naruszania jakichkolwiek obowiązujących praw lub przepisów; tworzenia fałszywych tożsamości lub podszywania się pod innych; zaangażowania w automatyczne skrapowanie lub wydobywanie danych; naruszania praw własności intelektualnej trzecich stron; prób zakłócania, przeciążania lub ingerencji w Usługi; angażowania się w oszustwa; lub odsprzedaży dostępu do swojego konta bez autoryzacji; ani generować, żądać lub rozpowszechniać treści o charakterze jednoznacznie seksualnym, pornograficznych lub NSFW, materiałów przedstawiających seksualne wykorzystywanie dzieci, niekonsensualnych treści seksualnych, ani obrazów typu deepfake i face-swap. Korzystanie przez Ciebie z Usług podlega również naszym Zasadom dopuszczalnego użytkowania.",
     "TERMINATION_TITLE": "7. Wypowiedzenie",
     "TERMINATION_CONTENT": "Możemy zawiesić lub zakończyć twoje konto w dowolnym momencie z dowolnego powodu, w tym z powodu naruszenia niniejszych Warunków. Po wypowiedzeniu (z wyjątkiem naruszeń) wszelkie pozostałe niewykorzystane kredyty mogą zostać zwrócone według naszego uznania. Możesz zakończyć swoje konto w dowolnym momencie, kontaktując się z nami.",
     "IP_TITLE": "8. Własność intelektualna",
@@ -2429,6 +2430,30 @@
     "CHANGES_CONTENT": "Możemy w dowolnym momencie zmienić niniejszą Politykę zwrotów, aby zachować zgodność że zmieniającymi się ramami ochrony konsumentów. Aktualizacje będą publikowane na tej stronie wraz że zmienioną datą, a w razie potrzeby klienci, których to dotyczy, zostaną z wyprzedzeniem powiadomieni o istotnych zmianach.",
     "CONTACT_TITLE": "8. Kontakt",
     "CONTACT_CONTENT": "W sprawie wniosków o zwrot lub pytań dotyczących niniejszej polityki skontaktuj się z nami pod adresem {supportEmail}."
+  },
+  "AUP": {
+    "TITLE": "Zasady dopuszczalnego użytkowania",
+    "LAST_UPDATED": "Ostatnia aktualizacja: 30 czerwca 2026",
+    "META": {
+      "TITLE": "Zasady dopuszczalnego użytkowania - {appName}",
+      "DESCRIPTION": "Zasady dopuszczalnego użytkowania {appName}. Zakazane treści i zachowania, w tym zakaz generowania treści o charakterze jednoznacznie seksualnym, NSFW, deepfake i szkodliwych.",
+      "KEYWORDS": "zasady dopuszczalnego użytkowania, {appName} AUP, zakazane treści, polityka treści, polityka korzystania z AI, zakaz NSFW"
+    },
+    "INTRO": "Niniejsze Zasady dopuszczalnego użytkowania regulują korzystanie z {appName}, platformy agregującej API, która kieruje Twoje żądania do zewnętrznych dostawców modeli AI. Mają zastosowanie do każdej funkcji {appName}, w tym czatu, generowania obrazów i generowania wideo. Korzystając z Usług, akceptujesz poniższe zasady oprócz naszego Regulaminu.",
+    "PROHIBITED_CONTENT_TITLE": "Zakazane treści",
+    "PROHIBITED_CONTENT_CONTENT": "Nie możesz korzystać z Usług w celu generowania, żądania, przesyłania ani rozpowszechniania treści o charakterze jednoznacznie seksualnym, pornograficznych lub NSFW jakiegokolwiek rodzaju, materiałów przedstawiających seksualne wykorzystywanie dzieci, treści seksualizujących osoby małoletnie, ani niekonsensualnych treści seksualnych lub intymnych. Zakaz ten dotyczy tekstu, obrazów i wideo, niezależnie od tego, czy treść jest tworzona na naszej platformie, czy za pośrednictwem podłączonego klienta zewnętrznego.",
+    "PROHIBITED_DEEPFAKE_TITLE": "Deepfake i podszywanie się",
+    "PROHIBITED_DEEPFAKE_CONTENT": "Nie możesz korzystać z Usług w celu tworzenia materiałów typu face-swap, deepfake lub manipulacji twarzą, ani podszywania się pod jakąkolwiek rzeczywistą osobę bez jej zgody. Generowanie realistycznych wizerunków możliwych do zidentyfikowania osób w celu wprowadzenia w błąd, nękania lub zniesławienia jest surowo zabronione.",
+    "PROHIBITED_HARM_TITLE": "Szkodliwe i nielegalne użycie",
+    "PROHIBITED_HARM_CONTENT": "Nie możesz korzystać z Usług w celu tworzenia treści promujących przemoc, terroryzm, samookaleczenie, nękanie, nienawiść wobec grup chronionych lub jakąkolwiek nielegalną działalność, ani w celu tworzenia złośliwego oprogramowania, dokonywania oszustw lub wyrządzania w inny sposób szkody innym osobom.",
+    "UPSTREAM_MODERATION_TITLE": "Zewnętrzni dostawcy",
+    "UPSTREAM_MODERATION_CONTENT": "{appName} przekazuje Twoje polecenia zewnętrznym dostawcom AI, z których każdy egzekwuje własne zasady dotyczące treści i może odrzucać lub filtrować żądania. Jesteś odpowiedzialny za zapewnienie, że Twoje korzystanie jest zgodne zarówno z niniejszymi Zasadami, jak i z zasadami dostawców bazowych. Możemy weryfikować polecenia przed generowaniem obrazów lub wideo oraz blokować żądania naruszające niniejsze Zasady.",
+    "ENFORCEMENT_TITLE": "Egzekwowanie",
+    "ENFORCEMENT_CONTENT": "Możemy przeglądać sposób korzystania i reagować na naruszenia niniejszych Zasad, w tym blokować żądania, zawieszać lub zamykać konta oraz zgłaszać nielegalną działalność odpowiednim organom. Naruszenia mogą być egzekwowane bez uprzedniego powiadomienia, gdy wymaga tego prawo lub w celu zapobieżenia szkodzie.",
+    "CHANGES_TITLE": "Zmiany w niniejszych Zasadach",
+    "CHANGES_CONTENT": "Możemy od czasu do czasu aktualizować niniejsze Zasady dopuszczalnego użytkowania. Dalsze korzystanie z Usług po wejściu zmian w życie oznacza akceptację zmienionych Zasad.",
+    "CONTACT_TITLE": "Kontakt",
+    "CONTACT_CONTENT": "Jeśli masz pytania dotyczące niniejszych Zasad dopuszczalnego użytkowania, skontaktuj się z nami pod adresem {supportEmail}."
   },
   "MAIN": {
     "ENUM": {

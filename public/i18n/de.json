@@ -1,8 +1,8 @@
 {
   "METADATA": {
     "TITLE": "{appName} - Ein Schlüssel für jedes KI-Modell",
-    "DESCRIPTION": "Ein Schlüssel für jedes KI-Modell. Nutze ihn in deinem Code, in Claude Code oder in SillyTavern, Janitor.AI, RisuAI und Chub. Smartes Routing über alle großen Anbieter.",
-    "KEYWORDS": "KI-API, einheitlicher KI-Endpunkt, OpenAI-Alternative, Claude API, GPT API, Gemini API, DeepSeek API, AI-Router, AI-Gateway, Multi-Modell-API, SillyTavern Proxy, Janitor.AI Proxy, Chub Proxy, RisuAI, KI-Rollenspiel, Character AI Alternative",
+    "DESCRIPTION": "Ein Schlüssel für jedes KI-Modell. Nutze ihn in deinem Code, in Claude Code oder in deinen bevorzugten KI-Clients. Smartes Routing über alle großen Anbieter.",
+    "KEYWORDS": "KI-API, einheitlicher KI-Endpunkt, OpenAI-Alternative, Claude API, GPT API, Gemini API, DeepSeek API, AI-Router, AI-Gateway, Multi-Modell-API, OpenAI-kompatible API, KI-Chat-Client",
     "ACCOUNT": {
       "TITLE": "{appName} Konto",
       "DESC": "Verwalten Sie Ihr {appName} Konto, Tokens, Nutzung und Abrechnung.",
@@ -137,7 +137,7 @@
         "DESC": "Gespräche bleiben in deinem Browser, nie auf unserem Server. Binde auch deinen eigenen OpenAI-kompatiblen Endpunkt und Schlüssel ein, direkt aus dem Browser."
       },
       "CARD4": {
-        "TITLE": "Volles Rollenspiel",
+        "TITLE": "Charakter-Chat",
         "DESC": "Lorebooks, Gruppenchat, Swipes und eine echte RP-Engine, kein Spielzeug."
       },
       "CTA_OPEN": "Chat öffnen",
@@ -274,8 +274,8 @@
     },
     "META": {
       "TITLE": "{appName} - Ein Schlüssel für jedes KI-Modell",
-      "DESCRIPTION": "Ein Schlüssel für jedes KI-Modell. Nutze ihn in deinem Code, in Claude Code oder in SillyTavern, Janitor.AI, RisuAI und Chub. Smartes Routing über alle großen Anbieter.",
-      "KEYWORDS": "KI-API-Gateway, einheitlicher KI-Endpunkt, OpenAI-kompatibel, Claude API, GPT API, Gemini API, automatisches Failover, smartes Routing, SillyTavern Proxy, Janitor.AI Proxy, Chub Proxy, RisuAI, KI-Rollenspiel, Character AI Alternative"
+      "DESCRIPTION": "Ein Schlüssel für jedes KI-Modell. Nutze ihn in deinem Code, in Claude Code oder in deinen bevorzugten KI-Clients. Smartes Routing über alle großen Anbieter.",
+      "KEYWORDS": "KI-API-Gateway, einheitlicher KI-Endpunkt, OpenAI-kompatibel, Claude API, GPT API, Gemini API, automatisches Failover, smartes Routing, Multi-Modell-API, KI-Chat-Client"
     },
     "TITLE": "{appName}",
     "HOW_IT_WORKS": {
@@ -410,7 +410,7 @@
     "META": {
       "TITLE": "KI-Modelle - {appName}",
       "DESCRIPTION": "Alle KI-Modelle an einem Ort. GPT, Claude, Gemini, DeepSeek und mehr. Nutze sie in deinem Code oder in SillyTavern, Janitor.AI, RisuAI und Chub. Gleicher Preis für beide.",
-      "KEYWORDS": "KI-Modelle, Modellbibliothek, KI-Preise, GPT-Modelle, Claude-Modelle, Gemini-Modelle, DeepSeek-Modelle, KI-Modellvergleich, Rollenspiel KI-Modelle, SillyTavern Modelle, Janitor.AI Modelle, Character AI Modelle"
+      "KEYWORDS": "KI-Modelle, Modellbibliothek, KI-Preise, GPT-Modelle, Claude-Modelle, Gemini-Modelle, DeepSeek-Modelle, KI-Modellvergleich, Multi-Modell-API, KI-Chat-Modelle"
     },
     "BADGE": "Modellbibliothek",
     "TITLE": "Modellbibliothek",
@@ -1048,7 +1048,7 @@
     "META": {
       "TITLE": "Preise - {appName}",
       "DESCRIPTION": "Einfache Preise für jedes KI-Modell. Abonniere für besseren Wert oder zahle nach Verbrauch. Funktioniert in deinem Code, in Claude Code und in SillyTavern, Janitor.AI, RisuAI und Chub.",
-      "KEYWORDS": "KI-API-Preise, KI-Abonnement, Pay-per-Token, KI-Modellpreise, günstige KI-API, bezahlbare KI, SillyTavern Preise, Janitor.AI Preise, Rollenspiel KI Preise, Character AI Preise"
+      "KEYWORDS": "KI-API-Preise, KI-Abonnement, Pay-per-Token, KI-Modellpreise, günstige KI-API, bezahlbare KI, OpenAI-kompatible Preise, Multi-Modell-API-Preise"
     },
     "TITLE": "Preise",
     "SUBTITLE": "Egal ob du eine App ausspielst oder lange Rollenspiel-Sessions führst. Ein Plan, jedes Modell.",
@@ -2314,7 +2314,8 @@
     "SOCIAL_TRUSTPILOT": "Trustpilot",
     "EASTER_EGG_LABEL": "Token Breakout spielen",
     "BADGE_FEATURED_ON": "Vorgestellt auf {name}",
-    "BADGE_VERIFIED_ON": "Verifiziert auf {name}"
+    "BADGE_VERIFIED_ON": "Verifiziert auf {name}",
+    "AUP": "Nutzungsrichtlinie"
   },
   "PRIVACY": {
     "META": {
@@ -2376,7 +2377,7 @@
     "USER_CONTENT_TITLE": "5. Nutzerinhalte und Daten",
     "USER_CONTENT_CONTENT": "Sie behalten das Eigentum an den Inhalten, die Sie über die Dienste einreichen (\"Nutzerinhalte\"). Das Eigentum an KI-generierten Ausgaben hängt von den Bedingungen des jeweiligen verwendeten KI-Modells ab. Wir verwenden Ihre Nutzerinhalte nicht zum Training von KI-Modellen. Sie gewähren uns eine beschränkte Lizenz zur Verarbeitung Ihrer Nutzerinhalte ausschließlich zum Zweck der Bereitstellung der Dienste.",
     "PROHIBITED_TITLE": "6. Verbotenes Verhalten",
-    "PROHIBITED_CONTENT": "Sie verpflichten sich, die Dienste nicht zu nutzen, um gegen geltende Gesetze oder Vorschriften zu verstoßen; falsche Identitäten zu erstellen oder sich als andere auszugeben; automatisiertes Scraping oder Data Mining zu betreiben; geistige Eigentumsrechte Dritter zu verletzen; zu versuchen, die Dienste zu stören, zu überlasten oder zu beeinträchtigen; betrügerische Aktivitäten zu betreiben; oder den Zugang zu Ihrem Konto ohne Genehmigung weiterzuverkaufen.",
+    "PROHIBITED_CONTENT": "Sie verpflichten sich, die Dienste nicht zu nutzen, um gegen geltende Gesetze oder Vorschriften zu verstoßen; falsche Identitäten zu erstellen oder sich als andere auszugeben; automatisiertes Scraping oder Data Mining zu betreiben; geistige Eigentumsrechte Dritter zu verletzen; zu versuchen, die Dienste zu stören, zu überlasten oder zu beeinträchtigen; betrügerische Aktivitäten zu betreiben; oder den Zugang zu Ihrem Konto ohne Genehmigung weiterzuverkaufen; oder sexuell explizite, pornografische oder NSFW-Inhalte, Material über sexuellen Missbrauch von Kindern, nicht einvernehmliche sexuelle Inhalte oder Deepfake- und Face-Swap-Bilder zu erzeugen, anzufordern oder zu verbreiten. Ihre Nutzung der Dienste unterliegt zudem unserer Nutzungsrichtlinie.",
     "TERMINATION_TITLE": "7. Kündigung",
     "TERMINATION_CONTENT": "Wir können Ihr Konto jederzeit aus beliebigem Grund aussetzen oder kündigen, einschließlich bei Verstoß gegen diese Bedingungen. Bei Kündigung (außer bei Verstößen) kann verbleibendes ungenutztes Guthaben nach unserem Ermessen erstattet werden. Sie können Ihr Konto jederzeit durch Kontaktaufnahme mit uns kündigen.",
     "IP_TITLE": "8. Geistiges Eigentum",
@@ -2429,6 +2430,30 @@
     "CHANGES_CONTENT": "Wir können diese Rückerstattungsrichtlinie jederzeit ändern, um die Einhaltung sich entwickelnder Verbraucherschutzrahmen zu gewährleisten. Aktualisierungen werden auf dieser Seite mit einem überarbeiteten Datum angezeigt, und sofern erforderlich, werden betroffene Kunden im Voraus über wesentliche Änderungen informiert.",
     "CONTACT_TITLE": "8. Kontakt",
     "CONTACT_CONTENT": "Für Rückerstattungsanträge oder Fragen zu dieser Richtlinie kontaktieren Sie uns bitte unter {supportEmail}."
+  },
+  "AUP": {
+    "TITLE": "Nutzungsrichtlinie",
+    "LAST_UPDATED": "Zuletzt aktualisiert: 30. Juni 2026",
+    "META": {
+      "TITLE": "Nutzungsrichtlinie - {appName}",
+      "DESCRIPTION": "Nutzungsrichtlinie für {appName}. Verbotene Inhalte und Verhaltensweisen, einschließlich eines Verbots der Erzeugung sexuell expliziter, NSFW-, Deepfake- und schädlicher Inhalte.",
+      "KEYWORDS": "Nutzungsrichtlinie, {appName} AUP, verbotene Inhalte, Inhaltsrichtlinie, KI-Nutzungsrichtlinie, NSFW-Verbot"
+    },
+    "INTRO": "Diese Nutzungsrichtlinie regelt Ihre Nutzung von {appName}, einer API-Aggregationsplattform, die Ihre Anfragen an KI-Modellanbieter von Drittanbietern weiterleitet. Sie gilt für jede Funktion von {appName}, einschließlich Chat, Bildgenerierung und Videogenerierung. Durch die Nutzung der Dienste stimmen Sie zusätzlich zu unseren Nutzungsbedingungen den nachstehenden Regeln zu.",
+    "PROHIBITED_CONTENT_TITLE": "Verbotene Inhalte",
+    "PROHIBITED_CONTENT_CONTENT": "Sie dürfen die Dienste nicht nutzen, um sexuell explizite, pornografische oder NSFW-Inhalte jeglicher Art, Material über sexuellen Missbrauch von Kindern, Inhalte, die Minderjährige sexualisieren, oder nicht einvernehmliche sexuelle oder intime Inhalte zu erzeugen, anzufordern, hochzuladen oder zu verbreiten. Dieses Verbot gilt für Text, Bilder und Videos, unabhängig davon, ob die Inhalte auf unserer Plattform oder über einen verbundenen Drittanbieter-Client erzeugt werden.",
+    "PROHIBITED_DEEPFAKE_TITLE": "Deepfakes und Identitätsmissbrauch",
+    "PROHIBITED_DEEPFAKE_CONTENT": "Sie dürfen die Dienste nicht nutzen, um Face-Swap-, Deepfake- oder Gesichtsmanipulationsmedien zu erstellen oder sich ohne deren Einwilligung als eine reale Person auszugeben. Das Erstellen realistischer Darstellungen identifizierbarer Personen, um zu täuschen, zu belästigen oder zu verleumden, ist streng verboten.",
+    "PROHIBITED_HARM_TITLE": "Schädliche und illegale Nutzung",
+    "PROHIBITED_HARM_CONTENT": "Sie dürfen die Dienste nicht nutzen, um Inhalte zu erstellen, die Gewalt, Terrorismus, Selbstverletzung, Belästigung, Hass gegen geschützte Gruppen oder illegale Aktivitäten fördern, noch um Schadsoftware zu entwickeln, Betrug zu begehen oder anderen anderweitig Schaden zuzufügen.",
+    "UPSTREAM_MODERATION_TITLE": "Drittanbieter",
+    "UPSTREAM_MODERATION_CONTENT": "{appName} leitet Ihre Prompts an KI-Anbieter von Drittanbietern weiter, von denen jeder seine eigenen Inhaltsrichtlinien durchsetzt und Anfragen ablehnen oder filtern kann. Sie sind dafür verantwortlich, dass Ihre Nutzung sowohl dieser Richtlinie als auch den Richtlinien der zugrunde liegenden Anbieter entspricht. Wir können Prompts vor der Bild- oder Videogenerierung prüfen und Anfragen blockieren, die gegen diese Richtlinie verstoßen.",
+    "ENFORCEMENT_TITLE": "Durchsetzung",
+    "ENFORCEMENT_CONTENT": "Wir können die Nutzung überprüfen und bei Verstößen gegen diese Richtlinie Maßnahmen ergreifen, einschließlich des Blockierens von Anfragen, der Aussetzung oder Kündigung von Konten und der Meldung illegaler Aktivitäten an die zuständigen Behörden. Verstöße können ohne vorherige Ankündigung durchgesetzt werden, sofern dies gesetzlich vorgeschrieben ist oder um Schaden abzuwenden.",
+    "CHANGES_TITLE": "Änderungen dieser Richtlinie",
+    "CHANGES_CONTENT": "Wir können diese Nutzungsrichtlinie von Zeit zu Zeit aktualisieren. Die fortgesetzte Nutzung der Dienste nach Inkrafttreten der Änderungen gilt als Annahme der überarbeiteten Richtlinie.",
+    "CONTACT_TITLE": "Kontakt",
+    "CONTACT_CONTENT": "Wenn Sie Fragen zu dieser Nutzungsrichtlinie haben, kontaktieren Sie uns bitte unter {supportEmail}."
   },
   "MAIN": {
     "ENUM": {

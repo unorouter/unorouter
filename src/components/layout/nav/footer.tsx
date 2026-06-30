@@ -29,6 +29,7 @@ const EXTERNAL_NAV_LINKS = [
 const LEGAL_LINKS = [
   { href: "/terms", key: msg("FOOTER.TERMS") },
   { href: "/privacy", key: msg("FOOTER.PRIVACY") },
+  { href: "/aup", key: msg("FOOTER.AUP") },
   { href: "/refund", key: msg("FOOTER.REFUND") },
 ] as const;
 

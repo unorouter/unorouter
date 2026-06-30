@@ -7,6 +7,7 @@ export const CLIENT_STRIPPED_NAMESPACES = [
   "TERMS",
   "PRIVACY",
   "REFUND",
+  "AUP",
   "WELL_KNOWN",
 ] as const;
 

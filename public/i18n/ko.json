@@ -1,8 +1,8 @@
 {
   "METADATA": {
     "TITLE": "{appName} - 모든 AI 모델을 위한 단 하나의 키",
-    "DESCRIPTION": "모든 AI 모델을 위한 단 하나의 키. 코드에서, Claude Code에서, 또는 SillyTavern, Janitor.AI, RisuAI, Chub에서 사용하세요. 주요 공급자 전반의 스마트 라우팅.",
-    "KEYWORDS": "AI API, 통합 AI 엔드포인트, OpenAI 대안, Claude API, GPT API, Gemini API, DeepSeek API, AI 라우터, AI 게이트웨이, 멀티 모델 API, SillyTavern 프록시, Janitor.AI 프록시, Chub 프록시, RisuAI, AI 롤플레이, character AI 대안",
+    "DESCRIPTION": "모든 AI 모델을 위한 단 하나의 키. 코드에서, Claude Code에서, 또는 즐겨 쓰는 AI 클라이언트에서 사용하세요. 주요 공급자 전반의 스마트 라우팅.",
+    "KEYWORDS": "AI API, 통합 AI 엔드포인트, OpenAI 대안, Claude API, GPT API, Gemini API, DeepSeek API, AI 라우터, AI 게이트웨이, 멀티 모델 API, OpenAI 호환 API, AI 채팅 클라이언트",
     "ACCOUNT": {
       "TITLE": "{appName} 계정",
       "DESC": "{appName} 계정, 토큰, 사용량 및 결제를 관리하세요.",
@@ -159,7 +159,7 @@
         "DESC": "대화는 브라우저에 있고 우리 서버에는 없습니다. 자신의 OpenAI 호환 엔드포인트와 키도 브라우저에서 바로 사용하세요."
       },
       "CARD4": {
-        "TITLE": "완전한 롤플레이",
+        "TITLE": "캐릭터 채팅",
         "DESC": "로어북, 그룹 채팅, 스와이프, 진짜 RP 엔진. 장난감이 아닙니다."
       },
       "CTA_OPEN": "채팅 열기",
@@ -296,8 +296,8 @@
     },
     "META": {
       "TITLE": "{appName} - 모든 AI 모델을 위한 단 하나의 키",
-      "DESCRIPTION": "모든 AI 모델을 위한 단 하나의 키. 코드에서, Claude Code에서, 또는 SillyTavern, Janitor.AI, RisuAI, Chub에서 사용하세요. 주요 공급자 전반의 스마트 라우팅.",
-      "KEYWORDS": "AI API 게이트웨이, 통합 AI 엔드포인트, OpenAI 호환, Claude API, GPT API, Gemini API, 자동 페일오버, 스마트 라우팅, SillyTavern 프록시, Janitor.AI 프록시, Chub 프록시, RisuAI, AI 롤플레이, character AI 대안"
+      "DESCRIPTION": "모든 AI 모델을 위한 단 하나의 키. 코드에서, Claude Code에서, 또는 즐겨 쓰는 AI 클라이언트에서 사용하세요. 주요 공급자 전반의 스마트 라우팅.",
+      "KEYWORDS": "AI API 게이트웨이, 통합 AI 엔드포인트, OpenAI 호환, Claude API, GPT API, Gemini API, 자동 페일오버, 스마트 라우팅, 멀티 모델 API, AI 채팅 클라이언트"
     },
     "TITLE": "{appName}"
   },
@@ -410,7 +410,7 @@
     "META": {
       "TITLE": "AI 모델 - {appName}",
       "DESCRIPTION": "모든 AI 모델을 한 곳에서. GPT, Claude, Gemini, DeepSeek 등. 코드에서 사용하거나 SillyTavern, Janitor.AI, RisuAI, Chub에서 사용하세요. 가격은 동일합니다.",
-      "KEYWORDS": "AI 모델, 모델 라이브러리, AI 요금, GPT 모델, Claude 모델, Gemini 모델, DeepSeek 모델, AI 모델 비교, 롤플레이 AI 모델, SillyTavern 모델, Janitor.AI 모델, character AI 모델"
+      "KEYWORDS": "AI 모델, 모델 라이브러리, AI 요금, GPT 모델, Claude 모델, Gemini 모델, DeepSeek 모델, AI 모델 비교, 멀티 모델 API, AI 채팅 모델"
     },
     "BADGE": "모델 라이브러리",
     "TITLE": "모델 라이브러리",
@@ -1048,7 +1048,7 @@
     "META": {
       "TITLE": "요금 - {appName}",
       "DESCRIPTION": "모든 AI 모델을 위한 간단한 요금. 더 좋은 가치를 원하면 구독하거나 종량제를 선택하세요. 코드, Claude Code, SillyTavern, Janitor.AI, RisuAI, Chub와 함께 작동합니다.",
-      "KEYWORDS": "AI API 요금, AI 구독, 토큰당 결제, AI 모델 요금, 저렴한 AI API, 합리적인 AI, SillyTavern 요금, Janitor.AI 요금, 롤플레이 AI 요금, character AI 요금"
+      "KEYWORDS": "AI API 요금, AI 구독, 토큰당 결제, AI 모델 요금, 저렴한 AI API, 합리적인 AI, OpenAI 호환 요금, 멀티 모델 API 요금"
     },
     "TITLE": "요금",
     "SUBTITLE": "앱을 출시하든 긴 롤플레이 세션을 운영하든. 하나의 플랜, 모든 모델.",
@@ -2314,7 +2314,8 @@
     "SOCIAL_TRUSTPILOT": "Trustpilot",
     "EASTER_EGG_LABEL": "Token Breakout 플레이",
     "BADGE_FEATURED_ON": "{name}에 소개됨",
-    "BADGE_VERIFIED_ON": "{name}에서 인증됨"
+    "BADGE_VERIFIED_ON": "{name}에서 인증됨",
+    "AUP": "이용 정책"
   },
   "PRIVACY": {
     "META": {
@@ -2376,7 +2377,7 @@
     "USER_CONTENT_TITLE": "5. 사용자 콘텐츠 및 데이터",
     "USER_CONTENT_CONTENT": "귀하는 서비스를 통해 제출하는 콘텐츠 (\"사용자 콘텐츠\")의 소유권을 유지합니다. AI 생성 출력의 소유권은 사용된 특정 AI 모델의 약관에 따라 다릅니다. 당사는 AI 모델을 훈련하는 데 사용자 콘텐츠를 사용하지 않습니다. 귀하는 서비스 제공 목적으로만 사용자 콘텐츠를 처리할 수 있는 제한된 라이선스를 당사에 부여합니다.",
     "PROHIBITED_TITLE": "6. 금지된 행위",
-    "PROHIBITED_CONTENT": "귀하는 서비스를 사용하여 적용 가능한 법률이나 규정을 위반하거나, 허위 신원을 만들거나 타인을 사칭하거나, 자동 스크래핑이나 데이터 마이닝에 참여하거나, 제3자의 지적 재산권을 침해하거나, 서비스를 중단, 과부하 또는 방해하려고 시도하거나, 부정 행위에 참여하거나, 허가 없이 계정 액세스를 재판매하지 않을 것에 동의합니다.",
+    "PROHIBITED_CONTENT": "귀하는 서비스를 사용하여 적용 가능한 법률이나 규정을 위반하거나, 허위 신원을 만들거나 타인을 사칭하거나, 자동 스크래핑이나 데이터 마이닝에 참여하거나, 제3자의 지적 재산권을 침해하거나, 서비스를 중단, 과부하 또는 방해하려고 시도하거나, 부정 행위에 참여하거나, 허가 없이 계정 액세스를 재판매하지 않을 것에 동의합니다, 또는 성적으로 노골적인 콘텐츠, 음란물 또는 NSFW 콘텐츠, 아동 성착취물, 동의 없는 성적 콘텐츠, 또는 딥페이크 및 얼굴 교체 이미지를 생성, 요청 또는 배포하지 않을 것에 동의합니다. 귀하의 서비스 이용은 당사의 이용 정책에도 적용됩니다.",
     "TERMINATION_TITLE": "7. 종료",
     "TERMINATION_CONTENT": "당사는 본 약관 위반을 포함한 어떤 이유로든 언제든지 귀하의 계정을 중지하거나 종료할 수 있습니다. 종료 시 (위반의 경우 제외) 남은 미사용 크레딧은 당사의 재량으로 환불될 수 있습니다. 귀하는 당사에 연락하여 언제든지 계정을 종료할 수 있습니다.",
     "IP_TITLE": "8. 지적 재산권",
@@ -2429,6 +2430,30 @@
     "CHANGES_CONTENT": "당사는 변화하는 소비자 보호 체계를 준수하기 위해 언제든지 본 환불 정책을 변경할 수 있습니다. 변경 사항은 개정일과 함께 본 페이지에 반영되며, 필요한 경우 중요한 변경 사항에 대해 영향을 받는 고객에게 사전에 통지합니다.",
     "CONTACT_TITLE": "8. 문의",
     "CONTACT_CONTENT": "환불 요청이나 본 정책에 대한 문의 사항은 {supportEmail}로 연락해 주세요."
+  },
+  "AUP": {
+    "TITLE": "이용 정책",
+    "LAST_UPDATED": "최종 업데이트: 2026년 6월 30일",
+    "META": {
+      "TITLE": "이용 정책 - {appName}",
+      "DESCRIPTION": "{appName}의 이용 정책. 성적으로 노골적인 콘텐츠, NSFW, 딥페이크 및 유해 콘텐츠 생성 금지를 포함한 금지 콘텐츠 및 행위.",
+      "KEYWORDS": "이용 정책, {appName} AUP, 금지 콘텐츠, 콘텐츠 정책, AI 이용 정책, NSFW 금지"
+    },
+    "INTRO": "본 이용 정책은 귀하의 요청을 제3자 AI 모델 제공업체로 라우팅하는 API 집계 플랫폼인 {appName}의 이용을 규율합니다. 본 정책은 채팅, 이미지 생성, 동영상 생성을 포함한 {appName}의 모든 기능에 적용됩니다. 서비스를 이용함으로써 귀하는 당사의 이용 약관에 더하여 아래 규칙에 동의하게 됩니다.",
+    "PROHIBITED_CONTENT_TITLE": "금지 콘텐츠",
+    "PROHIBITED_CONTENT_CONTENT": "귀하는 어떠한 종류의 성적으로 노골적인 콘텐츠, 음란물 또는 NSFW 콘텐츠, 아동 성착취물, 미성년자를 성적으로 묘사하는 콘텐츠, 또는 동의 없는 성적이거나 사적인 콘텐츠를 생성, 요청, 업로드 또는 배포하기 위해 서비스를 이용할 수 없습니다. 이 금지는 콘텐츠가 당사 플랫폼에서 생성되었는지 연결된 제3자 클라이언트를 통해 생성되었는지와 관계없이 텍스트, 이미지 및 동영상에 적용됩니다.",
+    "PROHIBITED_DEEPFAKE_TITLE": "딥페이크 및 사칭",
+    "PROHIBITED_DEEPFAKE_CONTENT": "귀하는 얼굴 교체, 딥페이크 또는 얼굴 조작 미디어를 제작하거나, 실존 인물을 그 동의 없이 사칭하기 위해 서비스를 이용할 수 없습니다. 식별 가능한 개인의 사실적인 묘사를 기만, 괴롭힘 또는 명예훼손의 목적으로 생성하는 것은 엄격히 금지됩니다.",
+    "PROHIBITED_HARM_TITLE": "유해하고 불법적인 이용",
+    "PROHIBITED_HARM_CONTENT": "귀하는 폭력, 테러, 자해, 괴롭힘, 보호 대상 집단에 대한 증오 또는 모든 불법 활동을 조장하는 콘텐츠를 제작하거나, 멀웨어를 개발하거나, 사기를 저지르거나, 그 밖의 방법으로 타인에게 해를 끼치기 위해 서비스를 이용할 수 없습니다.",
+    "UPSTREAM_MODERATION_TITLE": "제3자 제공업체",
+    "UPSTREAM_MODERATION_CONTENT": "{appName}은 귀하의 프롬프트를 제3자 AI 제공업체로 전달하며, 각 제공업체는 자체 콘텐츠 정책을 시행하고 요청을 거부하거나 필터링할 수 있습니다. 귀하의 이용이 본 정책과 기반 제공업체의 정책 모두를 준수하도록 보장할 책임은 귀하에게 있습니다. 당사는 이미지 또는 동영상 생성 전에 프롬프트를 검사하고 본 정책을 위반하는 요청을 차단할 수 있습니다.",
+    "ENFORCEMENT_TITLE": "집행",
+    "ENFORCEMENT_CONTENT": "당사는 이용을 검토하고 본 정책 위반에 대해 요청 차단, 계정 정지 또는 해지, 불법 활동의 관련 당국 신고를 포함한 조치를 취할 수 있습니다. 법률에서 요구하거나 피해를 방지하기 위해 필요한 경우 사전 통지 없이 위반에 대한 조치가 집행될 수 있습니다.",
+    "CHANGES_TITLE": "본 정책의 변경",
+    "CHANGES_CONTENT": "당사는 본 이용 정책을 수시로 업데이트할 수 있습니다. 변경 사항이 적용된 후에도 서비스를 계속 이용하는 것은 개정된 정책에 대한 동의로 간주됩니다.",
+    "CONTACT_TITLE": "문의",
+    "CONTACT_CONTENT": "본 이용 정책에 대해 궁금한 점이 있으면 {supportEmail}으로 문의해 주십시오."
   },
   "MAIN": {
     "ENUM": {

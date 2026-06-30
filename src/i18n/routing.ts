@@ -928,6 +928,25 @@ export const pathnames = {
     id: "/pengembalian",
     pl: "/zwroty",
   },
+  "/aup": {
+    de: "/nutzungsrichtlinie",
+    fr: "/utilisation-acceptable",
+    ja: "/riyou-porishii",
+    ru: "/правила-использования",
+    vi: "/chinh-sach-su-dung",
+    "zh-CN": "/shiyong-zhengce",
+    "zh-TW": "/shiyong-zhengce",
+    it: "/uso-accettabile",
+    es: "/uso-aceptable",
+    "pt-BR": "/uso-aceitavel",
+    ko: "/iyong-jeongchaek",
+    tr: "/kullanim-politikasi",
+    ar: "/سياسة-الاستخدام",
+    he: "/מדיניות-שימוש",
+    hi: "/upyog-niti",
+    id: "/kebijakan-penggunaan",
+    pl: "/zasady-korzystania",
+  },
 } as const;
 
 export const routing = defineRouting({

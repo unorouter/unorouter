@@ -1,8 +1,8 @@
 {
   "METADATA": {
     "TITLE": "{appName} - Một khoá cho mọi mô hình AI",
-    "DESCRIPTION": "Một khoá cho mọi mô hình AI. Dùng trong code, trong Claude Code, hoặc trong SillyTavern, Janitor.AI, RisuAI và Chub. Định tuyến thông minh trên mọi nhà cung cấp lớn.",
-    "KEYWORDS": "API AI, endpoint AI thống nhất, thay thế OpenAI, Claude API, GPT API, Gemini API, DeepSeek API, router AI, gateway AI, API đa mô hình, SillyTavern proxy, Janitor.AI proxy, Chub proxy, RisuAI, roleplay AI, thay thế Character AI",
+    "DESCRIPTION": "Một khoá cho mọi mô hình AI. Dùng trong code, trong Claude Code, hoặc trong các ứng dụng khách AI yêu thích của bạn. Định tuyến thông minh trên mọi nhà cung cấp lớn.",
+    "KEYWORDS": "API AI, endpoint AI thống nhất, thay thế OpenAI, Claude API, GPT API, Gemini API, DeepSeek API, router AI, gateway AI, API đa mô hình, API tương thích OpenAI, ứng dụng chat AI",
     "ACCOUNT": {
       "TITLE": "Tài khoản {appName}",
       "DESC": "Quản lý tài khoản {appName}, token, mức sử dụng và thanh toán.",
@@ -137,7 +137,7 @@
         "DESC": "Cuộc trò chuyện sống trong trình duyệt của bạn, không bao giờ trên máy chủ chúng tôi. Dùng cả endpoint và khóa tương thích OpenAI của riêng bạn, ngay từ trình duyệt."
       },
       "CARD4": {
-        "TITLE": "Nhập vai đầy đủ",
+        "TITLE": "Trò chuyện nhân vật",
         "DESC": "Lorebook, trò chuyện nhóm, vuốt và một động cơ RP thật sự, không phải đồ chơi."
       },
       "CTA_OPEN": "Mở trò chuyện",
@@ -274,8 +274,8 @@
     },
     "META": {
       "TITLE": "{appName} - Một khoá cho mọi mô hình AI",
-      "DESCRIPTION": "Một khoá cho mọi mô hình AI. Dùng trong code, trong Claude Code, hoặc trong SillyTavern, Janitor.AI, RisuAI và Chub. Định tuyến thông minh trên mọi nhà cung cấp lớn.",
-      "KEYWORDS": "gateway API AI, endpoint AI thống nhất, tương thích OpenAI, Claude API, GPT API, Gemini API, failover tự động, định tuyến thông minh, SillyTavern proxy, Janitor.AI proxy, Chub proxy, RisuAI, roleplay AI, thay thế Character AI"
+      "DESCRIPTION": "Một khoá cho mọi mô hình AI. Dùng trong code, trong Claude Code, hoặc trong các ứng dụng khách AI yêu thích của bạn. Định tuyến thông minh trên mọi nhà cung cấp lớn.",
+      "KEYWORDS": "gateway API AI, endpoint AI thống nhất, tương thích OpenAI, Claude API, GPT API, Gemini API, failover tự động, định tuyến thông minh, API đa mô hình, ứng dụng chat AI"
     },
     "TITLE": "{appName}",
     "HOW_IT_WORKS": {
@@ -410,7 +410,7 @@
     "META": {
       "TITLE": "Mô hình AI - {appName}",
       "DESCRIPTION": "Mọi mô hình AI ở cùng một nơi. GPT, Claude, Gemini, DeepSeek và hơn nữa. Dùng trong code hay trong SillyTavern, Janitor.AI, RisuAI và Chub. Cùng một mức giá.",
-      "KEYWORDS": "mô hình AI, thư viện mô hình, giá AI, mô hình GPT, mô hình Claude, mô hình Gemini, mô hình DeepSeek, so sánh mô hình AI, mô hình AI roleplay, mô hình SillyTavern, mô hình Janitor.AI, mô hình Character AI"
+      "KEYWORDS": "mô hình AI, thư viện mô hình, giá AI, mô hình GPT, mô hình Claude, mô hình Gemini, mô hình DeepSeek, so sánh mô hình AI, API đa mô hình, mô hình chat AI"
     },
     "BADGE": "Thư viện mô hình",
     "TITLE": "Thư viện mô hình",
@@ -1048,7 +1048,7 @@
     "META": {
       "TITLE": "Bảng giá - {appName}",
       "DESCRIPTION": "Giá đơn giản cho mọi mô hình AI. Đăng ký để có giá tốt hơn hoặc trả theo mức dùng. Chạy trong code, trong Claude Code và trong SillyTavern, Janitor.AI, RisuAI và Chub.",
-      "KEYWORDS": "giá API AI, đăng ký AI, trả theo token, giá mô hình AI, API AI giá rẻ, AI giá hợp lý, giá SillyTavern, giá Janitor.AI, giá AI roleplay, giá Character AI"
+      "KEYWORDS": "giá API AI, đăng ký AI, trả theo token, giá mô hình AI, API AI giá rẻ, AI giá hợp lý, giá tương thích OpenAI, giá API đa mô hình"
     },
     "TITLE": "Bảng giá",
     "SUBTITLE": "Dù bạn deploy ứng dụng hay roleplay dài hơi. Một gói, mọi mô hình.",
@@ -2314,7 +2314,8 @@
     "SOCIAL_TRUSTPILOT": "Trustpilot",
     "EASTER_EGG_LABEL": "Chơi Token Breakout",
     "BADGE_FEATURED_ON": "Được giới thiệu trên {name}",
-    "BADGE_VERIFIED_ON": "Đã xác minh trên {name}"
+    "BADGE_VERIFIED_ON": "Đã xác minh trên {name}",
+    "AUP": "Chính sách sử dụng được chấp nhận"
   },
   "PRIVACY": {
     "META": {
@@ -2376,7 +2377,7 @@
     "USER_CONTENT_TITLE": "5. Nội dung và dữ liệu người dùng",
     "USER_CONTENT_CONTENT": "Bạn giữ quyền sở hữu nội dung bạn gửi qua Dịch vụ (\"Nội dung người dùng\"). Quyền sở hữu đầu ra do AI tạo phụ thuộc vào điều khoản của mô hình AI cụ thể được sử dụng. Chúng tôi không dùng Nội dung người dùng để huấn luyện mô hình AI. Bạn cấp cho chúng tôi giấy phép giới hạn để xử lý Nội dung người dùng của bạn chỉ nhằm mục đích cung cấp Dịch vụ.",
     "PROHIBITED_TITLE": "6. Hành vi bị cấm",
-    "PROHIBITED_CONTENT": "Bạn đồng ý không sử dụng Dịch vụ để vi phạm bất kỳ luật hay quy định hiện hành nào; tạo danh tính giả mạo hoặc mạo danh người khác; thực hiện thu thập dữ liệu tự động hay khai thác dữ liệu; xâm phạm quyền sở hữu trí tuệ của bên thứ ba; cố ý làm gián đoạn, quá tải hay can thiệp vào Dịch vụ; tham gia hoạt động gian lận; hoặc bán lại quyền truy cập tài khoản mà không có ủy quyền.",
+    "PROHIBITED_CONTENT": "Bạn đồng ý không sử dụng Dịch vụ để vi phạm bất kỳ luật hay quy định hiện hành nào; tạo danh tính giả mạo hoặc mạo danh người khác; thực hiện thu thập dữ liệu tự động hay khai thác dữ liệu; xâm phạm quyền sở hữu trí tuệ của bên thứ ba; cố ý làm gián đoạn, quá tải hay can thiệp vào Dịch vụ; tham gia hoạt động gian lận; hoặc bán lại quyền truy cập tài khoản mà không có ủy quyền; hoặc tạo, yêu cầu hay phân phối nội dung khiêu dâm, đồi trụy hoặc NSFW, tài liệu lạm dụng tình dục trẻ em, nội dung tình dục không có sự đồng thuận, hay hình ảnh deepfake và hoán đổi khuôn mặt. Việc bạn sử dụng Dịch vụ cũng chịu sự điều chỉnh của Chính sách sử dụng được chấp nhận của chúng tôi.",
     "TERMINATION_TITLE": "7. Chấm dứt",
     "TERMINATION_CONTENT": "Chúng tôi có thể đình chỉ hoặc chấm dứt tài khoản của bạn bất cứ lúc nào vì bất kỳ lý do nào, bao gồm vi phạm các Điều khoản này. Khi chấm dứt (trừ trường hợp vi phạm), mọi tín dụng chưa sử dụng còn lại có thể được hoàn trả tùy theo quyết định của chúng tôi. Bạn có thể chấm dứt tài khoản bất cứ lúc nào bằng cách liên hệ với chúng tôi.",
     "IP_TITLE": "8. Sở hữu trí tuệ",
@@ -2429,6 +2430,30 @@
     "CHANGES_CONTENT": "Chúng tôi có thể sửa đổi Chính sách hoàn tiền này bất cứ lúc nào để duy trì tuân thủ các khuôn khổ bảo vệ người tiêu dùng đang thay đổi. Các bản cập nhật sẽ được phản ánh trên trang này kèm ngày sửa đổi, và khi cần thiết, các khách hàng bị ảnh hưởng sẽ được thông báo trước về những thay đổi quan trọng.",
     "CONTACT_TITLE": "8. Liên hệ với chúng tôi",
     "CONTACT_CONTENT": "Đối với yêu cầu hoàn tiền hoặc bất kỳ câu hỏi nào về chính sách này, vui lòng liên hệ với chúng tôi tại {supportEmail}."
+  },
+  "AUP": {
+    "TITLE": "Chính sách sử dụng được chấp nhận",
+    "LAST_UPDATED": "Cập nhật lần cuối: ngày 30 tháng 6 năm 2026",
+    "META": {
+      "TITLE": "Chính sách sử dụng được chấp nhận - {appName}",
+      "DESCRIPTION": "Chính sách sử dụng được chấp nhận cho {appName}. Nội dung và hành vi bị cấm, bao gồm lệnh cấm tạo nội dung khiêu dâm, NSFW, deepfake và gây hại.",
+      "KEYWORDS": "chính sách sử dụng được chấp nhận, {appName} AUP, nội dung bị cấm, chính sách nội dung, chính sách sử dụng AI, cấm NSFW"
+    },
+    "INTRO": "Chính sách sử dụng được chấp nhận này điều chỉnh việc bạn sử dụng {appName}, một nền tảng tổng hợp API định tuyến các yêu cầu của bạn đến các nhà cung cấp mô hình AI bên thứ ba. Chính sách áp dụng cho mọi tính năng của {appName}, bao gồm trò chuyện, tạo hình ảnh và tạo video. Bằng việc sử dụng Dịch vụ, bạn đồng ý với các quy tắc dưới đây cùng với Điều khoản dịch vụ của chúng tôi.",
+    "PROHIBITED_CONTENT_TITLE": "Nội dung bị cấm",
+    "PROHIBITED_CONTENT_CONTENT": "Bạn không được sử dụng Dịch vụ để tạo, yêu cầu, tải lên hoặc phân phối nội dung khiêu dâm, đồi trụy hoặc NSFW dưới bất kỳ hình thức nào, tài liệu lạm dụng tình dục trẻ em, nội dung tình dục hoá trẻ vị thành niên, hoặc nội dung tình dục hay riêng tư không có sự đồng thuận. Lệnh cấm này áp dụng cho văn bản, hình ảnh và video, bất kể nội dung được tạo trên nền tảng của chúng tôi hay thông qua một ứng dụng khách bên thứ ba được kết nối.",
+    "PROHIBITED_DEEPFAKE_TITLE": "Deepfake và mạo danh",
+    "PROHIBITED_DEEPFAKE_CONTENT": "Bạn không được sử dụng Dịch vụ để tạo phương tiện hoán đổi khuôn mặt, deepfake hoặc thao túng khuôn mặt, hay để mạo danh bất kỳ người thật nào mà không có sự đồng ý của họ. Việc tạo các hình ảnh chân thực về những cá nhân có thể nhận dạng nhằm lừa dối, quấy rối hoặc phỉ báng bị nghiêm cấm.",
+    "PROHIBITED_HARM_TITLE": "Sử dụng gây hại và bất hợp pháp",
+    "PROHIBITED_HARM_CONTENT": "Bạn không được sử dụng Dịch vụ để tạo nội dung cổ xúy bạo lực, khủng bố, tự gây hại, quấy rối, thù ghét đối với các nhóm được bảo vệ, hoặc bất kỳ hoạt động bất hợp pháp nào, cũng như để phát triển phần mềm độc hại, thực hiện gian lận hoặc gây hại cho người khác theo bất kỳ cách nào.",
+    "UPSTREAM_MODERATION_TITLE": "Nhà cung cấp bên thứ ba",
+    "UPSTREAM_MODERATION_CONTENT": "{appName} chuyển tiếp các lời nhắc của bạn đến các nhà cung cấp AI bên thứ ba, mỗi nhà cung cấp đều thực thi chính sách nội dung riêng và có thể từ chối hoặc lọc các yêu cầu. Bạn chịu trách nhiệm bảo đảm việc sử dụng của mình tuân thủ cả Chính sách này lẫn các chính sách của những nhà cung cấp nền tảng. Chúng tôi có thể kiểm tra các lời nhắc trước khi tạo hình ảnh hoặc video và chặn các yêu cầu vi phạm Chính sách này.",
+    "ENFORCEMENT_TITLE": "Thực thi",
+    "ENFORCEMENT_CONTENT": "Chúng tôi có thể xem xét việc sử dụng và xử lý các hành vi vi phạm Chính sách này, bao gồm chặn yêu cầu, tạm ngưng hoặc chấm dứt tài khoản, và báo cáo hoạt động bất hợp pháp cho các cơ quan có thẩm quyền. Các vi phạm có thể bị xử lý mà không cần thông báo trước khi pháp luật yêu cầu hoặc để ngăn ngừa thiệt hại.",
+    "CHANGES_TITLE": "Thay đổi Chính sách này",
+    "CHANGES_CONTENT": "Chúng tôi có thể cập nhật Chính sách sử dụng được chấp nhận này theo thời gian. Việc tiếp tục sử dụng Dịch vụ sau khi các thay đổi có hiệu lực đồng nghĩa với việc chấp nhận Chính sách đã sửa đổi.",
+    "CONTACT_TITLE": "Liên hệ",
+    "CONTACT_CONTENT": "Nếu bạn có thắc mắc về Chính sách sử dụng được chấp nhận này, vui lòng liên hệ với chúng tôi tại {supportEmail}."
   },
   "MAIN": {
     "ENUM": {

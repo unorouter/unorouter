@@ -51,7 +51,7 @@ export const playgroundRoute = new Elysia({ prefix: "/playground" })
         await assertGuestAllowedModel(body.model);
       }
       const apiKey = await resolveChatApiKey(cookie);
-      return { success: true, data: await submitGeneration(apiKey, body) };
+      return { success: true, data: await submitGeneration(apiKey, body, userId) };
     },
     { body: playgroundSubmitBody },
   )
