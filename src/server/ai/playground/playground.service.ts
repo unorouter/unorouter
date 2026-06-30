@@ -11,7 +11,6 @@ import {
 } from "@/lib/api/video-task";
 import { downloadGenerationBytes } from "@/lib/config/r2";
 import type { PlaygroundSubmitBody } from "@/lib/validation/playground";
-import { assertPromptAllowed } from "../chat/media/moderation.service";
 import {
   COMFYUI_TEMPLATE_IDS,
   MAX_IMAGES_PER_GEN,
@@ -53,19 +52,9 @@ type SubmitGenerationResult =
 export async function submitGeneration(
   apiKey: string,
   body: PlaygroundSubmitBody,
-  userId: number,
 ): Promise<SubmitGenerationResult> {
   const requestedCount = imageCountFor(body);
   const resolved = await resolveSubmissionEndpoint(body.model);
-
-  // Pre-generation moderation gate (CREEM): same surface as chat image/video.
-  await assertPromptAllowed({
-    prompt: body.prompt,
-    userId,
-    convId: null,
-    model: body.model,
-    mediaType: resolved.kind === "comfyui-task" ? "video" : "image",
-  });
 
   if (resolved.kind === "comfyui-task") {
     const task = await submitComfyUITask({
