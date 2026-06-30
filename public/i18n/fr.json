@@ -38,7 +38,7 @@
       "SUBTITLE": "{appName} vous connecte à {modelCount}+ modèles d'IA avec une seule clé. Créez des applis et lancez des agents avec, ou sautez la configuration et discutez avec des personnages directement sur le site. Même clé, même vitesse, même prix.",
       "CTA_PRIMARY": "Commencer",
       "CTA_SECONDARY": "Voir les modèles",
-      "TITLE_ROTATE": "API,CHAT,PERSONNAGES,JEU DE RÔLE,CODE,INTELLIGENCE"
+      "TITLE_ROTATE": "API,CHAT,PERSONNAGES,RÉCITS,CODE,INTELLIGENCE"
     },
     "STATS": {
       "MODELS": "Modèles",
@@ -3109,6 +3109,8 @@
       "ERROR": "Impossible d'ouvrir le portail de facturation. Veuillez réessayer."
     },
     "TITLE": "Facturation",
+    "SUPPORT_TITLE": "Besoin d'aide ?",
+    "SUPPORT_TEXT": "Des questions sur la facturation ou votre compte ? Écrivez-nous à {supportEmail} et nous vous répondrons sous un jour ouvré.",
     "ACCOUNT_STATS": "Statistiques du compte",
     "CURRENT_BALANCE": "Solde actuel",
     "CONSUMPTION": "Consommation",
@@ -3635,7 +3637,7 @@
     "PRESET_POST_HISTORY_HINT": "Ajouté après l'override système. Idéal pour les modèles comme GLM qui respectent davantage les instructions injectées en fin que celles en haut.",
     "PRESET_PREFILL": "Prefill",
     "PRESET_PREFILL_PLACEHOLDER": "Bien sûr, voici la réponse :",
-    "PRESET_PREFILL_HINT": "Envoyé en dernier comme message assistant. Le LLM continue à partir de ce texte d'amorçage. Technique de jailbreak puissante. Supporte les macros user et char.",
+    "PRESET_PREFILL_HINT": "Envoyé en dernier comme message assistant. Le LLM continue à partir de ce texte d'amorçage. Technique de pilotage puissante. Supporte les macros user et char.",
     "PRESET_FLAGS_TITLE": "Drapeaux personnalisés",
     "PRESET_FLAGS_HINT": "Ajustez le corps de la requête pour les modèles capricieux. Appliqués automatiquement par modèle si besoin ; activez pour forcer.",
     "PRESET_FORCE_ALTERNATE_ROLES": "Forcer l'alternance des rôles",

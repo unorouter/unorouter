@@ -35,7 +35,7 @@
     "HERO": {
       "BADGE": "라우터 온라인",
       "TITLE_LINE1": "통합",
-      "TITLE_ROTATE": "API,채팅,캐릭터,롤플레이,코드,지능",
+      "TITLE_ROTATE": "API,채팅,캐릭터,스토리,코드,지능",
       "SUBTITLE": "{appName}은 키 하나로 {modelCount}+ 개의 AI 모델에 연결합니다. 앱을 만들고 에이전트를 돌리거나, 설정을 건너뛰고 이 사이트에서 바로 캐릭터와 대화하세요. 같은 키, 같은 속도, 같은 가격.",
       "CTA_PRIMARY": "시작하기",
       "CTA_SECONDARY": "모델 보기"
@@ -3109,6 +3109,8 @@
       "ERROR": "결제 포털을 열 수 없습니다. 다시 시도하세요."
     },
     "TITLE": "결제",
+    "SUPPORT_TITLE": "도움이 필요하신가요?",
+    "SUPPORT_TEXT": "결제나 계정에 대해 궁금한 점이 있으신가요? {supportEmail} 로 이메일을 보내주시면 영업일 기준 하루 이내에 답변해 드리겠습니다.",
     "ACCOUNT_STATS": "계정 통계",
     "CURRENT_BALANCE": "현재 잔액",
     "CONSUMPTION": "소비",
@@ -3635,7 +3637,7 @@
     "PRESET_POST_HISTORY_HINT": "시스템 재정의 후에 추가됩니다. 프롬프트 상단보다 끝 주입 지시를 더 존중하는 GLM 같은 모델에 가장 적합합니다.",
     "PRESET_PREFILL": "프리필",
     "PRESET_PREFILL_PLACEHOLDER": "물론, 응답은 다음과 같습니다:",
-    "PRESET_PREFILL_HINT": "어시스턴트 메시지로 마지막에 전송됩니다. LLM이 이 시드 텍스트에서 계속합니다. 강력한 탈옥 기술. user와 char 매크로를 지원합니다.",
+    "PRESET_PREFILL_HINT": "어시스턴트 메시지로 마지막에 전송됩니다. LLM이 이 시드 텍스트에서 계속합니다. 강력한 유도 기술. user와 char 매크로를 지원합니다.",
     "PRESET_FLAGS_TITLE": "커스텀 플래그",
     "PRESET_FLAGS_HINT": "까다로운 모델을 위해 요청 본문을 조정합니다. 필요 시 모델별로 자동 적용되며, 강제하려면 켜세요.",
     "PRESET_FORCE_ALTERNATE_ROLES": "역할 교대 강제",

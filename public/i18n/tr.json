@@ -35,7 +35,7 @@
     "HERO": {
       "BADGE": "Router Çevrimiçi",
       "TITLE_LINE1": "BİRLEŞİK",
-      "TITLE_ROTATE": "API,SOHBET,KARAKTERLER,ROL YAPMA,KOD,ZEKA",
+      "TITLE_ROTATE": "API,SOHBET,KARAKTERLER,HİKÂYELER,KOD,ZEKA",
       "SUBTITLE": "{appName} seni tek anahtarla {modelCount}+ yapay zeka modeline bağlar. Onunla uygulama geliştir ve ajanlar çalıştır, ya da kurulumu atla ve karakterlerle tam burada sitede sohbet et. Aynı anahtar, aynı hız, aynı fiyat.",
       "CTA_PRIMARY": "Başla",
       "CTA_SECONDARY": "Modelleri Görüntüle"
@@ -3109,6 +3109,8 @@
       "ERROR": "Faturalandırma portalı açılamadı. Lütfen tekrar deneyin."
     },
     "TITLE": "Faturalandırma",
+    "SUPPORT_TITLE": "Yardıma mı ihtiyacınız var?",
+    "SUPPORT_TEXT": "Faturalandırma veya hesabınızla ilgili sorularınız mı var? Bize {supportEmail} adresinden e-posta gönderin, bir iş günü içinde yanıt verelim.",
     "ACCOUNT_STATS": "Hesap İstatistikleri",
     "CURRENT_BALANCE": "Mevcut Bakiye",
     "CONSUMPTION": "Tüketim",
@@ -3635,7 +3637,7 @@
     "PRESET_POST_HISTORY_HINT": "Sistem geçersiz kılma sonrası eklenir. İstemin başındaki talimatlardan daha çok sonda enjekte edilen talimatlara saygı duyan GLM gibi modeller için en iyisi.",
     "PRESET_PREFILL": "Prefill",
     "PRESET_PREFILL_PLACEHOLDER": "Tabii, işte yanıt:",
-    "PRESET_PREFILL_HINT": "Son olarak assistant mesajı olarak gönderilir. LLM bu tohum metinden devam eder. Güçlü jailbreak tekniği. user ve char makrolarını destekler.",
+    "PRESET_PREFILL_HINT": "Son olarak assistant mesajı olarak gönderilir. LLM bu tohum metinden devam eder. Güçlü yönlendirme tekniği. user ve char makrolarını destekler.",
     "PRESET_FLAGS_TITLE": "Özel flaglar",
     "PRESET_FLAGS_HINT": "Titiz modeller için istek gövdesini ayarlayın. Gerektiğinde model başına otomatik uygulanır; zorlamak için açın.",
     "PRESET_FORCE_ALTERNATE_ROLES": "Rolleri zorla değiştir",

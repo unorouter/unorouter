@@ -35,7 +35,7 @@
     "HERO": {
       "BADGE": "राउटर ऑनलाइन",
       "TITLE_LINE1": "सब एक में",
-      "TITLE_ROTATE": "API,चैट,किरदार,रोलप्ले,कोड,बुद्धिमत्ता",
+      "TITLE_ROTATE": "API,चैट,किरदार,कहानियाँ,कोड,बुद्धिमत्ता",
       "SUBTITLE": "{appName} आपको एक ही कुंजी से {modelCount}+ AI मॉडल से जोड़ता है। इससे ऐप बनाएं और एजेंट चलाएं, या सेटअप छोड़कर साइट पर यहीं किरदारों से चैट करें। वही कुंजी, वही गति, वही कीमत।",
       "CTA_PRIMARY": "शुरू करें",
       "CTA_SECONDARY": "मॉडल देखें"
@@ -3109,6 +3109,8 @@
       "ERROR": "Billing portal नहीं खोला जा सका। कृपया पुनः प्रयास करें।"
     },
     "TITLE": "Billing",
+    "SUPPORT_TITLE": "मदद चाहिए?",
+    "SUPPORT_TEXT": "बिलिंग या अपने खाते के बारे में प्रश्न हैं? हमें {supportEmail} पर ईमेल करें और हम एक कार्यदिवस के भीतर जवाब देंगे।",
     "ACCOUNT_STATS": "खाता आंकड़े",
     "CURRENT_BALANCE": "वर्तमान Balance",
     "CONSUMPTION": "खपत",
@@ -3635,7 +3637,7 @@
     "PRESET_POST_HISTORY_HINT": "System override के बाद appended। GLM जैसे मॉडलों के लिए सर्वश्रेष्ठ जो top-of-prompt वालों से अधिक end-injected निर्देशों का सम्मान करते हैं।",
     "PRESET_PREFILL": "Prefill",
     "PRESET_PREFILL_PLACEHOLDER": "ज़रूर, यहाँ response है:",
-    "PRESET_PREFILL_HINT": "Assistant message के रूप में अंतिम भेजा गया। LLM इस seed text से जारी रहता है। शक्तिशाली jailbreak तकनीक। User और char macros का समर्थन करता है।",
+    "PRESET_PREFILL_HINT": "Assistant message के रूप में अंतिम भेजा गया। LLM इस seed text से जारी रहता है। शक्तिशाली मार्गदर्शन तकनीक। User और char macros का समर्थन करता है।",
     "PRESET_FLAGS_TITLE": "Custom flags",
     "PRESET_FLAGS_HINT": "नख़रेबाज़ मॉडलों के लिए अनुरोध बॉडी समायोजित करें। आवश्यकता होने पर प्रति मॉडल स्वतः लागू; बाध्य करने के लिए चालू करें।",
     "PRESET_FORCE_ALTERNATE_ROLES": "Alternate roles को मजबूर करें",
