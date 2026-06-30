@@ -12,7 +12,6 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { getLocalDb, resetLocalDbCache } from "@/lib/db/client/client";
-import { downloadBlob } from "@/lib/utils/client";
 import { dayjs } from "@/lib/utils/format/date";
 import { logger } from "@/lib/utils/logger";
 import dynamic from "next/dynamic";
@@ -73,13 +72,12 @@ export function LocalDbStudio(props: Props) {
 
   const download = async () => {
     try {
-      const local = await getLocalDb(userId);
-      if (!local) throw new Error("SQLocal unavailable");
-      const file = await local.getDatabaseFile();
       const filename = `${env.appName.toLowerCase()}-${userId}-${dayjs()
         .toISOString()
         .replace(/[:.]/g, "-")}.sqlite3`;
-      downloadBlob(file, filename);
+      const { downloadLocalDbStreaming } =
+        await import("@/lib/db/client/data/stream-download");
+      await downloadLocalDbStreaming(userId, filename);
     } catch (e) {
       logger.error("DB download failed", {
         context: "local-db.studio",

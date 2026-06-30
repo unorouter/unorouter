@@ -13,7 +13,6 @@ import {
 import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { analytics } from "@/lib/analytics";
 import { env } from "@/lib/config/env";
-import { buildDiagnostics } from "@/lib/db/client/data/diagnostics";
 import { clearChatDebugLog } from "@/lib/utils/chat-debug-log";
 import { exportLocalConversationSillyTavern } from "@/lib/db/client/data/transfer/sillytavern";
 import { dayjs } from "@/lib/utils/format/date";
@@ -39,9 +38,14 @@ export function ImportExportSubmenu(props: Props) {
 
   const downloadDiagnostics = async (includeContent: boolean) => {
     try {
-      const data = await buildDiagnostics(userId, { includeContent });
       const stamp = dayjs().format("YYYYMMDD-HHmmss");
-      downloadJson(data, `unorouter-diagnostics-${stamp}.json`);
+      const { downloadDiagnosticsStreaming } =
+        await import("@/lib/db/client/data/stream-download");
+      await downloadDiagnosticsStreaming(
+        userId,
+        `unorouter-diagnostics-${stamp}.json`,
+        { includeContent },
+      );
     } catch (e) {
       toast.error(String(e).slice(0, 120));
     }
