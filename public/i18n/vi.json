@@ -35,7 +35,7 @@
     "HERO": {
       "BADGE": "Router đang hoạt động",
       "TITLE_LINE1": "TẤT CẢ TRONG MỘT",
-      "SUBTITLE": "{appName} kết nối bạn tới hơn {modelCount} mô hình AI qua một khoá. Xây app và chạy tác nhân với nó, hoặc bỏ qua thiết lập và trò chuyện với nhân vật ngay trên trang. Cùng một khoá, cùng tốc độ, cùng giá.",
+      "SUBTITLE": "{appName} kết nối bạn với hơn {modelCount} mô hình AI qua một khóa duy nhất. Xây ứng dụng và chạy tác nhân với nó, hoặc bỏ qua phần thiết lập và trò chuyện với nhân vật ngay tại đây trên trang. Cùng một khóa, cùng tốc độ, cùng giá.",
       "CTA_PRIMARY": "Bắt đầu",
       "CTA_SECONDARY": "Xem mô hình",
       "TITLE_ROTATE": "API,TRÒ CHUYỆN,NHÂN VẬT,KỂ CHUYỆN,MÃ,TRÍ TUỆ"
@@ -85,27 +85,27 @@
         "DESCRIPTION": "Sử dụng {appName} làm nhà cung cấp mô hình cho agent OpenClaw của bạn. Cấu hình một lần, truy cập mọi mô hình."
       },
       "SILLYTAVERN": {
-        "BADGE": "Roleplay",
+        "BADGE": "Chat nhân vật",
         "TITLE": "Hoạt động với SillyTavern",
         "DESCRIPTION": "Cắm {appName} vào nguồn Custom OpenAI-compatible của SillyTavern. Dán URL gốc, chọn model, bắt đầu chat."
       },
       "JANITOR_AI": {
-        "BADGE": "Roleplay",
-        "TITLE": "Hoạt động với Janitor.AI",
-        "DESCRIPTION": "Thêm {appName} làm proxy tùy chỉnh trong Janitor.AI. Dán URL đầy đủ cùng API key, lưu lại, refresh, xong."
+        "BADGE": "Chat nhân vật",
+        "TITLE": "Hoạt động với các ứng dụng chat AI phổ biến",
+        "DESCRIPTION": "Thêm {appName} làm proxy tùy chỉnh trong bất kỳ ứng dụng chat tương thích OpenAI nào. URL đầy đủ cùng khóa API, lưu, làm mới, xong."
       },
       "RISUAI": {
-        "BADGE": "Roleplay",
+        "BADGE": "Chat nhân vật",
         "TITLE": "Hoạt động với RisuAI",
         "DESCRIPTION": "Dùng {appName} làm endpoint Custom Models của RisuAI. Bỏ chọn autofill, dán URL, nạp bất kỳ model nào bạn muốn."
       },
       "CHUB": {
-        "BADGE": "Roleplay",
-        "TITLE": "Hoạt động với Chub / Venus",
-        "DESCRIPTION": "Kết nối {appName} như một reverse proxy gốc trong Chub. Một URL, một key, mọi model."
+        "BADGE": "Chat nhân vật",
+        "TITLE": "Hoạt động với các ứng dụng chat nhân vật",
+        "DESCRIPTION": "Kết nối {appName} làm reverse proxy bên thứ nhất trong ứng dụng chat nhân vật yêu thích của bạn. Một URL, một khóa, mọi mô hình."
       },
       "PICK_TITLE": "Chọn ứng dụng khách bạn thực sự đang dùng.",
-      "PICK_DESC": "{appName} hoạt động như một API tương thích OpenAI tùy chỉnh cho các tác nhân lập trình, giao diện roleplay, ứng dụng chat và công cụ CLI."
+      "PICK_DESC": "{appName} hoạt động như một API tùy chỉnh tương thích OpenAI trên các tác nhân lập trình, ứng dụng chat nhân vật, ứng dụng chat AI và công cụ CLI."
     },
     "PRICING": {
       "LABEL": "Bảng giá",
@@ -138,7 +138,7 @@
       },
       "CARD4": {
         "TITLE": "Trò chuyện nhân vật",
-        "DESC": "Lorebook, trò chuyện nhóm, vuốt và một động cơ RP thật sự, không phải đồ chơi."
+        "DESC": "Lorebook, chat nhóm, swipe và một bộ máy chat nhân vật thực thụ, không phải đồ chơi."
       },
       "CTA_OPEN": "Mở trò chuyện",
       "CTA_CONNECT": "Kết nối client của bạn",
@@ -156,7 +156,7 @@
         "CONV3": "Mochi ở quán cà phê",
         "MODEL_NAME": "nemotron-3",
         "TOKENS": "{in} vào / {out} ra",
-        "MENU_LABEL": "Nhập vai",
+        "MENU_LABEL": "Chat nhân vật",
         "LOCAL_DB": "CSDL cục bộ",
         "MSG_AI_2": "Lò nung đang rực lên vừa độ. Lấy giúp tôi cái lọ kia nhé?",
         "MSG_AI_3": "Mừng bạn quay lại! Vẫn ly latte yến mạch như mọi khi, thêm bọt chứ?",
@@ -175,7 +175,7 @@
           "LORE1_SUB": "Bản đồ sao và tuyến thương mại",
           "LORE2": "Bản kê khai phi thuyền",
           "LORE2_SUB": "Danh sách thủy thủ và hàng hóa",
-          "PRESET1": "Nhập vai điện ảnh",
+          "PRESET1": "Câu chuyện điện ảnh",
           "PRESET1_SUB": "Văn phong sống động, giàu mô tả",
           "PRESET2": "Đối thoại nhanh gọn",
           "PRESET2_SUB": "Câu trả lời ngắn, sắc bén",
@@ -260,14 +260,14 @@
       "FEATURE_4": "Không code? Trò chuyện trên trang",
       "READ_DOCS": "Đọc toàn bộ tài liệu API",
       "NO_CODE_LABEL": "Không phải lập trình viên?",
-      "NO_CODE_OPTION": "Bỏ qua code. Trò chuyện với nhân vật ngay trên trang, hoặc dán URL vào SillyTavern, Janitor.AI, RisuAI hay Chub.",
+      "NO_CODE_OPTION": "Bỏ qua phần mã. Trò chuyện với nhân vật ngay tại đây trên trang, hoặc dán URL vào SillyTavern, RisuAI hay bất kỳ ứng dụng chat AI tương thích OpenAI nào.",
       "NO_CODE_CHAT_LINK": "Mở trò chuyện",
       "NO_CODE_LINK": "Xem hướng dẫn tích hợp"
     },
     "CTA": {
       "TITLE_1": "Sẵn sàng để",
       "TITLE_2": "kết nối",
-      "SUBTITLE": "Mọi mô hình AI, một khoá. Xây, chat, code, hay roleplay. Bạn chọn.",
+      "SUBTITLE": "Mọi mô hình AI, một khóa. Xây dựng, trò chuyện, lập trình hoặc kể chuyện. Tùy bạn.",
       "PRIMARY": "Bắt đầu",
       "SECONDARY": "Tích hợp",
       "CHAT": "Mở trò chuyện"
@@ -292,7 +292,7 @@
       "TOPUP_FREE_AMOUNT": "$0",
       "STEP3_NUM": "3",
       "STEP3_TITLE": "Lấy API key",
-      "STEP3_DESC": "Dùng trong code, trong Claude Code, hay dán vào SillyTavern, Janitor.AI, RisuAI hoặc Chub.",
+      "STEP3_DESC": "Dùng nó trong mã của bạn, trong Claude Code, hoặc dán vào SillyTavern, RisuAI hay bất kỳ ứng dụng chat AI tương thích OpenAI nào.",
       "CTA_PRIMARY": "Bắt đầu",
       "CTA_SECONDARY": "Xem giá",
       "SIGNUP_GITHUB": "Tiếp tục với GitHub",
@@ -409,12 +409,12 @@
     },
     "META": {
       "TITLE": "Mô hình AI - {appName}",
-      "DESCRIPTION": "Mọi mô hình AI ở cùng một nơi. GPT, Claude, Gemini, DeepSeek và hơn nữa. Dùng trong code hay trong SillyTavern, Janitor.AI, RisuAI và Chub. Cùng một mức giá.",
+      "DESCRIPTION": "Mọi mô hình AI ở một nơi. GPT, Claude, Gemini, DeepSeek và nhiều hơn nữa. Dùng chúng trong mã của bạn hoặc trong bất kỳ ứng dụng chat AI tương thích OpenAI nào. Cùng một mức giá cho cả hai.",
       "KEYWORDS": "mô hình AI, thư viện mô hình, giá AI, mô hình GPT, mô hình Claude, mô hình Gemini, mô hình DeepSeek, so sánh mô hình AI, API đa mô hình, mô hình chat AI"
     },
     "BADGE": "Thư viện mô hình",
     "TITLE": "Thư viện mô hình",
-    "SUBTITLE": "Mọi mô hình, một khoá. Dành cho developer xây ứng dụng và roleplayer chạy nhân vật. Cùng một mức giá.",
+    "SUBTITLE": "Mọi mô hình, một khóa. Được dùng bởi các nhà phát triển xây ứng dụng và các nhà sáng tạo xây dựng trải nghiệm nhân vật. Cùng một mức giá cho cả hai.",
     "SEARCH_PLACEHOLDER": "Tìm mô hình...",
     "MODEL_COUNT": "mô hình",
     "EMPTY": "Không có mô hình nào khớp với tìm kiếm của bạn.",
@@ -633,9 +633,9 @@
         "H_SAME_LANE": "Chúng ta cùng một làn",
         "P_SAME_LANE": "Cả {appName} và MegaLLM đều là cổng tương thích OpenAI làm cho nhà phát triển. Cả hai đặt GPT, Claude và Gemini sau một khoá, cả hai chuyển dự phòng tự động khi một nhà cung cấp gặp sự cố, cả hai cắm vào Claude Code, Codex và OpenCode bằng cách đổi URL cơ sở. Nếu mục tiêu của bạn là trỏ một tác nhân lập trình đến các mô hình tiên phong mà không tung hứng khoá nhà cung cấp, cả hai đều làm được. Vì vậy danh mục và chuyển dự phòng không phải nơi có quyết định.",
         "H_MODELS": "Danh mục và giá",
-        "P_MODELS": "MegaLLM quảng cáo hơn 70 mô hình tiên phong và thị giác và tiếp thị mình bằng chi phí, rẻ hơn đến 60% so với đi trực tiếp nhờ định tuyến ý thức chi phí, với các gói từ khoảng 10 $/tháng cộng trả theo dùng. {appName} mang hơn 200 mô hình, một danh mục rộng hơn bao gồm các mô hình mở và tinh chỉnh cho nhập vai mà trọng tâm chỉ-tiên-phong của MegaLLM bỏ qua, cũng trả theo dùng, với tín dụng không hết hạn và một bậc miễn phí. Nếu bạn chỉ gọi GPT và Claude, giá mỗi token là điểm so sánh. Nếu bạn muốn danh mục rộng hơn, {appName} đơn giản là có nhiều hơn.",
+        "P_MODELS": "MegaLLM quảng cáo hơn 70 mô hình tiên phong và thị giác và định vị mình theo chi phí, rẻ hơn tới 60% so với đi trực tiếp nhờ định tuyến chú trọng chi phí, với các gói từ khoảng 10 $/tháng cộng trả theo mức dùng. {appName} mang theo hơn 200 mô hình, một danh mục rộng hơn bao gồm cả các mô hình mở và được tinh chỉnh cho viết sáng tạo mà trọng tâm chỉ-tiên-phong của MegaLLM bỏ qua, cũng trả theo mức dùng, với tín dụng không hết hạn và một bậc miễn phí để tạo nguyên mẫu. Nếu bạn chỉ gọi GPT và Claude, giá mỗi token là phép so sánh. Nếu bạn muốn danh mục rộng hơn, {appName} đơn giản là có nhiều hơn.",
         "H_CHAT": "Phần mà MegaLLM không có",
-        "P_CHAT": "MegaLLM là một cổng không giao diện, một API và một bảng điều khiển, không có chỗ để trò chuyện. {appName} là cổng cộng thêm một client chat và nhân vật tích hợp: persona, lorebook, preset, nhập thẻ SillyTavern, và cùng một khoá cắm vào SillyTavern, Janitor.AI, RisuAI hay Chub. Vậy nên cùng một khoá vận hành tác nhân lập trình của bạn cũng chạy một cuộc chat nhân vật thật sự, cho cả công việc lẫn giải trí. Đó là ranh giới giữa một cổng lập trình thuần tuý và một 2-trong-1.",
+        "P_CHAT": "MegaLLM là một cổng không giao diện, một API và một bảng điều khiển, không có gì để trò chuyện trong đó. {appName} là cổng cộng với một ứng dụng chat và nhân vật tích hợp: persona, lorebook, preset, nhập thẻ SillyTavern, và cùng một khóa được gắn vào SillyTavern, Janitor.AI, RisuAI hoặc Chub. Vậy nên cùng một khóa vận hành tác nhân lập trình của bạn cũng chạy một cuộc chat nhân vật thực thụ, cho công việc và giải trí. Đó là ranh giới giữa một cổng thuần dev và một sản phẩm 2-trong-1.",
         "H_MIGRATE": "Chuyển đổi là một thay đổi URL cơ sở",
         "P_MIGRATE": "Giống MegaLLM, {appName} tương thích OpenAI, nên chuyển sang chỉ một dòng: trỏ client của bạn đến <c>https://api.unorouter.com/v1</c> và giữ nguyên code. Cùng một khoá dán vào ô endpoint tùy chỉnh của một client chat sẽ chạm tới cùng danh mục, nên không có tài khoản thứ hai lẫn công cụ riêng cho phía chat.",
         "H_VERDICT": "Bạn nên chọn cái nào",
@@ -648,11 +648,11 @@
         "AUTHOR": "Đội ngũ {appName}",
         "INTRO": "Portkey và {appName} đều đặt một endpoint tương thích OpenAI trước mọi mô hình. Từ đây chúng tách ra. Portkey là nền tảng LLMOps đầy đủ, dùng cho các đội kỹ thuật cần khả năng quan sát, rào chắn an toàn và quản trị. {appName} là phiên bản gọn của cùng ý tưởng: một khoá, hơn 200 mô hình, và một trình khách chat bên trên, không cần cấu hình gì.",
         "H_AUDIENCE": "Mỗi bên được tạo cho ai",
-        "P_AUDIENCE": "Portkey nhắm vào các đội nền tảng và AI đưa tính năng LLM ra ở quy mô lớn. Giá trị của nó là lớp điều khiển quanh các lời gọi: nhật ký yêu cầu, chỉ số, ngân sách, quản lý prompt, rào chắn an toàn, đường dự phòng và truy cập theo vai trò cho một tổ chức. {appName} nhắm vào lập trình viên cá nhân và người dùng RP chỉ muốn một khoá chạy được trong tác tử lập trình và trong trình khách chat, mà không phải dựng một lớp quản trị trước.",
+        "P_AUDIENCE": "Portkey nhắm tới các đội nền tảng và AI triển khai tính năng LLM ở quy mô lớn. Giá trị của nó là mặt phẳng điều khiển quanh các lệnh gọi: nhật ký yêu cầu, số liệu, ngân sách, quản lý prompt, guardrail, fallback và truy cập theo vai trò cho một tổ chức. {appName} nhắm tới nhà phát triển cá nhân và người dùng chat nhân vật chỉ muốn một khóa hoạt động trong một tác nhân lập trình và trong một ứng dụng chat, mà không phải dựng một lớp quản trị trước.",
         "H_SETUP": "Thiết lập và phạm vi",
         "P_SETUP": "Với Portkey bạn đấu nối một khoá ảo, các cấu hình và quy tắc định tuyến, rồi đo đạc ứng dụng để mọi thứ đi qua cổng cho bảng điều khiển được lấp đầy. Điều đó hợp lý khi bạn có một đội và các yêu cầu tuân thủ. Với {appName} bạn đăng ký và trỏ trình khách tới <c>https://api.unorouter.com/v1</c>. Không cấu hình, không khoá ảo phải quản lý, không ngăn xếp quan sát phải học. Một bên là nền tảng bạn áp dụng, bên kia là endpoint bạn gọi.",
         "H_INTERFACE": "Portkey không có trình khách chat",
-        "P_INTERFACE": "Portkey là hạ tầng: một cổng và một bảng điều khiển, mọi giao diện hướng tới người dùng đều do bạn mang đến. {appName} cung cấp chính API tương thích OpenAI đó cộng thêm một trình khách chat và nhân vật có sẵn (persona, lorebook, preset, nhập thẻ SillyTavern), và cùng khoá đó vào thẳng SillyTavern, Janitor.AI, RisuAI hoặc Chub. Vậy nên bạn có một nơi để thực sự trò chuyện bằng cùng một khoá, không chỉ là lớp điều khiển cho các lời gọi mà ứng dụng của bạn vẫn phải tự thực hiện.",
+        "P_INTERFACE": "Portkey là hạ tầng: một cổng và một bảng điều khiển, mọi giao diện hướng người dùng bạn tự mang theo. {appName} cung cấp cùng một API tương thích OpenAI cộng với một ứng dụng chat và nhân vật tích hợp (persona, lorebook, preset, nhập thẻ SillyTavern), và cùng một khóa được gắn thẳng vào SillyTavern, Janitor.AI, RisuAI hoặc Chub. Vậy nên bạn có một nơi để thực sự trò chuyện từ cùng một khóa, không chỉ là một mặt phẳng điều khiển cho các lệnh gọi mà ứng dụng của bạn vẫn phải thực hiện.",
         "H_COST": "Chi phi va gánh nang",
         "P_COST": "Portkey định giá quanh nền tảng: một bậc miễn phí cho lượng thấp, rồi các gói trả phí cho khả năng quan sát, quản trị và hỗ trợ mà một tổ chức cần, cộng thêm những gì bạn trả cho mỗi nhà cung cấp. Điều đó đáng giá khi lớp điều khiển tiết kiệm thời gian thực cho một đội. {appName} là trả theo mức dùng trên hơn 200 mô hình với tín dụng không hết hạn và một bậc miễn phí, một số dư thay vì một gói đăng ký nền tảng cộng các ví tiền theo từng nhà cung cấp. Dưới quy mô đội, con đường gọn tốn ít hơn và đòi hỏi ở bạn ít hơn.",
         "H_VERDICT": "Nên chọn cái nào",
@@ -665,11 +665,11 @@
         "AUTHOR": "Đội ngũ {appName}",
         "INTRO": "nano-gpt và {appName} chồng lấn ở điều hiển nhiên: truy cập trả theo mức dùng tới rất nhiều mô hình mà không cần đăng ký. nano-gpt dẫn đầu bằng bề rộng phía sau một chỗ chat. {appName} dẫn đầu bằng một khoá tương thích OpenAI thoải mái như nhau trong tác tử lập trình và trong trình khách chat. Cùng tín dụng, hai cửa vào rất khác nhau.",
         "H_CATALOG": "Kho và bề rộng",
-        "P_CATALOG": "Điểm mạnh của nano-gpt là quy mô của kho: hàng trăm mô hình văn bản và hình ảnh ở cùng một nơi, thật sự hữu ích nếu mục tiêu của bạn là thử hết mọi thứ. {appName} chạy hơn 200 mô hình trên các nhà cung cấp quan trọng cho lập trình và nhập vai, được chọn lọc và giữ cập nhật thay vì tối đa hoá để chạy theo con số. Nếu bạn chỉ quan tâm tới bề rộng thô, nano-gpt thắng. Nếu bạn muốn những mô hình mà mọi người thực sự dùng để làm việc, khoảng cách sẽ thu hẹp nhanh.",
+        "P_CATALOG": "Điểm nhấn của nano-gpt là kích thước danh mục: hàng trăm mô hình văn bản và hình ảnh ở một nơi, thực sự hữu ích nếu mục tiêu của bạn là thử mọi thứ. {appName} chạy hơn 200 mô hình trong số các nhà cung cấp quan trọng cho lập trình và chat nhân vật, được chọn lọc và giữ cập nhật thay vì tối đa hóa theo số lượng. Nếu độ rộng thô là trục duy nhất bạn quan tâm, nano-gpt thắng. Nếu bạn muốn các mô hình mà người ta thực sự triển khai, khoảng cách thu hẹp nhanh.",
         "H_DEV": "Phía lập trình viên",
         "P_DEV": "Một chỗ chat được dựng từ giao diện trước: UI web là sản phẩm, API là cửa hông. {appName} tương thích OpenAI ngay từ thiết kế. Trỏ bất kỳ SDK hay tác tử nào tới <c>https://api.unorouter.com/v1</c>, giữ nguyên mã hiện có, và cùng khoá đó điều khiển Claude Code, Cline, OpenCode, Kilo Code hoặc Codex. Bạn không gắn một API vào một trang chat, bạn đang dùng một cổng tình cờ cũng có cả trình khách chat.",
         "H_CHAT": "Phía chat và nhân vật",
-        "P_CHAT": "Cả hai đều cho bạn trò chuyện trong trình duyệt, nhưng trình khách của {appName} được tạo cho nhập vai, không chỉ để hỏi đáp: persona, lorebook, preset và nhập thẻ SillyTavern, và cùng khoá đó vào SillyTavern, Janitor.AI, RisuAI hoặc Chub khi bạn muốn một frontend nặng hơn. Bạn không bao giờ bị khoá trong một UI. Tín dụng đi theo bạn qua mọi trình khách.",
+        "P_CHAT": "Cả hai đều cho bạn trò chuyện trong trình duyệt, nhưng ứng dụng của {appName} được xây cho chat nhân vật, không chỉ hỏi đáp: persona, lorebook, preset và nhập thẻ SillyTavern, cộng với cùng một khóa được gắn vào SillyTavern, Janitor.AI, RisuAI hoặc Chub khi bạn muốn một giao diện nặng hơn. Bạn không bao giờ bị khóa vào một giao diện duy nhất. Tín dụng theo bạn qua từng ứng dụng.",
         "H_PAY": "Giá và khoá",
         "P_PAY": "Cả hai đều trả theo mức dùng không cần đăng ký, mô hình đúng cho việc dùng đột biến, nhiều mô hình. {appName} giữ ở một số dư với tín dụng không hết hạn và một bậc miễn phí, một khoá cho lập trình và chat thay vì một ví cho chi tiêu trong một UI duy nhất. Cách tính phí cùng hình dạng, khác biệt là một khoá đó vươn tới đâu.",
         "H_VERDICT": "Nên chọn cái nào",
@@ -682,32 +682,32 @@
         "AUTHOR": "Đội ngũ {appName}",
         "INTRO": "SillyTavern là frontend; nó không lưu trữ mô hình. Để dùng nó, bạn trỏ nó tới một endpoint tương thích OpenAI và dán một khoá. Câu hỏi là cổng nào đứng phía sau. Hầu hết các hướng dẫn trao cho bạn một nhà cung cấp duy nhất; câu trả lời tốt hơn là một khoá vươn tới nhiều mô hình và không hết hạn. Đây là những gì cần cân nhắc, và {appName} phù hợp ra sao.",
         "H_WHAT_MATTERS": "Điều gì thực sự quan trọng với SillyTavern",
-        "P_WHAT_MATTERS": "Bốn điều quyết định một cổng SillyTavern tốt. Chat Completions tương thích OpenAI, để SillyTavern kết nối mà không cần bộ chuyển đổi. Bề rộng mô hình, để bạn đổi giữa một cây viết mạnh và một con ngựa thồ rẻ mà không cần tài khoản mới. Cách tính phí trả theo mức dùng trung thực, vì nhập vai mang tính đột biến và một chỗ ngồi theo tháng là hình dạng sai. Và một bậc miễn phí để thử một nhân vật trước khi tiêu bất cứ thứ gì. Số lượng mô hình thô ít quan trọng hơn việc dùng mô hình có mặt và cập nhật hay không.",
+        "P_WHAT_MATTERS": "Bốn điều quyết định một cổng SillyTavern tốt. Chat Completions tương thích OpenAI, để SillyTavern kết nối không cần adapter. Độ rộng mô hình, để bạn đổi giữa một cây bút mạnh và một con ngựa thồ rẻ mà không cần tài khoản mới. Tính phí trả theo mức dùng trung thực, vì chat nhân vật bùng nổ theo đợt và một ghế hằng tháng là hình thức sai. Và một bậc miễn phí để thử một nhân vật trước khi bạn chi bất cứ gì. Số lượng mô hình thô ít quan trọng hơn việc các mô hình đúng có hiện diện và cập nhật hay không.",
         "H_OPTIONS": "Các lựa chọn thực tế",
         "P_OPTIONS": "Bạn có ba loại lựa chọn. Khoá của một nhà cung cấp (OpenAI, Anthropic, DeepSeek) là đơn giản nhất nhưng khoá bạn vào mô hình và giá của một phòng thí nghiệm. Một cổng dev không giao diện cho bạn bề rộng nhưng không có trình khách riêng, điều đó ổn vì SillyTavern là trình khách của bạn. Hoặc một cổng vừa là API vừa là trình khách chat, để cùng khoá chạy được trong SillyTavern và trong một UI có sẵn khi bạn không muốn mở cả ứng dụng. {appName} là loại thứ ba đó.",
         "H_CONNECT": "Kết nối {appName} với SillyTavern",
-        "P_CONNECT": "Trong SillyTavern, chọn Chat Completion API và nguồn tương thích OpenAI (Custom). Đặt URL cơ sở thành <c>https://api.unorouter.com/v1</c>, dán khoá {appName} của bạn, và tải danh sách mô hình. Chọn một mô hình, và các nhân vật, lorebook và preset của bạn chạy không đổi. Cùng khoá cũng chạy trong Janitor.AI, RisuAI và Chub, nên bạn không phải làm lại thiết lập cho từng ứng dụng.",
+        "P_CONNECT": "Trong SillyTavern, chọn API Chat Completion và nguồn tương thích OpenAI (Custom). Đặt URL cơ sở thành <c>https://api.unorouter.com/v1</c>, dán khóa {appName} của bạn và tải danh sách mô hình. Chọn một mô hình, và nhân vật, lorebook cùng preset của bạn chạy không đổi. Cùng một khóa cũng hoạt động trong Janitor.AI, RisuAI và Chub, nên bạn không phải thiết lập lại cho từng ứng dụng.",
         "H_FREE": "Mô hình miễn phí và kiểm soát chi phí",
         "P_FREE": "{appName} có một bậc miễn phí và hơn 200 mô hình, nên bạn có thể thử một thẻ trên một mô hình miễn phí, rồi chuyển sang một mô hình trả phí mạnh hơn chỉ khi cảnh đó đáng giá. Tín dụng không hết hạn, cách tính phí là trả theo mức dùng, và một số dư bao phủ mọi trình khách và mọi mô hình. Không có chỗ ngồi theo tháng phải biện minh và không có gì để hủy nếu bạn nghỉ một tháng.",
         "H_VERDICT": "Câu trả lời ngắn gọn",
-        "P_VERDICT": "Cổng SillyTavern tốt nhất là cổng có endpoint tương thích OpenAI, bề rộng mô hình thật sự, tín dụng trả theo mức dùng và một bậc miễn phí để bắt đầu, để một khoá duy nhất gánh cả thiết lập của bạn. {appName} được tạo ra đúng cho trường hợp đó, và cùng khoá đó tiếp tục chạy trong mọi frontend RP khác mà bạn dùng.",
+        "P_VERDICT": "Cổng SillyTavern tốt nhất là cổng có một endpoint tương thích OpenAI, độ rộng mô hình thực sự, tín dụng trả theo mức dùng và một bậc miễn phí để bắt đầu, sao cho một khóa duy nhất mang toàn bộ thiết lập của bạn. {appName} được xây đúng cho trường hợp đó, và cùng một khóa tiếp tục hoạt động trong mọi giao diện chat nhân vật khác mà bạn dùng.",
         "CTA": "Sẵn sàng kết nối SillyTavern? <register>Tạo tài khoản miễn phí</register> hoặc <models>duyệt các mô hình</models>."
       },
       "UNOROUTER_VS_RISUAI": {
-        "TITLE": "{appName} so với RisuAI: chúng tôi đã chuyển động cơ RP vào một 2-trong-1 được lưu trữ",
-        "DESCRIPTION": "RisuAI là giao diện RP cho người dùng chuyên sâu. {appName} đã chuyển động cơ của nó (lorebook, macro CBS, trigger, regex, nhập thẻ) vào một sản phẩm được lưu trữ nơi cùng một khoá còn vận hành cả tác nhân lập trình. Không phải đối thủ, mà là 2-trong-1.",
+        "TITLE": "{appName} so với RisuAI: chúng tôi đã chuyển bộ máy chat nhân vật vào một sản phẩm 2-trong-1 được lưu trữ",
+        "DESCRIPTION": "RisuAI là giao diện chat nhân vật cho người dùng cao cấp. {appName} đã chuyển bộ máy của nó (lorebook, macro CBS, trigger, regex, nhập thẻ) vào một sản phẩm được lưu trữ nơi cùng một khóa cũng vận hành các tác nhân lập trình. Không phải đối thủ, mà là 2-trong-1.",
         "AUTHOR": "Đội ngũ {appName}",
-        "INTRO": "RisuAI là một trong những giao diện nhập vai tốt nhất hiện có, và chúng tôi nói điều này với tư cách những người đã nghiên cứu kỹ mã nguồn của nó. {appName} không cố gắng vượt nó về tính năng. Chúng tôi chuyển động cơ của nó và đặt vào một nơi mới: một sản phẩm được lưu trữ nơi một khoá tương thích OpenAI còn vận hành cả tác nhân lập trình của bạn. Vì vậy đây ít là một so sánh đối thủ hơn, mà là một giải thích trung thực về 2-trong-1, viết bởi những người ngưỡng mộ Risu.",
+        "INTRO": "RisuAI là một trong những giao diện chat nhân vật tốt nhất hiện có, và chúng tôi nói vậy với tư cách những người đã nghiên cứu mã nguồn của nó kỹ lưỡng. {appName} không cố vượt nó về tính năng. Chúng tôi chuyển bộ máy của nó, rồi đặt nó vào một nơi mới: một sản phẩm được lưu trữ nơi một khóa tương thích OpenAI cũng vận hành các tác nhân lập trình của bạn. Vậy nên đây ít là một phép so sánh đối thủ hơn là một lời giải thích 2-trong-1 trung thực, được viết bởi những người ngưỡng mộ Risu.",
         "H_ENGINE": "Chúng tôi chuyển động cơ, không sao chép ứng dụng",
-        "P_ENGINE": "Những gì khiến Risu tuyệt vời cho nhập vai đều ở trong {appName} vì chúng tôi đã chuyển chúng: hệ thống lorebook (một hồ toàn cục, decorator @@, đệ quy), ngôn ngữ macro CBS đầy đủ (biến, điều kiện, ngẫu nhiên có hạt giống, khối), VM trigger V1/V2 với runtime Lua, customscript regex (editinput/output/display), nhập thẻ SillyTavern v2/v3, thứ tự chat nhóm, persona, preset, và bộ nhớ tóm tắt cuộn. Nếu bạn biết lorebook và trigger của Risu, ở đây chúng hoạt động đúng như bạn mong đợi.",
+        "P_ENGINE": "Những phần khiến Risu tuyệt vời cho chat nhân vật đều có trong {appName} vì chúng tôi đã chuyển chúng: hệ thống lorebook (một bể toàn cục duy nhất, @@decorators, đệ quy), ngôn ngữ macro CBS đầy đủ (biến, điều kiện, ngẫu nhiên có seed, khối), VM trigger V1/V2 với runtime Lua, customscript regex (editinput/output/display), nhập thẻ v2/v3 SillyTavern, thứ tự chat nhóm, persona, preset và một bộ nhớ tóm tắt cuộn. Nếu bạn biết lorebook và trigger của Risu, chúng hoạt động đúng như bạn mong đợi ở đây.",
         "H_TWO_IN_ONE": "2-trong-1: cùng một khoá cho code và chat nhân vật",
-        "P_TWO_IN_ONE": "Đây là phần mà Risu không thể là, theo thiết kế. Risu là tự mang khoá: bạn mang khoá OpenAI hay Claude của mình và nó thuần tuý là một giao diện chat. {appName} vừa là khoá vừa là client. Cùng một khoá vận hành chat nhân vật tích hợp còn trỏ một tác nhân lập trình (Claude Code, Cline, OpenCode, Codex) đến hơn 200 mô hình, và cắm thẳng vào SillyTavern, Janitor.AI, RisuAI hay Chub nếu bạn thích. Một tài khoản, một số dư, một danh sách mô hình, cho cả công việc lẫn giải trí. Chúng tôi không tìm cách thay thế Risu với tư cách giao diện, chúng tôi là cổng cộng thêm một client trong một.",
+        "P_TWO_IN_ONE": "Đây là phần mà Risu không thể là, theo thiết kế. Risu là BYOK: bạn mang khóa OpenAI hoặc Claude của riêng mình và nó thuần túy là một giao diện chat. {appName} là cả khóa và ứng dụng. Cùng một khóa vận hành chat nhân vật tích hợp cũng trỏ một tác nhân lập trình (Claude Code, Cline, OpenCode, Codex) tới hơn 200 mô hình, và được gắn thẳng vào SillyTavern, Janitor.AI, RisuAI hoặc Chub nếu bạn thích những cái đó. Một tài khoản, một số dư, một danh sách mô hình, cho công việc và giải trí. Chúng tôi không cố thay thế Risu, giao diện, chúng tôi là cổng cộng với một ứng dụng trong một.",
         "H_HOSTING": "Được lưu trữ so với tự lưu trữ, và không khoá để tung hứng",
         "P_HOSTING": "Risu bạn tự chạy (web, máy tính để bàn Tauri, hoặc Docker) và thu thập rồi dán khoá API của từng nhà cung cấp. {appName} được lưu trữ: không có gì để cài đặt hay giữ cho sống, và không khoá nhà cung cấp để thu thập, vì khoá chính là tài khoản. Bạn đăng ký rồi trò chuyện. Với người chỉ muốn trải nghiệm kiểu Risu mà không dựng một ứng dụng hay quản lý khoá, điều này loại bỏ toàn bộ bước thiết lập.",
         "H_RISU_WINS": "Nơi Risu vẫn thắng (một cách trung thực)",
         "P_RISU_WINS": "Chúng tôi sẽ không giả vờ bao quát mọi thứ. Risu có HypaMemory V2/V3, một nền bộ nhớ dài hạn sâu hơn bản tóm tắt cuộn cộng truy xuất ngữ nghĩa của chúng tôi. Nó có một hệ sinh thái plugin người dùng thật sự mà bạn có thể mở rộng và chia sẻ; chúng tôi thì không. Các trình dịch tích hợp của nó cho dịch tự động đầu vào/đầu ra đầy đủ hơn của chúng tôi. Và với tư cách một ứng dụng mã nguồn mở tự lưu trữ, nó cho bạn toàn quyền kiểm soát cục bộ mà một dịch vụ được lưu trữ sẽ không bao giờ cho. Nếu những điều đó quan trọng nhất với bạn, Risu là lựa chọn tốt hơn, và chúng tôi nói thật.",
         "H_VERDICT": "Bạn nên chọn cái nào",
-        "P_VERDICT": "Muốn một giao diện nhập vai tự lưu trữ, mở và mở rộng sâu với bộ nhớ phong phú nhất và một hệ sinh thái plugin, và vui lòng mang khoá của mình? Dùng Risu. Muốn cùng những tính năng lorebook, CBS, trigger và thẻ trong một sản phẩm được lưu trữ nơi một khoá còn vận hành cả tác nhân lập trình và hoạt động ở các giao diện khác? Đó là 2-trong-1 mà {appName} là. Không có một người thắng duy nhất. Chúng tôi chỉ xây cây cầu mà Risu, với tư cách một giao diện, vốn không bao giờ được định là.",
+        "P_VERDICT": "Muốn một giao diện chat nhân vật tự lưu trữ, mở, có thể mở rộng sâu với bộ nhớ phong phú nhất và một hệ sinh thái plugin, và bạn vui khi mang khóa của riêng mình? Hãy dùng Risu. Muốn cùng các tính năng lorebook, CBS, trigger và thẻ trong một sản phẩm được lưu trữ nơi một khóa cũng vận hành các tác nhân lập trình của bạn và hoạt động cả trong các giao diện khác? Đó chính là 2-trong-1 mà {appName} là. Không có người thắng duy nhất. Chúng tôi chỉ xây cây cầu mà Risu, vốn là một giao diện, chưa bao giờ được tạo ra để trở thành.",
         "CTA": "Hãy thử chat với tất cả đã được chuyển vào. <register>Tạo tài khoản miễn phí</register> hoặc <chat>mở chat</chat>."
       },
       "UNOROUTER_VS_LITELLM": {
@@ -720,7 +720,7 @@
         "H_SETUP": "Thiết lập và bảo trì",
         "P_SETUP": "Với LiteLLM bạn viết một cấu hình, cung cấp khoá API của từng nhà cung cấp, chạy máy chủ (Python, nên lưu ý GIL khi đồng thời) và chịu trách nhiệm nâng cấp và giám sát mãi mãi. Với {appName} bạn đăng ký và trỏ client đến <c>https://api.unorouter.com/v1</c>. Không tệp cấu hình, không khoá nhà cung cấp cần thu thập, không máy chủ cần trông nom. Một bên là hạ tầng bạn bảo trì; bên kia là dịch vụ bạn sử dụng.",
         "H_INTERFACE": "Không có LiteLLM nào để bạn trò chuyện bên trong",
-        "P_INTERFACE": "LiteLLM không giao diện theo thiết kế: một lớp API, mọi giao diện bạn tự mang đến. {appName} cung cấp chính API tương thích OpenAI đó cộng thêm một client chat và nhân vật tích hợp (persona, lorebook, preset, nhập thẻ SillyTavern), và cùng một khoá đó cắm vào SillyTavern, Janitor.AI, RisuAI hay Chub. Nhờ vậy một tác nhân lập trình và một nơi để thực sự trò chuyện chạy trên một khoá, thay vì một proxy mà bạn vẫn phải xây giao diện cho nó.",
+        "P_INTERFACE": "LiteLLM không có giao diện theo thiết kế: một lớp API, mọi giao diện bạn tự mang theo. {appName} cung cấp cùng một API tương thích OpenAI cộng với một ứng dụng chat và nhân vật tích hợp (persona, lorebook, preset, nhập thẻ SillyTavern), và cùng một khóa được gắn vào SillyTavern, Janitor.AI, RisuAI hoặc Chub. Vậy nên một tác nhân lập trình và một nơi để thực sự trò chuyện chạy từ một khóa, thay vì một proxy mà bạn vẫn phải xây giao diện cho nó.",
         "H_COST": "Chi phí và khoá",
         "P_COST": "LiteLLM không lấy phụ phí, nhưng bạn trả trực tiếp từng nhà cung cấp và gánh hoá đơn hạ tầng cộng thời gian DevOps. Nó thắng ở khối lượng lớn nếu bạn có đội ngũ. {appName} là trả theo dùng trên hơn 200 mô hình với tín dụng không hết hạn và một bậc miễn phí, một số dư thay vì một ví ở mỗi nhà cung cấp, và không có máy chủ để trả tiền. Dưới quy mô nghiêm túc, con đường được lưu trữ thường rẻ hơn khi tính cả giờ công.",
         "H_VERDICT": "Bạn nên chọn cái nào",
@@ -830,7 +830,7 @@
         "INTRO_P1": "Các mô hình ảnh hiện đại nhận nhiều ảnh tham chiếu cộng với một prompt văn bản và ghép chúng thành một ảnh đầu ra duy nhất. <s>Một prompt, N tham chiếu, một bố cục</s>. Hữu ích cho visual novel, vật phẩm thương hiệu với nhân vật nhất quán, mockup sản phẩm, khung truyện tranh và mọi luồng cần dựng một cảnh từ các phần đã biết.",
         "INTRO_P2": "Bẫy là gần như mọi mô hình trên thị trường đều khoe làm được. Phần lớn không làm được. Có loại chỉ nhận 1 tham chiếu, có loại chỉ 4, có loại nhận đầu vào rồi âm thầm bỏ qua mọi thứ sau ảnh đầu tiên. Trên nữa, cùng một mô hình lại có hành vi khác nhau giữa các reseller vì hạn ngạch, biến thể slug và endpoint chưa nối. Vì vậy chúng tôi dựng benchmark.",
         "H_FIXTURES": "Bộ fixture",
-        "FIXTURES_P": "Sáu JPEG cố định phủ một bố cục cảnh roleplay điển hình: một nền quán rượu và năm chân dung nhân vật (một phía người dùng, bốn NPC). Cùng sáu tệp đó cho mọi cặp (provider, model), không viết lại theo kênh. Tải tổng khoảng 500 KB cho sáu ảnh.",
+        "FIXTURES_P": "Sáu tệp JPEG cố định bao quát một bố cục cảnh nhân vật điển hình: một phông nền quán rượu và năm chân dung nhân vật (một ở phía người dùng và bốn NPC). Cùng sáu tệp đó cho mỗi cặp (nhà cung cấp, mô hình), không viết lại theo từng kênh. Tổng tải trọng khoảng 500 KB trên sáu hình ảnh.",
         "FIXTURES_PROMPT_INTRO": "Prompt văn bản cũng cố định. Gọi tên từng nhân vật, tham chiếu từng ảnh theo chỉ mục và yêu cầu một bố cục duy nhất. Nguyên văn:",
         "H_METHOD": "Benchmark chạy ra sao",
         "METHOD_P1": "Với mọi cặp (provider, model) trong catalog: POST sáu fixture cộng prompt tới <c>/v1/images/edits</c> của kênh đó. <s>Đậu</s> = HTTP 200 kèm URL ảnh không rỗng hoặc payload base64 trong phản hồi. <s>Trượt</s> = không phải 200, thân rỗng hoặc sai hình dạng. Không chấm điểm thủ công. Benchmark có thể tái chạy theo yêu cầu và tự chạy lại mỗi khi có mô hình ảnh mới ở thượng nguồn.",
@@ -898,7 +898,7 @@
         "H_MODELS": "Mô hình và giá",
         "P_MODELS": "Cả hai cung cấp hơn 200 mô hình từ các nhà cung cấp lớn sau một khóa duy nhất, tự động nhận diện định dạng OpenAI, Anthropic và Gemini. OpenRouter thu phí theo phần trăm khi mua số dư. {appName} tính theo mức dùng, số dư không hết hạn và có một tầng mô hình miễn phí để tạo nguyên mẫu. Về độ rộng mô hình thuần túy thì hai bên tương đương, nên yếu tố quyết định hiếm khi là danh mục. Quan trọng là bạn làm gì với nó.",
         "H_RP": "Phần mà OpenRouter bỏ qua",
-        "P_RP": "Trỏ một tác nhân lập trình (Claude Code, Cline, OpenCode, Kilo Code, Codex) vào {appName} và nó hành xử như bất kỳ điểm cuối tương thích OpenAI nào. Nhưng cùng một khóa cũng vận hành một máy khách trò chuyện và nhân vật tích hợp sẵn với persona, lorebook, preset và nhập thẻ SillyTavern, đồng thời cắm thẳng vào SillyTavern, Janitor.AI, RisuAI hay Chub. OpenRouter thuần túy là lớp API, nên bạn tự mang theo mọi giao diện. {appName} giao cả giao diện lẫn API cùng nhau.",
+        "P_RP": "Trỏ một tác nhân lập trình (Claude Code, Cline, OpenCode, Kilo Code, Codex) vào {appName} và nó hoạt động như bất kỳ endpoint tương thích OpenAI nào. Nhưng cùng một khóa cũng vận hành một ứng dụng chat và nhân vật tích hợp với persona, lorebook, preset và nhập thẻ SillyTavern, và được gắn thẳng vào SillyTavern, Janitor.AI, RisuAI hoặc Chub. OpenRouter thuần túy là lớp API, nên bạn tự mang theo mọi giao diện. {appName} cung cấp giao diện và API cùng nhau.",
         "H_MIGRATE": "Chuyển đổi chỉ là thay URL gốc",
         "P_MIGRATE": "Vì {appName} tương thích OpenAI, việc chuyển một ứng dụng hiện có chỉ là một dòng: trỏ máy khách của bạn tới <c>https://api.unorouter.com/v1</c> và giữ nguyên mã. Cùng một khóa dán vào ô điểm cuối tùy chỉnh của một máy khách trò chuyện sẽ tới cùng danh mục đó, nên không có tài khoản thứ hai để quản lý.",
         "H_VERDICT": "Bạn nên chọn cái nào",
@@ -911,13 +911,13 @@
         "AUTHOR": "Đội ngũ {appName}",
         "INTRO": "OpenRouter phổ biến một ý tưởng đơn giản: một khoá tương thích OpenAI chạm tới nhiều nhà cung cấp mô hình. Đây là mặc định vững chắc, nhưng không phải lựa chọn duy nhất, cũng không phải tốt nhất cho mọi mục đích. Nếu bạn đang cân nhắc các lựa chọn thay thế năm 2026, lựa chọn đúng phụ thuộc vào việc bạn quan tâm nhất đến giá, độ rộng mô hình, hình thức tính phí, hay có một trình khách chat riêng. Đây là một bản đồ trung thực, và {appName} phù hợp ở đâu.",
         "H_WHY_SWITCH": "Tại sao nhìn xa hơn OpenRouter",
-        "P_WHY_SWITCH": "Người ta tìm hiểu vì vài lý do cụ thể. Biên lợi: mỗi nhà tổng hợp cộng thêm một biên trên giá gốc của nhà cung cấp, và mức độ khác nhau. Phạm vi mô hình: một mô hình bạn cần có thể thiếu hoặc cũ ở một cổng và mới ở cổng khác. Hình thức tính phí: một số gói tính theo ghế hoặc thuê bao, vốn hợp kém với việc dùng theo đợt. Và chuyện trình khách: hầu hết các cổng là không giao diện, nên bạn vẫn cần một frontend riêng cho chat hoặc nhập vai. Bất kỳ điều nào trong số đó cũng đủ để so sánh.",
+        "P_WHY_SWITCH": "Người ta tìm phương án thay thế vì vài lý do cụ thể. Phụ phí: mỗi bộ tổng hợp cộng thêm một biên lợi nhuận trên giá thô của nhà cung cấp, và mức độ khác nhau. Phạm vi mô hình: một mô hình bạn cần có thể thiếu hoặc lỗi thời trên một cổng và cập nhật trên cổng khác. Hình thức tính phí: một số gói theo ghế hoặc theo thuê bao, vốn là sự phù hợp sai cho mức dùng bùng nổ theo đợt. Và câu chuyện ứng dụng: hầu hết các cổng đều không có giao diện, nên bạn vẫn cần một giao diện riêng cho chat hoặc chat nhân vật. Bất kỳ điều nào trong đó cũng có thể đủ làm lý do để so sánh.",
         "H_WHAT_TO_COMPARE": "Thực sự nên so sánh gì",
         "P_WHAT_TO_COMPARE": "Đánh giá một lựa chọn thay thế qua năm thứ. Chat Completions tương thích OpenAI, để mã nguồn và công cụ hiện có của bạn kết nối mà không viết lại. Độ rộng và độ mới của mô hình, để bạn không mắc kẹt ở danh mục của hôm qua. Giá trả theo dùng minh bạch với tín dụng không hết hạn, để những tháng ít dùng không phạt bạn. Phạm vi các mô hình bạn thực sự dùng, không chỉ một con số thô lớn. Và liệu nó kèm theo một trình khách dùng được, hay giả định bạn mang theo của mình. Chấm điểm theo đó, không theo lời quảng cáo.",
         "H_ALTERNATIVES": "Các lựa chọn thay thế đáng biết",
         "P_ALTERNATIVES": "Khoá một nhà cung cấp (OpenAI, Anthropic, DeepSeek) là đơn giản nhất nhưng trói bạn vào một phòng thí nghiệm. Các cổng phát triển không giao diện như LiteLLM và Portkey cho độ rộng và quản trị nhưng không có trình khách, nên hợp với các đội có ứng dụng riêng. Các proxy tự lưu trữ đánh đổi sự tiện lợi lấy quyền kiểm soát. Và các cổng kết hợp ghép một API tương thích OpenAI rộng với một trình khách chat tích hợp, nên một khoá chạy trong mã và trong giao diện. {appName} thuộc loại cuối cùng đó: trỏ bất kỳ SDK OpenAI nào tới <c>https://api.unorouter.com/v1</c>, chạm tới hơn 200 mô hình và dùng cùng khoá trong một trình khách chat tích hợp hoặc trong công cụ như SillyTavern.",
-        "H_FOR_ROLEPLAY": "Nếu trường hợp của bạn là nhập vai",
-        "P_FOR_ROLEPLAY": "Nhập vai là một trường hợp riêng. Bạn muốn một danh mục rộng để đổi giữa một cây viết mạnh và một con ngựa thồ rẻ, tính phí trả theo dùng vì các phiên chạy theo đợt, và một khoá cắm thẳng vào SillyTavern, Janitor.AI, RisuAI hoặc Chub. Các cổng phát triển thuần tuý phủ nửa phần API nhưng không cho bạn trình khách, và các gói theo ghế chọi với nhịp theo đợt đó. {appName} được xây để bao cả hai: API sạch cho mã, cộng thêm một trình khách chat và nhân vật trên cùng khoá, mô hình và tín dụng.",
+        "H_FOR_ROLEPLAY": "Nếu trường hợp dùng của bạn là chat nhân vật",
+        "P_FOR_ROLEPLAY": "Chat nhân vật là một trường hợp riêng. Bạn muốn một danh mục rộng để đổi giữa một cây bút mạnh và một con ngựa thồ rẻ, tính phí trả theo mức dùng vì các phiên bùng nổ theo đợt, và một khóa được gắn thẳng vào SillyTavern, Janitor.AI, RisuAI hoặc Chub. Các cổng thuần dev bao quát nửa API nhưng không cho bạn ứng dụng, và các gói theo ghế chống lại kiểu bùng nổ theo đợt. {appName} được xây để bao trùm cả hai: API gọn gàng cho mã, cộng với một ứng dụng chat và nhân vật trên cùng khóa, mô hình và tín dụng.",
         "H_VERDICT": "Cách chọn",
         "P_VERDICT": "Nếu bạn chỉ luôn dùng một phòng thí nghiệm, một khoá một nhà cung cấp là ổn. Nếu bạn là một đội muốn định tuyến và quản trị trước ứng dụng của mình, một cổng phát triển không giao diện phù hợp. Nếu bạn muốn một khoá chạm tới nhiều mô hình hiện tại, tính phí trả theo dùng và chạy cả trong mã lẫn trong trình khách chat, đó là khoảng trống {appName} lấp đầy. Chọn theo nhu cầu thực của bạn, không theo số mô hình thô.",
         "CTA": "Muốn một khoá cho mọi mô hình? <register>Tạo tài khoản miễn phí</register> hoặc <models>duyệt các mô hình</models>."
@@ -934,7 +934,7 @@
         "H_HOW_IT_WORKS": "Nó hoạt động thế nào bên trong",
         "P_HOW_IT_WORKS": "Khi một yêu cầu tới, cổng đọc tên trong <c>model</c>, tra cứu nhà cung cấp upstream phù hợp, hoán đổi thông tin xác thực của nhà cung cấp đó, viết lại các trường thân riêng của nhà cung cấp và chuyển tiếp cuộc gọi. Các token truyền theo dòng trở lại qua cùng kết nối, nên từ phía bạn nó trông như một cuộc gọi OpenAI bình thường. Các cổng tốt thêm việc thử lại khi lỗi tạm thời, hoạch toán sử dụng và chi phí, và một danh mục mô hình cập nhật để các bản phát hành mới xuất hiện mà bạn không chạm vào gì.",
         "H_WHO_NEEDS_ONE": "Ai thực sự cần một cái",
-        "P_WHO_NEEDS_ONE": "Bạn muốn một cổng nếu bạn dùng hơn một mô hình, dự định đổi mô hình khi giá và chất lượng thay đổi, hoặc xây bất cứ thứ gì không nên đấu cứng vào một phòng thí nghiệm. Tác nhân mã, ứng dụng chat, frontend nhập vai và công cụ nội bộ đều hưởng lợi. Nếu bạn thực sự chỉ gọi một mô hình từ một nhà cung cấp và không bao giờ mong đổi, một khoá trực tiếp của nhà cung cấp là đơn giản hơn. Tất cả người khác tiết kiệm công sức thực sự với một cổng.",
+        "P_WHO_NEEDS_ONE": "Bạn cần một cổng nếu bạn dùng nhiều hơn một mô hình, dự định đổi mô hình khi giá và chất lượng thay đổi, hoặc xây bất cứ thứ gì không nên bị gắn cứng vào một phòng thí nghiệm duy nhất. Tác nhân lập trình, ứng dụng chat, giao diện chat nhân vật và công cụ nội bộ đều hưởng lợi. Nếu bạn thực sự chỉ gọi một mô hình từ một nhà cung cấp và không bao giờ định đổi, một khóa nhà cung cấp trực tiếp thì đơn giản hơn. Mọi người còn lại tiết kiệm công sức thực sự với một cổng.",
         "H_VERDICT": "Tóm lại",
         "P_VERDICT": "Cổng LLM biến nhiều nhà cung cấp thành một điểm cuối, một khoá và một hoá đơn, nên bạn tích hợp một lần và đổi mô hình tự do. {appName} là một cổng tương thích OpenAI đúng khuôn đó: một khoá chạm tới hơn 200 mô hình cho mã và chat như nhau, với tín dụng trả theo dùng không hết hạn. Nếu bạn chạm hơn một mô hình, một cổng là nền tảng sạch hơn.",
         "CTA": "Tự thử một cổng: <register>tạo tài khoản miễn phí</register> hoặc <models>duyệt các mô hình</models>."
@@ -947,30 +947,30 @@
         "H_WHAT_YOU_NEED": "Bạn cần gì trước",
         "P_WHAT_YOU_NEED": "Ba thứ: một bản cài SillyTavern đang chạy, một điểm cuối tương thích OpenAI và một khoá cho nó. Một cổng phủ hai thứ cuối cùng liền, vì nó cho bạn một URL cơ sở và một khoá chạm tới nhiều mô hình. Với {appName} bạn tạo một tài khoản, lấy khoá và sẵn sàng; có một bậc miễn phí để bạn thử một nhân vật trước khi chi tiêu bất cứ gì. Giữ khoá trong tầm tay và đừng dán nó ở bất cứ nơi công cộng nào.",
         "H_STEPS": "Các bước thiết lập",
-        "P_STEPS": "Trong SillyTavern, mở bảng API và chọn Chat Completion, rồi nguồn tương thích OpenAI (Custom). Đặt URL cơ sở thành <c>https://api.unorouter.com/v1</c>, dán khoá {appName} của bạn và bấm để tải danh sách mô hình. Chọn một mô hình từ menu thả xuống và gửi một tin nhắn thử. Các nhân vật, lorebook và preset của bạn chạy không đổi, vì SillyTavern chỉ cần một điểm cuối và một khoá. Cùng khoá cũng chạy trong Janitor.AI, RisuAI và Chub.",
+        "P_STEPS": "Trong SillyTavern, mở bảng API và chọn Chat Completion, rồi chọn nguồn tương thích OpenAI (Custom). Đặt URL cơ sở thành <c>https://api.unorouter.com/v1</c>, dán khóa {appName} của bạn và nhấp để tải danh sách mô hình. Chọn một mô hình từ menu thả xuống và gửi một tin nhắn thử. Nhân vật, lorebook và preset của bạn hoạt động không đổi, vì SillyTavern chỉ cần một endpoint và một khóa. Cùng một khóa cũng hoạt động trong Janitor.AI, RisuAI và Chub.",
         "H_SWITCHING_MODELS": "Đổi mô hình về sau",
         "P_SWITCHING_MODELS": "Vì mọi thứ đi qua một điểm cuối, đổi mô hình chỉ là chọn một mục khác trong menu thả xuống mô hình; không tài khoản, khoá hay URL cơ sở mới. Điều đó cho bạn chạy một mô hình miễn phí rẻ trong khi dựng một cảnh, rồi chuyển sang một mô hình trả phí mạnh hơn cho khoảnh khắc quan trọng. Với hơn 200 mô hình trên một khoá, bạn có thể khớp mô hình với cảnh thay vì chấp nhận bất cứ gì một nhà cung cấp đưa ra.",
         "H_TROUBLESHOOTING": "Lỗi thường gặp và cách sửa",
         "P_TROUBLESHOOTING": "Nếu danh sách mô hình không tải, kiểm tra lại URL cơ sở kết thúc bằng <c>/v1</c> và khoá được dán không có khoảng trắng thừa. Lỗi 401 nghĩa là khoá sai hoặc hết hạn; sao chép lại. Lỗi 404 trên một mô hình nghĩa là tên mô hình đó chưa được chọn từ danh sách đã tải. Nếu các câu trả lời bị cắt, tăng độ dài trả lời trong cài đặt của SillyTavern. Hầu hết các thất bại thiết lập là một URL cơ sở gõ sai hoặc một khoá có khoảng trắng, nên kiểm tra những cái đó trước.",
         "H_VERDICT": "Đó là toàn bộ mẹo",
-        "P_VERDICT": "Kết nối bất kỳ LLM nào với SillyTavern quy về một điểm cuối tương thích OpenAI cộng một khoá, và một cổng biến điều đó thành nhiều mô hình đằng sau một thiết lập duy nhất. {appName} cho bạn URL cơ sở đó, một bậc miễn phí để bắt đầu và hơn 200 mô hình để đổi giữa chúng mà không làm lại gì. Thiết lập một lần và cùng khoá theo bạn qua mọi frontend RP.",
+        "P_VERDICT": "Kết nối bất kỳ LLM nào với SillyTavern rút lại còn một endpoint tương thích OpenAI cộng một khóa, và một cổng biến điều đó thành nhiều mô hình sau một lần thiết lập duy nhất. {appName} cho bạn URL cơ sở đó, một bậc miễn phí để bắt đầu, và hơn 200 mô hình bạn có thể đổi qua lại mà không phải làm lại gì. Thiết lập một lần và cùng một khóa theo bạn qua mọi giao diện chat nhân vật.",
         "CTA": "Sẵn sàng kết nối SillyTavern? <register>Tạo tài khoản miễn phí</register> hoặc <models>duyệt các mô hình</models>."
       },
       "ONE_API_KEY_FOR_CLAUDE_CODE_AND_ROLEPLAY": {
-        "TITLE": "Một khoá API cho Claude Code và nhập vai",
-        "DESCRIPTION": "Tác nhân mã và trình khách nhập vai đều nói API tương thích OpenAI. Đây là cách một khoá cấp nguồn cho Claude Code và các cuộc chat nhân vật của bạn từ một số dư.",
+        "TITLE": "Một khóa API cho Claude Code và chat nhân vật",
+        "DESCRIPTION": "Tác nhân lập trình và ứng dụng chat nhân vật đều nói các API tương thích OpenAI. Đây là cách một khóa duy nhất chạy Claude Code và các cuộc chat nhân vật của bạn từ một số dư.",
         "AUTHOR": "Đội ngũ {appName}",
-        "INTRO": "Tác nhân mã và trình khách nhập vai cảm giác như những thế giới khác nhau, nhưng bên dưới chúng nói cùng một ngôn ngữ: Chat Completions tương thích OpenAI. Điều đó nghĩa là một khoá và một điểm cuối có thể phục vụ cả hai. Bạn có thể chạy Claude Code chống lại một cổng cho công việc thực của mình, rồi dùng đúng cùng khoá đó cho chat nhân vật vào buổi tối, tính phí từ một số dư. Đây là cách nó hoạt động và vì sao nó tiện.",
+        "INTRO": "Tác nhân lập trình và ứng dụng chat nhân vật có vẻ như những thế giới khác nhau, nhưng bên dưới chúng nói cùng một ngôn ngữ: Chat Completions tương thích OpenAI. Điều đó nghĩa là một khóa và một endpoint có thể phục vụ cả hai. Bạn có thể chạy Claude Code với một cổng cho công việc thực sự của mình, rồi dùng đúng khóa đó cho chat nhân vật vào buổi tối, được tính phí từ một số dư. Đây là cách nó hoạt động và vì sao nó tiện lợi.",
         "H_TWO_WORLDS": "Hai thế giới, một giao thức",
-        "P_TWO_WORLDS": "Claude Code, Cline, Codex và Kilo Code là tác nhân mã; SillyTavern, Janitor.AI và RisuAI là trình khách nhập vai. Chúng trông không liên quan, nhưng mỗi cái kết nối với một điểm cuối tương thích OpenAI và một khoá. Một cổng đứng sau cả hai, nên cùng thông tin xác thực điều khiển một lần tái cấu trúc vào buổi sáng và một câu chuyện vào buổi tối. Không có lý do giữ tài khoản riêng và hoá đơn riêng cho hai công cụ nói cùng một giao thức.",
+        "P_TWO_WORLDS": "Claude Code, Cline, Codex và Kilo Code là các tác nhân lập trình; SillyTavern, Janitor.AI và RisuAI là các ứng dụng chat nhân vật. Chúng trông không liên quan, nhưng mỗi cái đều kết nối tới một endpoint tương thích OpenAI và một khóa. Một cổng nằm sau cả hai, nên cùng một thông tin xác thực vận hành một lần tái cấu trúc vào buổi sáng và một câu chuyện vào ban đêm. Không có lý do gì để giữ các tài khoản riêng và hóa đơn riêng cho hai công cụ nói cùng một giao thức.",
         "H_CLAUDE_CODE": "Dùng nó với Claude Code",
         "P_CLAUDE_CODE": "Trỏ tác nhân mã của bạn tới cổng bằng cách đặt URL cơ sở thành <c>https://api.unorouter.com/v1</c> và khoá {appName} của bạn, rồi chọn một mô hình mã mạnh. Claude Code, Cline, Codex và Kilo Code đều chấp nhận một URL cơ sở tương thích OpenAI, nên tác nhân làm việc như thường lệ trong khi cổng định tuyến tới mô hình bạn đã chọn. Đổi mô hình vì chi phí hay chất lượng bằng một thay đổi một dòng, không cần khoá mới.",
-        "H_ROLEPLAY": "Dùng nó cho nhập vai",
-        "P_ROLEPLAY": "Cùng khoá cắm vào SillyTavern, Janitor.AI, RisuAI và Chub: chọn nguồn tương thích OpenAI, đặt URL cơ sở thành <c>https://api.unorouter.com/v1</c>, dán khoá và tải mô hình. Các nhân vật, lorebook và preset của bạn chạy không đổi. {appName} cũng có một trình khách chat và nhân vật tích hợp, nên khi bạn không muốn mở một ứng dụng đầy đủ, cùng khoá và tín dụng cũng chạy ở đó.",
+        "H_ROLEPLAY": "Dùng nó cho chat nhân vật",
+        "P_ROLEPLAY": "Cùng một khóa đó được gắn vào SillyTavern, Janitor.AI, RisuAI và Chub: chọn nguồn tương thích OpenAI, đặt URL cơ sở thành <c>https://api.unorouter.com/v1</c>, dán khóa và tải mô hình. Nhân vật, lorebook và preset của bạn chạy không đổi. {appName} cũng có một ứng dụng chat và nhân vật tích hợp, nên khi bạn không muốn khởi chạy một ứng dụng đầy đủ, cùng khóa và tín dụng đó vẫn hoạt động ở đó.",
         "H_ONE_BALANCE": "Một số dư cho cả hai",
-        "P_ONE_BALANCE": "Vì cả hai bên chạy trên cùng một khoá, mức dùng mã và mức dùng nhập vai của bạn rút từ một số dư trả theo dùng. Tín dụng không hết hạn, không có ghế hàng tháng phải biện minh, và bạn thấy toàn bộ chi tiêu ở một nơi thay vì chia nó qua các nhà cung cấp. Một bậc miễn phí cho bạn thử mỗi bên trước khi trả tiền. Một tài khoản bao trọn ngày của bạn, cả làm lẫn chơi.",
+        "P_ONE_BALANCE": "Vì cả hai phía chạy trên cùng một khóa, việc dùng cho lập trình và việc dùng cho chat nhân vật của bạn đều rút từ một số dư trả theo mức dùng. Tín dụng không hết hạn, không có ghế hằng tháng phải biện minh, và bạn thấy toàn bộ chi tiêu ở một nơi thay vì chia nó giữa các nhà cung cấp. Một bậc miễn phí cho phép bạn thử cả hai phía trước khi trả tiền. Một tài khoản bao trọn cả ngày của bạn, công việc và giải trí.",
         "H_VERDICT": "Điểm mấu chốt",
-        "P_VERDICT": "Tác nhân mã và trình khách nhập vai chia sẻ giao thức tương thích OpenAI, nên một khoá có thể cấp nguồn cho cả hai từ một số dư. {appName} được xây dựng đúng cho khoảng đó: một API sạch cho Claude Code và bạn bè, một trình khách chat và nhân vật cho RP, hơn 200 mô hình và tín dụng không hết hạn. Một khoá, một hoá đơn, cả hai thế giới.",
+        "P_VERDICT": "Tác nhân lập trình và ứng dụng chat nhân vật chia sẻ giao thức tương thích OpenAI, nên một khóa duy nhất có thể chạy cả hai từ một số dư. {appName} được xây dựng đúng cho khoảng đó: một API gọn gàng cho Claude Code và các công cụ tương tự, một ứng dụng chat và nhân vật để kể chuyện, hơn 200 mô hình, và tín dụng không hết hạn. Một khóa, một hóa đơn, cả hai thế giới.",
         "CTA": "Muốn một khoá cho mã và chat? <register>Tạo tài khoản miễn phí</register> hoặc <models>duyệt các mô hình</models>."
       }
     }
@@ -1047,11 +1047,11 @@
     },
     "META": {
       "TITLE": "Bảng giá - {appName}",
-      "DESCRIPTION": "Giá đơn giản cho mọi mô hình AI. Đăng ký để có giá tốt hơn hoặc trả theo mức dùng. Chạy trong code, trong Claude Code và trong SillyTavern, Janitor.AI, RisuAI và Chub.",
+      "DESCRIPTION": "Giá đơn giản cho mọi mô hình AI. Đăng ký để có giá trị tốt hơn hoặc trả theo mức dùng. Hoạt động với mã của bạn, với Claude Code, và với SillyTavern, RisuAI cùng bất kỳ ứng dụng chat AI tương thích OpenAI nào.",
       "KEYWORDS": "giá API AI, đăng ký AI, trả theo token, giá mô hình AI, API AI giá rẻ, AI giá hợp lý, giá tương thích OpenAI, giá API đa mô hình"
     },
     "TITLE": "Bảng giá",
-    "SUBTITLE": "Dù bạn deploy ứng dụng hay roleplay dài hơi. Một gói, mọi mô hình.",
+    "SUBTITLE": "Dù bạn đang phát hành một ứng dụng hay duy trì những phiên chat nhân vật dài. Một gói, mọi mô hình.",
     "CTA": "Đăng ký",
     "FAQ": {
       "Q1": "Giá cả {appName} hoạt động ra sao?",
@@ -1066,10 +1066,10 @@
       "A5": "{appName} định tuyến yêu cầu qua nhiều nhà cung cấp với tự động chuyển đổi dự phòng. Nếu một bên bị giới hạn tốc độ hoặc ngừng hoạt động, chúng tôi tự động thử lại với upstream khỏe mạnh tiếp theo một cách minh bạch.",
       "Q6": "Tôi có được hoàn tiền không?",
       "A6": "Tín dụng trả trước chưa dùng có thể hoàn tiền trong vòng 30 ngày kể từ khi mua. Liên hệ {supportEmail} cho yêu cầu hoàn tiền.",
-      "Q7": "Có dùng được với SillyTavern, Janitor.AI, Chub hay RisuAI không?",
-      "A7": "Có. Mọi gói đều dùng như một nguồn tuỳ chỉnh tương thích OpenAI trong các client roleplay lớn. SillyTavern, Janitor.AI, RisuAI và Chub đều có hướng dẫn cài đặt riêng trong docs.",
+      "Q7": "Tôi có thể dùng cái này với SillyTavern, RisuAI hoặc các ứng dụng chat AI tương thích OpenAI khác không?",
+      "A7": "Có. Mọi gói đều hoạt động như một nguồn tùy chỉnh tương thích OpenAI trong bất kỳ ứng dụng chat nhân vật lớn nào. SillyTavern, Janitor.AI, RisuAI và Chub mỗi cái đều có một hướng dẫn thiết lập trong tài liệu.",
       "Q8": "Cuộc trò chuyện hoặc lịch sử nhân vật có thể dài đến đâu?",
-      "A8": "{appName} hỗ trợ toàn bộ context window của mỗi mô hình, lên tới 1M token trên Gemini và 200k trên Claude. Roleplay dài hay codebase lớn đều chạy ổn."
+      "A8": "{appName} hỗ trợ toàn bộ cửa sổ ngữ cảnh của mọi mô hình, lên tới 1M token trên Gemini và 200k trên Claude. Cả những cuộc trò chuyện nhân vật dài lẫn các kho mã lớn đều hoạt động."
     },
     "TIER": {
       "1": "Khởi đầu",
@@ -1093,8 +1093,8 @@
   "DOCS_INDEX": {
     "META": {
       "TITLE": "Tích hợp - {appName}",
-      "DESCRIPTION": "Hướng dẫn cài đặt cho mọi công cụ AI lớn và client roleplay. Claude Code, Codex CLI, Gemini CLI, OpenClaw, SillyTavern, Janitor.AI, RisuAI và Chub.",
-      "KEYWORDS": "hướng dẫn tích hợp AI, cài Claude Code, cài Codex CLI, cài Gemini CLI, cài OpenClaw, cài SillyTavern, cài Janitor.AI, cài RisuAI, cài Chub, tài liệu API AI, cài proxy AI roleplay"
+      "DESCRIPTION": "Hướng dẫn thiết lập cho mọi công cụ AI lớn và ứng dụng chat nhân vật. Claude Code, Codex CLI, Gemini CLI, OpenClaw, SillyTavern, RisuAI và các ứng dụng tương thích OpenAI khác.",
+      "KEYWORDS": "hướng dẫn tích hợp AI, thiết lập Claude Code, thiết lập Codex CLI, thiết lập Gemini CLI, thiết lập OpenClaw, thiết lập SillyTavern, thiết lập RisuAI, thiết lập chat nhân vật AI, tài liệu API AI, thiết lập API tương thích OpenAI"
     },
     "BADGE": "Tích hợp",
     "TITLE": "Tích hợp",
@@ -1107,7 +1107,7 @@
     "CTA_MODELS": "Xem tất cả mô hình",
     "PATHS_TITLE": "Lộ trình phổ biến",
     "PATHS_DESC": "Bắt đầu từ thứ bạn muốn kết nối. Đi thẳng đến URL cơ sở, tuyến và thiết lập mô hình phù hợp.",
-    "PATH_ROLEPLAY_TITLE": "Ứng dụng nhập vai",
+    "PATH_ROLEPLAY_TITLE": "Ứng dụng nhân vật và hư cấu",
     "PATH_ROLEPLAY_DESC": "SillyTavern, Janitor.AI, Chub và RisuAI.",
     "PATH_CODING_TITLE": "Tác tử lập trình",
     "PATH_CODING_DESC": "OpenCode, Cline, Roo Code, Kilo Code, Zed và nhiều hơn.",
@@ -1173,11 +1173,11 @@
       "COMPAT_TOOL_CALLING": "Gọi công cụ",
       "COMPAT_IMAGES": "Đầu vào hình ảnh",
       "CATEGORY_CODING": "Tác nhân lập trình",
-      "CATEGORY_ROLEPLAY": "Ứng dụng roleplay",
+      "CATEGORY_ROLEPLAY": "Ứng dụng nhân vật và hư cấu",
       "CATEGORY_GENERAL": "Ứng dụng chat",
       "CATEGORY_CLI": "Công cụ CLI",
       "CATEGORY_CODING_DESC": "Trình soạn thảo và tác nhân viết và chạy mã qua API.",
-      "CATEGORY_ROLEPLAY_DESC": "Giao diện chat nhân vật và roleplay.",
+      "CATEGORY_ROLEPLAY_DESC": "Giao diện chat nhân vật và hư cấu.",
       "CATEGORY_GENERAL_DESC": "Ứng dụng chat đa năng và ứng dụng máy tính để bàn.",
       "CATEGORY_CLI_DESC": "Công cụ dòng lệnh và tác nhân dòng lệnh."
     },
@@ -1667,13 +1667,13 @@
       "META": {
         "TITLE": "Hướng dẫn tích hợp SillyTavern | {appName}",
         "DESCRIPTION": "Kết nối SillyTavern với {appName} qua nguồn chat completion tùy chỉnh tương thích OpenAI. Hướng dẫn thiết lập từng bước với đúng định dạng URL mà SillyTavern yêu cầu.",
-        "KEYWORDS": "SillyTavern, SillyTavern proxy, SillyTavern API, SillyTavern custom endpoint, {appName} SillyTavern, roleplay AI proxy, OpenAI-compatible roleplay"
+        "KEYWORDS": "SillyTavern, proxy SillyTavern, API SillyTavern, endpoint tùy chỉnh SillyTavern, {appName} SillyTavern, chat nhân vật AI, API tương thích OpenAI"
       },
       "BADGE": "SillyTavern",
       "TITLE": "Hướng dẫn tích hợp SillyTavern",
       "SUBTITLE": "Kết nối {appName} với SillyTavern qua nguồn chat completion tùy chỉnh tương thích OpenAI.",
       "INTRO_TITLE": "SillyTavern là gì?",
-      "INTRO_DESC": "SillyTavern là giao diện roleplay và chat nhân vật tự host dành cho các mô hình ngôn ngữ lớn. Ứng dụng chạy cục bộ, lưu nhân vật và lịch sử chat trên máy của bạn, đồng thời hỗ trợ mọi API tương thích OpenAI làm nguồn chat completion.",
+      "INTRO_DESC": "SillyTavern là một giao diện chat nhân vật và hư cấu tương tác tự lưu trữ dành cho các mô hình ngôn ngữ lớn. Nó chạy cục bộ, lưu nhân vật và cuộc trò chuyện trên máy của bạn, và hỗ trợ bất kỳ API tương thích OpenAI nào làm nguồn hoàn tất chat.",
       "INTRO_LINK_DOCS": "Tài liệu chính thức của SillyTavern",
       "INTRO_LINK_GITHUB": "SillyTavern trên GitHub",
       "OVERVIEW": "Tổng quan",
@@ -1733,13 +1733,13 @@
       "META": {
         "TITLE": "Hướng dẫn tích hợp Janitor.AI | {appName}",
         "DESCRIPTION": "Kết nối Janitor.AI với {appName} dưới dạng proxy tùy chỉnh. Bao gồm đúng URL đầy đủ mà Janitor yêu cầu và bước làm mới trình duyệt mà hầu hết các hướng dẫn bỏ qua.",
-        "KEYWORDS": "Janitor AI, Janitor proxy, Janitor API, {appName} Janitor, roleplay proxy, OpenAI-compatible roleplay, Janitor custom proxy URL"
+        "KEYWORDS": "Janitor AI, proxy Janitor, API Janitor, {appName} Janitor, chat nhân vật AI, API tương thích OpenAI, URL proxy tùy chỉnh Janitor"
       },
       "BADGE": "Janitor.AI",
       "TITLE": "Hướng dẫn tích hợp Janitor.AI",
       "SUBTITLE": "Kết nối {appName} với Janitor.AI dưới dạng proxy tùy chỉnh với đúng định dạng URL mà bảng API Settings của Janitor yêu cầu.",
       "INTRO_TITLE": "Janitor.AI là gì?",
-      "INTRO_DESC": "Janitor.AI là nền tảng chat nhân vật trên trình duyệt. Nền tảng này có sẵn mô hình miễn phí tích hợp và cho phép bạn thêm bất kỳ proxy tương thích OpenAI nào để dùng không giới hạn. {appName} được gắn vào qua bảng API Settings.",
+      "INTRO_DESC": "Janitor.AI là một nền tảng chat nhân vật chạy trên trình duyệt. Nó đi kèm một mô hình miễn phí tích hợp sẵn và cho phép bạn thêm bất kỳ proxy tương thích OpenAI nào để truy cập không giới hạn. {appName} được cắm vào tại bảng API Settings.",
       "INTRO_LINK_DOCS": "Hướng dẫn nhanh proxy chính thức của Janitor.AI",
       "OVERVIEW": "Tổng quan",
       "OVERVIEW_DESC": "Janitor.AI gọi proxy của bạn bằng URL ĐẦY ĐỦ `/v1/chat/completions`. Bạn dán URL đó, khóa API và tên mô hình vào một cấu hình, nhấn Save, sau đó làm mới cứng (hard-refresh) trình duyệt để cấu hình có hiệu lực.",
@@ -1802,13 +1802,13 @@
       "META": {
         "TITLE": "Hướng dẫn tích hợp RisuAI | {appName}",
         "DESCRIPTION": "Kết nối RisuAI với {appName} qua Custom Models. Bao gồm bước quan trọng là bỏ tick Autofill Request URL, vấn đề hỗ trợ số 1 khi thiết lập proxy cho RisuAI.",
-        "KEYWORDS": "RisuAI, RisuAI proxy, RisuAI custom endpoint, {appName} RisuAI, roleplay AI proxy, Autofill Request URL, RisuAI OpenAI-compatible"
+        "KEYWORDS": "RisuAI, proxy RisuAI, endpoint tùy chỉnh RisuAI, {appName} RisuAI, chat nhân vật AI, Autofill Request URL, RisuAI tương thích OpenAI"
       },
       "BADGE": "RisuAI",
       "TITLE": "Hướng dẫn tích hợp RisuAI",
       "SUBTITLE": "Kết nối {appName} với RisuAI qua tùy chọn Custom Models trong Advanced Settings.",
       "INTRO_TITLE": "RisuAI là gì?",
-      "INTRO_DESC": "RisuAI là giao diện chat roleplay ưu tiên chạy cục bộ, hoạt động trên trình duyệt hoặc dưới dạng ứng dụng desktop. Nó hỗ trợ mọi endpoint tương thích OpenAI, với cấu hình được lưu trong local storage của trình duyệt.",
+      "INTRO_DESC": "RisuAI là một giao diện chat nhân vật ưu tiên cục bộ, chạy trong trình duyệt hoặc dưới dạng ứng dụng máy tính để bàn. Nó hỗ trợ bất kỳ endpoint tương thích OpenAI nào, với cấu hình được lưu trong bộ nhớ cục bộ của trình duyệt.",
       "INTRO_LINK_GUIDE": "Hướng dẫn thiết lập RisuAI của bên thứ ba (HyprLab)",
       "INTRO_LINK_GITHUB": "RisuAI trên GitHub",
       "INTRO_WIKI_NOTE": "Wiki chính thức của RisuAI đang tụt hậu so với giao diện hiện tại. Các bước bên dưới phản ánh RisuAI tính đến 2026-04.",
@@ -1878,13 +1878,13 @@
       "META": {
         "TITLE": "Hướng dẫn tích hợp Chub / Venus | {appName}",
         "DESCRIPTION": "Kết nối Chub.ai (Venus) với {appName} dưới dạng reverse proxy. Bao gồm tuyên bố về relay bên thứ nhất để đối trọng với cảnh báo proxy bên thứ ba tích hợp sẵn của Chub.",
-        "KEYWORDS": "Chub AI, Venus AI, Chub reverse proxy, {appName} Chub, roleplay AI proxy, OpenAI-compatible Chub, Chub OpenAI setup"
+        "KEYWORDS": "Chub AI, Venus AI, reverse proxy Chub, {appName} Chub, chat nhân vật AI, API tương thích OpenAI, thiết lập Chub với OpenAI"
       },
       "BADGE": "Chub / Venus",
       "TITLE": "Hướng dẫn tích hợp Chub / Venus",
       "SUBTITLE": "Kết nối {appName} với Chub.ai (Venus) qua tùy chọn Reverse proxy trong bảng Secrets.",
       "INTRO_TITLE": "Chub / Venus là gì?",
-      "INTRO_DESC": "Chub.ai (trước đây là Venus) là nền tảng chat nhân vật trên trình duyệt với thư viện 60.000 nhân vật. Nền tảng này kết nối với các endpoint tương thích OpenAI qua bảng Secrets.",
+      "INTRO_DESC": "Chub.ai (trước đây là Venus) là một nền tảng chat nhân vật chạy trên trình duyệt với thư viện 60.000 nhân vật. Nó kết nối tới các endpoint tương thích OpenAI thông qua bảng Secrets của nó.",
       "INTRO_LINK_DOCS": "Tài liệu chính thức về API Connections của Chub.ai",
       "OVERVIEW": "Tổng quan",
       "OVERVIEW_DESC": "Bảng Secrets của Chub chấp nhận URL cơ sở của API kết thúc bằng `/v1` cùng với khoá API của bạn. Nút Check your proxy xác minh kết nối trước khi bạn chọn mô hình trong Prompt Structure.",

@@ -36,7 +36,7 @@
       "BADGE": "Router en línea",
       "TITLE_LINE1": "TODO EN UNO",
       "TITLE_ROTATE": "API,CHAT,PERSONAJES,RELATOS,CÓDIGO,INTELIGENCIA",
-      "SUBTITLE": "{appName} te conecta a {modelCount}+ modelos de IA con una sola clave. Crea apps y ejecuta agentes con ella, o saltate la configuración y chatea con personajes aquí mismo en el sitio. Misma clave, misma velocidad, mismo precio.",
+      "SUBTITLE": "{appName} te conecta con más de {modelCount} modelos de IA mediante una sola clave. Crea apps y ejecuta agentes con ella, o sáltate la configuración y chatea con personajes aquí mismo en el sitio. Misma clave, misma velocidad, mismo precio.",
       "CTA_PRIMARY": "Comenzar",
       "CTA_SECONDARY": "Ver modelos"
     },
@@ -85,27 +85,27 @@
         "DESCRIPTION": "Usa {appName} como proveedor de modelos para tu agente OpenClaw. Configura una vez, accede a todos los modelos."
       },
       "SILLYTAVERN": {
-        "BADGE": "Roleplay",
+        "BADGE": "Chat de personajes",
         "TITLE": "Funciona con SillyTavern",
         "DESCRIPTION": "Conecta {appName} a la fuente personalizada compatible con OpenAI de SillyTavern. Pega la URL base, elige un modelo, chatea."
       },
       "JANITOR_AI": {
-        "BADGE": "Roleplay",
-        "TITLE": "Funciona con Janitor.AI",
-        "DESCRIPTION": "Añade {appName} como proxy personalizado en Janitor.AI. URL completa más clave API, guardar, refrescar, listo."
+        "BADGE": "Chat de personajes",
+        "TITLE": "Funciona con clientes de chat de IA populares",
+        "DESCRIPTION": "Añade {appName} como proxy personalizado en cualquier cliente de chat compatible con OpenAI. URL completa más clave de API, guardar, refrescar, listo."
       },
       "RISUAI": {
-        "BADGE": "Roleplay",
+        "BADGE": "Chat de personajes",
         "TITLE": "Funciona con RisuAI",
         "DESCRIPTION": "Usa {appName} como endpoint de Modelos Personalizados de RisuAI. Desmarca autocompletar, pega la URL, carga cualquier modelo."
       },
       "CHUB": {
-        "BADGE": "Roleplay",
-        "TITLE": "Funciona con Chub / Venus",
-        "DESCRIPTION": "Conecta {appName} como proxy inverso de primera parte en Chub. Una URL, una clave, todos los modelos."
+        "BADGE": "Chat de personajes",
+        "TITLE": "Funciona con clientes de chat de personajes",
+        "DESCRIPTION": "Conecta {appName} como proxy inverso de origen en tu cliente de chat de personajes favorito. Una URL, una clave, todos los modelos."
       },
       "PICK_TITLE": "Elige el cliente que realmente usas.",
-      "PICK_DESC": "{appName} funciona como una API compatible con OpenAI personalizada para agentes de código, frontends de roleplay, clientes de chat y herramientas CLI."
+      "PICK_DESC": "{appName} funciona como una API personalizada compatible con OpenAI en agentes de programación, clientes de chat de personajes, clientes de chat de IA y herramientas de CLI."
     },
     "HOW_IT_WORKS": {
       "LABEL": "Comenzar",
@@ -121,7 +121,7 @@
       "TOPUP_FREE_AMOUNT": "$0",
       "STEP3_NUM": "3",
       "STEP3_TITLE": "Obtén tu clave API",
-      "STEP3_DESC": "Úsala en tu código, en Claude Code, o pégala en SillyTavern, Janitor.AI, RisuAI o Chub.",
+      "STEP3_DESC": "Úsalo en tu código, en Claude Code o pégalo en SillyTavern, RisuAI o cualquier cliente de chat de IA compatible con OpenAI.",
       "CTA_PRIMARY": "Comenzar",
       "CTA_SECONDARY": "Ver precios",
       "SIGNUP_GITHUB": "Continuar con GitHub",
@@ -160,7 +160,7 @@
       },
       "CARD4": {
         "TITLE": "Chat con personajes",
-        "DESC": "Lorebooks, chat grupal, swipes y un motor de rol real, no un juguete."
+        "DESC": "Lorebooks, chat grupal, swipes y un motor de chat de personajes de verdad, no un juguete."
       },
       "CTA_OPEN": "Abrir chat",
       "CTA_CONNECT": "Conecta tu cliente",
@@ -178,7 +178,7 @@
         "CONV3": "Mochi en el Cafe",
         "MODEL_NAME": "nemotron-3",
         "TOKENS": "{in} ent. / {out} sal.",
-        "MENU_LABEL": "Rol",
+        "MENU_LABEL": "Chat de personajes",
         "LOCAL_DB": "BD local",
         "MSG_AI_2": "El crisol brilla en su punto justo. ¿Me pasas ese frasco?",
         "MSG_AI_3": "¡Qué bueno verte de nuevo! ¿Tu latte de avena de siempre, con espuma extra?",
@@ -197,7 +197,7 @@
           "LORE1_SUB": "Cartas estelares y rutas comerciales",
           "LORE2": "Manifiesto de la nave",
           "LORE2_SUB": "Lista de tripulación y carga",
-          "PRESET1": "Rol cinematográfico",
+          "PRESET1": "Historia cinematográfica",
           "PRESET1_SUB": "Prosa vívida y descriptiva",
           "PRESET2": "Diálogo ágil",
           "PRESET2_SUB": "Respuestas breves y contundentes",
@@ -282,14 +282,14 @@
       "FEATURE_4": "¿Sin código? Chatea en el sitio",
       "READ_DOCS": "Leer documentación completa de la API",
       "NO_CODE_LABEL": "¿No eres programador?",
-      "NO_CODE_OPTION": "Saltate el código. Chatea con personajes aquí mismo en el sitio, o pega la URL en SillyTavern, Janitor.AI, RisuAI o Chub.",
+      "NO_CODE_OPTION": "Sáltate el código. Chatea con personajes aquí mismo en el sitio, o pega la URL en SillyTavern, RisuAI o cualquier cliente de chat de IA compatible con OpenAI.",
       "NO_CODE_CHAT_LINK": "Abrir el chat",
       "NO_CODE_LINK": "Ver las guías de integración"
     },
     "CTA": {
       "TITLE_1": "Listo para",
       "TITLE_2": "Conectar",
-      "SUBTITLE": "Todos los modelos de IA, una clave. Construye, chatea, programa o haz roleplay. Tú decides.",
+      "SUBTITLE": "Todos los modelos de IA, una clave. Crea, chatea, programa o cuenta historias. Tú decides.",
       "PRIMARY": "Comenzar",
       "SECONDARY": "Explorar integraciones",
       "CHAT": "Abrir chat"
@@ -409,12 +409,12 @@
     },
     "META": {
       "TITLE": "Modelos de IA - {appName}",
-      "DESCRIPTION": "Todos los modelos de IA en un solo lugar. GPT, Claude, Gemini, DeepSeek y más. Úsalos en tu código o en SillyTavern, Janitor.AI, RisuAI y Chub. Mismo precio para ambos.",
+      "DESCRIPTION": "Todos los modelos de IA en un solo lugar. GPT, Claude, Gemini, DeepSeek y más. Úsalos en tu código o en cualquier cliente de chat de IA compatible con OpenAI. Mismo precio para ambos.",
       "KEYWORDS": "modelos de IA, biblioteca de modelos, precios de IA, modelos GPT, modelos Claude, modelos Gemini, modelos DeepSeek, comparación de modelos de IA, API multi-modelo, modelos de chat de IA"
     },
     "BADGE": "Biblioteca de modelos",
     "TITLE": "Biblioteca de modelos",
-    "SUBTITLE": "Todos los modelos, una clave. Usado por desarrolladores que crean apps y por roleplayers que ejecutan personajes. Mismo precio para ambos.",
+    "SUBTITLE": "Todos los modelos, una clave. Usado por desarrolladores que crean apps y por creadores que construyen experiencias de personajes. Mismo precio para ambos.",
     "SEARCH_PLACEHOLDER": "Buscar modelos...",
     "MODEL_COUNT": "modelos",
     "EMPTY": "Ningún modelo coincide con tu búsqueda.",
@@ -633,9 +633,9 @@
         "H_SAME_LANE": "Estamos en el mismo carril",
         "P_SAME_LANE": "Tanto {appName} como MegaLLM son gateways compatibles con OpenAI hechos para desarrolladores. Ambos ponen GPT, Claude y Gemini tras una clave, ambos hacen failover automático cuando un proveedor cae, ambos entran en Claude Code, Codex y OpenCode con un cambio de URL base. Si tu meta es apuntar un agente de código a modelos frontera sin malabarear claves de proveedor, cualquiera lo hace. Así que el catalogo y el failover no son donde está la decision.",
         "H_MODELS": "Catalogo y precios",
-        "P_MODELS": "MegaLLM anuncia 70+ modelos frontera y de visión y se promociona por coste, hasta un 60% más barato que ir directo mediante enrutamiento consciente del coste, con planes desde unos 10 $/mes más pago por uso. {appName} lleva 200+ modelos, un catalogo más amplio que incluye los modelos abiertos y afinados para rol que el enfoque solo-frontera de MegaLLM deja fuera, también pago por uso, con créditos que no caducan y un nivel gratuito. Si solo llamas a GPT y Claude, el precio por token es la comparativa. Si quieres el catalogo más amplio, {appName} simplemente tiene más.",
+        "P_MODELS": "MegaLLM anuncia más de 70 modelos de frontera y de visión y se posiciona por el coste, hasta un 60 % más barato que ir directo mediante enrutamiento consciente del coste, con planes desde unos 10 $/mes más pago por uso. {appName} ofrece más de 200 modelos, un catálogo más amplio que incluye los modelos abiertos y ajustados para escritura creativa que el enfoque solo de frontera de MegaLLM deja fuera, también de pago por uso, con créditos que no caducan y un nivel gratuito para prototipar. Si solo llamas a GPT y Claude, el precio por token es la comparación. Si quieres el catálogo más amplio, {appName} simplemente tiene más.",
         "H_CHAT": "La parte que MegaLLM no tiene",
-        "P_CHAT": "MegaLLM es un gateway headless, una API y un panel, nada en lo que chatear. {appName} es el gateway más un cliente de chat y personajes integrado: personas, lorebooks, presets, importación de tarjetas SillyTavern, y la misma clave entra en SillyTavern, Janitor.AI, RisuAI o Chub. Así la misma clave que impulsa tu agente de código también ejecuta un chat de personajes real, para trabajo y juego. Esa es la línea entre un gateway de dev puro y un 2 en 1.",
+        "P_CHAT": "MegaLLM es un gateway headless, una API y un panel, nada en lo que chatear. {appName} es el gateway más un cliente integrado de chat y personajes: personas, lorebooks, presets, importación de tarjetas de SillyTavern, y la misma clave se integra en SillyTavern, Janitor.AI, RisuAI o Chub. Así la misma clave que impulsa tu agente de programación también ejecuta un chat de personajes de verdad, para trabajo y ocio. Esa es la línea entre un gateway de dev puro y un 2 en 1.",
         "H_MIGRATE": "Cambiar es un cambio de URL base",
         "P_MIGRATE": "Como MegaLLM, {appName} es compatible con OpenAI, así que migrar es una línea: apunta tu cliente a <c>https://api.unorouter.com/v1</c> y manten tu código. La misma clave pegada en el campo de endpoint personalizado de un cliente de chat alcanza el mismo catalogo, así que no hay segunda cuenta ni herramienta separada para el lado del chat.",
         "H_VERDICT": "¿Cuál deberías elegir?",
@@ -648,11 +648,11 @@
         "AUTHOR": "Equipo de {appName}",
         "INTRO": "Portkey y {appName} te dan un endpoint compatible con OpenAI frente a cada modelo. A partir de ahí se separan. Portkey es una plataforma LLMOps completa para equipos de ingenieria que necesitan observabilidad, guardrails y gobernanza. {appName} es la versión ligera de la misma idea: una clave, más de 200 modelos y un cliente de chat encima, sin nada que configurar.",
         "H_AUDIENCE": "Para quién está hecho cada uno",
-        "P_AUDIENCE": "Portkey apunta a equipos de plataforma e IA que llevan funciones LLM a escala. Su valor es el plano de control alrededor de las llamadas: logs de peticiones, métricas, presupuestos, gestión de prompts, guardrails, fallbacks y acceso por roles para una organización. {appName} apunta al desarrollador individual y al usuario de RP que solo quiere una clave que funcione en un agente de código y en un cliente de chat, sin montar antes una capa de gobernanza.",
+        "P_AUDIENCE": "Portkey apunta a equipos de plataforma e IA que lanzan funciones LLM a escala. Su valor es el plano de control alrededor de las llamadas: registros de solicitudes, métricas, presupuestos, gestión de prompts, guardrails, fallbacks y acceso basado en roles para una organización. {appName} apunta al desarrollador individual y al usuario de chat de personajes que solo quiere una clave que funcione en un agente de programación y en un cliente de chat, sin montar primero una capa de gobernanza.",
         "H_SETUP": "Configuración y superficie",
         "P_SETUP": "Con Portkey configuras una clave virtual, configs y reglas de enrutamiento, y luego instrumentas tu app para enviar todo por el gateway y que los paneles se llenen. Eso tiene sentido cuando tienes un equipo y necesidades de cumplimiento. Con {appName} te registras y apuntas tu cliente a <c>https://api.unorouter.com/v1</c>. Sin configs, sin claves virtuales que gestionar, sin stack de observabilidad que aprender. Uno es una plataforma que adoptas; el otro, un endpoint que llamas.",
         "H_INTERFACE": "Portkey no tiene cliente de chat",
-        "P_INTERFACE": "Portkey es infraestructura: un gateway y un panel, tu aportas cada interfaz de cara al usuario. {appName} trae la misma API compatible con OpenAI más un cliente de chat y de personajes integrado (personas, lorebooks, presets, importación de tarjetas de SillyTavern), y la misma clave entra directa en SillyTavern, Janitor.AI, RisuAI o Chub. Así obtienes un lugar para chatear con la misma clave, no solo un plano de control para llamadas que tu app aún debe hacer.",
+        "P_INTERFACE": "Portkey es infraestructura: un gateway y un panel, tú aportas cada interfaz de cara al usuario. {appName} ofrece la misma API compatible con OpenAI más un cliente integrado de chat y personajes (personas, lorebooks, presets, importación de tarjetas de SillyTavern), y la misma clave se integra directamente en SillyTavern, Janitor.AI, RisuAI o Chub. Así obtienes un lugar donde realmente chatear con la misma clave, no solo un plano de control para llamadas que tu app aún tiene que hacer.",
         "H_COST": "Coste y carga",
         "P_COST": "Portkey cobra por la plataforma: un nivel gratuito para poco volumen, luego planes de pago por la observabilidad, gobernanza y soporte que necesita una organización, además de lo que pagas a cada proveedor. Vale la pena cuando el plano de control ahorra tiempo real a un equipo. {appName} es de pago por uso con más de 200 modelos, créditos que no caducan y un nivel gratuito, un saldo en lugar de una suscripción de plataforma más carteras por proveedor. Por debajo de la escala de equipo, la vía ligera cuesta menos y te exige menos.",
         "H_VERDICT": "¿Cuál deberías elegir?",
@@ -665,11 +665,11 @@
         "AUTHOR": "Equipo de {appName}",
         "INTRO": "nano-gpt y {appName} se solapan en lo obvio: acceso de pago por uso a muchos modelos sin suscripción. nano-gpt destaca por la amplitud tras un mercado de chat. {appName} destaca por una clave compatible con OpenAI igual de cómoda en un agente de código que en un cliente de chat. Los mismos créditos, dos puertas de entrada muy distintas.",
         "H_CATALOG": "Catalogo y amplitud",
-        "P_CATALOG": "La propuesta de nano-gpt es el tamaño del catalogo: cientos de modelos de texto e imagen en un solo sitio, útil de verdad si tu meta es probar de todo. {appName} corre más de 200 modelos entre los proveedores que importan para código y roleplay, elegidos y mantenidos al día en vez de maximizados por número. Si solo te importa la amplitud pura, nano-gpt gana. Si quieres los modelos con los que la gente trabaja de verdad, la brecha se cierra rápido.",
+        "P_CATALOG": "El argumento de nano-gpt es el tamaño del catálogo: cientos de modelos de texto e imagen en un solo lugar, lo cual es genuinamente útil si tu objetivo es probarlo todo. {appName} ejecuta más de 200 modelos entre los proveedores que importan para programación y chat de personajes, elegidos y mantenidos al día en lugar de maximizados por cantidad. Si la amplitud bruta es el único eje que te importa, nano-gpt lo gana. Si quieres los modelos en los que la gente realmente lanza, la brecha se cierra rápido.",
         "H_DEV": "La parte de desarrollo",
         "P_DEV": "Un mercado de chat se construye primero por la boca: la UI web es el producto, la API una puerta lateral. {appName} es compatible con OpenAI por diseño. Apunta cualquier SDK o agente a <c>https://api.unorouter.com/v1</c>, conserva tu código existente, y la misma clave mueve Claude Code, Cline, OpenCode, Kilo Code o Codex. No le atornillas una API a un sitio de chat; usas un gateway que además tiene cliente de chat.",
         "H_CHAT": "El lado de chat y personajes",
-        "P_CHAT": "Ambos te dejan chatear en el navegador, pero el cliente de {appName} está hecho para roleplay, no solo para preguntas y respuestas: personas, lorebooks, presets e importación de tarjetas de SillyTavern, y la misma clave entra en SillyTavern, Janitor.AI, RisuAI o Chub cuando quieres un frontend más potente. Nunca te encierras en una UI. Los créditos te siguen por cada cliente.",
+        "P_CHAT": "Ambos te dejan chatear en el navegador, pero el cliente de {appName} está hecho para el chat de personajes, no solo para preguntas y respuestas: personas, lorebooks, presets e importación de tarjetas de SillyTavern, además la misma clave se integra en SillyTavern, Janitor.AI, RisuAI o Chub cuando quieres un front-end más potente. Nunca quedas atado a una sola interfaz. Los créditos te siguen por cada cliente.",
         "H_PAY": "Precios y claves",
         "P_PAY": "Ambos son de pago por uso sin suscripción, el modelo correcto para un uso a ráfagas y multimodelo. {appName} lo mantiene en un solo saldo con créditos que no caducan y un nivel gratuito, una clave para código y chat en vez de una cartera de mercado que solo gastas en una UI. La facturación tiene la misma forma; la diferencia es hasta donde llega la única clave.",
         "H_VERDICT": "¿Cuál deberías elegir?",
@@ -682,32 +682,32 @@
         "AUTHOR": "Equipo de {appName}",
         "INTRO": "SillyTavern es el frontend; no aloja modelos. Para usarlo lo apuntas a un endpoint compatible con OpenAI y pegas una clave. La pregunta es que gateway hay detras. La mayoría de guías te dan un solo proveedor; la mejor respuesta es una clave que llegue a muchos modelos y no caduque. Esto es lo que sopesar, y como encaja {appName}.",
         "H_WHAT_MATTERS": "Qué importa de verdad para SillyTavern",
-        "P_WHAT_MATTERS": "Cuatro cosas deciden un buen gateway para SillyTavern. Chat Completions compatible con OpenAI, para que SillyTavern conecte sin adaptador. Amplitud de modelos, para cambiar entre un buen escritor y un caballo de tiro barato sin cuentas nuevas. Facturación honesta de pago por uso, porque el roleplay va a ráfagas y un asiento mensual es la forma equivocada. Y un nivel gratuito para probar un personaje antes de gastar nada. El número puro de modelos importa menos que si los modelos correctos están presentes y al día.",
+        "P_WHAT_MATTERS": "Cuatro cosas deciden un buen gateway para SillyTavern. Chat Completions compatible con OpenAI, para que SillyTavern conecte sin adaptador. Amplitud de modelos, para que cambies entre un escritor potente y un caballo de batalla barato sin nuevas cuentas. Facturación honesta de pago por uso, porque el chat de personajes es a ráfagas y un asiento mensual es la forma equivocada. Y un nivel gratuito para probar un personaje antes de gastar nada. El número bruto de modelos importa menos que si los modelos correctos están presentes y actualizados.",
         "H_OPTIONS": "Las opciones realistas",
         "P_OPTIONS": "Tienes tres clases de elección. Una clave de un solo proveedor (OpenAI, Anthropic, DeepSeek) es lo más simple pero te ata a los modelos y precios de un laboratorio. Un gateway de desarrollo headless te da amplitud pero ningun cliente propio, lo cual está bien porque SillyTavern es tu cliente. O un gateway que es API y cliente de chat a la vez, para que la misma clave funcione en SillyTavern y en una UI integrada cuando no quieres abrir la app completa. {appName} es ese tercer tipo.",
         "H_CONNECT": "Conectar {appName} a SillyTavern",
-        "P_CONNECT": "En SillyTavern, elige la API Chat Completion y la fuente compatible con OpenAI (Custom). Pon la URL base en <c>https://api.unorouter.com/v1</c>, pega tu clave de {appName} y carga la lista de modelos. Elige un modelo, y tus personajes, lorebooks y presets corren sin cambios. La misma clave funciona también en Janitor.AI, RisuAI y Chub, así que no rehaces la configuración por app.",
+        "P_CONNECT": "En SillyTavern, elige la API de Chat Completion y la fuente compatible con OpenAI (Custom). Configura la URL base en <c>https://api.unorouter.com/v1</c>, pega tu clave de {appName} y carga la lista de modelos. Elige un modelo y tus personajes, lorebooks y presets funcionan sin cambios. La misma clave también funciona en Janitor.AI, RisuAI y Chub, así que no repites la configuración por app.",
         "H_FREE": "Modelos gratuitos y control de coste",
         "P_FREE": "{appName} tiene un nivel gratuito y más de 200 modelos, así que puedes probar una tarjeta en un modelo gratis y pasar a uno de pago más potente solo cuando la escena lo merece. Los créditos no caducan, la facturación es de pago por uso, y un solo saldo cubre cada cliente y cada modelo. No hay asiento mensual que justificar ni nada que cancelar si te tomas un mes libre.",
         "H_VERDICT": "La respuesta corta",
-        "P_VERDICT": "El mejor gateway para SillyTavern es el que tiene un endpoint compatible con OpenAI, amplitud real de modelos, créditos de pago por uso y un nivel gratuito para empezar, para que una sola clave lleve todo tu setup. {appName} está hecho justo para ese caso, y la misma clave sigue funcionando en cualquier otro frontend de RP que uses.",
+        "P_VERDICT": "El mejor gateway para SillyTavern es el que tiene un endpoint compatible con OpenAI, amplitud de modelos real, créditos de pago por uso y un nivel gratuito para empezar, de modo que una sola clave lleve toda tu configuración. {appName} está hecho exactamente para ese caso, y la misma clave sigue funcionando en cualquier otro front-end de chat de personajes que uses.",
         "CTA": "¿Listo para conectar SillyTavern? <register>Crea una cuenta gratis</register> o <models>explora los modelos</models>."
       },
       "UNOROUTER_VS_RISUAI": {
-        "TITLE": "{appName} vs RisuAI: portamos el motor de RP a un 2 en 1 alojado",
-        "DESCRIPTION": "RisuAI es el frontend de RP para usuarios avanzados. {appName} portó su motor (lorebooks, macros CBS, triggers, regex, importación de tarjetas) a un producto alojado donde la misma clave también impulsa agentes de código. No un rival, un 2 en 1.",
+        "TITLE": "{appName} vs RisuAI: portamos el motor de chat de personajes a un 2 en 1 alojado",
+        "DESCRIPTION": "RisuAI es el front-end de chat de personajes para usuarios avanzados. {appName} portó su motor (lorebooks, macros CBS, triggers, regex, importación de tarjetas) a un producto alojado donde la misma clave también impulsa agentes de programación. No un rival, un 2 en 1.",
         "AUTHOR": "Equipo de {appName}",
-        "INTRO": "RisuAI es uno de los mejores frontends de rol que existen, y lo decimos como gente que estudió su código de cerca. {appName} no intentó superarlo en funciones. Portamos su motor y lo pusimos en un lugar nuevo: un producto alojado donde una clave compatible con OpenAI también ejecuta tus agentes de código. Así que esto es menos una comparativa rival que una explicación honesta de 2 en 1, escrita por gente que admira a Risu.",
+        "INTRO": "RisuAI es uno de los mejores front-ends de chat de personajes que existen, y lo decimos como gente que estudió su código de cerca. {appName} no intentó superarlo en funciones. Portamos su motor y luego lo pusimos en un sitio nuevo: un producto alojado donde una clave compatible con OpenAI también impulsa tus agentes de programación. Así que esto es menos una comparación entre rivales que una explicación honesta de 2 en 1, escrita por gente que admira Risu.",
         "H_ENGINE": "Portamos el motor, no clonamos la app",
-        "P_ENGINE": "Lo que hace a Risu genial para el rol está en {appName} porque lo portamos: el sistema de lorebook (un pool global, decoradores @@, recursion), el lenguaje completo de macros CBS (variables, condicionales, aleatorio con semilla, bloques), la VM de triggers V1/V2 con un runtime Lua, customscripts regex (editinput/output/display), importación de tarjetas SillyTavern v2/v3, orden de chat grupal, personas, presets y una memoria de resumen continuo. Si conoces los lorebooks y triggers de Risu, aquí funcionan como esperas.",
+        "P_ENGINE": "Las partes que hacen a Risu genial para el chat de personajes están en {appName} porque las portamos: el sistema de lorebooks (un único pool global, @@decorators, recursión), el lenguaje completo de macros CBS (variables, condicionales, aleatorio con semilla, bloques), la VM de triggers V1/V2 con un runtime de Lua, customscripts de regex (editinput/output/display), importación de tarjetas v2/v3 de SillyTavern, orden de chat grupal, personas, presets y una memoria de resumen continuo. Si conoces los lorebooks y triggers de Risu, funcionan como esperas aquí.",
         "H_TWO_IN_ONE": "El 2 en 1: misma clave para código y chat de personajes",
-        "P_TWO_IN_ONE": "Esta es la parte que Risu no puede ser, por diseño. Risu es BYOK: traes tu propia clave de OpenAI o Claude y es puramente un frontend de chat. {appName} es la clave y el cliente. La misma clave que impulsa el chat de personajes integrado también apunta un agente de código (Claude Code, Cline, OpenCode, Codex) a 200+ modelos, y entra directo en SillyTavern, Janitor.AI, RisuAI o Chub si prefieres esos. Una cuenta, un saldo, una lista de modelos, para trabajo y juego. No buscamos reemplazar a Risu el frontend, somos el gateway más un cliente en uno.",
+        "P_TWO_IN_ONE": "Esta es la parte que Risu no puede ser, por diseño. Risu es BYOK: aportas tu propia clave de OpenAI o Claude y es puramente un front-end de chat. {appName} es la clave y el cliente. La misma clave que impulsa el chat de personajes integrado también apunta un agente de programación (Claude Code, Cline, OpenCode, Codex) a más de 200 modelos, y se integra directamente en SillyTavern, Janitor.AI, RisuAI o Chub si los prefieres. Una cuenta, un saldo, una lista de modelos, para trabajo y ocio. No intentamos reemplazar a Risu el front-end, somos el gateway más un cliente en uno.",
         "H_HOSTING": "Alojado vs autoalojado, y sin claves que malabarear",
         "P_HOSTING": "Risu lo ejecutas tu (web, escritorio Tauri o Docker) y recopilas y pegas la clave API de cada proveedor. {appName} está alojado: nada que instalar ni mantener vivo, y sin claves de proveedor que reunir, ya que la clave es la cuenta. Te registras y chateas. Para quien solo quiere la experiencia estilo Risu sin levantar una app ni gestionar claves, eso elimina todo el paso de configuración.",
         "H_RISU_WINS": "Dónde Risu aún gana (con honestidad)",
         "P_RISU_WINS": "No fingiremos que cubrimos todo. Risu tiene HypaMemory V2/V3, una compresión de memoria a largo plazo más profunda que nuestro resumen continuo más recuperación semantica. Tiene un ecosistema real de plugins de usuario que puedes extender y compartir; nosotros no. Sus traductores integrados para traducción automática de entrada/salida son más completos que los nuestros. Y como app open source autoalojada te da un control local total que un servicio alojado nunca dará. Si eso es lo que más te importa, Risu es la mejor opción, y lo decimos en serio.",
         "H_VERDICT": "¿Cuál deberías elegir?",
-        "P_VERDICT": "¿Quieres un frontend de rol autoalojado, abierto y profundamente extensible con la memoria más rica y un ecosistema de plugins, y te complace traer tus propias claves? Usa Risu. ¿Quieres las mismas funciones de lorebook, CBS, triggers y tarjetas en un producto alojado donde una clave también ejecuta tus agentes de código y funciona en otros frontends? Ese es el 2 en 1 que es {appName}. No hay un único ganador. Solo construimos el puente que Risu, al ser un frontend, nunca debía ser.",
+        "P_VERDICT": "¿Quieres un front-end de chat de personajes autoalojado, abierto y profundamente extensible con la memoria más rica y un ecosistema de plugins, y te parece bien aportar tus propias claves? Usa Risu. ¿Quieres las mismas funciones de lorebook, CBS, triggers y tarjetas en un producto alojado donde una clave también impulsa tus agentes de programación y funciona en otros front-ends? Eso es el 2 en 1 que es {appName}. No hay un único ganador. Solo construimos el puente que Risu, al ser un front-end, nunca estuvo destinado a ser.",
         "CTA": "Prueba el chat con todo portado. <register>Crea una cuenta gratis</register> o <chat>abre el chat</chat>."
       },
       "UNOROUTER_VS_LITELLM": {
@@ -720,7 +720,7 @@
         "H_SETUP": "Configuración y mantenimiento",
         "P_SETUP": "Con LiteLLM escribes una configuración, aportas las claves API de cada proveedor, ejecutas el servidor (Python, así que cuidado con el GIL bajo concurrencia) y asumes actualizaciones y monitoreo para siempre. Con {appName} te registras y apuntas tu cliente a <c>https://api.unorouter.com/v1</c>. Sin archivo de configuración, sin claves de proveedor que recopilar, sin servidor que cuidar. Uno es infraestructura que mantienes; el otro un servicio que consumes.",
         "H_INTERFACE": "No hay un LiteLLM en el que puedas chatear",
-        "P_INTERFACE": "LiteLLM es headless por diseño: una capa API, tu traes cada interfaz. {appName} ofrece la misma API compatible con OpenAI más un cliente de chat y personajes integrado (personas, lorebooks, presets, importación de tarjetas SillyTavern), y la misma clave entra en SillyTavern, Janitor.AI, RisuAI o Chub. Así un agente de código y un lugar donde chatear funcionan con una clave, en vez de un proxy al que aún debes construirle una interfaz.",
+        "P_INTERFACE": "LiteLLM es headless por diseño: una capa de API, tú aportas cada interfaz. {appName} ofrece la misma API compatible con OpenAI más un cliente integrado de chat y personajes (personas, lorebooks, presets, importación de tarjetas de SillyTavern), y la misma clave se integra en SillyTavern, Janitor.AI, RisuAI o Chub. Así un agente de programación y un lugar donde realmente chatear funcionan con una sola clave, en vez de un proxy para el que aún tienes que construir una interfaz.",
         "H_COST": "Coste y claves",
         "P_COST": "LiteLLM no cobra margen, pero pagas a cada proveedor directamente y cargas con la factura de infraestructura más el tiempo de DevOps. Eso gana a gran volumen si tienes el equipo. {appName} es de pago por uso en 200+ modelos con créditos que no caducan y un nivel gratuito, un solo saldo en lugar de una cartera en cada proveedor y sin servidores que pagar. Por debajo de una escala seria, la vía alojada suele salir más barata al contar las horas.",
         "H_VERDICT": "¿Cuál deberías elegir?",
@@ -830,7 +830,7 @@
         "INTRO_P1": "Los modelos de imagen modernos pueden tomar múltiples imágenes de referencia más un prompt de texto y componerlos en una sola salida. <s>Un prompt, N referencias, una composición</s>. Útil para novelas visuales, material de marca con personajes consistentes, maquetas de productos, paneles de cómic y cualquier flujo que necesite ensamblar una escena desde partes conocidas.",
         "INTRO_P2": "El truco: cada modelo del mercado afirma hacer esto. La mayoría no. Algunos limitan a 1 referencia, algunos a 4, algunos aceptan las entradas pero ignoran silenciosamente todo después de la primera. Además, el mismo modelo se comporta diferente entre revendedores por cuotas, variantes de slug y cableado de endpoint faltante. Así que ejecutamos un benchmark.",
         "H_FIXTURES": "El conjunto de fixtures",
-        "FIXTURES_P": "Seis JPEG fijos cubriendo una composición típica de escena de roleplay: un fondo de taberna y cinco retratos de personajes (uno del lado del usuario y cuatro NPCs). Los mismos seis archivos para cada par (proveedor, modelo), sin reescritura por canal. Carga total de aproximadamente 500 KB entre las seis imágenes.",
+        "FIXTURES_P": "Seis JPEG fijos que cubren una composición típica de escena de personajes: un fondo de taberna y cinco retratos de personajes (uno del lado del usuario y cuatro NPC). Los mismos seis archivos para cada par (proveedor, modelo), sin reescritura por canal. Carga total de unos 500 KB entre las seis imágenes.",
         "FIXTURES_PROMPT_INTRO": "El prompt de texto también es fijo. Nombra cada personaje, referencia cada imagen por índice y pide una sola composición. Textualmente:",
         "H_METHOD": "Cómo se ejecuta el benchmark",
         "METHOD_P1": "Para cada par (proveedor, modelo) del catálogo: POST de los seis fixtures más el prompt al <c>/v1/images/edits</c> de ese canal. <s>Pasa</s> = HTTP 200 con una URL de imagen no vacía o carga base64 en la respuesta. <s>Falla</s> = no-200, cuerpo vacío o forma incorrecta. Sin calificación humana. El benchmark es reproducible, se ejecuta bajo demanda y se vuelve a ejecutar cada vez que aparece un nuevo modelo de imagen upstream.",
@@ -898,7 +898,7 @@
         "H_MODELS": "Modelos y precios",
         "P_MODELS": "Ambos exponen más de 200 modelos de los principales proveedores tras una sola clave, detectando automáticamente los formatos de OpenAI, Anthropic y Gemini. OpenRouter cobra una comisión porcentual al comprar saldo. {appName} es de pago por uso, con saldo que no caduca y una capa de modelos gratuitos para prototipar. En amplitud pura de modelos ambos son comparables, así que el factor decisivo rara vez es el catálogo. Es lo que haces con él.",
         "H_RP": "La parte que OpenRouter deja fuera",
-        "P_RP": "Apunta un agente de programación (Claude Code, Cline, OpenCode, Kilo Code, Codex) a {appName} y se comporta como cualquier endpoint compatible con OpenAI. Pero la misma clave también impulsa un cliente de chat y personajes integrado con personas, lorebooks, presets e importación de tarjetas de SillyTavern, y encaja directamente en SillyTavern, Janitor.AI, RisuAI o Chub. OpenRouter es solo la capa de API, así que tú aportas cada interfaz. {appName} entrega la interfaz y la API juntas.",
+        "P_RP": "Apunta un agente de programación (Claude Code, Cline, OpenCode, Kilo Code, Codex) a {appName} y se comporta como cualquier endpoint compatible con OpenAI. Pero la misma clave también impulsa un cliente integrado de chat y personajes con personas, lorebooks, presets e importación de tarjetas de SillyTavern, y se integra directamente en SillyTavern, Janitor.AI, RisuAI o Chub. OpenRouter es puramente la capa de API, así que tú aportas cada interfaz. {appName} ofrece la interfaz y la API juntas.",
         "H_MIGRATE": "Cambiar es modificar la URL base",
         "P_MIGRATE": "Como {appName} es compatible con OpenAI, mudar una app existente es una línea: apunta tu cliente a <c>https://api.unorouter.com/v1</c> y conserva tu código. La misma clave pegada en el campo de endpoint personalizado de un cliente de chat llega al mismo catálogo, así que no hay una segunda cuenta que gestionar.",
         "H_VERDICT": "Cuál deberías elegir",
@@ -911,13 +911,13 @@
         "AUTHOR": "Equipo de {appName}",
         "INTRO": "OpenRouter popularizó una idea simple: una clave compatible con OpenAI que alcanza muchos proveedores de modelos. Es una opción por defecto solida, pero no es la única, ni la mejor para cada uso. Si estas sopesando alternativas en 2026, la elección correcta depende de si te importa más el precio, la amplitud de modelos, la forma de facturación o tener un cliente de chat propio. Aquí hay un mapa honesto, y donde encaja {appName}.",
         "H_WHY_SWITCH": "Por qué mirar más allá de OpenRouter",
-        "P_WHY_SWITCH": "La gente compara por unas razones concretas. Margen: cada agregador añade un sobreprecio sobre la tarifa bruta del proveedor, y el tamaño varia. Cobertura de modelos: un modelo que necesitas puede faltar o estar desactualizado en una pasarela y al día en otra. Forma de facturación: algunos planes son por asiento o suscripción, lo que no encaja con un uso a rachas. Y el cliente: la mayoría de pasarelas son headless, así que aún necesitas un frontend aparte para chat o rol. Cualquiera de esas puede bastar para comparar.",
+        "P_WHY_SWITCH": "La gente busca alternativas por unas pocas razones concretas. Recargo: cada agregador añade un margen sobre el precio bruto del proveedor, y el tamaño varía. Cobertura de modelos: un modelo que necesitas puede faltar o estar desactualizado en un gateway y estar al día en otro. Forma de facturación: algunos planes son por asiento o suscripción, que es el ajuste equivocado para el uso a ráfagas. Y la historia del cliente: la mayoría de los gateways son headless, así que aún necesitas un front-end aparte para chat o chat de personajes. Cualquiera de esas puede ser razón suficiente para comparar.",
         "H_WHAT_TO_COMPARE": "Qué comparar de verdad",
         "P_WHAT_TO_COMPARE": "Juzga una alternativa por cinco cosas. Chat Completions compatible con OpenAI, para que tu código y herramientas actuales conecten sin reescribir nada. Amplitud y frescura de modelos, para no quedarte con el catalogo de ayer. Precios pago por uso transparentes con créditos que no caducan, para que los meses flojos no te castiguen. Cobertura de los modelos que de verdad usas, no solo un gran número bruto. Y si trae un cliente usable, o da por hecho que traes el tuyo. Puntua por eso, no por las promesas de marketing.",
         "H_ALTERNATIVES": "Las alternativas que conviene conocer",
         "P_ALTERNATIVES": "Las claves de un solo proveedor (OpenAI, Anthropic, DeepSeek) son lo más simple pero te atan a un laboratorio. Las pasarelas de desarrollo headless como LiteLLM y Portkey dan amplitud y gobernanza pero ningun cliente, así que sirven a equipos con sus propias apps. Los proxys autoalojados cambian comodidad por control. Y las pasarelas combinadas unen una amplia API compatible con OpenAI con un cliente de chat integrado, así una clave funciona en código y en una interfaz. {appName} es de este último tipo: apunta cualquier SDK de OpenAI a <c>https://api.unorouter.com/v1</c>, alcanza más de 200 modelos y usa la misma clave en un cliente de chat integrado o en herramientas como SillyTavern.",
-        "H_FOR_ROLEPLAY": "Si tu caso es el rol",
-        "P_FOR_ROLEPLAY": "El rol es un caso aparte. Quieres un catalogo amplio para alternar entre un buen escritor y un caballo de batalla barato, facturación pago por uso porque las sesiones van a rachas, y una clave que entre directa en SillyTavern, Janitor.AI, RisuAI o Chub. Las pasarelas de desarrollo puras cubren la mitad de la API pero no te dan cliente, y los planes por asiento pelean con ese patron a rachas. {appName} se construyó para abarcar ambos: API limpia para código, más un cliente de chat y personajes con la misma clave, modelos y créditos.",
+        "H_FOR_ROLEPLAY": "Si tu caso de uso es el chat de personajes",
+        "P_FOR_ROLEPLAY": "El chat de personajes es un caso propio. Quieres un catálogo amplio para cambiar entre un escritor potente y un caballo de batalla barato, facturación de pago por uso porque las sesiones son a ráfagas, y una clave que se integre directamente en SillyTavern, Janitor.AI, RisuAI o Chub. Los gateways de dev puros cubren la mitad de la API pero no te dan cliente, y los planes por asiento luchan contra el patrón a ráfagas. {appName} se construyó para abarcar ambos: API limpia para código, más un cliente de chat y personajes en la misma clave, modelos y créditos.",
         "H_VERDICT": "Cómo elegir",
         "P_VERDICT": "Si solo usas un laboratorio, una clave de un solo proveedor está bien. Si eres un equipo que quiere enrutado y gobernanza delante de su propia app, encaja una pasarela de desarrollo headless. Si quieres una clave que alcance muchos modelos actuales, facture pago por uso y funcione tanto en código como en un cliente de chat, ese es el hueco que {appName} llena. Elige por tu uso real, no por el número bruto de modelos.",
         "CTA": "¿Quieres una clave para cada modelo? <register>Crea una cuenta gratis</register> o <models>explora los modelos</models>."
@@ -934,7 +934,7 @@
         "H_HOW_IT_WORKS": "Cómo funciona por dentro",
         "P_HOW_IT_WORKS": "Cuando llega una petición, la pasarela lee el nombre en <c>model</c>, busca el proveedor upstream correspondiente, intercambia las credenciales de ese proveedor, reescribe los campos del cuerpo especificos del proveedor y reenvia la llamada. Los tokens por streaming vuelven por la misma conexión, así que desde tu lado parece una llamada normal a OpenAI. Las buenas pasarelas añaden reintentos en errores transitorios, contabilidad de uso y coste, y un catalogo de modelos al día para que los nuevos lanzamientos aparezcan sin que toques nada.",
         "H_WHO_NEEDS_ONE": "Quién necesita una de verdad",
-        "P_WHO_NEEDS_ONE": "Quieres una pasarela si usas más de un modelo, planeas cambiar de modelos según se muevan precio y calidad, o construyes algo que no debería quedar cableado a un solo laboratorio. Agentes de código, apps de chat, frontends de rol y herramientas internas se benefician todos. Si de verdad solo llamas a un modelo de un proveedor y nunca esperas cambiar, una clave directa del proveedor es más simple. Todos los demás ahorran esfuerzo real con una pasarela.",
+        "P_WHO_NEEDS_ONE": "Quieres un gateway si usas más de un modelo, planeas cambiar de modelo a medida que se mueven precios y calidad, o construyes algo que no debería estar cableado a un solo laboratorio. Agentes de programación, apps de chat, front-ends de chat de personajes y herramientas internas se benefician todos. Si de verdad solo llamas a un modelo de un proveedor y nunca esperas cambiar, una clave directa del proveedor es más simple. Todos los demás ahorran esfuerzo real con un gateway.",
         "H_VERDICT": "En resumen",
         "P_VERDICT": "Una pasarela de LLM convierte muchos proveedores en un endpoint, una clave y una factura, así integras una vez y cambias de modelos con libertad. {appName} es una pasarela compatible con OpenAI justo de este molde: una clave alcanza más de 200 modelos para código y chat por igual, con créditos pago por uso que no caducan. Si tocas más de un modelo, una pasarela es la base más limpia.",
         "CTA": "Prueba tú mismo una pasarela: <register>crea una cuenta gratis</register> o <models>explora los modelos</models>."
@@ -947,30 +947,30 @@
         "H_WHAT_YOU_NEED": "Qué necesitas primero",
         "P_WHAT_YOU_NEED": "Tres cosas: una instalación de SillyTavern en marcha, un endpoint compatible con OpenAI y una clave para el. Una pasarela cubre las dos últimas a la vez, porque te da una URL base y una clave que alcanzan muchos modelos. Con {appName} creas una cuenta, coges tu clave y ya estás listo; hay un nivel gratis para que pruebes un personaje antes de gastar nada. Ten tu clave a mano y no la pegues en ningun sitio público.",
         "H_STEPS": "Los pasos de configuración",
-        "P_STEPS": "En SillyTavern, abre el panel de API y elige Chat Completion, luego la fuente compatible con OpenAI (Custom). Pon la URL base en <c>https://api.unorouter.com/v1</c>, pega tu clave de {appName} y haz clic para cargar la lista de modelos. Elige un modelo del desplegable y envia un mensaje de prueba. Tus personajes, lorebooks y presets funcionan sin cambios, porque SillyTavern solo necesitaba un endpoint y una clave. La misma clave también funciona en Janitor.AI, RisuAI y Chub.",
+        "P_STEPS": "En SillyTavern, abre el panel de API y elige Chat Completion, luego la fuente compatible con OpenAI (Custom). Configura la URL base en <c>https://api.unorouter.com/v1</c>, pega tu clave de {appName} y haz clic para cargar la lista de modelos. Elige un modelo del desplegable y envía un mensaje de prueba. Tus personajes, lorebooks y presets funcionan sin cambios, porque SillyTavern solo necesitaba un endpoint y una clave. La misma clave también funciona en Janitor.AI, RisuAI y Chub.",
         "H_SWITCHING_MODELS": "Cambiar de modelos después",
         "P_SWITCHING_MODELS": "Como todo pasa por un endpoint, cambiar de modelos es solo elegir otra entrada en el desplegable; ninguna cuenta, clave ni URL base nueva. Eso te deja correr un modelo gratis y barato mientras montas una escena, y luego cambiar a un modelo de pago mas fuerte para el momento que importa. Con mas de 200 modelos en una clave puedes ajustar el modelo a la escena en vez de conformarte con lo que ofrezca un solo proveedor.",
         "H_TROUBLESHOOTING": "Errores comunes y arreglos",
         "P_TROUBLESHOOTING": "Si la lista de modelos no carga, revisa que la URL base termine en <c>/v1</c> y que la clave esté pegada sin espacios sueltos. Un 401 significa que la clave es incorrecta o caducó; cópiala de nuevo. Un 404 en un modelo significa que ese nombre de modelo no está elegido de la lista cargada. Si las respuestas se cortan, sube la longitud de respuesta en los ajustes de SillyTavern. La mayoría de fallos de configuración son una URL base mal escrita o una clave con espacios, así que revisa eso primero.",
         "H_VERDICT": "Ese es todo el truco",
-        "P_VERDICT": "Conectar cualquier LLM a SillyTavern se reduce a un endpoint compatible con OpenAI más una clave, y una pasarela convierte eso en muchos modelos detras de una sola configuración. {appName} te da esa URL base, un nivel gratis para empezar y más de 200 modelos entre los que cambiar sin rehacer nada. Configuralo una vez y la misma clave te sigue por cada frontend de rol.",
+        "P_VERDICT": "Conectar cualquier LLM a SillyTavern se reduce a un endpoint compatible con OpenAI más una clave, y un gateway convierte eso en muchos modelos detrás de una sola configuración. {appName} te da esa URL base, un nivel gratuito para empezar y más de 200 modelos entre los que cambiar sin rehacer nada. Configúralo una vez y la misma clave te sigue por cada front-end de chat de personajes.",
         "CTA": "¿Listo para conectar SillyTavern? <register>Crea una cuenta gratis</register> o <models>explora los modelos</models>."
       },
       "ONE_API_KEY_FOR_CLAUDE_CODE_AND_ROLEPLAY": {
-        "TITLE": "Una clave de API para Claude Code y rol",
-        "DESCRIPTION": "Los agentes de código y los clientes de rol hablan APIs compatibles con OpenAI. Aquí está cómo una clave impulsa Claude Code y tus chats de personajes desde un solo saldo.",
+        "TITLE": "Una clave de API para Claude Code y el chat de personajes",
+        "DESCRIPTION": "Los agentes de programación y los clientes de chat de personajes hablan APIs compatibles con OpenAI. Así una sola clave impulsa Claude Code y tus chats de personajes desde un único saldo.",
         "AUTHOR": "Equipo de {appName}",
-        "INTRO": "Los agentes de código y los clientes de rol parecen mundos distintos, pero por dentro hablan el mismo idioma: Chat Completions compatible con OpenAI. Eso significa que una clave y un endpoint pueden servir a ambos. Puedes correr Claude Code contra una pasarela para tu trabajo real, y luego usar exactamente la misma clave para chat de personajes por la noche, facturado desde un solo saldo. Aquí está cómo funciona y por qué es cómodo.",
+        "INTRO": "Los agentes de programación y los clientes de chat de personajes parecen mundos distintos, pero bajo el capó hablan el mismo idioma: Chat Completions compatible con OpenAI. Eso significa que una clave y un endpoint pueden servir a ambos. Puedes ejecutar Claude Code contra un gateway para tu trabajo real y luego usar la misma clave para el chat de personajes por la tarde, facturado desde un único saldo. Así funciona y por eso resulta cómodo.",
         "H_TWO_WORLDS": "Dos mundos, un protocolo",
-        "P_TWO_WORLDS": "Claude Code, Cline, Codex y Kilo Code son agentes de código; SillyTavern, Janitor.AI y RisuAI son clientes de rol. Parecen no tener relacion, pero cada uno conecta a un endpoint compatible con OpenAI y una clave. Una pasarela se sienta detras de ambos, así las mismas credenciales impulsan una refactorización por la mañana y una historia por la noche. No hay razón para mantener cuentas separadas y facturas separadas para dos herramientas que hablan el mismo protocolo.",
+        "P_TWO_WORLDS": "Claude Code, Cline, Codex y Kilo Code son agentes de programación; SillyTavern, Janitor.AI y RisuAI son clientes de chat de personajes. Parecen no tener relación, pero cada uno se conecta a un endpoint compatible con OpenAI y una clave. Un gateway está detrás de ambos, así que las mismas credenciales impulsan una refactorización por la mañana y una historia por la noche. No hay razón para mantener cuentas separadas y facturas separadas para dos herramientas que hablan el mismo protocolo.",
         "H_CLAUDE_CODE": "Usarlo con Claude Code",
         "P_CLAUDE_CODE": "Apunta tu agente de código a la pasarela poniendo la URL base en <c>https://api.unorouter.com/v1</c> y tu clave de {appName}, luego elige un modelo de código fuerte. Claude Code, Cline, Codex y Kilo Code aceptan todos una URL base compatible con OpenAI, así que el agente trabaja como siempre mientras la pasarela enruta al modelo que elegiste. Cambia de modelos por coste o calidad con un cambio de una línea, sin clave nueva.",
-        "H_ROLEPLAY": "Usarlo para rol",
-        "P_ROLEPLAY": "La misma clave entra en SillyTavern, Janitor.AI, RisuAI y Chub: elige la fuente compatible con OpenAI, pon la URL base en <c>https://api.unorouter.com/v1</c>, pega la clave y carga modelos. Tus personajes, lorebooks y presets corren sin cambios. {appName} también tiene un cliente de chat y personajes integrado, así que cuando no quieras abrir una app entera, la misma clave y créditos funcionan ahí también.",
+        "H_ROLEPLAY": "Usarlo para el chat de personajes",
+        "P_ROLEPLAY": "La misma clave se integra en SillyTavern, Janitor.AI, RisuAI y Chub: elige la fuente compatible con OpenAI, configura la URL base en <c>https://api.unorouter.com/v1</c>, pega la clave y carga los modelos. Tus personajes, lorebooks y presets funcionan sin cambios. {appName} también tiene un cliente integrado de chat y personajes, así que cuando no quieras abrir una app completa, la misma clave y créditos funcionan ahí también.",
         "H_ONE_BALANCE": "Un saldo para ambos",
-        "P_ONE_BALANCE": "Como ambos lados corren con la misma clave, tu uso de código y tu uso de rol salen de un solo saldo pago por uso. Los créditos no caducan, no hay un asiento mensual que justificar, y ves todo el gasto en un sitio en vez de repartirlo entre proveedores. Un nivel gratis te deja probar cualquier lado antes de pagar. Una cuenta cubre todo tu día, trabajo y juego.",
+        "P_ONE_BALANCE": "Como ambos lados funcionan con la misma clave, tu uso de programación y tu uso de chat de personajes consumen de un único saldo de pago por uso. Los créditos no caducan, no hay un asiento mensual que justificar y ves todo el gasto en un solo lugar en vez de dividirlo entre proveedores. Un nivel gratuito te permite probar cualquiera de los dos lados antes de pagar. Una cuenta cubre todo tu día, trabajo y ocio.",
         "H_VERDICT": "La conclusion",
-        "P_VERDICT": "Los agentes de código y los clientes de rol comparten el protocolo compatible con OpenAI, así una clave puede impulsar ambos desde un solo saldo. {appName} está hecho justo para ese abanico: una API limpia para Claude Code y compañeros, un cliente de chat y personajes para el rol, más de 200 modelos y créditos que no caducan. Una clave, una factura, ambos mundos.",
+        "P_VERDICT": "Los agentes de programación y los clientes de chat de personajes comparten el protocolo compatible con OpenAI, así que una sola clave puede impulsar ambos desde un único saldo. {appName} está hecho exactamente para ese rango: una API limpia para Claude Code y similares, un cliente de chat y personajes para contar historias, más de 200 modelos y créditos que no caducan. Una clave, una factura, ambos mundos.",
         "CTA": "¿Quieres una clave para código y chat? <register>Crea una cuenta gratis</register> o <models>explora los modelos</models>."
       }
     }
@@ -1047,11 +1047,11 @@
     },
     "META": {
       "TITLE": "Precios - {appName}",
-      "DESCRIPTION": "Precios simples para cada modelo de IA. Suscríbete para mayor valor o paga sobre la marcha. Funciona con tu código, con Claude Code y con SillyTavern, Janitor.AI, RisuAI y Chub.",
+      "DESCRIPTION": "Precios simples para todos los modelos de IA. Suscríbete para mayor valor o paga por uso. Funciona con tu código, con Claude Code y con SillyTavern, RisuAI y cualquier cliente de chat de IA compatible con OpenAI.",
       "KEYWORDS": "precios de API de IA, suscripción de IA, pago por token, precios de modelos de IA, API de IA barata, IA asequible, precios compatibles con OpenAI, precios de API multi-modelo"
     },
     "TITLE": "Precios",
-    "SUBTITLE": "Ya sea que estés lanzando una app o ejecutando largas sesiones de roleplay. Un plan, todos los modelos.",
+    "SUBTITLE": "Tanto si lanzas una app como si tienes largas sesiones de chat de personajes. Un plan, todos los modelos.",
     "CTA": "Suscribirse",
     "FAQ": {
       "Q1": "¿Cómo funcionan los precios de {appName}?",
@@ -1066,10 +1066,10 @@
       "A5": "{appName} enruta solicitudes a través de múltiples proveedores con failover automático. Si un proveedor está limitado por tasa o caído, reintentamos contra el próximo upstream saludable de forma transparente.",
       "Q6": "¿Puedo obtener un reembolso?",
       "A6": "El crédito prepagado no utilizado es reembolsable durante 30 días desde la compra. Contacta {supportEmail} para solicitudes de reembolso.",
-      "Q7": "¿Puedo usar esto con SillyTavern, Janitor.AI, Chub o RisuAI?",
-      "A7": "Sí. Cada plan funciona como una fuente personalizada compatible con OpenAI en cualquier cliente principal de roleplay. SillyTavern, Janitor.AI, RisuAI y Chub tienen cada uno una guía de configuración en los documentos.",
+      "Q7": "¿Puedo usar esto con SillyTavern, RisuAI u otros clientes de chat de IA compatibles con OpenAI?",
+      "A7": "Sí. Todos los planes funcionan como fuente personalizada compatible con OpenAI en cualquier cliente de chat de personajes importante. SillyTavern, Janitor.AI, RisuAI y Chub tienen cada uno una guía de configuración en la documentación.",
       "Q8": "¿Qué tan largas pueden ser mis conversaciones o historiales de personajes?",
-      "A8": "{appName} soporta la ventana de contexto completa de cada modelo, hasta 1M tokens en Gemini y 200k en Claude. Tanto roleplays largos como bases de código largas funcionan."
+      "A8": "{appName} admite la ventana de contexto completa de cada modelo, hasta 1M de tokens en Gemini y 200k en Claude. Las conversaciones largas con personajes y las bases de código extensas funcionan igual."
     },
     "TIER": {
       "1": "Inicial",
@@ -1093,8 +1093,8 @@
   "DOCS_INDEX": {
     "META": {
       "TITLE": "Integraciones - {appName}",
-      "DESCRIPTION": "Guías de configuración para todas las herramientas principales de IA y clientes de roleplay. Claude Code, Codex CLI, Gemini CLI, OpenClaw, SillyTavern, Janitor.AI, RisuAI y Chub.",
-      "KEYWORDS": "guías de integración de IA, configuración Claude Code, configuración Codex CLI, configuración Gemini CLI, configuración OpenClaw, configuración SillyTavern, configuración Janitor.AI, configuración RisuAI, configuración Chub, documentación API de IA, configuración proxy IA roleplay"
+      "DESCRIPTION": "Guías de configuración para todas las herramientas de IA importantes y clientes de chat de personajes. Claude Code, Codex CLI, Gemini CLI, OpenClaw, SillyTavern, RisuAI y más clientes compatibles con OpenAI.",
+      "KEYWORDS": "guías de integración de IA, configurar Claude Code, configurar Codex CLI, configurar Gemini CLI, configurar OpenClaw, configurar SillyTavern, configurar RisuAI, configurar chat de personajes con IA, documentación de API de IA, configurar API compatible con OpenAI"
     },
     "BADGE": "Integraciones",
     "TITLE": "Integraciones",
@@ -1107,7 +1107,7 @@
     "CTA_MODELS": "Ver todos los modelos",
     "PATHS_TITLE": "Rutas populares",
     "PATHS_DESC": "Empieza por lo que intentas conectar. Salta directo a la URL base, la ruta y la configuración de modelo correctas.",
-    "PATH_ROLEPLAY_TITLE": "Clientes de rol",
+    "PATH_ROLEPLAY_TITLE": "Clientes de personajes y ficción",
     "PATH_ROLEPLAY_DESC": "SillyTavern, Janitor.AI, Chub y RisuAI.",
     "PATH_CODING_TITLE": "Agentes de código",
     "PATH_CODING_DESC": "OpenCode, Cline, Roo Code, Kilo Code, Zed y mas.",
@@ -1173,11 +1173,11 @@
       "COMPAT_TOOL_CALLING": "Llamada a herramientas",
       "COMPAT_IMAGES": "Entrada de imagenes",
       "CATEGORY_CODING": "Agentes de código",
-      "CATEGORY_ROLEPLAY": "Clientes de roleplay",
+      "CATEGORY_ROLEPLAY": "Clientes de personajes y ficción",
       "CATEGORY_GENERAL": "Clientes de chat",
       "CATEGORY_CLI": "Herramientas CLI",
       "CATEGORY_CODING_DESC": "Editores y agentes que escriben y ejecutan código contra la API.",
-      "CATEGORY_ROLEPLAY_DESC": "Interfaces de chat de personajes y roleplay.",
+      "CATEGORY_ROLEPLAY_DESC": "Front-ends de chat de personajes y ficción.",
       "CATEGORY_GENERAL_DESC": "Aplicaciones de chat de proposito general y clientes de escritorio.",
       "CATEGORY_CLI_DESC": "Herramientas de terminal y agentes de línea de comandos."
     },
@@ -1667,13 +1667,13 @@
       "META": {
         "TITLE": "Guía de integración con SillyTavern | {appName}",
         "DESCRIPTION": "Conecta SillyTavern a {appName} a través de la fuente personalizada de chat completion compatible con OpenAI. Configuración paso a paso con el formato URL exacto que SillyTavern espera.",
-        "KEYWORDS": "SillyTavern, proxy SillyTavern, API SillyTavern, endpoint personalizado SillyTavern, {appName} SillyTavern, proxy IA roleplay, roleplay compatible con OpenAI"
+        "KEYWORDS": "SillyTavern, proxy de SillyTavern, API de SillyTavern, endpoint personalizado de SillyTavern, {appName} SillyTavern, chat de personajes con IA, API compatible con OpenAI"
       },
       "BADGE": "SillyTavern",
       "TITLE": "Guía de integración con SillyTavern",
       "SUBTITLE": "Conecta {appName} a SillyTavern a través de la fuente personalizada de chat completion compatible con OpenAI.",
       "INTRO_TITLE": "¿Qué es SillyTavern?",
-      "INTRO_DESC": "SillyTavern es un frontend autohospedado de chat de roleplay y personajes para modelos de lenguaje grandes. Se ejecuta localmente, almacena personajes y chats en tu propia máquina y soporta cualquier API compatible con OpenAI como fuente de chat completion.",
+      "INTRO_DESC": "SillyTavern es un front-end autoalojado de chat de personajes y ficción interactiva para grandes modelos de lenguaje. Se ejecuta localmente, almacena personajes y chats en tu propia máquina y admite cualquier API compatible con OpenAI como fuente de completado de chat.",
       "INTRO_LINK_DOCS": "Documentación oficial de SillyTavern",
       "INTRO_LINK_GITHUB": "SillyTavern en GitHub",
       "OVERVIEW": "Resumen",
@@ -1733,13 +1733,13 @@
       "META": {
         "TITLE": "Guía de integración con Janitor.AI | {appName}",
         "DESCRIPTION": "Conecta Janitor.AI a {appName} como proxy personalizado. Incluye la URL exacta de ruta completa que Janitor espera y el paso de recargar el navegador que la mayoría de guías olvidan.",
-        "KEYWORDS": "Janitor AI, proxy Janitor, API Janitor, {appName} Janitor, proxy roleplay, roleplay compatible con OpenAI, URL proxy personalizado Janitor"
+        "KEYWORDS": "Janitor AI, proxy de Janitor, API de Janitor, {appName} Janitor, chat de personajes con IA, API compatible con OpenAI, URL de proxy personalizado de Janitor"
       },
       "BADGE": "Janitor.AI",
       "TITLE": "Guía de integración con Janitor.AI",
       "SUBTITLE": "Conecta {appName} a Janitor.AI como proxy personalizado con el formato URL exacto que el panel de configuración API de Janitor espera.",
       "INTRO_TITLE": "¿Qué es Janitor.AI?",
-      "INTRO_DESC": "Janitor.AI es una plataforma de chat de personajes basada en navegador. Trae un modelo gratuito integrado y te deja añadir cualquier proxy compatible con OpenAI para acceso ilimitado. {appName} se conecta en el panel de configuración API.",
+      "INTRO_DESC": "Janitor.AI es una plataforma de chat de personajes basada en navegador. Incluye un modelo gratuito integrado y te permite añadir cualquier proxy compatible con OpenAI para acceso ilimitado. {appName} se conecta en el panel de API Settings.",
       "INTRO_LINK_DOCS": "Inicio rápido oficial de proxy de Janitor.AI",
       "OVERVIEW": "Resumen",
       "OVERVIEW_DESC": "Janitor.AI llama a tu proxy en la URL COMPLETA `/v1/chat/completions`. Pegas esa URL, tu clave API y el nombre del modelo en una configuración, presionas Guardar, luego recargas el navegador para que la configuración se active.",
@@ -1802,13 +1802,13 @@
       "META": {
         "TITLE": "Guía de integración con RisuAI | {appName}",
         "DESCRIPTION": "Conecta RisuAI a {appName} vía Custom Models. Incluye el paso crítico de desmarcar Autofill Request URL, el problema #1 de soporte para configuraciones de proxy RisuAI.",
-        "KEYWORDS": "RisuAI, proxy RisuAI, endpoint personalizado RisuAI, {appName} RisuAI, proxy IA roleplay, Autofill Request URL, RisuAI compatible con OpenAI"
+        "KEYWORDS": "RisuAI, proxy de RisuAI, endpoint personalizado de RisuAI, {appName} RisuAI, chat de personajes con IA, Autofill Request URL, RisuAI compatible con OpenAI"
       },
       "BADGE": "RisuAI",
       "TITLE": "Guía de integración con RisuAI",
       "SUBTITLE": "Conecta {appName} a RisuAI a través de la opción Custom Models en Advanced Settings.",
       "INTRO_TITLE": "¿Qué es RisuAI?",
-      "INTRO_DESC": "RisuAI es un frontend de chat de roleplay local-first que se ejecuta en el navegador o como app de escritorio. Soporta cualquier endpoint compatible con OpenAI, con configuración almacenada en el almacenamiento local del navegador.",
+      "INTRO_DESC": "RisuAI es un front-end de chat de personajes con enfoque local que se ejecuta en el navegador o como app de escritorio. Admite cualquier endpoint compatible con OpenAI, con la configuración almacenada en el almacenamiento local del navegador.",
       "INTRO_LINK_GUIDE": "Guía de configuración RisuAI de terceros (HyprLab)",
       "INTRO_LINK_GITHUB": "RisuAI en GitHub",
       "INTRO_WIKI_NOTE": "La wiki oficial de RisuAI está desactualizada respecto a la UI actual. Los pasos abajo reflejan RisuAI a partir de 2026-04.",
@@ -1878,13 +1878,13 @@
       "META": {
         "TITLE": "Guía de integración con Chub / Venus | {appName}",
         "DESCRIPTION": "Conecta Chub.ai (Venus) a {appName} como proxy inverso. Incluye un aviso de relay de primera parte para contrarrestar la advertencia integrada de proxy de tercero de Chub.",
-        "KEYWORDS": "Chub AI, Venus AI, proxy inverso Chub, {appName} Chub, proxy IA roleplay, Chub compatible con OpenAI, configuración OpenAI Chub"
+        "KEYWORDS": "Chub AI, Venus AI, proxy inverso de Chub, {appName} Chub, chat de personajes con IA, API compatible con OpenAI, configuración de Chub con OpenAI"
       },
       "BADGE": "Chub / Venus",
       "TITLE": "Guía de integración con Chub / Venus",
       "SUBTITLE": "Conecta {appName} a Chub.ai (Venus) a través de la opción Reverse proxy del panel Secrets.",
       "INTRO_TITLE": "¿Qué es Chub / Venus?",
-      "INTRO_DESC": "Chub.ai (antes Venus) es una plataforma de chat de personajes basada en navegador con una biblioteca de 60,000 personajes. Se conecta a endpoints compatibles con OpenAI a través de su panel Secrets.",
+      "INTRO_DESC": "Chub.ai (antes Venus) es una plataforma de chat de personajes basada en navegador con una biblioteca de 60.000 personajes. Se conecta a endpoints compatibles con OpenAI a través de su panel Secrets.",
       "INTRO_LINK_DOCS": "Documentación oficial de API Connections de Chub.ai",
       "OVERVIEW": "Resumen",
       "OVERVIEW_DESC": "El panel Secrets de Chub acepta la URL base de la API terminada en `/v1` más tu clave API. Un botón Check your proxy verifica la conexión antes de que elijas un modelo en Prompt Structure.",
