@@ -3631,6 +3631,7 @@
     "SAMPLING_PRESENCE_PENALTY": "Varlık cezası",
     "SAMPLING_REPETITION_PENALTY": "Tekrarlama cezası",
     "SAMPLING_MAX_TOKENS": "Max tokenlar",
+    "SAMPLING_MAX_TOKENS_CAP": "Maks. token (üst sınır {cap})",
     "PRESET_DEFAULT": "Varsayılan preset",
     "PRESET_SAMPLING_OFF": "kapalı",
     "PRESET_MAIN_PROMPT": "Ana istem (sisteme önek)",

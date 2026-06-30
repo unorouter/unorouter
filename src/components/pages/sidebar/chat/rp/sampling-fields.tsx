@@ -17,6 +17,10 @@ type SamplingFieldsProps<TForm extends Record<string, unknown>> = {
   // Maps each sampling field to its path in the host form.
   names: Record<SamplingFieldName, Path<TForm>>;
   metadata?: ModelMetadata;
+  // The active model's EFFECTIVE output cap (model maxOutputTokens, or the free/unknown cap). When set, the
+  // max_tokens slider is clamped to it + the label shows it, so a "maxed" value reflects what actually applies
+  // at request time (free models cap at 8192, unknown at 4096) instead of a misleading higher number.
+  maxTokensCap?: number;
   onReset?: () => void;
 };
 
@@ -62,6 +66,17 @@ export function SamplingFields<TForm extends Record<string, unknown>>(
       <div className="flex flex-col gap-4">
         {SAMPLING_PARAMS.map((param) => {
           const disabled = isUnsupported(param.apiKey);
+          // Clamp the max_tokens slider to the model's effective output cap + show it in the label.
+          const capped =
+            param.apiKey === "max_tokens" &&
+            props.maxTokensCap != null &&
+            props.maxTokensCap < param.max;
+          const fieldMax = capped ? props.maxTokensCap! : param.max;
+          const label = capped
+            ? t("RP.SAMPLING_MAX_TOKENS_CAP", {
+                cap: props.maxTokensCap!.toLocaleString(),
+              })
+            : t(param.labelKey);
           return (
             <Controller
               key={param.field}
@@ -69,11 +84,11 @@ export function SamplingFields<TForm extends Record<string, unknown>>(
               name={props.names[param.field]}
               render={({ field }) => (
                 <NumberKnob
-                  label={t(param.labelKey)}
+                  label={label}
                   value={(field.value as number | null) ?? null}
                   onChange={field.onChange}
                   min={param.min}
-                  max={param.max}
+                  max={fieldMax}
                   step={"step" in param ? param.step : undefined}
                   fallback={param.fallback}
                   disabled={disabled}

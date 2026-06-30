@@ -3631,6 +3631,7 @@
     "SAMPLING_PRESENCE_PENALTY": "존재 페널티",
     "SAMPLING_REPETITION_PENALTY": "반복 페널티",
     "SAMPLING_MAX_TOKENS": "최대 토큰",
+    "SAMPLING_MAX_TOKENS_CAP": "최대 토큰 (상한 {cap})",
     "PRESET_DEFAULT": "기본 프리셋",
     "PRESET_SAMPLING_OFF": "꺼짐",
     "PRESET_MAIN_PROMPT": "메인 프롬프트 (시스템 앞에 추가)",

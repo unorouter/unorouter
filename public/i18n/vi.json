@@ -3631,6 +3631,7 @@
     "SAMPLING_PRESENCE_PENALTY": "Phạt hiện diện",
     "SAMPLING_REPETITION_PENALTY": "Phạt lặp",
     "SAMPLING_MAX_TOKENS": "Token tối đa",
+    "SAMPLING_MAX_TOKENS_CAP": "Token tối đa (giới hạn {cap})",
     "PRESET_DEFAULT": "Preset mặc định",
     "PRESET_SAMPLING_OFF": "tắt",
     "PRESET_MAIN_PROMPT": "Prompt chính (đặt trước system)",

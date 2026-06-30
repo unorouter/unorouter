@@ -3631,6 +3631,7 @@
     "SAMPLING_PRESENCE_PENALTY": "Penalización de presencia",
     "SAMPLING_REPETITION_PENALTY": "Penalización de repetición",
     "SAMPLING_MAX_TOKENS": "Tokens máximos",
+    "SAMPLING_MAX_TOKENS_CAP": "Tokens máx. (límite {cap})",
     "PRESET_DEFAULT": "Preset predeterminado",
     "PRESET_SAMPLING_OFF": "apagado",
     "PRESET_MAIN_PROMPT": "Prompt principal (prepuesto al sistema)",

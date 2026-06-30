@@ -269,14 +269,15 @@ function overrideOrInherit(
   return formValue === inherited ? null : formValue;
 }
 
-// Numeric sibling: store null when the form value still equals the inherited preset
-// value (keeps live inheritance), else the explicit per-chat override.
+// A set sampler slider persists its EXPLICIT value (so it survives refresh + later preset edits); only a
+// genuinely-unset (null) slider stores null = inherit the preset. Previously a value matching the preset
+// collapsed to null, which made maxTokens "default" on refresh when the preset later differed/unbound.
+// presetValue is unused now but kept in the signature so call sites (samplingOverrides) stay uniform.
 function numOverrideOrInherit(
   formValue: number | null | undefined,
-  presetValue: number | null | undefined,
+  _presetValue: number | null | undefined,
 ): number | null {
-  if (formValue == null) return null;
-  return formValue === (presetValue ?? null) ? null : formValue;
+  return formValue ?? null;
 }
 
 // Sampler save payload: each field null when it still matches the inherited preset.

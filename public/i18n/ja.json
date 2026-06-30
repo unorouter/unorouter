@@ -3631,6 +3631,7 @@
     "SAMPLING_PRESENCE_PENALTY": "存在ペナルティ",
     "SAMPLING_REPETITION_PENALTY": "繰り返しペナルティ",
     "SAMPLING_MAX_TOKENS": "最大トークン数",
+    "SAMPLING_MAX_TOKENS_CAP": "最大トークン（上限 {cap}）",
     "PRESET_DEFAULT": "既定のプリセット",
     "PRESET_SAMPLING_OFF": "オフ",
     "PRESET_MAIN_PROMPT": "メインプロンプト（システムの前）",

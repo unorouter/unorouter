@@ -3631,6 +3631,7 @@
     "SAMPLING_PRESENCE_PENALTY": "عقوبة الحضور",
     "SAMPLING_REPETITION_PENALTY": "عقوبة التكرار",
     "SAMPLING_MAX_TOKENS": "أقصى tokens",
+    "SAMPLING_MAX_TOKENS_CAP": "أقصى للرموز (الحد {cap})",
     "PRESET_DEFAULT": "الإعداد المسبق الافتراضي",
     "PRESET_SAMPLING_OFF": "مُعطّل",
     "PRESET_MAIN_PROMPT": "المطالبة الرئيسية (تُسبق النظام)",

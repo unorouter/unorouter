@@ -3631,6 +3631,7 @@
     "SAMPLING_PRESENCE_PENALTY": "Kara obecności",
     "SAMPLING_REPETITION_PENALTY": "Kara powtórzeń",
     "SAMPLING_MAX_TOKENS": "Maks. tokeny",
+    "SAMPLING_MAX_TOKENS_CAP": "Maks. tokenów (limit {cap})",
     "PRESET_DEFAULT": "Domyślny preset",
     "PRESET_SAMPLING_OFF": "wyłączone",
     "PRESET_MAIN_PROMPT": "Główny prompt (poprzedzony systemowy)",
