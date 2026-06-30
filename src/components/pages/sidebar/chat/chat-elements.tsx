@@ -20,6 +20,7 @@ import {
   chatModelAtom,
   conversationSettingsOpenAtom,
   showStatsCostAtom,
+  showStatsMessagesAtom,
   showStatsTokensAtom,
 } from "@/store/chat-store";
 import { useAui, useAuiState } from "@assistant-ui/react";
@@ -128,12 +129,16 @@ export function ConversationStats(props: { convId?: string }) {
   const convQuery = useConversationQuery(props.convId);
   const showTokens = useAtomValue(showStatsTokensAtom);
   const showCost = useAtomValue(showStatsCostAtom);
+  const showMessages = useAtomValue(showStatsMessagesAtom);
+  // Active-branch message count (user + AI), live from the thread - what the user sees.
+  const messageCount = useAuiState((s) => s.thread.messages.length);
   const data = convQuery.data;
   if (!props.convId || !data) return null;
   if (data.totalInputTokens <= 0 && data.totalOutputTokens <= 0) return null;
   const renderCost = showCost && data.totalCost > 0;
-  // Hide the line entirely when nothing follows the label (e.g. free chat, cost 0, tokens off).
-  if (!renderCost && !showTokens) return null;
+  const renderMessages = showMessages && messageCount > 0;
+  // Hide the line entirely when nothing follows the label.
+  if (!renderCost && !showTokens && !renderMessages) return null;
   return (
     <div className="text-muted-foreground pointer-events-none flex items-center justify-start gap-2 px-1 pb-1 text-[11px] tabular-nums">
       <span className="text-foreground/60 font-medium">
@@ -142,6 +147,11 @@ export function ConversationStats(props: { convId?: string }) {
       {renderCost && (
         <span className="text-foreground/70 font-medium">
           {formatPrice(data.totalCost)}
+        </span>
+      )}
+      {renderMessages && (
+        <span>
+          {messageCount.toLocaleString()} {t("CHAT.MESSAGES_COUNT")}
         </span>
       )}
       {showTokens && (

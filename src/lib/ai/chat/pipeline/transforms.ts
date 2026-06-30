@@ -77,14 +77,19 @@ export function extractLastUserImageRefs(messages: StreamMessages): ImageRef[] {
     const refs: ImageRef[] = [];
     for (const part of msg.parts) {
       if (part.type !== "file" && part.type !== "source-url") continue;
-      const p = part as { url?: unknown; mediaType?: unknown; mimeType?: unknown };
+      const p = part as {
+        url?: unknown;
+        mediaType?: unknown;
+        mimeType?: unknown;
+      };
       const url = typeof p.url === "string" ? p.url : "";
       const mimeType =
         (typeof p.mediaType === "string" && p.mediaType) ||
         (typeof p.mimeType === "string" && p.mimeType) ||
         "";
       if (!url) continue;
-      const isImage = mimeType.startsWith("image/") || url.startsWith("data:image/");
+      const isImage =
+        mimeType.startsWith("image/") || url.startsWith("data:image/");
       if (!isImage) continue;
       refs.push({ url, mimeType: mimeType || "image/png" });
     }

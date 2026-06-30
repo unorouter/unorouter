@@ -19,7 +19,7 @@ import { useCharactersQuery } from "@/hooks/ai/rp/characters";
 import { useLorebooksQuery } from "@/hooks/ai/rp/lorebooks";
 import { usePersonasQuery } from "@/hooks/ai/rp/personas";
 import { usePresetsQuery } from "@/hooks/ai/rp/presets";
-import { msg, NONE_VALUE } from "@/lib/config/constants";
+import { DEFAULT_CHAT_MEMORY, msg, NONE_VALUE } from "@/lib/config/constants";
 import { parseExtraBody } from "@/lib/validation/chat";
 import type { ConversationOverridesForm } from "@/lib/validation/rp-forms";
 import { useTranslations } from "next-intl";
@@ -124,8 +124,8 @@ export function OverridesGenerationFields(props: {
               <FormControl>
                 <Slider
                   min={1}
-                  max={200}
-                  value={[field.value ?? 8]}
+                  max={DEFAULT_CHAT_MEMORY}
+                  value={[field.value ?? DEFAULT_CHAT_MEMORY]}
                   onValueChange={(v) =>
                     field.onChange(Array.isArray(v) ? v[0] : v)
                   }
@@ -219,6 +219,91 @@ export function OverridesGenerationFields(props: {
       <span className="text-muted-foreground text-xs">
         {t("CHAT.OVERRIDES.STREAMING_ENABLED_HINT")}
       </span>
+
+      {props.showConversationFields && (
+        <div className="flex flex-col gap-3 border-t pt-3">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+            <FormField
+              control={props.control}
+              name="memoryEnabled"
+              render={({ field }) => (
+                <FormItem className="flex-row items-center gap-2">
+                  <FormLabel className="text-xs">
+                    {t("CHAT.OVERRIDES.MEMORY_ENABLED")}
+                  </FormLabel>
+                  <FormControl>
+                    <Switch
+                      size="sm"
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={props.control}
+              name="imageEnabled"
+              render={({ field }) => (
+                <FormItem className="flex-row items-center gap-2">
+                  <FormLabel className="text-xs">
+                    {t("CHAT.OVERRIDES.IMAGE_ENABLED")}
+                  </FormLabel>
+                  <FormControl>
+                    <Switch
+                      size="sm"
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+          </div>
+          <FormField
+            control={props.control}
+            name="utilityModel"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-muted-foreground text-xs">
+                  {t("CHAT.OVERRIDES.UTILITY_MODEL")}
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    className="h-8 text-xs"
+                    placeholder={t("CHAT.OVERRIDES.UTILITY_MODEL_PLACEHOLDER")}
+                    value={field.value === NONE_VALUE ? "" : field.value}
+                    onChange={(e) =>
+                      field.onChange(e.target.value || NONE_VALUE)
+                    }
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={props.control}
+            name="promptInstruction"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-muted-foreground text-xs">
+                  {t("CHAT.OVERRIDES.IMAGE_PROMPT_INSTRUCTION")}
+                </FormLabel>
+                <FormControl>
+                  <Textarea
+                    className="min-h-16 text-xs"
+                    placeholder={t(
+                      "CHAT.OVERRIDES.IMAGE_PROMPT_INSTRUCTION_PLACEHOLDER",
+                    )}
+                    value={field.value}
+                    onChange={field.onChange}
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+        </div>
+      )}
     </>
   );
 }

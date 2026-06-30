@@ -1,8 +1,8 @@
 {
   "METADATA": {
     "TITLE": "{appName} - Uma chave para todo modelo de IA",
-    "DESCRIPTION": "Uma chave para todo modelo de IA. Use no seu código, no Claude Code, ou no SillyTavern, Janitor.AI, RisuAI e Chub. Roteamento inteligente entre os principais provedores.",
-    "KEYWORDS": "API de IA, endpoint unificado de IA, alternativa OpenAI, API Claude, API GPT, API Gemini, API DeepSeek, roteador de IA, gateway de IA, API multi-modelo, proxy SillyTavern, proxy Janitor.AI, proxy Chub, RisuAI, roleplay de IA, alternativa character AI",
+    "DESCRIPTION": "Uma chave para todo modelo de IA. Use no seu código, no Claude Code, ou nos seus clientes de IA favoritos. Roteamento inteligente entre os principais provedores.",
+    "KEYWORDS": "API de IA, endpoint unificado de IA, alternativa OpenAI, API Claude, API GPT, API Gemini, API DeepSeek, roteador de IA, gateway de IA, API multi-modelo, API compatível com OpenAI, cliente de chat de IA",
     "ACCOUNT": {
       "TITLE": "Conta {appName}",
       "DESC": "Gerencie sua conta {appName}, tokens, uso e cobrança.",
@@ -28,14 +28,15 @@
     "PLAYGROUND": "Playground",
     "STATUS": "Status",
     "COMPARE": "Comparar",
-    "LANGUAGE": "Idioma"
+    "LANGUAGE": "Idioma",
+    "MODEL_TESTER": "Inspetor"
   },
   "HOME": {
     "HERO": {
       "BADGE": "Roteador online",
-      "TITLE_LINE1": "INTELIGÊNCIA",
-      "TITLE_ROTATE": "API,CHAT,PERSONAGENS,RPG,CÓDIGO,INTELIGÊNCIA",
-      "SUBTITLE": "{appName} conecta você a {modelCount}+ modelos de IA com uma só chave. Crie apps e rode agentes com ela, ou pule a configuração e converse com personagens aqui mesmo no site. Mesma chave, mesma velocidade, mesmo preço.",
+      "TITLE_LINE1": "TUDO EM UM",
+      "TITLE_ROTATE": "API,CHAT,PERSONAGENS,HISTÓRIAS,CÓDIGO,INTELIGÊNCIA",
+      "SUBTITLE": "{appName} conecta você a mais de {modelCount} modelos de IA por meio de uma única chave. Crie apps e rode agentes com ela, ou pule a configuração e converse com personagens aqui mesmo no site. Mesma chave, mesma velocidade, mesmo preço.",
       "CTA_PRIMARY": "Começar",
       "CTA_SECONDARY": "Ver modelos"
     },
@@ -84,27 +85,27 @@
         "DESCRIPTION": "Use {appName} como provedor de modelo para seu agente OpenClaw. Configure uma vez, acesse todos os modelos."
       },
       "SILLYTAVERN": {
-        "BADGE": "Roleplay",
+        "BADGE": "Chat de personagens",
         "TITLE": "Funciona com SillyTavern",
         "DESCRIPTION": "Conecte {appName} à fonte customizada compatível com OpenAI do SillyTavern. Cole a URL base, escolha um modelo, converse."
       },
       "JANITOR_AI": {
-        "BADGE": "Roleplay",
-        "TITLE": "Funciona com Janitor.AI",
-        "DESCRIPTION": "Adicione {appName} como proxy customizado no Janitor.AI. URL completa mais chave API, salvar, atualizar, pronto."
+        "BADGE": "Chat de personagens",
+        "TITLE": "Funciona com clientes de chat de IA populares",
+        "DESCRIPTION": "Adicione {appName} como proxy personalizado em qualquer cliente de chat compatível com OpenAI. URL completa mais chave de API, salvar, atualizar, pronto."
       },
       "RISUAI": {
-        "BADGE": "Roleplay",
+        "BADGE": "Chat de personagens",
         "TITLE": "Funciona com RisuAI",
         "DESCRIPTION": "Use {appName} como endpoint de Modelos Customizados do RisuAI. Desmarque autocompletar, cole a URL, carregue qualquer modelo."
       },
       "CHUB": {
-        "BADGE": "Roleplay",
-        "TITLE": "Funciona com Chub / Venus",
-        "DESCRIPTION": "Conecte {appName} como proxy reverso de primeira parte no Chub. Uma URL, uma chave, todos os modelos."
+        "BADGE": "Chat de personagens",
+        "TITLE": "Funciona com clientes de chat de personagens",
+        "DESCRIPTION": "Conecte {appName} como proxy reverso de origem no seu cliente de chat de personagens favorito. Uma URL, uma chave, todos os modelos."
       },
       "PICK_TITLE": "Escolha o cliente que você realmente usa.",
-      "PICK_DESC": "O {appName} funciona como uma API compatível com OpenAI personalizada para agentes de código, frontends de roleplay, clientes de chat e ferramentas CLI."
+      "PICK_DESC": "{appName} funciona como uma API personalizada compatível com OpenAI em agentes de código, clientes de chat de personagens, clientes de chat de IA e ferramentas de CLI."
     },
     "HOW_IT_WORKS": {
       "LABEL": "Começar",
@@ -120,7 +121,7 @@
       "TOPUP_FREE_AMOUNT": "R$0",
       "STEP3_NUM": "3",
       "STEP3_TITLE": "Obtenha sua chave API",
-      "STEP3_DESC": "Use no seu código, no Claude Code, ou cole no SillyTavern, Janitor.AI, RisuAI ou Chub.",
+      "STEP3_DESC": "Use no seu código, no Claude Code ou cole no SillyTavern, RisuAI ou qualquer cliente de chat de IA compatível com OpenAI.",
       "CTA_PRIMARY": "Começar",
       "CTA_SECONDARY": "Ver preços",
       "SIGNUP_GITHUB": "Continuar com GitHub",
@@ -158,8 +159,8 @@
         "DESC": "As conversas vivem no seu navegador, nunca no nosso servidor. Use também seu próprio endpoint e chave compatíveis com OpenAI, direto do navegador."
       },
       "CARD4": {
-        "TITLE": "RPG completo",
-        "DESC": "Lorebooks, chat em grupo, swipes e um motor de RP de verdade, não um brinquedo."
+        "TITLE": "Chat com personagens",
+        "DESC": "Lorebooks, chat em grupo, swipes e um motor de chat de personagens de verdade, não um brinquedo."
       },
       "CTA_OPEN": "Abrir chat",
       "CTA_CONNECT": "Conecte seu cliente",
@@ -177,7 +178,7 @@
         "CONV3": "Mochi no Cafe",
         "MODEL_NAME": "nemotron-3",
         "TOKENS": "{in} ent. / {out} saí.",
-        "MENU_LABEL": "RPG",
+        "MENU_LABEL": "Chat de personagens",
         "LOCAL_DB": "BD local",
         "MSG_AI_2": "O cadinho está brilhando no ponto certo. Me passa aquele frasco?",
         "MSG_AI_3": "Que bom te ver de novo! Seu latte de aveia de sempre, com espuma extra?",
@@ -196,7 +197,7 @@
           "LORE1_SUB": "Cartas estelares e rotas comerciais",
           "LORE2": "Manifesto da nave",
           "LORE2_SUB": "Lista da tripulação e carga",
-          "PRESET1": "RP cinematográfico",
+          "PRESET1": "História cinematográfica",
           "PRESET1_SUB": "Prosa vívida e descritiva",
           "PRESET2": "Diálogo ágil",
           "PRESET2_SUB": "Respostas curtas e diretas",
@@ -281,22 +282,22 @@
       "FEATURE_4": "Sem código? Converse no site",
       "READ_DOCS": "Ler documentação completa da API",
       "NO_CODE_LABEL": "Não é programador?",
-      "NO_CODE_OPTION": "Pule o código. Converse com personagens aqui mesmo no site, ou cole a URL no SillyTavern, Janitor.AI, RisuAI ou Chub.",
+      "NO_CODE_OPTION": "Pule o código. Converse com personagens aqui mesmo no site, ou cole a URL no SillyTavern, RisuAI ou qualquer cliente de chat de IA compatível com OpenAI.",
       "NO_CODE_CHAT_LINK": "Abrir o chat",
       "NO_CODE_LINK": "Ver os guias de integração"
     },
     "CTA": {
       "TITLE_1": "Pronto para",
       "TITLE_2": "Conectar",
-      "SUBTITLE": "Todo modelo de IA, uma chave. Construa, converse, programe ou faça roleplay. Você decide.",
+      "SUBTITLE": "Todos os modelos de IA, uma chave. Crie, converse, programe ou conte histórias. Você decide.",
       "PRIMARY": "Começar",
       "SECONDARY": "Explorar integrações",
       "CHAT": "Abrir chat"
     },
     "META": {
       "TITLE": "{appName} - Uma chave para todo modelo de IA",
-      "DESCRIPTION": "Uma chave para todo modelo de IA. Use no seu código, no Claude Code, ou no SillyTavern, Janitor.AI, RisuAI e Chub. Roteamento inteligente entre os principais provedores.",
-      "KEYWORDS": "gateway de API de IA, endpoint unificado de IA, compatível com OpenAI, API Claude, API GPT, API Gemini, failover automático, roteamento inteligente, proxy SillyTavern, proxy Janitor.AI, proxy Chub, RisuAI, roleplay de IA, alternativa character AI"
+      "DESCRIPTION": "Uma chave para todo modelo de IA. Use no seu código, no Claude Code, ou nos seus clientes de IA favoritos. Roteamento inteligente entre os principais provedores.",
+      "KEYWORDS": "gateway de API de IA, endpoint unificado de IA, compatível com OpenAI, API Claude, API GPT, API Gemini, failover automático, roteamento inteligente, API multi-modelo, cliente de chat de IA"
     },
     "TITLE": "{appName}"
   },
@@ -408,12 +409,12 @@
     },
     "META": {
       "TITLE": "Modelos de IA - {appName}",
-      "DESCRIPTION": "Todo modelo de IA em um só lugar. GPT, Claude, Gemini, DeepSeek e mais. Use no seu código ou no SillyTavern, Janitor.AI, RisuAI e Chub. Mesmo preço para ambos.",
-      "KEYWORDS": "modelos de IA, biblioteca de modelos, preços de IA, modelos GPT, modelos Claude, modelos Gemini, modelos DeepSeek, comparação de modelos de IA, modelos de IA para roleplay, modelos SillyTavern, modelos Janitor.AI, modelos character AI"
+      "DESCRIPTION": "Todos os modelos de IA em um só lugar. GPT, Claude, Gemini, DeepSeek e mais. Use-os no seu código ou em qualquer cliente de chat de IA compatível com OpenAI. Mesmo preço para ambos.",
+      "KEYWORDS": "modelos de IA, biblioteca de modelos, preços de IA, modelos GPT, modelos Claude, modelos Gemini, modelos DeepSeek, comparação de modelos de IA, API multi-modelo, modelos de chat de IA"
     },
     "BADGE": "Biblioteca de modelos",
     "TITLE": "Biblioteca de modelos",
-    "SUBTITLE": "Todo modelo, uma chave. Usado por desenvolvedores construindo apps e roleplayers rodando personagens. Mesmo preço para ambos.",
+    "SUBTITLE": "Todos os modelos, uma chave. Usado por desenvolvedores que criam apps e por criadores que constroem experiências de personagens. Mesmo preço para ambos.",
     "SEARCH_PLACEHOLDER": "Buscar modelos...",
     "MODEL_COUNT": "modelos",
     "EMPTY": "Nenhum modelo corresponde à sua busca.",
@@ -632,9 +633,9 @@
         "H_SAME_LANE": "Estamos na mesma pista",
         "P_SAME_LANE": "Tanto o {appName} quanto o MegaLLM são gateways compatíveis com OpenAI feitos para desenvolvedores. Ambos põem GPT, Claude e Gemini atrás de uma chave, ambos fazem failover automático quando um provedor cai, ambos entram no Claude Code, Codex e OpenCode com uma troca de URL base. Se sua meta é apontar um agente de código para modelos de fronteira sem fazer malabarismo com chaves de provedor, qualquer um faz. Então o catálogo e o failover não são onde está a decisão.",
         "H_MODELS": "Catálogo e preços",
-        "P_MODELS": "O MegaLLM anuncia 70+ modelos de fronteira e visão e se promove pelo custo, até 60% mais barato que ir direto via roteamento consciente de custo, com planos a partir de cerca de 10 $/mês mais pague-conforme-usar. O {appName} carrega 200+ modelos, um catálogo mais amplo que inclui os modelos abertos e ajustados para roleplay que o foco só-fronteira do MegaLLM deixa de fora, também pague-conforme-usar, com créditos que não expiram e um nível gratuito. Se você só chama GPT e Claude, o preço por token é a comparação. Se você quer o catálogo mais amplo, o {appName} simplesmente tem mais.",
+        "P_MODELS": "A MegaLLM anuncia mais de 70 modelos de fronteira e de visão e se posiciona pelo custo, até 60% mais barato do que ir direto via roteamento atento ao custo, com planos a partir de cerca de US$ 10/mês mais pré-pago. {appName} traz mais de 200 modelos, um catálogo mais amplo que inclui os modelos abertos e ajustados para escrita criativa que o foco apenas em fronteira da MegaLLM deixa de fora, também pré-pago, com créditos que não expiram e um nível gratuito para prototipar. Se você só chama GPT e Claude, o preço por token é a comparação. Se você quer o catálogo mais amplo, {appName} simplesmente tem mais.",
         "H_CHAT": "A parte que o MegaLLM não tem",
-        "P_CHAT": "O MegaLLM é um gateway headless, uma API e um painel, nada para conversar. O {appName} é o gateway mais um cliente de chat e personagens integrado: personas, lorebooks, presets, importação de cards SillyTavern, e a mesma chave entra no SillyTavern, Janitor.AI, RisuAI ou Chub. Assim a mesma chave que move seu agente de código também executa um chat de personagens de verdade, para trabalho e diversão. Essa é a linha entre um gateway de dev puro e um 2-em-1.",
+        "P_CHAT": "A MegaLLM é um gateway headless, uma API e um painel, nada para conversar. {appName} é o gateway mais um cliente de chat e personagens integrado: personas, lorebooks, presets, importação de cards do SillyTavern, e a mesma chave entra no SillyTavern, Janitor.AI, RisuAI ou Chub. Assim, a mesma chave que move seu agente de código também roda um chat de personagens de verdade, para trabalho e lazer. Essa é a linha entre um gateway puramente dev e um 2 em 1.",
         "H_MIGRATE": "Trocar é uma mudança de URL base",
         "P_MIGRATE": "Como o MegaLLM, o {appName} é compatível com OpenAI, então migrar é uma linha: aponte seu cliente para <c>https://api.unorouter.com/v1</c> e mantenha seu código. A mesma chave colada no campo de endpoint personalizado de um cliente de chat alcança o mesmo catálogo, então não há segunda conta nem ferramenta separada para o lado do chat.",
         "H_VERDICT": "Qual escolher",
@@ -647,11 +648,11 @@
         "AUTHOR": "Equipe {appName}",
         "INTRO": "Portkey e {appName} colocam um endpoint compatível com OpenAI na frente de cada modelo. Dali eles se separam. O Portkey é uma plataforma LLMOps completa para times de engenharia que precisam de observabilidade, guardrails e governança. O {appName} é a versão enxuta da mesma ideia: uma chave, mais de 200 modelos e um cliente de chat por cima, sem nada para configurar.",
         "H_AUDIENCE": "Para quem cada um foi feito",
-        "P_AUDIENCE": "O Portkey mira times de plataforma e IA que entregam recursos de LLM em escala. Seu valor é o plano de controle ao redor das chamadas: logs de requisições, métricas, orçamentos, gestão de prompts, guardrails, fallbacks e acesso por papéis para uma organização. O {appName} mira o desenvolvedor individual e o usuário de RP que só quer uma chave que funcione num agente de código e num cliente de chat, sem montar antes uma camada de governança.",
+        "P_AUDIENCE": "A Portkey mira times de plataforma e IA que entregam recursos de LLM em escala. Seu valor é o plano de controle ao redor das chamadas: logs de requisições, métricas, orçamentos, gestão de prompts, guardrails, fallbacks e acesso baseado em papéis para uma organização. {appName} mira o desenvolvedor individual e o usuário de chat de personagens que só quer uma chave que funcione em um agente de código e em um cliente de chat, sem montar primeiro uma camada de governança.",
         "H_SETUP": "Configuração e superfície",
         "P_SETUP": "Com o Portkey você configura uma chave virtual, configs e regras de roteamento, e depois instrumenta seu app para passar tudo pelo gateway, para que os painéis se preencham. Isso faz sentido quando você tem um time e exigências de conformidade. Com o {appName} você se cadastra e aponta seu cliente para <c>https://api.unorouter.com/v1</c>. Sem configs, sem chaves virtuais para gerenciar, sem stack de observabilidade para aprender. Um é uma plataforma que você adota; o outro, um endpoint que você chama.",
         "H_INTERFACE": "O Portkey não tem cliente de chat",
-        "P_INTERFACE": "O Portkey é infraestrutura: um gateway e um painel, cada interface voltada ao usuário você traz. O {appName} entrega a mesma API compatível com OpenAI mais um cliente de chat e de personagens integrado (personas, lorebooks, presets, importação de cards do SillyTavern), e a mesma chave entra direto no SillyTavern, Janitor.AI, RisuAI ou Chub. Assim você ganha um lugar para de fato conversar com a mesma chave, não só um plano de controle para chamadas que seu app ainda precisa fazer.",
+        "P_INTERFACE": "A Portkey é infraestrutura: um gateway e um painel, cada interface voltada ao usuário você traz. {appName} entrega a mesma API compatível com OpenAI mais um cliente de chat e personagens integrado (personas, lorebooks, presets, importação de cards do SillyTavern), e a mesma chave entra direto no SillyTavern, Janitor.AI, RisuAI ou Chub. Assim você ganha um lugar para realmente conversar com a mesma chave, não só um plano de controle para chamadas que seu app ainda precisa fazer.",
         "H_COST": "Custo e sobrecarga",
         "P_COST": "O Portkey cobra pela plataforma: um nível gratuito para baixo volume, depois planos pagos pela observabilidade, governança e suporte que uma organização precisa, além do que você paga a cada provedor. Vale a pena quando o plano de controle economiza tempo real de um time. O {appName} é pague conforme o uso em mais de 200 modelos, com créditos que não expiram e um nível gratuito, um saldo só em vez de uma assinatura de plataforma mais carteiras por provedor. Abaixo da escala de um time, o caminho enxuto custa menos e exige menos de você.",
         "H_VERDICT": "Qual escolher",
@@ -664,11 +665,11 @@
         "AUTHOR": "Equipe {appName}",
         "INTRO": "nano-gpt e {appName} se sobrepõem no óbvio: acesso pague conforme o uso a muitos modelos sem assinatura. O nano-gpt lidera pela amplitude por trás de um marketplace de chat. O {appName} lidera por uma chave compatível com OpenAI igualmente a vontade num agente de código e num cliente de chat. Mesmos créditos, duas portas de entrada bem diferentes.",
         "H_CATALOG": "Catálogo e amplitude",
-        "P_CATALOG": "A proposta do nano-gpt e o tamanho do catálogo: centenas de modelos de texto e imagem num só lugar, útil de verdade se a meta é testar tudo. O {appName} roda mais de 200 modelos entre os provedores que importam para código e roleplay, escolhidos e mantidos atualizados em vez de maximizados por um número. Se só a amplitude bruta importa, o nano-gpt vence. Se você quer os modelos com que as pessoas realmente trabalham, a diferença fecha rápido.",
+        "P_CATALOG": "O argumento da nano-gpt é o tamanho do catálogo: centenas de modelos de texto e imagem em um só lugar, o que é genuinamente útil se seu objetivo é experimentar tudo. {appName} roda mais de 200 modelos entre os provedores que importam para código e chat de personagens, escolhidos e mantidos atuais em vez de maximizados pela contagem. Se a amplitude bruta é o único eixo que importa para você, a nano-gpt vence. Se você quer os modelos em que as pessoas realmente lançam, a diferença fecha rápido.",
         "H_DEV": "O lado do desenvolvedor",
         "P_DEV": "Um marketplace de chat e construído pela interface primeiro: a UI web e o produto, a API uma porta lateral. O {appName} é compatível com OpenAI por design. Aponte qualquer SDK ou agente para <c>https://api.unorouter.com/v1</c>, mantenha seu código existente, e a mesma chave move Claude Code, Cline, OpenCode, Kilo Code ou Codex. Você não está parafusando uma API num site de chat; está usando um gateway que também tem um cliente de chat.",
         "H_CHAT": "O lado de chat e personagens",
-        "P_CHAT": "Os dois deixam você conversar no navegador, mas o cliente do {appName} foi feito para roleplay, não só para perguntas e respostas: personas, lorebooks, presets e importação de cards do SillyTavern, e a mesma chave entra no SillyTavern, Janitor.AI, RisuAI ou Chub quando você quer um frontend mais pesado. Você nunca fica preso a uma UI. Os créditos te seguem em cada cliente.",
+        "P_CHAT": "Ambos deixam você conversar no navegador, mas o cliente do {appName} foi feito para chat de personagens, não só perguntas e respostas: personas, lorebooks, presets e importação de cards do SillyTavern, além de a mesma chave entrar no SillyTavern, Janitor.AI, RisuAI ou Chub quando você quiser um front-end mais robusto. Você nunca fica preso a uma única UI. Os créditos te seguem em cada cliente.",
         "H_PAY": "Preços e chaves",
         "P_PAY": "Os dois são pague conforme o uso sem assinatura, o modelo certo para uso em rajadas e multimodelo. O {appName} mantém tudo num saldo só com créditos que não expiram e um nível gratuito, uma chave para código e chat em vez de uma carteira de marketplace que você só gasta numa UI. A cobrança tem a mesma forma; a diferença é o alcance da única chave.",
         "H_VERDICT": "Qual escolher",
@@ -681,32 +682,32 @@
         "AUTHOR": "Equipe {appName}",
         "INTRO": "O SillyTavern é o frontend; ele não hospeda modelos. Para usá-lo você o aponta para um endpoint compatível com OpenAI e cola uma chave. A pergunta é qual gateway fica atrás. A maioria dos guias te dá um único provedor; a melhor resposta é uma chave que alcança muitos modelos e não expira. Aqui esta o que pesar, e como o {appName} se encaixa.",
         "H_WHAT_MATTERS": "O que realmente importa para o SillyTavern",
-        "P_WHAT_MATTERS": "Quatro coisas decidem um bom gateway para o SillyTavern. Chat Completions compatível com OpenAI, para o SillyTavern conectar sem adaptador. Amplitude de modelos, para trocar entre um bom escritor e um cavalo de carga barato sem contas novas. Cobrança honesta no pague conforme o uso, porque roleplay vem em rajadas e um assento mensal e a forma errada. E um nível gratuito para testar um personagem antes de gastar. O número bruto de modelos importa menos do que se os modelos certos estão presentes e atualizados.",
+        "P_WHAT_MATTERS": "Quatro coisas decidem um bom gateway para SillyTavern. Chat Completions compatível com OpenAI, para o SillyTavern conectar sem adaptador. Amplitude de modelos, para alternar entre um escritor forte e um cavalo de carga barato sem novas contas. Cobrança honesta pré-paga, porque chat de personagens é em rajadas e um assento mensal é o formato errado. E um nível gratuito para testar um personagem antes de gastar qualquer coisa. A contagem bruta de modelos importa menos do que se os modelos certos estão presentes e atuais.",
         "H_OPTIONS": "As opções realistas",
         "P_OPTIONS": "Você tem três classes de escolha. Uma chave de um único provedor (OpenAI, Anthropic, DeepSeek) e a mais simples, mas te prende aos modelos e preços de um laboratório só. Um gateway dev headless te dá amplitude mas nenhum cliente próprio, o que está bem já que o SillyTavern e o seu cliente. Ou um gateway que é API e cliente de chat ao mesmo tempo, para a mesma chave funcionar no SillyTavern e numa UI integrada quando você não quer abrir o app completo. O {appName} é esse terceiro tipo.",
         "H_CONNECT": "Conectando o {appName} ao SillyTavern",
-        "P_CONNECT": "No SillyTavern, escolha a API Chat Completion e a fonte compatível com OpenAI (Custom). Defina a URL base como <c>https://api.unorouter.com/v1</c>, cole sua chave {appName} e carregue a lista de modelos. Escolha um modelo, e seus personagens, lorebooks e presets rodam sem mudança. A mesma chave também funciona no Janitor.AI, RisuAI e Chub, então você não refaz a configuração por app.",
+        "P_CONNECT": "No SillyTavern, escolha a API Chat Completion e a fonte compatível com OpenAI (Custom). Defina a URL base como <c>https://api.unorouter.com/v1</c>, cole sua chave {appName} e carregue a lista de modelos. Escolha um modelo, e seus personagens, lorebooks e presets rodam sem mudanças. A mesma chave também funciona no Janitor.AI, RisuAI e Chub, então você não refaz a configuração por app.",
         "H_FREE": "Modelos gratuitos e controle de custo",
         "P_FREE": "O {appName} tem um nível gratuito e mais de 200 modelos, então você pode testar um card num modelo gratuito e só passar para um pago mais forte quando a cena valer a pena. Os créditos não expiram, a cobrança é pague conforme o uso, e um saldo só cobre cada cliente e cada modelo. Não há assento mensal a justificar nem nada a cancelar se você tirar um mês de folga.",
         "H_VERDICT": "A resposta curta",
-        "P_VERDICT": "O melhor gateway para o SillyTavern e o que tem endpoint compatível com OpenAI, amplitude real de modelos, créditos pague conforme o uso e um nível gratuito para começar, para uma única chave carregar toda a sua configuração. O {appName} foi feito exatamente para esse caso, e a mesma chave continua funcionando em todo outro frontend de RP que você usa.",
+        "P_VERDICT": "O melhor gateway para SillyTavern é aquele com um endpoint compatível com OpenAI, amplitude de modelos real, créditos pré-pagos e um nível gratuito para começar, de modo que uma única chave carregue toda a sua configuração. {appName} foi feito exatamente para esse caso, e a mesma chave continua funcionando em qualquer outro front-end de chat de personagens que você use.",
         "CTA": "Pronto para conectar o SillyTavern? <register>Crie uma conta grátis</register> ou <models>explore os modelos</models>."
       },
       "UNOROUTER_VS_RISUAI": {
-        "TITLE": "{appName} vs RisuAI: portamos o motor de RP para um 2-em-1 hospedado",
-        "DESCRIPTION": "RisuAI é o frontend de RP para usuários avançados. O {appName} portou seu motor (lorebooks, macros CBS, triggers, regex, importação de cards) para um produto hospedado onde a mesma chave também move agentes de código. Não um rival, um 2-em-1.",
+        "TITLE": "{appName} vs RisuAI: portamos o motor de chat de personagens para um 2 em 1 hospedado",
+        "DESCRIPTION": "O RisuAI é o front-end de chat de personagens para usuários avançados. {appName} portou seu motor (lorebooks, macros CBS, triggers, regex, importação de cards) para um produto hospedado onde a mesma chave também move agentes de código. Não um rival, um 2 em 1.",
         "AUTHOR": "Equipe {appName}",
-        "INTRO": "RisuAI é um dos melhores frontends de roleplay que existem, e dizemos isso como gente que estudou seu código de perto. O {appName} não tentou supera-lo em recursos. Portamos seu motor e o colocamos em um lugar novo: um produto hospedado onde uma chave compatível com OpenAI também executa seus agentes de código. Então isto é menos uma comparação rival do que uma explicacao honesta de 2-em-1, escrita por gente que admira o Risu.",
+        "INTRO": "O RisuAI é um dos melhores front-ends de chat de personagens que existem, e dizemos isso como pessoas que estudaram seu código de perto. {appName} não tentou superá-lo em recursos. Portamos seu motor e então o colocamos em um lugar novo: um produto hospedado onde uma chave compatível com OpenAI também move seus agentes de código. Então isto é menos uma comparação entre rivais do que uma explicação honesta de 2 em 1, escrita por pessoas que admiram o Risu.",
         "H_ENGINE": "Portamos o motor, não clonamos o app",
-        "P_ENGINE": "O que torna o Risu ótimo para roleplay está no {appName} porque portamos: o sistema de lorebook (um pool global, decoradores @@, recursao), a linguagem completa de macros CBS (variáveis, condicionais, aleatório com semente, blocos), a VM de triggers V1/V2 com runtime Lua, customscripts regex (editinput/output/display), importação de cards SillyTavern v2/v3, ordem de chat em grupo, personas, presets e uma memória de resumo continuo. Se você conhece os lorebooks e triggers do Risu, aqui eles funcionam como você espera.",
+        "P_ENGINE": "As partes que tornam o Risu ótimo para chat de personagens estão no {appName} porque as portamos: o sistema de lorebooks (um único pool global, @@decorators, recursão), a linguagem completa de macros CBS (variáveis, condicionais, aleatório com seed, blocos), a VM de triggers V1/V2 com runtime Lua, customscripts de regex (editinput/output/display), importação de cards v2/v3 do SillyTavern, ordenação de chat em grupo, personas, presets e uma memória de resumo contínuo. Se você conhece os lorebooks e triggers do Risu, eles funcionam como você espera aqui.",
         "H_TWO_IN_ONE": "O 2-em-1: a mesma chave para código e chat de personagens",
-        "P_TWO_IN_ONE": "Esta é a parte que o Risu não pode ser, por design. O Risu é BYOK: você traz sua própria chave OpenAI ou Claude e ele é puramente um frontend de chat. O {appName} é a chave e o cliente. A mesma chave que move o chat de personagens integrado também aponta um agente de código (Claude Code, Cline, OpenCode, Codex) para 200+ modelos, e entra direto no SillyTavern, Janitor.AI, RisuAI ou Chub se você preferir esses. Uma conta, um saldo, uma lista de modelos, para trabalho e para diversão. Não queremos substituir o Risu como frontend, somos o gateway mais um cliente em um.",
+        "P_TWO_IN_ONE": "Esta é a parte que o Risu não pode ser, por design. O Risu é BYOK: você traz sua própria chave OpenAI ou Claude e ele é puramente um front-end de chat. {appName} é a chave e o cliente. A mesma chave que move o chat de personagens integrado também aponta um agente de código (Claude Code, Cline, OpenCode, Codex) para mais de 200 modelos, e entra direto no SillyTavern, Janitor.AI, RisuAI ou Chub se você preferir esses. Uma conta, um saldo, uma lista de modelos, para trabalho e lazer. Não estamos tentando substituir o Risu, o front-end, somos o gateway mais um cliente em um.",
         "H_HOSTING": "Hospedado vs auto-hospedado, e sem chaves para malabarismos",
         "P_HOSTING": "O Risu você executa (web, desktop Tauri ou Docker) e reúne e cola a chave de API de cada provedor. O {appName} e hospedado: nada para instalar ou manter vivo, e sem chaves de provedor para reunir, já que a chave e a conta. Você se cadastra e conversa. Para quem só quer a experiência estilo Risu sem subir um app ou gerenciar chaves, isso elimina toda a etapa de configuração.",
         "H_RISU_WINS": "Onde o Risu ainda vence (honestamente)",
         "P_RISU_WINS": "Não vamos fingir que cobrimos tudo. O Risu tem HypaMemory V2/V3, uma compressao de memória de longo prazo mais profunda do que nosso resumo continuo mais recuperação semântica. Tem um ecossistema real de plugins de usuário que você pode estender e compartilhar; nós não. Seus tradutores integrados para tradução automática de entrada/saída são mais completos que os nossos. E como app open source auto-hospedado, dá um controle local total que um serviço hospedado nunca dará. Se isso importa mais para você, o Risu é a melhor escolha, e falamos sério.",
         "H_VERDICT": "Qual escolher",
-        "P_VERDICT": "Quer um frontend de roleplay auto-hospedado, aberto e profundamente extensivel com a memória mais rica e um ecossistema de plugins, e gosta de trazer suas próprias chaves? Use o Risu. Quer os mesmos recursos de lorebook, CBS, triggers e cards em um produto hospedado onde uma chave também executa seus agentes de código e funciona em outros frontends? Esse é o 2-em-1 que o {appName} é. Não há um único vencedor. Só construímos a ponte que o Risu, sendo um frontend, nunca foi feito para ser.",
+        "P_VERDICT": "Quer um front-end de chat de personagens auto-hospedado, aberto e profundamente extensível com a memória mais rica e um ecossistema de plugins, e está feliz em trazer suas próprias chaves? Use o Risu. Quer os mesmos recursos de lorebook, CBS, triggers e cards em um produto hospedado onde uma chave também move seus agentes de código e funciona em outros front-ends? Esse é o 2 em 1 que o {appName} é. Não há um único vencedor. Apenas construímos a ponte que o Risu, sendo um front-end, nunca foi feito para ser.",
         "CTA": "Experimente o chat com tudo portado. <register>Crie uma conta grátis</register> ou <chat>abra o chat</chat>."
       },
       "UNOROUTER_VS_LITELLM": {
@@ -719,7 +720,7 @@
         "H_SETUP": "Configuração e manutenção",
         "P_SETUP": "Com o LiteLLM você escreve uma configuração, fornece as chaves de API de cada provedor, executa o servidor (Python, então cuidado com o GIL sob concorrência) e assume upgrades e monitoramento para sempre. Com o {appName} você se cadastra e aponta seu cliente para <c>https://api.unorouter.com/v1</c>. Sem arquivo de config, sem chaves de provedor para reunir, sem servidor para cuidar. Um e infraestrutura que você mantém; o outro um serviço que você consome.",
         "H_INTERFACE": "Não existe um LiteLLM em que você possa conversar",
-        "P_INTERFACE": "O LiteLLM e headless por design: uma camada de API, você traz cada interface. O {appName} entrega a mesma API compatível com OpenAI mais um cliente de chat e personagens integrado (personas, lorebooks, presets, importação de cards SillyTavern), e a mesma chave entra no SillyTavern, Janitor.AI, RisuAI ou Chub. Assim um agente de código e um lugar para conversar rodam com uma chave, em vez de um proxy para o qual você ainda precisa construir uma interface.",
+        "P_INTERFACE": "O LiteLLM é headless por design: uma camada de API, cada interface você traz. {appName} entrega a mesma API compatível com OpenAI mais um cliente de chat e personagens integrado (personas, lorebooks, presets, importação de cards do SillyTavern), e a mesma chave entra no SillyTavern, Janitor.AI, RisuAI ou Chub. Assim um agente de código e um lugar para realmente conversar rodam com uma única chave, em vez de um proxy para o qual você ainda precisa construir uma UI.",
         "H_COST": "Custo e chaves",
         "P_COST": "O LiteLLM não cobra margem, mas você paga cada provedor diretamente e carrega a conta de infraestrutura mais o tempo de DevOps. Isso vence em alto volume se você tem o time. O {appName} é pague-conforme-usar em 200+ modelos com créditos que não expiram e um nível gratuito, um único saldo em vez de uma carteira em cada provedor e sem servidores para pagar. Abaixo de uma escala seria, a via hospedada costuma sair mais barata depois de contar as horas.",
         "H_VERDICT": "Qual escolher",
@@ -829,7 +830,7 @@
         "INTRO_P1": "Modelos de imagem modernos podem aceitar várias imagens de referência mais um prompt de texto e compô-los em uma saída única. <s>Um prompt, N referências, uma composição</s>. Útil para novelas visuais, material de marca com personagens consistentes, mockups de produto, painéis de quadrinhos, e qualquer fluxo que precise de uma cena montada a partir de partes conhecidas.",
         "INTRO_P2": "A pegadinha: todo modelo do mercado afirma fazer isso. A maioria não. Alguns limitam a 1 referência, alguns a 4, alguns aceitam as entradas mas ignoram silenciosamente tudo após a primeira. E ainda por cima o mesmo modelo se comporta diferente entre revendedores por causa de cotas, variantes de slug e cabeamento de endpoint faltando. Então rodamos um benchmark.",
         "H_FIXTURES": "O conjunto de fixtures",
-        "FIXTURES_P": "Seis JPEGs fixos cobrindo uma composição típica de cena de roleplay: um fundo de taverna e cinco retratos de personagens (um do lado do usuário e quatro NPCs). Os mesmos seis arquivos para todo par (provedor, modelo), sem reescrita por canal. Carga total de aproximadamente 500 KB nas seis imagens.",
+        "FIXTURES_P": "Seis JPEGs fixos cobrindo uma composição típica de cena com personagens: um fundo de taverna e cinco retratos de personagens (um do lado do usuário e quatro NPCs). Os mesmos seis arquivos para cada par (provedor, modelo), sem reescrita por canal. Carga total de cerca de 500 KB nas seis imagens.",
         "FIXTURES_PROMPT_INTRO": "O prompt de texto também é fixo. Nomeia cada personagem, referência cada imagem por índice e pede uma composição única. Literalmente:",
         "H_METHOD": "Como o benchmark roda",
         "METHOD_P1": "Para todo par (provedor, modelo) do catálogo: POST das seis fixtures mais o prompt para o <c>/v1/images/edits</c> daquele canal. <s>Passa</s> = HTTP 200 com URL de imagem não vazia ou carga base64 na resposta. <s>Falha</s> = não-200, corpo vazio, ou formato incompatível. Sem avaliação humana. O benchmark é reproduzível, roda sob demanda, e roda novamente sempre que um novo modelo de imagem aparece upstream.",
@@ -897,7 +898,7 @@
         "H_MODELS": "Modelos e preços",
         "P_MODELS": "Ambos expõem mais de 200 modelos dos principais provedores atrás de uma única chave, detectando automaticamente os formatos OpenAI, Anthropic e Gemini. O OpenRouter cobra uma taxa percentual na compra de saldo. {appName} é pago por uso, com saldo que não expira e uma camada de modelos gratuitos para prototipagem. Na pura amplitude de modelos os dois são comparáveis, então o fator decisivo raramente é o catálogo. É o que você faz com ele.",
         "H_RP": "A parte que o OpenRouter deixa de fora",
-        "P_RP": "Aponte um agente de programação (Claude Code, Cline, OpenCode, Kilo Code, Codex) para {appName} e ele se comporta como qualquer endpoint compatível com OpenAI. Mas a mesma chave também move um cliente de chat e personagens integrado com personas, lorebooks, presets e importação de cards do SillyTavern, e encaixa direto no SillyTavern, Janitor.AI, RisuAI ou Chub. O OpenRouter é apenas a camada de API, então você traz cada interface por conta própria. {appName} entrega a interface e a API juntas.",
+        "P_RP": "Aponte um agente de código (Claude Code, Cline, OpenCode, Kilo Code, Codex) para {appName} e ele se comporta como qualquer endpoint compatível com OpenAI. Mas a mesma chave também move um cliente de chat e personagens integrado com personas, lorebooks, presets e importação de cards do SillyTavern, e entra direto no SillyTavern, Janitor.AI, RisuAI ou Chub. O OpenRouter é puramente a camada de API, então você traz cada interface. {appName} entrega a interface e a API juntas.",
         "H_MIGRATE": "Trocar é mudar a URL base",
         "P_MIGRATE": "Como {appName} é compatível com OpenAI, mover um app existente é uma linha: aponte seu cliente para <c>https://api.unorouter.com/v1</c> e mantenha seu código. A mesma chave colada no campo de endpoint personalizado de um cliente de chat alcança o mesmo catálogo, então não há uma segunda conta para gerenciar.",
         "H_VERDICT": "Qual você deve escolher",
@@ -910,13 +911,13 @@
         "AUTHOR": "Equipe {appName}",
         "INTRO": "O OpenRouter popularizou uma ideia simples: uma chave compatível com OpenAI que alcança muitos provedores de modelos. E uma escolha padrão sólida, mas não é a única opção, nem a melhor para todo uso. Se você está pesando alternativas em 2026, a escolha certa depende do que mais importa para você: preço, amplitude de modelos, forma de cobrança ou ter um cliente de chat seu. Aqui está um mapa honesto, e onde o {appName} se encaixa.",
         "H_WHY_SWITCH": "Por que olhar além do OpenRouter",
-        "P_WHY_SWITCH": "As pessoas comparam por algumas razões concretas. Margem: cada agregador adiciona uma margem sobre o preço bruto do provedor, e o tamanho varia. Cobertura de modelos: um modelo que você precisa pode faltar ou estar desatualizado em um gateway e em dia em outro. Forma de cobrança: alguns planos são por assento ou assinatura, o que se encaixa mal num uso em rajadas. E o cliente: a maioria dos gateways e headless, então você ainda precisa de um frontend a parte para chat ou roleplay. Qualquer uma delas pode bastar para comparar.",
+        "P_WHY_SWITCH": "As pessoas pesquisam por algumas razões concretas. Margem: cada agregador adiciona uma margem sobre o preço bruto do provedor, e o tamanho varia. Cobertura de modelos: um modelo de que você precisa pode estar faltando ou desatualizado em um gateway e atual em outro. Formato de cobrança: alguns planos são por assento ou assinatura, o formato errado para uso em rajadas. E a história do cliente: a maioria dos gateways é headless, então você ainda precisa de um front-end separado para chat ou chat de personagens. Qualquer uma delas pode ser razão suficiente para comparar.",
         "H_WHAT_TO_COMPARE": "O que comparar de verdade",
         "P_WHAT_TO_COMPARE": "Julgue uma alternativa por cinco coisas. Chat Completions compatível com OpenAI, para seu código e ferramentas atuais conectarem sem reescrever nada. Amplitude e atualidade dos modelos, para não ficar preso ao catálogo de ontem. Preços pague conforme o uso transparentes com créditos que não expiram, para que meses fracos não te punam. Cobertura dos modelos que você de fato usa, não apenas um grande número bruto. E se ele entrega um cliente usavel, ou supoe que você traga o seu. Pontue por isso, não pelas promessas de marketing.",
         "H_ALTERNATIVES": "As alternativas que vale a pena conhecer",
         "P_ALTERNATIVES": "As chaves de um só provedor (OpenAI, Anthropic, DeepSeek) são as mais simples, mas prendem você a um laboratório. Os gateways de desenvolvimento headless como LiteLLM e Portkey dão amplitude e governança, mas nenhum cliente, então servem a times com seus próprios apps. Os proxies auto-hospedados trocam conveniencia por controle. E os gateways combinados unem uma ampla API compatível com OpenAI a um cliente de chat embutido, então uma chave funciona no código e numa interface. O {appName} é desse último tipo: aponte qualquer SDK da OpenAI para <c>https://api.unorouter.com/v1</c>, alcance mais de 200 modelos e use a mesma chave num cliente de chat embutido ou em ferramentas como SillyTavern.",
-        "H_FOR_ROLEPLAY": "Se o seu caso é roleplay",
-        "P_FOR_ROLEPLAY": "Roleplay é um caso a parte. Você quer um amplo catálogo para alternar entre um bom escritor e um cavalo de batalha barato, cobrança pague conforme o uso porque as sessões vão em rajadas, e uma chave que entre direto no SillyTavern, Janitor.AI, RisuAI ou Chub. Os gateways de desenvolvimento puros cobrem a metade da API mas não te dão cliente, e os planos por assento brigam com esse padrão em rajadas. O {appName} foi feito para abranger os dois: API limpa para código, mais um cliente de chat e personagens com a mesma chave, modelos e créditos.",
+        "H_FOR_ROLEPLAY": "Se o seu caso de uso é chat de personagens",
+        "P_FOR_ROLEPLAY": "Chat de personagens é um caso próprio. Você quer um catálogo amplo para alternar entre um escritor forte e um cavalo de carga barato, cobrança pré-paga porque as sessões são em rajadas, e uma chave que entra direto no SillyTavern, Janitor.AI, RisuAI ou Chub. Gateways puramente dev cobrem a metade da API mas não te dão cliente, e planos por assento brigam com o padrão em rajadas. {appName} foi construído para abranger os dois: API limpa para código, mais um cliente de chat e personagens na mesma chave, modelos e créditos.",
         "H_VERDICT": "Como escolher",
         "P_VERDICT": "Se você só usa um laboratório, uma chave de um só provedor serve. Se você é um time que quer roteamento e governança na frente do próprio app, um gateway de desenvolvimento headless se encaixa. Se você quer uma chave que alcance muitos modelos atuais, cobre pague conforme o uso e funcione tanto no código quanto num cliente de chat, essa é a lacuna que o {appName} preenche. Escolha pelo seu uso real, não pelo número bruto de modelos.",
         "CTA": "Quer uma chave para cada modelo? <register>Crie uma conta grátis</register> ou <models>explore os modelos</models>."
@@ -933,7 +934,7 @@
         "H_HOW_IT_WORKS": "Como funciona por dentro",
         "P_HOW_IT_WORKS": "Quando um pedido chega, o gateway lê o nome em <c>model</c>, procura o provedor upstream correspondente, troca pelas credenciais desse provedor, reescreve os campos do corpo especificos do provedor e encaminha a chamada. Os tokens em streaming voltam pela mesma conexão, então do seu lado parece uma chamada normal a OpenAI. Bons gateways adicionam novas tentativas em erros transitorios, contabilidade de uso e custo, e um catálogo de modelos atualizado para que novos lancamentos aparecam sem você tocar em nada.",
         "H_WHO_NEEDS_ONE": "Quem realmente precisa de um",
-        "P_WHO_NEEDS_ONE": "Você quer um gateway se usa mais de um modelo, planeja trocar de modelos conforme preço e qualidade mudam, ou constrói algo que não deveria ficar preso a um só laboratório. Agentes de código, apps de chat, frontends de roleplay e ferramentas internas todos se beneficiam. Se você de fato só chama um modelo de um provedor e nunca espera mudar, uma chave direta do provedor e mais simples. Todos os outros poupam esforço real com um gateway.",
+        "P_WHO_NEEDS_ONE": "Você quer um gateway se usa mais de um modelo, planeja trocar de modelo conforme preços e qualidade mudam, ou constrói algo que não deveria ficar amarrado a um único laboratório. Agentes de código, apps de chat, front-ends de chat de personagens e ferramentas internas se beneficiam todos. Se você realmente só chama um modelo de um provedor e nunca espera mudar, uma chave direta do provedor é mais simples. Todos os outros economizam esforço real com um gateway.",
         "H_VERDICT": "Em resumo",
         "P_VERDICT": "Um gateway de LLM transforma muitos provedores em um endpoint, uma chave e uma fatura, então você integra uma vez e troca de modelos livremente. O {appName} é um gateway compatível com OpenAI exatamente nesse molde: uma chave alcança mais de 200 modelos para código e chat igualmente, com créditos pague conforme o uso que não expiram. Se você toca em mais de um modelo, um gateway e a base mais limpa.",
         "CTA": "Experimente um gateway você mesmo: <register>crie uma conta grátis</register> ou <models>explore os modelos</models>."
@@ -946,30 +947,30 @@
         "H_WHAT_YOU_NEED": "O que você precisa primeiro",
         "P_WHAT_YOU_NEED": "Três coisas: uma instalação do SillyTavern rodando, um endpoint compatível com OpenAI e uma chave para ele. Um gateway cobre as duas últimas de uma vez, porque te dá uma URL base e uma chave que alcancam muitos modelos. Com o {appName} você cria uma conta, pega sua chave e está pronto; há um nível grátis para testar um personagem antes de gastar qualquer coisa. Mantenha sua chave a mão e não a cole em nenhum lugar público.",
         "H_STEPS": "Os passos de configuração",
-        "P_STEPS": "No SillyTavern, abra o painel de API e escolha Chat Completion, depois a fonte compatível com OpenAI (Custom). Defina a URL base como <c>https://api.unorouter.com/v1</c>, cole sua chave {appName} e clique para carregar a lista de modelos. Escolha um modelo no menu suspenso e envie uma mensagem de teste. Seus personagens, lorebooks e presets funcionam sem mudança, porque o SillyTavern só precisava de um endpoint e uma chave. A mesma chave também funciona no Janitor.AI, RisuAI e Chub.",
+        "P_STEPS": "No SillyTavern, abra o painel de API e escolha Chat Completion, depois a fonte compatível com OpenAI (Custom). Defina a URL base como <c>https://api.unorouter.com/v1</c>, cole sua chave {appName} e clique para carregar a lista de modelos. Escolha um modelo na lista suspensa e envie uma mensagem de teste. Seus personagens, lorebooks e presets funcionam sem mudanças, porque o SillyTavern só precisava de um endpoint e uma chave. A mesma chave também funciona no Janitor.AI, RisuAI e Chub.",
         "H_SWITCHING_MODELS": "Trocar de modelos depois",
         "P_SWITCHING_MODELS": "Como tudo passa por um endpoint, trocar de modelos e só escolher outra entrada no menu suspenso; nenhuma conta, chave ou URL base nova. Isso te deixa rodar um modelo grátis e barato enquanto monta uma cena, e depois trocar para um modelo pago mais forte para o momento que importa. Com mais de 200 modelos em uma chave você pode casar o modelo com a cena em vez de se contentar com o que um só provedor oferece.",
         "H_TROUBLESHOOTING": "Erros comuns e correções",
         "P_TROUBLESHOOTING": "Se a lista de modelos não carregar, confira de novo se a URL base termina em <c>/v1</c> e se a chave está colada sem espaços soltos. Um 401 significa que a chave está errada ou expirou; copie-a de novo. Um 404 em um modelo significa que esse nome de modelo não está escolhido na lista carregada. Se as respostas cortam, aumente o comprimento de resposta nas configurações do SillyTavern. A maioria das falhas de configuração e uma URL base com erro de digitação ou uma chave com espaços, então confira isso primeiro.",
         "H_VERDICT": "Esse é todo o truque",
-        "P_VERDICT": "Conectar qualquer LLM ao SillyTavern se resume a um endpoint compatível com OpenAI mais uma chave, e um gateway transforma isso em muitos modelos atrás de uma só configuração. O {appName} te dá essa URL base, um nível grátis para começar e mais de 200 modelos para trocar sem refazer nada. Configure uma vez e a mesma chave te segue por cada frontend de RP.",
+        "P_VERDICT": "Conectar qualquer LLM ao SillyTavern se resume a um endpoint compatível com OpenAI mais uma chave, e um gateway transforma isso em muitos modelos atrás de uma única configuração. {appName} te dá essa URL base, um nível gratuito para começar e mais de 200 modelos entre os quais alternar sem refazer nada. Configure uma vez e a mesma chave te segue em cada front-end de chat de personagens.",
         "CTA": "Pronto para conectar o SillyTavern? <register>Crie uma conta grátis</register> ou <models>explore os modelos</models>."
       },
       "ONE_API_KEY_FOR_CLAUDE_CODE_AND_ROLEPLAY": {
-        "TITLE": "Uma chave de API para Claude Code e roleplay",
-        "DESCRIPTION": "Agentes de código e clientes de roleplay falam APIs compatíveis com OpenAI. Aqui está como uma chave alimenta o Claude Code e seus chats de personagens a partir de um só saldo.",
+        "TITLE": "Uma chave de API para Claude Code e chat de personagens",
+        "DESCRIPTION": "Agentes de código e clientes de chat de personagens falam APIs compatíveis com OpenAI. Veja como uma única chave alimenta o Claude Code e seus chats de personagens a partir de um único saldo.",
         "AUTHOR": "Equipe {appName}",
-        "INTRO": "Agentes de código e clientes de roleplay parecem mundos diferentes, mas por dentro falam a mesma lingua: Chat Completions compatível com OpenAI. Isso significa que uma chave e um endpoint podem servir aos dois. Você pode rodar o Claude Code contra um gateway para seu trabalho real, e depois usar exatamente a mesma chave para chat de personagens a noite, cobrado de um só saldo. Aqui está como isso funciona e por que é conveniente.",
+        "INTRO": "Agentes de código e clientes de chat de personagens parecem mundos diferentes, mas por baixo dos panos falam a mesma língua: Chat Completions compatível com OpenAI. Isso significa que uma chave e um endpoint podem servir aos dois. Você pode rodar o Claude Code contra um gateway para o seu trabalho de verdade e depois usar a mesma chave para o chat de personagens à noite, cobrado de um único saldo. Veja como funciona e por que é conveniente.",
         "H_TWO_WORLDS": "Dois mundos, um protocolo",
-        "P_TWO_WORLDS": "Claude Code, Cline, Codex e Kilo Code são agentes de código; SillyTavern, Janitor.AI e RisuAI são clientes de roleplay. Parecem não ter relação, mas cada um se conecta a um endpoint compatível com OpenAI e uma chave. Um gateway fica atrás dos dois, então as mesmas credenciais conduzem um refactoring de manhã e uma história a noite. Não há razão para manter contas separadas e faturas separadas para duas ferramentas que falam o mesmo protocolo.",
+        "P_TWO_WORLDS": "Claude Code, Cline, Codex e Kilo Code são agentes de código; SillyTavern, Janitor.AI e RisuAI são clientes de chat de personagens. Parecem não ter relação, mas cada um se conecta a um endpoint compatível com OpenAI e a uma chave. Um gateway fica por trás dos dois, então as mesmas credenciais movem uma refatoração de manhã e uma história à noite. Não há razão para manter contas separadas e faturas separadas para duas ferramentas que falam o mesmo protocolo.",
         "H_CLAUDE_CODE": "Usando com o Claude Code",
         "P_CLAUDE_CODE": "Aponte seu agente de código para o gateway definindo a URL base como <c>https://api.unorouter.com/v1</c> e sua chave {appName}, depois escolha um modelo de código forte. Claude Code, Cline, Codex e Kilo Code todos aceitam uma URL base compatível com OpenAI, então o agente trabalha como sempre enquanto o gateway roteia para o modelo que você escolheu. Troque de modelos por custo ou qualidade com uma mudança de uma linha, sem chave nova.",
-        "H_ROLEPLAY": "Usando para roleplay",
-        "P_ROLEPLAY": "A mesma chave entra no SillyTavern, Janitor.AI, RisuAI e Chub: escolha a fonte compatível com OpenAI, defina a URL base como <c>https://api.unorouter.com/v1</c>, cole a chave e carregue os modelos. Seus personagens, lorebooks e presets rodam sem mudança. O {appName} também tem um cliente de chat e personagens embutido, então quando você não quer abrir um app inteiro, a mesma chave e créditos funcionam ali também.",
+        "H_ROLEPLAY": "Usando para chat de personagens",
+        "P_ROLEPLAY": "A mesma chave entra no SillyTavern, Janitor.AI, RisuAI e Chub: escolha a fonte compatível com OpenAI, defina a URL base como <c>https://api.unorouter.com/v1</c>, cole a chave e carregue os modelos. Seus personagens, lorebooks e presets rodam sem mudanças. {appName} também tem um cliente de chat e personagens integrado, então quando você não quiser abrir um app completo, a mesma chave e créditos funcionam ali também.",
         "H_ONE_BALANCE": "Um só saldo para os dois",
-        "P_ONE_BALANCE": "Como os dois lados rodam na mesma chave, seu uso de código e seu uso de roleplay saem de um só saldo pague conforme o uso. Os créditos não expiram, não há um assento mensal a justificar, e você vê todo o gasto num só lugar em vez de dividi-lo entre provedores. Um nível grátis te deixa testar qualquer lado antes de pagar. Uma conta cobre o seu dia inteiro, trabalho e lazer.",
+        "P_ONE_BALANCE": "Como ambos os lados rodam na mesma chave, seu uso de código e seu uso de chat de personagens consomem de um único saldo pré-pago. Os créditos não expiram, não há assento mensal a justificar e você vê todo o gasto em um só lugar em vez de dividi-lo entre provedores. Um nível gratuito permite testar qualquer um dos lados antes de pagar. Uma conta cobre o seu dia inteiro, trabalho e lazer.",
         "H_VERDICT": "A licao",
-        "P_VERDICT": "Agentes de código e clientes de roleplay compartilham o protocolo compatível com OpenAI, então uma chave pode alimentar os dois a partir de um só saldo. O {appName} foi construído exatamente para esse alcance: uma API limpa para o Claude Code e companhia, um cliente de chat e personagens para RP, mais de 200 modelos e créditos que não expiram. Uma chave, uma fatura, os dois mundos.",
+        "P_VERDICT": "Agentes de código e clientes de chat de personagens compartilham o protocolo compatível com OpenAI, então uma única chave pode alimentar os dois a partir de um único saldo. {appName} foi feito exatamente para esse alcance: uma API limpa para o Claude Code e afins, um cliente de chat e personagens para contar histórias, mais de 200 modelos e créditos que não expiram. Uma chave, uma fatura, os dois mundos.",
         "CTA": "Quer uma chave para código e chat? <register>Crie uma conta grátis</register> ou <models>explore os modelos</models>."
       }
     }
@@ -1046,11 +1047,11 @@
     },
     "META": {
       "TITLE": "Preços - {appName}",
-      "DESCRIPTION": "Preços simples para todo modelo de IA. Assine para melhor valor ou pague conforme o uso. Funciona com seu código, com Claude Code, e com SillyTavern, Janitor.AI, RisuAI e Chub.",
-      "KEYWORDS": "preços de API de IA, assinatura de IA, pagamento por token, preços de modelos de IA, API de IA barata, IA acessível, preços SillyTavern, preços Janitor.AI, preços IA roleplay, preços character AI"
+      "DESCRIPTION": "Preços simples para todos os modelos de IA. Assine para melhor valor ou pague conforme o uso. Funciona com seu código, com Claude Code e com SillyTavern, RisuAI e qualquer cliente de chat de IA compatível com OpenAI.",
+      "KEYWORDS": "preços de API de IA, assinatura de IA, pagamento por token, preços de modelos de IA, API de IA barata, IA acessível, preços compatíveis com OpenAI, preços de API multi-modelo"
     },
     "TITLE": "Preços",
-    "SUBTITLE": "Seja você lançando um app ou rodando longas sessões de roleplay. Um plano, todos os modelos.",
+    "SUBTITLE": "Seja lançando um app ou conduzindo longas sessões de chat de personagens. Um plano, todos os modelos.",
     "CTA": "Assinar",
     "FAQ": {
       "Q1": "Como funcionam os preços de {appName}?",
@@ -1065,10 +1066,10 @@
       "A5": "{appName} roteia solicitações entre múltiplos provedores com failover automático. Se um provedor está com limite de taxa ou caído, repetimos contra o próximo upstream saudável de forma transparente.",
       "Q6": "Posso obter um reembolso?",
       "A6": "Crédito pré-pago não utilizado é reembolsável por 30 dias a partir da compra. Contate {supportEmail} para solicitações de reembolso.",
-      "Q7": "Posso usar isso com SillyTavern, Janitor.AI, Chub ou RisuAI?",
-      "A7": "Sim. Todo plano funciona como fonte customizada compatível com OpenAI em qualquer cliente principal de roleplay. SillyTavern, Janitor.AI, RisuAI e Chub têm cada um um guia de configuração nos documentos.",
+      "Q7": "Posso usar isso com SillyTavern, RisuAI ou outros clientes de chat de IA compatíveis com OpenAI?",
+      "A7": "Sim. Todos os planos funcionam como fonte personalizada compatível com OpenAI em qualquer cliente de chat de personagens importante. SillyTavern, Janitor.AI, RisuAI e Chub têm, cada um, um guia de configuração na documentação.",
       "Q8": "Quão longas podem ser minhas conversas ou históricos de personagem?",
-      "A8": "{appName} suporta a janela de contexto completa de todo modelo, até 1M tokens no Gemini e 200k no Claude. Roleplays longos e bases de código longas, ambos funcionam."
+      "A8": "{appName} suporta a janela de contexto completa de cada modelo, até 1M de tokens no Gemini e 200k no Claude. Conversas longas com personagens e bases de código extensas funcionam igualmente."
     },
     "TIER": {
       "1": "Inicial",
@@ -1092,8 +1093,8 @@
   "DOCS_INDEX": {
     "META": {
       "TITLE": "Integrações - {appName}",
-      "DESCRIPTION": "Guias de configuração para toda ferramenta principal de IA e cliente de roleplay. Claude Code, Codex CLI, Gemini CLI, OpenClaw, SillyTavern, Janitor.AI, RisuAI e Chub.",
-      "KEYWORDS": "guias de integração de IA, configuração Claude Code, configuração Codex CLI, configuração Gemini CLI, configuração OpenClaw, configuração SillyTavern, configuração Janitor.AI, configuração RisuAI, configuração Chub, documentação API de IA, configuração de proxy IA roleplay"
+      "DESCRIPTION": "Guias de configuração para todas as principais ferramentas de IA e clientes de chat de personagens. Claude Code, Codex CLI, Gemini CLI, OpenClaw, SillyTavern, RisuAI e outros clientes compatíveis com OpenAI.",
+      "KEYWORDS": "guias de integração de IA, configurar Claude Code, configurar Codex CLI, configurar Gemini CLI, configurar OpenClaw, configurar SillyTavern, configurar RisuAI, configurar chat de personagens com IA, documentação de API de IA, configurar API compatível com OpenAI"
     },
     "BADGE": "Integrações",
     "TITLE": "Integrações",
@@ -1106,7 +1107,7 @@
     "CTA_MODELS": "Ver todos os modelos",
     "PATHS_TITLE": "Caminhos populares",
     "PATHS_DESC": "Comece pelo que você quer conectar. Vá direto para a URL base, a rota e a configuração de modelo corretas.",
-    "PATH_ROLEPLAY_TITLE": "Clientes de roleplay",
+    "PATH_ROLEPLAY_TITLE": "Clientes de personagens e ficção",
     "PATH_ROLEPLAY_DESC": "SillyTavern, Janitor.AI, Chub e RisuAI.",
     "PATH_CODING_TITLE": "Agentes de código",
     "PATH_CODING_DESC": "OpenCode, Cline, Roo Code, Kilo Code, Zed e mais.",
@@ -1172,11 +1173,11 @@
       "COMPAT_TOOL_CALLING": "Chamada de ferramentas",
       "COMPAT_IMAGES": "Entrada de imagens",
       "CATEGORY_CODING": "Agentes de código",
-      "CATEGORY_ROLEPLAY": "Clientes de roleplay",
+      "CATEGORY_ROLEPLAY": "Clientes de personagens e ficção",
       "CATEGORY_GENERAL": "Clientes de chat",
       "CATEGORY_CLI": "Ferramentas CLI",
       "CATEGORY_CODING_DESC": "Editores e agentes que escrevem e executam código via API.",
-      "CATEGORY_ROLEPLAY_DESC": "Interfaces de chat de personagens e roleplay.",
+      "CATEGORY_ROLEPLAY_DESC": "Front-ends de chat de personagens e ficção.",
       "CATEGORY_GENERAL_DESC": "Aplicativos de chat de uso geral e clientes de desktop.",
       "CATEGORY_CLI_DESC": "Ferramentas de terminal e agentes de linha de comando."
     },
@@ -1666,13 +1667,13 @@
       "META": {
         "TITLE": "Guia de integração SillyTavern | {appName}",
         "DESCRIPTION": "Conecte SillyTavern ao {appName} através da fonte customizada de chat completion compatível com OpenAI. Configuração passo a passo com o formato URL exato que SillyTavern espera.",
-        "KEYWORDS": "SillyTavern, proxy SillyTavern, API SillyTavern, endpoint customizado SillyTavern, {appName} SillyTavern, proxy IA roleplay, roleplay compatível com OpenAI"
+        "KEYWORDS": "SillyTavern, proxy do SillyTavern, API do SillyTavern, endpoint personalizado do SillyTavern, {appName} SillyTavern, chat de personagens com IA, API compatível com OpenAI"
       },
       "BADGE": "SillyTavern",
       "TITLE": "Guia de integração SillyTavern",
       "SUBTITLE": "Conecte {appName} ao SillyTavern através da fonte customizada de chat completion compatível com OpenAI.",
       "INTRO_TITLE": "O que é SillyTavern?",
-      "INTRO_DESC": "SillyTavern é um frontend auto-hospedado de chat de roleplay e personagens para modelos de linguagem grandes. Roda localmente, armazena personagens e conversas na sua própria máquina e suporta qualquer API compatível com OpenAI como sua fonte de chat completion.",
+      "INTRO_DESC": "O SillyTavern é um front-end auto-hospedado de chat de personagens e ficção interativa para grandes modelos de linguagem. Roda localmente, armazena personagens e chats na sua própria máquina e suporta qualquer API compatível com OpenAI como fonte de conclusão de chat.",
       "INTRO_LINK_DOCS": "Documentação oficial SillyTavern",
       "INTRO_LINK_GITHUB": "SillyTavern no GitHub",
       "OVERVIEW": "Visão geral",
@@ -1732,13 +1733,13 @@
       "META": {
         "TITLE": "Guia de integração Janitor.AI | {appName}",
         "DESCRIPTION": "Conecte Janitor.AI ao {appName} como proxy customizado. Inclui a URL exata de caminho completo que Janitor espera e o passo de atualizar o navegador que a maioria dos guias esquece.",
-        "KEYWORDS": "Janitor AI, proxy Janitor, API Janitor, {appName} Janitor, proxy roleplay, roleplay compatível com OpenAI, URL proxy customizado Janitor"
+        "KEYWORDS": "Janitor AI, proxy do Janitor, API do Janitor, {appName} Janitor, chat de personagens com IA, API compatível com OpenAI, URL de proxy personalizado do Janitor"
       },
       "BADGE": "Janitor.AI",
       "TITLE": "Guia de integração Janitor.AI",
       "SUBTITLE": "Conecte {appName} ao Janitor.AI como proxy customizado com o formato URL exato que o painel API Settings do Janitor espera.",
       "INTRO_TITLE": "O que é Janitor.AI?",
-      "INTRO_DESC": "Janitor.AI é uma plataforma de chat de personagens baseada em navegador. Vem com um modelo gratuito embutido e permite adicionar qualquer proxy compatível com OpenAI para acesso ilimitado. {appName} se conecta no painel API Settings.",
+      "INTRO_DESC": "O Janitor.AI é uma plataforma de chat de personagens baseada em navegador. Inclui um modelo gratuito integrado e permite adicionar qualquer proxy compatível com OpenAI para acesso ilimitado. {appName} se conecta no painel API Settings.",
       "INTRO_LINK_DOCS": "Início rápido oficial de proxy Janitor.AI",
       "OVERVIEW": "Visão geral",
       "OVERVIEW_DESC": "Janitor.AI chama seu proxy na URL COMPLETA `/v1/chat/completions`. Você cola essa URL, sua chave API, e o nome do modelo em uma configuração, clica Save, então atualiza o navegador com hard-refresh para a configuração ativar.",
@@ -1801,13 +1802,13 @@
       "META": {
         "TITLE": "Guia de integração RisuAI | {appName}",
         "DESCRIPTION": "Conecte RisuAI ao {appName} via Custom Models. Inclui o passo crítico de desmarcar Autofill Request URL, o problema #1 de suporte para configurações de proxy RisuAI.",
-        "KEYWORDS": "RisuAI, proxy RisuAI, endpoint customizado RisuAI, {appName} RisuAI, proxy IA roleplay, Autofill Request URL, RisuAI compatível com OpenAI"
+        "KEYWORDS": "RisuAI, proxy do RisuAI, endpoint personalizado do RisuAI, {appName} RisuAI, chat de personagens com IA, Autofill Request URL, RisuAI compatível com OpenAI"
       },
       "BADGE": "RisuAI",
       "TITLE": "Guia de integração RisuAI",
       "SUBTITLE": "Conecte {appName} ao RisuAI através da opção Custom Models em Advanced Settings.",
       "INTRO_TITLE": "O que é RisuAI?",
-      "INTRO_DESC": "RisuAI é um frontend de chat de roleplay local-first que roda no navegador ou como app desktop. Suporta qualquer endpoint compatível com OpenAI, com configuração armazenada no local storage do navegador.",
+      "INTRO_DESC": "O RisuAI é um front-end de chat de personagens local-first que roda no navegador ou como app de desktop. Suporta qualquer endpoint compatível com OpenAI, com a configuração armazenada no armazenamento local do navegador.",
       "INTRO_LINK_GUIDE": "Guia de configuração RisuAI de terceiro (HyprLab)",
       "INTRO_LINK_GITHUB": "RisuAI no GitHub",
       "INTRO_WIKI_NOTE": "O wiki oficial RisuAI está desatualizado em relação à UI atual. Passos abaixo refletem RisuAI a partir de 2026-04.",
@@ -1877,13 +1878,13 @@
       "META": {
         "TITLE": "Guia de integração Chub / Venus | {appName}",
         "DESCRIPTION": "Conecte Chub.ai (Venus) ao {appName} como proxy reverso. Inclui um aviso de relay de primeira parte para contrariar o aviso de proxy de terceiro embutido do Chub.",
-        "KEYWORDS": "Chub AI, Venus AI, proxy reverso Chub, {appName} Chub, proxy IA roleplay, Chub compatível com OpenAI, configuração OpenAI Chub"
+        "KEYWORDS": "Chub AI, Venus AI, proxy reverso do Chub, {appName} Chub, chat de personagens com IA, API compatível com OpenAI, configuração do Chub com OpenAI"
       },
       "BADGE": "Chub / Venus",
       "TITLE": "Guia de integração Chub / Venus",
       "SUBTITLE": "Conecte {appName} ao Chub.ai (Venus) através da opção Reverse proxy do painel Secrets.",
       "INTRO_TITLE": "O que é Chub / Venus?",
-      "INTRO_DESC": "Chub.ai (anteriormente Venus) é uma plataforma de chat de personagens baseada em navegador com biblioteca de 60.000 personagens. Conecta a endpoints compatíveis com OpenAI através do painel Secrets.",
+      "INTRO_DESC": "O Chub.ai (antigo Venus) é uma plataforma de chat de personagens baseada em navegador com uma biblioteca de 60.000 personagens. Conecta-se a endpoints compatíveis com OpenAI por meio do seu painel Secrets.",
       "INTRO_LINK_DOCS": "Documentação oficial API Connections Chub.ai",
       "OVERVIEW": "Visão geral",
       "OVERVIEW_DESC": "O painel Secrets do Chub aceita a URL base da API terminando em `/v1` mais sua chave API. Um botão Check your proxy verifica a conexão antes de você escolher um modelo em Prompt Structure.",
@@ -2298,6 +2299,7 @@
     "MODELS": "Modelos",
     "PRICING": "Preços",
     "DOCUMENTATION": "Documentação",
+    "BLOG": "Blog",
     "STATUS": "Status",
     "LEGAL": "Legal",
     "PRIVACY": "Política de privacidade",
@@ -2312,7 +2314,8 @@
     "SOCIAL_TRUSTPILOT": "Trustpilot",
     "EASTER_EGG_LABEL": "Jogar Token Breakout",
     "BADGE_FEATURED_ON": "Destaque em {name}",
-    "BADGE_VERIFIED_ON": "Verificado em {name}"
+    "BADGE_VERIFIED_ON": "Verificado em {name}",
+    "AUP": "Política de uso aceitável"
   },
   "PRIVACY": {
     "META": {
@@ -2374,7 +2377,7 @@
     "USER_CONTENT_TITLE": "5. Conteúdo e dados do usuário",
     "USER_CONTENT_CONTENT": "Você retém posse do conteúdo que envia através dos Serviços (\"Conteúdo do Usuário\"). Posse de saídas geradas por IA depende dos termos do modelo de IA específico usado. Não usamos seu Conteúdo do Usuário para treinar modelos de IA. Você nos concede uma licença limitada para processar seu Conteúdo do Usuário unicamente com o propósito de fornecer os Serviços.",
     "PROHIBITED_TITLE": "6. Conduta proibida",
-    "PROHIBITED_CONTENT": "Você concorda em não usar os Serviços para violar quaisquer leis ou regulamentos aplicáveis; criar identidades falsas ou personificar outros; engajar em scraping automatizado ou mineração de dados; infringir direitos de propriedade intelectual de terceiros; tentar interromper, sobrecarregar ou interferir nos Serviços; engajar em atividade fraudulenta; ou revender acesso à sua conta sem autorização.",
+    "PROHIBITED_CONTENT": "Você concorda em não usar os Serviços para violar quaisquer leis ou regulamentos aplicáveis; criar identidades falsas ou personificar outros; engajar em scraping automatizado ou mineração de dados; infringir direitos de propriedade intelectual de terceiros; tentar interromper, sobrecarregar ou interferir nos Serviços; engajar em atividade fraudulenta; ou revender acesso à sua conta sem autorização; ou gerar, solicitar ou distribuir conteúdo sexualmente explícito, pornográfico ou NSFW, material de abuso sexual infantil, conteúdo sexual não consensual, ou imagens de deepfake e troca de rostos. O seu uso dos Serviços também é regido pela nossa Política de uso aceitável.",
     "TERMINATION_TITLE": "7. Encerramento",
     "TERMINATION_CONTENT": "Podemos suspender ou encerrar sua conta a qualquer momento por qualquer razão, incluindo violação destes Termos. Sob encerramento (exceto por violações), quaisquer créditos não usados restantes podem ser reembolsados a nosso critério. Você pode encerrar sua conta a qualquer momento nos contatando.",
     "IP_TITLE": "8. Propriedade intelectual",
@@ -2427,6 +2430,30 @@
     "CHANGES_CONTENT": "Podemos alterar esta Política de reembolso a qualquer momento para manter a conformidade com os marcos de proteção ao consumidor em evolução. As atualizações serão refletidas nesta página com uma data revisada e, quando exigido, os clientes afetados serão notificados com antecedência sobre alterações significativas.",
     "CONTACT_TITLE": "8. Contate-nos",
     "CONTACT_CONTENT": "Para solicitações de reembolso ou qualquer dúvida sobre esta política, entre em contato em {supportEmail}."
+  },
+  "AUP": {
+    "TITLE": "Política de uso aceitável",
+    "LAST_UPDATED": "Última atualização: 30 de junho de 2026",
+    "META": {
+      "TITLE": "Política de uso aceitável - {appName}",
+      "DESCRIPTION": "Política de uso aceitável do {appName}. Conteúdo e conduta proibidos, incluindo a proibição de gerar conteúdo sexualmente explícito, NSFW, deepfake e prejudicial.",
+      "KEYWORDS": "política de uso aceitável, {appName} AUP, conteúdo proibido, política de conteúdo, política de uso de IA, proibição de NSFW"
+    },
+    "INTRO": "Esta Política de uso aceitável rege o seu uso do {appName}, uma plataforma de agregação de API que encaminha as suas solicitações a provedores terceiros de modelos de IA. Aplica-se a todos os recursos do {appName}, incluindo chat, geração de imagens e geração de vídeo. Ao usar os Serviços, você concorda com as regras abaixo, além dos nossos Termos de serviço.",
+    "PROHIBITED_CONTENT_TITLE": "Conteúdo proibido",
+    "PROHIBITED_CONTENT_CONTENT": "Você não pode usar os Serviços para gerar, solicitar, enviar ou distribuir conteúdo sexualmente explícito, pornográfico ou NSFW de qualquer tipo, material de abuso sexual infantil, conteúdo que sexualize menores, ou conteúdo sexual ou íntimo não consensual. Esta proibição se aplica a texto, imagens e vídeo, quer o conteúdo seja produzido na nossa plataforma ou por meio de um cliente terceiro conectado.",
+    "PROHIBITED_DEEPFAKE_TITLE": "Deepfakes e falsidade ideológica",
+    "PROHIBITED_DEEPFAKE_CONTENT": "Você não pode usar os Serviços para criar mídia de troca de rostos, deepfake ou manipulação facial, nem para se passar por qualquer pessoa real sem o consentimento dela. Gerar representações realistas de indivíduos identificáveis para enganar, assediar ou difamar é estritamente proibido.",
+    "PROHIBITED_HARM_TITLE": "Uso prejudicial e ilegal",
+    "PROHIBITED_HARM_CONTENT": "Você não pode usar os Serviços para produzir conteúdo que promova violência, terrorismo, automutilação, assédio, ódio contra grupos protegidos ou qualquer atividade ilegal, nem para desenvolver malware, cometer fraude ou de outra forma causar dano a terceiros.",
+    "UPSTREAM_MODERATION_TITLE": "Provedores terceiros",
+    "UPSTREAM_MODERATION_CONTENT": "O {appName} encaminha os seus prompts a provedores de IA terceiros, cada um dos quais aplica as suas próprias políticas de conteúdo e pode recusar ou filtrar solicitações. Você é responsável por garantir que o seu uso esteja em conformidade tanto com esta Política quanto com as políticas dos provedores subjacentes. Podemos examinar prompts antes da geração de imagens ou vídeo e bloquear solicitações que violem esta Política.",
+    "ENFORCEMENT_TITLE": "Aplicação",
+    "ENFORCEMENT_CONTENT": "Podemos revisar o uso e agir diante de violações desta Política, incluindo o bloqueio de solicitações, a suspensão ou o encerramento de contas e a denúncia de atividades ilegais às autoridades competentes. As violações podem ser aplicadas sem aviso prévio quando exigido por lei ou para prevenir danos.",
+    "CHANGES_TITLE": "Alterações nesta Política",
+    "CHANGES_CONTENT": "Podemos atualizar esta Política de uso aceitável de tempos em tempos. O uso continuado dos Serviços após as alterações entrarem em vigor constitui aceitação da Política revisada.",
+    "CONTACT_TITLE": "Contato",
+    "CONTACT_CONTENT": "Se você tiver dúvidas sobre esta Política de uso aceitável, entre em contato conosco pelo {supportEmail}."
   },
   "MAIN": {
     "ENUM": {
@@ -2702,8 +2729,9 @@
       "IP_WHITELIST_DESC": "IPs podem ser falsificados. Use com gateway para aplicação mais forte.",
       "SUBMIT": "Criar",
       "SAVE": "Salvar",
-      "QUOTA_FREE_ONLY_HINT": "$0 cria uma chave apenas para modelos gratuitos. Modelos pagos são rejeitados.",
-      "QUOTA_EQUIVALENT": "= {quota} de cota"
+      "QUOTA_EQUIVALENT": "= {quota} de cota",
+      "QUOTA_POSITIVE": "A cota do token deve ser maior que 0. Ative a cota ilimitada para uma chave de modelos gratuitos.",
+      "QUOTA_ZERO_HINT": "Uma cota de 0 não funciona. Modelos gratuitos (terminados em :free) funcionam com qualquer chave válida."
     },
     "ENUM": {
       "ENABLED": "Ativada",
@@ -3081,6 +3109,8 @@
       "ERROR": "Não foi possível abrir o portal de faturamento. Tente novamente."
     },
     "TITLE": "Faturamento",
+    "SUPPORT_TITLE": "Precisa de ajuda?",
+    "SUPPORT_TEXT": "Tem dúvidas sobre cobrança ou sua conta? Envie um e-mail para {supportEmail} e responderemos em até um dia útil.",
     "ACCOUNT_STATS": "Estatísticas da conta",
     "CURRENT_BALANCE": "Saldo atual",
     "CONSUMPTION": "Consumo",
@@ -3150,6 +3180,10 @@
       "TITLE": "Configurações de segurança",
       "ACCESS_TOKEN": "Token de acesso do sistema",
       "ACCESS_TOKEN_DESC": "Use este token para acessar a API diretamente.",
+      "API_BASE_URL": "URL base da API",
+      "API_BASE_URL_DESC": "Aponte seus clientes de API para esta URL, não para o domínio do painel. O painel é executado em um domínio separado.",
+      "API_REFERENCE": "Ver referência da API",
+      "API_URL_COPIED": "URL da API copiada para a área de transferência",
       "GENERATE_TOKEN": "Gerar token",
       "TOKEN_GENERATED": "Token gerado com sucesso",
       "COPY_TOKEN": "Copiar",
@@ -3245,6 +3279,7 @@
       "REFRESH": "Atualizar",
       "EDIT": "Editar",
       "PREVIOUS": "Anterior",
+      "BRANCH": "Ramificar a partir daqui",
       "NEXT": "Próximo",
       "CANCEL": "Cancelar",
       "UPDATE": "Atualizar",
@@ -3275,6 +3310,7 @@
       "STATUS_IN_PROGRESS": "Gerando",
       "STATUS_SUCCESS": "Feito",
       "STATUS_FAILURE": "Falhou",
+      "GENERATING_IMAGE": "Gerando imagem...",
       "REFRESH": "Atualizar"
     },
     "ATTACHMENT": {
@@ -3334,6 +3370,7 @@
     "SEARCH_CHATS": "Buscar chats",
     "TOKENS_IN": "ent",
     "TOKENS_OUT": "saí",
+    "MESSAGES_COUNT": "mensagens",
     "FILTER_ALL": "Todos",
     "META": {
       "TITLE": "Chat de IA - {appName}",
@@ -3356,6 +3393,12 @@
       "CHAT_MEMORY_HINT": "Número de mensagens recentes enviadas com cada solicitação.",
       "STREAMING_ENABLED": "Streaming",
       "STREAMING_ENABLED_HINT": "Desligado = espera resposta completa, então mostra. Alguns modelos saem limpos só quando bufferizados. Principalmente preferência do usuário.",
+      "MEMORY_ENABLED": "Memória",
+      "IMAGE_ENABLED": "Imagens no chat",
+      "UTILITY_MODEL": "Modelo utilitário",
+      "UTILITY_MODEL_PLACEHOLDER": "Padrão: o modelo do chat",
+      "IMAGE_PROMPT_INSTRUCTION": "Instrução do prompt de imagem",
+      "IMAGE_PROMPT_INSTRUCTION_PLACEHOLDER": "Como o segundo modelo deve escrever o prompt de imagem (opcional)",
       "SHOW_REASONING": "Mostrar raciocínio",
       "SYSTEM_PROMPT": "Sobrescrita de prompt de sistema",
       "SYSTEM_PROMPT_PLACEHOLDER": "Deixe vazio para usar o prompt de sistema do personagem.",
@@ -3431,12 +3474,15 @@
     "TRIGGER_ALERT_SELECT_DESC": "Escolha uma opção para continuar",
     "TRIGGER_ALERT_OK": "OK",
     "SUCCESS": {
-      "ERROR_COPIED": "Detalhes do erro copiados"
+      "ERROR_COPIED": "Detalhes do erro copiados",
+      "BRANCHED": "Ramificado em um novo chat",
+      "BRANCH_FAILED": "Não foi possível ramificar o chat"
     },
     "CHAT_TOTAL": "Total do chat",
     "STATS": {
       "SHOW_COST": "Mostrar custo",
-      "SHOW_TOKENS": "Mostrar tokens"
+      "SHOW_TOKENS": "Mostrar tokens",
+      "SHOW_MESSAGES": "Mostrar contagem de mensagens"
     },
     "GROUPS": {
       "NEW_GROUP": "Novo grupo",
@@ -3588,6 +3634,7 @@
     "SAMPLING_PRESENCE_PENALTY": "Penalidade de presença",
     "SAMPLING_REPETITION_PENALTY": "Penalidade de repetição",
     "SAMPLING_MAX_TOKENS": "Tokens máximos",
+    "SAMPLING_MAX_TOKENS_CAP": "Tokens máx. (limite {cap})",
     "PRESET_DEFAULT": "Preset padrão",
     "PRESET_SAMPLING_OFF": "desligado",
     "PRESET_MAIN_PROMPT": "Prompt principal (anteposto ao sistema)",
@@ -3598,7 +3645,7 @@
     "PRESET_POST_HISTORY_HINT": "Anexado após sobrescrita de sistema. Melhor para modelos como GLM que respeitam instruções injetadas no fim mais que as do topo do prompt.",
     "PRESET_PREFILL": "Prefill",
     "PRESET_PREFILL_PLACEHOLDER": "Claro, aqui está a resposta:",
-    "PRESET_PREFILL_HINT": "Enviado por último como mensagem de assistant. O LLM continua deste texto semente. Técnica poderosa de jailbreak. Suporta as macros user e char.",
+    "PRESET_PREFILL_HINT": "Enviado por último como mensagem de assistant. O LLM continua deste texto semente. Técnica poderosa de direcionamento. Suporta as macros user e char.",
     "PRESET_FLAGS_TITLE": "Flags customizadas",
     "PRESET_FLAGS_HINT": "Ajuste o corpo da requisição para modelos exigentes. Aplicados automaticamente por modelo quando preciso; ative para forçar.",
     "PRESET_FORCE_ALTERNATE_ROLES": "Forçar papéis alternados",
@@ -3662,6 +3709,11 @@
     "PRESET_STREAMING_HINT": "Transmite a resposta token a token. Off = recebe a resposta inteira de uma vez. A config do chat sobrepõe.",
     "PRESET_SHOW_REASONING": "Mostrar raciocínio",
     "PRESET_SHOW_REASONING_HINT": "Mostra o raciocínio do modelo nas respostas. Off = ocultá-lo (o raciocínio continua sendo gerado e guardado, então reativar isto o revela). A config do chat sobrepõe.",
+    "PRESET_MEMORY_ENABLED": "Memória (padrão)",
+    "PRESET_IMAGE_ENABLED": "Imagens no chat (padrão)",
+    "PRESET_UTILITY_MODEL": "Modelo utilitário",
+    "PRESET_UTILITY_MODEL_HINT": "Modelo usado pelo resumidor + gerador de prompt de imagem. Vazio = o modelo do chat; a configuração do chat substitui.",
+    "PRESET_IMAGE_PROMPT_INSTRUCTION": "Instrução do prompt de imagem",
     "CHARACTER_BACKGROUND": "Imagem de fundo",
     "CHARACTER_BACKGROUND_HINT": "Exibida atrás do chat quando este personagem lidera a conversa.",
     "CHARACTER_AVATAR": "Avatar",
@@ -3673,6 +3725,7 @@
     "UNAUTHORIZED": "Não autorizado",
     "NO_API_KEY": "Sem chave API configurada",
     "NOT_FOUND": "Recurso não encontrado",
+    "MESSAGE_NOT_FOUND": "Esta mensagem não existe mais. Atualize a página e tente novamente.",
     "NO_TASK_ID": "Sem ID de tarefa ou URL na resposta",
     "REQUEST_FAILED": "Solicitação falhou",
     "PRICING_FETCH_FAILED": "Falha ao buscar dados de preço",
@@ -3995,5 +4048,299 @@
     "UPLOAD_IMAGE": "Upload de imagem",
     "UPLOADING": "Fazendo upload...",
     "INIT_IMAGE": "Imagem fonte"
+  },
+  "MODEL_TESTER": {
+    "META": {
+      "TITLE": "Testador de modelos de API IA | {appName}",
+      "DESCRIPTION": "Verifique qual modelo um endpoint de API realmente serve. Verificacoes de autenticidade deterministicas para Claude, GPT e Gemini, no navegador.",
+      "KEYWORDS": "testador de modelos, autenticidade api, modelo falso, claude, gpt, gemini"
+    },
+    "HERO": {
+      "TITLE": "Testador de modelos de API IA",
+      "SUBTITLE": "Verifique se um endpoint serve o modelo real que afirma. Roda no navegador, sua chave nao e enviada aos nossos servidores.",
+      "EYEBROW": "Verifique antes de confiar",
+      "TRUST_BADGE": "100% no navegador. Sua chave nunca e enviada aos nossos servidores."
+    },
+    "TABS": {
+      "TEST": "Teste",
+      "HISTORY": "Historico",
+      "RANKINGS": "Ranking"
+    },
+    "PROVIDER": {
+      "ANTHROPIC": "Anthropic (Claude)",
+      "OPENAI": "OpenAI (GPT)",
+      "GEMINI": "Google (Gemini)"
+    },
+    "FORM": {
+      "PROVIDER": "Formato da API",
+      "BASE_URL": "URL base da API",
+      "API_KEY": "Chave da API",
+      "MODEL": "Modelo",
+      "PUBLISH": "Publicar no ranking publico",
+      "PUBLISH_HINT": "Apenas host, modelo e pontuacao sao compartilhados. Nunca sua chave.",
+      "RUN": "Executar teste",
+      "RUN_BACKEND": "Testar via servidor",
+      "CORS_TITLE": "Este endpoint bloqueia requisicoes do navegador",
+      "CORS_WARNING": "Ele pode ser testado pelo nosso servidor. Sua chave passa apenas pela memoria e nunca e armazenada. Troque a chave depois, por seguranca.",
+      "RUN_PUBLISH": "Verificar no nosso servidor e publicar",
+      "SECTION_TITLE": "Configuracao da requisicao",
+      "SECTION_DESC": "Configure o endpoint e a chave e execute o teste no navegador.",
+      "FORMAT_MISMATCH": "{model} é um modelo {format}. Mude o formato da API para {format} para testá-lo."
+    },
+    "VERDICT": {
+      "GENUINE": "Autentico",
+      "SUSPICIOUS": "Suspeito",
+      "UNVERIFIED": "Nao verificado",
+      "VERSION_UNVERIFIABLE": "Modelo real confirmado. A versao exata nao pode ser verificada por sondagem."
+    },
+    "PROBE": {
+      "EMOTIONAL": "Emocional",
+      "CREATIVE": "Criativo",
+      "IDENTITY": "Identidade",
+      "MODEL-NAME": "Nome do modelo"
+    },
+    "RESULT": {
+      "PASSED": "{passed}/{total} sondas aprovadas",
+      "LATENCY": "{ms}ms",
+      "TRANSPORT": "via {mode}",
+      "IDLE": "Execute um teste para ver o resultado aqui.",
+      "DETECTED_MODEL": "Modelo detectado",
+      "TOTAL_TOKENS": "{tokens} tokens",
+      "FORMAT_FELL_BACK": "Formato nativo nao suportado; testado via {format}.",
+      "EVIDENCE": "Evidências",
+      "HIGHLIGHT_LEGEND": {
+        "FOREIGN": "Fornecedor alheio nomeado",
+        "CODING_TOOL": "Frase de invólucro de ferramenta de programação",
+        "SCAM": "Texto de golpe / roubo de token",
+        "CJK": "Caracteres CJK inesperados",
+        "HOME": "Identidade esperada confirmada"
+      },
+      "INSPECT_PROBES": "Ver detalhes das provas",
+      "HIDE_PROBES": "Ocultar detalhes das provas"
+    },
+    "HISTORY": {
+      "EMPTY": "Ainda sem testes. Execute um para criar seu historico.",
+      "PUBLISH": "Publicar",
+      "DELETE_TITLE": "Excluir teste",
+      "DELETE_BODY": "Remove o teste do seu historico local.",
+      "DELETE_CONFIRM": "Excluir",
+      "DELETE_CANCEL": "Cancelar",
+      "META_TITLE": "Historico de testes | {appName}"
+    },
+    "RANKINGS": {
+      "EMPTY": "Ainda sem resultados publicados.",
+      "SAMPLES": "{count} testes",
+      "LAST_TESTED": "ultimo teste {when}",
+      "PREV": "Anterior",
+      "NEXT": "Proximo",
+      "STAT_DETECTIONS": "Deteccoes totais",
+      "STAT_PROVIDERS": "Provedores monitorados",
+      "STAT_PASS_RATE": "Taxa media de aprovacao",
+      "META_TITLE": "Ranking de autenticidade de modelos | {appName}",
+      "META_DESCRIPTION": "Veja quais provedores de API servem o modelo real que afirmam, classificados por taxa de aprovacao deterministica.",
+      "DISCLAIMER": "Todo resultado publicado é reexecutado no nosso servidor antes de contar, e cada veredito leva às evidências exatas que o produziram. Um resultado que você considere errado pode ser contestado.",
+      "REPORT_DISCORD": "Reportar no Discord",
+      "REPORT_GITHUB": "Abrir uma issue no GitHub",
+      "NOT_TESTED": "Ainda não testado",
+      "LOW_CONFIDENCE": "Baixa confiança ({count} testes)",
+      "SELF_TITLE": "Aplicamos a nós mesmos o mesmo padrão",
+      "SELF_BODY": "{appName} é testado por esta mesma ferramenta. Veja as evidências.",
+      "MODELS_TRACKED": "{count} modelos",
+      "STAT_MODELS": "Modelos testados",
+      "STAT_P95": "Latência P95",
+      "P95": "p95 {ms}ms",
+      "PROVIDER_MODELS_TITLE": "Resultados por modelo"
+    },
+    "DETAIL": {
+      "BACK": "Voltar ao testador",
+      "NOT_FOUND": "Teste nao encontrado.",
+      "LOCAL_ONLY": "Teste local, salvo apenas no seu dispositivo. Publique para que nosso servidor o verifique e ele apareca no ranking publico.",
+      "DISCLAIMER": "As pontuações são calculadas apenas a partir de sondas verificadas no servidor. Um modelo genuíno confirma o fornecedor e o nível; a versão exata nunca é afirmada. Conteste um resultado que você considere errado pelos links abaixo.",
+      "SUBMISSIONS": "Envios recentes",
+      "NO_SUBMISSIONS": "Ainda não há envios. Seja o primeiro a publicar um teste verificado.",
+      "SUBMITTED_BY": "Enviado por {who}",
+      "ANONYMOUS": "anônimo",
+      "DELETE_MINE": "Excluir",
+      "REPORT": "Reportar",
+      "REPORT_HELP": "Não é o seu resultado? Conteste:",
+      "DELETE_TITLE": "Remover este resultado publicado?",
+      "DELETE_BODY": "Isto retira o seu envio das classificações públicas. Seu histórico local não é afetado.",
+      "DELETE_CONFIRM": "Remover",
+      "DELETE_CANCEL": "Cancelar",
+      "GUEST_CANNOT_DELETE": "Envios de convidados não podem ser excluídos aqui. Reporte-os pelo Discord ou GitHub.",
+      "BACK_TO_PROVIDER": "Voltar ao provedor",
+      "BACK_TO_MODEL": "Voltar ao modelo",
+      "PUBLISHED_NOTE": "Verificado no servidor. As sondas e as respostas são públicas para que qualquer pessoa possa auditar este veredito.",
+      "LOADING": "Carregando ...",
+      "EXPAND_ALL": "Expandir tudo",
+      "COLLAPSE_ALL": "Recolher tudo",
+      "PREV": "Anterior",
+      "NEXT": "Próximo",
+      "PAGE_OF": "Página {page} de {total}"
+    },
+    "PROBE_DETAIL": {
+      "PROMPT": "Prompt enviado",
+      "RESPONSE": "Resposta do modelo",
+      "STATUS": "HTTP",
+      "TOKENS": "Tokens (ent/sai)",
+      "SIGNAL": "Sinal",
+      "REASON": "Motivo",
+      "NO_RESPONSE": "Nenhuma resposta capturada.",
+      "WHAT_WE_CHECK": "O que esta prova verifica"
+    },
+    "NAV": {
+      "TEST_DESC": "Teste um endpoint ao vivo",
+      "HISTORY_DESC": "Seus testes anteriores",
+      "RANKINGS_DESC": "Ranking publico"
+    },
+    "CONNECTIVITY": {
+      "CORS": "O endpoint bloqueia requisicoes do navegador. Use o teste pelo servidor.",
+      "UNREACHABLE": "Endpoint inacessivel. Verifique a URL base.",
+      "INVALID_KEY": "Chave de API invalida.",
+      "NO_FORMAT": "O endpoint nao aceitou nenhum formato de API suportado."
+    },
+    "PUBLISH": {
+      "WARN_TITLE": "Isto envia sua chave ao nosso servidor",
+      "WARN_BODY": "Para impedir resultados falsificados, a publicacao executa todo o teste no nosso servidor, para que nos mesmos produzamos o veredito. Sua chave passa apenas pela memoria do servidor e nunca e armazenada.",
+      "WARN_THROWAWAY": "Use uma chave descartavel de baixo limite e troque-a depois.",
+      "DONE": "Verificado pelo nosso servidor e publicado no ranking publico. Tambem salvo no seu historico.",
+      "DEDUPED": "Ja publicado recentemente para este endpoint.",
+      "FAILED": "Nao foi possivel verificar este endpoint. Nada foi publicado."
+    },
+    "TRUST": {
+      "TITLE": "Codigo aberto. Verifique e melhore.",
+      "BODY": "O codigo dos testes e aberto. Veja exatamente quais sondas rodam e por que, sugira novos testes ou discuta a deteccao no nosso Discord.",
+      "GITHUB": "Ver o codigo no GitHub",
+      "DISCORD": "Discutir os testes no Discord"
+    },
+    "RULES": {
+      "SECTION_TITLE": "Como funciona a detecção",
+      "WHY_LABEL": "Por quê:",
+      "NOT_FLAGGED_LABEL": "Não sinalizado quando:",
+      "NOT_FRAUD_TITLE": "O que NÃO é contado como falso",
+      "PROOF": "Todo este testador é de código aberto. Leia exatamente quais sondas são executadas e por quê:",
+      "CODING-TOOL": {
+        "TITLE": "Invólucro de ferramenta de programação",
+        "MEANS": "A resposta usa frases prontas de um assistente de programação (Kiro, Cascade, Codeium e similares) e recusa um pedido criativo ou emocional comum.",
+        "WHY": "Um Claude/GPT/Gemini de verdade responde a uma história de gatinhos ou a um haicai. Uma destilação de ferramenta de programação a recusa, o que expõe um modelo substituído por trás do endpoint.",
+        "EXCEPTION": "o modelo simplesmente recusa por um motivo de segurança, sem as frases típicas de um assistente de programação."
+      },
+      "SCAM": {
+        "TITLE": "Página de golpe / roubo de token",
+        "MEANS": "A resposta contém texto conhecido de roubo de token ou de phishing em vez de uma resposta do modelo.",
+        "WHY": "Um endpoint que retorna uma página de golpe não está servindo modelo algum.",
+        "EXCEPTION": "o modelo aborda legitimamente a palavra «token» em uma resposta normal."
+      },
+      "CJK-LEAK": {
+        "TITLE": "Vazamento de idioma inesperado",
+        "MEANS": "Um pedido apenas em inglês volta com quatro ou mais caracteres CJK (chinês/japonês/coreano).",
+        "WHY": "Um vazamento de CJK em uma resposta em inglês é um forte indício de um modelo chinês substituído ou de um proxy que corrompe os dados, mesmo quando a pergunta de identidade é respondida corretamente.",
+        "EXCEPTION": "você perguntou em um idioma CJK ou sobre ele, então a presença de CJK na resposta é esperada."
+      },
+      "MUX": {
+        "TITLE": "Mistura de respostas (proxy inseguro)",
+        "MEANS": "Cada sonda carrega um nonce único; duas ou mais respostas voltam sem o nonce que enviamos, após as novas tentativas.",
+        "WHY": "Um proxy que multiplexa uma requisição entre vários upstreams retorna respostas que não correspondem à requisição que fizemos, algo que um endpoint honesto de modelo único nunca faz.",
+        "EXCEPTION": "uma única falha de nonce acontece uma vez (tentamos de novo primeiro); só contam as divergências repetidas."
+      },
+      "FOREIGN": {
+        "TITLE": "Identidade de fornecedor alheio",
+        "MEANS": "Na sonda de identidade ou de nome do modelo a resposta nomeia um fornecedor diferente do solicitado (por exemplo OpenAI ou Gemini quando se pediu Claude).",
+        "WHY": "Um modelo que aponta um laboratório rival como seu criador está sendo servido por esse rival, não por aquele que você pagou.",
+        "EXCEPTION": "o modelo é vago sobre sua versão ou recusa-se a se nomear, o que os modelos reais costumam fazer."
+      },
+      "TIER-MISMATCH": {
+        "TITLE": "Rebaixamento de nível (Claude)",
+        "MEANS": "Você solicitou um nível do Claude (Opus) mas o modelo nomeia um nível mais barato (Sonnet ou Haiku).",
+        "WHY": "O Claude pode ser vago sobre sua versão exata mas nunca confunde seu nível, então um nível inferior nomeado é um rebaixamento deliberado.",
+        "EXCEPTION": "o modelo não tem certeza do número da versão; só conta um nível diferente claramente nomeado."
+      },
+      "EXCEPTION": {
+        "VERSION": {
+          "TITLE": "Imprecisão de versão",
+          "BODY": "um modelo genuíno confirma o fornecedor e o nível mas muitas vezes não tem certeza da versão exata. Isso sozinho nunca é uma falha, apenas é marcado como informativo."
+        },
+        "TRANSIENT": {
+          "TITLE": "Erros temporários",
+          "BODY": "limites de taxa (429), 5xx e tempos esgotados marcam uma execução como não verificada, nunca como suspeita. Um endpoint real passando por um mau momento não é penalizado."
+        },
+        "CLOUD-HOST": {
+          "TITLE": "Nomes de hosts na nuvem",
+          "BODY": "nomear AWS Bedrock, Google Vertex ou Azure como host é aceito, já que são formas legítimas de revender o modelo real."
+        },
+        "RESHAPING": {
+          "TITLE": "Remodelagem de protocolo",
+          "BODY": "traduzir entre chat-completions e o formato messages nativo é comportamento normal de gateway e não é sinal de fraude quando o modelo em si é genuíno."
+        },
+        "THRESHOLD": {
+          "TITLE": "Uma sonda instável",
+          "BODY": "três de quatro sondas aprovadas bastam para ser genuíno, então uma única resposta fora do padrão não condena um endpoint honesto."
+        }
+      },
+      "COMMUNITY": "Tem uma ideia para uma sonda melhor? Sugira aqui:",
+      "SOURCE_LINK": "Ver o código de detecção"
+    },
+    "FAQ": {
+      "TITLE": "Perguntas frequentes",
+      "ITEMS": {
+        "KEY_SAFE": {
+          "Q": "Minha chave de API está segura?",
+          "A": "Em um teste local a chave nunca sai do seu navegador, ela é enviada diretamente ao endpoint que você informou. Só quando você escolhe publicar é que a chave chega ao nosso servidor, que roda o teste em memória e nunca a armazena. Use uma chave descartável se estiver em dúvida."
+        },
+        "SERVER_PROXY": {
+          "Q": "Por que às vezes é preciso um proxy de servidor?",
+          "A": "Alguns endpoints bloqueiam requisições diretas do navegador (<cors>CORS</cors>). Quando isso acontece oferecemos um teste de backend opcional que retransmite as sondas por você. A publicação roda sempre no servidor para que o resultado público não possa ser forjado."
+        },
+        "RELIABILITY": {
+          "Q": "Quão confiável é a pontuação?",
+          "A": "A detecção é determinística, não um palpite de aprendizado de máquina. Cada sonda corresponde ou não a um sinal concreto, e o resultado mostra a você as evidências exatas. Exigimos que três de quatro sondas passem e tratamos erros temporários como não verificados, não como falhas."
+        },
+        "FALSE_POSITIVE": {
+          "Q": "Como reporto um falso positivo?",
+          "A": "Todo resultado publicado é contestável. Se você mesmo o publicou estando conectado, pode excluí-lo diretamente; caso contrário, abra uma issue no <ghIssue>GitHub</ghIssue> ou nos escreva no <discord>Discord</discord> e iremos reverificar e remover as entradas erradas."
+        },
+        "PROTOCOLS": {
+          "Q": "Quais protocolos de API são suportados?",
+          "A": "Anthropic (/v1/messages), OpenAI (/v1/chat/completions) e Google Gemini (generateContent). Tentamos primeiro o formato nativo do fornecedor e recorremos ao formato compatível com OpenAI se necessário."
+        },
+        "OPEN_SOURCE": {
+          "Q": "É de código aberto?",
+          "A": "Sim. Este testador roda inteiramente no seu navegador e sua biblioteca de detecção é pública no <gh>GitHub</gh>, então você pode ler exatamente quais sondas são executadas e por quê, sugerir novas ou discuti-las no <discord>Discord</discord>."
+        }
+      }
+    },
+    "GAUGE": {
+      "READY": "Pronto",
+      "RUNNING": "Testando",
+      "RUNNING_HINT": "Executando as sondas contra o seu endpoint.",
+      "DONE_HINT": "Cada arco é uma sonda. Expanda uma sonda abaixo para ver o prompt, a resposta e as evidências."
+    },
+    "WHY": {
+      "TITLE": "Por que este testador é diferente",
+      "DETERMINISTIC_TITLE": "Determinístico, não um palpite",
+      "DETERMINISTIC_BODY": "Cada verificação corresponde a um sinal concreto na resposta, então não marcamos modelos reais como falsos do jeito que a impressão digital estatística faz. Leia o código exato.",
+      "VERIFIED_TITLE": "Verificado no servidor para publicar",
+      "VERIFIED_BODY": "Um resultado só chega ao quadro público depois que o nosso servidor reexecuta o teste inteiro por conta própria, de modo que as classificações não podem ser forjadas.",
+      "EVIDENCE_TITLE": "Evidências que você pode ver",
+      "EVIDENCE_BODY": "Cada veredito mostra o prompt enviado, a resposta bruta e o texto correspondente que o acionou. Nada fica escondido."
+    },
+    "PROBE_INTENT": {
+      "EMOTIONAL": {
+        "CHECKS": "Pede uma história curta com base emocional.",
+        "WHY": "Um modelo de fronteira genuíno escreve prosa realmente empática. Uma destilação de ferramenta de programação ou um substituto barato a recusa ou devolve texto raso e pronto."
+      },
+      "CREATIVE": {
+        "CHECKS": "Pede um haicai ou poema curto em forma fixa.",
+        "WHY": "Claude, GPT e Gemini reais mantêm a forma poética. Um modelo substituído quebra a forma, ignora a restrição ou recusa."
+      },
+      "IDENTITY": {
+        "CHECKS": "Pergunta em uma palavra qual laboratório de IA treinou o modelo.",
+        "WHY": "A resposta deveria nomear o laboratório esperado. Outro laboratório, ou uma identidade de assistente de programação, denuncia um backend trocado por trás do endpoint."
+      },
+      "MODEL-NAME": {
+        "CHECKS": "Pede ao modelo que declare o próprio nome de modelo.",
+        "WHY": "Um nome errado, vago ou recusado indica que o endpoint não serve o modelo anunciado."
+      }
+    }
   }
 }

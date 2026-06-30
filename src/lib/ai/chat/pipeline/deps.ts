@@ -52,6 +52,12 @@ export type AssemblerDeps = {
     generate: FreeModelGenerate;
   };
 
+  // Utility LLM for agents that need FULL input context (summarizer, illustrator prompt-writer): a single
+  // call against `model` (the resolved utilityModel ?? chat model), NOT the small-context free race. The
+  // first arg (model name) is honored here (unlike runFreeModelRace.generate, which ignores it on the
+  // default path). Default path -> POST /trigger-op/llm with the real model; custom path -> the user's provider.
+  runUtilityLLM: FreeModelGenerate;
+
   // Semantic retrieval (lore embeddings). Server: /v1/embeddings; client: the custom provider's embedding model or empty.
   retrieveSemantic: (
     apiKey: string,

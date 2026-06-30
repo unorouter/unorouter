@@ -34,8 +34,13 @@ export function Navbar() {
   const navRowRef = useRef<HTMLDivElement>(null);
 
   const navItems = navigation(!!authQuery.data).filter((item) => !item.hidden);
+  // Docs is the one megamenu (grouped, guide cards); other submenus render as a
+  // plain dropdown. Plain links have no submenu.
+  const docsItem = navItems.find((item) => item.name === "NAV.DOCS");
+  const dropdownItems = navItems.filter(
+    (item) => item.submenu && item.name !== "NAV.DOCS",
+  );
   const topLevelItems = navItems.filter((item) => !item.submenu);
-  const docsItem = navItems.find((item) => item.submenu);
 
   // Group the docs submenu by category for the megamenu columns.
   const docsSubmenuGroups: {
@@ -91,6 +96,52 @@ export function Navbar() {
             >
               {t(link.name)}
             </Link>
+          ))}
+
+          {dropdownItems.map((item) => (
+            <NavigationMenu key={item.name} className="flex-none">
+              <NavigationMenuList>
+                <NavigationMenuItem className="flex items-center">
+                  <NavigationMenuTrigger
+                    nativeButton={false}
+                    className="text-muted-foreground hover:text-foreground h-auto min-h-0 bg-transparent p-0 text-[11px] font-medium tracking-widest uppercase hover:bg-transparent focus:bg-transparent data-open:bg-transparent data-open:hover:bg-transparent data-open:focus:bg-transparent data-popup-open:bg-transparent"
+                    render={<Link href={item.href}>{t(item.name)}</Link>}
+                  />
+                  <NavigationMenuContent>
+                    <ul className="grid w-max min-w-40 gap-0.5 p-1">
+                      {(item.submenu ?? []).map((sub) => (
+                        <li key={sub.name}>
+                          <NavigationMenuLink
+                            render={
+                              <Link
+                                href={sub.href}
+                                className="hover:bg-muted/50 focus:bg-muted/50 grid grid-cols-[auto_1fr] items-center gap-x-2.5 rounded-md px-2.5 py-1.5 transition-colors"
+                                onClick={() =>
+                                  analytics.navigation.topLinkClicked({
+                                    name: sub.name,
+                                    from_route: pathname,
+                                  })
+                                }
+                              >
+                                {sub.iconName ? (
+                                  <Icon
+                                    name={sub.iconName}
+                                    className="text-muted-foreground size-4"
+                                  />
+                                ) : null}
+                                <span className="text-foreground text-[13px] font-medium">
+                                  {t(sub.name)}
+                                </span>
+                              </Link>
+                            }
+                          />
+                        </li>
+                      ))}
+                    </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+              </NavigationMenuList>
+            </NavigationMenu>
           ))}
 
           {docsItem && (

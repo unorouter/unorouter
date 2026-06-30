@@ -85,6 +85,10 @@ export const customProviders = sqliteTable(
   ],
 );
 
+// NOTE: the tester tables (provider/model/test/probe) moved to schema/shared.ts
+// as ONE definition for both the client (private history) and server (public
+// board). See the comment there. Import them from "./shared", not here.
+
 // Downloaded tokenizer cache (OPFS). Tokenizer files (HF tokenizer.json + tokenizer_config.json) are fetched
 // on demand for per-model token budgeting and cached here so a reload doesn't re-download. NOT user-scoped:
 // tokenizer files are public + identical across users, keyed by their canonical `source` (HF slug or URL).

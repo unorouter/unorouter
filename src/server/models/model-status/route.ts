@@ -2,6 +2,7 @@ import {
   modelStatusPageCompactQuery,
   modelStatusPageQuery,
 } from "@/lib/api/typebox/model-status";
+import type { CompactPagePayload } from "@/lib/api/model-status-compact";
 import { unwrap } from "@/lib/utils/base";
 import { getModelStatusComponents, getModelStatusPage } from "@/openapi";
 import { Elysia } from "elysia";
@@ -24,7 +25,7 @@ export const modelStatusRoute = new Elysia({ prefix: "/model-status" })
       if (query.hours != null) params.set("hours", String(query.hours));
       const url = `${upstreamApiUrl}/api/model_status/page_compact?${params.toString()}`;
       const res = await fetch(url, { headers: ADMIN_HEADERS });
-      const body = (await res.json()) as { data: unknown };
+      const body = (await res.json()) as { data: CompactPagePayload };
       return body.data;
     },
     { query: modelStatusPageCompactQuery },

@@ -20,31 +20,26 @@ import { rpc } from "@/lib/rpc";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { makeClientTriggerOps } from "./trigger-ops-client";
+import { llmCall } from "./utility-llm";
 
 type PricingData = { models?: ProcessedModel[] };
 
 // Read the catalog from the pricing query cache (populated by usePricingQuery). Built once per send.
 function modelLookup(): (model: string) => ProcessedModel | undefined {
-  const data = getQueryClient().getQueryData(
-    queryKeys.pricing(),
-  ) as PricingData | undefined;
-  const byName = new Map(
-    (data?.models ?? []).map((m) => [m.name, m]),
-  );
+  const data = getQueryClient().getQueryData(queryKeys.pricing()) as
+    | PricingData
+    | undefined;
+  const byName = new Map((data?.models ?? []).map((m) => [m.name, m]));
   return (model) => byName.get(model);
 }
 
-// Summary/classification race -> our free models via the BFF llm op. ChatML keeps the system prompt
-// (runTriggerLLM parses <|im_start|> blocks; otherwise treats the whole string as one user turn).
-const generate: FreeModelGenerate = async (_modelName, opts) => {
-  const prompt = opts.systemPrompt
-    ? `<|im_start|>system<|im_sep|>${opts.systemPrompt}<|im_end|><|im_start|>user<|im_sep|>${opts.prompt}<|im_end|>`
-    : opts.prompt;
-  const text = handleElysia(
-    await rpc.api.ai.chat["trigger-op"].llm.post({ prompt, model: "" }),
-  );
-  return { text };
-};
+// Summary/classification -> our free pick (small context, fine for tiny-input classification).
+const generate: FreeModelGenerate = llmCall("");
+
+// Utility LLM honors the caller's model (resolved utilityModel / chat model) so context-hungry agents
+// get the full window. llmCall ignores the per-call model arg, so bind the model here.
+const runUtilityLLM: FreeModelGenerate = (modelName, opts) =>
+  llmCall(modelName)("", opts);
 
 export function buildDefaultClientDeps(userId: number): AssemblerDeps {
   const getModelInfo = modelLookup();
@@ -63,10 +58,11 @@ export function buildDefaultClientDeps(userId: number): AssemblerDeps {
       return data.block ?? undefined;
     },
     runFreeModelRace: {
-      // The BFF llm op already races our free models server-side; one sentinel triggers a single call.
+      // The BFF /trigger-op/llm picks the model (empty model name = upstream default); one sentinel = one call.
       listFreeModels: async () => ["free"],
       generate,
     },
+    runUtilityLLM,
     retrieveSemantic: async (_apiKey, query, candidates, opts) => {
       if (candidates.length === 0) return [];
       try {

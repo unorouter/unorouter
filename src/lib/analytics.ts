@@ -216,6 +216,9 @@ const settings = {
   accessTokenGenerated: () => {
     posthog.capture("settings_access_token_generated");
   },
+  apiReferenceOpened: () => {
+    posthog.capture("settings_api_reference_opened");
+  },
   oauthBound: (provider: string) => {
     posthog.capture("settings_oauth_bound", { provider });
   },

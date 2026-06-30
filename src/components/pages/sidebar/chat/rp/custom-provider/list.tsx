@@ -61,9 +61,7 @@ export function CustomProviderList(props: Props) {
           <div className="flex justify-end">
             <Button onClick={() => setEditingId("new")}>
               <Icon name="plus" className="size-4" />
-              <span className="truncate">
-                {t("CHAT.CUSTOM_PROVIDER.NEW")}
-              </span>
+              <span className="truncate">{t("CHAT.CUSTOM_PROVIDER.NEW")}</span>
             </Button>
           </div>
 

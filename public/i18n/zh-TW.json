@@ -1,8 +1,8 @@
 {
   "METADATA": {
     "TITLE": "{appName} - 一把鑰匙，連接所有 AI 模型",
-    "DESCRIPTION": "一把鑰匙，連接所有 AI 模型。在你的程式碼裡、在 Claude Code 裡，或在 SillyTavern、Janitor.AI、RisuAI、Chub 裡都能用。智慧路由涵蓋所有主要供應商。",
-    "KEYWORDS": "AI API，統一 AI 端點，OpenAI 替代，Claude API，GPT API，Gemini API，DeepSeek API，AI 路由，AI 閘道，多模型 API，SillyTavern 代理，Janitor.AI 代理，Chub 代理，RisuAI，AI 角色扮演，Character AI 替代",
+    "DESCRIPTION": "一把鑰匙，連接所有 AI 模型。在你的程式碼裡、在 Claude Code 裡，或在你喜愛的 AI 用戶端裡都能用。智慧路由涵蓋所有主要供應商。",
+    "KEYWORDS": "AI API，統一 AI 端點，OpenAI 替代，Claude API，GPT API，Gemini API，DeepSeek API，AI 路由，AI 閘道，多模型 API，OpenAI 相容 API，AI 聊天用戶端",
     "ACCOUNT": {
       "TITLE": "{appName} 帳戶",
       "DESC": "管理您的 {appName} 帳戶、API 金鑰、用量與帳務。",
@@ -28,16 +28,17 @@
     "PLAYGROUND": "遊樂場",
     "STATUS": "狀態",
     "COMPARE": "對比",
-    "LANGUAGE": "語言"
+    "LANGUAGE": "語言",
+    "MODEL_TESTER": "檢測器"
   },
   "HOME": {
     "HERO": {
       "BADGE": "路由器在線",
       "TITLE_LINE1": "統一",
-      "SUBTITLE": "{appName} 用一把鑰匙把你連到 {modelCount}+ 個 AI 模型。用它建構應用、執行智能體，或是跳過設定，直接在本站和角色聊天。同一把鑰匙，同樣的速度，同樣的價格。",
+      "SUBTITLE": "{appName} 用一把金鑰，把你連接到 {modelCount}+ 個 AI 模型。用它來建構應用、執行代理，或者跳過設定，直接在本站與角色聊天。同一把金鑰，同樣的速度，同樣的價格。",
       "CTA_PRIMARY": "立即開始",
       "CTA_SECONDARY": "查看模型",
-      "TITLE_ROTATE": "API,聊天,角色,角色扮演,程式碼,智慧"
+      "TITLE_ROTATE": "API,聊天,角色,故事,程式碼,智慧"
     },
     "STATS": {
       "MODELS": "模型",
@@ -84,27 +85,27 @@
         "DESCRIPTION": "將 {appName} 作為 OpenClaw 代理的模型供應商。一次設定，即可存取所有模型。"
       },
       "SILLYTAVERN": {
-        "BADGE": "角色扮演",
+        "BADGE": "角色聊天",
         "TITLE": "相容 SillyTavern",
         "DESCRIPTION": "將 {appName} 接入 SillyTavern 的 Custom OpenAI 相容來源。貼上基礎 URL，選擇模型，即可開始聊天。"
       },
       "JANITOR_AI": {
-        "BADGE": "角色扮演",
-        "TITLE": "相容 Janitor.AI",
-        "DESCRIPTION": "在 Janitor.AI 中將 {appName} 加為自訂代理。填入完整 URL 與 API 金鑰，儲存後重新整理即可使用。"
+        "BADGE": "角色聊天",
+        "TITLE": "相容於主流 AI 聊天用戶端",
+        "DESCRIPTION": "在任意 OpenAI 相容的聊天用戶端中，將 {appName} 新增為自訂代理。填入完整 URL 和 API 金鑰，儲存、重新整理，即可開始。"
       },
       "RISUAI": {
-        "BADGE": "角色扮演",
+        "BADGE": "角色聊天",
         "TITLE": "相容 RisuAI",
         "DESCRIPTION": "把 {appName} 當作 RisuAI 的 Custom Models 端點使用。取消勾選自動填入，貼上 URL，載入任意模型。"
       },
       "CHUB": {
-        "BADGE": "角色扮演",
-        "TITLE": "相容 Chub / Venus",
-        "DESCRIPTION": "將 {appName} 作為 Chub 的第一方反向代理接入。一組 URL、一把金鑰，支援所有模型。"
+        "BADGE": "角色聊天",
+        "TITLE": "相容於角色聊天用戶端",
+        "DESCRIPTION": "在你喜愛的角色聊天用戶端中，將 {appName} 連接為第一方反向代理。一個 URL，一把金鑰，所有模型。"
       },
       "PICK_TITLE": "選擇你真正使用的用戶端。",
-      "PICK_DESC": "{appName} 作為自訂 OpenAI 相容 API，可用於編碼代理、角色扮演前端、聊天用戶端和 CLI 工具。"
+      "PICK_DESC": "{appName} 可作為自訂的 OpenAI 相容 API，在程式設計代理、角色聊天用戶端、AI 聊天用戶端與 CLI 工具之間通用。"
     },
     "PRICING": {
       "LABEL": "價格",
@@ -136,8 +137,8 @@
         "DESC": "對話存在你的瀏覽器裡，絕不在我們的伺服器上。也可接入你自己的 OpenAI 相容端點與金鑰，直接從瀏覽器發起。"
       },
       "CARD4": {
-        "TITLE": "完整角色扮演",
-        "DESC": "知識書、群聊、滑動重生成和真正的 RP 引擎，不是玩具。"
+        "TITLE": "角色聊天",
+        "DESC": "世界書、群聊、滑動重生成，還有一個真正的角色聊天引擎，而不是玩具盒。"
       },
       "CTA_OPEN": "開啟聊天",
       "CTA_CONNECT": "接入你的用戶端",
@@ -155,7 +156,7 @@
         "CONV3": "咖啡館的麻糬",
         "MODEL_NAME": "nemotron-3",
         "TOKENS": "輸入 {in} ／ 輸出 {out}",
-        "MENU_LABEL": "角色扮演",
+        "MENU_LABEL": "角色聊天",
         "LOCAL_DB": "本機資料庫",
         "MSG_AI_2": "坩堝燒得正好。幫我把那個小瓶遞過來，好嗎？",
         "MSG_AI_3": "歡迎回來！還是老樣子，燕麥拿鐵多加奶泡？",
@@ -174,7 +175,7 @@
           "LORE1_SUB": "星圖與貿易航線",
           "LORE2": "艦船載貨清單",
           "LORE2_SUB": "船員名冊與貨物",
-          "PRESET1": "電影感角色扮演",
+          "PRESET1": "電影感故事",
           "PRESET1_SUB": "鮮活而富有畫面感的文字",
           "PRESET2": "俐落對白",
           "PRESET2_SUB": "簡短有力的回覆",
@@ -259,22 +260,22 @@
       "FEATURE_4": "無需程式碼，在站內聊天",
       "READ_DOCS": "閱讀完整 API 文件",
       "NO_CODE_LABEL": "不是開發者？",
-      "NO_CODE_OPTION": "跳過程式碼。直接在本站和角色聊天，或把網址貼進 SillyTavern、Janitor.AI、RisuAI 或 Chub。",
+      "NO_CODE_OPTION": "跳過程式碼。直接在本站與角色聊天，或把 URL 貼到 SillyTavern、RisuAI 或任意 OpenAI 相容的 AI 聊天用戶端中。",
       "NO_CODE_CHAT_LINK": "開啟聊天",
       "NO_CODE_LINK": "查看整合指南"
     },
     "CTA": {
       "TITLE_1": "準備好",
       "TITLE_2": "連接",
-      "SUBTITLE": "每一個 AI 模型，一把鑰匙。打造、聊天、寫程式或角色扮演，由你決定。",
+      "SUBTITLE": "每一個 AI 模型，一把金鑰。建構、聊天、寫程式或說故事，由你決定。",
       "PRIMARY": "開始使用",
       "SECONDARY": "查看整合",
       "CHAT": "開啟聊天"
     },
     "META": {
       "TITLE": "{appName} - 一把鑰匙，連接所有 AI 模型",
-      "DESCRIPTION": "一把鑰匙，連接所有 AI 模型。在你的程式碼裡、在 Claude Code 裡，或在 SillyTavern、Janitor.AI、RisuAI、Chub 裡都能用。智慧路由涵蓋所有主要供應商。",
-      "KEYWORDS": "AI API 閘道，統一 AI 端點，OpenAI 相容，Claude API，GPT API，Gemini API，自動容錯，智慧路由，SillyTavern 代理，Janitor.AI 代理，Chub 代理，RisuAI，AI 角色扮演，Character AI 替代"
+      "DESCRIPTION": "一把鑰匙，連接所有 AI 模型。在你的程式碼裡、在 Claude Code 裡，或在你喜愛的 AI 用戶端裡都能用。智慧路由涵蓋所有主要供應商。",
+      "KEYWORDS": "AI API 閘道，統一 AI 端點，OpenAI 相容，Claude API，GPT API，Gemini API，自動容錯，智慧路由，多模型 API，AI 聊天用戶端"
     },
     "TITLE": "{appName}",
     "HOW_IT_WORKS": {
@@ -291,7 +292,7 @@
       "TOPUP_FREE_AMOUNT": "$0",
       "STEP3_NUM": "3",
       "STEP3_TITLE": "取得 API Key",
-      "STEP3_DESC": "在程式碼裡、在 Claude Code 裡使用，或貼到 SillyTavern、Janitor.AI、RisuAI、Chub 裡。",
+      "STEP3_DESC": "在你的程式碼中、在 Claude Code 中使用，或貼到 SillyTavern、RisuAI 或任意 OpenAI 相容的 AI 聊天用戶端中。",
       "CTA_PRIMARY": "開始使用",
       "CTA_SECONDARY": "查看價格",
       "SIGNUP_GITHUB": "使用 GitHub 繼續",
@@ -408,12 +409,12 @@
     },
     "META": {
       "TITLE": "AI 模型：{appName}",
-      "DESCRIPTION": "所有 AI 模型集中於一處。GPT、Claude、Gemini、DeepSeek 等。在你的程式碼裡用，或在 SillyTavern、Janitor.AI、RisuAI、Chub 裡用，價格一視同仁。",
-      "KEYWORDS": "AI 模型，模型庫，AI 價格，GPT 模型，Claude 模型，Gemini 模型，DeepSeek 模型，AI 模型比較，角色扮演 AI 模型，SillyTavern 模型，Janitor.AI 模型，Character AI 模型"
+      "DESCRIPTION": "所有 AI 模型集於一處。GPT、Claude、Gemini、DeepSeek 等等。在你的程式碼中使用，或在任意 OpenAI 相容的 AI 聊天用戶端中使用，兩者價格相同。",
+      "KEYWORDS": "AI 模型，模型庫，AI 價格，GPT 模型，Claude 模型，Gemini 模型，DeepSeek 模型，AI 模型比較，多模型 API，AI 聊天模型"
     },
     "BADGE": "模型庫",
     "TITLE": "模型庫",
-    "SUBTITLE": "每個模型，一把鑰匙。開發者打造應用，角色扮演者運行角色，價格一視同仁。",
+    "SUBTITLE": "每一個模型，一把金鑰。既被建構應用的開發者使用，也被打造角色體驗的創作者使用，兩者價格相同。",
     "SEARCH_PLACEHOLDER": "搜尋模型...",
     "MODEL_COUNT": "個模型",
     "EMPTY": "沒有模型符合您的搜尋。",
@@ -520,7 +521,7 @@
   "RANKINGS": {
     "META": {
       "TITLE": "排行榜｜{appName}",
-      "DESCRIPTION": "在 {appName} 上探索最熱門的 AI 模型與崛起中的供應商，依即時令牌用量排序。根據平台真實使用資料持續更新。",
+      "DESCRIPTION": "在 {appName} 上探索最熱門的 AI 模型與崛起中的供應商，依即時詞元用量排序。根據平台真實使用資料持續更新。",
       "KEYWORDS": "AI 模型排行榜，LLM 排行榜，熱門 AI 模型，AI 供應商市佔率，最常用 AI 模型，模型使用統計"
     },
     "HERO": {
@@ -537,33 +538,33 @@
     },
     "MODELS": {
       "TITLE": "熱門模型",
-      "SUBTITLE": "依所選期間令牌用量排序的模型",
+      "SUBTITLE": "依所選期間詞元用量排序的模型",
       "PERIOD_DESCRIPTIONS": {
-        "TODAY": "過去 24 小時內各模型的每小時令牌用量",
-        "WEEK": "過去數週各模型的每週令牌用量",
-        "MONTH": "過去一個月各模型的每日令牌用量",
-        "YEAR": "過去一年各模型的每週令牌用量",
-        "ALL": "上線以來各模型的令牌用量"
+        "TODAY": "過去 24 小時內各模型的每小時詞元用量",
+        "WEEK": "過去數週各模型的每週詞元用量",
+        "MONTH": "過去一個月各模型的每日詞元用量",
+        "YEAR": "過去一年各模型的每週詞元用量",
+        "ALL": "上線以來各模型的詞元用量"
       },
       "LEADERBOARD_TITLE": "LLM 排行榜",
       "LEADERBOARD_SUBTITLE": "比較平台上最熱門的模型",
       "EMPTY": "沒有模型符合所選的篩選條件",
-      "TOKENS_SUFFIX": "令牌",
+      "TOKENS_SUFFIX": "詞元",
       "TOOLTIP_TOTAL": "合計",
       "BY_AUTHOR_LABEL": "作者："
     },
     "VENDORS": {
       "TITLE": "市場份額",
-      "SUBTITLE": "依模型作者劃分的令牌佔比",
+      "SUBTITLE": "依模型作者劃分的詞元佔比",
       "PERIOD_DESCRIPTIONS": {
-        "TODAY": "過去 24 小時內各供應商的令牌佔比",
-        "WEEK": "過去數週各供應商的令牌佔比",
-        "MONTH": "過去一個月各供應商的令牌佔比",
-        "YEAR": "過去一年各供應商的令牌佔比",
-        "ALL": "上線以來各供應商的令牌佔比"
+        "TODAY": "過去 24 小時內各供應商的詞元佔比",
+        "WEEK": "過去數週各供應商的詞元佔比",
+        "MONTH": "過去一個月各供應商的詞元佔比",
+        "YEAR": "過去一年各供應商的詞元佔比",
+        "ALL": "上線以來各供應商的詞元佔比"
       },
       "LIST_TITLE": "依模型作者",
-      "LIST_SUBTITLE": "依累計令牌用量排序的供應商",
+      "LIST_SUBTITLE": "依累計詞元用量排序的供應商",
       "EMPTY": "暫無供應商資料"
     },
     "PULSE": {
@@ -632,9 +633,9 @@
         "H_SAME_LANE": "我們在同一條道上",
         "P_SAME_LANE": "{appName} 和 MegaLLM 都是為開發者打造的 OpenAI 相容閘道。兩者都把 GPT、Claude 和 Gemini 放在一把鑰匙之後，都在某個供應商當機時自動故障轉移，都能透過更換基礎 URL 接入 Claude Code、Codex 和 OpenCode。如果你的目標是把編程智能體指向前沿模型而不在供應商鑰匙間周旋，兩者都能做到。所以模型清單和故障轉移不是決策所在。",
         "H_MODELS": "模型清單與價格",
-        "P_MODELS": "MegaLLM 宣傳 70 多個前沿和視覺模型，並以成本為賣點，透過成本感知路由比直連最多便宜 60%，方案從約每月 10 美元起，外加按量付費。{appName} 擁有 200 多個模型，是一個更廣的清單，包含 MegaLLM 純前沿定位漏掉的開放模型和角色扮演調優模型，同樣按量付費，額度不過期且有免費檔。如果你只呼叫 GPT 和 Claude，每 token 價格就是比較點。如果你想要更廣的清單，{appName} 就是更多。",
+        "P_MODELS": "MegaLLM 宣傳 70+ 個前沿和視覺模型，並以成本為賣點定位自己：透過成本感知路由，比直連最高便宜 60%，方案約每月 10 美元起，外加按量付費。{appName} 擁有 200+ 個模型，目錄更廣，涵蓋了 MegaLLM 只看前沿而遺漏的開源模型和為創意寫作調校的模型，同樣按量付費，額度不會過期，並有用於原型開發的免費級。如果你只呼叫 GPT 和 Claude，那麼比較的就是每 token 價格。如果你想要更廣的目錄，{appName} 單純就是更多。",
         "H_CHAT": "MegaLLM 沒有的部分",
-        "P_CHAT": "MegaLLM 是一個無介面閘道，一個 API 加一個儀表板，沒有可聊天的地方。{appName} 是閘道外加一個內建的聊天與角色用戶端：人設、知識書、預設、SillyTavern 卡片匯入，同一把鑰匙還能接入 SillyTavern、Janitor.AI、RisuAI 或 Chub。於是驅動你編程智能體的同一把鑰匙，也執行一個真正的角色聊天，工作與玩樂通用。這就是純開發閘道與二合一之間的界線。",
+        "P_CHAT": "MegaLLM 是一個無介面閘道，只有 API 和儀表板，沒有可供聊天的地方。{appName} 是閘道加上一個自帶的聊天與角色用戶端：人設、世界書、預設、SillyTavern 卡片匯入，而且同一把金鑰可接入 SillyTavern、Janitor.AI、RisuAI 或 Chub。於是，驅動你程式設計代理的同一把金鑰，也能跑起真正的角色聊天，工作娛樂兩相宜。這就是純開發閘道與 2 合 1 之間的界線。",
         "H_MIGRATE": "切換就是改基礎 URL",
         "P_MIGRATE": "和 MegaLLM 一樣，{appName} 是 OpenAI 相容的，所以遷移就一行：把你的用戶端指向 <c>https://api.unorouter.com/v1</c>，程式碼不動。把同一把鑰匙貼進聊天用戶端的自訂端點欄，就能觸達同一份清單，所以沒有第二個帳戶，也沒有聊天端的單獨工具。",
         "H_VERDICT": "你該選哪個",
@@ -647,11 +648,11 @@
         "AUTHOR": "{appName}團隊",
         "INTRO": "Portkey 和 {appName} 都在每個模型前面放置一個 OpenAI 相容的端點。從這裡開始，兩者就分道揚鑣了。Portkey 是為需要可觀測性、護欄與治理的工程團隊打造的完整 LLMOps 平台。{appName} 是同一思路的精簡版：一把金鑰、200 多個模型，再加上一個聊天用戶端，無需任何設定。",
         "H_AUDIENCE": "各自為誰而造",
-        "P_AUDIENCE": "Portkey 面向大規模交付 LLM 功能的平台團隊與 AI 團隊。它的價值在於圍繞呼叫的控制平面：請求記錄、指標、預算、提示詞管理、護欄、回退，以及面向組織的角色式存取。{appName} 面向個人開發者與 RP 使用者，他們只想要一把能在程式設計代理和聊天用戶端中都好用的金鑰，而不必先搭起一層治理。",
+        "P_AUDIENCE": "Portkey 面向大規模交付 LLM 功能的平台團隊和 AI 團隊。它的價值在於圍繞呼叫的控制平面：請求記錄、指標、預算、提示詞管理、護欄、回退，以及面向組織的基於角色的存取控制。{appName} 面向個人開發者和角色聊天使用者，他們只想要一把既能在程式設計代理裡用、也能在聊天用戶端裡用的金鑰，而不必先搭起一層治理。",
         "H_SETUP": "搭建與涵蓋面",
         "P_SETUP": "用 Portkey，你要設定一把虛擬金鑰、各項設定與路由規則，然後對應用程式進行埋點，把所有流量都走閘道，讓儀表板填滿資料。當你有團隊、有合規需求時，這才有意義。用 {appName}，你只需註冊，並把用戶端指向 <c>https://api.unorouter.com/v1</c>。沒有設定檔，沒有要管理的虛擬金鑰，也沒有要學的可觀測性堆疊。一個是你採用的平台，另一個是你呼叫的端點。",
         "H_INTERFACE": "Portkey 沒有聊天用戶端",
-        "P_INTERFACE": "Portkey 是基礎設施：一個閘道和一個儀表板，面向使用者的介面都得你自己來。{appName} 提供同樣的 OpenAI 相容 API，外加內建的聊天與角色用戶端（人設、世界書、預設、SillyTavern 角色卡匯入），而且同一把金鑰可直接用於 SillyTavern、Janitor.AI、RisuAI 或 Chub。於是你用同一把金鑰就能擁有一個真正可以聊天的地方，而不只是一個為應用程式仍要自行發起的呼叫準備的控制平面。",
+        "P_INTERFACE": "Portkey 是基礎設施：一個閘道和一個儀表板，每一個面向使用者的介面都由你自備。{appName} 提供同樣的 OpenAI 相容 API，外加一個自帶的聊天與角色用戶端（人設、世界書、預設、SillyTavern 卡片匯入），而且同一把金鑰可直接接入 SillyTavern、Janitor.AI、RisuAI 或 Chub。於是你得到的是一個真正能用同一把金鑰聊天的地方，而不只是一個控制平面，去管理那些你的應用仍得自己發起的呼叫。",
         "H_COST": "成本與開銷",
         "P_COST": "Portkey 圍繞平台收費：低用量有免費方案，再往上是為組織所需的可觀測性、治理與支援而設的付費方案，這些都疊加在你付給各家供應商的費用之上。當控制平面能為團隊省下真金白銀的時間時，它就值得。{appName} 是橫跨 200 多個模型的按量付費，額度不過期，並設有免費方案，是一個餘額，而不是一份平台訂閱外加每家供應商的錢包。在團隊規模以下，精簡路線花得更少，對你的要求也更少。",
         "H_VERDICT": "你該選哪個",
@@ -664,11 +665,11 @@
         "AUTHOR": "{appName}團隊",
         "INTRO": "nano-gpt 和 {appName} 在最顯而易見的一點上重疊：無需訂閱，按量付費地存取大量模型。nano-gpt 主打聊天市集背後的廣度。{appName} 主打一把在程式設計代理和聊天用戶端中同樣自如的 OpenAI 相容金鑰。同樣的額度，兩扇截然不同的入口。",
         "H_CATALOG": "目錄與廣度",
-        "P_CATALOG": "nano-gpt 的賣點是目錄的規模：數百個文字與圖像模型集中一處，如果你的目標是把一切都試一遍，這確實有用。{appName} 在對程式設計和角色扮演真正重要的供應商之間執行 200 多個模型，是精選並保持最新，而非為了湊數而最大化。如果你在意的只有純粹的廣度，那 nano-gpt 勝出。如果你想要人們真正用來幹活的模型，差距很快就會縮小。",
+        "P_CATALOG": "nano-gpt 的賣點是目錄之大：數百個文字和圖像模型集於一處，如果你的目標是把一切都試一遍，這確實很有用。{appName} 在對程式設計和角色聊天而言重要的供應商之間執行 200+ 個模型，是精選並保持更新，而非為了堆數量而最大化。如果原始的廣度是你唯一在意的維度，那 nano-gpt 勝出。如果你想要人們真正用來上線的模型，差距很快就會縮小。",
         "H_DEV": "開發者這一面",
         "P_DEV": "聊天市集是介面優先造出來的：網頁 UI 是產品，API 是側門。{appName} 在設計上就是 OpenAI 相容的。把任何 SDK 或代理指向 <c>https://api.unorouter.com/v1</c>，保留你現有的程式碼，同一把金鑰就能驅動 Claude Code、Cline、OpenCode、Kilo Code 或 Codex。你不是在給一個聊天站點硬裝一個 API，而是在用一個恰好也帶聊天用戶端的閘道。",
         "H_CHAT": "聊天與角色這一面",
-        "P_CHAT": "兩者都讓你在瀏覽器裡聊天，但 {appName} 的用戶端是為角色扮演而造，而不僅是問答：人設、世界書、預設、SillyTavern 角色卡匯入，而當你想要更重的前端時，同一把金鑰可進入 SillyTavern、Janitor.AI、RisuAI 或 Chub。你永遠不會被鎖死在一個 UI 裡。額度會跟著你穿行於每一個用戶端。",
+        "P_CHAT": "兩者都讓你在瀏覽器裡聊天，但 {appName} 的用戶端是為角色聊天打造的，而不只是問答：人設、世界書、預設和 SillyTavern 卡片匯入，外加當你想要更重的前端時，同一把金鑰可接入 SillyTavern、Janitor.AI、RisuAI 或 Chub。你永遠不會被鎖死在一個介面裡。額度會在每個用戶端之間跟著你走。",
         "H_PAY": "定價與金鑰",
         "P_PAY": "兩者都是無訂閱的按量付費，這正是對突發式、多模型使用最合適的模式。{appName} 把它收斂為一個餘額，額度不過期，並設有免費方案，是一把跨程式設計與聊天的金鑰，而不是一只只能在一個 UI 裡花的市集錢包。計費形態相同，區別在於這一把金鑰能觸達多遠。",
         "H_VERDICT": "你該選哪個",
@@ -681,32 +682,32 @@
         "AUTHOR": "{appName}團隊",
         "INTRO": "SillyTavern 是前端，它本身不託管模型。要用它，你把它指向一個 OpenAI 相容的端點並貼上一把金鑰。問題在於背後是哪個閘道。大多數教學遞給你單一供應商，而更好的答案是一把能觸達眾多模型、又不會過期的金鑰。下面講該權衡什麼，以及 {appName} 如何契合。",
         "H_WHAT_MATTERS": "對 SillyTavern 真正重要的是什麼",
-        "P_WHAT_MATTERS": "決定一個好 SillyTavern 閘道的有四點。OpenAI 相容的 Chat Completions，這樣 SillyTavern 無需轉接器即可連線。模型廣度，這樣你無需新建帳戶就能在強力寫手和廉價主力之間切換。誠實的按量付費計費，因為角色扮演是突發式的，按月席位的形態並不合適。還有一個免費方案，讓你在花錢之前先試一個角色。模型的純粹數量，遠不如該有的模型是否齊備且最新來得重要。",
+        "P_WHAT_MATTERS": "決定一個好的 SillyTavern 閘道有四點。OpenAI 相容的 Chat Completions，這樣 SillyTavern 無需轉接器即可連接。模型的廣度，這樣你能在強力寫手和廉價主力之間切換而無需新建帳戶。誠實的按量付費，因為角色聊天是突發式的，月度席位形態不對。還有一個免費級，讓你在花錢之前先試一個角色。原始模型數量的重要性，不及正確的模型是否齊備且保持最新。",
         "H_OPTIONS": "現實的選項",
         "P_OPTIONS": "你有三類選擇。單一供應商金鑰（OpenAI、Anthropic、DeepSeek）最簡單，但把你鎖在一家實驗室的模型和定價上。無頭的開發者閘道給你廣度，卻沒有自己的用戶端，這沒關係，因為 SillyTavern 就是你的用戶端。或者一個既是 API 又是聊天用戶端的閘道，這樣當你不想啟動整個應用程式時，同一把金鑰在 SillyTavern 和內建 UI 中都能用。{appName} 就是第三種。",
         "H_CONNECT": "把 {appName} 連接到 SillyTavern",
-        "P_CONNECT": "在 SillyTavern 中，選擇 Chat Completion API 和 OpenAI 相容（Custom）來源。把基礎 URL 設為 <c>https://api.unorouter.com/v1</c>，貼上你的 {appName} 金鑰，然後載入模型清單。選一個模型，你的角色、世界書和預設照舊執行。同一把金鑰在 Janitor.AI、RisuAI 和 Chub 裡也能用，所以你不必為每個應用程式重做設定。",
+        "P_CONNECT": "在 SillyTavern 中，選擇 Chat Completion API 和 OpenAI 相容（Custom）來源。將基礎 URL 設為 <c>https://api.unorouter.com/v1</c>，貼上你的 {appName} 金鑰並載入模型清單。選一個模型，你的角色、世界書和預設照常執行。同一把金鑰在 Janitor.AI、RisuAI 和 Chub 中同樣有效，因此你無需為每個應用重做設定。",
         "H_FREE": "免費模型與成本控制",
         "P_FREE": "{appName} 有免費方案和 200 多個模型，所以你可以先用免費模型試一張角色卡，等場景值得了再換到更強的付費模型。額度不過期，計費是按量付費，一個餘額涵蓋每個用戶端和每個模型。沒有需要為之辯護的按月席位，歇一個月也沒有什麼要取消。",
         "H_VERDICT": "簡短的答案",
-        "P_VERDICT": "最好的 SillyTavern 閘道，是那個有 OpenAI 相容端點、真正的模型廣度、按量付費額度，以及一個起步用的免費方案的閘道，讓一把金鑰就能撐起你的整套設定。{appName} 正是為這種情形而造，而且同一把金鑰會在你使用的其他每一個 RP 前端中繼續好用。",
+        "P_VERDICT": "最好的 SillyTavern 閘道，是那個擁有 OpenAI 相容端點、真正的模型廣度、按量付費額度，以及供你起步的免費級的，這樣一把金鑰就能承載你的整套設定。{appName} 正是為這種情形而生，而且同一把金鑰在你使用的任何其他角色聊天前端裡都能繼續工作。",
         "CTA": "準備好連接 SillyTavern 了嗎？<register>建立免費帳戶</register>，或<models>瀏覽模型</models>。"
       },
       "UNOROUTER_VS_RISUAI": {
-        "TITLE": "{appName} 對比 RisuAI：我們把 RP 引擎搬進了託管的二合一",
-        "DESCRIPTION": "RisuAI 是面向進階使用者的 RP 前端。{appName} 把它的引擎（知識書、CBS 巨集、觸發器、正則、卡片匯入）搬進一個託管產品，同一把鑰匙還能驅動編程智能體。不是對手，而是二合一。",
+        "TITLE": "{appName} 對比 RisuAI：我們把角色聊天引擎移植進了一個託管式 2 合 1",
+        "DESCRIPTION": "RisuAI 是面向進階使用者的角色聊天前端。{appName} 把它的引擎（世界書、CBS 巨集、觸發器、正則、卡片匯入）移植進了一個託管式產品，在那裡同一把金鑰也能驅動程式設計代理。不是對手，而是 2 合 1。",
         "AUTHOR": "{appName}團隊",
-        "INTRO": "RisuAI 是現存最好的角色扮演前端之一，作為仔細研讀過它原始碼的人，我們這樣說。{appName} 沒有試圖在功能上勝過它。我們移植了它的引擎，並把它放到一個新地方：一個託管產品，一把 OpenAI 相容的鑰匙還能執行你的編程智能體。所以這與其說是對手對比，不如說是一群敬佩 Risu 的人寫的誠實的二合一說明。",
+        "INTRO": "RisuAI 是現存最好的角色聊天前端之一，作為仔細研讀過它原始碼的人，我們這麼說。{appName} 沒有試圖在功能上蓋過它。我們移植了它的引擎，然後把它放到了一個新的地方：一個託管式產品，在那裡一把 OpenAI 相容金鑰也能驅動你的程式設計代理。所以這與其說是對手對比，不如說是一篇由仰慕 Risu 的人寫下的、誠實的 2 合 1 說明。",
         "H_ENGINE": "我們移植了引擎，而非複製應用",
-        "P_ENGINE": "讓 Risu 在角色扮演上出色的部分都在 {appName} 裡，因為我們移植了它們：知識書系統（單一全域池、@@裝飾器、遞迴）、完整的 CBS 巨集語言（變數、條件、帶種子隨機、程式碼塊）、帶 Lua 執行階段的 V1/V2 觸發器虛擬機、正則自訂腳本（editinput/output/display）、SillyTavern 卡片 v2/v3 匯入、群聊順序、人設、預設，以及滾動摘要記憶。如果你熟悉 Risu 的知識書和觸發器，它們在這裡就按你預期的方式運作。",
+        "P_ENGINE": "讓 Risu 在角色聊天上如此出色的那些部分都在 {appName} 裡，因為我們移植了它們：世界書系統（單一全域池、@@decorators、遞迴）、完整的 CBS 巨集語言（變數、條件、帶種子隨機、程式碼區塊）、帶 Lua 執行階段的 V1/V2 觸發器虛擬機、正則 customscript（editinput/output/display）、SillyTavern 卡片 v2/v3 匯入、群聊排序、人設、預設，以及滾動摘要記憶。如果你熟悉 Risu 的世界書和觸發器，它們在這裡的工作方式與你的預期一致。",
         "H_TWO_IN_ONE": "二合一：同一把鑰匙用於程式碼和角色聊天",
-        "P_TWO_IN_ONE": "這是 Risu 因設計而無法成為的部分。Risu 是自帶鑰匙：你帶來自己的 OpenAI 或 Claude 鑰匙，它純粹是一個聊天前端。{appName} 既是鑰匙也是用戶端。驅動內建角色聊天的同一把鑰匙，也能把編程智能體（Claude Code、Cline、OpenCode、Codex）指向 200 多個模型，如果你更喜歡，還能直接接入 SillyTavern、Janitor.AI、RisuAI 或 Chub。一個帳戶、一個餘額、一份模型清單，工作與玩樂通用。我們不想取代作為前端的 Risu，我們是閘道加用戶端的合體。",
+        "P_TWO_IN_ONE": "這正是 Risu 在設計上無法成為的那一部分。Risu 是自帶金鑰（BYOK）：你帶上自己的 OpenAI 或 Claude 金鑰，它純粹是一個聊天前端。{appName} 既是金鑰也是用戶端。驅動內建角色聊天的同一把金鑰，也能把一個程式設計代理（Claude Code、Cline、OpenCode、Codex）指向 200+ 個模型，並在你願意時直接接入 SillyTavern、Janitor.AI、RisuAI 或 Chub。一個帳戶、一份餘額、一份模型清單，工作娛樂皆可。我們並不是要取代前端 Risu，我們是把閘道和用戶端合二為一。",
         "H_HOSTING": "託管對比自架，且無需在鑰匙間周旋",
         "P_HOSTING": "Risu 由你自己執行（網頁、Tauri 桌面或 Docker），並收集和貼上每個供應商的 API 鑰匙。{appName} 是託管的：沒有要安裝或維持執行的東西，也沒有要收集的供應商鑰匙，因為鑰匙就是帳戶。你註冊後即可聊天。對於只想要 Risu 風格體驗、又不想搭應用或管鑰匙的人，這省去了整個搭建步驟。",
         "H_RISU_WINS": "Risu 仍然勝出之處（誠實地說）",
         "P_RISU_WINS": "我們不會假裝無所不包。Risu 有 HypaMemory V2/V3，比我們的滾動摘要加語意檢索更深入的長期記憶壓縮。它有一個真正的使用者外掛生態，你可以擴充和分享；我們沒有。它內建的輸入/輸出自動翻譯器比我們的更完整。而作為一個自架的開源應用，它給你託管服務永遠給不了的完全本地掌控。如果這些對你最重要，Risu 是更好的選擇，我們是認真的。",
         "H_VERDICT": "你該選哪個",
-        "P_VERDICT": "想要一個自架、開放、可深度擴充的角色扮演前端，擁有最豐富的記憶和外掛生態，並樂意自帶鑰匙？用 Risu。想要同樣的知識書、CBS、觸發器和卡片功能，卻在一個託管產品裡，一把鑰匙還能執行你的編程智能體、也能在其他前端裡用？那就是 {appName} 這個二合一。沒有唯一贏家。我們只是搭起了那座 Risu 作為前端本就無意成為的橋。",
+        "P_VERDICT": "想要一個自架、開源、可深度擴充、擁有最豐富記憶和外掛生態的角色聊天前端，並且樂意自帶金鑰？那就用 Risu。想要同樣的世界書、CBS、觸發器和卡片功能，但放在一個託管式產品裡，在那裡一把金鑰也能驅動你的程式設計代理，還能在其他前端裡使用？那正是 {appName} 這個 2 合 1。沒有唯一的贏家。我們只是搭起了那座橋——身為前端的 Risu，本就不該去當它。",
         "CTA": "試試把一切都移植進來的聊天。<register>建立免費帳戶</register>或<chat>開啟聊天</chat>。"
       },
       "UNOROUTER_VS_LITELLM": {
@@ -719,7 +720,7 @@
         "H_SETUP": "搭建與維護",
         "P_SETUP": "用 LiteLLM，你要寫設定、提供每個供應商的 API 金鑰、執行伺服器（Python，所以並行時要留意 GIL），並長期負責升級和監控。用 {appName}，你註冊後把用戶端指向 <c>https://api.unorouter.com/v1</c> 即可。沒有設定檔，沒有要收集的供應商金鑰，沒有要照看的伺服器。一個是你維護的基礎設施；另一個是你消費的服務。",
         "H_INTERFACE": "沒有一個可以在裡面聊天的 LiteLLM",
-        "P_INTERFACE": "LiteLLM 在設計上是無介面的：一個 API 層，每個介面都由你自備。{appName} 提供同樣的 OpenAI 相容 API，外加內建的聊天與角色用戶端（人設、知識書、預設、SillyTavern 卡片匯入），同一把鑰匙還能接入 SillyTavern、Janitor.AI、RisuAI 或 Chub。於是編程智能體和一個真正能聊天的地方靠一把鑰匙執行，而不是一個你還得為其搭建介面的代理。",
+        "P_INTERFACE": "LiteLLM 在設計上就是無介面的：一層 API，每個介面都由你自備。{appName} 提供同樣的 OpenAI 相容 API，外加一個自帶的聊天與角色用戶端（人設、世界書、預設、SillyTavern 卡片匯入），而且同一把金鑰可接入 SillyTavern、Janitor.AI、RisuAI 或 Chub。於是一個程式設計代理和一個真正能聊天的地方靠同一把金鑰運轉，而不是一個你還得自己搭介面的代理。",
         "H_COST": "成本與金鑰",
         "P_COST": "LiteLLM 不加價，但你直接付錢給每個供應商，並承擔基礎設施帳單加上 DevOps 時間。如果你有團隊，在大用量時佔優。{appName} 是涵蓋 200 多個模型的按量付費，額度不過期且有免費檔，是一個餘額而非在每個供應商各有一個錢包，也沒有要付費的伺服器。在真正的規模之下，把工時算進去後，託管這條路通常更便宜。",
         "H_VERDICT": "你該選哪個",
@@ -829,7 +830,7 @@
         "INTRO_P1": "新一代圖像模型可以接受多張參考圖加一段文字 prompt，把它們合成為一張輸出。<s>一個 prompt、N 張參考、一張合成圖</s>。對視覺小說、保持人物一致的品牌素材、產品 mockup、漫畫分鏡，以及任何要把已知素材拼成一個場景的工作流都很實用。",
         "INTRO_P2": "麻煩在於，市面上幾乎所有模型都說自己做得到。絕大多數其實做不到。有的卡在 1 張參考，有的卡在 4 張，有的接受輸入卻在第一張之後悄悄丟掉。再加上同一個模型在不同經銷商那邊行為又不一樣，原因是配額、slug 變體和未接好的 endpoint。所以我們乾脆做了一個基準測試。",
         "H_FIXTURES": "fixture 套件",
-        "FIXTURES_P": "六張固定 JPEG，涵蓋一個典型的 RP 場景合成：一張酒館背景，再加五張人物頭像（一個使用者側，四個 NPC）。每一對（供應商、模型）都用同樣的六個檔案，不依通道改寫。六張圖合計大約 500 KB。",
+        "FIXTURES_P": "六張固定的 JPEG，涵蓋一個典型的角色場景構圖：一張酒館背景和五張角色肖像（一張使用者側，四張 NPC）。每個（供應商，模型）組合都用同樣的六個檔案，不做逐通道改寫。六張圖片的總負載約為 500 KB。",
         "FIXTURES_PROMPT_INTRO": "文字 prompt 也是固定的。它點名每個角色、按索引引用每張圖，並要求一張合成圖。原文照抄：",
         "H_METHOD": "基準測試怎麼跑",
         "METHOD_P1": "對目錄裡每一對（供應商、模型）：把六個 fixture 加 prompt POST 到該通道的 <c>/v1/images/edits</c>。<s>通過</s> = HTTP 200，回應中有非空的圖像 URL 或 base64。<s>失敗</s> = 非 200、空 body 或形狀不對。不做人工評分。基準可重現、可按需重跑，新圖像模型出現在上游就會自動再跑一次。",
@@ -897,7 +898,7 @@
         "H_MODELS": "模型與價格",
         "P_MODELS": "兩者都在一把金鑰之後提供來自主要供應商的 200 多個模型，並自動辨識 OpenAI、Anthropic 和 Gemini 的請求格式。OpenRouter 在購買餘額時收取百分比手續費。{appName} 按用量付費，餘額永不過期，並設有用於原型開發的免費模型層級。在純粹的模型廣度上兩者相當，因此決定因素很少是目錄本身，而是你拿它來做什麼。",
         "H_RP": "OpenRouter 略去的那部分",
-        "P_RP": "把編碼代理（Claude Code、Cline、OpenCode、Kilo Code、Codex）指向 {appName}，它的表現就和任何 OpenAI 相容端點一樣。但同一把金鑰還驅動一個內建的聊天與角色用戶端，帶有人設、設定集、預設和 SillyTavern 卡片匯入，並能直接接入 SillyTavern、Janitor.AI、RisuAI 或 Chub。OpenRouter 純粹是 API 層，因此每個介面都得你自己準備。{appName} 把介面與 API 一併交付。",
+        "P_RP": "把一個程式設計代理（Claude Code、Cline、OpenCode、Kilo Code、Codex）指向 {appName}，它的行為就和任意 OpenAI 相容端點一樣。但同一把金鑰還驅動一個自帶的聊天與角色用戶端，帶人設、世界書、預設和 SillyTavern 卡片匯入，並可直接接入 SillyTavern、Janitor.AI、RisuAI 或 Chub。OpenRouter 純粹是 API 層，所以每個介面都得你自己來。{appName} 把介面和 API 一併提供。",
         "H_MIGRATE": "切換只是更換基礎 URL",
         "P_MIGRATE": "由於 {appName} 相容 OpenAI，遷移現有應用只需一行：把用戶端指向 <c>https://api.unorouter.com/v1</c>，並保留你現有的程式碼。把同一把金鑰貼到聊天用戶端的自訂端點欄位，也會抵達同一個目錄，因此沒有第二個帳戶需要管理。",
         "H_VERDICT": "你該選哪個",
@@ -910,13 +911,13 @@
         "AUTHOR": "{appName}團隊",
         "INTRO": "OpenRouter 讓一個簡單的想法流行起來：一把相容 OpenAI 的金鑰，觸達眾多模型供應商。它是一個穩妥的預設選擇，但不是唯一的選項，也不是對每種用途都最好。如果你在 2026 年權衡替代方案，正確的選擇取決於你最在意價格、模型廣度、計費形態，還是擁有自己的聊天用戶端。下面是一張誠實的地圖，以及 {appName} 落在何處。",
         "H_WHY_SWITCH": "為什麼要看 OpenRouter 之外",
-        "P_WHY_SWITCH": "人們出於幾個具體原因貨比三家。加價：每個彙整方都在供應商原始價格之上加一層利潤，幅度各不相同。模型涵蓋：你需要的某個模型，可能在一個閘道上缺席或陳舊，在另一個上卻是最新的。計費形態：有些方案按席位或訂閱計費，與突發式用量並不相配。還有用戶端這一環：大多數閘道是無介面的，所以你仍需要一個單獨的前端來做聊天或角色扮演。其中任何一條，都足以成為比較的理由。",
+        "P_WHY_SWITCH": "人們四處比較，出於幾個具體原因。加價：每個聚合商都在原始供應商價格之上加一道利潤，幅度各不相同。模型涵蓋：你需要的某個模型，在一個閘道上可能缺失或陳舊，在另一個上卻是最新的。計費形態：有些方案按席位或訂閱計費，對突發式用量來說形態不對。還有用戶端這一環：大多數閘道都是無介面的，所以你仍需要一個單獨的前端來聊天或角色聊天。其中任何一條，都可能足以成為比較的理由。",
         "H_WHAT_TO_COMPARE": "到底該比較什麼",
         "P_WHAT_TO_COMPARE": "用五件事來評判一個替代方案。相容 OpenAI 的 Chat Completions，這樣你現有的程式碼和工具無需重寫即可接入。模型的廣度與新鮮度，這樣你不會被困在昨天的目錄裡。透明的按用量付費，且額度不過期，這樣清淡的月份不會懲罰你。你真正使用的那些模型的涵蓋，而不僅是一個很大的原始數字。以及它是否附帶一個可用的用戶端，還是假定你自帶。按這些打分，而不是按行銷說辭。",
         "H_ALTERNATIVES": "值得了解的替代方案",
         "P_ALTERNATIVES": "單一供應商金鑰（OpenAI、Anthropic、DeepSeek）最簡單，但把你綁在一個實驗室上。LiteLLM 和 Portkey 這類無介面的開發者閘道給你廣度和治理，卻沒有用戶端，所以適合擁有自家應用程式的團隊。自架代理用便利換取掌控。而組合型閘道把一個寬廣的相容 OpenAI 的 API 與內建聊天用戶端配在一起，於是一把金鑰在程式碼裡和介面裡都能用。{appName} 正是最後這一類：把任意 OpenAI SDK 指向 <c>https://api.unorouter.com/v1</c>，觸達 200 多個模型，並在內建聊天用戶端或 SillyTavern 這類工具裡使用同一把金鑰。",
-        "H_FOR_ROLEPLAY": "如果你的用途是角色扮演",
-        "P_FOR_ROLEPLAY": "角色扮演自成一類。你想要一個寬廣的目錄，以便在一個強寫手和一匹便宜的勞力之間切換；想要按用量付費的計費，因為對話是突發式的；還想要一把能直接塞進 SillyTavern、Janitor.AI、RisuAI 或 Chub 的金鑰。純開發者閘道涵蓋了 API 那一半，卻不給你用戶端，而按席位的方案與這種突發式的節奏相牴觸。{appName} 生來就是為了跨越兩邊：給程式碼一個乾淨的 API，再加上在同一把金鑰、模型和額度上運作的聊天與角色用戶端。",
+        "H_FOR_ROLEPLAY": "如果你的用例是角色聊天",
+        "P_FOR_ROLEPLAY": "角色聊天自成一類。你想要一個寬廣的目錄，以便在強力寫手和廉價主力之間切換；想要按量付費，因為工作階段是突發式的；還想要一把能直接接入 SillyTavern、Janitor.AI、RisuAI 或 Chub 的金鑰。純開發閘道滿足了 API 那一半，卻不給你用戶端，而按席位的方案又與突發式模式相牴觸。{appName} 正是為兼顧兩者而建構：為程式碼提供乾淨的 API，外加一個跑在同一把金鑰、同一批模型和同一份額度上的聊天與角色用戶端。",
         "H_VERDICT": "如何選擇",
         "P_VERDICT": "如果你始終只用一個實驗室，單一供應商金鑰就夠了。如果你是一個想在自家應用程式前面加上路由和治理的團隊，無介面的開發者閘道合適。如果你想要一把能觸達眾多最新模型、按用量計費、並在程式碼和聊天用戶端兩邊都能用的金鑰，那正是 {appName} 填補的空缺。按你真實的用途來選，而不是按原始的模型數量。",
         "CTA": "想要一把金鑰用於每個模型嗎？<register>建立免費帳戶</register>，或<models>瀏覽模型</models>。"
@@ -933,7 +934,7 @@
         "H_HOW_IT_WORKS": "它在底層如何運作",
         "P_HOW_IT_WORKS": "當一個請求到來，閘道讀取 <c>model</c> 中的名稱，查出相符的上游供應商，換入該供應商的憑證，重寫供應商特有的請求主體欄位，再把呼叫轉發出去。串流的 token 經由同一連線返回，所以在你這邊看起來就是一次普通的 OpenAI 呼叫。好的閘道會加上對瞬時錯誤的重試、用量與成本的記帳，以及一份最新的模型目錄，於是新發布會自行出現，而你什麼都不必動。",
         "H_WHO_NEEDS_ONE": "誰真正需要它",
-        "P_WHO_NEEDS_ONE": "如果你使用不止一個模型、打算隨價格和品質變動而換模型，或者要建構任何不該被硬接到單一實驗室的東西，你就會想要一個閘道。編碼代理、聊天應用程式、角色扮演前端和內部工具都會受益。如果你真的只呼叫一個供應商的一個模型，且從不指望更換，那麼直接的供應商金鑰更簡單。其餘所有人都能用閘道省下真實的功夫。",
+        "P_WHO_NEEDS_ONE": "如果你使用不止一個模型，打算隨價格和品質的變化切換模型，或者建構任何不該被硬綁定到單一廠商的東西，那你就需要一個閘道。程式設計代理、聊天應用、角色聊天前端和內部工具都能從中受益。如果你確實只呼叫某一家供應商的某一個模型，且從不打算更換，那直接用供應商的金鑰更簡單。其餘所有人都能靠閘道省下實實在在的功夫。",
         "H_VERDICT": "簡而言之",
         "P_VERDICT": "LLM 閘道把眾多供應商變成一個端點、一把金鑰和一張帳單，於是你整合一次，便能自由換模型。{appName} 正是這種模子裡的相容 OpenAI 的閘道：一把金鑰為程式碼和聊天同樣觸達 200 多個模型，配上不會過期的按用量付費額度。如果你觸及不止一個模型，閘道是更乾淨的根基。",
         "CTA": "自己試一個閘道：<register>建立免費帳戶</register>，或<models>瀏覽模型</models>。"
@@ -946,30 +947,30 @@
         "H_WHAT_YOU_NEED": "你首先需要什麼",
         "P_WHAT_YOU_NEED": "三樣東西：一個執行中的 SillyTavern 安裝、一個相容 OpenAI 的端點，以及給它的一把金鑰。閘道把後兩樣一併涵蓋，因為它給你一個基礎 URL 和一把觸達眾多模型的金鑰。用 {appName}，你建立帳戶、取得金鑰，便準備就緒；有一個免費方案，讓你在花任何錢之前先試一個角色。把金鑰放在手邊，別把它貼到任何公開的地方。",
         "H_STEPS": "設定步驟",
-        "P_STEPS": "在 SillyTavern 中，開啟 API 面板並選擇 Chat Completion，然後選 OpenAI 相容（Custom）來源。把基礎 URL 設為 <c>https://api.unorouter.com/v1</c>，貼上你的 {appName} 金鑰，點擊以載入模型清單。從下拉中挑一個模型，發一則測試訊息。你的角色、世界書和預設照舊執行，因為 SillyTavern 需要的只是一個端點和一把金鑰。同一把金鑰在 Janitor.AI、RisuAI 和 Chub 裡也能用。",
+        "P_STEPS": "在 SillyTavern 中，開啟 API 面板並選擇 Chat Completion，然後選擇 OpenAI 相容（Custom）來源。將基礎 URL 設為 <c>https://api.unorouter.com/v1</c>，貼上你的 {appName} 金鑰，按一下載入模型清單。從下拉選單中選一個模型並傳送一條測試訊息。你的角色、世界書和預設照常執行，因為 SillyTavern 只需要一個端點和一把金鑰。同一把金鑰在 Janitor.AI、RisuAI 和 Chub 中同樣有效。",
         "H_SWITCHING_MODELS": "之後換模型",
         "P_SWITCHING_MODELS": "因為一切都經由一個端點，換模型只是在模型下拉裡選另一項；沒有新帳戶、新金鑰或新基礎 URL。這讓你在搭建一個場景時跑一個便宜的免費模型，再在關鍵時刻切到一個更強的付費模型。一把金鑰上有 200 多個模型，你便能讓模型貼合場景，而不必將就單一供應商所提供的東西。",
         "H_TROUBLESHOOTING": "常見錯誤與修復",
         "P_TROUBLESHOOTING": "如果模型清單載入不出來，再次檢查基礎 URL 是否以 <c>/v1</c> 結尾，以及金鑰是否貼得沒有多餘空格。401 意味著金鑰錯誤或已過期；再複製一遍。某個模型上的 404 意味著那個模型名沒有從已載入的清單中選中。如果回覆被截斷，在 SillyTavern 的設定裡把回應長度調高。多數設定失敗是基礎 URL 打錯或金鑰帶空格，所以先查這些。",
         "H_VERDICT": "全部訣竅就這些",
-        "P_VERDICT": "把任意 LLM 連接到 SillyTavern，歸結為一個相容 OpenAI 的端點加一把金鑰，而閘道把這變成單一設定背後的眾多模型。{appName} 給你那個基礎 URL、一個起步的免費方案，以及 200 多個無需重做任何事即可來回切換的模型。設定一次，同一把金鑰便隨你走遍每個 RP 前端。",
+        "P_VERDICT": "把任意 LLM 連接到 SillyTavern，歸根結底就是一個 OpenAI 相容端點加一把金鑰，而一個閘道會把它變成同一套設定背後的眾多模型。{appName} 給你那個基礎 URL、供你起步的免費級，以及 200+ 個可隨意切換、無需重做任何設定的模型。設定一次，同一把金鑰就會在每一個角色聊天前端裡跟著你走。",
         "CTA": "準備好連接 SillyTavern 了嗎？<register>建立免費帳戶</register>，或<models>瀏覽模型</models>。"
       },
       "ONE_API_KEY_FOR_CLAUDE_CODE_AND_ROLEPLAY": {
-        "TITLE": "一把 API 金鑰同時用於 Claude Code 和角色扮演",
-        "DESCRIPTION": "編碼代理和角色扮演用戶端都講相容 OpenAI 的 API。下面講一把金鑰如何從一個餘額為 Claude Code 和你的角色聊天供能。",
+        "TITLE": "一把 API 金鑰，同時用於 Claude Code 和角色聊天",
+        "DESCRIPTION": "程式設計代理和角色聊天用戶端都講 OpenAI 相容 API。這裡講講一把金鑰如何從同一份餘額驅動 Claude Code 和你的角色聊天。",
         "AUTHOR": "{appName}團隊",
-        "INTRO": "編碼代理和角色扮演用戶端感覺像是不同的世界，但在底層它們講同一種語言：相容 OpenAI 的 Chat Completions。這意味著一把金鑰和一個端點能服務兩者。你可以讓 Claude Code 對著一個閘道跑你真正的工作，到了晚上再用一模一樣的金鑰做角色聊天，從一個餘額計費。下面講這如何運作，以及為何方便。",
+        "INTRO": "程式設計代理和角色聊天用戶端感覺像是兩個不同的世界，但在底層它們講同一種語言：OpenAI 相容的 Chat Completions。這意味著一把金鑰、一個端點就能同時服務兩者。你可以讓 Claude Code 接入一個閘道來處理真正的工作，晚上再用同一把金鑰進行角色聊天，全部從同一份餘額中扣費。下面講講它如何運作，以及為何如此便利。",
         "H_TWO_WORLDS": "兩個世界，一個協定",
-        "P_TWO_WORLDS": "Claude Code、Cline、Codex 和 Kilo Code 是編碼代理；SillyTavern、Janitor.AI 和 RisuAI 是角色扮演用戶端。它們看起來毫不相干，但每一個都連接到一個相容 OpenAI 的端點和一把金鑰。一個閘道坐在兩者背後，於是同一份憑證早上驅動一次重構，晚上驅動一個故事。沒有理由為兩個講同一協定的工具保留分開的帳戶和分開的帳單。",
+        "P_TWO_WORLDS": "Claude Code、Cline、Codex 和 Kilo Code 是程式設計代理；SillyTavern、Janitor.AI 和 RisuAI 是角色聊天用戶端。它們看似毫不相關，但每一個都連接到一個 OpenAI 相容端點和一把金鑰。一個閘道位於兩者背後，因此同一份憑證既能在早上驅動一次重構，也能在夜裡驅動一段故事。沒有理由為兩個講同一協定的工具保留各自的帳戶和各自的帳單。",
         "H_CLAUDE_CODE": "搭配 Claude Code 使用",
         "P_CLAUDE_CODE": "把你的編碼代理指向閘道：將基礎 URL 設為 <c>https://api.unorouter.com/v1</c> 並填上你的 {appName} 金鑰，然後挑一個強的編碼模型。Claude Code、Cline、Codex 和 Kilo Code 都接受一個相容 OpenAI 的基礎 URL，於是代理照常工作，而閘道把請求路由到你所選的模型。為了成本或品質換模型，只是一行改動，無需新金鑰。",
-        "H_ROLEPLAY": "用於角色扮演",
-        "P_ROLEPLAY": "同一把金鑰塞進 SillyTavern、Janitor.AI、RisuAI 和 Chub：選相容 OpenAI 的來源，把基礎 URL 設為 <c>https://api.unorouter.com/v1</c>，貼上金鑰，載入模型。你的角色、世界書和預設照舊執行。{appName} 還有一個內建的聊天與角色用戶端，於是當你不想啟動一整個應用程式時，同一把金鑰和額度在那裡也能用。",
+        "H_ROLEPLAY": "用於角色聊天",
+        "P_ROLEPLAY": "同一把金鑰可接入 SillyTavern、Janitor.AI、RisuAI 和 Chub：選擇 OpenAI 相容來源，將基礎 URL 設為 <c>https://api.unorouter.com/v1</c>，貼上金鑰並載入模型。你的角色、世界書和預設照常執行。{appName} 還自帶一個聊天與角色用戶端，因此當你不想啟動完整應用時，同一把金鑰和額度在那裡也能用。",
         "H_ONE_BALANCE": "兩邊共用一個餘額",
-        "P_ONE_BALANCE": "因為兩邊都跑在同一把金鑰上，你的編碼用量和角色扮演用量從一個按用量付費的餘額裡扣。額度不過期，沒有需要去湊數的月度席位，你在一個地方看到全部花費，而不是把它分散到各個供應商。一個免費方案讓你在付費之前先試任一邊。一個帳戶涵蓋你的一整天，工作與玩樂。",
+        "P_ONE_BALANCE": "由於兩邊都跑在同一把金鑰上，你的程式設計用量和角色聊天用量都從同一份按量付費餘額中扣除。額度不會過期，沒有需要去衡量是否值得的月度席位，你在一處就能看到全部支出，而不必把它們分散到各個供應商。免費級讓你在付費前先試用兩邊。一個帳戶涵蓋你一整天，工作與娛樂皆然。",
         "H_VERDICT": "要點",
-        "P_VERDICT": "編碼代理和角色扮演用戶端共享相容 OpenAI 的協定，於是一把金鑰能從一個餘額為兩者供能。{appName} 正是為這種跨度而建：給 Claude Code 及同類一個乾淨的 API，給 RP 一個聊天與角色用戶端，200 多個模型，以及不會過期的額度。一把金鑰，一張帳單，兩個世界。",
+        "P_VERDICT": "程式設計代理和角色聊天用戶端共享 OpenAI 相容協定，因此一把金鑰就能從同一份餘額驅動兩者。{appName} 正是為這種跨度而生：為 Claude Code 等提供乾淨的 API，為說故事提供聊天與角色用戶端，200+ 個模型，以及不會過期的額度。一把金鑰，一份帳單，兩個世界。",
         "CTA": "想要一把金鑰用於程式碼和聊天嗎？<register>建立免費帳戶</register>，或<models>瀏覽模型</models>。"
       }
     }
@@ -1046,11 +1047,11 @@
     },
     "META": {
       "TITLE": "價格：{appName}",
-      "DESCRIPTION": "每個 AI 模型一份簡單價格。訂閱更划算，也能依用量付費。在程式碼裡、在 Claude Code 裡、在 SillyTavern、Janitor.AI、RisuAI、Chub 裡都能用。",
-      "KEYWORDS": "AI API 價格，AI 訂閱，依 token 計費，AI 模型價格，便宜 AI API，實惠 AI，SillyTavern 價格，Janitor.AI 價格，角色扮演 AI 價格，Character AI 價格"
+      "DESCRIPTION": "每一個 AI 模型都有簡單的價格。訂閱更划算，或按用量付費。可與你的程式碼、與 Claude Code，以及與 SillyTavern、RisuAI 和任意 OpenAI 相容的 AI 聊天用戶端搭配使用。",
+      "KEYWORDS": "AI API 價格，AI 訂閱，依 token 計費，AI 模型價格，便宜 AI API，實惠 AI，OpenAI 相容價格，多模型 API 價格"
     },
     "TITLE": "價格",
-    "SUBTITLE": "無論你是上線應用還是進行長時間角色扮演。一個方案，涵蓋所有模型。",
+    "SUBTITLE": "無論你是在發布應用，還是在進行長時間的角色聊天工作階段。一個方案，所有模型。",
     "CTA": "訂閱",
     "FAQ": {
       "Q1": "{appName} 的計費方式是什麼？",
@@ -1065,10 +1066,10 @@
       "A5": "{appName} 會跨多家供應商路由請求並自動容錯。若某家供應商被限流或故障，我們會透明地改向下一家健康的上游重試。",
       "Q6": "我可以退款嗎？",
       "A6": "未使用的預付額度自購買起 30 天內可退款。退款請聯絡 {supportEmail}。",
-      "Q7": "可以搭配 SillyTavern、Janitor.AI、Chub 或 RisuAI 使用嗎？",
-      "A7": "可以。每個方案都能在主流角色扮演用戶端中作為自訂 OpenAI 相容來源使用。SillyTavern、Janitor.AI、RisuAI 與 Chub 在文件中都有各自的設定指南。",
+      "Q7": "我可以把它與 SillyTavern、RisuAI 或其他 OpenAI 相容的 AI 聊天用戶端一起使用嗎？",
+      "A7": "可以。每個方案都能在任意主流角色聊天用戶端中作為自訂的 OpenAI 相容來源使用。SillyTavern、Janitor.AI、RisuAI 和 Chub 在文件中各有一份設定指南。",
       "Q8": "對話或角色歷史可以保留多長？",
-      "A8": "{appName} 支援每個模型的完整上下文視窗，Gemini 最高 1M tokens，Claude 最高 200k tokens。長篇角色扮演與大型程式碼庫都能從容應對。"
+      "A8": "{appName} 支援每個模型的完整脈絡視窗，Gemini 最高 100 萬 token，Claude 最高 20 萬 token。長篇角色對話和大型程式碼庫都能正常執行。"
     },
     "TIER": {
       "1": "入門版",
@@ -1092,8 +1093,8 @@
   "DOCS_INDEX": {
     "META": {
       "TITLE": "整合：{appName}",
-      "DESCRIPTION": "主流 AI 工具與角色扮演用戶端的設定指南。Claude Code、Codex CLI、Gemini CLI、OpenClaw、SillyTavern、Janitor.AI、RisuAI 與 Chub。",
-      "KEYWORDS": "AI 整合指南，Claude Code 設定，Codex CLI 設定，Gemini CLI 設定，OpenClaw 設定，SillyTavern 設定，Janitor.AI 設定，RisuAI 設定，Chub 設定，AI API 文件，角色扮演 AI 代理設定"
+      "DESCRIPTION": "面向所有主流 AI 工具和角色聊天用戶端的設定指南。Claude Code、Codex CLI、Gemini CLI、OpenClaw、SillyTavern、RisuAI，以及其他 OpenAI 相容用戶端。",
+      "KEYWORDS": "AI 整合指南, Claude Code 設定, Codex CLI 設定, Gemini CLI 設定, OpenClaw 設定, SillyTavern 設定, RisuAI 設定, AI 角色聊天設定, AI API 文件, OpenAI 相容 API 設定"
     },
     "BADGE": "整合",
     "TITLE": "整合",
@@ -1106,8 +1107,8 @@
     "CTA_MODELS": "查看所有模型",
     "PATHS_TITLE": "熱門路徑",
     "PATHS_DESC": "從你要連接的對象開始。直接跳到正確的基礎 URL、路由與模型設定。",
-    "PATH_ROLEPLAY_TITLE": "角色扮演用戶端",
-    "PATH_ROLEPLAY_DESC": "SillyTavern、Janitor.AI、Chub 與 RisuAI。",
+    "PATH_ROLEPLAY_TITLE": "角色與虛構用戶端",
+    "PATH_ROLEPLAY_DESC": "SillyTavern、Janitor.AI、Chub 和 RisuAI。",
     "PATH_CODING_TITLE": "程式設計代理",
     "PATH_CODING_DESC": "OpenCode、Cline、Roo Code、Kilo Code、Zed 等。",
     "PATH_GENERAL_TITLE": "聊天用戶端",
@@ -1172,11 +1173,11 @@
       "COMPAT_TOOL_CALLING": "工具呼叫",
       "COMPAT_IMAGES": "影像輸入",
       "CATEGORY_CODING": "程式設計代理",
-      "CATEGORY_ROLEPLAY": "角色扮演用戶端",
+      "CATEGORY_ROLEPLAY": "角色與虛構用戶端",
       "CATEGORY_GENERAL": "聊天用戶端",
       "CATEGORY_CLI": "命令列工具",
       "CATEGORY_CODING_DESC": "透過 API 撰寫並執行程式碼的編輯器與代理。",
-      "CATEGORY_ROLEPLAY_DESC": "角色聊天與角色扮演前端。",
+      "CATEGORY_ROLEPLAY_DESC": "角色聊天與虛構創作前端。",
       "CATEGORY_GENERAL_DESC": "通用聊天應用程式與桌面用戶端。",
       "CATEGORY_CLI_DESC": "終端機工具與命令列代理。"
     },
@@ -1666,13 +1667,13 @@
       "META": {
         "TITLE": "SillyTavern 整合指南 | {appName}",
         "DESCRIPTION": "透過 Custom OpenAI-compatible 聊天補全來源將 SillyTavern 連接到 {appName}。提供逐步設定說明與 SillyTavern 所要求的精確 URL 格式。",
-        "KEYWORDS": "SillyTavern, SillyTavern 代理, SillyTavern API, SillyTavern 自訂端點, {appName} SillyTavern, 角色扮演 AI 代理, OpenAI 相容角色扮演"
+        "KEYWORDS": "SillyTavern, SillyTavern 代理, SillyTavern API, SillyTavern 自訂端點, {appName} SillyTavern, AI 角色聊天, OpenAI 相容 API"
       },
       "BADGE": "SillyTavern",
       "TITLE": "SillyTavern 整合指南",
       "SUBTITLE": "透過 Custom OpenAI-compatible 聊天補全來源將 {appName} 連接到 SillyTavern。",
       "INTRO_TITLE": "什麼是 SillyTavern？",
-      "INTRO_DESC": "SillyTavern 是一款自架式的角色扮演與角色聊天前端，專為大型語言模型設計。它在本機執行，將角色與對話儲存在你自己的電腦上，並支援任何 OpenAI 相容 API 作為聊天補全來源。",
+      "INTRO_DESC": "SillyTavern 是一款面向大型語言模型的自架角色聊天與互動虛構前端。它在本機執行，將角色和聊天記錄保存在你自己的裝置上，並支援任意 OpenAI 相容 API 作為其聊天補全來源。",
       "INTRO_LINK_DOCS": "SillyTavern 官方文件",
       "INTRO_LINK_GITHUB": "SillyTavern GitHub 頁面",
       "OVERVIEW": "概觀",
@@ -1732,13 +1733,13 @@
       "META": {
         "TITLE": "Janitor.AI 整合指南 | {appName}",
         "DESCRIPTION": "將 Janitor.AI 作為自訂代理連接到 {appName}。包含 Janitor 所要求的完整路徑 URL，以及多數指南遺漏的瀏覽器強制重新整理步驟。",
-        "KEYWORDS": "Janitor AI, Janitor 代理, Janitor API, {appName} Janitor, 角色扮演代理, OpenAI 相容角色扮演, Janitor 自訂代理 URL"
+        "KEYWORDS": "Janitor AI, Janitor 代理, Janitor API, {appName} Janitor, AI 角色聊天, OpenAI 相容 API, Janitor 自訂代理 URL"
       },
       "BADGE": "Janitor.AI",
       "TITLE": "Janitor.AI 整合指南",
       "SUBTITLE": "使用 Janitor API 設定面板所要求的精確 URL 格式，將 {appName} 作為自訂代理連接到 Janitor.AI。",
       "INTRO_TITLE": "什麼是 Janitor.AI？",
-      "INTRO_DESC": "Janitor.AI 是一個瀏覽器型角色聊天平台。它內建一個免費模型，並允許你加入任何 OpenAI 相容代理以取得無限制存取。{appName} 會插入 API 設定面板中使用。",
+      "INTRO_DESC": "Janitor.AI 是一款基於瀏覽器的角色聊天平台。它內建一個免費模型，並允許你新增任意 OpenAI 相容代理以取得無限存取。{appName} 在 API Settings 面板中接入。",
       "INTRO_LINK_DOCS": "Janitor.AI 官方代理快速入門",
       "OVERVIEW": "概觀",
       "OVERVIEW_DESC": "Janitor.AI 會呼叫你代理的完整 `/v1/chat/completions` URL。你需將該 URL、API 金鑰與模型名稱貼入設定中，按下 Save，然後強制重新整理瀏覽器讓設定生效。",
@@ -1801,13 +1802,13 @@
       "META": {
         "TITLE": "RisuAI 整合指南 | {appName}",
         "DESCRIPTION": "透過 Custom Models 將 RisuAI 連接到 {appName}。包含取消勾選 Autofill Request URL 的關鍵步驟，這是 RisuAI 代理設定第一名的支援問題。",
-        "KEYWORDS": "RisuAI, RisuAI 代理, RisuAI 自訂端點, {appName} RisuAI, 角色扮演 AI 代理, Autofill Request URL, RisuAI OpenAI 相容"
+        "KEYWORDS": "RisuAI, RisuAI 代理, RisuAI 自訂端點, {appName} RisuAI, AI 角色聊天, Autofill Request URL, RisuAI OpenAI 相容"
       },
       "BADGE": "RisuAI",
       "TITLE": "RisuAI 整合指南",
       "SUBTITLE": "透過 Advanced Settings 中的 Custom Models 選項，將 {appName} 連接到 RisuAI。",
       "INTRO_TITLE": "什麼是 RisuAI？",
-      "INTRO_DESC": "RisuAI 是一款以本機優先為核心的角色扮演聊天前端，可在瀏覽器或桌面應用程式中執行。它支援任何 OpenAI 相容端點，設定存放於瀏覽器的本機儲存。",
+      "INTRO_DESC": "RisuAI 是一款本機優先的角色聊天前端，可在瀏覽器中執行，也可作為桌面應用執行。它支援任意 OpenAI 相容端點，設定保存在瀏覽器本機儲存中。",
       "INTRO_LINK_GUIDE": "第三方 RisuAI 設定指南（HyprLab）",
       "INTRO_LINK_GITHUB": "RisuAI GitHub 頁面",
       "INTRO_WIKI_NOTE": "RisuAI 官方 wiki 內容落後目前的介面。以下步驟根據 2026-04 當時的 RisuAI 撰寫。",
@@ -1877,13 +1878,13 @@
       "META": {
         "TITLE": "Chub / Venus 整合指南 | {appName}",
         "DESCRIPTION": "將 Chub.ai（Venus）作為反向代理連接到 {appName}。含有第一方中繼說明，用以回應 Chub 內建的第三方代理警告。",
-        "KEYWORDS": "Chub AI, Venus AI, Chub 反向代理, {appName} Chub, 角色扮演 AI 代理, OpenAI 相容 Chub, Chub OpenAI 設定"
+        "KEYWORDS": "Chub AI, Venus AI, Chub 反向代理, {appName} Chub, AI 角色聊天, OpenAI 相容 API, Chub OpenAI 設定"
       },
       "BADGE": "Chub / Venus",
       "TITLE": "Chub / Venus 整合指南",
       "SUBTITLE": "透過 Secrets 面板中的 Reverse proxy 選項，將 {appName} 連接到 Chub.ai（Venus）。",
       "INTRO_TITLE": "什麼是 Chub / Venus？",
-      "INTRO_DESC": "Chub.ai（舊稱 Venus）是一款瀏覽器型角色聊天平台，擁有 60,000 個角色的素材庫。它會透過 Secrets 面板連接 OpenAI 相容端點。",
+      "INTRO_DESC": "Chub.ai（前身為 Venus）是一款基於瀏覽器的角色聊天平台，擁有 6 萬個角色的素材庫。它透過 Secrets 面板連接到 OpenAI 相容端點。",
       "INTRO_LINK_DOCS": "Chub.ai 官方 API Connections 文件",
       "OVERVIEW": "概觀",
       "OVERVIEW_DESC": "Chub 的 Secrets 面板接受以 `/v1` 結尾的基礎 API URL 以及你的 API 金鑰。在你於 Prompt Structure 挑選模型之前，Check your proxy 按鈕會先驗證連線。",
@@ -2298,6 +2299,7 @@
     "MODELS": "模型",
     "PRICING": "價格",
     "DOCUMENTATION": "文件",
+    "BLOG": "部落格",
     "STATUS": "狀態",
     "LEGAL": "法律",
     "PRIVACY": "隱私權政策",
@@ -2312,7 +2314,8 @@
     "SOCIAL_TRUSTPILOT": "Trustpilot",
     "EASTER_EGG_LABEL": "玩一場 Token Breakout",
     "BADGE_FEATURED_ON": "已在 {name} 推薦",
-    "BADGE_VERIFIED_ON": "已在 {name} 驗證"
+    "BADGE_VERIFIED_ON": "已在 {name} 驗證",
+    "AUP": "使用政策"
   },
   "PRIVACY": {
     "META": {
@@ -2374,7 +2377,7 @@
     "USER_CONTENT_TITLE": "5. 使用者內容與資料",
     "USER_CONTENT_CONTENT": "您對透過本服務提交的內容（「使用者內容」）保有所有權。AI 所產生輸出的所有權則依所使用之特定 AI 模型之條款而定。我們不會將您的使用者內容用於訓練 AI 模型。您授予我們有限授權，僅用於提供本服務之目的處理您的使用者內容。",
     "PROHIBITED_TITLE": "6. 禁止行為",
-    "PROHIBITED_CONTENT": "您同意不使用本服務違反任何適用法律或法規；不建立假身分或冒充他人；不進行自動化爬取或資料探勘；不侵犯第三方智慧財產權；不嘗試破壞、過度負載或干擾本服務；不從事詐欺行為；亦不在未獲授權的情況下轉售您的帳戶存取權。",
+    "PROHIBITED_CONTENT": "您同意不使用本服務違反任何適用法律或法規；不建立假身分或冒充他人；不進行自動化爬取或資料探勘；不侵犯第三方智慧財產權；不嘗試破壞、過度負載或干擾本服務；不從事詐欺行為；亦不在未獲授權的情況下轉售您的帳戶存取權；亦不得生成、請求或散布色情露骨、猥褻或 NSFW 內容、兒童性虐待素材、未經同意的性內容，或深度偽造及換臉圖像。您對本服務的使用亦受我們的使用政策規範。",
     "TERMINATION_TITLE": "7. 終止",
     "TERMINATION_CONTENT": "我們可於任何時候，基於任何理由（包括違反本條款）中止或終止您的帳戶。終止時（違規情形除外），任何剩餘未使用的額度可由我們酌情退款。您亦可隨時聯繫我們以終止帳戶。",
     "IP_TITLE": "8. 智慧財產權",
@@ -2427,6 +2430,30 @@
     "CHANGES_CONTENT": "為持續符合不斷演進的消費者保護架構，我們可能隨時修訂本退款政策。更新內容將連同修訂日期於本頁面公布；如有需要，我們會就重大變更提前通知受影響的客戶。",
     "CONTACT_TITLE": "8. 聯絡我們",
     "CONTACT_CONTENT": "如需申請退款或對本政策有任何疑問，請透過 {supportEmail} 與我們聯絡。"
+  },
+  "AUP": {
+    "TITLE": "使用政策",
+    "LAST_UPDATED": "最後更新：2026 年 6 月 30 日",
+    "META": {
+      "TITLE": "使用政策 - {appName}",
+      "DESCRIPTION": "{appName} 的使用政策。禁止的內容與行為，包括禁止生成色情露骨、NSFW、深度偽造及有害內容。",
+      "KEYWORDS": "使用政策，{appName} AUP，禁止內容，內容政策，AI 使用政策，NSFW 禁令"
+    },
+    "INTRO": "本使用政策規範您對 {appName} 的使用。{appName} 是一個 API 聚合平台，會將您的請求路由至第三方 AI 模型供應商。本政策適用於 {appName} 的每一項功能，包括聊天、圖像生成與影片生成。使用本服務即表示您在我們的服務條款之外，同意下列規則。",
+    "PROHIBITED_CONTENT_TITLE": "禁止內容",
+    "PROHIBITED_CONTENT_CONTENT": "您不得使用本服務生成、請求、上傳或散布任何形式的色情露骨、猥褻或 NSFW 內容、兒童性虐待素材、將未成年人性化的內容，或未經同意的性或私密內容。無論內容是在我們的平台上生成，還是透過連接的第三方用戶端生成，本禁令均適用於文字、圖像與影片。",
+    "PROHIBITED_DEEPFAKE_TITLE": "深度偽造與冒充",
+    "PROHIBITED_DEEPFAKE_CONTENT": "您不得使用本服務製作換臉、深度偽造或人臉竄改媒體，或在未經其同意的情況下冒充任何真實人物。嚴禁為了欺騙、騷擾或誹謗的目的生成可辨識個人的逼真描繪。",
+    "PROHIBITED_HARM_TITLE": "有害與非法使用",
+    "PROHIBITED_HARM_CONTENT": "您不得使用本服務製作宣揚暴力、恐怖主義、自我傷害、騷擾、針對受保護群體的仇恨或任何非法活動的內容，亦不得用於開發惡意軟體、實施詐欺或以其他方式損害他人。",
+    "UPSTREAM_MODERATION_TITLE": "第三方供應商",
+    "UPSTREAM_MODERATION_CONTENT": "{appName} 會將您的提示詞轉發給第三方 AI 供應商，每家供應商都會執行各自的內容政策，並可能拒絕或過濾請求。您有責任確保自身的使用同時符合本政策以及底層供應商的政策。在生成圖像或影片之前，我們可能會審查提示詞，並攔截違反本政策的請求。",
+    "ENFORCEMENT_TITLE": "執行",
+    "ENFORCEMENT_CONTENT": "我們可能會審查使用情況，並針對違反本政策的行為採取措施，包括攔截請求、暫停或終止帳戶，以及向有關當局舉報非法活動。在法律要求或為防止損害的情況下，我們可能在未事先通知的情況下對違規行為採取措施。",
+    "CHANGES_TITLE": "本政策的變更",
+    "CHANGES_CONTENT": "我們可能會不時更新本使用政策。變更生效後繼續使用本服務，即表示接受修訂後的政策。",
+    "CONTACT_TITLE": "聯絡我們",
+    "CONTACT_CONTENT": "如對本使用政策有任何疑問，請透過 {supportEmail} 與我們聯絡。"
   },
   "MAIN": {
     "ENUM": {
@@ -2702,8 +2729,9 @@
       "IP_WHITELIST_DESC": "IP 可能被偽造，建議搭配閘道以加強保護。",
       "SUBMIT": "建立",
       "SAVE": "儲存",
-      "QUOTA_FREE_ONLY_HINT": "＄0 建立僅限免費模型的金鑰。付費模型將被拒絕。",
-      "QUOTA_EQUIVALENT": "= {quota} 配額"
+      "QUOTA_EQUIVALENT": "= {quota} 配額",
+      "QUOTA_POSITIVE": "權杖額度必須大於 0。如需僅免費模型的金鑰，請啟用無限額度。",
+      "QUOTA_ZERO_HINT": "額度為 0 將無法使用。免費模型（以 :free 結尾）可用於任何有效金鑰。"
     },
     "ENUM": {
       "ENABLED": "已啟用",
@@ -3081,6 +3109,8 @@
       "ERROR": "無法開啟帳務中心，請重試。"
     },
     "TITLE": "帳務",
+    "SUPPORT_TITLE": "需要協助嗎？",
+    "SUPPORT_TEXT": "對帳單或帳戶有疑問？請寄送電子郵件至 {supportEmail}，我們將在一個工作日內回覆您。",
     "ACCOUNT_STATS": "帳戶統計",
     "CURRENT_BALANCE": "目前餘額",
     "CONSUMPTION": "用量",
@@ -3150,6 +3180,10 @@
       "TITLE": "安全設定",
       "ACCESS_TOKEN": "系統存取權杖",
       "ACCESS_TOKEN_DESC": "使用此權杖可直接存取 API。",
+      "API_BASE_URL": "API 基礎 URL",
+      "API_BASE_URL_DESC": "請將您的 API 用戶端指向此 URL，而非控制台網域。控制台執行於獨立的網域上。",
+      "API_REFERENCE": "檢視 API 參考文件",
+      "API_URL_COPIED": "API URL 已複製到剪貼簿",
       "GENERATE_TOKEN": "產生權杖",
       "TOKEN_GENERATED": "權杖產生成功",
       "COPY_TOKEN": "複製",
@@ -3245,6 +3279,7 @@
       "REFRESH": "重新整理",
       "EDIT": "編輯",
       "PREVIOUS": "上一則",
+      "BRANCH": "從此處分支",
       "NEXT": "下一則",
       "CANCEL": "取消",
       "UPDATE": "更新",
@@ -3275,6 +3310,7 @@
       "STATUS_IN_PROGRESS": "生成中",
       "STATUS_SUCCESS": "完成",
       "STATUS_FAILURE": "失敗",
+      "GENERATING_IMAGE": "正在產生圖片……",
       "REFRESH": "重新整理"
     },
     "ATTACHMENT": {
@@ -3334,6 +3370,7 @@
     "SEARCH_CHATS": "搜尋對話",
     "TOKENS_IN": "輸入",
     "TOKENS_OUT": "輸出",
+    "MESSAGES_COUNT": "則訊息",
     "FILTER_ALL": "全部",
     "META": {
       "TITLE": "AI 對話：{appName}",
@@ -3356,6 +3393,12 @@
       "CHAT_MEMORY_HINT": "每次請求隨附的最近訊息數量。",
       "STREAMING_ENABLED": "串流輸出",
       "STREAMING_ENABLED_HINT": "關閉 = 等待完整回覆後再顯示。部分模型僅在緩衝後輸出乾淨。主要是使用者偏好。",
+      "MEMORY_ENABLED": "記憶",
+      "IMAGE_ENABLED": "聊天內圖片",
+      "UTILITY_MODEL": "工具模型",
+      "UTILITY_MODEL_PLACEHOLDER": "預設使用聊天模型",
+      "IMAGE_PROMPT_INSTRUCTION": "圖片提示詞指令",
+      "IMAGE_PROMPT_INSTRUCTION_PLACEHOLDER": "第二個模型應如何撰寫圖片提示詞（選填）",
       "SHOW_REASONING": "顯示推理過程",
       "SYSTEM_PROMPT": "覆寫系統提示詞",
       "SYSTEM_PROMPT_PLACEHOLDER": "留空則使用角色內建的系統提示詞。",
@@ -3431,12 +3474,15 @@
     "TRIGGER_ALERT_SELECT_DESC": "請選擇一個選項以繼續",
     "TRIGGER_ALERT_OK": "確定",
     "SUCCESS": {
-      "ERROR_COPIED": "已複製錯誤詳情"
+      "ERROR_COPIED": "已複製錯誤詳情",
+      "BRANCHED": "已分支到新聊天",
+      "BRANCH_FAILED": "無法分支聊天"
     },
     "CHAT_TOTAL": "對話總計",
     "STATS": {
       "SHOW_COST": "顯示費用",
-      "SHOW_TOKENS": "顯示權杖"
+      "SHOW_TOKENS": "顯示權杖",
+      "SHOW_MESSAGES": "顯示訊息數"
     },
     "GROUPS": {
       "NEW_GROUP": "新增分組",
@@ -3588,6 +3634,7 @@
     "SAMPLING_PRESENCE_PENALTY": "存在懲罰",
     "SAMPLING_REPETITION_PENALTY": "重複懲罰",
     "SAMPLING_MAX_TOKENS": "最大 Token 數",
+    "SAMPLING_MAX_TOKENS_CAP": "最大權杖（上限 {cap}）",
     "PRESET_DEFAULT": "預設取樣設定",
     "PRESET_SAMPLING_OFF": "關閉",
     "PRESET_MAIN_PROMPT": "主提示詞（位於系統提示之前）",
@@ -3598,7 +3645,7 @@
     "PRESET_POST_HISTORY_HINT": "附加在系統覆蓋之後。適合像 GLM 這樣更尊重末尾注入指令的模型。",
     "PRESET_PREFILL": "預填充",
     "PRESET_PREFILL_PLACEHOLDER": "好的，回覆如下：",
-    "PRESET_PREFILL_HINT": "作為最後一則助理訊息傳送。LLM 會從這段種子文字繼續生成。強大的越獄技巧。支援 user 與 char 巨集。",
+    "PRESET_PREFILL_HINT": "作為最後一則助理訊息傳送。LLM 會從這段種子文字繼續生成。強大的引導技巧。支援 user 與 char 巨集。",
     "PRESET_FLAGS_TITLE": "自訂旗標",
     "PRESET_FLAGS_HINT": "為挑剔的模型調整請求主體。需要時依模型自動套用；開啟以強制啟用。",
     "PRESET_FORCE_ALTERNATE_ROLES": "強制角色交替",
@@ -3662,6 +3709,11 @@
     "PRESET_STREAMING_HINT": "逐 token 串流回覆。關閉 = 一次接收完整回覆。聊天設定會覆寫此項。",
     "PRESET_SHOW_REASONING": "顯示推理過程",
     "PRESET_SHOW_REASONING_HINT": "在回覆中顯示模型的思考過程。關閉 = 隱藏它（推理仍會生成並保留，因此重新開啟即可顯示）。聊天設定會覆寫此項。",
+    "PRESET_MEMORY_ENABLED": "記憶（預設）",
+    "PRESET_IMAGE_ENABLED": "聊天內圖片（預設）",
+    "PRESET_UTILITY_MODEL": "工具模型",
+    "PRESET_UTILITY_MODEL_HINT": "摘要器與圖片提示詞生成器使用的模型。留空＝聊天模型；聊天設定會覆寫此項。",
+    "PRESET_IMAGE_PROMPT_INSTRUCTION": "圖片提示詞指令",
     "CHARACTER_BACKGROUND": "背景圖片",
     "CHARACTER_BACKGROUND_HINT": "當此角色主導對話時，顯示在聊天背後。",
     "CHARACTER_AVATAR": "頭像",
@@ -3673,6 +3725,7 @@
     "UNAUTHORIZED": "未授權",
     "NO_API_KEY": "未設定 API 金鑰",
     "NOT_FOUND": "找不到資源",
+    "MESSAGE_NOT_FOUND": "此訊息已不存在。請重新整理頁面後再試一次。",
     "NO_TASK_ID": "回應中缺少任務 ID 或 URL",
     "REQUEST_FAILED": "請求失敗",
     "PRICING_FETCH_FAILED": "取得價格資料失敗",
@@ -3995,5 +4048,299 @@
     "UPLOAD_IMAGE": "上傳圖片",
     "UPLOADING": "上傳中…",
     "INIT_IMAGE": "來源圖像"
+  },
+  "MODEL_TESTER": {
+    "META": {
+      "TITLE": "AI API 模型檢測器｜{appName}",
+      "DESCRIPTION": "驗證某個 API 端點實際提供的模型。在瀏覽器中對 Claude、GPT 和 Gemini 進行確定性的真實性檢測。",
+      "KEYWORDS": "模型檢測,API 真實性,假模型檢測,claude,gpt,gemini"
+    },
+    "HERO": {
+      "TITLE": "AI API 模型檢測器",
+      "SUBTITLE": "檢查端點是否真正提供其聲稱的模型。在你的瀏覽器中執行，你的金鑰不會傳送到我們的伺服器。",
+      "EYEBROW": "先驗證再信任",
+      "TRUST_BADGE": "100% 在瀏覽器中執行。你的金鑰絕不會傳送到我們的伺服器。"
+    },
+    "TABS": {
+      "TEST": "檢測",
+      "HISTORY": "歷史",
+      "RANKINGS": "排行榜"
+    },
+    "PROVIDER": {
+      "ANTHROPIC": "Anthropic (Claude)",
+      "OPENAI": "OpenAI (GPT)",
+      "GEMINI": "Google (Gemini)"
+    },
+    "FORM": {
+      "PROVIDER": "API 格式",
+      "BASE_URL": "API 基礎位址",
+      "API_KEY": "API 金鑰",
+      "MODEL": "模型",
+      "PUBLISH": "發佈到公開排行榜",
+      "PUBLISH_HINT": "僅分享主機、模型和分數，絕不分享你的金鑰。",
+      "RUN": "開始檢測",
+      "RUN_BACKEND": "透過後端檢測",
+      "CORS_TITLE": "該端點封鎖瀏覽器請求",
+      "CORS_WARNING": "可以改為透過我們的伺服器檢測。你的金鑰僅經過記憶體，絕不儲存。為安全起見，請在之後更換金鑰。",
+      "RUN_PUBLISH": "在我們的伺服器上驗證並發佈",
+      "SECTION_TITLE": "請求配置",
+      "SECTION_DESC": "配置端點和金鑰，然後在瀏覽器中執行檢測。",
+      "FORMAT_MISMATCH": "{model} 是 {format} 模型。請將 API 格式切換為 {format} 後再測試。"
+    },
+    "VERDICT": {
+      "GENUINE": "真實",
+      "SUSPICIOUS": "可疑",
+      "UNVERIFIED": "未確認",
+      "VERSION_UNVERIFIABLE": "已確認為真實模型。具體版本無法透過探測驗證。"
+    },
+    "PROBE": {
+      "EMOTIONAL": "情感",
+      "CREATIVE": "創意",
+      "IDENTITY": "身分",
+      "MODEL-NAME": "模型名稱"
+    },
+    "RESULT": {
+      "PASSED": "通過 {passed}/{total} 項探測",
+      "LATENCY": "{ms} 毫秒",
+      "TRANSPORT": "經由 {mode}",
+      "IDLE": "執行一次檢測，結果將顯示在這裡。",
+      "DETECTED_MODEL": "偵測到的模型",
+      "TOTAL_TOKENS": "{tokens} 個權杖",
+      "FORMAT_FELL_BACK": "不支援原生格式，已改用 {format} 檢測。",
+      "EVIDENCE": "證據",
+      "HIGHLIGHT_LEGEND": {
+        "FOREIGN": "提到了外來廠商",
+        "CODING_TOOL": "程式設計工具外殼套話",
+        "SCAM": "詐騙／竊取權杖文字",
+        "CJK": "意外的 CJK 字元",
+        "HOME": "符合預期的身分"
+      },
+      "INSPECT_PROBES": "查看探測詳情",
+      "HIDE_PROBES": "隱藏探測詳情"
+    },
+    "HISTORY": {
+      "EMPTY": "尚無檢測記錄。執行一次以建立歷史。",
+      "PUBLISH": "發佈",
+      "DELETE_TITLE": "刪除檢測",
+      "DELETE_BODY": "將該檢測從你的本機歷史中移除。",
+      "DELETE_CONFIRM": "刪除",
+      "DELETE_CANCEL": "取消",
+      "META_TITLE": "檢測歷史｜{appName}"
+    },
+    "RANKINGS": {
+      "EMPTY": "尚無已發佈的結果。",
+      "SAMPLES": "{count} 次檢測",
+      "LAST_TESTED": "最近檢測 {when}",
+      "PREV": "上一頁",
+      "NEXT": "下一頁",
+      "STAT_DETECTIONS": "檢測總數",
+      "STAT_PROVIDERS": "追蹤的提供商",
+      "STAT_PASS_RATE": "平均通過率",
+      "META_TITLE": "模型真實性排行榜｜{appName}",
+      "META_DESCRIPTION": "查看哪些 API 提供商真正提供其聲稱的模型，按確定性通過率排名。",
+      "DISCLAIMER": "每筆已發佈的結果在計入之前都會在我們的伺服器上重新執行，且每筆判定都會連結到產生它的確切證據。你認為有誤的結果可以申訴。",
+      "REPORT_DISCORD": "在 Discord 上回報",
+      "REPORT_GITHUB": "提交一個 GitHub issue",
+      "NOT_TESTED": "尚未測試",
+      "LOW_CONFIDENCE": "信賴度低（{count} 次測試）",
+      "SELF_TITLE": "我們對自己也堅持同樣的標準",
+      "SELF_BODY": "{appName} 也由這同一款工具測試。查看證據。",
+      "MODELS_TRACKED": "{count} 個模型",
+      "STAT_MODELS": "已測試模型",
+      "STAT_P95": "P95 延遲",
+      "P95": "p95 {ms}ms",
+      "PROVIDER_MODELS_TITLE": "依模型查看結果"
+    },
+    "DETAIL": {
+      "BACK": "返回檢測器",
+      "NOT_FOUND": "找不到檢測。",
+      "LOCAL_ONLY": "本機檢測，僅儲存在你的裝置上。發佈後我們的伺服器會進行驗證，才會出現在公開榜單上。",
+      "DISCLAIMER": "評分僅依據經伺服器驗證的探針計算。真實模型會確認廠商和層級；確切版本從不被宣稱。如認為某結果有誤，請透過下方連結申訴。",
+      "SUBMISSIONS": "近期提交",
+      "NO_SUBMISSIONS": "尚未有提交。成為第一個發布已驗證測試的人。",
+      "SUBMITTED_BY": "由 {who} 提交",
+      "ANONYMOUS": "匿名",
+      "DELETE_MINE": "刪除",
+      "REPORT": "回報",
+      "REPORT_HELP": "不是你的結果？申訴它：",
+      "DELETE_TITLE": "移除這筆已發佈的結果？",
+      "DELETE_BODY": "此操作會將你的提交從公開排名中撤下。你的本機歷史不受影響。",
+      "DELETE_CONFIRM": "移除",
+      "DELETE_CANCEL": "取消",
+      "GUEST_CANNOT_DELETE": "訪客提交無法在此刪除。請透過 Discord 或 GitHub 回報。",
+      "BACK_TO_PROVIDER": "返回提供商",
+      "BACK_TO_MODEL": "返回模型",
+      "PUBLISHED_NOTE": "伺服器已驗證。探測與回覆皆公開，任何人都可以稽核此判定。",
+      "LOADING": "載入中",
+      "EXPAND_ALL": "全部展開",
+      "COLLAPSE_ALL": "全部收合",
+      "PREV": "上一頁",
+      "NEXT": "下一頁",
+      "PAGE_OF": "第 {page} 頁，共 {total} 頁"
+    },
+    "PROBE_DETAIL": {
+      "PROMPT": "傳送的提示",
+      "RESPONSE": "模型回應",
+      "STATUS": "HTTP",
+      "TOKENS": "權杖（入/出）",
+      "SIGNAL": "信號",
+      "REASON": "原因",
+      "NO_RESPONSE": "未擷取到回應。",
+      "WHAT_WE_CHECK": "此探測檢查什麼"
+    },
+    "NAV": {
+      "TEST_DESC": "即時檢測端點",
+      "HISTORY_DESC": "你過去的檢測",
+      "RANKINGS_DESC": "公開排行榜"
+    },
+    "CONNECTIVITY": {
+      "CORS": "端點封鎖瀏覽器請求。請使用後端檢測。",
+      "UNREACHABLE": "無法存取端點。請檢查基礎位址。",
+      "INVALID_KEY": "API 金鑰無效。",
+      "NO_FORMAT": "端點未接受任何受支援的 API 格式。"
+    },
+    "PUBLISH": {
+      "WARN_TITLE": "這會將你的金鑰傳送到我們的後端",
+      "WARN_BODY": "為防止偽造結果，發佈時整個檢測在我們的伺服器上執行，因此判定由我們自己產生。你的金鑰僅經過伺服器記憶體，絕不儲存。",
+      "WARN_THROWAWAY": "請使用低額度的一次性金鑰，並在之後更換。",
+      "DONE": "已由我們的伺服器驗證並發佈到公開排行榜，同時已儲存到你的歷史記錄。",
+      "DEDUPED": "該端點最近已發佈過。",
+      "FAILED": "無法驗證該端點，未發佈任何內容。"
+    },
+    "TRUST": {
+      "TITLE": "開源。歡迎驗證與改進。",
+      "BODY": "檢測程式碼是開源的。你可以查看具體執行了哪些探測以及原因，建議新的檢測，或在我們的 Discord 上討論檢測方法。",
+      "GITHUB": "在 GitHub 上查看程式碼",
+      "DISCORD": "在 Discord 上討論檢測"
+    },
+    "RULES": {
+      "SECTION_TITLE": "偵測如何運作",
+      "WHY_LABEL": "原因：",
+      "NOT_FLAGGED_LABEL": "以下情況不會被標記：",
+      "NOT_FRAUD_TITLE": "什麼不會被計為偽造",
+      "PROOF": "整個測試器都是開源的。準確了解執行了哪些探測以及原因：",
+      "CODING-TOOL": {
+        "TITLE": "程式設計工具外殼",
+        "MEANS": "回覆使用了程式設計助理（Kiro、Cascade、Codeium 等）的套話，拒絕一個普通的創意或情感類提示。",
+        "WHY": "真正的 Claude/GPT/Gemini 會回答小貓故事或俳句。程式設計工具的蒸餾模型會拒絕，從而暴露出端點背後被替換的模型。",
+        "EXCEPTION": "模型只是出於安全原因拒絕，並未使用程式設計助理的套話。"
+      },
+      "SCAM": {
+        "TITLE": "詐騙／竊取權杖頁面",
+        "MEANS": "回覆包含已知的竊取權杖或釣魚文字，而非模型的回答。",
+        "WHY": "回傳詐騙到達頁的端點根本沒有提供任何模型。",
+        "EXCEPTION": "模型在正常回答中合理地談到「token」一詞。"
+      },
+      "CJK-LEAK": {
+        "TITLE": "意外的語言外洩",
+        "MEANS": "僅用英文的提示回傳了四個或更多 CJK（中文／日文／韓文）字元。",
+        "WHY": "CJK 外洩進英文回答是被替換的中文模型或破壞資料的代理的強烈跡象，即使身分問題回答正確也是如此。",
+        "EXCEPTION": "你以 CJK 語言提問或詢問與之相關的內容，因此回覆中出現 CJK 是預期之中的。"
+      },
+      "MUX": {
+        "TITLE": "回覆混淆（不安全的代理）",
+        "MEANS": "每個探針都攜帶唯一的 nonce；在重試之後，仍有兩個或更多回覆回傳時缺少我們傳送的 nonce。",
+        "WHY": "將一個請求多工複用到多個上游的代理會回傳與我們所發請求不相符的回答，而誠實的單一模型端點絕不會這樣。",
+        "EXCEPTION": "單次 nonce 遺漏只發生一次（我們會先重試）；只有反覆出現的不相符才計入。"
+      },
+      "FOREIGN": {
+        "TITLE": "外來廠商身分",
+        "MEANS": "在身分或模型名稱探針上，回覆給出的廠商與請求的不同（例如請求 Claude 時卻說成 OpenAI 或 Gemini）。",
+        "WHY": "把競爭對手實驗室說成自己製造者的模型，正由該競爭對手提供，而非你付費的那一方。",
+        "EXCEPTION": "模型對自己的版本含糊其辭或拒絕表明身分，真實模型常常如此。"
+      },
+      "TIER-MISMATCH": {
+        "TITLE": "層級降級（Claude）",
+        "MEANS": "你請求了某個 Claude 層級（Opus），但模型說出的是更便宜的層級（Sonnet 或 Haiku）。",
+        "WHY": "Claude 對確切版本可能含糊，但從不混淆自己的層級，因此明確說出的較低層級是蓄意降級。",
+        "EXCEPTION": "模型不確定自己的版本號；只有明確說出的不同層級才計入。"
+      },
+      "EXCEPTION": {
+        "VERSION": {
+          "TITLE": "版本含糊",
+          "BODY": "真實模型會確認廠商和層級，但往往不確定自己的確切版本。僅此一點絕不算失敗，只標記為提示性資訊。"
+        },
+        "TRANSIENT": {
+          "TITLE": "暫時性錯誤",
+          "BODY": "速率限制（429）、5xx 和逾時會把一次執行標記為未驗證，絕不標記為可疑。真實端點偶爾狀態不佳並不會被懲罰。"
+        },
+        "CLOUD-HOST": {
+          "TITLE": "雲端主機名稱",
+          "BODY": "把 AWS Bedrock、Google Vertex 或 Azure 說成主機是被接受的，因為這些都是轉售真實模型的合法方式。"
+        },
+        "RESHAPING": {
+          "TITLE": "協定重塑",
+          "BODY": "在 chat-completions 與原生 messages 格式之間轉換是正常的閘道行為，只要模型本身是真實的，就不是詐欺訊號。"
+        },
+        "THRESHOLD": {
+          "TITLE": "單個不穩定的探針",
+          "BODY": "四個探針中通過三個就足以判定為真實，因此單個偏差回答不會讓誠實的端點蒙冤。"
+        }
+      },
+      "COMMUNITY": "對更好的探測有想法嗎？在這裡提交：",
+      "SOURCE_LINK": "查看偵測程式碼"
+    },
+    "FAQ": {
+      "TITLE": "常見問題",
+      "ITEMS": {
+        "KEY_SAFE": {
+          "Q": "我的 API 金鑰安全嗎？",
+          "A": "本機測試時，金鑰絕不會離開你的瀏覽器，它會直接傳送到你輸入的端點。只有當你選擇發佈時，金鑰才會送到我們的伺服器，伺服器在記憶體中執行測試，從不儲存它。如有疑慮，請使用一次性金鑰。"
+        },
+        "SERVER_PROXY": {
+          "Q": "為什麼有時需要伺服器代理？",
+          "A": "有些端點會封鎖來自瀏覽器的直接請求（<cors>CORS</cors>）。發生這種情況時，我們會提供一個選用的後端測試，替你轉發探針。發佈一律在伺服器端執行，因此公開結果無法偽造。"
+        },
+        "RELIABILITY": {
+          "Q": "評分有多可靠？",
+          "A": "偵測是確定性的，而非機器學習的猜測。每個探針要麼符合某個具體訊號，要麼不符合，結果會向你展示確切證據。我們要求四個探針中通過三個，並把暫時性錯誤視為未驗證，而非失敗。"
+        },
+        "FALSE_POSITIVE": {
+          "Q": "我如何回報誤判？",
+          "A": "每筆已發佈的結果都可申訴。如果是你在登入狀態下自己發佈的，可以直接刪除；否則請在 <ghIssue>GitHub</ghIssue> 上提交 issue 或在 <discord>Discord</discord> 上聯絡我們，我們會重新查核並移除錯誤項目。"
+        },
+        "PROTOCOLS": {
+          "Q": "支援哪些 API 協定？",
+          "A": "Anthropic（/v1/messages）、OpenAI（/v1/chat/completions）和 Google Gemini（generateContent）。我們會先嘗試供應商的原生格式，必要時回退到相容 OpenAI 的格式。"
+        },
+        "OPEN_SOURCE": {
+          "Q": "它是開源的嗎？",
+          "A": "是的。此測試器完全在你的瀏覽器中執行，其偵測函式庫在 <gh>GitHub</gh> 上公開，因此你可以準確了解執行了哪些探測以及原因，提交新的探測，或在 <discord>Discord</discord> 上討論。"
+        }
+      }
+    },
+    "GAUGE": {
+      "READY": "就緒",
+      "RUNNING": "測試中",
+      "RUNNING_HINT": "正在針對你的端點執行探針。",
+      "DONE_HINT": "每段弧線是一個探針。展開下方的探針即可查看提示、回覆和證據。"
+    },
+    "WHY": {
+      "TITLE": "這款偵測器為何與眾不同",
+      "DETERMINISTIC_TITLE": "確定性的，而非猜測",
+      "DETERMINISTIC_BODY": "每項檢查都符合回覆中的具體訊號，因此我們不會像統計指紋那樣把真實模型誤標為偽造。請閱讀確切的程式碼。",
+      "VERIFIED_TITLE": "經伺服器驗證方可發佈",
+      "VERIFIED_BODY": "結果只有在我們的伺服器親自重新執行整套測試之後才會登上公開榜單，因此排名無法偽造。",
+      "EVIDENCE_TITLE": "你能看見的證據",
+      "EVIDENCE_BODY": "每筆判定都會顯示傳送的提示、原始回覆，以及觸發它的相符文字。沒有任何東西被隱藏。"
+    },
+    "PROBE_INTENT": {
+      "EMOTIONAL": {
+        "CHECKS": "要求寫一個簡短、有情感基礎的故事。",
+        "WHY": "真正的前沿模型會寫出真正有同理心的文字。程式工具蒸餾版或廉價替代品會拒絕，或回傳平淡的套話。"
+      },
+      "CREATIVE": {
+        "CHECKS": "要求按固定形式寫一首俳句或短詩。",
+        "WHY": "真正的Claude、GPT和Gemini會保持詩歌形式。被替換的模型會破壞形式、忽略限制或拒絕。"
+      },
+      "IDENTITY": {
+        "CHECKS": "用一個詞詢問是哪個AI實驗室訓練了該模型。",
+        "WHY": "答案應說出預期的實驗室。換成別的實驗室，或暴露出程式助手身分，就揭穿了端點背後被替換的後端。"
+      },
+      "MODEL-NAME": {
+        "CHECKS": "要求模型說出自己的模型名稱。",
+        "WHY": "名稱錯誤、含糊或拒答，說明該端點提供的並非其所宣傳的模型。"
+      }
+    }
   }
 }

@@ -12,7 +12,7 @@ import { msg } from "@/lib/config/constants";
 import { cn } from "@/lib/utils";
 import { formatTokenCount } from "@/lib/utils/format/number";
 import { PRICE_MAX } from "@/store/models-store";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 function GroupShell(props: {
   label: string;
@@ -113,6 +113,7 @@ export function ContextGroup(props: {
   onChange: (next: number) => void;
 }) {
   const t = useTranslations();
+  const locale = useLocale();
   const idx = Math.max(0, CONTEXT_STEPS.indexOf(props.value));
   return (
     <GroupShell label={t("MODELS.FILTER.CONTEXT_LENGTH")}>
@@ -131,7 +132,7 @@ export function ContextGroup(props: {
           <span>{t("MODELS.FILTER.MIN")}</span>
           <span>
             {props.value > 0
-              ? formatTokenCount(props.value)
+              ? formatTokenCount(props.value, locale)
               : t("MODELS.FILTER.ANY")}
           </span>
         </div>

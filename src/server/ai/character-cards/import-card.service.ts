@@ -56,7 +56,8 @@ async function importJanitor(href: string): Promise<ImportedCard> {
     body: JSON.stringify({ characterId: id }),
     maxBytes: 64 * 1024,
   });
-  if (api.status === 401) throw new Error(msg("ERRORS.CARD_IMPORT_INVALID_URL"));
+  if (api.status === 401)
+    throw new Error(msg("ERRORS.CARD_IMPORT_INVALID_URL"));
 
   const json = (() => {
     try {
@@ -68,7 +69,13 @@ async function importJanitor(href: string): Promise<ImportedCard> {
       return null;
     }
   })();
-  if (!(api.status === 200 && json?.status === "ok" && typeof json.downloadUrl === "string")) {
+  if (
+    !(
+      api.status === 200 &&
+      json?.status === "ok" &&
+      typeof json.downloadUrl === "string"
+    )
+  ) {
     if (json?.status === "error") {
       throw new Error(msg("ERRORS.CARD_IMPORT_NOT_FOUND"));
     }

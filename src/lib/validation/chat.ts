@@ -45,6 +45,8 @@ const itemTaskData = t.Object(
     model: t.String({ maxLength: MAX_MODEL_LEN }),
     status: t.String({ maxLength: 32 }),
     progress: t.Optional(t.String({ maxLength: 16 })),
+    // "image" = illustrator async-amend placeholder; absent/"video" = the video task card.
+    kind: t.Optional(t.String({ maxLength: 16 })),
   },
   { additionalProperties: true },
 );
@@ -248,6 +250,13 @@ export const updateConversationSettingsBody = t.Object({
   groupOrderByOrder: t.Optional(t.Union([t.Boolean(), t.Null()])),
   autoContinue: t.Optional(t.Union([t.Boolean(), t.Null()])),
   memoryEnabled: t.Optional(t.Union([t.Boolean(), t.Null()])),
+  imageEnabled: t.Optional(t.Union([t.Boolean(), t.Null()])),
+  utilityModel: t.Optional(
+    t.Union([t.String({ maxLength: MAX_MODEL_LEN }), t.Null()]),
+  ),
+  promptInstruction: t.Optional(
+    t.Union([t.String({ maxLength: 4_096 }), t.Null()]),
+  ),
   summaryMemory: t.Optional(
     t.Union([t.String({ maxLength: 16_384 }), t.Null()]),
   ),
@@ -357,7 +366,9 @@ export const titleGenerationBody = t.Object({
 export const forwardBody = t.Object(
   {
     model: t.String({ maxLength: MAX_MODEL_LEN }),
-    group: t.Optional(t.Union([t.String({ maxLength: MAX_MODEL_LEN }), t.Null()])),
+    group: t.Optional(
+      t.Union([t.String({ maxLength: MAX_MODEL_LEN }), t.Null()]),
+    ),
   },
   { additionalProperties: true },
 );

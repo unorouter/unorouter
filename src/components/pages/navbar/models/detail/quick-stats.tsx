@@ -6,7 +6,7 @@ import type { ModelMetadata } from "@/lib/api/pricing";
 import { cn } from "@/lib/utils";
 import { formatTokenCount } from "@/lib/utils/format/number";
 import { formatYearMonth } from "@/lib/utils/format/date";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import type { ReactNode } from "react";
 
 type Props = {
@@ -26,6 +26,7 @@ function row(
 
 export function QuickStats(props: Props) {
   const t = useTranslations();
+  const locale = useLocale();
   const meta = props.metadata;
 
   const contextWindow = meta.contextWindow ?? meta.maxInputTokens;
@@ -43,13 +44,15 @@ export function QuickStats(props: Props) {
     row(
       contextWindow !== undefined,
       t("MODELS.DETAIL.CONTEXT_WINDOW"),
-      contextWindow !== undefined ? formatTokenCount(contextWindow) : null,
+      contextWindow !== undefined
+        ? formatTokenCount(contextWindow, locale)
+        : null,
     ),
     row(
       meta.maxOutputTokens !== undefined,
       t("MODELS.DETAIL.MAX_OUTPUT"),
       meta.maxOutputTokens !== undefined
-        ? formatTokenCount(meta.maxOutputTokens)
+        ? formatTokenCount(meta.maxOutputTokens, locale)
         : null,
     ),
     row(meta.mode, t("MODELS.DETAIL.MODE"), meta.mode),

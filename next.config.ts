@@ -98,6 +98,8 @@ const nextConfig: NextConfig = {
     return [
       { source: "/:locale/chat/:path*", headers: coepHeaders },
       { source: "/:locale/playground/:path*", headers: coepHeaders },
+      // Model tester persists its history in SQLocal/OPFS, which needs cross-origin isolation.
+      { source: "/:locale/ai-api-model-tester/:path*", headers: coepHeaders },
       { source: "/api/ops/badge/:path*", headers: corpCrossOrigin },
       { source: "/_next/static/:path*", headers: corpSameOrigin },
       { source: "/api/:path((?!ops/badge).*)", headers: corpSameOrigin },

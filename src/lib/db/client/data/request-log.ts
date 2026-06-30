@@ -17,8 +17,7 @@ export function buildRequestLogCurl(row: {
   endpoint?: string | null;
 }): string {
   const target =
-    row.url ||
-    `${env.apiUrl}${row.endpoint ?? API_ENDPOINTS.chatCompletions}`;
+    row.url || `${env.apiUrl}${row.endpoint ?? API_ENDPOINTS.chatCompletions}`;
   const body =
     typeof row.requestBody === "string"
       ? row.requestBody

@@ -40,7 +40,10 @@ const TOKENIZER_OPTIONS: { value: string; labelKey: TranslationKey }[] = [
   { value: "glm5", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_GLM5" },
   { value: "glm4", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_GLM4" },
   { value: "deepseek", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_DEEPSEEK" },
-  { value: "deepseek-v4", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_DEEPSEEK_V4" },
+  {
+    value: "deepseek-v4",
+    labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_DEEPSEEK_V4",
+  },
   { value: "llama3", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_LLAMA3" },
   { value: "gemma", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_GEMMA" },
   { value: "qwen", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_QWEN" },
@@ -86,9 +89,7 @@ export function CustomProviderEditor(props: Props) {
     setFetching(true);
     try {
       const ids = await fetchCustomProviderModels(baseUrl, apiKey);
-      const existingKeys = new Set(
-        form.getValues("models").map((m) => m.key),
-      );
+      const existingKeys = new Set(form.getValues("models").map((m) => m.key));
       for (const id of ids) {
         if (!existingKeys.has(id))
           modelsArray.append({ key: id, label: id, tokenizer: "auto" });
@@ -162,7 +163,11 @@ export function CustomProviderEditor(props: Props) {
                   variant="outline"
                   size="sm"
                   onClick={() =>
-                    modelsArray.append({ key: "", label: "", tokenizer: "auto" })
+                    modelsArray.append({
+                      key: "",
+                      label: "",
+                      tokenizer: "auto",
+                    })
                   }
                 >
                   <Icon name="plus" className="size-4" />

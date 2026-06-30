@@ -46,28 +46,46 @@ export type StreamBody = {
   };
 };
 
-export type PreparedChatRequest = Awaited<ReturnType<typeof prepareChatRequest>>;
+export type PreparedChatRequest = Awaited<
+  ReturnType<typeof prepareChatRequest>
+>;
+
+// Throw the signal's reason (or a generic AbortError) when assembly is cancelled mid-flight. Checked at
+// stage boundaries so a user abort during a slow tokenizer download / heavy lorebook scan stops promptly,
+// instead of only being honored once streamText starts.
+function throwIfAborted(signal: AbortSignal | undefined) {
+  if (signal?.aborted) {
+    throw signal.reason instanceof Error
+      ? signal.reason
+      : new DOMException("Aborted", "AbortError");
+  }
+}
 
 export async function prepareChatRequest(
   apiKey: string,
   body: StreamBody,
   userId: number,
   deps: AssemblerDeps,
+  abortSignal?: AbortSignal,
 ) {
+  throwIfAborted(abortSignal);
   // Preload the per-model tokenizer BEFORE any counting (history fit / lorebook budget run sync against the
   // module-active tokenizer). Best-effort: a failed load falls back to cl100k/char-4 inside countTokens.
   await setActiveTokenizer(tokenizerRefForModel(body.tokenizer, body.model));
 
+  throwIfAborted(abortSignal);
   const { clientCtx, convCtx, effectiveWebSearch, searchSystemMessage } =
     await resolveContext(apiKey, body, userId, deps);
 
   const modelInfo = deps.getModelInfo(body.model);
+  throwIfAborted(abortSignal);
   const { messages, luaCodes } = await preprocessMessages(
     body.messages,
     convCtx,
     deps.inlinePdfText,
   );
 
+  throwIfAborted(abortSignal);
   const prompt = await assemblePrompt(
     apiKey,
     body,
@@ -79,6 +97,7 @@ export async function prepareChatRequest(
     deps,
   );
 
+  throwIfAborted(abortSignal);
   const {
     messagesForUpstream,
     effectiveSystem,

@@ -8,10 +8,7 @@ import {
   upsertLocalMessage,
   upsertLocalMessageItem,
 } from "@/lib/db/client/data/chat";
-import {
-  readLocalCharacter,
-  readLocalPersona,
-} from "@/lib/db/client/data/rp";
+import { readLocalCharacter, readLocalPersona } from "@/lib/db/client/data/rp";
 import { expandMacros } from "@/lib/ai/chat/macros";
 import { isCustomModelId } from "@/lib/ai/chat/custom-provider-id";
 import { uid } from "@/lib/utils/base";
@@ -126,7 +123,9 @@ export function createThreadListAdapter(
         maxTokens: seed("maxTokens"),
         extraBody: hasPreset ? null : (defaults.extraBody ?? null),
         // null = inherit; bound preset stays null so its later edits propagate to this chat (Matic).
-        streamingEnabled: hasPreset ? null : (defaults.streamingEnabled ?? null),
+        streamingEnabled: hasPreset
+          ? null
+          : (defaults.streamingEnabled ?? null),
         showReasoning: hasPreset ? null : (defaults.showReasoning ?? null),
         group: chatStore.get(chatGroupAtom),
       });

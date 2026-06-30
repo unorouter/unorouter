@@ -144,6 +144,13 @@ export const conversationOverridesFormSchema = t.Object({
   webSearchContextSize: t.Union(webSearchContextSizeLiterals, {
     default: "medium",
   }),
+  // Agent features (conversation-scoped; no preset inheritance).
+  memoryEnabled: t.Boolean({ default: false }),
+  imageEnabled: t.Boolean({ default: false }),
+  // Utility model for the summarizer + illustrator prompt-writer; NONE_VALUE = the chat model.
+  utilityModel: t.String({ default: NONE_VALUE }),
+  // Illustrator prompt-writer instruction override; "" = default instruction.
+  promptInstruction: t.String({ default: "", maxLength: 4_096 }),
   characterIds: t.Array(t.String(), { default: [] }),
   lorebookIds: t.Array(t.String(), { default: [] }),
   ...samplingNullable({ maxTokensMax: 1_000_000 }),
@@ -169,6 +176,11 @@ export const samplingPresetFormSchema = t.Object({
   streamingEnabled: nullable(t.Boolean()),
   showReasoning: nullable(t.Boolean()),
   chatMemory: nullableNumber(1, 1000),
+  // Agent feature defaults a chat inherits (conv override wins). null/empty = unset.
+  memoryEnabled: nullable(t.Boolean()),
+  imageEnabled: nullable(t.Boolean()),
+  utilityModel: t.String({ default: "", maxLength: 256 }),
+  promptInstruction: t.String({ default: "", maxLength: 4_096 }),
   mainPrompt: t.String({ default: "", maxLength: MAX_DESC_LEN }),
   postHistory: t.String({ default: "", maxLength: MAX_DESC_LEN }),
   prefill: t.String({ default: "", maxLength: MAX_DESC_LEN }),

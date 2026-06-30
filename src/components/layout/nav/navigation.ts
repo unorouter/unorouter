@@ -100,6 +100,25 @@ export const navigation = (authenticated?: boolean): NavigationItem[] => [
   },
   { name: "NAV.MODELS", href: "/models", iconName: "layers" },
   { name: "NAV.RANKINGS", href: "/rankings", iconName: "chart-column-big" },
+  {
+    name: "NAV.MODEL_TESTER",
+    href: "/ai-api-model-tester",
+    iconName: "search",
+    submenu: [
+      {
+        name: "MODEL_TESTER.TABS.HISTORY",
+        subtitle: "MODEL_TESTER.NAV.HISTORY_DESC",
+        href: "/ai-api-model-tester/history",
+        iconName: "scroll-text",
+      },
+      {
+        name: "MODEL_TESTER.TABS.RANKINGS",
+        subtitle: "MODEL_TESTER.NAV.RANKINGS_DESC",
+        href: "/ai-api-model-tester/rankings",
+        iconName: "chart-column-big",
+      },
+    ],
+  },
   { name: "NAV.PRICING", href: "/pricing", iconName: "dollar-sign" },
   { name: "NAV.CHAT", href: "/chat", iconName: "message-circle", exact: true },
   {
@@ -116,7 +135,6 @@ export const navigation = (authenticated?: boolean): NavigationItem[] => [
     exact: true,
     submenu: docsSubmenu(),
   },
-  { name: "NAV.BLOG", href: "/blog", iconName: "newspaper" },
 ];
 
 export const sidebarNavigation = (): NavigationItem[] => [

@@ -26,7 +26,6 @@ import {
   streamText,
   type UIMessageStreamWriter,
 } from "ai";
-import { assertPromptAllowed } from "./moderation.service";
 import { submitVideoTask } from "./task.service";
 import {
   extractLastUserImageRefs,
@@ -179,21 +178,11 @@ async function upstreamPost(
   return res;
 }
 
-// Shared image/video preamble: last user text is the prompt; moderation gate.
-async function moderatedPrompt(
-  body: MediaStreamBody,
-  userId: number,
-  mediaType: "image" | "video",
-): Promise<string> {
+// Shared image/video preamble: last user text is the prompt.
+// Moderation runs at the source (new-api relay), not here.
+function extractMediaPrompt(body: MediaStreamBody): string {
   const prompt = extractLastUserText(body.messages);
   if (!prompt) throw new Error(msg("ERRORS.NO_IMAGE_PROMPT"));
-  await assertPromptAllowed({
-    prompt,
-    userId,
-    convId: body.convId,
-    model: body.model,
-    mediaType,
-  });
   return prompt;
 }
 
@@ -323,7 +312,12 @@ async function generateImage(
   const wireBody =
     built.kind === "json"
       ? JSON.parse(built.body)
-      : { model, prompt, image_urls: refUrls, note: "multipart image[] upload" };
+      : {
+          model,
+          prompt,
+          image_urls: refUrls,
+          note: "multipart image[] upload",
+        };
   return {
     uris,
     usage: json.usage,
@@ -334,12 +328,8 @@ async function generateImage(
   };
 }
 
-export async function handleImageStream(
-  apiKey: string,
-  body: MediaStreamBody,
-  userId: number,
-) {
-  const prompt = await moderatedPrompt(body, userId, "image");
+export async function handleImageStream(apiKey: string, body: MediaStreamBody) {
+  const prompt = extractMediaPrompt(body);
   const model = (await getPricingSummary()).byName.get(body.model);
   const endpoint = chooseEndpoint(model?.endpointTypes ?? []);
   if (!endpoint) throw new Error(msg("ERRORS.IMAGE_GENERATION_FAILED"));
@@ -402,9 +392,8 @@ export async function handleImageStream(
 export async function handleVideoTaskStream(
   apiKey: string,
   body: MediaStreamBody,
-  userId: number,
 ) {
-  const prompt = await moderatedPrompt(body, userId, "video");
+  const prompt = extractMediaPrompt(body);
   return streamResponse(async (writer) => {
     const { taskId, status, progress } = await submitVideoTask(
       apiKey,
@@ -542,7 +531,8 @@ export async function handleEmbeddingStream(
       `[${preview.join(", ")}${tail}]`,
       "```",
     ].join("\n");
-    const inputTokens = emb.usage?.input_tokens ?? emb.usage?.prompt_tokens ?? 0;
+    const inputTokens =
+      emb.usage?.input_tokens ?? emb.usage?.prompt_tokens ?? 0;
     const meta = buildMediaMeta({
       model: body.model,
       usage: emb.usage,

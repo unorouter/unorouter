@@ -10,10 +10,10 @@ import type { ProcessedModel } from "@/lib/api/pricing";
 import type { LoadedConvContext } from "@/lib/types";
 import { runStartTriggers } from "../../triggers/run-triggers";
 import type { AssemblerDeps, InlayImage } from "../deps";
-import {
-  buildMemoryContext,
-  type MemoryContext,
-} from "../../context/memory.service";
+import { type MemoryContext } from "../../context/memory.service";
+import { createAgentPipeline } from "@/lib/ai/agents/pipeline";
+import { summaryAgent } from "@/lib/ai/agents/builtin/summary/agent";
+import type { AgentRuntime } from "@/lib/ai/agents/types";
 import {
   assembleForStream,
   assembleFromOverrides,
@@ -76,17 +76,29 @@ export async function assemblePrompt(
       )
     : { extraSystemPrompt: "", stopSending: false, alerts: [] };
 
-  const memorySettings = convCtx?.settings as
+  // Agent settings inherit from the bound preset (Risu subModel/seperateModels parity): conv override ??
+  // preset default ?? unset. summaryMemory/summaryAnchor are runtime state, conv-only (never a preset default).
+  const convSettings = convCtx?.settings as
     | {
         memoryEnabled?: boolean | null;
         summaryMemory?: string | null;
         summaryAnchor?: number | null;
+        utilityModel?: string | null;
       }
     | undefined;
-  const memory = await buildMemoryContext(
+  const presetDefaults = convCtx?.preset as
+    | { memoryEnabled?: boolean | null; utilityModel?: string | null }
+    | undefined;
+  const memorySettings = {
+    memoryEnabled: convSettings?.memoryEnabled ?? presetDefaults?.memoryEnabled,
+    utilityModel: convSettings?.utilityModel ?? presetDefaults?.utilityModel,
+    summaryMemory: convSettings?.summaryMemory,
+    summaryAnchor: convSettings?.summaryAnchor,
+  };
+  const memory = await buildMemoryViaAgent(
     apiKey,
-    deps.runFreeModelRace,
-    deps.retrieveSemantic,
+    body,
+    deps,
     memorySettings,
     history,
     extractLastUserText(messages),
@@ -175,6 +187,90 @@ export async function assemblePrompt(
     historyMessages,
     effectiveMaxOutputTokens,
   };
+}
+
+// Memory context via the summary AGENT (rolling summary) + the direct semantic-retrieval call. Produces the
+// SAME MemoryContext the old buildMemoryContext did (memoryBlock + retrievalBlock + summaryWriteback); the
+// only change is the summarizer now uses the utility model (full context) instead of the small-context free race.
+async function buildMemoryViaAgent(
+  apiKey: string,
+  body: StreamBody,
+  deps: AssemblerDeps,
+  settings:
+    | {
+        memoryEnabled?: boolean | null;
+        summaryMemory?: string | null;
+        summaryAnchor?: number | null;
+        utilityModel?: string | null;
+      }
+    | undefined,
+  history: { role: "user" | "assistant" | "system"; text: string }[],
+  lastUserText: string | null,
+  loreCandidates: { id: string; text: string }[],
+): Promise<MemoryContext> {
+  const out: MemoryContext = {
+    memoryBlock: "",
+    retrievalBlock: "",
+    summaryWriteback: null,
+  };
+  if (!settings?.memoryEnabled) return out;
+
+  // Utility model honors the full input window (free models truncate). null -> the chat model.
+  const utilityModel = settings.utilityModel || body.model;
+  const runtime: AgentRuntime = {
+    listFreeModels: async () => [utilityModel],
+    generate: deps.runUtilityLLM,
+  };
+  const pipeline = createAgentPipeline(
+    [
+      {
+        def: summaryAgent,
+        settings: {
+          memoryEnabled: true,
+          priorSummary: settings.summaryMemory ?? "",
+          priorAnchor: settings.summaryAnchor ?? 0,
+        },
+      },
+    ],
+    {
+      apiKey,
+      convId: body.convId ?? null,
+      model: utilityModel,
+      recentMessages: history,
+      lastUserText,
+    },
+    runtime,
+  );
+  const results = await pipeline.preGenerate();
+  const summary = results.find((r) => r.type === "summary");
+  if (summary && summary.type === "summary") {
+    out.memoryBlock = summary.memoryBlock;
+    if (
+      summary.summary !== (settings.summaryMemory ?? "") ||
+      summary.anchor !== (settings.summaryAnchor ?? 0)
+    ) {
+      out.summaryWriteback = {
+        summary: summary.summary,
+        anchor: summary.anchor,
+      };
+    }
+  }
+
+  // Semantic retrieval stays a direct call (no agent yet) - same behavior as before.
+  if (lastUserText && loreCandidates.length > 0) {
+    const hits = await deps.retrieveSemantic(
+      apiKey,
+      lastUserText,
+      loreCandidates,
+      {
+        topK: 3,
+      },
+    );
+    if (hits.length > 0) {
+      out.retrievalBlock = `[Relevant background]\n${hits.map((h) => h.text).join("\n\n")}`;
+    }
+  }
+  return out;
 }
 
 // Model maxOutputTokens is a hard ceiling; clamp preset to it + the free cap. Unknown cap falls back to the default cap.

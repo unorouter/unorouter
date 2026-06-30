@@ -1,8 +1,8 @@
 {
   "METADATA": {
     "TITLE": "{appName} - Her AI Modeli için Tek Anahtar",
-    "DESCRIPTION": "Her AI modeli için tek anahtar. Kodunuzda, Claude Code'da veya SillyTavern, Janitor.AI, RisuAI ve Chub'da kullanın. Tüm büyük sağlayıcılar arasında akıllı yönlendirme.",
-    "KEYWORDS": "AI API, birleşik AI endpoint, OpenAI alternatifi, Claude API, GPT API, Gemini API, DeepSeek API, AI router, AI gateway, çoklu model API, SillyTavern proxy, Janitor.AI proxy, Chub proxy, RisuAI, AI roleplay, character AI alternatifi",
+    "DESCRIPTION": "Her AI modeli için tek anahtar. Kodunuzda, Claude Code'da veya favori AI istemcilerinizde kullanın. Tüm büyük sağlayıcılar arasında akıllı yönlendirme.",
+    "KEYWORDS": "AI API, birleşik AI endpoint, OpenAI alternatifi, Claude API, GPT API, Gemini API, DeepSeek API, AI router, AI gateway, çoklu model API, OpenAI uyumlu API, AI sohbet istemcisi",
     "ACCOUNT": {
       "TITLE": "{appName} Hesabı",
       "DESC": "{appName} hesabınızı, tokenlerinizi, kullanımınızı ve faturalandırmanızı yönetin.",
@@ -28,14 +28,15 @@
     "PLAYGROUND": "Playground",
     "STATUS": "Durum",
     "COMPARE": "Karşılaştır",
-    "LANGUAGE": "Dil"
+    "LANGUAGE": "Dil",
+    "MODEL_TESTER": "Denetleyici"
   },
   "HOME": {
     "HERO": {
       "BADGE": "Router Çevrimiçi",
       "TITLE_LINE1": "BİRLEŞİK",
-      "TITLE_ROTATE": "API,SOHBET,KARAKTERLER,ROL YAPMA,KOD,ZEKA",
-      "SUBTITLE": "{appName} seni tek anahtarla {modelCount}+ yapay zeka modeline bağlar. Onunla uygulama geliştir ve ajanlar çalıştır, ya da kurulumu atla ve karakterlerle tam burada sitede sohbet et. Aynı anahtar, aynı hız, aynı fiyat.",
+      "TITLE_ROTATE": "API,SOHBET,KARAKTERLER,HİKÂYELER,KOD,ZEKA",
+      "SUBTITLE": "{appName} sizi tek bir anahtarla {modelCount}'den fazla yapay zeka modeline bağlar. Onunla uygulamalar geliştirin ve ajanlar çalıştırın ya da kurulumu atlayıp doğrudan burada sitede karakterlerle sohbet edin. Aynı anahtar, aynı hız, aynı fiyat.",
       "CTA_PRIMARY": "Başla",
       "CTA_SECONDARY": "Modelleri Görüntüle"
     },
@@ -84,27 +85,27 @@
         "DESCRIPTION": "{appName}'i OpenClaw ajanınız için model sağlayıcısı olarak kullanın. Bir kez yapılandırın, her modele erişin."
       },
       "SILLYTAVERN": {
-        "BADGE": "Roleplay",
+        "BADGE": "Karakter sohbeti",
         "TITLE": "SillyTavern ile Çalışır",
         "DESCRIPTION": "{appName}'i SillyTavern'in Custom OpenAI uyumlu kaynağına takın. Temel URL'yi yapıştırın, model seçin, sohbet edin."
       },
       "JANITOR_AI": {
-        "BADGE": "Roleplay",
-        "TITLE": "Janitor.AI ile Çalışır",
-        "DESCRIPTION": "{appName}'i Janitor.AI'da özel proxy olarak ekleyin. Tam URL artı API anahtarı, kaydet, yenile, başla."
+        "BADGE": "Karakter sohbeti",
+        "TITLE": "Popüler yapay zeka sohbet istemcileriyle çalışır",
+        "DESCRIPTION": "{appName}'i OpenAI uyumlu herhangi bir sohbet istemcisine özel proxy olarak ekleyin. Tam URL artı API anahtarı, kaydet, yenile, başla."
       },
       "RISUAI": {
-        "BADGE": "Roleplay",
+        "BADGE": "Karakter sohbeti",
         "TITLE": "RisuAI ile Çalışır",
         "DESCRIPTION": "{appName}'i RisuAI'nın Custom Models endpoint'i olarak kullanın. Otomatik doldurmayı kapatın, URL'yi yapıştırın, herhangi bir modeli yükleyin."
       },
       "CHUB": {
-        "BADGE": "Roleplay",
-        "TITLE": "Chub / Venus ile Çalışır",
-        "DESCRIPTION": "{appName}'i Chub'da birinci taraf ters proxy olarak bağlayın. Bir URL, bir anahtar, her model."
+        "BADGE": "Karakter sohbeti",
+        "TITLE": "Karakter sohbet istemcileriyle çalışır",
+        "DESCRIPTION": "{appName}'i favori karakter sohbet istemcinize birinci taraf ters proxy olarak bağlayın. Tek URL, tek anahtar, tüm modeller."
       },
       "PICK_TITLE": "Gerçekten kullandığınız istemciyi seçin.",
-      "PICK_DESC": "{appName} kodlama ajanları, roleplay arayüzleri, sohbet istemcileri ve CLI araçları için özel OpenAI uyumlu bir API olarak çalışır."
+      "PICK_DESC": "{appName}, kodlama ajanları, karakter sohbet istemcileri, yapay zeka sohbet istemcileri ve CLI araçları arasında özel OpenAI uyumlu bir API olarak çalışır."
     },
     "HOW_IT_WORKS": {
       "LABEL": "Başla",
@@ -120,7 +121,7 @@
       "TOPUP_FREE_AMOUNT": "$0",
       "STEP3_NUM": "3",
       "STEP3_TITLE": "API anahtarınızı alın",
-      "STEP3_DESC": "Kodunuzda, Claude Code'da kullanın veya SillyTavern, Janitor.AI, RisuAI veya Chub'a yapıştırın.",
+      "STEP3_DESC": "Kodunuzda, Claude Code'da kullanın ya da SillyTavern, RisuAI veya OpenAI uyumlu herhangi bir yapay zeka sohbet istemcisine yapıştırın.",
       "CTA_PRIMARY": "Başla",
       "CTA_SECONDARY": "Fiyatlandırmayı Görüntüle",
       "SIGNUP_GITHUB": "GitHub ile Devam Et",
@@ -158,8 +159,8 @@
         "DESC": "Konuşmalar tarayıcında yaşar, asla sunucumuzda değil. Kendi OpenAI uyumlu uç noktanı ve anahtarını da doğrudan tarayıcıdan kullan."
       },
       "CARD4": {
-        "TITLE": "Tam Rol Yapma",
-        "DESC": "Lorebook'lar, grup sohbeti, kaydırma ve gerçek bir RP motoru, oyuncak değil."
+        "TITLE": "Karakter Sohbeti",
+        "DESC": "Lorebook'lar, grup sohbeti, kaydırmalar ve gerçek bir karakter sohbeti motoru, oyuncak kutusu değil."
       },
       "CTA_OPEN": "Sohbeti aç",
       "CTA_CONNECT": "İstemcini Bağla",
@@ -177,7 +178,7 @@
         "CONV3": "Kafedeki Mochi",
         "MODEL_NAME": "nemotron-3",
         "TOKENS": "{in} gir. / {out} çık.",
-        "MENU_LABEL": "Rol yapma",
+        "MENU_LABEL": "Karakter sohbeti",
         "LOCAL_DB": "Yerel VT",
         "MSG_AI_2": "Pota tam kıvamında parlıyor. Şu küçük şişeyi uzatır mısın?",
         "MSG_AI_3": "Tekrar hoş geldin! Her zamanki yulaf sütlü latte, bol köpüklü olsun mu?",
@@ -196,7 +197,7 @@
           "LORE1_SUB": "Yıldız haritaları ve ticaret yolları",
           "LORE2": "Gemi manifestosu",
           "LORE2_SUB": "Mürettebat listesi ve kargo",
-          "PRESET1": "Sinematik RP",
+          "PRESET1": "Sinematik hikaye",
           "PRESET1_SUB": "Canlı, betimleyici anlatım",
           "PRESET2": "Hızlı diyalog",
           "PRESET2_SUB": "Kısa, vurucu yanıtlar",
@@ -281,22 +282,22 @@
       "FEATURE_4": "Kod yok mu? Sitede sohbet et",
       "READ_DOCS": "Tam API Dokümantasyonunu Oku",
       "NO_CODE_LABEL": "Kodlayıcı değil misiniz?",
-      "NO_CODE_OPTION": "Kodu atla. Karakterlerle tam burada sitede sohbet et, ya da URL'yi SillyTavern, Janitor.AI, RisuAI veya Chub'a yapıştır.",
+      "NO_CODE_OPTION": "Kodu atlayın. Doğrudan burada sitede karakterlerle sohbet edin ya da URL'yi SillyTavern, RisuAI veya OpenAI uyumlu herhangi bir yapay zeka sohbet istemcisine yapıştırın.",
       "NO_CODE_CHAT_LINK": "Sohbeti aç",
       "NO_CODE_LINK": "Entegrasyon kılavuzlarını gör"
     },
     "CTA": {
       "TITLE_1": "Bağlanmaya",
       "TITLE_2": "Hazır",
-      "SUBTITLE": "Her AI modeli, bir anahtar. İnşa et, sohbet et, kod yaz veya roleplay yap. Sizin kararınız.",
+      "SUBTITLE": "Her yapay zeka modeli, tek anahtar. İnşa edin, sohbet edin, kodlayın ya da hikaye anlatın. Karar sizin.",
       "PRIMARY": "Başla",
       "SECONDARY": "Entegrasyonlara Göz At",
       "CHAT": "Sohbeti aç"
     },
     "META": {
       "TITLE": "{appName} - Her AI Modeli için Tek Anahtar",
-      "DESCRIPTION": "Her AI modeli için tek anahtar. Kodunuzda, Claude Code'da veya SillyTavern, Janitor.AI, RisuAI ve Chub'da kullanın. Tüm büyük sağlayıcılar arasında akıllı yönlendirme.",
-      "KEYWORDS": "AI API gateway, birleşik AI endpoint, OpenAI uyumlu, Claude API, GPT API, Gemini API, otomatik failover, akıllı yönlendirme, SillyTavern proxy, Janitor.AI proxy, Chub proxy, RisuAI, AI roleplay, character AI alternatifi"
+      "DESCRIPTION": "Her AI modeli için tek anahtar. Kodunuzda, Claude Code'da veya favori AI istemcilerinizde kullanın. Tüm büyük sağlayıcılar arasında akıllı yönlendirme.",
+      "KEYWORDS": "AI API gateway, birleşik AI endpoint, OpenAI uyumlu, Claude API, GPT API, Gemini API, otomatik failover, akıllı yönlendirme, çoklu model API, AI sohbet istemcisi"
     },
     "TITLE": "{appName}"
   },
@@ -408,12 +409,12 @@
     },
     "META": {
       "TITLE": "AI Modelleri - {appName}",
-      "DESCRIPTION": "Tek yerde her AI modeli. GPT, Claude, Gemini, DeepSeek ve daha fazlası. Kodunuzda veya SillyTavern, Janitor.AI, RisuAI ve Chub'da kullanın. Her ikisi için aynı fiyat.",
-      "KEYWORDS": "AI modelleri, model kütüphanesi, AI fiyatlandırması, GPT modelleri, Claude modelleri, Gemini modelleri, DeepSeek modelleri, AI model karşılaştırması, roleplay AI modelleri, SillyTavern modelleri, Janitor.AI modelleri, character AI modelleri"
+      "DESCRIPTION": "Her yapay zeka modeli tek bir yerde. GPT, Claude, Gemini, DeepSeek ve daha fazlası. Bunları kodunuzda ya da OpenAI uyumlu herhangi bir yapay zeka sohbet istemcisinde kullanın. İkisi için de aynı fiyat.",
+      "KEYWORDS": "AI modelleri, model kütüphanesi, AI fiyatlandırması, GPT modelleri, Claude modelleri, Gemini modelleri, DeepSeek modelleri, AI model karşılaştırması, çoklu model API, AI sohbet modelleri"
     },
     "BADGE": "Model Kütüphanesi",
     "TITLE": "Model Kütüphanesi",
-    "SUBTITLE": "Her model, bir anahtar. Uygulama geliştiren geliştiriciler ve karakter çalıştıran roleplayerler tarafından kullanılır. Her ikisi için aynı fiyat.",
+    "SUBTITLE": "Her model, tek anahtar. Uygulama geliştiren geliştiriciler ve karakter deneyimleri kuran içerik üreticileri tarafından kullanılır. İkisi için de aynı fiyat.",
     "SEARCH_PLACEHOLDER": "Modelleri ara...",
     "MODEL_COUNT": "model",
     "EMPTY": "Aramanıza uyan model yok.",
@@ -632,9 +633,9 @@
         "H_SAME_LANE": "Aynı seritteyiz",
         "P_SAME_LANE": "Hem {appName} hem MegaLLM, geliştiriciler için yapılmış OpenAI uyumlu ağ geçitleridir. İkisi de GPT, Claude ve Gemini'yi tek anahtarın arkasına koyar, bir sağlayıcı düştüğünde otomatik yedeğe geçer, taban URL değişikliğiyle Claude Code, Codex ve OpenCode'a girer. Amacınız sağlayıcı anahtarlarıyla uğraşmadan bir kodlama ajanını öncü modellere yönlendirmekse, ikisi de bunu yapar. Yani katalog ve yedeğe geçiş kararin olduğu yer değil.",
         "H_MODELS": "Katalog ve fiyatlandırma",
-        "P_MODELS": "MegaLLM 70'ten fazla öncü ve görüş modelini duyurur ve kendini maliyet üzerinden pazarlar, maliyet bilinçli yönlendirmeyle doğrudan gitmekten %60'a kadar ucuz, aylık yaklaşık 10 dolardan baslayan planlar artı kullandıkça öde. {appName} 200'den fazla model taşır, MegaLLM'in yalnızca öncü odağının dışarıda bıraktığı açık ve rol yapma için ayarlanmış modelleri içeren daha geniş bir katalog, yine kullandıkça öde, süresi dolmayan krediler ve ücretsiz katmanla. Yalnızca GPT ve Claude'u çağırıyorsanız, token başına fiyat karşılaştırmadır. Daha geniş katalog istiyorsanız, {appName}'de sadece daha fazlası var.",
+        "P_MODELS": "MegaLLM 70+ öncü ve görsel model reklamı yapar ve kendini maliyet üzerinden konumlandırır; maliyet bilincine sahip yönlendirmeyle doğrudan gitmekten %60'a kadar daha ucuz, planları aylık yaklaşık 10 $'dan başlar artı kullandıkça öde. {appName} 200+ model taşır; MegaLLM'in yalnızca öncü odağının dışarıda bıraktığı açık ve yaratıcı yazım için ayarlanmış modelleri de içeren daha geniş bir katalog, yine kullandıkça öde, süresi dolmayan kredilerle ve prototipleme için ücretsiz bir katmanla. Yalnızca GPT ve Claude çağırıyorsanız, token başına fiyat karşılaştırmadır. Daha geniş katalog istiyorsanız, {appName} sadece daha fazlasına sahip.",
         "H_CHAT": "MegaLLM'in sahip olmadığı parça",
-        "P_CHAT": "MegaLLM arayüzsüz bir ağ geçididir, bir API ve bir panel, sohbet edecek bir şey yok. {appName} ağ geçidine ek olarak dahili bir sohbet ve karakter istemcisidir: personalar, lorebook'lar, hazır ayarlar, SillyTavern kart içe aktarma ve aynı anahtar SillyTavern, Janitor.AI, RisuAI veya Chub'a takılır. Böylece kodlama ajanınızı çalıştıran aynı anahtar gerçek bir karakter sohbetini de çalıştırır, iş ve oyun için. İşte saf bir geliştirici ağ geçidi ile 2-si-1-arada arasındaki çizgi.",
+        "P_CHAT": "MegaLLM başsız bir ağ geçididir, bir API ve bir pano, içinde sohbet edilecek bir şey yok. {appName} ağ geçidi artı yerleşik bir sohbet ve karakter istemcisidir: personalar, lorebook'lar, presetler, SillyTavern kart içe aktarımı ve aynı anahtar SillyTavern, Janitor.AI, RisuAI veya Chub'a girer. Böylece kodlama ajanınızı süren aynı anahtar gerçek bir karakter sohbeti de çalıştırır, iş ve eğlence için. İşte saf bir dev ağ geçidi ile 2-si-1-arada arasındaki çizgi.",
         "H_MIGRATE": "Geçiş bir taban URL değişikliğidir",
         "P_MIGRATE": "MegaLLM gibi {appName} de OpenAI uyumludur, yani geçmek tek satır: istemcinizi <c>https://api.unorouter.com/v1</c> adresine yönlendirin ve kodunuzu koruyun. Bir sohbet istemcisinin özel uç nokta alanına yapıştırılan aynı anahtar aynı kataloğa ulaşır, yani ne ikinci hesap ne de sohbet tarafı için ayrı bir araç.",
         "H_VERDICT": "Hangisini seçmelisin",
@@ -647,11 +648,11 @@
         "AUTHOR": "{appName} ekibi",
         "INTRO": "Portkey ve {appName} ikisi de her modelin önüne OpenAI uyumlu tek bir uç nokta koyar. Buradan sonra ayrışırlar. Portkey, gözlemlenebilirlik, koruma bariyerleri ve yönetişim gereken mühendislik ekipleri için kurulmuş tam bir LLMOps platformudur. {appName} ise aynı fikrin sade sürümüdür: tek bir anahtar, 200 üstü model ve üzerine bir sohbet istemcisi, hiçbir yapılandırma olmadan.",
         "H_AUDIENCE": "Her biri kimin için yapıldı",
-        "P_AUDIENCE": "Portkey, LLM özelliklerini büyük ölçekte yayına alan platform ve AI ekiplerini hedefler. Değeri, çağrıların etrafındaki kontrol düzlemindedir: istek günlükleri, metrikler, bütçeler, istem yönetimi, koruma bariyerleri, yedek yollar ve bir kurum için rol tabanlı erişim. {appName}, kodlama ajaninda ve sohbet istemcisinde çalışan tek bir anahtar isteyen, önce bir yönetişim katmanı kurmak istemeyen tekil geliştiriciyi ve RP kullanıcısını hedefler.",
+        "P_AUDIENCE": "Portkey, LLM özelliklerini ölçekte yayınlayan platform ve yapay zeka ekiplerini hedefler. Değeri, çağrılar etrafındaki kontrol düzlemidir: istek günlükleri, metrikler, bütçeler, prompt yönetimi, guardrail'ler, fallback'ler ve bir kuruluş için rol tabanlı erişim. {appName}, bir kodlama ajanında ve bir sohbet istemcisinde çalışan tek bir anahtar isteyen, önce bir yönetişim katmanı kurmadan, bireysel geliştiriciyi ve karakter sohbeti kullanıcısını hedefler.",
         "H_SETUP": "Kurulum ve kapsam",
         "P_SETUP": "Portkey ile bir sanal anahtar, yapılandırmalar ve yönlendirme kuralları bağlar, sonra uygulamanızı her şeyi ağ geçidinden geçirecek şekilde donatırsınız ki panolar dolsun. Bu, bir ekibiniz ve uyumluluk gereksinimleriniz olduğunda anlamlidir. {appName} ile kaydolur ve istemcinizi <c>https://api.unorouter.com/v1</c> adresine yöneltirsiniz. Yapılandırma yok, yönetilecek sanal anahtar yok, öğrenilecek gözlemlenebilirlik yığını yok. Biri benimsediğiniz bir platform, diğeri çağırdığınız bir uç noktadır.",
         "H_INTERFACE": "Portkey'in sohbet istemcisi yok",
-        "P_INTERFACE": "Portkey altyapıdır: bir ağ geçidi ve bir pano, kullanıcıya dönük her arayüzü siz getirirsiniz. {appName} aynı OpenAI uyumlu API'yi, üstüne dahili bir sohbet ve karakter istemcisini (personalar, lorebook'lar, hazır ayarlar, SillyTavern kart içe aktarma) sunar ve aynı anahtar doğrudan SillyTavern, Janitor.AI, RisuAI veya Chub içine girer. Böylece aynı anahtarla gerçekten sohbet edebileceğiniz bir yer elde edersiniz, sadece uygulamanizin yine de yapmasi gereken çağrılar için bir kontrol düzlemi değil.",
+        "P_INTERFACE": "Portkey altyapıdır: bir ağ geçidi ve bir pano, kullanıcıya dönük her arayüzü siz getirirsiniz. {appName} aynı OpenAI uyumlu API'yi artı yerleşik bir sohbet ve karakter istemcisini (personalar, lorebook'lar, presetler, SillyTavern kart içe aktarımı) sunar ve aynı anahtar doğrudan SillyTavern, Janitor.AI, RisuAI veya Chub'a girer. Böylece aynı anahtardan gerçekten sohbet edebileceğiniz bir yer elde edersiniz, sadece uygulamanızın hâlâ yapması gereken çağrılar için bir kontrol düzlemi değil.",
         "H_COST": "Maliyet ve yük",
         "P_COST": "Portkey platformun etrafında fiyatlandırır: düşük hacim için ücretsiz bir katman, sonra bir kurumun ihtiyaç duyduğu gözlemlenebilirlik, yönetişim ve destek için ücretli planlar, her sağlayıcıya ödediğinizin üstüne. Kontrol düzlemi bir ekibe gerçek zaman kazandırdığında buna değer. {appName}, 200 üstü modelde kullandıkça öde biçimidir; süresi dolmayan krediler ve bir ücretsiz katmanla, platform aboneliği ve sağlayıcı başına cüzdanlar yerine tek bir bakiye. Ekip ölçeğinin altında, sade yol daha az tutar ve sizden daha azını ister.",
         "H_VERDICT": "Hangisini seçmelisiniz",
@@ -664,11 +665,11 @@
         "AUTHOR": "{appName} ekibi",
         "INTRO": "nano-gpt ve {appName} besbelli olan noktada örtüşür: abonelik olmadan çok sayıda modele kullandıkça öde erişimi. nano-gpt, sohbet pazaryerinin arkasındaki genislikle öne çıkar. {appName}, kodlama ajaninda da sohbet istemcisinde de aynı rahatlıkta olan OpenAI uyumlu tek bir anahtarla öne çıkar. Aynı krediler, çok farklı iki giriş kapısı.",
         "H_CATALOG": "Katalog ve genişlik",
-        "P_CATALOG": "nano-gpt'nin savı kataloğun büyüklüğüdür: yüzlerce metin ve görsel modeli tek yerde, amacınız her şeyi denemekse gerçekten faydalı. {appName}, kodlama ve rol yapma için önemli sağlayıcılar arasında 200 üstü model çalıştırır; bir sayı için azamilestirilmek yerine seçilmiş ve güncel tutulmuştur. Önemsediğiniz tek eksen ham genislikse, nano-gpt kazanır. İnsanların gerçekten üzerinde çalıştığı modelleri istiyorsanız, aradaki fark hızla kapanır.",
+        "P_CATALOG": "nano-gpt'nin sunumu katalog boyutudur: tek bir yerde yüzlerce metin ve görsel model, amacınız her şeyi denemekse gerçekten yararlı. {appName}, kodlama ve karakter sohbeti için önemli sağlayıcılar arasında 200+ model çalıştırır; sayı için maksimize edilmek yerine seçilmiş ve güncel tutulmuş. Ham genişlik önemsediğiniz tek eksen ise, nano-gpt onu kazanır. İnsanların gerçekten üzerinde yayınladığı modelleri istiyorsanız, fark hızla kapanır.",
         "H_DEV": "Geliştirici tarafı",
         "P_DEV": "Sohbet pazaryeri önce arayüzle kurulur: web arayüzü üründür, API yan kapıdır. {appName} tasarım geregi OpenAI uyumludur. Herhangi bir SDK veya ajanı <c>https://api.unorouter.com/v1</c> adresine yöneltin, mevcut kodunuzu koruyun ve aynı anahtar Claude Code, Cline, OpenCode, Kilo Code veya Codex'i sürer. Bir sohbet sitesine API çivilemiyorsunuz, ayrıca bir sohbet istemcisi de olan bir ağ geçidi kullanıyorsunuz.",
         "H_CHAT": "Sohbet ve karakter tarafı",
-        "P_CHAT": "İkisi de tarayıcıda sohbet etmenizi sağlar, ama {appName}'in istemcisi yalnızca soru cevap için değil, rol yapma için yapılmıştır: personalar, lorebook'lar, hazır ayarlar ve SillyTavern kart içe aktarma, ve daha ağır bir ön yüz istediğinizde aynı anahtar SillyTavern, Janitor.AI, RisuAI veya Chub içine girer. Asla tek bir arayüze kilitlenmezsiniz. Krediler her istemcide sizinle gelir.",
+        "P_CHAT": "İkisi de tarayıcıda sohbet etmenizi sağlar ama {appName}'in istemcisi karakter sohbeti için yapılmıştır, sadece soru-cevap için değil: personalar, lorebook'lar, presetler ve SillyTavern kart içe aktarımı, ayrıca daha ağır bir ön yüz istediğinizde aynı anahtar SillyTavern, Janitor.AI, RisuAI veya Chub'a girer. Asla tek bir kullanıcı arayüzüne kilitlenmezsiniz. Krediler her istemcide sizi takip eder.",
         "H_PAY": "Fiyatlandırma ve anahtarlar",
         "P_PAY": "İkisi de aboneliksiz kullandıkça öde biçimidir; ani yükselen, çok modelli kullanım için doğru model budur. {appName} bunu tek bir bakiyede tutar; süresi dolmayan krediler ve bir ücretsiz katmanla, yalnızca tek bir arayüzde harcadığınız bir pazaryeri cüzdanı yerine kodlama ve sohbet için tek bir anahtar. Faturalandırma aynı biçimde, fark tek anahtarın ne kadar uzağa ulaştığıda.",
         "H_VERDICT": "Hangisini seçmelisiniz",
@@ -681,32 +682,32 @@
         "AUTHOR": "{appName} ekibi",
         "INTRO": "SillyTavern ön yüzdür; model barındırmaz. Kullanmak için onu OpenAI uyumlu bir uç noktaya yöneltir ve bir anahtar yapıştırırsınız. Soru, arkasında hangi ağ geçidinin durduğudur. Çoğu rehber size tek bir sağlayıcı verir; daha iyi yanıt, çok sayıda modele ulaşan ve süresi dolmayan tek bir anahtardir. Neyi tartmanız gerektiği ve {appName}'in nasıl oturduğu burada.",
         "H_WHAT_MATTERS": "SillyTavern için gerçekte ne önemli",
-        "P_WHAT_MATTERS": "İyi bir SillyTavern ağ geçidini dört şey belirler. OpenAI uyumlu Chat Completions, böylece SillyTavern adaptör olmadan bağlanır. Model genişliği, böylece yeni hesaplar olmadan güçlü bir yazar ile ucuz bir iş gücü arasında geçiş yaparsınız. Dürüst kullandıkça öde faturalandırması, çünkü rol yapma ani yükselişlidir ve aylık koltuk yanlış biçimdir. Ve bir şey harcamadan önce bir karakteri denemek için bir ücretsiz katman. Ham model sayısı, doğru modellerin var ve güncel olmasından daha az önemlidir.",
+        "P_WHAT_MATTERS": "İyi bir SillyTavern ağ geçidini dört şey belirler. OpenAI uyumlu Chat Completions, böylece SillyTavern adaptörsüz bağlanır. Model genişliği, böylece yeni hesaplar olmadan güçlü bir yazar ile ucuz bir iş atı arasında geçiş yapabilirsiniz. Dürüst kullandıkça öde faturalandırması, çünkü karakter sohbeti ani patlamalıdır ve aylık bir koltuk yanlış biçimdir. Ve bir şey harcamadan önce bir karakteri test etmek için ücretsiz bir katman. Ham model sayısı, doğru modellerin mevcut ve güncel olup olmadığından daha az önemlidir.",
         "H_OPTIONS": "Gerçekçi seçenekler",
         "P_OPTIONS": "Uç tür seçiminiz var. Tek sağlayıcı anahtarı (OpenAI, Anthropic, DeepSeek) en basittir ama sizi tek bir laboratuvarın modellerine ve fiyatlarına bağlar. Başsız bir geliştirici ağ geçidi size genişlik verir ama kendi istemcisi yoktur, ki SillyTavern sizin istemciniz olduğu için bu sorun değil. Ya da hem API hem sohbet istemcisi olan bir ağ geçidi, böylece tüm uygulamayı açmak istemediğinizde aynı anahtar SillyTavern'de ve dahili bir arayüzde çalışır. {appName} bu üçüncü türdür.",
         "H_CONNECT": "{appName}'i SillyTavern'e bağlamak",
-        "P_CONNECT": "SillyTavern'de Chat Completion API'yi ve OpenAI uyumlu (Custom) kaynağını seçin. Temel URL'yi <c>https://api.unorouter.com/v1</c> olarak ayarlayın, {appName} anahtarınızı yapıştırın ve model listesini yükleyin. Bir model seçin, karakterleriniz, lorebook'lariniz ve hazır ayarlarınız değişmeden çalışır. Aynı anahtar Janitor.AI, RisuAI ve Chub'da da çalışır, yani kurulumu her uygulama için yeniden yapmazsınız.",
+        "P_CONNECT": "SillyTavern'de Chat Completion API'sini ve OpenAI uyumlu (Custom) kaynağı seçin. Temel URL'yi <c>https://api.unorouter.com/v1</c> olarak ayarlayın, {appName} anahtarınızı yapıştırın ve model listesini yükleyin. Bir model seçin; karakterleriniz, lorebook'larınız ve presetleriniz değişmeden çalışır. Aynı anahtar Janitor.AI, RisuAI ve Chub'da da çalışır, böylece kurulumu uygulama başına tekrarlamazsınız.",
         "H_FREE": "Ücretsiz modeller ve maliyet denetimi",
         "P_FREE": "{appName}'in bir ücretsiz katmanı ve 200 üstü modeli var, böylece bir kartı ücretsiz bir modelde deneyebilir, sahne buna değdiğinde daha güçlü bir ücretli modele geçebilirsiniz. Krediler dolmaz, faturalandırma kullandıkça ödedir ve tek bir bakiye her istemciyi ve her modeli kapsar. Gerekçe gösterilecek aylık bir koltuk yok ve bir ay ara verirseniz iptal edilecek bir şey yok.",
         "H_VERDICT": "Kısa yanıt",
-        "P_VERDICT": "En iyi SillyTavern ağ geçidi; OpenAI uyumlu bir uç noktası, gerçek model genişliği, kullandıkça öde kredileri ve başlamak için bir ücretsiz katmanı olan, böylece tek bir anahtarın tüm kurulumunuzu taşıdığı ağ geçididir. {appName} tam da bu durum için yapılmıştır ve aynı anahtar kullandığınız diğer her RP ön yüzünde de çalışmaya devam eder.",
+        "P_VERDICT": "En iyi SillyTavern ağ geçidi, OpenAI uyumlu bir uç noktaya, gerçek model genişliğine, kullandıkça öde kredilerine ve başlamak için ücretsiz bir katmana sahip olandır; böylece tek bir anahtar tüm kurulumunuzu taşır. {appName} tam olarak bu durum için yapılmıştır ve aynı anahtar kullandığınız her başka karakter sohbeti ön yüzünde çalışmaya devam eder.",
         "CTA": "SillyTavern'i bağlamaya hazır mısınız? <register>Ücretsiz hesap oluşturun</register> ya da <models>modellere göz atın</models>."
       },
       "UNOROUTER_VS_RISUAI": {
-        "TITLE": "{appName} vs RisuAI: RP motorunu barındırılan bir 2-si-1-arada'ya taşıdık",
-        "DESCRIPTION": "RisuAI ileri kullanıcılara yönelik RP arayüzüdür. {appName} onun motorunu (lorebook'lar, CBS makroları, tetikleyiciler, regex, kart içe aktarma) aynı anahtarın kodlama ajanlarını da çalıştırdığı barındırılan bir ürüne taşıdı. Rakip değil, bir 2-si-1-arada.",
+        "TITLE": "{appName} vs RisuAI: karakter sohbeti motorunu barındırılan bir 2-si-1-arada'ya taşıdık",
+        "DESCRIPTION": "RisuAI, ileri düzey kullanıcı karakter sohbeti ön yüzüdür. {appName} motorunu (lorebook'lar, CBS makroları, trigger'lar, regex, kart içe aktarımı) aynı anahtarın kodlama ajanlarını da sürdüğü barındırılan bir ürüne taşıdı. Rakip değil, bir 2-si-1-arada.",
         "AUTHOR": "{appName} ekibi",
-        "INTRO": "RisuAI var olan en iyi rol yapma arayüzlerinden biridir ve bunu kaynağını yakından inceleyen kişiler olarak söylüyoruz. {appName} onu özelliklerde geçmeye çalışmadı. Motorunu taşıdık ve yeni bir yere koyduk: OpenAI uyumlu tek bir anahtarın kodlama ajanlarınızı da çalıştırdığı barındırılan bir ürün. Yani bu bir rakip karşılaştırmasından çok, Risu'ya hayran kişilerce yazılmış dürüst bir 2-si-1-arada açıklamasıdır.",
+        "INTRO": "RisuAI var olan en iyi karakter sohbeti ön yüzlerinden biridir ve bunu kaynağını yakından inceleyen insanlar olarak söylüyoruz. {appName} onu özelliklerle geçmeye çalışmadı. Motorunu taşıdık, sonra yeni bir yere koyduk: OpenAI uyumlu bir anahtarın kodlama ajanlarınızı da sürdüğü barındırılan bir ürün. Yani bu, bir rakip karşılaştırmasından çok, Risu'ya hayran insanlar tarafından yazılmış dürüst bir 2-si-1-arada açıklamasıdır.",
         "H_ENGINE": "Uygulamayı klonlamadık, motoru taşıdık",
-        "P_ENGINE": "Risu'yu rol yapma için harika kılan parçalar {appName}'de, çünkü onları taşıdık: lorebook sistemi (tek küresel havuz, @@ süsleyiciler, özyineleme), tam CBS makro dili (değişkenler, koşullar, tohumlu rastgele, bloklar), Lua çalışma zamanlı V1/V2 tetikleyici VM'i, regex customscript'leri (editinput/output/display), SillyTavern kart v2/v3 içe aktarma, grup sohbeti sırası, personalar, hazır ayarlar ve kayan özet belleği. Risu'nun lorebook ve tetikleyicilerini biliyorsaniz, burada beklediğisiniz gibi çalışırlar.",
+        "P_ENGINE": "Risu'yu karakter sohbeti için harika yapan parçalar {appName}'de çünkü onları taşıdık: lorebook sistemi (tek bir küresel havuz, @@decorators, özyineleme), tam CBS makro dili (değişkenler, koşullular, tohumlanmış rastgelelik, bloklar), Lua çalışma zamanına sahip V1/V2 trigger VM'i, regex customscript'leri (editinput/output/display), SillyTavern kart v2/v3 içe aktarımı, grup sohbeti sıralaması, personalar, presetler ve yuvarlanan özet belleği. Risu'nun lorebook'larını ve trigger'larını biliyorsanız, burada beklediğiniz gibi çalışırlar.",
         "H_TWO_IN_ONE": "2-si-1-arada: kod ve karakter sohbeti için aynı anahtar",
-        "P_TWO_IN_ONE": "Bu, Risu'nun tasarım geregi olamayacağı kısım. Risu BYOK'tür: kendi OpenAI veya Claude anahtarınızı getirirsiniz ve o salt bir sohbet arayüzüdür. {appName} hem anahtar hem istemcidir. Yerleşik karakter sohbetini çalıştıran aynı anahtar, bir kodlama ajanını (Claude Code, Cline, OpenCode, Codex) 200'den fazla modele yönlendirir ve tercih ederseniz SillyTavern, Janitor.AI, RisuAI veya Chub'a doğrudan takılır. Tek hesap, tek bakiye, tek model listesi; iş ve oyun için. Arayüz olarak Risu'nun yerini almaya çalışmıyoruz, tek parçada ağ geçidi artı istemciyiz.",
+        "P_TWO_IN_ONE": "Bu, Risu'nun tasarımı gereği olamayacağı parçadır. Risu BYOK'tur: kendi OpenAI veya Claude anahtarınızı getirirsiniz ve o tamamen bir sohbet ön yüzüdür. {appName} hem anahtar hem istemcidir. Yerleşik karakter sohbetini süren aynı anahtar, bir kodlama ajanını da (Claude Code, Cline, OpenCode, Codex) 200+ modele yöneltir ve tercih ederseniz doğrudan SillyTavern, Janitor.AI, RisuAI veya Chub'a girer. Tek hesap, tek bakiye, tek model listesi, iş ve eğlence için. Risu'yu, ön yüzü, değiştirmeye çalışmıyoruz; biz ağ geçidi artı bir istemciyiz, bir arada.",
         "H_HOSTING": "Barındırılan vs kendin barındıran ve jonglurluk yapacak anahtar yok",
         "P_HOSTING": "Risu'yu kendiniz çalıştırırsınız (web, Tauri masaüstü veya Docker) ve her sağlayıcının API anahtarını toplayip yapıştırırsınız. {appName} barındırılır: kurulacak ya da ayakta tutulacak bir şey yok ve toplanacak sağlayıcı anahtarı yok, çünkü anahtar hesabin kendisi. Kayıt olur ve sohbet edersiniz. Sadece Risu tarzı deneyimi bir uygulama ayaga kaldırmadan ya da anahtar yönetmeden isteyenler için bu, tüm kurulum adımını ortadan kaldırır.",
         "H_RISU_WINS": "Risu'nun hala kazandığı yerler (dürüstçe)",
         "P_RISU_WINS": "Her şeyi kapsadığımız numarası yapmayacağız. Risu'da HypaMemory V2/V3 var; kayan özetimiz artı anlamsal getirmeden daha derin bir uzun vadeli bellek sıkıştırması. Genisletip paylaşabileceğiniz gerçek bir kullanıcı eklenti ekosistemi var; bizde yok. Girdi/çıktı otomatik çevirisi için yerleşik çevirmenleri bizimkilerden daha eksiksiz. Ve kendin barındıran açık kaynak bir uygulama olarak, barındırılan bir hizmetin asla veremeyecegi tam yerel kontrol sunar. Bunlar sizin için en önemliyse, Risu daha iyi seçimdir ve bunu ciddi söylüyoruz.",
         "H_VERDICT": "Hangisini seçmelisin",
-        "P_VERDICT": "En zengin bellek ve eklenti ekosistemine sahip, kendin barındıran, açık ve derinlemesine genişletilebilir bir rol yapma arayüzü istiyor ve kendi anahtarlarınızı getirmekten memnun musunuz? Risu'yu kullanın. Aynı lorebook, CBS, tetikleyici ve kart özelliklerini, tek anahtarın kodlama ajanlarınızı da çalıştırdığı ve başka arayüzlerde de çalıştığı barındırılan bir üründe mi istiyorsunuz? İşte {appName} olan 2-si-1-arada budur. Tek bir kazanan yok. Biz sadece, bir arayüz olan Risu'nun olması asla amaclanmamis köprüsünü kurduk.",
+        "P_VERDICT": "En zengin bellek ve bir eklenti ekosistemiyle kendi kendine barındırılan, açık, derinlemesine genişletilebilir bir karakter sohbeti ön yüzü mü istiyorsunuz ve kendi anahtarlarınızı getirmekten memnunsunuz? Risu'yu kullanın. Aynı lorebook, CBS, trigger ve kart özelliklerini, bir anahtarın kodlama ajanlarınızı da sürdüğü ve başka ön yüzlerde de çalıştığı barındırılan bir üründe mi istiyorsunuz? İşte {appName}'in olduğu 2-si-1-arada budur. Tek bir kazanan yok. Biz sadece Risu'nun, bir ön yüz olarak, asla olması amaçlanmayan köprüyü inşa ettik.",
         "CTA": "Her şeyi taşınmış sohbeti deneyin. <register>Ücretsiz hesap oluşturun</register> ya da <chat>sohbeti açın</chat>."
       },
       "UNOROUTER_VS_LITELLM": {
@@ -719,7 +720,7 @@
         "H_SETUP": "Kurulum ve bakım",
         "P_SETUP": "LiteLLM ile bir yapılandırma yazarsin, her sağlayıcının API anahtarlarını verirsin, sunucuyu çalıştırırsın (Python, bu yüzden eşzamanlılıkta GIL'e dikkat) ve yükseltmeleri ve izlemeyi sonsuza dek üstlenirsin. {appName} ile kayıt olur ve istemcini <c>https://api.unorouter.com/v1</c> adresine yönlendirirsin. Yapılandırma dosyası yok, toplanacak sağlayıcı anahtarı yok, bakilacak sunucu yok. Biri bakimini yaptığın altyapı; diğeri tükettiğin bir hizmet.",
         "H_INTERFACE": "İçinde sohbet edebilecegin bir LiteLLM yok",
-        "P_INTERFACE": "LiteLLM tasarım geregi arayüzsüzdür: bir API katmanı, her arayüzü sen getirirsin. {appName} aynı OpenAI uyumlu API'yi artı dahili bir sohbet ve karakter istemcisini (personalar, lorebook'lar, hazır ayarlar, SillyTavern kart içe aktarımı) sunar ve aynı anahtar SillyTavern, Janitor.AI, RisuAI veya Chub'a takılır. Böylece bir kodlama ajanı ve gerçekten sohbet edilecek bir yer tek anahtarla çalışır; hala arayüz inşa etmen gereken bir vekil yerine.",
+        "P_INTERFACE": "LiteLLM tasarımı gereği başsızdır: bir API katmanı, her arayüzü siz getirirsiniz. {appName} aynı OpenAI uyumlu API'yi artı yerleşik bir sohbet ve karakter istemcisini (personalar, lorebook'lar, presetler, SillyTavern kart içe aktarımı) sunar ve aynı anahtar SillyTavern, Janitor.AI, RisuAI veya Chub'a girer. Böylece bir kodlama ajanı ve gerçekten sohbet edilecek bir yer tek bir anahtardan çalışır, hâlâ bir arayüz inşa etmeniz gereken bir proxy yerine.",
         "H_COST": "Maliyet ve anahtarlar",
         "P_COST": "LiteLLM kar payı almaz ama her sağlayıcıya doğrudan ödersin ve altyapı faturasıyla birlikte DevOps zamanını taşırsın. Ekibin varsa yüksek hacimde kazanır. {appName} 200'den fazla model genelinde kullandıkça öde şeklindedir, süresi dolmayan krediler ve ücretsiz bir katman ile; her sağlayıcıda bir cüzdan yerine tek bakiye ve ödenecek sunucu yok. Ciddi ölçeğin altında, saatleri saydığında barındırılan yol genellikle daha ucuzdur.",
         "H_VERDICT": "Hangisini seçmelisin",
@@ -829,7 +830,7 @@
         "INTRO_P1": "Modern görsel modelleri birden çok referans görsel artı bir metin istemi alıp tek bir çıktıda birleştirebilir. <s>Bir istem, N referans, bir kompozit</s>. Görsel roman, tutarlı karakterli marka materyali, ürün maketleri, çizgi roman panelleri ve bilinen parçalardan sahne kurulması gereken her iş akışı için kullanışlı.",
         "INTRO_P2": "Yakalama: pazardaki her model bunu yaptığını iddia eder. Çoğu yapmaz. Bazıları 1 referansta tıkanır, bazıları 4'te, bazıları girdileri kabul eder ama ilkinden sonrasını sessizce yok sayar. Üstelik aynı model satıcılar arasında kotalar, slug varyantları ve eksik endpoint bağlantısı nedeniyle farklı davranır. Bu yüzden bir benchmark çalıştırdık.",
         "H_FIXTURES": "Fixture seti",
-        "FIXTURES_P": "Tipik bir roleplay sahne kompozisyonunu kapsayan altı sabit JPEG: bir tavern arka planı ve beş karakter portresi (bir kullanıcı tarafı ve dört NPC). Her (sağlayıcı, model) çifti için aynı altı dosya, kanal başına yeniden yazma yok. Toplam yük altı görsel boyunca yaklaşık 500 KB.",
+        "FIXTURES_P": "Tipik bir karakter sahnesi kompozisyonunu kapsayan altı sabit JPEG: bir taverna arka planı ve beş karakter portresi (biri kullanıcı tarafı ve dört NPC). Her (sağlayıcı, model) çifti için aynı altı dosya, kanal başına yeniden yazma yok. Altı görsel üzerinde toplam yük yaklaşık 500 KB.",
         "FIXTURES_PROMPT_INTRO": "Metin istemi de sabittir. Her karakteri adlandırır, her görseli indekse göre referans verir ve tek bir kompozit ister. Aynen:",
         "H_METHOD": "Benchmark nasıl çalışır",
         "METHOD_P1": "Katalogdaki her (sağlayıcı, model) çifti için: altı fixture artı istemi o kanalın <c>/v1/images/edits</c>'ine POST. <s>Geçti</s> = yanıtta boş olmayan bir görsel URL veya base64 yüküyle HTTP 200. <s>Başarısız</s> = 200 olmayan, boş gövde veya şekil uyuşmazlığı. İnsan derecelendirmesi yok. Benchmark yeniden üretilebilir, talep üzerine çalışır ve upstream'de yeni bir görsel modeli göründüğünde yeniden çalışır.",
@@ -897,7 +898,7 @@
         "H_MODELS": "Modeller ve fiyatlandırma",
         "P_MODELS": "İkisi de tek bir anahtarın arkasında büyük sağlayıcılardan 200'den fazla model sunar ve OpenAI, Anthropic ve Gemini istek biçimlerini otomatik algılar. OpenRouter, bakiye alımlarında yüzdesel ücret alır. {appName} kullandıkça öde modelindedir, bakiye süresi dolmaz ve prototip için ücretsiz bir model katmanı vardır. Ham model genişliğinde ikisi karşılaştırılabilir, dolayısıyla belirleyici etken nadiren katalogdur. Önemli olan onunla ne yaptığınızdır.",
         "H_RP": "OpenRouter'ın atladığı kısım",
-        "P_RP": "Bir kodlama ajanını (Claude Code, Cline, OpenCode, Kilo Code, Codex) {appName} adresine yöneltin, herhangi bir OpenAI uyumlu uç nokta gibi davranır. Ama aynı anahtar, personalar, lorebook'lar, hazır ayarlar ve SillyTavern kart içe aktarımıyla yerleşik bir sohbet ve karakter istemcisini de çalıştırır ve doğrudan SillyTavern, Janitor.AI, RisuAI veya Chub'a oturur. OpenRouter yalnızca API katmanıdır, bu yüzden her arayüzü siz getirirsiniz. {appName} arayüzü ve API'yi birlikte sunar.",
+        "P_RP": "Bir kodlama ajanını (Claude Code, Cline, OpenCode, Kilo Code, Codex) {appName}'e yöneltin; o, OpenAI uyumlu herhangi bir uç nokta gibi davranır. Ama aynı anahtar personalar, lorebook'lar, presetler ve SillyTavern kart içe aktarımı olan yerleşik bir sohbet ve karakter istemcisini de sürer ve doğrudan SillyTavern, Janitor.AI, RisuAI veya Chub'a girer. OpenRouter tamamen API katmanıdır, dolayısıyla her arayüzü kendiniz getirirsiniz. {appName} arayüzü ve API'yi birlikte sunar.",
         "H_MIGRATE": "Geçiş, temel URL değişikliğidir",
         "P_MIGRATE": "{appName} OpenAI uyumlu olduğundan, mevcut bir uygulamayı taşımak tek satırdır: istemcinizi <c>https://api.unorouter.com/v1</c> adresine yöneltin ve mevcut kodunuzu koruyun. Bir sohbet istemcisinin özel uç nokta alanına yapıştırılan aynı anahtar aynı kataloğa ulaşır, dolayısıyla yönetilecek ikinci bir hesap yoktur.",
         "H_VERDICT": "Hangisini seçmelisiniz",
@@ -910,13 +911,13 @@
         "AUTHOR": "{appName} ekibi",
         "INTRO": "OpenRouter basit bir fikri yaygınlaştırdı: çok sayıda model sağlayıcısına ulaşan OpenAI uyumlu tek bir anahtar. Sağlam bir varsayılan, ama tek seçenek değil ve her kullanım için en iyisi değil. 2026'da alternatifleri tartıyorsanız, doğru seçim en çok fiyata mı, model genişliğine mi, faturalama biçimine mi, yoksa kendi sohbet istemcinize mi önem verdiğinize bağlı. İşte dürüst bir harita ve {appName}'in nereye oturduğu.",
         "H_WHY_SWITCH": "Neden OpenRouter'in otesine bakmali",
-        "P_WHY_SWITCH": "İnsanlar birkaç somut nedenle araştırır. Kar payı: her toplayıcı, sağlayıcının ham fiyatının üzerine bir pay ekler ve büyüklüğü değişir. Model kapsamı: ihtiyacınız olan bir model bir ağ geçidinde eksik ya da eski, başka birinde güncel olabilir. Faturalama biçimi: bazı planlar koltuk ya da abonelik bazli, bu da ani yoğun kullanıma kötü oturur. Ve istemci meselesi: çoğu ağ geçidi bassizdir, bu yüzden sohbet ya da rol yapma için hala ayrı bir ön yüze ihtiyacınız olur. Bunlardan herhangi biri karşılaştırmak için yeterli olabilir.",
+        "P_WHY_SWITCH": "İnsanlar birkaç somut nedenle alternatif arar. Kâr marjı: her toplayıcı, ham sağlayıcı fiyatının üzerine bir marj ekler ve boyutu değişir. Model kapsamı: ihtiyacınız olan bir model bir ağ geçidinde eksik veya eski, başka birinde güncel olabilir. Faturalandırma biçimi: bazı planlar koltuk veya abonelik temellidir, ki bu ani patlamalı kullanım için yanlış uyumdur. Ve istemci hikayesi: çoğu ağ geçidi başsızdır, bu yüzden sohbet veya karakter sohbeti için hâlâ ayrı bir ön yüze ihtiyacınız olur. Bunlardan herhangi biri karşılaştırmak için yeterli neden olabilir.",
         "H_WHAT_TO_COMPARE": "Gerçekte neyi karşılaştırmalı",
         "P_WHAT_TO_COMPARE": "Bir alternatifi beş seyle yargilayin. OpenAI uyumlu Chat Completions, böylece mevcut kodunuz ve araçlarınız yeniden yazmadan bağlanır. Model genişliği ve güncelliği, böylece dünün kataloğunda takilip kalmazsınız. Süresi dolmayan kredilerle şeffaf kullandıkça öde fiyatlandırması, böylece hafif aylar sizi cezalandırmaz. Gerçekten kullandığınız modellerin kapsamı, sadece büyük bir ham sayı değil. Ve kullanılabilir bir istemci sunuyor mu, yoksa kendinizinkini getirmenizi mi varsayiyor. Bunlara göre puanlayin, pazarlama vaatlerine göre değil.",
         "H_ALTERNATIVES": "Bilmeye değer alternatifler",
         "P_ALTERNATIVES": "Tek sağlayıcılı anahtarlar (OpenAI, Anthropic, DeepSeek) en basit olanidir ama sizi tek bir laboratuvara bağlar. LiteLLM ve Portkey gibi başsız geliştirici ağ geçitleri genişlik ve yönetişim verir ama istemci vermez, bu yüzden kendi uygulamaları olan ekiplere uyar. Kendin barındıran proxyler rahatlığı denetimle takas eder. Birleşik ağ geçitleri ise geniş bir OpenAI uyumlu API'yi yerleşik bir sohbet istemcisiyle eşleştirir, böylece tek anahtar kodda ve bir arayüzde çalışır. {appName} bu sonuncu türdendir: herhangi bir OpenAI SDK'sini <c>https://api.unorouter.com/v1</c> adresine yöneltin, 200'den fazla modele ulaşın ve aynı anahtarı yerleşik bir sohbet istemcisinde ya da SillyTavern gibi araclarda kullanın.",
-        "H_FOR_ROLEPLAY": "Kullanım durumunuz rol yapmaysa",
-        "P_FOR_ROLEPLAY": "Rol yapma kendine özgü bir durumdur. Güçlü bir yazarla ucuz bir iş beygiri arasında geçiş yapmak için geniş bir katalog, oturumlar ani yoğun olduğu için kullandıkça öde faturalama ve SillyTavern, Janitor.AI, RisuAI ya da Chub'a doğrudan giren bir anahtar istersiniz. Saf geliştirici ağ geçitleri API tarafini kapsar ama size istemci vermez ve koltuk bazli planlar bu ani yoğun desenle savasir. {appName} ikisini de kapsamak için yapıldı: kod için temiz API, artı aynı anahtar, modeller ve kredilerle bir sohbet ve karakter istemcisi.",
+        "H_FOR_ROLEPLAY": "Kullanım durumunuz karakter sohbetiyse",
+        "P_FOR_ROLEPLAY": "Karakter sohbeti kendine özgü bir durumdur. Güçlü bir yazar ile ucuz bir iş atı arasında geçiş yapmak için geniş bir katalog, oturumlar ani patlamalı olduğu için kullandıkça öde faturalandırması ve doğrudan SillyTavern, Janitor.AI, RisuAI veya Chub'a giren bir anahtar istersiniz. Saf dev ağ geçitleri API yarısını kapsar ama size istemci vermez ve koltuk temelli planlar ani patlamalı kalıba karşı savaşır. {appName} ikisini de kapsamak için inşa edildi: kod için temiz API, artı aynı anahtar, modeller ve kredilerde bir sohbet ve karakter istemcisi.",
         "H_VERDICT": "Nasıl seçilir",
         "P_VERDICT": "Hep tek bir laboratuvar kullanıyorsanız, tek sağlayıcılı bir anahtar yeterlidir. Kendi uygulamanizin önünde yönlendirme ve yönetişim isteyen bir ekipseniz, başsız bir geliştirici ağ geçidi uyar. Çok sayıda güncel modele ulaşan, kullandıkça öde faturalayan ve hem kodda hem bir sohbet istemcisinde çalışan bir anahtar isterseniz, {appName}'in doldurduğu boşluk budur. Gerçek kullanımınıza göre seçin, ham model sayısına göre değil.",
         "CTA": "Her model için tek anahtar mı istiyorsunuz? <register>Ücretsiz hesap oluşturun</register> ya da <models>modellere göz atın</models>."
@@ -933,7 +934,7 @@
         "H_HOW_IT_WORKS": "Kaputun altında nasıl çalışır",
         "P_HOW_IT_WORKS": "Bir istek geldiğinde ağ geçidi <c>model</c> adını okur, eşleşen upstream sağlayıcıyı bulur, o sağlayıcının kimlik bilgilerini takar, sağlayıcıya özgü gövde alanlarını yeniden yazar ve çağrıyı iletir. Akitilan tokenler aynı bağlantı üzerinden geri gelir, bu yüzden sizin tarafinizda normal bir OpenAI çağrısı gibi görünür. İyi ağ geçitleri geçici hatalarda yeniden denemeler, kullanım ve maliyet muhasebesi ve güncel bir model kataloğu ekler, böylece yeni sürümler siz hiçbir seye dokunmadan belirir.",
         "H_WHO_NEEDS_ONE": "Gerçekten kimin ihtiyacı var",
-        "P_WHO_NEEDS_ONE": "Birden fazla model kullanıyorsanız, fiyatlar ve kalite değiştikçe model değiştirmeyi planliyorsaniz ya da tek bir laboratuvara sabit bağlanmaması gereken bir şey inşa ediyorsanız bir ağ geçidi istersiniz. Kod ajanları, sohbet uygulamaları, rol yapma ön yüzleri ve dahili araçlar hepsi fayda görür. Gerçekten yalnızca tek bir sağlayıcıdan tek bir modeli çağırıyorsanız ve asla değiştirmeyi beklemiyorsaniz, doğrudan bir sağlayıcı anahtarı daha basittir. Geri kalan herkes bir ağ geçidiyle gerçek emek tasarruf eder.",
+        "P_WHO_NEEDS_ONE": "Birden fazla model kullanıyorsanız, fiyatlar ve kalite değiştikçe model değiştirmeyi planlıyorsanız ya da tek bir laboratuvara sabitlenmemesi gereken bir şey inşa ediyorsanız bir ağ geçidi istersiniz. Kodlama ajanları, sohbet uygulamaları, karakter sohbeti ön yüzleri ve dahili araçlar hepsi fayda görür. Gerçekten yalnızca tek bir sağlayıcıdan tek bir model çağırıyorsanız ve hiç değiştirmeyi beklemiyorsanız, doğrudan bir sağlayıcı anahtarı daha basittir. Diğer herkes bir ağ geçidiyle gerçek emek tasarrufu yapar.",
         "H_VERDICT": "Kısacası",
         "P_VERDICT": "LLM ağ geçidi çok sayıda sağlayıcıyı tek bir uç nokta, tek bir anahtar ve tek bir faturaya çevirir, böylece bir kez entegre eder ve modelleri özgürce değiştirirsiniz. {appName} tam bu kalıpta OpenAI uyumlu bir ağ geçididir: tek bir anahtar kod ve sohbet için eşit şekilde 200'den fazla modele ulaşır, süresi dolmayan kullandıkça öde kredileriyle. Birden fazla modele dokunuyorsaniz, bir ağ geçidi daha temiz bir temeldir.",
         "CTA": "Bir ağ geçidini kendiniz deneyin: <register>ücretsiz hesap oluşturun</register> ya da <models>modellere göz atın</models>."
@@ -946,30 +947,30 @@
         "H_WHAT_YOU_NEED": "Önce neye ihtiyacınız var",
         "P_WHAT_YOU_NEED": "Uç şey: çalışan bir SillyTavern kurulumu, OpenAI uyumlu bir uç nokta ve bunun için bir anahtar. Bir ağ geçidi son ikisini birden kapsar, çünkü size çok sayıda modele ulaşan bir temel URL ve bir anahtar verir. {appName} ile bir hesap oluşturur, anahtarınızı alır ve hazırsınız; ücretsiz bir katman var, böylece bir şey harcamadan önce bir karakteri test edebilirsiniz. Anahtarınızı el altında tutun ve hiçbir yerde herkese açık yapıştırmayın.",
         "H_STEPS": "Kurulum adımları",
-        "P_STEPS": "SillyTavern'de API panelini açın ve Chat Completion'i, ardından OpenAI uyumlu (Custom) kaynağını seçin. Temel URL'yi <c>https://api.unorouter.com/v1</c> olarak ayarlayın, {appName} anahtarınızı yapıştırın ve model listesini yüklemek için tıklayın. Açılır menüden bir model seçin ve bir test mesajı gönderin. Karakterleriniz, lorebook'lariniz ve hazır ayarlarınız değişmeden çalışır, çünkü SillyTavern'in yalnızca bir uç noktaya ve bir anahtara ihtiyacı vardi. Aynı anahtar Janitor.AI, RisuAI ve Chub'da da çalışır.",
+        "P_STEPS": "SillyTavern'de API panelini açın ve Chat Completion'ı, sonra OpenAI uyumlu (Custom) kaynağı seçin. Temel URL'yi <c>https://api.unorouter.com/v1</c> olarak ayarlayın, {appName} anahtarınızı yapıştırın ve model listesini yüklemek için tıklayın. Açılır menüden bir model seçin ve bir test mesajı gönderin. Karakterleriniz, lorebook'larınız ve presetleriniz değişmeden çalışır, çünkü SillyTavern'in yalnızca bir uç nokta ve bir anahtara ihtiyacı vardı. Aynı anahtar Janitor.AI, RisuAI ve Chub'da da çalışır.",
         "H_SWITCHING_MODELS": "Modelleri sonra değiştirmek",
         "P_SWITCHING_MODELS": "Her şey tek bir uç noktadan geçtiği için modelleri değiştirmek yalnızca model açılır menüsünden başka bir girdi seçmektir; yeni hesap, anahtar ya da temel URL yok. Bu, bir sahne kurarken ucuz ücretsiz bir modeli çalıştırmanıza, sonra önemli an için daha güçlü ücretli bir modele geçmenize olanak tanır. Tek anahtarda 200'den fazla modelle, tek bir sağlayıcının sunduğu seye razı olmak yerine modeli sahneye eşleştirebilirsiniz.",
         "H_TROUBLESHOOTING": "Sık hatalar ve çözümleri",
         "P_TROUBLESHOOTING": "Model listesi yüklenmiyorsa, temel URL'nin <c>/v1</c> ile bittiğini ve anahtarın baskara boşluk olmadan yapıştırıldığını yeniden kontrol edin. 401, anahtarın yanlış ya da süresinin dolmuş olduğu anlamına gelir; tekrar kopyalayın. Bir modelde 404, o model adinin yüklenen listeden seçilmediği anlamına gelir. Yanıtlar kesiliyorsa, SillyTavern ayarlarında yanıt uzunluğunu yükseltin. Çoğu kurulum hatası yanlış yazılmış bir temel URL ya da boslukli bir anahtardir, bu yüzden önce bunları kontrol edin.",
         "H_VERDICT": "Bütün hile bu",
-        "P_VERDICT": "Herhangi bir LLM'i SillyTavern'e bağlamak, OpenAI uyumlu tek bir uç nokta artı bir anahtara iner ve bir ağ geçidi bunu tek bir kurulumun arkasında çok sayıda modele çevirir. {appName} size o temel URL'yi, başlamak için ücretsiz bir katmanı ve hiçbir şeyi yeniden yapmadan aralarında geçiş yapacağınız 200'den fazla modeli verir. Bir kez kurun, aynı anahtar her RP ön yüzünde sizi takip etsin.",
+        "P_VERDICT": "Herhangi bir LLM'i SillyTavern'e bağlamak, OpenAI uyumlu bir uç nokta artı bir anahtara iner ve bir ağ geçidi bunu tek bir kurulumun ardındaki birçok modele dönüştürür. {appName} size o temel URL'yi, başlamak için ücretsiz bir katmanı ve hiçbir şeyi yeniden yapmadan aralarında geçiş yapabileceğiniz 200+ modeli verir. Bir kez ayarlayın ve aynı anahtar sizi her karakter sohbeti ön yüzünde takip eder.",
         "CTA": "SillyTavern'i bağlamaya hazır mısınız? <register>Ücretsiz hesap oluşturun</register> ya da <models>modellere göz atın</models>."
       },
       "ONE_API_KEY_FOR_CLAUDE_CODE_AND_ROLEPLAY": {
-        "TITLE": "Claude Code ve rol yapma için tek API anahtarı",
-        "DESCRIPTION": "Kod ajanları ve rol yapma istemcileri ikisi de OpenAI uyumlu API'ler konuşur. İşte tek bir anahtarın Claude Code'u ve karakter sohbetlerinizi tek bir bakiyeden nasıl beslediği.",
+        "TITLE": "Claude Code ve karakter sohbeti için tek API anahtarı",
+        "DESCRIPTION": "Kodlama ajanları ve karakter sohbet istemcileri ikisi de OpenAI uyumlu API'ler konuşur. İşte tek bir anahtarın Claude Code'u ve karakter sohbetlerinizi tek bakiyeden nasıl çalıştırdığı.",
         "AUTHOR": "{appName} ekibi",
-        "INTRO": "Kod ajanları ve rol yapma istemcileri farklı dünyalar gibi hissettirir, ama kaputun altında aynı dili konuşur: OpenAI uyumlu Chat Completions. Bu, tek bir anahtarın ve tek bir uç noktanın ikisine de hizmet edebileceği anlamına gelir. Claude Code'u gerçek işiniz için bir ağ geçidine karşı çalıştırabilir, sonra aksam tam olarak aynı anahtarı karakter sohbeti için kullanabilirsiniz, tek bir bakiyeden faturalanır. İşte bunun nasıl çalıştığı ve neden kullanışlı olduğu.",
+        "INTRO": "Kodlama ajanları ve karakter sohbet istemcileri farklı dünyalar gibi hissettirir ama kaputun altında aynı dili konuşurlar: OpenAI uyumlu Chat Completions. Bu, tek bir anahtar ve tek bir uç noktanın ikisine de hizmet edebileceği anlamına gelir. Gerçek işiniz için Claude Code'u bir ağ geçidine karşı çalıştırabilir, sonra aynı anahtarı akşam karakter sohbeti için kullanabilirsiniz; hepsi tek bakiyeden faturalanır. İşte nasıl çalıştığı ve neden pratik olduğu.",
         "H_TWO_WORLDS": "İki dünya, tek protokol",
-        "P_TWO_WORLDS": "Claude Code, Cline, Codex ve Kilo Code kod ajanlarıdır; SillyTavern, Janitor.AI ve RisuAI rol yapma istemcileridir. İlgisiz görünürler, ama her biri OpenAI uyumlu bir uç noktaya ve bir anahtara bağlanır. Bir ağ geçidi her ikisinin arkasında durur, böylece aynı kimlik bilgileri sabah bir yeniden düzenlemeyi, gece bir hikayeyi sürer. Aynı protokolü konuşan iki araç için ayrı hesaplar ve ayrı faturalar tutmanin bir nedeni yoktur.",
+        "P_TWO_WORLDS": "Claude Code, Cline, Codex ve Kilo Code kodlama ajanlarıdır; SillyTavern, Janitor.AI ve RisuAI karakter sohbet istemcileridir. İlgisiz görünürler ama her biri OpenAI uyumlu bir uç noktaya ve bir anahtara bağlanır. Bir ağ geçidi ikisinin de arkasında durur, böylece aynı kimlik bilgileri sabah bir yeniden düzenlemeyi, gece bir hikayeyi sürer. Aynı protokolü konuşan iki araç için ayrı hesaplar ve ayrı faturalar tutmanın hiçbir nedeni yoktur.",
         "H_CLAUDE_CODE": "Claude Code ile kullanmak",
         "P_CLAUDE_CODE": "Kod ajanınızı ağ geçidine yöneltin: temel URL'yi <c>https://api.unorouter.com/v1</c> ve {appName} anahtarınızı ayarlayın, sonra güçlü bir kod modeli seçin. Claude Code, Cline, Codex ve Kilo Code hepsi OpenAI uyumlu bir temel URL'yi kabul eder, böylece ağ geçidi seçtiğiniz modele yönlendirirken ajan her zamanki gibi çalışır. Maliyet ya da kalite için tek satirlik bir değişiklikle modelleri değiştirin, yeni anahtar gerekmez.",
-        "H_ROLEPLAY": "Rol yapma için kullanmak",
-        "P_ROLEPLAY": "Aynı anahtar SillyTavern, Janitor.AI, RisuAI ve Chub'a girer: OpenAI uyumlu kaynağı seçin, temel URL'yi <c>https://api.unorouter.com/v1</c> olarak ayarlayın, anahtarı yapıştırın ve modelleri yükleyin. Karakterleriniz, lorebook'lariniz ve hazır ayarlarınız değişmeden çalışır. {appName}'in ayrıca yerleşik bir sohbet ve karakter istemcisi var, böylece tam bir uygulama başlatmak istemediğinizde aynı anahtar ve krediler orada da çalışır.",
+        "H_ROLEPLAY": "Karakter sohbeti için kullanmak",
+        "P_ROLEPLAY": "Aynı anahtar SillyTavern, Janitor.AI, RisuAI ve Chub'a girer: OpenAI uyumlu kaynağı seçin, temel URL'yi <c>https://api.unorouter.com/v1</c> olarak ayarlayın, anahtarı yapıştırın ve modelleri yükleyin. Karakterleriniz, lorebook'larınız ve presetleriniz değişmeden çalışır. {appName}'in ayrıca yerleşik bir sohbet ve karakter istemcisi vardır, böylece tam bir uygulama başlatmak istemediğinizde aynı anahtar ve krediler orada da çalışır.",
         "H_ONE_BALANCE": "İkisi için tek bakiye",
-        "P_ONE_BALANCE": "Her iki taraf da aynı anahtarda çalıştığı için, kod kullanımınız ve rol yapma kullanımınız tek bir kullandıkça öde bakiyesinden çeker. Krediler süresi dolmaz, gerekçelendirilecek aylık bir koltuk yoktur ve tüm harcamayı sağlayıcılar arasında bölmek yerine tek bir yerde görürsünüz. Ücretsiz bir katman, ödeme yapmadan önce her iki tarafı test etmenize olanak tanır. Tek bir hesap gününüzün tamamını, işi ve eğlenceyi kapsar.",
+        "P_ONE_BALANCE": "Her iki taraf da aynı anahtar üzerinde çalıştığı için kodlama kullanımınız ve karakter sohbeti kullanımınız tek bir kullandıkça öde bakiyesinden çekilir. Krediler süresi dolmaz, gerekçelendirilecek aylık bir koltuk yoktur ve tüm harcamanızı sağlayıcılara bölmek yerine tek bir yerde görürsünüz. Ücretsiz bir katman, ödemeden önce her iki tarafı da test etmenizi sağlar. Tek hesap tüm gününüzü kapsar, iş ve eğlence.",
         "H_VERDICT": "Çıkarım",
-        "P_VERDICT": "Kod ajanları ve rol yapma istemcileri OpenAI uyumlu protokolü paylaşır, böylece tek bir anahtar ikisini de tek bir bakiyeden besleyebilir. {appName} tam bu açıklığı için yapılmıştır: Claude Code ve dostları için temiz bir API, RP için bir sohbet ve karakter istemcisi, 200'den fazla model ve süresi dolmayan krediler. Tek anahtar, tek fatura, iki dünya.",
+        "P_VERDICT": "Kodlama ajanları ve karakter sohbet istemcileri OpenAI uyumlu protokolü paylaşır, böylece tek bir anahtar ikisini de tek bakiyeden çalıştırabilir. {appName} tam olarak bu aralık için yapılmıştır: Claude Code ve dostları için temiz bir API, hikaye anlatımı için bir sohbet ve karakter istemcisi, 200+ model ve süresi dolmayan krediler. Tek anahtar, tek fatura, her iki dünya.",
         "CTA": "Kod ve sohbet için tek anahtar mı istiyorsunuz? <register>Ücretsiz hesap oluşturun</register> ya da <models>modellere göz atın</models>."
       }
     }
@@ -1046,11 +1047,11 @@
     },
     "META": {
       "TITLE": "Fiyatlandırma - {appName}",
-      "DESCRIPTION": "Her AI modeli için basit fiyatlandırma. Daha iyi değer için abone olun veya kullandıkça ödeyin. Kodunuzda, Claude Code'da ve SillyTavern, Janitor.AI, RisuAI ve Chub'da çalışır.",
-      "KEYWORDS": "AI API fiyatlandırma, AI abonelik, token başına ödeme, AI model fiyatlandırma, ucuz AI API, uygun fiyatlı AI, SillyTavern fiyatlandırma, Janitor.AI fiyatlandırma, roleplay AI fiyatlandırma, character AI fiyatlandırma"
+      "DESCRIPTION": "Her yapay zeka modeli için basit fiyatlandırma. Daha iyi değer için abone olun ya da kullandıkça ödeyin. Kodunuzla, Claude Code ile ve SillyTavern, RisuAI ile ve OpenAI uyumlu herhangi bir yapay zeka sohbet istemcisiyle çalışır.",
+      "KEYWORDS": "AI API fiyatlandırma, AI abonelik, token başına ödeme, AI model fiyatlandırma, ucuz AI API, uygun fiyatlı AI, OpenAI uyumlu fiyatlandırma, çoklu model API fiyatlandırma"
     },
     "TITLE": "Fiyatlandırma",
-    "SUBTITLE": "İster bir uygulama yayınlıyor olun ister uzun roleplay oturumları çalıştırıyor olun. Bir plan, her model.",
+    "SUBTITLE": "İster bir uygulama yayınlayın ister uzun karakter sohbeti oturumları yürütün. Tek plan, tüm modeller.",
     "CTA": "Abone ol",
     "FAQ": {
       "Q1": "{appName} fiyatlandırma nasıl çalışır?",
@@ -1065,10 +1066,10 @@
       "A5": "{appName} otomatik failover ile birden çok sağlayıcı arasında istekleri yönlendirir. Bir sağlayıcı hız sınırına ulaşmışsa veya çökmüşse, sonraki sağlıklı upstream'e şeffaf bir şekilde yeniden deneriz.",
       "Q6": "İade alabilir miyim?",
       "A6": "Kullanılmayan ön ödemeli kredi satın alma tarihinden itibaren 30 gün boyunca iade edilebilir. İade istekleri için {supportEmail} ile iletişime geçin.",
-      "Q7": "Bunu SillyTavern, Janitor.AI, Chub veya RisuAI ile kullanabilir miyim?",
-      "A7": "Evet. Her plan herhangi bir büyük roleplay istemcisinde özel OpenAI uyumlu bir kaynak olarak çalışır. SillyTavern, Janitor.AI, RisuAI ve Chub'un her birinin dokümanda kurulum kılavuzu vardır.",
+      "Q7": "Bunu SillyTavern, RisuAI veya OpenAI uyumlu diğer yapay zeka sohbet istemcileriyle kullanabilir miyim?",
+      "A7": "Evet. Her plan, büyük karakter sohbet istemcilerinin herhangi birinde özel OpenAI uyumlu kaynak olarak çalışır. SillyTavern, Janitor.AI, RisuAI ve Chub'ın her birinin dokümanlarda bir kurulum kılavuzu vardır.",
       "Q8": "Sohbetlerim veya karakter geçmişim ne kadar uzun olabilir?",
-      "A8": "{appName} her modelin tam context penceresini destekler, Gemini'de 1M tokene ve Claude'da 200k'a kadar. Uzun roleplayler ve uzun kod tabanları çalışır."
+      "A8": "{appName}, her modelin tam bağlam penceresini destekler; Gemini'de 1M token'a ve Claude'da 200k'ya kadar. Uzun karakter konuşmaları ve büyük kod tabanları ikisi de çalışır."
     },
     "TIER": {
       "1": "Başlangıç",
@@ -1092,8 +1093,8 @@
   "DOCS_INDEX": {
     "META": {
       "TITLE": "Entegrasyonlar - {appName}",
-      "DESCRIPTION": "Her büyük AI aracı ve roleplay istemcisi için kurulum kılavuzları. Claude Code, Codex CLI, Gemini CLI, OpenClaw, SillyTavern, Janitor.AI, RisuAI ve Chub.",
-      "KEYWORDS": "AI entegrasyon kılavuzları, Claude Code kurulum, Codex CLI kurulum, Gemini CLI kurulum, OpenClaw kurulum, SillyTavern kurulum, Janitor.AI kurulum, RisuAI kurulum, Chub kurulum, AI API dokümantasyon, roleplay AI proxy kurulum"
+      "DESCRIPTION": "Her büyük yapay zeka aracı ve karakter sohbet istemcisi için kurulum kılavuzları. Claude Code, Codex CLI, Gemini CLI, OpenClaw, SillyTavern, RisuAI ve diğer OpenAI uyumlu istemciler.",
+      "KEYWORDS": "yapay zeka entegrasyon kılavuzları, Claude Code kurulumu, Codex CLI kurulumu, Gemini CLI kurulumu, OpenClaw kurulumu, SillyTavern kurulumu, RisuAI kurulumu, yapay zeka karakter sohbeti kurulumu, yapay zeka API dokümantasyonu, OpenAI uyumlu API kurulumu"
     },
     "BADGE": "Entegrasyonlar",
     "TITLE": "Entegrasyonlar",
@@ -1106,7 +1107,7 @@
     "CTA_MODELS": "Tüm Modelleri Görüntüle",
     "PATHS_TITLE": "Popüler yollar",
     "PATHS_DESC": "Bağlamak istediğiniz seyden başlayın. Doğru temel URL, rota ve model kurulumuna doğrudan gidin.",
-    "PATH_ROLEPLAY_TITLE": "Rol yapma istemcileri",
+    "PATH_ROLEPLAY_TITLE": "Karakter ve kurgu istemcileri",
     "PATH_ROLEPLAY_DESC": "SillyTavern, Janitor.AI, Chub ve RisuAI.",
     "PATH_CODING_TITLE": "Kodlama ajanları",
     "PATH_CODING_DESC": "OpenCode, Cline, Roo Code, Kilo Code, Zed ve daha fazlası.",
@@ -1172,11 +1173,11 @@
       "COMPAT_TOOL_CALLING": "Araç çağırma",
       "COMPAT_IMAGES": "Görüntü girişi",
       "CATEGORY_CODING": "Kodlama ajanları",
-      "CATEGORY_ROLEPLAY": "Rol yapma istemcileri",
+      "CATEGORY_ROLEPLAY": "Karakter ve kurgu istemcileri",
       "CATEGORY_GENERAL": "Sohbet istemcileri",
       "CATEGORY_CLI": "CLI araçları",
       "CATEGORY_CODING_DESC": "API üzerinden kod yazan ve çalıştıran editorler ve ajanlar.",
-      "CATEGORY_ROLEPLAY_DESC": "Karakter sohbeti ve rol yapma arayüzleri.",
+      "CATEGORY_ROLEPLAY_DESC": "Karakter sohbeti ve kurgu ön yüzleri.",
       "CATEGORY_GENERAL_DESC": "Genel amaçlı sohbet uygulamaları ve masaüstü istemcileri.",
       "CATEGORY_CLI_DESC": "Terminal araçları ve komut satırı ajanları."
     },
@@ -1666,13 +1667,13 @@
       "META": {
         "TITLE": "SillyTavern Entegrasyon Kılavuzu | {appName}",
         "DESCRIPTION": "SillyTavern''i {appName}''e Custom OpenAI uyumlu chat completion kaynağı üzerinden bağlayın. SillyTavern''in beklediği tam URL formatı ile adım adım kurulum.",
-        "KEYWORDS": "SillyTavern, SillyTavern proxy, SillyTavern API, SillyTavern özel endpoint, {appName} SillyTavern, roleplay AI proxy, OpenAI uyumlu roleplay"
+        "KEYWORDS": "SillyTavern, SillyTavern proxy, SillyTavern API, SillyTavern özel uç nokta, {appName} SillyTavern, yapay zeka karakter sohbeti, OpenAI uyumlu API"
       },
       "BADGE": "SillyTavern",
       "TITLE": "SillyTavern Entegrasyon Kılavuzu",
       "SUBTITLE": "{appName}''i SillyTavern''e Custom OpenAI uyumlu chat completion kaynağı üzerinden bağlayın.",
       "INTRO_TITLE": "SillyTavern nedir?",
-      "INTRO_DESC": "SillyTavern büyük dil modelleri için self-hosted bir roleplay ve karakter sohbet frontend'idir. Yerel olarak çalışır, karakterleri ve sohbetleri kendi makinenizde saklar ve chat completion kaynağı olarak herhangi bir OpenAI uyumlu API'yi destekler.",
+      "INTRO_DESC": "SillyTavern, büyük dil modelleri için kendi kendine barındırılan bir karakter sohbeti ve etkileşimli kurgu ön yüzüdür. Yerel olarak çalışır, karakterleri ve sohbetleri kendi makinenizde saklar ve sohbet tamamlama kaynağı olarak OpenAI uyumlu herhangi bir API'yi destekler.",
       "INTRO_LINK_DOCS": "Resmi SillyTavern dokümantasyonu",
       "INTRO_LINK_GITHUB": "GitHub'da SillyTavern",
       "OVERVIEW": "Genel Bakış",
@@ -1732,13 +1733,13 @@
       "META": {
         "TITLE": "Janitor.AI Entegrasyon Kılavuzu | {appName}",
         "DESCRIPTION": "Janitor.AI''yı {appName}''e özel proxy olarak bağlayın. Janitor''ın beklediği tam yol URL''sini ve çoğu kılavuzun unuttuğu tarayıcı yenileme adımını içerir.",
-        "KEYWORDS": "Janitor AI, Janitor proxy, Janitor API, {appName} Janitor, roleplay proxy, OpenAI uyumlu roleplay, Janitor özel proxy URL"
+        "KEYWORDS": "Janitor AI, Janitor proxy, Janitor API, {appName} Janitor, yapay zeka karakter sohbeti, OpenAI uyumlu API, Janitor özel proxy URL'si"
       },
       "BADGE": "Janitor.AI",
       "TITLE": "Janitor.AI Entegrasyon Kılavuzu",
       "SUBTITLE": "{appName}''i Janitor.AI''ya Janitor''ın API Settings panelinin beklediği tam URL formatı ile özel proxy olarak bağlayın.",
       "INTRO_TITLE": "Janitor.AI nedir?",
-      "INTRO_DESC": "Janitor.AI tarayıcı tabanlı bir karakter sohbet platformudur. Dahili bir ücretsiz model ile gelir ve sınırsız erişim için herhangi bir OpenAI uyumlu proxy eklemenize izin verir. {appName} API Settings panelinde takılır.",
+      "INTRO_DESC": "Janitor.AI, tarayıcı tabanlı bir karakter sohbeti platformudur. Yerleşik ücretsiz bir modelle gelir ve sınırsız erişim için OpenAI uyumlu herhangi bir proxy eklemenize izin verir. {appName}, API Settings panelinden bağlanır.",
       "INTRO_LINK_DOCS": "Resmi Janitor.AI proxy quickstart'ı",
       "OVERVIEW": "Genel Bakış",
       "OVERVIEW_DESC": "Janitor.AI proxy'nizi TAM `/v1/chat/completions` URL'sinde çağırır. O URL'yi, API anahtarınızı ve model adını bir yapılandırmaya yapıştırır, Save'e basarsınız ve sonra yapılandırmanın etkinleşmesi için tarayıcıyı hard-refresh edersiniz.",
@@ -1801,13 +1802,13 @@
       "META": {
         "TITLE": "RisuAI Entegrasyon Kılavuzu | {appName}",
         "DESCRIPTION": "RisuAI''yı {appName}''e Custom Models üzerinden bağlayın. RisuAI proxy kurulumları için 1 numaralı destek sorunu olan Autofill Request URL''yi kaldırma kritik adımını içerir.",
-        "KEYWORDS": "RisuAI, RisuAI proxy, RisuAI özel endpoint, {appName} RisuAI, roleplay AI proxy, Autofill Request URL, RisuAI OpenAI uyumlu"
+        "KEYWORDS": "RisuAI, RisuAI proxy, RisuAI özel uç nokta, {appName} RisuAI, yapay zeka karakter sohbeti, Autofill Request URL, RisuAI OpenAI uyumlu"
       },
       "BADGE": "RisuAI",
       "TITLE": "RisuAI Entegrasyon Kılavuzu",
       "SUBTITLE": "{appName}''i RisuAI''ya Advanced Settings''teki Custom Models seçeneği üzerinden bağlayın.",
       "INTRO_TITLE": "RisuAI nedir?",
-      "INTRO_DESC": "RisuAI tarayıcıda veya masaüstü uygulaması olarak çalışan local-first bir roleplay sohbet frontend'idir. Herhangi bir OpenAI uyumlu endpointi destekler, yapılandırma tarayıcı local storage'ında saklanır.",
+      "INTRO_DESC": "RisuAI, tarayıcıda ya da masaüstü uygulaması olarak çalışan yerel öncelikli bir karakter sohbeti ön yüzüdür. OpenAI uyumlu herhangi bir uç noktayı destekler ve yapılandırması tarayıcının yerel deposunda saklanır.",
       "INTRO_LINK_GUIDE": "Üçüncü taraf RisuAI kurulum kılavuzu (HyprLab)",
       "INTRO_LINK_GITHUB": "GitHub'da RisuAI",
       "INTRO_WIKI_NOTE": "Resmi RisuAI wiki mevcut UI'nin gerisindedir. Aşağıdaki adımlar 2026-04 itibariyle RisuAI'yı yansıtır.",
@@ -1877,13 +1878,13 @@
       "META": {
         "TITLE": "Chub / Venus Entegrasyon Kılavuzu | {appName}",
         "DESCRIPTION": "Chub.ai''yı (Venus) {appName}''e reverse proxy olarak bağlayın. Chub''ın dahili üçüncü taraf proxy uyarısına karşı first-party relay feragatnamesi içerir.",
-        "KEYWORDS": "Chub AI, Venus AI, Chub reverse proxy, {appName} Chub, roleplay AI proxy, OpenAI uyumlu Chub, Chub OpenAI kurulum"
+        "KEYWORDS": "Chub AI, Venus AI, Chub ters proxy, {appName} Chub, yapay zeka karakter sohbeti, OpenAI uyumlu API, Chub OpenAI kurulumu"
       },
       "BADGE": "Chub / Venus",
       "TITLE": "Chub / Venus Entegrasyon Kılavuzu",
       "SUBTITLE": "{appName}''i Chub.ai''ya (Venus) Secrets panelinin Reverse proxy seçeneği üzerinden bağlayın.",
       "INTRO_TITLE": "Chub / Venus nedir?",
-      "INTRO_DESC": "Chub.ai (eskiden Venus) 60,000 karakter kütüphanesi olan tarayıcı tabanlı bir karakter sohbet platformudur. Secrets paneli üzerinden OpenAI uyumlu endpointlere bağlanır.",
+      "INTRO_DESC": "Chub.ai (eski adıyla Venus), 60.000 karakterlik bir kütüphaneye sahip tarayıcı tabanlı bir karakter sohbeti platformudur. Secrets paneli üzerinden OpenAI uyumlu uç noktalara bağlanır.",
       "INTRO_LINK_DOCS": "Resmi Chub.ai API Connections dokümantasyonu",
       "OVERVIEW": "Genel Bakış",
       "OVERVIEW_DESC": "Chub'in Secrets paneli `/v1` ile biten temel API URL'sini ve API anahtarınızı kabul eder. Bir Check your proxy düğmesi, Prompt Structure'da bir model seçmeden önce bağlantıyı doğrular.",
@@ -2298,6 +2299,7 @@
     "MODELS": "Modeller",
     "PRICING": "Fiyatlandırma",
     "DOCUMENTATION": "Dokümantasyon",
+    "BLOG": "Blog",
     "STATUS": "Durum",
     "LEGAL": "Yasal",
     "PRIVACY": "Gizlilik Politikası",
@@ -2312,7 +2314,8 @@
     "SOCIAL_TRUSTPILOT": "Trustpilot",
     "EASTER_EGG_LABEL": "Token Breakout Oyna",
     "BADGE_FEATURED_ON": "{name} üzerinde öne çıkan",
-    "BADGE_VERIFIED_ON": "{name} üzerinde doğrulandı"
+    "BADGE_VERIFIED_ON": "{name} üzerinde doğrulandı",
+    "AUP": "Kabul Edilebilir Kullanım Politikası"
   },
   "PRIVACY": {
     "META": {
@@ -2374,7 +2377,7 @@
     "USER_CONTENT_TITLE": "5. Kullanıcı İçeriği ve Verisi",
     "USER_CONTENT_CONTENT": "Hizmetler aracılığıyla gönderdiğiniz içeriğin (\"Kullanıcı İçeriği\") sahipliğini korursunuz. AI tarafından üretilen çıktıların sahipliği, kullanılan belirli AI modelinin şartlarına bağlıdır. Kullanıcı İçeriğinizi AI modelleri eğitmek için kullanmıyoruz. Kullanıcı İçeriğinizi yalnızca Hizmetleri sağlama amacıyla işlememiz için sınırlı bir lisans verirsiniz.",
     "PROHIBITED_TITLE": "6. Yasaklı Davranış",
-    "PROHIBITED_CONTENT": "Hizmetleri herhangi bir geçerli yasa veya yönetmeliği ihlal etmek; sahte kimlikler oluşturmak veya başkalarını taklit etmek; otomatik scraping veya veri madenciliğine katılmak; üçüncü taraf fikri mülkiyet haklarını ihlal etmek; Hizmetleri kesintiye uğratmaya, aşırı yüklemeye veya müdahale etmeye çalışmak; sahte faaliyetlere katılmak; veya yetki olmadan hesabınıza erişimi yeniden satmak için kullanmayı kabul etmezsiniz.",
+    "PROHIBITED_CONTENT": "Hizmetleri herhangi bir geçerli yasa veya yönetmeliği ihlal etmek; sahte kimlikler oluşturmak veya başkalarını taklit etmek; otomatik scraping veya veri madenciliğine katılmak; üçüncü taraf fikri mülkiyet haklarını ihlal etmek; Hizmetleri kesintiye uğratmaya, aşırı yüklemeye veya müdahale etmeye çalışmak; sahte faaliyetlere katılmak; veya yetki olmadan hesabınıza erişimi yeniden satmak için kullanmayı kabul etmezsiniz veya cinsel içerikli, pornografik ya da NSFW içerik, çocukların cinsel istismarına yönelik materyal, rıza dışı cinsel içerik ya da deepfake ve yüz değiştirme görselleri üretmek, talep etmek veya dağıtmak için kullanmamayı kabul edersiniz. Hizmetleri kullanımınız ayrıca Kabul Edilebilir Kullanım Politikamıza tabidir.",
     "TERMINATION_TITLE": "7. Sonlandırma",
     "TERMINATION_CONTENT": "Hesabınızı bu Şartların ihlali dahil herhangi bir nedenle herhangi bir zamanda askıya alabilir veya sonlandırabiliriz. Sonlandırma üzerine (ihlaller hariç), kalan kullanılmamış krediler takdirimize bağlı olarak iade edilebilir. Hesabınızı bizimle iletişime geçerek herhangi bir zamanda sonlandırabilirsiniz.",
     "IP_TITLE": "8. Fikri Mülkiyet",
@@ -2427,6 +2430,30 @@
     "CHANGES_CONTENT": "Gelişen tüketici koruma çerçevelerine uyumu sürdürmek için bu İade Politikasını dilediğimiz zaman değiştirebiliriz. Güncellemeler, gözden geçirilmiş bir tarihle bu sayfaya yansıtılır ve gerektiğinde önemli değişiklikler hakkında etkilenen müşteriler önceden bilgilendirilir.",
     "CONTACT_TITLE": "8. Bize Ulaşın",
     "CONTACT_CONTENT": "İade talepleri veya bu politika hakkındaki sorularınız için lütfen {supportEmail} adresinden bizimle iletişime geçin."
+  },
+  "AUP": {
+    "TITLE": "Kabul Edilebilir Kullanım Politikası",
+    "LAST_UPDATED": "Son Güncelleme: 30 Haziran 2026",
+    "META": {
+      "TITLE": "Kabul Edilebilir Kullanım Politikası - {appName}",
+      "DESCRIPTION": "{appName} için Kabul Edilebilir Kullanım Politikası. Cinsel içerikli, NSFW, deepfake ve zararlı içerik üretiminin yasaklanması da dahil olmak üzere yasaklı içerik ve davranışlar.",
+      "KEYWORDS": "kabul edilebilir kullanım politikası, {appName} AUP, yasaklı içerik, içerik politikası, AI kullanım politikası, NSFW yasağı"
+    },
+    "INTRO": "Bu Kabul Edilebilir Kullanım Politikası, isteklerinizi üçüncü taraf AI model sağlayıcılarına yönlendiren bir API toplama platformu olan {appName} kullanımınızı düzenler. Sohbet, görsel üretimi ve video üretimi dahil olmak üzere {appName} öğesinin her özelliği için geçerlidir. Hizmetleri kullanarak, Hizmet Şartlarımıza ek olarak aşağıdaki kuralları kabul etmiş olursunuz.",
+    "PROHIBITED_CONTENT_TITLE": "Yasaklı İçerik",
+    "PROHIBITED_CONTENT_CONTENT": "Hizmetleri her türlü cinsel içerikli, pornografik veya NSFW içerik, çocukların cinsel istismarına yönelik materyal, reşit olmayanları cinselleştiren içerik veya rıza dışı cinsel ya da mahrem içerik üretmek, talep etmek, yüklemek veya dağıtmak için kullanamazsınız. Bu yasak, içeriğin platformumuzda ya da bağlı bir üçüncü taraf istemci üzerinden üretilmesinden bağımsız olarak metin, görsel ve videoya uygulanır.",
+    "PROHIBITED_DEEPFAKE_TITLE": "Deepfake ve Kimliğe Bürünme",
+    "PROHIBITED_DEEPFAKE_CONTENT": "Hizmetleri yüz değiştirme, deepfake veya yüz manipülasyonu medyası oluşturmak ya da gerçek herhangi bir kişiyi onayı olmadan taklit etmek için kullanamazsınız. Tanınabilir kişilerin gerçekçi tasvirlerini aldatmak, taciz etmek veya iftira atmak amacıyla üretmek kesinlikle yasaktır.",
+    "PROHIBITED_HARM_TITLE": "Zararlı ve Yasa Dışı Kullanım",
+    "PROHIBITED_HARM_CONTENT": "Hizmetleri şiddeti, terörizmi, kendine zarar vermeyi, tacizi, korunan gruplara yönelik nefreti veya herhangi bir yasa dışı faaliyeti teşvik eden içerik üretmek için, ayrıca kötü amaçlı yazılım geliştirmek, dolandırıcılık yapmak veya başkalarına başka şekilde zarar vermek için kullanamazsınız.",
+    "UPSTREAM_MODERATION_TITLE": "Üçüncü Taraf Sağlayıcılar",
+    "UPSTREAM_MODERATION_CONTENT": "{appName}, istemlerinizi her biri kendi içerik politikalarını uygulayan ve istekleri reddedebilen veya filtreleyebilen üçüncü taraf AI sağlayıcılarına iletir. Kullanımınızın hem bu Politikaya hem de temel sağlayıcıların politikalarına uygun olmasını sağlamaktan siz sorumlusunuz. Görsel veya video üretiminden önce istemleri inceleyebilir ve bu Politikayı ihlal eden istekleri engelleyebiliriz.",
+    "ENFORCEMENT_TITLE": "Uygulama",
+    "ENFORCEMENT_CONTENT": "Kullanımı inceleyebilir ve bu Politikanın ihlallerine karşı, istekleri engellemek, hesapları askıya almak veya sonlandırmak ve yasa dışı faaliyetleri ilgili makamlara bildirmek dahil olmak üzere işlem yapabiliriz. İhlaller, yasaların gerektirdiği durumlarda veya zararı önlemek için önceden bildirimde bulunmaksızın uygulanabilir.",
+    "CHANGES_TITLE": "Bu Politikadaki Değişiklikler",
+    "CHANGES_CONTENT": "Bu Kabul Edilebilir Kullanım Politikasını zaman zaman güncelleyebiliriz. Değişiklikler yürürlüğe girdikten sonra Hizmetleri kullanmaya devam etmeniz, revize edilen Politikayı kabul ettiğiniz anlamına gelir.",
+    "CONTACT_TITLE": "İletişim",
+    "CONTACT_CONTENT": "Bu Kabul Edilebilir Kullanım Politikası hakkında sorularınız varsa lütfen {supportEmail} adresinden bizimle iletişime geçin."
   },
   "MAIN": {
     "ENUM": {
@@ -2702,8 +2729,9 @@
       "IP_WHITELIST_DESC": "IP'ler taklit edilebilir. Daha güçlü uygulama için bir gateway ile kullanın.",
       "SUBMIT": "Oluştur",
       "SAVE": "Kaydet",
-      "QUOTA_FREE_ONLY_HINT": "$0 yalnızca ücretsiz modeller için bir anahtar oluşturur. Ücretli modeller reddedilir.",
-      "QUOTA_EQUIVALENT": "= {quota} kota"
+      "QUOTA_EQUIVALENT": "= {quota} kota",
+      "QUOTA_POSITIVE": "Anahtar kotası 0'dan büyük olmalıdır. Ücretsiz modeller için anahtar oluşturmak üzere sınırsız kotayı etkinleştirin.",
+      "QUOTA_ZERO_HINT": "0 kotası çalışmaz. Ücretsiz modeller (:free ile bitenler) geçerli herhangi bir anahtarla çalışır."
     },
     "ENUM": {
       "ENABLED": "Etkin",
@@ -3081,6 +3109,8 @@
       "ERROR": "Faturalandırma portalı açılamadı. Lütfen tekrar deneyin."
     },
     "TITLE": "Faturalandırma",
+    "SUPPORT_TITLE": "Yardıma mı ihtiyacınız var?",
+    "SUPPORT_TEXT": "Faturalandırma veya hesabınızla ilgili sorularınız mı var? Bize {supportEmail} adresinden e-posta gönderin, bir iş günü içinde yanıt verelim.",
     "ACCOUNT_STATS": "Hesap İstatistikleri",
     "CURRENT_BALANCE": "Mevcut Bakiye",
     "CONSUMPTION": "Tüketim",
@@ -3150,6 +3180,10 @@
       "TITLE": "Güvenlik Ayarları",
       "ACCESS_TOKEN": "Sistem Erişim Tokeni",
       "ACCESS_TOKEN_DESC": "API'ye doğrudan erişmek için bu tokeni kullanın.",
+      "API_BASE_URL": "API Temel URL’si",
+      "API_BASE_URL_DESC": "API istemcilerinizi kontrol paneli alan adına değil bu URL’ye yönlendirin. Kontrol paneli ayrı bir alan adında çalışır.",
+      "API_REFERENCE": "API Referansını Görüntüle",
+      "API_URL_COPIED": "API URL’si panoya kopyalandı",
       "GENERATE_TOKEN": "Token Oluştur",
       "TOKEN_GENERATED": "Token başarıyla oluşturuldu",
       "COPY_TOKEN": "Kopyala",
@@ -3245,6 +3279,7 @@
       "REFRESH": "Yenile",
       "EDIT": "Düzenle",
       "PREVIOUS": "Önceki",
+      "BRANCH": "Buradan dallandır",
       "NEXT": "Sonraki",
       "CANCEL": "İptal",
       "UPDATE": "Güncelle",
@@ -3275,6 +3310,7 @@
       "STATUS_IN_PROGRESS": "Üretiyor",
       "STATUS_SUCCESS": "Bitti",
       "STATUS_FAILURE": "Başarısız",
+      "GENERATING_IMAGE": "Görsel oluşturuluyor...",
       "REFRESH": "Yenile"
     },
     "ATTACHMENT": {
@@ -3334,6 +3370,7 @@
     "SEARCH_CHATS": "Sohbetleri ara",
     "TOKENS_IN": "gir",
     "TOKENS_OUT": "çık",
+    "MESSAGES_COUNT": "mesaj",
     "FILTER_ALL": "Tümü",
     "META": {
       "TITLE": "AI Sohbet - {appName}",
@@ -3356,6 +3393,12 @@
       "CHAT_MEMORY_HINT": "Her istekle gönderilen son mesajların sayısı.",
       "STREAMING_ENABLED": "Streaming",
       "STREAMING_ENABLED_HINT": "Kapalı = tam yanıtı bekle, sonra göster. Bazı modeller sadece buffered olduğunda temiz çıktı verir. Çoğunlukla kullanıcı tercihi.",
+      "MEMORY_ENABLED": "Bellek",
+      "IMAGE_ENABLED": "Sohbette görseller",
+      "UTILITY_MODEL": "Yardımcı model",
+      "UTILITY_MODEL_PLACEHOLDER": "Varsayılan olarak sohbet modeli",
+      "IMAGE_PROMPT_INSTRUCTION": "Görsel istemi talimatı",
+      "IMAGE_PROMPT_INSTRUCTION_PLACEHOLDER": "İkinci model görsel istemini nasıl yazmalı (isteğe bağlı)",
       "SHOW_REASONING": "Akıl yürütmeyi göster",
       "SYSTEM_PROMPT": "Sistem istemi geçersiz kılma",
       "SYSTEM_PROMPT_PLACEHOLDER": "Karakterin sistem istemini kullanmak için boş bırakın.",
@@ -3431,12 +3474,15 @@
     "TRIGGER_ALERT_SELECT_DESC": "Devam etmek için bir seçenek seçin",
     "TRIGGER_ALERT_OK": "Tamam",
     "SUCCESS": {
-      "ERROR_COPIED": "Hata ayrıntıları kopyalandı"
+      "ERROR_COPIED": "Hata ayrıntıları kopyalandı",
+      "BRANCHED": "Yeni sohbete dallandırıldı",
+      "BRANCH_FAILED": "Sohbet dallandırılamadı"
     },
     "CHAT_TOTAL": "Sohbet Toplamı",
     "STATS": {
       "SHOW_COST": "Maliyeti göster",
-      "SHOW_TOKENS": "Token'ları göster"
+      "SHOW_TOKENS": "Token'ları göster",
+      "SHOW_MESSAGES": "Mesaj sayısını göster"
     },
     "GROUPS": {
       "NEW_GROUP": "Yeni grup",
@@ -3588,6 +3634,7 @@
     "SAMPLING_PRESENCE_PENALTY": "Varlık cezası",
     "SAMPLING_REPETITION_PENALTY": "Tekrarlama cezası",
     "SAMPLING_MAX_TOKENS": "Max tokenlar",
+    "SAMPLING_MAX_TOKENS_CAP": "Maks. token (üst sınır {cap})",
     "PRESET_DEFAULT": "Varsayılan preset",
     "PRESET_SAMPLING_OFF": "kapalı",
     "PRESET_MAIN_PROMPT": "Ana istem (sisteme önek)",
@@ -3598,7 +3645,7 @@
     "PRESET_POST_HISTORY_HINT": "Sistem geçersiz kılma sonrası eklenir. İstemin başındaki talimatlardan daha çok sonda enjekte edilen talimatlara saygı duyan GLM gibi modeller için en iyisi.",
     "PRESET_PREFILL": "Prefill",
     "PRESET_PREFILL_PLACEHOLDER": "Tabii, işte yanıt:",
-    "PRESET_PREFILL_HINT": "Son olarak assistant mesajı olarak gönderilir. LLM bu tohum metinden devam eder. Güçlü jailbreak tekniği. user ve char makrolarını destekler.",
+    "PRESET_PREFILL_HINT": "Son olarak assistant mesajı olarak gönderilir. LLM bu tohum metinden devam eder. Güçlü yönlendirme tekniği. user ve char makrolarını destekler.",
     "PRESET_FLAGS_TITLE": "Özel flaglar",
     "PRESET_FLAGS_HINT": "Titiz modeller için istek gövdesini ayarlayın. Gerektiğinde model başına otomatik uygulanır; zorlamak için açın.",
     "PRESET_FORCE_ALTERNATE_ROLES": "Rolleri zorla değiştir",
@@ -3662,6 +3709,11 @@
     "PRESET_STREAMING_HINT": "Yanıtı token token akıt. Kapalı = tüm yanıtı bir kerede al. Sohbet ayarı geçersiz kılar.",
     "PRESET_SHOW_REASONING": "Akıl yürütmeyi göster",
     "PRESET_SHOW_REASONING_HINT": "Modelin düşünme sürecini yanıtlarda gösterir. Kapalı = gizle (akıl yürütme yine de üretilir ve saklanır, bu yüzden tekrar açmak onu ortaya çıkarır). Sohbet ayarı geçersiz kılar.",
+    "PRESET_MEMORY_ENABLED": "Bellek (varsayılan)",
+    "PRESET_IMAGE_ENABLED": "Sohbette görseller (varsayılan)",
+    "PRESET_UTILITY_MODEL": "Yardımcı model",
+    "PRESET_UTILITY_MODEL_HINT": "Özetleyici + görsel istemi yazıcısının kullandığı model. Boş = sohbet modeli; sohbet ayarı bunu geçersiz kılar.",
+    "PRESET_IMAGE_PROMPT_INSTRUCTION": "Görsel istemi talimatı",
     "CHARACTER_BACKGROUND": "Arka plan resmi",
     "CHARACTER_BACKGROUND_HINT": "Bu karakter sohbeti yönetirken sohbetin arkasında gösterilir.",
     "CHARACTER_AVATAR": "Avatar",
@@ -3673,6 +3725,7 @@
     "UNAUTHORIZED": "Yetkisiz",
     "NO_API_KEY": "API anahtarı yapılandırılmamış",
     "NOT_FOUND": "Kaynak bulunamadı",
+    "MESSAGE_NOT_FOUND": "Bu mesaj artık mevcut değil. Sayfayı yenileyip tekrar deneyin.",
     "NO_TASK_ID": "Yanıtta görev ID veya URL yok",
     "REQUEST_FAILED": "İstek başarısız",
     "PRICING_FETCH_FAILED": "Fiyatlandırma verisi alınamadı",
@@ -3995,5 +4048,299 @@
     "UPLOAD_IMAGE": "Görsel yükle",
     "UPLOADING": "Yükleniyor...",
     "INIT_IMAGE": "Kaynak görsel"
+  },
+  "MODEL_TESTER": {
+    "META": {
+      "TITLE": "Yapay Zeka API Model Testleyici | {appName}",
+      "DESCRIPTION": "Bir API uc noktasinin gercekte hangi modeli sundugunu dogrulayin. Claude, GPT ve Gemini icin tarayicida calisan deterministik dogruluk kontrolleri.",
+      "KEYWORDS": "model testleyici, api dogrulugu, sahte model, claude, gpt, gemini"
+    },
+    "HERO": {
+      "TITLE": "Yapay Zeka API Model Testleyici",
+      "SUBTITLE": "Bir uc noktanin iddia ettigi gercek modeli sunup sunmadigini kontrol edin. Tarayicida calisir, anahtariniz sunucularimiza gonderilmez.",
+      "EYEBROW": "Guvenmeden once dogrulayin",
+      "TRUST_BADGE": "100% tarayici tarafinda. Anahtariniz asla sunucularimiza gonderilmez."
+    },
+    "TABS": {
+      "TEST": "Test",
+      "HISTORY": "Gecmis",
+      "RANKINGS": "Siralama"
+    },
+    "PROVIDER": {
+      "ANTHROPIC": "Anthropic (Claude)",
+      "OPENAI": "OpenAI (GPT)",
+      "GEMINI": "Google (Gemini)"
+    },
+    "FORM": {
+      "PROVIDER": "API bicimi",
+      "BASE_URL": "API temel URL",
+      "API_KEY": "API anahtari",
+      "MODEL": "Model",
+      "PUBLISH": "Genel siralamada yayinla",
+      "PUBLISH_HINT": "Yalnizca host, model ve puan paylasilir. Anahtariniz asla paylasilmaz.",
+      "RUN": "Testi calistir",
+      "RUN_BACKEND": "Sunucu uzerinden test et",
+      "CORS_TITLE": "Bu uc nokta tarayici isteklerini engelliyor",
+      "CORS_WARNING": "Bunun yerine sunucumuz uzerinden test edilebilir. Anahtariniz yalnizca bellekten gecer ve asla saklanmaz. Guvenlik icin sonra anahtari degistirin.",
+      "RUN_PUBLISH": "Sunucumuzda dogrula ve yayinla",
+      "SECTION_TITLE": "Istek yapilandirmasi",
+      "SECTION_DESC": "Uc noktayi ve anahtari yapilandirin, sonra testi tarayicinizda calistirin.",
+      "FORMAT_MISMATCH": "{model} bir {format} modelidir. Test etmek için API biçimini {format} olarak değiştirin."
+    },
+    "VERDICT": {
+      "GENUINE": "Gercek",
+      "SUSPICIOUS": "Supheli",
+      "UNVERIFIED": "Dogrulanmadi",
+      "VERSION_UNVERIFIABLE": "Gercek model dogrulandi. Tam surum, sondalama ile dogrulanamaz."
+    },
+    "PROBE": {
+      "EMOTIONAL": "Duygusal",
+      "CREATIVE": "Yaratici",
+      "IDENTITY": "Kimlik",
+      "MODEL-NAME": "Model adi"
+    },
+    "RESULT": {
+      "PASSED": "{passed}/{total} sonda gecti",
+      "LATENCY": "{ms}ms",
+      "TRANSPORT": "{mode} uzerinden",
+      "IDLE": "Sonucu burada gormek icin bir test calistirin.",
+      "DETECTED_MODEL": "Algilanan model",
+      "TOTAL_TOKENS": "{tokens} token",
+      "FORMAT_FELL_BACK": "Yerel bicim desteklenmiyor; bunun yerine {format} ile test edildi.",
+      "EVIDENCE": "Kanıt",
+      "HIGHLIGHT_LEGEND": {
+        "FOREIGN": "Yabancı sağlayıcı adlandırıldı",
+        "CODING_TOOL": "Kodlama aracı sarmalayıcısı ifadesi",
+        "SCAM": "Dolandırıcılık / belirteç hırsızlığı metni",
+        "CJK": "Beklenmedik CJK karakterleri",
+        "HOME": "Beklenen kimlik eşleşmesi"
+      },
+      "INSPECT_PROBES": "Denetim ayrıntılarını incele",
+      "HIDE_PROBES": "Denetim ayrıntılarını gizle"
+    },
+    "HISTORY": {
+      "EMPTY": "Henuz test yok. Gecmis olusturmak icin bir tane calistirin.",
+      "PUBLISH": "Yayinla",
+      "DELETE_TITLE": "Testi sil",
+      "DELETE_BODY": "Testi yerel gecmisinizden kaldirir.",
+      "DELETE_CONFIRM": "Sil",
+      "DELETE_CANCEL": "Iptal",
+      "META_TITLE": "Test Gecmisi | {appName}"
+    },
+    "RANKINGS": {
+      "EMPTY": "Henuz yayinlanmis sonuc yok.",
+      "SAMPLES": "{count} test",
+      "LAST_TESTED": "son test {when}",
+      "PREV": "Onceki",
+      "NEXT": "Sonraki",
+      "STAT_DETECTIONS": "Toplam tespit",
+      "STAT_PROVIDERS": "Izlenen saglayicilar",
+      "STAT_PASS_RATE": "Ortalama gecme orani",
+      "META_TITLE": "Model Gercekligi Siralamasi | {appName}",
+      "META_DESCRIPTION": "Hangi API saglayicilarinin iddia ettikleri gercek modeli sundugunu deterministik gecme oranina gore siralanmis olarak gorun.",
+      "DISCLAIMER": "Yayınlanan her sonuç sayılmadan önce sunucumuzda yeniden çalıştırılır ve her karar, onu üreten tam kanıta bağlanır. Yanlış olduğunu düşündüğünüz bir sonuca itiraz edilebilir.",
+      "REPORT_DISCORD": "Discord'da bildir",
+      "REPORT_GITHUB": "GitHub'da bir sorun aç",
+      "NOT_TESTED": "Henüz test edilmedi",
+      "LOW_CONFIDENCE": "Düşük güven ({count} test)",
+      "SELF_TITLE": "Aynı ölçütü kendimize de uyguluyoruz",
+      "SELF_BODY": "{appName} tam da bu araçla test edilir. Kanıtı görüntüleyin.",
+      "MODELS_TRACKED": "{count} model",
+      "STAT_MODELS": "Test edilen modeller",
+      "STAT_P95": "P95 gecikme",
+      "P95": "p95 {ms}ms",
+      "PROVIDER_MODELS_TITLE": "Modele göre sonuçlar"
+    },
+    "DETAIL": {
+      "BACK": "Testleyiciye don",
+      "NOT_FOUND": "Test bulunamadi.",
+      "LOCAL_ONLY": "Yerel test, yalnizca cihazinizda saklanir. Genel tabloda gorunmesi icin sunucumuzun dogrulayabilmesi adina yayinlayin.",
+      "DISCLAIMER": "Puanlar yalnızca sunucuda doğrulanmış sondalardan hesaplanır. Gerçek bir model sağlayıcıyı ve kademeyi doğrular; tam sürüm asla iddia edilmez. Yanlış olduğunu düşündüğünüz bir sonuca aşağıdaki bağlantılardan itiraz edin.",
+      "SUBMISSIONS": "Son gönderimler",
+      "NO_SUBMISSIONS": "Henüz gönderim yok. Doğrulanmış bir testi ilk yayımlayan siz olun.",
+      "SUBMITTED_BY": "{who} tarafından gönderildi",
+      "ANONYMOUS": "anonim",
+      "DELETE_MINE": "Sil",
+      "REPORT": "Bildir",
+      "REPORT_HELP": "Sizin sonucunuz değil mi? İtiraz edin:",
+      "DELETE_TITLE": "Bu yayınlanan sonuç kaldırılsın mı?",
+      "DELETE_BODY": "Bu, gönderiminizi herkese açık sıralamalardan çeker. Yerel geçmişiniz etkilenmez.",
+      "DELETE_CONFIRM": "Kaldır",
+      "DELETE_CANCEL": "İptal",
+      "GUEST_CANNOT_DELETE": "Misafir gönderimleri burada silinemez. Bunları Discord ya da GitHub üzerinden bildirin.",
+      "BACK_TO_PROVIDER": "Sağlayıcıya dön",
+      "BACK_TO_MODEL": "Modele dön",
+      "PUBLISHED_NOTE": "Sunucuda doğrulandı. Problar ve yanıtlar herkesin bu kararı denetleyebilmesi için herkese açıktır.",
+      "LOADING": "Yükleniyor ...",
+      "EXPAND_ALL": "Tümünü genişlet",
+      "COLLAPSE_ALL": "Tümünü daralt",
+      "PREV": "Önceki",
+      "NEXT": "Sonraki",
+      "PAGE_OF": "Sayfa {page} / {total}"
+    },
+    "PROBE_DETAIL": {
+      "PROMPT": "Gonderilen istem",
+      "RESPONSE": "Model yaniti",
+      "STATUS": "HTTP",
+      "TOKENS": "Token (giris/cikis)",
+      "SIGNAL": "Sinyal",
+      "REASON": "Neden",
+      "NO_RESPONSE": "Yanit yakalanmadi.",
+      "WHAT_WE_CHECK": "Bu denetimin neyi sınadığı"
+    },
+    "NAV": {
+      "TEST_DESC": "Bir uc noktayi canli test et",
+      "HISTORY_DESC": "Gecmis testleriniz",
+      "RANKINGS_DESC": "Genel siralama"
+    },
+    "CONNECTIVITY": {
+      "CORS": "Uc nokta tarayici isteklerini engelliyor. Sunucu testini kullanin.",
+      "UNREACHABLE": "Uc noktaya ulasilamiyor. Temel URL'yi kontrol edin.",
+      "INVALID_KEY": "Gecersiz API anahtari.",
+      "NO_FORMAT": "Uc nokta desteklenen hicbir API bicimini kabul etmedi."
+    },
+    "PUBLISH": {
+      "WARN_TITLE": "Bu, anahtarinizi sunucumuza gonderir",
+      "WARN_BODY": "Sahte sonuclari onlemek icin yayinlama sirasinda tum test sunucumuzda calisir, boylece kararı biz uretiriz. Anahtariniz yalnizca sunucu belleginden gecer ve asla saklanmaz.",
+      "WARN_THROWAWAY": "Dusuk limitli, tek kullanimlik bir anahtar kullanin ve sonra degistirin.",
+      "DONE": "Sunucumuz tarafindan dogrulandi ve genel siralamada yayinlandi. Gecmisinize de kaydedildi.",
+      "DEDUPED": "Bu uc nokta icin yakin zamanda zaten yayinlandi.",
+      "FAILED": "Bu uc nokta dogrulanamadi. Hicbir sey yayinlanmadi."
+    },
+    "TRUST": {
+      "TITLE": "Acik kaynak. Dogrulayin ve gelistirin.",
+      "BODY": "Test kodu aciktir. Hangi sondalarin neden calistigini tam olarak gorun, yeni testler onerin veya tespiti Discord'umuzda tartisin.",
+      "GITHUB": "Kodu GitHub'da gor",
+      "DISCORD": "Testleri Discord'da tartis"
+    },
+    "RULES": {
+      "SECTION_TITLE": "Tespit nasıl çalışır",
+      "WHY_LABEL": "Neden:",
+      "NOT_FLAGGED_LABEL": "Şu durumda işaretlenmez:",
+      "NOT_FRAUD_TITLE": "Sahte olarak SAYILMAYAN nedir",
+      "PROOF": "Bu test aracının tamamı açık kaynaktır. Hangi probların neden çalıştığını tam olarak okuyun:",
+      "CODING-TOOL": {
+        "TITLE": "Kodlama aracı sarmalayıcısı",
+        "MEANS": "Yanıt, bir kodlama asistanının (Kiro, Cascade, Codeium ve benzerleri) kalıplaşmış ifadelerini kullanır ve sıradan bir yaratıcı ya da duygusal istemi reddeder.",
+        "WHY": "Gerçek bir Claude/GPT/Gemini, bir kedi yavrusu hikayesini ya da bir haikuyu yanıtlar. Kodlama aracı damıtması bunu reddeder ve böylece uç noktanın arkasındaki değiştirilmiş modeli açığa çıkarır.",
+        "EXCEPTION": "model, kodlama asistanı kalıplarına başvurmadan yalnızca bir güvenlik nedeniyle reddeder."
+      },
+      "SCAM": {
+        "TITLE": "Dolandırıcılık / belirteç hırsızlığı sayfası",
+        "MEANS": "Yanıt, bir model cevabı yerine bilinen belirteç hırsızlığı ya da kimlik avı metni içerir.",
+        "WHY": "Dolandırıcılık açılış sayfası döndüren bir uç nokta aslında hiçbir model sunmuyordur.",
+        "EXCEPTION": "model, normal bir yanıtta «token» kelimesini meşru şekilde ele alır."
+      },
+      "CJK-LEAK": {
+        "TITLE": "Beklenmedik dil sızıntısı",
+        "MEANS": "Yalnızca İngilizce bir istem, dört ya da daha fazla CJK (Çince/Japonca/Korece) karakterle geri döner.",
+        "WHY": "İngilizce bir yanıta CJK sızması, kimlik sorusu doğru yanıtlansa bile değiştirilmiş bir Çin modelinin ya da bozucu bir proxy'nin güçlü bir işaretidir.",
+        "EXCEPTION": "bir CJK dilinde ya da onun hakkında sordunuz, dolayısıyla yanıtta CJK bulunması beklenir."
+      },
+      "MUX": {
+        "TITLE": "Yanıt karışması (güvensiz proxy)",
+        "MEANS": "Her sonda benzersiz bir nonce taşır; yeniden denemelerden sonra dahi gönderdiğimiz nonce olmadan iki ya da daha fazla yanıt geri döner.",
+        "WHY": "Bir isteği birden çok üst kaynağa çoğullayan bir proxy, yaptığımız istekle eşleşmeyen yanıtlar döndürür; dürüst, tek modelli bir uç nokta bunu asla yapmaz.",
+        "EXCEPTION": "tek bir nonce kaçağı bir kez olur (önce yeniden deneriz); yalnızca tekrarlayan uyumsuzluklar sayılır."
+      },
+      "FOREIGN": {
+        "TITLE": "Yabancı sağlayıcı kimliği",
+        "MEANS": "Kimlik ya da model adı sondasında yanıt, istenenden farklı bir sağlayıcıyı adlandırır (örneğin Claude istenirken OpenAI ya da Gemini söyler).",
+        "WHY": "Yapımcısı olarak rakip bir laboratuvarı adlandıran bir model, o rakip tarafından sunuluyordur; ödeme yaptığınız taraf değil.",
+        "EXCEPTION": "model sürümü konusunda belirsizdir ya da kendini adlandırmayı reddeder; gerçek modeller de bunu sık yapar."
+      },
+      "TIER-MISMATCH": {
+        "TITLE": "Kademe düşürme (Claude)",
+        "MEANS": "Bir Claude kademesi (Opus) istediniz ama model daha ucuz bir kademe (Sonnet ya da Haiku) adlandırıyor.",
+        "WHY": "Claude tam sürümü konusunda belirsiz olabilir ama kademesini asla karıştırmaz, bu yüzden adı verilmiş daha düşük bir kademe kasıtlı bir düşürmedir.",
+        "EXCEPTION": "model sürüm numarasından emin değildir; yalnızca açıkça adlandırılmış farklı bir kademe sayılır."
+      },
+      "EXCEPTION": {
+        "VERSION": {
+          "TITLE": "Sürüm belirsizliği",
+          "BODY": "gerçek bir model sağlayıcıyı ve kademeyi doğrular ama tam sürümünden çoğu zaman emin değildir. Bu tek başına asla bir başarısızlık değildir, yalnızca bilgilendirme olarak işaretlenir."
+        },
+        "TRANSIENT": {
+          "TITLE": "Geçici hatalar",
+          "BODY": "hız sınırları (429), 5xx ve zaman aşımları bir çalışmayı doğrulanmamış olarak işaretler, asla şüpheli olarak değil. Kötü bir an yaşayan gerçek bir uç nokta cezalandırılmaz."
+        },
+        "CLOUD-HOST": {
+          "TITLE": "Bulut sunucu adları",
+          "BODY": "AWS Bedrock, Google Vertex ya da Azure'u sunucu olarak adlandırmak kabul edilir, çünkü bunlar gerçek modeli yeniden satmanın meşru yollarıdır."
+        },
+        "RESHAPING": {
+          "TITLE": "Protokol yeniden biçimlendirme",
+          "BODY": "chat-completions ile yerel messages biçimi arasında çeviri yapmak normal bir ağ geçidi davranışıdır ve modelin kendisi gerçekse bir dolandırıcılık işareti değildir."
+        },
+        "THRESHOLD": {
+          "TITLE": "Tek bir kararsız sonda",
+          "BODY": "dört sondadan üçünün geçmesi gerçek olmak için yeterlidir, dolayısıyla tek bir tutarsız yanıt dürüst bir uç noktayı mahkum etmez."
+        }
+      },
+      "COMMUNITY": "Daha iyi bir prob için fikrin mi var? Buradan öner:",
+      "SOURCE_LINK": "Tespit kodunu görüntüle"
+    },
+    "FAQ": {
+      "TITLE": "Sıkça sorulan sorular",
+      "ITEMS": {
+        "KEY_SAFE": {
+          "Q": "API anahtarım güvende mi?",
+          "A": "Yerel bir testte anahtar tarayıcınızdan asla çıkmaz, doğrudan girdiğiniz uç noktaya gönderilir. Yalnızca yayınlamayı seçtiğinizde anahtar sunucumuza gider; sunucu testi bellekte çalıştırır ve onu asla saklamaz. Kuşkunuz varsa tek kullanımlık bir anahtar kullanın."
+        },
+        "SERVER_PROXY": {
+          "Q": "Neden bazen bir sunucu proxy'si gerekir?",
+          "A": "Bazı uç noktalar doğrudan tarayıcı isteklerini engeller (<cors>CORS</cors>). Bu olduğunda, sondaları sizin için ileten isteğe bağlı bir arka uç testi sunarız. Yayınlama her zaman sunucu tarafında çalışır, böylece herkese açık sonuç sahte olarak üretilemez."
+        },
+        "RELIABILITY": {
+          "Q": "Puan ne kadar güvenilir?",
+          "A": "Tespit, makine öğrenmesi tahmini değil belirlenimcidir. Her sonda ya somut bir sinyalle eşleşir ya da eşleşmez ve sonuç size tam kanıtı gösterir. Dört sondadan üçünün geçmesini şart koşar ve geçici hataları başarısızlık olarak değil doğrulanmamış olarak ele alırız."
+        },
+        "FALSE_POSITIVE": {
+          "Q": "Yanlış pozitifi nasıl bildiririm?",
+          "A": "Yayınlanan her sonuç itiraza açıktır. Oturum açıkken kendiniz yayınladıysanız doğrudan silebilirsiniz; aksi halde <ghIssue>GitHub</ghIssue>'da bir sorun açın ya da <discord>Discord</discord> üzerinden bize yazın, yeniden kontrol edip hatalı kayıtları kaldıralım."
+        },
+        "PROTOCOLS": {
+          "Q": "Hangi API protokolleri destekleniyor?",
+          "A": "Anthropic (/v1/messages), OpenAI (/v1/chat/completions) ve Google Gemini (generateContent). Önce sağlayıcının yerel biçimini deneriz, gerekirse OpenAI uyumlu biçime geri döneriz."
+        },
+        "OPEN_SOURCE": {
+          "Q": "Açık kaynak mı?",
+          "A": "Evet. Bu test aracı tamamen tarayıcınızda çalışır ve tespit kütüphanesi <gh>GitHub</gh>'da herkese açıktır, böylece hangi probların neden çalıştığını tam olarak okuyabilir, yenilerini önerebilir veya <discord>Discord</discord>'da tartışabilirsiniz."
+        }
+      }
+    },
+    "GAUGE": {
+      "READY": "Hazır",
+      "RUNNING": "Test ediliyor",
+      "RUNNING_HINT": "Sondalar uç noktanıza karşı çalıştırılıyor.",
+      "DONE_HINT": "Her yay bir sondadır. Aşağıdaki bir sondayı genişleterek istemi, yanıtı ve kanıtı görün."
+    },
+    "WHY": {
+      "TITLE": "Bu test aracı neden farklı",
+      "DETERMINISTIC_TITLE": "Belirlenimci, tahmin değil",
+      "DETERMINISTIC_BODY": "Her kontrol yanıttaki somut bir sinyalle eşleşir, bu yüzden istatistiksel parmak izi yönteminin yaptığı gibi gerçek modelleri sahte olarak işaretlemeyiz. Tam kodu okuyun.",
+      "VERIFIED_TITLE": "Yayınlamak için sunucuda doğrulanır",
+      "VERIFIED_BODY": "Bir sonuç, ancak sunucumuz tüm testi kendisi yeniden çalıştırdıktan sonra herkese açık panoya ulaşır, böylece sıralamalar sahte olarak üretilemez.",
+      "EVIDENCE_TITLE": "Görebileceğiniz kanıt",
+      "EVIDENCE_BODY": "Her karar, gönderilen istemi, ham yanıtı ve onu tetikleyen eşleşen metni gösterir. Hiçbir şey gizlenmez."
+    },
+    "PROBE_INTENT": {
+      "EMOTIONAL": {
+        "CHECKS": "Duygusal temeli olan kısa bir hikaye ister.",
+        "WHY": "Gerçek bir öncü model gerçekten empatik bir düzyazı yazar. Bir kodlama aracı damıtması ya da ucuz bir ikame bunu reddeder veya düz, kalıplaşmış metin döndürür."
+      },
+      "CREATIVE": {
+        "CHECKS": "Sabit biçimde bir haiku ya da kısa şiir ister.",
+        "WHY": "Gerçek Claude, GPT ve Gemini şiir biçimini korur. Yerine konan bir model biçimi bozar, kısıtı yok sayar veya reddeder."
+      },
+      "IDENTITY": {
+        "CHECKS": "Modeli hangi yapay zeka laboratuvarının eğittiğini tek kelimeyle sorar.",
+        "WHY": "Yanıt beklenen laboratuvarı söylemelidir. Farklı bir laboratuvar veya kodlama asistanı kimliği, uç noktanın ardındaki değiştirilmiş arka ucu açığa çıkarır."
+      },
+      "MODEL-NAME": {
+        "CHECKS": "Modelden kendi model adını belirtmesini ister.",
+        "WHY": "Yanlış, belirsiz veya reddedilen bir ad, uç noktanın tanıtılan modeli sunmadığını gösterir."
+      }
+    }
   }
 }

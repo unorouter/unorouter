@@ -5,22 +5,15 @@
     {
       "idx": 0,
       "version": "6",
-      "when": 1782322280097,
-      "tag": "0000_smooth_shaman",
+      "when": 1782777211551,
+      "tag": "0000_glamorous_havok",
       "breakpoints": true
     },
     {
       "idx": 1,
       "version": "6",
-      "when": 1782338975878,
-      "tag": "0001_curvy_wraith",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "6",
-      "when": 1782417843380,
-      "tag": "0002_brown_the_spike",
+      "when": 1782822073797,
+      "tag": "0001_flowery_skaar",
       "breakpoints": true
     }
   ]

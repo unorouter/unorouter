@@ -38,7 +38,7 @@ const SLOT_LABELS: Record<SlotName, string> = {
   persona: "User persona",
   lorebook: "Lorebook",
   prefill: "Prefill",
-  postHistory: "Post-history / jailbreak",
+  postHistory: "Post-history instructions",
   systemPrompt: "System prompt",
 };
 
@@ -70,7 +70,7 @@ export function PromptTemplateEditor(props: Props) {
   const [cards, setCards] = useState<Card[]>(() =>
     toCards(parsePromptTemplate(props.value) ?? DEFAULT_PROMPT_TEMPLATE),
   );
-  // Per-card collapse so a long jailbreak block isn't a scroll-trap; collapsed shows a capped preview, expanded auto-grows.
+  // Per-card collapse so a long post-history block isn't a scroll-trap; collapsed shows a capped preview, expanded auto-grows.
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
   const toggleExpanded = (id: string) =>
     setExpanded((prev) => {

@@ -1,9 +1,11 @@
 "use client";
 
 import type { ChatContext } from "@/lib/validation/chat";
+import { walkActiveBranch } from "@/lib/ai/chat/messages";
 import {
   readLocalConversationBindings,
   readLocalConversationSettings,
+  readLocalMessages,
 } from "./chat";
 import {
   readLocalCharacter,
@@ -26,6 +28,20 @@ export async function buildChatContextFromLocalDb(
     settings = await readLocalConversationSettings(userId, convId);
   }
   if (!settings) return undefined;
+
+  // Branch-scoped vars: seed assembly from the ACTIVE TIP message's post-turn vars snapshot, falling back
+  // to the conversation-level vars for pre-branch-vars rows / a fresh chat. This isolates sibling swipes -
+  // regenerating a turn reads the parent branch's vars, not another swipe's setvar state.
+  {
+    const msgs = await readLocalMessages(userId, convId);
+    if (msgs && msgs.length > 0) {
+      const tip = walkActiveBranch(msgs).path.at(-1) as
+        | { branchVars?: string | null }
+        | undefined;
+      if (tip?.branchVars != null)
+        settings = { ...settings, vars: tip.branchVars };
+    }
+  }
 
   let bindings = await readLocalConversationBindings(userId, convId);
   for (

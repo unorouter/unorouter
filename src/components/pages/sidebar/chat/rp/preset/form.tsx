@@ -214,6 +214,35 @@ export function PresetForm(props: Props) {
                   {t("RP.PRESET_SHOW_REASONING_HINT")}
                 </p>
               </div>
+              <div className="flex flex-col gap-3 border-t pt-3">
+                <MyFormSwitch
+                  control={form.control}
+                  name="memoryEnabled"
+                  label={t("RP.PRESET_MEMORY_ENABLED")}
+                />
+                <MyFormSwitch
+                  control={form.control}
+                  name="imageEnabled"
+                  label={t("RP.PRESET_IMAGE_ENABLED")}
+                />
+                <div className="flex flex-col gap-1">
+                  <MyFormInput
+                    control={form.control}
+                    name="utilityModel"
+                    schema={samplingPresetFormSchema}
+                    label={t("RP.PRESET_UTILITY_MODEL")}
+                  />
+                  <p className="text-muted-foreground text-xs">
+                    {t("RP.PRESET_UTILITY_MODEL_HINT")}
+                  </p>
+                </div>
+                <MyFormTextarea
+                  control={form.control}
+                  name="promptInstruction"
+                  schema={samplingPresetFormSchema}
+                  label={t("RP.PRESET_IMAGE_PROMPT_INSTRUCTION")}
+                />
+              </div>
               <MyFormSwitch
                 control={form.control}
                 name="isDefault"

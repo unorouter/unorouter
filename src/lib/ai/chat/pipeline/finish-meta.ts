@@ -74,7 +74,8 @@ export function buildFinishMeta(args: {
 }): Record<string, unknown> {
   const prepared = args.prepared;
   const meta: Record<string, unknown> = {};
-  if (args.collector.droppedParams) meta.droppedParams = args.collector.droppedParams;
+  if (args.collector.droppedParams)
+    meta.droppedParams = args.collector.droppedParams;
   if (prepared.varsWriteback) meta.vars = prepared.varsWriteback;
   if (prepared.globalVarsWriteback)
     meta.globalVars = prepared.globalVarsWriteback;
@@ -82,7 +83,8 @@ export function buildFinishMeta(args: {
     meta.summary = prepared.memory.summaryWriteback;
   if (prepared.inlayMedia.length > 0) meta.inlayMedia = prepared.inlayMedia;
   // Per-message speaker tag (Risu `saying`), immune to the speaking-atom clear race.
-  if (args.speakingCharacterId) meta.speakingCharacterId = args.speakingCharacterId;
+  if (args.speakingCharacterId)
+    meta.speakingCharacterId = args.speakingCharacterId;
   const u = args.buildUsage(
     args.totalUsage?.inputTokens ?? 0,
     args.totalUsage?.outputTokens ?? 0,

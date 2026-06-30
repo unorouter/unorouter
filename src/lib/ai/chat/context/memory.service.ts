@@ -1,29 +1,17 @@
 // Rolling-summary memory (RisuAI supaMemory port): oldest unsummarized chunk folds into a running summary injected as a top system block.
 // Isomorphic: the free-model race + semantic retrieval are injected (server: getProvider/embeddings; client: the custom provider's models).
 
-import { freeModelRace, type FreeModelRaceArgs } from "@/lib/ai/chat/free-model-race";
-import type { SemanticHit } from "@/lib/ai/chat/pipeline/deps";
-
-// Rolling-summary thresholds: fold only once the conversation is long, in modest chunks so each call stays cheap.
-const MEMORY_HISTORY_TRIGGER = 20;
-const MEMORY_CHUNK_SIZE = 10;
+import {
+  freeModelRace,
+  type FreeModelRaceArgs,
+} from "@/lib/ai/chat/free-model-race";
 
 const SUMMARIZE_SYSTEM_PROMPT =
   "Summarize the conversation so far. Keep the key facts, decisions, entities, " +
   "and the current state or topic. Remove redundancy and filler. Write a tight, " +
   "neutral recap that another model can use to continue the conversation.";
 
-type FreeModelRaceDeps = Pick<
-  FreeModelRaceArgs,
-  "listFreeModels" | "generate"
->;
-
-type RetrieveSemantic = (
-  apiKey: string,
-  query: string,
-  candidates: { id: string; text: string }[],
-  opts: { topK: number },
-) => Promise<SemanticHit[]>;
+type FreeModelRaceDeps = Pick<FreeModelRaceArgs, "listFreeModels" | "generate">;
 
 export type RollingSummaryInput = {
   apiKey: string;
@@ -95,56 +83,3 @@ export type MemoryContext = {
   // New summary + anchor when this turn changed them (client persists).
   summaryWriteback: { summary: string; anchor: number } | null;
 };
-
-type MemorySettings = {
-  memoryEnabled?: boolean | null;
-  summaryMemory?: string | null;
-  summaryAnchor?: number | null;
-};
-
-// Opt-in per-conversation memory: rolling summary of overflow history + semantic lore retrieval. Best-effort; failure leaves prompt as-is.
-export async function buildMemoryContext(
-  apiKey: string,
-  race: FreeModelRaceDeps,
-  retrieveSemantic: RetrieveSemantic,
-  settings: MemorySettings | undefined,
-  history: { role: "user" | "assistant" | "system"; text: string }[],
-  lastUserText: string | null,
-  loreCandidates: { id: string; text: string }[],
-): Promise<MemoryContext> {
-  const out: MemoryContext = {
-    memoryBlock: "",
-    retrievalBlock: "",
-    summaryWriteback: null,
-  };
-  if (!settings?.memoryEnabled) return out;
-
-  if (history.length > MEMORY_HISTORY_TRIGGER) {
-    const rolled = await rollSummary({
-      apiKey,
-      race,
-      history,
-      priorSummary: settings.summaryMemory ?? "",
-      priorAnchor: settings.summaryAnchor ?? 0,
-      chunkSize: MEMORY_CHUNK_SIZE,
-    });
-    out.memoryBlock = rolled.memoryBlock;
-    if (
-      rolled.summary &&
-      (rolled.summary !== (settings.summaryMemory ?? "") ||
-        rolled.anchor !== (settings.summaryAnchor ?? 0))
-    ) {
-      out.summaryWriteback = { summary: rolled.summary, anchor: rolled.anchor };
-    }
-  }
-
-  if (lastUserText && loreCandidates.length > 0) {
-    const hits = await retrieveSemantic(apiKey, lastUserText, loreCandidates, {
-      topK: 3,
-    });
-    if (hits.length > 0) {
-      out.retrievalBlock = `[Relevant background]\n${hits.map((h) => h.text).join("\n\n")}`;
-    }
-  }
-  return out;
-}

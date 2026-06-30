@@ -2,10 +2,7 @@
 
 import { useElysiaQuery } from "@/lib/react-query/hooks";
 
-import {
-  type CompactPagePayload,
-  decodeCompactPage,
-} from "@/lib/api/model-status-compact";
+import { decodeCompactPage } from "@/lib/api/model-status-compact";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import type { StatusBucket } from "@/lib/types";
@@ -18,7 +15,7 @@ export function useStatusPage(bucket: StatusBucket = "1m", hours: number = 24) {
         query: { bucket, hours },
       }),
     {
-      select: (raw) => decodeCompactPage(raw as unknown as CompactPagePayload),
+      select: (raw) => decodeCompactPage(raw),
     },
   );
 }

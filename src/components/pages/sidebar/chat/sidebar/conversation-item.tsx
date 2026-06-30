@@ -52,10 +52,7 @@ export function ConversationItem(props: ConversationItemProps) {
   // ratelimited/disabled. The conversation still references it, so show a neutral placeholder (not a blank
   // VendorIcon) + keep the real name in the tooltip. Wait for pricing to load before deciding it's unknown.
   const isUnknownCatalog =
-    !isCustom &&
-    !!model &&
-    pricingQuery.isSuccess &&
-    !modelData;
+    !isCustom && !!model && pricingQuery.isSuccess && !modelData;
 
   // Custom-provider model: a `custom:::<providerId>:::<modelKey>` id never matches the catalog, so resolve
   // the provider name + the model's label for the tooltip and show the generic server icon.
@@ -109,12 +106,17 @@ export function ConversationItem(props: ConversationItemProps) {
       ) : (
         <div className="relative flex min-w-0 flex-1 items-center gap-2 px-3 py-1.5 text-start text-sm">
           {isCustom ? (
-            <span title={customTooltip} className="text-muted-foreground shrink-0">
+            <span
+              title={customTooltip}
+              className="text-muted-foreground shrink-0"
+            >
               <Icon name="server" className="pointer-events-none size-3.5" />
             </span>
           ) : isUnknownCatalog ? (
             <span
-              title={t("CHAT.MODEL.UNAVAILABLE_TOOLTIP", { model: model ?? "" })}
+              title={t("CHAT.MODEL.UNAVAILABLE_TOOLTIP", {
+                model: model ?? "",
+              })}
               className="text-muted-foreground shrink-0"
             >
               <Icon

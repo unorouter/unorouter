@@ -8,9 +8,10 @@ export type IconLibraryName =
   | "remix"
   | "iconoir";
 
-export type IconComponent = React.ComponentType<
-  React.SVGAttributes<SVGElement> & { size?: number | string }
->;
+export type IconComponent = React.ComponentType<{
+  size?: number | string;
+  className?: string;
+}>;
 
 export type IconLoader = () => Promise<{ default: IconComponent }>;
 
@@ -23,12 +24,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconArrowDown.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/ArrowDown").then((m) => ({
-        default: m.ArrowDown as IconComponent,
+        default: m.ArrowDown,
       })),
     heroicons: () => import("@heroicons/react/24/outline/ArrowDownIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiArrowDownLine as unknown as IconComponent,
+        default: m.RiArrowDownLine,
       })),
     iconoir: () => import("iconoir-react/regular/ArrowDown"),
   },
@@ -38,12 +39,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconArrowDownRight.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/ArrowDownRight").then((m) => ({
-        default: m.ArrowDownRight as IconComponent,
+        default: m.ArrowDownRight,
       })),
     heroicons: () => import("@heroicons/react/24/outline/ArrowDownRightIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiArrowRightDownLine as unknown as IconComponent,
+        default: m.RiArrowRightDownLine,
       })),
     iconoir: () => import("iconoir-react/regular/ArrowDownRight"),
   },
@@ -53,12 +54,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconArrowLeft.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/ArrowLeft").then((m) => ({
-        default: m.ArrowLeft as IconComponent,
+        default: m.ArrowLeft,
       })),
     heroicons: () => import("@heroicons/react/24/outline/ArrowLeftIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiArrowLeftLine as unknown as IconComponent,
+        default: m.RiArrowLeftLine,
       })),
     iconoir: () => import("iconoir-react/regular/ArrowLeft"),
   },
@@ -68,12 +69,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconArrowsLeftRight.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/ArrowsLeftRight").then((m) => ({
-        default: m.ArrowsLeftRight as IconComponent,
+        default: m.ArrowsLeftRight,
       })),
     heroicons: () => import("@heroicons/react/24/outline/ArrowsRightLeftIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiArrowLeftRightLine as unknown as IconComponent,
+        default: m.RiArrowLeftRightLine,
       })),
   },
   "arrow-right": {
@@ -82,12 +83,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconArrowRight.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/ArrowRight").then((m) => ({
-        default: m.ArrowRight as IconComponent,
+        default: m.ArrowRight,
       })),
     heroicons: () => import("@heroicons/react/24/outline/ArrowRightIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiArrowRightLine as unknown as IconComponent,
+        default: m.RiArrowRightLine,
       })),
     iconoir: () => import("iconoir-react/regular/ArrowRight"),
   },
@@ -97,12 +98,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconArrowsRightLeft.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/ArrowsLeftRight").then((m) => ({
-        default: m.ArrowsLeftRight as IconComponent,
+        default: m.ArrowsLeftRight,
       })),
     heroicons: () => import("@heroicons/react/24/outline/ArrowsRightLeftIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiArrowLeftRightLine as unknown as IconComponent,
+        default: m.RiArrowLeftRightLine,
       })),
   },
   "arrow-up": {
@@ -110,12 +111,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconArrowUp.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/ArrowUp").then((m) => ({
-        default: m.ArrowUp as IconComponent,
+        default: m.ArrowUp,
       })),
     heroicons: () => import("@heroicons/react/24/outline/ArrowUpIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiArrowUpLine as unknown as IconComponent,
+        default: m.RiArrowUpLine,
       })),
     iconoir: () => import("iconoir-react/regular/ArrowUp"),
   },
@@ -125,12 +126,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconArrowsUpDown.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/ArrowsDownUp").then((m) => ({
-        default: m.ArrowsDownUp as IconComponent,
+        default: m.ArrowsDownUp,
       })),
     heroicons: () => import("@heroicons/react/24/outline/ArrowsUpDownIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiArrowUpDownLine as unknown as IconComponent,
+        default: m.RiArrowUpDownLine,
       })),
     iconoir: () => import("iconoir-react/regular/DataTransferBoth"),
   },
@@ -140,12 +141,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconArrowUpRight.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/ArrowUpRight").then((m) => ({
-        default: m.ArrowUpRight as IconComponent,
+        default: m.ArrowUpRight,
       })),
     heroicons: () => import("@heroicons/react/24/outline/ArrowUpRightIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiArrowRightUpLine as unknown as IconComponent,
+        default: m.RiArrowRightUpLine,
       })),
     iconoir: () => import("iconoir-react/regular/ArrowUpRight"),
   },
@@ -155,12 +156,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconChevronDown.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/CaretDown").then((m) => ({
-        default: m.CaretDown as IconComponent,
+        default: m.CaretDown,
       })),
     heroicons: () => import("@heroicons/react/24/outline/ChevronDownIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiArrowDownSLine as unknown as IconComponent,
+        default: m.RiArrowDownSLine,
       })),
     iconoir: () => import("iconoir-react/regular/NavArrowDown"),
   },
@@ -170,12 +171,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconChevronLeft.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/CaretLeft").then((m) => ({
-        default: m.CaretLeft as IconComponent,
+        default: m.CaretLeft,
       })),
     heroicons: () => import("@heroicons/react/24/outline/ChevronLeftIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiArrowLeftSLine as unknown as IconComponent,
+        default: m.RiArrowLeftSLine,
       })),
     iconoir: () => import("iconoir-react/regular/NavArrowLeft"),
   },
@@ -185,12 +186,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconChevronRight.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/CaretRight").then((m) => ({
-        default: m.CaretRight as IconComponent,
+        default: m.CaretRight,
       })),
     heroicons: () => import("@heroicons/react/24/outline/ChevronRightIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiArrowRightSLine as unknown as IconComponent,
+        default: m.RiArrowRightSLine,
       })),
     iconoir: () => import("iconoir-react/regular/NavArrowRight"),
   },
@@ -201,13 +202,13 @@ export const ICON_MAP: Record<string, IconEntry> = {
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/ArrowsInLineVertical").then(
         (m) => ({
-          default: m.ArrowsInLineVertical as IconComponent,
+          default: m.ArrowsInLineVertical,
         }),
       ),
     heroicons: () => import("@heroicons/react/24/outline/ChevronUpDownIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiContractUpDownLine as unknown as IconComponent,
+        default: m.RiContractUpDownLine,
       })),
     iconoir: () => import("iconoir-react/regular/ArrowUnionVertical"),
   },
@@ -217,13 +218,13 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconChevronsLeft.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/CaretDoubleLeft").then((m) => ({
-        default: m.CaretDoubleLeft as IconComponent,
+        default: m.CaretDoubleLeft,
       })),
     heroicons: () =>
       import("@heroicons/react/24/outline/ChevronDoubleLeftIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiArrowLeftDoubleLine as unknown as IconComponent,
+        default: m.RiArrowLeftDoubleLine,
       })),
     iconoir: () => import("iconoir-react/regular/FastArrowLeft"),
   },
@@ -233,13 +234,13 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconChevronsRight.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/CaretDoubleRight").then((m) => ({
-        default: m.CaretDoubleRight as IconComponent,
+        default: m.CaretDoubleRight,
       })),
     heroicons: () =>
       import("@heroicons/react/24/outline/ChevronDoubleRightIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiArrowRightDoubleLine as unknown as IconComponent,
+        default: m.RiArrowRightDoubleLine,
       })),
     iconoir: () => import("iconoir-react/regular/FastArrowRight"),
   },
@@ -249,12 +250,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconChevronsUp.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/CaretUpDown").then((m) => ({
-        default: m.CaretUpDown as IconComponent,
+        default: m.CaretUpDown,
       })),
     heroicons: () => import("@heroicons/react/24/outline/ChevronUpDownIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiExpandUpDownLine as unknown as IconComponent,
+        default: m.RiExpandUpDownLine,
       })),
     iconoir: () => import("iconoir-react/regular/ArrowSeparateVertical"),
   },
@@ -263,12 +264,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconActivity.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Pulse").then((m) => ({
-        default: m.Pulse as IconComponent,
+        default: m.Pulse,
       })),
     heroicons: () => import("@heroicons/react/24/outline/SignalIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiPulseLine as unknown as IconComponent,
+        default: m.RiPulseLine,
       })),
     iconoir: () => import("iconoir-react/regular/Activity"),
   },
@@ -277,12 +278,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconCheck.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Check").then((m) => ({
-        default: m.Check as IconComponent,
+        default: m.Check,
       })),
     heroicons: () => import("@heroicons/react/24/outline/CheckIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiCheckLine as unknown as IconComponent,
+        default: m.RiCheckLine,
       })),
     iconoir: () => import("iconoir-react/regular/Check"),
   },
@@ -292,13 +293,13 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconAlertCircle.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/WarningCircle").then((m) => ({
-        default: m.WarningCircle as IconComponent,
+        default: m.WarningCircle,
       })),
     heroicons: () =>
       import("@heroicons/react/24/outline/ExclamationCircleIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiErrorWarningLine as unknown as IconComponent,
+        default: m.RiErrorWarningLine,
       })),
     iconoir: () => import("iconoir-react/regular/WarningCircle"),
   },
@@ -308,12 +309,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconCircleCheck.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/CheckCircle").then((m) => ({
-        default: m.CheckCircle as IconComponent,
+        default: m.CheckCircle,
       })),
     heroicons: () => import("@heroicons/react/24/outline/CheckCircleIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiCheckboxCircleLine as unknown as IconComponent,
+        default: m.RiCheckboxCircleLine,
       })),
     iconoir: () => import("iconoir-react/regular/CheckCircle"),
   },
@@ -323,13 +324,13 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconHelpCircle.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Question").then((m) => ({
-        default: m.Question as IconComponent,
+        default: m.Question,
       })),
     heroicons: () =>
       import("@heroicons/react/24/outline/QuestionMarkCircleIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiQuestionLine as unknown as IconComponent,
+        default: m.RiQuestionLine,
       })),
     iconoir: () => import("iconoir-react/regular/HelpCircle"),
   },
@@ -338,12 +339,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconCircleX.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/XCircle").then((m) => ({
-        default: m.XCircle as IconComponent,
+        default: m.XCircle,
       })),
     heroicons: () => import("@heroicons/react/24/outline/XCircleIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiCloseCircleLine as unknown as IconComponent,
+        default: m.RiCloseCircleLine,
       })),
     iconoir: () => import("iconoir-react/regular/XmarkCircle"),
   },
@@ -353,13 +354,13 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconAlertTriangle.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Warning").then((m) => ({
-        default: m.Warning as IconComponent,
+        default: m.Warning,
       })),
     heroicons: () =>
       import("@heroicons/react/24/outline/ExclamationTriangleIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiAlertLine as unknown as IconComponent,
+        default: m.RiAlertLine,
       })),
     iconoir: () => import("iconoir-react/regular/WarningTriangle"),
   },
@@ -368,12 +369,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconOctagon.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Prohibit").then((m) => ({
-        default: m.Prohibit as IconComponent,
+        default: m.Prohibit,
       })),
     heroicons: () => import("@heroicons/react/24/outline/NoSymbolIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiForbidLine as unknown as IconComponent,
+        default: m.RiForbidLine,
       })),
     iconoir: () => import("iconoir-react/regular/Prohibition"),
   },
@@ -383,13 +384,13 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconInfoCircle.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Info").then((m) => ({
-        default: m.Info as IconComponent,
+        default: m.Info,
       })),
     heroicons: () =>
       import("@heroicons/react/24/outline/InformationCircleIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiInformationLine as unknown as IconComponent,
+        default: m.RiInformationLine,
       })),
     iconoir: () => import("iconoir-react/regular/InfoCircle"),
   },
@@ -398,12 +399,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconLoader.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Spinner").then((m) => ({
-        default: m.Spinner as IconComponent,
+        default: m.Spinner,
       })),
     heroicons: () => import("@heroicons/react/24/outline/ArrowPathIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiLoaderLine as unknown as IconComponent,
+        default: m.RiLoaderLine,
       })),
     iconoir: () => import("iconoir-react/regular/RefreshDouble"),
   },
@@ -412,12 +413,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconX.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/X").then((m) => ({
-        default: m.X as IconComponent,
+        default: m.X,
       })),
     heroicons: () => import("@heroicons/react/24/outline/XMarkIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiCloseLine as unknown as IconComponent,
+        default: m.RiCloseLine,
       })),
     iconoir: () => import("iconoir-react/regular/Xmark"),
   },
@@ -426,12 +427,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconChartBar.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/ChartBar").then((m) => ({
-        default: m.ChartBar as IconComponent,
+        default: m.ChartBar,
       })),
     heroicons: () => import("@heroicons/react/24/outline/ChartBarIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiBarChartHorizontalLine as unknown as IconComponent,
+        default: m.RiBarChartHorizontalLine,
       })),
     iconoir: () => import("iconoir-react/regular/StatsReport"),
   },
@@ -441,12 +442,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconChartColumn.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/ChartBar").then((m) => ({
-        default: m.ChartBar as IconComponent,
+        default: m.ChartBar,
       })),
     heroicons: () => import("@heroicons/react/24/outline/ChartBarIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiBarChartLine as unknown as IconComponent,
+        default: m.RiBarChartLine,
       })),
     iconoir: () => import("iconoir-react/regular/StatsUpSquare"),
   },
@@ -456,12 +457,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconChartColumn.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/ChartBar").then((m) => ({
-        default: m.ChartBar as IconComponent,
+        default: m.ChartBar,
       })),
     heroicons: () => import("@heroicons/react/24/outline/ChartBarIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiBarChart2Line as unknown as IconComponent,
+        default: m.RiBarChart2Line,
       })),
     iconoir: () => import("iconoir-react/regular/StatsUpSquare"),
   },
@@ -470,12 +471,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconChartPie.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/ChartPie").then((m) => ({
-        default: m.ChartPie as IconComponent,
+        default: m.ChartPie,
       })),
     heroicons: () => import("@heroicons/react/24/outline/ChartPieIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiPieChartLine as unknown as IconComponent,
+        default: m.RiPieChartLine,
       })),
   },
   "trending-down": {
@@ -484,13 +485,13 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconTrendingDown.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/TrendDown").then((m) => ({
-        default: m.TrendDown as IconComponent,
+        default: m.TrendDown,
       })),
     heroicons: () =>
       import("@heroicons/react/24/outline/ArrowTrendingDownIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiStockLine as unknown as IconComponent,
+        default: m.RiStockLine,
       })),
     iconoir: () => import("iconoir-react/regular/GraphDown"),
   },
@@ -500,12 +501,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconTrendingUp.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/TrendUp").then((m) => ({
-        default: m.TrendUp as IconComponent,
+        default: m.TrendUp,
       })),
     heroicons: () => import("@heroicons/react/24/outline/ArrowTrendingUpIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiLineChartLine as unknown as IconComponent,
+        default: m.RiLineChartLine,
       })),
     iconoir: () => import("iconoir-react/regular/GraphUp"),
   },
@@ -514,11 +515,11 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconGauge.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Gauge").then((m) => ({
-        default: m.Gauge as IconComponent,
+        default: m.Gauge,
       })),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiDashboard3Line as unknown as IconComponent,
+        default: m.RiDashboard3Line,
       })),
     iconoir: () => import("iconoir-react/regular/DashboardSpeed"),
   },
@@ -527,12 +528,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconBell.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Bell").then((m) => ({
-        default: m.Bell as IconComponent,
+        default: m.Bell,
       })),
     heroicons: () => import("@heroicons/react/24/outline/BellIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiBellLine as unknown as IconComponent,
+        default: m.RiBellLine,
       })),
     iconoir: () => import("iconoir-react/regular/Bell"),
   },
@@ -541,7 +542,7 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconBinary.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Binary").then((m) => ({
-        default: m.Binary as IconComponent,
+        default: m.Binary,
       })),
   },
   "book-open": {
@@ -549,12 +550,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconBook.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/BookOpen").then((m) => ({
-        default: m.BookOpen as IconComponent,
+        default: m.BookOpen,
       })),
     heroicons: () => import("@heroicons/react/24/outline/BookOpenIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiBookOpenLine as unknown as IconComponent,
+        default: m.RiBookOpenLine,
       })),
     iconoir: () => import("iconoir-react/regular/OpenBook"),
   },
@@ -563,12 +564,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconBook.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/BookOpenText").then((m) => ({
-        default: m.BookOpenText as IconComponent,
+        default: m.BookOpenText,
       })),
     heroicons: () => import("@heroicons/react/24/outline/BookOpenIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiBookOpenLine as unknown as IconComponent,
+        default: m.RiBookOpenLine,
       })),
     iconoir: () => import("iconoir-react/regular/OpenBook"),
   },
@@ -577,12 +578,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconCalendar.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Calendar").then((m) => ({
-        default: m.Calendar as IconComponent,
+        default: m.Calendar,
       })),
     heroicons: () => import("@heroicons/react/24/outline/CalendarIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiCalendarLine as unknown as IconComponent,
+        default: m.RiCalendarLine,
       })),
     iconoir: () => import("iconoir-react/regular/Calendar"),
   },
@@ -592,13 +593,13 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconClipboardCopy.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/ClipboardText").then((m) => ({
-        default: m.ClipboardText as IconComponent,
+        default: m.ClipboardText,
       })),
     heroicons: () =>
       import("@heroicons/react/24/outline/ClipboardDocumentIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiClipboardLine as unknown as IconComponent,
+        default: m.RiClipboardLine,
       })),
     iconoir: () => import("iconoir-react/regular/PasteClipboard"),
   },
@@ -607,11 +608,11 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconCloudOff.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/CloudSlash").then((m) => ({
-        default: m.CloudSlash as IconComponent,
+        default: m.CloudSlash,
       })),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiCloudOffLine as unknown as IconComponent,
+        default: m.RiCloudOffLine,
       })),
     iconoir: () => import("iconoir-react/regular/CloudXmark"),
   },
@@ -621,12 +622,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconCloudUpload.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/CloudArrowUp").then((m) => ({
-        default: m.CloudArrowUp as IconComponent,
+        default: m.CloudArrowUp,
       })),
     heroicons: () => import("@heroicons/react/24/outline/CloudArrowUpIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiUploadCloud2Line as unknown as IconComponent,
+        default: m.RiUploadCloud2Line,
       })),
     iconoir: () => import("iconoir-react/regular/CloudUpload"),
   },
@@ -635,12 +636,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconClock.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Clock").then((m) => ({
-        default: m.Clock as IconComponent,
+        default: m.Clock,
       })),
     heroicons: () => import("@heroicons/react/24/outline/ClockIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiTimeLine as unknown as IconComponent,
+        default: m.RiTimeLine,
       })),
     iconoir: () => import("iconoir-react/regular/Clock"),
   },
@@ -649,12 +650,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconCode.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Code").then((m) => ({
-        default: m.Code as IconComponent,
+        default: m.Code,
       })),
     heroicons: () => import("@heroicons/react/24/outline/CodeBracketIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiCodeLine as unknown as IconComponent,
+        default: m.RiCodeLine,
       })),
     iconoir: () => import("iconoir-react/regular/Code"),
   },
@@ -663,13 +664,13 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconCopy.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Copy").then((m) => ({
-        default: m.Copy as IconComponent,
+        default: m.Copy,
       })),
     heroicons: () =>
       import("@heroicons/react/24/outline/DocumentDuplicateIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiFileCopyLine as unknown as IconComponent,
+        default: m.RiFileCopyLine,
       })),
     iconoir: () => import("iconoir-react/regular/Copy"),
   },
@@ -678,12 +679,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconCpu.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Cpu").then((m) => ({
-        default: m.Cpu as IconComponent,
+        default: m.Cpu,
       })),
     heroicons: () => import("@heroicons/react/24/outline/CpuChipIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiCpuLine as unknown as IconComponent,
+        default: m.RiCpuLine,
       })),
     iconoir: () => import("iconoir-react/regular/Cpu"),
   },
@@ -692,12 +693,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconDatabase.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Database").then((m) => ({
-        default: m.Database as IconComponent,
+        default: m.Database,
       })),
     heroicons: () => import("@heroicons/react/24/outline/CircleStackIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiDatabaseLine as unknown as IconComponent,
+        default: m.RiDatabaseLine,
       })),
     iconoir: () => import("iconoir-react/regular/Database"),
   },
@@ -706,11 +707,11 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconDice.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/DiceFive").then((m) => ({
-        default: m.DiceFive as IconComponent,
+        default: m.DiceFive,
       })),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiDiceLine as unknown as IconComponent,
+        default: m.RiDiceLine,
       })),
     iconoir: () => import("iconoir-react/regular/DiceFive"),
   },
@@ -720,12 +721,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconCurrencyDollar.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/CurrencyDollar").then((m) => ({
-        default: m.CurrencyDollar as IconComponent,
+        default: m.CurrencyDollar,
       })),
     heroicons: () => import("@heroicons/react/24/outline/CurrencyDollarIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiMoneyDollarCircleLine as unknown as IconComponent,
+        default: m.RiMoneyDollarCircleLine,
       })),
     iconoir: () => import("iconoir-react/regular/Dollar"),
   },
@@ -734,12 +735,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconDownload.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Download").then((m) => ({
-        default: m.Download as IconComponent,
+        default: m.Download,
       })),
     heroicons: () => import("@heroicons/react/24/outline/ArrowDownTrayIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiDownloadLine as unknown as IconComponent,
+        default: m.RiDownloadLine,
       })),
     iconoir: () => import("iconoir-react/regular/Download"),
   },
@@ -749,7 +750,7 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconMasksTheater.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/MaskHappy").then((m) => ({
-        default: m.MaskHappy as IconComponent,
+        default: m.MaskHappy,
       })),
   },
   ellipsis: {
@@ -757,13 +758,13 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconDots.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/DotsThree").then((m) => ({
-        default: m.DotsThree as IconComponent,
+        default: m.DotsThree,
       })),
     heroicons: () =>
       import("@heroicons/react/24/outline/EllipsisHorizontalIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiMoreLine as unknown as IconComponent,
+        default: m.RiMoreLine,
       })),
     iconoir: () => import("iconoir-react/regular/MoreHoriz"),
   },
@@ -773,12 +774,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconDotsVertical.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/DotsThreeVertical").then((m) => ({
-        default: m.DotsThreeVertical as IconComponent,
+        default: m.DotsThreeVertical,
       })),
     heroicons: () => import("@heroicons/react/24/outline/EllipsisVerticalIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiMore2Line as unknown as IconComponent,
+        default: m.RiMore2Line,
       })),
     iconoir: () => import("iconoir-react/regular/MoreVert"),
   },
@@ -787,11 +788,11 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconEraser.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Eraser").then((m) => ({
-        default: m.Eraser as IconComponent,
+        default: m.Eraser,
       })),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiEraserLine as unknown as IconComponent,
+        default: m.RiEraserLine,
       })),
     iconoir: () => import("iconoir-react/regular/Erase"),
   },
@@ -801,13 +802,13 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconExternalLink.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/ArrowSquareOut").then((m) => ({
-        default: m.ArrowSquareOut as IconComponent,
+        default: m.ArrowSquareOut,
       })),
     heroicons: () =>
       import("@heroicons/react/24/outline/ArrowTopRightOnSquareIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiExternalLinkLine as unknown as IconComponent,
+        default: m.RiExternalLinkLine,
       })),
     iconoir: () => import("iconoir-react/regular/OpenNewWindow"),
   },
@@ -816,12 +817,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconEye.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Eye").then((m) => ({
-        default: m.Eye as IconComponent,
+        default: m.Eye,
       })),
     heroicons: () => import("@heroicons/react/24/outline/EyeIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiEyeLine as unknown as IconComponent,
+        default: m.RiEyeLine,
       })),
     iconoir: () => import("iconoir-react/regular/Eye"),
   },
@@ -830,12 +831,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconEyeOff.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/EyeSlash").then((m) => ({
-        default: m.EyeSlash as IconComponent,
+        default: m.EyeSlash,
       })),
     heroicons: () => import("@heroicons/react/24/outline/EyeSlashIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiEyeOffLine as unknown as IconComponent,
+        default: m.RiEyeOffLine,
       })),
     iconoir: () => import("iconoir-react/regular/EyeClosed"),
   },
@@ -844,12 +845,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconFile.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/File").then((m) => ({
-        default: m.File as IconComponent,
+        default: m.File,
       })),
     heroicons: () => import("@heroicons/react/24/outline/DocumentIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiFileLine as unknown as IconComponent,
+        default: m.RiFileLine,
       })),
     iconoir: () => import("iconoir-react/regular/Page"),
   },
@@ -859,7 +860,7 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconFileUnknown.mjs"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiFileUnknowLine as unknown as IconComponent,
+        default: m.RiFileUnknowLine,
       })),
   },
   filter: {
@@ -867,12 +868,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconFilter.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/FunnelSimple").then((m) => ({
-        default: m.FunnelSimple as IconComponent,
+        default: m.FunnelSimple,
       })),
     heroicons: () => import("@heroicons/react/24/outline/FunnelIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiFilterLine as unknown as IconComponent,
+        default: m.RiFilterLine,
       })),
     iconoir: () => import("iconoir-react/regular/Filter"),
   },
@@ -882,12 +883,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconFingerprint.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Fingerprint").then((m) => ({
-        default: m.Fingerprint as IconComponent,
+        default: m.Fingerprint,
       })),
     heroicons: () => import("@heroicons/react/24/outline/FingerPrintIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiFingerprintLine as unknown as IconComponent,
+        default: m.RiFingerprintLine,
       })),
     iconoir: () => import("iconoir-react/regular/Fingerprint"),
   },
@@ -896,12 +897,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconGift.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Gift").then((m) => ({
-        default: m.Gift as IconComponent,
+        default: m.Gift,
       })),
     heroicons: () => import("@heroicons/react/24/outline/GiftIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiGiftLine as unknown as IconComponent,
+        default: m.RiGiftLine,
       })),
     iconoir: () => import("iconoir-react/regular/Gift"),
   },
@@ -914,25 +915,30 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconBrandGithub.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/GithubLogo").then((m) => ({
-        default: m.GithubLogo as IconComponent,
+        default: m.GithubLogo,
       })),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiGithubLine as unknown as IconComponent,
+        default: m.RiGithubLine,
       })),
     iconoir: () => import("iconoir-react/regular/Github"),
+  },
+  "git-branch": {
+    lucide: () => import("lucide-react/dist/esm/icons/git-branch.mjs"),
+    tabler: () =>
+      import("@tabler/icons-react/dist/esm/icons/IconGitBranch.mjs"),
   },
   globe: {
     lucide: () => import("lucide-react/dist/esm/icons/globe.mjs"),
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconWorld.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Globe").then((m) => ({
-        default: m.Globe as IconComponent,
+        default: m.Globe,
       })),
     heroicons: () => import("@heroicons/react/24/outline/GlobeAltIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiGlobeLine as unknown as IconComponent,
+        default: m.RiGlobeLine,
       })),
     iconoir: () => import("iconoir-react/regular/Globe"),
   },
@@ -945,12 +951,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconGridDots.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/GridFour").then((m) => ({
-        default: m.GridFour as IconComponent,
+        default: m.GridFour,
       })),
     heroicons: () => import("@heroicons/react/24/outline/Squares2X2Icon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiLayoutGridLine as unknown as IconComponent,
+        default: m.RiLayoutGridLine,
       })),
     iconoir: () => import("iconoir-react/regular/ViewGrid"),
   },
@@ -960,11 +966,11 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconGripVertical.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/DotsSixVertical").then((m) => ({
-        default: m.DotsSixVertical as IconComponent,
+        default: m.DotsSixVertical,
       })),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiDraggable as unknown as IconComponent,
+        default: m.RiDraggable,
       })),
   },
   hash: {
@@ -972,12 +978,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconHash.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Hash").then((m) => ({
-        default: m.Hash as IconComponent,
+        default: m.Hash,
       })),
     heroicons: () => import("@heroicons/react/24/outline/HashtagIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiHashtag as unknown as IconComponent,
+        default: m.RiHashtag,
       })),
     iconoir: () => import("iconoir-react/regular/Hashtag"),
   },
@@ -986,12 +992,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconHeart.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Heart").then((m) => ({
-        default: m.Heart as IconComponent,
+        default: m.Heart,
       })),
     heroicons: () => import("@heroicons/react/24/outline/HeartIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiHeartLine as unknown as IconComponent,
+        default: m.RiHeartLine,
       })),
     iconoir: () => import("iconoir-react/regular/Heart"),
   },
@@ -1001,12 +1007,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconHeartbeat.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Heartbeat").then((m) => ({
-        default: m.Heartbeat as IconComponent,
+        default: m.Heartbeat,
       })),
     heroicons: () => import("@heroicons/react/24/outline/HeartIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiHeartPulseLine as unknown as IconComponent,
+        default: m.RiHeartPulseLine,
       })),
   },
   house: {
@@ -1014,12 +1020,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconHome.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/House").then((m) => ({
-        default: m.House as IconComponent,
+        default: m.House,
       })),
     heroicons: () => import("@heroicons/react/24/outline/HomeIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiHome4Line as unknown as IconComponent,
+        default: m.RiHome4Line,
       })),
     iconoir: () => import("iconoir-react/regular/Home"),
   },
@@ -1028,12 +1034,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconPhoto.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Image").then((m) => ({
-        default: m.Image as IconComponent,
+        default: m.Image,
       })),
     heroicons: () => import("@heroicons/react/24/outline/PhotoIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiImageLine as unknown as IconComponent,
+        default: m.RiImageLine,
       })),
     iconoir: () => import("iconoir-react/regular/MediaImage"),
   },
@@ -1048,12 +1054,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconKey.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Key").then((m) => ({
-        default: m.Key as IconComponent,
+        default: m.Key,
       })),
     heroicons: () => import("@heroicons/react/24/outline/KeyIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiKeyLine as unknown as IconComponent,
+        default: m.RiKeyLine,
       })),
     iconoir: () => import("iconoir-react/regular/Key"),
   },
@@ -1062,12 +1068,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconKey.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Key").then((m) => ({
-        default: m.Key as IconComponent,
+        default: m.Key,
       })),
     heroicons: () => import("@heroicons/react/24/outline/KeyIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiKey2Line as unknown as IconComponent,
+        default: m.RiKey2Line,
       })),
     iconoir: () => import("iconoir-react/regular/Key"),
   },
@@ -1076,12 +1082,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconStack2.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Stack").then((m) => ({
-        default: m.Stack as IconComponent,
+        default: m.Stack,
       })),
     heroicons: () => import("@heroicons/react/24/outline/Square3Stack3DIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiStackLine as unknown as IconComponent,
+        default: m.RiStackLine,
       })),
   },
   "layout-dashboard": {
@@ -1090,12 +1096,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconLayoutDashboard.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/SquaresFour").then((m) => ({
-        default: m.SquaresFour as IconComponent,
+        default: m.SquaresFour,
       })),
     heroicons: () => import("@heroicons/react/24/outline/Squares2X2Icon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiDashboardLine as unknown as IconComponent,
+        default: m.RiDashboardLine,
       })),
     iconoir: () => import("iconoir-react/regular/Dashboard"),
   },
@@ -1105,12 +1111,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconLayoutGrid.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/SquaresFour").then((m) => ({
-        default: m.SquaresFour as IconComponent,
+        default: m.SquaresFour,
       })),
     heroicons: () => import("@heroicons/react/24/outline/Squares2X2Icon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiLayoutGridLine as unknown as IconComponent,
+        default: m.RiLayoutGridLine,
       })),
     iconoir: () => import("iconoir-react/regular/ViewGrid"),
   },
@@ -1119,12 +1125,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconLink.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Link").then((m) => ({
-        default: m.Link as IconComponent,
+        default: m.Link,
       })),
     heroicons: () => import("@heroicons/react/24/outline/LinkIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiLink as unknown as IconComponent,
+        default: m.RiLink,
       })),
     iconoir: () => import("iconoir-react/regular/Link"),
   },
@@ -1133,12 +1139,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconLock.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Lock").then((m) => ({
-        default: m.Lock as IconComponent,
+        default: m.Lock,
       })),
     heroicons: () => import("@heroicons/react/24/outline/LockClosedIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiLockLine as unknown as IconComponent,
+        default: m.RiLockLine,
       })),
     iconoir: () => import("iconoir-react/regular/Lock"),
   },
@@ -1147,13 +1153,13 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconLogin.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/SignIn").then((m) => ({
-        default: m.SignIn as IconComponent,
+        default: m.SignIn,
       })),
     heroicons: () =>
       import("@heroicons/react/24/outline/ArrowRightEndOnRectangleIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiLoginBoxLine as unknown as IconComponent,
+        default: m.RiLoginBoxLine,
       })),
     iconoir: () => import("iconoir-react/regular/LogIn"),
   },
@@ -1162,13 +1168,13 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconLogout.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/SignOut").then((m) => ({
-        default: m.SignOut as IconComponent,
+        default: m.SignOut,
       })),
     heroicons: () =>
       import("@heroicons/react/24/outline/ArrowRightStartOnRectangleIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiLogoutBoxLine as unknown as IconComponent,
+        default: m.RiLogoutBoxLine,
       })),
     iconoir: () => import("iconoir-react/regular/LogOut"),
   },
@@ -1177,12 +1183,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconMail.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/EnvelopeSimple").then((m) => ({
-        default: m.EnvelopeSimple as IconComponent,
+        default: m.EnvelopeSimple,
       })),
     heroicons: () => import("@heroicons/react/24/outline/EnvelopeIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiMailLine as unknown as IconComponent,
+        default: m.RiMailLine,
       })),
     iconoir: () => import("iconoir-react/regular/Mail"),
   },
@@ -1191,12 +1197,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconMenu2.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/List").then((m) => ({
-        default: m.List as IconComponent,
+        default: m.List,
       })),
     heroicons: () => import("@heroicons/react/24/outline/Bars3Icon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiMenuLine as unknown as IconComponent,
+        default: m.RiMenuLine,
       })),
     iconoir: () => import("iconoir-react/regular/Menu"),
   },
@@ -1206,13 +1212,13 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconMessageCircle.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/ChatCircle").then((m) => ({
-        default: m.ChatCircle as IconComponent,
+        default: m.ChatCircle,
       })),
     heroicons: () =>
       import("@heroicons/react/24/outline/ChatBubbleOvalLeftIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiChat1Line as unknown as IconComponent,
+        default: m.RiChat1Line,
       })),
     iconoir: () => import("iconoir-react/regular/ChatBubbleEmpty"),
   },
@@ -1221,12 +1227,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconMessage.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Chat").then((m) => ({
-        default: m.Chat as IconComponent,
+        default: m.Chat,
       })),
     heroicons: () => import("@heroicons/react/24/outline/ChatBubbleLeftIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiChat4Line as unknown as IconComponent,
+        default: m.RiChat4Line,
       })),
     iconoir: () => import("iconoir-react/regular/ChatLines"),
   },
@@ -1236,12 +1242,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconMicrophone.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Microphone").then((m) => ({
-        default: m.Microphone as IconComponent,
+        default: m.Microphone,
       })),
     heroicons: () => import("@heroicons/react/24/outline/MicrophoneIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiMicLine as unknown as IconComponent,
+        default: m.RiMicLine,
       })),
     iconoir: () => import("iconoir-react/regular/Microphone"),
   },
@@ -1251,12 +1257,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconDeviceDesktop.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Monitor").then((m) => ({
-        default: m.Monitor as IconComponent,
+        default: m.Monitor,
       })),
     heroicons: () => import("@heroicons/react/24/outline/ComputerDesktopIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiComputerLine as unknown as IconComponent,
+        default: m.RiComputerLine,
       })),
     iconoir: () => import("iconoir-react/regular/Computer"),
   },
@@ -1265,12 +1271,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconMoon.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Moon").then((m) => ({
-        default: m.Moon as IconComponent,
+        default: m.Moon,
       })),
     heroicons: () => import("@heroicons/react/24/outline/MoonIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiMoonLine as unknown as IconComponent,
+        default: m.RiMoonLine,
       })),
     iconoir: () => import("iconoir-react/regular/HalfMoon"),
   },
@@ -1279,12 +1285,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconMusic.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/MusicNotes").then((m) => ({
-        default: m.MusicNotes as IconComponent,
+        default: m.MusicNotes,
       })),
     heroicons: () => import("@heroicons/react/24/outline/MusicalNoteIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiMusicLine as unknown as IconComponent,
+        default: m.RiMusicLine,
       })),
     iconoir: () => import("iconoir-react/regular/MusicDoubleNote"),
   },
@@ -1293,12 +1299,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconNews.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Newspaper").then((m) => ({
-        default: m.Newspaper as IconComponent,
+        default: m.Newspaper,
       })),
     heroicons: () => import("@heroicons/react/24/outline/NewspaperIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiNewspaperLine as unknown as IconComponent,
+        default: m.RiNewspaperLine,
       })),
   },
   paintbrush: {
@@ -1306,12 +1312,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconBrush.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/PaintBrush").then((m) => ({
-        default: m.PaintBrush as IconComponent,
+        default: m.PaintBrush,
       })),
     heroicons: () => import("@heroicons/react/24/outline/PaintBrushIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiBrushLine as unknown as IconComponent,
+        default: m.RiBrushLine,
       })),
     iconoir: () => import("iconoir-react/regular/Palette"),
   },
@@ -1321,11 +1327,11 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconLayoutSidebar.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/SidebarSimple").then((m) => ({
-        default: m.SidebarSimple as IconComponent,
+        default: m.SidebarSimple,
       })),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiLayoutLeftLine as unknown as IconComponent,
+        default: m.RiLayoutLeftLine,
       })),
     iconoir: () => import("iconoir-react/regular/SidebarCollapse"),
   },
@@ -1334,12 +1340,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconPencil.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Pencil").then((m) => ({
-        default: m.Pencil as IconComponent,
+        default: m.Pencil,
       })),
     heroicons: () => import("@heroicons/react/24/outline/PencilIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiPencilLine as unknown as IconComponent,
+        default: m.RiPencilLine,
       })),
     iconoir: () => import("iconoir-react/regular/EditPencil"),
   },
@@ -1349,12 +1355,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconRulerMeasure.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/PencilRuler").then((m) => ({
-        default: m.PencilRuler as IconComponent,
+        default: m.PencilRuler,
       })),
     heroicons: () => import("@heroicons/react/24/outline/PencilSquareIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiPencilRulerLine as unknown as IconComponent,
+        default: m.RiPencilRulerLine,
       })),
     iconoir: () => import("iconoir-react/regular/DesignPencil"),
   },
@@ -1364,12 +1370,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconPercentage.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Percent").then((m) => ({
-        default: m.Percent as IconComponent,
+        default: m.Percent,
       })),
     heroicons: () => import("@heroicons/react/24/outline/PercentBadgeIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiPercentLine as unknown as IconComponent,
+        default: m.RiPercentLine,
       })),
     iconoir: () => import("iconoir-react/regular/Percentage"),
   },
@@ -1379,12 +1385,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconPlayerPlay.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Play").then((m) => ({
-        default: m.Play as IconComponent,
+        default: m.Play,
       })),
     heroicons: () => import("@heroicons/react/24/outline/PlayIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiPlayLine as unknown as IconComponent,
+        default: m.RiPlayLine,
       })),
     iconoir: () => import("iconoir-react/regular/Play"),
   },
@@ -1393,12 +1399,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconPlus.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Plus").then((m) => ({
-        default: m.Plus as IconComponent,
+        default: m.Plus,
       })),
     heroicons: () => import("@heroicons/react/24/outline/PlusIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiAddLine as unknown as IconComponent,
+        default: m.RiAddLine,
       })),
     iconoir: () => import("iconoir-react/regular/Plus"),
   },
@@ -1407,12 +1413,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconPower.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Power").then((m) => ({
-        default: m.Power as IconComponent,
+        default: m.Power,
       })),
     heroicons: () => import("@heroicons/react/24/outline/PowerIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiShutDownLine as unknown as IconComponent,
+        default: m.RiShutDownLine,
       })),
   },
   "power-off": {
@@ -1420,12 +1426,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconPlugOff.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Power").then((m) => ({
-        default: m.Power as IconComponent,
+        default: m.Power,
       })),
     heroicons: () => import("@heroicons/react/24/outline/PowerIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiShutDownLine as unknown as IconComponent,
+        default: m.RiShutDownLine,
       })),
   },
   "refresh-ccw": {
@@ -1434,13 +1440,13 @@ export const ICON_MAP: Record<string, IconEntry> = {
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/ArrowsCounterClockwise").then(
         (m) => ({
-          default: m.ArrowsCounterClockwise as IconComponent,
+          default: m.ArrowsCounterClockwise,
         }),
       ),
     heroicons: () => import("@heroicons/react/24/outline/ArrowPathIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiResetLeftLine as unknown as IconComponent,
+        default: m.RiResetLeftLine,
       })),
     iconoir: () => import("iconoir-react/regular/RefreshDouble"),
   },
@@ -1449,12 +1455,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconRefresh.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/ArrowsClockwise").then((m) => ({
-        default: m.ArrowsClockwise as IconComponent,
+        default: m.ArrowsClockwise,
       })),
     heroicons: () => import("@heroicons/react/24/outline/ArrowPathIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiRefreshLine as unknown as IconComponent,
+        default: m.RiRefreshLine,
       })),
     iconoir: () => import("iconoir-react/regular/Refresh"),
   },
@@ -1463,13 +1469,13 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconRepeat.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Repeat").then((m) => ({
-        default: m.Repeat as IconComponent,
+        default: m.Repeat,
       })),
     heroicons: () =>
       import("@heroicons/react/24/outline/ArrowPathRoundedSquareIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiRepeatLine as unknown as IconComponent,
+        default: m.RiRepeatLine,
       })),
     iconoir: () => import("iconoir-react/regular/Repeat"),
   },
@@ -1479,13 +1485,13 @@ export const ICON_MAP: Record<string, IconEntry> = {
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/ArrowCounterClockwise").then(
         (m) => ({
-          default: m.ArrowCounterClockwise as IconComponent,
+          default: m.ArrowCounterClockwise,
         }),
       ),
     heroicons: () => import("@heroicons/react/24/outline/ArrowUturnLeftIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiAnticlockwise2Line as unknown as IconComponent,
+        default: m.RiAnticlockwise2Line,
       })),
     iconoir: () => import("iconoir-react/regular/Undo"),
   },
@@ -1495,12 +1501,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconRotateClockwise.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/ArrowClockwise").then((m) => ({
-        default: m.ArrowClockwise as IconComponent,
+        default: m.ArrowClockwise,
       })),
     heroicons: () => import("@heroicons/react/24/outline/ArrowUturnRightIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiClockwise2Line as unknown as IconComponent,
+        default: m.RiClockwise2Line,
       })),
     iconoir: () => import("iconoir-react/regular/Redo"),
   },
@@ -1509,12 +1515,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconRss.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Rss").then((m) => ({
-        default: m.Rss as IconComponent,
+        default: m.Rss,
       })),
     heroicons: () => import("@heroicons/react/24/outline/RssIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiRssLine as unknown as IconComponent,
+        default: m.RiRssLine,
       })),
     iconoir: () => import("iconoir-react/regular/RssFeed"),
   },
@@ -1523,12 +1529,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconFileText.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Scroll").then((m) => ({
-        default: m.Scroll as IconComponent,
+        default: m.Scroll,
       })),
     heroicons: () => import("@heroicons/react/24/outline/DocumentTextIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiFileList3Line as unknown as IconComponent,
+        default: m.RiFileList3Line,
       })),
   },
   search: {
@@ -1536,12 +1542,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconSearch.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/MagnifyingGlass").then((m) => ({
-        default: m.MagnifyingGlass as IconComponent,
+        default: m.MagnifyingGlass,
       })),
     heroicons: () => import("@heroicons/react/24/outline/MagnifyingGlassIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiSearchLine as unknown as IconComponent,
+        default: m.RiSearchLine,
       })),
     iconoir: () => import("iconoir-react/regular/Search"),
   },
@@ -1550,12 +1556,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconSend.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/PaperPlaneTilt").then((m) => ({
-        default: m.PaperPlaneTilt as IconComponent,
+        default: m.PaperPlaneTilt,
       })),
     heroicons: () => import("@heroicons/react/24/outline/PaperAirplaneIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiSendPlaneLine as unknown as IconComponent,
+        default: m.RiSendPlaneLine,
       })),
     iconoir: () => import("iconoir-react/regular/Send"),
   },
@@ -1564,12 +1570,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconServer.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/HardDrives").then((m) => ({
-        default: m.HardDrives as IconComponent,
+        default: m.HardDrives,
       })),
     heroicons: () => import("@heroicons/react/24/outline/ServerIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiServerLine as unknown as IconComponent,
+        default: m.RiServerLine,
       })),
     iconoir: () => import("iconoir-react/regular/Server"),
   },
@@ -1578,12 +1584,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconSettings.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Gear").then((m) => ({
-        default: m.Gear as IconComponent,
+        default: m.Gear,
       })),
     heroicons: () => import("@heroicons/react/24/outline/Cog6ToothIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiSettingsLine as unknown as IconComponent,
+        default: m.RiSettingsLine,
       })),
     iconoir: () => import("iconoir-react/regular/Settings"),
   },
@@ -1592,12 +1598,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconShield.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Shield").then((m) => ({
-        default: m.Shield as IconComponent,
+        default: m.Shield,
       })),
     heroicons: () => import("@heroicons/react/24/outline/ShieldCheckIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiShieldLine as unknown as IconComponent,
+        default: m.RiShieldLine,
       })),
     iconoir: () => import("iconoir-react/regular/Shield"),
   },
@@ -1607,12 +1613,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconShieldCheck.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/ShieldCheck").then((m) => ({
-        default: m.ShieldCheck as IconComponent,
+        default: m.ShieldCheck,
       })),
     heroicons: () => import("@heroicons/react/24/outline/ShieldCheckIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiShieldCheckLine as unknown as IconComponent,
+        default: m.RiShieldCheckLine,
       })),
     iconoir: () => import("iconoir-react/regular/ShieldCheck"),
   },
@@ -1622,11 +1628,11 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconArrowsShuffle.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Shuffle").then((m) => ({
-        default: m.Shuffle as IconComponent,
+        default: m.Shuffle,
       })),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiShuffleLine as unknown as IconComponent,
+        default: m.RiShuffleLine,
       })),
     iconoir: () => import("iconoir-react/regular/Shuffle"),
   },
@@ -1636,13 +1642,13 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconAdjustmentsHorizontal.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/SlidersHorizontal").then((m) => ({
-        default: m.SlidersHorizontal as IconComponent,
+        default: m.SlidersHorizontal,
       })),
     heroicons: () =>
       import("@heroicons/react/24/outline/AdjustmentsHorizontalIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiEqualizerLine as unknown as IconComponent,
+        default: m.RiEqualizerLine,
       })),
   },
   sparkles: {
@@ -1650,12 +1656,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconSparkles.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Sparkle").then((m) => ({
-        default: m.Sparkle as IconComponent,
+        default: m.Sparkle,
       })),
     heroicons: () => import("@heroicons/react/24/outline/SparklesIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiSparklingLine as unknown as IconComponent,
+        default: m.RiSparklingLine,
       })),
     iconoir: () => import("iconoir-react/regular/Sparks"),
   },
@@ -1664,12 +1670,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconSun.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Sun").then((m) => ({
-        default: m.Sun as IconComponent,
+        default: m.Sun,
       })),
     heroicons: () => import("@heroicons/react/24/outline/SunIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiSunLine as unknown as IconComponent,
+        default: m.RiSunLine,
       })),
     iconoir: () => import("iconoir-react/regular/SunLight"),
   },
@@ -1678,12 +1684,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconTag.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Tag").then((m) => ({
-        default: m.Tag as IconComponent,
+        default: m.Tag,
       })),
     heroicons: () => import("@heroicons/react/24/outline/TagIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiPriceTag3Line as unknown as IconComponent,
+        default: m.RiPriceTag3Line,
       })),
     iconoir: () => import("iconoir-react/regular/Label"),
   },
@@ -1693,12 +1699,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconTerminal2.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Terminal").then((m) => ({
-        default: m.Terminal as IconComponent,
+        default: m.Terminal,
       })),
     heroicons: () => import("@heroicons/react/24/outline/CommandLineIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiTerminalLine as unknown as IconComponent,
+        default: m.RiTerminalLine,
       })),
     iconoir: () => import("iconoir-react/regular/Terminal"),
   },
@@ -1707,12 +1713,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconTrash.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Trash").then((m) => ({
-        default: m.Trash as IconComponent,
+        default: m.Trash,
       })),
     heroicons: () => import("@heroicons/react/24/outline/TrashIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiDeleteBinLine as unknown as IconComponent,
+        default: m.RiDeleteBinLine,
       })),
     iconoir: () => import("iconoir-react/regular/Trash"),
   },
@@ -1721,12 +1727,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconTrophy.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Trophy").then((m) => ({
-        default: m.Trophy as IconComponent,
+        default: m.Trophy,
       })),
     heroicons: () => import("@heroicons/react/24/outline/TrophyIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiTrophyLine as unknown as IconComponent,
+        default: m.RiTrophyLine,
       })),
     iconoir: () => import("iconoir-react/regular/Trophy"),
   },
@@ -1736,11 +1742,11 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconTypography.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/TextT").then((m) => ({
-        default: m.TextT as IconComponent,
+        default: m.TextT,
       })),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiText as unknown as IconComponent,
+        default: m.RiText,
       })),
     iconoir: () => import("iconoir-react/regular/Type"),
   },
@@ -1749,12 +1755,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconUpload.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Upload").then((m) => ({
-        default: m.Upload as IconComponent,
+        default: m.Upload,
       })),
     heroicons: () => import("@heroicons/react/24/outline/ArrowUpTrayIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiUploadLine as unknown as IconComponent,
+        default: m.RiUploadLine,
       })),
     iconoir: () => import("iconoir-react/regular/Upload"),
   },
@@ -1763,12 +1769,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconUser.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/User").then((m) => ({
-        default: m.User as IconComponent,
+        default: m.User,
       })),
     heroicons: () => import("@heroicons/react/24/outline/UserIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiUserLine as unknown as IconComponent,
+        default: m.RiUserLine,
       })),
     iconoir: () => import("iconoir-react/regular/User"),
   },
@@ -1777,12 +1783,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconUserPlus.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/UserPlus").then((m) => ({
-        default: m.UserPlus as IconComponent,
+        default: m.UserPlus,
       })),
     heroicons: () => import("@heroicons/react/24/outline/UserPlusIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiUserAddLine as unknown as IconComponent,
+        default: m.RiUserAddLine,
       })),
     iconoir: () => import("iconoir-react/regular/UserPlus"),
   },
@@ -1791,12 +1797,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconUsers.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Users").then((m) => ({
-        default: m.Users as IconComponent,
+        default: m.Users,
       })),
     heroicons: () => import("@heroicons/react/24/outline/UsersIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiGroupLine as unknown as IconComponent,
+        default: m.RiGroupLine,
       })),
     iconoir: () => import("iconoir-react/regular/Group"),
   },
@@ -1805,12 +1811,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconVideo.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Video").then((m) => ({
-        default: m.Video as IconComponent,
+        default: m.Video,
       })),
     heroicons: () => import("@heroicons/react/24/outline/VideoCameraIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiVideoLine as unknown as IconComponent,
+        default: m.RiVideoLine,
       })),
     iconoir: () => import("iconoir-react/regular/VideoCamera"),
   },
@@ -1819,12 +1825,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconWallet.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Wallet").then((m) => ({
-        default: m.Wallet as IconComponent,
+        default: m.Wallet,
       })),
     heroicons: () => import("@heroicons/react/24/outline/WalletIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiWalletLine as unknown as IconComponent,
+        default: m.RiWalletLine,
       })),
     iconoir: () => import("iconoir-react/regular/Wallet"),
   },
@@ -1833,12 +1839,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconWand.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/MagicWand").then((m) => ({
-        default: m.MagicWand as IconComponent,
+        default: m.MagicWand,
       })),
     heroicons: () => import("@heroicons/react/24/outline/SparklesIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiMagicLine as unknown as IconComponent,
+        default: m.RiMagicLine,
       })),
     iconoir: () => import("iconoir-react/regular/MagicWand"),
   },
@@ -1847,12 +1853,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconBolt.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Lightning").then((m) => ({
-        default: m.Lightning as IconComponent,
+        default: m.Lightning,
       })),
     heroicons: () => import("@heroicons/react/24/outline/BoltIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiFlashlightLine as unknown as IconComponent,
+        default: m.RiFlashlightLine,
       })),
     iconoir: () => import("iconoir-react/regular/Flash"),
   },
@@ -1861,12 +1867,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconGrid3x3.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/GridNine").then((m) => ({
-        default: m.GridNine as IconComponent,
+        default: m.GridNine,
       })),
     heroicons: () => import("@heroicons/react/24/outline/TableCellsIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiGridLine as unknown as IconComponent,
+        default: m.RiGridLine,
       })),
     iconoir: () => import("iconoir-react/regular/ViewGrid"),
   },
@@ -1875,13 +1881,13 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconMaximize.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/ArrowsOutSimple").then((m) => ({
-        default: m.ArrowsOutSimple as IconComponent,
+        default: m.ArrowsOutSimple,
       })),
     heroicons: () =>
       import("@heroicons/react/24/outline/ArrowsPointingOutIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiExpandDiagonalLine as unknown as IconComponent,
+        default: m.RiExpandDiagonalLine,
       })),
     iconoir: () => import("iconoir-react/regular/Expand"),
   },
@@ -1891,13 +1897,13 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconAdjustments.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/SlidersHorizontal").then((m) => ({
-        default: m.SlidersHorizontal as IconComponent,
+        default: m.SlidersHorizontal,
       })),
     heroicons: () =>
       import("@heroicons/react/24/outline/AdjustmentsHorizontalIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiSettings2Line as unknown as IconComponent,
+        default: m.RiSettings2Line,
       })),
     iconoir: () => import("iconoir-react/regular/Settings"),
   },
@@ -1906,12 +1912,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconTrash.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Trash").then((m) => ({
-        default: m.Trash as IconComponent,
+        default: m.Trash,
       })),
     heroicons: () => import("@heroicons/react/24/outline/TrashIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiDeleteBin2Line as unknown as IconComponent,
+        default: m.RiDeleteBin2Line,
       })),
     iconoir: () => import("iconoir-react/regular/Trash"),
   },
@@ -2036,11 +2042,11 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconBrain.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Brain").then((m) => ({
-        default: m.Brain as IconComponent,
+        default: m.Brain,
       })),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiBrainLine as unknown as IconComponent,
+        default: m.RiBrainLine,
       })),
     iconoir: () => import("iconoir-react/regular/Brain"),
   },
@@ -2049,11 +2055,11 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconWifiOff.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/WifiSlash").then((m) => ({
-        default: m.WifiSlash as IconComponent,
+        default: m.WifiSlash,
       })),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiWifiOffLine as unknown as IconComponent,
+        default: m.RiWifiOffLine,
       })),
     iconoir: () => import("iconoir-react/regular/WifiOff"),
   },
@@ -2062,12 +2068,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconCircleX.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/XCircle").then((m) => ({
-        default: m.XCircle as IconComponent,
+        default: m.XCircle,
       })),
     heroicons: () => import("@heroicons/react/24/outline/XCircleIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiCloseCircleLine as unknown as IconComponent,
+        default: m.RiCloseCircleLine,
       })),
     iconoir: () => import("iconoir-react/regular/XmarkCircle"),
   },
@@ -2077,13 +2083,13 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconAlertCircle.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/WarningCircle").then((m) => ({
-        default: m.WarningCircle as IconComponent,
+        default: m.WarningCircle,
       })),
     heroicons: () =>
       import("@heroicons/react/24/outline/ExclamationCircleIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiErrorWarningLine as unknown as IconComponent,
+        default: m.RiErrorWarningLine,
       })),
     iconoir: () => import("iconoir-react/regular/WarningCircle"),
   },
@@ -2092,12 +2098,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconFileText.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/FileText").then((m) => ({
-        default: m.FileText as IconComponent,
+        default: m.FileText,
       })),
     heroicons: () => import("@heroicons/react/24/outline/DocumentTextIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiFileTextLine as unknown as IconComponent,
+        default: m.RiFileTextLine,
       })),
     iconoir: () => import("iconoir-react/regular/Page"),
   },
@@ -2106,12 +2112,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconSquare.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Square").then((m) => ({
-        default: m.Square as IconComponent,
+        default: m.Square,
       })),
     heroicons: () => import("@heroicons/react/24/outline/StopIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiSquareLine as unknown as IconComponent,
+        default: m.RiSquareLine,
       })),
     iconoir: () => import("iconoir-react/regular/Square"),
   },
@@ -2120,12 +2126,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconTool.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/Wrench").then((m) => ({
-        default: m.Wrench as IconComponent,
+        default: m.Wrench,
       })),
     heroicons: () => import("@heroicons/react/24/outline/WrenchIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiWrenchLine as unknown as IconComponent,
+        default: m.RiWrenchLine,
       })),
     iconoir: () => import("iconoir-react/regular/Wrench"),
   },
@@ -2134,12 +2140,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconList.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/List").then((m) => ({
-        default: m.List as IconComponent,
+        default: m.List,
       })),
     heroicons: () => import("@heroicons/react/24/outline/ListBulletIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiListUnordered as unknown as IconComponent,
+        default: m.RiListUnordered,
       })),
     iconoir: () => import("iconoir-react/regular/List"),
   },
@@ -2149,12 +2155,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconCirclePlus.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/PlusCircle").then((m) => ({
-        default: m.PlusCircle as IconComponent,
+        default: m.PlusCircle,
       })),
     heroicons: () => import("@heroicons/react/24/outline/PlusCircleIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiAddCircleLine as unknown as IconComponent,
+        default: m.RiAddCircleLine,
       })),
     iconoir: () => import("iconoir-react/regular/PlusCircle"),
   },
@@ -2164,12 +2170,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("@tabler/icons-react/dist/esm/icons/IconCreditCard.mjs"),
     phosphor: () =>
       import("@phosphor-icons/react/dist/ssr/CreditCard").then((m) => ({
-        default: m.CreditCard as IconComponent,
+        default: m.CreditCard,
       })),
     heroicons: () => import("@heroicons/react/24/outline/CreditCardIcon"),
     remix: () =>
       import("@remixicon/react").then((m) => ({
-        default: m.RiBankCardLine as unknown as IconComponent,
+        default: m.RiBankCardLine,
       })),
     iconoir: () => import("iconoir-react/regular/CreditCard"),
   },

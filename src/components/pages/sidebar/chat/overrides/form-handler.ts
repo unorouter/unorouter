@@ -72,6 +72,19 @@ function samplingValues(src: SamplerSource) {
   };
 }
 
+// Sampler display values resolved against the bound preset (conv -> preset -> null),
+// so a preset-bound chat's sliders show the preset's values instead of blanks.
+function resolveSamplingFromPreset(
+  src: SamplerSource,
+  preset: InheritSource | null,
+): ReturnType<typeof samplingValues> {
+  const out = {} as ReturnType<typeof samplingValues>;
+  for (const field of SAMPLING_FIELDS) {
+    out[field] = resolveNum(src[field], preset?.[field]);
+  }
+  return out;
+}
+
 export function writeSamplerMemory(
   data: ConversationOverridesForm,
   activeModelName: string | null | undefined,
@@ -122,6 +135,10 @@ function buildDefaultsForm(
     webSearchEnabled: false,
     webSearchEngine: chatDefaults.webSearchEngine ?? "auto",
     webSearchContextSize: chatDefaults.webSearchContextSize ?? "medium",
+    memoryEnabled: false,
+    imageEnabled: false,
+    utilityModel: NONE_VALUE,
+    promptInstruction: "",
     characterIds: [],
     lorebookIds: [],
     ...samplingValues(layered),
@@ -138,17 +155,29 @@ type ConvBindings = {
   lorebooks: { lorebookId: string }[];
 };
 
-// Inheritable booleans resolve conv override -> preset -> true; the drawer shows the effective value.
+// Inherited values resolve conv override -> preset; the drawer shows the effective
+// (inherited) value so a preset-bound chat reads its preset, not a blank default.
+// Booleans also fall back to true; sampling/chatMemory stay null (= system default).
 type InheritSource = {
   streamingEnabled?: boolean | null;
   showReasoning?: boolean | null;
-};
+} & Partial<
+  Record<(typeof SAMPLING_FIELDS)[number] | "chatMemory", number | null>
+>;
 
 function resolveBool(
   convValue: boolean | null | undefined,
   presetValue: boolean | null | undefined,
 ): boolean {
   return convValue ?? presetValue ?? true;
+}
+
+// Sampler/chatMemory inherit chain for DISPLAY: conv override, else preset, else null.
+function resolveNum(
+  convValue: number | null | undefined,
+  presetValue: number | null | undefined,
+): number | null {
+  return convValue ?? presetValue ?? null;
 }
 
 // Conv mode: seed form from persisted settings + bindings; narrow text columns.
@@ -164,8 +193,8 @@ function buildSettingsForm(
       settings.reasoningEffort,
       NONE_VALUE,
     ),
-    // null = inherit the bound preset (no per-chat override).
-    chatMemory: settings.chatMemory ?? null,
+    // Inherited from the bound preset for display; null conv value shows the preset's.
+    chatMemory: resolveNum(settings.chatMemory, preset?.chatMemory),
     authorNoteDepth: settings.authorNoteDepth ?? 4,
     systemPromptOverride: settings.systemPromptOverride ?? "",
     authorNote: settings.authorNote ?? "",
@@ -174,9 +203,13 @@ function buildSettingsForm(
     webSearchContextSize: narrowWebSearchContextSize(
       settings.webSearchContextSize,
     ),
+    memoryEnabled: settings.memoryEnabled ?? false,
+    imageEnabled: settings.imageEnabled ?? false,
+    utilityModel: settings.utilityModel ?? NONE_VALUE,
+    promptInstruction: settings.promptInstruction ?? "",
     characterIds: bindings.characters.map((c) => c.characterId),
     lorebookIds: bindings.lorebooks.map((l) => l.lorebookId),
-    ...samplingValues(settings),
+    ...resolveSamplingFromPreset(settings, preset),
     extraBody: settings.extraBody ?? "",
     streamingEnabled: resolveBool(
       settings.streamingEnabled,
@@ -236,13 +269,36 @@ function overrideOrInherit(
   return formValue === inherited ? null : formValue;
 }
 
+// A set sampler slider persists its EXPLICIT value (so it survives refresh + later preset edits); only a
+// genuinely-unset (null) slider stores null = inherit the preset. Previously a value matching the preset
+// collapsed to null, which made maxTokens "default" on refresh when the preset later differed/unbound.
+// presetValue is unused now but kept in the signature so call sites (samplingOverrides) stay uniform.
+function numOverrideOrInherit(
+  formValue: number | null | undefined,
+  _presetValue: number | null | undefined,
+): number | null {
+  return formValue ?? null;
+}
+
+// Sampler save payload: each field null when it still matches the inherited preset.
+function samplingOverrides(
+  data: ConversationOverridesForm,
+  preset: InheritSource | null,
+): ReturnType<typeof samplingValues> {
+  const out = {} as ReturnType<typeof samplingValues>;
+  for (const field of SAMPLING_FIELDS) {
+    out[field] = numOverrideOrInherit(data[field], preset?.[field]);
+  }
+  return out;
+}
+
 // Conversation mode submit payload: the conversation_settings update body.
 export function buildSettingsBody(
   data: ConversationOverridesForm,
   preset: InheritSource | null,
 ) {
   return {
-    chatMemory: data.chatMemory,
+    chatMemory: numOverrideOrInherit(data.chatMemory, preset?.chatMemory),
     authorNoteDepth: data.authorNoteDepth,
     systemPromptOverride: data.systemPromptOverride || null,
     authorNote: data.authorNote || null,
@@ -252,7 +308,11 @@ export function buildSettingsBody(
     webSearchEnabled: data.webSearchEnabled,
     webSearchEngine: data.webSearchEngine,
     webSearchContextSize: data.webSearchContextSize,
-    ...samplingValues(data),
+    memoryEnabled: data.memoryEnabled,
+    imageEnabled: data.imageEnabled,
+    utilityModel: data.utilityModel === NONE_VALUE ? null : data.utilityModel,
+    promptInstruction: data.promptInstruction || null,
+    ...samplingOverrides(data, preset),
     extraBody: data.extraBody || null,
     streamingEnabled: overrideOrInherit(
       data.streamingEnabled,

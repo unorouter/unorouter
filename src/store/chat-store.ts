@@ -48,6 +48,8 @@ export type ChatState = {
   // Chat-total display prefs (global). Tokens off by default: the cumulative billed-token sum confuses users; cost is the clear signal.
   showStatsTokens: boolean;
   showStatsCost: boolean;
+  // Active-branch message count (user + AI). Off by default; a manual-summarization signal for power users.
+  showStatsMessages: boolean;
 };
 
 export const INITIAL_CHAT_STATE: ChatState = {
@@ -59,6 +61,7 @@ export const INITIAL_CHAT_STATE: ChatState = {
   samplerMemoryByModel: {},
   showStatsTokens: false,
   showStatsCost: true,
+  showStatsMessages: false,
 };
 
 // SSR-hydrated from the cookie by ChatStoreProvider; no getOnInit needed.
@@ -102,6 +105,15 @@ export const showStatsCostAtom = atom(
   (get) => get(chatStoreAtom).showStatsCost ?? INITIAL_CHAT_STATE.showStatsCost,
   (get, set, value: boolean) => {
     set(chatStoreAtom, { ...get(chatStoreAtom), showStatsCost: value });
+  },
+);
+
+export const showStatsMessagesAtom = atom(
+  (get) =>
+    get(chatStoreAtom).showStatsMessages ??
+    INITIAL_CHAT_STATE.showStatsMessages,
+  (get, set, value: boolean) => {
+    set(chatStoreAtom, { ...get(chatStoreAtom), showStatsMessages: value });
   },
 );
 

@@ -56,6 +56,10 @@ export const LEGAL_REGISTRY = [
     slug: "legal/refund",
     contentFiles: ["src/app/[locale]/(legal)/refund/page.tsx"],
   },
+  {
+    slug: "legal/aup",
+    contentFiles: ["src/app/[locale]/(legal)/aup/page.tsx"],
+  },
 ] as const satisfies readonly {
   slug: `legal/${string}`;
   contentFiles: readonly string[];
