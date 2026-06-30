@@ -3279,6 +3279,7 @@
       "REFRESH": "Odśwież",
       "EDIT": "Edytuj",
       "PREVIOUS": "Poprzednie",
+      "BRANCH": "Rozgałęź stąd",
       "NEXT": "Następne",
       "CANCEL": "Anuluj",
       "UPDATE": "Zaktualizuj",
@@ -3473,7 +3474,9 @@
     "TRIGGER_ALERT_SELECT_DESC": "Wybierz opcję, aby kontynuować",
     "TRIGGER_ALERT_OK": "OK",
     "SUCCESS": {
-      "ERROR_COPIED": "Skopiowano szczegóły błędu"
+      "ERROR_COPIED": "Skopiowano szczegóły błędu",
+      "BRANCHED": "Rozgałęziono do nowego czatu",
+      "BRANCH_FAILED": "Nie udało się rozgałęzić czatu"
     },
     "CHAT_TOTAL": "Suma czatu",
     "STATS": {

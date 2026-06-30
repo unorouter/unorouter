@@ -3279,6 +3279,7 @@
       "REFRESH": "Refresh",
       "EDIT": "Edit",
       "PREVIOUS": "Previous",
+      "BRANCH": "Branch from here",
       "NEXT": "Next",
       "CANCEL": "Cancel",
       "UPDATE": "Update",
@@ -3473,7 +3474,9 @@
     "TRIGGER_ALERT_SELECT_DESC": "Choose an option to continue",
     "TRIGGER_ALERT_OK": "OK",
     "SUCCESS": {
-      "ERROR_COPIED": "Error details copied"
+      "ERROR_COPIED": "Error details copied",
+      "BRANCHED": "Branched into a new chat",
+      "BRANCH_FAILED": "Could not branch the chat"
     },
     "CHAT_TOTAL": "Chat Total",
     "STATS": {

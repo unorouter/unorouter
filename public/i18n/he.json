@@ -3279,6 +3279,7 @@
       "REFRESH": "רענן",
       "EDIT": "ערוך",
       "PREVIOUS": "קודם",
+      "BRANCH": "הסתעף מכאן",
       "NEXT": "הבא",
       "CANCEL": "ביטול",
       "UPDATE": "עדכן",
@@ -3473,7 +3474,9 @@
     "TRIGGER_ALERT_SELECT_DESC": "בחר אפשרות כדי להמשיך",
     "TRIGGER_ALERT_OK": "אישור",
     "SUCCESS": {
-      "ERROR_COPIED": "פרטי השגיאה הועתקו"
+      "ERROR_COPIED": "פרטי השגיאה הועתקו",
+      "BRANCHED": "הסתעף לצ'אט חדש",
+      "BRANCH_FAILED": "לא ניתן היה להסתעף"
     },
     "CHAT_TOTAL": "סך הצ'אט",
     "STATS": {

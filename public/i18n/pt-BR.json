@@ -3279,6 +3279,7 @@
       "REFRESH": "Atualizar",
       "EDIT": "Editar",
       "PREVIOUS": "Anterior",
+      "BRANCH": "Ramificar a partir daqui",
       "NEXT": "Próximo",
       "CANCEL": "Cancelar",
       "UPDATE": "Atualizar",
@@ -3473,7 +3474,9 @@
     "TRIGGER_ALERT_SELECT_DESC": "Escolha uma opção para continuar",
     "TRIGGER_ALERT_OK": "OK",
     "SUCCESS": {
-      "ERROR_COPIED": "Detalhes do erro copiados"
+      "ERROR_COPIED": "Detalhes do erro copiados",
+      "BRANCHED": "Ramificado em um novo chat",
+      "BRANCH_FAILED": "Não foi possível ramificar o chat"
     },
     "CHAT_TOTAL": "Total do chat",
     "STATS": {

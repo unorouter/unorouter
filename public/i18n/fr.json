@@ -3279,6 +3279,7 @@
       "REFRESH": "Actualiser",
       "EDIT": "Modifier",
       "PREVIOUS": "Précédent",
+      "BRANCH": "Bifurquer d'ici",
       "NEXT": "Suivant",
       "CANCEL": "Annuler",
       "UPDATE": "Mettre à jour",
@@ -3473,7 +3474,9 @@
     "TRIGGER_ALERT_SELECT_DESC": "Choisissez une option pour continuer",
     "TRIGGER_ALERT_OK": "OK",
     "SUCCESS": {
-      "ERROR_COPIED": "Détails de l'erreur copiés"
+      "ERROR_COPIED": "Détails de l'erreur copiés",
+      "BRANCHED": "Bifurqué dans un nouveau chat",
+      "BRANCH_FAILED": "Impossible de bifurquer le chat"
     },
     "CHAT_TOTAL": "Total du chat",
     "STATS": {

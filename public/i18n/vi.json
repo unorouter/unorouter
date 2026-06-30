@@ -3279,6 +3279,7 @@
       "REFRESH": "Làm mới",
       "EDIT": "Sửa",
       "PREVIOUS": "Trước",
+      "BRANCH": "Phân nhánh từ đây",
       "NEXT": "Tiếp",
       "CANCEL": "Hủy",
       "UPDATE": "Cập nhật",
@@ -3473,7 +3474,9 @@
     "TRIGGER_ALERT_SELECT_DESC": "Chọn một tùy chọn để tiếp tục",
     "TRIGGER_ALERT_OK": "OK",
     "SUCCESS": {
-      "ERROR_COPIED": "Đã sao chép chi tiết lỗi"
+      "ERROR_COPIED": "Đã sao chép chi tiết lỗi",
+      "BRANCHED": "Đã phân nhánh sang trò chuyện mới",
+      "BRANCH_FAILED": "Không thể phân nhánh trò chuyện"
     },
     "CHAT_TOTAL": "Tổng cuộc trò chuyện",
     "STATS": {

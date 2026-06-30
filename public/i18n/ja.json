@@ -3279,6 +3279,7 @@
       "REFRESH": "更新",
       "EDIT": "編集",
       "PREVIOUS": "前へ",
+      "BRANCH": "ここから分岐",
       "NEXT": "次へ",
       "CANCEL": "キャンセル",
       "UPDATE": "更新",
@@ -3473,7 +3474,9 @@
     "TRIGGER_ALERT_SELECT_DESC": "続行するにはオプションを選択してください",
     "TRIGGER_ALERT_OK": "OK",
     "SUCCESS": {
-      "ERROR_COPIED": "エラー詳細をコピーしました"
+      "ERROR_COPIED": "エラー詳細をコピーしました",
+      "BRANCHED": "新しいチャットに分岐しました",
+      "BRANCH_FAILED": "チャットを分岐できませんでした"
     },
     "CHAT_TOTAL": "チャット合計",
     "STATS": {

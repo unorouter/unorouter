@@ -3279,6 +3279,7 @@
       "REFRESH": "Aktualisieren",
       "EDIT": "Bearbeiten",
       "PREVIOUS": "Zurück",
+      "BRANCH": "Ab hier verzweigen",
       "NEXT": "Weiter",
       "CANCEL": "Abbrechen",
       "UPDATE": "Aktualisieren",
@@ -3473,7 +3474,9 @@
     "TRIGGER_ALERT_SELECT_DESC": "Wähle eine Option, um fortzufahren",
     "TRIGGER_ALERT_OK": "OK",
     "SUCCESS": {
-      "ERROR_COPIED": "Fehlerdetails kopiert"
+      "ERROR_COPIED": "Fehlerdetails kopiert",
+      "BRANCHED": "In einen neuen Chat verzweigt",
+      "BRANCH_FAILED": "Chat konnte nicht verzweigt werden"
     },
     "CHAT_TOTAL": "Chat-Gesamt",
     "STATS": {
