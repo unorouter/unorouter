@@ -1,6 +1,6 @@
 import { FormMessage } from "@/components/ui/form";
-import type { TranslationKey } from "@/lib/config/constants";
 import type { TObject } from "@sinclair/typebox/type";
+import { safeT } from "@/lib/utils/i18n";
 import { useTranslations } from "next-intl";
 
 type MyFormErrorProps = {
@@ -10,7 +10,11 @@ type MyFormErrorProps = {
 };
 
 export function MyFormError(props: MyFormErrorProps) {
-  const t = useTranslations();
+  // safeT takes a loose (string -> string) translator; next-intl's strict `t` widens to it.
+  const t = useTranslations() as (
+    key: string,
+    values?: Record<string, string | number | Date | undefined>,
+  ) => string;
 
   if (!props.error) return null;
 
@@ -18,27 +22,25 @@ export function MyFormError(props: MyFormErrorProps) {
 
   const cleanedName = props.name.replace(/\.\d+\./g, ".");
 
-  // next-intl returns the raw key on a missing translation; detect the passthrough and fall back to a humanized field name.
-  const typeKey = `FORM.TYPE.${cleanedName.toUpperCase()}`;
-  const translated = t(typeKey as TranslationKey);
-  const type =
-    translated === typeKey
-      ? cleanedName
-          .replace(/[._]/g, " ")
-          .replace(/\b\w/g, (c) => c.toUpperCase())
-      : translated;
+  // Humanized fallback: "base_url" -> "Base Url". Used when no FORM.TYPE.<NAME> key exists.
+  const humanized = cleanedName
+    .replace(/[._]/g, " ")
+    .replace(/\b\w/g, (c) => c.toUpperCase());
 
-  let error: string;
-  try {
-    error = t(props.error as TranslationKey, {
-      type,
-      minLength: property?.minLength,
-      maxLength: property?.maxLength,
-      minimum: property?.minimum,
-    });
-  } catch (_) {
-    error = props.error;
-  }
+  // FORM.TYPE.<NAME> field label is OPTIONAL (most fields lack one); safeT falls back to humanized.
+  const type = safeT(
+    t,
+    `FORM.TYPE.${cleanedName.toUpperCase()}`,
+    humanized,
+  );
+
+  // props.error may be a translation key OR a raw upstream string; safeT echoes it back if not a key.
+  const error = safeT(t, props.error, props.error, {
+    type,
+    minLength: property?.minLength,
+    maxLength: property?.maxLength,
+    minimum: property?.minimum,
+  });
 
   return <FormMessage className="text-xs font-bold">{error}</FormMessage>;
 }
