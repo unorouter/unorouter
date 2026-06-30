@@ -4120,6 +4120,7 @@
       "LOCAL_ONLY": "Prueba local, guardada solo en tu dispositivo. Publicala para que nuestro servidor la verifique y aparezca en la clasificacion publica.",
       "DISCLAIMER": "Las puntuaciones se calculan solo a partir de sondas verificadas en el servidor. Un modelo genuino confirma el proveedor y el nivel; la versión exacta nunca se afirma. Impugna un resultado que creas erróneo mediante los enlaces de abajo.",
       "SUBMISSIONS": "Envíos recientes",
+      "NO_SUBMISSIONS": "Aún no hay envíos. Sé el primero en publicar una prueba verificada.",
       "SUBMITTED_BY": "Enviado por {who}",
       "ANONYMOUS": "anónimo",
       "DELETE_MINE": "Eliminar",

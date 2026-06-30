@@ -6,13 +6,14 @@ import {
   testerProbes,
   testerProviders,
   testerTests,
-} from "@/lib/db/schema/client";
+} from "@/lib/db/schema/shared";
 import { uid as genId } from "@/lib/utils/base";
 import { and, desc, eq, inArray, sql } from "drizzle-orm";
 import { getLocalDb } from "../client";
 import type { TesterProbeRow, TesterTestRow } from "@/lib/db/schema/rows";
 import type { VerifyResult } from "@/lib/ai/verify/types";
 import type { VerifyProviderValue } from "@/lib/validation/model-tester";
+import type { TestResultDetail } from "@/lib/api/typebox/model-tester";
 
 // Aggregate rows for the grouped history (mirrors the rankings hierarchy).
 export type HistoryProviderRow = {
@@ -51,12 +52,45 @@ export type TestListItem = {
   publishedAt: Date | null;
 };
 
-export type TestDetail = {
-  test: TesterTestRow;
-  provider: { kind: VerifyProviderValue; baseUrlHost: string };
-  model: { requestedModel: string };
-  probes: TesterProbeRow[];
-};
+// Map a local test row + its provider/model/probes into the SHARED
+// TestResultDetail shape (same shape the server published-test read returns), so
+// one adapter (toResultCardData) renders history + rankings identically.
+function toTestResultDetail(
+  test: TesterTestRow,
+  provider: { kind: VerifyProviderValue; baseUrlHost: string },
+  model: { requestedModel: string },
+  probes: TesterProbeRow[],
+): TestResultDetail {
+  return {
+    model: model.requestedModel,
+    baseUrlHost: provider.baseUrlHost,
+    provider: provider.kind,
+    verdict: test.verdict,
+    versionUnverifiable: test.versionUnverifiable,
+    detectedModel: test.detectedModel,
+    probesPassed: test.probesPassed,
+    probesTotal: test.probesTotal,
+    totalTokens: test.totalTokens,
+    latencyMs: test.latencyMs,
+    transport: test.transport,
+    resolvedFormat: test.resolvedFormat ?? provider.kind,
+    formatFellBack: test.formatFellBack,
+    testedAt: test.testedAt.getTime(),
+    probes: probes.map((p) => ({
+      label: p.label,
+      pass: p.pass,
+      transient: p.transient,
+      signal: p.signal,
+      reason: p.reason,
+      prompt: p.prompt,
+      responseText: p.responseText,
+      httpStatus: p.httpStatus,
+      promptTokens: p.promptTokens,
+      completionTokens: p.completionTokens,
+      latencyMs: p.latencyMs,
+    })),
+  };
+}
 
 // find-or-create by unique key: INSERT OR IGNORE then SELECT.
 async function findOrCreateProvider(
@@ -168,6 +202,8 @@ export async function recordTestRun(
     totalTokens: result.totalUsage?.total ?? null,
     latencyMs: result.latencyMs,
     transport: result.transport,
+    resolvedFormat: result.resolvedProvider,
+    formatFellBack: result.resolvedProvider !== result.provider,
     testedAt: now,
     publishedAt: publish ? now : null,
   });
@@ -184,6 +220,7 @@ export async function recordTestRun(
       responseText: p.responseText,
       httpStatus: p.httpStatus,
       pass: p.pass,
+      transient: p.transient,
       signal: p.signal,
       reason: p.reason,
       promptTokens: p.usage?.prompt ?? null,
@@ -327,11 +364,14 @@ export async function readHistoryModelTests(
 
 // Full details (test + provider + model + probes) for every test of one model,
 // newest first. Powers the inline-accordion model-detail list (no deeper click).
+// A history detail carries the test id so the list can key + delete it.
+export type HistoryTestDetail = TestResultDetail & { id: string };
+
 export async function readHistoryModelTestDetails(
   userId: number | undefined,
   host: string,
   model: string,
-): Promise<TestDetail[]> {
+): Promise<HistoryTestDetail[]> {
   const uid = userId ?? GUEST_USER_ID;
   const local = await getLocalDb(uid);
   if (!local) return [];
@@ -371,17 +411,20 @@ export async function readHistoryModelTestDetails(
   }
 
   return tests.map((r) => ({
-    test: r.test,
-    provider: { kind: r.kind, baseUrlHost: r.baseUrlHost },
-    model: { requestedModel: r.requestedModel },
-    probes: byTest.get(r.test.id) ?? [],
+    id: r.test.id,
+    ...toTestResultDetail(
+      r.test,
+      { kind: r.kind, baseUrlHost: r.baseUrlHost },
+      { requestedModel: r.requestedModel },
+      byTest.get(r.test.id) ?? [],
+    ),
   }));
 }
 
 export async function readTestDetail(
   userId: number | undefined,
   testId: string,
-): Promise<TestDetail | null> {
+): Promise<HistoryTestDetail | null> {
   const uid = userId ?? GUEST_USER_ID;
   const local = await getLocalDb(uid);
   if (!local) return null;
@@ -415,10 +458,13 @@ export async function readTestDetail(
     .orderBy(testerProbes.orderIndex);
 
   return {
-    test,
-    provider: prov[0] ?? { kind: "", baseUrlHost: "" },
-    model: model[0] ?? { requestedModel: "" },
-    probes,
+    id: test.id,
+    ...toTestResultDetail(
+      test,
+      prov[0] ?? { kind: "openai", baseUrlHost: "" },
+      model[0] ?? { requestedModel: "" },
+      probes,
+    ),
   };
 }
 

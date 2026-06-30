@@ -4120,6 +4120,7 @@
       "LOCAL_ONLY": "Yerel test, yalnizca cihazinizda saklanir. Genel tabloda gorunmesi icin sunucumuzun dogrulayabilmesi adina yayinlayin.",
       "DISCLAIMER": "Puanlar yalnızca sunucuda doğrulanmış sondalardan hesaplanır. Gerçek bir model sağlayıcıyı ve kademeyi doğrular; tam sürüm asla iddia edilmez. Yanlış olduğunu düşündüğünüz bir sonuca aşağıdaki bağlantılardan itiraz edin.",
       "SUBMISSIONS": "Son gönderimler",
+      "NO_SUBMISSIONS": "Henüz gönderim yok. Doğrulanmış bir testi ilk yayımlayan siz olun.",
       "SUBMITTED_BY": "{who} tarafından gönderildi",
       "ANONYMOUS": "anonim",
       "DELETE_MINE": "Sil",

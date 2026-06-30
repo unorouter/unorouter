@@ -22,6 +22,9 @@ import type { TranslationKey } from "@/lib/types";
 export type ResultProbe = {
   label: string;
   pass: boolean;
+  // A transient failure (429/5xx/timeout/CORS/no-response). NOT a real fake
+  // signal: shown as an amber "skipped" marker, never red.
+  transient: boolean;
   signal: string | null;
   reason: string | null;
   prompt: string;
@@ -213,11 +216,8 @@ function ProbeRow(props: { probe: ResultProbe; provider: VerifyProvider }) {
       >
         <span className="flex items-center gap-2">
           <Icon
-            name={probe.pass ? "circle-check" : "circle-x"}
-            className={cn(
-              "size-4",
-              probe.pass ? "text-emerald-500" : "text-destructive",
-            )}
+            name={PROBE_TONE_ICON[probeTone(probe)]}
+            className={cn("size-4", PROBE_ROW_ICON_TONE[probeTone(probe)])}
           />
           {labelKey ? t(labelKey) : probe.label}
         </span>
@@ -305,25 +305,48 @@ function ProbeRow(props: { probe: ResultProbe; provider: VerifyProvider }) {
   );
 }
 
-// Compact pass/fail pill per probe, shown on the card header so all four probe
-// outcomes are visible WITHOUT expanding. Expanding only opens the deep detail.
+// A probe outcome has THREE states for display: pass (green), a transient skip
+// (amber: 429/5xx/timeout/no-response, not a real fake signal), and a genuine
+// fail (red). A failed-but-transient probe must never read as a real failure.
+type ProbeTone = "pass" | "transient" | "fail";
+function probeTone(probe: ResultProbe): ProbeTone {
+  if (probe.pass) return "pass";
+  return probe.transient ? "transient" : "fail";
+}
+
+const PROBE_PILL_TONE: Record<ProbeTone, string> = {
+  pass: "border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-400",
+  transient:
+    "border-amber-500/30 bg-amber-500/10 text-amber-700 dark:text-amber-400",
+  fail: "border-destructive/30 bg-destructive/10 text-destructive",
+};
+const PROBE_TONE_ICON: Record<ProbeTone, "circle-check" | "circle-alert" | "circle-x"> =
+  {
+    pass: "circle-check",
+    transient: "circle-alert",
+    fail: "circle-x",
+  };
+const PROBE_ROW_ICON_TONE: Record<ProbeTone, string> = {
+  pass: "text-emerald-500",
+  transient: "text-amber-500",
+  fail: "text-destructive",
+};
+
+// Compact pill per probe, shown on the card header so all four probe outcomes are
+// visible WITHOUT expanding. Expanding only opens the deep detail.
 function ProbePill(props: { probe: ResultProbe }) {
   const t = useTranslations();
   const probe = props.probe;
   const labelKey = PROBE_KEY[probe.label];
+  const tone = probeTone(probe);
   return (
     <span
       className={cn(
         "inline-flex items-center gap-1 rounded-md border px-1.5 py-0.5 text-xs",
-        probe.pass
-          ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-400"
-          : "border-destructive/30 bg-destructive/10 text-destructive",
+        PROBE_PILL_TONE[tone],
       )}
     >
-      <Icon
-        name={probe.pass ? "circle-check" : "circle-x"}
-        className="size-3"
-      />
+      <Icon name={PROBE_TONE_ICON[tone]} className="size-3" />
       {labelKey ? t(labelKey) : probe.label}
     </span>
   );

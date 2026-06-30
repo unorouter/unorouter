@@ -4120,6 +4120,7 @@
       "LOCAL_ONLY": "Bai kiem tra cuc bo, chi luu tren thiet bi cua ban. Hay dang de may chu cua chung toi xac minh va no xuat hien tren bang cong khai.",
       "DISCLAIMER": "Điểm số chỉ được tính từ các lượt thăm dò đã được máy chủ xác minh. Một mô hình chính hãng xác nhận nhà cung cấp và cấp bậc; phiên bản chính xác không bao giờ được khẳng định. Hãy khiếu nại một kết quả mà bạn cho là sai qua các liên kết bên dưới.",
       "SUBMISSIONS": "Lượt gửi gần đây",
+      "NO_SUBMISSIONS": "Chưa có bài gửi nào. Hãy là người đầu tiên đăng một bài kiểm tra đã xác minh.",
       "SUBMITTED_BY": "Được gửi bởi {who}",
       "ANONYMOUS": "ẩn danh",
       "DELETE_MINE": "Xóa",
