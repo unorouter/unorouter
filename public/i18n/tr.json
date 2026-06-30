@@ -1,8 +1,8 @@
 {
   "METADATA": {
     "TITLE": "{appName} - Her AI Modeli için Tek Anahtar",
-    "DESCRIPTION": "Her AI modeli için tek anahtar. Kodunuzda, Claude Code'da veya SillyTavern, Janitor.AI, RisuAI ve Chub'da kullanın. Tüm büyük sağlayıcılar arasında akıllı yönlendirme.",
-    "KEYWORDS": "AI API, birleşik AI endpoint, OpenAI alternatifi, Claude API, GPT API, Gemini API, DeepSeek API, AI router, AI gateway, çoklu model API, SillyTavern proxy, Janitor.AI proxy, Chub proxy, RisuAI, AI roleplay, character AI alternatifi",
+    "DESCRIPTION": "Her AI modeli için tek anahtar. Kodunuzda, Claude Code'da veya favori AI istemcilerinizde kullanın. Tüm büyük sağlayıcılar arasında akıllı yönlendirme.",
+    "KEYWORDS": "AI API, birleşik AI endpoint, OpenAI alternatifi, Claude API, GPT API, Gemini API, DeepSeek API, AI router, AI gateway, çoklu model API, OpenAI uyumlu API, AI sohbet istemcisi",
     "ACCOUNT": {
       "TITLE": "{appName} Hesabı",
       "DESC": "{appName} hesabınızı, tokenlerinizi, kullanımınızı ve faturalandırmanızı yönetin.",
@@ -159,7 +159,7 @@
         "DESC": "Konuşmalar tarayıcında yaşar, asla sunucumuzda değil. Kendi OpenAI uyumlu uç noktanı ve anahtarını da doğrudan tarayıcıdan kullan."
       },
       "CARD4": {
-        "TITLE": "Tam Rol Yapma",
+        "TITLE": "Karakter Sohbeti",
         "DESC": "Lorebook'lar, grup sohbeti, kaydırma ve gerçek bir RP motoru, oyuncak değil."
       },
       "CTA_OPEN": "Sohbeti aç",
@@ -296,8 +296,8 @@
     },
     "META": {
       "TITLE": "{appName} - Her AI Modeli için Tek Anahtar",
-      "DESCRIPTION": "Her AI modeli için tek anahtar. Kodunuzda, Claude Code'da veya SillyTavern, Janitor.AI, RisuAI ve Chub'da kullanın. Tüm büyük sağlayıcılar arasında akıllı yönlendirme.",
-      "KEYWORDS": "AI API gateway, birleşik AI endpoint, OpenAI uyumlu, Claude API, GPT API, Gemini API, otomatik failover, akıllı yönlendirme, SillyTavern proxy, Janitor.AI proxy, Chub proxy, RisuAI, AI roleplay, character AI alternatifi"
+      "DESCRIPTION": "Her AI modeli için tek anahtar. Kodunuzda, Claude Code'da veya favori AI istemcilerinizde kullanın. Tüm büyük sağlayıcılar arasında akıllı yönlendirme.",
+      "KEYWORDS": "AI API gateway, birleşik AI endpoint, OpenAI uyumlu, Claude API, GPT API, Gemini API, otomatik failover, akıllı yönlendirme, çoklu model API, AI sohbet istemcisi"
     },
     "TITLE": "{appName}"
   },
@@ -410,7 +410,7 @@
     "META": {
       "TITLE": "AI Modelleri - {appName}",
       "DESCRIPTION": "Tek yerde her AI modeli. GPT, Claude, Gemini, DeepSeek ve daha fazlası. Kodunuzda veya SillyTavern, Janitor.AI, RisuAI ve Chub'da kullanın. Her ikisi için aynı fiyat.",
-      "KEYWORDS": "AI modelleri, model kütüphanesi, AI fiyatlandırması, GPT modelleri, Claude modelleri, Gemini modelleri, DeepSeek modelleri, AI model karşılaştırması, roleplay AI modelleri, SillyTavern modelleri, Janitor.AI modelleri, character AI modelleri"
+      "KEYWORDS": "AI modelleri, model kütüphanesi, AI fiyatlandırması, GPT modelleri, Claude modelleri, Gemini modelleri, DeepSeek modelleri, AI model karşılaştırması, çoklu model API, AI sohbet modelleri"
     },
     "BADGE": "Model Kütüphanesi",
     "TITLE": "Model Kütüphanesi",
@@ -1048,7 +1048,7 @@
     "META": {
       "TITLE": "Fiyatlandırma - {appName}",
       "DESCRIPTION": "Her AI modeli için basit fiyatlandırma. Daha iyi değer için abone olun veya kullandıkça ödeyin. Kodunuzda, Claude Code'da ve SillyTavern, Janitor.AI, RisuAI ve Chub'da çalışır.",
-      "KEYWORDS": "AI API fiyatlandırma, AI abonelik, token başına ödeme, AI model fiyatlandırma, ucuz AI API, uygun fiyatlı AI, SillyTavern fiyatlandırma, Janitor.AI fiyatlandırma, roleplay AI fiyatlandırma, character AI fiyatlandırma"
+      "KEYWORDS": "AI API fiyatlandırma, AI abonelik, token başına ödeme, AI model fiyatlandırma, ucuz AI API, uygun fiyatlı AI, OpenAI uyumlu fiyatlandırma, çoklu model API fiyatlandırma"
     },
     "TITLE": "Fiyatlandırma",
     "SUBTITLE": "İster bir uygulama yayınlıyor olun ister uzun roleplay oturumları çalıştırıyor olun. Bir plan, her model.",
@@ -2314,7 +2314,8 @@
     "SOCIAL_TRUSTPILOT": "Trustpilot",
     "EASTER_EGG_LABEL": "Token Breakout Oyna",
     "BADGE_FEATURED_ON": "{name} üzerinde öne çıkan",
-    "BADGE_VERIFIED_ON": "{name} üzerinde doğrulandı"
+    "BADGE_VERIFIED_ON": "{name} üzerinde doğrulandı",
+    "AUP": "Kabul Edilebilir Kullanım Politikası"
   },
   "PRIVACY": {
     "META": {
@@ -2376,7 +2377,7 @@
     "USER_CONTENT_TITLE": "5. Kullanıcı İçeriği ve Verisi",
     "USER_CONTENT_CONTENT": "Hizmetler aracılığıyla gönderdiğiniz içeriğin (\"Kullanıcı İçeriği\") sahipliğini korursunuz. AI tarafından üretilen çıktıların sahipliği, kullanılan belirli AI modelinin şartlarına bağlıdır. Kullanıcı İçeriğinizi AI modelleri eğitmek için kullanmıyoruz. Kullanıcı İçeriğinizi yalnızca Hizmetleri sağlama amacıyla işlememiz için sınırlı bir lisans verirsiniz.",
     "PROHIBITED_TITLE": "6. Yasaklı Davranış",
-    "PROHIBITED_CONTENT": "Hizmetleri herhangi bir geçerli yasa veya yönetmeliği ihlal etmek; sahte kimlikler oluşturmak veya başkalarını taklit etmek; otomatik scraping veya veri madenciliğine katılmak; üçüncü taraf fikri mülkiyet haklarını ihlal etmek; Hizmetleri kesintiye uğratmaya, aşırı yüklemeye veya müdahale etmeye çalışmak; sahte faaliyetlere katılmak; veya yetki olmadan hesabınıza erişimi yeniden satmak için kullanmayı kabul etmezsiniz.",
+    "PROHIBITED_CONTENT": "Hizmetleri herhangi bir geçerli yasa veya yönetmeliği ihlal etmek; sahte kimlikler oluşturmak veya başkalarını taklit etmek; otomatik scraping veya veri madenciliğine katılmak; üçüncü taraf fikri mülkiyet haklarını ihlal etmek; Hizmetleri kesintiye uğratmaya, aşırı yüklemeye veya müdahale etmeye çalışmak; sahte faaliyetlere katılmak; veya yetki olmadan hesabınıza erişimi yeniden satmak için kullanmayı kabul etmezsiniz veya cinsel içerikli, pornografik ya da NSFW içerik, çocukların cinsel istismarına yönelik materyal, rıza dışı cinsel içerik ya da deepfake ve yüz değiştirme görselleri üretmek, talep etmek veya dağıtmak için kullanmamayı kabul edersiniz. Hizmetleri kullanımınız ayrıca Kabul Edilebilir Kullanım Politikamıza tabidir.",
     "TERMINATION_TITLE": "7. Sonlandırma",
     "TERMINATION_CONTENT": "Hesabınızı bu Şartların ihlali dahil herhangi bir nedenle herhangi bir zamanda askıya alabilir veya sonlandırabiliriz. Sonlandırma üzerine (ihlaller hariç), kalan kullanılmamış krediler takdirimize bağlı olarak iade edilebilir. Hesabınızı bizimle iletişime geçerek herhangi bir zamanda sonlandırabilirsiniz.",
     "IP_TITLE": "8. Fikri Mülkiyet",
@@ -2429,6 +2430,30 @@
     "CHANGES_CONTENT": "Gelişen tüketici koruma çerçevelerine uyumu sürdürmek için bu İade Politikasını dilediğimiz zaman değiştirebiliriz. Güncellemeler, gözden geçirilmiş bir tarihle bu sayfaya yansıtılır ve gerektiğinde önemli değişiklikler hakkında etkilenen müşteriler önceden bilgilendirilir.",
     "CONTACT_TITLE": "8. Bize Ulaşın",
     "CONTACT_CONTENT": "İade talepleri veya bu politika hakkındaki sorularınız için lütfen {supportEmail} adresinden bizimle iletişime geçin."
+  },
+  "AUP": {
+    "TITLE": "Kabul Edilebilir Kullanım Politikası",
+    "LAST_UPDATED": "Son Güncelleme: 30 Haziran 2026",
+    "META": {
+      "TITLE": "Kabul Edilebilir Kullanım Politikası - {appName}",
+      "DESCRIPTION": "{appName} için Kabul Edilebilir Kullanım Politikası. Cinsel içerikli, NSFW, deepfake ve zararlı içerik üretiminin yasaklanması da dahil olmak üzere yasaklı içerik ve davranışlar.",
+      "KEYWORDS": "kabul edilebilir kullanım politikası, {appName} AUP, yasaklı içerik, içerik politikası, AI kullanım politikası, NSFW yasağı"
+    },
+    "INTRO": "Bu Kabul Edilebilir Kullanım Politikası, isteklerinizi üçüncü taraf AI model sağlayıcılarına yönlendiren bir API toplama platformu olan {appName} kullanımınızı düzenler. Sohbet, görsel üretimi ve video üretimi dahil olmak üzere {appName} öğesinin her özelliği için geçerlidir. Hizmetleri kullanarak, Hizmet Şartlarımıza ek olarak aşağıdaki kuralları kabul etmiş olursunuz.",
+    "PROHIBITED_CONTENT_TITLE": "Yasaklı İçerik",
+    "PROHIBITED_CONTENT_CONTENT": "Hizmetleri her türlü cinsel içerikli, pornografik veya NSFW içerik, çocukların cinsel istismarına yönelik materyal, reşit olmayanları cinselleştiren içerik veya rıza dışı cinsel ya da mahrem içerik üretmek, talep etmek, yüklemek veya dağıtmak için kullanamazsınız. Bu yasak, içeriğin platformumuzda ya da bağlı bir üçüncü taraf istemci üzerinden üretilmesinden bağımsız olarak metin, görsel ve videoya uygulanır.",
+    "PROHIBITED_DEEPFAKE_TITLE": "Deepfake ve Kimliğe Bürünme",
+    "PROHIBITED_DEEPFAKE_CONTENT": "Hizmetleri yüz değiştirme, deepfake veya yüz manipülasyonu medyası oluşturmak ya da gerçek herhangi bir kişiyi onayı olmadan taklit etmek için kullanamazsınız. Tanınabilir kişilerin gerçekçi tasvirlerini aldatmak, taciz etmek veya iftira atmak amacıyla üretmek kesinlikle yasaktır.",
+    "PROHIBITED_HARM_TITLE": "Zararlı ve Yasa Dışı Kullanım",
+    "PROHIBITED_HARM_CONTENT": "Hizmetleri şiddeti, terörizmi, kendine zarar vermeyi, tacizi, korunan gruplara yönelik nefreti veya herhangi bir yasa dışı faaliyeti teşvik eden içerik üretmek için, ayrıca kötü amaçlı yazılım geliştirmek, dolandırıcılık yapmak veya başkalarına başka şekilde zarar vermek için kullanamazsınız.",
+    "UPSTREAM_MODERATION_TITLE": "Üçüncü Taraf Sağlayıcılar",
+    "UPSTREAM_MODERATION_CONTENT": "{appName}, istemlerinizi her biri kendi içerik politikalarını uygulayan ve istekleri reddedebilen veya filtreleyebilen üçüncü taraf AI sağlayıcılarına iletir. Kullanımınızın hem bu Politikaya hem de temel sağlayıcıların politikalarına uygun olmasını sağlamaktan siz sorumlusunuz. Görsel veya video üretiminden önce istemleri inceleyebilir ve bu Politikayı ihlal eden istekleri engelleyebiliriz.",
+    "ENFORCEMENT_TITLE": "Uygulama",
+    "ENFORCEMENT_CONTENT": "Kullanımı inceleyebilir ve bu Politikanın ihlallerine karşı, istekleri engellemek, hesapları askıya almak veya sonlandırmak ve yasa dışı faaliyetleri ilgili makamlara bildirmek dahil olmak üzere işlem yapabiliriz. İhlaller, yasaların gerektirdiği durumlarda veya zararı önlemek için önceden bildirimde bulunmaksızın uygulanabilir.",
+    "CHANGES_TITLE": "Bu Politikadaki Değişiklikler",
+    "CHANGES_CONTENT": "Bu Kabul Edilebilir Kullanım Politikasını zaman zaman güncelleyebiliriz. Değişiklikler yürürlüğe girdikten sonra Hizmetleri kullanmaya devam etmeniz, revize edilen Politikayı kabul ettiğiniz anlamına gelir.",
+    "CONTACT_TITLE": "İletişim",
+    "CONTACT_CONTENT": "Bu Kabul Edilebilir Kullanım Politikası hakkında sorularınız varsa lütfen {supportEmail} adresinden bizimle iletişime geçin."
   },
   "MAIN": {
     "ENUM": {

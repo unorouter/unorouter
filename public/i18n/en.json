@@ -1,8 +1,8 @@
 {
   "METADATA": {
     "TITLE": "{appName} - One Key for Every AI Model",
-    "DESCRIPTION": "One key for every AI model. Use it in your code, in Claude Code, or in SillyTavern, Janitor.AI, RisuAI, and Chub. Smart routing across every major provider.",
-    "KEYWORDS": "AI API, unified AI endpoint, OpenAI alternative, Claude API, GPT API, Gemini API, DeepSeek API, AI router, AI gateway, multi-model API, SillyTavern proxy, Janitor.AI proxy, Chub proxy, RisuAI, AI roleplay, character AI alternative",
+    "DESCRIPTION": "One key for every AI model. Use it in your code, in Claude Code, or in your favorite AI clients. Smart routing across every major provider.",
+    "KEYWORDS": "AI API, unified AI endpoint, OpenAI alternative, Claude API, GPT API, Gemini API, DeepSeek API, AI router, AI gateway, multi-model API, OpenAI-compatible API, AI chat client",
     "ACCOUNT": {
       "TITLE": "{appName} Account",
       "DESC": "Manage your {appName} account, tokens, usage and billing.",
@@ -159,7 +159,7 @@
         "DESC": "Conversations live in your browser, never on our server. Bring your own OpenAI-compatible endpoint and key too, fired straight from the browser."
       },
       "CARD4": {
-        "TITLE": "Full Roleplay",
+        "TITLE": "Character Chat",
         "DESC": "Lorebooks, group chat, swipes, and a real RP engine, not a toy box."
       },
       "CTA_OPEN": "Open Chat",
@@ -296,8 +296,8 @@
     },
     "META": {
       "TITLE": "{appName} - One Key for Every AI Model",
-      "DESCRIPTION": "One key for every AI model. Use it in your code, in Claude Code, or in SillyTavern, Janitor.AI, RisuAI, and Chub. Smart routing across every major provider.",
-      "KEYWORDS": "AI API gateway, unified AI endpoint, OpenAI compatible, Claude API, GPT API, Gemini API, automatic failover, smart routing, SillyTavern proxy, Janitor.AI proxy, Chub proxy, RisuAI, AI roleplay, character AI alternative"
+      "DESCRIPTION": "One key for every AI model. Use it in your code, in Claude Code, or in your favorite AI clients. Smart routing across every major provider.",
+      "KEYWORDS": "AI API gateway, unified AI endpoint, OpenAI compatible, Claude API, GPT API, Gemini API, automatic failover, smart routing, multi-model API, AI chat client"
     },
     "TITLE": "{appName}"
   },
@@ -410,7 +410,7 @@
     "META": {
       "TITLE": "AI Models - {appName}",
       "DESCRIPTION": "Every AI model in one place. GPT, Claude, Gemini, DeepSeek and more. Use them in your code or in SillyTavern, Janitor.AI, RisuAI, and Chub. Same pricing for both.",
-      "KEYWORDS": "AI models, model library, AI pricing, GPT models, Claude models, Gemini models, DeepSeek models, AI model comparison, roleplay AI models, SillyTavern models, Janitor.AI models, character AI models"
+      "KEYWORDS": "AI models, model library, AI pricing, GPT models, Claude models, Gemini models, DeepSeek models, AI model comparison, multi-model API, AI chat models"
     },
     "BADGE": "Model Library",
     "TITLE": "Model Library",
@@ -1048,7 +1048,7 @@
     "META": {
       "TITLE": "Pricing - {appName}",
       "DESCRIPTION": "Simple pricing for every AI model. Subscribe for better value or pay as you go. Works with your code, with Claude Code, and with SillyTavern, Janitor.AI, RisuAI, and Chub.",
-      "KEYWORDS": "AI API pricing, AI subscription, pay per token, AI model pricing, cheap AI API, affordable AI, SillyTavern pricing, Janitor.AI pricing, roleplay AI pricing, character AI pricing"
+      "KEYWORDS": "AI API pricing, AI subscription, pay per token, AI model pricing, cheap AI API, affordable AI, OpenAI-compatible pricing, multi-model API pricing"
     },
     "TITLE": "Pricing",
     "SUBTITLE": "Whether you are shipping an app or running long roleplay sessions. One plan, every model.",
@@ -2314,7 +2314,8 @@
     "SOCIAL_TRUSTPILOT": "Trustpilot",
     "EASTER_EGG_LABEL": "Play Token Breakout",
     "BADGE_FEATURED_ON": "Featured on {name}",
-    "BADGE_VERIFIED_ON": "Verified on {name}"
+    "BADGE_VERIFIED_ON": "Verified on {name}",
+    "AUP": "Acceptable Use Policy"
   },
   "PRIVACY": {
     "META": {
@@ -2376,7 +2377,7 @@
     "USER_CONTENT_TITLE": "5. User Content and Data",
     "USER_CONTENT_CONTENT": "You retain ownership of the content you submit through the Services (\"User Content\"). Ownership of AI-generated outputs depends on the terms of the specific AI model used. We do not use your User Content to train AI models. You grant us a limited license to process your User Content solely for the purpose of providing the Services.",
     "PROHIBITED_TITLE": "6. Prohibited Conduct",
-    "PROHIBITED_CONTENT": "You agree not to use the Services to violate any applicable laws or regulations; create false identities or impersonate others; engage in automated scraping or data mining; infringe on third-party intellectual property rights; attempt to disrupt, overload, or interfere with the Services; engage in fraudulent activity; or resell access to your account without authorization.",
+    "PROHIBITED_CONTENT": "You agree not to use the Services to violate any applicable laws or regulations; create false identities or impersonate others; engage in automated scraping or data mining; infringe on third-party intellectual property rights; attempt to disrupt, overload, or interfere with the Services; engage in fraudulent activity; resell access to your account without authorization; or generate, request, or distribute sexually explicit, pornographic, or NSFW content, child sexual abuse material, non-consensual sexual content, or deepfake and face-swap imagery. Your use of the Services is also governed by our Acceptable Use Policy.",
     "TERMINATION_TITLE": "7. Termination",
     "TERMINATION_CONTENT": "We may suspend or terminate your account at any time for any reason, including violation of these Terms. Upon termination (except for violations), any remaining unused credits may be refunded at our discretion. You may terminate your account at any time by contacting us.",
     "IP_TITLE": "8. Intellectual Property",
@@ -2429,6 +2430,30 @@
     "CHANGES_CONTENT": "We may amend this Refund Policy at any time to maintain compliance with evolving consumer protection frameworks. Updates will be reflected on this page with a revised date, and where required, affected customers will be notified in advance of significant changes.",
     "CONTACT_TITLE": "8. Contact Us",
     "CONTACT_CONTENT": "For refund requests or any questions about this policy, please contact us at {supportEmail}."
+  },
+  "AUP": {
+    "TITLE": "Acceptable Use Policy",
+    "LAST_UPDATED": "Last Updated: June 30, 2026",
+    "META": {
+      "TITLE": "Acceptable Use Policy - {appName}",
+      "DESCRIPTION": "Acceptable Use Policy for {appName}. Prohibited content and conduct, including a ban on sexually explicit, NSFW, deepfake, and harmful content generation.",
+      "KEYWORDS": "acceptable use policy, {appName} AUP, prohibited content, content policy, AI usage policy, NSFW prohibition"
+    },
+    "INTRO": "This Acceptable Use Policy governs your use of {appName}, an API aggregation platform that routes your requests to third-party AI model providers. It applies to every feature of {appName}, including chat, image generation, and video generation. By using the Services you agree to the rules below in addition to our Terms of Service.",
+    "PROHIBITED_CONTENT_TITLE": "Prohibited Content",
+    "PROHIBITED_CONTENT_CONTENT": "You may not use the Services to generate, request, upload, or distribute sexually explicit, pornographic, or NSFW content of any kind, child sexual abuse material, content that sexualizes minors, or non-consensual sexual or intimate content. This prohibition applies to text, images, and video, whether the content is produced on our platform or through a connected third-party client.",
+    "PROHIBITED_DEEPFAKE_TITLE": "Deepfakes and Impersonation",
+    "PROHIBITED_DEEPFAKE_CONTENT": "You may not use the Services to create face-swap, deepfake, or face-manipulation media, or to impersonate any real person without their consent. Generating realistic depictions of identifiable individuals to deceive, harass, or defame is strictly prohibited.",
+    "PROHIBITED_HARM_TITLE": "Harmful and Illegal Use",
+    "PROHIBITED_HARM_CONTENT": "You may not use the Services to produce content that promotes violence, terrorism, self-harm, harassment, hate against protected groups, or any illegal activity, nor to develop malware, conduct fraud, or otherwise cause harm to others.",
+    "UPSTREAM_MODERATION_TITLE": "Third-Party Providers",
+    "UPSTREAM_MODERATION_CONTENT": "{appName} forwards your prompts to third-party AI providers, each of which enforces its own content policies and may refuse or filter requests. You are responsible for ensuring your use complies with both this Policy and the policies of the underlying providers. We may screen prompts before image or video generation and block requests that violate this Policy.",
+    "ENFORCEMENT_TITLE": "Enforcement",
+    "ENFORCEMENT_CONTENT": "We may review usage and act on violations of this Policy, including blocking requests, suspending or terminating accounts, and reporting illegal activity to the appropriate authorities. Violations may be enforced without prior notice where required by law or to prevent harm.",
+    "CHANGES_TITLE": "Changes to This Policy",
+    "CHANGES_CONTENT": "We may update this Acceptable Use Policy from time to time. Continued use of the Services after changes take effect constitutes acceptance of the revised Policy.",
+    "CONTACT_TITLE": "Contact",
+    "CONTACT_CONTENT": "If you have questions about this Acceptable Use Policy, please contact us at {supportEmail}."
   },
   "MAIN": {
     "ENUM": {

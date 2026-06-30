@@ -1,8 +1,8 @@
 {
   "METADATA": {
     "TITLE": "{appName} - Una chiave per ogni modello AI",
-    "DESCRIPTION": "Una chiave per ogni modello AI. Usala nel tuo codice, in Claude Code, o in SillyTavern, Janitor.AI, RisuAI e Chub. Routing intelligente su tutti i principali provider.",
-    "KEYWORDS": "API AI, endpoint AI unificato, alternativa OpenAI, API Claude, API GPT, API Gemini, API DeepSeek, router AI, gateway AI, API multi-modello, proxy SillyTavern, proxy Janitor.AI, proxy Chub, RisuAI, roleplay AI, alternativa character AI",
+    "DESCRIPTION": "Una chiave per ogni modello AI. Usala nel tuo codice, in Claude Code, o nei tuoi client AI preferiti. Routing intelligente su tutti i principali provider.",
+    "KEYWORDS": "API AI, endpoint AI unificato, alternativa OpenAI, API Claude, API GPT, API Gemini, API DeepSeek, router AI, gateway AI, API multi-modello, API compatibile con OpenAI, client di chat AI",
     "ACCOUNT": {
       "TITLE": "Account {appName}",
       "DESC": "Gestisci il tuo account {appName}, token, utilizzo e fatturazione.",
@@ -159,7 +159,7 @@
         "DESC": "Le conversazioni vivono nel tuo browser, mai sul nostro server. Collega anche il tuo endpoint e la tua chiave compatibili con OpenAI, direttamente dal browser."
       },
       "CARD4": {
-        "TITLE": "Ruolo completo",
+        "TITLE": "Chat con personaggi",
         "DESC": "Lorebook, chat di gruppo, swipe e un vero motore di RP, non un giocattolo."
       },
       "CTA_OPEN": "Apri la chat",
@@ -296,8 +296,8 @@
     },
     "META": {
       "TITLE": "{appName} - Una chiave per ogni modello AI",
-      "DESCRIPTION": "Una chiave per ogni modello AI. Usala nel tuo codice, in Claude Code, o in SillyTavern, Janitor.AI, RisuAI e Chub. Routing intelligente su tutti i principali provider.",
-      "KEYWORDS": "gateway API AI, endpoint AI unificato, compatibile con OpenAI, API Claude, API GPT, API Gemini, failover automatico, routing intelligente, proxy SillyTavern, proxy Janitor.AI, proxy Chub, RisuAI, roleplay AI, alternativa character AI"
+      "DESCRIPTION": "Una chiave per ogni modello AI. Usala nel tuo codice, in Claude Code, o nei tuoi client AI preferiti. Routing intelligente su tutti i principali provider.",
+      "KEYWORDS": "gateway API AI, endpoint AI unificato, compatibile con OpenAI, API Claude, API GPT, API Gemini, failover automatico, routing intelligente, API multi-modello, client di chat AI"
     },
     "TITLE": "{appName}"
   },
@@ -410,7 +410,7 @@
     "META": {
       "TITLE": "Modelli AI - {appName}",
       "DESCRIPTION": "Ogni modello AI in un unico posto. GPT, Claude, Gemini, DeepSeek e altro. Usali nel tuo codice o in SillyTavern, Janitor.AI, RisuAI e Chub. Stesso prezzo per entrambi.",
-      "KEYWORDS": "modelli AI, libreria di modelli, prezzi AI, modelli GPT, modelli Claude, modelli Gemini, modelli DeepSeek, confronto modelli AI, modelli AI per roleplay, modelli SillyTavern, modelli Janitor.AI, modelli character AI"
+      "KEYWORDS": "modelli AI, libreria di modelli, prezzi AI, modelli GPT, modelli Claude, modelli Gemini, modelli DeepSeek, confronto modelli AI, API multi-modello, modelli di chat AI"
     },
     "BADGE": "Libreria di modelli",
     "TITLE": "Libreria di modelli",
@@ -1048,7 +1048,7 @@
     "META": {
       "TITLE": "Prezzi - {appName}",
       "DESCRIPTION": "Prezzi semplici per ogni modello AI. Abbonati per maggior valore o paga a consumo. Funziona con il tuo codice, con Claude Code, e con SillyTavern, Janitor.AI, RisuAI e Chub.",
-      "KEYWORDS": "prezzi API AI, abbonamento AI, pagamento per token, prezzi modelli AI, API AI economica, AI accessibile, prezzi SillyTavern, prezzi Janitor.AI, prezzi AI roleplay, prezzi character AI"
+      "KEYWORDS": "prezzi API AI, abbonamento AI, pagamento per token, prezzi modelli AI, API AI economica, AI accessibile, prezzi compatibili con OpenAI, prezzi API multi-modello"
     },
     "TITLE": "Prezzi",
     "SUBTITLE": "Che tu stia spedendo un'app o eseguendo lunghe sessioni di roleplay. Un piano, ogni modello.",
@@ -2314,7 +2314,8 @@
     "SOCIAL_TRUSTPILOT": "Trustpilot",
     "EASTER_EGG_LABEL": "Gioca Token Breakout",
     "BADGE_FEATURED_ON": "In evidenza su {name}",
-    "BADGE_VERIFIED_ON": "Verificato su {name}"
+    "BADGE_VERIFIED_ON": "Verificato su {name}",
+    "AUP": "Politica di utilizzo accettabile"
   },
   "PRIVACY": {
     "META": {
@@ -2376,7 +2377,7 @@
     "USER_CONTENT_TITLE": "5. Contenuto utente e dati",
     "USER_CONTENT_CONTENT": "Mantieni la proprietà del contenuto che invii tramite i Servizi (\"Contenuto utente\"). La proprietà degli output generati da AI dipende dai termini del modello AI specifico usato. Non usiamo il tuo Contenuto utente per addestrare modelli AI. Ci concedi una licenza limitata per elaborare il tuo Contenuto utente esclusivamente allo scopo di fornire i Servizi.",
     "PROHIBITED_TITLE": "6. Condotta proibita",
-    "PROHIBITED_CONTENT": "Accetti di non usare i Servizi per violare leggi o regolamenti applicabili; creare false identità o impersonare altri; impegnarti in scraping automatizzato o data mining; violare diritti di proprietà intellettuale di terzi; tentare di interrompere, sovraccaricare o interferire con i Servizi; impegnarti in attività fraudolente; o rivendere accesso al tuo account senza autorizzazione.",
+    "PROHIBITED_CONTENT": "Accetti di non usare i Servizi per violare leggi o regolamenti applicabili; creare false identità o impersonare altri; impegnarti in scraping automatizzato o data mining; violare diritti di proprietà intellettuale di terzi; tentare di interrompere, sovraccaricare o interferire con i Servizi; impegnarti in attività fraudolente; o rivendere accesso al tuo account senza autorizzazione; o generare, richiedere o distribuire contenuti sessualmente espliciti, pornografici o NSFW, materiale pedopornografico, contenuti sessuali non consensuali, o immagini deepfake e di face-swap. Il tuo utilizzo dei Servizi è inoltre disciplinato dalla nostra Politica di utilizzo accettabile.",
     "TERMINATION_TITLE": "7. Risoluzione",
     "TERMINATION_CONTENT": "Possiamo sospendere o risolvere il tuo account in qualsiasi momento per qualsiasi motivo, inclusa la violazione di questi Termini. Alla risoluzione (eccetto per violazioni), qualsiasi credito rimanente non utilizzato può essere rimborsato a nostra discrezione. Puoi risolvere il tuo account in qualsiasi momento contattandoci.",
     "IP_TITLE": "8. Proprietà intellettuale",
@@ -2429,6 +2430,30 @@
     "CHANGES_CONTENT": "Possiamo modificare questa Politica di rimborso in qualsiasi momento per mantenere la conformità con i quadri di protezione dei consumatori in evoluzione. Gli aggiornamenti saranno riportati in questa pagina con una data revisionata e, ove richiesto, i clienti interessati saranno informati in anticipo delle modifiche significative.",
     "CONTACT_TITLE": "8. Contattaci",
     "CONTACT_CONTENT": "Per richieste di rimborso o domande su questa politica, contattaci all'indirizzo {supportEmail}."
+  },
+  "AUP": {
+    "TITLE": "Politica di utilizzo accettabile",
+    "LAST_UPDATED": "Ultimo aggiornamento: 30 giugno 2026",
+    "META": {
+      "TITLE": "Politica di utilizzo accettabile - {appName}",
+      "DESCRIPTION": "Politica di utilizzo accettabile di {appName}. Contenuti e condotte vietati, incluso il divieto di generare contenuti sessualmente espliciti, NSFW, deepfake e dannosi.",
+      "KEYWORDS": "politica di utilizzo accettabile, {appName} AUP, contenuti vietati, politica sui contenuti, politica di utilizzo dell'IA, divieto NSFW"
+    },
+    "INTRO": "Questa Politica di utilizzo accettabile disciplina l'uso di {appName}, una piattaforma di aggregazione di API che instrada le tue richieste a fornitori terzi di modelli di IA. Si applica a ogni funzionalità di {appName}, inclusi chat, generazione di immagini e generazione di video. Utilizzando i Servizi accetti le regole riportate di seguito, oltre ai nostri Termini di servizio.",
+    "PROHIBITED_CONTENT_TITLE": "Contenuti vietati",
+    "PROHIBITED_CONTENT_CONTENT": "Non puoi utilizzare i Servizi per generare, richiedere, caricare o distribuire contenuti sessualmente espliciti, pornografici o NSFW di qualsiasi tipo, materiale pedopornografico, contenuti che sessualizzano minori, o contenuti sessuali o intimi non consensuali. Questo divieto si applica a testo, immagini e video, sia che il contenuto sia prodotto sulla nostra piattaforma sia tramite un client terzo collegato.",
+    "PROHIBITED_DEEPFAKE_TITLE": "Deepfake e furto d'identità",
+    "PROHIBITED_DEEPFAKE_CONTENT": "Non puoi utilizzare i Servizi per creare contenuti di face-swap, deepfake o manipolazione del volto, né per impersonare qualsiasi persona reale senza il suo consenso. Generare rappresentazioni realistiche di individui identificabili per ingannare, molestare o diffamare è severamente vietato.",
+    "PROHIBITED_HARM_TITLE": "Uso dannoso e illegale",
+    "PROHIBITED_HARM_CONTENT": "Non puoi utilizzare i Servizi per produrre contenuti che promuovono violenza, terrorismo, autolesionismo, molestie, odio verso gruppi protetti o qualsiasi attività illegale, né per sviluppare malware, commettere frodi o arrecare in altro modo danno ad altri.",
+    "UPSTREAM_MODERATION_TITLE": "Fornitori terzi",
+    "UPSTREAM_MODERATION_CONTENT": "{appName} inoltra i tuoi prompt a fornitori di IA terzi, ciascuno dei quali applica le proprie politiche sui contenuti e può rifiutare o filtrare le richieste. Sei responsabile di garantire che il tuo utilizzo sia conforme sia alla presente Politica sia alle politiche dei fornitori sottostanti. Possiamo esaminare i prompt prima della generazione di immagini o video e bloccare le richieste che violano la presente Politica.",
+    "ENFORCEMENT_TITLE": "Applicazione",
+    "ENFORCEMENT_CONTENT": "Possiamo esaminare l'utilizzo e agire in caso di violazioni della presente Politica, incluso il blocco delle richieste, la sospensione o la chiusura degli account e la segnalazione di attività illegali alle autorità competenti. Le violazioni possono essere sanzionate senza preavviso, ove richiesto dalla legge o per prevenire danni.",
+    "CHANGES_TITLE": "Modifiche alla presente Politica",
+    "CHANGES_CONTENT": "Possiamo aggiornare di tanto in tanto questa Politica di utilizzo accettabile. L'uso continuato dei Servizi dopo l'entrata in vigore delle modifiche costituisce accettazione della Politica rivista.",
+    "CONTACT_TITLE": "Contatti",
+    "CONTACT_CONTENT": "Se hai domande su questa Politica di utilizzo accettabile, contattaci all'indirizzo {supportEmail}."
   },
   "MAIN": {
     "ENUM": {

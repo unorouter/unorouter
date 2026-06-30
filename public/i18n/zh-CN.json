@@ -1,8 +1,8 @@
 {
   "METADATA": {
     "TITLE": "{appName} - 一把钥匙，连接所有 AI 模型",
-    "DESCRIPTION": "一把钥匙，连接所有 AI 模型。在你的代码里、在 Claude Code 里，或在 SillyTavern、Janitor.AI、RisuAI、Chub 里都能用。智能路由覆盖所有主要厂商。",
-    "KEYWORDS": "AI API，统一 AI 端点，OpenAI 替代，Claude API，GPT API，Gemini API，DeepSeek API，AI 路由，AI 网关，多模型 API，SillyTavern 代理，Janitor.AI 代理，Chub 代理，RisuAI，AI 角色扮演，Character AI 替代",
+    "DESCRIPTION": "一把钥匙，连接所有 AI 模型。在你的代码里、在 Claude Code 里，或在你喜爱的 AI 客户端里都能用。智能路由覆盖所有主要厂商。",
+    "KEYWORDS": "AI API，统一 AI 端点，OpenAI 替代，Claude API，GPT API，Gemini API，DeepSeek API，AI 路由，AI 网关，多模型 API，OpenAI 兼容 API，AI 聊天客户端",
     "ACCOUNT": {
       "TITLE": "{appName} 账户",
       "DESC": "管理您的 {appName} 账户、令牌、用量和账单。",
@@ -137,7 +137,7 @@
         "DESC": "对话存在你的浏览器里，绝不在我们的服务器上。也可接入你自己的 OpenAI 兼容端点和密钥，直接从浏览器发起。"
       },
       "CARD4": {
-        "TITLE": "完整角色扮演",
+        "TITLE": "角色聊天",
         "DESC": "知识书、群聊、滑动重生成和真正的 RP 引擎，不是玩具。"
       },
       "CTA_OPEN": "打开聊天",
@@ -274,8 +274,8 @@
     },
     "META": {
       "TITLE": "{appName} - 一把钥匙，连接所有 AI 模型",
-      "DESCRIPTION": "一把钥匙，连接所有 AI 模型。在你的代码里、在 Claude Code 里，或在 SillyTavern、Janitor.AI、RisuAI、Chub 里都能用。智能路由覆盖所有主要厂商。",
-      "KEYWORDS": "AI API 网关，统一 AI 端点，OpenAI 兼容，Claude API，GPT API，Gemini API，自动故障切换，智能路由，SillyTavern 代理，Janitor.AI 代理，Chub 代理，RisuAI，AI 角色扮演，Character AI 替代"
+      "DESCRIPTION": "一把钥匙，连接所有 AI 模型。在你的代码里、在 Claude Code 里，或在你喜爱的 AI 客户端里都能用。智能路由覆盖所有主要厂商。",
+      "KEYWORDS": "AI API 网关，统一 AI 端点，OpenAI 兼容，Claude API，GPT API，Gemini API，自动故障切换，智能路由，多模型 API，AI 聊天客户端"
     },
     "TITLE": "{appName}",
     "HOW_IT_WORKS": {
@@ -410,7 +410,7 @@
     "META": {
       "TITLE": "AI 模型：{appName}",
       "DESCRIPTION": "所有 AI 模型集中一处。GPT、Claude、Gemini、DeepSeek 等。在你的代码里用，或在 SillyTavern、Janitor.AI、RisuAI、Chub 里用，价格一视同仁。",
-      "KEYWORDS": "AI 模型，模型库，AI 价格，GPT 模型，Claude 模型，Gemini 模型，DeepSeek 模型，AI 模型对比，角色扮演 AI 模型，SillyTavern 模型，Janitor.AI 模型，Character AI 模型"
+      "KEYWORDS": "AI 模型，模型库，AI 价格，GPT 模型，Claude 模型，Gemini 模型，DeepSeek 模型，AI 模型对比，多模型 API，AI 聊天模型"
     },
     "BADGE": "模型库",
     "TITLE": "模型库",
@@ -1048,7 +1048,7 @@
     "META": {
       "TITLE": "价格：{appName}",
       "DESCRIPTION": "每个 AI 模型一份简单价格。订阅更划算，也能按需付费。在代码里、在 Claude Code 里、在 SillyTavern、Janitor.AI、RisuAI、Chub 里都能用。",
-      "KEYWORDS": "AI API 价格，AI 订阅，按 token 付费，AI 模型价格，便宜 AI API，实惠 AI，SillyTavern 价格，Janitor.AI 价格，角色扮演 AI 价格，Character AI 价格"
+      "KEYWORDS": "AI API 价格，AI 订阅，按 token 付费，AI 模型价格，便宜 AI API，实惠 AI，OpenAI 兼容价格，多模型 API 价格"
     },
     "TITLE": "价格",
     "SUBTITLE": "无论你是上线应用还是进行长时间角色扮演。一个套餐，覆盖所有模型。",
@@ -2314,7 +2314,8 @@
     "SOCIAL_TRUSTPILOT": "Trustpilot",
     "EASTER_EGG_LABEL": "玩 Token 打砖块",
     "BADGE_FEATURED_ON": "已在 {name} 推荐",
-    "BADGE_VERIFIED_ON": "已在 {name} 验证"
+    "BADGE_VERIFIED_ON": "已在 {name} 验证",
+    "AUP": "使用政策"
   },
   "PRIVACY": {
     "META": {
@@ -2376,7 +2377,7 @@
     "USER_CONTENT_TITLE": "5. 用户内容与数据",
     "USER_CONTENT_CONTENT": "您对通过本服务提交的内容（「用户内容」）保留所有权。AI 生成输出的所有权取决于所用特定 AI 模型的条款。我们不会使用您的用户内容训练 AI 模型。您授予我们有限许可，仅为提供服务目的处理您的用户内容。",
     "PROHIBITED_TITLE": "6. 禁止行为",
-    "PROHIBITED_CONTENT": "您同意不会使用本服务：违反任何适用法律法规；制造虚假身份或冒充他人；进行自动化抓取或数据挖掘；侵犯第三方知识产权；试图扰乱、超载或干扰本服务；从事欺诈活动；或在未经授权的情况下转售账户访问权限。",
+    "PROHIBITED_CONTENT": "您同意不会使用本服务：违反任何适用法律法规；制造虚假身份或冒充他人；进行自动化抓取或数据挖掘；侵犯第三方知识产权；试图扰乱、超载或干扰本服务；从事欺诈活动；或在未经授权的情况下转售账户访问权限；亦不得生成、请求或分发色情露骨、淫秽或 NSFW 内容、儿童性虐待材料、未经同意的性内容，或深度伪造及换脸图像。您对本服务的使用还受我们的使用政策约束。",
     "TERMINATION_TITLE": "7. 终止",
     "TERMINATION_CONTENT": "我们可能因任何原因随时暂停或终止您的账户，包括违反本条款。终止时（因违规终止除外），剩余未使用额度可由我们酌情退款。您可随时通过联系我们终止账户。",
     "IP_TITLE": "8. 知识产权",
@@ -2429,6 +2430,30 @@
     "CHANGES_CONTENT": "为持续符合不断演进的消费者保护框架，我们可能随时修订本退款政策。更新内容将连同修订日期在本页面公布；如有需要，我们会就重大变更提前通知受影响的客户。",
     "CONTACT_TITLE": "8. 联系我们",
     "CONTACT_CONTENT": "如需申请退款或对本政策有任何疑问，请通过 {supportEmail} 联系我们。"
+  },
+  "AUP": {
+    "TITLE": "使用政策",
+    "LAST_UPDATED": "最后更新：2026 年 6 月 30 日",
+    "META": {
+      "TITLE": "使用政策 - {appName}",
+      "DESCRIPTION": "{appName} 的使用政策。禁止的内容与行为，包括禁止生成色情露骨、NSFW、深度伪造及有害内容。",
+      "KEYWORDS": "使用政策，{appName} AUP，禁止内容，内容政策，AI 使用政策，NSFW 禁令"
+    },
+    "INTRO": "本使用政策规范您对 {appName} 的使用。{appName} 是一个 API 聚合平台，会将您的请求路由至第三方 AI 模型提供商。本政策适用于 {appName} 的每一项功能，包括聊天、图像生成和视频生成。使用本服务即表示您在我们的服务条款之外，同意下列规则。",
+    "PROHIBITED_CONTENT_TITLE": "禁止内容",
+    "PROHIBITED_CONTENT_CONTENT": "您不得使用本服务生成、请求、上传或分发任何形式的色情露骨、淫秽或 NSFW 内容，儿童性虐待材料，将未成年人性化的内容，或未经同意的性或私密内容。无论内容是在我们的平台上生成，还是通过连接的第三方客户端生成，本禁令均适用于文本、图像和视频。",
+    "PROHIBITED_DEEPFAKE_TITLE": "深度伪造与冒充",
+    "PROHIBITED_DEEPFAKE_CONTENT": "您不得使用本服务制作换脸、深度伪造或人脸篡改媒体，或在未经其同意的情况下冒充任何真实人物。严禁为欺骗、骚扰或诽谤目的生成可识别个人的逼真描绘。",
+    "PROHIBITED_HARM_TITLE": "有害与非法使用",
+    "PROHIBITED_HARM_CONTENT": "您不得使用本服务制作宣扬暴力、恐怖主义、自残、骚扰、针对受保护群体的仇恨或任何非法活动的内容，也不得用于开发恶意软件、实施欺诈或以其他方式损害他人。",
+    "UPSTREAM_MODERATION_TITLE": "第三方提供商",
+    "UPSTREAM_MODERATION_CONTENT": "{appName} 会将您的提示词转发给第三方 AI 提供商，每家提供商都会执行各自的内容政策，并可能拒绝或过滤请求。您有责任确保自身的使用同时符合本政策以及底层提供商的政策。在生成图像或视频之前，我们可能会审查提示词，并拦截违反本政策的请求。",
+    "ENFORCEMENT_TITLE": "执行",
+    "ENFORCEMENT_CONTENT": "我们可能会审查使用情况，并针对违反本政策的行为采取措施，包括拦截请求、暂停或终止账户，以及向有关当局举报非法活动。在法律要求或为防止损害的情况下，我们可能在不事先通知的情况下对违规行为采取措施。",
+    "CHANGES_TITLE": "本政策的变更",
+    "CHANGES_CONTENT": "我们可能会不时更新本使用政策。变更生效后继续使用本服务，即表示接受修订后的政策。",
+    "CONTACT_TITLE": "联系我们",
+    "CONTACT_CONTENT": "如对本使用政策有任何疑问，请通过 {supportEmail} 与我们联系。"
   },
   "MAIN": {
     "ENUM": {

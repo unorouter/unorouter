@@ -1,8 +1,8 @@
 {
   "METADATA": {
     "TITLE": "{appName} - Satu Kunci untuk Setiap Model AI",
-    "DESCRIPTION": "Satu kunci untuk setiap model AI. Gunakan di kode Anda, di Claude Code, atau di SillyTavern, Janitor.AI, RisuAI, dan Chub. Routing cerdas di seluruh penyedia utama.",
-    "KEYWORDS": "AI API, endpoint AI terpadu, alternatif OpenAI, Claude API, GPT API, Gemini API, DeepSeek API, AI router, AI gateway, API multi-model, SillyTavern proxy, Janitor.AI proxy, Chub proxy, RisuAI, AI roleplay, alternatif character AI",
+    "DESCRIPTION": "Satu kunci untuk setiap model AI. Gunakan di kode Anda, di Claude Code, atau di klien AI favorit Anda. Routing cerdas di seluruh penyedia utama.",
+    "KEYWORDS": "AI API, endpoint AI terpadu, alternatif OpenAI, Claude API, GPT API, Gemini API, DeepSeek API, AI router, AI gateway, API multi-model, API kompatibel OpenAI, klien chat AI",
     "ACCOUNT": {
       "TITLE": "Akun {appName}",
       "DESC": "Kelola akun {appName} Anda, token, penggunaan, dan tagihan.",
@@ -159,7 +159,7 @@
         "DESC": "Percakapan ada di browsermu, tidak pernah di server kami. Gunakan juga endpoint dan kunci milikmu yang kompatibel dengan OpenAI, langsung dari browser."
       },
       "CARD4": {
-        "TITLE": "Roleplay Penuh",
+        "TITLE": "Chat Karakter",
         "DESC": "Lorebook, obrolan grup, swipe, dan mesin RP sungguhan, bukan mainan."
       },
       "CTA_OPEN": "Buka obrolan",
@@ -296,8 +296,8 @@
     },
     "META": {
       "TITLE": "{appName} - Satu Kunci untuk Setiap Model AI",
-      "DESCRIPTION": "Satu kunci untuk setiap model AI. Gunakan di kode Anda, di Claude Code, atau di SillyTavern, Janitor.AI, RisuAI, dan Chub. Routing cerdas di seluruh penyedia utama.",
-      "KEYWORDS": "AI API gateway, endpoint AI terpadu, kompatibel OpenAI, Claude API, GPT API, Gemini API, failover otomatis, routing cerdas, SillyTavern proxy, Janitor.AI proxy, Chub proxy, RisuAI, AI roleplay, alternatif character AI"
+      "DESCRIPTION": "Satu kunci untuk setiap model AI. Gunakan di kode Anda, di Claude Code, atau di klien AI favorit Anda. Routing cerdas di seluruh penyedia utama.",
+      "KEYWORDS": "AI API gateway, endpoint AI terpadu, kompatibel OpenAI, Claude API, GPT API, Gemini API, failover otomatis, routing cerdas, API multi-model, klien chat AI"
     },
     "TITLE": "{appName}"
   },
@@ -410,7 +410,7 @@
     "META": {
       "TITLE": "Model AI - {appName}",
       "DESCRIPTION": "Setiap model AI di satu tempat. GPT, Claude, Gemini, DeepSeek dan lainnya. Gunakan di kode Anda atau di SillyTavern, Janitor.AI, RisuAI, dan Chub. Harga sama untuk keduanya.",
-      "KEYWORDS": "model AI, perpustakaan model, harga AI, model GPT, model Claude, model Gemini, model DeepSeek, perbandingan model AI, model AI roleplay, model SillyTavern, model Janitor.AI, model character AI"
+      "KEYWORDS": "model AI, perpustakaan model, harga AI, model GPT, model Claude, model Gemini, model DeepSeek, perbandingan model AI, API multi-model, model chat AI"
     },
     "BADGE": "Perpustakaan Model",
     "TITLE": "Perpustakaan Model",
@@ -1048,7 +1048,7 @@
     "META": {
       "TITLE": "Harga - {appName}",
       "DESCRIPTION": "Harga sederhana untuk setiap model AI. Berlangganan untuk nilai lebih baik atau bayar sesuai pemakaian. Bekerja dengan kode Anda, dengan Claude Code, dan dengan SillyTavern, Janitor.AI, RisuAI, dan Chub.",
-      "KEYWORDS": "harga AI API, langganan AI, bayar per token, harga model AI, AI API murah, AI terjangkau, harga SillyTavern, harga Janitor.AI, harga AI roleplay, harga character AI"
+      "KEYWORDS": "harga AI API, langganan AI, bayar per token, harga model AI, AI API murah, AI terjangkau, harga kompatibel OpenAI, harga API multi-model"
     },
     "TITLE": "Harga",
     "SUBTITLE": "Baik Anda merilis aplikasi atau menjalankan sesi roleplay panjang. Satu paket, setiap model.",
@@ -2314,7 +2314,8 @@
     "SOCIAL_TRUSTPILOT": "Trustpilot",
     "EASTER_EGG_LABEL": "Mainkan Token Breakout",
     "BADGE_FEATURED_ON": "Ditampilkan di {name}",
-    "BADGE_VERIFIED_ON": "Terverifikasi di {name}"
+    "BADGE_VERIFIED_ON": "Terverifikasi di {name}",
+    "AUP": "Kebijakan Penggunaan yang Dapat Diterima"
   },
   "PRIVACY": {
     "META": {
@@ -2376,7 +2377,7 @@
     "USER_CONTENT_TITLE": "5. Konten dan Data Pengguna",
     "USER_CONTENT_CONTENT": "Anda mempertahankan kepemilikan atas konten yang Anda kirim melalui Layanan (\"Konten Pengguna\"). Kepemilikan output yang dihasilkan AI tergantung pada ketentuan model AI tertentu yang digunakan. Kami tidak menggunakan Konten Pengguna Anda untuk melatih model AI. Anda memberi kami lisensi terbatas untuk memproses Konten Pengguna Anda semata-mata untuk tujuan menyediakan Layanan.",
     "PROHIBITED_TITLE": "6. Perilaku Terlarang",
-    "PROHIBITED_CONTENT": "Anda setuju untuk tidak menggunakan Layanan untuk melanggar hukum atau peraturan yang berlaku; membuat identitas palsu atau menyamar sebagai orang lain; terlibat dalam scraping otomatis atau data mining; melanggar hak kekayaan intelektual pihak ketiga; mencoba mengganggu, membebani, atau ikut campur dengan Layanan; terlibat dalam aktivitas penipuan; atau menjual kembali akses ke akun Anda tanpa otorisasi.",
+    "PROHIBITED_CONTENT": "Anda setuju untuk tidak menggunakan Layanan untuk melanggar hukum atau peraturan yang berlaku; membuat identitas palsu atau menyamar sebagai orang lain; terlibat dalam scraping otomatis atau data mining; melanggar hak kekayaan intelektual pihak ketiga; mencoba mengganggu, membebani, atau ikut campur dengan Layanan; terlibat dalam aktivitas penipuan; atau menjual kembali akses ke akun Anda tanpa otorisasi; atau membuat, meminta, atau mendistribusikan konten seksual eksplisit, pornografi, atau NSFW, materi pelecehan seksual anak, konten seksual tanpa persetujuan, atau citra deepfake dan tukar wajah. Penggunaan Layanan oleh Anda juga diatur oleh Kebijakan Penggunaan yang Dapat Diterima kami.",
     "TERMINATION_TITLE": "7. Penghentian",
     "TERMINATION_CONTENT": "Kami dapat menangguhkan atau menghentikan akun Anda kapan saja dengan alasan apa pun, termasuk pelanggaran Ketentuan ini. Setelah penghentian (kecuali untuk pelanggaran), kredit yang tidak terpakai yang tersisa dapat dikembalikan atas kebijakan kami. Anda dapat menghentikan akun Anda kapan saja dengan menghubungi kami.",
     "IP_TITLE": "8. Kekayaan Intelektual",
@@ -2429,6 +2430,30 @@
     "CHANGES_CONTENT": "Kami dapat mengubah Kebijakan Pengembalian Dana ini kapan saja untuk menjaga kepatuhan terhadap kerangka perlindungan konsumen yang terus berkembang. Pembaruan akan ditampilkan pada halaman ini dengan tanggal revisi, dan jika diperlukan, pelanggan yang terdampak akan diberi tahu sebelumnya mengenai perubahan signifikan.",
     "CONTACT_TITLE": "8. Hubungi Kami",
     "CONTACT_CONTENT": "Untuk permintaan pengembalian dana atau pertanyaan tentang kebijakan ini, silakan hubungi kami di {supportEmail}."
+  },
+  "AUP": {
+    "TITLE": "Kebijakan Penggunaan yang Dapat Diterima",
+    "LAST_UPDATED": "Terakhir Diperbarui: 30 Juni 2026",
+    "META": {
+      "TITLE": "Kebijakan Penggunaan yang Dapat Diterima - {appName}",
+      "DESCRIPTION": "Kebijakan Penggunaan yang Dapat Diterima untuk {appName}. Konten dan perilaku yang dilarang, termasuk larangan pembuatan konten seksual eksplisit, NSFW, deepfake, dan berbahaya.",
+      "KEYWORDS": "kebijakan penggunaan yang dapat diterima, {appName} AUP, konten terlarang, kebijakan konten, kebijakan penggunaan AI, larangan NSFW"
+    },
+    "INTRO": "Kebijakan Penggunaan yang Dapat Diterima ini mengatur penggunaan {appName} oleh Anda, sebuah platform agregasi API yang merutekan permintaan Anda ke penyedia model AI pihak ketiga. Kebijakan ini berlaku untuk setiap fitur {appName}, termasuk chat, pembuatan gambar, dan pembuatan video. Dengan menggunakan Layanan, Anda menyetujui aturan di bawah ini selain Ketentuan Layanan kami.",
+    "PROHIBITED_CONTENT_TITLE": "Konten Terlarang",
+    "PROHIBITED_CONTENT_CONTENT": "Anda tidak boleh menggunakan Layanan untuk membuat, meminta, mengunggah, atau mendistribusikan konten seksual eksplisit, pornografi, atau NSFW dalam bentuk apa pun, materi pelecehan seksual anak, konten yang menseksualisasi anak di bawah umur, atau konten seksual maupun intim tanpa persetujuan. Larangan ini berlaku untuk teks, gambar, dan video, baik konten diproduksi di platform kami maupun melalui klien pihak ketiga yang terhubung.",
+    "PROHIBITED_DEEPFAKE_TITLE": "Deepfake dan Peniruan Identitas",
+    "PROHIBITED_DEEPFAKE_CONTENT": "Anda tidak boleh menggunakan Layanan untuk membuat media tukar wajah, deepfake, atau manipulasi wajah, atau untuk meniru identitas orang sungguhan mana pun tanpa persetujuan mereka. Membuat penggambaran realistis individu yang dapat dikenali untuk menipu, melecehkan, atau mencemarkan nama baik sangat dilarang.",
+    "PROHIBITED_HARM_TITLE": "Penggunaan Berbahaya dan Ilegal",
+    "PROHIBITED_HARM_CONTENT": "Anda tidak boleh menggunakan Layanan untuk memproduksi konten yang mempromosikan kekerasan, terorisme, menyakiti diri sendiri, pelecehan, kebencian terhadap kelompok yang dilindungi, atau aktivitas ilegal apa pun, maupun untuk mengembangkan malware, melakukan penipuan, atau dengan cara lain merugikan orang lain.",
+    "UPSTREAM_MODERATION_TITLE": "Penyedia Pihak Ketiga",
+    "UPSTREAM_MODERATION_CONTENT": "{appName} meneruskan prompt Anda ke penyedia AI pihak ketiga, yang masing-masing menerapkan kebijakan kontennya sendiri dan dapat menolak atau memfilter permintaan. Anda bertanggung jawab untuk memastikan penggunaan Anda mematuhi baik Kebijakan ini maupun kebijakan penyedia yang mendasarinya. Kami dapat memeriksa prompt sebelum pembuatan gambar atau video dan memblokir permintaan yang melanggar Kebijakan ini.",
+    "ENFORCEMENT_TITLE": "Penegakan",
+    "ENFORCEMENT_CONTENT": "Kami dapat meninjau penggunaan dan mengambil tindakan atas pelanggaran Kebijakan ini, termasuk memblokir permintaan, menangguhkan atau menghentikan akun, dan melaporkan aktivitas ilegal kepada pihak berwenang yang sesuai. Pelanggaran dapat ditegakkan tanpa pemberitahuan sebelumnya jika diwajibkan oleh hukum atau untuk mencegah kerugian.",
+    "CHANGES_TITLE": "Perubahan pada Kebijakan Ini",
+    "CHANGES_CONTENT": "Kami dapat memperbarui Kebijakan Penggunaan yang Dapat Diterima ini dari waktu ke waktu. Penggunaan Layanan yang berkelanjutan setelah perubahan berlaku merupakan penerimaan atas Kebijakan yang direvisi.",
+    "CONTACT_TITLE": "Kontak",
+    "CONTACT_CONTENT": "Jika Anda memiliki pertanyaan tentang Kebijakan Penggunaan yang Dapat Diterima ini, silakan hubungi kami di {supportEmail}."
   },
   "MAIN": {
     "ENUM": {
