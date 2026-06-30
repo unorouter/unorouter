@@ -1,6 +1,7 @@
 "use client";
 
 import { analytics } from "@/lib/analytics";
+import { env } from "@/lib/config/env";
 import type { TwoFAMode } from "@/lib/types";
 import { Icon } from "@/components/ui/icon";
 import { copyToClipboard } from "@/lib/utils/base";
@@ -62,6 +63,11 @@ export function SecurityCard() {
     if (!accessToken) return;
     copyToClipboard(accessToken);
     toast.success(t("SETTINGS.SECURITY.TOKEN_COPIED"));
+  }
+
+  function handleCopyApiUrl() {
+    copyToClipboard(env.apiUrl);
+    toast.success(t("SETTINGS.SECURITY.API_URL_COPIED"));
   }
 
   async function handleRegisterPasskey() {
@@ -155,6 +161,40 @@ export function SecurityCard() {
                   {t("SETTINGS.SECURITY.GENERATE_TOKEN")}
                 </Button>
               )}
+            </div>
+            <div className="bg-muted/40 mt-2 space-y-2 rounded-md border p-3">
+              <div className="flex items-center gap-2">
+                <Icon
+                  name="globe"
+                  className="text-muted-foreground h-4 w-4"
+                />
+                <span className="font-medium">
+                  {t("SETTINGS.SECURITY.API_BASE_URL")}
+                </span>
+              </div>
+              <p className="text-muted-foreground text-xs">
+                {t("SETTINGS.SECURITY.API_BASE_URL_DESC")}
+              </p>
+              <div className="flex items-center gap-2">
+                <code className="bg-background flex-1 truncate rounded-md p-2 text-xs">
+                  {env.apiUrl}
+                </code>
+                <Button variant="outline" size="sm" onClick={handleCopyApiUrl}>
+                  <Icon name="copy" className="mr-1 h-3 w-3" />
+                  {t("SETTINGS.SECURITY.COPY_TOKEN")}
+                </Button>
+              </div>
+              <a
+                href={`${env.apiUrl}/swagger`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary inline-flex items-center gap-1 text-xs hover:underline"
+                onClick={() => analytics.settings.apiReferenceOpened()}
+              >
+                <Icon name="book-open" className="h-3 w-3" />
+                {t("SETTINGS.SECURITY.API_REFERENCE")}
+                <Icon name="external-link" className="h-3 w-3" />
+              </a>
             </div>
           </div>
 
