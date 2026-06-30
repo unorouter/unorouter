@@ -3338,6 +3338,7 @@
     "SEARCH_CHATS": "Cari chat",
     "TOKENS_IN": "in",
     "TOKENS_OUT": "out",
+    "MESSAGES_COUNT": "pesan",
     "FILTER_ALL": "Semua",
     "META": {
       "TITLE": "AI Chat - {appName}",
@@ -3446,7 +3447,8 @@
     "CHAT_TOTAL": "Total Obrolan",
     "STATS": {
       "SHOW_COST": "Tampilkan biaya",
-      "SHOW_TOKENS": "Tampilkan token"
+      "SHOW_TOKENS": "Tampilkan token",
+      "SHOW_MESSAGES": "Tampilkan jumlah pesan"
     },
     "GROUPS": {
       "NEW_GROUP": "Grup baru",

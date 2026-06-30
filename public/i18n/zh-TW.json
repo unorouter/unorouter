@@ -3338,6 +3338,7 @@
     "SEARCH_CHATS": "搜尋對話",
     "TOKENS_IN": "輸入",
     "TOKENS_OUT": "輸出",
+    "MESSAGES_COUNT": "則訊息",
     "FILTER_ALL": "全部",
     "META": {
       "TITLE": "AI 對話：{appName}",
@@ -3446,7 +3447,8 @@
     "CHAT_TOTAL": "對話總計",
     "STATS": {
       "SHOW_COST": "顯示費用",
-      "SHOW_TOKENS": "顯示權杖"
+      "SHOW_TOKENS": "顯示權杖",
+      "SHOW_MESSAGES": "顯示訊息數"
     },
     "GROUPS": {
       "NEW_GROUP": "新增分組",

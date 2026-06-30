@@ -3338,6 +3338,7 @@
     "SEARCH_CHATS": "Chats खोजें",
     "TOKENS_IN": "in",
     "TOKENS_OUT": "out",
+    "MESSAGES_COUNT": "संदेश",
     "FILTER_ALL": "सभी",
     "META": {
       "TITLE": "AI Chat - {appName}",
@@ -3446,7 +3447,8 @@
     "CHAT_TOTAL": "चैट कुल",
     "STATS": {
       "SHOW_COST": "लागत दिखाएं",
-      "SHOW_TOKENS": "टोकन दिखाएं"
+      "SHOW_TOKENS": "टोकन दिखाएं",
+      "SHOW_MESSAGES": "संदेश संख्या दिखाएँ"
     },
     "GROUPS": {
       "NEW_GROUP": "नया समूह",

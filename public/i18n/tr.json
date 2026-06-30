@@ -3338,6 +3338,7 @@
     "SEARCH_CHATS": "Sohbetleri ara",
     "TOKENS_IN": "gir",
     "TOKENS_OUT": "çık",
+    "MESSAGES_COUNT": "mesaj",
     "FILTER_ALL": "Tümü",
     "META": {
       "TITLE": "AI Sohbet - {appName}",
@@ -3446,7 +3447,8 @@
     "CHAT_TOTAL": "Sohbet Toplamı",
     "STATS": {
       "SHOW_COST": "Maliyeti göster",
-      "SHOW_TOKENS": "Token'ları göster"
+      "SHOW_TOKENS": "Token'ları göster",
+      "SHOW_MESSAGES": "Mesaj sayısını göster"
     },
     "GROUPS": {
       "NEW_GROUP": "Yeni grup",

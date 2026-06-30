@@ -3338,6 +3338,7 @@
     "SEARCH_CHATS": "搜索对话",
     "TOKENS_IN": "输入",
     "TOKENS_OUT": "输出",
+    "MESSAGES_COUNT": "条消息",
     "FILTER_ALL": "全部",
     "META": {
       "TITLE": "AI 对话：{appName}",
@@ -3446,7 +3447,8 @@
     "CHAT_TOTAL": "对话总计",
     "STATS": {
       "SHOW_COST": "显示费用",
-      "SHOW_TOKENS": "显示词元"
+      "SHOW_TOKENS": "显示词元",
+      "SHOW_MESSAGES": "显示消息数"
     },
     "GROUPS": {
       "NEW_GROUP": "新建分组",

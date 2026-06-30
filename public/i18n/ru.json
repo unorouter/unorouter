@@ -3338,6 +3338,7 @@
     "SEARCH_CHATS": "Поиск по чатам",
     "TOKENS_IN": "вход",
     "TOKENS_OUT": "выход",
+    "MESSAGES_COUNT": "сообщений",
     "FILTER_ALL": "Все",
     "META": {
       "TITLE": "Чат с ИИ: {appName}",
@@ -3446,7 +3447,8 @@
     "CHAT_TOTAL": "Итого по чату",
     "STATS": {
       "SHOW_COST": "Показать стоимость",
-      "SHOW_TOKENS": "Показать токены"
+      "SHOW_TOKENS": "Показать токены",
+      "SHOW_MESSAGES": "Показывать число сообщений"
     },
     "GROUPS": {
       "NEW_GROUP": "Новая группа",

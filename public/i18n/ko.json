@@ -3338,6 +3338,7 @@
     "SEARCH_CHATS": "채팅 검색",
     "TOKENS_IN": "입력",
     "TOKENS_OUT": "출력",
+    "MESSAGES_COUNT": "개 메시지",
     "FILTER_ALL": "전체",
     "META": {
       "TITLE": "AI 채팅 - {appName}",
@@ -3446,7 +3447,8 @@
     "CHAT_TOTAL": "채팅 합계",
     "STATS": {
       "SHOW_COST": "비용 표시",
-      "SHOW_TOKENS": "토큰 표시"
+      "SHOW_TOKENS": "토큰 표시",
+      "SHOW_MESSAGES": "메시지 수 표시"
     },
     "GROUPS": {
       "NEW_GROUP": "새 그룹",

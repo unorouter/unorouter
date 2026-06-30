@@ -3338,6 +3338,7 @@
     "SEARCH_CHATS": "Chats durchsuchen",
     "TOKENS_IN": "ein",
     "TOKENS_OUT": "aus",
+    "MESSAGES_COUNT": "Nachrichten",
     "FILTER_ALL": "Alle",
     "META": {
       "TITLE": "KI-Chat - {appName}",
@@ -3446,7 +3447,8 @@
     "CHAT_TOTAL": "Chat-Gesamt",
     "STATS": {
       "SHOW_COST": "Kosten anzeigen",
-      "SHOW_TOKENS": "Tokens anzeigen"
+      "SHOW_TOKENS": "Tokens anzeigen",
+      "SHOW_MESSAGES": "Nachrichtenanzahl anzeigen"
     },
     "GROUPS": {
       "NEW_GROUP": "Neue Gruppe",

@@ -3338,6 +3338,7 @@
     "SEARCH_CHATS": "بحث الدردشات",
     "TOKENS_IN": "داخل",
     "TOKENS_OUT": "خارج",
+    "MESSAGES_COUNT": "رسائل",
     "FILTER_ALL": "الكلّ",
     "META": {
       "TITLE": "دردشة الذكاء الاصطناعي - {appName}",
@@ -3446,7 +3447,8 @@
     "CHAT_TOTAL": "إجمالي المحادثة",
     "STATS": {
       "SHOW_COST": "إظهار التكلفة",
-      "SHOW_TOKENS": "إظهار الرموز"
+      "SHOW_TOKENS": "إظهار الرموز",
+      "SHOW_MESSAGES": "عرض عدد الرسائل"
     },
     "GROUPS": {
       "NEW_GROUP": "مجموعة جديدة",

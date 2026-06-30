@@ -3338,6 +3338,7 @@
     "SEARCH_CHATS": "Buscar chats",
     "TOKENS_IN": "ent",
     "TOKENS_OUT": "sal",
+    "MESSAGES_COUNT": "mensajes",
     "FILTER_ALL": "Todos",
     "META": {
       "TITLE": "Chat de IA - {appName}",
@@ -3446,7 +3447,8 @@
     "CHAT_TOTAL": "Total del chat",
     "STATS": {
       "SHOW_COST": "Mostrar costo",
-      "SHOW_TOKENS": "Mostrar tokens"
+      "SHOW_TOKENS": "Mostrar tokens",
+      "SHOW_MESSAGES": "Mostrar recuento de mensajes"
     },
     "GROUPS": {
       "NEW_GROUP": "Nuevo grupo",

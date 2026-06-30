@@ -3338,6 +3338,7 @@
     "SEARCH_CHATS": "חיפוש צ'אטים",
     "TOKENS_IN": "קלט",
     "TOKENS_OUT": "פלט",
+    "MESSAGES_COUNT": "הודעות",
     "FILTER_ALL": "הכל",
     "META": {
       "TITLE": "צ'אט AI - {appName}",
@@ -3446,7 +3447,8 @@
     "CHAT_TOTAL": "סך הצ'אט",
     "STATS": {
       "SHOW_COST": "הצג עלות",
-      "SHOW_TOKENS": "הצג טוקנים"
+      "SHOW_TOKENS": "הצג טוקנים",
+      "SHOW_MESSAGES": "הצג מספר הודעות"
     },
     "GROUPS": {
       "NEW_GROUP": "קבוצה חדשה",

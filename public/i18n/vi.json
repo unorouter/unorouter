@@ -3338,6 +3338,7 @@
     "SEARCH_CHATS": "Tìm hội thoại",
     "TOKENS_IN": "vào",
     "TOKENS_OUT": "ra",
+    "MESSAGES_COUNT": "tin nhắn",
     "FILTER_ALL": "Tất cả",
     "META": {
       "TITLE": "Trò chuyện AI - {appName}",
@@ -3446,7 +3447,8 @@
     "CHAT_TOTAL": "Tổng cuộc trò chuyện",
     "STATS": {
       "SHOW_COST": "Hiển thị chi phí",
-      "SHOW_TOKENS": "Hiển thị token"
+      "SHOW_TOKENS": "Hiển thị token",
+      "SHOW_MESSAGES": "Hiển thị số tin nhắn"
     },
     "GROUPS": {
       "NEW_GROUP": "Nhóm mới",
