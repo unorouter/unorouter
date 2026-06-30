@@ -27,6 +27,7 @@ import {
   useSetActiveBranchMutation,
 } from "@/hooks/ai/chat-hook";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
+import { useForkConversationMutation } from "@/hooks/ai/rp/conversations";
 import { usePricingQuery } from "@/hooks/models/pricing-hook";
 import { useCustomProvidersQuery } from "@/hooks/ai/custom-providers-hook";
 import {
@@ -57,6 +58,7 @@ import {
   MessagePrimitive,
   SuggestionPrimitive,
   ThreadPrimitive,
+  useAui,
   useAuiState,
   type TextMessagePartProps,
 } from "@assistant-ui/react";
@@ -784,6 +786,36 @@ const DeleteMessageButton: FC = () => {
 // Media-output messages hide Copy (giant data-uri) and Edit (meaningless for a generation).
 const MEDIA_OUTPUT_RE = /^!\[(?:audio|image|video)\]\(/;
 
+// Fork the chat from this message into a NEW conversation (clone up to here, same bound entities), then open it.
+const BranchButton: FC = () => {
+  const t = useTranslations();
+  const messageId = useAuiState((s) => s.message.id);
+  const aui = useAui();
+  const forkMut = useForkConversationMutation();
+
+  const handleClick = async () => {
+    const convId = chatStore.get(convIdAtom);
+    if (!convId || forkMut.isPending) return;
+    try {
+      const res = await forkMut.mutateAsync({ convId, messageId });
+      aui.threads().switchToThread(res.id);
+      toast.success(t("CHAT.SUCCESS.BRANCHED"));
+    } catch {
+      toast.error(t("CHAT.SUCCESS.BRANCH_FAILED"));
+    }
+  };
+
+  return (
+    <TooltipIconButton
+      tooltip={t("CHAT.ACTION.BRANCH")}
+      onClick={handleClick}
+      disabled={forkMut.isPending}
+    >
+      <Icon name="git-branch" />
+    </TooltipIconButton>
+  );
+};
+
 const AssistantActionBar: FC = () => {
   const t = useTranslations();
   const beginEdit = useContext(AssistantEditContext);
@@ -824,6 +856,7 @@ const AssistantActionBar: FC = () => {
           <Icon name="refresh-cw" />
         </TooltipIconButton>
       </ActionBarPrimitive.Reload>
+      <BranchButton />
       <RequestLogButton msgId={messageId} />
       {beginEdit && !isMediaOutput && (
         <TooltipIconButton tooltip={t("CHAT.ACTION.EDIT")} onClick={beginEdit}>

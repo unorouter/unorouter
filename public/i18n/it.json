@@ -3279,6 +3279,7 @@
       "REFRESH": "Aggiorna",
       "EDIT": "Modifica",
       "PREVIOUS": "Precedente",
+      "BRANCH": "Dirama da qui",
       "NEXT": "Successivo",
       "CANCEL": "Annulla",
       "UPDATE": "Aggiorna",
@@ -3473,7 +3474,9 @@
     "TRIGGER_ALERT_SELECT_DESC": "Scegli un'opzione per continuare",
     "TRIGGER_ALERT_OK": "OK",
     "SUCCESS": {
-      "ERROR_COPIED": "Dettagli dell'errore copiati"
+      "ERROR_COPIED": "Dettagli dell'errore copiati",
+      "BRANCHED": "Diramato in una nuova chat",
+      "BRANCH_FAILED": "Impossibile diramare la chat"
     },
     "CHAT_TOTAL": "Totale chat",
     "STATS": {

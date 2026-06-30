@@ -3279,6 +3279,7 @@
       "REFRESH": "تحديث",
       "EDIT": "تحرير",
       "PREVIOUS": "السابق",
+      "BRANCH": "تفرّع من هنا",
       "NEXT": "التالي",
       "CANCEL": "إلغاء",
       "UPDATE": "تحديث",
@@ -3473,7 +3474,9 @@
     "TRIGGER_ALERT_SELECT_DESC": "اختر خيارًا للمتابعة",
     "TRIGGER_ALERT_OK": "موافق",
     "SUCCESS": {
-      "ERROR_COPIED": "تم نسخ تفاصيل الخطأ"
+      "ERROR_COPIED": "تم نسخ تفاصيل الخطأ",
+      "BRANCHED": "تم التفرّع إلى محادثة جديدة",
+      "BRANCH_FAILED": "تعذّر تفرّع المحادثة"
     },
     "CHAT_TOTAL": "إجمالي المحادثة",
     "STATS": {

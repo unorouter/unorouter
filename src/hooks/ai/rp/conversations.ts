@@ -16,6 +16,7 @@ import {
   persistMappedImport,
   toOrpg,
 } from "@/lib/db/client/data/transfer/native";
+import { forkConversationFromMessage } from "@/lib/db/client/data/transfer/fork";
 import {
   mapNativeImport,
   mapOrpgImport,
@@ -158,5 +159,15 @@ export function useExportConversation() {
       const native = await buildNativeExport(userId, args.convId);
       return args.format === "orpg" ? toOrpg(native) : native;
     },
+  });
+}
+
+// Fork a chat from a message into a new conversation (clone up to that message, same bound entities).
+export function useForkConversationMutation() {
+  const userId = useLocalUserId();
+  return useApiMutation({
+    mutationFn: (args: { convId: string; messageId: string }) =>
+      forkConversationFromMessage(userId, args.convId, args.messageId),
+    invalidates: [queryKeys.conversations()],
   });
 }

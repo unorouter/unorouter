@@ -3279,6 +3279,7 @@
       "REFRESH": "Yenile",
       "EDIT": "Düzenle",
       "PREVIOUS": "Önceki",
+      "BRANCH": "Buradan dallandır",
       "NEXT": "Sonraki",
       "CANCEL": "İptal",
       "UPDATE": "Güncelle",
@@ -3473,7 +3474,9 @@
     "TRIGGER_ALERT_SELECT_DESC": "Devam etmek için bir seçenek seçin",
     "TRIGGER_ALERT_OK": "Tamam",
     "SUCCESS": {
-      "ERROR_COPIED": "Hata ayrıntıları kopyalandı"
+      "ERROR_COPIED": "Hata ayrıntıları kopyalandı",
+      "BRANCHED": "Yeni sohbete dallandırıldı",
+      "BRANCH_FAILED": "Sohbet dallandırılamadı"
     },
     "CHAT_TOTAL": "Sohbet Toplamı",
     "STATS": {

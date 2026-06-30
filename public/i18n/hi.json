@@ -3279,6 +3279,7 @@
       "REFRESH": "Refresh",
       "EDIT": "संपादित करें",
       "PREVIOUS": "पिछला",
+      "BRANCH": "यहाँ से शाखा बनाएँ",
       "NEXT": "अगला",
       "CANCEL": "रद्द करें",
       "UPDATE": "अपडेट",
@@ -3473,7 +3474,9 @@
     "TRIGGER_ALERT_SELECT_DESC": "जारी रखने के लिए एक विकल्प चुनें",
     "TRIGGER_ALERT_OK": "ठीक है",
     "SUCCESS": {
-      "ERROR_COPIED": "त्रुटि विवरण कॉपी किया गया"
+      "ERROR_COPIED": "त्रुटि विवरण कॉपी किया गया",
+      "BRANCHED": "नई चैट में शाखा बनाई गई",
+      "BRANCH_FAILED": "चैट को शाखाबद्ध नहीं किया जा सका"
     },
     "CHAT_TOTAL": "चैट कुल",
     "STATS": {

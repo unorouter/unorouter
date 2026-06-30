@@ -3279,6 +3279,7 @@
       "REFRESH": "Segarkan",
       "EDIT": "Edit",
       "PREVIOUS": "Sebelumnya",
+      "BRANCH": "Cabang dari sini",
       "NEXT": "Berikutnya",
       "CANCEL": "Batal",
       "UPDATE": "Perbarui",
@@ -3473,7 +3474,9 @@
     "TRIGGER_ALERT_SELECT_DESC": "Pilih salah satu opsi untuk melanjutkan",
     "TRIGGER_ALERT_OK": "OK",
     "SUCCESS": {
-      "ERROR_COPIED": "Detail kesalahan disalin"
+      "ERROR_COPIED": "Detail kesalahan disalin",
+      "BRANCHED": "Dicabangkan ke obrolan baru",
+      "BRANCH_FAILED": "Tidak dapat mencabangkan obrolan"
     },
     "CHAT_TOTAL": "Total Obrolan",
     "STATS": {

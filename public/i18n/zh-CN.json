@@ -3279,6 +3279,7 @@
       "REFRESH": "刷新",
       "EDIT": "编辑",
       "PREVIOUS": "上一个",
+      "BRANCH": "从此处分支",
       "NEXT": "下一个",
       "CANCEL": "取消",
       "UPDATE": "更新",
@@ -3473,7 +3474,9 @@
     "TRIGGER_ALERT_SELECT_DESC": "请选择一个选项以继续",
     "TRIGGER_ALERT_OK": "确定",
     "SUCCESS": {
-      "ERROR_COPIED": "已复制错误详情"
+      "ERROR_COPIED": "已复制错误详情",
+      "BRANCHED": "已分支到新聊天",
+      "BRANCH_FAILED": "无法分支聊天"
     },
     "CHAT_TOTAL": "对话总计",
     "STATS": {

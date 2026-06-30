@@ -3279,6 +3279,7 @@
       "REFRESH": "새로고침",
       "EDIT": "편집",
       "PREVIOUS": "이전",
+      "BRANCH": "여기서 분기",
       "NEXT": "다음",
       "CANCEL": "취소",
       "UPDATE": "업데이트",
@@ -3473,7 +3474,9 @@
     "TRIGGER_ALERT_SELECT_DESC": "계속하려면 옵션을 선택하세요",
     "TRIGGER_ALERT_OK": "확인",
     "SUCCESS": {
-      "ERROR_COPIED": "오류 세부정보가 복사되었습니다"
+      "ERROR_COPIED": "오류 세부정보가 복사되었습니다",
+      "BRANCHED": "새 채팅으로 분기했습니다",
+      "BRANCH_FAILED": "채팅을 분기할 수 없습니다"
     },
     "CHAT_TOTAL": "채팅 합계",
     "STATS": {

@@ -923,6 +923,11 @@ export const ICON_MAP: Record<string, IconEntry> = {
       })),
     iconoir: () => import("iconoir-react/regular/Github"),
   },
+  "git-branch": {
+    lucide: () => import("lucide-react/dist/esm/icons/git-branch.mjs"),
+    tabler: () =>
+      import("@tabler/icons-react/dist/esm/icons/IconGitBranch.mjs"),
+  },
   globe: {
     lucide: () => import("lucide-react/dist/esm/icons/globe.mjs"),
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconWorld.mjs"),
