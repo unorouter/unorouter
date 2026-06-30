@@ -37,6 +37,16 @@ export async function runMigrations(sql: SQLocalDrizzle): Promise<void> {
     ? migrations.findIndex((m) => m.tag === lastTag) + 1
     : 0;
 
+  // When the cursor tag is unknown, the stored DB drifted from the manifest (a
+  // re-baselined build, a half-applied migration, or a corrupt earlier baseline).
+  // The replay below is then BEST-EFFORT only: reconcileSchema is the real healer,
+  // so a statement that fails because the existing table drifted (e.g. CREATE INDEX
+  // on a renamed/missing column, CREATE TABLE that already exists) must NOT abort
+  // the run - aborting leaves reconcile unreached and the DB permanently unopenable.
+  // In trusted forward-migration mode (known cursor) a failing step is a real bug,
+  // so it still throws.
+  const driftReplay = !knownTag;
+
   for (let i = startIndex; i < migrations.length; i++) {
     const m = migrations[i];
     // Split on statement-breakpoint; no tx wrapper (SQLocal mutex deadlock).
@@ -50,6 +60,14 @@ export async function runMigrations(sql: SQLocalDrizzle): Promise<void> {
       } catch (err) {
         // Tolerate replays after partial application; CREATE/ADD COLUMN already-exists is harmless.
         if (isIdempotentMigrationError(err)) continue;
+        // Drifted baseline: log and keep going so reconcileSchema can rebuild.
+        if (driftReplay) {
+          logger.warn("runMigrations: tolerated replay error on drifted DB", {
+            context: "local-db.migrations.replay",
+            error: err instanceof Error ? err.message : String(err),
+          });
+          continue;
+        }
         throw err;
       }
     }
