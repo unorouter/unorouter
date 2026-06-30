@@ -18,9 +18,21 @@ export type TableStorageStat = {
   table: string;
   rows: number;
   bytes: number;
-  kb: number;
-  mb: number;
+  size: string;
 };
+
+// Bytes -> human string with the largest fitting unit: "832 B", "12.4 KB", "57.1 MB".
+function formatBytes(bytes: number): string {
+  if (bytes < 1024) return `${bytes} B`;
+  const units = ["KB", "MB", "GB"];
+  let n = bytes / 1024;
+  let i = 0;
+  while (n >= 1024 && i < units.length - 1) {
+    n /= 1024;
+    i++;
+  }
+  return `${Math.round(n * 10) / 10} ${units[i]}`;
+}
 
 // Per-table storage stats (record count + on-disk size) so a bloated table is provable - e.g. request_logs
 // (full prompt snapshots) dominating a chat-heavy DB. Real bytes come from the `dbstat` virtual table (page
@@ -31,7 +43,6 @@ export async function getTableStorageStats(
 ): Promise<TableStorageStat[] | { error: string }> {
   const local = await getLocalDb(userId);
   if (!local) return { error: "no local db" };
-  const round = (n: number, d = 2) => Math.round(n * 10 ** d) / 10 ** d;
 
   try {
     const tablesRes = await local.exec(
@@ -76,27 +87,17 @@ export async function getTableStorageStats(
       );
       const rows = Number(countRes.rows[0]?.[0] ?? 0);
       const bytes = bytesForTable(table);
-      stats.push({
-        table,
-        rows,
-        bytes,
-        kb: round(bytes / 1024),
-        mb: round(bytes / 1024 / 1024),
-      });
+      stats.push({ table, rows, bytes, size: formatBytes(bytes) });
     }
     stats.sort((a, b) => b.bytes - a.bytes);
-    const total = stats.reduce(
-      (acc, s) => ({
-        table: "TOTAL",
-        rows: acc.rows + s.rows,
-        bytes: acc.bytes + s.bytes,
-        kb: 0,
-        mb: 0,
-      }),
-      { table: "TOTAL", rows: 0, bytes: 0, kb: 0, mb: 0 } as TableStorageStat,
-    );
-    total.kb = round(total.bytes / 1024);
-    total.mb = round(total.bytes / 1024 / 1024);
+    const totalBytes = stats.reduce((acc, s) => acc + s.bytes, 0);
+    const totalRows = stats.reduce((acc, s) => acc + s.rows, 0);
+    const total: TableStorageStat = {
+      table: "TOTAL",
+      rows: totalRows,
+      bytes: totalBytes,
+      size: formatBytes(totalBytes),
+    };
     return [total, ...stats];
   } catch {
     // dbstat unavailable: approximate from row counts + the heavy JSON columns.
@@ -122,13 +123,7 @@ export async function getTableStorageStats(
         );
         const rows = Number(res.rows[0]?.[0] ?? 0);
         const bytes = Number(res.rows[0]?.[1] ?? 0);
-        stats.push({
-          table,
-          rows,
-          bytes,
-          kb: round(bytes / 1024),
-          mb: round(bytes / 1024 / 1024),
-        });
+        stats.push({ table, rows, bytes, size: formatBytes(bytes) });
       }
       stats.sort((a, b) => b.bytes - a.bytes);
       return stats;
