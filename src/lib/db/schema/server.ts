@@ -6,41 +6,11 @@ import {
   text,
   uniqueIndex,
 } from "drizzle-orm/sqlite-core";
-import { uid } from "@/lib/utils/base";
 import { createdAtCol, timestamps } from "./shared";
-import type {
-  ModerationDecision,
-  ModerationMediaType,
-} from "@/server/ai/chat/media/moderation.service";
 import type { AcpSessionStatus } from "@/server/billing/checkout-sessions/checkout-sessions.service";
 import type { AcpIdempotencyState } from "@/server/billing/checkout-sessions/idempotency";
 
 // Server-only schema. Never import from client.
-
-export const moderationLog = sqliteTable(
-  "moderation_log",
-  {
-    id: text("id")
-      .primaryKey()
-      .$defaultFn(() => uid()),
-    userId: integer("user_id").notNull(),
-    convId: text("conv_id"),
-    model: text("model").notNull(),
-    mediaType: text("media_type").notNull().$type<ModerationMediaType>(),
-    decision: text("decision").notNull().$type<ModerationDecision>(),
-    reason: text("reason"),
-    prompt: text("prompt").notNull(),
-    externalId: text("external_id").notNull(),
-    creemId: text("creem_id"),
-    units: integer("units"),
-    latencyMs: integer("latency_ms").notNull(),
-    createdAt: createdAtCol(),
-  },
-  (table) => [
-    index("idx_modlog_user_created").on(table.userId, table.createdAt),
-    index("idx_modlog_decision").on(table.decision, table.createdAt),
-  ],
-);
 
 export const acpCheckoutSessions = sqliteTable(
   "acp_checkout_sessions",

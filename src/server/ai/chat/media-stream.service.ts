@@ -50,9 +50,9 @@ export async function streamMedia(
 
   switch (mediaType) {
     case "image":
-      return handleImageStream(apiKey, body, userId);
+      return handleImageStream(apiKey, body);
     case "video":
-      return handleVideoTaskStream(apiKey, body, userId);
+      return handleVideoTaskStream(apiKey, body);
     case "audio":
       return handleAudioStream(apiKey, body);
     case "embedding":
