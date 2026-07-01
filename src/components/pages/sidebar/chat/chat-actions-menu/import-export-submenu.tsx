@@ -39,9 +39,9 @@ export function ImportExportSubmenu(props: Props) {
   const downloadDiagnostics = async (includeContent: boolean) => {
     try {
       const stamp = dayjs().format("YYYYMMDD-HHmmss");
-      const { downloadDiagnosticsStreaming } =
-        await import("@/lib/db/client/data/stream-download");
-      await downloadDiagnosticsStreaming(
+      const { downloadDiagnostics: runDownloadDiagnostics } =
+        await import("@/lib/db/client/data/db-export");
+      await runDownloadDiagnostics(
         userId,
         `unorouter-diagnostics-${stamp}.json`,
         { includeContent },
