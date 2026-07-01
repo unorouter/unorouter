@@ -3543,7 +3543,10 @@
       "MODEL_LABEL": "שם תצוגה",
       "MODEL_COUNT": "{count} מודלים",
       "DELETE_TITLE": "למחוק את הספק?",
-      "DELETE_DESC": "פעולה זו מסירה את הספק ואת המודלים שלו. השיחות שלך נשמרות."
+      "DELETE_DESC": "פעולה זו מסירה את הספק ואת המודלים שלו. השיחות שלך נשמרות.",
+      "MODEL_TYPE": "סוג",
+      "MODEL_TYPE_TEXT": "טקסט",
+      "MODEL_TYPE_IMAGE": "תמונה"
     },
     "IMAGE_PROMPT": {
       "TITLE": "פרומפט תמונה",

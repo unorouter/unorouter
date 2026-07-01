@@ -8,12 +8,16 @@
 //
 // The prompt-writer resolves the utility model through `resolveModelTarget`, so on a CUSTOM-PROVIDER chat it
 // uses the user's own endpoint (target.deps.runUtilityLLM) - same resolver the live chat + dry-run use. The
-// image itself always goes through OUR /trigger-op/imggen (image models are catalog-only; custom providers
-// are text endpoints), so imgGen stays server-side regardless.
+// image goes through OUR /trigger-op/imggen for catalog models; a custom-provider (BYOK) image model is
+// called browser-direct with the user's own key (custom-image-gen.ts), same trust model as the text path.
 
 import { createAgentPipeline } from "@/lib/ai/agents/pipeline";
 import { illustratorAgent } from "@/lib/ai/agents/builtin/illustrator/agent";
 import type { AgentRuntime } from "@/lib/ai/agents/types";
+import {
+  isCustomModelId,
+  parseCustomModelId,
+} from "@/lib/ai/chat/custom-provider-id";
 import { rpc } from "@/lib/rpc";
 import { handleElysia, uid } from "@/lib/utils/base";
 import {
@@ -26,7 +30,9 @@ import {
   readPrimaryCharacter,
   replaceLocalMessageItems,
 } from "@/lib/db/client/data/chat/chat";
+import { readLocalCustomProvider } from "@/lib/db/client/data/rp/custom-providers";
 import { readLocalPreset } from "@/lib/db/client/data/rp/rp";
+import { chatStore, localUserIdAtom } from "@/store/chat-store";
 import { resolveModelTargetFromStore } from "./resolve-model-target";
 
 // The illustrator settings a chat resolves through the preset inheritance chain (conv override ?? preset
@@ -94,11 +100,27 @@ export async function resolveIllustratorSettings(
   };
 }
 
-// One image via /trigger-op/imggen. Shared by the agent runtime and the regenerate dialog.
+// One image. Shared by the agent runtime and the regenerate dialog. Catalog models go through our
+// /trigger-op/imggen; a custom-provider (BYOK) image model is called browser-direct with the user's key.
 export async function requestImggen(
   prompt: string,
   opts: { imageModel?: string | null; refUrls?: string[] },
 ) {
+  if (opts.imageModel && isCustomModelId(opts.imageModel)) {
+    const parsed = parseCustomModelId(opts.imageModel);
+    if (!parsed) throw new Error("invalid custom model id");
+    const userId = chatStore.get(localUserIdAtom);
+    const provider = await readLocalCustomProvider(userId, parsed.providerId);
+    if (!provider) throw new Error("custom provider not found");
+    const { generateCustomProviderImage } =
+      await import("@/lib/ai/chat/custom-image-gen");
+    return generateCustomProviderImage(
+      provider,
+      parsed.modelKey,
+      prompt,
+      opts.refUrls ?? [],
+    );
+  }
   return handleElysia(
     await rpc.api.ai.chat["trigger-op"].imggen.post({
       prompt,

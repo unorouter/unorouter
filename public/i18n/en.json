@@ -3543,7 +3543,10 @@
       "MODEL_LABEL": "Display name",
       "MODEL_COUNT": "{count} model(s)",
       "DELETE_TITLE": "Delete provider?",
-      "DELETE_DESC": "This removes the provider and its models. Your conversations are kept."
+      "DELETE_DESC": "This removes the provider and its models. Your conversations are kept.",
+      "MODEL_TYPE": "Type",
+      "MODEL_TYPE_TEXT": "Text",
+      "MODEL_TYPE_IMAGE": "Image"
     },
     "IMAGE_PROMPT": {
       "TITLE": "Image prompt",

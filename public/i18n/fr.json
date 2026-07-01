@@ -3543,7 +3543,10 @@
       "MODEL_LABEL": "Nom affiché",
       "MODEL_COUNT": "{count} modèle(s)",
       "DELETE_TITLE": "Supprimer le fournisseur ?",
-      "DELETE_DESC": "Cela supprime le fournisseur et ses modèles. Vos conversations sont conservées."
+      "DELETE_DESC": "Cela supprime le fournisseur et ses modèles. Vos conversations sont conservées.",
+      "MODEL_TYPE": "Type",
+      "MODEL_TYPE_TEXT": "Texte",
+      "MODEL_TYPE_IMAGE": "Image"
     },
     "IMAGE_PROMPT": {
       "TITLE": "Prompt d'image",

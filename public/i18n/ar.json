@@ -3543,7 +3543,10 @@
       "MODEL_LABEL": "الاسم المعروض",
       "MODEL_COUNT": "{count} نموذج",
       "DELETE_TITLE": "حذف المزود؟",
-      "DELETE_DESC": "سيؤدي هذا إلى إزالة المزود ونماذجه. سيتم الاحتفاظ بمحادثاتك."
+      "DELETE_DESC": "سيؤدي هذا إلى إزالة المزود ونماذجه. سيتم الاحتفاظ بمحادثاتك.",
+      "MODEL_TYPE": "النوع",
+      "MODEL_TYPE_TEXT": "نص",
+      "MODEL_TYPE_IMAGE": "صورة"
     },
     "IMAGE_PROMPT": {
       "TITLE": "موجّه الصورة",

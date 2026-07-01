@@ -271,33 +271,39 @@ export function ModelSelector(props: ModelSelectorProps) {
             {customProviders.length > 0 && typeFilter === null && (
               <CommandGroup heading={t("CHAT.MODEL.CUSTOM_PROVIDERS")}>
                 {customProviders.flatMap((provider) =>
-                  provider.models.map((model) => {
-                    const id = makeCustomModelId(provider.id, model.key);
-                    return (
-                      <CommandItem
-                        key={id}
-                        value={id}
-                        keywords={[provider.name, model.label, model.key]}
-                        data-testid={`model-option-${id}`}
-                        data-model={id}
-                        data-checked={id === props.value || undefined}
-                        onSelect={() => {
-                          analytics.chat.modelChanged({
-                            from: props.value,
-                            to: id,
-                          });
-                          props.onChange(id);
-                          setOpen(false);
-                        }}
-                        className="text-xs"
-                      >
-                        <Icon name="server" className="h-3.5 w-3.5 shrink-0" />
-                        <span className="min-w-0 flex-1 truncate font-mono">
-                          {provider.name} / {model.label}
-                        </span>
-                      </CommandItem>
-                    );
-                  }),
+                  provider.models
+                    // Image-typed models belong to the illustrator's image picker, not the chat model list.
+                    .filter((model) => model.type !== "image")
+                    .map((model) => {
+                      const id = makeCustomModelId(provider.id, model.key);
+                      return (
+                        <CommandItem
+                          key={id}
+                          value={id}
+                          keywords={[provider.name, model.label, model.key]}
+                          data-testid={`model-option-${id}`}
+                          data-model={id}
+                          data-checked={id === props.value || undefined}
+                          onSelect={() => {
+                            analytics.chat.modelChanged({
+                              from: props.value,
+                              to: id,
+                            });
+                            props.onChange(id);
+                            setOpen(false);
+                          }}
+                          className="text-xs"
+                        >
+                          <Icon
+                            name="server"
+                            className="h-3.5 w-3.5 shrink-0"
+                          />
+                          <span className="min-w-0 flex-1 truncate font-mono">
+                            {provider.name} / {model.label}
+                          </span>
+                        </CommandItem>
+                      );
+                    }),
                 )}
               </CommandGroup>
             )}

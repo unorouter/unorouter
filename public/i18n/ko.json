@@ -3543,7 +3543,10 @@
       "MODEL_LABEL": "표시 이름",
       "MODEL_COUNT": "{count}개 모델",
       "DELETE_TITLE": "공급자를 삭제할까요?",
-      "DELETE_DESC": "공급자와 해당 모델이 제거됩니다. 대화는 유지됩니다."
+      "DELETE_DESC": "공급자와 해당 모델이 제거됩니다. 대화는 유지됩니다.",
+      "MODEL_TYPE": "유형",
+      "MODEL_TYPE_TEXT": "텍스트",
+      "MODEL_TYPE_IMAGE": "이미지"
     },
     "IMAGE_PROMPT": {
       "TITLE": "이미지 프롬프트",

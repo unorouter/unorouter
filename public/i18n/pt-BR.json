@@ -3543,7 +3543,10 @@
       "MODEL_LABEL": "Nome de exibição",
       "MODEL_COUNT": "{count} modelo(s)",
       "DELETE_TITLE": "Excluir provedor?",
-      "DELETE_DESC": "Isso remove o provedor e seus modelos. Suas conversas são mantidas."
+      "DELETE_DESC": "Isso remove o provedor e seus modelos. Suas conversas são mantidas.",
+      "MODEL_TYPE": "Tipo",
+      "MODEL_TYPE_TEXT": "Texto",
+      "MODEL_TYPE_IMAGE": "Imagem"
     },
     "IMAGE_PROMPT": {
       "TITLE": "Prompt da imagem",

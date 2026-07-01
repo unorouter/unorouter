@@ -3543,7 +3543,10 @@
       "MODEL_LABEL": "Nome visualizzato",
       "MODEL_COUNT": "{count} modello/i",
       "DELETE_TITLE": "Eliminare il provider?",
-      "DELETE_DESC": "Questo rimuove il provider e i suoi modelli. Le tue conversazioni vengono conservate."
+      "DELETE_DESC": "Questo rimuove il provider e i suoi modelli. Le tue conversazioni vengono conservate.",
+      "MODEL_TYPE": "Tipo",
+      "MODEL_TYPE_TEXT": "Testo",
+      "MODEL_TYPE_IMAGE": "Immagine"
     },
     "IMAGE_PROMPT": {
       "TITLE": "Prompt dell'immagine",

@@ -23,7 +23,7 @@ import {
   toolsOnlyAtom,
   viewModeAtom,
 } from "@/store/models-store";
-import { useAtom, useSetAtom } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 
 // Release timestamp (ms) for Newest sort + Released column: OpenRouter launch date first, new-api insert date fallback.
 export function modelReleaseTs(model: ProcessedModel): number {
@@ -84,7 +84,8 @@ export function useModelsFilter() {
   const [supportedParameters, setSupportedParameters] = useAtom(
     supportedParametersAtom,
   );
-  const [toolsOnly, setToolsOnly] = useAtom(toolsOnlyAtom);
+  // Read-only here; the sidebar writes toolsOnlyAtom directly.
+  const toolsOnly = useAtomValue(toolsOnlyAtom);
   const clearFilters = useSetAtom(clearFiltersAtom);
 
   const models = data?.models ?? [];
@@ -112,13 +113,14 @@ export function useModelsFilter() {
     sortOrder !== "newest";
 
   const query = search.trim().toLowerCase();
-  let filtered = models.filter((model) => {
+  // Every filter EXCEPT the modality tab: the tab counts must reflect the active
+  // sidebar filters (each count = what that tab would show if clicked).
+  const tabModels = models.filter((model) => {
     const matchesSearch =
       query.length === 0 ||
       model.name.toLowerCase().includes(query) ||
       model.vendor.name.toLowerCase().includes(query) ||
       (model.isFree && matchesFreeKeyword(query));
-    const matchesModality = deriveOutputModality(model) === outputModality;
     const matchesVendor =
       selectedVendors.length === 0 ||
       selectedVendors.includes(model.vendor.name);
@@ -147,7 +149,6 @@ export function useModelsFilter() {
     const matchesTools = !toolsOnly || model.metadata.supportsTools === true;
     return (
       matchesSearch &&
-      matchesModality &&
       matchesVendor &&
       matchesInputModalities &&
       matchesContext &&
@@ -158,6 +159,10 @@ export function useModelsFilter() {
       matchesTools
     );
   });
+
+  let filtered = tabModels.filter(
+    (model) => deriveOutputModality(model) === outputModality,
+  );
 
   filtered = [...filtered].sort((a, b) => {
     if (sortOrder === "newest") {
@@ -216,6 +221,7 @@ export function useModelsFilter() {
     clearFilters,
     hasActiveFilters,
     models,
+    tabModels,
     filtered,
     rankMap,
     vendorNames,
