@@ -3543,7 +3543,10 @@
       "MODEL_LABEL": "Nazwa wyświetlana",
       "MODEL_COUNT": "Modele: {count}",
       "DELETE_TITLE": "Usunąć dostawcę?",
-      "DELETE_DESC": "Spowoduje to usunięcie dostawcy i jego modeli. Twoje rozmowy zostaną zachowane."
+      "DELETE_DESC": "Spowoduje to usunięcie dostawcy i jego modeli. Twoje rozmowy zostaną zachowane.",
+      "MODEL_TYPE": "Typ",
+      "MODEL_TYPE_TEXT": "Tekst",
+      "MODEL_TYPE_IMAGE": "Obraz"
     },
     "IMAGE_PROMPT": {
       "TITLE": "Prompt obrazu",

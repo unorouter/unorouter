@@ -3543,7 +3543,10 @@
       "MODEL_LABEL": "Nama tampilan",
       "MODEL_COUNT": "{count} model",
       "DELETE_TITLE": "Hapus penyedia?",
-      "DELETE_DESC": "Ini menghapus penyedia dan modelnya. Percakapan Anda tetap disimpan."
+      "DELETE_DESC": "Ini menghapus penyedia dan modelnya. Percakapan Anda tetap disimpan.",
+      "MODEL_TYPE": "Tipe",
+      "MODEL_TYPE_TEXT": "Teks",
+      "MODEL_TYPE_IMAGE": "Gambar"
     },
     "IMAGE_PROMPT": {
       "TITLE": "Prompt gambar",

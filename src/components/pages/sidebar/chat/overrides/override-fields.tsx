@@ -26,7 +26,9 @@ import { useCharactersQuery } from "@/hooks/ai/rp/characters";
 import { useLorebooksQuery } from "@/hooks/ai/rp/lorebooks";
 import { usePersonasQuery } from "@/hooks/ai/rp/personas";
 import { usePresetsQuery } from "@/hooks/ai/rp/presets";
+import { useCustomProvidersQuery } from "@/hooks/ai/custom-providers-hook";
 import { usePricingQuery } from "@/hooks/models/pricing-hook";
+import { makeCustomModelId } from "@/lib/ai/chat/custom-provider-id";
 import { IMAGE_STYLE_TEMPLATES } from "@/lib/ai/chat/image-style-templates";
 import { DEFAULT_CHAT_MEMORY, msg, NONE_VALUE } from "@/lib/config/constants";
 import { parseExtraBody } from "@/lib/validation/chat";
@@ -344,13 +346,15 @@ export function OverridesGenerationFields(props: {
   );
 }
 
-// Image model picker: catalog image models, labeled with their reference-image capacity.
+// Image model picker: catalog image models (labeled with their reference-image capacity) plus
+// image-typed custom-provider models (BYOK; generated browser-direct against the user's endpoint).
 function ImageModelField(props: {
   control: Control<ConversationOverridesForm>;
 }) {
   const t = useTranslations();
   const pricing = usePricingQuery().data;
-  const options = (pricing?.models ?? [])
+  const customProvidersQuery = useCustomProvidersQuery();
+  const catalogOptions = (pricing?.models ?? [])
     .filter((m) => m.type === "image")
     .map((m) => ({
       id: m.name,
@@ -358,13 +362,21 @@ function ImageModelField(props: {
         ? `${m.name} (${t("CHAT.OVERRIDES.IMAGE_MODEL_REFS", { count: m.metadata.maxImageInputs })})`
         : m.name,
     }));
+  const customOptions = (customProvidersQuery.data ?? []).flatMap((provider) =>
+    provider.models
+      .filter((m) => m.type === "image")
+      .map((m) => ({
+        id: makeCustomModelId(provider.id, m.key),
+        name: `${provider.name} / ${m.label}`,
+      })),
+  );
   return (
     <MyFormEntitySelect
       control={props.control}
       name="imageModel"
       label={t("CHAT.OVERRIDES.IMAGE_MODEL")}
       noneLabel={t("CHAT.OVERRIDES.IMAGE_MODEL_AUTO")}
-      options={options}
+      options={[...customOptions, ...catalogOptions]}
     />
   );
 }

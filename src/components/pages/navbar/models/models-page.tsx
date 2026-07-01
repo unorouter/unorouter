@@ -109,7 +109,7 @@ export function ModelsPage() {
               half-row peeking through). */}
           <div className="bg-background/95 supports-backdrop-blur:bg-background/80 sticky top-14 z-20 backdrop-blur">
             <ModalityTabs
-              models={m.models}
+              models={m.tabModels}
               value={m.outputModality}
               onChange={(value) => m.setOutputModality(value)}
             />

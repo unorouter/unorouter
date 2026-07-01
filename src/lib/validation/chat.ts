@@ -257,9 +257,8 @@ export const updateConversationSettingsBody = t.Object({
   promptInstruction: t.Optional(
     t.Union([t.String({ maxLength: 4_096 }), t.Null()]),
   ),
-  imageModel: t.Optional(
-    t.Union([t.String({ maxLength: MAX_MODEL_LEN }), t.Null()]),
-  ),
+  // 512: fits namespaced custom:::<providerId>:::<modelKey> ids (BYOK image models).
+  imageModel: t.Optional(t.Union([t.String({ maxLength: 512 }), t.Null()])),
   imagePreview: t.Optional(t.Union([t.Boolean(), t.Null()])),
   // JSON array of media ids used as illustrator reference images.
   imageRefIds: t.Optional(t.Union([t.String({ maxLength: 4_096 }), t.Null()])),

@@ -3543,7 +3543,10 @@
       "MODEL_LABEL": "Görünen ad",
       "MODEL_COUNT": "{count} model",
       "DELETE_TITLE": "Sağlayıcı silinsin mi?",
-      "DELETE_DESC": "Bu işlem sağlayıcıyı ve modellerini kaldırır. Sohbetleriniz korunur."
+      "DELETE_DESC": "Bu işlem sağlayıcıyı ve modellerini kaldırır. Sohbetleriniz korunur.",
+      "MODEL_TYPE": "Tür",
+      "MODEL_TYPE_TEXT": "Metin",
+      "MODEL_TYPE_IMAGE": "Görsel"
     },
     "IMAGE_PROMPT": {
       "TITLE": "Görsel promptu",

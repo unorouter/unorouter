@@ -3543,7 +3543,10 @@
       "MODEL_LABEL": "Tên hiển thị",
       "MODEL_COUNT": "{count} mô hình",
       "DELETE_TITLE": "Xóa nhà cung cấp?",
-      "DELETE_DESC": "Thao tác này xóa nhà cung cấp và các mô hình của nó. Cuộc trò chuyện của bạn được giữ lại."
+      "DELETE_DESC": "Thao tác này xóa nhà cung cấp và các mô hình của nó. Cuộc trò chuyện của bạn được giữ lại.",
+      "MODEL_TYPE": "Loại",
+      "MODEL_TYPE_TEXT": "Văn bản",
+      "MODEL_TYPE_IMAGE": "Hình ảnh"
     },
     "IMAGE_PROMPT": {
       "TITLE": "Prompt hình ảnh",

@@ -3543,7 +3543,10 @@
       "MODEL_LABEL": "顯示名稱",
       "MODEL_COUNT": "{count} 個模型",
       "DELETE_TITLE": "刪除提供商？",
-      "DELETE_DESC": "這會移除該提供商及其模型。你的對話會保留。"
+      "DELETE_DESC": "這會移除該提供商及其模型。你的對話會保留。",
+      "MODEL_TYPE": "類型",
+      "MODEL_TYPE_TEXT": "文字",
+      "MODEL_TYPE_IMAGE": "圖像"
     },
     "IMAGE_PROMPT": {
       "TITLE": "圖像提示詞",

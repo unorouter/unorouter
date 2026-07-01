@@ -3543,7 +3543,10 @@
       "MODEL_LABEL": "表示名",
       "MODEL_COUNT": "{count} モデル",
       "DELETE_TITLE": "プロバイダーを削除しますか？",
-      "DELETE_DESC": "プロバイダーとそのモデルが削除されます。会話は保持されます。"
+      "DELETE_DESC": "プロバイダーとそのモデルが削除されます。会話は保持されます。",
+      "MODEL_TYPE": "種類",
+      "MODEL_TYPE_TEXT": "テキスト",
+      "MODEL_TYPE_IMAGE": "画像"
     },
     "IMAGE_PROMPT": {
       "TITLE": "画像プロンプト",
