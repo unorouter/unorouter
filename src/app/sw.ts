@@ -136,8 +136,9 @@ self.addEventListener("fetch", (event) => {
 // Streaming download. Two magic same-origin paths answered with a streamed attachment Response
 // so a 500MB OPFS DB or a large diagnostics JSON downloads without ever materializing the whole
 // payload (no OOM on memory-starved iOS):
-//   /__download/db?u=<id>&name=<f>   - the SW reads the OPFS DB file ITSELF (origin-scoped, shared)
-//                                      and streams file.stream(); no page involvement.
+//   /__download/probe                - marker-header response proving the SW controls + intercepts.
+//   /__download/db?f=<name>[&probe=1] - probe reports readable|locked|missing; without probe the SW
+//                                       reads the OPFS DB file ITSELF and streams file.stream().
 //   /__download/json/<token>?name=<f> - the page generates JSON in JS and posts chunks over a
 //                                       MessagePort (a ReadableStream is not postMessage-transferable
 //                                       before Safari 27); the SW enqueues them.
@@ -227,6 +228,28 @@ self.addEventListener("message", (event) => {
   port.postMessage({ type: "ready" });
 });
 
+// Marker so the page can tell "the SW intercepted" from "the server 404'd to HTML" (which the
+// browser would otherwise happily download). Every SW download response carries it.
+const MARK = { "x-sw-download": "ok" };
+
+// Probe whether the OPFS DB file is readable right now (SQLocal may hold an exclusive handle).
+async function probeOpfsDb(name: string): Promise<Response> {
+  let state = "missing";
+  try {
+    const root = await navigator.storage.getDirectory();
+    const handle = await root.getFileHandle(name);
+    // getFile() throws while a SyncAccessHandle is held -> "locked"; succeeds -> "readable".
+    await handle.getFile();
+    state = "readable";
+  } catch (e) {
+    state = /NotFound/.test(String(e)) ? "missing" : "locked";
+  }
+  return new Response(null, {
+    status: 200,
+    headers: { ...MARK, "x-sw-db-state": state },
+  });
+}
+
 // Read the per-user OPFS DB file and stream it. Async getFile() works in a SW; file.stream() is
 // lazy/disk-backed so peak memory is one chunk, not the whole DB.
 async function streamOpfsDb(name: string): Promise<Response> {
@@ -234,12 +257,18 @@ async function streamOpfsDb(name: string): Promise<Response> {
     const root = await navigator.storage.getDirectory();
     const handle = await root.getFileHandle(name);
     const file = await handle.getFile();
-    return new Response(file.stream(), {
-      status: 200,
-      headers: attachmentHeaders(name, "application/octet-stream", file.size),
-    });
+    const headers = attachmentHeaders(
+      name,
+      "application/octet-stream",
+      file.size,
+    );
+    headers.set("x-sw-download", "ok");
+    return new Response(file.stream(), { status: 200, headers });
   } catch (e) {
-    return new Response(`db read failed: ${String(e)}`, { status: 500 });
+    return new Response(`db read failed: ${String(e)}`, {
+      status: 500,
+      headers: MARK,
+    });
   }
 }
 
@@ -250,13 +279,25 @@ self.addEventListener("fetch", (event) => {
   event.stopImmediatePropagation();
   const rest = url.pathname.slice(DOWNLOAD_PREFIX.length);
 
+  // Interception probe: proves the SW is controlling + handling before the page tears anything down.
+  if (rest === "probe") {
+    event.respondWith(new Response(null, { status: 200, headers: MARK }));
+    return;
+  }
+
   if (rest === "db") {
-    // The page validated/released the SQLocal handle before navigating here; just read + stream.
     const dbName = url.searchParams.get("f");
     if (!dbName) {
-      event.respondWith(new Response("missing db name", { status: 400 }));
+      event.respondWith(
+        new Response("missing db name", { status: 400, headers: MARK }),
+      );
       return;
     }
+    if (url.searchParams.get("probe") === "1") {
+      event.respondWith(probeOpfsDb(dbName));
+      return;
+    }
+    // The page released the SQLocal handle before navigating here; just read + stream.
     event.respondWith(streamOpfsDb(dbName));
     return;
   }
@@ -265,20 +306,19 @@ self.addEventListener("fetch", (event) => {
     const token = rest.slice("json/".length);
     const entry = jsonStreams.get(token);
     if (!entry) {
-      event.respondWith(new Response("download expired", { status: 404 }));
+      event.respondWith(
+        new Response("download expired", { status: 404, headers: MARK }),
+      );
       return;
     }
     jsonStreams.delete(token);
-    event.respondWith(
-      new Response(entry.stream, {
-        status: 200,
-        headers: attachmentHeaders(entry.filename, "application/json"),
-      }),
-    );
+    const headers = attachmentHeaders(entry.filename, "application/json");
+    headers.set("x-sw-download", "ok");
+    event.respondWith(new Response(entry.stream, { status: 200, headers }));
     return;
   }
 
-  event.respondWith(new Response("not found", { status: 404 }));
+  event.respondWith(new Response("not found", { status: 404, headers: MARK }));
 });
 
 serwist.addEventListeners();

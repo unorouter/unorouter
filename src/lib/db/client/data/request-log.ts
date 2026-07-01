@@ -46,6 +46,16 @@ export async function insertLocalRequestLog(
     .onConflictDoUpdate({ target: requestLogs.msgId, set: row });
 }
 
+// Wipe ALL request_logs (the heaviest table: full per-turn prompt snapshots). Called before a DB
+// backup so the export is a clean slate; the request-log sheet is a debug aid, not backup-worthy.
+export async function clearAllRequestLogs(
+  userId: number | undefined,
+): Promise<void> {
+  const local = await getLocalDb(userId);
+  if (!local) return;
+  await local.db.delete(requestLogs);
+}
+
 // Overwrite the stream-time estimates with new-api's authoritative figures (resolved post-finish by logEnrich). No-op when the row is gone.
 export async function patchLocalRequestLogUpstream(
   userId: number | undefined,
