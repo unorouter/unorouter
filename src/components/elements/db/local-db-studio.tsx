@@ -75,9 +75,9 @@ export function LocalDbStudio(props: Props) {
       const filename = `${env.appName.toLowerCase()}-${userId}-${dayjs()
         .toISOString()
         .replace(/[:.]/g, "-")}.sqlite3`;
-      const { downloadLocalDbStreaming } =
-        await import("@/lib/db/client/data/stream-download");
-      await downloadLocalDbStreaming(userId, filename);
+      const { downloadLocalDb } =
+        await import("@/lib/db/client/data/db-export");
+      await downloadLocalDb(userId, filename);
     } catch (e) {
       logger.error("DB download failed", {
         context: "local-db.studio",
