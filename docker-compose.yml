@@ -2,6 +2,11 @@ networks:
   proxy:
     external: false
     name: proxy
+  # new-api runs as a swarm stack on this --attachable overlay; the SSR fetch
+  # (INTERNAL_API_URL=http://unorouter-new-api:3000) resolves to the swarm tasks
+  # via their network alias, so the frontend must share this overlay.
+  newapi-overlay:
+    external: true
 
 services:
   unorouter:
@@ -28,9 +33,13 @@ services:
     env_file:
       - .env
     environment:
-      - INTERNAL_API_URL=http://unorouter-new-api:3000
+      # new-api runs as a swarm stack; SSR reaches it by the swarm SERVICE DNS name
+      # over the shared overlay (a swarm service's custom network-alias is not
+      # resolvable cross-container, but the service name always is).
+      - INTERNAL_API_URL=http://newapi_newapi-master:3000
     networks:
       - proxy
+      - newapi-overlay
     labels:
       - "autoheal=true"
       - "traefik.enable=true"
