@@ -38,14 +38,8 @@ export async function runMigrations(sql: SQLocalDrizzle): Promise<void> {
     ? migrations.findIndex((m) => m.tag === lastTag) + 1
     : 0;
 
-  // When the cursor tag is unknown, the stored DB drifted from the manifest (a
-  // re-baselined build, a half-applied migration, or a corrupt earlier baseline).
-  // The replay below is then BEST-EFFORT only: reconcileSchema is the real healer,
-  // so a statement that fails because the existing table drifted (e.g. CREATE INDEX
-  // on a renamed/missing column, CREATE TABLE that already exists) must NOT abort
-  // the run - aborting leaves reconcile unreached and the DB permanently unopenable.
-  // In trusted forward-migration mode (known cursor) a failing step is a real bug,
-  // so it still throws.
+  // Drifted DB (unknown cursor): replay best-effort so reconcileSchema can heal - aborting here
+  // leaves the DB permanently unopenable. Known cursor = trusted, so a failing step throws.
   const driftReplay = !knownTag;
 
   for (let i = startIndex; i < migrations.length; i++) {
@@ -89,11 +83,8 @@ export async function runMigrations(sql: SQLocalDrizzle): Promise<void> {
   // Self-heal baseline drift: compare each table's stored DDL to the manifest and rebuild drifted tables. Every load, no-op if identical.
   await reconcileSchema(sql, migrations);
 
-  // Last-resort column validation: reconcile can SKIP a rebuild (row-loss guard) or a table can drift in a
-  // way the DDL compare misses, leaving a stored table missing a column the live code SELECTs - which then
-  // crashes at query time with a cryptic "no such column". Catch that class here: per manifest table, add any
-  // missing nullable column (cheap ALTER ADD), and LOUDLY log whatever can't be auto-fixed so it surfaces at
-  // DB-open instead of as a random runtime failure.
+  // Last-resort: reconcile may skip a rebuild (row-loss guard), leaving a column the live code SELECTs
+  // missing (cryptic "no such column"). Add missing nullable cols in place; loudly log the unfixable.
   await validateColumns(sql, migrations);
 }
 
@@ -285,9 +276,8 @@ function isAddableColumn(def: string): boolean {
   return !/\bNOT NULL\b/.test(upper) || /\bDEFAULT\b/.test(upper);
 }
 
-// Post-reconcile safety net: ensure every column the manifest expects actually exists on the stored table.
-// Adds missing nullable columns in place; loudly logs any table whose missing columns can't be auto-added
-// (a NOT NULL with no default) so the drift is caught at DB-open, not as a runtime "no such column".
+// Post-reconcile safety net: add any manifest column missing from the stored table (nullable = in-place
+// ALTER; required = force-rebuild), so a "no such column" is caught at DB-open not at query time.
 async function validateColumns(
   sql: SQLocalDrizzle,
   migrations: MigrationManifest["migrations"],
@@ -363,9 +353,8 @@ function synthDefault(def: string): string {
   return "''";
 }
 
-// Force a 12-step rebuild that BACKFILLS missing NOT-NULL columns with a synthesized default, so the rebuild
-// can't drop rows. Used only when validateColumns finds a required column the in-place ALTER can't add and the
-// normal reconcile already declined. Returns false (and leaves the table untouched) on any failure.
+// 12-step rebuild that backfills missing NOT-NULL columns with a synthesized default so no rows drop.
+// Last resort when the in-place ALTER can't add a required column. Returns false + untouched on failure.
 async function forceRebuildWithDefaults(
   sql: SQLocalDrizzle,
   table: string,
