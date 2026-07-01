@@ -152,12 +152,13 @@ export async function upsertLocalLorebookBundle(
   const local = await getLocalDb(userId);
   if (!local) return;
   await lorebookStore.upsert(userId, bundle.lorebook);
-  await local.db
-    .delete(lorebookEntries)
-    .where(eq(lorebookEntries.lorebookId, bundle.lorebook.id));
-  for (const entry of bundle.entries) {
-    await lorebookEntryStore.upsert(userId, entry, { scopeUser: false });
-  }
+  await replaceChildRows(
+    local.db,
+    lorebookEntries,
+    lorebookEntries.lorebookId,
+    bundle.lorebook.id,
+    bundle.entries,
+  );
 }
 
 export async function upsertLocalCardBundle(
