@@ -6,8 +6,10 @@ import type { StMessage, StMetadata } from "@/lib/types";
 import { exportSlug } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
-import { readLocalConversationBundle } from "../chat";
-import { upsertLocalConversationBundle } from "../chat";
+import {
+  readLocalConversationBundle,
+  upsertLocalConversationBundle,
+} from "@/lib/db/client/data/chat/chat";
 import { mapStImport, parseStJsonl } from "./map";
 
 type ConversationBundle = NonNullable<

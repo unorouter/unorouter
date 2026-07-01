@@ -13,7 +13,7 @@ import {
   useUpdateCharacterMutation,
 } from "@/hooks/ai/rp/characters";
 import { useMediaSrc } from "@/hooks/ai/use-media-src";
-import { upsertLocalMedia } from "@/lib/db/client/data/media";
+import { upsertLocalMedia } from "@/lib/db/client/data/media/media";
 import {
   characterFormSchema,
   type CharacterForm,

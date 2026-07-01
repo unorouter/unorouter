@@ -6,7 +6,7 @@ import { triggerAlert } from "@/components/ui/trigger-alert";
 import type { TriggerOps } from "@/lib/ai/chat/triggers/types";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
-import { upsertLocalMedia } from "@/lib/db/client/data/media";
+import { upsertLocalMedia } from "@/lib/db/client/data/media/media";
 import { chatModelAtom, chatStore, convIdAtom } from "@/store/chat-store";
 
 export function makeClientTriggerOps(userId: number): TriggerOps {

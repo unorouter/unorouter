@@ -1,6 +1,6 @@
 "use client";
 
-import { readLocalConversationSettings } from "@/lib/db/client/data/chat";
+import { readLocalConversationSettings } from "@/lib/db/client/data/chat/chat";
 import type { ChatUIMessage } from "@/lib/types";
 import { chatStore, speakingCharacterIdAtom } from "@/store/chat-store";
 

@@ -23,19 +23,19 @@ import {
   projectConversationSettings,
 } from "@/lib/db/conversation-settings";
 import { and, asc, desc, eq, inArray } from "drizzle-orm";
-import { getLocalDb } from "../client";
-import { readLocalRequestLogsForConv } from "./request-log";
+import { getLocalDb } from "@/lib/db/client/client";
+import { readLocalRequestLogsForConv } from "@/lib/db/client/data/chat/request-log";
 import {
   readLocalCharacter,
   readLocalLorebookBundle,
   readLocalPersona,
   readLocalPreset,
-} from "./rp";
+} from "@/lib/db/client/data/rp/rp";
 import {
   makeTableStore,
   mergeChildRows,
   replaceChildRows,
-} from "./table-store";
+} from "@/lib/db/client/data/table-store";
 
 import type {
   LocalAnyRow as AnyRow,

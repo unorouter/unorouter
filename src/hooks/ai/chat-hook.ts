@@ -35,7 +35,7 @@ import {
   upsertLocalConversationSettings,
   upsertLocalMessage,
   upsertLocalMessageItem,
-} from "@/lib/db/client/data/chat";
+} from "@/lib/db/client/data/chat/chat";
 import {
   keepPreviousData,
   useInfiniteQuery,

@@ -14,7 +14,7 @@ import {
 } from "@/lib/ai/chat/custom-provider-id";
 import type { TokenizerRef } from "@/lib/ai/chat/tokenizer";
 import type { AssemblerDeps } from "@/lib/ai/chat/pipeline/deps";
-import { readLocalCustomProvider } from "@/lib/db/client/data/custom-providers";
+import { readLocalCustomProvider } from "@/lib/db/client/data/rp/custom-providers";
 import { chatStore, localUserIdAtom } from "@/store/chat-store";
 import { buildClientDeps } from "./client-deps";
 import { buildDefaultClientDeps } from "./default-deps";

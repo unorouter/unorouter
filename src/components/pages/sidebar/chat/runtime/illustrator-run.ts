@@ -16,11 +16,11 @@ import { illustratorAgent } from "@/lib/ai/agents/builtin/illustrator/agent";
 import type { AgentRuntime } from "@/lib/ai/agents/types";
 import { rpc } from "@/lib/rpc";
 import { handleElysia, uid } from "@/lib/utils/base";
-import { upsertLocalMedia } from "@/lib/db/client/data/media";
+import { upsertLocalMedia } from "@/lib/db/client/data/media/media";
 import {
   readLocalMessageItems,
   replaceLocalMessageItems,
-} from "@/lib/db/client/data/chat";
+} from "@/lib/db/client/data/chat/chat";
 import { resolveModelTargetFromStore } from "./resolve-model-target";
 
 // imgGen reach (same as the start-trigger client op): POST /trigger-op/imggen -> bytes; persist media.

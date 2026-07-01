@@ -8,7 +8,7 @@ import {
   exportLocalCharacter,
   exportLocalLorebook,
   exportLocalPreset,
-} from "@/lib/db/client/data/rp-export";
+} from "@/lib/db/client/data/rp/rp-export";
 import { downloadBlob } from "@/lib/utils/client";
 import type {
   CharacterExportFormat,

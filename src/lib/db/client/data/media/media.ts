@@ -2,7 +2,7 @@
 
 import { media } from "@/lib/db/schema/shared";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
-import { makeTableStore } from "./table-store";
+import { makeTableStore } from "@/lib/db/client/data/table-store";
 
 const mediaStore = makeTableStore(media, media.id);
 

@@ -21,7 +21,7 @@ export async function buildChatRequestBody(getConvId: () => string | null) {
   // Dynamic: the RP context builder drags ~110KB lorebook/trigger machinery off first-paint chunks.
   const loadout = chatStore.get(chatLoadoutAtom);
   const chatContext = convId
-    ? await import("@/lib/db/client/data/chat-context").then((m) =>
+    ? await import("@/lib/db/client/data/chat/chat-context").then((m) =>
         m.buildChatContextFromLocalDb(userId, convId, {
           expectBindings:
             loadout.characterIds.length > 0 || loadout.lorebookIds.length > 0,
@@ -30,7 +30,7 @@ export async function buildChatRequestBody(getConvId: () => string | null) {
     : undefined;
   let messageTimes: Record<string, number> | undefined;
   if (convId) {
-    const rows = await import("@/lib/db/client/data/chat").then((m) =>
+    const rows = await import("@/lib/db/client/data/chat/chat").then((m) =>
       m.readLocalMessages(userId, convId),
     );
     if (rows && rows.length > 0) {

@@ -11,7 +11,7 @@ import {
   type HistoryProviderRow,
   type HistoryTestDetail,
   type TestListItem,
-} from "@/lib/db/client/data/tester";
+} from "@/lib/db/client/data/tester/tester";
 import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { useApiMutation } from "@/lib/react-query/hooks";
 import { queryKeys } from "@/lib/react-query/keys";

@@ -40,7 +40,7 @@ export function ImportExportSubmenu(props: Props) {
     try {
       const stamp = dayjs().format("YYYYMMDD-HHmmss");
       const { downloadDiagnostics: runDownloadDiagnostics } =
-        await import("@/lib/db/client/data/db-export");
+        await import("@/lib/db/client/data/diagnostics/db-export");
       await runDownloadDiagnostics(
         userId,
         `unorouter-diagnostics-${stamp}.json`,

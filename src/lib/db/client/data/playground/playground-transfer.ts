@@ -19,7 +19,7 @@ import {
   upsertLocalGenerationSession,
   upsertLocalSnapshot,
   upsertLocalSnapshotImages,
-} from "./playground";
+} from "@/lib/db/client/data/playground/playground";
 
 // Self-contained export: image bytes inlined as base64 so the file survives R2 expiry and works for guests.
 export async function exportLocalSession(
