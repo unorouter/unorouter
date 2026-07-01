@@ -1,6 +1,6 @@
 "use client";
 
-import { patchLocalRequestLogUpstream } from "@/lib/db/client/data/request-log";
+import { patchLocalRequestLogUpstream } from "@/lib/db/client/data/chat/request-log";
 import getQueryClient from "@/lib/react-query/client";
 import { invalidateAndBroadcast } from "@/lib/react-query/cross-tab-invalidate";
 import { queryKeys } from "@/lib/react-query/keys";

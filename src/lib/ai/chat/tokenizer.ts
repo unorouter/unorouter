@@ -159,7 +159,7 @@ function hfFileUrls(source: string): { json: string; config: string | null } {
 async function readCache(source: string) {
   try {
     const { getTokenizerCache } =
-      await import("@/lib/db/client/data/tokenizers");
+      await import("@/lib/db/client/data/media/tokenizers");
     return await getTokenizerCache(source);
   } catch {
     return null;
@@ -173,7 +173,7 @@ async function writeCache(row: {
 }) {
   try {
     const { putTokenizerCache } =
-      await import("@/lib/db/client/data/tokenizers");
+      await import("@/lib/db/client/data/media/tokenizers");
     await putTokenizerCache({ type: "huggingface", ...row });
   } catch {
     /* cache write is best-effort */

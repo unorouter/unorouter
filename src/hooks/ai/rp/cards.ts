@@ -8,13 +8,13 @@ import {
   readLocalConversationSettings,
   replaceLocalConversationBindings,
   upsertLocalConversationSettings,
-} from "@/lib/db/client/data/chat";
+} from "@/lib/db/client/data/chat/chat";
 import {
   deleteLocalCard,
   readLocalCard,
   readLocalCards,
   upsertLocalCardBundle,
-} from "@/lib/db/client/data/rp";
+} from "@/lib/db/client/data/rp/rp";
 import { queryKeys } from "@/lib/react-query/keys";
 import type { CardBody } from "@/lib/validation/rp";
 import { uid } from "@/lib/utils/base";

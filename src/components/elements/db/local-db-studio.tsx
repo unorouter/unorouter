@@ -83,7 +83,7 @@ export function LocalDbStudio(props: Props) {
         .toISOString()
         .replace(/[:.]/g, "-")}.sqlite3`;
       const { downloadLocalDb } =
-        await import("@/lib/db/client/data/db-export");
+        await import("@/lib/db/client/data/diagnostics/db-export");
       await downloadLocalDb(userId, filename);
     } catch (e) {
       logger.error("DB download failed", {

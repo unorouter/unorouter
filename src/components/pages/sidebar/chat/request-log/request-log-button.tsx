@@ -3,7 +3,7 @@
 import { TooltipIconButton } from "@/components/ui/assistant-ui/tooltip-icon-button";
 import { Icon } from "@/components/ui/icon";
 import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
-import { readLocalRequestLog } from "@/lib/db/client/data/request-log";
+import { readLocalRequestLog } from "@/lib/db/client/data/chat/request-log";
 import { queryKeys } from "@/lib/react-query/keys";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";

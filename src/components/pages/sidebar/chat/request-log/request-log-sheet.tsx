@@ -16,7 +16,7 @@ import { useIsMobile } from "@/hooks/ui/use-mobile";
 import {
   buildRequestLogCurl,
   readLocalRequestLog,
-} from "@/lib/db/client/data/request-log";
+} from "@/lib/db/client/data/chat/request-log";
 import { queryKeys } from "@/lib/react-query/keys";
 import { formatJson } from "@/lib/utils/base";
 import { useQuery } from "@tanstack/react-query";

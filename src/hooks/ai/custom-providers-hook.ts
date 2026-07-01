@@ -5,7 +5,7 @@ import {
   readLocalCustomProvider,
   readLocalCustomProviders,
   upsertLocalCustomProvider,
-} from "@/lib/db/client/data/custom-providers";
+} from "@/lib/db/client/data/rp/custom-providers";
 import { queryKeys } from "@/lib/react-query/keys";
 import { makeRpEntity } from "./rp/factory";
 import type { CustomProviderRow } from "@/lib/db/schema/rows";

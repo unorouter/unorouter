@@ -20,8 +20,8 @@ import {
   readLocalCharacter,
   readLocalLorebook,
   readLocalPreset,
-} from "./rp";
-import { readLocalMedia } from "./media";
+} from "@/lib/db/client/data/rp/rp";
+import { readLocalMedia } from "@/lib/db/client/data/media/media";
 
 type LocalExportResult = {
   blob: Blob;

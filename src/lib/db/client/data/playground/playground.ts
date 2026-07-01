@@ -13,8 +13,11 @@ import {
 } from "@/lib/db/schema/shared";
 import type { PlaygroundImageView, SnapshotView } from "@/lib/types";
 import { asc, desc, eq, inArray, sql } from "drizzle-orm";
-import { getLocalDb } from "../client";
-import { makeTableStore, replaceChildRows } from "./table-store";
+import { getLocalDb } from "@/lib/db/client/client";
+import {
+  makeTableStore,
+  replaceChildRows,
+} from "@/lib/db/client/data/table-store";
 
 import type { LocalAnyRow as AnyRow } from "@/lib/types";
 

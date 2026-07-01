@@ -1,7 +1,7 @@
-import { buildDiagnostics } from "@/lib/db/client/data/diagnostics";
-import { clearAllRequestLogs } from "@/lib/db/client/data/request-log";
+import { buildDiagnostics } from "@/lib/db/client/data/diagnostics/diagnostics";
+import { clearAllRequestLogs } from "@/lib/db/client/data/chat/request-log";
 import { getLocalDb } from "@/lib/db/client/client";
-import type { DiagnosticsOptions } from "@/lib/db/client/data/diagnostics";
+import type { DiagnosticsOptions } from "@/lib/db/client/data/diagnostics/diagnostics";
 import { downloadBlob, downloadJson } from "@/lib/utils/client";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { logger } from "@/lib/utils/logger";

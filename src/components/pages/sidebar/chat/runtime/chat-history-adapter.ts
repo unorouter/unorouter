@@ -6,7 +6,7 @@ import {
   partsToItems,
   walkActiveBranch,
 } from "@/lib/ai/chat/messages";
-import { upsertLocalMedia } from "@/lib/db/client/data/media";
+import { upsertLocalMedia } from "@/lib/db/client/data/media/media";
 import {
   readConvRegexScripts,
   readConvTriggers,
@@ -18,13 +18,13 @@ import {
   upsertLocalConversationSettings,
   upsertLocalMessage,
   upsertLocalMessageItem,
-} from "@/lib/db/client/data/chat";
-import { readLocalPreset } from "@/lib/db/client/data/rp";
+} from "@/lib/db/client/data/chat/chat";
+import { readLocalPreset } from "@/lib/db/client/data/rp/rp";
 import { runRegexScripts } from "@/lib/ai/chat/regex-scripts";
 import { makeTriggerContext, runTriggers } from "@/lib/ai/chat/triggers/vm";
 import type { TriggerScript } from "@/lib/ai/chat/triggers/types";
 import { makeClientTriggerOps } from "./trigger-ops-client";
-import { insertLocalRequestLog } from "@/lib/db/client/data/request-log";
+import { insertLocalRequestLog } from "@/lib/db/client/data/chat/request-log";
 import {
   drainSoon,
   enqueueLogEnrich,

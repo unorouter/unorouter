@@ -1,7 +1,7 @@
 "use client";
 
 import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
-import { upsertLocalMedia } from "@/lib/db/client/data/media";
+import { upsertLocalMedia } from "@/lib/db/client/data/media/media";
 import {
   deleteLocalCharacter,
   readLocalCharacter,
@@ -9,7 +9,7 @@ import {
   upsertLocalCardBundle,
   upsertLocalCharacter,
   upsertLocalLorebookBundle,
-} from "@/lib/db/client/data/rp";
+} from "@/lib/db/client/data/rp/rp";
 import { queryKeys } from "@/lib/react-query/keys";
 import {
   base64ToUint8,

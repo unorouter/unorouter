@@ -2,11 +2,11 @@ import { getLocalDb } from "@/lib/db/client/client";
 import {
   readLocalConversations,
   readLocalMessageMetaForConv,
-} from "@/lib/db/client/data/chat";
+} from "@/lib/db/client/data/chat/chat";
 import {
   readLocalRequestLogMetaForConv,
   readLocalRequestLogsForConv,
-} from "@/lib/db/client/data/request-log";
+} from "@/lib/db/client/data/chat/request-log";
 import { getChatDebugLog, logChatDebug } from "@/lib/utils/chat-debug-log";
 import { chatStore, convIdAtom, historyLoadedAtom } from "@/store/chat-store";
 import { dayjs } from "@/lib/utils/format/date";

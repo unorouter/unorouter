@@ -8,7 +8,7 @@ import {
   readLocalPersona,
   readLocalPersonas,
   upsertLocalPersona,
-} from "@/lib/db/client/data/rp";
+} from "@/lib/db/client/data/rp/rp";
 import type { PersonaRow } from "@/lib/db/schema/rows";
 import { queryKeys } from "@/lib/react-query/keys";
 import { uid } from "@/lib/utils/base";

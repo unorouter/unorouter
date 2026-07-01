@@ -9,7 +9,7 @@ import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import {
   inlayVersionAtom,
   replaceInlayTokens,
-} from "@/lib/db/client/data/inlay-render";
+} from "@/lib/db/client/data/media/inlay-render";
 import { cn } from "@/lib/utils";
 import { downloadBlob } from "@/lib/utils/client";
 import { useAuiState } from "@assistant-ui/react";

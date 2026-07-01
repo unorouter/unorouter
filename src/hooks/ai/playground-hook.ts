@@ -16,11 +16,11 @@ import {
   upsertLocalGenerationSession,
   upsertLocalSnapshot,
   upsertLocalSnapshotImages,
-} from "@/lib/db/client/data/playground";
+} from "@/lib/db/client/data/playground/playground";
 import {
   exportLocalSession,
   importLocalSession,
-} from "@/lib/db/client/data/playground-transfer";
+} from "@/lib/db/client/data/playground/playground-transfer";
 import type { Media, Playground } from "@/lib/db/schema/shared";
 import { invalidateAndBroadcast } from "@/lib/react-query/cross-tab-invalidate";
 import { queryKeys } from "@/lib/react-query/keys";

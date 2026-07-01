@@ -11,7 +11,7 @@ import { uid } from "@/lib/utils/base";
 import {
   readLocalConversationBundle,
   upsertLocalConversationBundle,
-} from "../chat";
+} from "@/lib/db/client/data/chat/chat";
 
 type AnyRow = Record<string, unknown>;
 

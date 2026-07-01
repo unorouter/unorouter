@@ -4,7 +4,7 @@
 
 import { chatStore } from "@/store/chat-store";
 import { atom } from "jotai";
-import { readLocalMedia } from "./media";
+import { readLocalMedia } from "@/lib/db/client/data/media/media";
 
 export const inlayVersionAtom = atom(0);
 

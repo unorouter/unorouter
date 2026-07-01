@@ -4,7 +4,7 @@ import { GUEST_USER_ID } from "@/lib/config/constants";
 import { conversations, messages } from "@/lib/db/schema/shared";
 import { and, eq, gt, notExists } from "drizzle-orm";
 import { alias } from "drizzle-orm/sqlite-core";
-import { getLocalDb } from "../client";
+import { getLocalDb } from "@/lib/db/client/client";
 
 export type UnansweredTurn = { convId: string; parentId: string };
 

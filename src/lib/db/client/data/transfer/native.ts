@@ -11,13 +11,13 @@ import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import {
   readLocalConversationBundle,
   upsertLocalConversationBundle,
-} from "../chat";
+} from "@/lib/db/client/data/chat/chat";
 import {
   upsertLocalCharacter,
   upsertLocalLorebookBundle,
   upsertLocalPersona,
   upsertLocalPreset,
-} from "../rp";
+} from "@/lib/db/client/data/rp/rp";
 import { type MappedImport } from "./map";
 
 export async function buildNativeExport(

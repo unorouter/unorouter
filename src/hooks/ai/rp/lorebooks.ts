@@ -11,7 +11,7 @@ import {
   upsertLocalLorebook,
   upsertLocalLorebookBundle,
   upsertLocalLorebookEntry,
-} from "@/lib/db/client/data/rp";
+} from "@/lib/db/client/data/rp/rp";
 import { queryKeys } from "@/lib/react-query/keys";
 import type { LorebookRow } from "@/lib/db/schema/rows";
 import type { LorebookBody, LorebookEntryBody } from "@/lib/validation/rp";

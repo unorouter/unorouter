@@ -1,7 +1,7 @@
 "use client";
 
 import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
-import { readLocalMedia } from "@/lib/db/client/data/media";
+import { readLocalMedia } from "@/lib/db/client/data/media/media";
 import { queryKeys } from "@/lib/react-query/keys";
 import { base64ToDataUri } from "@/lib/utils/base";
 import { useQuery } from "@tanstack/react-query";

@@ -5,7 +5,7 @@ import { API_ENDPOINTS } from "@/lib/ai/endpoints";
 import { requestLogs } from "@/lib/db/schema/shared";
 import type { RequestLogRow } from "@/lib/db/schema/rows";
 import { desc, eq, notInArray } from "drizzle-orm";
-import { getLocalDb } from "../client";
+import { getLocalDb } from "@/lib/db/client/client";
 
 // Each request_logs row snapshots the FULL post-assembly prompt (~4MB), so an unbounded table hits
 // hundreds of MB fast. The sheet is a debug aid that only inspects the most RECENT requests, so keep
