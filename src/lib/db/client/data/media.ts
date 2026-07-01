@@ -1,6 +1,7 @@
 "use client";
 
 import { media } from "@/lib/db/schema/shared";
+import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { makeTableStore } from "./table-store";
 
 const mediaStore = makeTableStore(media, media.id);
@@ -11,7 +12,7 @@ export const readLocalMedia = (userId: number | undefined, id: string) =>
 export const deleteLocalMedia = (userId: number | undefined, id: string) =>
   mediaStore.drop(userId, id);
 
-export const upsertLocalMedia = (
+export async function upsertLocalMedia(
   userId: number | undefined,
   row: {
     id: string;
@@ -23,14 +24,30 @@ export const upsertLocalMedia = (
     r2Url?: string | null;
     extractedText?: string | null;
   },
-) =>
-  mediaStore.upsert(userId, {
+) {
+  // bytes = the image-bloat signal (inline base64 is what balloons the OPFS DB); logged per write.
+  logChatDebug("media.write", {
     id: row.id,
-    convId: row.convId ?? null,
-    mimeType: row.mimeType,
-    sizeBytes: row.sizeBytes,
-    dataBase64: row.dataBase64 ?? null,
-    r2Key: row.r2Key ?? null,
-    r2Url: row.r2Url ?? null,
-    extractedText: row.extractedText ?? null,
+    bytes: row.dataBase64 ? row.dataBase64.length : (row.sizeBytes ?? 0),
+    mime: row.mimeType,
+    inline: !!row.dataBase64,
   });
+  try {
+    return await mediaStore.upsert(userId, {
+      id: row.id,
+      convId: row.convId ?? null,
+      mimeType: row.mimeType,
+      sizeBytes: row.sizeBytes,
+      dataBase64: row.dataBase64 ?? null,
+      r2Key: row.r2Key ?? null,
+      r2Url: row.r2Url ?? null,
+      extractedText: row.extractedText ?? null,
+    });
+  } catch (e) {
+    logChatDebug("media.write_error", {
+      id: row.id,
+      error: String(e).slice(0, 200),
+    });
+    throw e;
+  }
+}

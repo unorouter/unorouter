@@ -5,6 +5,7 @@ import { msg } from "@/lib/config/constants";
 import type { StMessage, StMetadata } from "@/lib/types";
 import { exportSlug } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
+import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { readLocalConversationBundle } from "../chat";
 import { upsertLocalConversationBundle } from "../chat";
 import { mapStImport, parseStJsonl } from "./map";
@@ -52,6 +53,7 @@ export async function exportLocalConversationSillyTavern(
   userId: number | undefined,
   convId: string,
 ): Promise<{ data: string; filename: string }> {
+  logChatDebug("export.conv_sillytavern.start", { convId });
   const bundle = await readLocalConversationBundle(userId, convId);
   if (!bundle) throw new Error(msg("ERRORS.NOT_FOUND"));
 
@@ -134,5 +136,9 @@ export async function importSillyTavernChat(
   }
   const mapped = mapStImport(parsed, dayjs().toDate());
   await upsertLocalConversationBundle(userId, mapped.bundle);
+  logChatDebug("import.sillytavern.done", {
+    convId: mapped.convId,
+    messages: parsed.messages.length,
+  });
   return { id: mapped.convId };
 }

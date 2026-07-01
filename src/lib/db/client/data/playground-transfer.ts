@@ -10,6 +10,7 @@ import {
   type SessionSnapshot,
 } from "@/lib/validation/playground";
 import { uid } from "@/lib/utils/base";
+import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { dayjs } from "@/lib/utils/format/date";
 import {
   bumpLocalSessionCounts,
@@ -25,6 +26,7 @@ export async function exportLocalSession(
   userId: number | undefined,
   sessionId: string,
 ): Promise<SessionSnapshot> {
+  logChatDebug("export.playground.start", { sessionId });
   const bundle = await readLocalGenerationSessionBundle(userId, sessionId);
   if (!bundle) throw new Error("playground-session-not-found");
   const snapshots: PlaygroundSnapshot[] = [];

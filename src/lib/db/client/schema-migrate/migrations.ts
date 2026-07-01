@@ -2,6 +2,7 @@
 
 import { LOCAL_MIGRATION_KEYS } from "@/lib/db/schema/client";
 import type { MigrationManifest } from "@/lib/types";
+import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { logger } from "@/lib/utils/logger";
 import type { SQLocalDrizzle } from "sqlocal/drizzle";
 
@@ -62,9 +63,14 @@ export async function runMigrations(sql: SQLocalDrizzle): Promise<void> {
         if (isIdempotentMigrationError(err)) continue;
         // Drifted baseline: log and keep going so reconcileSchema can rebuild.
         if (driftReplay) {
+          const msg = err instanceof Error ? err.message : String(err);
+          logChatDebug("migration.replay_tolerated", {
+            tag: m.tag,
+            error: msg.slice(0, 200),
+          });
           logger.warn("runMigrations: tolerated replay error on drifted DB", {
             context: "local-db.migrations.replay",
-            error: err instanceof Error ? err.message : String(err),
+            error: msg,
           });
           continue;
         }
@@ -249,6 +255,7 @@ async function reconcileSchema(
       const dropped = (before[0]?.n ?? 0) - (after[0]?.n ?? 0);
       if (dropped > 0) {
         await sql.sql(`DROP TABLE IF EXISTS \`${tmp}\``);
+        logChatDebug("reconcile.row_loss_abort", { table, dropped });
         logger.error("reconcileSchema skipped rebuild: would drop rows", {
           context: "local-db.migrations.reconcile",
           table,
@@ -257,6 +264,7 @@ async function reconcileSchema(
         continue;
       }
     }
+    logChatDebug("reconcile.rebuild", { table });
     await sql.sql(`DROP TABLE \`${table}\``);
     await sql.sql(`ALTER TABLE \`${tmp}\` RENAME TO \`${table}\``);
     for (const idx of ddl.indexes) {
@@ -303,6 +311,7 @@ async function validateColumns(
       if (isAddableColumn(def)) {
         try {
           await sql.sql(`ALTER TABLE \`${table}\` ADD COLUMN ${def}`);
+          logChatDebug("validate.column_added", { table, col });
         } catch (err) {
           if (!isIdempotentMigrationError(err)) unfixable.push(col);
         }
@@ -321,6 +330,11 @@ async function validateColumns(
         table,
         missing: unfixable,
       };
+      logChatDebug("validate.force_rebuild", {
+        table,
+        missing: unfixable,
+        recovered,
+      });
       if (recovered) {
         // Success: notable (the db was drifted) but not a failure - we repaired it without data loss.
         logger.warn(

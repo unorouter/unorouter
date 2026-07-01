@@ -4,8 +4,13 @@ import { env } from "@/lib/config/env";
 import { API_ENDPOINTS } from "@/lib/ai/endpoints";
 import { requestLogs } from "@/lib/db/schema/shared";
 import type { RequestLogRow } from "@/lib/db/schema/rows";
-import { desc, eq } from "drizzle-orm";
+import { desc, eq, notInArray } from "drizzle-orm";
 import { getLocalDb } from "../client";
+
+// Each request_logs row snapshots the FULL post-assembly prompt (~4MB), so an unbounded table hits
+// hundreds of MB fast. The sheet is a debug aid that only inspects the most RECENT requests, so keep
+// a small global window and trim the rest on every insert. Chats/messages are untouched (tiny).
+const MAX_REQUEST_LOGS = 15;
 
 // Reproducible curl for a logged request. Token is intentionally a placeholder ($UNOROUTER_API_KEY),
 // never the real key. Uses the stored upstream url/endpoint (text -> chat/completions, media -> the
@@ -44,6 +49,20 @@ export async function insertLocalRequestLog(
     .insert(requestLogs)
     .values(row)
     .onConflictDoUpdate({ target: requestLogs.msgId, set: row });
+  // Trim to the newest MAX_REQUEST_LOGS globally so the debug table can't grow unbounded.
+  const keep = await local.db
+    .select({ msgId: requestLogs.msgId })
+    .from(requestLogs)
+    .orderBy(desc(requestLogs.createdAt))
+    .limit(MAX_REQUEST_LOGS);
+  if (keep.length >= MAX_REQUEST_LOGS) {
+    await local.db.delete(requestLogs).where(
+      notInArray(
+        requestLogs.msgId,
+        keep.map((r) => r.msgId),
+      ),
+    );
+  }
 }
 
 // Wipe ALL request_logs (the heaviest table: full per-turn prompt snapshots). Called before a DB
