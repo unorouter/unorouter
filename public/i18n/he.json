@@ -322,6 +322,8 @@
       "PROMPT_PRICING": "תמחור פרומפט",
       "CATEGORIES": "קטגוריות",
       "SUPPORTED_PARAMETERS": "פרמטרים נתמכים",
+      "TOOLS": "כלים",
+      "FUNCTION_CALLING": "קריאה לפונקציות",
       "PROVIDERS": "ספקים",
       "MIN": "מינ׳",
       "ANY": "הכול",
@@ -3431,7 +3433,18 @@
       "EXTRA_BODY_PLACEHOLDER": "'{'\n  \"reasoning_effort\": \"high\",\n  \"service_tier\": \"priority\"\n'}'",
       "EXTRA_BODY_HINT": "ממוזג לבקשה לפני שליחה. השתמשו לשדות שהמחוונים לא מכסים. מחוונים מנצחים בקונפליקטי מפתחות.",
       "EXTRA_BODY_INVALID": "JSON לא תקין. עטפו עם '{}' ובצעו escape למחרוזות.",
-      "INHERIT": "בירושה"
+      "INHERIT": "בירושה",
+      "IMAGE_PREVIEW": "בדיקת פרומפט",
+      "IMAGE_PREVIEW_HINT": "מציג את פרומפט התמונה שנכתב לבדיקה לפני כל יצירה.",
+      "USE_CHAR_AVATAR_REF": "אווטאר כרפרנס",
+      "USE_CHAR_AVATAR_REF_HINT": "שולח את האווטאר של הדמות הראשית כתמונת ייחוס למודל התמונות.",
+      "IMAGE_MODEL": "מודל תמונות",
+      "IMAGE_MODEL_AUTO": "אוטומטי (מודל התמונות החינמי הראשון)",
+      "IMAGE_MODEL_REFS": "{count} רפרנסים",
+      "IMAGE_REFS": "תמונות ייחוס",
+      "IMAGE_REFS_ADD": "הוספה",
+      "IMAGE_REFS_HINT": "עד 6 תמונות נשלחות כייחוס עם כל יצירה בצ'אט. התמיכה משתנה לפי מודל.",
+      "IMAGE_STYLE_TEMPLATE": "תבנית סגנון"
     },
     "SAMPLING": {
       "UNSUPPORTED": "לא נתמך על-ידי כל הספקים המגישים את המודל הזה. הגדרתו לא משפיעה."
@@ -3531,6 +3544,24 @@
       "MODEL_COUNT": "{count} מודלים",
       "DELETE_TITLE": "למחוק את הספק?",
       "DELETE_DESC": "פעולה זו מסירה את הספק ואת המודלים שלו. השיחות שלך נשמרות."
+    },
+    "IMAGE_PROMPT": {
+      "TITLE": "פרומפט תמונה",
+      "HINT": "הפרומפט שיצר את התמונה הזו. ערכו אותו וצרו מחדש כדי להחליף את התמונה.",
+      "REVIEW_TITLE": "בדיקת פרומפט תמונה",
+      "REVIEW_HINT": "ערכו את הפרומפט לפני היצירה, או דלגו על התמונה הזו.",
+      "SKIP": "דילוג",
+      "GENERATE": "יצירה",
+      "REGENERATE": "יצירה מחדש",
+      "REGENERATING": "יוצר מחדש...",
+      "VIEW": "פרומפט תמונה"
+    },
+    "IMAGE_STYLE": {
+      "ANIME": "אנימה",
+      "DANBOORU": "תגיות Danbooru",
+      "REALISTIC": "ריאליסטי",
+      "PHOTOREALISTIC": "פוטוריאליסטי",
+      "CINEMATIC": "קולנועי"
     }
   },
   "RP": {
@@ -3717,7 +3748,11 @@
     "CHARACTER_BACKGROUND": "תמונת רקע",
     "CHARACTER_BACKGROUND_HINT": "מוצגת מאחורי הצ'אט כאשר דמות זו מובילה את השיחה.",
     "CHARACTER_AVATAR": "אווטאר",
-    "CHARACTER_AVATAR_HINT": "מוצג ליד הדמות הזו בצ'אטים וברשימות."
+    "CHARACTER_AVATAR_HINT": "מוצג ליד הדמות הזו בצ'אטים וברשימות.",
+    "PRESET_IMAGE_PREVIEW": "בדיקת פרומפט תמונה",
+    "PRESET_USE_CHAR_AVATAR_REF": "אווטאר כתמונת ייחוס",
+    "PRESET_IMAGE_MODEL": "מודל תמונות",
+    "PRESET_IMAGE_MODEL_HINT": "מודל תמונות מהקטלוג ליצירת תמונות בצ'אט. ריק פירושו אוטומטי."
   },
   "ERRORS": {
     "MISSING_ENV": "חסר משתנה סביבה נדרש: {var}",

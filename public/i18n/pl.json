@@ -322,6 +322,8 @@
       "PROMPT_PRICING": "Cena promptu",
       "CATEGORIES": "Kategorie",
       "SUPPORTED_PARAMETERS": "Obsługiwane parametry",
+      "TOOLS": "Narzędzia",
+      "FUNCTION_CALLING": "Wywoływanie funkcji",
       "PROVIDERS": "Dostawcy",
       "MIN": "Min",
       "ANY": "Dowolny",
@@ -3431,7 +3433,18 @@
       "EXTRA_BODY_PLACEHOLDER": "'{'\n  \"reasoning_effort\": \"high\",\n  \"service_tier\": \"priority\"\n'}'",
       "EXTRA_BODY_HINT": "Łączone z zapytaniem przed wysłaniem. Użyj dla pól, których nie pokrywają suwaki. Suwaki wygrywają przy konfliktach kluczy.",
       "EXTRA_BODY_INVALID": "Nieprawidłowy JSON. Otocz '{}' i ucieknij znaki w stringach.",
-      "INHERIT": "Dziedzicz"
+      "INHERIT": "Dziedzicz",
+      "IMAGE_PREVIEW": "Przejrzyj prompt",
+      "IMAGE_PREVIEW_HINT": "Pokazuje napisany prompt obrazu do przejrzenia przed każdym generowaniem.",
+      "USE_CHAR_AVATAR_REF": "Awatar jako referencja",
+      "USE_CHAR_AVATAR_REF_HINT": "Wysyła awatar głównej postaci jako obraz referencyjny do modelu obrazów.",
+      "IMAGE_MODEL": "Model obrazów",
+      "IMAGE_MODEL_AUTO": "Automatycznie (pierwszy darmowy model obrazów)",
+      "IMAGE_MODEL_REFS": "{count} referencji",
+      "IMAGE_REFS": "Obrazy referencyjne",
+      "IMAGE_REFS_ADD": "Dodaj",
+      "IMAGE_REFS_HINT": "Do 6 obrazów wysyłanych jako referencje przy każdym generowaniu na czacie. Wsparcie zależy od modelu.",
+      "IMAGE_STYLE_TEMPLATE": "Szablon stylu"
     },
     "SAMPLING": {
       "UNSUPPORTED": "Nie obsługiwane przez wszystkich dostawców obsługujących ten model. Ustawienie tego nie ma efektu."
@@ -3531,6 +3544,24 @@
       "MODEL_COUNT": "Modele: {count}",
       "DELETE_TITLE": "Usunąć dostawcę?",
       "DELETE_DESC": "Spowoduje to usunięcie dostawcy i jego modeli. Twoje rozmowy zostaną zachowane."
+    },
+    "IMAGE_PROMPT": {
+      "TITLE": "Prompt obrazu",
+      "HINT": "Prompt, który wygenerował ten obraz. Edytuj go i wygeneruj ponownie, aby zastąpić obraz.",
+      "REVIEW_TITLE": "Przejrzyj prompt obrazu",
+      "REVIEW_HINT": "Edytuj prompt przed generowaniem lub pomiń ten obraz.",
+      "SKIP": "Pomiń",
+      "GENERATE": "Generuj",
+      "REGENERATE": "Generuj ponownie",
+      "REGENERATING": "Ponowne generowanie...",
+      "VIEW": "Prompt obrazu"
+    },
+    "IMAGE_STYLE": {
+      "ANIME": "Anime",
+      "DANBOORU": "Tagi Danbooru",
+      "REALISTIC": "Realistyczny",
+      "PHOTOREALISTIC": "Fotorealistyczny",
+      "CINEMATIC": "Kinowy"
     }
   },
   "RP": {
@@ -3717,7 +3748,11 @@
     "CHARACTER_BACKGROUND": "Obraz tła",
     "CHARACTER_BACKGROUND_HINT": "Wyświetlany za czatem, gdy ta postać prowadzi rozmowę.",
     "CHARACTER_AVATAR": "Awatar",
-    "CHARACTER_AVATAR_HINT": "Wyświetlany obok tej postaci w czatach i listach."
+    "CHARACTER_AVATAR_HINT": "Wyświetlany obok tej postaci w czatach i listach.",
+    "PRESET_IMAGE_PREVIEW": "Przejrzyj prompt obrazu",
+    "PRESET_USE_CHAR_AVATAR_REF": "Awatar jako obraz referencyjny",
+    "PRESET_IMAGE_MODEL": "Model obrazów",
+    "PRESET_IMAGE_MODEL_HINT": "Model obrazów z katalogu do generowania na czacie. Puste oznacza automatycznie."
   },
   "ERRORS": {
     "MISSING_ENV": "Brakująca wymagana zmienna env: {var}",

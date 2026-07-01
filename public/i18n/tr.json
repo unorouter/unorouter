@@ -322,6 +322,8 @@
       "PROMPT_PRICING": "İstem fiyatı",
       "CATEGORIES": "Kategoriler",
       "SUPPORTED_PARAMETERS": "Desteklenen Parametreler",
+      "TOOLS": "Araçlar",
+      "FUNCTION_CALLING": "İşlev çağırma",
       "PROVIDERS": "Sağlayıcılar",
       "MIN": "Min",
       "ANY": "Herhangi",
@@ -3431,7 +3433,18 @@
       "EXTRA_BODY_PLACEHOLDER": "'{'\n  \"reasoning_effort\": \"high\",\n  \"service_tier\": \"priority\"\n'}'",
       "EXTRA_BODY_HINT": "Göndermeden önce isteğe birleştirilir. Slider'ların kapsamadığı alanlar için kullanın. Slider'lar anahtar çakışmalarında kazanır.",
       "EXTRA_BODY_INVALID": "Geçersiz JSON. '{}' ile sarın ve stringleri escape edin.",
-      "INHERIT": "Devral"
+      "INHERIT": "Devral",
+      "IMAGE_PREVIEW": "Promptu incele",
+      "IMAGE_PREVIEW_HINT": "Her görsel oluşturmadan önce yazılan görsel promptunu inceleme için gösterir.",
+      "USE_CHAR_AVATAR_REF": "Avatarı referans yap",
+      "USE_CHAR_AVATAR_REF_HINT": "Ana karakterin avatarını referans görsel olarak görsel modeline gönderir.",
+      "IMAGE_MODEL": "Görsel modeli",
+      "IMAGE_MODEL_AUTO": "Otomatik (ilk ücretsiz görsel modeli)",
+      "IMAGE_MODEL_REFS": "{count} referans",
+      "IMAGE_REFS": "Referans görseller",
+      "IMAGE_REFS_ADD": "Ekle",
+      "IMAGE_REFS_HINT": "Sohbetteki her oluşturmada en fazla 6 görsel referans olarak gönderilir. Destek modele göre değişir.",
+      "IMAGE_STYLE_TEMPLATE": "Stil şablonu"
     },
     "SAMPLING": {
       "UNSUPPORTED": "Bu modeli sunan tüm sağlayıcılar tarafından desteklenmez. Ayarlamak etkisizdir."
@@ -3531,6 +3544,24 @@
       "MODEL_COUNT": "{count} model",
       "DELETE_TITLE": "Sağlayıcı silinsin mi?",
       "DELETE_DESC": "Bu işlem sağlayıcıyı ve modellerini kaldırır. Sohbetleriniz korunur."
+    },
+    "IMAGE_PROMPT": {
+      "TITLE": "Görsel promptu",
+      "HINT": "Bu görseli oluşturan prompt. Düzenleyip yeniden oluşturarak görseli değiştirin.",
+      "REVIEW_TITLE": "Görsel promptunu incele",
+      "REVIEW_HINT": "Oluşturmadan önce promptu düzenleyin veya bu görseli atlayın.",
+      "SKIP": "Atla",
+      "GENERATE": "Oluştur",
+      "REGENERATE": "Yeniden oluştur",
+      "REGENERATING": "Yeniden oluşturuluyor...",
+      "VIEW": "Görsel promptu"
+    },
+    "IMAGE_STYLE": {
+      "ANIME": "Anime",
+      "DANBOORU": "Danbooru etiketleri",
+      "REALISTIC": "Gerçekçi",
+      "PHOTOREALISTIC": "Fotogerçekçi",
+      "CINEMATIC": "Sinematik"
     }
   },
   "RP": {
@@ -3717,7 +3748,11 @@
     "CHARACTER_BACKGROUND": "Arka plan resmi",
     "CHARACTER_BACKGROUND_HINT": "Bu karakter sohbeti yönetirken sohbetin arkasında gösterilir.",
     "CHARACTER_AVATAR": "Avatar",
-    "CHARACTER_AVATAR_HINT": "Sohbetlerde ve listelerde bu karakterin yanında gösterilir."
+    "CHARACTER_AVATAR_HINT": "Sohbetlerde ve listelerde bu karakterin yanında gösterilir.",
+    "PRESET_IMAGE_PREVIEW": "Görsel promptunu incele",
+    "PRESET_USE_CHAR_AVATAR_REF": "Avatarı referans görsel yap",
+    "PRESET_IMAGE_MODEL": "Görsel modeli",
+    "PRESET_IMAGE_MODEL_HINT": "Sohbet içi görsel oluşturma için katalog görsel modeli. Boş bırakılırsa otomatik."
   },
   "ERRORS": {
     "MISSING_ENV": "Gerekli env eksik: {var}",

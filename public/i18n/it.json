@@ -322,6 +322,8 @@
       "PROMPT_PRICING": "Prezzo prompt",
       "CATEGORIES": "Categorie",
       "SUPPORTED_PARAMETERS": "Parametri supportati",
+      "TOOLS": "Strumenti",
+      "FUNCTION_CALLING": "Chiamata di funzioni",
       "PROVIDERS": "Fornitori",
       "MIN": "Min",
       "ANY": "Qualsiasi",
@@ -3431,7 +3433,18 @@
       "EXTRA_BODY_PLACEHOLDER": "'{'\n  \"reasoning_effort\": \"high\",\n  \"service_tier\": \"priority\"\n'}'",
       "EXTRA_BODY_HINT": "Unito nella richiesta prima dell'invio. Usa per campi che gli slider non coprono. Gli slider vincono nei conflitti di chiave.",
       "EXTRA_BODY_INVALID": "JSON non valido. Avvolgi con '{}' ed escape le stringhe.",
-      "INHERIT": "Eredita"
+      "INHERIT": "Eredita",
+      "IMAGE_PREVIEW": "Rivedi il prompt",
+      "IMAGE_PREVIEW_HINT": "Mostra il prompt dell'immagine scritto per la revisione prima di ogni generazione.",
+      "USE_CHAR_AVATAR_REF": "Avatar come riferimento",
+      "USE_CHAR_AVATAR_REF_HINT": "Invia l'avatar del personaggio principale come immagine di riferimento al modello.",
+      "IMAGE_MODEL": "Modello immagine",
+      "IMAGE_MODEL_AUTO": "Automatico (primo modello immagine gratuito)",
+      "IMAGE_MODEL_REFS": "{count} riferimenti",
+      "IMAGE_REFS": "Immagini di riferimento",
+      "IMAGE_REFS_ADD": "Aggiungi",
+      "IMAGE_REFS_HINT": "Fino a 6 immagini inviate come riferimento a ogni generazione in chat. Il supporto varia per modello.",
+      "IMAGE_STYLE_TEMPLATE": "Modello di stile"
     },
     "SAMPLING": {
       "UNSUPPORTED": "Non supportato da tutti i provider che servono questo modello. Impostarlo non ha effetto."
@@ -3531,6 +3544,24 @@
       "MODEL_COUNT": "{count} modello/i",
       "DELETE_TITLE": "Eliminare il provider?",
       "DELETE_DESC": "Questo rimuove il provider e i suoi modelli. Le tue conversazioni vengono conservate."
+    },
+    "IMAGE_PROMPT": {
+      "TITLE": "Prompt dell'immagine",
+      "HINT": "Il prompt che ha generato questa immagine. Modificalo e rigenera per sostituire l'immagine.",
+      "REVIEW_TITLE": "Rivedi il prompt dell'immagine",
+      "REVIEW_HINT": "Modifica il prompt prima della generazione, oppure salta questa immagine.",
+      "SKIP": "Salta",
+      "GENERATE": "Genera",
+      "REGENERATE": "Rigenera",
+      "REGENERATING": "Rigenerazione in corso...",
+      "VIEW": "Prompt dell'immagine"
+    },
+    "IMAGE_STYLE": {
+      "ANIME": "Anime",
+      "DANBOORU": "Tag Danbooru",
+      "REALISTIC": "Realistico",
+      "PHOTOREALISTIC": "Fotorealistico",
+      "CINEMATIC": "Cinematografico"
     }
   },
   "RP": {
@@ -3717,7 +3748,11 @@
     "CHARACTER_BACKGROUND": "Immagine di sfondo",
     "CHARACTER_BACKGROUND_HINT": "Mostrata dietro la chat quando questo personaggio guida la conversazione.",
     "CHARACTER_AVATAR": "Avatar",
-    "CHARACTER_AVATAR_HINT": "Mostrato accanto a questo personaggio nelle chat e negli elenchi."
+    "CHARACTER_AVATAR_HINT": "Mostrato accanto a questo personaggio nelle chat e negli elenchi.",
+    "PRESET_IMAGE_PREVIEW": "Rivedi il prompt dell'immagine",
+    "PRESET_USE_CHAR_AVATAR_REF": "Avatar come immagine di riferimento",
+    "PRESET_IMAGE_MODEL": "Modello immagine",
+    "PRESET_IMAGE_MODEL_HINT": "Modello immagine del catalogo per la generazione in chat. Vuoto significa automatico."
   },
   "ERRORS": {
     "MISSING_ENV": "Variabile d'ambiente richiesta mancante: {var}",

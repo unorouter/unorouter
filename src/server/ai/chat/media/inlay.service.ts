@@ -1,4 +1,5 @@
-// Inlay image generation (Risu runImgGen): one image via the first image-capable catalog model, returned as base64.
+// Inlay image generation (Risu runImgGen): one image via the requested image model (falling back to the
+// first image-capable catalog model), returned as base64. Reference images ride the playground refs path.
 
 import { chooseEndpoint } from "@/lib/ai/playground/models-dynamic";
 import { getPricingSummary } from "@/lib/api/pricing-cache";
@@ -10,9 +11,14 @@ import type { InlayImage } from "@/lib/ai/chat/pipeline/deps";
 export async function generateInlayImage(
   apiKey: string,
   prompt: string,
+  opts?: { model?: string; references?: { url: string }[] },
 ): Promise<InlayImage | null> {
   const summary = await getPricingSummary();
+  // The requested model must exist as an image model in the catalog; unknown ids fall back to auto-pick.
   const model =
+    (opts?.model
+      ? summary.models.find((m) => m.type === "image" && m.name === opts.model)
+      : undefined) ??
     summary.models.find((m) => m.type === "image" && m.isFree) ??
     summary.models.find((m) => m.type === "image");
   if (!model) return null;
@@ -20,7 +26,11 @@ export async function generateInlayImage(
   if (!endpoint) return null;
   const images = await submitSyncImage({
     apiKey,
-    body: { model: model.name, prompt } as PlaygroundSubmitBody,
+    body: {
+      model: model.name,
+      prompt,
+      references: opts?.references,
+    } as PlaygroundSubmitBody,
     endpoint,
     n: 1,
   });

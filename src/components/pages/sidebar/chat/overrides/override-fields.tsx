@@ -15,15 +15,24 @@ import { InfoPopover } from "@/components/ui/popover";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useCharactersQuery } from "@/hooks/ai/rp/characters";
 import { useLorebooksQuery } from "@/hooks/ai/rp/lorebooks";
 import { usePersonasQuery } from "@/hooks/ai/rp/personas";
 import { usePresetsQuery } from "@/hooks/ai/rp/presets";
+import { usePricingQuery } from "@/hooks/models/pricing-hook";
+import { IMAGE_STYLE_TEMPLATES } from "@/lib/ai/chat/image-style-templates";
 import { DEFAULT_CHAT_MEMORY, msg, NONE_VALUE } from "@/lib/config/constants";
 import { parseExtraBody } from "@/lib/validation/chat";
 import type { ConversationOverridesForm } from "@/lib/validation/rp-forms";
 import { useTranslations } from "next-intl";
-import type { Control } from "react-hook-form";
+import { useFormContext, type Control } from "react-hook-form";
 import {
   REASONING_EFFORT_KEY,
   WEB_SEARCH_CONTEXT_KEY,
@@ -259,6 +268,52 @@ export function OverridesGenerationFields(props: {
                 </FormItem>
               )}
             />
+            <FormField
+              control={props.control}
+              name="imagePreview"
+              render={({ field }) => (
+                <FormItem className="flex-row items-center gap-2">
+                  <div className="flex items-center gap-1.5">
+                    <FormLabel className="text-xs">
+                      {t("CHAT.OVERRIDES.IMAGE_PREVIEW")}
+                    </FormLabel>
+                    <InfoPopover
+                      text={t("CHAT.OVERRIDES.IMAGE_PREVIEW_HINT")}
+                    />
+                  </div>
+                  <FormControl>
+                    <Switch
+                      size="sm"
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={props.control}
+              name="useCharAvatarRef"
+              render={({ field }) => (
+                <FormItem className="flex-row items-center gap-2">
+                  <div className="flex items-center gap-1.5">
+                    <FormLabel className="text-xs">
+                      {t("CHAT.OVERRIDES.USE_CHAR_AVATAR_REF")}
+                    </FormLabel>
+                    <InfoPopover
+                      text={t("CHAT.OVERRIDES.USE_CHAR_AVATAR_REF_HINT")}
+                    />
+                  </div>
+                  <FormControl>
+                    <Switch
+                      size="sm"
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
           </div>
           <FormField
             control={props.control}
@@ -281,30 +336,92 @@ export function OverridesGenerationFields(props: {
               </FormItem>
             )}
           />
-          <FormField
-            control={props.control}
-            name="promptInstruction"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-muted-foreground text-xs">
-                  {t("CHAT.OVERRIDES.IMAGE_PROMPT_INSTRUCTION")}
-                </FormLabel>
-                <FormControl>
-                  <Textarea
-                    className="min-h-16 text-xs"
-                    placeholder={t(
-                      "CHAT.OVERRIDES.IMAGE_PROMPT_INSTRUCTION_PLACEHOLDER",
-                    )}
-                    value={field.value}
-                    onChange={field.onChange}
-                  />
-                </FormControl>
-              </FormItem>
-            )}
-          />
+          <ImageModelField control={props.control} />
+          <ImagePromptInstructionField control={props.control} />
         </div>
       )}
     </>
+  );
+}
+
+// Image model picker: catalog image models, labeled with their reference-image capacity.
+function ImageModelField(props: {
+  control: Control<ConversationOverridesForm>;
+}) {
+  const t = useTranslations();
+  const pricing = usePricingQuery().data;
+  const options = (pricing?.models ?? [])
+    .filter((m) => m.type === "image")
+    .map((m) => ({
+      id: m.name,
+      name: m.metadata.maxImageInputs
+        ? `${m.name} (${t("CHAT.OVERRIDES.IMAGE_MODEL_REFS", { count: m.metadata.maxImageInputs })})`
+        : m.name,
+    }));
+  return (
+    <MyFormEntitySelect
+      control={props.control}
+      name="imageModel"
+      label={t("CHAT.OVERRIDES.IMAGE_MODEL")}
+      noneLabel={t("CHAT.OVERRIDES.IMAGE_MODEL_AUTO")}
+      options={options}
+    />
+  );
+}
+
+// Prompt-writer instruction textarea plus a style-template select that fills it (user edits from there).
+function ImagePromptInstructionField(props: {
+  control: Control<ConversationOverridesForm>;
+}) {
+  const t = useTranslations();
+  const form = useFormContext<ConversationOverridesForm>();
+  return (
+    <FormField
+      control={props.control}
+      name="promptInstruction"
+      render={({ field }) => (
+        <FormItem>
+          <div className="flex items-center justify-between">
+            <FormLabel className="text-muted-foreground text-xs">
+              {t("CHAT.OVERRIDES.IMAGE_PROMPT_INSTRUCTION")}
+            </FormLabel>
+            <Select
+              value=""
+              onValueChange={(id) => {
+                const tpl = IMAGE_STYLE_TEMPLATES.find((x) => x.id === id);
+                if (!tpl) return;
+                form.setValue("promptInstruction", tpl.instruction, {
+                  shouldDirty: true,
+                });
+              }}
+            >
+              <SelectTrigger size="sm" className="h-7 w-36 text-xs">
+                <SelectValue
+                  placeholder={t("CHAT.OVERRIDES.IMAGE_STYLE_TEMPLATE")}
+                />
+              </SelectTrigger>
+              <SelectContent>
+                {IMAGE_STYLE_TEMPLATES.map((tpl) => (
+                  <SelectItem key={tpl.id} value={tpl.id}>
+                    {t(tpl.labelKey)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <FormControl>
+            <Textarea
+              className="min-h-16 text-xs"
+              placeholder={t(
+                "CHAT.OVERRIDES.IMAGE_PROMPT_INSTRUCTION_PLACEHOLDER",
+              )}
+              value={field.value}
+              onChange={field.onChange}
+            />
+          </FormControl>
+        </FormItem>
+      )}
+    />
   );
 }
 

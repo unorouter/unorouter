@@ -322,6 +322,8 @@
       "PROMPT_PRICING": "프롬프트 가격",
       "CATEGORIES": "카테고리",
       "SUPPORTED_PARAMETERS": "지원 매개변수",
+      "TOOLS": "도구",
+      "FUNCTION_CALLING": "함수 호출",
       "PROVIDERS": "제공자",
       "MIN": "최소",
       "ANY": "모두",
@@ -3431,7 +3433,18 @@
       "EXTRA_BODY_PLACEHOLDER": "'{'\n  \"reasoning_effort\": \"high\",\n  \"service_tier\": \"priority\"\n'}'",
       "EXTRA_BODY_HINT": "전송 전 요청에 병합됩니다. 슬라이더가 다루지 않는 필드에 사용하세요. 키 충돌 시 슬라이더가 우선합니다.",
       "EXTRA_BODY_INVALID": "유효하지 않은 JSON. '{}'로 감싸고 문자열을 이스케이프하세요.",
-      "INHERIT": "상속"
+      "INHERIT": "상속",
+      "IMAGE_PREVIEW": "프롬프트 검토",
+      "IMAGE_PREVIEW_HINT": "이미지를 생성하기 전에 작성된 이미지 프롬프트를 검토용으로 표시합니다.",
+      "USE_CHAR_AVATAR_REF": "아바타를 참조로 사용",
+      "USE_CHAR_AVATAR_REF_HINT": "주 캐릭터의 아바타를 참조 이미지로 이미지 모델에 전송합니다.",
+      "IMAGE_MODEL": "이미지 모델",
+      "IMAGE_MODEL_AUTO": "자동 (첫 번째 무료 이미지 모델)",
+      "IMAGE_MODEL_REFS": "참조 {count}개",
+      "IMAGE_REFS": "참조 이미지",
+      "IMAGE_REFS_ADD": "추가",
+      "IMAGE_REFS_HINT": "채팅 내 이미지 생성마다 최대 6개의 이미지를 참조로 전송합니다. 지원 여부는 모델마다 다릅니다.",
+      "IMAGE_STYLE_TEMPLATE": "스타일 템플릿"
     },
     "SAMPLING": {
       "UNSUPPORTED": "이 모델을 제공하는 모든 공급자가 지원하지 않습니다. 설정해도 효과가 없습니다."
@@ -3531,6 +3544,24 @@
       "MODEL_COUNT": "{count}개 모델",
       "DELETE_TITLE": "공급자를 삭제할까요?",
       "DELETE_DESC": "공급자와 해당 모델이 제거됩니다. 대화는 유지됩니다."
+    },
+    "IMAGE_PROMPT": {
+      "TITLE": "이미지 프롬프트",
+      "HINT": "이 이미지를 생성한 프롬프트입니다. 수정 후 재생성하면 이미지가 교체됩니다.",
+      "REVIEW_TITLE": "이미지 프롬프트 검토",
+      "REVIEW_HINT": "생성 전에 프롬프트를 수정하거나 이 이미지를 건너뜁니다.",
+      "SKIP": "건너뛰기",
+      "GENERATE": "생성",
+      "REGENERATE": "재생성",
+      "REGENERATING": "재생성 중...",
+      "VIEW": "이미지 프롬프트"
+    },
+    "IMAGE_STYLE": {
+      "ANIME": "애니메이션",
+      "DANBOORU": "Danbooru 태그",
+      "REALISTIC": "사실적",
+      "PHOTOREALISTIC": "포토리얼",
+      "CINEMATIC": "시네마틱"
     }
   },
   "RP": {
@@ -3717,7 +3748,11 @@
     "CHARACTER_BACKGROUND": "배경 이미지",
     "CHARACTER_BACKGROUND_HINT": "이 캐릭터가 대화를 주도할 때 채팅 뒤에 표시됩니다.",
     "CHARACTER_AVATAR": "아바타",
-    "CHARACTER_AVATAR_HINT": "채팅과 목록에서 이 캐릭터 옆에 표시됩니다."
+    "CHARACTER_AVATAR_HINT": "채팅과 목록에서 이 캐릭터 옆에 표시됩니다.",
+    "PRESET_IMAGE_PREVIEW": "이미지 프롬프트 검토",
+    "PRESET_USE_CHAR_AVATAR_REF": "아바타를 참조 이미지로 사용",
+    "PRESET_IMAGE_MODEL": "이미지 모델",
+    "PRESET_IMAGE_MODEL_HINT": "채팅 내 이미지 생성에 사용할 카탈로그 이미지 모델. 비워 두면 자동."
   },
   "ERRORS": {
     "MISSING_ENV": "필수 환경 변수 누락: {var}",

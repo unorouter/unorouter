@@ -209,7 +209,7 @@ export async function readLocalConversationBindings(
 }
 
 // Primary (lowest orderIndex) character row for a conversation, or null.
-async function readPrimaryCharacter(
+export async function readPrimaryCharacter(
   userId: number | undefined,
   convId: string,
 ) {
