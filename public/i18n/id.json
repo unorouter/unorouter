@@ -322,6 +322,8 @@
       "PROMPT_PRICING": "Harga prompt",
       "CATEGORIES": "Kategori",
       "SUPPORTED_PARAMETERS": "Parameter yang Didukung",
+      "TOOLS": "Alat",
+      "FUNCTION_CALLING": "Pemanggilan fungsi",
       "PROVIDERS": "Penyedia",
       "MIN": "Min",
       "ANY": "Apa saja",
@@ -3431,7 +3433,18 @@
       "EXTRA_BODY_PLACEHOLDER": "'{'\n  \"reasoning_effort\": \"high\",\n  \"service_tier\": \"priority\"\n'}'",
       "EXTRA_BODY_HINT": "Digabung ke dalam permintaan sebelum dikirim. Gunakan untuk field yang tidak dicakup oleh slider. Slider menang pada konflik kunci.",
       "EXTRA_BODY_INVALID": "JSON tidak valid. Bungkus dengan '{}' dan escape string.",
-      "INHERIT": "Warisi"
+      "INHERIT": "Warisi",
+      "IMAGE_PREVIEW": "Tinjau prompt",
+      "IMAGE_PREVIEW_HINT": "Menampilkan prompt gambar yang ditulis untuk ditinjau sebelum setiap generasi.",
+      "USE_CHAR_AVATAR_REF": "Avatar sebagai referensi",
+      "USE_CHAR_AVATAR_REF_HINT": "Mengirim avatar karakter utama sebagai gambar referensi ke model gambar.",
+      "IMAGE_MODEL": "Model gambar",
+      "IMAGE_MODEL_AUTO": "Otomatis (model gambar gratis pertama)",
+      "IMAGE_MODEL_REFS": "{count} referensi",
+      "IMAGE_REFS": "Gambar referensi",
+      "IMAGE_REFS_ADD": "Tambah",
+      "IMAGE_REFS_HINT": "Hingga 6 gambar dikirim sebagai referensi pada setiap generasi di chat. Dukungan tiap model berbeda.",
+      "IMAGE_STYLE_TEMPLATE": "Templat gaya"
     },
     "SAMPLING": {
       "UNSUPPORTED": "Tidak didukung oleh semua penyedia yang melayani model ini. Mengaturnya tidak berpengaruh."
@@ -3531,6 +3544,24 @@
       "MODEL_COUNT": "{count} model",
       "DELETE_TITLE": "Hapus penyedia?",
       "DELETE_DESC": "Ini menghapus penyedia dan modelnya. Percakapan Anda tetap disimpan."
+    },
+    "IMAGE_PROMPT": {
+      "TITLE": "Prompt gambar",
+      "HINT": "Prompt yang menghasilkan gambar ini. Edit lalu regenerasi untuk mengganti gambar.",
+      "REVIEW_TITLE": "Tinjau prompt gambar",
+      "REVIEW_HINT": "Edit prompt sebelum generasi, atau lewati gambar ini.",
+      "SKIP": "Lewati",
+      "GENERATE": "Hasilkan",
+      "REGENERATE": "Hasilkan ulang",
+      "REGENERATING": "Menghasilkan ulang...",
+      "VIEW": "Prompt gambar"
+    },
+    "IMAGE_STYLE": {
+      "ANIME": "Anime",
+      "DANBOORU": "Tag Danbooru",
+      "REALISTIC": "Realistis",
+      "PHOTOREALISTIC": "Fotorealistis",
+      "CINEMATIC": "Sinematik"
     }
   },
   "RP": {
@@ -3717,7 +3748,11 @@
     "CHARACTER_BACKGROUND": "Gambar latar",
     "CHARACTER_BACKGROUND_HINT": "Ditampilkan di belakang obrolan saat karakter ini memimpin percakapan.",
     "CHARACTER_AVATAR": "Avatar",
-    "CHARACTER_AVATAR_HINT": "Ditampilkan di samping karakter ini dalam obrolan dan daftar."
+    "CHARACTER_AVATAR_HINT": "Ditampilkan di samping karakter ini dalam obrolan dan daftar.",
+    "PRESET_IMAGE_PREVIEW": "Tinjau prompt gambar",
+    "PRESET_USE_CHAR_AVATAR_REF": "Avatar sebagai gambar referensi",
+    "PRESET_IMAGE_MODEL": "Model gambar",
+    "PRESET_IMAGE_MODEL_HINT": "Model gambar katalog untuk generasi gambar di chat. Kosong berarti otomatis."
   },
   "ERRORS": {
     "MISSING_ENV": "Env yang diperlukan hilang: {var}",

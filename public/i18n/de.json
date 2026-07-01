@@ -322,6 +322,8 @@
       "PROMPT_PRICING": "Prompt-Preise",
       "CATEGORIES": "Kategorien",
       "SUPPORTED_PARAMETERS": "Unterstützte Parameter",
+      "TOOLS": "Werkzeuge",
+      "FUNCTION_CALLING": "Funktionsaufrufe",
       "PROVIDERS": "Anbieter",
       "MIN": "Min",
       "ANY": "Beliebig",
@@ -3431,7 +3433,18 @@
       "EXTRA_BODY_PLACEHOLDER": "'{'\n  \"reasoning_effort\": \"high\",\n  \"service_tier\": \"priority\"\n'}'",
       "EXTRA_BODY_HINT": "Wird vor dem Senden in die Anfrage eingefügt. Für Felder, die die Regler nicht abdecken. Bei Schlüsselkonflikten gewinnen die Regler.",
       "EXTRA_BODY_INVALID": "Ungültiges JSON. Mit '{}' umschließen und Zeichenfolgen escapen.",
-      "INHERIT": "Geerbt"
+      "INHERIT": "Geerbt",
+      "IMAGE_PREVIEW": "Prompt prüfen",
+      "IMAGE_PREVIEW_HINT": "Zeigt den geschriebenen Bild-Prompt vor jeder Generierung zur Prüfung an.",
+      "USE_CHAR_AVATAR_REF": "Avatar als Referenz",
+      "USE_CHAR_AVATAR_REF_HINT": "Sendet den Avatar des Hauptcharakters als Referenzbild an das Bildmodell.",
+      "IMAGE_MODEL": "Bildmodell",
+      "IMAGE_MODEL_AUTO": "Automatisch (erstes kostenloses Bildmodell)",
+      "IMAGE_MODEL_REFS": "{count} Referenzen",
+      "IMAGE_REFS": "Referenzbilder",
+      "IMAGE_REFS_ADD": "Hinzufügen",
+      "IMAGE_REFS_HINT": "Bis zu 6 Bilder werden bei jeder Generierung im Chat als Referenz mitgesendet. Modellunterstützung variiert.",
+      "IMAGE_STYLE_TEMPLATE": "Stilvorlage"
     },
     "SAMPLING": {
       "UNSUPPORTED": "Wird nicht von allen Anbietern dieses Modells unterstützt. Eine Änderung hat keine Wirkung."
@@ -3531,6 +3544,24 @@
       "MODEL_COUNT": "{count} Modell(e)",
       "DELETE_TITLE": "Anbieter löschen?",
       "DELETE_DESC": "Damit werden der Anbieter und seine Modelle entfernt. Deine Unterhaltungen bleiben erhalten."
+    },
+    "IMAGE_PROMPT": {
+      "TITLE": "Bild-Prompt",
+      "HINT": "Der Prompt, der dieses Bild erzeugt hat. Bearbeite ihn und generiere neu, um das Bild zu ersetzen.",
+      "REVIEW_TITLE": "Bild-Prompt prüfen",
+      "REVIEW_HINT": "Bearbeite den Prompt vor der Generierung oder überspringe dieses Bild.",
+      "SKIP": "Überspringen",
+      "GENERATE": "Generieren",
+      "REGENERATE": "Neu generieren",
+      "REGENERATING": "Wird neu generiert...",
+      "VIEW": "Bild-Prompt"
+    },
+    "IMAGE_STYLE": {
+      "ANIME": "Anime",
+      "DANBOORU": "Danbooru-Tags",
+      "REALISTIC": "Realistisch",
+      "PHOTOREALISTIC": "Fotorealistisch",
+      "CINEMATIC": "Filmisch"
     }
   },
   "RP": {
@@ -3717,7 +3748,11 @@
     "CHARACTER_BACKGROUND": "Hintergrundbild",
     "CHARACTER_BACKGROUND_HINT": "Wird hinter dem Chat angezeigt, wenn dieser Charakter das Gespräch führt.",
     "CHARACTER_AVATAR": "Avatar",
-    "CHARACTER_AVATAR_HINT": "Wird in Chats und Listen neben diesem Charakter angezeigt."
+    "CHARACTER_AVATAR_HINT": "Wird in Chats und Listen neben diesem Charakter angezeigt.",
+    "PRESET_IMAGE_PREVIEW": "Bild-Prompt prüfen",
+    "PRESET_USE_CHAR_AVATAR_REF": "Avatar als Referenzbild",
+    "PRESET_IMAGE_MODEL": "Bildmodell",
+    "PRESET_IMAGE_MODEL_HINT": "Katalog-Bildmodell für die Bildgenerierung im Chat. Leer bedeutet automatisch."
   },
   "ERRORS": {
     "MISSING_ENV": "Erforderliche Umgebungsvariable fehlt: {var}",

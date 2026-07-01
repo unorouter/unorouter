@@ -322,6 +322,8 @@
       "PROMPT_PRICING": "تسعير المطالبة",
       "CATEGORIES": "الفئات",
       "SUPPORTED_PARAMETERS": "المعلمات المدعومة",
+      "TOOLS": "الأدوات",
+      "FUNCTION_CALLING": "استدعاء الدوال",
       "PROVIDERS": "المزودون",
       "MIN": "الأدنى",
       "ANY": "الكل",
@@ -3431,7 +3433,18 @@
       "EXTRA_BODY_PLACEHOLDER": "'{'\n  \"reasoning_effort\": \"high\",\n  \"service_tier\": \"priority\"\n'}'",
       "EXTRA_BODY_HINT": "يُدمج في الطلب قبل الإرسال. استخدمه للحقول التي لا تغطّيها المنزلقات. المنزلقات تفوز عند تعارض المفاتيح.",
       "EXTRA_BODY_INVALID": "JSON غير صالح. غلّفه بـ '{}' واهرب من النصوص.",
-      "INHERIT": "موروث"
+      "INHERIT": "موروث",
+      "IMAGE_PREVIEW": "مراجعة الموجّه",
+      "IMAGE_PREVIEW_HINT": "يعرض موجّه الصورة المكتوب للمراجعة قبل كل عملية توليد.",
+      "USE_CHAR_AVATAR_REF": "الصورة الرمزية كمرجع",
+      "USE_CHAR_AVATAR_REF_HINT": "يرسل الصورة الرمزية للشخصية الرئيسية كصورة مرجعية إلى نموذج الصور.",
+      "IMAGE_MODEL": "نموذج الصور",
+      "IMAGE_MODEL_AUTO": "تلقائي (أول نموذج صور مجاني)",
+      "IMAGE_MODEL_REFS": "{count} مراجع",
+      "IMAGE_REFS": "الصور المرجعية",
+      "IMAGE_REFS_ADD": "إضافة",
+      "IMAGE_REFS_HINT": "تُرسل حتى 6 صور كمراجع مع كل توليد داخل المحادثة. يختلف الدعم حسب النموذج.",
+      "IMAGE_STYLE_TEMPLATE": "قالب النمط"
     },
     "SAMPLING": {
       "UNSUPPORTED": "غير مدعوم من كل المزوّدين الذين يخدمون هذا النموذج. ضبطه لا تأثير له."
@@ -3531,6 +3544,24 @@
       "MODEL_COUNT": "{count} نموذج",
       "DELETE_TITLE": "حذف المزود؟",
       "DELETE_DESC": "سيؤدي هذا إلى إزالة المزود ونماذجه. سيتم الاحتفاظ بمحادثاتك."
+    },
+    "IMAGE_PROMPT": {
+      "TITLE": "موجّه الصورة",
+      "HINT": "الموجّه الذي أنشأ هذه الصورة. عدّله وأعد التوليد لاستبدال الصورة.",
+      "REVIEW_TITLE": "مراجعة موجّه الصورة",
+      "REVIEW_HINT": "عدّل الموجّه قبل التوليد، أو تخطَّ هذه الصورة.",
+      "SKIP": "تخطّي",
+      "GENERATE": "توليد",
+      "REGENERATE": "إعادة التوليد",
+      "REGENERATING": "جارٍ إعادة التوليد...",
+      "VIEW": "موجّه الصورة"
+    },
+    "IMAGE_STYLE": {
+      "ANIME": "أنمي",
+      "DANBOORU": "وسوم Danbooru",
+      "REALISTIC": "واقعي",
+      "PHOTOREALISTIC": "واقعي فوتوغرافي",
+      "CINEMATIC": "سينمائي"
     }
   },
   "RP": {
@@ -3717,7 +3748,11 @@
     "CHARACTER_BACKGROUND": "صورة الخلفية",
     "CHARACTER_BACKGROUND_HINT": "تظهر خلف المحادثة عندما تقود هذه الشخصية الحوار.",
     "CHARACTER_AVATAR": "الصورة الرمزية",
-    "CHARACTER_AVATAR_HINT": "تظهر بجوار هذه الشخصية في المحادثات والقوائم."
+    "CHARACTER_AVATAR_HINT": "تظهر بجوار هذه الشخصية في المحادثات والقوائم.",
+    "PRESET_IMAGE_PREVIEW": "مراجعة موجّه الصورة",
+    "PRESET_USE_CHAR_AVATAR_REF": "الصورة الرمزية كصورة مرجعية",
+    "PRESET_IMAGE_MODEL": "نموذج الصور",
+    "PRESET_IMAGE_MODEL_HINT": "نموذج صور من الكتالوج لتوليد الصور داخل المحادثة. اتركه فارغًا للاختيار التلقائي."
   },
   "ERRORS": {
     "MISSING_ENV": "متغيّر بيئة مطلوب مفقود: {var}",

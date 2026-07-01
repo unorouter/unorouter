@@ -11,6 +11,7 @@ import {
   seriesAtom,
   sortOrderAtom,
   supportedParametersAtom,
+  toolsOnlyAtom,
   type SortOrder,
 } from "@/store/models-store";
 import { OUTPUT_MODALITIES } from "@/lib/api/model-modality";
@@ -53,6 +54,7 @@ export function useModelsUrlSync() {
   const [priceRange, setPriceRange] = useAtom(priceRangeAtom);
   const [outputModality, setOutputModality] = useAtom(outputModalityAtom);
   const [sortOrder, setSortOrder] = useAtom(sortOrderAtom);
+  const [toolsOnly, setToolsOnly] = useAtom(toolsOnlyAtom);
 
   const seeded = useRef(false);
   useEffect(() => {
@@ -82,6 +84,7 @@ export function useModelsUrlSync() {
     if (mod && outputModality === "text") setOutputModality(mod);
     const order = SORT_VALUES.find((x) => x === searchParams.get("order"));
     if (order && sortOrder === "newest") setSortOrder(order);
+    if (searchParams.get("tools") === "1" && !toolsOnly) setToolsOnly(true);
     // Mount-only seed; deps intentionally omitted.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -102,6 +105,7 @@ export function useModelsUrlSync() {
       params.set("max_price", String(priceRange[1]));
     if (outputModality !== "text") params.set("modality", outputModality);
     if (sortOrder !== "newest") params.set("order", sortOrder);
+    if (toolsOnly) params.set("tools", "1");
     const qs = params.toString();
     router.replace(qs ? `?${qs}` : "?", { scroll: false });
   }, [
@@ -114,6 +118,7 @@ export function useModelsUrlSync() {
     priceRange,
     outputModality,
     sortOrder,
+    toolsOnly,
     router,
   ]);
 }

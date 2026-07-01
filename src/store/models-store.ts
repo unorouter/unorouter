@@ -27,6 +27,7 @@ export type ModelsStoreState = {
   series: string[];
   categories: string[];
   supportedParameters: string[];
+  toolsOnly: boolean;
 };
 
 export const MODELS_STORE_KEY = "models-store";
@@ -48,6 +49,7 @@ export const INITIAL_MODELS_STATE: ModelsStoreState = {
   series: [],
   categories: [],
   supportedParameters: [],
+  toolsOnly: false,
 };
 
 export const modelsStoreAtom = atomWithStorage<ModelsStoreState>(
@@ -156,6 +158,13 @@ export const supportedParametersAtom = atom(
   },
 );
 
+export const toolsOnlyAtom = atom(
+  (get) => get(modelsStoreAtom).toolsOnly === true,
+  (get, set, value: boolean) => {
+    set(modelsStoreAtom, { ...get(modelsStoreAtom), toolsOnly: value });
+  },
+);
+
 // Used by the status page (vendor collapse), not the models catalog filters.
 export const collapsedVendorsAtom = atom(
   (get) => arr(get(modelsStoreAtom).collapsedVendors),
@@ -191,6 +200,7 @@ export const clearFiltersAtom = atom(null, (get, set) => {
     series: [],
     categories: [],
     supportedParameters: [],
+    toolsOnly: false,
   });
 });
 
@@ -208,6 +218,7 @@ export const isDirtyAtom = atom((get) => {
     (Array.isArray(s.categories) && s.categories.length > 0) ||
     (Array.isArray(s.supportedParameters) &&
       s.supportedParameters.length > 0) ||
+    s.toolsOnly === true ||
     (s.contextMin ?? 0) > 0 ||
     (Array.isArray(s.priceRange) && s.priceRange[1] < PRICE_MAX)
   );

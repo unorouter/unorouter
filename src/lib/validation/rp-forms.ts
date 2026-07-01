@@ -151,6 +151,12 @@ export const conversationOverridesFormSchema = t.Object({
   utilityModel: t.String({ default: NONE_VALUE }),
   // Illustrator prompt-writer instruction override; "" = default instruction.
   promptInstruction: t.String({ default: "", maxLength: 4_096 }),
+  // Illustrator image model; NONE_VALUE = auto-pick.
+  imageModel: t.String({ default: NONE_VALUE }),
+  // Review the written image prompt before generating.
+  imagePreview: t.Boolean({ default: false }),
+  // Auto-include the primary character's avatar as a reference image.
+  useCharAvatarRef: t.Boolean({ default: false }),
   characterIds: t.Array(t.String(), { default: [] }),
   lorebookIds: t.Array(t.String(), { default: [] }),
   ...samplingNullable({ maxTokensMax: 1_000_000 }),
@@ -181,6 +187,9 @@ export const samplingPresetFormSchema = t.Object({
   imageEnabled: nullable(t.Boolean()),
   utilityModel: t.String({ default: "", maxLength: 256 }),
   promptInstruction: t.String({ default: "", maxLength: 4_096 }),
+  imageModel: t.String({ default: "", maxLength: 256 }),
+  imagePreview: nullable(t.Boolean()),
+  useCharAvatarRef: nullable(t.Boolean()),
   mainPrompt: t.String({ default: "", maxLength: MAX_DESC_LEN }),
   postHistory: t.String({ default: "", maxLength: MAX_DESC_LEN }),
   prefill: t.String({ default: "", maxLength: MAX_DESC_LEN }),

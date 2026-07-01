@@ -54,6 +54,7 @@ import {
   resetSampling,
   writeSamplerMemory,
 } from "./form-handler";
+import { ImageRefsField } from "./image-refs-field";
 import {
   OverridesBindingFields,
   OverridesGenerationFields,
@@ -238,6 +239,10 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
                 showConversationFields={showConversationFields}
                 webSearchEnabled={webSearchEnabled}
               />
+
+              {showConversationFields && (
+                <ImageRefsField convId={props.convId!} />
+              )}
 
               <SamplingFields
                 control={form.control}

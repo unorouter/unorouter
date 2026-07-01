@@ -8,6 +8,7 @@ import { makeRoutingTransport } from "@/components/pages/sidebar/chat/runtime/ro
 import { createLocalAttachmentAdapter } from "@/components/pages/sidebar/chat/runtime/chat-utils";
 import { computeSpeakingOrder } from "@/components/pages/sidebar/chat/runtime/group-rotation";
 import { createThreadListAdapter } from "@/components/pages/sidebar/chat/runtime/thread-list-adapter";
+import { ImagePromptDialogHost } from "@/components/pages/sidebar/chat/image-prompt-dialog";
 import {
   useConvIdSync,
   useGroupSync,
@@ -256,6 +257,7 @@ export function ChatRuntimeProvider(props: { children: React.ReactNode }) {
   return (
     <AssistantRuntimeProvider runtime={runtime}>
       {props.children}
+      <ImagePromptDialogHost />
     </AssistantRuntimeProvider>
   );
 }

@@ -73,6 +73,7 @@ function imageToMediaRow(
     width: null,
     height: null,
     extractedText: null,
+    promptText: null,
     createdAt: dayjs().toDate(),
   };
 }

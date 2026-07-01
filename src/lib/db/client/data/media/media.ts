@@ -23,6 +23,7 @@ export async function upsertLocalMedia(
     r2Key?: string | null;
     r2Url?: string | null;
     extractedText?: string | null;
+    promptText?: string | null;
   },
 ) {
   // bytes = the image-bloat signal (inline base64 is what balloons the OPFS DB); logged per write.
@@ -42,6 +43,7 @@ export async function upsertLocalMedia(
       r2Key: row.r2Key ?? null,
       r2Url: row.r2Url ?? null,
       extractedText: row.extractedText ?? null,
+      promptText: row.promptText ?? null,
     });
   } catch (e) {
     logChatDebug("media.write_error", {

@@ -20,6 +20,7 @@ import {
   seriesAtom,
   sortOrderAtom,
   supportedParametersAtom,
+  toolsOnlyAtom,
   viewModeAtom,
 } from "@/store/models-store";
 import { useAtom, useSetAtom } from "jotai";
@@ -83,6 +84,7 @@ export function useModelsFilter() {
   const [supportedParameters, setSupportedParameters] = useAtom(
     supportedParametersAtom,
   );
+  const [toolsOnly, setToolsOnly] = useAtom(toolsOnlyAtom);
   const clearFilters = useSetAtom(clearFiltersAtom);
 
   const models = data?.models ?? [];
@@ -103,6 +105,7 @@ export function useModelsFilter() {
     series.length > 0 ||
     categories.length > 0 ||
     supportedParameters.length > 0 ||
+    toolsOnly ||
     contextMin > 0 ||
     priceRange[0] > 0 ||
     priceRange[1] < PRICE_MAX ||
@@ -141,6 +144,7 @@ export function useModelsFilter() {
     const matchesParams =
       supportedParameters.length === 0 ||
       supportedParameters.every((p) => modelParams.includes(p));
+    const matchesTools = !toolsOnly || model.metadata.supportsTools === true;
     return (
       matchesSearch &&
       matchesModality &&
@@ -150,7 +154,8 @@ export function useModelsFilter() {
       matchesPrice &&
       matchesSeries &&
       matchesCategories &&
-      matchesParams
+      matchesParams &&
+      matchesTools
     );
   });
 

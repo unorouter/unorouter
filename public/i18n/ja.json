@@ -322,6 +322,8 @@
       "PROMPT_PRICING": "プロンプト料金",
       "CATEGORIES": "カテゴリ",
       "SUPPORTED_PARAMETERS": "対応パラメータ",
+      "TOOLS": "ツール",
+      "FUNCTION_CALLING": "関数呼び出し",
       "PROVIDERS": "プロバイダー",
       "MIN": "最小",
       "ANY": "すべて",
@@ -3431,7 +3433,18 @@
       "EXTRA_BODY_PLACEHOLDER": "'{'\n  \"reasoning_effort\": \"high\",\n  \"service_tier\": \"priority\"\n'}'",
       "EXTRA_BODY_HINT": "送信前にリクエストへ統合されます。スライダーで対応していないフィールド向けです。キーが衝突した場合はスライダーが優先されます。",
       "EXTRA_BODY_INVALID": "無効なJSONです。'{}' で囲み、文字列をエスケープしてください。",
-      "INHERIT": "継承"
+      "INHERIT": "継承",
+      "IMAGE_PREVIEW": "プロンプト確認",
+      "IMAGE_PREVIEW_HINT": "毎回の画像生成前に、書かれた画像プロンプトを確認用に表示します。",
+      "USE_CHAR_AVATAR_REF": "アバターを参照に使用",
+      "USE_CHAR_AVATAR_REF_HINT": "メインキャラクターのアバターを参照画像として画像モデルに送信します。",
+      "IMAGE_MODEL": "画像モデル",
+      "IMAGE_MODEL_AUTO": "自動（最初の無料画像モデル）",
+      "IMAGE_MODEL_REFS": "参照{count}枚",
+      "IMAGE_REFS": "参照画像",
+      "IMAGE_REFS_ADD": "追加",
+      "IMAGE_REFS_HINT": "チャット内の画像生成ごとに最大6枚の画像を参照として送信します。対応はモデルにより異なります。",
+      "IMAGE_STYLE_TEMPLATE": "スタイルテンプレート"
     },
     "SAMPLING": {
       "UNSUPPORTED": "このモデルを提供するすべてのプロバイダーで対応していません。設定しても効果はありません。"
@@ -3531,6 +3544,24 @@
       "MODEL_COUNT": "{count} モデル",
       "DELETE_TITLE": "プロバイダーを削除しますか？",
       "DELETE_DESC": "プロバイダーとそのモデルが削除されます。会話は保持されます。"
+    },
+    "IMAGE_PROMPT": {
+      "TITLE": "画像プロンプト",
+      "HINT": "この画像を生成したプロンプトです。編集して再生成すると画像を置き換えます。",
+      "REVIEW_TITLE": "画像プロンプトの確認",
+      "REVIEW_HINT": "生成前にプロンプトを編集するか、この画像をスキップします。",
+      "SKIP": "スキップ",
+      "GENERATE": "生成",
+      "REGENERATE": "再生成",
+      "REGENERATING": "再生成中...",
+      "VIEW": "画像プロンプト"
+    },
+    "IMAGE_STYLE": {
+      "ANIME": "アニメ",
+      "DANBOORU": "Danbooruタグ",
+      "REALISTIC": "リアル",
+      "PHOTOREALISTIC": "フォトリアル",
+      "CINEMATIC": "シネマティック"
     }
   },
   "RP": {
@@ -3717,7 +3748,11 @@
     "CHARACTER_BACKGROUND": "背景画像",
     "CHARACTER_BACKGROUND_HINT": "このキャラクターが会話の主役のとき、チャットの背後に表示されます。",
     "CHARACTER_AVATAR": "アバター",
-    "CHARACTER_AVATAR_HINT": "チャットや一覧でこのキャラクターの隣に表示されます。"
+    "CHARACTER_AVATAR_HINT": "チャットや一覧でこのキャラクターの隣に表示されます。",
+    "PRESET_IMAGE_PREVIEW": "画像プロンプトの確認",
+    "PRESET_USE_CHAR_AVATAR_REF": "アバターを参照画像に使用",
+    "PRESET_IMAGE_MODEL": "画像モデル",
+    "PRESET_IMAGE_MODEL_HINT": "チャット内画像生成に使うカタログの画像モデル。空欄なら自動。"
   },
   "ERRORS": {
     "MISSING_ENV": "必要な環境変数が不足しています: {var}",

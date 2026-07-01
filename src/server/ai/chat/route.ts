@@ -125,7 +125,10 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
     async ({ body, cookie }) => {
       await getUserId(cookie);
       const apiKey = await resolveChatApiKey(cookie);
-      const data = await generateInlayImage(apiKey, body.prompt);
+      const data = await generateInlayImage(apiKey, body.prompt, {
+        model: body.model,
+        references: body.references,
+      });
       return { success: true, data };
     },
     { body: triggerImggenBody },

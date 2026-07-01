@@ -19,6 +19,9 @@ type IllustratorSettings = {
   imageEnabled?: boolean | null;
   promptInstruction?: string;
   promptMaxTokens?: number;
+  // Optional review gate between prompt-writing and generation (Lumiverse-style opt-in preview):
+  // returns the (possibly edited) prompt to generate with, or null to skip generation.
+  reviewPrompt?: (prompt: string) => Promise<string | null>;
 };
 
 export const illustratorAgent: AgentDefinition = {
@@ -50,6 +53,12 @@ export const illustratorAgent: AgentDefinition = {
       return { type: "noop" };
     }
     if (!imgPrompt) return { type: "noop" };
+
+    if (s.reviewPrompt) {
+      const reviewed = await s.reviewPrompt(imgPrompt);
+      if (reviewed == null || !reviewed.trim()) return { type: "noop" };
+      imgPrompt = reviewed.trim();
+    }
 
     const media = await runtime.generateImage(imgPrompt);
     if (!media) return { type: "noop" };

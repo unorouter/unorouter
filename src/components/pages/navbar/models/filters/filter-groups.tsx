@@ -108,6 +108,22 @@ export function InputModalitiesGroup(props: {
   );
 }
 
+export function ToolsGroup(props: {
+  value: boolean;
+  onChange: (next: boolean) => void;
+}) {
+  const t = useTranslations();
+  return (
+    <GroupShell label={t("MODELS.FILTER.TOOLS")}>
+      <CheckRow
+        label={t("MODELS.FILTER.FUNCTION_CALLING")}
+        checked={props.value}
+        onToggle={() => props.onChange(!props.value)}
+      />
+    </GroupShell>
+  );
+}
+
 export function ContextGroup(props: {
   value: number;
   onChange: (next: number) => void;

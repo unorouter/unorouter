@@ -322,6 +322,8 @@
       "PROMPT_PRICING": "提示詞價格",
       "CATEGORIES": "類別",
       "SUPPORTED_PARAMETERS": "支援的參數",
+      "TOOLS": "工具",
+      "FUNCTION_CALLING": "函式呼叫",
       "PROVIDERS": "供應商",
       "MIN": "最小",
       "ANY": "任意",
@@ -3431,7 +3433,18 @@
       "EXTRA_BODY_PLACEHOLDER": "'{'\n  \"reasoning_effort\": \"high\",\n  \"service_tier\": \"priority\"\n'}'",
       "EXTRA_BODY_HINT": "送出前合併進請求，用於滑桿未涵蓋的欄位。鍵衝突時以滑桿為準。",
       "EXTRA_BODY_INVALID": "JSON 無效。請以 '{}' 包覆並跳脫字串。",
-      "INHERIT": "繼承"
+      "INHERIT": "繼承",
+      "IMAGE_PREVIEW": "審核提示詞",
+      "IMAGE_PREVIEW_HINT": "每次生成圖像前顯示寫好的圖像提示詞供審核。",
+      "USE_CHAR_AVATAR_REF": "頭像作為參考",
+      "USE_CHAR_AVATAR_REF_HINT": "將主要角色的頭像作為參考圖傳送給圖像模型。",
+      "IMAGE_MODEL": "圖像模型",
+      "IMAGE_MODEL_AUTO": "自動（第一個免費圖像模型）",
+      "IMAGE_MODEL_REFS": "{count} 張參考圖",
+      "IMAGE_REFS": "參考圖",
+      "IMAGE_REFS_ADD": "新增",
+      "IMAGE_REFS_HINT": "聊天中每次生成最多傳送 6 張參考圖。支援情況因模型而異。",
+      "IMAGE_STYLE_TEMPLATE": "風格模板"
     },
     "SAMPLING": {
       "UNSUPPORTED": "此模型並非所有提供者都支援。設定後不會生效。"
@@ -3531,6 +3544,24 @@
       "MODEL_COUNT": "{count} 個模型",
       "DELETE_TITLE": "刪除提供商？",
       "DELETE_DESC": "這會移除該提供商及其模型。你的對話會保留。"
+    },
+    "IMAGE_PROMPT": {
+      "TITLE": "圖像提示詞",
+      "HINT": "生成此圖像的提示詞。編輯後重新生成即可替換圖像。",
+      "REVIEW_TITLE": "審核圖像提示詞",
+      "REVIEW_HINT": "在生成前編輯提示詞，或略過此圖像。",
+      "SKIP": "略過",
+      "GENERATE": "生成",
+      "REGENERATE": "重新生成",
+      "REGENERATING": "正在重新生成",
+      "VIEW": "圖像提示詞"
+    },
+    "IMAGE_STYLE": {
+      "ANIME": "動漫",
+      "DANBOORU": "Danbooru 標籤",
+      "REALISTIC": "寫實",
+      "PHOTOREALISTIC": "照片級寫實",
+      "CINEMATIC": "電影感"
     }
   },
   "RP": {
@@ -3717,7 +3748,11 @@
     "CHARACTER_BACKGROUND": "背景圖片",
     "CHARACTER_BACKGROUND_HINT": "當此角色主導對話時，顯示在聊天背後。",
     "CHARACTER_AVATAR": "頭像",
-    "CHARACTER_AVATAR_HINT": "在聊天和清單中顯示在該角色旁邊。"
+    "CHARACTER_AVATAR_HINT": "在聊天和清單中顯示在該角色旁邊。",
+    "PRESET_IMAGE_PREVIEW": "審核圖像提示詞",
+    "PRESET_USE_CHAR_AVATAR_REF": "頭像作為參考圖",
+    "PRESET_IMAGE_MODEL": "圖像模型",
+    "PRESET_IMAGE_MODEL_HINT": "用於聊天內圖像生成的目錄圖像模型。留空則自動選擇。"
   },
   "ERRORS": {
     "MISSING_ENV": "缺少必要的環境變數：{var}",

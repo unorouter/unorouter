@@ -12,6 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { IMAGE_STYLE_TEMPLATES } from "@/lib/ai/chat/image-style-templates";
 import { STARTER_PRESETS } from "@/lib/ai/rp/starter-presets";
 import {
   useCreatePresetMutation,
@@ -236,12 +237,64 @@ export function PresetForm(props: Props) {
                     {t("RP.PRESET_UTILITY_MODEL_HINT")}
                   </p>
                 </div>
-                <MyFormTextarea
+                <MyFormSwitch
                   control={form.control}
-                  name="promptInstruction"
-                  schema={samplingPresetFormSchema}
-                  label={t("RP.PRESET_IMAGE_PROMPT_INSTRUCTION")}
+                  name="imagePreview"
+                  label={t("RP.PRESET_IMAGE_PREVIEW")}
                 />
+                <MyFormSwitch
+                  control={form.control}
+                  name="useCharAvatarRef"
+                  label={t("RP.PRESET_USE_CHAR_AVATAR_REF")}
+                />
+                <div className="flex flex-col gap-1">
+                  <MyFormInput
+                    control={form.control}
+                    name="imageModel"
+                    schema={samplingPresetFormSchema}
+                    label={t("RP.PRESET_IMAGE_MODEL")}
+                  />
+                  <p className="text-muted-foreground text-xs">
+                    {t("RP.PRESET_IMAGE_MODEL_HINT")}
+                  </p>
+                </div>
+                <div className="flex flex-col gap-1.5">
+                  <div className="flex items-center justify-between">
+                    <label className="text-sm font-medium">
+                      {t("RP.PRESET_IMAGE_PROMPT_INSTRUCTION")}
+                    </label>
+                    <Select
+                      value=""
+                      onValueChange={(id) => {
+                        const tpl = IMAGE_STYLE_TEMPLATES.find(
+                          (x) => x.id === id,
+                        );
+                        if (!tpl) return;
+                        form.setValue("promptInstruction", tpl.instruction, {
+                          shouldDirty: true,
+                        });
+                      }}
+                    >
+                      <SelectTrigger size="sm" className="h-7 w-36 text-xs">
+                        <SelectValue
+                          placeholder={t("CHAT.OVERRIDES.IMAGE_STYLE_TEMPLATE")}
+                        />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {IMAGE_STYLE_TEMPLATES.map((tpl) => (
+                          <SelectItem key={tpl.id} value={tpl.id}>
+                            {t(tpl.labelKey)}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <MyFormTextarea
+                    control={form.control}
+                    name="promptInstruction"
+                    schema={samplingPresetFormSchema}
+                  />
+                </div>
               </div>
               <MyFormSwitch
                 control={form.control}
