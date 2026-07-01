@@ -17,6 +17,7 @@
 import { env } from "@/lib/config/env";
 import { GUEST_USER_ID } from "@/lib/config/constants";
 import { LOCAL_ONLY_TABLES } from "@/lib/db/schema/client";
+import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { logger } from "@/lib/utils/logger";
 import { SQLocalDrizzle } from "sqlocal/drizzle";
 
@@ -124,6 +125,10 @@ export async function reconcileImport(
 
   let scratch: SQLocalDrizzle | null = null;
   let live: SQLocalDrizzle | null = null;
+  logChatDebug("import.reconcile.start", {
+    userId: uid,
+    bytes: buffer.byteLength,
+  });
   try {
     // 1. Forward-migrate the uploaded dump in isolation.
     scratch = newSql(scratchPath);
@@ -155,11 +160,20 @@ export async function reconcileImport(
       result.imported += inserted;
       result.skipped += skipped;
       if (skipped > 0) result.skippedByTable.push({ table, skipped });
+      logChatDebug("import.reconcile.copy", { table, inserted, skipped });
     }
     await live.sql`PRAGMA foreign_keys = ON`;
 
+    logChatDebug("import.reconcile.done", {
+      imported: result.imported,
+      skipped: result.skipped,
+      tables: result.tables,
+    });
     return result;
   } catch (err) {
+    logChatDebug("import.reconcile.error", {
+      error: String(err).slice(0, 200),
+    });
     logger.error("reconcileImport failed", {
       context: "local-db.reconcile-import",
       userId: uid,

@@ -5,6 +5,7 @@ import {
   exportCharacterCardAsJson,
 } from "@/lib/ai/rp/character-card";
 import { serializeLorebookForExport } from "@/lib/ai/rp/lorebook-import";
+import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import {
   base64ToUint8,
   exportSlug,
@@ -40,12 +41,22 @@ async function loadAvatar(
   if (row.r2Url) {
     try {
       const res = await fetch(row.r2Url);
-      if (!res.ok) return null;
+      if (!res.ok) {
+        logChatDebug("export.avatar_load_failed", {
+          avatarMediaId,
+          status: res.status,
+        });
+        return null;
+      }
       return {
         data: new Uint8Array(await res.arrayBuffer()),
         mime: res.headers.get("content-type") ?? row.mimeType,
       };
-    } catch {
+    } catch (e) {
+      logChatDebug("export.avatar_load_failed", {
+        avatarMediaId,
+        error: String(e).slice(0, 200),
+      });
       return null;
     }
   }

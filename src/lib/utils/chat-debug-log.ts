@@ -6,7 +6,8 @@ export type ChatDebugEntry = {
   [key: string]: unknown;
 };
 
-const MAX_ENTRIES = 500;
+const MAX_ENTRIES = 2000;
+const MAX_ENTRY_BYTES = 10_000;
 const STORAGE_KEY = "unorouter-chat-debug-log";
 
 let buffer: ChatDebugEntry[] = load();
@@ -41,7 +42,19 @@ export function logChatDebug(
   event: string,
   data?: Record<string, unknown>,
 ): void {
-  buffer.push({ ts: Date.now(), event, ...data });
+  // Cap per-entry size: a huge payload (a prompt snapshot, a giant error) must not bloat the
+  // localStorage log or the diagnostics export it rides in. Keep a tiny summary instead.
+  let entry: ChatDebugEntry = { ts: Date.now(), event, ...data };
+  if (data) {
+    try {
+      const bytes = JSON.stringify(data).length;
+      if (bytes > MAX_ENTRY_BYTES)
+        entry = { ts: Date.now(), event, _truncated: true, _bytes: bytes };
+    } catch {
+      entry = { ts: Date.now(), event, _unserializable: true };
+    }
+  }
+  buffer.push(entry);
   if (buffer.length > MAX_ENTRIES)
     buffer.splice(0, buffer.length - MAX_ENTRIES);
   save();

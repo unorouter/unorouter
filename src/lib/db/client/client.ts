@@ -6,6 +6,7 @@ import * as client from "@/lib/db/schema/client";
 import * as shared from "@/lib/db/schema/shared";
 import { runMigrations } from "@/lib/db/client/schema-migrate/migrations";
 import type { LocalClient } from "@/lib/types";
+import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { logger } from "@/lib/utils/logger";
 import { drizzle } from "drizzle-orm/sqlite-proxy";
 import { SQLocalDrizzle } from "sqlocal/drizzle";
@@ -79,15 +80,29 @@ async function openMigratedSql(
     try {
       if ((await sql.getDatabaseInfo()).storageType !== "opfs") {
         if (!isolated) {
+          logChatDebug("db.open.fallback", { userId, reason: "non-isolated" });
           await runMigrations(sql);
           return sql;
         }
         throw new Error("GetSyncHandleError: fell back to in-memory");
       }
       await runMigrations(sql);
+      logChatDebug("db.open.done", { userId, storageType: "opfs" });
       return sql;
     } catch (err) {
-      if (!isRecoverable(err) || attempt >= RETRIES) throw err;
+      if (!isRecoverable(err) || attempt >= RETRIES) {
+        logChatDebug("db.open.failed", {
+          userId,
+          attempt,
+          error: String(err).slice(0, 200),
+        });
+        throw err;
+      }
+      logChatDebug("db.open.retry", {
+        userId,
+        attempt,
+        error: String(err).slice(0, 200),
+      });
       logger.warn("Local DB open contended; retrying", {
         context: "local-db.client",
         userId,
@@ -113,6 +128,7 @@ async function openClient(userId: number): Promise<LocalClient> {
     } catch (err) {
       if (!isRecoverable(err)) throw err;
       reopening ??= (async () => {
+        logChatDebug("db.reopen", { userId, error: String(err).slice(0, 200) });
         await sql.destroy().catch(() => {});
         sql = await openMigratedSql(dbPath, userId);
       })().finally(() => (reopening = null));
