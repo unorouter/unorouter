@@ -60,7 +60,7 @@ export async function downloadLocalDbStreaming(
         const local = await getLocalDb(userId);
         if (local) await local.destroy().catch(() => {});
         resetLocalDbCache();
-        await sleep(250);
+        await new Promise((r) => setTimeout(r, 250));
         state = await probeOpfsReadable(dbFileName);
       }
       if (state === "ok") {
@@ -96,5 +96,3 @@ async function shrinkBeforeExport(userId: number | undefined): Promise<void> {
     });
   }
 }
-
-const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
