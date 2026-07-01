@@ -3,12 +3,14 @@ import { env } from "@/lib/config/env";
 import { getLocalDb, resetLocalDbCache } from "@/lib/db/client/client";
 import { buildDiagnostics } from "@/lib/db/client/data/diagnostics";
 import { diagnosticsChunks } from "@/lib/db/client/data/json-stream-encoder";
+import { clearAllRequestLogs } from "@/lib/db/client/data/request-log";
 import type { DiagnosticsOptions } from "@/lib/db/client/data/diagnostics";
 import { downloadBlob, downloadJson } from "@/lib/utils/client";
 import { logger } from "@/lib/utils/logger";
 import {
   downloadJsonViaSw,
   downloadOpfsFileViaSw,
+  probeOpfsReadable,
   swDownloadSupported,
 } from "@/lib/utils/sw-download";
 
@@ -34,26 +36,38 @@ export async function downloadDiagnosticsStreaming(
   downloadJson(data, filename, { pretty: false });
 }
 
-// Stream the OPFS SQLite file. The SW reads OPFS itself, but SQLocal holds an exclusive handle, so
-// release it first (same release wipe/upload use) then navigate, then reload since the live DB was
-// torn down. Fall back to SQLocal's own export blob when no SW controls the page.
+// Stream the OPFS SQLite file. The SW reads OPFS itself. PROBE FIRST (proves the SW intercepts and
+// whether the file is readable) BEFORE tearing anything down - so an old/uncontrolled build falls
+// back to the blob path with the live DB fully intact, instead of destroying SQLocal and then
+// "downloading" a 404 HTML page. Only release SQLocal's handle if the probe says the file is locked.
 export async function downloadLocalDbStreaming(
   userId: number | undefined,
   filename: string,
 ): Promise<void> {
   const dbFileName = `${env.appName.toLowerCase()}-${userId ?? GUEST_USER_ID}.sqlite3`;
 
+  // Clean slate before backup: wipe the heaviest table (full per-turn prompt snapshots, the 400MB+
+  // bloat) and VACUUM so the file actually shrinks on disk before the SW/blob reads it.
+  await shrinkBeforeExport(userId);
+
   if (swDownloadSupported()) {
     try {
-      // Release SQLocal's SyncAccessHandle so the SW's getFile() can read the file. Don't reload:
-      // resetLocalDbCache lets the next DB access reopen lazily, and a reload could interrupt the
-      // iOS download mid-flight. The brief sleep lets the released handle settle before the SW reads.
-      const local = await getLocalDb(userId);
-      if (local) await local.destroy().catch(() => {});
-      resetLocalDbCache();
-      await sleep(250);
-      downloadOpfsFileViaSw(dbFileName, filename);
-      return;
+      let state = await probeOpfsReadable(dbFileName);
+      if (state === "locked") {
+        // Release SQLocal's SyncAccessHandle so the SW's getFile() can read the file. No reload:
+        // resetLocalDbCache lets the next DB access reopen lazily, and a reload could interrupt the
+        // iOS download mid-flight. The brief sleep lets the released handle settle before re-probe.
+        const local = await getLocalDb(userId);
+        if (local) await local.destroy().catch(() => {});
+        resetLocalDbCache();
+        await sleep(250);
+        state = await probeOpfsReadable(dbFileName);
+      }
+      if (state === "ok") {
+        downloadOpfsFileViaSw(dbFileName, filename);
+        return;
+      }
+      throw new Error(`db still not readable after release: ${state}`);
     } catch (e) {
       logger.warn("DB SW download failed; falling back to blob", {
         context: "stream-download",
@@ -65,6 +79,22 @@ export async function downloadLocalDbStreaming(
   if (!local) throw new Error("SQLocal unavailable");
   const file = await local.getDatabaseFile();
   downloadBlob(file, filename);
+}
+
+// Wipe request_logs + VACUUM so the exported file drops the per-turn prompt-snapshot bloat and the
+// file actually shrinks (a bare DELETE leaves the pages allocated). Best-effort; never blocks export.
+async function shrinkBeforeExport(userId: number | undefined): Promise<void> {
+  try {
+    const local = await getLocalDb(userId);
+    if (!local) return;
+    await clearAllRequestLogs(userId);
+    await local.exec("VACUUM", [], "run");
+  } catch (e) {
+    logger.warn("pre-export shrink skipped", {
+      context: "stream-download",
+      error: String(e),
+    });
+  }
 }
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
