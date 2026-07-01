@@ -85,6 +85,8 @@ function MultiPicker(props: {
         multiple
         value={props.value}
         onValueChange={(next) => props.onChange(next as string[])}
+        // Items are ids; filter + input display must use the NAME, else typing matches against uuids.
+        itemToStringLabel={(id) => lookup.get(id) ?? id}
       >
         <ComboboxChips>
           <ComboboxValue>

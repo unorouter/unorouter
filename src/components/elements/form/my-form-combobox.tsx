@@ -56,6 +56,8 @@ export function MyFormCombobox<T extends FieldValues>(props: {
                 onValueChange={(next) =>
                   field.onChange(next as PathValue<T, Path<T>>)
                 }
+                // Items are ids; filter + input display must use the NAME, else typing matches uuids.
+                itemToStringLabel={(id) => lookup.get(id) ?? id}
               >
                 <ComboboxChips>
                   <ComboboxValue>
