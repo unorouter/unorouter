@@ -271,6 +271,8 @@ Client hook `src/hooks/ai/playground-hook.ts`: `runSubmit` shared by submit + im
 
 ## Route groups (app directory)
 
+404s: Next 16 never fires `[locale]/not-found.tsx` for `notFound()` calls bubbling out of child segments (the root-layout segment's boundary doesn't attach; the error boundary rendered instead). Each route group whose pages call `notFound()` therefore carries its own `not-found.tsx` ((navbar), (docs)) rendering the shared `NotFoundCard` (`src/components/elements/feedback/not-found-card.tsx`) inside its layout shell; `[locale]/not-found.tsx` stays for direct/unmatched cases. A new group that calls `notFound()` needs its own `not-found.tsx`.
+
 Locale-prefixed groups under `src/app/[locale]/`:
 
 - `(auth)`: login, register
