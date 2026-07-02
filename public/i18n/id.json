@@ -3735,7 +3735,6 @@
     "PRESET_TEMPLATE_PLAIN": "Blok teks khusus",
     "PRESET_TEMPLATE_CHAT": "Riwayat chat",
     "PRESET_TEMPLATE_CHAT_HINT": "Tempat pesan percakapan disisipkan.",
-    "PRESET_TEMPLATE_PREFILL_HINT": "Menyisipkan bidang Prefill di atas sebagai pesan asisten, sehingga model melanjutkan dari sana.",
     "PRESET_TEMPLATE_PLAIN_PLACEHOLDER": "Teks instruksi khusus...",
     "LOREBOOK_ENTRY_PROBABILITY": "Peluang aktivasi (%)",
     "LOREBOOK_ENTRY_PROBABILITY_HINT": "Lempar persentase ini setiap pemindaian untuk menentukan apakah entri aktif. 100 ＝ selalu.",

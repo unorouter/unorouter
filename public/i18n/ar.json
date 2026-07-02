@@ -3735,7 +3735,6 @@
     "PRESET_TEMPLATE_PLAIN": "كتلة نص مخصص",
     "PRESET_TEMPLATE_CHAT": "سجل المحادثة",
     "PRESET_TEMPLATE_CHAT_HINT": "المكان الذي تُدرَج فيه رسائل المحادثة.",
-    "PRESET_TEMPLATE_PREFILL_HINT": "يدرج حقل التعبئة المسبقة أعلاه كرسالة من المساعد، ليتابع النموذج من هناك.",
     "PRESET_TEMPLATE_PLAIN_PLACEHOLDER": "نص تعليمات مخصص...",
     "LOREBOOK_ENTRY_PROBABILITY": "احتمال التفعيل (٪)",
     "LOREBOOK_ENTRY_PROBABILITY_HINT": "يُرمى هذا الاحتمال في كل فحص لتحديد ما إذا كان المدخل سيُفعَّل. 100 ＝ دائمًا.",

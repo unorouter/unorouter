@@ -3735,7 +3735,6 @@
     "PRESET_TEMPLATE_PLAIN": "사용자 지정 텍스트 블록",
     "PRESET_TEMPLATE_CHAT": "채팅 기록",
     "PRESET_TEMPLATE_CHAT_HINT": "대화 메시지가 삽입되는 위치.",
-    "PRESET_TEMPLATE_PREFILL_HINT": "위의 프리필 필드를 어시스턴트 메시지로 삽입하여 모델이 이어서 생성하게 합니다.",
     "PRESET_TEMPLATE_PLAIN_PLACEHOLDER": "사용자 지정 지시 텍스트...",
     "LOREBOOK_ENTRY_PROBABILITY": "활성화 확률 (%)",
     "LOREBOOK_ENTRY_PROBABILITY_HINT": "스캔마다 이 비율로 굴려 항목 발동 여부를 결정합니다. 100 ＝ 항상.",

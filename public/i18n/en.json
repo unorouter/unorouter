@@ -3735,7 +3735,6 @@
     "PRESET_TEMPLATE_PLAIN": "Custom text block",
     "PRESET_TEMPLATE_CHAT": "Chat history",
     "PRESET_TEMPLATE_CHAT_HINT": "Where conversation messages are inserted.",
-    "PRESET_TEMPLATE_PREFILL_HINT": "Inserts the Prefill field above as an assistant message, so the model continues from it.",
     "PRESET_TEMPLATE_PLAIN_PLACEHOLDER": "Custom instruction text...",
     "LOREBOOK_ENTRY_PROBABILITY": "Activation chance (%)",
     "LOREBOOK_ENTRY_PROBABILITY_HINT": "Roll this percent each scan to decide if the entry fires. 100 = always.",

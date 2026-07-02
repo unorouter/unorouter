@@ -3735,7 +3735,6 @@
     "PRESET_TEMPLATE_PLAIN": "Blocco di testo personalizzato",
     "PRESET_TEMPLATE_CHAT": "Cronologia chat",
     "PRESET_TEMPLATE_CHAT_HINT": "Dove vengono inseriti i messaggi della conversazione.",
-    "PRESET_TEMPLATE_PREFILL_HINT": "Inserisce il campo Prefill qui sopra come messaggio dell'assistente, così il modello continua da lì.",
     "PRESET_TEMPLATE_PLAIN_PLACEHOLDER": "Testo istruzione personalizzato...",
     "LOREBOOK_ENTRY_PROBABILITY": "Probabilità di attivazione (%)",
     "LOREBOOK_ENTRY_PROBABILITY_HINT": "Lancia questa percentuale a ogni scansione per decidere se la voce si attiva. 100 ＝ sempre.",
