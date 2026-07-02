@@ -3735,7 +3735,6 @@
     "PRESET_TEMPLATE_PLAIN": "自訂文字區塊",
     "PRESET_TEMPLATE_CHAT": "聊天記錄",
     "PRESET_TEMPLATE_CHAT_HINT": "對話訊息的插入位置。",
-    "PRESET_TEMPLATE_PREFILL_HINT": "將上方的預填充欄位作為助理訊息插入，讓模型從該內容繼續生成。",
     "PRESET_TEMPLATE_PLAIN_PLACEHOLDER": "自訂指令文字...",
     "LOREBOOK_ENTRY_PROBABILITY": "啟用機率（%）",
     "LOREBOOK_ENTRY_PROBABILITY_HINT": "每次掃描依此百分比擲骰，決定該條目是否觸發。100 ＝ 始終。",

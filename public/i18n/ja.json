@@ -3735,7 +3735,6 @@
     "PRESET_TEMPLATE_PLAIN": "カスタムテキストブロック",
     "PRESET_TEMPLATE_CHAT": "チャット履歴",
     "PRESET_TEMPLATE_CHAT_HINT": "会話メッセージが挿入される位置。",
-    "PRESET_TEMPLATE_PREFILL_HINT": "上のプレフィル欄をアシスタントのメッセージとして挿入し、モデルがその続きから生成します。",
     "PRESET_TEMPLATE_PLAIN_PLACEHOLDER": "カスタム指示テキスト...",
     "LOREBOOK_ENTRY_PROBABILITY": "発動確率（%）",
     "LOREBOOK_ENTRY_PROBABILITY_HINT": "スキャンごとにこの割合で抽選し、エントリが発動するか決めます。100 ＝ 常に。",

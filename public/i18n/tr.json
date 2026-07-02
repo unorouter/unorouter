@@ -3735,7 +3735,6 @@
     "PRESET_TEMPLATE_PLAIN": "Özel metin bloğu",
     "PRESET_TEMPLATE_CHAT": "Sohbet geçmişi",
     "PRESET_TEMPLATE_CHAT_HINT": "Konuşma mesajlarının eklendiği yer.",
-    "PRESET_TEMPLATE_PREFILL_HINT": "Yukarıdaki Prefill alanını asistan mesajı olarak ekler, böylece model oradan devam eder.",
     "PRESET_TEMPLATE_PLAIN_PLACEHOLDER": "Özel talimat metni...",
     "LOREBOOK_ENTRY_PROBABILITY": "Etkinleşme şansı (%)",
     "LOREBOOK_ENTRY_PROBABILITY_HINT": "Girdinin tetiklenip tetiklenmeyeceğine karar vermek için her taramada bu yüzdeyi atar. 100 ＝ her zaman.",

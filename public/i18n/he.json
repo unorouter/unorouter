@@ -3735,7 +3735,6 @@
     "PRESET_TEMPLATE_PLAIN": "בלוק טקסט מותאם",
     "PRESET_TEMPLATE_CHAT": "היסטוריית צ'אט",
     "PRESET_TEMPLATE_CHAT_HINT": "היכן מוכנסות הודעות השיחה.",
-    "PRESET_TEMPLATE_PREFILL_HINT": "מוסיף את שדה ה-Prefill שלמעלה כהודעת עוזר, כך שהמודל ממשיך ממנה.",
     "PRESET_TEMPLATE_PLAIN_PLACEHOLDER": "טקסט הוראה מותאם...",
     "LOREBOOK_ENTRY_PROBABILITY": "סיכוי הפעלה (%)",
     "LOREBOOK_ENTRY_PROBABILITY_HINT": "מטילים אחוז זה בכל סריקה כדי להחליט אם הערך יופעל. 100 ＝ תמיד.",

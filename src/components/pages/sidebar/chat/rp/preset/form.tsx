@@ -329,16 +329,6 @@ export function PresetForm(props: Props) {
               placeholder={t("RP.PRESET_POST_HISTORY_PLACEHOLDER")}
               description={t("RP.PRESET_POST_HISTORY_HINT")}
             />
-            <MyFormTextarea
-              control={form.control}
-              name="prefill"
-              schema={samplingPresetFormSchema}
-              label={t("RP.PRESET_PREFILL")}
-              rows={4}
-              placeholder={t("RP.PRESET_PREFILL_PLACEHOLDER")}
-              description={t("RP.PRESET_PREFILL_HINT")}
-            />
-
             <div className="border-border/40 flex flex-col gap-3 rounded-lg border p-3">
               <div className="text-foreground text-xs font-medium tracking-wide uppercase">
                 {t("RP.PRESET_PROVIDERS_TITLE")}

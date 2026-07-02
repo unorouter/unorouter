@@ -3735,7 +3735,6 @@
     "PRESET_TEMPLATE_PLAIN": "Khối văn bản tùy chỉnh",
     "PRESET_TEMPLATE_CHAT": "Lịch sử trò chuyện",
     "PRESET_TEMPLATE_CHAT_HINT": "Nơi chèn các tin nhắn hội thoại.",
-    "PRESET_TEMPLATE_PREFILL_HINT": "Chèn trường Prefill ở trên dưới dạng tin nhắn của trợ lý để mô hình tiếp tục từ đó.",
     "PRESET_TEMPLATE_PLAIN_PLACEHOLDER": "Văn bản hướng dẫn tùy chỉnh...",
     "LOREBOOK_ENTRY_PROBABILITY": "Tỷ lệ kích hoạt (%)",
     "LOREBOOK_ENTRY_PROBABILITY_HINT": "Tung phần trăm này mỗi lần quét để quyết định mục có kích hoạt hay không. 100 ＝ luôn luôn.",
