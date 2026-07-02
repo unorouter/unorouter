@@ -3734,6 +3734,7 @@
     "PRESET_TEMPLATE_PLAIN": "Bloque de texto personalizado",
     "PRESET_TEMPLATE_CHAT": "Historial de chat",
     "PRESET_TEMPLATE_CHAT_HINT": "Dónde se insertan los mensajes de la conversación.",
+    "PRESET_TEMPLATE_PREFILL_HINT": "Inserta el campo Prefill de arriba como mensaje del asistente, para que el modelo continúe desde ahí.",
     "PRESET_TEMPLATE_PLAIN_PLACEHOLDER": "Texto de instrucción personalizado...",
     "LOREBOOK_ENTRY_PROBABILITY": "Probabilidad de activación (%)",
     "LOREBOOK_ENTRY_PROBABILITY_HINT": "Tira este porcentaje en cada escaneo para decidir si la entrada se activa. 100 ＝ siempre.",

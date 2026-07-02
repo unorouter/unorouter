@@ -3734,6 +3734,7 @@
     "PRESET_TEMPLATE_PLAIN": "Bloco de texto personalizado",
     "PRESET_TEMPLATE_CHAT": "Histórico de chat",
     "PRESET_TEMPLATE_CHAT_HINT": "Onde as mensagens da conversa são inseridas.",
+    "PRESET_TEMPLATE_PREFILL_HINT": "Insere o campo Prefill acima como mensagem do assistente, para que o modelo continue a partir dele.",
     "PRESET_TEMPLATE_PLAIN_PLACEHOLDER": "Texto de instrução personalizado...",
     "LOREBOOK_ENTRY_PROBABILITY": "Chance de ativação (%)",
     "LOREBOOK_ENTRY_PROBABILITY_HINT": "Rola esta porcentagem a cada varredura para decidir se a entrada dispara. 100 ＝ sempre.",
