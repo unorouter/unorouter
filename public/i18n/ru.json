@@ -3734,6 +3734,7 @@
     "PRESET_TEMPLATE_PLAIN": "Свой текстовый блок",
     "PRESET_TEMPLATE_CHAT": "История чата",
     "PRESET_TEMPLATE_CHAT_HINT": "Куда вставляются сообщения разговора.",
+    "PRESET_TEMPLATE_PREFILL_HINT": "Вставляет поле Prefill выше как сообщение ассистента, чтобы модель продолжила с него.",
     "PRESET_TEMPLATE_PLAIN_PLACEHOLDER": "Свой текст инструкции...",
     "LOREBOOK_ENTRY_PROBABILITY": "Шанс активации (%)",
     "LOREBOOK_ENTRY_PROBABILITY_HINT": "Бросает этот процент при каждом сканировании, чтобы решить, сработает ли запись. 100 ＝ всегда.",

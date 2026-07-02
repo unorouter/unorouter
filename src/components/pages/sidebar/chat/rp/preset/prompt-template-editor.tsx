@@ -149,9 +149,16 @@ export function PromptTemplateEditor(props: Props) {
             <div className="pt-1">{handle}</div>
             <div className="flex min-w-0 flex-1 flex-col gap-1.5">
               {card.type === "slot" && (
-                <span className="text-sm font-medium">
-                  {SLOT_LABELS[card.slot] ?? card.slot}
-                </span>
+                <div className="flex flex-col gap-1">
+                  <span className="text-sm font-medium">
+                    {SLOT_LABELS[card.slot] ?? card.slot}
+                  </span>
+                  {card.slot === "prefill" && (
+                    <p className="text-muted-foreground text-xs">
+                      {t("RP.PRESET_TEMPLATE_PREFILL_HINT")}
+                    </p>
+                  )}
+                </div>
               )}
               {card.type === "chat" && (
                 <div className="flex flex-col gap-1">

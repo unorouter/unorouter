@@ -3734,6 +3734,7 @@
     "PRESET_TEMPLATE_PLAIN": "Eigener Textblock",
     "PRESET_TEMPLATE_CHAT": "Chatverlauf",
     "PRESET_TEMPLATE_CHAT_HINT": "Wo Konversationsnachrichten eingefügt werden.",
+    "PRESET_TEMPLATE_PREFILL_HINT": "Fügt das Prefill-Feld oben als Assistenten-Nachricht ein, sodass das Modell daran anknüpft.",
     "PRESET_TEMPLATE_PLAIN_PLACEHOLDER": "Eigener Anweisungstext...",
     "LOREBOOK_ENTRY_PROBABILITY": "Aktivierungschance (%)",
     "LOREBOOK_ENTRY_PROBABILITY_HINT": "Wirft bei jedem Scan diesen Prozentsatz, um zu entscheiden, ob der Eintrag auslöst. 100 ＝ immer.",

@@ -3734,6 +3734,7 @@
     "PRESET_TEMPLATE_PLAIN": "Własny blok tekstu",
     "PRESET_TEMPLATE_CHAT": "Historia czatu",
     "PRESET_TEMPLATE_CHAT_HINT": "Gdzie wstawiane są wiadomości rozmowy.",
+    "PRESET_TEMPLATE_PREFILL_HINT": "Wstawia pole Prefill powyżej jako wiadomość asystenta, aby model kontynuował od tego miejsca.",
     "PRESET_TEMPLATE_PLAIN_PLACEHOLDER": "Własny tekst instrukcji...",
     "LOREBOOK_ENTRY_PROBABILITY": "Szansa aktywacji (%)",
     "LOREBOOK_ENTRY_PROBABILITY_HINT": "Losuje ten procent przy każdym skanowaniu, by zdecydować, czy wpis się uruchomi. 100 ＝ zawsze.",

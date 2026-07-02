@@ -3734,6 +3734,7 @@
     "PRESET_TEMPLATE_PLAIN": "कस्टम टेक्स्ट ब्लॉक",
     "PRESET_TEMPLATE_CHAT": "चैट इतिहास",
     "PRESET_TEMPLATE_CHAT_HINT": "जहाँ बातचीत संदेश डाले जाते हैं।",
+    "PRESET_TEMPLATE_PREFILL_HINT": "ऊपर दिए गए Prefill फ़ील्ड को असिस्टेंट संदेश के रूप में जोड़ता है, ताकि मॉडल वहीं से आगे लिखे।",
     "PRESET_TEMPLATE_PLAIN_PLACEHOLDER": "कस्टम निर्देश टेक्स्ट...",
     "LOREBOOK_ENTRY_PROBABILITY": "सक्रियण संभावना (%)",
     "LOREBOOK_ENTRY_PROBABILITY_HINT": "प्रत्येक स्कैन पर यह प्रतिशत रोल करें ताकि तय हो कि प्रविष्टि सक्रिय होगी या नहीं। 100 ＝ हमेशा।",
