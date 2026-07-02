@@ -81,7 +81,15 @@ export async function deriveUpstream({ request }: { request: Request }) {
   if (requestId) headers["x-request-id"] = requestId;
 
   if (cookieHeader) {
-    headers.cookie = cookieHeader;
+    // Strip new-api's gin "session" cookie before forwarding: stale copies on the
+    // apex domain make upstream auth prefer the session identity over the access
+    // token, failing every call with a New-Api-User mismatch 401.
+    const forwarded = cookieHeader
+      .split(";")
+      .map((c) => c.trim())
+      .filter((c) => !c.startsWith("session="))
+      .join("; ");
+    if (forwarded) headers.cookie = forwarded;
     const parsed = parseCookie(cookieHeader);
     const accessToken = parsed[ACCESS_TOKEN_COOKIE];
     if (accessToken) headers.Authorization = accessToken;
