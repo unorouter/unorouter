@@ -47,7 +47,7 @@ export function buildOAuthUrl(
   state: string,
 ): string | null {
   const serverAddress = status.server_address || env.apiUrl;
-  const redirectUri = `${serverAddress}/api/oauth/${provider}`;
+  const redirectUri = `${serverAddress}/oauth/${provider}`;
   if (
     provider === "github" ||
     provider === "discord" ||
@@ -137,7 +137,7 @@ export function OAuthButtons(props: OAuthButtonsProps) {
           },
         }),
       );
-      const redirectUri = `${serverAddress}/api/oauth/${provider.key}`;
+      const redirectUri = `${serverAddress}/oauth/${provider.key}`;
       window.location.href = provider.buildUrl(state, redirectUri);
     } finally {
       setLoading(null);
