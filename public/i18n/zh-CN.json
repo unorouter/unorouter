@@ -2781,7 +2781,8 @@
     "ALL_MODELS": "全部模型",
     "SEARCH_PLACEHOLDER": "搜索密钥...",
     "NO_TOKENS": "还没有 API 密钥。创建一个即可开始。",
-    "COPY_KEY": "复制密钥"
+    "COPY_KEY": "复制密钥",
+    "MODELS_MORE": "还有 {count} 个"
   },
   "LOGS": {
     "TABLE": {

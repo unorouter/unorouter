@@ -8,19 +8,30 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { usePricingQuery } from "@/hooks/models/pricing-hook";
 import { env } from "@/lib/config/env";
 import { copyToClipboard } from "@/lib/utils/base";
 import { useTranslations } from "next-intl";
+import ShikiHighlighter from "react-shiki";
 import { toast } from "sonner";
+
+// Fallback only if pricing cache is empty; a real, current Claude model.
+const FALLBACK_MODEL = "claude-opus-4-8";
 
 export function TokenEndpoint() {
   const t = useTranslations();
+  const pricing = usePricingQuery();
   const endpoint = `${env.apiUrl}/v1/chat/completions`;
+  // Any live Claude text model, so the quick-start reflects a real premium model on the account.
+  const exampleModel =
+    pricing.data?.models?.find(
+      (m) => m.type === "text" && m.name.startsWith("claude-"),
+    )?.name ?? FALLBACK_MODEL;
   const curlExample = `curl ${endpoint} \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -H "Content-Type: application/json" \\
   -d '{
-    "model": "gpt-4o-mini",
+    "model": "${exampleModel}",
     "messages": [{"role": "user", "content": "Hello!"}],
     "stream": true
   }'`;
@@ -77,9 +88,16 @@ export function TokenEndpoint() {
             <Icon name="copy" className="h-3.5 w-3.5" />
           </Button>
         </div>
-        <pre className="bg-background text-foreground overflow-x-auto rounded border px-3 py-2 font-mono text-xs whitespace-pre">
+        <ShikiHighlighter
+          language="bash"
+          theme={{ dark: "vitesse-dark", light: "vitesse-light" }}
+          addDefaultStyles={false}
+          showLanguage={false}
+          defaultColor="light-dark()"
+          className="[&_pre]:border-border/50 [&_pre]:bg-background [&_pre]:overflow-x-auto [&_pre]:rounded [&_pre]:border [&_pre]:p-3 [&_pre]:font-mono [&_pre]:text-xs [&_pre]:leading-relaxed [&_pre]:whitespace-pre"
+        >
           {curlExample}
-        </pre>
+        </ShikiHighlighter>
       </div>
     </div>
   );

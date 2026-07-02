@@ -2781,7 +2781,8 @@
     "ALL_MODELS": "Tüm Modeller",
     "SEARCH_PLACEHOLDER": "Anahtarları ara...",
     "NO_TOKENS": "Henüz API anahtarı yok. Başlamak için bir tane oluşturun.",
-    "COPY_KEY": "Anahtarı Kopyala"
+    "COPY_KEY": "Anahtarı Kopyala",
+    "MODELS_MORE": "+{count} daha"
   },
   "LOGS": {
     "TABLE": {

@@ -2781,7 +2781,8 @@
     "ALL_MODELS": "Wszystkie modele",
     "SEARCH_PLACEHOLDER": "Szukaj kluczy...",
     "NO_TOKENS": "Brak kluczy API. Utwórz jeden, aby rozpocząć.",
-    "COPY_KEY": "Kopiuj klucz"
+    "COPY_KEY": "Kopiuj klucz",
+    "MODELS_MORE": "+{count} więcej"
   },
   "LOGS": {
     "TABLE": {

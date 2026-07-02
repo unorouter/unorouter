@@ -2781,7 +2781,8 @@
     "ALL_MODELS": "كل النماذج",
     "SEARCH_PLACEHOLDER": "بحث المفاتيح...",
     "NO_TOKENS": "لا توجد مفاتيح API بعد. أنشئ واحداً للبدء.",
-    "COPY_KEY": "نسخ المفتاح"
+    "COPY_KEY": "نسخ المفتاح",
+    "MODELS_MORE": "+{count} أخرى"
   },
   "LOGS": {
     "TABLE": {

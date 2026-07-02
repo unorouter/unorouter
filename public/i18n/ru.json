@@ -2781,7 +2781,8 @@
     "ALL_MODELS": "Все модели",
     "SEARCH_PLACEHOLDER": "Поиск ключей...",
     "NO_TOKENS": "Пока нет ключей API. Создайте один, чтобы начать.",
-    "COPY_KEY": "Скопировать ключ"
+    "COPY_KEY": "Скопировать ключ",
+    "MODELS_MORE": "ещё {count}"
   },
   "LOGS": {
     "TABLE": {
