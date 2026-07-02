@@ -3448,7 +3448,8 @@
       "IMAGE_STYLE_TEMPLATE": "Plantilla de estilo"
     },
     "SAMPLING": {
-      "UNSUPPORTED": "No soportado por todos los proveedores que sirven este modelo. Configurarlo no tiene efecto."
+      "UNSUPPORTED": "No soportado por todos los proveedores que sirven este modelo. Configurarlo no tiene efecto.",
+      "OFF": "Desactivado. Este parámetro se omitirá en la solicitud."
     },
     "MORE": {
       "OPEN": "Más acciones",

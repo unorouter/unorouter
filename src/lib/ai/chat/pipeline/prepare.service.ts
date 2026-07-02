@@ -125,6 +125,7 @@ export async function prepareChatRequest(
     modelParams: buildModelParams(
       prompt.assembled,
       prompt.effectiveMaxOutputTokens,
+      modelInfo,
     ),
     providerOptions: buildProviderOptions(
       prompt.assembled,

@@ -3448,7 +3448,8 @@
       "IMAGE_STYLE_TEMPLATE": "Stil şablonu"
     },
     "SAMPLING": {
-      "UNSUPPORTED": "Bu modeli sunan tüm sağlayıcılar tarafından desteklenmez. Ayarlamak etkisizdir."
+      "UNSUPPORTED": "Bu modeli sunan tüm sağlayıcılar tarafından desteklenmez. Ayarlamak etkisizdir.",
+      "OFF": "Kapalı. Bu parametre istekten çıkarılacak."
     },
     "MORE": {
       "OPEN": "Daha fazla eylem",

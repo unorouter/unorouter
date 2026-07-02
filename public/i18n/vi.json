@@ -3448,7 +3448,8 @@
       "IMAGE_STYLE_TEMPLATE": "Mẫu phong cách"
     },
     "SAMPLING": {
-      "UNSUPPORTED": "Không phải tất cả nhà cung cấp của mô hình này đều hỗ trợ. Đặt giá trị sẽ không có tác dụng."
+      "UNSUPPORTED": "Không phải tất cả nhà cung cấp của mô hình này đều hỗ trợ. Đặt giá trị sẽ không có tác dụng.",
+      "OFF": "Đã tắt. Tham số này sẽ được bỏ qua trong yêu cầu."
     },
     "MORE": {
       "OPEN": "Thao tác khác",

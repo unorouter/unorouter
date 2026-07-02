@@ -3448,7 +3448,8 @@
       "IMAGE_STYLE_TEMPLATE": "Modello di stile"
     },
     "SAMPLING": {
-      "UNSUPPORTED": "Non supportato da tutti i provider che servono questo modello. Impostarlo non ha effetto."
+      "UNSUPPORTED": "Non supportato da tutti i provider che servono questo modello. Impostarlo non ha effetto.",
+      "OFF": "Disattivato. Questo parametro verrà omesso dalla richiesta."
     },
     "MORE": {
       "OPEN": "Altre azioni",

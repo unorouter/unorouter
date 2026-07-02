@@ -3448,7 +3448,8 @@
       "IMAGE_STYLE_TEMPLATE": "Templat gaya"
     },
     "SAMPLING": {
-      "UNSUPPORTED": "Tidak didukung oleh semua penyedia yang melayani model ini. Mengaturnya tidak berpengaruh."
+      "UNSUPPORTED": "Tidak didukung oleh semua penyedia yang melayani model ini. Mengaturnya tidak berpengaruh.",
+      "OFF": "Dimatikan. Parameter ini akan dihilangkan dari permintaan."
     },
     "MORE": {
       "OPEN": "Tindakan lainnya",

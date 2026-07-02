@@ -3448,7 +3448,8 @@
       "IMAGE_STYLE_TEMPLATE": "风格模板"
     },
     "SAMPLING": {
-      "UNSUPPORTED": "并非该模型的所有提供方都支持。设置后不会生效。"
+      "UNSUPPORTED": "并非该模型的所有提供方都支持。设置后不会生效。",
+      "OFF": "已关闭。该参数将不会包含在请求中。"
     },
     "MORE": {
       "OPEN": "更多操作",

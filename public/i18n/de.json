@@ -3448,7 +3448,8 @@
       "IMAGE_STYLE_TEMPLATE": "Stilvorlage"
     },
     "SAMPLING": {
-      "UNSUPPORTED": "Wird nicht von allen Anbietern dieses Modells unterstützt. Eine Änderung hat keine Wirkung."
+      "UNSUPPORTED": "Wird nicht von allen Anbietern dieses Modells unterstützt. Eine Änderung hat keine Wirkung.",
+      "OFF": "Deaktiviert. Dieser Parameter wird bei der Anfrage weggelassen."
     },
     "MORE": {
       "OPEN": "Weitere Aktionen",
