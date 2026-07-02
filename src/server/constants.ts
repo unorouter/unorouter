@@ -81,20 +81,24 @@ export async function deriveUpstream({ request }: { request: Request }) {
   if (requestId) headers["x-request-id"] = requestId;
 
   if (cookieHeader) {
-    // Strip new-api's gin "session" cookie before forwarding: stale copies on the
-    // apex domain make upstream auth prefer the session identity over the access
-    // token, failing every call with a New-Api-User mismatch 401.
-    const forwarded = cookieHeader
-      .split(";")
-      .map((c) => c.trim())
-      .filter((c) => !c.startsWith("session="))
-      .join("; ");
-    if (forwarded) headers.cookie = forwarded;
     const parsed = parseCookie(cookieHeader);
     const accessToken = parsed[ACCESS_TOKEN_COOKIE];
     if (accessToken) headers.Authorization = accessToken;
     const verified = await verifyUserId(parsed[USER_ID_COOKIE]);
     if (verified !== null) headers[NEW_API_USER] = String(verified);
+    // Token auth wins: with an access token present, strip the gin "session"
+    // cookie before forwarding, else upstream prefers a stale session identity
+    // and every call 401s with a New-Api-User mismatch. Password-login users
+    // have no access token and authenticate upstream via that session cookie,
+    // so it must keep flowing for them.
+    const forwarded = accessToken
+      ? cookieHeader
+          .split(";")
+          .map((c) => c.trim())
+          .filter((c) => !c.startsWith("session="))
+          .join("; ")
+      : cookieHeader;
+    if (forwarded) headers.cookie = forwarded;
   }
   return { upstream: { headers } };
 }
