@@ -3448,7 +3448,8 @@
       "IMAGE_STYLE_TEMPLATE": "風格模板"
     },
     "SAMPLING": {
-      "UNSUPPORTED": "此模型並非所有提供者都支援。設定後不會生效。"
+      "UNSUPPORTED": "此模型並非所有提供者都支援。設定後不會生效。",
+      "OFF": "已關閉。此參數將不會包含在請求中。"
     },
     "MORE": {
       "OPEN": "更多操作",

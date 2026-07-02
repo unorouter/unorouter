@@ -1,6 +1,7 @@
 "use client";
 
 import { Slider } from "@/components/ui/slider";
+import { Switch } from "@/components/ui/switch";
 import {
   Tooltip,
   TooltipContent,
@@ -12,13 +13,16 @@ import { cn } from "@/lib/utils";
 type Props = {
   label: string;
   value: number | null;
-  onChange: (v: number) => void;
+  onChange: (v: number | null) => void;
   min: number;
   max: number;
   step?: number;
   fallback?: number;
   disabled?: boolean;
   disabledReason?: string;
+  // Show the on/off switch so the param can be omitted from the request (null). Off when absent.
+  toggleable?: boolean;
+  toggleReason?: string;
 };
 
 export function NumberKnob(props: Props) {
@@ -26,6 +30,7 @@ export function NumberKnob(props: Props) {
   const decimals = step >= 1 ? 0 : step >= 0.1 ? 1 : 3;
   const visible = props.value ?? props.fallback ?? props.min;
   const isOff = props.value === null;
+  const off = props.disabled || (props.toggleable ? isOff : false);
 
   const body = (
     <div
@@ -36,14 +41,24 @@ export function NumberKnob(props: Props) {
     >
       <div className="flex items-center justify-between gap-3">
         <span className="text-foreground text-sm">{props.label}</span>
-        <span
-          className={cn(
-            "bg-muted text-foreground rounded-md px-2 py-0.5 font-mono text-xs tabular-nums",
-            isOff && "text-muted-foreground",
+        <div className="flex items-center gap-2">
+          <span
+            className={cn(
+              "bg-muted text-foreground rounded-md px-2 py-0.5 font-mono text-xs tabular-nums",
+              off && "text-muted-foreground",
+            )}
+          >
+            {off ? "off" : visible.toFixed(decimals)}
+          </span>
+          {props.toggleable && !props.disabled && (
+            <Switch
+              checked={!isOff}
+              onCheckedChange={(on) =>
+                props.onChange(on ? (props.fallback ?? props.min) : null)
+              }
+            />
           )}
-        >
-          {visible.toFixed(decimals)}
-        </span>
+        </div>
       </div>
       <Slider
         min={props.min}
@@ -51,17 +66,22 @@ export function NumberKnob(props: Props) {
         step={step}
         value={[visible]}
         onValueChange={(v) => props.onChange(Array.isArray(v) ? v[0] : v)}
-        disabled={props.disabled}
+        disabled={off}
       />
     </div>
   );
 
-  if (props.disabled && props.disabledReason) {
+  const reason = props.disabled
+    ? props.disabledReason
+    : isOff
+      ? props.toggleReason
+      : undefined;
+  if (reason) {
     return (
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger render={<div className="cursor-help">{body}</div>} />
-          <TooltipContent side="top">{props.disabledReason}</TooltipContent>
+          <TooltipContent side="top">{reason}</TooltipContent>
         </Tooltip>
       </TooltipProvider>
     );

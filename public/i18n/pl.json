@@ -3448,7 +3448,8 @@
       "IMAGE_STYLE_TEMPLATE": "Szablon stylu"
     },
     "SAMPLING": {
-      "UNSUPPORTED": "Nie obsługiwane przez wszystkich dostawców obsługujących ten model. Ustawienie tego nie ma efektu."
+      "UNSUPPORTED": "Nie obsługiwane przez wszystkich dostawców obsługujących ten model. Ustawienie tego nie ma efektu.",
+      "OFF": "Wyłączone. Ten parametr zostanie pominięty w żądaniu."
     },
     "MORE": {
       "OPEN": "Więcej akcji",

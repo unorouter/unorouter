@@ -43,6 +43,7 @@ export function SamplingFields<TForm extends Record<string, unknown>>(
     return !supported.includes(apiKey);
   };
   const unsupportedReason = t("CHAT.SAMPLING.UNSUPPORTED");
+  const offReason = t("CHAT.SAMPLING.OFF");
 
   return (
     <div className="flex flex-col gap-4 rounded-md border p-4">
@@ -93,6 +94,8 @@ export function SamplingFields<TForm extends Record<string, unknown>>(
                   fallback={param.fallback}
                   disabled={disabled}
                   disabledReason={disabled ? unsupportedReason : undefined}
+                  toggleable
+                  toggleReason={offReason}
                 />
               )}
             />
