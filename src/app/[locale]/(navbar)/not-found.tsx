@@ -1,5 +1,5 @@
 import { NotFoundCard } from "@/components/elements/feedback/not-found-card";
 
-export default function NotFoundPage() {
-  return <NotFoundCard fullScreen />;
+export default function NavbarNotFound() {
+  return <NotFoundCard />;
 }
