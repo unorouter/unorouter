@@ -2781,7 +2781,8 @@
     "ALL_MODELS": "כל המודלים",
     "SEARCH_PLACEHOLDER": "חיפוש מפתחות...",
     "NO_TOKENS": "אין מפתחות API עדיין. צרו אחד כדי להתחיל.",
-    "COPY_KEY": "העתק מפתח"
+    "COPY_KEY": "העתק מפתח",
+    "MODELS_MORE": "ועוד {count}"
   },
   "LOGS": {
     "TABLE": {

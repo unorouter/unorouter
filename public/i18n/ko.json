@@ -2781,7 +2781,8 @@
     "ALL_MODELS": "모든 모델",
     "SEARCH_PLACEHOLDER": "키 검색...",
     "NO_TOKENS": "아직 API 키가 없습니다. 시작하려면 하나를 만드세요.",
-    "COPY_KEY": "키 복사"
+    "COPY_KEY": "키 복사",
+    "MODELS_MORE": "외 {count}개"
   },
   "LOGS": {
     "TABLE": {

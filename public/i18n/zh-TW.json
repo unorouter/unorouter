@@ -2781,7 +2781,8 @@
     "ALL_MODELS": "所有模型",
     "SEARCH_PLACEHOLDER": "搜尋金鑰...",
     "NO_TOKENS": "尚無 API 金鑰。建立一把以開始使用。",
-    "COPY_KEY": "複製金鑰"
+    "COPY_KEY": "複製金鑰",
+    "MODELS_MORE": "還有 {count} 個"
   },
   "LOGS": {
     "TABLE": {

@@ -2781,7 +2781,8 @@
     "ALL_MODELS": "すべてのモデル",
     "SEARCH_PLACEHOLDER": "キーを検索...",
     "NO_TOKENS": "APIキーはまだありません。作成して始めましょう。",
-    "COPY_KEY": "キーをコピー"
+    "COPY_KEY": "キーをコピー",
+    "MODELS_MORE": "他{count}件"
   },
   "LOGS": {
     "TABLE": {

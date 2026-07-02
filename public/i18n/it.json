@@ -2781,7 +2781,8 @@
     "ALL_MODELS": "Tutti i modelli",
     "SEARCH_PLACEHOLDER": "Cerca chiavi...",
     "NO_TOKENS": "Ancora nessuna chiave API. Creane una per iniziare.",
-    "COPY_KEY": "Copia chiave"
+    "COPY_KEY": "Copia chiave",
+    "MODELS_MORE": "+{count} in più"
   },
   "LOGS": {
     "TABLE": {

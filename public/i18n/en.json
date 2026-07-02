@@ -2781,7 +2781,8 @@
     "ALL_MODELS": "All Models",
     "SEARCH_PLACEHOLDER": "Search keys...",
     "NO_TOKENS": "No API keys yet. Create one to get started.",
-    "COPY_KEY": "Copy Key"
+    "COPY_KEY": "Copy Key",
+    "MODELS_MORE": "+{count} more"
   },
   "LOGS": {
     "TABLE": {

@@ -33,6 +33,9 @@ import { editingTokenAtom } from "./token-list";
 
 export type TokenRow = NonNullable<Token>;
 
+// Cap the models hover list so a key scoped to hundreds of models can't overflow the viewport.
+const MODEL_PREVIEW_CAP = 12;
+
 export function TokenStatusCell(props: CellContext<TokenRow, unknown>) {
   const t = useTranslations();
   const isEnabled = props.row.original.status === 1;
@@ -190,12 +193,19 @@ export function TokenModelsCell(props: CellContext<TokenRow, unknown>) {
         </TooltipTrigger>
         <TooltipContent className="max-w-xs">
           <ul className="space-y-0.5 text-xs">
-            {modelNames.map((name) => (
+            {modelNames.slice(0, MODEL_PREVIEW_CAP).map((name) => (
               <li key={name} className="font-mono">
                 {name}
               </li>
             ))}
           </ul>
+          {modelNames.length > MODEL_PREVIEW_CAP && (
+            <p className="text-muted-foreground mt-1 text-xs">
+              {t("TOKEN.MODELS_MORE", {
+                count: modelNames.length - MODEL_PREVIEW_CAP,
+              })}
+            </p>
+          )}
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>

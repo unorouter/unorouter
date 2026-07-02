@@ -2781,7 +2781,8 @@
     "ALL_MODELS": "Semua Model",
     "SEARCH_PLACEHOLDER": "Cari kunci...",
     "NO_TOKENS": "Belum ada kunci API. Buat satu untuk memulai.",
-    "COPY_KEY": "Salin Kunci"
+    "COPY_KEY": "Salin Kunci",
+    "MODELS_MORE": "+{count} lainnya"
   },
   "LOGS": {
     "TABLE": {

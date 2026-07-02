@@ -2781,7 +2781,8 @@
     "ALL_MODELS": "Mọi mô hình",
     "SEARCH_PLACEHOLDER": "Tìm key...",
     "NO_TOKENS": "Chưa có API key nào. Tạo một để bắt đầu.",
-    "COPY_KEY": "Sao chép Key"
+    "COPY_KEY": "Sao chép Key",
+    "MODELS_MORE": "+{count} nữa"
   },
   "LOGS": {
     "TABLE": {
