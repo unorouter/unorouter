@@ -97,7 +97,7 @@ export const BLOG_REGISTRY = [
     priority: 0.7,
     changeFrequency: "monthly",
     category: "product",
-    wordCount: 640,
+    wordCount: 400,
     headings: [
       { id: "why-switch", i18nLeaf: "H_WHY_SWITCH", level: 2 },
       { id: "what-to-compare", i18nLeaf: "H_WHAT_TO_COMPARE", level: 2 },
@@ -177,7 +177,7 @@ export const BLOG_REGISTRY = [
     priority: 0.7,
     changeFrequency: "monthly",
     category: "product",
-    wordCount: 600,
+    wordCount: 315,
     headings: [
       { id: "catalog", i18nLeaf: "H_CATALOG", level: 2 },
       { id: "dev", i18nLeaf: "H_DEV", level: 2 },
@@ -197,7 +197,7 @@ export const BLOG_REGISTRY = [
     priority: 0.7,
     changeFrequency: "monthly",
     category: "product",
-    wordCount: 590,
+    wordCount: 315,
     headings: [
       { id: "audience", i18nLeaf: "H_AUDIENCE", level: 2 },
       { id: "setup", i18nLeaf: "H_SETUP", level: 2 },
@@ -217,7 +217,7 @@ export const BLOG_REGISTRY = [
     priority: 0.7,
     changeFrequency: "monthly",
     category: "product",
-    wordCount: 580,
+    wordCount: 290,
     headings: [
       { id: "same-lane", i18nLeaf: "H_SAME_LANE", level: 2 },
       { id: "models", i18nLeaf: "H_MODELS", level: 2 },
@@ -237,7 +237,7 @@ export const BLOG_REGISTRY = [
     priority: 0.7,
     changeFrequency: "monthly",
     category: "product",
-    wordCount: 600,
+    wordCount: 325,
     headings: [
       { id: "engine", i18nLeaf: "H_ENGINE", level: 2 },
       { id: "two-in-one", i18nLeaf: "H_TWO_IN_ONE", level: 2 },
@@ -257,7 +257,7 @@ export const BLOG_REGISTRY = [
     priority: 0.7,
     changeFrequency: "monthly",
     category: "product",
-    wordCount: 580,
+    wordCount: 270,
     headings: [
       { id: "hosted", i18nLeaf: "H_HOSTED", level: 2 },
       { id: "setup", i18nLeaf: "H_SETUP", level: 2 },
@@ -296,7 +296,7 @@ export const BLOG_REGISTRY = [
     priority: 0.7,
     changeFrequency: "monthly",
     category: "product",
-    wordCount: 560,
+    wordCount: 260,
     headings: [
       { id: "lanes", i18nLeaf: "H_LANES", level: 2 },
       { id: "models", i18nLeaf: "H_MODELS", level: 2 },
