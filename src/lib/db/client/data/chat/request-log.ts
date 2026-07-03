@@ -150,6 +150,23 @@ export async function readLocalRequestLogsForConv(
     .where(eq(requestLogs.convId, convId));
 }
 
+// Newest N full rows, capped in SQL: pre-lean rows can be MBs each (nested debug chains),
+// so callers that only need a few must never materialize the whole conv's blobs.
+export async function readLocalRequestLogsNewestForConv(
+  userId: number | undefined,
+  convId: string,
+  limit: number,
+): Promise<RequestLogRow[]> {
+  const local = await getLocalDb(userId);
+  if (!local) return [];
+  return local.db
+    .select()
+    .from(requestLogs)
+    .where(eq(requestLogs.convId, convId))
+    .orderBy(desc(requestLogs.createdAt))
+    .limit(limit);
+}
+
 // Lean reader for diagnostics: projects ONLY metadata columns (NEVER the giant
 // finalMessages/requestBody prompt snapshots) and caps rows in SQL, so a 50-100MB
 // request_logs table can't materialize its blobs in memory and OOM the export.
