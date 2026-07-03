@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="220" height="56" viewBox="0 0 220 56" role="img" aria-label="Featured on MEDIAPRONET">
+  <defs>
+    <clipPath id="logoClip"><circle cx="32" cy="28" r="20" /></clipPath>
+    <clipPath id="cardClip"><rect width="220" height="56" rx="10" /></clipPath>
+  </defs>
+
+  <!-- Card -->
+  <rect width="220" height="56" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" />
+
+  <!-- Divider between logo area and text -->
+  <line x1="58" y1="10" x2="58" y2="46" stroke="#e2e8f0" stroke-width="1" />
+
+  <!-- Logo circle bg -->
+  <circle cx="32" cy="28" r="20" fill="#dc262614" />
+
+  <!-- Logo image clipped to circle -->
+  <image href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJNZWRpYVByb05ldCI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9Im1wbkZhdkJnIiB4MT0iMCIgeTE9IjAiIHgyPSI2NCIgeTI9IjY0IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iI2VmNDQ0NCIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjAuNSIgc3RvcC1jb2xvcj0iI2RjMjYyNiIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNiOTFjMWMiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgPC9kZWZzPgogIDxyZWN0IHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgcng9IjEyIiBmaWxsPSJ1cmwoI21wbkZhdkJnKSIvPgogIDxyZWN0IHdpZHRoPSI2NCIgaGVpZ2h0PSIzIiByeD0iMTIiIGZpbGw9IiNmZmZmZmYiIG9wYWNpdHk9IjAuMjIiLz4KICA8cmVjdCB4PSIyIiB5PSIyIiB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHJ4PSIxMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utb3BhY2l0eT0iMC4wOCIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgPHBhdGggZD0iTSAxNCA1MCBMIDE0IDE2IEwgMzIgMzYgTCA1MCAxNiBMIDUwIDUwIgogICAgICAgIGZpbGw9Im5vbmUiCiAgICAgICAgc3Ryb2tlPSIjZmZmZmZmIgogICAgICAgIHN0cm9rZS13aWR0aD0iOSIKICAgICAgICBzdHJva2UtbGluZWNhcD0icm91bmQiCiAgICAgICAgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L3N2Zz4K" x="16" y="12" width="32" height="32" clip-path="url(#logoClip)" preserveAspectRatio="xMidYMid meet" />
+
+  <!-- Text -->
+  <text x="64" y="23" font-family="system-ui,-apple-system,sans-serif" font-size="8.5" font-weight="800" letter-spacing="1.4" fill="#dc2626">FEATURED ON</text>
+  <text x="64" y="40" font-family="system-ui,-apple-system,sans-serif" font-size="15" font-weight="800" letter-spacing="-0.3" fill="#0f172a">MEDIAPRONET</text>
+</svg>
