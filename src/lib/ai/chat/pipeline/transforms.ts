@@ -186,8 +186,43 @@ export function stripReasoningParts(messages: StreamMessages): StreamMessages {
       })
       .filter((p) => !(p.type === "text" && p.text === ""));
     if (!changed) return m;
+    // A reasoning-only reply (model answered inside the thinking channel) must not vanish:
+    // dropping it deletes the assistant turn, so later requests lose the reply and neighboring
+    // user turns merge. Re-feed the reasoning text as plain content instead (text is safe to
+    // echo; only reasoning PARTS are rejected upstream).
+    if (m.role === "assistant" && !hasRenderableContent(parts)) {
+      const salvaged = salvageReasoningText(m.parts);
+      if (salvaged) {
+        return { ...m, parts: [{ type: "text", text: salvaged }] };
+      }
+    }
     return { ...m, parts };
   });
+}
+
+function hasRenderableContent(parts: StreamMessages[number]["parts"]): boolean {
+  return (
+    Array.isArray(parts) &&
+    parts.some((p) =>
+      p.type === "text" ? ((p.text as string) ?? "").trim() !== "" : true,
+    )
+  );
+}
+
+function salvageReasoningText(parts: StreamMessages[number]["parts"]): string {
+  if (!Array.isArray(parts)) return "";
+  const chunks: string[] = [];
+  for (const p of parts) {
+    if (p.type === "reasoning" && typeof p.text === "string" && p.text.trim()) {
+      chunks.push(p.text.trim());
+    } else if (p.type === "text" && typeof p.text === "string") {
+      const inner = p.text
+        .replace(/<\/?(think|thinking|Thoughts)>/g, "")
+        .trim();
+      if (inner) chunks.push(inner);
+    }
+  }
+  return chunks.join("\n").trim();
 }
 
 // GLM/some Anthropic require strict user/assistant alternation.
