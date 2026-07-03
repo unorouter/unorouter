@@ -6,6 +6,7 @@ import {
   UNKNOWN_MODEL_OUTPUT_CAP,
 } from "@/lib/config/constants";
 import { parseStringMap } from "@/lib/utils/base";
+import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import type { ProcessedModel } from "@/lib/api/pricing";
 import type { LoadedConvContext } from "@/lib/types";
 import { runStartTriggers } from "../../triggers/run-triggers";
@@ -175,6 +176,17 @@ export async function assemblePrompt(
       ? spliceDepthInjections(slicedMessages, depthInjections)
       : slicedMessages;
   const historyMessages = expandMessageMacros(splicedMessages, assembled.vars);
+
+  // Content-free trim breadcrumb: where history messages went (summary cut, count cap, token
+  // budget). Pairs with assembly.shape to explain a thin request from the diagnostics alone.
+  logChatDebug("assembly.history", {
+    total: messages.length,
+    summaryAnchor,
+    afterSummary: unsummarized.length,
+    chatMemory: assembled.chatMemory ?? null,
+    afterCount: countSliced.length,
+    afterBudget: slicedMessages.length,
+  });
 
   return {
     assembled,
