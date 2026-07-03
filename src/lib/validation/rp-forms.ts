@@ -192,6 +192,9 @@ export const samplingPresetFormSchema = t.Object({
   useCharAvatarRef: nullable(t.Boolean()),
   mainPrompt: t.String({ default: "", maxLength: MAX_DESC_LEN }),
   postHistory: t.String({ default: "", maxLength: MAX_DESC_LEN }),
+  postHistoryRole: t.Union([t.Literal("system"), t.Literal("user")], {
+    default: "system",
+  }),
   prefill: t.String({ default: "", maxLength: MAX_DESC_LEN }),
   // Comma-separated provider slugs; serialized to the `providers` JSON on submit.
   providers: t.String({ default: "", maxLength: 2_048 }),

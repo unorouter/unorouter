@@ -410,6 +410,8 @@ export const samplingPresets = sqliteTable(
     promptTemplate: text("prompt_template"),
     mainPrompt: text("main_prompt"),
     postHistory: text("post_history"),
+    // "system" | "user"; null = system.
+    postHistoryRole: text("post_history_role"),
     prefill: text("prefill"),
     forceAlternateRoles: integer("force_alternate_roles", { mode: "boolean" })
       .notNull()

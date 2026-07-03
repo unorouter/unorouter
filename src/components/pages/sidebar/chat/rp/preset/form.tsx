@@ -4,6 +4,7 @@ import { MyFormInput } from "@/components/elements/form/my-form-input";
 import { MyFormSwitch } from "@/components/elements/form/my-form-switch";
 import { MyFormTextarea } from "@/components/elements/form/my-form-textarea";
 import { Form } from "@/components/ui/form";
+import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Select,
@@ -99,6 +100,7 @@ export function PresetForm(props: Props) {
     providers: routing.slugs,
     providersOnly: routing.only,
     promptTemplate: editing?.promptTemplate ?? "",
+    postHistoryRole: editing?.postHistoryRole ?? "system",
     streamingEnabled: editing?.streamingEnabled ?? true,
     showReasoning: editing?.showReasoning ?? true,
   });
@@ -320,15 +322,43 @@ export function PresetForm(props: Props) {
               placeholder={t("RP.PRESET_MAIN_PROMPT_PLACEHOLDER")}
               description={t("RP.PRESET_MAIN_PROMPT_HINT")}
             />
-            <MyFormTextarea
-              control={form.control}
-              name="postHistory"
-              schema={samplingPresetFormSchema}
-              label={t("RP.PRESET_POST_HISTORY")}
-              rows={4}
-              placeholder={t("RP.PRESET_POST_HISTORY_PLACEHOLDER")}
-              description={t("RP.PRESET_POST_HISTORY_HINT")}
-            />
+            <div className="flex flex-col gap-1">
+              <div className="flex items-center justify-between">
+                <Label>{t("RP.PRESET_POST_HISTORY")}</Label>
+                <Select
+                  value={form.watch("postHistoryRole")}
+                  onValueChange={(v) =>
+                    form.setValue("postHistoryRole", v as "system" | "user", {
+                      shouldDirty: true,
+                    })
+                  }
+                >
+                  <SelectTrigger size="sm" className="h-7 w-28 text-xs">
+                    <SelectValue>
+                      {form.watch("postHistoryRole") === "user"
+                        ? t("RP.LOREBOOK_ENTRY_INJECTION_ROLE_USER")
+                        : t("RP.LOREBOOK_ENTRY_INJECTION_ROLE_SYSTEM")}
+                    </SelectValue>
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="system">
+                      {t("RP.LOREBOOK_ENTRY_INJECTION_ROLE_SYSTEM")}
+                    </SelectItem>
+                    <SelectItem value="user">
+                      {t("RP.LOREBOOK_ENTRY_INJECTION_ROLE_USER")}
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <MyFormTextarea
+                control={form.control}
+                name="postHistory"
+                schema={samplingPresetFormSchema}
+                rows={4}
+                placeholder={t("RP.PRESET_POST_HISTORY_PLACEHOLDER")}
+                description={t("RP.PRESET_POST_HISTORY_HINT")}
+              />
+            </div>
             <div className="border-border/40 flex flex-col gap-3 rounded-lg border p-3">
               <div className="text-foreground text-xs font-medium tracking-wide uppercase">
                 {t("RP.PRESET_PROVIDERS_TITLE")}

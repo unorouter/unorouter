@@ -153,8 +153,8 @@ export function buildModelColumns(opts: {
         />
       ),
       meta: {
-        headerClassName: "hidden lg:table-cell text-right",
-        cellClassName: "hidden lg:table-cell text-right text-muted-foreground",
+        headerClassName: "text-right",
+        cellClassName: "text-right text-muted-foreground",
       },
       cell: ({ row }) => {
         const v = rankTokens(row.original);

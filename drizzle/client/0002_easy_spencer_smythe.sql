@@ -1,0 +1,1 @@
+ALTER TABLE `sampling_presets` ADD `post_history_role` text;
