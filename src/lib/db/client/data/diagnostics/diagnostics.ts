@@ -178,6 +178,28 @@ export async function buildDiagnosticsHead(
   } catch {}
 
   const convs = (await readLocalConversations(userId)) ?? [];
+  // Prompt-shape settings ride along (not content): request-shape bugs are unsolvable
+  // without knowing chatMemory / memory / preset flags for the conversation.
+  const settingsById = new Map<string, Record<string, unknown>>();
+  try {
+    const local = await getLocalDb(userId);
+    if (local) {
+      const res = await local.exec(
+        `SELECT id, preset_id, chat_memory, memory_enabled, summary_anchor, utility_model FROM conversations`,
+        [],
+        "all",
+      );
+      for (const r of res.rows) {
+        settingsById.set(String(r[0]), {
+          presetId: r[1],
+          chatMemory: r[2],
+          memoryEnabled: r[3],
+          summaryAnchor: r[4],
+          utilityModel: r[5],
+        });
+      }
+    }
+  } catch {}
   const conversations = convs.map((c) => ({
     id: c.id,
     title: includeContent ? c.title : undefined,
@@ -187,7 +209,28 @@ export async function buildDiagnosticsHead(
     totalOutputTokens: c.totalOutputTokens,
     createdAt: c.createdAt,
     updatedAt: c.updatedAt,
+    ...(settingsById.get(c.id) ?? {}),
   }));
+
+  let presets: unknown[] = [];
+  try {
+    const { readLocalPresets } = await import("@/lib/db/client/data/rp/rp");
+    presets = ((await readLocalPresets(userId)) ?? []).map((p) => ({
+      id: p.id,
+      name: p.name,
+      chatMemory: p.chatMemory,
+      memoryEnabled: p.memoryEnabled,
+      forceAlternateRoles: p.forceAlternateRoles,
+      noSystemRole: p.noSystemRole,
+      mustStartWithUserInput: p.mustStartWithUserInput,
+      postHistoryRole: p.postHistoryRole,
+      hasPromptTemplate: !!p.promptTemplate,
+      promptTemplate: includeContent ? p.promptTemplate : undefined,
+      isDefault: p.isDefault,
+    }));
+  } catch (e) {
+    presets = [{ error: String(e).slice(0, 200) }];
+  }
 
   // Per-table storage stats, computed ON EXPORT only (not on every chat write). Appended to the debug log
   // so it rides along in `debugLog` too, then included as its own block.
@@ -202,6 +245,7 @@ export async function buildDiagnosticsHead(
     runtime,
     dbInfo,
     conversations,
+    presets,
     convIds: convs.map((c) => c.id),
     debugLog: getChatDebugLog(),
   };
@@ -259,6 +303,7 @@ export async function buildDiagnostics(
     runtime: head.runtime,
     dbInfo: head.dbInfo,
     conversations: head.conversations,
+    presets: head.presets,
     messagesByConv,
     requestLogsByConv,
     debugLog: head.debugLog,
