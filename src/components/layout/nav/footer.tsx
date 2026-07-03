@@ -100,7 +100,7 @@ const RECIPROCAL_LINKS = [
   },
   {
     href: "https://codetrendy.com/?utm_source=unorouter.com&utm_medium=badge",
-    src: "/badges/codetrendy.svg",
+    src: "https://codetrendy.com/api/badge?style=classic",
     name: "CodeTrendy",
     width: 181,
     height: 46,
