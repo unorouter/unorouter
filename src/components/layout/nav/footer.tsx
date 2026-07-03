@@ -105,6 +105,20 @@ const RECIPROCAL_LINKS = [
     width: 181,
     height: 46,
   },
+  {
+    href: "https://sitepatent.com/?utm_source=unorouter.com&utm_medium=badge",
+    src: "https://sitepatent.com/api/badge?style=classic",
+    name: "SitePatent",
+    width: 181,
+    height: 46,
+  },
+  {
+    href: "https://mediapronet.com/?utm_source=unorouter.com&utm_medium=badge",
+    src: "https://mediapronet.com/api/badge?style=classic",
+    name: "MediaProNet",
+    width: 181,
+    height: 46,
+  },
 ] as const;
 
 function FooterLinks(props: {

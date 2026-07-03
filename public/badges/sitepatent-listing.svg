@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="220" height="56" viewBox="0 0 220 56" role="img" aria-label="Featured on SitePatent">
+  <defs>
+    <clipPath id="logoClip"><circle cx="32" cy="28" r="20" /></clipPath>
+    <clipPath id="cardClip"><rect width="220" height="56" rx="10" /></clipPath>
+  </defs>
+
+  <!-- Card -->
+  <rect width="220" height="56" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" />
+
+  <!-- Divider between logo area and text -->
+  <line x1="58" y1="10" x2="58" y2="46" stroke="#e2e8f0" stroke-width="1" />
+
+  <!-- Logo circle bg -->
+  <circle cx="32" cy="28" r="20" fill="#7c3aed14" />
+
+  <!-- Logo image clipped to circle -->
+  <image href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYmciIHgxPSI4OCIgeTE9IjU2IiB4Mj0iNDI0IiB5Mj0iNDU2IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iI2E3OGJmYSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjAuNDgiIHN0b3AtY29sb3I9IiM3YzNhZWQiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjNWIyMWI2Ii8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogICAgPGZpbHRlciBpZD0ic2hhZG93IiB4PSItMTglIiB5PSItMTglIiB3aWR0aD0iMTM2JSIgaGVpZ2h0PSIxMzYlIiBjb2xvci1pbnRlcnBvbGF0aW9uLWZpbHRlcnM9InNSR0IiPgogICAgICA8ZmVEcm9wU2hhZG93IGR4PSIwIiBkeT0iMTQiIHN0ZERldmlhdGlvbj0iMTYiIGZsb29kLWNvbG9yPSIjMmUxMDY1IiBmbG9vZC1vcGFjaXR5PSIwLjI4Ii8+CiAgICA8L2ZpbHRlcj4KICA8L2RlZnM+CgogIDxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iMTEyIiBmaWxsPSJ1cmwoI2JnKSIvPgoKICA8ZyBmaWx0ZXI9InVybCgjc2hhZG93KSI+CiAgICA8cmVjdCB4PSI3MCIgeT0iOTAiIHdpZHRoPSIzNzIiIGhlaWdodD0iMzI4IiByeD0iNTQiIGZpbGw9IiNmZmZmZmYiLz4KICAgIDxyZWN0IHg9IjEwNCIgeT0iMTU0IiB3aWR0aD0iMzA0IiBoZWlnaHQ9IjIyNiIgcng9IjM0IiBmaWxsPSIjN2MzYWVkIi8+CgogICAgPGNpcmNsZSBjeD0iMTI0IiBjeT0iMTI0IiByPSIxMiIgZmlsbD0iIzdjM2FlZCIvPgogICAgPGNpcmNsZSBjeD0iMTY0IiBjeT0iMTI0IiByPSIxMiIgZmlsbD0iIzdjM2FlZCIvPgogICAgPGNpcmNsZSBjeD0iMjA0IiBjeT0iMTI0IiByPSIxMiIgZmlsbD0iIzdjM2FlZCIvPgoKICAgIDxwYXRoIGQ9Ik0xNjYgMjI0TDIzNiAyNzhMMTY2IDMzMiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjQ0IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KICAgIDxwYXRoIGQ9Ik0yNzAgMzMySDM0NiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjQ0IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8L2c+Cjwvc3ZnPgo=" x="16" y="12" width="32" height="32" clip-path="url(#logoClip)" preserveAspectRatio="xMidYMid meet" />
+
+  <!-- Text -->
+  <text x="64" y="23" font-family="system-ui,-apple-system,sans-serif" font-size="8.5" font-weight="800" letter-spacing="1.4" fill="#7c3aed">FEATURED ON</text>
+  <text x="64" y="40" font-family="system-ui,-apple-system,sans-serif" font-size="15" font-weight="800" letter-spacing="-0.3" fill="#0f172a">SitePatent</text>
+</svg>
