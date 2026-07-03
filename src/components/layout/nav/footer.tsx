@@ -107,14 +107,14 @@ const RECIPROCAL_LINKS = [
   },
   {
     href: "https://sitepatent.com/?utm_source=unorouter.com&utm_medium=badge",
-    src: "https://sitepatent.com/api/badge?style=classic",
+    src: "/badges/sitepatent-listing.svg",
     name: "SitePatent",
     width: 181,
     height: 46,
   },
   {
     href: "https://mediapronet.com/?utm_source=unorouter.com&utm_medium=badge",
-    src: "https://mediapronet.com/api/badge?style=classic",
+    src: "/badges/mediapronet.svg",
     name: "MediaProNet",
     width: 181,
     height: 46,
