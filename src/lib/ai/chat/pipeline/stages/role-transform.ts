@@ -1,6 +1,7 @@
 // Stage 4: walk the template into messages, hoist the leading system run, apply role transforms in LOCKED order, then Lua editrequest.
 
 import { risuUnescape } from "@/lib/ai/chat/macros";
+import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { runLuaEditTrigger } from "@/lib/ai/chat/triggers/lua/engine";
 import { makeTriggerContext } from "@/lib/ai/chat/triggers/vm";
 import type { AssembledSystem } from "../../prompt/assembler.service";
@@ -78,6 +79,26 @@ export async function transformRoles(
   if (luaCodes.length > 0) {
     processedMessages = await applyLuaEditRequest(processedMessages, luaCodes);
   }
+
+  // Content-free assembly breadcrumb: template card sequence, applied flags, history in vs
+  // messages out, final role order. Rides the diagnostics export; names request-shape causes
+  // (dropped turns, merge collapses, card order) without any prompt text.
+  logChatDebug("assembly.shape", {
+    model,
+    flags: {
+      noSystemRole,
+      forceAlternateRoles,
+      mustStartWithUserInput,
+      mustEndWithUserInput,
+    },
+    cards: assembled.promptParts
+      .map((p) => (p.kind === "message" ? p.role[0] : "H"))
+      .join(""),
+    historyIn: historyMessages.length,
+    systemHoisted: effectiveSystem != null,
+    prefill: !!assembled.prefill,
+    rolesOut: processedMessages.map((m) => m.role).join(","),
+  });
 
   // #escape protection ends here: un-map private-use chars before upstream.
   return {
