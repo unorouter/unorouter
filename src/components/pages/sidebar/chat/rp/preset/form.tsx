@@ -4,6 +4,7 @@ import { MyFormInput } from "@/components/elements/form/my-form-input";
 import { MyFormSwitch } from "@/components/elements/form/my-form-switch";
 import { MyFormTextarea } from "@/components/elements/form/my-form-textarea";
 import { Form } from "@/components/ui/form";
+import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Select,
@@ -12,6 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { IMAGE_STYLE_TEMPLATES } from "@/lib/ai/chat/image-style-templates";
 import { STARTER_PRESETS } from "@/lib/ai/rp/starter-presets";
 import {
   useCreatePresetMutation,
@@ -98,6 +100,7 @@ export function PresetForm(props: Props) {
     providers: routing.slugs,
     providersOnly: routing.only,
     promptTemplate: editing?.promptTemplate ?? "",
+    postHistoryRole: editing?.postHistoryRole ?? "system",
     streamingEnabled: editing?.streamingEnabled ?? true,
     showReasoning: editing?.showReasoning ?? true,
   });
@@ -236,12 +239,64 @@ export function PresetForm(props: Props) {
                     {t("RP.PRESET_UTILITY_MODEL_HINT")}
                   </p>
                 </div>
-                <MyFormTextarea
+                <MyFormSwitch
                   control={form.control}
-                  name="promptInstruction"
-                  schema={samplingPresetFormSchema}
-                  label={t("RP.PRESET_IMAGE_PROMPT_INSTRUCTION")}
+                  name="imagePreview"
+                  label={t("RP.PRESET_IMAGE_PREVIEW")}
                 />
+                <MyFormSwitch
+                  control={form.control}
+                  name="useCharAvatarRef"
+                  label={t("RP.PRESET_USE_CHAR_AVATAR_REF")}
+                />
+                <div className="flex flex-col gap-1">
+                  <MyFormInput
+                    control={form.control}
+                    name="imageModel"
+                    schema={samplingPresetFormSchema}
+                    label={t("RP.PRESET_IMAGE_MODEL")}
+                  />
+                  <p className="text-muted-foreground text-xs">
+                    {t("RP.PRESET_IMAGE_MODEL_HINT")}
+                  </p>
+                </div>
+                <div className="flex flex-col gap-1.5">
+                  <div className="flex items-center justify-between">
+                    <label className="text-sm font-medium">
+                      {t("RP.PRESET_IMAGE_PROMPT_INSTRUCTION")}
+                    </label>
+                    <Select
+                      value=""
+                      onValueChange={(id) => {
+                        const tpl = IMAGE_STYLE_TEMPLATES.find(
+                          (x) => x.id === id,
+                        );
+                        if (!tpl) return;
+                        form.setValue("promptInstruction", tpl.instruction, {
+                          shouldDirty: true,
+                        });
+                      }}
+                    >
+                      <SelectTrigger size="sm" className="h-7 w-36 text-xs">
+                        <SelectValue
+                          placeholder={t("CHAT.OVERRIDES.IMAGE_STYLE_TEMPLATE")}
+                        />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {IMAGE_STYLE_TEMPLATES.map((tpl) => (
+                          <SelectItem key={tpl.id} value={tpl.id}>
+                            {t(tpl.labelKey)}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <MyFormTextarea
+                    control={form.control}
+                    name="promptInstruction"
+                    schema={samplingPresetFormSchema}
+                  />
+                </div>
               </div>
               <MyFormSwitch
                 control={form.control}
@@ -267,25 +322,43 @@ export function PresetForm(props: Props) {
               placeholder={t("RP.PRESET_MAIN_PROMPT_PLACEHOLDER")}
               description={t("RP.PRESET_MAIN_PROMPT_HINT")}
             />
-            <MyFormTextarea
-              control={form.control}
-              name="postHistory"
-              schema={samplingPresetFormSchema}
-              label={t("RP.PRESET_POST_HISTORY")}
-              rows={4}
-              placeholder={t("RP.PRESET_POST_HISTORY_PLACEHOLDER")}
-              description={t("RP.PRESET_POST_HISTORY_HINT")}
-            />
-            <MyFormTextarea
-              control={form.control}
-              name="prefill"
-              schema={samplingPresetFormSchema}
-              label={t("RP.PRESET_PREFILL")}
-              rows={4}
-              placeholder={t("RP.PRESET_PREFILL_PLACEHOLDER")}
-              description={t("RP.PRESET_PREFILL_HINT")}
-            />
-
+            <div className="flex flex-col gap-1">
+              <div className="flex items-center justify-between">
+                <Label>{t("RP.PRESET_POST_HISTORY")}</Label>
+                <Select
+                  value={form.watch("postHistoryRole")}
+                  onValueChange={(v) =>
+                    form.setValue("postHistoryRole", v as "system" | "user", {
+                      shouldDirty: true,
+                    })
+                  }
+                >
+                  <SelectTrigger size="sm" className="h-7 w-28 text-xs">
+                    <SelectValue>
+                      {form.watch("postHistoryRole") === "user"
+                        ? t("RP.LOREBOOK_ENTRY_INJECTION_ROLE_USER")
+                        : t("RP.LOREBOOK_ENTRY_INJECTION_ROLE_SYSTEM")}
+                    </SelectValue>
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="system">
+                      {t("RP.LOREBOOK_ENTRY_INJECTION_ROLE_SYSTEM")}
+                    </SelectItem>
+                    <SelectItem value="user">
+                      {t("RP.LOREBOOK_ENTRY_INJECTION_ROLE_USER")}
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <MyFormTextarea
+                control={form.control}
+                name="postHistory"
+                schema={samplingPresetFormSchema}
+                rows={4}
+                placeholder={t("RP.PRESET_POST_HISTORY_PLACEHOLDER")}
+                description={t("RP.PRESET_POST_HISTORY_HINT")}
+              />
+            </div>
             <div className="border-border/40 flex flex-col gap-3 rounded-lg border p-3">
               <div className="text-foreground text-xs font-medium tracking-wide uppercase">
                 {t("RP.PRESET_PROVIDERS_TITLE")}

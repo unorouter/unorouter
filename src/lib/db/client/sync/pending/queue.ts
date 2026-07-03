@@ -1,6 +1,7 @@
 "use client";
 
 import { localPendingTasks } from "@/lib/db/schema/client";
+import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { logger } from "@/lib/utils/logger";
 import { and, asc, eq, isNull, lte, or } from "drizzle-orm";
 import { getLocalDb } from "../../client";
@@ -87,6 +88,7 @@ async function drainPending(userId: number): Promise<void> {
     )
     .orderBy(asc(localPendingTasks.queuedAt));
 
+  if (rows.length > 0) logChatDebug("pending.drain", { count: rows.length });
   for (const row of rows) {
     if (row.attempts >= MAX_ATTEMPTS) continue; // dead-lettered; stays for record
     try {
@@ -118,7 +120,13 @@ async function drainPending(userId: number): Promise<void> {
             eq(localPendingTasks.id, row.id),
           ),
         );
+      logChatDebug("pending.task_error", {
+        id: row.id,
+        attempts,
+        error: String(err).slice(0, 200),
+      });
       if (attempts >= MAX_ATTEMPTS) {
+        logChatDebug("pending.exhausted", { id: row.id });
         logger.warn("Pending task exhausted retries", {
           context: "local-db.pending-queue",
           id: row.id,

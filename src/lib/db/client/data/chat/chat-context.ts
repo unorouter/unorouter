@@ -6,13 +6,13 @@ import {
   readLocalConversationBindings,
   readLocalConversationSettings,
   readLocalMessages,
-} from "./chat";
+} from "@/lib/db/client/data/chat/chat";
 import {
   readLocalCharacter,
   readLocalLorebookBundle,
   readLocalPersona,
   readLocalPreset,
-} from "./rp";
+} from "@/lib/db/client/data/rp/rp";
 
 // Streamed RP context from SQLocal. Characters travel as {binding, character} so the assembler honors per-character overrides.
 export async function buildChatContextFromLocalDb(

@@ -1,29 +1,57 @@
 "use client";
 
+import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { MyFormCombobox } from "@/components/elements/form/my-form-combobox";
 import { MyFormEntitySelect } from "@/components/elements/form/my-form-entity-select";
 import { MyFormKeyedSelect } from "@/components/elements/form/my-form-keyed-select";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
 } from "@/components/ui/form";
+import { Icon } from "@/components/ui/icon";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { InfoPopover } from "@/components/ui/popover";
+import {
+  InfoPopover,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useCharactersQuery } from "@/hooks/ai/rp/characters";
 import { useLorebooksQuery } from "@/hooks/ai/rp/lorebooks";
 import { usePersonasQuery } from "@/hooks/ai/rp/personas";
 import { usePresetsQuery } from "@/hooks/ai/rp/presets";
+import { useCustomProvidersQuery } from "@/hooks/ai/custom-providers-hook";
+import { usePricingQuery } from "@/hooks/models/pricing-hook";
+import { makeCustomModelId } from "@/lib/ai/chat/custom-provider-id";
+import { IMAGE_STYLE_TEMPLATES } from "@/lib/ai/chat/image-style-templates";
 import { DEFAULT_CHAT_MEMORY, msg, NONE_VALUE } from "@/lib/config/constants";
+import { cn } from "@/lib/utils";
 import { parseExtraBody } from "@/lib/validation/chat";
 import type { ConversationOverridesForm } from "@/lib/validation/rp-forms";
 import { useTranslations } from "next-intl";
-import type { Control } from "react-hook-form";
+import { useState } from "react";
+import { useFormContext, type Control } from "react-hook-form";
 import {
   REASONING_EFFORT_KEY,
   WEB_SEARCH_CONTEXT_KEY,
@@ -174,24 +202,49 @@ export function OverridesGenerationFields(props: {
           )}
         />
         {props.showConversationFields && (
-          <FormField
-            control={props.control}
-            name="webSearchEnabled"
-            render={({ field }) => (
-              <FormItem className="flex-row items-center gap-2">
-                <FormLabel className="text-xs">
-                  {t("CHAT.OVERRIDES.WEB_SEARCH")}
-                </FormLabel>
-                <FormControl>
-                  <Switch
-                    size="sm"
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                  />
-                </FormControl>
-              </FormItem>
-            )}
-          />
+          <>
+            <FormField
+              control={props.control}
+              name="webSearchEnabled"
+              render={({ field }) => (
+                <FormItem className="flex-row items-center gap-2">
+                  <FormLabel className="text-xs">
+                    {t("CHAT.OVERRIDES.WEB_SEARCH")}
+                  </FormLabel>
+                  <FormControl>
+                    <Switch
+                      size="sm"
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={props.control}
+              name="memoryEnabled"
+              render={({ field }) => (
+                <FormItem className="flex-row items-center gap-2">
+                  <div className="flex items-center gap-1.5">
+                    <FormLabel className="text-xs">
+                      {t("CHAT.OVERRIDES.MEMORY_ENABLED")}
+                    </FormLabel>
+                    <InfoPopover
+                      text={t("CHAT.OVERRIDES.MEMORY_ENABLED_HINT")}
+                    />
+                  </div>
+                  <FormControl>
+                    <Switch
+                      size="sm"
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+          </>
         )}
       </div>
 
@@ -225,24 +278,6 @@ export function OverridesGenerationFields(props: {
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
             <FormField
               control={props.control}
-              name="memoryEnabled"
-              render={({ field }) => (
-                <FormItem className="flex-row items-center gap-2">
-                  <FormLabel className="text-xs">
-                    {t("CHAT.OVERRIDES.MEMORY_ENABLED")}
-                  </FormLabel>
-                  <FormControl>
-                    <Switch
-                      size="sm"
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={props.control}
               name="imageEnabled"
               render={({ field }) => (
                 <FormItem className="flex-row items-center gap-2">
@@ -259,52 +294,287 @@ export function OverridesGenerationFields(props: {
                 </FormItem>
               )}
             />
+            <FormField
+              control={props.control}
+              name="imagePreview"
+              render={({ field }) => (
+                <FormItem className="flex-row items-center gap-2">
+                  <div className="flex items-center gap-1.5">
+                    <FormLabel className="text-xs">
+                      {t("CHAT.OVERRIDES.IMAGE_PREVIEW")}
+                    </FormLabel>
+                    <InfoPopover
+                      text={t("CHAT.OVERRIDES.IMAGE_PREVIEW_HINT")}
+                    />
+                  </div>
+                  <FormControl>
+                    <Switch
+                      size="sm"
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={props.control}
+              name="useCharAvatarRef"
+              render={({ field }) => (
+                <FormItem className="flex-row items-center gap-2">
+                  <div className="flex items-center gap-1.5">
+                    <FormLabel className="text-xs">
+                      {t("CHAT.OVERRIDES.USE_CHAR_AVATAR_REF")}
+                    </FormLabel>
+                    <InfoPopover
+                      text={t("CHAT.OVERRIDES.USE_CHAR_AVATAR_REF_HINT")}
+                    />
+                  </div>
+                  <FormControl>
+                    <Switch
+                      size="sm"
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
           </div>
-          <FormField
-            control={props.control}
-            name="utilityModel"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-muted-foreground text-xs">
-                  {t("CHAT.OVERRIDES.UTILITY_MODEL")}
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    className="h-8 text-xs"
-                    placeholder={t("CHAT.OVERRIDES.UTILITY_MODEL_PLACEHOLDER")}
-                    value={field.value === NONE_VALUE ? "" : field.value}
-                    onChange={(e) =>
-                      field.onChange(e.target.value || NONE_VALUE)
-                    }
-                  />
-                </FormControl>
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={props.control}
-            name="promptInstruction"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-muted-foreground text-xs">
-                  {t("CHAT.OVERRIDES.IMAGE_PROMPT_INSTRUCTION")}
-                </FormLabel>
-                <FormControl>
-                  <Textarea
-                    className="min-h-16 text-xs"
-                    placeholder={t(
-                      "CHAT.OVERRIDES.IMAGE_PROMPT_INSTRUCTION_PLACEHOLDER",
-                    )}
-                    value={field.value}
-                    onChange={field.onChange}
-                  />
-                </FormControl>
-              </FormItem>
-            )}
-          />
+          <UtilityModelField control={props.control} />
+          <ImageModelField control={props.control} />
+          <ImagePromptInstructionField control={props.control} />
         </div>
       )}
     </>
+  );
+}
+
+// Utility model picker: searchable catalog text models plus non-image custom-provider models
+// (proxy/BYOK); the memory summarizer and image prompt-writer run on this model.
+function UtilityModelField(props: {
+  control: Control<ConversationOverridesForm>;
+}) {
+  const t = useTranslations();
+  const [open, setOpen] = useState(false);
+  const pricing = usePricingQuery().data;
+  const customProvidersQuery = useCustomProvidersQuery();
+  const catalogModels = (pricing?.models ?? []).filter(
+    (m) => m.type === "text",
+  );
+  const customOptions = (customProvidersQuery.data ?? []).flatMap((provider) =>
+    provider.models
+      .filter((m) => m.type !== "image")
+      .map((m) => ({
+        id: makeCustomModelId(provider.id, m.key),
+        name: `${provider.name} / ${m.label}`,
+      })),
+  );
+  return (
+    <FormField
+      control={props.control}
+      name="utilityModel"
+      render={({ field }) => {
+        const customName = customOptions.find(
+          (o) => o.id === field.value,
+        )?.name;
+        return (
+          <FormItem>
+            <FormLabel className="text-muted-foreground text-xs">
+              {t("CHAT.OVERRIDES.UTILITY_MODEL")}
+            </FormLabel>
+            <Popover open={open} onOpenChange={setOpen}>
+              <PopoverTrigger className="border-input bg-background hover:bg-accent hover:text-accent-foreground flex h-8 w-full items-center justify-between rounded-md border px-3 text-xs">
+                <span
+                  className={cn(
+                    "truncate",
+                    field.value === NONE_VALUE
+                      ? "text-muted-foreground"
+                      : "font-mono",
+                  )}
+                >
+                  {field.value === NONE_VALUE
+                    ? t("CHAT.OVERRIDES.UTILITY_MODEL_PLACEHOLDER")
+                    : (customName ?? field.value)}
+                </span>
+                <Icon
+                  name="chevrons-up-down"
+                  className="text-muted-foreground ml-2 h-3.5 w-3.5 shrink-0"
+                />
+              </PopoverTrigger>
+              <PopoverContent
+                className="w-[calc(100vw-1rem)] p-0 sm:w-96"
+                align="start"
+              >
+                <Command>
+                  <CommandInput
+                    placeholder={t("CHAT.MODEL.SEARCH")}
+                    className="h-8 text-xs"
+                  />
+                  <CommandList>
+                    <CommandEmpty>{t("CHAT.MODEL.NO_RESULTS")}</CommandEmpty>
+                    <CommandGroup>
+                      <CommandItem
+                        value={NONE_VALUE}
+                        onSelect={() => {
+                          field.onChange(NONE_VALUE);
+                          setOpen(false);
+                        }}
+                        className="text-xs"
+                      >
+                        {t("CHAT.OVERRIDES.UTILITY_MODEL_PLACEHOLDER")}
+                      </CommandItem>
+                    </CommandGroup>
+                    {customOptions.length > 0 && (
+                      <CommandGroup heading={t("CHAT.MODEL.CUSTOM_PROVIDERS")}>
+                        {customOptions.map((o) => (
+                          <CommandItem
+                            key={o.id}
+                            value={o.id}
+                            keywords={[o.name]}
+                            onSelect={() => {
+                              field.onChange(o.id);
+                              setOpen(false);
+                            }}
+                            className="text-xs"
+                          >
+                            <Icon
+                              name="server"
+                              className="h-3.5 w-3.5 shrink-0"
+                            />
+                            <span className="min-w-0 flex-1 truncate font-mono">
+                              {o.name}
+                            </span>
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    )}
+                    <CommandGroup>
+                      {catalogModels.map((m) => (
+                        <CommandItem
+                          key={m.name}
+                          value={m.name}
+                          keywords={[
+                            m.vendor.name,
+                            ...(m.isFree ? ["free"] : []),
+                          ]}
+                          onSelect={() => {
+                            field.onChange(m.name);
+                            setOpen(false);
+                          }}
+                          className="text-xs"
+                        >
+                          <VendorIcon vendor={m.vendor.name} size={14} />
+                          <span className="min-w-0 flex-1 truncate font-mono">
+                            {m.name}
+                          </span>
+                          {m.isFree && (
+                            <span className="shrink-0 rounded bg-emerald-500/15 px-1 py-0.5 text-[10px] leading-none font-medium text-emerald-700 dark:text-emerald-300">
+                              {t("CHAT.MODEL.FREE_BADGE")}
+                            </span>
+                          )}
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </CommandList>
+                </Command>
+              </PopoverContent>
+            </Popover>
+          </FormItem>
+        );
+      }}
+    />
+  );
+}
+
+// Image model picker: catalog image models (labeled with their reference-image capacity) plus
+// image-typed custom-provider models (BYOK; generated browser-direct against the user's endpoint).
+function ImageModelField(props: {
+  control: Control<ConversationOverridesForm>;
+}) {
+  const t = useTranslations();
+  const pricing = usePricingQuery().data;
+  const customProvidersQuery = useCustomProvidersQuery();
+  const catalogOptions = (pricing?.models ?? [])
+    .filter((m) => m.type === "image")
+    .map((m) => ({
+      id: m.name,
+      name: m.metadata.maxImageInputs
+        ? `${m.name} (${t("CHAT.OVERRIDES.IMAGE_MODEL_REFS", { count: m.metadata.maxImageInputs })})`
+        : m.name,
+    }));
+  const customOptions = (customProvidersQuery.data ?? []).flatMap((provider) =>
+    provider.models
+      .filter((m) => m.type === "image")
+      .map((m) => ({
+        id: makeCustomModelId(provider.id, m.key),
+        name: `${provider.name} / ${m.label}`,
+      })),
+  );
+  return (
+    <MyFormEntitySelect
+      control={props.control}
+      name="imageModel"
+      label={t("CHAT.OVERRIDES.IMAGE_MODEL")}
+      noneLabel={t("CHAT.OVERRIDES.IMAGE_MODEL_AUTO")}
+      options={[...customOptions, ...catalogOptions]}
+    />
+  );
+}
+
+// Prompt-writer instruction textarea plus a style-template select that fills it (user edits from there).
+function ImagePromptInstructionField(props: {
+  control: Control<ConversationOverridesForm>;
+}) {
+  const t = useTranslations();
+  const form = useFormContext<ConversationOverridesForm>();
+  return (
+    <FormField
+      control={props.control}
+      name="promptInstruction"
+      render={({ field }) => (
+        <FormItem>
+          <div className="flex items-center justify-between">
+            <FormLabel className="text-muted-foreground text-xs">
+              {t("CHAT.OVERRIDES.IMAGE_PROMPT_INSTRUCTION")}
+            </FormLabel>
+            <Select
+              value=""
+              onValueChange={(id) => {
+                const tpl = IMAGE_STYLE_TEMPLATES.find((x) => x.id === id);
+                if (!tpl) return;
+                form.setValue("promptInstruction", tpl.instruction, {
+                  shouldDirty: true,
+                });
+              }}
+            >
+              <SelectTrigger size="sm" className="h-7 w-36 text-xs">
+                <SelectValue
+                  placeholder={t("CHAT.OVERRIDES.IMAGE_STYLE_TEMPLATE")}
+                />
+              </SelectTrigger>
+              <SelectContent>
+                {IMAGE_STYLE_TEMPLATES.map((tpl) => (
+                  <SelectItem key={tpl.id} value={tpl.id}>
+                    {t(tpl.labelKey)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <FormControl>
+            <Textarea
+              className="min-h-16 text-xs"
+              placeholder={t(
+                "CHAT.OVERRIDES.IMAGE_PROMPT_INSTRUCTION_PLACEHOLDER",
+              )}
+              value={field.value}
+              onChange={field.onChange}
+            />
+          </FormControl>
+        </FormItem>
+      )}
+    />
   );
 }
 

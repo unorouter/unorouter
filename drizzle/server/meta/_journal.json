@@ -15,6 +15,20 @@
       "when": 1782822073797,
       "tag": "0001_flowery_skaar",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1782945314115,
+      "tag": "0002_freezing_charles_xavier",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1783037681320,
+      "tag": "0003_rich_trish_tilby",
+      "breakpoints": true
     }
   ]
 }

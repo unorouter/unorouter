@@ -2,7 +2,7 @@
 
 import { customProviders } from "@/lib/db/schema/client";
 import { desc } from "drizzle-orm";
-import { makeTableStore } from "./table-store";
+import { makeTableStore } from "@/lib/db/client/data/table-store";
 import type { LocalRowInput } from "@/lib/types";
 
 const customProviderStore = makeTableStore(

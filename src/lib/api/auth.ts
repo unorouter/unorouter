@@ -1,6 +1,10 @@
 import { parseSetCookie, stringifySetCookie } from "cookie";
 import { Context } from "elysia";
-import { COOKIE_MAX_AGE, USER_ID_COOKIE } from "../config/constants";
+import {
+  ACCESS_TOKEN_COOKIE,
+  COOKIE_MAX_AGE,
+  USER_ID_COOKIE,
+} from "../config/constants";
 import { signUserId } from "../utils/server";
 
 type AuthResponseData = {
@@ -28,6 +32,18 @@ export async function handleAuthResponse(
         value: await signUserId(id),
         path: "/",
         maxAge: COOKIE_MAX_AGE,
+        sameSite: "lax",
+      }),
+    );
+    // Password login authenticates via the fresh session cookie; a leftover
+    // OAuth access token would take precedence in deriveUpstream and pin the
+    // old identity, so expire it here.
+    cookies.push(
+      stringifySetCookie({
+        name: ACCESS_TOKEN_COOKIE,
+        value: "",
+        path: "/",
+        maxAge: 0,
         sameSite: "lax",
       }),
     );

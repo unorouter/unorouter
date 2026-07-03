@@ -6,7 +6,7 @@ import {
   partsToItems,
   walkActiveBranch,
 } from "@/lib/ai/chat/messages";
-import { upsertLocalMedia } from "@/lib/db/client/data/media";
+import { upsertLocalMedia } from "@/lib/db/client/data/media/media";
 import {
   readConvRegexScripts,
   readConvTriggers,
@@ -18,13 +18,13 @@ import {
   upsertLocalConversationSettings,
   upsertLocalMessage,
   upsertLocalMessageItem,
-} from "@/lib/db/client/data/chat";
-import { readLocalPreset } from "@/lib/db/client/data/rp";
+} from "@/lib/db/client/data/chat/chat";
 import { runRegexScripts } from "@/lib/ai/chat/regex-scripts";
+import type { IllustratorConvSettings } from "./illustrator-run";
 import { makeTriggerContext, runTriggers } from "@/lib/ai/chat/triggers/vm";
 import type { TriggerScript } from "@/lib/ai/chat/triggers/types";
 import { makeClientTriggerOps } from "./trigger-ops-client";
-import { insertLocalRequestLog } from "@/lib/db/client/data/request-log";
+import { insertLocalRequestLog } from "@/lib/db/client/data/chat/request-log";
 import {
   drainSoon,
   enqueueLogEnrich,
@@ -248,35 +248,23 @@ export function createChatHistoryAdapter(
 
           // Illustrator: append an image placeholder (a `task` item, kind:"image") on a successful assistant
           // reply when enabled. The image generates ASYNC after persist and amends this item (no reply freeze).
-          let illustratorJob: { taskId: string; utilityModel: string } | null =
-            null;
+          let illustratorJob: {
+            taskId: string;
+            settings: IllustratorConvSettings;
+            utilityModel: string;
+          } | null = null;
           if (content.role === "assistant" && originalAssistantText.trim()) {
-            const convSettings = await readLocalConversationSettings(
-              userId,
-              id,
-            );
-            const s = convSettings as {
-              imageEnabled?: boolean | null;
-              utilityModel?: string | null;
-              defaultModel?: string | null;
-              presetId?: string | null;
-            } | null;
-            // Inherit from the bound preset: conv override ?? preset default.
-            const preset = s?.presetId
-              ? ((await readLocalPreset(userId, s.presetId)) as {
-                  imageEnabled?: boolean | null;
-                  utilityModel?: string | null;
-                } | null)
-              : null;
-            const imageEnabled = s?.imageEnabled ?? preset?.imageEnabled;
-            const utilityModel = s?.utilityModel ?? preset?.utilityModel;
+            const { resolveIllustratorSettings } =
+              await import("./illustrator-run");
+            const illu = await resolveIllustratorSettings(userId, id);
             const hasError = items.some((it) => it.type === "error");
-            if (imageEnabled && !hasError) {
+            if (illu?.imageEnabled && !hasError) {
               const taskId = uid();
               illustratorJob = {
                 taskId,
+                settings: illu,
                 utilityModel:
-                  utilityModel || resolvedModel || s?.defaultModel || "",
+                  illu.utilityModel || resolvedModel || illu.defaultModel || "",
               };
               items.push({
                 type: "task",
@@ -483,16 +471,12 @@ export function createChatHistoryAdapter(
             void (async () => {
               try {
                 const { runIllustrator } = await import("./illustrator-run");
-                const s = (await readLocalConversationSettings(userId, id)) as {
-                  promptInstruction?: string | null;
-                  presetId?: string | null;
-                } | null;
-                // promptInstruction inherits from the bound preset when the chat has no override.
-                const preset = s?.presetId
-                  ? ((await readLocalPreset(userId, s.presetId)) as {
-                      promptInstruction?: string | null;
-                    } | null)
-                  : null;
+                // Opt-in preview: route the written prompt through the review dialog before generating.
+                const reviewPrompt = job.settings.imagePreview
+                  ? (
+                      await import("@/components/pages/sidebar/chat/image-prompt-dialog-store")
+                    ).requestImagePromptReview
+                  : undefined;
                 await runIllustrator({
                   userId,
                   convId: id,
@@ -500,10 +484,10 @@ export function createChatHistoryAdapter(
                   taskId: job.taskId,
                   responseText: originalAssistantText,
                   utilityModel: job.utilityModel,
-                  promptInstruction:
-                    s?.promptInstruction ??
-                    preset?.promptInstruction ??
-                    undefined,
+                  promptInstruction: job.settings.promptInstruction,
+                  imageModel: job.settings.imageModel,
+                  refMediaIds: job.settings.refMediaIds,
+                  reviewPrompt,
                 });
               } catch {
                 // Best-effort: a failure leaves the reply intact; the placeholder is dropped on the rewrite.

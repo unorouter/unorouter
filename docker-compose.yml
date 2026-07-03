@@ -27,8 +27,6 @@ services:
       start_period: 40s
     env_file:
       - .env
-    environment:
-      - INTERNAL_API_URL=http://unorouter-new-api:3000
     networks:
       - proxy
     labels:

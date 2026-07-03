@@ -12,8 +12,11 @@ import {
   samplingPresets,
 } from "@/lib/db/schema/shared";
 import { and, asc, desc, eq } from "drizzle-orm";
-import { getLocalDb } from "../client";
-import { makeTableStore, replaceChildRows } from "./table-store";
+import { getLocalDb } from "@/lib/db/client/client";
+import {
+  makeTableStore,
+  replaceChildRows,
+} from "@/lib/db/client/data/table-store";
 
 import type { LocalAnyRow as AnyRow, LocalRowInput } from "@/lib/types";
 
@@ -152,12 +155,13 @@ export async function upsertLocalLorebookBundle(
   const local = await getLocalDb(userId);
   if (!local) return;
   await lorebookStore.upsert(userId, bundle.lorebook);
-  await local.db
-    .delete(lorebookEntries)
-    .where(eq(lorebookEntries.lorebookId, bundle.lorebook.id));
-  for (const entry of bundle.entries) {
-    await lorebookEntryStore.upsert(userId, entry, { scopeUser: false });
-  }
+  await replaceChildRows(
+    local.db,
+    lorebookEntries,
+    lorebookEntries.lorebookId,
+    bundle.lorebook.id,
+    bundle.entries,
+  );
 }
 
 export async function upsertLocalCardBundle(

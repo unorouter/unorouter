@@ -12,8 +12,8 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { getLocalDb, resetLocalDbCache } from "@/lib/db/client/client";
-import { downloadBlob } from "@/lib/utils/client";
 import { dayjs } from "@/lib/utils/format/date";
+import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { logger } from "@/lib/utils/logger";
 import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
@@ -44,6 +44,7 @@ export function LocalDbStudio(props: Props) {
       destructive: true,
     });
     if (!ok) return;
+    logChatDebug("opfs.wipe.start", { userId });
     // Destroy the SQLocal worker first: its handle locks the sqlite file, and removeEntry() silently no-ops on locked files.
     try {
       const local = await getLocalDb(userId);
@@ -52,6 +53,9 @@ export function LocalDbStudio(props: Props) {
         resetLocalDbCache();
       }
     } catch (e) {
+      logChatDebug("opfs.wipe.destroy_error", {
+        error: String(e).slice(0, 200),
+      });
       logger.error("SQLocal destroy failed", {
         context: "local-db.studio",
         error: String(e),
@@ -62,7 +66,9 @@ export function LocalDbStudio(props: Props) {
       for await (const [name] of root.entries()) {
         await root.removeEntry(name, { recursive: true }).catch(() => {});
       }
+      logChatDebug("opfs.wipe.done", {});
     } catch (e) {
+      logChatDebug("opfs.wipe.error", { error: String(e).slice(0, 200) });
       logger.error("OPFS wipe failed", {
         context: "local-db.studio",
         error: String(e),
@@ -73,13 +79,12 @@ export function LocalDbStudio(props: Props) {
 
   const download = async () => {
     try {
-      const local = await getLocalDb(userId);
-      if (!local) throw new Error("SQLocal unavailable");
-      const file = await local.getDatabaseFile();
       const filename = `${env.appName.toLowerCase()}-${userId}-${dayjs()
         .toISOString()
         .replace(/[:.]/g, "-")}.sqlite3`;
-      downloadBlob(file, filename);
+      const { downloadLocalDb } =
+        await import("@/lib/db/client/data/diagnostics/db-export");
+      await downloadLocalDb(userId, filename);
     } catch (e) {
       logger.error("DB download failed", {
         context: "local-db.studio",

@@ -6,7 +6,7 @@ import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import {
   readLocalConversation,
   updateLocalConversationSettings,
-} from "@/lib/db/client/data/chat";
+} from "@/lib/db/client/data/chat/chat";
 import { queryKeys } from "@/lib/react-query/keys";
 import type { StreamOverrides } from "@/lib/validation/chat";
 import { dayjs } from "@/lib/utils/format/date";

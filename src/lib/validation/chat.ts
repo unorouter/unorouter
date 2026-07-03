@@ -257,6 +257,12 @@ export const updateConversationSettingsBody = t.Object({
   promptInstruction: t.Optional(
     t.Union([t.String({ maxLength: 4_096 }), t.Null()]),
   ),
+  // 512: fits namespaced custom:::<providerId>:::<modelKey> ids (BYOK image models).
+  imageModel: t.Optional(t.Union([t.String({ maxLength: 512 }), t.Null()])),
+  imagePreview: t.Optional(t.Union([t.Boolean(), t.Null()])),
+  // JSON array of media ids used as illustrator reference images.
+  imageRefIds: t.Optional(t.Union([t.String({ maxLength: 4_096 }), t.Null()])),
+  useCharAvatarRef: t.Optional(t.Union([t.Boolean(), t.Null()])),
   summaryMemory: t.Optional(
     t.Union([t.String({ maxLength: 16_384 }), t.Null()]),
   ),
@@ -353,6 +359,14 @@ export const triggerSimilarityBody = t.Object({
 export const triggerImggenBody = t.Object({
   prompt: t.String({ maxLength: MAX_TEXT_LEN }),
   negative: t.Optional(t.String({ maxLength: MAX_TEXT_LEN })),
+  // Illustrator image model; absent = auto-pick (first free image model).
+  model: t.Optional(t.String({ maxLength: MAX_MODEL_LEN })),
+  // Reference images as data: URIs (OPFS bytes) or http(s) urls; server caps by model maxImageInputs.
+  references: t.Optional(
+    t.Array(t.Object({ url: t.String({ maxLength: 15_000_000 }) }), {
+      maxItems: 6,
+    }),
+  ),
 });
 
 export const titleGenerationBody = t.Object({

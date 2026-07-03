@@ -9,7 +9,7 @@ import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import {
   inlayVersionAtom,
   replaceInlayTokens,
-} from "@/lib/db/client/data/inlay-render";
+} from "@/lib/db/client/data/media/inlay-render";
 import { cn } from "@/lib/utils";
 import { downloadBlob } from "@/lib/utils/client";
 import { useAuiState } from "@assistant-ui/react";
@@ -327,6 +327,8 @@ const defaultComponents = memoizeMarkdownComponents({
     const t = useTranslations();
     const { isCopied, copyToClipboard } = useCopyToClipboard();
     const imgSrc = typeof src === "string" ? src : undefined;
+    // Illustrator inlays carry their media id in the alt text (inlay:<id>) for the prompt dialog.
+    const inlayMediaId = alt?.startsWith("inlay:") ? alt.slice(6) : null;
     const isVideo =
       !!imgSrc && /\.(mp4|webm|mov|avi|mkv)(\?.*)?$/i.test(imgSrc);
     const isAudio =
@@ -394,6 +396,20 @@ const defaultComponents = memoizeMarkdownComponents({
                 ) : (
                   <Icon name="link" className="size-3.5" />
                 )}
+              </TooltipIconButton>
+            )}
+            {inlayMediaId && (
+              <TooltipIconButton
+                tooltip={t("CHAT.IMAGE_PROMPT.VIEW")}
+                variant="outline"
+                className="bg-background/80 size-7 backdrop-blur-sm"
+                onClick={() =>
+                  void import("@/components/pages/sidebar/chat/image-prompt-dialog-store").then(
+                    (m) => m.openImagePromptDialog(inlayMediaId),
+                  )
+                }
+              >
+                <Icon name="rotate-cw" className="size-3.5" />
               </TooltipIconButton>
             )}
           </span>

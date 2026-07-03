@@ -18,6 +18,7 @@ import {
   selectedVendorsAtom,
   seriesAtom,
   supportedParametersAtom,
+  toolsOnlyAtom,
 } from "@/store/models-store";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
@@ -26,6 +27,7 @@ import {
   InputModalitiesGroup,
   MultiSelectGroup,
   PriceGroup,
+  ToolsGroup,
 } from "./filter-groups";
 
 function uniqueSorted(values: string[]): string[] {
@@ -45,6 +47,7 @@ export function ModelsFilterSidebar(props: { models: ProcessedModel[] }) {
     supportedParametersAtom,
   );
   const [selectedVendors, setSelectedVendors] = useAtom(selectedVendorsAtom);
+  const [toolsOnly, setToolsOnly] = useAtom(toolsOnlyAtom);
   const isDirty = useAtomValue(isDirtyAtom);
   const clearFilters = useSetAtom(clearFiltersAtom);
 
@@ -90,6 +93,7 @@ export function ModelsFilterSidebar(props: { models: ProcessedModel[] }) {
           value={inputModalities}
           onChange={setInputModalities}
         />
+        <ToolsGroup value={toolsOnly} onChange={setToolsOnly} />
         <ContextGroup value={contextMin} onChange={setContextMin} />
         <PriceGroup value={priceRange} onChange={setPriceRange} />
         <MultiSelectGroup

@@ -26,12 +26,21 @@ const MAX_URL_LEN = 2_048;
 const MAX_KEY_LEN = 4_096;
 const MAX_MODELS = 256;
 
+// A model is either a chat model (default) or an image model (in-chat image gen picker; dispatched
+// browser-direct to {base}/images/generations, never our server).
+export const customProviderModelType = t.Union([
+  t.Literal("text"),
+  t.Literal("image"),
+]);
+export type CustomProviderModelType = Static<typeof customProviderModelType>;
+
 // One selectable model: key = the real id sent to the API; label = display name; tokenizer = which tokenizer
-// to count this model's history with ("auto" = infer from the key).
+// to count this model's history with ("auto" = infer from the key); type absent = text.
 export const customProviderModel = t.Object({
   key: t.String({ minLength: 1, maxLength: 256 }),
   label: t.String({ minLength: 1, maxLength: 256 }),
   tokenizer: t.Optional(customProviderTokenizer),
+  type: t.Optional(customProviderModelType),
 });
 export type CustomProviderModel = Static<typeof customProviderModel>;
 

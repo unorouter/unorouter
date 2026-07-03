@@ -9,7 +9,7 @@ import {
 } from "@/lib/db/schema/shared";
 import { uid as genId } from "@/lib/utils/base";
 import { and, desc, eq, inArray, sql } from "drizzle-orm";
-import { getLocalDb } from "../client";
+import { getLocalDb } from "@/lib/db/client/client";
 import type { TesterProbeRow, TesterTestRow } from "@/lib/db/schema/rows";
 import type { VerifyResult } from "@/lib/ai/verify/types";
 import type { VerifyProviderValue } from "@/lib/validation/model-tester";

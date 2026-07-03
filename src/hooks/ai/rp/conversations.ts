@@ -10,7 +10,7 @@ import {
   replaceLocalConversationBindings,
   upsertLocalConversation,
   upsertLocalConversationSettings,
-} from "@/lib/db/client/data/chat";
+} from "@/lib/db/client/data/chat/chat";
 import {
   buildNativeExport,
   persistMappedImport,

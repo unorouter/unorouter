@@ -117,6 +117,16 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
         </SheetHeader>
 
         <div className="space-y-6 p-4">
+          <section>
+            <SectionHeader
+              icon={
+                <Icon name="heart-pulse" className="h-3.5 w-3.5 text-rose-400" />
+              }
+              title={t("MODELS.DETAIL.PERFORMANCE")}
+            />
+            <PerformanceSection modelName={model.name} />
+          </section>
+
           {model.description && (
             <section>
               <SectionHeader
@@ -318,19 +328,6 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
               <SupportedParameters metadata={model.metadata} />
             </section>
           )}
-
-          <section>
-            <SectionHeader
-              icon={
-                <Icon
-                  name="heart-pulse"
-                  className="h-3.5 w-3.5 text-rose-400"
-                />
-              }
-              title={t("MODELS.DETAIL.PERFORMANCE")}
-            />
-            <PerformanceSection modelName={model.name} />
-          </section>
 
           {model.endpointTypes.length > 0 && (
             <section>

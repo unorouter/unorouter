@@ -1,4 +1,4 @@
-import { deleteLocalMedia, upsertLocalMedia } from "@/lib/db/client/data/media";
+import { deleteLocalMedia, upsertLocalMedia } from "@/lib/db/client/data/media/media";
 import { base64ToDataUri, fileToBase64, uid } from "@/lib/utils/base";
 import { chatStore, ensureConvId, localUserIdAtom } from "@/store/chat-store";
 import type { AttachmentAdapter } from "@assistant-ui/react";

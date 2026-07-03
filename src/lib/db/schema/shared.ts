@@ -114,6 +114,14 @@ export const conversations = sqliteTable(
     imageEnabled: integer("image_enabled", { mode: "boolean" }),
     // Illustrator prompt-writer instruction (overrides the default); null = default instruction.
     promptInstruction: text("prompt_instruction"),
+    // Illustrator image model; null = auto-pick (first free image model).
+    imageModel: text("image_model"),
+    // Review the written image prompt in a modal before generating (Lumiverse-style opt-in).
+    imagePreview: integer("image_preview", { mode: "boolean" }),
+    // JSON array of media ids used as reference images for in-chat image gen.
+    imageRefIds: text("image_ref_ids"),
+    // Auto-include the primary character's avatar as a reference image.
+    useCharAvatarRef: integer("use_char_avatar_ref", { mode: "boolean" }),
     // RisuAI fmIndex: which greeting opens the chat (-1 = firstMessage, 0..n = alternateGreetings index).
     firstMsgIndex: integer("first_msg_index").notNull().default(-1),
     // Sidebar grouping/folder; null = ungrouped. References chat_groups; SET NULL so deleting a group keeps its chats.
@@ -394,11 +402,16 @@ export const samplingPresets = sqliteTable(
     memoryEnabled: integer("memory_enabled", { mode: "boolean" }),
     imageEnabled: integer("image_enabled", { mode: "boolean" }),
     promptInstruction: text("prompt_instruction"),
+    imageModel: text("image_model"),
+    imagePreview: integer("image_preview", { mode: "boolean" }),
+    useCharAvatarRef: integer("use_char_avatar_ref", { mode: "boolean" }),
     extraBody: text("extra_body"),
     providers: text("providers"),
     promptTemplate: text("prompt_template"),
     mainPrompt: text("main_prompt"),
     postHistory: text("post_history"),
+    // "system" | "user"; null = system.
+    postHistoryRole: text("post_history_role"),
     prefill: text("prefill"),
     forceAlternateRoles: integer("force_alternate_roles", { mode: "boolean" })
       .notNull()
@@ -555,6 +568,8 @@ export const media = sqliteTable(
     width: integer("width"),
     height: integer("height"),
     extractedText: text("extracted_text"),
+    // Illustrator: the written image prompt that generated this media (verify/regenerate UI).
+    promptText: text("prompt_text"),
     createdAt: createdAtCol(),
   },
   (table) => [
@@ -777,12 +792,16 @@ export const testerProbes = sqliteTable(
     responseText: text("response_text"),
     httpStatus: integer("http_status"),
     pass: integer("pass", { mode: "boolean" }).notNull().default(false),
-    transient: integer("transient", { mode: "boolean" }).notNull().default(false),
+    transient: integer("transient", { mode: "boolean" })
+      .notNull()
+      .default(false),
     signal: text("signal"),
     reason: text("reason"),
     promptTokens: integer("prompt_tokens"),
     completionTokens: integer("completion_tokens"),
     latencyMs: integer("latency_ms").notNull().default(0),
   },
-  (table) => [index("idx_tester_probe_test").on(table.testId, table.orderIndex)],
+  (table) => [
+    index("idx_tester_probe_test").on(table.testId, table.orderIndex),
+  ],
 );

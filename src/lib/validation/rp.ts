@@ -105,6 +105,7 @@ export const samplingPresetBody = t.Object({
   promptTemplate: nullable(t.String({ maxLength: 32_768 })),
   mainPrompt: nullable(t.String({ maxLength: MAX_DESC_LEN })),
   postHistory: nullable(t.String({ maxLength: MAX_DESC_LEN })),
+  postHistoryRole: nullable(t.Union([t.Literal("system"), t.Literal("user")])),
   prefill: nullable(t.String({ maxLength: MAX_DESC_LEN })),
   forceAlternateRoles: t.Boolean({ default: false }),
   noSystemRole: t.Boolean({ default: false }),

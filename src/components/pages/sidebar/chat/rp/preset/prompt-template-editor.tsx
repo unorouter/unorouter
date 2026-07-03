@@ -26,8 +26,10 @@ import {
   type PromptItemRole,
   type SlotName,
 } from "@/lib/ai/chat/prompt/template";
+import type { SamplingPresetForm } from "@/lib/validation/rp-forms";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
+import { useFormContext } from "react-hook-form";
 
 // Editor cards carry a stable synthetic id for drag-and-drop; dropped when serializing back to PromptItem[].
 type Card = PromptItem & { id: string };
@@ -67,6 +69,8 @@ type Props = {
 
 export function PromptTemplateEditor(props: Props) {
   const t = useTranslations();
+  // The prefill card edits the preset form's prefill field directly (the card is its only editor).
+  const form = useFormContext<SamplingPresetForm>();
   const [cards, setCards] = useState<Card[]>(() =>
     toCards(parsePromptTemplate(props.value) ?? DEFAULT_PROMPT_TEMPLATE),
   );
@@ -98,7 +102,14 @@ export function PromptTemplateEditor(props: Props) {
     commit(cards.map((c) => (c.id === id ? ({ ...c, ...patch } as Card) : c)));
   };
 
-  const remove = (id: string) => commit(cards.filter((c) => c.id !== id));
+  // Prefill text lives on its card; clearing it on delete stops an invisible prefill from still being appended.
+  const remove = (id: string) => {
+    const card = cards.find((c) => c.id === id);
+    if (card?.type === "slot" && card.slot === "prefill") {
+      form.setValue("prefill", "", { shouldDirty: true });
+    }
+    commit(cards.filter((c) => c.id !== id));
+  };
 
   const addSlot = (slot: SlotName) =>
     commit([...cards, { id: makeId(), type: "slot", slot }]);
@@ -149,9 +160,28 @@ export function PromptTemplateEditor(props: Props) {
             <div className="pt-1">{handle}</div>
             <div className="flex min-w-0 flex-1 flex-col gap-1.5">
               {card.type === "slot" && (
-                <span className="text-sm font-medium">
-                  {SLOT_LABELS[card.slot] ?? card.slot}
-                </span>
+                <div className="flex flex-col gap-1.5">
+                  <span className="text-sm font-medium">
+                    {SLOT_LABELS[card.slot] ?? card.slot}
+                  </span>
+                  {card.slot === "prefill" && (
+                    <>
+                      <Textarea
+                        value={form.watch("prefill") ?? ""}
+                        onChange={(e) =>
+                          form.setValue("prefill", e.target.value, {
+                            shouldDirty: true,
+                          })
+                        }
+                        className="max-h-24 overflow-y-auto"
+                        placeholder={t("RP.PRESET_PREFILL_PLACEHOLDER")}
+                      />
+                      <p className="text-muted-foreground text-xs">
+                        {t("RP.PRESET_PREFILL_HINT")}
+                      </p>
+                    </>
+                  )}
+                </div>
               )}
               {card.type === "chat" && (
                 <div className="flex flex-col gap-1">

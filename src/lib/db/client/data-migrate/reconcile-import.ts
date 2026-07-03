@@ -1,24 +1,17 @@
 "use client";
 
-// Reconcile-import a foreign SQLite dump into a FRESH current-schema DB. Unlike a raw byte-overwrite (which
-// adopts the foreign file as-is, drift and all), this forward-migrates the dump to the current schema in an
-// isolated scratch DB, then copies its records into a clean current-schema live DB column-intersect + row-skip.
-//
-// Flow:
-//   1. scratch OPFS db <- uploaded bytes, runMigrations (forward-migrate the dump to the current schema;
-//      reconcileSchema rebuilds any drifted table + drops drift columns, guarding against row loss).
-//   2. live OPFS db wiped + recreated fresh, runMigrations (clean current schema).
-//   3. each table copied scratch -> live: intersect columns, INSERT OR IGNORE, count before/after.
-//      Rows the tightened schema rejects (NOT NULL / UNIQUE / FK) are SKIPPED and tallied, never silently lost.
-//
-// SQLocal runs one worker per instance with no cross-instance ATTACH, so rows move through JS (read scratch,
-// insert live) in batches. Fine for a manual, one-shot import.
+// Import a foreign SQLite dump into a FRESH current-schema DB (not a raw byte-overwrite, which adopts the
+// dump's drift). Forward-migrate the dump in a scratch DB, then copy each table into a clean live DB over the
+// column intersection with INSERT OR IGNORE - rows the tightened schema rejects are tallied as skipped, never
+// silently lost. No cross-instance ATTACH in SQLocal, so rows move through JS in batches.
 
 import { env } from "@/lib/config/env";
 import { GUEST_USER_ID } from "@/lib/config/constants";
 import { LOCAL_ONLY_TABLES } from "@/lib/db/schema/client";
+import { newSql } from "@/lib/db/client/new-sql";
+import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { logger } from "@/lib/utils/logger";
-import { SQLocalDrizzle } from "sqlocal/drizzle";
+import type { SQLocalDrizzle } from "sqlocal/drizzle";
 
 export type ReconcileImportResult = {
   imported: number;
@@ -29,14 +22,6 @@ export type ReconcileImportResult = {
 };
 
 const INSERT_BATCH = 200;
-
-function newSql(dbPath: string): SQLocalDrizzle {
-  return new SQLocalDrizzle({
-    databasePath: dbPath,
-    reactive: false,
-    releaseOnUnload: true,
-  });
-}
 
 async function tableNames(sql: SQLocalDrizzle): Promise<string[]> {
   const rows = await sql.sql<{ name: string }>(
@@ -62,14 +47,12 @@ async function countRows(sql: SQLocalDrizzle, table: string): Promise<number> {
   return rows[0]?.n ?? 0;
 }
 
-// The owner column on scoped tables. The dump may come from a different account (guest <-> user), so its
-// value is REWRITTEN to the current session's id on every row; otherwise scopeUser queries (which filter on
-// user_id = current session) would never see the imported rows.
+// Rewritten to the current session id on every row: a dump from another account would otherwise be
+// invisible to scopeUser queries (which filter user_id = current session).
 const USER_ID_COL = "user_id";
 
-// Copy one table scratch -> live over the shared column set. Returns rows actually inserted. Any `user_id`
-// column is forced to `targetUserId` (cross-account remap). INSERT OR IGNORE drops rows the current schema
-// rejects; the caller tallies the difference as skipped.
+// Copy a table over the shared column set (user_id remapped); INSERT OR IGNORE drops schema-rejected rows.
+// Returns rows actually inserted so the caller can tally skips.
 async function copyTable(
   source: SQLocalDrizzle,
   target: SQLocalDrizzle,
@@ -124,6 +107,10 @@ export async function reconcileImport(
 
   let scratch: SQLocalDrizzle | null = null;
   let live: SQLocalDrizzle | null = null;
+  logChatDebug("import.reconcile.start", {
+    userId: uid,
+    bytes: buffer.byteLength,
+  });
   try {
     // 1. Forward-migrate the uploaded dump in isolation.
     scratch = newSql(scratchPath);
@@ -155,11 +142,20 @@ export async function reconcileImport(
       result.imported += inserted;
       result.skipped += skipped;
       if (skipped > 0) result.skippedByTable.push({ table, skipped });
+      logChatDebug("import.reconcile.copy", { table, inserted, skipped });
     }
     await live.sql`PRAGMA foreign_keys = ON`;
 
+    logChatDebug("import.reconcile.done", {
+      imported: result.imported,
+      skipped: result.skipped,
+      tables: result.tables,
+    });
     return result;
   } catch (err) {
+    logChatDebug("import.reconcile.error", {
+      error: String(err).slice(0, 200),
+    });
     logger.error("reconcileImport failed", {
       context: "local-db.reconcile-import",
       userId: uid,

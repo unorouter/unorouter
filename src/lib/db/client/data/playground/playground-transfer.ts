@@ -10,6 +10,7 @@ import {
   type SessionSnapshot,
 } from "@/lib/validation/playground";
 import { uid } from "@/lib/utils/base";
+import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { dayjs } from "@/lib/utils/format/date";
 import {
   bumpLocalSessionCounts,
@@ -18,13 +19,14 @@ import {
   upsertLocalGenerationSession,
   upsertLocalSnapshot,
   upsertLocalSnapshotImages,
-} from "./playground";
+} from "@/lib/db/client/data/playground/playground";
 
 // Self-contained export: image bytes inlined as base64 so the file survives R2 expiry and works for guests.
 export async function exportLocalSession(
   userId: number | undefined,
   sessionId: string,
 ): Promise<SessionSnapshot> {
+  logChatDebug("export.playground.start", { sessionId });
   const bundle = await readLocalGenerationSessionBundle(userId, sessionId);
   if (!bundle) throw new Error("playground-session-not-found");
   const snapshots: PlaygroundSnapshot[] = [];

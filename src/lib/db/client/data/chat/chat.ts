@@ -23,19 +23,19 @@ import {
   projectConversationSettings,
 } from "@/lib/db/conversation-settings";
 import { and, asc, desc, eq, inArray } from "drizzle-orm";
-import { getLocalDb } from "../client";
-import { readLocalRequestLogsForConv } from "./request-log";
+import { getLocalDb } from "@/lib/db/client/client";
+import { readLocalRequestLogsForConv } from "@/lib/db/client/data/chat/request-log";
 import {
   readLocalCharacter,
   readLocalLorebookBundle,
   readLocalPersona,
   readLocalPreset,
-} from "./rp";
+} from "@/lib/db/client/data/rp/rp";
 import {
   makeTableStore,
   mergeChildRows,
   replaceChildRows,
-} from "./table-store";
+} from "@/lib/db/client/data/table-store";
 
 import type {
   LocalAnyRow as AnyRow,
@@ -165,6 +165,30 @@ export async function readLocalMessages(
     .orderBy(messages.createdAt);
 }
 
+// Metadata-only message projection for diagnostics: skips heavy item/content columns so a
+// chat-heavy DB doesn't materialize every full message row into memory (mobile OOM on export).
+export async function readLocalMessageMetaForConv(
+  userId: number | undefined,
+  convId: string,
+) {
+  const local = await getLocalDb(userId);
+  if (!local) return [];
+  return local.db
+    .select({
+      id: messages.id,
+      convId: messages.convId,
+      parentId: messages.parentId,
+      role: messages.role,
+      model: messages.model,
+      branchIndex: messages.branchIndex,
+      isActiveBranch: messages.isActiveBranch,
+      createdAt: messages.createdAt,
+    })
+    .from(messages)
+    .where(eq(messages.convId, convId))
+    .orderBy(messages.createdAt);
+}
+
 export async function readLocalConversationBindings(
   userId: number | undefined,
   convId: string,
@@ -185,7 +209,7 @@ export async function readLocalConversationBindings(
 }
 
 // Primary (lowest orderIndex) character row for a conversation, or null.
-async function readPrimaryCharacter(
+export async function readPrimaryCharacter(
   userId: number | undefined,
   convId: string,
 ) {

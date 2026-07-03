@@ -1,7 +1,7 @@
 "use client";
 
 import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
-import { findUnansweredUserTurns } from "@/lib/db/client/data/queued-send";
+import { findUnansweredUserTurns } from "@/lib/db/client/data/chat/queued-send";
 import { queryKeys } from "@/lib/react-query/keys";
 import { useQuery } from "@tanstack/react-query";
 

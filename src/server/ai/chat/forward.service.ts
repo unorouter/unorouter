@@ -9,6 +9,7 @@ import { GUEST_USER_ID, msg } from "@/lib/config/constants";
 import { uid } from "@/lib/utils/base";
 import { API_ENDPOINTS } from "@/lib/ai/endpoints";
 import { upstreamApiUrl } from "@/server/constants";
+import { serverEnv } from "@/server/env";
 
 // Headers from new-api the client stream collector reads off the response.
 const FORWARD_RESPONSE_HEADERS = [
@@ -40,6 +41,21 @@ export async function forwardChatCompletions(args: {
           status: 401,
           headers: { "content-type": "application/json" },
         },
+      );
+    }
+  }
+
+  // Expired-session gate: a logged-in user_id cookie riding the guest key means the access token
+  // died (expiry or browser eviction). Paid models would 403 upstream with a cryptic
+  // token-restriction error; fail fast naming the actual problem instead.
+  if (args.userId !== GUEST_USER_ID && args.apiKey === serverEnv.guestApiKey) {
+    const meta = (await getPricingSummary()).byName.get(model);
+    if (!meta?.isFree) {
+      return new Response(
+        JSON.stringify({
+          error: `Your session expired, so this request used the guest key (free models only). Log in again to use ${model}.`,
+        }),
+        { status: 401, headers: { "content-type": "application/json" } },
       );
     }
   }

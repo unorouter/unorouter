@@ -245,6 +245,27 @@ function ModelRow(props: {
       </div>
       <div className="flex items-center gap-2">
         <span className="text-muted-foreground shrink-0 text-[11px]">
+          {t("CHAT.CUSTOM_PROVIDER.MODEL_TYPE")}
+        </span>
+        <select
+          className="border-input bg-background h-7 rounded-md border px-2 text-xs"
+          value={props.form.watch(`models.${props.index}.type`) ?? "text"}
+          onChange={(e) =>
+            props.form.setValue(
+              `models.${props.index}.type`,
+              e.target.value as CustomProviderForm["models"][number]["type"],
+              { shouldDirty: true },
+            )
+          }
+        >
+          <option value="text">
+            {t("CHAT.CUSTOM_PROVIDER.MODEL_TYPE_TEXT")}
+          </option>
+          <option value="image">
+            {t("CHAT.CUSTOM_PROVIDER.MODEL_TYPE_IMAGE")}
+          </option>
+        </select>
+        <span className="text-muted-foreground shrink-0 text-[11px]">
           {t("CHAT.CUSTOM_PROVIDER.TOKENIZER")}
         </span>
         <select

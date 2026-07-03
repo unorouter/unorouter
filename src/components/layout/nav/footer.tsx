@@ -98,6 +98,34 @@ const RECIPROCAL_LINKS = [
     width: 72,
     height: 46,
   },
+  {
+    href: "https://codetrendy.com/?utm_source=unorouter.com&utm_medium=badge",
+    src: "/badges/codetrendy.svg",
+    name: "CodeTrendy",
+    width: 181,
+    height: 46,
+  },
+  {
+    href: "https://sitepatent.com/?utm_source=unorouter.com&utm_medium=badge",
+    src: "/badges/sitepatent-listing.svg",
+    name: "SitePatent",
+    width: 181,
+    height: 46,
+  },
+  {
+    href: "https://mediapronet.com/?utm_source=unorouter.com&utm_medium=badge",
+    src: "/badges/mediapronet.svg",
+    name: "MediaProNet",
+    width: 181,
+    height: 46,
+  },
+  {
+    href: "https://launchboosts.com/project/unorouter",
+    src: "/badges/launchboosts.svg",
+    name: "LaunchBoosts",
+    width: 153,
+    height: 46,
+  },
 ] as const;
 
 function FooterLinks(props: {

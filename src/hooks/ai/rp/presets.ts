@@ -5,7 +5,7 @@ import {
   readLocalPreset,
   readLocalPresets,
   upsertLocalPreset,
-} from "@/lib/db/client/data/rp";
+} from "@/lib/db/client/data/rp/rp";
 import { queryKeys } from "@/lib/react-query/keys";
 import { makeRpEntity } from "./factory";
 import type { PresetRow } from "@/lib/db/schema/rows";

@@ -7,22 +7,24 @@ import {
   ORPG_VERSION,
 } from "@/lib/config/constants";
 import { dayjs } from "@/lib/utils/format/date";
+import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import {
   readLocalConversationBundle,
   upsertLocalConversationBundle,
-} from "../chat";
+} from "@/lib/db/client/data/chat/chat";
 import {
   upsertLocalCharacter,
   upsertLocalLorebookBundle,
   upsertLocalPersona,
   upsertLocalPreset,
-} from "../rp";
+} from "@/lib/db/client/data/rp/rp";
 import { type MappedImport } from "./map";
 
 export async function buildNativeExport(
   userId: number | undefined,
   convId: string,
 ) {
+  logChatDebug("export.conv_native.start", { convId });
   const bundle = await readLocalConversationBundle(userId, convId);
   if (!bundle) throw new Error(msg("ERRORS.NOT_FOUND"));
 

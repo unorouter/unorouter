@@ -15,18 +15,56 @@ function defined<T extends Record<string, unknown>>(o: T): Partial<T> {
   ) as Partial<T>;
 }
 
+// camelCase modelParams key -> upstream apiKey checked against supportedParameters.
+const PARAM_API_KEY: Record<string, string> = {
+  maxOutputTokens: "max_tokens",
+  temperature: "temperature",
+  topP: "top_p",
+  topK: "top_k",
+  frequencyPenalty: "frequency_penalty",
+  presencePenalty: "presence_penalty",
+  min_p: "min_p",
+  top_a: "top_a",
+  repetition_penalty: "repetition_penalty",
+};
+
+// Drop sampling keys the model's metadata says it doesn't accept, so a value stored on a
+// preset/conversation for a param the UI greyed out never ships (upstream would 400). Only
+// gates when supportedParameters is a known non-empty list; absent metadata sends everything.
+function stripUnsupported<T extends Record<string, unknown>>(
+  o: T,
+  supported: string[] | undefined,
+): Partial<T> {
+  if (!supported || supported.length === 0) return o;
+  const ok = (apiKey: string) =>
+    apiKey === "max_tokens"
+      ? supported.includes("max_tokens") ||
+        supported.includes("max_completion_tokens")
+      : supported.includes(apiKey);
+  return Object.fromEntries(
+    Object.entries(o).filter(([k]) => {
+      const apiKey = PARAM_API_KEY[k];
+      return apiKey ? ok(apiKey) : true;
+    }),
+  ) as Partial<T>;
+}
+
 export function buildModelParams(
   assembled: AssembledSystem,
   effectiveMaxOutputTokens: number,
+  modelInfo: ProcessedModel | undefined,
 ) {
-  return defined({
-    maxOutputTokens: effectiveMaxOutputTokens || undefined,
-    temperature: assembled.sampling.temperature,
-    topP: assembled.sampling.topP,
-    topK: assembled.sampling.topK,
-    frequencyPenalty: assembled.sampling.frequencyPenalty,
-    presencePenalty: assembled.sampling.presencePenalty,
-  });
+  return stripUnsupported(
+    defined({
+      maxOutputTokens: effectiveMaxOutputTokens || undefined,
+      temperature: assembled.sampling.temperature,
+      topP: assembled.sampling.topP,
+      topK: assembled.sampling.topK,
+      frequencyPenalty: assembled.sampling.frequencyPenalty,
+      presencePenalty: assembled.sampling.presencePenalty,
+    }),
+    modelInfo?.metadata.supportedParameters,
+  );
 }
 
 export function buildProviderOptions(
@@ -54,10 +92,15 @@ export function buildProviderOptions(
   return {
     openai: {
       ...(safeExtraBody ?? {}),
+      ...stripUnsupported(
+        defined({
+          min_p: assembled.sampling.minP,
+          top_a: assembled.sampling.topA,
+          repetition_penalty: assembled.sampling.repetitionPenalty,
+        }),
+        modelInfo?.metadata.supportedParameters,
+      ),
       ...defined({
-        min_p: assembled.sampling.minP,
-        top_a: assembled.sampling.topA,
-        repetition_penalty: assembled.sampling.repetitionPenalty,
         reasoning_effort: assembled.reasoningEffort,
         // Gemini-only: threshold=OFF (stronger than BLOCK_NONE), no-op elsewhere. Thinking-exp drops CIVIC_INTEGRITY.
         safetySettings: assembled.flags.geminiBlockOff
@@ -130,6 +173,8 @@ export function buildWritebacks(
 }
 
 // Request-log row (RisuAI Logs analog). Raw client messages not echoed; finalMessages is the post-assembly truth.
+// chatContext is stored as a compact summary: the full dump (preset + lorebooks + characters) bloated
+// request_logs rows and read as junk in the log viewer; the assembled result lives in finalMessages anyway.
 export function buildDebugSnapshot(
   body: StreamBody,
   effectiveSystem: string | undefined,
@@ -137,18 +182,37 @@ export function buildDebugSnapshot(
   // Upstream target for the request-log curl: bare endpoint path + full url.
   target?: { endpoint: string; url: string },
 ) {
+  const ctx = body.chatContext;
+  // Keep ONLY role+parts per message: UI messages carry metadata.debug = the PREVIOUS turn's full
+  // log snapshot, so storing them verbatim nests every prior request into the next row
+  // (exponential row growth within a session) and renders as junk between roles in the viewer.
+  const leanMessages = messagesForUpstream.map((m) => ({
+    role: (m as { role: string }).role,
+    parts: (m as { parts?: unknown }).parts,
+  }));
   return {
     requestBody: {
       model: body.model,
       messagesCount: body.messages.length,
-      chatContext: body.chatContext,
+      chatContext: ctx
+        ? {
+            characters: (ctx.characters ?? []).length,
+            lorebooks: (ctx.lorebooks ?? []).length,
+            lorebookEntries: (ctx.lorebooks ?? []).reduce(
+              (n, l) => n + (l.entries?.length ?? 0),
+              0,
+            ),
+            hasPersona: ctx.persona != null,
+            hasPreset: ctx.preset != null,
+          }
+        : undefined,
       overrides: body.overrides,
       webSearch: body.webSearch,
       convId: body.convId,
     },
     // Mirrors upstream: null for noSystemRole models.
     assembledSystem: effectiveSystem ?? null,
-    finalMessages: messagesForUpstream,
+    finalMessages: leanMessages,
     endpoint: target?.endpoint ?? null,
     url: target?.url ?? null,
   };

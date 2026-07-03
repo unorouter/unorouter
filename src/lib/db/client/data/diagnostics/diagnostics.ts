@@ -1,18 +1,19 @@
 import { getLocalDb } from "@/lib/db/client/client";
 import {
   readLocalConversations,
-  readLocalMessages,
-} from "@/lib/db/client/data/chat";
-import { readLocalRequestLogsForConv } from "@/lib/db/client/data/request-log";
+  readLocalMessageMetaForConv,
+} from "@/lib/db/client/data/chat/chat";
 import {
-  getChatDebugLog,
-  logChatDebug,
-} from "@/lib/utils/chat-debug-log";
+  readLocalRequestLogMetaForConv,
+  readLocalRequestLogsForConv,
+  readLocalRequestLogsNewestForConv,
+} from "@/lib/db/client/data/chat/request-log";
+import { getChatDebugLog, logChatDebug } from "@/lib/utils/chat-debug-log";
 import { chatStore, convIdAtom, historyLoadedAtom } from "@/store/chat-store";
 import { dayjs } from "@/lib/utils/format/date";
 
 // One-file chat diagnostics for users to download + send. Safe mode = metadata only; full adds content.
-type DiagnosticsOptions = { includeContent: boolean };
+export type DiagnosticsOptions = { includeContent: boolean };
 
 export type TableStorageStat = {
   table: string;
@@ -108,7 +109,8 @@ export async function getTableStorageStats(
         "all",
       );
       const heavyCol: Record<string, string> = {
-        request_logs: "coalesce(length(final_messages),0)+coalesce(length(request_body),0)",
+        request_logs:
+          "coalesce(length(final_messages),0)+coalesce(length(request_body),0)",
         message_items: "coalesce(length(data),0)",
         media: "coalesce(length(data_base64),0)",
       };
@@ -133,12 +135,15 @@ export async function getTableStorageStats(
   }
 }
 
-const MAX_LOG_CONVS = 25;
+export const MAX_LOG_CONVS = 25;
 
-export async function buildDiagnostics(
+// The scalar diagnostics blocks (everything except the two big per-conv maps) plus the
+// conversation list. The streaming encoder emits these whole, then streams the maps per-conv.
+// Owns the storage-stats side effect (logChatDebug) so its ordering matches the old single object.
+export async function buildDiagnosticsHead(
   userId: number | undefined,
   opts: DiagnosticsOptions,
-): Promise<Record<string, unknown>> {
+) {
   const includeContent = opts.includeContent;
 
   const device = {
@@ -174,6 +179,28 @@ export async function buildDiagnostics(
   } catch {}
 
   const convs = (await readLocalConversations(userId)) ?? [];
+  // Prompt-shape settings ride along (not content): request-shape bugs are unsolvable
+  // without knowing chatMemory / memory / preset flags for the conversation.
+  const settingsById = new Map<string, Record<string, unknown>>();
+  try {
+    const local = await getLocalDb(userId);
+    if (local) {
+      const res = await local.exec(
+        `SELECT id, preset_id, chat_memory, memory_enabled, summary_anchor, utility_model FROM conversations`,
+        [],
+        "all",
+      );
+      for (const r of res.rows) {
+        settingsById.set(String(r[0]), {
+          presetId: r[1],
+          chatMemory: r[2],
+          memoryEnabled: r[3],
+          summaryAnchor: r[4],
+          utilityModel: r[5],
+        });
+      }
+    }
+  } catch {}
   const conversations = convs.map((c) => ({
     id: c.id,
     title: includeContent ? c.title : undefined,
@@ -183,36 +210,27 @@ export async function buildDiagnostics(
     totalOutputTokens: c.totalOutputTokens,
     createdAt: c.createdAt,
     updatedAt: c.updatedAt,
+    ...(settingsById.get(c.id) ?? {}),
   }));
 
-  // Per-conv message metadata: parentId/convId cross-links reveal a merge without exposing text.
-  const messagesByConv: Record<string, unknown[]> = {};
-  const requestLogsByConv: Record<string, unknown[]> = {};
-  for (const c of convs) {
-    const rows = (await readLocalMessages(userId, c.id)) ?? [];
-    messagesByConv[c.id] = rows.map((m) => ({
-      id: m.id,
-      convId: m.convId,
-      parentId: m.parentId,
-      role: m.role,
-      model: m.model,
-      branchIndex: m.branchIndex,
-      isActiveBranch: m.isActiveBranch,
-      createdAt: m.createdAt,
+  let presets: unknown[] = [];
+  try {
+    const { readLocalPresets } = await import("@/lib/db/client/data/rp/rp");
+    presets = ((await readLocalPresets(userId)) ?? []).map((p) => ({
+      id: p.id,
+      name: includeContent ? p.name : undefined,
+      chatMemory: p.chatMemory,
+      memoryEnabled: p.memoryEnabled,
+      forceAlternateRoles: p.forceAlternateRoles,
+      noSystemRole: p.noSystemRole,
+      mustStartWithUserInput: p.mustStartWithUserInput,
+      postHistoryRole: p.postHistoryRole,
+      hasPromptTemplate: !!p.promptTemplate,
+      promptTemplate: includeContent ? p.promptTemplate : undefined,
+      isDefault: p.isDefault,
     }));
-
-    const logs = await readLocalRequestLogsForConv(userId, c.id);
-    requestLogsByConv[c.id] = logs.slice(-MAX_LOG_CONVS).map((l) => ({
-      msgId: l.msgId,
-      convId: l.convId,
-      requestId: l.requestId,
-      channelName: l.channelName,
-      inputTokens: l.inputTokens,
-      createdAt: l.createdAt,
-      // Full mode: the actual sent payload shows if a request carried the wrong conv's context.
-      finalMessages: includeContent ? l.finalMessages : undefined,
-      requestBody: includeContent ? l.requestBody : undefined,
-    }));
+  } catch (e) {
+    presets = [{ error: String(e).slice(0, 200) }];
   }
 
   // Per-table storage stats, computed ON EXPORT only (not on every chat write). Appended to the debug log
@@ -228,8 +246,109 @@ export async function buildDiagnostics(
     runtime,
     dbInfo,
     conversations,
+    presets,
+    convIds: convs.map((c) => c.id),
+    debugLog: getChatDebugLog(),
+  };
+}
+
+// Content-free wire shape: roles + part types + char counts. Answers "which roles were sent,
+// in what order, how big" (missing assistant turns, end-inject placement) without leaking a
+// single character of prompt text.
+function messageShape(finalMessages: unknown): unknown {
+  if (!Array.isArray(finalMessages)) return null;
+  return finalMessages.map((m) => {
+    const msg = m as {
+      role?: string;
+      parts?: { type?: string; text?: string }[];
+    };
+    return {
+      role: msg.role,
+      parts: Array.isArray(msg.parts)
+        ? msg.parts.map((p) => ({
+            type: p.type,
+            chars: typeof p.text === "string" ? p.text.length : undefined,
+          }))
+        : undefined,
+    };
+  });
+}
+
+// Newest few rows only: shape needs the JSON parsed, and pre-lean rows can be MBs each
+// (nested debug chains); a small cap keeps the safe export OOM-proof on starved devices.
+const MAX_SHAPE_ROWS = 3;
+
+// One conv's request-log rows for diagnostics: metadata-only in safe mode, blobs in full mode.
+// Shared by buildDiagnostics and the streaming encoder so both modes stay byte-compatible.
+export async function readRequestLogsForConvDiag(
+  userId: number | undefined,
+  convId: string,
+  includeContent: boolean,
+): Promise<unknown[]> {
+  if (!includeContent) {
+    const meta = await readLocalRequestLogMetaForConv(
+      userId,
+      convId,
+      MAX_LOG_CONVS,
+    );
+    const newest = await readLocalRequestLogsNewestForConv(
+      userId,
+      convId,
+      MAX_SHAPE_ROWS,
+    );
+    return meta.map((row) => {
+      const match = newest.find((l) => l.msgId === row.msgId);
+      return match
+        ? { ...row, finalShape: messageShape(match.finalMessages) }
+        : row;
+    });
+  }
+  const logs = await readLocalRequestLogsForConv(userId, convId);
+  return logs.slice(-MAX_LOG_CONVS).map((l) => ({
+    msgId: l.msgId,
+    convId: l.convId,
+    requestId: l.requestId,
+    channelName: l.channelName,
+    inputTokens: l.inputTokens,
+    createdAt: l.createdAt,
+    // Full mode: the actual sent payload shows if a request carried the wrong conv's context.
+    finalMessages: l.finalMessages,
+    requestBody: l.requestBody,
+  }));
+}
+
+export async function buildDiagnostics(
+  userId: number | undefined,
+  opts: DiagnosticsOptions,
+): Promise<Record<string, unknown>> {
+  const head = await buildDiagnosticsHead(userId, opts);
+
+  // Per-conv message metadata: parentId/convId cross-links reveal a merge without exposing text.
+  // SAFE/metadata mode NEVER loads the request_logs prompt snapshots (finalMessages/requestBody) -
+  // those are the 50-100MB bloat and would OOM the export on a chat-heavy DB. The lean reader
+  // projects only metadata columns in SQL. Full mode opts INTO the blobs (capped per conv).
+  const messagesByConv: Record<string, unknown[]> = {};
+  const requestLogsByConv: Record<string, unknown[]> = {};
+  for (const id of head.convIds) {
+    messagesByConv[id] = await readLocalMessageMetaForConv(userId, id);
+    requestLogsByConv[id] = await readRequestLogsForConvDiag(
+      userId,
+      id,
+      opts.includeContent,
+    );
+  }
+
+  return {
+    generatedAt: head.generatedAt,
+    tableStorage: head.tableStorage,
+    includeContent: head.includeContent,
+    device: head.device,
+    runtime: head.runtime,
+    dbInfo: head.dbInfo,
+    conversations: head.conversations,
+    presets: head.presets,
     messagesByConv,
     requestLogsByConv,
-    debugLog: getChatDebugLog(),
+    debugLog: head.debugLog,
   };
 }

@@ -2,6 +2,7 @@ import { AffiliateCapture } from "@/components/pages/auth/affiliate-capture";
 import { AuthRedirectCapture } from "@/components/pages/auth/auth-redirect-capture";
 import { Providers } from "@/components/provider/providers";
 import { SwRegister } from "@/components/provider/app/sw-register";
+import { DebugCapture } from "@/components/provider/app/debug-capture";
 import { Toaster } from "@/components/ui/sonner";
 import {
   buildThemeCss,
@@ -128,6 +129,7 @@ export default async function LocaleLayout(props: Props) {
         <Providers>
           <Toaster richColors />
           <SwRegister />
+          <DebugCapture />
           <Suspense>
             <AffiliateCapture />
             <AuthRedirectCapture />

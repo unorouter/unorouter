@@ -5,8 +5,8 @@ import {
   readLocalConversationBindings,
   readLocalConversationSettings,
   readLocalMessages,
-} from "@/lib/db/client/data/chat";
-import { readLocalCharacter } from "@/lib/db/client/data/rp";
+} from "@/lib/db/client/data/chat/chat";
+import { readLocalCharacter } from "@/lib/db/client/data/rp/rp";
 
 // Plain text from a sendMessage() arg, for the group-order name-mention scan.
 function sendArgText(arg: unknown): string {
