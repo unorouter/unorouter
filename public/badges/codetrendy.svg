@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="220" height="56" viewBox="0 0 220 56" role="img" aria-label="Featured on CodeTrendy">
+  <defs>
+    <clipPath id="logoClip"><circle cx="32" cy="28" r="20" /></clipPath>
+    <clipPath id="cardClip"><rect width="220" height="56" rx="10" /></clipPath>
+  </defs>
+
+  <!-- Card -->
+  <rect width="220" height="56" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" />
+
+  <!-- Divider between logo area and text -->
+  <line x1="58" y1="10" x2="58" y2="46" stroke="#e2e8f0" stroke-width="1" />
+
+  <!-- Logo circle bg -->
+  <circle cx="32" cy="28" r="20" fill="#F2B23314" />
+
+  <!-- Logo image clipped to circle -->
+  <image href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iODAwIiB2aWV3Qm94PSIwIDAgODAwIDgwMCI+CgogIDwhLS0gVHJhbnNwYXJlbnQgYmFja2dyb3VuZCAtLT4KCiAgPCEtLSBMZWZ0IGJyYWNrZXQgLSBibGFjayAtLT4KICA8cGF0aCBkPSJNODUsNjA1IEwyOTIsNDAwIEw4NSwxOTUiCiAgICAgICAgZmlsbD0ibm9uZSIKICAgICAgICBzdHJva2U9IiMwOTA5MEIiCiAgICAgICAgc3Ryb2tlLXdpZHRoPSI3MiIKICAgICAgICBzdHJva2UtbGluZWNhcD0icm91bmQiCiAgICAgICAgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgoKICA8IS0tIFJpZ2h0IGJyYWNrZXQgLSBibGFjayAtLT4KICA8cGF0aCBkPSJNNzE1LDYwNSBMNTA4LDQwMCBMNzE1LDE5NSIKICAgICAgICBmaWxsPSJub25lIgogICAgICAgIHN0cm9rZT0iIzA5MDkwQiIKICAgICAgICBzdHJva2Utd2lkdGg9IjcyIgogICAgICAgIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIKICAgICAgICBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+CgogIDwhLS0gR29sZCBkaWFtb25kIGF0IGxlZnQgYnJhY2tldCBwaXZvdCBwb2ludCAtLT4KICA8cmVjdCB4PSIyNTUiIHk9IjM2MyIgd2lkdGg9Ijc0IiBoZWlnaHQ9Ijc0IiByeD0iOCIKICAgICAgICBmaWxsPSIjRkJCRjI0IgogICAgICAgIHRyYW5zZm9ybT0icm90YXRlKDQ1IDI5MiA0MDApIi8+CgogIDwhLS0gR29sZCBkaWFtb25kIGF0IHJpZ2h0IGJyYWNrZXQgcGl2b3QgcG9pbnQgLS0+CiAgPHJlY3QgeD0iNDcxIiB5PSIzNjMiIHdpZHRoPSI3NCIgaGVpZ2h0PSI3NCIgcng9IjgiCiAgICAgICAgZmlsbD0iI0ZCQkYyNCIKICAgICAgICB0cmFuc2Zvcm09InJvdGF0ZSg0NSA1MDggNDAwKSIvPgoKICA8IS0tIEZhaW50IGdvbGQgdmVydGljYWwgYWNjZW50IGxpbmVzIGZsYW5raW5nIGJyYWNrZXQgb3V0ZXIgZWRnZXMgLS0+CiAgPGxpbmUgeDE9Ijg1IiB5MT0iMTk1IiB4Mj0iODUiIHkyPSI2MDUiCiAgICAgICAgc3Ryb2tlPSIjRkJCRjI0IgogICAgICAgIHN0cm9rZS13aWR0aD0iMTIiCiAgICAgICAgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIgogICAgICAgIG9wYWNpdHk9IjAuMjIiLz4KICA8bGluZSB4MT0iNzE1IiB5MT0iMTk1IiB4Mj0iNzE1IiB5Mj0iNjA1IgogICAgICAgIHN0cm9rZT0iI0ZCQkYyNCIKICAgICAgICBzdHJva2Utd2lkdGg9IjEyIgogICAgICAgIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIKICAgICAgICBvcGFjaXR5PSIwLjIyIi8+CgogIDwhLS0gQXJyb3cgc2hhZnQgLSBnb2xkIC0tPgogIDxsaW5lIHgxPSI0MDAiIHkxPSI2MzIiCiAgICAgICAgeDI9IjQwMCIgeTI9IjI0OCIKICAgICAgICBzdHJva2U9IiNGQkJGMjQiCiAgICAgICAgc3Ryb2tlLXdpZHRoPSI2NCIKICAgICAgICBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KCiAgPCEtLSBBcnJvdyBoZWFkIC0tPgogIDxwb2x5Z29uIHBvaW50cz0iNDAwLDk1IDI2NCwyNjggNTM2LDI2OCIgZmlsbD0iI0ZCQkYyNCIvPgoKICA8IS0tIEJsYWNrIHN1YnRsZSBvdXRsaW5lIG9uIGFycm93aGVhZCAtLT4KICA8cG9seWdvbiBwb2ludHM9IjQwMCw5NSAyNjQsMjY4IDUzNiwyNjgiCiAgICAgICAgICAgZmlsbD0ibm9uZSIKICAgICAgICAgICBzdHJva2U9IiMwOTA5MEIiCiAgICAgICAgICAgc3Ryb2tlLXdpZHRoPSI4IgogICAgICAgICAgIHN0cm9rZS1saW5lam9pbj0icm91bmQiCiAgICAgICAgICAgb3BhY2l0eT0iMC4xMiIvPgoKICA8IS0tIEJhc2UgZG90IC0gZ29sZCAtLT4KICA8Y2lyY2xlIGN4PSI0MDAiIGN5PSI2NzIiIHI9IjQ0IiBmaWxsPSIjRkJCRjI0Ii8+CgogIDwhLS0gQmxhY2sgaGFsbyByaW5nIGFyb3VuZCBiYXNlIGRvdCAtLT4KICA8Y2lyY2xlIGN4PSI0MDAiIGN5PSI2NzIiIHI9IjY0IgogICAgICAgICAgZmlsbD0ibm9uZSIKICAgICAgICAgIHN0cm9rZT0iIzA5MDkwQiIKICAgICAgICAgIHN0cm9rZS13aWR0aD0iOCIKICAgICAgICAgIG9wYWNpdHk9IjAuMSIvPgoKPC9zdmc+Cg==" x="16" y="12" width="32" height="32" clip-path="url(#logoClip)" preserveAspectRatio="xMidYMid meet" />
+
+  <!-- Text -->
+  <text x="64" y="23" font-family="system-ui,-apple-system,sans-serif" font-size="8.5" font-weight="800" letter-spacing="1.4" fill="#F2B233">FEATURED ON</text>
+  <text x="64" y="40" font-family="system-ui,-apple-system,sans-serif" font-size="15" font-weight="800" letter-spacing="-0.3" fill="#0f172a">CodeTrendy</text>
+</svg>
