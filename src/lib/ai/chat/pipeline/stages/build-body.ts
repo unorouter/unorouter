@@ -183,6 +183,13 @@ export function buildDebugSnapshot(
   target?: { endpoint: string; url: string },
 ) {
   const ctx = body.chatContext;
+  // Keep ONLY role+parts per message: UI messages carry metadata.debug = the PREVIOUS turn's full
+  // log snapshot, so storing them verbatim nests every prior request into the next row
+  // (exponential row growth within a session) and renders as junk between roles in the viewer.
+  const leanMessages = messagesForUpstream.map((m) => ({
+    role: (m as { role: string }).role,
+    parts: (m as { parts?: unknown }).parts,
+  }));
   return {
     requestBody: {
       model: body.model,
@@ -205,7 +212,7 @@ export function buildDebugSnapshot(
     },
     // Mirrors upstream: null for noSystemRole models.
     assembledSystem: effectiveSystem ?? null,
-    finalMessages: messagesForUpstream,
+    finalMessages: leanMessages,
     endpoint: target?.endpoint ?? null,
     url: target?.url ?? null,
   };
