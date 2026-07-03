@@ -173,6 +173,8 @@ export function buildWritebacks(
 }
 
 // Request-log row (RisuAI Logs analog). Raw client messages not echoed; finalMessages is the post-assembly truth.
+// chatContext is stored as a compact summary: the full dump (preset + lorebooks + characters) bloated
+// request_logs rows and read as junk in the log viewer; the assembled result lives in finalMessages anyway.
 export function buildDebugSnapshot(
   body: StreamBody,
   effectiveSystem: string | undefined,
@@ -180,11 +182,23 @@ export function buildDebugSnapshot(
   // Upstream target for the request-log curl: bare endpoint path + full url.
   target?: { endpoint: string; url: string },
 ) {
+  const ctx = body.chatContext;
   return {
     requestBody: {
       model: body.model,
       messagesCount: body.messages.length,
-      chatContext: body.chatContext,
+      chatContext: ctx
+        ? {
+            characters: (ctx.characters ?? []).length,
+            lorebooks: (ctx.lorebooks ?? []).length,
+            lorebookEntries: (ctx.lorebooks ?? []).reduce(
+              (n, l) => n + (l.entries?.length ?? 0),
+              0,
+            ),
+            hasPersona: ctx.persona != null,
+            hasPreset: ctx.preset != null,
+          }
+        : undefined,
       overrides: body.overrides,
       webSearch: body.webSearch,
       convId: body.convId,

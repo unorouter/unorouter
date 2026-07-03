@@ -12,21 +12,50 @@ import { getLocalDb } from "@/lib/db/client/client";
 // a small global window and trim the rest on every insert. Chats/messages are untouched (tiny).
 const MAX_REQUEST_LOGS = 15;
 
+// Flatten a stored parts-shaped message to the OpenAI wire {role, content} shape.
+function wireMessage(m: unknown): { role: string; content: string } {
+  const msg = m as {
+    role?: string;
+    parts?: { type?: string; text?: string }[];
+  };
+  const content = Array.isArray(msg.parts)
+    ? msg.parts
+        .filter((p) => p.type === "text" && typeof p.text === "string")
+        .map((p) => p.text)
+        .join("\n")
+    : "";
+  return { role: msg.role ?? "user", content };
+}
+
 // Reproducible curl for a logged request. Token is intentionally a placeholder ($UNOROUTER_API_KEY),
-// never the real key. Uses the stored upstream url/endpoint (text -> chat/completions, media -> the
-// image/audio/embedding path); falls back to the chat-completions default for older rows.
+// never the real key. The -d body is the UPSTREAM WIRE SHAPE (model + system/messages), not the
+// internal debug snapshot: the snapshot's context summary/overrides are not what upstream receives.
+// Uses the stored upstream url/endpoint; falls back to the chat-completions default for older rows.
 export function buildRequestLogCurl(row: {
   requestBody: unknown;
   requestId: string | null;
   url?: string | null;
   endpoint?: string | null;
+  assembledSystem?: string | null;
+  finalMessages?: unknown;
 }): string {
   const target =
     row.url || `${env.apiUrl}${row.endpoint ?? API_ENDPOINTS.chatCompletions}`;
-  const body =
-    typeof row.requestBody === "string"
-      ? row.requestBody
-      : JSON.stringify(row.requestBody);
+  const model =
+    row.requestBody && typeof row.requestBody === "object"
+      ? ((row.requestBody as { model?: string }).model ?? "")
+      : "";
+  const messages = [
+    ...(row.assembledSystem
+      ? [{ role: "system", content: row.assembledSystem }]
+      : []),
+    ...(Array.isArray(row.finalMessages)
+      ? row.finalMessages.map(wireMessage)
+      : []),
+  ];
+  const body = JSON.stringify(
+    messages.length > 0 ? { model, messages } : row.requestBody,
+  );
   const headers = [
     '-H "Authorization: Bearer $UNOROUTER_API_KEY"',
     '-H "Content-Type: application/json"',
