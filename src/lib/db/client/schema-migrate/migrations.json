@@ -7,6 +7,10 @@
     {
       "tag": "0001_bumpy_barracuda",
       "sql": "ALTER TABLE `conversations` ADD `image_model` text;--> statement-breakpoint\nALTER TABLE `conversations` ADD `image_preview` integer;--> statement-breakpoint\nALTER TABLE `conversations` ADD `image_ref_ids` text;--> statement-breakpoint\nALTER TABLE `conversations` ADD `use_char_avatar_ref` integer;--> statement-breakpoint\nALTER TABLE `media` ADD `prompt_text` text;--> statement-breakpoint\nALTER TABLE `sampling_presets` ADD `image_model` text;--> statement-breakpoint\nALTER TABLE `sampling_presets` ADD `image_preview` integer;--> statement-breakpoint\nALTER TABLE `sampling_presets` ADD `use_char_avatar_ref` integer;"
+    },
+    {
+      "tag": "0002_easy_spencer_smythe",
+      "sql": "ALTER TABLE `sampling_presets` ADD `post_history_role` text;"
     }
   ]
 }

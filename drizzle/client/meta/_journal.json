@@ -15,6 +15,13 @@
       "when": 1782945314387,
       "tag": "0001_bumpy_barracuda",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1783037681584,
+      "tag": "0002_easy_spencer_smythe",
+      "breakpoints": true
     }
   ]
 }

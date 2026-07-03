@@ -422,7 +422,13 @@ export async function assembleForStream(
     prefill: prefillText
       ? { text: prefillText, role: "assistant" as const }
       : null,
-    postHistory: sys(postHistorySlot),
+    // Role selectable (ST parity): user survives alternate-role merges as a distinct trailing turn.
+    postHistory: postHistorySlot
+      ? {
+          text: postHistorySlot,
+          role: preset?.postHistoryRole === "user" ? "user" : "system",
+        }
+      : null,
   };
 
   const template =

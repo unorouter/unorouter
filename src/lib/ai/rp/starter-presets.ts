@@ -21,6 +21,7 @@ const NULL_SAMPLING: Pick<
   | "repetitionPenalty"
   | "extraBody"
   | "prefill"
+  | "postHistoryRole"
   | "streamingEnabled"
   | "showReasoning"
   | "chatMemory"
@@ -34,6 +35,7 @@ const NULL_SAMPLING: Pick<
   repetitionPenalty: null,
   extraBody: null,
   prefill: null,
+  postHistoryRole: null,
   // null = system default (streaming on, reasoning shown, chatMemory 8).
   streamingEnabled: null,
   showReasoning: null,
