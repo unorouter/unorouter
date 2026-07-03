@@ -1,12 +1,7 @@
 // Per-icon dynamic loaders; each enters the chunk graph on first render, missing key falls back to lucide. GENERATED; edit the script.
 
 export type IconLibraryName =
-  | "lucide"
-  | "tabler"
-  | "phosphor"
-  | "heroicons"
-  | "remix"
-  | "iconoir";
+  "lucide" | "tabler" | "phosphor" | "heroicons" | "remix" | "iconoir";
 
 export type IconComponent = React.ComponentType<{
   size?: number | string;
@@ -317,6 +312,9 @@ export const ICON_MAP: Record<string, IconEntry> = {
         default: m.RiCheckboxCircleLine,
       })),
     iconoir: () => import("iconoir-react/regular/CheckCircle"),
+  },
+  "circle-dashed": {
+    lucide: () => import("lucide-react/dist/esm/icons/circle-dashed.mjs"),
   },
   "circle-help": {
     lucide: () => import("lucide-react/dist/esm/icons/circle-help.mjs"),
