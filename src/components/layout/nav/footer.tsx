@@ -121,7 +121,7 @@ const RECIPROCAL_LINKS = [
   },
   {
     href: "https://launchboosts.com/project/unorouter",
-    src: "https://launchboosts.com/badges/featured-dark.svg",
+    src: "/badges/launchboosts.svg",
     name: "LaunchBoosts",
     width: 153,
     height: 46,
