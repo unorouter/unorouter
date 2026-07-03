@@ -16,6 +16,16 @@ import { BestOpenrouterAlternatives2026Content } from "@/components/pages/blog/p
 import { WhatIsAnLlmGatewayContent } from "@/components/pages/blog/posts/2026-06-29-what-is-an-llm-gateway-content";
 import { HowToConnectAnyLlmToSillytavernContent } from "@/components/pages/blog/posts/2026-07-01-how-to-connect-any-llm-to-sillytavern-content";
 import { OneApiKeyForClaudeCodeAndRoleplayContent } from "@/components/pages/blog/posts/2026-07-03-one-api-key-for-claude-code-and-roleplay-content";
+import { UnorouterVsJanitoraiContent } from "@/components/pages/blog/posts/2026-07-07-unorouter-vs-janitorai-content";
+import { UnorouterVsCharacterAiContent } from "@/components/pages/blog/posts/2026-07-09-unorouter-vs-character-ai-content";
+import { UnorouterVsSillytavernContent } from "@/components/pages/blog/posts/2026-07-11-unorouter-vs-sillytavern-content";
+import { UnorouterVsChubContent } from "@/components/pages/blog/posts/2026-07-14-unorouter-vs-chub-content";
+import { UnorouterVsMarinaraContent } from "@/components/pages/blog/posts/2026-07-16-unorouter-vs-marinara-content";
+import { UnorouterVsLumiverseContent } from "@/components/pages/blog/posts/2026-07-18-unorouter-vs-lumiverse-content";
+import { UnorouterVsLibrechatContent } from "@/components/pages/blog/posts/2026-07-21-unorouter-vs-librechat-content";
+import { UnorouterVsOpenWebuiContent } from "@/components/pages/blog/posts/2026-07-23-unorouter-vs-open-webui-content";
+import { UnorouterVsAgnaiContent } from "@/components/pages/blog/posts/2026-07-25-unorouter-vs-agnai-content";
+import { UnorouterVsSpicychatContent } from "@/components/pages/blog/posts/2026-07-28-unorouter-vs-spicychat-content";
 import { BLOG_REGISTRY, type BlogSlug } from "@/i18n/registry";
 import { APP_VALUES } from "@/lib/config/constants";
 import { dayjs } from "@/lib/utils/format/date";
@@ -44,6 +54,16 @@ const COMPONENTS: Record<BlogSlug, ComponentType> = {
     HowToConnectAnyLlmToSillytavernContent,
   "one-api-key-for-claude-code-and-roleplay":
     OneApiKeyForClaudeCodeAndRoleplayContent,
+  "unorouter-vs-janitorai": UnorouterVsJanitoraiContent,
+  "unorouter-vs-character-ai": UnorouterVsCharacterAiContent,
+  "unorouter-vs-sillytavern": UnorouterVsSillytavernContent,
+  "unorouter-vs-chub": UnorouterVsChubContent,
+  "unorouter-vs-marinara": UnorouterVsMarinaraContent,
+  "unorouter-vs-lumiverse": UnorouterVsLumiverseContent,
+  "unorouter-vs-librechat": UnorouterVsLibrechatContent,
+  "unorouter-vs-open-webui": UnorouterVsOpenWebuiContent,
+  "unorouter-vs-agnai": UnorouterVsAgnaiContent,
+  "unorouter-vs-spicychat": UnorouterVsSpicychatContent,
 };
 
 export const POSTS: BlogPost<BlogSlug>[] = BLOG_REGISTRY.map((entry) => ({
