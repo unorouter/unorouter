@@ -6,6 +6,7 @@ import {
 import {
   readLocalRequestLogMetaForConv,
   readLocalRequestLogsForConv,
+  readLocalRequestLogsNewestForConv,
 } from "@/lib/db/client/data/chat/request-log";
 import { getChatDebugLog, logChatDebug } from "@/lib/utils/chat-debug-log";
 import { chatStore, convIdAtom, historyLoadedAtom } from "@/store/chat-store";
@@ -217,7 +218,7 @@ export async function buildDiagnosticsHead(
     const { readLocalPresets } = await import("@/lib/db/client/data/rp/rp");
     presets = ((await readLocalPresets(userId)) ?? []).map((p) => ({
       id: p.id,
-      name: p.name,
+      name: includeContent ? p.name : undefined,
       chatMemory: p.chatMemory,
       memoryEnabled: p.memoryEnabled,
       forceAlternateRoles: p.forceAlternateRoles,
@@ -251,6 +252,32 @@ export async function buildDiagnosticsHead(
   };
 }
 
+// Content-free wire shape: roles + part types + char counts. Answers "which roles were sent,
+// in what order, how big" (missing assistant turns, end-inject placement) without leaking a
+// single character of prompt text.
+function messageShape(finalMessages: unknown): unknown {
+  if (!Array.isArray(finalMessages)) return null;
+  return finalMessages.map((m) => {
+    const msg = m as {
+      role?: string;
+      parts?: { type?: string; text?: string }[];
+    };
+    return {
+      role: msg.role,
+      parts: Array.isArray(msg.parts)
+        ? msg.parts.map((p) => ({
+            type: p.type,
+            chars: typeof p.text === "string" ? p.text.length : undefined,
+          }))
+        : undefined,
+    };
+  });
+}
+
+// Newest few rows only: shape needs the JSON parsed, and pre-lean rows can be MBs each
+// (nested debug chains); a small cap keeps the safe export OOM-proof on starved devices.
+const MAX_SHAPE_ROWS = 3;
+
 // One conv's request-log rows for diagnostics: metadata-only in safe mode, blobs in full mode.
 // Shared by buildDiagnostics and the streaming encoder so both modes stay byte-compatible.
 export async function readRequestLogsForConvDiag(
@@ -258,8 +285,24 @@ export async function readRequestLogsForConvDiag(
   convId: string,
   includeContent: boolean,
 ): Promise<unknown[]> {
-  if (!includeContent)
-    return readLocalRequestLogMetaForConv(userId, convId, MAX_LOG_CONVS);
+  if (!includeContent) {
+    const meta = await readLocalRequestLogMetaForConv(
+      userId,
+      convId,
+      MAX_LOG_CONVS,
+    );
+    const newest = await readLocalRequestLogsNewestForConv(
+      userId,
+      convId,
+      MAX_SHAPE_ROWS,
+    );
+    return meta.map((row) => {
+      const match = newest.find((l) => l.msgId === row.msgId);
+      return match
+        ? { ...row, finalShape: messageShape(match.finalMessages) }
+        : row;
+    });
+  }
   const logs = await readLocalRequestLogsForConv(userId, convId);
   return logs.slice(-MAX_LOG_CONVS).map((l) => ({
     msgId: l.msgId,
