@@ -2641,7 +2641,8 @@
       "PRICING": "תמחור",
       "HERO": "Hero",
       "REFERRAL": "הפניה",
-      "BRAND": "מותג"
+      "BRAND": "מותג",
+      "CHAT": "צ'אט"
     },
     "ERROR": {
       "SOMETHING_WENT_WRONG": "משהו השתבש",
@@ -3996,7 +3997,16 @@
     "REFERRAL": "הפניה",
     "REFERRAL_CTA": "הירשמו והתחילו עם AI בפחות",
     "TOKENS_MIN": "טוקנים / דקה",
-    "MORE": "עוד"
+    "MORE": "עוד",
+    "CHAT_TAGLINE": "צ'אט AI ומשחקי תפקידים, באופן פרטי בדפדפן שלך",
+    "CHAT_CHARACTERS": "כרטיסי דמויות",
+    "CHAT_LOREBOOKS": "ספרי לור",
+    "CHAT_IMAGE_GEN": "יצירת תמונות",
+    "CHAT_MEMORY": "זיכרון לטווח ארוך",
+    "CHAT_LOCAL_FIRST": "הנתונים נשמרים מקומית",
+    "CHAT_FREE_MODELS": "מודלים חינמיים",
+    "CHAT_GROUP_CHATS": "צ'אטים קבוצתיים",
+    "CHAT_WEB_SEARCH": "חיפוש באינטרנט"
   },
   "WELL_KNOWN": {
     "AGENT_CARD": {

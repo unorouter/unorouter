@@ -16,7 +16,7 @@ export async function generateMetadata(props: {
     title: t("CHAT.META.TITLE", APP_VALUES),
     description: t("CHAT.META.DESCRIPTION"),
     keywords: t("CHAT.META.KEYWORDS"),
-    ogImage: ogBadge("pricing", locale),
+    ogImage: ogBadge("chat", locale),
   });
 }
 

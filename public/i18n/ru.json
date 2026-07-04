@@ -2641,7 +2641,8 @@
       "PRICING": "Тарифы",
       "HERO": "Hero",
       "REFERRAL": "Реферальная",
-      "BRAND": "Бренд"
+      "BRAND": "Бренд",
+      "CHAT": "Чат"
     },
     "ERROR": {
       "SOMETHING_WENT_WRONG": "Что-то пошло не так",
@@ -3996,7 +3997,16 @@
     "REFERRAL": "Реферальная",
     "REFERRAL_CTA": "Зарегистрируйтесь и начните пользоваться ИИ дешевле",
     "TOKENS_MIN": "Токены / мин",
-    "MORE": "Ещё"
+    "MORE": "Ещё",
+    "CHAT_TAGLINE": "ИИ-чат и ролевые игры, приватно в вашем браузере",
+    "CHAT_CHARACTERS": "Карточки персонажей",
+    "CHAT_LOREBOOKS": "Лорбуки",
+    "CHAT_IMAGE_GEN": "Генерация изображений",
+    "CHAT_MEMORY": "Долговременная память",
+    "CHAT_LOCAL_FIRST": "Данные хранятся локально",
+    "CHAT_FREE_MODELS": "Бесплатные модели",
+    "CHAT_GROUP_CHATS": "Групповые чаты",
+    "CHAT_WEB_SEARCH": "Веб-поиск"
   },
   "WELL_KNOWN": {
     "AGENT_CARD": {

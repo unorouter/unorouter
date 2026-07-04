@@ -2641,7 +2641,8 @@
       "PRICING": "मूल्य निर्धारण",
       "HERO": "Hero",
       "REFERRAL": "Referral",
-      "BRAND": "Brand"
+      "BRAND": "Brand",
+      "CHAT": "चैट"
     },
     "ERROR": {
       "SOMETHING_WENT_WRONG": "कुछ गलत हो गया",
@@ -3996,7 +3997,16 @@
     "REFERRAL": "Referral",
     "REFERRAL_CTA": "साइन अप करें और AI के साथ कम में शुरू करें",
     "TOKENS_MIN": "Tokens / Min",
-    "MORE": "और"
+    "MORE": "और",
+    "CHAT_TAGLINE": "AI चैट और रोलप्ले, आपके ब्राउज़र में निजी रूप से",
+    "CHAT_CHARACTERS": "कैरेक्टर कार्ड",
+    "CHAT_LOREBOOKS": "लोरबुक",
+    "CHAT_IMAGE_GEN": "इमेज जनरेशन",
+    "CHAT_MEMORY": "दीर्घकालिक स्मृति",
+    "CHAT_LOCAL_FIRST": "डेटा लोकल रहता है",
+    "CHAT_FREE_MODELS": "मुफ़्त मॉडल",
+    "CHAT_GROUP_CHATS": "समूह चैट",
+    "CHAT_WEB_SEARCH": "वेब खोज"
   },
   "WELL_KNOWN": {
     "AGENT_CARD": {

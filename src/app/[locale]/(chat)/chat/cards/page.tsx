@@ -1,5 +1,5 @@
 import { CardsPage } from "@/components/pages/sidebar/chat/rp/card/page";
-import { getPageMetadata } from "@/lib/seo/metadata";
+import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
 import { serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
 
@@ -14,6 +14,7 @@ export async function generateMetadata(props: {
     title: t("RP.CARDS_TITLE"),
     description: t("RP.CARDS_PAGE_SUBTITLE"),
     keywords: t("RP.CARDS_TITLE"),
+    ogImage: ogBadge("chat", locale),
   });
 }
 

@@ -22,7 +22,7 @@ export async function generateMetadata(props: Props) {
     description: t("CHAT.META.DESCRIPTION"),
     keywords: t("CHAT.META.KEYWORDS"),
     robots: false,
-    ogImage: ogBadge("pricing", locale),
+    ogImage: ogBadge("chat", locale),
   });
 }
 

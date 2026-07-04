@@ -2641,7 +2641,8 @@
       "PRICING": "Preise",
       "HERO": "Hero",
       "REFERRAL": "Empfehlung",
-      "BRAND": "Marke"
+      "BRAND": "Marke",
+      "CHAT": "Chat"
     },
     "ERROR": {
       "SOMETHING_WENT_WRONG": "Etwas ist schiefgelaufen",
@@ -3996,7 +3997,16 @@
     "REFERRAL": "Empfehlung",
     "REFERRAL_CTA": "Registriere dich und nutze KI günstiger",
     "TOKENS_MIN": "Tokens / Min",
-    "MORE": "Weitere"
+    "MORE": "Weitere",
+    "CHAT_TAGLINE": "KI-Chat und Rollenspiel, privat in deinem Browser",
+    "CHAT_CHARACTERS": "Charakterkarten",
+    "CHAT_LOREBOOKS": "Lorebooks",
+    "CHAT_IMAGE_GEN": "Bildgenerierung",
+    "CHAT_MEMORY": "Langzeitgedächtnis",
+    "CHAT_LOCAL_FIRST": "Daten bleiben lokal",
+    "CHAT_FREE_MODELS": "Kostenlose Modelle",
+    "CHAT_GROUP_CHATS": "Gruppenchats",
+    "CHAT_WEB_SEARCH": "Websuche"
   },
   "WELL_KNOWN": {
     "AGENT_CARD": {

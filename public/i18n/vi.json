@@ -2641,7 +2641,8 @@
       "PRICING": "Bảng giá",
       "HERO": "Hero",
       "REFERRAL": "Giới thiệu",
-      "BRAND": "Thương hiệu"
+      "BRAND": "Thương hiệu",
+      "CHAT": "Trò chuyện"
     },
     "ERROR": {
       "SOMETHING_WENT_WRONG": "Đã xảy ra lỗi",
@@ -3996,7 +3997,16 @@
     "REFERRAL": "Giới thiệu",
     "REFERRAL_CTA": "Đăng ký và bắt đầu với AI giá tốt hơn",
     "TOKENS_MIN": "Token / Phút",
-    "MORE": "Thêm"
+    "MORE": "Thêm",
+    "CHAT_TAGLINE": "Trò chuyện AI và nhập vai, riêng tư ngay trong trình duyệt",
+    "CHAT_CHARACTERS": "Thẻ nhân vật",
+    "CHAT_LOREBOOKS": "Lorebook",
+    "CHAT_IMAGE_GEN": "Tạo hình ảnh",
+    "CHAT_MEMORY": "Trí nhớ dài hạn",
+    "CHAT_LOCAL_FIRST": "Dữ liệu lưu trên máy",
+    "CHAT_FREE_MODELS": "Mô hình miễn phí",
+    "CHAT_GROUP_CHATS": "Trò chuyện nhóm",
+    "CHAT_WEB_SEARCH": "Tìm kiếm web"
   },
   "WELL_KNOWN": {
     "AGENT_CARD": {
