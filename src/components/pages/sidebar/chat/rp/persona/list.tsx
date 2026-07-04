@@ -122,7 +122,12 @@ export function PersonaList(props: Props) {
                   }
                   name={
                     <>
-                      {p.name}
+                      {p.title || p.name}
+                      {p.title && (
+                        <span className="text-muted-foreground ml-2 text-xs">
+                          {p.name}
+                        </span>
+                      )}
                       {p.isDefault && (
                         <span className="text-muted-foreground ml-2 text-xs">
                           ({t("RP.PERSONA_DEFAULT").toLowerCase()})

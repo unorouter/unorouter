@@ -31,7 +31,12 @@ export function PersonaEditor(props: Props) {
 
   // values syncs the row on settle; keepDirtyValues protects in-progress typing. Parent keys by editingId for clean remounts.
   const formValues =
-    !isNew && existing ? formDefaults(personaFormSchema, existing) : undefined;
+    !isNew && existing
+      ? formDefaults(personaFormSchema, {
+          ...existing,
+          title: existing.title ?? "",
+        })
+      : undefined;
   const form = useRpForm(personaFormSchema, formValues);
 
   const onSubmit = async (data: PersonaForm) => {
@@ -50,6 +55,15 @@ export function PersonaEditor(props: Props) {
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col gap-3"
         >
+          <MyFormInput
+            control={form.control}
+            name="title"
+            schema={personaFormSchema}
+            label={t("RP.PERSONA_TITLE")}
+          />
+          <span className="text-muted-foreground -mt-2 text-xs">
+            {t("RP.PERSONA_TITLE_HINT")}
+          </span>
           <MyFormInput
             control={form.control}
             name="name"

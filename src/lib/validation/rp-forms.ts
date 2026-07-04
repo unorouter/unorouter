@@ -212,6 +212,7 @@ export const samplingPresetFormSchema = t.Object({
 export type SamplingPresetForm = Static<typeof samplingPresetFormSchema>;
 
 export const personaFormSchema = t.Object({
+  title: t.String({ maxLength: MAX_NAME_LEN, default: "" }),
   name: t.String({
     minLength: 1,
     maxLength: MAX_NAME_LEN,

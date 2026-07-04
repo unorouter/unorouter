@@ -302,6 +302,8 @@ export const personas = sqliteTable(
       .$defaultFn(() => uid()),
     userId: integer("user_id").notNull(),
     name: text("name").notNull(),
+    // Display-only label to tell same-named personas apart; NEVER sent to the model ({{user}} = name).
+    title: text("title"),
     description: text("description"),
     // FK to media (asymmetric base64/R2 rule).
     avatarMediaId: text("avatar_media_id"),
