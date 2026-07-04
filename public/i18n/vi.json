@@ -1195,7 +1195,9 @@
     "CTA_DESC": "Tạo API key và bắt đầu gửi yêu cầu trong chưa đầy một phút.",
     "CTA_SIGNUP": "Đăng nhập để thử {name}",
     "CTA_TRY": "Thử {name} trong trò chuyện",
-    "CTA_ALL_MODELS": "Xem tất cả mô hình"
+    "CTA_ALL_MODELS": "Xem tất cả mô hình",
+    "AT_CAPACITY_TITLE": "Tất cả nhà cung cấp của mô hình này hiện đang bận",
+    "AT_CAPACITY_BODY": "Mọi nhà cung cấp thượng nguồn đã chạm giới hạn tốc độ. Mô hình tự động trở lại khi giới hạn được gỡ, thường trong vài giờ. Hãy thử lại sau ít phút hoặc chuyển sang mô hình khác."
   },
   "PRICING": {
     "FEATURE": {

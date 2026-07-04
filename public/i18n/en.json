@@ -1195,7 +1195,9 @@
     "CTA_DESC": "Create an API key and start making requests in under a minute.",
     "CTA_SIGNUP": "Sign in to try {name}",
     "CTA_TRY": "Try {name} in chat",
-    "CTA_ALL_MODELS": "View all models"
+    "CTA_ALL_MODELS": "View all models",
+    "AT_CAPACITY_TITLE": "All providers for this model are busy right now",
+    "AT_CAPACITY_BODY": "Every upstream provider has hit its rate limit. The model comes back automatically once limits lift, usually within hours. Try again in a little while or switch to another model."
   },
   "PRICING": {
     "FEATURE": {

@@ -1195,7 +1195,9 @@
     "CTA_DESC": "Bir API anahtarı oluşturun ve bir dakikadan kısa sürede istek göndermeye başlayın.",
     "CTA_SIGNUP": "{name}'i denemek için giriş yapın",
     "CTA_TRY": "{name}'i chatte deneyin",
-    "CTA_ALL_MODELS": "Tüm modelleri görüntüle"
+    "CTA_ALL_MODELS": "Tüm modelleri görüntüle",
+    "AT_CAPACITY_TITLE": "Bu modelin tüm sağlayıcıları şu anda meşgul",
+    "AT_CAPACITY_BODY": "Her üst akış sağlayıcısı hız sınırına ulaştı. Sınırlar kalkınca model otomatik olarak geri gelir, genellikle birkaç saat içinde. Biraz sonra tekrar deneyin ya da başka bir modele geçin."
   },
   "PRICING": {
     "FEATURE": {

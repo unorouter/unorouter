@@ -95,6 +95,22 @@ export const embeddingCatalog = sqliteTable(
   ],
 );
 
+// Durable model catalog: union of every model ever seen in the live pricing
+// response. Free models churn out of pricing hourly when upstream channels
+// rate-limit; this snapshot lets /models/[slug] render an at-capacity page
+// (200) instead of a 404 and gives the sitemap a stable URL set.
+export const modelCatalog = sqliteTable(
+  "model_catalog",
+  {
+    name: text("name").primaryKey(),
+    payload: text("payload", { mode: "json" }).notNull(),
+    isFree: integer("is_free", { mode: "boolean" }).notNull().default(false),
+    firstSeenAt: integer("first_seen_at", { mode: "timestamp_ms" }).notNull(),
+    lastSeenAt: integer("last_seen_at", { mode: "timestamp_ms" }).notNull(),
+  },
+  (table) => [index("idx_model_catalog_last_seen").on(table.lastSeenAt)],
+);
+
 export const upscalerCatalog = sqliteTable(
   "upscaler_catalog",
   {
@@ -119,6 +135,7 @@ export const upscalerCatalog = sqliteTable(
 // Import them from "./shared". See the comment there.
 
 export type AcpCheckoutSession = typeof acpCheckoutSessions.$inferSelect;
+export type ModelCatalogEntry = typeof modelCatalog.$inferSelect;
 export type LoraCatalogEntry = typeof loraCatalog.$inferSelect;
 export type EmbeddingCatalogEntry = typeof embeddingCatalog.$inferSelect;
 export type UpscalerCatalogEntry = typeof upscalerCatalog.$inferSelect;

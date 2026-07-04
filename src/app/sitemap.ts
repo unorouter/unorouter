@@ -16,8 +16,9 @@ import {
 import { env } from "@/lib/config/env";
 import { rpc } from "@/lib/rpc";
 import { getSeoTimestamps } from "@/lib/seo/metadata";
-import { handleElysia, modelSlug } from "@/lib/utils/base";
+import { baseModelName, handleElysia, modelSlug } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
+import { listCatalogNames } from "@/server/models/pricing/model-catalog.service";
 import type { MetadataRoute } from "next";
 
 export const dynamic = "force-dynamic";
@@ -96,6 +97,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       "[sitemap] pricing returned no models; model pages omitted from sitemap",
     );
 
+  // Model URLs come from the durable catalog (models seen within the retire
+  // window), NOT the live response: free models churn in/out of pricing hourly
+  // and a live-derived URL set turns into GSC 404s at crawl time. Fresh-DB
+  // fallback: the live models (catalog empty until the first snapshot).
+  // :free twins whose base model exists are skipped; those pages canonical to
+  // the base, so emitting both would double duplicate-content URLs.
+  const catalogNames = await listCatalogNames().catch(() => []);
+  const modelNames = catalogNames.length
+    ? catalogNames
+    : (pricing?.models ?? []).map((m) => m.name);
+  const nameSet = new Set(modelNames);
+  const sitemapModelNames = modelNames.filter(
+    (name) => !(name.endsWith(":free") && nameSet.has(baseModelName(name))),
+  );
+
   return [
     ...topLevelRoutes.flatMap((route) =>
       localizedEntries(route as Pathname, sectionOptions(route)),
@@ -117,18 +133,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         },
       ),
     ),
-    ...(pricing?.models ?? []).flatMap((model) =>
+    ...sitemapModelNames.flatMap((name) =>
       localizedEntries(
-        { pathname: "/models/[slug]", params: { slug: modelSlug(model.name) } },
+        { pathname: "/models/[slug]", params: { slug: modelSlug(name) } },
         { priority: 0.6, changeFrequency: "weekly" },
       ),
     ),
-    // Curated head-to-head pairs only; drop any pair whose models aren't live so
-    // a retired model never emits a dead compare URL.
+    // Curated head-to-head pairs only; drop any pair whose models left the
+    // catalog (retired), judged against the stable set, not hourly liveness.
     ...COMPARE_PAIRS.filter(([a, b]) =>
-      [a, b].every((name) =>
-        (pricing?.models ?? []).some((m) => m.name === name),
-      ),
+      [a, b].every((name) => nameSet.has(name)),
     ).flatMap(([a, b]) =>
       localizedEntries(
         {

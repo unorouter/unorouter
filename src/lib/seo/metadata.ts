@@ -40,6 +40,9 @@ export function ogBadge(
 type MetadataParams = {
   locale: Locale;
   href: Pathname;
+  // Duplicate-content pages (e.g. a :free model twin) canonicalize to a different
+  // URL; hreflang alternates follow it too, since hreflang must link canonicals.
+  canonicalHref?: Pathname;
   title: string;
   description: string;
   keywords: string;
@@ -48,9 +51,10 @@ type MetadataParams = {
 };
 
 export function getPageMetadata(params: MetadataParams): Metadata {
+  const canonicalTarget = params.canonicalHref ?? params.href;
   const canonicalPath = getPathname({
     locale: params.locale,
-    href: params.href,
+    href: canonicalTarget,
   });
   const shouldIndex = params.robots ?? true;
   const ogImageUrl = params.ogImage ?? ogBadge("hero", params.locale);
@@ -83,7 +87,7 @@ export function getPageMetadata(params: MetadataParams): Metadata {
     }),
     alternates: {
       canonical: canonicalPath,
-      languages: buildAlternateLanguages(params.href),
+      languages: buildAlternateLanguages(canonicalTarget),
       types: {
         "application/rss+xml": `/${params.locale}/blog/feed.xml`,
       },

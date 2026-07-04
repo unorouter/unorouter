@@ -1195,7 +1195,9 @@
     "CTA_DESC": "Erstelle einen API-Schlüssel und starte in unter einer Minute.",
     "CTA_SIGNUP": "Anmelden und {name} testen",
     "CTA_TRY": "{name} im Chat testen",
-    "CTA_ALL_MODELS": "Alle Modelle ansehen"
+    "CTA_ALL_MODELS": "Alle Modelle ansehen",
+    "AT_CAPACITY_TITLE": "Alle Anbieter für dieses Modell sind gerade ausgelastet",
+    "AT_CAPACITY_BODY": "Jeder Upstream-Anbieter hat sein Ratenlimit erreicht. Das Modell kommt automatisch zurück, sobald die Limits fallen, meist innerhalb von Stunden. Versuche es später erneut oder wechsle zu einem anderen Modell."
   },
   "PRICING": {
     "FEATURE": {

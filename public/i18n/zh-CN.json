@@ -1195,7 +1195,9 @@
     "CTA_DESC": "创建 API 密钥，不到一分钟就能开始请求。",
     "CTA_SIGNUP": "登录试用 {name}",
     "CTA_TRY": "在对话中试用 {name}",
-    "CTA_ALL_MODELS": "查看全部模型"
+    "CTA_ALL_MODELS": "查看全部模型",
+    "AT_CAPACITY_TITLE": "该模型的所有提供方目前都很繁忙",
+    "AT_CAPACITY_BODY": "每个上游提供方都已达到速率上限。上限解除后模型会自动恢复，通常在数小时内。请稍后重试，或切换到其他模型。"
   },
   "PRICING": {
     "FEATURE": {
