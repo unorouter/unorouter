@@ -2641,7 +2641,8 @@
       "PRICING": "價格",
       "HERO": "主視覺",
       "REFERRAL": "推薦",
-      "BRAND": "品牌"
+      "BRAND": "品牌",
+      "CHAT": "聊天"
     },
     "ERROR": {
       "SOMETHING_WENT_WRONG": "發生錯誤",
@@ -3996,7 +3997,16 @@
     "REFERRAL": "推薦",
     "REFERRAL_CTA": "註冊後用更低成本開始使用 AI",
     "TOKENS_MIN": "Tokens／分鐘",
-    "MORE": "更多"
+    "MORE": "更多",
+    "CHAT_TAGLINE": "AI 聊天與角色扮演，資料私密保存在瀏覽器中",
+    "CHAT_CHARACTERS": "角色卡",
+    "CHAT_LOREBOOKS": "世界書",
+    "CHAT_IMAGE_GEN": "圖像生成",
+    "CHAT_MEMORY": "長期記憶",
+    "CHAT_LOCAL_FIRST": "資料本機儲存",
+    "CHAT_FREE_MODELS": "免費模型",
+    "CHAT_GROUP_CHATS": "群組聊天",
+    "CHAT_WEB_SEARCH": "網頁搜尋"
   },
   "WELL_KNOWN": {
     "AGENT_CARD": {

@@ -2641,7 +2641,8 @@
       "PRICING": "أسعار",
       "HERO": "بطل",
       "REFERRAL": "إحالة",
-      "BRAND": "علامة"
+      "BRAND": "علامة",
+      "CHAT": "الدردشة"
     },
     "ERROR": {
       "SOMETHING_WENT_WRONG": "حدث خطأ ما",
@@ -3996,7 +3997,16 @@
     "REFERRAL": "إحالة",
     "REFERRAL_CTA": "سجّل وابدأ مع الذكاء الاصطناعي بأقلّ",
     "TOKENS_MIN": "Tokens / دقيقة",
-    "MORE": "المزيد"
+    "MORE": "المزيد",
+    "CHAT_TAGLINE": "دردشة ذكاء اصطناعي ولعب أدوار، بخصوصية داخل متصفحك",
+    "CHAT_CHARACTERS": "بطاقات الشخصيات",
+    "CHAT_LOREBOOKS": "كتب المعرفة",
+    "CHAT_IMAGE_GEN": "توليد الصور",
+    "CHAT_MEMORY": "ذاكرة طويلة المدى",
+    "CHAT_LOCAL_FIRST": "بياناتك تبقى محليًا",
+    "CHAT_FREE_MODELS": "نماذج مجانية",
+    "CHAT_GROUP_CHATS": "دردشات جماعية",
+    "CHAT_WEB_SEARCH": "بحث الويب"
   },
   "WELL_KNOWN": {
     "AGENT_CARD": {

@@ -2641,7 +2641,8 @@
       "PRICING": "Cennik",
       "HERO": "Hero",
       "REFERRAL": "Polecenie",
-      "BRAND": "Marka"
+      "BRAND": "Marka",
+      "CHAT": "Czat"
     },
     "ERROR": {
       "SOMETHING_WENT_WRONG": "Coś poszło nie tak",
@@ -3996,7 +3997,16 @@
     "REFERRAL": "Polecenie",
     "REFERRAL_CTA": "Zarejestruj się i rozpocznij z AI taniej",
     "TOKENS_MIN": "Tokeny / Min",
-    "MORE": "Więcej"
+    "MORE": "Więcej",
+    "CHAT_TAGLINE": "Czat AI i odgrywanie ról, prywatnie w Twojej przeglądarce",
+    "CHAT_CHARACTERS": "Karty postaci",
+    "CHAT_LOREBOOKS": "Lorebooki",
+    "CHAT_IMAGE_GEN": "Generowanie obrazów",
+    "CHAT_MEMORY": "Pamięć długotrwała",
+    "CHAT_LOCAL_FIRST": "Prywatność lokalna",
+    "CHAT_FREE_MODELS": "Darmowe modele",
+    "CHAT_GROUP_CHATS": "Czaty grupowe",
+    "CHAT_WEB_SEARCH": "Wyszukiwanie w internecie"
   },
   "WELL_KNOWN": {
     "AGENT_CARD": {

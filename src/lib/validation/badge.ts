@@ -22,6 +22,7 @@ export const BADGE_TYPES = [
   "hero",
   "referral",
   "brand",
+  "chat",
 ] as const;
 export type BadgeType = (typeof BADGE_TYPES)[number];
 

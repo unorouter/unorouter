@@ -2641,7 +2641,8 @@
       "PRICING": "料金",
       "HERO": "ヒーロー",
       "REFERRAL": "リファラル",
-      "BRAND": "ブランド"
+      "BRAND": "ブランド",
+      "CHAT": "チャット"
     },
     "ERROR": {
       "SOMETHING_WENT_WRONG": "問題が発生しました",
@@ -3996,7 +3997,16 @@
     "REFERRAL": "リファラル",
     "REFERRAL_CTA": "登録して、より低コストで AI を始めよう",
     "TOKENS_MIN": "トークン / 分",
-    "MORE": "さらに"
+    "MORE": "さらに",
+    "CHAT_TAGLINE": "AIチャットとロールプレイをブラウザ内でプライベートに",
+    "CHAT_CHARACTERS": "キャラクターカード",
+    "CHAT_LOREBOOKS": "ロアブック",
+    "CHAT_IMAGE_GEN": "画像生成",
+    "CHAT_MEMORY": "長期記憶",
+    "CHAT_LOCAL_FIRST": "データはローカル保存",
+    "CHAT_FREE_MODELS": "無料モデル",
+    "CHAT_GROUP_CHATS": "グループチャット",
+    "CHAT_WEB_SEARCH": "ウェブ検索"
   },
   "WELL_KNOWN": {
     "AGENT_CARD": {

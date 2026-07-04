@@ -2641,7 +2641,8 @@
       "PRICING": "요금",
       "HERO": "히어로",
       "REFERRAL": "추천",
-      "BRAND": "브랜드"
+      "BRAND": "브랜드",
+      "CHAT": "채팅"
     },
     "ERROR": {
       "SOMETHING_WENT_WRONG": "문제가 발생했습니다",
@@ -3996,7 +3997,16 @@
     "REFERRAL": "추천",
     "REFERRAL_CTA": "가입하고 더 저렴하게 AI를 시작하세요",
     "TOKENS_MIN": "토큰 / 분",
-    "MORE": "더 보기"
+    "MORE": "더 보기",
+    "CHAT_TAGLINE": "AI 채팅과 롤플레이, 브라우저 안에서 비공개로",
+    "CHAT_CHARACTERS": "캐릭터 카드",
+    "CHAT_LOREBOOKS": "로어북",
+    "CHAT_IMAGE_GEN": "이미지 생성",
+    "CHAT_MEMORY": "장기 기억",
+    "CHAT_LOCAL_FIRST": "데이터 로컬 저장",
+    "CHAT_FREE_MODELS": "무료 모델",
+    "CHAT_GROUP_CHATS": "그룹 채팅",
+    "CHAT_WEB_SEARCH": "웹 검색"
   },
   "WELL_KNOWN": {
     "AGENT_CARD": {

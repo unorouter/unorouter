@@ -2641,7 +2641,8 @@
       "PRICING": "Preços",
       "HERO": "Hero",
       "REFERRAL": "Indicação",
-      "BRAND": "Marca"
+      "BRAND": "Marca",
+      "CHAT": "Chat"
     },
     "ERROR": {
       "SOMETHING_WENT_WRONG": "Algo deu errado",
@@ -3996,7 +3997,16 @@
     "REFERRAL": "Indicação",
     "REFERRAL_CTA": "Cadastre-se e comece com IA por menos",
     "TOKENS_MIN": "Tokens / Min",
-    "MORE": "Mais"
+    "MORE": "Mais",
+    "CHAT_TAGLINE": "Chat de IA e roleplay, privado no seu navegador",
+    "CHAT_CHARACTERS": "Cartões de personagem",
+    "CHAT_LOREBOOKS": "Lorebooks",
+    "CHAT_IMAGE_GEN": "Geração de imagens",
+    "CHAT_MEMORY": "Memória de longo prazo",
+    "CHAT_LOCAL_FIRST": "Privacidade local",
+    "CHAT_FREE_MODELS": "Modelos gratuitos",
+    "CHAT_GROUP_CHATS": "Chats em grupo",
+    "CHAT_WEB_SEARCH": "Busca na web"
   },
   "WELL_KNOWN": {
     "AGENT_CARD": {

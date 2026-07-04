@@ -2641,7 +2641,8 @@
       "PRICING": "Fiyatlandırma",
       "HERO": "Hero",
       "REFERRAL": "Referans",
-      "BRAND": "Marka"
+      "BRAND": "Marka",
+      "CHAT": "Sohbet"
     },
     "ERROR": {
       "SOMETHING_WENT_WRONG": "Bir şeyler ters gitti",
@@ -3996,7 +3997,16 @@
     "REFERRAL": "Referans",
     "REFERRAL_CTA": "Kaydolun ve daha az ile AI'a başlayın",
     "TOKENS_MIN": "Tokenlar / Dk",
-    "MORE": "Daha fazla"
+    "MORE": "Daha fazla",
+    "CHAT_TAGLINE": "Yapay zekâ sohbeti ve rol yapma, tarayıcınızda gizli",
+    "CHAT_CHARACTERS": "Karakter kartları",
+    "CHAT_LOREBOOKS": "Lorebook'lar",
+    "CHAT_IMAGE_GEN": "Görsel oluşturma",
+    "CHAT_MEMORY": "Uzun süreli bellek",
+    "CHAT_LOCAL_FIRST": "Veriler cihazınızda kalır",
+    "CHAT_FREE_MODELS": "Ücretsiz modeller",
+    "CHAT_GROUP_CHATS": "Grup sohbetleri",
+    "CHAT_WEB_SEARCH": "Web araması"
   },
   "WELL_KNOWN": {
     "AGENT_CARD": {

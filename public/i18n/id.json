@@ -2641,7 +2641,8 @@
       "PRICING": "Harga",
       "HERO": "Hero",
       "REFERRAL": "Referensi",
-      "BRAND": "Merek"
+      "BRAND": "Merek",
+      "CHAT": "Obrolan"
     },
     "ERROR": {
       "SOMETHING_WENT_WRONG": "Ada yang salah",
@@ -3996,7 +3997,16 @@
     "REFERRAL": "Referral",
     "REFERRAL_CTA": "Daftar dan mulai dengan AI dengan harga lebih murah",
     "TOKENS_MIN": "Token / Mnt",
-    "MORE": "Lainnya"
+    "MORE": "Lainnya",
+    "CHAT_TAGLINE": "Obrolan AI dan roleplay, privat di browser Anda",
+    "CHAT_CHARACTERS": "Kartu karakter",
+    "CHAT_LOREBOOKS": "Lorebook",
+    "CHAT_IMAGE_GEN": "Pembuatan gambar",
+    "CHAT_MEMORY": "Memori jangka panjang",
+    "CHAT_LOCAL_FIRST": "Data tersimpan lokal",
+    "CHAT_FREE_MODELS": "Model gratis",
+    "CHAT_GROUP_CHATS": "Obrolan grup",
+    "CHAT_WEB_SEARCH": "Pencarian web"
   },
   "WELL_KNOWN": {
     "AGENT_CARD": {
