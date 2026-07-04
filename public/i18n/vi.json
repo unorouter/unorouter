@@ -2642,7 +2642,9 @@
       "HERO": "Hero",
       "REFERRAL": "Giới thiệu",
       "BRAND": "Thương hiệu",
-      "CHAT": "Trò chuyện"
+      "CHAT": "Trò chuyện",
+      "TESTER": "Trình kiểm tra",
+      "PLAYGROUND": "Sân chơi"
     },
     "ERROR": {
       "SOMETHING_WENT_WRONG": "Đã xảy ra lỗi",
@@ -4008,7 +4010,22 @@
     "CHAT_IMPORT_EXPORT": "Nhập và xuất dữ liệu",
     "CHAT_SCRIPTING": "Kịch bản Lua và regex",
     "CHAT_PERSONAS": "Persona và preset",
-    "CHAT_BRANCHES": "Nhánh và swipe"
+    "CHAT_BRANCHES": "Nhánh và swipe",
+    "TESTER_TAGLINE": "Kiểm tra xem endpoint có thật sự phục vụ mô hình như đã tuyên bố",
+    "TESTER_PROBES": "Thăm dò tất định",
+    "TESTER_FAKES": "Phát hiện mô hình giả",
+    "TESTER_FORMATS": "API Claude, GPT và Gemini",
+    "TESTER_PRIVATE": "Khóa không bao giờ rời trình duyệt",
+    "TESTER_RANKINGS": "Bảng xếp hạng công khai",
+    "TESTER_VERIFIED": "Kết quả được máy chủ xác minh",
+    "PLAYGROUND_TAGLINE": "Xưởng tạo hình ảnh và video ngay trong trình duyệt",
+    "PLAYGROUND_IMAGE_VIDEO": "Mô hình hình ảnh và video",
+    "PLAYGROUND_COMFY": "Quy trình ComfyUI",
+    "PLAYGROUND_LORAS": "LoRA và embedding",
+    "PLAYGROUND_UPSCALE": "Upscaler và hires fix",
+    "PLAYGROUND_REFS": "Ảnh tham chiếu và mặt nạ",
+    "PLAYGROUND_FREE": "Bao gồm mô hình miễn phí",
+    "CONTEXT": "Ngữ cảnh"
   },
   "WELL_KNOWN": {
     "AGENT_CARD": {

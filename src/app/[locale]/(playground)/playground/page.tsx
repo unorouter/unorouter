@@ -1,6 +1,6 @@
 import { PlaygroundPage } from "@/components/pages/sidebar/playground/playground-page";
 import { APP_VALUES } from "@/lib/config/constants";
-import { getPageMetadata } from "@/lib/seo/metadata";
+import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
 import { serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
 
@@ -16,6 +16,7 @@ export async function generateMetadata(props: {
     description: t("IMAGE.META_DESC", APP_VALUES),
     keywords: t("METADATA.ACCOUNT.KEYWORDS", APP_VALUES),
     robots: false,
+    ogImage: ogBadge("playground", locale),
   });
 }
 

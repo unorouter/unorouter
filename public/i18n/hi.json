@@ -2642,7 +2642,9 @@
       "HERO": "Hero",
       "REFERRAL": "Referral",
       "BRAND": "Brand",
-      "CHAT": "चैट"
+      "CHAT": "चैट",
+      "TESTER": "टेस्टर",
+      "PLAYGROUND": "प्लेग्राउंड"
     },
     "ERROR": {
       "SOMETHING_WENT_WRONG": "कुछ गलत हो गया",
@@ -4008,7 +4010,22 @@
     "CHAT_IMPORT_EXPORT": "आयात और निर्यात",
     "CHAT_SCRIPTING": "Lua और regex स्क्रिप्ट",
     "CHAT_PERSONAS": "पर्सोना और प्रीसेट",
-    "CHAT_BRANCHES": "ब्रांच और स्वाइप"
+    "CHAT_BRANCHES": "ब्रांच और स्वाइप",
+    "TESTER_TAGLINE": "जांचें कि endpoint वाकई वही मॉडल दे रहा है जिसका वह दावा करता है",
+    "TESTER_PROBES": "नियतात्मक प्रोब",
+    "TESTER_FAKES": "नकली मॉडल की पहचान",
+    "TESTER_FORMATS": "Claude, GPT और Gemini API",
+    "TESTER_PRIVATE": "कुंजी कभी ब्राउज़र से बाहर नहीं जाती",
+    "TESTER_RANKINGS": "सार्वजनिक रैंकिंग",
+    "TESTER_VERIFIED": "सर्वर-सत्यापित परिणाम",
+    "PLAYGROUND_TAGLINE": "आपके ब्राउज़र में इमेज और वीडियो जनरेशन स्टूडियो",
+    "PLAYGROUND_IMAGE_VIDEO": "इमेज और वीडियो मॉडल",
+    "PLAYGROUND_COMFY": "ComfyUI वर्कफ़्लो",
+    "PLAYGROUND_LORAS": "LoRA और एम्बेडिंग",
+    "PLAYGROUND_UPSCALE": "अपस्केलर और hires fix",
+    "PLAYGROUND_REFS": "संदर्भ इमेज और मास्क",
+    "PLAYGROUND_FREE": "मुफ़्त मॉडल शामिल",
+    "CONTEXT": "संदर्भ"
   },
   "WELL_KNOWN": {
     "AGENT_CARD": {

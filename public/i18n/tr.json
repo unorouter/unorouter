@@ -2642,7 +2642,9 @@
       "HERO": "Hero",
       "REFERRAL": "Referans",
       "BRAND": "Marka",
-      "CHAT": "Sohbet"
+      "CHAT": "Sohbet",
+      "TESTER": "Test aracı",
+      "PLAYGROUND": "Deneme alanı"
     },
     "ERROR": {
       "SOMETHING_WENT_WRONG": "Bir şeyler ters gitti",
@@ -4008,7 +4010,22 @@
     "CHAT_IMPORT_EXPORT": "İçe ve dışa aktarma",
     "CHAT_SCRIPTING": "Lua ve regex betikleri",
     "CHAT_PERSONAS": "Personalar ve ön ayarlar",
-    "CHAT_BRANCHES": "Dallar ve kaydırmalar"
+    "CHAT_BRANCHES": "Dallar ve kaydırmalar",
+    "TESTER_TAGLINE": "Bir uç noktanın gerçekten iddia ettiği modeli sunup sunmadığını kontrol edin",
+    "TESTER_PROBES": "Deterministik problar",
+    "TESTER_FAKES": "Sahte model tespiti",
+    "TESTER_FORMATS": "Claude, GPT ve Gemini API'leri",
+    "TESTER_PRIVATE": "Anahtar tarayıcınızdan asla çıkmaz",
+    "TESTER_RANKINGS": "Herkese açık sıralama",
+    "TESTER_VERIFIED": "Sunucu doğrulamalı sonuçlar",
+    "PLAYGROUND_TAGLINE": "Tarayıcınızda görsel ve video üretim stüdyosu",
+    "PLAYGROUND_IMAGE_VIDEO": "Görsel ve video modelleri",
+    "PLAYGROUND_COMFY": "ComfyUI iş akışları",
+    "PLAYGROUND_LORAS": "LoRA ve embedding'ler",
+    "PLAYGROUND_UPSCALE": "Upscaler ve hires fix",
+    "PLAYGROUND_REFS": "Referans görseller ve maskeler",
+    "PLAYGROUND_FREE": "Ücretsiz modeller dahil",
+    "CONTEXT": "Bağlam"
   },
   "WELL_KNOWN": {
     "AGENT_CARD": {

@@ -2642,7 +2642,9 @@
       "HERO": "Hero",
       "REFERRAL": "Referensi",
       "BRAND": "Merek",
-      "CHAT": "Obrolan"
+      "CHAT": "Obrolan",
+      "TESTER": "Penguji",
+      "PLAYGROUND": "Playground"
     },
     "ERROR": {
       "SOMETHING_WENT_WRONG": "Ada yang salah",
@@ -4008,7 +4010,22 @@
     "CHAT_IMPORT_EXPORT": "Impor dan ekspor",
     "CHAT_SCRIPTING": "Skrip Lua dan regex",
     "CHAT_PERSONAS": "Persona dan preset",
-    "CHAT_BRANCHES": "Cabang dan swipe"
+    "CHAT_BRANCHES": "Cabang dan swipe",
+    "TESTER_TAGLINE": "Periksa apakah endpoint benar-benar menyajikan model yang diklaim",
+    "TESTER_PROBES": "Probe deterministik",
+    "TESTER_FAKES": "Deteksi model palsu",
+    "TESTER_FORMATS": "API Claude, GPT, dan Gemini",
+    "TESTER_PRIVATE": "Kunci tidak pernah keluar dari browser",
+    "TESTER_RANKINGS": "Peringkat publik",
+    "TESTER_VERIFIED": "Hasil terverifikasi server",
+    "PLAYGROUND_TAGLINE": "Studio pembuatan gambar dan video di browser Anda",
+    "PLAYGROUND_IMAGE_VIDEO": "Model gambar dan video",
+    "PLAYGROUND_COMFY": "Alur kerja ComfyUI",
+    "PLAYGROUND_LORAS": "LoRA dan embedding",
+    "PLAYGROUND_UPSCALE": "Upscaler dan hires fix",
+    "PLAYGROUND_REFS": "Gambar referensi dan masker",
+    "PLAYGROUND_FREE": "Termasuk model gratis",
+    "CONTEXT": "Konteks"
   },
   "WELL_KNOWN": {
     "AGENT_CARD": {

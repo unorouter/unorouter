@@ -2642,7 +2642,9 @@
       "HERO": "히어로",
       "REFERRAL": "추천",
       "BRAND": "브랜드",
-      "CHAT": "채팅"
+      "CHAT": "채팅",
+      "TESTER": "테스터",
+      "PLAYGROUND": "플레이그라운드"
     },
     "ERROR": {
       "SOMETHING_WENT_WRONG": "문제가 발생했습니다",
@@ -4008,7 +4010,22 @@
     "CHAT_IMPORT_EXPORT": "가져오기와 내보내기",
     "CHAT_SCRIPTING": "Lua 및 정규식 스크립트",
     "CHAT_PERSONAS": "페르소나와 프리셋",
-    "CHAT_BRANCHES": "브랜치와 스와이프"
+    "CHAT_BRANCHES": "브랜치와 스와이프",
+    "TESTER_TAGLINE": "엔드포인트가 정말 주장하는 모델을 제공하는지 확인",
+    "TESTER_PROBES": "결정론적 프로브",
+    "TESTER_FAKES": "가짜 모델 탐지",
+    "TESTER_FORMATS": "Claude, GPT, Gemini API",
+    "TESTER_PRIVATE": "키는 브라우저 밖으로 나가지 않음",
+    "TESTER_RANKINGS": "공개 랭킹",
+    "TESTER_VERIFIED": "서버 검증 결과",
+    "PLAYGROUND_TAGLINE": "브라우저 속 이미지·영상 생성 스튜디오",
+    "PLAYGROUND_IMAGE_VIDEO": "이미지·영상 모델",
+    "PLAYGROUND_COMFY": "ComfyUI 워크플로",
+    "PLAYGROUND_LORAS": "LoRA와 임베딩",
+    "PLAYGROUND_UPSCALE": "업스케일러와 hires fix",
+    "PLAYGROUND_REFS": "참조 이미지와 마스크",
+    "PLAYGROUND_FREE": "무료 모델 포함",
+    "CONTEXT": "컨텍스트"
   },
   "WELL_KNOWN": {
     "AGENT_CARD": {
