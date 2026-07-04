@@ -59,6 +59,63 @@ type EncodedContent = {
   parts: MessagePart[];
 };
 
+// Self-heal broken chains: a message whose parentId points at a missing row, or a non-greeting
+// phantom root (FK ON DELETE SET NULL after a failed splice-delete), truncates the branch walk
+// to a single message so the chat looks wiped. Re-attach such orphans to the newest older
+// message and persist the repair. Legit greeting siblings (root assistants preceding any user
+// turn) are left alone.
+async function repairBrokenChain(
+  userId: number,
+  convId: string,
+  msgs: ApiMessage[],
+): Promise<ApiMessage[]> {
+  if (msgs.length < 2) return msgs;
+  const ids = new Set(msgs.map((m) => m.id));
+  const ts = (m: ApiMessage) =>
+    dayjs((m.createdAt ?? 0) as string | number | Date).valueOf();
+  const sorted = [...msgs].sort((a, b) => ts(a) - ts(b));
+  const firstUser = sorted.find((m) => m.role === "user");
+  const repaired: ApiMessage[] = [];
+  const out = msgs.map((m) => {
+    const dangling = m.parentId != null && !ids.has(m.parentId);
+    const isGreeting =
+      m.parentId == null &&
+      m.role === "assistant" &&
+      (firstUser == null || ts(m) <= ts(firstUser));
+    const firstRoot = sorted[0]?.id === m.id;
+    // Mid-conversation only (a full exchange exists before it): root-level first-message
+    // swipes in greetingless chats are legit siblings and must not be re-chained.
+    const midConversation = sorted.some(
+      (p) => p.role === "assistant" && ts(p) < ts(m),
+    );
+    const phantomRoot =
+      m.parentId == null && !isGreeting && !firstRoot && midConversation;
+    if (!dangling && !phantomRoot) return m;
+    const prev = [...sorted]
+      .reverse()
+      .find((p) => p.id !== m.id && ts(p) < ts(m));
+    if (!prev) return m;
+    const fixed = { ...m, parentId: prev.id };
+    repaired.push(fixed);
+    return fixed;
+  });
+  if (repaired.length > 0) {
+    logChatDebug("history.chain_repair", {
+      convId,
+      repaired: repaired.map((m) => m.id),
+    });
+    for (const m of repaired) {
+      const row = { ...m } as Record<string, unknown>;
+      delete row.items;
+      await upsertLocalMessage(
+        userId,
+        row as Parameters<typeof upsertLocalMessage>[1],
+      );
+    }
+  }
+  return out;
+}
+
 function buildRepository<TMessage>(
   raw: ApiMessage[],
   formatAdapter: MessageFormatAdapter<TMessage, Record<string, unknown>>,
@@ -120,7 +177,11 @@ export function createChatHistoryAdapter(
             } else {
               const msgs = (await readLocalMessages(userId, id)) ?? [];
               const items = (await readLocalMessageItems(userId, id)) ?? [];
-              allMessages = joinItemsToMessages(msgs, items);
+              allMessages = await repairBrokenChain(
+                userId,
+                id,
+                joinItemsToMessages(msgs, items),
+              );
             }
 
             logChatDebug("history.load", {
@@ -321,8 +382,7 @@ export function createChatHistoryAdapter(
             const existing = (await readLocalMessages(userId, id)) ?? [];
             if (existing.length > 0) {
               const tipRow = walkActiveBranch(existing).path.at(-1) as
-                | { id: string; branchVars?: string | null }
-                | undefined;
+                { id: string; branchVars?: string | null } | undefined;
               if (parentId === null && tipRow) parentId = tipRow.id;
               const parentRow = parentId
                 ? existing.find((m) => m.id === parentId)
