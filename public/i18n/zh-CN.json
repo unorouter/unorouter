@@ -2642,7 +2642,9 @@
       "HERO": "主视觉",
       "REFERRAL": "推荐",
       "BRAND": "品牌",
-      "CHAT": "聊天"
+      "CHAT": "聊天",
+      "TESTER": "测试器",
+      "PLAYGROUND": "试验场"
     },
     "ERROR": {
       "SOMETHING_WENT_WRONG": "出错了",
@@ -4008,7 +4010,22 @@
     "CHAT_IMPORT_EXPORT": "导入与导出",
     "CHAT_SCRIPTING": "Lua 与正则脚本",
     "CHAT_PERSONAS": "用户角色与预设",
-    "CHAT_BRANCHES": "分支与滑动回复"
+    "CHAT_BRANCHES": "分支与滑动回复",
+    "TESTER_TAGLINE": "检测接口是否真的提供其声称的模型",
+    "TESTER_PROBES": "确定性探测",
+    "TESTER_FAKES": "假模型检测",
+    "TESTER_FORMATS": "Claude、GPT 与 Gemini API",
+    "TESTER_PRIVATE": "密钥不离开浏览器",
+    "TESTER_RANKINGS": "公开排行榜",
+    "TESTER_VERIFIED": "服务器验证结果",
+    "PLAYGROUND_TAGLINE": "浏览器中的图像与视频生成工作室",
+    "PLAYGROUND_IMAGE_VIDEO": "图像与视频模型",
+    "PLAYGROUND_COMFY": "ComfyUI 工作流",
+    "PLAYGROUND_LORAS": "LoRA 与嵌入",
+    "PLAYGROUND_UPSCALE": "放大器与高清修复",
+    "PLAYGROUND_REFS": "参考图与蒙版",
+    "PLAYGROUND_FREE": "含免费模型",
+    "CONTEXT": "上下文"
   },
   "WELL_KNOWN": {
     "AGENT_CARD": {

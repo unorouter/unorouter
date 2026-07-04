@@ -2642,7 +2642,9 @@
       "HERO": "Hero",
       "REFERRAL": "Referral",
       "BRAND": "Brand",
-      "CHAT": "Chat"
+      "CHAT": "Chat",
+      "TESTER": "Tester",
+      "PLAYGROUND": "Playground"
     },
     "ERROR": {
       "SOMETHING_WENT_WRONG": "Qualcosa è andato storto",
@@ -4008,7 +4010,22 @@
     "CHAT_IMPORT_EXPORT": "Importa ed esporta",
     "CHAT_SCRIPTING": "Script Lua e regex",
     "CHAT_PERSONAS": "Personas e preset",
-    "CHAT_BRANCHES": "Rami e swipe"
+    "CHAT_BRANCHES": "Rami e swipe",
+    "TESTER_TAGLINE": "Verifica se un endpoint serve davvero il modello dichiarato",
+    "TESTER_PROBES": "Sonde deterministiche",
+    "TESTER_FAKES": "Rilevamento modelli falsi",
+    "TESTER_FORMATS": "API Claude, GPT e Gemini",
+    "TESTER_PRIVATE": "La chiave non lascia mai il tuo browser",
+    "TESTER_RANKINGS": "Classifica pubblica",
+    "TESTER_VERIFIED": "Risultati verificati dal server",
+    "PLAYGROUND_TAGLINE": "Studio di generazione di immagini e video nel tuo browser",
+    "PLAYGROUND_IMAGE_VIDEO": "Modelli immagine e video",
+    "PLAYGROUND_COMFY": "Workflow ComfyUI",
+    "PLAYGROUND_LORAS": "LoRA ed embedding",
+    "PLAYGROUND_UPSCALE": "Upscaler e hires fix",
+    "PLAYGROUND_REFS": "Immagini di riferimento e maschere",
+    "PLAYGROUND_FREE": "Modelli gratuiti inclusi",
+    "CONTEXT": "Contesto"
   },
   "WELL_KNOWN": {
     "AGENT_CARD": {

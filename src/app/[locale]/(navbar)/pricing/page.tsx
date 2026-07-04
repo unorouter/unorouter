@@ -29,7 +29,7 @@ export async function generateMetadata(props: {
     title: t("PRICING.META.TITLE", APP_VALUES),
     description: t("PRICING.META.DESCRIPTION"),
     keywords: t("PRICING.META.KEYWORDS"),
-    ogImage: ogBadge("sponsor", locale),
+    ogImage: ogBadge("pricing", locale),
   });
 }
 

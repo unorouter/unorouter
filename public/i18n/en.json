@@ -2642,7 +2642,9 @@
       "HERO": "Hero",
       "REFERRAL": "Referral",
       "BRAND": "Brand",
-      "CHAT": "Chat"
+      "CHAT": "Chat",
+      "TESTER": "Tester",
+      "PLAYGROUND": "Playground"
     },
     "ERROR": {
       "SOMETHING_WENT_WRONG": "Something went wrong",
@@ -4008,7 +4010,22 @@
     "CHAT_IMPORT_EXPORT": "Import & export",
     "CHAT_SCRIPTING": "Lua & regex scripting",
     "CHAT_PERSONAS": "Personas & presets",
-    "CHAT_BRANCHES": "Branches & swipes"
+    "CHAT_BRANCHES": "Branches & swipes",
+    "TESTER_TAGLINE": "Check if an endpoint serves the real model it claims",
+    "TESTER_PROBES": "Deterministic probes",
+    "TESTER_FAKES": "Fake-model detection",
+    "TESTER_FORMATS": "Claude, GPT & Gemini APIs",
+    "TESTER_PRIVATE": "Key never leaves your browser",
+    "TESTER_RANKINGS": "Public rankings",
+    "TESTER_VERIFIED": "Server-verified results",
+    "PLAYGROUND_TAGLINE": "Image and video generation studio in your browser",
+    "PLAYGROUND_IMAGE_VIDEO": "Image & video models",
+    "PLAYGROUND_COMFY": "ComfyUI workflows",
+    "PLAYGROUND_LORAS": "LoRAs & embeddings",
+    "PLAYGROUND_UPSCALE": "Upscalers & hires fix",
+    "PLAYGROUND_REFS": "Reference images & masks",
+    "PLAYGROUND_FREE": "Free models included",
+    "CONTEXT": "Context"
   },
   "WELL_KNOWN": {
     "AGENT_CARD": {

@@ -2642,7 +2642,9 @@
       "HERO": "Hero",
       "REFERRAL": "הפניה",
       "BRAND": "מותג",
-      "CHAT": "צ'אט"
+      "CHAT": "צ'אט",
+      "TESTER": "בודק",
+      "PLAYGROUND": "מגרש משחקים"
     },
     "ERROR": {
       "SOMETHING_WENT_WRONG": "משהו השתבש",
@@ -4008,7 +4010,22 @@
     "CHAT_IMPORT_EXPORT": "ייבוא וייצוא",
     "CHAT_SCRIPTING": "סקריפטים של Lua ו-Regex",
     "CHAT_PERSONAS": "פרסונות ופריסטים",
-    "CHAT_BRANCHES": "הסתעפויות והחלקות"
+    "CHAT_BRANCHES": "הסתעפויות והחלקות",
+    "TESTER_TAGLINE": "בדוק אם נקודת קצה באמת מגישה את המודל שהיא טוענת",
+    "TESTER_PROBES": "בדיקות דטרמיניסטיות",
+    "TESTER_FAKES": "זיהוי מודלים מזויפים",
+    "TESTER_FORMATS": "ממשקי Claude, GPT ו-Gemini",
+    "TESTER_PRIVATE": "המפתח לעולם לא עוזב את הדפדפן",
+    "TESTER_RANKINGS": "דירוג ציבורי",
+    "TESTER_VERIFIED": "תוצאות מאומתות בשרת",
+    "PLAYGROUND_TAGLINE": "סטודיו ליצירת תמונות ווידאו בדפדפן שלך",
+    "PLAYGROUND_IMAGE_VIDEO": "מודלים לתמונה ווידאו",
+    "PLAYGROUND_COMFY": "תהליכי ComfyUI",
+    "PLAYGROUND_LORAS": "LoRA והטמעות",
+    "PLAYGROUND_UPSCALE": "מגדילי רזולוציה ו-hires fix",
+    "PLAYGROUND_REFS": "תמונות ייחוס ומסכות",
+    "PLAYGROUND_FREE": "כולל מודלים חינמיים",
+    "CONTEXT": "הקשר"
   },
   "WELL_KNOWN": {
     "AGENT_CARD": {

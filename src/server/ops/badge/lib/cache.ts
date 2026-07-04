@@ -1,4 +1,9 @@
-import { buildPricingSummary } from "@/lib/api/pricing";
+import {
+  buildPricingSummary,
+  processModels,
+  type ProcessedModel,
+} from "@/lib/api/pricing";
+import { modelMatchesSlug } from "@/lib/utils/base";
 import { FAR_FUTURE, LOCALES } from "@/lib/config/constants";
 import { errMessage, unixSec, unwrap } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
@@ -132,6 +137,21 @@ export async function getStats(): Promise<BadgeStats> {
   cachedStats = { tokenUsed, requestCount, avgTpm };
   cachedStatsAt = Date.now();
   return cachedStats;
+}
+
+let cachedModels: ProcessedModel[] | null = null;
+let cachedModelsAt = 0;
+
+// Full processed model list for the param-driven model/compare badges.
+export async function findBadgeModel(
+  nameOrSlug: string,
+): Promise<ProcessedModel | null> {
+  if (!cachedModels || Date.now() - cachedModelsAt >= CACHE_TTL) {
+    const res = await getPricing();
+    cachedModels = processModels(unwrap(res));
+    cachedModelsAt = Date.now();
+  }
+  return cachedModels.find((m) => modelMatchesSlug(m.name, nameOrSlug)) ?? null;
 }
 
 export async function getPricingData(): Promise<BadgePricing> {

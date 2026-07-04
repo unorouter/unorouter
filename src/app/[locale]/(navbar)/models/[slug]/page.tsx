@@ -111,7 +111,7 @@ export async function generateMetadata(props: PageProps) {
       name: model.name,
       vendor: model.vendor.name,
     }),
-    ogImage: ogBadge("sponsor", locale),
+    ogImage: ogBadge("model", locale, { model: model.name }),
   });
 }
 

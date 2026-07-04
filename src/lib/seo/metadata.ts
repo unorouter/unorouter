@@ -11,6 +11,7 @@ import {
   buildBadgeUrl,
   type BadgeFormat,
   type BadgeType,
+  type StandaloneBadgeType,
   type Theme,
 } from "../validation/badge";
 
@@ -24,15 +25,22 @@ function buildAlternateLanguages(href: Pathname): Record<string, string> {
 }
 
 export function ogBadge(
-  variant: BadgeType,
+  variant: BadgeType | StandaloneBadgeType,
   locale: string,
-  opts: { theme?: Theme; format?: BadgeFormat } = {},
+  opts: {
+    theme?: Theme;
+    format?: BadgeFormat;
+    model?: string;
+    models?: string[];
+  } = {},
 ) {
   return buildBadgeUrl(variant, {
     locale,
     theme: opts.theme ?? "dark",
     format: opts.format ?? "png",
     size: "og",
+    model: opts.model,
+    models: opts.models,
     v: Number(dayjs.utc().format("YYYYMMDD")),
   });
 }

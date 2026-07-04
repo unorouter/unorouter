@@ -2642,7 +2642,9 @@
       "HERO": "بطل",
       "REFERRAL": "إحالة",
       "BRAND": "علامة",
-      "CHAT": "الدردشة"
+      "CHAT": "الدردشة",
+      "TESTER": "المُختبِر",
+      "PLAYGROUND": "ساحة التجربة"
     },
     "ERROR": {
       "SOMETHING_WENT_WRONG": "حدث خطأ ما",
@@ -4008,7 +4010,22 @@
     "CHAT_IMPORT_EXPORT": "استيراد وتصدير",
     "CHAT_SCRIPTING": "سكربتات Lua وRegex",
     "CHAT_PERSONAS": "الشخصيات والإعدادات المسبقة",
-    "CHAT_BRANCHES": "التفرعات والتمريرات"
+    "CHAT_BRANCHES": "التفرعات والتمريرات",
+    "TESTER_TAGLINE": "تحقق مما إذا كانت نقطة النهاية تقدم فعلاً النموذج الذي تدعيه",
+    "TESTER_PROBES": "فحوصات حتمية",
+    "TESTER_FAKES": "كشف النماذج المزيفة",
+    "TESTER_FORMATS": "واجهات Claude وGPT وGemini",
+    "TESTER_PRIVATE": "المفتاح لا يغادر متصفحك أبدًا",
+    "TESTER_RANKINGS": "تصنيفات عامة",
+    "TESTER_VERIFIED": "نتائج موثقة من الخادم",
+    "PLAYGROUND_TAGLINE": "استوديو توليد الصور والفيديو في متصفحك",
+    "PLAYGROUND_IMAGE_VIDEO": "نماذج الصور والفيديو",
+    "PLAYGROUND_COMFY": "مسارات عمل ComfyUI",
+    "PLAYGROUND_LORAS": "LoRA والتضمينات",
+    "PLAYGROUND_UPSCALE": "أدوات التكبير وhires fix",
+    "PLAYGROUND_REFS": "صور مرجعية وأقنعة",
+    "PLAYGROUND_FREE": "تشمل نماذج مجانية",
+    "CONTEXT": "السياق"
   },
   "WELL_KNOWN": {
     "AGENT_CARD": {

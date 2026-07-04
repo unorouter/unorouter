@@ -2642,7 +2642,9 @@
       "HERO": "Hero",
       "REFERRAL": "Реферальная",
       "BRAND": "Бренд",
-      "CHAT": "Чат"
+      "CHAT": "Чат",
+      "TESTER": "Тестер",
+      "PLAYGROUND": "Песочница"
     },
     "ERROR": {
       "SOMETHING_WENT_WRONG": "Что-то пошло не так",
@@ -4008,7 +4010,22 @@
     "CHAT_IMPORT_EXPORT": "Импорт и экспорт",
     "CHAT_SCRIPTING": "Скрипты Lua и regex",
     "CHAT_PERSONAS": "Персоны и пресеты",
-    "CHAT_BRANCHES": "Ветки и свайпы"
+    "CHAT_BRANCHES": "Ветки и свайпы",
+    "TESTER_TAGLINE": "Проверьте, действительно ли эндпоинт отдаёт заявленную модель",
+    "TESTER_PROBES": "Детерминированные пробы",
+    "TESTER_FAKES": "Обнаружение поддельных моделей",
+    "TESTER_FORMATS": "API Claude, GPT и Gemini",
+    "TESTER_PRIVATE": "Ключ не покидает ваш браузер",
+    "TESTER_RANKINGS": "Публичный рейтинг",
+    "TESTER_VERIFIED": "Результаты проверены сервером",
+    "PLAYGROUND_TAGLINE": "Студия генерации изображений и видео в вашем браузере",
+    "PLAYGROUND_IMAGE_VIDEO": "Модели изображений и видео",
+    "PLAYGROUND_COMFY": "Воркфлоу ComfyUI",
+    "PLAYGROUND_LORAS": "LoRA и эмбеддинги",
+    "PLAYGROUND_UPSCALE": "Апскейлеры и hires fix",
+    "PLAYGROUND_REFS": "Референсы и маски",
+    "PLAYGROUND_FREE": "Бесплатные модели включены",
+    "CONTEXT": "Контекст"
   },
   "WELL_KNOWN": {
     "AGENT_CARD": {

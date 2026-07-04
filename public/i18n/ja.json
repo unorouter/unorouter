@@ -2642,7 +2642,9 @@
       "HERO": "ヒーロー",
       "REFERRAL": "リファラル",
       "BRAND": "ブランド",
-      "CHAT": "チャット"
+      "CHAT": "チャット",
+      "TESTER": "テスター",
+      "PLAYGROUND": "プレイグラウンド"
     },
     "ERROR": {
       "SOMETHING_WENT_WRONG": "問題が発生しました",
@@ -4008,7 +4010,22 @@
     "CHAT_IMPORT_EXPORT": "インポートとエクスポート",
     "CHAT_SCRIPTING": "Lua・正規表現スクリプト",
     "CHAT_PERSONAS": "ペルソナとプリセット",
-    "CHAT_BRANCHES": "ブランチとスワイプ"
+    "CHAT_BRANCHES": "ブランチとスワイプ",
+    "TESTER_TAGLINE": "エンドポイントが本当に主張どおりのモデルを提供しているか検証",
+    "TESTER_PROBES": "決定論的プローブ",
+    "TESTER_FAKES": "偽モデル検出",
+    "TESTER_FORMATS": "Claude・GPT・Gemini API",
+    "TESTER_PRIVATE": "キーはブラウザの外に出ません",
+    "TESTER_RANKINGS": "公開ランキング",
+    "TESTER_VERIFIED": "サーバー検証済みの結果",
+    "PLAYGROUND_TAGLINE": "ブラウザで使える画像・動画生成スタジオ",
+    "PLAYGROUND_IMAGE_VIDEO": "画像・動画モデル",
+    "PLAYGROUND_COMFY": "ComfyUIワークフロー",
+    "PLAYGROUND_LORAS": "LoRAと埋め込み",
+    "PLAYGROUND_UPSCALE": "アップスケーラーとhires fix",
+    "PLAYGROUND_REFS": "参照画像とマスク",
+    "PLAYGROUND_FREE": "無料モデルあり",
+    "CONTEXT": "コンテキスト"
   },
   "WELL_KNOWN": {
     "AGENT_CARD": {
