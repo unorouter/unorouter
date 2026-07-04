@@ -4003,10 +4003,12 @@
     "CHAT_LOREBOOKS": "Lorebook",
     "CHAT_IMAGE_GEN": "Tạo hình ảnh",
     "CHAT_MEMORY": "Trí nhớ dài hạn",
-    "CHAT_LOCAL_FIRST": "Dữ liệu lưu trên máy",
-    "CHAT_FREE_MODELS": "Mô hình miễn phí",
     "CHAT_GROUP_CHATS": "Trò chuyện nhóm",
-    "CHAT_WEB_SEARCH": "Tìm kiếm web"
+    "CHAT_FREE_BYOK": "Mô hình miễn phí và BYOK",
+    "CHAT_IMPORT_EXPORT": "Nhập và xuất dữ liệu",
+    "CHAT_SCRIPTING": "Kịch bản Lua và regex",
+    "CHAT_PERSONAS": "Persona và preset",
+    "CHAT_BRANCHES": "Nhánh và swipe"
   },
   "WELL_KNOWN": {
     "AGENT_CARD": {

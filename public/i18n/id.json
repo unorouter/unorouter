@@ -4003,10 +4003,12 @@
     "CHAT_LOREBOOKS": "Lorebook",
     "CHAT_IMAGE_GEN": "Pembuatan gambar",
     "CHAT_MEMORY": "Memori jangka panjang",
-    "CHAT_LOCAL_FIRST": "Data tersimpan lokal",
-    "CHAT_FREE_MODELS": "Model gratis",
     "CHAT_GROUP_CHATS": "Obrolan grup",
-    "CHAT_WEB_SEARCH": "Pencarian web"
+    "CHAT_FREE_BYOK": "Model gratis dan BYOK",
+    "CHAT_IMPORT_EXPORT": "Impor dan ekspor",
+    "CHAT_SCRIPTING": "Skrip Lua dan regex",
+    "CHAT_PERSONAS": "Persona dan preset",
+    "CHAT_BRANCHES": "Cabang dan swipe"
   },
   "WELL_KNOWN": {
     "AGENT_CARD": {

@@ -4003,10 +4003,12 @@
     "CHAT_LOREBOOKS": "Lorebook",
     "CHAT_IMAGE_GEN": "Generazione di immagini",
     "CHAT_MEMORY": "Memoria a lungo termine",
-    "CHAT_LOCAL_FIRST": "Privacy locale",
-    "CHAT_FREE_MODELS": "Modelli gratuiti",
     "CHAT_GROUP_CHATS": "Chat di gruppo",
-    "CHAT_WEB_SEARCH": "Ricerca web"
+    "CHAT_FREE_BYOK": "Modelli gratuiti e BYOK",
+    "CHAT_IMPORT_EXPORT": "Importa ed esporta",
+    "CHAT_SCRIPTING": "Script Lua e regex",
+    "CHAT_PERSONAS": "Personas e preset",
+    "CHAT_BRANCHES": "Rami e swipe"
   },
   "WELL_KNOWN": {
     "AGENT_CARD": {

@@ -4003,10 +4003,12 @@
     "CHAT_LOREBOOKS": "Lorebook'lar",
     "CHAT_IMAGE_GEN": "Görsel oluşturma",
     "CHAT_MEMORY": "Uzun süreli bellek",
-    "CHAT_LOCAL_FIRST": "Veriler cihazınızda kalır",
-    "CHAT_FREE_MODELS": "Ücretsiz modeller",
     "CHAT_GROUP_CHATS": "Grup sohbetleri",
-    "CHAT_WEB_SEARCH": "Web araması"
+    "CHAT_FREE_BYOK": "Ücretsiz modeller ve BYOK",
+    "CHAT_IMPORT_EXPORT": "İçe ve dışa aktarma",
+    "CHAT_SCRIPTING": "Lua ve regex betikleri",
+    "CHAT_PERSONAS": "Personalar ve ön ayarlar",
+    "CHAT_BRANCHES": "Dallar ve kaydırmalar"
   },
   "WELL_KNOWN": {
     "AGENT_CARD": {

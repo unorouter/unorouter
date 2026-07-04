@@ -4003,10 +4003,12 @@
     "CHAT_LOREBOOKS": "Лорбуки",
     "CHAT_IMAGE_GEN": "Генерация изображений",
     "CHAT_MEMORY": "Долговременная память",
-    "CHAT_LOCAL_FIRST": "Данные хранятся локально",
-    "CHAT_FREE_MODELS": "Бесплатные модели",
     "CHAT_GROUP_CHATS": "Групповые чаты",
-    "CHAT_WEB_SEARCH": "Веб-поиск"
+    "CHAT_FREE_BYOK": "Бесплатные модели и BYOK",
+    "CHAT_IMPORT_EXPORT": "Импорт и экспорт",
+    "CHAT_SCRIPTING": "Скрипты Lua и regex",
+    "CHAT_PERSONAS": "Персоны и пресеты",
+    "CHAT_BRANCHES": "Ветки и свайпы"
   },
   "WELL_KNOWN": {
     "AGENT_CARD": {

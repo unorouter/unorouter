@@ -4003,10 +4003,12 @@
     "CHAT_LOREBOOKS": "लोरबुक",
     "CHAT_IMAGE_GEN": "इमेज जनरेशन",
     "CHAT_MEMORY": "दीर्घकालिक स्मृति",
-    "CHAT_LOCAL_FIRST": "डेटा लोकल रहता है",
-    "CHAT_FREE_MODELS": "मुफ़्त मॉडल",
     "CHAT_GROUP_CHATS": "समूह चैट",
-    "CHAT_WEB_SEARCH": "वेब खोज"
+    "CHAT_FREE_BYOK": "मुफ़्त मॉडल और BYOK",
+    "CHAT_IMPORT_EXPORT": "आयात और निर्यात",
+    "CHAT_SCRIPTING": "Lua और regex स्क्रिप्ट",
+    "CHAT_PERSONAS": "पर्सोना और प्रीसेट",
+    "CHAT_BRANCHES": "ब्रांच और स्वाइप"
   },
   "WELL_KNOWN": {
     "AGENT_CARD": {

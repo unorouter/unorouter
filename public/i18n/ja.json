@@ -4003,10 +4003,12 @@
     "CHAT_LOREBOOKS": "ロアブック",
     "CHAT_IMAGE_GEN": "画像生成",
     "CHAT_MEMORY": "長期記憶",
-    "CHAT_LOCAL_FIRST": "データはローカル保存",
-    "CHAT_FREE_MODELS": "無料モデル",
     "CHAT_GROUP_CHATS": "グループチャット",
-    "CHAT_WEB_SEARCH": "ウェブ検索"
+    "CHAT_FREE_BYOK": "無料モデルとBYOK",
+    "CHAT_IMPORT_EXPORT": "インポートとエクスポート",
+    "CHAT_SCRIPTING": "Lua・正規表現スクリプト",
+    "CHAT_PERSONAS": "ペルソナとプリセット",
+    "CHAT_BRANCHES": "ブランチとスワイプ"
   },
   "WELL_KNOWN": {
     "AGENT_CARD": {
