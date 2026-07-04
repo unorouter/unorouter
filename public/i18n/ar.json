@@ -4003,10 +4003,12 @@
     "CHAT_LOREBOOKS": "كتب المعرفة",
     "CHAT_IMAGE_GEN": "توليد الصور",
     "CHAT_MEMORY": "ذاكرة طويلة المدى",
-    "CHAT_LOCAL_FIRST": "بياناتك تبقى محليًا",
-    "CHAT_FREE_MODELS": "نماذج مجانية",
     "CHAT_GROUP_CHATS": "دردشات جماعية",
-    "CHAT_WEB_SEARCH": "بحث الويب"
+    "CHAT_FREE_BYOK": "نماذج مجانية وBYOK",
+    "CHAT_IMPORT_EXPORT": "استيراد وتصدير",
+    "CHAT_SCRIPTING": "سكربتات Lua وRegex",
+    "CHAT_PERSONAS": "الشخصيات والإعدادات المسبقة",
+    "CHAT_BRANCHES": "التفرعات والتمريرات"
   },
   "WELL_KNOWN": {
     "AGENT_CARD": {

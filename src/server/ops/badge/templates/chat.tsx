@@ -3,11 +3,17 @@ import { env } from "@/lib/config/env";
 import type { BadgeSize } from "@/lib/validation/badge";
 import type { ReactNode } from "react";
 import { Logo } from "../elements/primitives";
-import { FONT_SANS } from "../elements/typography";
+import { FONT_MONO, FONT_SANS } from "../elements/typography";
 import { t } from "../lib/cache";
 import { bgSvg, RAINBOW } from "../lib/glow";
 import type { BadgeCtx, BadgeDimsBase } from "../lib/types";
-import { renderBadgeTemplate, svgDataUri } from "../lib/utils";
+import {
+  getVendorColorIcon,
+  POPULAR_VENDORS,
+  prepIconSvg,
+  renderBadgeTemplate,
+  svgDataUri,
+} from "../lib/utils";
 
 const brandParts = env.appName!.split(/(?=[A-Z])/).filter(Boolean);
 
@@ -23,6 +29,15 @@ interface Dims extends BadgeDimsBase {
   iconSize: number;
   labelFont: number;
   gap: number;
+  // og-only extras: tilted vendor-icon grid on the right + model-count stat in the header.
+  vendorGrid?: {
+    cols: number;
+    rows: number;
+    cell: number;
+    icon: number;
+    gap: number;
+  };
+  statFont?: number;
 }
 
 const DIMS: Record<BadgeSize, Dims> = {
@@ -109,12 +124,14 @@ const DIMS: Record<BadgeSize, Dims> = {
     titleFont: 56,
     taglineFont: 26,
     showTagline: true,
-    count: 8,
+    count: 10,
     showLabels: true,
-    cell: 76,
-    iconSize: 42,
-    labelFont: 27,
-    gap: 20,
+    cell: 60,
+    iconSize: 34,
+    labelFont: 23,
+    gap: 16,
+    vendorGrid: { cols: 3, rows: 3, cell: 96, icon: 52, gap: 14 },
+    statFont: 44,
   },
 };
 
@@ -127,6 +144,7 @@ function lucide(inner: string): string {
   );
 }
 
+// Ordered by marketing priority: each size renders the first `count` entries.
 const FEATURES: { key: string; icon: string }[] = [
   {
     key: "BADGE.CHAT_CHARACTERS",
@@ -140,6 +158,20 @@ const FEATURES: { key: string; icon: string }[] = [
     // book-marked
     icon: lucide(
       `<path d="M10 2v8l3-3 3 3V2"/><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/>`,
+    ),
+  },
+  {
+    key: "BADGE.CHAT_FREE_BYOK",
+    // key-round
+    icon: lucide(
+      `<path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/><circle cx="16.5" cy="7.5" r=".5" fill="#ffffff"/>`,
+    ),
+  },
+  {
+    key: "BADGE.CHAT_IMPORT_EXPORT",
+    // arrow-down-up
+    icon: lucide(
+      `<path d="m3 16 4 4 4-4"/><path d="M7 20V4"/><path d="m21 8-4-4-4 4"/><path d="M17 4v16"/>`,
     ),
   },
   {
@@ -157,17 +189,10 @@ const FEATURES: { key: string; icon: string }[] = [
     ),
   },
   {
-    key: "BADGE.CHAT_LOCAL_FIRST",
-    // shield-check
+    key: "BADGE.CHAT_SCRIPTING",
+    // code-xml
     icon: lucide(
-      `<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>`,
-    ),
-  },
-  {
-    key: "BADGE.CHAT_FREE_MODELS",
-    // sparkles
-    icon: lucide(
-      `<path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"/><path d="M20 2v4"/><path d="M22 4h-4"/><circle cx="4" cy="20" r="2"/>`,
+      `<path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/>`,
     ),
   },
   {
@@ -178,10 +203,17 @@ const FEATURES: { key: string; icon: string }[] = [
     ),
   },
   {
-    key: "BADGE.CHAT_WEB_SEARCH",
-    // globe
+    key: "BADGE.CHAT_PERSONAS",
+    // id-card
     icon: lucide(
-      `<circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>`,
+      `<path d="M16 10h2"/><path d="M16 14h2"/><path d="M6.17 15a3 3 0 0 1 5.66 0"/><circle cx="9" cy="11" r="2"/><rect x="2" y="5" width="20" height="14" rx="2"/>`,
+    ),
+  },
+  {
+    key: "BADGE.CHAT_BRANCHES",
+    // git-branch
+    icon: lucide(
+      `<path d="M15 6a9 9 0 0 0-9 9V3"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/>`,
     ),
   },
 ];
@@ -218,59 +250,102 @@ export async function generateChat(ctx: BadgeCtx): Promise<string> {
     <div
       style={{
         display: "flex",
-        flexDirection: "column",
-        gap: Math.round(d.titleFont * 0.3),
+        alignItems: "flex-start",
+        justifyContent: "space-between",
       }}
     >
       <div
         style={{
           display: "flex",
-          alignItems: "center",
-          gap: Math.round(d.titleFont * 0.4),
+          flexDirection: "column",
+          gap: Math.round(d.titleFont * 0.3),
         }}
       >
-        <Logo size={d.logoSize} />
         <div
           style={{
             display: "flex",
-            fontFamily: FONT_SANS,
-            fontSize: d.titleFont,
-            fontWeight: 700,
-            letterSpacing: 0.5,
+            alignItems: "center",
+            gap: Math.round(d.titleFont * 0.4),
           }}
         >
-          <span style={{ color: "#ffffff" }}>
-            {brandParts[0].toUpperCase()}
-          </span>
-          <span style={{ color: "#a7adb8" }}>
-            {brandParts.slice(1).join("").toUpperCase()}
-          </span>
-          <span style={{ color: "#ffffff", marginLeft: "0.4em" }}>CHAT</span>
+          <Logo size={d.logoSize} />
+          <div
+            style={{
+              display: "flex",
+              fontFamily: FONT_SANS,
+              fontSize: d.titleFont,
+              fontWeight: 700,
+              letterSpacing: 0.5,
+            }}
+          >
+            <span style={{ color: "#ffffff" }}>
+              {brandParts[0].toUpperCase()}
+            </span>
+            <span style={{ color: "#a7adb8" }}>
+              {brandParts.slice(1).join("").toUpperCase()}
+            </span>
+            <span style={{ color: "#ffffff", marginLeft: "0.4em" }}>CHAT</span>
+          </div>
         </div>
+        {d.showTagline && (
+          <span
+            style={{
+              fontFamily: FONT_SANS,
+              fontSize: d.taglineFont,
+              color: "#9aa0a6",
+            }}
+          >
+            {t(ctx.locale, "BADGE.CHAT_TAGLINE")}
+          </span>
+        )}
       </div>
-      {d.showTagline && (
-        <span
+      {d.statFont && (
+        <div
           style={{
-            fontFamily: FONT_SANS,
-            fontSize: d.taglineFont,
-            color: "#9aa0a6",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-end",
           }}
         >
-          {t(ctx.locale, "BADGE.CHAT_TAGLINE")}
-        </span>
+          <span
+            style={{
+              fontFamily: FONT_MONO,
+              fontSize: d.statFont,
+              fontWeight: 700,
+              color: "#ffffff",
+            }}
+          >
+            {ctx.pricing.modelCount}+
+          </span>
+          <span
+            style={{
+              fontFamily: FONT_SANS,
+              fontSize: d.taglineFont,
+              color: "#9aa0a6",
+            }}
+          >
+            {t(ctx.locale, "BADGE.MODELS")}
+          </span>
+        </div>
       )}
     </div>
   );
 
+  // Right-side tilted vendor grid reserves width on og; feature chips split the rest.
+  const vg = d.vendorGrid;
+  const vendorW = vg ? vg.cols * vg.cell + (vg.cols - 1) * vg.gap : 0;
+  const contentW = d.W - d.pad * 2;
+  const featuresW = vg ? contentW - vendorW - 44 : contentW;
+
   let grid: ReactNode;
   if (d.showLabels) {
-    const chipW = Math.floor((d.W - d.pad * 2 - d.gap) / 2);
+    const chipW = Math.floor((featuresW - d.gap) / 2);
     grid = (
       <div
         style={{
           display: "flex",
           flexWrap: "wrap",
-          width: "100%",
+          width: featuresW,
           gap: d.gap,
         }}
       >
@@ -314,6 +389,35 @@ export async function generateChat(ctx: BadgeCtx): Promise<string> {
     );
   }
 
+  let vendorGrid: ReactNode = null;
+  if (vg) {
+    const vendorIcons = POPULAR_VENDORS.map((v) => getVendorColorIcon(v))
+      .filter((s): s is string => s !== null)
+      .slice(0, vg.cols * vg.rows);
+    vendorGrid = (
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          width: vendorW,
+          gap: vg.gap,
+          transform: "rotate(-9deg)",
+          alignContent: "center",
+          justifyContent: "center",
+        }}
+      >
+        {vendorIcons.map((svg, i) => (
+          <IconCell
+            key={i}
+            svg={prepIconSvg(svg)}
+            cell={vg.cell}
+            iconSize={vg.icon}
+          />
+        ))}
+      </div>
+    );
+  }
+
   const rainbowH = 1;
   const node = (
     <div
@@ -340,11 +444,16 @@ export async function generateChat(ctx: BadgeCtx): Promise<string> {
             display: "flex",
             flex: 1,
             alignItems: "center",
-            justifyContent: d.showLabels ? "flex-start" : "center",
+            justifyContent: d.showLabels
+              ? vg
+                ? "space-between"
+                : "flex-start"
+              : "center",
             paddingTop: Math.round(d.pad * 0.5),
           }}
         >
           {grid}
+          {vendorGrid}
         </div>
       </div>
       <div

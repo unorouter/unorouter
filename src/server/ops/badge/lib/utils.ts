@@ -64,6 +64,67 @@ export function getVendorColorIcon(vendor: string): string | null {
   return null;
 }
 
+// Popular vendors that resolve to real lobe-icons, ordered for visual balance.
+export const POPULAR_VENDORS = [
+  "openai",
+  "anthropic",
+  "google",
+  "meta",
+  "mistral",
+  "deepseek",
+  "xai",
+  "cohere",
+  "moonshot",
+  "zhipu",
+  "alibaba",
+  "minimax",
+  "bytedance",
+  "flux",
+  "stability",
+  "kling",
+  "iflow",
+  "vertex",
+];
+
+// Black/currentColor-only brands are invisible on the dark grid: force white. Multi-color logos keep their brand fills.
+const NEUTRAL_FILLS = ["#000", "#000000", "#fff", "#ffffff"];
+
+export function prepIconSvg(svg: string): string {
+  // lobe ships some variants with a malformed 4-digit white (#ffff) that satori renders transparent; normalize first.
+  const normalized = svg.replace(
+    /(fill[="':\s]+)#ffff(?![0-9a-fA-F])/gi,
+    "$1#ffffff",
+  );
+  const hasGradient = /linearGradient|radialGradient|stop-color/i.test(
+    normalized,
+  );
+  // fills live either as fill="#hex" attrs or inside style="...fill:#hex...".
+  const fills = [
+    ...normalized.matchAll(/fill="(#[0-9a-fA-F]{3,8})"/g),
+    ...normalized.matchAll(/fill:\s*(#[0-9a-fA-F]{3,8})/g),
+  ].map((m) => m[1].toLowerCase());
+  const nonNeutralFill = fills.some((f) => !NEUTRAL_FILLS.includes(f));
+  if (hasGradient || nonNeutralFill) return normalized;
+  // Mono / black / currentColor / unfilled logo: paint white.
+  return whiten(normalized);
+}
+
+// Recolor a mono logo to white. Root fill is replaced OR injected, never both, or resvg rejects "fill redefined" and the cell goes blank.
+function whiten(svg: string): string {
+  const recolored = svg
+    .replace(/fill="currentColor"/g, `fill="#ffffff"`)
+    .replace(/fill="#000(?:000)?"/gi, `fill="#ffffff"`)
+    .replace(/fill:\s*currentColor/g, "fill:#ffffff")
+    .replace(/fill:\s*#000(?:000)?/gi, "fill:#ffffff");
+  const open = recolored.match(/<svg\b[^>]*>/);
+  if (!open) return recolored;
+  const tag = open[0];
+  const next = /\sfill="/.test(tag)
+    ? tag.replace(/\sfill="[^"]*"/, ` fill="#ffffff"`)
+    : tag.replace(/<svg\b/, `<svg fill="#ffffff"`);
+  return recolored.replace(tag, next);
+}
+
 export function svgDataUri(svg: string, color?: string): string {
   const source =
     color != null ? svg.replace("<svg ", `<svg fill="${color}" `) : svg;

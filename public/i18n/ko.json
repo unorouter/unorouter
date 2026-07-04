@@ -4003,10 +4003,12 @@
     "CHAT_LOREBOOKS": "로어북",
     "CHAT_IMAGE_GEN": "이미지 생성",
     "CHAT_MEMORY": "장기 기억",
-    "CHAT_LOCAL_FIRST": "데이터 로컬 저장",
-    "CHAT_FREE_MODELS": "무료 모델",
     "CHAT_GROUP_CHATS": "그룹 채팅",
-    "CHAT_WEB_SEARCH": "웹 검색"
+    "CHAT_FREE_BYOK": "무료 모델과 BYOK",
+    "CHAT_IMPORT_EXPORT": "가져오기와 내보내기",
+    "CHAT_SCRIPTING": "Lua 및 정규식 스크립트",
+    "CHAT_PERSONAS": "페르소나와 프리셋",
+    "CHAT_BRANCHES": "브랜치와 스와이프"
   },
   "WELL_KNOWN": {
     "AGENT_CARD": {

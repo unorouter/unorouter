@@ -4003,10 +4003,12 @@
     "CHAT_LOREBOOKS": "世界書",
     "CHAT_IMAGE_GEN": "圖像生成",
     "CHAT_MEMORY": "長期記憶",
-    "CHAT_LOCAL_FIRST": "資料本機儲存",
-    "CHAT_FREE_MODELS": "免費模型",
     "CHAT_GROUP_CHATS": "群組聊天",
-    "CHAT_WEB_SEARCH": "網頁搜尋"
+    "CHAT_FREE_BYOK": "免費模型與自帶金鑰",
+    "CHAT_IMPORT_EXPORT": "匯入與匯出",
+    "CHAT_SCRIPTING": "Lua 與 Regex 腳本",
+    "CHAT_PERSONAS": "使用者角色與預設",
+    "CHAT_BRANCHES": "分支與滑動回覆"
   },
   "WELL_KNOWN": {
     "AGENT_CARD": {

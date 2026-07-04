@@ -4003,10 +4003,12 @@
     "CHAT_LOREBOOKS": "ספרי לור",
     "CHAT_IMAGE_GEN": "יצירת תמונות",
     "CHAT_MEMORY": "זיכרון לטווח ארוך",
-    "CHAT_LOCAL_FIRST": "הנתונים נשמרים מקומית",
-    "CHAT_FREE_MODELS": "מודלים חינמיים",
     "CHAT_GROUP_CHATS": "צ'אטים קבוצתיים",
-    "CHAT_WEB_SEARCH": "חיפוש באינטרנט"
+    "CHAT_FREE_BYOK": "מודלים חינמיים ו-BYOK",
+    "CHAT_IMPORT_EXPORT": "ייבוא וייצוא",
+    "CHAT_SCRIPTING": "סקריפטים של Lua ו-Regex",
+    "CHAT_PERSONAS": "פרסונות ופריסטים",
+    "CHAT_BRANCHES": "הסתעפויות והחלקות"
   },
   "WELL_KNOWN": {
     "AGENT_CARD": {
