@@ -11,6 +11,7 @@ import { rpc } from "@/lib/rpc";
 import { chatHelpersAtom, chatStore } from "@/store/chat-store";
 import { handleElysia, uid } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
+import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { handleError } from "@/lib/utils/client";
 import {
   deleteLocalChatGroup,
@@ -463,13 +464,35 @@ export function useDeleteMessageMutation() {
       const target = msgs.find((m) => m.id === args.msgId);
       const newParentId = target?.parentId ?? null;
       const now = dayjs().toDate();
+      const childIds: string[] = [];
       for (const m of msgs) {
         if (m.parentId === args.msgId) {
+          childIds.push(m.id);
           await upsertLocalMessage(userId, {
             ...m,
             parentId: newParentId,
             updatedAt: now,
           });
+        }
+      }
+      // Verify the rewire BEFORE deleting: a child still pointing at the row gets parentId
+      // nulled by the FK (ON DELETE SET NULL) and becomes a phantom root, which truncates
+      // the next branch walk to that one message (the chat looks wiped after reload).
+      if (childIds.length > 0) {
+        const check = (await readLocalMessages(userId, args.convId)) ?? [];
+        for (const id of childIds) {
+          const child = check.find((m) => m.id === id);
+          if (child && child.parentId === args.msgId) {
+            logChatDebug("delete.splice_retry", {
+              msgId: args.msgId,
+              child: id,
+            });
+            await upsertLocalMessage(userId, {
+              ...child,
+              parentId: newParentId,
+              updatedAt: now,
+            });
+          }
         }
       }
       await deleteLocalMessage(userId, args.msgId);
