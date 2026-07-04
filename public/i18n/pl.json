@@ -1195,7 +1195,9 @@
     "CTA_DESC": "Utwórz klucz API i zacznij wysyłać zapytania w mniej niż minutę.",
     "CTA_SIGNUP": "Zaloguj się, aby wypróbować {name}",
     "CTA_TRY": "Wypróbuj {name} w chacie",
-    "CTA_ALL_MODELS": "Zobacz wszystkie modele"
+    "CTA_ALL_MODELS": "Zobacz wszystkie modele",
+    "AT_CAPACITY_TITLE": "Wszyscy dostawcy tego modelu są teraz zajęci",
+    "AT_CAPACITY_BODY": "Każdy dostawca nadrzędny osiągnął swój limit szybkości. Model wraca automatycznie, gdy limity ustąpią, zwykle w ciągu kilku godzin. Spróbuj ponownie za chwilę albo przełącz się na inny model."
   },
   "PRICING": {
     "FEATURE": {

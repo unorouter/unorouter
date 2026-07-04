@@ -1195,7 +1195,9 @@
     "CTA_DESC": "建立 API 金鑰後，一分鐘內就能開始發送請求。",
     "CTA_SIGNUP": "登入以試用 {name}",
     "CTA_TRY": "在對話中試用 {name}",
-    "CTA_ALL_MODELS": "查看所有模型"
+    "CTA_ALL_MODELS": "查看所有模型",
+    "AT_CAPACITY_TITLE": "該模型的所有供應商目前都很繁忙",
+    "AT_CAPACITY_BODY": "每個上游供應商都已達到速率上限。上限解除後模型會自動恢復，通常在數小時內。請稍後重試，或改用其他模型。"
   },
   "PRICING": {
     "FEATURE": {

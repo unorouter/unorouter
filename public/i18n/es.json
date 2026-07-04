@@ -1195,7 +1195,9 @@
     "CTA_DESC": "Crea una clave API y empieza a hacer solicitudes en menos de un minuto.",
     "CTA_SIGNUP": "Inicia sesión para probar {name}",
     "CTA_TRY": "Probar {name} en chat",
-    "CTA_ALL_MODELS": "Ver todos los modelos"
+    "CTA_ALL_MODELS": "Ver todos los modelos",
+    "AT_CAPACITY_TITLE": "Todos los proveedores de este modelo están ocupados ahora mismo",
+    "AT_CAPACITY_BODY": "Cada proveedor ascendente alcanzó su límite de velocidad. El modelo vuelve automáticamente cuando los límites se levantan, normalmente en cuestión de horas. Inténtalo de nuevo en un rato o cambia a otro modelo."
   },
   "PRICING": {
     "FEATURE": {

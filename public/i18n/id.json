@@ -1195,7 +1195,9 @@
     "CTA_DESC": "Buat kunci API dan mulai membuat permintaan dalam waktu kurang dari satu menit.",
     "CTA_SIGNUP": "Masuk untuk mencoba {name}",
     "CTA_TRY": "Coba {name} di chat",
-    "CTA_ALL_MODELS": "Lihat semua model"
+    "CTA_ALL_MODELS": "Lihat semua model",
+    "AT_CAPACITY_TITLE": "Semua penyedia model ini sedang sibuk saat ini",
+    "AT_CAPACITY_BODY": "Setiap penyedia upstream telah mencapai batas lajunya. Model kembali otomatis begitu batasnya longgar, biasanya dalam hitungan jam. Coba lagi sebentar lagi atau beralih ke model lain."
   },
   "PRICING": {
     "FEATURE": {

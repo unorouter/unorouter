@@ -1195,7 +1195,9 @@
     "CTA_DESC": "Crie uma chave API e comece a fazer solicitações em menos de um minuto.",
     "CTA_SIGNUP": "Entre para experimentar {name}",
     "CTA_TRY": "Experimentar {name} no chat",
-    "CTA_ALL_MODELS": "Ver todos os modelos"
+    "CTA_ALL_MODELS": "Ver todos os modelos",
+    "AT_CAPACITY_TITLE": "Todos os provedores deste modelo estão ocupados agora",
+    "AT_CAPACITY_BODY": "Cada provedor upstream atingiu seu limite de taxa. O modelo volta automaticamente quando os limites caem, geralmente em questão de horas. Tente novamente daqui a pouco ou mude para outro modelo."
   },
   "PRICING": {
     "FEATURE": {

@@ -974,7 +974,11 @@ export const privateRoutes = {
   // Parent path covers every child. /chat itself is public; /chat/[convId] and /playground/[id] are per-user.
   // The tester history detail reads local OPFS data, no SEO value; the rankings detail stays public.
   dynamicParents: ["/chat/[convId]", "/playground/[id]"],
+  // Public marketing pages living UNDER a disallowed dynamic parent; robots.txt
+  // emits Allow lines so the parent Disallow does not swallow them.
+  publicChildren: ["/chat/presets", "/chat/cards"],
 } as const satisfies {
   static: readonly (keyof typeof pathnames)[];
   dynamicParents: readonly (keyof typeof pathnames)[];
+  publicChildren: readonly (keyof typeof pathnames)[];
 };
