@@ -45,6 +45,8 @@ export type CharacterBody = Static<typeof characterBody>;
 
 export const personaBody = t.Object({
   name: t.String({ minLength: 1, maxLength: MAX_NAME_LEN }),
+  // Display-only label (same-named personas); never sent to the model.
+  title: nullable(t.String({ maxLength: MAX_NAME_LEN })),
   description: nullable(t.String({ maxLength: MAX_DESC_LEN })),
   avatarMediaId: nullable(t.String({ maxLength: 64 })),
   // Optional undefined; reset tx gates on undefined vs false.

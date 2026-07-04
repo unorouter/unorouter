@@ -11,6 +11,10 @@
     {
       "tag": "0002_easy_spencer_smythe",
       "sql": "ALTER TABLE `sampling_presets` ADD `post_history_role` text;"
+    },
+    {
+      "tag": "0003_young_supreme_intelligence",
+      "sql": "ALTER TABLE `personas` ADD `title` text;"
     }
   ]
 }

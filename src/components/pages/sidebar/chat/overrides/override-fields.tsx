@@ -76,7 +76,11 @@ export function OverridesBindingFields(props: {
           name="personaId"
           label={t("CHAT.OVERRIDES.PERSONA")}
           noneLabel={t("CHAT.OVERRIDES.NONE")}
-          options={personasQuery.data}
+          options={personasQuery.data?.map((p) => ({
+            id: p.id,
+            // Display title distinguishes same-named personas; {{user}} still uses name.
+            name: p.title ? `${p.title} (${p.name})` : p.name,
+          }))}
         />
         <MyFormEntitySelect
           control={props.control}
