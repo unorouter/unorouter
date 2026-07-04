@@ -7,15 +7,23 @@ import { FONT_MONO, FONT_SANS } from "../elements/typography";
 import { t } from "../lib/cache";
 import { bgSvg, RAINBOW } from "../lib/glow";
 import type { BadgeCtx, BadgeDimsBase } from "../lib/types";
+import qwenIcon from "thesvg/qwen";
 import {
   getVendorColorIcon,
-  POPULAR_VENDORS,
   prepIconSvg,
   renderBadgeTemplate,
   svgDataUri,
 } from "../lib/utils";
 
 const brandParts = env.appName!.split(/(?=[A-Z])/).filter(Boolean);
+
+// Hand-picked vendor row for the og grid. Qwen has no Vendor-enum entry (models resolve to alibaba,
+// whose icon is the corporate logo), so its mono mark comes straight from thesvg.
+const CHAT_VENDOR_ICONS = [
+  ...["openai", "anthropic", "google", "mistral"].map(getVendorColorIcon),
+  qwenIcon.variants.default,
+  ...["deepseek", "xai", "zhipu", "moonshot"].map(getVendorColorIcon),
+].filter((s): s is string => typeof s === "string");
 
 interface Dims extends BadgeDimsBase {
   logoSize: number;
@@ -391,9 +399,7 @@ export async function generateChat(ctx: BadgeCtx): Promise<string> {
 
   let vendorGrid: ReactNode = null;
   if (vg) {
-    const vendorIcons = POPULAR_VENDORS.map((v) => getVendorColorIcon(v))
-      .filter((s): s is string => s !== null)
-      .slice(0, vg.cols * vg.rows);
+    const vendorIcons = CHAT_VENDOR_ICONS.slice(0, vg.cols * vg.rows);
     vendorGrid = (
       <div
         style={{
