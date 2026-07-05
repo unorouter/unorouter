@@ -30,8 +30,10 @@ export default async function DocsLayout(props: DocsLayoutProps) {
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <SidebarLayout navConfig="docs" showSearch>
-        <DocsTabs />
-        {props.children}
+        <div className="flex w-full min-w-0 flex-col">
+          <DocsTabs />
+          {props.children}
+        </div>
       </SidebarLayout>
     </HydrationBoundary>
   );
