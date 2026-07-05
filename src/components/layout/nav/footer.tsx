@@ -186,6 +186,12 @@ export function Footer() {
       label: "Reddit",
     },
     {
+      id: "telegram",
+      href: env.telegramUrl,
+      icon: "brand-telegram",
+      label: "Telegram",
+    },
+    {
       id: "youtube",
       href: env.youtubeUrl,
       icon: "brand-youtube",

@@ -35,8 +35,7 @@ export function CoreParamsFields(props: Props) {
     fallback: number,
   ): number => {
     const params = form.watch("params") as
-      | Record<string, number | undefined>
-      | undefined;
+      Record<string, number | undefined> | undefined;
     return params?.[key] ?? fallback;
   };
 

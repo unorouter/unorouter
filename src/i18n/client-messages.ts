@@ -26,16 +26,20 @@ export const CLIENT_DOCS_KEPT = [
 /** Leaves kept per DOCS guide for the megamenu/sidebar; step bodies stay server-only. */
 export const CLIENT_DOCS_GUIDE_LEAVES = ["TITLE", "SUBTITLE"] as const;
 
-/** Prune server-only content from the messages sent to the client. */
-export function pruneClientMessages(messages: Messages): Messages {
-  const docs = (messages.DOCS ?? {}) as Messages;
+/** DOCS_CHAT subtrees shipped in full (tab bar + section labels + index card). */
+export const CLIENT_DOCS_CHAT_KEPT = ["COMMON", "INDEX"] as const;
 
-  const prunedDocs: Messages = {};
-  for (const key of CLIENT_DOCS_KEPT) {
-    if (docs[key] !== undefined) prunedDocs[key] = docs[key];
+/** TITLE/SUBTITLE-only pruning for a docs-like namespace; page bodies stay server-only. */
+function pruneDocsNamespace(
+  docs: Messages,
+  keptSubtrees: readonly string[],
+): Messages {
+  const pruned: Messages = {};
+  for (const key of keptSubtrees) {
+    if (docs[key] !== undefined) pruned[key] = docs[key];
   }
   for (const [key, value] of Object.entries(docs)) {
-    if (prunedDocs[key] !== undefined) continue;
+    if (pruned[key] !== undefined) continue;
     if (typeof value !== "object" || value === null) continue;
     const guide = value as Messages;
     if (typeof guide.TITLE !== "string") continue;
@@ -43,10 +47,27 @@ export function pruneClientMessages(messages: Messages): Messages {
     for (const leaf of CLIENT_DOCS_GUIDE_LEAVES) {
       if (guide[leaf] !== undefined) leaves[leaf] = guide[leaf];
     }
-    prunedDocs[key] = leaves;
+    pruned[key] = leaves;
   }
+  return pruned;
+}
 
-  const pruned: Messages = { ...messages, DOCS: prunedDocs };
+/** Prune server-only content from the messages sent to the client. */
+export function pruneClientMessages(messages: Messages): Messages {
+  const prunedDocs = pruneDocsNamespace(
+    (messages.DOCS ?? {}) as Messages,
+    CLIENT_DOCS_KEPT,
+  );
+  const prunedDocsChat = pruneDocsNamespace(
+    (messages.DOCS_CHAT ?? {}) as Messages,
+    CLIENT_DOCS_CHAT_KEPT,
+  );
+
+  const pruned: Messages = {
+    ...messages,
+    DOCS: prunedDocs,
+    DOCS_CHAT: prunedDocsChat,
+  };
   for (const subtree of CLIENT_STRIPPED_SUBTREES) {
     // Clone the path before deleting: getMessages() returns a shared object; mutating it would strip keys from server too.
     const segments = subtree.split(".");

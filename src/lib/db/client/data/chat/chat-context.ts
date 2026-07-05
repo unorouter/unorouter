@@ -36,8 +36,7 @@ export async function buildChatContextFromLocalDb(
     const msgs = await readLocalMessages(userId, convId);
     if (msgs && msgs.length > 0) {
       const tip = walkActiveBranch(msgs).path.at(-1) as
-        | { branchVars?: string | null }
-        | undefined;
+        { branchVars?: string | null } | undefined;
       if (tip?.branchVars != null)
         settings = { ...settings, vars: tip.branchVars };
     }

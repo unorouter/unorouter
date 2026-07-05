@@ -164,10 +164,7 @@ export function SecurityCard() {
             </div>
             <div className="bg-muted/40 mt-2 space-y-2 rounded-md border p-3">
               <div className="flex items-center gap-2">
-                <Icon
-                  name="globe"
-                  className="text-muted-foreground h-4 w-4"
-                />
+                <Icon name="globe" className="text-muted-foreground h-4 w-4" />
                 <span className="font-medium">
                   {t("SETTINGS.SECURITY.API_BASE_URL")}
                 </span>

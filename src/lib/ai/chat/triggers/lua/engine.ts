@@ -273,8 +273,7 @@ export async function runScripted(
           output: "onOutput",
         }[args.mode];
         const func = engine.global.get(entry) as
-          | ((key: string) => Promise<unknown>)
-          | undefined;
+          ((key: string) => Promise<unknown>) | undefined;
         if (func) res = await func(accessKey);
       } else if (args.mode.startsWith("edit")) {
         const func = engine.global.get("callListenMain") as

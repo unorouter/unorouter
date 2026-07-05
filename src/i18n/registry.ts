@@ -1,3 +1,4 @@
+import { CHAT_DOCS } from "@/components/pages/docs/chat/chat-docs";
 import { SETUP_GUIDES } from "@/components/pages/docs/setup-guides";
 import type { Pathname } from "@/i18n/routing";
 import {
@@ -13,22 +14,35 @@ const SETUP_GUIDE_SOURCES = [
   "src/components/pages/docs/setup-guide-template.tsx",
 ] as const;
 
-const GUIDE_ENTRIES = SETUP_GUIDES.map(
-  (guide): DocEntry => ({
-    slug: `docs/${guide.slug}`,
-    // guide.href is LinkHref; Pathname is the structurally-equal getPathname arg.
-    path: guide.href as Pathname,
-    i18nPrefix: guide.i18nPrefix as DocEntry["i18nPrefix"],
-    contentFiles: guide.customComponent
-      ? [
-          ...SETUP_GUIDE_SOURCES,
-          `src/components/pages/docs/cli/${guide.customComponent}/${guide.customComponent}-content.tsx`,
-        ]
-      : SETUP_GUIDE_SOURCES,
-    priority: 0.7,
-    changeFrequency: "weekly",
-  }),
-);
+const GUIDE_ENTRIES = SETUP_GUIDES.map((guide): DocEntry => ({
+  slug: `docs/${guide.slug}`,
+  // guide.href is LinkHref; Pathname is the structurally-equal getPathname arg.
+  path: guide.href as Pathname,
+  i18nPrefix: guide.i18nPrefix as DocEntry["i18nPrefix"],
+  contentFiles: guide.customComponent
+    ? [
+        ...SETUP_GUIDE_SOURCES,
+        `src/components/pages/docs/cli/${guide.customComponent}/${guide.customComponent}-content.tsx`,
+      ]
+    : SETUP_GUIDE_SOURCES,
+  priority: 0.7,
+  changeFrequency: "weekly",
+}));
+
+// Chat user-guide pages: blog-style content components under docs/chat/<slug>.
+const CHAT_DOC_SOURCES = [
+  "src/components/pages/docs/chat/chat-docs.ts",
+  "src/components/pages/docs/chat/chat-doc-template.tsx",
+] as const;
+
+const CHAT_DOC_ENTRIES = CHAT_DOCS.map((doc): DocEntry => ({
+  slug: `docs/chat/${doc.slug}`,
+  path: doc.href as Pathname,
+  i18nPrefix: doc.i18nPrefix as DocEntry["i18nPrefix"],
+  contentFiles: [...CHAT_DOC_SOURCES, doc.contentFile],
+  priority: 0.7,
+  changeFrequency: "weekly",
+}));
 
 export const DOCS_REGISTRY: readonly DocEntry[] = [
   {
@@ -39,7 +53,16 @@ export const DOCS_REGISTRY: readonly DocEntry[] = [
     priority: 0.8,
     changeFrequency: "daily",
   },
+  {
+    slug: "docs/chat",
+    path: "/docs/chat",
+    i18nPrefix: "DOCS_CHAT.INDEX" as DocEntry["i18nPrefix"],
+    contentFiles: ["src/app/[locale]/(docs)/docs/chat/page.tsx"],
+    priority: 0.8,
+    changeFrequency: "weekly",
+  },
   ...GUIDE_ENTRIES,
+  ...CHAT_DOC_ENTRIES,
 ];
 
 /** Pages that get git-derived timestamps but aren't listed as "content". */

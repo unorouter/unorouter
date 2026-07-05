@@ -12,7 +12,9 @@ export async function UnorouterVsMarinaraContent() {
       <h2 id="engine">{t("BLOG.POSTS.UNOROUTER_VS_MARINARA.H_ENGINE")}</h2>
       <p>{t("BLOG.POSTS.UNOROUTER_VS_MARINARA.P_ENGINE", APP_VALUES)}</p>
 
-      <h2 id="two-in-one">{t("BLOG.POSTS.UNOROUTER_VS_MARINARA.H_TWO_IN_ONE")}</h2>
+      <h2 id="two-in-one">
+        {t("BLOG.POSTS.UNOROUTER_VS_MARINARA.H_TWO_IN_ONE")}
+      </h2>
       <p>{t("BLOG.POSTS.UNOROUTER_VS_MARINARA.P_TWO_IN_ONE", APP_VALUES)}</p>
 
       <h2 id="hosting">{t("BLOG.POSTS.UNOROUTER_VS_MARINARA.H_HOSTING")}</h2>

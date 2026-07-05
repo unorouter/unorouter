@@ -3,8 +3,7 @@ import { posthog } from "@/lib/posthog-lazy";
 
 // Conversations report through the chat.* events; lorebook entries are a sub-entity with no sync kind of their own.
 type RpAnalyticsEntity =
-  | Exclude<RpSyncKind, "conversations">
-  | "lorebook_entries";
+  Exclude<RpSyncKind, "conversations"> | "lorebook_entries";
 
 type RpAnalyticsAction =
   | "create_started"

@@ -38,6 +38,7 @@ export const env = {
   trustpilotUrl: process.env.NEXT_PUBLIC_TRUSTPILOT_URL,
   redditUrl: process.env.NEXT_PUBLIC_REDDIT_URL,
   youtubeUrl: process.env.NEXT_PUBLIC_YOUTUBE_URL,
+  telegramUrl: process.env.NEXT_PUBLIC_TELEGRAM_URL,
   posthogKey: process.env.NEXT_PUBLIC_POSTHOG_KEY,
   posthogHost: process.env.NEXT_PUBLIC_POSTHOG_HOST,
   googleSiteVerification: process.env.GOOGLE_SITE_VERIFICATION,

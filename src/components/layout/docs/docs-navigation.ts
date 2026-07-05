@@ -1,4 +1,9 @@
 import {
+  CHAT_DOC_SECTION_LABELS,
+  CHAT_DOC_SECTION_ORDER,
+  chatDocsBySection,
+} from "@/components/pages/docs/chat/chat-docs";
+import {
   CATEGORY_LABELS,
   CATEGORY_ORDER,
   type SetupCategory,
@@ -47,6 +52,34 @@ export const docsNavItemsOverview: DocsNavItem[] = [
     exact: true,
   },
 ];
+
+export const chatDocsNavItemsOverview: DocsNavItem[] = [
+  {
+    name: "DOCS_CHAT.INDEX.TITLE" as TranslationKey,
+    href: "/docs/chat",
+    iconName: "layout-grid",
+    exact: true,
+  },
+];
+
+// Chat-guide sidebar groups derived from CHAT_DOCS (one per non-empty section).
+export const chatDocsNavGroups: DocsNavGroup[] = (() => {
+  const bySection = chatDocsBySection();
+  return CHAT_DOC_SECTION_ORDER.flatMap((section) => {
+    const docs = bySection[section];
+    if (docs.length === 0) return [];
+    return [
+      {
+        labelKey: CHAT_DOC_SECTION_LABELS[section],
+        items: docs.map((doc) => ({
+          name: `${doc.i18nPrefix}.TITLE` as TranslationKey,
+          href: doc.href,
+          iconName: doc.iconName,
+        })),
+      },
+    ];
+  });
+})();
 
 // Sidebar groups derived from SETUP_GUIDES (one per non-empty category); adding a guide updates the sidebar.
 export const docsNavGroups: DocsNavGroup[] = (() => {

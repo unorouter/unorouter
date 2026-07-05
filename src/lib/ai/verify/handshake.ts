@@ -20,10 +20,7 @@ export type HandshakeOutcome =
   | {
       ok: false;
       reason:
-        | "cors-needs-backend"
-        | "unreachable"
-        | "invalid-key"
-        | "no-format";
+        "cors-needs-backend" | "unreachable" | "invalid-key" | "no-format";
       status: number | null;
       corsBlocked: boolean;
     };
