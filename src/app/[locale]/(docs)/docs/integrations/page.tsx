@@ -18,7 +18,7 @@ export async function generateMetadata(props: {
   const t = await getTranslations({ locale });
   return getPageMetadata({
     locale,
-    href: "/docs",
+    href: "/docs/integrations",
     title: t("DOCS_INDEX.META.TITLE", APP_VALUES),
     description: t("DOCS_INDEX.META.DESCRIPTION", APP_VALUES),
     keywords: t("DOCS_INDEX.META.KEYWORDS"),
@@ -29,7 +29,9 @@ export async function generateMetadata(props: {
 export default async function DocsPage() {
   const locale = await getLocale();
   const t = await getTranslations();
-  const docs = DOCS_REGISTRY.filter((d) => d.slug !== "docs");
+  const docs = DOCS_REGISTRY.filter((d) =>
+    d.slug.startsWith("docs/integrations/"),
+  );
 
   return (
     <>
@@ -37,7 +39,7 @@ export default async function DocsPage() {
         id="docs-index-breadcrumb"
         data={buildBreadcrumbListSchema([
           { name: t("NAV.HOME"), url: localeUrl(locale, "/") },
-          { name: t("NAV.DOCS"), url: localeUrl(locale, "/docs") },
+          { name: t("NAV.DOCS"), url: localeUrl(locale, "/docs/integrations") },
         ])}
       />
       <JsonLd
@@ -45,7 +47,7 @@ export default async function DocsPage() {
         data={buildCollectionPageSchema({
           name: t("DOCS_INDEX.META.TITLE", APP_VALUES),
           description: t("DOCS_INDEX.META.DESCRIPTION", APP_VALUES),
-          url: localeUrl(locale, "/docs"),
+          url: localeUrl(locale, "/docs/integrations"),
           items: docs.map((d) => ({
             name: t(`${d.i18nPrefix}.TITLE`, APP_VALUES),
             url: localeUrl(locale, d.path),

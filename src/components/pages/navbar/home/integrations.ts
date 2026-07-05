@@ -46,7 +46,7 @@ export type IntegrationEntry = {
 export const CLI_INTEGRATIONS: readonly IntegrationEntry[] = [
   {
     key: "claude-code",
-    href: "/docs/claude-code",
+    href: "/docs/integrations/claude-code",
     icon: Claude.Color,
     badge: "Claude Code",
     titleKey: msg("HOME.INTEGRATION.CLAUDE_CODE.TITLE"),
@@ -56,7 +56,7 @@ export const CLI_INTEGRATIONS: readonly IntegrationEntry[] = [
   },
   {
     key: "codex",
-    href: "/docs/codex",
+    href: "/docs/integrations/codex",
     icon: Codex.Color,
     badge: "Codex CLI",
     titleKey: msg("HOME.INTEGRATION.CODEX.TITLE"),
@@ -66,7 +66,7 @@ export const CLI_INTEGRATIONS: readonly IntegrationEntry[] = [
   },
   {
     key: "gemini-cli",
-    href: "/docs/gemini-cli",
+    href: "/docs/integrations/gemini-cli",
     icon: Gemini.Color,
     badge: "Gemini CLI",
     titleKey: msg("HOME.INTEGRATION.GEMINI_CLI.TITLE"),
@@ -76,7 +76,7 @@ export const CLI_INTEGRATIONS: readonly IntegrationEntry[] = [
   },
   {
     key: "openclaw",
-    href: "/docs/openclaw",
+    href: "/docs/integrations/openclaw",
     logoSrc: "/icons/openclaw.svg",
     badge: "OpenClaw",
     titleKey: msg("HOME.INTEGRATION.OPENCLAW.TITLE"),
@@ -89,7 +89,7 @@ export const CLI_INTEGRATIONS: readonly IntegrationEntry[] = [
 export const RP_INTEGRATIONS: readonly IntegrationEntry[] = [
   {
     key: "sillytavern",
-    href: "/docs/sillytavern",
+    href: "/docs/integrations/sillytavern",
     logoSrc: "/icons/sillytavern.png",
     badge: "SillyTavern",
     titleKey: msg("HOME.INTEGRATION.SILLYTAVERN.TITLE"),
@@ -99,7 +99,7 @@ export const RP_INTEGRATIONS: readonly IntegrationEntry[] = [
   },
   {
     key: "janitor-ai",
-    href: "/docs/janitor-ai",
+    href: "/docs/integrations/janitor-ai",
     logoSrc: "/icons/janitor-ai.png",
     badge: "Janitor.AI",
     titleKey: msg("HOME.INTEGRATION.JANITOR_AI.TITLE"),
@@ -109,7 +109,7 @@ export const RP_INTEGRATIONS: readonly IntegrationEntry[] = [
   },
   {
     key: "risuai",
-    href: "/docs/risuai",
+    href: "/docs/integrations/risuai",
     logoSrc: "/icons/risuai.png",
     badge: "RisuAI",
     titleKey: msg("HOME.INTEGRATION.RISUAI.TITLE"),
@@ -119,7 +119,7 @@ export const RP_INTEGRATIONS: readonly IntegrationEntry[] = [
   },
   {
     key: "chub",
-    href: "/docs/chub",
+    href: "/docs/integrations/chub",
     logoSrc: "/icons/chub-ai.png",
     logoBg: true,
     badge: "Chub / Venus",

@@ -84,7 +84,10 @@ export async function IntegrationBanner() {
             return (
               <Link
                 key={category}
-                href={{ pathname: "/docs", hash: `category-${category}` }}
+                href={{
+                  pathname: "/docs/integrations",
+                  hash: `category-${category}`,
+                }}
                 className={`group flex flex-col gap-3 rounded-lg border px-6 py-5 ${card.border} bg-card/40 backdrop-blur-sm transition-all duration-300`}
               >
                 <div className="flex items-center gap-3">

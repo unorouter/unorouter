@@ -34,7 +34,7 @@ export async function CtaSection() {
               {t("HOME.CTA.CHAT")}
             </Link>
             <Link
-              href="/docs"
+              href="/docs/integrations"
               className="border-border text-foreground hover:border-foreground group flex h-12 w-full items-center justify-center gap-2 border bg-transparent px-10 font-bold tracking-widest uppercase transition-all sm:w-auto"
             >
               {t("HOME.CTA.SECONDARY")}

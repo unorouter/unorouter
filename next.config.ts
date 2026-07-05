@@ -70,6 +70,29 @@ const nextConfig: NextConfig = {
     contentSecurityPolicy:
       "default-src 'self'; script-src 'none'; sandbox; style-src 'unsafe-inline';",
   },
+  async redirects() {
+    // Guide detail pages moved under /docs/integrations/<slug>; bare /docs is
+    // now the Platform tab. 301s keep indexed + externally linked URLs alive.
+    const guideSlug = ":slug((?!chat$|platform$|integrations$)[^/]+)";
+    return [
+      { source: "/docs", destination: "/docs/platform", permanent: true },
+      {
+        source: `${localePattern}/docs`,
+        destination: "/:locale/docs/platform",
+        permanent: true,
+      },
+      {
+        source: `/docs/${guideSlug}`,
+        destination: "/docs/integrations/:slug",
+        permanent: true,
+      },
+      {
+        source: `${localePattern}/docs/${guideSlug}`,
+        destination: "/:locale/docs/integrations/:slug",
+        permanent: true,
+      },
+    ];
+  },
   async rewrites() {
     return [
       // Agents that GET the homepage with Accept: text/markdown get llms.txt.

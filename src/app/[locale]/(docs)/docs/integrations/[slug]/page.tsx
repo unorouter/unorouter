@@ -64,7 +64,7 @@ export default async function SetupGuidePage(props: PageProps) {
   return (
     <>
       <DocPageSchema
-        slug={`docs/${guide.slug}` as DocSlug}
+        slug={`docs/integrations/${guide.slug}` as DocSlug}
         title={t(prefixKey(guide.i18nPrefix, "META.TITLE"), APP_VALUES)}
         description={t(
           prefixKey(guide.i18nPrefix, "META.DESCRIPTION"),

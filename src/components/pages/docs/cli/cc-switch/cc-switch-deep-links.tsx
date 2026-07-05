@@ -125,7 +125,7 @@ export function CCSwitchDeepLinks(props: CCSwitchDeepLinksProps) {
             className="ml-auto shrink-0 gap-1.5"
             render={
               <Link
-                href={{ pathname: "/docs/cc-switch", hash: "installation" }}
+                href={{ pathname: "/docs/integrations/cc-switch", hash: "installation" }}
               />
             }
           >
