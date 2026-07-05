@@ -22,11 +22,7 @@ import { usePresetsQuery } from "@/hooks/ai/rp/presets";
 import { usePricingQuery } from "@/hooks/models/pricing-hook";
 import { useIsMobile } from "@/hooks/ui/use-mobile";
 import { analytics } from "@/lib/analytics";
-import {
-  FREE_MODEL_OUTPUT_CAP,
-  NONE_VALUE,
-  UNKNOWN_MODEL_OUTPUT_CAP,
-} from "@/lib/config/constants";
+import { FREE_MODEL_OUTPUT_CAP, NONE_VALUE } from "@/lib/config/constants";
 import { handleError } from "@/lib/utils/client";
 import {
   conversationOverridesFormSchema,
@@ -85,11 +81,12 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
     : undefined;
   const activeModelMetadata = activeModel?.metadata;
   // Effective output cap = the clamp applied at request time (assemble-prompt clampOutputTokens):
-  // free -> FREE_MODEL_OUTPUT_CAP, else the model's maxOutputTokens, else UNKNOWN_MODEL_OUTPUT_CAP.
+  // free -> FREE_MODEL_OUTPUT_CAP, else the model's known maxOutputTokens. No known ceiling
+  // (custom providers, metadata-less models) -> uncapped; the user's slider value ships verbatim.
   const maxTokensCap = activeModel
     ? activeModel.isFree
       ? FREE_MODEL_OUTPUT_CAP
-      : (activeModelMetadata?.maxOutputTokens ?? UNKNOWN_MODEL_OUTPUT_CAP)
+      : activeModelMetadata?.maxOutputTokens
     : undefined;
   const settingsQuery = useChatSettingsQuery(
     !isDefaultsMode ? props.convId! : undefined,

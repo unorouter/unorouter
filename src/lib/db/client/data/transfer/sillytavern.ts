@@ -82,8 +82,7 @@ export async function exportLocalConversationSillyTavern(
     const items = itemsByMsg.get(m.id) ?? [];
     const text = renderItemsAsText(items);
     const reasoning = items.find((it) => it.type === "reasoning")?.data as
-      | { text?: string }
-      | undefined;
+      { text?: string } | undefined;
 
     const line: StMessage = {
       name:

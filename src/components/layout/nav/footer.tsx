@@ -99,33 +99,28 @@ const RECIPROCAL_LINKS = [
     height: 46,
   },
   {
-    href: "https://codetrendy.com/?utm_source=unorouter.com&utm_medium=badge",
+    href: "https://codetrendy.com/listing/unorouter?utm_source=unorouter.com&utm_medium=badge",
     src: "/badges/codetrendy.svg",
     name: "CodeTrendy",
     width: 181,
     height: 46,
   },
   {
-    href: "https://sitepatent.com/?utm_source=unorouter.com&utm_medium=badge",
+    href: "https://sitepatent.com/listing/unorouter?utm_source=unorouter.com&utm_medium=badge",
     src: "/badges/sitepatent-listing.svg",
     name: "SitePatent",
     width: 181,
     height: 46,
   },
   {
-    href: "https://mediapronet.com/?utm_source=unorouter.com&utm_medium=badge",
+    href: "https://mediapronet.com/listing/unorouter?utm_source=unorouter.com&utm_medium=badge",
     src: "/badges/mediapronet.svg",
     name: "MediaProNet",
     width: 181,
     height: 46,
   },
-  {
-    href: "https://launchboosts.com/project/unorouter",
-    src: "/badges/launchboosts.svg",
-    name: "LaunchBoosts",
-    width: 153,
-    height: 46,
-  },
+  // LaunchBoosts removed 2026-07-05: launchboosts.com 503s site-wide. Badge SVG
+  // kept in public/badges; restore the entry if the site comes back.
 ] as const;
 
 function FooterLinks(props: {
@@ -189,6 +184,12 @@ export function Footer() {
       href: env.redditUrl,
       icon: "brand-reddit",
       label: "Reddit",
+    },
+    {
+      id: "telegram",
+      href: env.telegramUrl,
+      icon: "brand-telegram",
+      label: "Telegram",
     },
     {
       id: "youtube",

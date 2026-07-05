@@ -1,8 +1,12 @@
 "use client";
 
 import {
+  chatDocsNavGroups,
+  chatDocsNavItemsOverview,
   docsNavGroups,
   docsNavItemsOverview,
+  platformDocsNavGroups,
+  platformDocsNavItemsOverview,
 } from "@/components/layout/docs/docs-navigation";
 import {
   type NavigationItem,
@@ -95,6 +99,7 @@ interface SidebarNavigationProps {
 
 export function SidebarNavigation(props: SidebarNavigationProps) {
   const t = useTranslations();
+  const pathname = usePathname();
   const { data: user } = useAuthQuery();
   const authenticated = !!user;
 
@@ -110,13 +115,22 @@ export function SidebarNavigation(props: SidebarNavigationProps) {
     const mainNavItems = navigation(authenticated).filter(
       (item) => !item.hidden && item.href !== "/docs",
     );
+    const platformDocs = pathname.startsWith("/docs/platform");
+    const chatDocs = !platformDocs && pathname.startsWith("/docs/chat");
+    const overview = platformDocs
+      ? platformDocsNavItemsOverview
+      : chatDocs
+        ? chatDocsNavItemsOverview
+        : docsNavItemsOverview;
+    const groups = platformDocs
+      ? platformDocsNavGroups
+      : chatDocs
+        ? chatDocsNavGroups
+        : docsNavGroups;
     return (
       <>
-        <NavGroup
-          label={t("DOCS_SIDEBAR.TITLE")}
-          items={docsNavItemsOverview}
-        />
-        {docsNavGroups.map((group) => (
+        <NavGroup label={t("DOCS_SIDEBAR.TITLE")} items={overview} />
+        {groups.map((group) => (
           <NavGroup
             key={group.labelKey}
             label={t(group.labelKey)}

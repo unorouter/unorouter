@@ -1,4 +1,14 @@
 import {
+  CHAT_DOC_SECTION_LABELS,
+  CHAT_DOC_SECTION_ORDER,
+  chatDocsBySection,
+} from "@/components/pages/docs/chat/chat-docs";
+import {
+  PLATFORM_DOC_SECTION_LABELS,
+  PLATFORM_DOC_SECTION_ORDER,
+  platformDocsBySection,
+} from "@/components/pages/docs/platform/platform-docs";
+import {
   CATEGORY_LABELS,
   CATEGORY_ORDER,
   type SetupCategory,
@@ -42,11 +52,67 @@ const CATEGORY_ICONS: Record<SetupCategory, IconName> = {
 export const docsNavItemsOverview: DocsNavItem[] = [
   {
     name: "DOCS_SIDEBAR.AI_APPLICATIONS",
-    href: "/docs",
+    href: "/docs/integrations",
     iconName: "layout-grid",
     exact: true,
   },
 ];
+
+export const chatDocsNavItemsOverview: DocsNavItem[] = [
+  {
+    name: "DOCS_CHAT.INDEX.TITLE" as TranslationKey,
+    href: "/docs/chat",
+    iconName: "layout-grid",
+    exact: true,
+  },
+];
+
+// Chat-guide sidebar groups derived from CHAT_DOCS (one per non-empty section).
+export const chatDocsNavGroups: DocsNavGroup[] = (() => {
+  const bySection = chatDocsBySection();
+  return CHAT_DOC_SECTION_ORDER.flatMap((section) => {
+    const docs = bySection[section];
+    if (docs.length === 0) return [];
+    return [
+      {
+        labelKey: CHAT_DOC_SECTION_LABELS[section],
+        items: docs.map((doc) => ({
+          name: `${doc.i18nPrefix}.TITLE` as TranslationKey,
+          href: doc.href,
+          iconName: doc.iconName,
+        })),
+      },
+    ];
+  });
+})();
+
+export const platformDocsNavItemsOverview: DocsNavItem[] = [
+  {
+    name: "DOCS_PLATFORM.INDEX.TITLE" as TranslationKey,
+    href: "/docs/platform",
+    iconName: "layout-grid",
+    exact: true,
+  },
+];
+
+// Platform-guide sidebar groups derived from PLATFORM_DOCS (one per non-empty section).
+export const platformDocsNavGroups: DocsNavGroup[] = (() => {
+  const bySection = platformDocsBySection();
+  return PLATFORM_DOC_SECTION_ORDER.flatMap((section) => {
+    const docs = bySection[section];
+    if (docs.length === 0) return [];
+    return [
+      {
+        labelKey: PLATFORM_DOC_SECTION_LABELS[section],
+        items: docs.map((doc) => ({
+          name: `${doc.i18nPrefix}.TITLE` as TranslationKey,
+          href: doc.href,
+          iconName: doc.iconName,
+        })),
+      },
+    ];
+  });
+})();
 
 // Sidebar groups derived from SETUP_GUIDES (one per non-empty category); adding a guide updates the sidebar.
 export const docsNavGroups: DocsNavGroup[] = (() => {

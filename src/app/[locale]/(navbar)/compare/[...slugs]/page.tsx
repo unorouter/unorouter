@@ -68,16 +68,25 @@ export async function generateMetadata(props: {
   const description = t("MODELS.COMPARE.META.DESCRIPTION_COMBO", {
     models: comboModelList(models, t("MODELS.COMPARE.FROM")),
   });
+  // Canonical uses alphabetically sorted slugs so a-vs-b and b-vs-a share one
+  // canonical URL instead of registering as duplicate content.
+  const sortedSlugs = models.map((m) => modelSlug(m.name)).sort();
   return getPageMetadata({
     locale,
     href: {
       pathname: "/compare/[...slugs]",
       params: { slugs: models.map((m) => modelSlug(m.name)) },
     },
+    canonicalHref: {
+      pathname: "/compare/[...slugs]",
+      params: { slugs: sortedSlugs },
+    },
     title,
     description,
     keywords: t("MODELS.COMPARE.META.KEYWORDS"),
-    ogImage: ogBadge("sponsor", locale),
+    ogImage: ogBadge("compare", locale, {
+      models: models.slice(0, 2).map((m) => m.name),
+    }),
   });
 }
 

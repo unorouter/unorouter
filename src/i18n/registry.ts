@@ -1,3 +1,5 @@
+import { CHAT_DOCS } from "@/components/pages/docs/chat/chat-docs";
+import { PLATFORM_DOCS } from "@/components/pages/docs/platform/platform-docs";
 import { SETUP_GUIDES } from "@/components/pages/docs/setup-guides";
 import type { Pathname } from "@/i18n/routing";
 import {
@@ -13,33 +15,79 @@ const SETUP_GUIDE_SOURCES = [
   "src/components/pages/docs/setup-guide-template.tsx",
 ] as const;
 
-const GUIDE_ENTRIES = SETUP_GUIDES.map(
-  (guide): DocEntry => ({
-    slug: `docs/${guide.slug}`,
-    // guide.href is LinkHref; Pathname is the structurally-equal getPathname arg.
-    path: guide.href as Pathname,
-    i18nPrefix: guide.i18nPrefix as DocEntry["i18nPrefix"],
-    contentFiles: guide.customComponent
-      ? [
-          ...SETUP_GUIDE_SOURCES,
-          `src/components/pages/docs/cli/${guide.customComponent}/${guide.customComponent}-content.tsx`,
-        ]
-      : SETUP_GUIDE_SOURCES,
-    priority: 0.7,
-    changeFrequency: "weekly",
-  }),
-);
+const GUIDE_ENTRIES = SETUP_GUIDES.map((guide): DocEntry => ({
+  slug: `docs/integrations/${guide.slug}`,
+  // guide.href is LinkHref; Pathname is the structurally-equal getPathname arg.
+  path: guide.href as Pathname,
+  i18nPrefix: guide.i18nPrefix as DocEntry["i18nPrefix"],
+  contentFiles: guide.customComponent
+    ? [
+        ...SETUP_GUIDE_SOURCES,
+        `src/components/pages/docs/cli/${guide.customComponent}/${guide.customComponent}-content.tsx`,
+      ]
+    : SETUP_GUIDE_SOURCES,
+  priority: 0.7,
+  changeFrequency: "weekly",
+}));
+
+// Chat user-guide pages: blog-style content components under docs/chat/<slug>.
+const CHAT_DOC_SOURCES = [
+  "src/components/pages/docs/chat/chat-docs.ts",
+  "src/components/pages/docs/chat/chat-doc-template.tsx",
+] as const;
+
+const CHAT_DOC_ENTRIES = CHAT_DOCS.map((doc): DocEntry => ({
+  slug: `docs/chat/${doc.slug}`,
+  path: doc.href as Pathname,
+  i18nPrefix: doc.i18nPrefix as DocEntry["i18nPrefix"],
+  contentFiles: [...CHAT_DOC_SOURCES, doc.contentFile],
+  priority: 0.7,
+  changeFrequency: "weekly",
+}));
+
+// Platform guide pages (quickstart/errors/billing/models) under docs/platform/<slug>.
+const PLATFORM_DOC_SOURCES = [
+  "src/components/pages/docs/platform/platform-docs.ts",
+  "src/components/pages/docs/platform/platform-doc-template.tsx",
+] as const;
+
+const PLATFORM_DOC_ENTRIES = PLATFORM_DOCS.map((doc): DocEntry => ({
+  slug: `docs/platform/${doc.slug}`,
+  path: doc.href as Pathname,
+  i18nPrefix: doc.i18nPrefix as DocEntry["i18nPrefix"],
+  contentFiles: [...PLATFORM_DOC_SOURCES, doc.contentFile],
+  priority: 0.7,
+  changeFrequency: "weekly",
+}));
 
 export const DOCS_REGISTRY: readonly DocEntry[] = [
   {
-    slug: "docs",
-    path: "/docs",
+    slug: "docs/integrations",
+    path: "/docs/integrations",
     i18nPrefix: "DOCS_INDEX",
-    contentFiles: ["src/app/[locale]/(docs)/docs/page.tsx"],
+    contentFiles: ["src/app/[locale]/(docs)/docs/integrations/page.tsx"],
     priority: 0.8,
     changeFrequency: "daily",
   },
+  {
+    slug: "docs/chat",
+    path: "/docs/chat",
+    i18nPrefix: "DOCS_CHAT.INDEX" as DocEntry["i18nPrefix"],
+    contentFiles: ["src/app/[locale]/(docs)/docs/chat/page.tsx"],
+    priority: 0.8,
+    changeFrequency: "weekly",
+  },
+  {
+    slug: "docs/platform",
+    path: "/docs/platform",
+    i18nPrefix: "DOCS_PLATFORM.INDEX" as DocEntry["i18nPrefix"],
+    contentFiles: ["src/app/[locale]/(docs)/docs/platform/page.tsx"],
+    priority: 0.8,
+    changeFrequency: "weekly",
+  },
   ...GUIDE_ENTRIES,
+  ...CHAT_DOC_ENTRIES,
+  ...PLATFORM_DOC_ENTRIES,
 ];
 
 /** Pages that get git-derived timestamps but aren't listed as "content". */
@@ -316,10 +364,11 @@ export const BLOG_REGISTRY = [
     priority: 0.7,
     changeFrequency: "monthly",
     category: "product",
-    wordCount: 560,
+    wordCount: 680,
     headings: [
       { id: "what", i18nLeaf: "H_WHAT", level: 2 },
       { id: "caveat", i18nLeaf: "H_CAVEAT", level: 2 },
+      { id: "limit", i18nLeaf: "H_LIMIT", level: 2 },
       { id: "aggregate", i18nLeaf: "H_AGGREGATE", level: 2 },
       { id: "failover", i18nLeaf: "H_FAILOVER", level: 2 },
       { id: "honest", i18nLeaf: "H_HONEST", level: 2 },
@@ -429,6 +478,206 @@ export const BLOG_REGISTRY = [
       { id: "join", i18nLeaf: "H_JOIN", level: 2 },
     ],
   },
+  {
+    slug: "unorouter-vs-janitorai",
+    date: "2026-07-07",
+    tags: ["comparison", "product"],
+    i18nKey: "BLOG.POSTS.UNOROUTER_VS_JANITORAI",
+    contentFiles: [
+      "src/components/pages/blog/posts/2026-07-07-unorouter-vs-janitorai-content.tsx",
+    ],
+    priority: 0.7,
+    changeFrequency: "monthly",
+    category: "product",
+    wordCount: 280,
+    headings: [
+      { id: "backend", i18nLeaf: "H_BACKEND", level: 2 },
+      { id: "proxy", i18nLeaf: "H_PROXY", level: 2 },
+      { id: "own-chat", i18nLeaf: "H_OWN_CHAT", level: 2 },
+      { id: "migrate", i18nLeaf: "H_MIGRATE", level: 2 },
+      { id: "verdict", i18nLeaf: "H_VERDICT", level: 2 },
+    ],
+  },
+  {
+    slug: "unorouter-vs-character-ai",
+    date: "2026-07-09",
+    tags: ["comparison", "product"],
+    i18nKey: "BLOG.POSTS.UNOROUTER_VS_CHARACTER_AI",
+    contentFiles: [
+      "src/components/pages/blog/posts/2026-07-09-unorouter-vs-character-ai-content.tsx",
+    ],
+    priority: 0.7,
+    changeFrequency: "monthly",
+    category: "product",
+    wordCount: 280,
+    headings: [
+      { id: "walled", i18nLeaf: "H_WALLED", level: 2 },
+      { id: "models", i18nLeaf: "H_MODELS", level: 2 },
+      { id: "api", i18nLeaf: "H_API", level: 2 },
+      { id: "privacy", i18nLeaf: "H_PRIVACY", level: 2 },
+      { id: "verdict", i18nLeaf: "H_VERDICT", level: 2 },
+    ],
+  },
+  {
+    slug: "unorouter-vs-sillytavern",
+    date: "2026-07-11",
+    tags: ["comparison", "product"],
+    i18nKey: "BLOG.POSTS.UNOROUTER_VS_SILLYTAVERN",
+    contentFiles: [
+      "src/components/pages/blog/posts/2026-07-11-unorouter-vs-sillytavern-content.tsx",
+    ],
+    priority: 0.7,
+    changeFrequency: "monthly",
+    category: "product",
+    wordCount: 280,
+    headings: [
+      { id: "hosted", i18nLeaf: "H_HOSTED", level: 2 },
+      { id: "depth", i18nLeaf: "H_DEPTH", level: 2 },
+      { id: "one-key", i18nLeaf: "H_ONE_KEY", level: 2 },
+      { id: "drops-in", i18nLeaf: "H_DROPS_IN", level: 2 },
+      { id: "verdict", i18nLeaf: "H_VERDICT", level: 2 },
+    ],
+  },
+  {
+    slug: "unorouter-vs-chub",
+    date: "2026-07-14",
+    tags: ["comparison", "product"],
+    i18nKey: "BLOG.POSTS.UNOROUTER_VS_CHUB",
+    contentFiles: [
+      "src/components/pages/blog/posts/2026-07-14-unorouter-vs-chub-content.tsx",
+    ],
+    priority: 0.7,
+    changeFrequency: "monthly",
+    category: "product",
+    wordCount: 280,
+    headings: [
+      { id: "cards", i18nLeaf: "H_CARDS", level: 2 },
+      { id: "models", i18nLeaf: "H_MODELS", level: 2 },
+      { id: "one-key", i18nLeaf: "H_ONE_KEY", level: 2 },
+      { id: "cost", i18nLeaf: "H_COST", level: 2 },
+      { id: "verdict", i18nLeaf: "H_VERDICT", level: 2 },
+    ],
+  },
+  {
+    slug: "unorouter-vs-marinara",
+    date: "2026-07-16",
+    tags: ["comparison", "product"],
+    i18nKey: "BLOG.POSTS.UNOROUTER_VS_MARINARA",
+    contentFiles: [
+      "src/components/pages/blog/posts/2026-07-16-unorouter-vs-marinara-content.tsx",
+    ],
+    priority: 0.7,
+    changeFrequency: "monthly",
+    category: "product",
+    wordCount: 280,
+    headings: [
+      { id: "engine", i18nLeaf: "H_ENGINE", level: 2 },
+      { id: "two-in-one", i18nLeaf: "H_TWO_IN_ONE", level: 2 },
+      { id: "hosting", i18nLeaf: "H_HOSTING", level: 2 },
+      { id: "wins", i18nLeaf: "H_WINS", level: 2 },
+      { id: "verdict", i18nLeaf: "H_VERDICT", level: 2 },
+    ],
+  },
+  {
+    slug: "unorouter-vs-lumiverse",
+    date: "2026-07-18",
+    tags: ["comparison", "product"],
+    i18nKey: "BLOG.POSTS.UNOROUTER_VS_LUMIVERSE",
+    contentFiles: [
+      "src/components/pages/blog/posts/2026-07-18-unorouter-vs-lumiverse-content.tsx",
+    ],
+    priority: 0.7,
+    changeFrequency: "monthly",
+    category: "product",
+    wordCount: 280,
+    headings: [
+      { id: "engine", i18nLeaf: "H_ENGINE", level: 2 },
+      { id: "two-in-one", i18nLeaf: "H_TWO_IN_ONE", level: 2 },
+      { id: "hosting", i18nLeaf: "H_HOSTING", level: 2 },
+      { id: "wins", i18nLeaf: "H_WINS", level: 2 },
+      { id: "verdict", i18nLeaf: "H_VERDICT", level: 2 },
+    ],
+  },
+  {
+    slug: "unorouter-vs-librechat",
+    date: "2026-07-21",
+    tags: ["comparison", "product"],
+    i18nKey: "BLOG.POSTS.UNOROUTER_VS_LIBRECHAT",
+    contentFiles: [
+      "src/components/pages/blog/posts/2026-07-21-unorouter-vs-librechat-content.tsx",
+    ],
+    priority: 0.7,
+    changeFrequency: "monthly",
+    category: "product",
+    wordCount: 280,
+    headings: [
+      { id: "hosted", i18nLeaf: "H_HOSTED", level: 2 },
+      { id: "models", i18nLeaf: "H_MODELS", level: 2 },
+      { id: "one-key", i18nLeaf: "H_ONE_KEY", level: 2 },
+      { id: "cost", i18nLeaf: "H_COST", level: 2 },
+      { id: "verdict", i18nLeaf: "H_VERDICT", level: 2 },
+    ],
+  },
+  {
+    slug: "unorouter-vs-open-webui",
+    date: "2026-07-23",
+    tags: ["comparison", "product"],
+    i18nKey: "BLOG.POSTS.UNOROUTER_VS_OPEN_WEBUI",
+    contentFiles: [
+      "src/components/pages/blog/posts/2026-07-23-unorouter-vs-open-webui-content.tsx",
+    ],
+    priority: 0.7,
+    changeFrequency: "monthly",
+    category: "product",
+    wordCount: 280,
+    headings: [
+      { id: "hosted", i18nLeaf: "H_HOSTED", level: 2 },
+      { id: "models", i18nLeaf: "H_MODELS", level: 2 },
+      { id: "one-key", i18nLeaf: "H_ONE_KEY", level: 2 },
+      { id: "cost", i18nLeaf: "H_COST", level: 2 },
+      { id: "verdict", i18nLeaf: "H_VERDICT", level: 2 },
+    ],
+  },
+  {
+    slug: "unorouter-vs-agnai",
+    date: "2026-07-25",
+    tags: ["comparison", "product"],
+    i18nKey: "BLOG.POSTS.UNOROUTER_VS_AGNAI",
+    contentFiles: [
+      "src/components/pages/blog/posts/2026-07-25-unorouter-vs-agnai-content.tsx",
+    ],
+    priority: 0.7,
+    changeFrequency: "monthly",
+    category: "product",
+    wordCount: 280,
+    headings: [
+      { id: "hosted", i18nLeaf: "H_HOSTED", level: 2 },
+      { id: "depth", i18nLeaf: "H_DEPTH", level: 2 },
+      { id: "one-key", i18nLeaf: "H_ONE_KEY", level: 2 },
+      { id: "cost", i18nLeaf: "H_COST", level: 2 },
+      { id: "verdict", i18nLeaf: "H_VERDICT", level: 2 },
+    ],
+  },
+  {
+    slug: "unorouter-vs-spicychat",
+    date: "2026-07-28",
+    tags: ["comparison", "product"],
+    i18nKey: "BLOG.POSTS.UNOROUTER_VS_SPICYCHAT",
+    contentFiles: [
+      "src/components/pages/blog/posts/2026-07-28-unorouter-vs-spicychat-content.tsx",
+    ],
+    priority: 0.7,
+    changeFrequency: "monthly",
+    category: "product",
+    wordCount: 280,
+    headings: [
+      { id: "ease", i18nLeaf: "H_EASE", level: 2 },
+      { id: "depth", i18nLeaf: "H_DEPTH", level: 2 },
+      { id: "models", i18nLeaf: "H_MODELS", level: 2 },
+      { id: "one-key", i18nLeaf: "H_ONE_KEY", level: 2 },
+      { id: "verdict", i18nLeaf: "H_VERDICT", level: 2 },
+    ],
+  },
 ] as const satisfies readonly BlogEntry[];
 
 export type BlogSlug = (typeof BLOG_REGISTRY)[number]["slug"];
@@ -444,7 +693,6 @@ export const SECTION_PRIORITIES = {
   "/": { priority: 1.0, changeFrequency: "daily" },
   "/models": { priority: 0.8, changeFrequency: "daily" },
   "/pricing": { priority: 0.8, changeFrequency: "daily" },
-  "/docs": { priority: 0.8, changeFrequency: "daily" },
   "/blog": { priority: 0.8, changeFrequency: "weekly" },
 } as const satisfies SectionPriorities;
 

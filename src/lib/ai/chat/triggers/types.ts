@@ -10,14 +10,7 @@ export type TriggerEventMode =
 
 export type ConditionType = "var" | "value" | "chatindex" | "exists";
 export type ConditionOperator =
-  | "="
-  | "!="
-  | ">"
-  | "<"
-  | ">="
-  | "<="
-  | "null"
-  | "true";
+  "=" | "!=" | ">" | "<" | ">=" | "<=" | "null" | "true";
 
 export type TriggerCondition =
   | {

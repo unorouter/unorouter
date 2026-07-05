@@ -49,8 +49,7 @@ type SendOptions = Parameters<ChatTransport<ChatUIMessage>["sendMessages"]>[0];
 // in the React Query cache (staleTime Infinity), so no separate TTL cache is needed client-side.
 function isMediaModel(model: string): boolean {
   const data = getQueryClient().getQueryData(queryKeys.pricing()) as
-    | { models?: ProcessedModel[] }
-    | undefined;
+    { models?: ProcessedModel[] } | undefined;
   return isMediaType(data?.models?.find((m) => m.name === model)?.type);
 }
 

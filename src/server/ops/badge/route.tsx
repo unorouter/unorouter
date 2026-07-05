@@ -12,18 +12,23 @@ import {
 } from "@/lib/validation/badge";
 import { Elysia } from "elysia";
 import { getTranslations } from "next-intl/server";
-import { getPricingData, getStats } from "./lib/cache";
+import { findBadgeModel, getPricingData, getStats } from "./lib/cache";
 import { loadSharp } from "./lib/sharp-loader";
 import { THEME_COLORS } from "./lib/theme";
 import type { BadgeCtx } from "./lib/types";
 import { AllPage, type PreviewGroup } from "./templates/all-page";
 import { generateBrand } from "./templates/brand";
+import { generateChat } from "./templates/chat";
+import { generateCompare } from "./templates/compare";
 import { generateHero } from "./templates/hero";
+import { generateModel } from "./templates/model";
+import { generatePlayground } from "./templates/playground";
 import { generatePricing } from "./templates/pricing";
 import { generateProviders } from "./templates/providers";
 import { generateReferral } from "./templates/referral";
 import { generateSocial } from "./templates/social";
 import { generateSponsor } from "./templates/sponsor";
+import { generateTester } from "./templates/tester";
 import { generateTokensBanner } from "./templates/tokens-banner";
 import { generateTokensSquare } from "./templates/tokens-square";
 
@@ -63,6 +68,9 @@ const BADGES: Record<BadgeType, (ctx: BadgeCtx) => Promise<string>> = {
   hero: generateHero,
   referral: generateReferral,
   brand: generateBrand,
+  chat: generateChat,
+  tester: generateTester,
+  playground: generatePlayground,
 };
 
 export const badgeRoute = new Elysia({ prefix: "/badge" })
@@ -167,6 +175,50 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
           return new Response(new Uint8Array(png), { headers: PNG_HEADERS });
         }
         return socialSvg;
+      }
+
+      // Param-driven og badges: fixed 1200x630, looked up from live pricing.
+      if (params.name === "model" || params.name === "compare") {
+        const [stats, pricing] = await Promise.all([
+          getStats(),
+          getPricingData(),
+        ]);
+        const ctx: BadgeCtx = {
+          locale,
+          theme,
+          size: "og",
+          ref: query.ref,
+          stats,
+          pricing,
+          staticMode: isPng,
+        };
+        let svg: string;
+        if (params.name === "model") {
+          const requested = query.model ?? "";
+          svg = await generateModel(
+            ctx,
+            await findBadgeModel(requested),
+            requested,
+          );
+        } else {
+          const requested = (query.models ?? "")
+            .split(",")
+            .map((s) => s.trim())
+            .filter(Boolean)
+            .slice(0, 2);
+          const pair = await Promise.all(
+            requested.map(async (r) => ({
+              requested: r,
+              model: await findBadgeModel(r),
+            })),
+          );
+          svg = await generateCompare(ctx, pair);
+        }
+        if (isPng) {
+          const png = await svgToPng(svg);
+          return new Response(new Uint8Array(png), { headers: PNG_HEADERS });
+        }
+        return svg;
       }
 
       const gen = BADGES[params.name as BadgeType];

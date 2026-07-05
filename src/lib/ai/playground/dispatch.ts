@@ -126,8 +126,7 @@ function buildChatCompletionsBody(args: SubmitArgs): Built {
 
 function buildGeminiGenerateBody(args: SubmitArgs): Built {
   type Part =
-    | { text: string }
-    | { inline_data: { mime_type: string; data: string } };
+    { text: string } | { inline_data: { mime_type: string; data: string } };
   const parts: Part[] = [{ text: args.prompt }];
   for (const r of args.refs) {
     parts.push({ inline_data: { mime_type: r.mime, data: r.base64 } });

@@ -571,6 +571,14 @@ const VENDOR_THEMES: Record<string, VendorTheme> = {
     tagBorder: "border-slate-500/20",
     primary: "#64748b",
   },
+  [Vendor.VENICE]: {
+    bg: "bg-red-500/5",
+    border: "border-red-500/20",
+    text: "text-red-700 dark:text-red-300",
+    tagBg: "bg-red-500/10",
+    tagBorder: "border-red-500/20",
+    primary: "#dc2626",
+  },
 };
 
 export const DEFAULT_THEME: VendorTheme = {

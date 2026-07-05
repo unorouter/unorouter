@@ -1,11 +1,7 @@
 import { pick } from "@/lib/utils/base";
 export type AnimationVariant = "circle" | "circle-blur" | "polygon";
 export type AnimationStart =
-  | "top-left"
-  | "top-right"
-  | "bottom-left"
-  | "bottom-right"
-  | "center";
+  "top-left" | "top-right" | "bottom-left" | "bottom-right" | "center";
 
 interface Animation {
   name: string;

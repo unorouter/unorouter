@@ -11,7 +11,9 @@ export default function NavbarLayout(props: Props) {
     <>
       <Navbar />
       <main className="flex-1">
-        <ContentBoundary className="pt-20 pb-24">{props.children}</ContentBoundary>
+        <ContentBoundary className="pt-20 pb-24">
+          {props.children}
+        </ContentBoundary>
       </main>
       <Footer />
     </>

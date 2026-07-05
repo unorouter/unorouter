@@ -1,0 +1,146 @@
+import type { LinkHref } from "@/i18n/routing";
+import type { TranslationKey } from "@/lib/config/constants";
+import type { IconName } from "@/lib/config/icon-map";
+
+export type PlatformDocSection = "GUIDE" | "FAQ";
+
+export interface PlatformDocHeading {
+  /** DOM anchor id, also used by the TOC. */
+  id: string;
+  /** Leaf under the page's i18nPrefix, e.g. "H_OVERVIEW". */
+  i18nLeaf: string;
+  level: 2 | 3;
+}
+
+/**
+ * One platform-guide page (quickstart, errors, billing, models). Blog-style:
+ * registry entry + per-page content component; DOCS_REGISTRY derives
+ * search/sitemap/SEO from it.
+ */
+export interface PlatformDoc {
+  /** Route param + DOCS_REGISTRY slug suffix (docs/platform/<slug>). */
+  slug: string;
+  href: LinkHref;
+  /** "DOCS_PLATFORM.<NAME>" - matches en.json + registry i18nPrefix. */
+  i18nPrefix: string;
+  section: PlatformDocSection;
+  iconName: IconName;
+  /** Content component path for git-derived SEO timestamps. */
+  contentFile: string;
+  headings: PlatformDocHeading[];
+}
+
+const platformDocHref = (slug: string): LinkHref => ({
+  pathname: "/docs/platform/[slug]",
+  params: { slug },
+});
+
+function platformDoc(input: {
+  slug: string;
+  name: string;
+  section: PlatformDocSection;
+  iconName: IconName;
+  headings: [string, string][];
+}): PlatformDoc {
+  return {
+    slug: input.slug,
+    href: platformDocHref(input.slug),
+    i18nPrefix: `DOCS_PLATFORM.${input.name}`,
+    section: input.section,
+    iconName: input.iconName,
+    contentFile: `src/components/pages/docs/platform/content/${input.slug}-content.tsx`,
+    headings: input.headings.map(([id, leaf]) => ({
+      id,
+      i18nLeaf: leaf,
+      level: 2,
+    })),
+  };
+}
+
+export const PLATFORM_DOCS: PlatformDoc[] = [
+  platformDoc({
+    slug: "quickstart",
+    name: "QUICKSTART",
+    section: "GUIDE",
+    iconName: "zap",
+    headings: [
+      ["overview", "H_OVERVIEW"],
+      ["base-url", "H_BASE_URL"],
+      ["api-key", "H_API_KEY"],
+      ["first-request", "H_FIRST_REQUEST"],
+      ["sdks", "H_SDKS"],
+      ["next", "H_NEXT"],
+    ],
+  }),
+  platformDoc({
+    slug: "models-and-pricing",
+    name: "MODELS_AND_PRICING",
+    section: "GUIDE",
+    iconName: "dollar-sign",
+    headings: [
+      ["catalog", "H_CATALOG"],
+      ["free-vs-paid", "H_FREE_VS_PAID"],
+      ["pricing", "H_PRICING"],
+      ["prompt-cache", "H_PROMPT_CACHE"],
+      ["availability", "H_AVAILABILITY"],
+    ],
+  }),
+  platformDoc({
+    slug: "errors-and-rate-limits",
+    name: "ERRORS_AND_RATE_LIMITS",
+    section: "FAQ",
+    iconName: "triangle-alert",
+    headings: [
+      ["envelope", "H_ENVELOPE"],
+      ["status-codes", "H_STATUS_CODES"],
+      ["busy-vs-unknown", "H_BUSY_VS_UNKNOWN"],
+      ["rate-limits", "H_RATE_LIMITS"],
+      ["free-model-limit", "H_FREE_MODEL_LIMIT"],
+      ["trial-caps", "H_TRIAL_CAPS"],
+      ["retries", "H_RETRIES"],
+    ],
+  }),
+  platformDoc({
+    slug: "account-and-billing",
+    name: "ACCOUNT_AND_BILLING",
+    section: "FAQ",
+    iconName: "credit-card",
+    headings: [
+      ["balance", "H_BALANCE"],
+      ["topup", "H_TOPUP"],
+      ["earn", "H_EARN"],
+      ["keys", "H_KEYS"],
+      ["charges", "H_CHARGES"],
+      ["logs", "H_LOGS"],
+    ],
+  }),
+];
+
+export const PLATFORM_DOC_SECTION_ORDER: PlatformDocSection[] = [
+  "GUIDE",
+  "FAQ",
+];
+
+export const PLATFORM_DOC_SECTION_LABELS: Record<
+  PlatformDocSection,
+  TranslationKey
+> = {
+  GUIDE: "DOCS_PLATFORM.COMMON.SECTION_GUIDE",
+  FAQ: "DOCS_PLATFORM.COMMON.SECTION_FAQ",
+};
+
+export function getPlatformDoc(slug: string): PlatformDoc | undefined {
+  return PLATFORM_DOCS.find((doc) => doc.slug === slug);
+}
+
+export function platformDocsBySection(): Record<
+  PlatformDocSection,
+  PlatformDoc[]
+> {
+  const out = { GUIDE: [], FAQ: [] } as Record<
+    PlatformDocSection,
+    PlatformDoc[]
+  >;
+  for (const doc of PLATFORM_DOCS) out[doc.section].push(doc);
+  return out;
+}

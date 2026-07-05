@@ -68,6 +68,11 @@ export function modelSlug(name: string): string {
   return name.replace(/\[/g, "%5B").replace(/\]/g, "%5D").replace(/\//g, "%2F");
 }
 
+// "glm-5.2:free" -> "glm-5.2"; non-:free names return unchanged.
+export function baseModelName(name: string): string {
+  return name.endsWith(":free") ? name.slice(0, -":free".length) : name;
+}
+
 // params.slug round-trips inconsistently: Next leaves some reserved chars (`:`)
 // percent-encoded in the segment while `modelSlug` only escapes `[ ] /`. Compare
 // the raw name, the encoded form, and the decoded slug so `{model}:free` matches.

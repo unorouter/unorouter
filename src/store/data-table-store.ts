@@ -55,8 +55,7 @@ const dataTableAtomFamily = atomFamily((id: DataTableId) =>
 );
 
 type TableUpdate =
-  | Partial<DataTableStore>
-  | ((prev: DataTableStore) => DataTableStore);
+  Partial<DataTableStore> | ((prev: DataTableStore) => DataTableStore);
 type BaseAtom = WritableAtom<DataTableStore, [TableUpdate], void>;
 
 function buildFieldAtoms(

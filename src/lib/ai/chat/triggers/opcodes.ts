@@ -167,9 +167,7 @@ export function runDataOpcode(
     }
     case "systemprompt": {
       const loc = (e.location ?? "promptend") as
-        | "start"
-        | "historyend"
-        | "promptend";
+        "start" | "historyend" | "promptend";
       ctx.additionalSysPrompt[loc] += cbs(ctx, e.value) + "\n\n";
       return true;
     }
@@ -689,9 +687,7 @@ export function runDataOpcode(
 
     case "v2SystemPrompt": {
       const loc = (e.location ?? "promptend") as
-        | "start"
-        | "historyend"
-        | "promptend";
+        "start" | "historyend" | "promptend";
       ctx.additionalSysPrompt[loc] += rv(e, ctx, vr, "value") + "\n\n";
       return true;
     }

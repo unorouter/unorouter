@@ -99,6 +99,8 @@ export function useModelsFilter() {
   const selectedModel =
     models.find((m) => m.name === selectedModelName) ?? null;
 
+  // Filters that constrain WHICH models show (drives search/reset UI + the
+  // span-all-tabs behavior). Sort order is excluded: it reorders, never filters.
   const hasActiveFilters =
     search.trim().length > 0 ||
     selectedVendors.length > 0 ||
@@ -109,8 +111,7 @@ export function useModelsFilter() {
     toolsOnly ||
     contextMin > 0 ||
     priceRange[0] > 0 ||
-    priceRange[1] < PRICE_MAX ||
-    sortOrder !== "newest";
+    priceRange[1] < PRICE_MAX;
 
   const query = search.trim().toLowerCase();
   // Every filter EXCEPT the modality tab: the tab counts must reflect the active
@@ -160,9 +161,13 @@ export function useModelsFilter() {
     );
   });
 
-  let filtered = tabModels.filter(
-    (model) => deriveOutputModality(model) === outputModality,
-  );
+  // Any active filter/search spans every modality tab; only the untouched
+  // catalog narrows to the selected tab. Reset filters restores tab scoping.
+  let filtered = hasActiveFilters
+    ? tabModels
+    : tabModels.filter(
+        (model) => deriveOutputModality(model) === outputModality,
+      );
 
   filtered = [...filtered].sort((a, b) => {
     if (sortOrder === "newest") {

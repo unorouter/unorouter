@@ -8,7 +8,10 @@ import {
   upsertLocalMessage,
   upsertLocalMessageItem,
 } from "@/lib/db/client/data/chat/chat";
-import { readLocalCharacter, readLocalPersona } from "@/lib/db/client/data/rp/rp";
+import {
+  readLocalCharacter,
+  readLocalPersona,
+} from "@/lib/db/client/data/rp/rp";
 import { expandMacros } from "@/lib/ai/chat/macros";
 import { isCustomModelId } from "@/lib/ai/chat/custom-provider-id";
 import { uid } from "@/lib/utils/base";

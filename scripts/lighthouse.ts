@@ -88,8 +88,7 @@ async function buildUrls(): Promise<string[]> {
 
 // Mobile by default; FORM_FACTORS=desktop or FORM_FACTORS=mobile,desktop overrides.
 const formFactors: FormFactor[] = (process.env.FORM_FACTORS?.split(",") as
-  | FormFactor[]
-  | undefined) ?? ["mobile"];
+  FormFactor[] | undefined) ?? ["mobile"];
 const themes: Theme[] = ["dark", "light"];
 
 const variants: Variant[] = formFactors.flatMap((ff) =>

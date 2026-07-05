@@ -98,7 +98,7 @@ function parseModelMetadata(raw: string | undefined): ModelMetadata {
   return {};
 }
 
-function processModels(response: PricingData) {
+export function processModels(response: PricingData) {
   const vendors = response.vendors ?? [];
   const data = response.data ?? [];
   const groupRatio = response.group_ratio ?? {};
