@@ -876,22 +876,24 @@
         "CTA": "准备好了？<invite>加入 {appName} Discord</invite>，然后<register>领取 API 密钥</register>并<settings>绑定账号</settings>，把第一笔 1 美元收入囊中。"
       },
       "FREE_MODELS_AGGREGATED": {
-        "TITLE": "我们把 120+ 个免费 AI 模型聚合到了一个端点",
-        "DESCRIPTION": "我们把 18 家免费服务商接入了 {appName}：126 个免费模型条目，一个 OpenAI-compatible 端点，每 token $0。它们免费是有原因的，并且带有我们无法提高的速率限制。下面是诚实版的说明。",
+        "TITLE": "我们把 190+ 个免费 AI 模型汇聚到了一个端点",
+        "DESCRIPTION": "我们已将 18 家免费提供方接入 {appName}：190+ 条免费模型、一个 OpenAI-compatible 端点、$0 per token。它们自带我们无法提高的上游限额，我们还额外加了一道轻量的每分钟 1 次上限，以保持共享池的公平。这是诚实的说法。",
         "AUTHOR": "{appName} 团队",
-        "INTRO": "免费 LLM 的版图真实存在，却十分零散：Groq、Gemini、Cloudflare、NVIDIA、SiliconFlow 以及其他十几家，每一家都拿出了实打实的算力，但都藏在各自的注册页面、各自的密钥格式和各自互不兼容的 API 背后。我们发现、测试并合并了所有能找到的、合法且永久免费的服务商，全部接入 {appName}。结果就是：来自 18 家服务商的 126 个免费模型条目，统一在一个 OpenAI-compatible 端点和一把密钥之后。",
+        "INTRO": "免费 LLM 的版图是真实存在的，却又零散：Groq、Gemini、Cloudflare、NVIDIA、SiliconFlow 以及另外十几家，各自都在免费送出真实算力，只是藏在十几个注册页面、十几种密钥格式和十几套互不兼容的 API 背后。我们把能找到的每一家合法且永久免费的提供方都发现、测试并合并进了 {appName}。结果就是：来自 18 家提供方的 190+ 条免费模型，全都收在一个 OpenAI-compatible 端点和一把密钥之后。",
         "H_WHAT": "我们加了什么",
-        "P_WHAT": "18 家免费服务商，一家一家接入：Groq、Gemini、Cerebras、SambaNova、Mistral、Cloudflare Workers AI（两个账户）、GitHub Models、Z.ai、OVHcloud、AI Horde、Pollinations、Cohere、Jina、NVIDIA NIM（完整开放目录：Nemotron、Llama、Qwen、gpt-oss、DeepSeek 等）、SiliconFlow（DeepSeek-V4、GLM-5.1、Qwen3.5/3.6、Kimi-K2.6、MiniMax-M3）、HuggingFace 路由以及 LLM7。这就是 126 个免费模型条目：Llama、gpt-oss、Qwen、Mistral、GLM、Nemotron、DeepSeek 等等，外加免费的向量、图像与音频模型。在上线之前，每一个都会就 HTTP、流式输出和工具调用做端到端探测，和我们对付费模型跑的真实性与测试套件检查完全一致。",
+        "P_WHAT": "十八家免费提供方，逐一列出：Groq、Gemini、Cerebras、SambaNova、Mistral、Cloudflare Workers AI（两个账户）、GitHub Models、Z.ai、OVHcloud、AI Horde、Pollinations、Cohere、Jina、NVIDIA NIM（完整开放目录：Nemotron、Llama、Qwen、gpt-oss、DeepSeek 等）、SiliconFlow（DeepSeek-V4、GLM-5.1、Qwen3.5/3.6、Kimi-K2.6、MiniMax-M3）、HuggingFace 路由器，以及 LLM7。这样就有了 190+ 条免费模型：Llama、gpt-oss、Qwen、Mistral、GLM、Nemotron、DeepSeek 等，外加免费的嵌入、图像和音频模型。每一个在上线前都会针对 HTTP、流式传输和工具调用做端到端探测，这与我们在付费模型上执行的真实性检查和测试框架检查完全相同。",
         "H_CAVEAT": "免费是有原因的",
-        "P_CAVEAT": "这些模型确实是免费的，而这正是它们带有限制的原因。<s>这些限制是服务商设的，不是我们，我们也无法提高。</s>每一个上游都执行自己的速率限制：每分钟请求数、每日 token 配额、Cloudflare neuron 预算、志愿者队列优先级。一旦触顶，该服务商就会返回 <c>429</c>，直到额度重置。今天早上还能用的免费密钥，到下午可能就被耗尽了。免费层是尽力而为的吞吐，不是保证。如果你的工作负载需要可预测的延迟、不想被突如其来的 <c>429</c> 打断，请使用付费模型。",
+        "P_CAVEAT": "这些模型是真正免费的，也正因如此它们才有限制。每个上游都各自设限：每分钟请求数、每日 token 配额、Cloudflare 的神经元预算、志愿者队列的优先级。一旦触及上限，该提供方就会返回 <c>429</c>，直到限额重置。今早还能用的免费密钥，到下午就可能已经耗尽。免费层是尽力而为的吞吐量，而非保证。如果你的工作负载需要可预测的延迟、不希望冒出意外的 <c>429</c>，请使用付费模型。",
+        "H_LIMIT": "我们自己的速率限制，以及它为何存在",
+        "P_LIMIT": "在上游限额之上，我们再加了一道自己的小限制：<s>每位用户、每个免费模型每分钟一次请求</s>。这是刻意为之。单个免费模型往往就是一个共享的上游池，全体用户合计每天也许只有一百万 token，所以若没有上限，少数重度用户几分钟内就会把它抽干，其他人则什么都拿不到。每模型每分钟一次，让这个池得以存续并分摊到整个社区，你也可以把流量分散到众多免费模型上，而不是死磕某一个。当你触及我们的上限时，你会收到一个 HTTP <c>429</c>，并附带一个 <c>Retry-After</c> 头，准确告诉你需要等待多久。这与上游的 <c>429</c> 以及下文的 <c>503</c> 是两码事。如果你想在某个特定模型上获得更高吞吐量，请使用它的付费层，那里不适用此限制。",
         "H_AGGREGATE": "为什么要把它们聚合起来",
         "P_AGGREGATE": "因为不聚合的代价就是 18 个账户。每家服务商都有自己的注册流程、自己的密钥格式、自己的 base URL 和自己的怪癖：Z.ai 走 Zhipu V4 的路径，Cloudflare 把账户 id 放在 URL 里，AI Horde 要的是匿名密钥，GitHub 把模型锁在某个 token scope 之后。我们把这一切都消化掉，让你像调用其他一切那样调用它们：一个 OpenAI-compatible 端点、一把密钥、一个模型名。我们对自己定下的诚实准则是：每家服务商只用一个真实账户，接受配额上限，不刷量、不拼池。我们把免费层当作一份礼物呈现，而不是转售别人配额的生意。",
         "H_FAILOVER": "我们如何缓和这些限制",
-        "P_FAILOVER": "这些模型中有很多由不止一家免费服务商提供。光是 Llama 3.3 70B 就跑在其中七家上。当多家服务商提供同一个模型时，我们会把它们合并成一个对外公布的名字，并自动故障转移：如果某个上游返回 <c>429</c> 或者沉默不响应，下一个健康且提供该模型的服务商就会接管这次请求。这是我们唯一能控制的杠杆。它不会提高任何单一服务商的配额，但意味着一个多源免费模型在其中某一家服务商耗尽很久之后，仍然能继续作答。单源的免费模型没有后备，所以一旦它唯一的上游用尽就会卡住。",
+        "P_FAILOVER": "这些模型中有许多是由不止一家免费提供方供给的。单是 Llama 3.3 70B 就跑在其中七家上。当多家提供方提供同一个模型时，我们会把它们合并到一个对外发布的名称下，并自动进行故障转移：如果某个上游返回 <c>429</c> 或陷入沉默，供给该模型的下一家健康提供方就会接手这次请求。这是我们确实能掌控的唯一杠杆。如果某个模型的所有提供方一时间都被限速，请求会返回一个 HTTP <c>503</c>，附带明确的\"所有提供方繁忙\"消息（既不是 404，也不是\"未找到模型\"），随后我们的健康检查 cron 会在几分钟内重新测试并重新启用该通道。这样一来，多源免费模型在其任一提供方枯竭之后，仍能长时间继续应答。单源免费模型没有退路，因此一旦其唯一的上游用尽，就会停摆。",
         "H_HONEST": "我们没有做什么",
         "P_HONEST": "我们没有加那种未经许可、转手重新提供 OpenAI 或 Claude 旗舰模型的反向代理。我们没有引入那些 token 不可转移的个人密钥聚合器，也没有引入刷量并轮换他人密钥的\"池中池\"服务。这些东西确实存在，确实诱人，而它们恰恰是这个网关想要取代的灰色市场乱象。名单上的每一家服务商，都是按自己的条款、有意把免费层拿出来共享的。如果某个来源过不了这道门槛，它就不会出现在这里。",
         "H_TRY": "来试试",
-        "CTA": "全部 134 个免费模型都已上线，统一在一个 OpenAI-compatible 端点之后。<register>领取一把 API 密钥</register>，或者 <models>浏览模型目录</models>并筛选免费项。只是要记住，当 <c>429</c> 冒出来时，你正处在哪一层。"
+        "CTA": "全部 190+ 个免费模型都在一个 OpenAI-compatible 端点之后运行。<register>获取一把 API 密钥</register>，或<models>浏览模型目录</models>并按免费筛选。只要在出现 <c>429</c> 或 <c>503</c> 时记住自己身处哪一层就好。"
       },
       "UNOROUTER_VS_OPENROUTER": {
         "TITLE": "{appName} 对比 OpenRouter：一次诚实的比较",

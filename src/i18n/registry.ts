@@ -339,10 +339,11 @@ export const BLOG_REGISTRY = [
     priority: 0.7,
     changeFrequency: "monthly",
     category: "product",
-    wordCount: 560,
+    wordCount: 680,
     headings: [
       { id: "what", i18nLeaf: "H_WHAT", level: 2 },
       { id: "caveat", i18nLeaf: "H_CAVEAT", level: 2 },
+      { id: "limit", i18nLeaf: "H_LIMIT", level: 2 },
       { id: "aggregate", i18nLeaf: "H_AGGREGATE", level: 2 },
       { id: "failover", i18nLeaf: "H_FAILOVER", level: 2 },
       { id: "honest", i18nLeaf: "H_HONEST", level: 2 },
