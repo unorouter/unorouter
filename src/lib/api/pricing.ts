@@ -131,15 +131,20 @@ export function processModels(response: PricingData) {
       // Mirrors new-api-sync guest-token allowlist so FREE badge tracks guest-callable.
       let isFreeStrict = false;
 
+      // Cheapest enabled group ratio: the gateway bills grid rows AND model_price at
+      // modelPrice * groupRatio, so grid tiers must display x this ratio to match the
+      // discounted headline (else the header shows a discounted price but the grid the raw).
+      const gridMinRatio = computeMinGroupRatio(
+        model.enable_groups ?? [],
+        groupRatio,
+      );
+
       if (isFixedPrice) {
         // Per-call sticker is model_price; the cheapest enabled group ratio is the
         // real retail (new-api bills modelPrice * QuotaPerUnit * groupRatio). Show
         // the discounted retail, strike through the sticker.
         const sticker = model.model_price ?? 0;
-        const minRatio = computeMinGroupRatio(
-          model.enable_groups ?? [],
-          groupRatio,
-        );
+        const minRatio = gridMinRatio;
         fixedPrice = sticker * minRatio;
         if (showOriginalPrice && minRatio < 1 && sticker > 0) {
           originalFixedPrice = sticker;
@@ -197,6 +202,21 @@ export function processModels(response: PricingData) {
       const gridPricing =
         Array.isArray(rawGrid) && rawGrid.length > 0 ? rawGrid : null;
 
+      // Grid model: the headline "from" price is the cheapest grid tier x group ratio, so it
+      // agrees with the (group-adjusted) grid table instead of the flat model_price sticker.
+      if (gridPricing) {
+        let minTier = Number.POSITIVE_INFINITY;
+        for (const row of gridPricing) {
+          const p = typeof row.Pricing === "number" ? row.Pricing : NaN;
+          if (Number.isFinite(p) && p > 0 && p < minTier) minTier = p;
+        }
+        if (Number.isFinite(minTier)) {
+          fixedPrice = minTier * gridMinRatio;
+          originalFixedPrice =
+            showOriginalPrice && gridMinRatio < 1 ? minTier : null;
+        }
+      }
+
       return {
         name: model.model_name ?? "",
         vendor,
@@ -209,6 +229,7 @@ export function processModels(response: PricingData) {
         isFree: isFreeStrict,
         quotaType: qt,
         gridPricing,
+        gridMinRatio,
         type: getModelType(model),
         endpointTypes: model.supported_endpoint_types ?? [],
         description: model.description,
