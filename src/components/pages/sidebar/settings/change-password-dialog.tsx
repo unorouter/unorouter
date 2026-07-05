@@ -26,9 +26,11 @@ import { toast } from "sonner";
 export function ChangePasswordDialog(props: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  hasPassword?: boolean;
 }) {
   const t = useTranslations();
   const updateSelfMutation = useUpdateSelfMutation();
+  const hasPassword = props.hasPassword ?? true;
 
   const form = useForm({
     resolver: typeboxResolver(changePasswordSchema),
@@ -47,6 +49,14 @@ export function ChangePasswordDialog(props: {
   }, [props.open, form]);
 
   function onSubmit(data: ChangePasswordSchema) {
+    if (hasPassword && !data.original_password) {
+      form.setError("original_password", {
+        message: t("FORM.ERROR.REQUIRED", {
+          type: t("SETTINGS.SECURITY.OLD_PASSWORD"),
+        }),
+      });
+      return;
+    }
     if (data.password !== data.confirm_password) {
       form.setError("confirm_password", {
         message: t("SETTINGS.SECURITY.PASSWORD_MISMATCH"),
@@ -77,18 +87,24 @@ export function ChangePasswordDialog(props: {
     <Dialog open={props.open} onOpenChange={props.onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{t("SETTINGS.SECURITY.CHANGE_PASSWORD")}</DialogTitle>
+          <DialogTitle>
+            {hasPassword
+              ? t("SETTINGS.SECURITY.CHANGE_PASSWORD")
+              : t("SETTINGS.SECURITY.SET_PASSWORD")}
+          </DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <div className="space-y-4 py-4">
-              <MyFormInput
-                control={form.control}
-                name="original_password"
-                schema={changePasswordSchema}
-                label={t("SETTINGS.SECURITY.OLD_PASSWORD")}
-                type="password"
-              />
+              {hasPassword && (
+                <MyFormInput
+                  control={form.control}
+                  name="original_password"
+                  schema={changePasswordSchema}
+                  label={t("SETTINGS.SECURITY.OLD_PASSWORD")}
+                  type="password"
+                />
+              )}
               <MyFormInput
                 control={form.control}
                 name="password"
@@ -113,7 +129,9 @@ export function ChangePasswordDialog(props: {
                 {t("SETTINGS.CANCEL")}
               </Button>
               <Button type="submit" disabled={updateSelfMutation.isPending}>
-                {t("SETTINGS.SECURITY.CHANGE_PASSWORD")}
+                {hasPassword
+                  ? t("SETTINGS.SECURITY.CHANGE_PASSWORD")
+                  : t("SETTINGS.SECURITY.SET_PASSWORD")}
               </Button>
             </DialogFooter>
           </form>

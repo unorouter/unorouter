@@ -13,6 +13,7 @@ import {
   usePasskeyRegisterFinishMutation,
   usePasskeyStatusQuery,
 } from "@/hooks/auth/settings-hook";
+import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -39,8 +40,12 @@ export function SecurityCard() {
   const [twoFAMode, setTwoFAMode] = useState<TwoFAMode>("setup");
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
+  const authQuery = useAuthQuery();
   const twoFAEnabled = twoFAStatusQuery.data?.enabled === true;
   const passkeyRegistered = passkeyStatusQuery.data?.enabled === true;
+  const hasPassword =
+    (authQuery.data as { has_password?: boolean } | undefined)?.has_password ??
+    true;
 
   function handleGenerateToken() {
     generateTokenMutation.mutate(undefined, {
@@ -209,7 +214,9 @@ export function SecurityCard() {
               size="sm"
               onClick={() => setShowPasswordDialog(true)}
             >
-              {t("SETTINGS.SECURITY.CHANGE_PASSWORD")}
+              {hasPassword
+                ? t("SETTINGS.SECURITY.CHANGE_PASSWORD")
+                : t("SETTINGS.SECURITY.SET_PASSWORD")}
             </Button>
           </div>
 
@@ -333,6 +340,7 @@ export function SecurityCard() {
       <ChangePasswordDialog
         open={showPasswordDialog}
         onOpenChange={setShowPasswordDialog}
+        hasPassword={hasPassword}
       />
       <Setup2FADialog
         open={show2FADialog}

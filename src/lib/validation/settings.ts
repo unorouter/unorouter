@@ -3,7 +3,7 @@ import { msg } from "../config/constants";
 
 export const changePasswordSchema = t.Object({
   original_password: t.String({
-    minLength: 1,
+    minLength: 0,
     default: "",
     error: msg("FORM.ERROR.REQUIRED"),
   }),
