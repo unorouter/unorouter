@@ -120,6 +120,7 @@ export const VENDOR_LOADERS: Partial<Record<Vendor, IconLoader>> = {
   [Vendor.DEEPL]: () => import("@lobehub/icons/es/DeepL"),
   [Vendor.ELEVENLABS]: () => import("@lobehub/icons/es/ElevenLabs"),
   [Vendor.VOIDAI]: () => import("@/components/elements/brand/voidai-icon"),
+  [Vendor.VENICE]: () => import("@lobehub/icons/es/Venice"),
   [Vendor.ZANITY]: () => import("@/components/elements/brand/zanity-icon"),
   [Vendor.SPEECHIFY]: () =>
     import("@/components/elements/brand/speechify-icon"),

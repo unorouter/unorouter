@@ -84,6 +84,7 @@ export enum Vendor {
   AI21 = "ai21 labs",
   NOUS = "nous research",
   VOIDAI = "voidai",
+  VENICE = "venice",
   ZANITY = "zanity",
   DEEPL = "deepl",
   ELEVENLABS = "elevenlabs",
