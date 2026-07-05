@@ -285,16 +285,17 @@ async function buildMemoryViaAgent(
   return out;
 }
 
-// Model maxOutputTokens is a hard ceiling; clamp preset to it + the free cap. Unknown cap falls back to the default cap.
+// Model maxOutputTokens is a hard ceiling; clamp preset to it + the free cap. Without a known
+// ceiling (custom providers, metadata-less catalog models) an explicit user value wins verbatim;
+// UNKNOWN_MODEL_OUTPUT_CAP is only the default when the slider is unset.
 function clampOutputTokens(
   assembled: AssembledSystem,
   modelInfo: ProcessedModel | undefined,
 ): number {
-  const knownCeiling =
-    modelInfo?.metadata.maxOutputTokens ?? UNKNOWN_MODEL_OUTPUT_CAP;
+  const ceiling = modelInfo?.metadata.maxOutputTokens;
   return Math.min(
-    assembled.sampling.maxOutputTokens ?? knownCeiling,
-    knownCeiling,
+    assembled.sampling.maxOutputTokens ?? ceiling ?? UNKNOWN_MODEL_OUTPUT_CAP,
+    ceiling ?? Number.POSITIVE_INFINITY,
     ...(modelInfo?.isFree ? [FREE_MODEL_OUTPUT_CAP] : []),
   );
 }
