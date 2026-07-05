@@ -304,7 +304,11 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
           </section>
 
           {model.gridPricing && (
-            <GridPricingSection gridPricing={model.gridPricing} theme={theme} />
+            <GridPricingSection
+              gridPricing={model.gridPricing}
+              priceMultiplier={model.gridMinRatio}
+              theme={theme}
+            />
           )}
 
           {/* Group pricing: skipped for tiered models (no single per-token price to multiply). */}
@@ -468,6 +472,7 @@ function GridPricingTable(props: {
 
 function GridPricingSection(props: {
   gridPricing: GridPricingRow[];
+  priceMultiplier?: number;
   theme: ReturnType<typeof getVendorTheme>;
 }) {
   const t = useTranslations();
@@ -487,6 +492,7 @@ function GridPricingSection(props: {
       >
         <GridPricingTable
           rows={props.gridPricing}
+          priceMultiplier={props.priceMultiplier}
           theme={props.theme}
           pricingLabel={t("MODELS.DETAIL.PRICING")}
         />

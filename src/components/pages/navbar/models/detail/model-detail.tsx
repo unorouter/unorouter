@@ -445,6 +445,7 @@ print(res.choices[0].message.content)`;
             <GridPricingTable
               rows={m.gridPricing}
               priceLabel={t("MODEL_PAGE.GRID_PRICE_HEADER")}
+              multiplier={m.gridMinRatio}
             />
           </div>
         )}
