@@ -89,6 +89,10 @@ export const VENDOR_LOADERS: Partial<Record<Vendor, IconLoader>> = {
   [Vendor.FALLENMERICK]: () =>
     import("@/components/elements/brand/fallenmerick-icon"),
   [Vendor.MEGANOVA]: () => import("@/components/elements/brand/meganova-icon"),
+  [Vendor.AGNES]: () => import("@/components/elements/brand/agnes-icon"),
+  [Vendor.REQUESTY]: () => import("@/components/elements/brand/requesty-icon"),
+  [Vendor.ELECTRONHUB]: () =>
+    import("@/components/elements/brand/electronhub-icon"),
   [Vendor.AI21]: () => import("@lobehub/icons/es/Ai21"),
   [Vendor.ALLENAI]: () => import("@lobehub/icons/es/Ai2"),
   [Vendor.NOUS]: () => import("@lobehub/icons/es/NousResearch"),
