@@ -3373,6 +3373,7 @@
       "TOKEN_COPIED": "Clipboard पर copy किया गया",
       "PASSWORD": "पासवर्ड",
       "CHANGE_PASSWORD": "पासवर्ड बदलें",
+      "SET_PASSWORD": "पासवर्ड सेट करें",
       "OLD_PASSWORD": "वर्तमान पासवर्ड",
       "NEW_PASSWORD": "नया पासवर्ड",
       "CONFIRM_PASSWORD": "नए पासवर्ड की पुष्टि करें",

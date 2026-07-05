@@ -3373,6 +3373,7 @@
       "TOKEN_COPIED": "클립보드에 복사됨",
       "PASSWORD": "비밀번호",
       "CHANGE_PASSWORD": "비밀번호 변경",
+      "SET_PASSWORD": "비밀번호 설정",
       "OLD_PASSWORD": "현재 비밀번호",
       "NEW_PASSWORD": "새 비밀번호",
       "CONFIRM_PASSWORD": "새 비밀번호 확인",

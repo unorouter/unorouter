@@ -3373,6 +3373,7 @@
       "TOKEN_COPIED": "Đã sao chép vào bộ nhớ tạm",
       "PASSWORD": "Mật khẩu",
       "CHANGE_PASSWORD": "Đổi mật khẩu",
+      "SET_PASSWORD": "Đặt mật khẩu",
       "OLD_PASSWORD": "Mật khẩu hiện tại",
       "NEW_PASSWORD": "Mật khẩu mới",
       "CONFIRM_PASSWORD": "Xác nhận mật khẩu mới",

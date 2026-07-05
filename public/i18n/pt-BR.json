@@ -3373,6 +3373,7 @@
       "TOKEN_COPIED": "Copiado para a área de transferência",
       "PASSWORD": "Senha",
       "CHANGE_PASSWORD": "Alterar senha",
+      "SET_PASSWORD": "Definir senha",
       "OLD_PASSWORD": "Senha atual",
       "NEW_PASSWORD": "Nova senha",
       "CONFIRM_PASSWORD": "Confirmar nova senha",

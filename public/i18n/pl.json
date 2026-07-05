@@ -3373,6 +3373,7 @@
       "TOKEN_COPIED": "Skopiowano do schowka",
       "PASSWORD": "Hasło",
       "CHANGE_PASSWORD": "Zmień hasło",
+      "SET_PASSWORD": "Ustaw hasło",
       "OLD_PASSWORD": "Obecne hasło",
       "NEW_PASSWORD": "Nowe hasło",
       "CONFIRM_PASSWORD": "Potwierdź nowe hasło",

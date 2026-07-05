@@ -3373,6 +3373,7 @@
       "TOKEN_COPIED": "Скопировано в буфер обмена",
       "PASSWORD": "Пароль",
       "CHANGE_PASSWORD": "Сменить пароль",
+      "SET_PASSWORD": "Задать пароль",
       "OLD_PASSWORD": "Текущий пароль",
       "NEW_PASSWORD": "Новый пароль",
       "CONFIRM_PASSWORD": "Подтвердите новый пароль",

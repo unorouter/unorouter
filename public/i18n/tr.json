@@ -3373,6 +3373,7 @@
       "TOKEN_COPIED": "Panoya kopyalandı",
       "PASSWORD": "Şifre",
       "CHANGE_PASSWORD": "Şifre Değiştir",
+      "SET_PASSWORD": "Şifre Belirle",
       "OLD_PASSWORD": "Mevcut Şifre",
       "NEW_PASSWORD": "Yeni Şifre",
       "CONFIRM_PASSWORD": "Yeni Şifreyi Onayla",

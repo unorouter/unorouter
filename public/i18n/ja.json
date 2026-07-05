@@ -3373,6 +3373,7 @@
       "TOKEN_COPIED": "クリップボードにコピーしました",
       "PASSWORD": "パスワード",
       "CHANGE_PASSWORD": "パスワードを変更",
+      "SET_PASSWORD": "パスワードを設定",
       "OLD_PASSWORD": "現在のパスワード",
       "NEW_PASSWORD": "新しいパスワード",
       "CONFIRM_PASSWORD": "新しいパスワード（確認）",

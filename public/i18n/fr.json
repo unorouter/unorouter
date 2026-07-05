@@ -3373,6 +3373,7 @@
       "TOKEN_COPIED": "Copié dans le presse-papiers",
       "PASSWORD": "Mot de passe",
       "CHANGE_PASSWORD": "Changer le mot de passe",
+      "SET_PASSWORD": "Définir le mot de passe",
       "OLD_PASSWORD": "Mot de passe actuel",
       "NEW_PASSWORD": "Nouveau mot de passe",
       "CONFIRM_PASSWORD": "Confirmer le nouveau mot de passe",

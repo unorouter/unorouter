@@ -3373,6 +3373,7 @@
       "TOKEN_COPIED": "In die Zwischenablage kopiert",
       "PASSWORD": "Passwort",
       "CHANGE_PASSWORD": "Passwort ändern",
+      "SET_PASSWORD": "Passwort festlegen",
       "OLD_PASSWORD": "Aktuelles Passwort",
       "NEW_PASSWORD": "Neues Passwort",
       "CONFIRM_PASSWORD": "Neues Passwort bestätigen",

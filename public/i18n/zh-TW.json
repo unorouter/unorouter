@@ -3373,6 +3373,7 @@
       "TOKEN_COPIED": "已複製到剪貼簿",
       "PASSWORD": "密碼",
       "CHANGE_PASSWORD": "變更密碼",
+      "SET_PASSWORD": "設定密碼",
       "OLD_PASSWORD": "目前密碼",
       "NEW_PASSWORD": "新密碼",
       "CONFIRM_PASSWORD": "確認新密碼",

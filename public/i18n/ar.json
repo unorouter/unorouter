@@ -3373,6 +3373,7 @@
       "TOKEN_COPIED": "تمّ النسخ إلى الحافظة",
       "PASSWORD": "كلمة المرور",
       "CHANGE_PASSWORD": "تغيير كلمة المرور",
+      "SET_PASSWORD": "تعيين كلمة المرور",
       "OLD_PASSWORD": "كلمة المرور الحالية",
       "NEW_PASSWORD": "كلمة المرور الجديدة",
       "CONFIRM_PASSWORD": "تأكيد كلمة المرور الجديدة",
