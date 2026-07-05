@@ -82,9 +82,8 @@ export function ActiveConfigBadge() {
   const presetName = presets?.find(
     (p) => p.id === boundId(settings.presetId),
   )?.name;
-  const personaName = personas?.find(
-    (p) => p.id === boundId(settings.personaId),
-  )?.name;
+  const persona = personas?.find((p) => p.id === boundId(settings.personaId));
+  const personaName = persona ? persona.title || persona.name : undefined;
   const characterCount = bindings?.characters?.length ?? 0;
   const lorebookCount = bindings?.lorebooks?.length ?? 0;
 

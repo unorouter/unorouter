@@ -28,7 +28,10 @@ import { chatLoadoutAtom, type ChatLoadout } from "@/store/chat-store";
 import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
 
-type NamedEntity = { id: string; name: string };
+type NamedEntity = { id: string; name: string; title?: string | null };
+
+// Personas carry a display title (never sent to the model); prefer it in pickers so same-named personas are distinguishable.
+const entityLabel = (o: NamedEntity) => o.title || o.name;
 
 function EntityPicker(props: {
   label: string;
@@ -47,18 +50,18 @@ function EntityPicker(props: {
       >
         <SelectTrigger className="h-8">
           <SelectValue>
-            {(value: string) =>
-              value === NONE_VALUE
-                ? props.noneLabel
-                : (options.find((o) => o.id === value)?.name ?? props.noneLabel)
-            }
+            {(value: string) => {
+              if (value === NONE_VALUE) return props.noneLabel;
+              const match = options.find((o) => o.id === value);
+              return match ? entityLabel(match) : props.noneLabel;
+            }}
           </SelectValue>
         </SelectTrigger>
         <SelectContent>
           <SelectItem value={NONE_VALUE}>{props.noneLabel}</SelectItem>
           {options.map((o) => (
             <SelectItem key={o.id} value={o.id}>
-              {o.name}
+              {entityLabel(o)}
             </SelectItem>
           ))}
         </SelectContent>
