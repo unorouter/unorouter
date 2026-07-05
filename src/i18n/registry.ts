@@ -1,4 +1,5 @@
 import { CHAT_DOCS } from "@/components/pages/docs/chat/chat-docs";
+import { PLATFORM_DOCS } from "@/components/pages/docs/platform/platform-docs";
 import { SETUP_GUIDES } from "@/components/pages/docs/setup-guides";
 import type { Pathname } from "@/i18n/routing";
 import {
@@ -15,7 +16,7 @@ const SETUP_GUIDE_SOURCES = [
 ] as const;
 
 const GUIDE_ENTRIES = SETUP_GUIDES.map((guide): DocEntry => ({
-  slug: `docs/${guide.slug}`,
+  slug: `docs/integrations/${guide.slug}`,
   // guide.href is LinkHref; Pathname is the structurally-equal getPathname arg.
   path: guide.href as Pathname,
   i18nPrefix: guide.i18nPrefix as DocEntry["i18nPrefix"],
@@ -44,12 +45,27 @@ const CHAT_DOC_ENTRIES = CHAT_DOCS.map((doc): DocEntry => ({
   changeFrequency: "weekly",
 }));
 
+// Platform guide pages (quickstart/errors/billing/models) under docs/platform/<slug>.
+const PLATFORM_DOC_SOURCES = [
+  "src/components/pages/docs/platform/platform-docs.ts",
+  "src/components/pages/docs/platform/platform-doc-template.tsx",
+] as const;
+
+const PLATFORM_DOC_ENTRIES = PLATFORM_DOCS.map((doc): DocEntry => ({
+  slug: `docs/platform/${doc.slug}`,
+  path: doc.href as Pathname,
+  i18nPrefix: doc.i18nPrefix as DocEntry["i18nPrefix"],
+  contentFiles: [...PLATFORM_DOC_SOURCES, doc.contentFile],
+  priority: 0.7,
+  changeFrequency: "weekly",
+}));
+
 export const DOCS_REGISTRY: readonly DocEntry[] = [
   {
-    slug: "docs",
-    path: "/docs",
+    slug: "docs/integrations",
+    path: "/docs/integrations",
     i18nPrefix: "DOCS_INDEX",
-    contentFiles: ["src/app/[locale]/(docs)/docs/page.tsx"],
+    contentFiles: ["src/app/[locale]/(docs)/docs/integrations/page.tsx"],
     priority: 0.8,
     changeFrequency: "daily",
   },
@@ -61,8 +77,17 @@ export const DOCS_REGISTRY: readonly DocEntry[] = [
     priority: 0.8,
     changeFrequency: "weekly",
   },
+  {
+    slug: "docs/platform",
+    path: "/docs/platform",
+    i18nPrefix: "DOCS_PLATFORM.INDEX" as DocEntry["i18nPrefix"],
+    contentFiles: ["src/app/[locale]/(docs)/docs/platform/page.tsx"],
+    priority: 0.8,
+    changeFrequency: "weekly",
+  },
   ...GUIDE_ENTRIES,
   ...CHAT_DOC_ENTRIES,
+  ...PLATFORM_DOC_ENTRIES,
 ];
 
 /** Pages that get git-derived timestamps but aren't listed as "content". */
@@ -668,7 +693,6 @@ export const SECTION_PRIORITIES = {
   "/": { priority: 1.0, changeFrequency: "daily" },
   "/models": { priority: 0.8, changeFrequency: "daily" },
   "/pricing": { priority: 0.8, changeFrequency: "daily" },
-  "/docs": { priority: 0.8, changeFrequency: "daily" },
   "/blog": { priority: 0.8, changeFrequency: "weekly" },
 } as const satisfies SectionPriorities;
 

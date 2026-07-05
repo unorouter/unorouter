@@ -5,6 +5,8 @@ import {
   chatDocsNavItemsOverview,
   docsNavGroups,
   docsNavItemsOverview,
+  platformDocsNavGroups,
+  platformDocsNavItemsOverview,
 } from "@/components/layout/docs/docs-navigation";
 import {
   type NavigationItem,
@@ -113,9 +115,18 @@ export function SidebarNavigation(props: SidebarNavigationProps) {
     const mainNavItems = navigation(authenticated).filter(
       (item) => !item.hidden && item.href !== "/docs",
     );
-    const chatDocs = pathname.startsWith("/docs/chat");
-    const overview = chatDocs ? chatDocsNavItemsOverview : docsNavItemsOverview;
-    const groups = chatDocs ? chatDocsNavGroups : docsNavGroups;
+    const platformDocs = pathname.startsWith("/docs/platform");
+    const chatDocs = !platformDocs && pathname.startsWith("/docs/chat");
+    const overview = platformDocs
+      ? platformDocsNavItemsOverview
+      : chatDocs
+        ? chatDocsNavItemsOverview
+        : docsNavItemsOverview;
+    const groups = platformDocs
+      ? platformDocsNavGroups
+      : chatDocs
+        ? chatDocsNavGroups
+        : docsNavGroups;
     return (
       <>
         <NavGroup label={t("DOCS_SIDEBAR.TITLE")} items={overview} />

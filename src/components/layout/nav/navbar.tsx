@@ -161,7 +161,7 @@ export function Navbar() {
                     }
                   />
                   <NavigationMenuContent>
-                    <div className="grid w-[min(92vw,1080px)] grid-cols-2 gap-2 p-1 md:grid-cols-3 lg:grid-cols-4">
+                    <div className="grid max-h-[calc(100dvh-5.5rem)] w-[min(92vw,1080px)] grid-cols-2 gap-2 overflow-y-auto overscroll-contain p-1 md:grid-cols-3 lg:grid-cols-4">
                       {docsSubmenuGroups.map((grp) => (
                         <Fragment key={grp.group}>
                           <span

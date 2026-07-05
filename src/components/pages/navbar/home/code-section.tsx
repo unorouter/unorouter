@@ -61,7 +61,7 @@ export async function CodeSection() {
 
           <div className="flex flex-col gap-4 pt-2 sm:flex-row sm:items-center sm:gap-6">
             <Link
-              href="/docs/claude-code"
+              href="/docs/integrations/claude-code"
               className="text-foreground border-foreground hover:text-muted-foreground hover:border-muted-foreground flex w-fit items-center gap-2 border-b pb-1 font-mono text-xs font-bold tracking-widest uppercase transition-colors"
             >
               {t("HOME.CODE.READ_DOCS")}

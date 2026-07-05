@@ -79,7 +79,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     Object.keys(pathnames) as (keyof typeof pathnames)[]
   ).filter(
     (route) =>
-      !route.includes("[") && !privateSet.has(route) && !docPathSet.has(route),
+      !route.includes("[") &&
+      !privateSet.has(route) &&
+      !docPathSet.has(route) &&
+      // /docs 301s to /docs/platform; the tab indexes come from DOCS_REGISTRY.
+      route !== "/docs" &&
+      !route.startsWith("/docs/integrations/"),
   );
 
   // A silent empty drops every model page from the sitemap; retry once before giving up.

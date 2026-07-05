@@ -29,6 +29,9 @@ export const CLIENT_DOCS_GUIDE_LEAVES = ["TITLE", "SUBTITLE"] as const;
 /** DOCS_CHAT subtrees shipped in full (tab bar + section labels + index card). */
 export const CLIENT_DOCS_CHAT_KEPT = ["COMMON", "INDEX"] as const;
 
+/** DOCS_PLATFORM subtrees shipped in full (tab bar + section labels + index card). */
+export const CLIENT_DOCS_PLATFORM_KEPT = ["COMMON", "INDEX"] as const;
+
 /** TITLE/SUBTITLE-only pruning for a docs-like namespace; page bodies stay server-only. */
 function pruneDocsNamespace(
   docs: Messages,
@@ -62,11 +65,16 @@ export function pruneClientMessages(messages: Messages): Messages {
     (messages.DOCS_CHAT ?? {}) as Messages,
     CLIENT_DOCS_CHAT_KEPT,
   );
+  const prunedDocsPlatform = pruneDocsNamespace(
+    (messages.DOCS_PLATFORM ?? {}) as Messages,
+    CLIENT_DOCS_PLATFORM_KEPT,
+  );
 
   const pruned: Messages = {
     ...messages,
     DOCS: prunedDocs,
     DOCS_CHAT: prunedDocsChat,
+    DOCS_PLATFORM: prunedDocsPlatform,
   };
   for (const subtree of CLIENT_STRIPPED_SUBTREES) {
     // Clone the path before deleting: getMessages() returns a shared object; mutating it would strip keys from server too.

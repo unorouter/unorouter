@@ -1,5 +1,6 @@
 import type { IntegrationIconKey } from "@/components/pages/docs/integrations";
 import { CHAT_DOCS } from "@/components/pages/docs/chat/chat-docs";
+import { PLATFORM_DOCS } from "@/components/pages/docs/platform/platform-docs";
 import {
   CATEGORY_LABELS,
   CATEGORY_ORDER,
@@ -30,7 +31,25 @@ const docsSubmenu = (): NavigationItem[] => {
       iconName: doc.iconName,
     })),
   ];
+  // Platform guide (quickstart/errors/billing/models): overview + all pages.
+  const platformItems: NavigationItem[] = [
+    {
+      name: "DOCS_PLATFORM.INDEX.TITLE" as TranslationKey,
+      subtitle: "DOCS_PLATFORM.INDEX.SUBTITLE" as TranslationKey,
+      href: "/docs/platform",
+      group: "DOCS_PLATFORM.COMMON.TAB_PLATFORM" as TranslationKey,
+      iconName: "layout-grid",
+    },
+    ...PLATFORM_DOCS.map((doc): NavigationItem => ({
+      name: `${doc.i18nPrefix}.TITLE` as TranslationKey,
+      subtitle: `${doc.i18nPrefix}.SUBTITLE` as TranslationKey,
+      href: doc.href,
+      group: "DOCS_PLATFORM.COMMON.TAB_PLATFORM" as TranslationKey,
+      iconName: doc.iconName,
+    })),
+  ];
   return [
+    ...platformItems,
     ...chatItems,
     ...CATEGORY_ORDER.flatMap((category) =>
       byCategory[category].map((guide) => ({

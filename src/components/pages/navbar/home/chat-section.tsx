@@ -244,7 +244,7 @@ export async function ChatSection() {
                 {t("HOME.CHAT.CTA_OPEN")}
               </Link>
               <Link
-                href="/docs/sillytavern"
+                href="/docs/integrations/sillytavern"
                 className="border-border text-foreground hover:border-foreground flex h-11 items-center gap-2 border bg-transparent px-6 font-mono text-xs font-bold tracking-widest uppercase transition-all"
               >
                 {t("HOME.CHAT.CTA_CONNECT")}
