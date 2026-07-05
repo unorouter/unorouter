@@ -21,6 +21,15 @@ export async function FreeModelsAggregatedContent() {
         })}
       </p>
 
+      <h2 id="limit">{t("BLOG.POSTS.FREE_MODELS_AGGREGATED.H_LIMIT")}</h2>
+      <p>
+        {t.rich("BLOG.POSTS.FREE_MODELS_AGGREGATED.P_LIMIT", {
+          ...APP_VALUES,
+          c: (chunks) => <code>{chunks}</code>,
+          s: (chunks) => <strong>{chunks}</strong>,
+        })}
+      </p>
+
       <h2 id="aggregate">
         {t("BLOG.POSTS.FREE_MODELS_AGGREGATED.H_AGGREGATE")}
       </h2>
