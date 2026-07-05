@@ -89,7 +89,7 @@ export function ChatGroupSection(props: Props) {
         </button>
         <DropdownMenu>
           <DropdownMenuTrigger
-            className="opacity-0 group-hover:opacity-100"
+            className="opacity-100 sm:opacity-0 sm:group-hover:opacity-100"
             aria-label={t("COMMON.OPEN_MENU")}
           >
             <Icon name="ellipsis" className="size-3.5" />
