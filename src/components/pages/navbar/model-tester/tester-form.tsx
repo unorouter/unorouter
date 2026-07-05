@@ -55,7 +55,8 @@ export function TesterForm() {
   // Hard block: a model whose id resolves to a different format than the picked
   // one would fail every probe (wrong wire). Block the run instead.
   const inferredFmt = watchedModel ? providerForModel(watchedModel) : null;
-  const formatMismatch = inferredFmt !== null && inferredFmt !== watchedProvider;
+  const formatMismatch =
+    inferredFmt !== null && inferredFmt !== watchedProvider;
 
   // Local test: runs client-side, stays on device, never published.
   async function runLocal(values: ModelTesterForm, mode: "direct" | "server") {

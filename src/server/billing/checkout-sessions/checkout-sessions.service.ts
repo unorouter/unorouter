@@ -20,10 +20,7 @@ import { ADMIN_HEADERS } from "@/server/constants";
 import { acpError } from "./errors";
 
 export type AcpSessionStatus =
-  | "ready_for_payment"
-  | "in_progress"
-  | "canceled"
-  | "completed";
+  "ready_for_payment" | "in_progress" | "canceled" | "completed";
 
 const PAYMENT_METHOD_DEFAULT = "card";
 

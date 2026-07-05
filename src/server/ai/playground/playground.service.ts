@@ -26,8 +26,7 @@ function imageCountFor(body: PlaygroundSubmitBody): number {
 }
 
 type ResolvedEndpoint =
-  | { kind: "comfyui-task" }
-  | { kind: "sync"; endpoint: SyncImageEndpoint };
+  { kind: "comfyui-task" } | { kind: "sync"; endpoint: SyncImageEndpoint };
 
 async function resolveSubmissionEndpoint(
   model: string,

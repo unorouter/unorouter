@@ -28,11 +28,7 @@ export function MyFormError(props: MyFormErrorProps) {
     .replace(/\b\w/g, (c) => c.toUpperCase());
 
   // FORM.TYPE.<NAME> field label is OPTIONAL (most fields lack one); safeT falls back to humanized.
-  const type = safeT(
-    t,
-    `FORM.TYPE.${cleanedName.toUpperCase()}`,
-    humanized,
-  );
+  const type = safeT(t, `FORM.TYPE.${cleanedName.toUpperCase()}`, humanized);
 
   // props.error may be a translation key OR a raw upstream string; safeT echoes it back if not a key.
   const error = safeT(t, props.error, props.error, {

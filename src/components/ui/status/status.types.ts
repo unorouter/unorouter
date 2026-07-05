@@ -1,10 +1,7 @@
 export type StatusType = "success" | "degraded" | "error" | "info" | "empty";
 export type StatusEventType = "incident" | "report" | "maintenance";
 export type StatusReportUpdateType =
-  | "investigating"
-  | "identified"
-  | "monitoring"
-  | "resolved";
+  "investigating" | "identified" | "monitoring" | "resolved";
 
 export type ThemeValue = "light" | "dark" | "system";
 

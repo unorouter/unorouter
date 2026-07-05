@@ -257,7 +257,9 @@ function ProbeRow(props: { probe: ResultProbe; provider: VerifyProvider }) {
                 />
                 {t("MODEL_TESTER.PROBE_DETAIL.WHAT_WE_CHECK")}
               </span>
-              <span className="text-muted-foreground">{t(intentChecksKey)}</span>
+              <span className="text-muted-foreground">
+                {t(intentChecksKey)}
+              </span>
               <span className="text-muted-foreground">{t(intentWhyKey)}</span>
             </div>
           ) : null}
@@ -320,12 +322,14 @@ const PROBE_PILL_TONE: Record<ProbeTone, string> = {
     "border-amber-500/30 bg-amber-500/10 text-amber-700 dark:text-amber-400",
   fail: "border-destructive/30 bg-destructive/10 text-destructive",
 };
-const PROBE_TONE_ICON: Record<ProbeTone, "circle-check" | "circle-alert" | "circle-x"> =
-  {
-    pass: "circle-check",
-    transient: "circle-alert",
-    fail: "circle-x",
-  };
+const PROBE_TONE_ICON: Record<
+  ProbeTone,
+  "circle-check" | "circle-alert" | "circle-x"
+> = {
+  pass: "circle-check",
+  transient: "circle-alert",
+  fail: "circle-x",
+};
 const PROBE_ROW_ICON_TONE: Record<ProbeTone, string> = {
   pass: "text-emerald-500",
   transient: "text-amber-500",
@@ -426,7 +430,9 @@ export function TestResultCard(props: {
 
         {/* Scannable metadata, always visible. */}
         <div className="text-muted-foreground flex flex-wrap gap-x-5 gap-y-1 text-sm">
-          <span>{t("MODEL_TESTER.RESULT.LATENCY", { ms: result.latencyMs })}</span>
+          <span>
+            {t("MODEL_TESTER.RESULT.LATENCY", { ms: result.latencyMs })}
+          </span>
           <span>
             {t("MODEL_TESTER.RESULT.TRANSPORT", { mode: result.transport })}
           </span>

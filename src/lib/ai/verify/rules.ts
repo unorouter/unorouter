@@ -6,12 +6,7 @@ import type { ProbeSignal } from "./types";
 // adding a vendor/model never desyncs the copy. The keys live under
 // MODEL_TESTER.RULES.<ID> with TITLE / MEANS / WHY / EXCEPTION leaves.
 export type DetectionRuleId =
-  | "coding-tool"
-  | "scam"
-  | "cjk-leak"
-  | "mux"
-  | "foreign"
-  | "tier-mismatch";
+  "coding-tool" | "scam" | "cjk-leak" | "mux" | "foreign" | "tier-mismatch";
 
 export type DetectionRule = {
   id: DetectionRuleId;
@@ -34,11 +29,7 @@ export const DETECTION_RULES: readonly DetectionRule[] = [
 // the verdict so an honest provider is never condemned. Keys under
 // MODEL_TESTER.RULES.EXCEPTION.<ID> with TITLE / BODY leaves.
 export type DetectionExceptionId =
-  | "version"
-  | "transient"
-  | "cloud-host"
-  | "reshaping"
-  | "threshold";
+  "version" | "transient" | "cloud-host" | "reshaping" | "threshold";
 
 export const DETECTION_EXCEPTIONS: readonly DetectionExceptionId[] = [
   "version",

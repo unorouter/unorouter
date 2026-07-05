@@ -42,11 +42,9 @@ export function buildContextFromClient(
   });
 
   const persona = (ctx.persona ?? undefined) as
-    | NonNullable<LoadedConvContext>["persona"]
-    | undefined;
+    NonNullable<LoadedConvContext>["persona"] | undefined;
   const preset = (ctx.preset ?? undefined) as
-    | NonNullable<LoadedConvContext>["preset"]
-    | undefined;
+    NonNullable<LoadedConvContext>["preset"] | undefined;
 
   const lbRows: NonNullable<LoadedConvContext>["lbRows"] = [];
   const lbEntries: NonNullable<LoadedConvContext>["lbEntries"] = [];

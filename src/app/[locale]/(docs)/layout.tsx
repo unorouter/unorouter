@@ -1,4 +1,5 @@
 import { prefetchElysia } from "@/lib/react-query/prefetch";
+import { DocsTabs } from "@/components/layout/docs/docs-tabs";
 import { SidebarLayout } from "@/components/layout/sidebar/sidebar-layout";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
@@ -29,6 +30,7 @@ export default async function DocsLayout(props: DocsLayoutProps) {
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <SidebarLayout navConfig="docs" showSearch>
+        <DocsTabs />
         {props.children}
       </SidebarLayout>
     </HydrationBoundary>

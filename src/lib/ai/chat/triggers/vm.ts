@@ -378,10 +378,7 @@ async function runEffects(
       }
       case "showAlert": {
         const kind = (e.alertType ?? "normal") as
-          | "normal"
-          | "error"
-          | "input"
-          | "select";
+          "normal" | "error" | "input" | "select";
         const text = parse(e.value);
         let outv = "";
         if (ctx.ops?.alert) {

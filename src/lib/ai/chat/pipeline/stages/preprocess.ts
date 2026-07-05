@@ -25,8 +25,7 @@ export async function preprocessMessages(
   inlinePdfText: AssemblerDeps["inlinePdfText"],
 ): Promise<Preprocessed> {
   const primaryChar = convCtx?.boundCharacters[0]?.character as
-    | { regexScripts?: unknown; triggers?: unknown }
-    | undefined;
+    { regexScripts?: unknown; triggers?: unknown } | undefined;
 
   const pdfInlined = await inlinePdfText(messages);
   const regexScripts = parseRegexScripts(primaryChar?.regexScripts);

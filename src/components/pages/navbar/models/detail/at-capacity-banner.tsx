@@ -12,9 +12,7 @@ export async function AtCapacityBanner(props: { locale: Locale }) {
       <Icon name="clock" className="text-warning mt-0.5 h-5 w-5 shrink-0" />
       <div className="text-sm">
         <p className="font-semibold">{t("MODEL_PAGE.AT_CAPACITY_TITLE")}</p>
-        <p className="text-foreground/70">
-          {t("MODEL_PAGE.AT_CAPACITY_BODY")}
-        </p>
+        <p className="text-foreground/70">{t("MODEL_PAGE.AT_CAPACITY_BODY")}</p>
       </div>
     </div>
   );

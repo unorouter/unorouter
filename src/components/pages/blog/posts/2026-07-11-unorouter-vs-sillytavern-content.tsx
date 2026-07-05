@@ -23,7 +23,9 @@ export async function UnorouterVsSillytavernContent() {
         })}
       </p>
 
-      <h2 id="drops-in">{t("BLOG.POSTS.UNOROUTER_VS_SILLYTAVERN.H_DROPS_IN")}</h2>
+      <h2 id="drops-in">
+        {t("BLOG.POSTS.UNOROUTER_VS_SILLYTAVERN.H_DROPS_IN")}
+      </h2>
       <p>{t("BLOG.POSTS.UNOROUTER_VS_SILLYTAVERN.P_DROPS_IN", APP_VALUES)}</p>
 
       <h2 id="verdict">{t("BLOG.POSTS.UNOROUTER_VS_SILLYTAVERN.H_VERDICT")}</h2>

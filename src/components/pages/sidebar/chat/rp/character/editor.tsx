@@ -32,9 +32,7 @@ type Props = {
 
 // Image edit state: keep existing, remove, or replace with new bytes.
 type ImgDraft =
-  | { kind: "keep" }
-  | { kind: "remove" }
-  | { kind: "new"; dataUrl: string };
+  { kind: "keep" } | { kind: "remove" } | { kind: "new"; dataUrl: string };
 
 export function CharacterEditor(props: Props) {
   const t = useTranslations();

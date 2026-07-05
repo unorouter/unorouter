@@ -1990,6 +1990,12 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () =>
       import("@tabler/icons-react/dist/esm/icons/IconBrandYoutube.mjs"),
   },
+  "brand-telegram": {
+    lucide: () =>
+      import("@tabler/icons-react/dist/esm/icons/IconBrandTelegram.mjs"),
+    tabler: () =>
+      import("@tabler/icons-react/dist/esm/icons/IconBrandTelegram.mjs"),
+  },
   "brand-discord-si": {
     lucide: () =>
       import("@/components/ui/local-icons").then((m) => ({

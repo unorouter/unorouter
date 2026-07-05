@@ -59,9 +59,5 @@ export type VerifyResult = {
   resolvedProvider: VerifyProvider;
   // Set when the handshake short-circuited before the behavioral probes ran.
   connectivityError:
-    | "cors-needs-backend"
-    | "unreachable"
-    | "invalid-key"
-    | "no-format"
-    | null;
+    "cors-needs-backend" | "unreachable" | "invalid-key" | "no-format" | null;
 };

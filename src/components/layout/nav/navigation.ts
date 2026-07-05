@@ -1,4 +1,5 @@
 import type { IntegrationIconKey } from "@/components/pages/docs/integrations";
+import { CHAT_DOCS } from "@/components/pages/docs/chat/chat-docs";
 import {
   CATEGORY_LABELS,
   CATEGORY_ORDER,
@@ -12,20 +13,40 @@ import type { ComponentType } from "react";
 // Derived from SETUP_GUIDES so nav dropdown, docs sidebar, and docs index share one source.
 const docsSubmenu = (): NavigationItem[] => {
   const byCategory = setupGuidesByCategory();
-  return CATEGORY_ORDER.flatMap((category) =>
-    byCategory[category].map((guide) => ({
-      name: guide.titleKey,
-      subtitle: guide.subtitleKey,
-      href: guide.href,
-      group: CATEGORY_LABELS[category],
-      guideIcon: {
-        iconKey: guide.iconKey,
-        logoSrc: guide.logoSrc,
-        logoBg: guide.logoBg,
-        logoMono: guide.logoMono,
-      },
+  // Chat user guide leads the menu: overview card + the first few pages.
+  const chatItems: NavigationItem[] = [
+    {
+      name: "DOCS_CHAT.INDEX.TITLE" as TranslationKey,
+      subtitle: "DOCS_CHAT.INDEX.SUBTITLE" as TranslationKey,
+      href: "/docs/chat",
+      group: "DOCS_CHAT.COMMON.TAB_CHAT" as TranslationKey,
+      iconName: "layout-grid",
+    },
+    ...CHAT_DOCS.slice(0, 3).map((doc): NavigationItem => ({
+      name: `${doc.i18nPrefix}.TITLE` as TranslationKey,
+      subtitle: `${doc.i18nPrefix}.SUBTITLE` as TranslationKey,
+      href: doc.href,
+      group: "DOCS_CHAT.COMMON.TAB_CHAT" as TranslationKey,
+      iconName: doc.iconName,
     })),
-  );
+  ];
+  return [
+    ...chatItems,
+    ...CATEGORY_ORDER.flatMap((category) =>
+      byCategory[category].map((guide) => ({
+        name: guide.titleKey,
+        subtitle: guide.subtitleKey,
+        href: guide.href,
+        group: CATEGORY_LABELS[category],
+        guideIcon: {
+          iconKey: guide.iconKey,
+          logoSrc: guide.logoSrc,
+          logoBg: guide.logoBg,
+          logoMono: guide.logoMono,
+        },
+      })),
+    ),
+  ];
 };
 
 export type NavigationItem = {

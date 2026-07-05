@@ -69,13 +69,11 @@ async function importJanitor(href: string): Promise<ImportedCard> {
       return null;
     }
   })();
-  if (
-    !(
-      api.status === 200 &&
-      json?.status === "ok" &&
-      typeof json.downloadUrl === "string"
-    )
-  ) {
+  if (!(
+    api.status === 200 &&
+    json?.status === "ok" &&
+    typeof json.downloadUrl === "string"
+  )) {
     if (json?.status === "error") {
       throw new Error(msg("ERRORS.CARD_IMPORT_NOT_FOUND"));
     }

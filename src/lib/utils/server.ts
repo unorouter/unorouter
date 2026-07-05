@@ -90,9 +90,11 @@ export const getDocsApiKey = async (placeholder = "YOUR_API_KEY") => {
   // Aspirational default for docs Quick Config: highest-output-price text.
   const topTextModel = models
     .filter((m) => m.type === "text" && typeof m.outputPrice === "number")
-    .reduce<
-      (typeof models)[number] | null
-    >((best, m) => (!best || (m.outputPrice ?? 0) > (best.outputPrice ?? 0) ? m : best), null);
+    .reduce<(typeof models)[number] | null>(
+      (best, m) =>
+        !best || (m.outputPrice ?? 0) > (best.outputPrice ?? 0) ? m : best,
+      null,
+    );
 
   return {
     apiUrl: env.apiUrl,

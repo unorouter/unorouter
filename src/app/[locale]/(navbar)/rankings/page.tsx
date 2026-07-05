@@ -56,8 +56,7 @@ export default async function RankingsPage(props: {
   );
 
   const snapshot = queryClient.getQueryData(queryKeys.rankings(period)) as
-    | { models: Array<{ model_name: string; vendor: string }> }
-    | undefined;
+    { models: Array<{ model_name: string; vendor: string }> } | undefined;
   const topModels = snapshot?.models?.slice(0, 10) ?? [];
 
   return (

@@ -26,8 +26,7 @@ export async function runStartTriggers(
   ops?: TriggerOps,
 ): Promise<StartTriggerResult> {
   const primary = convCtx.boundCharacters[0]?.character as
-    | { triggers?: unknown; name?: string }
-    | undefined;
+    { triggers?: unknown; name?: string } | undefined;
   const scripts = parseTriggerScripts(primary?.triggers);
   if (scripts.length === 0) {
     return { extraSystemPrompt: "", stopSending: false, alerts: [] };

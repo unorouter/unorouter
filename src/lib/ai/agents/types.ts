@@ -39,10 +39,7 @@ export type AgentResult =
 //  - generate_image: produce an inlay image (illustrator). Safe.
 //  - write_vars / write_lorebook: mutate persisted chat state. DESTRUCTIVE - gate before apply.
 export type AgentCapability =
-  | "inject_context"
-  | "generate_image"
-  | "write_vars"
-  | "write_lorebook";
+  "inject_context" | "generate_image" | "write_vars" | "write_lorebook";
 
 export const DESTRUCTIVE_CAPABILITIES: readonly AgentCapability[] = [
   "write_vars",

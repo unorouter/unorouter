@@ -10,12 +10,7 @@ import type { ProbeLabel, VerifyProvider } from "./types";
 // What a highlighted span MEANS. null = ordinary text (no highlight). The card
 // colors each kind and shows a legend.
 export type HighlightKind =
-  | "foreign"
-  | "cjk"
-  | "coding-tool"
-  | "scam"
-  | "home"
-  | null;
+  "foreign" | "cjk" | "coding-tool" | "scam" | "home" | null;
 
 export type HighlightSegment = { text: string; kind: HighlightKind };
 

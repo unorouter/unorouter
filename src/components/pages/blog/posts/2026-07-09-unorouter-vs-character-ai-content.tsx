@@ -23,10 +23,14 @@ export async function UnorouterVsCharacterAiContent() {
         })}
       </p>
 
-      <h2 id="privacy">{t("BLOG.POSTS.UNOROUTER_VS_CHARACTER_AI.H_PRIVACY")}</h2>
+      <h2 id="privacy">
+        {t("BLOG.POSTS.UNOROUTER_VS_CHARACTER_AI.H_PRIVACY")}
+      </h2>
       <p>{t("BLOG.POSTS.UNOROUTER_VS_CHARACTER_AI.P_PRIVACY", APP_VALUES)}</p>
 
-      <h2 id="verdict">{t("BLOG.POSTS.UNOROUTER_VS_CHARACTER_AI.H_VERDICT")}</h2>
+      <h2 id="verdict">
+        {t("BLOG.POSTS.UNOROUTER_VS_CHARACTER_AI.H_VERDICT")}
+      </h2>
       <p>{t("BLOG.POSTS.UNOROUTER_VS_CHARACTER_AI.P_VERDICT", APP_VALUES)}</p>
 
       <p>

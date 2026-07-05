@@ -344,8 +344,7 @@ export function mapOrpgImport(data: OrpgImport): MappedImport {
         payload = orpgTextPayload(itemData.content);
       } else if (ourType === "reasoning") {
         const content = itemData.content as
-          | Array<Record<string, unknown>>
-          | undefined;
+          Array<Record<string, unknown>> | undefined;
         const reasoningText = content?.find((p) => p.type === "reasoning_text");
         payload = {
           text:
