@@ -1,5 +1,4 @@
-import { ApiKeyCodeBlock } from "@/components/elements/code/api-key-code-block";
-import { highlightCode } from "@/components/elements/code/code-block";
+import { CodeBlock } from "@/components/elements/code/code-block";
 
 /** One anchored page section; id must match the registry heading id. */
 export function DocSection(props: {
@@ -54,17 +53,9 @@ export function DocTable(props: {
   );
 }
 
-/** Literal code block, never translated. */
-export async function DocCode(props: { code: string; lang?: string }) {
-  const lang = props.lang ?? "text";
-  return (
-    <ApiKeyCodeBlock
-      html={await highlightCode(props.code, lang)}
-      code={props.code}
-      language={lang}
-      placeholder=""
-    />
-  );
+/** Literal code block, never translated. No API-key injection. */
+export function DocCode(props: { code: string; lang?: string }) {
+  return <CodeBlock code={props.code} language={props.lang ?? "text"} />;
 }
 
 export function DocKbd(props: { children: React.ReactNode }) {

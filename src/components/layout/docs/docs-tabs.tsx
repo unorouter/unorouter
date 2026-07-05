@@ -19,8 +19,8 @@ export function DocsTabs() {
     );
 
   return (
-    <div className="border-border bg-background/95 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-10 border-b backdrop-blur">
-      <nav className="mx-auto flex max-w-5xl gap-6 px-6">
+    <div className="border-border bg-background/95 supports-backdrop-filter:bg-background/80 sticky top-12 z-10 border-b backdrop-blur">
+      <nav className="flex gap-6 px-4 md:px-6">
         <Link href="/docs" className={tabClass(!chatActive)}>
           {t("DOCS_CHAT.COMMON.TAB_INTEGRATIONS")}
         </Link>
