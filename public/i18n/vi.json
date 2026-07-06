@@ -1170,6 +1170,7 @@
     "GRID_PRICING_TITLE": "Lưới giá",
     "GRID_PRICE_HEADER": "Giá",
     "AVAILABLE_BADGE": "Có sẵn ngay",
+    "OFFLINE_BADGE": "Ngoại tuyến",
     "STAT_INPUT": "Đầu vào",
     "STAT_OUTPUT": "Đầu ra",
     "STAT_FIXED": "Mỗi yêu cầu",
@@ -1203,7 +1204,8 @@
     "CTA_TRY": "Thử {name} trong trò chuyện",
     "CTA_ALL_MODELS": "Xem tất cả mô hình",
     "AT_CAPACITY_TITLE": "Tất cả nhà cung cấp của mô hình này hiện đang bận",
-    "AT_CAPACITY_BODY": "Mọi nhà cung cấp thượng nguồn đã chạm giới hạn tốc độ. Mô hình tự động trở lại khi giới hạn được gỡ, thường trong vài giờ. Hãy thử lại sau ít phút hoặc chuyển sang mô hình khác."
+    "AT_CAPACITY_BODY": "Mọi nhà cung cấp thượng nguồn đã chạm giới hạn tốc độ. Mô hình tự động trở lại khi giới hạn được gỡ, thường trong vài giờ. Hãy thử lại sau ít phút hoặc chuyển sang mô hình khác.",
+    "OFFLINE_REQUEST_CTA": "Yêu cầu mô hình này trên Discord"
   },
   "PRICING": {
     "FEATURE": {

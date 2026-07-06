@@ -1170,6 +1170,7 @@
     "GRID_PRICING_TITLE": "Grade de preços",
     "GRID_PRICE_HEADER": "Preço",
     "AVAILABLE_BADGE": "Disponível agora",
+    "OFFLINE_BADGE": "Off-line",
     "STAT_INPUT": "Entrada",
     "STAT_OUTPUT": "Saída",
     "STAT_FIXED": "Por solicitação",
@@ -1203,7 +1204,8 @@
     "CTA_TRY": "Experimentar {name} no chat",
     "CTA_ALL_MODELS": "Ver todos os modelos",
     "AT_CAPACITY_TITLE": "Todos os provedores deste modelo estão ocupados agora",
-    "AT_CAPACITY_BODY": "Cada provedor upstream atingiu seu limite de taxa. O modelo volta automaticamente quando os limites caem, geralmente em questão de horas. Tente novamente daqui a pouco ou mude para outro modelo."
+    "AT_CAPACITY_BODY": "Cada provedor upstream atingiu seu limite de taxa. O modelo volta automaticamente quando os limites caem, geralmente em questão de horas. Tente novamente daqui a pouco ou mude para outro modelo.",
+    "OFFLINE_REQUEST_CTA": "Solicitar este modelo no Discord"
   },
   "PRICING": {
     "FEATURE": {

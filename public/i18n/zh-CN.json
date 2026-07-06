@@ -1170,6 +1170,7 @@
     "GRID_PRICING_TITLE": "价格矩阵",
     "GRID_PRICE_HEADER": "价格",
     "AVAILABLE_BADGE": "现已可用",
+    "OFFLINE_BADGE": "离线",
     "STAT_INPUT": "输入",
     "STAT_OUTPUT": "输出",
     "STAT_FIXED": "每次请求",
@@ -1203,7 +1204,8 @@
     "CTA_TRY": "在对话中试用 {name}",
     "CTA_ALL_MODELS": "查看全部模型",
     "AT_CAPACITY_TITLE": "该模型的所有提供方目前都很繁忙",
-    "AT_CAPACITY_BODY": "每个上游提供方都已达到速率上限。上限解除后模型会自动恢复，通常在数小时内。请稍后重试，或切换到其他模型。"
+    "AT_CAPACITY_BODY": "每个上游提供方都已达到速率上限。上限解除后模型会自动恢复，通常在数小时内。请稍后重试，或切换到其他模型。",
+    "OFFLINE_REQUEST_CTA": "在 Discord 上申请此模型"
   },
   "PRICING": {
     "FEATURE": {

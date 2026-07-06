@@ -1170,6 +1170,7 @@
     "GRID_PRICING_TITLE": "Grid harga",
     "GRID_PRICE_HEADER": "Harga",
     "AVAILABLE_BADGE": "Tersedia sekarang",
+    "OFFLINE_BADGE": "Luring",
     "STAT_INPUT": "Input",
     "STAT_OUTPUT": "Output",
     "STAT_FIXED": "Per permintaan",
@@ -1203,7 +1204,8 @@
     "CTA_TRY": "Coba {name} di chat",
     "CTA_ALL_MODELS": "Lihat semua model",
     "AT_CAPACITY_TITLE": "Semua penyedia model ini sedang sibuk saat ini",
-    "AT_CAPACITY_BODY": "Setiap penyedia upstream telah mencapai batas lajunya. Model kembali otomatis begitu batasnya longgar, biasanya dalam hitungan jam. Coba lagi sebentar lagi atau beralih ke model lain."
+    "AT_CAPACITY_BODY": "Setiap penyedia upstream telah mencapai batas lajunya. Model kembali otomatis begitu batasnya longgar, biasanya dalam hitungan jam. Coba lagi sebentar lagi atau beralih ke model lain.",
+    "OFFLINE_REQUEST_CTA": "Minta model ini di Discord"
   },
   "PRICING": {
     "FEATURE": {

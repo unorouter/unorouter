@@ -1170,6 +1170,7 @@
     "GRID_PRICING_TITLE": "가격 그리드",
     "GRID_PRICE_HEADER": "가격",
     "AVAILABLE_BADGE": "지금 사용 가능",
+    "OFFLINE_BADGE": "오프라인",
     "STAT_INPUT": "입력",
     "STAT_OUTPUT": "출력",
     "STAT_FIXED": "요청당",
@@ -1203,7 +1204,8 @@
     "CTA_TRY": "채팅에서 {name} 시도",
     "CTA_ALL_MODELS": "모든 모델 보기",
     "AT_CAPACITY_TITLE": "이 모델의 모든 프로바이더가 지금 혼잡합니다",
-    "AT_CAPACITY_BODY": "모든 업스트림 프로바이더가 속도 제한에 도달했습니다. 제한이 풀리면 모델은 자동으로 돌아오며, 보통 몇 시간 안에 복구됩니다. 잠시 후 다시 시도하거나 다른 모델로 전환하세요."
+    "AT_CAPACITY_BODY": "모든 업스트림 프로바이더가 속도 제한에 도달했습니다. 제한이 풀리면 모델은 자동으로 돌아오며, 보통 몇 시간 안에 복구됩니다. 잠시 후 다시 시도하거나 다른 모델로 전환하세요.",
+    "OFFLINE_REQUEST_CTA": "Discord에서 이 모델 요청하기"
   },
   "PRICING": {
     "FEATURE": {

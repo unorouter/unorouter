@@ -16,7 +16,7 @@ import {
 import { env } from "@/lib/config/env";
 import { rpc } from "@/lib/rpc";
 import { getSeoTimestamps } from "@/lib/seo/metadata";
-import { baseModelName, handleElysia, modelSlug } from "@/lib/utils/base";
+import { handleElysia, modelSlug } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
 import { listCatalogNames } from "@/server/models/pricing/model-catalog.service";
 import type { MetadataRoute } from "next";
@@ -88,12 +88,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   );
 
   // A silent empty drops every model page from the sitemap; retry once before giving up.
+  // include_offline so offline models keep their URLs (self-canonical, 200 via the detail page).
   const pricing = await rpc.api.models.pricing
-    .get()
+    .get({ query: { include_offline: "true" } })
     .then(handleElysia)
     .catch(() =>
       rpc.api.models.pricing
-        .get()
+        .get({ query: { include_offline: "true" } })
         .then(handleElysia)
         .catch(() => null),
     );
@@ -102,20 +103,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       "[sitemap] pricing returned no models; model pages omitted from sitemap",
     );
 
-  // Model URLs come from the durable catalog (models seen within the retire
-  // window), NOT the live response: free models churn in/out of pricing hourly
-  // and a live-derived URL set turns into GSC 404s at crawl time. Fresh-DB
-  // fallback: the live models (catalog empty until the first snapshot).
-  // :free twins whose base model exists are skipped; those pages canonical to
-  // the base, so emitting both would double duplicate-content URLs.
+  // Union the offline-inclusive live set with the durable catalog so no URL is
+  // dropped mid-churn: live gives every currently-known model (online + offline),
+  // the catalog covers models briefly absent from even the offline set.
+  // :free twins are self-canonical distinct pages, so they get their own URLs.
   const catalogNames = await listCatalogNames().catch(() => []);
-  const modelNames = catalogNames.length
-    ? catalogNames
-    : (pricing?.models ?? []).map((m) => m.name);
+  const modelNames = [
+    ...new Set([
+      ...(pricing?.models ?? []).map((m) => m.name),
+      ...catalogNames,
+    ]),
+  ];
   const nameSet = new Set(modelNames);
-  const sitemapModelNames = modelNames.filter(
-    (name) => !(name.endsWith(":free") && nameSet.has(baseModelName(name))),
-  );
+  const sitemapModelNames = modelNames;
 
   return [
     ...topLevelRoutes.flatMap((route) =>

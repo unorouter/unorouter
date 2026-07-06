@@ -251,6 +251,7 @@ export function processModels(response: PricingData) {
         originalOutputPrice,
         // Fallback release date (new-api created_time, unix seconds); the Orval type lags it, so read defensively.
         createdTime: (model as { created_time?: number }).created_time ?? null,
+        online: model.online ?? true,
         metadata: parseModelMetadata(model.metadata),
       };
     })

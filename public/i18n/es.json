@@ -1170,6 +1170,7 @@
     "GRID_PRICING_TITLE": "Cuadrícula de precios",
     "GRID_PRICE_HEADER": "Precio",
     "AVAILABLE_BADGE": "Disponible ahora",
+    "OFFLINE_BADGE": "Sin conexión",
     "STAT_INPUT": "Entrada",
     "STAT_OUTPUT": "Salida",
     "STAT_FIXED": "Por solicitud",
@@ -1203,7 +1204,8 @@
     "CTA_TRY": "Probar {name} en chat",
     "CTA_ALL_MODELS": "Ver todos los modelos",
     "AT_CAPACITY_TITLE": "Todos los proveedores de este modelo están ocupados ahora mismo",
-    "AT_CAPACITY_BODY": "Cada proveedor ascendente alcanzó su límite de velocidad. El modelo vuelve automáticamente cuando los límites se levantan, normalmente en cuestión de horas. Inténtalo de nuevo en un rato o cambia a otro modelo."
+    "AT_CAPACITY_BODY": "Cada proveedor ascendente alcanzó su límite de velocidad. El modelo vuelve automáticamente cuando los límites se levantan, normalmente en cuestión de horas. Inténtalo de nuevo en un rato o cambia a otro modelo.",
+    "OFFLINE_REQUEST_CTA": "Solicitar este modelo en Discord"
   },
   "PRICING": {
     "FEATURE": {

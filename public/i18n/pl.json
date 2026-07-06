@@ -1170,6 +1170,7 @@
     "GRID_PRICING_TITLE": "Siatka cen",
     "GRID_PRICE_HEADER": "Cena",
     "AVAILABLE_BADGE": "Dostępne teraz",
+    "OFFLINE_BADGE": "Offline",
     "STAT_INPUT": "Wejście",
     "STAT_OUTPUT": "Wyjście",
     "STAT_FIXED": "Za zapytanie",
@@ -1203,7 +1204,8 @@
     "CTA_TRY": "Wypróbuj {name} w chacie",
     "CTA_ALL_MODELS": "Zobacz wszystkie modele",
     "AT_CAPACITY_TITLE": "Wszyscy dostawcy tego modelu są teraz zajęci",
-    "AT_CAPACITY_BODY": "Każdy dostawca nadrzędny osiągnął swój limit szybkości. Model wraca automatycznie, gdy limity ustąpią, zwykle w ciągu kilku godzin. Spróbuj ponownie za chwilę albo przełącz się na inny model."
+    "AT_CAPACITY_BODY": "Każdy dostawca nadrzędny osiągnął swój limit szybkości. Model wraca automatycznie, gdy limity ustąpią, zwykle w ciągu kilku godzin. Spróbuj ponownie za chwilę albo przełącz się na inny model.",
+    "OFFLINE_REQUEST_CTA": "Poproś o ten model na Discordzie"
   },
   "PRICING": {
     "FEATURE": {
