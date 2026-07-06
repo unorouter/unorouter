@@ -1226,7 +1226,8 @@
     "SHOW_MORE": "Daha fazla göster",
     "SHOW_LESS": "Daha az göster",
     "CHIP_CONTEXT": "bağlam",
-    "CHIP_OUT": "çıktı"
+    "CHIP_OUT": "çıktı",
+    "OPEN_CHAT": "Sohbeti aç"
   },
   "PRICING": {
     "FEATURE": {

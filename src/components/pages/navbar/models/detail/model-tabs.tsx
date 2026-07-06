@@ -38,7 +38,7 @@ export function ModelTabs(props: ModelTabsProps) {
     <Tabs
       value={active ?? props.defaultTab}
       onValueChange={onValueChange}
-      className="mt-8"
+      className="mt-6 gap-0"
     >
       <TabsList variant="line">
         <TabsTrigger value="overview">
@@ -50,8 +50,12 @@ export function ModelTabs(props: ModelTabsProps) {
           {t("MODEL_PAGE.API_TAB")}
         </TabsTrigger>
       </TabsList>
-      <TabsContent value="overview">{props.overview}</TabsContent>
-      <TabsContent value="api">{props.api}</TabsContent>
+      <TabsContent value="overview" className="[&>section:first-child]:mt-6">
+        {props.overview}
+      </TabsContent>
+      <TabsContent value="api" className="[&>section:first-child]:mt-6">
+        {props.api}
+      </TabsContent>
     </Tabs>
   );
 }

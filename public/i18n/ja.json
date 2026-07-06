@@ -1226,7 +1226,8 @@
     "SHOW_MORE": "もっと見る",
     "SHOW_LESS": "折りたたむ",
     "CHIP_CONTEXT": "コンテキスト",
-    "CHIP_OUT": "出力"
+    "CHIP_OUT": "出力",
+    "OPEN_CHAT": "チャットを開く"
   },
   "PRICING": {
     "FEATURE": {

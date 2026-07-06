@@ -1226,7 +1226,8 @@
     "SHOW_MORE": "Показать больше",
     "SHOW_LESS": "Свернуть",
     "CHIP_CONTEXT": "контекст",
-    "CHIP_OUT": "вывод"
+    "CHIP_OUT": "вывод",
+    "OPEN_CHAT": "Открыть чат"
   },
   "PRICING": {
     "FEATURE": {

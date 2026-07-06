@@ -23,7 +23,7 @@ import { getDocsApiKey } from "@/lib/utils/server";
 import { getLocale, getTranslations } from "next-intl/server";
 import { AtCapacityBanner } from "./at-capacity-banner";
 import { ModelDescription } from "./model-description";
-import { ModelHeaderChips } from "./model-header-chips";
+import { ModelHeaderChips, ModelMetaStats } from "./model-header-chips";
 import { CodeExamplesTabs } from "./code-examples-tabs";
 import { GridPricingTable } from "./grid-pricing-table";
 import { TieredPricing } from "./tiered-pricing";
@@ -121,6 +121,17 @@ print(res.choices[0].message.content)`;
         modelName={m.name}
       />
       <section className="pt-8 pb-6">
+        {/* Mobile: chat action rides above the title so the name has full width. */}
+        <div className="mb-4 flex sm:hidden">
+          <TryInChatButton
+            modelName={m.name}
+            label={t("MODEL_PAGE.OPEN_CHAT")}
+            loginLabel={t("MODEL_PAGE.OPEN_CHAT")}
+            icon
+            badge
+            disabled={props.offline}
+          />
+        </div>
         <div className="flex items-start justify-between gap-4">
           <div className="flex min-w-0 items-start gap-3">
             <div
@@ -133,46 +144,27 @@ print(res.choices[0].message.content)`;
               <VendorIcon vendor={m.vendor.icon ?? m.vendor.name} size={28} />
             </div>
             <div className="min-w-0">
-              <h1 className="text-2xl font-semibold tracking-tight break-all sm:text-3xl">
+              <h1 className="text-2xl font-semibold tracking-tight wrap-break-word sm:text-3xl">
                 <span className={cn("font-normal", theme.text)}>
                   {m.vendor.name}
                 </span>
                 <span className="text-muted-foreground">: </span>
                 {m.name}
               </h1>
-              <div className="text-muted-foreground mt-1 font-mono text-xs">
+              <div className="text-muted-foreground mt-1 font-mono text-xs break-all">
                 {m.name}
               </div>
             </div>
           </div>
-          <div className="flex shrink-0 items-center gap-2">
-            <span
-              className={cn(
-                "inline-flex items-center gap-1.5 rounded-sm border px-2 py-1",
-                props.offline
-                  ? "border-muted-foreground/30 bg-muted/40"
-                  : cn(theme.tagBorder, theme.tagBg),
-              )}
-            >
-              {props.offline ? (
-                <span className="bg-muted-foreground/60 inline-flex size-1.5 rounded-full" />
-              ) : (
-                <span className="relative flex size-1.5">
-                  <span className="absolute inline-flex size-full animate-ping rounded-full bg-green-500 opacity-75" />
-                  <span className="relative inline-flex size-1.5 rounded-full bg-green-500" />
-                </span>
-              )}
-              <span
-                className={cn(
-                  "font-mono text-[10px] tracking-[0.15em] uppercase",
-                  props.offline ? "text-muted-foreground" : theme.text,
-                )}
-              >
-                {props.offline
-                  ? t("MODEL_PAGE.OFFLINE_BADGE")
-                  : t("MODEL_PAGE.AVAILABLE_BADGE")}
-              </span>
-            </span>
+          <div className="hidden shrink-0 items-center gap-2 sm:flex">
+            <TryInChatButton
+              modelName={m.name}
+              label={t("MODEL_PAGE.OPEN_CHAT")}
+              loginLabel={t("MODEL_PAGE.OPEN_CHAT")}
+              icon
+              badge
+              disabled={props.offline}
+            />
           </div>
         </div>
 
@@ -208,6 +200,10 @@ print(res.choices[0].message.content)`;
             <ModelDescription text={m.description} />
           </div>
         )}
+
+        <div className="mt-4">
+          <ModelMetaStats metadata={m.metadata} />
+        </div>
 
         {props.offline && <AtCapacityBanner />}
       </section>

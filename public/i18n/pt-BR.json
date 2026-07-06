@@ -1226,7 +1226,8 @@
     "SHOW_MORE": "Ver mais",
     "SHOW_LESS": "Ver menos",
     "CHIP_CONTEXT": "contexto",
-    "CHIP_OUT": "saída"
+    "CHIP_OUT": "saída",
+    "OPEN_CHAT": "Abrir chat"
   },
   "PRICING": {
     "FEATURE": {

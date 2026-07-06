@@ -33,6 +33,7 @@ import { formatPrice } from "@/lib/utils/format/number";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { CachePricing } from "./cache-pricing";
+import { ModelDescription } from "./model-description";
 import { TieredPricing } from "./tiered-pricing";
 import { AutoGroupChain } from "./auto-group-chain";
 import { CapabilityChips } from "./capability-chips";
@@ -134,9 +135,7 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
                 }
                 title={t("MODELS.DETAIL.DESCRIPTION")}
               />
-              <p className="text-muted-foreground text-sm leading-relaxed">
-                {model.description}
-              </p>
+              <ModelDescription text={model.description} />
             </section>
           )}
 
