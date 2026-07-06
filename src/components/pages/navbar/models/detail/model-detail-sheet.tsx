@@ -32,20 +32,20 @@ import { cn } from "@/lib/utils";
 import { formatPrice } from "@/lib/utils/format/number";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { CachePricing } from "./cache-pricing";
-import { ModelDescription } from "./model-description";
-import { TieredPricing } from "./tiered-pricing";
-import { AutoGroupChain } from "./auto-group-chain";
-import { CapabilityChips } from "./capability-chips";
+import { CachePricing } from "./pricing/cache-pricing";
+import { ModelDescription } from "./header/model-description";
+import { TieredPricing } from "./pricing/tiered-pricing";
+import { AutoGroupChain } from "./pricing/auto-group-chain";
+import { CapabilityChips } from "./header/capability-chips";
 import {
   hasAnyCapability,
   hasAnyParameter,
   hasAnyQuickStat,
-} from "./capability-helpers";
-import { ModalitiesRow } from "./modalities-row";
-import { PerformanceSection } from "./performance-section";
-import { QuickStats } from "./quick-stats";
-import { SupportedParameters } from "./supported-parameters";
+} from "./header/capability-helpers";
+import { ModalitiesRow } from "./header/modalities-row";
+import { PerformanceSection } from "./tabs/performance-section";
+import { QuickStats } from "./header/quick-stats";
+import { SupportedParameters } from "./tabs/supported-parameters";
 
 type ModelDetailSheetProps = {
   model: ProcessedModel | null;

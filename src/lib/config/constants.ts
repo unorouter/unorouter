@@ -38,6 +38,11 @@ export const POSTHOG_DISABLED =
 // Next Data Cache opt-in for PUBLIC upstream GETs (no user headers); spread into Orval call options. Non-200 not cached.
 export const PUBLIC_CACHE = { next: { revalidate: 3600 } } as const;
 
+// 30-day Data Cache for slow-moving third-party leaderboards (benchmarks).
+export const THIRTY_DAY_CACHE = {
+  next: { revalidate: 60 * 60 * 24 * 30 },
+} as const;
+
 export const NEW_API_USER = "New-Api-User";
 export const ACCESS_TOKEN_COOKIE = "access_token" as const;
 export const USER_ID_COOKIE = "user-id" as const;
