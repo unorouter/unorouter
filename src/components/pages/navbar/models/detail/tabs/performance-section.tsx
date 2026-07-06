@@ -9,6 +9,14 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { usePerfMetricsQuery } from "@/hooks/models/perf-metrics-hook";
+import {
+  CHART_ACCENT,
+  CHART_AXIS_TICK,
+  CHART_MARGIN,
+  CHART_TOOLTIP_LABEL_STYLE,
+  CHART_TOOLTIP_STYLE,
+} from "../shared/chart-primitives";
+import { StatusBox } from "../shared/status-box";
 import { aggregatePerfGroups } from "@/lib/api/perf-aggregate";
 import { cn } from "@/lib/utils";
 import { formatLatency, formatPct, formatTps } from "@/lib/utils/format/number";
@@ -69,19 +77,11 @@ export function PerformanceSection(props: Props) {
   const groups = query.data?.groups ?? [];
 
   if (query.isLoading) {
-    return (
-      <div className="text-muted-foreground border-border rounded-md border p-4 text-center text-sm">
-        {t("MODELS.DETAIL.PERF_LOADING")}
-      </div>
-    );
+    return <StatusBox>{t("MODELS.DETAIL.PERF_LOADING")}</StatusBox>;
   }
 
   if (groups.length === 0) {
-    return (
-      <div className="text-muted-foreground border-border rounded-md border p-4 text-center text-sm">
-        {t("MODELS.DETAIL.PERF_EMPTY")}
-      </div>
-    );
+    return <StatusBox>{t("MODELS.DETAIL.PERF_EMPTY")}</StatusBox>;
   }
 
   const perf = aggregatePerfGroups(groups);
@@ -164,23 +164,20 @@ export function PerformanceSection(props: Props) {
           </div>
           <div className="h-40 w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart
-                data={perf.series}
-                margin={{ top: 5, right: 8, bottom: 0, left: -8 }}
-              >
+              <LineChart data={perf.series} margin={CHART_MARGIN}>
                 <CartesianGrid
                   strokeDasharray="3 3"
                   className="stroke-border"
                 />
                 <XAxis
                   dataKey="label"
-                  tick={{ fontSize: 10 }}
+                  tick={CHART_AXIS_TICK}
                   className="fill-muted-foreground"
                   minTickGap={24}
                 />
                 <YAxis
                   width={44}
-                  tick={{ fontSize: 10 }}
+                  tick={CHART_AXIS_TICK}
                   className="fill-muted-foreground"
                   domain={[0, "dataMax"]}
                   allowDecimals={false}
@@ -188,15 +185,8 @@ export function PerformanceSection(props: Props) {
                 />
                 <Tooltip
                   cursor={{ stroke: "var(--border)" }}
-                  contentStyle={{
-                    fontSize: 11,
-                    fontFamily: "monospace",
-                    background: "var(--popover)",
-                    border: "1px solid var(--border)",
-                    borderRadius: 6,
-                    color: "var(--popover-foreground)",
-                  }}
-                  labelStyle={{ color: "var(--muted-foreground)" }}
+                  contentStyle={CHART_TOOLTIP_STYLE}
+                  labelStyle={CHART_TOOLTIP_LABEL_STYLE}
                   formatter={(value: number) => [
                     formatLatency(value),
                     t("MODELS.DETAIL.PERF_TTFT"),
@@ -205,7 +195,7 @@ export function PerformanceSection(props: Props) {
                 <Line
                   type="monotone"
                   dataKey="ttft_ms"
-                  stroke="var(--color-chart-1)"
+                  stroke={CHART_ACCENT}
                   strokeWidth={2}
                   dot={false}
                 />

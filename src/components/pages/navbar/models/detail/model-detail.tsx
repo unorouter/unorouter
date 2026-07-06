@@ -31,6 +31,7 @@ import { TieredPricing } from "./pricing/tiered-pricing";
 import { hasAnyParameter } from "./header/capability-helpers";
 import { ModelBreadcrumb } from "./header/model-breadcrumb";
 import { BenchmarksSection } from "./tabs/benchmarks-section";
+import { SectionHeading } from "./shared/section-heading";
 import { ModelRankingSection } from "./tabs/model-ranking-section";
 import { ModelTabs } from "./tabs/model-tabs";
 import { PerformanceSection } from "./tabs/performance-section";
@@ -231,14 +232,9 @@ print(res.choices[0].message.content)`;
         overview={
           <>
             <section className="mt-12">
-              <h2
-                className={cn(
-                  "mb-3 font-mono text-[10px] tracking-widest uppercase",
-                  theme.text,
-                )}
-              >
+              <SectionHeading theme={theme}>
                 {t("MODEL_PAGE.PRICING_TITLE")}
-              </h2>
+              </SectionHeading>
               {m.isTiered ? (
                 <div className="overflow-hidden rounded-md border p-4">
                   <TieredPricing
@@ -326,16 +322,9 @@ print(res.choices[0].message.content)`;
             </section>
 
             <section className="mt-12">
-              <div className="mb-3 flex items-end justify-between gap-4">
-                <h2
-                  className={cn(
-                    "font-mono text-[10px] tracking-widest uppercase",
-                    theme.text,
-                  )}
-                >
-                  {t("MODELS.DETAIL.PERFORMANCE")}
-                </h2>
-              </div>
+              <SectionHeading theme={theme}>
+                {t("MODELS.DETAIL.PERFORMANCE")}
+              </SectionHeading>
               <PerformanceSection modelName={m.name} />
             </section>
 
@@ -348,14 +337,9 @@ print(res.choices[0].message.content)`;
 
             {hasAnyParameter(m.metadata) && (
               <section className="mt-12">
-                <h2
-                  className={cn(
-                    "mb-3 font-mono text-[10px] tracking-widest uppercase",
-                    theme.text,
-                  )}
-                >
+                <SectionHeading theme={theme}>
                   {t("MODELS.DETAIL.SUPPORTED_PARAMETERS")}
-                </h2>
+                </SectionHeading>
                 <div
                   className={cn(
                     "overflow-hidden rounded-lg border",
@@ -374,14 +358,9 @@ print(res.choices[0].message.content)`;
 
             {(similar.sameVendor.length > 0 || similar.sameTag.length > 0) && (
               <section className="mt-12">
-                <h2
-                  className={cn(
-                    "mb-3 font-mono text-[10px] tracking-widest uppercase",
-                    theme.text,
-                  )}
-                >
+                <SectionHeading theme={theme}>
                   {t("MODEL_PAGE.SIMILAR_TITLE")}
-                </h2>
+                </SectionHeading>
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
                   {[...similar.sameVendor, ...similar.sameTag].map((sim) => {
                     const simTheme = getVendorTheme(sim.vendor.name);
@@ -429,14 +408,9 @@ print(res.choices[0].message.content)`;
         api={
           <>
             <section className="mt-12">
-              <h2
-                className={cn(
-                  "mb-3 font-mono text-[10px] tracking-widest uppercase",
-                  theme.text,
-                )}
-              >
+              <SectionHeading theme={theme}>
                 {t("MODEL_PAGE.BASE_URL")}
-              </h2>
+              </SectionHeading>
               <div
                 className={cn(
                   "flex items-center gap-2 overflow-x-auto rounded-lg border px-4 py-3 font-mono text-sm",
@@ -453,14 +427,9 @@ print(res.choices[0].message.content)`;
             </section>
 
             <section className="mt-12">
-              <h2
-                className={cn(
-                  "mb-1 font-mono text-[10px] tracking-widest uppercase",
-                  theme.text,
-                )}
-              >
+              <SectionHeading theme={theme} className="mb-1">
                 {t("MODEL_PAGE.CODE_TITLE", { name: m.name })}
-              </h2>
+              </SectionHeading>
               <p className="text-muted-foreground mb-3 text-sm">
                 {t("MODEL_PAGE.CODE_DESC", APP_VALUES)}
               </p>
@@ -493,14 +462,9 @@ print(res.choices[0].message.content)`;
             </section>
 
             <section className="mt-12">
-              <h2
-                className={cn(
-                  "mb-3 font-mono text-[10px] tracking-widest uppercase",
-                  theme.text,
-                )}
-              >
+              <SectionHeading theme={theme}>
                 {t("MODEL_PAGE.AVAILABLE_ENDPOINTS")}
-              </h2>
+              </SectionHeading>
               {endpointPills.length > 0 ? (
                 <div className="flex flex-wrap gap-2">
                   {endpointPills.map((ep) => (

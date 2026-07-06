@@ -6,6 +6,15 @@ import { getVendorTheme } from "@/lib/config/vendor-themes";
 import { cn } from "@/lib/utils";
 import { formatTokenCount } from "@/lib/utils/format/number";
 import { RANKING_PERIODS } from "@/components/pages/navbar/rankings/rankings-helpers";
+import {
+  CHART_ACCENT,
+  CHART_AXIS_TICK,
+  CHART_MARGIN,
+  CHART_TOOLTIP_LABEL_STYLE,
+  CHART_TOOLTIP_STYLE,
+} from "../shared/chart-primitives";
+import { SectionHeading } from "../shared/section-heading";
+import { StatusBox } from "../shared/status-box";
 import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
 import {
@@ -35,50 +44,40 @@ export function ModelRankingSection(props: Props) {
 
   return (
     <div>
-      <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-        <h2
-          className={cn(
-            "font-mono text-[10px] tracking-widest uppercase",
-            theme.text,
-          )}
-        >
-          {t("MODEL_PAGE.USAGE_TITLE")}
-        </h2>
-        <div
-          role="tablist"
-          className="border-border/60 flex items-center gap-1"
-        >
-          {RANKING_PERIODS.map((p) => {
-            const isActive = period === p.id;
-            return (
-              <button
-                key={p.id}
-                type="button"
-                role="tab"
-                aria-selected={isActive}
-                onClick={() => setPeriod(p.id)}
-                className={cn(
-                  "rounded-sm px-2 py-1 font-mono text-[10px] tracking-wider uppercase transition-colors",
-                  isActive
-                    ? "bg-muted text-foreground"
-                    : "text-muted-foreground hover:text-foreground",
-                )}
-              >
-                {t(p.labelKey)}
-              </button>
-            );
-          })}
-        </div>
-      </div>
+      <SectionHeading
+        theme={theme}
+        action={
+          <div role="tablist" className="flex items-center gap-1">
+            {RANKING_PERIODS.map((p) => {
+              const isActive = period === p.id;
+              return (
+                <button
+                  key={p.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={isActive}
+                  onClick={() => setPeriod(p.id)}
+                  className={cn(
+                    "rounded-sm px-2 py-1 font-mono text-[10px] tracking-wider uppercase transition-colors",
+                    isActive
+                      ? "bg-muted text-foreground"
+                      : "text-muted-foreground hover:text-foreground",
+                  )}
+                >
+                  {t(p.labelKey)}
+                </button>
+              );
+            })}
+          </div>
+        }
+      >
+        {t("MODEL_PAGE.USAGE_TITLE")}
+      </SectionHeading>
 
       {query.isLoading ? (
-        <div className="text-muted-foreground border-border rounded-md border p-4 text-center text-sm">
-          {t("MODEL_PAGE.USAGE_LOADING")}
-        </div>
+        <StatusBox>{t("MODEL_PAGE.USAGE_LOADING")}</StatusBox>
       ) : series.length === 0 ? (
-        <div className="text-muted-foreground border-border rounded-md border p-4 text-center text-sm">
-          {t("MODEL_PAGE.USAGE_EMPTY")}
-        </div>
+        <StatusBox>{t("MODEL_PAGE.USAGE_EMPTY")}</StatusBox>
       ) : (
         <div className="border-border rounded-md border p-3">
           <div className="mb-3 flex flex-wrap items-center gap-x-6 gap-y-1">
@@ -107,10 +106,7 @@ export function ModelRankingSection(props: Props) {
           </div>
           <div className="h-40 w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart
-                data={series}
-                margin={{ top: 5, right: 8, bottom: 0, left: -8 }}
-              >
+              <BarChart data={series} margin={CHART_MARGIN}>
                 <CartesianGrid
                   strokeDasharray="3 3"
                   className="stroke-border"
@@ -118,13 +114,13 @@ export function ModelRankingSection(props: Props) {
                 />
                 <XAxis
                   dataKey="label"
-                  tick={{ fontSize: 10 }}
+                  tick={CHART_AXIS_TICK}
                   className="fill-muted-foreground"
                   minTickGap={16}
                 />
                 <YAxis
                   width={44}
-                  tick={{ fontSize: 10 }}
+                  tick={CHART_AXIS_TICK}
                   className="fill-muted-foreground"
                   allowDecimals={false}
                   tickFormatter={(value: number) =>
@@ -133,15 +129,8 @@ export function ModelRankingSection(props: Props) {
                 />
                 <Tooltip
                   cursor={{ fill: "var(--muted)" }}
-                  contentStyle={{
-                    fontSize: 11,
-                    fontFamily: "monospace",
-                    background: "var(--popover)",
-                    border: "1px solid var(--border)",
-                    borderRadius: 6,
-                    color: "var(--popover-foreground)",
-                  }}
-                  labelStyle={{ color: "var(--muted-foreground)" }}
+                  contentStyle={CHART_TOOLTIP_STYLE}
+                  labelStyle={CHART_TOOLTIP_LABEL_STYLE}
                   formatter={(value: number) => [
                     formatTokenCount(value, locale),
                     t("MODEL_PAGE.USAGE_TOKENS_LABEL"),
@@ -149,7 +138,7 @@ export function ModelRankingSection(props: Props) {
                 />
                 <Bar
                   dataKey="tokens"
-                  fill="var(--color-chart-1)"
+                  fill={CHART_ACCENT}
                   radius={[2, 2, 0, 0]}
                 />
               </BarChart>
