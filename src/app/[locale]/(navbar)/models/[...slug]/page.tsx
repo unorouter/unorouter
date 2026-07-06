@@ -46,6 +46,7 @@ type ResolvedModel = {
   data: LivePricing;
 };
 
+
 // The canonical URL is 2-segment vendor/model; a 1-segment slug is a vendor page,
 // never a model. The model identity is the LAST segment of a 2-segment slug.
 function modelSegment(slug: string[]): string {
@@ -132,7 +133,6 @@ export async function generateMetadata(props: PageProps) {
 
 export default async function ModelDetailPage(props: PageProps) {
   const params = await props.params;
-  const search = await props.searchParams;
   const locale = await serverLocale(props);
   const resolved = await resolveModel(modelSegment(params.slug));
 
@@ -241,7 +241,6 @@ export default async function ModelDetailPage(props: PageProps) {
         groupRatioMap={data?.groupRatioMap ?? {}}
         offline={resolved.atCapacity}
         vendorHref={vendorUrl}
-        tab={search.tab === "api" ? "api" : "overview"}
       />
     </HydrationBoundary>
   );

@@ -13,6 +13,7 @@ export const serverEnv = {
   r2PublicUrl: process.env.R2_PUBLIC_URL,
   r2Bucket: process.env.R2_BUCKET,
   tavilyApiKey: process.env.TAVILY_API_KEY,
+  llmStatsApiKey: process.env.LLM_STATS_API_KEY,
   standalone: process.env.STANDALONE,
   port: process.env.PORT ?? "3000",
 } as const;

@@ -4,7 +4,6 @@ import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
-import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { Link } from "@/i18n/navigation";
 import {
   findContextTag,
@@ -15,25 +14,26 @@ import { fixedPriceUnitLabel } from "@/lib/api/model-modality";
 import { APP_VALUES } from "@/lib/config/constants";
 import { getVendorTheme } from "@/lib/config/vendor-themes";
 import { modelHref } from "@/lib/utils/base";
-import { formatPrice } from "@/lib/utils/format/number";
+import { discountPercent, formatPrice } from "@/lib/utils/format/number";
 import { formatMsDate, formatYearMonth } from "@/lib/utils/format/date";
 import { dayjs } from "@/lib/utils/format/date";
 import { cn } from "@/lib/utils";
 import { getDocsApiKey } from "@/lib/utils/server";
 import { getLocale, getTranslations } from "next-intl/server";
-import { AtCapacityBanner } from "./at-capacity-banner";
-import { ModelDescription } from "./model-description";
-import { ModelHeaderChips, ModelMetaStats } from "./model-header-chips";
-import { CodeExamplesTabs } from "./code-examples-tabs";
-import { GridPricingTable } from "./grid-pricing-table";
-import { TieredPricing } from "./tiered-pricing";
-import { hasAnyParameter, hasAnyQuickStat } from "./capability-helpers";
-import { ModelBreadcrumb } from "./model-breadcrumb";
-import { ModelTabs } from "./model-tabs";
-import { PerformanceSection } from "./performance-section";
-import { QuickStats } from "./quick-stats";
-import { SupportedParameters } from "./supported-parameters";
-import { TryInChatButton } from "./try-in-chat-button";
+import { AtCapacityBanner } from "./header/at-capacity-banner";
+import { ModelDescription } from "./header/model-description";
+import { ModelHeaderChips, ModelMetaStats } from "./header/model-header-chips";
+import { CodeExamplesTabs } from "./tabs/code-examples-tabs";
+import { GridPricingTable } from "./pricing/grid-pricing-table";
+import { TieredPricing } from "./pricing/tiered-pricing";
+import { hasAnyParameter, hasAnyQuickStat } from "./header/capability-helpers";
+import { ModelBreadcrumb } from "./header/model-breadcrumb";
+import { BenchmarksSection } from "./tabs/benchmarks-section";
+import { ModelTabs } from "./tabs/model-tabs";
+import { PerformanceSection } from "./tabs/performance-section";
+import { QuickStats } from "./header/quick-stats";
+import { SupportedParameters } from "./tabs/supported-parameters";
+import { TryInChatButton } from "./header/try-in-chat-button";
 
 interface ModelDetailProps {
   model: ProcessedModel;
@@ -41,7 +41,6 @@ interface ModelDetailProps {
   groupRatioMap: Record<string, number>;
   offline: boolean;
   vendorHref: string;
-  tab: "overview" | "api";
 }
 
 export async function ModelDetail(props: ModelDetailProps) {
@@ -209,9 +208,96 @@ print(res.choices[0].message.content)`;
       </section>
 
       <ModelTabs
-        defaultTab={props.tab}
         overview={
           <>
+            <section className="mt-12">
+              <h2
+                className={cn(
+                  "mb-3 font-mono text-[10px] tracking-widest uppercase",
+                  theme.text,
+                )}
+              >
+                {t("MODEL_PAGE.PRICING_TITLE")}
+              </h2>
+              {m.isTiered ? (
+                <div className="overflow-hidden rounded-md border p-4">
+                  <TieredPricing
+                    model={m}
+                    theme={theme}
+                    groupRatioMap={props.groupRatioMap}
+                  />
+                </div>
+              ) : (
+                <div className="flex flex-wrap items-stretch gap-2">
+                  {m.isFixedPrice ? (
+                    <PriceCell
+                      label={t("MODEL_PAGE.FIXED_PRICE")}
+                      value={m.fixedPrice}
+                      original={m.originalFixedPrice}
+                      unit={
+                        fixedPriceUnitLabel(m) === "second"
+                          ? t("MODEL_PAGE.PER_SECOND_UNIT")
+                          : fixedPriceUnitLabel(m) === "image"
+                            ? t("MODEL_PAGE.PER_IMAGE_UNIT")
+                            : t("MODEL_PAGE.PER_REQUEST_UNIT")
+                      }
+                      offLabel={(pct) => t("MODELS.TABLE.OFF", { pct })}
+                      theme={theme}
+                    />
+                  ) : (
+                    <>
+                      <PriceCell
+                        label={t("MODEL_PAGE.INPUT_PRICE")}
+                        value={m.inputPrice}
+                        original={m.originalInputPrice}
+                        unit={t("MODEL_PAGE.PER_MILLION_UNIT")}
+                        offLabel={(pct) => t("MODELS.TABLE.OFF", { pct })}
+                        theme={theme}
+                      />
+                      <PriceCell
+                        label={t("MODEL_PAGE.OUTPUT_PRICE")}
+                        value={m.outputPrice}
+                        original={m.originalOutputPrice}
+                        unit={t("MODEL_PAGE.PER_MILLION_UNIT")}
+                        offLabel={(pct) => t("MODELS.TABLE.OFF", { pct })}
+                        theme={theme}
+                      />
+                    </>
+                  )}
+                </div>
+              )}
+              <div className="text-muted-foreground mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 font-mono text-[11px]">
+                {contextTag && (
+                  <span>
+                    {t("MODEL_PAGE.CONTEXT_WINDOW")}{" "}
+                    <span className="text-foreground/80">
+                      {t("MODEL_PAGE.CONTEXT_TOKENS", { count: contextTag })}
+                    </span>
+                  </span>
+                )}
+                <span>
+                  {t("MODEL_PAGE.ENDPOINTS")}{" "}
+                  <span className="text-foreground/80">{endpointsDisplay}</span>
+                </span>
+                <span>
+                  {t("MODEL_PAGE.VENDOR")}{" "}
+                  <span className="text-foreground/80">{m.vendor.name}</span>
+                </span>
+              </div>
+              {m.gridPricing && (
+                <div className="mt-6">
+                  <h3 className="mb-3 text-sm font-semibold">
+                    {t("MODEL_PAGE.GRID_PRICING_TITLE")}
+                  </h3>
+                  <GridPricingTable
+                    rows={m.gridPricing}
+                    priceLabel={t("MODEL_PAGE.GRID_PRICE_HEADER")}
+                    multiplier={m.gridMinRatio}
+                  />
+                </div>
+              )}
+            </section>
+
             {/* Capabilities + modalities live in the header chip row; here only
                 the extra quick-stats the chips don't cover. */}
             {hasAnyQuickStat(m.metadata) && (
@@ -264,156 +350,15 @@ print(res.choices[0].message.content)`;
               </section>
             )}
 
-            <section className="relative mt-16 mb-16">
-              <div className="mb-6 flex items-end justify-between gap-4">
-                <div>
-                  <div
-                    className={cn(
-                      "mb-2 font-mono text-[10px] tracking-widest uppercase",
-                      theme.text,
-                    )}
-                  >
-                    § 01
-                  </div>
-                  <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
-                    {t("MODEL_PAGE.PRICING_TITLE")}
-                  </h2>
-                </div>
-                <p className="text-muted-foreground hidden max-w-sm text-right text-sm md:block">
-                  {t("MODEL_PAGE.PRICING_DESC")}
-                </p>
-              </div>
-              <div
+            <section className="mt-12">
+              <h2
                 className={cn(
-                  "overflow-hidden rounded-lg border backdrop-blur-sm",
-                  theme.border,
-                  theme.bg,
+                  "mb-3 font-mono text-[10px] tracking-widest uppercase",
+                  theme.text,
                 )}
               >
-                <Table>
-                  <TableBody>
-                    {m.isFixedPrice ? (
-                      <TableRow>
-                        <TableCell className="w-1/3 px-4 py-3 font-medium">
-                          {t("MODEL_PAGE.FIXED_PRICE")}
-                        </TableCell>
-                        <TableCell
-                          className={cn("px-4 py-3 font-mono", theme.text)}
-                        >
-                          {fixedPriceUnitLabel(m) === "second"
-                            ? t("MODEL_PAGE.PRICE_PER_SECOND", {
-                                price: formatPrice(m.fixedPrice),
-                              })
-                            : fixedPriceUnitLabel(m) === "image"
-                              ? t("MODEL_PAGE.PRICE_PER_IMAGE", {
-                                  price: formatPrice(m.fixedPrice),
-                                })
-                              : t("MODEL_PAGE.PRICE_PER_REQUEST", {
-                                  price: formatPrice(m.fixedPrice),
-                                })}
-                        </TableCell>
-                      </TableRow>
-                    ) : m.isTiered ? (
-                      <TableRow>
-                        <TableCell className="w-1/3 px-4 py-3 align-top font-medium">
-                          {t("MODELS.DETAIL.TIERED_PRICING")}
-                        </TableCell>
-                        <TableCell className="px-4 py-3">
-                          <TieredPricing
-                            model={m}
-                            theme={theme}
-                            groupRatioMap={props.groupRatioMap}
-                          />
-                        </TableCell>
-                      </TableRow>
-                    ) : (
-                      <>
-                        <TableRow>
-                          <TableCell className="w-1/3 px-4 py-3 font-medium">
-                            {t("MODEL_PAGE.INPUT_PRICE")}
-                          </TableCell>
-                          <TableCell
-                            className={cn("px-4 py-3 font-mono", theme.text)}
-                          >
-                            {t("MODEL_PAGE.PRICE_PER_MILLION", {
-                              price: formatPrice(m.inputPrice),
-                            })}
-                          </TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell className="w-1/3 px-4 py-3 font-medium">
-                            {t("MODEL_PAGE.OUTPUT_PRICE")}
-                          </TableCell>
-                          <TableCell
-                            className={cn("px-4 py-3 font-mono", theme.text)}
-                          >
-                            {t("MODEL_PAGE.PRICE_PER_MILLION", {
-                              price: formatPrice(m.outputPrice),
-                            })}
-                          </TableCell>
-                        </TableRow>
-                      </>
-                    )}
-                    {contextTag && (
-                      <TableRow>
-                        <TableCell className="w-1/3 px-4 py-3 font-medium">
-                          {t("MODEL_PAGE.CONTEXT_WINDOW")}
-                        </TableCell>
-                        <TableCell className="px-4 py-3 font-mono">
-                          {t("MODEL_PAGE.CONTEXT_TOKENS", {
-                            count: contextTag,
-                          })}
-                        </TableCell>
-                      </TableRow>
-                    )}
-                    <TableRow>
-                      <TableCell className="w-1/3 px-4 py-3 font-medium">
-                        {t("MODEL_PAGE.ENDPOINTS")}
-                      </TableCell>
-                      <TableCell className="px-4 py-3">
-                        {endpointsDisplay}
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell className="w-1/3 px-4 py-3 font-medium">
-                        {t("MODEL_PAGE.VENDOR")}
-                      </TableCell>
-                      <TableCell className="px-4 py-3">
-                        {m.vendor.name}
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-              </div>
-
-              {m.gridPricing && (
-                <div className="mt-6">
-                  <h3 className="mb-3 text-sm font-semibold">
-                    {t("MODEL_PAGE.GRID_PRICING_TITLE")}
-                  </h3>
-                  <GridPricingTable
-                    rows={m.gridPricing}
-                    priceLabel={t("MODEL_PAGE.GRID_PRICE_HEADER")}
-                    multiplier={m.gridMinRatio}
-                  />
-                </div>
-              )}
-            </section>
-
-            <section className="mb-16">
-              <div className="mb-6">
-                <div
-                  className={cn(
-                    "mb-2 font-mono text-[10px] tracking-widest uppercase",
-                    theme.text,
-                  )}
-                >
-                  § 03
-                </div>
-                <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
-                  {t("MODEL_PAGE.FAQ_TITLE")}
-                </h2>
-              </div>
+                {t("MODEL_PAGE.FAQ_TITLE")}
+              </h2>
               <div className="grid gap-4 md:grid-cols-2">
                 <FaqCard
                   question={
@@ -465,20 +410,15 @@ print(res.choices[0].message.content)`;
             </section>
 
             {(similar.sameVendor.length > 0 || similar.sameTag.length > 0) && (
-              <section className="mb-16">
-                <div className="mb-6">
-                  <div
-                    className={cn(
-                      "mb-2 font-mono text-[10px] tracking-widest uppercase",
-                      theme.text,
-                    )}
-                  >
-                    § 04
-                  </div>
-                  <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
-                    {t("MODEL_PAGE.SIMILAR_TITLE")}
-                  </h2>
-                </div>
+              <section className="mt-12">
+                <h2
+                  className={cn(
+                    "mb-3 font-mono text-[10px] tracking-widest uppercase",
+                    theme.text,
+                  )}
+                >
+                  {t("MODEL_PAGE.SIMILAR_TITLE")}
+                </h2>
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
                   {[...similar.sameVendor, ...similar.sameTag].map((sim) => {
                     const simTheme = getVendorTheme(sim.vendor.name);
@@ -564,20 +504,15 @@ print(res.choices[0].message.content)`;
         }
         api={
           <>
-            <section className="mt-12 mb-16">
-              <div className="mb-6">
-                <div
-                  className={cn(
-                    "mb-2 font-mono text-[10px] tracking-widest uppercase",
-                    theme.text,
-                  )}
-                >
-                  § 01
-                </div>
-                <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
-                  {t("MODEL_PAGE.BASE_URL")}
-                </h2>
-              </div>
+            <section className="mt-12">
+              <h2
+                className={cn(
+                  "mb-3 font-mono text-[10px] tracking-widest uppercase",
+                  theme.text,
+                )}
+              >
+                {t("MODEL_PAGE.BASE_URL")}
+              </h2>
               <div
                 className={cn(
                   "flex items-center gap-2 overflow-x-auto rounded-lg border px-4 py-3 font-mono text-sm",
@@ -593,23 +528,18 @@ print(res.choices[0].message.content)`;
               </div>
             </section>
 
-            <section className="mb-16">
-              <div className="mb-6">
-                <div
-                  className={cn(
-                    "mb-2 font-mono text-[10px] tracking-widest uppercase",
-                    theme.text,
-                  )}
-                >
-                  § 02
-                </div>
-                <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
-                  {t("MODEL_PAGE.CODE_TITLE", { name: m.name })}
-                </h2>
-                <p className="text-muted-foreground mt-2 text-sm">
-                  {t("MODEL_PAGE.CODE_DESC", APP_VALUES)}
-                </p>
-              </div>
+            <section className="mt-12">
+              <h2
+                className={cn(
+                  "mb-1 font-mono text-[10px] tracking-widest uppercase",
+                  theme.text,
+                )}
+              >
+                {t("MODEL_PAGE.CODE_TITLE", { name: m.name })}
+              </h2>
+              <p className="text-muted-foreground mb-3 text-sm">
+                {t("MODEL_PAGE.CODE_DESC", APP_VALUES)}
+              </p>
               <CodeExamplesTabs
                 curl={
                   <ApiKeyCodeBlock
@@ -638,20 +568,15 @@ print(res.choices[0].message.content)`;
               />
             </section>
 
-            <section className="mb-16">
-              <div className="mb-6">
-                <div
-                  className={cn(
-                    "mb-2 font-mono text-[10px] tracking-widest uppercase",
-                    theme.text,
-                  )}
-                >
-                  § 03
-                </div>
-                <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
-                  {t("MODEL_PAGE.AVAILABLE_ENDPOINTS")}
-                </h2>
-              </div>
+            <section className="mt-12">
+              <h2
+                className={cn(
+                  "mb-3 font-mono text-[10px] tracking-widest uppercase",
+                  theme.text,
+                )}
+              >
+                {t("MODEL_PAGE.AVAILABLE_ENDPOINTS")}
+              </h2>
               {endpointPills.length > 0 ? (
                 <div className="flex flex-wrap gap-2">
                   {endpointPills.map((ep) => (
@@ -687,12 +612,58 @@ print(res.choices[0].message.content)`;
             </section>
           </>
         }
+        benchmarks={
+          <section className="mt-12">
+            <BenchmarksSection
+              modelName={m.name}
+              vendorName={m.vendor.name}
+            />
+          </section>
+        }
       />
     </div>
   );
 }
 
 type Theme = ReturnType<typeof getVendorTheme>;
+
+// Compact price cell: label + big accent price + unit, with the pre-discount
+// price struck through and a green "-N%" chip when the retail beats the sticker.
+function PriceCell(props: {
+  label: string;
+  value: number;
+  original: number | null;
+  unit: string;
+  offLabel: (pct: number) => string;
+  theme: Theme;
+}) {
+  const pct = discountPercent(props.value, props.original);
+  return (
+    <div className="border-border bg-muted/20 min-w-36 flex-1 rounded-md border px-3 py-2.5">
+      <div className="text-muted-foreground font-mono text-[10px] tracking-wider uppercase">
+        {props.label}
+      </div>
+      <div className="mt-1 flex flex-wrap items-baseline gap-x-1.5 gap-y-1">
+        <span className={cn("font-mono text-lg font-semibold", props.theme.text)}>
+          {formatPrice(props.value)}
+        </span>
+        <span className="text-muted-foreground font-mono text-[11px]">
+          {props.unit}
+        </span>
+        {pct > 0 && props.original !== null && (
+          <>
+            <span className="text-muted-foreground/50 font-mono text-[11px] line-through">
+              {formatPrice(props.original)}
+            </span>
+            <span className="rounded bg-green-500/15 px-1 font-mono text-[10px] text-green-600 dark:text-green-400">
+              {props.offLabel(pct)}
+            </span>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
 
 function FaqCard(props: { question: string; answer: string; theme: Theme }) {
   return (

@@ -19,7 +19,7 @@ import {
   formatPrice,
   formatTokenCount,
 } from "@/lib/utils/format/number";
-import { CapabilityChips } from "../detail/capability-chips";
+import { CapabilityChips } from "../detail/header/capability-chips";
 import { useLocale, useTranslations } from "next-intl";
 
 function fmtUnit(value: number, unit: PriceUnit, perCall?: boolean): string {
