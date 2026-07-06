@@ -20,9 +20,9 @@ export function RankBar(props: { pct: number; lowN?: boolean }) {
   const color = barColor(props.pct, lowN);
   return (
     <div className="flex items-center gap-3">
-      <div className="bg-muted relative h-2 flex-1 overflow-hidden rounded-[2px]">
+      <div className="bg-muted relative h-2 flex-1 overflow-hidden rounded-xs">
         <div
-          className="absolute inset-y-0 left-0 rounded-[2px]"
+          className="absolute inset-y-0 left-0 rounded-xs"
           style={{
             width: `${Math.max(props.pct, 2)}%`,
             backgroundColor: color,
