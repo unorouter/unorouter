@@ -31,7 +31,8 @@ export function extractErrorDetail(e: unknown): ErrorDetail {
   if (e && typeof e === "object") {
     const obj = e as Record<string, unknown>;
     if (typeof obj.statusCode === "number") status = obj.statusCode;
-    if (typeof obj.responseBody === "string") body = obj.responseBody;
+    if (typeof obj.responseBody === "string" && obj.responseBody.trim())
+      body = obj.responseBody;
     else if ("data" in obj) body = obj.data;
     else if (e instanceof Error) body = e.message;
   }
