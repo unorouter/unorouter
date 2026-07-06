@@ -121,10 +121,7 @@ function GroupTokens(props: {
           const inputPrice = props.modelRatio * 2 * ge.ratio;
           const outputPrice = inputPrice * props.completionRatio;
           return (
-            <tr
-              key={ge.group}
-              className={MINI_TABLE_BODY_ROW}
-            >
+            <tr key={ge.group} className={MINI_TABLE_BODY_ROW}>
               <td className="text-muted-foreground py-1.5">{ge.group}</td>
               <td className={cn("py-1.5 text-right", props.theme.text)}>
                 {formatPrice(inputPrice)}
@@ -161,10 +158,7 @@ function GroupFixed(props: {
       </thead>
       <tbody>
         {props.entries.map((ge) => (
-          <tr
-            key={ge.group}
-            className={MINI_TABLE_BODY_ROW}
-          >
+          <tr key={ge.group} className={MINI_TABLE_BODY_ROW}>
             <td className="text-muted-foreground py-1.5">{ge.group}</td>
             <td className={cn("py-1.5 text-right", props.theme.text)}>
               {formatPrice(props.fixedPrice * ge.ratio)}
@@ -216,10 +210,7 @@ function GroupGrid(props: {
                 {props.gridPricing.map((row, i) => {
                   const parts = gridPriceParts(row, ge.ratio);
                   return (
-                    <tr
-                      key={i}
-                      className={MINI_TABLE_BODY_ROW}
-                    >
+                    <tr key={i} className={MINI_TABLE_BODY_ROW}>
                       {columns.map((col) => (
                         <td
                           key={col}
