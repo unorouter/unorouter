@@ -384,6 +384,8 @@
     },
     "PRICE": {
       "PER_REQUEST": " · リクエスト",
+      "PER_SECOND": " · 秒",
+      "PER_IMAGE": " · 画像",
       "INPUT": "入力",
       "OUTPUT": "出力",
       "FROM": "から",
@@ -1163,6 +1165,8 @@
     "PRICE_PER_MILLION": "{price} · 100万トークン",
     "FIXED_PRICE": "1リクエストあたりの料金",
     "PRICE_PER_REQUEST": "{price} · リクエスト",
+    "PRICE_PER_SECOND": "{price} · 秒",
+    "PRICE_PER_IMAGE": "{price} · 画像",
     "GRID_PRICING_TITLE": "料金グリッド",
     "GRID_PRICE_HEADER": "料金",
     "AVAILABLE_BADGE": "現在利用可能",

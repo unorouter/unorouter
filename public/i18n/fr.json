@@ -384,6 +384,8 @@
     },
     "PRICE": {
       "PER_REQUEST": " · requête",
+      "PER_SECOND": " · seconde",
+      "PER_IMAGE": " · image",
       "INPUT": "ENTRÉE",
       "OUTPUT": "SORTIE",
       "FROM": "à partir de",
@@ -1163,6 +1165,8 @@
     "PRICE_PER_MILLION": "{price} · 1M jetons",
     "FIXED_PRICE": "Prix par requête",
     "PRICE_PER_REQUEST": "{price} · requête",
+    "PRICE_PER_SECOND": "{price} · seconde",
+    "PRICE_PER_IMAGE": "{price} · image",
     "GRID_PRICING_TITLE": "Grille tarifaire",
     "GRID_PRICE_HEADER": "Prix",
     "AVAILABLE_BADGE": "Disponible maintenant",

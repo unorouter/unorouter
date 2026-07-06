@@ -384,6 +384,8 @@
     },
     "PRICE": {
       "PER_REQUEST": " · permintaan",
+      "PER_SECOND": " · detik",
+      "PER_IMAGE": " · gambar",
       "INPUT": "IN",
       "OUTPUT": "OUT",
       "FROM": "dari",
@@ -1163,6 +1165,8 @@
     "PRICE_PER_MILLION": "{price} · 1M token",
     "FIXED_PRICE": "Harga per permintaan",
     "PRICE_PER_REQUEST": "{price} · permintaan",
+    "PRICE_PER_SECOND": "{price} · detik",
+    "PRICE_PER_IMAGE": "{price} · gambar",
     "GRID_PRICING_TITLE": "Grid harga",
     "GRID_PRICE_HEADER": "Harga",
     "AVAILABLE_BADGE": "Tersedia sekarang",

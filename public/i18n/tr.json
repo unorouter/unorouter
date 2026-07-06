@@ -384,6 +384,8 @@
     },
     "PRICE": {
       "PER_REQUEST": " · istek",
+      "PER_SECOND": " · saniye",
+      "PER_IMAGE": " · görsel",
       "INPUT": "GİR",
       "OUTPUT": "ÇIK",
       "FROM": "başlangıç",
@@ -1163,6 +1165,8 @@
     "PRICE_PER_MILLION": "{price} · 1M token",
     "FIXED_PRICE": "İstek başına fiyat",
     "PRICE_PER_REQUEST": "{price} · istek",
+    "PRICE_PER_SECOND": "{price} · saniye",
+    "PRICE_PER_IMAGE": "{price} · görsel",
     "GRID_PRICING_TITLE": "Fiyat ızgarası",
     "GRID_PRICE_HEADER": "Fiyat",
     "AVAILABLE_BADGE": "Şimdi kullanılabilir",

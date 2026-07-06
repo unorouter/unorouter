@@ -25,6 +25,7 @@ import {
   GridPricingRow,
   ProcessedModel,
 } from "@/lib/api/pricing";
+import { fixedPriceUnitLabel } from "@/lib/api/model-modality";
 import { env } from "@/lib/config/env";
 import { getVendorTheme } from "@/lib/config/vendor-themes";
 import { cn } from "@/lib/utils";
@@ -235,14 +236,14 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
                       {formatPrice(model.fixedPrice)}
                     </span>
                     <span className="text-muted-foreground font-mono text-xs">
-                      {t("MODELS.PRICE.PER_REQUEST")}
+                      <FixedPriceUnit model={model} />
                     </span>
                   </div>
                   {model.originalFixedPrice !== null && (
                     <div className="text-muted-foreground/50 font-mono text-xs line-through">
                       {t("MODELS.PRICE.ORIGINAL")}:{" "}
                       {formatPrice(model.originalFixedPrice)}{" "}
-                      {t("MODELS.PRICE.PER_REQUEST")}
+                      <FixedPriceUnit model={model} />
                     </div>
                   )}
                 </div>
@@ -557,6 +558,7 @@ function GroupPricingSection(props: {
             <GroupPricingFixed
               entries={groupEntries}
               fixedPrice={model.originalFixedPrice ?? model.fixedPrice}
+              model={model}
               theme={theme}
             />
           ) : (
@@ -571,6 +573,15 @@ function GroupPricingSection(props: {
       )}
     </section>
   );
+}
+
+// Fixed-price unit suffix ("· request" / "· second" / "· image") for a model's flat fee.
+function FixedPriceUnit(props: { model: ProcessedModel }) {
+  const t = useTranslations();
+  const unit = fixedPriceUnitLabel(props.model);
+  if (unit === "second") return <>{t("MODELS.PRICE.PER_SECOND")}</>;
+  if (unit === "image") return <>{t("MODELS.PRICE.PER_IMAGE")}</>;
+  return <>{t("MODELS.PRICE.PER_REQUEST")}</>;
 }
 
 function GroupPricingGrid(props: {
@@ -614,6 +625,7 @@ function GroupPricingGrid(props: {
 function GroupPricingFixed(props: {
   entries: GroupEntry[];
   fixedPrice: number;
+  model: ProcessedModel;
   theme: ReturnType<typeof getVendorTheme>;
 }) {
   const t = useTranslations();
@@ -650,7 +662,7 @@ function GroupPricingFixed(props: {
             >
               {formatPrice(props.fixedPrice * ge.ratio)}
               <span className="text-muted-foreground ml-1 text-[10px] font-normal">
-                {t("MODELS.PRICE.PER_REQUEST")}
+                <FixedPriceUnit model={props.model} />
               </span>
             </span>
           </div>

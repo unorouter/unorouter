@@ -384,6 +384,8 @@
     },
     "PRICE": {
       "PER_REQUEST": " · request",
+      "PER_SECOND": " · second",
+      "PER_IMAGE": " · image",
       "INPUT": "IN",
       "OUTPUT": "OUT",
       "FROM": "from",
@@ -1163,6 +1165,8 @@
     "PRICE_PER_MILLION": "{price} · 1M tokens",
     "FIXED_PRICE": "Price per request",
     "PRICE_PER_REQUEST": "{price} · request",
+    "PRICE_PER_SECOND": "{price} · second",
+    "PRICE_PER_IMAGE": "{price} · image",
     "GRID_PRICING_TITLE": "Price grid",
     "GRID_PRICE_HEADER": "Price",
     "AVAILABLE_BADGE": "Available now",

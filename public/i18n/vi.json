@@ -384,6 +384,8 @@
     },
     "PRICE": {
       "PER_REQUEST": " · yêu cầu",
+      "PER_SECOND": " · giây",
+      "PER_IMAGE": " · ảnh",
       "INPUT": "VÀO",
       "OUTPUT": "RA",
       "FROM": "từ",
@@ -1163,6 +1165,8 @@
     "PRICE_PER_MILLION": "{price} · 1 triệu token",
     "FIXED_PRICE": "Giá mỗi yêu cầu",
     "PRICE_PER_REQUEST": "{price} · yêu cầu",
+    "PRICE_PER_SECOND": "{price} · giây",
+    "PRICE_PER_IMAGE": "{price} · ảnh",
     "GRID_PRICING_TITLE": "Lưới giá",
     "GRID_PRICE_HEADER": "Giá",
     "AVAILABLE_BADGE": "Có sẵn ngay",

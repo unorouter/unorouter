@@ -11,6 +11,7 @@ import {
   findSimilarModels,
   type ProcessedModel,
 } from "@/lib/api/pricing";
+import { fixedPriceUnitLabel } from "@/lib/api/model-modality";
 import { APP_VALUES } from "@/lib/config/constants";
 import { capitalize } from "@/lib/utils/base";
 import { getVendorTheme } from "@/lib/config/vendor-themes";
@@ -365,9 +366,17 @@ print(res.choices[0].message.content)`;
                     {t("MODEL_PAGE.FIXED_PRICE")}
                   </TableCell>
                   <TableCell className={cn("px-4 py-3 font-mono", theme.text)}>
-                    {t("MODEL_PAGE.PRICE_PER_REQUEST", {
-                      price: formatPrice(m.fixedPrice),
-                    })}
+                    {fixedPriceUnitLabel(m) === "second"
+                      ? t("MODEL_PAGE.PRICE_PER_SECOND", {
+                          price: formatPrice(m.fixedPrice),
+                        })
+                      : fixedPriceUnitLabel(m) === "image"
+                        ? t("MODEL_PAGE.PRICE_PER_IMAGE", {
+                            price: formatPrice(m.fixedPrice),
+                          })
+                        : t("MODEL_PAGE.PRICE_PER_REQUEST", {
+                            price: formatPrice(m.fixedPrice),
+                          })}
                   </TableCell>
                 </TableRow>
               ) : m.isTiered ? (

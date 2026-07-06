@@ -30,8 +30,9 @@ import type { ColumnDef } from "@tanstack/react-table";
 
 function fmtUnit(value: number, unit: PriceUnit, perCall?: boolean): string {
   if (unit === "dash" || value <= 0) return "-";
-  // Image fixed-price is per generated image; only non-image fixed fees are /call.
+  // Image fixed-price is per generated image, video per second; only other fixed fees are /call.
   if (unit === "perImage") return `${formatPrice(value)}/img`;
+  if (unit === "perSecond") return `${formatPrice(value)}/s`;
   if (perCall) return `${formatPrice(value)}/call`;
   return formatPrice(value);
 }

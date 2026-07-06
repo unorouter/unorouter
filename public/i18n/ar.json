@@ -384,6 +384,8 @@
     },
     "PRICE": {
       "PER_REQUEST": " · للطلب",
+      "PER_SECOND": " · للثانية",
+      "PER_IMAGE": " · للصورة",
       "INPUT": "إدخال",
       "OUTPUT": "إخراج",
       "FROM": "من",
@@ -1163,6 +1165,8 @@
     "PRICE_PER_MILLION": "{price} · لكلّ مليون token",
     "FIXED_PRICE": "السعر لكل طلب",
     "PRICE_PER_REQUEST": "{price} · للطلب",
+    "PRICE_PER_SECOND": "{price} · للثانية",
+    "PRICE_PER_IMAGE": "{price} · للصورة",
     "GRID_PRICING_TITLE": "شبكة الأسعار",
     "GRID_PRICE_HEADER": "السعر",
     "AVAILABLE_BADGE": "متاح الآن",

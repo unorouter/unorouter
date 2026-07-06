@@ -384,6 +384,8 @@
     },
     "PRICE": {
       "PER_REQUEST": " · 次请求",
+      "PER_SECOND": " · 秒",
+      "PER_IMAGE": " · 张图",
       "INPUT": "输入",
       "OUTPUT": "输出",
       "FROM": "起",
@@ -1163,6 +1165,8 @@
     "PRICE_PER_MILLION": "{price} · 百万 Token",
     "FIXED_PRICE": "每次请求价格",
     "PRICE_PER_REQUEST": "{price} · 次请求",
+    "PRICE_PER_SECOND": "{price} · 秒",
+    "PRICE_PER_IMAGE": "{price} · 张图",
     "GRID_PRICING_TITLE": "价格矩阵",
     "GRID_PRICE_HEADER": "价格",
     "AVAILABLE_BADGE": "现已可用",

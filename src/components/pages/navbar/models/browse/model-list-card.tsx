@@ -25,8 +25,9 @@ import { useLocale, useTranslations } from "next-intl";
 
 function fmtUnit(value: number, unit: PriceUnit, perCall?: boolean): string {
   if (unit === "dash" || value <= 0) return "-";
-  // Image fixed-price is per generated image; only non-image fixed fees are /call.
+  // Image fixed-price is per generated image, video per second; other fixed fees are /call.
   if (unit === "perImage") return `${formatPrice(value)}/img`;
+  if (unit === "perSecond") return `${formatPrice(value)}/s`;
   if (perCall) return `${formatPrice(value)}/call`;
   return formatPrice(value);
 }

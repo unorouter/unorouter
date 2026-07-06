@@ -384,6 +384,8 @@
     },
     "PRICE": {
       "PER_REQUEST": "／次請求",
+      "PER_SECOND": "／秒",
+      "PER_IMAGE": "／張圖",
       "INPUT": "輸入",
       "OUTPUT": "輸出",
       "FROM": "起",
@@ -1163,6 +1165,8 @@
     "PRICE_PER_MILLION": "{price}／每百萬 tokens",
     "FIXED_PRICE": "每次請求價格",
     "PRICE_PER_REQUEST": "{price}／次請求",
+    "PRICE_PER_SECOND": "{price}／秒",
+    "PRICE_PER_IMAGE": "{price}／張圖",
     "GRID_PRICING_TITLE": "價格網格",
     "GRID_PRICE_HEADER": "價格",
     "AVAILABLE_BADGE": "現已上線",
