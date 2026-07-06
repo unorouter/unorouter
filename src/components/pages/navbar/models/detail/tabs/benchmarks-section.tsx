@@ -17,6 +17,8 @@ import type {
 } from "@/lib/api/typebox/benchmarks";
 import { getVendorTheme } from "@/lib/config/vendor-themes";
 import { cn } from "@/lib/utils";
+import { SectionHeading } from "../shared/section-heading";
+import { StatusBox } from "../shared/status-box";
 import { useLocale, useTranslations } from "next-intl";
 
 type Props = {
@@ -50,19 +52,6 @@ function useCategoryLabel(key: string): string {
 
 type Theme = ReturnType<typeof getVendorTheme>;
 
-function SectionHeading(props: { theme: Theme; children: React.ReactNode }) {
-  return (
-    <h3
-      className={cn(
-        "mb-3 font-mono text-[10px] tracking-widest uppercase",
-        props.theme.text,
-      )}
-    >
-      {props.children}
-    </h3>
-  );
-}
-
 export function BenchmarksSection(props: Props) {
   const t = useTranslations();
   const locale = useLocale();
@@ -71,11 +60,7 @@ export function BenchmarksSection(props: Props) {
   const data = query.data;
 
   if (query.isLoading) {
-    return (
-      <div className="text-muted-foreground border-border rounded-md border p-4 text-center text-sm">
-        {t("MODEL_PAGE.BENCH_LOADING")}
-      </div>
-    );
+    return <StatusBox>{t("MODEL_PAGE.BENCH_LOADING")}</StatusBox>;
   }
 
   const hasAny =
@@ -85,11 +70,7 @@ export function BenchmarksSection(props: Props) {
       (data.designArena?.length ?? 0) > 0);
 
   if (!hasAny) {
-    return (
-      <div className="text-muted-foreground border-border rounded-md border p-4 text-center text-sm">
-        {t("MODEL_PAGE.BENCH_EMPTY")}
-      </div>
-    );
+    return <StatusBox>{t("MODEL_PAGE.BENCH_EMPTY")}</StatusBox>;
   }
 
   return (
@@ -252,7 +233,9 @@ function DesignArenaBlock(props: { rows: DesignArenaRow[]; theme: Theme }) {
     const existing = byCategory.get(row.category);
     if (!existing || row.elo > existing.elo) byCategory.set(row.category, row);
   }
-  const rows = [...byCategory.values()].sort((a, b) => b.elo - a.elo);
+  const rows = [...byCategory.values()]
+    .sort((a, b) => b.elo - a.elo)
+    .slice(0, 8);
   return (
     <section>
       <SectionHeading theme={props.theme}>

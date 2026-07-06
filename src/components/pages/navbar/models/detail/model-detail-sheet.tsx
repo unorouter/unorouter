@@ -32,6 +32,7 @@ import { cn } from "@/lib/utils";
 import { formatPrice } from "@/lib/utils/format/number";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
+import { MINI_TABLE, MINI_TABLE_BODY_ROW } from "./shared/mini-table";
 import { CachePricing } from "./pricing/cache-pricing";
 import { ModelDescription } from "./header/model-description";
 import { TieredPricing } from "./pricing/tiered-pricing";
@@ -409,7 +410,7 @@ function GridPricingTable(props: {
 
   return (
     <div className="overflow-x-auto">
-      <table className="w-full font-mono text-xs">
+      <table className={MINI_TABLE}>
         <thead>
           <tr className="border-border/40 border-b">
             {columns.map((col) => (
@@ -432,7 +433,7 @@ function GridPricingTable(props: {
               props.priceMultiplier,
             );
             return (
-              <tr key={i} className="border-border/20 border-b last:border-0">
+              <tr key={i} className={MINI_TABLE_BODY_ROW}>
                 {columns.map((col) => (
                   <td
                     key={col}

@@ -4,6 +4,7 @@ import { Icon } from "@/components/ui/icon";
 import { APP_VALUES } from "@/lib/config/constants";
 import { findContextTag, type ProcessedModel } from "@/lib/api/pricing";
 import { getVendorTheme } from "@/lib/config/vendor-themes";
+import { SectionHeading } from "../shared/section-heading";
 import { cn } from "@/lib/utils";
 import { formatPrice, formatTokenCount } from "@/lib/utils/format/number";
 import { formatYearMonth } from "@/lib/utils/format/date";
@@ -118,17 +119,14 @@ export function ModelFaq(props: { model: ProcessedModel }) {
 
   return (
     <div>
-      <div className="mb-3 flex items-center gap-2">
-        <Icon name="message-square" className={cn("size-4", theme.text)} />
-        <h2
-          className={cn(
-            "font-mono text-[10px] tracking-widest uppercase",
-            theme.text,
-          )}
-        >
-          {t("MODEL_PAGE.FAQ_TITLE")}
-        </h2>
-      </div>
+      <SectionHeading
+        theme={theme}
+        icon={
+          <Icon name="message-square" className={cn("size-4", theme.text)} />
+        }
+      >
+        {t("MODEL_PAGE.FAQ_TITLE")}
+      </SectionHeading>
       <div className="flex flex-col gap-2">
         {items.map((item, i) => {
           const isOpen = open.includes(i);

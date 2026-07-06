@@ -13,6 +13,11 @@ import { fixedPriceUnitLabel } from "@/lib/api/model-modality";
 import { getVendorTheme } from "@/lib/config/vendor-themes";
 import { cn } from "@/lib/utils";
 import { formatPrice } from "@/lib/utils/format/number";
+import {
+  MINI_TABLE,
+  MINI_TABLE_BODY_ROW,
+  MINI_TABLE_HEAD_ROW,
+} from "../shared/mini-table";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 
@@ -97,9 +102,9 @@ function GroupTokens(props: {
 }) {
   const t = useTranslations();
   return (
-    <table className="w-full font-mono text-xs">
+    <table className={MINI_TABLE}>
       <thead>
-        <tr className="border-border/40 text-muted-foreground border-b text-[10px] uppercase">
+        <tr className={MINI_TABLE_HEAD_ROW}>
           <th className="py-1.5 text-left font-normal">
             {t("MODELS.DETAIL.GROUP_HEADER_GROUP")}
           </th>
@@ -118,7 +123,7 @@ function GroupTokens(props: {
           return (
             <tr
               key={ge.group}
-              className="border-border/20 border-b last:border-0"
+              className={MINI_TABLE_BODY_ROW}
             >
               <td className="text-muted-foreground py-1.5">{ge.group}</td>
               <td className={cn("py-1.5 text-right", props.theme.text)}>
@@ -143,9 +148,9 @@ function GroupFixed(props: {
 }) {
   const t = useTranslations();
   return (
-    <table className="w-full font-mono text-xs">
+    <table className={MINI_TABLE}>
       <thead>
-        <tr className="border-border/40 text-muted-foreground border-b text-[10px] uppercase">
+        <tr className={MINI_TABLE_HEAD_ROW}>
           <th className="py-1.5 text-left font-normal">
             {t("MODELS.DETAIL.GROUP_HEADER_GROUP")}
           </th>
@@ -158,7 +163,7 @@ function GroupFixed(props: {
         {props.entries.map((ge) => (
           <tr
             key={ge.group}
-            className="border-border/20 border-b last:border-0"
+            className={MINI_TABLE_BODY_ROW}
           >
             <td className="text-muted-foreground py-1.5">{ge.group}</td>
             <td className={cn("py-1.5 text-right", props.theme.text)}>
@@ -194,9 +199,9 @@ function GroupGrid(props: {
             </span>
           </div>
           <div className="overflow-x-auto">
-            <table className="w-full font-mono text-xs">
+            <table className={MINI_TABLE}>
               <thead>
-                <tr className="border-border/40 text-muted-foreground border-b text-[10px] uppercase">
+                <tr className={MINI_TABLE_HEAD_ROW}>
                   {columns.map((col) => (
                     <th key={col} className="py-1.5 text-left font-normal">
                       {col}
@@ -213,7 +218,7 @@ function GroupGrid(props: {
                   return (
                     <tr
                       key={i}
-                      className="border-border/20 border-b last:border-0"
+                      className={MINI_TABLE_BODY_ROW}
                     >
                       {columns.map((col) => (
                         <td
