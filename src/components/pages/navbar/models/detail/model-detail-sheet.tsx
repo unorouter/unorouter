@@ -13,7 +13,7 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { Link } from "@/i18n/navigation";
-import { modelSlug } from "@/lib/utils/base";
+import { modelHref } from "@/lib/utils/base";
 import { chatModelAtom } from "@/store/chat-store";
 import { useSetAtom } from "jotai";
 import {
@@ -93,12 +93,7 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
               className="flex-1"
               nativeButton={false}
               render={
-                <Link
-                  href={{
-                    pathname: "/models/[slug]",
-                    params: { slug: modelSlug(model.name) },
-                  }}
-                />
+                <Link href={modelHref(model.name, model.vendor.name)} />
               }
             >
               <Icon name="external-link" className="mr-2 h-3.5 w-3.5" />

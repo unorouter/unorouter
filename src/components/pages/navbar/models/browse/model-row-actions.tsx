@@ -11,7 +11,7 @@ import {
 import { Icon } from "@/components/ui/icon";
 import { Link } from "@/i18n/navigation";
 import type { ProcessedModel } from "@/lib/api/pricing";
-import { copyToClipboard, modelSlug } from "@/lib/utils/base";
+import { copyToClipboard, modelHref } from "@/lib/utils/base";
 import { chatModelAtom } from "@/store/chat-store";
 import { useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
@@ -41,12 +41,7 @@ export function ModelRowActions(props: { model: ProcessedModel }) {
           <DropdownMenuItem
             onClick={(e) => e.stopPropagation()}
             render={
-              <Link
-                href={{
-                  pathname: "/models/[slug]",
-                  params: { slug: modelSlug(model.name) },
-                }}
-              />
+              <Link href={modelHref(model.name, model.vendor.name)} />
             }
           >
             <Icon

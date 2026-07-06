@@ -523,6 +523,15 @@
     "ACTIONS": {
       "OPEN_MENU": "Ouvrir le menu",
       "COPY_NAME": "Copier le nom du modèle"
+    },
+    "VENDOR": {
+      "META_TITLE": "Modèles {vendor} sur {appName}",
+      "META_DESC": "Parcourez tous les modèles {vendor} disponibles sur {appName} : tarifs, contexte et capacités.",
+      "META_KEYWORDS": "{vendor}, modèles {vendor}, api {vendor}, {appName}",
+      "N_MODELS": "{count} modèles",
+      "EMPTY": "Aucun modèle trouvé pour ce fournisseur.",
+      "NEW": "Nouveau",
+      "DEPRECATED": "Obsolète"
     }
   },
   "RANKINGS": {
@@ -1205,7 +1214,19 @@
     "CTA_ALL_MODELS": "Voir tous les modèles",
     "AT_CAPACITY_TITLE": "Tous les fournisseurs de ce modèle sont occupés en ce moment",
     "AT_CAPACITY_BODY": "Chaque fournisseur amont a atteint sa limite de débit. Le modèle revient automatiquement dès que les limites se lèvent, généralement en quelques heures. Réessayez dans un moment ou passez à un autre modèle.",
-    "OFFLINE_REQUEST_CTA": "Demander ce modèle sur Discord"
+    "OFFLINE_REQUEST_CTA": "Demander ce modèle sur Discord",
+    "OVERVIEW_TAB": "Aperçu",
+    "API_TAB": "API",
+    "BASE_URL": "URL de base",
+    "AVAILABLE_ENDPOINTS": "Points de terminaison disponibles",
+    "VIEW_DOCS": "Voir la documentation",
+    "RELEASE_DATE": "Publié",
+    "KNOWLEDGE_CUTOFF": "Limite des connaissances",
+    "LAST_UPDATED": "Mis à jour",
+    "SHOW_MORE": "Voir plus",
+    "SHOW_LESS": "Voir moins",
+    "CHIP_CONTEXT": "contexte",
+    "CHIP_OUT": "sortie"
   },
   "PRICING": {
     "FEATURE": {

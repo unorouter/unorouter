@@ -523,6 +523,15 @@
     "ACTIONS": {
       "OPEN_MENU": "메뉴 열기",
       "COPY_NAME": "모델 이름 복사"
+    },
+    "VENDOR": {
+      "META_TITLE": "{appName}의 {vendor} 모델",
+      "META_DESC": "{appName}에서 사용 가능한 모든 {vendor} 모델 살펴보기: 가격, 컨텍스트, 기능.",
+      "META_KEYWORDS": "{vendor}, {vendor} 모델, {vendor} api, {appName}",
+      "N_MODELS": "{count}개 모델",
+      "EMPTY": "이 공급업체의 모델을 찾을 수 없습니다.",
+      "NEW": "신규",
+      "DEPRECATED": "지원 종료"
     }
   },
   "RANKINGS": {
@@ -1205,7 +1214,19 @@
     "CTA_ALL_MODELS": "모든 모델 보기",
     "AT_CAPACITY_TITLE": "이 모델의 모든 프로바이더가 지금 혼잡합니다",
     "AT_CAPACITY_BODY": "모든 업스트림 프로바이더가 속도 제한에 도달했습니다. 제한이 풀리면 모델은 자동으로 돌아오며, 보통 몇 시간 안에 복구됩니다. 잠시 후 다시 시도하거나 다른 모델로 전환하세요.",
-    "OFFLINE_REQUEST_CTA": "Discord에서 이 모델 요청하기"
+    "OFFLINE_REQUEST_CTA": "Discord에서 이 모델 요청하기",
+    "OVERVIEW_TAB": "개요",
+    "API_TAB": "API",
+    "BASE_URL": "기본 URL",
+    "AVAILABLE_ENDPOINTS": "사용 가능한 엔드포인트",
+    "VIEW_DOCS": "문서 보기",
+    "RELEASE_DATE": "출시일",
+    "KNOWLEDGE_CUTOFF": "지식 기준일",
+    "LAST_UPDATED": "업데이트됨",
+    "SHOW_MORE": "더 보기",
+    "SHOW_LESS": "접기",
+    "CHIP_CONTEXT": "컨텍스트",
+    "CHIP_OUT": "출력"
   },
   "PRICING": {
     "FEATURE": {

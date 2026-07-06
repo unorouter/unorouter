@@ -523,6 +523,15 @@
     "ACTIONS": {
       "OPEN_MENU": "Buka menu",
       "COPY_NAME": "Salin nama model"
+    },
+    "VENDOR": {
+      "META_TITLE": "Model {vendor} di {appName}",
+      "META_DESC": "Jelajahi semua model {vendor} yang tersedia di {appName}: harga, konteks, dan kemampuan.",
+      "META_KEYWORDS": "{vendor}, model {vendor}, api {vendor}, {appName}",
+      "N_MODELS": "{count} model",
+      "EMPTY": "Tidak ada model untuk vendor ini.",
+      "NEW": "Baru",
+      "DEPRECATED": "Usang"
     }
   },
   "RANKINGS": {
@@ -1205,7 +1214,19 @@
     "CTA_ALL_MODELS": "Lihat semua model",
     "AT_CAPACITY_TITLE": "Semua penyedia model ini sedang sibuk saat ini",
     "AT_CAPACITY_BODY": "Setiap penyedia upstream telah mencapai batas lajunya. Model kembali otomatis begitu batasnya longgar, biasanya dalam hitungan jam. Coba lagi sebentar lagi atau beralih ke model lain.",
-    "OFFLINE_REQUEST_CTA": "Minta model ini di Discord"
+    "OFFLINE_REQUEST_CTA": "Minta model ini di Discord",
+    "OVERVIEW_TAB": "Ikhtisar",
+    "API_TAB": "API",
+    "BASE_URL": "URL dasar",
+    "AVAILABLE_ENDPOINTS": "Endpoint yang tersedia",
+    "VIEW_DOCS": "Lihat dokumentasi",
+    "RELEASE_DATE": "Dirilis",
+    "KNOWLEDGE_CUTOFF": "Batas pengetahuan",
+    "LAST_UPDATED": "Diperbarui",
+    "SHOW_MORE": "Tampilkan lebih",
+    "SHOW_LESS": "Tampilkan sedikit",
+    "CHIP_CONTEXT": "konteks",
+    "CHIP_OUT": "keluaran"
   },
   "PRICING": {
     "FEATURE": {

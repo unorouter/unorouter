@@ -523,6 +523,15 @@
     "ACTIONS": {
       "OPEN_MENU": "मेन्यू खोलें",
       "COPY_NAME": "मॉडल नाम कॉपी करें"
+    },
+    "VENDOR": {
+      "META_TITLE": "{appName} पर {vendor} मॉडल",
+      "META_DESC": "{appName} पर उपलब्ध सभी {vendor} मॉडल ब्राउज़ करें: मूल्य, संदर्भ और क्षमताएं।",
+      "META_KEYWORDS": "{vendor}, {vendor} मॉडल, {vendor} api, {appName}",
+      "N_MODELS": "{count} मॉडल",
+      "EMPTY": "इस विक्रेता के लिए कोई मॉडल नहीं मिला।",
+      "NEW": "नया",
+      "DEPRECATED": "बहिष्कृत"
     }
   },
   "RANKINGS": {
@@ -1205,7 +1214,19 @@
     "CTA_ALL_MODELS": "सभी मॉडल देखें",
     "AT_CAPACITY_TITLE": "इस मॉडल के सभी प्रदाता अभी व्यस्त हैं",
     "AT_CAPACITY_BODY": "हर अपस्ट्रीम प्रदाता अपनी दर-सीमा तक पहुँच चुका है। सीमाएँ हटते ही मॉडल अपने आप लौट आता है, आमतौर पर कुछ घंटों में। थोड़ी देर बाद फिर कोशिश करें या किसी दूसरे मॉडल पर जाएँ।",
-    "OFFLINE_REQUEST_CTA": "इस मॉडल का अनुरोध Discord पर करें"
+    "OFFLINE_REQUEST_CTA": "इस मॉडल का अनुरोध Discord पर करें",
+    "OVERVIEW_TAB": "अवलोकन",
+    "API_TAB": "API",
+    "BASE_URL": "बेस URL",
+    "AVAILABLE_ENDPOINTS": "उपलब्ध एंडपॉइंट",
+    "VIEW_DOCS": "दस्तावेज़ देखें",
+    "RELEASE_DATE": "जारी किया गया",
+    "KNOWLEDGE_CUTOFF": "ज्ञान कटऑफ",
+    "LAST_UPDATED": "अपडेट किया गया",
+    "SHOW_MORE": "और दिखाएं",
+    "SHOW_LESS": "कम दिखाएं",
+    "CHIP_CONTEXT": "संदर्भ",
+    "CHIP_OUT": "आउटपुट"
   },
   "PRICING": {
     "FEATURE": {

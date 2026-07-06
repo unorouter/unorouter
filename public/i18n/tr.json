@@ -523,6 +523,15 @@
     "ACTIONS": {
       "OPEN_MENU": "Menüyü aç",
       "COPY_NAME": "Model adını kopyala"
+    },
+    "VENDOR": {
+      "META_TITLE": "{appName} üzerinde {vendor} modelleri",
+      "META_DESC": "{appName} üzerinde bulunan tüm {vendor} modellerine göz atın: fiyatlandırma, bağlam ve yetenekler.",
+      "META_KEYWORDS": "{vendor}, {vendor} modelleri, {vendor} api, {appName}",
+      "N_MODELS": "{count} model",
+      "EMPTY": "Bu sağlayıcı için model bulunamadı.",
+      "NEW": "Yeni",
+      "DEPRECATED": "Kullanımdan kaldırıldı"
     }
   },
   "RANKINGS": {
@@ -1205,7 +1214,19 @@
     "CTA_ALL_MODELS": "Tüm modelleri görüntüle",
     "AT_CAPACITY_TITLE": "Bu modelin tüm sağlayıcıları şu anda meşgul",
     "AT_CAPACITY_BODY": "Her üst akış sağlayıcısı hız sınırına ulaştı. Sınırlar kalkınca model otomatik olarak geri gelir, genellikle birkaç saat içinde. Biraz sonra tekrar deneyin ya da başka bir modele geçin.",
-    "OFFLINE_REQUEST_CTA": "Bu modeli Discord'da iste"
+    "OFFLINE_REQUEST_CTA": "Bu modeli Discord'da iste",
+    "OVERVIEW_TAB": "Genel bakış",
+    "API_TAB": "API",
+    "BASE_URL": "Temel URL",
+    "AVAILABLE_ENDPOINTS": "Kullanılabilir uç noktalar",
+    "VIEW_DOCS": "Belgeleri görüntüle",
+    "RELEASE_DATE": "Yayınlandı",
+    "KNOWLEDGE_CUTOFF": "Bilgi kesme tarihi",
+    "LAST_UPDATED": "Güncellendi",
+    "SHOW_MORE": "Daha fazla göster",
+    "SHOW_LESS": "Daha az göster",
+    "CHIP_CONTEXT": "bağlam",
+    "CHIP_OUT": "çıktı"
   },
   "PRICING": {
     "FEATURE": {

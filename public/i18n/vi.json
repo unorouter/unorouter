@@ -523,6 +523,15 @@
     "ACTIONS": {
       "OPEN_MENU": "Mở menu",
       "COPY_NAME": "Sao chép tên mô hình"
+    },
+    "VENDOR": {
+      "META_TITLE": "Mô hình {vendor} trên {appName}",
+      "META_DESC": "Duyệt tất cả mô hình {vendor} có trên {appName}: giá, ngữ cảnh và khả năng.",
+      "META_KEYWORDS": "{vendor}, mô hình {vendor}, api {vendor}, {appName}",
+      "N_MODELS": "{count} mô hình",
+      "EMPTY": "Không tìm thấy mô hình nào cho nhà cung cấp này.",
+      "NEW": "Mới",
+      "DEPRECATED": "Ngừng hỗ trợ"
     }
   },
   "RANKINGS": {
@@ -1205,7 +1214,19 @@
     "CTA_ALL_MODELS": "Xem tất cả mô hình",
     "AT_CAPACITY_TITLE": "Tất cả nhà cung cấp của mô hình này hiện đang bận",
     "AT_CAPACITY_BODY": "Mọi nhà cung cấp thượng nguồn đã chạm giới hạn tốc độ. Mô hình tự động trở lại khi giới hạn được gỡ, thường trong vài giờ. Hãy thử lại sau ít phút hoặc chuyển sang mô hình khác.",
-    "OFFLINE_REQUEST_CTA": "Yêu cầu mô hình này trên Discord"
+    "OFFLINE_REQUEST_CTA": "Yêu cầu mô hình này trên Discord",
+    "OVERVIEW_TAB": "Tổng quan",
+    "API_TAB": "API",
+    "BASE_URL": "URL cơ sở",
+    "AVAILABLE_ENDPOINTS": "Các endpoint khả dụng",
+    "VIEW_DOCS": "Xem tài liệu",
+    "RELEASE_DATE": "Phát hành",
+    "KNOWLEDGE_CUTOFF": "Giới hạn kiến thức",
+    "LAST_UPDATED": "Đã cập nhật",
+    "SHOW_MORE": "Xem thêm",
+    "SHOW_LESS": "Thu gọn",
+    "CHIP_CONTEXT": "ngữ cảnh",
+    "CHIP_OUT": "đầu ra"
   },
   "PRICING": {
     "FEATURE": {

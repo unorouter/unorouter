@@ -16,9 +16,9 @@ import {
 import { env } from "@/lib/config/env";
 import { rpc } from "@/lib/rpc";
 import { getSeoTimestamps } from "@/lib/seo/metadata";
-import { handleElysia, modelSlug } from "@/lib/utils/base";
+import { handleElysia, modelSlug, vendorSlug } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
-import { listCatalogNames } from "@/server/models/pricing/model-catalog.service";
+import { listCatalogEntries } from "@/server/models/pricing/model-catalog.service";
 import type { MetadataRoute } from "next";
 
 export const dynamic = "force-dynamic";
@@ -107,15 +107,31 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // dropped mid-churn: live gives every currently-known model (online + offline),
   // the catalog covers models briefly absent from even the offline set.
   // :free twins are self-canonical distinct pages, so they get their own URLs.
-  const catalogNames = await listCatalogNames().catch(() => []);
+  const catalogEntries = await listCatalogEntries().catch(() => []);
   const modelNames = [
     ...new Set([
       ...(pricing?.models ?? []).map((m) => m.name),
-      ...catalogNames,
+      ...catalogEntries.map((e) => e.name),
     ]),
   ];
   const nameSet = new Set(modelNames);
-  const sitemapModelNames = modelNames;
+
+  // Canonical model URLs are ALWAYS vendor/model (the bare model 404s), so a
+  // name with no resolvable vendor is dropped from the sitemap entirely.
+  const nameToVendor = new Map<string, string>([
+    ...catalogEntries.map((e) => [e.name, e.vendor] as const),
+    ...(pricing?.models ?? []).map((m) => [m.name, m.vendor.name] as const),
+  ]);
+  const sitemapModelNames = modelNames.filter((name) =>
+    vendorSlug(nameToVendor.get(name) ?? ""),
+  );
+  const sitemapVendorSlugs = [
+    ...new Set(
+      (pricing?.models ?? [])
+        .map((m) => vendorSlug(m.vendor.name))
+        .filter(Boolean),
+    ),
+  ];
 
   return [
     ...topLevelRoutes.flatMap((route) =>
@@ -138,10 +154,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         },
       ),
     ),
-    ...sitemapModelNames.flatMap((name) =>
-      localizedEntries(
-        { pathname: "/models/[slug]", params: { slug: modelSlug(name) } },
+    ...sitemapModelNames.flatMap((name) => {
+      const slug = [vendorSlug(nameToVendor.get(name) ?? ""), modelSlug(name)];
+      return localizedEntries(
+        { pathname: "/models/[...slug]", params: { slug } },
         { priority: 0.6, changeFrequency: "weekly" },
+      );
+    }),
+    ...sitemapVendorSlugs.flatMap((slug) =>
+      localizedEntries(
+        { pathname: "/models/[...slug]", params: { slug: [slug] } },
+        { priority: 0.5, changeFrequency: "weekly" },
       ),
     ),
     // Curated head-to-head pairs only; drop any pair whose models left the
