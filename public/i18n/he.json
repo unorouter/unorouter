@@ -1256,7 +1256,25 @@
     "BENCH_CAT_AGENTIC": "סוכנות",
     "BENCH_CAT_MULTILINGUAL": "רב-לשוני",
     "BENCH_CAT_INSTRUCTION": "מעקב אחר הוראות",
-    "BENCH_CAT_MULTIMODAL": "רב-מודאלי"
+    "BENCH_CAT_MULTIMODAL": "רב-מודאלי",
+    "USAGE_TITLE": "שימוש ודירוג",
+    "USAGE_LOADING": "טוען שימוש...",
+    "USAGE_EMPTY": "אין עדיין נתוני שימוש לתקופה זו.",
+    "USAGE_RANKED": "מקום #{rank}",
+    "USAGE_UNRANKED": "לא מדורג בתקופה זו",
+    "USAGE_TOKENS_LABEL": "אסימונים",
+    "FAQ_OUTPUT_Q": "מהו הפלט המרבי של {name}?",
+    "FAQ_OUTPUT_A": "{name} יכול להפיק עד {value} אסימוני פלט לכל בקשה.",
+    "FAQ_TOOLS_Q": "האם {name} תומך בקריאת פונקציות?",
+    "FAQ_TOOLS_A": "כן. {name} תומך בקריאת כלים / פונקציות.",
+    "FAQ_REASONING_Q": "האם {name} תומך בהיסק?",
+    "FAQ_REASONING_A": "כן. {name} הוא מודל בעל יכולת היסק.",
+    "FAQ_VISION_Q": "האם {name} תומך בקלט תמונות?",
+    "FAQ_VISION_A": "כן. {name} מקבל קלט תמונות לצד טקסט.",
+    "FAQ_CUTOFF_Q": "מהו מועד עדכון הידע של {name}?",
+    "FAQ_CUTOFF_A": "מועד עדכון הידע של {name} הוא {value}.",
+    "FAQ_MODERATED_Q": "האם {name} עובר בקרת תוכן?",
+    "FAQ_MODERATED_A": "כן. בקשות אל {name} עוברות בקרת תוכן."
   },
   "PRICING": {
     "FEATURE": {

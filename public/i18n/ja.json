@@ -1256,7 +1256,25 @@
     "BENCH_CAT_AGENTIC": "エージェント",
     "BENCH_CAT_MULTILINGUAL": "多言語",
     "BENCH_CAT_INSTRUCTION": "指示追従",
-    "BENCH_CAT_MULTIMODAL": "マルチモーダル"
+    "BENCH_CAT_MULTIMODAL": "マルチモーダル",
+    "USAGE_TITLE": "使用状況とランキング",
+    "USAGE_LOADING": "使用状況を読み込み中...",
+    "USAGE_EMPTY": "この期間の使用データはまだありません。",
+    "USAGE_RANKED": "第{rank}位",
+    "USAGE_UNRANKED": "この期間はランク外",
+    "USAGE_TOKENS_LABEL": "トークン",
+    "FAQ_OUTPUT_Q": "{name} の最大出力は？",
+    "FAQ_OUTPUT_A": "{name} はリクエストごとに最大 {value} の出力トークンを生成できます。",
+    "FAQ_TOOLS_Q": "{name} は関数呼び出しに対応していますか？",
+    "FAQ_TOOLS_A": "はい。{name} はツール / 関数呼び出しに対応しています。",
+    "FAQ_REASONING_Q": "{name} は推論に対応していますか？",
+    "FAQ_REASONING_A": "はい。{name} は推論対応モデルです。",
+    "FAQ_VISION_Q": "{name} は画像入力に対応していますか？",
+    "FAQ_VISION_A": "はい。{name} はテキストに加えて画像入力を受け付けます。",
+    "FAQ_CUTOFF_Q": "{name} の知識のカットオフは？",
+    "FAQ_CUTOFF_A": "{name} の知識のカットオフは {value} です。",
+    "FAQ_MODERATED_Q": "{name} はモデレーションされますか？",
+    "FAQ_MODERATED_A": "はい。{name} へのプロンプトはコンテンツモデレーションを通過します。"
   },
   "PRICING": {
     "FEATURE": {

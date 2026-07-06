@@ -2,6 +2,7 @@ import { Icon } from "@/components/ui/icon";
 import type { ModelMetadata } from "@/lib/api/pricing";
 import { cn } from "@/lib/utils";
 import { formatTokenCount } from "@/lib/utils/format/number";
+import { formatYearMonth } from "@/lib/utils/format/date";
 import { getTranslations } from "next-intl/server";
 import { deriveCapabilityChips } from "./capability-helpers";
 import { ModelModalityChip } from "./model-modality-chip";
@@ -65,6 +66,12 @@ export async function ModelMetaStats(props: { metadata: ModelMetadata }) {
   const t = await getTranslations();
   const meta = props.metadata;
   const reasoningLevels = meta.reasoningEfforts ?? [];
+  const deprecationDate = formatYearMonth(meta.deprecationDate);
+  const expirationDate = formatYearMonth(meta.expirationDate);
+  const quantization =
+    meta.quantization && meta.quantization.toLowerCase() !== "unknown"
+      ? meta.quantization
+      : null;
   const metaItem = "inline-flex items-center gap-1.5";
   const metaValue = "text-foreground/80";
 
@@ -72,7 +79,11 @@ export async function ModelMetaStats(props: { metadata: ModelMetadata }) {
     !!meta.mode ||
     !!meta.tokenizer ||
     meta.isModerated === true ||
-    reasoningLevels.length > 0;
+    reasoningLevels.length > 0 ||
+    !!deprecationDate ||
+    !!expirationDate ||
+    !!quantization ||
+    !!meta.huggingFaceId;
   if (!hasStats) return null;
 
   return (
@@ -102,6 +113,38 @@ export async function ModelMetaStats(props: { metadata: ModelMetadata }) {
           <Icon name="shield-check" className="h-3 w-3" />
           {t("MODELS.DETAIL.MODERATED")}
         </span>
+      ) : null}
+      {quantization ? (
+        <span className={metaItem}>
+          <Icon name="file-text" className="h-3 w-3" />
+          {t("MODELS.DETAIL.QUANTIZATION")}{" "}
+          <span className={metaValue}>{quantization}</span>
+        </span>
+      ) : null}
+      {deprecationDate ? (
+        <span className={metaItem}>
+          <Icon name="triangle-alert" className="h-3 w-3" />
+          {t("MODELS.DETAIL.DEPRECATION")}{" "}
+          <span className={metaValue}>{deprecationDate}</span>
+        </span>
+      ) : null}
+      {expirationDate ? (
+        <span className={metaItem}>
+          <Icon name="clock" className="h-3 w-3" />
+          {t("MODELS.DETAIL.EXPIRATION")}{" "}
+          <span className={metaValue}>{expirationDate}</span>
+        </span>
+      ) : null}
+      {meta.huggingFaceId ? (
+        <a
+          href={`https://huggingface.co/${meta.huggingFaceId}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={cn(metaItem, "hover:text-foreground underline-offset-4 hover:underline")}
+        >
+          <Icon name="external-link" className="h-3 w-3" />
+          <span className={metaValue}>{meta.huggingFaceId}</span>
+        </a>
       ) : null}
     </div>
   );

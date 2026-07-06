@@ -22,16 +22,18 @@ import { getDocsApiKey } from "@/lib/utils/server";
 import { getLocale, getTranslations } from "next-intl/server";
 import { AtCapacityBanner } from "./header/at-capacity-banner";
 import { ModelDescription } from "./header/model-description";
+import { ModelFaq } from "./header/model-faq";
 import { ModelHeaderChips, ModelMetaStats } from "./header/model-header-chips";
 import { CodeExamplesTabs } from "./tabs/code-examples-tabs";
 import { GridPricingTable } from "./pricing/grid-pricing-table";
+import { GroupPricingSection } from "./pricing/group-pricing-section";
 import { TieredPricing } from "./pricing/tiered-pricing";
-import { hasAnyParameter, hasAnyQuickStat } from "./header/capability-helpers";
+import { hasAnyParameter } from "./header/capability-helpers";
 import { ModelBreadcrumb } from "./header/model-breadcrumb";
 import { BenchmarksSection } from "./tabs/benchmarks-section";
+import { ModelRankingSection } from "./tabs/model-ranking-section";
 import { ModelTabs } from "./tabs/model-tabs";
 import { PerformanceSection } from "./tabs/performance-section";
-import { QuickStats } from "./header/quick-stats";
 import { SupportedParameters } from "./tabs/supported-parameters";
 import { TryInChatButton } from "./header/try-in-chat-button";
 
@@ -112,8 +114,26 @@ print(res.choices[0].message.content)`;
 
   const endpointPills = m.endpointTypes ?? [];
 
+  const glow = theme.primary ?? "#94a3b8";
+
   return (
-    <div className="mx-auto max-w-5xl px-6 pt-20 pb-16">
+    <div className="relative mx-auto max-w-5xl px-6 pt-20 pb-16">
+      {/* Full-bleed vendor-tinted glow at the top, matching the rankings/tester
+          pages. Escapes the max-w container via w-screen + centered translate. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute top-0 left-1/2 -z-10 h-150 w-screen -translate-x-1/2 opacity-25 dark:opacity-[0.12]"
+        style={{
+          background: [
+            `radial-gradient(ellipse 45% 45% at 20% 12%, color-mix(in oklab, ${glow} 80%, transparent) 0%, transparent 70%)`,
+            `radial-gradient(ellipse 40% 40% at 78% 10%, color-mix(in oklab, ${glow} 55%, transparent) 0%, transparent 70%)`,
+            `radial-gradient(ellipse 35% 35% at 50% 50%, color-mix(in oklab, ${glow} 35%, transparent) 0%, transparent 70%)`,
+          ].join(", "),
+          maskImage: "linear-gradient(to bottom, black 40%, transparent 100%)",
+          WebkitMaskImage:
+            "linear-gradient(to bottom, black 40%, transparent 100%)",
+        }}
+      />
       <ModelBreadcrumb
         vendorName={m.vendor.name}
         vendorHref={props.vendorHref}
@@ -296,23 +316,14 @@ print(res.choices[0].message.content)`;
                   />
                 </div>
               )}
+              {m.enableGroups.length > 0 && !m.isTiered && (
+                <GroupPricingSection
+                  model={m}
+                  groupRatioMap={props.groupRatioMap}
+                  theme={theme}
+                />
+              )}
             </section>
-
-            {/* Capabilities + modalities live in the header chip row; here only
-                the extra quick-stats the chips don't cover. */}
-            {hasAnyQuickStat(m.metadata) && (
-              <section className="mt-12">
-                <h2
-                  className={cn(
-                    "mb-3 font-mono text-[10px] tracking-widest uppercase",
-                    theme.text,
-                  )}
-                >
-                  {t("MODELS.DETAIL.QUICK_STATS")}
-                </h2>
-                <QuickStats metadata={m.metadata} />
-              </section>
-            )}
 
             <section className="mt-12">
               <div className="mb-3 flex items-end justify-between gap-4">
@@ -326,6 +337,13 @@ print(res.choices[0].message.content)`;
                 </h2>
               </div>
               <PerformanceSection modelName={m.name} />
+            </section>
+
+            <section className="mt-12">
+              <ModelRankingSection
+                modelName={m.name}
+                vendorName={m.vendor.name}
+              />
             </section>
 
             {hasAnyParameter(m.metadata) && (
@@ -351,62 +369,7 @@ print(res.choices[0].message.content)`;
             )}
 
             <section className="mt-12">
-              <h2
-                className={cn(
-                  "mb-3 font-mono text-[10px] tracking-widest uppercase",
-                  theme.text,
-                )}
-              >
-                {t("MODEL_PAGE.FAQ_TITLE")}
-              </h2>
-              <div className="grid gap-4 md:grid-cols-2">
-                <FaqCard
-                  question={
-                    m.isFixedPrice
-                      ? t("MODEL_PAGE.FAQ_COST_FIXED_Q", { name: m.name })
-                      : m.isTiered
-                        ? t("MODEL_PAGE.FAQ_COST_TIERED_Q", { name: m.name })
-                        : m.gridPricing
-                          ? t("MODEL_PAGE.FAQ_COST_GRID_Q", { name: m.name })
-                          : t("MODEL_PAGE.FAQ_COST_Q", { name: m.name })
-                  }
-                  answer={
-                    m.isFixedPrice
-                      ? t("MODEL_PAGE.FAQ_COST_FIXED_A", {
-                          name: m.name,
-                          price: formatPrice(m.fixedPrice),
-                        })
-                      : m.isTiered
-                        ? t("MODEL_PAGE.FAQ_COST_TIERED_A", { name: m.name })
-                        : m.gridPricing
-                          ? t("MODEL_PAGE.FAQ_COST_GRID_A", { name: m.name })
-                          : t("MODEL_PAGE.FAQ_COST_A", {
-                              name: m.name,
-                              input: formatPrice(m.inputPrice),
-                              output: formatPrice(m.outputPrice),
-                            })
-                  }
-                  theme={theme}
-                />
-                <FaqCard
-                  question={t("MODEL_PAGE.FAQ_API_Q", { name: m.name })}
-                  answer={t("MODEL_PAGE.FAQ_API_A", {
-                    ...APP_VALUES,
-                    name: m.name,
-                  })}
-                  theme={theme}
-                />
-                {contextTag && (
-                  <FaqCard
-                    question={t("MODEL_PAGE.FAQ_CONTEXT_Q", { name: m.name })}
-                    answer={t("MODEL_PAGE.FAQ_CONTEXT_A", {
-                      name: m.name,
-                      context: contextTag,
-                    })}
-                    theme={theme}
-                  />
-                )}
-              </div>
+              <ModelFaq model={m} />
             </section>
 
             {(similar.sameVendor.length > 0 || similar.sameTag.length > 0) && (
@@ -462,44 +425,6 @@ print(res.choices[0].message.content)`;
               </section>
             )}
 
-            <section className="border-border relative overflow-hidden rounded-2xl border">
-              <div
-                className={cn(
-                  "pointer-events-none absolute inset-0 opacity-60",
-                  theme.bg.replace("/5", "/20"),
-                )}
-                aria-hidden
-              />
-              <div
-                className={cn(
-                  "pointer-events-none absolute -top-20 left-1/2 size-80 -translate-x-1/2 rounded-full blur-3xl",
-                  theme.bg.replace("/5", "/30"),
-                )}
-                aria-hidden
-              />
-              <div className="relative px-6 py-14 text-center">
-                <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
-                  {t("MODEL_PAGE.CTA_TITLE", { name: m.name })}
-                </h2>
-                <p className="text-muted-foreground mx-auto mt-3 max-w-md">
-                  {t("MODEL_PAGE.CTA_DESC")}
-                </p>
-                <div className="mt-8 flex flex-wrap justify-center gap-3">
-                  <TryInChatButton
-                    modelName={m.name}
-                    label={t("MODEL_PAGE.CTA_TRY", { name: m.name })}
-                    loginLabel={t("MODEL_PAGE.CTA_SIGNUP", { name: m.name })}
-                  />
-                  <Button
-                    nativeButton={false}
-                    variant="outline"
-                    render={<Link href="/models" />}
-                  >
-                    {t("MODEL_PAGE.CTA_ALL_MODELS")}
-                  </Button>
-                </div>
-              </div>
-            </section>
           </>
         }
         api={
@@ -665,19 +590,3 @@ function PriceCell(props: {
   );
 }
 
-function FaqCard(props: { question: string; answer: string; theme: Theme }) {
-  return (
-    <div
-      className={cn(
-        "rounded-lg border p-5 backdrop-blur-sm",
-        props.theme.border,
-        props.theme.bg,
-      )}
-    >
-      <h3 className="mb-2 font-medium">{props.question}</h3>
-      <p className="text-muted-foreground text-sm leading-relaxed">
-        {props.answer}
-      </p>
-    </div>
-  );
-}

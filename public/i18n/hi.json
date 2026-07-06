@@ -1256,7 +1256,25 @@
     "BENCH_CAT_AGENTIC": "एजेंटिक",
     "BENCH_CAT_MULTILINGUAL": "बहुभाषी",
     "BENCH_CAT_INSTRUCTION": "निर्देश पालन",
-    "BENCH_CAT_MULTIMODAL": "मल्टीमॉडल"
+    "BENCH_CAT_MULTIMODAL": "मल्टीमॉडल",
+    "USAGE_TITLE": "उपयोग और रैंकिंग",
+    "USAGE_LOADING": "उपयोग लोड हो रहा है...",
+    "USAGE_EMPTY": "इस अवधि के लिए अभी कोई उपयोग डेटा नहीं है।",
+    "USAGE_RANKED": "रैंक #{rank}",
+    "USAGE_UNRANKED": "इस अवधि में रैंक नहीं",
+    "USAGE_TOKENS_LABEL": "टोकन",
+    "FAQ_OUTPUT_Q": "{name} का अधिकतम आउटपुट क्या है?",
+    "FAQ_OUTPUT_A": "{name} प्रति अनुरोध {value} तक आउटपुट टोकन उत्पन्न कर सकता है।",
+    "FAQ_TOOLS_Q": "क्या {name} फ़ंक्शन कॉलिंग का समर्थन करता है?",
+    "FAQ_TOOLS_A": "हाँ। {name} टूल / फ़ंक्शन कॉलिंग का समर्थन करता है।",
+    "FAQ_REASONING_Q": "क्या {name} तर्क का समर्थन करता है?",
+    "FAQ_REASONING_A": "हाँ। {name} एक तर्क-सक्षम मॉडल है।",
+    "FAQ_VISION_Q": "क्या {name} छवि इनपुट का समर्थन करता है?",
+    "FAQ_VISION_A": "हाँ। {name} पाठ के साथ छवि इनपुट स्वीकार करता है।",
+    "FAQ_CUTOFF_Q": "{name} का ज्ञान कटऑफ क्या है?",
+    "FAQ_CUTOFF_A": "{name} का ज्ञान कटऑफ {value} है।",
+    "FAQ_MODERATED_Q": "क्या {name} मॉडरेट किया जाता है?",
+    "FAQ_MODERATED_A": "हाँ। {name} को भेजे गए प्रॉम्प्ट कंटेंट मॉडरेशन से गुज़रते हैं।"
   },
   "PRICING": {
     "FEATURE": {

@@ -1256,7 +1256,25 @@
     "BENCH_CAT_AGENTIC": "Agentique",
     "BENCH_CAT_MULTILINGUAL": "Multilingue",
     "BENCH_CAT_INSTRUCTION": "Suivi des instructions",
-    "BENCH_CAT_MULTIMODAL": "Multimodal"
+    "BENCH_CAT_MULTIMODAL": "Multimodal",
+    "USAGE_TITLE": "Utilisation et classement",
+    "USAGE_LOADING": "Chargement de l'utilisation...",
+    "USAGE_EMPTY": "Aucune donnée d'utilisation pour cette période.",
+    "USAGE_RANKED": "Rang #{rank}",
+    "USAGE_UNRANKED": "Non classé sur cette période",
+    "USAGE_TOKENS_LABEL": "jetons",
+    "FAQ_OUTPUT_Q": "Quelle est la sortie maximale de {name} ?",
+    "FAQ_OUTPUT_A": "{name} peut générer jusqu'à {value} jetons de sortie par requête.",
+    "FAQ_TOOLS_Q": "{name} prend-il en charge l'appel de fonctions ?",
+    "FAQ_TOOLS_A": "Oui. {name} prend en charge l'appel d'outils / de fonctions.",
+    "FAQ_REASONING_Q": "{name} prend-il en charge le raisonnement ?",
+    "FAQ_REASONING_A": "Oui. {name} est un modèle capable de raisonnement.",
+    "FAQ_VISION_Q": "{name} prend-il en charge l'entrée d'images ?",
+    "FAQ_VISION_A": "Oui. {name} accepte l'entrée d'images en plus du texte.",
+    "FAQ_CUTOFF_Q": "Quelle est la date limite de connaissances de {name} ?",
+    "FAQ_CUTOFF_A": "La date limite de connaissances de {name} est {value}.",
+    "FAQ_MODERATED_Q": "{name} est-il modéré ?",
+    "FAQ_MODERATED_A": "Oui. Les requêtes vers {name} passent par une modération de contenu."
   },
   "PRICING": {
     "FEATURE": {

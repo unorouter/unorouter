@@ -1256,7 +1256,25 @@
     "BENCH_CAT_AGENTIC": "الوكالة",
     "BENCH_CAT_MULTILINGUAL": "متعدد اللغات",
     "BENCH_CAT_INSTRUCTION": "اتباع التعليمات",
-    "BENCH_CAT_MULTIMODAL": "متعدد الوسائط"
+    "BENCH_CAT_MULTIMODAL": "متعدد الوسائط",
+    "USAGE_TITLE": "الاستخدام والترتيب",
+    "USAGE_LOADING": "جارٍ تحميل الاستخدام...",
+    "USAGE_EMPTY": "لا توجد بيانات استخدام لهذه الفترة بعد.",
+    "USAGE_RANKED": "المرتبة #{rank}",
+    "USAGE_UNRANKED": "غير مصنّف في هذه الفترة",
+    "USAGE_TOKENS_LABEL": "رمز",
+    "FAQ_OUTPUT_Q": "ما الحد الأقصى لإخراج {name}؟",
+    "FAQ_OUTPUT_A": "يمكن لـ {name} توليد ما يصل إلى {value} رمز إخراج لكل طلب.",
+    "FAQ_TOOLS_Q": "هل يدعم {name} استدعاء الدوال؟",
+    "FAQ_TOOLS_A": "نعم. يدعم {name} استدعاء الأدوات / الدوال.",
+    "FAQ_REASONING_Q": "هل يدعم {name} الاستدلال؟",
+    "FAQ_REASONING_A": "نعم. {name} نموذج قادر على الاستدلال.",
+    "FAQ_VISION_Q": "هل يدعم {name} إدخال الصور؟",
+    "FAQ_VISION_A": "نعم. يقبل {name} إدخال الصور إلى جانب النص.",
+    "FAQ_CUTOFF_Q": "ما هو حد المعرفة لـ {name}؟",
+    "FAQ_CUTOFF_A": "حد المعرفة لـ {name} هو {value}.",
+    "FAQ_MODERATED_Q": "هل يخضع {name} للإشراف؟",
+    "FAQ_MODERATED_A": "نعم. تمر الطلبات إلى {name} عبر مراقبة المحتوى."
   },
   "PRICING": {
     "FEATURE": {

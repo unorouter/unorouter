@@ -151,28 +151,32 @@ export interface AnnouncementEntry {
   type?: string;
 }
 
+export interface ContainerEventItem {
+  message: string;
+  time: number;
+}
+
+export interface ContainerDetailResponse {
+  brand_name: string;
+  container_id: string;
+  created_at: number;
+  deployment_id: string;
+  device_id: string;
+  events: ContainerEventItem[] | null;
+  gpus_per_container: number;
+  hardware: string;
+  public_url: string;
+  status: string;
+  uptime_percent: number;
+}
+
 /**
- * UpdateCustomOAuthProviderRequest schema
+ * Response_dto.ContainerDetailResponse schema
  */
 export interface AnonymousSchema0 {
-  access_denied_message: string | null;
-  access_policy: string | null;
-  auth_style: number | null;
-  authorization_endpoint: string;
-  client_id: string;
-  client_secret: string;
-  display_name_field: string;
-  email_field: string;
-  enabled: boolean | null;
-  icon: string | null;
-  name: string;
-  scopes: string;
-  slug: string;
-  token_endpoint: string;
-  user_id_field: string;
-  user_info_endpoint: string;
-  username_field: string;
-  well_known: string | null;
+  data: ContainerDetailResponse;
+  message: string;
+  success: boolean;
 }
 
 export interface ApiInfoEntry {
@@ -524,25 +528,6 @@ export interface ContainerConfig {
   replica_count: number;
   secret_env_variables?: ContainerConfigSecretEnvVariables;
   traffic_port?: number;
-}
-
-export interface ContainerEventItem {
-  message: string;
-  time: number;
-}
-
-export interface ContainerDetailResponse {
-  brand_name: string;
-  container_id: string;
-  created_at: number;
-  deployment_id: string;
-  device_id: string;
-  events: ContainerEventItem[] | null;
-  gpus_per_container: number;
-  hardware: string;
-  public_url: string;
-  status: string;
-  uptime_percent: number;
 }
 
 export interface ContainerItem {

@@ -1,6 +1,6 @@
 import { t, type Static } from "elysia";
 
-const RankingPeriodSchema = t.Union([
+export const RankingPeriodSchema = t.Union([
   t.Literal("today"),
   t.Literal("week"),
   t.Literal("month"),

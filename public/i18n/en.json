@@ -1256,7 +1256,25 @@
     "BENCH_CAT_AGENTIC": "Agentic",
     "BENCH_CAT_MULTILINGUAL": "Multilingual",
     "BENCH_CAT_INSTRUCTION": "Instruction following",
-    "BENCH_CAT_MULTIMODAL": "Multimodal"
+    "BENCH_CAT_MULTIMODAL": "Multimodal",
+    "USAGE_TITLE": "Usage & Ranking",
+    "USAGE_LOADING": "Loading usage...",
+    "USAGE_EMPTY": "No usage data for this period yet.",
+    "USAGE_RANKED": "Ranked #{rank}",
+    "USAGE_UNRANKED": "Not ranked this period",
+    "USAGE_TOKENS_LABEL": "tokens",
+    "FAQ_OUTPUT_Q": "What is the max output of {name}?",
+    "FAQ_OUTPUT_A": "{name} can generate up to {value} output tokens per request.",
+    "FAQ_TOOLS_Q": "Does {name} support function calling?",
+    "FAQ_TOOLS_A": "Yes. {name} supports tool / function calling.",
+    "FAQ_REASONING_Q": "Does {name} support reasoning?",
+    "FAQ_REASONING_A": "Yes. {name} is a reasoning-capable model.",
+    "FAQ_VISION_Q": "Does {name} support image input?",
+    "FAQ_VISION_A": "Yes. {name} accepts image input alongside text.",
+    "FAQ_CUTOFF_Q": "What is the knowledge cutoff of {name}?",
+    "FAQ_CUTOFF_A": "The knowledge cutoff of {name} is {value}.",
+    "FAQ_MODERATED_Q": "Is {name} moderated?",
+    "FAQ_MODERATED_A": "Yes. Prompts to {name} pass through content moderation."
   },
   "PRICING": {
     "FEATURE": {
