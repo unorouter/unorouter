@@ -1,7 +1,5 @@
 import type { IconComponent } from "@/lib/config/vendor-icons";
 
-// EuroLLM (utter-project, Horizon Europe). No distributable SVG brand mark, so an
-// "E" monogram stand-in.
 const EuroLlmIcon: IconComponent = (props) => (
   <svg
     role="img"

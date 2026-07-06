@@ -1,7 +1,6 @@
 import type { TranslationKey } from "@/lib/config/constants";
 import type { IconName } from "@/lib/config/icon-map";
 
-// Mirror new-api/setting/oauth_scopes.go (Go enforces). openid is goidc-internal, omitted.
 export const OAUTH_SCOPES = [
   "models:read",
   "balance:read",
@@ -14,7 +13,6 @@ export const OAUTH_SCOPES = [
 
 type OAuthScope = (typeof OAUTH_SCOPES)[number];
 
-// openid tolerated though unadvertised: upstream auth may include for OIDC.
 export const OAUTH_SCOPE_TRANSLATION_KEYS: Record<
   OAuthScope | "openid",
   TranslationKey

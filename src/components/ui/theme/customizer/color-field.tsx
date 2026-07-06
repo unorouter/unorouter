@@ -4,9 +4,6 @@ import { useEffect, useRef, useState } from "react";
 
 const HEX_RE = /^#[0-9a-fA-F]{6}$/;
 
-// The color input fires onChange continuously while dragging; each commit
-// re-renders the whole customizer (~40ms), which stutters. Keep the swatch/text
-// live locally and debounce the propagation up.
 const COMMIT_DELAY_MS = 100;
 
 function normalizeHex(v: string): string | null {
@@ -26,10 +23,7 @@ export function ColorField(props: {
 }) {
   const colorInputRef = useRef<HTMLInputElement | null>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  // Local live value for instant input feedback; parent updates debounced.
   const [local, setLocal] = useState(props.value ?? "");
-  // Adjust local when the prop changes externally (reset/import/shuffle) without
-  // an effect: the store-prev-prop-during-render pattern (react.dev).
   const [prevValue, setPrevValue] = useState(props.value);
   if (props.value !== prevValue) {
     setPrevValue(props.value);

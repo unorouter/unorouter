@@ -5,10 +5,6 @@ import type { VerifyProvider } from "@/lib/ai/verify/types";
 
 const PROBE_MAX_BYTES = 256 * 1024;
 
-// Server-side transport: SSRF-guarded forward to the user-given endpoint. This is
-// what makes a published result UNFORGEABLE - the server itself issues the probe
-// requests and reads the real upstream responses; the client never produces the
-// stored verdict.
 async function serverTransport(args: TransportArgs): Promise<TransportResult> {
   try {
     const res = await safeFetchRaw(args.url, {
@@ -30,7 +26,6 @@ async function serverTransport(args: TransportArgs): Promise<TransportResult> {
   }
 }
 
-// Run the FULL verification server-side (handshake + probes) with the user's key.
 export function runServerVerification(opts: {
   provider: VerifyProvider;
   baseUrl: string;
@@ -42,8 +37,6 @@ export function runServerVerification(opts: {
     baseUrl: opts.baseUrl,
     apiKey: opts.apiKey,
     model: opts.model,
-    // mode is irrelevant when transport is injected (no CORS server-side);
-    // "direct" keeps the anthropic browser-CORS header off.
     mode: "direct",
     transport: serverTransport,
   });

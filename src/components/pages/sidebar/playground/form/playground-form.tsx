@@ -29,7 +29,6 @@ import {
 import { useAtom, useAtomValue } from "jotai";
 import { AspectRatioField } from "../fields/aspect-ratio-field";
 import { InitImageField } from "../fields/init-image-field";
-// react-canvas-masker is a UMD bundle referencing self; SSR 500s, so load client-only on first inpaint render.
 const InpaintCanvas = dynamic(
   () => import("../fields/inpaint-canvas").then((m) => m.InpaintCanvas),
   { ssr: false },

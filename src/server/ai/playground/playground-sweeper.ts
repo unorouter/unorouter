@@ -1,5 +1,3 @@
-// Retention sweep: deletes expired playground sessions + their R2 objects from Turso.
-
 import { deleteGenerationObject } from "@/lib/config/r2";
 import { getDb } from "@/lib/db/server/client";
 import { media, playgroundSessions, playgrounds } from "@/lib/db/schema";
@@ -13,7 +11,6 @@ const RETENTION_DELETE_CONCURRENCY = 4;
 
 let started = false;
 
-// Bounded worker pool over shared cursor.
 async function runPool<T>(
   items: T[],
   concurrency: number,
@@ -55,7 +52,6 @@ function schedule(): void {
   }, SWEEP_INTERVAL_MS);
 }
 
-// Drop expired session: R2 first, then row (cascade).
 async function purgeSession(sessionId: string): Promise<void> {
   const db = getDb();
   const snaps = await db

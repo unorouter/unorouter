@@ -62,7 +62,6 @@ export function useUpdateChatSettingsMutation() {
         convId: args.convId,
         updatedAt: now,
       };
-      // Settings live on the conversation row; this upsert also bumps updatedAt.
       await upsertLocalConversationSettings(userId, updated);
       return updated;
     },
@@ -120,7 +119,6 @@ export function useImportConversationMutation() {
     mutationFn: async (file: File) => {
       const text = await file.text();
 
-      // ST JSONL is line-delimited; detect before JSON.parse.
       if (looksLikeSillyTavernChat(text)) {
         return importSillyTavernChat(userId, text);
       }
@@ -132,14 +130,12 @@ export function useImportConversationMutation() {
         throw new Error(msg("ERRORS.IMPORT_INVALID_JSON"));
       }
 
-      // Untrusted JSON; one boundary cast, envelopes optional fields.
       if (parsed.version === NATIVE_VERSION) {
         return persistMappedImport(
           userId,
           mapNativeImport(parsed as NativeImport),
         );
       }
-      // orpg.3.0 (openrouter): lossy on lorebooks/personas.
       if (parsed.version === ORPG_VERSION) {
         return persistMappedImport(userId, mapOrpgImport(parsed as OrpgImport));
       }
@@ -162,7 +158,6 @@ export function useExportConversation() {
   });
 }
 
-// Fork a chat from a message into a new conversation (clone up to that message, same bound entities).
 export function useForkConversationMutation() {
   const userId = useLocalUserId();
   return useApiMutation({

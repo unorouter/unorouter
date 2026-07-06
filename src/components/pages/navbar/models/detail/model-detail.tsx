@@ -424,7 +424,6 @@ print(res.choices[0].message.content)`;
                 </div>
               </section>
             )}
-
           </>
         }
         api={
@@ -539,10 +538,7 @@ print(res.choices[0].message.content)`;
         }
         benchmarks={
           <section className="mt-12">
-            <BenchmarksSection
-              modelName={m.name}
-              vendorName={m.vendor.name}
-            />
+            <BenchmarksSection modelName={m.name} vendorName={m.vendor.name} />
           </section>
         }
       />
@@ -552,8 +548,6 @@ print(res.choices[0].message.content)`;
 
 type Theme = ReturnType<typeof getVendorTheme>;
 
-// Compact price cell: label + big accent price + unit, with the pre-discount
-// price struck through and a green "-N%" chip when the retail beats the sticker.
 function PriceCell(props: {
   label: string;
   value: number;
@@ -569,7 +563,9 @@ function PriceCell(props: {
         {props.label}
       </div>
       <div className="mt-1 flex flex-wrap items-baseline gap-x-1.5 gap-y-1">
-        <span className={cn("font-mono text-lg font-semibold", props.theme.text)}>
+        <span
+          className={cn("font-mono text-lg font-semibold", props.theme.text)}
+        >
           {formatPrice(props.value)}
         </span>
         <span className="text-muted-foreground font-mono text-[11px]">
@@ -589,4 +585,3 @@ function PriceCell(props: {
     </div>
   );
 }
-

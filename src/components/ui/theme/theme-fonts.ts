@@ -13,9 +13,6 @@ import {
   Space_Grotesk,
 } from "next/font/google";
 
-// next/font/google builds these at compile time; runtime picker only flips
-// the active family. To add more, import here and append to FONT_OPTIONS.
-
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
@@ -84,9 +81,7 @@ type FontKind = "sans" | "mono" | "display";
 export type FontOption = {
   id: string;
   label: string;
-  /** className from next/font (attached to body for cascade). */
   cssVar: string;
-  /** CSS variable name for `var(...)` references; cssVar is the className. */
   varName: string;
   kinds: FontKind[];
   accessibility?: boolean;

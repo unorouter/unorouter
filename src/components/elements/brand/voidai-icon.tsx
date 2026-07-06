@@ -1,6 +1,5 @@
 import type { IconComponent } from "@/lib/config/vendor-icons";
 
-// VoidAI. No brand mark in any icon pack, so this is an inline mono "V" monogram stand-in.
 const VoidAiBrandIcon: IconComponent = (props) => (
   <svg
     role="img"

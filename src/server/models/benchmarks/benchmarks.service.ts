@@ -23,12 +23,10 @@ const LMARENA_BOARDS = [
 
 const BENCHLM_URL = "https://benchlm.ai/api/data/leaderboard";
 
-const OR_CATALOG_URL =
-  "https://openrouter.ai/api/frontend/v1/catalog/models";
+const OR_CATALOG_URL = "https://openrouter.ai/api/frontend/v1/catalog/models";
 const OR_DESIGN_ARENA =
   "https://openrouter.ai/api/frontend/v1/private/design-arena-benchmarks";
 
-// Ordered display categories for BenchLM composites.
 const BENCHLM_CATEGORY_ORDER = [
   "coding",
   "reasoning",
@@ -45,8 +43,6 @@ async function fetchJson<T>(
   init?: RequestInit,
 ): Promise<T | null> {
   try {
-    // Opt out of the 30-day Data Cache when the caller sets its own cache mode
-    // (e.g. the oversized OpenRouter catalog uses no-store + in-module memo).
     const cacheOpts = init?.cache ? {} : THIRTY_DAY_CACHE;
     const res = await fetch(url, {
       signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
@@ -73,9 +69,6 @@ async function fetchJson<T>(
   }
 }
 
-// Bare-name for cross-source matching: lowercase, strip vendor prefix + our
-// suffix variants (:free / [1m] / -thinking / -high / -low), collapse separators
-// and drop the dots in version numbers so "Claude Opus 4.8" == "claude-opus-4-8".
 function normalizeName(raw: string): string {
   let n = raw.toLowerCase().trim();
   const slash = n.lastIndexOf("/");
@@ -93,7 +86,13 @@ function normalizeName(raw: string): string {
 
 type LmArenaBoardFile = {
   meta?: { last_updated?: string };
-  models: { rank: number; model: string; score: number; ci: number; votes: number }[];
+  models: {
+    rank: number;
+    model: string;
+    score: number;
+    ci: number;
+    votes: number;
+  }[];
 };
 
 async function resolveLmArena(target: string): Promise<LmArenaRow[] | null> {
@@ -151,8 +150,6 @@ type DesignArenaFile = {
   };
 };
 
-// OpenRouter's catalog is ~5.5MB (over the Next Data Cache 2MB limit), so memoize
-// the normalized-name -> permaslug map in-module with a 30-day TTL instead.
 let permaslugCache: { at: number; map: Map<string, string> } | null = null;
 const PERMASLUG_TTL_MS = 60 * 60 * 24 * 30 * 1000;
 
@@ -198,7 +195,6 @@ export async function getBenchmarks(
     resolveBenchLm(target),
     resolveDesignArena(target),
   ]);
-  // llm-stats stays null until the account clears onboarding (403 otherwise).
   const llmStats = serverEnv.llmStatsApiKey ? null : null;
   return { lmarena, benchlm, designArena, llmStats };
 }

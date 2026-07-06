@@ -43,11 +43,8 @@ interface DataTableProps<TData, TValue> {
   total?: number;
   tableStore?: Partial<TableState>;
   columnVisibility?: boolean;
-  /** Client-side sort + pagination over the full `data` (no server round-trip). */
   localSorting?: boolean;
-  /** Window-scroll row virtualization for large client lists (incompatible with expanded rows). */
   windowVirtual?: boolean;
-  /** Estimated row height in px for the virtualizer (default 53). */
   estimateRowHeight?: number;
   isLoading?: boolean;
   emptyState?: ReactNode;
@@ -86,7 +83,6 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
       ? Math.ceil(props.total / store.pagination.pageSize)
       : undefined,
     getCoreRowModel: getCoreRowModel(),
-    // No `total` => client list shows ALL rows (no pagination, no row cap).
     ...(props.total !== undefined
       ? { getPaginationRowModel: getPaginationRowModel() }
       : {}),

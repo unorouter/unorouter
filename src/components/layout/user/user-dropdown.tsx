@@ -47,9 +47,7 @@ export function UserDropdown(props: UserDropdownProps) {
     try {
       await logoutMutation.mutateAsync();
       window.location.reload();
-    } catch {
-      // error handled by mutation
-    }
+    } catch {}
   }
 
   return (

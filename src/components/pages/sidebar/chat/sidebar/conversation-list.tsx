@@ -58,7 +58,6 @@ export function ConversationList() {
   const conversations =
     conversationsQuery.data?.pages.flatMap((p) => p.items) ?? [];
   const groups = groupsQuery.data ?? [];
-  // Group view only when not searching; search flattens across all groups.
   const grouped = !debouncedSearch && groups.length > 0;
 
   useEffect(() => {

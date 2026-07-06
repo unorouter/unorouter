@@ -19,14 +19,12 @@ import type { ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import type { Control, FieldValues, Path } from "react-hook-form";
 
-// Select bound to a string field whose values map 1:1 to translation keys; leadingOptions render sentinels with no mapped key.
 export function MyFormKeyedSelect<T extends FieldValues>(props: {
   control: Control<T>;
   name: Path<T>;
   label: ReactNode;
   fallback: string;
   optionKeys: Record<string, TranslationKey>;
-  /** Sentinel values rendered before the mapped options. */
   leadingOptions?: { value: string; labelKey: TranslationKey }[];
   labelClassName?: string;
 }) {

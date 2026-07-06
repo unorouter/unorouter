@@ -19,7 +19,6 @@ type TavilySearchResponse = {
   results: TavilyResult[];
 };
 
-// Returns false on error: fail closed to save Tavily quota.
 export async function needsWebSearch(
   apiKey: string,
   userText: string,
@@ -90,8 +89,6 @@ export async function searchTavily(
   }
 }
 
-// BFF entrypoint: classify need + run Tavily + format the system block. Guests get nothing (paid-only).
-// Returns null when no search ran or there were no results.
 export async function resolveWebSearch(
   apiKey: string,
   userId: number,

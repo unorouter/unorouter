@@ -6,15 +6,6 @@ import { downloadBlob, downloadJson } from "@/lib/utils/client";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { logger } from "@/lib/utils/logger";
 
-// Downloads are plain blobs. The service-worker "streamed download" path was removed: iOS Safari
-// bypasses service-worker control for navigation-triggered downloads (the iframe hit the server and
-// "downloaded" the 404 HTML page - the mystery 6KB file). StreamSaver.js itself falls back to a blob
-// on WebKit for the same reason. We instead keep the payload SMALL (metadata-only diagnostics; the DB
-// is shrunk by wiping request_logs + VACUUM before export) so a plain blob fits in memory on iOS.
-//
-// EVERY step logs to the chat-debug ring buffer (logChatDebug) so the NEXT diagnostics report shows
-// exactly where an export died - the download saga was blind because none of this was traced.
-
 export async function downloadDiagnostics(
   userId: number | undefined,
   filename: string,
@@ -40,8 +31,6 @@ export async function downloadLocalDb(
 ): Promise<void> {
   logChatDebug("export.db.start", { filename });
   try {
-    // Clean slate: wipe the heaviest table (full per-turn prompt snapshots - the 400MB+ bloat) and
-    // VACUUM so the file actually shrinks before we read it, keeping the blob small enough for iOS.
     await shrinkBeforeExport(userId);
     const local = await getLocalDb(userId);
     if (!local) throw new Error("SQLocal unavailable");

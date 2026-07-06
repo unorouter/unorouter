@@ -1,6 +1,5 @@
 import type { IconComponent } from "@/lib/config/vendor-icons";
 
-// FallenMerick. No brand mark in any icon pack, so this is an inline mono "F" monogram stand-in.
 const FallenMerickIcon: IconComponent = (props) => (
   <svg
     role="img"

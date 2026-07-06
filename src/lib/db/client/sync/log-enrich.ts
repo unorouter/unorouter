@@ -9,7 +9,6 @@ import { handleElysia } from "@/lib/utils/base";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { quotaToDollars } from "@/lib/utils/format/number";
 
-// Pull new-api's authoritative record for a finished request, overwriting local request_logs estimates. Missing result throws.
 export async function enrichRequestLogFromUpstream(
   userId: number,
   msgId: string,
@@ -20,7 +19,6 @@ export async function enrichRequestLogFromUpstream(
       query: { request_id: requestId },
     }),
   );
-  // Upstream hasn't logged the row yet: throw so the backoff retries.
   if (res.quota == null && res.channel == null) {
     logChatDebug("enrich.not_yet_logged", { msgId });
     throw new Error("upstream log not ready");
@@ -33,6 +31,5 @@ export async function enrichRequestLogFromUpstream(
     durationMs: res.useTime ?? undefined,
     channelName: res.channel ?? undefined,
   });
-  // Invalidate locally (an open sheet in this tab) AND across tabs.
   invalidateAndBroadcast(getQueryClient(), [queryKeys.requestLog(msgId)]);
 }

@@ -28,7 +28,6 @@ export async function buildNativeExport(
   const bundle = await readLocalConversationBundle(userId, convId);
   if (!bundle) throw new Error(msg("ERRORS.NOT_FOUND"));
 
-  // Flatten bundle lorebooks ({lb,entries}) for native envelope.
   const lorebooks = bundle.lorebooks.map((b) => b.lorebook);
   const lorebookEntries = bundle.lorebooks.flatMap((b) => b.entries);
 
@@ -53,7 +52,6 @@ export async function buildNativeExport(
 
 type NativeExport = Awaited<ReturnType<typeof buildNativeExport>>;
 
-// Maps message-item data to orpg shape (text/reasoning differ).
 function toOrpgItemData(type: string, data: unknown): unknown {
   const text =
     data && typeof data === "object" && "text" in data
@@ -69,7 +67,6 @@ function toOrpgItemData(type: string, data: unknown): unknown {
   return data;
 }
 
-// orpg.3.0: openrouter-compatible subset; lossless extras live under _${appName}_extension (see ORPG_EXTENSION_KEY).
 export function toOrpg(native: NativeExport) {
   const itemsByMsg = new Map<string, NativeExport["items"]>();
   for (const it of native.items) {
@@ -161,7 +158,6 @@ export function toOrpg(native: NativeExport) {
   };
 }
 
-// RP entities first so conv FKs resolve, then bundle.
 export async function persistMappedImport(
   userId: number | undefined,
   mapped: MappedImport,

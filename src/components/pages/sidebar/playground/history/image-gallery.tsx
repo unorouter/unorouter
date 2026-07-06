@@ -147,7 +147,6 @@ export function ImageLightbox(props: {
   alt: string;
 }) {
   const t = useTranslations();
-  // Derived state: reset during render when startIndex changes.
   const [index, setIndex] = useState(props.startIndex);
   const [prevStartIndex, setPrevStartIndex] = useState(props.startIndex);
   if (prevStartIndex !== props.startIndex) {

@@ -247,7 +247,6 @@ function LmArenaBlock(props: {
 
 function DesignArenaBlock(props: { rows: DesignArenaRow[]; theme: Theme }) {
   const t = useTranslations();
-  // Upstream returns one row per arena x category; keep the best ELO per category.
   const byCategory = new Map<string, DesignArenaRow>();
   for (const row of props.rows) {
     const existing = byCategory.get(row.category);

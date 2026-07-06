@@ -38,7 +38,6 @@ type Props = {
   onDone: () => void;
 };
 
-// providers column is a JSON routing object; the form edits it as a comma list of slugs plus an only toggle.
 function parseProviderRouting(raw: string | null | undefined): {
   slugs: string;
   only: boolean;
@@ -55,7 +54,6 @@ function parseProviderRouting(raw: string | null | undefined): {
   }
 }
 
-// Build the DB body: serialize provider slugs into the providers JSON and drop the form-only providersOnly field.
 function toPresetBody(data: SamplingPresetForm) {
   const slugs = data.providers
     .split(",")
@@ -65,7 +63,6 @@ function toPresetBody(data: SamplingPresetForm) {
     slugs.length > 0
       ? JSON.stringify(data.providersOnly ? { only: slugs } : { order: slugs })
       : null;
-  // Empty template string => null so the assembler uses the default order.
   const promptTemplate = data.promptTemplate?.trim()
     ? data.promptTemplate
     : null;
@@ -87,14 +84,11 @@ export function PresetForm(props: Props) {
   const createMut = useCreatePresetMutation();
   const updateMut = useUpdatePresetMutation();
 
-  // values syncs the row on settle; keepDirtyValues stops a refetch clobbering typing.
   const editing =
     props.editingId === "new"
       ? null
       : presetsQuery.data?.find((x) => x.id === props.editingId);
-  // providers is a JSON routing object; the form edits it as a comma list + only toggle, so expand before seeding.
   const routing = parseProviderRouting(editing?.providers);
-  // null streamingEnabled means inherit (on) but the switch renders null as OFF; seed the default so toggling off persists false.
   const formValues = formDefaults(samplingPresetFormSchema, {
     ...(editing ?? {}),
     providers: routing.slugs,
@@ -112,7 +106,6 @@ export function PresetForm(props: Props) {
     );
   };
 
-  // SamplingFields names every knob to its own field path 1:1.
   const samplingNames = Object.fromEntries(
     SAMPLING_FIELDS.map((f) => [f, f]),
   ) as Record<(typeof SAMPLING_FIELDS)[number], Path<SamplingPresetForm>>;

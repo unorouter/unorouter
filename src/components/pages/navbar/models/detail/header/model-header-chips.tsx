@@ -7,8 +7,6 @@ import { getTranslations } from "next-intl/server";
 import { deriveCapabilityChips } from "./capability-helpers";
 import { ModelModalityChip } from "./model-modality-chip";
 
-// ePhone-style compact chip row: context/output token limits first, then the
-// capability chips (reasoning/tools/vision/...), each with its lucide icon.
 export async function ModelHeaderChips(props: {
   metadata: ModelMetadata;
   locale: string;
@@ -60,8 +58,6 @@ export async function ModelHeaderChips(props: {
   );
 }
 
-// Secondary metadata (mode/tokenizer/reasoning-levels/moderated) as a dim inline
-// row, rendered below the description so it doesn't crowd the capability chips.
 export async function ModelMetaStats(props: { metadata: ModelMetadata }) {
   const t = await getTranslations();
   const meta = props.metadata;
@@ -91,7 +87,8 @@ export async function ModelMetaStats(props: { metadata: ModelMetadata }) {
       {meta.mode ? (
         <span className={metaItem}>
           <Icon name="message-square" className="h-3 w-3" />
-          {t("MODELS.DETAIL.MODE")} <span className={metaValue}>{meta.mode}</span>
+          {t("MODELS.DETAIL.MODE")}{" "}
+          <span className={metaValue}>{meta.mode}</span>
         </span>
       ) : null}
       {meta.tokenizer ? (
@@ -140,7 +137,10 @@ export async function ModelMetaStats(props: { metadata: ModelMetadata }) {
           href={`https://huggingface.co/${meta.huggingFaceId}`}
           target="_blank"
           rel="noopener noreferrer"
-          className={cn(metaItem, "hover:text-foreground underline-offset-4 hover:underline")}
+          className={cn(
+            metaItem,
+            "hover:text-foreground underline-offset-4 hover:underline",
+          )}
         >
           <Icon name="external-link" className="h-3 w-3" />
           <span className={metaValue}>{meta.huggingFaceId}</span>

@@ -16,8 +16,6 @@ type Props = {
   loginLabel: string;
   className?: string;
   icon?: boolean;
-  // Render as a compact badge-sized pill matching the status badge instead of a
-  // full Button.
   badge?: boolean;
   disabled?: boolean;
 };

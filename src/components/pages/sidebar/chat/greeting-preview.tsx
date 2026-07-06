@@ -8,11 +8,9 @@ import { expandMacros } from "@/lib/ai/chat/macros";
 import { chatLoadoutAtom, greetingIndexAtom } from "@/store/chat-store";
 import { useAtom, useAtomValue } from "jotai";
 
-// Empty-thread greeting preview: swipe before the first send; the picked index seeds root branches + firstMsgIndex.
 export function GreetingPreview() {
   const loadout = useAtomValue(chatLoadoutAtom);
   const [index, setIndex] = useAtom(greetingIndexAtom);
-  // List query (hydrator-seeded), not the item query: the item fetch can race auth and cache a guest-DB miss.
   const charactersQuery = useCharactersQuery();
   const personaQuery = usePersonaQuery(loadout.personaId ?? undefined);
 

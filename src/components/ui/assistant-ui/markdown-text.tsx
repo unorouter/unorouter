@@ -27,21 +27,15 @@ import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import type { Pluggable } from "unified";
 
-// MiniMax etc. emit raw <think>/<thinking> blocks in text body instead of
-// reasoning parts. Strip complete blocks plus any unclosed opening tag and
-// everything after (handles mid-stream partials).
 const THINKING_BLOCK_RE = /<think(?:ing)?>([\s\S]*?)<\/think(?:ing)?>/gi;
 const THINKING_OPEN_RE = /<think(?:ing)?>/i;
 
-// Some models emit \[...\] and \(...\) instead of $$...$$ and $...$.
 function normalizeMathDelimiters(text: string): string {
   return text
     .replace(/\\\[(.+?)\\\]/gs, (_m, inner) => `$$${inner}$$`)
     .replace(/\\\((.+?)\\\)/gs, (_m, inner) => `$${inner}$`);
 }
 
-// react-markdown strips `data:` URLs by default; image gen + TTS stream media
-// inline as data: so the client persists base64 without an R2 round-trip.
 const allowDataImageUrls = (url: string): string => {
   if (url.startsWith("data:image/") || url.startsWith("data:audio/"))
     return url;
@@ -50,8 +44,6 @@ const allowDataImageUrls = (url: string): string => {
   return url;
 };
 
-// rehype-mathjax bundles MathJax (~660KiB gzip); most messages have no math.
-// Load it on demand the first time a message actually contains delimiters.
 const MATH_DELIMITER_RE = /\$|\\\(|\\\[/;
 let cachedMathjax: Pluggable | null = null;
 
@@ -64,8 +56,6 @@ function useRehypeMathjax(wanted: boolean): Pluggable | null {
         cachedMathjax = m.default as Pluggable;
         setPlugin(() => cachedMathjax);
       })
-      // Chunk load failure: render without math now; cachedMathjax stays null
-      // so a later mount retries the import.
       .catch(() => {});
   }, [wanted, plugin]);
   return wanted ? plugin : null;
@@ -78,7 +68,6 @@ const MarkdownTextImpl = () => {
     ),
   );
   const mathjax = useRehypeMathjax(hasMath);
-  // {{inlay::id}} media resolve asynchronously; version bump re-renders.
   useAtomValue(inlayVersionAtom);
   const userId = useLocalUserId();
   return (
@@ -300,8 +289,6 @@ const defaultComponents = memoizeMarkdownComponents({
   pre: ({ className, ...props }) => (
     <pre
       className={cn(
-        // overscroll-x-contain: a horizontal swipe inside a wide code block stays
-        // in the block instead of bubbling out and panning the whole thread.
         "aui-md-pre border-border/50 bg-muted/30 overflow-x-auto overscroll-x-contain rounded-t-none rounded-b-lg border border-t-0 p-3 text-xs leading-relaxed",
         className,
       )}
@@ -327,7 +314,6 @@ const defaultComponents = memoizeMarkdownComponents({
     const t = useTranslations();
     const { isCopied, copyToClipboard } = useCopyToClipboard();
     const imgSrc = typeof src === "string" ? src : undefined;
-    // Illustrator inlays carry their media id in the alt text (inlay:<id>) for the prompt dialog.
     const inlayMediaId = alt?.startsWith("inlay:") ? alt.slice(6) : null;
     const isVideo =
       !!imgSrc && /\.(mp4|webm|mov|avi|mkv)(\?.*)?$/i.test(imgSrc);
@@ -336,8 +322,6 @@ const defaultComponents = memoizeMarkdownComponents({
       (imgSrc.startsWith("data:audio/") ||
         /\.(mp3|wav|ogg|m4a|flac|aac)(\?.*)?$/i.test(imgSrc));
     const isDataUri = !!imgSrc && imgSrc.startsWith("data:");
-    // Copy-link is meaningless for inline base64 (huge unusable string) and the
-    // <audio> player carries its own download menu, so audio gets no overlay row.
     const showCopyLink = !isDataUri;
     const showActions = !!imgSrc && !isAudio;
 

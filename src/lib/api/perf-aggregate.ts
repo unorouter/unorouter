@@ -15,7 +15,6 @@ type AggregatedPerf = {
   series: AggregatedSeriesPoint[];
 };
 
-/** Reduce per-group perf data into summary stats and a unified TTFT series. */
 export function aggregatePerfGroups(
   groups: readonly GroupResult[],
 ): AggregatedPerf {

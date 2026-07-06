@@ -35,7 +35,6 @@ export type ApiMessage = {
   [key: string]: unknown;
 };
 
-// Joins messages + items, walks the parentId chain from active tip to root; returns the active-branch path + tip id.
 export function walkActiveBranch<
   M extends {
     id: string;
@@ -76,7 +75,6 @@ export function partsToItems(parts: MessagePart[]): MessageItemData[] {
       out.push({ type: "reasoning", data: { text: part.text } });
     } else if (part.type === "tool-invocation") {
       const toolCallId = String(part.toolInvocationId ?? part.toolCallId ?? "");
-      // tool-invocation round-trips call/result by state; stored as typed rows.
       if (part.state === "result" || part.result !== undefined) {
         out.push({
           type: "tool_result",
@@ -118,7 +116,6 @@ export function partsToItems(parts: MessagePart[]): MessageItemData[] {
           model: String(data.model ?? ""),
           status: String(data.status ?? "pending"),
           ...(typeof data.progress === "string" && { progress: data.progress }),
-          // kind distinguishes the async-amend image placeholder from the video task.
           ...(typeof data.kind === "string" && { kind: data.kind }),
         },
       });
@@ -135,7 +132,6 @@ export function partsToItems(parts: MessagePart[]): MessageItemData[] {
         },
       });
     }
-    // Unknown part types (AI SDK "step-start", future shapes) are dropped.
   }
   return out;
 }
@@ -177,7 +173,6 @@ export function itemsToParts(items: ApiMessage["items"]): MessagePart[] {
         });
         break;
       case "error":
-        // Failed attempt persisted as a node so the error survives refresh. Never sent upstream (data-error stripped).
         parts.push({
           type: "data-error",
           data: {
@@ -187,7 +182,6 @@ export function itemsToParts(items: ApiMessage["items"]): MessagePart[] {
         });
         break;
       case "task":
-        // Runtime rewrites to `{ type: "data", name: "task", data: {...} }`.
         parts.push({
           type: "data-task",
           data: {

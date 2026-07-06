@@ -46,7 +46,6 @@ function renderItemsAsText(items: MessageItemRow[]): string {
       const tid = typeof data.task_id === "string" ? data.task_id : "";
       parts.push(`*[task ${tid}]*`);
     }
-    // reasoning rides through extra.reasoning; tool calls have no ST equivalent.
   }
   return parts.join("\n\n").trim();
 }
@@ -126,7 +125,6 @@ export function looksLikeSillyTavernChat(text: string): boolean {
   }
 }
 
-// Linear active branch; swipes collapsed to the active one.
 export async function importSillyTavernChat(
   userId: number | undefined,
   text: string,

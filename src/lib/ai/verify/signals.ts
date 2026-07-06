@@ -18,15 +18,11 @@ export const hasCodingToolRefusal = (text: string) =>
 export const hasScamPage = (text: string) =>
   includesAny(text, SCAM_PAGE_PATTERNS);
 
-// English prompt -> English answer expected. CJK leakage exposes a substituted
-// Chinese model or a corrupting proxy that the identity Q&A probes miss.
 export function cjkLeak(text: string): boolean {
   const m = text.match(CJK_CHAR);
   return m !== null && m.length >= CJK_LEAK_MIN_CHARS;
 }
 
-// Foreign identity is config-driven so the same helper serves all providers: the
-// home provider passes the OTHER vendors as the foreign set.
 export function hasForeignIdentity(
   text: string,
   foreignPatterns: string[],
@@ -39,8 +35,6 @@ export function hasForeignIdentity(
   return false;
 }
 
-// Returns the single tier named in the text, or null when zero or more-than-one
-// are present (avoids "opus or sonnet" hedges).
 export function tierOf(text: string, tiers: readonly string[]): string | null {
   const found = tiers.filter((tier) => text.includes(tier));
   return found.length === 1 ? found[0]! : null;

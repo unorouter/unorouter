@@ -4,7 +4,6 @@ import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 
-/** ePhone-style top tab bar for the docs area: Platform | Integrations | Chat. */
 export function DocsTabs() {
   const t = useTranslations();
   const pathname = usePathname();

@@ -56,7 +56,6 @@ export const serverLocale = async (props?: {
     (await safe(async () => (await cookies()).get(LOCALE_COOKIE)?.value)) ||
     LOCALES[0]) as Locale;
 
-// Server components ONLY.
 export const getCookieValue = async <T>(
   key: string,
 ): Promise<T | undefined> => {
@@ -68,7 +67,6 @@ export const getCookieValue = async <T>(
   }
 };
 
-// Local-DB owner from the sealed user-id cookie (GUEST_USER_ID when absent). Server-only, here not constants, to keep iron-session client-free.
 export const getResolvedUserId = async (): Promise<number> => {
   const sealed = (await cookies()).get(USER_ID_COOKIE)?.value;
   return (await verifyUserId(sealed)) ?? GUEST_USER_ID;
@@ -87,7 +85,6 @@ export const getDocsApiKey = async (placeholder = "YOUR_API_KEY") => {
   const modelFor = (vendor: string) =>
     models.find((m) => m.vendor.toLowerCase() === vendor.toLowerCase())!.name;
 
-  // Aspirational default for docs Quick Config: highest-output-price text.
   const topTextModel = models
     .filter((m) => m.type === "text" && typeof m.outputPrice === "number")
     .reduce<(typeof models)[number] | null>(
@@ -133,7 +130,6 @@ export function assertFound<T>(
   if (rows.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
 }
 
-// Redirect unauthed to /login, preserving the target path via AUTH_REDIRECT_COOKIE for login-form + OAuth callback.
 export async function redirectToLogin(): Promise<never> {
   const locale = await serverLocale();
   const incoming = (await headers()).get(SERVER_URL_KEY);
@@ -146,7 +142,6 @@ export async function redirectToLogin(): Promise<never> {
   });
 }
 
-// Store the redirect target locale-less: useRouter re-prepends the locale on push, so a prefixed path doubles it.
 function stripLocalePrefix(url: string, locale: string): string {
   try {
     const u = new URL(url);

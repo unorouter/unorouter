@@ -1,5 +1,3 @@
-// Ported verbatim from new-api-sync authenticity detection. ASCII only.
-
 export const CODING_TOOL_REFUSAL_PATTERNS = [
   "assist with development",
   "here to assist with development tasks",
@@ -39,9 +37,6 @@ export const SCAM_PAGE_PATTERNS = [
   "微信jemes",
 ];
 
-// Per-vendor identity strings. A provider's foreign set = the union of every
-// OTHER vendor's group (see foreignPatternsExcept). One source, no per-config
-// copy drift.
 export const VENDOR_PATTERNS = {
   anthropic: ["anthropic", "claude"],
   openai: ["openai", "chatgpt", "gpt-3", "gpt-4", "gpt-5", "o1-", "o3-", "o4-"],
@@ -62,7 +57,6 @@ export const VENDOR_PATTERNS = {
 
 export type VendorKey = keyof typeof VENDOR_PATTERNS;
 
-// All vendor patterns except the home vendor's own group.
 export function foreignPatternsExcept(home: VendorKey): string[] {
   return (Object.keys(VENDOR_PATTERNS) as VendorKey[])
     .filter((k) => k !== home)
@@ -74,7 +68,6 @@ export const CLOUD_HOST_PATTERNS = ["amazon","aws","bedrock","google","vertex","
 
 export const FAKE_RESPONSE_SIGNATURES = ["claude sonnet (4.0)"];
 
-// CJK Han + Hiragana/Katakana + Hangul.
 export const CJK_CHAR = /[぀-ヿ㐀-䶿一-鿿豈-﫿가-힯]/g;
 
 export const CJK_LEAK_MIN_CHARS = 4;

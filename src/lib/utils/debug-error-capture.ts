@@ -1,8 +1,5 @@
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 
-// Global crash + storage-persistence breadcrumbs. Instrumented spots cover the known surfaces; these
-// listeners catch the unknown-unknowns (any thrown error / rejected promise anywhere) so a crash
-// still leaves a trail in the diagnostics export. Idempotent: safe to call once per page.
 let installed = false;
 
 export function installDebugErrorCapture(): void {
@@ -27,8 +24,6 @@ export function installDebugErrorCapture(): void {
     });
   });
 
-  // Ask the browser to keep OPFS persistent - iOS can evict a non-persisted DB under storage
-  // pressure (a real data-loss risk on a memory-starved device). Best-effort, logged.
   void navigator.storage
     ?.persist?.()
     .then((persisted) => logChatDebug("storage.persist", { persisted }))

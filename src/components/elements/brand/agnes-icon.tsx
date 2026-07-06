@@ -1,7 +1,5 @@
 import type { IconComponent } from "@/lib/config/vendor-icons";
 
-// Agnes AI (Sapiens AI). No brand mark in any icon pack, so this is an inline
-// mono "A" monogram stand-in.
 const AgnesBrandIcon: IconComponent = (props) => (
   <svg
     role="img"

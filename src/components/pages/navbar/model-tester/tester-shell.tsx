@@ -68,8 +68,6 @@ export function TesterShell(props: { children: ReactNode }) {
         >
           {SUB_NAV.map((item) => {
             const href = item.href as string;
-            // History/rankings match by prefix; tester is the bare path (so a
-            // /history/provider/... or /rankings/... child highlights its tab).
             const isTester = href === "/ai-api-model-tester";
             const active = isTester
               ? pathname.endsWith("/ai-api-model-tester")

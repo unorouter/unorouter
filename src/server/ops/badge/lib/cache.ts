@@ -16,8 +16,6 @@ import { createTranslator } from "use-intl/core";
 import { ADMIN_HEADERS } from "@/server/constants";
 import type { BadgePricing, BadgeStats } from "./types";
 
-/* ── logo ── */
-
 const logoSvg = readFileSync(
   join(process.cwd(), "public", "images", "logo", "logo.svg"),
   "utf-8",
@@ -27,8 +25,6 @@ export const logoDataUri = `data:image/svg+xml;base64,${Buffer.from(logoSvg).toS
 
 export const logoInnerSvg =
   logoSvg.match(/<svg[^>]*>([\s\S]*)<\/svg>/)?.[1].trim() ?? "";
-
-/* ── fonts ── */
 
 const fontsDir = join(process.cwd(), "src", "server", "ops", "badge", "fonts");
 
@@ -52,8 +48,6 @@ export const fonts: SatoriOptions["fonts"] = [
     style: "normal" as const,
   },
 ];
-
-/* ── i18n ── */
 
 const translatorCache = new Map<Locale, ReturnType<typeof createTranslator>>();
 
@@ -80,8 +74,6 @@ export function t(locale: Locale, key: string): string {
     return key;
   }
 }
-
-/* ── stats & pricing ── */
 
 let cachedStats: BadgeStats | null = null;
 let cachedStatsAt = 0;
@@ -142,7 +134,6 @@ export async function getStats(): Promise<BadgeStats> {
 let cachedModels: ProcessedModel[] | null = null;
 let cachedModelsAt = 0;
 
-// Full processed model list for the param-driven model/compare badges.
 export async function findBadgeModel(
   nameOrSlug: string,
 ): Promise<ProcessedModel | null> {

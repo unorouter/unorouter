@@ -7,7 +7,6 @@ import type {
   ThemeValue,
 } from "@/components/ui/status/status.types";
 
-// Required ancestor; hook throws (no fallback so untranslated copy can't slip in).
 export type StatusBlocksLabels = {
   systemStatus: Record<StatusType, { long: string; short: string }>;
   incidentStatus: Record<StatusReportUpdateType, string>;
@@ -53,7 +52,6 @@ export type StatusBlocksLabels = {
   formatDateShort: (d: Date) => string;
   formatDateTime: (d: Date) => string;
   formatDateRange: (from?: Date, to?: Date) => string;
-  // Closed-range halves as separate strings (no re-parsing formatDateRange). Both from/to required.
   formatDateRangeParts: (from: Date, to: Date) => { from: string; to: string };
 };
 

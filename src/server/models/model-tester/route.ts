@@ -18,8 +18,6 @@ import {
   verifyAndPublish,
 } from "./rankings.service";
 
-// Best-effort display name for the publisher. Never fatal: a missing name just
-// stores null and the row renders as anonymous. Ownership is the user id.
 async function resolveUsername(
   headers: Record<string, string>,
 ): Promise<string | null> {
@@ -37,8 +35,6 @@ async function resolveUsername(
 
 export const modelTesterRoute = new Elysia({ prefix: "/model-tester" })
   .derive(deriveUpstream)
-  // Server-verified publish: the server runs the whole test with the key and
-  // stores its OWN verdict, so the public board cannot be forged by the client.
   .post(
     "/verify-and-publish",
     async ({ body, cookie, upstream }) => {
@@ -51,8 +47,6 @@ export const modelTesterRoute = new Elysia({ prefix: "/model-tester" })
     },
     { body: verifyAndPublishBody },
   )
-  // Submitter self-retract of a published row (logged-in owner only; the service
-  // enforces ownership in the WHERE, so this is safe even if called directly).
   .delete(
     "/published/:id",
     async ({ params, cookie }) => {
@@ -61,7 +55,6 @@ export const modelTesterRoute = new Elysia({ prefix: "/model-tester" })
     },
     { params: deletePublishedParams },
   )
-  // A published test + its probe evidence (public, for the unified result card).
   .get(
     "/published/:id/detail",
     async ({ params }) => {
@@ -72,7 +65,6 @@ export const modelTesterRoute = new Elysia({ prefix: "/model-tester" })
   .get("/stats", async () => {
     return getRankingsStats();
   })
-  // Level 1: providers grouped by host.
   .get(
     "/rankings",
     async ({ query }) => {
@@ -80,7 +72,6 @@ export const modelTesterRoute = new Elysia({ prefix: "/model-tester" })
     },
     { query: rankingsQuery },
   )
-  // Level 2: one provider + its models.
   .get(
     "/rankings/:host",
     async ({ params }) => {
@@ -88,7 +79,6 @@ export const modelTesterRoute = new Elysia({ prefix: "/model-tester" })
     },
     { params: providerDetailParams },
   )
-  // Level 3: one model + every individual test.
   .get(
     "/rankings/:host/:model",
     async ({ params }) => {

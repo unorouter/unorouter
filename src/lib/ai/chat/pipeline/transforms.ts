@@ -9,7 +9,6 @@ import { expandMacros, risuUnescape } from "@/lib/ai/chat/macros";
 
 export type StreamMessages = Parameters<typeof convertToModelMessages>[0];
 
-// Final un-mapping of #escape private-use chars (Risu unescapes every message right before send).
 export function unescapeMessages(messages: StreamMessages): StreamMessages {
   return messages.map((m) => mapTextParts(m, (text) => risuUnescape(text)));
 }
@@ -29,7 +28,6 @@ function textOf(parts: unknown): string {
     .join("\n");
 }
 
-// Map fn over text parts; returns the original message when nothing changed so no-op passes don't churn allocs.
 function mapTextParts(
   m: StreamMessages[number],
   fn: (text: string) => string,
@@ -67,8 +65,6 @@ export function extractLastUserText(messages: StreamMessages): string | null {
 
 export type ImageRef = { url: string; mimeType: string };
 
-// Reference images attached to the last user turn (image edit/combine).
-// file/source-url parts carry a data: URI or http(s) R2 url; PDFs/non-images skipped.
 export function extractLastUserImageRefs(messages: StreamMessages): ImageRef[] {
   for (let i = messages.length - 1; i >= 0; i--) {
     const msg = messages[i];
@@ -98,7 +94,6 @@ export function extractLastUserImageRefs(messages: StreamMessages): ImageRef[] {
   return [];
 }
 
-// SillyTavern depth: counts back from end (0=after last, 1=before last). First-passed wins ties.
 export function spliceDepthInjections(
   messages: StreamMessages,
   injections: DepthInjection[],
@@ -121,7 +116,6 @@ export function expandMessageMacros(
   messages: StreamMessages,
   scope: AssembledSystem["vars"],
 ): StreamMessages {
-  // Per-message chatIndex (Risu chatID) for message_time/role macros, counting the set collectHistory returns. Shallow copy keeps vars shared.
   let h = 0;
   return messages.map((m) => {
     const isHistory =
@@ -139,7 +133,6 @@ export function appendPrefill(
   return [...messages, mkMsg("assistant", prefill)];
 }
 
-// Gemini/some GLM reject mid-conv system role; top-level `system` is unaffected.
 export function stripSystemRole(messages: StreamMessages): StreamMessages {
   return messages.map((m) =>
     m.role === "system"
@@ -151,7 +144,6 @@ export function stripSystemRole(messages: StreamMessages): StreamMessages {
   );
 }
 
-// Reasoning is output-only: echoing it back makes GLM-family reject the request. Strip reasoning parts and inline think tags from history.
 const INLINE_THINK_RE = /<(think|thinking|Thoughts)>[\s\S]*?<\/\1>\s*/g;
 
 function stripInlineThink(text: string): string {
@@ -164,7 +156,6 @@ export function stripReasoningParts(messages: StreamMessages): StreamMessages {
     let changed = false;
     const parts = m.parts
       .filter((p) => {
-        // reasoning is output-only; data-error is a render-only failed-attempt marker. Neither may re-enter context.
         if (p.type === "reasoning" || p.type === "data-error") {
           changed = true;
           return false;
@@ -186,10 +177,6 @@ export function stripReasoningParts(messages: StreamMessages): StreamMessages {
       })
       .filter((p) => !(p.type === "text" && p.text === ""));
     if (!changed) return m;
-    // A reasoning-only reply (model answered inside the thinking channel) must not vanish:
-    // dropping it deletes the assistant turn, so later requests lose the reply and neighboring
-    // user turns merge. Re-feed the reasoning text as plain content instead (text is safe to
-    // echo; only reasoning PARTS are rejected upstream).
     if (m.role === "assistant" && !hasRenderableContent(parts)) {
       const salvaged = salvageReasoningText(m.parts);
       if (salvaged) {
@@ -225,7 +212,6 @@ function salvageReasoningText(parts: StreamMessages[number]["parts"]): string {
   return chunks.join("\n").trim();
 }
 
-// GLM/some Anthropic require strict user/assistant alternation.
 export function mergeAlternateRoles(messages: StreamMessages): StreamMessages {
   if (messages.length < 2) return messages;
   const out: StreamMessages = [];
@@ -237,7 +223,6 @@ export function mergeAlternateRoles(messages: StreamMessages): StreamMessages {
       Array.isArray(prev.parts) &&
       Array.isArray(m.parts)
     ) {
-      // Newline only when text borders text (RisuAI join); media parts concatenate untouched.
       const prevLast = prev.parts[prev.parts.length - 1];
       const mFirst = m.parts[0];
       const needsNewline = prevLast?.type === "text" && mFirst?.type === "text";
@@ -258,7 +243,6 @@ export function mergeAlternateRoles(messages: StreamMessages): StreamMessages {
   return out;
 }
 
-// Drop messages with only empty/whitespace text and no non-text part (RisuAI parity).
 export function dropEmptyMessages(messages: StreamMessages): StreamMessages {
   return messages.filter((m) => {
     if (!Array.isArray(m.parts)) return true;
@@ -268,14 +252,12 @@ export function dropEmptyMessages(messages: StreamMessages): StreamMessages {
   });
 }
 
-// Anthropic/Gemini reject convs not starting with user; the stub is a bare space so it doesn't pollute the prompt.
 export function prependUserStub(messages: StreamMessages): StreamMessages {
   if (messages.length === 0) return messages;
   if (messages[0].role === "user") return messages;
   return [mkMsg("user", " "), ...messages];
 }
 
-// GLM-family reject "last role must be user"; trailing mirror of prependUserStub. NEVER call with a prefill: it stays the last assistant.
 export function appendUserStub(messages: StreamMessages): StreamMessages {
   if (messages.length === 0) return messages;
   if (messages[messages.length - 1].role === "user") return messages;
@@ -308,7 +290,6 @@ export function collectRecentUserTexts(
   return out;
 }
 
-// editprocess runs on every message, editinput only on the last user message; output/display modes run client-side.
 export function applyRegexScripts(
   messages: StreamMessages,
   scripts: RegexScript[],
@@ -321,7 +302,6 @@ export function applyRegexScripts(
       break;
     }
   }
-  // Track last text per role so @@repeat_back's lookup is O(1), not a reverse scan.
   const lastTextByRole: Record<string, string> = {};
   return messages.map((m, idx) => {
     const isLastUser = idx === lastUserIdx;
@@ -336,7 +316,6 @@ export function applyRegexScripts(
   });
 }
 
-// Role-tagged history (newest last) for the {{history}} macros. times (client-sent, by message id) feeds message_time/date/idle.
 export function collectHistory(
   messages: StreamMessages,
   times?: Record<string, number>,
@@ -359,7 +338,6 @@ export function collectHistory(
   return out;
 }
 
-// Drop messages already folded into the rolling summary. anchor counts the set collectHistory returns, so walk the same filter.
 export function dropSummarizedPrefix(
   messages: StreamMessages,
   anchor: number,
@@ -375,17 +353,14 @@ export function dropSummarizedPrefix(
     if (isHistory) counted++;
     cutIdx = i + 1;
   }
-  // Never cut everything: keep at least the last message.
   if (cutIdx >= messages.length) cutIdx = messages.length - 1;
   return messages.slice(cutIdx);
 }
 
-// Counts against the ACTIVE tokenizer (preloaded per-model in assemble-prompt via setActiveTokenizer).
 export function estimateTokens(text: string | undefined): number {
   return countTokens(text);
 }
 
-// Per-model tokenizer (active) for text; non-text parts get a flat estimate.
 function messageTokens(m: StreamMessages[number]): number {
   let n = 4; // per-message role/format overhead
   if (!Array.isArray(m.parts)) return n;
@@ -399,7 +374,6 @@ function messageTokens(m: StreamMessages[number]): number {
   return n;
 }
 
-// Drop oldest messages first, never split one. reserveTokens = everything outside history. Always keeps the last message.
 export function fitToTokenBudget(
   messages: StreamMessages,
   contextWindow: number | undefined,

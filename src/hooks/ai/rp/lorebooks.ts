@@ -31,7 +31,6 @@ const lorebooks = makeRpEntity<
   readItem: readLocalLorebook,
   upsertLocal: upsertLocalLorebook,
   deleteLocal: deleteLocalLorebook,
-  // Deep clone: copy the book + every entry under fresh ids re-parented to the new book.
   cloneEntity: async (userId, detail, newId, copyName) => {
     const now = dayjs().toDate();
     const { entries, ...book } = detail;
@@ -63,7 +62,6 @@ export const useCreateLorebookMutation = lorebooks.useCreate;
 export const useDeleteLorebookMutation = lorebooks.useDelete;
 export const useDuplicateLorebookMutation = lorebooks.useDuplicate;
 
-// Bespoke update re-mirrors bundle after edit.
 export function useUpdateLorebookMutation() {
   const userId = useLocalUserId();
   return useApiMutation({
@@ -71,7 +69,6 @@ export function useUpdateLorebookMutation() {
       const existing = await readLocalLorebook(userId, args.id);
       if (!existing) throw new Error("not-found");
       const now = dayjs().toDate();
-      // Strip entries before lorebooks upsert (no entries column).
       const { entries: _entries, ...existingRow } = existing;
       const updated = { ...existingRow, ...args.body, updatedAt: now };
       await upsertLocalLorebook(userId, updated as never);
@@ -141,7 +138,6 @@ export function useCreateLorebookEntryMutation(lorebookId: string) {
   return useApiMutation({
     mutationFn: async (body: LorebookEntryBody) => {
       const now = dayjs().toDate();
-      // Append to the end (next orderIndex above current max, Risu insertorder) UNLESS the user typed a value in the form.
       const lb = await readLocalLorebook(userId, lorebookId);
       const nextOrder =
         (lb?.entries.reduce((m, e) => Math.max(m, e.orderIndex ?? 0), -1) ??
@@ -168,7 +164,6 @@ export function useUpdateLorebookEntryMutation(lorebookId: string) {
       const now = dayjs().toDate();
       const lb = await readLocalLorebook(userId, lorebookId);
       const existing = lb?.entries.find((e) => e.id === args.entryId);
-      // Form owns orderIndex (Risu insertorder) in args.body; existing only fills gaps.
       const updated = {
         ...(existing ?? {}),
         id: args.entryId,

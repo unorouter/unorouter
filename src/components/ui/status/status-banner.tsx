@@ -62,7 +62,6 @@ export function StatusBannerContainer({
 }
 StatusBannerContainer.displayName = "StatusBannerContainer";
 
-// Messages: StatusBlocksI18nProvider -> labels.systemStatus[status].long.
 export function StatusBannerMessage({
   className,
   ...props

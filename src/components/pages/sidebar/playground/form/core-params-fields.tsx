@@ -24,7 +24,6 @@ type Props = {
   descriptor: PlaygroundModelDescriptor;
 };
 
-// steps/cfg/guidance/sampler/scheduler/seed: the diffusion knobs every ComfyUI-family model exposes.
 export function CoreParamsFields(props: Props) {
   const t = useTranslations();
   const form = props.form;

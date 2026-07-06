@@ -70,7 +70,6 @@ function CheckRow(props: {
   );
 }
 
-// Context slider snaps to these (log-ish) steps, OpenRouter-style.
 const CONTEXT_STEPS = [0, 4000, 16000, 64000, 256000, 1000000];
 
 const INPUT_MODALITIES = ["text", "image", "file", "audio", "video"] as const;

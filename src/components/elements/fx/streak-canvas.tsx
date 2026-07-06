@@ -32,7 +32,6 @@ export function StreakCanvas() {
 
   useEffect(() => {
     themeRef.current = resolvedTheme;
-    // invalidate cached gradients on theme change
     linesRef.current.forEach((l) => {
       l.gradient = null;
     });
@@ -113,7 +112,6 @@ export function StreakCanvas() {
           continue;
         }
 
-        // reuse cached gradient unless line moved enough to matter
         if (!line.gradient || Math.abs(line.x - line.gradientX) > 20) {
           const g = ctx.createLinearGradient(
             line.x - line.length,

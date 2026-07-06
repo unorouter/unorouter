@@ -8,7 +8,6 @@ import { setCookie } from "cookies-next/client";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
-// Captures ?redirect=<path> into AUTH_REDIRECT_COOKIE for the login form, then strips the query so it doesn't replay through history.
 export function AuthRedirectCapture() {
   const searchParams = useSearchParams();
   const router = useRouter();

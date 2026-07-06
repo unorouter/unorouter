@@ -5,7 +5,6 @@ import { env } from "@/lib/config/env";
 
 export const MAX_IMAGES_PER_GEN = 4;
 
-// Cast preserves literal type for `t.Literal` discriminants.
 export const PLAYGROUND_GENERATION_FORMAT =
   `${env.appName.toLowerCase()}-generation-1` as `${string}-generation-1`;
 export const PLAYGROUND_SESSION_FORMAT =
@@ -17,7 +16,6 @@ export function isPlaygroundSessionFormat(
   return payload.version === PLAYGROUND_SESSION_FORMAT;
 }
 
-// Server `assertGenerationModelAllowed` checks pricing cache before submit.
 export const playgroundModel = t.String({ minLength: 1, maxLength: 128 });
 export type PlaygroundModel = Static<typeof playgroundModel>;
 
@@ -38,7 +36,6 @@ export const generationStatus = t.Union([
 ]);
 export type GenerationStatus = Static<typeof generationStatus>;
 
-// SDXL family; Flux 2 uses KSamplerSelect with different naming.
 export const generationSampler = t.Union([
   t.Literal("euler"),
   t.Literal("euler_ancestral"),
@@ -60,7 +57,6 @@ export const generationScheduler = t.Union([
 export type GenerationSamplerValue = Static<typeof generationSampler>;
 export type GenerationSchedulerValue = Static<typeof generationScheduler>;
 
-// models.ts derives from these; prevents drift.
 export const GENERATION_SAMPLERS = unionLiterals(generationSampler);
 export const GENERATION_SCHEDULERS = unionLiterals(generationScheduler);
 
@@ -74,7 +70,6 @@ export const generationMode = t.Union([
 ]);
 export type GenerationMode = Static<typeof generationMode>;
 
-// LoRA chain independent of the main list: face-fixers often want a face-specific LoRA the main pass shouldn't.
 export const playgroundAdetailer = t.Object({
   yoloModel: t.String({ maxLength: 128 }),
   prompt: t.Optional(t.String({ maxLength: 2000 })),
@@ -99,7 +94,6 @@ export const generationLayerDiffusion = t.Object({
   weight: t.Number({ minimum: 0, maximum: 2 }),
 });
 
-// Adapter narrows per model (Flux2 1024^2; SDXL aborts >2048).
 export const generationParams = t.Object({
   width: t.Optional(t.Integer({ minimum: 64, maximum: 5060 })),
   height: t.Optional(t.Integer({ minimum: 64, maximum: 5060 })),
@@ -110,12 +104,9 @@ export const generationParams = t.Object({
   scheduler: t.Optional(generationScheduler),
   seed: t.Optional(t.Integer({ minimum: 0, maximum: 4_294_967_295 })),
   denoise: t.Optional(t.Number({ minimum: 0, maximum: 1 })),
-  // Skipped on Flux 2 (template doesn't expose; form hides toggle).
   hiresDenoise: t.Optional(t.Number({ minimum: 0, maximum: 1 })),
   hiresUpscale: t.Optional(t.Number({ minimum: 1, maximum: 4 })),
-  // worker-comfyui caps batch_size at 4 inside the adapter.
   n: t.Optional(t.Integer({ minimum: 1, maximum: MAX_IMAGES_PER_GEN })),
-  // Sync-image vendor knobs; ComfyUI ignores them.
   quality: t.Optional(t.String({ maxLength: 32 })),
   outputFormat: t.Optional(t.String({ maxLength: 16 })),
   watermark: t.Optional(t.Boolean()),
@@ -138,7 +129,6 @@ export const generationParams = t.Object({
   ),
   adetailer: t.Optional(playgroundAdetailer),
   layerDiffusion: t.Optional(generationLayerDiffusion),
-  // SDXL-family only; other families ignore both.
   clipSkip: t.Optional(t.Integer({ minimum: 0, maximum: 12 })),
   ensd: t.Optional(t.Integer({ minimum: 0, maximum: 4_294_967_295 })),
 });
@@ -150,7 +140,6 @@ export const generationLoraEntry = t.Object({
 });
 export type LoraEntry = Static<typeof generationLoraEntry>;
 
-// Weight currently advisory: stock ReferenceLatent node's WeightInput is empty.
 export const generationReferenceEntry = t.Object({
   url: t.String({ format: "uri", maxLength: 2048 }),
   name: t.Optional(t.String({ maxLength: 200 })),
@@ -160,7 +149,6 @@ export type ReferenceEntry = Static<typeof generationReferenceEntry>;
 
 export type GenerationParams = Static<typeof generationParams>;
 
-// UI-only state stripped before submit by toSubmitBody (playground/form/submit-transform.ts).
 export const generationFormUi = t.Object({
   variants: t.Optional(t.Integer({ minimum: 1, maximum: 4 })),
   inpaintMaskDataUrl: t.Optional(t.String()),
@@ -171,7 +159,6 @@ export type GenerationFormUi = Static<typeof generationFormUi>;
 
 export const playgroundSubmitBody = t.Object({
   model: playgroundModel,
-  // Legacy clients omit `mode`; server treats them as txt2img.
   mode: t.Optional(generationMode),
   prompt: t.String({ minLength: 1, maxLength: 8000 }),
   negativePrompt: t.Optional(t.String({ maxLength: 4000 })),
@@ -196,7 +183,6 @@ export const generationCloneMode = t.Union([
 ]);
 export type GenerationCloneMode = Static<typeof generationCloneMode>;
 
-// Loose nested fields + embedded base64 (self-contained export).
 export const playgroundSnapshot = t.Object({
   version: t.Literal(PLAYGROUND_GENERATION_FORMAT),
   model: t.String({ minLength: 1, maxLength: 128 }),
@@ -219,7 +205,6 @@ export const playgroundSnapshot = t.Object({
 });
 export type PlaygroundSnapshot = Static<typeof playgroundSnapshot>;
 
-// Stored oldest-first so restore preserves sessionOrder layout.
 export const sessionSnapshot = t.Object({
   version: t.Literal(PLAYGROUND_SESSION_FORMAT),
   session: t.Object({
@@ -230,12 +215,10 @@ export const sessionSnapshot = t.Object({
 });
 export type SessionSnapshot = Static<typeof sessionSnapshot>;
 
-// Stateless poll: client owns the row; server forwards upstream status.
 export const playgroundPollBody = t.Object({
   taskId: t.String({ minLength: 1, maxLength: 128 }),
 });
 
-// Inline image; client writes media.
 export const generatedImage = t.Object({
   resultUrl: t.Union([t.String(), t.Null()]),
   base64: t.String(),
@@ -271,7 +254,6 @@ export const loraCatalogQuery = t.Object({
 });
 export type LoraCatalogQuery = Static<typeof loraCatalogQuery>;
 
-// Forgiving so the worker can add categories without a schema bump.
 export const embeddingCatalogQuery = t.Object({
   baseModel: t.Optional(generationBaseModel),
   category: t.Optional(t.String({ maxLength: 64 })),
@@ -292,7 +274,6 @@ export const upscalerCatalogQuery = t.Object({
 });
 export type UpscalerCatalogQuery = Static<typeof upscalerCatalogQuery>;
 
-// No webp: worker expects PNG/JPEG for the mask sub-graph.
 export const playgroundMaskUploadBody = t.Object({
   file: t.File({
     maxSize: "10m",

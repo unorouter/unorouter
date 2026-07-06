@@ -7,11 +7,6 @@ import {
 } from "@assistant-ui/react-markdown";
 import remarkGfm from "remark-gfm";
 
-// Lightweight markdown for the reasoning/thinking disclosure: remark-gfm only, plain prose
-// components, NO custom rehype plugins (quote-spans), inlay-media resolution, or mathjax.
-// Reasoning text never carries those, and reusing the full answer pipeline crashed
-// react-markdown ("Cannot use 'in' operator to search for 'children' in undefined") when the
-// thinking block expanded. Keeping the plugin set minimal renders the text safely.
 const reasoningComponents = memoizeMarkdownComponents({
   h1: ({ className, ...props }) => (
     <h1

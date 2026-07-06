@@ -11,14 +11,8 @@ import {
 } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 
-/**
- * The dominant mutation shape: Eden call + i18n error toast, plus optional
- * cache invalidation and success work. Hooks with bespoke onError/optimistic
- * logic keep using useMutation directly.
- */
 export function useApiMutation<TData, TVariables = void>(opts: {
   mutationFn: (vars: TVariables) => Promise<TData>;
-  /** Query keys invalidated on success. */
   invalidates?:
     | readonly (readonly unknown[])[]
     | ((vars: TVariables, data: TData) => readonly (readonly unknown[])[]);
@@ -44,7 +38,6 @@ export function useApiMutation<TData, TVariables = void>(opts: {
 
 type ElysiaResult = Parameters<typeof handleElysia>[0];
 
-/** The dominant query shape: key + Eden call, optional react-query options. */
 export function useElysiaQuery<
   T extends ElysiaResult,
   TSelected = ReturnType<typeof handleElysia<T>>,

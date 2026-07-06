@@ -7,8 +7,6 @@ const verdict = t.Union([
   t.Literal("unverified"),
 ]);
 
-// Publish payload: host + verdict + counts + detected model + tokens. NO key,
-// NO full URL, NO probe prompt/response text ever.
 export const publishTestBody = t.Object({
   provider: t.String({ minLength: 1, maxLength: 64 }),
   model: t.String({ minLength: 1, maxLength: 256 }),
@@ -24,8 +22,6 @@ export const publishTestBody = t.Object({
 });
 export type PublishTestBody = Static<typeof publishTestBody>;
 
-// Server-verify publish: the server runs the whole test with the key and stores
-// its OWN verdict, so a published result cannot be forged by the client.
 export const verifyAndPublishBody = t.Object({
   provider: t.Union([
     t.Literal("anthropic"),
@@ -56,7 +52,6 @@ export const deletePublishedParams = t.Object({
   id: t.String({ minLength: 1, maxLength: 64 }),
 });
 
-// Level 1 row: one provider (grouped by host) with its model count + stats.
 export type ProviderAggregateRow = {
   baseUrlHost: string;
   provider: VerifyProviderValue;
@@ -72,8 +67,6 @@ export type ProviderAggregateRow = {
   lastTestedAt: number;
 };
 
-// One published submission shown in the ranking detail (no probe text). The
-// submitter fields let the UI offer a self-delete to the row's logged-in owner.
 export type RankingRecentRow = {
   id: string;
   verdict: "genuine" | "suspicious" | "unverified";
@@ -103,12 +96,9 @@ export type RankingAggregateRow = {
   lastTestedAt: number;
 };
 
-// One probe row in the unified result card. SHARED by both detail sources
-// (local history + published board) so one adapter renders both.
 export type TestResultProbe = {
   label: string;
   pass: boolean;
-  // Transient failure (429/5xx/timeout/CORS/no-response): an amber skip, not red.
   transient: boolean;
   signal: string | null;
   reason: string | null;
@@ -120,8 +110,6 @@ export type TestResultProbe = {
   latencyMs: number;
 };
 
-// The ONE detail shape both the local history read and the server published-test
-// read map into; `toResultCardData` turns it into the card's `ResultCardData`.
 export type TestResultDetail = {
   model: string;
   baseUrlHost: string;

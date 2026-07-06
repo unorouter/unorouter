@@ -1,8 +1,5 @@
-// Isomorphic expression evaluator (RisuAI calcString port): shunting-yard to RPN, no Function eval, $var/@var subst.
-
 type VarLookup = (name: string) => string;
 
-// Deterministic [0,1) keyed on a string (djb2 fold into sfc32 PRNG); shared by macro rolls, @@probability, group-order.
 export function seededRand(key: string): number {
   let h = 5515;
   for (let i = 0; i < key.length; i++)
@@ -44,7 +41,6 @@ function toRPN(expression: string): string[] {
   const stack: string[] = [];
   const keys = Object.keys(OPERATORS);
 
-  // Tokenize, honoring unary minus after an operator or at the start.
   const tokens: string[] = [];
   let cur = "";
   for (let i = 0; i < expression.length; i++) {
@@ -176,7 +172,6 @@ function executeRPN(
 
 const MAX_CALC_LEN = 1000;
 
-// Risu calcString: innermost parens evaluated first, result spliced back.
 export function calcString(
   text: string,
   opts: { chatVar?: VarLookup; globalVar?: VarLookup } = {},

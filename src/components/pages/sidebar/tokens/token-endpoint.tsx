@@ -15,14 +15,12 @@ import { useTranslations } from "next-intl";
 import ShikiHighlighter from "react-shiki";
 import { toast } from "sonner";
 
-// Fallback only if pricing cache is empty; a real, current Claude model.
 const FALLBACK_MODEL = "claude-opus-4-8";
 
 export function TokenEndpoint() {
   const t = useTranslations();
   const pricing = usePricingQuery();
   const endpoint = `${env.apiUrl}/v1/chat/completions`;
-  // Any live Claude text model, so the quick-start reflects a real premium model on the account.
   const exampleModel =
     pricing.data?.models?.find(
       (m) => m.type === "text" && m.name.startsWith("claude-"),

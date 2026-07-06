@@ -15,7 +15,6 @@ function getHeader(
   return headers?.[key] ?? headers?.[key.toLowerCase()];
 }
 
-// Success body: strict by content-type (json object, binary blob, else raw text); never parse text that looks like JSON.
 async function readOkBody(res: Response): Promise<unknown> {
   const ct = res.headers.get("content-type") ?? "";
   if (ct.includes("application/json")) return res.json();
@@ -29,7 +28,6 @@ async function readOkBody(res: Response): Promise<unknown> {
   return res.text();
 }
 
-// Error body: parse JSON when possible, else the raw text.
 async function readErrBody(res: Response): Promise<unknown> {
   const text = await res.text();
   try {
@@ -39,13 +37,11 @@ async function readErrBody(res: Response): Promise<unknown> {
   }
 }
 
-// Orval mutator. Callers always pass `options.headers` as a plain object.
 export const customFetch = async <T>(
   url: string,
   options: RequestInit,
 ): Promise<T> => {
   const headers = options.headers as Record<string, string> | undefined;
-  // Skip auto-cookie when Authorization is set: upstream prefers the cookie, causing a New-Api-User mismatch.
   const hasExplicitAuth = !!getHeader(headers, "Authorization");
   const cookieHeader = hasExplicitAuth ? "" : await getServerCookieHeader();
   const hasCookie = !!getHeader(headers, "cookie");

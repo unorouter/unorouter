@@ -1,6 +1,5 @@
 import { useRef, useState } from "react";
 
-// Blur/visibility heuristic; no reliable protocol-detection API. False positives when the app opens without taking focus.
 function tryDeepLink(uri: string, onFail: () => void) {
   const start = Date.now();
 

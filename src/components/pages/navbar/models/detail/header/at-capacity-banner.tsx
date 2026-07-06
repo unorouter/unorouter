@@ -2,9 +2,6 @@ import { Icon } from "@/components/ui/icon";
 import { env } from "@/lib/config/env";
 import { getTranslations } from "next-intl/server";
 
-// Shown when a model has no live channel (all providers rate-limited or offline).
-// The page stays 200 so crawlers keep the URL through churn; the Discord CTA lets
-// users ask for the model to be brought back.
 export async function AtCapacityBanner() {
   const t = await getTranslations();
   return (

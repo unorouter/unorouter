@@ -15,7 +15,6 @@ import type { VerifyResult } from "@/lib/ai/verify/types";
 import type { VerifyProviderValue } from "@/lib/validation/model-tester";
 import type { TestResultDetail } from "@/lib/api/typebox/model-tester";
 
-// Aggregate rows for the grouped history (mirrors the rankings hierarchy).
 export type HistoryProviderRow = {
   baseUrlHost: string;
   provider: VerifyProviderValue;
@@ -37,7 +36,6 @@ export type HistoryModelRow = {
   lastTestedAt: Date;
 };
 
-// A history-list item: the test joined to its provider + model for display.
 export type TestListItem = {
   id: string;
   provider: VerifyProviderValue;
@@ -52,9 +50,6 @@ export type TestListItem = {
   publishedAt: Date | null;
 };
 
-// Map a local test row + its provider/model/probes into the SHARED
-// TestResultDetail shape (same shape the server published-test read returns), so
-// one adapter (toResultCardData) renders history + rankings identically.
 function toTestResultDetail(
   test: TesterTestRow,
   provider: { kind: VerifyProviderValue; baseUrlHost: string },
@@ -92,7 +87,6 @@ function toTestResultDetail(
   };
 }
 
-// find-or-create by unique key: INSERT OR IGNORE then SELECT.
 async function findOrCreateProvider(
   db: NonNullable<Awaited<ReturnType<typeof getLocalDb>>>["db"],
   userId: number,
@@ -171,7 +165,6 @@ async function findOrCreateModel(
   return id;
 }
 
-// Persist a finished run: provider -> model -> test -> probes. Returns the test id.
 export async function recordTestRun(
   userId: number | undefined,
   result: VerifyResult,
@@ -208,7 +201,6 @@ export async function recordTestRun(
     publishedAt: publish ? now : null,
   });
 
-  // No tx (SQLocal mutex rule); plain inserts.
   for (let i = 0; i < result.probes.length; i++) {
     const p = result.probes[i]!;
     await db.insert(testerProbes).values({
@@ -259,7 +251,6 @@ export async function readTestHistory(
   return rows as TestListItem[];
 }
 
-// Level 1: the user's providers (grouped by host) with aggregate stats.
 export async function readHistoryProviders(
   userId: number | undefined,
 ): Promise<HistoryProviderRow[]> {
@@ -288,7 +279,6 @@ export async function readHistoryProviders(
   })) as HistoryProviderRow[];
 }
 
-// Level 2: one provider's models with aggregate stats.
 export async function readHistoryModels(
   userId: number | undefined,
   host: string,
@@ -325,7 +315,6 @@ export async function readHistoryModels(
   return { provider: models[0]?.provider ?? null, models };
 }
 
-// Level 3: every test for one provider+model (the user's runs).
 export async function readHistoryModelTests(
   userId: number | undefined,
   host: string,
@@ -362,9 +351,6 @@ export async function readHistoryModelTests(
   return rows as TestListItem[];
 }
 
-// Full details (test + provider + model + probes) for every test of one model,
-// newest first. Powers the inline-accordion model-detail list (no deeper click).
-// A history detail carries the test id so the list can key + delete it.
 export type HistoryTestDetail = TestResultDetail & { id: string };
 
 export async function readHistoryModelTestDetails(
@@ -488,7 +474,6 @@ export async function deleteTest(
   const uid = userId ?? GUEST_USER_ID;
   const local = await getLocalDb(uid);
   if (!local) return;
-  // Probes cascade via FK ON DELETE CASCADE.
   await local.db
     .delete(testerTests)
     .where(and(eq(testerTests.id, testId), eq(testerTests.userId, uid)));

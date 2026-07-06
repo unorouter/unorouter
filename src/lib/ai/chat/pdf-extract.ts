@@ -1,8 +1,3 @@
-// PDF text extraction (unpdf, isomorphic + serverless-safe, no native deps). Lazy-imported so the PDF.js
-// payload never lands in the first-paint bundle / cold server start; only loads when a PDF is actually present.
-// PDF attachments are inline `data:application/pdf;base64,...` parts (local-first), so the bytes are in the
-// message itself. Both the server stream path and the browser custom-provider path call inlinePdfText.
-
 import type { StreamMessages } from "@/lib/ai/chat/pipeline/transforms";
 import { base64ToUint8 } from "@/lib/utils/base";
 
@@ -19,7 +14,6 @@ export async function extractPdfText(
     const trimmed = text.trim();
     return trimmed.length > 0 ? trimmed : null;
   } catch {
-    // Best-effort: a malformed/encrypted PDF just yields no text (placeholder downstream).
     return null;
   }
 }
@@ -40,8 +34,6 @@ function isPdfFilePart(part: unknown): part is PdfFilePart {
   );
 }
 
-// Replace each user PDF file part with its extracted text (or a placeholder). No-op when no PDFs present,
-// so the unpdf chunk only loads on a turn that actually carries one.
 export async function inlinePdfText(
   messages: StreamMessages,
 ): Promise<StreamMessages> {

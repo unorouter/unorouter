@@ -18,9 +18,7 @@ export function BreakoutGame() {
       if (typeof document !== "undefined" && "fonts" in document) {
         try {
           await document.fonts.ready;
-        } catch {
-          // font load failures are non-fatal, canvas falls back to system mono
-        }
+        } catch {}
       }
       if (cancelled) return;
       instance = new TokenBreakout(canvas, {

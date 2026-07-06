@@ -66,7 +66,6 @@ export async function submitVideoTask(
   const res = await postV1VideoGenerations({
     headers: {
       Authorization: `Bearer ${apiKey}`,
-      // Per-request group override; new-api reads X-Group. Omit for null/auto.
       ...(group && group !== "auto" ? { "X-Group": group } : {}),
     },
     body: JSON.stringify({ model, prompt }),
@@ -90,7 +89,6 @@ export async function submitVideoTask(
   };
 }
 
-// Rehosts the upstream URL to R2 and rewrites the persisted task item to a text item containing a markdown video tag.
 export async function finalizeVideoTask(
   userId: number,
   convId: string,

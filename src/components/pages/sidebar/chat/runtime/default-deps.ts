@@ -1,14 +1,5 @@
 "use client";
 
-// AssemblerDeps for the DEFAULT (new-api) path running the engine in the browser. Unlike the custom-provider
-// deps, the default path may use OUR services through thin BFF endpoints (the token stays server-side):
-//   - getModelInfo: the real catalog ProcessedModel from the pricing query cache (correct output caps + cost)
-//   - inlinePdfText: shared isomorphic unpdf extractor
-//   - webSearch: POST /chat/web-search (Tavily server-side; guests get null)
-//   - runFreeModelRace (rolling summary / classification): POST /chat/trigger-op/llm (our free models)
-//   - retrieveSemantic (lore retrieval): POST /chat/trigger-op/similarity (server embeddings)
-//   - triggerOps: the existing client bridge
-
 import type { ProcessedModel } from "@/lib/api/pricing";
 import type { AssemblerDeps } from "@/lib/ai/chat/pipeline/deps";
 import type { FreeModelGenerate } from "@/lib/ai/chat/free-model-race";
@@ -24,7 +15,6 @@ import { llmCall } from "./utility-llm";
 
 type PricingData = { models?: ProcessedModel[] };
 
-// Read the catalog from the pricing query cache (populated by usePricingQuery). Built once per send.
 function modelLookup(): (model: string) => ProcessedModel | undefined {
   const data = getQueryClient().getQueryData(queryKeys.pricing()) as
     PricingData | undefined;
@@ -32,11 +22,8 @@ function modelLookup(): (model: string) => ProcessedModel | undefined {
   return (model) => byName.get(model);
 }
 
-// Summary/classification -> our free pick (small context, fine for tiny-input classification).
 const generate: FreeModelGenerate = llmCall("");
 
-// Utility LLM honors the caller's model (resolved utilityModel / chat model) so context-hungry agents
-// get the full window. llmCall ignores the per-call model arg, so bind the model here.
 const runUtilityLLM: FreeModelGenerate = (modelName, opts) =>
   llmCall(modelName)("", opts);
 
@@ -57,7 +44,6 @@ export function buildDefaultClientDeps(userId: number): AssemblerDeps {
       return data.block ?? undefined;
     },
     runFreeModelRace: {
-      // The BFF /trigger-op/llm picks the model (empty model name = upstream default); one sentinel = one call.
       listFreeModels: async () => ["free"],
       generate,
     },
@@ -65,14 +51,12 @@ export function buildDefaultClientDeps(userId: number): AssemblerDeps {
     retrieveSemantic: async (_apiKey, query, candidates, opts) => {
       if (candidates.length === 0) return [];
       try {
-        // similarity returns the candidate texts ranked best-first; map each back to an id.
         const ranked = handleElysia(
           await rpc.api.ai.chat["trigger-op"].similarity.post({
             source: query,
             values: candidates.map((c) => c.text),
           }),
         );
-        // Group ids by text so duplicate-text candidates don't collapse: each ranked occurrence pops the next id.
         const idsByText = new Map<string, string[]>();
         for (const c of candidates) {
           const list = idsByText.get(c.text);

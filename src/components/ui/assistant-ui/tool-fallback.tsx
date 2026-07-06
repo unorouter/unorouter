@@ -270,7 +270,6 @@ function ToolFallbackError({
   );
 }
 
-/** Server-executed tools where results are embedded in the response text. */
 const SERVER_TOOLS = new Set(["web_search"]);
 
 const ToolFallbackImpl: ToolCallMessagePartComponent = ({
@@ -282,7 +281,6 @@ const ToolFallbackImpl: ToolCallMessagePartComponent = ({
   const isCancelled =
     status?.type === "incomplete" && status.reason === "cancelled";
 
-  // Server-executed tools (e.g. web search): show a minimal indicator, no args/result/error
   if (SERVER_TOOLS.has(toolName)) {
     return (
       <ToolFallbackRoot>

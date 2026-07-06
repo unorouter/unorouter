@@ -1,5 +1,3 @@
-// V2 trigger opcode handlers (RisuAI port). Operands are literal when <field>Type is 'value' else a var lookup. Side effects no-op here.
-
 import { calcString } from "../calc";
 import type { TriggerContext, TriggerEffect } from "./types";
 
@@ -13,7 +11,6 @@ export function cbs(ctx: TriggerContext, s: unknown): string {
   return ctx.parse ? ctx.parse(raw) : raw;
 }
 
-// Resolve an operand per Risu: literal when <field>Type is "value", else a var lookup of the parsed name.
 function rv(
   e: TriggerEffect,
   ctx: TriggerContext,
@@ -50,7 +47,6 @@ function parseDict(s: string): Record<string, string> {
   return v as Record<string, string>;
 }
 
-// Array-var mutation: parse the var as a JSON array, run fn, write back. On parse failure Risu resets to '[]' and writes errOut.
 function withArrVar(
   e: TriggerEffect,
   ctx: TriggerContext,
@@ -71,7 +67,6 @@ function withArrVar(
   }
 }
 
-// Read-only helper: parse, compute the output value, fall back on error.
 function readJson<T>(
   parse: (s: string) => T,
   raw: string,
@@ -85,7 +80,6 @@ function readJson<T>(
   }
 }
 
-// $0-aware group-ref expansion shared by ExtractRegex (Risu lines 1941-1948).
 function expandExtract(fmt: string, m: RegExpExecArray | null): string {
   if (!m) {
     return fmt
@@ -99,7 +93,6 @@ function expandExtract(fmt: string, m: RegExpExecArray | null): string {
     .replace(/\$\$/g, "$");
 }
 
-// The opcode table. Returns true when handled; control-flow/unknown -> false.
 export function runDataOpcode(
   e: TriggerEffect,
   ctx: TriggerContext,
@@ -269,7 +262,6 @@ export function runDataOpcode(
             const match = args[0] as string;
             const offsetIdx = args.findIndex((a) => typeof a === "number");
             const groups = args.slice(1, offsetIdx) as string[];
-            // `$N` result targets group N: replace that group inside the match.
             const target = fmt.match(/^\$(\d+)$/);
             if (target) {
               const idx = Number(target[1]);
@@ -323,9 +315,7 @@ export function runDataOpcode(
         const arr = parseArr(vr.get(name));
         arr[i] = rv(e, ctx, vr, "value");
         vr.set(name, JSON.stringify(arr));
-      } catch {
-        // Risu: silent
-      }
+      } catch {}
       return true;
     }
     case "v2PushArrayVar":
@@ -407,7 +397,6 @@ export function runDataOpcode(
         dict[rv(e, ctx, vr, "key")] = rv(e, ctx, vr, "value");
         vr.set(name, JSON.stringify(dict));
       } catch {
-        // Var did not hold a dict yet: create one (Risu parity).
         if (e.varType !== "value") {
           const dict: Record<string, string> = {};
           dict[rv(e, ctx, vr, "key")] = rv(e, ctx, vr, "value");
@@ -464,7 +453,6 @@ export function runDataOpcode(
     case "v2Random": {
       const min = rnum(e, ctx, vr, "min");
       const max = rnum(e, ctx, vr, "max");
-      // Deterministic LCG advanced through a hidden VM var: a run yields the same sequence, later calls differ.
       const prev = Number(vr.get("__rand_state"));
       let seed =
         Number.isFinite(prev) && prev > 0
@@ -492,7 +480,6 @@ export function runDataOpcode(
       return true;
     }
     case "v2Tokenize":
-      // No tokenizer in the isomorphic core; rough word estimate.
       setOut(
         String(rv(e, ctx, vr, "value").split(/\s+/).filter(Boolean).length),
       );
@@ -528,7 +515,6 @@ export function runDataOpcode(
         setOut("0");
         return true;
       }
-      // Risu joins the slice once and searches the joined text.
       const da = ctx.chat
         .slice(0 - depth)
         .map((m) => m.data)
@@ -558,7 +544,6 @@ export function runDataOpcode(
       return true;
     }
     case "v2Impersonate": {
-      // Risu role is 'user' | 'char'.
       const role = e.role === "user" ? "user" : "assistant";
       ctx.chat.push({ role, data: rv(e, ctx, vr, "value") });
       return true;
@@ -655,7 +640,6 @@ export function runDataOpcode(
     case "v2SetLorebookAlwaysActive": {
       const i = rnum(e, ctx, vr, "index");
       const lore = ctx.lore[i];
-      // `value` is a raw boolean on these two opcodes (no valueType).
       if (lore) lore.alwaysActive = e.value === true || e.value === "true";
       return true;
     }

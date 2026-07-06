@@ -1,5 +1,3 @@
-// Idempotent re-runs via ON CONFLICT DO NOTHING.
-
 import { error, log } from "console";
 import { sql } from "drizzle-orm";
 import type { LibSQLDatabase } from "drizzle-orm/libsql";
@@ -10,7 +8,6 @@ type LoraSeed = typeof loraCatalog.$inferInsert;
 type EmbeddingSeed = typeof embeddingCatalog.$inferInsert;
 type UpscalerSeed = typeof upscalerCatalog.$inferInsert;
 
-// Filename must match /workspace/models/loras/ exactly (LoraLoader.lora_name patched verbatim).
 const LORA_SEEDS: LoraSeed[] = [
   {
     id: "sinfully-stylish-bold-lighting",
@@ -74,7 +71,6 @@ const LORA_SEEDS: LoraSeed[] = [
   },
 ];
 
-// Latent variants ship with ComfyUI; ESRGAN/SwinIR/DAT need staged files in `upscale_models/`.
 const UPSCALER_SEEDS: UpscalerSeed[] = [
   {
     id: "latent-bicubic-antialiased",
@@ -122,7 +118,6 @@ const UPSCALER_SEEDS: UpscalerSeed[] = [
     description: "Pixel nearest-neighbor on the decoded image.",
     sortOrder: 50,
   },
-  // Filename must match /workspace/models/upscale_models/ exactly (case-sensitive, with extension).
   {
     id: "realesrgan-4xplus",
     name: "R-ESRGAN 4x+",
@@ -164,7 +159,6 @@ const UPSCALER_SEEDS: UpscalerSeed[] = [
   },
 ];
 
-// Staged at /workspace/models/embeddings/. Filename needs extension or ComfyUI tokenizer errors when weighted.
 const EMBEDDING_SEEDS: EmbeddingSeed[] = [
   {
     id: "easynegative",
@@ -183,7 +177,6 @@ const EMBEDDING_SEEDS: EmbeddingSeed[] = [
 export async function runSeeds(
   db: LibSQLDatabase<typeof schema>,
 ): Promise<void> {
-  // Size-check fast-path skips N-row INSERTs on cold start; ON CONFLICT handles race.
   await seedCatalog(
     "lora_catalog",
     LORA_SEEDS,
@@ -248,9 +241,7 @@ async function seedCatalog<T>(
   if (seeds.length === 0) return;
   try {
     if ((await count()) >= seeds.length) return;
-  } catch {
-    // Let inserts surface the error.
-  }
+  } catch {}
   let inserted = 0;
   for (const row of seeds) {
     try {

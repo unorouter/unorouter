@@ -1,11 +1,5 @@
 import { cn } from "@/lib/utils";
 
-// Scale-Labs-style leaderboard primitives: a black numbered rank pill and a
-// flat horizontal score bar with an earthy accent. Theme-aware (the track uses a
-// token; the fill is a fixed earthy hue that reads in light and dark).
-
-// Earthy band by pass rate: teal good, mustard mid, terra low. Muted gray when
-// the sample is too small to be confident (never a confident green/red).
 function barColor(pct: number, lowN: boolean): string {
   if (lowN) return "#9ca3af"; // muted gray-400
   if (pct >= 75) return "#65c2b9"; // teal

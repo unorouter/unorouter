@@ -1,7 +1,5 @@
 import type { IconComponent } from "@/lib/config/vendor-icons";
 
-// ElectronHub. No brand mark in any icon pack, so this is an inline mono "E"
-// monogram stand-in.
 const ElectronHubBrandIcon: IconComponent = (props) => (
   <svg
     role="img"

@@ -9,7 +9,6 @@ const base = pino({
   },
 });
 
-/** Wraps pino; swaps (obj,msg)->(msg,obj). */
 export const logger = {
   info: (msg: string, ctx?: LogContext) => base.info(ctx ?? {}, msg),
   warn: (msg: string, ctx?: LogContext) => base.warn(ctx ?? {}, msg),

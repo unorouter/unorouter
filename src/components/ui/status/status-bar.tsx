@@ -236,8 +236,6 @@ export function StatusBar({
   const activeItem = activeIndex !== null ? data[activeIndex] : null;
   const isPinned = interactionType === "pin";
 
-  // Shared anchor: resolve to the active bar's DOM node every call so the
-  // single HoverCard can re-position as activeIndex changes.
   const getAnchor = () => {
     if (activeIndex === null) return null;
     return (
@@ -345,8 +343,6 @@ interface StatusBarBarProps {
   ariaLabel: string;
 }
 
-// Plain div, no HoverCard per bar (thousands of Floating UI instances on a
-// 78-row page); the parent anchors one shared HoverCard to the active bar.
 function StatusBarBar(props: StatusBarBarProps) {
   return (
     <div

@@ -14,19 +14,12 @@ import { useEffect, useRef } from "react";
 
 const BG_STYLE_ID = "user-theme-bg";
 
-// The cookie-backed theme CSS is SSR'd by the layout into #user-theme (authoritative first
-// paint, no FOUC). This provider OWNS live updates: it mutates that node's content on every
-// theme change (reset/shuffle/import) and re-syncs the <html> data-attrs. The background image
-// rides a SEPARATE localStorage atom the server can't know, so its CSS goes in its own
-// client-only #user-theme-bg node (mounted here) instead of skewing the SSR theme node.
 export function UserThemeProvider(props: { children: React.ReactNode }) {
   const theme = useAtomValue(userThemeAtom);
   const backgroundImage = useAtomValue(themeBackgroundAtom);
   const isFirstRun = useRef(true);
 
   useEffect(() => {
-    // First mount: the SSR theme CSS + <html> attrs already match the cookie, so skip
-    // re-applying them (avoids a redundant write). Later changes must re-apply both.
     if (!isFirstRun.current) {
       const html = document.documentElement;
       for (const [k, v] of Object.entries(themeDataAttrs(theme))) {
@@ -47,7 +40,6 @@ export function UserThemeProvider(props: { children: React.ReactNode }) {
     }
     const css = buildBackgroundCss(backgroundImage, theme.background);
     el.textContent = css;
-    // The translucent-panel rules key off this attr so the no-image state stays inert.
     document.documentElement.toggleAttribute("data-bg-active", Boolean(css));
   }, [backgroundImage, theme.background]);
 

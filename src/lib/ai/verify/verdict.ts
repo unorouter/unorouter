@@ -7,8 +7,6 @@ import type {
   VerifyVerdict,
 } from "./types";
 
-// Per-probe data the verdict needs beyond the persisted ProbeOutcome (the model
-// name text is required for tier-mismatch but never persisted).
 export type ProbeEval = ProbeOutcome & {
   signalForVerdict: ProbeSignal;
   text: string | undefined;
@@ -26,7 +24,6 @@ const labelsWith = (results: ProbeEval[], sig: ProbeSignal) =>
     .map((r) => r.label)
     .join(", ");
 
-// First matching hard-fail signal, or null. Keeps the short-circuit order in one place.
 const firstSignal = (results: ProbeEval[], sig: ProbeSignal) =>
   results.some((r) => r.signalForVerdict === sig)
     ? labelsWith(results, sig)
@@ -40,7 +37,6 @@ export function aggregateVerdict(args: {
   const results = args.results;
   const reasons: string[] = [];
 
-  // Hard-fail short-circuit ORDER (matches new-api-sync exactly).
   const codingTool = firstSignal(results, "coding-tool");
   if (codingTool) return suspicious(`coding-tool-refusal: ${codingTool}`);
   const scam = firstSignal(results, "scam");
@@ -62,7 +58,6 @@ export function aggregateVerdict(args: {
   if (foreignOnIdentity)
     return suspicious(`foreign-identity: ${labelsWith(results, "foreign")}`);
 
-  // Tier substitution (anthropic-only).
   if (args.cfg.tiers) {
     const modelNameText = results.find(
       (r) => r.label === ("model-name" satisfies ProbeLabel),
@@ -86,13 +81,9 @@ export function aggregateVerdict(args: {
     return {
       verdict: "genuine",
       reasons,
-      // A genuine result confirms vendor + tier; the exact version is never
-      // behaviorally verifiable, so flag it as advisory.
       versionUnverifiable: true,
     };
 
-  // Not passing: if the shortfall is purely transient (429/5xx/timeout) with no
-  // real signal, do not condemn - it is just unverified this run.
   const transientFails = failed.filter((r) => r.transient).length;
   const nonTransientFails = failed.filter(
     (r) => !r.transient && r.signalForVerdict !== null,
@@ -115,7 +106,6 @@ function suspicious(reason: string): VerdictResult {
   };
 }
 
-// Short per-probe explanation for the transparency UI.
 export function probeReason(
   pass: boolean,
   signal: ProbeSignal,

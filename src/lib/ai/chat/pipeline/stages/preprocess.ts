@@ -1,5 +1,3 @@
-// Stage 2: pre-assembly message edits. PDF inline, primary-character regex scripts (editprocess/editinput), and the Lua editinput hook.
-
 import { parseRegexScripts } from "@/lib/ai/chat/regex-scripts";
 import {
   extractLuaCodes,
@@ -42,7 +40,6 @@ export async function preprocessMessages(
   return { messages: out, luaCodes, primaryChar };
 }
 
-// Lua listenEdit('editInput') on the last user message (Risu edit pipeline).
 async function applyLuaEditInput(
   messages: StreamMessages,
   luaCodes: string[],

@@ -36,11 +36,8 @@ import "../globals.css";
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  // touch-action:manipulation + pinned sticky composer kill zoom-drift, so pinch-zoom stays enabled; cap 5x.
   maximumScale: 5,
-  // Keyboard resizes layout instead of panning it; keeps header + composer in view.
   interactiveWidget: "resizes-content",
-  // Required for env(safe-area-inset-*) to be non-zero on notched devices.
   viewportFit: "cover",
 };
 
@@ -106,7 +103,6 @@ export default async function LocaleLayout(props: Props) {
     <html
       lang={params.locale}
       {...themeDataAttrs(theme)}
-      /* next-themes injects the class via inline script pre-hydration */
       suppressHydrationWarning
     >
       <head>

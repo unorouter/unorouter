@@ -3,7 +3,6 @@ import "dayjs/locale/de";
 import relativeTime from "dayjs/plugin/relativeTime";
 import utc from "dayjs/plugin/utc";
 
-// Extends dayjs singleton; import once at server + client entry.
 dayjs.extend(relativeTime);
 dayjs.extend(utc);
 
@@ -17,7 +16,6 @@ export function formatLongDate(value: string | number | undefined): string {
   return d.format("MMM D, YYYY");
 }
 
-// Same format but input is a MILLISECONDS epoch, not unix seconds.
 export function formatMsDate(ms: number): string {
   if (!ms) return "";
   const d = dayjs(ms);

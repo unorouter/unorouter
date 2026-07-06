@@ -15,14 +15,12 @@ export interface FeatureBadgeDims extends BadgeDimsBase {
   titleFont: number;
   taglineFont: number;
   showTagline: boolean;
-  // Feature chips: labeled two-column grid on md+, icon-only row on xs/sm.
   count: number;
   showLabels: boolean;
   cell: number;
   iconSize: number;
   labelFont: number;
   gap: number;
-  // og-only extras: tilted vendor-icon grid on the right + stat in the header.
   vendorGrid?: {
     cols: number;
     rows: number;
@@ -33,7 +31,6 @@ export interface FeatureBadgeDims extends BadgeDimsBase {
   statFont?: number;
 }
 
-// Shared base scale. Templates spread per-size overrides (og count, vendorGrid, statFont).
 export const FEATURE_BADGE_DIMS: Record<BadgeSize, FeatureBadgeDims> = {
   xs: {
     W: 280,
@@ -127,7 +124,6 @@ export const FEATURE_BADGE_DIMS: Record<BadgeSize, FeatureBadgeDims> = {
   },
 };
 
-// Lucide outline geometry. Stroke lives on the inner <g> (not the root tag) so the PNG path's svg-inliner keeps it when it drops the root <svg>.
 export function lucide(inner: string): string {
   return (
     `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">` +
@@ -167,12 +163,9 @@ export function IconCell(props: {
 export interface FeatureBadgeOpts {
   ctx: BadgeCtx;
   dims: Record<BadgeSize, FeatureBadgeDims>;
-  // Wordmark third segment: UNO ROUTER <suffix>.
   suffix: string;
   tagline: string;
-  // Pre-resolved label + raw icon svg; sliced to the size's count.
   features: { label: string; icon: string }[];
-  // Raw vendor svgs; prepped (whitened when mono) inside.
   vendorIcons?: string[];
   stat?: { value: string; label: string };
 }
@@ -270,7 +263,6 @@ export async function renderFeatureBadge(
     </div>
   );
 
-  // Right-side tilted vendor grid reserves width; feature chips split the rest.
   const vg = d.vendorGrid;
   const vendorW = vg ? vg.cols * vg.cell + (vg.cols - 1) * vg.gap : 0;
   const contentW = d.W - d.pad * 2;

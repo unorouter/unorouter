@@ -57,7 +57,6 @@ type EditMessageBody = {
   }>;
 };
 
-// Shared mutation scaffold for chat mutations: resolve userId, i18n error toast, invalidate + broadcast per-args keys on success.
 function useChatMutation<TArgs, TData>(
   fn: (userId: number, args: TArgs) => Promise<TData>,
   keysFor: (args: TArgs) => readonly (readonly unknown[])[],
@@ -141,7 +140,6 @@ export function useDeleteChatGroupMutation() {
       await deleteLocalChatGroup(userId, args.id);
       return { id: args.id };
     },
-    // Ungroups its chats, so the conversation list refreshes too.
     () => [queryKeys.chatGroups(), queryKeys.conversations()],
   );
 }
@@ -217,7 +215,6 @@ export function useMessagesInfiniteQuery(id?: string) {
   });
 }
 
-// History rewrites must bump the conversation row: cross-device staleness reconciles on conversations.updatedAt.
 async function bumpConvUpdatedAt(userId: number, convId: string) {
   const conv = await readLocalConversation(userId, convId);
   if (conv) {
@@ -233,7 +230,6 @@ export function useUpdateConversationMutation() {
     async (userId, args: ConvIdArg & { body: UpdateConvBody }) => {
       const existing = await readLocalConversation(userId, args.id);
       const now = dayjs().toDate();
-      // `model` is the UI alias for the defaultModel column.
       const patch = {
         ...(args.body.title !== undefined && { title: args.body.title }),
         ...(args.body.model !== undefined && {
@@ -241,7 +237,6 @@ export function useUpdateConversationMutation() {
         }),
         updatedAt: now,
       };
-      // Patch-only: a rename/model change targets an existing row. Upsert could insert with null default_model and trip NOT NULL.
       if (existing) {
         await updateLocalConversationSettings(userId, {
           convId: args.id,
@@ -293,7 +288,6 @@ export function useFinalizeTaskMutation() {
           resultUrl: args.resultUrl,
         }),
       );
-      // Mirror the server's task-to-text rewrite locally so the UI leaves the placeholder immediately.
       await replaceLocalMessageItems(userId, args.msgId, [
         {
           id: uid(),
@@ -316,9 +310,6 @@ export function useEditMessageMutation() {
       userId,
       args: { convId: string; msgId: string; body: EditMessageBody },
     ) => {
-      // Existence check FIRST: a delete (e.g. of the AI response) can splice/drop the
-      // row before this edit fires. Writing items under a gone message left orphan rows
-      // that showed in runtime state but vanished on refresh (Matic's ghost message).
       const msgs = (await readLocalMessages(userId, args.convId)) ?? [];
       const existing = msgs.find((m) => m.id === args.msgId);
       if (!existing) throw new Error(msg("ERRORS.MESSAGE_NOT_FOUND"));
@@ -441,7 +432,6 @@ export function useSetActiveBranchMutation() {
           });
         }
       }
-      // Root assistant siblings are greetings: track Risu fmIndex (branch 0 is firstMessage at -1, i is alternate i-1).
       if (parentId === null && target?.role === "assistant") {
         await updateLocalConversationSettings(userId, {
           convId: args.convId,
@@ -459,7 +449,6 @@ export function useDeleteMessageMutation() {
   const qc = useQueryClient();
   return useChatMutation(
     async (userId, args: { convId: string; msgId: string }) => {
-      // Splice-delete: rewire children parentId locally, then drop the row.
       const msgs = (await readLocalMessages(userId, args.convId)) ?? [];
       const target = msgs.find((m) => m.id === args.msgId);
       const newParentId = target?.parentId ?? null;
@@ -475,9 +464,6 @@ export function useDeleteMessageMutation() {
           });
         }
       }
-      // Verify the rewire BEFORE deleting: a child still pointing at the row gets parentId
-      // nulled by the FK (ON DELETE SET NULL) and becomes a phantom root, which truncates
-      // the next branch walk to that one message (the chat looks wiped after reload).
       if (childIds.length > 0) {
         const check = (await readLocalMessages(userId, args.convId)) ?? [];
         for (const id of childIds) {
@@ -497,9 +483,6 @@ export function useDeleteMessageMutation() {
       }
       await deleteLocalMessage(userId, args.msgId);
       await bumpConvUpdatedAt(userId, args.convId);
-      // Drop the stale messages cache so the history adapter's load() re-reads the spliced state from the DB.
-      // Invalidate alone leaves getQueryData returning the pre-delete pages, which the runtime would restore on
-      // the next load (the message reappeared until a manual refresh). removeQueries forces the DB read.
       qc.removeQueries({ queryKey: queryKeys.chatMessages(args.convId) });
       return { id: args.msgId };
     },

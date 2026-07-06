@@ -7,10 +7,6 @@ import { modelSlug } from "@/lib/utils/base";
 import { useTranslations } from "next-intl";
 import { COMPARE_PAIRS } from "./compare-pairs";
 
-// Static crawlable links for the curated pairs (same list the sitemap + static
-// gen use). Internal links flow PageRank into the prerendered compare pages so
-// they're discoverable, not just sitemap-listed. A pair with no live model match
-// is dropped so a retired model never renders a dead link.
 export function PopularPairs(props: { models: ProcessedModel[] }) {
   const t = useTranslations();
   const byName = new Map(props.models.map((m) => [m.name, m]));

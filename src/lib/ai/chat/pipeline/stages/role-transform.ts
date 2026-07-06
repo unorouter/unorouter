@@ -1,5 +1,3 @@
-// Stage 4: walk the template into messages, hoist the leading system run, apply role transforms in LOCKED order, then Lua editrequest.
-
 import { risuUnescape } from "@/lib/ai/chat/macros";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { runLuaEditTrigger } from "@/lib/ai/chat/triggers/lua/engine";
@@ -24,7 +22,6 @@ export type RoleTransformed = {
   messagesForUpstream: StreamMessages;
   effectiveSystem: string | undefined;
   deepSeekReasoningContent: string | undefined;
-  // Resolved per-model flags, reused by build-body for wire mutations.
   autoFlags: ReturnType<typeof getModelRoleFlags>;
 };
 
@@ -34,14 +31,12 @@ export async function transformRoles(
   historyMessages: StreamMessages,
   luaCodes: string[],
 ): Promise<RoleTransformed> {
-  // Model auto-flags OR'd with preset manual flags; a manual flag is never turned off. Computed before the system-hoist depends on it.
   const autoFlags = getModelRoleFlags(model);
   const noSystemRole = assembled.flags.noSystemRole || !autoFlags.fullSystem;
   const forceAlternateRoles =
     assembled.flags.forceAlternateRoles || autoFlags.alternateRoles;
   const mustStartWithUserInput =
     assembled.flags.mustStartWithUserInput || autoFlags.userStub;
-  // GLM rejects requests ending on assistant; a prefill is intentional, so it suppresses the end-stub.
   const mustEndWithUserInput = autoFlags.endUserStub && !assembled.prefill;
 
   let processedMessages = walkTemplate(
@@ -50,22 +45,18 @@ export async function transformRoles(
     noSystemRole,
   );
 
-  // Unhoisted (noSystemRole): system content lives in the messages array, so the param must be empty.
   const effectiveSystem =
     noSystemRole || assembled.system == null
       ? undefined
       : risuUnescape(assembled.system);
 
-  // ORDER LOCKED: stripReasoningParts, noSystemRole, prefill, mergeAlternateRoles, prependUserStub, appendUserStub; each depends on the prior.
   const deepSeekReasoningContent = autoFlags.deepSeekThinkingInput
     ? collectTrailingReasoning(processedMessages)
     : undefined;
 
   processedMessages = stripReasoningParts(processedMessages);
   if (noSystemRole) processedMessages = stripSystemRole(processedMessages);
-  // Drop empties BEFORE merge: dropping after can recreate consecutive same-role messages, which strict upstreams reject.
   processedMessages = dropEmptyMessages(processedMessages);
-  // Default template emits prefill as a slot; append it only when a custom template dropped the card. Merge folds a doubled assistant.
   if (assembled.prefill && !prefillEmitted(assembled)) {
     processedMessages = appendPrefill(processedMessages, assembled.prefill);
   }
@@ -80,9 +71,6 @@ export async function transformRoles(
     processedMessages = await applyLuaEditRequest(processedMessages, luaCodes);
   }
 
-  // Content-free assembly breadcrumb: template card sequence, applied flags, history in vs
-  // messages out, final role order. Rides the diagnostics export; names request-shape causes
-  // (dropped turns, merge collapses, card order) without any prompt text.
   logChatDebug("assembly.shape", {
     model,
     flags: {
@@ -100,7 +88,6 @@ export async function transformRoles(
     rolesOut: processedMessages.map((m) => m.role).join(","),
   });
 
-  // #escape protection ends here: un-map private-use chars before upstream.
   return {
     messagesForUpstream: unescapeMessages(processedMessages),
     effectiveSystem,
@@ -109,7 +96,6 @@ export async function transformRoles(
   };
 }
 
-// Walk promptParts into messages. Each chatHistory marker splices its slice, else history appends at the end. Hoists the system run if supported.
 function walkTemplate(
   assembled: AssembledSystem,
   historyMessages: StreamMessages,
@@ -169,7 +155,6 @@ function prefillEmitted(assembled: AssembledSystem): boolean {
   );
 }
 
-// Lua listenEdit('editRequest') over the formated {role, content} array.
 async function applyLuaEditRequest(
   messages: StreamMessages,
   luaCodes: string[],

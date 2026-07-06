@@ -227,7 +227,6 @@ export function StatusComponentUptimeSkeleton({
   return <Skeleton className={cn("h-4 w-16", className)} {...props} />;
 }
 
-// Labels: StatusBlocksI18nProvider -> labels.systemStatus[variant].short.
 export function StatusComponentStatus({
   className,
   ...props

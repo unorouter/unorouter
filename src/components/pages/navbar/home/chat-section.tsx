@@ -16,8 +16,6 @@ const vendorOf = (m: { vendor: string | { name?: string } }): string =>
 export async function ChatSection() {
   const t = await getTranslations();
   const { models } = await getPricingSummary();
-  // Real free CHAT models for the demo: drop embeddings/rerankers/audio + the `auto`
-  // router alias that `type === "text"` lets slip through (they read odd in a chat pill).
   const NON_CHAT = /embed|bge|rerank|whisper|tts|moderation|^auto/i;
   const freeText = models.filter(
     (m) => m.type === "text" && m.isFree && !NON_CHAT.test(m.name),
@@ -259,8 +257,6 @@ export async function ChatSection() {
 
 type CardColor = "cyan" | "emerald" | "blue" | "rose";
 
-// Full static class strings per color so Tailwind's JIT keeps them. One distinct accent
-// per feature card (docs-card style variety) instead of a single flat hue.
 const CARD_COLORS: Record<
   CardColor,
   { ring: string; tile: string; icon: string }

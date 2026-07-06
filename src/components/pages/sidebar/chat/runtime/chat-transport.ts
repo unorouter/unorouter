@@ -12,13 +12,9 @@ import {
   speakingCharacterIdAtom,
 } from "@/store/chat-store";
 
-// Reads live atoms + builds the per-conv RP context locally. Both routing-transport branches (custom + default)
-// call this, then run the assembly pipeline in the browser. There is no server context cache anymore, so no
-// dedup hashing / 409 replay: the client always holds the full context.
 export async function buildChatRequestBody(getConvId: () => string | null) {
   const userId = chatStore.get(localUserIdAtom);
   const convId = getConvId();
-  // Dynamic: the RP context builder drags ~110KB lorebook/trigger machinery off first-paint chunks.
   const loadout = chatStore.get(chatLoadoutAtom);
   const chatContext = convId
     ? await import("@/lib/db/client/data/chat/chat-context").then((m) =>

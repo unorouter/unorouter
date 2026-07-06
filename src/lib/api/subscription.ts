@@ -24,7 +24,6 @@ export const RESET_TRANSLATION_KEYS: Record<string, TranslationKey> = {
   monthly: "BILLING.SUBSCRIPTION.PER_MONTH",
 };
 
-// Fallback when upstream returns no configured preset.
 export const DEFAULT_TOPUP_AMOUNTS = [1, 5, 10, 20, 50, 100, 200, 500] as const;
 
 const RESET_PERIOD_LABEL_KEYS: Record<string, TranslationKey> = {
@@ -41,7 +40,6 @@ export function resetPeriodSuffixKey(period: string): TranslationKey {
   return RESET_TRANSLATION_KEYS[period] ?? ("" as TranslationKey);
 }
 
-// Lowercase noun ("week") for the card's "Refills $X each {period}" delivery line.
 const PERIOD_WORD_KEYS: Record<string, TranslationKey> = {
   daily: "PRICING.CARD.PERIOD_DAY",
   weekly: "PRICING.CARD.PERIOD_WEEK",

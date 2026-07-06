@@ -33,8 +33,6 @@ function buildTaskPart(source: Partial<TaskPart> | undefined): TaskPart | null {
   };
 }
 
-// Illustrator image placeholder: the agent generates + amends this item asynchronously (no manual refresh,
-// no server poll). Just show a "generating image" state until the rewrite replaces it with the inlay.
 function ImagePlaceholder() {
   const t = useTranslations();
   return (
@@ -163,9 +161,6 @@ export function TaskCard(props: Props) {
   );
 }
 
-// AI SDK delivers stream-side data-task parts as
-// { type: "data", name: "task", data: {...} }; persisted task items are
-// converted back to the same shape via itemsToParts.
 export function TaskCardRenderer() {
   const convId = useAuiState((s) => s.threadListItem?.remoteId ?? "");
   const parts = useAuiState((s) => s.message.parts) as unknown as AnyPart[];

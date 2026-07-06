@@ -12,8 +12,6 @@ import { logger } from "@/lib/utils/logger";
 import { drizzle } from "drizzle-orm/sqlite-proxy";
 import type { SQLocalDrizzle } from "sqlocal/drizzle";
 
-// Per-user OPFS file (`appname-<userId>.sqlite3`), lazy WASM. One cached connection per user.
-
 let cached = new Map<number, Promise<LocalClient>>();
 
 export async function getLocalDb(
@@ -37,7 +35,6 @@ export function resetLocalDbCache() {
   cached = new Map();
 }
 
-// Recoverable = the SyncAccessHandle is held/lost; the file is fine, reopen and retry. Else rethrow.
 function isRecoverable(err: unknown): boolean {
   const s = String(err);
   return (
@@ -51,23 +48,14 @@ function isRecoverable(err: unknown): boolean {
   );
 }
 
-// A prior tab's SAH can take >1s to release (worse on iOS); 7 capped-backoff tries (~4.5s) ride it out.
 const RETRIES = 7;
 const MAX_BACKOFF = 1500;
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
-// SQLocal silently serves an empty in-memory DB when OPFS init fails; getDatabaseInfo is the only
-// signal, so treat the in-memory fallback as contention and retry onto the real file.
 async function openMigratedSql(
   dbPath: string,
   userId: number,
 ): Promise<SQLocalDrizzle> {
-  // runMigrations is STATIC-imported (it + its 20K manifest fold into this client chunk). It was lazily
-  // imported before, which spun a separate chunk that ChunkLoadError'd on the DB-open path whenever the tab
-  // held a stale chunk URL (every dev rebuild; a network blip in prod) - the pending-drain hit it repeatedly.
-  // OPFS needs SharedArrayBuffer, i.e. a cross-origin-isolated document. Non-isolated pages
-  // (marketing routes that don't get COOP/COEP) can never persist; accept the in-memory DB
-  // once instead of retrying 7x into a guaranteed failure (theme/etc still ride the cookie atom).
   const isolated =
     typeof window === "undefined" || window.crossOriginIsolated !== false;
   let sql = newSql(dbPath);
@@ -116,7 +104,6 @@ async function openClient(userId: number): Promise<LocalClient> {
   let sql = await openMigratedSql(dbPath, userId);
   let reopening: Promise<void> | null = null;
 
-  // Handle lost mid-session: single-flight reopen, replay the failed call once (it never ran).
   const run = async <T>(fn: (s: SQLocalDrizzle) => Promise<T>): Promise<T> => {
     try {
       return await fn(sql);

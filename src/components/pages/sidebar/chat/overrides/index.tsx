@@ -80,9 +80,6 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
     ? pricing?.models.find((m) => m.name === activeModelName)
     : undefined;
   const activeModelMetadata = activeModel?.metadata;
-  // Effective output cap = the clamp applied at request time (assemble-prompt clampOutputTokens):
-  // free -> FREE_MODEL_OUTPUT_CAP, else the model's known maxOutputTokens. No known ceiling
-  // (custom providers, metadata-less models) -> uncapped; the user's slider value ships verbatim.
   const maxTokensCap = activeModel
     ? activeModel.isFree
       ? FREE_MODEL_OUTPUT_CAP
@@ -101,14 +98,12 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
   const settings = settingsQuery.data;
   const bindings = bindingsQuery.data;
 
-  // Bound preset = live inheritance source: drawer shows resolved values, save writes null unless diverged.
   const presetsQuery = usePresetsQuery();
   const boundPreset =
     (settings?.presetId
       ? presetsQuery.data?.find((p) => p.id === settings.presetId)
       : null) ?? null;
 
-  // values resyncs the form on change; keepDirtyValues protects in-flight edits from a refetch.
   const formValues = computeFormValues({
     isDefaultsMode,
     chatDefaults,
@@ -160,7 +155,6 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
     });
 
     if (isDefaultsMode) {
-      // Persist to the atom: seeds the next conversation_settings row.
       setChatDefaults(buildDefaultsOverrides(data));
       toast.success(t("COMMON.SAVED"));
       return;
@@ -174,8 +168,6 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
         convId: props.convId!,
         body: buildBindingsBody(data, bindings),
       });
-      // Last-used loadout becomes sticky: an in-chat preset/persona/char/lorebook pick seeds the next NEW chat,
-      // so the user's selection acts as the default instead of staying scoped to this one conversation (Matic).
       setLoadout({
         presetId: data.presetId === NONE_VALUE ? null : data.presetId,
         personaId: data.personaId === NONE_VALUE ? null : data.personaId,

@@ -1,6 +1,5 @@
 import type { IconComponent } from "@/lib/config/vendor-icons";
 
-// Poolside (laguna models). No public mark ships, so this is an inline mono "P" monogram stand-in.
 const PoolsideIcon: IconComponent = (props) => (
   <svg
     role="img"

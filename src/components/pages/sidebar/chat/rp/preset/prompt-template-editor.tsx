@@ -31,7 +31,6 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { useFormContext } from "react-hook-form";
 
-// Editor cards carry a stable synthetic id for drag-and-drop; dropped when serializing back to PromptItem[].
 type Card = PromptItem & { id: string };
 
 const SLOT_LABELS: Record<SlotName, string> = {
@@ -57,24 +56,20 @@ function toCards(items: PromptItem[]): Card[] {
 }
 
 function toItems(cards: Card[]): PromptItem[] {
-  // Strip the synthetic id without a delete (avoids the non-optional-delete rule).
   return cards.map(({ id: _id, ...item }) => item);
 }
 
 type Props = {
-  // JSON string from the form (empty = default template).
   value: string;
   onChange: (json: string) => void;
 };
 
 export function PromptTemplateEditor(props: Props) {
   const t = useTranslations();
-  // The prefill card edits the preset form's prefill field directly (the card is its only editor).
   const form = useFormContext<SamplingPresetForm>();
   const [cards, setCards] = useState<Card[]>(() =>
     toCards(parsePromptTemplate(props.value) ?? DEFAULT_PROMPT_TEMPLATE),
   );
-  // Per-card collapse so a long post-history block isn't a scroll-trap; collapsed shows a capped preview, expanded auto-grows.
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
   const toggleExpanded = (id: string) =>
     setExpanded((prev) => {
@@ -102,7 +97,6 @@ export function PromptTemplateEditor(props: Props) {
     commit(cards.map((c) => (c.id === id ? ({ ...c, ...patch } as Card) : c)));
   };
 
-  // Prefill text lives on its card; clearing it on delete stops an invisible prefill from still being appended.
   const remove = (id: string) => {
     const card = cards.find((c) => c.id === id);
     if (card?.type === "slot" && card.slot === "prefill") {

@@ -32,9 +32,6 @@ import type {
   ReferenceEntry,
 } from "@/lib/validation/playground";
 
-// syncExpiresAt: null=local-only; non-null=synced + server-purged past timestamp.
-
-// Fresh builder per call: drizzle binds a builder to its table, so shared column shapes must be factories.
 export const createdAtCol = () =>
   integer("created_at", { mode: "timestamp_ms" })
     .notNull()
@@ -61,14 +58,12 @@ export const conversations = sqliteTable(
     totalInputTokens: integer("total_input_tokens").notNull().default(0),
     totalOutputTokens: integer("total_output_tokens").notNull().default(0),
     totalCost: real("total_cost").notNull().default(0),
-    // Per-conversation settings (formerly conversation_settings table).
     defaultModel: text("default_model").notNull(),
     personaId: text("persona_id"),
     presetId: text("preset_id"),
     systemPromptOverride: text("system_prompt_override"),
     authorNote: text("author_note"),
     authorNoteDepth: integer("author_note_depth").notNull().default(4),
-    // null = inherit the bound preset's chatMemory (else default 8).
     chatMemory: integer("chat_memory"),
     reasoningEffort: text("reasoning_effort").$type<ReasoningEffort>(),
     webSearchEnabled: integer("web_search_enabled", { mode: "boolean" })
@@ -82,7 +77,6 @@ export const conversations = sqliteTable(
       .notNull()
       .default("medium")
       .$type<WebSearchContextSize>(),
-    // Billing/routing group sent upstream as X-Group; null = auto (gateway default).
     group: text("group"),
     temperature: real("temperature"),
     topP: real("top_p"),
@@ -94,37 +88,22 @@ export const conversations = sqliteTable(
     repetitionPenalty: real("repetition_penalty"),
     maxTokens: integer("max_tokens"),
     extraBody: text("extra_body"),
-    // Chat-variable store (RisuAI getvar/setvar): JSON map { name: value }.
     vars: text("vars"),
-    // null = inherit the bound preset's streamingEnabled (else default true).
     streamingEnabled: integer("streaming_enabled", { mode: "boolean" }),
-    // null = inherit the bound preset's showReasoning (else default true). Hides thinking at render only.
     showReasoning: integer("show_reasoning", { mode: "boolean" }),
-    // Multi-character turn ordering: deterministic stored order vs name-mention + talkness.
     groupOrderByOrder: integer("group_order_by_order", { mode: "boolean" }),
     autoContinue: integer("auto_continue", { mode: "boolean" }),
-    // Rolling-summary memory: the running summary + the count of messages folded in (anchor), replacing older history on overflow.
     summaryMemory: text("summary_memory"),
     summaryAnchor: integer("summary_anchor"),
-    // Toggle for the rolling summary + semantic retrieval memory features.
     memoryEnabled: integer("memory_enabled", { mode: "boolean" }),
-    // Agent utility model: the summarizer + illustrator prompt-writer use this (full context). null = the chat model.
     utilityModel: text("utility_model"),
-    // Illustrator agent: auto in-chat image generation after each reply.
     imageEnabled: integer("image_enabled", { mode: "boolean" }),
-    // Illustrator prompt-writer instruction (overrides the default); null = default instruction.
     promptInstruction: text("prompt_instruction"),
-    // Illustrator image model; null = auto-pick (first free image model).
     imageModel: text("image_model"),
-    // Review the written image prompt in a modal before generating (Lumiverse-style opt-in).
     imagePreview: integer("image_preview", { mode: "boolean" }),
-    // JSON array of media ids used as reference images for in-chat image gen.
     imageRefIds: text("image_ref_ids"),
-    // Auto-include the primary character's avatar as a reference image.
     useCharAvatarRef: integer("use_char_avatar_ref", { mode: "boolean" }),
-    // RisuAI fmIndex: which greeting opens the chat (-1 = firstMessage, 0..n = alternateGreetings index).
     firstMsgIndex: integer("first_msg_index").notNull().default(-1),
-    // Sidebar grouping/folder; null = ungrouped. References chat_groups; SET NULL so deleting a group keeps its chats.
     groupId: text("group_id"),
     ...syncableTimestamps(),
   },
@@ -135,7 +114,6 @@ export const conversations = sqliteTable(
   ],
 );
 
-// Sidebar chat groups (folders): global per user, user-named + ordered + collapsible. Local-first.
 export const chatGroups = sqliteTable(
   "chat_groups",
   {
@@ -181,9 +159,6 @@ export const messages = sqliteTable(
     isEdited: integer("is_edited", { mode: "boolean" })
       .notNull()
       .default(false),
-    // Per-branch chat-variable snapshot (JSON map) taken AFTER this turn's triggers/macros ran. Assembly
-    // seeds vars from the active tip's branchVars (falling back to conversations.vars), so sibling swipes
-    // don't leak each other's setvar state. null = inherit the conversation-level vars (pre-branch-vars rows).
     branchVars: text("branch_vars"),
     ...timestamps(),
   },
@@ -214,11 +189,9 @@ export const messageItems = sqliteTable(
   ],
 );
 
-// One row per assistant msg: request, system prompt, messages, headers, usage. Cascades; PK=msgId.
 export const requestLogs = sqliteTable(
   "request_logs",
   {
-    // No FK to messages: the server writes this at stream finish, before the client pushes the message row. convId cascade cleans up.
     msgId: text("msg_id").primaryKey(),
     convId: text("conv_id")
       .notNull()
@@ -229,8 +202,6 @@ export const requestLogs = sqliteTable(
     responseHeaders: text("response_headers", { mode: "json" }),
     droppedParams: text("dropped_params"),
     requestId: text("request_id"),
-    // Upstream HTTP target this request hit: full url + the bare endpoint path (e.g. /v1/images/generations).
-    // Drives an accurate "copy as curl" for both text and media paths.
     url: text("url"),
     endpoint: text("endpoint"),
     inputTokens: integer("input_tokens"),
@@ -247,7 +218,6 @@ export const requestLogs = sqliteTable(
   ],
 );
 
-// SillyTavern-compatible.
 export const characters = sqliteTable(
   "characters",
   {
@@ -256,15 +226,12 @@ export const characters = sqliteTable(
       .$defaultFn(() => uid()),
     userId: integer("user_id").notNull(),
     name: text("name").notNull(),
-    // FK to media (asymmetric base64/R2 rule).
     avatarMediaId: text("avatar_media_id"),
-    // FK to media; rendered behind the chat when this character is primary.
     backgroundMediaId: text("background_media_id"),
     description: text("description"),
     personality: text("personality"),
     scenario: text("scenario"),
     firstMessage: text("first_message"),
-    // Card-spec alternate_greetings; conversation firstMsgIndex picks one.
     alternateGreetings: text("alternate_greetings", {
       mode: "json",
     }).$type<string[]>(),
@@ -273,11 +240,8 @@ export const characters = sqliteTable(
     postHistoryInstructions: text("post_history_instructions"),
     defaultReasoningEffort: text("default_reasoning_effort"),
     tags: text("tags", { mode: "json" }).$type<string[]>(),
-    // RisuAI triggerscript[] (V2 effect VM). Keyword turn-gating moved to turn_triggers, so this column carries the programs.
     triggers: text("triggers", { mode: "json" }),
-    // Keyword array for multi-character turn-gating (non-primary chars).
     turnTriggers: text("turn_triggers", { mode: "json" }).$type<string[]>(),
-    // RisuAI customscript / SillyTavern regex scripts (in/out/type/flag array).
     regexScripts: text("regex_scripts", { mode: "json" }),
     alwaysActive: integer("always_active", { mode: "boolean" })
       .notNull()
@@ -302,10 +266,8 @@ export const personas = sqliteTable(
       .$defaultFn(() => uid()),
     userId: integer("user_id").notNull(),
     name: text("name").notNull(),
-    // Display-only label to tell same-named personas apart; NEVER sent to the model ({{user}} = name).
     title: text("title"),
     description: text("description"),
-    // FK to media (asymmetric base64/R2 rule).
     avatarMediaId: text("avatar_media_id"),
     isDefault: integer("is_default", { mode: "boolean" })
       .notNull()
@@ -351,7 +313,6 @@ export const lorebookEntries = sqliteTable(
     lorebookId: text("lorebook_id")
       .notNull()
       .references(() => lorebooks.id, { onDelete: "cascade" }),
-    // Non-AI display name (SillyTavern/RisuAI `comment`). Identifies the entry in the UI; never sent to the model.
     comment: text("comment"),
     keys: text("keys", { mode: "json" }).notNull().$type<string[]>(),
     secondaryKeys: text("secondary_keys", { mode: "json" }).$type<string[]>(),
@@ -394,12 +355,9 @@ export const samplingPresets = sqliteTable(
     presencePenalty: real("presence_penalty"),
     repetitionPenalty: real("repetition_penalty"),
     maxTokens: integer("max_tokens"),
-    // Preset-level defaults; the conversation's own value overrides per chat. null is the system default.
     streamingEnabled: integer("streaming_enabled", { mode: "boolean" }),
     showReasoning: integer("show_reasoning", { mode: "boolean" }),
     chatMemory: integer("chat_memory"),
-    // Agent feature defaults (Risu subModel/seperateModels parity): a chat inherits these from its bound
-    // preset unless it sets its own per-chat override. null = unset (chat falls back to its own default).
     utilityModel: text("utility_model"),
     memoryEnabled: integer("memory_enabled", { mode: "boolean" }),
     imageEnabled: integer("image_enabled", { mode: "boolean" }),
@@ -412,7 +370,6 @@ export const samplingPresets = sqliteTable(
     promptTemplate: text("prompt_template"),
     mainPrompt: text("main_prompt"),
     postHistory: text("post_history"),
-    // "system" | "user"; null = system.
     postHistoryRole: text("post_history_role"),
     prefill: text("prefill"),
     forceAlternateRoles: integer("force_alternate_roles", { mode: "boolean" })
@@ -451,7 +408,6 @@ export const conversationCharacters = sqliteTable(
       .references(() => characters.id, { onDelete: "cascade" }),
     orderIndex: integer("order_index").notNull().default(0),
     isActive: integer("is_active", { mode: "boolean" }).notNull().default(true),
-    // [0,1] talkativeness weight for non-mentioned group turn ordering.
     talkness: real("talkness"),
     overrides: text("overrides", { mode: "json" }),
     createdAt: createdAtCol(),
@@ -544,7 +500,6 @@ export const userThemes = sqliteTable(
   (table) => [index("idx_theme_sync_expires").on(table.syncExpiresAt)],
 );
 
-// Generic blob store. Asymmetric: client writes inline base64; server-side path uploads to R2 and keeps only the pointer.
 export const media = sqliteTable(
   "media",
   {
@@ -552,11 +507,9 @@ export const media = sqliteTable(
       .primaryKey()
       .$defaultFn(() => uid()),
     userId: integer("user_id").notNull(),
-    // convId set for chat messages (cascade). Avatars + top-level media leave null.
     convId: text("conv_id").references(() => conversations.id, {
       onDelete: "cascade",
     }),
-    // playgroundId/batchPos/upstreamUrl set for gen images.
     playgroundId: text("playground_id").references(() => playgrounds.id, {
       onDelete: "cascade",
     }),
@@ -570,7 +523,6 @@ export const media = sqliteTable(
     width: integer("width"),
     height: integer("height"),
     extractedText: text("extracted_text"),
-    // Illustrator: the written image prompt that generated this media (verify/regenerate UI).
     promptText: text("prompt_text"),
     createdAt: createdAtCol(),
   },
@@ -660,16 +612,6 @@ export type Media = typeof media.$inferSelect;
 export type PlaygroundSession = typeof playgroundSessions.$inferSelect;
 export type Playground = typeof playgrounds.$inferSelect;
 
-// Model-authenticity tester, NORMALIZED: provider -> model -> test -> probe.
-// ONE shared definition for BOTH databases. The CLIENT (SQLocal) holds a user's
-// PRIVATE local test history (userId = the real user). The SERVER (Turso) holds
-// the PUBLIC rankings board: rows the server itself verified (verifiedAt set),
-// written with userId = GUEST_USER_ID (0) so the unique (userId, kind, host) key
-// stays effectively (kind, host) globally on the server while keeping per-user
-// isolation on the client. Client reads filter userId; server reads filter
-// verifiedAt IS NOT NULL. publishedAt is client-side (user marked to share);
-// submitter*/verifiedAt + denormalized kind/baseUrlHost/requestedModel are
-// server-side (aggregation + attribution). Columns unused by one side stay null.
 export const testerProviders = sqliteTable(
   "tester_providers",
   {
@@ -746,10 +688,7 @@ export const testerTests = sqliteTable(
       .notNull()
       .default(false),
     testedAt: integer("tested_at", { mode: "timestamp_ms" }).notNull(),
-    // Client-side: user marked a local test to share.
     publishedAt: integer("published_at", { mode: "timestamp_ms" }),
-    // Server-side: who published + whether the server itself verified it, plus
-    // denormalized lookup fields for the board's aggregation queries.
     submitterUserId: integer("submitter_user_id"),
     submitterUsername: text("submitter_username"),
     verifiedAt: integer("verified_at", { mode: "timestamp_ms" }),
@@ -777,8 +716,6 @@ export const testerTests = sqliteTable(
   ],
 );
 
-// Per-probe transparency. prompt + responseText are public on the board on
-// purpose (open-source prompts, capped model answers, no key/user data).
 export const testerProbes = sqliteTable(
   "tester_probes",
   {

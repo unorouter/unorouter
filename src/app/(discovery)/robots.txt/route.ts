@@ -15,9 +15,6 @@ function localizedPath(
   return `/${locale}${parent}${isDynamic ? "/" : ""}`;
 }
 
-// Static rules are end-anchored ($) plus a subtree rule (/): a bare prefix rule
-// swallows unrelated public routes that merely share the prefix (GSC caught
-// /hi/login blocked by /hi/log and /id/playground-saya by /id/playground).
 function buildDisallowList(): string[] {
   const disallow = new Set<string>(["/api/"]);
   for (const route of privateRoutes.static) {
@@ -35,9 +32,6 @@ function buildDisallowList(): string[] {
   return Array.from(disallow).sort();
 }
 
-// Public marketing pages under a disallowed dynamic parent (e.g. /chat/presets
-// under the /chat/ conversation Disallow). Allow wins over Disallow for equal or
-// longer path matches in the Google/Bing evaluation model.
 function buildAllowList(): string[] {
   const allow = new Set<string>();
   for (const route of privateRoutes.publicChildren) {

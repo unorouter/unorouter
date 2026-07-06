@@ -2,9 +2,7 @@ import type { TranslationKey } from "./constants";
 
 type WebMcpToolResult = {
   path: string;
-  // Substituted into resultKey {target} templates (open_model, open_docs).
   target?: string;
-  // Override default resultKey for special cases (missing input, no-slug index branch).
   resultKey?: TranslationKey;
 };
 

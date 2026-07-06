@@ -1,8 +1,6 @@
 import { msg } from "@/lib/config/constants";
 import { safeFetchBytes, safeFetchRaw } from "@/lib/config/r2";
 
-// Endpoint bases (the verified public hosts). Kept here so they are easy to
-// retarget if a source rebrands (JannyAI already migrated .me -> .com once).
 const JANNY_API_BASE =
   process.env.JANNY_API_BASE ?? "https://api.jannyai.com/api/v1";
 const CHUB_AVATAR_BASE =
@@ -44,8 +42,6 @@ function toResult(buffer: Buffer, contentType: string | null): ImportedCard {
   };
 }
 
-// JanitorAI/JannyAI: POST the UUID to the JannyAI download API (returns JSON
-// {downloadUrl}), then fetch the PNG. UUID must be stripped of any _slug.
 async function importJanitor(href: string): Promise<ImportedCard> {
   const id = UUID_RE.exec(href)?.[0].toLowerCase();
   if (!id) throw new Error(msg("ERRORS.CARD_IMPORT_INVALID_URL"));
@@ -84,7 +80,6 @@ async function importJanitor(href: string): Promise<ImportedCard> {
   return toResult(png.buffer, png.contentType);
 }
 
-// Chub: /characters/<author>/<slug> -> the ready V2 card PNG on charhub.io.
 async function importChub(url: URL): Promise<ImportedCard> {
   const parts = url.pathname.split("/").filter(Boolean);
   const idx = parts.indexOf("characters");
@@ -98,7 +93,6 @@ async function importChub(url: URL): Promise<ImportedCard> {
   return toResult(png.buffer, png.contentType);
 }
 
-// RisuRealm: /character/<uuid> -> png-v3 download (dual-spec card).
 async function importRisu(href: string): Promise<ImportedCard> {
   const id = UUID_RE.exec(href)?.[0].toLowerCase();
   if (!id) throw new Error(msg("ERRORS.CARD_IMPORT_INVALID_URL"));
@@ -109,10 +103,6 @@ async function importRisu(href: string): Promise<ImportedCard> {
   return toResult(png.buffer, png.contentType);
 }
 
-// Resolve a pasted link to card bytes (base64). Detects the source by host and
-// proxies the fetch server-side (SSRF-guarded), so the client never deals with
-// CORS and the chat data stays local. A non-recognized http(s) URL is fetched
-// directly (a raw card PNG/JSON), letting the client parser validate it.
 export async function importCardFromUrl(input: string): Promise<ImportedCard> {
   const trimmed = input.trim();
   let url: URL;
@@ -130,7 +120,6 @@ export async function importCardFromUrl(input: string): Promise<ImportedCard> {
   if (CHUB_HOSTS.has(host)) return importChub(url);
   if (RISU_HOSTS.has(host)) return importRisu(url.href);
 
-  // Direct card URL (e.g. a raw PNG/JSON on github/discord/charhub).
   const direct = await safeFetchBytes(url.href, MAX_CARD_BYTES);
   return toResult(direct.buffer, direct.contentType);
 }

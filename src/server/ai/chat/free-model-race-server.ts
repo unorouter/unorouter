@@ -1,5 +1,3 @@
-// Server-side wiring for the isomorphic freeModelRace: getProvider + generateText + the catalog free-model list.
-
 import type {
   FreeModelGenerate,
   FreeModelRaceArgs,
@@ -9,7 +7,6 @@ import { getProvider } from "@/server/constants";
 import { serverEnv } from "@/server/env";
 import { generateText } from "ai";
 
-// Builds the injected deps freeModelRace needs from a server apiKey (guest key fallback).
 export function serverFreeModelRaceDeps(
   apiKey: string,
 ): Pick<FreeModelRaceArgs, "listFreeModels" | "generate"> {

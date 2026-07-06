@@ -77,7 +77,6 @@ export function DateTimeRangePicker(props: DateTimeRangePickerProps) {
       >
         <Icon name="calendar" className="h-3.5 w-3.5 shrink-0 opacity-50" />
         {hasRange ? (
-          // Stack the two dates on narrow screens, single inline row from sm up.
           <span className="flex flex-col items-start gap-x-1.5 sm:flex-row sm:items-center">
             <span className="whitespace-nowrap">{fromLabel}</span>
             <span className="whitespace-nowrap">

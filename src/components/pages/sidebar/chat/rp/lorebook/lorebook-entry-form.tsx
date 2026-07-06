@@ -44,7 +44,6 @@ const INJECTION_ROLE_LABEL_KEY: Record<LorebookInjectionRole, TranslationKey> =
     assistant: "RP.LOREBOOK_ENTRY_INJECTION_ROLE_ASSISTANT",
   };
 
-// Pull leading @@probability/@@scan_depth out of content for the form; other decorators stay raw-edited. scanDepth 0 = book default.
 function splitDecorators(content: string): {
   content: string;
   probability: number;
@@ -53,7 +52,6 @@ function splitDecorators(content: string): {
   let rest = content;
   let probability = 100;
   let scanDepth = 0;
-  // Decorators may lead in either order; consume known ones until none match.
   let matched = true;
   while (matched) {
     matched = false;
@@ -73,7 +71,6 @@ function splitDecorators(content: string): {
   return { content: rest, probability, scanDepth };
 }
 
-// Re-embed: probability only when < 100 (an actual gate), scanDepth only when > 0.
 function embedDecorators(
   content: string,
   probability: number,
@@ -89,7 +86,6 @@ function embedDecorators(
 
 export function LorebookEntryForm(props: {
   lorebookId: string;
-  // "new" for a fresh entry, else the entry being edited.
   editingId: string;
   entry: LorebookEntryRow | null;
   onDone: () => void;
@@ -98,7 +94,6 @@ export function LorebookEntryForm(props: {
   const createMut = useCreateLorebookEntryMutation(props.lorebookId);
   const updateMut = useUpdateLorebookEntryMutation(props.lorebookId);
 
-  // values syncs the row on settle; keepDirtyValues protects in-progress typing. Split decorators into fields; keys edit comma-joined.
   const entry = props.entry;
   const split = splitDecorators(entry?.content ?? "");
   const formValues = entry
@@ -114,11 +109,9 @@ export function LorebookEntryForm(props: {
     : undefined;
   const form = useRpForm(lorebookEntryFormSchema, formValues);
 
-  // Form hook outlives entry switches; explicit reset per switch, keepDirtyValues only guards refetches while editing one entry.
   const reset = form.reset;
   useEffect(() => {
     reset(formValues ?? formDefaults(lorebookEntryFormSchema));
-    // seed exactly once per entry switch
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.editingId, reset]);
 
@@ -129,7 +122,6 @@ export function LorebookEntryForm(props: {
     const secondary = csvToArray(data.secondaryKeys);
     const body = {
       ...data,
-      // Empty comment stored as null (no display name).
       comment: data.comment.trim() || null,
       content: embedDecorators(
         data.content,
@@ -140,7 +132,6 @@ export function LorebookEntryForm(props: {
       secondaryKeys: secondary.length > 0 ? secondary : null,
       injectionRole: data.injectionRole,
     };
-    // probability + entryScanDepth are form-only; they now live inside content.
     delete (body as { probability?: number }).probability;
     delete (body as { entryScanDepth?: number }).entryScanDepth;
     if (props.editingId === "new") {

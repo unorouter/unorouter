@@ -1,7 +1,5 @@
 "use client";
 
-// Cross-tab single-holder locks via Web Locks: atomic acquisition, the browser auto-releases when the holding tab dies, no TTL/heartbeat.
-
 const held = new Map<string, () => void>();
 
 const supported = () =>
@@ -17,7 +15,6 @@ export function acquireLock(key: string): Promise<boolean> {
           resolveAcquire(false);
           return;
         }
-        // Hold until releaseLock resolves this promise.
         return new Promise<void>((resolveHold) => {
           held.set(key, resolveHold);
           resolveAcquire(true);

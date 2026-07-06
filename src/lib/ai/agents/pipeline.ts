@@ -1,7 +1,3 @@
-// 3-phase runner. Agents in a phase run concurrently; a throwing agent yields noop (best-effort, matches
-// the existing memory/trigger posture). Each agent owns its own LLM call (Uno races free models, so there
-// is no provider+model batching to do, unlike Marinara).
-
 import {
   RESULT_CAPABILITY,
   type AgentContext,
@@ -13,7 +9,6 @@ import {
 
 export type ResolvedAgent = { def: AgentDefinition; settings: AgentSettings };
 
-// Drop a result the agent isn't allowed to produce to noop (it can't have declared the capability).
 function gate(def: AgentDefinition, result: AgentResult): AgentResult {
   const needed = RESULT_CAPABILITY[result.type];
   if (needed && !def.capabilities.includes(needed)) return { type: "noop" };

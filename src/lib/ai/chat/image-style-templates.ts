@@ -1,8 +1,3 @@
-// Illustrator prompt-writer instruction templates (Marinara style-profile parity, adapted to our
-// instruction-based pipeline: each template IS a full prompt-writer instruction, not tag concatenation).
-// Picking one fills the promptInstruction field; the user edits from there. Instructions stay English
-// (they are sent to the LLM, never rendered).
-
 import { msg, type TranslationKey } from "@/lib/config/constants";
 
 export type ImageStyleTemplate = {

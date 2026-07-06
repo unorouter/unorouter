@@ -18,7 +18,6 @@ import {
 import type { ModelSamplerMemory } from "@/store/chat-store";
 import type { UseFormReturn } from "react-hook-form";
 
-// `none` is a runtime-only sentinel handled by the picker's leadingOptions.
 export const REASONING_EFFORT_KEY: Record<
   Exclude<ReasoningEffort, "none">,
   TranslationKey
@@ -52,12 +51,10 @@ export function resetSampling(form: UseFormReturn<ConversationOverridesForm>) {
   }
 }
 
-// Source for samplingValues: only the sampler slider keys, each nullable.
 type SamplerSource = Partial<
   Record<(typeof SAMPLING_FIELDS)[number], number | null | undefined>
 >;
 
-// Sampler slider values, null when unset. Shared by form reset/build paths.
 function samplingValues(src: SamplerSource) {
   return {
     temperature: src.temperature ?? null,
@@ -72,8 +69,6 @@ function samplingValues(src: SamplerSource) {
   };
 }
 
-// Sampler display values resolved against the bound preset (conv -> preset -> null),
-// so a preset-bound chat's sliders show the preset's values instead of blanks.
 function resolveSamplingFromPreset(
   src: SamplerSource,
   preset: InheritSource | null,
@@ -102,7 +97,6 @@ export function writeSamplerMemory(
   });
 }
 
-// Defaults mode: chat-defaults atom layered with the model's remembered sampler values.
 function buildDefaultsForm(
   chatDefaults: StreamOverrides,
   modelMemory: ModelSamplerMemory,
@@ -127,7 +121,6 @@ function buildDefaultsForm(
     reasoningEffort: (modelMemory.reasoningEffort ??
       chatDefaults.reasoningEffort ??
       NONE_VALUE) as ReasoningEffort,
-    // null = inherit the bound preset (no per-chat override).
     chatMemory: chatDefaults.chatMemory ?? null,
     authorNoteDepth: chatDefaults.authorNoteDepth ?? 4,
     systemPromptOverride: chatDefaults.systemPromptOverride ?? "",
@@ -158,9 +151,6 @@ type ConvBindings = {
   lorebooks: { lorebookId: string }[];
 };
 
-// Inherited values resolve conv override -> preset; the drawer shows the effective
-// (inherited) value so a preset-bound chat reads its preset, not a blank default.
-// Booleans also fall back to true; sampling/chatMemory stay null (= system default).
 type InheritSource = {
   streamingEnabled?: boolean | null;
   showReasoning?: boolean | null;
@@ -175,7 +165,6 @@ function resolveBool(
   return convValue ?? presetValue ?? true;
 }
 
-// Sampler/chatMemory inherit chain for DISPLAY: conv override, else preset, else null.
 function resolveNum(
   convValue: number | null | undefined,
   presetValue: number | null | undefined,
@@ -183,7 +172,6 @@ function resolveNum(
   return convValue ?? presetValue ?? null;
 }
 
-// Conv mode: seed form from persisted settings + bindings; narrow text columns.
 function buildSettingsForm(
   settings: ConvSettings,
   bindings: ConvBindings,
@@ -196,7 +184,6 @@ function buildSettingsForm(
       settings.reasoningEffort,
       NONE_VALUE,
     ),
-    // Inherited from the bound preset for display; null conv value shows the preset's.
     chatMemory: resolveNum(settings.chatMemory, preset?.chatMemory),
     authorNoteDepth: settings.authorNoteDepth ?? 4,
     systemPromptOverride: settings.systemPromptOverride ?? "",
@@ -225,7 +212,6 @@ function buildSettingsForm(
   };
 }
 
-// Seed by mode: defaults atom or persisted conv rows. Undefined while loading = RHF keeps current.
 export function computeFormValues(args: {
   isDefaultsMode: boolean;
   chatDefaults: StreamOverrides;
@@ -245,7 +231,6 @@ export function computeFormValues(args: {
   return buildSettingsForm(args.settings, args.bindings, args.preset);
 }
 
-// Defaults mode submit payload: the StreamOverrides written to the atom.
 export function buildDefaultsOverrides(
   data: ConversationOverridesForm,
 ): StreamOverrides {
@@ -265,7 +250,6 @@ export function buildDefaultsOverrides(
   };
 }
 
-// null (inherit live preset) when the value still matches the inherited one, else explicit override.
 function overrideOrInherit(
   formValue: boolean | null | undefined,
   presetValue: boolean | null | undefined,
@@ -275,10 +259,6 @@ function overrideOrInherit(
   return formValue === inherited ? null : formValue;
 }
 
-// A set sampler slider persists its EXPLICIT value (so it survives refresh + later preset edits); only a
-// genuinely-unset (null) slider stores null = inherit the preset. Previously a value matching the preset
-// collapsed to null, which made maxTokens "default" on refresh when the preset later differed/unbound.
-// presetValue is unused now but kept in the signature so call sites (samplingOverrides) stay uniform.
 function numOverrideOrInherit(
   formValue: number | null | undefined,
   _presetValue: number | null | undefined,
@@ -286,7 +266,6 @@ function numOverrideOrInherit(
   return formValue ?? null;
 }
 
-// Sampler save payload: each field null when it still matches the inherited preset.
 function samplingOverrides(
   data: ConversationOverridesForm,
   preset: InheritSource | null,
@@ -298,7 +277,6 @@ function samplingOverrides(
   return out;
 }
 
-// Conversation mode submit payload: the conversation_settings update body.
 export function buildSettingsBody(
   data: ConversationOverridesForm,
   preset: InheritSource | null,
@@ -331,7 +309,6 @@ export function buildSettingsBody(
   };
 }
 
-// Form owns membership + order; isActive/overrides preserved from existing rows.
 type ExistingCharBinding = Pick<
   typeof conversationCharacters.$inferSelect,
   "characterId" | "isActive" | "overrides"

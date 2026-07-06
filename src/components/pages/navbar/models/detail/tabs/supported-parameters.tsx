@@ -18,8 +18,6 @@ type Props = {
   className?: string;
 };
 
-// Rows = union of params any provider serving this model accepts; the badge says whether that
-// holds for every provider (intersection) or depends on routing.
 export function SupportedParameters(props: Props) {
   const t = useTranslations();
   const meta = props.metadata;

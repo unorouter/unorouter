@@ -53,7 +53,6 @@ type PivotPoint = {
   value: number;
 };
 
-// Handles unix seconds, ISO strings, falls back to 0.
 function tsToSortable(ts: string): number {
   const asNumber = Number(ts);
   if (Number.isFinite(asNumber)) return asNumber;
@@ -62,7 +61,6 @@ function tsToSortable(ts: string): number {
   return 0;
 }
 
-// Rows sorted by min ts per label so the time axis stays monotonic regardless of upstream ordering.
 export function pivotSeries(
   points: readonly PivotPoint[],
   keys: readonly string[],

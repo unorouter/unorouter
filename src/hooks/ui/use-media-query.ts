@@ -4,7 +4,6 @@ import { useSyncExternalStore } from "react";
 
 type MediaQuery = string | number;
 
-/** CSS media query; false during SSR/first paint. */
 export function useMediaQuery(query: MediaQuery): boolean {
   const q = String(query);
   return useSyncExternalStore(

@@ -45,7 +45,6 @@ export const app = new Elysia({ prefix: "/api" })
           },
         },
         servers: [{ url: `${env.siteOrigin}/api` }],
-        // MPP service metadata (paymentauth.org draft-payment-discovery-00); pairs with per-op x-payment-info on /billing/*-pay.
         ...{
           "x-service-info": {
             categories: ["ai", "developer-tools"],

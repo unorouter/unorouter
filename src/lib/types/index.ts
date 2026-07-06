@@ -48,7 +48,6 @@ type MessageUsage = {
   tokensPerSecond?: number;
 };
 
-// messageMetadata finish-frame; derived from RequestLogRow so wire shape can't drift.
 type RequestLogPayload = Omit<
   RequestLogRow,
   | "msgId"
@@ -61,25 +60,19 @@ type RequestLogPayload = Omit<
   | "tokensPerSecond"
 >;
 
-// Mirror of the `messageMetadata` shape emitted by the chat finish frame.
 export type ChatMessageMetadata = {
   usage?: MessageUsage;
   droppedParams?: string;
   debug?: RequestLogPayload;
-  // Serialized chat-variable map, emitted when setvar/addvar changed it. The history adapter persists it to conv vars.
   vars?: string;
-  // Serialized per-user global-variable map (setglobalvar). The history adapter persists it to the global store.
   globalVars?: string;
-  // Rolling-summary update: the running summary + how many leading messages it covers. Persisted to summaryMemory.
   summary?: { summary: string; anchor: number };
-  // runImgGen inlay bytes generated server-side; the adapter persists them as local media rows for {{inlay::id}}.
   inlayMedia?: {
     id: string;
     dataBase64: string;
     mimeType: string;
     sizeBytes: number;
   }[];
-  // Which character spoke (multi-character rotation). Rides the finish frame since the loop clears the atom before persist.
   speakingCharacterId?: string;
 };
 
@@ -87,7 +80,6 @@ export type ChatUIMessage = UIMessage<ChatMessageMetadata>;
 
 export type EditorState = { mode: "list" } | { mode: "edit"; id?: string };
 
-// A generated playground image resolved for rendering: src is a data URI (base64 priority) or the R2 URL fallback.
 export type PlaygroundImageView = {
   id: string;
   sequenceIndex: number;
@@ -97,7 +89,6 @@ export type PlaygroundImageView = {
   height: number | null;
 };
 
-// Playground snapshot + resolved images. Loose params for legacy rows.
 export type SnapshotView = {
   id: string;
   sessionId: string;
@@ -119,10 +110,8 @@ export type SnapshotView = {
   images: PlaygroundImageView[];
 };
 
-// RP entity-page selection: id, "new", or null.
 export type EntityEditId = string | "new" | null;
 
-// Two-factor-auth dialog mode, shared by the settings card and its dialog.
 export type TwoFAMode = "setup" | "disable";
 
 type MigrationEntry = { tag: string; sql: string };
@@ -130,7 +119,6 @@ export type MigrationManifest = { migrations: MigrationEntry[] };
 
 export type LocalDb = SqliteRemoteDatabase<typeof shared & typeof client>;
 
-// drizzle-proxy returns tuples only; LocalDbStudio needs rows+columns.
 export type LocalRawExec = (
   sql: string,
   params: unknown[],
@@ -141,7 +129,6 @@ export type LocalRawExec = (
   numAffectedRows?: number;
 }>;
 
-// Minimal peer for cross-DB copies (salvage): exec only.
 export type CopyPeer = { exec: LocalRawExec };
 
 export type LocalClient = {
@@ -184,7 +171,6 @@ export type CopyResult = {
   tables: string[];
 };
 
-// makeTableStore (src/lib/db/client/data/table-store.ts).
 export type ScopedTable = SQLiteTable & { userId?: SQLiteColumn };
 export type StoreListOpts = {
   orderBy?: SQL | SQLiteColumn;
@@ -208,13 +194,10 @@ export function isSearchDoc(doc: unknown): doc is SearchResult {
   return typeof d.title === "string" && typeof d.url === "string";
 }
 
-// Generic loose-shape bundle inputs (sqlite-proxy cast boundary). Co-located for assembler + lorebook selectors.
 export type LocalAnyRow = Record<string, unknown> & { id: string };
 export type LocalChildRow = Record<string, unknown>;
 export type LocalRowInput = Record<string, unknown>;
 
-// Structural definition for the assembled conversation context. `buildContextFromClient` produces this
-// exact shape from the client-supplied ChatContext (the browser is the sole source of truth).
 export type LoadedConvContext = {
   settings: ConversationSettingsProjection;
   boundCharacters: {
@@ -248,7 +231,6 @@ export type LbRow = LoadedConvContext extends infer T
     : never
   : never;
 
-// Outside config/constants.ts: env.ts ParamError throws at module load (import cycle).
 export class ParamError extends Error {
   public readonly params: Record<string, string | number>;
   constructor(key: TranslationKey, params: Record<string, string | number>) {
@@ -258,7 +240,6 @@ export class ParamError extends Error {
   }
 }
 
-// Static doc slugs only: the /docs/[slug] template is excluded so DocSlug stays a subset of SeoTimestampSlug.
 export type DocSlug = keyof typeof pathnames extends infer K
   ? K extends `/${infer R extends `docs/${string}`}`
     ? R extends `${string}[${string}`
@@ -269,7 +250,6 @@ export type DocSlug = keyof typeof pathnames extends infer K
 
 type PostLeaf = "TITLE" | "DESCRIPTION" | "AUTHOR";
 
-// Translation-key prefixes with every PostLeaf under them.
 type PostI18nKey = {
   [K in TranslationKey]: K extends `${infer P}.${PostLeaf}`
     ? `${P}.TITLE` extends TranslationKey
@@ -335,12 +315,9 @@ type DocI18nPrefix = {
 }[TranslationKey];
 
 export type DocEntry = {
-  // path.slice(1) for the static /docs index; docs/${guide.slug} for guides on the /docs/[slug] route.
   slug: string;
-  // A static route ("/docs") or a dynamic href ({ pathname, params }). getPathname/localeUrl resolve both.
   path: Pathname;
   i18nPrefix: DocI18nPrefix;
-  // Drive published/modified timestamps via git history.
   contentFiles: readonly string[];
   priority: number;
   changeFrequency: ChangeFrequency;
@@ -360,7 +337,6 @@ export type BlogEntry = {
   heroImage?: string;
 };
 
-// On-disk conversation export envelopes. Untrusted JSON: every field optional, cast at the importer.
 export type ExportRow = Record<string, unknown> & { id: string };
 
 export type NativeImport = {

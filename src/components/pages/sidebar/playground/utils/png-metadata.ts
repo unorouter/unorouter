@@ -1,5 +1,3 @@
-// ComfyUI: `prompt`=API graph, `workflow`=editor; A1111/Forge/SwarmUI: `parameters`. Only plain tEXt handled.
-
 const PNG_SIGNATURE = [137, 80, 78, 71, 13, 10, 26, 10] as const;
 
 function bytesEqual(a: Uint8Array, b: readonly number[], offset = 0): boolean {
@@ -21,7 +19,6 @@ function readPngTextChunks(buffer: ArrayBuffer): Record<string, string> | null {
   const decoder = new TextDecoder("latin1");
   const out: Record<string, string> = {};
 
-  // chunk: length(4) | type(4) | data | crc(4)
   let cursor = 8;
   while (cursor + 8 <= bytes.length) {
     const dataLength = readUint32BE(view, cursor);
@@ -33,7 +30,6 @@ function readPngTextChunks(buffer: ArrayBuffer): Record<string, string> | null {
 
     if (type === "tEXt") {
       const data = bytes.slice(dataStart, dataEnd);
-      // tEXt: keyword(Latin-1)\0 text(Latin-1)
       const nullIdx = data.indexOf(0);
       if (nullIdx > 0) {
         const keyword = decoder.decode(data.slice(0, nullIdx));
@@ -78,7 +74,6 @@ function asString(v: unknown): string | undefined {
   return typeof v === "string" && v.length > 0 ? v : undefined;
 }
 
-// First CLIPTextEncode = positive, second = negative (graph doesn't tag).
 function extractFromComfyGraph(graph: unknown): RestoredFromPng {
   if (!graph || typeof graph !== "object") return {};
   const g = graph as ComfyGraph;
@@ -100,7 +95,6 @@ function extractFromComfyGraph(graph: unknown): RestoredFromPng {
       out.sampler ??= asString(inputs.sampler_name);
       out.scheduler ??= asString(inputs.scheduler);
     } else if (cls === "RandomNoise") {
-      // Flux 2 graphs use RandomNoise instead of KSampler for the seed.
       out.seed ??= asNumber(inputs.noise_seed);
     } else if (cls === "FluxGuidance") {
       out.guidance ??= asNumber(inputs.guidance);
@@ -129,7 +123,6 @@ export async function extractMetadataFromPngFile(
   const chunks = readPngTextChunks(buffer);
   if (!chunks) return null;
 
-  // Prefer API graph (`prompt`); editor graph (`workflow`) uses untargeted field names.
   const promptChunk = chunks.prompt ?? chunks.workflow;
   if (!promptChunk) return null;
 

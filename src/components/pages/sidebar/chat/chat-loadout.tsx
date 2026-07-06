@@ -30,7 +30,6 @@ import { useTranslations } from "next-intl";
 
 type NamedEntity = { id: string; name: string; title?: string | null };
 
-// Personas carry a display title (never sent to the model); prefer it in pickers so same-named personas are distinguishable.
 const entityLabel = (o: NamedEntity) => o.title || o.name;
 
 function EntityPicker(props: {
@@ -88,7 +87,6 @@ function MultiPicker(props: {
         multiple
         value={props.value}
         onValueChange={(next) => props.onChange(next as string[])}
-        // Items are ids; filter + input display must use the NAME, else typing matches against uuids.
         itemToStringLabel={(id) => lookup.get(id) ?? id}
       >
         <ComboboxChips>
@@ -119,7 +117,6 @@ function MultiPicker(props: {
   );
 }
 
-// Loadout panel on the empty chat: edits the sticky chatLoadoutAtom seeded into every new conversation.
 export function ChatLoadout() {
   const t = useTranslations();
   const [loadout, setLoadout] = useAtom(chatLoadoutAtom);
@@ -131,7 +128,6 @@ export function ChatLoadout() {
   const patch = (next: Partial<ChatLoadout>) =>
     setLoadout({ ...loadout, ...next });
 
-  // Nothing to equip yet: hide the panel so a fresh user isn't shown four empty dropdowns; appears once they create any RP entity.
   const hasNothing =
     (presets?.length ?? 0) === 0 &&
     (personas?.length ?? 0) === 0 &&

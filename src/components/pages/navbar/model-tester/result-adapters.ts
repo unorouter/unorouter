@@ -2,7 +2,6 @@ import type { ResultCardData } from "./test-result-card";
 import type { TestResultDetail } from "@/lib/api/typebox/model-tester";
 import type { VerifyResult } from "@/lib/ai/verify/types";
 
-// Live result from the runner -> card data.
 export function fromVerifyResult(r: VerifyResult): ResultCardData {
   return {
     model: r.model,
@@ -36,10 +35,6 @@ export function fromVerifyResult(r: VerifyResult): ResultCardData {
   };
 }
 
-// The ONE stored-detail -> card-data adapter, fed by the SHARED TestResultDetail
-// shape that BOTH the local history read and the server published-test read now
-// return. The stored detail has no reasons array, so the evidence line is rebuilt
-// from the failing probes' reason.
 export function toResultCardData(detail: TestResultDetail): ResultCardData {
   const reasons = detail.probes
     .filter((p) => !p.pass && p.reason)

@@ -4,7 +4,6 @@ import { cn } from "@/lib/utils";
 
 interface StatusIconProps extends React.ComponentProps<"div"> {
   status?: StatusType;
-  // default=Status; banner=StatusBanner; component=StatusComponent.
   variant?: "default" | "banner" | "component";
 }
 

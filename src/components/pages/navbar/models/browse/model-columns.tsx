@@ -30,18 +30,12 @@ import type { ColumnDef } from "@tanstack/react-table";
 
 function fmtUnit(value: number, unit: PriceUnit, perCall?: boolean): string {
   if (unit === "dash" || value <= 0) return "-";
-  // Image fixed-price is per generated image, video per second; only other fixed fees are /call.
   if (unit === "perImage") return `${formatPrice(value)}/img`;
   if (unit === "perSecond") return `${formatPrice(value)}/s`;
   if (perCall) return `${formatPrice(value)}/call`;
   return formatPrice(value);
 }
 
-// Fixed-price (quotaType >= 1) models charge a flat fee, not per-token. The
-// input column dashes for image/video (its unit is "dash"), so route the flat
-// fee to whichever column actually renders a unit: output (per-img) for image/
-// video, input (/call) otherwise. The other column dashes so the flat fee never
-// shows twice or reads as an impossibly-cheap per-token rate.
 function fixedPriceSide(m: ProcessedModel): "input" | "output" {
   const modality = deriveOutputModality(m);
   return modality === "image" || modality === "video" ? "output" : "input";
@@ -89,7 +83,6 @@ function PriceCell(props: {
   );
 }
 
-// offLabel is passed in so columns stay render-pure; rankMap joins weekly-token volume from the rankings endpoint.
 export function buildModelColumns(opts: {
   rankMap: Map<string, RankedModel>;
   offLabel: (pct: number) => string;

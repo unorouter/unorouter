@@ -71,11 +71,6 @@ const FEATURED_BADGES = [
   },
 ] as const;
 
-// Reciprocal verification links: each directory crawls unorouter.com for ITS own
-// dofollow link (the href) before approving our listing. The badge IMAGES are
-// served locally (mirrored into public/badges) because the page is cross-origin
-// isolated (COEP require-corp) and remote SVGs without CORP headers are blocked.
-// AI Toolz Dir offers no image badge, so it renders as a text link.
 const RECIPROCAL_LINKS = [
   {
     href: "https://thesaasdir.com/product/unorouter?ref=badge",
@@ -119,8 +114,6 @@ const RECIPROCAL_LINKS = [
     width: 181,
     height: 46,
   },
-  // LaunchBoosts removed 2026-07-05: launchboosts.com 503s site-wide. Badge SVG
-  // kept in public/badges; restore the entry if the site comes back.
 ] as const;
 
 function FooterLinks(props: {

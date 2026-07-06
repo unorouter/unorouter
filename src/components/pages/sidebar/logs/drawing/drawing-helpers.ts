@@ -14,8 +14,6 @@ const MJ_STATUS_KEYS: Record<string, TranslationKey> = {
   MODAL: msg("LOGS.DRAWING.STATUS.MODAL"),
 };
 
-/** Translation key for a Midjourney status. Returns null for empty/unknown
- *  values so the caller can render the raw upstream string verbatim. */
 export function getMjStatusKey(
   status: string | undefined,
 ): TranslationKey | null {

@@ -1,8 +1,3 @@
-// Inline copies of the handful of react-icons glyphs from the fa/fa6/gi/si/rx
-// packs. Dynamic pack imports shipped the entire pack (~450KiB gzip each); these
-// keep the per-icon lazy loaders in icon-map.ts but cost bytes only for what renders.
-
-// Mirrors react-icons IconBaseProps so loaders stay IconType-compatible.
 type IconProps = React.SVGAttributes<SVGElement> & {
   size?: number | string;
   color?: string;

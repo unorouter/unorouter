@@ -33,7 +33,6 @@ export function LorebookEditor(props: Props) {
   const updateLb = useUpdateLorebookMutation();
   const deleteLb = useDeleteLorebookMutation();
 
-  // values syncs the row on settle; keepDirtyValues protects in-progress typing. Parent keys by lorebookId for clean remounts.
   const formValues = lbQuery.data
     ? formDefaults(lorebookFormSchema, lbQuery.data)
     : undefined;

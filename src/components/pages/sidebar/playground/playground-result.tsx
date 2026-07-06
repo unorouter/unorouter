@@ -84,7 +84,6 @@ function ParamsBadge(props: { model: string; params: unknown }) {
 
 function RetentionBadge(props: { expiresAt: Date | string | number }) {
   const t = useTranslations();
-  // Stable "now" at mount keeps render pure.
   const [now] = useState(() => dayjs());
   const daysLeft = dayjs(props.expiresAt).diff(now, "day");
   if (!Number.isFinite(daysLeft) || daysLeft > 7) return null;
@@ -121,10 +120,8 @@ export function GenerateResult(props: Props) {
 
   const snapshots: SnapshotView[] = sessionQuery.data?.snapshots ?? [];
   const cachedSnapshot = snapshots.find((s) => s.id === props.snapshotId);
-  // The polling hook returns the freshest copy; fall back to the session list.
   const data = statusQuery.data ?? cachedSnapshot;
 
-  // Snapshots are newest-first; index 0 is the most recent.
   const currentIndex = snapshots.findIndex((s) => s.id === props.snapshotId);
   const total = snapshots.length;
 
@@ -135,7 +132,6 @@ export function GenerateResult(props: Props) {
 
   const onPrevSnapshot = () => {
     if (currentIndex < 0 || total <= 1) return;
-    // "prev" in UI = older = higher index in the newest-first array.
     swapTo(snapshots[(currentIndex + 1) % total].id);
   };
   const onNextSnapshot = () => {
@@ -143,7 +139,6 @@ export function GenerateResult(props: Props) {
     swapTo(snapshots[(currentIndex - 1 + total) % total].id);
   };
 
-  // On a non-newest snapshot, hand frozen params to the form for one-click resubmit. Skip the newest to avoid clobbering the live draft.
   useEffect(() => {
     if (!data || currentIndex === 0 || data.status === "failure") return;
     setRestore({

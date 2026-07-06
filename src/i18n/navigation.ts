@@ -5,19 +5,16 @@ import { pathnames, type Pathname, routing, type StaticRoute } from "./routing";
 export const { Link, redirect, usePathname, useRouter, getPathname } =
   createNavigation(routing);
 
-/** Locale-aware localized pathname (honors pathnames overrides like /modelle for de). */
 export function localeUrl(locale: Locale, href: StaticRoute): string;
 export function localeUrl(
   locale: Locale,
   href: Exclude<Pathname, string>,
 ): string;
-// Accepts the full Pathname union (mixes the static "/docs" string with dynamic /docs/[slug] href objects).
 export function localeUrl(locale: Locale, href: Pathname): string;
 export function localeUrl(locale: Locale, href: Pathname): string {
   return getPathname({ locale, href });
 }
 
-/** Map a runtime URL back to its typed {pathname, params} for typesafe re-routing. */
 type Params<T extends string> = T extends `${string}[${infer P}]${infer R}`
   ? (P extends `...${infer C}`
       ? { [K in C]: string[] }
@@ -61,7 +58,6 @@ function match(
   for (let i = 0; i < t.length; i++) {
     const rest = t[i].match(/^\[\.\.\.([^\]]+)\]$/);
     if (rest) {
-      // Catch-all consumes all remaining segments.
       const tail = p.slice(i);
       if (tail.length === 0) return null;
       params[rest[1]] = tail.map((s) => decodeURIComponent(s));

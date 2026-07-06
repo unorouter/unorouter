@@ -1,6 +1,5 @@
 import type { IconComponent } from "@/lib/config/vendor-icons";
 
-// H Company (Holo models). No packaged brand mark; inline "H" monogram stand-in.
 const HCompanyIcon: IconComponent = (props) => (
   <svg
     role="img"

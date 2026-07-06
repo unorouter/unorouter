@@ -44,7 +44,6 @@ export function parseLorebookJson(raw: unknown): ParsedLorebook | null {
     if (keys.length === 0 && !e.constant) return;
 
     entries.push({
-      // ST/CCv3 `comment` = the non-AI entry name.
       comment:
         typeof e.comment === "string" && e.comment ? e.comment : undefined,
       keys,
@@ -56,7 +55,6 @@ export function parseLorebookJson(raw: unknown): ParsedLorebook | null {
       constant: e.constant ?? false,
       selective: e.selective ?? false,
       priority: e.priority ?? 100,
-      // Imported Risu/ST order maps to orderIndex; position is dropped (single-slot model).
       enabled: e.enabled,
       orderIndex: typeof e.insertion_order === "number" ? e.insertion_order : i,
     });
@@ -95,7 +93,6 @@ export function serializeLorebookForExport(
   }>,
   format: LorebookFormat = "sillytavern",
 ): string {
-  // orderIndex maps to insertion_order; no position concept (single-slot model).
   const ccv3Entries: CCv3LorebookEntry[] = entries.map((e, i) => ({
     keys: e.keys,
     content: e.content,

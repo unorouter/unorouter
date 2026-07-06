@@ -11,7 +11,6 @@ import {
 } from "@/lib/validation/badge";
 import { svgDataUri } from "../lib/utils";
 
-// Social banners share the preview but live on their own type/size unions.
 export type PreviewType = BadgeType | "social";
 export type PreviewSize = BadgeSize | SocialSize;
 export interface PreviewGroup {

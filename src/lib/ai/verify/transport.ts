@@ -16,13 +16,8 @@ export type TransportArgs = {
   timeoutMs: number;
 };
 
-// A transport implementation: browser direct/proxy (default) or a server-side
-// SSRF-safe fetch injected by the verify-and-publish route.
 export type TransportFn = (args: TransportArgs) => Promise<TransportResult>;
 
-// A cross-origin fetch rejection in the browser is an opaque TypeError with no
-// status - indistinguishable from a real network outage. Treat any non-Abort
-// TypeError as a CORS block so the UI can offer the backend path.
 function isLikelyCorsError(err: unknown): boolean {
   return err instanceof TypeError;
 }

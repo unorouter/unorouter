@@ -43,7 +43,6 @@ async function resolveSubmissionEndpoint(
   return { kind: "sync", endpoint };
 }
 
-// Client-first; sync-image returns bytes, ComfyUI returns taskId for client polling.
 type SubmitGenerationResult =
   | { kind: "sync"; status: "success"; images: GeneratedImage[] }
   | { kind: "task"; status: string; taskId: string };
@@ -73,7 +72,6 @@ export async function submitGeneration(
   return { kind: "sync", status: "success", images };
 }
 
-// Stateless poll: client passes taskId; server forwards status + downloads bytes on success.
 type PollGenerationResult =
   | { status: "success"; progress: string; images: GeneratedImage[] }
   | { status: "failure"; progress: string; errorMessage: string }

@@ -12,7 +12,6 @@ import type {
 import { and, asc, eq, type SQL } from "drizzle-orm";
 import type { SQLiteColumn, SQLiteTable } from "drizzle-orm/sqlite-core";
 
-// The 3 catalog tables share the visible + sortOrder + name shape, so one helper drives every catalog route.
 async function listCatalog<T extends SQLiteTable>(
   table: T & {
     visible: SQLiteColumn;

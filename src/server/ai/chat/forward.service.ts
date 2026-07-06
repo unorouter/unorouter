@@ -1,9 +1,3 @@
-// Token-injecting SSE proxy for the DEFAULT chat path. The browser runs the full chat engine + streamText
-// and POSTs the already-assembled OpenAI wire body here. This route resolves the upstream token from cookies
-// (never exposed to the browser), enforces the guest free-model gate, and raw-pipes the SSE both directions.
-// No assembly, no streamText, no finish-meta - just a pipe. Response headers (x-oneapi-request-id +
-// x-newapi-dropped-params) are forwarded so the client's stream collector can drive logEnrich + the toast.
-
 import { getPricingSummary } from "@/lib/api/pricing-cache";
 import { GUEST_USER_ID, msg } from "@/lib/config/constants";
 import { uid } from "@/lib/utils/base";
@@ -11,7 +5,6 @@ import { API_ENDPOINTS } from "@/lib/ai/endpoints";
 import { upstreamApiUrl } from "@/server/constants";
 import { serverEnv } from "@/server/env";
 
-// Headers from new-api the client stream collector reads off the response.
 const FORWARD_RESPONSE_HEADERS = [
   "content-type",
   "x-oneapi-request-id",
@@ -31,7 +24,6 @@ export async function forwardChatCompletions(args: {
 }): Promise<Response> {
   const model = typeof args.body.model === "string" ? args.body.model : "";
 
-  // Guest gate: free models only (paid models require an account). Same rule the old /stream route enforced.
   if (args.userId === GUEST_USER_ID) {
     const meta = (await getPricingSummary()).byName.get(model);
     if (!meta?.isFree) {
@@ -45,9 +37,6 @@ export async function forwardChatCompletions(args: {
     }
   }
 
-  // Expired-session gate: a logged-in user_id cookie riding the guest key means the access token
-  // died (expiry or browser eviction). Paid models would 403 upstream with a cryptic
-  // token-restriction error; fail fast naming the actual problem instead.
   if (args.userId !== GUEST_USER_ID && args.apiKey === serverEnv.guestApiKey) {
     const meta = (await getPricingSummary()).byName.get(model);
     if (!meta?.isFree) {
@@ -60,7 +49,6 @@ export async function forwardChatCompletions(args: {
     }
   }
 
-  // group rides outside the OpenAI body; new-api reads X-Group. Strip it before forwarding.
   const group = args.body.group;
   const wire = { ...args.body };
   delete wire.group;

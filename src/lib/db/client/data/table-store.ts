@@ -22,7 +22,6 @@ type LocalDb = {
   };
 };
 
-// Wipe children under parentId, reinsert. No tx (SQLocal mutex deadlock).
 export async function replaceChildRows<T>(
   db: LocalDb,
   table: SQLiteTable,
@@ -38,7 +37,6 @@ export async function replaceChildRows<T>(
   }
 }
 
-// Per-row PK upsert (siblings survive); for sync-pull child arrays.
 type LocalInsertable = {
   insert: (table: SQLiteTable) => {
     values: (row: never) => {
@@ -69,8 +67,6 @@ export async function mergeChildRows<T>(
   }
 }
 
-// scopeUser ANDs userId WHERE + merges into upsert; off for tables without userId.
-
 export function makeTableStore<TTable extends ScopedTable>(
   table: TTable,
   pk: SQLiteColumn,
@@ -80,7 +76,6 @@ export function makeTableStore<TTable extends ScopedTable>(
 
   const scopeWhere = (userId: number, base: SQL): SQL => {
     if (!table.userId) return base;
-    // and(...) with 2 defined SQL args never returns undefined.
     return and(base, eq(table.userId, userId))!;
   };
 
@@ -126,14 +121,12 @@ export function makeTableStore<TTable extends ScopedTable>(
       if (!local) return;
       const scope = opts?.scopeUser ?? true;
       const values = scope && table.userId ? { ...row, userId: uid } : row;
-      // Cast at boundary: drizzle per-table types reject opaque sync payload.
       await local.db
         .insert(table)
         .values(values as never)
         .onConflictDoUpdate({ target: pk, set: row as never });
     },
 
-    // Partial UPDATE keyed on pk, never inserts. For settings-only writes on a row another path creates, so a missing NOT NULL column is safe.
     async update(
       userId: number | undefined,
       id: StorePkValue,

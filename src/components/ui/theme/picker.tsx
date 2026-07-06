@@ -12,19 +12,15 @@ import { cn } from "@/lib/utils";
 export type PickerOption = {
   value: string;
   label: string;
-  /** Optional hex string for the indicator swatch in the dropdown list. */
   swatch?: string;
 };
 
 type Props = {
   label: string;
-  /** Currently selected value. */
   value: string | undefined;
-  /** Human label shown on the closed tile next to the picker's `label`. */
   valueLabel: string;
   options: PickerOption[];
   onValueChange: (value: string) => void;
-  /** Right-side adornment on the closed tile (swatch chip / radius glyph / etc). */
   rightAdornment?: React.ReactNode;
   disabled?: boolean;
 };
@@ -89,7 +85,6 @@ export function ColorSwatch(props: { value: string }) {
 }
 
 export function RadiusGlyph(props: { radius: number }) {
-  // Rounded-corner preview. Reused from shadcn-create's right-side glyph.
   const r = Math.max(0, Math.min(20, props.radius * 12));
   return (
     <svg

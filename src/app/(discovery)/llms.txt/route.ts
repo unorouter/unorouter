@@ -77,7 +77,6 @@ export async function GET() {
   );
   lines.push("");
 
-  // "Optional" reserved by llmstxt.org; heading stays English. RSS/Sitemap universal.
   lines.push("## Optional");
   lines.push(`- [RSS](${env.siteOrigin}/${locale}/blog/feed.xml)`);
   lines.push(`- [Sitemap](${env.siteOrigin}/sitemap.xml)`);

@@ -68,7 +68,6 @@ export function getProvider(apiKey: string, opts?: BodyMutations) {
     name: env.appName,
     baseURL: `${upstreamApiUrl}/v1`,
     apiKey,
-    // ai-sdk's openai-compatible provider can't emit these fields; the fetch wrapper rewrites the JSON body. No-op when ignored.
     ...(hasBodyMutation(opts) ? { fetch: makeBodyMutationFetch(opts!) } : {}),
   });
 }
@@ -86,11 +85,6 @@ export async function deriveUpstream({ request }: { request: Request }) {
     if (accessToken) headers.Authorization = accessToken;
     const verified = await verifyUserId(parsed[USER_ID_COOKIE]);
     if (verified !== null) headers[NEW_API_USER] = String(verified);
-    // Token auth wins: with an access token present, strip the gin "session"
-    // cookie before forwarding, else upstream prefers a stale session identity
-    // and every call 401s with a New-Api-User mismatch. Password-login users
-    // have no access token and authenticate upstream via that session cookie,
-    // so it must keep flowing for them.
     const forwarded = accessToken
       ? cookieHeader
           .split(";")

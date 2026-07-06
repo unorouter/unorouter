@@ -1,10 +1,5 @@
 "use client";
 
-// Illustrator prompt dialog (Marinara review+edit parity). Two modes off one pending-request atom:
-//  - review: the opt-in preview gate between prompt-writing and generation (edit or skip).
-//  - media: post-hoc verify for a landed inlay image; edit the stored prompt and regenerate IN PLACE
-//    (same media id, bytes overwritten, inlay cache invalidated).
-
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -47,7 +42,6 @@ export function ImagePromptDialogHost() {
   return <ImagePromptEditor key={key} request={request} />;
 }
 
-// Mounted per request (keyed), so state seeds in initializers instead of effects.
 function ImagePromptEditor(props: { request: ImagePromptRequest }) {
   const t = useTranslations();
   const userId = useLocalUserId();
@@ -57,7 +51,6 @@ function ImagePromptEditor(props: { request: ImagePromptRequest }) {
   const [convId, setConvId] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
-  // Media mode: the stored prompt + convId live on the media row.
   useEffect(() => {
     if (request.mode !== "media") return;
     let cancelled = false;

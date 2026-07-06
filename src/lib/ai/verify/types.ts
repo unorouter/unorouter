@@ -21,9 +21,6 @@ export type ProbeUsage = {
   total: number | null;
 };
 
-// Full per-probe record. prompt + responseText are kept LOCALLY for transparency
-// (the reply is the model's answer, not the key; the key only rides the request
-// header and is never persisted). Never included in the published payload.
 export type ProbeOutcome = {
   label: ProbeLabel;
   pass: boolean;
@@ -54,10 +51,7 @@ export type VerifyResult = {
   corsBlocked: boolean;
   detectedModel: string | null;
   totalUsage: ProbeUsage | null;
-  // The format the handshake actually resolved to (may differ from the picked
-  // one if the native format was not supported and we fell back to OpenAI).
   resolvedProvider: VerifyProvider;
-  // Set when the handshake short-circuited before the behavioral probes ran.
   connectivityError:
     "cors-needs-backend" | "unreachable" | "invalid-key" | "no-format" | null;
 };

@@ -1,7 +1,5 @@
 "use client";
 
-// Img2Img sub-pill strip: swaps the settings panel + submit params.mode; URL-synced via ?mode= for deep links.
-
 import { useTranslations } from "next-intl";
 import { useAtom } from "jotai";
 import { useEffect } from "react";

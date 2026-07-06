@@ -93,9 +93,7 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
               variant="outline"
               className="flex-1"
               nativeButton={false}
-              render={
-                <Link href={modelHref(model.name, model.vendor.name)} />
-              }
+              render={<Link href={modelHref(model.name, model.vendor.name)} />}
             >
               <Icon name="external-link" className="mr-2 h-3.5 w-3.5" />
               {t("MODELS.VIEW_DETAILS")}
@@ -569,7 +567,6 @@ function GroupPricingSection(props: {
   );
 }
 
-// Fixed-price unit suffix ("· request" / "· second" / "· image") for a model's flat fee.
 function FixedPriceUnit(props: { model: ProcessedModel }) {
   const t = useTranslations();
   const unit = fixedPriceUnitLabel(props.model);

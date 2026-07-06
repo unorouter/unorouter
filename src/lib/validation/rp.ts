@@ -28,15 +28,12 @@ export const characterBody = t.Object({
   tags: nullable(
     t.Array(t.String({ maxLength: MAX_TAG_LEN }), { maxItems: MAX_TAGS }),
   ),
-  // RisuAI triggerscript[] (V2 effect VM). Loose: the VM parser narrows.
   triggers: nullable(t.Array(t.Unknown(), { maxItems: 128 })),
-  // Keyword array for multi-character turn-gating.
   turnTriggers: nullable(
     t.Array(t.String({ maxLength: MAX_KEY_LEN }), {
       maxItems: MAX_KEYS_PER_ENTRY,
     }),
   ),
-  // RisuAI customscript / ST regex scripts. Loose: the engine's parser narrows.
   regexScripts: nullable(t.Array(t.Unknown(), { maxItems: 128 })),
   alwaysActive: t.Boolean({ default: true }),
   matchWholeWords: t.Boolean({ default: false }),
@@ -45,11 +42,9 @@ export type CharacterBody = Static<typeof characterBody>;
 
 export const personaBody = t.Object({
   name: t.String({ minLength: 1, maxLength: MAX_NAME_LEN }),
-  // Display-only label (same-named personas); never sent to the model.
   title: nullable(t.String({ maxLength: MAX_NAME_LEN })),
   description: nullable(t.String({ maxLength: MAX_DESC_LEN })),
   avatarMediaId: nullable(t.String({ maxLength: 64 })),
-  // Optional undefined; reset tx gates on undefined vs false.
   isDefault: t.Optional(t.Boolean()),
 });
 export type PersonaBody = Static<typeof personaBody>;
@@ -85,9 +80,7 @@ export const lorebookEntryBody = t.Object({
   content: t.String({ minLength: 1, maxLength: MAX_DESC_LEN }),
   constant: t.Boolean({ default: false }),
   selective: t.Boolean({ default: false }),
-  // Token-budget survival rank (Risu priority), uncapped + relative; higher survives the budget.
   priority: t.Integer({ default: 100 }),
-  // Placement within the single lorebook slot (Risu insertorder), uncapped + relative; higher = earlier.
   orderIndex: t.Integer({ default: 0 }),
   enabled: t.Boolean({ default: true }),
   matchWholeWords: t.Boolean({ default: false }),
@@ -98,7 +91,6 @@ export type LorebookEntryBody = Static<typeof lorebookEntryBody>;
 export const samplingPresetBody = t.Object({
   name: t.String({ minLength: 1, maxLength: MAX_NAME_LEN }),
   ...samplingNullable({ temperatureMax: 4 }),
-  // Preset-level defaults the conversation overrides per chat. null = system default (streaming on, chatMemory 8).
   streamingEnabled: nullable(t.Boolean()),
   showReasoning: nullable(t.Boolean()),
   chatMemory: nullable(t.Number({ minimum: 1, maximum: 1000 })),
@@ -113,7 +105,6 @@ export const samplingPresetBody = t.Object({
   noSystemRole: t.Boolean({ default: false }),
   mustStartWithUserInput: t.Boolean({ default: false }),
   geminiBlockOff: t.Boolean({ default: false }),
-  // Optional undefined; reset tx gates on undefined vs false.
   isDefault: t.Optional(t.Boolean()),
 });
 export type SamplingPresetBody = Static<typeof samplingPresetBody>;
@@ -149,7 +140,6 @@ export const exportFormat = t.Union([
 
 export type ExportFormat = Static<typeof exportFormat>;
 
-// JSON-envelope formats only; sillytavern is JSONL via a separate path.
 export const conversationExportFormat = t.Union([
   t.Literal("native"),
   t.Literal("orpg"),

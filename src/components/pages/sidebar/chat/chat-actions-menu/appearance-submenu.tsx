@@ -1,8 +1,5 @@
 "use client";
 
-// Appearance submenu: Display stat toggles (always) + Theme/Language (mobile only - the header carries those
-// on desktop via its `hidden md:flex` toggles). Groups all look-and-feel controls under one "..." entry.
-
 import {
   DropdownMenuCheckboxItem,
   DropdownMenuItem,
@@ -26,8 +23,6 @@ import { useLocale, useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
 
-// onOpenCustomizer is owned by the menu ROOT: the customizer sheet must live outside this dropdown (clicking the
-// item closes the dropdown, which would unmount a sheet rendered here before it opens). The root keeps it lazy.
 export function AppearanceSubmenu(props: { onOpenCustomizer: () => void }) {
   const t = useTranslations();
   const [showCost, setShowCost] = useAtom(showStatsCostAtom);

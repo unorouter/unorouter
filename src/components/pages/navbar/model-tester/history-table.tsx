@@ -7,8 +7,6 @@ import { vendorForRow } from "@/lib/ai/verify/models";
 import { useTranslations } from "next-intl";
 import { RankBar } from "./rank-bar";
 
-// Level 1 of the local history: the user's providers (grouped by host), mirroring
-// the public rankings layout.
 export function HistoryTable() {
   const t = useTranslations();
   const providersQuery = useHistoryProviders();
@@ -21,7 +19,6 @@ export function HistoryTable() {
       </p>
     );
 
-  // Stats derived from the loaded providers (local history, no extra query).
   const totalTests = rows.reduce((s, r) => s + r.sampleCount, 0);
   const totalModels = rows.reduce((s, r) => s + r.modelCount, 0);
   const avgPassRate =

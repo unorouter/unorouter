@@ -1,8 +1,5 @@
-// Single source of truth for which messages reach the client; violations throw in dev. Interim until next-intl tree-shaking.
-
 type Messages = Record<string, unknown>;
 
-/** Top-level namespaces never sent to the client (server-rendered only). */
 export const CLIENT_STRIPPED_NAMESPACES = [
   "TERMS",
   "PRIVACY",
@@ -11,10 +8,8 @@ export const CLIENT_STRIPPED_NAMESPACES = [
   "WELL_KNOWN",
 ] as const;
 
-/** Subtrees stripped from otherwise-shipped namespaces. */
 export const CLIENT_STRIPPED_SUBTREES = ["BLOG.POSTS"] as const;
 
-/** DOCS subtrees shipped in full (small, used by client components). */
 export const CLIENT_DOCS_KEPT = [
   "SETUP",
   "SETUP_GUIDE",
@@ -23,16 +18,12 @@ export const CLIENT_DOCS_KEPT = [
   "GENERATE_API_KEY_DESC",
 ] as const;
 
-/** Leaves kept per DOCS guide for the megamenu/sidebar; step bodies stay server-only. */
 export const CLIENT_DOCS_GUIDE_LEAVES = ["TITLE", "SUBTITLE"] as const;
 
-/** DOCS_CHAT subtrees shipped in full (tab bar + section labels + index card). */
 export const CLIENT_DOCS_CHAT_KEPT = ["COMMON", "INDEX"] as const;
 
-/** DOCS_PLATFORM subtrees shipped in full (tab bar + section labels + index card). */
 export const CLIENT_DOCS_PLATFORM_KEPT = ["COMMON", "INDEX"] as const;
 
-/** TITLE/SUBTITLE-only pruning for a docs-like namespace; page bodies stay server-only. */
 function pruneDocsNamespace(
   docs: Messages,
   keptSubtrees: readonly string[],
@@ -55,7 +46,6 @@ function pruneDocsNamespace(
   return pruned;
 }
 
-/** Prune server-only content from the messages sent to the client. */
 export function pruneClientMessages(messages: Messages): Messages {
   const prunedDocs = pruneDocsNamespace(
     (messages.DOCS ?? {}) as Messages,
@@ -77,7 +67,6 @@ export function pruneClientMessages(messages: Messages): Messages {
     DOCS_PLATFORM: prunedDocsPlatform,
   };
   for (const subtree of CLIENT_STRIPPED_SUBTREES) {
-    // Clone the path before deleting: getMessages() returns a shared object; mutating it would strip keys from server too.
     const segments = subtree.split(".");
     const leaf = segments.pop()!;
     let parent: Messages = pruned;

@@ -88,7 +88,6 @@ function CompareSide(props: {
   );
 }
 
-// Param-driven og badge (1200x630 only) for /compare/[...slugs] link previews.
 export async function generateCompare(
   ctx: BadgeCtx,
   pair: { model: ProcessedModel | null; requested: string }[],

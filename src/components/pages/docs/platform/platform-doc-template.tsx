@@ -10,7 +10,6 @@ import type { TOCItemType } from "fumadocs-core/toc";
 import { getTranslations } from "next-intl/server";
 import { PLATFORM_DOCS, type PlatformDoc } from "./platform-docs";
 
-/** i18nPrefix is a runtime string; en.json carries the per-page leaf keys. */
 export function platformDocKey(prefix: string, leaf: string): TranslationKey {
   return `${prefix}.${leaf}` as TranslationKey;
 }

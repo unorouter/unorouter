@@ -6,7 +6,6 @@ import { queryKeys } from "@/lib/react-query/keys";
 import { base64ToDataUri } from "@/lib/utils/base";
 import { useQuery } from "@tanstack/react-query";
 
-// Local-only media -> src; null if not cached locally.
 export function useMediaSrc(mediaId: string | null | undefined): string | null {
   const userId = useLocalUserId();
   const query = useQuery({

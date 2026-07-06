@@ -1,9 +1,5 @@
 "use client";
 
-// Per-chat illustrator reference images (Matic: refs live on the CHAT, presets are wrong for them).
-// Uploads write media rows scoped to the conversation (cascade on delete) and persist their ids as the
-// imageRefIds JSON on the conversation settings immediately (no form round-trip).
-
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { Label } from "@/components/ui/label";

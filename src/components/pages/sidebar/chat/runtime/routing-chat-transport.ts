@@ -1,12 +1,5 @@
 "use client";
 
-// Routing transport: BOTH paths run the full chat engine in the browser (assemble + streamText). The only
-// difference is the endpoint + token:
-//   - custom model -> the user's own endpoint, the user's key (never touches our server)
-//   - default model -> a thin same-origin proxy (/api/ai/chat/forward) that injects the resolved token
-//     server-side and pipes the SSE to new-api; the browser holds no token.
-// Both emit the SAME UIMessage finish-meta, so the history adapter persists usage/debug/writebacks identically.
-
 import {
   convertToModelMessages,
   createUIMessageStream,
@@ -45,9 +38,6 @@ import { resolveModelTargetFromStore } from "./resolve-model-target";
 
 type SendOptions = Parameters<ChatTransport<ChatUIMessage>["sendMessages"]>[0];
 
-// The error text shown in the failed-message box. Prefer the REAL upstream body (APICallError.responseBody,
-// which extractErrorDetail parses) over the ai-sdk wrapper's generic .message (e.g. "Load failed"). Append
-// the status/request id when present so a bare upstream string is still traceable.
 function streamErrorText(error: unknown): string {
   const detail = extractErrorDetail(error);
   const tag = [detail.status ? `HTTP ${detail.status}` : null, detail.code]
@@ -58,18 +48,12 @@ function streamErrorText(error: unknown): string {
     : detail.message;
 }
 
-// Media models (image/video/audio/embedding) are not OpenAI chat-completions: they stay on the server route
-// (/stream) which dispatches the right upstream endpoint + runs Creem moderation. The pricing query is already
-// in the React Query cache (staleTime Infinity), so no separate TTL cache is needed client-side.
 function isMediaModel(model: string): boolean {
   const data = getQueryClient().getQueryData(queryKeys.pricing()) as
     { models?: ProcessedModel[] } | undefined;
   return isMediaType(data?.models?.find((m) => m.name === model)?.type);
 }
 
-// Shared assemble-and-stream used by both branches. The caller supplies the endpoint (baseURL), the token
-// (apiKey - "proxy" placeholder for the default path; the proxy injects the real one), the real upstream
-// model name, and the AssemblerDeps. body mutations (claude cache, deepseek) ride the fetch wrapper.
 async function runClientStream(args: {
   apiKey: string;
   baseURL: string;
@@ -77,7 +61,6 @@ async function runClientStream(args: {
   deps: AssemblerDeps;
   options: SendOptions;
   getConvId: () => string | null;
-  // Per-model tokenizer for budget counting (custom path). Omitted on the default path -> inferred from model.
   tokenizer?: TokenizerRef;
 }): Promise<ReadableStream<UIMessageChunk>> {
   const userId = chatStore.get(localUserIdAtom);
@@ -93,7 +76,6 @@ async function runClientStream(args: {
     body,
     userId,
     args.deps,
-    // Cancel assembly (tokenizer load, context resolve, lorebook scan) if the user aborts before streaming.
     args.options.abortSignal,
   );
 
@@ -111,7 +93,6 @@ async function runClientStream(args: {
       speakingCharacterId: body.speakingCharacterId,
     });
 
-  // V1 stop effect (Risu stopSending): answer an empty stream with just the transient alerts.
   if (prepared.stopRequested) {
     return createUIMessageStream({
       execute: ({ writer }) => {
@@ -166,7 +147,6 @@ async function runClientStream(args: {
   if (prepared.startAlerts.length === 0) {
     return uiStream as ReadableStream<UIMessageChunk>;
   }
-  // Transient start-trigger alerts ride ahead of the model stream.
   return createUIMessageStream({
     execute: ({ writer }) => {
       for (const a of prepared.startAlerts) {
@@ -182,13 +162,11 @@ export function makeRoutingTransport(
 ): ChatTransport<ChatUIMessage> {
   const getConvIdRef = { current: getConvId };
 
-  // Media models stay on the server route: it dispatches image/video/audio/embedding + runs moderation.
   const mediaTransport = new DefaultChatTransport<ChatUIMessage>({
     api: "/api/ai/chat/stream",
     body: () => buildChatRequestBody(getConvIdRef.current),
   });
 
-  // Both text paths (custom + default) resolve through the shared model-target resolver, then stream identically.
   const sendText = async (
     modelId: string,
     options: SendOptions,
@@ -207,13 +185,10 @@ export function makeRoutingTransport(
 
   return {
     sendMessages: (options) => {
-      // Snapshot the model once: the routing decision and the async build must agree if the atom changes mid-send.
       const modelId = chatStore.get(chatModelAtom) ?? "";
-      // Media -> server route (moderation + per-modality dispatch); text (custom + default) -> client engine.
       if (isMediaModel(modelId)) return mediaTransport.sendMessages(options);
       return sendText(modelId, options);
     },
-    // No server-side stream to reconnect to (client owns the stream). Resume is not supported.
     reconnectToStream: async () => null,
   };
 }

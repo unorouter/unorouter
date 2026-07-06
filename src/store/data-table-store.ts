@@ -126,6 +126,5 @@ export const columnFilters = <T extends Record<string, unknown>>(
 ) =>
   columnFilters?.reduce<T>(
     (acc, filter) => ({ ...acc, [filter.id]: filter.value }),
-    // SAFETY: accumulator is built up by reduce, starts empty
     {} as T,
   ) || undefined;

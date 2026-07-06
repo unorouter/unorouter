@@ -10,7 +10,6 @@ import type { TOCItemType } from "fumadocs-core/toc";
 import { getTranslations } from "next-intl/server";
 import { CHAT_DOCS, type ChatDoc } from "./chat-docs";
 
-/** i18nPrefix is a runtime string; en.json carries the per-page leaf keys. */
 export function chatDocKey(prefix: string, leaf: string): TranslationKey {
   return `${prefix}.${leaf}` as TranslationKey;
 }

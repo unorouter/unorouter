@@ -59,7 +59,6 @@ export const osAtom = atom(
 );
 
 export const paymentMethodAtom = atom(
-  // Cookies written before the field existed lack it; fall back per field.
   (get) =>
     get(clientStoreAtom).paymentMethod ?? INITIAL_CLIENT_STATE.paymentMethod,
   (get, set, value: PaymentMethod) => {

@@ -1,10 +1,5 @@
 "use client";
 
-// BYOK in-chat image generation (Risu openai-compat parity): the browser calls the user's OWN
-// OpenAI-compatible endpoint directly with their key - our server is never involved (same trust model as
-// the custom TEXT path). Text-to-image goes to {base}/images/generations; with reference images it becomes
-// a multipart {base}/images/edits call (OAI edits shape, mirroring the playground dispatch).
-
 import { normalizeBaseUrl } from "@/lib/ai/chat/custom-provider-id";
 import type { InlayImage } from "@/lib/ai/chat/pipeline/deps";
 import { uid } from "@/lib/utils/base";
@@ -65,7 +60,6 @@ async function extractImage(res: Response): Promise<InlayImage> {
     };
   }
   if (first?.url) {
-    // URL-returning providers: fetch the bytes client-side (CORS best-effort).
     const imgRes = await fetch(first.url);
     if (!imgRes.ok) throw new Error(`Image download failed (${imgRes.status})`);
     const buf = new Uint8Array(await imgRes.arrayBuffer());

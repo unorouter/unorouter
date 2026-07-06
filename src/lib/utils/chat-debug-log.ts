@@ -1,5 +1,3 @@
-// Chat debug ring buffer. localStorage (not OPFS, the subsystem under test) so it survives the
-// reloads that are themselves repro steps, and works synchronously from non-React callers.
 export type ChatDebugEntry = {
   ts: number;
   event: string;
@@ -24,7 +22,6 @@ function load(): ChatDebugEntry[] {
   }
 }
 
-// Coalesce writes to one per tick: a burst of log calls in a render does a single serialize.
 function save(): void {
   if (saveQueued || typeof localStorage === "undefined") return;
   saveQueued = true;
@@ -32,9 +29,7 @@ function save(): void {
     saveQueued = false;
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(buffer));
-    } catch {
-      // quota/serialization failure: keep the in-memory buffer, skip persisting.
-    }
+    } catch {}
   });
 }
 
@@ -42,8 +37,6 @@ export function logChatDebug(
   event: string,
   data?: Record<string, unknown>,
 ): void {
-  // Cap per-entry size: a huge payload (a prompt snapshot, a giant error) must not bloat the
-  // localStorage log or the diagnostics export it rides in. Keep a tiny summary instead.
   let entry: ChatDebugEntry = { ts: Date.now(), event, ...data };
   if (data) {
     try {

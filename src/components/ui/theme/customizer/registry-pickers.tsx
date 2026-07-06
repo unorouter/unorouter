@@ -31,8 +31,6 @@ import {
 import { useTranslations } from "next-intl";
 import type { FC, ReactNode } from "react";
 
-// Project palette fallbacks for the "default" sentinel (empty cssVars). Match
-// globals.css `--primary` and `--muted-foreground` so chips render as real swatches.
 const DEFAULT_PRIMARY = "#18181b";
 const DEFAULT_MUTED = "#71717a";
 
@@ -52,9 +50,7 @@ const CUSTOM = "custom";
 const CUSTOM_FALLBACK = "#7c3aed";
 
 type PickerSpec = {
-  /** UserTheme field this picker edits. */
   field: keyof UserTheme & string;
-  /** When set, the picker gets a "Custom..." option backed by this hex field. */
   customField?: keyof UserTheme & string;
   labelKey: string;
   separatorBefore?: boolean;
@@ -63,7 +59,6 @@ type PickerSpec = {
   adornment: (value: string, theme: UserTheme) => ReactNode;
 };
 
-// Append the "Custom..." entry to a color picker's option list.
 function withCustom(opts: PickerOption[], t: T): PickerOption[] {
   return [...opts, { value: CUSTOM, label: t("THEME.CUSTOM_COLOR") }];
 }

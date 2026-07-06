@@ -48,14 +48,9 @@ export function ConversationItem(props: ConversationItemProps) {
     typeof modelData?.vendor === "string"
       ? modelData.vendor
       : (modelData?.vendor?.name ?? "");
-  // Catalog model that isn't in the pricing response: upstream can temporarily drop a model when it's
-  // ratelimited/disabled. The conversation still references it, so show a neutral placeholder (not a blank
-  // VendorIcon) + keep the real name in the tooltip. Wait for pricing to load before deciding it's unknown.
   const isUnknownCatalog =
     !isCustom && !!model && pricingQuery.isSuccess && !modelData;
 
-  // Custom-provider model: a `custom:::<providerId>:::<modelKey>` id never matches the catalog, so resolve
-  // the provider name + the model's label for the tooltip and show the generic server icon.
   const customParsed = isCustom && model ? parseCustomModelId(model) : null;
   const customProvider = customParsed
     ? customProvidersQuery.data?.find((p) => p.id === customParsed.providerId)

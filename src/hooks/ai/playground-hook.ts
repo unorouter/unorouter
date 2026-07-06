@@ -46,7 +46,6 @@ import {
 } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 
-// Poll cadence for async (ComfyUI task) generations; stops on terminal status.
 const POLL_INTERVAL_MS = 2000;
 
 function isTerminal(status: string | undefined): boolean {
@@ -114,7 +113,6 @@ export function useSessionQuery(sessionId: string | null | undefined) {
     queryFn: async () => {
       const bundle = await readLocalGenerationSessionBundle(userId, sessionId!);
       if (!bundle) throw new Error("playground-session-not-found");
-      // Newest-first to match the result view's snapshot navigation.
       const snapshots = bundle.playgrounds
         .map((s) => toSnapshotView(s, bundle.media))
         .sort((a, b) => b.sessionOrder - a.sessionOrder);
@@ -125,7 +123,6 @@ export function useSessionQuery(sessionId: string | null | undefined) {
   });
 }
 
-// Used by the form's seed lookup.
 export function useSnapshotQuery(id: string | null) {
   const userId = useLocalUserId();
   return useQuery({
@@ -156,7 +153,6 @@ async function readLocalGenerationSessionBundleForSnapshot(
   return null;
 }
 
-// Polls async snapshots; finalizes image rows + counts on success.
 export function useSnapshotStatusQuery(
   id: string | null | undefined,
   enabled = true,
@@ -228,7 +224,6 @@ export function useSnapshotStatusQuery(
   });
 }
 
-// Re-read raw row so updates don't drop columns.
 async function snapshotRow(
   userId: number,
   view: SnapshotView,
@@ -239,7 +234,6 @@ async function snapshotRow(
   return row;
 }
 
-// Run submit + write session/snapshot/media locally. Shared by submit + import-regenerate.
 async function runSubmit(
   userId: number,
   body: PlaygroundSubmitBody & { sessionId?: string },
@@ -378,7 +372,6 @@ export function useDeleteSnapshotMutation() {
   });
 }
 
-// Reads a session's local bundle into a portable JSON payload (base64 images).
 export function useExportSessionMutation() {
   const t = useTranslations();
   const userId = useLocalUserId();
@@ -390,7 +383,6 @@ export function useExportSessionMutation() {
   });
 }
 
-// restore rebuilds locally; regenerate re-runs each snapshot.
 export function useImportGenerationMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
@@ -464,7 +456,6 @@ export function useUploadReferenceMutation() {
   });
 }
 
-// Routes /masks not /references for mask-specific validation later.
 export function useUploadMaskMutation() {
   const t = useTranslations();
   return useMutation({

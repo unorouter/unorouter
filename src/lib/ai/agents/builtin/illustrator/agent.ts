@@ -1,7 +1,3 @@
-// In-chat image gen (post_processing). A second LLM with its own instruction writes an image prompt from
-// ONLY the latest response, then runtime.generateImage produces the inlay. The written prompt rides the
-// result for a verify-UI (not shown inline).
-
 import type {
   AgentContext,
   AgentDefinition,
@@ -19,8 +15,6 @@ type IllustratorSettings = {
   imageEnabled?: boolean | null;
   promptInstruction?: string;
   promptMaxTokens?: number;
-  // Optional review gate between prompt-writing and generation (Lumiverse-style opt-in preview):
-  // returns the (possibly edited) prompt to generate with, or null to skip generation.
   reviewPrompt?: (prompt: string) => Promise<string | null>;
 };
 
@@ -40,7 +34,6 @@ export const illustratorAgent: AgentDefinition = {
     if (!runtime.generateImage || !ctx.mainResponse) return { type: "noop" };
     const s = settings as IllustratorSettings;
 
-    // Step 1: the prompt-writer (utility model) writes an image prompt from ONLY the latest response.
     let imgPrompt: string;
     try {
       const result = await runtime.generate(ctx.model, {

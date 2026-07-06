@@ -1,6 +1,5 @@
 import type { IconComponent } from "@/lib/config/vendor-icons";
 
-// AI Singapore (SEA-LION). No packaged brand mark; inline "AIS" monogram stand-in.
 const AiSingaporeIcon: IconComponent = (props) => (
   <svg
     role="img"

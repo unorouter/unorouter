@@ -22,7 +22,6 @@ export function useApiKey() {
   const bestKeyQuery = useBestKeyQuery();
   const apiKey = bestKeyQuery.data ?? null;
 
-  // mirror into cookie store for server getApiKey
   useEffect(() => {
     setApiKey(apiKey);
   }, [apiKey, setApiKey]);

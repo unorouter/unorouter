@@ -52,7 +52,6 @@ export async function BlogPost(props: BlogPostProps) {
     year: "numeric",
     month: "long",
     day: "numeric",
-    // UTC so SSR + client format the same calendar day (hydration mismatch #418).
     timeZone: "UTC",
   }).format(dayjs(post.date).toDate());
 

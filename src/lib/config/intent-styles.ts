@@ -1,7 +1,5 @@
 export type IntentType = "success" | "warning" | "error" | "info" | "ongoing";
 
-/** Semantic Tailwind classes for an intent-tagged badge (small pill).
- *  Centralized so green/yellow/red/blue shades stay consistent. */
 const INTENT_BADGE_CLASS: Record<IntentType, string> = {
   success: "bg-green-500/10 text-green-500",
   warning: "bg-yellow-500/10 text-yellow-500",
@@ -17,8 +15,6 @@ export function intentBadgeClass(type: string | undefined): string {
   return INTENT_BADGE_CLASS[type as IntentType] ?? NEUTRAL_BADGE_CLASS;
 }
 
-/** Tinted background (low opacity) + solid dot color per intent. Used for
- *  status indicator dots (e.g. uptime monitor rows). */
 const INTENT_DOT_CLASS: Record<IntentType, { bg: string; dot: string }> = {
   success: { bg: "bg-green-500/10", dot: "bg-green-500" },
   warning: { bg: "bg-yellow-500/10", dot: "bg-yellow-500" },

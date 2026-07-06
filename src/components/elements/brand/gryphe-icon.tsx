@@ -1,6 +1,5 @@
 import type { IconComponent } from "@/lib/config/vendor-icons";
 
-// Gryphe (MythoMax/Pantheon RP finetunes). No packaged brand mark; inline "G" monogram stand-in.
 const GrypheIcon: IconComponent = (props) => (
   <svg
     role="img"

@@ -1,7 +1,5 @@
 import type { IconComponent } from "@/lib/config/vendor-icons";
 
-// Requesty. No brand mark in any icon pack, so this is an inline mono "R"
-// monogram stand-in.
 const RequestyBrandIcon: IconComponent = (props) => (
   <svg
     role="img"

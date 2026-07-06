@@ -34,7 +34,6 @@ import { generateTokensSquare } from "./templates/tokens-square";
 
 const HTML_HEADERS = { "content-type": "text/html; charset=utf-8" } as const;
 function htmlResponse(body: JSX.Element): Response {
-  // @kitajs/html renders to a string at runtime but is typed JSX.Element.
   return new Response(body as unknown as BodyInit, { headers: HTML_HEADERS });
 }
 
@@ -52,8 +51,6 @@ const PNG_HEADERS = {
   "cache-control": CACHE_CONTROL,
   "cross-origin-resource-policy": "cross-origin",
 };
-
-// http://localhost:3000/api/ops/badge/all?theme=dark
 
 async function svgToPng(svg: string): Promise<Buffer> {
   return loadSharp()(Buffer.from(svg)).png().toBuffer();
@@ -126,7 +123,6 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
         }),
       );
 
-      // Social banners: own sizes, no stats/pricing. Append as one group unless a different type filter is set.
       if (!query.type) {
         const socialBadges = await Promise.all(
           SOCIAL_SIZES.map(async (s) => ({
@@ -161,7 +157,6 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
     async ({ params, query, locale, theme, size, set }) => {
       const isPng = query.format === "png";
 
-      // Social banners stand apart from the user-facing badge grid: their own sizes, no stats/pricing, excluded from /all + generator.
       if (params.name === "social") {
         const pricing = await getPricingData();
         const socialSvg = await generateSocial({
@@ -177,7 +172,6 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
         return socialSvg;
       }
 
-      // Param-driven og badges: fixed 1200x630, looked up from live pricing.
       if (params.name === "model" || params.name === "compare") {
         const [stats, pricing] = await Promise.all([
           getStats(),

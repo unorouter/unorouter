@@ -12,8 +12,6 @@ import { useState } from "react";
 
 type FaqItem = { q: string; a: string };
 
-// Dynamic FAQ built from the model's ACTUAL metadata/pricing/capabilities, so
-// every answer is specific to this model. Items only appear when the data exists.
 export function ModelFaq(props: { model: ProcessedModel }) {
   const t = useTranslations();
   const locale = useLocale();
@@ -22,14 +20,12 @@ export function ModelFaq(props: { model: ProcessedModel }) {
   const name = m.name;
   const theme = getVendorTheme(m.vendor.name);
   const items: FaqItem[] = [];
-  // Multi-open: opening one row never closes another.
   const [open, setOpen] = useState<number[]>([]);
   const toggle = (i: number) =>
     setOpen((cur) =>
       cur.includes(i) ? cur.filter((x) => x !== i) : [...cur, i],
     );
 
-  // Cost (fixed / tiered / grid / per-token)
   if (m.isFixedPrice) {
     items.push({
       q: t("MODEL_PAGE.FAQ_COST_FIXED_Q", { name }),

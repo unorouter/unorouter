@@ -8,11 +8,6 @@ import type { ReactNode } from "react";
 
 const DEFAULT_PAGE_SIZE = 5;
 
-// The ONE paginated result-card list used by BOTH the History tab and the
-// Rankings "Recent submissions" section. Owns page state, slice math, the
-// prev/next controls, and the empty state. `renderItem` is a callback (not a
-// pre-adapted array) so the rankings view keeps its LAZY per-row detail fetch;
-// `rank` is the absolute 1-based index for the RankPill.
 export function ResultCardList<T>(props: {
   items: T[];
   getKey: (item: T) => string;

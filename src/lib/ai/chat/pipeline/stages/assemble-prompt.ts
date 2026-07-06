@@ -1,5 +1,3 @@
-// Stage 3: build the assembled prompt and budget history. Runs start triggers + memory, assembles, clamps output cap, fits history, expands macros.
-
 import {
   CONTEXT_SAFETY_MARGIN,
   FREE_MODEL_OUTPUT_CAP,
@@ -42,7 +40,6 @@ export type AssembledPrompt = {
   stopRequested: boolean;
   globalVarsIn: string | null;
   triggerVars: Record<string, string>;
-  // History sliced + budgeted + depth-spliced + macro-expanded, ready for the template walk.
   historyMessages: StreamMessages;
   effectiveMaxOutputTokens: number;
 };
@@ -59,10 +56,8 @@ export async function assemblePrompt(
 ): Promise<AssembledPrompt> {
   const recentUserTexts = collectRecentUserTexts(messages);
   const history = collectHistory(messages, body.messageTimes);
-  // Global vars ride outside the hashed context; hashing them would bust the cache every setglobalvar turn.
   const globalVarsIn = body.globalVars ?? clientCtx?.globalVars ?? null;
 
-  // start triggers mutate seed vars (persisted via writeback) and may inject a system prompt.
   const triggerVars: Record<string, string> = convCtx
     ? parseStringMap(convCtx.settings.vars)
     : {};
@@ -77,8 +72,6 @@ export async function assemblePrompt(
       )
     : { extraSystemPrompt: "", stopSending: false, alerts: [] };
 
-  // Agent settings inherit from the bound preset (Risu subModel/seperateModels parity): conv override ??
-  // preset default ?? unset. summaryMemory/summaryAnchor are runtime state, conv-only (never a preset default).
   const convSettings = convCtx?.settings as
     | {
         memoryEnabled?: boolean | null;
@@ -138,7 +131,6 @@ export async function assemblePrompt(
         )
       : assembleFromOverrides(body.overrides, assemblySystem);
 
-  // Summarized messages are cut; the [Story so far] block replaces them (Risu supaMemory).
   const summaryAnchor = memory.memoryBlock
     ? (memory.summaryWriteback?.anchor ?? memorySettings?.summaryAnchor ?? 0)
     : 0;
@@ -147,7 +139,6 @@ export async function assemblePrompt(
       ? dropSummarizedPrefix(messages, summaryAnchor)
       : messages;
 
-  // chatMemory is a user-set message COUNT cap; apply it first if set.
   const countSliced =
     assembled.chatMemory > 0
       ? unsummarized.slice(-assembled.chatMemory)
@@ -155,7 +146,6 @@ export async function assemblePrompt(
 
   const effectiveMaxOutputTokens = clampOutputTokens(assembled, modelInfo);
 
-  // Fit to context window, drop oldest first. Reserve = non-history prompt + clamped output cap, capped at half the window.
   const contextWindow = modelInfo?.metadata.contextWindow;
   const outputReserve = contextWindow
     ? Math.min(effectiveMaxOutputTokens, Math.floor(contextWindow / 2))
@@ -177,8 +167,6 @@ export async function assemblePrompt(
       : slicedMessages;
   const historyMessages = expandMessageMacros(splicedMessages, assembled.vars);
 
-  // Content-free trim breadcrumb: where history messages went (summary cut, count cap, token
-  // budget). Pairs with assembly.shape to explain a thin request from the diagnostics alone.
   logChatDebug("assembly.history", {
     total: messages.length,
     summaryAnchor,
@@ -201,9 +189,6 @@ export async function assemblePrompt(
   };
 }
 
-// Memory context via the summary AGENT (rolling summary) + the direct semantic-retrieval call. Produces the
-// SAME MemoryContext the old buildMemoryContext did (memoryBlock + retrievalBlock + summaryWriteback); the
-// only change is the summarizer now uses the utility model (full context) instead of the small-context free race.
 async function buildMemoryViaAgent(
   apiKey: string,
   body: StreamBody,
@@ -227,7 +212,6 @@ async function buildMemoryViaAgent(
   };
   if (!settings?.memoryEnabled) return out;
 
-  // Utility model honors the full input window (free models truncate). null -> the chat model.
   const utilityModel = settings.utilityModel || body.model;
   const runtime: AgentRuntime = {
     listFreeModels: async () => [utilityModel],
@@ -268,7 +252,6 @@ async function buildMemoryViaAgent(
     }
   }
 
-  // Semantic retrieval stays a direct call (no agent yet) - same behavior as before.
   if (lastUserText && loreCandidates.length > 0) {
     const hits = await deps.retrieveSemantic(
       apiKey,
@@ -285,9 +268,6 @@ async function buildMemoryViaAgent(
   return out;
 }
 
-// Model maxOutputTokens is a hard ceiling; clamp preset to it + the free cap. Without a known
-// ceiling (custom providers, metadata-less catalog models) an explicit user value wins verbatim;
-// UNKNOWN_MODEL_OUTPUT_CAP is only the default when the slider is unset.
 function clampOutputTokens(
   assembled: AssembledSystem,
   modelInfo: ProcessedModel | undefined,

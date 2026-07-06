@@ -41,7 +41,6 @@ type ParsedItemId =
       raw: string;
     };
 
-// Format: `topup_<usd>_<method>` or `plan_<planId>_<method>`.
 function parseItemId(id: string): ParsedItemId | null {
   const topup = id.match(/^topup_(\d+(?:\.\d+)?)_(stripe|creem|nowpayments)$/);
   if (topup) {
@@ -71,7 +70,6 @@ function parseItemId(id: string): ParsedItemId | null {
 
 type Catalog = {
   topupAmounts: Set<number>;
-  // Creem top-ups want a real productId, not a USD string.
   creemProductIdByAmount: Map<number, string>;
   enableStripeTopup: boolean;
   enableCreemTopup: boolean;
@@ -213,7 +211,6 @@ type SessionBody = Record<string, unknown>;
 
 type CheckoutItem = { id: string; quantity: number };
 
-// ACP-spec single-item invariant; shared by createSession and updateSession.
 async function validateAndResolveItem(
   items: CheckoutItem[],
   upstreamHeaders: Record<string, string>,
@@ -404,7 +401,6 @@ export async function completeSession(input: CompleteSessionInput) {
       );
       payLink = res.data.data.pay_link;
     } else if (parsed.method === "creem") {
-      // Creem wants its product id (prod_xxx) and payment_method=creem.
       const catalog = await loadCatalog(headers);
       const productId = catalog.creemProductIdByAmount.get(parsed.amountUsd);
       if (!productId) {
@@ -457,7 +453,6 @@ export async function completeSession(input: CompleteSessionInput) {
     });
   }
 
-  // Quota snapshot so later GETs detect webhook landing (credits balance async).
   const quotaAtComplete = await fetchUserQuota(input.upstreamHeaders);
 
   const db = getDb();
@@ -489,7 +484,6 @@ async function fetchUserQuota(
   }
 }
 
-// Best-effort: flip completed when quota delta >= session amount. Unrelated credits trip it; preferable to stuck in_progress.
 async function maybeAdvanceCompleted(
   row: AcpCheckoutSession,
   upstreamHeaders: Record<string, string>,

@@ -1,5 +1,3 @@
-// Builds a LoadedConvContext from the client-supplied ChatContext (the browser is the source of truth).
-
 import type { LoadedConvContext } from "@/lib/types";
 
 type ClientBoundCharacter = {

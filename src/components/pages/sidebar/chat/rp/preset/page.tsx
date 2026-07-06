@@ -20,7 +20,6 @@ import {
   RpEntityRow,
 } from "../shared/rp-list-parts";
 
-// Dedicated /chat/presets page (replaced the Dialog flow); Basic/Advanced tabs live inside PresetForm.
 export function PresetsPage() {
   const t = useTranslations();
   const presetsQuery = usePresetsQuery();

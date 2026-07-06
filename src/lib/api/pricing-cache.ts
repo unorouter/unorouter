@@ -8,7 +8,6 @@ import { getPricing } from "@/openapi";
 
 let cache: {
   models: ProcessedModel[];
-  // O(1) per-request lookup; every stream + media dispatch hits this.
   byName: Map<string, ProcessedModel>;
   endpointMap: Record<string, EndpointInfo>;
   fetchedAt: number;
@@ -56,7 +55,6 @@ export async function getFreeTextModels(limit?: number): Promise<string[]> {
   const free = models
     .filter((m) => m.type === "text" && m.isFree)
     .map((m) => m.name);
-  // Fisher-Yates: an unbiased shuffle so the race samples free models uniformly (sort-by-random is skewed).
   for (let i = free.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [free[i], free[j]] = [free[j], free[i]];

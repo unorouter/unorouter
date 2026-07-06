@@ -3,13 +3,6 @@ import { probeTransport, type TransportFn } from "./transport";
 import { isTransientError } from "./signals";
 import type { TransportMode, VerifyProvider } from "./types";
 
-// The first request is METADATA gathering, not a scored probe. It resolves:
-// - which API format actually works (native first, then OpenAI as the universal
-//   standard, since gateways usually expose chat/completions),
-// - whether direct browser fetch works or the backend proxy is needed (CORS),
-// - whether the endpoint is reachable and the key is valid.
-// The real behavioral probes then run on the resolved format + transport.
-
 export type HandshakeOutcome =
   | {
       ok: true;
@@ -28,8 +21,6 @@ export type HandshakeOutcome =
 const HANDSHAKE_PROMPT = "hi";
 const HANDSHAKE_MAX_TOKENS = 1;
 
-// 401/403 = the endpoint works but the key is bad. Any other 4xx on a format =
-// that format is not supported here, so we try the fallback.
 function classifyStatus(
   status: number,
 ): "ok" | "auth" | "format" | "transient" {
@@ -92,8 +83,6 @@ export async function runHandshake(opts: {
   transport?: TransportFn;
 }): Promise<HandshakeOutcome> {
   const transport = opts.transport ?? probeTransport;
-  // Native format first, then OpenAI as the universal fallback (skip if native
-  // already IS openai).
   const order: VerifyProvider[] =
     opts.provider === "openai" ? ["openai"] : [opts.provider, "openai"];
 
@@ -119,11 +108,8 @@ export async function runHandshake(opts: {
         status: r.status!,
       };
     if (r.outcome === "auth") sawAuth = true;
-    // "format" or "transient" -> try the next format in the order.
   }
 
-  // No format returned 2xx. An auth seen anywhere means the endpoint is up but
-  // the key is bad; otherwise nothing usable answered.
   if (sawAuth)
     return {
       ok: false,

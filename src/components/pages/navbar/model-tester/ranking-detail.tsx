@@ -182,9 +182,6 @@ export function RankingDetail(props: { host: string; model: string }) {
   );
 }
 
-// One published submission rendered inline as the unified result card (its own
-// outer accordion, driven by the global open atom). No deeper click: the probe
-// evidence lives right here. Detail (probes) is lazy-fetched per visible row.
 function PublishedTestRow(props: {
   rank: number;
   row: RankingRecentRow;

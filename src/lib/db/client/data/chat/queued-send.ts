@@ -8,7 +8,6 @@ import { getLocalDb } from "@/lib/db/client/client";
 
 export type UnansweredTurn = { convId: string; parentId: string };
 
-// "Queued" badge: active-branch leaf is a user message with no active child or later sibling. Detection only; self-dedups once the reply lands.
 export async function findUnansweredUserTurns(
   userId: number | undefined,
 ): Promise<UnansweredTurn[]> {
@@ -22,7 +21,6 @@ export async function findUnansweredUserTurns(
   const rows = await local.db
     .select({ convId: messages.convId, parentId: messages.id })
     .from(messages)
-    // userId scope lives on conversations (messages has no userId column).
     .innerJoin(
       conversations,
       and(eq(conversations.id, messages.convId), eq(conversations.userId, uid)),
@@ -31,7 +29,6 @@ export async function findUnansweredUserTurns(
       and(
         eq(messages.isActiveBranch, true),
         eq(messages.role, "user"),
-        // No active child hanging off this user message.
         notExists(
           local.db
             .select({ one: child.id })
@@ -43,7 +40,6 @@ export async function findUnansweredUserTurns(
               ),
             ),
         ),
-        // No later active message in the same conversation (it is the leaf).
         notExists(
           local.db
             .select({ one: later.id })

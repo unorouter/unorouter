@@ -1,8 +1,3 @@
-// Provider adapter layer. One module per provider family, each owning its model-name match + role flags.
-// Replaces the name-regex RULES table in pipeline/role-flags.ts: new provider = new module + register it.
-
-// RisuAI LLMFlags. Preset manual flags OR with these (a manual flag is never turned off). Read off the
-// resolved adapter by the assemble-prompt / role-transform / build-body stages.
 export type ModelRoleFlags = {
   fullSystem: boolean;
   firstSystem: boolean;
@@ -19,7 +14,6 @@ export type ModelRoleFlags = {
   cacheControl: boolean;
 };
 
-// First registered match wins (mirrors the old RULES first-match-wins order).
 export type ProviderAdapter = {
   name: string;
   match: (modelName: string) => boolean;

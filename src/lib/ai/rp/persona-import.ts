@@ -1,11 +1,8 @@
-// Parses ST/RisuAI persona JSON (single, settings backup, RisuAI flat/wrapped).
-
 type ParsedPersona = {
   name: string;
   description?: string;
 };
 
-// First non-empty string among the given keys of an untrusted import object.
 function firstString(
   raw: Record<string, unknown>,
   keys: string[],
@@ -34,11 +31,9 @@ export function parsePersonaJson(raw: unknown): ParsedPersona[] {
       ? (root.data as Record<string, unknown>)
       : root;
 
-  // ST/RisuAI single export: persona fields flat on the object.
   const flat = pickPersona(data);
   if (flat) return [flat];
 
-  // ST settings backup: `personas` as an array or a "0"/"1"-keyed object.
   const personas = data.personas;
   const entries =
     Array.isArray(personas) || (personas && typeof personas === "object")

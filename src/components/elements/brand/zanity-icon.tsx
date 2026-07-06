@@ -1,6 +1,5 @@
 import type { IconComponent } from "@/lib/config/vendor-icons";
 
-// Zanity. No brand mark in any icon pack, so this is an inline mono "Z" monogram stand-in.
 const ZanityBrandIcon: IconComponent = (props) => (
   <svg
     role="img"

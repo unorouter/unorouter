@@ -6,7 +6,6 @@ export type VendorTheme = {
   text: string;
   tagBg: string;
   tagBorder: string;
-  /** Brand hex color for charts and non-Tailwind contexts. */
   primary?: string;
 };
 
