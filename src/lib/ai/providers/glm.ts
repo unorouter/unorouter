@@ -1,6 +1,5 @@
 import { DEFAULT_ROLE_FLAGS, type ProviderAdapter } from "./types";
 
-// GLM / Kimi: strict alternation, no mid-conv system, user-first, prefill ok.
 export const glmAdapter: ProviderAdapter = {
   name: "glm",
   match: (m) => /glm|chatglm|\bkimi\b|moonshot/i.test(m),

@@ -20,12 +20,8 @@ import { serverLocale } from "@/lib/utils/server";
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
 
-// Live pricing per request (matches /models/[slug]); generateStaticParams still
-// registers the curated routes so they're sitemap-listed + crawlable.
 export const dynamic = "force-dynamic";
 
-// Only a curated allowlist of high-volume pairs prerenders + enters the sitemap;
-// every other combo still renders on-demand (avoids the crawl trap).
 export function generateStaticParams() {
   return LOCALES.flatMap((locale) =>
     comparePairSlugs().map((slugs) => ({ locale, slugs })),
@@ -68,8 +64,6 @@ export async function generateMetadata(props: {
   const description = t("MODELS.COMPARE.META.DESCRIPTION_COMBO", {
     models: comboModelList(models, t("MODELS.COMPARE.FROM")),
   });
-  // Canonical uses alphabetically sorted slugs so a-vs-b and b-vs-a share one
-  // canonical URL instead of registering as duplicate content.
   const sortedSlugs = models.map((m) => modelSlug(m.name)).sort();
   return getPageMetadata({
     locale,

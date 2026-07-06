@@ -22,7 +22,6 @@ type ParsedCharacterCard = {
   systemPrompt?: string;
   postHistoryInstructions?: string;
   tags?: string[];
-  /** Raw data preserved for round-trip. */
   raw: Record<string, unknown>;
 };
 
@@ -35,7 +34,6 @@ type CharacterCardImportResult = {
 const NON_EMPTY = (v: unknown): string | undefined =>
   typeof v === "string" && v.trim() ? v : undefined;
 
-// Asset file extension to image MIME, and the inverse for export.
 const EXT_TO_MIME: Record<string, string> = {
   webp: "image/webp",
   jpeg: "image/jpeg",
@@ -88,7 +86,6 @@ export async function parseCharacterCardFile(
     raw: parsed.card as unknown as Record<string, unknown>,
   };
 
-  // PNG containers: the original file IS the avatar.
   const iconAsset =
     parsed.assets.find((a) => a.type === "icon") ?? parsed.assets[0];
   let imageBytes: Uint8Array | null = null;
@@ -135,7 +132,6 @@ function buildCCv3Card(row: ExportableRow) {
   return denormalizeToV3(normalized);
 }
 
-// foundry has no JSON exporter; emit the envelope shape its parser accepts.
 export function exportCharacterCardAsJson(row: ExportableRow): {
   data: Uint8Array;
   mimeType: string;
@@ -166,7 +162,6 @@ export function exportCharacterCard(
     });
   }
 
-  // PNG export requires a PNG icon asset; use 1x1 transparent PNG fallback.
   if (format === "png" && assets.length === 0) {
     assets.push({
       name: "main",
@@ -178,7 +173,6 @@ export function exportCharacterCard(
 
   const result = exportCard(card, assets, { format });
 
-  // Most formats are zip envelopes; png and voxta are the exceptions.
   const OVERRIDES: Partial<
     Record<ExportFormat, { ext: string; mimeType: string }>
   > = {

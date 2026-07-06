@@ -33,7 +33,6 @@ const privateSet = new Set<string>([
   ...privateRoutes.static,
   ...privateRoutes.dynamicParents,
 ]);
-// Only /docs index has a static-string path; guide entries carry a dynamic /docs/[slug] href object.
 const docPathSet = new Set<string>(
   DOCS_REGISTRY.flatMap((d) => (typeof d.path === "string" ? [d.path] : [])),
 );
@@ -82,13 +81,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       !route.includes("[") &&
       !privateSet.has(route) &&
       !docPathSet.has(route) &&
-      // /docs 301s to /docs/platform; the tab indexes come from DOCS_REGISTRY.
       route !== "/docs" &&
       !route.startsWith("/docs/integrations/"),
   );
 
-  // A silent empty drops every model page from the sitemap; retry once before giving up.
-  // include_offline so offline models keep their URLs (self-canonical, 200 via the detail page).
   const pricing = await rpc.api.models.pricing
     .get({ query: { include_offline: "true" } })
     .then(handleElysia)
@@ -103,10 +99,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       "[sitemap] pricing returned no models; model pages omitted from sitemap",
     );
 
-  // Union the offline-inclusive live set with the durable catalog so no URL is
-  // dropped mid-churn: live gives every currently-known model (online + offline),
-  // the catalog covers models briefly absent from even the offline set.
-  // :free twins are self-canonical distinct pages, so they get their own URLs.
   const catalogEntries = await listCatalogEntries().catch(() => []);
   const modelNames = [
     ...new Set([
@@ -116,8 +108,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ];
   const nameSet = new Set(modelNames);
 
-  // Canonical model URLs are ALWAYS vendor/model (the bare model 404s), so a
-  // name with no resolvable vendor is dropped from the sitemap entirely.
   const nameToVendor = new Map<string, string>([
     ...catalogEntries.map((e) => [e.name, e.vendor] as const),
     ...(pricing?.models ?? []).map((m) => [m.name, m.vendor.name] as const),
@@ -167,8 +157,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         { priority: 0.5, changeFrequency: "weekly" },
       ),
     ),
-    // Curated head-to-head pairs only; drop any pair whose models left the
-    // catalog (retired), judged against the stable set, not hourly liveness.
     ...COMPARE_PAIRS.filter(([a, b]) =>
       [a, b].every((name) => nameSet.has(name)),
     ).flatMap(([a, b]) =>

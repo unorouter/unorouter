@@ -1,6 +1,5 @@
 import type { IconComponent } from "@/lib/config/vendor-icons";
 
-// TheDrummer (community RP finetunes). No brand mark exists, so this is an inline mono snare-drum glyph stand-in.
 const TheDrummerIcon: IconComponent = (props) => (
   <svg
     role="img"

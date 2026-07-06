@@ -5,7 +5,6 @@ import { findUnansweredUserTurns } from "@/lib/db/client/data/chat/queued-send";
 import { queryKeys } from "@/lib/react-query/keys";
 import { useQuery } from "@tanstack/react-query";
 
-// ConvIds with an unanswered user turn, for UI badges. Local DB only; invalidated by the history adapter append (offline persist).
 export function useQueuedSends() {
   const userId = useLocalUserId();
   return useQuery({

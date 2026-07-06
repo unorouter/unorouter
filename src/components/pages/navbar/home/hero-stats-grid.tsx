@@ -1,6 +1,5 @@
 import { useTranslations } from "next-intl";
 
-// counts are fetched server-side by the page.
 export type HeroCounts = {
   modelCount: number;
   vendorCount: number;

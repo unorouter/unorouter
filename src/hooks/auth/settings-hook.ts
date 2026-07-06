@@ -158,7 +158,6 @@ export function useDisable2FAMutation() {
 }
 
 export function usePasskeyRegisterBeginMutation() {
-  // No error toast by design: WebAuthn cancel is a normal user action.
   return useMutation({
     mutationFn: async () =>
       handleElysia(await rpc.api.auth.settings.passkey.register.begin.post()),

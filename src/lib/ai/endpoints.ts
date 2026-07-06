@@ -1,5 +1,3 @@
-// Upstream OpenAI-compatible API endpoint paths (relative to the api base url). Single source so the
-// request-log curl, the media dispatcher, and the playground builders agree on the wire path.
 export const API_ENDPOINTS = {
   chatCompletions: "/v1/chat/completions",
   imagesGenerations: "/v1/images/generations",

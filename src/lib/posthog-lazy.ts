@@ -2,7 +2,6 @@ import { IS_DEV, POSTHOG_DISABLED } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
 import type { PostHog } from "posthog-js";
 
-// Lazy proxy keeping posthog-js out of page bundles: the module loads on first call. Pre-resolve calls queue; disabled calls drop.
 let instance: PostHog | null = null;
 let loading = false;
 const queue: Array<(p: PostHog) => void> = [];
@@ -31,7 +30,6 @@ function run(fn: (p: PostHog) => void) {
     fn(instance);
     return;
   }
-  // Bound so a never-resolving load (disabled/adblock) can't grow unbounded.
   if (queue.length < 100) queue.push(fn);
   ensureLoaded();
 }

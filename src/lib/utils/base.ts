@@ -17,7 +17,6 @@ export function safeJsonParse<T = Record<string, unknown>>(
   }
 }
 
-// Parse a JSON object string into a string map (var stores). Invalid input yields {}; non-strings are stringified.
 export function parseStringMap(
   raw: string | null | undefined,
 ): Record<string, string> {
@@ -36,7 +35,6 @@ export function pick<T>(arr: ArrayLike<T>): T {
 
 export function uid(length = 21): string {
   let id = "";
-  // Rejection sampling: bytes >=62 discarded for uniform alphanumeric output.
   while (id.length < length) {
     const bytes = crypto.getRandomValues(new Uint8Array(length));
     for (let i = 0; i < length && id.length < length; i++) {
@@ -63,19 +61,14 @@ export function copyToClipboardAsync(
   ]);
 }
 
-// next-intl rejects raw [ ] and a raw / splits into extra segments; encode all three into one URL-safe segment.
 export function modelSlug(name: string): string {
   return name.replace(/\[/g, "%5B").replace(/\]/g, "%5D").replace(/\//g, "%2F");
 }
 
-// "glm-5.2:free" -> "glm-5.2"; non-:free names return unchanged.
 export function baseModelName(name: string): string {
   return name.endsWith(":free") ? name.slice(0, -":free".length) : name;
 }
 
-// params.slug round-trips inconsistently: Next leaves some reserved chars (`:`)
-// percent-encoded in the segment while `modelSlug` only escapes `[ ] /`. Compare
-// the raw name, the encoded form, and the decoded slug so `{model}:free` matches.
 export function modelMatchesSlug(name: string, slug: string): boolean {
   let decoded = slug;
   try {
@@ -91,8 +84,6 @@ export function modelMatchesSlug(name: string, slug: string): boolean {
   );
 }
 
-// Vendor display names are lowercased and can hold spaces ("agnes ai"); the URL
-// slug collapses whitespace to dashes and drops anything not [a-z0-9-].
 export function vendorSlug(name: string): string {
   return name
     .toLowerCase()
@@ -114,9 +105,6 @@ export function vendorMatchesSlug(name: string, slug: string): boolean {
   return target === decoded.toLowerCase() || target === slug.toLowerCase();
 }
 
-// Canonical model URL for the /models/[...slug] catch-all. Only the 2-segment
-// vendor/model form resolves; a bare model name 404s, so callers must supply the
-// vendor. Falls back to "unknown" when a vendor is genuinely absent.
 export function modelHref(name: string, vendorName?: string) {
   const vendor = vendorName ? vendorSlug(vendorName) : "";
   const slug = [vendor || "unknown", modelSlug(name)];
@@ -130,7 +118,6 @@ export function unwrap<T extends { data: unknown }>(
   return res.data as ExcludeVoid<NonNullable<T["data"]>>;
 }
 
-// Throws on non-200/{success:false}; unwraps {data}.
 export function handleElysia<T extends { data: unknown; status: number }>(
   response: T,
 ): UnwrapApiResponse<ExtractData<T>> {
@@ -170,7 +157,6 @@ export function base64ToUint8(b64: string): Uint8Array {
   return out;
 }
 
-// Uint8Array<ArrayBufferLike> -> fresh ArrayBuffer-backed copy for Blob parts.
 export function uint8ToArrayBuffer(bytes: Uint8Array): ArrayBuffer {
   const ab = new ArrayBuffer(bytes.byteLength);
   new Uint8Array(ab).set(bytes);
@@ -181,7 +167,6 @@ export function base64ToDataUri(base64: string, mimeType: string): string {
   return `data:${mimeType};base64,${base64}`;
 }
 
-// Reads a File as raw base64, stripping the `data:<mime>;base64,` prefix.
 export function fileToBase64(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -195,12 +180,10 @@ export function fileToBase64(file: File): Promise<string> {
   });
 }
 
-// SQL identifier quoting (table/column names). Escapes embedded `"`.
 export function quoteIdent(s: string): string {
   return `"${s.replace(/"/g, '""')}"`;
 }
 
-// Splits a comma-separated form field into a trimmed, empty-stripped array. RP forms edit as text; DB stores arrays.
 export function csvToArray(value: string): string[] {
   return value
     .split(",")
@@ -208,7 +191,6 @@ export function csvToArray(value: string): string[] {
     .filter(Boolean);
 }
 
-// Filename-safe slug; non-alphanumerics->-, cap 60 chars.
 export function exportSlug(name: string, fallback: string): string {
   return name.replace(/[^a-zA-Z0-9_-]+/g, "-").slice(0, 60) || fallback;
 }
@@ -233,7 +215,6 @@ export function formatJson(value: unknown): string {
   return value == null ? "" : JSON.stringify(value, null, 2);
 }
 
-// FNV-1a 32-bit hex over a string. A content fingerprint for chat-context dedup, not security.
 export function fnv1aHex(input: string): string {
   let h = 0x811c9dc5;
   for (let i = 0; i < input.length; i++) {
@@ -243,7 +224,6 @@ export function fnv1aHex(input: string): string {
   return (h >>> 0).toString(16).padStart(8, "0") + ":" + input.length;
 }
 
-// Cosine similarity of two vectors. 0 for empty, length-mismatched, or zero-norm inputs.
 export function cosineSimilarity(a: number[], b: number[]): number {
   if (a.length === 0 || a.length !== b.length) return 0;
   let dot = 0;
@@ -257,7 +237,6 @@ export function cosineSimilarity(a: number[], b: number[]): number {
   return na === 0 || nb === 0 ? 0 : dot / (Math.sqrt(na) * Math.sqrt(nb));
 }
 
-// Coerce an unknown value to an i18n params record, or undefined.
 export const asParams = (
   v: unknown,
 ): Record<string, string | number> | undefined =>

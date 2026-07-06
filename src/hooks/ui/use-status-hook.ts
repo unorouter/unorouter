@@ -19,7 +19,6 @@ import { useDeferredValue, useState } from "react";
 
 const UNGROUPED_VENDOR = "Other";
 
-// Bucket+window keeps bar count 30-200 (1m*24h=1440 = sub-pixel garbage).
 export const BUCKET_OPTIONS: { value: StatusBucket; hours: number }[] = [
   { value: "1m", hours: 1 },
   { value: "5m", hours: 6 },
@@ -28,7 +27,6 @@ export const BUCKET_OPTIONS: { value: StatusBucket; hours: number }[] = [
   { value: "1d", hours: 720 },
 ];
 
-// Banner: error >=10% down, degraded >=10% degraded (or any errors below the error threshold).
 const ERROR_RATIO = 0.1;
 const DEGRADED_RATIO = 0.1;
 
@@ -70,7 +68,6 @@ export function useStatusFilter() {
   const pricing = usePricingQuery();
 
   const [search, setSearch] = useState("");
-  // Defer search: input stays responsive while filtering 78 rows.
   const deferredSearch = useDeferredValue(search);
 
   const [statusFilter, setStatusFilter] = useAtom(statusFilterAtom);
@@ -153,7 +150,6 @@ export function useStatusFilter() {
     }
   };
 
-  // Flatten groups for virtua; all 78 rows otherwise = 40k+ DOM nodes.
   const items: StatusListItem[] = [];
   for (const group of groups) {
     let operational = 0;

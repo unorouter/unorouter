@@ -15,7 +15,6 @@ const TYPE_CLASSES: Record<Exclude<ModelType, "text">, string> = {
 
 type ModelTypeBadgeProps = {
   type: ModelType;
-  /** Used for text-type styling (per-vendor accent). */
   theme: VendorTheme;
   className?: string;
 };

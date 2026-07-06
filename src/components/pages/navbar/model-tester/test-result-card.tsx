@@ -18,12 +18,9 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 import type { TranslationKey } from "@/lib/types";
 
-// Unified shape both the live VerifyResult and a stored test+probes map into.
 export type ResultProbe = {
   label: string;
   pass: boolean;
-  // A transient failure (429/5xx/timeout/CORS/no-response). NOT a real fake
-  // signal: shown as an amber "skipped" marker, never red.
   transient: boolean;
   signal: string | null;
   reason: string | null;
@@ -85,8 +82,6 @@ const PROBE_KEY: Record<string, TranslationKey> = {
   "model-name": "MODEL_TESTER.PROBE.MODEL-NAME",
 };
 
-// Always-on per-probe intent: what the probe asks + why it exposes a fake. Shown
-// for every probe regardless of pass/fail, so the card explains itself.
 const PROBE_INTENT_CHECKS: Record<string, TranslationKey> = {
   emotional: "MODEL_TESTER.PROBE_INTENT.EMOTIONAL.CHECKS",
   creative: "MODEL_TESTER.PROBE_INTENT.CREATIVE.CHECKS",
@@ -107,7 +102,6 @@ const CONN_KEY: Record<string, TranslationKey> = {
   "no-format": "MODEL_TESTER.CONNECTIVITY.NO_FORMAT",
 };
 
-// Inline rule explanation keyed by the rule a probe signal maps to.
 const RULE_TITLE_KEY: Record<string, TranslationKey> = {
   "coding-tool": "MODEL_TESTER.RULES.CODING-TOOL.TITLE",
   scam: "MODEL_TESTER.RULES.SCAM.TITLE",
@@ -121,7 +115,6 @@ const RULE_WHY_KEY: Record<string, TranslationKey> = {
   foreign: "MODEL_TESTER.RULES.FOREIGN.WHY",
 };
 
-// Per-highlight-kind color + legend label.
 const HIGHLIGHT_CLASS: Record<NonNullable<HighlightKind>, string> = {
   foreign:
     "rounded-sm bg-destructive/15 text-destructive px-0.5 font-medium dark:bg-destructive/25",
@@ -307,9 +300,6 @@ function ProbeRow(props: { probe: ResultProbe; provider: VerifyProvider }) {
   );
 }
 
-// A probe outcome has THREE states for display: pass (green), a transient skip
-// (amber: 429/5xx/timeout/no-response, not a real fake signal), and a genuine
-// fail (red). A failed-but-transient probe must never read as a real failure.
 type ProbeTone = "pass" | "transient" | "fail";
 function probeTone(probe: ResultProbe): ProbeTone {
   if (probe.pass) return "pass";
@@ -336,8 +326,6 @@ const PROBE_ROW_ICON_TONE: Record<ProbeTone, string> = {
   fail: "text-destructive",
 };
 
-// Compact pill per probe, shown on the card header so all four probe outcomes are
-// visible WITHOUT expanding. Expanding only opens the deep detail.
 function ProbePill(props: { probe: ResultProbe }) {
   const t = useTranslations();
   const probe = props.probe;
@@ -356,11 +344,6 @@ function ProbePill(props: { probe: ResultProbe }) {
   );
 }
 
-// The result card. Everything SCANNABLE (verdict, model, the four probe pills,
-// evidence, latency/tokens/detected) lives on the card and stays visible. The
-// outer accordion only gates the deep per-probe inspection (prompt/response/
-// intent). Delete + timestamp ride ON the card; delete stops propagation so it
-// never toggles the accordion.
 export function TestResultCard(props: {
   result: ResultCardData;
   defaultOpen?: boolean;

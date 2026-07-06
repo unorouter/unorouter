@@ -1,5 +1,3 @@
-// Server-side TriggerOps for V1 lowLevelAccess effects: direct service calls (client modes POST /chat/trigger-op instead).
-
 import { parseChatML } from "@/lib/ai/chat/chatml";
 import { generateInlayImage } from "../media/inlay.service";
 import type { InlayImage } from "@/lib/ai/chat/pipeline/deps";
@@ -31,7 +29,6 @@ export async function runTriggerLLM(
   }
 }
 
-// Rank values by similarity to source (Risu HypaProcesser.similaritySearch: all candidates, best first).
 export async function runTriggerSimilarity(
   apiKey: string,
   source: string,
@@ -41,7 +38,6 @@ export async function runTriggerSimilarity(
     .filter((v) => v.length > 0)
     .map((text, i) => ({ id: String(i), text }));
   if (candidates.length === 0) return [];
-  // minScore -1: Risu similaritySearch returns every candidate ranked.
   const hits = await retrieveSemantic(apiKey, source, candidates, {
     topK: candidates.length,
     minScore: -1,
@@ -52,7 +48,6 @@ export async function runTriggerSimilarity(
 export function makeServerTriggerOps(
   apiKey: string,
   model: string,
-  // Generated inlay bytes collect here; they ride finish-meta so the client persists the media rows.
   inlayCollector?: InlayImage[],
 ): TriggerOps {
   return {
@@ -65,6 +60,5 @@ export function makeServerTriggerOps(
       inlayCollector?.push(img);
       return `{{inlay::${img.id}}}`;
     },
-    // runLua wired by the Lua module; alert is wrapped by runStartTriggers (collected, streamed as data-alert).
   };
 }

@@ -58,7 +58,6 @@ import {
   WEB_SEARCH_ENGINE_KEY,
 } from "./form-handler";
 
-// Per-conversation binding fields: persona, preset, characters, lorebooks. Conversation mode only; the drawer gates its render.
 export function OverridesBindingFields(props: {
   control: Control<ConversationOverridesForm>;
 }) {
@@ -78,7 +77,6 @@ export function OverridesBindingFields(props: {
           noneLabel={t("CHAT.OVERRIDES.NONE")}
           options={personasQuery.data?.map((p) => ({
             id: p.id,
-            // Display title distinguishes same-named personas; {{user}} still uses name.
             name: p.title ? `${p.title} (${p.name})` : p.name,
           }))}
         />
@@ -114,7 +112,6 @@ export function OverridesBindingFields(props: {
   );
 }
 
-// Generation controls: reasoning effort, chat memory, streaming, web search.
 export function OverridesGenerationFields(props: {
   control: Control<ConversationOverridesForm>;
   showConversationFields: boolean;
@@ -354,8 +351,6 @@ export function OverridesGenerationFields(props: {
   );
 }
 
-// Utility model picker: searchable catalog text models plus non-image custom-provider models
-// (proxy/BYOK); the memory summarizer and image prompt-writer run on this model.
 function UtilityModelField(props: {
   control: Control<ConversationOverridesForm>;
 }) {
@@ -491,8 +486,6 @@ function UtilityModelField(props: {
   );
 }
 
-// Image model picker: catalog image models (labeled with their reference-image capacity) plus
-// image-typed custom-provider models (BYOK; generated browser-direct against the user's endpoint).
 function ImageModelField(props: {
   control: Control<ConversationOverridesForm>;
 }) {
@@ -526,7 +519,6 @@ function ImageModelField(props: {
   );
 }
 
-// Prompt-writer instruction textarea plus a style-template select that fills it (user edits from there).
 function ImagePromptInstructionField(props: {
   control: Control<ConversationOverridesForm>;
 }) {
@@ -582,7 +574,6 @@ function ImagePromptInstructionField(props: {
   );
 }
 
-// Free-text prompt fields: extra body JSON, system prompt, author note + depth.
 export function OverridesPromptFields(props: {
   control: Control<ConversationOverridesForm>;
 }) {

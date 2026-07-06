@@ -18,8 +18,6 @@ import { useState } from "react";
 
 type Theme = ReturnType<typeof getVendorTheme>;
 
-// Collapsed-by-default per-channel-group pricing for the detail page. Tiered
-// models are skipped upstream (no single per-token price to scale).
 export function GroupPricingSection(props: {
   model: ProcessedModel;
   groupRatioMap: Record<string, number>;
@@ -118,7 +116,10 @@ function GroupTokens(props: {
           const inputPrice = props.modelRatio * 2 * ge.ratio;
           const outputPrice = inputPrice * props.completionRatio;
           return (
-            <tr key={ge.group} className="border-border/20 border-b last:border-0">
+            <tr
+              key={ge.group}
+              className="border-border/20 border-b last:border-0"
+            >
               <td className="text-muted-foreground py-1.5">{ge.group}</td>
               <td className={cn("py-1.5 text-right", props.theme.text)}>
                 {formatPrice(inputPrice)}
@@ -155,7 +156,10 @@ function GroupFixed(props: {
       </thead>
       <tbody>
         {props.entries.map((ge) => (
-          <tr key={ge.group} className="border-border/20 border-b last:border-0">
+          <tr
+            key={ge.group}
+            className="border-border/20 border-b last:border-0"
+          >
             <td className="text-muted-foreground py-1.5">{ge.group}</td>
             <td className={cn("py-1.5 text-right", props.theme.text)}>
               {formatPrice(props.fixedPrice * ge.ratio)}

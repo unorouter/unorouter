@@ -1,6 +1,5 @@
 import { CodeBlock } from "@/components/elements/code/code-block";
 
-/** One anchored page section; id must match the registry heading id. */
 export function DocSection(props: {
   id: string;
   title: string;
@@ -53,7 +52,6 @@ export function DocTable(props: {
   );
 }
 
-/** Literal code block, never translated. No API-key injection. */
 export function DocCode(props: { code: string; lang?: string }) {
   return <CodeBlock code={props.code} language={props.lang ?? "text"} />;
 }

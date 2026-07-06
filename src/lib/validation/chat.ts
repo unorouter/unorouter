@@ -45,7 +45,6 @@ const itemTaskData = t.Object(
     model: t.String({ maxLength: MAX_MODEL_LEN }),
     status: t.String({ maxLength: 32 }),
     progress: t.Optional(t.String({ maxLength: 16 })),
-    // "image" = illustrator async-amend placeholder; absent/"video" = the video task card.
     kind: t.Optional(t.String({ maxLength: 16 })),
   },
   { additionalProperties: true },
@@ -58,7 +57,6 @@ const itemErrorData = t.Object(
   { additionalProperties: true },
 );
 
-// One union member per item type; data schema is the only variance.
 const ITEM_DATA_SCHEMAS = [
   ["text", itemTextData],
   ["reasoning", itemReasoningData],
@@ -70,7 +68,6 @@ const ITEM_DATA_SCHEMAS = [
   ["error", itemErrorData],
 ] as const;
 
-// Runtime schema kept for future server validation.
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const _persistMessageItem = t.Union(
   ITEM_DATA_SCHEMAS.map(([type, data]) =>
@@ -84,7 +81,6 @@ const _persistMessageItem = t.Union(
 );
 export type PersistMessageItem = Static<typeof _persistMessageItem>;
 
-// Source of truth for validation + schema column narrows.
 export const messageRole = t.Union([
   t.Literal("system"),
   t.Literal("user"),
@@ -130,7 +126,6 @@ export const webSearchContextSize = t.Union([
 ]);
 export type WebSearchContextSize = Static<typeof webSearchContextSize>;
 
-// ReadonlySet<string> so membership checks take a bare string; the narrowing return casts once (TS can't infer Set.has).
 const REASONING_EFFORTS: ReadonlySet<string> = new Set(
   unionLiterals(reasoningEffort),
 );
@@ -141,7 +136,6 @@ const WEB_SEARCH_CONTEXT_SIZES: ReadonlySet<string> = new Set(
   unionLiterals(webSearchContextSize),
 );
 
-// Narrow bare text from SQLocal / cookies into the literal union; fall back on unknown.
 export function narrowReasoningEffort<TFallback extends string>(
   raw: string | null | undefined,
   fallback: TFallback,
@@ -163,7 +157,6 @@ export function narrowWebSearchContextSize(
     : "medium";
 }
 
-// extraBody JSON: UI reads `valid`; stream uses `parsed`.
 export type ExtraBodyParse =
   | { state: "empty" }
   | { state: "valid"; parsed: Record<string, unknown> }
@@ -182,7 +175,6 @@ export function parseExtraBody(raw: string | null | undefined): ExtraBodyParse {
   }
 }
 
-// Form uses `NONE_VALUE` sentinel for "model default"; collapse to null.
 export function formReasoningEffortToValue(
   raw: string | null | undefined,
 ): ReasoningEffort | null {
@@ -190,10 +182,8 @@ export function formReasoningEffortToValue(
   return REASONING_EFFORTS.has(raw) ? (raw as ReasoningEffort) : null;
 }
 
-// Keep in sync with `chatDefaultsAtom` in `src/store/chat-store.ts`.
 export const streamOverrides = t.Object({
   reasoningEffort: t.Optional(t.Union([reasoningEffort, t.Null()])),
-  // null = inherit the bound preset (else system default 8).
   chatMemory: t.Optional(
     t.Union([t.Number({ minimum: 1, maximum: 1000 }), t.Null()]),
   ),
@@ -208,11 +198,8 @@ export const streamOverrides = t.Object({
   webSearchEngine: t.Optional(webSearchEngine),
   webSearchContextSize: t.Optional(webSearchContextSize),
   ...samplingOptional(),
-  // Sliders win on key conflicts. Parsed at the prompt assembler.
   extraBody: t.Optional(t.Union([t.String({ maxLength: 8_192 }), t.Null()])),
-  // null inherits the bound preset (else streaming on). false buffers the full upstream reply, then emits a chunk.
   streamingEnabled: t.Optional(t.Union([t.Boolean(), t.Null()])),
-  // null inherits the bound preset (else shown). false hides thinking at render; reasoning still streams + persists.
   showReasoning: t.Optional(t.Union([t.Boolean(), t.Null()])),
 });
 export type StreamOverrides = Static<typeof streamOverrides>;
@@ -239,11 +226,9 @@ export const updateConversationSettingsBody = t.Object({
   webSearchEnabled: t.Optional(t.Boolean()),
   webSearchEngine: t.Optional(webSearchEngine),
   webSearchContextSize: t.Optional(webSearchContextSize),
-  // Billing/routing group sent upstream as X-Group; null == "auto".
   group: t.Optional(t.Union([t.String({ maxLength: MAX_ID_LEN }), t.Null()])),
   ...samplingOptional(),
   extraBody: t.Optional(t.Union([t.String({ maxLength: 8_192 }), t.Null()])),
-  // Chat-variable store (setvar + sticky lorebook state).
   vars: t.Optional(t.Union([t.String({ maxLength: 65_536 }), t.Null()])),
   streamingEnabled: t.Optional(t.Union([t.Boolean(), t.Null()])),
   showReasoning: t.Optional(t.Union([t.Boolean(), t.Null()])),
@@ -257,10 +242,8 @@ export const updateConversationSettingsBody = t.Object({
   promptInstruction: t.Optional(
     t.Union([t.String({ maxLength: 4_096 }), t.Null()]),
   ),
-  // 512: fits namespaced custom:::<providerId>:::<modelKey> ids (BYOK image models).
   imageModel: t.Optional(t.Union([t.String({ maxLength: 512 }), t.Null()])),
   imagePreview: t.Optional(t.Union([t.Boolean(), t.Null()])),
-  // JSON array of media ids used as illustrator reference images.
   imageRefIds: t.Optional(t.Union([t.String({ maxLength: 4_096 }), t.Null()])),
   useCharAvatarRef: t.Optional(t.Union([t.Boolean(), t.Null()])),
   summaryMemory: t.Optional(
@@ -273,7 +256,6 @@ export type UpdateConversationSettingsBody = Static<
   typeof updateConversationSettingsBody
 >;
 
-// Plain type: bindings mutate local-first only, this shape never crosses a wire.
 export type UpdateConversationBindingsBody = {
   characters?: Array<{
     characterId: string;
@@ -284,10 +266,8 @@ export type UpdateConversationBindingsBody = {
   lorebookIds?: string[];
 };
 
-// Loose Any(): each entity body has its own validation surface; re-checking here would double-cost on every turn.
 export const chatContext = t.Object({
   persona: t.Optional(t.Union([t.Any(), t.Null()])),
-  // Bound shape {binding, character}; the assembler honors per-character isActive/overrides via the binding.
   characters: t.Optional(
     t.Array(
       t.Object({
@@ -313,7 +293,6 @@ export const chatContext = t.Object({
   ),
   preset: t.Optional(t.Union([t.Any(), t.Null()])),
   settings: t.Optional(t.Union([t.Any(), t.Null()])),
-  // Per-user global variable store (JSON string) for setglobalvar/getglobalvar.
   globalVars: t.Optional(t.Union([t.String(), t.Null()])),
 });
 export type ChatContext = Static<typeof chatContext>;
@@ -323,19 +302,14 @@ export const streamBody = t.Object({
   messages: t.Array(t.Any(), { maxItems: MAX_MESSAGES_PER_STREAM }),
   convId: t.Optional(t.Union([t.String({ maxLength: MAX_ID_LEN }), t.Null()])),
   webSearch: t.Optional(t.Boolean()),
-  // Billing/routing group sent upstream as X-Group; null/absent == "auto".
   group: t.Optional(t.Union([t.String({ maxLength: MAX_ID_LEN }), t.Null()])),
-  // Fallback for guest convs (no settings row).
   overrides: t.Optional(streamOverrides),
   chatContext: t.Optional(chatContext),
   globalVars: t.Optional(t.Union([t.String(), t.Null()])),
-  // Multi-character rotation: who speaks this turn. When set, the assembler promotes that character to primary.
   speakingCharacterId: t.Optional(
     t.Union([t.String({ maxLength: MAX_ID_LEN }), t.Null()]),
   ),
-  // Per-message createdAt (unix ms) keyed by message id, for the CBS message_time/date/idle family. Outside the hash.
   messageTimes: t.Optional(t.Record(t.String(), t.Number())),
-  // Browser environment for screen_width/height + locale-faithful time macros.
   clientEnv: t.Optional(
     t.Object({
       viewportW: t.Optional(t.Number()),
@@ -347,7 +321,6 @@ export const streamBody = t.Object({
 });
 export type StreamBody = Static<typeof streamBody>;
 
-// V1 lowLevelAccess trigger effects from client modes: keys resolve server-side, results return to the VM. One body per op.
 export const triggerLlmBody = t.Object({
   prompt: t.String({ maxLength: MAX_TEXT_LEN }),
   model: t.String({ maxLength: MAX_MODEL_LEN }),
@@ -359,9 +332,7 @@ export const triggerSimilarityBody = t.Object({
 export const triggerImggenBody = t.Object({
   prompt: t.String({ maxLength: MAX_TEXT_LEN }),
   negative: t.Optional(t.String({ maxLength: MAX_TEXT_LEN })),
-  // Illustrator image model; absent = auto-pick (first free image model).
   model: t.Optional(t.String({ maxLength: MAX_MODEL_LEN })),
-  // Reference images as data: URIs (OPFS bytes) or http(s) urls; server caps by model maxImageInputs.
   references: t.Optional(
     t.Array(t.Object({ url: t.String({ maxLength: 15_000_000 }) }), {
       maxItems: 6,
@@ -374,9 +345,6 @@ export const titleGenerationBody = t.Object({
   model: t.Optional(t.String()),
 });
 
-// Default-path forward proxy: the client already built the OpenAI wire body. Permissive passthrough
-// (model/messages/stream/sampling/provider options...) plus our out-of-band `group`. The proxy resolves
-// the token + guest-gates + pipes to new-api; it never inspects the message contents.
 export const forwardBody = t.Object(
   {
     model: t.String({ maxLength: MAX_MODEL_LEN }),

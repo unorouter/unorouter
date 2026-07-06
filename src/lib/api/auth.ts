@@ -35,9 +35,6 @@ export async function handleAuthResponse(
         sameSite: "lax",
       }),
     );
-    // Password login authenticates via the fresh session cookie; a leftover
-    // OAuth access token would take precedence in deriveUpstream and pin the
-    // old identity, so expire it here.
     cookies.push(
       stringifySetCookie({
         name: ACCESS_TOKEN_COOKIE,

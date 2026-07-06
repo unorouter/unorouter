@@ -47,7 +47,6 @@ const conversationStore = makeTableStore(conversations, conversations.id);
 const messageStore = makeTableStore(messages, messages.id);
 const messageItemStore = makeTableStore(messageItems, messageItems.id);
 
-// List projection: select * would drag summaryMemory/vars/extraBody blobs through OPFS on every sidebar render.
 export const readLocalConversations = async (userId: number | undefined) => {
   const uid = userId ?? GUEST_USER_ID;
   const local = await getLocalDb(uid);
@@ -97,7 +96,6 @@ export const deleteLocalChatGroup = async (
   const uid = userId ?? GUEST_USER_ID;
   const local = await getLocalDb(uid);
   if (!local) return;
-  // Ungroup the chats first (keep them), then drop the group row.
   await local.db
     .update(conversations)
     .set({ groupId: null })
@@ -128,7 +126,6 @@ export const setChatGroupFolded = (
   folded: boolean,
 ) => chatGroupStore.update(userId, groupId, { folded });
 
-// Partial update (never insert): the conversation row is owned by the create/stream path.
 export const setConversationGroup = (
   userId: number | undefined,
   convId: string,
@@ -165,8 +162,6 @@ export async function readLocalMessages(
     .orderBy(messages.createdAt);
 }
 
-// Metadata-only message projection for diagnostics: skips heavy item/content columns so a
-// chat-heavy DB doesn't materialize every full message row into memory (mobile OOM on export).
 export async function readLocalMessageMetaForConv(
   userId: number | undefined,
   convId: string,
@@ -208,7 +203,6 @@ export async function readLocalConversationBindings(
   return { conversationCharacters: chars, conversationLorebooks: lbs };
 }
 
-// Primary (lowest orderIndex) character row for a conversation, or null.
 export async function readPrimaryCharacter(
   userId: number | undefined,
   convId: string,
@@ -231,7 +225,6 @@ export async function readPrimaryCharacter(
   return charRows[0] ?? null;
 }
 
-// Primary character's regex scripts, parsed. History adapter runs editoutput on assistant replies with them.
 export async function readConvRegexScripts(
   userId: number | undefined,
   convId: string,
@@ -240,7 +233,6 @@ export async function readConvRegexScripts(
   return parseRegexScripts(ch?.regexScripts);
 }
 
-// Primary character's parsed trigger scripts; the history adapter runs output-mode triggers with them after reply.
 export async function readConvTriggers(
   userId: number | undefined,
   convId: string,
@@ -249,14 +241,12 @@ export async function readConvTriggers(
   return parseTriggerScripts(ch?.triggers);
 }
 
-// Delta-scope readers for the outbox drainer ("msgs" hint).
 export async function readLocalMessagesByIds(
   userId: number | undefined,
   ids: string[],
 ) {
   const local = await getLocalDb(userId);
   if (!local || ids.length === 0) return [];
-  // Parents before children: the server inserts in payload order and messages.parent_id is a FK.
   return local.db
     .select()
     .from(messages)
@@ -326,7 +316,6 @@ export async function readLocalConversationBundle(
     readLocalRequestLogsForConv(userId, convId),
   ]);
 
-  // Inline RP entity bodies so the export bundle is self-contained.
   const characterIds = (bindings?.conversationCharacters ?? []).map(
     (b) => b.characterId,
   );
@@ -394,7 +383,6 @@ export const upsertLocalConversationSettings = (
   return conversationStore.upsert(userId, next);
 };
 
-// Settings-only patch on an existing conversation row, never creates it. Avoids the upsert NOT NULL trip on a partial.
 export const updateLocalConversationSettings = (
   userId: number | undefined,
   row: LocalRowInput & { convId: string },
@@ -477,7 +465,6 @@ export async function replaceLocalConversationBindings(
   }
 }
 
-// No local.transaction(): SQLocal mutex deadlocks drizzle proxy queries.
 export async function upsertLocalConversationBundle(
   userId: number | undefined,
   bundle: {
@@ -493,7 +480,6 @@ export async function upsertLocalConversationBundle(
 ): Promise<{ skippedLocalNewer: number }> {
   const local = await getLocalDb(userId);
   if (!local) return { skippedLocalNewer: 0 };
-  // Settings cols live on the conversation row; fold the bundle's settings in.
   const convRow = bundle.settings
     ? {
         ...bundle.conversation,
@@ -507,7 +493,6 @@ export async function upsertLocalConversationBundle(
   await conversationStore.upsert(userId, convRow);
 
   const convId = bundle.conversation.id;
-  // Composite PK; use mergeChildRows.
   await mergeChildRows(
     local.db,
     conversationCharacters,
@@ -521,7 +506,6 @@ export async function upsertLocalConversationBundle(
     bundle.conversationLorebooks,
   );
 
-  // Per-row merge by updatedAt so local-only branches survive a re-pull.
   const existingMessages = (await local.db
     .select({ id: messages.id, updatedAt: messages.updatedAt })
     .from(messages)
@@ -552,7 +536,6 @@ export async function upsertLocalConversationBundle(
     replacedMsgIds.push(m.id);
   }
 
-  // Refresh items only for messages whose parent row was overwritten.
   if (replacedMsgIds.length > 0) {
     await local.db
       .delete(messageItems)
@@ -564,7 +547,6 @@ export async function upsertLocalConversationBundle(
     await local.db.insert(messageItems).values(it as never);
   }
 
-  // Import merge: a local message absent from the bundle is dropped UNLESS newer than the conv stamp. Items cascade.
   const remoteConvStamp = bundle.conversation.updatedAt
     ? new Date(
         bundle.conversation.updatedAt as Date | number | string,
@@ -581,7 +563,6 @@ export async function upsertLocalConversationBundle(
     await local.db.delete(messages).where(inArray(messages.id, staleMsgIds));
   }
 
-  // Same for bindings: joins absent from the bundle are dropped. createdAt guards local-only bindings.
   const remoteCharIds = new Set(
     bundle.conversationCharacters.map((c) => c.characterId as string),
   );
@@ -616,10 +597,8 @@ export async function upsertLocalConversationBundle(
     }
   }
 
-  // Media keyed on row id; mergeChildRows preserves local-only + base64 cache.
   await mergeChildRows(local.db, media, media.id, bundle.media);
 
-  // Logs PK by msgId; idempotent upsert keeps server-canonical row.
   for (const log of bundle.requestLogs) {
     await local.db
       .insert(requestLogs)

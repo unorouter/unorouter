@@ -1,6 +1,5 @@
 import type { IconComponent } from "@/lib/config/vendor-icons";
 
-// Speechify. No brand mark in any icon pack, so this is an inline mono "S" monogram stand-in.
 const SpeechifyBrandIcon: IconComponent = (props) => (
   <svg
     role="img"

@@ -2,13 +2,11 @@ import { APP_VALUES, type TranslationKey } from "./constants";
 import { env } from "./env";
 import { WEBMCP_TOOLS } from "./webmcp-tools";
 
-// Loose translator shape (avoid next-intl's own type: triggers TS2589).
 type Translator = (
   key: TranslationKey,
   values?: Record<string, string | number | Date>,
 ) => string;
 
-// MCP Server Card SEP-2127; published at both well-known paths (scanner disagreement).
 export function buildMcpServerCard(t: Translator) {
   const tools = WEBMCP_TOOLS.map((descriptor) => ({
     name: descriptor.name,

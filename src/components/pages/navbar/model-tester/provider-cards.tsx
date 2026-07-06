@@ -9,7 +9,6 @@ import {
 import { useTranslations } from "next-intl";
 import type { TranslationKey } from "@/lib/types";
 
-// vendor = the VendorIcon key; endpoint = the wire format that serves it.
 const CARDS: {
   value: VerifyProviderValue;
   vendor: string;

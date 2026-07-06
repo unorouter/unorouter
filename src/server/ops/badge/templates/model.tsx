@@ -60,7 +60,6 @@ export function ModelStat(props: {
   );
 }
 
-// Param-driven og badge (1200x630 only) for /models/[slug] link previews.
 export async function generateModel(
   ctx: BadgeCtx,
   model: ProcessedModel | null,

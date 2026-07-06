@@ -67,9 +67,7 @@ export function ModelActionIcons(props: {
           aria-label={t("MODELS.VIEW_DETAILS")}
           className={ACTION_CLASS}
           onClick={(e) => e.stopPropagation()}
-          render={
-            <Link href={modelHref(model.name, model.vendor.name)} />
-          }
+          render={<Link href={modelHref(model.name, model.vendor.name)} />}
         >
           <Icon name="external-link" className={props.iconSize} />
         </TooltipTrigger>

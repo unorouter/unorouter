@@ -129,7 +129,6 @@ export function BlogList(props: BlogListProps) {
                             year: "numeric",
                             month: "short",
                             day: "numeric",
-                            // UTC so SSR + client format the same day (hydration mismatch #418).
                             timeZone: "UTC",
                           }).format(dayjs(post.date).toDate())}
                         </time>

@@ -10,7 +10,6 @@ import { deriveCapabilityChips } from "./capability-helpers";
 
 type Props = {
   metadata: ModelMetadata;
-  /** When set, only the first N chips are rendered with a "+M" overflow. */
   limit?: number;
   className?: string;
   variant?: "drawer" | "card";

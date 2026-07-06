@@ -43,14 +43,10 @@ export const useUpdateCharacterMutation = characters.useUpdate;
 export const useDeleteCharacterMutation = characters.useDelete;
 export const useDuplicateCharacterMutation = characters.useDuplicate;
 
-// Full import: a card file becomes a character (+ avatar), its embedded lorebook
-// (if any), AND a Card binding them, so the user opens the Card and chats with
-// everything equipped. Shared by file import and JanitorAI link import.
 async function persistCharacterSetupFromFile(
   userId: number | undefined,
   file: File,
 ) {
-  // Dynamic: character-foundry + image codecs (~110KB gzip) load on the import action, not with the chat shell.
   const { card, imageBytes, imageMime } =
     await import("@/lib/ai/rp/character-card").then((m) =>
       m.parseCharacterCardFile(file),
@@ -94,8 +90,6 @@ async function persistCharacterSetupFromFile(
     updatedAt: now,
   });
 
-  // Embedded lorebook (CCv3 character_book). Best-effort: a bad book must not
-  // abort the character import, so wrap it and degrade to character-only.
   let lorebookId: string | null = null;
   try {
     const characterBook = (
@@ -143,7 +137,6 @@ async function persistCharacterSetupFromFile(
     lorebookId = null;
   }
 
-  // Card binds the character (+ lorebook) so it is one-click usable.
   const cardId = uid();
   await upsertLocalCardBundle(userId, {
     card: {
@@ -177,9 +170,6 @@ export function useImportCharacterCardMutation() {
   });
 }
 
-// Paste a card link (JanitorAI/JannyAI, Chub, RisuRealm, or a direct card URL).
-// The BFF proxy fetches it server-side (SSRF-safe, CORS-proof) and returns the
-// card bytes; persistence stays local-first.
 export function useImportCharacterFromUrlMutation() {
   const userId = useLocalUserId();
   return useApiMutation({

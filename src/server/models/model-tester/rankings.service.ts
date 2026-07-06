@@ -1,6 +1,5 @@
 import { getDb } from "@/lib/db/server/client";
 import { uid } from "@/lib/utils/base";
-// Tester tables are shared (client history + server board); see schema/shared.ts.
 import {
   testerModels,
   testerProbes,
@@ -23,10 +22,6 @@ import type { VerifyResult } from "@/lib/ai/verify/types";
 
 const DEDUPE_WINDOW_MS = 60_000;
 
-// Find-or-create by the unique key (insert-ignore then select), then insert the
-// test. provider value is the kind (anthropic|openai|gemini). The tester tables
-// are shared with the client; server rows are written with userId = GUEST_USER_ID
-// (0) so the (userId, kind, host) key behaves as a global (kind, host) key here.
 async function findOrCreateProvider(
   kind: VerifyProviderValue,
   host: string,
@@ -95,9 +90,6 @@ async function findOrCreateModel(
   return rows[0]!.id;
 }
 
-// Server-verified publish: the server runs the WHOLE test itself, so the stored
-// verdict cannot be forged by the client. A connectivity failure (handshake
-// short-circuit) is not published.
 export async function verifyAndPublish(
   body: VerifyAndPublishBody,
   submitterUserId: number | null,
@@ -106,17 +98,11 @@ export async function verifyAndPublish(
   | {
       published: true;
       deduped: false;
-      // The full server-computed result so the client can keep a copy in its
-      // local history (with the server's probe detail).
       result: VerifyResult;
     }
   | { published: false; deduped: true }
   | { published: false; error: string }
 > {
-  // Hard block a format/model mismatch: a model whose id resolves to a known
-  // format (e.g. a claude id) may only be published under that format. Stops a
-  // claude id being submitted on the OpenAI wire (UI auto-corrects, direct API
-  // calls do not). Unknown/custom ids carry no inferred format and pass through.
   const inferred = providerForModel(body.model);
   if (inferred !== null && inferred !== body.provider)
     return { published: false, error: "format-mismatch" };
@@ -130,7 +116,6 @@ export async function verifyAndPublish(
     host = body.baseUrl;
   }
 
-  // Non-guest dedupe by host+model (the publish action, not the test).
   if (submitterUserId !== null && submitterUserId !== GUEST_USER_ID) {
     const since = new Date(Date.now() - DEDUPE_WINDOW_MS);
     const recent = await db
@@ -148,7 +133,6 @@ export async function verifyAndPublish(
     if (recent[0]) return { published: false, deduped: true };
   }
 
-  // The server itself issues the probes (unforgeable).
   const result = await runServerVerification({
     provider: body.provider,
     baseUrl: body.baseUrl.replace(/\/+$/, ""),
@@ -189,8 +173,6 @@ export async function verifyAndPublish(
     verifiedAt: now,
   });
 
-  // Publish the probe evidence too (transparency: open prompts + model replies,
-  // no key). Bare loop, no tx (mirrors the local recordTestRun probe loop).
   for (let i = 0; i < result.probes.length; i++) {
     const p = result.probes[i]!;
     await db.insert(testerProbes).values({
@@ -212,17 +194,11 @@ export async function verifyAndPublish(
   return { published: true, deduped: false, result };
 }
 
-// Honest p95 per group, computed in ONE query (correlated subqueries against a
-// GROUP BY column are fragile in SQLite, so we use a window-ranked CTE instead).
-// `byHostModel` keys p95 per host+model (level 3 / model lists); otherwise per
-// host (level 1 providers). Merge the result into the grouped rows app-side.
 async function p95ByGroup(
   where: ReturnType<typeof and>,
   byHostModel: boolean,
 ): Promise<Map<string, number>> {
   const db = getDb();
-  // Pull the scoped latencies + their group key, ordered; pick the 95th-pctile
-  // index per group in JS (small data; avoids brittle correlated SQL).
   const rows = await db
     .select({
       host: testerTests.baseUrlHost,
@@ -235,8 +211,6 @@ async function p95ByGroup(
 
   const groups = new Map<string, number[]>();
   for (const r of rows) {
-    // Denormalized host/model are nullable in the shared table but server rows
-    // always set them; coalesce so the key type stays string.
     const host = r.host ?? "";
     const key = byHostModel ? `${host}:::${r.model ?? ""}` : host;
     const arr = groups.get(key);
@@ -245,8 +219,6 @@ async function p95ByGroup(
   }
   const out = new Map<string, number>();
   for (const [key, arr] of groups) {
-    // arr is globally latency-sorted; per-group order is preserved by the global
-    // sort, so the per-group slice is already ascending.
     const idx = Math.floor(0.95 * (arr.length - 1));
     out.set(key, arr[idx]!);
   }
@@ -283,8 +255,6 @@ const PROVIDER_SELECT = {
 
 const PASS_RATE_SQL = sql`avg(cast(${testerTests.probesPassed} as real) / max(${testerTests.probesTotal}, 1))`;
 
-// Level 1: PROVIDERS grouped by host. Each row is one provider with its model
-// count + aggregate stats.
 export async function getProviders(
   page: number,
   pageSize: number,
@@ -326,7 +296,6 @@ export async function getProviders(
   };
 }
 
-// Level 2: one provider's aggregate + the list of MODELS it serves.
 export async function getProviderDetail(host: string): Promise<{
   provider: ProviderAggregateRow | null;
   models: RankingAggregateRow[];
@@ -453,9 +422,6 @@ export async function getRankingDetail(host: string, model: string) {
   };
 }
 
-// One published test + its probe evidence, mapped to the SHARED TestResultDetail
-// shape the unified result card consumes (same shape the local history read
-// returns). Only verified rows are exposed. Null when unknown/unverified.
 export async function getPublishedTestDetail(
   testId: string,
 ): Promise<TestResultDetail | null> {
@@ -505,10 +471,6 @@ export async function getPublishedTestDetail(
   };
 }
 
-// Submitter self-retract: a logged-in user can delete a row THEY published. The
-// guest sentinel (GUEST_USER_ID) is never a valid owner, so guest-published rows
-// can only be removed via the report channel. The ownership check is in the WHERE
-// (not just the UI) so the route cannot be abused.
 export async function deletePublishedTest(
   id: string,
   userId: number | null,

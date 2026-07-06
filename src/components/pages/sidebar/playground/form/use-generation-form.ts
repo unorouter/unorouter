@@ -52,7 +52,6 @@ function draftAtomFor(tab: GenerateTab) {
   return text2imgDraftAtom;
 }
 
-// Owns the playground form: RHF instance + lifecycle effects (mode/seed sync, model-fallback guards, draft/snapshot restore).
 export function useGenerationForm() {
   const activeTab = useAtomValue(activeTabAtom);
   const activeSubPill = useAtomValue(activeSubPillAtom);
@@ -100,7 +99,6 @@ export function useGenerationForm() {
     if (!nextDesc.supportsLoraChain) form.setValue("loras", undefined);
   };
 
-  // keep `mode` in sync with the active tab + sub-pill.
   useEffect(() => {
     const mode =
       activeTab === "text2img"
@@ -112,7 +110,6 @@ export function useGenerationForm() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTab, activeSubPill]);
 
-  // seed the form from a ?remix= snapshot exactly once per source.
   const seededIdRef = useRef<string | null>(null);
   useEffect(() => {
     const data = seedQuery.data;
@@ -140,7 +137,6 @@ export function useGenerationForm() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [seedQuery.data, form]);
 
-  // drop to a free model when the current pick is locked for guests.
   useEffect(() => {
     if (effectiveModels.length === 0) return;
     const current = form.watch("model") ?? "";
@@ -151,7 +147,6 @@ export function useGenerationForm() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoggedIn, effectiveModels.length]);
 
-  // fall back to a tab-compatible model when the tab changes.
   useEffect(() => {
     if (effectiveModels.length === 0) return;
     const current = form.watch("model") ?? "";
@@ -162,7 +157,6 @@ export function useGenerationForm() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTab, effectiveModels.length]);
 
-  // restore the per-tab draft once when switching tabs.
   const draftRestoredRef = useRef<string | null>(null);
   useEffect(() => {
     if (draftRestoredRef.current === activeTab || remixId) return;
@@ -187,13 +181,11 @@ export function useGenerationForm() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTab, remixId, draft, form]);
 
-  // debounced draft autosave on every form change.
   const setDraftRef = useRef(setDraft);
   useEffect(() => {
     setDraftRef.current = setDraft;
   }, [setDraft]);
   useEffect(() => {
-    // watch's callback values are DeepPartial; read full validated state via getValues for the draft shape.
     const subscription = form.watch(() => {
       const timer = setTimeout(() => {
         const v = form.getValues();
@@ -214,7 +206,6 @@ export function useGenerationForm() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form]);
 
-  // Restore-into-form: a result tile hands frozen params back for resubmit.
   useEffect(() => {
     if (!restorePayload) return;
     const desc = findDescriptor(restorePayload.model ?? INITIAL_MODEL);

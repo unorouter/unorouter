@@ -140,10 +140,6 @@ const ThreadScrollToBottom: FC = () => {
   );
 };
 
-// A conv URL starts with an empty runtime until the history adapter's load()
-// imports the local messages; showing the welcome screen in that window reads
-// as a flash. Skeleton until that first load resolved (historyLoadedAtom).
-// New-chat routes have no convId and no pending history: welcome immediately.
 const ThreadWelcomeGate: FC = () => {
   const params = useParams<{ convId?: string }>();
   const isLoading = useAuiState((s) => s.thread.isLoading);
@@ -273,8 +269,6 @@ const ComposerWebSearchToggle: FC = () => {
 
 const ComposerAction: FC = () => {
   const t = useTranslations();
-  // Risu sendMain parity: empty composer + trailing unanswered user turn still
-  // sends (argless send resubmits history so the turn gets its reply).
   const composerEmpty = useAuiState((s) => s.composer.text.trim().length === 0);
   const lastIsUser = useAuiState(
     (s) => s.thread.messages.at(-1)?.role === "user",
@@ -373,9 +367,6 @@ function resolveErrorMessage(
   return t.has(raw) ? t(raw) : raw;
 }
 
-// Persisted failed attempt (error message_item -> data-error part): renders
-// after refresh / on inactive branches, unlike MessageError which only covers
-// the live run. Retry = the existing Refresh action (regenerate sibling).
 const PersistedErrorPart: FC<{ data?: unknown }> = (props) => {
   const t = useTranslations();
   const data = (props.data ?? {}) as {
@@ -386,7 +377,6 @@ const PersistedErrorPart: FC<{ data?: unknown }> = (props) => {
     requestId?: string;
   };
   if (!data.message) return null;
-  // Custom-provider ids are namespaced; show just the model key to the user (raw id stays in copyText for debug).
   const displayModel =
     data.model && isCustomModelId(data.model)
       ? (parseCustomModelId(data.model)?.modelKey ?? data.model)
@@ -480,7 +470,6 @@ const StreamingIndicator: FC = () => {
   const modelType = pricing.data?.models.find(
     (m) => m.name === activeModel,
   )?.type;
-  // Image/video are slower than text; widen gradient so timer doesn't prematurely hit red.
   const gradientWindow =
     modelType === "image" ? 120 : modelType === "video" ? 300 : 60;
 
@@ -538,7 +527,6 @@ const AssistantMessage: FC = () => {
                     Fallback: ToolFallback,
                   },
                   data: {
-                    // TaskCardRenderer draws the card below; suppress default render here.
                     by_name: { task: () => null, error: PersistedErrorPart },
                   },
                 }}
@@ -572,7 +560,6 @@ const AssistantEditInPlace: FC<{ onClose: () => void }> = (props) => {
       .map((p) => p.text!)
       .join("\n\n");
   });
-  // Rendered parts drive the source of truth; chat.messages can be empty on a history-loaded conv (mobile hydration race), so reading from there drops reasoning and no-ops the repaint.
   const renderedParts = useAuiState((s) => s.message.content);
   const [text, setText] = useState(initialText);
   const editMut = useEditMessageMutation();
@@ -582,7 +569,6 @@ const AssistantEditInPlace: FC<{ onClose: () => void }> = (props) => {
     if (!convId) return;
 
     const helpers = chatStore.get(chatHelpersAtom);
-    // Only swap text parts; preserve reasoning/tool/source parts. Prefer chat.messages, fall back to the rendered runtime parts.
     const liveMsg = (
       helpers?.getMessages() as Array<{
         id: string;
@@ -613,7 +599,6 @@ const AssistantEditInPlace: FC<{ onClose: () => void }> = (props) => {
       body: { items },
     });
 
-    // Spread original message: dropping fields makes runtime treat turn as incomplete (phantom regenerate).
     helpers?.setMessages((msgs) => {
       const list = msgs as Array<{
         id: string;
@@ -695,7 +680,6 @@ const AssistantMessageHeader: FC = () => {
 
   if (!meta?.model) return null;
 
-  // Custom-provider model: show "Provider / Label" + a generic provider icon, matching the model selector.
   if (isCustomModelId(meta.model)) {
     const parsed = parseCustomModelId(meta.model);
     const provider = parsed
@@ -783,10 +767,8 @@ const DeleteMessageButton: FC = () => {
   );
 };
 
-// Media-output messages hide Copy (giant data-uri) and Edit (meaningless for a generation).
 const MEDIA_OUTPUT_RE = /^!\[(?:audio|image|video)\]\(/;
 
-// Fork the chat from this message into a NEW conversation (clone up to here, same bound entities), then open it.
 const BranchButton: FC = () => {
   const t = useTranslations();
   const messageId = useAuiState((s) => s.message.id);
@@ -869,8 +851,6 @@ const AssistantActionBar: FC = () => {
 };
 
 const UserMessage: FC = () => {
-  // Local in-place edit (persists via useEditMessageMutation), NOT the native composer edit which
-  // re-runs the model. Editing a user turn should only update stored context; regen has its own button.
   const [editing, setEditing] = useState(false);
   return (
     <AssistantEditContext.Provider value={() => setEditing(true)}>
@@ -948,7 +928,6 @@ const EditComposer: FC = () => {
 
 const BranchPicker: FC<BranchPickerPrimitive.Root.Props> = (props) => {
   const t = useTranslations();
-  // Persist active-branch flip server-side; gate on branchCount>1 to skip pre-persist temp ids.
   const messageId = useAuiState((s) => s.message.id);
   const branchCount = useAuiState((s) => s.message.branchCount);
   const setActiveBranchMut = useSetActiveBranchMutation();
@@ -961,7 +940,6 @@ const BranchPicker: FC<BranchPickerPrimitive.Root.Props> = (props) => {
     }
     if (lastIdRef.current === messageId) return;
     lastIdRef.current = messageId;
-    // Skip single-branch flips: fresh send/regenerate would POST a not-yet-persisted temp id (404).
     if (branchCount < 2) return;
     const convId = chatStore.get(convIdAtom);
     if (!convId) return;

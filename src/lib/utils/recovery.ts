@@ -1,11 +1,6 @@
-// Client crash recovery helpers shared by the global + in-app error boundaries.
-
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 
-// Wipe every client storage surface; corrupt state usually survives a plain reload.
 export async function clearAllClientStorage() {
-  // Logged BEFORE localStorage.clear() wipes the debug log too, so the nuke leaves a final trace
-  // that a recovery ran (helps explain a "why did my data vanish" report).
   logChatDebug("recovery.clear_storage");
   try {
     for (const cookie of document.cookie.split(";")) {
@@ -43,7 +38,6 @@ export async function clearAllClientStorage() {
   } catch {}
 }
 
-// Flatten an Error (plus Next's digest) into a copy-pasteable string with full stack and cause chain for support.
 export function formatError(error: Error & { digest?: string }) {
   const parts = [
     `Name: ${error.name ?? "Error"}`,

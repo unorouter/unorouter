@@ -26,7 +26,6 @@ export function extractFirstUserText(
   );
 }
 
-// Local-first: base64 -> OPFS media -> data: URL. Sync uploads to R2 later.
 export function createLocalAttachmentAdapter(
   getContext: () => { convId: string | null },
 ): AttachmentAdapter {
@@ -48,7 +47,6 @@ export function createLocalAttachmentAdapter(
     async send(attachment) {
       const ctx = getContext();
 
-      // Pre-gen the convId for the stream but leave the media row conv-null: the conversations row inserts later (media.conv_id FK).
       ctx.convId = ensureConvId();
 
       const file = attachment.file!;

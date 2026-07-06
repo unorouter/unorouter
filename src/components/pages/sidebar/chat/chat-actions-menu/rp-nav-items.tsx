@@ -5,7 +5,6 @@ import { Link } from "@/i18n/navigation";
 import { useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 
-// Library: the 6 RP managers, kept FLAT + top-level (priority) so they're one tap, not buried in a submenu.
 export function RpNavItems() {
   const t = useTranslations();
   const setOpenRpTab = useSetAtom(openRpTabAtom);

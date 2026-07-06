@@ -1,6 +1,5 @@
 import type { IconComponent } from "@/lib/config/vendor-icons";
 
-// BruhzWater. No brand mark in any icon pack, so this is an inline mono "B" monogram stand-in.
 const BruhzWaterIcon: IconComponent = (props) => (
   <svg
     role="img"

@@ -1,6 +1,5 @@
 import type { IconComponent } from "@/lib/config/vendor-icons";
 
-// Lykon (dreamshaper finetune). No brand mark exists, so this is an inline mono monogram stand-in.
 const LykonIcon: IconComponent = (props) => (
   <svg
     role="img"

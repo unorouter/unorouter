@@ -26,7 +26,6 @@ export async function upsertLocalMedia(
     promptText?: string | null;
   },
 ) {
-  // bytes = the image-bloat signal (inline base64 is what balloons the OPFS DB); logged per write.
   logChatDebug("media.write", {
     id: row.id,
     bytes: row.dataBase64 ? row.dataBase64.length : (row.sizeBytes ?? 0),

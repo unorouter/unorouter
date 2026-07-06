@@ -64,7 +64,6 @@ export function getVendorColorIcon(vendor: string): string | null {
   return null;
 }
 
-// Popular vendors that resolve to real lobe-icons, ordered for visual balance.
 export const POPULAR_VENDORS = [
   "openai",
   "anthropic",
@@ -86,11 +85,9 @@ export const POPULAR_VENDORS = [
   "vertex",
 ];
 
-// Black/currentColor-only brands are invisible on the dark grid: force white. Multi-color logos keep their brand fills.
 const NEUTRAL_FILLS = ["#000", "#000000", "#fff", "#ffffff"];
 
 export function prepIconSvg(svg: string): string {
-  // lobe ships some variants with a malformed 4-digit white (#ffff) that satori renders transparent; normalize first.
   const normalized = svg.replace(
     /(fill[="':\s]+)#ffff(?![0-9a-fA-F])/gi,
     "$1#ffffff",
@@ -98,18 +95,15 @@ export function prepIconSvg(svg: string): string {
   const hasGradient = /linearGradient|radialGradient|stop-color/i.test(
     normalized,
   );
-  // fills live either as fill="#hex" attrs or inside style="...fill:#hex...".
   const fills = [
     ...normalized.matchAll(/fill="(#[0-9a-fA-F]{3,8})"/g),
     ...normalized.matchAll(/fill:\s*(#[0-9a-fA-F]{3,8})/g),
   ].map((m) => m[1].toLowerCase());
   const nonNeutralFill = fills.some((f) => !NEUTRAL_FILLS.includes(f));
   if (hasGradient || nonNeutralFill) return normalized;
-  // Mono / black / currentColor / unfilled logo: paint white.
   return whiten(normalized);
 }
 
-// Recolor a mono logo to white. Root fill is replaced OR injected, never both, or resvg rejects "fill redefined" and the cell goes blank.
 function whiten(svg: string): string {
   const recolored = svg
     .replace(/fill="currentColor"/g, `fill="#ffffff"`)
@@ -141,7 +135,6 @@ export async function renderBadgeTemplate(
   });
 
   if (opts.svgBackground) {
-    // Inject right after the opening <svg ...> so it renders behind the content.
     svg = svg.replace(/(<svg[^>]*>)/, `$1${opts.svgBackground}`);
   }
 
@@ -164,13 +157,11 @@ export async function renderBadgeTemplate(
 
   svg = inlineLogoImage(svg, opts.staticMode);
 
-  // resvg mangles nested <image href="data:svg"> elements; browsers render them fine, so only the PNG path inlines each icon's geometry as a <g>.
   if (opts.staticMode) svg = inlineNestedSvgImages(svg);
 
   return svg;
 }
 
-// Replace each <image href="data:svg"> with the icon's geometry in a <g> reproducing satori's placement (transform, x/y offset, viewBox scale).
 function inlineNestedSvgImages(svg: string): string {
   let n = 0;
   return svg.replace(
@@ -196,9 +187,7 @@ function inlineNestedSvgImages(svg: string): string {
       const h = Number(attrs.match(/\bheight="([\d.]+)"/)?.[1]);
       if (![vbW, vbH, x, y, w, h].every((v) => Number.isFinite(v)))
         return whole;
-      // A root <svg> fill doesn't cascade once the tag is dropped; push it onto the wrapper <g> so mono icons stay colored.
       const rootFill = open[0].match(/\sfill="([^"]+)"/)?.[1];
-      // Namespace per-icon so inlined defs don't collide; drop the xlink: prefix (the parent <svg> doesn't declare it and resvg rejects it).
       const inner = namespaceSvgIds(
         icon
           .slice(open[0].length)
@@ -209,7 +198,6 @@ function inlineNestedSvgImages(svg: string): string {
       const matrix = attrs.match(/\btransform="(matrix\([^)]*\))"/)?.[1] ?? "";
       const sx = w / vbW;
       const sy = h / vbH;
-      // clip-path is dropped: the icon never needs clipping, and the satori clip id is in pre-transform space so it would clip the re-placed geometry wrong.
       const tf =
         `${matrix} translate(${x},${y}) scale(${sx.toFixed(5)},${sy.toFixed(5)})`.trim();
       const gAttrs =

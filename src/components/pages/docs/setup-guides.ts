@@ -6,7 +6,6 @@ import type { IntegrationColor, IntegrationIconKey } from "./integrations";
 
 export type SetupCategory = "coding" | "roleplay" | "general" | "cli";
 
-/** Six OpenAI/Anthropic surface flags. Rendered as chips; only true ones show. */
 export interface SetupCompatibility {
   chatCompletions?: boolean;
   messages?: boolean;
@@ -19,21 +18,12 @@ export interface SetupCompatibility {
 export interface SetupStep {
   titleKey: TranslationKey;
   bodyKey: TranslationKey;
-  /** Optional literal code block (never translated). */
   code?: { lang: string; value: string };
 }
 
-/**
- * One data-driven guide; card surface and page render from this single object.
- * baseUrl is the bare API base, apiPath the optional client route suffix
- * (e.g. "/chat/completions"); encode the URL-suffix rule as data, never prose.
- */
 export interface SetupGuide {
-  /** Route param + DOCS_REGISTRY slug suffix. */
   slug: string;
-  /** e.g. { pathname: "/docs/integrations/[slug]", params: { slug } } or "/docs/integrations/sillytavern". */
   href: LinkHref;
-  /** "DOCS.SILLYTAVERN" - matches en.json + registry i18nPrefix. */
   i18nPrefix: string;
   kind: "cli" | "rp" | "general";
   category: SetupCategory;
@@ -48,20 +38,14 @@ export interface SetupGuide {
   baseUrl: string;
   apiPath?: string;
   compatibility: SetupCompatibility;
-  /** Hint only; template calls getFreeTextModels() at runtime. Leave empty unless a fixed fallback is needed. */
   recommendedModels: string[];
   steps: SetupStep[];
   gotchaKeys?: TranslationKey[];
-  // Escape hatches:
-  /** CLI: shell snippet per OS. Template renders OSTabs when present. */
   quickStart?: Record<OS, string>;
-  /** RP/general: single URL+key paste block under Quick Config. */
   quickConfig?: string;
-  /** Bespoke body switch in [slug]/page.tsx (e.g. the cc-switch installer). */
   customComponent?: "cc-switch" | "claude-code";
 }
 
-/** Tailwind color set generator for a guide card/page accent. */
 function guideColor(c: string): IntegrationColor {
   return {
     accent: `text-${c}-500`,
@@ -1146,7 +1130,6 @@ model: openai/YOUR_MODEL_ID`,
     ],
     gotchaKeys: ["DOCS.AIDER.GOTCHA_1", "DOCS.AIDER.GOTCHA_2"],
   },
-  // HARNESS: cc-switch keeps its deep-link installer; others use OS-aware quickStart tabs.
   {
     slug: "cc-switch",
     href: {
@@ -1284,7 +1267,6 @@ codex`,
     badgeKey: "DOCS.GEMINI_CLI.BADGE",
     iconKey: "gemini",
     color: guideColor("blue"),
-    // Gemini SDK appends its own path, so the base is bare (no /v1 suffix).
     baseUrl: env.apiUrl,
     compatibility: {
       chatCompletions: true,
@@ -1509,7 +1491,6 @@ export const CATEGORY_DESCRIPTIONS: Record<SetupCategory, TranslationKey> = {
   cli: "DOCS.SETUP_GUIDE.CATEGORY_CLI_DESC",
 };
 
-/** One-pass bucket of SETUP_GUIDES keyed by category, ordered by insertion. */
 export function setupGuidesByCategory(): Record<SetupCategory, SetupGuide[]> {
   const buckets: Record<SetupCategory, SetupGuide[]> = {
     coding: [],

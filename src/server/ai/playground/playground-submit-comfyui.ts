@@ -11,7 +11,6 @@ import type { PlaygroundSubmitBody } from "@/lib/validation/playground";
 import { eq } from "drizzle-orm";
 import { paramsToSize } from "./playground-finalize";
 
-// Async via task adapter; server kicks off, returns taskId; client polls + persists.
 export async function submitComfyUITask(args: {
   apiKey: string;
   body: PlaygroundSubmitBody;
@@ -38,11 +37,9 @@ export async function submitComfyUITask(args: {
   if (body.references && body.references.length > 0)
     extra.references = body.references;
 
-  // Adapter source of truth: relay/channel/task/comfyui/adaptor.go.
   if (params.initImageUrl) extra.init_image_url = params.initImageUrl;
   if (params.maskUrl) extra.mask_url = params.maskUrl;
 
-  // Form sends FINAL multiplier; ImageScaleBy = M/N.
   if (params.upscaler) {
     extra.upscaler = params.upscaler;
     const rows = await getDb()
@@ -57,11 +54,9 @@ export async function submitComfyUITask(args: {
   }
   if (params.hiresSteps !== undefined) extra.hires_steps = params.hiresSteps;
 
-  // ComfyUI tokenizer needs filename (with extension) when weight is set.
   if (params.embeddings && params.embeddings.length > 0)
     extra.embeddings = params.embeddings;
 
-  // weight 0 is a no-op; non-zero rewires SaveImage to LayeredDiffusionDecodeRGBA.
   if (params.layerDiffusion) extra.layer_diffusion = params.layerDiffusion;
 
   if (params.adetailer) extra.adetailer = params.adetailer;

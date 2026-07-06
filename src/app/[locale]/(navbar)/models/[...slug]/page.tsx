@@ -46,16 +46,11 @@ type ResolvedModel = {
   data: LivePricing;
 };
 
-
-// The canonical URL is 2-segment vendor/model; a 1-segment slug is a vendor page,
-// never a model. The model identity is the LAST segment of a 2-segment slug.
 function modelSegment(slug: string[]): string {
   if (slug.length !== 2) return "";
   return slug[1] ?? "";
 }
 
-// Live pricing first; churned-out models fall back to the durable catalog so
-// the page survives free-pool churn instead of 404ing (GSC: 495 churn 404s).
 async function resolveModel(slug: string): Promise<ResolvedModel | null> {
   if (!slug) return null;
   const data = await fetchLivePricing({ includeOffline: true });
@@ -68,8 +63,6 @@ async function resolveModel(slug: string): Promise<ResolvedModel | null> {
   return null;
 }
 
-// A single-segment slug that matches no model but does match a vendor renders
-// the vendor grid. Returns the canonical vendor display name, else null.
 async function resolveVendor(slug: string[]): Promise<string | null> {
   if (slug.length !== 1) return null;
   const seg = slug[0]!;
@@ -79,7 +72,6 @@ async function resolveVendor(slug: string[]): Promise<string | null> {
   return match ?? null;
 }
 
-// The published (canonical) path is always the 2-segment vendor/model form.
 function canonicalHref(model: ProcessedModel) {
   const vendor = vendorSlug(model.vendor.name) || "unknown";
   const slug = [vendor, modelSlug(model.name)];
@@ -136,7 +128,6 @@ export default async function ModelDetailPage(props: PageProps) {
   const locale = await serverLocale(props);
   const resolved = await resolveModel(modelSegment(params.slug));
 
-  // No model: try the vendor grid (single-segment only), else 404.
   if (!resolved) {
     const vendor = await resolveVendor(params.slug);
     if (!vendor) notFound();

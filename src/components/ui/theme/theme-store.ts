@@ -1,8 +1,6 @@
 import { jotaiCookieStorage } from "@/lib/config/table-storage";
 import { atomWithStorage } from "jotai/utils";
 
-// Runtime theme: named registry refs only. UserThemeProvider resolves refs
-// to css vars + data-attrs at render time.
 export type ChatMarkdownColors = {
   normal?: string;
   italic?: string;
@@ -12,8 +10,6 @@ export type ChatMarkdownColors = {
   doubleQuote?: string;
 };
 
-// Freeform surface overrides for ONE color scheme. Win over the chosen
-// base/accent presets (emitted late, per scheme).
 export type SurfaceColors = {
   background?: string;
   foreground?: string;
@@ -24,8 +20,6 @@ export type SurfaceColors = {
   sidebar?: string;
 };
 
-// Per-scheme custom palette (RisuAI parity: a custom theme declares light vs
-// dark values independently instead of one override hitting both schemes).
 export type SurfaceTheme = {
   light?: SurfaceColors;
   dark?: SurfaceColors;
@@ -33,8 +27,6 @@ export type SurfaceTheme = {
 
 export type BackgroundFit = "cover" | "contain" | "tile";
 
-// Background-image knobs live in the cookie theme (small). The image bytes
-// themselves ride a separate localStorage atom (data URLs blow the 4 KB cookie).
 export type BackgroundSettings = {
   enabled?: boolean;
   opacity?: number; // 0..1
@@ -45,9 +37,6 @@ export type BackgroundSettings = {
 
 export type UserTheme = {
   baseColor?: string;
-  // Custom hex used when baseColor === "custom" (drives --background + derived
-  // --foreground). Same pattern for themeCustom (--primary) and chartColorCustom
-  // (--chart-1..5 generated from the hue).
   baseColorCustom?: string;
   theme?: string;
   themeCustom?: string;
@@ -55,7 +44,6 @@ export type UserTheme = {
   chartColorCustom?: string;
   fontBody?: string;
   fontHeading?: string;
-  // Chat message font scale (multiplier, 1 = default). Accessibility: scales ONLY chat message text, not UI chrome.
   chatFontScale?: number;
   radius?: string;
   style?: string;
@@ -63,16 +51,11 @@ export type UserTheme = {
   menu?: string;
   menuAccent?: string;
   markdown?: ChatMarkdownColors;
-  // Per-scheme custom surface colors. Legacy flat SurfaceColors is migrated to
-  // { light, dark } (same values both modes) by normalizeSurface at read time.
   surface?: SurfaceTheme;
-  // Which scheme the customizer is editing; persisted so the toggle sticks.
   surfaceMode?: "light" | "dark";
   background?: BackgroundSettings;
 };
 
-// Back-compat: an old flat surface object (pre per-scheme split) applied to both
-// schemes. Normalize it to the new shape so existing themes keep working.
 export function normalizeSurface(
   surface: UserTheme["surface"] | SurfaceColors | undefined,
 ): SurfaceTheme {
@@ -106,8 +89,6 @@ export const userThemeAtom = atomWithStorage<UserTheme>(
   jotaiCookieStorage,
 );
 
-// localStorage (not cookies): a background-image data URL exceeds the 4 KB
-// cookie limit. Local-only; not synced across devices.
 export const themeBackgroundAtom = atomWithStorage<string | null>(
   THEME_BG_KEY,
   null,

@@ -11,9 +11,6 @@ import { lazy, Suspense } from "react";
 
 const cache = new Map<string, IconComponent>();
 
-// Warm the deferred icon-map module after first paint: it stays out of the
-// first-paint chunks, but loading it on idle means client-mounted icons only
-// await their tiny per-icon chunk instead of map + chunk.
 if (typeof window !== "undefined") {
   const warm = () => void import("@/lib/config/icon-map");
   if ("requestIdleCallback" in window) {
@@ -23,13 +20,6 @@ if (typeof window !== "undefined") {
   }
 }
 
-// ICON_MAP is a 2k-line module (850 loader closures); importing it statically
-// put it in the shared chunk every page parses. React.lazy keeps it out of the
-// client bundle. We use lazy (not next/dynamic) on purpose: next/dynamic routes
-// through Turbopack's react-loadable-manifest, which in dev emits preload links
-// for stale chunk hashes (404s, vercel/next.js#87680). lazy bypasses that path.
-// Suspense renders the 1em fallback for client-only mounts; cached + warmed so
-// it resolves instantly on repeat use.
 function getIcon(name: IconName, lib: IconLibraryName): IconComponent {
   const key = `${name}::${lib}`;
   const hit = cache.get(key);
@@ -43,8 +33,6 @@ function getIcon(name: IconName, lib: IconLibraryName): IconComponent {
         if (!loader) return { default: () => null };
         return loader();
       })
-      // Chunk timeout degrades to an empty slot instead of throwing into the
-      // global error boundary; evict so the next render retries.
       .catch(() => {
         cache.delete(key);
         return { default: () => null };
@@ -65,8 +53,6 @@ export function Icon(props: Props) {
   const { name, size, ...rest } = props;
   const IconComp = getIcon(name, lib);
   if (!IconComp) return null;
-  // Not every lib supports a `size` prop (heroicons/iconoir don't); width and
-  // height are universal SVG attributes and CSS classes still win over them.
   const sized = { width: size ?? "1em", height: size ?? "1em", ...rest };
   return (
     <Suspense

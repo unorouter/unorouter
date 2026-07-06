@@ -60,7 +60,6 @@ export function useMessageMeta(messageIndex: number): MessageMeta | null {
   };
 }
 
-// Effective reasoning visibility: conv override -> bound preset -> shown. Render-only gate.
 export function useShowReasoning(): boolean {
   const remoteId = useAuiState((s) => s.threadListItem?.remoteId);
   const loadout = useAtomValue(chatLoadoutAtom);

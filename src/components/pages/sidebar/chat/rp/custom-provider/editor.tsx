@@ -30,8 +30,6 @@ const FORMAT_KEYS = {
   "openai-compatible": "CHAT.CUSTOM_PROVIDER.FORMAT_OPENAI",
 } as const;
 
-// Per-model tokenizer presets (budget counting). "hf-custom" is a sentinel that reveals an HF-slug input;
-// the stored value becomes `hf:<slug>`. Order mirrors TOKENIZER_PRESETS + the custom option last.
 const TOKENIZER_OPTIONS: { value: string; labelKey: TranslationKey }[] = [
   { value: "auto", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_AUTO" },
   { value: "cl100k", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_CL100K" },
@@ -199,8 +197,6 @@ export function CustomProviderEditor(props: Props) {
   );
 }
 
-// One model row: key + label inputs, a per-model tokenizer select, and (for "Custom HF") a slug input.
-// The stored value at models.${index}.tokenizer is a TokenizerRef: a preset id, "auto", or `hf:<slug>`.
 function ModelRow(props: {
   form: UseFormReturn<CustomProviderForm>;
   index: number;
@@ -214,7 +210,6 @@ function ModelRow(props: {
   const hfSlug = isHf ? stored.slice(3) : "";
 
   const onSelect = (value: string) => {
-    // "hf-custom" stores an empty hf: ref until the user types a slug; presets store verbatim.
     const next = (
       value === "hf-custom" ? "hf:" : value
     ) as CustomProviderForm["models"][number]["tokenizer"];

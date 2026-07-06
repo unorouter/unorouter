@@ -1,9 +1,5 @@
 "use client";
 
-// Shared /trigger-op/llm wrapper. ChatML keeps the system prompt (runTriggerLLM parses <|im_start|> blocks;
-// otherwise the whole string is one user turn). `model` selects the upstream model ("" = the free pick).
-// Used by the default-path deps (free race + utility) and the illustrator prompt-writer.
-
 import type { FreeModelGenerate } from "@/lib/ai/chat/free-model-race";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";

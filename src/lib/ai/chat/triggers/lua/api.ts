@@ -1,18 +1,14 @@
-// Lua global API (RisuAI declareAPI port) bound to a TriggerContext. Access-key gating mirrors Risu; app-coupled calls fail Risu-style.
-
 import { countTokens } from "@/lib/ai/chat/tokenizer";
 import type { TriggerContext, TriggerMessage } from "../types";
 import { luaLowLevelIds, luaSafeIds } from "./engine";
 
 type LuaFn = (...args: never[]) => unknown;
 
-// Lua surface uses Risu roles ('user'|'char'); the context stores assistant.
 const toLuaRole = (r: TriggerMessage["role"]) =>
   r === "assistant" ? "char" : r;
 const fromLuaRole = (r: string): TriggerMessage["role"] =>
   r === "user" ? "user" : "assistant";
 
-// Risu request(): 5/min rate limit, https only, max 120 chars.
 let lastRequestsCount = 0;
 let lastRequestResetTime = 0;
 
@@ -26,7 +22,6 @@ async function sha256Hex(value: string): Promise<string> {
     .join("");
 }
 
-// Prompt array -> ChatML so ops.runLLM (string surface) keeps the roles.
 function promptToChatML(prompt: { role: string; content: string }[]): string {
   return prompt
     .map((p) => `<|im_start|>${p.role}\n${p.content}<|im_end|>`)
@@ -225,7 +220,6 @@ export function buildLuaApi(
       if (!safe(id)) return;
       return new Promise((r) => setTimeout(() => r(true), time));
     },
-    // Display refresh: our query invalidation after the trigger run covers it.
     reloadDisplay: () => undefined,
     reloadChat: () => undefined,
     getCharacterImageMain: async () => "",
@@ -237,7 +231,6 @@ export function buildLuaApi(
     },
     request: async (id: string, url: string) => {
       if (!low(id)) return;
-      // Server-side Lua cannot fetch arbitrary URLs (SSRF); browser only.
       if (typeof window === "undefined") {
         return JSON.stringify({
           status: 400,
@@ -282,7 +275,6 @@ export function buildLuaApi(
       );
     },
     LLMMain: llm,
-    // No aux-model setting; axLLM resolves to the same model as LLM.
     axLLMMain: llm,
     simpleLLM: async (id: string, prompt: string) => {
       if (!low(id)) return;

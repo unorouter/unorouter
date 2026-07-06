@@ -25,11 +25,8 @@ type AlertRequest = {
   resolve: (value: string) => void;
 };
 
-// One pending request at a time (same pattern as confirm()).
 const alertRequestAtom = atom<AlertRequest | null>(null);
 
-// RisuAI V1 showAlert effect: normal/error toast immediately; input/select
-// block on a dialog and resolve the user's answer ('' on dismiss).
 export function triggerAlert(
   kind: "normal" | "error" | "input" | "select",
   text: string,

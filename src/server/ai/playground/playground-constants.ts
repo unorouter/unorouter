@@ -1,4 +1,3 @@
-// ComfyUI templates live behind new-api's task adapter (channel type 59).
 export const COMFYUI_TEMPLATE_IDS = new Set([
   "pony",
   "endgame",

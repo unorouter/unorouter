@@ -18,7 +18,6 @@ export type StatusBarData = {
   day: string;
   bar: {
     status: StatusType;
-    // NOTE: is in percentage! should sum up to 100%
     height: number;
   }[];
   card: {

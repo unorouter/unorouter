@@ -1,7 +1,5 @@
 import type { IconComponent } from "@/lib/config/vendor-icons";
 
-// Swiss AI (Apertus, ETH Zurich + EPFL + CSCS). No public brand-kit SVG (logo is
-// proprietary Molinari Design), so a Swiss-cross monogram stand-in.
 const SwissAiIcon: IconComponent = (props) => (
   <svg
     role="img"

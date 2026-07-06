@@ -10,7 +10,6 @@ import { useEffect, useState } from "react";
 
 import { Icon } from "@/components/ui/icon";
 
-// Shape Next.js passes to an `error.tsx` boundary component.
 export type RouteErrorProps = {
   error: Error & { digest?: string };
   reset: () => void;

@@ -5,27 +5,17 @@ import type { IconName } from "@/lib/config/icon-map";
 export type PlatformDocSection = "GUIDE" | "FAQ";
 
 export interface PlatformDocHeading {
-  /** DOM anchor id, also used by the TOC. */
   id: string;
-  /** Leaf under the page's i18nPrefix, e.g. "H_OVERVIEW". */
   i18nLeaf: string;
   level: 2 | 3;
 }
 
-/**
- * One platform-guide page (quickstart, errors, billing, models). Blog-style:
- * registry entry + per-page content component; DOCS_REGISTRY derives
- * search/sitemap/SEO from it.
- */
 export interface PlatformDoc {
-  /** Route param + DOCS_REGISTRY slug suffix (docs/platform/<slug>). */
   slug: string;
   href: LinkHref;
-  /** "DOCS_PLATFORM.<NAME>" - matches en.json + registry i18nPrefix. */
   i18nPrefix: string;
   section: PlatformDocSection;
   iconName: IconName;
-  /** Content component path for git-derived SEO timestamps. */
   contentFile: string;
   headings: PlatformDocHeading[];
 }

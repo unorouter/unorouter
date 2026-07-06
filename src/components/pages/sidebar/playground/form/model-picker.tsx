@@ -41,7 +41,6 @@ type Props = {
   onSelect: (modelId: string) => void;
 };
 
-// Command/Popover model picker splitting the catalog into ComfyUI vs hosted groups; locked rows route guests to login.
 export function ModelPicker(props: Props) {
   const t = useTranslations();
   const router = useRouter();

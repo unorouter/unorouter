@@ -1,5 +1,3 @@
-// Stage 5: derive streamText params, provider options, per-model wire mutations, var writebacks, and the request-log snapshot.
-
 import type { ProcessedModel } from "@/lib/api/pricing";
 import type { AssembledSystem } from "../../prompt/assembler.service";
 import { GEMINI_SAFETY_OFF, type StreamMessages } from "../transforms";
@@ -8,14 +6,12 @@ import type { StreamBody } from "../prepare.service";
 
 type AutoFlags = ReturnType<typeof getModelRoleFlags>;
 
-// Strip undefined keys so absent != explicit-undefined.
 function defined<T extends Record<string, unknown>>(o: T): Partial<T> {
   return Object.fromEntries(
     Object.entries(o).filter(([, v]) => v !== undefined),
   ) as Partial<T>;
 }
 
-// camelCase modelParams key -> upstream apiKey checked against supportedParameters.
 const PARAM_API_KEY: Record<string, string> = {
   maxOutputTokens: "max_tokens",
   temperature: "temperature",
@@ -28,9 +24,6 @@ const PARAM_API_KEY: Record<string, string> = {
   repetition_penalty: "repetition_penalty",
 };
 
-// Drop sampling keys the model's metadata says it doesn't accept, so a value stored on a
-// preset/conversation for a param the UI greyed out never ships (upstream would 400). Only
-// gates when supportedParameters is a known non-empty list; absent metadata sends everything.
 function stripUnsupported<T extends Record<string, unknown>>(
   o: T,
   supported: string[] | undefined,
@@ -72,7 +65,6 @@ export function buildProviderOptions(
   autoFlags: AutoFlags,
   modelInfo: ProcessedModel | undefined,
 ) {
-  // extraBody is free-form user JSON; a max_tokens key would override the clamped free cap, so strip token-limit keys for free.
   const safeExtraBody =
     modelInfo?.isFree && assembled.extraBody
       ? Object.fromEntries(
@@ -88,7 +80,6 @@ export function buildProviderOptions(
         )
       : assembled.extraBody;
 
-  // extraBody first: sliders/reasoning win on key collision.
   return {
     openai: {
       ...(safeExtraBody ?? {}),
@@ -102,7 +93,6 @@ export function buildProviderOptions(
       ),
       ...defined({
         reasoning_effort: assembled.reasoningEffort,
-        // Gemini-only: threshold=OFF (stronger than BLOCK_NONE), no-op elsewhere. Thinking-exp drops CIVIC_INTEGRITY.
         safetySettings: assembled.flags.geminiBlockOff
           ? autoFlags.noCivilIntegrity
             ? GEMINI_SAFETY_OFF.filter(
@@ -110,14 +100,12 @@ export function buildProviderOptions(
               )
             : GEMINI_SAFETY_OFF
           : undefined,
-        // Provider pin (OpenRouter shape); no-op on channels that don't route on it.
         provider: assembled.providerRouting,
       }),
     },
   };
 }
 
-// Per-model wire-body rewrites (Risu LLMFlags mutations). deepseek accepts low/medium/high; claude adaptive fires on high/xhigh.
 export function buildBodyMutations(
   assembled: AssembledSystem,
   autoFlags: AutoFlags,
@@ -157,7 +145,6 @@ export function buildBodyMutations(
   };
 }
 
-// Chat-var writeback rides finish metadata; the server is read-only on conv state, the client persists. Null if unchanged.
 export function buildWritebacks(
   assembled: AssembledSystem,
   storedVars: string | null | undefined,
@@ -172,20 +159,13 @@ export function buildWritebacks(
   return { varsWriteback, globalVarsWriteback };
 }
 
-// Request-log row (RisuAI Logs analog). Raw client messages not echoed; finalMessages is the post-assembly truth.
-// chatContext is stored as a compact summary: the full dump (preset + lorebooks + characters) bloated
-// request_logs rows and read as junk in the log viewer; the assembled result lives in finalMessages anyway.
 export function buildDebugSnapshot(
   body: StreamBody,
   effectiveSystem: string | undefined,
   messagesForUpstream: StreamMessages,
-  // Upstream target for the request-log curl: bare endpoint path + full url.
   target?: { endpoint: string; url: string },
 ) {
   const ctx = body.chatContext;
-  // Keep ONLY role+parts per message: UI messages carry metadata.debug = the PREVIOUS turn's full
-  // log snapshot, so storing them verbatim nests every prior request into the next row
-  // (exponential row growth within a session) and renders as junk between roles in the viewer.
   const leanMessages = messagesForUpstream.map((m) => ({
     role: (m as { role: string }).role,
     parts: (m as { parts?: unknown }).parts,
@@ -210,7 +190,6 @@ export function buildDebugSnapshot(
       webSearch: body.webSearch,
       convId: body.convId,
     },
-    // Mirrors upstream: null for noSystemRole models.
     assembledSystem: effectiveSystem ?? null,
     finalMessages: leanMessages,
     endpoint: target?.endpoint ?? null,
@@ -218,7 +197,6 @@ export function buildDebugSnapshot(
   };
 }
 
-// UI cost estimate from catalog prices; real billing happens upstream.
 export function makeCostEstimator(modelInfo: ProcessedModel | undefined) {
   return (inputTokens: number, outputTokens: number): number =>
     modelInfo && !modelInfo.isFree

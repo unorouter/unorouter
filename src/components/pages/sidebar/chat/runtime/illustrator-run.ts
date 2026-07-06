@@ -1,16 +1,5 @@
 "use client";
 
-// Client-side illustrator run: drives the in-chat image-gen agent in the POST-RESPONSE path WITHOUT
-// blocking the reply (async-amend, the pattern all 3 reference clients use). The reply persists instantly
-// with a `task` placeholder item (kind:"image"); this runs the agent (utility-model prompt-writer ->
-// imgGen) then rewrites the placeholder to an `{{inlay::id}}` text item. Fully local - no server finalize
-// route needed (unlike the video task), the bytes live in OPFS.
-//
-// The prompt-writer resolves the utility model through `resolveModelTarget`, so on a CUSTOM-PROVIDER chat it
-// uses the user's own endpoint (target.deps.runUtilityLLM) - same resolver the live chat + dry-run use. The
-// image goes through OUR /trigger-op/imggen for catalog models; a custom-provider (BYOK) image model is
-// called browser-direct with the user's own key (custom-image-gen.ts), same trust model as the text path.
-
 import { createAgentPipeline } from "@/lib/ai/agents/pipeline";
 import { illustratorAgent } from "@/lib/ai/agents/builtin/illustrator/agent";
 import type { AgentRuntime } from "@/lib/ai/agents/types";
@@ -35,8 +24,6 @@ import { readLocalPreset } from "@/lib/db/client/data/rp/rp";
 import { chatStore, localUserIdAtom } from "@/store/chat-store";
 import { resolveModelTargetFromStore } from "./resolve-model-target";
 
-// The illustrator settings a chat resolves through the preset inheritance chain (conv override ?? preset
-// default). refMediaIds already includes the char-avatar ref when useCharAvatarRef is on.
 export type IllustratorConvSettings = {
   imageEnabled: boolean;
   utilityModel: string | null;
@@ -79,9 +66,7 @@ export async function resolveIllustratorSettings(
     if (Array.isArray(parsed)) {
       refMediaIds = parsed.filter((x): x is string => typeof x === "string");
     }
-  } catch {
-    // malformed imageRefIds: treat as no refs
-  }
+  } catch {}
   if (s.useCharAvatarRef ?? preset?.useCharAvatarRef) {
     const primary = await readPrimaryCharacter(userId, convId);
     const avatarId = (primary as { avatarMediaId?: string | null } | null)
@@ -100,8 +85,6 @@ export async function resolveIllustratorSettings(
   };
 }
 
-// One image. Shared by the agent runtime and the regenerate dialog. Catalog models go through our
-// /trigger-op/imggen; a custom-provider (BYOK) image model is called browser-direct with the user's key.
 export async function requestImggen(
   prompt: string,
   opts: { imageModel?: string | null; refUrls?: string[] },
@@ -132,7 +115,6 @@ export async function requestImggen(
   );
 }
 
-// Reference media rows -> data: URIs (or R2 urls) the imggen endpoint accepts. Missing rows drop silently.
 export async function resolveRefUrls(
   userId: number,
   mediaIds: string[],
@@ -149,8 +131,6 @@ export async function resolveRefUrls(
   return urls;
 }
 
-// imgGen reach (same as the start-trigger client op): POST /trigger-op/imggen -> bytes; persist media
-// (with the written prompt for the verify/regenerate UI).
 function makeGenerateImage(
   userId: number,
   convId: string,
@@ -182,27 +162,18 @@ export type IllustratorRunInput = {
   userId: number;
   convId: string;
   messageId: string;
-  // The placeholder task item id to rewrite (kind:"image").
   taskId: string;
-  // Original assistant reply text (pre regex/Lua mutation) - the second LLM writes the prompt from this.
   responseText: string;
-  // The model id for the prompt-writer (the conv's utilityModel ?? chat model). May be a custom:: id.
   utilityModel: string;
   promptInstruction?: string;
-  // Illustrator image model (catalog id); null/absent = server auto-pick.
   imageModel?: string | null;
-  // Reference media ids (per-chat uploads + optional char avatar), resolved to data: URIs here.
   refMediaIds?: string[];
-  // Opt-in preview: shows the written prompt for edit/skip before generating.
   reviewPrompt?: (prompt: string) => Promise<string | null>;
 };
 
-// Run the agent, then AMEND: rewrite the placeholder task item to a text item with the inlay token (success)
-// or drop it (failure/noop). Returns true when an image landed. Best-effort: any throw leaves the reply intact.
 export async function runIllustrator(
   input: IllustratorRunInput,
 ): Promise<boolean> {
-  // Resolve the utility model -> its deps/endpoint (custom-provider models hit the user's endpoint).
   const target = await resolveModelTargetFromStore(input.utilityModel);
   const refUrls = input.refMediaIds?.length
     ? await resolveRefUrls(input.userId, input.refMediaIds)
@@ -229,7 +200,6 @@ export async function runIllustrator(
     {
       apiKey: target.apiKey,
       convId: input.convId,
-      // The resolved upstream model id (custom:: stripped) - what runUtilityLLM passes to the provider.
       model: target.model,
       recentMessages: [],
       lastUserText: null,
@@ -239,7 +209,6 @@ export async function runIllustrator(
   const results = await pipeline.postGenerate(input.responseText);
   const image = results.find((r) => r.type === "inlay_image");
 
-  // Rewrite the message items: replace the placeholder task with the inlay token (or remove it on miss).
   const items = (await readLocalMessageItems(input.userId, input.convId)) ?? [];
   const mine = items.filter((it) => it.messageId === input.messageId);
   const rewritten = mine
@@ -258,7 +227,6 @@ export async function runIllustrator(
       return null; // gen failed/noop: drop the placeholder
     })
     .filter((it): it is NonNullable<typeof it> => it != null)
-    // Re-index contiguously: dropping the placeholder on a miss must not leave a sequenceIndex gap.
     .map((it, seq) => ({
       id: it.id ?? uid(),
       messageId: input.messageId,

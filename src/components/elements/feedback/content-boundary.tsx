@@ -4,7 +4,6 @@ import { ErrorFallback } from "@/components/elements/feedback/error-fallback";
 import { SectionBoundary } from "@/components/elements/feedback/section-boundary";
 import type { PropsWithChildren } from "react";
 
-// Error boundary for a layout content slot: a page crash renders the fallback while chrome stays mounted.
 export function ContentBoundary(
   props: PropsWithChildren<{ className?: string }>,
 ) {

@@ -1,4 +1,3 @@
-// 1 USD = 500000 quota units in new-api.
 export const QUOTA_PER_DOLLAR = 500000;
 
 export function quotaToDollars(quota: number): number {
@@ -23,7 +22,6 @@ export function formatPrice(price: number): string {
   return `$${price.toFixed(decimals)}`;
 }
 
-// Discount percentage off an original price, rounded. Returns 0 when there's no meaningful discount so callers can skip the badge.
 export function discountPercent(
   current: number,
   original: number | null,
@@ -47,10 +45,6 @@ export function formatPriceCompact(price: number): string {
   return `$${Math.round(price)}`;
 }
 
-// Locales whose compact notation groups by myriads (萬/万 = 1e4, 億/亿 = 1e8)
-// instead of Western thousands. Intl renders these natively, so "509.6M" becomes
-// "5.096億" (zh-TW) / "5.096亿" (zh-CN). Passing no locale keeps the Western K/M/B/T
-// form for en + non-React callers (so existing output is byte-identical).
 function isCjkMyriadLocale(locale: string | undefined): boolean {
   return locale === "zh-CN" || locale === "zh-TW" || locale === "ja";
 }

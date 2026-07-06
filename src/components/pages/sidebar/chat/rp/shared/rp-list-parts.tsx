@@ -25,7 +25,6 @@ type RpAnalyticsEntity = Parameters<
   typeof analytics.rp.entityAction
 >[0]["entity"];
 
-// Shared confirm dialog for RP entity deletion; key pair varies per entity.
 export async function confirmRpDelete(
   t: ReturnType<typeof useTranslations<never>>,
   titleKey: TranslationKey,
@@ -49,16 +48,12 @@ export function RpEmptyCard(props: { labelKey: TranslationKey }) {
   );
 }
 
-// One list row: Card shell + optional leading slot + name/description + custom actions + optional duplicate +
-// trailing delete. Click elsewhere opens the entity.
 export function RpEntityRow(props: {
   onOpen: () => void;
   name: ReactNode;
   description?: ReactNode;
   leading?: ReactNode;
-  /** Extra row actions (export menu, apply button, ...). */
   actions?: ReactNode;
-  /** Optional duplicate action (RisuAI parity): exact replica with a " copy" name. */
   onDuplicate?: () => void | Promise<void>;
   onDelete: () => void | Promise<void>;
 }) {
@@ -105,9 +100,6 @@ export function RpEntityRow(props: {
   );
 }
 
-// Hidden file input + outline import button (the toolbar trio's left half).
-// When onUrl is provided, also renders a "import from link" popover (characters
-// use this for JanitorAI/JannyAI links).
 export function RpImportControl(props: {
   entity: RpAnalyticsEntity;
   accept: string;
@@ -218,7 +210,6 @@ export function RpImportControl(props: {
   );
 }
 
-// Row export dropdown (download trigger + one item per format).
 export function RpExportMenu(props: {
   ariaLabel: string;
   items: Array<{ label: string; onClick: () => void }>;

@@ -80,16 +80,11 @@ export type AssembledSystem = {
   chatMemory: number;
   streamingEnabled: boolean;
   authorNote?: DepthInjection;
-  /** Parsed extra body merged into providerOptions. Sliders win on key clash. */
   extraBody?: Record<string, unknown>;
-  /** OpenRouter-style provider routing, passed through the request body. */
   providerRouting?: ProviderRouting;
   prefill?: string;
-  /** Ordered template parts; the `chatHistory` part marks where messages splice in. */
   promptParts: PromptPart[];
-  /** Non-history prompt token estimate, reserved against the context window. */
   promptTokens: number;
-  /** Shared macro scope; threaded into message expansion so var writes persist. */
   vars: MacroScope;
   flags: {
     forceAlternateRoles: boolean;
@@ -116,7 +111,6 @@ const CHAR_OVERRIDE_FIELDS = [
   "postHistoryInstructions",
 ] as const;
 
-// Binding overrides win over stored character fields; nullish values fall through.
 function applyCharOverrides<T extends Record<string, unknown>>(
   character: T,
   overrides: unknown,
@@ -137,7 +131,6 @@ type ProviderRouting = {
   sort?: string;
 };
 
-// JSON OpenRouter routing object, passed through verbatim; no-op on channels that don't route on it.
 function parseProviderRouting(
   raw: string | null | undefined,
 ): ProviderRouting | undefined {
@@ -160,7 +153,6 @@ function parseProviderRouting(
   }
 }
 
-// Minimal AssembledSystem, shared by the overrides path and missing-context fallback.
 function baseAssembled(system: string | undefined): AssembledSystem {
   return {
     system,
@@ -214,7 +206,6 @@ export function assembleFromOverrides(
     ...baseAssembled(overridesSystem),
     sampling,
     reasoningEffort: overrides?.reasoningEffort ?? undefined,
-    // non-zero default (a 0 default would silently disable chat memory for guests).
     chatMemory: overrides?.chatMemory ?? DEFAULT_CHAT_MEMORY,
     streamingEnabled: overrides?.streamingEnabled ?? true,
     authorNote,
@@ -223,28 +214,22 @@ export function assembleFromOverrides(
 }
 
 export type AssembleOpts = {
-  // Per-user global var store (JSON string); mutated by setglobalvar, caller persists.
   globalVars?: string | null;
-  // Role-tagged recent history (newest last) for the {{history}} macros.
   history?: {
     role: "user" | "assistant" | "system";
     text: string;
     time?: number;
   }[];
-  // Pre-mutated chat var store (start triggers); used over settings.vars so trigger writes reach prompt + writeback.
   seedVars?: Record<string, string>;
   model?: string;
   maxContext?: number;
-  // Multi-character rotation: promote this bound character to primary ({{char}}) this turn.
   speakingCharacterId?: string;
-  // Browser env for screen_width/height + locale-faithful time macros.
   clientEnv?: {
     viewportW?: number;
     viewportH?: number;
     locale?: string;
     timeZone?: string;
   };
-  // Model supports assistant prefill ({{prefill_supported}}).
   prefillSupported?: boolean;
 };
 
@@ -252,7 +237,6 @@ export async function assembleForStream(
   convId: string,
   recentUserTexts: string[],
   fallbackSystemMessage: string | undefined,
-  // Required: the caller owns the scoped context load. A fallback here would re-resolve convId without userId, reopening the cross-user read.
   preloadedCtx: LoadedConvContext,
   opts?: AssembleOpts,
 ): Promise<AssembledSystem> {
@@ -284,7 +268,6 @@ export async function assembleForStream(
   const charDesc = primary?.description ?? "";
   const scenario = primary?.scenario ?? "";
 
-  // vars is mutated in place across expand() calls so writes reach later reads; the caller persists after stream.
   const macroScope: MacroScope = {
     user: userName,
     char: charName,
@@ -296,7 +279,6 @@ export async function assembleForStream(
     globalVars: parseStringMap(globalVars),
     tempVars: {},
     history,
-    // Per-turn seed: stable across regenerates, re-rolls next turn (convId alone would freeze rolls forever).
     seed: `${convId}:${history?.length ?? 0}`,
     model: opts?.model ?? settings.defaultModel ?? undefined,
     maxContext: opts?.maxContext,
@@ -324,7 +306,6 @@ export async function assembleForStream(
     text ? expandMacros(text, macroScope) : "";
 
   const booksById = new Map(lbRows.map((b) => [b.id, b]));
-  // Lore scans user AND assistant messages (Risu searchMatch); newest first for slice(0, scanDepth).
   const scanTexts = history
     ? history
         .filter((m) => m.role === "user" || m.role === "assistant")
@@ -332,16 +313,12 @@ export async function assembleForStream(
         .reverse()
     : recentUserTexts;
   const selected = selectLorebookEntries(scanTexts, lbEntries, booksById, {
-    // Drives @@activate_only_after/every gates.
     chatLength: history?.length ?? recentUserTexts.length,
-    // Risu gate: @@is_greeting N matches fmIndex+1 (0 = default firstMessage).
     greetingIndex: (macroScope.fmIndex ?? -1) + 1,
     vars: macroScope.vars,
-    // Same per-turn seed as macros: @@probability stable across regenerates.
     seed: macroScope.seed,
   });
 
-  // Named content slots ordered by the template; the default keeps the no-template path byte-identical.
   const joinNonEmpty = (parts: string[]) =>
     parts.filter(Boolean).join("\n\n").trim();
 
@@ -350,7 +327,6 @@ export async function assembleForStream(
     fallbackSystemMessage ?? "",
   ]);
 
-  // Single lorebook slot: every selected entry is its OWN role-tagged message, already orderIndex-then-priority sorted. Mixed user/system/assistant entries stay distinct.
   const lorebookBlocks = selected
     .map((e) => ({
       text: expand(e.content),
@@ -358,7 +334,6 @@ export async function assembleForStream(
     }))
     .filter((b) => b.text.trim().length > 0);
 
-  // Multi-char: primary owns {{char}}; non-primary alwaysActive=false is trigger-gated.
   const charScanText = recentUserTexts.join("\n");
   const charBlocks: string[] = [];
   for (let i = 0; i < boundCharacters.length; i++) {
@@ -386,7 +361,6 @@ export async function assembleForStream(
     if (ch.personality)
       charBlock.push(`## Personality\n${expand(ch.personality)}`);
     if (ch.scenario) charBlock.push(`## Scenario\n${expand(ch.scenario)}`);
-    // exampleMessages emit as few-shot turns below, intentionally not pushed here.
     if (charBlock.length > 0) charBlocks.push(charBlock.join("\n\n"));
   }
   const descriptionSlot = joinNonEmpty(charBlocks);
@@ -398,7 +372,6 @@ export async function assembleForStream(
       ])
     : "";
 
-  // ST parity: only primary's systemPrompt emits in the main system block.
   const sysOverride =
     settings.systemPromptOverride ?? primary?.systemPrompt ?? null;
   const systemPromptSlot = sysOverride ? expand(sysOverride) : "";
@@ -408,7 +381,6 @@ export async function assembleForStream(
     expand(preset?.postHistory),
   ]);
 
-  // Empty slot text -> null so the template walk skips the card.
   const sys = (text: string) =>
     text ? { text, role: "system" as const } : null;
   const prefillText = preset?.prefill ? expand(preset.prefill) : "";
@@ -418,11 +390,9 @@ export async function assembleForStream(
     description: sys(descriptionSlot),
     persona: sys(personaSlot),
     systemPrompt: sys(systemPromptSlot),
-    // Prefill rides the template as a trailing assistant message so it orders with the stack (default: after chat).
     prefill: prefillText
       ? { text: prefillText, role: "assistant" as const }
       : null,
-    // Role selectable (ST parity): user survives alternate-role merges as a distinct trailing turn.
     postHistory: postHistorySlot
       ? {
           text: postHistorySlot,
@@ -435,7 +405,6 @@ export async function assembleForStream(
     parsePromptTemplate(preset?.promptTemplate) ?? DEFAULT_PROMPT_TEMPLATE;
   const promptParts = walkTemplate(template, slots);
 
-  // Example dialogue as role-tagged few-shot turns spliced before chat history (RisuAI exampleMessage).
   const exampleTurns = parseExampleMessages(
     primary?.exampleMessages,
     charName,
@@ -450,7 +419,6 @@ export async function assembleForStream(
     promptParts.splice(at, 0, ...exampleTurns);
   }
 
-  // system = only the leading run the stream hoists; later parts are emitted inline, not duplicated here.
   const leadSystem: string[] = [];
   for (const p of promptParts) {
     if (p.kind === "message" && p.role === "system") leadSystem.push(p.text);
@@ -489,7 +457,6 @@ export async function assembleForStream(
     system: system || undefined,
     sampling,
     reasoningEffort: reasoningEffort ?? undefined,
-    // Precedence: conv override -> preset -> default; null conv = inherit preset.
     chatMemory:
       settings.chatMemory ?? preset?.chatMemory ?? DEFAULT_CHAT_MEMORY,
     streamingEnabled:
@@ -497,7 +464,6 @@ export async function assembleForStream(
     authorNote,
     extraBody,
     providerRouting: parseProviderRouting(preset?.providers),
-    // Emitted as a prefill slot in promptParts; kept here for the GLM end-stub flag and no-prefill-card fallback.
     prefill: prefillText || undefined,
     promptParts,
     promptTokens: estimatePromptTokens(promptParts, authorNote),

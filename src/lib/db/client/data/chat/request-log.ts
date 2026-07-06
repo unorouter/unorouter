@@ -7,12 +7,8 @@ import type { RequestLogRow } from "@/lib/db/schema/rows";
 import { desc, eq, notInArray } from "drizzle-orm";
 import { getLocalDb } from "@/lib/db/client/client";
 
-// Each request_logs row snapshots the FULL post-assembly prompt (~4MB), so an unbounded table hits
-// hundreds of MB fast. The sheet is a debug aid that only inspects the most RECENT requests, so keep
-// a small global window and trim the rest on every insert. Chats/messages are untouched (tiny).
 const MAX_REQUEST_LOGS = 15;
 
-// Flatten a stored parts-shaped message to the OpenAI wire {role, content} shape.
 function wireMessage(m: unknown): { role: string; content: string } {
   const msg = m as {
     role?: string;
@@ -27,10 +23,6 @@ function wireMessage(m: unknown): { role: string; content: string } {
   return { role: msg.role ?? "user", content };
 }
 
-// Reproducible curl for a logged request. Token is intentionally a placeholder ($UNOROUTER_API_KEY),
-// never the real key. The -d body is the UPSTREAM WIRE SHAPE (model + system/messages), not the
-// internal debug snapshot: the snapshot's context summary/overrides are not what upstream receives.
-// Uses the stored upstream url/endpoint; falls back to the chat-completions default for older rows.
 export function buildRequestLogCurl(row: {
   requestBody: unknown;
   requestId: string | null;
@@ -78,7 +70,6 @@ export async function insertLocalRequestLog(
     .insert(requestLogs)
     .values(row)
     .onConflictDoUpdate({ target: requestLogs.msgId, set: row });
-  // Trim to the newest MAX_REQUEST_LOGS globally so the debug table can't grow unbounded.
   const keep = await local.db
     .select({ msgId: requestLogs.msgId })
     .from(requestLogs)
@@ -94,8 +85,6 @@ export async function insertLocalRequestLog(
   }
 }
 
-// Wipe ALL request_logs (the heaviest table: full per-turn prompt snapshots). Called before a DB
-// backup so the export is a clean slate; the request-log sheet is a debug aid, not backup-worthy.
 export async function clearAllRequestLogs(
   userId: number | undefined,
 ): Promise<void> {
@@ -104,7 +93,6 @@ export async function clearAllRequestLogs(
   await local.db.delete(requestLogs);
 }
 
-// Overwrite the stream-time estimates with new-api's authoritative figures (resolved post-finish by logEnrich). No-op when the row is gone.
 export async function patchLocalRequestLogUpstream(
   userId: number | undefined,
   msgId: string,
@@ -150,8 +138,6 @@ export async function readLocalRequestLogsForConv(
     .where(eq(requestLogs.convId, convId));
 }
 
-// Newest N full rows, capped in SQL: pre-lean rows can be MBs each (nested debug chains),
-// so callers that only need a few must never materialize the whole conv's blobs.
 export async function readLocalRequestLogsNewestForConv(
   userId: number | undefined,
   convId: string,
@@ -167,9 +153,6 @@ export async function readLocalRequestLogsNewestForConv(
     .limit(limit);
 }
 
-// Lean reader for diagnostics: projects ONLY metadata columns (NEVER the giant
-// finalMessages/requestBody prompt snapshots) and caps rows in SQL, so a 50-100MB
-// request_logs table can't materialize its blobs in memory and OOM the export.
 export type RequestLogMeta = {
   msgId: string | null;
   convId: string | null;

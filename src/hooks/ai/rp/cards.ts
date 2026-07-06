@@ -47,7 +47,6 @@ export function useCardQuery(id: string | undefined) {
   });
 }
 
-// Cards own bundle; factory is single-table so CRUD bespoke.
 export function useCreateCardMutation() {
   const userId = useLocalUserId();
   return useApiMutation({
@@ -135,7 +134,6 @@ export function useDeleteCardMutation() {
   });
 }
 
-// Apply card to conv: replace/merge bindings + optional persona seed.
 export function useApplyCardMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
@@ -161,7 +159,6 @@ export function useApplyCardMutation() {
           })),
         });
       } else {
-        // Merge: preserve existing junction rows, append card's new ids only.
         const existing = await readLocalConversationBindings(
           userId,
           args.body.convId,

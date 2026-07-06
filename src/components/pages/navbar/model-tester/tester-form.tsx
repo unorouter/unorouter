@@ -26,12 +26,8 @@ import { ScoreGauge, type GaugeArc } from "./score-gauge";
 import { TestResultCard } from "./test-result-card";
 import type { VerifyResult } from "@/lib/ai/verify/types";
 
-// Compact filled field: a subtle surface + mono font for the technical values,
-// without the airy default. Keeps the form dense on desktop and phone.
 const INPUT_CLASS = "bg-muted/40 font-mono text-sm shadow-none";
 
-// Map the finished probes to one gauge arc each so the ring shows WHICH checks
-// passed. While running we have no probes yet, so show four pending arcs.
 function gaugeArcs(result: VerifyResult | null, running: boolean): GaugeArc[] {
   if (running || !result) return ["pending", "pending", "pending", "pending"];
   if (result.probes.length === 0)
@@ -52,13 +48,10 @@ export function TesterForm() {
   const publish = form.watch("publish");
   const watchedModel = form.watch("model");
   const watchedProvider = form.watch("provider");
-  // Hard block: a model whose id resolves to a different format than the picked
-  // one would fail every probe (wrong wire). Block the run instead.
   const inferredFmt = watchedModel ? providerForModel(watchedModel) : null;
   const formatMismatch =
     inferredFmt !== null && inferredFmt !== watchedProvider;
 
-  // Local test: runs client-side, stays on device, never published.
   async function runLocal(values: ModelTesterForm, mode: "direct" | "server") {
     setRunning(true);
     setCorsBlocked(false);
@@ -83,8 +76,6 @@ export function TesterForm() {
     }
   }
 
-  // Server-verified publish: the backend runs the whole test with the key and
-  // stores its own verdict (unforgeable). The user sees the server's result.
   async function runVerifiedPublish(values: ModelTesterForm) {
     setRunning(true);
     setCorsBlocked(false);
@@ -98,7 +89,6 @@ export function TesterForm() {
         model: values.model,
       });
       if (res.published) {
-        // Server-verified: show the full result and keep it locally too.
         setResult(res.result);
         setPublishMsg(t("MODEL_TESTER.PUBLISH.DONE"));
       } else if (res.deduped) setPublishMsg(t("MODEL_TESTER.PUBLISH.DEDUPED"));
@@ -146,8 +136,6 @@ export function TesterForm() {
                       value={field.value}
                       onChange={(next) => {
                         field.onChange(next);
-                        // Switching format clears a model that belongs to a
-                        // different format, so a claude id can't sit under OpenAI.
                         const cur = form.getValues("model");
                         const fmt = cur ? providerForModel(cur) : null;
                         if (fmt && fmt !== next) form.setValue("model", "");

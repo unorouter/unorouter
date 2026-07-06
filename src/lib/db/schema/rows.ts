@@ -1,5 +1,3 @@
-// Canonical client row types (drizzle $inferSelect with Date). UI source of truth.
-
 import type {
   characters,
   chatGroups,

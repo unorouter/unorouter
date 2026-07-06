@@ -13,10 +13,8 @@ import { Slider } from "@/components/ui/slider";
 import type { TranslationKey } from "@/lib/types";
 import { useTranslations } from "next-intl";
 
-// Shared shape of a weighted chain entry (LoRA / embedding).
 export type WeightedEntry = { name: string; weight: number };
 
-// Minimum a catalog row must expose for this picker to render it.
 type CatalogItem = {
   id: string;
   filename: string;
@@ -32,12 +30,10 @@ type Props<TItem extends CatalogItem, TEntry extends WeightedEntry> = {
   items: TItem[];
   isLoading: boolean;
   value: TEntry[];
-  // Builds a chain entry from a freshly-picked catalog item.
   onAddPayload: (item: TItem) => TEntry;
   onChange: (next: TEntry[]) => void;
 };
 
-// Generic weighted-entry list + catalog popover backing the LoRA and embedding pickers; they differ only in catalog source.
 export function CatalogChainPicker<
   TItem extends CatalogItem,
   TEntry extends WeightedEntry,
@@ -158,7 +154,6 @@ export function CatalogChainPicker<
   );
 }
 
-// Shared helper: model family to catalog baseModel filter.
 export function familyToBaseModel(
   family: "sdxl" | "flux2" | "sync-image" | "edit",
 ): "sdxl" | "flux2" | undefined {

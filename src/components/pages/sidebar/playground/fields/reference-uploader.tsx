@@ -45,9 +45,7 @@ export function ReferenceUploader(props: Props) {
       try {
         const result = await uploadMut.mutateAsync(file);
         next.push({ url: result.url });
-      } catch {
-        // toast handled in the hook
-      }
+      } catch {}
     }
     if (next.length !== value.length) props.onChange(next);
   };

@@ -65,7 +65,6 @@ export function ChatControls() {
   );
 }
 
-// Strip above the thread showing what's bound to this conversation; a chip click opens the overrides drawer. Hidden when nothing is bound.
 export function ActiveConfigBadge() {
   const t = useTranslations();
   const threadId = useAuiState((s) => s.threadListItem?.remoteId);
@@ -129,14 +128,12 @@ export function ConversationStats(props: { convId?: string }) {
   const showTokens = useAtomValue(showStatsTokensAtom);
   const showCost = useAtomValue(showStatsCostAtom);
   const showMessages = useAtomValue(showStatsMessagesAtom);
-  // Active-branch message count (user + AI), live from the thread - what the user sees.
   const messageCount = useAuiState((s) => s.thread.messages.length);
   const data = convQuery.data;
   if (!props.convId || !data) return null;
   if (data.totalInputTokens <= 0 && data.totalOutputTokens <= 0) return null;
   const renderCost = showCost && data.totalCost > 0;
   const renderMessages = showMessages && messageCount > 0;
-  // Hide the line entirely when nothing follows the label.
   if (!renderCost && !showTokens && !renderMessages) return null;
   return (
     <div className="text-muted-foreground pointer-events-none flex items-center justify-start gap-2 px-1 pb-1 text-[11px] tabular-nums">
@@ -167,7 +164,6 @@ export function ConversationStats(props: { convId?: string }) {
   );
 }
 
-// Primary character's background painted behind the thread; parent must be relative isolate so the -z-10 layers stay inside it.
 export function CharacterBackground(props: { convId?: string }) {
   const bindings = useChatBindingsQuery(props.convId);
   const primary = (bindings.data?.characters ?? [])

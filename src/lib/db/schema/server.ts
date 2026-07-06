@@ -10,8 +10,6 @@ import { createdAtCol, timestamps } from "./shared";
 import type { AcpSessionStatus } from "@/server/billing/checkout-sessions/checkout-sessions.service";
 import type { AcpIdempotencyState } from "@/server/billing/checkout-sessions/idempotency";
 
-// Server-only schema. Never import from client.
-
 export const acpCheckoutSessions = sqliteTable(
   "acp_checkout_sessions",
   {
@@ -44,7 +42,6 @@ export const acpIdempotencyKeys = sqliteTable(
     createdAt: createdAtCol(),
   },
   (table) => [
-    // Unique index makes the concurrent-insert race deterministic; loser conflicts instead of double-running fn().
     uniqueIndex("uq_acp_idem_key").on(table.userId, table.key, table.path),
     index("idx_acp_idem_created").on(table.createdAt),
   ],
@@ -95,10 +92,6 @@ export const embeddingCatalog = sqliteTable(
   ],
 );
 
-// Durable model catalog: union of every model ever seen in the live pricing
-// response. Free models churn out of pricing hourly when upstream channels
-// rate-limit; this snapshot lets /models/[slug] render an at-capacity page
-// (200) instead of a 404 and gives the sitemap a stable URL set.
 export const modelCatalog = sqliteTable(
   "model_catalog",
   {
@@ -128,11 +121,6 @@ export const upscalerCatalog = sqliteTable(
     index("idx_upscaler_category_visible").on(table.category, table.visible),
   ],
 );
-
-// NOTE: the public rankings tables moved to schema/shared.ts as the merged
-// tester tables (testerProviders/Models/Tests/Probes), ONE definition shared by
-// the client (private history) and server (public board, userId=0 + verifiedAt).
-// Import them from "./shared". See the comment there.
 
 export type AcpCheckoutSession = typeof acpCheckoutSessions.$inferSelect;
 export type ModelCatalogEntry = typeof modelCatalog.$inferSelect;

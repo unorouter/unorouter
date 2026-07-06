@@ -1,6 +1,5 @@
 import type { IconComponent } from "@/lib/config/vendor-icons";
 
-// Deepgram (aura TTS / nova ASR). Inline copy of SiDeepgram; importing it shipped the whole Simple Icons pack.
 const DeepgramIcon: IconComponent = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"

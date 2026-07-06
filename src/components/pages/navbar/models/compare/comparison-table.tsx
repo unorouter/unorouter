@@ -68,7 +68,6 @@ function Bool(props: { on: boolean }) {
   );
 }
 
-// A comparison row: label, per-model render, and optional numeric value for highlight-best (higher=better unless lowerBetter).
 type Row = {
   label: string;
   render: (m: ProcessedModel) => React.ReactNode;

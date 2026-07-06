@@ -26,11 +26,6 @@ import {
   useState,
 } from "react";
 
-// Reasoning renders with a LIGHTWEIGHT markdown (remark-gfm only) instead of the full
-// answer pipeline (inlay media, quote-span theming, mathjax). Reasoning is plain thinking
-// text and never carries those; reusing the heavy pipeline also crashed react-markdown
-// ("Cannot use 'in' operator to search for 'children' in undefined") when the thinking
-// disclosure expanded. Minimal plugins + prose components keep formatting without the crash.
 const ReasoningMarkdown = dynamic(
   () =>
     import("@/components/ui/assistant-ui/reasoning-markdown").then(
@@ -41,8 +36,6 @@ const ReasoningMarkdown = dynamic(
 
 const ANIMATION_DURATION = 200;
 
-// True only while reasoning streams AND the disclosure is auto-open; gates the
-// bottom-pinned live preview + the fade overlays.
 const ReasoningPreviewContext = createContext(false);
 
 const reasoningVariants = cva("aui-reasoning-root mb-4 w-full", {
@@ -66,9 +59,6 @@ export type ReasoningRootProps = Omit<
     open?: boolean;
     onOpenChange?: (open: boolean) => void;
     defaultOpen?: boolean;
-    // Whether reasoning is currently streaming. When set it supersedes
-    // defaultOpen: auto-opens with a bottom-pinned preview while streaming,
-    // auto-collapses when it ends, and the first manual toggle takes over.
     streaming?: boolean;
   };
 
@@ -83,9 +73,6 @@ function ReasoningRoot({
   ...props
 }: ReasoningRootProps) {
   const collapsibleRef = useRef<HTMLDivElement>(null);
-  // First defaultOpen only; captured via state so the render path never reads a
-  // ref (React-compiler lint). Subsequent defaultOpen changes are ignored, same
-  // as the upstream initial-open ref.
   const [initialOpen] = useState(defaultOpen);
   const [userOpen, setUserOpen] = useState<boolean | null>(null);
   const lockScroll = useScrollLock(collapsibleRef, ANIMATION_DURATION);
@@ -277,7 +264,6 @@ function ReasoningText({
     const scrollEl = scrollRef.current;
     const contentEl = contentRef.current;
     if (!scrollEl || !contentEl) return;
-    // Pin to the bottom while streaming so new reasoning stays in view.
     const pin = () => {
       scrollEl.scrollTop = scrollEl.scrollHeight;
     };

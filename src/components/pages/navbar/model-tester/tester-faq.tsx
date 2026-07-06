@@ -10,7 +10,6 @@ import type { TranslationKey } from "@/lib/types";
 
 const CORS_DOCS_URL = "https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS";
 
-// Inline link: underline only, no icon, no bold. Underline strengthens on hover.
 function inlineLink(href: string) {
   return (chunks: ReactNode) => (
     <a
@@ -24,7 +23,6 @@ function inlineLink(href: string) {
   );
 }
 
-// The tag set every answer can use. A string only renders the tags it contains.
 function answerTags() {
   return {
     gh: inlineLink(TESTER_LINKS.source),
@@ -63,15 +61,12 @@ const ITEMS: { q: TranslationKey; a: TranslationKey }[] = [
 
 export function TesterFaq() {
   const t = useTranslations();
-  // Multi-open: opening one row never closes another.
   const [open, setOpen] = useState<number[]>([]);
   const toggle = (i: number) =>
     setOpen((cur) =>
       cur.includes(i) ? cur.filter((x) => x !== i) : [...cur, i],
     );
 
-  // JSON-LD needs plain text. The answer strings carry inline link tags, so
-  // render them with identity handlers and flatten the chunks back to a string.
   const plain = (key: TranslationKey) => {
     const out = t.rich(key, {
       gh: (c) => c,

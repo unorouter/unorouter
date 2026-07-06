@@ -8,7 +8,6 @@ import {
 } from "@/lib/db/client/data/chat/chat";
 import { readLocalCharacter } from "@/lib/db/client/data/rp/rp";
 
-// Plain text from a sendMessage() arg, for the group-order name-mention scan.
 function sendArgText(arg: unknown): string {
   if (typeof arg === "string") return arg;
   if (arg && typeof arg === "object") {
@@ -27,7 +26,6 @@ function sendArgText(arg: unknown): string {
   return "";
 }
 
-// Ordered character ids; length <= 1 means single-stream, no rotation.
 export async function computeSpeakingOrder(
   userId: number | undefined,
   convId: string,
@@ -46,7 +44,6 @@ export async function computeSpeakingOrder(
       return {
         id: b.characterId,
         name: (ch as { name?: string } | null)?.name ?? "",
-        // null -> groupOrder's Risu default (0.5).
         talkness:
           typeof (b as { talkness?: number }).talkness === "number"
             ? (b as { talkness: number }).talkness
@@ -55,7 +52,6 @@ export async function computeSpeakingOrder(
       };
     }),
   );
-  // Last speaker, for the random mode's no-back-to-back filter.
   const rows = await readLocalMessages(userId, convId);
   const lastSpeakerId =
     [...(rows ?? [])]

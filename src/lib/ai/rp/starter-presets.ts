@@ -36,13 +36,11 @@ const NULL_SAMPLING: Pick<
   extraBody: null,
   prefill: null,
   postHistoryRole: null,
-  // null = system default (streaming on, reasoning shown, chatMemory 8).
   streamingEnabled: null,
   showReasoning: null,
   chatMemory: null,
 };
 
-// RP mainPrompt ported verbatim from RisuAI prebuiltPresets.OAI, <user> -> {{user}}.
 const RISU_RP_MAIN_PROMPT = `1. This is role-playing. You play the roles of actor and novelist. You should actively research and utilize the various cultural contents of various countries, such as history, myth, literature, visual media, games, etc.
 
 2. You are never {{user}}. Only I have the authority to control {{user}}. Write only from the point of view of the characters.
@@ -55,7 +53,6 @@ const RISU_RP_MAIN_PROMPT = `1. This is role-playing. You play the roles of acto
 
 6. Leave room for {{user}} interaction. Don't rush through the scene, but write it very slowly. Remove the pre-text and post-text.`;
 
-// globalNote ported verbatim from RisuAI prebuiltPresets.OAI; rides postHistory, injected after chat history.
 const RISU_RP_GLOBAL_NOTE = `1. Create an imaginary world with science levels, social systems, cultural norms, diplomatic relations, ways of life, etc., utilizing the information transmitted, and supplement it with the story under the assumption that it exists.
 
 2. Accurately recognizing the time, space, situation, atmosphere, scenery, characters, objects, sounds, smells, feels, etc.
@@ -72,7 +69,6 @@ const RISU_RP_GLOBAL_NOTE = `1. Create an imaginary world with science levels, s
 
 8. Use italics in markdown for non-dialogues.`;
 
-// Tighter turn-based variant: same prose quality, one move per turn, hard stop.
 const TURN_BASED_MAIN_PROMPT = `1. This is a turn-based role-play. You play the characters and narrate; {{user}} acts on their own turn.
 
 2. You are never {{user}}. Never write {{user}}'s dialogue, thoughts, or actions. End each response at the point where {{user}} would act.
@@ -83,7 +79,6 @@ const TURN_BASED_MAIN_PROMPT = `1. This is a turn-based role-play. You play the 
 
 5. Use italics in markdown for non-dialogue narration.`;
 
-// Clean in-character reminder (NOT Risu's jailbreak); rides postHistory so it lands after the chat.
 const IN_CHARACTER_POST_HISTORY = `[Stay fully in character. Never write or speak for {{user}}. Keep the scene moving and leave room for {{user}}'s next action.]`;
 
 export const STARTER_PRESETS: StarterPreset[] = [
@@ -95,7 +90,6 @@ export const STARTER_PRESETS: StarterPreset[] = [
       name: "General Assistant",
       temperature: 0.7,
       ...NULL_SAMPLING,
-      // Lean assistant: no baked persona/jailbreak.
       mainPrompt: null,
       postHistory: null,
       maxTokens: 2048,

@@ -1,6 +1,3 @@
-// Inlay image generation (Risu runImgGen): one image via the requested image model (falling back to the
-// first image-capable catalog model), returned as base64. Reference images ride the playground refs path.
-
 import { chooseEndpoint } from "@/lib/ai/playground/models-dynamic";
 import { getPricingSummary } from "@/lib/api/pricing-cache";
 import { uid } from "@/lib/utils/base";
@@ -14,7 +11,6 @@ export async function generateInlayImage(
   opts?: { model?: string; references?: { url: string }[] },
 ): Promise<InlayImage | null> {
   const summary = await getPricingSummary();
-  // The requested model must exist as an image model in the catalog; unknown ids fall back to auto-pick.
   const model =
     (opts?.model
       ? summary.models.find((m) => m.type === "image" && m.name === opts.model)

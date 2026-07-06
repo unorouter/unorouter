@@ -1,6 +1,5 @@
 import type { IconComponent } from "@/lib/config/vendor-icons";
 
-// Leonardo.Ai image models. No mark ships anywhere, so this is an inline mono monogram stand-in.
 const LeonardoIcon: IconComponent = (props) => (
   <svg
     role="img"

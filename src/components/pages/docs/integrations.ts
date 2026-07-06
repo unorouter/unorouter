@@ -43,7 +43,6 @@ export type IntegrationColor = {
   line: string;
 };
 
-/** CLI tools: shell quickstart per OS. */
 type CliIntegrationDef = {
   kind: "cli";
   href: LinkHref;
@@ -58,7 +57,6 @@ type CliIntegrationDef = {
   quickStart: Record<OS, string>;
 };
 
-/** Roleplay clients: a single URL paste-target (no OS tabs, no shell). */
 type RpIntegrationDef = {
   kind: "rp";
   href: LinkHref;
@@ -70,7 +68,6 @@ type RpIntegrationDef = {
   logoBg?: boolean;
   logoMono?: boolean;
   color: IntegrationColor;
-  /** Code-block content shown under Quick Start (e.g. URL + key lines). */
   quickConfig: string;
 };
 

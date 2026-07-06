@@ -62,7 +62,6 @@ const EXCEPTION_BODY: Record<DetectionExceptionId, TranslationKey> = {
 
 export function DetectionRules() {
   const t = useTranslations();
-  // Multi-open: opening one row never closes another.
   const [open, setOpen] = useState<number[]>([]);
   const toggle = (i: number) =>
     setOpen((cur) =>

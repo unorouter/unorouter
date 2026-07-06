@@ -22,7 +22,6 @@ function buildRequest(args: ProbeRequestArgs): BuiltRequest {
     "x-api-key": args.apiKey,
     "anthropic-version": "2023-06-01",
   };
-  // Direct browser calls to the real Anthropic API need the opt-in CORS header.
   if (args.direct && isAnthropicHost(args.baseUrl))
     headers["anthropic-dangerous-direct-browser-access"] = "true";
   return {

@@ -1,7 +1,5 @@
 import type { IconComponent } from "@/lib/config/vendor-icons";
 
-// Dicta (dicta-il, Hebrew NLP). No distributable SVG brand mark, so a "D" monogram
-// stand-in.
 const DictaIcon: IconComponent = (props) => (
   <svg
     role="img"

@@ -11,10 +11,8 @@ import { TranslationKey } from "@/lib/config/constants";
 import type { IconName } from "@/lib/config/icon-map";
 import type { ComponentType } from "react";
 
-// Derived from SETUP_GUIDES so nav dropdown, docs sidebar, and docs index share one source.
 const docsSubmenu = (): NavigationItem[] => {
   const byCategory = setupGuidesByCategory();
-  // Chat user guide leads the menu: overview card + the first few pages.
   const chatItems: NavigationItem[] = [
     {
       name: "DOCS_CHAT.INDEX.TITLE" as TranslationKey,
@@ -31,7 +29,6 @@ const docsSubmenu = (): NavigationItem[] => {
       iconName: doc.iconName,
     })),
   ];
-  // Platform guide (quickstart/errors/billing/models): overview + all pages.
   const platformItems: NavigationItem[] = [
     {
       name: "DOCS_PLATFORM.INDEX.TITLE" as TranslationKey,
@@ -70,14 +67,10 @@ const docsSubmenu = (): NavigationItem[] => {
 
 export type NavigationItem = {
   name: TranslationKey;
-  /** Optional tagline shown under the name in the docs megamenu cards. */
   subtitle?: TranslationKey;
   href: LinkHref;
-  /** Icon name from the central registry. */
   iconName?: IconName;
-  /** Vendor brand component (Claude/Gemini/OpenAI) - rendered as-is. */
   iconComponent?: ComponentType<{ className?: string }>;
-  /** Per-guide brand logo (docs sidebar); takes precedence over iconName. */
   guideIcon?: {
     iconKey: IntegrationIconKey;
     logoSrc?: string;
@@ -91,7 +84,6 @@ export type NavigationItem = {
   group?: TranslationKey;
 };
 
-// usePathname() returns the template; resolve both sides' params before comparing or every /docs/[slug] matches.
 const fillParams = (path: string, params?: Record<string, string>) => {
   if (!params) return path;
   let out = path;
@@ -116,7 +108,6 @@ export const isActiveLink = (
   exact?: boolean,
   routeParams?: Record<string, string>,
 ) => {
-  // Resolve template and href each with their own params so dynamic routes compare by concrete value.
   const cleanPathname =
     fillParams(pathname, routeParams).replace(/\/$/, "") || "/";
   const cleanHref = resolveHref(href).replace(/\/$/, "") || "/";

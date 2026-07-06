@@ -1,7 +1,3 @@
-// Media generation dispatch (image/video/audio/embedding). The TEXT path moved fully client-side (the browser
-// assembles + streams via the /forward token-injecting proxy), so this server route now ONLY handles media
-// models, which are not OpenAI chat-completions and need server-side endpoints + Creem moderation.
-
 import { isMediaModel } from "@/lib/api/pricing-cache";
 import { GUEST_USER_ID, msg } from "@/lib/config/constants";
 import { captureServerEvent } from "@/lib/posthog-server";
@@ -23,7 +19,6 @@ export async function streamMedia(
 ) {
   const { mediaType } = await isMediaModel(body.model);
 
-  // group rides X-Group upstream; the media handlers read body.group. Resolve from toolbar or conv settings.
   const settingsGroup = (
     body.chatContext?.settings as { group?: string | null } | undefined
   )?.group;
@@ -58,7 +53,6 @@ export async function streamMedia(
     case "embedding":
       return handleEmbeddingStream(apiKey, body);
     default:
-      // Text models no longer hit this route (the client streams them via /forward).
       throw new Error(msg("ERRORS.UNAUTHORIZED"));
   }
 }

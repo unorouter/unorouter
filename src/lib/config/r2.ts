@@ -202,7 +202,6 @@ async function readBodyWithLimit(res: UndiciResponse): Promise<Buffer> {
   return Buffer.concat(chunks);
 }
 
-// SSRF-safe fetch for caller-supplied URLs: full allowlist (CIDR/DNS, redirect:manual, port/protocol) + byte cap. Returns body + type.
 export async function safeFetchBytes(
   url: string,
   maxBytes: number,
@@ -240,10 +239,6 @@ export async function safeFetchBytes(
   };
 }
 
-// SSRF-safe fetch that supports POST + a JSON body, returns raw bytes + status +
-// content-type (no media magic-byte gate). Reuses the same allowlist/agent as
-// safeFetchBytes. Used by the character-card import proxy (JannyAI POST step
-// returns JSON; final card is a PNG; both flow through here).
 export async function safeFetchRaw(
   url: string,
   opts: {
@@ -291,7 +286,6 @@ async function verifyMagicBytes(
     throw new Error(msg("ERRORS.DISALLOWED_CONTENT_TYPE"));
   }
   if (declaredCt && declaredCt !== detected.mime) {
-    // Media: category match; documents: exact.
     const sameCategory =
       isMedia && declaredCt.split("/")[0] === detected.mime.split("/")[0];
     if (!sameCategory) {
@@ -333,7 +327,6 @@ export async function pingR2(): Promise<boolean> {
   }
 }
 
-// Hard ceiling on any single R2 object. Downloads cap via safeFetchBytes; direct multipart uploads reach uploadToR2, so cap here too.
 const MAX_UPLOAD_BYTES = 50 * 1024 * 1024;
 
 export async function uploadToR2(
@@ -357,7 +350,6 @@ export async function uploadToR2(
 }
 
 export async function deleteR2Prefix(prefix: string): Promise<void> {
-  // Both APIs cap at 1000 keys; loop until no continuation token.
   let continuationToken: string | undefined;
   do {
     const listed = await getS3().send(
@@ -431,7 +423,6 @@ async function putMedia(
   await assertUserQuota(owner.userId, buffer.length);
   const key = mediaKey(owner.scope, convId, msgId, uid(8));
   const { url } = await uploadToR2(key, buffer, declaredCt);
-  // Media rows live in client SQLocal only; the server records none here (R2 holds bytes, local DB holds the row).
   return url;
 }
 
@@ -479,13 +470,10 @@ export async function uploadBase64ToR2(
   return putMedia(convId, msgId, Buffer.from(base64, "base64"), declaredCt);
 }
 
-// Playground media skips `media` table; refs under playgrounds-refs/.
-
 function generationReferenceKey(userId: number, filename: string): string {
   return `playgrounds-refs/${userId}/${filename}`;
 }
 
-// Client-first: download bytes only, no R2 upload (the client persists them to local SQLocal as base64).
 export async function downloadGenerationBytes(
   url: string,
   authToken?: string,
@@ -509,7 +497,6 @@ export async function downloadGenerationBytes(
   };
 }
 
-// Refs are scratch images outside the media table and never swept, so a guest could write unbounded objects. Cap per user, drop the oldest.
 const MAX_REF_OBJECTS = 20;
 
 async function pruneRefObjects(userId: number): Promise<void> {
@@ -540,7 +527,6 @@ export async function uploadReferenceToR2(
 ): Promise<{ url: string; key: string; mime: string; sizeBytes: number }> {
   await pruneRefObjects(userId).catch(() => {});
   const key = generationReferenceKey(userId, uid(8));
-  // uploadToR2 magic-byte verifies against the image/video/pdf allowlist, so a non-image ref is rejected here.
   const { url, mime } = await uploadToR2(key, body, declaredCt);
   return { url, key, mime, sizeBytes: body.length };
 }

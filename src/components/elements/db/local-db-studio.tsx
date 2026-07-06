@@ -45,7 +45,6 @@ export function LocalDbStudio(props: Props) {
     });
     if (!ok) return;
     logChatDebug("opfs.wipe.start", { userId });
-    // Destroy the SQLocal worker first: its handle locks the sqlite file, and removeEntry() silently no-ops on locked files.
     try {
       const local = await getLocalDb(userId);
       if (local) {
@@ -104,12 +103,7 @@ export function LocalDbStudio(props: Props) {
     });
     if (!ok) return;
     try {
-      // Plain ArrayBuffer, not the File: a File's Blob.stream() buffer isn't transferable to the
-      // worker under COEP isolation (DataCloneError); an ArrayBuffer transfers cleanly.
       const buffer = await file.arrayBuffer();
-      // Reconcile-import (not a raw overwrite): forward-migrate the dump to the current schema, then copy its
-      // records into a fresh DB, remapping user_id to THIS session (guest or logged-in). Release the cached
-      // live handle first so the reconcile worker can take the file's SyncAccessHandle.
       const local = await getLocalDb(userId);
       if (local) await local.destroy();
       resetLocalDbCache();
@@ -123,7 +117,6 @@ export function LocalDbStudio(props: Props) {
           tables: res.tables,
         }),
       );
-      // Brief pause so the toast paints before the reload tears the page down.
       setTimeout(() => location.reload(), 1200);
     } catch (err) {
       logger.error("DB reconcile-import failed", {
@@ -215,7 +208,6 @@ let cachedSheet: CSSStyleSheet | null = null;
 async function loadStudioStylesheet(): Promise<CSSStyleSheet> {
   if (cachedSheet) return cachedSheet;
   const res = await fetch(STUDIO_CSS_URL);
-  // CSS targets :root/.dark which don't cross the shadow boundary; rewrite to :host / :host(.dark).
   const text = (await res.text())
     .replace(/:root\b/g, ":host")
     .replace(/:is\(\.dark\s*\*\)/g, "")

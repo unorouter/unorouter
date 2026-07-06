@@ -1,7 +1,3 @@
-// Text-stream request assembly (chat body into streamText args). Orchestrates the five stages; the
-// client transport (runClientStream, default + custom paths) owns the streamText call.
-// Isomorphic: all server-secret/data-source touches are injected via AssemblerDeps.
-
 import type { ChatContext, StreamOverrides } from "@/lib/validation/chat";
 import type { AssemblerDeps } from "./deps";
 import type { StreamMessages } from "./transforms";
@@ -28,15 +24,12 @@ export type StreamBody = {
   messages: StreamMessages;
   convId?: string | null;
   webSearch?: boolean;
-  // Billing/routing group sent upstream as X-Group; null/absent == "auto".
   group?: string | null;
   overrides?: StreamOverrides;
   chatContext?: ChatContext;
   globalVars?: string | null;
   speakingCharacterId?: string | null;
   messageTimes?: Record<string, number>;
-  // Per-model tokenizer selection for budget counting. Custom path sets it from the selected model's row;
-  // the default path omits it (the active tokenizer is inferred from `model`). "auto"/absent == infer.
   tokenizer?: TokenizerRef;
   clientEnv?: {
     viewportW?: number;
@@ -50,9 +43,6 @@ export type PreparedChatRequest = Awaited<
   ReturnType<typeof prepareChatRequest>
 >;
 
-// Throw the signal's reason (or a generic AbortError) when assembly is cancelled mid-flight. Checked at
-// stage boundaries so a user abort during a slow tokenizer download / heavy lorebook scan stops promptly,
-// instead of only being honored once streamText starts.
 function throwIfAborted(signal: AbortSignal | undefined) {
   if (signal?.aborted) {
     throw signal.reason instanceof Error
@@ -69,8 +59,6 @@ export async function prepareChatRequest(
   abortSignal?: AbortSignal,
 ) {
   throwIfAborted(abortSignal);
-  // Preload the per-model tokenizer BEFORE any counting (history fit / lorebook budget run sync against the
-  // module-active tokenizer). Best-effort: a failed load falls back to cl100k/char-4 inside countTokens.
   await setActiveTokenizer(tokenizerRefForModel(body.tokenizer, body.model));
 
   throwIfAborted(abortSignal);
@@ -148,11 +136,8 @@ export async function prepareChatRequest(
       modelInfo,
       deepSeekReasoningContent,
     ),
-    // start-trigger showAlert frames (normal/error), streamed as transient data-alert parts.
     startAlerts: prompt.startAlerts,
-    // V1 stop effect: a start trigger requested the prompt not be sent.
     stopRequested: prompt.stopRequested,
-    // runImgGen results: client persists these media rows from finish-meta.
     inlayMedia: prompt.inlayMedia,
   };
 }

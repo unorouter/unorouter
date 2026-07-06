@@ -16,7 +16,6 @@ async function fetchDirectoryKeys(origin: string): Promise<PublicJwk[]> {
   if (cached && Date.now() - cached.fetchedAt < DIRECTORY_TTL_MS)
     return cached.keys;
 
-  // The Signature-Agent origin is attacker-controlled and fetched before verification: require https + the SSRF allowlist so it can't probe internal hosts.
   try {
     const parsed = new URL(origin);
     if (parsed.protocol !== "https:") return [];
@@ -71,9 +70,7 @@ export async function verifyInboundRequest(
         origin: agentOrigin,
         keyid: (jwk as { kid?: string }).kid ?? "",
       };
-    } catch {
-      // wrong key, try next
-    }
+    } catch {}
   }
 
   logger.info("Web Bot Auth verification failed", {

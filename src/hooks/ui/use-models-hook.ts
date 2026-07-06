@@ -25,7 +25,6 @@ import {
 } from "@/store/models-store";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 
-// Release timestamp (ms) for Newest sort + Released column: OpenRouter launch date first, new-api insert date fallback.
 export function modelReleaseTs(model: ProcessedModel): number {
   const iso = model.metadata.releaseDate;
   if (iso) {
@@ -36,14 +35,12 @@ export function modelReleaseTs(model: ProcessedModel): number {
   return 0;
 }
 
-// A model released within this window renders the "NEW" badge on cards.
 export const NEW_MODEL_MS = 30 * 24 * 60 * 60 * 1000;
 
 function effectivePrice(model: ProcessedModel): number {
   return model.isFixedPrice ? model.fixedPrice : model.inputPrice;
 }
 
-// "free" in every supported locale, so searching the localized word surfaces free models regardless of UI language.
 const FREE_KEYWORDS = [
   "free",
   "gratis",
@@ -87,7 +84,6 @@ export function useModelsFilter() {
   const [supportedParameters, setSupportedParameters] = useAtom(
     supportedParametersAtom,
   );
-  // Read-only here; the sidebar writes toolsOnlyAtom directly.
   const toolsOnly = useAtomValue(toolsOnlyAtom);
   const clearFilters = useSetAtom(clearFiltersAtom);
 
@@ -102,8 +98,6 @@ export function useModelsFilter() {
   const selectedModel =
     models.find((m) => m.name === selectedModelName) ?? null;
 
-  // Filters that constrain WHICH models show (drives search/reset UI + the
-  // span-all-tabs behavior). Sort order is excluded: it reorders, never filters.
   const hasActiveFilters =
     search.trim().length > 0 ||
     selectedVendors.length > 0 ||
@@ -117,8 +111,6 @@ export function useModelsFilter() {
     priceRange[1] < PRICE_MAX;
 
   const query = search.trim().toLowerCase();
-  // Every filter EXCEPT the modality tab: the tab counts must reflect the active
-  // sidebar filters (each count = what that tab would show if clicked).
   const tabModels = models.filter((model) => {
     const matchesSearch =
       query.length === 0 ||
@@ -139,7 +131,6 @@ export function useModelsFilter() {
     const matchesPrice =
       price >= priceRange[0] &&
       (priceRange[1] >= PRICE_MAX || price <= priceRange[1]);
-    // Categories from synced metadata (OpenRouter cards); fall back to tags.
     const modelCats = model.metadata.categories ?? model.tags;
     const matchesCategories =
       categories.length === 0 || categories.some((c) => modelCats.includes(c));
@@ -164,8 +155,6 @@ export function useModelsFilter() {
     );
   });
 
-  // Any active filter/search spans every modality tab; only the untouched
-  // catalog narrows to the selected tab. Reset filters restores tab scoping.
   let filtered = hasActiveFilters
     ? tabModels
     : tabModels.filter(

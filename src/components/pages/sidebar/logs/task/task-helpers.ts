@@ -44,7 +44,6 @@ const TASK_STATUS_KEYS: Record<string, TranslationKey> = {
   UNKNOWN: msg("LOGS.TASK.STATUS_VALUES.UNKNOWN"),
 };
 
-/** Translation key for a task status. Returns null for empty/unknown values. */
 export function getTaskStatusKey(
   status: string | undefined,
 ): TranslationKey | null {

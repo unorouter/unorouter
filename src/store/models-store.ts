@@ -32,7 +32,6 @@ export type ModelsStoreState = {
 
 export const MODELS_STORE_KEY = "models-store";
 
-// Upper bound for the prompt-price slider (per 1M tokens); also the "no max" sentinel.
 export const PRICE_MAX = 100;
 
 export const INITIAL_MODELS_STATE: ModelsStoreState = {
@@ -165,7 +164,6 @@ export const toolsOnlyAtom = atom(
   },
 );
 
-// Used by the status page (vendor collapse), not the models catalog filters.
 export const collapsedVendorsAtom = atom(
   (get) => arr(get(modelsStoreAtom).collapsedVendors),
   (get, set, value: string[]) => {
@@ -185,7 +183,6 @@ export const toggleVendorCollapsedAtom = atom(
   },
 );
 
-// Full reset of all filters to defaults; column-sort cleared separately by the page.
 export const clearFiltersAtom = atom(null, (get, set) => {
   set(modelsStoreAtom, {
     ...get(modelsStoreAtom),
@@ -204,7 +201,6 @@ export const clearFiltersAtom = atom(null, (get, set) => {
   });
 });
 
-// True when any user-facing setting differs from default (drives the reset button). collapsedVendors/selectedModelName aren't filters.
 export const isDirtyAtom = atom((get) => {
   const s = get(modelsStoreAtom);
   return (

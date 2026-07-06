@@ -37,11 +37,9 @@ type MediaStreamBody = {
   model: string;
   messages: StreamMessages;
   convId?: string | null;
-  // Billing/routing group sent upstream as X-Group; null/absent == "auto".
   group?: string | null;
 };
 
-// Upstream usage shape (OpenAI images + chat). input/output may be absent on some adapters.
 type UpstreamUsage = {
   input_tokens?: number;
   output_tokens?: number;
@@ -49,9 +47,6 @@ type UpstreamUsage = {
   completion_tokens?: number;
 };
 
-// Finish-metadata for a media turn, mirroring the text path's `messageMetadata` shape so the history
-// adapter persists usage/cost + a request-log row identically. Built by media handlers, written by
-// writeBufferedMessage. `debug` carries the curl-reproducible upstream target + the real wire body.
 function buildMediaMeta(args: {
   model: string;
   usage: UpstreamUsage | undefined;
@@ -93,7 +88,6 @@ function buildMediaMeta(args: {
   return meta;
 }
 
-// Per-request fixed price wins for media; else token estimate from catalog prices.
 function mediaCost(
   model: ProcessedModel | undefined,
   inputTokens: number,
@@ -107,19 +101,12 @@ function mediaCost(
   );
 }
 
-// Per-request group override header; omitted for null/auto (gateway default).
 function groupHeader(group?: string | null): Record<string, string> {
   return group && group !== "auto" ? { "X-Group": group } : {};
 }
 
-// Media gen (image especially) can run >100s, longer than Cloudflare's 100s
-// origin-response window. Without any byte on the wire, CF kills the browser
-// connection with a 524 before the result arrives. Emit a transient
-// data-keepalive part on an interval so SSE frames keep flowing and CF's timer
-// resets; the client ignores these parts (onData).
 const KEEPALIVE_INTERVAL_MS = 20_000;
 
-// One-shot UI-message response: run execute, stream its output. On a throw, emit a data-error part so the adapter persists an error node.
 function streamResponse(
   execute: (writer: UIMessageStreamWriter) => Promise<void>,
 ) {
@@ -148,7 +135,6 @@ function streamResponse(
   });
 }
 
-// Upstream JSON POST with shared error handling: !ok logs + throws `errKey`.
 async function upstreamPost(
   apiKey: string,
   path: string,
@@ -178,8 +164,6 @@ async function upstreamPost(
   return res;
 }
 
-// Shared image/video preamble: last user text is the prompt.
-// Moderation runs at the source (new-api relay), not here.
 function extractMediaPrompt(body: MediaStreamBody): string {
   const prompt = extractLastUserText(body.messages);
   if (!prompt) throw new Error(msg("ERRORS.NO_IMAGE_PROMPT"));
@@ -189,7 +173,6 @@ function extractMediaPrompt(body: MediaStreamBody): string {
 function writeBufferedMessage(
   writer: UIMessageStreamWriter,
   text: string,
-  // Optional finish metadata (usage/cost/debug) so media messages persist the same footer + request log as text.
   meta?: Record<string, unknown>,
 ) {
   const partId = uid(12);
@@ -215,7 +198,6 @@ async function processUrls(
   const matches = [...text.matchAll(LINK_RE)];
   if (matches.length === 0) return text;
   if (mediaType !== "video" && mediaType !== "image") {
-    // Empty-string fallback masks missing host; log for observability.
     logger.warn("processUrls dropping media links for non-media model", {
       context: "stream.urls",
       mediaType,
@@ -253,20 +235,14 @@ async function processUrls(
   return (await Promise.all(matches.map(process))).filter(Boolean).join("\n\n");
 }
 
-// Fallback ref cap when a model declares no maxImageInputs metadata.
 const DEFAULT_MAX_CHAT_REFS = 4;
 
-// Dispatch by advertised endpoint: image-generation POSTs /v1/images/generations
-// (or multipart /v1/images/edits when refs are attached); openai image models use
-// /v1/chat/completions; gemini uses generateContent. Refs are the user's attached
-// images for edit/combine turns.
 type ImageGenResult = {
   uris: string[];
   usage: UpstreamUsage | undefined;
   requestId: string | null;
   endpointPath: string;
   url: string;
-  // Curl-reproducible wire body: the JSON we sent, or a summary for multipart (binary can't be inlined).
   wireBody: unknown;
 };
 
@@ -289,7 +265,6 @@ async function generateImage(
   const res = await fetch(url, {
     method: "POST",
     headers,
-    // multipart: FormData sets its own boundary content-type; json: string body.
     body: built.kind === "json" ? built.body : built.form,
   });
   if (!res.ok) {
@@ -308,7 +283,6 @@ async function generateImage(
   if (uris.length === 0) {
     throw new Error(msg("ERRORS.IMAGE_GENERATION_FAILED"));
   }
-  // multipart edits send binary files; record a JSON-equivalent summary curls can run with public refs.
   const wireBody =
     built.kind === "json"
       ? JSON.parse(built.body)
@@ -348,7 +322,6 @@ export async function handleImageStream(apiKey: string, body: MediaStreamBody) {
       body.group,
     );
 
-    // Stream inline data URLs; client persists base64. Guests never touch Turso/R2: no FK violation, no blocked embeds.
     const dataUrls = await Promise.all(
       result.uris.map(async (img: string) => {
         if (img.startsWith("data:")) return img;
@@ -402,7 +375,6 @@ export async function handleVideoTaskStream(
       body.group,
     );
 
-    // data-task: assistant-ui rewrites to a data/task part; partsToItems persists as `task` for reopen/finalize.
     writer.write({ type: "start" });
     writer.write({ type: "start-step" });
     writer.write({
@@ -414,7 +386,6 @@ export async function handleVideoTaskStream(
   });
 }
 
-// TTS models advertise no dedicated endpoint tag; detect speech vs transcription by name to pick the audio path.
 const isSttModel = (model: string) =>
   /whisper|transcrib|asr|speech-to-text|stt/i.test(model);
 
@@ -443,7 +414,6 @@ async function generateSpeech(
 }
 
 export async function handleAudioStream(apiKey: string, body: MediaStreamBody) {
-  // STT needs an audio input the composer can't yet attach; guide the user. Plain text since it's persisted, not translated.
   if (isSttModel(body.model)) {
     return streamResponse(async (writer) => {
       writeBufferedMessage(
@@ -470,7 +440,6 @@ export async function handleAudioStream(apiKey: string, body: MediaStreamBody) {
       wireBody: speech.wireBody,
       durationMs: Date.now() - startedAt,
     });
-    // data:audio/ markdown renders as <audio>; client persists the base64 into local media like generated images.
     writeBufferedMessage(writer, `![audio](${speech.dataUri})`, meta);
   });
 }
@@ -523,7 +492,6 @@ export async function handleEmbeddingStream(
     const emb = await generateEmbedding(apiKey, body.model, input, body.group);
     const preview = emb.vector.slice(0, 8).map((n) => n.toFixed(6));
     const tail = emb.vector.length > 8 ? ", ..." : "";
-    // Plain text (not a t() key): persisted message content, not re-translated.
     const text = [
       `Embedding vector (${emb.dims} dimensions):`,
       "",
@@ -551,9 +519,7 @@ export function handleBufferedStream(
   result: ReturnType<typeof streamText>,
   body: MediaStreamBody,
   mediaType: ModelType,
-  // Caller-synthesized finish metadata, emitted as a chunk so the buffered path persists the same fields as the stream.
   finishMeta?: () => Promise<Record<string, unknown>>,
-  // Server-generated message id (keys the server-persisted request log).
   messageId?: string,
 ) {
   return streamResponse(async (writer) => {
@@ -565,7 +531,6 @@ export function handleBufferedStream(
     const partId = uid(12);
     writer.write(messageId ? { type: "start", messageId } : { type: "start" });
     writer.write({ type: "start-step" });
-    // Upstream always streams, so surface reasoning even when the final text is buffered.
     if (reasoning) {
       const reasonId = uid(12);
       writer.write({ type: "reasoning-start", id: reasonId });

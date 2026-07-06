@@ -1,5 +1,3 @@
-// Mirrors `./rp.ts` and `./chat.ts` with `default:` for RHF's `Value.Default`.
-
 import { Type as t, type Static } from "@sinclair/typebox/type";
 import { nullable, samplingNullable } from "./helpers";
 import { reasoningEffort, webSearchContextSize, webSearchEngine } from "./chat";
@@ -12,7 +10,6 @@ import {
 } from "./rp";
 export { LOREBOOK_INJECTION_ROLES, type LorebookInjectionRole };
 
-// Single source for sampling knobs. field = camelCase DB; apiKey = snake_case upstream.
 export const SAMPLING_PARAMS = [
   {
     field: "temperature",
@@ -100,13 +97,11 @@ export const SAMPLING_PARAMS = [
 
 export type SamplingParam = (typeof SAMPLING_PARAMS)[number];
 
-// Sampling slider field names, shared by the override form + its reset helper.
 export type SamplingFieldName = SamplingParam["field"];
 export const SAMPLING_FIELDS = SAMPLING_PARAMS.map(
   (p) => p.field,
 ) as SamplingFieldName[];
 
-// RP entity tabs shown in the sidebar dialog + nav.
 export const RP_TABS = [
   "characters",
   "personas",
@@ -115,7 +110,6 @@ export const RP_TABS = [
 ] as const;
 export type RpTab = (typeof RP_TABS)[number];
 
-// Reuse the canonical unions from chat.ts (anyOf spread keeps one source).
 const reasoningEffortLiterals = [
   t.Literal(NONE_VALUE),
   ...reasoningEffort.anyOf,
@@ -134,7 +128,6 @@ export const conversationOverridesFormSchema = t.Object({
   personaId: t.String({ default: NONE_VALUE }),
   presetId: t.String({ default: NONE_VALUE }),
   reasoningEffort: t.Union(reasoningEffortLiterals, { default: NONE_VALUE }),
-  // null = inherit the bound preset's chatMemory (else system default 8).
   chatMemory: nullableNumber(1, 1000),
   authorNoteDepth: t.Number({ minimum: 0, maximum: 100, default: 4 }),
   systemPromptOverride: t.String({ default: "" }),
@@ -144,26 +137,18 @@ export const conversationOverridesFormSchema = t.Object({
   webSearchContextSize: t.Union(webSearchContextSizeLiterals, {
     default: "medium",
   }),
-  // Agent features (conversation-scoped; no preset inheritance).
   memoryEnabled: t.Boolean({ default: false }),
   imageEnabled: t.Boolean({ default: false }),
-  // Utility model for the summarizer + illustrator prompt-writer; NONE_VALUE = the chat model.
   utilityModel: t.String({ default: NONE_VALUE }),
-  // Illustrator prompt-writer instruction override; "" = default instruction.
   promptInstruction: t.String({ default: "", maxLength: 4_096 }),
-  // Illustrator image model; NONE_VALUE = auto-pick.
   imageModel: t.String({ default: NONE_VALUE }),
-  // Review the written image prompt before generating.
   imagePreview: t.Boolean({ default: false }),
-  // Auto-include the primary character's avatar as a reference image.
   useCharAvatarRef: t.Boolean({ default: false }),
   characterIds: t.Array(t.String(), { default: [] }),
   lorebookIds: t.Array(t.String(), { default: [] }),
   ...samplingNullable({ maxTokensMax: 1_000_000 }),
   extraBody: t.String({ default: "", maxLength: 8_192 }),
-  // null = inherit the bound preset (else system default: streaming on). false = BFF buffers the full reply, then streams as one chunk.
   streamingEnabled: nullable(t.Boolean()),
-  // null = inherit the bound preset (else shown). false hides thinking at render.
   showReasoning: nullable(t.Boolean()),
 });
 export type ConversationOverridesForm = Static<
@@ -178,11 +163,9 @@ export const samplingPresetFormSchema = t.Object({
     error: msg("FORM.ERROR.REQUIRED"),
   }),
   ...samplingNullable({ temperatureMax: 4, maxTokensMax: 1_000_000 }),
-  // Preset-level defaults (the conversation overrides per chat). null = system default (streaming on, chatMemory 8).
   streamingEnabled: nullable(t.Boolean()),
   showReasoning: nullable(t.Boolean()),
   chatMemory: nullableNumber(1, 1000),
-  // Agent feature defaults a chat inherits (conv override wins). null/empty = unset.
   memoryEnabled: nullable(t.Boolean()),
   imageEnabled: nullable(t.Boolean()),
   utilityModel: t.String({ default: "", maxLength: 256 }),
@@ -196,11 +179,8 @@ export const samplingPresetFormSchema = t.Object({
     default: "system",
   }),
   prefill: t.String({ default: "", maxLength: MAX_DESC_LEN }),
-  // Comma-separated provider slugs; serialized to the `providers` JSON on submit.
   providers: t.String({ default: "", maxLength: 2_048 }),
-  // When true the slugs become `only` (hard pin), else `order` (preference).
   providersOnly: t.Boolean({ default: false }),
-  // Prompt template JSON (PromptItem[]); empty = default fixed order. Serialized straight to the promptTemplate column.
   promptTemplate: t.String({ default: "", maxLength: 32_768 }),
   forceAlternateRoles: t.Boolean({ default: false }),
   noSystemRole: t.Boolean({ default: false }),
@@ -238,9 +218,7 @@ export const lorebookFormSchema = t.Object({
 });
 export type LorebookForm = Static<typeof lorebookFormSchema>;
 
-// Keys stored as arrays; form edits as comma-separated strings.
 export const lorebookEntryFormSchema = t.Object({
-  // Non-AI display name (ST/Risu `comment`); identifies the entry, never sent to the model.
   comment: t.String({ maxLength: MAX_NAME_LEN, default: "" }),
   keys: t.String({ default: "" }),
   secondaryKeys: t.String({ default: "" }),
@@ -250,13 +228,9 @@ export const lorebookEntryFormSchema = t.Object({
     default: "",
     error: msg("FORM.ERROR.REQUIRED"),
   }),
-  // Token-budget survival rank (Risu priority), uncapped + relative; higher survives the budget.
   priority: t.Integer({ default: 100 }),
-  // Placement within the single lorebook slot (Risu insertorder), uncapped + relative; higher = earlier.
   orderIndex: t.Integer({ default: 0 }),
-  // Form-only; stored as a @@probability decorator line in content (no column).
   probability: t.Number({ minimum: 0, maximum: 100, default: 100 }),
-  // Form-only; 0 = inherit book scan depth. Stored as a @@scan_depth decorator line.
   entryScanDepth: t.Number({ minimum: 0, maximum: 100, default: 0 }),
   constant: t.Boolean({ default: false }),
   selective: t.Boolean({ default: false }),
@@ -281,7 +255,6 @@ export const characterFormSchema = t.Object({
   systemPrompt: t.String({ maxLength: MAX_DESC_LEN, default: "" }),
   postHistoryInstructions: t.String({ maxLength: MAX_DESC_LEN, default: "" }),
   tags: t.String({ default: "" }),
-  // Comma-separated keywords; assembler matches against recent user texts.
   triggers: t.String({ default: "" }),
   alwaysActive: t.Boolean({ default: true }),
   matchWholeWords: t.Boolean({ default: false }),

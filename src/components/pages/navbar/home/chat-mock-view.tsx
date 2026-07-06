@@ -12,22 +12,16 @@ export type MockConv = {
 };
 export type MockModel = { vendor: string; name: string };
 export type MockMenuItem = { icon: string; label: string };
-// One RP feature's dialog: a title + a few representative rows (name + subtitle).
 export type MockDialog = {
   title: string;
   rows: { name: string; sub: string }[];
 };
 
-// Server-resolved content + translated strings; identical for the static shell and the
-// animated layer so they paint the same layout.
 export type MockData = {
   convs: MockConv[];
   models: MockModel[];
   menu: MockMenuItem[];
-  // Per-RP-feature dialog content, indexed parallel to menu + the trailing Local DB row.
   dialogs: MockDialog[];
-  // Distinct character used for the new-chat beat (so its sidebar row + title don't
-  // duplicate an existing conversation).
   newChat: { title: string; demoUser: string; demoAi: string; tokens: string };
   strings: {
     newChat: string;
@@ -40,8 +34,6 @@ export type MockData = {
   };
 };
 
-// What the demo is currently showing. The static shell renders DEFAULT_MOCK_STATE; the
-// animated driver mutates this over the timeline.
 export type MockState = {
   activeConv: number;
   modelOpen: boolean;
@@ -49,18 +41,11 @@ export type MockState = {
   rpOpen: boolean;
   rpActive: number;
   isNewChat: boolean;
-  // New-chat simulation: text being typed into the composer, the sent user turn, the
-  // assistant typing indicator, and the streamed-in assistant reply.
   typedText: string;
   userMsg: string;
   aiTyping: boolean;
   aiMsg: string;
-  // Which RP feature dialog is open (index into data.menu + the trailing Local DB row), or
-  // null. Opening a menu row pops its real dialog; the demo then closes it.
   rpDialog: number | null;
-  // Title of a freshly-created conversation shown at the top of the sidebar during the
-  // new-chat beat ("" = no new row). Starts as the New Chat label, then the demo swaps in
-  // a title once the message is sent, like the real app.
   newConvTitle: string;
 };
 
@@ -379,8 +364,6 @@ export function ChatMockView(props: { data: MockData; state: MockState }) {
   );
 }
 
-// Icon for an RP dialog index: menu rows use their own icon; the trailing Local DB
-// dialog uses the database icon.
 function rpIcon(data: MockData, index: number): string {
   return data.menu[index]?.icon ?? "database";
 }

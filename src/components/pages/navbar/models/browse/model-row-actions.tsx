@@ -40,9 +40,7 @@ export function ModelRowActions(props: { model: ProcessedModel }) {
         <DropdownMenuContent align="end">
           <DropdownMenuItem
             onClick={(e) => e.stopPropagation()}
-            render={
-              <Link href={modelHref(model.name, model.vendor.name)} />
-            }
+            render={<Link href={modelHref(model.name, model.vendor.name)} />}
           >
             <Icon
               name="external-link"

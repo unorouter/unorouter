@@ -58,8 +58,6 @@ function ModalityIcon(props: { modality: string; sideLabel: string }) {
   );
 }
 
-// ePhone-style compact modality chip for the header row: input icons -> output
-// icons, each icon naming its modality on hover.
 export function ModelModalityChip(props: { metadata: ModelMetadata }) {
   const t = useTranslations();
   const inputs = props.metadata.inputModalities ?? [];

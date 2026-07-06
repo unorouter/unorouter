@@ -29,7 +29,6 @@ async function sha256Hex(input: string): Promise<string> {
     .join("");
 }
 
-// Mirrors Elysia's `set` shape: HTTPHeaders is Record<string, string | number>.
 type SetLike = {
   status?: number | string;
   headers: Record<string, string | number>;
@@ -70,12 +69,10 @@ export async function withIdempotency<T>(
   fn: () => Promise<{ status: number; body: T }>,
 ): Promise<T> {
   const db = getDb();
-  // Derive path from the actual request so callers can't reuse one idempotency key across routes.
   const url = new URL(args.request.url);
   const path = `${args.request.method} ${url.pathname}`;
   const bodyHash = await sha256Hex(canonicalize(args.body));
 
-  // Sweep stale keys lazily on read; cheap on indexed createdAt.
   const cutoff = new Date(Date.now() - KEY_RETENTION_MS);
   await db
     .delete(acpIdempotencyKeys)
@@ -117,7 +114,6 @@ export async function withIdempotency<T>(
     return row.response as T;
   }
 
-  // Claim the key via an insert the unique index makes atomic: a concurrent insert throws and is treated as in-flight, not run twice (double-charge guard).
   try {
     await db.insert(acpIdempotencyKeys).values({
       userId: args.userId,
@@ -157,7 +153,6 @@ export async function withIdempotency<T>(
     args.set.status = result.status;
     return result.body;
   } catch (err) {
-    // Drop in-flight key on throw so retries are fresh (sec6.5). 4xx also dropped; agents retry.
     await db
       .delete(acpIdempotencyKeys)
       .where(
