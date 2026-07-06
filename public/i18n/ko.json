@@ -1226,7 +1226,8 @@
     "SHOW_MORE": "더 보기",
     "SHOW_LESS": "접기",
     "CHIP_CONTEXT": "컨텍스트",
-    "CHIP_OUT": "출력"
+    "CHIP_OUT": "출력",
+    "OPEN_CHAT": "채팅 열기"
   },
   "PRICING": {
     "FEATURE": {

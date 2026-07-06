@@ -1226,7 +1226,8 @@
     "SHOW_MORE": "عرض المزيد",
     "SHOW_LESS": "عرض أقل",
     "CHIP_CONTEXT": "السياق",
-    "CHIP_OUT": "الإخراج"
+    "CHIP_OUT": "الإخراج",
+    "OPEN_CHAT": "افتح المحادثة"
   },
   "PRICING": {
     "FEATURE": {

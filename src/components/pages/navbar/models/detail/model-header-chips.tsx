@@ -17,66 +17,88 @@ export async function ModelHeaderChips(props: {
   const ctx = meta.contextWindow ?? meta.maxInputTokens;
   const out = meta.maxOutputTokens;
   const caps = deriveCapabilityChips(meta);
-  const reasoningLevels = meta.reasoningEfforts ?? [];
 
-  const chip = "border-border/60 bg-muted/40 inline-flex items-center gap-1 rounded-md border px-2 py-1 font-mono text-[11px]";
-  const chipLabel = "text-muted-foreground";
+  const chip =
+    "border-border/50 bg-muted/30 text-foreground/90 inline-flex items-center gap-1.5 rounded-md border px-2.5 py-1 font-mono text-[11px]";
 
   const hasModality =
     (meta.inputModalities ?? []).length > 0 ||
     (meta.outputModalities ?? []).length > 0;
-  const hasStats =
-    !!meta.mode ||
-    !!meta.tokenizer ||
-    meta.isModerated === true ||
-    reasoningLevels.length > 0;
-  if (!ctx && !out && caps.length === 0 && !hasModality && !hasStats)
-    return null;
+  if (!ctx && !out && caps.length === 0 && !hasModality) return null;
 
   return (
     <div className="flex flex-wrap items-center gap-1.5">
       {ctx ? (
         <span className={chip}>
-          <Icon name="clock" className="h-3 w-3" />
-          {formatTokenCount(ctx, props.locale)} {t("MODEL_PAGE.CHIP_CONTEXT")}
+          <Icon name="clock" className="h-3 w-3 opacity-70" />
+          {formatTokenCount(ctx, props.locale)}{" "}
+          <span className="text-muted-foreground">
+            {t("MODEL_PAGE.CHIP_CONTEXT")}
+          </span>
         </span>
       ) : null}
       {out ? (
         <span className={chip}>
-          <Icon name="zap" className="h-3 w-3" />
-          {formatTokenCount(out, props.locale)} {t("MODEL_PAGE.CHIP_OUT")}
+          <Icon name="zap" className="h-3 w-3 opacity-70" />
+          {formatTokenCount(out, props.locale)}{" "}
+          <span className="text-muted-foreground">
+            {t("MODEL_PAGE.CHIP_OUT")}
+          </span>
         </span>
       ) : null}
       {caps.map((cap) => (
         <span key={cap.labelKey} className={cn(chip)}>
-          <Icon name={cap.icon} className="h-3 w-3" />
-          {cap.count != null ? t(cap.labelKey, { count: cap.count }) : t(cap.labelKey)}
+          <Icon name={cap.icon} className="h-3 w-3 opacity-70" />
+          {cap.count != null
+            ? t(cap.labelKey, { count: cap.count })
+            : t(cap.labelKey)}
         </span>
       ))}
       <ModelModalityChip metadata={meta} />
+    </div>
+  );
+}
+
+// Secondary metadata (mode/tokenizer/reasoning-levels/moderated) as a dim inline
+// row, rendered below the description so it doesn't crowd the capability chips.
+export async function ModelMetaStats(props: { metadata: ModelMetadata }) {
+  const t = await getTranslations();
+  const meta = props.metadata;
+  const reasoningLevels = meta.reasoningEfforts ?? [];
+  const metaItem = "inline-flex items-center gap-1.5";
+  const metaValue = "text-foreground/80";
+
+  const hasStats =
+    !!meta.mode ||
+    !!meta.tokenizer ||
+    meta.isModerated === true ||
+    reasoningLevels.length > 0;
+  if (!hasStats) return null;
+
+  return (
+    <div className="text-muted-foreground flex flex-wrap items-center gap-x-4 gap-y-1.5 font-mono text-[11px]">
       {meta.mode ? (
-        <span className={chip}>
+        <span className={metaItem}>
           <Icon name="message-square" className="h-3 w-3" />
-          <span className={chipLabel}>{t("MODELS.DETAIL.MODE")}</span>
-          {meta.mode}
+          {t("MODELS.DETAIL.MODE")} <span className={metaValue}>{meta.mode}</span>
         </span>
       ) : null}
       {meta.tokenizer ? (
-        <span className={chip}>
+        <span className={metaItem}>
           <Icon name="file-text" className="h-3 w-3" />
-          <span className={chipLabel}>{t("MODELS.DETAIL.TOKENIZER")}</span>
-          {meta.tokenizer}
+          {t("MODELS.DETAIL.TOKENIZER")}{" "}
+          <span className={metaValue}>{meta.tokenizer}</span>
         </span>
       ) : null}
       {reasoningLevels.length > 0 ? (
-        <span className={chip}>
+        <span className={metaItem}>
           <Icon name="brain" className="h-3 w-3" />
-          <span className={chipLabel}>{t("MODELS.DETAIL.REASONING_LEVELS")}</span>
-          {reasoningLevels.join(", ")}
+          {t("MODELS.DETAIL.REASONING_LEVELS")}{" "}
+          <span className={metaValue}>{reasoningLevels.join(", ")}</span>
         </span>
       ) : null}
       {meta.isModerated === true ? (
-        <span className={chip}>
+        <span className={metaItem}>
           <Icon name="shield-check" className="h-3 w-3" />
           {t("MODELS.DETAIL.MODERATED")}
         </span>

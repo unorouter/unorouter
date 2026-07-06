@@ -176,23 +176,36 @@ export function PerformanceSection(props: Props) {
                   dataKey="label"
                   tick={{ fontSize: 10 }}
                   className="fill-muted-foreground"
+                  minTickGap={24}
                 />
                 <YAxis
+                  width={44}
                   tick={{ fontSize: 10 }}
                   className="fill-muted-foreground"
-                  tickFormatter={(value: number) => `${value}ms`}
+                  domain={[0, "dataMax"]}
+                  allowDecimals={false}
+                  tickFormatter={(value: number) => formatLatency(value)}
                 />
                 <Tooltip
+                  cursor={{ stroke: "var(--border)" }}
                   contentStyle={{
                     fontSize: 11,
                     fontFamily: "monospace",
+                    background: "var(--popover)",
+                    border: "1px solid var(--border)",
+                    borderRadius: 6,
+                    color: "var(--popover-foreground)",
                   }}
-                  formatter={(value: number) => [`${value}ms`, "TTFT"]}
+                  labelStyle={{ color: "var(--muted-foreground)" }}
+                  formatter={(value: number) => [
+                    formatLatency(value),
+                    t("MODELS.DETAIL.PERF_TTFT"),
+                  ]}
                 />
                 <Line
                   type="monotone"
                   dataKey="ttft_ms"
-                  stroke="hsl(var(--primary))"
+                  stroke="var(--color-chart-1)"
                   strokeWidth={2}
                   dot={false}
                 />

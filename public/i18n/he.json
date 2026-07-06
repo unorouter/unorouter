@@ -1226,7 +1226,8 @@
     "SHOW_MORE": "הצג עוד",
     "SHOW_LESS": "הצג פחות",
     "CHIP_CONTEXT": "הקשר",
-    "CHIP_OUT": "פלט"
+    "CHIP_OUT": "פלט",
+    "OPEN_CHAT": "פתח צ'אט"
   },
   "PRICING": {
     "FEATURE": {

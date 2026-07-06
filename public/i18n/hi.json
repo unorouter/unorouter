@@ -1226,7 +1226,8 @@
     "SHOW_MORE": "और दिखाएं",
     "SHOW_LESS": "कम दिखाएं",
     "CHIP_CONTEXT": "संदर्भ",
-    "CHIP_OUT": "आउटपुट"
+    "CHIP_OUT": "आउटपुट",
+    "OPEN_CHAT": "चैट खोलें"
   },
   "PRICING": {
     "FEATURE": {
