@@ -523,6 +523,15 @@
     "ACTIONS": {
       "OPEN_MENU": "פתח תפריט",
       "COPY_NAME": "העתק שם מודל"
+    },
+    "VENDOR": {
+      "META_TITLE": "מודלים של {vendor} ב-{appName}",
+      "META_DESC": "עיין בכל המודלים של {vendor} הזמינים ב-{appName}: תמחור, הקשר ויכולות.",
+      "META_KEYWORDS": "{vendor}, מודלים של {vendor}, api של {vendor}, {appName}",
+      "N_MODELS": "{count} מודלים",
+      "EMPTY": "לא נמצאו מודלים עבור ספק זה.",
+      "NEW": "חדש",
+      "DEPRECATED": "הוצא משימוש"
     }
   },
   "RANKINGS": {
@@ -1205,7 +1214,19 @@
     "CTA_ALL_MODELS": "צפייה בכל המודלים",
     "AT_CAPACITY_TITLE": "כל הספקים של מודל זה עסוקים כרגע",
     "AT_CAPACITY_BODY": "כל ספק במעלה הזרם הגיע למגבלת הקצב שלו. המודל חוזר אוטומטית ברגע שהמגבלות מוסרות, בדרך כלל תוך שעות. נסה שוב בעוד זמן קצר או עבור למודל אחר.",
-    "OFFLINE_REQUEST_CTA": "בקש את המודל הזה בדיסקורד"
+    "OFFLINE_REQUEST_CTA": "בקש את המודל הזה בדיסקורד",
+    "OVERVIEW_TAB": "סקירה",
+    "API_TAB": "API",
+    "BASE_URL": "כתובת בסיס",
+    "AVAILABLE_ENDPOINTS": "נקודות קצה זמינות",
+    "VIEW_DOCS": "צפייה בתיעוד",
+    "RELEASE_DATE": "שוחרר",
+    "KNOWLEDGE_CUTOFF": "מועד עדכון הידע",
+    "LAST_UPDATED": "עודכן",
+    "SHOW_MORE": "הצג עוד",
+    "SHOW_LESS": "הצג פחות",
+    "CHIP_CONTEXT": "הקשר",
+    "CHIP_OUT": "פלט"
   },
   "PRICING": {
     "FEATURE": {

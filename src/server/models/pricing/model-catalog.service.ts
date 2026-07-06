@@ -76,3 +76,17 @@ export async function listCatalogNames(): Promise<string[]> {
     .where(gte(modelCatalog.lastSeenAt, retireCutoff()));
   return rows.map((r) => r.name);
 }
+
+/** Non-retired catalog entries with their vendor, for building canonical 2-segment URLs. */
+export async function listCatalogEntries(): Promise<
+  { name: string; vendor: string }[]
+> {
+  const rows = await getDb()
+    .select({ name: modelCatalog.name, payload: modelCatalog.payload })
+    .from(modelCatalog)
+    .where(gte(modelCatalog.lastSeenAt, retireCutoff()));
+  return rows.map((r) => ({
+    name: r.name,
+    vendor: (r.payload as ProcessedModel).vendor?.name ?? "",
+  }));
+}

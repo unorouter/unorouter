@@ -523,6 +523,15 @@
     "ACTIONS": {
       "OPEN_MENU": "فتح القائمة",
       "COPY_NAME": "نسخ اسم النموذج"
+    },
+    "VENDOR": {
+      "META_TITLE": "نماذج {vendor} على {appName}",
+      "META_DESC": "تصفح جميع نماذج {vendor} المتوفرة على {appName}: الأسعار والسياق والقدرات.",
+      "META_KEYWORDS": "{vendor}، نماذج {vendor}، api {vendor}، {appName}",
+      "N_MODELS": "{count} نموذج",
+      "EMPTY": "لم يتم العثور على نماذج لهذا المزوّد.",
+      "NEW": "جديد",
+      "DEPRECATED": "متوقف"
     }
   },
   "RANKINGS": {
@@ -1205,7 +1214,19 @@
     "CTA_ALL_MODELS": "عرض كل النماذج",
     "AT_CAPACITY_TITLE": "جميع مزودي هذا النموذج مشغولون الآن",
     "AT_CAPACITY_BODY": "وصل كل مزود في المنبع إلى حد المعدل الخاص به. يعود النموذج تلقائيًا فور رفع الحدود، عادة خلال ساعات. حاول مجددًا بعد قليل أو انتقل إلى نموذج آخر.",
-    "OFFLINE_REQUEST_CTA": "اطلب هذا النموذج على Discord"
+    "OFFLINE_REQUEST_CTA": "اطلب هذا النموذج على Discord",
+    "OVERVIEW_TAB": "نظرة عامة",
+    "API_TAB": "واجهة برمجة",
+    "BASE_URL": "الرابط الأساسي",
+    "AVAILABLE_ENDPOINTS": "نقاط النهاية المتاحة",
+    "VIEW_DOCS": "عرض الوثائق",
+    "RELEASE_DATE": "تاريخ الإصدار",
+    "KNOWLEDGE_CUTOFF": "حد المعرفة",
+    "LAST_UPDATED": "تم التحديث",
+    "SHOW_MORE": "عرض المزيد",
+    "SHOW_LESS": "عرض أقل",
+    "CHIP_CONTEXT": "السياق",
+    "CHIP_OUT": "الإخراج"
   },
   "PRICING": {
     "FEATURE": {

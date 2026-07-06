@@ -11,7 +11,7 @@ import {
   buildCollectionPageSchema,
 } from "@/lib/seo/structured-data";
 import { localeUrl } from "@/i18n/navigation";
-import { handleElysia, modelSlug } from "@/lib/utils/base";
+import { handleElysia, modelSlug, vendorSlug } from "@/lib/utils/base";
 import { serverLocale } from "@/lib/utils/server";
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
@@ -71,14 +71,18 @@ export default async function Page(props: {
           name: t("MODELS.META.TITLE", APP_VALUES),
           description: t("MODELS.META.DESCRIPTION"),
           url: localeUrl(locale, "/models"),
-          items: topModels.map((m) => ({
-            name: m.name,
-            url: localeUrl(locale, {
-              pathname: "/models/[slug]",
-              params: { slug: modelSlug(m.name) },
-            }),
-            description: m.description ?? m.vendor.name,
-          })),
+          items: topModels
+            .filter((m) => vendorSlug(m.vendor.name))
+            .map((m) => ({
+              name: m.name,
+              url: localeUrl(locale, {
+                pathname: "/models/[...slug]",
+                params: {
+                  slug: [vendorSlug(m.vendor.name), modelSlug(m.name)],
+                },
+              }),
+              description: m.description ?? m.vendor.name,
+            })),
         })}
       />
       <HydrationBoundary state={dehydrate(queryClient)}>

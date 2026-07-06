@@ -5,7 +5,7 @@ import { usePricingQuery } from "@/hooks/models/pricing-hook";
 import { useLiveStats } from "@/hooks/ui/use-live-stats";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
-import { modelSlug } from "@/lib/utils/base";
+import { modelHref } from "@/lib/utils/base";
 import { useTranslations } from "next-intl";
 
 type Props = {
@@ -41,10 +41,7 @@ export function ModelTicker(props: Props) {
               return (
                 <Link
                   key={`${model.name}-${i}`}
-                  href={{
-                    pathname: "/models/[slug]",
-                    params: { slug: modelSlug(model.name) },
-                  }}
+                  href={modelHref(model.name, model.vendor.name)}
                   className="flex items-center gap-3 opacity-60 transition-opacity hover:opacity-100"
                 >
                   <VendorIcon

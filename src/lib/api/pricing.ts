@@ -415,6 +415,14 @@ export function findContextTag(model: ProcessedModel): string | undefined {
   return (model.tags ?? []).find((tag) => /\d+K$|\d+\.\d+K$/.test(tag));
 }
 
+// Vendor names are stored lowercased ("agnes ai"); title-case for display.
+export function vendorDisplayName(name: string): string {
+  return name.replace(
+    /\b\w/g,
+    (c) => c.toUpperCase(),
+  );
+}
+
 export type GroupEntry = { group: string; ratio: number };
 
 // Channel group ids often embed the model name; strip a trailing occurrence for display, keep the real value.

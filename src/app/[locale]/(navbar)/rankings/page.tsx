@@ -15,7 +15,7 @@ import {
   buildBreadcrumbListSchema,
   buildCollectionPageSchema,
 } from "@/lib/seo/structured-data";
-import { modelSlug } from "@/lib/utils/base";
+import { modelHref } from "@/lib/utils/base";
 import { serverLocale } from "@/lib/utils/server";
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
@@ -76,10 +76,7 @@ export default async function RankingsPage(props: {
           url: localeUrl(locale, "/rankings"),
           items: topModels.map((m) => ({
             name: m.model_name,
-            url: localeUrl(locale, {
-              pathname: "/models/[slug]",
-              params: { slug: modelSlug(m.model_name) },
-            }),
+            url: localeUrl(locale, modelHref(m.model_name, m.vendor)),
             description: m.vendor,
           })),
         })}

@@ -91,6 +91,38 @@ export function modelMatchesSlug(name: string, slug: string): boolean {
   );
 }
 
+// Vendor display names are lowercased and can hold spaces ("agnes ai"); the URL
+// slug collapses whitespace to dashes and drops anything not [a-z0-9-].
+export function vendorSlug(name: string): string {
+  return name
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, "-")
+    .replace(/[^a-z0-9-]/g, "")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+export function vendorMatchesSlug(name: string, slug: string): boolean {
+  let decoded = slug;
+  try {
+    decoded = decodeURIComponent(slug);
+  } catch {
+    decoded = slug;
+  }
+  const target = vendorSlug(name);
+  return target === decoded.toLowerCase() || target === slug.toLowerCase();
+}
+
+// Canonical model URL for the /models/[...slug] catch-all. Only the 2-segment
+// vendor/model form resolves; a bare model name 404s, so callers must supply the
+// vendor. Falls back to "unknown" when a vendor is genuinely absent.
+export function modelHref(name: string, vendorName?: string) {
+  const vendor = vendorName ? vendorSlug(vendorName) : "";
+  const slug = [vendor || "unknown", modelSlug(name)];
+  return { pathname: "/models/[...slug]" as const, params: { slug } };
+}
+
 export function unwrap<T extends { data: unknown }>(
   res: T,
 ): ExcludeVoid<NonNullable<T["data"]>> {

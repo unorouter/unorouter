@@ -36,6 +36,9 @@ export function modelReleaseTs(model: ProcessedModel): number {
   return 0;
 }
 
+// A model released within this window renders the "NEW" badge on cards.
+export const NEW_MODEL_MS = 30 * 24 * 60 * 60 * 1000;
+
 function effectivePrice(model: ProcessedModel): number {
   return model.isFixedPrice ? model.fixedPrice : model.inputPrice;
 }

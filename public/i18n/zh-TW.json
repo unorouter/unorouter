@@ -523,6 +523,15 @@
     "ACTIONS": {
       "OPEN_MENU": "開啟選單",
       "COPY_NAME": "複製模型名稱"
+    },
+    "VENDOR": {
+      "META_TITLE": "{appName} 上的 {vendor} 模型",
+      "META_DESC": "瀏覽 {appName} 上所有可用的 {vendor} 模型：價格、上下文和功能。",
+      "META_KEYWORDS": "{vendor}，{vendor} 模型，{vendor} api，{appName}",
+      "N_MODELS": "{count} 個模型",
+      "EMPTY": "找不到該廠商的模型。",
+      "NEW": "新",
+      "DEPRECATED": "已棄用"
     }
   },
   "RANKINGS": {
@@ -1205,7 +1214,19 @@
     "CTA_ALL_MODELS": "查看所有模型",
     "AT_CAPACITY_TITLE": "該模型的所有供應商目前都很繁忙",
     "AT_CAPACITY_BODY": "每個上游供應商都已達到速率上限。上限解除後模型會自動恢復，通常在數小時內。請稍後重試，或改用其他模型。",
-    "OFFLINE_REQUEST_CTA": "在 Discord 上申請此模型"
+    "OFFLINE_REQUEST_CTA": "在 Discord 上申請此模型",
+    "OVERVIEW_TAB": "概覽",
+    "API_TAB": "API",
+    "BASE_URL": "基礎 URL",
+    "AVAILABLE_ENDPOINTS": "可用端點",
+    "VIEW_DOCS": "查看文件",
+    "RELEASE_DATE": "發布日期",
+    "KNOWLEDGE_CUTOFF": "知識截止",
+    "LAST_UPDATED": "更新時間",
+    "SHOW_MORE": "展開",
+    "SHOW_LESS": "收合",
+    "CHIP_CONTEXT": "上下文",
+    "CHIP_OUT": "輸出"
   },
   "PRICING": {
     "FEATURE": {

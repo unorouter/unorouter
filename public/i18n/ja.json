@@ -523,6 +523,15 @@
     "ACTIONS": {
       "OPEN_MENU": "メニューを開く",
       "COPY_NAME": "モデル名をコピー"
+    },
+    "VENDOR": {
+      "META_TITLE": "{appName} の {vendor} モデル",
+      "META_DESC": "{appName} で利用できる {vendor} のすべてのモデルを閲覧：料金、コンテキスト、機能。",
+      "META_KEYWORDS": "{vendor}, {vendor} モデル, {vendor} api, {appName}",
+      "N_MODELS": "{count} モデル",
+      "EMPTY": "このベンダーのモデルは見つかりませんでした。",
+      "NEW": "新着",
+      "DEPRECATED": "非推奨"
     }
   },
   "RANKINGS": {
@@ -1205,7 +1214,19 @@
     "CTA_ALL_MODELS": "すべてのモデルを見る",
     "AT_CAPACITY_TITLE": "このモデルのプロバイダーは現在すべて混雑しています",
     "AT_CAPACITY_BODY": "すべての上流プロバイダーがレート制限に達しました。制限が解除されるとモデルは自動的に復帰します。通常は数時間以内です。しばらくしてから再試行するか、別のモデルに切り替えてください。",
-    "OFFLINE_REQUEST_CTA": "このモデルをDiscordでリクエスト"
+    "OFFLINE_REQUEST_CTA": "このモデルをDiscordでリクエスト",
+    "OVERVIEW_TAB": "概要",
+    "API_TAB": "API",
+    "BASE_URL": "ベースURL",
+    "AVAILABLE_ENDPOINTS": "利用可能なエンドポイント",
+    "VIEW_DOCS": "ドキュメントを見る",
+    "RELEASE_DATE": "リリース日",
+    "KNOWLEDGE_CUTOFF": "知識のカットオフ",
+    "LAST_UPDATED": "更新日",
+    "SHOW_MORE": "もっと見る",
+    "SHOW_LESS": "折りたたむ",
+    "CHIP_CONTEXT": "コンテキスト",
+    "CHIP_OUT": "出力"
   },
   "PRICING": {
     "FEATURE": {

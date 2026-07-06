@@ -523,6 +523,15 @@
     "ACTIONS": {
       "OPEN_MENU": "Открыть меню",
       "COPY_NAME": "Скопировать имя модели"
+    },
+    "VENDOR": {
+      "META_TITLE": "Модели {vendor} на {appName}",
+      "META_DESC": "Все модели {vendor}, доступные на {appName}: цены, контекст и возможности.",
+      "META_KEYWORDS": "{vendor}, модели {vendor}, api {vendor}, {appName}",
+      "N_MODELS": "Моделей: {count}",
+      "EMPTY": "Модели этого поставщика не найдены.",
+      "NEW": "Новинка",
+      "DEPRECATED": "Устарело"
     }
   },
   "RANKINGS": {
@@ -1205,7 +1214,19 @@
     "CTA_ALL_MODELS": "Смотреть все модели",
     "AT_CAPACITY_TITLE": "Все провайдеры этой модели сейчас заняты",
     "AT_CAPACITY_BODY": "Каждый вышестоящий провайдер достиг своего лимита запросов. Модель вернётся автоматически, как только лимиты снимутся, обычно в течение нескольких часов. Попробуйте позже или переключитесь на другую модель.",
-    "OFFLINE_REQUEST_CTA": "Запросить эту модель в Discord"
+    "OFFLINE_REQUEST_CTA": "Запросить эту модель в Discord",
+    "OVERVIEW_TAB": "Обзор",
+    "API_TAB": "API",
+    "BASE_URL": "Базовый URL",
+    "AVAILABLE_ENDPOINTS": "Доступные эндпоинты",
+    "VIEW_DOCS": "Смотреть документацию",
+    "RELEASE_DATE": "Выпущено",
+    "KNOWLEDGE_CUTOFF": "Граница знаний",
+    "LAST_UPDATED": "Обновлено",
+    "SHOW_MORE": "Показать больше",
+    "SHOW_LESS": "Свернуть",
+    "CHIP_CONTEXT": "контекст",
+    "CHIP_OUT": "вывод"
   },
   "PRICING": {
     "FEATURE": {

@@ -55,6 +55,7 @@ function ModelList(props: {
           <div className="min-w-0 flex-1">
             <ModelLink
               modelName={row.model_name}
+              vendor={row.vendor}
               className={cn(
                 "text-foreground block truncate font-mono font-medium",
                 compact ? "text-xs" : "text-sm",

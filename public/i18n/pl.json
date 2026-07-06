@@ -523,6 +523,15 @@
     "ACTIONS": {
       "OPEN_MENU": "Otwórz menu",
       "COPY_NAME": "Kopiuj nazwę modelu"
+    },
+    "VENDOR": {
+      "META_TITLE": "Modele {vendor} w {appName}",
+      "META_DESC": "Przeglądaj wszystkie modele {vendor} dostępne w {appName}: ceny, kontekst i możliwości.",
+      "META_KEYWORDS": "{vendor}, modele {vendor}, api {vendor}, {appName}",
+      "N_MODELS": "{count} modeli",
+      "EMPTY": "Nie znaleziono modeli dla tego dostawcy.",
+      "NEW": "Nowość",
+      "DEPRECATED": "Wycofany"
     }
   },
   "RANKINGS": {
@@ -1205,7 +1214,19 @@
     "CTA_ALL_MODELS": "Zobacz wszystkie modele",
     "AT_CAPACITY_TITLE": "Wszyscy dostawcy tego modelu są teraz zajęci",
     "AT_CAPACITY_BODY": "Każdy dostawca nadrzędny osiągnął swój limit szybkości. Model wraca automatycznie, gdy limity ustąpią, zwykle w ciągu kilku godzin. Spróbuj ponownie za chwilę albo przełącz się na inny model.",
-    "OFFLINE_REQUEST_CTA": "Poproś o ten model na Discordzie"
+    "OFFLINE_REQUEST_CTA": "Poproś o ten model na Discordzie",
+    "OVERVIEW_TAB": "Przegląd",
+    "API_TAB": "API",
+    "BASE_URL": "Bazowy URL",
+    "AVAILABLE_ENDPOINTS": "Dostępne punkty końcowe",
+    "VIEW_DOCS": "Zobacz dokumentację",
+    "RELEASE_DATE": "Wydano",
+    "KNOWLEDGE_CUTOFF": "Granica wiedzy",
+    "LAST_UPDATED": "Zaktualizowano",
+    "SHOW_MORE": "Pokaż więcej",
+    "SHOW_LESS": "Pokaż mniej",
+    "CHIP_CONTEXT": "kontekst",
+    "CHIP_OUT": "wyjście"
   },
   "PRICING": {
     "FEATURE": {
