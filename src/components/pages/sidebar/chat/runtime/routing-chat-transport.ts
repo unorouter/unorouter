@@ -19,7 +19,8 @@ import {
 } from "ai";
 import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
 import type { ChatUIMessage } from "@/lib/types";
-import { errMessage, uid } from "@/lib/utils/base";
+import { uid } from "@/lib/utils/base";
+import { extractErrorDetail } from "@/lib/utils/client";
 import {
   prepareChatRequest,
   type PreparedChatRequest,
@@ -43,6 +44,19 @@ import { buildChatRequestBody } from "./chat-transport";
 import { resolveModelTargetFromStore } from "./resolve-model-target";
 
 type SendOptions = Parameters<ChatTransport<ChatUIMessage>["sendMessages"]>[0];
+
+// The error text shown in the failed-message box. Prefer the REAL upstream body (APICallError.responseBody,
+// which extractErrorDetail parses) over the ai-sdk wrapper's generic .message (e.g. "Load failed"). Append
+// the status/request id when present so a bare upstream string is still traceable.
+function streamErrorText(error: unknown): string {
+  const detail = extractErrorDetail(error);
+  const tag = [detail.status ? `HTTP ${detail.status}` : null, detail.code]
+    .filter(Boolean)
+    .join(" ");
+  return tag && !detail.message.includes(tag)
+    ? `${detail.message} (${tag})`
+    : detail.message;
+}
 
 // Media models (image/video/audio/embedding) are not OpenAI chat-completions: they stay on the server route
 // (/stream) which dispatches the right upstream endpoint + runs Creem moderation. The pricing query is already
@@ -135,7 +149,7 @@ async function runClientStream(args: {
   const responseMessageId = uid();
   const uiStream = result.toUIMessageStream({
     generateMessageId: () => responseMessageId,
-    onError: (error) => errMessage(error),
+    onError: (error) => streamErrorText(error),
     messageMetadata: ({ part }) => {
       if (part.type === "finish-step") {
         collector.captureHeaders(part.response.headers);
