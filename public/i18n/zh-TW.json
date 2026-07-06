@@ -1170,6 +1170,7 @@
     "GRID_PRICING_TITLE": "價格網格",
     "GRID_PRICE_HEADER": "價格",
     "AVAILABLE_BADGE": "現已上線",
+    "OFFLINE_BADGE": "離線",
     "STAT_INPUT": "輸入",
     "STAT_OUTPUT": "輸出",
     "STAT_FIXED": "每次請求",
@@ -1203,7 +1204,8 @@
     "CTA_TRY": "在對話中試用 {name}",
     "CTA_ALL_MODELS": "查看所有模型",
     "AT_CAPACITY_TITLE": "該模型的所有供應商目前都很繁忙",
-    "AT_CAPACITY_BODY": "每個上游供應商都已達到速率上限。上限解除後模型會自動恢復，通常在數小時內。請稍後重試，或改用其他模型。"
+    "AT_CAPACITY_BODY": "每個上游供應商都已達到速率上限。上限解除後模型會自動恢復，通常在數小時內。請稍後重試，或改用其他模型。",
+    "OFFLINE_REQUEST_CTA": "在 Discord 上申請此模型"
   },
   "PRICING": {
     "FEATURE": {

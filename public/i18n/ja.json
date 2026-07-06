@@ -1170,6 +1170,7 @@
     "GRID_PRICING_TITLE": "料金グリッド",
     "GRID_PRICE_HEADER": "料金",
     "AVAILABLE_BADGE": "現在利用可能",
+    "OFFLINE_BADGE": "オフライン",
     "STAT_INPUT": "入力",
     "STAT_OUTPUT": "出力",
     "STAT_FIXED": "リクエスト単位",
@@ -1203,7 +1204,8 @@
     "CTA_TRY": "チャットで {name} を試す",
     "CTA_ALL_MODELS": "すべてのモデルを見る",
     "AT_CAPACITY_TITLE": "このモデルのプロバイダーは現在すべて混雑しています",
-    "AT_CAPACITY_BODY": "すべての上流プロバイダーがレート制限に達しました。制限が解除されるとモデルは自動的に復帰します。通常は数時間以内です。しばらくしてから再試行するか、別のモデルに切り替えてください。"
+    "AT_CAPACITY_BODY": "すべての上流プロバイダーがレート制限に達しました。制限が解除されるとモデルは自動的に復帰します。通常は数時間以内です。しばらくしてから再試行するか、別のモデルに切り替えてください。",
+    "OFFLINE_REQUEST_CTA": "このモデルをDiscordでリクエスト"
   },
   "PRICING": {
     "FEATURE": {

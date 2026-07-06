@@ -1,4 +1,3 @@
-import { AtCapacityBanner } from "@/components/pages/navbar/models/detail/at-capacity-banner";
 import { ModelDetail } from "@/components/pages/navbar/models/detail/model-detail";
 import { localeUrl } from "@/i18n/navigation";
 import { findContextTag, type ProcessedModel } from "@/lib/api/pricing";
@@ -14,7 +13,7 @@ import {
   buildFAQPageSchema,
   buildSoftwareApplicationSchema,
 } from "@/lib/seo/structured-data";
-import { baseModelName, modelMatchesSlug, modelSlug } from "@/lib/utils/base";
+import { modelMatchesSlug, modelSlug } from "@/lib/utils/base";
 import { formatPrice } from "@/lib/utils/format/number";
 import { serverLocale } from "@/lib/utils/server";
 import { getCatalogModel } from "@/server/models/pricing/model-catalog.service";
@@ -39,29 +38,14 @@ type ResolvedModel = {
 // Live pricing first; churned-out models fall back to the durable catalog so
 // the page survives free-pool churn instead of 404ing (GSC: 495 churn 404s).
 async function resolveModel(slug: string): Promise<ResolvedModel | null> {
-  const data = await fetchLivePricing();
+  const data = await fetchLivePricing({ includeOffline: true });
   const live = data?.models.find((m) => modelMatchesSlug(m.name, slug));
-  if (live) return { model: live, atCapacity: false, data };
+  if (live) return { model: live, atCapacity: !live.online, data };
   const snapshot = await getCatalogModel((name) =>
     modelMatchesSlug(name, slug),
   ).catch(() => null);
   if (snapshot) return { model: snapshot, atCapacity: true, data };
   return null;
-}
-
-// A :free twin canonicalizes to its base model page when the base exists;
-// free-only models (no paid sibling anywhere) stay self-canonical.
-async function canonicalSlugFor(
-  model: ProcessedModel,
-  data: ResolvedModel["data"],
-): Promise<string> {
-  const base = baseModelName(model.name);
-  if (base === model.name) return modelSlug(model.name);
-  const baseLive = data?.models.some((m) => m.name === base);
-  const baseCatalog = baseLive
-    ? true
-    : !!(await getCatalogModel((name) => name === base).catch(() => null));
-  return modelSlug(baseLive || baseCatalog ? base : model.name);
 }
 
 export async function generateMetadata(props: PageProps) {
@@ -71,7 +55,6 @@ export async function generateMetadata(props: PageProps) {
   if (!resolved) return {};
   const model = resolved.model;
 
-  const canonicalSlug = await canonicalSlugFor(model, resolved.data);
   const t = await getTranslations({ locale });
   return getPageMetadata({
     locale,
@@ -79,12 +62,6 @@ export async function generateMetadata(props: PageProps) {
       pathname: "/models/[slug]",
       params: { slug: modelSlug(model.name) },
     },
-    ...(canonicalSlug !== modelSlug(model.name) && {
-      canonicalHref: {
-        pathname: "/models/[slug]" as const,
-        params: { slug: canonicalSlug },
-      },
-    }),
     title: t("MODEL_PAGE.META_TITLE", {
       ...APP_VALUES,
       name: model.name,
@@ -194,11 +171,11 @@ export default async function ModelDetailPage(props: PageProps) {
         })}
       />
       <JsonLd id={`${params.slug}-faq`} data={buildFAQPageSchema(faqEntries)} />
-      {resolved.atCapacity && <AtCapacityBanner locale={locale} />}
       <ModelDetail
         model={model}
         models={data?.models ?? [model]}
         groupRatioMap={data?.groupRatioMap ?? {}}
+        offline={resolved.atCapacity}
       />
     </HydrationBoundary>
   );

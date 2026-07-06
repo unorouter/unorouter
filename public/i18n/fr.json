@@ -1170,6 +1170,7 @@
     "GRID_PRICING_TITLE": "Grille tarifaire",
     "GRID_PRICE_HEADER": "Prix",
     "AVAILABLE_BADGE": "Disponible maintenant",
+    "OFFLINE_BADGE": "Hors ligne",
     "STAT_INPUT": "Entrée",
     "STAT_OUTPUT": "Sortie",
     "STAT_FIXED": "Par requête",
@@ -1203,7 +1204,8 @@
     "CTA_TRY": "Essayer {name} dans le chat",
     "CTA_ALL_MODELS": "Voir tous les modèles",
     "AT_CAPACITY_TITLE": "Tous les fournisseurs de ce modèle sont occupés en ce moment",
-    "AT_CAPACITY_BODY": "Chaque fournisseur amont a atteint sa limite de débit. Le modèle revient automatiquement dès que les limites se lèvent, généralement en quelques heures. Réessayez dans un moment ou passez à un autre modèle."
+    "AT_CAPACITY_BODY": "Chaque fournisseur amont a atteint sa limite de débit. Le modèle revient automatiquement dès que les limites se lèvent, généralement en quelques heures. Réessayez dans un moment ou passez à un autre modèle.",
+    "OFFLINE_REQUEST_CTA": "Demander ce modèle sur Discord"
   },
   "PRICING": {
     "FEATURE": {

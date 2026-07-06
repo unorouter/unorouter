@@ -20,6 +20,7 @@ import { formatPrice } from "@/lib/utils/format/number";
 import { cn } from "@/lib/utils";
 import { getDocsApiKey } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
+import { AtCapacityBanner } from "./at-capacity-banner";
 import { CodeExamplesTabs } from "./code-examples-tabs";
 import { GridPricingTable } from "./grid-pricing-table";
 import { TieredPricing } from "./tiered-pricing";
@@ -39,6 +40,7 @@ interface ModelDetailProps {
   model: ProcessedModel;
   models: ProcessedModel[];
   groupRatioMap: Record<string, number>;
+  offline: boolean;
 }
 
 export async function ModelDetail(props: ModelDetailProps) {
@@ -171,21 +173,28 @@ print(res.choices[0].message.content)`;
           <div
             className={cn(
               "mb-6 inline-flex items-center gap-2 rounded-sm border px-3 py-1.5",
-              theme.tagBorder,
-              theme.tagBg,
+              props.offline
+                ? "border-muted-foreground/30 bg-muted/40"
+                : cn(theme.tagBorder, theme.tagBg),
             )}
           >
-            <span className="relative flex size-1.5">
-              <span className="absolute inline-flex size-full animate-ping rounded-full bg-green-500 opacity-75" />
-              <span className="relative inline-flex size-1.5 rounded-full bg-green-500" />
-            </span>
+            {props.offline ? (
+              <span className="bg-muted-foreground/60 relative inline-flex size-1.5 rounded-full" />
+            ) : (
+              <span className="relative flex size-1.5">
+                <span className="absolute inline-flex size-full animate-ping rounded-full bg-green-500 opacity-75" />
+                <span className="relative inline-flex size-1.5 rounded-full bg-green-500" />
+              </span>
+            )}
             <span
               className={cn(
                 "font-mono text-[10px] tracking-[0.2em] uppercase",
-                theme.text,
+                props.offline ? "text-muted-foreground" : theme.text,
               )}
             >
-              {t("MODEL_PAGE.AVAILABLE_BADGE")}
+              {props.offline
+                ? t("MODEL_PAGE.OFFLINE_BADGE")
+                : t("MODEL_PAGE.AVAILABLE_BADGE")}
             </span>
           </div>
 
@@ -226,6 +235,7 @@ print(res.choices[0].message.content)`;
               </Badge>
             ))}
           </div>
+          {props.offline && <AtCapacityBanner />}
         </div>
       </section>
 

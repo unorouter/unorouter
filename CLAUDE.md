@@ -335,7 +335,7 @@ Server-side events go through `captureServerEvent` in `src/lib/posthog-server.ts
 
 `src/i18n/routing.ts` exports `privateRoutes = { static, dynamicParents }` as the single source of truth for `robots.txt` Disallow rules and `sitemap.xml` exclusions. Add a new authenticated route here, not in two places.
 
-`src/app/sitemap.ts` enumerates every locale x pathname, looks up timestamps from `getSeoTimestamps`, and derives model slugs from the durable `model_catalog` (stable across free-pool churn; live pricing is only the fresh-DB fallback). `:free` twins whose base model exists are skipped (they rel-canonical to the base via `getPageMetadata`'s `canonicalHref`). `src/app/(discovery)/robots.txt/route.ts` emits end-anchored (`$` + `/`) Disallow pairs per locale per `privateRoutes` entry (a bare prefix once swallowed `/hi/login` via `/hi/log`) plus Allow lines for `privateRoutes.publicChildren` (public pages under a disallowed parent, e.g. `/chat/presets`).
+`src/app/sitemap.ts` enumerates every locale x pathname, looks up timestamps from `getSeoTimestamps`, and derives model slugs from the durable `model_catalog` (stable across free-pool churn; live pricing is only the fresh-DB fallback). `:free` twins are self-canonical distinct pages (own `/models/[slug]` URL, own sitemap entry); `/models/[slug]` no longer redirects a `:free` twin to its base. `src/app/(discovery)/robots.txt/route.ts` emits end-anchored (`$` + `/`) Disallow pairs per locale per `privateRoutes` entry (a bare prefix once swallowed `/hi/login` via `/hi/log`) plus Allow lines for `privateRoutes.publicChildren` (public pages under a disallowed parent, e.g. `/chat/presets`).
 
 ## React Query client
 

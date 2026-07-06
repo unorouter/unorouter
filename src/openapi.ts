@@ -151,19 +151,28 @@ export interface AnnouncementEntry {
   type?: string;
 }
 
-export interface ApiResponse {
-  data?: unknown;
-  message: string;
-  success: boolean;
-}
-
 /**
- * Response_dto.ApiResponse schema
+ * UpdateCustomOAuthProviderRequest schema
  */
 export interface AnonymousSchema0 {
-  data: ApiResponse;
-  message: string;
-  success: boolean;
+  access_denied_message: string | null;
+  access_policy: string | null;
+  auth_style: number | null;
+  authorization_endpoint: string;
+  client_id: string;
+  client_secret: string;
+  display_name_field: string;
+  email_field: string;
+  enabled: boolean | null;
+  icon: string | null;
+  name: string;
+  scopes: string;
+  slug: string;
+  token_endpoint: string;
+  user_id_field: string;
+  user_info_endpoint: string;
+  username_field: string;
+  well_known: string | null;
 }
 
 export interface ApiInfoEntry {
@@ -171,6 +180,12 @@ export interface ApiInfoEntry {
   description: string;
   route: string;
   url: string;
+}
+
+export interface ApiResponse {
+  data?: unknown;
+  message: string;
+  success: boolean;
 }
 
 /**
@@ -1555,6 +1570,7 @@ export interface PricingModel {
   model_name: string;
   model_price: number;
   model_ratio: number;
+  online: boolean;
   owner_by: string;
   pricing_version?: string;
   quota_type: number;
@@ -3288,6 +3304,13 @@ export interface StripePayRequest {
 }
 
 /**
+ * SubscriptionBalancePayRequest schema
+ */
+export interface SubscriptionBalancePayRequest {
+  plan_id: number;
+}
+
+/**
  * SubscriptionCreemPayRequest schema
  */
 export interface SubscriptionCreemPayRequest {
@@ -4121,6 +4144,13 @@ export type GetPrefillGroupsParams = {
   type?: string;
 };
 
+export type GetPricingParams = {
+  /**
+   * Include models with no enabled channel (online=false)
+   */
+  include_offline?: string;
+};
+
 export type GetAllRedemptionsParams = {
   /**
    * Page number (1-based)
@@ -4152,6 +4182,10 @@ export type SearchRedemptionsParams = {
    * Search keyword
    */
   keyword?: string;
+  /**
+   * Redemption status filter
+   */
+  status?: string;
 };
 
 export type SendPasswordResetEmailParams = {
@@ -5190,6 +5224,40 @@ export const ollamaVersion = async (
   options?: RequestInit,
 ): Promise<ollamaVersionResponse> => {
   return customFetch<ollamaVersionResponse>(getOllamaVersionUrl(id), {
+    ...options,
+    method: "GET",
+  });
+};
+
+export type getChannelOpsResponse200ApplicationJson = {
+  data: ApiResponse;
+  status: 200;
+};
+
+export type getChannelOpsResponse200ApplicationXml = {
+  data: ApiResponse;
+  status: 200;
+};
+
+export type getChannelOpsResponseSuccess = (
+  | getChannelOpsResponse200ApplicationJson
+  | getChannelOpsResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type getChannelOpsResponse = getChannelOpsResponseSuccess;
+
+export const getGetChannelOpsUrl = () => {
+  return `/api/channel/ops`;
+};
+
+/**
+ * @summary Get Channel Ops
+ */
+export const getChannelOps = async (
+  options?: RequestInit,
+): Promise<getChannelOpsResponse> => {
+  return customFetch<getChannelOpsResponse>(getGetChannelOpsUrl(), {
     ...options,
     method: "GET",
   });
@@ -9277,6 +9345,84 @@ export const resetModelRatio = async (
   });
 };
 
+export type createWaffoPancakeSubscriptionProductResponse200ApplicationJson = {
+  data: ApiResponse;
+  status: 200;
+};
+
+export type createWaffoPancakeSubscriptionProductResponse200ApplicationXml = {
+  data: ApiResponse;
+  status: 200;
+};
+
+export type createWaffoPancakeSubscriptionProductResponseSuccess = (
+  | createWaffoPancakeSubscriptionProductResponse200ApplicationJson
+  | createWaffoPancakeSubscriptionProductResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type createWaffoPancakeSubscriptionProductResponse =
+  createWaffoPancakeSubscriptionProductResponseSuccess;
+
+export const getCreateWaffoPancakeSubscriptionProductUrl = () => {
+  return `/api/option/waffo-pancake/subscription-product`;
+};
+
+/**
+ * @summary Create Waffo Pancake Subscription Product
+ */
+export const createWaffoPancakeSubscriptionProduct = async (
+  options?: RequestInit,
+): Promise<createWaffoPancakeSubscriptionProductResponse> => {
+  return customFetch<createWaffoPancakeSubscriptionProductResponse>(
+    getCreateWaffoPancakeSubscriptionProductUrl(),
+    {
+      ...options,
+      method: "POST",
+    },
+  );
+};
+
+export type listWaffoPancakeSubscriptionProductOptionsResponse200ApplicationJson =
+  {
+    data: ApiResponse;
+    status: 200;
+  };
+
+export type listWaffoPancakeSubscriptionProductOptionsResponse200ApplicationXml =
+  {
+    data: ApiResponse;
+    status: 200;
+  };
+
+export type listWaffoPancakeSubscriptionProductOptionsResponseSuccess = (
+  | listWaffoPancakeSubscriptionProductOptionsResponse200ApplicationJson
+  | listWaffoPancakeSubscriptionProductOptionsResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type listWaffoPancakeSubscriptionProductOptionsResponse =
+  listWaffoPancakeSubscriptionProductOptionsResponseSuccess;
+
+export const getListWaffoPancakeSubscriptionProductOptionsUrl = () => {
+  return `/api/option/waffo-pancake/subscription-product-options`;
+};
+
+/**
+ * @summary List Waffo Pancake Subscription Product Options
+ */
+export const listWaffoPancakeSubscriptionProductOptions = async (
+  options?: RequestInit,
+): Promise<listWaffoPancakeSubscriptionProductOptionsResponse> => {
+  return customFetch<listWaffoPancakeSubscriptionProductOptionsResponse>(
+    getListWaffoPancakeSubscriptionProductOptionsUrl(),
+    {
+      ...options,
+      method: "GET",
+    },
+  );
+};
+
 export type getPerfMetricsResponse200ApplicationJson = {
   data: ResponsePerfMetricsQueryResult;
   status: 200;
@@ -9756,17 +9902,30 @@ export type getPricingResponseSuccess = (
 };
 export type getPricingResponse = getPricingResponseSuccess;
 
-export const getGetPricingUrl = () => {
-  return `/api/pricing`;
+export const getGetPricingUrl = (params?: GetPricingParams) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : String(value));
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `/api/pricing?${stringifiedParams}`
+    : `/api/pricing`;
 };
 
 /**
  * @summary Get Pricing
  */
 export const getPricing = async (
+  params?: GetPricingParams,
   options?: RequestInit,
 ): Promise<getPricingResponse> => {
-  return customFetch<getPricingResponse>(getGetPricingUrl(), {
+  return customFetch<getPricingResponse>(getGetPricingUrl(params), {
     ...options,
     method: "GET",
   });
@@ -10824,6 +10983,47 @@ export const adminCreateUserSubscription = async (
   );
 };
 
+export type subscriptionRequestBalancePayResponse200ApplicationJson = {
+  data: MessageResponse;
+  status: 200;
+};
+
+export type subscriptionRequestBalancePayResponse200ApplicationXml = {
+  data: MessageResponse;
+  status: 200;
+};
+
+export type subscriptionRequestBalancePayResponseSuccess = (
+  | subscriptionRequestBalancePayResponse200ApplicationJson
+  | subscriptionRequestBalancePayResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type subscriptionRequestBalancePayResponse =
+  subscriptionRequestBalancePayResponseSuccess;
+
+export const getSubscriptionRequestBalancePayUrl = () => {
+  return `/api/subscription/balance/pay`;
+};
+
+/**
+ * @summary Subscription Request Balance Pay
+ */
+export const subscriptionRequestBalancePay = async (
+  subscriptionBalancePayRequest: SubscriptionBalancePayRequest,
+  options?: RequestInit,
+): Promise<subscriptionRequestBalancePayResponse> => {
+  return customFetch<subscriptionRequestBalancePayResponse>(
+    getSubscriptionRequestBalancePayUrl(),
+    {
+      ...options,
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...options?.headers },
+      body: JSON.stringify(subscriptionBalancePayRequest),
+    },
+  );
+};
+
 export type subscriptionRequestCreemPayResponse200ApplicationJson = {
   data: ResponseDtoCreemPayData;
   status: 200;
@@ -11248,6 +11448,44 @@ export const subscriptionRequestStripePay = async (
       method: "POST",
       headers: { "Content-Type": "application/json", ...options?.headers },
       body: JSON.stringify(subscriptionStripePayRequest),
+    },
+  );
+};
+
+export type subscriptionRequestWaffoPancakePayResponse200ApplicationJson = {
+  data: ApiResponse;
+  status: 200;
+};
+
+export type subscriptionRequestWaffoPancakePayResponse200ApplicationXml = {
+  data: ApiResponse;
+  status: 200;
+};
+
+export type subscriptionRequestWaffoPancakePayResponseSuccess = (
+  | subscriptionRequestWaffoPancakePayResponse200ApplicationJson
+  | subscriptionRequestWaffoPancakePayResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type subscriptionRequestWaffoPancakePayResponse =
+  subscriptionRequestWaffoPancakePayResponseSuccess;
+
+export const getSubscriptionRequestWaffoPancakePayUrl = () => {
+  return `/api/subscription/waffo-pancake/pay`;
+};
+
+/**
+ * @summary Subscription Request Waffo Pancake Pay
+ */
+export const subscriptionRequestWaffoPancakePay = async (
+  options?: RequestInit,
+): Promise<subscriptionRequestWaffoPancakePayResponse> => {
+  return customFetch<subscriptionRequestWaffoPancakePayResponse>(
+    getSubscriptionRequestWaffoPancakePayUrl(),
+    {
+      ...options,
+      method: "POST",
     },
   );
 };
@@ -13947,6 +14185,150 @@ export const getUserTopUps = async (
   return customFetch<getUserTopUpsResponse>(getGetUserTopUpsUrl(params), {
     ...options,
     method: "GET",
+  });
+};
+
+export type requestWaffoPancakeAmountResponse200ApplicationJson = {
+  data: ApiResponse;
+  status: 200;
+};
+
+export type requestWaffoPancakeAmountResponse200ApplicationXml = {
+  data: ApiResponse;
+  status: 200;
+};
+
+export type requestWaffoPancakeAmountResponseSuccess = (
+  | requestWaffoPancakeAmountResponse200ApplicationJson
+  | requestWaffoPancakeAmountResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type requestWaffoPancakeAmountResponse =
+  requestWaffoPancakeAmountResponseSuccess;
+
+export const getRequestWaffoPancakeAmountUrl = () => {
+  return `/api/user/waffo-pancake/amount`;
+};
+
+/**
+ * @summary Request Waffo Pancake Amount
+ */
+export const requestWaffoPancakeAmount = async (
+  options?: RequestInit,
+): Promise<requestWaffoPancakeAmountResponse> => {
+  return customFetch<requestWaffoPancakeAmountResponse>(
+    getRequestWaffoPancakeAmountUrl(),
+    {
+      ...options,
+      method: "POST",
+    },
+  );
+};
+
+export type requestWaffoPancakePayResponse200ApplicationJson = {
+  data: ApiResponse;
+  status: 200;
+};
+
+export type requestWaffoPancakePayResponse200ApplicationXml = {
+  data: ApiResponse;
+  status: 200;
+};
+
+export type requestWaffoPancakePayResponseSuccess = (
+  | requestWaffoPancakePayResponse200ApplicationJson
+  | requestWaffoPancakePayResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type requestWaffoPancakePayResponse =
+  requestWaffoPancakePayResponseSuccess;
+
+export const getRequestWaffoPancakePayUrl = () => {
+  return `/api/user/waffo-pancake/pay`;
+};
+
+/**
+ * @summary Request Waffo Pancake Pay
+ */
+export const requestWaffoPancakePay = async (
+  options?: RequestInit,
+): Promise<requestWaffoPancakePayResponse> => {
+  return customFetch<requestWaffoPancakePayResponse>(
+    getRequestWaffoPancakePayUrl(),
+    {
+      ...options,
+      method: "POST",
+    },
+  );
+};
+
+export type requestWaffoAmountResponse200ApplicationJson = {
+  data: ApiResponse;
+  status: 200;
+};
+
+export type requestWaffoAmountResponse200ApplicationXml = {
+  data: ApiResponse;
+  status: 200;
+};
+
+export type requestWaffoAmountResponseSuccess = (
+  | requestWaffoAmountResponse200ApplicationJson
+  | requestWaffoAmountResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type requestWaffoAmountResponse = requestWaffoAmountResponseSuccess;
+
+export const getRequestWaffoAmountUrl = () => {
+  return `/api/user/waffo/amount`;
+};
+
+/**
+ * @summary Request Waffo Amount
+ */
+export const requestWaffoAmount = async (
+  options?: RequestInit,
+): Promise<requestWaffoAmountResponse> => {
+  return customFetch<requestWaffoAmountResponse>(getRequestWaffoAmountUrl(), {
+    ...options,
+    method: "POST",
+  });
+};
+
+export type requestWaffoPayResponse200ApplicationJson = {
+  data: ApiResponse;
+  status: 200;
+};
+
+export type requestWaffoPayResponse200ApplicationXml = {
+  data: ApiResponse;
+  status: 200;
+};
+
+export type requestWaffoPayResponseSuccess = (
+  | requestWaffoPayResponse200ApplicationJson
+  | requestWaffoPayResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type requestWaffoPayResponse = requestWaffoPayResponseSuccess;
+
+export const getRequestWaffoPayUrl = () => {
+  return `/api/user/waffo/pay`;
+};
+
+/**
+ * @summary Request Waffo Pay
+ */
+export const requestWaffoPay = async (
+  options?: RequestInit,
+): Promise<requestWaffoPayResponse> => {
+  return customFetch<requestWaffoPayResponse>(getRequestWaffoPayUrl(), {
+    ...options,
+    method: "POST",
   });
 };
 
