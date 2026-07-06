@@ -1256,7 +1256,25 @@
     "BENCH_CAT_AGENTIC": "에이전트",
     "BENCH_CAT_MULTILINGUAL": "다국어",
     "BENCH_CAT_INSTRUCTION": "지시 따르기",
-    "BENCH_CAT_MULTIMODAL": "멀티모달"
+    "BENCH_CAT_MULTIMODAL": "멀티모달",
+    "USAGE_TITLE": "사용량 및 순위",
+    "USAGE_LOADING": "사용량 불러오는 중...",
+    "USAGE_EMPTY": "이 기간의 사용 데이터가 아직 없습니다.",
+    "USAGE_RANKED": "{rank}위",
+    "USAGE_UNRANKED": "이 기간에는 순위 없음",
+    "USAGE_TOKENS_LABEL": "토큰",
+    "FAQ_OUTPUT_Q": "{name} 의 최대 출력은?",
+    "FAQ_OUTPUT_A": "{name} 은 요청당 최대 {value} 출력 토큰을 생성할 수 있습니다.",
+    "FAQ_TOOLS_Q": "{name} 은 함수 호출을 지원하나요?",
+    "FAQ_TOOLS_A": "예. {name} 은 도구 / 함수 호출을 지원합니다.",
+    "FAQ_REASONING_Q": "{name} 은 추론을 지원하나요?",
+    "FAQ_REASONING_A": "예. {name} 은 추론 가능 모델입니다.",
+    "FAQ_VISION_Q": "{name} 은 이미지 입력을 지원하나요?",
+    "FAQ_VISION_A": "예. {name} 은 텍스트와 함께 이미지 입력을 받습니다.",
+    "FAQ_CUTOFF_Q": "{name} 의 지식 컷오프는?",
+    "FAQ_CUTOFF_A": "{name} 의 지식 컷오프는 {value} 입니다.",
+    "FAQ_MODERATED_Q": "{name} 은 검열되나요?",
+    "FAQ_MODERATED_A": "예. {name} 에 대한 프롬프트는 콘텐츠 검열을 거칩니다."
   },
   "PRICING": {
     "FEATURE": {

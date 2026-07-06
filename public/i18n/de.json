@@ -1256,7 +1256,25 @@
     "BENCH_CAT_AGENTIC": "Agentisch",
     "BENCH_CAT_MULTILINGUAL": "Mehrsprachig",
     "BENCH_CAT_INSTRUCTION": "Anweisungsbefolgung",
-    "BENCH_CAT_MULTIMODAL": "Multimodal"
+    "BENCH_CAT_MULTIMODAL": "Multimodal",
+    "USAGE_TITLE": "Nutzung & Rang",
+    "USAGE_LOADING": "Nutzung wird geladen...",
+    "USAGE_EMPTY": "Noch keine Nutzungsdaten für diesen Zeitraum.",
+    "USAGE_RANKED": "Platz #{rank}",
+    "USAGE_UNRANKED": "In diesem Zeitraum nicht platziert",
+    "USAGE_TOKENS_LABEL": "Tokens",
+    "FAQ_OUTPUT_Q": "Wie hoch ist die maximale Ausgabe von {name}?",
+    "FAQ_OUTPUT_A": "{name} kann bis zu {value} Ausgabe-Tokens pro Anfrage erzeugen.",
+    "FAQ_TOOLS_Q": "Unterstützt {name} Funktionsaufrufe?",
+    "FAQ_TOOLS_A": "Ja. {name} unterstützt Tool- bzw. Funktionsaufrufe.",
+    "FAQ_REASONING_Q": "Unterstützt {name} logisches Schlussfolgern?",
+    "FAQ_REASONING_A": "Ja. {name} ist ein schlussfolgerungsfähiges Modell.",
+    "FAQ_VISION_Q": "Unterstützt {name} Bildeingaben?",
+    "FAQ_VISION_A": "Ja. {name} akzeptiert Bildeingaben zusätzlich zu Text.",
+    "FAQ_CUTOFF_Q": "Was ist der Wissensstand von {name}?",
+    "FAQ_CUTOFF_A": "Der Wissensstand von {name} ist {value}.",
+    "FAQ_MODERATED_Q": "Wird {name} moderiert?",
+    "FAQ_MODERATED_A": "Ja. Anfragen an {name} durchlaufen eine Inhaltsmoderation."
   },
   "PRICING": {
     "FEATURE": {

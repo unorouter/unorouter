@@ -1256,7 +1256,25 @@
     "BENCH_CAT_AGENTIC": "Ajans",
     "BENCH_CAT_MULTILINGUAL": "Çok dilli",
     "BENCH_CAT_INSTRUCTION": "Talimat takibi",
-    "BENCH_CAT_MULTIMODAL": "Çok kipli"
+    "BENCH_CAT_MULTIMODAL": "Çok kipli",
+    "USAGE_TITLE": "Kullanım ve Sıralama",
+    "USAGE_LOADING": "Kullanım yükleniyor...",
+    "USAGE_EMPTY": "Bu dönem için henüz kullanım verisi yok.",
+    "USAGE_RANKED": "#{rank}. sıra",
+    "USAGE_UNRANKED": "Bu dönem sıralamada değil",
+    "USAGE_TOKENS_LABEL": "jeton",
+    "FAQ_OUTPUT_Q": "{name} maksimum çıktısı nedir?",
+    "FAQ_OUTPUT_A": "{name} istek başına en fazla {value} çıktı jetonu üretebilir.",
+    "FAQ_TOOLS_Q": "{name} işlev çağrısını destekliyor mu?",
+    "FAQ_TOOLS_A": "Evet. {name} araç / işlev çağrısını destekler.",
+    "FAQ_REASONING_Q": "{name} akıl yürütmeyi destekliyor mu?",
+    "FAQ_REASONING_A": "Evet. {name} akıl yürütme yeteneğine sahip bir modeldir.",
+    "FAQ_VISION_Q": "{name} görsel girişini destekliyor mu?",
+    "FAQ_VISION_A": "Evet. {name} metnin yanı sıra görsel girişi kabul eder.",
+    "FAQ_CUTOFF_Q": "{name} bilgi kesim tarihi nedir?",
+    "FAQ_CUTOFF_A": "{name} bilgi kesim tarihi {value}.",
+    "FAQ_MODERATED_Q": "{name} denetleniyor mu?",
+    "FAQ_MODERATED_A": "Evet. {name} istekleri içerik denetiminden geçer."
   },
   "PRICING": {
     "FEATURE": {

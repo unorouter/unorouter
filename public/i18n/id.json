@@ -1256,7 +1256,25 @@
     "BENCH_CAT_AGENTIC": "Agentik",
     "BENCH_CAT_MULTILINGUAL": "Multibahasa",
     "BENCH_CAT_INSTRUCTION": "Mengikuti instruksi",
-    "BENCH_CAT_MULTIMODAL": "Multimodal"
+    "BENCH_CAT_MULTIMODAL": "Multimodal",
+    "USAGE_TITLE": "Penggunaan & Peringkat",
+    "USAGE_LOADING": "Memuat penggunaan...",
+    "USAGE_EMPTY": "Belum ada data penggunaan untuk periode ini.",
+    "USAGE_RANKED": "Peringkat #{rank}",
+    "USAGE_UNRANKED": "Tidak masuk peringkat periode ini",
+    "USAGE_TOKENS_LABEL": "token",
+    "FAQ_OUTPUT_Q": "Berapa output maksimum {name}?",
+    "FAQ_OUTPUT_A": "{name} dapat menghasilkan hingga {value} token output per permintaan.",
+    "FAQ_TOOLS_Q": "Apakah {name} mendukung pemanggilan fungsi?",
+    "FAQ_TOOLS_A": "Ya. {name} mendukung pemanggilan alat / fungsi.",
+    "FAQ_REASONING_Q": "Apakah {name} mendukung penalaran?",
+    "FAQ_REASONING_A": "Ya. {name} adalah model dengan kemampuan penalaran.",
+    "FAQ_VISION_Q": "Apakah {name} mendukung input gambar?",
+    "FAQ_VISION_A": "Ya. {name} menerima input gambar bersama teks.",
+    "FAQ_CUTOFF_Q": "Apa batas pengetahuan {name}?",
+    "FAQ_CUTOFF_A": "Batas pengetahuan {name} adalah {value}.",
+    "FAQ_MODERATED_Q": "Apakah {name} dimoderasi?",
+    "FAQ_MODERATED_A": "Ya. Permintaan ke {name} melewati moderasi konten."
   },
   "PRICING": {
     "FEATURE": {

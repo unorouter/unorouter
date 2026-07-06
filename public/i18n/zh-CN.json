@@ -1256,7 +1256,25 @@
     "BENCH_CAT_AGENTIC": "智能体",
     "BENCH_CAT_MULTILINGUAL": "多语言",
     "BENCH_CAT_INSTRUCTION": "指令遵循",
-    "BENCH_CAT_MULTIMODAL": "多模态"
+    "BENCH_CAT_MULTIMODAL": "多模态",
+    "USAGE_TITLE": "使用量与排名",
+    "USAGE_LOADING": "正在加载使用量……",
+    "USAGE_EMPTY": "该时段暂无使用数据。",
+    "USAGE_RANKED": "第 {rank} 名",
+    "USAGE_UNRANKED": "该时段未上榜",
+    "USAGE_TOKENS_LABEL": "token",
+    "FAQ_OUTPUT_Q": "{name} 的最大输出是多少？",
+    "FAQ_OUTPUT_A": "{name} 每次请求最多可生成 {value} 个输出 token。",
+    "FAQ_TOOLS_Q": "{name} 支持函数调用吗？",
+    "FAQ_TOOLS_A": "是的。{name} 支持工具／函数调用。",
+    "FAQ_REASONING_Q": "{name} 支持推理吗？",
+    "FAQ_REASONING_A": "是的。{name} 是具备推理能力的模型。",
+    "FAQ_VISION_Q": "{name} 支持图像输入吗？",
+    "FAQ_VISION_A": "是的。{name} 支持在文本之外输入图像。",
+    "FAQ_CUTOFF_Q": "{name} 的知识截止时间是什么？",
+    "FAQ_CUTOFF_A": "{name} 的知识截止时间为 {value}。",
+    "FAQ_MODERATED_Q": "{name} 会被内容审核吗？",
+    "FAQ_MODERATED_A": "是的。发送给 {name} 的提示会经过内容审核。"
   },
   "PRICING": {
     "FEATURE": {

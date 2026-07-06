@@ -1256,7 +1256,25 @@
     "BENCH_CAT_AGENTIC": "Агентность",
     "BENCH_CAT_MULTILINGUAL": "Многоязычность",
     "BENCH_CAT_INSTRUCTION": "Следование инструкциям",
-    "BENCH_CAT_MULTIMODAL": "Мультимодальность"
+    "BENCH_CAT_MULTIMODAL": "Мультимодальность",
+    "USAGE_TITLE": "Использование и рейтинг",
+    "USAGE_LOADING": "Загрузка использования...",
+    "USAGE_EMPTY": "Нет данных об использовании за этот период.",
+    "USAGE_RANKED": "Место #{rank}",
+    "USAGE_UNRANKED": "Нет в рейтинге за этот период",
+    "USAGE_TOKENS_LABEL": "токенов",
+    "FAQ_OUTPUT_Q": "Какой максимальный вывод у {name}?",
+    "FAQ_OUTPUT_A": "{name} может генерировать до {value} токенов вывода за запрос.",
+    "FAQ_TOOLS_Q": "Поддерживает ли {name} вызов функций?",
+    "FAQ_TOOLS_A": "Да. {name} поддерживает вызов инструментов / функций.",
+    "FAQ_REASONING_Q": "Поддерживает ли {name} рассуждения?",
+    "FAQ_REASONING_A": "Да. {name} — модель с поддержкой рассуждений.",
+    "FAQ_VISION_Q": "Поддерживает ли {name} ввод изображений?",
+    "FAQ_VISION_A": "Да. {name} принимает ввод изображений наряду с текстом.",
+    "FAQ_CUTOFF_Q": "Какова дата обучения {name}?",
+    "FAQ_CUTOFF_A": "Дата обучения {name} — {value}.",
+    "FAQ_MODERATED_Q": "Модерируется ли {name}?",
+    "FAQ_MODERATED_A": "Да. Запросы к {name} проходят модерацию контента."
   },
   "PRICING": {
     "FEATURE": {

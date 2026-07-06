@@ -1256,7 +1256,25 @@
     "BENCH_CAT_AGENTIC": "智慧代理",
     "BENCH_CAT_MULTILINGUAL": "多語言",
     "BENCH_CAT_INSTRUCTION": "指令遵循",
-    "BENCH_CAT_MULTIMODAL": "多模態"
+    "BENCH_CAT_MULTIMODAL": "多模態",
+    "USAGE_TITLE": "使用量與排名",
+    "USAGE_LOADING": "正在載入使用量……",
+    "USAGE_EMPTY": "此時段暫無使用資料。",
+    "USAGE_RANKED": "第 {rank} 名",
+    "USAGE_UNRANKED": "此時段未上榜",
+    "USAGE_TOKENS_LABEL": "token",
+    "FAQ_OUTPUT_Q": "{name} 的最大輸出是多少？",
+    "FAQ_OUTPUT_A": "{name} 每次請求最多可產生 {value} 個輸出 token。",
+    "FAQ_TOOLS_Q": "{name} 支援函式呼叫嗎？",
+    "FAQ_TOOLS_A": "是的。{name} 支援工具／函式呼叫。",
+    "FAQ_REASONING_Q": "{name} 支援推理嗎？",
+    "FAQ_REASONING_A": "是的。{name} 是具備推理能力的模型。",
+    "FAQ_VISION_Q": "{name} 支援影像輸入嗎？",
+    "FAQ_VISION_A": "是的。{name} 支援在文字之外輸入影像。",
+    "FAQ_CUTOFF_Q": "{name} 的知識截止時間是什麼？",
+    "FAQ_CUTOFF_A": "{name} 的知識截止時間為 {value}。",
+    "FAQ_MODERATED_Q": "{name} 會被內容審核嗎？",
+    "FAQ_MODERATED_A": "是的。傳送給 {name} 的提示會經過內容審核。"
   },
   "PRICING": {
     "FEATURE": {

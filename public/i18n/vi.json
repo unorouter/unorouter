@@ -1256,7 +1256,25 @@
     "BENCH_CAT_AGENTIC": "Tác tử",
     "BENCH_CAT_MULTILINGUAL": "Đa ngôn ngữ",
     "BENCH_CAT_INSTRUCTION": "Tuân theo hướng dẫn",
-    "BENCH_CAT_MULTIMODAL": "Đa phương thức"
+    "BENCH_CAT_MULTIMODAL": "Đa phương thức",
+    "USAGE_TITLE": "Sử dụng & Xếp hạng",
+    "USAGE_LOADING": "Đang tải mức sử dụng...",
+    "USAGE_EMPTY": "Chưa có dữ liệu sử dụng cho kỳ này.",
+    "USAGE_RANKED": "Hạng #{rank}",
+    "USAGE_UNRANKED": "Không xếp hạng trong kỳ này",
+    "USAGE_TOKENS_LABEL": "token",
+    "FAQ_OUTPUT_Q": "Đầu ra tối đa của {name} là bao nhiêu?",
+    "FAQ_OUTPUT_A": "{name} có thể tạo tối đa {value} token đầu ra mỗi yêu cầu.",
+    "FAQ_TOOLS_Q": "{name} có hỗ trợ gọi hàm không?",
+    "FAQ_TOOLS_A": "Có. {name} hỗ trợ gọi công cụ / hàm.",
+    "FAQ_REASONING_Q": "{name} có hỗ trợ suy luận không?",
+    "FAQ_REASONING_A": "Có. {name} là mô hình có khả năng suy luận.",
+    "FAQ_VISION_Q": "{name} có hỗ trợ đầu vào hình ảnh không?",
+    "FAQ_VISION_A": "Có. {name} chấp nhận đầu vào hình ảnh cùng với văn bản.",
+    "FAQ_CUTOFF_Q": "Mốc kiến thức của {name} là gì?",
+    "FAQ_CUTOFF_A": "Mốc kiến thức của {name} là {value}.",
+    "FAQ_MODERATED_Q": "{name} có được kiểm duyệt không?",
+    "FAQ_MODERATED_A": "Có. Các yêu cầu tới {name} đi qua kiểm duyệt nội dung."
   },
   "PRICING": {
     "FEATURE": {

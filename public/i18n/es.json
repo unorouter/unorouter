@@ -1256,7 +1256,25 @@
     "BENCH_CAT_AGENTIC": "Agéntico",
     "BENCH_CAT_MULTILINGUAL": "Multilingüe",
     "BENCH_CAT_INSTRUCTION": "Seguimiento de instrucciones",
-    "BENCH_CAT_MULTIMODAL": "Multimodal"
+    "BENCH_CAT_MULTIMODAL": "Multimodal",
+    "USAGE_TITLE": "Uso y clasificación",
+    "USAGE_LOADING": "Cargando uso...",
+    "USAGE_EMPTY": "Aún no hay datos de uso para este periodo.",
+    "USAGE_RANKED": "Puesto #{rank}",
+    "USAGE_UNRANKED": "Sin clasificar este periodo",
+    "USAGE_TOKENS_LABEL": "tokens",
+    "FAQ_OUTPUT_Q": "¿Cuál es la salida máxima de {name}?",
+    "FAQ_OUTPUT_A": "{name} puede generar hasta {value} tokens de salida por solicitud.",
+    "FAQ_TOOLS_Q": "¿{name} admite llamadas a funciones?",
+    "FAQ_TOOLS_A": "Sí. {name} admite llamadas a herramientas / funciones.",
+    "FAQ_REASONING_Q": "¿{name} admite razonamiento?",
+    "FAQ_REASONING_A": "Sí. {name} es un modelo con capacidad de razonamiento.",
+    "FAQ_VISION_Q": "¿{name} admite entrada de imágenes?",
+    "FAQ_VISION_A": "Sí. {name} acepta entrada de imágenes junto con texto.",
+    "FAQ_CUTOFF_Q": "¿Cuál es el corte de conocimiento de {name}?",
+    "FAQ_CUTOFF_A": "El corte de conocimiento de {name} es {value}.",
+    "FAQ_MODERATED_Q": "¿{name} está moderado?",
+    "FAQ_MODERATED_A": "Sí. Las solicitudes a {name} pasan por moderación de contenido."
   },
   "PRICING": {
     "FEATURE": {

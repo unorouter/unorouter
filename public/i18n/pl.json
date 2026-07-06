@@ -1256,7 +1256,25 @@
     "BENCH_CAT_AGENTIC": "Agentowy",
     "BENCH_CAT_MULTILINGUAL": "Wielojęzyczny",
     "BENCH_CAT_INSTRUCTION": "Wykonywanie instrukcji",
-    "BENCH_CAT_MULTIMODAL": "Multimodalny"
+    "BENCH_CAT_MULTIMODAL": "Multimodalny",
+    "USAGE_TITLE": "Użycie i ranking",
+    "USAGE_LOADING": "Ładowanie użycia...",
+    "USAGE_EMPTY": "Brak danych o użyciu w tym okresie.",
+    "USAGE_RANKED": "Miejsce #{rank}",
+    "USAGE_UNRANKED": "Brak w rankingu w tym okresie",
+    "USAGE_TOKENS_LABEL": "tokeny",
+    "FAQ_OUTPUT_Q": "Jaki jest maksymalny wynik {name}?",
+    "FAQ_OUTPUT_A": "{name} może wygenerować do {value} tokenów wyjściowych na żądanie.",
+    "FAQ_TOOLS_Q": "Czy {name} obsługuje wywoływanie funkcji?",
+    "FAQ_TOOLS_A": "Tak. {name} obsługuje wywoływanie narzędzi / funkcji.",
+    "FAQ_REASONING_Q": "Czy {name} obsługuje rozumowanie?",
+    "FAQ_REASONING_A": "Tak. {name} to model zdolny do rozumowania.",
+    "FAQ_VISION_Q": "Czy {name} obsługuje wejście obrazu?",
+    "FAQ_VISION_A": "Tak. {name} przyjmuje wejście obrazu obok tekstu.",
+    "FAQ_CUTOFF_Q": "Jaka jest granica wiedzy {name}?",
+    "FAQ_CUTOFF_A": "Granica wiedzy {name} to {value}.",
+    "FAQ_MODERATED_Q": "Czy {name} jest moderowany?",
+    "FAQ_MODERATED_A": "Tak. Zapytania do {name} przechodzą przez moderację treści."
   },
   "PRICING": {
     "FEATURE": {
