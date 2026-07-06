@@ -3,12 +3,6 @@
   "version": "1.0.0",
   "license": "AGPL-3.0-only",
   "private": true,
-  "overrides": {
-    "@assistant-ui/core": "0.2.20",
-    "@assistant-ui/store": "0.2.18",
-    "ai": "7.0.16",
-    "@ai-sdk/react": "4.0.17"
-  },
   "scripts": {
     "dev": "next dev",
     "dev:log": "next dev 2>&1 | tee /tmp/next.log",
@@ -140,5 +134,8 @@
   "patchedDependencies": {
     "iconoir-react@7.11.1": "patches/iconoir-react@7.11.1.patch",
     "sqlocal@0.18.0": "patches/sqlocal@0.18.0.patch"
+  },
+  "overrides": {
+    "ai": "7.0.16"
   }
 }
