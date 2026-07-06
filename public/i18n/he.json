@@ -384,6 +384,8 @@
     },
     "PRICE": {
       "PER_REQUEST": " · בקשה",
+      "PER_SECOND": " · שנייה",
+      "PER_IMAGE": " · תמונה",
       "INPUT": "קלט",
       "OUTPUT": "פלט",
       "FROM": "החל מ-",
@@ -1163,6 +1165,8 @@
     "PRICE_PER_MILLION": "{price} · מיליון טוקנים",
     "FIXED_PRICE": "מחיר לבקשה",
     "PRICE_PER_REQUEST": "{price} · בקשה",
+    "PRICE_PER_SECOND": "{price} · שנייה",
+    "PRICE_PER_IMAGE": "{price} · תמונה",
     "GRID_PRICING_TITLE": "רשת מחירים",
     "GRID_PRICE_HEADER": "מחיר",
     "AVAILABLE_BADGE": "זמין עכשיו",

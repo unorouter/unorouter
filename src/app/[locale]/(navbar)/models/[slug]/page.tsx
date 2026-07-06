@@ -1,4 +1,3 @@
-import { prefetchElysia } from "@/lib/react-query/prefetch";
 import { AtCapacityBanner } from "@/components/pages/navbar/models/detail/at-capacity-banner";
 import { ModelDetail } from "@/components/pages/navbar/models/detail/model-detail";
 import { localeUrl } from "@/i18n/navigation";
@@ -6,6 +5,7 @@ import { findContextTag, type ProcessedModel } from "@/lib/api/pricing";
 import { APP_VALUES } from "@/lib/config/constants";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
+import { prefetchElysia } from "@/lib/react-query/prefetch";
 import { rpc } from "@/lib/rpc";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
@@ -14,20 +14,17 @@ import {
   buildFAQPageSchema,
   buildSoftwareApplicationSchema,
 } from "@/lib/seo/structured-data";
-import {
-  baseModelName,
-  handleElysia,
-  modelMatchesSlug,
-  modelSlug,
-} from "@/lib/utils/base";
+import { baseModelName, modelMatchesSlug, modelSlug } from "@/lib/utils/base";
 import { formatPrice } from "@/lib/utils/format/number";
 import { serverLocale } from "@/lib/utils/server";
 import { getCatalogModel } from "@/server/models/pricing/model-catalog.service";
+import {
+  fetchLivePricing,
+  type LivePricing,
+} from "@/server/models/pricing/pricing-fetch";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
-
-export const dynamic = "force-dynamic";
 
 interface PageProps {
   params: Promise<{ locale: string; slug: string }>;
@@ -35,22 +32,14 @@ interface PageProps {
 
 type ResolvedModel = {
   model: ProcessedModel;
-  // true = absent from live pricing but recently seen: render at-capacity, 200.
   atCapacity: boolean;
-  data: Awaited<ReturnType<typeof fetchPricing>>;
+  data: LivePricing;
 };
-
-function fetchPricing() {
-  return rpc.api.models.pricing
-    .get()
-    .then(handleElysia)
-    .catch(() => null);
-}
 
 // Live pricing first; churned-out models fall back to the durable catalog so
 // the page survives free-pool churn instead of 404ing (GSC: 495 churn 404s).
 async function resolveModel(slug: string): Promise<ResolvedModel | null> {
-  const data = await fetchPricing();
+  const data = await fetchLivePricing();
   const live = data?.models.find((m) => modelMatchesSlug(m.name, slug));
   if (live) return { model: live, atCapacity: false, data };
   const snapshot = await getCatalogModel((name) =>

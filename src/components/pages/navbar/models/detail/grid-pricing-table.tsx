@@ -43,7 +43,10 @@ export function GridPricingTable(props: GridPricingTableProps) {
         </TableHeader>
         <TableBody>
           {props.rows.map((row, i) => {
-            const { price, suffix } = gridPriceParts(row, props.multiplier ?? 1);
+            const { price, suffix } = gridPriceParts(
+              row,
+              props.multiplier ?? 1,
+            );
             return (
               <TableRow key={i}>
                 {columns.map((col) => (

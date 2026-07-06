@@ -384,6 +384,8 @@
     },
     "PRICE": {
       "PER_REQUEST": " · अनुरोध",
+      "PER_SECOND": " · सेकंड",
+      "PER_IMAGE": " · छवि",
       "INPUT": "IN",
       "OUTPUT": "OUT",
       "FROM": "से",
@@ -1163,6 +1165,8 @@
     "PRICE_PER_MILLION": "{price} · 1M टोकन",
     "FIXED_PRICE": "प्रति अनुरोध मूल्य",
     "PRICE_PER_REQUEST": "{price} · अनुरोध",
+    "PRICE_PER_SECOND": "{price} · सेकंड",
+    "PRICE_PER_IMAGE": "{price} · छवि",
     "GRID_PRICING_TITLE": "मूल्य ग्रिड",
     "GRID_PRICE_HEADER": "मूल्य",
     "AVAILABLE_BADGE": "अभी उपलब्ध",

@@ -384,6 +384,8 @@
     },
     "PRICE": {
       "PER_REQUEST": " · 요청",
+      "PER_SECOND": " · 초",
+      "PER_IMAGE": " · 이미지",
       "INPUT": "입력",
       "OUTPUT": "출력",
       "FROM": "최저",
@@ -1163,6 +1165,8 @@
     "PRICE_PER_MILLION": "{price} · 100만 토큰",
     "FIXED_PRICE": "요청당 가격",
     "PRICE_PER_REQUEST": "{price} · 요청",
+    "PRICE_PER_SECOND": "{price} · 초",
+    "PRICE_PER_IMAGE": "{price} · 이미지",
     "GRID_PRICING_TITLE": "가격 그리드",
     "GRID_PRICE_HEADER": "가격",
     "AVAILABLE_BADGE": "지금 사용 가능",

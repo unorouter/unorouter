@@ -384,6 +384,8 @@
     },
     "PRICE": {
       "PER_REQUEST": " · запрос",
+      "PER_SECOND": " · секунда",
+      "PER_IMAGE": " · изображение",
       "INPUT": "ВХОД",
       "OUTPUT": "ВЫХОД",
       "FROM": "от",
@@ -1163,6 +1165,8 @@
     "PRICE_PER_MILLION": "{price} · 1M токенов",
     "FIXED_PRICE": "Цена за запрос",
     "PRICE_PER_REQUEST": "{price} · запрос",
+    "PRICE_PER_SECOND": "{price} · секунда",
+    "PRICE_PER_IMAGE": "{price} · изображение",
     "GRID_PRICING_TITLE": "Сетка цен",
     "GRID_PRICE_HEADER": "Цена",
     "AVAILABLE_BADGE": "Доступно сейчас",

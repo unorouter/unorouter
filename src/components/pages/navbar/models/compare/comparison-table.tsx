@@ -56,6 +56,7 @@ function ModalityIcons(props: { modalities: string[] }) {
 function priceCell(value: number, unit: PriceUnit): string {
   if (unit === "dash" || value <= 0) return "-";
   if (unit === "perImage") return `${formatPrice(value)}/img`;
+  if (unit === "perSecond") return `${formatPrice(value)}/s`;
   return formatPrice(value);
 }
 

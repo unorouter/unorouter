@@ -384,6 +384,8 @@
     },
     "PRICE": {
       "PER_REQUEST": " · zapytanie",
+      "PER_SECOND": " · sekunda",
+      "PER_IMAGE": " · obraz",
       "INPUT": "WE",
       "OUTPUT": "WY",
       "FROM": "od",
@@ -1163,6 +1165,8 @@
     "PRICE_PER_MILLION": "{price} · 1M tokenów",
     "FIXED_PRICE": "Cena za zapytanie",
     "PRICE_PER_REQUEST": "{price} · zapytanie",
+    "PRICE_PER_SECOND": "{price} · sekunda",
+    "PRICE_PER_IMAGE": "{price} · obraz",
     "GRID_PRICING_TITLE": "Siatka cen",
     "GRID_PRICE_HEADER": "Cena",
     "AVAILABLE_BADGE": "Dostępne teraz",
