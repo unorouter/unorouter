@@ -107,6 +107,29 @@ function groupHeader(group?: string | null): Record<string, string> {
 
 const KEEPALIVE_INTERVAL_MS = 20_000;
 
+function upstreamErrorMessage(raw: string, fallback: string): string {
+  const text = raw.trim();
+  if (!text) return fallback;
+  try {
+    const parsed = JSON.parse(text) as unknown;
+    const stack: unknown[] = [parsed];
+    while (stack.length > 0) {
+      const node = stack.pop();
+      if (!node || typeof node !== "object") continue;
+      const obj = node as Record<string, unknown>;
+      if (typeof obj.message === "string" && obj.message.trim()) {
+        return obj.message.trim();
+      }
+      for (const key of ["error", "data"]) {
+        if (key in obj) stack.push(obj[key]);
+      }
+    }
+  } catch {
+    return text;
+  }
+  return text;
+}
+
 function streamResponse(
   execute: (writer: UIMessageStreamWriter) => Promise<void>,
 ) {
@@ -159,7 +182,7 @@ async function upstreamPost(
       model: payload.model,
       error: err.slice(0, 200),
     });
-    throw new Error(`${msg(errKey)}: ${err}`);
+    throw new Error(upstreamErrorMessage(err, msg(errKey)));
   }
   return res;
 }
@@ -276,7 +299,9 @@ async function generateImage(
       refs: refs.length,
       error: err.slice(0, 200),
     });
-    throw new Error(`${msg("ERRORS.IMAGE_GENERATION_FAILED")}: ${err}`);
+    throw new Error(
+      upstreamErrorMessage(err, msg("ERRORS.IMAGE_GENERATION_FAILED")),
+    );
   }
   const json = (await res.json()) as { usage?: UpstreamUsage };
   const uris = extractResultUris(endpoint, json);

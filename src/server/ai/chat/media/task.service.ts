@@ -36,6 +36,22 @@ type TaskFetchResult = {
   resultUrl?: string;
 };
 
+function taskErrorMessage(data: unknown, fallback: string): string {
+  const stack: unknown[] = [data];
+  while (stack.length > 0) {
+    const node = stack.pop();
+    if (!node || typeof node !== "object") continue;
+    const obj = node as Record<string, unknown>;
+    if (typeof obj.message === "string" && obj.message.trim()) {
+      return obj.message.trim();
+    }
+    for (const key of ["error", "data", "output"]) {
+      if (key in obj) stack.push(obj[key]);
+    }
+  }
+  return fallback;
+}
+
 function toUiStatus(raw: string | undefined): TaskStatus {
   const canonical = normalizeTaskStatus(raw);
   switch (canonical) {
@@ -79,7 +95,7 @@ export async function submitVideoTask(
       model,
       raw: JSON.stringify(res.data).slice(0, 200),
     });
-    throw new Error(msg("ERRORS.NO_TASK_ID"));
+    throw new Error(taskErrorMessage(res.data, msg("ERRORS.NO_TASK_ID")));
   }
 
   return {
