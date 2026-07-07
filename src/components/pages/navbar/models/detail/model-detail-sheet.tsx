@@ -26,6 +26,7 @@ import {
   ProcessedModel,
 } from "@/lib/api/pricing";
 import { fixedPriceUnitLabel } from "@/lib/api/model-modality";
+import { SectionHeading } from "./shared/section-heading";
 import { env } from "@/lib/config/env";
 import { getVendorTheme } from "@/lib/config/vendor-themes";
 import { cn } from "@/lib/utils";
@@ -114,38 +115,26 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
 
         <div className="space-y-6 p-4">
           <section>
-            <SectionHeader
-              icon={
-                <Icon
-                  name="heart-pulse"
-                  className="h-3.5 w-3.5 text-rose-400"
-                />
-              }
-              title={t("MODELS.DETAIL.PERFORMANCE")}
-            />
+            <SectionHeading theme={theme}>
+              {t("MODELS.DETAIL.PERFORMANCE")}
+            </SectionHeading>
             <PerformanceSection modelName={model.name} />
           </section>
 
           {model.description && (
             <section>
-              <SectionHeader
-                icon={
-                  <Icon name="info" className="h-3.5 w-3.5 text-cyan-400" />
-                }
-                title={t("MODELS.DETAIL.DESCRIPTION")}
-              />
+              <SectionHeading theme={theme}>
+                {t("MODELS.DETAIL.DESCRIPTION")}
+              </SectionHeading>
               <ModelDescription text={model.description} />
             </section>
           )}
 
           {model.tags.length > 0 && (
             <section>
-              <SectionHeader
-                icon={
-                  <Icon name="tag" className="h-3.5 w-3.5 text-purple-400" />
-                }
-                title={t("MODELS.DETAIL.TAGS")}
-              />
+              <SectionHeading theme={theme}>
+                {t("MODELS.DETAIL.TAGS")}
+              </SectionHeading>
               <div className="flex flex-wrap gap-1.5">
                 {model.tags.map((tag) => (
                   <Badge
@@ -167,15 +156,9 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
 
           {hasAnyCapability(model.metadata) && (
             <section>
-              <SectionHeader
-                icon={
-                  <Icon
-                    name="sparkles"
-                    className="h-3.5 w-3.5 text-emerald-400"
-                  />
-                }
-                title={t("MODELS.DETAIL.CAPABILITIES")}
-              />
+              <SectionHeading theme={theme}>
+                {t("MODELS.DETAIL.CAPABILITIES")}
+              </SectionHeading>
               <CapabilityChips metadata={model.metadata} variant="drawer" />
             </section>
           )}
@@ -183,40 +166,26 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
           {((model.metadata.inputModalities ?? []).length > 0 ||
             (model.metadata.outputModalities ?? []).length > 0) && (
             <section>
-              <SectionHeader
-                icon={
-                  <Icon
-                    name="layers"
-                    className="h-3.5 w-3.5 text-emerald-400"
-                  />
-                }
-                title={t("MODELS.DETAIL.MODALITIES")}
-              />
+              <SectionHeading theme={theme}>
+                {t("MODELS.DETAIL.MODALITIES")}
+              </SectionHeading>
               <ModalitiesRow metadata={model.metadata} />
             </section>
           )}
 
           {hasAnyQuickStat(model.metadata) && (
             <section>
-              <SectionHeader
-                icon={
-                  <Icon name="info" className="h-3.5 w-3.5 text-cyan-400" />
-                }
-                title={t("MODELS.DETAIL.QUICK_STATS")}
-              />
+              <SectionHeading theme={theme}>
+                {t("MODELS.DETAIL.QUICK_STATS")}
+              </SectionHeading>
               <QuickStats metadata={model.metadata} />
             </section>
           )}
 
           <section>
-            <SectionHeader
-              icon={
-                <span className={cn("font-mono text-xs font-bold", theme.text)}>
-                  $
-                </span>
-              }
-              title={t("MODELS.DETAIL.PRICING")}
-            />
+            <SectionHeading theme={theme}>
+              {t("MODELS.DETAIL.PRICING")}
+            </SectionHeading>
             <div
               className={cn("rounded-lg border p-4", theme.bg, theme.border)}
             >
@@ -317,27 +286,18 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
 
           {hasAnyParameter(model.metadata) && (
             <section>
-              <SectionHeader
-                icon={
-                  <Icon
-                    name="settings"
-                    className="h-3.5 w-3.5 text-purple-400"
-                  />
-                }
-                title={t("MODELS.DETAIL.SUPPORTED_PARAMETERS")}
-              />
+              <SectionHeading theme={theme}>
+                {t("MODELS.DETAIL.SUPPORTED_PARAMETERS")}
+              </SectionHeading>
               <SupportedParameters metadata={model.metadata} />
             </section>
           )}
 
           {model.endpointTypes.length > 0 && (
             <section>
-              <SectionHeader
-                icon={
-                  <Icon name="link" className="h-3.5 w-3.5 text-green-400" />
-                }
-                title={t("MODELS.DETAIL.ENDPOINTS")}
-              />
+              <SectionHeading theme={theme}>
+                {t("MODELS.DETAIL.ENDPOINTS")}
+              </SectionHeading>
               <div className="space-y-2">
                 {model.endpointTypes.map((endpoint) => {
                   const info = props.endpointMap[endpoint];
@@ -386,17 +346,6 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
         </div>
       </SheetContent>
     </Sheet>
-  );
-}
-
-function SectionHeader(props: { icon: React.ReactNode; title: string }) {
-  return (
-    <div className="mb-3 flex items-center gap-2">
-      {props.icon}
-      <span className="text-foreground font-mono text-xs tracking-wider uppercase">
-        {props.title}
-      </span>
-    </div>
   );
 }
 
@@ -473,10 +422,9 @@ function GridPricingSection(props: {
 
   return (
     <section>
-      <SectionHeader
-        icon={<Icon name="grid-3x3" className="h-3.5 w-3.5 text-cyan-400" />}
-        title={t("MODELS.DETAIL.GRID_PRICING")}
-      />
+      <SectionHeading theme={props.theme}>
+        {t("MODELS.DETAIL.GRID_PRICING")}
+      </SectionHeading>
       <div
         className={cn(
           "rounded-lg border p-3",
