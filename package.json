@@ -64,7 +64,6 @@
     "dayjs": "1.11.21",
     "drizzle-orm": "0.45.2",
     "elysia": "1.4.29",
-    "feed": "6.0.0",
     "file-type": "22.0.1",
     "fumadocs-core": "16.11.1",
     "gpt-tokenizer": "3.4.0",
@@ -132,8 +131,7 @@
     "typescript": "6.0.3"
   },
   "patchedDependencies": {
-    "iconoir-react@7.11.1": "patches/iconoir-react@7.11.1.patch",
-    "sqlocal@0.18.0": "patches/sqlocal@0.18.0.patch"
+    "iconoir-react@7.11.1": "patches/iconoir-react@7.11.1.patch"
   },
   "overrides": {
     "ai": "7.0.16"

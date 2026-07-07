@@ -1,3 +1,7 @@
+Upstream PR: https://github.com/iconoir-icons/iconoir/pull/612
+Adds per-icon subpath exports (./regular/*, ./solid/*) so individual icons
+can be imported directly. Remove this patch once the PR is merged and released.
+
 diff --git a/package.json b/package.json
 index 0b13b43fe82a660e593012f4ff932fd8babe2ae9..7f6d09ce8b4510b464bedff879ee7b19e6bed6f5 100644
 --- a/package.json
