@@ -31,22 +31,16 @@ import { env } from "@/lib/config/env";
 import { getVendorTheme } from "@/lib/config/vendor-themes";
 import { cn } from "@/lib/utils";
 import { formatPrice } from "@/lib/utils/format/number";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
 import { MINI_TABLE, MINI_TABLE_BODY_ROW } from "./shared/mini-table";
 import { CachePricing } from "./pricing/cache-pricing";
 import { ModelDescription } from "./header/model-description";
 import { TieredPricing } from "./pricing/tiered-pricing";
 import { AutoGroupChain } from "./pricing/auto-group-chain";
-import { CapabilityChips } from "./header/capability-chips";
-import {
-  hasAnyCapability,
-  hasAnyParameter,
-  hasAnyQuickStat,
-} from "./header/capability-helpers";
-import { ModalitiesRow } from "./header/modalities-row";
+import { hasAnyParameter } from "./header/capability-helpers";
+import { ModelHeaderChips, ModelMetaStats } from "./header/model-header-chips";
 import { PerformanceSection } from "./tabs/performance-section";
-import { QuickStats } from "./header/quick-stats";
 import { SupportedParameters } from "./tabs/supported-parameters";
 
 type ModelDetailSheetProps = {
@@ -60,6 +54,7 @@ type ModelDetailSheetProps = {
 
 export function ModelDetailSheet(props: ModelDetailSheetProps) {
   const t = useTranslations();
+  const locale = useLocale();
   const setChatModel = useSetAtom(chatModelAtom);
   const model = props.model;
 
@@ -131,56 +126,27 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
           )}
 
           {model.tags.length > 0 && (
-            <section>
-              <SectionHeading theme={theme}>
-                {t("MODELS.DETAIL.TAGS")}
-              </SectionHeading>
-              <div className="flex flex-wrap gap-1.5">
-                {model.tags.map((tag) => (
-                  <Badge
-                    key={tag}
-                    variant="secondary"
-                    className={cn(
-                      "font-mono text-[10px] uppercase",
-                      theme.tagBg,
-                      theme.tagBorder,
-                      theme.text,
-                    )}
-                  >
-                    {tag}
-                  </Badge>
-                ))}
-              </div>
-            </section>
+            <div className="flex flex-wrap gap-1.5">
+              {model.tags.map((tag) => (
+                <Badge
+                  key={tag}
+                  variant="secondary"
+                  className={cn(
+                    "font-mono text-[10px] uppercase",
+                    theme.tagBg,
+                    theme.tagBorder,
+                    theme.text,
+                  )}
+                >
+                  {tag}
+                </Badge>
+              ))}
+            </div>
           )}
 
-          {hasAnyCapability(model.metadata) && (
-            <section>
-              <SectionHeading theme={theme}>
-                {t("MODELS.DETAIL.CAPABILITIES")}
-              </SectionHeading>
-              <CapabilityChips metadata={model.metadata} variant="drawer" />
-            </section>
-          )}
+          <ModelHeaderChips metadata={model.metadata} locale={locale} />
 
-          {((model.metadata.inputModalities ?? []).length > 0 ||
-            (model.metadata.outputModalities ?? []).length > 0) && (
-            <section>
-              <SectionHeading theme={theme}>
-                {t("MODELS.DETAIL.MODALITIES")}
-              </SectionHeading>
-              <ModalitiesRow metadata={model.metadata} />
-            </section>
-          )}
-
-          {hasAnyQuickStat(model.metadata) && (
-            <section>
-              <SectionHeading theme={theme}>
-                {t("MODELS.DETAIL.QUICK_STATS")}
-              </SectionHeading>
-              <QuickStats metadata={model.metadata} />
-            </section>
-          )}
+          <ModelMetaStats metadata={model.metadata} />
 
           <section>
             <SectionHeading theme={theme}>
