@@ -40,6 +40,7 @@ import { partsToItems } from "@/lib/ai/chat/messages";
 import { analytics } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 import { copyToClipboard } from "@/lib/utils/base";
+import { extractErrorDetail } from "@/lib/utils/client";
 import { formatPrice } from "@/lib/utils/format/number";
 import {
   chatHelpersAtom,
@@ -361,9 +362,10 @@ function resolveErrorMessage(
   t: LooseT,
 ): string {
   if (error === undefined) return "";
-  const raw = unwrapJsonEnvelope(
-    typeof error === "string" ? error : String(error),
-  );
+  const raw =
+    typeof error === "string"
+      ? unwrapJsonEnvelope(error)
+      : extractErrorDetail(error).message;
   return t.has(raw) ? t(raw) : raw;
 }
 
