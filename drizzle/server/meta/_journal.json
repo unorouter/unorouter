@@ -43,6 +43,13 @@
       "when": 1783200041002,
       "tag": "0005_sloppy_random",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1783447453533,
+      "tag": "0006_demonic_nico_minoru",
+      "breakpoints": true
     }
   ]
 }
