@@ -6,14 +6,10 @@ import {
   type UpstreamSubmitResp,
 } from "@/lib/api/video-task";
 import { msg } from "@/lib/config/constants";
-import { downloadAndUpload } from "@/lib/config/r2";
-import { assertFound } from "@/lib/utils/server";
-import { getDb } from "@/lib/db/server/client";
-import { conversations, messageItems, messages } from "@/lib/db/schema";
-import { uid } from "@/lib/utils/base";
+import { downloadGenerationBytes } from "@/lib/config/r2";
+import { base64ToDataUri } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 import type { FinalizeTaskBody } from "@/lib/validation/chat";
-import { and, asc, eq } from "drizzle-orm";
 
 export type TaskStatus =
   | "NOT_START"
@@ -106,66 +102,20 @@ export async function submitVideoTask(
   };
 }
 
+// Local-first: video bytes live in the browser (OPFS), same as generated images.
+// This route only downloads the upstream result and returns it as a base64 data
+// URI (COEP-safe, same-origin); the client persists + renders it locally. No R2:
+// a cross-origin R2 URL is blocked by the chat page's COEP require-corp.
 export async function finalizeVideoTask(
-  userId: number,
-  convId: string,
+  _convId: string,
   body: FinalizeTaskBody,
 ) {
-  const db = getDb();
-  const convRows = await db
-    .select({ id: conversations.id })
-    .from(conversations)
-    .where(and(eq(conversations.id, convId), eq(conversations.userId, userId)))
-    .limit(1);
-  assertFound(convRows);
-
-  const rows = await db
-    .select()
-    .from(messages)
-    .where(and(eq(messages.id, body.msgId), eq(messages.convId, convId)))
-    .limit(1);
-  assertFound(rows);
-
-  const groupKey = uid(8);
-  const r2Url = await downloadAndUpload(body.resultUrl, convId, groupKey);
-
-  const items = await db
-    .select()
-    .from(messageItems)
-    .where(eq(messageItems.messageId, body.msgId))
-    .orderBy(asc(messageItems.sequenceIndex));
-
-  const updatedItems = items.map((it) => {
-    if (
-      it.type === "task" &&
-      (it.data as Record<string, unknown>).task_id === body.taskId
-    ) {
-      return {
-        ...it,
-        type: "text" as const,
-        data: { text: `![video](${r2Url})` },
-      };
-    }
-    return it;
-  });
-
-  await db.transaction(async (tx) => {
-    await tx.delete(messageItems).where(eq(messageItems.messageId, body.msgId));
-    if (updatedItems.length > 0) {
-      await tx.insert(messageItems).values(
-        updatedItems.map((it, seq) => ({
-          id: it.id,
-          messageId: body.msgId,
-          sequenceIndex: seq,
-          outputIndex: it.outputIndex,
-          type: it.type,
-          data: it.data,
-        })),
-      );
-    }
-  });
-
-  return { items: updatedItems };
+  const bytes = await downloadGenerationBytes(body.resultUrl);
+  const dataUri = base64ToDataUri(
+    bytes.buffer.toString("base64"),
+    bytes.mime.startsWith("video/") ? bytes.mime : "video/mp4",
+  );
+  return { url: dataUri };
 }
 
 export async function fetchVideoTaskStatus(

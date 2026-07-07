@@ -316,7 +316,10 @@ const defaultComponents = memoizeMarkdownComponents({
     const imgSrc = typeof src === "string" ? src : undefined;
     const inlayMediaId = alt?.startsWith("inlay:") ? alt.slice(6) : null;
     const isVideo =
-      !!imgSrc && /\.(mp4|webm|mov|avi|mkv)(\?.*)?$/i.test(imgSrc);
+      !!imgSrc &&
+      (alt === "video" ||
+        imgSrc.startsWith("data:video/") ||
+        /\.(mp4|webm|mov|avi|mkv)(\?.*)?$/i.test(imgSrc));
     const isAudio =
       !!imgSrc &&
       (imgSrc.startsWith("data:audio/") ||
