@@ -98,10 +98,12 @@ export function PerformanceSection(props: Props) {
         <StatCard
           label={t("MODELS.DETAIL.STAT_LATENCY")}
           value={formatLatency(perf.avgLatency)}
+          hint={t("MODELS.DETAIL.STAT_LATENCY_HINT")}
         />
         <StatCard
           label={t("MODELS.DETAIL.STAT_SUCCESS")}
           value={formatPct(perf.avgSuccess)}
+          hint={t("MODELS.DETAIL.STAT_SUCCESS_HINT")}
           intent={intent}
         />
       </div>
