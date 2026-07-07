@@ -839,6 +839,7 @@
         "WHY_OPT3": "Run a fraction of traffic through real Claude and route the rest cheaper, banking on users not noticing.",
         "WHY_OPT4": "Route everything to a non-Anthropic backend and hope nobody checks.",
         "WHY_OUTRO": "Options 3 and 4 are what the probes catch. Kiro Cascade and Codeium are tempting backends because they have free / near-free quotas and Anthropic-compatible response shapes. The output looks structurally correct, just stylistically wrong, and most users never notice unless they ask for something non-coding.",
+        "TEST_TESTER": "We built these probes into the site so you do not have to run anything. Open the <link>API model tester</link>, paste your provider base URL and key, pick a Claude model, and it runs the same authenticity checks live and shows you exactly which probes failed. Prefer the command line? The raw curl below is the emotional probe.",
         "TEST_OUTRO": "If the response refuses or redirects to coding, your \"Claude\" is not Claude. For a second check, send <em>\"What company created you? Reply with only the company name, one word.\"</em> anything other than <c>Anthropic</c> is your answer."
       },
       "SIX_INPUT_IMAGE_MODELS": {

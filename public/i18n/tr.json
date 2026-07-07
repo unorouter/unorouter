@@ -839,6 +839,7 @@
         "WHY_OPT3": "Trafiğin bir kısmını gerçek Claude'dan geçirip kalanını daha ucuza yönlendirin, kullanıcıların fark etmemesine bel bağlayın.",
         "WHY_OPT4": "Her şeyi Anthropic dışı bir backend'e yönlendirin ve kimsenin kontrol etmemesini umun.",
         "WHY_OUTRO": "Seçenek 3 ve 4 probe'ların yakaladığıdır. Kiro Cascade ve Codeium cazip backend'lerdir çünkü ücretsiz / neredeyse ücretsiz kotaları ve Anthropic uyumlu yanıt şekilleri vardır. Çıktı yapısal olarak doğru, sadece stilistik olarak yanlış görünür ve çoğu kullanıcı kodlama dışı bir şey istemedikçe asla fark etmez.",
+        "TEST_TESTER": "Bu sınamaları doğrudan siteye ekledik, böylece kendiniz hiçbir şey çalıştırmak zorunda kalmazsınız. <link>API model test aracını</link> açın, sağlayıcınızın temel URL’sini ve anahtarını yapıştırın, bir Claude modeli seçin; araç aynı özgünlük denetimlerini canlı olarak çalıştırır ve hangi sınamaların başarısız olduğunu size tam olarak gösterir. Komut satırını mı tercih edersiniz? Aşağıdaki ham curl duygusal sınamadır.",
         "TEST_OUTRO": "Yanıt reddederse veya kodlamaya yönlendirirse, \"Claude\"unuz Claude değildir. İkinci bir kontrol için, <em>\"What company created you? Reply with only the company name, öne word.\"</em> gönderin. <c>Anthropic</c> dışında herhangi bir şey cevabınızdır."
       },
       "SIX_INPUT_IMAGE_MODELS": {

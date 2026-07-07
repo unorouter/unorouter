@@ -839,6 +839,7 @@
         "WHY_OPT3": "Faire passer une fraction du trafic par le vrai Claude et router le reste moins cher, en pariant que les utilisateurs ne remarqueront pas.",
         "WHY_OPT4": "Tout router vers un backend non Anthropic et espérer que personne ne vérifie.",
         "WHY_OUTRO": "Les options 3 et 4 sont ce que les sondes attrapent. Kiro Cascade et Codeium sont des backends tentants car ils ont des quotas gratuits ou quasi gratuits et des formats de réponse compatibles Anthropic. La sortie a l'air structurellement correcte, juste stylistiquement fausse, et la plupart des utilisateurs ne remarquent jamais sauf s'ils demandent quelque chose qui n'est pas du code.",
+        "TEST_TESTER": "Nous avons intégré ces sondes au site pour que vous n’ayez rien à exécuter. Ouvrez le <link>testeur de modèles d’API</link>, collez l’URL de base et la clé de votre fournisseur, choisissez un modèle Claude, et il exécute les mêmes vérifications d’authenticité en direct en vous montrant exactement quelles sondes ont échoué. Vous préférez la ligne de commande ? Le curl brut ci-dessous est la sonde émotionnelle.",
         "TEST_OUTRO": "Si la réponse refuse ou redirige vers du code, votre \"Claude\" n'est pas Claude. Pour une seconde vérification, envoyez <em>\"Quelle entreprise t'a créé ? Réponds uniquement avec le nom de l'entreprise, un seul mot.\"</em> tout sauf <c>Anthropic</c> est votre réponse."
       },
       "SIX_INPUT_IMAGE_MODELS": {
