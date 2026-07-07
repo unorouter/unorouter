@@ -136,9 +136,8 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
 
   .post(
     "/:id/task/finalize",
-    async ({ params, body, cookie }) => {
-      const userId = await getUserId(cookie);
-      const data = await finalizeVideoTask(userId, params.id, body);
+    async ({ params, body }) => {
+      const data = await finalizeVideoTask(params.id, body);
       return { success: true, data };
     },
     { body: finalizeTaskBody },
