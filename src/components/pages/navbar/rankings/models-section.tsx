@@ -144,7 +144,7 @@ export function ModelsSection(props: ModelsSectionProps) {
           </div>
         ) : (
           <div className="px-5 pt-1 pb-4">
-            <ModelLeaderboard rows={props.rows} />
+            <ModelLeaderboard rows={props.rows} limit={20} />
           </div>
         )}
       </div>
