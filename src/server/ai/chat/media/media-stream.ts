@@ -111,23 +111,50 @@ function upstreamErrorMessage(raw: string, fallback: string): string {
   const text = raw.trim();
   if (!text) return fallback;
   try {
-    const parsed = JSON.parse(text) as unknown;
-    const stack: unknown[] = [parsed];
-    while (stack.length > 0) {
-      const node = stack.pop();
-      if (!node || typeof node !== "object") continue;
-      const obj = node as Record<string, unknown>;
-      if (typeof obj.message === "string" && obj.message.trim()) {
-        return obj.message.trim();
-      }
-      for (const key of ["error", "data"]) {
-        if (key in obj) stack.push(obj[key]);
-      }
-    }
+    return digErrorMessage(JSON.parse(text)) ?? text;
   } catch {
     return text;
   }
-  return text;
+}
+
+// digErrorMessage walks an arbitrary error value (parsed upstream JSON, or the
+// {status, data, headers} object customFetch throws on non-2xx) for the first
+// human-readable message.
+function digErrorMessage(value: unknown): string | null {
+  const stack: unknown[] = [value];
+  while (stack.length > 0) {
+    const node = stack.pop();
+    if (typeof node === "string") {
+      const s = node.trim();
+      if (s.startsWith("{") || s.startsWith("[")) {
+        try {
+          const found = digErrorMessage(JSON.parse(s));
+          if (found) return found;
+        } catch {}
+      }
+      continue;
+    }
+    if (!node || typeof node !== "object") continue;
+    const obj = node as Record<string, unknown>;
+    for (const key of ["message", "detail"]) {
+      if (typeof obj[key] === "string" && (obj[key] as string).trim()) {
+        return (obj[key] as string).trim();
+      }
+    }
+    for (const key of ["error", "data", "output", "response", "body"]) {
+      if (key in obj) stack.push(obj[key]);
+    }
+  }
+  return null;
+}
+
+// resolveThrownMessage turns anything thrown in a media handler (Error, the
+// customFetch {status, data} object, or a raw value) into a readable string.
+function resolveThrownMessage(err: unknown, fallback: string): string {
+  const dug = digErrorMessage(err);
+  if (dug) return dug;
+  if (err instanceof Error && err.message.trim()) return err.message;
+  return fallback;
 }
 
 function streamResponse(
@@ -146,7 +173,12 @@ function streamResponse(
           writer.write({ type: "start-step" });
           writer.write({
             type: "data-error",
-            data: { message: err instanceof Error ? err.message : String(err) },
+            data: {
+              message: resolveThrownMessage(
+                err,
+                msg("ERRORS.UNEXPECTED_ERROR"),
+              ),
+            },
           });
           writer.write({ type: "finish-step" });
           writer.write({ type: "finish", finishReason: "error" });
