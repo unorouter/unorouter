@@ -1,17 +1,19 @@
+"use client";
+
 import { Icon } from "@/components/ui/icon";
 import type { ModelMetadata } from "@/lib/api/pricing";
 import { cn } from "@/lib/utils";
 import { formatTokenCount } from "@/lib/utils/format/number";
 import { formatYearMonth } from "@/lib/utils/format/date";
-import { getTranslations } from "next-intl/server";
+import { useTranslations } from "next-intl";
 import { deriveCapabilityChips } from "./capability-helpers";
 import { ModelModalityChip } from "./model-modality-chip";
 
-export async function ModelHeaderChips(props: {
+export function ModelHeaderChips(props: {
   metadata: ModelMetadata;
   locale: string;
 }) {
-  const t = await getTranslations();
+  const t = useTranslations();
   const meta = props.metadata;
   const ctx = meta.contextWindow ?? meta.maxInputTokens;
   const out = meta.maxOutputTokens;
@@ -58,8 +60,8 @@ export async function ModelHeaderChips(props: {
   );
 }
 
-export async function ModelMetaStats(props: { metadata: ModelMetadata }) {
-  const t = await getTranslations();
+export function ModelMetaStats(props: { metadata: ModelMetadata }) {
+  const t = useTranslations();
   const meta = props.metadata;
   const reasoningLevels = meta.reasoningEfforts ?? [];
   const deprecationDate = formatYearMonth(meta.deprecationDate);
