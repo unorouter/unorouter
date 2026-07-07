@@ -53,7 +53,8 @@ export function extractErrorDetail(e: unknown): ErrorDetail {
       ? (parsed as { error: unknown }).error
       : parsed;
   const found = pickMessage(errObj) ?? pickMessage(body);
-  const message = found?.message || String((e as Error)?.message ?? e);
+  const message =
+    found?.message || stringifyError((e as Error)?.message ?? errObj ?? e);
 
   let code: string | undefined;
   if (errObj && typeof errObj === "object") {
@@ -83,15 +84,34 @@ function pickMessage(v: unknown): Extracted | null {
     return null;
   }
   if (v && typeof v === "object") {
-    const m = (v as { message?: unknown }).message;
-    if (typeof m === "string") {
-      return {
-        message: m,
-        params: asParams((v as { params?: unknown }).params),
-      };
+    const obj = v as Record<string, unknown>;
+    for (const key of ["message", "detail", "error_description"]) {
+      if (typeof obj[key] === "string" && (obj[key] as string).trim()) {
+        return {
+          message: obj[key] as string,
+          params: asParams(obj.params),
+        };
+      }
+    }
+    for (const key of ["error", "data", "body", "response"]) {
+      if (key in obj) {
+        const found = pickMessage(obj[key]);
+        if (found) return found;
+      }
     }
   }
   return null;
+}
+
+function stringifyError(v: unknown): string {
+  if (typeof v === "string" && v.trim()) return v;
+  if (v && typeof v === "object") {
+    try {
+      const json = JSON.stringify(v);
+      if (json && json !== "{}") return json;
+    } catch {}
+  }
+  return "ERRORS.UNEXPECTED_ERROR";
 }
 
 export async function handleError(
