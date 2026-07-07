@@ -3,45 +3,56 @@ networks:
     external: false
     name: proxy
 
+# Two identical replicas sharing ONE Traefik service label; the docker provider
+# aggregates same-service containers into one round-robin backend (no swarm, no
+# WRR file). The playground sweeper self-elects a single owner via a Turso lease,
+# so running it in both is safe.
+x-unorouter: &unorouter
+  restart: always
+  build:
+    context: ./
+    dockerfile: Dockerfile
+    target: prod
+  healthcheck:
+    test:
+      [
+        "CMD",
+        "wget",
+        "-q",
+        "-O",
+        "/dev/null",
+        "http://127.0.0.1:3000/api/ops/health",
+      ]
+    interval: 30s
+    timeout: 10s
+    retries: 3
+    start_period: 40s
+  env_file:
+    - .env
+  networks:
+    - proxy
+  labels:
+    - "autoheal=true"
+    - "traefik.enable=true"
+    - "traefik.docker.network=proxy"
+    - "traefik.http.routers.unorouter.rule=Host(`unorouter.com`) || Host(`www.unorouter.com`) || Host(`status.unorouter.com`) || Host(`www.status.unorouter.com`)"
+    - "traefik.http.routers.unorouter.entrypoints=websecure"
+    - "traefik.http.routers.unorouter.tls.certresolver=letsencrypt"
+    - "traefik.http.routers.unorouter.service=unorouter"
+    - "traefik.http.services.unorouter.loadbalancer.server.port=3000"
+    # PostHog reverse proxy (avoids ad blockers)
+    - "traefik.http.routers.posthog-proxy-uno.rule=Host(`${POSTHOG_PROXY_HOST}`)"
+    - "traefik.http.routers.posthog-proxy-uno.entrypoints=websecure"
+    - "traefik.http.routers.posthog-proxy-uno.tls.certresolver=letsencrypt"
+    - "traefik.http.routers.posthog-proxy-uno.service=posthog-ext-uno"
+    - "traefik.http.services.posthog-ext-uno.loadbalancer.server.url=https://eu.i.posthog.com"
+    - "traefik.http.services.posthog-ext-uno.loadbalancer.passHostHeader=false"
+
 services:
-  unorouter:
-    container_name: unorouter
-    restart: always
-    build:
-      context: ./
-      dockerfile: Dockerfile
-      target: prod
-    healthcheck:
-      test:
-        [
-          "CMD",
-          "wget",
-          "-q",
-          "-O",
-          "/dev/null",
-          "http://127.0.0.1:3000/api/ops/health",
-        ]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
-    env_file:
-      - .env
-    networks:
-      - proxy
-    labels:
-      - "autoheal=true"
-      - "traefik.enable=true"
-      - "traefik.docker.network=proxy"
-      - "traefik.http.routers.unorouter.rule=Host(`unorouter.com`) || Host(`www.unorouter.com`) || Host(`status.unorouter.com`) || Host(`www.status.unorouter.com`)"
-      - "traefik.http.routers.unorouter.entrypoints=websecure"
-      - "traefik.http.routers.unorouter.tls.certresolver=letsencrypt"
-      - "traefik.http.routers.unorouter.service=unorouter"
-      - "traefik.http.services.unorouter.loadbalancer.server.port=3000"
-      # PostHog reverse proxy (avoids ad blockers)
-      - "traefik.http.routers.posthog-proxy-uno.rule=Host(`${POSTHOG_PROXY_HOST}`)"
-      - "traefik.http.routers.posthog-proxy-uno.entrypoints=websecure"
-      - "traefik.http.routers.posthog-proxy-uno.tls.certresolver=letsencrypt"
-      - "traefik.http.routers.posthog-proxy-uno.service=posthog-ext-uno"
-      - "traefik.http.services.posthog-ext-uno.loadbalancer.server.url=https://eu.i.posthog.com"
-      - "traefik.http.services.posthog-ext-uno.loadbalancer.passHostHeader=false"
+  unorouter-a:
+    <<: *unorouter
+    container_name: unorouter-a
+
+  unorouter-b:
+    <<: *unorouter
+    container_name: unorouter-b

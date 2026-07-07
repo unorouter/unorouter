@@ -122,6 +122,12 @@ export const upscalerCatalog = sqliteTable(
   ],
 );
 
+export const instanceLeases = sqliteTable("instance_leases", {
+  name: text("name").primaryKey(),
+  holder: text("holder").notNull(),
+  expiresAt: integer("expires_at", { mode: "timestamp_ms" }).notNull(),
+});
+
 export type AcpCheckoutSession = typeof acpCheckoutSessions.$inferSelect;
 export type ModelCatalogEntry = typeof modelCatalog.$inferSelect;
 export type LoraCatalogEntry = typeof loraCatalog.$inferSelect;
