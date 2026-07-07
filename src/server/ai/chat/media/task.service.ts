@@ -82,6 +82,7 @@ export async function submitVideoTask(
   const res = await postV1VideoGenerations({
     headers: {
       Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
       ...(group && group !== "auto" ? { "X-Group": group } : {}),
     },
     body: JSON.stringify({ model, prompt }),
