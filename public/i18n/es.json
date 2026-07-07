@@ -839,6 +839,7 @@
         "WHY_OPT3": "Pasar una fracción del tráfico por Claude real y enrutar el resto más barato, apostando a que los usuarios no lo noten.",
         "WHY_OPT4": "Enrutar todo a un backend no-Anthropic y esperar que nadie verifique.",
         "WHY_OUTRO": "Las opciones 3 y 4 son las que las sondas detectan. Kiro Cascade y Codeium son backends tentadores porque tienen cuotas gratuitas / casi gratuitas y formas de respuesta compatibles con Anthropic. La salida luce estructuralmente correcta, solo estilísticamente incorrecta, y la mayoría de usuarios nunca lo notan a menos que pidan algo no relacionado con codificación.",
+        "TEST_TESTER": "Integramos estas pruebas en el sitio para que no tengas que ejecutar nada. Abre el <link>probador de modelos de API</link>, pega la URL base y la clave de tu proveedor, elige un modelo Claude y ejecutará las mismas comprobaciones de autenticidad en vivo, mostrándote exactamente qué pruebas fallaron. ¿Prefieres la línea de comandos? El curl de abajo es la prueba emocional.",
         "TEST_OUTRO": "Si la respuesta rechaza o redirige a codificación, tu \"Claude\" no es Claude. Para una segunda verificación, envía <em>\"¿Qué empresa te creó? Responde solo con el nombre de la empresa, una palabra.\"</em> cualquier cosa distinta de <c>Anthropic</c> es tu respuesta."
       },
       "SIX_INPUT_IMAGE_MODELS": {

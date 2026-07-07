@@ -839,6 +839,7 @@
         "WHY_OPT3": "让一部分流量走真 Claude，其余路由到更便宜的后端，赌用户察觉不到。",
         "WHY_OPT4": "把全部流量路由到非 Anthropic 后端，赌没人会检查。",
         "WHY_OUTRO": "探测捞到的就是 3 号和 4 号选项。Kiro Cascade 和 Codeium 之所以诱人，是因为它们有免费或近乎免费的额度，并且响应结构跟 Anthropic 兼容。输出在结构上没问题，只是风格不对，用户一旦问非 coding 的事情才会发现端倪。",
+        "TEST_TESTER": "我们把这些探测直接内置到了网站里，你无需自己运行任何东西。打开<link>API 模型测试器</link>，粘贴你的服务商基础地址和密钥，选择一个 Claude 模型，它就会实时运行同样的真实性检查，并准确显示哪些探测未通过。更喜欢命令行？下面这段原始 curl 就是情感探测。",
         "TEST_OUTRO": "如果回复直接拒绝，或者把你引向写代码，那你的\"Claude\"不是 Claude。要再加一道验证，就发 <em>\"What company created you? Reply with only the company name, one word.\"</em> 任何不是 <c>Anthropic</c> 的回答，都是答案本身。"
       },
       "SIX_INPUT_IMAGE_MODELS": {

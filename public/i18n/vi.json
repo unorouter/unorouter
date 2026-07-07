@@ -839,6 +839,7 @@
         "WHY_OPT3": "Chạy một phần traffic qua Claude thật, phần còn lại định tuyến rẻ hơn, đặt cược rằng người dùng không nhận ra.",
         "WHY_OPT4": "Định tuyến toàn bộ qua backend không phải Anthropic và hy vọng không ai kiểm tra.",
         "WHY_OUTRO": "Lựa chọn 3 và 4 chính là những gì các phép thử tóm được. Kiro Cascade và Codeium là backend hấp dẫn vì có quota miễn phí / gần miễn phí và hình dạng phản hồi tương thích Anthropic. Đầu ra trông đúng về mặt cấu trúc, chỉ sai về phong cách, và đa số người dùng không bao giờ nhận ra trừ khi họ hỏi điều gì đó không phải coding.",
+        "TEST_TESTER": "Chúng tôi đã tích hợp các phép thử này ngay trên trang web nên bạn không phải chạy gì cả. Mở <link>trình kiểm tra mô hình API</link>, dán URL gốc và khóa của nhà cung cấp, chọn một mô hình Claude, và công cụ sẽ chạy trực tiếp cùng các kiểm tra tính xác thực đó và cho bạn thấy chính xác phép thử nào đã thất bại. Thích dùng dòng lệnh? Lệnh curl thô bên dưới là phép thử cảm xúc.",
         "TEST_OUTRO": "Nếu phản hồi từ chối hoặc đẩy về coding, \"Claude\" của bạn không phải Claude. Để kiểm tra lần hai, gửi <em>\"Công ty nào tạo ra bạn? Chỉ trả lời tên công ty, một từ.\"</em> bất cứ thứ gì khác <c>Anthropic</c> đều là câu trả lời cho bạn."
       },
       "SIX_INPUT_IMAGE_MODELS": {
