@@ -119,6 +119,7 @@ export function LocalDbStudio(props: Props) {
       );
       setTimeout(() => location.reload(), 1200);
     } catch (err) {
+      logChatDebug("opfs.import.error", { error: String(err).slice(0, 200) });
       logger.error("DB reconcile-import failed", {
         context: "local-db.studio",
         error: String(err),

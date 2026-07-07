@@ -163,7 +163,11 @@ export async function buildDiagnosticsHead(
   try {
     const est = await navigator.storage?.estimate?.();
     if (est) dbInfo.storageEstimate = { usage: est.usage, quota: est.quota };
-  } catch {}
+  } catch (e) {
+    logChatDebug("diagnostics.storage_estimate_failed", {
+      error: String(e).slice(0, 200),
+    });
+  }
 
   const convs = (await readLocalConversations(userId)) ?? [];
   const settingsById = new Map<string, Record<string, unknown>>();

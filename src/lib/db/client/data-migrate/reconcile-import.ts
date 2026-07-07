@@ -151,8 +151,23 @@ export async function reconcileImport(
   } finally {
     try {
       await scratch?.deleteDatabaseFile();
-    } catch {}
-    await scratch?.destroy().catch(() => {});
-    await live?.destroy().catch(() => {});
+    } catch (err) {
+      logChatDebug("import.reconcile.cleanup_failed", {
+        handle: "scratch.delete",
+        error: String(err).slice(0, 200),
+      });
+    }
+    await scratch?.destroy().catch((err) =>
+      logChatDebug("import.reconcile.cleanup_failed", {
+        handle: "scratch.destroy",
+        error: String(err).slice(0, 200),
+      }),
+    );
+    await live?.destroy().catch((err) =>
+      logChatDebug("import.reconcile.cleanup_failed", {
+        handle: "live.destroy",
+        error: String(err).slice(0, 200),
+      }),
+    );
   }
 }

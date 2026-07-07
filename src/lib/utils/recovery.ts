@@ -9,13 +9,23 @@ export async function clearAllClientStorage() {
       document.cookie = `${name}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
       document.cookie = `${name}=; path=/; domain=${location.hostname}; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
     }
-  } catch {}
+  } catch (err) {
+    logChatDebug("recovery.cookies_failed", { error: String(err).slice(0, 200) });
+  }
   try {
     localStorage.clear();
-  } catch {}
+  } catch (err) {
+    logChatDebug("recovery.localstorage_failed", {
+      error: String(err).slice(0, 200),
+    });
+  }
   try {
     sessionStorage.clear();
-  } catch {}
+  } catch (err) {
+    logChatDebug("recovery.sessionstorage_failed", {
+      error: String(err).slice(0, 200),
+    });
+  }
   try {
     const root = await navigator.storage?.getDirectory?.();
     if (root) {
@@ -23,7 +33,9 @@ export async function clearAllClientStorage() {
         await root.removeEntry(name, { recursive: true }).catch(() => {});
       }
     }
-  } catch {}
+  } catch (err) {
+    logChatDebug("recovery.opfs_failed", { error: String(err).slice(0, 200) });
+  }
   try {
     if (window.indexedDB?.databases) {
       const dbs = await window.indexedDB.databases();
@@ -31,11 +43,15 @@ export async function clearAllClientStorage() {
         if (db.name) window.indexedDB.deleteDatabase(db.name);
       }
     }
-  } catch {}
+  } catch (err) {
+    logChatDebug("recovery.idb_failed", { error: String(err).slice(0, 200) });
+  }
   try {
     const keys = await caches?.keys?.();
     if (keys) await Promise.all(keys.map((k) => caches.delete(k)));
-  } catch {}
+  } catch (err) {
+    logChatDebug("recovery.caches_failed", { error: String(err).slice(0, 200) });
+  }
 }
 
 export function formatError(error: Error & { digest?: string }) {
