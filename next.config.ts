@@ -126,13 +126,14 @@ const nextConfig: NextConfig = {
       { source: "/api/ops/badge/:path*", headers: corpCrossOrigin },
       { source: "/_next/static/:path*", headers: corpSameOrigin },
       { source: "/api/:path((?!ops/badge).*)", headers: corpSameOrigin },
-      // Force revalidation on the SW route so new SW versions propagate on
-      // deploy (a year-long s-maxage once poisoned the edge cache and would not
-      // purge; the route is force-dynamic now + this no-cache prevents recurrence).
+      // Never store the SW route so new SW versions propagate on deploy (a year-long s-maxage once
+      // poisoned the edge cache and would not purge; Serwist's own handler emits max-age=14400 which
+      // this and the route wrapper override). A stored SW keeps serving a stale precache manifest
+      // whose chunk hashes 404 after the next deploy.
       {
         source: "/sw-worker/:path*",
         headers: [
-          { key: "Cache-Control", value: "no-cache, must-revalidate" },
+          { key: "Cache-Control", value: "no-store, must-revalidate" },
           { key: "Cross-Origin-Resource-Policy", value: "same-origin" },
         ],
       },

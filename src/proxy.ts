@@ -13,7 +13,7 @@ export default function proxy(request: NextRequest) {
   if (pathname.startsWith("/sw-worker/")) {
     const res = NextResponse.next();
     res.headers.set("Cross-Origin-Resource-Policy", "same-origin");
-    res.headers.set("Cache-Control", "no-cache, must-revalidate");
+    res.headers.set("Cache-Control", "no-store, must-revalidate");
     return res;
   }
 
