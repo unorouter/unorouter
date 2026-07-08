@@ -58,6 +58,20 @@ export async function clearAllClientStorage() {
   }
 }
 
+// A code-split chunk failed to load: stale HTML from a previous build references a chunk the current
+// build replaced. Matches Turbopack/webpack ChunkLoadError + the dynamic-import fetch failure variants.
+export function isChunkLoadError(error: unknown): boolean {
+  if (!error || typeof error !== "object") return false;
+  const name = (error as { name?: string }).name ?? "";
+  const message = (error as { message?: string }).message ?? "";
+  return (
+    name === "ChunkLoadError" ||
+    /Loading chunk [\w-]+ failed|Failed to load chunk|dynamically imported module|Importing a module script failed/i.test(
+      message,
+    )
+  );
+}
+
 export function formatError(error: Error & { digest?: string }) {
   const parts = [
     `Name: ${error.name ?? "Error"}`,
