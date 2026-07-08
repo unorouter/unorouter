@@ -66,6 +66,13 @@ export const VENDOR_LOADERS: Partial<Record<Vendor, IconLoader>> = {
     import("@/components/elements/brand/jetbrains-icon"),
   [Vendor.INCEPTION]: () => import("@lobehub/icons/es/Inception"),
   [Vendor.KINFRA]: () => import("@lobehub/icons/es/Tencent"),
+  [Vendor.SPEAKLEASH]: () =>
+    import("@/components/elements/brand/speakleash-icon"),
+  [Vendor.PLLUM]: () => import("@/components/elements/brand/pllum-icon"),
+  [Vendor.VILLANOVA]: () =>
+    import("@/components/elements/brand/villanova-icon"),
+  [Vendor.DEEPREINFORCE]: () =>
+    import("@/components/elements/brand/deepreinforce-icon"),
   [Vendor.MICROSOFT]: () => import("@lobehub/icons/es/Microsoft"),
   [Vendor.MYSHELL]: () => import("@lobehub/icons/es/MyShell"),
   [Vendor.DEEPGRAM]: () => import("@/components/elements/brand/deepgram-icon"),
