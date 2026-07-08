@@ -55,6 +55,7 @@ export enum Vendor {
   SDAIA = "sdaia",
   BAAI = "baai",
   IBM = "ibm",
+  JETBRAINS = "jetbrains",
   MICROSOFT = "microsoft",
   DEEPGRAM = "deepgram",
   MYSHELL = "myshell",

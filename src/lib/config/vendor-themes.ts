@@ -266,6 +266,14 @@ const VENDOR_THEMES: Record<string, VendorTheme> = {
     tagBorder: "border-blue-500/20",
     primary: "#1261fe",
   },
+  [Vendor.JETBRAINS]: {
+    bg: "bg-fuchsia-500/5",
+    border: "border-fuchsia-500/20",
+    text: "text-fuchsia-700 dark:text-fuchsia-300",
+    tagBg: "bg-fuchsia-500/10",
+    tagBorder: "border-fuchsia-500/20",
+    primary: "#fe315b",
+  },
   [Vendor.MICROSOFT]: {
     bg: "bg-sky-500/5",
     border: "border-sky-500/20",
