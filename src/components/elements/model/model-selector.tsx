@@ -40,7 +40,6 @@ const AUTO_GROUP = "auto";
 type ModelSelectorProps = {
   value: string | null;
   onChange: (model: string) => void;
-  // Nested billing-group control (null == auto). Group bar hidden for guests.
   group: string | null;
   onGroupChange: (group: string | null) => void;
 };
@@ -63,7 +62,6 @@ export function ModelSelector(props: ModelSelectorProps) {
   const customProviders = customProvidersQuery.data ?? [];
 
   const selected = models.find((m) => m.name === props.value);
-  // Custom model selected: resolve its provider + label for the trigger display.
   const selectedCustom = props.value ? parseCustomModelId(props.value) : null;
   const selectedCustomProvider = selectedCustom
     ? customProviders.find((p) => p.id === selectedCustom.providerId)
@@ -76,12 +74,9 @@ export function ModelSelector(props: ModelSelectorProps) {
   const triggerLabel = selectedCustomProvider
     ? `${selectedCustomProvider.name} / ${selectedCustomLabel}`
     : props.value || t("CHAT.MODEL.SELECT");
-  // Value set but absent from the catalog + not a custom id: upstream temporarily dropped this model
-  // (ratelimited/disabled). Show a placeholder icon instead of no icon; the pick is preserved.
   const selectedUnavailable =
     !!props.value && !selected && !selectedCustom && pricingQuery.isSuccess;
 
-  // Per-user private groups from prefetched /account/self; each routes only on the models it serves.
   const privateGroups = authQuery.data?.private_groups ?? [];
   const groupRatioMap: Record<string, number> = {
     ...pricingData?.groupRatioMap,
@@ -93,7 +88,6 @@ export function ModelSelector(props: ModelSelectorProps) {
         .filter((pg) => (pg.models ?? []).includes(props.value!))
         .map((pg) => pg.group)
     : [];
-  // Empty enableGroups = all priced groups allowed; add the private groups serving the selected model.
   const candidateGroups = [
     ...new Set([
       ...(enableGroups.length ? enableGroups : Object.keys(groupRatioMap)),
@@ -105,7 +99,6 @@ export function ModelSelector(props: ModelSelectorProps) {
     ? groupEntries.find((e) => e.group === props.group)
     : null;
 
-  // Reset group to auto when the new model no longer supports the picked one.
   useEffect(() => {
     if (!props.group || props.group === AUTO_GROUP) return;
     if (enableGroups.length > 0 && !enableGroups.includes(props.group)) {
@@ -114,16 +107,11 @@ export function ModelSelector(props: ModelSelectorProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps -- only re-run on model change
   }, [props.value]);
 
-  // Auto-select a random free model (text preferred) when none is selected or the current pick isn't usable.
   useEffect(() => {
     if (models.length === 0) return;
-    // A custom-provider model is a valid intentional pick; never override it.
     if (isCustomModelId(props.value)) return;
     const current = models.find((m) => m.name === props.value);
     if (current && (isLoggedIn || current.isFree)) return;
-    // A non-empty value that just isn't in the current pricing snapshot is a model upstream temporarily
-    // dropped (ratelimited/disabled). Keep the user's pick; it reappears when the model comes back. Only
-    // auto-pick for an EMPTY value or a found-but-not-usable one (a guest on a paid model).
     if (props.value && !current) return;
 
     const freeText = models.filter((m) => m.isFree && m.type === "text");
@@ -272,7 +260,6 @@ export function ModelSelector(props: ModelSelectorProps) {
               <CommandGroup heading={t("CHAT.MODEL.CUSTOM_PROVIDERS")}>
                 {customProviders.flatMap((provider) =>
                   provider.models
-                    // Image-typed models belong to the illustrator's image picker, not the chat model list.
                     .filter((model) => model.type !== "image")
                     .map((model) => {
                       const id = makeCustomModelId(provider.id, model.key);

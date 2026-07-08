@@ -29,7 +29,6 @@ export function useTestHistory() {
   });
 }
 
-// Level 1: the user's providers (grouped by host).
 export function useHistoryProviders() {
   const userId = useLocalUserId();
   return useQuery({
@@ -38,7 +37,6 @@ export function useHistoryProviders() {
   });
 }
 
-// Level 2: one provider's models.
 export function useHistoryModels(host: string) {
   const userId = useLocalUserId();
   return useQuery({
@@ -47,8 +45,6 @@ export function useHistoryModels(host: string) {
   });
 }
 
-// Level 3: every test for one provider+model, WITH probes, so each test renders
-// inline as an accordion (no deeper click into a per-test page).
 export function useHistoryModelTests(host: string, model: string) {
   const userId = useLocalUserId();
   return useQuery({
@@ -68,8 +64,6 @@ export function useTestDetail(testId: string | undefined) {
   });
 }
 
-// Persist a finished LOCAL test to history. Local tests are never published -
-// the client-side verdict is forgeable, so it stays on the user's device only.
 export function useCreateTest() {
   const userId = useLocalUserId();
   return useApiMutation<string, { result: VerifyResult }>({
@@ -100,10 +94,6 @@ export type VerifyPublishResult =
   | { published: true; result: VerifyResult }
   | { published: false; deduped?: true; error?: string };
 
-// Server-verified publish: sends the key to the backend, which runs the WHOLE
-// test itself and stores its own verdict. This is the only way onto the public
-// board, so the leaderboard cannot be forged. The server-computed result is also
-// kept in the user's LOCAL history (marked published).
 export function useVerifyAndPublish() {
   const userId = useLocalUserId();
   return useApiMutation<VerifyPublishResult, VerifyPublishVars>({

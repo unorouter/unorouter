@@ -94,7 +94,6 @@ export function OutputFormatField(props: {
   );
 }
 
-// FormField wrapper for one numeric param slider; label feeds both the FormLabel and the controls' aria-labels.
 export function SliderParamField(props: {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- generic RHF control across param forms
   control: any;
@@ -133,7 +132,6 @@ export function SliderWithInput(props: {
   min: number;
   max: number;
   step: number;
-  // Visible FormLabel is not aria-associated with the two controls; name both.
   label: string;
   onChange: (v: number) => void;
 }) {

@@ -3,7 +3,6 @@ import { OAUTH_SCOPES } from "@/lib/config/oauth-scopes";
 
 export const dynamic = "force-static";
 
-// RFC 9728 RS metadata; authorization_servers points at the API origin (RFC 8414 doc, go-oidc).
 export function GET() {
   const body = {
     resource: env.siteOrigin,

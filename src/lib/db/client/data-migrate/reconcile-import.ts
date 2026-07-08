@@ -1,10 +1,5 @@
 "use client";
 
-// Import a foreign SQLite dump into a FRESH current-schema DB (not a raw byte-overwrite, which adopts the
-// dump's drift). Forward-migrate the dump in a scratch DB, then copy each table into a clean live DB over the
-// column intersection with INSERT OR IGNORE - rows the tightened schema rejects are tallied as skipped, never
-// silently lost. No cross-instance ATTACH in SQLocal, so rows move through JS in batches.
-
 import { env } from "@/lib/config/env";
 import { GUEST_USER_ID } from "@/lib/config/constants";
 import { LOCAL_ONLY_TABLES } from "@/lib/db/schema/client";
@@ -17,7 +12,6 @@ export type ReconcileImportResult = {
   imported: number;
   skipped: number;
   tables: number;
-  // Per-table breakdown of rows the current schema rejected (only tables with skips).
   skippedByTable: { table: string; skipped: number }[];
 };
 
@@ -47,12 +41,8 @@ async function countRows(sql: SQLocalDrizzle, table: string): Promise<number> {
   return rows[0]?.n ?? 0;
 }
 
-// Rewritten to the current session id on every row: a dump from another account would otherwise be
-// invisible to scopeUser queries (which filter user_id = current session).
 const USER_ID_COL = "user_id";
 
-// Copy a table over the shared column set (user_id remapped); INSERT OR IGNORE drops schema-rejected rows.
-// Returns rows actually inserted so the caller can tally skips.
 async function copyTable(
   source: SQLocalDrizzle,
   target: SQLocalDrizzle,
@@ -74,7 +64,6 @@ async function copyTable(
     const params: unknown[] = [];
     for (const row of batch) {
       for (const c of cols) {
-        // Override the foreign user_id with the current session's id; everything else copies verbatim.
         params.push(c === USER_ID_COL ? targetUserId : (row[c] ?? null));
       }
     }
@@ -112,12 +101,10 @@ export async function reconcileImport(
     bytes: buffer.byteLength,
   });
   try {
-    // 1. Forward-migrate the uploaded dump in isolation.
     scratch = newSql(scratchPath);
     await scratch.overwriteDatabaseFile(buffer);
     await runMigrations(scratch);
 
-    // 2. Fresh current-schema live DB (wipe whatever is there, recreate from migrations).
     live = newSql(livePath);
     await live.sql`PRAGMA foreign_keys = OFF`;
     for (const table of await tableNames(live)) {
@@ -125,7 +112,6 @@ export async function reconcileImport(
     }
     await runMigrations(live);
 
-    // 3. Copy records, table by table, over the shared column set. FK off so child rows can land before parents.
     await live.sql`PRAGMA foreign_keys = OFF`;
     const sourceTables = new Set(await tableNames(scratch));
     for (const table of await tableNames(live)) {
@@ -163,13 +149,25 @@ export async function reconcileImport(
     });
     throw err;
   } finally {
-    // Drop the scratch file + both worker handles; the caller reloads against the fresh live DB.
     try {
       await scratch?.deleteDatabaseFile();
-    } catch {
-      /* best-effort scratch cleanup */
+    } catch (err) {
+      logChatDebug("import.reconcile.cleanup_failed", {
+        handle: "scratch.delete",
+        error: String(err).slice(0, 200),
+      });
     }
-    await scratch?.destroy().catch(() => {});
-    await live?.destroy().catch(() => {});
+    await scratch?.destroy().catch((err) =>
+      logChatDebug("import.reconcile.cleanup_failed", {
+        handle: "scratch.destroy",
+        error: String(err).slice(0, 200),
+      }),
+    );
+    await live?.destroy().catch((err) =>
+      logChatDebug("import.reconcile.cleanup_failed", {
+        handle: "live.destroy",
+        error: String(err).slice(0, 200),
+      }),
+    );
   }
 }

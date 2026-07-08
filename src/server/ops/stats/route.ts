@@ -4,7 +4,6 @@ import { Elysia } from "elysia";
 import { ADMIN_HEADERS } from "@/server/constants";
 import { FAR_FUTURE } from "@/lib/config/constants";
 
-// The quota-dates payload exceeds the Next data cache 2MB limit, so PUBLIC_CACHE never stored it. Cache the computed summary in-module instead.
 const SUMMARY_TTL_MS = 5 * 60 * 1000;
 let cached: { at: number; value: HistorySummary } | null = null;
 
@@ -27,7 +26,6 @@ async function computeSummary(): Promise<HistorySummary> {
   const requestCount = data.reduce((s, d) => s + (d?.count ?? 0), 0);
   const tokenUsed = data.reduce((s, d) => s + (d?.token_used ?? 0), 0);
 
-  // Avg TPM: total tokens / time span from first data point to now
   let avgTpm = 0;
   if (data.length > 0) {
     const earliest = Math.min(...data.map((d) => d?.created_at ?? 0));

@@ -19,7 +19,6 @@ import type { IntegrationIconKey } from "./integrations";
 
 type LobeIcon = ComponentType<{ className?: string; size?: number }>;
 
-/** lucide names for tools without a lobehub brand icon or a logo file. */
 const ICON_NAMES: Partial<Record<IntegrationIconKey, IconName>> = {
   "cc-switch": "arrow-left-right",
   "janitor-ai": "broom",
@@ -27,7 +26,6 @@ const ICON_NAMES: Partial<Record<IntegrationIconKey, IconName>> = {
   chub: "heart",
 };
 
-/** lobehub brand components, keyed by iconKey. */
 const ICON_COMPONENTS: Partial<Record<IntegrationIconKey, LobeIcon>> = {
   "claude-code": ClaudeCode.Color,
   codex: Codex.Color,
@@ -44,16 +42,12 @@ const ICON_COMPONENTS: Partial<Record<IntegrationIconKey, LobeIcon>> = {
   hermes: HermesAgent,
 };
 
-// Icon source order: self-hosted logoSrc, lucide name, lobehub brand component. Shared by docs index cards and the guide hero.
 export function GuideIcon(props: {
   iconKey: IntegrationIconKey;
   logoSrc?: string;
   logoBg?: boolean;
-  /** Mono logo: render via CSS mask in currentColor so it adapts to theme. */
   logoMono?: boolean;
-  /** Tailwind text-color class for the lucide/mono fallback. */
   accentClass?: string;
-  /** Pixel size for img/lobehub/lucide. Default 48. */
   size?: number;
 }) {
   const size = props.size ?? 48;

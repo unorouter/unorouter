@@ -312,7 +312,11 @@ export function ConsumptionChart() {
                     fontSize={10}
                     fontFamily="monospace"
                   />
+                  {/* Quota ($) and Count (requests) are different units; split axes so
+                      the tiny quota line is not flattened by the large count and Count
+                      is never dollar-labeled. */}
                   <YAxis
+                    yAxisId="quota"
                     tickLine={false}
                     axisLine={false}
                     fontSize={10}
@@ -320,13 +324,30 @@ export function ConsumptionChart() {
                     allowDecimals
                     tickFormatter={formatPrice}
                   />
+                  <YAxis
+                    yAxisId="count"
+                    orientation="right"
+                    tickLine={false}
+                    axisLine={false}
+                    fontSize={10}
+                    fontFamily="monospace"
+                    allowDecimals={false}
+                    tickFormatter={(v: number) => v.toLocaleString()}
+                  />
                   <ChartTooltip
                     content={
-                      <ChartTooltipContent valueFormatter={formatPrice} />
+                      <ChartTooltipContent
+                        valueFormatter={(value, name) =>
+                          name === "count"
+                            ? value.toLocaleString()
+                            : formatPrice(value)
+                        }
+                      />
                     }
                   />
                   <ChartLegend content={<ChartLegendContent />} />
                   <Line
+                    yAxisId="quota"
                     type="monotone"
                     dataKey="quota"
                     stroke="var(--color-chart-1)"
@@ -334,6 +355,7 @@ export function ConsumptionChart() {
                     dot={false}
                   />
                   <Line
+                    yAxisId="count"
                     type="monotone"
                     dataKey="count"
                     stroke="var(--color-chart-2)"

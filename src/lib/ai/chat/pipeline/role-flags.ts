@@ -1,5 +1,3 @@
-// Pipeline-facing shim over the provider adapter layer (flag data + matching live in src/lib/ai/providers/).
-
 import { resolveAdapter } from "@/lib/ai/providers/registry";
 import type { ModelRoleFlags } from "@/lib/ai/providers/types";
 

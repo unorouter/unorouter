@@ -14,12 +14,8 @@ import {
 
 type SamplingFieldsProps<TForm extends Record<string, unknown>> = {
   control: Control<TForm>;
-  // Maps each sampling field to its path in the host form.
   names: Record<SamplingFieldName, Path<TForm>>;
   metadata?: ModelMetadata;
-  // The active model's EFFECTIVE output cap (model maxOutputTokens, or the free/unknown cap). When set, the
-  // max_tokens slider is clamped to it + the label shows it, so a "maxed" value reflects what actually applies
-  // at request time (free models cap at 8192, unknown at 4096) instead of a misleading higher number.
   maxTokensCap?: number;
   onReset?: () => void;
 };
@@ -30,10 +26,8 @@ export function SamplingFields<TForm extends Record<string, unknown>>(
   const t = useTranslations();
 
   const supported = props.metadata?.supportedParameters;
-  // Gate only when supported set is known; absent metadata enables all (non-OR/pre-sync fallback).
   const isUnsupported = (apiKey: string): boolean => {
     if (!supported || supported.length === 0) return false;
-    // OAI variant `max_completion_tokens` also satisfies the max_tokens slider.
     if (apiKey === "max_tokens") {
       return (
         !supported.includes("max_tokens") &&
@@ -67,7 +61,6 @@ export function SamplingFields<TForm extends Record<string, unknown>>(
       <div className="flex flex-col gap-4">
         {SAMPLING_PARAMS.map((param) => {
           const disabled = isUnsupported(param.apiKey);
-          // Clamp the max_tokens slider to the model's effective output cap + show it in the label.
           const capped =
             param.apiKey === "max_tokens" &&
             props.maxTokensCap != null &&

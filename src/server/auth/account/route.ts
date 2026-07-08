@@ -104,7 +104,6 @@ export const authRoute = new Elysia({ prefix: "/account" })
   .get(
     "/oauth/callback",
     async ({ query, cookie, set }) => {
-      // Failed bind/login bounces back with ?error instead of a code; surface it on settings. encodeURIComponent guards param injection.
       if (query.error) {
         set.status = 302;
         set.headers.location = `/settings?bind_error=${encodeURIComponent(
@@ -114,7 +113,6 @@ export const authRoute = new Elysia({ prefix: "/account" })
       }
       if (!query.code) return redirect("/login");
 
-      // Missing/expired/redeemed code makes the exchange throw; treat any failure as invalid and bounce to login.
       let res;
       try {
         res = await exchangeOAuthCode({ code: query.code });
@@ -126,7 +124,6 @@ export const authRoute = new Elysia({ prefix: "/account" })
 
       const data = res.data.data;
 
-      // Bind flow: user is already logged in, just redirect to settings
       if (data.action === "bind") {
         set.status = 302;
         set.headers.location = "/settings";

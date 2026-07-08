@@ -9,7 +9,6 @@ import type {
 } from "@/components/ui/theme/theme-store";
 import { useTranslations } from "next-intl";
 
-// Chat message font scale (accessibility). 1 = default; scales only message text.
 const FONT_SCALE_MIN = 0.85;
 const FONT_SCALE_MAX = 1.6;
 const FONT_SCALE_STEP = 0.05;
@@ -86,7 +85,6 @@ const SURFACE_FIELDS = [
 ] as const;
 
 export function SurfaceColorsSection(props: {
-  // Surface colors for the currently-edited scheme (light or dark).
   surface: SurfaceColors | undefined;
   mode: "light" | "dark";
   onModeChange: (mode: "light" | "dark") => void;

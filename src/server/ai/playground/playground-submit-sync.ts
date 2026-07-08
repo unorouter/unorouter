@@ -10,7 +10,6 @@ import type { PlaygroundSubmitBody } from "@/lib/validation/playground";
 import { upstreamApiUrl } from "@/server/constants";
 import { type GeneratedImage, paramsToSize } from "./playground-finalize";
 
-// Sync endpoints answer immediately; server returns inline bytes for client persist.
 export async function submitSyncImage(args: {
   apiKey: string;
   body: PlaygroundSubmitBody;

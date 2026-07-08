@@ -66,7 +66,6 @@ export function PresetCards(props: {
       key: "code",
       title: t("MODELS.COMPARE.PRESET_CODE"),
       desc: t("MODELS.COMPARE.PRESET_CODE_DESC"),
-      // Fall back to top text models so the card never disappears when no model is code-tagged.
       names:
         codeNames.length > 0
           ? codeNames

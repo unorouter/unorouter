@@ -1,6 +1,5 @@
 import type { IconComponent } from "@/lib/config/vendor-icons";
 
-// NavyAI (api.navy). No packaged brand mark; inline "N" monogram stand-in.
 const NavyAiIcon: IconComponent = (props) => (
   <svg
     role="img"

@@ -1,5 +1,3 @@
-// VENDOR_LOADERS=client React; VENDOR_SVGS=satori inline. Tree-shakes per bundle.
-
 import type { ComponentType } from "react";
 
 import { Vendor } from "@/lib/types/enums";
@@ -45,7 +43,6 @@ function pickVariant(v: Record<string, string>): string {
     .replace(/fill:[^;"}]+(;|(?=["}]))/g, "");
 }
 
-// Full-color variant, fills intact. For social banners where brand color matters.
 function pickColorVariant(v: Record<string, string>): string {
   return v.color ?? v.default ?? v.light ?? v.mono;
 }
@@ -65,6 +62,17 @@ export const VENDOR_LOADERS: Partial<Record<Vendor, IconLoader>> = {
   [Vendor.SDAIA]: () => import("@/components/elements/brand/sdaia-icon"),
   [Vendor.BAAI]: () => import("@lobehub/icons/es/BAAI"),
   [Vendor.IBM]: () => import("@lobehub/icons/es/IBM"),
+  [Vendor.JETBRAINS]: () =>
+    import("@/components/elements/brand/jetbrains-icon"),
+  [Vendor.INCEPTION]: () => import("@lobehub/icons/es/Inception"),
+  [Vendor.KINFRA]: () => import("@lobehub/icons/es/Tencent"),
+  [Vendor.SPEAKLEASH]: () =>
+    import("@/components/elements/brand/speakleash-icon"),
+  [Vendor.PLLUM]: () => import("@/components/elements/brand/pllum-icon"),
+  [Vendor.VILLANOVA]: () =>
+    import("@/components/elements/brand/villanova-icon"),
+  [Vendor.DEEPREINFORCE]: () =>
+    import("@/components/elements/brand/deepreinforce-icon"),
   [Vendor.MICROSOFT]: () => import("@lobehub/icons/es/Microsoft"),
   [Vendor.MYSHELL]: () => import("@lobehub/icons/es/MyShell"),
   [Vendor.DEEPGRAM]: () => import("@/components/elements/brand/deepgram-icon"),
@@ -89,6 +97,10 @@ export const VENDOR_LOADERS: Partial<Record<Vendor, IconLoader>> = {
   [Vendor.FALLENMERICK]: () =>
     import("@/components/elements/brand/fallenmerick-icon"),
   [Vendor.MEGANOVA]: () => import("@/components/elements/brand/meganova-icon"),
+  [Vendor.AGNES]: () => import("@/components/elements/brand/agnes-icon"),
+  [Vendor.REQUESTY]: () => import("@/components/elements/brand/requesty-icon"),
+  [Vendor.ELECTRONHUB]: () =>
+    import("@/components/elements/brand/electronhub-icon"),
   [Vendor.AI21]: () => import("@lobehub/icons/es/Ai21"),
   [Vendor.ALLENAI]: () => import("@lobehub/icons/es/Ai2"),
   [Vendor.NOUS]: () => import("@lobehub/icons/es/NousResearch"),
@@ -136,8 +148,6 @@ export const VENDOR_LOADERS: Partial<Record<Vendor, IconLoader>> = {
   [Vendor.OPENCODE]: () => import("@lobehub/icons/es/OpenCode"),
 };
 
-/** Aliases for vendor strings that don't match a `Vendor` enum value (e.g.
- *  when matching against a model slug). Checked after `VENDOR_LOADERS`. */
 export const ALIAS_LOADERS: Record<string, IconLoader> = {
   alibabacloud: () => import("@lobehub/icons/es/AlibabaCloud"),
   claude: () => import("@lobehub/icons/es/Claude"),
@@ -146,7 +156,6 @@ export const ALIAS_LOADERS: Record<string, IconLoader> = {
   nemotron: () => import("@lobehub/icons/es/Nvidia"),
 };
 
-// No arcee SVG string upstream (only a React component), so the satori-inline path uses the extracted Mono path.
 const ARCEE_SVG =
   '<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Arcee</title><path d="M13.236 2.377L2.751 20.493H0L11.863 0l1.373 2.377zm3.554 6.156l-9.606 11.96H4.13L15.511 6.32l1.279 2.212zm6.908 11.96H14.05l8.406-2.151 1.242 2.15zm-3.42-5.922l-7.843 5.92H8.482l10.597-7.997 1.2 2.077z"></path></svg>';
 
@@ -185,7 +194,6 @@ export const VENDOR_SVGS: Partial<Record<Vendor, string>> = {
   [Vendor.XIAOMI]: pickVariant(xiaomiMimo.variants),
 };
 
-// Full-color brand SVGs (fills intact). Used by social banner art only.
 export const VENDOR_COLOR_SVGS: Partial<Record<Vendor, string>> = {
   [Vendor.OPENAI]: pickColorVariant(openai.variants),
   [Vendor.ANTHROPIC]: pickColorVariant(anthropic.variants),

@@ -22,7 +22,6 @@ import type { SetupCompatibility, SetupGuide } from "./setup-guides";
 
 type CompatRow = { key: keyof SetupCompatibility; labelKey: TranslationKey };
 
-/** i18nPrefix is a runtime string; en.json carries the per-guide leaf keys. */
 function prefixKey(prefix: string, leaf: string): TranslationKey {
   return `${prefix}.${leaf}` as TranslationKey;
 }
@@ -104,7 +103,6 @@ ${t("DOCS.SETUP_GUIDE.API_KEY_LABEL")}: ${docs.placeholder}`;
 
   const toc = createTOC(tocItems, t("DOCS.TOC_TITLE"));
 
-  // CLI guides ship OS-aware shell; render OS tabs (with key reveal per tab).
   const osVariants = guide.quickStart
     ? await buildOSVariants({
         windows: { code: guide.quickStart[OS.WINDOWS], language: "powershell" },

@@ -30,7 +30,6 @@ type Props = {
   onSaved: () => void;
 };
 
-// Image edit state: keep existing, remove, or replace with new bytes.
 type ImgDraft =
   { kind: "keep" } | { kind: "remove" } | { kind: "new"; dataUrl: string };
 
@@ -64,7 +63,6 @@ export function CharacterEditor(props: Props) {
         ? existingAvatarSrc
         : null;
 
-  // values syncs the row on settle; keepDirtyValues protects in-progress typing. tags/triggers are string[] columns edited comma-joined.
   const formValues = existing
     ? formDefaults(characterFormSchema, {
         ...existing,
@@ -85,7 +83,6 @@ export function CharacterEditor(props: Props) {
     setAvatarDraft({ kind: "new", dataUrl });
   };
 
-  // Media row is only written on save so an abandoned edit leaves no orphan.
   const resolveMediaId = async (
     draft: ImgDraft,
     existingId: string | null | undefined,
@@ -108,7 +105,6 @@ export function CharacterEditor(props: Props) {
   const onSubmit = async (data: CharacterForm) => {
     const body = {
       ...data,
-      // tags/triggers go back to string[] columns.
       tags: csvToArray(data.tags),
       triggers: csvToArray(data.triggers),
       avatarMediaId: await resolveMediaId(avatarDraft, existing?.avatarMediaId),

@@ -79,7 +79,6 @@ export const POSTS: BlogPost<BlogSlug>[] = BLOG_REGISTRY.map((entry) => ({
 }));
 
 export function getAllPostsSorted(): BlogPost<BlogSlug>[] {
-  // Future-dated posts stay out of listings/RSS until their date (direct URL still resolves via getPost).
   const today = dayjs().format("YYYY-MM-DD");
   return [...POSTS]
     .filter((p) => p.date <= today)

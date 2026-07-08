@@ -9,7 +9,6 @@ import {
   SectionPriorities,
 } from "@/lib/types";
 
-// Shared content/timestamp sources for all /docs/[slug] guides; search index, llms.txt, sitemap, seo-timestamps enumerate it.
 const SETUP_GUIDE_SOURCES = [
   "src/components/pages/docs/setup-guides.ts",
   "src/components/pages/docs/setup-guide-template.tsx",
@@ -17,7 +16,6 @@ const SETUP_GUIDE_SOURCES = [
 
 const GUIDE_ENTRIES = SETUP_GUIDES.map((guide): DocEntry => ({
   slug: `docs/integrations/${guide.slug}`,
-  // guide.href is LinkHref; Pathname is the structurally-equal getPathname arg.
   path: guide.href as Pathname,
   i18nPrefix: guide.i18nPrefix as DocEntry["i18nPrefix"],
   contentFiles: guide.customComponent
@@ -30,7 +28,6 @@ const GUIDE_ENTRIES = SETUP_GUIDES.map((guide): DocEntry => ({
   changeFrequency: "weekly",
 }));
 
-// Chat user-guide pages: blog-style content components under docs/chat/<slug>.
 const CHAT_DOC_SOURCES = [
   "src/components/pages/docs/chat/chat-docs.ts",
   "src/components/pages/docs/chat/chat-doc-template.tsx",
@@ -45,7 +42,6 @@ const CHAT_DOC_ENTRIES = CHAT_DOCS.map((doc): DocEntry => ({
   changeFrequency: "weekly",
 }));
 
-// Platform guide pages (quickstart/errors/billing/models) under docs/platform/<slug>.
 const PLATFORM_DOC_SOURCES = [
   "src/components/pages/docs/platform/platform-docs.ts",
   "src/components/pages/docs/platform/platform-doc-template.tsx",
@@ -90,7 +86,6 @@ export const DOCS_REGISTRY: readonly DocEntry[] = [
   ...PLATFORM_DOC_ENTRIES,
 ];
 
-/** Pages that get git-derived timestamps but aren't listed as "content". */
 export const LEGAL_REGISTRY = [
   {
     slug: "legal/privacy",
@@ -682,13 +677,11 @@ export const BLOG_REGISTRY = [
 
 export type BlogSlug = (typeof BLOG_REGISTRY)[number]["slug"];
 
-/** Union of every slug with a git-derived timestamp entry in public/seo-timestamps.json. */
 export type SeoTimestampSlug =
   | (typeof DOCS_REGISTRY)[number]["slug"]
   | `blog/${BlogSlug}`
   | (typeof LEGAL_REGISTRY)[number]["slug"];
 
-/** Priority + changeFrequency for top-level static routes. */
 export const SECTION_PRIORITIES = {
   "/": { priority: 1.0, changeFrequency: "daily" },
   "/models": { priority: 0.8, changeFrequency: "daily" },

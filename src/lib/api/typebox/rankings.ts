@@ -1,6 +1,6 @@
 import { t, type Static } from "elysia";
 
-const RankingPeriodSchema = t.Union([
+export const RankingPeriodSchema = t.Union([
   t.Literal("today"),
   t.Literal("week"),
   t.Literal("month"),
@@ -8,7 +8,6 @@ const RankingPeriodSchema = t.Union([
   t.Literal("all"),
 ]);
 
-// The literal values, derived from the schema so the list cannot drift.
 export const RANKING_PERIODS = RankingPeriodSchema.anyOf.map((l) => l.const);
 
 export const rankingsQuery = t.Object({

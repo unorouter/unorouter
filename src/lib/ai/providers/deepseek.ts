@@ -1,6 +1,5 @@
 import { DEFAULT_ROLE_FLAGS, type ProviderAdapter } from "./types";
 
-// Strict roles + prefix-completion + thinking API. Before GLM (first match wins).
 export const deepseekAdapter: ProviderAdapter = {
   name: "deepseek",
   match: (m) => /deepseek/i.test(m),

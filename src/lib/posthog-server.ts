@@ -17,7 +17,6 @@ export function getPostHogServer() {
   return posthogInstance;
 }
 
-// PostHog distinctId from cookies; mirrors instrumentation.ts.onRequestError for stitching.
 function extractDistinctId(cookieHeader: string | undefined): string | null {
   if (!cookieHeader) return null;
   const phMatch = cookieHeader.match(/ph_phc_.*?_posthog=([^;]+)/);
@@ -25,9 +24,7 @@ function extractDistinctId(cookieHeader: string | undefined): string | null {
     try {
       const parsed = JSON.parse(decodeURIComponent(phMatch[1]));
       if (typeof parsed?.distinct_id === "string") return parsed.distinct_id;
-    } catch {
-      // Malformed cookie, fall through.
-    }
+    } catch {}
   }
   const userIdMatch = cookieHeader.match(/user-id=([^;]+)/);
   return userIdMatch?.[1] ?? null;

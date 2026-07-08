@@ -1208,7 +1208,6 @@ const BASE_COLOR_NAMES = [
   "sakura",
 ];
 
-// Sentinel: empty cssVars so :root defaults from globals.css win.
 const DEFAULT_THEME: ShadcnTheme = {
   name: "default",
   title: "Default",

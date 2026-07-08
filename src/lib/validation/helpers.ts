@@ -18,7 +18,6 @@ SetErrorFunction((error) => {
   return DefaultErrorFunction(error);
 });
 
-/** `schema | null`, defaulting null. The dominant column shape in validation. */
 export function nullable<T extends TSchema>(schema: T) {
   return t.Union([schema, t.Null()], { default: null });
 }
@@ -46,7 +45,6 @@ export function safeParse<T extends TSchema>(
   };
 }
 
-// RHF form values from a DB row. Value.Default only fills undefined, so strip nulls first. Pass {} for a default form.
 export function formDefaults<T extends TObject>(
   schema: T,
   row: Record<string, unknown> = {},
@@ -57,17 +55,14 @@ export function formDefaults<T extends TObject>(
   return Value.Default(schema, defined) as Static<T>;
 }
 
-// Pull literal values out of a TypeBox literal union (single-source arrays/Sets).
 export function unionLiterals<T extends string>(
   union: TUnion<TLiteral<T>[]>,
 ): readonly T[] {
   return union.anyOf.map((m) => m.const);
 }
 
-// Single source for the 9 sampling-knob schema fragments. Divergences ride the options: presets allow temp to 4, rp.ts unbounds maxTokens.
 type SamplingBoundOpts = {
   temperatureMax?: number;
-  /** Omit for an unbounded maxTokens (preset body). */
   maxTokensMax?: number;
 };
 
@@ -79,7 +74,6 @@ const optNullNum = (minimum: number, maximum?: number) =>
     ]),
   );
 
-/** Optional-nullable variant (wire bodies: stream overrides, settings patch). */
 export const samplingOptional = (opts?: SamplingBoundOpts) => ({
   temperature: optNullNum(0, opts?.temperatureMax ?? 2),
   topP: optNullNum(0, 1),
@@ -97,7 +91,6 @@ const nullNum = (minimum: number, maximum?: number) =>
     t.Number({ minimum, ...(maximum === undefined ? {} : { maximum }) }),
   );
 
-/** Nullable-default variant (preset/conv-override bodies + RHF forms). */
 export const samplingNullable = (opts?: SamplingBoundOpts) => ({
   temperature: nullNum(0, opts?.temperatureMax ?? 2),
   topP: nullNum(0, 1),

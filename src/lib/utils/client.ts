@@ -23,7 +23,6 @@ export type ErrorDetail = {
 
 const REQUEST_ID_RE = /request id:?\s*([A-Za-z0-9]+)/i;
 
-// Full error detail (message + code + status + requestId) for display/debugging. Handles ai-sdk APICallError (responseBody/statusCode), Eden errors, and plain JSON bodies.
 export function extractErrorDetail(e: unknown): ErrorDetail {
   let status: number | undefined;
   let body: unknown = e;
@@ -31,7 +30,8 @@ export function extractErrorDetail(e: unknown): ErrorDetail {
   if (e && typeof e === "object") {
     const obj = e as Record<string, unknown>;
     if (typeof obj.statusCode === "number") status = obj.statusCode;
-    if (typeof obj.responseBody === "string") body = obj.responseBody;
+    if (typeof obj.responseBody === "string" && obj.responseBody.trim())
+      body = obj.responseBody;
     else if ("data" in obj) body = obj.data;
     else if (e instanceof Error) body = e.message;
   }
@@ -53,7 +53,8 @@ export function extractErrorDetail(e: unknown): ErrorDetail {
       ? (parsed as { error: unknown }).error
       : parsed;
   const found = pickMessage(errObj) ?? pickMessage(body);
-  const message = found?.message || String((e as Error)?.message ?? e);
+  const message =
+    found?.message || stringifyError((e as Error)?.message ?? errObj ?? e);
 
   let code: string | undefined;
   if (errObj && typeof errObj === "object") {
@@ -65,16 +66,13 @@ export function extractErrorDetail(e: unknown): ErrorDetail {
   return { message, code, status, requestId };
 }
 
-// Pull {message, params} out of any error shape: JSON string, {message} object, or array. JSON strings recurse.
 function pickMessage(v: unknown): Extracted | null {
   if (typeof v === "string") {
     const s = v.trim();
     if (s.startsWith("{") || s.startsWith("[")) {
       try {
         return pickMessage(JSON.parse(s));
-      } catch {
-        // not JSON; fall through to the raw string
-      }
+      } catch {}
     }
     return { message: v };
   }
@@ -86,15 +84,34 @@ function pickMessage(v: unknown): Extracted | null {
     return null;
   }
   if (v && typeof v === "object") {
-    const m = (v as { message?: unknown }).message;
-    if (typeof m === "string") {
-      return {
-        message: m,
-        params: asParams((v as { params?: unknown }).params),
-      };
+    const obj = v as Record<string, unknown>;
+    for (const key of ["message", "detail", "error_description"]) {
+      if (typeof obj[key] === "string" && (obj[key] as string).trim()) {
+        return {
+          message: obj[key] as string,
+          params: asParams(obj.params),
+        };
+      }
+    }
+    for (const key of ["error", "data", "body", "response"]) {
+      if (key in obj) {
+        const found = pickMessage(obj[key]);
+        if (found) return found;
+      }
     }
   }
   return null;
+}
+
+function stringifyError(v: unknown): string {
+  if (typeof v === "string" && v.trim()) return v;
+  if (v && typeof v === "object") {
+    try {
+      const json = JSON.stringify(v);
+      if (json && json !== "{}") return json;
+    } catch {}
+  }
+  return "ERRORS.UNEXPECTED_ERROR";
 }
 
 export async function handleError(
@@ -102,7 +119,6 @@ export async function handleError(
   t?: ReturnType<typeof useTranslations<never>>,
   toastId?: string,
 ) {
-  // Eden errors carry the body on .data, a thrown fetch on .response. Otherwise pickMessage walks the value.
   let source: unknown = e;
   if (e && typeof e === "object") {
     if ("data" in e) source = e.data;
@@ -121,7 +137,6 @@ export async function handleError(
       ? t(message as TranslationKey, found?.params)
       : message;
 
-  // Append the upstream code/status so a bare "bad request" is debuggable. requestId already rides inside the message.
   const detail = extractErrorDetail(e);
   const tag = [detail.status ? `HTTP ${detail.status}` : null, detail.code]
     .filter(Boolean)
@@ -145,14 +160,12 @@ export function downloadJson(
   filename: string,
   opts?: { pretty?: boolean },
 ) {
-  // Compact when pretty is false (diagnostics: halves bytes / memory); indented by default.
   const pretty = opts?.pretty ?? true;
   const json = pretty ? JSON.stringify(obj, null, 2) : JSON.stringify(obj);
   const blob = new Blob([json], { type: "application/json" });
   downloadBlob(blob, filename);
 }
 
-// Downscale + re-encode so a large upload doesn't blow the localStorage/OPFS quota.
 export async function fileToScaledDataUrl(file: File): Promise<string> {
   const dataUrl = await new Promise<string>((resolve, reject) => {
     const reader = new FileReader();
@@ -178,7 +191,6 @@ export async function fileToScaledDataUrl(file: File): Promise<string> {
   return canvas.toDataURL(mime, 0.9);
 }
 
-// data:<mime>;base64,<bytes> -> parts for a media row.
 export function splitDataUrl(dataUrl: string): {
   mimeType: string;
   base64: string;
@@ -188,7 +200,6 @@ export function splitDataUrl(dataUrl: string): {
   return { mimeType: m[1], base64: m[2] };
 }
 
-// Update one URL search param without navigation; null removes.
 export function setSearchParam(key: string, value: string | null) {
   const url = new URL(window.location.href);
   if (value === null) url.searchParams.delete(key);

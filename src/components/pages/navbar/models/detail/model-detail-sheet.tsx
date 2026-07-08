@@ -13,7 +13,7 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { Link } from "@/i18n/navigation";
-import { modelSlug } from "@/lib/utils/base";
+import { modelHref } from "@/lib/utils/base";
 import { chatModelAtom } from "@/store/chat-store";
 import { useSetAtom } from "jotai";
 import {
@@ -25,25 +25,23 @@ import {
   GridPricingRow,
   ProcessedModel,
 } from "@/lib/api/pricing";
+import { fixedPriceUnitLabel } from "@/lib/api/model-modality";
+import { SectionHeading } from "./shared/section-heading";
 import { env } from "@/lib/config/env";
 import { getVendorTheme } from "@/lib/config/vendor-themes";
 import { cn } from "@/lib/utils";
 import { formatPrice } from "@/lib/utils/format/number";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
-import { CachePricing } from "./cache-pricing";
-import { TieredPricing } from "./tiered-pricing";
-import { AutoGroupChain } from "./auto-group-chain";
-import { CapabilityChips } from "./capability-chips";
-import {
-  hasAnyCapability,
-  hasAnyParameter,
-  hasAnyQuickStat,
-} from "./capability-helpers";
-import { ModalitiesRow } from "./modalities-row";
-import { PerformanceSection } from "./performance-section";
-import { QuickStats } from "./quick-stats";
-import { SupportedParameters } from "./supported-parameters";
+import { MINI_TABLE, MINI_TABLE_BODY_ROW } from "./shared/mini-table";
+import { CachePricing } from "./pricing/cache-pricing";
+import { ModelDescription } from "./header/model-description";
+import { TieredPricing } from "./pricing/tiered-pricing";
+import { AutoGroupChain } from "./pricing/auto-group-chain";
+import { hasAnyParameter } from "./header/capability-helpers";
+import { ModelHeaderChips, ModelMetaStats } from "./header/model-header-chips";
+import { PerformanceSection } from "./tabs/performance-section";
+import { SupportedParameters } from "./tabs/supported-parameters";
 
 type ModelDetailSheetProps = {
   model: ProcessedModel | null;
@@ -56,6 +54,7 @@ type ModelDetailSheetProps = {
 
 export function ModelDetailSheet(props: ModelDetailSheetProps) {
   const t = useTranslations();
+  const locale = useLocale();
   const setChatModel = useSetAtom(chatModelAtom);
   const model = props.model;
 
@@ -91,14 +90,7 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
               variant="outline"
               className="flex-1"
               nativeButton={false}
-              render={
-                <Link
-                  href={{
-                    pathname: "/models/[slug]",
-                    params: { slug: modelSlug(model.name) },
-                  }}
-                />
-              }
+              render={<Link href={modelHref(model.name, model.vendor.name)} />}
             >
               <Icon name="external-link" className="mr-2 h-3.5 w-3.5" />
               {t("MODELS.VIEW_DETAILS")}
@@ -118,111 +110,48 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
 
         <div className="space-y-6 p-4">
           <section>
-            <SectionHeader
-              icon={
-                <Icon
-                  name="heart-pulse"
-                  className="h-3.5 w-3.5 text-rose-400"
-                />
-              }
-              title={t("MODELS.DETAIL.PERFORMANCE")}
-            />
+            <SectionHeading theme={theme}>
+              {t("MODELS.DETAIL.PERFORMANCE")}
+            </SectionHeading>
             <PerformanceSection modelName={model.name} />
           </section>
 
           {model.description && (
             <section>
-              <SectionHeader
-                icon={
-                  <Icon name="info" className="h-3.5 w-3.5 text-cyan-400" />
-                }
-                title={t("MODELS.DETAIL.DESCRIPTION")}
-              />
-              <p className="text-muted-foreground text-sm leading-relaxed">
-                {model.description}
-              </p>
+              <SectionHeading theme={theme}>
+                {t("MODELS.DETAIL.DESCRIPTION")}
+              </SectionHeading>
+              <ModelDescription text={model.description} />
             </section>
           )}
 
           {model.tags.length > 0 && (
-            <section>
-              <SectionHeader
-                icon={
-                  <Icon name="tag" className="h-3.5 w-3.5 text-purple-400" />
-                }
-                title={t("MODELS.DETAIL.TAGS")}
-              />
-              <div className="flex flex-wrap gap-1.5">
-                {model.tags.map((tag) => (
-                  <Badge
-                    key={tag}
-                    variant="secondary"
-                    className={cn(
-                      "font-mono text-[10px] uppercase",
-                      theme.tagBg,
-                      theme.tagBorder,
-                      theme.text,
-                    )}
-                  >
-                    {tag}
-                  </Badge>
-                ))}
-              </div>
-            </section>
+            <div className="flex flex-wrap gap-1.5">
+              {model.tags.map((tag) => (
+                <Badge
+                  key={tag}
+                  variant="secondary"
+                  className={cn(
+                    "font-mono text-[10px] uppercase",
+                    theme.tagBg,
+                    theme.tagBorder,
+                    theme.text,
+                  )}
+                >
+                  {tag}
+                </Badge>
+              ))}
+            </div>
           )}
 
-          {hasAnyCapability(model.metadata) && (
-            <section>
-              <SectionHeader
-                icon={
-                  <Icon
-                    name="sparkles"
-                    className="h-3.5 w-3.5 text-emerald-400"
-                  />
-                }
-                title={t("MODELS.DETAIL.CAPABILITIES")}
-              />
-              <CapabilityChips metadata={model.metadata} variant="drawer" />
-            </section>
-          )}
+          <ModelHeaderChips metadata={model.metadata} locale={locale} />
 
-          {((model.metadata.inputModalities ?? []).length > 0 ||
-            (model.metadata.outputModalities ?? []).length > 0) && (
-            <section>
-              <SectionHeader
-                icon={
-                  <Icon
-                    name="layers"
-                    className="h-3.5 w-3.5 text-emerald-400"
-                  />
-                }
-                title={t("MODELS.DETAIL.MODALITIES")}
-              />
-              <ModalitiesRow metadata={model.metadata} />
-            </section>
-          )}
-
-          {hasAnyQuickStat(model.metadata) && (
-            <section>
-              <SectionHeader
-                icon={
-                  <Icon name="info" className="h-3.5 w-3.5 text-cyan-400" />
-                }
-                title={t("MODELS.DETAIL.QUICK_STATS")}
-              />
-              <QuickStats metadata={model.metadata} />
-            </section>
-          )}
+          <ModelMetaStats metadata={model.metadata} />
 
           <section>
-            <SectionHeader
-              icon={
-                <span className={cn("font-mono text-xs font-bold", theme.text)}>
-                  $
-                </span>
-              }
-              title={t("MODELS.DETAIL.PRICING")}
-            />
+            <SectionHeading theme={theme}>
+              {t("MODELS.DETAIL.PRICING")}
+            </SectionHeading>
             <div
               className={cn("rounded-lg border p-4", theme.bg, theme.border)}
             >
@@ -235,14 +164,14 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
                       {formatPrice(model.fixedPrice)}
                     </span>
                     <span className="text-muted-foreground font-mono text-xs">
-                      {t("MODELS.PRICE.PER_REQUEST")}
+                      <FixedPriceUnit model={model} />
                     </span>
                   </div>
                   {model.originalFixedPrice !== null && (
                     <div className="text-muted-foreground/50 font-mono text-xs line-through">
                       {t("MODELS.PRICE.ORIGINAL")}:{" "}
                       {formatPrice(model.originalFixedPrice)}{" "}
-                      {t("MODELS.PRICE.PER_REQUEST")}
+                      <FixedPriceUnit model={model} />
                     </div>
                   )}
                 </div>
@@ -304,7 +233,11 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
           </section>
 
           {model.gridPricing && (
-            <GridPricingSection gridPricing={model.gridPricing} theme={theme} />
+            <GridPricingSection
+              gridPricing={model.gridPricing}
+              priceMultiplier={model.gridMinRatio}
+              theme={theme}
+            />
           )}
 
           {/* Group pricing: skipped for tiered models (no single per-token price to multiply). */}
@@ -319,27 +252,18 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
 
           {hasAnyParameter(model.metadata) && (
             <section>
-              <SectionHeader
-                icon={
-                  <Icon
-                    name="settings"
-                    className="h-3.5 w-3.5 text-purple-400"
-                  />
-                }
-                title={t("MODELS.DETAIL.SUPPORTED_PARAMETERS")}
-              />
+              <SectionHeading theme={theme}>
+                {t("MODELS.DETAIL.SUPPORTED_PARAMETERS")}
+              </SectionHeading>
               <SupportedParameters metadata={model.metadata} />
             </section>
           )}
 
           {model.endpointTypes.length > 0 && (
             <section>
-              <SectionHeader
-                icon={
-                  <Icon name="link" className="h-3.5 w-3.5 text-green-400" />
-                }
-                title={t("MODELS.DETAIL.ENDPOINTS")}
-              />
+              <SectionHeading theme={theme}>
+                {t("MODELS.DETAIL.ENDPOINTS")}
+              </SectionHeading>
               <div className="space-y-2">
                 {model.endpointTypes.map((endpoint) => {
                   const info = props.endpointMap[endpoint];
@@ -391,17 +315,6 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
   );
 }
 
-function SectionHeader(props: { icon: React.ReactNode; title: string }) {
-  return (
-    <div className="mb-3 flex items-center gap-2">
-      {props.icon}
-      <span className="text-foreground font-mono text-xs tracking-wider uppercase">
-        {props.title}
-      </span>
-    </div>
-  );
-}
-
 function GridPricingTable(props: {
   rows: GridPricingRow[];
   priceMultiplier?: number;
@@ -412,7 +325,7 @@ function GridPricingTable(props: {
 
   return (
     <div className="overflow-x-auto">
-      <table className="w-full font-mono text-xs">
+      <table className={MINI_TABLE}>
         <thead>
           <tr className="border-border/40 border-b">
             {columns.map((col) => (
@@ -435,7 +348,7 @@ function GridPricingTable(props: {
               props.priceMultiplier,
             );
             return (
-              <tr key={i} className="border-border/20 border-b last:border-0">
+              <tr key={i} className={MINI_TABLE_BODY_ROW}>
                 {columns.map((col) => (
                   <td
                     key={col}
@@ -468,16 +381,16 @@ function GridPricingTable(props: {
 
 function GridPricingSection(props: {
   gridPricing: GridPricingRow[];
+  priceMultiplier?: number;
   theme: ReturnType<typeof getVendorTheme>;
 }) {
   const t = useTranslations();
 
   return (
     <section>
-      <SectionHeader
-        icon={<Icon name="grid-3x3" className="h-3.5 w-3.5 text-cyan-400" />}
-        title={t("MODELS.DETAIL.GRID_PRICING")}
-      />
+      <SectionHeading theme={props.theme}>
+        {t("MODELS.DETAIL.GRID_PRICING")}
+      </SectionHeading>
       <div
         className={cn(
           "rounded-lg border p-3",
@@ -487,6 +400,7 @@ function GridPricingSection(props: {
       >
         <GridPricingTable
           rows={props.gridPricing}
+          priceMultiplier={props.priceMultiplier}
           theme={props.theme}
           pricingLabel={t("MODELS.DETAIL.PRICING")}
         />
@@ -551,6 +465,7 @@ function GroupPricingSection(props: {
             <GroupPricingFixed
               entries={groupEntries}
               fixedPrice={model.originalFixedPrice ?? model.fixedPrice}
+              model={model}
               theme={theme}
             />
           ) : (
@@ -565,6 +480,14 @@ function GroupPricingSection(props: {
       )}
     </section>
   );
+}
+
+function FixedPriceUnit(props: { model: ProcessedModel }) {
+  const t = useTranslations();
+  const unit = fixedPriceUnitLabel(props.model);
+  if (unit === "second") return <>{t("MODELS.PRICE.PER_SECOND")}</>;
+  if (unit === "image") return <>{t("MODELS.PRICE.PER_IMAGE")}</>;
+  return <>{t("MODELS.PRICE.PER_REQUEST")}</>;
 }
 
 function GroupPricingGrid(props: {
@@ -608,6 +531,7 @@ function GroupPricingGrid(props: {
 function GroupPricingFixed(props: {
   entries: GroupEntry[];
   fixedPrice: number;
+  model: ProcessedModel;
   theme: ReturnType<typeof getVendorTheme>;
 }) {
   const t = useTranslations();
@@ -644,7 +568,7 @@ function GroupPricingFixed(props: {
             >
               {formatPrice(props.fixedPrice * ge.ratio)}
               <span className="text-muted-foreground ml-1 text-[10px] font-normal">
-                {t("MODELS.PRICE.PER_REQUEST")}
+                <FixedPriceUnit model={props.model} />
               </span>
             </span>
           </div>

@@ -35,11 +35,6 @@ async function runProbe(args: {
   const probe = args.probe;
   const started = performance.now();
   let lastPrompt = "";
-  // Last response that had VALID text but did not echo the nonce. Some genuine
-  // models (Gemini answers tersely) ignore the echo instruction; that is an
-  // instruction-following gap, NOT response-mixing. We keep the last such reply
-  // and, if every attempt only "failed" on the missing echo, evaluate it anyway
-  // instead of declaring a mux failure (which would falsely condemn the model).
   let weakNonce: {
     text: string;
     res: { data: unknown; status: number | null };
@@ -113,8 +108,6 @@ async function runProbe(args: {
     }
 
     if (!echoesNonce(text, nonce)) {
-      // Valid, non-empty reply that simply omitted the echo tag: remember it as a
-      // fallback. A blank reply is NOT kept (that is a real failure / mux signal).
       if (text.trim().length > 0)
         weakNonce = { text, res: { data: res.data, status: res.status } };
       continue; // retry for a clean nonce echo first
@@ -148,10 +141,6 @@ async function runProbe(args: {
     };
   }
 
-  // We never got a clean nonce echo. If a valid (non-empty) reply came back, the
-  // model just ignored the echo instruction (terse answer) - evaluate that reply
-  // on its real signals rather than declaring response-mixing. Only when EVERY
-  // attempt was blank/unusable do we treat it as a mux failure.
   if (weakNonce) {
     const text = weakNonce.text;
     const signal = detectSignal(
@@ -184,7 +173,6 @@ async function runProbe(args: {
     };
   }
 
-  // Every attempt was blank/unusable -> genuine response mixing.
   return {
     label: probe.label,
     pass: false,
@@ -228,7 +216,6 @@ function hostOf(baseUrl: string): string {
   }
 }
 
-// Short-circuit result when the handshake fails before any behavioral probe runs.
 function connectivityResult(
   opts: {
     provider: VerifyProvider;
@@ -267,15 +254,12 @@ export async function runVerification(opts: {
   model: string;
   mode: TransportMode;
   timeoutMs?: number;
-  // Server-side verify injects an SSRF-safe transport; defaults to browser.
   transport?: TransportFn;
 }): Promise<VerifyResult> {
   const timeoutMs = opts.timeoutMs ?? DEFAULT_TIMEOUT_MS;
   const transport = opts.transport ?? probeTransport;
   const started = performance.now();
 
-  // Probe 0: metadata handshake. Resolves working format + transport, or
-  // short-circuits on a connectivity failure (no scored probes run).
   const hs = await runHandshake({
     provider: opts.provider,
     baseUrl: opts.baseUrl,

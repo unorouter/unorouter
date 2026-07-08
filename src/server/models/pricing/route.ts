@@ -5,16 +5,23 @@ import { unwrap } from "@/lib/utils/base";
 import { getPricing, getSubscriptionPlans } from "@/openapi";
 import { ADMIN_HEADERS } from "@/server/constants";
 import { snapshotModelCatalog } from "@/server/models/pricing/model-catalog.service";
-import { Elysia } from "elysia";
+import { Elysia, t } from "elysia";
 
 export const pricingRoute = new Elysia({ prefix: "/pricing" })
-  .get("/", async () => {
-    // ADMIN_HEADERS so customFetch skips the per-user cookie: the Data Cache keys by URL, so the request must be user-independent.
-    const res = await getPricing({ headers: ADMIN_HEADERS });
-    const summary = buildPricingSummary(unwrap(res));
-    snapshotModelCatalog(summary.models);
-    return summary;
-  })
+  .get(
+    "/",
+    async (ctx) => {
+      const includeOffline = ctx.query.include_offline === "true";
+      const res = await getPricing(
+        includeOffline ? { include_offline: "true" } : undefined,
+        { headers: ADMIN_HEADERS },
+      );
+      const summary = buildPricingSummary(unwrap(res));
+      if (!includeOffline) snapshotModelCatalog(summary.models);
+      return summary;
+    },
+    { query: t.Object({ include_offline: t.Optional(t.String()) }) },
+  )
   .get("/subscriptions", async () => {
     const res = await getSubscriptionPlans({
       headers: ADMIN_HEADERS,

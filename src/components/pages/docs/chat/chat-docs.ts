@@ -11,26 +11,17 @@ export type ChatDocSection =
   | "DATA";
 
 export interface ChatDocHeading {
-  /** DOM anchor id, also used by the TOC. */
   id: string;
-  /** Leaf under the page's i18nPrefix, e.g. "H_OVERVIEW". */
   i18nLeaf: string;
   level: 2 | 3;
 }
 
-/**
- * One user-guide page for the built-in chat. Blog-style: registry entry +
- * per-page content component; DOCS_REGISTRY derives search/sitemap/SEO from it.
- */
 export interface ChatDoc {
-  /** Route param + DOCS_REGISTRY slug suffix (docs/chat/<slug>). */
   slug: string;
   href: LinkHref;
-  /** "DOCS_CHAT.<NAME>" - matches en.json + registry i18nPrefix. */
   i18nPrefix: string;
   section: ChatDocSection;
   iconName: IconName;
-  /** Content component path for git-derived SEO timestamps. */
   contentFile: string;
   headings: ChatDocHeading[];
 }

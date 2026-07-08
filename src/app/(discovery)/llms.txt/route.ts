@@ -4,7 +4,7 @@ import { BLOG_REGISTRY, DOCS_REGISTRY } from "@/i18n/registry";
 import { APP_VALUES } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
 import { rpc } from "@/lib/rpc";
-import { handleElysia, modelSlug } from "@/lib/utils/base";
+import { handleElysia, modelHref } from "@/lib/utils/base";
 import { serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
 
@@ -62,7 +62,7 @@ export async function GET() {
   if (models.length > 0) {
     lines.push(`## ${t("FOOTER.MODELS")}`);
     for (const model of models.slice(0, 50)) {
-      const url = `${env.siteOrigin}${localeUrl(locale, { pathname: "/models/[slug]", params: { slug: modelSlug(model.name) } })}`;
+      const url = `${env.siteOrigin}${localeUrl(locale, modelHref(model.name, model.vendor?.name))}`;
       lines.push(`- [${model.name}](${url})`);
     }
     lines.push("");
@@ -77,7 +77,6 @@ export async function GET() {
   );
   lines.push("");
 
-  // "Optional" reserved by llmstxt.org; heading stays English. RSS/Sitemap universal.
   lines.push("## Optional");
   lines.push(`- [RSS](${env.siteOrigin}/${locale}/blog/feed.xml)`);
   lines.push(`- [Sitemap](${env.siteOrigin}/sitemap.xml)`);

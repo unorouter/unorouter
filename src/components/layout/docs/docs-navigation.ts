@@ -19,7 +19,6 @@ import type { LinkHref } from "@/i18n/routing";
 import type { TranslationKey } from "@/lib/config/constants";
 import type { IconName } from "@/lib/config/icon-map";
 
-/** Brand-icon data for a sidebar item, resolved by GuideIcon at render. */
 export type GuideIconRef = {
   iconKey: IntegrationIconKey;
   logoSrc?: string;
@@ -31,7 +30,6 @@ export type DocsNavItem = {
   name: TranslationKey;
   href: LinkHref;
   iconName?: IconName;
-  /** Per-guide brand logo; takes precedence over iconName in the sidebar. */
   guideIcon?: GuideIconRef;
   exact?: boolean;
 };
@@ -41,7 +39,6 @@ export type DocsNavGroup = {
   items: DocsNavItem[];
 };
 
-/** One sidebar glyph per category. Used when a guide has no per-item icon. */
 const CATEGORY_ICONS: Record<SetupCategory, IconName> = {
   coding: "code",
   roleplay: "drama",
@@ -67,7 +64,6 @@ export const chatDocsNavItemsOverview: DocsNavItem[] = [
   },
 ];
 
-// Chat-guide sidebar groups derived from CHAT_DOCS (one per non-empty section).
 export const chatDocsNavGroups: DocsNavGroup[] = (() => {
   const bySection = chatDocsBySection();
   return CHAT_DOC_SECTION_ORDER.flatMap((section) => {
@@ -95,7 +91,6 @@ export const platformDocsNavItemsOverview: DocsNavItem[] = [
   },
 ];
 
-// Platform-guide sidebar groups derived from PLATFORM_DOCS (one per non-empty section).
 export const platformDocsNavGroups: DocsNavGroup[] = (() => {
   const bySection = platformDocsBySection();
   return PLATFORM_DOC_SECTION_ORDER.flatMap((section) => {
@@ -114,7 +109,6 @@ export const platformDocsNavGroups: DocsNavGroup[] = (() => {
   });
 })();
 
-// Sidebar groups derived from SETUP_GUIDES (one per non-empty category); adding a guide updates the sidebar.
 export const docsNavGroups: DocsNavGroup[] = (() => {
   const byCategory = setupGuidesByCategory();
   return CATEGORY_ORDER.flatMap((category) => {

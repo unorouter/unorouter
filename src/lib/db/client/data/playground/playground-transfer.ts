@@ -21,7 +21,6 @@ import {
   upsertLocalSnapshotImages,
 } from "@/lib/db/client/data/playground/playground";
 
-// Self-contained export: image bytes inlined as base64 so the file survives R2 expiry and works for guests.
 export async function exportLocalSession(
   userId: number | undefined,
   sessionId: string,
@@ -113,7 +112,6 @@ function snapshotToRows(
   return { snapshotRow, mediaRows };
 }
 
-// "restore" import: writes a brand-new local session reproducing every snapshot in success state. Single-snapshot payloads are the N=1 case.
 export async function importLocalSession(
   userId: number | undefined,
   payload: PlaygroundSnapshot | SessionSnapshot,

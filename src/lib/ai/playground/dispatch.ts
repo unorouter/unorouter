@@ -1,5 +1,3 @@
-// Body builders + extractors for new-api image endpoints (/images, /chat, /generateContent).
-
 import type { SyncImageEndpoint } from "@/lib/ai/playground/models-dynamic";
 import { API_ENDPOINTS } from "@/lib/ai/endpoints";
 import { safeFetchBytes } from "@/lib/config/r2";
@@ -15,7 +13,6 @@ type RefBytes = {
 };
 
 async function fetchRefBytes(url: string): Promise<RefBytes> {
-  // SSRF-safe: caller-supplied URL goes through the r2 allowlist, never a bare fetch that could hit RFC1918.
   const { buffer: buf, contentType } = await safeFetchBytes(url, MAX_REF_BYTES);
   const mime = contentType?.split(";")[0]?.trim() || "image/png";
   const base64 = buf.toString("base64");
@@ -34,8 +31,6 @@ function dataUriToRefBytes(dataUri: string): RefBytes {
   return { buf, mime, base64, dataUri };
 }
 
-// Chat refs arrive as inline data: URIs (OPFS bytes) or http(s) R2 urls. Decode
-// data URIs locally; http urls go through the SSRF-safe fetch.
 export async function loadRefs(urls: string[]): Promise<RefBytes[]> {
   return Promise.all(
     urls.map((url) =>
@@ -51,7 +46,6 @@ type SubmitArgs = {
   prompt: string;
   size?: string;
   refs: RefBytes[];
-  /** OAI image-gen native n>1; chat/gemini caller loops. */
   n?: number;
   quality?: string;
   outputFormat?: string;
@@ -113,7 +107,6 @@ function buildChatCompletionsBody(args: SubmitArgs): Built {
     modalities: ["image", "text"],
     n: 1,
   };
-  // ByteDance / wan adapters route via openai endpoint and pass extras through.
   if (args.watermark !== undefined) body.watermark = args.watermark;
   if (args.seed !== undefined) body.seed = args.seed;
   if (args.strength !== undefined) body.strength = args.strength;
@@ -131,7 +124,6 @@ function buildGeminiGenerateBody(args: SubmitArgs): Built {
   for (const r of args.refs) {
     parts.push({ inline_data: { mime_type: r.mime, data: r.base64 } });
   }
-  // gemini relay maps `quality` to imageSize (1K/2K) and `size` to aspectRatio.
   const generationConfig: Record<string, unknown> = {
     responseModalities: ["IMAGE"],
   };
@@ -162,7 +154,6 @@ export function buildBody(
   }
 }
 
-// Guards for walking untyped upstream JSON; centralizes the narrowing so the extractors stay cast-free.
 type JsonRecord = Record<string, unknown>;
 function rec(v: unknown): JsonRecord | undefined {
   return v && typeof v === "object" && !Array.isArray(v)
@@ -182,7 +173,6 @@ function recArray(v: unknown): JsonRecord[] {
   return out;
 }
 
-// Empty array means "no image found"; callers treat as failure.
 export function extractResultUris(
   endpoint: SyncImageEndpoint,
   payload: unknown,
@@ -204,7 +194,6 @@ export function extractResultUris(
   if (endpoint === "openai") {
     const msg = rec(recArray(p.choices)[0]?.message);
     if (!msg) return [];
-    // Two shapes: array of parts with image_url, or markdown/data-URI string.
     const content = msg.content;
     if (Array.isArray(content)) {
       for (const part of content) {

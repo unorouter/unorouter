@@ -1,5 +1,3 @@
-// exampleMessages string into role-tagged few-shot turns. <START> separates blocks; {{char}}:/{{user}}: prefix lines, bare lines continue.
-
 type ExampleTurn = {
   role: "system" | "user" | "assistant";
   text: string;
@@ -18,7 +16,6 @@ export function parseExampleMessages(
   charName?: string,
 ): ExampleTurn[] {
   if (!raw || !raw.trim()) return [];
-  // Risu also opens a char turn on the literal `CharName:` prefix.
   const namePrefix =
     charName && charName.trim()
       ? new RegExp(`^${escapeRegex(charName.trim())}\\s*:\\s*`, "i")
@@ -50,7 +47,6 @@ export function parseExampleMessages(
       cur = { role: "assistant", text: line.slice(m[0].length) };
       continue;
     }
-    // Bare line: continuation of the current turn (or ignored if none open).
     if (cur) cur.text += (cur.text ? "\n" : "") + line;
   }
   flush();

@@ -16,9 +16,9 @@ import {
 import { env } from "@/lib/config/env";
 import { rpc } from "@/lib/rpc";
 import { getSeoTimestamps } from "@/lib/seo/metadata";
-import { baseModelName, handleElysia, modelSlug } from "@/lib/utils/base";
+import { handleElysia, modelSlug, vendorSlug } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
-import { listCatalogNames } from "@/server/models/pricing/model-catalog.service";
+import { listCatalogEntries } from "@/server/models/pricing/model-catalog.service";
 import type { MetadataRoute } from "next";
 
 export const dynamic = "force-dynamic";
@@ -33,7 +33,6 @@ const privateSet = new Set<string>([
   ...privateRoutes.static,
   ...privateRoutes.dynamicParents,
 ]);
-// Only /docs index has a static-string path; guide entries carry a dynamic /docs/[slug] href object.
 const docPathSet = new Set<string>(
   DOCS_REGISTRY.flatMap((d) => (typeof d.path === "string" ? [d.path] : [])),
 );
@@ -82,18 +81,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       !route.includes("[") &&
       !privateSet.has(route) &&
       !docPathSet.has(route) &&
-      // /docs 301s to /docs/platform; the tab indexes come from DOCS_REGISTRY.
       route !== "/docs" &&
       !route.startsWith("/docs/integrations/"),
   );
 
-  // A silent empty drops every model page from the sitemap; retry once before giving up.
   const pricing = await rpc.api.models.pricing
-    .get()
+    .get({ query: { include_offline: "true" } })
     .then(handleElysia)
     .catch(() =>
       rpc.api.models.pricing
-        .get()
+        .get({ query: { include_offline: "true" } })
         .then(handleElysia)
         .catch(() => null),
     );
@@ -102,20 +99,29 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       "[sitemap] pricing returned no models; model pages omitted from sitemap",
     );
 
-  // Model URLs come from the durable catalog (models seen within the retire
-  // window), NOT the live response: free models churn in/out of pricing hourly
-  // and a live-derived URL set turns into GSC 404s at crawl time. Fresh-DB
-  // fallback: the live models (catalog empty until the first snapshot).
-  // :free twins whose base model exists are skipped; those pages canonical to
-  // the base, so emitting both would double duplicate-content URLs.
-  const catalogNames = await listCatalogNames().catch(() => []);
-  const modelNames = catalogNames.length
-    ? catalogNames
-    : (pricing?.models ?? []).map((m) => m.name);
+  const catalogEntries = await listCatalogEntries().catch(() => []);
+  const modelNames = [
+    ...new Set([
+      ...(pricing?.models ?? []).map((m) => m.name),
+      ...catalogEntries.map((e) => e.name),
+    ]),
+  ];
   const nameSet = new Set(modelNames);
-  const sitemapModelNames = modelNames.filter(
-    (name) => !(name.endsWith(":free") && nameSet.has(baseModelName(name))),
+
+  const nameToVendor = new Map<string, string>([
+    ...catalogEntries.map((e) => [e.name, e.vendor] as const),
+    ...(pricing?.models ?? []).map((m) => [m.name, m.vendor.name] as const),
+  ]);
+  const sitemapModelNames = modelNames.filter((name) =>
+    vendorSlug(nameToVendor.get(name) ?? ""),
   );
+  const sitemapVendorSlugs = [
+    ...new Set(
+      (pricing?.models ?? [])
+        .map((m) => vendorSlug(m.vendor.name))
+        .filter(Boolean),
+    ),
+  ];
 
   return [
     ...topLevelRoutes.flatMap((route) =>
@@ -138,14 +144,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         },
       ),
     ),
-    ...sitemapModelNames.flatMap((name) =>
-      localizedEntries(
-        { pathname: "/models/[slug]", params: { slug: modelSlug(name) } },
+    ...sitemapModelNames.flatMap((name) => {
+      const slug = [vendorSlug(nameToVendor.get(name) ?? ""), modelSlug(name)];
+      return localizedEntries(
+        { pathname: "/models/[...slug]", params: { slug } },
         { priority: 0.6, changeFrequency: "weekly" },
+      );
+    }),
+    ...sitemapVendorSlugs.flatMap((slug) =>
+      localizedEntries(
+        { pathname: "/models/[...slug]", params: { slug: [slug] } },
+        { priority: 0.5, changeFrequency: "weekly" },
       ),
     ),
-    // Curated head-to-head pairs only; drop any pair whose models left the
-    // catalog (retired), judged against the stable set, not hourly liveness.
     ...COMPARE_PAIRS.filter(([a, b]) =>
       [a, b].every((name) => nameSet.has(name)),
     ).flatMap(([a, b]) =>

@@ -1,5 +1,3 @@
-// Rolling-summary memory as a pre_generation agent. Wraps rollSummary so output matches the existing path.
-
 import { rollSummary } from "@/lib/ai/chat/context/memory.service";
 import type {
   AgentContext,

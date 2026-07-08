@@ -1,10 +1,5 @@
 import { modelSlug } from "@/lib/utils/base";
 
-// Curated high-volume head-to-head pairs by raw model name. These prerender +
-// enter the sitemap so "X vs Y" queries have an indexable page; every other combo
-// stays on-demand (generateStaticParams returns these, the route still renders
-// arbitrary slugs). A name with no live pricing match is dropped at build/sitemap
-// time, so a retired model never emits a dead URL.
 export const COMPARE_PAIRS: readonly (readonly [string, string])[] = [
   ["claude-opus-4-8", "gpt-5.5"],
   ["claude-opus-4-8", "gemini-3.1-pro-preview"],
@@ -41,7 +36,6 @@ export const COMPARE_PAIRS: readonly (readonly [string, string])[] = [
   ["qwen3.7-max", "deepseek-v4-pro"],
 ] as const;
 
-// Slug tuples for generateStaticParams / sitemap, ordered as authored.
 export function comparePairSlugs(): string[][] {
   return COMPARE_PAIRS.map(([a, b]) => [modelSlug(a), modelSlug(b)]);
 }

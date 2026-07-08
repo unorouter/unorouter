@@ -7,7 +7,6 @@ import {
 import { APP_VALUES, type TranslationKey } from "@/lib/config/constants";
 import { getTranslations } from "next-intl/server";
 
-/** One card per setup-guide category. Cards point at the docs category anchor. */
 type CategoryCard = {
   category: SetupCategory;
   titleKey: TranslationKey;
@@ -60,7 +59,6 @@ const CATEGORY_ICON: Record<SetupCategory, string> = {
   cli: "terminal",
 };
 
-// Category cards (not one per tool) linking to docs category sections; shared by homepage and pricing.
 export async function IntegrationBanner() {
   const t = await getTranslations();
 

@@ -63,7 +63,11 @@ jobs:
           echo CREEM_MODERATION_ENABLED=${{ secrets.CREEM_MODERATION_ENABLED }} >> .env
 
       - name: Docker run
-        run: docker compose up -d --force-recreate --build
+        # --remove-orphans: the app runs as two replicas (unorouter-a/-b) behind one Traefik router.
+        # Without it, a service renamed/removed from the compose file (e.g. the old single "unorouter")
+        # keeps running with the SAME Traefik labels, so Traefik round-robins across MISMATCHED builds
+        # and clients get 404 chunks from whichever replica lacks them (ChunkLoadError).
+        run: docker compose up -d --force-recreate --build --remove-orphans
 
       - name: Wait for site to be healthy
         run: |

@@ -20,7 +20,6 @@ export function chooseEndpoint(types: string[]): SyncImageEndpoint | null {
   return null;
 }
 
-// Each new-api adapter cherry-picks ImageRequest fields.
 function vendorKnobs(modelName: string): {
   quality?: readonly string[];
   outputFormat?: readonly string[];
@@ -63,7 +62,6 @@ function vendorKnobs(modelName: string): {
 function inferDescriptor(
   model: ProcessedModel,
 ): PlaygroundModelDescriptor | null {
-  // ComfyUI workflows surface only when pricing declares comfyui endpoint.
   if (model.endpointTypes.includes("comfyui")) {
     const tmpl = PLAYGROUND_MODELS_BY_ID[model.name];
     if (!tmpl) return null;
@@ -78,7 +76,6 @@ function inferDescriptor(
   if (!endpoint) return null;
 
   const declaredMaxRefs = model.metadata?.maxImageInputs ?? 0;
-  // Include 6-ref compose or free generators (schnell/dev lack refs but worth it).
   if (declaredMaxRefs < 6 && !model.isFree) return null;
 
   const supportsSize = endpoint === "image-generation";

@@ -32,18 +32,14 @@ interface SocialDims {
   cell: number;
   iconSize: number;
   gridGap: number;
-  // "strip" = short horizontal band (Reddit). "grid" = tall tilted grid (Discord).
   layout: "strip" | "grid";
-  // strip-only: width reserved on the left for logo + wordmark + tagline.
   wordmarkWidth?: number;
-  // grid-only:
   cols?: number;
   gridWidth?: number;
   showTagline: boolean;
 }
 
 const DIMS: Record<SocialSize, SocialDims> = {
-  // Reddit desktop banner: min 1072x128, rendered at 2x (2144x256). Short strip.
   reddit: {
     W: 2144,
     H: 256,
@@ -58,7 +54,6 @@ const DIMS: Record<SocialSize, SocialDims> = {
     wordmarkWidth: 1020,
     showTagline: true,
   },
-  // Reddit mobile banner: min 1080x128, rendered at 2x (2160x256). Short strip, no tagline (narrow crop).
   "reddit-mobile": {
     W: 2160,
     H: 256,
@@ -73,7 +68,6 @@ const DIMS: Record<SocialSize, SocialDims> = {
     wordmarkWidth: 880,
     showTagline: false,
   },
-  // Discord server banner: 16:9, 960x540. Tilted grid.
   discord: {
     W: 960,
     H: 540,
@@ -89,7 +83,6 @@ const DIMS: Record<SocialSize, SocialDims> = {
     gridWidth: 372,
     showTagline: true,
   },
-  // Discord invite background: 16:9, 1920x1080 (2x of discord). Tilted grid.
   "discord-invite": {
     W: 1920,
     H: 1080,
@@ -184,7 +177,6 @@ export async function generateSocial(ctx: SocialCtx): Promise<string> {
   let content: ReactNode;
 
   if (d.layout === "strip") {
-    // Icons only fill the space to the RIGHT of the reserved wordmark column.
     const wmWidth = d.wordmarkWidth ?? Math.round(d.W * 0.46);
     const iconArea = d.W - wmWidth - d.pad * 2;
     const fit = Math.max(0, Math.floor(iconArea / (d.cell + d.gridGap)));
@@ -289,11 +281,8 @@ export async function generateSocial(ctx: SocialCtx): Promise<string> {
   }
 
   const rainbowH = 1;
-  // Strip icons hug the far right; grid sits a touch more inboard.
   const focusX = d.layout === "strip" ? 84 : 78;
-  // Short strip banners want a fainter glow so the icon grid stays prominent.
   const glowIntensity = d.layout === "strip" ? 0.5 : 0.85;
-  // Background is injected as real SVG (see bgSvg); the node itself is transparent.
   const node = (
     <div
       style={{

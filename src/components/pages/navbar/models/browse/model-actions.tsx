@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/tooltip";
 import { Link, useRouter } from "@/i18n/navigation";
 import type { ProcessedModel } from "@/lib/api/pricing";
-import { modelSlug } from "@/lib/utils/base";
+import { modelHref } from "@/lib/utils/base";
 import { chatModelAtom } from "@/store/chat-store";
 import { useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
@@ -67,14 +67,7 @@ export function ModelActionIcons(props: {
           aria-label={t("MODELS.VIEW_DETAILS")}
           className={ACTION_CLASS}
           onClick={(e) => e.stopPropagation()}
-          render={
-            <Link
-              href={{
-                pathname: "/models/[slug]",
-                params: { slug: modelSlug(model.name) },
-              }}
-            />
-          }
+          render={<Link href={modelHref(model.name, model.vendor.name)} />}
         >
           <Icon name="external-link" className={props.iconSize} />
         </TooltipTrigger>

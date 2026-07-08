@@ -54,7 +54,6 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
     { body: titleGenerationBody },
   )
 
-  // Media generation only (image/video/audio/embedding). Text models stream client-side via /forward.
   .post(
     "/stream",
     async ({ body, cookie, request }) => {
@@ -69,9 +68,6 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
     { body: streamBody },
   )
 
-  // Token-injecting SSE proxy for the default path. The browser ran the engine + streamText and POSTs the
-  // assembled OpenAI wire body; this resolves the token + guest-gates + raw-pipes to new-api. The SDK appends
-  // `/chat/completions` to its baseURL (`.../forward`), so the handler path is `/forward/chat/completions`.
   .post(
     "/forward/chat/completions",
     async ({ body, cookie, request }) => {
@@ -87,7 +83,6 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
     { body: forwardBody },
   )
 
-  // Tavily web-search BFF: the client classifies need + injects the block. Keeps the Tavily secret server-side.
   .post(
     "/web-search",
     async ({ body, cookie }) => {
@@ -99,7 +94,6 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
     { body: webSearchBody },
   )
 
-  // V1 lowLevelAccess effects from client trigger modes. One endpoint per op for a concrete Eden return type. Auth required.
   .post(
     "/trigger-op/llm",
     async ({ body, cookie }) => {
@@ -142,9 +136,8 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
 
   .post(
     "/:id/task/finalize",
-    async ({ params, body, cookie }) => {
-      const userId = await getUserId(cookie);
-      const data = await finalizeVideoTask(userId, params.id, body);
+    async ({ params, body }) => {
+      const data = await finalizeVideoTask(params.id, body);
       return { success: true, data };
     },
     { body: finalizeTaskBody },

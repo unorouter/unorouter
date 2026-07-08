@@ -82,7 +82,6 @@ export async function readLocalLorebook(
   return { ...lbRows[0], entries };
 }
 
-// Bundle shape ({ lorebook, entries }) for sync payloads + stream chat context; null when missing.
 export async function readLocalLorebookBundle(
   userId: number | undefined,
   id: string,

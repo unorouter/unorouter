@@ -1,5 +1,3 @@
-// CBS macro evaluator (full RisuAI port). App-coupled macros resolve to safe empties, not literal {{...}}.
-
 import { calcString, seededRand } from "@/lib/ai/chat/calc";
 import { dayjs } from "@/lib/utils/format/date";
 
@@ -10,25 +8,18 @@ export type MacroScope = {
   char_description: string;
   scenario: string;
   personality: string;
-  // Per-conversation vars; mutated in place by setvar/addvar, caller persists.
   vars: Record<string, string>;
-  // Per-user global vars; mutated in place, caller persists if changed.
   globalVars?: Record<string, string>;
-  // Per-assembly scratch store (settempvar/gettempvar). Never persisted.
   tempVars?: Record<string, string>;
-  // Newest last, for the {{history}}/{{lastmessage}} family. time is createdAt (unix ms) for message_time/date/idle.
   history?: {
     role: "user" | "assistant" | "system";
     text: string;
     time?: number;
   }[];
-  // Per-conv seed so roll/random/pick resolve identically across regenerates (RisuAI determinism).
   seed?: string;
-  // Client-sent browser env: screen size + locale-faithful time formatting. Absent in tokenize/fallback paths.
   viewport?: { w: number; h: number };
   locale?: string;
   timeZone?: string;
-  // Greeting state for {{previous_char_chat}} fallback + {{first_msg_index}}.
   firstMessage?: string;
   alternateGreetings?: string[];
   fmIndex?: number;
@@ -36,9 +27,7 @@ export type MacroScope = {
   lorebooks?: unknown[]; // {{lorebook}}/{{worldinfo}} JSON reader
   triggerId?: string; // {{trigger_id}} when expanding inside a trigger
   prefillSupported?: boolean; // {{prefill_supported}}
-  // Index of the message being expanded (Risu chatID); undefined means field context, so message_time errors.
   chatIndex?: number;
-  // Introspection tokens; all optional so fallback assembly paths stay valid.
   model?: string; // {{model}} / metadata::modelname
   maxContext?: number; // {{maxcontext}} / metadata::maxcontext
   jailbreak?: string; // {{jailbreak}} / {{jb}}
@@ -49,9 +38,7 @@ export type MacroScope = {
 };
 
 const MAX_RECURSION = 20;
-// Cap calc/{{?}} expression length so a pathological literal can't hang the eval.
 const MAX_CALC_LEN = 1000;
-// Card-authored args run server-side; bound allocation-driving macros so {{range}}/{{cbr}} can't OOM. 100k covers legit use.
 const MAX_MACRO_OUTPUT = 100_000;
 
 type ScopeField =
@@ -76,7 +63,6 @@ const FIELD_ALIASES: Record<string, ScopeField> = {
   scenario: "scenario",
 };
 
-// `rand` is the [0,1) source (seeded, or Math.random on un-seeded fallback).
 function rollDice(spec: string, rand: () => number): string {
   const m = spec.trim().match(/^(\d*)d(\d+)$/i);
   let num = 1;
@@ -87,7 +73,6 @@ function rollDice(spec: string, rand: () => number): string {
   } else {
     sides = Number(spec.trim());
   }
-  // Risu returns the literal string 'NaN' on invalid dice notation.
   if (!Number.isFinite(sides) || sides < 1 || num < 1 || num > 100)
     return "NaN";
   let total = 0;
@@ -101,7 +86,6 @@ function pickFrom(args: string[], rand: () => number): string {
   return opts[Math.floor(rand() * opts.length)];
 }
 
-// {{calc}} / {{? expr}}: Risu calcString RPN engine ($var chat, @var global, no code exec).
 function calc(expr: string, scope: MacroScope): string {
   if (!expr || expr.length > MAX_CALC_LEN) return "";
   const v = calcString(expr, {
@@ -111,7 +95,6 @@ function calc(expr: string, scope: MacroScope): string {
   return Number.isFinite(v) ? String(v) : "";
 }
 
-// Risu CBS truthiness: ONLY 'true' and '1' are truthy.
 function isTruthy(s: string): boolean {
   const t = s.trim();
   return t === "true" || t === "1";
@@ -121,7 +104,6 @@ function numStr(n: number): string {
   return Number.isFinite(n) ? String(n) : "";
 }
 
-// JSON array helpers mirroring RisuAI makeArray/parseArray.
 function parseArr(s: string): unknown[] {
   try {
     const v = JSON.parse(s);
@@ -143,7 +125,6 @@ function parseDictJSON(s: string): Record<string, unknown> {
 function elemStr(v: unknown): string {
   return typeof v === "object" && v !== null ? JSON.stringify(v) : String(v);
 }
-// args -> number[], non-numeric as 0; single JSON-array arg or positional args.
 function statNums(args: string[]): number[] {
   const vals = args.length > 1 ? args : parseArr(args[0] ?? "").map(String);
   return vals.map((f) => {
@@ -151,7 +132,6 @@ function statNums(args: string[]): number[] {
     return Number.isFinite(n) ? n : 0;
   });
 }
-// dayjs-based date/time formatter (RisuAI date/time with optional unix arg).
 function fmtDate(fmt: string, unixMs?: string): string {
   const d =
     unixMs && Number.isFinite(Number(unixMs)) && Number(unixMs) !== 0
@@ -159,7 +139,6 @@ function fmtDate(fmt: string, unixMs?: string): string {
       : dayjs();
   return d.format(fmt || "YYYY-MM-DD HH:mm:ss");
 }
-// Caesar shift (RisuAI crypt), default 32768, self-inverse.
 function caesar(s: string, shift: number): string {
   let out = "";
   for (let i = 0; i < s.length; i++) {
@@ -175,7 +154,6 @@ function caesar(s: string, shift: number): string {
   return out;
 }
 
-// Risu parseArray: JSON array or `§`-separated fallback.
 function parseArray(p1: string): unknown[] {
   try {
     const arr: unknown = JSON.parse(p1);
@@ -186,7 +164,6 @@ function parseArray(p1: string): unknown[] {
   }
 }
 
-// Risu trimLines: strip per-line leading whitespace, trim the whole.
 function trimLines(p1: string): string {
   return p1
     .split("\n")
@@ -195,7 +172,6 @@ function trimLines(p1: string): string {
     .trim();
 }
 
-// Risu risuEscape/risuUnescape: maps {}() to private-use chars to protect #escape content; un-mapped at build.
 export function risuEscape(text: string): string {
   return text.replace(/[{}()]/g, (f) => {
     switch (f) {
@@ -218,7 +194,6 @@ export function risuUnescape(text: string): string {
   );
 }
 
-// Risu messageIdleDuration format: H+:MM:SS, all zero-padded.
 function hmsPad(totalMs: number): string {
   const totalSec = Math.floor(Math.max(0, totalMs) / 1000);
   const h = Math.floor(totalSec / 3600);
@@ -230,7 +205,6 @@ function hmsPad(totalMs: number): string {
 const NO_TIME = "[Cannot get time]";
 const OLD_VERSION_TIME = "[Cannot get time, message was sent in older version]";
 
-// toLocale* with the client-sent locale + timeZone; an invalid one throws RangeError, so fall back to locale-default.
 function localeTime(ms: number, scope: MacroScope): string {
   try {
     return new Date(ms).toLocaleTimeString(scope.locale, {
@@ -250,13 +224,11 @@ function localeDate(ms: number, scope: MacroScope): string {
   }
 }
 
-// Returns null for unknown macros so the caller leaves them verbatim.
 function resolveMacro(inner: string, scope: MacroScope): string | null {
   const trimmed = inner.trim();
   if (trimmed.startsWith("//")) return ""; // {{// comment}}
   if (trimmed.startsWith("?")) return calc(trimmed.slice(1), scope); // {{? 1+2}}
 
-  // Risu parser: :: args when first colon is doubled, else legacy : args. Name normalization strips whitespace/_/-.
   const colonIndex = trimmed.indexOf(":");
   const parts =
     colonIndex !== -1 && trimmed[colonIndex + 1] === ":"
@@ -272,14 +244,12 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
   const field = FIELD_ALIASES[name];
   if (field && args.length === 0) return scope[field];
 
-  // Keyed on macro text + per-conv seed: same macro resolves identically across regenerates.
   const rand = () => seededRand(`${scope.seed ?? ""}:${trimmed}`);
 
   switch (name) {
     case "roll":
     case "dice":
     case "rollp":
-      // Risu: no args -> "1"; invalid notation -> "NaN".
       return args.length === 0 ? "1" : rollDice(args.join("::"), rand);
     case "random":
     case "pick":
@@ -420,7 +390,6 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
     case "xorencode":
     case "xore": {
       const bytes = new TextEncoder().encode(arg0);
-      // Chunked: spreading a large array into fromCharCode blows the call stack.
       let bin = "";
       for (let i = 0; i < bytes.length; i += 8192) {
         const chunk = bytes.subarray(i, i + 8192);
@@ -578,7 +547,6 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
         .reverse()
         .find((m) => m.role === "assistant");
       if (found) return found.text;
-      // Risu: no char message yet -> the greeting being shown.
       const fm = scope.fmIndex ?? -1;
       return fm >= 0
         ? (scope.alternateGreetings?.[fm] ?? scope.firstMessage ?? "")
@@ -592,7 +560,6 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
     case "history":
     case "messages":
       return (scope.history ?? []).map((m) => m.text).join("\n");
-    // Risu returns these as JSON arrays, not joined text.
     case "userhistory":
     case "usermessages":
       return JSON.stringify(
@@ -677,13 +644,11 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
     case "triggerid":
       return scope.triggerId ?? "null";
     case "axmodel":
-      // No aux-model setting; closest analog is the active model.
       return scope.model ?? "";
     case "prefillsupported":
     case "prefill_supported":
       return scope.prefillSupported ? "1" : "0";
     case "file": {
-      // {{file::name::base64}}: decode to utf-8 (display wrapper is client-side).
       const b64 = args[1]?.trim() ?? "";
       try {
         const bytes = Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
@@ -696,7 +661,6 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
       scope.vars["__return__"] = arg0;
       scope.vars["__force_return__"] = "1";
       return "";
-    // Doc-only in Risu; consumed by other features. Resolve empty, never leak.
     case "slot":
     case "position":
       return "";
@@ -752,12 +716,10 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
       return arg0;
 
     default:
-      // hasOwn guard: `name` like "toString" must not hit Object prototype.
       return Object.hasOwn(LITERAL_MACROS, name) ? LITERAL_MACROS[name] : null;
   }
 }
 
-// Constant-result macros: literal escapes plus app-coupled tokens resolving empty so they never leak to the model.
 const LITERAL_MACROS: Record<string, string> = (() => {
   const out: Record<string, string> = {};
   const groups: [string, string[]][] = [
@@ -773,25 +735,21 @@ const LITERAL_MACROS: Record<string, string> = (() => {
     ["}", ["decbc", "displayescapedcurlybracketclose"]],
     ["{{", ["bo", "ddecbo", "doubledisplayescapedcurlybracketopen"]],
     ["}}", ["bc", "ddecbc", "doubledisplayescapedcurlybracketclose"]],
-    // App-coupled render tokens -> empty.
     [
       "",
       "blank none asset assetlist emotion emotionlist image img audio video videoimg bg bgm inlay inlayed inlayeddata path source button risu ruby furigana katex latex chardisplayasset moduleassetlist".split(
         " ",
       ),
     ],
-    // App-coupled boolean probes -> "0".
     ["0", "moduleenabled jbtoggled isfirstmsg isfirstmessage".split(" ")],
   ];
   for (const [value, names] of groups) for (const n of names) out[n] = value;
   return out;
 })();
 
-// {{#if cond}} or {{#when::...}}. #when is Risu's right-to-left stack evaluator: operators pop and push '1'/'0'.
 function evalCondition(raw: string, scope: MacroScope): boolean {
   const t = raw.trim();
   if (t.startsWith("#if")) {
-    // Risu p1.split(' ', 2)[1]: only the FIRST token is the condition.
     const state = t.replace(/^#if(_pure)?\s*/i, "").split(" ", 1)[0] ?? "";
     return isTruthy(state);
   }
@@ -860,7 +818,6 @@ function evalCondition(raw: string, scope: MacroScope): boolean {
           push(parseFloat(statement.pop() ?? "") <= parseFloat(condition));
           break;
         default:
-          // Unknown operator: drop it; stack shrinks each pass so the loop terminates.
           statement.push(condition);
           break;
       }
@@ -870,7 +827,6 @@ function evalCondition(raw: string, scope: MacroScope): boolean {
   return isTruthy(t);
 }
 
-// Expand flat macros inside-out. Unknown macros stay verbatim, cursor advances past them so the loop terminates.
 function expandFlat(text: string, scope: MacroScope): string {
   const inner = /\{\{((?:(?!\{\{|\}\}).)*?)\}\}/s;
   let guard = 0;
@@ -884,29 +840,23 @@ function expandFlat(text: string, scope: MacroScope): string {
       cursor = at + m[0].length;
       continue;
     }
-    // {{return}}: exit expansion immediately; the remainder is dropped (Risu __force_return__ behavior).
     if (scope.vars["__force_return__"] === "1") {
       return text.slice(0, at) + resolved;
     }
     text = text.slice(0, at) + resolved + text.slice(at + m[0].length);
-    // Re-scan from start: resolving an inner macro can complete an outer one opening before `at`.
     cursor = 0;
   }
   return text;
 }
 
-// Block engine (Risu parser). Any {{/...}} closes the innermost open block (pops by position, not name).
 const BLOCK_OPEN_RE =
   /\{\{#(if_pure|if|when|each|pure_display|puredisplay|pure|escape)\b/;
 
 type BlockResult = {
-  // Emit verbatim (pure/puredisplay/escape/when: already fully processed).
   raw?: string;
-  // Remaining text to keep processing (reinjected body + tail).
   rest: string;
 };
 
-// Find the end of the opening {{#...}} tag, tracking nested {{...}} in args.
 function findTagEnd(text: string, start: number): number {
   let depth = 0;
   for (let j = start; j < text.length - 1; j++) {
@@ -922,7 +872,6 @@ function findTagEnd(text: string, start: number): number {
   return -1;
 }
 
-// Find the matching close tag: {{#...}} pushes, {{/...}} (not {{//}}) pops.
 function findBlockClose(
   text: string,
   from: number,
@@ -953,7 +902,6 @@ function findBlockClose(
   return null;
 }
 
-// Risu newif (#when) else handling: line-based for multiline bodies.
 function applyWhenElse(body: string, truthy: boolean, keep: boolean): string {
   const lines = body.split("\n");
   let result: string;
@@ -976,7 +924,6 @@ function applyWhenElse(body: string, truthy: boolean, keep: boolean): string {
   return keep ? result : trimLines(result);
 }
 
-// Resolve the first block in text (starts at the block opener). null when malformed (caller emits verbatim).
 function resolveFirstBlock(
   text: string,
   scope: MacroScope,
@@ -984,7 +931,6 @@ function resolveFirstBlock(
 ): BlockResult | null {
   const tagEnd = findTagEnd(text, 0);
   if (tagEnd === -1) return null;
-  // Inner macros in the tag resolve first (Risu char-walk order).
   const tag = expandFlat(text.slice(2, tagEnd), scope);
   const closeInfo = findBlockClose(text, tagEnd + 2);
   if (!closeInfo) return null;
@@ -994,7 +940,6 @@ function resolveFirstBlock(
   if (tag.startsWith("#if")) {
     const pure = tag.startsWith("#if_pure");
     if (!evalCondition(tag, scope)) return { raw: "", rest: tail };
-    // Truthy: body processed; #if trims (Risu 'parse'), #if_pure keeps verbatim.
     const expanded = expandBlocks(body, scope, depth + 1);
     return { raw: pure ? expanded : trimLines(expanded.trim()), rest: tail };
   }
@@ -1002,7 +947,6 @@ function resolveFirstBlock(
   if (tag.startsWith("#when")) {
     const truthy = evalCondition(tag, scope);
     const keep = /(^|::|\s)keep(::|\s|$)/.test(tag.slice(5));
-    // Risu newif bodies are NOT pure: both branches expand (side effects run), then the else split cuts the text.
     const expanded = expandBlocks(body, scope, depth + 1);
     return { raw: applyWhenElse(expanded, truthy, keep), rest: tail };
   }
@@ -1035,7 +979,6 @@ function resolveFirstBlock(
     let sub: string;
     let arrExpr: string;
     if (asIndex === -1) {
-      // Compatibility mode: last space-separated token is the var name.
       const subind = arg.lastIndexOf(" ");
       if (subind === -1) return { raw: "", rest: tail };
       sub = arg.slice(subind + 1);
@@ -1053,14 +996,12 @@ function resolveFirstBlock(
         typeof el === "string" ? el : JSON.stringify(el),
       );
     }
-    // Reinject: slot-substituted bodies re-enter the stream (Risu splices into da).
     return { rest: (mode === "keep" ? added : added.trim()) + tail };
   }
 
   return null;
 }
 
-// Left-to-right block resolution; depth caps runaway reinjection.
 function expandBlocks(text: string, scope: MacroScope, depth: number): string {
   if (depth > MAX_RECURSION) return text;
   let out = "";
@@ -1073,7 +1014,6 @@ function expandBlocks(text: string, scope: MacroScope, depth: number): string {
     const rest = text.slice(blockAt);
     const r = resolveFirstBlock(rest, scope, depth);
     if (r === null) {
-      // Malformed block: emit verbatim, stop block processing.
       text = rest;
       break;
     }

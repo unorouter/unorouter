@@ -1,5 +1,3 @@
-// RisuAI parseChatML port: <|im_start|> blocks into role-tagged messages. null when input isn't ChatML.
-
 export type ChatMLMessage = {
   role: "system" | "user" | "assistant";
   content: string;
@@ -39,7 +37,6 @@ export function parseChatML(data: string): ChatMLMessage[] | null {
       }
       v = v.trim();
       if (v.endsWith(ENDER)) v = v.substring(0, v.length - ENDER.length);
-      // Risu strips <Thoughts> into a side channel; the V1 runLLM path only consumes content.
       v = v.replace(/<Thoughts>(.+)<\/Thoughts>/gms, "");
       return { role, content: v };
     });

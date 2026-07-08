@@ -1,5 +1,3 @@
-// Keep in sync with new-api-sync/config.yml; sampler arrays derive from validation TypeBox.
-
 import {
   GENERATION_SAMPLERS,
   GENERATION_SCHEDULERS,
@@ -56,7 +54,6 @@ export type PlaygroundModelDescriptor = {
   supportsVae?: boolean;
   supportsLayerDiffusion?: boolean;
   supportsClipSkip?: boolean;
-  // Missing `tabs` defaults to Text2Img-only in the picker.
   tabs?: ReadonlyArray<"text2img" | "img2img" | "edit">;
 };
 
@@ -132,7 +129,6 @@ export const PLAYGROUND_MODELS: PlaygroundModelDescriptor[] = [
     supportsAdetailer: true,
     supportsEmbedding: true,
     supportsVae: true,
-    // SDXL finetune: same LayerDiffuse constraint as Pony.
     supportsClipSkip: true,
     tabs: ["text2img", "img2img"],
   },
@@ -223,7 +219,6 @@ export const PLAYGROUND_MODELS: PlaygroundModelDescriptor[] = [
     recommendedPromptStyle: "natural-language",
     tabs: ["text2img", "edit"],
   },
-  // Edit-family static fallbacks; dynamic descriptor wins when pricing loaded.
   {
     id: "flux-kontext-max",
     family: "edit",

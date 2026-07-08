@@ -1,11 +1,6 @@
-// Client crash recovery helpers shared by the global + in-app error boundaries.
-
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 
-// Wipe every client storage surface; corrupt state usually survives a plain reload.
 export async function clearAllClientStorage() {
-  // Logged BEFORE localStorage.clear() wipes the debug log too, so the nuke leaves a final trace
-  // that a recovery ran (helps explain a "why did my data vanish" report).
   logChatDebug("recovery.clear_storage");
   try {
     for (const cookie of document.cookie.split(";")) {
@@ -14,13 +9,25 @@ export async function clearAllClientStorage() {
       document.cookie = `${name}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
       document.cookie = `${name}=; path=/; domain=${location.hostname}; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
     }
-  } catch {}
+  } catch (err) {
+    logChatDebug("recovery.cookies_failed", {
+      error: String(err).slice(0, 200),
+    });
+  }
   try {
     localStorage.clear();
-  } catch {}
+  } catch (err) {
+    logChatDebug("recovery.localstorage_failed", {
+      error: String(err).slice(0, 200),
+    });
+  }
   try {
     sessionStorage.clear();
-  } catch {}
+  } catch (err) {
+    logChatDebug("recovery.sessionstorage_failed", {
+      error: String(err).slice(0, 200),
+    });
+  }
   try {
     const root = await navigator.storage?.getDirectory?.();
     if (root) {
@@ -28,7 +35,9 @@ export async function clearAllClientStorage() {
         await root.removeEntry(name, { recursive: true }).catch(() => {});
       }
     }
-  } catch {}
+  } catch (err) {
+    logChatDebug("recovery.opfs_failed", { error: String(err).slice(0, 200) });
+  }
   try {
     if (window.indexedDB?.databases) {
       const dbs = await window.indexedDB.databases();
@@ -36,14 +45,33 @@ export async function clearAllClientStorage() {
         if (db.name) window.indexedDB.deleteDatabase(db.name);
       }
     }
-  } catch {}
+  } catch (err) {
+    logChatDebug("recovery.idb_failed", { error: String(err).slice(0, 200) });
+  }
   try {
     const keys = await caches?.keys?.();
     if (keys) await Promise.all(keys.map((k) => caches.delete(k)));
-  } catch {}
+  } catch (err) {
+    logChatDebug("recovery.caches_failed", {
+      error: String(err).slice(0, 200),
+    });
+  }
 }
 
-// Flatten an Error (plus Next's digest) into a copy-pasteable string with full stack and cause chain for support.
+// A code-split chunk failed to load: stale HTML from a previous build references a chunk the current
+// build replaced. Matches Turbopack/webpack ChunkLoadError + the dynamic-import fetch failure variants.
+export function isChunkLoadError(error: unknown): boolean {
+  if (!error || typeof error !== "object") return false;
+  const name = (error as { name?: string }).name ?? "";
+  const message = (error as { message?: string }).message ?? "";
+  return (
+    name === "ChunkLoadError" ||
+    /Loading chunk [\w-]+ failed|Failed to load chunk|dynamically imported module|Importing a module script failed/i.test(
+      message,
+    )
+  );
+}
+
 export function formatError(error: Error & { digest?: string }) {
   const parts = [
     `Name: ${error.name ?? "Error"}`,

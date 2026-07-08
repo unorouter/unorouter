@@ -17,7 +17,6 @@ function truncateToTitle(text: string): string {
   return `${trimmed.trimEnd()}...`;
 }
 
-// Reasoning models can spend the budget inside a <think> block that becomes the title; strip closed blocks and anything after an unclosed open tag.
 function stripThinkFromTitle(text: string): string {
   let t = text.replace(/<think(?:ing)?>[\s\S]*?<\/think(?:ing)?>/gi, "");
   const openIdx = t.search(/<think(?:ing)?>/i);
@@ -25,14 +24,12 @@ function stripThinkFromTitle(text: string): string {
   return t.trim();
 }
 
-// Stateless; client persists. preferredModel ignored: pinned TITLE_MODELS keep titles language-stable.
 export async function generateChatTitle(
   apiKey: string,
   text: string,
   _preferredModel?: string,
 ) {
   const provider = getProvider(apiKey ?? serverEnv.guestApiKey);
-  // Budget room for a short think block + the title; stripThinkFromTitle removes the reasoning.
   const attempts = TITLE_MODELS.map((modelName) =>
     generateText({
       model: provider.chatModel(modelName),

@@ -48,8 +48,6 @@ export function ogBadge(
 type MetadataParams = {
   locale: Locale;
   href: Pathname;
-  // Duplicate-content pages (e.g. a :free model twin) canonicalize to a different
-  // URL; hreflang alternates follow it too, since hreflang must link canonicals.
   canonicalHref?: Pathname;
   title: string;
   description: string;

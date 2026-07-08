@@ -37,7 +37,6 @@ export const registerSchema = t.Object({
 export const registerChecker = TypeCompiler.Compile(registerSchema);
 export type RegisterSchema = Static<typeof registerSchema>;
 
-// Upstream GET /oauth/v1/authorize/info shape; untrusted until validated.
 export const authRequestInfoSchema = t.Object({
   client_id: t.String(),
   scope: t.String(),

@@ -58,9 +58,7 @@ export function WebMcpProvider() {
     for (const tool of tools) {
       try {
         ctx.registerTool(tool);
-      } catch {
-        // Client does not support registerTool or rejected registration.
-      }
+      } catch {}
     }
   }, [locale, router, t]);
 

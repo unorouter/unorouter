@@ -6,7 +6,6 @@ export type VendorTheme = {
   text: string;
   tagBg: string;
   tagBorder: string;
-  /** Brand hex color for charts and non-Tailwind contexts. */
   primary?: string;
 };
 
@@ -266,6 +265,62 @@ const VENDOR_THEMES: Record<string, VendorTheme> = {
     tagBg: "bg-blue-500/10",
     tagBorder: "border-blue-500/20",
     primary: "#1261fe",
+  },
+  [Vendor.JETBRAINS]: {
+    bg: "bg-fuchsia-500/5",
+    border: "border-fuchsia-500/20",
+    text: "text-fuchsia-700 dark:text-fuchsia-300",
+    tagBg: "bg-fuchsia-500/10",
+    tagBorder: "border-fuchsia-500/20",
+    primary: "#fe315b",
+  },
+  [Vendor.SPEAKLEASH]: {
+    bg: "bg-red-500/5",
+    border: "border-red-500/20",
+    text: "text-red-700 dark:text-red-300",
+    tagBg: "bg-red-500/10",
+    tagBorder: "border-red-500/20",
+    primary: "#dc2626",
+  },
+  [Vendor.PLLUM]: {
+    bg: "bg-rose-500/5",
+    border: "border-rose-500/20",
+    text: "text-rose-700 dark:text-rose-300",
+    tagBg: "bg-rose-500/10",
+    tagBorder: "border-rose-500/20",
+    primary: "#e11d48",
+  },
+  [Vendor.VILLANOVA]: {
+    bg: "bg-sky-500/5",
+    border: "border-sky-500/20",
+    text: "text-sky-700 dark:text-sky-300",
+    tagBg: "bg-sky-500/10",
+    tagBorder: "border-sky-500/20",
+    primary: "#0284c7",
+  },
+  [Vendor.INCEPTION]: {
+    bg: "bg-violet-500/5",
+    border: "border-violet-500/20",
+    text: "text-violet-700 dark:text-violet-300",
+    tagBg: "bg-violet-500/10",
+    tagBorder: "border-violet-500/20",
+    primary: "#7c3aed",
+  },
+  [Vendor.KINFRA]: {
+    bg: "bg-teal-500/5",
+    border: "border-teal-500/20",
+    text: "text-teal-700 dark:text-teal-300",
+    tagBg: "bg-teal-500/10",
+    tagBorder: "border-teal-500/20",
+    primary: "#0d9488",
+  },
+  [Vendor.DEEPREINFORCE]: {
+    bg: "bg-lime-500/5",
+    border: "border-lime-500/20",
+    text: "text-lime-700 dark:text-lime-300",
+    tagBg: "bg-lime-500/10",
+    tagBorder: "border-lime-500/20",
+    primary: "#65a30d",
   },
   [Vendor.MICROSOFT]: {
     bg: "bg-sky-500/5",
@@ -578,6 +633,30 @@ const VENDOR_THEMES: Record<string, VendorTheme> = {
     tagBg: "bg-red-500/10",
     tagBorder: "border-red-500/20",
     primary: "#dc2626",
+  },
+  [Vendor.AGNES]: {
+    bg: "bg-violet-500/5",
+    border: "border-violet-500/20",
+    text: "text-violet-700 dark:text-violet-300",
+    tagBg: "bg-violet-500/10",
+    tagBorder: "border-violet-500/20",
+    primary: "#7c3aed",
+  },
+  [Vendor.REQUESTY]: {
+    bg: "bg-cyan-500/5",
+    border: "border-cyan-500/20",
+    text: "text-cyan-700 dark:text-cyan-300",
+    tagBg: "bg-cyan-500/10",
+    tagBorder: "border-cyan-500/20",
+    primary: "#0891b2",
+  },
+  [Vendor.ELECTRONHUB]: {
+    bg: "bg-amber-500/5",
+    border: "border-amber-500/20",
+    text: "text-amber-700 dark:text-amber-300",
+    tagBg: "bg-amber-500/10",
+    tagBorder: "border-amber-500/20",
+    primary: "#d97706",
   },
 };
 

@@ -92,6 +92,7 @@ function MoverRow(props: { row: RankingMover; intent: "up" | "down" }) {
       <div className="min-w-0 flex-1">
         <ModelLink
           modelName={props.row.model_name}
+          vendor={props.row.vendor}
           className="text-foreground block truncate font-mono text-xs font-medium"
         >
           {props.row.model_name}

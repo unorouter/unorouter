@@ -4,7 +4,6 @@ import { LOCALES } from "../config/constants";
 export const BADGE_SIZES = ["xs", "sm", "md", "lg", "xl", "og"] as const;
 export type BadgeSize = (typeof BADGE_SIZES)[number];
 
-// Social banner sizes, separate from BADGE_SIZES so the generator UI and /all preview never iterate them.
 export const SOCIAL_SIZES = [
   "reddit",
   "reddit-mobile",
@@ -28,8 +27,6 @@ export const BADGE_TYPES = [
 ] as const;
 export type BadgeType = (typeof BADGE_TYPES)[number];
 
-// Standalone types outside the generator/all grid: social banners + the
-// param-driven og badges (model/compare render 1200x630 only).
 export type StandaloneBadgeType = "social" | "model" | "compare";
 
 export const THEMES = ["dark", "light"] as const;
@@ -59,7 +56,6 @@ export const badgeQuery = t.Object({
     ),
   ),
   type: t.Optional(t.Union(BADGE_TYPES.map((v) => t.Literal(v)))),
-  // model badge: one model name. compare badge: comma-separated pair.
   model: t.Optional(t.String({ maxLength: 256 })),
   models: t.Optional(t.String({ maxLength: 600 })),
 });

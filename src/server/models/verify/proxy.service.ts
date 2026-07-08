@@ -3,10 +3,6 @@ import type { VerifyProbeBody } from "@/lib/api/typebox/verify";
 
 const PROBE_MAX_BYTES = 256 * 1024;
 
-// Stateless forward: send the client-built probe request to the user-given URL
-// with the user-given headers/key, return ONLY the upstream JSON + status. No
-// token injection, no logging, no storage. SSRF protection comes from
-// safeFetchRaw (CIDR/DNS allowlist, redirect:manual, port/proto allowlist).
 export async function forwardProbe(
   body: VerifyProbeBody,
 ): Promise<{ status: number; data: unknown }> {

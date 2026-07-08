@@ -1,19 +1,19 @@
-// Retention sweep: deletes expired playground sessions + their R2 objects from Turso.
-
 import { deleteGenerationObject } from "@/lib/config/r2";
 import { getDb } from "@/lib/db/server/client";
 import { media, playgroundSessions, playgrounds } from "@/lib/db/schema";
 import { errMessage } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
+import { acquireOrRenewLease, instanceId } from "@/server/ops/instance-lock";
 import { eq, inArray, lt } from "drizzle-orm";
 
 const SWEEP_INTERVAL_MS = 60_000;
+const LEASE_NAME = "playground-sweeper";
+const LEASE_TTL_MS = 90_000;
 const RETENTION_BATCH_SIZE = 100;
 const RETENTION_DELETE_CONCURRENCY = 4;
 
 let started = false;
 
-// Bounded worker pool over shared cursor.
 async function runPool<T>(
   items: T[],
   concurrency: number,
@@ -38,13 +38,14 @@ export function startGenerationSweeper(): void {
   logger.info("generation retention sweeper started", {
     context: "generation.sweeper",
     intervalMs: SWEEP_INTERVAL_MS,
+    instance: instanceId(),
   });
   schedule();
 }
 
 function schedule(): void {
   setTimeout(() => {
-    void sweepExpired()
+    void tick()
       .catch((err) => {
         logger.error("generation retention sweep failed", {
           context: "generation.sweeper",
@@ -55,7 +56,13 @@ function schedule(): void {
   }, SWEEP_INTERVAL_MS);
 }
 
-// Drop expired session: R2 first, then row (cascade).
+// Only the lease holder sweeps, so 2+ containers never double-delete R2/Turso.
+async function tick(): Promise<void> {
+  const held = await acquireOrRenewLease(LEASE_NAME, LEASE_TTL_MS);
+  if (!held) return;
+  await sweepExpired();
+}
+
 async function purgeSession(sessionId: string): Promise<void> {
   const db = getDb();
   const snaps = await db

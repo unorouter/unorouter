@@ -1,6 +1,5 @@
 import type { IconComponent } from "@/lib/config/vendor-icons";
 
-// Sao10K. No brand mark in any icon pack, so this is an inline mono "S" monogram stand-in.
 const Sao10KIcon: IconComponent = (props) => (
   <svg
     role="img"

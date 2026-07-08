@@ -33,7 +33,6 @@ import { editingTokenAtom } from "./token-list";
 
 export type TokenRow = NonNullable<Token>;
 
-// Cap the models hover list so a key scoped to hundreds of models can't overflow the viewport.
 const MODEL_PREVIEW_CAP = 12;
 
 export function TokenStatusCell(props: CellContext<TokenRow, unknown>) {

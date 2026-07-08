@@ -21,7 +21,6 @@ type EntityHooks<TItem extends WithId, TCreateBody, TUpdateBody, TDetail> = {
   useDelete: () => ReturnType<
     typeof useMutation<{ id: string }, Error, string>
   >;
-  // Duplicate an entity by id: an exact replica with a fresh id + name suffixed " copy" (RisuAI parity).
   useDuplicate: () => ReturnType<
     typeof useMutation<{ id: string }, Error, string>
   >;
@@ -31,7 +30,6 @@ export function makeRpEntity<
   TItem extends WithId,
   TCreateBody,
   TUpdateBody,
-  // Detail row from readItem may be richer than the list row (lorebook + entries).
   TDetail extends WithId = TItem,
 >(opts: {
   listKey: () => readonly unknown[];
@@ -40,10 +38,7 @@ export function makeRpEntity<
   readItem: (userId: number, id: string) => Promise<TDetail | null>;
   upsertLocal: (userId: number, row: TItem) => Promise<void>;
   deleteLocal: (userId: number, id: string) => Promise<void>;
-  // Entity name field for the " copy" suffix. Most entities use "name"; cards/etc may differ. Default "name".
   nameField?: string;
-  // Optional deep-clone writer for entities with child rows (lorebook entries, cards). Receives the source
-  // DETAIL row + a fresh id and must persist the full copy (re-id-ing children). Defaults to a flat upsertLocal.
   cloneEntity?: (
     userId: number,
     detail: TDetail,
@@ -159,7 +154,6 @@ export function makeRpEntity<
           if (opts.cloneEntity) {
             await opts.cloneEntity(userId, detail, newId, copyName);
           } else {
-            // Flat clone: fresh id + timestamps + renamed; child-row entities provide cloneEntity instead.
             const now = dayjs().toDate();
             const row = {
               ...(detail as Record<string, unknown>),

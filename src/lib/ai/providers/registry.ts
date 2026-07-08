@@ -1,6 +1,3 @@
-// Ordered first-match-wins list. Order mirrors the old role-flags RULES exactly (deepseek before glm;
-// gemini-thinking before gemini; claude opus-5 before 4.x/5 before legacy). Do not reorder casually.
-
 import { DEFAULT_ROLE_FLAGS, type ProviderAdapter } from "./types";
 import { deepseekAdapter } from "./deepseek";
 import { glmAdapter } from "./glm";

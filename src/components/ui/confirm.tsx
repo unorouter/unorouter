@@ -18,7 +18,6 @@ export type ConfirmOptions = {
   description?: string;
   confirmLabel: string;
   cancelLabel: string;
-  /** Style the confirm button as a destructive action. */
   destructive?: boolean;
 };
 
@@ -26,14 +25,9 @@ type ConfirmRequest = ConfirmOptions & {
   resolve: (confirmed: boolean) => void;
 };
 
-// One pending request at a time. ConfirmProvider renders from this atom;
-// `confirm()` writes it through the shared chatStore so it works from any
-// handler (event, mutation) without context or prop drilling.
 const confirmRequestAtom = atom<ConfirmRequest | null>(null);
 
-// Imperative window.confirm replacement. Awaitable from any handler.
 export function confirm(options: ConfirmOptions): Promise<boolean> {
-  // A pending confirm is resolved false before a new one replaces it.
   chatStore.get(confirmRequestAtom)?.resolve(false);
   return new Promise<boolean>((resolve) => {
     chatStore.set(confirmRequestAtom, { ...options, resolve });

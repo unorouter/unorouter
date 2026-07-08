@@ -1,7 +1,5 @@
 "use client";
 
-// Client-side TriggerOps: runLLM/checkSimilarity/runImgGen go through the BFF trigger-op endpoint; showAlert uses the dialog/toast.
-
 import { triggerAlert } from "@/components/ui/trigger-alert";
 import type { TriggerOps } from "@/lib/ai/chat/triggers/types";
 import { rpc } from "@/lib/rpc";

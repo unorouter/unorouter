@@ -4,9 +4,6 @@ import { Icon } from "@/components/ui/icon";
 import { useTranslations } from "next-intl";
 import { TESTER_LINKS } from "./links";
 
-// The GitHub + Discord call-to-action pair, rendered as real links. Used wherever
-// the copy invites the user to GitHub or Discord, so the mention is always
-// clickable and the URLs stay centralized (env-derived in links.ts).
 export function CommunityLinks(props: { githubHref?: string }) {
   const t = useTranslations();
   return (

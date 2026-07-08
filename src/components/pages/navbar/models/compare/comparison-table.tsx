@@ -56,6 +56,7 @@ function ModalityIcons(props: { modalities: string[] }) {
 function priceCell(value: number, unit: PriceUnit): string {
   if (unit === "dash" || value <= 0) return "-";
   if (unit === "perImage") return `${formatPrice(value)}/img`;
+  if (unit === "perSecond") return `${formatPrice(value)}/s`;
   return formatPrice(value);
 }
 
@@ -67,7 +68,6 @@ function Bool(props: { on: boolean }) {
   );
 }
 
-// A comparison row: label, per-model render, and optional numeric value for highlight-best (higher=better unless lowerBetter).
 type Row = {
   label: string;
   render: (m: ProcessedModel) => React.ReactNode;

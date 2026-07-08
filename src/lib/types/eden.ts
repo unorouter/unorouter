@@ -5,7 +5,6 @@ type ExtractParams<TRoute> = TRoute extends (...args: any[]) => any
   ? Parameters<TRoute>[0]
   : {};
 
-// Hybrid route: callable + has methods. Return-type check first, own-props second.
 type ResolveMethod<TRoute, TMethod extends string> = TRoute extends (
   ...args: any[]
 ) => any
@@ -18,7 +17,6 @@ type ResolveMethod<TRoute, TMethod extends string> = TRoute extends (
     ? TRoute[TMethod]
     : never;
 
-// Uses `keyof` to detect optional properties that `extends { key: any }` would miss.
 type IsOptions<T> = [T] extends [never]
   ? false
   : "query" extends keyof NonNullable<T>
@@ -37,7 +35,6 @@ type ExtractQuery<T> = "query" extends keyof NonNullable<T>
     : { query: NonNullable<T>["query"] }
   : {};
 
-// Treaty 2: idx0=options for GET, body for POST. Detect first.
 type ExtractBodyAndQuery<TFn> = TFn extends (...args: any[]) => any
   ? 0 extends keyof Parameters<TFn>
     ? IsOptions<Parameters<TFn>[0]> extends true
@@ -73,7 +70,6 @@ export type ExtractData<T> = T extends { data: infer D }
   ? NonNullable<D>
   : never;
 
-// TS's NonNullable only removes null | undefined; void survives as `void & {}`.
 export type ExcludeVoid<T> = T extends void ? never : T;
 
 export type UnwrapApiResponse<T> = ExcludeVoid<

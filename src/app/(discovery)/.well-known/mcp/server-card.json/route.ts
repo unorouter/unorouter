@@ -4,7 +4,6 @@ import { getTranslations } from "next-intl/server";
 
 export const dynamic = "force-dynamic";
 
-// SEP-2127 server card; body in @/lib/config/mcp-server-card, shared with /.well-known/mcp.json.
 export async function GET() {
   const locale = await serverLocale();
   const t = await getTranslations({ locale });

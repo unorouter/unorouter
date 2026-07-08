@@ -109,8 +109,6 @@ function markdownBlock(md: UserTheme["markdown"]): string {
   if (md.singleQuote) vars["md-single-quote"] = md.singleQuote;
   if (md.doubleQuote) vars["md-double-quote"] = md.doubleQuote;
   const varsBlock = emitBlock(":root", vars);
-  // Apply vars via CSS so nested italic+bold (<strong><em>) gets its own slot.
-  // Plain text falls through to inherited foreground when md-normal unset.
   const rules: string[] = [];
   if (md.normal) rules.push(".aui-md p,.aui-md li{color:var(--md-normal);}");
   if (md.italic) rules.push(".aui-md em{color:var(--md-italic);}");
@@ -126,8 +124,6 @@ function markdownBlock(md: UserTheme["markdown"]): string {
   return [varsBlock, ...rules].filter(Boolean).join("");
 }
 
-// Map one scheme's freeform surface overrides to css vars (a surface knob may
-// drive several vars, e.g. card also sets popover).
 function surfaceVars(surface: SurfaceColors | undefined): ThemeCssVars {
   const vars: ThemeCssVars = {};
   if (!surface) return vars;
@@ -150,8 +146,6 @@ function surfaceVars(surface: SurfaceColors | undefined): ThemeCssVars {
   return vars;
 }
 
-// Per-scheme surface overrides (RisuAI parity): light -> :root, dark -> .dark,
-// placed after the base/accent blocks so they win within their own scheme.
 function surfaceBlock(surface: UserTheme["surface"]): string {
   const palette = normalizeSurface(surface);
   return [
@@ -164,7 +158,6 @@ function surfaceBlock(surface: UserTheme["surface"]): string {
 
 const HEX_RE = /^#?([0-9a-fA-F]{6}|[0-9a-fA-F]{3})$/;
 
-// Normalize "#abc" / "abc" / "#aabbcc" to "#aabbcc"; null if not a hex color.
 function normHex(v: string | undefined): string | null {
   if (!v) return null;
   const m = HEX_RE.exec(v.trim());
@@ -174,8 +167,6 @@ function normHex(v: string | undefined): string | null {
   return `#${h.toLowerCase()}`;
 }
 
-// Relative luminance (sRGB, gamma-ignored approximation) to pick a readable
-// foreground over a custom background.
 function isLight(hex: string): boolean {
   const r = parseInt(hex.slice(1, 3), 16);
   const g = parseInt(hex.slice(3, 5), 16);
@@ -183,8 +174,6 @@ function isLight(hex: string): boolean {
   return (0.299 * r + 0.587 * g + 0.114 * b) / 255 > 0.6;
 }
 
-// Five chart shades from one hue via color-mix, lightest to darkest. The mix
-// targets flip per scheme so the ramp reads on both light and dark backgrounds.
 function chartShades(hex: string, dark: boolean): ThemeCssVars {
   const lift = dark ? "white" : "black";
   const drop = dark ? "black" : "white";
@@ -197,9 +186,6 @@ function chartShades(hex: string, dark: boolean): ThemeCssVars {
   };
 }
 
-// Custom-color overrides for the "custom" sentinel on base/theme/chart pickers.
-// Emitted after the base+accent merge so they win, but BEFORE surfaceBlock so an
-// explicit surface override still trumps a custom picker.
 function customVars(theme: UserTheme, dark: boolean): ThemeCssVars {
   const out: ThemeCssVars = {};
   if (theme.baseColor === "custom") {
@@ -268,8 +254,6 @@ export function buildThemeCss(theme: UserTheme): string {
   return [
     emitBlock(":root", light),
     emitBlock(".dark", dark),
-    // Custom base/theme/chart colors win over the preset merge, but still lose
-    // to an explicit surface override below.
     customBlock(theme),
     styleVarsBlock(theme.style),
     bodyFontBlock,
@@ -283,17 +267,12 @@ export function buildThemeCss(theme: UserTheme): string {
     .join("\n");
 }
 
-// Scale ONLY chat message text (accessibility). em-relative so it compounds with
-// the user's font choice + responsive sizes instead of a hard px. No-op at 1.
 function chatFontSizeBlock(scale: number | undefined): string {
   if (!scale || scale === 1) return "";
   const s = Math.max(0.5, Math.min(3, scale));
   return `:root{--chat-font-scale:${s};}.aui-md,.aui-user-message-content{font-size:calc(1em * var(--chat-font-scale,1));}`;
 }
 
-// Image data URL injected client-side (localStorage, not cookie). Painted on
-// `body::before` so blur/opacity stay off content; body goes transparent so the
-// image shows between panels (RisuAI-style float-over-background).
 export function buildBackgroundCss(
   image: string | null,
   bg: BackgroundSettings | undefined,
@@ -302,8 +281,6 @@ export function buildBackgroundCss(
   const fit = bg?.fit ?? "cover";
   const opacity = bg?.opacity ?? 1;
   const blur = bg?.blur ?? 0;
-  // RisuAI float-over-background: panels go translucent so the image reads behind
-  // every surface. clamp to [0,1]; 1 = fully opaque (image only in gaps).
   const panelOpacity = Math.min(1, Math.max(0, bg?.panelOpacity ?? 0.75));
   const pct = Math.round(panelOpacity * 100);
   const sizeRule =
@@ -311,10 +288,6 @@ export function buildBackgroundCss(
       ? "background-repeat:repeat;background-size:auto;"
       : `background-repeat:no-repeat;background-size:${fit};`;
   const safeUrl = image.replace(/["\\]/g, "");
-  // The opaque surface wrappers (SidebarInset .bg-background, Sidebar .bg-sidebar,
-  // cards/popovers) paint over body::before. With an image active, knock them back
-  // to a color-mix translucency + backdrop-blur so the image shows through. Scoped
-  // under [data-bg-active] so the no-image state is byte-identical to before.
   const surfaceMix = (varName: string) =>
     `color-mix(in srgb, var(--${varName}) ${pct}%, transparent)`;
   const translucent =

@@ -94,6 +94,11 @@ export const queryKeys = {
   perfMetrics: (modelName: string, hours: number) =>
     ["perf-metrics", modelName, hours] as const,
 
+  benchmarks: (modelName: string) => ["benchmarks", modelName] as const,
+
+  modelRanking: (modelName: string, period: string) =>
+    ["model-ranking", modelName, period] as const,
+
   modelStatusPage: (bucket: string, hours: number) =>
     ["model-status", "page", bucket, hours] as const,
   modelStatusComponents: () => ["model-status", "components"] as const,

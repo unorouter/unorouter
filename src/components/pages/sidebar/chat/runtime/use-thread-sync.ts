@@ -22,14 +22,12 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useSetAtom } from "jotai";
 import { useEffect, useRef } from "react";
 
-// Mirrors the active thread's remoteId into convIdAtom for imperative readers.
 export function useConvIdSync(remoteId: string | null | undefined) {
   useEffect(() => {
     chatStore.set(convIdAtom, remoteId ?? null);
   }, [remoteId]);
 }
 
-// Two-way model sync: conv seeds atom; later atom changes patch settings-only.
 export function useModelSync(remoteId: string | null | undefined) {
   const userId = useLocalUserId();
   const setChatModel = useSetAtom(chatModelAtom);
@@ -55,7 +53,6 @@ export function useModelSync(remoteId: string | null | undefined) {
       );
       if (cached?.model === newModel) return;
       void (async () => {
-        // Settings FK needs the parent conv row; before initialize() seeds it, bail and let initialize read chatModelAtom directly.
         const conv = await readLocalConversation(userId, id);
         if (!conv) return;
         await updateLocalConversationSettings(userId, {
@@ -69,7 +66,6 @@ export function useModelSync(remoteId: string | null | undefined) {
   }, [queryClient, userId]);
 }
 
-// Two-way group sync: conv seeds atom; later atom changes patch settings-only.
 export function useGroupSync(remoteId: string | null | undefined) {
   const userId = useLocalUserId();
   const setChatGroup = useSetAtom(chatGroupAtom);
@@ -107,10 +103,6 @@ export function useGroupSync(remoteId: string | null | undefined) {
   }, [queryClient, userId]);
 }
 
-// Seeds the per-conversation overrides used by buildChatRequestBody (sampling in chatDefaultsAtom + the
-// separate chatWebSearchAtom) from the conversation's saved DB settings when a conversation opens. Without this
-// these atoms keep the global cookie defaults on refresh, so a conversation's saved sampling/web-search silently
-// reverted to defaults (model + group already had their own seeding in useModelSync/useGroupSync).
 const OVERRIDE_KEYS = [
   "reasoningEffort",
   "temperature",
@@ -154,7 +146,6 @@ export function useSettingsSync(remoteId: string | null | undefined) {
   }, [remoteId, settings, setDefaults, setWebSearch]);
 }
 
-// Pin scroll on thread load. Releases on user scroll > USER_SCROLL_THRESHOLD.
 const USER_SCROLL_THRESHOLD = 80;
 
 export function useScrollToBottom(
@@ -170,7 +161,6 @@ export function useScrollToBottom(
     const pin = () => {
       const distanceFromBottom =
         scroller.scrollHeight - scroller.scrollTop - scroller.clientHeight;
-      // User scrolled up; release the pin.
       if (
         scroller.scrollTop < lastTarget - USER_SCROLL_THRESHOLD &&
         distanceFromBottom > USER_SCROLL_THRESHOLD

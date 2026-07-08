@@ -27,7 +27,6 @@ export function ModeTabs() {
   const searchParams = useSearchParams();
   const urlTab = searchParams.get("tab") as GenerateTab | null;
 
-  // URL is source of truth on mount; click handler rewrites URL after.
   useEffect(() => {
     if (
       urlTab &&
@@ -42,7 +41,6 @@ export function ModeTabs() {
     setActiveTab(tab);
     const url = new URL(window.location.href);
     url.searchParams.set("tab", tab);
-    // Sub-pill is img2img-only; drop stale state when leaving the tab.
     if (tab !== "img2img") url.searchParams.delete("mode");
     window.history.replaceState(null, "", url.toString());
   };

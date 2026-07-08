@@ -3,7 +3,6 @@
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 
-// Per-arc state: one arc per probe. pending = gray, pass = emerald, fail = red.
 export type GaugeArc = "pending" | "pass" | "fail";
 
 const ARC_COLOR: Record<GaugeArc, string> = {
@@ -12,8 +11,6 @@ const ARC_COLOR: Record<GaugeArc, string> = {
   fail: "stroke-destructive",
 };
 
-// A ring split into one arc per probe so the reader sees WHICH checks passed at a
-// glance, not just an opaque percentage (the APIMaster gauge shows only a number).
 export function ScoreGauge(props: {
   arcs: GaugeArc[];
   running: boolean;

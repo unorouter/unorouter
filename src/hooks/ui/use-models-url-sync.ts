@@ -38,7 +38,6 @@ function csv(value: string | null): string[] {
     : [];
 }
 
-// Two-way sync of models filter atoms with the URL. Seeds from the URL once on mount (only when empty), then mirrors atoms back.
 export function useModelsUrlSync() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -85,7 +84,6 @@ export function useModelsUrlSync() {
     const order = SORT_VALUES.find((x) => x === searchParams.get("order"));
     if (order && sortOrder === "newest") setSortOrder(order);
     if (searchParams.get("tools") === "1" && !toolsOnly) setToolsOnly(true);
-    // Mount-only seed; deps intentionally omitted.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

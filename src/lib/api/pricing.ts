@@ -9,7 +9,6 @@ import {
 const MODEL_TYPES = ["text", "image", "video", "audio", "embedding"] as const;
 export type ModelType = (typeof MODEL_TYPES)[number];
 
-// Media = any non-text type: not an OpenAI chat-completion, so it dispatches to a media endpoint.
 export function isMediaType(type: ModelType | undefined): boolean {
   return type != null && type !== "text";
 }
@@ -21,10 +20,8 @@ export type EndpointInfo = {
   path: string;
 };
 
-// Mirrors SourceMetadata in new-api-sync core/pricing/sources/types.ts.
 export type ModelMetadata = {
   maxInputTokens?: number;
-  // Thinking models (glm/kimi/qwen): reasoning_content phase consumes budget pre-content.
   maxOutputTokens?: number;
   contextWindow?: number;
   isReasoning?: boolean;
@@ -43,21 +40,15 @@ export type ModelMetadata = {
   maxImageInputs?: number;
   tokenizer?: string;
   knowledgeCutoff?: string;
-  // Model release date (OpenRouter `created`), ISO string. Primary "Released"/"Newest" source.
   releaseDate?: string;
-  // Model family/series (OpenRouter `group`): Claude / GPT / Gemini / ...
   series?: string;
-  // Usage categories (OpenRouter cards): programming / roleplay / marketing / ...
   categories?: string[];
   deprecationDate?: string;
   mode?: string;
   description?: string;
 
-  // Intersection across all OR endpoints.
   supportedParameters?: string[];
-  // Union across all OR endpoints ("expert mode").
   supportedParametersAll?: string[];
-  // null = OR says "don't send".
   defaultParameters?: Record<string, number | null>;
 
   reasoningEfforts?: ("none" | "minimal" | "low" | "medium" | "high" | "max")[];
@@ -92,9 +83,7 @@ function parseModelMetadata(raw: string | undefined): ModelMetadata {
   try {
     const parsed = JSON.parse(raw);
     if (parsed && typeof parsed === "object") return parsed as ModelMetadata;
-  } catch {
-    // Malformed: fall through.
-  }
+  } catch {}
   return {};
 }
 
@@ -116,7 +105,6 @@ export function processModels(response: PricingData) {
         icon: raw?.icon,
       };
       const qt = model.quota_type ?? 0;
-      // Types 1 (fixed), 3 (custom), 4 (grid) all use model_price.
       const isFixedPrice = qt === 1 || qt === 3 || qt === 4;
       const billingMode = model.billing_mode ?? null;
       const billingExpr = model.billing_expr ?? null;
@@ -128,25 +116,22 @@ export function processModels(response: PricingData) {
       let originalFixedPrice: number | null = null;
       let originalInputPrice: number | null = null;
       let originalOutputPrice: number | null = null;
-      // Mirrors new-api-sync guest-token allowlist so FREE badge tracks guest-callable.
       let isFreeStrict = false;
 
+      const gridMinRatio = computeMinGroupRatio(
+        model.enable_groups ?? [],
+        groupRatio,
+      );
+
       if (isFixedPrice) {
-        // Per-call sticker is model_price; the cheapest enabled group ratio is the
-        // real retail (new-api bills modelPrice * QuotaPerUnit * groupRatio). Show
-        // the discounted retail, strike through the sticker.
         const sticker = model.model_price ?? 0;
-        const minRatio = computeMinGroupRatio(
-          model.enable_groups ?? [],
-          groupRatio,
-        );
+        const minRatio = gridMinRatio;
         fixedPrice = sticker * minRatio;
         if (showOriginalPrice && minRatio < 1 && sticker > 0) {
           originalFixedPrice = sticker;
         }
         isFreeStrict = fixedPrice === 0;
       } else if (isTiered) {
-        // Tiered: ratios ignored. Cards show the cheapest tier's input/output as a "from" price; full table on the detail page.
         const minRatio = computeMinGroupRatio(
           model.enable_groups ?? [],
           groupRatio,
@@ -176,7 +161,6 @@ export function processModels(response: PricingData) {
         inputPrice = (model.model_ratio ?? 0) * 2 * minRatio;
         outputPrice = inputPrice * (model.completion_ratio ?? 0);
 
-        // Mirror new-api-sync isGroupPriceZero: reachable-free when any enabled group prices at 0. Guests auto-route to the free group.
         const modelRatio = model.model_ratio ?? 0;
         const modelPriceVal = model.model_price ?? 0;
         const groupIsFree = (g: string) =>
@@ -197,6 +181,19 @@ export function processModels(response: PricingData) {
       const gridPricing =
         Array.isArray(rawGrid) && rawGrid.length > 0 ? rawGrid : null;
 
+      if (gridPricing) {
+        let minTier = Number.POSITIVE_INFINITY;
+        for (const row of gridPricing) {
+          const p = typeof row.Pricing === "number" ? row.Pricing : NaN;
+          if (Number.isFinite(p) && p > 0 && p < minTier) minTier = p;
+        }
+        if (Number.isFinite(minTier)) {
+          fixedPrice = minTier * gridMinRatio;
+          originalFixedPrice =
+            showOriginalPrice && gridMinRatio < 1 ? minTier : null;
+        }
+      }
+
       return {
         name: model.model_name ?? "",
         vendor,
@@ -209,6 +206,7 @@ export function processModels(response: PricingData) {
         isFree: isFreeStrict,
         quotaType: qt,
         gridPricing,
+        gridMinRatio,
         type: getModelType(model),
         endpointTypes: model.supported_endpoint_types ?? [],
         description: model.description,
@@ -228,8 +226,8 @@ export function processModels(response: PricingData) {
         enableGroups: model.enable_groups ?? [],
         originalInputPrice,
         originalOutputPrice,
-        // Fallback release date (new-api created_time, unix seconds); the Orval type lags it, so read defensively.
         createdTime: (model as { created_time?: number }).created_time ?? null,
+        online: model.online ?? true,
         metadata: parseModelMetadata(model.metadata),
       };
     })
@@ -287,7 +285,6 @@ export function buildPricingSummary(response: PricingData) {
     const idx = typeOrder.indexOf(tag);
     return idx === -1 ? typeOrder.length : idx;
   };
-  // Match the models-page ordering: free first, then newest release first.
   const releaseTs = (m: ProcessedModel) => {
     const iso = m.metadata.releaseDate;
     const ms = iso ? Date.parse(iso) : NaN;
@@ -359,7 +356,6 @@ export function buildPricingSummary(response: PricingData) {
     firstFreeModel,
     endpointMap,
     groupRatioMap: response.group_ratio ?? {},
-    // Routing-group -> "<model> via <reseller> (<upstream>)" label, keyed by a model's enableGroups entry.
     usableGroup: response.usable_group ?? {},
     autoGroups: response.auto_groups ?? [],
     topDiscounted,
@@ -393,9 +389,12 @@ export function findContextTag(model: ProcessedModel): string | undefined {
   return (model.tags ?? []).find((tag) => /\d+K$|\d+\.\d+K$/.test(tag));
 }
 
+export function vendorDisplayName(name: string): string {
+  return name.replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
 export type GroupEntry = { group: string; ratio: number };
 
-// Channel group ids often embed the model name; strip a trailing occurrence for display, keep the real value.
 export function groupDisplayLabel(group: string, model: string | null): string {
   if (!model) return group;
   const stripped = group
@@ -404,7 +403,6 @@ export function groupDisplayLabel(group: string, model: string | null): string {
   return stripped.length > 0 ? stripped : group;
 }
 
-// A model's billing groups with their ratios, cheapest first. Groups without a known ratio are skipped.
 export function buildGroupEntries(
   enableGroups: readonly string[],
   groupRatioMap: Record<string, number>,
@@ -418,7 +416,6 @@ export function buildGroupEntries(
   return entries.sort((a, b) => a.ratio - b.ratio);
 }
 
-// Shared by both grid-pricing table skins (detail page + vendor-themed sheet).
 export function gridPricingColumns(rows: GridPricingRow[]): string[] {
   const first = rows[0];
   if (!first) return [];

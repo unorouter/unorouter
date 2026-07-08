@@ -35,8 +35,11 @@ export const IS_DEV = process.env.NODE_ENV === "development";
 export const POSTHOG_DISABLED =
   process.env.NEXT_PUBLIC_POSTHOG_DISABLED === "true";
 
-// Next Data Cache opt-in for PUBLIC upstream GETs (no user headers); spread into Orval call options. Non-200 not cached.
 export const PUBLIC_CACHE = { next: { revalidate: 3600 } } as const;
+
+export const THIRTY_DAY_CACHE = {
+  next: { revalidate: 60 * 60 * 24 * 30 },
+} as const;
 
 export const NEW_API_USER = "New-Api-User";
 export const ACCESS_TOKEN_COOKIE = "access_token" as const;
@@ -62,7 +65,6 @@ export const PAGE_SIZE_OPTIONS = [10, 20, 50, 100] as const;
 
 export const GUEST_USER_ID = 0;
 
-// Playground session TTL; the server sweeper purges sessions past this age.
 export const RETENTION_MS = 30 * 24 * 60 * 60 * 1000;
 
 export const LOCALES = [
@@ -86,9 +88,7 @@ export const LOCALES = [
   "zh-TW",
 ] as const;
 
-// Conversation export envelope format versions.
 export const NATIVE_VERSION = `${env.appName.toLowerCase()}.1.0` as const;
-// OpenRouter envelope extension key for non-standard fields (lorebooks, etc.).
 export const ORPG_EXTENSION_KEY = `_${env.appName.toLowerCase()}_extension`;
 export const ORPG_VERSION = "orpg.3.0";
 
@@ -128,41 +128,31 @@ export const APP_VALUES = {
   supportEmail: env.supportEmail,
 };
 
-// Sentinel "no selection" string; null/"" reserved by Select control.
 export const NONE_VALUE = "__none__";
 
-// uid() alphabet: 62 alphanumerics, rejection-sampled for uniform output.
 export const UID_ALPHABET =
   "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
-// Max edge length for client-side image downscale before persisting.
 export const IMAGE_MAX_DIM = 2048;
 
-// Clamp inflated free-tier maxOutputTokens to channel limit.
 export const FREE_MODEL_OUTPUT_CAP = 8192;
 
-// Fallback ceiling when a model omits maxOutputTokens. 4096 is the widest safe default.
 export const UNKNOWN_MODEL_OUTPUT_CAP = 4096;
 
-// Headroom kept clear when fitting history to the context window: covers tokenizer drift plus post-truncation injects.
 export const CONTEXT_SAFETY_MARGIN = 2048;
 
-// Chat-memory fallback when neither conv nor preset sets it. Matches the slider max
-// so a fresh chat sits at the top; non-zero so memory isn't silently disabled for guests.
 export const DEFAULT_CHAT_MEMORY = 200;
 
 export const TAVILY_TIMEOUT_MS = 5_000;
 
 export const MODERATION_TIMEOUT_MS = 5_000;
 
-// Bounded recursive lorebook passes; runaway-growth guard.
 export const MAX_RECURSIVE_LOREBOOK_PASSES = 3;
 
 export const TITLE_SYSTEM_PROMPT = `Generate a concise title (max 8 words) for this conversation based on the user's message.
 The title MUST be in the same language as the user's message.
 Return only the title text, no quotes or formatting.`;
 
-// Pinned (raced via Promise.any): English-native + most free channels, so titles don't drift language.
 export const TITLE_MODELS = [
   "gpt-oss-120b:free",
   "gpt-oss-20b:free",

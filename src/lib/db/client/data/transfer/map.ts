@@ -1,5 +1,3 @@
-// Pure transforms between export envelopes and DB row shapes.
-
 import { uid } from "@/lib/utils/base";
 import type {
   LocalAnyRow,
@@ -12,7 +10,6 @@ import type {
 import { ORPG_EXTENSION_KEY } from "@/lib/config/constants";
 import { dayjs } from "@/lib/utils/format/date";
 
-// Conv reduced to row objects for bundle upsert + standalone entity upserts.
 export type MappedImport = {
   convId: string;
   persona: LocalAnyRow | null;
@@ -34,7 +31,6 @@ export type MappedImport = {
   };
 };
 
-// Typed coercion of untrusted export values; null on wrong type.
 const str = (v: unknown): string | null => (typeof v === "string" ? v : null);
 const num = (v: unknown): number | null => (typeof v === "number" ? v : null);
 const bool = (v: unknown): boolean | null =>
@@ -57,7 +53,6 @@ const recArr = (v: unknown): Record<string, unknown>[] => {
   return out;
 };
 
-// Remap entity ids on import so a re-import does not collide with existing rows.
 function buildIdMap(
   items: ReadonlyArray<{ id?: unknown }> | undefined,
 ): Map<string, string> {
@@ -234,7 +229,6 @@ export function mapNativeImport(native: NativeImport): MappedImport {
   };
 }
 
-// Normalizes an orpg item ref + payload into our message-item type.
 function orpgItemType(orpgType: string): string {
   if (orpgType === "reasoning") return "reasoning";
   if (orpgType === "tool_call") return "tool_call";
@@ -245,7 +239,6 @@ function orpgItemType(orpgType: string): string {
 function orpgTextPayload(content: unknown): { text: string } {
   if (typeof content === "string") return { text: content };
   if (Array.isArray(content)) {
-    // OpenRouter: user content is input_text, assistant is output_text.
     const part = recArr(content).find(
       (p) => p.type === "output_text" || p.type === "input_text",
     );
@@ -383,7 +376,6 @@ export function mapOrpgImport(data: OrpgImport): MappedImport {
   };
 }
 
-// SillyTavern send_date is ISO in some exporters, epoch ms in others.
 function parseStDate(raw: string | undefined): Date | null {
   if (!raw) return null;
   const d = dayjs(/^\d+$/.test(raw) ? Number(raw) : raw);
@@ -392,7 +384,6 @@ function parseStDate(raw: string | undefined): Date | null {
 
 type StParsed = { metadata: StMetadata | null; messages: StMessage[] };
 
-// Splits ST .jsonl: optional metadata header + message lines.
 export function parseStJsonl(text: string): StParsed {
   const lines = text
     .split("\n")
@@ -406,21 +397,17 @@ export function parseStJsonl(text: string): StParsed {
     metadata = null;
   }
 
-  // Some exporters skip the metadata line; detect by `mes`/`is_user` shape.
   const messageLines = metadata?.user_name ? lines.slice(1) : lines;
   const messages: StMessage[] = [];
   for (const ln of messageLines) {
     try {
       const parsed = JSON.parse(ln) as StMessage;
       if (typeof parsed.mes === "string") messages.push(parsed);
-    } catch {
-      // skip unparseable lines
-    }
+    } catch {}
   }
   return { metadata, messages };
 }
 
-// Maps ST messages to local rows; baseTime seeds fallback timestamp.
 export function mapStImport(parsed: StParsed, baseTime: Date): MappedImport {
   const convId = uid();
   const title =

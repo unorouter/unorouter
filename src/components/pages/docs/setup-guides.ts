@@ -6,7 +6,6 @@ import type { IntegrationColor, IntegrationIconKey } from "./integrations";
 
 export type SetupCategory = "coding" | "roleplay" | "general" | "cli";
 
-/** Six OpenAI/Anthropic surface flags. Rendered as chips; only true ones show. */
 export interface SetupCompatibility {
   chatCompletions?: boolean;
   messages?: boolean;
@@ -19,21 +18,12 @@ export interface SetupCompatibility {
 export interface SetupStep {
   titleKey: TranslationKey;
   bodyKey: TranslationKey;
-  /** Optional literal code block (never translated). */
   code?: { lang: string; value: string };
 }
 
-/**
- * One data-driven guide; card surface and page render from this single object.
- * baseUrl is the bare API base, apiPath the optional client route suffix
- * (e.g. "/chat/completions"); encode the URL-suffix rule as data, never prose.
- */
 export interface SetupGuide {
-  /** Route param + DOCS_REGISTRY slug suffix. */
   slug: string;
-  /** e.g. { pathname: "/docs/integrations/[slug]", params: { slug } } or "/docs/integrations/sillytavern". */
   href: LinkHref;
-  /** "DOCS.SILLYTAVERN" - matches en.json + registry i18nPrefix. */
   i18nPrefix: string;
   kind: "cli" | "rp" | "general";
   category: SetupCategory;
@@ -48,20 +38,14 @@ export interface SetupGuide {
   baseUrl: string;
   apiPath?: string;
   compatibility: SetupCompatibility;
-  /** Hint only; template calls getFreeTextModels() at runtime. Leave empty unless a fixed fallback is needed. */
   recommendedModels: string[];
   steps: SetupStep[];
   gotchaKeys?: TranslationKey[];
-  // Escape hatches:
-  /** CLI: shell snippet per OS. Template renders OSTabs when present. */
   quickStart?: Record<OS, string>;
-  /** RP/general: single URL+key paste block under Quick Config. */
   quickConfig?: string;
-  /** Bespoke body switch in [slug]/page.tsx (e.g. the cc-switch installer). */
   customComponent?: "cc-switch" | "claude-code";
 }
 
-/** Tailwind color set generator for a guide card/page accent. */
 function guideColor(c: string): IntegrationColor {
   return {
     accent: `text-${c}-500`,
@@ -78,7 +62,10 @@ function guideColor(c: string): IntegrationColor {
 export const SETUP_GUIDES: SetupGuide[] = [
   {
     slug: "librechat",
-    href: { pathname: "/docs/integrations/[slug]", params: { slug: "librechat" } },
+    href: {
+      pathname: "/docs/integrations/[slug]",
+      params: { slug: "librechat" },
+    },
     i18nPrefix: "DOCS.LIBRECHAT",
     kind: "general",
     category: "general",
@@ -133,7 +120,10 @@ export const SETUP_GUIDES: SetupGuide[] = [
   },
   {
     slug: "open-webui",
-    href: { pathname: "/docs/integrations/[slug]", params: { slug: "open-webui" } },
+    href: {
+      pathname: "/docs/integrations/[slug]",
+      params: { slug: "open-webui" },
+    },
     i18nPrefix: "DOCS.OPEN_WEBUI",
     kind: "general",
     category: "general",
@@ -176,7 +166,10 @@ OpenAI API Key: YOUR_API_KEY`,
   },
   {
     slug: "lobechat",
-    href: { pathname: "/docs/integrations/[slug]", params: { slug: "lobechat" } },
+    href: {
+      pathname: "/docs/integrations/[slug]",
+      params: { slug: "lobechat" },
+    },
     i18nPrefix: "DOCS.LOBECHAT",
     kind: "general",
     category: "general",
@@ -224,7 +217,10 @@ API Key: YOUR_API_KEY`,
   },
   {
     slug: "anythingllm",
-    href: { pathname: "/docs/integrations/[slug]", params: { slug: "anythingllm" } },
+    href: {
+      pathname: "/docs/integrations/[slug]",
+      params: { slug: "anythingllm" },
+    },
     i18nPrefix: "DOCS.ANYTHINGLLM",
     kind: "general",
     category: "general",
@@ -267,7 +263,10 @@ Token context window: 50000`,
   },
   {
     slug: "cherry-studio",
-    href: { pathname: "/docs/integrations/[slug]", params: { slug: "cherry-studio" } },
+    href: {
+      pathname: "/docs/integrations/[slug]",
+      params: { slug: "cherry-studio" },
+    },
     i18nPrefix: "DOCS.CHERRY_STUDIO",
     kind: "general",
     category: "general",
@@ -311,7 +310,10 @@ API Key: YOUR_API_KEY`,
   },
   {
     slug: "typingmind",
-    href: { pathname: "/docs/integrations/[slug]", params: { slug: "typingmind" } },
+    href: {
+      pathname: "/docs/integrations/[slug]",
+      params: { slug: "typingmind" },
+    },
     i18nPrefix: "DOCS.TYPINGMIND",
     kind: "general",
     category: "general",
@@ -400,7 +402,10 @@ Context Length: 80000`,
   },
   {
     slug: "page-assist",
-    href: { pathname: "/docs/integrations/[slug]", params: { slug: "page-assist" } },
+    href: {
+      pathname: "/docs/integrations/[slug]",
+      params: { slug: "page-assist" },
+    },
     i18nPrefix: "DOCS.PAGE_ASSIST",
     kind: "general",
     category: "general",
@@ -445,7 +450,10 @@ API Key: YOUR_API_KEY`,
   },
   {
     slug: "chatbox",
-    href: { pathname: "/docs/integrations/[slug]", params: { slug: "chatbox" } },
+    href: {
+      pathname: "/docs/integrations/[slug]",
+      params: { slug: "chatbox" },
+    },
     i18nPrefix: "DOCS.CHATBOX",
     kind: "general",
     category: "general",
@@ -492,7 +500,10 @@ API Key: YOUR_API_KEY`,
   },
   {
     slug: "big-agi",
-    href: { pathname: "/docs/integrations/[slug]", params: { slug: "big-agi" } },
+    href: {
+      pathname: "/docs/integrations/[slug]",
+      params: { slug: "big-agi" },
+    },
     i18nPrefix: "DOCS.BIG_AGI",
     kind: "general",
     category: "general",
@@ -533,7 +544,10 @@ API Endpoint: ${env.apiUrl}/v1`,
   },
   {
     slug: "sillytavern",
-    href: { pathname: "/docs/integrations/[slug]", params: { slug: "sillytavern" } },
+    href: {
+      pathname: "/docs/integrations/[slug]",
+      params: { slug: "sillytavern" },
+    },
     i18nPrefix: "DOCS.SILLYTAVERN",
     kind: "rp",
     category: "roleplay",
@@ -589,7 +603,10 @@ API Endpoint: ${env.apiUrl}/v1`,
   },
   {
     slug: "janitor-ai",
-    href: { pathname: "/docs/integrations/[slug]", params: { slug: "janitor-ai" } },
+    href: {
+      pathname: "/docs/integrations/[slug]",
+      params: { slug: "janitor-ai" },
+    },
     i18nPrefix: "DOCS.JANITOR_AI",
     kind: "rp",
     category: "roleplay",
@@ -758,7 +775,10 @@ API Endpoint: ${env.apiUrl}/v1`,
   },
   {
     slug: "opencode",
-    href: { pathname: "/docs/integrations/[slug]", params: { slug: "opencode" } },
+    href: {
+      pathname: "/docs/integrations/[slug]",
+      params: { slug: "opencode" },
+    },
     i18nPrefix: "DOCS.OPENCODE",
     kind: "general",
     category: "coding",
@@ -820,7 +840,10 @@ API Endpoint: ${env.apiUrl}/v1`,
   },
   {
     slug: "kilo-code",
-    href: { pathname: "/docs/integrations/[slug]", params: { slug: "kilo-code" } },
+    href: {
+      pathname: "/docs/integrations/[slug]",
+      params: { slug: "kilo-code" },
+    },
     i18nPrefix: "DOCS.KILO_CODE",
     kind: "general",
     category: "coding",
@@ -965,7 +988,10 @@ Model ID: YOUR_MODEL_ID`,
   },
   {
     slug: "roo-code",
-    href: { pathname: "/docs/integrations/[slug]", params: { slug: "roo-code" } },
+    href: {
+      pathname: "/docs/integrations/[slug]",
+      params: { slug: "roo-code" },
+    },
     i18nPrefix: "DOCS.ROO_CODE",
     kind: "general",
     category: "coding",
@@ -1009,7 +1035,10 @@ Model: YOUR_MODEL_ID`,
   },
   {
     slug: "continue-dev",
-    href: { pathname: "/docs/integrations/[slug]", params: { slug: "continue-dev" } },
+    href: {
+      pathname: "/docs/integrations/[slug]",
+      params: { slug: "continue-dev" },
+    },
     i18nPrefix: "DOCS.CONTINUE_DEV",
     kind: "general",
     category: "coding",
@@ -1101,10 +1130,12 @@ model: openai/YOUR_MODEL_ID`,
     ],
     gotchaKeys: ["DOCS.AIDER.GOTCHA_1", "DOCS.AIDER.GOTCHA_2"],
   },
-  // HARNESS: cc-switch keeps its deep-link installer; others use OS-aware quickStart tabs.
   {
     slug: "cc-switch",
-    href: { pathname: "/docs/integrations/[slug]", params: { slug: "cc-switch" } },
+    href: {
+      pathname: "/docs/integrations/[slug]",
+      params: { slug: "cc-switch" },
+    },
     i18nPrefix: "DOCS.CC_SWITCH",
     kind: "cli",
     category: "cli",
@@ -1128,7 +1159,10 @@ model: openai/YOUR_MODEL_ID`,
   },
   {
     slug: "claude-code",
-    href: { pathname: "/docs/integrations/[slug]", params: { slug: "claude-code" } },
+    href: {
+      pathname: "/docs/integrations/[slug]",
+      params: { slug: "claude-code" },
+    },
     i18nPrefix: "DOCS.CLAUDE_CODE",
     kind: "cli",
     category: "cli",
@@ -1221,7 +1255,10 @@ codex`,
   },
   {
     slug: "gemini-cli",
-    href: { pathname: "/docs/integrations/[slug]", params: { slug: "gemini-cli" } },
+    href: {
+      pathname: "/docs/integrations/[slug]",
+      params: { slug: "gemini-cli" },
+    },
     i18nPrefix: "DOCS.GEMINI_CLI",
     kind: "cli",
     category: "cli",
@@ -1230,7 +1267,6 @@ codex`,
     badgeKey: "DOCS.GEMINI_CLI.BADGE",
     iconKey: "gemini",
     color: guideColor("blue"),
-    // Gemini SDK appends its own path, so the base is bare (no /v1 suffix).
     baseUrl: env.apiUrl,
     compatibility: {
       chatCompletions: true,
@@ -1279,7 +1315,10 @@ gemini`,
   },
   {
     slug: "openclaw",
-    href: { pathname: "/docs/integrations/[slug]", params: { slug: "openclaw" } },
+    href: {
+      pathname: "/docs/integrations/[slug]",
+      params: { slug: "openclaw" },
+    },
     i18nPrefix: "DOCS.OPENCLAW",
     kind: "cli",
     category: "cli",
@@ -1452,7 +1491,6 @@ export const CATEGORY_DESCRIPTIONS: Record<SetupCategory, TranslationKey> = {
   cli: "DOCS.SETUP_GUIDE.CATEGORY_CLI_DESC",
 };
 
-/** One-pass bucket of SETUP_GUIDES keyed by category, ordered by insertion. */
 export function setupGuidesByCategory(): Record<SetupCategory, SetupGuide[]> {
   const buckets: Record<SetupCategory, SetupGuide[]> = {
     coding: [],

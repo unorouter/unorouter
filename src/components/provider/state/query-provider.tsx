@@ -8,7 +8,6 @@ import { ReactNode, useEffect } from "react";
 export function QueryProvider(props: { children: ReactNode }) {
   const queryClient = getQueryClient();
 
-  // Cross-tab invalidation: mutations broadcast keys; listener invalidates.
   useEffect(() => subscribeInvalidate(queryClient), [queryClient]);
 
   return (

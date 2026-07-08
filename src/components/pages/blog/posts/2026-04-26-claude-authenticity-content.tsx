@@ -1,4 +1,5 @@
 import { CodeBlock } from "@/components/elements/code/code-block";
+import { Link } from "@/i18n/navigation";
 import {
   Table,
   TableBody,
@@ -281,6 +282,12 @@ export async function ClaudeAuthenticityContent() {
       <p>{t("BLOG.POSTS.CLAUDE_AUTHENTICITY.WHY_OUTRO")}</p>
 
       <h2 id="test">{t("BLOG.POSTS.CLAUDE_AUTHENTICITY.H_TEST")}</h2>
+      <p>
+        {t.rich("BLOG.POSTS.CLAUDE_AUTHENTICITY.TEST_TESTER", {
+          ...richMarks,
+          link: (chunks) => <Link href="/ai-api-model-tester">{chunks}</Link>,
+        })}
+      </p>
       <div className="not-prose my-6">
         <CodeBlock
           language="bash"

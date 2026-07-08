@@ -36,7 +36,6 @@ export function Chat(props: ChatProps) {
     window.history.replaceState(null, "", url);
   }, [threadId, locale]);
 
-  // Update document title since shallow history update skips generateMetadata
   useEffect(() => {
     const convTitle = convQuery.data?.title;
     document.title = convTitle
@@ -46,7 +45,6 @@ export function Chat(props: ChatProps) {
 
   if (gate.needsToken)
     return (
-      // chat-shell-reveal drops the welcome placeholder; flex column gives the gate centering height.
       <div className="chat-shell-reveal flex min-h-0 flex-1 flex-col">
         <NeedsTokenGate />
       </div>

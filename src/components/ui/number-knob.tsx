@@ -20,7 +20,6 @@ type Props = {
   fallback?: number;
   disabled?: boolean;
   disabledReason?: string;
-  // Show the on/off switch so the param can be omitted from the request (null). Off when absent.
   toggleable?: boolean;
   toggleReason?: string;
 };

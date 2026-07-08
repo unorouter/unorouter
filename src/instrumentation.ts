@@ -2,10 +2,8 @@ import { type Instrumentation } from "next";
 import { IS_DEV, POSTHOG_DISABLED } from "./lib/config/constants";
 
 export async function register() {
-  // Extend dayjs singleton for bare imports.
   await import("./lib/utils/format/date");
 
-  // Sweeper nodejs-only; lazy to keep edge metadata builds free of Drizzle.
   if (process.env.NEXT_RUNTIME === "nodejs") {
     const { startGenerationSweeper } =
       await import("./server/ai/playground/playground-sweeper");

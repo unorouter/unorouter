@@ -1,8 +1,5 @@
 "use client";
 
-// Tools submenu: conversation actions (copy markdown, duplicate, clear), Import/Export/Debug (nested), and the
-// Local DB browser. Groups the non-priority utilities so the top-level "..." menu stays short under Library.
-
 import { confirm } from "@/components/ui/confirm";
 import {
   DropdownMenuItem,

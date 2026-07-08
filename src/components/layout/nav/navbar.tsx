@@ -30,19 +30,15 @@ export function Navbar() {
   const t = useTranslations();
   const pathname = usePathname();
   const authQuery = useAuthQuery();
-  // Anchor the docs megamenu to the nav row (not the trigger) so it centers across the page.
   const navRowRef = useRef<HTMLDivElement>(null);
 
   const navItems = navigation(!!authQuery.data).filter((item) => !item.hidden);
-  // Docs is the one megamenu (grouped, guide cards); other submenus render as a
-  // plain dropdown. Plain links have no submenu.
   const docsItem = navItems.find((item) => item.name === "NAV.DOCS");
   const dropdownItems = navItems.filter(
     (item) => item.submenu && item.name !== "NAV.DOCS",
   );
   const topLevelItems = navItems.filter((item) => !item.submenu);
 
-  // Group the docs submenu by category for the megamenu columns.
   const docsSubmenuGroups: {
     group: TranslationKey;
     items: NavigationItem[];

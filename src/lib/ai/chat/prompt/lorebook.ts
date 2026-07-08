@@ -4,14 +4,12 @@ import type { LbEntry, LbRow } from "@/lib/types";
 import { escapeRegex } from "@/lib/utils/base";
 import { seededRand } from "@/lib/ai/chat/calc";
 
-// Strip {{//...}} and {{comment:...}} from scan text before matching; hidden comments never trigger keys.
 function stripComments(text: string): string {
   return text
     .replace(/\{\{\/\/(.+?)\}\}/g, "")
     .replace(/\{\{comment:(.+?)\}\}/g, "");
 }
 
-// Compiled-key cache: big lorebooks re-test the same keys every turn. null is an invalid pattern, cached so it isn't retried.
 const KEY_RE_CACHE = new Map<string, RegExp | null>();
 function compiledKey(cacheKey: string, build: () => RegExp): RegExp | null {
   let re = KEY_RE_CACHE.get(cacheKey);
@@ -33,7 +31,6 @@ export function keyHits(
   wholeWords: boolean,
 ): boolean {
   if (!key) return false;
-  // Regex key: `/pattern/flags` (Risu useRegex keys survive import this way).
   if (key.startsWith("/") && key.lastIndexOf("/") > 0) {
     const lastSlash = key.lastIndexOf("/");
     const re = compiledKey(
@@ -50,53 +47,41 @@ export function keyHits(
     );
     return re ? re.test(cleaned) : false;
   }
-  // Risu partial matching strips all spaces from both sides, so multi-word keys match regardless of spacing.
   return cleaned
     .toLowerCase()
     .replace(/ /g, "")
     .includes(key.toLowerCase().replace(/ /g, ""));
 }
 
-// Counts against the active per-model tokenizer (preloaded in assemble-prompt).
 function estimateTokens(text: string): number {
   return countTokens(text);
 }
 
-// Per-entry overrides parsed from @@decorator lines atop an entry's content; those lines are stripped from body.
 export type EntryDecorators = {
   body: string;
   probability?: number;
   priority?: number;
-  // Risu insertorder override; higher = earlier in the single lorebook slot.
   order?: number;
   scanDepth?: number;
   additionalKeys?: string[];
   excludeKeys?: string[];
   excludeKeysAll?: string[];
   role?: "user" | "assistant" | "system";
-  // Match-mode override (@@match_full_word / @@match_partial_word).
   matchWholeWords?: boolean;
-  // Force state (@@activate / @@dont_activate).
   forceState?: "activate" | "deactivate";
-  // Sticky (@@keep_activate_after_match / @@dont_activate_after_match).
   keepActivateAfterMatch?: boolean;
   dontActivateAfterMatch?: boolean;
-  // Chat-length gates.
   activateOnlyAfter?: number;
   activateOnlyEvery?: number;
   isGreeting?: number;
-  // Recursion overrides (@@recursive / @@unrecursive / @@no_recursive_search).
   recursive?: boolean;
   noRecursiveSearch?: boolean;
-  // @@ignore_on_max_context -> priority floor.
   ignoreOnMaxContext?: boolean;
-  // Lore-into-lore injection (@@inject_*). location is the target entry's comment/name.
   inject?: {
     operation: "append" | "prepend" | "replace";
     location: string;
     lore: boolean;
   };
-  // Suppress a UI prompt block (@@disable_ui_prompt system_prompt|post_history).
   disableUiPrompt?: ("system_prompt" | "post_history_instructions")[];
 };
 
@@ -107,7 +92,6 @@ const csv = (s: string) =>
     .map((x) => x.trim())
     .filter(Boolean);
 
-// Parse leading @@decorator lines, stripped from the body; unknown decorators are consumed with no effect.
 export function parseDecorators(content: string): EntryDecorators {
   const out: EntryDecorators = { body: content };
   if (!content.includes("@@")) return out;
@@ -224,18 +208,14 @@ type Prepared = {
   dec: EntryDecorators;
   scanText: string; // book scanDepth slice, per entry
   effectivePriority: number;
-  // @@probability outcome, rolled ONCE per entry (not per recursion pass).
   probPass: boolean;
 };
 
-// Key/secondary/constant/additional/exclude matching; @@match_full_word overrides the entry flag.
 function entryMatches(p: Prepared, text: string): boolean {
   const e = p.entry;
   const whole = p.dec.matchWholeWords ?? !!e.matchWholeWords;
 
-  // Exclude keys deactivate the entry when present (RisuAI exclude_keys).
   if (p.dec.excludeKeys?.some((k) => keyHits(k, text, whole))) return false;
-  // exclude_keys_all: deactivate only when ALL listed keys are present.
   if (
     p.dec.excludeKeysAll &&
     p.dec.excludeKeysAll.length > 0 &&
@@ -249,7 +229,6 @@ function entryMatches(p: Prepared, text: string): boolean {
   const keys = e.keys ?? [];
   if (!keys.some((k) => keyHits(k, text, whole))) return false;
 
-  // Risu additional_keys is AND-ed with the main keys (any additional key must ALSO match), not more alternatives.
   if (
     p.dec.additionalKeys &&
     p.dec.additionalKeys.length > 0 &&
@@ -265,7 +244,6 @@ function entryMatches(p: Prepared, text: string): boolean {
   return true;
 }
 
-// @@activate_only_after / @@activate_only_every / @@is_greeting gates.
 function passesChatGates(
   dec: EntryDecorators,
   chatLength: number,
@@ -284,13 +262,9 @@ function passesChatGates(
 }
 
 export type SelectOpts = {
-  // Active message count, for the chat-length gates.
   chatLength?: number;
-  // Shown greeting index (-1 = none), for @@is_greeting.
   greetingIndex?: number;
-  // Per-conv var store; sticky-match state mutates in place, caller persists via var writeback.
   vars?: Record<string, string>;
-  // Per-turn seed for @@probability: stable across regenerates, fresh each turn.
   seed?: string;
 };
 
@@ -306,13 +280,11 @@ export function selectLorebookEntries(
   const vars = opts.vars;
   const rollSeed = opts.seed ?? String(chatLength);
 
-  // Single global pool (RisuAI fullLore): one priority ranking, one token budget, one recursion namespace. Per-book scanDepth only for matching.
   const globalBudget = Math.max(
     ...[...books.values()].map((b) => b.tokenBudget ?? 1500),
     1500,
   );
 
-  // Defense for loose client payloads; the Turso path already filters in SQL.
   const enabledEntries = entries.filter(
     (e) => (e as { enabled?: boolean | null }).enabled !== false,
   );
@@ -325,9 +297,7 @@ export function selectLorebookEntries(
       entry: e,
       dec,
       scanText: recentUserTexts.slice(0, scanDepth).join("\n"),
-      // ignore_on_max_context floors priority so it sheds first under budget.
       effectivePriority: dec.ignoreOnMaxContext ? -1000 : basePriority,
-      // Roll @@probability once, here, so a later recursion pass can't re-roll.
       probPass:
         dec.probability === undefined ||
         seededRand(`${rollSeed}:${e.id}`) * 100 <= dec.probability,
@@ -348,22 +318,18 @@ export function selectLorebookEntries(
       if (acceptedIds.has(p.entry.id)) continue;
       const id = p.entry.id;
 
-      // Sticky deactivation: once matched-then-suppressed, stays off.
       if (vars?.[daKey(id)] === "true") continue;
 
       if (!passesChatGates(p.dec, chatLength, greetingIndex)) continue;
 
-      // Force state from @@activate / @@dont_activate wins over key matching.
       let active: boolean;
       if (p.dec.forceState === "deactivate") {
         continue;
       } else if (p.dec.forceState === "activate") {
         active = true;
       } else if (vars?.[kaKey(id)] === "true") {
-        // Sticky activation: previously matched with keep_activate_after_match.
         active = true;
       } else {
-        // On a recursion pass, @@no_recursive_search entries only see the base chat text, not accumulated lore.
         const text =
           recursiveText && !p.dec.noRecursiveSearch
             ? `${p.scanText}\n${recursiveText}`
@@ -377,19 +343,16 @@ export function selectLorebookEntries(
       accepted.push(p);
       added++;
 
-      // Persist sticky state for next turn (read on the following request).
       if (vars && p.dec.keepActivateAfterMatch) vars[kaKey(id)] = "true";
       if (vars && p.dec.dontActivateAfterMatch) vars[daKey(id)] = "true";
     }
     if (added === 0 || !globalRecursive) break;
-    // Append, not replace, so original chat keys still match later. @@unrecursive keeps an entry out of the recursion text.
     recursiveText = accepted
       .filter((p) => p.dec.recursive !== false)
       .map((p) => p.dec.body)
       .join("\n");
   }
 
-  // Single global priority sort, then one shared token budget (RisuAI 603-615). Id tiebreak keeps the survival set deterministic.
   accepted.sort(
     (a, b) =>
       b.effectivePriority - a.effectivePriority ||
@@ -403,11 +366,9 @@ export function selectLorebookEntries(
     return true;
   });
 
-  // @@inject_* entries splice their body into a target entry (matched by comment/name) and drop out of normal flow.
   const injectors = survived.filter((p) => p.dec.inject);
   const placed = survived.filter((p) => !p.dec.inject);
   for (const inj of injectors) {
-    // Target match is by entry id (the stored entry has no comment/name field).
     const target = placed.find((p) => p.entry.id === inj.dec.inject!.location);
     if (!target) continue;
     const op = inj.dec.inject!.operation;
@@ -421,7 +382,6 @@ export function selectLorebookEntries(
       );
   }
 
-  // Single lorebook slot: order purely by orderIndex DESC (insert order, higher = earlier), then priority DESC, then id for determinism.
   const order = (p: Prepared) => p.dec.order ?? p.entry.orderIndex ?? 0;
   placed.sort(
     (a, b) =>

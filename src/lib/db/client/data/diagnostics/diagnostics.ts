@@ -12,7 +12,6 @@ import { getChatDebugLog, logChatDebug } from "@/lib/utils/chat-debug-log";
 import { chatStore, convIdAtom, historyLoadedAtom } from "@/store/chat-store";
 import { dayjs } from "@/lib/utils/format/date";
 
-// One-file chat diagnostics for users to download + send. Safe mode = metadata only; full adds content.
 export type DiagnosticsOptions = { includeContent: boolean };
 
 export type TableStorageStat = {
@@ -22,7 +21,6 @@ export type TableStorageStat = {
   size: string;
 };
 
-// Bytes -> human string with the largest fitting unit: "832 B", "12.4 KB", "57.1 MB".
 function formatBytes(bytes: number): string {
   if (bytes < 1024) return `${bytes} B`;
   const units = ["KB", "MB", "GB"];
@@ -35,10 +33,6 @@ function formatBytes(bytes: number): string {
   return `${Math.round(n * 10) / 10} ${units[i]}`;
 }
 
-// Per-table storage stats (record count + on-disk size) so a bloated table is provable - e.g. request_logs
-// (full prompt snapshots) dominating a chat-heavy DB. Real bytes come from the `dbstat` virtual table (page
-// sizes); each table's own indexes (named or `sqlite_autoindex_*`) fold into the owner table's bytes. Falls
-// back to a row-count + big-JSON-column LENGTH() approximation if dbstat is unavailable on a build.
 export async function getTableStorageStats(
   userId: number | undefined,
 ): Promise<TableStorageStat[] | { error: string }> {
@@ -53,7 +47,6 @@ export async function getTableStorageStats(
     );
     const tables = tablesRes.rows.map((r) => String(r[0]));
 
-    // dbstat: bytes per b-tree (table OR index). Fold index bytes into the table whose name they prefix.
     const statRes = await local.exec(
       `SELECT name, SUM(pgsize) AS bytes FROM dbstat GROUP BY name`,
       [],
@@ -67,7 +60,6 @@ export async function getTableStorageStats(
       let total = bytesByName.get(table) ?? 0;
       for (const [name, b] of bytesByName) {
         if (name === table) continue;
-        // An index belongs to `table` when its name is the autoindex prefix or starts with `idx_<table>`.
         if (
           name.startsWith(`sqlite_autoindex_${table}_`) ||
           name === `sqlite_autoindex_${table}` ||
@@ -101,7 +93,6 @@ export async function getTableStorageStats(
     };
     return [total, ...stats];
   } catch {
-    // dbstat unavailable: approximate from row counts + the heavy JSON columns.
     try {
       const tablesRes = await local.exec(
         `SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'`,
@@ -137,9 +128,6 @@ export async function getTableStorageStats(
 
 export const MAX_LOG_CONVS = 25;
 
-// The scalar diagnostics blocks (everything except the two big per-conv maps) plus the
-// conversation list. The streaming encoder emits these whole, then streams the maps per-conv.
-// Owns the storage-stats side effect (logChatDebug) so its ordering matches the old single object.
 export async function buildDiagnosticsHead(
   userId: number | undefined,
   opts: DiagnosticsOptions,
@@ -151,7 +139,6 @@ export async function buildDiagnosticsHead(
     platform: navigator.platform,
     maxTouchPoints: navigator.maxTouchPoints,
     language: navigator.language,
-    // iOS heuristic: classic iOS UA, or iPadOS masquerading as Mac with touch.
     likelyIos:
       /iphone|ipad|ipod/i.test(navigator.userAgent) ||
       (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1),
@@ -176,11 +163,13 @@ export async function buildDiagnosticsHead(
   try {
     const est = await navigator.storage?.estimate?.();
     if (est) dbInfo.storageEstimate = { usage: est.usage, quota: est.quota };
-  } catch {}
+  } catch (e) {
+    logChatDebug("diagnostics.storage_estimate_failed", {
+      error: String(e).slice(0, 200),
+    });
+  }
 
   const convs = (await readLocalConversations(userId)) ?? [];
-  // Prompt-shape settings ride along (not content): request-shape bugs are unsolvable
-  // without knowing chatMemory / memory / preset flags for the conversation.
   const settingsById = new Map<string, Record<string, unknown>>();
   try {
     const local = await getLocalDb(userId);
@@ -233,8 +222,6 @@ export async function buildDiagnosticsHead(
     presets = [{ error: String(e).slice(0, 200) }];
   }
 
-  // Per-table storage stats, computed ON EXPORT only (not on every chat write). Appended to the debug log
-  // so it rides along in `debugLog` too, then included as its own block.
   const tableStorage = await getTableStorageStats(userId);
   logChatDebug("storage-stats", { tableStorage });
 
@@ -252,9 +239,6 @@ export async function buildDiagnosticsHead(
   };
 }
 
-// Content-free wire shape: roles + part types + char counts. Answers "which roles were sent,
-// in what order, how big" (missing assistant turns, end-inject placement) without leaking a
-// single character of prompt text.
 function messageShape(finalMessages: unknown): unknown {
   if (!Array.isArray(finalMessages)) return null;
   return finalMessages.map((m) => {
@@ -274,12 +258,8 @@ function messageShape(finalMessages: unknown): unknown {
   });
 }
 
-// Newest few rows only: shape needs the JSON parsed, and pre-lean rows can be MBs each
-// (nested debug chains); a small cap keeps the safe export OOM-proof on starved devices.
 const MAX_SHAPE_ROWS = 3;
 
-// One conv's request-log rows for diagnostics: metadata-only in safe mode, blobs in full mode.
-// Shared by buildDiagnostics and the streaming encoder so both modes stay byte-compatible.
 export async function readRequestLogsForConvDiag(
   userId: number | undefined,
   convId: string,
@@ -311,7 +291,6 @@ export async function readRequestLogsForConvDiag(
     channelName: l.channelName,
     inputTokens: l.inputTokens,
     createdAt: l.createdAt,
-    // Full mode: the actual sent payload shows if a request carried the wrong conv's context.
     finalMessages: l.finalMessages,
     requestBody: l.requestBody,
   }));
@@ -323,10 +302,6 @@ export async function buildDiagnostics(
 ): Promise<Record<string, unknown>> {
   const head = await buildDiagnosticsHead(userId, opts);
 
-  // Per-conv message metadata: parentId/convId cross-links reveal a merge without exposing text.
-  // SAFE/metadata mode NEVER loads the request_logs prompt snapshots (finalMessages/requestBody) -
-  // those are the 50-100MB bloat and would OOM the export on a chat-heavy DB. The lean reader
-  // projects only metadata columns in SQL. Full mode opts INTO the blobs (capped per conv).
   const messagesByConv: Record<string, unknown[]> = {};
   const requestLogsByConv: Record<string, unknown[]> = {};
   for (const id of head.convIds) {

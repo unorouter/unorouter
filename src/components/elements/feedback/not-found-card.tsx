@@ -7,11 +7,6 @@ import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 
-// Shared 404 UI for the route-group not-found boundaries. Next 16 does not
-// attach [locale]/not-found.tsx for notFound() calls bubbling out of child
-// segments (the root-layout segment's boundary never fires; the error boundary
-// would render instead), so each route group that calls notFound() mounts its
-// own not-found.tsx rendering this card inside its layout shell.
 export function NotFoundCard(props: { fullScreen?: boolean }) {
   const t = useTranslations();
 

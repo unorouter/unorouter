@@ -8,7 +8,6 @@ import { useTranslations } from "next-intl";
 type Props = {
   perf: ModelSummary | undefined;
   className?: string;
-  /** Compact single-line layout (no stacked labels). */
   compact?: boolean;
 };
 
@@ -20,7 +19,6 @@ function statusClass(success: number): string {
   return "bg-rose-500";
 }
 
-// 3-cell perf summary for /models cards + list items. Null when no data; never substitutes.
 export function PerfBadge(props: Props) {
   const t = useTranslations();
   if (!props.perf) return null;

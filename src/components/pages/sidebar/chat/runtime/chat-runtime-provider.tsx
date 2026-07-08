@@ -45,7 +45,6 @@ import { useParams } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { toast } from "sonner";
 
-// getConvId is thread-scoped; the global convIdAtom would merge histories when >1 chat is open.
 function useHistoryAdapter(getConvId: () => string | null) {
   const queryClient = useQueryClient();
   const adapterRef = useRef(
@@ -58,7 +57,6 @@ function useHistoryAdapter(getConvId: () => string | null) {
   return adapterRef.current;
 }
 
-// Helpers bridge for edit/delete/clear/empty-send from outside the React tree. sendEmpty uses the locked send path.
 function useChatHelpersBridge(chat: ReturnType<typeof useChat<ChatUIMessage>>) {
   const messagesRef = useRef(chat.messages);
   messagesRef.current = chat.messages;
@@ -88,11 +86,9 @@ function ChatRuntimeHook() {
   useModelSync(remoteId);
   useGroupSync(remoteId);
   useSettingsSync(remoteId);
-  // Thread-scoped conv id; convIdAtom fallback covers the first send of an unsaved thread.
   const remoteIdRef = useRef<string | null>(remoteId ?? null);
   remoteIdRef.current = remoteId ?? null;
   const getConvId = () => remoteIdRef.current ?? chatStore.get(convIdAtom);
-  // Log only on actual thread change, not every render.
   useEffect(() => {
     logChatDebug("thread.active", {
       threadId,
@@ -101,7 +97,6 @@ function ChatRuntimeHook() {
     });
   }, [threadId, remoteId]);
   const historyAdapter = useHistoryAdapter(getConvId);
-  // Routing transport built once (lazy ref init; getConvId reads the live remoteIdRef/atom at send time).
   const transportRef = useRef<ReturnType<typeof makeRoutingTransport> | null>(
     null,
   );
@@ -110,7 +105,6 @@ function ChatRuntimeHook() {
   }
   const transport = transportRef.current;
 
-  // Per-conv stream lock, released in onFinish/onError. The rotation loop holds it across speakers, so rotatingRef gates onFinish.
   const streamLockKeyRef = useRef<string | null>(null);
   const rotatingRef = useRef(false);
   const releaseStreamLock = () => {
@@ -124,7 +118,6 @@ function ChatRuntimeHook() {
   const chat = useChat<ChatUIMessage>({
     id: threadId,
     transport,
-    // Transient start-trigger showAlert frames (server V1 effect).
     onData: (part) => {
       if (part.type === "data-alert") {
         const a = part.data as { kind?: string; text?: string };
@@ -141,12 +134,10 @@ function ChatRuntimeHook() {
         online: navigator.onLine,
         error: String(e).slice(0, 200),
       });
-      // Offline: user turn already persisted, user resends manually. Show queued (no error node), still counts as unanswered.
       if (!navigator.onLine) {
         toast.info(t("CHAT.QUEUED_OFFLINE"));
         return;
       }
-      // Stash for the history adapter: the failed assistant message persists with an error item (full detail) so it survives refresh.
       const detail = extractErrorDetail(e);
       chatStore.set(lastStreamErrorAtom, {
         message: detail.message,
@@ -179,7 +170,6 @@ function ChatRuntimeHook() {
     ...chat,
     sendMessage: async (...args: Parameters<typeof chat.sendMessage>) => {
       const hasText = args[0] != null;
-      // ensureConvId idempotent; reuses attachment seed.
       if (hasText && !remoteId) ensureConvId();
       const convId = chatStore.get(convIdAtom);
       logChatDebug("send.start", {
@@ -197,7 +187,6 @@ function ChatRuntimeHook() {
         }
         streamLockKeyRef.current = lockKey;
       }
-      // Multi-character rotation: one assistant stream per speaker; each send tags its speaker for assembler promotion.
       if (hasText && convId) {
         const order = await computeSpeakingOrder(userId, convId, args[0]);
         if (order.length > 1) {
@@ -205,7 +194,6 @@ function ChatRuntimeHook() {
           try {
             for (let i = 0; i < order.length; i++) {
               chatStore.set(speakingCharacterIdAtom, order[i]);
-              // Only the FIRST send carries the user text; the rest continue.
               if (i === 0) await chat.sendMessage(...args);
               else await chat.sendMessage();
             }
@@ -217,7 +205,6 @@ function ChatRuntimeHook() {
           return;
         }
       }
-      // Offline: still send; the stream fails fast and the history adapter persists the user turn as unanswered.
       chatStore.set(speakingCharacterIdAtom, null);
       return chat.sendMessage(...args);
     },
@@ -240,7 +227,6 @@ export function ChatRuntimeProvider(props: { children: React.ReactNode }) {
   const queryClient = useQueryClient();
   const t = useTranslations();
   const userId = useLocalUserId();
-  // Drives the pending-task queue (logEnrich retries); drainSoon covers the happy path post-enqueue.
   usePendingDrainScheduler(userId);
   const adapterRef = useRef(
     createThreadListAdapter(queryClient, t, () =>

@@ -1019,8 +1019,6 @@ export class TokenBreakout {
         brick.alive = false;
         this.score += brick.value;
         if (this.score > this.bestScore) {
-          // Only emit new-best after a player has any prior best to beat;
-          // the first brick of a fresh session would otherwise spam the event.
           const wasNonZeroPrev = this.bestScore > 0;
           this.bestScore = this.score;
           if (wasNonZeroPrev) {
@@ -2587,7 +2585,6 @@ export class TokenBreakout {
   private maybeSpawnPowerUp(x: number, y: number): void {
     if (Math.random() > POWER_UP_SPAWN_CHANCE) return;
 
-    // Bias drops toward effects the player can use immediately and away from repeats.
     const kind = this.pickPowerUpKind();
     this.rememberPowerUpKind(kind);
     const definition = POWER_UP_DEFS[kind];

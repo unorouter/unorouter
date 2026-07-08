@@ -12,7 +12,6 @@ import * as React from "react";
 import { useEffect, useRef, useState } from "react";
 import type { TOCState } from "./toc-utils";
 
-// Clerk-style offset helpers
 function getItemOffset(depth: number): number {
   if (depth <= 2) return 14;
   if (depth === 3) return 26;
@@ -245,7 +244,6 @@ interface TOCLayoutProps {
 }
 
 export function TOCLayout(props: TOCLayoutProps) {
-  // min-h-min so this flex row grows to content height instead of being clamped by the scrolling inset, else the sticky TOC scrolls off early.
   return (
     <div className="flex min-h-min w-full min-w-0 items-start">
       <main className="min-w-0 flex-1">{props.children}</main>

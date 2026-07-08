@@ -15,7 +15,6 @@ export function AutoGroupChain(props: Props) {
   const enabled = new Set(props.enableGroups);
   const ratios = props.groupRatioMap;
   const chain = props.autoGroups.filter((g) => enabled.has(g));
-  // Show cheapest first to match the group-pricing table ordering.
   if (ratios)
     chain.sort((a, b) => (ratios[a] ?? Infinity) - (ratios[b] ?? Infinity));
 

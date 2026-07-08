@@ -117,7 +117,10 @@ export function CCSwitchSetup(props: CCSwitchSetupProps) {
               className="ml-auto shrink-0 gap-1.5"
               render={
                 <Link
-                  href={{ pathname: "/docs/integrations/cc-switch", hash: "installation" }}
+                  href={{
+                    pathname: "/docs/integrations/cc-switch",
+                    hash: "installation",
+                  }}
                 />
               }
             >

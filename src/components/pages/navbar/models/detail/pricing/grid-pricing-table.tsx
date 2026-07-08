@@ -16,6 +16,7 @@ import { formatPrice } from "@/lib/utils/format/number";
 type GridPricingTableProps = {
   rows: GridPricingRow[];
   priceLabel: string;
+  multiplier?: number;
 };
 
 export function GridPricingTable(props: GridPricingTableProps) {
@@ -42,7 +43,10 @@ export function GridPricingTable(props: GridPricingTableProps) {
         </TableHeader>
         <TableBody>
           {props.rows.map((row, i) => {
-            const { price, suffix } = gridPriceParts(row);
+            const { price, suffix } = gridPriceParts(
+              row,
+              props.multiplier ?? 1,
+            );
             return (
               <TableRow key={i}>
                 {columns.map((col) => (

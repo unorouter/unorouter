@@ -27,7 +27,6 @@ type SnapshotInput = Record<string, unknown> & {
 };
 type MediaInput = typeof media.$inferInsert;
 
-// base64 first, R2 url fallback for legacy rows.
 function resolveImageSrc(row: Media): string | null {
   if (row.dataBase64) {
     return base64ToDataUri(row.dataBase64, row.mimeType ?? "image/png");
@@ -112,7 +111,6 @@ export const upsertLocalSnapshot = (
 export const deleteLocalSnapshot = (userId: number | undefined, id: string) =>
   snapshotStore.drop(userId, id);
 
-// Additive count bumps; max(0) floor for negative deltas.
 export async function bumpLocalSessionCounts(
   userId: number | undefined,
   sessionId: string,
@@ -130,7 +128,6 @@ export async function bumpLocalSessionCounts(
     .where(eq(playgroundSessions.id, sessionId));
 }
 
-// Gen images by playgroundId+batch; replace whole set.
 export async function upsertLocalSnapshotImages(
   userId: number | undefined,
   playgroundId: string,

@@ -40,7 +40,6 @@ export async function CodeBlock(props: Props) {
       )}
       <div
         className="p-8 [&_code]:bg-transparent! [&_pre]:bg-transparent! [&_pre]:font-mono [&_pre]:text-xs [&_pre]:leading-relaxed [&_pre]:break-all [&_pre]:whitespace-pre-wrap md:[&_pre]:text-sm"
-        // SAFETY: HTML produced by shiki from code strings, not user HTML
         dangerouslySetInnerHTML={{ __html: html }}
       />
       <CopyButton
