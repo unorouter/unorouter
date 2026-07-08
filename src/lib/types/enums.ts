@@ -59,6 +59,7 @@ export enum Vendor {
   SPEAKLEASH = "speakleash",
   PLLUM = "pllum",
   VILLANOVA = "villanova",
+  INCEPTION = "inception",
   MICROSOFT = "microsoft",
   DEEPGRAM = "deepgram",
   MYSHELL = "myshell",
