@@ -3,8 +3,7 @@ import { sql } from "drizzle-orm";
 import { getDb } from "@/lib/db/server/client";
 import { instanceLeases } from "@/lib/db/schema";
 
-const HOLDER =
-  process.env.INSTANCE_ID || process.env.HOSTNAME || randomUUID();
+const HOLDER = process.env.INSTANCE_ID || process.env.HOSTNAME || randomUUID();
 
 export function instanceId(): string {
   return HOLDER;
@@ -28,7 +27,10 @@ export async function acquireOrRenewLease(
     .values({ name, holder: HOLDER, expiresAt })
     .onConflictDoUpdate({
       target: instanceLeases.name,
-      set: { holder: sql`excluded.holder`, expiresAt: sql`excluded.expires_at` },
+      set: {
+        holder: sql`excluded.holder`,
+        expiresAt: sql`excluded.expires_at`,
+      },
       setWhere: sql`${instanceLeases.holder} = excluded.holder OR ${instanceLeases.expiresAt} < ${now}`,
     })
     .returning({ holder: instanceLeases.holder });

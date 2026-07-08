@@ -128,7 +128,7 @@ function ChartTooltipContent({
     indicator?: "line" | "dot" | "dashed";
     nameKey?: string;
     labelKey?: string;
-    valueFormatter?: (value: number) => string;
+    valueFormatter?: (value: number, name?: string) => string;
     sortDesc?: boolean;
     showTotal?: boolean;
     totalLabel?: string;
@@ -260,7 +260,10 @@ function ChartTooltipContent({
                     {item.value !== undefined && item.value !== null && (
                       <span className="text-foreground font-mono font-medium tabular-nums">
                         {valueFormatter && typeof item.value === "number"
-                          ? valueFormatter(item.value)
+                          ? valueFormatter(
+                              item.value,
+                              `${item.dataKey ?? item.name ?? ""}`,
+                            )
                           : item.value.toLocaleString()}
                       </span>
                     )}
