@@ -5,7 +5,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useTranslations } from "next-intl";
 import { posthog } from "@/lib/posthog-lazy";
 import { cn } from "@/lib/utils";
-import { clearAllClientStorage, formatError } from "@/lib/utils/recovery";
+import {
+  clearAllClientStorage,
+  formatError,
+  isChunkLoadError,
+} from "@/lib/utils/recovery";
 import { useEffect, useState } from "react";
 
 import { Icon } from "@/components/ui/icon";
@@ -31,6 +35,16 @@ export function ErrorFallback(props: ErrorFallbackProps) {
   useEffect(() => {
     console.error(props.error);
     posthog.captureException(props.error);
+    // Chunk load failures after a deploy mean this tab holds stale HTML pointing at chunks the new
+    // build replaced. Hard-reload once (fetching fresh HTML) instead of showing an error page; the
+    // sessionStorage guard prevents a reload loop if the chunk is genuinely gone.
+    if (isChunkLoadError(props.error)) {
+      const KEY = "chunk-reload-once";
+      if (!sessionStorage.getItem(KEY)) {
+        sessionStorage.setItem(KEY, "1");
+        window.location.reload();
+      }
+    }
   }, [props.error]);
 
   const details = formatError(props.error);
