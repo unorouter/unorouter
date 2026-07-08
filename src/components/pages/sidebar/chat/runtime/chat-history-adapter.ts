@@ -354,6 +354,13 @@ export function createChatHistoryAdapter(
 
           let parentId = item.parentId ?? null;
           let parentBranchVars: string | null = null;
+          // Siblings already under this parent: a reroll adds a NEW branch, so the existing ones must be
+          // deactivated and the new one gets the next branchIndex. Without this every sibling kept
+          // isActiveBranch=1/branchIndex=0, so walkActiveBranch picked the wrong tip and switching branches
+          // rendered an empty thread.
+          let siblings: NonNullable<
+            Awaited<ReturnType<typeof readLocalMessages>>
+          > = [];
           {
             const existing = (await readLocalMessages(userId, id)) ?? [];
             if (existing.length > 0) {
@@ -366,7 +373,26 @@ export function createChatHistoryAdapter(
               parentBranchVars =
                 (parentRow as { branchVars?: string | null } | undefined)
                   ?.branchVars ?? null;
+              siblings = existing.filter(
+                (m) => (m.parentId ?? null) === parentId && m.id !== messageId,
+              );
             }
+          }
+          const nextBranchIndex =
+            siblings.length === 0
+              ? 0
+              : Math.max(
+                  ...siblings.map((s) => s.branchIndex ?? 0),
+                  siblings.length - 1,
+                ) + 1;
+          for (const sib of siblings) {
+            const row = { ...sib } as Record<string, unknown>;
+            delete row.items;
+            await upsertLocalMessage(userId, {
+              ...(row as Parameters<typeof upsertLocalMessage>[1]),
+              isActiveBranch: false,
+              updatedAt: now,
+            });
           }
           const branchVars =
             content.role === "assistant"
@@ -384,7 +410,7 @@ export function createChatHistoryAdapter(
             cost: usage?.cost ?? null,
             isActiveBranch: true,
             isEdited: false,
-            branchIndex: 0,
+            branchIndex: nextBranchIndex,
             branchVars,
             createdAt: now,
             updatedAt: now,

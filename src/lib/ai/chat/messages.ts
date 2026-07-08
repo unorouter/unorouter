@@ -42,15 +42,33 @@ export function walkActiveBranch<
     isActiveBranch?: boolean | null;
   },
 >(messages: M[]): { path: M[]; tipId: string | undefined } {
-  const byId = new Map(messages.map((m) => [m.id, m]));
-  const tip = [...messages].reverse().find((m) => m.isActiveBranch !== false);
-  const path: M[] = [];
-  let cur = tip;
-  while (cur) {
-    path.unshift(cur);
-    cur = cur.parentId ? byId.get(cur.parentId) : undefined;
+  // Walk DOWN from the root, choosing exactly one active child per level. Robust to corruption where
+  // several siblings share isActiveBranch=true (a reroll bug once left every sibling active): pick the
+  // LAST such child by array order (newest), so the branch is deterministic instead of the old
+  // reverse-find-any-active tip, which picked a message whose parent chain could skip active siblings
+  // and yield an inconsistent path (empty-looking thread).
+  const childrenOf = new Map<string | null, M[]>();
+  for (const m of messages) {
+    const key = m.parentId ?? null;
+    const arr = childrenOf.get(key) ?? [];
+    arr.push(m);
+    childrenOf.set(key, arr);
   }
-  return { path, tipId: tip?.id };
+  const pickChild = (kids: M[] | undefined): M | undefined => {
+    if (!kids || kids.length === 0) return undefined;
+    const active = kids.filter((k) => k.isActiveBranch !== false);
+    const pool = active.length > 0 ? active : kids;
+    return pool[pool.length - 1];
+  };
+  const path: M[] = [];
+  let cur = pickChild(childrenOf.get(null));
+  const seen = new Set<string>();
+  while (cur && !seen.has(cur.id)) {
+    seen.add(cur.id);
+    path.push(cur);
+    cur = pickChild(childrenOf.get(cur.id));
+  }
+  return { path, tipId: path.at(-1)?.id };
 }
 
 export function joinItemsToMessages<
