@@ -306,6 +306,22 @@ const VENDOR_THEMES: Record<string, VendorTheme> = {
     tagBorder: "border-violet-500/20",
     primary: "#7c3aed",
   },
+  [Vendor.KINFRA]: {
+    bg: "bg-teal-500/5",
+    border: "border-teal-500/20",
+    text: "text-teal-700 dark:text-teal-300",
+    tagBg: "bg-teal-500/10",
+    tagBorder: "border-teal-500/20",
+    primary: "#0d9488",
+  },
+  [Vendor.DEEPREINFORCE]: {
+    bg: "bg-lime-500/5",
+    border: "border-lime-500/20",
+    text: "text-lime-700 dark:text-lime-300",
+    tagBg: "bg-lime-500/10",
+    tagBorder: "border-lime-500/20",
+    primary: "#65a30d",
+  },
   [Vendor.MICROSOFT]: {
     bg: "bg-sky-500/5",
     border: "border-sky-500/20",

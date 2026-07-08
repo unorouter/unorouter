@@ -60,6 +60,8 @@ export enum Vendor {
   PLLUM = "pllum",
   VILLANOVA = "villanova",
   INCEPTION = "inception",
+  KINFRA = "kinfra",
+  DEEPREINFORCE = "deepreinforce",
   MICROSOFT = "microsoft",
   DEEPGRAM = "deepgram",
   MYSHELL = "myshell",
