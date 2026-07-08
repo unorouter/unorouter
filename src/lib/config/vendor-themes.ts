@@ -298,6 +298,14 @@ const VENDOR_THEMES: Record<string, VendorTheme> = {
     tagBorder: "border-sky-500/20",
     primary: "#0284c7",
   },
+  [Vendor.INCEPTION]: {
+    bg: "bg-violet-500/5",
+    border: "border-violet-500/20",
+    text: "text-violet-700 dark:text-violet-300",
+    tagBg: "bg-violet-500/10",
+    tagBorder: "border-violet-500/20",
+    primary: "#7c3aed",
+  },
   [Vendor.MICROSOFT]: {
     bg: "bg-sky-500/5",
     border: "border-sky-500/20",
