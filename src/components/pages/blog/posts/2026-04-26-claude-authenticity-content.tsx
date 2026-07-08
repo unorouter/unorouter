@@ -285,9 +285,7 @@ export async function ClaudeAuthenticityContent() {
       <p>
         {t.rich("BLOG.POSTS.CLAUDE_AUTHENTICITY.TEST_TESTER", {
           ...richMarks,
-          link: (chunks) => (
-            <Link href="/ai-api-model-tester">{chunks}</Link>
-          ),
+          link: (chunks) => <Link href="/ai-api-model-tester">{chunks}</Link>,
         })}
       </p>
       <div className="not-prose my-6">

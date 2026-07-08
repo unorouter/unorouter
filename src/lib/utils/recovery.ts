@@ -10,7 +10,9 @@ export async function clearAllClientStorage() {
       document.cookie = `${name}=; path=/; domain=${location.hostname}; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
     }
   } catch (err) {
-    logChatDebug("recovery.cookies_failed", { error: String(err).slice(0, 200) });
+    logChatDebug("recovery.cookies_failed", {
+      error: String(err).slice(0, 200),
+    });
   }
   try {
     localStorage.clear();
@@ -50,7 +52,9 @@ export async function clearAllClientStorage() {
     const keys = await caches?.keys?.();
     if (keys) await Promise.all(keys.map((k) => caches.delete(k)));
   } catch (err) {
-    logChatDebug("recovery.caches_failed", { error: String(err).slice(0, 200) });
+    logChatDebug("recovery.caches_failed", {
+      error: String(err).slice(0, 200),
+    });
   }
 }
 
