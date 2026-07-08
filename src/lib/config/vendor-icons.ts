@@ -62,6 +62,8 @@ export const VENDOR_LOADERS: Partial<Record<Vendor, IconLoader>> = {
   [Vendor.SDAIA]: () => import("@/components/elements/brand/sdaia-icon"),
   [Vendor.BAAI]: () => import("@lobehub/icons/es/BAAI"),
   [Vendor.IBM]: () => import("@lobehub/icons/es/IBM"),
+  [Vendor.JETBRAINS]: () =>
+    import("@/components/elements/brand/jetbrains-icon"),
   [Vendor.MICROSOFT]: () => import("@lobehub/icons/es/Microsoft"),
   [Vendor.MYSHELL]: () => import("@lobehub/icons/es/MyShell"),
   [Vendor.DEEPGRAM]: () => import("@/components/elements/brand/deepgram-icon"),
