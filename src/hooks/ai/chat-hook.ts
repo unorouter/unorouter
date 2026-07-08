@@ -484,6 +484,14 @@ export function useDeleteMessageMutation() {
       await deleteLocalMessage(userId, args.msgId);
       await bumpConvUpdatedAt(userId, args.convId);
       qc.removeQueries({ queryKey: queryKeys.chatMessages(args.convId) });
+      // Drop the node from the live assistant-ui thread too. The query invalidate only refreshes the
+      // cache; the rendered thread keeps its in-memory messages until a reload, so a deleted error/reply
+      // lingered on screen until refresh. Filter it out immediately (leaf case; children already re-parented).
+      chatStore
+        .get(chatHelpersAtom)
+        ?.setMessages((msgs) =>
+          (msgs as { id?: string }[]).filter((m) => m.id !== args.msgId),
+        );
       return { id: args.msgId };
     },
     (args) => [queryKeys.chatMessages(args.convId)],

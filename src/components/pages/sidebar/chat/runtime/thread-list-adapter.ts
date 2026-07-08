@@ -11,6 +11,7 @@ import {
 import {
   readLocalCharacter,
   readLocalPersona,
+  readLocalPreset,
 } from "@/lib/db/client/data/rp/rp";
 import { expandMacros } from "@/lib/ai/chat/macros";
 import { isCustomModelId } from "@/lib/ai/chat/custom-provider-id";
@@ -85,6 +86,14 @@ export function createThreadListAdapter(
       const hasPreset = !!loadout.presetId;
       const seed = <K extends keyof typeof defaults>(key: K) =>
         hasPreset ? null : (defaults[key] ?? null);
+      // Max tokens is the user's reply-length control and must stay sticky across new chats. A bound preset
+      // that doesn't set its own maxTokens should NOT wipe the last-used default to null (which sends no cap
+      // and lets the provider apply a small one). Seed it from defaults unless the preset supplies its own.
+      const boundPreset = loadout.presetId
+        ? await readLocalPreset(userId(), loadout.presetId)
+        : null;
+      const seedMaxTokens =
+        boundPreset?.maxTokens != null ? null : (defaults.maxTokens ?? null);
       await upsertLocalConversation(userId(), {
         id,
         title: null,
@@ -113,7 +122,7 @@ export function createThreadListAdapter(
         frequencyPenalty: seed("frequencyPenalty"),
         presencePenalty: seed("presencePenalty"),
         repetitionPenalty: seed("repetitionPenalty"),
-        maxTokens: seed("maxTokens"),
+        maxTokens: seedMaxTokens,
         extraBody: hasPreset ? null : (defaults.extraBody ?? null),
         streamingEnabled: hasPreset
           ? null
