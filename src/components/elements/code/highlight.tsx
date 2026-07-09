@@ -11,7 +11,7 @@ export function Highlight(props: Props) {
   return (
     <ShikiHighlighter
       language={props.language ?? "json"}
-      theme={{ dark: "vitesse-dark", light: "vitesse-light" }}
+      theme={{ dark: "vitesse-dark", light: "github-light-high-contrast" }}
       addDefaultStyles={false}
       showLanguage={false}
       defaultColor="light-dark()"

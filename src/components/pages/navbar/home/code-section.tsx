@@ -69,7 +69,7 @@ export async function CodeSection() {
             </Link>
             <Link
               href="/chat"
-              className="flex w-fit items-center gap-2 border-b border-cyan-500/60 pb-1 font-mono text-xs font-bold tracking-widest text-cyan-600 uppercase transition-colors hover:border-cyan-400 hover:text-cyan-500 dark:text-cyan-400 dark:hover:text-cyan-300"
+              className="flex w-fit items-center gap-2 border-b border-cyan-500/60 pb-1 font-mono text-xs font-bold tracking-widest text-cyan-700 uppercase transition-colors hover:border-cyan-400 hover:text-cyan-500 dark:text-cyan-400 dark:hover:text-cyan-300"
             >
               <Icon name="message-circle" className="h-3.5 w-3.5" />
               {t("HOME.CODE.NO_CODE_CHAT_LINK")}
