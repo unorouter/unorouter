@@ -13,6 +13,7 @@ import { UnorouterVsPortkeyContent } from "@/components/pages/blog/posts/2026-06
 import { UnorouterVsNanoGptContent } from "@/components/pages/blog/posts/2026-06-23-unorouter-vs-nano-gpt-content";
 import { BestAiGatewayForSillytavernContent } from "@/components/pages/blog/posts/2026-06-25-best-ai-gateway-for-sillytavern-content";
 import { BestOpenrouterAlternatives2026Content } from "@/components/pages/blog/posts/2026-06-27-best-openrouter-alternatives-2026-content";
+import { OpenSourceOpenrouterAlternativeContent } from "@/components/pages/blog/posts/2026-07-10-open-source-openrouter-alternative-content";
 import { WhatIsAnLlmGatewayContent } from "@/components/pages/blog/posts/2026-06-29-what-is-an-llm-gateway-content";
 import { HowToConnectAnyLlmToSillytavernContent } from "@/components/pages/blog/posts/2026-07-01-how-to-connect-any-llm-to-sillytavern-content";
 import { OneApiKeyForClaudeCodeAndRoleplayContent } from "@/components/pages/blog/posts/2026-07-03-one-api-key-for-claude-code-and-roleplay-content";
@@ -49,6 +50,7 @@ const COMPONENTS: Record<BlogSlug, ComponentType> = {
   "unorouter-vs-nano-gpt": UnorouterVsNanoGptContent,
   "best-ai-gateway-for-sillytavern": BestAiGatewayForSillytavernContent,
   "best-openrouter-alternatives-2026": BestOpenrouterAlternatives2026Content,
+  "open-source-openrouter-alternative": OpenSourceOpenrouterAlternativeContent,
   "what-is-an-llm-gateway": WhatIsAnLlmGatewayContent,
   "how-to-connect-any-llm-to-sillytavern":
     HowToConnectAnyLlmToSillytavernContent,

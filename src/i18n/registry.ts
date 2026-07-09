@@ -150,6 +150,26 @@ export const BLOG_REGISTRY = [
     ],
   },
   {
+    slug: "open-source-openrouter-alternative",
+    date: "2026-07-10",
+    tags: ["comparison", "product"],
+    i18nKey: "BLOG.POSTS.OPEN_SOURCE_OPENROUTER_ALTERNATIVE",
+    contentFiles: [
+      "src/components/pages/blog/posts/2026-07-10-open-source-openrouter-alternative-content.tsx",
+    ],
+    priority: 0.7,
+    changeFrequency: "monthly",
+    category: "product",
+    wordCount: 290,
+    headings: [
+      { id: "why-open", i18nLeaf: "H_WHY", level: 2 },
+      { id: "what-is-open", i18nLeaf: "H_WHAT", level: 2 },
+      { id: "compare", i18nLeaf: "H_COMPARE", level: 2 },
+      { id: "self-host", i18nLeaf: "H_SELF_HOST", level: 2 },
+      { id: "verdict", i18nLeaf: "H_VERDICT", level: 2 },
+    ],
+  },
+  {
     slug: "what-is-an-llm-gateway",
     date: "2026-06-29",
     tags: ["product"],

@@ -943,6 +943,23 @@
         "P_VERDICT": "Only ever use one lab? A single-provider key is fine. A team that wants routing and governance in front of your own app? A headless dev gateway. Want one key that reaches many current models, bills pay-as-you-go, and works in code and a chat client? That is {appName}. Pick by your real use, not raw model count.",
         "CTA": "Want one key for every model? <register>Create a free account</register> or <models>browse the models</models>."
       },
+      "OPEN_SOURCE_OPENROUTER_ALTERNATIVE": {
+        "TITLE": "{appName}: the open source OpenRouter alternative",
+        "DESCRIPTION": "OpenRouter is closed source. {appName} does the same one key, 200+ model job with the entire stack public under OSI licenses, self hostable, and with a hosted free tier to test on.",
+        "AUTHOR": "{appName} team",
+        "INTRO": "Searching for an open source OpenRouter alternative usually means one of three things: you want to read the code that handles your prompts, you want to run the gateway yourself, or you want out of a black box. {appName} covers all three. Same one key, 200+ model setup, whole stack public.",
+        "H_WHY": "Why open source matters in a gateway",
+        "P_WHY": "A gateway sits between your app and every model you call, so it sees every prompt and every reply. With a closed gateway you trust a privacy page. With an open one you can check what gets logged, how keys are stored, and how requests are routed before anything sensitive leaves your machine.",
+        "H_WHAT": "What is actually open",
+        "P_WHAT": "Everything is public on <gh>GitHub</gh> under OSI licenses: the web frontend with the chat client, the gateway itself, the Discord bot, and the provider sync that keeps the catalog fresh. This is not a thin SDK wrapped around a closed core. The running product is the repo.",
+        "H_COMPARE": "Against the usual picks",
+        "P_COMPARE": "OpenRouter has the widest catalog, but every line of it is closed. LiteLLM is genuinely open and a solid self hosted proxy, but it is bring your own keys plumbing: you still manage provider accounts and there is no hosted catalog. {appName} sits between the two, open like LiteLLM, hosted with one key and 200+ models like OpenRouter.",
+        "H_SELF_HOST": "Self host it or just use it",
+        "P_SELF_HOST": "Clone the repos and run the stack yourself, or point any OpenAI compatible client at <c>https://api.unorouter.com/v1</c> and use the hosted version. The hosted free tier covers most of the catalog, so you can test either path before committing to it.",
+        "H_VERDICT": "The short version",
+        "P_VERDICT": "If all you need is local routing over your own provider keys, LiteLLM is the leaner tool. If you want an OpenRouter style hosted gateway where you can read, audit, and fork the entire stack, {appName} is the one that ships its source.",
+        "CTA": "Ready to try it? <register>Create a free account</register> or <models>browse the models</models>."
+      },
       "WHAT_IS_AN_LLM_GATEWAY": {
         "TITLE": "What is an LLM gateway?",
         "DESCRIPTION": "An LLM gateway is one endpoint and key that routes requests to many model providers. Here is what it does, why it helps, and who actually needs one.",
