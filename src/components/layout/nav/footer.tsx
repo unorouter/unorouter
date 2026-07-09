@@ -114,6 +114,13 @@ const RECIPROCAL_LINKS = [
     width: 181,
     height: 46,
   },
+  {
+    href: "https://launchboosts.com/project/unorouter",
+    src: "/badges/launchboosts.svg",
+    name: "LaunchBoosts",
+    width: 153,
+    height: 46,
+  },
 ] as const;
 
 function FooterLinks(props: {
