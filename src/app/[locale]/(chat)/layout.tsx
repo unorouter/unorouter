@@ -22,17 +22,17 @@ export default async function ChatLayout(props: Props) {
 
   const isLoggedIn = !!queryClient.getQueryData(queryKeys.auth());
 
-  await Promise.all([
-    prefetchElysia(queryClient, queryKeys.pricing(), () =>
-      rpc.api.models.pricing.get(),
-    ),
-    isLoggedIn &&
-      prefetchElysia(queryClient, queryKeys.bestKey(), (cookies) =>
-        rpc.api.billing.token["best-key"].get({
-          ...cookies,
-        }),
-      ),
-  ]);
+  // Pricing is intentionally NOT prefetched here: dehydrating 700+ full model
+  // objects put ~2.3MB of RSC flight payload in the chat HTML (182KB brotli),
+  // dominating LCP on slow connections. The model selector fetches it
+  // client-side right after mount instead.
+  if (isLoggedIn) {
+    await prefetchElysia(queryClient, queryKeys.bestKey(), (cookies) =>
+      rpc.api.billing.token["best-key"].get({
+        ...cookies,
+      }),
+    );
+  }
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

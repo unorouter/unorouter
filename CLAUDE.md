@@ -276,7 +276,7 @@ Client hook `src/hooks/ai/playground-hook.ts`: `runSubmit` shared by submit + im
 Locale-prefixed groups under `src/app/[locale]/`:
 
 - `(auth)`: login, register
-- `(chat)`: main chat UI (`chat/`, with nested `cards/`, `presets/`, `[convId]/`). Layout mounts `ChatRuntimeProvider` (which also mounts the pending-task drain scheduler), plus SSR prefetch of auth/pricing/best-key.
+- `(chat)`: main chat UI (`chat/`, with nested `cards/`, `presets/`, `[convId]/`). Layout mounts `ChatRuntimeProvider` (which also mounts the pending-task drain scheduler), plus SSR prefetch of auth/best-key. Pricing is deliberately NOT dehydrated here (nor on the homepage): 700+ full model objects added ~2.3MB of RSC flight payload to the HTML; the model selector/ticker fetch it client-side after mount.
 - `(playground)`: playground UI (`playground/`, `playground/[id]`). Plain layout shell (no hydrator/prefetch after sync removal).
 - `(sidebar)`: dashboard, billing, settings, token, affiliate, logs
 - `(navbar)`: marketing surface. Contains `(home)`, `pricing`, `models` (`[slug]`), `blog`, `rankings`, and nested `(legal)` (privacy, terms).
