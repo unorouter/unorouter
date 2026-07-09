@@ -943,6 +943,23 @@
         "P_VERDICT": "Używasz tylko jednego laboratorium? Klucz jednego dostawcy wystarczy. Zespół, który chce routingu i zarządzania przed własną aplikacją? Bezgłowa bramka deweloperska. Chcesz jednego klucza, który sięga wielu aktualnych modeli, rozlicza się za użycie i działa w kodzie i w kliencie czatu? To {appName}. Wybieraj po realnym zastosowaniu, nie po surowej liczbie modeli.",
         "CTA": "Chcesz jeden klucz do każdego modelu? <register>Załóż darmowe konto</register> lub <models>przejrzyj modele</models>."
       },
+      "OPEN_SOURCE_OPENROUTER_ALTERNATIVE": {
+        "TITLE": "{appName}: otwartoźródłowa alternatywa dla OpenRouter",
+        "DESCRIPTION": "OpenRouter ma zamknięty kod. {appName} robi tę samą robotę, jeden klucz i ponad 200 modeli, z całym stackiem publicznym na licencjach OSI, możliwością self-hostingu i darmowym hostowanym planem do testów.",
+        "AUTHOR": "Zespół {appName}",
+        "INTRO": "Szukanie otwartoźródłowej alternatywy dla OpenRouter zwykle oznacza jedno z trzech: chcesz przeczytać kod, który obsługuje Twoje prompty, chcesz sam uruchomić bramkę albo chcesz uciec z czarnej skrzynki. {appName} obejmuje wszystkie trzy. Ten sam układ, jeden klucz i ponad 200 modeli, cały stack publiczny.",
+        "H_WHY": "Dlaczego open source ma znaczenie w bramce",
+        "P_WHY": "Bramka stoi między Twoją aplikacją a każdym modelem, który wywołujesz, więc widzi każdy prompt i każdą odpowiedź. Przy zamkniętej bramce ufasz stronie o prywatności. Przy otwartej możesz sprawdzić, co jest logowane, jak przechowywane są klucze i jak trasowane są żądania, zanim cokolwiek wrażliwego opuści Twoją maszynę.",
+        "H_WHAT": "Co naprawdę jest otwarte",
+        "P_WHAT": "Wszystko jest publiczne na <gh>GitHub</gh> na licencjach OSI: webowy frontend z klientem czatu, sama bramka, bot Discord i synchronizacja dostawców, która utrzymuje katalog na bieżąco. To nie jest cienkie SDK owinięte wokół zamkniętego rdzenia. Działający produkt to właśnie repozytorium.",
+        "H_COMPARE": "Na tle typowych wyborów",
+        "P_COMPARE": "OpenRouter ma najszerszy katalog, ale każda jego linia jest zamknięta. LiteLLM jest naprawdę otwarty i to solidne self-hostowane proxy, ale to hydraulika typu przynieś własne klucze: nadal zarządzasz kontami dostawców i nie ma hostowanego katalogu. {appName} plasuje się pomiędzy: otwarty jak LiteLLM, hostowany z jednym kluczem i ponad 200 modelami jak OpenRouter.",
+        "H_SELF_HOST": "Hostuj sam albo po prostu używaj",
+        "P_SELF_HOST": "Sklonuj repozytoria i uruchom stack samodzielnie albo skieruj dowolnego klienta zgodnego z OpenAI na <c>https://api.unorouter.com/v1</c> i korzystaj z wersji hostowanej. Darmowy hostowany plan obejmuje większość katalogu, więc możesz przetestować obie ścieżki, zanim się zdecydujesz.",
+        "H_VERDICT": "W skrócie",
+        "P_VERDICT": "Jeśli potrzebujesz tylko lokalnego routingu na własnych kluczach dostawców, LiteLLM to lżejsze narzędzie. Jeśli chcesz hostowanej bramki w stylu OpenRouter, której cały stack możesz czytać, audytować i forkować, {appName} to ta, która publikuje swój kod.",
+        "CTA": "Chcesz spróbować? <register>Załóż darmowe konto</register> lub <models>przeglądaj modele</models>."
+      },
       "WHAT_IS_AN_LLM_GATEWAY": {
         "TITLE": "Czym jest brama LLM?",
         "DESCRIPTION": "Brama LLM to jeden punkt końcowy i klucz, który kieruje zadania do wielu dostawców modeli. Oto co robi, dlaczego pomaga i kto naprawdę jej potrzebuje.",

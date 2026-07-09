@@ -943,6 +943,23 @@
         "P_VERDICT": "¿Solo usas un laboratorio? Una clave de un proveedor basta. ¿Un equipo que quiere enrutado y gobernanza delante de su propia app? Una pasarela de desarrollo headless. ¿Quieres una clave que alcance muchos modelos actuales, facture por uso y funcione en código y en un cliente de chat? Eso es {appName}. Elige por tu uso real, no por la cifra bruta de modelos.",
         "CTA": "¿Quieres una clave para cada modelo? <register>Crea una cuenta gratis</register> o <models>explora los modelos</models>."
       },
+      "OPEN_SOURCE_OPENROUTER_ALTERNATIVE": {
+        "TITLE": "{appName}: la alternativa open source a OpenRouter",
+        "DESCRIPTION": "OpenRouter es de código cerrado. {appName} hace el mismo trabajo de una clave y más de 200 modelos con todo el stack público bajo licencias OSI, autoalojable y con un nivel gratuito alojado para probar.",
+        "AUTHOR": "El equipo de {appName}",
+        "INTRO": "Buscar una alternativa open source a OpenRouter suele significar una de tres cosas: quieres leer el código que maneja tus prompts, quieres ejecutar la pasarela tú mismo o quieres salir de una caja negra. {appName} cubre las tres. El mismo esquema de una clave y más de 200 modelos, con todo el stack público.",
+        "H_WHY": "Por qué el open source importa en una pasarela",
+        "P_WHY": "Una pasarela se sitúa entre tu aplicación y cada modelo que llamas, así que ve cada prompt y cada respuesta. Con una pasarela cerrada confías en una página de privacidad. Con una abierta puedes comprobar qué se registra, cómo se guardan las claves y cómo se enrutan las peticiones antes de que nada sensible salga de tu máquina.",
+        "H_WHAT": "Qué es abierto de verdad",
+        "P_WHAT": "Todo es público en <gh>GitHub</gh> bajo licencias OSI: el frontend web con el cliente de chat, la propia pasarela, el bot de Discord y la sincronización de proveedores que mantiene el catálogo al día. No es un SDK fino alrededor de un núcleo cerrado. El producto en producción es el repositorio.",
+        "H_COMPARE": "Frente a las opciones habituales",
+        "P_COMPARE": "OpenRouter tiene el catálogo más amplio, pero cada línea es cerrada. LiteLLM es genuinamente abierto y un proxy autoalojado sólido, pero es fontanería de trae tus propias claves: sigues gestionando cuentas de proveedores y no hay catálogo alojado. {appName} se sitúa entre los dos: abierto como LiteLLM, alojado con una clave y más de 200 modelos como OpenRouter.",
+        "H_SELF_HOST": "Autoalójala o simplemente úsala",
+        "P_SELF_HOST": "Clona los repositorios y ejecuta el stack tú mismo, o apunta cualquier cliente compatible con OpenAI a <c>https://api.unorouter.com/v1</c> y usa la versión alojada. El nivel gratuito alojado cubre la mayor parte del catálogo, así que puedes probar ambos caminos antes de comprometerte.",
+        "H_VERDICT": "La versión corta",
+        "P_VERDICT": "Si solo necesitas enrutado local sobre tus propias claves de proveedor, LiteLLM es la herramienta más ligera. Si quieres una pasarela alojada al estilo OpenRouter cuyo stack completo puedas leer, auditar y bifurcar, {appName} es la que publica su código.",
+        "CTA": "¿Listo para probarlo? <register>Crea una cuenta gratis</register> o <models>explora los modelos</models>."
+      },
       "WHAT_IS_AN_LLM_GATEWAY": {
         "TITLE": "¿Qué es una pasarela de LLM?",
         "DESCRIPTION": "Una pasarela de LLM es un endpoint y una clave que enruta peticiones a muchos proveedores de modelos. Aquí está qué hace, por qué ayuda y quién necesita una de verdad.",

@@ -943,6 +943,23 @@
         "P_VERDICT": "Yalnızca tek bir laboratuvar mı kullanıyorsunuz? Tek sağlayıcı anahtarı yeter. Kendi uygulamasının önünde yönlendirme ve yönetişim isteyen bir ekip mi? Başsız bir geliştirici ağ geçidi. Birçok güncel modele ulaşan, kullandıkça faturalandıran ve hem kodda hem bir sohbet istemcisinde çalışan tek bir anahtar mı istiyorsunuz? İşte o {appName}. Ham model sayısına göre değil, gerçek kullanımınıza göre seçin.",
         "CTA": "Her model için tek anahtar mı istiyorsunuz? <register>Ücretsiz hesap oluşturun</register> ya da <models>modellere göz atın</models>."
       },
+      "OPEN_SOURCE_OPENROUTER_ALTERNATIVE": {
+        "TITLE": "{appName}: açık kaynak OpenRouter alternatifi",
+        "DESCRIPTION": "OpenRouter kapalı kaynak. {appName} aynı tek anahtar, 200'den fazla model işini, OSI lisansları altında tamamen halka açık bir stack ile yapıyor; kendi sunucunuzda barındırabilir, denemek için barındırılan ücretsiz katmanı kullanabilirsiniz.",
+        "AUTHOR": "{appName} ekibi",
+        "INTRO": "Açık kaynak bir OpenRouter alternatifi aramak genellikle şu üç şeyden biri anlamına gelir: prompt'larınızı işleyen kodu okumak, gateway'i kendiniz çalıştırmak ya da kara kutudan kurtulmak istiyorsunuz. {appName} üçünü de karşılıyor. Aynı tek anahtar, 200'den fazla model düzeni, tüm stack halka açık.",
+        "H_WHY": "Bir gateway'de açık kaynak neden önemli",
+        "P_WHY": "Gateway, uygulamanızla çağırdığınız her modelin arasında durur; yani her prompt'u ve her yanıtı görür. Kapalı bir gateway'de bir gizlilik sayfasına güvenirsiniz. Açık olanda ise hassas hiçbir şey makinenizden çıkmadan önce neyin loglandığını, anahtarların nasıl saklandığını ve isteklerin nasıl yönlendirildiğini kendiniz denetleyebilirsiniz.",
+        "H_WHAT": "Gerçekten açık olan ne",
+        "P_WHAT": "Her şey OSI lisansları altında <gh>GitHub</gh> üzerinde halka açık: sohbet istemcili web arayüzü, gateway'in kendisi, Discord botu ve kataloğu güncel tutan sağlayıcı senkronizasyonu. Bu, kapalı bir çekirdeğin etrafına sarılmış ince bir SDK değil. Çalışan ürün, reponun ta kendisi.",
+        "H_COMPARE": "Alışıldık seçeneklere karşı",
+        "P_COMPARE": "OpenRouter en geniş kataloğa sahip, ama her satırı kapalı. LiteLLM gerçekten açık ve sağlam bir self-hosted proxy, ama kendi anahtarını getir tesisatından ibaret: sağlayıcı hesaplarını yine siz yönetiyorsunuz ve barındırılan bir katalog yok. {appName} ikisinin arasında duruyor: LiteLLM gibi açık, OpenRouter gibi tek anahtar ve 200'den fazla modelle barındırılıyor.",
+        "H_SELF_HOST": "Kendiniz barındırın ya da doğrudan kullanın",
+        "P_SELF_HOST": "Repoları klonlayıp stack'i kendiniz çalıştırın ya da OpenAI uyumlu herhangi bir istemciyi <c>https://api.unorouter.com/v1</c> adresine yönlendirip barındırılan sürümü kullanın. Barındırılan ücretsiz katman kataloğun çoğunu kapsıyor, yani karar vermeden önce iki yolu da deneyebilirsiniz.",
+        "H_VERDICT": "Kısacası",
+        "P_VERDICT": "Tek ihtiyacınız kendi sağlayıcı anahtarlarınız üzerinde yerel yönlendirmeyse, LiteLLM daha yalın araç. Tüm stack'ini okuyabileceğiniz, denetleyebileceğiniz ve forklayabileceğiniz OpenRouter tarzı barındırılan bir gateway istiyorsanız, kaynağını yayınlayan {appName}.",
+        "CTA": "Denemeye hazır mısınız? <register>Ücretsiz hesap oluşturun</register> ya da <models>modellere göz atın</models>."
+      },
       "WHAT_IS_AN_LLM_GATEWAY": {
         "TITLE": "LLM ağ geçidi nedir?",
         "DESCRIPTION": "LLM ağ geçidi, istekleri çok sayıda model sağlayıcısına yönlendiren tek bir uç nokta ve anahtardir. İşte ne yaptığı, neden yardımcı olduğu ve gerçekten kimin ihtiyacı olduğu.",
