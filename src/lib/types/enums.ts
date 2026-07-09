@@ -109,6 +109,7 @@ export enum Vendor {
   VOYAGE = "voyage",
   ABLITERATION = "abliteration",
   ORCAROUTER = "orcarouter",
+  REGOLO = "regolo",
 }
 
 export enum OS {

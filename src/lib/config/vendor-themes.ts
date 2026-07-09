@@ -458,6 +458,22 @@ const VENDOR_THEMES: Record<string, VendorTheme> = {
     tagBorder: "border-cyan-500/20",
     primary: "#0891b2",
   },
+  [Vendor.REGOLO]: {
+    bg: "bg-emerald-500/5",
+    border: "border-emerald-500/20",
+    text: "text-emerald-700 dark:text-emerald-300",
+    tagBg: "bg-emerald-500/10",
+    tagBorder: "border-emerald-500/20",
+    primary: "#059669",
+  },
+  [Vendor.SWISSAI]: {
+    bg: "bg-red-500/5",
+    border: "border-red-500/20",
+    text: "text-red-700 dark:text-red-300",
+    tagBg: "bg-red-500/10",
+    tagBorder: "border-red-500/20",
+    primary: "#dc2626",
+  },
   [Vendor.HCOMPANY]: {
     bg: "bg-violet-500/5",
     border: "border-violet-500/20",
