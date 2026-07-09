@@ -442,6 +442,14 @@ const VENDOR_THEMES: Record<string, VendorTheme> = {
     tagBorder: "border-indigo-500/20",
     primary: "#1e3a8a",
   },
+  [Vendor.ABLITERATION]: {
+    bg: "bg-rose-500/5",
+    border: "border-rose-500/20",
+    text: "text-rose-700 dark:text-rose-300",
+    tagBg: "bg-rose-500/10",
+    tagBorder: "border-rose-500/20",
+    primary: "#e11d48",
+  },
   [Vendor.HCOMPANY]: {
     bg: "bg-violet-500/5",
     border: "border-violet-500/20",
