@@ -943,6 +943,23 @@
         "P_VERDICT": "Hanya memakai satu lab? Kunci penyedia tunggal cukup. Tim yang mau routing dan tata kelola di depan aplikasinya sendiri? Gateway pengembang headless. Mau satu kunci yang menjangkau banyak model mutakhir, menagih sesuai pemakaian, dan bekerja di kode maupun klien chat? Itulah {appName}. Pilih berdasarkan pemakaian nyatamu, bukan jumlah model mentah.",
         "CTA": "Mau satu kunci untuk setiap model? <register>Buat akun gratis</register> atau <models>jelajahi model</models>."
       },
+      "OPEN_SOURCE_OPENROUTER_ALTERNATIVE": {
+        "TITLE": "{appName}: alternatif OpenRouter yang open source",
+        "DESCRIPTION": "OpenRouter tertutup kodenya. {appName} mengerjakan tugas yang sama, satu kunci dan 200+ model, dengan seluruh stack publik di bawah lisensi OSI, bisa di-self-host, dan ada tier gratis hosted untuk dicoba.",
+        "AUTHOR": "Tim {appName}",
+        "INTRO": "Mencari alternatif OpenRouter yang open source biasanya berarti salah satu dari tiga hal: Anda ingin membaca kode yang menangani prompt Anda, ingin menjalankan gateway sendiri, atau ingin keluar dari kotak hitam. {appName} mencakup ketiganya. Skema yang sama, satu kunci dan 200+ model, seluruh stack publik.",
+        "H_WHY": "Kenapa open source penting untuk gateway",
+        "P_WHY": "Gateway berada di antara aplikasi Anda dan setiap model yang Anda panggil, jadi ia melihat setiap prompt dan setiap balasan. Dengan gateway tertutup, Anda cuma percaya pada halaman privasi. Dengan yang terbuka, Anda bisa memeriksa apa yang dicatat, bagaimana kunci disimpan, dan bagaimana permintaan dirutekan sebelum ada data sensitif yang keluar dari mesin Anda.",
+        "H_WHAT": "Apa yang benar-benar terbuka",
+        "P_WHAT": "Semuanya publik di <gh>GitHub</gh> di bawah lisensi OSI: frontend web dengan klien chat, gateway-nya sendiri, bot Discord, dan sinkronisasi provider yang menjaga katalog tetap segar. Ini bukan SDK tipis yang membungkus inti tertutup. Produk yang berjalan adalah repo itu sendiri.",
+        "H_COMPARE": "Dibanding pilihan yang biasa",
+        "P_COMPARE": "OpenRouter punya katalog terluas, tapi setiap barisnya tertutup. LiteLLM benar-benar terbuka dan proxy self-hosted yang solid, tapi sifatnya bawa kunci sendiri: Anda tetap mengelola akun provider dan tidak ada katalog hosted. {appName} berada di antara keduanya, terbuka seperti LiteLLM, hosted dengan satu kunci dan 200+ model seperti OpenRouter.",
+        "H_SELF_HOST": "Self-host atau langsung pakai",
+        "P_SELF_HOST": "Clone repo-nya dan jalankan stack sendiri, atau arahkan klien apa pun yang kompatibel OpenAI ke <c>https://api.unorouter.com/v1</c> dan pakai versi hosted. Tier gratis hosted mencakup sebagian besar katalog, jadi Anda bisa mencoba kedua jalur sebelum memutuskan.",
+        "H_VERDICT": "Versi singkatnya",
+        "P_VERDICT": "Kalau yang Anda butuhkan hanya routing lokal dengan kunci provider sendiri, LiteLLM adalah alat yang lebih ramping. Kalau Anda ingin gateway hosted ala OpenRouter yang seluruh stack-nya bisa dibaca, diaudit, dan di-fork, {appName} adalah yang merilis kode sumbernya.",
+        "CTA": "Siap mencoba? <register>Buat akun gratis</register> atau <models>jelajahi modelnya</models>."
+      },
       "WHAT_IS_AN_LLM_GATEWAY": {
         "TITLE": "Apa itu gateway LLM?",
         "DESCRIPTION": "Gateway LLM adalah satu endpoint dan kunci yang merutekan permintaan ke banyak penyedia model. Inilah apa yang dilakukannya, mengapa membantu, dan siapa yang benar-benar membutuhkannya.",

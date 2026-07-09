@@ -943,6 +943,23 @@
         "P_VERDICT": "Usa só um laboratório? Uma chave de provedor único basta. Um time que quer roteamento e governança na frente do próprio app? Um gateway dev headless. Quer uma chave que alcance muitos modelos atuais, cobre por uso e funcione em código e num cliente de chat? Isso é o {appName}. Escolha pelo seu uso real, não pelo número bruto de modelos.",
         "CTA": "Quer uma chave para cada modelo? <register>Crie uma conta grátis</register> ou <models>explore os modelos</models>."
       },
+      "OPEN_SOURCE_OPENROUTER_ALTERNATIVE": {
+        "TITLE": "{appName}: a alternativa open source ao OpenRouter",
+        "DESCRIPTION": "O OpenRouter é de código fechado. O {appName} faz o mesmo trabalho de uma chave e mais de 200 modelos com todo o stack público sob licenças OSI, auto-hospedável e com um plano gratuito hospedado para testar.",
+        "AUTHOR": "Equipe {appName}",
+        "INTRO": "Procurar uma alternativa open source ao OpenRouter geralmente significa uma de três coisas: você quer ler o código que processa seus prompts, quer rodar o gateway por conta própria ou quer sair de uma caixa-preta. O {appName} cobre as três. Mesmo esquema de uma chave e mais de 200 modelos, com todo o stack público.",
+        "H_WHY": "Por que open source importa em um gateway",
+        "P_WHY": "Um gateway fica entre o seu app e cada modelo que você chama, então ele vê cada prompt e cada resposta. Com um gateway fechado, você confia em uma página de privacidade. Com um aberto, você pode conferir o que é registrado, como as chaves são armazenadas e como as requisições são roteadas antes que algo sensível saia da sua máquina.",
+        "H_WHAT": "O que é aberto de verdade",
+        "P_WHAT": "Tudo é público no <gh>GitHub</gh> sob licenças OSI: o frontend web com o cliente de chat, o próprio gateway, o bot do Discord e a sincronização de provedores que mantém o catálogo atualizado. Não é um SDK fino em volta de um núcleo fechado. O produto em produção é o repositório.",
+        "H_COMPARE": "Contra as escolhas de sempre",
+        "P_COMPARE": "O OpenRouter tem o catálogo mais amplo, mas cada linha dele é fechada. O LiteLLM é genuinamente aberto e um proxy auto-hospedado sólido, mas é encanamento do tipo traga suas próprias chaves: você ainda gerencia contas de provedores e não há catálogo hospedado. O {appName} fica entre os dois: aberto como o LiteLLM, hospedado com uma chave e mais de 200 modelos como o OpenRouter.",
+        "H_SELF_HOST": "Hospede você mesmo ou apenas use",
+        "P_SELF_HOST": "Clone os repositórios e rode o stack por conta própria, ou aponte qualquer cliente compatível com OpenAI para <c>https://api.unorouter.com/v1</c> e use a versão hospedada. O plano gratuito hospedado cobre a maior parte do catálogo, então você pode testar os dois caminhos antes de se comprometer.",
+        "H_VERDICT": "Resumindo",
+        "P_VERDICT": "Se tudo o que você precisa é roteamento local sobre suas próprias chaves de provedor, o LiteLLM é a ferramenta mais enxuta. Se você quer um gateway hospedado no estilo OpenRouter cujo stack inteiro dá para ler, auditar e forkar, o {appName} é o que publica seu código.",
+        "CTA": "Pronto para testar? <register>Crie uma conta grátis</register> ou <models>explore os modelos</models>."
+      },
       "WHAT_IS_AN_LLM_GATEWAY": {
         "TITLE": "O que é um gateway de LLM?",
         "DESCRIPTION": "Um gateway de LLM é um endpoint e uma chave que roteiam pedidos para muitos provedores de modelos. Aqui está o que ele faz, por que ajuda e quem realmente precisa de um.",

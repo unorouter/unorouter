@@ -943,6 +943,23 @@
         "P_VERDICT": "Chỉ dùng một phòng thí nghiệm? Một khóa nhà cung cấp đơn là đủ. Một đội muốn định tuyến và quản trị trước ứng dụng của mình? Một cổng dev headless. Muốn một khóa vươn tới nhiều mô hình mới, tính phí theo mức dùng, và chạy trong mã lẫn một client chat? Đó là {appName}. Chọn theo mục đích thực của bạn, không theo con số mô hình thô.",
         "CTA": "Muốn một khoá cho mọi mô hình? <register>Tạo tài khoản miễn phí</register> hoặc <models>duyệt các mô hình</models>."
       },
+      "OPEN_SOURCE_OPENROUTER_ALTERNATIVE": {
+        "TITLE": "{appName}: lựa chọn mã nguồn mở thay thế OpenRouter",
+        "DESCRIPTION": "OpenRouter là mã nguồn đóng. {appName} làm đúng công việc một khóa, hơn 200 mô hình đó với toàn bộ stack công khai theo giấy phép OSI, có thể tự host, kèm gói miễn phí được host sẵn để dùng thử.",
+        "AUTHOR": "Đội ngũ {appName}",
+        "INTRO": "Tìm một lựa chọn mã nguồn mở thay thế OpenRouter thường vì một trong ba lý do: bạn muốn đọc mã xử lý prompt của mình, muốn tự vận hành gateway, hoặc muốn thoát khỏi hộp đen. {appName} đáp ứng cả ba. Vẫn là một khóa, hơn 200 mô hình, toàn bộ stack công khai.",
+        "H_WHY": "Vì sao mã nguồn mở quan trọng với một gateway",
+        "P_WHY": "Gateway nằm giữa ứng dụng của bạn và mọi mô hình bạn gọi, nên nó thấy mọi prompt và mọi phản hồi. Với gateway đóng, bạn chỉ có thể tin vào một trang chính sách riêng tư. Với gateway mở, bạn có thể kiểm tra những gì được ghi log, khóa được lưu ra sao và request được định tuyến thế nào, trước khi bất kỳ dữ liệu nhạy cảm nào rời khỏi máy của bạn.",
+        "H_WHAT": "Những gì thực sự mở",
+        "P_WHAT": "Mọi thứ đều công khai trên <gh>GitHub</gh> theo giấy phép OSI: frontend web kèm trình chat, bản thân gateway, bot Discord và bộ đồng bộ nhà cung cấp giữ cho danh mục luôn mới. Đây không phải một SDK mỏng bọc quanh lõi đóng. Sản phẩm đang chạy chính là repo.",
+        "H_COMPARE": "So với những lựa chọn quen thuộc",
+        "P_COMPARE": "OpenRouter có danh mục rộng nhất, nhưng từng dòng của nó đều đóng. LiteLLM mở thật sự và là một proxy tự host vững chắc, nhưng chỉ là hệ thống ống nước kiểu tự mang khóa của bạn: bạn vẫn phải quản lý tài khoản nhà cung cấp và không có danh mục được host sẵn. {appName} đứng giữa hai bên: mở như LiteLLM, được host với một khóa và hơn 200 mô hình như OpenRouter.",
+        "H_SELF_HOST": "Tự host hoặc dùng ngay",
+        "P_SELF_HOST": "Clone các repo và tự chạy stack, hoặc trỏ bất kỳ client tương thích OpenAI nào tới <c>https://api.unorouter.com/v1</c> để dùng bản được host. Gói miễn phí được host bao phủ phần lớn danh mục, nên bạn có thể thử cả hai hướng trước khi quyết định.",
+        "H_VERDICT": "Tóm gọn",
+        "P_VERDICT": "Nếu bạn chỉ cần định tuyến cục bộ trên khóa nhà cung cấp của riêng mình, LiteLLM là công cụ gọn nhẹ hơn. Nếu bạn muốn một gateway được host kiểu OpenRouter mà bạn có thể đọc, kiểm toán và fork toàn bộ stack, {appName} chính là bên công bố mã nguồn của mình.",
+        "CTA": "Sẵn sàng dùng thử? <register>Tạo tài khoản miễn phí</register> hoặc <models>xem các mô hình</models>."
+      },
       "WHAT_IS_AN_LLM_GATEWAY": {
         "TITLE": "Cổng LLM là gì?",
         "DESCRIPTION": "Cổng LLM là một điểm cuối và một khoá định tuyến yêu cầu tới nhiều nhà cung cấp mô hình. Đây là việc nó làm, vì sao nó giúp và ai thực sự cần một cái.",
