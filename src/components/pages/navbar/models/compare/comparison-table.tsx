@@ -300,7 +300,7 @@ export function ComparisonTable(props: {
                         className={cn(
                           "font-mono text-sm",
                           best === m.name &&
-                            "rounded bg-emerald-500/10 px-1.5 py-0.5 font-medium text-emerald-600 dark:text-emerald-400",
+                            "rounded bg-emerald-500/10 px-1.5 py-0.5 font-medium text-emerald-700 dark:text-emerald-400",
                         )}
                       >
                         {row.render(m)}

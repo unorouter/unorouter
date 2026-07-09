@@ -60,7 +60,7 @@ export function SupportedParameters(props: Props) {
                 <TableCell className="py-2 font-mono text-xs">{name}</TableCell>
                 <TableCell className="py-2">
                   {intersection.has(name) ? (
-                    <span className="flex items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400">
+                    <span className="flex items-center gap-1 text-xs text-emerald-700 dark:text-emerald-400">
                       <Icon name="check" className="h-3.5 w-3.5 shrink-0" />
                       {t("MODELS.DETAIL.SUPPORT_ALL")}
                     </span>
