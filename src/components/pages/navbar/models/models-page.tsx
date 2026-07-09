@@ -93,6 +93,7 @@ export function ModelsPage() {
                 nativeButton={false}
                 render={<Link href="/compare" />}
                 className="h-9 px-2 lg:px-3"
+                aria-label={t("MODELS.COMPARE.BADGE")}
               >
                 <Icon name="chart-column" className="h-4 w-4 lg:mr-1.5" />
                 <span className="hidden lg:inline">
@@ -128,7 +129,10 @@ export function ModelsPage() {
             />
           </div>
 
-          <div className="mt-4">
+          {/* min-h reserves the virtualized table's space pre-hydration; the
+              window virtualizer renders no rows at SSR, so without it the
+              footer starts in-viewport and hydration shoves it down (CLS). */}
+          <div className="mt-4 min-h-svh">
             {m.filtered.length === 0 ? (
               <div className="text-muted-foreground py-24 text-center">
                 {t("MODELS.EMPTY")}

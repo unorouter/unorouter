@@ -62,13 +62,13 @@ export function Navbar() {
         <div className="flex items-center gap-2 md:hidden">
           <MobileNav />
           <Link href="/" className="group flex items-center gap-2">
-            <LogoImage />
+            <LogoImage alt="" />
             <CompanyName className="text-foreground group-hover:text-muted-foreground text-lg transition-colors" />
           </Link>
         </div>
 
         <Link href="/" className="group hidden items-center gap-2 md:flex">
-          <LogoImage />
+          <LogoImage alt="" />
           <CompanyName className="text-foreground group-hover:text-muted-foreground text-lg transition-colors" />
         </Link>
 

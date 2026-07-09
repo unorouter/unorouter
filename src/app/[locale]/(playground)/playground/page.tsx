@@ -15,7 +15,6 @@ export async function generateMetadata(props: {
     title: t("IMAGE.META_TITLE", APP_VALUES),
     description: t("IMAGE.META_DESC", APP_VALUES),
     keywords: t("METADATA.ACCOUNT.KEYWORDS", APP_VALUES),
-    robots: false,
     ogImage: ogBadge("playground", locale),
   });
 }

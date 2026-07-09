@@ -202,7 +202,7 @@ export function Footer() {
         <div className="mb-12 grid grid-cols-1 gap-8 md:grid-cols-5">
           <div className="col-span-1 text-center md:col-span-2 md:text-left">
             <div className="mb-4 flex items-center justify-center gap-2 md:justify-start">
-              <LogoImage />
+              <LogoImage alt="" />
               <CompanyName className="text-2xl" />
             </div>
             <p className="text-foreground/70 mx-auto mb-6 max-w-md md:mx-0">
@@ -232,7 +232,7 @@ export function Footer() {
 
           <div className="col-span-1 flex justify-center gap-8 md:contents">
             <div className="text-center md:col-span-1 md:text-left">
-              <h3 className="mb-4 font-semibold">{t("FOOTER.PRODUCT")}</h3>
+              <h2 className="mb-4 font-semibold">{t("FOOTER.PRODUCT")}</h2>
               <ul className="space-y-2">
                 <FooterLinks links={NAV_LINKS} pathname={pathname} />
                 {EXTERNAL_NAV_LINKS.map((item) => (
@@ -258,7 +258,7 @@ export function Footer() {
             </div>
 
             <div className="text-center md:col-span-1 md:text-left">
-              <h3 className="mb-4 font-semibold">{t("FOOTER.LEGAL")}</h3>
+              <h2 className="mb-4 font-semibold">{t("FOOTER.LEGAL")}</h2>
               <ul className="space-y-2">
                 <FooterLinks links={LEGAL_LINKS} pathname={pathname} />
               </ul>
@@ -266,7 +266,7 @@ export function Footer() {
           </div>
 
           <div className="col-span-1 text-center md:text-left">
-            <h3 className="mb-4 font-semibold">{t("FOOTER.CONTACT_TITLE")}</h3>
+            <h2 className="mb-4 font-semibold">{t("FOOTER.CONTACT_TITLE")}</h2>
             <div className="text-foreground/70 space-y-2 text-sm">
               <p>{t("FOOTER.CONTACT_SUBTITLE")}</p>
               <NextLink
@@ -299,6 +299,8 @@ export function Footer() {
                 )}
                 width={badge.width}
                 height={24}
+                loading="lazy"
+                decoding="async"
                 className="h-6 w-auto"
               />
             </NextLink>

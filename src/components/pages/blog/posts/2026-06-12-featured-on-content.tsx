@@ -87,6 +87,8 @@ export async function FeaturedOnContent() {
               alt={badge.alt}
               width={badge.width}
               height={badge.height}
+              loading="lazy"
+              decoding="async"
               style={{ height: "54px", width: "auto" }}
             />
           </a>
