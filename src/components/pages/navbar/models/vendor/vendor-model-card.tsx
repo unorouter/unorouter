@@ -117,7 +117,7 @@ export function VendorModelCard(props: { model: ProcessedModel }) {
         </div>
         <div className="flex shrink-0 items-center gap-1">
           {model.isFree && (
-            <span className="rounded bg-emerald-500/15 px-1.5 py-0.5 font-mono text-[10px] text-emerald-600 dark:text-emerald-400">
+            <span className="rounded bg-emerald-500/15 px-1.5 py-0.5 font-mono text-[10px] text-emerald-700 dark:text-emerald-400">
               {t("MODELS.TABLE.FREE")}
             </span>
           )}
