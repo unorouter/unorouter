@@ -87,7 +87,7 @@ export function AspectRatioField(props: {
               {t(p.i18nKey as Parameters<typeof t>[0])}
             </span>
             {p.id !== "custom" && (
-              <span className="text-[10px] tabular-nums opacity-80">
+              <span className="text-[10px] tabular-nums">
                 {p.width}x{p.height}
               </span>
             )}

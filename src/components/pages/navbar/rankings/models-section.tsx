@@ -69,7 +69,7 @@ export function ModelsSection(props: ModelsSectionProps) {
           <div className="text-foreground font-mono text-2xl font-semibold tabular-nums">
             {fmtTokens(totalTokens)}
           </div>
-          <div className="text-muted-foreground/80 text-[10px] font-medium tracking-widest uppercase">
+          <div className="text-muted-foreground text-[10px] font-medium tracking-widest uppercase">
             {t("RANKINGS.MODELS.TOKENS_SUFFIX")}
           </div>
         </div>
@@ -121,7 +121,7 @@ export function ModelsSection(props: ModelsSectionProps) {
               </BarChart>
             </ChartContainer>
           ) : (
-            <div className="text-muted-foreground/80 flex h-full items-center justify-center text-xs">
+            <div className="text-muted-foreground flex h-full items-center justify-center text-xs">
               {t("RANKINGS.ERROR.NO_HISTORY")}
             </div>
           )}
@@ -134,12 +134,12 @@ export function ModelsSection(props: ModelsSectionProps) {
             <Icon name="trophy" className="size-3.5 text-amber-500" />
             {t("RANKINGS.MODELS.LEADERBOARD_TITLE")}
           </h3>
-          <p className="text-muted-foreground/80 mt-0.5 text-xs">
+          <p className="text-muted-foreground mt-0.5 text-xs">
             {t("RANKINGS.MODELS.LEADERBOARD_SUBTITLE")}
           </p>
         </header>
         {props.rows.length === 0 ? (
-          <div className="text-muted-foreground/80 px-5 py-8 text-center text-sm">
+          <div className="text-muted-foreground px-5 py-8 text-center text-sm">
             {t("RANKINGS.MODELS.EMPTY")}
           </div>
         ) : (

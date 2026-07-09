@@ -135,7 +135,7 @@ export function Pricing() {
         {topUpOptions.length > 0 && (
           <div className="mx-auto mb-12 max-w-2xl">
             <div className="mb-4 text-center">
-              <p className="font-mono text-[10px] tracking-[0.2em] text-emerald-600 uppercase dark:text-emerald-400">
+              <p className="font-mono text-[10px] tracking-[0.2em] text-emerald-700 uppercase dark:text-emerald-400">
                 {t("PRICING.TOPUP.STEP")}
               </p>
               <h2 className="text-foreground mt-2 font-mono text-sm font-bold tracking-widest uppercase">
@@ -183,7 +183,7 @@ export function Pricing() {
         )}
 
         {plans.length > 0 && (
-          <p className="mb-6 text-center font-mono text-[10px] tracking-[0.2em] text-emerald-600 uppercase dark:text-emerald-400">
+          <p className="mb-6 text-center font-mono text-[10px] tracking-[0.2em] text-emerald-700 uppercase dark:text-emerald-400">
             {t("PRICING.PLANS.STEP")}
           </p>
         )}
