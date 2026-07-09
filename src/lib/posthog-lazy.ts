@@ -11,6 +11,21 @@ function ensureLoaded() {
     return;
   }
   loading = true;
+  // Load after window load + idle: posthog-js (~63KB gz) plus the session
+  // recorder otherwise compete with hydration inside the TBT/LCP window.
+  // Events queue in `run` meanwhile, so nothing is dropped.
+  const idle = (cb: () => void) =>
+    "requestIdleCallback" in window
+      ? window.requestIdleCallback(cb, { timeout: 5000 })
+      : setTimeout(cb, 2000);
+  const afterLoad = (cb: () => void) =>
+    document.readyState === "complete"
+      ? cb()
+      : window.addEventListener("load", () => cb(), { once: true });
+  afterLoad(() => idle(loadNow));
+}
+
+function loadNow() {
   void import("posthog-js").then((m) => {
     m.default.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
       api_host: env.posthogHost,

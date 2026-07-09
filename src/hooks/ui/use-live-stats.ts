@@ -17,30 +17,34 @@ export function useLiveStats() {
   useEffect(() => {
     if (baseTpm <= 0) return;
 
-    const tokensPerTick = baseTpm / 1200;
+    // 250ms ticks: the old 50ms interval meant ~25 renders/sec across the
+    // hero + ticker for the page's whole lifetime (INP/TBT cost).
+    const TICKS_PER_MINUTE = 240;
+    const WINDOW_TICKS = TICKS_PER_MINUTE;
+    const tokensPerTick = baseTpm / TICKS_PER_MINUTE;
 
     const tokenInterval = setInterval(() => {
       const jitter = 0.5 + Math.random() * 1;
       const increment = Math.max(1, Math.round(tokensPerTick * jitter));
       recentTokenIncrements.current.push(increment);
-      if (recentTokenIncrements.current.length > 1200) {
+      if (recentTokenIncrements.current.length > WINDOW_TICKS) {
         recentTokenIncrements.current.shift();
       }
       setTokenDelta((d) => d + increment);
-    }, 50);
+    }, 250);
 
     const requestInterval = setInterval(() => {
-      setRequestDelta((d) => d + Math.floor(Math.random() * 3));
-    }, 400);
+      setRequestDelta((d) => d + Math.floor(Math.random() * 6));
+    }, 800);
 
     const tpmInterval = setInterval(() => {
       const recent = recentTokenIncrements.current;
       if (recent.length > 0) {
         const sum = recent.reduce((a, b) => a + b, 0);
-        const derivedTpm = Math.round((sum * 1200) / recent.length);
+        const derivedTpm = Math.round((sum * TICKS_PER_MINUTE) / recent.length);
         setTpmDelta(derivedTpm - baseTpm);
       }
-    }, 200);
+    }, 1000);
 
     return () => {
       clearInterval(tokenInterval);
