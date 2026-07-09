@@ -33,7 +33,7 @@ export async function CodeBlock(props: Props) {
             <div className="bg-muted-foreground/20 h-2 w-2 rounded-full" />
             <div className="bg-muted-foreground/20 h-2 w-2 rounded-full" />
           </div>
-          <span className="text-muted-foreground text-[10px] tracking-wider uppercase">
+          <span className="text-foreground/70 text-[10px] tracking-wider uppercase">
             {props.language}
           </span>
         </div>
