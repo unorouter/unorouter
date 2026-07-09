@@ -82,7 +82,12 @@ function parseModelMetadata(raw: string | undefined): ModelMetadata {
   if (!raw) return {};
   try {
     const parsed = JSON.parse(raw);
-    if (parsed && typeof parsed === "object") return parsed as ModelMetadata;
+    if (parsed && typeof parsed === "object") {
+      // Duplicates the top-level model description (~120KB across the list);
+      // nothing reads it from metadata.
+      delete (parsed as Record<string, unknown>).description;
+      return parsed as ModelMetadata;
+    }
   } catch {}
   return {};
 }
