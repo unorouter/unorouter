@@ -1,10 +1,15 @@
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
+import { installDomReconciliationGuard } from "@/lib/utils/dom-safety";
 
 let installed = false;
 
 export function installDebugErrorCapture(): void {
   if (installed || typeof window === "undefined") return;
   installed = true;
+
+  // Survive extension-detached nodes (Translate/Dark Reader/...) that otherwise crash React's
+  // commit on a locale change or reset-app-data reload with NotFoundError: removeChild.
+  installDomReconciliationGuard();
 
   window.addEventListener("error", (e) => {
     logChatDebug("window.error", {
