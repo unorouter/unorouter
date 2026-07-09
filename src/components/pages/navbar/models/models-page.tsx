@@ -108,7 +108,9 @@ export function ModelsPage() {
           {/* Tabs + table header stick together as one unit under the navbar
               so the column labels stay flush below the tab row (no gap, no
               half-row peeking through). */}
-          <div className="bg-background/95 supports-backdrop-blur:bg-background/80 sticky top-14 z-20 backdrop-blur">
+          {/* h pinned: a transient hydration reflow inside the tab strip
+              briefly grew this row 24px and shifted everything below (CLS). */}
+          <div className="bg-background/95 supports-backdrop-blur:bg-background/80 sticky top-14 z-20 h-9.75 overflow-hidden backdrop-blur">
             <ModalityTabs
               models={m.tabModels}
               value={m.outputModality}
