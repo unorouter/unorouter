@@ -450,6 +450,14 @@ const VENDOR_THEMES: Record<string, VendorTheme> = {
     tagBorder: "border-rose-500/20",
     primary: "#e11d48",
   },
+  [Vendor.ORCAROUTER]: {
+    bg: "bg-cyan-500/5",
+    border: "border-cyan-500/20",
+    text: "text-cyan-700 dark:text-cyan-300",
+    tagBg: "bg-cyan-500/10",
+    tagBorder: "border-cyan-500/20",
+    primary: "#0891b2",
+  },
   [Vendor.HCOMPANY]: {
     bg: "bg-violet-500/5",
     border: "border-violet-500/20",
