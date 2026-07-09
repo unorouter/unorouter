@@ -5,7 +5,7 @@ import { CopyButton } from "./copy-button";
 export async function highlightCode(code: string, language = "text") {
   return codeToHtml(code, {
     lang: language,
-    themes: { light: "vitesse-light", dark: "vitesse-dark" },
+    themes: { light: "github-light-high-contrast", dark: "vitesse-dark" },
     defaultColor: false,
   });
 }
