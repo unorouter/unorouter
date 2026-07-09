@@ -126,6 +126,19 @@ const nextConfig: NextConfig = {
       { source: "/api/ops/badge/:path*", headers: corpCrossOrigin },
       { source: "/_next/static/:path*", headers: corpSameOrigin },
       { source: "/api/:path((?!ops/badge).*)", headers: corpSameOrigin },
+      // public/ assets get Next's 4h default, which Lighthouse flags on every
+      // page. Not immutable (no content hash in names), so 30d + SWR.
+      ...["/badges/:path*", "/icons/:path*", "/images/:path*"].map(
+        (source) => ({
+          source,
+          headers: [
+            {
+              key: "Cache-Control",
+              value: "public, max-age=2592000, stale-while-revalidate=86400",
+            },
+          ],
+        }),
+      ),
       // Never store the SW route so new SW versions propagate on deploy (a year-long s-maxage once
       // poisoned the edge cache and would not purge; Serwist's own handler emits max-age=14400 which
       // this and the route wrapper override). A stored SW keeps serving a stale precache manifest

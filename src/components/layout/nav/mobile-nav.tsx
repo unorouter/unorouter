@@ -47,7 +47,7 @@ export function MobileNav() {
               onClick={handleNavigate}
               className="flex items-center gap-2"
             >
-              <LogoImage />
+              <LogoImage alt="" />
               <CompanyName className="text-lg" />
             </Link>
           </SheetTitle>

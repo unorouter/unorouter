@@ -115,9 +115,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const sitemapModelNames = modelNames.filter((name) =>
     vendorSlug(nameToVendor.get(name) ?? ""),
   );
+  // Vendor pages resolve against online-only pricing; offline-only vendors 404.
   const sitemapVendorSlugs = [
     ...new Set(
       (pricing?.models ?? [])
+        .filter((m) => m.online)
         .map((m) => vendorSlug(m.vendor.name))
         .filter(Boolean),
     ),

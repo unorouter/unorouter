@@ -66,7 +66,7 @@ export function PricingCard(props: Props) {
       </p>
 
       {props.deliveryLabel && (
-        <p className="text-muted-foreground/70 mt-1 font-mono text-[10px] tracking-wide">
+        <p className="text-muted-foreground mt-1 font-mono text-[10px] tracking-wide">
           {props.deliveryLabel}
         </p>
       )}

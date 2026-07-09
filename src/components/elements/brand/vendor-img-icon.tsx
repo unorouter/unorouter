@@ -8,6 +8,8 @@ export function makeImgIcon(src: string, alt: string): IconComponent {
       alt={alt}
       width={props.size ?? 24}
       height={props.size ?? 24}
+      loading="lazy"
+      decoding="async"
       className={`object-contain ${props.className ?? ""}`}
     />
   );

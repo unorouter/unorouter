@@ -7,7 +7,9 @@ import Image from "next/image";
 const appName = env.appName;
 
 export function LogoImage(
-  props: Omit<React.ComponentProps<typeof Image>, "src" | "alt">,
+  props: Omit<React.ComponentProps<typeof Image>, "src" | "alt"> & {
+    alt?: string;
+  },
 ) {
   return (
     <Image

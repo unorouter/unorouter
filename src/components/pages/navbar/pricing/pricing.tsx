@@ -138,9 +138,9 @@ export function Pricing() {
               <p className="font-mono text-[10px] tracking-[0.2em] text-emerald-600 uppercase dark:text-emerald-400">
                 {t("PRICING.TOPUP.STEP")}
               </p>
-              <h3 className="text-foreground mt-2 font-mono text-sm font-bold tracking-widest uppercase">
+              <h2 className="text-foreground mt-2 font-mono text-sm font-bold tracking-widest uppercase">
                 {t("PRICING.TOPUP.LABEL")}
-              </h3>
+              </h2>
               <p className="text-muted-foreground mt-2 font-mono text-xs">
                 {t("PRICING.TOPUP.DESC")}
               </p>
@@ -169,9 +169,9 @@ export function Pricing() {
 
         {topUpOptions.length > 0 && plans.length > 0 && (
           <div className="border-border/50 mx-auto mb-12 max-w-2xl border-t pt-10 text-center">
-            <h3 className="text-foreground font-mono text-sm font-bold tracking-wide">
+            <h2 className="text-foreground font-mono text-sm font-bold tracking-wide">
               {t("PRICING.BRIDGE.TITLE")}
-            </h3>
+            </h2>
             <p className="text-muted-foreground mx-auto mt-2 max-w-md font-mono text-xs leading-relaxed">
               {t("PRICING.BRIDGE.DESC")}
             </p>

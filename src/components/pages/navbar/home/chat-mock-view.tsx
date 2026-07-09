@@ -212,14 +212,14 @@ export function ChatMockView(props: { data: MockData; state: MockState }) {
               </div>
             ) : (
               <div className="flex h-full items-center justify-center">
-                <span className="text-muted-foreground/50 font-mono text-[11px]">
+                <span className="text-muted-foreground font-mono text-[11px]">
                   {data.strings.newChatEmpty}
                 </span>
               </div>
             )
           ) : (
             <>
-              <div className="text-muted-foreground/70 font-mono text-[9px] tracking-wider uppercase">
+              <div className="text-muted-foreground font-mono text-[9px] tracking-wider uppercase">
                 {activeConvData?.label}
               </div>
               <p className="text-foreground/90 line-clamp-3 text-[13px] leading-relaxed">
