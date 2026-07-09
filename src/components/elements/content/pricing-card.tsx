@@ -30,7 +30,7 @@ export function PricingCard(props: Props) {
     >
       {props.popular && (
         <div className="bg-card absolute -top-4.5 left-1/2 z-10 -translate-x-1/2 rounded-sm border border-emerald-500/40 px-3 py-1 shadow-[0_4px_0_var(--color-card)]">
-          <span className="font-mono text-[10px] tracking-[0.2em] text-emerald-600 uppercase dark:text-emerald-400">
+          <span className="font-mono text-[10px] tracking-[0.2em] text-emerald-700 uppercase dark:text-emerald-400">
             {t("PRICING.CARD.POPULAR")}
           </span>
         </div>
@@ -50,7 +50,7 @@ export function PricingCard(props: Props) {
       </div>
 
       <div className="mt-4 flex items-baseline gap-2.5 rounded-md border border-emerald-500/30 bg-emerald-500/10 px-3 py-2">
-        <span className="text-3xl font-bold tracking-tight text-emerald-600 tabular-nums dark:text-emerald-400">
+        <span className="text-3xl font-bold tracking-tight text-emerald-700 tabular-nums dark:text-emerald-400">
           ${props.value}
         </span>
         <span className="font-mono text-[11px] leading-tight tracking-wide text-emerald-700 uppercase dark:text-emerald-300">

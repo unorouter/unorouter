@@ -46,7 +46,7 @@ function ModelList(props: {
           key={row.model_name}
           className={cn("flex items-center gap-3", compact ? "py-2" : "py-2.5")}
         >
-          <span className="text-muted-foreground/80 w-6 shrink-0 text-right font-mono text-xs tabular-nums">
+          <span className="text-muted-foreground w-6 shrink-0 text-right font-mono text-xs tabular-nums">
             {row.rank}.
           </span>
           <span className="shrink-0">
@@ -65,7 +65,7 @@ function ModelList(props: {
             </ModelLink>
             <p
               className={cn(
-                "text-muted-foreground/80 truncate italic",
+                "text-muted-foreground truncate italic",
                 compact ? "text-[11px]" : "text-xs",
               )}
             >
@@ -86,7 +86,7 @@ function ModelList(props: {
               {!compact && (
                 <>
                   {" "}
-                  <span className="text-muted-foreground/80 font-normal">
+                  <span className="text-muted-foreground font-normal">
                     {t("RANKINGS.MODELS.TOKENS_SUFFIX")}
                   </span>
                 </>
