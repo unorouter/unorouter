@@ -13,9 +13,19 @@ import { createTableAtoms } from "@/store/data-table-store";
 import { clearFiltersAtom, isDirtyAtom } from "@/store/models-store";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
+import dynamic from "next/dynamic";
 import { buildModelColumns } from "./browse/model-columns";
 import { ModelListCard } from "./browse/model-list-card";
-import { ModelDetailSheet } from "./detail/model-detail-sheet";
+
+// Static import chained recharts (PerformanceSection) into the initial
+// models bundle; the sheet only renders after a row click.
+const ModelDetailSheet = dynamic(
+  () =>
+    import("./detail/model-detail-sheet").then((m) => ({
+      default: m.ModelDetailSheet,
+    })),
+  { ssr: false },
+);
 import { ModalityTabs } from "./filters/modality-tabs";
 import { ModelsFilterSidebar } from "./filters/models-filter-sidebar";
 import { SortFilter } from "./filters/sort-filter";
