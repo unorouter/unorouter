@@ -620,6 +620,7 @@
     "RSS_LINK": "Kanał RSS",
     "READ_TIME": "{minutes} min czytania",
     "ON_THIS_PAGE": "Na tej stronie",
+    "FAQ_TITLE": "Najczęściej zadawane pytania",
     "PREV_POST": "Poprzedni post",
     "NEXT_POST": "Następny post",
     "RELATED": "Powiązane posty",
@@ -907,7 +908,14 @@
         "H_HONEST": "Czego nie zrobiliśmy",
         "P_HONEST": "Nie dodaliśmy reverse proxy, które bez pozwolenia ponownie serwują flagowe modele OpenAI czy Claude. Nie wciągnęliśmy agregatorów kluczy osobistych, których tokeny są nieprzenoszalne, ani usług typu pula pul, które masowo gromadzą i rotują cudze klucze. Takie rzeczy istnieją, kuszą i są dokładnie tym szarostrefowym bałaganem, który ten gateway ma zastąpić. Każdy dostawca z tej listy świadomie oddaje swój darmowy poziom, na własnych warunkach. Jeśli jakieś źródło nie przeszło tej poprzeczki, nie ma go tutaj.",
         "H_TRY": "Wypróbuj to",
-        "CTA": "Wszystkie ponad 190 darmowych modeli działa za jednym endpointem OpenAI-compatible. <register>Zdobądź klucz API</register> lub <models>przejrzyj katalog modeli</models> i filtruj po darmowych. Pamiętaj tylko, na którym poziomie jesteś, gdy pojawi się <c>429</c> lub <c>503</c>."
+        "CTA": "Wszystkie ponad 190 darmowych modeli działa za jednym endpointem OpenAI-compatible. <register>Zdobądź klucz API</register> lub <models>przejrzyj katalog modeli</models> i filtruj po darmowych. Pamiętaj tylko, na którym poziomie jesteś, gdy pojawi się <c>429</c> lub <c>503</c>.",
+        "TLDR": "{appName} agreguje darmowe pule wielu dostawców upstream w ponad 190 modeli z prawdziwym darmowym planem za jednym kluczem. Każdy darmowy model pozwala na około 1 zapytanie na minutę na użytkownika; po osiągnięciu limitu wraca HTTP 429 z nagłówkiem Retry-After, a wyczerpane pule zwracają jawny błąd, że wszyscy dostawcy są zajęci, i odzyskują się automatycznie. Płatne modele rozliczane są za zużycie już od $1.",
+        "FAQ_1_Q": "Ile darmowych modeli ma {appName}?",
+        "FAQ_1_A": "Ponad 190 w każdej chwili, z katalogu 200+ modeli. Dokładny zestaw zmienia się, gdy darmowe pule upstream wyczerpują się i odzyskują, a lista na żywo jest na unorouter.com/models.",
+        "FAQ_2_Q": "Jakie są limity darmowego planu?",
+        "FAQ_2_A": "Około 1 zapytanie na minutę na model na użytkownika. Limit zwraca HTTP 429 z nagłówkiem Retry-After. Przy 190+ darmowych modelach praktyczna odpowiedź to rotowanie modeli zamiast czekania.",
+        "FAQ_3_Q": "Czy potrzebuję karty kredytowej do darmowych modeli?",
+        "FAQ_3_A": "Nie. Zarejestruj się przez Discord lub GitHub, utwórz klucz i używaj dowolnego modelu z sufiksem :free. Jednorazowy bonus $1 za weryfikację Discord można wydać na płatne modele."
       },
       "UNOROUTER_VS_OPENROUTER": {
         "TITLE": "{appName} kontra OpenRouter: uczciwe porównanie",
@@ -924,7 +932,14 @@
         "P_MIGRATE": "Skieruj klient na <c>https://api.unorouter.com/v1</c> i zachowaj swój kod. Ten sam klucz działa w polu własnego endpointu klienta czatu, więc nie ma drugiego konta do ogarniania.",
         "H_VERDICT": "Jak wybrać",
         "P_VERDICT": "Piszesz tylko kod i chcesz najszerszy katalog? OpenRouter się nada. Samodzielnie hostowany routing bez narzutu? Weź LiteLLM. Jeden klucz, który napędza twojego agenta kodu i prawdziwy klient czatu? To {appName}.",
-        "CTA": "Gotowy, by spróbować? <register>Załóż darmowe konto</register> lub <models>przeglądaj modele</models>."
+        "CTA": "Gotowy, by spróbować? <register>Załóż darmowe konto</register> lub <models>przeglądaj modele</models>.",
+        "TLDR": "{appName} i OpenRouter udostępniają 200+ modeli za jednym kluczem zgodnym z OpenAI. OpenRouter to samo API i zamknięty kod. {appName} dodaje wbudowany klient czatu i postaci na tym samym kluczu, publikuje cały stack na licencjach OSI i serwuje większość modeli w prawdziwym darmowym planie, około 1 zapytanie na minutę na model. Płatne użycie rozliczane jest za zużycie, a środki nigdy nie wygasają.",
+        "FAQ_1_Q": "Czy {appName} jest tańszy niż OpenRouter?",
+        "FAQ_1_A": "Oba rozliczają się za tokeny po podobnych cenach katalogowych. OpenRouter dolicza opłatę przy zakupie środków. {appName} rozlicza się za zużycie bez opłaty za doładowanie, środki nigdy nie wygasają, a ponad 190 modeli ma darmowy plan.",
+        "FAQ_2_Q": "Czy mogę używać tego samego klucza do agentów kodowania i czatu RP?",
+        "FAQ_2_A": "Tak. Jeden klucz {appName} działa w Claude Code, Cline i OpenCode przez API zgodne z OpenAI, a to samo konto zawiera pełny klient czatu z postaciami, który wpina się też w SillyTavern lub JanitorAI.",
+        "FAQ_3_Q": "Jak przejść z OpenRouter na {appName}?",
+        "FAQ_3_A": "Skieruj klient na https://api.unorouter.com/v1 i zachowaj swój kod. API jest zgodne z OpenAI, nazwy modeli pochodzą z GET /v1/models, a natywne endpointy Anthropic i Gemini też są obsługiwane."
       },
       "BEST_OPENROUTER_ALTERNATIVES_2026": {
         "TITLE": "Najlepsze alternatywy dla OpenRouter w 2026",
@@ -941,7 +956,14 @@
         "P_FOR_ROLEPLAY": "Czat z postaciami to osobny przypadek. Chcesz szerokiego katalogu, by przełączać się między mocnym pisarzem a tanim koniem roboczym, rozliczeń za użycie, bo sesje są zrywowe, i klucza, który wpina się w SillyTavern, Janitor.AI lub Chub. Czysto deweloperskie bramki pokrywają połowę z API, ale nie dają klienta, a plany za stanowisko walczą ze zrywowym wzorcem. {appName} obejmuje jedno i drugie jednym kluczem.",
         "H_VERDICT": "Jak wybrać",
         "P_VERDICT": "Używasz tylko jednego laboratorium? Klucz jednego dostawcy wystarczy. Zespół, który chce routingu i zarządzania przed własną aplikacją? Bezgłowa bramka deweloperska. Chcesz jednego klucza, który sięga wielu aktualnych modeli, rozlicza się za użycie i działa w kodzie i w kliencie czatu? To {appName}. Wybieraj po realnym zastosowaniu, nie po surowej liczbie modeli.",
-        "CTA": "Chcesz jeden klucz do każdego modelu? <register>Załóż darmowe konto</register> lub <models>przejrzyj modele</models>."
+        "CTA": "Chcesz jeden klucz do każdego modelu? <register>Załóż darmowe konto</register> lub <models>przejrzyj modele</models>.",
+        "TLDR": "Praktyczne alternatywy dla OpenRouter w 2026 dzielą się na trzy grupy: hostowane bramki z jednym kluczem do wielu modeli, jak {appName}, samodzielnie hostowane proxy, jak LiteLLM, oraz klucze pojedynczych dostawców. {appName} serwuje 200+ modeli przez jeden klucz zgodny z OpenAI, utrzymuje darmowy plan dla większości z nich, rozlicza się za zużycie i publikuje cały stack jako open source.",
+        "FAQ_1_Q": "Jaka jest najlepsza darmowa alternatywa dla OpenRouter?",
+        "FAQ_1_A": "{appName} serwuje ponad 190 modeli z prawdziwym darmowym planem około 1 zapytania na minutę na model, bez karty. Darmowy plan OpenRouter obejmuje znacznie mniej modeli i ma dzienny limit.",
+        "FAQ_2_Q": "Czy alternatywy dla OpenRouter działają z SillyTavern i JanitorAI?",
+        "FAQ_2_A": "Każda bramka zgodna z OpenAI działa. W SillyTavern użyj bazowego URL https://api.unorouter.com/v1, w JanitorAI pełnego endpointu https://api.unorouter.com/v1/chat/completions z pasującym kluczem.",
+        "FAQ_3_Q": "Czy istnieje open source'owa alternatywa dla OpenRouter?",
+        "FAQ_3_A": "{appName} jest open source od początku do końca na licencjach OSI, frontend, bramka, bot i synchronizacja dostawców, na github.com/unorouter. LiteLLM też jest open source, ale to proxy z własnymi kluczami, bez hostowanego katalogu."
       },
       "OPEN_SOURCE_OPENROUTER_ALTERNATIVE": {
         "TITLE": "{appName}: otwartoźródłowa alternatywa dla OpenRouter",
@@ -958,7 +980,14 @@
         "P_SELF_HOST": "Sklonuj repozytoria i uruchom stack samodzielnie albo skieruj dowolnego klienta zgodnego z OpenAI na <c>https://api.unorouter.com/v1</c> i korzystaj z wersji hostowanej. Darmowy hostowany plan obejmuje większość katalogu, więc możesz przetestować obie ścieżki, zanim się zdecydujesz.",
         "H_VERDICT": "W skrócie",
         "P_VERDICT": "Jeśli potrzebujesz tylko lokalnego routingu na własnych kluczach dostawców, LiteLLM to lżejsze narzędzie. Jeśli chcesz hostowanej bramki w stylu OpenRouter, której cały stack możesz czytać, audytować i forkować, {appName} to ta, która publikuje swój kod.",
-        "CTA": "Chcesz spróbować? <register>Załóż darmowe konto</register> lub <models>przeglądaj modele</models>."
+        "CTA": "Chcesz spróbować? <register>Załóż darmowe konto</register> lub <models>przeglądaj modele</models>.",
+        "TLDR": "{appName} to open source'owa alternatywa dla OpenRouter: ten sam jeden klucz do 200+ modeli, z całym stackiem publicznym na licencjach OSI na github.com/unorouter. Możesz przeczytać, jak obsługiwane są prompty, samodzielnie hostować bramkę albo korzystać z wersji hostowanej, która serwuje większość modeli w darmowym planie około 1 zapytania na minutę na model, a płatne użycie rozlicza za zużycie.",
+        "FAQ_1_Q": "Czy {appName} naprawdę jest w pełni open source?",
+        "FAQ_1_A": "Tak. Frontend webowy z klientem czatu, bramka, bot Discord i synchronizacja dostawców są publiczne na licencjach OSI na github.com/unorouter. Hostowany produkt działa na tym samym kodzie.",
+        "FAQ_2_Q": "Czy mogę samodzielnie hostować {appName}?",
+        "FAQ_2_A": "Tak. Sklonuj repozytoria i uruchom stack u siebie, albo skieruj dowolny klient zgodny z OpenAI na hostowany endpoint https://api.unorouter.com/v1 i pomiń całą robotę operacyjną.",
+        "FAQ_3_Q": "Czym {appName} różni się od LiteLLM?",
+        "FAQ_3_A": "LiteLLM to samodzielnie hostowane proxy, w którym przynosisz klucze dostawców i sam zarządzasz kontami. {appName} jest hostowany, z jednym kluczem, 200+ modelami i darmowym planem, pozostając open source jak LiteLLM."
       },
       "WHAT_IS_AN_LLM_GATEWAY": {
         "TITLE": "Czym jest brama LLM?",
@@ -975,7 +1004,14 @@
         "P_WHO_NEEDS_ONE": "Brama przyda Ci się, jeśli używasz więcej niż jednego modelu, planujesz zmieniać modele wraz ze zmianami cen i jakości albo budujesz coś, co nie powinno być na sztywno przypisane do jednego laboratorium. Agenci do kodowania, aplikacje czatowe, front-endy czatu z postaciami i narzędzia wewnętrzne — wszystkie na tym korzystają. Jeśli naprawdę wywołujesz tylko jeden model od jednego dostawcy i nigdy nie spodziewasz się zmiany, bezpośredni klucz dostawcy jest prostszy. Wszyscy inni oszczędzają realny wysiłek dzięki bramie.",
         "H_VERDICT": "W skrócie",
         "P_VERDICT": "Brama LLM zamienia wielu dostawców w jeden punkt końcowy, jeden klucz i jeden rachunek, więc integrujesz raz i zmieniasz modele dowolnie. {appName} to brama zgodna z OpenAI dokładnie tego rodzaju: jeden klucz dosięga ponad 200 modeli dla kodu i czatu na równi, z kredytami płacisz za użycie, które nie wygasają. Jeśli dotykasz więcej niż jednego modelu, brama to czystszy fundament.",
-        "CTA": "Wypróbuj bramę sam: <register>załóż darmowe konto</register> lub <models>przejrzyj modele</models>."
+        "CTA": "Wypróbuj bramę sam: <register>załóż darmowe konto</register> lub <models>przejrzyj modele</models>.",
+        "TLDR": "Bramka LLM to jedno API przed wieloma dostawcami modeli: jeden klucz, jeden rachunek, jeden endpoint, z routingiem i failoverem załatwionym za ciebie. {appName} to open source'owa bramka serwująca 200+ modeli przez API zgodne z OpenAI, plus natywne endpointy Anthropic i Gemini, z darmowym planem dla większości modeli i rozliczaniem za zużycie dla reszty.",
+        "FAQ_1_Q": "Kiedy potrzebuję bramki LLM zamiast bezpośredniego klucza dostawcy?",
+        "FAQ_1_A": "Gdy używasz więcej niż jednej rodziny modeli, chcesz failover, gdy dostawca padnie, albo chcesz jeden rachunek. Bramka eliminuje konta u poszczególnych dostawców i pozwala zmieniać model, podmieniając jeden string.",
+        "FAQ_2_Q": "Czy bramka LLM dodaje opóźnienie?",
+        "FAQ_2_A": "Jeden dodatkowy przeskok, zwykle dziesiątki milisekund, co streaming w praktyce maskuje. Wolne odpowiedzi znacznie częściej pochodzą z samego modelu niż z bramki.",
+        "FAQ_3_Q": "Jakie endpointy obsługuje {appName}?",
+        "FAQ_3_A": "Zgodne z OpenAI /v1/chat/completions, /v1/responses i /v1/embeddings, natywny Anthropic /v1/messages oraz natywny Gemini /v1beta, wszystko za jednym kluczem."
       },
       "HOW_TO_CONNECT_ANY_LLM_TO_SILLYTAVERN": {
         "TITLE": "Jak podłączyć dowolny LLM do SillyTavern",
