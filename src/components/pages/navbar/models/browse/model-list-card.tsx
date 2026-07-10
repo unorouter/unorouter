@@ -12,7 +12,7 @@ import {
 } from "@/lib/api/model-modality";
 import type { ProcessedModel } from "@/lib/api/pricing";
 import type { RankedModel } from "@/lib/api/typebox/rankings";
-import { getVendorTheme } from "@/lib/config/vendor-themes";
+import { getVendorTheme } from "@/lib/config/vendor-registry";
 import { cn } from "@/lib/utils";
 import { formatMsDate } from "@/lib/utils/format/date";
 import {

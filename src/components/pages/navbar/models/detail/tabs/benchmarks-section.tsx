@@ -15,7 +15,7 @@ import type {
   DesignArenaRow,
   LmArenaRow,
 } from "@/lib/api/typebox/benchmarks";
-import { getVendorTheme } from "@/lib/config/vendor-themes";
+import { getVendorTheme } from "@/lib/config/vendor-registry";
 import { cn } from "@/lib/utils";
 import { SectionHeading } from "../shared/section-heading";
 import { StatusBox } from "../shared/status-box";

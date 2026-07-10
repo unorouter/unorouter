@@ -7,7 +7,7 @@ import {
   tierDisplayPrices,
   type TierPriceRow,
 } from "@/lib/api/tiered-pricing";
-import { getVendorTheme } from "@/lib/config/vendor-themes";
+import { getVendorTheme } from "@/lib/config/vendor-registry";
 import { cn } from "@/lib/utils";
 import { formatPrice } from "@/lib/utils/format/number";
 import { useTranslations } from "next-intl";

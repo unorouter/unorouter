@@ -5,7 +5,7 @@ import {
   VENDOR_LOADERS,
   type IconComponent,
   type IconLoader,
-} from "@/lib/config/vendor-icons";
+} from "@/lib/config/vendor-registry";
 import dynamic from "next/dynamic";
 
 const LOADERS: Record<string, IconLoader> = {

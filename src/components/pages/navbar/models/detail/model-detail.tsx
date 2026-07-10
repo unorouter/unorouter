@@ -12,7 +12,7 @@ import {
 } from "@/lib/api/pricing";
 import { fixedPriceUnitLabel } from "@/lib/api/model-modality";
 import { APP_VALUES } from "@/lib/config/constants";
-import { getVendorTheme } from "@/lib/config/vendor-themes";
+import { getVendorTheme } from "@/lib/config/vendor-registry";
 import { modelHref } from "@/lib/utils/base";
 import { discountPercent, formatPrice } from "@/lib/utils/format/number";
 import { formatMsDate, formatYearMonth } from "@/lib/utils/format/date";

@@ -1,4 +1,4 @@
-import { getVendorTheme } from "@/lib/config/vendor-themes";
+import { getVendorTheme } from "@/lib/config/vendor-registry";
 import { cn } from "@/lib/utils";
 import type { ReactNode } from "react";
 

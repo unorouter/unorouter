@@ -11,7 +11,7 @@ import {
   type PriceUnit,
 } from "@/lib/api/model-modality";
 import type { ProcessedModel } from "@/lib/api/pricing";
-import { getVendorTheme } from "@/lib/config/vendor-themes";
+import { getVendorTheme } from "@/lib/config/vendor-registry";
 import { cn } from "@/lib/utils";
 import { modelHref } from "@/lib/utils/base";
 import {

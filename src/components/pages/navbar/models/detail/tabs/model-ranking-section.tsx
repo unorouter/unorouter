@@ -2,7 +2,7 @@
 
 import { useModelRankingQuery } from "@/hooks/models/model-ranking-hook";
 import type { RankingPeriod } from "@/lib/api/typebox/rankings";
-import { getVendorTheme } from "@/lib/config/vendor-themes";
+import { getVendorTheme } from "@/lib/config/vendor-registry";
 import { cn } from "@/lib/utils";
 import { formatTokenCount } from "@/lib/utils/format/number";
 import { RANKING_PERIODS } from "@/components/pages/navbar/rankings/rankings-helpers";
