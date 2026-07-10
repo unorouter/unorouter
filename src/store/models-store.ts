@@ -55,6 +55,8 @@ export const modelsStoreAtom = atomWithStorage<ModelsStoreState>(
   MODELS_STORE_KEY,
   INITIAL_MODELS_STATE,
   jotaiCookieStorage,
+  // Client atom init reads the cookie; the server no longer hydrates it.
+  { getOnInit: true },
 );
 
 const arr = (val: unknown): string[] => (Array.isArray(val) ? val : []);
