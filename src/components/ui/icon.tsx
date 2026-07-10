@@ -6,6 +6,7 @@ import type {
   IconName,
 } from "@/lib/config/icon-map";
 import { userThemeAtom } from "@/components/ui/theme/theme-store";
+import { cn } from "@/lib/utils";
 import { useAtomValue } from "jotai";
 import { lazy, Suspense } from "react";
 
@@ -56,7 +57,17 @@ export function Icon(props: Props) {
   const sized = { width: size ?? "1em", height: size ?? "1em", ...rest };
   return (
     <Suspense
-      fallback={<span className="inline-block size-[1em]" aria-hidden />}
+      // The fallback must occupy the exact box of the icon it replaces:
+      // a bare in-flow span under an absolutely-positioned icon added a
+      // whole line box during hydration and shifted everything below
+      // (models page CLS 0.2 on mobile).
+      fallback={
+        <span
+          className={cn("inline-block size-[1em]", props.className)}
+          style={size ? { width: size, height: size } : undefined}
+          aria-hidden
+        />
+      }
     >
       {/* eslint-disable-next-line react-hooks/static-components -- cached in module-scope map, referentially stable per (name, lib) pair */}
       <IconComp {...sized} />
