@@ -11,12 +11,11 @@ import { rpc } from "@/lib/rpc";
 import { chatHelpersAtom, chatStore } from "@/store/chat-store";
 import { handleElysia, uid } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
-import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { handleError } from "@/lib/utils/client";
 import {
   deleteLocalChatGroup,
   deleteLocalConversation,
-  deleteLocalMessage,
+  bumpLocalConvUpdatedAt,
   deleteLocalMessagesForConv,
   readLocalChatGroups,
   readLocalConversation,
@@ -24,6 +23,8 @@ import {
   readLocalConversations,
   readLocalMessageItems,
   readLocalMessages,
+  setLocalActiveBranch,
+  spliceDeleteLocalMessage,
   renameLocalChatGroup,
   reorderLocalChatGroups,
   replaceLocalConversationBindings,
@@ -215,16 +216,6 @@ export function useMessagesInfiniteQuery(id?: string) {
   });
 }
 
-async function bumpConvUpdatedAt(userId: number, convId: string) {
-  const conv = await readLocalConversation(userId, convId);
-  if (conv) {
-    await upsertLocalConversation(userId, {
-      ...conv,
-      updatedAt: dayjs().toDate(),
-    });
-  }
-}
-
 export function useUpdateConversationMutation() {
   return useChatMutation(
     async (userId, args: ConvIdArg & { body: UpdateConvBody }) => {
@@ -328,7 +319,7 @@ export function useEditMessageMutation() {
         isEdited: true,
         updatedAt: now,
       });
-      await bumpConvUpdatedAt(userId, args.convId);
+      await bumpLocalConvUpdatedAt(userId, args.convId);
       return { items: itemsWithMsg };
     },
     (args) => [queryKeys.chatMessages(args.convId)],
@@ -339,7 +330,7 @@ export function useClearConversationMutation() {
   return useChatMutation(
     async (userId, args: ConvIdArg) => {
       await deleteLocalMessagesForConv(userId, args.id);
-      await bumpConvUpdatedAt(userId, args.id);
+      await bumpLocalConvUpdatedAt(userId, args.id);
       return { id: args.id };
     },
     (args) => [queryKeys.chatMessages(args.id)],
@@ -418,26 +409,7 @@ export function useConversationMarkdown() {
 export function useSetActiveBranchMutation() {
   return useChatMutation(
     async (userId, args: { convId: string; msgId: string }) => {
-      const msgs = (await readLocalMessages(userId, args.convId)) ?? [];
-      const target = msgs.find((m) => m.id === args.msgId);
-      const parentId = target?.parentId ?? null;
-      const now = dayjs().toDate();
-      for (const m of msgs) {
-        if ((m.parentId ?? null) === parentId) {
-          await upsertLocalMessage(userId, {
-            ...m,
-            isActiveBranch: m.id === args.msgId,
-            updatedAt: now,
-          });
-        }
-      }
-      if (parentId === null && target?.role === "assistant") {
-        await updateLocalConversationSettings(userId, {
-          convId: args.convId,
-          firstMsgIndex: (target.branchIndex ?? 0) - 1,
-        });
-      }
-      await bumpConvUpdatedAt(userId, args.convId);
+      await setLocalActiveBranch(userId, args.convId, args.msgId);
       return { id: args.msgId };
     },
     (args) => [queryKeys.chatMessages(args.convId)],
@@ -448,40 +420,7 @@ export function useDeleteMessageMutation() {
   const qc = useQueryClient();
   return useChatMutation(
     async (userId, args: { convId: string; msgId: string }) => {
-      const msgs = (await readLocalMessages(userId, args.convId)) ?? [];
-      const target = msgs.find((m) => m.id === args.msgId);
-      const newParentId = target?.parentId ?? null;
-      const now = dayjs().toDate();
-      const childIds: string[] = [];
-      for (const m of msgs) {
-        if (m.parentId === args.msgId) {
-          childIds.push(m.id);
-          await upsertLocalMessage(userId, {
-            ...m,
-            parentId: newParentId,
-            updatedAt: now,
-          });
-        }
-      }
-      if (childIds.length > 0) {
-        const check = (await readLocalMessages(userId, args.convId)) ?? [];
-        for (const id of childIds) {
-          const child = check.find((m) => m.id === id);
-          if (child && child.parentId === args.msgId) {
-            logChatDebug("delete.splice_retry", {
-              msgId: args.msgId,
-              child: id,
-            });
-            await upsertLocalMessage(userId, {
-              ...child,
-              parentId: newParentId,
-              updatedAt: now,
-            });
-          }
-        }
-      }
-      await deleteLocalMessage(userId, args.msgId);
-      await bumpConvUpdatedAt(userId, args.convId);
+      await spliceDeleteLocalMessage(userId, args.convId, args.msgId);
       qc.removeQueries({ queryKey: queryKeys.chatMessages(args.convId) });
       return { id: args.msgId };
     },
