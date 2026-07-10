@@ -9,49 +9,72 @@ import {
   SectionPriorities,
 } from "@/lib/types";
 
-const SETUP_GUIDE_SOURCES = [
-  "src/components/pages/docs/setup-guides.ts",
-  "src/components/pages/docs/setup-guide-template.tsx",
-] as const;
+// Publish dates are DATA, not git archaeology (the old generate-seo-timestamps
+// script derived them from git log, which breaks on file moves and history
+// rewrites). New guide/doc = add its date here; bump `updated` on real content
+// edits only.
+const GUIDE_DATES: Record<string, string> = {
+  "claude-code": "2026-02-26",
+  codex: "2026-03-23",
+  "gemini-cli": "2026-03-22",
+  openclaw: "2026-02-26",
+  "cc-switch": "2026-03-27",
+  sillytavern: "2026-04-23",
+  "janitor-ai": "2026-04-23",
+  risuai: "2026-04-23",
+  chub: "2026-04-23",
+  hermes: "2026-05-29",
+  mcp: "2026-07-10",
+  librechat: "2026-07-05",
+  "open-webui": "2026-07-05",
+  lobechat: "2026-07-05",
+  anythingllm: "2026-07-05",
+  "cherry-studio": "2026-07-05",
+  typingmind: "2026-07-05",
+  boltai: "2026-07-05",
+  "page-assist": "2026-07-05",
+  chatbox: "2026-07-05",
+  "big-agi": "2026-07-05",
+  opencode: "2026-07-05",
+  "kilo-code": "2026-07-05",
+  zed: "2026-07-05",
+  cline: "2026-07-05",
+  "roo-code": "2026-07-05",
+  "continue-dev": "2026-07-05",
+  aider: "2026-07-05",
+};
+
+function guideDate(slug: string): string {
+  const date = GUIDE_DATES[slug];
+  if (!date) throw new Error(`GUIDE_DATES missing entry for "${slug}"`);
+  return date;
+}
 
 const GUIDE_ENTRIES = SETUP_GUIDES.map((guide): DocEntry => ({
   slug: `docs/integrations/${guide.slug}`,
   path: guide.href as Pathname,
   i18nPrefix: guide.i18nPrefix as DocEntry["i18nPrefix"],
-  contentFiles: guide.customComponent
-    ? [
-        ...SETUP_GUIDE_SOURCES,
-        `src/components/pages/docs/cli/${guide.customComponent}/${guide.customComponent}-content.tsx`,
-      ]
-    : SETUP_GUIDE_SOURCES,
+  date: guideDate(guide.slug),
   priority: 0.7,
   changeFrequency: "weekly",
 }));
 
-const CHAT_DOC_SOURCES = [
-  "src/components/pages/docs/chat/chat-docs.ts",
-  "src/components/pages/docs/chat/chat-doc-template.tsx",
-] as const;
+const CHAT_PLATFORM_DOCS_DATE = "2026-07-05";
 
 const CHAT_DOC_ENTRIES = CHAT_DOCS.map((doc): DocEntry => ({
   slug: `docs/chat/${doc.slug}`,
   path: doc.href as Pathname,
   i18nPrefix: doc.i18nPrefix as DocEntry["i18nPrefix"],
-  contentFiles: [...CHAT_DOC_SOURCES, doc.contentFile],
+  date: CHAT_PLATFORM_DOCS_DATE,
   priority: 0.7,
   changeFrequency: "weekly",
 }));
-
-const PLATFORM_DOC_SOURCES = [
-  "src/components/pages/docs/platform/platform-docs.ts",
-  "src/components/pages/docs/platform/platform-doc-template.tsx",
-] as const;
 
 const PLATFORM_DOC_ENTRIES = PLATFORM_DOCS.map((doc): DocEntry => ({
   slug: `docs/platform/${doc.slug}`,
   path: doc.href as Pathname,
   i18nPrefix: doc.i18nPrefix as DocEntry["i18nPrefix"],
-  contentFiles: [...PLATFORM_DOC_SOURCES, doc.contentFile],
+  date: CHAT_PLATFORM_DOCS_DATE,
   priority: 0.7,
   changeFrequency: "weekly",
 }));
@@ -61,7 +84,8 @@ export const DOCS_REGISTRY: readonly DocEntry[] = [
     slug: "docs/integrations",
     path: "/docs/integrations",
     i18nPrefix: "DOCS_INDEX",
-    contentFiles: ["src/app/[locale]/(docs)/docs/integrations/page.tsx"],
+    date: "2026-02-22",
+    updated: "2026-07-10",
     priority: 0.8,
     changeFrequency: "daily",
   },
@@ -69,7 +93,7 @@ export const DOCS_REGISTRY: readonly DocEntry[] = [
     slug: "docs/chat",
     path: "/docs/chat",
     i18nPrefix: "DOCS_CHAT.INDEX" as DocEntry["i18nPrefix"],
-    contentFiles: ["src/app/[locale]/(docs)/docs/chat/page.tsx"],
+    date: "2026-07-05",
     priority: 0.8,
     changeFrequency: "weekly",
   },
@@ -77,7 +101,7 @@ export const DOCS_REGISTRY: readonly DocEntry[] = [
     slug: "docs/platform",
     path: "/docs/platform",
     i18nPrefix: "DOCS_PLATFORM.INDEX" as DocEntry["i18nPrefix"],
-    contentFiles: ["src/app/[locale]/(docs)/docs/platform/page.tsx"],
+    date: "2026-07-05",
     priority: 0.8,
     changeFrequency: "weekly",
   },
@@ -87,25 +111,14 @@ export const DOCS_REGISTRY: readonly DocEntry[] = [
 ];
 
 export const LEGAL_REGISTRY = [
-  {
-    slug: "legal/privacy",
-    contentFiles: ["src/app/[locale]/(legal)/privacy/page.tsx"],
-  },
-  {
-    slug: "legal/terms",
-    contentFiles: ["src/app/[locale]/(legal)/terms/page.tsx"],
-  },
-  {
-    slug: "legal/refund",
-    contentFiles: ["src/app/[locale]/(legal)/refund/page.tsx"],
-  },
-  {
-    slug: "legal/aup",
-    contentFiles: ["src/app/[locale]/(legal)/aup/page.tsx"],
-  },
+  { slug: "legal/privacy", date: "2026-03-07" },
+  { slug: "legal/terms", date: "2026-03-07" },
+  { slug: "legal/refund", date: "2026-06-17" },
+  { slug: "legal/aup", date: "2026-06-30" },
 ] as const satisfies readonly {
   slug: `legal/${string}`;
-  contentFiles: readonly string[];
+  date: string;
+  updated?: string;
 }[];
 
 export const BLOG_REGISTRY = [
@@ -114,9 +127,6 @@ export const BLOG_REGISTRY = [
     date: "2026-06-25",
     tags: ["comparison", "product"],
     i18nKey: "BLOG.POSTS.BEST_AI_GATEWAY_FOR_SILLYTAVERN",
-    contentFiles: [
-      "src/components/pages/blog/posts/2026-06-25-best-ai-gateway-for-sillytavern-content.tsx",
-    ],
     priority: 0.7,
     changeFrequency: "monthly",
     category: "product",
@@ -134,9 +144,6 @@ export const BLOG_REGISTRY = [
     date: "2026-06-27",
     tags: ["comparison", "product"],
     i18nKey: "BLOG.POSTS.BEST_OPENROUTER_ALTERNATIVES_2026",
-    contentFiles: [
-      "src/components/pages/blog/posts/2026-06-27-best-openrouter-alternatives-2026-content.tsx",
-    ],
     priority: 0.7,
     changeFrequency: "monthly",
     category: "product",
@@ -154,9 +161,6 @@ export const BLOG_REGISTRY = [
     date: "2026-07-10",
     tags: ["comparison", "product"],
     i18nKey: "BLOG.POSTS.OPEN_SOURCE_OPENROUTER_ALTERNATIVE",
-    contentFiles: [
-      "src/components/pages/blog/posts/2026-07-10-open-source-openrouter-alternative-content.tsx",
-    ],
     priority: 0.7,
     changeFrequency: "monthly",
     category: "product",
@@ -174,9 +178,6 @@ export const BLOG_REGISTRY = [
     date: "2026-06-29",
     tags: ["product"],
     i18nKey: "BLOG.POSTS.WHAT_IS_AN_LLM_GATEWAY",
-    contentFiles: [
-      "src/components/pages/blog/posts/2026-06-29-what-is-an-llm-gateway-content.tsx",
-    ],
     priority: 0.7,
     changeFrequency: "monthly",
     category: "engineering",
@@ -194,9 +195,6 @@ export const BLOG_REGISTRY = [
     date: "2026-07-01",
     tags: ["product"],
     i18nKey: "BLOG.POSTS.HOW_TO_CONNECT_ANY_LLM_TO_SILLYTAVERN",
-    contentFiles: [
-      "src/components/pages/blog/posts/2026-07-01-how-to-connect-any-llm-to-sillytavern-content.tsx",
-    ],
     priority: 0.7,
     changeFrequency: "monthly",
     category: "product",
@@ -214,9 +212,6 @@ export const BLOG_REGISTRY = [
     date: "2026-07-03",
     tags: ["product"],
     i18nKey: "BLOG.POSTS.ONE_API_KEY_FOR_CLAUDE_CODE_AND_ROLEPLAY",
-    contentFiles: [
-      "src/components/pages/blog/posts/2026-07-03-one-api-key-for-claude-code-and-roleplay-content.tsx",
-    ],
     priority: 0.7,
     changeFrequency: "monthly",
     category: "product",
@@ -234,9 +229,6 @@ export const BLOG_REGISTRY = [
     date: "2026-06-23",
     tags: ["comparison", "product"],
     i18nKey: "BLOG.POSTS.UNOROUTER_VS_NANO_GPT",
-    contentFiles: [
-      "src/components/pages/blog/posts/2026-06-23-unorouter-vs-nano-gpt-content.tsx",
-    ],
     priority: 0.7,
     changeFrequency: "monthly",
     category: "product",
@@ -254,9 +246,6 @@ export const BLOG_REGISTRY = [
     date: "2026-06-21",
     tags: ["comparison", "product"],
     i18nKey: "BLOG.POSTS.UNOROUTER_VS_PORTKEY",
-    contentFiles: [
-      "src/components/pages/blog/posts/2026-06-21-unorouter-vs-portkey-content.tsx",
-    ],
     priority: 0.7,
     changeFrequency: "monthly",
     category: "product",
@@ -274,9 +263,6 @@ export const BLOG_REGISTRY = [
     date: "2026-06-20",
     tags: ["comparison", "product"],
     i18nKey: "BLOG.POSTS.UNOROUTER_VS_MEGALLM",
-    contentFiles: [
-      "src/components/pages/blog/posts/2026-06-20-unorouter-vs-megallm-content.tsx",
-    ],
     priority: 0.7,
     changeFrequency: "monthly",
     category: "product",
@@ -294,9 +280,6 @@ export const BLOG_REGISTRY = [
     date: "2026-06-19",
     tags: ["comparison", "product"],
     i18nKey: "BLOG.POSTS.UNOROUTER_VS_RISUAI",
-    contentFiles: [
-      "src/components/pages/blog/posts/2026-06-19-unorouter-vs-risuai-content.tsx",
-    ],
     priority: 0.7,
     changeFrequency: "monthly",
     category: "product",
@@ -314,9 +297,6 @@ export const BLOG_REGISTRY = [
     date: "2026-06-17",
     tags: ["comparison", "product"],
     i18nKey: "BLOG.POSTS.UNOROUTER_VS_LITELLM",
-    contentFiles: [
-      "src/components/pages/blog/posts/2026-06-17-unorouter-vs-litellm-content.tsx",
-    ],
     priority: 0.7,
     changeFrequency: "monthly",
     category: "product",
@@ -332,11 +312,9 @@ export const BLOG_REGISTRY = [
   {
     slug: "featured-on",
     date: "2026-06-12",
+    updated: "2026-07-09",
     tags: ["announcement", "product"],
     i18nKey: "BLOG.POSTS.FEATURED_ON",
-    contentFiles: [
-      "src/components/pages/blog/posts/2026-06-12-featured-on-content.tsx",
-    ],
     priority: 0.7,
     changeFrequency: "monthly",
     category: "product",
@@ -353,9 +331,6 @@ export const BLOG_REGISTRY = [
     date: "2026-06-10",
     tags: ["comparison", "product"],
     i18nKey: "BLOG.POSTS.UNOROUTER_VS_OPENROUTER",
-    contentFiles: [
-      "src/components/pages/blog/posts/2026-06-10-unorouter-vs-openrouter-content.tsx",
-    ],
     priority: 0.7,
     changeFrequency: "monthly",
     category: "product",
@@ -371,11 +346,9 @@ export const BLOG_REGISTRY = [
   {
     slug: "free-models-aggregated",
     date: "2026-06-15",
+    updated: "2026-07-05",
     tags: ["announcement", "product"],
     i18nKey: "BLOG.POSTS.FREE_MODELS_AGGREGATED",
-    contentFiles: [
-      "src/components/pages/blog/posts/2026-06-08-free-models-aggregated-content.tsx",
-    ],
     priority: 0.7,
     changeFrequency: "monthly",
     category: "product",
@@ -393,11 +366,9 @@ export const BLOG_REGISTRY = [
   {
     slug: "launch",
     date: "2026-04-17",
+    updated: "2026-04-18",
     tags: ["announcement", "product"],
     i18nKey: "BLOG.POSTS.LAUNCH",
-    contentFiles: [
-      "src/components/pages/blog/posts/2026-04-17-launch-content.tsx",
-    ],
     priority: 0.7,
     changeFrequency: "monthly",
     category: "launch",
@@ -414,9 +385,6 @@ export const BLOG_REGISTRY = [
     date: "2026-04-25",
     tags: ["engineering", "announcement"],
     i18nKey: "BLOG.POSTS.AGENT_READY",
-    contentFiles: [
-      "src/components/pages/blog/posts/2026-04-25-agent-ready-content.tsx",
-    ],
     priority: 0.7,
     changeFrequency: "monthly",
     category: "engineering",
@@ -433,11 +401,9 @@ export const BLOG_REGISTRY = [
   {
     slug: "claude-authenticity",
     date: "2026-04-26",
+    updated: "2026-07-08",
     tags: ["engineering", "announcement"],
     i18nKey: "BLOG.POSTS.CLAUDE_AUTHENTICITY",
-    contentFiles: [
-      "src/components/pages/blog/posts/2026-04-26-claude-authenticity-content.tsx",
-    ],
     priority: 0.7,
     changeFrequency: "monthly",
     category: "engineering",
@@ -453,11 +419,9 @@ export const BLOG_REGISTRY = [
   {
     slug: "six-input-image-models",
     date: "2026-05-18",
+    updated: "2026-05-22",
     tags: ["engineering", "announcement"],
     i18nKey: "BLOG.POSTS.SIX_INPUT_IMAGE_MODELS",
-    contentFiles: [
-      "src/components/pages/blog/posts/2026-05-18-six-input-image-models-content.tsx",
-    ],
     priority: 0.7,
     changeFrequency: "monthly",
     category: "engineering",
@@ -476,9 +440,6 @@ export const BLOG_REGISTRY = [
     date: "2026-06-04",
     tags: ["announcement", "community"],
     i18nKey: "BLOG.POSTS.DISCORD_COMMUNITY",
-    contentFiles: [
-      "src/components/pages/blog/posts/2026-06-04-discord-community-content.tsx",
-    ],
     priority: 0.7,
     changeFrequency: "monthly",
     category: "update",
@@ -498,9 +459,6 @@ export const BLOG_REGISTRY = [
     date: "2026-07-07",
     tags: ["comparison", "product"],
     i18nKey: "BLOG.POSTS.UNOROUTER_VS_JANITORAI",
-    contentFiles: [
-      "src/components/pages/blog/posts/2026-07-07-unorouter-vs-janitorai-content.tsx",
-    ],
     priority: 0.7,
     changeFrequency: "monthly",
     category: "product",
@@ -516,11 +474,9 @@ export const BLOG_REGISTRY = [
   {
     slug: "unorouter-vs-character-ai",
     date: "2026-07-09",
+    updated: "2026-07-05",
     tags: ["comparison", "product"],
     i18nKey: "BLOG.POSTS.UNOROUTER_VS_CHARACTER_AI",
-    contentFiles: [
-      "src/components/pages/blog/posts/2026-07-09-unorouter-vs-character-ai-content.tsx",
-    ],
     priority: 0.7,
     changeFrequency: "monthly",
     category: "product",
@@ -536,11 +492,9 @@ export const BLOG_REGISTRY = [
   {
     slug: "unorouter-vs-sillytavern",
     date: "2026-07-11",
+    updated: "2026-07-05",
     tags: ["comparison", "product"],
     i18nKey: "BLOG.POSTS.UNOROUTER_VS_SILLYTAVERN",
-    contentFiles: [
-      "src/components/pages/blog/posts/2026-07-11-unorouter-vs-sillytavern-content.tsx",
-    ],
     priority: 0.7,
     changeFrequency: "monthly",
     category: "product",
@@ -558,9 +512,6 @@ export const BLOG_REGISTRY = [
     date: "2026-07-14",
     tags: ["comparison", "product"],
     i18nKey: "BLOG.POSTS.UNOROUTER_VS_CHUB",
-    contentFiles: [
-      "src/components/pages/blog/posts/2026-07-14-unorouter-vs-chub-content.tsx",
-    ],
     priority: 0.7,
     changeFrequency: "monthly",
     category: "product",
@@ -576,11 +527,9 @@ export const BLOG_REGISTRY = [
   {
     slug: "unorouter-vs-marinara",
     date: "2026-07-16",
+    updated: "2026-07-10",
     tags: ["comparison", "product"],
     i18nKey: "BLOG.POSTS.UNOROUTER_VS_MARINARA",
-    contentFiles: [
-      "src/components/pages/blog/posts/2026-07-16-unorouter-vs-marinara-content.tsx",
-    ],
     priority: 0.7,
     changeFrequency: "monthly",
     category: "product",
@@ -596,11 +545,9 @@ export const BLOG_REGISTRY = [
   {
     slug: "unorouter-vs-lumiverse",
     date: "2026-07-18",
+    updated: "2026-07-10",
     tags: ["comparison", "product"],
     i18nKey: "BLOG.POSTS.UNOROUTER_VS_LUMIVERSE",
-    contentFiles: [
-      "src/components/pages/blog/posts/2026-07-18-unorouter-vs-lumiverse-content.tsx",
-    ],
     priority: 0.7,
     changeFrequency: "monthly",
     category: "product",
@@ -618,9 +565,6 @@ export const BLOG_REGISTRY = [
     date: "2026-07-21",
     tags: ["comparison", "product"],
     i18nKey: "BLOG.POSTS.UNOROUTER_VS_LIBRECHAT",
-    contentFiles: [
-      "src/components/pages/blog/posts/2026-07-21-unorouter-vs-librechat-content.tsx",
-    ],
     priority: 0.7,
     changeFrequency: "monthly",
     category: "product",
@@ -638,9 +582,6 @@ export const BLOG_REGISTRY = [
     date: "2026-07-23",
     tags: ["comparison", "product"],
     i18nKey: "BLOG.POSTS.UNOROUTER_VS_OPEN_WEBUI",
-    contentFiles: [
-      "src/components/pages/blog/posts/2026-07-23-unorouter-vs-open-webui-content.tsx",
-    ],
     priority: 0.7,
     changeFrequency: "monthly",
     category: "product",
@@ -658,9 +599,6 @@ export const BLOG_REGISTRY = [
     date: "2026-07-25",
     tags: ["comparison", "product"],
     i18nKey: "BLOG.POSTS.UNOROUTER_VS_AGNAI",
-    contentFiles: [
-      "src/components/pages/blog/posts/2026-07-25-unorouter-vs-agnai-content.tsx",
-    ],
     priority: 0.7,
     changeFrequency: "monthly",
     category: "product",
@@ -678,9 +616,6 @@ export const BLOG_REGISTRY = [
     date: "2026-07-28",
     tags: ["comparison", "product"],
     i18nKey: "BLOG.POSTS.UNOROUTER_VS_SPICYCHAT",
-    contentFiles: [
-      "src/components/pages/blog/posts/2026-07-28-unorouter-vs-spicychat-content.tsx",
-    ],
     priority: 0.7,
     changeFrequency: "monthly",
     category: "product",

@@ -22,7 +22,6 @@ export interface ChatDoc {
   i18nPrefix: string;
   section: ChatDocSection;
   iconName: IconName;
-  contentFile: string;
   headings: ChatDocHeading[];
 }
 
@@ -44,7 +43,6 @@ function chatDoc(input: {
     i18nPrefix: `DOCS_CHAT.${input.name}`,
     section: input.section,
     iconName: input.iconName,
-    contentFile: `src/components/pages/docs/chat/content/${input.slug}-content.tsx`,
     headings: input.headings.map(([id, leaf]) => ({
       id,
       i18nLeaf: leaf,
