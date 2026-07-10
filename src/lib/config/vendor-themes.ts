@@ -67,12 +67,12 @@ const VENDOR_THEMES: Record<string, VendorTheme> = {
     primary: "#3b82f6",
   },
   [Vendor.DEEPSEEK]: {
-    bg: "bg-purple-500/5",
-    border: "border-purple-500/20",
-    text: "text-purple-700 dark:text-purple-300",
-    tagBg: "bg-purple-500/10",
-    tagBorder: "border-purple-500/20",
-    primary: "#7c5cff",
+    bg: "bg-blue-500/5",
+    border: "border-blue-500/20",
+    text: "text-blue-700 dark:text-blue-300",
+    tagBg: "bg-blue-500/10",
+    tagBorder: "border-blue-500/20",
+    primary: "#4d6bfe",
   },
   [Vendor.FLUX]: {
     bg: "bg-fuchsia-500/5",

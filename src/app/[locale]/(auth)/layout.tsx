@@ -11,12 +11,24 @@ import { HydrationBoundary } from "@tanstack/react-query";
 import { getCookie } from "cookies-next/server";
 import { getTranslations } from "next-intl/server";
 import { cookies } from "next/headers";
-import { ReactNode } from "react";
+import { ReactNode, Suspense } from "react";
 
-export default async function AuthLayout(props: {
+type Props = {
   children: ReactNode;
   params: Promise<{ locale: string }>;
-}) {
+};
+
+// The Suspense gate keeps the cookie-based logged-in redirect out of the
+// static shell; it also covers the login/register pages underneath.
+export default function AuthLayout(props: Props) {
+  return (
+    <Suspense>
+      <AuthGate params={props.params}>{props.children}</AuthGate>
+    </Suspense>
+  );
+}
+
+async function AuthGate(props: Props) {
   const locale = await serverLocale(props);
   const t = await getTranslations();
   const queryClient = getQueryClient();

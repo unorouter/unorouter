@@ -4,8 +4,9 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useRankingsQuery } from "@/hooks/models/rankings-hook";
 import type { RankingPeriod } from "@/lib/api/typebox/rankings";
 import { useTranslations } from "next-intl";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
+import { useEffect, useState } from "react";
 
 const ModelsSection = dynamic(
   () => import("./models-section").then((m) => m.ModelsSection),
@@ -27,18 +28,23 @@ export function Rankings(props: RankingsProps) {
   const t = useTranslations();
   const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
 
-  const periodParam = searchParams.get("period");
-  const period: RankingPeriod = isValidPeriod(periodParam)
-    ? periodParam
-    : props.initialPeriod;
+  // Period state lives here and seeds from the URL after mount: reading
+  // useSearchParams during render would bail the whole page out of the
+  // prerendered static shell.
+  const [period, setPeriod] = useState<RankingPeriod>(props.initialPeriod);
+  useEffect(() => {
+    const fromUrl = new URLSearchParams(window.location.search).get("period");
+    if (isValidPeriod(fromUrl)) setPeriod(fromUrl);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const rankingsQuery = useRankingsQuery(period);
   const snapshot = rankingsQuery.data;
 
   function handlePeriodChange(next: RankingPeriod) {
-    const params = new URLSearchParams(searchParams.toString());
+    setPeriod(next);
+    const params = new URLSearchParams(window.location.search);
     params.set("period", next);
     router.replace(`${pathname}?${params.toString()}`, { scroll: false });
   }

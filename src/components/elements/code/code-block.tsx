@@ -1,8 +1,13 @@
 import { cn } from "@/lib/utils";
+import { cacheLife } from "next/cache";
 import { codeToHtml } from "shiki";
 import { CopyButton } from "./copy-button";
 
+// Cached: shiki reads the clock internally, which prerenders reject outside
+// "use cache"; output is deterministic per (code, language) anyway.
 export async function highlightCode(code: string, language = "text") {
+  "use cache";
+  cacheLife("max");
   return codeToHtml(code, {
     lang: language,
     themes: { light: "github-light-high-contrast", dark: "vitesse-dark" },

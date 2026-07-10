@@ -1,15 +1,14 @@
-import { prefetchElysia } from "@/lib/react-query/prefetch";
 import { Home } from "@/components/pages/navbar/home/home";
 import { APP_VALUES } from "@/lib/config/constants";
-import getQueryClient from "@/lib/react-query/client";
-import { queryKeys } from "@/lib/react-query/keys";
-import { rpc } from "@/lib/rpc";
+import {
+  getCachedPricing,
+  getDehydratedStatsHistory,
+} from "@/lib/api/cached";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
 import { buildSoftwareApplicationSchema } from "@/lib/seo/structured-data";
-import { handleElysia } from "@/lib/utils/base";
 import { serverLocale } from "@/lib/utils/server";
-import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
+import { HydrationBoundary } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
 
 export async function generateMetadata(props: {
@@ -30,7 +29,6 @@ export async function generateMetadata(props: {
 export default async function HomePage(props: {
   params: Promise<{ locale: string }>;
 }) {
-  const queryClient = getQueryClient();
   const locale = await serverLocale(props);
   const t = await getTranslations({ locale });
 
@@ -38,14 +36,9 @@ export default async function HomePage(props: {
   // the query cache: dehydrating 700+ full model objects added ~2.3MB of RSC
   // flight payload to the homepage HTML (197KB brotli). The model ticker
   // (ssr:false, renders null until data) fetches it client-side after load.
-  const [pricing] = await Promise.all([
-    rpc.api.models.pricing
-      .get()
-      .then(handleElysia)
-      .catch(() => null),
-    prefetchElysia(queryClient, queryKeys.statsHistory(), () =>
-      rpc.api.ops.stats.history.get(),
-    ),
+  const [pricing, statsState] = await Promise.all([
+    getCachedPricing().catch(() => null),
+    getDehydratedStatsHistory(),
   ]);
 
   return (
@@ -58,7 +51,7 @@ export default async function HomePage(props: {
           modelCount: pricing?.modelCount,
         })}
       />
-      <HydrationBoundary state={dehydrate(queryClient)}>
+      <HydrationBoundary state={statsState}>
         <Home
           counts={{
             modelCount: pricing?.modelCount ?? 0,

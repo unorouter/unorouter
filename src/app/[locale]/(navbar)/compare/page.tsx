@@ -1,16 +1,12 @@
 import { ComparePage } from "@/components/pages/navbar/models/compare/compare-page";
 import { APP_VALUES } from "@/lib/config/constants";
 import { localeUrl } from "@/i18n/navigation";
-import getQueryClient from "@/lib/react-query/client";
-import { queryKeys } from "@/lib/react-query/keys";
-import { prefetchElysia } from "@/lib/react-query/prefetch";
-import { rpc } from "@/lib/rpc";
+import { getComparePageData } from "@/lib/api/cached";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
 import { buildBreadcrumbListSchema } from "@/lib/seo/structured-data";
-import { handleElysia } from "@/lib/utils/base";
 import { serverLocale } from "@/lib/utils/server";
-import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
+import { HydrationBoundary } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
 
 export async function generateMetadata(props: {
@@ -33,20 +29,7 @@ export default async function Page(props: {
 }) {
   const locale = await serverLocale(props);
   const t = await getTranslations({ locale });
-  const queryClient = getQueryClient();
-
-  await Promise.all([
-    queryClient.fetchQuery({
-      queryKey: queryKeys.pricing(),
-      queryFn: async () => handleElysia(await rpc.api.models.pricing.get()),
-    }),
-    prefetchElysia(queryClient, queryKeys.rankings("week"), () =>
-      rpc.api.models.rankings.get({ query: { period: "week" } }),
-    ),
-    prefetchElysia(queryClient, queryKeys.perfMetricsSummary(24), () =>
-      rpc.api.models["perf-metrics"].summary.get({ query: { hours: 24 } }),
-    ),
-  ]);
+  const data = await getComparePageData([]);
 
   return (
     <>
@@ -60,7 +43,7 @@ export default async function Page(props: {
           },
         ])}
       />
-      <HydrationBoundary state={dehydrate(queryClient)}>
+      <HydrationBoundary state={data.dehydrated}>
         <ComparePage />
       </HydrationBoundary>
     </>

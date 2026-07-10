@@ -1,18 +1,16 @@
+import { serverLocale } from "@/lib/utils/server";
 import { DocsTabs } from "@/components/layout/docs/docs-tabs";
 import { SidebarLayout } from "@/components/layout/sidebar/sidebar-layout";
-import { BestKeyPrefetch } from "@/components/provider/state/best-key-prefetch";
-import { Suspense } from "react";
 
 interface DocsLayoutProps {
   children: React.ReactNode;
+  params: Promise<{ locale: string }>;
 }
 
-export default function DocsLayout(props: DocsLayoutProps) {
+export default async function DocsLayout(props: DocsLayoutProps) {
+  await serverLocale(props);
   return (
     <>
-      <Suspense>
-        <BestKeyPrefetch />
-      </Suspense>
       <SidebarLayout navConfig="docs" showSearch>
         <div className="flex w-full min-w-0 flex-col">
           <DocsTabs />

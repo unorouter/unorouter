@@ -29,7 +29,6 @@ import { UnorouterVsAgnaiContent } from "@/components/pages/blog/posts/2026-07-2
 import { UnorouterVsSpicychatContent } from "@/components/pages/blog/posts/2026-07-28-unorouter-vs-spicychat-content";
 import { BLOG_REGISTRY, type BlogSlug } from "@/i18n/registry";
 import { APP_VALUES } from "@/lib/config/constants";
-import { dayjs } from "@/lib/utils/format/date";
 import type { BlogPost } from "@/lib/types";
 import type { useTranslations } from "next-intl";
 import type { ComponentType } from "react";
@@ -81,7 +80,9 @@ export const POSTS: BlogPost<BlogSlug>[] = BLOG_REGISTRY.map((entry) => ({
 }));
 
 export function getAllPostsSorted(): BlogPost<BlogSlug>[] {
-  const today = dayjs().format("YYYY-MM-DD");
+  // Build date, not the clock: deterministic for cacheComponents prerenders.
+  // Scheduled posts go live with the first deploy on or after their date.
+  const today = process.env.NEXT_PUBLIC_BUILD_DATE ?? "";
   return [...POSTS]
     .filter((p) => p.date <= today)
     .sort((a, b) => b.date.localeCompare(a.date));

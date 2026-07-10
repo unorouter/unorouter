@@ -8,8 +8,6 @@ import { handleElysia, modelHref } from "@/lib/utils/base";
 import { serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
 
-export const dynamic = "force-static";
-export const revalidate = 3600;
 
 export async function GET() {
   const locale = await serverLocale();
