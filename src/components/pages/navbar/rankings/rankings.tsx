@@ -4,12 +4,12 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useRankingsQuery } from "@/hooks/models/rankings-hook";
 import type { RankingPeriod } from "@/lib/api/typebox/rankings";
 import { useTranslations } from "next-intl";
-import { usePathname, useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
+import { usePathname, useRouter } from "next/navigation";
 import { useState, useSyncExternalStore } from "react";
 import { PulseSection } from "./pulse-section";
-import { RankingsHero } from "./rankings-hero";
 import { isValidPeriod } from "./rankings-helpers";
+import { RankingsHero } from "./rankings-hero";
 
 const ModelsSection = dynamic(
   () => import("./models-section").then((m) => m.ModelsSection),
@@ -19,7 +19,6 @@ const MarketShareSection = dynamic(
   () => import("./market-share-section").then((m) => m.MarketShareSection),
   { ssr: false, loading: () => <Skeleton className="h-150 w-full" /> },
 );
-
 
 type RankingsProps = {
   initialPeriod: RankingPeriod;
@@ -50,8 +49,7 @@ export function Rankings(props: RankingsProps) {
   );
   const [override, setOverride] = useState<RankingPeriod | null>(null);
   const period =
-    override ??
-    (isValidPeriod(urlPeriod) ? urlPeriod : props.initialPeriod);
+    override ?? (isValidPeriod(urlPeriod) ? urlPeriod : props.initialPeriod);
 
   const rankingsQuery = useRankingsQuery(period);
   const snapshot = rankingsQuery.data;

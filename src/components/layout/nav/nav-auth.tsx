@@ -36,7 +36,10 @@ export async function NavAuth() {
         queryKeys.subscriptionSelf(),
       ])}
     >
-      <UserDropdown side="bottom" align="end">
+      {/* Explicit trigger id: Base UI's useId differs between the streamed
+          server render and client hydration across this Suspense hole
+          (React #418); a stable id keeps the markup identical. */}
+      <UserDropdown side="bottom" align="end" triggerId="nav-user-trigger">
         <button className="cursor-pointer focus:outline-none">
           <UserAvatar />
         </button>

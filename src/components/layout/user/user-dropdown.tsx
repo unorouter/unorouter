@@ -28,6 +28,7 @@ interface UserDropdownProps {
   align?: "start" | "center" | "end";
   sideOffset?: number;
   className?: string;
+  triggerId?: string;
 }
 
 export function UserDropdown(props: UserDropdownProps) {
@@ -53,6 +54,7 @@ export function UserDropdown(props: UserDropdownProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
+        id={props.triggerId}
         className={props.className}
         render={props.children}
       ></DropdownMenuTrigger>
