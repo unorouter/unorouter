@@ -87,6 +87,9 @@ export const userThemeAtom = atomWithStorage<UserTheme>(
   USER_THEME_KEY,
   INITIAL_USER_THEME,
   jotaiCookieStorage,
+  // Client atom init reads the cookie synchronously; the server no longer
+  // reads it at all (the layout ships a default-theme static shell).
+  { getOnInit: true },
 );
 
 export const themeBackgroundAtom = atomWithStorage<string | null>(

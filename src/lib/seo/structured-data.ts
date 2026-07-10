@@ -206,7 +206,8 @@ export function buildProductSchema(
           "@type": "Offer" as const,
           price: 0,
           priceCurrency: "USD",
-          description: "Free tier, shared pools with a light per model rate limit",
+          description:
+            "Free tier, shared pools with a light per model rate limit",
           availability: "https://schema.org/InStock" as const,
         },
       ]

@@ -7,12 +7,16 @@ export async function OpenSourceOpenrouterAlternativeContent() {
 
   return (
     <>
-      <p>{t("BLOG.POSTS.OPEN_SOURCE_OPENROUTER_ALTERNATIVE.INTRO", APP_VALUES)}</p>
+      <p>
+        {t("BLOG.POSTS.OPEN_SOURCE_OPENROUTER_ALTERNATIVE.INTRO", APP_VALUES)}
+      </p>
 
       <h2 id="why-open">
         {t("BLOG.POSTS.OPEN_SOURCE_OPENROUTER_ALTERNATIVE.H_WHY")}
       </h2>
-      <p>{t("BLOG.POSTS.OPEN_SOURCE_OPENROUTER_ALTERNATIVE.P_WHY", APP_VALUES)}</p>
+      <p>
+        {t("BLOG.POSTS.OPEN_SOURCE_OPENROUTER_ALTERNATIVE.P_WHY", APP_VALUES)}
+      </p>
 
       <h2 id="what-is-open">
         {t("BLOG.POSTS.OPEN_SOURCE_OPENROUTER_ALTERNATIVE.H_WHAT")}
@@ -36,7 +40,10 @@ export async function OpenSourceOpenrouterAlternativeContent() {
         {t("BLOG.POSTS.OPEN_SOURCE_OPENROUTER_ALTERNATIVE.H_COMPARE")}
       </h2>
       <p>
-        {t("BLOG.POSTS.OPEN_SOURCE_OPENROUTER_ALTERNATIVE.P_COMPARE", APP_VALUES)}
+        {t(
+          "BLOG.POSTS.OPEN_SOURCE_OPENROUTER_ALTERNATIVE.P_COMPARE",
+          APP_VALUES,
+        )}
       </p>
 
       <h2 id="self-host">
@@ -53,7 +60,10 @@ export async function OpenSourceOpenrouterAlternativeContent() {
         {t("BLOG.POSTS.OPEN_SOURCE_OPENROUTER_ALTERNATIVE.H_VERDICT")}
       </h2>
       <p>
-        {t("BLOG.POSTS.OPEN_SOURCE_OPENROUTER_ALTERNATIVE.P_VERDICT", APP_VALUES)}
+        {t(
+          "BLOG.POSTS.OPEN_SOURCE_OPENROUTER_ALTERNATIVE.P_VERDICT",
+          APP_VALUES,
+        )}
       </p>
 
       <p>
