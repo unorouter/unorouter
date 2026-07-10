@@ -45,10 +45,15 @@ const nextConfig: NextConfig = {
   // time; since the route prerenders, the file tracer no longer sees esbuild
   // as a runtime dependency and drops it from the standalone output
   // (Cannot find package 'esbuild' -> /sw-worker/sw.js 500s in production).
+  // esbuild resolves the worker's imports from node_modules at request time,
+  // so serwist and its transitive deps must ship too.
   outputFileTracingIncludes: {
     "/sw-worker/**": [
       "./node_modules/esbuild/**/*",
       "./node_modules/@esbuild/**/*",
+      "./node_modules/serwist/**/*",
+      "./node_modules/@serwist/**/*",
+      "./node_modules/idb/**/*",
     ],
   },
   // productionBrowserSourceMaps: true,
