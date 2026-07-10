@@ -111,6 +111,7 @@ export enum Vendor {
   ORCAROUTER = "orcarouter",
   REGOLO = "regolo",
   SARVAM = "sarvam",
+  TYPHOON = "typhoon",
 }
 
 export enum OS {

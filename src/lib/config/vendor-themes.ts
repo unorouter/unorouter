@@ -474,6 +474,14 @@ const VENDOR_THEMES: Record<string, VendorTheme> = {
     tagBorder: "border-orange-500/20",
     primary: "#ea580c",
   },
+  [Vendor.TYPHOON]: {
+    bg: "bg-sky-500/5",
+    border: "border-sky-500/20",
+    text: "text-sky-700 dark:text-sky-300",
+    tagBg: "bg-sky-500/10",
+    tagBorder: "border-sky-500/20",
+    primary: "#0284c7",
+  },
   [Vendor.SWISSAI]: {
     bg: "bg-red-500/5",
     border: "border-red-500/20",
