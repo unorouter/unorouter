@@ -4,7 +4,7 @@ import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { IS_DEV, POSTHOG_DISABLED } from "@/lib/config/constants";
 import { posthog } from "@/lib/posthog-lazy";
 import { usePathname, useSearchParams } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { Suspense, useEffect, useRef } from "react";
 
 function PostHogPageView() {
   const pathname = usePathname();
@@ -63,7 +63,10 @@ export function PostHogProvider(props: { children: React.ReactNode }) {
 
   return (
     <>
-      <PostHogPageView />
+      {/* useSearchParams needs its own boundary or every prerendered page bails out of the static shell */}
+      <Suspense>
+        <PostHogPageView />
+      </Suspense>
       <PostHogIdentify />
       {props.children}
     </>

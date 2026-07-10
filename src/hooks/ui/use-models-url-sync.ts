@@ -38,7 +38,14 @@ function csv(value: string | null): string[] {
     : [];
 }
 
-export function useModelsUrlSync() {
+// Null renderer so useSearchParams sits in its own Suspense boundary and the
+// models table stays part of the prerendered shell.
+export function ModelsUrlSync() {
+  useModelsUrlSync();
+  return null;
+}
+
+function useModelsUrlSync() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
