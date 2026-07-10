@@ -242,6 +242,41 @@ export function processModels(response: PricingData) {
     });
 }
 
+function releaseTs(m: ProcessedModel): number {
+  const iso = m.metadata.releaseDate;
+  const ms = iso ? Date.parse(iso) : NaN;
+  if (Number.isFinite(ms)) return ms;
+  return m.createdTime ? m.createdTime * 1000 : 0;
+}
+
+export function groupModelsByType(models: ProcessedModel[]) {
+  const modelsByType: { tag: string; models: ProcessedModel[] }[] = [];
+  const typeMap = new Map<string, ProcessedModel[]>();
+  for (const model of models) {
+    const tag = model.tags[0] ?? "Other";
+    const list = typeMap.get(tag);
+    if (list) list.push(model);
+    else typeMap.set(tag, [model]);
+  }
+  const typeOrder = ["Text", "Image", "Video"];
+  const typeRank = (tag: string) => {
+    const idx = typeOrder.indexOf(tag);
+    return idx === -1 ? typeOrder.length : idx;
+  };
+  for (const [tag, tagModels] of typeMap) {
+    tagModels.sort((a, b) => {
+      if (a.isFree !== b.isFree) return a.isFree ? -1 : 1;
+      return releaseTs(b) - releaseTs(a);
+    });
+    modelsByType.push({ tag, models: tagModels });
+  }
+  modelsByType.sort((a, b) => {
+    const diff = typeRank(a.tag) - typeRank(b.tag);
+    return diff !== 0 ? diff : a.tag.localeCompare(b.tag);
+  });
+  return modelsByType;
+}
+
 export function buildPricingSummary(response: PricingData) {
   const models = processModels(response);
   const endpointMap = (response.supported_endpoint ?? {}) as Record<
@@ -277,36 +312,7 @@ export function buildPricingSummary(response: PricingData) {
     })
     .sort((a, b) => b.modelCount - a.modelCount);
 
-  const modelsByType: { tag: string; models: ProcessedModel[] }[] = [];
-  const typeMap = new Map<string, ProcessedModel[]>();
-  for (const model of models) {
-    const tag = model.tags[0] ?? "Other";
-    const list = typeMap.get(tag);
-    if (list) list.push(model);
-    else typeMap.set(tag, [model]);
-  }
-  const typeOrder = ["Text", "Image", "Video"];
-  const typeRank = (tag: string) => {
-    const idx = typeOrder.indexOf(tag);
-    return idx === -1 ? typeOrder.length : idx;
-  };
-  const releaseTs = (m: ProcessedModel) => {
-    const iso = m.metadata.releaseDate;
-    const ms = iso ? Date.parse(iso) : NaN;
-    if (Number.isFinite(ms)) return ms;
-    return m.createdTime ? m.createdTime * 1000 : 0;
-  };
-  for (const [tag, tagModels] of typeMap) {
-    tagModels.sort((a, b) => {
-      if (a.isFree !== b.isFree) return a.isFree ? -1 : 1;
-      return releaseTs(b) - releaseTs(a);
-    });
-    modelsByType.push({ tag, models: tagModels });
-  }
-  modelsByType.sort((a, b) => {
-    const diff = typeRank(a.tag) - typeRank(b.tag);
-    return diff !== 0 ? diff : a.tag.localeCompare(b.tag);
-  });
+  const modelsByType = groupModelsByType(models);
 
   const firstFreeModel =
     models.find((m) => m.isFree && m.type === "text") ??
@@ -439,52 +445,50 @@ export function gridPriceParts(
   };
 }
 
-// Strips fields only the detail sheet / list cards read (description, group
-// pricing, parameter tables) from the DEHYDRATED copy of the pricing summary.
-// The server render still uses the full data; `_slim` marks the hydrated
-// cache so the models page refetches the full summary after idle.
-function slimModel<T extends ProcessedModel>(model: T): T {
+export type PricingSummary = ReturnType<typeof buildPricingSummary>;
+export type LeanPricing = ReturnType<typeof toLeanPricing>;
+
+const LEAN_DESCRIPTION_CHARS = 200;
+
+function leanModel(model: ProcessedModel): ProcessedModel {
+  const description = model.description;
   return {
     ...model,
-    description: undefined,
-    enableGroups: [],
-    metadata: {
-      ...model.metadata,
-      supportedParameters: undefined,
-      defaultParameters: undefined,
-    },
+    description:
+      description && description.length > LEAN_DESCRIPTION_CHARS
+        ? `${description.slice(0, LEAN_DESCRIPTION_CHARS).trimEnd()}...`
+        : description,
+    metadata: { ...model.metadata, defaultParameters: undefined },
   };
 }
 
-export function slimPricingForHydration(data: unknown): unknown {
-  const d = data as
-    | ({
-        models?: ProcessedModel[];
-        vendors?: { models?: ProcessedModel[] }[];
-        modelsByType?: { tag: string; models: ProcessedModel[] }[];
-      } & Record<string, unknown>)
-    | null;
-  // serializeData runs for EVERY dehydrated query; the rankings summary also
-  // carries models+vendors arrays, so key off groupRatioMap (pricing-only).
-  if (
-    !d ||
-    !Array.isArray(d.models) ||
-    !Array.isArray(d.vendors) ||
-    !("groupRatioMap" in d)
-  ) {
-    return data;
+// The list payload every page hydrates or fetches: one copy of each model
+// (the full summary duplicates every model ~3.5x via modelsByType and
+// vendors[].models), descriptions truncated to card length, parameter
+// defaults dropped. Group maps carry only groups some model references
+// (upstream ships ~3x more), and usableGroup has no client consumer. Full
+// models come from the per-model detail endpoint.
+export function toLeanPricing(summary: PricingSummary) {
+  const usedGroups = new Set<string>();
+  for (const model of summary.models) {
+    for (const group of model.enableGroups) usedGroups.add(group);
   }
-  // modelsByType and vendors[].models duplicate every model (the flight
-  // payload carried each model ~3.5x). Nothing on the models page reads
-  // them before the idle refetch restores the full summary; the model
-  // selector and nav previews live on pages that fetch client-side.
+  const groupRatioMap: Record<string, number> = {};
+  for (const [group, ratio] of Object.entries(summary.groupRatioMap)) {
+    if (usedGroups.has(group)) groupRatioMap[group] = ratio;
+  }
   return {
-    ...d,
-    _slim: true,
-    models: d.models.map(slimModel),
-    vendors: d.vendors.map((v) => ({ ...v, models: [] })),
-    ...(Array.isArray(d.modelsByType) && {
-      modelsByType: d.modelsByType.map((e) => ({ ...e, models: [] })),
-    }),
+    modelCount: summary.modelCount,
+    freeCount: summary.freeCount,
+    paidCount: summary.paidCount,
+    vendorCount: summary.vendorCount,
+    models: summary.models.map(leanModel),
+    vendorNames: summary.vendorNames,
+    firstFreeModel: summary.firstFreeModel
+      ? leanModel(summary.firstFreeModel)
+      : null,
+    endpointMap: summary.endpointMap,
+    groupRatioMap,
+    autoGroups: summary.autoGroups.filter((g) => usedGroups.has(g)),
   };
 }

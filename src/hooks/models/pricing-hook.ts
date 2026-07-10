@@ -16,3 +16,11 @@ export function usePricingQuery() {
     { staleTime: "static" },
   );
 }
+
+export function useModelDetailQuery(name: string | null) {
+  return useElysiaQuery(
+    queryKeys.pricingModel(name ?? ""),
+    () => rpc.api.models.pricing.detail.get({ query: { model: name! } }),
+    { enabled: name !== null },
+  );
+}

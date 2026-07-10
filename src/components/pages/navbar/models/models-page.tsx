@@ -8,17 +8,13 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { useModelsFilter } from "@/hooks/ui/use-models-hook";
 import { ModelsUrlSync } from "@/hooks/ui/use-models-url-sync";
 import { Link } from "@/i18n/navigation";
-import { queryKeys } from "@/lib/react-query/keys";
-import { rpc } from "@/lib/rpc";
-import { handleElysia } from "@/lib/utils/base";
 import { DataTableId } from "@/lib/types/enums";
 import { createTableAtoms } from "@/store/data-table-store";
 import { clearFiltersAtom, isDirtyAtom } from "@/store/models-store";
-import { useQueryClient } from "@tanstack/react-query";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
-import { Suspense, useEffect } from "react";
+import { Suspense } from "react";
 import { buildModelColumns } from "./browse/model-columns";
 import { ModelListCard } from "./browse/model-list-card";
 
@@ -41,38 +37,6 @@ const modelsTableAtoms = createTableAtoms(DataTableId.MODELS);
 export function ModelsPage() {
   const t = useTranslations();
   const m = useModelsFilter();
-
-  // The dehydrated pricing copy is slimmed (no descriptions/group pricing/
-  // parameter tables) to keep the HTML small. Upgrade to the full summary on
-  // FIRST INTERACTION, not a timer: parsing the 1.9MB summary and
-  // re-rendering the table is a long task, and a fixed delay lands it inside
-  // the initial-load window (TBT). The sheet self-heals reactively if opened
-  // while the fetch is in flight.
-  const queryClient = useQueryClient();
-  useEffect(() => {
-    let done = false;
-    const events = ["pointerdown", "keydown", "touchstart", "wheel"] as const;
-    const upgrade = () => {
-      if (done) return;
-      done = true;
-      cleanup();
-      // fetchQuery, not refetchQueries: the pricing query uses staleTime
-      // "static", which refetchQueries skips by design.
-      void queryClient.fetchQuery({
-        queryKey: queryKeys.pricing(),
-        queryFn: async () => handleElysia(await rpc.api.models.pricing.get()),
-        staleTime: 0,
-      });
-    };
-    const cleanup = () => {
-      for (const e of events) window.removeEventListener(e, upgrade);
-      clearTimeout(fallback);
-    };
-    for (const e of events)
-      window.addEventListener(e, upgrade, { once: true, passive: true });
-    const fallback = setTimeout(upgrade, 12_000);
-    return cleanup;
-  }, [queryClient]);
 
   const clearFilters = useSetAtom(clearFiltersAtom);
   const isDirty = useAtomValue(isDirtyAtom);

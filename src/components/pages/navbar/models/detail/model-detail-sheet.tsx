@@ -26,6 +26,7 @@ import {
   ProcessedModel,
 } from "@/lib/api/pricing";
 import { fixedPriceUnitLabel } from "@/lib/api/model-modality";
+import { useModelDetailQuery } from "@/hooks/models/pricing-hook";
 import { SectionHeading } from "./shared/section-heading";
 import { env } from "@/lib/config/env";
 import { getVendorTheme } from "@/lib/config/vendor-themes";
@@ -56,7 +57,10 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
   const t = useTranslations();
   const locale = useLocale();
   const setChatModel = useSetAtom(chatModelAtom);
-  const model = props.model;
+  // The list carries the lean model (truncated description, no parameter
+  // defaults); the full record loads on open and swaps in reactively.
+  const detailQuery = useModelDetailQuery(props.model?.name ?? null);
+  const model = detailQuery.data?.model ?? props.model;
 
   if (!model) return null;
 

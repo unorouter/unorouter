@@ -65,6 +65,7 @@ export const queryKeys = {
   requestLog: (msgId: string) => ["request-log", msgId] as const,
 
   pricing: () => ["pricing"] as const,
+  pricingModel: (name: string) => ["pricing", "model", name] as const,
   searchIndex: (locale: string) => ["search-index", locale] as const,
   searchResults: (locale: string, query: string) =>
     ["search-index", "results", locale, query] as const,
