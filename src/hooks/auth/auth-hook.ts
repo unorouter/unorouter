@@ -2,6 +2,7 @@
 
 import { useApiMutation, useElysiaQuery } from "@/lib/react-query/hooks";
 
+import { USER_ID_COOKIE } from "@/lib/config/constants";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import type { EdenArgs } from "@/lib/types/eden";
@@ -12,12 +13,16 @@ type AuthLogin = typeof rpc.api.auth.account.login;
 export function useAuthQuery() {
   // Client-fetched after mount: streaming server auth state into the static
   // shell hydration-mismatches every auth-dependent shell component (navbar
-  // rendered logged-out on the server, logged-in at hydration). retry off:
-  // anonymous sessions legitimately 401 here.
+  // rendered logged-out on the server, logged-in at hydration). Gated on the
+  // session cookie so anonymous visitors make no request at all: the 401
+  // would land in the console and cost Lighthouse best-practices points.
+  const hasSession =
+    typeof document !== "undefined" &&
+    document.cookie.includes(`${USER_ID_COOKIE}=`);
   return useElysiaQuery(
     queryKeys.auth(),
     () => rpc.api.auth.account.self.get(),
-    { retry: false },
+    { enabled: hasSession, retry: false },
   );
 }
 
