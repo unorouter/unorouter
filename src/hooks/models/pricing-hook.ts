@@ -6,11 +6,13 @@ import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 
 export function usePricingQuery() {
-  // enabled + staleTime Infinity: fetches only when no page dehydrated the
-  // pricing cache (home ticker, chat model selector); hydrated pages never
-  // refetch. `enabled: false` left those consumers permanently empty once
-  // home/chat stopped dehydrating pricing.
-  return useElysiaQuery(queryKeys.pricing(), () =>
-    rpc.api.models.pricing.get(),
+  // staleTime "static": this dataset is dehydrated into prerendered shells,
+  // and any finite staleTime makes useQuery read the clock during the
+  // prerender (rejected by cacheComponents). Static queries are skipped by
+  // invalidate/refetchQueries; use queryClient.fetchQuery to force-update.
+  return useElysiaQuery(
+    queryKeys.pricing(),
+    () => rpc.api.models.pricing.get(),
+    { staleTime: "static" },
   );
 }
