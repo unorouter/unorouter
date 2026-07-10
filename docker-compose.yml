@@ -40,6 +40,12 @@ x-unorouter: &unorouter
     - "traefik.http.routers.unorouter.tls.certresolver=letsencrypt"
     - "traefik.http.routers.unorouter.service=unorouter"
     - "traefik.http.services.unorouter.loadbalancer.server.port=3000"
+    # Traefik routes to any RUNNING container regardless of docker health;
+    # without this probe a freshly recreated replica takes traffic while the
+    # server is still booting (502s during every deploy).
+    - "traefik.http.services.unorouter.loadbalancer.healthcheck.path=/api/ops/health"
+    - "traefik.http.services.unorouter.loadbalancer.healthcheck.interval=5s"
+    - "traefik.http.services.unorouter.loadbalancer.healthcheck.timeout=3s"
     # PostHog reverse proxy (avoids ad blockers)
     - "traefik.http.routers.posthog-proxy-uno.rule=Host(`${POSTHOG_PROXY_HOST}`)"
     - "traefik.http.routers.posthog-proxy-uno.entrypoints=websecure"

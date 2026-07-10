@@ -62,12 +62,32 @@ jobs:
           echo CREEM_API_URL=${{ secrets.CREEM_API_URL }} >> .env
           echo CREEM_MODERATION_ENABLED=${{ secrets.CREEM_MODERATION_ENABLED }} >> .env
 
-      - name: Docker run
-        # --remove-orphans: the app runs as two replicas (unorouter-a/-b) behind one Traefik router.
-        # Without it, a service renamed/removed from the compose file (e.g. the old single "unorouter")
-        # keeps running with the SAME Traefik labels, so Traefik round-robins across MISMATCHED builds
-        # and clients get 404 chunks from whichever replica lacks them (ChunkLoadError).
-        run: docker compose up -d --force-recreate --build --remove-orphans
+      - name: Docker build
+        run: docker compose build
+
+      - name: Rolling deploy
+        # Replicas recreate ONE AT A TIME: a plain --force-recreate restarts
+        # both at once and takes the site down for the whole boot window.
+        # --remove-orphans on the final up: a service renamed/removed from the
+        # compose file keeps running with the SAME Traefik labels otherwise,
+        # so Traefik round-robins across MISMATCHED builds and clients get 404
+        # chunks from whichever replica lacks them (ChunkLoadError).
+        run: |
+          for svc in unorouter-b unorouter-a; do
+            docker compose up -d --no-deps --force-recreate "$svc"
+            healthy=0
+            for i in {1..36}; do
+              status="$(docker inspect --format='{{.State.Health.Status}}' "$svc" 2>/dev/null || echo unknown)"
+              if [ "$status" = "healthy" ]; then healthy=1; break; fi
+              echo "waiting for $svc ($status) ... $i/36"
+              sleep 5
+            done
+            if [ "$healthy" != "1" ]; then
+              echo "::error::$svc did not become healthy; aborting before touching the other replica"
+              exit 1
+            fi
+          done
+          docker compose up -d --remove-orphans
 
       - name: Wait for site to be healthy
         run: |
