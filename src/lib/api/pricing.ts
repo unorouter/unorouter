@@ -438,3 +438,34 @@ export function gridPriceParts(
     suffix: typeof row.PricingSuffix === "string" ? row.PricingSuffix : "",
   };
 }
+
+// Strips fields only the detail sheet / list cards read (description, group
+// pricing, parameter tables) from the DEHYDRATED copy of the pricing summary.
+// The server render still uses the full data; `_slim` marks the hydrated
+// cache so the models page refetches the full summary after idle.
+function slimModel<T extends ProcessedModel>(model: T): T {
+  return {
+    ...model,
+    description: undefined,
+    enableGroups: [],
+    metadata: {
+      ...model.metadata,
+      supportedParameters: undefined,
+      defaultParameters: undefined,
+    },
+  };
+}
+
+export function slimPricingForHydration(data: unknown): unknown {
+  const d = data as {
+    models?: ProcessedModel[];
+    vendors?: { models: ProcessedModel[] }[];
+  } | null;
+  if (!d || !Array.isArray(d.models) || !Array.isArray(d.vendors)) return data;
+  return {
+    ...d,
+    _slim: true,
+    models: d.models.map(slimModel),
+    vendors: d.vendors.map((v) => ({ ...v, models: v.models.map(slimModel) })),
+  };
+}

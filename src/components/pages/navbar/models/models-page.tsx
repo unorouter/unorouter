@@ -8,12 +8,15 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { useModelsFilter } from "@/hooks/ui/use-models-hook";
 import { useModelsUrlSync } from "@/hooks/ui/use-models-url-sync";
 import { Link } from "@/i18n/navigation";
+import { queryKeys } from "@/lib/react-query/keys";
 import { DataTableId } from "@/lib/types/enums";
 import { createTableAtoms } from "@/store/data-table-store";
 import { clearFiltersAtom, isDirtyAtom } from "@/store/models-store";
+import { useQueryClient } from "@tanstack/react-query";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
+import { useEffect } from "react";
 import { buildModelColumns } from "./browse/model-columns";
 import { ModelListCard } from "./browse/model-list-card";
 
@@ -37,6 +40,22 @@ export function ModelsPage() {
   const t = useTranslations();
   const m = useModelsFilter();
   useModelsUrlSync();
+
+  // The dehydrated pricing copy is slimmed (no descriptions/group pricing/
+  // parameter tables) to keep the HTML small; pull the full summary once the
+  // browser is idle so the detail sheet and list view have everything.
+  const queryClient = useQueryClient();
+  useEffect(() => {
+    const cached = queryClient.getQueryData(queryKeys.pricing());
+    if (!(cached && typeof cached === "object" && "_slim" in cached)) return;
+    const idle =
+      "requestIdleCallback" in window
+        ? window.requestIdleCallback
+        : (cb: () => void) => setTimeout(cb, 1500);
+    idle(() => {
+      void queryClient.refetchQueries({ queryKey: queryKeys.pricing() });
+    });
+  }, [queryClient]);
 
   const clearFilters = useSetAtom(clearFiltersAtom);
   const isDirty = useAtomValue(isDirtyAtom);
