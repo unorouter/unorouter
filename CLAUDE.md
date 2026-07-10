@@ -102,14 +102,15 @@ Hooks (`src/hooks/`): feature-grouped into `ai/`, `auth/`, `billing/`, `models/`
 
 `replaceChildRows` (`src/lib/db/client/data/table-store.ts:28`): FK-scoped delete + insert loop. NO transaction wrapper. `mergeChildRows` (same file, line 57) is the upsert sibling: per-row PK `ON CONFLICT` so existing siblings survive (used on sync-pull of child arrays).
 
-Jotai atoms: `atomWithStorage` plus `jotaiCookieStorage` for cookie persistence. Derived atoms via `atom(getter, setter)`. The chat store (`src/store/chat-store.ts`) exposes a shared store instance `chatStore`; non-React callers (stream callbacks, `confirm()`, the `thread.tsx` runtime bridge) read/write atoms synchronously via `chatStore.get(atom)` / `chatStore.set(atom, value)`. `chatStoreAtom` is hydrated server-side from its cookie via `ChatStoreProvider` (`src/components/provider/state/chat-store-provider.tsx`, same pattern as models/navigation/client stores), so saved model/loadout are correct on first paint; selector atoms fall back to INITIAL state per field (cookie-schema-drift defense).
+Jotai atoms: `atomWithStorage` plus `jotaiCookieStorage` with `{ getOnInit: true }` for cookie persistence: the CLIENT atom reads its own cookie synchronously at init; the server does NOT read store cookies anymore (PPR-shell groundwork; the old server-hydration providers chat/models/client/user-id/theme were removed). The chat store (`src/store/chat-store.ts`) exposes a shared store instance `chatStore`; non-React callers (stream callbacks, `confirm()`, the `thread.tsx` runtime bridge) read/write atoms synchronously via `chatStore.get(atom)` / `chatStore.set(atom, value)`. Selector atoms fall back to INITIAL state per field (cookie-schema-drift defense). `localUserIdAtom` reads the plain `local-user-id` cookie (unsealed twin of the signed `user-id`, set at the OAuth callback; only selects the local OPFS file, no server trust); `LocalUserIdSync` (`provider/state/local-user-id-sync.tsx`) backfills it from the auth query for pre-twin sessions and resets to guest on logout.
 
-Server pages: prefetch with `getQueryClient()` plus `HydrationBoundary` and `dehydrate()`. Cookies pre-read on the server via `getCookieValue<T>` + `use()` and passed into store providers.
+Server pages: prefetch with `getQueryClient()` plus `HydrationBoundary` and `dehydrate()` (layout-level boundaries use `dehydrateOnly` scoped to their own keys so page queries are not re-shipped).
 
 Auth cookies (`src/lib/config/constants.ts` for names; `src/store/client-store.ts` for `CLIENT_STORE_KEY`):
 
 - `access_token`: httpOnly, upstream API token, 30 day TTL
 - `user-id`: signed via iron-session (`signUserId`/`verifyUserId` in `src/lib/utils/server.ts`), readable by server handlers, used by `getUserId(cookie)` in `src/server/constants.ts`. Requires `SESSION_SECRET` (>= 32 chars).
+- `local-user-id`: plain unsealed twin of `user-id`, set alongside it at the OAuth callback. Client-only concern (selects the per-user OPFS file via `localUserIdAtom`); carries no server trust.
 - `client-store`: JSON (`CLIENT_STORE_KEY`, owned by `src/store/client-store.ts`), holds the user's own API key (for direct `getApiKey(cookie)` use). Server imports the key constant from the store module.
 - Guest users fall back to `serverEnv.guestApiKey` via `resolveChatApiKey(cookie)` (`best-key.service.ts`), which also closes the logged-in-but-cookie-not-yet-hydrated race by resolving the user's best key upstream.
 

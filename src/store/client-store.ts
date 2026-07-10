@@ -29,6 +29,8 @@ export const clientStoreAtom = atomWithStorage<ClientState>(
   CLIENT_STORE_KEY,
   INITIAL_CLIENT_STATE,
   jotaiCookieStorage,
+  // Client atom init reads the cookie; the server no longer hydrates it.
+  { getOnInit: true },
 );
 
 export const apiKeyAtom = atom(
