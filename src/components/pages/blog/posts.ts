@@ -13,6 +13,7 @@ import { UnorouterVsPortkeyContent } from "@/components/pages/blog/posts/2026-06
 import { UnorouterVsNanoGptContent } from "@/components/pages/blog/posts/2026-06-23-unorouter-vs-nano-gpt-content";
 import { BestAiGatewayForSillytavernContent } from "@/components/pages/blog/posts/2026-06-25-best-ai-gateway-for-sillytavern-content";
 import { BestOpenrouterAlternatives2026Content } from "@/components/pages/blog/posts/2026-06-27-best-openrouter-alternatives-2026-content";
+import { OpenSourceOpenrouterAlternativeContent } from "@/components/pages/blog/posts/2026-07-10-open-source-openrouter-alternative-content";
 import { WhatIsAnLlmGatewayContent } from "@/components/pages/blog/posts/2026-06-29-what-is-an-llm-gateway-content";
 import { HowToConnectAnyLlmToSillytavernContent } from "@/components/pages/blog/posts/2026-07-01-how-to-connect-any-llm-to-sillytavern-content";
 import { OneApiKeyForClaudeCodeAndRoleplayContent } from "@/components/pages/blog/posts/2026-07-03-one-api-key-for-claude-code-and-roleplay-content";
@@ -28,7 +29,6 @@ import { UnorouterVsAgnaiContent } from "@/components/pages/blog/posts/2026-07-2
 import { UnorouterVsSpicychatContent } from "@/components/pages/blog/posts/2026-07-28-unorouter-vs-spicychat-content";
 import { BLOG_REGISTRY, type BlogSlug } from "@/i18n/registry";
 import { APP_VALUES } from "@/lib/config/constants";
-import { dayjs } from "@/lib/utils/format/date";
 import type { BlogPost } from "@/lib/types";
 import type { useTranslations } from "next-intl";
 import type { ComponentType } from "react";
@@ -49,6 +49,7 @@ const COMPONENTS: Record<BlogSlug, ComponentType> = {
   "unorouter-vs-nano-gpt": UnorouterVsNanoGptContent,
   "best-ai-gateway-for-sillytavern": BestAiGatewayForSillytavernContent,
   "best-openrouter-alternatives-2026": BestOpenrouterAlternatives2026Content,
+  "open-source-openrouter-alternative": OpenSourceOpenrouterAlternativeContent,
   "what-is-an-llm-gateway": WhatIsAnLlmGatewayContent,
   "how-to-connect-any-llm-to-sillytavern":
     HowToConnectAnyLlmToSillytavernContent,
@@ -79,11 +80,23 @@ export const POSTS: BlogPost<BlogSlug>[] = BLOG_REGISTRY.map((entry) => ({
 }));
 
 export function getAllPostsSorted(): BlogPost<BlogSlug>[] {
-  const today = dayjs().format("YYYY-MM-DD");
+  // Build date, not the clock: deterministic for cacheComponents prerenders.
+  // Scheduled posts go live with the first deploy on or after their date.
+  const today = process.env.NEXT_PUBLIC_BUILD_DATE ?? "";
   return [...POSTS]
     .filter((p) => p.date <= today)
     .sort((a, b) => b.date.localeCompare(a.date));
 }
+
+// Posts carrying the GEO block (TLDR lead + FAQ section + FAQPage schema).
+// Gate is flag driven because t.raw is unsupported repo wide.
+export const GEO_POSTS = new Set<string>([
+  "unorouter-vs-openrouter",
+  "best-openrouter-alternatives-2026",
+  "open-source-openrouter-alternative",
+  "what-is-an-llm-gateway",
+  "free-models-aggregated",
+]);
 
 export function getPost(slug: string): BlogPost<BlogSlug> | undefined {
   return POSTS.find((p) => p.slug === slug);

@@ -82,7 +82,12 @@ function parseModelMetadata(raw: string | undefined): ModelMetadata {
   if (!raw) return {};
   try {
     const parsed = JSON.parse(raw);
-    if (parsed && typeof parsed === "object") return parsed as ModelMetadata;
+    if (parsed && typeof parsed === "object") {
+      // Duplicates the top-level model description (~120KB across the list);
+      // nothing reads it from metadata.
+      delete (parsed as Record<string, unknown>).description;
+      return parsed as ModelMetadata;
+    }
   } catch {}
   return {};
 }
@@ -237,6 +242,41 @@ export function processModels(response: PricingData) {
     });
 }
 
+function releaseTs(m: ProcessedModel): number {
+  const iso = m.metadata.releaseDate;
+  const ms = iso ? Date.parse(iso) : NaN;
+  if (Number.isFinite(ms)) return ms;
+  return m.createdTime ? m.createdTime * 1000 : 0;
+}
+
+export function groupModelsByType(models: ProcessedModel[]) {
+  const modelsByType: { tag: string; models: ProcessedModel[] }[] = [];
+  const typeMap = new Map<string, ProcessedModel[]>();
+  for (const model of models) {
+    const tag = model.tags[0] ?? "Other";
+    const list = typeMap.get(tag);
+    if (list) list.push(model);
+    else typeMap.set(tag, [model]);
+  }
+  const typeOrder = ["Text", "Image", "Video"];
+  const typeRank = (tag: string) => {
+    const idx = typeOrder.indexOf(tag);
+    return idx === -1 ? typeOrder.length : idx;
+  };
+  for (const [tag, tagModels] of typeMap) {
+    tagModels.sort((a, b) => {
+      if (a.isFree !== b.isFree) return a.isFree ? -1 : 1;
+      return releaseTs(b) - releaseTs(a);
+    });
+    modelsByType.push({ tag, models: tagModels });
+  }
+  modelsByType.sort((a, b) => {
+    const diff = typeRank(a.tag) - typeRank(b.tag);
+    return diff !== 0 ? diff : a.tag.localeCompare(b.tag);
+  });
+  return modelsByType;
+}
+
 export function buildPricingSummary(response: PricingData) {
   const models = processModels(response);
   const endpointMap = (response.supported_endpoint ?? {}) as Record<
@@ -272,36 +312,7 @@ export function buildPricingSummary(response: PricingData) {
     })
     .sort((a, b) => b.modelCount - a.modelCount);
 
-  const modelsByType: { tag: string; models: ProcessedModel[] }[] = [];
-  const typeMap = new Map<string, ProcessedModel[]>();
-  for (const model of models) {
-    const tag = model.tags[0] ?? "Other";
-    const list = typeMap.get(tag);
-    if (list) list.push(model);
-    else typeMap.set(tag, [model]);
-  }
-  const typeOrder = ["Text", "Image", "Video"];
-  const typeRank = (tag: string) => {
-    const idx = typeOrder.indexOf(tag);
-    return idx === -1 ? typeOrder.length : idx;
-  };
-  const releaseTs = (m: ProcessedModel) => {
-    const iso = m.metadata.releaseDate;
-    const ms = iso ? Date.parse(iso) : NaN;
-    if (Number.isFinite(ms)) return ms;
-    return m.createdTime ? m.createdTime * 1000 : 0;
-  };
-  for (const [tag, tagModels] of typeMap) {
-    tagModels.sort((a, b) => {
-      if (a.isFree !== b.isFree) return a.isFree ? -1 : 1;
-      return releaseTs(b) - releaseTs(a);
-    });
-    modelsByType.push({ tag, models: tagModels });
-  }
-  modelsByType.sort((a, b) => {
-    const diff = typeRank(a.tag) - typeRank(b.tag);
-    return diff !== 0 ? diff : a.tag.localeCompare(b.tag);
-  });
+  const modelsByType = groupModelsByType(models);
 
   const firstFreeModel =
     models.find((m) => m.isFree && m.type === "text") ??
@@ -431,5 +442,53 @@ export function gridPriceParts(
   return {
     price: typeof row.Pricing === "number" ? row.Pricing * multiplier : 0,
     suffix: typeof row.PricingSuffix === "string" ? row.PricingSuffix : "",
+  };
+}
+
+export type PricingSummary = ReturnType<typeof buildPricingSummary>;
+export type LeanPricing = ReturnType<typeof toLeanPricing>;
+
+const LEAN_DESCRIPTION_CHARS = 200;
+
+function leanModel(model: ProcessedModel): ProcessedModel {
+  const description = model.description;
+  return {
+    ...model,
+    description:
+      description && description.length > LEAN_DESCRIPTION_CHARS
+        ? `${description.slice(0, LEAN_DESCRIPTION_CHARS).trimEnd()}...`
+        : description,
+    metadata: { ...model.metadata, defaultParameters: undefined },
+  };
+}
+
+// The list payload every page hydrates or fetches: one copy of each model
+// (the full summary duplicates every model ~3.5x via modelsByType and
+// vendors[].models), descriptions truncated to card length, parameter
+// defaults dropped. Group maps carry only groups some model references
+// (upstream ships ~3x more), and usableGroup has no client consumer. Full
+// models come from the per-model detail endpoint.
+export function toLeanPricing(summary: PricingSummary) {
+  const usedGroups = new Set<string>();
+  for (const model of summary.models) {
+    for (const group of model.enableGroups) usedGroups.add(group);
+  }
+  const groupRatioMap: Record<string, number> = {};
+  for (const [group, ratio] of Object.entries(summary.groupRatioMap)) {
+    if (usedGroups.has(group)) groupRatioMap[group] = ratio;
+  }
+  return {
+    modelCount: summary.modelCount,
+    freeCount: summary.freeCount,
+    paidCount: summary.paidCount,
+    vendorCount: summary.vendorCount,
+    models: summary.models.map(leanModel),
+    vendorNames: summary.vendorNames,
+    firstFreeModel: summary.firstFreeModel
+      ? leanModel(summary.firstFreeModel)
+      : null,
+    endpointMap: summary.endpointMap,
+    groupRatioMap,
+    autoGroups: summary.autoGroups.filter((g) => usedGroups.has(g)),
   };
 }

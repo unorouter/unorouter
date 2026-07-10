@@ -9,6 +9,7 @@ import Gemini from "@lobehub/icons/es/Gemini";
 import HermesAgent from "@lobehub/icons/es/HermesAgent";
 import KiloCode from "@lobehub/icons/es/KiloCode";
 import LobeHub from "@lobehub/icons/es/LobeHub";
+import MCP from "@lobehub/icons/es/MCP";
 import OpenClaw from "@lobehub/icons/es/OpenClaw";
 import OpenCode from "@lobehub/icons/es/OpenCode";
 import OpenWebUI from "@lobehub/icons/es/OpenWebUI";
@@ -40,6 +41,7 @@ const ICON_COMPONENTS: Partial<Record<IntegrationIconKey, LobeIcon>> = {
   sillytavern: SillyTavern.Color,
   openclaw: OpenClaw.Color,
   hermes: HermesAgent,
+  mcp: MCP,
 };
 
 export function GuideIcon(props: {

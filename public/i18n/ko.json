@@ -620,6 +620,7 @@
     "RSS_LINK": "RSS 피드",
     "READ_TIME": "{minutes}분 분량",
     "ON_THIS_PAGE": "이 페이지에서",
+    "FAQ_TITLE": "자주 묻는 질문",
     "PREV_POST": "이전 글",
     "NEXT_POST": "다음 글",
     "RELATED": "관련 글",
@@ -907,7 +908,14 @@
         "H_HONEST": "우리가 하지 않은 것",
         "P_HONEST": "우리는 허가 없이 OpenAI나 Claude의 플래그십 모델을 재제공하는 리버스 프록시를 추가하지 않았습니다. 양도 불가능한 토큰을 쓰는 개인 키 수집기나, 남의 키를 긁어모아 돌려 쓰는 풀 오브 풀 서비스도 끌어들이지 않았습니다. 그런 것들은 실제로 존재하고 유혹적이지만, 바로 이 게이트웨이가 대체하고자 하는 회색 시장의 난장판입니다. 목록에 있는 모든 제공업체는 자체 약관에 따라 의도적으로 무료 등급을 제공합니다. 그 기준을 통과하지 못한 소스는 여기에 없습니다.",
         "H_TRY": "직접 사용해 보세요",
-        "CTA": "190개가 넘는 모든 무료 모델이 하나의 OpenAI-compatible 엔드포인트 뒤에서 가동 중입니다. <register>API 키를 발급받거나</register> <models>모델 카탈로그를 둘러보고</models> 무료로 필터링하세요. <c>429</c>나 <c>503</c>이 나타날 때 자신이 어느 등급에 있는지만 기억하세요."
+        "CTA": "190개가 넘는 모든 무료 모델이 하나의 OpenAI-compatible 엔드포인트 뒤에서 가동 중입니다. <register>API 키를 발급받거나</register> <models>모델 카탈로그를 둘러보고</models> 무료로 필터링하세요. <c>429</c>나 <c>503</c>이 나타날 때 자신이 어느 등급에 있는지만 기억하세요.",
+        "TLDR": "{appName}은 여러 업스트림 프로바이더의 무료 쿼터를 모아 키 하나 뒤에서 진짜 무료 티어를 갖춘 190개 이상의 모델로 제공합니다. 무료 모델마다 사용자당 분당 약 1회 요청이 허용되며, 상한에 걸리면 Retry-After 헤더와 함께 HTTP 429 가 반환되고, 소진된 풀은 모든 프로바이더가 바쁘다는 명시적 오류를 반환한 뒤 자동으로 회복됩니다. 유료 모델은 $1 부터 종량제로 과금됩니다.",
+        "FAQ_1_Q": "{appName}에는 무료 모델이 몇 개 있나요?",
+        "FAQ_1_A": "200+개 모델 카탈로그 중 언제나 190개가 넘습니다. 업스트림 무료 풀이 소진되고 회복됨에 따라 정확한 구성은 바뀌며, 실시간 목록은 unorouter.com/models 에 있습니다.",
+        "FAQ_2_Q": "무료 티어의 속도 제한은 어떻게 되나요?",
+        "FAQ_2_A": "사용자당 모델당 분당 약 1회 요청입니다. 상한에 걸리면 Retry-After 헤더와 함께 HTTP 429 가 반환됩니다. 무료 모델이 190+개이니 기다리기보다 모델을 돌려 쓰는 것이 현실적인 답입니다.",
+        "FAQ_3_Q": "무료 모델을 쓰려면 신용카드가 필요한가요?",
+        "FAQ_3_A": "아니요. Discord나 GitHub로 가입해 키를 만들고 :free 접미사가 붙은 아무 모델이나 쓰면 됩니다. 1회성 $1 Discord 인증 보너스는 유료 모델에 쓸 수 있습니다."
       },
       "UNOROUTER_VS_OPENROUTER": {
         "TITLE": "{appName} 대 OpenRouter: 정직한 비교",
@@ -924,7 +932,14 @@
         "P_MIGRATE": "클라이언트를 <c>https://api.unorouter.com/v1</c>로 향하게 하고 코드는 그대로 두세요. 같은 키가 채팅 클라이언트의 사용자 지정 엔드포인트 칸에서 작동하므로 관리할 두 번째 계정이 없습니다.",
         "H_VERDICT": "고르는 법",
         "P_VERDICT": "코드만 짜고 가장 넓은 카탈로그를 원하나요? OpenRouter로 충분합니다. 마진 없는 자체 호스팅 라우팅? LiteLLM을 쓰세요. 코딩 에이전트와 진짜 채팅 클라이언트를 구동하는 하나의 키? 그게 {appName}입니다.",
-        "CTA": "사용해 볼 준비가 되었나요? <register>무료 계정 만들기</register> 또는 <models>모델 둘러보기</models>."
+        "CTA": "사용해 볼 준비가 되었나요? <register>무료 계정 만들기</register> 또는 <models>모델 둘러보기</models>.",
+        "TLDR": "{appName}과 OpenRouter 모두 OpenAI 호환 키 하나로 200+개 모델을 제공합니다. OpenRouter는 API 전용이며 클로즈드 소스입니다. {appName}은 같은 키로 내장 채팅 및 캐릭터 클라이언트를 더하고, 전체 스택을 OSI 라이선스로 공개하며, 대부분의 모델을 모델당 분당 약 1회 요청이라는 진짜 무료 티어로 제공합니다. 유료 사용은 종량제이며 크레딧은 절대 만료되지 않습니다.",
+        "FAQ_1_Q": "{appName}이 OpenRouter보다 저렴한가요?",
+        "FAQ_1_A": "둘 다 비슷한 정가로 토큰당 과금합니다. OpenRouter는 크레딧 구매 시 수수료가 붙습니다. {appName}은 구매 수수료 없는 종량제이고, 크레딧은 만료되지 않으며, 190개가 넘는 모델에 무료 티어가 있습니다.",
+        "FAQ_2_Q": "같은 키를 코딩 에이전트와 롤플레이 채팅에 모두 쓸 수 있나요?",
+        "FAQ_2_A": "네. {appName} 키 하나가 OpenAI 호환 API를 통해 Claude Code, Cline, OpenCode에서 작동하고, 같은 계정에 SillyTavern이나 JanitorAI에도 바로 연결되는 완전한 캐릭터 채팅 클라이언트가 포함됩니다.",
+        "FAQ_3_Q": "OpenRouter에서 {appName}으로 어떻게 갈아타나요?",
+        "FAQ_3_A": "클라이언트를 https://api.unorouter.com/v1 로 향하게 하고 코드는 그대로 두세요. API는 OpenAI 호환이고, 모델 이름은 GET /v1/models 에서 가져오며, Anthropic과 Gemini 네이티브 엔드포인트도 제공됩니다."
       },
       "BEST_OPENROUTER_ALTERNATIVES_2026": {
         "TITLE": "2026년 최고의 OpenRouter 대안",
@@ -941,7 +956,38 @@
         "P_FOR_ROLEPLAY": "캐릭터 채팅은 그 자체로 별개의 경우입니다. 강한 작가와 값싼 일꾼을 오갈 넓은 카탈로그, 세션이 몰아치기에 사용한 만큼 내는 청구, 그리고 SillyTavern, Janitor.AI, Chub에 그대로 들어가는 키를 원할 것입니다. 순수 개발용 게이트웨이는 API 절반은 덮지만 클라이언트를 주지 않고, 좌석당 요금제는 몰아치는 패턴과 싸웁니다. {appName}은 하나의 키로 둘 다 아우르도록 만들어졌습니다.",
         "H_VERDICT": "고르는 법",
         "P_VERDICT": "한 연구소만 쓰나요? 단일 제공자 키면 됩니다. 자기 앱 앞에서 라우팅과 거버넌스를 원하는 팀인가요? 헤드리스 개발용 게이트웨이를. 많은 최신 모델에 닿고, 사용한 만큼 청구하며, 코드와 채팅 클라이언트 둘 다에서 작동하는 하나의 키를 원하나요? 그게 {appName}입니다. 원시 모델 수가 아니라 실제 용도로 고르세요.",
-        "CTA": "모든 모델에 키 하나를 원하시나요? <register>무료 계정 만들기</register> 또는 <models>모델 둘러보기</models>."
+        "CTA": "모든 모델에 키 하나를 원하시나요? <register>무료 계정 만들기</register> 또는 <models>모델 둘러보기</models>.",
+        "TLDR": "2026년의 실질적인 OpenRouter 대안은 세 부류로 나뉩니다. {appName}처럼 키 하나로 여러 모델을 쓰는 호스팅 게이트웨이, LiteLLM 같은 셀프 호스팅 프록시, 그리고 단일 벤더 키입니다. {appName}은 OpenAI 호환 키 하나로 200+개 모델을 제공하고, 대부분에 무료 티어를 운영하며, 종량제로 과금하고, 전체 스택을 오픈 소스로 공개합니다.",
+        "FAQ_1_Q": "최고의 무료 OpenRouter 대안은 무엇인가요?",
+        "FAQ_1_A": "{appName}은 카드 없이 모델당 분당 약 1회 요청이라는 진짜 무료 티어로 190개 넘는 모델을 제공합니다. OpenRouter의 무료 티어는 훨씬 적은 모델만 지원하고 일일 상한이 있습니다.",
+        "FAQ_2_Q": "OpenRouter 대안들이 SillyTavern과 JanitorAI에서도 작동하나요?",
+        "FAQ_2_A": "OpenAI 호환 게이트웨이라면 무엇이든 됩니다. SillyTavern에서는 베이스 URL https://api.unorouter.com/v1 을, JanitorAI에서는 전체 엔드포인트 https://api.unorouter.com/v1/chat/completions 을 해당 키와 함께 사용하세요.",
+        "FAQ_3_Q": "오픈 소스 OpenRouter 대안이 있나요?",
+        "FAQ_3_A": "{appName}은 프런트엔드, 게이트웨이, 봇, 프로바이더 동기화까지 github.com/unorouter 에서 OSI 라이선스로 처음부터 끝까지 오픈 소스입니다. LiteLLM도 오픈 소스지만 자기 키를 가져오는 프록시라 호스팅된 카탈로그가 없습니다."
+      },
+      "OPEN_SOURCE_OPENROUTER_ALTERNATIVE": {
+        "TITLE": "{appName}: 오픈소스 OpenRouter 대안",
+        "DESCRIPTION": "OpenRouter는 클로즈드 소스입니다. {appName}은 키 하나로 200개 이상의 모델을 쓰는 같은 일을 전체 스택을 OSI 라이선스로 공개한 채 해내며, 셀프 호스팅도 가능하고 테스트용 호스티드 무료 티어도 있습니다.",
+        "AUTHOR": "{appName} 팀",
+        "INTRO": "오픈소스 OpenRouter 대안을 찾는 이유는 보통 셋 중 하나입니다. 내 프롬프트를 다루는 코드를 직접 읽고 싶거나, 게이트웨이를 직접 돌리고 싶거나, 블랙박스에서 벗어나고 싶거나. {appName}은 셋 다 해결합니다. 같은 키 하나, 200개 이상의 모델 구성에 스택 전체가 공개되어 있습니다.",
+        "H_WHY": "게이트웨이에서 오픈소스가 중요한 이유",
+        "P_WHY": "게이트웨이는 앱과 호출하는 모든 모델 사이에 자리하므로 모든 프롬프트와 응답을 봅니다. 닫힌 게이트웨이에서는 개인정보 페이지를 믿는 수밖에 없습니다. 열린 게이트웨이라면 민감한 데이터가 내 머신을 떠나기 전에 무엇이 로깅되는지, 키가 어떻게 저장되는지, 요청이 어떻게 라우팅되는지 직접 확인할 수 있습니다.",
+        "H_WHAT": "실제로 공개된 것",
+        "P_WHAT": "모든 것이 OSI 라이선스로 <gh>GitHub</gh>에 공개되어 있습니다. 채팅 클라이언트가 포함된 웹 프런트엔드, 게이트웨이 본체, Discord 봇, 카탈로그를 최신으로 유지하는 프로바이더 동기화까지. 닫힌 코어를 감싼 얇은 SDK가 아닙니다. 실제로 돌아가는 제품이 곧 리포지토리입니다.",
+        "H_COMPARE": "흔한 선택지들과 비교하면",
+        "P_COMPARE": "OpenRouter는 카탈로그가 가장 넓지만 한 줄도 공개되어 있지 않습니다. LiteLLM은 진짜 오픈소스이고 탄탄한 셀프 호스티드 프록시지만, 키를 직접 가져와야 하는 배관에 그칩니다. 프로바이더 계정은 여전히 직접 관리해야 하고 호스티드 카탈로그도 없습니다. {appName}은 그 중간에 있습니다. LiteLLM처럼 열려 있고, OpenRouter처럼 키 하나와 200개 이상의 모델로 호스팅됩니다.",
+        "H_SELF_HOST": "직접 호스팅하거나 그냥 쓰거나",
+        "P_SELF_HOST": "리포지토리를 클론해 스택을 직접 돌리거나, OpenAI 호환 클라이언트를 <c>https://api.unorouter.com/v1</c>에 연결해 호스티드 버전을 쓰면 됩니다. 호스티드 무료 티어가 카탈로그 대부분을 커버하니, 결정하기 전에 두 길을 모두 시험해 볼 수 있습니다.",
+        "H_VERDICT": "짧게 정리하면",
+        "P_VERDICT": "내 프로바이더 키로 로컬 라우팅만 필요하다면 LiteLLM이 더 가벼운 도구입니다. 스택 전체를 읽고, 감사하고, 포크할 수 있는 OpenRouter 스타일의 호스티드 게이트웨이를 원한다면, 소스를 공개하는 쪽은 {appName}입니다.",
+        "CTA": "써 볼 준비가 되셨나요? <register>무료 계정 만들기</register> 또는 <models>모델 둘러보기</models>.",
+        "TLDR": "{appName}은 오픈 소스 OpenRouter 대안입니다. 똑같이 키 하나로 200+개 모델을 쓰고, 전체 스택이 github.com/unorouter 에 OSI 라이선스로 공개돼 있습니다. 프롬프트가 어떻게 처리되는지 직접 읽어보거나, 게이트웨이를 셀프 호스팅하거나, 호스팅 버전을 쓸 수 있습니다. 호스팅 버전은 대부분의 모델을 모델당 분당 약 1회 요청의 무료 티어로 제공하고 유료 사용은 종량제로 과금합니다.",
+        "FAQ_1_Q": "{appName}이 정말 완전한 오픈 소스인가요?",
+        "FAQ_1_A": "네. 채팅 클라이언트가 포함된 웹 프런트엔드, 게이트웨이, Discord 봇, 프로바이더 동기화가 모두 github.com/unorouter 에 OSI 라이선스로 공개돼 있습니다. 호스팅 제품도 같은 코드로 돌아갑니다.",
+        "FAQ_2_Q": "{appName}을 셀프 호스팅할 수 있나요?",
+        "FAQ_2_A": "네. 저장소를 클론해 스택을 직접 돌리거나, 아무 OpenAI 호환 클라이언트나 호스팅 엔드포인트 https://api.unorouter.com/v1 로 향하게 해서 운영 부담을 건너뛸 수 있습니다.",
+        "FAQ_3_Q": "{appName}은 LiteLLM과 어떻게 다른가요?",
+        "FAQ_3_A": "LiteLLM은 프로바이더 키를 직접 가져오고 계정도 직접 관리하는 셀프 호스팅 프록시입니다. {appName}은 키 하나, 200+개 모델, 무료 티어를 갖춘 호스팅 서비스이면서 LiteLLM처럼 오픈 소스를 유지합니다."
       },
       "WHAT_IS_AN_LLM_GATEWAY": {
         "TITLE": "LLM 게이트웨이란 무엇인가",
@@ -958,7 +1004,14 @@
         "P_WHO_NEEDS_ONE": "여러 모델을 사용하거나, 가격과 품질이 변할 때 모델을 바꿀 계획이거나, 단일 연구소에 고정되어서는 안 되는 무언가를 만든다면 게이트웨이가 필요합니다. 코딩 에이전트, 채팅 앱, 캐릭터 채팅 프런트엔드, 내부 도구 모두 이점을 얻습니다. 정말로 한 공급자의 한 모델만 호출하고 바꿀 일이 전혀 없다면 공급자의 직접 키가 더 간단합니다. 그 외 모든 사람은 게이트웨이로 실질적인 수고를 아낍니다.",
         "H_VERDICT": "요컨대",
         "P_VERDICT": "LLM 게이트웨이는 많은 공급자를 하나의 엔드포인트, 하나의 키, 하나의 청구서로 바꿔, 한 번 통합하고 자유롭게 모델을 바꾸게 합니다. {appName}은 바로 이 틀의 OpenAI 호환 게이트웨이입니다. 하나의 키가 코드와 채팅 모두에 똑같이 200개가 넘는 모델에 닿고, 만료되지 않는 사용한 만큼 지불 크레딧이 함께합니다. 둘 이상의 모델을 건드린다면, 게이트웨이가 더 깔끔한 토대입니다.",
-        "CTA": "게이트웨이를 직접 시험해 보세요. <register>무료 계정 만들기</register> 또는 <models>모델 둘러보기</models>."
+        "CTA": "게이트웨이를 직접 시험해 보세요. <register>무료 계정 만들기</register> 또는 <models>모델 둘러보기</models>.",
+        "TLDR": "LLM 게이트웨이는 여러 모델 프로바이더 앞에 놓인 하나의 API입니다. 키 하나, 청구서 하나, 엔드포인트 하나에 라우팅과 페일오버는 대신 처리해 줍니다. {appName}은 OpenAI 호환 API로 200+개 모델을 제공하는 오픈 소스 게이트웨이로, Anthropic과 Gemini 네이티브 엔드포인트도 지원하며, 대부분의 모델에 무료 티어가 있고 나머지는 종량제입니다.",
+        "FAQ_1_Q": "프로바이더 직접 키 대신 LLM 게이트웨이가 필요한 때는 언제인가요?",
+        "FAQ_1_A": "둘 이상의 모델 계열을 쓰거나, 프로바이더 장애 시 페일오버를 원하거나, 청구서를 하나로 모으고 싶을 때입니다. 게이트웨이는 벤더별 계정을 없애고 문자열 하나만 바꿔 모델을 교체하게 해 줍니다.",
+        "FAQ_2_Q": "LLM 게이트웨이가 지연 시간을 늘리나요?",
+        "FAQ_2_A": "홉이 하나 늘어 보통 수십 밀리초 수준이며, 실제로는 스트리밍이 이를 가려 줍니다. 느린 응답은 게이트웨이보다 모델 자체에서 오는 경우가 훨씬 많습니다.",
+        "FAQ_3_Q": "{appName}은 어떤 엔드포인트를 제공하나요?",
+        "FAQ_3_A": "OpenAI 호환 /v1/chat/completions, /v1/responses, /v1/embeddings, Anthropic 네이티브 /v1/messages, Gemini 네이티브 /v1beta 를 모두 키 하나로 제공합니다."
       },
       "HOW_TO_CONNECT_ANY_LLM_TO_SILLYTAVERN": {
         "TITLE": "어떤 LLM이든 SillyTavern에 연결하는 법",
@@ -1913,6 +1966,28 @@
       "STEP_4_DESC": "`hermes --tui`로 TUI를 시작하여 작업을 시작하세요.",
       "TS_1_DESC": "Hermes는 시작 시 컨텍스트가 64,000 토큰 미만인 모델을 거부합니다. {appName} 모델 페이지에서 더 큰 컨텍스트의 모델을 선택하세요.",
       "TS_2_DESC": "시작 시 `/v1/models` 검사에 실패하면 `model.base_url`이 `/v1`로 끝나고 `OPENAI_API_KEY`가 `~/.hermes/.env`에 설정되어 있는지 확인하세요."
+    },
+    "MCP": {
+      "META": {
+        "TITLE": "MCP 서버 설정 가이드 | {appName}",
+        "DESCRIPTION": "unorouter-mcp 서버로 어떤 MCP 클라이언트든 {appName}에 연결하세요. 실시간 모델 카탈로그를 검색하고 가격을 확인하며 Claude Desktop이나 Claude Code에서 어떤 모델과도 대화할 수 있습니다.",
+        "KEYWORDS": "MCP 서버, Model Context Protocol, unorouter-mcp, {appName} MCP, Claude Desktop MCP, Claude Code MCP, 모델 카탈로그"
+      },
+      "BADGE": "MCP 서버",
+      "TITLE": "MCP 서버 설정 가이드",
+      "SUBTITLE": "어떤 MCP 클라이언트에도 {appName} 실시간 액세스를 제공하세요. unorouter-mcp 서버로 모델 카탈로그 검색, 가격 확인, 모든 모델과의 채팅이 가능합니다.",
+      "OVERVIEW_DESC": "unorouter-mcp는 stdio 위에서 MCP 서버로 동작하는 npm 패키지이며 공식 MCP 레지스트리에 com.unorouter/mcp로 등록되어 있습니다. 세 가지 도구를 제공합니다. search_models는 실시간 카탈로그를 필터링하고 free_only 옵션을 지원하며, get_pricing은 100만 토큰당 USD 정가를 반환하고, chat은 아무 모델에나 프롬프트를 보냅니다. 소스 코드는 github.com/0-don/unorouter-mcp에 있습니다.",
+      "STEP_1_TITLE": "API 키 발급",
+      "STEP_1_DESC": "unorouter.com/token에서 키를 만드세요. 서버는 UNOROUTER_API_KEY 환경 변수에서 키를 읽습니다. UNOROUTER_BASE_URL은 선택적인 엔드포인트 재정의입니다.",
+      "STEP_2_TITLE": "Claude Desktop에 서버 추가",
+      "STEP_2_DESC": "이 블록을 Claude Desktop 설정 파일에 추가하세요. npx가 첫 실행 시 unorouter-mcp를 내려받으므로 미리 설치할 것이 없습니다.",
+      "STEP_3_TITLE": "또는 Claude Code에 등록",
+      "STEP_3_DESC": "명령 하나로 키와 함께 서버가 등록됩니다.",
+      "STEP_4_TITLE": "도구 사용",
+      "STEP_4_DESC": "클라이언트에게 모델 찾기, 가격 비교, 모델에 프롬프트 보내기를 요청하세요. 필요에 따라 search_models, get_pricing, chat을 호출합니다. stdio를 사용하는 MCP 클라이언트라면 모두 동작합니다.",
+      "GOTCHA_1": ":free 접미사가 붙은 모델은 무료입니다. 무료 모델당 분당 약 1회 요청의 속도 제한을 예상하세요.",
+      "GOTCHA_2": "UNOROUTER_API_KEY는 필수입니다. UNOROUTER_BASE_URL은 서버를 다른 엔드포인트로 보낼 때만 설정하세요.",
+      "GOTCHA_3": "레지스트리를 지원하는 MCP 클라이언트는 npx 명령 대신 레지스트리 이름 com.unorouter/mcp로 서버를 설치할 수 있습니다."
     },
     "SILLYTAVERN": {
       "META": {

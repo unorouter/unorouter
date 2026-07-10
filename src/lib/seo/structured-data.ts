@@ -5,7 +5,10 @@ import type {
   BreadcrumbList,
   CollectionPage,
   FAQPage,
+  HowTo,
+  Offer,
   Organization,
+  Product,
   SoftwareApplication,
   WebSite,
   WithContext,
@@ -182,5 +185,94 @@ export function buildArticleSchema(input: ArticleInput): WithContext<Article> {
           : { "@type": input.author.type, name: input.author.name },
     }),
     publisher: buildOrganizationSchema(),
+  };
+}
+
+type ProductSchemaInput = {
+  name: string;
+  description: string;
+  url: string;
+  inputPrice?: number;
+  outputPrice?: number;
+  isFree: boolean;
+};
+
+export function buildProductSchema(
+  input: ProductSchemaInput,
+): WithContext<Product> {
+  const offers: Offer[] = input.isFree
+    ? [
+        {
+          "@type": "Offer" as const,
+          price: 0,
+          priceCurrency: "USD",
+          description:
+            "Free tier, shared pools with a light per model rate limit",
+          availability: "https://schema.org/InStock" as const,
+        },
+      ]
+    : [
+        ...(input.inputPrice != null
+          ? [
+              {
+                "@type": "Offer" as const,
+                price: input.inputPrice,
+                priceCurrency: "USD",
+                description: "USD per 1M input tokens, pay as you go",
+                availability: "https://schema.org/InStock" as const,
+              },
+            ]
+          : []),
+        ...(input.outputPrice != null
+          ? [
+              {
+                "@type": "Offer" as const,
+                price: input.outputPrice,
+                priceCurrency: "USD",
+                description: "USD per 1M output tokens, pay as you go",
+                availability: "https://schema.org/InStock" as const,
+              },
+            ]
+          : []),
+      ];
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: input.name,
+    description: input.description,
+    url: abs(input.url),
+    brand: {
+      "@type": "Organization",
+      name: env.appName,
+      url: env.siteOrigin,
+    },
+    ...(offers.length && { offers }),
+  };
+}
+
+export type HowToStepInput = {
+  name: string;
+  text: string;
+};
+
+export function buildHowToSchema(
+  name: string,
+  description: string,
+  url: string,
+  steps: HowToStepInput[],
+): WithContext<HowTo> {
+  return {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name,
+    description,
+    url: abs(url),
+    step: steps.map((step, i) => ({
+      "@type": "HowToStep" as const,
+      position: i + 1,
+      name: step.name,
+      text: step.text,
+    })),
   };
 }

@@ -620,6 +620,7 @@
     "RSS_LINK": "RSS feed",
     "READ_TIME": "{minutes} min read",
     "ON_THIS_PAGE": "On this page",
+    "FAQ_TITLE": "Frequently asked questions",
     "PREV_POST": "Previous post",
     "NEXT_POST": "Next post",
     "RELATED": "Related posts",
@@ -907,7 +908,14 @@
         "H_TRY": "Try it",
         "CTA": "All 190+ free models are live behind one OpenAI-compatible endpoint. <register>Grab an API key</register> or <models>browse the model catalog</models> and filter for free. Just remember which tier you are on when a <c>429</c> or <c>503</c> shows up.",
         "H_LIMIT": "Our own rate limit, and why it is there",
-        "P_LIMIT": "On top of the upstream caps we add a small limit of our own: <s>one request per minute per free model, per user</s>. It is deliberate. A single free model is often one shared upstream pool of maybe a million tokens a day for everyone combined, so without a cap a handful of heavy users would drain it in minutes and everyone else would see nothing. One per minute per model keeps the pool alive and spread across the whole community, and you can spread traffic across the many free models rather than hammering one. When you hit our cap you get an HTTP <c>429</c> with a <c>Retry-After</c> header telling you exactly how long to wait. This is separate from the upstream <c>429</c> and from the <c>503</c> below. If you want higher throughput on a specific model, use its paid tier where the limit does not apply."
+        "P_LIMIT": "On top of the upstream caps we add a small limit of our own: <s>one request per minute per free model, per user</s>. It is deliberate. A single free model is often one shared upstream pool of maybe a million tokens a day for everyone combined, so without a cap a handful of heavy users would drain it in minutes and everyone else would see nothing. One per minute per model keeps the pool alive and spread across the whole community, and you can spread traffic across the many free models rather than hammering one. When you hit our cap you get an HTTP <c>429</c> with a <c>Retry-After</c> header telling you exactly how long to wait. This is separate from the upstream <c>429</c> and from the <c>503</c> below. If you want higher throughput on a specific model, use its paid tier where the limit does not apply.",
+        "TLDR": "{appName} aggregates free lanes from many upstream providers into more than 190 models with a genuine free tier behind one key. Each free model allows about 1 request per minute per user; hitting the cap returns HTTP 429 with a Retry-After header, and drained pools return an explicit all providers busy error and recover automatically. Paid models bill pay as you go from $1.",
+        "FAQ_1_Q": "How many free models does {appName} have?",
+        "FAQ_1_A": "More than 190 at any moment, out of a catalog of 200+ models. The exact set shifts as upstream free pools drain and recover, and the live list is at unorouter.com/models.",
+        "FAQ_2_Q": "What are the free tier rate limits?",
+        "FAQ_2_A": "About 1 request per minute per model per user. The cap returns HTTP 429 with a Retry-After header. With 190+ free models the practical answer is to rotate models instead of waiting.",
+        "FAQ_3_Q": "Do I need a credit card for the free models?",
+        "FAQ_3_A": "No. Sign up with Discord or GitHub, create a key, and use any model with the :free suffix. A one time $1 Discord verify bonus can be spent on the paid models."
       },
       "UNOROUTER_VS_OPENROUTER": {
         "TITLE": "{appName} vs OpenRouter: an honest comparison",
@@ -924,7 +932,14 @@
         "P_MIGRATE": "Point your client at <c>https://api.unorouter.com/v1</c> and keep your code. The same key works in a chat app's custom-endpoint field, so there is no second account to manage.",
         "H_VERDICT": "How to pick",
         "P_VERDICT": "Only shipping code and want the widest catalog? OpenRouter is fine. Want zero-markup self-hosted routing? Use LiteLLM. Want one key that runs your coding agent and a real chat client? That is {appName}.",
-        "CTA": "Ready to try it? <register>Create a free account</register> or <models>browse the models</models>."
+        "CTA": "Ready to try it? <register>Create a free account</register> or <models>browse the models</models>.",
+        "TLDR": "{appName} and OpenRouter both put 200+ models behind one OpenAI compatible key. OpenRouter is API only and closed source. {appName} adds a built in chat and character client on the same key, publishes its full stack under OSI licenses, and serves most models on a genuine free tier of about 1 request per minute per model. Paid use is pay as you go and credits never expire.",
+        "FAQ_1_Q": "Is {appName} cheaper than OpenRouter?",
+        "FAQ_1_A": "Both bill per token at similar list prices. OpenRouter adds a fee when you buy credits. {appName} is pay as you go with no purchase fee, credits never expire, and more than 190 models have a free tier.",
+        "FAQ_2_Q": "Can I use the same key for coding agents and roleplay chat?",
+        "FAQ_2_A": "Yes. One {appName} key works in Claude Code, Cline, and OpenCode through the OpenAI compatible API, and the same account includes a full character chat client that also drops into SillyTavern or JanitorAI.",
+        "FAQ_3_Q": "How do I switch from OpenRouter to {appName}?",
+        "FAQ_3_A": "Point your client at https://api.unorouter.com/v1 and keep your code. The API is OpenAI compatible, model names come from GET /v1/models, and Anthropic and Gemini native endpoints are also served."
       },
       "BEST_OPENROUTER_ALTERNATIVES_2026": {
         "TITLE": "The best OpenRouter alternatives in 2026",
@@ -941,7 +956,38 @@
         "P_FOR_ROLEPLAY": "Character chat is its own case. You want a broad catalog to swap between a strong writer and a cheap workhorse, pay-as-you-go billing because sessions are bursty, and a key that drops into SillyTavern, Janitor.AI, or Chub. Pure dev gateways cover the API half but give no client, and seat plans fight the bursty pattern. {appName} spans both on one key.",
         "H_VERDICT": "How to choose",
         "P_VERDICT": "Only ever use one lab? A single-provider key is fine. A team that wants routing and governance in front of your own app? A headless dev gateway. Want one key that reaches many current models, bills pay-as-you-go, and works in code and a chat client? That is {appName}. Pick by your real use, not raw model count.",
-        "CTA": "Want one key for every model? <register>Create a free account</register> or <models>browse the models</models>."
+        "CTA": "Want one key for every model? <register>Create a free account</register> or <models>browse the models</models>.",
+        "TLDR": "The practical OpenRouter alternatives in 2026 split into three groups: hosted gateways with one key for many models such as {appName}, self hosted proxies such as LiteLLM, and single vendor keys. {appName} serves 200+ models through one OpenAI compatible key, runs a free tier on most of them, bills pay as you go, and publishes its entire stack as open source.",
+        "FAQ_1_Q": "What is the best free OpenRouter alternative?",
+        "FAQ_1_A": "{appName} serves more than 190 models with a genuine free tier of about 1 request per minute per model, no card required. OpenRouter's free tier covers far fewer models with a daily cap.",
+        "FAQ_2_Q": "Do OpenRouter alternatives work with SillyTavern and JanitorAI?",
+        "FAQ_2_A": "Any OpenAI compatible gateway does. In SillyTavern use the base URL https://api.unorouter.com/v1, in JanitorAI use the full https://api.unorouter.com/v1/chat/completions endpoint with a matching key.",
+        "FAQ_3_Q": "Is there an open source OpenRouter alternative?",
+        "FAQ_3_A": "{appName} is open source end to end under OSI licenses, frontend, gateway, bot, and provider sync, at github.com/unorouter. LiteLLM is open source too but is a bring your own keys proxy without a hosted catalog."
+      },
+      "OPEN_SOURCE_OPENROUTER_ALTERNATIVE": {
+        "TITLE": "{appName}: the open source OpenRouter alternative",
+        "DESCRIPTION": "OpenRouter is closed source. {appName} does the same one key, 200+ model job with the entire stack public under OSI licenses, self hostable, and with a hosted free tier to test on.",
+        "AUTHOR": "{appName} team",
+        "INTRO": "Searching for an open source OpenRouter alternative usually means one of three things: you want to read the code that handles your prompts, you want to run the gateway yourself, or you want out of a black box. {appName} covers all three. Same one key, 200+ model setup, whole stack public.",
+        "H_WHY": "Why open source matters in a gateway",
+        "P_WHY": "A gateway sits between your app and every model you call, so it sees every prompt and every reply. With a closed gateway you trust a privacy page. With an open one you can check what gets logged, how keys are stored, and how requests are routed before anything sensitive leaves your machine.",
+        "H_WHAT": "What is actually open",
+        "P_WHAT": "Everything is public on <gh>GitHub</gh> under OSI licenses: the web frontend with the chat client, the gateway itself, the Discord bot, and the provider sync that keeps the catalog fresh. This is not a thin SDK wrapped around a closed core. The running product is the repo.",
+        "H_COMPARE": "Against the usual picks",
+        "P_COMPARE": "OpenRouter has the widest catalog, but every line of it is closed. LiteLLM is genuinely open and a solid self hosted proxy, but it is bring your own keys plumbing: you still manage provider accounts and there is no hosted catalog. {appName} sits between the two, open like LiteLLM, hosted with one key and 200+ models like OpenRouter.",
+        "H_SELF_HOST": "Self host it or just use it",
+        "P_SELF_HOST": "Clone the repos and run the stack yourself, or point any OpenAI compatible client at <c>https://api.unorouter.com/v1</c> and use the hosted version. The hosted free tier covers most of the catalog, so you can test either path before committing to it.",
+        "H_VERDICT": "The short version",
+        "P_VERDICT": "If all you need is local routing over your own provider keys, LiteLLM is the leaner tool. If you want an OpenRouter style hosted gateway where you can read, audit, and fork the entire stack, {appName} is the one that ships its source.",
+        "CTA": "Ready to try it? <register>Create a free account</register> or <models>browse the models</models>.",
+        "TLDR": "{appName} is an open source OpenRouter alternative: the same one key for 200+ models, with the whole stack public under OSI licenses at github.com/unorouter. You can read how prompts are handled, self host the gateway, or use the hosted version, which serves most models on a free tier of about 1 request per minute per model and bills paid use pay as you go.",
+        "FAQ_1_Q": "Is {appName} really fully open source?",
+        "FAQ_1_A": "Yes. The web frontend with the chat client, the gateway, the Discord bot, and the provider sync are all public under OSI licenses at github.com/unorouter. The hosted product runs from the same code.",
+        "FAQ_2_Q": "Can I self host {appName}?",
+        "FAQ_2_A": "Yes. Clone the repositories and run the stack yourself, or point any OpenAI compatible client at the hosted endpoint https://api.unorouter.com/v1 and skip the ops work.",
+        "FAQ_3_Q": "How is {appName} different from LiteLLM?",
+        "FAQ_3_A": "LiteLLM is a self hosted proxy where you bring provider keys and manage accounts yourself. {appName} is hosted with one key, 200+ models, and a free tier, while staying open source like LiteLLM."
       },
       "WHAT_IS_AN_LLM_GATEWAY": {
         "TITLE": "What is an LLM gateway?",
@@ -958,7 +1004,14 @@
         "P_WHO_NEEDS_ONE": "You want a gateway if you use more than one model, plan to switch models as prices and quality move, or build anything that should not be hard-wired to a single lab. Coding agents, chat apps, character chat front ends, and internal tools all benefit. If you genuinely only ever call one model from one provider and never expect to change, a direct provider key is simpler. Everyone else saves real effort with a gateway.",
         "H_VERDICT": "In short",
         "P_VERDICT": "An LLM gateway turns many providers into one endpoint, one key, and one bill, so you integrate once and switch models freely. {appName} is an OpenAI-compatible gateway in exactly this mold: one key reaches 200+ models for code and chat alike, with pay-as-you-go credits that do not expire. If you touch more than one model, a gateway is the cleaner foundation.",
-        "CTA": "Try a gateway yourself: <register>create a free account</register> or <models>browse the models</models>."
+        "CTA": "Try a gateway yourself: <register>create a free account</register> or <models>browse the models</models>.",
+        "TLDR": "An LLM gateway is one API in front of many model providers: one key, one bill, one endpoint, with routing and failover handled for you. {appName} is an open source gateway serving 200+ models through an OpenAI compatible API, plus Anthropic and Gemini native endpoints, with a free tier on most models and pay as you go pricing on the rest.",
+        "FAQ_1_Q": "When do I need an LLM gateway instead of a direct provider key?",
+        "FAQ_1_A": "When you use more than one model family, want failover when a provider is down, or want one bill. A gateway removes per vendor accounts and lets you switch models by changing one string.",
+        "FAQ_2_Q": "Does an LLM gateway add latency?",
+        "FAQ_2_A": "One extra hop, typically tens of milliseconds, which streaming hides in practice. Slow responses come from the model itself far more often than from the gateway.",
+        "FAQ_3_Q": "Which endpoints does {appName} serve?",
+        "FAQ_3_A": "OpenAI compatible /v1/chat/completions, /v1/responses and /v1/embeddings, Anthropic native /v1/messages, and Gemini native /v1beta, all behind one key."
       },
       "HOW_TO_CONNECT_ANY_LLM_TO_SILLYTAVERN": {
         "TITLE": "How to connect any LLM to SillyTavern",
@@ -1913,6 +1966,28 @@
       "STEP_4_DESC": "Start the TUI with `hermes --tui` and begin working.",
       "TS_1_DESC": "Hermes rejects models under 64,000 tokens of context at startup. Pick a larger-context model from {appName}''s models page.",
       "TS_2_DESC": "If startup fails its `/v1/models` check, confirm `model.base_url` ends in `/v1` and `OPENAI_API_KEY` is set in `~/.hermes/.env`."
+    },
+    "MCP": {
+      "META": {
+        "TITLE": "MCP Server Setup Guide | {appName}",
+        "DESCRIPTION": "Connect any MCP client to {appName} with the unorouter-mcp server. Search the live model catalog, check pricing, and chat with any model from Claude Desktop or Claude Code.",
+        "KEYWORDS": "MCP server, Model Context Protocol, unorouter-mcp, {appName} MCP, Claude Desktop MCP, Claude Code MCP, model catalog"
+      },
+      "BADGE": "MCP Server",
+      "TITLE": "MCP Server Setup Guide",
+      "SUBTITLE": "Give any MCP client live access to {appName}: search the model catalog, check pricing, and chat with any model through the unorouter-mcp server.",
+      "OVERVIEW_DESC": "unorouter-mcp is an npm package that runs as an MCP server over stdio and is listed in the official MCP registry as com.unorouter/mcp. It exposes three tools: search_models filters the live catalog and takes a free_only option, get_pricing returns USD list prices per 1M tokens, and chat sends a prompt to any model. Source lives at github.com/0-don/unorouter-mcp.",
+      "STEP_1_TITLE": "Get an API key",
+      "STEP_1_DESC": "Create a key at unorouter.com/token. The server reads it from the UNOROUTER_API_KEY environment variable. UNOROUTER_BASE_URL is an optional endpoint override.",
+      "STEP_2_TITLE": "Add the server to Claude Desktop",
+      "STEP_2_DESC": "Add this block to your Claude Desktop config file. npx fetches unorouter-mcp on first run, so there is nothing to install up front.",
+      "STEP_3_TITLE": "Or register it in Claude Code",
+      "STEP_3_DESC": "One command registers the server with your key.",
+      "STEP_4_TITLE": "Use the tools",
+      "STEP_4_DESC": "Ask your client to find a model, compare prices, or send a prompt to a model. It calls search_models, get_pricing, and chat as needed. Any MCP client that speaks stdio works.",
+      "GOTCHA_1": "Models with the :free suffix cost nothing. Expect a rate limit of about 1 request per minute per free model.",
+      "GOTCHA_2": "UNOROUTER_API_KEY is required. Set UNOROUTER_BASE_URL only when you point the server at a different endpoint.",
+      "GOTCHA_3": "Registry-aware MCP clients can install the server by its registry name com.unorouter/mcp instead of the npx command."
     },
     "SILLYTAVERN": {
       "META": {

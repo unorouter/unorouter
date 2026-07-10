@@ -146,7 +146,7 @@ export function MarketShareSection(props: MarketShareSectionProps) {
               </BarChart>
             </ChartContainer>
           ) : (
-            <div className="text-muted-foreground/80 flex h-full items-center justify-center text-xs">
+            <div className="text-muted-foreground flex h-full items-center justify-center text-xs">
               {t("RANKINGS.ERROR.NO_HISTORY")}
             </div>
           )}
@@ -158,12 +158,12 @@ export function MarketShareSection(props: MarketShareSectionProps) {
           <h3 className="text-foreground text-sm font-semibold">
             {t("RANKINGS.VENDORS.LIST_TITLE")}
           </h3>
-          <p className="text-muted-foreground/80 mt-0.5 text-xs">
+          <p className="text-muted-foreground mt-0.5 text-xs">
             {t("RANKINGS.VENDORS.LIST_SUBTITLE")}
           </p>
         </header>
         {visible.length === 0 ? (
-          <div className="text-muted-foreground/80 px-5 py-8 text-center text-sm">
+          <div className="text-muted-foreground px-5 py-8 text-center text-sm">
             {t("RANKINGS.VENDORS.EMPTY")}
           </div>
         ) : (
@@ -188,7 +188,7 @@ function VendorList(props: {
     <ul>
       {props.rows.map((vendor) => (
         <li key={vendor.vendor} className="flex items-center gap-3 py-2.5">
-          <span className="text-muted-foreground/80 w-6 shrink-0 text-right font-mono text-xs tabular-nums">
+          <span className="text-muted-foreground w-6 shrink-0 text-right font-mono text-xs tabular-nums">
             {vendor.rank}.
           </span>
           <span
@@ -208,7 +208,7 @@ function VendorList(props: {
             <div className="text-foreground font-mono text-sm font-semibold tabular-nums">
               {formatTokens(vendor.total_tokens, locale)}
             </div>
-            <div className="text-muted-foreground/80 font-mono text-[11px] tabular-nums">
+            <div className="text-muted-foreground font-mono text-[11px] tabular-nums">
               {formatShare(vendor.share)}
             </div>
           </div>

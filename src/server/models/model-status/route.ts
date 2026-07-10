@@ -4,9 +4,13 @@ import {
 } from "@/lib/api/typebox/model-status";
 import type { CompactPagePayload } from "@/lib/api/model-status-compact";
 import { unwrap } from "@/lib/utils/base";
-import { getModelStatusComponents, getModelStatusPage } from "@/openapi";
+import {
+  getModelStatusComponents,
+  getModelStatusPage,
+  getModelStatusPageCompact,
+} from "@/openapi";
 import { Elysia } from "elysia";
-import { ADMIN_HEADERS, upstreamApiUrl } from "@/server/constants";
+import { ADMIN_HEADERS } from "@/server/constants";
 
 export const modelStatusRoute = new Elysia({ prefix: "/model-status" })
   .get(
@@ -20,13 +24,10 @@ export const modelStatusRoute = new Elysia({ prefix: "/model-status" })
   .get(
     "/page_compact",
     async ({ query }) => {
-      const params = new URLSearchParams();
-      if (query.bucket) params.set("bucket", query.bucket);
-      if (query.hours != null) params.set("hours", String(query.hours));
-      const url = `${upstreamApiUrl}/api/model_status/page_compact?${params.toString()}`;
-      const res = await fetch(url, { headers: ADMIN_HEADERS });
-      const body = (await res.json()) as { data: CompactPagePayload };
-      return body.data;
+      const res = await getModelStatusPageCompact(query, {
+        headers: ADMIN_HEADERS,
+      });
+      return unwrap(res).data as CompactPagePayload;
     },
     { query: modelStatusPageCompactQuery },
   )

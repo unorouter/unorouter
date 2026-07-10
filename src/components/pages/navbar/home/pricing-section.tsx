@@ -145,13 +145,13 @@ async function TopUpDemo() {
   return (
     <div className="space-y-2.5 font-mono text-[11px]">
       <div className="flex items-center gap-3">
-        <span className="w-12 shrink-0 text-green-600 dark:text-green-400">
+        <span className="w-12 shrink-0 text-green-700 dark:text-green-400">
           {t("HOME.HOW_IT_WORKS.TOPUP_FREE_LABEL")}
         </span>
         <div className="relative h-1.5 flex-1 overflow-hidden rounded-full bg-green-500/20">
           <div className="h-full w-full bg-linear-to-r from-green-500 to-green-400" />
         </div>
-        <span className="w-10 shrink-0 text-right font-bold text-green-600 tabular-nums dark:text-green-400">
+        <span className="w-10 shrink-0 text-right font-bold text-green-700 tabular-nums dark:text-green-400">
           {t("HOME.HOW_IT_WORKS.TOPUP_FREE_AMOUNT")}
         </span>
       </div>

@@ -11,7 +11,7 @@ export function GrowthText(props: GrowthTextProps) {
     return (
       <span
         className={cn(
-          "text-muted-foreground/80 font-mono tabular-nums",
+          "text-muted-foreground font-mono tabular-nums",
           props.className,
         )}
       >
@@ -26,7 +26,7 @@ export function GrowthText(props: GrowthTextProps) {
       className={cn(
         "font-mono tabular-nums",
         isUp
-          ? "text-emerald-600 dark:text-emerald-400"
+          ? "text-emerald-700 dark:text-emerald-400"
           : "text-rose-600 dark:text-rose-400",
         props.className,
       )}

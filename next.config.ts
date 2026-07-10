@@ -25,6 +25,12 @@ const corpCrossOrigin = [
 
 const nextConfig: NextConfig = {
   output: process.env.STANDALONE ? "standalone" : undefined,
+  env: {
+    // Build-time date (YYYY-MM-DD) for og-image cache busting and the blog
+    // publish-date filter: reading the clock during render is
+    // non-deterministic and rejected by cacheComponents prerenders.
+    NEXT_PUBLIC_BUILD_DATE: new Date().toISOString().slice(0, 10),
+  },
   // wasmoon's emscripten loader probes node builtins (`import('module')`);
   // alias them to an empty stub in browser bundles. Server keeps real modules
   // via serverExternalPackages below.
@@ -34,6 +40,22 @@ const nextConfig: NextConfig = {
     },
   },
   serverExternalPackages: ["wasmoon", "sharp", "unpdf"],
+  cacheComponents: true,
+  // The Serwist route bundles the service worker with esbuild at request
+  // time; since the route prerenders, the file tracer no longer sees esbuild
+  // as a runtime dependency and drops it from the standalone output
+  // (Cannot find package 'esbuild' -> /sw-worker/sw.js 500s in production).
+  // esbuild resolves the worker's imports from node_modules at request time,
+  // so serwist and its transitive deps must ship too.
+  outputFileTracingIncludes: {
+    "/sw-worker/**": [
+      "./node_modules/esbuild/**/*",
+      "./node_modules/@esbuild/**/*",
+      "./node_modules/serwist/**/*",
+      "./node_modules/@serwist/**/*",
+      "./node_modules/idb/**/*",
+    ],
+  },
   // productionBrowserSourceMaps: true,
   experimental: {
     // allowDevelopmentBuild: true,
@@ -126,6 +148,19 @@ const nextConfig: NextConfig = {
       { source: "/api/ops/badge/:path*", headers: corpCrossOrigin },
       { source: "/_next/static/:path*", headers: corpSameOrigin },
       { source: "/api/:path((?!ops/badge).*)", headers: corpSameOrigin },
+      // public/ assets get Next's 4h default, which Lighthouse flags on every
+      // page. Not immutable (no content hash in names), so 30d + SWR.
+      ...["/badges/:path*", "/icons/:path*", "/images/:path*"].map(
+        (source) => ({
+          source,
+          headers: [
+            {
+              key: "Cache-Control",
+              value: "public, max-age=2592000, stale-while-revalidate=86400",
+            },
+          ],
+        }),
+      ),
       // Never store the SW route so new SW versions propagate on deploy (a year-long s-maxage once
       // poisoned the edge cache and would not purge; Serwist's own handler emits max-age=14400 which
       // this and the route wrapper override). A stored SW keeps serving a stale precache manifest

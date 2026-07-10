@@ -3,19 +3,20 @@ import { VendorModelsPage } from "@/components/pages/navbar/models/vendor/vendor
 import { localeUrl } from "@/i18n/navigation";
 import {
   findContextTag,
+  toLeanPricing,
   type ProcessedModel,
   vendorDisplayName,
 } from "@/lib/api/pricing";
 import { APP_VALUES } from "@/lib/config/constants";
+import { getCachedPricing } from "@/lib/api/cached";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
-import { prefetchElysia } from "@/lib/react-query/prefetch";
-import { rpc } from "@/lib/rpc";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
 import {
   buildBreadcrumbListSchema,
   buildFAQPageSchema,
+  buildProductSchema,
   buildSoftwareApplicationSchema,
 } from "@/lib/seo/structured-data";
 import {
@@ -27,10 +28,6 @@ import {
 import { formatPrice } from "@/lib/utils/format/number";
 import { serverLocale } from "@/lib/utils/server";
 import { getCatalogModel } from "@/server/models/pricing/model-catalog.service";
-import {
-  fetchLivePricing,
-  type LivePricing,
-} from "@/server/models/pricing/pricing-fetch";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
@@ -43,7 +40,7 @@ interface PageProps {
 type ResolvedModel = {
   model: ProcessedModel;
   atCapacity: boolean;
-  data: LivePricing;
+  data: Awaited<ReturnType<typeof getCachedPricing>> | null;
 };
 
 function modelSegment(slug: string[]): string {
@@ -53,7 +50,7 @@ function modelSegment(slug: string[]): string {
 
 async function resolveModel(slug: string): Promise<ResolvedModel | null> {
   if (!slug) return null;
-  const data = await fetchLivePricing({ includeOffline: true });
+  const data = await getCachedPricing(true).catch(() => null);
   const live = data?.models.find((m) => modelMatchesSlug(m.name, slug));
   if (live) return { model: live, atCapacity: !live.online, data };
   const snapshot = await getCatalogModel((name) =>
@@ -66,8 +63,8 @@ async function resolveModel(slug: string): Promise<ResolvedModel | null> {
 async function resolveVendor(slug: string[]): Promise<string | null> {
   if (slug.length !== 1) return null;
   const seg = slug[0]!;
-  const pricing = await rpc.api.models.pricing.get().catch(() => null);
-  const vendorNames = pricing?.data?.vendorNames ?? [];
+  const pricing = await getCachedPricing().catch(() => null);
+  const vendorNames = pricing?.vendorNames ?? [];
   const match = vendorNames.find((v) => vendorMatchesSlug(v, seg));
   return match ?? null;
 }
@@ -132,9 +129,10 @@ export default async function ModelDetailPage(props: PageProps) {
     const vendor = await resolveVendor(params.slug);
     if (!vendor) notFound();
     const vendorQc = getQueryClient();
-    await prefetchElysia(vendorQc, queryKeys.pricing(), () =>
-      rpc.api.models.pricing.get(),
-    );
+    await vendorQc.prefetchQuery({
+      queryKey: queryKeys.pricing(),
+      queryFn: async () => toLeanPricing(await getCachedPricing()),
+    });
     return (
       <HydrationBoundary state={dehydrate(vendorQc)}>
         <VendorModelsPage vendor={vendor} />
@@ -150,17 +148,6 @@ export default async function ModelDetailPage(props: PageProps) {
     pathname: "/models/[...slug]",
     params: { slug: [vendorSlug(model.vendor.name)] },
   });
-
-  const queryClient = getQueryClient();
-  await prefetchElysia(queryClient, queryKeys.auth(), (cookies) =>
-    rpc.api.auth.account.self.get(cookies),
-  );
-  const isLoggedIn = !!queryClient.getQueryData(queryKeys.auth());
-  if (isLoggedIn) {
-    await prefetchElysia(queryClient, queryKeys.bestKey(), (cookies) =>
-      rpc.api.billing.token["best-key"].get({ ...cookies }),
-    );
-  }
 
   const contextTag = findContextTag(model);
   const idSlug = params.slug.join("-");
@@ -199,7 +186,7 @@ export default async function ModelDetailPage(props: PageProps) {
   ];
 
   return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
+    <>
       <JsonLd
         id={`${idSlug}-breadcrumb`}
         data={buildBreadcrumbListSchema([
@@ -225,6 +212,25 @@ export default async function ModelDetailPage(props: PageProps) {
             }),
         })}
       />
+      {!model.isTiered && (
+        <JsonLd
+          id={`${idSlug}-product`}
+          data={buildProductSchema({
+            name: model.name,
+            url,
+            isFree: model.name.endsWith(":free"),
+            inputPrice: model.inputPrice,
+            outputPrice: model.outputPrice,
+            description:
+              model.description ??
+              t("MODEL_PAGE.META_DESC", {
+                ...APP_VALUES,
+                name: model.name,
+                vendor: model.vendor.name,
+              }),
+          })}
+        />
+      )}
       <JsonLd id={`${idSlug}-faq`} data={buildFAQPageSchema(faqEntries)} />
       <ModelDetail
         model={model}
@@ -233,6 +239,6 @@ export default async function ModelDetailPage(props: PageProps) {
         offline={resolved.atCapacity}
         vendorHref={vendorUrl}
       />
-    </HydrationBoundary>
+    </>
   );
 }

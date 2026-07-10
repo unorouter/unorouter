@@ -18,7 +18,12 @@ export const CLIENT_DOCS_KEPT = [
   "GENERATE_API_KEY_DESC",
 ] as const;
 
-export const CLIENT_DOCS_GUIDE_LEAVES = ["TITLE", "SUBTITLE"] as const;
+export const CLIENT_DOCS_GUIDE_LEAVES = [
+  "TITLE",
+  "SUBTITLE",
+  "CTA_SIGNUP",
+  "CTA_DASHBOARD",
+] as const;
 
 export const CLIENT_DOCS_CHAT_KEPT = ["COMMON", "INDEX"] as const;
 

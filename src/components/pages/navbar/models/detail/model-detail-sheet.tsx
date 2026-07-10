@@ -3,7 +3,6 @@
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Icon } from "@/components/ui/icon";
 import { CopyButton } from "@/components/elements/code/copy-button";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -26,6 +25,7 @@ import {
   ProcessedModel,
 } from "@/lib/api/pricing";
 import { fixedPriceUnitLabel } from "@/lib/api/model-modality";
+import { useModelDetailQuery } from "@/hooks/models/pricing-hook";
 import { SectionHeading } from "./shared/section-heading";
 import { env } from "@/lib/config/env";
 import { getVendorTheme } from "@/lib/config/vendor-themes";
@@ -56,7 +56,10 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
   const t = useTranslations();
   const locale = useLocale();
   const setChatModel = useSetAtom(chatModelAtom);
-  const model = props.model;
+  // The list carries the lean model (truncated description, no parameter
+  // defaults); the full record loads on open and swaps in reactively.
+  const detailQuery = useModelDetailQuery(props.model?.name ?? null);
+  const model = detailQuery.data?.model ?? props.model;
 
   if (!model) return null;
 
@@ -123,25 +126,6 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
               </SectionHeading>
               <ModelDescription text={model.description} />
             </section>
-          )}
-
-          {model.tags.length > 0 && (
-            <div className="flex flex-wrap gap-1.5">
-              {model.tags.map((tag) => (
-                <Badge
-                  key={tag}
-                  variant="secondary"
-                  className={cn(
-                    "font-mono text-[10px] uppercase",
-                    theme.tagBg,
-                    theme.tagBorder,
-                    theme.text,
-                  )}
-                >
-                  {tag}
-                </Badge>
-              ))}
-            </div>
           )}
 
           <ModelHeaderChips metadata={model.metadata} locale={locale} />

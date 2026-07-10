@@ -8,8 +8,6 @@ import { handleElysia, modelHref } from "@/lib/utils/base";
 import { serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
 
-export const dynamic = "force-static";
-export const revalidate = 3600;
 
 export async function GET() {
   const locale = await serverLocale();
@@ -24,6 +22,28 @@ export async function GET() {
   lines.push(`# ${env.appName}`);
   lines.push("");
   lines.push(`> ${t("HOME.META.DESCRIPTION", APP_VALUES)}`);
+  lines.push("");
+
+  // Agent-facing hard facts; English on purpose, this file is for AI crawlers.
+  lines.push("## Facts");
+  lines.push(
+    `- ${env.appName} is an OpenAI compatible AI gateway: one API key for 200+ models across OpenAI, Anthropic, Google, DeepSeek, Moonshot, Zhipu, Qwen and more.`,
+  );
+  lines.push(
+    "- Most models have a genuine free tier (`:free` suffix), about 1 request per minute per model per user; the cap returns HTTP 429 with a Retry-After header.",
+  );
+  lines.push(
+    "- Endpoints: /v1/chat/completions, /v1/responses, /v1/embeddings, Anthropic native /v1/messages, Gemini native /v1beta. Base URL https://api.unorouter.com/v1.",
+  );
+  lines.push(
+    "- Paid models bill pay as you go per token, credits never expire, top up from $1.",
+  );
+  lines.push(
+    "- The entire stack is open source under OSI licenses: https://github.com/unorouter",
+  );
+  lines.push(
+    "- MCP server: com.unorouter/mcp in the official MCP registry, npm package unorouter-mcp, hosted endpoint https://mcp.unorouter.com/mcp",
+  );
   lines.push("");
 
   lines.push(`## ${t("NAV.DOCS")}`);
@@ -63,7 +83,12 @@ export async function GET() {
     lines.push(`## ${t("FOOTER.MODELS")}`);
     for (const model of models.slice(0, 50)) {
       const url = `${env.siteOrigin}${localeUrl(locale, modelHref(model.name, model.vendor?.name))}`;
-      lines.push(`- [${model.name}](${url})`);
+      const price = model.name.endsWith(":free")
+        ? "free"
+        : model.inputPrice != null && model.outputPrice != null
+          ? `${model.inputPrice} in / ${model.outputPrice} out per 1M tokens`
+          : null;
+      lines.push(`- [${model.name}](${url})${price ? `: ${price}` : ""}`);
     }
     lines.push("");
   }

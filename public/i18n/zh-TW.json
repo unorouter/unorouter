@@ -620,6 +620,7 @@
     "RSS_LINK": "RSS 訂閱",
     "READ_TIME": "閱讀約 {minutes} 分鐘",
     "ON_THIS_PAGE": "本頁內容",
+    "FAQ_TITLE": "常見問題",
     "PREV_POST": "上一篇",
     "NEXT_POST": "下一篇",
     "RELATED": "相關文章",
@@ -907,7 +908,14 @@
         "H_HONEST": "我們沒有做什麼",
         "P_HONEST": "我們沒有加入那種未經許可、轉手再供應 OpenAI 或 Claude 旗艦模型的反向代理。我們沒有納入那些 token 不可轉讓的個人金鑰聚合服務，也沒有納入那種刷量並輪換他人金鑰的多重池中池服務。這類東西確實存在，也確實誘人，而它們正是這個閘道想要取代的那團灰色市場亂象。清單上的每一家供應商，都是依自己的條款、刻意把免費方案釋出來的。一個來源若過不了這道門檻，就不會出現在這裡。",
         "H_TRY": "親自試試",
-        "CTA": "全部 190+ 個免費模型都在一個 OpenAI-compatible 端點之後執行。<register>取得一把 API 金鑰</register>，或<models>瀏覽模型目錄</models>並按免費篩選。只要在出現 <c>429</c> 或 <c>503</c> 時記住自己身處哪一層就好。"
+        "CTA": "全部 190+ 個免費模型都在一個 OpenAI-compatible 端點之後執行。<register>取得一把 API 金鑰</register>，或<models>瀏覽模型目錄</models>並按免費篩選。只要在出現 <c>429</c> 或 <c>503</c> 時記住自己身處哪一層就好。",
+        "TLDR": "{appName} 把眾多上游供應商的免費額度彙整成 190 多個帶真正免費額度的模型，全部在一把金鑰之後。每個免費模型允許每位使用者每分鐘約 1 次請求；達到上限會回傳帶 Retry-After 標頭的 HTTP 429，額度耗盡的池子會回傳明確的所有供應商忙碌錯誤，並自動恢復。付費模型按量計費，$1 起。",
+        "FAQ_1_Q": "{appName} 有多少個免費模型？",
+        "FAQ_1_A": "在 200+ 個模型的目錄中，任何時刻都有 190 多個免費。確切名單會隨上游免費額度池的耗盡與恢復而變動，即時列表見 unorouter.com/models。",
+        "FAQ_2_Q": "免費額度的速率限制是多少？",
+        "FAQ_2_A": "每位使用者每個模型每分鐘約 1 次請求。達到上限會回傳帶 Retry-After 標頭的 HTTP 429。既然有 190+ 個免費模型，實際做法是輪換模型而不是空等。",
+        "FAQ_3_Q": "使用免費模型需要信用卡嗎？",
+        "FAQ_3_A": "不需要。用 Discord 或 GitHub 註冊、建立金鑰，就能使用任何帶 :free 字尾的模型。一次性的 $1 Discord 驗證獎勵可以用在付費模型上。"
       },
       "UNOROUTER_VS_OPENROUTER": {
         "TITLE": "{appName} 對比 OpenRouter：一次誠實的比較",
@@ -924,7 +932,14 @@
         "P_MIGRATE": "把你的用戶端指向<c>https://api.unorouter.com/v1</c>，程式碼照舊。同一把鑰匙在聊天用戶端的自訂端點欄裡就能用，所以沒有第二個帳號要打理。",
         "H_VERDICT": "怎麼選",
         "P_VERDICT": "只寫程式碼、想要最廣的目錄？OpenRouter夠用。想要零加價的自架路由？用LiteLLM。想要一把鑰匙既驅動你的編碼代理，又驅動一個真正的聊天用戶端？那就是{appName}。",
-        "CTA": "準備好試試了嗎？<register>建立免費帳戶</register> 或 <models>瀏覽模型</models>。"
+        "CTA": "準備好試試了嗎？<register>建立免費帳戶</register> 或 <models>瀏覽模型</models>。",
+        "TLDR": "{appName} 和 OpenRouter 都能用一把 OpenAI 相容金鑰呼叫 200+ 個模型。OpenRouter 只有 API，而且是閉源的。{appName} 在同一把金鑰上額外內建聊天與角色客戶端，整個技術堆疊以 OSI 授權公開，並為大多數模型提供貨真價實的免費額度，約為每個模型每分鐘 1 次請求。付費使用採按量計費，點數永不過期。",
+        "FAQ_1_Q": "{appName} 比 OpenRouter 便宜嗎？",
+        "FAQ_1_A": "兩者都按 token 計費，牌價相近。OpenRouter 在購買點數時會加收手續費。{appName} 按量計費且無購買手續費，點數永不過期，還有超過 190 個模型提供免費額度。",
+        "FAQ_2_Q": "同一把金鑰能同時用於程式編寫代理和角色扮演聊天嗎？",
+        "FAQ_2_A": "可以。一把 {appName} 金鑰透過 OpenAI 相容 API 就能在 Claude Code、Cline 和 OpenCode 中使用，同一帳號還內建完整的角色聊天客戶端，也能直接接入 SillyTavern 或 JanitorAI。",
+        "FAQ_3_Q": "如何從 OpenRouter 切換到 {appName}？",
+        "FAQ_3_A": "把客戶端指向 https://api.unorouter.com/v1，程式碼保持不變。API 與 OpenAI 相容，模型名稱透過 GET /v1/models 取得，Anthropic 和 Gemini 的原生端點同樣可用。"
       },
       "BEST_OPENROUTER_ALTERNATIVES_2026": {
         "TITLE": "2026 年最佳的 OpenRouter 替代方案",
@@ -941,7 +956,38 @@
         "P_FOR_ROLEPLAY": "角色聊天自成一類。你想要一份寬廣的目錄，好在一個強筆力的寫手和一匹便宜的馱馬之間切換；想要按用量付費的計費，因為工作階段是突發式的；還想要一把能直接接入SillyTavern、Janitor.AI或Chub的鑰匙。純開發閘道覆蓋了API那一半卻不給用戶端，而按席位的方案與突發的節奏相衝。{appName}生來就用一把鑰匙橫跨兩者。",
         "H_VERDICT": "怎麼選",
         "P_VERDICT": "只用一家實驗室？一把單一供應商的金鑰就夠。是一個想在自家應用前面放上路由與治理的團隊？用一個無介面的開發閘道。想要一把能觸及眾多最新模型、按用量計費、在程式碼和聊天用戶端裡都能用的鑰匙？那就是{appName}。按你真實的用途來選，別按原始的模型數量。",
-        "CTA": "想要一把金鑰用於每個模型嗎？<register>建立免費帳戶</register>，或<models>瀏覽模型</models>。"
+        "CTA": "想要一把金鑰用於每個模型嗎？<register>建立免費帳戶</register>，或<models>瀏覽模型</models>。",
+        "TLDR": "2026 年真正可行的 OpenRouter 替代方案分為三類：像 {appName} 這樣一把金鑰呼叫眾多模型的託管閘道、像 LiteLLM 這樣的自架代理，以及單一廠商的金鑰。{appName} 用一把 OpenAI 相容金鑰提供 200+ 個模型，其中大多數有免費額度，按量計費，並把整個技術堆疊以開源方式公開。",
+        "FAQ_1_Q": "最好的免費 OpenRouter 替代方案是什麼？",
+        "FAQ_1_A": "{appName} 提供超過 190 個帶真正免費額度的模型，約為每個模型每分鐘 1 次請求，無需綁卡。OpenRouter 的免費額度涵蓋的模型少得多，還有每日上限。",
+        "FAQ_2_Q": "OpenRouter 的替代方案能用於 SillyTavern 和 JanitorAI 嗎？",
+        "FAQ_2_A": "任何 OpenAI 相容閘道都可以。在 SillyTavern 中使用基礎 URL https://api.unorouter.com/v1，在 JanitorAI 中使用完整端點 https://api.unorouter.com/v1/chat/completions，並搭配對應的金鑰。",
+        "FAQ_3_Q": "有開源的 OpenRouter 替代方案嗎？",
+        "FAQ_3_A": "{appName} 從頭到尾以 OSI 授權開源，前端、閘道、機器人和供應商同步都在 github.com/unorouter。LiteLLM 也是開源的，但它是自帶金鑰的代理，沒有託管的模型目錄。"
+      },
+      "OPEN_SOURCE_OPENROUTER_ALTERNATIVE": {
+        "TITLE": "{appName}：開源的 OpenRouter 替代方案",
+        "DESCRIPTION": "OpenRouter 是閉源的。{appName} 同樣做到一把金鑰呼叫 200 多個模型，但整個技術堆疊都以 OSI 授權公開，可自架，還提供託管版免費額度讓你試用。",
+        "AUTHOR": "{appName} 團隊",
+        "INTRO": "尋找開源的 OpenRouter 替代方案，通常是為了三件事之一：你想讀到處理你提示詞的程式碼，你想自己運行閘道，或者你想擺脫黑箱。{appName} 三者兼顧。同樣是一把金鑰、200 多個模型的方案，整個技術堆疊全部公開。",
+        "H_WHY": "為什麼閘道的開源很重要",
+        "P_WHY": "閘道位於你的應用程式和你呼叫的每個模型之間，因此它能看到每一條提示詞和每一條回覆。用閉源閘道，你只能相信一頁隱私聲明。用開源閘道，你可以在任何敏感內容離開你的機器之前，親自檢查什麼會被記錄、金鑰如何儲存、請求如何路由。",
+        "H_WHAT": "究竟開放了什麼",
+        "P_WHAT": "一切都以 OSI 授權公開在 <gh>GitHub</gh> 上：帶聊天客戶端的網頁前端、閘道本體、Discord 機器人，以及讓目錄保持最新的供應商同步。這不是包著閉源核心的薄薄一層 SDK。線上運行的產品就是這個儲存庫。",
+        "H_COMPARE": "對比常見選擇",
+        "P_COMPARE": "OpenRouter 的目錄最齊全，但每一行程式碼都是閉源的。LiteLLM 是真正的開源，也是紮實的自架代理，但它只是自帶金鑰的管線：供應商帳號仍要你自己管理，也沒有託管目錄。{appName} 介於兩者之間：像 LiteLLM 一樣開源，又像 OpenRouter 一樣託管，一把金鑰、200 多個模型。",
+        "H_SELF_HOST": "自架，或者直接用",
+        "P_SELF_HOST": "複製儲存庫自己運行整套技術堆疊，或者把任何相容 OpenAI 的客戶端指向 <c>https://api.unorouter.com/v1</c> 使用託管版。託管版免費額度涵蓋目錄的大部分模型，你可以在下決定之前把兩條路都試一遍。",
+        "H_VERDICT": "一句話總結",
+        "P_VERDICT": "如果你只需要用自己的供應商金鑰做本地路由，LiteLLM 更輕量。如果你想要一個 OpenRouter 式的託管閘道，並且可以閱讀、稽核、fork 它的整個技術堆疊，那麼公開原始碼的就是 {appName}。",
+        "CTA": "準備好試試了嗎？<register>建立免費帳號</register>，或<models>瀏覽模型列表</models>。",
+        "TLDR": "{appName} 是開源的 OpenRouter 替代方案：同樣一把金鑰呼叫 200+ 個模型，整個技術堆疊以 OSI 授權公開在 github.com/unorouter。你可以查看提示詞的處理方式、自架閘道，或直接使用託管版本。託管版本為大多數模型提供約每個模型每分鐘 1 次請求的免費額度，付費使用按量計費。",
+        "FAQ_1_Q": "{appName} 真的是完全開源嗎？",
+        "FAQ_1_A": "是的。含聊天客戶端的網頁前端、閘道、Discord 機器人和供應商同步全部以 OSI 授權公開在 github.com/unorouter。託管產品跑的正是同一套程式碼。",
+        "FAQ_2_Q": "我可以自架 {appName} 嗎？",
+        "FAQ_2_A": "可以。複製儲存庫自己跑整個技術堆疊，或者把任何 OpenAI 相容客戶端指向託管端點 https://api.unorouter.com/v1，省下維運工作。",
+        "FAQ_3_Q": "{appName} 和 LiteLLM 有什麼不同？",
+        "FAQ_3_A": "LiteLLM 是自架代理，需要你自備供應商金鑰並自行管理帳號。{appName} 是託管服務，一把金鑰、200+ 個模型和免費額度，同時和 LiteLLM 一樣維持開源。"
       },
       "WHAT_IS_AN_LLM_GATEWAY": {
         "TITLE": "什麼是 LLM 閘道？",
@@ -958,7 +1004,14 @@
         "P_WHO_NEEDS_ONE": "如果你使用不止一個模型，打算隨價格和品質的變化切換模型，或者建構任何不該被硬綁定到單一廠商的東西，那你就需要一個閘道。程式設計代理、聊天應用、角色聊天前端和內部工具都能從中受益。如果你確實只呼叫某一家供應商的某一個模型，且從不打算更換，那直接用供應商的金鑰更簡單。其餘所有人都能靠閘道省下實實在在的功夫。",
         "H_VERDICT": "簡而言之",
         "P_VERDICT": "LLM 閘道把眾多供應商變成一個端點、一把金鑰和一張帳單，於是你整合一次，便能自由換模型。{appName} 正是這種模子裡的相容 OpenAI 的閘道：一把金鑰為程式碼和聊天同樣觸達 200 多個模型，配上不會過期的按用量付費額度。如果你觸及不止一個模型，閘道是更乾淨的根基。",
-        "CTA": "自己試一個閘道：<register>建立免費帳戶</register>，或<models>瀏覽模型</models>。"
+        "CTA": "自己試一個閘道：<register>建立免費帳戶</register>，或<models>瀏覽模型</models>。",
+        "TLDR": "LLM 閘道就是架在眾多模型供應商前面的一個 API：一把金鑰、一張帳單、一個端點，路由和故障轉移都替你處理好。{appName} 是開源閘道，透過 OpenAI 相容 API 提供 200+ 個模型，另有 Anthropic 和 Gemini 原生端點，大多數模型有免費額度，其餘按量計費。",
+        "FAQ_1_Q": "什麼時候需要 LLM 閘道，而不是直接用供應商金鑰？",
+        "FAQ_1_A": "當你用到不只一個模型系列、希望在某家供應商當機時自動切換，或想要一張帳單的時候。閘道免去在每家廠商開帳號的麻煩，改一個字串就能換模型。",
+        "FAQ_2_Q": "LLM 閘道會增加延遲嗎？",
+        "FAQ_2_A": "只多一跳，通常是幾十毫秒，實際使用中會被串流輸出掩蓋。回應慢更多是模型本身的問題，而不是閘道。",
+        "FAQ_3_Q": "{appName} 提供哪些端點？",
+        "FAQ_3_A": "OpenAI 相容的 /v1/chat/completions、/v1/responses 和 /v1/embeddings，Anthropic 原生的 /v1/messages，以及 Gemini 原生的 /v1beta，全部在一把金鑰之後。"
       },
       "HOW_TO_CONNECT_ANY_LLM_TO_SILLYTAVERN": {
         "TITLE": "如何把任意 LLM 連接到 SillyTavern",
@@ -1913,6 +1966,28 @@
       "STEP_4_DESC": "使用 `hermes --tui` 啟動 TUI 並開始工作。",
       "TS_1_DESC": "Hermes 在啟動時會拒絕上下文低於 64,000 個 token 的模型。請從 {appName} 模型頁面選擇上下文更大的模型。",
       "TS_2_DESC": "如果啟動時的 `/v1/models` 檢查失敗，請確認 `model.base_url` 以 `/v1` 結尾，且 `OPENAI_API_KEY` 已在 `~/.hermes/.env` 中設定。"
+    },
+    "MCP": {
+      "META": {
+        "TITLE": "MCP 伺服器設定指南 | {appName}",
+        "DESCRIPTION": "透過 unorouter-mcp 伺服器把任何 MCP 用戶端接入 {appName}。搜尋即時模型目錄、查詢價格，並在 Claude Desktop 或 Claude Code 中與任何模型對話。",
+        "KEYWORDS": "MCP 伺服器，Model Context Protocol，unorouter-mcp，{appName} MCP，Claude Desktop MCP，Claude Code MCP，模型目錄"
+      },
+      "BADGE": "MCP 伺服器",
+      "TITLE": "MCP 伺服器設定指南",
+      "SUBTITLE": "讓任何 MCP 用戶端即時存取 {appName}：搜尋模型目錄、查詢價格，並透過 unorouter-mcp 伺服器與任何模型對話。",
+      "OVERVIEW_DESC": "unorouter-mcp 是一個 npm 套件，以 stdio 方式執行 MCP 伺服器，並以 com.unorouter/mcp 的名稱收錄於官方 MCP 註冊表。它提供三個工具：search_models 過濾即時目錄並支援 free_only 選項；get_pricing 回傳每 100 萬 token 的美元定價；chat 向任何模型送出提示詞。原始碼位於 github.com/0-don/unorouter-mcp。",
+      "STEP_1_TITLE": "取得 API 金鑰",
+      "STEP_1_DESC": "在 unorouter.com/token 建立金鑰。伺服器會從環境變數 UNOROUTER_API_KEY 讀取金鑰。UNOROUTER_BASE_URL 是可選的端點覆寫。",
+      "STEP_2_TITLE": "把伺服器加入 Claude Desktop",
+      "STEP_2_DESC": "把這段設定加入 Claude Desktop 的設定檔。npx 會在第一次執行時抓取 unorouter-mcp，不需要事先安裝。",
+      "STEP_3_TITLE": "或在 Claude Code 中註冊",
+      "STEP_3_DESC": "一道指令即可連同金鑰註冊伺服器。",
+      "STEP_4_TITLE": "使用這些工具",
+      "STEP_4_DESC": "請用戶端尋找模型、比較價格或向模型送出提示詞，它會視需要呼叫 search_models、get_pricing 與 chat。任何支援 stdio 的 MCP 用戶端都能使用。",
+      "GOTCHA_1": "帶 :free 後綴的模型完全免費。每個免費模型約有每分鐘 1 次請求的速率限制。",
+      "GOTCHA_2": "UNOROUTER_API_KEY 為必填。只有在把伺服器指向其他端點時才需要設定 UNOROUTER_BASE_URL。",
+      "GOTCHA_3": "支援註冊表的 MCP 用戶端可以直接用註冊名稱 com.unorouter/mcp 安裝伺服器，而不必使用 npx 指令。"
     },
     "SILLYTAVERN": {
       "META": {

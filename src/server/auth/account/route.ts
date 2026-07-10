@@ -11,6 +11,7 @@ import {
   ACCESS_TOKEN_COOKIE,
   AUTH_REDIRECT_COOKIE,
   COOKIE_MAX_AGE,
+  LOCAL_USER_ID_COOKIE,
   USER_ID_COOKIE,
 } from "@/lib/config/constants";
 import { unwrap } from "@/lib/utils/base";
@@ -139,6 +140,12 @@ export const authRoute = new Elysia({ prefix: "/account" })
       });
       cookie[USER_ID_COOKIE].set({
         value: await signUserId(data.user_id),
+        path: "/",
+        maxAge: COOKIE_MAX_AGE,
+        sameSite: "lax",
+      });
+      cookie[LOCAL_USER_ID_COOKIE].set({
+        value: String(data.user_id),
         path: "/",
         maxAge: COOKIE_MAX_AGE,
         sameSite: "lax",

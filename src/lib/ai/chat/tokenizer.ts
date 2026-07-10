@@ -1,5 +1,3 @@
-import { encode as encodeCl100k } from "gpt-tokenizer";
-
 export type TokenizerKind = "tiktoken" | "huggingface" | "approximate";
 
 type Encoder = (text: string) => number;
@@ -37,15 +35,16 @@ const PRESET_HF_SOURCE: Partial<Record<TokenizerPreset, string>> = {
   cohere: "CohereForAI/c4ai-command-r-v01",
 };
 
-const CL100K: Encoder = (text) => encodeCl100k(text).length;
 const APPROXIMATE: Encoder = (text) => Math.ceil(text.length / 4);
 
 const instanceCache = new Map<string, Encoder>(); // keyed by resolved source
 const inflight = new Map<string, Promise<Encoder>>();
-instanceCache.set("cl100k", CL100K);
 
-let active: Encoder = CL100K;
-let activeId = "cl100k";
+// cl100k is lazy too: gpt-tokenizer embeds ~2MB of BPE rank data, which a
+// static import put into the chat entry chunk (983KB brotli). Counts are
+// approximate until the preload in prepareChatRequest resolves.
+let active: Encoder = APPROXIMATE;
+let activeId = "approximate";
 
 const COUNT_CACHE_MAX = 50_000;
 const countCache = new Map<string, number>();
@@ -64,6 +63,11 @@ function hashText(str: string): number {
     Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^
     Math.imul(h1 ^ (h1 >>> 13), 3266489909);
   return 4294967296 * (2097151 & h2) + (h1 >>> 0);
+}
+
+async function loadCl100k(): Promise<Encoder> {
+  const mod = await import("gpt-tokenizer/encoding/cl100k_base");
+  return (text) => mod.encode(text).length;
 }
 
 async function loadO200k(): Promise<Encoder> {
@@ -169,7 +173,7 @@ function resolveSource(ref: TokenizerRef): {
   }
   const preset = ref as TokenizerPreset;
   if (preset === "cl100k" || preset === "auto") {
-    return { source: "cl100k", name: "cl100k", load: async () => CL100K };
+    return { source: "cl100k", name: "cl100k", load: loadCl100k };
   }
   if (preset === "o200k") {
     return { source: "o200k", name: "o200k", load: loadO200k };
@@ -185,7 +189,7 @@ function resolveSource(ref: TokenizerRef): {
       load: () => loadHuggingFace(hf, preset),
     };
   }
-  return { source: "cl100k", name: "cl100k", load: async () => CL100K };
+  return { source: "cl100k", name: "cl100k", load: loadCl100k };
 }
 
 export async function loadTokenizer(ref: TokenizerRef): Promise<Encoder> {
@@ -222,7 +226,7 @@ export function countTokens(text: string | undefined): number {
   try {
     value = active(text);
   } catch {
-    value = CL100K(text);
+    value = APPROXIMATE(text);
   }
   if (countCache.size >= COUNT_CACHE_MAX) {
     const oldest = countCache.keys().next().value;
@@ -233,8 +237,9 @@ export function countTokens(text: string | undefined): number {
 }
 
 export function resetActiveTokenizer(): void {
-  active = CL100K;
-  activeId = "cl100k";
+  const cl100k = instanceCache.get("cl100k");
+  active = cl100k ?? APPROXIMATE;
+  activeId = cl100k ? "cl100k" : "approximate";
 }
 
 export function tokenizerRefForModel(

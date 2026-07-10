@@ -620,6 +620,7 @@
     "RSS_LINK": "Feed RSS",
     "READ_TIME": "{minutes} mnt baca",
     "ON_THIS_PAGE": "Di halaman ini",
+    "FAQ_TITLE": "Pertanyaan yang sering diajukan",
     "PREV_POST": "Postingan sebelumnya",
     "NEXT_POST": "Postingan berikutnya",
     "RELATED": "Postingan terkait",
@@ -907,7 +908,14 @@
         "H_HONEST": "Apa yang tidak kami lakukan",
         "P_HONEST": "Kami tidak menambahkan reverse proxy yang menyajikan ulang model unggulan OpenAI atau Claude tanpa izin. Kami tidak menarik agregator key pribadi yang token-nya tidak dapat dipindahtangankan, atau layanan pool-of-pools yang memfarming dan merotasi key milik orang lain. Hal-hal seperti itu ada, menggoda, dan justru kekacauan pasar gelap yang dimaksudkan untuk digantikan oleh gateway ini. Setiap penyedia dalam daftar memberikan tier gratisnya dengan sengaja, sesuai ketentuannya sendiri. Jika sebuah sumber tidak lolos standar itu, ia tidak ada di sini.",
         "H_TRY": "Coba sendiri",
-        "CTA": "Semua 190+ model gratis tayang di balik satu endpoint OpenAI-compatible. <register>Ambil kunci API</register> atau <models>jelajahi katalog model</models> dan saring untuk yang gratis. Cukup ingat Anda berada di tingkat mana saat <c>429</c> atau <c>503</c> muncul."
+        "CTA": "Semua 190+ model gratis tayang di balik satu endpoint OpenAI-compatible. <register>Ambil kunci API</register> atau <models>jelajahi katalog model</models> dan saring untuk yang gratis. Cukup ingat Anda berada di tingkat mana saat <c>429</c> atau <c>503</c> muncul.",
+        "TLDR": "{appName} menggabungkan jatah gratis dari banyak provider upstream menjadi lebih dari 190 model dengan tier gratis sungguhan di balik satu kunci. Setiap model gratis mengizinkan sekitar 1 permintaan per menit per pengguna; menyentuh batas mengembalikan HTTP 429 dengan header Retry-After, dan pool yang habis mengembalikan error eksplisit bahwa semua provider sibuk lalu pulih otomatis. Model berbayar ditagih sesuai pemakaian mulai dari $1.",
+        "FAQ_1_Q": "Berapa banyak model gratis yang dimiliki {appName}?",
+        "FAQ_1_A": "Lebih dari 190 pada setiap saat, dari katalog 200+ model. Susunan pastinya bergeser seiring pool gratis upstream terkuras dan pulih, dan daftar langsungnya ada di unorouter.com/models.",
+        "FAQ_2_Q": "Berapa batas laju tier gratis?",
+        "FAQ_2_A": "Sekitar 1 permintaan per menit per model per pengguna. Saat kena batas, dikembalikan HTTP 429 dengan header Retry-After. Dengan 190+ model gratis, jawaban praktisnya adalah berganti-ganti model alih-alih menunggu.",
+        "FAQ_3_Q": "Apakah aku perlu kartu kredit untuk model gratis?",
+        "FAQ_3_A": "Tidak. Daftar dengan Discord atau GitHub, buat kunci, dan pakai model mana pun dengan sufiks :free. Bonus verifikasi Discord satu kali sebesar $1 bisa dipakai untuk model berbayar."
       },
       "UNOROUTER_VS_OPENROUTER": {
         "TITLE": "{appName} vs OpenRouter: perbandingan yang jujur",
@@ -924,7 +932,14 @@
         "P_MIGRATE": "Arahkan klienmu ke <c>https://api.unorouter.com/v1</c> dan pertahankan kodemu. Kunci yang sama bekerja di kolom endpoint kustom sebuah klien chat, jadi tidak ada akun kedua untuk dikelola.",
         "H_VERDICT": "Cara memilih",
         "P_VERDICT": "Hanya menulis kode dan mau katalog terluas? OpenRouter oke. Routing swakelola tanpa markup? Pakai LiteLLM. Satu kunci yang menggerakkan agen kodemu dan klien chat sungguhan? Itulah {appName}.",
-        "CTA": "Siap mencoba? <register>Buat akun gratis</register> atau <models>jelajahi modelnya</models>."
+        "CTA": "Siap mencoba? <register>Buat akun gratis</register> atau <models>jelajahi modelnya</models>.",
+        "TLDR": "{appName} dan OpenRouter sama-sama menempatkan 200+ model di balik satu kunci yang kompatibel dengan OpenAI. OpenRouter hanya API dan berkode tertutup. {appName} menambahkan klien chat dan karakter bawaan pada kunci yang sama, memublikasikan seluruh stack-nya di bawah lisensi OSI, dan melayani sebagian besar model dengan tier gratis sungguhan, sekitar 1 permintaan per menit per model. Pemakaian berbayar dihitung sesuai pemakaian dan kredit tidak pernah kedaluwarsa.",
+        "FAQ_1_Q": "Apakah {appName} lebih murah daripada OpenRouter?",
+        "FAQ_1_A": "Keduanya menagih per token dengan harga daftar yang mirip. OpenRouter menambahkan biaya saat kamu membeli kredit. {appName} berbayar sesuai pemakaian tanpa biaya pembelian, kredit tidak pernah kedaluwarsa, dan lebih dari 190 model punya tier gratis.",
+        "FAQ_2_Q": "Bisakah aku memakai kunci yang sama untuk agen coding dan chat roleplay?",
+        "FAQ_2_A": "Bisa. Satu kunci {appName} bekerja di Claude Code, Cline, dan OpenCode lewat API yang kompatibel dengan OpenAI, dan akun yang sama menyertakan klien chat karakter lengkap yang juga bisa dipasang di SillyTavern atau JanitorAI.",
+        "FAQ_3_Q": "Bagaimana cara pindah dari OpenRouter ke {appName}?",
+        "FAQ_3_A": "Arahkan klienmu ke https://api.unorouter.com/v1 dan pertahankan kodemu. API-nya kompatibel dengan OpenAI, nama model berasal dari GET /v1/models, dan endpoint native Anthropic dan Gemini juga dilayani."
       },
       "BEST_OPENROUTER_ALTERNATIVES_2026": {
         "TITLE": "Alternatif OpenRouter terbaik pada 2026",
@@ -941,7 +956,38 @@
         "P_FOR_ROLEPLAY": "Chat karakter adalah kasus tersendiri. Kamu mau katalog luas untuk berganti antara penulis yang kuat dan kuda beban yang murah, penagihan bayar sesuai pemakaian karena sesi menyembur, dan kunci yang cocok ke SillyTavern, Janitor.AI, atau Chub. Gateway murni pengembang menutupi separuh API tetapi tak memberi klien, dan paket per kursi bertentangan dengan pola menyembur. {appName} merentang keduanya dengan satu kunci.",
         "H_VERDICT": "Cara memilih",
         "P_VERDICT": "Hanya memakai satu lab? Kunci penyedia tunggal cukup. Tim yang mau routing dan tata kelola di depan aplikasinya sendiri? Gateway pengembang headless. Mau satu kunci yang menjangkau banyak model mutakhir, menagih sesuai pemakaian, dan bekerja di kode maupun klien chat? Itulah {appName}. Pilih berdasarkan pemakaian nyatamu, bukan jumlah model mentah.",
-        "CTA": "Mau satu kunci untuk setiap model? <register>Buat akun gratis</register> atau <models>jelajahi model</models>."
+        "CTA": "Mau satu kunci untuk setiap model? <register>Buat akun gratis</register> atau <models>jelajahi model</models>.",
+        "TLDR": "Alternatif OpenRouter yang praktis pada 2026 terbagi tiga kelompok: gateway terkelola dengan satu kunci untuk banyak model seperti {appName}, proxy self-hosted seperti LiteLLM, dan kunci dari satu vendor saja. {appName} melayani 200+ model lewat satu kunci yang kompatibel dengan OpenAI, menjalankan tier gratis di sebagian besar model, menagih sesuai pemakaian, dan memublikasikan seluruh stack-nya sebagai open source.",
+        "FAQ_1_Q": "Apa alternatif OpenRouter gratis terbaik?",
+        "FAQ_1_A": "{appName} melayani lebih dari 190 model dengan tier gratis sungguhan, sekitar 1 permintaan per menit per model, tanpa perlu kartu. Tier gratis OpenRouter mencakup jauh lebih sedikit model dengan batas harian.",
+        "FAQ_2_Q": "Apakah alternatif OpenRouter bekerja dengan SillyTavern dan JanitorAI?",
+        "FAQ_2_A": "Gateway apa pun yang kompatibel dengan OpenAI bisa. Di SillyTavern gunakan URL dasar https://api.unorouter.com/v1, di JanitorAI gunakan endpoint lengkap https://api.unorouter.com/v1/chat/completions dengan kunci yang sesuai.",
+        "FAQ_3_Q": "Apakah ada alternatif OpenRouter yang open source?",
+        "FAQ_3_A": "{appName} open source dari ujung ke ujung di bawah lisensi OSI, frontend, gateway, bot, dan sinkronisasi provider, di github.com/unorouter. LiteLLM juga open source, tetapi berupa proxy bawa-kunci-sendiri tanpa katalog terkelola."
+      },
+      "OPEN_SOURCE_OPENROUTER_ALTERNATIVE": {
+        "TITLE": "{appName}: alternatif OpenRouter yang open source",
+        "DESCRIPTION": "OpenRouter tertutup kodenya. {appName} mengerjakan tugas yang sama, satu kunci dan 200+ model, dengan seluruh stack publik di bawah lisensi OSI, bisa di-self-host, dan ada tier gratis hosted untuk dicoba.",
+        "AUTHOR": "Tim {appName}",
+        "INTRO": "Mencari alternatif OpenRouter yang open source biasanya berarti salah satu dari tiga hal: Anda ingin membaca kode yang menangani prompt Anda, ingin menjalankan gateway sendiri, atau ingin keluar dari kotak hitam. {appName} mencakup ketiganya. Skema yang sama, satu kunci dan 200+ model, seluruh stack publik.",
+        "H_WHY": "Kenapa open source penting untuk gateway",
+        "P_WHY": "Gateway berada di antara aplikasi Anda dan setiap model yang Anda panggil, jadi ia melihat setiap prompt dan setiap balasan. Dengan gateway tertutup, Anda cuma percaya pada halaman privasi. Dengan yang terbuka, Anda bisa memeriksa apa yang dicatat, bagaimana kunci disimpan, dan bagaimana permintaan dirutekan sebelum ada data sensitif yang keluar dari mesin Anda.",
+        "H_WHAT": "Apa yang benar-benar terbuka",
+        "P_WHAT": "Semuanya publik di <gh>GitHub</gh> di bawah lisensi OSI: frontend web dengan klien chat, gateway-nya sendiri, bot Discord, dan sinkronisasi provider yang menjaga katalog tetap segar. Ini bukan SDK tipis yang membungkus inti tertutup. Produk yang berjalan adalah repo itu sendiri.",
+        "H_COMPARE": "Dibanding pilihan yang biasa",
+        "P_COMPARE": "OpenRouter punya katalog terluas, tapi setiap barisnya tertutup. LiteLLM benar-benar terbuka dan proxy self-hosted yang solid, tapi sifatnya bawa kunci sendiri: Anda tetap mengelola akun provider dan tidak ada katalog hosted. {appName} berada di antara keduanya, terbuka seperti LiteLLM, hosted dengan satu kunci dan 200+ model seperti OpenRouter.",
+        "H_SELF_HOST": "Self-host atau langsung pakai",
+        "P_SELF_HOST": "Clone repo-nya dan jalankan stack sendiri, atau arahkan klien apa pun yang kompatibel OpenAI ke <c>https://api.unorouter.com/v1</c> dan pakai versi hosted. Tier gratis hosted mencakup sebagian besar katalog, jadi Anda bisa mencoba kedua jalur sebelum memutuskan.",
+        "H_VERDICT": "Versi singkatnya",
+        "P_VERDICT": "Kalau yang Anda butuhkan hanya routing lokal dengan kunci provider sendiri, LiteLLM adalah alat yang lebih ramping. Kalau Anda ingin gateway hosted ala OpenRouter yang seluruh stack-nya bisa dibaca, diaudit, dan di-fork, {appName} adalah yang merilis kode sumbernya.",
+        "CTA": "Siap mencoba? <register>Buat akun gratis</register> atau <models>jelajahi modelnya</models>.",
+        "TLDR": "{appName} adalah alternatif OpenRouter yang open source: satu kunci yang sama untuk 200+ model, dengan seluruh stack terbuka di bawah lisensi OSI di github.com/unorouter. Kamu bisa membaca cara prompt ditangani, meng-host gateway sendiri, atau memakai versi terkelola, yang melayani sebagian besar model dengan tier gratis sekitar 1 permintaan per menit per model dan menagih pemakaian berbayar sesuai pemakaian.",
+        "FAQ_1_Q": "Apakah {appName} benar-benar sepenuhnya open source?",
+        "FAQ_1_A": "Ya. Frontend web dengan klien chat, gateway, bot Discord, dan sinkronisasi provider semuanya terbuka di bawah lisensi OSI di github.com/unorouter. Produk terkelolanya berjalan dari kode yang sama.",
+        "FAQ_2_Q": "Bisakah aku self-host {appName}?",
+        "FAQ_2_A": "Bisa. Clone repositorinya dan jalankan stack-nya sendiri, atau arahkan klien apa pun yang kompatibel dengan OpenAI ke endpoint terkelola https://api.unorouter.com/v1 dan lewati urusan operasionalnya.",
+        "FAQ_3_Q": "Apa bedanya {appName} dengan LiteLLM?",
+        "FAQ_3_A": "LiteLLM adalah proxy self-hosted tempat kamu membawa kunci provider dan mengelola akun sendiri. {appName} terkelola dengan satu kunci, 200+ model, dan tier gratis, sambil tetap open source seperti LiteLLM."
       },
       "WHAT_IS_AN_LLM_GATEWAY": {
         "TITLE": "Apa itu gateway LLM?",
@@ -958,7 +1004,14 @@
         "P_WHO_NEEDS_ONE": "Anda menginginkan gateway jika menggunakan lebih dari satu model, berencana berganti model saat harga dan kualitas berubah, atau membangun sesuatu yang tidak seharusnya terikat pada satu lab. Agen coding, aplikasi obrolan, front-end obrolan karakter, dan alat internal semuanya diuntungkan. Jika Anda benar-benar hanya memanggil satu model dari satu penyedia dan tidak pernah berharap berganti, kunci penyedia langsung lebih sederhana. Semua orang lain menghemat usaha nyata dengan gateway.",
         "H_VERDICT": "Singkatnya",
         "P_VERDICT": "Gateway LLM mengubah banyak penyedia menjadi satu endpoint, satu kunci, dan satu tagihan, jadi Anda berintegrasi sekali dan berganti model dengan bebas. {appName} adalah gateway kompatibel OpenAI persis cetakan ini: satu kunci menjangkau lebih dari 200 model untuk kode dan chat sama saja, dengan kredit bayar sesuai pemakaian yang tak kedaluwarsa. Jika Anda menyentuh lebih dari satu model, gateway adalah fondasi yang lebih bersih.",
-        "CTA": "Coba gateway sendiri: <register>buat akun gratis</register> atau <models>jelajahi model</models>."
+        "CTA": "Coba gateway sendiri: <register>buat akun gratis</register> atau <models>jelajahi model</models>.",
+        "TLDR": "Gateway LLM adalah satu API di depan banyak penyedia model: satu kunci, satu tagihan, satu endpoint, dengan routing dan failover yang diurus untukmu. {appName} adalah gateway open source yang melayani 200+ model lewat API yang kompatibel dengan OpenAI, plus endpoint native Anthropic dan Gemini, dengan tier gratis di sebagian besar model dan harga sesuai pemakaian untuk sisanya.",
+        "FAQ_1_Q": "Kapan aku butuh gateway LLM alih-alih kunci langsung dari provider?",
+        "FAQ_1_A": "Saat kamu memakai lebih dari satu keluarga model, ingin failover ketika sebuah provider tumbang, atau ingin satu tagihan saja. Gateway menghilangkan akun per vendor dan membuatmu bisa ganti model hanya dengan mengubah satu string.",
+        "FAQ_2_Q": "Apakah gateway LLM menambah latensi?",
+        "FAQ_2_A": "Satu lompatan ekstra, biasanya puluhan milidetik, yang dalam praktiknya tertutupi oleh streaming. Respons lambat jauh lebih sering datang dari modelnya sendiri daripada dari gateway.",
+        "FAQ_3_Q": "Endpoint apa saja yang dilayani {appName}?",
+        "FAQ_3_A": "Kompatibel OpenAI /v1/chat/completions, /v1/responses, dan /v1/embeddings, Anthropic native /v1/messages, dan Gemini native /v1beta, semuanya di balik satu kunci."
       },
       "HOW_TO_CONNECT_ANY_LLM_TO_SILLYTAVERN": {
         "TITLE": "Cara menghubungkan LLM apa pun ke SillyTavern",
@@ -1913,6 +1966,28 @@
       "STEP_4_DESC": "Mulai TUI dengan `hermes --tui` dan mulai bekerja.",
       "TS_1_DESC": "Hermes menolak model dengan konteks di bawah 64.000 token saat startup. Pilih model berkonteks lebih besar dari halaman model {appName}.",
       "TS_2_DESC": "Jika startup gagal pada pemeriksaan `/v1/models`, pastikan `model.base_url` berakhir dengan `/v1` dan `OPENAI_API_KEY` diatur di `~/.hermes/.env`."
+    },
+    "MCP": {
+      "META": {
+        "TITLE": "Panduan Penyiapan Server MCP | {appName}",
+        "DESCRIPTION": "Hubungkan klien MCP apa pun ke {appName} dengan server unorouter-mcp. Telusuri katalog model langsung, cek harga, dan mengobrol dengan model apa pun dari Claude Desktop atau Claude Code.",
+        "KEYWORDS": "server MCP, Model Context Protocol, unorouter-mcp, {appName} MCP, Claude Desktop MCP, Claude Code MCP, katalog model"
+      },
+      "BADGE": "Server MCP",
+      "TITLE": "Panduan Penyiapan Server MCP",
+      "SUBTITLE": "Beri klien MCP mana pun akses langsung ke {appName}: telusuri katalog model, cek harga, dan mengobrol dengan model apa pun lewat server unorouter-mcp.",
+      "OVERVIEW_DESC": "unorouter-mcp adalah paket npm yang berjalan sebagai server MCP lewat stdio dan terdaftar di registri MCP resmi sebagai com.unorouter/mcp. Ia menyediakan tiga alat: search_models memfilter katalog langsung dengan opsi free_only, get_pricing mengembalikan harga resmi dalam USD per 1M token, dan chat mengirim prompt ke model apa pun. Kode sumber ada di github.com/0-don/unorouter-mcp.",
+      "STEP_1_TITLE": "Dapatkan kunci API",
+      "STEP_1_DESC": "Buat kunci di unorouter.com/token. Server membacanya dari variabel lingkungan UNOROUTER_API_KEY. UNOROUTER_BASE_URL adalah penimpaan endpoint opsional.",
+      "STEP_2_TITLE": "Tambahkan server ke Claude Desktop",
+      "STEP_2_DESC": "Tambahkan blok ini ke berkas konfigurasi Claude Desktop. npx mengunduh unorouter-mcp saat pertama dijalankan, jadi tidak ada yang perlu dipasang lebih dulu.",
+      "STEP_3_TITLE": "Atau daftarkan di Claude Code",
+      "STEP_3_DESC": "Satu perintah mendaftarkan server beserta kunci Anda.",
+      "STEP_4_TITLE": "Gunakan alat-alatnya",
+      "STEP_4_DESC": "Minta klien Anda mencari model, membandingkan harga, atau mengirim prompt ke sebuah model. Ia akan memanggil search_models, get_pricing, dan chat sesuai kebutuhan. Semua klien MCP yang memakai stdio bisa digunakan.",
+      "GOTCHA_1": "Model dengan akhiran :free tidak berbiaya. Perkirakan batas sekitar 1 permintaan per menit per model gratis.",
+      "GOTCHA_2": "UNOROUTER_API_KEY wajib diisi. Setel UNOROUTER_BASE_URL hanya jika Anda mengarahkan server ke endpoint lain.",
+      "GOTCHA_3": "Klien MCP yang mendukung registri dapat memasang server lewat nama registrinya com.unorouter/mcp alih-alih perintah npx."
     },
     "SILLYTAVERN": {
       "META": {

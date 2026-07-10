@@ -16,7 +16,7 @@ import {
   buildCollectionPageSchema,
 } from "@/lib/seo/structured-data";
 import { serverLocale } from "@/lib/utils/server";
-import { getLocale, getTranslations } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 
 export async function generateMetadata(props: {
   params: Promise<{ locale: string }>;
@@ -33,8 +33,10 @@ export async function generateMetadata(props: {
   });
 }
 
-export default async function ChatDocsIndexPage() {
-  const locale = await getLocale();
+export default async function ChatDocsIndexPage(props: {
+  params: Promise<{ locale: string }>;
+}) {
+  const locale = await serverLocale(props);
   const t = await getTranslations();
   const bySection = chatDocsBySection();
   const allDocs = CHAT_DOC_SECTION_ORDER.flatMap(

@@ -9,7 +9,7 @@ import {
 import { getSeoTimestamps } from "@/lib/seo/metadata";
 import { localeUrl } from "@/i18n/navigation";
 import { serverLocale } from "@/lib/utils/server";
-import { getLocale, getTranslations } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 
 export async function generateMetadata(props: {
   params: Promise<{ locale: string }>;
@@ -26,9 +26,11 @@ export async function generateMetadata(props: {
   });
 }
 
-export default async function RefundPage() {
+export default async function RefundPage(props: {
+  params: Promise<{ locale: string }>;
+}) {
+  const locale = await serverLocale(props);
   const t = await getTranslations();
-  const locale = await getLocale();
   const ts = getSeoTimestamps("legal/refund");
 
   return (

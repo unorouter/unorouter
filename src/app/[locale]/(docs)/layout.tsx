@@ -1,40 +1,22 @@
-import { prefetchElysia } from "@/lib/react-query/prefetch";
+import { serverLocale } from "@/lib/utils/server";
 import { DocsTabs } from "@/components/layout/docs/docs-tabs";
 import { SidebarLayout } from "@/components/layout/sidebar/sidebar-layout";
-import getQueryClient from "@/lib/react-query/client";
-import { queryKeys } from "@/lib/react-query/keys";
-import { rpc } from "@/lib/rpc";
-import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 
 interface DocsLayoutProps {
   children: React.ReactNode;
+  params: Promise<{ locale: string }>;
 }
 
 export default async function DocsLayout(props: DocsLayoutProps) {
-  const queryClient = getQueryClient();
-
-  await prefetchElysia(queryClient, queryKeys.auth(), (cookies) =>
-    rpc.api.auth.account.self.get(cookies),
-  );
-
-  const isLoggedIn = !!queryClient.getQueryData(queryKeys.auth());
-
-  if (isLoggedIn) {
-    await prefetchElysia(queryClient, queryKeys.bestKey(), (cookies) =>
-      rpc.api.billing.token["best-key"].get({
-        ...cookies,
-      }),
-    );
-  }
-
+  await serverLocale(props);
   return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
+    <>
       <SidebarLayout navConfig="docs" showSearch>
         <div className="flex w-full min-w-0 flex-col">
           <DocsTabs />
           {props.children}
         </div>
       </SidebarLayout>
-    </HydrationBoundary>
+    </>
   );
 }

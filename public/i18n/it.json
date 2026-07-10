@@ -620,6 +620,7 @@
     "RSS_LINK": "Feed RSS",
     "READ_TIME": "{minutes} min di lettura",
     "ON_THIS_PAGE": "In questa pagina",
+    "FAQ_TITLE": "Domande frequenti",
     "PREV_POST": "Post precedente",
     "NEXT_POST": "Post successivo",
     "RELATED": "Post correlati",
@@ -907,7 +908,14 @@
         "H_HONEST": "Cosa non abbiamo fatto",
         "P_HONEST": "Non abbiamo aggiunto reverse proxy che ri-servono i modelli di punta di OpenAI o Claude senza permesso. Non abbiamo incluso aggregatori di chiavi personali i cui token non sono trasferibili, né servizi pool-of-pools che coltivano e ruotano le chiavi altrui. Esistono, sono allettanti e sono esattamente il caos da mercato grigio che questo gateway intende sostituire. Ogni provider nell'elenco offre il proprio piano gratuito di proposito, secondo i propri termini. Se una sorgente non ha superato quella soglia, qui non c'è.",
         "H_TRY": "Provalo",
-        "CTA": "Tutti gli oltre 190 modelli gratuiti sono in produzione dietro un unico endpoint OpenAI-compatible. <register>Ottieni una chiave API</register> oppure <models>esplora il catalogo dei modelli</models> e filtra per gratuiti. Ricorda solo su quale piano sei quando compare un <c>429</c> o un <c>503</c>."
+        "CTA": "Tutti gli oltre 190 modelli gratuiti sono in produzione dietro un unico endpoint OpenAI-compatible. <register>Ottieni una chiave API</register> oppure <models>esplora il catalogo dei modelli</models> e filtra per gratuiti. Ricorda solo su quale piano sei quando compare un <c>429</c> o un <c>503</c>.",
+        "TLDR": "{appName} aggrega le quote gratuite di molti provider upstream in più di 190 modelli con un vero piano gratuito dietro un'unica chiave. Ogni modello gratuito consente circa 1 richiesta al minuto per utente; raggiungere il limite restituisce HTTP 429 con un header Retry-After, e i pool esauriti restituiscono un errore esplicito che tutti i provider sono occupati e si riprendono automaticamente. I modelli a pagamento fatturano a consumo a partire da $1.",
+        "FAQ_1_Q": "Quanti modelli gratuiti ha {appName}?",
+        "FAQ_1_A": "Più di 190 in ogni momento, su un catalogo di 200+ modelli. L'insieme esatto cambia man mano che i pool gratuiti upstream si esauriscono e si riprendono, e la lista in tempo reale è su unorouter.com/models.",
+        "FAQ_2_Q": "Quali sono i limiti di richieste del piano gratuito?",
+        "FAQ_2_A": "Circa 1 richiesta al minuto per modello per utente. Il limite restituisce HTTP 429 con un header Retry-After. Con 190+ modelli gratuiti, la risposta pratica è ruotare i modelli invece di aspettare.",
+        "FAQ_3_Q": "Serve una carta di credito per i modelli gratuiti?",
+        "FAQ_3_A": "No. Registrati con Discord o GitHub, crea una chiave e usa qualsiasi modello con il suffisso :free. Un bonus una tantum di $1 per la verifica Discord può essere speso sui modelli a pagamento."
       },
       "UNOROUTER_VS_OPENROUTER": {
         "TITLE": "{appName} contro OpenRouter: un confronto onesto",
@@ -924,7 +932,14 @@
         "P_MIGRATE": "Punta il tuo client su <c>https://api.unorouter.com/v1</c> e tieni il tuo codice. La stessa chiave funziona nel campo endpoint personalizzato di un client di chat, quindi non c'è un secondo account da gestire.",
         "H_VERDICT": "Come scegliere",
         "P_VERDICT": "Fai solo codice e vuoi il catalogo più ampio? OpenRouter va bene. Routing self-hosted senza ricarico? Usa LiteLLM. Una chiave che muove il tuo agente di codice e un vero client di chat? Quello è {appName}.",
-        "CTA": "Pronto a provarlo? <register>Crea un account gratuito</register> o <models>esplora i modelli</models>."
+        "CTA": "Pronto a provarlo? <register>Crea un account gratuito</register> o <models>esplora i modelli</models>.",
+        "TLDR": "{appName} e OpenRouter mettono entrambi 200+ modelli dietro un'unica chiave compatibile OpenAI. OpenRouter è solo API e closed source. {appName} aggiunge un client di chat e personaggi integrato sulla stessa chiave, pubblica l'intero stack sotto licenze OSI e serve la maggior parte dei modelli con un vero piano gratuito di circa 1 richiesta al minuto per modello. L'uso a pagamento è a consumo e i crediti non scadono mai.",
+        "FAQ_1_Q": "{appName} costa meno di OpenRouter?",
+        "FAQ_1_A": "Entrambi fatturano per token a prezzi di listino simili. OpenRouter aggiunge una commissione quando acquisti crediti. {appName} è a consumo senza commissioni di acquisto, i crediti non scadono mai e più di 190 modelli hanno un piano gratuito.",
+        "FAQ_2_Q": "Posso usare la stessa chiave per agenti di coding e chat di roleplay?",
+        "FAQ_2_A": "Sì. Una sola chiave {appName} funziona in Claude Code, Cline e OpenCode tramite l'API compatibile OpenAI, e lo stesso account include un client completo di chat con personaggi che si integra anche in SillyTavern o JanitorAI.",
+        "FAQ_3_Q": "Come passo da OpenRouter a {appName}?",
+        "FAQ_3_A": "Punta il tuo client su https://api.unorouter.com/v1 e tieni il tuo codice. L'API è compatibile OpenAI, i nomi dei modelli arrivano da GET /v1/models, e vengono serviti anche gli endpoint nativi di Anthropic e Gemini."
       },
       "BEST_OPENROUTER_ALTERNATIVES_2026": {
         "TITLE": "Le migliori alternative a OpenRouter nel 2026",
@@ -941,7 +956,38 @@
         "P_FOR_ROLEPLAY": "La chat di personaggi è un caso a sé. Vuoi un catalogo ampio per alternare tra un buon autore e un cavallo da lavoro economico, fatturazione a consumo perché le sessioni sono a raffiche, e una chiave che si inserisca in SillyTavern, Janitor.AI o Chub. I gateway puramente dev coprono la metà API ma non danno un client, e i piani a postazione combattono contro il ritmo a raffiche. {appName} copre entrambi con una sola chiave.",
         "H_VERDICT": "Come scegliere",
         "P_VERDICT": "Usi solo un laboratorio? Una chiave di singolo provider basta. Un team che vuole routing e governance davanti alla propria app? Un gateway dev headless. Vuoi una chiave che raggiunga molti modelli aggiornati, fatturi a consumo e funzioni nel codice e in un client di chat? Quello è {appName}. Scegli in base al tuo uso reale, non al numero grezzo di modelli.",
-        "CTA": "Vuoi una chiave per ogni modello? <register>Crea un account gratuito</register> o <models>esplora i modelli</models>."
+        "CTA": "Vuoi una chiave per ogni modello? <register>Crea un account gratuito</register> o <models>esplora i modelli</models>.",
+        "TLDR": "Le alternative concrete a OpenRouter nel 2026 si dividono in tre gruppi: gateway ospitati con una chiave per molti modelli come {appName}, proxy self-hosted come LiteLLM e chiavi di un singolo fornitore. {appName} serve 200+ modelli con un'unica chiave compatibile OpenAI, offre un piano gratuito sulla maggior parte di essi, fattura a consumo e pubblica l'intero stack come open source.",
+        "FAQ_1_Q": "Qual è la migliore alternativa gratuita a OpenRouter?",
+        "FAQ_1_A": "{appName} serve più di 190 modelli con un vero piano gratuito di circa 1 richiesta al minuto per modello, senza carta. Il piano gratuito di OpenRouter copre molti meno modelli e ha un tetto giornaliero.",
+        "FAQ_2_Q": "Le alternative a OpenRouter funzionano con SillyTavern e JanitorAI?",
+        "FAQ_2_A": "Qualsiasi gateway compatibile OpenAI sì. In SillyTavern usa l'URL base https://api.unorouter.com/v1, in JanitorAI usa l'endpoint completo https://api.unorouter.com/v1/chat/completions con la chiave corrispondente.",
+        "FAQ_3_Q": "Esiste un'alternativa open source a OpenRouter?",
+        "FAQ_3_A": "{appName} è open source da cima a fondo sotto licenze OSI, frontend, gateway, bot e sincronizzazione dei provider, su github.com/unorouter. Anche LiteLLM è open source, ma è un proxy in cui porti le tue chiavi, senza catalogo ospitato."
+      },
+      "OPEN_SOURCE_OPENROUTER_ALTERNATIVE": {
+        "TITLE": "{appName}: l'alternativa open source a OpenRouter",
+        "DESCRIPTION": "OpenRouter è closed source. {appName} fa lo stesso lavoro, una chiave e oltre 200 modelli, con l'intero stack pubblico sotto licenze OSI, self-hostabile e con un piano gratuito hosted per provarlo.",
+        "AUTHOR": "Il team di {appName}",
+        "INTRO": "Cercare un'alternativa open source a OpenRouter di solito significa una di tre cose: vuoi leggere il codice che gestisce i tuoi prompt, vuoi far girare il gateway da solo, o vuoi uscire da una scatola nera. {appName} copre tutte e tre. Stessa formula, una chiave e oltre 200 modelli, tutto lo stack pubblico.",
+        "H_WHY": "Perché l'open source conta in un gateway",
+        "P_WHY": "Un gateway sta tra la tua app e ogni modello che chiami, quindi vede ogni prompt e ogni risposta. Con un gateway chiuso ti fidi di una pagina sulla privacy. Con uno aperto puoi controllare cosa viene registrato, come vengono conservate le chiavi e come vengono instradate le richieste, prima che qualcosa di sensibile lasci la tua macchina.",
+        "H_WHAT": "Cosa è davvero aperto",
+        "P_WHAT": "Tutto è pubblico su <gh>GitHub</gh> sotto licenze OSI: il frontend web con il client di chat, il gateway stesso, il bot Discord e la sincronizzazione dei provider che tiene aggiornato il catalogo. Non è un SDK sottile attorno a un nucleo chiuso. Il prodotto in produzione è il repo.",
+        "H_COMPARE": "Contro le scelte più comuni",
+        "P_COMPARE": "OpenRouter ha il catalogo più ampio, ma ogni sua riga è chiusa. LiteLLM è davvero open e un solido proxy self-hosted, ma è idraulica del tipo porta le tue chiavi: gestisci comunque gli account dei provider e non c'è un catalogo hosted. {appName} sta nel mezzo: aperto come LiteLLM, hosted con una chiave e oltre 200 modelli come OpenRouter.",
+        "H_SELF_HOST": "Fai self-hosting o usalo e basta",
+        "P_SELF_HOST": "Clona i repo e fai girare lo stack da solo, oppure punta qualsiasi client compatibile OpenAI a <c>https://api.unorouter.com/v1</c> e usa la versione hosted. Il piano gratuito hosted copre gran parte del catalogo, quindi puoi provare entrambe le strade prima di decidere.",
+        "H_VERDICT": "In breve",
+        "P_VERDICT": "Se ti serve solo routing locale sulle tue chiavi provider, LiteLLM è lo strumento più snello. Se vuoi un gateway hosted in stile OpenRouter di cui leggere, auditare e forkare l'intero stack, {appName} è quello che pubblica il suo codice.",
+        "CTA": "Pronto a provarlo? <register>Crea un account gratuito</register> o <models>sfoglia i modelli</models>.",
+        "TLDR": "{appName} è un'alternativa open source a OpenRouter: la stessa chiave unica per 200+ modelli, con l'intero stack pubblico sotto licenze OSI su github.com/unorouter. Puoi leggere come vengono gestiti i prompt, ospitare il gateway da solo o usare la versione ospitata, che serve la maggior parte dei modelli con un piano gratuito di circa 1 richiesta al minuto per modello e fattura l'uso a pagamento a consumo.",
+        "FAQ_1_Q": "{appName} è davvero completamente open source?",
+        "FAQ_1_A": "Sì. Il frontend web con il client di chat, il gateway, il bot Discord e la sincronizzazione dei provider sono tutti pubblici sotto licenze OSI su github.com/unorouter. Il prodotto ospitato gira sullo stesso codice.",
+        "FAQ_2_Q": "Posso ospitare {appName} da solo?",
+        "FAQ_2_A": "Sì. Clona i repository e fai girare lo stack per conto tuo, oppure punta qualsiasi client compatibile OpenAI all'endpoint ospitato https://api.unorouter.com/v1 e risparmiati il lavoro operativo.",
+        "FAQ_3_Q": "In cosa {appName} è diverso da LiteLLM?",
+        "FAQ_3_A": "LiteLLM è un proxy self-hosted in cui porti le chiavi dei provider e gestisci gli account da solo. {appName} è ospitato con una sola chiave, 200+ modelli e un piano gratuito, restando open source come LiteLLM."
       },
       "WHAT_IS_AN_LLM_GATEWAY": {
         "TITLE": "Cos'è un gateway LLM?",
@@ -958,7 +1004,14 @@
         "P_WHO_NEEDS_ONE": "Vuoi un gateway se usi più di un modello, prevedi di cambiare modello al variare di prezzi e qualità, o costruisci qualcosa che non dovrebbe essere cablato a un singolo laboratorio. Agenti di coding, app di chat, front-end di chat con personaggi e strumenti interni ne traggono tutti vantaggio. Se davvero chiami un solo modello da un solo provider e non prevedi mai di cambiare, una chiave diretta del provider è più semplice. Tutti gli altri risparmiano fatica reale con un gateway.",
         "H_VERDICT": "In breve",
         "P_VERDICT": "Un gateway LLM trasforma molti fornitori in un endpoint, una chiave e una fattura, così integri una volta e cambi modelli liberamente. {appName} è un gateway compatibile con OpenAI esattamente di questo stampo: una chiave raggiunge oltre 200 modelli per codice e chat allo stesso modo, con crediti a consumo che non scadono. Se tocchi più di un modello, un gateway è la base più pulita.",
-        "CTA": "Prova tu stesso un gateway: <register>crea un account gratuito</register> o <models>esplora i modelli</models>."
+        "CTA": "Prova tu stesso un gateway: <register>crea un account gratuito</register> o <models>esplora i modelli</models>.",
+        "TLDR": "Un gateway LLM è un'unica API davanti a molti fornitori di modelli: una chiave, una fattura, un endpoint, con routing e failover gestiti per te. {appName} è un gateway open source che serve 200+ modelli tramite un'API compatibile OpenAI, più gli endpoint nativi di Anthropic e Gemini, con un piano gratuito sulla maggior parte dei modelli e prezzi a consumo sul resto.",
+        "FAQ_1_Q": "Quando mi serve un gateway LLM invece di una chiave diretta del provider?",
+        "FAQ_1_A": "Quando usi più di una famiglia di modelli, vuoi il failover se un provider è giù o vuoi una sola fattura. Un gateway elimina gli account per fornitore e ti permette di cambiare modello modificando una sola stringa.",
+        "FAQ_2_Q": "Un gateway LLM aggiunge latenza?",
+        "FAQ_2_A": "Un hop in più, tipicamente decine di millisecondi, che lo streaming nasconde nella pratica. Le risposte lente arrivano molto più spesso dal modello stesso che dal gateway.",
+        "FAQ_3_Q": "Quali endpoint serve {appName}?",
+        "FAQ_3_A": "Compatibili OpenAI: /v1/chat/completions, /v1/responses e /v1/embeddings; nativo Anthropic: /v1/messages; nativo Gemini: /v1beta, tutto dietro un'unica chiave."
       },
       "HOW_TO_CONNECT_ANY_LLM_TO_SILLYTAVERN": {
         "TITLE": "Come collegare qualsiasi LLM a SillyTavern",
@@ -1913,6 +1966,28 @@
       "STEP_4_DESC": "Avvia la TUI con `hermes --tui` e inizia a lavorare.",
       "TS_1_DESC": "All''avvio Hermes rifiuta i modelli con meno di 64.000 token di contesto. Scegli un modello con contesto più ampio dalla pagina dei modelli di {appName}.",
       "TS_2_DESC": "Se il controllo `/v1/models` fallisce all'avvio, conferma che `model.base_url` termini con `/v1` e che `OPENAI_API_KEY` sia impostata in `~/.hermes/.env`."
+    },
+    "MCP": {
+      "META": {
+        "TITLE": "Guida alla configurazione del server MCP | {appName}",
+        "DESCRIPTION": "Collega qualsiasi client MCP a {appName} con il server unorouter-mcp. Cerca nel catalogo modelli in tempo reale, controlla i prezzi e chatta con qualsiasi modello da Claude Desktop o Claude Code.",
+        "KEYWORDS": "server MCP, Model Context Protocol, unorouter-mcp, {appName} MCP, Claude Desktop MCP, Claude Code MCP, catalogo modelli"
+      },
+      "BADGE": "Server MCP",
+      "TITLE": "Guida alla configurazione del server MCP",
+      "SUBTITLE": "Dai a qualsiasi client MCP accesso in tempo reale a {appName}: cerca nel catalogo modelli, controlla i prezzi e chatta con qualsiasi modello tramite il server unorouter-mcp.",
+      "OVERVIEW_DESC": "unorouter-mcp è un pacchetto npm che funziona come server MCP su stdio ed è pubblicato nel registro MCP ufficiale come com.unorouter/mcp. Espone tre strumenti: search_models filtra il catalogo in tempo reale con un'opzione free_only, get_pricing restituisce i prezzi di listino in USD per 1M di token e chat invia un prompt a qualsiasi modello. Il codice sorgente è su github.com/0-don/unorouter-mcp.",
+      "STEP_1_TITLE": "Ottieni una chiave API",
+      "STEP_1_DESC": "Crea una chiave su unorouter.com/token. Il server la legge dalla variabile d'ambiente UNOROUTER_API_KEY. UNOROUTER_BASE_URL è un override facoltativo dell'endpoint.",
+      "STEP_2_TITLE": "Aggiungi il server a Claude Desktop",
+      "STEP_2_DESC": "Aggiungi questo blocco al file di configurazione di Claude Desktop. npx scarica unorouter-mcp al primo avvio, quindi non c'è nulla da installare in anticipo.",
+      "STEP_3_TITLE": "Oppure registralo in Claude Code",
+      "STEP_3_DESC": "Un solo comando registra il server con la tua chiave.",
+      "STEP_4_TITLE": "Usa gli strumenti",
+      "STEP_4_DESC": "Chiedi al tuo client di trovare un modello, confrontare i prezzi o inviare un prompt a un modello. Chiamerà search_models, get_pricing e chat secondo necessità. Funziona qualsiasi client MCP che parla stdio.",
+      "GOTCHA_1": "I modelli con il suffisso :free non costano nulla. Aspettati un limite di circa 1 richiesta al minuto per modello gratuito.",
+      "GOTCHA_2": "UNOROUTER_API_KEY è obbligatoria. Imposta UNOROUTER_BASE_URL solo se punti il server a un altro endpoint.",
+      "GOTCHA_3": "I client MCP che supportano il registro possono installare il server con il nome di registro com.unorouter/mcp invece del comando npx."
     },
     "SILLYTAVERN": {
       "META": {

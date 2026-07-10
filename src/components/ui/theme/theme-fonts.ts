@@ -16,63 +16,75 @@ import {
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
+  display: "fallback",
   preload: false,
 });
 const geist = Geist({
   subsets: ["latin"],
   variable: "--font-geist",
+  display: "fallback",
   preload: false,
 });
 const manrope = Manrope({
   subsets: ["latin"],
   variable: "--font-manrope",
+  display: "fallback",
   preload: false,
 });
 const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
   variable: "--font-plus-jakarta",
+  display: "fallback",
   preload: false,
 });
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   variable: "--font-space-grotesk",
+  display: "fallback",
   preload: false,
 });
 const lexend = Lexend({
   subsets: ["latin"],
   variable: "--font-lexend",
+  display: "fallback",
   preload: false,
 });
 const atkinson = Atkinson_Hyperlegible({
   subsets: ["latin"],
   weight: ["400", "700"],
   variable: "--font-atkinson",
+  display: "fallback",
   preload: false,
 });
 const sourceSerif = Source_Serif_4({
   subsets: ["latin"],
   variable: "--font-source-serif",
+  display: "fallback",
   preload: false,
 });
 const geistMono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-geist-mono",
+  display: "fallback",
   preload: false,
 });
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-jetbrains-mono",
+  display: "fallback",
   preload: false,
 });
 const ibmPlexMono = IBM_Plex_Mono({
   subsets: ["latin"],
   weight: ["400", "500", "700"],
   variable: "--font-ibm-plex-mono",
+  display: "fallback",
   preload: false,
 });
 const robotoMono = Roboto_Mono({
   subsets: ["latin"],
   variable: "--font-roboto-mono",
+  display: "fallback",
   preload: false,
 });
 

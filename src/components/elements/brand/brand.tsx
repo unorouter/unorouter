@@ -7,8 +7,11 @@ import Image from "next/image";
 const appName = env.appName;
 
 export function LogoImage(
-  props: Omit<React.ComponentProps<typeof Image>, "src" | "alt">,
+  props: Omit<React.ComponentProps<typeof Image>, "src" | "alt"> & {
+    alt?: string;
+  },
 ) {
+  const size = Number(props.width ?? 32);
   return (
     <Image
       src="/images/logo/logo.svg"
@@ -16,6 +19,7 @@ export function LogoImage(
       width={32}
       height={32}
       {...props}
+      style={{ width: size, height: size, ...props.style }}
       className={cn("rounded-full", props.className)}
     />
   );

@@ -1061,7 +1061,6 @@ export const privateRoutes = {
     "/affiliate",
     "/settings",
     "/consent",
-    "/playground",
     "/offline",
     "/ai-api-model-tester/history",
   ],

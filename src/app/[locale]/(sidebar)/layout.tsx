@@ -3,8 +3,13 @@ import { AuthRedirectCleanup } from "@/components/provider/app/auth-redirect-cle
 import { APP_VALUES } from "@/lib/config/constants";
 import { rpc } from "@/lib/rpc";
 import { getPageMetadata } from "@/lib/seo/metadata";
-import { redirectToLogin, serverLocale, setCookies } from "@/lib/utils/server";
+import { redirectToLogin, serverLocale } from "@/lib/utils/server";
+import getQueryClient from "@/lib/react-query/client";
+import { queryKeys } from "@/lib/react-query/keys";
+import { dehydrateOnly, prefetchElysia } from "@/lib/react-query/prefetch";
+import { HydrationBoundary } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
+import { Suspense } from "react";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -25,13 +30,37 @@ export async function generateMetadata(props: {
   });
 }
 
-export default async function DashboardLayout(props: DashboardLayoutProps) {
-  const response = await rpc.api.auth.account.self.get(await setCookies());
-  if (response.status !== 200) await redirectToLogin();
+async function AuthGate(props: DashboardLayoutProps) {
+  const queryClient = getQueryClient();
+  await prefetchElysia(queryClient, queryKeys.auth(), (cookies) =>
+    rpc.api.auth.account.self.get(cookies),
+  );
+  if (!queryClient.getQueryData(queryKeys.auth())) await redirectToLogin();
+
+  await prefetchElysia(queryClient, queryKeys.subscriptionSelf(), (cookies) =>
+    rpc.api.billing.core["subscription-self"].get(cookies),
+  );
 
   return (
-    <SidebarLayout before={<AuthRedirectCleanup />}>
-      {props.children}
-    </SidebarLayout>
+    <HydrationBoundary
+      state={dehydrateOnly(queryClient, [
+        queryKeys.auth(),
+        queryKeys.subscriptionSelf(),
+      ])}
+    >
+      <SidebarLayout before={<AuthRedirectCleanup />}>
+        {props.children}
+      </SidebarLayout>
+    </HydrationBoundary>
+  );
+}
+
+// The Suspense gate keeps the cookie-based auth check out of the static
+// shell; it also covers every sidebar page's own request-bound prefetches.
+export default function DashboardLayout(props: DashboardLayoutProps) {
+  return (
+    <Suspense>
+      <AuthGate>{props.children}</AuthGate>
+    </Suspense>
   );
 }

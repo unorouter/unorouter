@@ -107,6 +107,11 @@ export enum Vendor {
   EUROLLM = "eurollm",
   DICTA = "dicta",
   VOYAGE = "voyage",
+  ABLITERATION = "abliteration",
+  ORCAROUTER = "orcarouter",
+  REGOLO = "regolo",
+  SARVAM = "sarvam",
+  TYPHOON = "typhoon",
 }
 
 export enum OS {

@@ -1,5 +1,5 @@
 import { Link } from "@/i18n/navigation";
-import { getPricingSummary } from "@/lib/api/pricing-cache";
+import { getCachedPricing } from "@/lib/api/cached";
 import { getTranslations } from "next-intl/server";
 import { Icon } from "@/components/ui/icon";
 import {
@@ -15,7 +15,7 @@ const vendorOf = (m: { vendor: string | { name?: string } }): string =>
 
 export async function ChatSection() {
   const t = await getTranslations();
-  const { models } = await getPricingSummary();
+  const models = (await getCachedPricing()).models;
   const NON_CHAT = /embed|bge|rerank|whisper|tts|moderation|^auto/i;
   const freeText = models.filter(
     (m) => m.type === "text" && m.isFree && !NON_CHAT.test(m.name),

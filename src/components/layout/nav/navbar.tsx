@@ -3,8 +3,6 @@
 import { CompanyName, LogoImage } from "@/components/elements/brand/brand";
 import { LoginLink } from "@/components/elements/brand/login-link";
 import { Icon } from "@/components/ui/icon";
-import { UserAvatar } from "@/components/layout/user/user-avatar";
-import { UserDropdown } from "@/components/layout/user/user-dropdown";
 import { LanguageToggle } from "@/components/toggle/language-toggle";
 import { ThemeToggle } from "@/components/toggle/theme-toggle";
 import {
@@ -17,6 +15,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import { GuideIcon } from "@/components/pages/docs/guide-icon";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
+import { useHydrated } from "@/hooks/ui/use-hydrated";
 import { Link, usePathname } from "@/i18n/navigation";
 import { analytics } from "@/lib/analytics";
 import { APP_VALUES, type TranslationKey } from "@/lib/config/constants";
@@ -26,13 +25,18 @@ import { Fragment, useRef } from "react";
 import { MobileNav } from "./mobile-nav";
 import { isActiveLink, navigation, type NavigationItem } from "./navigation";
 
-export function Navbar() {
+export function Navbar(props: { authSlot?: React.ReactNode }) {
   const t = useTranslations();
   const pathname = usePathname();
   const authQuery = useAuthQuery();
+  const hydrated = useHydrated();
   const navRowRef = useRef<HTMLDivElement>(null);
 
-  const navItems = navigation(!!authQuery.data).filter((item) => !item.hidden);
+  // Gate on hydrated: the first client render must match the prerendered
+  // logged-out shell or React regenerates the whole tree.
+  const navItems = navigation(hydrated && !!authQuery.data).filter(
+    (item) => !item.hidden,
+  );
   const docsItem = navItems.find((item) => item.name === "NAV.DOCS");
   const dropdownItems = navItems.filter(
     (item) => item.submenu && item.name !== "NAV.DOCS",
@@ -62,13 +66,13 @@ export function Navbar() {
         <div className="flex items-center gap-2 md:hidden">
           <MobileNav />
           <Link href="/" className="group flex items-center gap-2">
-            <LogoImage />
+            <LogoImage alt="" />
             <CompanyName className="text-foreground group-hover:text-muted-foreground text-lg transition-colors" />
           </Link>
         </div>
 
         <Link href="/" className="group hidden items-center gap-2 md:flex">
-          <LogoImage />
+          <LogoImage alt="" />
           <CompanyName className="text-foreground group-hover:text-muted-foreground text-lg transition-colors" />
         </Link>
 
@@ -224,13 +228,7 @@ export function Navbar() {
         <div className="flex items-center gap-4">
           <LanguageToggle />
           <ThemeToggle />
-          {authQuery.data ? (
-            <UserDropdown side="bottom" align="end">
-              <button className="cursor-pointer focus:outline-none">
-                <UserAvatar />
-              </button>
-            </UserDropdown>
-          ) : authQuery.isLoading ? null : (
+          {props.authSlot ?? (
             <LoginLink className="text-muted-foreground hover:text-foreground text-[11px] font-bold tracking-wider uppercase transition-colors">
               {t("NAV.LOG_IN")}
             </LoginLink>

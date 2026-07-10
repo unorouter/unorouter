@@ -1,10 +1,7 @@
-import { prefetchElysia } from "@/lib/react-query/prefetch";
 import { IntegrationBanner } from "@/components/pages/navbar/home/integration-banner";
 import { Pricing } from "@/components/pages/navbar/pricing/pricing";
 import { APP_VALUES } from "@/lib/config/constants";
-import getQueryClient from "@/lib/react-query/client";
-import { queryKeys } from "@/lib/react-query/keys";
-import { rpc } from "@/lib/rpc";
+import { getDehydratedPlans } from "@/lib/api/cached";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
 import {
@@ -36,18 +33,8 @@ export async function generateMetadata(props: {
 export default async function PricingPage(props: {
   params: Promise<{ locale: string }>;
 }) {
-  const queryClient = getQueryClient();
   const locale = await serverLocale(props);
   const t = await getTranslations({ locale });
-
-  await Promise.all([
-    prefetchElysia(queryClient, queryKeys.subscriptionPlans(), () =>
-      rpc.api.models.pricing.subscriptions.get(),
-    ),
-    prefetchElysia(queryClient, queryKeys.topUpInfo(), () =>
-      rpc.api.billing.core["topup-info"].get(),
-    ),
-  ]);
 
   const faqEntries: FAQEntry[] = ([1, 2, 3, 4, 5, 6, 7, 8] as const).map(
     (n) => ({
@@ -73,7 +60,7 @@ export default async function PricingPage(props: {
           description: t("PRICING.META.DESCRIPTION"),
         })}
       />
-      <HydrationBoundary state={dehydrate(queryClient)}>
+      <HydrationBoundary state={await getDehydratedPlans()}>
         <Pricing />
       </HydrationBoundary>
       <IntegrationBanner />

@@ -1,7 +1,6 @@
 import { getPathname } from "@/i18n/navigation";
 import { type Pathname, routing } from "@/i18n/routing";
 import type { SeoTimestampSlug } from "@/i18n/registry";
-import { dayjs } from "@/lib/utils/format/date";
 import type { Metadata } from "next";
 import type { Locale } from "next-intl";
 import { LANGUAGES, LOCALES } from "../config/constants";
@@ -41,7 +40,7 @@ export function ogBadge(
     size: "og",
     model: opts.model,
     models: opts.models,
-    v: Number(dayjs.utc().format("YYYYMMDD")),
+    v: Number(process.env.NEXT_PUBLIC_BUILD_DATE?.replaceAll("-", "")) || 1,
   });
 }
 

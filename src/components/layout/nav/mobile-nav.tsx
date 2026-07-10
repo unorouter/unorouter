@@ -12,6 +12,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
+import { useHydrated } from "@/hooks/ui/use-hydrated";
 import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { expandedNavAtom, toggleNavigationAtom } from "@/store/client-store";
@@ -31,7 +32,10 @@ export function MobileNav() {
     setOpen(false);
   }
 
-  const navItems = navigation(!!authQuery.data).filter((item) => !item.hidden);
+  const hydrated = useHydrated();
+  const navItems = navigation(hydrated && !!authQuery.data).filter(
+    (item) => !item.hidden,
+  );
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -47,7 +51,7 @@ export function MobileNav() {
               onClick={handleNavigate}
               className="flex items-center gap-2"
             >
-              <LogoImage />
+              <LogoImage alt="" />
               <CompanyName className="text-lg" />
             </Link>
           </SheetTitle>

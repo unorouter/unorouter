@@ -1,15 +1,14 @@
-import { prefetchElysia } from "@/lib/react-query/prefetch";
 import { Home } from "@/components/pages/navbar/home/home";
 import { APP_VALUES } from "@/lib/config/constants";
-import getQueryClient from "@/lib/react-query/client";
-import { queryKeys } from "@/lib/react-query/keys";
-import { rpc } from "@/lib/rpc";
+import {
+  getCachedPricing,
+  getDehydratedStatsHistory,
+} from "@/lib/api/cached";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
 import { buildSoftwareApplicationSchema } from "@/lib/seo/structured-data";
-import type { buildPricingSummary } from "@/lib/api/pricing";
 import { serverLocale } from "@/lib/utils/server";
-import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
+import { HydrationBoundary } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
 
 export async function generateMetadata(props: {
@@ -30,25 +29,17 @@ export async function generateMetadata(props: {
 export default async function HomePage(props: {
   params: Promise<{ locale: string }>;
 }) {
-  const queryClient = getQueryClient();
   const locale = await serverLocale(props);
   const t = await getTranslations({ locale });
 
-  await Promise.all([
-    prefetchElysia(queryClient, queryKeys.pricing(), () =>
-      rpc.api.models.pricing.get(),
-    ),
-    prefetchElysia(queryClient, queryKeys.statsHistory(), () =>
-      rpc.api.ops.stats.history.get(),
-    ),
-    prefetchElysia(queryClient, queryKeys.subscriptionPlans(), () =>
-      rpc.api.models.pricing.subscriptions.get(),
-    ),
+  // Pricing is fetched for the hero counts only and deliberately NOT put in
+  // the query cache: dehydrating 700+ full model objects added ~2.3MB of RSC
+  // flight payload to the homepage HTML (197KB brotli). The model ticker
+  // (ssr:false, renders null until data) fetches it client-side after load.
+  const [pricing, statsState] = await Promise.all([
+    getCachedPricing().catch(() => null),
+    getDehydratedStatsHistory(),
   ]);
-
-  const pricing = queryClient.getQueryData<
-    ReturnType<typeof buildPricingSummary>
-  >(queryKeys.pricing());
 
   return (
     <>
@@ -60,7 +51,7 @@ export default async function HomePage(props: {
           modelCount: pricing?.modelCount,
         })}
       />
-      <HydrationBoundary state={dehydrate(queryClient)}>
+      <HydrationBoundary state={statsState}>
         <Home
           counts={{
             modelCount: pricing?.modelCount ?? 0,

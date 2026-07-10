@@ -620,6 +620,7 @@
     "RSS_LINK": "Nguồn RSS",
     "READ_TIME": "{minutes} phút đọc",
     "ON_THIS_PAGE": "Trên trang này",
+    "FAQ_TITLE": "Câu hỏi thường gặp",
     "PREV_POST": "Bài trước",
     "NEXT_POST": "Bài tiếp theo",
     "RELATED": "Bài viết liên quan",
@@ -907,7 +908,14 @@
         "H_HONEST": "Những gì chúng tôi đã không làm",
         "P_HONEST": "Chúng tôi không thêm reverse proxy phục vụ lại các mô hình hàng đầu của OpenAI hay Claude mà không có phép. Chúng tôi không kéo vào các dịch vụ gom key cá nhân với token không thể chuyển nhượng, hay những dịch vụ pool-of-pools chuyên gom gặt và xoay vòng key của người khác. Chúng tồn tại, chúng đầy cám dỗ, và chúng chính là mớ chợ đen lộn xộn mà gateway này sinh ra để thay thế. Mỗi nhà cung cấp trong danh sách đều cho đi gói miễn phí của mình một cách có chủ đích, theo điều khoản riêng của họ. Nếu một nguồn không vượt qua được ngưỡng đó, nó không có mặt ở đây.",
         "H_TRY": "Dùng thử",
-        "CTA": "Toàn bộ hơn 190 mô hình miễn phí đang hoạt động sau một endpoint OpenAI-compatible duy nhất. <register>Lấy một khóa API</register> hoặc <models>duyệt danh mục mô hình</models> và lọc theo miễn phí. Chỉ cần nhớ bạn đang ở bậc nào khi một <c>429</c> hoặc <c>503</c> xuất hiện."
+        "CTA": "Toàn bộ hơn 190 mô hình miễn phí đang hoạt động sau một endpoint OpenAI-compatible duy nhất. <register>Lấy một khóa API</register> hoặc <models>duyệt danh mục mô hình</models> và lọc theo miễn phí. Chỉ cần nhớ bạn đang ở bậc nào khi một <c>429</c> hoặc <c>503</c> xuất hiện.",
+        "TLDR": "{appName} gom các suất miễn phí từ nhiều nhà cung cấp thượng nguồn thành hơn 190 mô hình có bậc miễn phí thực sự sau một khóa duy nhất. Mỗi mô hình miễn phí cho phép khoảng 1 yêu cầu mỗi phút cho mỗi người dùng; chạm giới hạn sẽ trả về HTTP 429 kèm header Retry-After, còn các pool cạn sẽ trả về lỗi rõ ràng rằng tất cả nhà cung cấp đang bận và tự phục hồi. Mô hình trả phí tính theo mức dùng từ $1.",
+        "FAQ_1_Q": "{appName} có bao nhiêu mô hình miễn phí?",
+        "FAQ_1_A": "Hơn 190 tại bất kỳ thời điểm nào, trong danh mục 200+ mô hình. Tập chính xác thay đổi khi các pool miễn phí thượng nguồn cạn rồi phục hồi, và danh sách trực tiếp có tại unorouter.com/models.",
+        "FAQ_2_Q": "Giới hạn tốc độ của bậc miễn phí là gì?",
+        "FAQ_2_A": "Khoảng 1 yêu cầu mỗi phút cho mỗi mô hình với mỗi người dùng. Chạm giới hạn sẽ trả về HTTP 429 kèm header Retry-After. Với 190+ mô hình miễn phí, cách thực tế là xoay vòng mô hình thay vì chờ.",
+        "FAQ_3_Q": "Tôi có cần thẻ tín dụng cho các mô hình miễn phí không?",
+        "FAQ_3_A": "Không. Đăng ký bằng Discord hoặc GitHub, tạo một khóa và dùng bất kỳ mô hình nào có hậu tố :free. Khoản thưởng xác minh Discord một lần trị giá $1 có thể dùng cho các mô hình trả phí."
       },
       "UNOROUTER_VS_OPENROUTER": {
         "TITLE": "{appName} so với OpenRouter: một so sánh trung thực",
@@ -924,7 +932,14 @@
         "P_MIGRATE": "Trỏ client của bạn tới <c>https://api.unorouter.com/v1</c> và giữ nguyên mã. Cùng khóa đó hoạt động trong ô endpoint tùy chỉnh của một client chat, nên không có tài khoản thứ hai để quản lý.",
         "H_VERDICT": "Chọn thế nào",
         "P_VERDICT": "Chỉ viết mã và muốn danh mục rộng nhất? OpenRouter ổn. Định tuyến tự lưu trữ không phụ phí? Dùng LiteLLM. Một khóa vận hành agent lập trình của bạn và một client chat thực thụ? Đó là {appName}.",
-        "CTA": "Sẵn sàng thử chưa? <register>Tạo tài khoản miễn phí</register> hoặc <models>duyệt các mô hình</models>."
+        "CTA": "Sẵn sàng thử chưa? <register>Tạo tài khoản miễn phí</register> hoặc <models>duyệt các mô hình</models>.",
+        "TLDR": "{appName} và OpenRouter đều đặt 200+ mô hình sau một khóa tương thích OpenAI duy nhất. OpenRouter chỉ có API và đóng mã nguồn. {appName} bổ sung client chat và nhân vật tích hợp trên cùng khóa đó, công bố toàn bộ stack theo giấy phép OSI, và phục vụ phần lớn mô hình ở bậc miễn phí thực sự, khoảng 1 yêu cầu mỗi phút cho mỗi mô hình. Sử dụng trả phí tính theo mức dùng và tín dụng không bao giờ hết hạn.",
+        "FAQ_1_Q": "{appName} có rẻ hơn OpenRouter không?",
+        "FAQ_1_A": "Cả hai đều tính phí theo token với giá niêm yết tương đương. OpenRouter thu thêm phí khi bạn mua tín dụng. {appName} tính theo mức dùng, không phí mua, tín dụng không bao giờ hết hạn, và hơn 190 mô hình có bậc miễn phí.",
+        "FAQ_2_Q": "Tôi có thể dùng cùng một khóa cho agent lập trình và chat nhập vai không?",
+        "FAQ_2_A": "Có. Một khóa {appName} hoạt động trong Claude Code, Cline và OpenCode qua API tương thích OpenAI, và cùng tài khoản đó bao gồm một client chat nhân vật đầy đủ, cũng cắm được vào SillyTavern hoặc JanitorAI.",
+        "FAQ_3_Q": "Làm sao để chuyển từ OpenRouter sang {appName}?",
+        "FAQ_3_A": "Trỏ client của bạn tới https://api.unorouter.com/v1 và giữ nguyên mã. API tương thích OpenAI, tên mô hình lấy từ GET /v1/models, và các endpoint gốc của Anthropic và Gemini cũng được phục vụ."
       },
       "BEST_OPENROUTER_ALTERNATIVES_2026": {
         "TITLE": "Các lựa chọn thay thế OpenRouter tốt nhất năm 2026",
@@ -941,7 +956,38 @@
         "P_FOR_ROLEPLAY": "Chat nhân vật là một trường hợp riêng. Bạn muốn một danh mục rộng để đổi giữa một cây bút mạnh và một con ngựa thồ rẻ, tính phí theo mức dùng vì các phiên diễn ra theo đợt, và một khóa khớp vào SillyTavern, Janitor.AI hoặc Chub. Các cổng thuần dev che nửa phần API nhưng không cho client, và các gói theo ghế chống lại nhịp theo đợt. {appName} bao trùm cả hai bằng một khóa.",
         "H_VERDICT": "Chọn thế nào",
         "P_VERDICT": "Chỉ dùng một phòng thí nghiệm? Một khóa nhà cung cấp đơn là đủ. Một đội muốn định tuyến và quản trị trước ứng dụng của mình? Một cổng dev headless. Muốn một khóa vươn tới nhiều mô hình mới, tính phí theo mức dùng, và chạy trong mã lẫn một client chat? Đó là {appName}. Chọn theo mục đích thực của bạn, không theo con số mô hình thô.",
-        "CTA": "Muốn một khoá cho mọi mô hình? <register>Tạo tài khoản miễn phí</register> hoặc <models>duyệt các mô hình</models>."
+        "CTA": "Muốn một khoá cho mọi mô hình? <register>Tạo tài khoản miễn phí</register> hoặc <models>duyệt các mô hình</models>.",
+        "TLDR": "Các lựa chọn thay thế OpenRouter thực tế trong năm 2026 chia thành ba nhóm: gateway được lưu trữ sẵn với một khóa cho nhiều mô hình như {appName}, proxy tự lưu trữ như LiteLLM, và khóa của từng nhà cung cấp riêng lẻ. {appName} phục vụ 200+ mô hình qua một khóa tương thích OpenAI, chạy bậc miễn phí trên phần lớn trong số đó, tính phí theo mức dùng và công bố toàn bộ stack dưới dạng mã nguồn mở.",
+        "FAQ_1_Q": "Lựa chọn thay thế OpenRouter miễn phí tốt nhất là gì?",
+        "FAQ_1_A": "{appName} phục vụ hơn 190 mô hình với bậc miễn phí thực sự, khoảng 1 yêu cầu mỗi phút cho mỗi mô hình, không cần thẻ. Bậc miễn phí của OpenRouter chỉ phủ ít mô hình hơn nhiều và có giới hạn theo ngày.",
+        "FAQ_2_Q": "Các lựa chọn thay thế OpenRouter có hoạt động với SillyTavern và JanitorAI không?",
+        "FAQ_2_A": "Bất kỳ gateway tương thích OpenAI nào cũng được. Trong SillyTavern dùng URL gốc https://api.unorouter.com/v1, trong JanitorAI dùng endpoint đầy đủ https://api.unorouter.com/v1/chat/completions với khóa tương ứng.",
+        "FAQ_3_Q": "Có lựa chọn thay thế OpenRouter mã nguồn mở không?",
+        "FAQ_3_A": "{appName} là mã nguồn mở từ đầu đến cuối theo giấy phép OSI, gồm frontend, gateway, bot và đồng bộ nhà cung cấp, tại github.com/unorouter. LiteLLM cũng là mã nguồn mở nhưng là proxy tự mang khóa riêng, không có danh mục được lưu trữ sẵn."
+      },
+      "OPEN_SOURCE_OPENROUTER_ALTERNATIVE": {
+        "TITLE": "{appName}: lựa chọn mã nguồn mở thay thế OpenRouter",
+        "DESCRIPTION": "OpenRouter là mã nguồn đóng. {appName} làm đúng công việc một khóa, hơn 200 mô hình đó với toàn bộ stack công khai theo giấy phép OSI, có thể tự host, kèm gói miễn phí được host sẵn để dùng thử.",
+        "AUTHOR": "Đội ngũ {appName}",
+        "INTRO": "Tìm một lựa chọn mã nguồn mở thay thế OpenRouter thường vì một trong ba lý do: bạn muốn đọc mã xử lý prompt của mình, muốn tự vận hành gateway, hoặc muốn thoát khỏi hộp đen. {appName} đáp ứng cả ba. Vẫn là một khóa, hơn 200 mô hình, toàn bộ stack công khai.",
+        "H_WHY": "Vì sao mã nguồn mở quan trọng với một gateway",
+        "P_WHY": "Gateway nằm giữa ứng dụng của bạn và mọi mô hình bạn gọi, nên nó thấy mọi prompt và mọi phản hồi. Với gateway đóng, bạn chỉ có thể tin vào một trang chính sách riêng tư. Với gateway mở, bạn có thể kiểm tra những gì được ghi log, khóa được lưu ra sao và request được định tuyến thế nào, trước khi bất kỳ dữ liệu nhạy cảm nào rời khỏi máy của bạn.",
+        "H_WHAT": "Những gì thực sự mở",
+        "P_WHAT": "Mọi thứ đều công khai trên <gh>GitHub</gh> theo giấy phép OSI: frontend web kèm trình chat, bản thân gateway, bot Discord và bộ đồng bộ nhà cung cấp giữ cho danh mục luôn mới. Đây không phải một SDK mỏng bọc quanh lõi đóng. Sản phẩm đang chạy chính là repo.",
+        "H_COMPARE": "So với những lựa chọn quen thuộc",
+        "P_COMPARE": "OpenRouter có danh mục rộng nhất, nhưng từng dòng của nó đều đóng. LiteLLM mở thật sự và là một proxy tự host vững chắc, nhưng chỉ là hệ thống ống nước kiểu tự mang khóa của bạn: bạn vẫn phải quản lý tài khoản nhà cung cấp và không có danh mục được host sẵn. {appName} đứng giữa hai bên: mở như LiteLLM, được host với một khóa và hơn 200 mô hình như OpenRouter.",
+        "H_SELF_HOST": "Tự host hoặc dùng ngay",
+        "P_SELF_HOST": "Clone các repo và tự chạy stack, hoặc trỏ bất kỳ client tương thích OpenAI nào tới <c>https://api.unorouter.com/v1</c> để dùng bản được host. Gói miễn phí được host bao phủ phần lớn danh mục, nên bạn có thể thử cả hai hướng trước khi quyết định.",
+        "H_VERDICT": "Tóm gọn",
+        "P_VERDICT": "Nếu bạn chỉ cần định tuyến cục bộ trên khóa nhà cung cấp của riêng mình, LiteLLM là công cụ gọn nhẹ hơn. Nếu bạn muốn một gateway được host kiểu OpenRouter mà bạn có thể đọc, kiểm toán và fork toàn bộ stack, {appName} chính là bên công bố mã nguồn của mình.",
+        "CTA": "Sẵn sàng dùng thử? <register>Tạo tài khoản miễn phí</register> hoặc <models>xem các mô hình</models>.",
+        "TLDR": "{appName} là lựa chọn thay thế OpenRouter mã nguồn mở: vẫn một khóa duy nhất cho 200+ mô hình, với toàn bộ stack công khai theo giấy phép OSI tại github.com/unorouter. Bạn có thể đọc cách prompt được xử lý, tự lưu trữ gateway, hoặc dùng bản được lưu trữ sẵn, vốn phục vụ phần lớn mô hình ở bậc miễn phí khoảng 1 yêu cầu mỗi phút cho mỗi mô hình và tính phí phần trả phí theo mức dùng.",
+        "FAQ_1_Q": "{appName} có thực sự là mã nguồn mở hoàn toàn không?",
+        "FAQ_1_A": "Có. Frontend web với client chat, gateway, bot Discord và đồng bộ nhà cung cấp đều công khai theo giấy phép OSI tại github.com/unorouter. Sản phẩm được lưu trữ chạy trên chính mã đó.",
+        "FAQ_2_Q": "Tôi có thể tự lưu trữ {appName} không?",
+        "FAQ_2_A": "Có. Clone các repository và tự chạy stack, hoặc trỏ bất kỳ client tương thích OpenAI nào tới endpoint được lưu trữ https://api.unorouter.com/v1 để khỏi phải lo vận hành.",
+        "FAQ_3_Q": "{appName} khác LiteLLM ở điểm nào?",
+        "FAQ_3_A": "LiteLLM là proxy tự lưu trữ, nơi bạn tự mang khóa nhà cung cấp và tự quản lý tài khoản. {appName} được lưu trữ sẵn với một khóa, 200+ mô hình và bậc miễn phí, trong khi vẫn là mã nguồn mở như LiteLLM."
       },
       "WHAT_IS_AN_LLM_GATEWAY": {
         "TITLE": "Cổng LLM là gì?",
@@ -958,7 +1004,14 @@
         "P_WHO_NEEDS_ONE": "Bạn cần một cổng nếu bạn dùng nhiều hơn một mô hình, dự định đổi mô hình khi giá và chất lượng thay đổi, hoặc xây bất cứ thứ gì không nên bị gắn cứng vào một phòng thí nghiệm duy nhất. Tác nhân lập trình, ứng dụng chat, giao diện chat nhân vật và công cụ nội bộ đều hưởng lợi. Nếu bạn thực sự chỉ gọi một mô hình từ một nhà cung cấp và không bao giờ định đổi, một khóa nhà cung cấp trực tiếp thì đơn giản hơn. Mọi người còn lại tiết kiệm công sức thực sự với một cổng.",
         "H_VERDICT": "Tóm lại",
         "P_VERDICT": "Cổng LLM biến nhiều nhà cung cấp thành một điểm cuối, một khoá và một hoá đơn, nên bạn tích hợp một lần và đổi mô hình tự do. {appName} là một cổng tương thích OpenAI đúng khuôn đó: một khoá chạm tới hơn 200 mô hình cho mã và chat như nhau, với tín dụng trả theo dùng không hết hạn. Nếu bạn chạm hơn một mô hình, một cổng là nền tảng sạch hơn.",
-        "CTA": "Tự thử một cổng: <register>tạo tài khoản miễn phí</register> hoặc <models>duyệt các mô hình</models>."
+        "CTA": "Tự thử một cổng: <register>tạo tài khoản miễn phí</register> hoặc <models>duyệt các mô hình</models>.",
+        "TLDR": "Gateway LLM là một API duy nhất đứng trước nhiều nhà cung cấp mô hình: một khóa, một hóa đơn, một endpoint, với việc định tuyến và chuyển dự phòng được lo sẵn cho bạn. {appName} là gateway mã nguồn mở phục vụ 200+ mô hình qua API tương thích OpenAI, cộng thêm các endpoint gốc của Anthropic và Gemini, với bậc miễn phí trên phần lớn mô hình và giá theo mức dùng cho phần còn lại.",
+        "FAQ_1_Q": "Khi nào tôi cần gateway LLM thay vì khóa trực tiếp của nhà cung cấp?",
+        "FAQ_1_A": "Khi bạn dùng nhiều hơn một họ mô hình, muốn chuyển dự phòng khi một nhà cung cấp sập, hoặc muốn một hóa đơn duy nhất. Gateway loại bỏ tài khoản riêng cho từng nhà cung cấp và cho phép đổi mô hình chỉ bằng cách thay một chuỗi.",
+        "FAQ_2_Q": "Gateway LLM có làm tăng độ trễ không?",
+        "FAQ_2_A": "Thêm một chặng, thường chỉ vài chục mili giây, mà streaming trên thực tế che lấp được. Phản hồi chậm đến từ chính mô hình thường xuyên hơn nhiều so với từ gateway.",
+        "FAQ_3_Q": "{appName} phục vụ những endpoint nào?",
+        "FAQ_3_A": "Tương thích OpenAI gồm /v1/chat/completions, /v1/responses và /v1/embeddings, Anthropic gốc /v1/messages, và Gemini gốc /v1beta, tất cả sau một khóa duy nhất."
       },
       "HOW_TO_CONNECT_ANY_LLM_TO_SILLYTAVERN": {
         "TITLE": "Cách kết nối bất kỳ LLM nào với SillyTavern",
@@ -1913,6 +1966,28 @@
       "STEP_4_DESC": "Khởi động TUI bằng `hermes --tui` và bắt đầu làm việc.",
       "TS_1_DESC": "Hermes từ chối các mô hình dưới 64.000 token ngữ cảnh khi khởi động. Hãy chọn một mô hình có ngữ cảnh lớn hơn từ trang mô hình của {appName}.",
       "TS_2_DESC": "Nếu khởi động thất bại ở bước kiểm tra `/v1/models`, hãy xác nhận `model.base_url` kết thúc bằng `/v1` và `OPENAI_API_KEY` được đặt trong `~/.hermes/.env`."
+    },
+    "MCP": {
+      "META": {
+        "TITLE": "Hướng dẫn thiết lập máy chủ MCP | {appName}",
+        "DESCRIPTION": "Kết nối mọi ứng dụng khách MCP với {appName} qua máy chủ unorouter-mcp. Tìm kiếm danh mục mô hình trực tiếp, xem giá và trò chuyện với bất kỳ mô hình nào từ Claude Desktop hoặc Claude Code.",
+        "KEYWORDS": "máy chủ MCP, Model Context Protocol, unorouter-mcp, {appName} MCP, Claude Desktop MCP, Claude Code MCP, danh mục mô hình"
+      },
+      "BADGE": "Máy chủ MCP",
+      "TITLE": "Hướng dẫn thiết lập máy chủ MCP",
+      "SUBTITLE": "Cho mọi ứng dụng khách MCP truy cập trực tiếp vào {appName}: tìm kiếm danh mục mô hình, xem giá và trò chuyện với bất kỳ mô hình nào qua máy chủ unorouter-mcp.",
+      "OVERVIEW_DESC": "unorouter-mcp là một gói npm chạy như máy chủ MCP qua stdio và được đăng trong sổ đăng ký MCP chính thức với tên com.unorouter/mcp. Nó cung cấp ba công cụ: search_models lọc danh mục trực tiếp với tùy chọn free_only, get_pricing trả về giá niêm yết bằng USD cho mỗi 1M token, còn chat gửi prompt tới bất kỳ mô hình nào. Mã nguồn nằm tại github.com/0-don/unorouter-mcp.",
+      "STEP_1_TITLE": "Lấy khóa API",
+      "STEP_1_DESC": "Tạo khóa tại unorouter.com/token. Máy chủ đọc khóa từ biến môi trường UNOROUTER_API_KEY. UNOROUTER_BASE_URL là tùy chọn ghi đè endpoint.",
+      "STEP_2_TITLE": "Thêm máy chủ vào Claude Desktop",
+      "STEP_2_DESC": "Thêm khối này vào tệp cấu hình Claude Desktop. npx tải unorouter-mcp trong lần chạy đầu tiên nên không cần cài đặt trước.",
+      "STEP_3_TITLE": "Hoặc đăng ký trong Claude Code",
+      "STEP_3_DESC": "Một lệnh duy nhất đăng ký máy chủ cùng khóa của bạn.",
+      "STEP_4_TITLE": "Dùng các công cụ",
+      "STEP_4_DESC": "Yêu cầu ứng dụng khách tìm mô hình, so sánh giá hoặc gửi prompt tới một mô hình. Nó sẽ gọi search_models, get_pricing và chat khi cần. Mọi ứng dụng khách MCP dùng stdio đều hoạt động.",
+      "GOTCHA_1": "Các mô hình có hậu tố :free không tốn phí. Hãy tính đến giới hạn khoảng 1 yêu cầu mỗi phút cho mỗi mô hình miễn phí.",
+      "GOTCHA_2": "UNOROUTER_API_KEY là bắt buộc. Chỉ đặt UNOROUTER_BASE_URL khi bạn trỏ máy chủ tới endpoint khác.",
+      "GOTCHA_3": "Các ứng dụng khách MCP hỗ trợ sổ đăng ký có thể cài máy chủ theo tên đăng ký com.unorouter/mcp thay vì lệnh npx."
     },
     "SILLYTAVERN": {
       "META": {

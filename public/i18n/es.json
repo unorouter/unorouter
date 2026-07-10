@@ -620,6 +620,7 @@
     "RSS_LINK": "Feed RSS",
     "READ_TIME": "{minutes} min de lectura",
     "ON_THIS_PAGE": "En esta página",
+    "FAQ_TITLE": "Preguntas frecuentes",
     "PREV_POST": "Publicación anterior",
     "NEXT_POST": "Publicación siguiente",
     "RELATED": "Publicaciones relacionadas",
@@ -907,7 +908,14 @@
         "H_HONEST": "Lo que no hicimos",
         "P_HONEST": "No agregamos proxies inversos que revenden los modelos insignia de OpenAI o Claude sin permiso. No incorporamos agregadores de claves personales cuyos tokens son intransferibles, ni servicios de pool de pools que cultivan y rotan las claves de otras personas. Esos existen, son tentadores y son exactamente el desorden de mercado gris que este gateway viene a reemplazar. Cada proveedor de la lista regala su tier gratuito a proposito, bajo sus propios terminos. Si una fuente no podia superar ese liston, no está aquí.",
         "H_TRY": "Pruebalo",
-        "CTA": "Los más de 190 modelos gratuitos están en producción detrás de un único endpoint OpenAI-compatible. <register>Consigue una clave de API</register> o <models>explora el catálogo de modelos</models> y filtra por gratuitos. Solo recuerda en qué nivel estás cuando aparezca un <c>429</c> o un <c>503</c>."
+        "CTA": "Los más de 190 modelos gratuitos están en producción detrás de un único endpoint OpenAI-compatible. <register>Consigue una clave de API</register> o <models>explora el catálogo de modelos</models> y filtra por gratuitos. Solo recuerda en qué nivel estás cuando aparezca un <c>429</c> o un <c>503</c>.",
+        "TLDR": "{appName} agrega los cupos gratuitos de muchos proveedores upstream en más de 190 modelos con un nivel gratuito real detrás de una sola clave. Cada modelo gratuito permite aproximadamente 1 solicitud por minuto por usuario; al alcanzar el tope se devuelve HTTP 429 con una cabecera Retry-After, y los pools agotados devuelven un error explícito de que todos los proveedores están ocupados y se recuperan automáticamente. Los modelos de pago cobran por consumo desde $1.",
+        "FAQ_1_Q": "¿Cuántos modelos gratuitos tiene {appName}?",
+        "FAQ_1_A": "Más de 190 en cualquier momento, de un catálogo de 200+ modelos. El conjunto exacto cambia a medida que los pools gratuitos upstream se agotan y se recuperan, y la lista en vivo está en unorouter.com/models.",
+        "FAQ_2_Q": "¿Cuáles son los límites de uso del nivel gratuito?",
+        "FAQ_2_A": "Aproximadamente 1 solicitud por minuto por modelo por usuario. Al llegar al tope se devuelve HTTP 429 con una cabecera Retry-After. Con 190+ modelos gratuitos, la respuesta práctica es rotar de modelo en lugar de esperar.",
+        "FAQ_3_Q": "¿Necesito tarjeta de crédito para los modelos gratuitos?",
+        "FAQ_3_A": "No. Regístrate con Discord o GitHub, crea una clave y usa cualquier modelo con el sufijo :free. Un bono único de verificación de Discord de $1 se puede gastar en los modelos de pago."
       },
       "UNOROUTER_VS_OPENROUTER": {
         "TITLE": "{appName} frente a OpenRouter: una comparación honesta",
@@ -924,7 +932,14 @@
         "P_MIGRATE": "Apunta tu cliente a <c>https://api.unorouter.com/v1</c> y conserva tu código. La misma clave funciona en el campo de endpoint personalizado de un cliente de chat, así que no hay una segunda cuenta que gestionar.",
         "H_VERDICT": "Cómo elegir",
         "P_VERDICT": "¿Solo escribes código y quieres el catálogo más amplio? OpenRouter va bien. ¿Enrutado autoalojado sin recargo? Usa LiteLLM. ¿Una clave que mueva tu agente de código y un cliente de chat de verdad? Eso es {appName}.",
-        "CTA": "¿Listo para probarlo? <register>Crea una cuenta gratis</register> o <models>explora los modelos</models>."
+        "CTA": "¿Listo para probarlo? <register>Crea una cuenta gratis</register> o <models>explora los modelos</models>.",
+        "TLDR": "{appName} y OpenRouter ponen ambos 200+ modelos detrás de una sola clave compatible con OpenAI. OpenRouter es solo API y de código cerrado. {appName} añade un cliente de chat y personajes integrado con la misma clave, publica todo su stack bajo licencias OSI y sirve la mayoría de los modelos con un nivel gratuito real de aproximadamente 1 solicitud por minuto por modelo. El uso de pago es por consumo y los créditos nunca caducan.",
+        "FAQ_1_Q": "¿Es {appName} más barato que OpenRouter?",
+        "FAQ_1_A": "Ambos cobran por token a precios de lista similares. OpenRouter añade una comisión al comprar créditos. {appName} cobra por consumo sin comisión de compra, los créditos nunca caducan y más de 190 modelos tienen nivel gratuito.",
+        "FAQ_2_Q": "¿Puedo usar la misma clave para agentes de código y chat de rol?",
+        "FAQ_2_A": "Sí. Una sola clave de {appName} funciona en Claude Code, Cline y OpenCode a través de la API compatible con OpenAI, y la misma cuenta incluye un cliente completo de chat de personajes que también encaja en SillyTavern o JanitorAI.",
+        "FAQ_3_Q": "¿Cómo me cambio de OpenRouter a {appName}?",
+        "FAQ_3_A": "Apunta tu cliente a https://api.unorouter.com/v1 y conserva tu código. La API es compatible con OpenAI, los nombres de los modelos vienen de GET /v1/models, y también se sirven los endpoints nativos de Anthropic y Gemini."
       },
       "BEST_OPENROUTER_ALTERNATIVES_2026": {
         "TITLE": "Las mejores alternativas a OpenRouter en 2026",
@@ -941,7 +956,38 @@
         "P_FOR_ROLEPLAY": "El chat de personajes es un caso aparte. Quieres un catálogo amplio para alternar entre un buen escritor y un caballo de batalla barato, facturación de pago por uso porque las sesiones son a ráfagas, y una clave que encaje en SillyTavern, Janitor.AI o Chub. Las pasarelas puramente de desarrollo cubren la mitad de la API pero no dan cliente, y los planes por asiento luchan contra el patrón a ráfagas. {appName} abarca ambos con una clave.",
         "H_VERDICT": "Cómo elegir",
         "P_VERDICT": "¿Solo usas un laboratorio? Una clave de un proveedor basta. ¿Un equipo que quiere enrutado y gobernanza delante de su propia app? Una pasarela de desarrollo headless. ¿Quieres una clave que alcance muchos modelos actuales, facture por uso y funcione en código y en un cliente de chat? Eso es {appName}. Elige por tu uso real, no por la cifra bruta de modelos.",
-        "CTA": "¿Quieres una clave para cada modelo? <register>Crea una cuenta gratis</register> o <models>explora los modelos</models>."
+        "CTA": "¿Quieres una clave para cada modelo? <register>Crea una cuenta gratis</register> o <models>explora los modelos</models>.",
+        "TLDR": "Las alternativas prácticas a OpenRouter en 2026 se dividen en tres grupos: gateways alojados con una clave para muchos modelos como {appName}, proxies autoalojados como LiteLLM y claves de un solo proveedor. {appName} sirve 200+ modelos con una clave compatible con OpenAI, ofrece nivel gratuito en la mayoría, cobra por consumo y publica todo su stack como código abierto.",
+        "FAQ_1_Q": "¿Cuál es la mejor alternativa gratuita a OpenRouter?",
+        "FAQ_1_A": "{appName} sirve más de 190 modelos con un nivel gratuito real de aproximadamente 1 solicitud por minuto por modelo, sin tarjeta. El nivel gratuito de OpenRouter cubre muchos menos modelos y tiene un tope diario.",
+        "FAQ_2_Q": "¿Funcionan las alternativas a OpenRouter con SillyTavern y JanitorAI?",
+        "FAQ_2_A": "Cualquier gateway compatible con OpenAI lo hace. En SillyTavern usa la URL base https://api.unorouter.com/v1; en JanitorAI usa el endpoint completo https://api.unorouter.com/v1/chat/completions con la clave correspondiente.",
+        "FAQ_3_Q": "¿Existe una alternativa de código abierto a OpenRouter?",
+        "FAQ_3_A": "{appName} es de código abierto de principio a fin bajo licencias OSI, frontend, gateway, bot y sincronización de proveedores, en github.com/unorouter. LiteLLM también es de código abierto, pero es un proxy donde traes tus propias claves, sin catálogo alojado."
+      },
+      "OPEN_SOURCE_OPENROUTER_ALTERNATIVE": {
+        "TITLE": "{appName}: la alternativa open source a OpenRouter",
+        "DESCRIPTION": "OpenRouter es de código cerrado. {appName} hace el mismo trabajo de una clave y más de 200 modelos con todo el stack público bajo licencias OSI, autoalojable y con un nivel gratuito alojado para probar.",
+        "AUTHOR": "El equipo de {appName}",
+        "INTRO": "Buscar una alternativa open source a OpenRouter suele significar una de tres cosas: quieres leer el código que maneja tus prompts, quieres ejecutar la pasarela tú mismo o quieres salir de una caja negra. {appName} cubre las tres. El mismo esquema de una clave y más de 200 modelos, con todo el stack público.",
+        "H_WHY": "Por qué el open source importa en una pasarela",
+        "P_WHY": "Una pasarela se sitúa entre tu aplicación y cada modelo que llamas, así que ve cada prompt y cada respuesta. Con una pasarela cerrada confías en una página de privacidad. Con una abierta puedes comprobar qué se registra, cómo se guardan las claves y cómo se enrutan las peticiones antes de que nada sensible salga de tu máquina.",
+        "H_WHAT": "Qué es abierto de verdad",
+        "P_WHAT": "Todo es público en <gh>GitHub</gh> bajo licencias OSI: el frontend web con el cliente de chat, la propia pasarela, el bot de Discord y la sincronización de proveedores que mantiene el catálogo al día. No es un SDK fino alrededor de un núcleo cerrado. El producto en producción es el repositorio.",
+        "H_COMPARE": "Frente a las opciones habituales",
+        "P_COMPARE": "OpenRouter tiene el catálogo más amplio, pero cada línea es cerrada. LiteLLM es genuinamente abierto y un proxy autoalojado sólido, pero es fontanería de trae tus propias claves: sigues gestionando cuentas de proveedores y no hay catálogo alojado. {appName} se sitúa entre los dos: abierto como LiteLLM, alojado con una clave y más de 200 modelos como OpenRouter.",
+        "H_SELF_HOST": "Autoalójala o simplemente úsala",
+        "P_SELF_HOST": "Clona los repositorios y ejecuta el stack tú mismo, o apunta cualquier cliente compatible con OpenAI a <c>https://api.unorouter.com/v1</c> y usa la versión alojada. El nivel gratuito alojado cubre la mayor parte del catálogo, así que puedes probar ambos caminos antes de comprometerte.",
+        "H_VERDICT": "La versión corta",
+        "P_VERDICT": "Si solo necesitas enrutado local sobre tus propias claves de proveedor, LiteLLM es la herramienta más ligera. Si quieres una pasarela alojada al estilo OpenRouter cuyo stack completo puedas leer, auditar y bifurcar, {appName} es la que publica su código.",
+        "CTA": "¿Listo para probarlo? <register>Crea una cuenta gratis</register> o <models>explora los modelos</models>.",
+        "TLDR": "{appName} es una alternativa de código abierto a OpenRouter: la misma clave única para 200+ modelos, con todo el stack público bajo licencias OSI en github.com/unorouter. Puedes leer cómo se manejan los prompts, autoalojar el gateway o usar la versión alojada, que sirve la mayoría de los modelos con un nivel gratuito de aproximadamente 1 solicitud por minuto por modelo y cobra el uso de pago por consumo.",
+        "FAQ_1_Q": "¿Es {appName} realmente de código abierto por completo?",
+        "FAQ_1_A": "Sí. El frontend web con el cliente de chat, el gateway, el bot de Discord y la sincronización de proveedores son públicos bajo licencias OSI en github.com/unorouter. El producto alojado corre con el mismo código.",
+        "FAQ_2_Q": "¿Puedo autoalojar {appName}?",
+        "FAQ_2_A": "Sí. Clona los repositorios y ejecuta el stack tú mismo, o apunta cualquier cliente compatible con OpenAI al endpoint alojado https://api.unorouter.com/v1 y ahórrate el trabajo de operaciones.",
+        "FAQ_3_Q": "¿En qué se diferencia {appName} de LiteLLM?",
+        "FAQ_3_A": "LiteLLM es un proxy autoalojado donde tú aportas las claves de los proveedores y gestionas las cuentas. {appName} es alojado, con una sola clave, 200+ modelos y nivel gratuito, y sigue siendo de código abierto como LiteLLM."
       },
       "WHAT_IS_AN_LLM_GATEWAY": {
         "TITLE": "¿Qué es una pasarela de LLM?",
@@ -958,7 +1004,14 @@
         "P_WHO_NEEDS_ONE": "Quieres un gateway si usas más de un modelo, planeas cambiar de modelo a medida que se mueven precios y calidad, o construyes algo que no debería estar cableado a un solo laboratorio. Agentes de programación, apps de chat, front-ends de chat de personajes y herramientas internas se benefician todos. Si de verdad solo llamas a un modelo de un proveedor y nunca esperas cambiar, una clave directa del proveedor es más simple. Todos los demás ahorran esfuerzo real con un gateway.",
         "H_VERDICT": "En resumen",
         "P_VERDICT": "Una pasarela de LLM convierte muchos proveedores en un endpoint, una clave y una factura, así integras una vez y cambias de modelos con libertad. {appName} es una pasarela compatible con OpenAI justo de este molde: una clave alcanza más de 200 modelos para código y chat por igual, con créditos pago por uso que no caducan. Si tocas más de un modelo, una pasarela es la base más limpia.",
-        "CTA": "Prueba tú mismo una pasarela: <register>crea una cuenta gratis</register> o <models>explora los modelos</models>."
+        "CTA": "Prueba tú mismo una pasarela: <register>crea una cuenta gratis</register> o <models>explora los modelos</models>.",
+        "TLDR": "Un gateway LLM es una sola API delante de muchos proveedores de modelos: una clave, una factura, un endpoint, con enrutamiento y conmutación por error resueltos por ti. {appName} es un gateway de código abierto que sirve 200+ modelos mediante una API compatible con OpenAI, más los endpoints nativos de Anthropic y Gemini, con nivel gratuito en la mayoría de los modelos y precios por consumo en el resto.",
+        "FAQ_1_Q": "¿Cuándo necesito un gateway LLM en lugar de una clave directa del proveedor?",
+        "FAQ_1_A": "Cuando usas más de una familia de modelos, quieres conmutación por error si un proveedor se cae o quieres una sola factura. Un gateway elimina las cuentas por proveedor y te permite cambiar de modelo modificando una sola cadena.",
+        "FAQ_2_Q": "¿Añade latencia un gateway LLM?",
+        "FAQ_2_A": "Un salto extra, típicamente decenas de milisegundos, que el streaming oculta en la práctica. Las respuestas lentas vienen del propio modelo mucho más a menudo que del gateway.",
+        "FAQ_3_Q": "¿Qué endpoints sirve {appName}?",
+        "FAQ_3_A": "Compatibles con OpenAI: /v1/chat/completions, /v1/responses y /v1/embeddings; nativo de Anthropic: /v1/messages; y nativo de Gemini: /v1beta, todo detrás de una sola clave."
       },
       "HOW_TO_CONNECT_ANY_LLM_TO_SILLYTAVERN": {
         "TITLE": "Cómo conectar cualquier LLM a SillyTavern",
@@ -1913,6 +1966,28 @@
       "STEP_4_DESC": "Inicia la TUI con `hermes --tui` y empieza a trabajar.",
       "TS_1_DESC": "Hermes rechaza al iniciar los modelos con menos de 64.000 tokens de contexto. Elige un modelo de mayor contexto desde la página de modelos de {appName}.",
       "TS_2_DESC": "Si la comprobación `/v1/models` falla al iniciar, confirma que `model.base_url` termina en `/v1` y que `OPENAI_API_KEY` está definida en `~/.hermes/.env`."
+    },
+    "MCP": {
+      "META": {
+        "TITLE": "Guía de configuración del servidor MCP | {appName}",
+        "DESCRIPTION": "Conecta cualquier cliente MCP a {appName} con el servidor unorouter-mcp. Busca en el catálogo de modelos en vivo, consulta precios y chatea con cualquier modelo desde Claude Desktop o Claude Code.",
+        "KEYWORDS": "servidor MCP, Model Context Protocol, unorouter-mcp, {appName} MCP, Claude Desktop MCP, Claude Code MCP, catálogo de modelos"
+      },
+      "BADGE": "Servidor MCP",
+      "TITLE": "Guía de configuración del servidor MCP",
+      "SUBTITLE": "Da a cualquier cliente MCP acceso en vivo a {appName}: busca en el catálogo de modelos, consulta precios y chatea con cualquier modelo a través del servidor unorouter-mcp.",
+      "OVERVIEW_DESC": "unorouter-mcp es un paquete de npm que funciona como servidor MCP sobre stdio y está publicado en el registro oficial de MCP como com.unorouter/mcp. Expone tres herramientas: search_models filtra el catálogo en vivo y admite la opción free_only, get_pricing devuelve precios de lista en USD por 1M de tokens y chat envía un prompt a cualquier modelo. El código fuente está en github.com/0-don/unorouter-mcp.",
+      "STEP_1_TITLE": "Consigue una clave de API",
+      "STEP_1_DESC": "Crea una clave en unorouter.com/token. El servidor la lee de la variable de entorno UNOROUTER_API_KEY. UNOROUTER_BASE_URL es una anulación opcional del endpoint.",
+      "STEP_2_TITLE": "Añade el servidor a Claude Desktop",
+      "STEP_2_DESC": "Añade este bloque al archivo de configuración de Claude Desktop. npx descarga unorouter-mcp en el primer arranque, así que no hay nada que instalar de antemano.",
+      "STEP_3_TITLE": "O regístralo en Claude Code",
+      "STEP_3_DESC": "Un solo comando registra el servidor con tu clave.",
+      "STEP_4_TITLE": "Usa las herramientas",
+      "STEP_4_DESC": "Pide a tu cliente que busque un modelo, compare precios o envíe un prompt a un modelo. Llamará a search_models, get_pricing y chat según haga falta. Funciona cualquier cliente MCP que hable stdio.",
+      "GOTCHA_1": "Los modelos con el sufijo :free no cuestan nada. Espera un límite de alrededor de 1 solicitud por minuto por modelo gratuito.",
+      "GOTCHA_2": "UNOROUTER_API_KEY es obligatoria. Define UNOROUTER_BASE_URL solo si apuntas el servidor a otro endpoint.",
+      "GOTCHA_3": "Los clientes MCP compatibles con el registro pueden instalar el servidor por su nombre de registro com.unorouter/mcp en lugar del comando npx."
     },
     "SILLYTAVERN": {
       "META": {

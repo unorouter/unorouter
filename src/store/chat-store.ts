@@ -1,5 +1,6 @@
 import { GUEST_USER_ID } from "@/lib/config/constants";
 import { jotaiCookieStorage } from "@/lib/config/table-storage";
+import { LOCAL_USER_ID_COOKIE } from "@/lib/config/constants";
 import type { StreamOverrides } from "@/lib/validation/chat";
 import { uid } from "@/lib/utils/base";
 import { atom, createStore } from "jotai";
@@ -191,7 +192,16 @@ export const globalVarsAtom = atomWithStorage<string>(
   { getOnInit: true },
 );
 
-export const localUserIdAtom = atom<number>(GUEST_USER_ID);
+// Plain (unsealed) twin of the signed user-id cookie, set at the OAuth
+// callback. Only selects which local OPFS file to open client-side, so it
+// carries no server trust; tampering just points the user at another of
+// their own local DBs. LocalUserIdSync backfills it from the auth query for
+// sessions created before the twin cookie existed.
+export const localUserIdAtom = atomWithStorage<number>(
+  LOCAL_USER_ID_COOKIE,
+  GUEST_USER_ID,
+  jotaiCookieStorage,
+);
 
 export const chatStore = createStore();
 

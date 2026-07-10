@@ -15,7 +15,12 @@ export async function UnorouterVsLumiverseContent() {
       <h2 id="two-in-one">
         {t("BLOG.POSTS.UNOROUTER_VS_LUMIVERSE.H_TWO_IN_ONE")}
       </h2>
-      <p>{t("BLOG.POSTS.UNOROUTER_VS_LUMIVERSE.P_TWO_IN_ONE", APP_VALUES)}</p>
+      <p>
+        {t.rich("BLOG.POSTS.UNOROUTER_VS_LUMIVERSE.P_TWO_IN_ONE", {
+          ...APP_VALUES,
+          c: (chunks) => <code>{chunks}</code>,
+        })}
+      </p>
 
       <h2 id="hosting">{t("BLOG.POSTS.UNOROUTER_VS_LUMIVERSE.H_HOSTING")}</h2>
       <p>{t("BLOG.POSTS.UNOROUTER_VS_LUMIVERSE.P_HOSTING", APP_VALUES)}</p>

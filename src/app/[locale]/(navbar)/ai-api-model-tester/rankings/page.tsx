@@ -11,6 +11,7 @@ import { buildBreadcrumbListSchema } from "@/lib/seo/structured-data";
 import { serverLocale } from "@/lib/utils/server";
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
+import { Suspense } from "react";
 
 export async function generateMetadata(props: {
   params: Promise<{ locale: string }>;
@@ -27,11 +28,7 @@ export async function generateMetadata(props: {
   });
 }
 
-export default async function ModelTesterRankingsPage(props: {
-  params: Promise<{ locale: string }>;
-}) {
-  const locale = await serverLocale(props);
-  const t = await getTranslations({ locale });
+async function RankingsData() {
   const queryClient = getQueryClient();
 
   await Promise.all([
@@ -44,6 +41,19 @@ export default async function ModelTesterRankingsPage(props: {
       }),
     ),
   ]);
+
+  return (
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <RankingsTable />
+    </HydrationBoundary>
+  );
+}
+
+export default async function ModelTesterRankingsPage(props: {
+  params: Promise<{ locale: string }>;
+}) {
+  const locale = await serverLocale(props);
+  const t = await getTranslations({ locale });
 
   return (
     <>
@@ -61,9 +71,9 @@ export default async function ModelTesterRankingsPage(props: {
           },
         ])}
       />
-      <HydrationBoundary state={dehydrate(queryClient)}>
-        <RankingsTable />
-      </HydrationBoundary>
+      <Suspense>
+        <RankingsData />
+      </Suspense>
     </>
   );
 }

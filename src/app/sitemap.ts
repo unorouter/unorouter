@@ -13,15 +13,14 @@ import {
   privateRoutes,
   routing,
 } from "@/i18n/routing";
+import { getCachedPricing } from "@/lib/api/cached";
 import { env } from "@/lib/config/env";
-import { rpc } from "@/lib/rpc";
 import { getSeoTimestamps } from "@/lib/seo/metadata";
-import { handleElysia, modelSlug, vendorSlug } from "@/lib/utils/base";
+import { modelSlug, vendorSlug } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
 import { listCatalogEntries } from "@/server/models/pricing/model-catalog.service";
 import type { MetadataRoute } from "next";
 
-export const dynamic = "force-dynamic";
 
 type EntryOptions = {
   priority?: number;
@@ -45,7 +44,9 @@ function localizedEntries(
     typeof options.lastModified === "string"
       ? (getSeoTimestamps(options.lastModified)?.modified ?? null)
       : options.lastModified;
-  const resolved = (lastModified ? dayjs(lastModified) : dayjs()).toDate();
+  const resolved = dayjs(
+    lastModified ?? process.env.NEXT_PUBLIC_BUILD_DATE,
+  ).toDate();
 
   const languages: Record<string, string> = Object.fromEntries(
     routing.locales.map((cur) => [
@@ -85,15 +86,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       !route.startsWith("/docs/integrations/"),
   );
 
-  const pricing = await rpc.api.models.pricing
-    .get({ query: { include_offline: "true" } })
-    .then(handleElysia)
-    .catch(() =>
-      rpc.api.models.pricing
-        .get({ query: { include_offline: "true" } })
-        .then(handleElysia)
-        .catch(() => null),
-    );
+  const pricing = await getCachedPricing(true).catch(() =>
+    getCachedPricing(true).catch(() => null),
+  );
   if (!pricing?.models?.length)
     console.error(
       "[sitemap] pricing returned no models; model pages omitted from sitemap",
@@ -115,9 +110,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const sitemapModelNames = modelNames.filter((name) =>
     vendorSlug(nameToVendor.get(name) ?? ""),
   );
+  // Vendor pages resolve against online-only pricing; offline-only vendors 404.
   const sitemapVendorSlugs = [
     ...new Set(
       (pricing?.models ?? [])
+        .filter((m) => m.online)
         .map((m) => vendorSlug(m.vendor.name))
         .filter(Boolean),
     ),

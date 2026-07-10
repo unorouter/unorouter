@@ -1,7 +1,6 @@
 import { env } from "@/lib/config/env";
 import { OAUTH_SCOPES } from "@/lib/config/oauth-scopes";
 
-export const dynamic = "force-static";
 
 export function GET() {
   const body = {

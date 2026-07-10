@@ -620,6 +620,7 @@
     "RSS_LINK": "RSS beslemesi",
     "READ_TIME": "{minutes} dk okuma",
     "ON_THIS_PAGE": "Bu sayfada",
+    "FAQ_TITLE": "Sıkça sorulan sorular",
     "PREV_POST": "Önceki yazı",
     "NEXT_POST": "Sonraki yazı",
     "RELATED": "İlgili yazılar",
@@ -907,7 +908,14 @@
         "H_HONEST": "Neleri yapmadik",
         "P_HONEST": "OpenAI ya da Claude amiral gemisi modellerini izinsiz yeniden sunan ters proxy'ler eklemedik. Token'lari devredilemez kişisel-anahtar toplayıcılarını ya da başkalarının anahtarlarını çiftleyip döndüren havuz-içinde-havuz hizmetlerini de dahil etmedik. Bunlar mevcut, cazip ve tam olarak bu geçidin yerine geçmek için tasarlandığı gri-piyasa karmaşası. Listedeki her sağlayıcı, kendi şartları altında, ücretsiz katmanını bilerek sunuyor. Bir kaynak bu çizgiyi geçemediyse, burada yok.",
         "H_TRY": "Deneyin",
-        "CTA": "190'ın üzerindeki tüm ücretsiz model, tek bir OpenAI-compatible uç noktanın ardında yayında. <register>Bir API anahtarı edinin</register> ya da <models>model kataloğuna göz atın</models> ve ücretsizlere göre filtreleyin. Bir <c>429</c> ya da <c>503</c> belirdiğinde yalnızca hangi katmanda olduğunuzu unutmayın."
+        "CTA": "190'ın üzerindeki tüm ücretsiz model, tek bir OpenAI-compatible uç noktanın ardında yayında. <register>Bir API anahtarı edinin</register> ya da <models>model kataloğuna göz atın</models> ve ücretsizlere göre filtreleyin. Bir <c>429</c> ya da <c>503</c> belirdiğinde yalnızca hangi katmanda olduğunuzu unutmayın.",
+        "TLDR": "{appName}, birçok üst kaynak sağlayıcının ücretsiz kotalarını tek anahtarın arkasında gerçek ücretsiz katmanlı 190'dan fazla modelde toplar. Her ücretsiz model, kullanıcı başına dakikada yaklaşık 1 isteğe izin verir; sınıra ulaşınca Retry-After başlığıyla HTTP 429 döner, tükenen havuzlar tüm sağlayıcıların meşgul olduğuna dair açık bir hata döndürür ve otomatik olarak toparlanır. Ücretli modeller $1 başlangıçla kullandıkça öde faturalandırılır.",
+        "FAQ_1_Q": "{appName}'in kaç ücretsiz modeli var?",
+        "FAQ_1_A": "200+ modellik katalogdan her an 190'dan fazlası. Kesin küme, üst kaynak ücretsiz havuzlar tükenip toparlandıkça değişir ve canlı liste unorouter.com/models adresindedir.",
+        "FAQ_2_Q": "Ücretsiz katmanın hız sınırları nedir?",
+        "FAQ_2_A": "Kullanıcı başına model başına dakikada yaklaşık 1 istek. Sınır, Retry-After başlığıyla HTTP 429 döndürür. 190+ ücretsiz modelle pratik çözüm, beklemek yerine modeller arasında geçiş yapmaktır.",
+        "FAQ_3_Q": "Ücretsiz modeller için kredi kartı gerekiyor mu?",
+        "FAQ_3_A": "Hayır. Discord veya GitHub ile kaydolun, bir anahtar oluşturun ve :free son ekine sahip herhangi bir modeli kullanın. Tek seferlik $1 Discord doğrulama bonusu ücretli modellerde harcanabilir."
       },
       "UNOROUTER_VS_OPENROUTER": {
         "TITLE": "{appName} ve OpenRouter: dürüst bir karşılaştırma",
@@ -924,7 +932,14 @@
         "P_MIGRATE": "İstemcinizi <c>https://api.unorouter.com/v1</c> adresine yönlendirin ve kodunuzu koruyun. Aynı anahtar bir sohbet istemcisinin özel uç nokta alanında çalışır, dolayısıyla yönetilecek ikinci bir hesap yoktur.",
         "H_VERDICT": "Nasıl seçilir",
         "P_VERDICT": "Yalnızca kod yazıyor ve en geniş kataloğu mu istiyorsunuz? OpenRouter iş görür. Ek ücretsiz, kendi kendine barındırılan yönlendirme mi? LiteLLM kullanın. Kod ajanınızı ve gerçek bir sohbet istemcisini süren tek bir anahtar mı? İşte o {appName}.",
-        "CTA": "Denemeye hazır mısınız? <register>Ücretsiz hesap oluşturun</register> ya da <models>modellere göz atın</models>."
+        "CTA": "Denemeye hazır mısınız? <register>Ücretsiz hesap oluşturun</register> ya da <models>modellere göz atın</models>.",
+        "TLDR": "{appName} ve OpenRouter, 200+ modeli tek bir OpenAI uyumlu anahtarın arkasına koyar. OpenRouter yalnızca API sunar ve kapalı kaynaklıdır. {appName} aynı anahtar üzerinde yerleşik bir sohbet ve karakter istemcisi ekler, tüm yığınını OSI lisanslarıyla yayımlar ve modellerin çoğunu model başına dakikada yaklaşık 1 istek olan gerçek bir ücretsiz katmanda sunar. Ücretli kullanım kullandıkça öde şeklindedir ve krediler asla sona ermez.",
+        "FAQ_1_Q": "{appName}, OpenRouter'dan daha mı ucuz?",
+        "FAQ_1_A": "İkisi de benzer liste fiyatlarıyla token başına ücretlendirir. OpenRouter kredi satın alırken ek ücret alır. {appName} satın alma ücreti olmadan kullandıkça öde çalışır, krediler asla sona ermez ve 190'dan fazla modelin ücretsiz katmanı vardır.",
+        "FAQ_2_Q": "Aynı anahtarı hem kodlama ajanları hem de rol yapma sohbeti için kullanabilir miyim?",
+        "FAQ_2_A": "Evet. Tek bir {appName} anahtarı, OpenAI uyumlu API üzerinden Claude Code, Cline ve OpenCode'da çalışır; aynı hesap, SillyTavern veya JanitorAI'ye de takılabilen eksiksiz bir karakter sohbet istemcisi içerir.",
+        "FAQ_3_Q": "OpenRouter'dan {appName}'e nasıl geçerim?",
+        "FAQ_3_A": "İstemcinizi https://api.unorouter.com/v1 adresine yönlendirin ve kodunuzu koruyun. API, OpenAI uyumludur, model adları GET /v1/models üzerinden gelir ve Anthropic ile Gemini yerel uç noktaları da sunulur."
       },
       "BEST_OPENROUTER_ALTERNATIVES_2026": {
         "TITLE": "2026'da OpenRouter'a en iyi alternatifler",
@@ -941,7 +956,38 @@
         "P_FOR_ROLEPLAY": "Karakter sohbeti ayrı bir durumdur. Güçlü bir yazar ile ucuz bir yük atı arasında geçiş yapmak için geniş bir katalog, oturumlar ani olduğundan kullandıkça öde faturalandırması ve SillyTavern, Janitor.AI ya da Chub'a oturan bir anahtar istersiniz. Salt geliştirici ağ geçitleri API yarısını kapsar ama istemci vermez ve koltuk planları ani örüntüyle savaşır. {appName} ikisini tek anahtarla kapsar.",
         "H_VERDICT": "Nasıl seçilir",
         "P_VERDICT": "Yalnızca tek bir laboratuvar mı kullanıyorsunuz? Tek sağlayıcı anahtarı yeter. Kendi uygulamasının önünde yönlendirme ve yönetişim isteyen bir ekip mi? Başsız bir geliştirici ağ geçidi. Birçok güncel modele ulaşan, kullandıkça faturalandıran ve hem kodda hem bir sohbet istemcisinde çalışan tek bir anahtar mı istiyorsunuz? İşte o {appName}. Ham model sayısına göre değil, gerçek kullanımınıza göre seçin.",
-        "CTA": "Her model için tek anahtar mı istiyorsunuz? <register>Ücretsiz hesap oluşturun</register> ya da <models>modellere göz atın</models>."
+        "CTA": "Her model için tek anahtar mı istiyorsunuz? <register>Ücretsiz hesap oluşturun</register> ya da <models>modellere göz atın</models>.",
+        "TLDR": "2026'da pratik OpenRouter alternatifleri üç gruba ayrılır: {appName} gibi birçok model için tek anahtarlı barındırılan ağ geçitleri, LiteLLM gibi kendi barındırdığınız proxy'ler ve tek sağlayıcı anahtarları. {appName}, tek bir OpenAI uyumlu anahtarla 200+ model sunar, çoğunda ücretsiz katman çalıştırır, kullandıkça öde ile faturalandırır ve tüm yığınını açık kaynak olarak yayımlar.",
+        "FAQ_1_Q": "En iyi ücretsiz OpenRouter alternatifi hangisi?",
+        "FAQ_1_A": "{appName}, kart gerektirmeden, model başına dakikada yaklaşık 1 istek olan gerçek bir ücretsiz katmanla 190'dan fazla model sunar. OpenRouter'ın ücretsiz katmanı çok daha az modeli kapsar ve günlük bir sınırı vardır.",
+        "FAQ_2_Q": "OpenRouter alternatifleri SillyTavern ve JanitorAI ile çalışır mı?",
+        "FAQ_2_A": "OpenAI uyumlu her ağ geçidi çalışır. SillyTavern'de temel URL olarak https://api.unorouter.com/v1 kullanın, JanitorAI'de eşleşen bir anahtarla tam https://api.unorouter.com/v1/chat/completions uç noktasını kullanın.",
+        "FAQ_3_Q": "Açık kaynaklı bir OpenRouter alternatifi var mı?",
+        "FAQ_3_A": "{appName}, github.com/unorouter adresinde ön yüz, ağ geçidi, bot ve sağlayıcı senkronizasyonu dahil uçtan uca OSI lisanslı açık kaynaktır. LiteLLM de açık kaynaktır ama barındırılan bir katalog olmadan kendi anahtarlarınızı getirdiğiniz bir proxy'dir."
+      },
+      "OPEN_SOURCE_OPENROUTER_ALTERNATIVE": {
+        "TITLE": "{appName}: açık kaynak OpenRouter alternatifi",
+        "DESCRIPTION": "OpenRouter kapalı kaynak. {appName} aynı tek anahtar, 200'den fazla model işini, OSI lisansları altında tamamen halka açık bir stack ile yapıyor; kendi sunucunuzda barındırabilir, denemek için barındırılan ücretsiz katmanı kullanabilirsiniz.",
+        "AUTHOR": "{appName} ekibi",
+        "INTRO": "Açık kaynak bir OpenRouter alternatifi aramak genellikle şu üç şeyden biri anlamına gelir: prompt'larınızı işleyen kodu okumak, gateway'i kendiniz çalıştırmak ya da kara kutudan kurtulmak istiyorsunuz. {appName} üçünü de karşılıyor. Aynı tek anahtar, 200'den fazla model düzeni, tüm stack halka açık.",
+        "H_WHY": "Bir gateway'de açık kaynak neden önemli",
+        "P_WHY": "Gateway, uygulamanızla çağırdığınız her modelin arasında durur; yani her prompt'u ve her yanıtı görür. Kapalı bir gateway'de bir gizlilik sayfasına güvenirsiniz. Açık olanda ise hassas hiçbir şey makinenizden çıkmadan önce neyin loglandığını, anahtarların nasıl saklandığını ve isteklerin nasıl yönlendirildiğini kendiniz denetleyebilirsiniz.",
+        "H_WHAT": "Gerçekten açık olan ne",
+        "P_WHAT": "Her şey OSI lisansları altında <gh>GitHub</gh> üzerinde halka açık: sohbet istemcili web arayüzü, gateway'in kendisi, Discord botu ve kataloğu güncel tutan sağlayıcı senkronizasyonu. Bu, kapalı bir çekirdeğin etrafına sarılmış ince bir SDK değil. Çalışan ürün, reponun ta kendisi.",
+        "H_COMPARE": "Alışıldık seçeneklere karşı",
+        "P_COMPARE": "OpenRouter en geniş kataloğa sahip, ama her satırı kapalı. LiteLLM gerçekten açık ve sağlam bir self-hosted proxy, ama kendi anahtarını getir tesisatından ibaret: sağlayıcı hesaplarını yine siz yönetiyorsunuz ve barındırılan bir katalog yok. {appName} ikisinin arasında duruyor: LiteLLM gibi açık, OpenRouter gibi tek anahtar ve 200'den fazla modelle barındırılıyor.",
+        "H_SELF_HOST": "Kendiniz barındırın ya da doğrudan kullanın",
+        "P_SELF_HOST": "Repoları klonlayıp stack'i kendiniz çalıştırın ya da OpenAI uyumlu herhangi bir istemciyi <c>https://api.unorouter.com/v1</c> adresine yönlendirip barındırılan sürümü kullanın. Barındırılan ücretsiz katman kataloğun çoğunu kapsıyor, yani karar vermeden önce iki yolu da deneyebilirsiniz.",
+        "H_VERDICT": "Kısacası",
+        "P_VERDICT": "Tek ihtiyacınız kendi sağlayıcı anahtarlarınız üzerinde yerel yönlendirmeyse, LiteLLM daha yalın araç. Tüm stack'ini okuyabileceğiniz, denetleyebileceğiniz ve forklayabileceğiniz OpenRouter tarzı barındırılan bir gateway istiyorsanız, kaynağını yayınlayan {appName}.",
+        "CTA": "Denemeye hazır mısınız? <register>Ücretsiz hesap oluşturun</register> ya da <models>modellere göz atın</models>.",
+        "TLDR": "{appName}, açık kaynaklı bir OpenRouter alternatifidir: 200+ model için aynı tek anahtar, tüm yığın github.com/unorouter adresinde OSI lisanslarıyla herkese açık. İstemlerin nasıl işlendiğini okuyabilir, ağ geçidini kendiniz barındırabilir veya modellerin çoğunu model başına dakikada yaklaşık 1 istek olan ücretsiz katmanda sunan ve ücretli kullanımı kullandıkça öde ile faturalandıran barındırılan sürümü kullanabilirsiniz.",
+        "FAQ_1_Q": "{appName} gerçekten tamamen açık kaynak mı?",
+        "FAQ_1_A": "Evet. Sohbet istemcili web ön yüzü, ağ geçidi, Discord botu ve sağlayıcı senkronizasyonu, hepsi github.com/unorouter adresinde OSI lisanslarıyla herkese açık. Barındırılan ürün aynı koddan çalışır.",
+        "FAQ_2_Q": "{appName}'i kendim barındırabilir miyim?",
+        "FAQ_2_A": "Evet. Depoları klonlayıp yığını kendiniz çalıştırın ya da OpenAI uyumlu herhangi bir istemciyi barındırılan https://api.unorouter.com/v1 uç noktasına yönlendirip operasyon işini atlayın.",
+        "FAQ_3_Q": "{appName} ile LiteLLM arasındaki fark nedir?",
+        "FAQ_3_A": "LiteLLM, sağlayıcı anahtarlarını sizin getirdiğiniz ve hesapları kendinizin yönettiği, kendi barındırdığınız bir proxy'dir. {appName} ise tek anahtar, 200+ model ve ücretsiz katmanla barındırılır ve LiteLLM gibi açık kaynak kalır."
       },
       "WHAT_IS_AN_LLM_GATEWAY": {
         "TITLE": "LLM ağ geçidi nedir?",
@@ -958,7 +1004,14 @@
         "P_WHO_NEEDS_ONE": "Birden fazla model kullanıyorsanız, fiyatlar ve kalite değiştikçe model değiştirmeyi planlıyorsanız ya da tek bir laboratuvara sabitlenmemesi gereken bir şey inşa ediyorsanız bir ağ geçidi istersiniz. Kodlama ajanları, sohbet uygulamaları, karakter sohbeti ön yüzleri ve dahili araçlar hepsi fayda görür. Gerçekten yalnızca tek bir sağlayıcıdan tek bir model çağırıyorsanız ve hiç değiştirmeyi beklemiyorsanız, doğrudan bir sağlayıcı anahtarı daha basittir. Diğer herkes bir ağ geçidiyle gerçek emek tasarrufu yapar.",
         "H_VERDICT": "Kısacası",
         "P_VERDICT": "LLM ağ geçidi çok sayıda sağlayıcıyı tek bir uç nokta, tek bir anahtar ve tek bir faturaya çevirir, böylece bir kez entegre eder ve modelleri özgürce değiştirirsiniz. {appName} tam bu kalıpta OpenAI uyumlu bir ağ geçididir: tek bir anahtar kod ve sohbet için eşit şekilde 200'den fazla modele ulaşır, süresi dolmayan kullandıkça öde kredileriyle. Birden fazla modele dokunuyorsaniz, bir ağ geçidi daha temiz bir temeldir.",
-        "CTA": "Bir ağ geçidini kendiniz deneyin: <register>ücretsiz hesap oluşturun</register> ya da <models>modellere göz atın</models>."
+        "CTA": "Bir ağ geçidini kendiniz deneyin: <register>ücretsiz hesap oluşturun</register> ya da <models>modellere göz atın</models>.",
+        "TLDR": "LLM ağ geçidi, birçok model sağlayıcısının önünde tek bir API'dir: tek anahtar, tek fatura, tek uç nokta; yönlendirme ve yük devretme sizin için halledilir. {appName}, OpenAI uyumlu bir API üzerinden 200+ model sunan, ayrıca Anthropic ve Gemini yerel uç noktalarını da barındıran açık kaynaklı bir ağ geçididir; modellerin çoğunda ücretsiz katman, geri kalanında kullandıkça öde fiyatlandırması vardır.",
+        "FAQ_1_Q": "Doğrudan sağlayıcı anahtarı yerine ne zaman LLM ağ geçidine ihtiyacım olur?",
+        "FAQ_1_A": "Birden fazla model ailesi kullandığınızda, bir sağlayıcı çöktüğünde yük devretme istediğinizde veya tek fatura istediğinizde. Ağ geçidi, sağlayıcı başına hesapları ortadan kaldırır ve tek bir dizeyi değiştirerek model değiştirmenizi sağlar.",
+        "FAQ_2_Q": "LLM ağ geçidi gecikme ekler mi?",
+        "FAQ_2_A": "Fazladan bir sıçrama, genellikle onlarca milisaniye; akış bunu pratikte gizler. Yavaş yanıtlar, ağ geçidinden çok daha sık modelin kendisinden kaynaklanır.",
+        "FAQ_3_Q": "{appName} hangi uç noktaları sunar?",
+        "FAQ_3_A": "OpenAI uyumlu /v1/chat/completions, /v1/responses ve /v1/embeddings, Anthropic yerel /v1/messages ve Gemini yerel /v1beta, hepsi tek anahtarın arkasında."
       },
       "HOW_TO_CONNECT_ANY_LLM_TO_SILLYTAVERN": {
         "TITLE": "Herhangi bir LLM SillyTavern'e nasıl bağlanır",
@@ -1913,6 +1966,28 @@
       "STEP_4_DESC": "TUI'yi `hermes --tui` ile başlatın ve çalışmaya başlayın.",
       "TS_1_DESC": "Hermes, başlangıçta 64.000 jetonun altında bağlama sahip modelleri reddeder. {appName} modeller sayfasından daha büyük bağlamlı bir model seçin.",
       "TS_2_DESC": "Başlangıç `/v1/models` kontrolünü geçemiyorsa, `model.base_url` değerinin `/v1` ile bittiğini ve `OPENAI_API_KEY` değerinin `~/.hermes/.env` içinde ayarlandığını doğrulayın."
+    },
+    "MCP": {
+      "META": {
+        "TITLE": "MCP Sunucusu Kurulum Rehberi | {appName}",
+        "DESCRIPTION": "unorouter-mcp sunucusuyla herhangi bir MCP istemcisini {appName} hizmetine bağlayın. Canlı model kataloğunda arama yapın, fiyatları kontrol edin ve Claude Desktop veya Claude Code üzerinden herhangi bir modelle sohbet edin.",
+        "KEYWORDS": "MCP sunucusu, Model Context Protocol, unorouter-mcp, {appName} MCP, Claude Desktop MCP, Claude Code MCP, model kataloğu"
+      },
+      "BADGE": "MCP Sunucusu",
+      "TITLE": "MCP Sunucusu Kurulum Rehberi",
+      "SUBTITLE": "Herhangi bir MCP istemcisine {appName} için canlı erişim verin: model kataloğunda arayın, fiyatlara bakın ve unorouter-mcp sunucusu üzerinden herhangi bir modelle sohbet edin.",
+      "OVERVIEW_DESC": "unorouter-mcp, stdio üzerinden MCP sunucusu olarak çalışan bir npm paketidir ve resmi MCP kayıt defterinde com.unorouter/mcp adıyla yayınlanmıştır. Üç araç sunar: search_models canlı kataloğu filtreler ve free_only seçeneğini destekler, get_pricing 1M token başına USD liste fiyatlarını döndürür, chat ise herhangi bir modele prompt gönderir. Kaynak kodu github.com/0-don/unorouter-mcp adresindedir.",
+      "STEP_1_TITLE": "API anahtarı alın",
+      "STEP_1_DESC": "unorouter.com/token adresinde bir anahtar oluşturun. Sunucu anahtarı UNOROUTER_API_KEY ortam değişkeninden okur. UNOROUTER_BASE_URL isteğe bağlı bir uç nokta geçersiz kılmasıdır.",
+      "STEP_2_TITLE": "Sunucuyu Claude Desktop'a ekleyin",
+      "STEP_2_DESC": "Bu bloğu Claude Desktop yapılandırma dosyanıza ekleyin. npx ilk çalıştırmada unorouter-mcp paketini indirir, bu yüzden önceden kurulum gerekmez.",
+      "STEP_3_TITLE": "Ya da Claude Code'a kaydedin",
+      "STEP_3_DESC": "Tek bir komut sunucuyu anahtarınızla kaydeder.",
+      "STEP_4_TITLE": "Araçları kullanın",
+      "STEP_4_DESC": "İstemcinizden bir model bulmasını, fiyatları karşılaştırmasını veya bir modele prompt göndermesini isteyin. Gerektiğinde search_models, get_pricing ve chat araçlarını çağırır. stdio konuşan her MCP istemcisi çalışır.",
+      "GOTCHA_1": ":free son ekine sahip modeller ücretsizdir. Ücretsiz model başına dakikada yaklaşık 1 istek sınırı bekleyin.",
+      "GOTCHA_2": "UNOROUTER_API_KEY zorunludur. UNOROUTER_BASE_URL değişkenini yalnızca sunucuyu farklı bir uç noktaya yönlendirirken ayarlayın.",
+      "GOTCHA_3": "Kayıt defterini destekleyen MCP istemcileri sunucuyu npx komutu yerine com.unorouter/mcp kayıt adıyla kurabilir."
     },
     "SILLYTAVERN": {
       "META": {

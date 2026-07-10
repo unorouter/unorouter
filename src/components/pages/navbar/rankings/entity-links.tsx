@@ -20,7 +20,7 @@ export function ModelLink(props: ModelLinkProps) {
     <Link
       href={modelHref(props.modelName, props.vendor)}
       className={cn(
-        "decoration-foreground/30 hover:decoration-foreground underline decoration-1 underline-offset-4 transition-colors",
+        "decoration-foreground/30 hover:decoration-foreground -my-1 inline-block py-1 underline decoration-1 underline-offset-4 transition-colors",
         props.className,
       )}
     >
@@ -42,7 +42,7 @@ export function VendorLink(props: VendorLinkProps) {
     <a
       href={href}
       className={cn(
-        "hover:text-foreground underline decoration-current/40 decoration-1 underline-offset-2 transition-colors hover:decoration-current",
+        "hover:text-foreground -my-1 inline-block py-1 underline decoration-current/40 decoration-1 underline-offset-2 transition-colors hover:decoration-current",
         props.className,
       )}
     >
