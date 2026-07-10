@@ -8,19 +8,15 @@ import { localeUrl } from "@/i18n/navigation";
 import { LOCALES } from "@/lib/config/constants";
 import type { ProcessedModel } from "@/lib/api/pricing";
 import { APP_VALUES } from "@/lib/config/constants";
-import getQueryClient from "@/lib/react-query/client";
-import { queryKeys } from "@/lib/react-query/keys";
-import { prefetchElysia } from "@/lib/react-query/prefetch";
-import { rpc } from "@/lib/rpc";
+import { getCachedPricing, getComparePageData } from "@/lib/api/cached";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
 import { buildBreadcrumbListSchema } from "@/lib/seo/structured-data";
-import { handleElysia, modelMatchesSlug, modelSlug } from "@/lib/utils/base";
+import { modelMatchesSlug, modelSlug } from "@/lib/utils/base";
 import { serverLocale } from "@/lib/utils/server";
-import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
+import { HydrationBoundary } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
 
-export const dynamic = "force-dynamic";
 
 export function generateStaticParams() {
   return LOCALES.flatMap((locale) =>
@@ -32,7 +28,7 @@ async function resolveModels(
   slugs: string[] | undefined,
 ): Promise<ProcessedModel[]> {
   if (!slugs?.length) return [];
-  const summary = handleElysia(await rpc.api.models.pricing.get());
+  const summary = await getCachedPricing();
   const models = summary.models ?? [];
   return slugs
     .map((slug) => models.find((m) => modelMatchesSlug(m.name, slug)))
@@ -90,23 +86,8 @@ export default async function Page(props: {
   const params = await props.params;
   const locale = await serverLocale(props);
   const t = await getTranslations({ locale });
-  const queryClient = getQueryClient();
-
-  const [, , models] = await Promise.all([
-    queryClient.fetchQuery({
-      queryKey: queryKeys.pricing(),
-      queryFn: async () => handleElysia(await rpc.api.models.pricing.get()),
-    }),
-    Promise.all([
-      prefetchElysia(queryClient, queryKeys.rankings("week"), () =>
-        rpc.api.models.rankings.get({ query: { period: "week" } }),
-      ),
-      prefetchElysia(queryClient, queryKeys.perfMetricsSummary(24), () =>
-        rpc.api.models["perf-metrics"].summary.get({ query: { hours: 24 } }),
-      ),
-    ]),
-    resolveModels(params.slugs),
-  ]);
+  const data = await getComparePageData(params.slugs ?? []);
+  const models = data.models;
 
   const crumbs = [
     { name: t("NAV.HOME"), url: localeUrl(locale, "/") },
@@ -128,7 +109,7 @@ export default async function Page(props: {
         id="compare-breadcrumb"
         data={buildBreadcrumbListSchema(crumbs)}
       />
-      <HydrationBoundary state={dehydrate(queryClient)}>
+      <HydrationBoundary state={data.dehydrated}>
         <ComparePage />
       </HydrationBoundary>
     </>

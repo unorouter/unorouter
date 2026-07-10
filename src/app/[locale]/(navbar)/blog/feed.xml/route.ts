@@ -7,7 +7,6 @@ import { serverLocale } from "@/lib/utils/server";
 import { Feed } from "feed";
 import { getTranslations } from "next-intl/server";
 
-export const revalidate = 3600;
 
 export async function GET(
   _req: Request,

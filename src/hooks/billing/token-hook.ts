@@ -25,10 +25,14 @@ function useTokenTableQueryKey() {
 }
 
 export function useBestKeyQuery() {
+  const authQuery = useAuthQuery();
   return useElysiaQuery(
     queryKeys.bestKey(),
     () => rpc.api.billing.token["best-key"].get(),
-    { enabled: false, select: (data) => (data?.key ? `sk-${data.key}` : null) },
+    {
+      enabled: !!authQuery.data,
+      select: (data) => (data?.key ? `sk-${data.key}` : null),
+    },
   );
 }
 

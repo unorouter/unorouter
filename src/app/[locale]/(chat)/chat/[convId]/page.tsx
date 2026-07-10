@@ -3,6 +3,7 @@ import { APP_VALUES } from "@/lib/config/constants";
 import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
 import { fetchConvTitle, serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
+import { Suspense } from "react";
 
 type Props = {
   params: Promise<{ locale: string; convId: string }>;
@@ -26,7 +27,15 @@ export async function generateMetadata(props: Props) {
   });
 }
 
-export default async function ChatConvPage(props: Props) {
+async function Inner(props: Props) {
   const { convId } = await props.params;
   return <Chat convId={convId} />;
+}
+
+export default function ChatConvPage(props: Props) {
+  return (
+    <Suspense>
+      <Inner params={props.params} />
+    </Suspense>
+  );
 }

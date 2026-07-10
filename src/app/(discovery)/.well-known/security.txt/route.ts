@@ -2,7 +2,6 @@ import { routing } from "@/i18n/routing";
 import { env } from "@/lib/config/env";
 import { dayjs } from "@/lib/utils/format/date";
 
-export const dynamic = "force-static";
 
 export function GET() {
   const expires = dayjs().add(1, "year").toISOString();

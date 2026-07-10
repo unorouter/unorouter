@@ -10,10 +10,14 @@ import { handleElysia } from "@/lib/utils/base";
 type AuthLogin = typeof rpc.api.auth.account.login;
 
 export function useAuthQuery() {
+  // Client-fetched after mount: streaming server auth state into the static
+  // shell hydration-mismatches every auth-dependent shell component (navbar
+  // rendered logged-out on the server, logged-in at hydration). retry off:
+  // anonymous sessions legitimately 401 here.
   return useElysiaQuery(
     queryKeys.auth(),
     () => rpc.api.auth.account.self.get(),
-    { enabled: false },
+    { retry: false },
   );
 }
 

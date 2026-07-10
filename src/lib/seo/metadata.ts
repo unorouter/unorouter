@@ -40,7 +40,7 @@ export function ogBadge(
     size: "og",
     model: opts.model,
     models: opts.models,
-    v: Number(process.env.NEXT_PUBLIC_BUILD_DATE) || 1,
+    v: Number(process.env.NEXT_PUBLIC_BUILD_DATE?.replaceAll("-", "")) || 1,
   });
 }
 

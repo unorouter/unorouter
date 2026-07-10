@@ -11,6 +11,7 @@ import { buildBreadcrumbListSchema } from "@/lib/seo/structured-data";
 import { serverLocale } from "@/lib/utils/server";
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
+import { Suspense } from "react";
 
 export async function generateMetadata(props: {
   params: Promise<{ locale: string }>;
@@ -27,11 +28,8 @@ export async function generateMetadata(props: {
   });
 }
 
-export default async function StatusRoute(props: {
-  params: Promise<{ locale: string }>;
-}) {
-  const locale = await serverLocale(props);
-  const t = await getTranslations({ locale });
+// Live status data streams from a Suspense hole so the shell prerenders.
+async function StatusData() {
   const queryClient = getQueryClient();
 
   await Promise.all([
@@ -49,6 +47,19 @@ export default async function StatusRoute(props: {
   ]);
 
   return (
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <StatusPage />
+    </HydrationBoundary>
+  );
+}
+
+export default async function StatusRoute(props: {
+  params: Promise<{ locale: string }>;
+}) {
+  const locale = await serverLocale(props);
+  const t = await getTranslations({ locale });
+
+  return (
     <>
       <JsonLd
         id="status-breadcrumb"
@@ -57,9 +68,9 @@ export default async function StatusRoute(props: {
           { name: t("NAV.STATUS"), url: localeUrl(locale, "/status") },
         ])}
       />
-      <HydrationBoundary state={dehydrate(queryClient)}>
-        <StatusPage />
-      </HydrationBoundary>
+      <Suspense>
+        <StatusData />
+      </Suspense>
     </>
   );
 }

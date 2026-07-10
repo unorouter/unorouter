@@ -3,6 +3,7 @@ import { APP_VALUES } from "@/lib/config/constants";
 import { getPageMetadata } from "@/lib/seo/metadata";
 import { serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
+import { Suspense } from "react";
 
 export async function generateMetadata(props: {
   params: Promise<{ locale: string }>;
@@ -19,10 +20,12 @@ export async function generateMetadata(props: {
   });
 }
 
-export default async function PlaygroundByIdPage(props: {
+type PageProps = {
   params: Promise<{ id: string }>;
   searchParams: Promise<{ snap?: string }>;
-}) {
+};
+
+async function Inner(props: PageProps) {
   const params = await props.params;
   const search = await props.searchParams;
   return (
@@ -30,5 +33,13 @@ export default async function PlaygroundByIdPage(props: {
       sessionId={params.id}
       snapshotId={search.snap ?? undefined}
     />
+  );
+}
+
+export default function PlaygroundByIdPage(props: PageProps) {
+  return (
+    <Suspense>
+      <Inner params={props.params} searchParams={props.searchParams} />
+    </Suspense>
   );
 }

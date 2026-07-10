@@ -15,14 +15,13 @@ import {
 } from "@/components/ui/theme/theme-store";
 import { routing } from "@/i18n/routing";
 import { APP_VALUES } from "@/lib/config/constants";
-import { rpc } from "@/lib/rpc";
+import { getCachedPricing } from "@/lib/api/cached";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
 import {
   buildOrganizationSchema,
   buildWebSiteSchema,
 } from "@/lib/seo/structured-data";
-import { handleElysia } from "@/lib/utils/base";
 import { serverLocale } from "@/lib/utils/server";
 import { Viewport } from "next";
 import { hasLocale } from "next-intl";
@@ -71,10 +70,7 @@ export async function generateMetadata(props: {
   const locale = await serverLocale(props);
   const [t, pricing] = await Promise.all([
     getTranslations({ locale }),
-    rpc.api.models.pricing
-      .get()
-      .then((r) => handleElysia(r))
-      .catch(() => null),
+    getCachedPricing().catch(() => null),
   ]);
 
   return getPageMetadata({
@@ -99,6 +95,10 @@ type Props = {
 // and UserThemeProvider swaps in the full custom CSS at hydration.
 const DEFAULT_THEME_ATTRS = themeDataAttrs(INITIAL_USER_THEME);
 const DEFAULT_THEME_CSS = buildThemeCss(INITIAL_USER_THEME);
+
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
 
 export default async function LocaleLayout(props: Props) {
   const params = await props.params;

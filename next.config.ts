@@ -26,12 +26,10 @@ const corpCrossOrigin = [
 const nextConfig: NextConfig = {
   output: process.env.STANDALONE ? "standalone" : undefined,
   env: {
-    // og-image cache buster, fixed at build time: reading the clock during
-    // render is non-deterministic and rejected by cacheComponents prerenders.
-    NEXT_PUBLIC_BUILD_DATE: new Date()
-      .toISOString()
-      .slice(0, 10)
-      .replaceAll("-", ""),
+    // Build-time date (YYYY-MM-DD) for og-image cache busting and the blog
+    // publish-date filter: reading the clock during render is
+    // non-deterministic and rejected by cacheComponents prerenders.
+    NEXT_PUBLIC_BUILD_DATE: new Date().toISOString().slice(0, 10),
   },
   // wasmoon's emscripten loader probes node builtins (`import('module')`);
   // alias them to an empty stub in browser bundles. Server keeps real modules
@@ -42,6 +40,7 @@ const nextConfig: NextConfig = {
     },
   },
   serverExternalPackages: ["wasmoon", "sharp", "unpdf"],
+  cacheComponents: true,
   // productionBrowserSourceMaps: true,
   experimental: {
     // allowDevelopmentBuild: true,

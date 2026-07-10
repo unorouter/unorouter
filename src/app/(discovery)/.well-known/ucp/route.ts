@@ -1,7 +1,6 @@
 import { env } from "@/lib/config/env";
 import { parseJwks, stripPrivateFields } from "@/server/auth/web-bot-auth/keys";
 
-export const dynamic = "force-dynamic";
 
 const ns = `ai.${env.appName.toLowerCase()}`;
 

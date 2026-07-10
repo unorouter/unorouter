@@ -5,6 +5,7 @@ import { rpc } from "@/lib/rpc";
 import { getPageMetadata } from "@/lib/seo/metadata";
 import { redirectToLogin, serverLocale, setCookies } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
+import { Suspense } from "react";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -25,7 +26,7 @@ export async function generateMetadata(props: {
   });
 }
 
-export default async function DashboardLayout(props: DashboardLayoutProps) {
+async function AuthGate(props: DashboardLayoutProps) {
   const response = await rpc.api.auth.account.self.get(await setCookies());
   if (response.status !== 200) await redirectToLogin();
 
@@ -33,5 +34,15 @@ export default async function DashboardLayout(props: DashboardLayoutProps) {
     <SidebarLayout before={<AuthRedirectCleanup />}>
       {props.children}
     </SidebarLayout>
+  );
+}
+
+// The Suspense gate keeps the cookie-based auth check out of the static
+// shell; it also covers every sidebar page's own request-bound prefetches.
+export default function DashboardLayout(props: DashboardLayoutProps) {
+  return (
+    <Suspense>
+      <AuthGate>{props.children}</AuthGate>
+    </Suspense>
   );
 }

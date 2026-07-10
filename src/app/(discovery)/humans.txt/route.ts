@@ -4,7 +4,6 @@ import { serverLocale } from "@/lib/utils/server";
 import { dayjs } from "@/lib/utils/format/date";
 import { getTranslations } from "next-intl/server";
 
-export const dynamic = "force-dynamic";
 
 export async function GET() {
   const locale = await serverLocale();

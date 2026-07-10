@@ -6,7 +6,9 @@ function makeQueryClient() {
     defaultOptions: {
       queries: {
         refetchOnWindowFocus: false,
-        staleTime: Infinity,
+        // "static", not Infinity: useQuery's staleness check reads the clock,
+        // which cacheComponents prerenders reject in client components.
+        staleTime: "static",
       },
     },
   });

@@ -14,7 +14,7 @@ import {
   SERVER_URL_KEY,
   USER_ID_COOKIE,
 } from "../config/constants";
-import { getPricingSummary } from "@/server/models/pricing/pricing.service";
+import { getCachedPricing } from "../api/cached";
 import { rpc } from "../rpc";
 import { handleElysia } from "./base";
 
@@ -81,7 +81,7 @@ export const getResolvedUserId = async (): Promise<number> => {
 };
 
 export const getDocsApiKey = async (placeholder = "YOUR_API_KEY") => {
-  const data = await getPricingSummary();
+  const data = await getCachedPricing();
   const rawModels = data.models ?? [];
   const models = rawModels.map((m) => ({
     name: m.name,
