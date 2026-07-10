@@ -7,7 +7,6 @@ import { getLocale, setRequestLocale } from "next-intl/server";
 import { cookies, headers } from "next/headers";
 import {
   AUTH_REDIRECT_QUERY,
-  GUEST_USER_ID,
   LOCALE_COOKIE,
   LOCALES,
   msg,
@@ -62,22 +61,6 @@ export const serverLocale = async (props?: {
   return ((await safe(getLocale)) ||
     (await safe(async () => (await cookies()).get(LOCALE_COOKIE)?.value)) ||
     LOCALES[0]) as Locale;
-};
-
-export const getCookieValue = async <T>(
-  key: string,
-): Promise<T | undefined> => {
-  const cookieStore = await cookies();
-  try {
-    return JSON.parse(cookieStore.get(key)?.value ?? "");
-  } catch {
-    return undefined;
-  }
-};
-
-export const getResolvedUserId = async (): Promise<number> => {
-  const sealed = (await cookies()).get(USER_ID_COOKIE)?.value;
-  return (await verifyUserId(sealed)) ?? GUEST_USER_ID;
 };
 
 export const getDocsApiKey = async (placeholder = "YOUR_API_KEY") => {

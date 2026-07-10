@@ -6,6 +6,11 @@ import {
 import { msg } from "@/lib/config/constants";
 import { getPricing } from "@/openapi";
 
+// Pricing crosses THREE cache layers; keep their roles distinct when touching
+// any of them: (1) this in-module 5min summary for server-internal consumers,
+// (2) the Next Data Cache 1h on PUBLIC upstream GETs (PUBLIC_CACHE, keyed by
+// URL only, so always pair with ADMIN_HEADERS), (3) the Cloudflare edge in
+// front of the /pricing BFF responses (purged by CI after deploy).
 let cache: {
   models: ProcessedModel[];
   byName: Map<string, ProcessedModel>;

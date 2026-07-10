@@ -9,7 +9,6 @@ import {
   type GridPricingRow,
   type ProcessedModel,
 } from "@/lib/api/pricing";
-import { fixedPriceUnitLabel } from "@/lib/api/model-modality";
 import { getVendorTheme } from "@/lib/config/vendor-registry";
 import { cn } from "@/lib/utils";
 import { formatPrice } from "@/lib/utils/format/number";
@@ -20,6 +19,7 @@ import {
 } from "../shared/mini-table";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
+import { FixedPriceUnit } from "../shared/fixed-price-unit";
 
 type Theme = ReturnType<typeof getVendorTheme>;
 
@@ -84,14 +84,6 @@ export function GroupPricingSection(props: {
       )}
     </div>
   );
-}
-
-function FixedPriceUnit(props: { model: ProcessedModel }) {
-  const t = useTranslations();
-  const unit = fixedPriceUnitLabel(props.model);
-  if (unit === "second") return <>{t("MODELS.PRICE.PER_SECOND")}</>;
-  if (unit === "image") return <>{t("MODELS.PRICE.PER_IMAGE")}</>;
-  return <>{t("MODELS.PRICE.PER_REQUEST")}</>;
 }
 
 function GroupTokens(props: {

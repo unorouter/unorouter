@@ -12,7 +12,7 @@ import {
 } from "@/lib/seo/structured-data";
 import { localeUrl } from "@/i18n/navigation";
 import { serverLocale } from "@/lib/utils/server";
-import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
+import { HydrationBoundary } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
 
 export async function generateMetadata(props: {
