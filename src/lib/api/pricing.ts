@@ -461,7 +461,7 @@ export function slimPricingForHydration(data: unknown): unknown {
     | ({
         models?: ProcessedModel[];
         vendors?: { models?: ProcessedModel[] }[];
-        modelsByType?: Record<string, ProcessedModel[]>;
+        modelsByType?: { tag: string; models: ProcessedModel[] }[];
       } & Record<string, unknown>)
     | null;
   // serializeData runs for EVERY dehydrated query; the rankings summary also
@@ -474,21 +474,17 @@ export function slimPricingForHydration(data: unknown): unknown {
   ) {
     return data;
   }
+  // modelsByType and vendors[].models duplicate every model (the flight
+  // payload carried each model ~3.5x). Nothing on the models page reads
+  // them before the idle refetch restores the full summary; the model
+  // selector and nav previews live on pages that fetch client-side.
   return {
     ...d,
     _slim: true,
     models: d.models.map(slimModel),
-    vendors: d.vendors.map((v) => ({
-      ...v,
-      models: (v.models ?? []).map(slimModel),
-    })),
-    ...(d.modelsByType && {
-      modelsByType: Object.fromEntries(
-        Object.entries(d.modelsByType).map(([k, list]) => [
-          k,
-          Array.isArray(list) ? list.map(slimModel) : list,
-        ]),
-      ),
+    vendors: d.vendors.map((v) => ({ ...v, models: [] })),
+    ...(Array.isArray(d.modelsByType) && {
+      modelsByType: d.modelsByType.map((e) => ({ ...e, models: [] })),
     }),
   };
 }
