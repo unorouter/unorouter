@@ -1,6 +1,8 @@
 "use client";
 
 import { GUEST_USER_ID } from "@/lib/config/constants";
+import { logChatDebug } from "@/lib/utils/chat-debug-log";
+import { dayjs } from "@/lib/utils/format/date";
 import {
   characters,
   chatGroups,
@@ -398,6 +400,84 @@ export async function deleteLocalMessagesForConv(
   const local = await getLocalDb(userId);
   if (!local) return;
   await local.db.delete(messages).where(eq(messages.convId, convId));
+}
+
+export async function bumpLocalConvUpdatedAt(
+  userId: number | undefined,
+  convId: string,
+) {
+  const conv = await readLocalConversation(userId, convId);
+  if (conv) {
+    await upsertLocalConversation(userId, {
+      ...conv,
+      updatedAt: dayjs().toDate(),
+    });
+  }
+}
+
+export async function setLocalActiveBranch(
+  userId: number | undefined,
+  convId: string,
+  msgId: string,
+) {
+  const msgs = (await readLocalMessages(userId, convId)) ?? [];
+  const target = msgs.find((m) => m.id === msgId);
+  const parentId = target?.parentId ?? null;
+  const now = dayjs().toDate();
+  for (const m of msgs) {
+    if ((m.parentId ?? null) === parentId) {
+      await upsertLocalMessage(userId, {
+        ...m,
+        isActiveBranch: m.id === msgId,
+        updatedAt: now,
+      });
+    }
+  }
+  if (parentId === null && target?.role === "assistant") {
+    await updateLocalConversationSettings(userId, {
+      convId,
+      firstMsgIndex: (target.branchIndex ?? 0) - 1,
+    });
+  }
+  await bumpLocalConvUpdatedAt(userId, convId);
+}
+
+export async function spliceDeleteLocalMessage(
+  userId: number | undefined,
+  convId: string,
+  msgId: string,
+) {
+  const msgs = (await readLocalMessages(userId, convId)) ?? [];
+  const target = msgs.find((m) => m.id === msgId);
+  const newParentId = target?.parentId ?? null;
+  const now = dayjs().toDate();
+  const childIds: string[] = [];
+  for (const m of msgs) {
+    if (m.parentId === msgId) {
+      childIds.push(m.id);
+      await upsertLocalMessage(userId, {
+        ...m,
+        parentId: newParentId,
+        updatedAt: now,
+      });
+    }
+  }
+  if (childIds.length > 0) {
+    const check = (await readLocalMessages(userId, convId)) ?? [];
+    for (const id of childIds) {
+      const child = check.find((m) => m.id === id);
+      if (child && child.parentId === msgId) {
+        logChatDebug("delete.splice_retry", { msgId, child: id });
+        await upsertLocalMessage(userId, {
+          ...child,
+          parentId: newParentId,
+          updatedAt: now,
+        });
+      }
+    }
+  }
+  await deleteLocalMessage(userId, msgId);
+  await bumpLocalConvUpdatedAt(userId, convId);
 }
 
 export async function replaceLocalMessageItems(
