@@ -26,7 +26,7 @@ import {
 } from "@tanstack/react-table";
 import { useWindowVirtualizer } from "@tanstack/react-virtual";
 import { useAtomValue, useSetAtom } from "jotai";
-import React, { type ReactNode, useRef, useState } from "react";
+import React, { type ReactNode, useEffect, useRef, useState } from "react";
 import { DataTablePagination } from "./data-table-pagination";
 import { DataTableViewOptions } from "./data-table-view-options";
 
@@ -103,6 +103,13 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
   });
 
   const rows = table.getRowModel().rows;
+  // The window virtualizer renders no rows until it can measure, so SSR HTML
+  // held an empty tbody and the table only painted after hydration (late LCP
+  // on /models). Render the first screenful statically until mount.
+  const [virtualReady, setVirtualReady] = useState(false);
+  useEffect(() => {
+    if (props.windowVirtual) setVirtualReady(true);
+  }, [props.windowVirtual]);
   const virtualizer = useWindowVirtualizer({
     count: props.windowVirtual ? rows.length : 0,
     estimateSize: () => props.estimateRowHeight ?? 53,
@@ -238,17 +245,22 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
               !props.windowVirtual &&
               rows.map((row) => renderRow(row))}
 
-            {!props.isLoading && props.windowVirtual && rows.length > 0 && (
-              <>
-                {paddingTop > 0 && (
-                  <tr aria-hidden style={{ height: paddingTop }} />
-                )}
-                {virtualRows.map((vr) => renderRow(rows[vr.index]))}
-                {paddingBottom > 0 && (
-                  <tr aria-hidden style={{ height: paddingBottom }} />
-                )}
-              </>
-            )}
+            {!props.isLoading &&
+              props.windowVirtual &&
+              rows.length > 0 &&
+              (virtualReady ? (
+                <>
+                  {paddingTop > 0 && (
+                    <tr aria-hidden style={{ height: paddingTop }} />
+                  )}
+                  {virtualRows.map((vr) => renderRow(rows[vr.index]))}
+                  {paddingBottom > 0 && (
+                    <tr aria-hidden style={{ height: paddingBottom }} />
+                  )}
+                </>
+              ) : (
+                rows.slice(0, 25).map((row) => renderRow(row))
+              ))}
           </TableBody>
         </Table>
       </div>
