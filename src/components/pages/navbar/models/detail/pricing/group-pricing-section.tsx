@@ -10,7 +10,7 @@ import {
   type ProcessedModel,
 } from "@/lib/api/pricing";
 import { fixedPriceUnitLabel } from "@/lib/api/model-modality";
-import { getVendorTheme } from "@/lib/config/vendor-themes";
+import { getVendorTheme } from "@/lib/config/vendor-registry";
 import { cn } from "@/lib/utils";
 import { formatPrice } from "@/lib/utils/format/number";
 import {

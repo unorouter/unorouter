@@ -1,4 +1,4 @@
-import type { IconComponent } from "@/lib/config/vendor-icons";
+import type { IconComponent } from "@/lib/config/vendor-registry";
 
 const DeepgramIcon: IconComponent = (props) => (
   <svg

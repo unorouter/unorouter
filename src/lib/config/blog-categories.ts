@@ -1,4 +1,4 @@
-import type { VendorTheme } from "@/lib/config/vendor-themes";
+import type { VendorTheme } from "@/lib/config/vendor-registry";
 import type { BlogCategory } from "@/lib/types";
 
 export const BLOG_CATEGORIES: readonly BlogCategory[] = [

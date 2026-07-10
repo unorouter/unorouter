@@ -1,4 +1,6 @@
 /// <reference lib="webworker" />
+// Every caching rule in this worker is incident-derived and LOCKED; read the
+// "PWA / offline" section in CLAUDE.md before changing any of them.
 import { defaultCache } from "@serwist/turbopack/worker";
 import type { PrecacheEntry, SerwistGlobalConfig } from "serwist";
 import {

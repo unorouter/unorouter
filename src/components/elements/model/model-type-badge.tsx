@@ -1,6 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import type { ModelType } from "@/lib/api/pricing";
-import type { VendorTheme } from "@/lib/config/vendor-themes";
+import type { VendorTheme } from "@/lib/config/vendor-registry";
 import { cn } from "@/lib/utils";
 
 const TYPE_CLASSES: Record<Exclude<ModelType, "text">, string> = {

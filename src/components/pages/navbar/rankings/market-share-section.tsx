@@ -12,7 +12,7 @@ import type {
   RankingPeriod,
   VendorShareSeries,
 } from "@/lib/api/typebox/rankings";
-import { DEFAULT_THEME, getVendorTheme } from "@/lib/config/vendor-themes";
+import { DEFAULT_THEME, getVendorTheme } from "@/lib/config/vendor-registry";
 import { formatShare, formatTokens } from "@/lib/utils/format/number";
 import { useLocale, useTranslations } from "next-intl";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";

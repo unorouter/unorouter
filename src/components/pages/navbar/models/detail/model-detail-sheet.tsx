@@ -28,7 +28,7 @@ import { fixedPriceUnitLabel } from "@/lib/api/model-modality";
 import { useModelDetailQuery } from "@/hooks/models/pricing-hook";
 import { SectionHeading } from "./shared/section-heading";
 import { env } from "@/lib/config/env";
-import { getVendorTheme } from "@/lib/config/vendor-themes";
+import { getVendorTheme } from "@/lib/config/vendor-registry";
 import { cn } from "@/lib/utils";
 import { formatPrice } from "@/lib/utils/format/number";
 import { useLocale, useTranslations } from "next-intl";
