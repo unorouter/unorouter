@@ -325,7 +325,7 @@ Server-side events go through `captureServerEvent` in `src/lib/posthog-server.ts
 
 ## User theme
 
-`src/components/ui/theme/`: shadcn-variable theme customizer. `theme-store.ts` (`UserTheme`, cookie-persisted via `theme-store-provider.tsx` `useHydrateAtoms`, first-mount only), `theme-build-css.ts` (`buildThemeCss` + `buildBackgroundCss`; background image is localStorage-only, painted on `body::before`), `theme-server.ts` (cookie pre-read). `[locale]/layout.tsx` renders the CSS in a React hoistable `<style href="user-theme" precedence>` so extension-injected style nodes (Dark Reader) can't be adopted in its place during hydration. Synced cross-device as the single-row `theme` sync kind (`userThemes` table).
+`src/components/ui/theme/`: shadcn-variable theme customizer. `theme-store.ts` (`UserTheme`, `userThemeAtom` = atomWithStorage over `jotaiCookieStorage` with `getOnInit: true`, so the CLIENT atom reads the cookie at init; the server never reads the theme cookie), `theme-build-css.ts` (`buildThemeCss` + `buildBackgroundCss`; background image is localStorage-only, painted on `body::before`). `[locale]/layout.tsx` ships a STATIC default-theme shell: default `themeDataAttrs` on `<html>`, default CSS in `<style id="user-theme">`, plus a pre-paint inline script that applies the cookie's data-attrs (style/menu/menuAccent/iconLibrary) before first paint; `UserThemeProvider` swaps in the full custom CSS at hydration (custom color palettes flash default until then - accepted for the PPR shell groundwork). `theme-store-provider.tsx` and `theme-server.ts` were removed. Synced cross-device as the single-row `theme` sync kind (`userThemes` table).
 
 ## Imperative confirm
 
