@@ -92,6 +92,7 @@ export const VENDOR_LOADERS: Partial<Record<Vendor, IconLoader>> = {
   [Vendor.ORCAROUTER]: () =>
     import("@/components/elements/brand/orcarouter-icon"),
   [Vendor.REGOLO]: () => import("@/components/elements/brand/regolo-icon"),
+  [Vendor.SARVAM]: () => import("@/components/elements/brand/sarvam-icon"),
   [Vendor.HCOMPANY]: () => import("@/components/elements/brand/hcompany-icon"),
   [Vendor.AIONLABS]: () => import("@lobehub/icons/es/AionLabs"),
   [Vendor.SAO10K]: () => import("@/components/elements/brand/sao10k-icon"),

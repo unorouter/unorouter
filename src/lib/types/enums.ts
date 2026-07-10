@@ -110,6 +110,7 @@ export enum Vendor {
   ABLITERATION = "abliteration",
   ORCAROUTER = "orcarouter",
   REGOLO = "regolo",
+  SARVAM = "sarvam",
 }
 
 export enum OS {

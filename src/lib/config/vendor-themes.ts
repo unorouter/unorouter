@@ -466,6 +466,14 @@ const VENDOR_THEMES: Record<string, VendorTheme> = {
     tagBorder: "border-emerald-500/20",
     primary: "#059669",
   },
+  [Vendor.SARVAM]: {
+    bg: "bg-orange-500/5",
+    border: "border-orange-500/20",
+    text: "text-orange-700 dark:text-orange-300",
+    tagBg: "bg-orange-500/10",
+    tagBorder: "border-orange-500/20",
+    primary: "#ea580c",
+  },
   [Vendor.SWISSAI]: {
     bg: "bg-red-500/5",
     border: "border-red-500/20",
