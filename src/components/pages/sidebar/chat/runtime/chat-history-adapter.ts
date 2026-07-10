@@ -58,6 +58,14 @@ type EncodedContent = {
   parts: MessagePart[];
 };
 
+type MessageItem = ReturnType<typeof partsToItems>[number];
+
+type IllustratorJob = {
+  taskId: string;
+  settings: IllustratorConvSettings;
+  utilityModel: string;
+};
+
 async function repairBrokenChain(
   userId: number,
   convId: string,
@@ -127,6 +135,295 @@ function buildRepository<TMessage>(
   const headId =
     activeTip?.id ?? (raw.length > 0 ? raw[raw.length - 1].id : null);
   return { headId, messages };
+}
+
+function assistantTextOf(content: EncodedContent): string {
+  if (content.role !== "assistant") return "";
+  return content.parts
+    .filter(
+      (p): p is MessagePart & { text: string } =>
+        p.type === "text" && typeof p.text === "string",
+    )
+    .map((p) => p.text)
+    .join("\n");
+}
+
+// Regex editoutput scripts, Lua editoutput hooks, then output-mode triggers.
+async function applyAssistantOutputTransforms(
+  userId: number,
+  convId: string,
+  parts: MessagePart[],
+): Promise<MessagePart[]> {
+  let out = parts;
+  const scripts = await readConvRegexScripts(userId, convId);
+  if (scripts.length > 0) {
+    out = out.map((p) =>
+      p.type === "text" && typeof p.text === "string"
+        ? { ...p, text: runRegexScripts(p.text, scripts, "editoutput") }
+        : p,
+    );
+  }
+  const triggers = await readConvTriggers(userId, convId);
+  if (triggers.length > 0) {
+    const { extractLuaCodes, runLuaEditTrigger } =
+      await import("@/lib/ai/chat/triggers/lua/engine");
+    const luaCodes = extractLuaCodes(triggers);
+    if (luaCodes.length > 0) {
+      const editCtx = makeTriggerContext({
+        mode: "output",
+        vars: {},
+        globalVars: {},
+        chat: [],
+      });
+      out = await Promise.all(
+        out.map(async (p) =>
+          p.type === "text" && typeof p.text === "string"
+            ? {
+                ...p,
+                text: await runLuaEditTrigger(
+                  luaCodes,
+                  "editoutput",
+                  editCtx,
+                  p.text,
+                ),
+              }
+            : p,
+        ),
+      );
+    }
+    await runOutputTriggers(userId, convId, triggers, out);
+  }
+  return out;
+}
+
+// A stream failure within the last 30s rides the persisted assistant turn as
+// an error item so the failure survives reloads.
+function appendStreamErrorItem(
+  items: MessageItem[],
+  resolvedModel: string | null,
+): void {
+  const streamError = chatStore.get(lastStreamErrorAtom);
+  if (!streamError || Date.now() - streamError.at >= 30_000) return;
+  chatStore.set(lastStreamErrorAtom, null);
+  if (items.some((it) => it.type === "error")) return;
+  items.push({
+    type: "error",
+    data: {
+      message: streamError.message,
+      ...(resolvedModel && { model: resolvedModel }),
+      ...(streamError.code && { code: streamError.code }),
+      ...(streamError.status && { status: streamError.status }),
+      ...(streamError.requestId && { requestId: streamError.requestId }),
+    },
+  });
+}
+
+async function prepareIllustratorJob(
+  userId: number,
+  convId: string,
+  items: MessageItem[],
+  resolvedModel: string | null,
+): Promise<IllustratorJob | null> {
+  const { resolveIllustratorSettings } = await import("./illustrator-run");
+  const illu = await resolveIllustratorSettings(userId, convId);
+  const hasError = items.some((it) => it.type === "error");
+  if (!illu?.imageEnabled || hasError) return null;
+  const taskId = uid();
+  const job: IllustratorJob = {
+    taskId,
+    settings: illu,
+    utilityModel: illu.utilityModel || resolvedModel || illu.defaultModel || "",
+  };
+  items.push({
+    type: "task",
+    data: {
+      task_id: taskId,
+      kind: "image",
+      model: job.utilityModel,
+      status: "generating",
+    },
+  });
+  return job;
+}
+
+async function persistInlayMedia(
+  userId: number,
+  convId: string,
+  metadata: ChatMessageMetadata | null,
+): Promise<void> {
+  if (!metadata?.inlayMedia) return;
+  for (const m of metadata.inlayMedia) {
+    await upsertLocalMedia(userId, {
+      id: m.id,
+      convId,
+      mimeType: m.mimeType,
+      sizeBytes: m.sizeBytes,
+      dataBase64: m.dataBase64,
+      r2Key: null,
+      r2Url: null,
+    });
+  }
+}
+
+type BranchPlacement = {
+  parentId: string | null;
+  parentBranchVars: string | null;
+  nextBranchIndex: number;
+};
+
+// Siblings already under this parent: a reroll adds a NEW branch, so the existing ones must be
+// deactivated and the new one gets the next branchIndex. Without this every sibling kept
+// isActiveBranch=1/branchIndex=0, so walkActiveBranch picked the wrong tip and switching branches
+// rendered an empty thread.
+async function placeOnBranch(
+  userId: number,
+  convId: string,
+  messageId: string,
+  requestedParentId: string | null,
+  now: Date,
+): Promise<BranchPlacement> {
+  let parentId = requestedParentId;
+  let parentBranchVars: string | null = null;
+  let siblings: NonNullable<
+    Awaited<ReturnType<typeof readLocalMessages>>
+  > = [];
+  const existing = (await readLocalMessages(userId, convId)) ?? [];
+  if (existing.length > 0) {
+    const tipRow = walkActiveBranch(existing).path.at(-1) as
+      { id: string; branchVars?: string | null } | undefined;
+    if (parentId === null && tipRow) parentId = tipRow.id;
+    const parentRow = parentId
+      ? existing.find((m) => m.id === parentId)
+      : tipRow;
+    parentBranchVars =
+      (parentRow as { branchVars?: string | null } | undefined)?.branchVars ??
+      null;
+    siblings = existing.filter(
+      (m) => (m.parentId ?? null) === parentId && m.id !== messageId,
+    );
+  }
+  const nextBranchIndex =
+    siblings.length === 0
+      ? 0
+      : Math.max(
+          ...siblings.map((s) => s.branchIndex ?? 0),
+          siblings.length - 1,
+        ) + 1;
+  for (const sib of siblings) {
+    const row = { ...sib } as Record<string, unknown>;
+    delete row.items;
+    await upsertLocalMessage(userId, {
+      ...(row as Parameters<typeof upsertLocalMessage>[1]),
+      isActiveBranch: false,
+      updatedAt: now,
+    });
+  }
+  return { parentId, parentBranchVars, nextBranchIndex };
+}
+
+async function persistRequestLog(
+  queryClient: QueryClient,
+  userId: number,
+  convId: string,
+  messageId: string,
+  metadata: ChatMessageMetadata | null,
+  resolvedModel: string | null,
+  now: Date,
+): Promise<void> {
+  const usage = metadata?.usage ?? null;
+  const debug = metadata?.debug ?? null;
+  if (!debug) return;
+  const logRow: RequestLogRow = {
+    ...debug,
+    msgId: messageId,
+    convId,
+    inputTokens: usage?.inputTokens ?? null,
+    outputTokens: usage?.outputTokens ?? null,
+    cost: usage?.cost ?? null,
+    durationMs: usage?.durationMs ?? null,
+    tokensPerSecond: usage?.tokensPerSecond ?? null,
+    createdAt: now,
+  };
+  await insertLocalRequestLog(userId, logRow);
+  queryClient.invalidateQueries({
+    queryKey: queryKeys.requestLog(messageId),
+  });
+  const reqId = (logRow as { requestId?: string | null }).requestId;
+  if (reqId && !isCustomModelId(resolvedModel)) {
+    await enqueueLogEnrich(userId, messageId, reqId);
+    drainSoon(userId);
+  }
+}
+
+async function bumpConversationTotals(
+  userId: number,
+  convId: string,
+  existingConv: Awaited<ReturnType<typeof readLocalConversation>>,
+  metadata: ChatMessageMetadata | null,
+  now: Date,
+): Promise<void> {
+  const usage = metadata?.usage ?? null;
+  const varsWriteback = metadata?.vars ?? null;
+  const convForTotals =
+    existingConv ?? (await readLocalConversation(userId, convId));
+  await upsertLocalConversation(userId, {
+    ...(convForTotals ?? {}),
+    id: convId,
+    totalInputTokens:
+      (convForTotals?.totalInputTokens ?? 0) + (usage?.inputTokens ?? 0),
+    totalOutputTokens:
+      (convForTotals?.totalOutputTokens ?? 0) + (usage?.outputTokens ?? 0),
+    totalCost: (convForTotals?.totalCost ?? 0) + (usage?.cost ?? 0),
+    ...(varsWriteback != null ? { vars: varsWriteback } : {}),
+    ...(metadata?.summary
+      ? {
+          summaryMemory: metadata.summary.summary,
+          summaryAnchor: metadata.summary.anchor,
+        }
+      : {}),
+    updatedAt: now,
+  });
+}
+
+// Fire-and-forget: the reply is already persisted; the image lands later by
+// rewriting the placeholder task item (the async-amend pattern).
+function fireIllustrator(
+  queryClient: QueryClient,
+  job: IllustratorJob,
+  args: {
+    userId: number;
+    convId: string;
+    messageId: string;
+    responseText: string;
+  },
+): void {
+  void (async () => {
+    try {
+      const { runIllustrator } = await import("./illustrator-run");
+      const reviewPrompt = job.settings.imagePreview
+        ? (
+            await import("@/components/pages/sidebar/chat/image-prompt-dialog-store")
+          ).requestImagePromptReview
+        : undefined;
+      await runIllustrator({
+        userId: args.userId,
+        convId: args.convId,
+        messageId: args.messageId,
+        taskId: job.taskId,
+        responseText: args.responseText,
+        utilityModel: job.utilityModel,
+        promptInstruction: job.settings.promptInstruction,
+        imageModel: job.settings.imageModel,
+        refMediaIds: job.settings.refMediaIds,
+        reviewPrompt,
+      });
+    } catch {
+    } finally {
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.chatMessages(args.convId),
+      });
+    }
+  })();
 }
 
 export function createChatHistoryAdapter(
@@ -207,201 +504,57 @@ export function createChatHistoryAdapter(
           const content = formatAdapter.encode(
             item,
           ) as unknown as EncodedContent;
+          const isAssistant = content.role === "assistant";
+          const originalAssistantText = assistantTextOf(content);
 
-          const originalAssistantText =
-            content.role === "assistant"
-              ? content.parts
-                  .filter(
-                    (p): p is MessagePart & { text: string } =>
-                      p.type === "text" && typeof p.text === "string",
-                  )
-                  .map((p) => p.text)
-                  .join("\n")
-              : "";
-
-          let parts = content.parts;
-          if (content.role === "assistant") {
-            const scripts = await readConvRegexScripts(userId, id);
-            if (scripts.length > 0) {
-              parts = parts.map((p) =>
-                p.type === "text" && typeof p.text === "string"
-                  ? {
-                      ...p,
-                      text: runRegexScripts(p.text, scripts, "editoutput"),
-                    }
-                  : p,
-              );
-            }
-            const triggers = await readConvTriggers(userId, id);
-            if (triggers.length > 0) {
-              const { extractLuaCodes, runLuaEditTrigger } =
-                await import("@/lib/ai/chat/triggers/lua/engine");
-              const luaCodes = extractLuaCodes(triggers);
-              if (luaCodes.length > 0) {
-                const editCtx = makeTriggerContext({
-                  mode: "output",
-                  vars: {},
-                  globalVars: {},
-                  chat: [],
-                });
-                parts = await Promise.all(
-                  parts.map(async (p) =>
-                    p.type === "text" && typeof p.text === "string"
-                      ? {
-                          ...p,
-                          text: await runLuaEditTrigger(
-                            luaCodes,
-                            "editoutput",
-                            editCtx,
-                            p.text,
-                          ),
-                        }
-                      : p,
-                  ),
-                );
-              }
-              await runOutputTriggers(userId, id, triggers, parts);
-            }
-          }
+          const parts = isAssistant
+            ? await applyAssistantOutputTransforms(userId, id, content.parts)
+            : content.parts;
           const items = partsToItems(parts);
-          const resolvedModel =
-            content.role === "assistant" ? chatStore.get(chatModelAtom) : null;
+          const resolvedModel = isAssistant
+            ? chatStore.get(chatModelAtom)
+            : null;
 
-          if (content.role === "assistant") {
-            const streamError = chatStore.get(lastStreamErrorAtom);
-            const hasErrorItem = items.some((it) => it.type === "error");
-            if (streamError && Date.now() - streamError.at < 30_000) {
-              chatStore.set(lastStreamErrorAtom, null);
-              if (!hasErrorItem) {
-                items.push({
-                  type: "error",
-                  data: {
-                    message: streamError.message,
-                    ...(resolvedModel && { model: resolvedModel }),
-                    ...(streamError.code && { code: streamError.code }),
-                    ...(streamError.status && { status: streamError.status }),
-                    ...(streamError.requestId && {
-                      requestId: streamError.requestId,
-                    }),
-                  },
-                });
-              }
-            } else if (items.length === 0) {
-              return;
-            }
+          if (isAssistant) {
+            appendStreamErrorItem(items, resolvedModel);
+            if (items.length === 0) return;
           }
 
-          let illustratorJob: {
-            taskId: string;
-            settings: IllustratorConvSettings;
-            utilityModel: string;
-          } | null = null;
-          if (content.role === "assistant" && originalAssistantText.trim()) {
-            const { resolveIllustratorSettings } =
-              await import("./illustrator-run");
-            const illu = await resolveIllustratorSettings(userId, id);
-            const hasError = items.some((it) => it.type === "error");
-            if (illu?.imageEnabled && !hasError) {
-              const taskId = uid();
-              illustratorJob = {
-                taskId,
-                settings: illu,
-                utilityModel:
-                  illu.utilityModel || resolvedModel || illu.defaultModel || "",
-              };
-              items.push({
-                type: "task",
-                data: {
-                  task_id: taskId,
-                  kind: "image",
-                  model: illustratorJob.utilityModel,
-                  status: "generating",
-                },
-              });
-            }
-          }
+          const illustratorJob =
+            isAssistant && originalAssistantText.trim()
+              ? await prepareIllustratorJob(userId, id, items, resolvedModel)
+              : null;
 
           const now = dayjs().toDate();
-
           const metadata =
             (item.message as { metadata?: ChatMessageMetadata }).metadata ??
             null;
           const usage = metadata?.usage ?? null;
-          const debug = metadata?.debug ?? null;
           const varsWriteback = metadata?.vars ?? null;
-          if (metadata?.inlayMedia) {
-            for (const m of metadata.inlayMedia) {
-              await upsertLocalMedia(userId, {
-                id: m.id,
-                convId: id,
-                mimeType: m.mimeType,
-                sizeBytes: m.sizeBytes,
-                dataBase64: m.dataBase64,
-                r2Key: null,
-                r2Url: null,
-              });
-            }
-          }
+          await persistInlayMedia(userId, id, metadata);
           if (metadata?.globalVars != null) {
             chatStore.set(globalVarsAtom, metadata.globalVars);
           }
 
-          const speakingCharId =
-            content.role === "assistant"
-              ? (metadata?.speakingCharacterId ??
-                chatStore.get(speakingCharacterIdAtom))
-              : null;
+          const speakingCharId = isAssistant
+            ? (metadata?.speakingCharacterId ??
+              chatStore.get(speakingCharacterIdAtom))
+            : null;
 
-          let parentId = item.parentId ?? null;
-          let parentBranchVars: string | null = null;
-          // Siblings already under this parent: a reroll adds a NEW branch, so the existing ones must be
-          // deactivated and the new one gets the next branchIndex. Without this every sibling kept
-          // isActiveBranch=1/branchIndex=0, so walkActiveBranch picked the wrong tip and switching branches
-          // rendered an empty thread.
-          let siblings: NonNullable<
-            Awaited<ReturnType<typeof readLocalMessages>>
-          > = [];
-          {
-            const existing = (await readLocalMessages(userId, id)) ?? [];
-            if (existing.length > 0) {
-              const tipRow = walkActiveBranch(existing).path.at(-1) as
-                { id: string; branchVars?: string | null } | undefined;
-              if (parentId === null && tipRow) parentId = tipRow.id;
-              const parentRow = parentId
-                ? existing.find((m) => m.id === parentId)
-                : tipRow;
-              parentBranchVars =
-                (parentRow as { branchVars?: string | null } | undefined)
-                  ?.branchVars ?? null;
-              siblings = existing.filter(
-                (m) => (m.parentId ?? null) === parentId && m.id !== messageId,
-              );
-            }
-          }
-          const nextBranchIndex =
-            siblings.length === 0
-              ? 0
-              : Math.max(
-                  ...siblings.map((s) => s.branchIndex ?? 0),
-                  siblings.length - 1,
-                ) + 1;
-          for (const sib of siblings) {
-            const row = { ...sib } as Record<string, unknown>;
-            delete row.items;
-            await upsertLocalMessage(userId, {
-              ...(row as Parameters<typeof upsertLocalMessage>[1]),
-              isActiveBranch: false,
-              updatedAt: now,
-            });
-          }
-          const branchVars =
-            content.role === "assistant"
-              ? (varsWriteback ?? parentBranchVars)
-              : parentBranchVars;
+          const placement = await placeOnBranch(
+            userId,
+            id,
+            messageId,
+            item.parentId ?? null,
+            now,
+          );
+          const branchVars = isAssistant
+            ? (varsWriteback ?? placement.parentBranchVars)
+            : placement.parentBranchVars;
           const newMessage = {
             id: messageId,
             convId: id,
-            parentId,
+            parentId: placement.parentId,
             role: content.role,
             model: resolvedModel,
             characterId: speakingCharId,
@@ -410,7 +563,7 @@ export function createChatHistoryAdapter(
             cost: usage?.cost ?? null,
             isActiveBranch: true,
             isEdited: false,
-            branchIndex: nextBranchIndex,
+            branchIndex: placement.nextBranchIndex,
             branchVars,
             createdAt: now,
             updatedAt: now,
@@ -459,53 +612,16 @@ export function createChatHistoryAdapter(
             await upsertLocalMessageItem(userId, row);
           }
 
-          const logRow: RequestLogRow | null = debug
-            ? {
-                ...debug,
-                msgId: messageId,
-                convId: id,
-                inputTokens: usage?.inputTokens ?? null,
-                outputTokens: usage?.outputTokens ?? null,
-                cost: usage?.cost ?? null,
-                durationMs: usage?.durationMs ?? null,
-                tokensPerSecond: usage?.tokensPerSecond ?? null,
-                createdAt: now,
-              }
-            : null;
-          if (logRow) {
-            await insertLocalRequestLog(userId, logRow);
-            queryClient.invalidateQueries({
-              queryKey: queryKeys.requestLog(messageId),
-            });
-            const reqId = (logRow as { requestId?: string | null }).requestId;
-            if (reqId && !isCustomModelId(resolvedModel)) {
-              await enqueueLogEnrich(userId, messageId, reqId);
-              drainSoon(userId);
-            }
-          }
-
-          const convForTotals =
-            existingConv ?? (await readLocalConversation(userId, id));
-          const updatedConv = {
-            ...(convForTotals ?? {}),
+          await persistRequestLog(
+            queryClient,
+            userId,
             id,
-            totalInputTokens:
-              (convForTotals?.totalInputTokens ?? 0) +
-              (usage?.inputTokens ?? 0),
-            totalOutputTokens:
-              (convForTotals?.totalOutputTokens ?? 0) +
-              (usage?.outputTokens ?? 0),
-            totalCost: (convForTotals?.totalCost ?? 0) + (usage?.cost ?? 0),
-            ...(varsWriteback != null ? { vars: varsWriteback } : {}),
-            ...(metadata?.summary
-              ? {
-                  summaryMemory: metadata.summary.summary,
-                  summaryAnchor: metadata.summary.anchor,
-                }
-              : {}),
-            updatedAt: now,
-          };
-          await upsertLocalConversation(userId, updatedConv);
+            messageId,
+            metadata,
+            resolvedModel,
+            now,
+          );
+          await bumpConversationTotals(userId, id, existingConv, metadata, now);
           for (const queryKey of [
             queryKeys.chatMeta(id),
             queryKeys.chatMessages(id),
@@ -516,34 +632,12 @@ export function createChatHistoryAdapter(
           }
 
           if (illustratorJob) {
-            const job = illustratorJob;
-            void (async () => {
-              try {
-                const { runIllustrator } = await import("./illustrator-run");
-                const reviewPrompt = job.settings.imagePreview
-                  ? (
-                      await import("@/components/pages/sidebar/chat/image-prompt-dialog-store")
-                    ).requestImagePromptReview
-                  : undefined;
-                await runIllustrator({
-                  userId,
-                  convId: id,
-                  messageId,
-                  taskId: job.taskId,
-                  responseText: originalAssistantText,
-                  utilityModel: job.utilityModel,
-                  promptInstruction: job.settings.promptInstruction,
-                  imageModel: job.settings.imageModel,
-                  refMediaIds: job.settings.refMediaIds,
-                  reviewPrompt,
-                });
-              } catch {
-              } finally {
-                queryClient.invalidateQueries({
-                  queryKey: queryKeys.chatMessages(id),
-                });
-              }
-            })();
+            fireIllustrator(queryClient, illustratorJob, {
+              userId,
+              convId: id,
+              messageId,
+              responseText: originalAssistantText,
+            });
           }
         },
       };
