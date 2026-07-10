@@ -60,7 +60,7 @@ type EditMessageBody = {
 function useChatMutation<TArgs, TData>(
   fn: (userId: number, args: TArgs) => Promise<TData>,
   keysFor: (args: TArgs) => readonly (readonly unknown[])[],
-  onAfter?: () => void,
+  onAfter?: (data: TData, args: TArgs) => void,
 ) {
   const t = useTranslations();
   const qc = useQueryClient();
@@ -68,9 +68,9 @@ function useChatMutation<TArgs, TData>(
   return useMutation({
     mutationFn: (args: TArgs) => fn(userId, args),
     onError: (e) => handleError(e, t),
-    onSuccess: (_data, args) => {
+    onSuccess: (data, args) => {
       invalidateAndBroadcast(qc, keysFor(args) as string[][]);
-      onAfter?.();
+      onAfter?.(data, args);
     },
   });
 }
@@ -484,16 +484,18 @@ export function useDeleteMessageMutation() {
       await deleteLocalMessage(userId, args.msgId);
       await bumpConvUpdatedAt(userId, args.convId);
       qc.removeQueries({ queryKey: queryKeys.chatMessages(args.convId) });
-      // Drop the node from the live assistant-ui thread too. The query invalidate only refreshes the
-      // cache; the rendered thread keeps its in-memory messages until a reload, so a deleted error/reply
-      // lingered on screen until refresh. Filter it out immediately (leaf case; children already re-parented).
-      chatStore
-        .get(chatHelpersAtom)
-        ?.setMessages((msgs) =>
-          (msgs as { id?: string }[]).filter((m) => m.id !== args.msgId),
-        );
       return { id: args.msgId };
     },
     (args) => [queryKeys.chatMessages(args.convId)],
+    // Drop the node from the live assistant-ui thread AFTER the DB delete + query invalidate, so this
+    // authoritative prune always wins any re-derivation the invalidate triggers. The rendered thread
+    // keeps its in-memory messages until a reload otherwise, so a deleted error/reply lingered until a
+    // manual refresh (worse on iOS Safari). Runs last via onAfter, not inside the mutation body.
+    (data) =>
+      chatStore
+        .get(chatHelpersAtom)
+        ?.setMessages((msgs) =>
+          (msgs as { id?: string }[]).filter((m) => m.id !== data?.id),
+        ),
   );
 }

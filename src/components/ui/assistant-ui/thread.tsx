@@ -745,13 +745,6 @@ const DeleteMessageButton: FC = () => {
     const convId = chatStore.get(convIdAtom);
     if (!convId) return;
 
-    const helpers = chatStore.get(chatHelpersAtom);
-    type Msg = { id: string; [k: string]: unknown };
-    helpers?.setMessages((msgs) => {
-      const list = msgs as Msg[];
-      return list.filter((m) => m.id !== messageId);
-    });
-
     deleteMut.mutate({ convId, msgId: messageId });
   };
 
