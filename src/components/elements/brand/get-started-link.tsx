@@ -3,6 +3,7 @@
 import { LoginLink } from "@/components/elements/brand/login-link";
 import { Button } from "@/components/ui/button";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
+import { useHydrated } from "@/hooks/ui/use-hydrated";
 import { Link } from "@/i18n/navigation";
 import { TranslationKey } from "@/lib/config/constants";
 import { useTranslations } from "next-intl";
@@ -15,9 +16,13 @@ export function GetStartedLink(props: {
 }) {
   const t = useTranslations();
   const authQuery = useAuthQuery();
+  // Gate on hydrated: the first client render must match the prerendered
+  // logged-out shell (the auth cache may already be filled by the streamed
+  // NavAuth hole when this hydrates).
+  const hydrated = useHydrated();
   const label = t(props.translationKey ?? "HOME.HERO.CTA_PRIMARY");
 
-  if (authQuery.data) {
+  if (hydrated && authQuery.data) {
     return (
       <Link href="/dashboard" className={props.className}>
         {props.icon}
@@ -40,8 +45,9 @@ export function GetStartedButton(props: {
 }) {
   const t = useTranslations();
   const authQuery = useAuthQuery();
+  const hydrated = useHydrated();
 
-  if (authQuery.data) {
+  if (hydrated && authQuery.data) {
     return (
       <Button nativeButton={false} render={<Link href="/dashboard" />}>
         {t(props.authedTranslationKey ?? props.translationKey)}

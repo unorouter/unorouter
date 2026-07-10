@@ -4,6 +4,7 @@ import { RpDialogs } from "@/components/pages/sidebar/chat/rp/rp-dialogs";
 import { ChatRuntimeProvider } from "@/components/pages/sidebar/chat/runtime/chat-runtime-provider";
 import { CrossOriginIsolationGuard } from "@/components/provider/app/cross-origin-isolation-guard";
 import { ConversationList } from "@/components/pages/sidebar/chat/sidebar/conversation-list";
+import { AuthHydration } from "@/components/provider/state/auth-hydration";
 import { Suspense } from "react";
 
 type Props = {
@@ -23,14 +24,19 @@ export default async function ChatLayout(props: Props) {
           prerenders reject in client components; the boundary streams the
           whole chat UI per request instead. */}
       <Suspense>
-        <CrossOriginIsolationGuard>
-          <ChatRuntimeProvider>
-            <SidebarLayout navConfig="chat" chatContent={<ConversationList />}>
-              {props.children}
-            </SidebarLayout>
-            <RpDialogs />
-          </ChatRuntimeProvider>
-        </CrossOriginIsolationGuard>
+        <AuthHydration withBestKey>
+          <CrossOriginIsolationGuard>
+            <ChatRuntimeProvider>
+              <SidebarLayout
+                navConfig="chat"
+                chatContent={<ConversationList />}
+              >
+                {props.children}
+              </SidebarLayout>
+              <RpDialogs />
+            </ChatRuntimeProvider>
+          </CrossOriginIsolationGuard>
+        </AuthHydration>
       </Suspense>
     </>
   );

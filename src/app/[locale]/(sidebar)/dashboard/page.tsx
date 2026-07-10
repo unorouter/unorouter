@@ -16,6 +16,9 @@ export default async function DashboardPage() {
   const { startTs, endTs } = defaultTimestamps();
 
   await Promise.all([
+    prefetchElysia(queryClient, queryKeys.auth(), (cookies) =>
+      rpc.api.auth.account.self.get(cookies),
+    ),
     prefetchElysia(queryClient, queryKeys.status(), (cookies) =>
       rpc.api.auth.account.status.get(cookies),
     ),

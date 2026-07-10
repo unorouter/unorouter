@@ -5,6 +5,7 @@ import { PageHeader } from "@/components/elements/content/page-header";
 import { PricingCard } from "@/components/elements/content/pricing-card";
 import { Icon } from "@/components/ui/icon";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
+import { useHydrated } from "@/hooks/ui/use-hydrated";
 import { useSubscriptionPlansQuery } from "@/hooks/billing/subscription-hook";
 import { useBillingActions } from "@/hooks/ui/use-billing-actions";
 import { useRouter } from "@/i18n/navigation";
@@ -33,7 +34,8 @@ export function Pricing() {
   const plansQuery = useSubscriptionPlansQuery();
   const billing = useBillingActions();
   const plans = plansQuery.data ?? [];
-  const isLoggedIn = !!authQuery.data;
+  const hydrated = useHydrated();
+  const isLoggedIn = hydrated && !!authQuery.data;
   const topUpInfo = billing.topUpInfo;
 
   function redirectToLogin() {
