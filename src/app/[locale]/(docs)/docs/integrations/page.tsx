@@ -9,7 +9,7 @@ import {
 } from "@/lib/seo/structured-data";
 import { localeUrl } from "@/i18n/navigation";
 import { serverLocale } from "@/lib/utils/server";
-import { getLocale, getTranslations } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 
 export async function generateMetadata(props: {
   params: Promise<{ locale: string }>;
@@ -26,8 +26,10 @@ export async function generateMetadata(props: {
   });
 }
 
-export default async function DocsPage() {
-  const locale = await getLocale();
+export default async function DocsPage(props: {
+  params: Promise<{ locale: string }>;
+}) {
+  const locale = await serverLocale(props);
   const t = await getTranslations();
   const docs = DOCS_REGISTRY.filter((d) =>
     d.slug.startsWith("docs/integrations/"),

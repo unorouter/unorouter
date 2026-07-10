@@ -56,6 +56,7 @@ const CONTENT: Record<string, React.ComponentType> = {
 };
 
 export default async function PlatformDocPage(props: PageProps) {
+  await serverLocale(props);
   const params = await props.params;
   const doc = getPlatformDoc(params.slug);
   const Content = doc ? CONTENT[doc.slug] : undefined;

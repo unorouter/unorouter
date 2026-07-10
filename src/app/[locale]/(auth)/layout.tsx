@@ -1,4 +1,4 @@
-import { prefetchElysia } from "@/lib/react-query/prefetch";
+import { dehydrateOnly, prefetchElysia } from "@/lib/react-query/prefetch";
 import { CompanyName, LogoImage } from "@/components/elements/brand/brand";
 import { Link, redirect } from "@/i18n/navigation";
 import { Redirect } from "@/i18n/routing";
@@ -7,17 +7,19 @@ import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { serverLocale, setCookies } from "@/lib/utils/server";
-import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
+import { HydrationBoundary } from "@tanstack/react-query";
 import { getCookie } from "cookies-next/server";
 import { getTranslations } from "next-intl/server";
 import { cookies } from "next/headers";
 import { ReactNode } from "react";
 
-export default async function AuthLayout(props: { children: ReactNode }) {
+export default async function AuthLayout(props: {
+  children: ReactNode;
+  params: Promise<{ locale: string }>;
+}) {
+  const locale = await serverLocale(props);
   const t = await getTranslations();
   const queryClient = getQueryClient();
-
-  const locale = await serverLocale();
   const self = await rpc.api.auth.account.self.get(await setCookies());
 
   if (self?.data?.data?.id) {
@@ -33,7 +35,9 @@ export default async function AuthLayout(props: { children: ReactNode }) {
   );
 
   return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
+    <HydrationBoundary
+      state={dehydrateOnly(queryClient, [queryKeys.status()])}
+    >
       <main className="from-background via-muted to-background flex min-h-dvh flex-col items-center justify-center bg-linear-to-br px-4 py-12">
         <div className="animate-slide-up mb-8 flex items-center gap-2">
           <Link href="/" className="flex items-center gap-2">

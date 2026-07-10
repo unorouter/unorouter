@@ -72,6 +72,7 @@ const CONTENT: Record<string, React.ComponentType> = {
 };
 
 export default async function ChatDocPage(props: PageProps) {
+  await serverLocale(props);
   const params = await props.params;
   const doc = getChatDoc(params.slug);
   const Content = doc ? CONTENT[doc.slug] : undefined;

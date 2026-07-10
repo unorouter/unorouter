@@ -25,6 +25,14 @@ const corpCrossOrigin = [
 
 const nextConfig: NextConfig = {
   output: process.env.STANDALONE ? "standalone" : undefined,
+  env: {
+    // og-image cache buster, fixed at build time: reading the clock during
+    // render is non-deterministic and rejected by cacheComponents prerenders.
+    NEXT_PUBLIC_BUILD_DATE: new Date()
+      .toISOString()
+      .slice(0, 10)
+      .replaceAll("-", ""),
+  },
   // wasmoon's emscripten loader probes node builtins (`import('module')`);
   // alias them to an empty stub in browser bundles. Server keeps real modules
   // via serverExternalPackages below.

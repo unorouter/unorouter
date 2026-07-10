@@ -2,8 +2,8 @@ import { redirect } from "@/i18n/navigation";
 import { env } from "@/lib/config/env";
 import { serverEnv } from "@/server/env";
 import { sealData, unsealData } from "iron-session";
-import type { Locale } from "next-intl";
-import { getLocale } from "next-intl/server";
+import { hasLocale, type Locale } from "next-intl";
+import { getLocale, setRequestLocale } from "next-intl/server";
 import { cookies, headers } from "next/headers";
 import {
   AUTH_REDIRECT_QUERY,
@@ -50,11 +50,18 @@ const safe = async <T>(fn: () => Promise<T>): Promise<T | undefined> => {
 
 export const serverLocale = async (props?: {
   params: Promise<{ locale: string }>;
-}) =>
-  ((await safe(async () => (await props?.params)?.locale)) ||
-    (await safe(getLocale)) ||
+}): Promise<Locale> => {
+  const fromParams = await safe(async () => (await props?.params)?.locale);
+  if (fromParams && hasLocale(LOCALES, fromParams)) {
+    // Enables static rendering: next-intl otherwise reads the locale from
+    // request headers, opting the whole route into dynamic rendering.
+    setRequestLocale(fromParams);
+    return fromParams;
+  }
+  return ((await safe(getLocale)) ||
     (await safe(async () => (await cookies()).get(LOCALE_COOKIE)?.value)) ||
     LOCALES[0]) as Locale;
+};
 
 export const getCookieValue = async <T>(
   key: string,
