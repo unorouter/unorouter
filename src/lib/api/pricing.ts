@@ -457,15 +457,38 @@ function slimModel<T extends ProcessedModel>(model: T): T {
 }
 
 export function slimPricingForHydration(data: unknown): unknown {
-  const d = data as {
-    models?: ProcessedModel[];
-    vendors?: { models: ProcessedModel[] }[];
-  } | null;
-  if (!d || !Array.isArray(d.models) || !Array.isArray(d.vendors)) return data;
+  const d = data as
+    | ({
+        models?: ProcessedModel[];
+        vendors?: { models?: ProcessedModel[] }[];
+        modelsByType?: Record<string, ProcessedModel[]>;
+      } & Record<string, unknown>)
+    | null;
+  // serializeData runs for EVERY dehydrated query; the rankings summary also
+  // carries models+vendors arrays, so key off groupRatioMap (pricing-only).
+  if (
+    !d ||
+    !Array.isArray(d.models) ||
+    !Array.isArray(d.vendors) ||
+    !("groupRatioMap" in d)
+  ) {
+    return data;
+  }
   return {
     ...d,
     _slim: true,
     models: d.models.map(slimModel),
-    vendors: d.vendors.map((v) => ({ ...v, models: v.models.map(slimModel) })),
+    vendors: d.vendors.map((v) => ({
+      ...v,
+      models: (v.models ?? []).map(slimModel),
+    })),
+    ...(d.modelsByType && {
+      modelsByType: Object.fromEntries(
+        Object.entries(d.modelsByType).map(([k, list]) => [
+          k,
+          Array.isArray(list) ? list.map(slimModel) : list,
+        ]),
+      ),
+    }),
   };
 }

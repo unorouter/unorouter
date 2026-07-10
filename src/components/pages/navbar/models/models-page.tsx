@@ -46,15 +46,10 @@ export function ModelsPage() {
   // browser is idle so the detail sheet and list view have everything.
   const queryClient = useQueryClient();
   useEffect(() => {
-    const cached = queryClient.getQueryData(queryKeys.pricing());
-    if (!(cached && typeof cached === "object" && "_slim" in cached)) return;
-    const idle =
-      "requestIdleCallback" in window
-        ? window.requestIdleCallback
-        : (cb: () => void) => setTimeout(cb, 1500);
-    idle(() => {
+    const timer = setTimeout(() => {
       void queryClient.refetchQueries({ queryKey: queryKeys.pricing() });
-    });
+    }, 1500);
+    return () => clearTimeout(timer);
   }, [queryClient]);
 
   const clearFilters = useSetAtom(clearFiltersAtom);
