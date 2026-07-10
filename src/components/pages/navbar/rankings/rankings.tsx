@@ -6,7 +6,10 @@ import type { RankingPeriod } from "@/lib/api/typebox/rankings";
 import { useTranslations } from "next-intl";
 import { usePathname, useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
+import { useState, useSyncExternalStore } from "react";
+import { PulseSection } from "./pulse-section";
+import { RankingsHero } from "./rankings-hero";
+import { isValidPeriod } from "./rankings-helpers";
 
 const ModelsSection = dynamic(
   () => import("./models-section").then((m) => m.ModelsSection),
@@ -16,34 +19,45 @@ const MarketShareSection = dynamic(
   () => import("./market-share-section").then((m) => m.MarketShareSection),
   { ssr: false, loading: () => <Skeleton className="h-150 w-full" /> },
 );
-import { PulseSection } from "./pulse-section";
-import { RankingsHero } from "./rankings-hero";
-import { isValidPeriod } from "./rankings-helpers";
+
 
 type RankingsProps = {
   initialPeriod: RankingPeriod;
 };
+
+// URL is read via useSyncExternalStore instead of useSearchParams (which
+// would bail the whole page out of the prerendered static shell) or a
+// post-mount effect (setState-in-effect). Server snapshot is null, so the
+// static shell renders initialPeriod and the client corrects after hydration.
+function subscribeToPopstate(callback: () => void) {
+  window.addEventListener("popstate", callback);
+  return () => window.removeEventListener("popstate", callback);
+}
+
+function readUrlPeriod() {
+  return new URLSearchParams(window.location.search).get("period");
+}
 
 export function Rankings(props: RankingsProps) {
   const t = useTranslations();
   const router = useRouter();
   const pathname = usePathname();
 
-  // Period state lives here and seeds from the URL after mount: reading
-  // useSearchParams during render would bail the whole page out of the
-  // prerendered static shell.
-  const [period, setPeriod] = useState<RankingPeriod>(props.initialPeriod);
-  useEffect(() => {
-    const fromUrl = new URLSearchParams(window.location.search).get("period");
-    if (isValidPeriod(fromUrl)) setPeriod(fromUrl);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const urlPeriod = useSyncExternalStore(
+    subscribeToPopstate,
+    readUrlPeriod,
+    () => null,
+  );
+  const [override, setOverride] = useState<RankingPeriod | null>(null);
+  const period =
+    override ??
+    (isValidPeriod(urlPeriod) ? urlPeriod : props.initialPeriod);
 
   const rankingsQuery = useRankingsQuery(period);
   const snapshot = rankingsQuery.data;
 
   function handlePeriodChange(next: RankingPeriod) {
-    setPeriod(next);
+    setOverride(next);
     const params = new URLSearchParams(window.location.search);
     params.set("period", next);
     router.replace(`${pathname}?${params.toString()}`, { scroll: false });

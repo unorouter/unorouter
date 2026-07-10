@@ -1,7 +1,7 @@
 "use client";
 
 import { MyFormInput } from "@/components/elements/form/my-form-input";
-import { buildOAuthUrl } from "@/components/pages/auth/oauth-buttons";
+import { buildOAuthAuthorizeUrl } from "@/components/pages/auth/oauth-buttons";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { confirm } from "@/components/ui/confirm";
@@ -134,7 +134,7 @@ export function AccountCard() {
         }),
       );
 
-      const url = buildOAuthUrl(provider, status, state);
+      const url = buildOAuthAuthorizeUrl(provider, status, state);
       if (url) window.location.href = url;
     } finally {
       setBindLoading(null);

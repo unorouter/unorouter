@@ -1,4 +1,5 @@
 import { serverLocale } from "@/lib/utils/server";
+import { AuthRedirectCleanup } from "@/components/provider/app/auth-redirect-cleanup";
 import { SidebarLayout } from "@/components/layout/sidebar/sidebar-layout";
 import { RpDialogs } from "@/components/pages/sidebar/chat/rp/rp-dialogs";
 import { ChatRuntimeProvider } from "@/components/pages/sidebar/chat/runtime/chat-runtime-provider";
@@ -28,6 +29,7 @@ export default async function ChatLayout(props: Props) {
           <CrossOriginIsolationGuard>
             <ChatRuntimeProvider>
               <SidebarLayout
+                before={<AuthRedirectCleanup />}
                 navConfig="chat"
                 chatContent={<ConversationList />}
               >

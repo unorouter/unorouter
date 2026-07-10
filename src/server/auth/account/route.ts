@@ -1,4 +1,4 @@
-import { handleAuthResponse } from "@/lib/api/auth";
+import { handleAuthResponse, sessionCookieDescriptors } from "@/lib/api/auth";
 import {
   loginBody,
   oauthCallbackQuery,
@@ -7,15 +7,8 @@ import {
   registerBody,
 } from "@/lib/api/typebox/auth";
 import { twoFACodeBody, verificationQuery } from "@/lib/api/typebox/common";
-import {
-  ACCESS_TOKEN_COOKIE,
-  AUTH_REDIRECT_COOKIE,
-  COOKIE_MAX_AGE,
-  LOCAL_USER_ID_COOKIE,
-  USER_ID_COOKIE,
-} from "@/lib/config/constants";
+import { AUTH_REDIRECT_COOKIE } from "@/lib/config/constants";
 import { unwrap } from "@/lib/utils/base";
-import { signUserId } from "@/lib/utils/server";
 import {
   exchangeOAuthCode,
   generateOAuthCode,
@@ -131,25 +124,17 @@ export const authRoute = new Elysia({ prefix: "/account" })
         return;
       }
 
-      cookie[ACCESS_TOKEN_COOKIE].set({
-        value: data.access_token,
-        path: "/",
-        maxAge: COOKIE_MAX_AGE,
-        sameSite: "lax",
-        httpOnly: true,
-      });
-      cookie[USER_ID_COOKIE].set({
-        value: await signUserId(data.user_id),
-        path: "/",
-        maxAge: COOKIE_MAX_AGE,
-        sameSite: "lax",
-      });
-      cookie[LOCAL_USER_ID_COOKIE].set({
-        value: String(data.user_id),
-        path: "/",
-        maxAge: COOKIE_MAX_AGE,
-        sameSite: "lax",
-      });
+      for (const descriptor of await sessionCookieDescriptors(data.user_id, {
+        accessToken: data.access_token,
+      })) {
+        cookie[descriptor.name].set({
+          value: descriptor.value,
+          path: descriptor.path,
+          maxAge: descriptor.maxAge,
+          sameSite: descriptor.sameSite,
+          httpOnly: descriptor.httpOnly,
+        });
+      }
 
       const redirectTo = String(cookie[AUTH_REDIRECT_COOKIE]?.value || "");
       if (redirectTo) {

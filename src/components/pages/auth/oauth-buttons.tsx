@@ -19,15 +19,19 @@ type OAuthProvider = {
   key: string;
   label: string;
   icon: React.ReactNode;
-  buildUrl: (state: string, redirectUri: string) => string;
 };
 
-function buildBuiltinUrl(
-  provider: "github" | "discord" | "oidc" | "linuxdo",
+// The ONLY builder for provider authorize URLs (login + bind flows). The
+// redirect_uri stays the BARE ${server}/oauth/<provider>: new-api's SPA owns
+// that route and processes the provider callback itself; pointing at the
+// /api Go handler instead breaks the round-trip (misdiagnosed once, Jul 2).
+export function buildOAuthAuthorizeUrl(
+  provider: string,
   status: StatusData,
   state: string,
-  redirectUri: string,
-): string {
+): string | null {
+  const serverAddress = status.server_address || env.apiUrl;
+  const redirectUri = `${serverAddress}/oauth/${provider}`;
   const encodedRedirect = encodeURIComponent(redirectUri);
   switch (provider) {
     case "github":
@@ -39,31 +43,24 @@ function buildBuiltinUrl(
     case "linuxdo":
       return `https://connect.linux.do/oauth2/authorize?client_id=${status.linuxdo_client_id}&state=${state}&response_type=code&redirect_uri=${encodedRedirect}`;
   }
-}
-
-export function buildOAuthUrl(
-  provider: string,
-  status: StatusData,
-  state: string,
-): string | null {
-  const serverAddress = status.server_address || env.apiUrl;
-  const redirectUri = `${serverAddress}/oauth/${provider}`;
-  if (
-    provider === "github" ||
-    provider === "discord" ||
-    provider === "oidc" ||
-    provider === "linuxdo"
-  ) {
-    return buildBuiltinUrl(provider, status, state, redirectUri);
-  }
-  return null;
+  const custom = (status.custom_oauth_providers ?? []).find(
+    (p) => p.slug === provider,
+  );
+  if (!custom) return null;
+  const params = new URLSearchParams({
+    client_id: custom.client_id,
+    state,
+    response_type: "code",
+    scope: custom.scopes || "openid profile email",
+    redirect_uri: redirectUri,
+  });
+  return `${custom.authorization_endpoint}?${params.toString()}`;
 }
 
 export function OAuthButtons(props: OAuthButtonsProps) {
   const t = useTranslations();
   const [loading, setLoading] = useState<string | null>(null);
 
-  const serverAddress = props.status.server_address || env.apiUrl;
   const providers: OAuthProvider[] = [];
 
   if (props.status.github_oauth) {
@@ -71,8 +68,6 @@ export function OAuthButtons(props: OAuthButtonsProps) {
       key: "github",
       label: t("AUTH.OAUTH.GITHUB"),
       icon: <Icon name="brand-github" className="h-4 w-4" />,
-      buildUrl: (state, redirectUri) =>
-        buildBuiltinUrl("github", props.status, state, redirectUri),
     });
   }
   if (props.status.discord_oauth) {
@@ -80,8 +75,6 @@ export function OAuthButtons(props: OAuthButtonsProps) {
       key: "discord",
       label: t("AUTH.OAUTH.DISCORD"),
       icon: <Icon name="brand-discord" className="h-4 w-4" />,
-      buildUrl: (state, redirectUri) =>
-        buildBuiltinUrl("discord", props.status, state, redirectUri),
     });
   }
   if (props.status.oidc_enabled) {
@@ -89,8 +82,6 @@ export function OAuthButtons(props: OAuthButtonsProps) {
       key: "oidc",
       label: t("AUTH.OAUTH.OIDC"),
       icon: <Icon name="log-in" className="h-4 w-4" />,
-      buildUrl: (state, redirectUri) =>
-        buildBuiltinUrl("oidc", props.status, state, redirectUri),
     });
   }
   if (props.status.linuxdo_oauth) {
@@ -98,8 +89,6 @@ export function OAuthButtons(props: OAuthButtonsProps) {
       key: "linuxdo",
       label: t("AUTH.OAUTH.LINUXDO"),
       icon: <Icon name="log-in" className="h-4 w-4" />,
-      buildUrl: (state, redirectUri) =>
-        buildBuiltinUrl("linuxdo", props.status, state, redirectUri),
     });
   }
 
@@ -108,16 +97,6 @@ export function OAuthButtons(props: OAuthButtonsProps) {
       key: custom.slug,
       label: custom.name,
       icon: <Icon name="log-in" className="h-4 w-4" />,
-      buildUrl: (state, redirectUri) => {
-        const params = new URLSearchParams({
-          client_id: custom.client_id,
-          state,
-          response_type: "code",
-          scope: custom.scopes || "openid profile email",
-          redirect_uri: redirectUri,
-        });
-        return `${custom.authorization_endpoint}?${params.toString()}`;
-      },
     });
   }
 
@@ -137,8 +116,8 @@ export function OAuthButtons(props: OAuthButtonsProps) {
           },
         }),
       );
-      const redirectUri = `${serverAddress}/oauth/${provider.key}`;
-      window.location.href = provider.buildUrl(state, redirectUri);
+      const url = buildOAuthAuthorizeUrl(provider.key, props.status, state);
+      if (url) window.location.href = url;
     } finally {
       setLoading(null);
     }
