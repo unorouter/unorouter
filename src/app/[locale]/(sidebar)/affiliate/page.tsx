@@ -37,6 +37,9 @@ export default async function AffiliatePage() {
   };
 
   await Promise.all([
+    prefetchElysia(queryClient, queryKeys.auth(), (cookies) =>
+      rpc.api.auth.account.self.get(cookies),
+    ),
     prefetchElysia(
       queryClient,
       queryKeys.affiliateInvitees(inviteesParams),

@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
+import { useHydrated } from "@/hooks/ui/use-hydrated";
 import { useRouter } from "@/i18n/navigation";
 import { AUTH_REDIRECT_COOKIE } from "@/lib/config/constants";
 import { cn } from "@/lib/utils";
@@ -24,7 +25,8 @@ export function TryInChatButton(props: Props) {
   const router = useRouter();
   const authQuery = useAuthQuery();
   const setChatModel = useSetAtom(chatModelAtom);
-  const isLoggedIn = !!authQuery.data;
+  const hydrated = useHydrated();
+  const isLoggedIn = hydrated && !!authQuery.data;
 
   function handleClick() {
     setChatModel(props.modelName);

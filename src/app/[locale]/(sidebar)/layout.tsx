@@ -3,7 +3,11 @@ import { AuthRedirectCleanup } from "@/components/provider/app/auth-redirect-cle
 import { APP_VALUES } from "@/lib/config/constants";
 import { rpc } from "@/lib/rpc";
 import { getPageMetadata } from "@/lib/seo/metadata";
-import { redirectToLogin, serverLocale, setCookies } from "@/lib/utils/server";
+import { redirectToLogin, serverLocale } from "@/lib/utils/server";
+import getQueryClient from "@/lib/react-query/client";
+import { queryKeys } from "@/lib/react-query/keys";
+import { dehydrateOnly, prefetchElysia } from "@/lib/react-query/prefetch";
+import { HydrationBoundary } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
 import { Suspense } from "react";
 
@@ -27,13 +31,27 @@ export async function generateMetadata(props: {
 }
 
 async function AuthGate(props: DashboardLayoutProps) {
-  const response = await rpc.api.auth.account.self.get(await setCookies());
-  if (response.status !== 200) await redirectToLogin();
+  const queryClient = getQueryClient();
+  await prefetchElysia(queryClient, queryKeys.auth(), (cookies) =>
+    rpc.api.auth.account.self.get(cookies),
+  );
+  if (!queryClient.getQueryData(queryKeys.auth())) await redirectToLogin();
+
+  await prefetchElysia(queryClient, queryKeys.subscriptionSelf(), (cookies) =>
+    rpc.api.billing.core["subscription-self"].get(cookies),
+  );
 
   return (
-    <SidebarLayout before={<AuthRedirectCleanup />}>
-      {props.children}
-    </SidebarLayout>
+    <HydrationBoundary
+      state={dehydrateOnly(queryClient, [
+        queryKeys.auth(),
+        queryKeys.subscriptionSelf(),
+      ])}
+    >
+      <SidebarLayout before={<AuthRedirectCleanup />}>
+        {props.children}
+      </SidebarLayout>
+    </HydrationBoundary>
   );
 }
 

@@ -9,6 +9,9 @@ export default async function SettingsPageRoute() {
   const queryClient = getQueryClient();
 
   await Promise.all([
+    prefetchElysia(queryClient, queryKeys.auth(), (cookies) =>
+      rpc.api.auth.account.self.get(cookies),
+    ),
     prefetchElysia(queryClient, queryKeys.twoFAStatus(), (cookies) =>
       rpc.api.auth.settings["2fa"].status.get(cookies),
     ),

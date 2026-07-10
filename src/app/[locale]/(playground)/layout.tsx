@@ -1,4 +1,5 @@
 import { serverLocale } from "@/lib/utils/server";
+import { AuthHydration } from "@/components/provider/state/auth-hydration";
 import { Suspense } from "react";
 import { SidebarLayout } from "@/components/layout/sidebar/sidebar-layout";
 import { CrossOriginIsolationGuard } from "@/components/provider/app/cross-origin-isolation-guard";
@@ -12,15 +13,17 @@ export default async function GenerateGroupLayout(props: {
   await serverLocale(props);
   return (
     <Suspense>
-      <CrossOriginIsolationGuard>
+      <AuthHydration>
+        <CrossOriginIsolationGuard>
       <SidebarLayout
         before={<AuthRedirectCleanup />}
         navConfig="generate"
         chatContent={<PlaygroundList />}
       >
         {props.children}
-      </SidebarLayout>
-      </CrossOriginIsolationGuard>
+        </SidebarLayout>
+        </CrossOriginIsolationGuard>
+      </AuthHydration>
     </Suspense>
   );
 }

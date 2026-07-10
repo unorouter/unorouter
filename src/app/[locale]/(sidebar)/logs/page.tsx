@@ -47,6 +47,9 @@ export default async function LogsPage() {
   const serverCookies = await setCookies();
 
   await Promise.all([
+    prefetchElysia(queryClient, queryKeys.auth(), (cookies) =>
+      rpc.api.auth.account.self.get(cookies),
+    ),
     prefetchElysia(queryClient, queryKeys.usageLogs(queryFilters), () =>
       rpc.api.ops.logs.get({
         query: queryFilters,

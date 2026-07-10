@@ -28,6 +28,9 @@ export default async function TokensPage() {
   const keyword = tokensTable?.globalFilter || undefined;
 
   await Promise.all([
+    prefetchElysia(queryClient, queryKeys.auth(), (cookies) =>
+      rpc.api.auth.account.self.get(cookies),
+    ),
     prefetchElysia(queryClient, queryKeys.tokens({ p, keyword }), (cookies) =>
       rpc.api.billing.token.search.get({
         query: { p, keyword },
