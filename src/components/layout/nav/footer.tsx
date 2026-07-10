@@ -33,12 +33,13 @@ const LEGAL_LINKS = [
   { href: "/refund", key: msg("FOOTER.REFUND") },
 ] as const;
 
-const FEATURED_BADGES = [
+// Directory badges render at h-6; width is the intrinsic ratio hint. Swap a
+// badge between hosted and self-hosted src by editing its entry only.
+const FOOTER_BADGES = [
   {
     href: "https://startupfa.me/s/unorouter?utm_source=unorouter.com",
     src: "/badges/startupfame.webp",
     name: "Startup Fame",
-    verified: false,
     width: 76,
   },
   {
@@ -52,74 +53,61 @@ const FEATURED_BADGES = [
     href: "https://twelve.tools/unorouter-ai",
     src: "/badges/twelvetools.svg",
     name: "Twelve Tools",
-    verified: false,
     width: 89,
   },
   {
     href: "https://fazier.com/launches/unorouter",
     src: "/badges/fazier.svg",
     name: "Fazier",
-    verified: false,
     width: 102,
   },
   {
     href: "https://www.producthunt.com/products/unorouter",
     src: "/badges/producthunt.svg",
     name: "Product Hunt",
-    verified: false,
     width: 111,
   },
-] as const;
-
-const RECIPROCAL_LINKS = [
   {
     href: "https://thesaasdir.com/product/unorouter?ref=badge",
     src: "/badges/thesaasdir.svg",
     name: "TheSaaSDir",
     width: 182,
-    height: 46,
   },
   {
     href: "https://www.aitoolzdir.com",
     src: "/badges/aitoolzdir.svg",
     name: "AI Toolz Dir",
     width: 168,
-    height: 46,
   },
   {
     href: "https://turbo0.com/item/unorouter",
     src: "/badges/turbo0.svg",
     name: "Turbo0",
     width: 72,
-    height: 46,
   },
   {
     href: "https://codetrendy.com/listing/unorouter?utm_source=unorouter.com&utm_medium=badge",
     src: "/badges/codetrendy.svg",
     name: "CodeTrendy",
     width: 181,
-    height: 46,
   },
   {
     href: "https://sitepatent.com/listing/unorouter?utm_source=unorouter.com&utm_medium=badge",
     src: "/badges/sitepatent-listing.svg",
     name: "SitePatent",
     width: 181,
-    height: 46,
   },
   {
     href: "https://mediapronet.com/listing/unorouter?utm_source=unorouter.com&utm_medium=badge",
     src: "/badges/mediapronet.svg",
     name: "MediaProNet",
     width: 181,
-    height: 46,
   },
   {
     href: "https://launchboosts.com/project/unorouter",
     src: "/badges/launchboosts.svg",
     name: "LaunchBoosts",
     width: 153,
-    height: 46,
   },
 ] as const;
 
@@ -288,7 +276,7 @@ export function Footer() {
         </div>
 
         <div className="border-muted/50 flex flex-wrap items-center justify-center gap-4 border-t pt-8 pb-4 opacity-70">
-          {[...FEATURED_BADGES, ...RECIPROCAL_LINKS].map((badge) => (
+          {FOOTER_BADGES.map((badge) => (
             <NextLink
               key={badge.href}
               href={badge.href}

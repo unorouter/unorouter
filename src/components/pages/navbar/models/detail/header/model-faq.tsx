@@ -3,7 +3,7 @@
 import { Icon } from "@/components/ui/icon";
 import { APP_VALUES } from "@/lib/config/constants";
 import { findContextTag, type ProcessedModel } from "@/lib/api/pricing";
-import { getVendorTheme } from "@/lib/config/vendor-themes";
+import { getVendorTheme } from "@/lib/config/vendor-registry";
 import { SectionHeading } from "../shared/section-heading";
 import { cn } from "@/lib/utils";
 import { formatPrice, formatTokenCount } from "@/lib/utils/format/number";
