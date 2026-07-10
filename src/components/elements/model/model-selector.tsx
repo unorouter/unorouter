@@ -20,7 +20,11 @@ import {
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { useCustomProvidersQuery } from "@/hooks/ai/custom-providers-hook";
 import { analytics } from "@/lib/analytics";
-import { buildGroupEntries, groupDisplayLabel } from "@/lib/api/pricing";
+import {
+  buildGroupEntries,
+  groupDisplayLabel,
+  groupModelsByType,
+} from "@/lib/api/pricing";
 import {
   isCustomModelId,
   makeCustomModelId,
@@ -56,7 +60,7 @@ export function ModelSelector(props: ModelSelectorProps) {
   const isLoggedIn = !!authQuery.data;
   const pricingData = pricingQuery.data;
   const models = pricingData?.models ?? [];
-  const modelsByType = pricingData?.modelsByType ?? [];
+  const modelsByType = groupModelsByType(models);
 
   const customProvidersQuery = useCustomProvidersQuery();
   const customProviders = customProvidersQuery.data ?? [];

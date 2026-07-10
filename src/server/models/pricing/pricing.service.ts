@@ -1,4 +1,5 @@
-import { buildPricingSummary } from "@/lib/api/pricing";
+import { buildPricingSummary, toLeanPricing } from "@/lib/api/pricing";
+import { getPricingSummary as getCachedByName } from "@/lib/api/pricing-cache";
 import { processPlans } from "@/lib/api/subscription";
 import { PUBLIC_CACHE } from "@/lib/config/constants";
 import { unwrap } from "@/lib/utils/base";
@@ -33,6 +34,18 @@ export async function getPricingSummary(includeOffline = false) {
   const summary = buildPricingSummary(unwrap(res));
   if (!includeOffline) snapshotModelCatalog(summary.models);
   return summary;
+}
+
+export async function getPricingLean(includeOffline = false) {
+  return toLeanPricing(await getPricingSummary(includeOffline));
+}
+
+// Single full model for the detail sheet / on-demand consumers; served from
+// the 5min in-module pricing cache instead of refetching the whole upstream
+// list per drawer open.
+export async function getModelDetail(name: string) {
+  const cached = await getCachedByName();
+  return { model: cached.byName.get(name) ?? null };
 }
 
 export async function getSubscriptionPlansSummary() {

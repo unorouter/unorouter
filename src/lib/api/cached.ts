@@ -1,4 +1,4 @@
-import { slimPricingForHydration } from "@/lib/api/pricing";
+import { toLeanPricing } from "@/lib/api/pricing";
 import { queryKeys } from "@/lib/react-query/keys";
 import { modelMatchesSlug } from "@/lib/utils/base";
 import { fetchPerfSummary } from "@/server/models/perf-metrics/perf-metrics.service";
@@ -90,9 +90,8 @@ export async function getRankingsPageData(period: string) {
   return { dehydrated: dehydrate(qc), topModels: data.models.slice(0, 10) };
 }
 
-// Models browse: slimmed pricing (descriptions/group pricing stripped, same
-// as the old serializeData pass) + rankings + perf, plus the summary itself
-// for the page's JsonLd.
+// Models browse: lean pricing (same shape the /pricing endpoint serves) +
+// rankings + perf; the detail sheet fetches the full model on open.
 export async function getModelsPageData() {
   "use cache";
   cacheLife("hours");
@@ -103,13 +102,11 @@ export async function getModelsPageData() {
     fetchPerfSummary(24),
   ]);
   await Promise.all([
-    seed(qc, queryKeys.pricing(), summary),
+    seed(qc, queryKeys.pricing(), toLeanPricing(summary)),
     seed(qc, queryKeys.rankings("week"), rankings),
     seed(qc, queryKeys.perfMetricsSummary(24), perf),
   ]);
-  const dehydrated = dehydrate(qc, {
-    serializeData: slimPricingForHydration,
-  });
+  const dehydrated = dehydrate(qc);
   const topModels = summary.models
     .filter((m) => m.type === "text")
     .slice(0, 24)
@@ -121,9 +118,8 @@ export async function getModelsPageData() {
   return { dehydrated, topModels };
 }
 
-// Compare pages: full pricing joins the hydration state (the sheet-style
-// compare UI reads complete model objects), plus resolved slug models for
-// metadata/breadcrumbs.
+// Compare pages: lean pricing (the comparison table reads only core price +
+// capability fields), plus resolved slug models for metadata/breadcrumbs.
 export async function getComparePageData(slugs: readonly string[]) {
   "use cache";
   cacheLife("hours");
@@ -134,7 +130,7 @@ export async function getComparePageData(slugs: readonly string[]) {
     fetchPerfSummary(24),
   ]);
   await Promise.all([
-    seed(qc, queryKeys.pricing(), summary),
+    seed(qc, queryKeys.pricing(), toLeanPricing(summary)),
     seed(qc, queryKeys.rankings("week"), rankings),
     seed(qc, queryKeys.perfMetricsSummary(24), perf),
   ]);

@@ -3,6 +3,7 @@ import { VendorModelsPage } from "@/components/pages/navbar/models/vendor/vendor
 import { localeUrl } from "@/i18n/navigation";
 import {
   findContextTag,
+  toLeanPricing,
   type ProcessedModel,
   vendorDisplayName,
 } from "@/lib/api/pricing";
@@ -30,7 +31,6 @@ import { getCatalogModel } from "@/server/models/pricing/model-catalog.service";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
 
 interface PageProps {
   params: Promise<{ locale: string; slug: string[] }>;
@@ -131,7 +131,7 @@ export default async function ModelDetailPage(props: PageProps) {
     const vendorQc = getQueryClient();
     await vendorQc.prefetchQuery({
       queryKey: queryKeys.pricing(),
-      queryFn: () => getCachedPricing(),
+      queryFn: async () => toLeanPricing(await getCachedPricing()),
     });
     return (
       <HydrationBoundary state={dehydrate(vendorQc)}>
