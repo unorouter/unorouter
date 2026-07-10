@@ -22,21 +22,15 @@ export async function readLocalThemeRow(userId: number | undefined) {
 export async function upsertLocalTheme(
   userId: number | undefined,
   themeJson: UserTheme,
-  syncExpiresAt?: Date | null,
 ) {
   const local = await getLocalDb(userId);
   if (!local) return;
   const updatedAt = dayjs().toDate();
   await local.db
     .insert(userThemes)
-    .values({
-      userId,
-      themeJson,
-      syncExpiresAt: syncExpiresAt ?? null,
-      updatedAt,
-    })
+    .values({ userId, themeJson, updatedAt })
     .onConflictDoUpdate({
       target: userThemes.userId,
-      set: { themeJson, syncExpiresAt: syncExpiresAt ?? null, updatedAt },
+      set: { themeJson, updatedAt },
     });
 }

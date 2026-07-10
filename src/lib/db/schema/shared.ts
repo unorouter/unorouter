@@ -44,10 +44,6 @@ export const timestamps = () => ({
     .default(sql`(unixepoch() * 1000)`),
 });
 
-const syncableTimestamps = () => ({
-  syncExpiresAt: integer("sync_expires_at", { mode: "timestamp_ms" }),
-  ...timestamps(),
-});
 
 export const conversations = sqliteTable(
   "conversations",
@@ -105,11 +101,10 @@ export const conversations = sqliteTable(
     useCharAvatarRef: integer("use_char_avatar_ref", { mode: "boolean" }),
     firstMsgIndex: integer("first_msg_index").notNull().default(-1),
     groupId: text("group_id"),
-    ...syncableTimestamps(),
+    ...timestamps(),
   },
   (table) => [
     index("idx_conv_user_updated").on(table.userId, table.updatedAt),
-    index("idx_conv_sync_expires").on(table.syncExpiresAt),
     index("idx_conv_user_group").on(table.userId, table.groupId),
   ],
 );
@@ -124,7 +119,7 @@ export const chatGroups = sqliteTable(
     name: text("name").notNull(),
     orderIndex: integer("order_index").notNull().default(0),
     folded: integer("folded", { mode: "boolean" }).notNull().default(false),
-    ...syncableTimestamps(),
+    ...timestamps(),
   },
   (table) => [
     index("idx_chat_group_user_order").on(table.userId, table.orderIndex),
@@ -249,12 +244,11 @@ export const characters = sqliteTable(
     matchWholeWords: integer("match_whole_words", { mode: "boolean" })
       .notNull()
       .default(false),
-    ...syncableTimestamps(),
+    ...timestamps(),
   },
   (table) => [
     index("idx_char_user_updated").on(table.userId, table.updatedAt),
     index("idx_char_user_name").on(table.userId, table.name),
-    index("idx_char_sync_expires").on(table.syncExpiresAt),
   ],
 );
 
@@ -273,12 +267,11 @@ export const personas = sqliteTable(
       .notNull()
       .default(false),
     notes: text("notes"),
-    ...syncableTimestamps(),
+    ...timestamps(),
   },
   (table) => [
     index("idx_persona_user_default").on(table.userId, table.isDefault),
     index("idx_persona_user").on(table.userId),
-    index("idx_persona_sync_expires").on(table.syncExpiresAt),
   ],
 );
 
@@ -296,11 +289,10 @@ export const lorebooks = sqliteTable(
     recursiveScanning: integer("recursive_scanning", { mode: "boolean" })
       .notNull()
       .default(false),
-    ...syncableTimestamps(),
+    ...timestamps(),
   },
   (table) => [
     index("idx_lorebook_user").on(table.userId),
-    index("idx_lorebook_sync_expires").on(table.syncExpiresAt),
   ],
 );
 
@@ -389,11 +381,10 @@ export const samplingPresets = sqliteTable(
     isDefault: integer("is_default", { mode: "boolean" })
       .notNull()
       .default(false),
-    ...syncableTimestamps(),
+    ...timestamps(),
   },
   (table) => [
     index("idx_preset_user_name").on(table.userId, table.name),
-    index("idx_preset_sync_expires").on(table.syncExpiresAt),
   ],
 );
 
@@ -446,11 +437,10 @@ export const cards = sqliteTable(
     name: text("name").notNull(),
     description: text("description"),
     personaId: text("persona_id"),
-    ...syncableTimestamps(),
+    ...timestamps(),
   },
   (table) => [
     index("idx_card_user_updated").on(table.userId, table.updatedAt),
-    index("idx_card_sync_expires").on(table.syncExpiresAt),
   ],
 );
 
@@ -495,9 +485,8 @@ export const userThemes = sqliteTable(
     themeJson: text("theme_json", { mode: "json" })
       .$type<UserTheme>()
       .notNull(),
-    ...syncableTimestamps(),
+    ...timestamps(),
   },
-  (table) => [index("idx_theme_sync_expires").on(table.syncExpiresAt)],
 );
 
 export const media = sqliteTable(
@@ -545,12 +534,11 @@ export const playgroundSessions = sqliteTable(
     snapshotCount: integer("snapshot_count").notNull().default(0),
     imageCount: integer("image_count").notNull().default(0),
     expiresAt: integer("expires_at", { mode: "timestamp_ms" }).notNull(),
-    ...syncableTimestamps(),
+    ...timestamps(),
   },
   (table) => [
     index("idx_session_user_updated").on(table.userId, table.updatedAt),
     index("idx_session_expires").on(table.expiresAt),
-    index("idx_session_sync_expires").on(table.syncExpiresAt),
   ],
 );
 
@@ -624,7 +612,6 @@ export const testerProviders = sqliteTable(
     label: text("label"),
     firstSeenAt: integer("first_seen_at", { mode: "timestamp_ms" }).notNull(),
     lastTestedAt: integer("last_tested_at", { mode: "timestamp_ms" }).notNull(),
-    syncExpiresAt: integer("sync_expires_at", { mode: "timestamp_ms" }),
     ...timestamps(),
   },
   (table) => [
@@ -633,7 +620,6 @@ export const testerProviders = sqliteTable(
       table.kind,
       table.baseUrlHost,
     ),
-    index("idx_tester_provider_sync_expires").on(table.syncExpiresAt),
   ],
 );
 
@@ -651,12 +637,10 @@ export const testerModels = sqliteTable(
     lastDetectedModel: text("last_detected_model"),
     lastVerdict: text("last_verdict").$type<VerifyVerdictValue>(),
     lastTestedAt: integer("last_tested_at", { mode: "timestamp_ms" }).notNull(),
-    syncExpiresAt: integer("sync_expires_at", { mode: "timestamp_ms" }),
     ...timestamps(),
   },
   (table) => [
     uniqueIndex("uq_tester_model").on(table.providerId, table.requestedModel),
-    index("idx_tester_model_sync_expires").on(table.syncExpiresAt),
   ],
 );
 
@@ -695,7 +679,6 @@ export const testerTests = sqliteTable(
     kind: text("kind").$type<VerifyProviderValue>(),
     baseUrlHost: text("base_url_host"),
     requestedModel: text("requested_model"),
-    syncExpiresAt: integer("sync_expires_at", { mode: "timestamp_ms" }),
     ...timestamps(),
   },
   (table) => [
@@ -712,7 +695,6 @@ export const testerTests = sqliteTable(
       table.baseUrlHost,
       table.requestedModel,
     ),
-    index("idx_tester_test_sync_expires").on(table.syncExpiresAt),
   ],
 );
 

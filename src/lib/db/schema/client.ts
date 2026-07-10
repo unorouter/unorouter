@@ -1,4 +1,3 @@
-import type { SyncKindName } from "@/lib/validation/sync-constants";
 import type {
   CustomProviderFormat,
   CustomProviderModel,
@@ -14,6 +13,21 @@ import {
   text,
 } from "drizzle-orm/sqlite-core";
 
+export const ENTITY_KINDS = [
+  "characters",
+  "personas",
+  "lorebooks",
+  "presets",
+  "cards",
+  "conversations",
+  "playgroundSessions",
+  "theme",
+] as const;
+
+export type EntityKindName = (typeof ENTITY_KINDS)[number];
+
+export type RpEntityKind = Exclude<EntityKindName, "theme">;
+
 export type PendingSyncOp = "patch" | "delete";
 
 export type PendingTaskType = "logEnrich";
@@ -25,7 +39,7 @@ export const localPendingTasks = sqliteTable(
       .notNull()
       .default("logEnrich")
       .$type<PendingTaskType>(),
-    kind: text("kind").notNull().$type<SyncKindName | "">(),
+    kind: text("kind").notNull().$type<EntityKindName | "">(),
     id: text("id").notNull(),
     op: text("op").notNull().$type<PendingSyncOp>(),
     queuedAt: integer("queued_at", { mode: "timestamp_ms" })
@@ -57,7 +71,6 @@ export const customProviders = sqliteTable(
     models: text("models", { mode: "json" })
       .$type<CustomProviderModel[]>()
       .notNull(),
-    syncExpiresAt: integer("sync_expires_at", { mode: "timestamp_ms" }),
     createdAt: integer("created_at", { mode: "timestamp_ms" })
       .notNull()
       .default(sql`(unixepoch() * 1000)`),
@@ -67,7 +80,6 @@ export const customProviders = sqliteTable(
   },
   (table) => [
     index("idx_custom_providers_user").on(table.userId),
-    index("idx_custom_providers_sync_expires").on(table.syncExpiresAt),
   ],
 );
 

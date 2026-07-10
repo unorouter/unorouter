@@ -28,7 +28,7 @@ import { insertLocalRequestLog } from "@/lib/db/client/data/chat/request-log";
 import {
   drainSoon,
   enqueueLogEnrich,
-} from "@/lib/db/client/sync/pending/queue";
+} from "@/lib/db/client/outbox/pending/queue";
 import type { RequestLogRow } from "@/lib/db/schema/rows";
 import { queryKeys } from "@/lib/react-query/keys";
 import type { ChatMessageMetadata } from "@/lib/types";
@@ -423,7 +423,6 @@ export function createChatHistoryAdapter(
               totalInputTokens: 0,
               totalOutputTokens: 0,
               totalCost: 0,
-              syncExpiresAt: null,
               createdAt: now,
               defaultModel: resolvedModel ?? chatStore.get(chatModelAtom) ?? "",
               updatedAt: now,

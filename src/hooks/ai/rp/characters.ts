@@ -85,7 +85,6 @@ async function persistCharacterSetupFromFile(
     triggers: null,
     alwaysActive: true,
     matchWholeWords: false,
-    syncExpiresAt: null,
     createdAt: now,
     updatedAt: now,
   });
@@ -110,7 +109,6 @@ async function persistCharacterSetupFromFile(
             scanDepth: parsed.scanDepth ?? 4,
             tokenBudget: parsed.tokenBudget ?? 1500,
             recursiveScanning: parsed.recursiveScanning ?? false,
-            syncExpiresAt: null,
             createdAt: now,
             updatedAt: now,
           } as never,
@@ -145,7 +143,6 @@ async function persistCharacterSetupFromFile(
       name: card.name,
       description: card.description ?? null,
       personaId: null,
-      syncExpiresAt: null,
       createdAt: now,
       updatedAt: now,
     } as never,

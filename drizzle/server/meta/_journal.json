@@ -50,6 +50,13 @@
       "when": 1783447453533,
       "tag": "0006_demonic_nico_minoru",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "6",
+      "when": 1783716711866,
+      "tag": "0007_closed_supernaut",
+      "breakpoints": true
     }
   ]
 }

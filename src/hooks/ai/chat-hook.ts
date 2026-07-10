@@ -359,7 +359,6 @@ export function useDuplicateConversationMutation() {
       const newConv = {
         ...bundle.conversation,
         id: newId,
-        syncExpiresAt: null,
         createdAt: now,
         updatedAt: now,
       };

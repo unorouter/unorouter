@@ -81,7 +81,6 @@ export function makeRpEntity<
             ...args.body,
             id: uid(),
             userId,
-            syncExpiresAt: null,
             createdAt: now,
             updatedAt: now,
           } as unknown as TItem;
@@ -160,7 +159,6 @@ export function makeRpEntity<
               id: newId,
               userId,
               [nameField]: copyName,
-              syncExpiresAt: null,
               createdAt: now,
               updatedAt: now,
             } as unknown as TItem;

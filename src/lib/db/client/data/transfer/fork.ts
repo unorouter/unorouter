@@ -60,7 +60,6 @@ export async function forkConversationFromMessage(
     totalInputTokens: 0,
     totalOutputTokens: 0,
     totalCost: 0,
-    syncExpiresAt: null,
   };
 
   const conversationCharacters = (
