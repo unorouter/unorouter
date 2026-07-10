@@ -71,12 +71,14 @@ jobs:
 
       - name: Wait for site to be healthy
         run: |
-          for i in {1..30}; do
+          # 60x5s: a cold container can take >2.5min before the sitemap
+          # route (pricing self-call) responds; 30 tries flaked a deploy.
+          for i in {1..60}; do
             if curl -fsS "${{ secrets.NEXT_PUBLIC_URL }}/sitemap.xml" > /dev/null; then
               echo "Site is up"
               exit 0
             fi
-            echo "Waiting for site... ($i/30)"
+            echo "Waiting for site... ($i/60)"
             sleep 5
           done
           echo "Site did not come up in time"
