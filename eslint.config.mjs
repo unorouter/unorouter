@@ -63,6 +63,22 @@ const eslintConfig = defineConfig([
       "react-hooks/incompatible-library": "off",
     },
   },
+  {
+    // SQLocal's transactionMutex deadlocks every later DB call if a statement
+    // inside the transaction throws; use bare exec loops + ON CONFLICT.
+    files: ["src/lib/db/client/**", "src/hooks/**", "src/components/**"],
+    rules: {
+      "no-restricted-syntax": [
+        "error",
+        {
+          selector:
+            "CallExpression[callee.property.name='transaction'][callee.object.name=/sql|local/i]",
+          message:
+            "No sql.transaction() in client SQLocal code (transactionMutex deadlock). See CLAUDE.md rules.",
+        },
+      ],
+    },
+  },
 ]);
 
 export default eslintConfig;

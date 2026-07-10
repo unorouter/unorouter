@@ -15,6 +15,10 @@
     {
       "tag": "0003_young_supreme_intelligence",
       "sql": "ALTER TABLE `personas` ADD `title` text;"
+    },
+    {
+      "tag": "0004_known_gunslinger",
+      "sql": "DROP INDEX `idx_card_sync_expires`;--> statement-breakpoint\nALTER TABLE `cards` DROP COLUMN `sync_expires_at`;--> statement-breakpoint\nDROP INDEX `idx_char_sync_expires`;--> statement-breakpoint\nALTER TABLE `characters` DROP COLUMN `sync_expires_at`;--> statement-breakpoint\nDROP INDEX `idx_conv_sync_expires`;--> statement-breakpoint\nALTER TABLE `conversations` DROP COLUMN `sync_expires_at`;--> statement-breakpoint\nDROP INDEX `idx_lorebook_sync_expires`;--> statement-breakpoint\nALTER TABLE `lorebooks` DROP COLUMN `sync_expires_at`;--> statement-breakpoint\nDROP INDEX `idx_persona_sync_expires`;--> statement-breakpoint\nALTER TABLE `personas` DROP COLUMN `sync_expires_at`;--> statement-breakpoint\nDROP INDEX `idx_session_sync_expires`;--> statement-breakpoint\nALTER TABLE `playground_sessions` DROP COLUMN `sync_expires_at`;--> statement-breakpoint\nDROP INDEX `idx_preset_sync_expires`;--> statement-breakpoint\nALTER TABLE `sampling_presets` DROP COLUMN `sync_expires_at`;--> statement-breakpoint\nDROP INDEX `idx_tester_model_sync_expires`;--> statement-breakpoint\nALTER TABLE `tester_models` DROP COLUMN `sync_expires_at`;--> statement-breakpoint\nDROP INDEX `idx_tester_provider_sync_expires`;--> statement-breakpoint\nALTER TABLE `tester_providers` DROP COLUMN `sync_expires_at`;--> statement-breakpoint\nDROP INDEX `idx_tester_test_sync_expires`;--> statement-breakpoint\nALTER TABLE `tester_tests` DROP COLUMN `sync_expires_at`;--> statement-breakpoint\nDROP INDEX `idx_theme_sync_expires`;--> statement-breakpoint\nALTER TABLE `user_themes` DROP COLUMN `sync_expires_at`;--> statement-breakpoint\nDROP INDEX `idx_custom_providers_sync_expires`;--> statement-breakpoint\nALTER TABLE `custom_providers` DROP COLUMN `sync_expires_at`;--> statement-breakpoint\nALTER TABLE `chat_groups` DROP COLUMN `sync_expires_at`;"
     }
   ]
 }
