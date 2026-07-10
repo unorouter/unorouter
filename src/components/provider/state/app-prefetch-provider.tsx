@@ -1,8 +1,8 @@
-import { prefetchElysia } from "@/lib/react-query/prefetch";
+import { dehydrateOnly, prefetchElysia } from "@/lib/react-query/prefetch";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
-import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
+import { HydrationBoundary } from "@tanstack/react-query";
 
 type Props = {
   children: React.ReactNode;
@@ -23,7 +23,12 @@ export async function AppPrefetchProvider(props: Props) {
   }
 
   return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
+    <HydrationBoundary
+      state={dehydrateOnly(queryClient, [
+        queryKeys.auth(),
+        queryKeys.subscriptionSelf(),
+      ])}
+    >
       {props.children}
     </HydrationBoundary>
   );
