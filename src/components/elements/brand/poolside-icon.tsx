@@ -1,5 +1,9 @@
 import { makeImgIcon } from "@/components/elements/brand/vendor-img-icon";
 
-const PoolsideIcon = makeImgIcon("/icons/vendors/poolside.svg", "Poolside");
+const PoolsideIcon = makeImgIcon(
+  "/icons/vendors/poolside.svg",
+  "Poolside",
+  "invertDark",
+);
 
 export default PoolsideIcon;
