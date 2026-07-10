@@ -26,7 +26,7 @@ import { handleElysia } from "@/lib/utils/base";
 import { serverLocale } from "@/lib/utils/server";
 import { Viewport } from "next";
 import { hasLocale } from "next-intl";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import {
   JetBrains_Mono,
   Plus_Jakarta_Sans,
@@ -104,6 +104,7 @@ export default async function LocaleLayout(props: Props) {
   const params = await props.params;
 
   if (!hasLocale(routing.locales, params.locale)) notFound();
+  setRequestLocale(params.locale);
 
   return (
     <html
