@@ -24,8 +24,8 @@ import {
   GridPricingRow,
   ProcessedModel,
 } from "@/lib/api/pricing";
-import { fixedPriceUnitLabel } from "@/lib/api/model-modality";
 import { useModelDetailQuery } from "@/hooks/models/pricing-hook";
+import { FixedPriceUnit } from "./shared/fixed-price-unit";
 import { SectionHeading } from "./shared/section-heading";
 import { env } from "@/lib/config/env";
 import { getVendorTheme } from "@/lib/config/vendor-registry";
@@ -464,14 +464,6 @@ function GroupPricingSection(props: {
       )}
     </section>
   );
-}
-
-function FixedPriceUnit(props: { model: ProcessedModel }) {
-  const t = useTranslations();
-  const unit = fixedPriceUnitLabel(props.model);
-  if (unit === "second") return <>{t("MODELS.PRICE.PER_SECOND")}</>;
-  if (unit === "image") return <>{t("MODELS.PRICE.PER_IMAGE")}</>;
-  return <>{t("MODELS.PRICE.PER_REQUEST")}</>;
 }
 
 function GroupPricingGrid(props: {
