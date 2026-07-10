@@ -318,7 +318,8 @@ export type DocEntry = {
   slug: string;
   path: Pathname;
   i18nPrefix: DocI18nPrefix;
-  contentFiles: readonly string[];
+  date: string;
+  updated?: string;
   priority: number;
   changeFrequency: ChangeFrequency;
 };
@@ -326,9 +327,9 @@ export type DocEntry = {
 export type BlogEntry = {
   slug: string;
   date: string;
+  updated?: string;
   tags: readonly string[];
   i18nKey: PostI18nKey;
-  contentFiles: readonly string[];
   priority: number;
   changeFrequency: ChangeFrequency;
   category: BlogCategory;

@@ -16,7 +16,6 @@ export interface PlatformDoc {
   i18nPrefix: string;
   section: PlatformDocSection;
   iconName: IconName;
-  contentFile: string;
   headings: PlatformDocHeading[];
 }
 
@@ -38,7 +37,6 @@ function platformDoc(input: {
     i18nPrefix: `DOCS_PLATFORM.${input.name}`,
     section: input.section,
     iconName: input.iconName,
-    contentFile: `src/components/pages/docs/platform/content/${input.slug}-content.tsx`,
     headings: input.headings.map(([id, leaf]) => ({
       id,
       i18nLeaf: leaf,

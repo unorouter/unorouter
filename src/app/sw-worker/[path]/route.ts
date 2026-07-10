@@ -19,7 +19,6 @@ const serwistRoute = createSerwistRoute({
   globIgnores: [
     "**/node_modules/**/*",
     "**/i18n/**",
-    "**/seo-timestamps.json",
     "**/search-index.*.json",
   ],
   additionalPrecacheEntries: [{ url: "/en/offline", revision: buildId }],
