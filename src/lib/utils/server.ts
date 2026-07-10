@@ -14,6 +14,7 @@ import {
   SERVER_URL_KEY,
   USER_ID_COOKIE,
 } from "../config/constants";
+import { getPricingSummary } from "@/server/models/pricing/pricing.service";
 import { rpc } from "../rpc";
 import { handleElysia } from "./base";
 
@@ -80,7 +81,7 @@ export const getResolvedUserId = async (): Promise<number> => {
 };
 
 export const getDocsApiKey = async (placeholder = "YOUR_API_KEY") => {
-  const data = handleElysia(await rpc.api.models.pricing.get());
+  const data = await getPricingSummary();
   const rawModels = data.models ?? [];
   const models = rawModels.map((m) => ({
     name: m.name,
