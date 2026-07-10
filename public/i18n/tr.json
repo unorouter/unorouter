@@ -1931,6 +1931,28 @@
       "TS_1_DESC": "Hermes, başlangıçta 64.000 jetonun altında bağlama sahip modelleri reddeder. {appName} modeller sayfasından daha büyük bağlamlı bir model seçin.",
       "TS_2_DESC": "Başlangıç `/v1/models` kontrolünü geçemiyorsa, `model.base_url` değerinin `/v1` ile bittiğini ve `OPENAI_API_KEY` değerinin `~/.hermes/.env` içinde ayarlandığını doğrulayın."
     },
+    "MCP": {
+      "META": {
+        "TITLE": "MCP Sunucusu Kurulum Rehberi | {appName}",
+        "DESCRIPTION": "unorouter-mcp sunucusuyla herhangi bir MCP istemcisini {appName} hizmetine bağlayın. Canlı model kataloğunda arama yapın, fiyatları kontrol edin ve Claude Desktop veya Claude Code üzerinden herhangi bir modelle sohbet edin.",
+        "KEYWORDS": "MCP sunucusu, Model Context Protocol, unorouter-mcp, {appName} MCP, Claude Desktop MCP, Claude Code MCP, model kataloğu"
+      },
+      "BADGE": "MCP Sunucusu",
+      "TITLE": "MCP Sunucusu Kurulum Rehberi",
+      "SUBTITLE": "Herhangi bir MCP istemcisine {appName} için canlı erişim verin: model kataloğunda arayın, fiyatlara bakın ve unorouter-mcp sunucusu üzerinden herhangi bir modelle sohbet edin.",
+      "OVERVIEW_DESC": "unorouter-mcp, stdio üzerinden MCP sunucusu olarak çalışan bir npm paketidir ve resmi MCP kayıt defterinde com.unorouter/mcp adıyla yayınlanmıştır. Üç araç sunar: search_models canlı kataloğu filtreler ve free_only seçeneğini destekler, get_pricing 1M token başına USD liste fiyatlarını döndürür, chat ise herhangi bir modele prompt gönderir. Kaynak kodu github.com/0-don/unorouter-mcp adresindedir.",
+      "STEP_1_TITLE": "API anahtarı alın",
+      "STEP_1_DESC": "unorouter.com/token adresinde bir anahtar oluşturun. Sunucu anahtarı UNOROUTER_API_KEY ortam değişkeninden okur. UNOROUTER_BASE_URL isteğe bağlı bir uç nokta geçersiz kılmasıdır.",
+      "STEP_2_TITLE": "Sunucuyu Claude Desktop'a ekleyin",
+      "STEP_2_DESC": "Bu bloğu Claude Desktop yapılandırma dosyanıza ekleyin. npx ilk çalıştırmada unorouter-mcp paketini indirir, bu yüzden önceden kurulum gerekmez.",
+      "STEP_3_TITLE": "Ya da Claude Code'a kaydedin",
+      "STEP_3_DESC": "Tek bir komut sunucuyu anahtarınızla kaydeder.",
+      "STEP_4_TITLE": "Araçları kullanın",
+      "STEP_4_DESC": "İstemcinizden bir model bulmasını, fiyatları karşılaştırmasını veya bir modele prompt göndermesini isteyin. Gerektiğinde search_models, get_pricing ve chat araçlarını çağırır. stdio konuşan her MCP istemcisi çalışır.",
+      "GOTCHA_1": ":free son ekine sahip modeller ücretsizdir. Ücretsiz model başına dakikada yaklaşık 1 istek sınırı bekleyin.",
+      "GOTCHA_2": "UNOROUTER_API_KEY zorunludur. UNOROUTER_BASE_URL değişkenini yalnızca sunucuyu farklı bir uç noktaya yönlendirirken ayarlayın.",
+      "GOTCHA_3": "Kayıt defterini destekleyen MCP istemcileri sunucuyu npx komutu yerine com.unorouter/mcp kayıt adıyla kurabilir."
+    },
     "SILLYTAVERN": {
       "META": {
         "TITLE": "SillyTavern Entegrasyon Kılavuzu | {appName}",

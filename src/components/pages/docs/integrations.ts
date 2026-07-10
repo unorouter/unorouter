@@ -10,6 +10,7 @@ export type IntegrationIconKey =
   | "gemini"
   | "openclaw"
   | "hermes"
+  | "mcp"
   | "sillytavern"
   | "janitor-ai"
   | "risuai"

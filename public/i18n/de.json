@@ -1931,6 +1931,28 @@
       "TS_1_DESC": "Hermes lehnt beim Start Modelle mit weniger als 64.000 Tokens Kontext ab. Wähle ein Modell mit größerem Kontext von der Modellseite von {appName}.",
       "TS_2_DESC": "Wenn die `/v1/models`-Prüfung beim Start fehlschlägt, prüfe, dass `model.base_url` auf `/v1` endet und `OPENAI_API_KEY` in `~/.hermes/.env` gesetzt ist."
     },
+    "MCP": {
+      "META": {
+        "TITLE": "MCP-Server Einrichtungsanleitung | {appName}",
+        "DESCRIPTION": "Verbinde jeden MCP-Client über den unorouter-mcp-Server mit {appName}. Durchsuche den Live-Modellkatalog, prüfe Preise und chatte mit jedem Modell aus Claude Desktop oder Claude Code.",
+        "KEYWORDS": "MCP-Server, Model Context Protocol, unorouter-mcp, {appName} MCP, Claude Desktop MCP, Claude Code MCP, Modellkatalog"
+      },
+      "BADGE": "MCP-Server",
+      "TITLE": "MCP-Server Einrichtungsanleitung",
+      "SUBTITLE": "Gib jedem MCP-Client Live-Zugriff auf {appName}: Modellkatalog durchsuchen, Preise prüfen und über den unorouter-mcp-Server mit jedem Modell chatten.",
+      "OVERVIEW_DESC": "unorouter-mcp ist ein npm-Paket, das als MCP-Server über stdio läuft und im offiziellen MCP-Registry als com.unorouter/mcp gelistet ist. Es stellt drei Tools bereit: search_models filtert den Live-Katalog und kennt eine free_only-Option, get_pricing liefert USD-Listenpreise pro 1M Tokens und chat schickt einen Prompt an ein beliebiges Modell. Der Quellcode liegt unter github.com/0-don/unorouter-mcp.",
+      "STEP_1_TITLE": "API-Schlüssel holen",
+      "STEP_1_DESC": "Erstelle einen Schlüssel unter unorouter.com/token. Der Server liest ihn aus der Umgebungsvariable UNOROUTER_API_KEY. UNOROUTER_BASE_URL ist ein optionaler Endpunkt-Override.",
+      "STEP_2_TITLE": "Server zu Claude Desktop hinzufügen",
+      "STEP_2_DESC": "Füge diesen Block in deine Claude-Desktop-Konfigurationsdatei ein. npx lädt unorouter-mcp beim ersten Start, es muss also vorab nichts installiert werden.",
+      "STEP_3_TITLE": "Oder in Claude Code registrieren",
+      "STEP_3_DESC": "Ein Befehl registriert den Server samt Schlüssel.",
+      "STEP_4_TITLE": "Tools verwenden",
+      "STEP_4_DESC": "Bitte deinen Client, ein Modell zu finden, Preise zu vergleichen oder einen Prompt an ein Modell zu schicken. Er ruft search_models, get_pricing und chat nach Bedarf auf. Jeder MCP-Client mit stdio funktioniert.",
+      "GOTCHA_1": "Modelle mit dem Suffix :free kosten nichts. Rechne mit einem Rate-Limit von etwa 1 Anfrage pro Minute und freiem Modell.",
+      "GOTCHA_2": "UNOROUTER_API_KEY ist erforderlich. Setze UNOROUTER_BASE_URL nur, wenn der Server auf einen anderen Endpunkt zeigen soll.",
+      "GOTCHA_3": "Registry-fähige MCP-Clients können den Server über seinen Registry-Namen com.unorouter/mcp installieren statt über den npx-Befehl."
+    },
     "SILLYTAVERN": {
       "META": {
         "TITLE": "SillyTavern Integrationsanleitung | {appName}",
