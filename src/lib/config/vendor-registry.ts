@@ -470,7 +470,7 @@ const VENDOR_THEMES: Record<string, VendorTheme> = {
     text: "text-emerald-700 dark:text-emerald-300",
     tagBg: "bg-emerald-500/10",
     tagBorder: "border-emerald-500/20",
-    primary: "#059669",
+    primary: "#58e388",
   },
   [Vendor.SARVAM]: {
     bg: "bg-orange-500/5",
