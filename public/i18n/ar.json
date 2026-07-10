@@ -1931,6 +1931,28 @@
       "TS_1_DESC": "يرفض Hermes النماذج التي يقل سياقها عن 64,000 رمز عند بدء التشغيل. اختر نموذجا بسياق أكبر من صفحة نماذج {appName}.",
       "TS_2_DESC": "إذا فشل فحص `/v1/models` عند بدء التشغيل، فتأكد من أن `model.base_url` ينتهي بـ `/v1` وأن `OPENAI_API_KEY` مضبوط في `~/.hermes/.env`."
     },
+    "MCP": {
+      "META": {
+        "TITLE": "دليل إعداد خادم MCP | {appName}",
+        "DESCRIPTION": "اربط أي عميل MCP بـ {appName} عبر خادم unorouter-mcp. ابحث في كتالوج النماذج المباشر، وتحقق من الأسعار، وتحدث مع أي نموذج من Claude Desktop أو Claude Code.",
+        "KEYWORDS": "خادم MCP, Model Context Protocol, unorouter-mcp, {appName} MCP, Claude Desktop MCP, Claude Code MCP, كتالوج النماذج"
+      },
+      "BADGE": "خادم MCP",
+      "TITLE": "دليل إعداد خادم MCP",
+      "SUBTITLE": "امنح أي عميل MCP وصولاً مباشرًا إلى {appName}: ابحث في كتالوج النماذج، وتحقق من الأسعار، وتحدث مع أي نموذج عبر خادم unorouter-mcp.",
+      "OVERVIEW_DESC": "unorouter-mcp حزمة npm تعمل كخادم MCP عبر stdio ومنشورة في سجل MCP الرسمي باسم com.unorouter/mcp. توفر ثلاث أدوات: search_models يفلتر الكتالوج المباشر ويدعم خيار free_only، وget_pricing يعيد أسعار القائمة بالدولار الأمريكي لكل مليون توكن، وchat يرسل موجّهًا إلى أي نموذج. الشيفرة المصدرية على github.com/0-don/unorouter-mcp.",
+      "STEP_1_TITLE": "احصل على مفتاح API",
+      "STEP_1_DESC": "أنشئ مفتاحًا من unorouter.com/token. يقرأ الخادم المفتاح من متغير البيئة UNOROUTER_API_KEY. أما UNOROUTER_BASE_URL فهو تجاوز اختياري لنقطة النهاية.",
+      "STEP_2_TITLE": "أضف الخادم إلى Claude Desktop",
+      "STEP_2_DESC": "أضف هذه الكتلة إلى ملف إعدادات Claude Desktop. يجلب npx حزمة unorouter-mcp عند أول تشغيل، فلا حاجة لتثبيت مسبق.",
+      "STEP_3_TITLE": "أو سجّله في Claude Code",
+      "STEP_3_DESC": "أمر واحد يسجل الخادم مع مفتاحك.",
+      "STEP_4_TITLE": "استخدم الأدوات",
+      "STEP_4_DESC": "اطلب من عميلك العثور على نموذج أو مقارنة الأسعار أو إرسال موجّه إلى نموذج. سيستدعي search_models وget_pricing وchat عند الحاجة. يعمل أي عميل MCP يتعامل عبر stdio.",
+      "GOTCHA_1": "النماذج ذات اللاحقة :free مجانية تمامًا. توقع حدًا يقارب طلبًا واحدًا في الدقيقة لكل نموذج مجاني.",
+      "GOTCHA_2": "المتغير UNOROUTER_API_KEY إلزامي. لا تضبط UNOROUTER_BASE_URL إلا إذا وجهت الخادم إلى نقطة نهاية أخرى.",
+      "GOTCHA_3": "عملاء MCP الداعمون للسجل يمكنهم تثبيت الخادم باسمه في السجل com.unorouter/mcp بدلًا من أمر npx."
+    },
     "SILLYTAVERN": {
       "META": {
         "TITLE": "دليل تكامل SillyTavern | {appName}",

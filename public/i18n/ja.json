@@ -1931,6 +1931,28 @@
       "TS_1_DESC": "Hermes は起動時にコンテキストが 64,000 トークン未満のモデルを拒否します。{appName} のモデルページからコンテキストの大きいモデルを選んでください。",
       "TS_2_DESC": "起動時の `/v1/models` チェックに失敗する場合は、`model.base_url` が `/v1` で終わり、`OPENAI_API_KEY` が `~/.hermes/.env` に設定されているか確認してください。"
     },
+    "MCP": {
+      "META": {
+        "TITLE": "MCPサーバー セットアップガイド | {appName}",
+        "DESCRIPTION": "unorouter-mcpサーバーで任意のMCPクライアントを{appName}に接続。ライブのモデルカタログを検索し、料金を確認し、Claude DesktopやClaude Codeからあらゆるモデルとチャットできます。",
+        "KEYWORDS": "MCPサーバー, Model Context Protocol, unorouter-mcp, {appName} MCP, Claude Desktop MCP, Claude Code MCP, モデルカタログ"
+      },
+      "BADGE": "MCPサーバー",
+      "TITLE": "MCPサーバー セットアップガイド",
+      "SUBTITLE": "任意のMCPクライアントに{appName}へのライブアクセスを。unorouter-mcpサーバーでモデルカタログの検索、料金確認、あらゆるモデルとのチャットができます。",
+      "OVERVIEW_DESC": "unorouter-mcpはstdio上でMCPサーバーとして動作するnpmパッケージで、公式MCPレジストリにcom.unorouter/mcpとして公開されています。3つのツールを提供します。search_modelsはライブカタログをフィルタしfree_onlyオプションに対応、get_pricingは100万トークンあたりのUSD定価を返し、chatは任意のモデルにプロンプトを送信します。ソースコードはgithub.com/0-don/unorouter-mcpにあります。",
+      "STEP_1_TITLE": "APIキーを取得する",
+      "STEP_1_DESC": "unorouter.com/tokenでキーを作成します。サーバーは環境変数UNOROUTER_API_KEYからキーを読み取ります。UNOROUTER_BASE_URLは任意のエンドポイント上書きです。",
+      "STEP_2_TITLE": "Claude Desktopにサーバーを追加する",
+      "STEP_2_DESC": "このブロックをClaude Desktopの設定ファイルに追加します。npxが初回実行時にunorouter-mcpを取得するため、事前のインストールは不要です。",
+      "STEP_3_TITLE": "またはClaude Codeに登録する",
+      "STEP_3_DESC": "コマンド1つでキーと一緒にサーバーを登録できます。",
+      "STEP_4_TITLE": "ツールを使う",
+      "STEP_4_DESC": "クライアントにモデル探し、料金比較、モデルへのプロンプト送信を頼んでください。必要に応じてsearch_models、get_pricing、chatを呼び出します。stdio対応のMCPクライアントならどれでも動作します。",
+      "GOTCHA_1": ":freeサフィックス付きのモデルは無料です。無料モデルごとに毎分約1リクエストのレート制限を見込んでください。",
+      "GOTCHA_2": "UNOROUTER_API_KEYは必須です。UNOROUTER_BASE_URLは別のエンドポイントに向ける場合のみ設定してください。",
+      "GOTCHA_3": "レジストリ対応のMCPクライアントは、npxコマンドの代わりにレジストリ名com.unorouter/mcpでサーバーをインストールできます。"
+    },
     "SILLYTAVERN": {
       "META": {
         "TITLE": "SillyTavern 連携ガイド | {appName}",

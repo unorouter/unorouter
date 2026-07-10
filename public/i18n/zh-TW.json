@@ -1931,6 +1931,28 @@
       "TS_1_DESC": "Hermes 在啟動時會拒絕上下文低於 64,000 個 token 的模型。請從 {appName} 模型頁面選擇上下文更大的模型。",
       "TS_2_DESC": "如果啟動時的 `/v1/models` 檢查失敗，請確認 `model.base_url` 以 `/v1` 結尾，且 `OPENAI_API_KEY` 已在 `~/.hermes/.env` 中設定。"
     },
+    "MCP": {
+      "META": {
+        "TITLE": "MCP 伺服器設定指南 | {appName}",
+        "DESCRIPTION": "透過 unorouter-mcp 伺服器把任何 MCP 用戶端接入 {appName}。搜尋即時模型目錄、查詢價格，並在 Claude Desktop 或 Claude Code 中與任何模型對話。",
+        "KEYWORDS": "MCP 伺服器，Model Context Protocol，unorouter-mcp，{appName} MCP，Claude Desktop MCP，Claude Code MCP，模型目錄"
+      },
+      "BADGE": "MCP 伺服器",
+      "TITLE": "MCP 伺服器設定指南",
+      "SUBTITLE": "讓任何 MCP 用戶端即時存取 {appName}：搜尋模型目錄、查詢價格，並透過 unorouter-mcp 伺服器與任何模型對話。",
+      "OVERVIEW_DESC": "unorouter-mcp 是一個 npm 套件，以 stdio 方式執行 MCP 伺服器，並以 com.unorouter/mcp 的名稱收錄於官方 MCP 註冊表。它提供三個工具：search_models 過濾即時目錄並支援 free_only 選項；get_pricing 回傳每 100 萬 token 的美元定價；chat 向任何模型送出提示詞。原始碼位於 github.com/0-don/unorouter-mcp。",
+      "STEP_1_TITLE": "取得 API 金鑰",
+      "STEP_1_DESC": "在 unorouter.com/token 建立金鑰。伺服器會從環境變數 UNOROUTER_API_KEY 讀取金鑰。UNOROUTER_BASE_URL 是可選的端點覆寫。",
+      "STEP_2_TITLE": "把伺服器加入 Claude Desktop",
+      "STEP_2_DESC": "把這段設定加入 Claude Desktop 的設定檔。npx 會在第一次執行時抓取 unorouter-mcp，不需要事先安裝。",
+      "STEP_3_TITLE": "或在 Claude Code 中註冊",
+      "STEP_3_DESC": "一道指令即可連同金鑰註冊伺服器。",
+      "STEP_4_TITLE": "使用這些工具",
+      "STEP_4_DESC": "請用戶端尋找模型、比較價格或向模型送出提示詞，它會視需要呼叫 search_models、get_pricing 與 chat。任何支援 stdio 的 MCP 用戶端都能使用。",
+      "GOTCHA_1": "帶 :free 後綴的模型完全免費。每個免費模型約有每分鐘 1 次請求的速率限制。",
+      "GOTCHA_2": "UNOROUTER_API_KEY 為必填。只有在把伺服器指向其他端點時才需要設定 UNOROUTER_BASE_URL。",
+      "GOTCHA_3": "支援註冊表的 MCP 用戶端可以直接用註冊名稱 com.unorouter/mcp 安裝伺服器，而不必使用 npx 指令。"
+    },
     "SILLYTAVERN": {
       "META": {
         "TITLE": "SillyTavern 整合指南 | {appName}",

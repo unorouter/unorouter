@@ -1931,6 +1931,28 @@
       "TS_1_DESC": "Hermes स्टार्टअप पर 64,000 टोकन संदर्भ से कम वाले मॉडलों को अस्वीकार करता है। {appName} मॉडल पृष्ठ से बड़े संदर्भ वाला मॉडल चुनें।",
       "TS_2_DESC": "यदि स्टार्टअप पर इसकी `/v1/models` जाँच विफल होती है, तो पुष्टि करें कि `model.base_url` `/v1` पर समाप्त होता है और `OPENAI_API_KEY` `~/.hermes/.env` में सेट है।"
     },
+    "MCP": {
+      "META": {
+        "TITLE": "MCP सर्वर सेटअप गाइड | {appName}",
+        "DESCRIPTION": "unorouter-mcp सर्वर से किसी भी MCP क्लाइंट को {appName} से जोड़ें। लाइव मॉडल कैटलॉग खोजें, कीमतें देखें और Claude Desktop या Claude Code से किसी भी मॉडल से चैट करें।",
+        "KEYWORDS": "MCP सर्वर, Model Context Protocol, unorouter-mcp, {appName} MCP, Claude Desktop MCP, Claude Code MCP, मॉडल कैटलॉग"
+      },
+      "BADGE": "MCP सर्वर",
+      "TITLE": "MCP सर्वर सेटअप गाइड",
+      "SUBTITLE": "किसी भी MCP क्लाइंट को {appName} तक लाइव पहुंच दें: मॉडल कैटलॉग खोजें, कीमतें देखें और unorouter-mcp सर्वर के जरिए किसी भी मॉडल से चैट करें।",
+      "OVERVIEW_DESC": "unorouter-mcp एक npm पैकेज है जो stdio पर MCP सर्वर के रूप में चलता है और आधिकारिक MCP रजिस्ट्री में com.unorouter/mcp नाम से सूचीबद्ध है। यह तीन टूल देता है: search_models लाइव कैटलॉग को फ़िल्टर करता है और free_only विकल्प देता है, get_pricing प्रति 1M टोकन USD सूची मूल्य लौटाता है, और chat किसी भी मॉडल को प्रॉम्प्ट भेजता है। सोर्स कोड github.com/0-don/unorouter-mcp पर है।",
+      "STEP_1_TITLE": "API कुंजी प्राप्त करें",
+      "STEP_1_DESC": "unorouter.com/token पर एक कुंजी बनाएं। सर्वर इसे UNOROUTER_API_KEY पर्यावरण चर से पढ़ता है। UNOROUTER_BASE_URL एक वैकल्पिक एंडपॉइंट ओवरराइड है।",
+      "STEP_2_TITLE": "सर्वर को Claude Desktop में जोड़ें",
+      "STEP_2_DESC": "यह ब्लॉक अपनी Claude Desktop कॉन्फ़िग फ़ाइल में जोड़ें। npx पहली बार चलने पर unorouter-mcp ले आता है, इसलिए पहले से कुछ इंस्टॉल नहीं करना पड़ता।",
+      "STEP_3_TITLE": "या इसे Claude Code में रजिस्टर करें",
+      "STEP_3_DESC": "एक कमांड आपकी कुंजी के साथ सर्वर रजिस्टर कर देती है।",
+      "STEP_4_TITLE": "टूल इस्तेमाल करें",
+      "STEP_4_DESC": "अपने क्लाइंट से मॉडल खोजने, कीमतों की तुलना करने या किसी मॉडल को प्रॉम्प्ट भेजने के लिए कहें। जरूरत के हिसाब से यह search_models, get_pricing और chat को कॉल करेगा। stdio पर चलने वाला कोई भी MCP क्लाइंट काम करता है।",
+      "GOTCHA_1": ":free प्रत्यय वाले मॉडल मुफ्त हैं। प्रति मुफ्त मॉडल लगभग 1 अनुरोध प्रति मिनट की दर सीमा की अपेक्षा रखें।",
+      "GOTCHA_2": "UNOROUTER_API_KEY अनिवार्य है। UNOROUTER_BASE_URL केवल तभी सेट करें जब सर्वर को किसी दूसरे एंडपॉइंट पर भेजना हो।",
+      "GOTCHA_3": "रजिस्ट्री समर्थन वाले MCP क्लाइंट npx कमांड की बजाय रजिस्ट्री नाम com.unorouter/mcp से सर्वर इंस्टॉल कर सकते हैं।"
+    },
     "SILLYTAVERN": {
       "META": {
         "TITLE": "SillyTavern एकीकरण गाइड | {appName}",

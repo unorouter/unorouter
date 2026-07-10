@@ -1931,6 +1931,28 @@
       "TS_1_DESC": "Hermes 在启动时会拒绝上下文低于 64,000 个 token 的模型。请从 {appName} 模型页面选择上下文更大的模型。",
       "TS_2_DESC": "如果启动时的 `/v1/models` 检查失败，请确认 `model.base_url` 以 `/v1` 结尾，且 `OPENAI_API_KEY` 已在 `~/.hermes/.env` 中设置。"
     },
+    "MCP": {
+      "META": {
+        "TITLE": "MCP 服务器设置指南 | {appName}",
+        "DESCRIPTION": "通过 unorouter-mcp 服务器把任意 MCP 客户端接入 {appName}。搜索实时模型目录、查询价格，并在 Claude Desktop 或 Claude Code 中与任意模型对话。",
+        "KEYWORDS": "MCP 服务器，Model Context Protocol，unorouter-mcp，{appName} MCP，Claude Desktop MCP，Claude Code MCP，模型目录"
+      },
+      "BADGE": "MCP 服务器",
+      "TITLE": "MCP 服务器设置指南",
+      "SUBTITLE": "让任意 MCP 客户端实时访问 {appName}：搜索模型目录、查询价格，并通过 unorouter-mcp 服务器与任意模型对话。",
+      "OVERVIEW_DESC": "unorouter-mcp 是一个 npm 包，以 stdio 方式运行 MCP 服务器，并以 com.unorouter/mcp 的名称收录在官方 MCP 注册表中。它提供三个工具：search_models 过滤实时目录并支持 free_only 选项；get_pricing 返回每 100 万 token 的美元标价；chat 向任意模型发送提示词。源码位于 github.com/0-don/unorouter-mcp。",
+      "STEP_1_TITLE": "获取 API 密钥",
+      "STEP_1_DESC": "在 unorouter.com/token 创建密钥。服务器从环境变量 UNOROUTER_API_KEY 读取密钥。UNOROUTER_BASE_URL 是可选的端点覆盖。",
+      "STEP_2_TITLE": "把服务器添加到 Claude Desktop",
+      "STEP_2_DESC": "把这个配置块加入 Claude Desktop 的配置文件。npx 会在首次运行时拉取 unorouter-mcp，无需提前安装。",
+      "STEP_3_TITLE": "或在 Claude Code 中注册",
+      "STEP_3_DESC": "一条命令即可携带密钥注册服务器。",
+      "STEP_4_TITLE": "使用这些工具",
+      "STEP_4_DESC": "让客户端查找模型、比较价格或向模型发送提示词，它会按需调用 search_models、get_pricing 和 chat。任何支持 stdio 的 MCP 客户端都能使用。",
+      "GOTCHA_1": "带 :free 后缀的模型完全免费。每个免费模型约有每分钟 1 次请求的速率限制。",
+      "GOTCHA_2": "UNOROUTER_API_KEY 为必填。只有在把服务器指向其他端点时才需要设置 UNOROUTER_BASE_URL。",
+      "GOTCHA_3": "支持注册表的 MCP 客户端可以直接用注册名 com.unorouter/mcp 安装该服务器，而不必使用 npx 命令。"
+    },
     "SILLYTAVERN": {
       "META": {
         "TITLE": "SillyTavern 集成指南 | {appName}",

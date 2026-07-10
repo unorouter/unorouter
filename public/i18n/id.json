@@ -1931,6 +1931,28 @@
       "TS_1_DESC": "Hermes menolak model dengan konteks di bawah 64.000 token saat startup. Pilih model berkonteks lebih besar dari halaman model {appName}.",
       "TS_2_DESC": "Jika startup gagal pada pemeriksaan `/v1/models`, pastikan `model.base_url` berakhir dengan `/v1` dan `OPENAI_API_KEY` diatur di `~/.hermes/.env`."
     },
+    "MCP": {
+      "META": {
+        "TITLE": "Panduan Penyiapan Server MCP | {appName}",
+        "DESCRIPTION": "Hubungkan klien MCP apa pun ke {appName} dengan server unorouter-mcp. Telusuri katalog model langsung, cek harga, dan mengobrol dengan model apa pun dari Claude Desktop atau Claude Code.",
+        "KEYWORDS": "server MCP, Model Context Protocol, unorouter-mcp, {appName} MCP, Claude Desktop MCP, Claude Code MCP, katalog model"
+      },
+      "BADGE": "Server MCP",
+      "TITLE": "Panduan Penyiapan Server MCP",
+      "SUBTITLE": "Beri klien MCP mana pun akses langsung ke {appName}: telusuri katalog model, cek harga, dan mengobrol dengan model apa pun lewat server unorouter-mcp.",
+      "OVERVIEW_DESC": "unorouter-mcp adalah paket npm yang berjalan sebagai server MCP lewat stdio dan terdaftar di registri MCP resmi sebagai com.unorouter/mcp. Ia menyediakan tiga alat: search_models memfilter katalog langsung dengan opsi free_only, get_pricing mengembalikan harga resmi dalam USD per 1M token, dan chat mengirim prompt ke model apa pun. Kode sumber ada di github.com/0-don/unorouter-mcp.",
+      "STEP_1_TITLE": "Dapatkan kunci API",
+      "STEP_1_DESC": "Buat kunci di unorouter.com/token. Server membacanya dari variabel lingkungan UNOROUTER_API_KEY. UNOROUTER_BASE_URL adalah penimpaan endpoint opsional.",
+      "STEP_2_TITLE": "Tambahkan server ke Claude Desktop",
+      "STEP_2_DESC": "Tambahkan blok ini ke berkas konfigurasi Claude Desktop. npx mengunduh unorouter-mcp saat pertama dijalankan, jadi tidak ada yang perlu dipasang lebih dulu.",
+      "STEP_3_TITLE": "Atau daftarkan di Claude Code",
+      "STEP_3_DESC": "Satu perintah mendaftarkan server beserta kunci Anda.",
+      "STEP_4_TITLE": "Gunakan alat-alatnya",
+      "STEP_4_DESC": "Minta klien Anda mencari model, membandingkan harga, atau mengirim prompt ke sebuah model. Ia akan memanggil search_models, get_pricing, dan chat sesuai kebutuhan. Semua klien MCP yang memakai stdio bisa digunakan.",
+      "GOTCHA_1": "Model dengan akhiran :free tidak berbiaya. Perkirakan batas sekitar 1 permintaan per menit per model gratis.",
+      "GOTCHA_2": "UNOROUTER_API_KEY wajib diisi. Setel UNOROUTER_BASE_URL hanya jika Anda mengarahkan server ke endpoint lain.",
+      "GOTCHA_3": "Klien MCP yang mendukung registri dapat memasang server lewat nama registrinya com.unorouter/mcp alih-alih perintah npx."
+    },
     "SILLYTAVERN": {
       "META": {
         "TITLE": "Panduan Integrasi SillyTavern | {appName}",

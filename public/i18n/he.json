@@ -1931,6 +1931,28 @@
       "TS_1_DESC": "Hermes דוחה בהפעלה מודלים עם פחות מ-64,000 טוקנים של הקשר. בחרו מודל עם הקשר גדול יותר מדף המודלים של {appName}.",
       "TS_2_DESC": "אם בדיקת `/v1/models` בהפעלה נכשלת, ודאו ש-`model.base_url` מסתיים ב-`/v1` ושמשתנה `OPENAI_API_KEY` מוגדר ב-`~/.hermes/.env`."
     },
+    "MCP": {
+      "META": {
+        "TITLE": "מדריך הגדרת שרת MCP | {appName}",
+        "DESCRIPTION": "חברו כל לקוח MCP אל {appName} באמצעות שרת unorouter-mcp. חפשו בקטלוג המודלים החי, בדקו מחירים ושוחחו עם כל מודל מתוך Claude Desktop או Claude Code.",
+        "KEYWORDS": "שרת MCP, Model Context Protocol, unorouter-mcp, {appName} MCP, Claude Desktop MCP, Claude Code MCP, קטלוג מודלים"
+      },
+      "BADGE": "שרת MCP",
+      "TITLE": "מדריך הגדרת שרת MCP",
+      "SUBTITLE": "תנו לכל לקוח MCP גישה חיה אל {appName}: חיפוש בקטלוג המודלים, בדיקת מחירים ושיחה עם כל מודל דרך שרת unorouter-mcp.",
+      "OVERVIEW_DESC": "unorouter-mcp הוא חבילת npm שפועלת כשרת MCP מעל stdio ומפורסמת ברישום ה-MCP הרשמי בשם com.unorouter/mcp. הוא חושף שלושה כלים: search_models מסנן את הקטלוג החי ותומך באפשרות free_only, get_pricing מחזיר מחירי מחירון בדולרים לכל מיליון טוקנים, ו-chat שולח פרומפט לכל מודל. קוד המקור נמצא ב-github.com/0-don/unorouter-mcp.",
+      "STEP_1_TITLE": "השיגו מפתח API",
+      "STEP_1_DESC": "צרו מפתח בכתובת unorouter.com/token. השרת קורא אותו ממשתנה הסביבה UNOROUTER_API_KEY. המשתנה UNOROUTER_BASE_URL הוא דריסה אופציונלית של נקודת הקצה.",
+      "STEP_2_TITLE": "הוסיפו את השרת ל-Claude Desktop",
+      "STEP_2_DESC": "הוסיפו את הבלוק הזה לקובץ ההגדרות של Claude Desktop. npx מוריד את unorouter-mcp בהרצה הראשונה, כך שאין מה להתקין מראש.",
+      "STEP_3_TITLE": "או רשמו אותו ב-Claude Code",
+      "STEP_3_DESC": "פקודה אחת רושמת את השרת יחד עם המפתח שלכם.",
+      "STEP_4_TITLE": "השתמשו בכלים",
+      "STEP_4_DESC": "בקשו מהלקוח למצוא מודל, להשוות מחירים או לשלוח פרומפט למודל. הוא יקרא ל-search_models, ל-get_pricing ול-chat לפי הצורך. כל לקוח MCP שעובד מעל stdio יתאים.",
+      "GOTCHA_1": "מודלים עם הסיומת :free אינם עולים דבר. צפו למגבלה של בערך בקשה אחת בדקה לכל מודל חינמי.",
+      "GOTCHA_2": "UNOROUTER_API_KEY הוא חובה. הגדירו את UNOROUTER_BASE_URL רק אם אתם מפנים את השרת לנקודת קצה אחרת.",
+      "GOTCHA_3": "לקוחות MCP שתומכים ברישום יכולים להתקין את השרת לפי שם הרישום com.unorouter/mcp במקום פקודת npx."
+    },
     "SILLYTAVERN": {
       "META": {
         "TITLE": "מדריך אינטגרציה ל-SillyTavern | {appName}",

@@ -1931,6 +1931,28 @@
       "TS_1_DESC": "Hermes는 시작 시 컨텍스트가 64,000 토큰 미만인 모델을 거부합니다. {appName} 모델 페이지에서 더 큰 컨텍스트의 모델을 선택하세요.",
       "TS_2_DESC": "시작 시 `/v1/models` 검사에 실패하면 `model.base_url`이 `/v1`로 끝나고 `OPENAI_API_KEY`가 `~/.hermes/.env`에 설정되어 있는지 확인하세요."
     },
+    "MCP": {
+      "META": {
+        "TITLE": "MCP 서버 설정 가이드 | {appName}",
+        "DESCRIPTION": "unorouter-mcp 서버로 어떤 MCP 클라이언트든 {appName}에 연결하세요. 실시간 모델 카탈로그를 검색하고 가격을 확인하며 Claude Desktop이나 Claude Code에서 어떤 모델과도 대화할 수 있습니다.",
+        "KEYWORDS": "MCP 서버, Model Context Protocol, unorouter-mcp, {appName} MCP, Claude Desktop MCP, Claude Code MCP, 모델 카탈로그"
+      },
+      "BADGE": "MCP 서버",
+      "TITLE": "MCP 서버 설정 가이드",
+      "SUBTITLE": "어떤 MCP 클라이언트에도 {appName} 실시간 액세스를 제공하세요. unorouter-mcp 서버로 모델 카탈로그 검색, 가격 확인, 모든 모델과의 채팅이 가능합니다.",
+      "OVERVIEW_DESC": "unorouter-mcp는 stdio 위에서 MCP 서버로 동작하는 npm 패키지이며 공식 MCP 레지스트리에 com.unorouter/mcp로 등록되어 있습니다. 세 가지 도구를 제공합니다. search_models는 실시간 카탈로그를 필터링하고 free_only 옵션을 지원하며, get_pricing은 100만 토큰당 USD 정가를 반환하고, chat은 아무 모델에나 프롬프트를 보냅니다. 소스 코드는 github.com/0-don/unorouter-mcp에 있습니다.",
+      "STEP_1_TITLE": "API 키 발급",
+      "STEP_1_DESC": "unorouter.com/token에서 키를 만드세요. 서버는 UNOROUTER_API_KEY 환경 변수에서 키를 읽습니다. UNOROUTER_BASE_URL은 선택적인 엔드포인트 재정의입니다.",
+      "STEP_2_TITLE": "Claude Desktop에 서버 추가",
+      "STEP_2_DESC": "이 블록을 Claude Desktop 설정 파일에 추가하세요. npx가 첫 실행 시 unorouter-mcp를 내려받으므로 미리 설치할 것이 없습니다.",
+      "STEP_3_TITLE": "또는 Claude Code에 등록",
+      "STEP_3_DESC": "명령 하나로 키와 함께 서버가 등록됩니다.",
+      "STEP_4_TITLE": "도구 사용",
+      "STEP_4_DESC": "클라이언트에게 모델 찾기, 가격 비교, 모델에 프롬프트 보내기를 요청하세요. 필요에 따라 search_models, get_pricing, chat을 호출합니다. stdio를 사용하는 MCP 클라이언트라면 모두 동작합니다.",
+      "GOTCHA_1": ":free 접미사가 붙은 모델은 무료입니다. 무료 모델당 분당 약 1회 요청의 속도 제한을 예상하세요.",
+      "GOTCHA_2": "UNOROUTER_API_KEY는 필수입니다. UNOROUTER_BASE_URL은 서버를 다른 엔드포인트로 보낼 때만 설정하세요.",
+      "GOTCHA_3": "레지스트리를 지원하는 MCP 클라이언트는 npx 명령 대신 레지스트리 이름 com.unorouter/mcp로 서버를 설치할 수 있습니다."
+    },
     "SILLYTAVERN": {
       "META": {
         "TITLE": "SillyTavern 통합 가이드 | {appName}",

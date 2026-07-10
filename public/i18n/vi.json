@@ -1931,6 +1931,28 @@
       "TS_1_DESC": "Hermes từ chối các mô hình dưới 64.000 token ngữ cảnh khi khởi động. Hãy chọn một mô hình có ngữ cảnh lớn hơn từ trang mô hình của {appName}.",
       "TS_2_DESC": "Nếu khởi động thất bại ở bước kiểm tra `/v1/models`, hãy xác nhận `model.base_url` kết thúc bằng `/v1` và `OPENAI_API_KEY` được đặt trong `~/.hermes/.env`."
     },
+    "MCP": {
+      "META": {
+        "TITLE": "Hướng dẫn thiết lập máy chủ MCP | {appName}",
+        "DESCRIPTION": "Kết nối mọi ứng dụng khách MCP với {appName} qua máy chủ unorouter-mcp. Tìm kiếm danh mục mô hình trực tiếp, xem giá và trò chuyện với bất kỳ mô hình nào từ Claude Desktop hoặc Claude Code.",
+        "KEYWORDS": "máy chủ MCP, Model Context Protocol, unorouter-mcp, {appName} MCP, Claude Desktop MCP, Claude Code MCP, danh mục mô hình"
+      },
+      "BADGE": "Máy chủ MCP",
+      "TITLE": "Hướng dẫn thiết lập máy chủ MCP",
+      "SUBTITLE": "Cho mọi ứng dụng khách MCP truy cập trực tiếp vào {appName}: tìm kiếm danh mục mô hình, xem giá và trò chuyện với bất kỳ mô hình nào qua máy chủ unorouter-mcp.",
+      "OVERVIEW_DESC": "unorouter-mcp là một gói npm chạy như máy chủ MCP qua stdio và được đăng trong sổ đăng ký MCP chính thức với tên com.unorouter/mcp. Nó cung cấp ba công cụ: search_models lọc danh mục trực tiếp với tùy chọn free_only, get_pricing trả về giá niêm yết bằng USD cho mỗi 1M token, còn chat gửi prompt tới bất kỳ mô hình nào. Mã nguồn nằm tại github.com/0-don/unorouter-mcp.",
+      "STEP_1_TITLE": "Lấy khóa API",
+      "STEP_1_DESC": "Tạo khóa tại unorouter.com/token. Máy chủ đọc khóa từ biến môi trường UNOROUTER_API_KEY. UNOROUTER_BASE_URL là tùy chọn ghi đè endpoint.",
+      "STEP_2_TITLE": "Thêm máy chủ vào Claude Desktop",
+      "STEP_2_DESC": "Thêm khối này vào tệp cấu hình Claude Desktop. npx tải unorouter-mcp trong lần chạy đầu tiên nên không cần cài đặt trước.",
+      "STEP_3_TITLE": "Hoặc đăng ký trong Claude Code",
+      "STEP_3_DESC": "Một lệnh duy nhất đăng ký máy chủ cùng khóa của bạn.",
+      "STEP_4_TITLE": "Dùng các công cụ",
+      "STEP_4_DESC": "Yêu cầu ứng dụng khách tìm mô hình, so sánh giá hoặc gửi prompt tới một mô hình. Nó sẽ gọi search_models, get_pricing và chat khi cần. Mọi ứng dụng khách MCP dùng stdio đều hoạt động.",
+      "GOTCHA_1": "Các mô hình có hậu tố :free không tốn phí. Hãy tính đến giới hạn khoảng 1 yêu cầu mỗi phút cho mỗi mô hình miễn phí.",
+      "GOTCHA_2": "UNOROUTER_API_KEY là bắt buộc. Chỉ đặt UNOROUTER_BASE_URL khi bạn trỏ máy chủ tới endpoint khác.",
+      "GOTCHA_3": "Các ứng dụng khách MCP hỗ trợ sổ đăng ký có thể cài máy chủ theo tên đăng ký com.unorouter/mcp thay vì lệnh npx."
+    },
     "SILLYTAVERN": {
       "META": {
         "TITLE": "Hướng dẫn tích hợp SillyTavern | {appName}",

@@ -1468,6 +1468,70 @@ export OPENAI_API_KEY="YOUR_API_KEY"
 hermes --tui`,
     },
   },
+  {
+    slug: "mcp",
+    href: { pathname: "/docs/integrations/[slug]", params: { slug: "mcp" } },
+    i18nPrefix: "DOCS.MCP",
+    kind: "cli",
+    category: "cli",
+    titleKey: "DOCS.MCP.TITLE",
+    subtitleKey: "DOCS.MCP.SUBTITLE",
+    badgeKey: "DOCS.MCP.BADGE",
+    iconKey: "mcp",
+    color: guideColor("purple"),
+    baseUrl: `${env.apiUrl}/v1`,
+    compatibility: {
+      chatCompletions: true,
+    },
+    recommendedModels: [],
+    steps: [
+      {
+        titleKey: "DOCS.MCP.STEP_1_TITLE",
+        bodyKey: "DOCS.MCP.STEP_1_DESC",
+        code: {
+          lang: "bash",
+          value: `UNOROUTER_API_KEY=YOUR_API_KEY
+UNOROUTER_BASE_URL=${env.apiUrl}/v1`,
+        },
+      },
+      {
+        titleKey: "DOCS.MCP.STEP_2_TITLE",
+        bodyKey: "DOCS.MCP.STEP_2_DESC",
+        code: {
+          lang: "json",
+          value: `{
+  "mcpServers": {
+    "unorouter": {
+      "command": "npx",
+      "args": ["-y", "unorouter-mcp"],
+      "env": { "UNOROUTER_API_KEY": "YOUR_API_KEY" }
+    }
+  }
+}`,
+        },
+      },
+      {
+        titleKey: "DOCS.MCP.STEP_3_TITLE",
+        bodyKey: "DOCS.MCP.STEP_3_DESC",
+        code: {
+          lang: "bash",
+          value:
+            "claude mcp add unorouter -e UNOROUTER_API_KEY=YOUR_API_KEY -- npx -y unorouter-mcp",
+        },
+      },
+      {
+        titleKey: "DOCS.MCP.STEP_4_TITLE",
+        bodyKey: "DOCS.MCP.STEP_4_DESC",
+        code: {
+          lang: "text",
+          value: `search_models  filter the live catalog (free_only option)
+get_pricing    USD list prices per 1M tokens
+chat           send a prompt to any model`,
+        },
+      },
+    ],
+    gotchaKeys: ["DOCS.MCP.GOTCHA_1", "DOCS.MCP.GOTCHA_2", "DOCS.MCP.GOTCHA_3"],
+  },
 ];
 
 export const CATEGORY_ORDER: SetupCategory[] = [
