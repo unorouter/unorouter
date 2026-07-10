@@ -9,6 +9,8 @@ import { useModelsFilter } from "@/hooks/ui/use-models-hook";
 import { ModelsUrlSync } from "@/hooks/ui/use-models-url-sync";
 import { Link } from "@/i18n/navigation";
 import { queryKeys } from "@/lib/react-query/keys";
+import { rpc } from "@/lib/rpc";
+import { handleElysia } from "@/lib/utils/base";
 import { DataTableId } from "@/lib/types/enums";
 import { createTableAtoms } from "@/store/data-table-store";
 import { clearFiltersAtom, isDirtyAtom } from "@/store/models-store";
@@ -54,7 +56,13 @@ export function ModelsPage() {
       if (done) return;
       done = true;
       cleanup();
-      void queryClient.refetchQueries({ queryKey: queryKeys.pricing() });
+      // fetchQuery, not refetchQueries: the pricing query uses staleTime
+      // "static", which refetchQueries skips by design.
+      void queryClient.fetchQuery({
+        queryKey: queryKeys.pricing(),
+        queryFn: async () => handleElysia(await rpc.api.models.pricing.get()),
+        staleTime: 0,
+      });
     };
     const cleanup = () => {
       for (const e of events) window.removeEventListener(e, upgrade);
