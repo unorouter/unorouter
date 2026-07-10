@@ -12,7 +12,6 @@ import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";
-import Script from "next/script";
 import { useState } from "react";
 import { isActiveLink } from "./navigation";
 
@@ -320,7 +319,10 @@ export function Footer() {
           <div className="text-foreground/70 relative flex items-center justify-center text-sm">
             <p className="text-center" suppressHydrationWarning>
               {t("FOOTER.COPYRIGHT", {
-                year: String(dayjs().year()),
+                // Build-date year: the clock is non-deterministic in prerenders.
+                year:
+                  (process.env.NEXT_PUBLIC_BUILD_DATE ?? "").slice(0, 4) ||
+                  String(dayjs().year()),
                 ...APP_VALUES,
               })}
             </p>
@@ -336,11 +338,6 @@ export function Footer() {
         </div>
       </div>
       <BreakoutDialog open={breakoutOpen} onOpenChange={setBreakoutOpen} />
-      <Script
-        src="https://cdn.jsdelivr.net/gh/sidiDev/devhunt-banner/indexV0.js"
-        data-url="https://devhunt.org/tool/unorouter"
-        strategy="afterInteractive"
-      />
     </footer>
   );
 }
