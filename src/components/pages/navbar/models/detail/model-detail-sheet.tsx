@@ -3,7 +3,6 @@
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Icon } from "@/components/ui/icon";
 import { CopyButton } from "@/components/elements/code/copy-button";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -127,25 +126,6 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
               </SectionHeading>
               <ModelDescription text={model.description} />
             </section>
-          )}
-
-          {model.tags.length > 0 && (
-            <div className="flex flex-wrap gap-1.5">
-              {model.tags.map((tag) => (
-                <Badge
-                  key={tag}
-                  variant="secondary"
-                  className={cn(
-                    "font-mono text-[10px] uppercase",
-                    theme.tagBg,
-                    theme.tagBorder,
-                    theme.text,
-                  )}
-                >
-                  {tag}
-                </Badge>
-              ))}
-            </div>
           )}
 
           <ModelHeaderChips metadata={model.metadata} locale={locale} />
