@@ -6,6 +6,7 @@ import type {
   CollectionPage,
   FAQPage,
   HowTo,
+  Offer,
   Organization,
   Product,
   SoftwareApplication,
@@ -199,14 +200,14 @@ type ProductSchemaInput = {
 export function buildProductSchema(
   input: ProductSchemaInput,
 ): WithContext<Product> {
-  const offers = input.isFree
+  const offers: Offer[] = input.isFree
     ? [
         {
           "@type": "Offer" as const,
           price: 0,
           priceCurrency: "USD",
           description: "Free tier, shared pools with a light per model rate limit",
-          availability: "https://schema.org/InStock",
+          availability: "https://schema.org/InStock" as const,
         },
       ]
     : [
@@ -217,7 +218,7 @@ export function buildProductSchema(
                 price: input.inputPrice,
                 priceCurrency: "USD",
                 description: "USD per 1M input tokens, pay as you go",
-                availability: "https://schema.org/InStock",
+                availability: "https://schema.org/InStock" as const,
               },
             ]
           : []),
@@ -228,7 +229,7 @@ export function buildProductSchema(
                 price: input.outputPrice,
                 priceCurrency: "USD",
                 description: "USD per 1M output tokens, pay as you go",
-                availability: "https://schema.org/InStock",
+                availability: "https://schema.org/InStock" as const,
               },
             ]
           : []),

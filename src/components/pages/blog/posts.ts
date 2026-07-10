@@ -87,6 +87,16 @@ export function getAllPostsSorted(): BlogPost<BlogSlug>[] {
     .sort((a, b) => b.date.localeCompare(a.date));
 }
 
+// Posts carrying the GEO block (TLDR lead + FAQ section + FAQPage schema).
+// Gate is flag driven because t.raw is unsupported repo wide.
+export const GEO_POSTS = new Set<string>([
+  "unorouter-vs-openrouter",
+  "best-openrouter-alternatives-2026",
+  "open-source-openrouter-alternative",
+  "what-is-an-llm-gateway",
+  "free-models-aggregated",
+]);
+
 export function getPost(slug: string): BlogPost<BlogSlug> | undefined {
   return POSTS.find((p) => p.slug === slug);
 }

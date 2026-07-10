@@ -5,6 +5,7 @@ import { TypographicSmokeLazy } from "@/components/ui/fluid-smoke/typographic-sm
 import { Icon } from "@/components/ui/icon";
 import { Link } from "@/i18n/navigation";
 import { getBlogTheme } from "@/lib/config/blog-categories";
+import { APP_VALUES } from "@/lib/config/constants";
 import { cn } from "@/lib/utils";
 import { estimateReadingMinutes } from "@/components/pages/blog/reading-time";
 import { serverLocale } from "@/lib/utils/server";
@@ -14,6 +15,7 @@ import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import {
+  GEO_POSTS,
   getAdjacentPosts,
   getPost,
   getRelatedPosts,
@@ -149,7 +151,36 @@ export async function BlogPost(props: BlogPostProps) {
           </section>
 
           <div className="prose prose-neutral dark:prose-invert border-border mt-4 max-w-none min-w-0 border-t pt-12 [&_h2]:mt-10 [&_h2]:mb-4 [&_h2]:scroll-mt-24 [&_h2]:text-2xl [&_h2]:font-semibold [&_li]:my-1 [&_p]:my-4 [&_p]:leading-relaxed [&_ul]:my-4 [&_ul]:list-disc [&_ul]:pl-6">
+            {GEO_POSTS.has(post.slug) && (
+              <p className="border-primary/40 bg-muted/40 rounded-r-md border-l-2 px-4 py-3 text-[15px]">
+                {t(
+                  `${post.i18nKey}.TLDR` as Parameters<typeof t>[0],
+                  APP_VALUES,
+                )}
+              </p>
+            )}
             <post.Component />
+            {GEO_POSTS.has(post.slug) && (
+              <section id="faq">
+                <h2>{t("BLOG.FAQ_TITLE")}</h2>
+                {([1, 2, 3] as const).map((n) => (
+                  <div key={n}>
+                    <h3 className="mt-6 mb-2 text-lg font-semibold">
+                      {t(
+                        `${post.i18nKey}.FAQ_${n}_Q` as Parameters<typeof t>[0],
+                        APP_VALUES,
+                      )}
+                    </h3>
+                    <p>
+                      {t(
+                        `${post.i18nKey}.FAQ_${n}_A` as Parameters<typeof t>[0],
+                        APP_VALUES,
+                      )}
+                    </p>
+                  </div>
+                ))}
+              </section>
+            )}
           </div>
 
           <PrevNextNav prev={adjacent.prev} next={adjacent.next} />
