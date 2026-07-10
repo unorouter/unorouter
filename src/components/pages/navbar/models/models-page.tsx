@@ -6,7 +6,7 @@ import { Icon } from "@/components/ui/icon";
 import { Input } from "@/components/ui/input";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { useModelsFilter } from "@/hooks/ui/use-models-hook";
-import { useModelsUrlSync } from "@/hooks/ui/use-models-url-sync";
+import { ModelsUrlSync } from "@/hooks/ui/use-models-url-sync";
 import { Link } from "@/i18n/navigation";
 import { queryKeys } from "@/lib/react-query/keys";
 import { DataTableId } from "@/lib/types/enums";
@@ -16,7 +16,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { buildModelColumns } from "./browse/model-columns";
 import { ModelListCard } from "./browse/model-list-card";
 
@@ -39,7 +39,6 @@ const modelsTableAtoms = createTableAtoms(DataTableId.MODELS);
 export function ModelsPage() {
   const t = useTranslations();
   const m = useModelsFilter();
-  useModelsUrlSync();
 
   // The dehydrated pricing copy is slimmed (no descriptions/group pricing/
   // parameter tables) to keep the HTML small. Upgrade to the full summary on
@@ -87,6 +86,9 @@ export function ModelsPage() {
 
   return (
     <div className="w-full pt-20 pb-16">
+      <Suspense>
+        <ModelsUrlSync />
+      </Suspense>
       <SidebarProvider
         defaultOpen
         className="h-auto min-h-0 overflow-visible"
