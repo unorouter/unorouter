@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import { GuideIcon } from "@/components/pages/docs/guide-icon";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
+import { useHydrated } from "@/hooks/ui/use-hydrated";
 import { Link, usePathname } from "@/i18n/navigation";
 import { analytics } from "@/lib/analytics";
 import { APP_VALUES, type TranslationKey } from "@/lib/config/constants";
@@ -30,6 +31,7 @@ export function Navbar() {
   const t = useTranslations();
   const pathname = usePathname();
   const authQuery = useAuthQuery();
+  const hydrated = useHydrated();
   const navRowRef = useRef<HTMLDivElement>(null);
 
   const navItems = navigation(!!authQuery.data).filter((item) => !item.hidden);
@@ -230,7 +232,9 @@ export function Navbar() {
                 <UserAvatar />
               </button>
             </UserDropdown>
-          ) : authQuery.isLoading ? null : (
+          ) : // The hydration render must match the prerendered logged-out shell;
+          // only hide the login link once the client owns the tree.
+          hydrated && authQuery.isLoading ? null : (
             <LoginLink className="text-muted-foreground hover:text-foreground text-[11px] font-bold tracking-wider uppercase transition-colors">
               {t("NAV.LOG_IN")}
             </LoginLink>
