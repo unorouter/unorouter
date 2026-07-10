@@ -16,6 +16,7 @@ import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
 import {
   buildBreadcrumbListSchema,
   buildFAQPageSchema,
+  buildProductSchema,
   buildSoftwareApplicationSchema,
 } from "@/lib/seo/structured-data";
 import {
@@ -225,6 +226,25 @@ export default async function ModelDetailPage(props: PageProps) {
             }),
         })}
       />
+      {!model.isTiered && (
+        <JsonLd
+          id={`${idSlug}-product`}
+          data={buildProductSchema({
+            name: model.name,
+            url,
+            isFree: model.name.endsWith(":free"),
+            inputPrice: model.inputPrice,
+            outputPrice: model.outputPrice,
+            description:
+              model.description ??
+              t("MODEL_PAGE.META_DESC", {
+                ...APP_VALUES,
+                name: model.name,
+                vendor: model.vendor.name,
+              }),
+          })}
+        />
+      )}
       <JsonLd id={`${idSlug}-faq`} data={buildFAQPageSchema(faqEntries)} />
       <ModelDetail
         model={model}
