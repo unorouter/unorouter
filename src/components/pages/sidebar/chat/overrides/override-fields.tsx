@@ -351,11 +351,113 @@ export function OverridesGenerationFields(props: {
   );
 }
 
+type UtilityModelOption = { id: string; name: string };
+
+function UtilityModelPicker(props: {
+  value: string;
+  onPick: (id: string) => void;
+  customOptions: UtilityModelOption[];
+  catalogModels: { name: string; isFree: boolean; vendor: { name: string } }[];
+}) {
+  const t = useTranslations();
+  const [open, setOpen] = useState(false);
+  const customName = props.customOptions.find(
+    (o) => o.id === props.value,
+  )?.name;
+
+  function pick(id: string) {
+    props.onPick(id);
+    setOpen(false);
+  }
+
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger className="border-input bg-background hover:bg-accent hover:text-accent-foreground flex h-8 w-full items-center justify-between rounded-md border px-3 text-xs">
+        <span
+          className={cn(
+            "truncate",
+            props.value === NONE_VALUE ? "text-muted-foreground" : "font-mono",
+          )}
+        >
+          {props.value === NONE_VALUE
+            ? t("CHAT.OVERRIDES.UTILITY_MODEL_PLACEHOLDER")
+            : (customName ?? props.value)}
+        </span>
+        <Icon
+          name="chevrons-up-down"
+          className="text-muted-foreground ml-2 h-3.5 w-3.5 shrink-0"
+        />
+      </PopoverTrigger>
+      <PopoverContent
+        className="w-[calc(100vw-1rem)] p-0 sm:w-96"
+        align="start"
+      >
+        <Command>
+          <CommandInput
+            placeholder={t("CHAT.MODEL.SEARCH")}
+            className="h-8 text-xs"
+          />
+          <CommandList>
+            <CommandEmpty>{t("CHAT.MODEL.NO_RESULTS")}</CommandEmpty>
+            <CommandGroup>
+              <CommandItem
+                value={NONE_VALUE}
+                onSelect={() => pick(NONE_VALUE)}
+                className="text-xs"
+              >
+                {t("CHAT.OVERRIDES.UTILITY_MODEL_PLACEHOLDER")}
+              </CommandItem>
+            </CommandGroup>
+            {props.customOptions.length > 0 && (
+              <CommandGroup heading={t("CHAT.MODEL.CUSTOM_PROVIDERS")}>
+                {props.customOptions.map((o) => (
+                  <CommandItem
+                    key={o.id}
+                    value={o.id}
+                    keywords={[o.name]}
+                    onSelect={() => pick(o.id)}
+                    className="text-xs"
+                  >
+                    <Icon name="server" className="h-3.5 w-3.5 shrink-0" />
+                    <span className="min-w-0 flex-1 truncate font-mono">
+                      {o.name}
+                    </span>
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            )}
+            <CommandGroup>
+              {props.catalogModels.map((m) => (
+                <CommandItem
+                  key={m.name}
+                  value={m.name}
+                  keywords={[m.vendor.name, ...(m.isFree ? ["free"] : [])]}
+                  onSelect={() => pick(m.name)}
+                  className="text-xs"
+                >
+                  <VendorIcon vendor={m.vendor.name} size={14} />
+                  <span className="min-w-0 flex-1 truncate font-mono">
+                    {m.name}
+                  </span>
+                  {m.isFree && (
+                    <span className="shrink-0 rounded bg-emerald-500/15 px-1 py-0.5 text-[10px] leading-none font-medium text-emerald-700 dark:text-emerald-300">
+                      {t("CHAT.MODEL.FREE_BADGE")}
+                    </span>
+                  )}
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          </CommandList>
+        </Command>
+      </PopoverContent>
+    </Popover>
+  );
+}
+
 function UtilityModelField(props: {
   control: Control<ConversationOverridesForm>;
 }) {
   const t = useTranslations();
-  const [open, setOpen] = useState(false);
   const pricing = usePricingQuery().data;
   const customProvidersQuery = useCustomProvidersQuery();
   const catalogModels = (pricing?.models ?? []).filter(
@@ -373,115 +475,19 @@ function UtilityModelField(props: {
     <FormField
       control={props.control}
       name="utilityModel"
-      render={({ field }) => {
-        const customName = customOptions.find(
-          (o) => o.id === field.value,
-        )?.name;
-        return (
-          <FormItem>
-            <FormLabel className="text-muted-foreground text-xs">
-              {t("CHAT.OVERRIDES.UTILITY_MODEL")}
-            </FormLabel>
-            <Popover open={open} onOpenChange={setOpen}>
-              <PopoverTrigger className="border-input bg-background hover:bg-accent hover:text-accent-foreground flex h-8 w-full items-center justify-between rounded-md border px-3 text-xs">
-                <span
-                  className={cn(
-                    "truncate",
-                    field.value === NONE_VALUE
-                      ? "text-muted-foreground"
-                      : "font-mono",
-                  )}
-                >
-                  {field.value === NONE_VALUE
-                    ? t("CHAT.OVERRIDES.UTILITY_MODEL_PLACEHOLDER")
-                    : (customName ?? field.value)}
-                </span>
-                <Icon
-                  name="chevrons-up-down"
-                  className="text-muted-foreground ml-2 h-3.5 w-3.5 shrink-0"
-                />
-              </PopoverTrigger>
-              <PopoverContent
-                className="w-[calc(100vw-1rem)] p-0 sm:w-96"
-                align="start"
-              >
-                <Command>
-                  <CommandInput
-                    placeholder={t("CHAT.MODEL.SEARCH")}
-                    className="h-8 text-xs"
-                  />
-                  <CommandList>
-                    <CommandEmpty>{t("CHAT.MODEL.NO_RESULTS")}</CommandEmpty>
-                    <CommandGroup>
-                      <CommandItem
-                        value={NONE_VALUE}
-                        onSelect={() => {
-                          field.onChange(NONE_VALUE);
-                          setOpen(false);
-                        }}
-                        className="text-xs"
-                      >
-                        {t("CHAT.OVERRIDES.UTILITY_MODEL_PLACEHOLDER")}
-                      </CommandItem>
-                    </CommandGroup>
-                    {customOptions.length > 0 && (
-                      <CommandGroup heading={t("CHAT.MODEL.CUSTOM_PROVIDERS")}>
-                        {customOptions.map((o) => (
-                          <CommandItem
-                            key={o.id}
-                            value={o.id}
-                            keywords={[o.name]}
-                            onSelect={() => {
-                              field.onChange(o.id);
-                              setOpen(false);
-                            }}
-                            className="text-xs"
-                          >
-                            <Icon
-                              name="server"
-                              className="h-3.5 w-3.5 shrink-0"
-                            />
-                            <span className="min-w-0 flex-1 truncate font-mono">
-                              {o.name}
-                            </span>
-                          </CommandItem>
-                        ))}
-                      </CommandGroup>
-                    )}
-                    <CommandGroup>
-                      {catalogModels.map((m) => (
-                        <CommandItem
-                          key={m.name}
-                          value={m.name}
-                          keywords={[
-                            m.vendor.name,
-                            ...(m.isFree ? ["free"] : []),
-                          ]}
-                          onSelect={() => {
-                            field.onChange(m.name);
-                            setOpen(false);
-                          }}
-                          className="text-xs"
-                        >
-                          <VendorIcon vendor={m.vendor.name} size={14} />
-                          <span className="min-w-0 flex-1 truncate font-mono">
-                            {m.name}
-                          </span>
-                          {m.isFree && (
-                            <span className="shrink-0 rounded bg-emerald-500/15 px-1 py-0.5 text-[10px] leading-none font-medium text-emerald-700 dark:text-emerald-300">
-                              {t("CHAT.MODEL.FREE_BADGE")}
-                            </span>
-                          )}
-                        </CommandItem>
-                      ))}
-                    </CommandGroup>
-                  </CommandList>
-                </Command>
-              </PopoverContent>
-            </Popover>
-          </FormItem>
-        );
-      }}
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel className="text-muted-foreground text-xs">
+            {t("CHAT.OVERRIDES.UTILITY_MODEL")}
+          </FormLabel>
+          <UtilityModelPicker
+            value={field.value}
+            onPick={field.onChange}
+            customOptions={customOptions}
+            catalogModels={catalogModels}
+          />
+        </FormItem>
+      )}
     />
   );
 }

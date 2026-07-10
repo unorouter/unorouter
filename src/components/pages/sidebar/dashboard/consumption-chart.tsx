@@ -113,6 +113,59 @@ function processTrendData(data: QuotaDataItem[], g: Granularity) {
     }));
 }
 
+function ChartToolbar(props: { dashboard: ReturnType<typeof useDashboardData> }) {
+  const t = useTranslations();
+  const dashboard = props.dashboard;
+  return (
+    <div className="border-border flex flex-col gap-3 border-b p-5 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex items-center gap-2">
+        <Icon name="chart-bar" className="text-muted-foreground h-4 w-4" />
+        <span className="text-foreground font-mono text-sm font-medium">
+          {t("DASHBOARD.CHART.MODEL_DATA_ANALYSIS")}
+        </span>
+      </div>
+      <div className="flex items-center gap-2">
+        <DateTimeRangePicker
+          value={dashboard.dateRange}
+          onChange={(range) => {
+            analytics.dashboard.dateRangeChanged({
+              period_minutes: dashboard.periodMinutes,
+            });
+            dashboard.setDateRange(range);
+          }}
+        />
+        <Button
+          variant="ghost"
+          size="icon-sm"
+          onClick={() => {
+            analytics.dashboard.refreshed();
+            dashboard.refetchAll();
+          }}
+          disabled={dashboard.isFetching}
+        >
+          <Icon
+            name="refresh-cw"
+            className={`h-4 w-4 ${dashboard.isFetching ? "animate-spin" : ""}`}
+          />
+        </Button>
+        {!dashboard.isDefaultRange && (
+          <Button
+            variant="ghost"
+            size="icon-sm"
+            onClick={() => {
+              analytics.dashboard.dateRangeReset();
+              dashboard.resetDateRange();
+            }}
+            title={t("DASHBOARD.CHART.RESET_DATE_RANGE")}
+          >
+            <Icon name="rotate-ccw" className="h-4 w-4" />
+          </Button>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export function ConsumptionChart() {
   const t = useTranslations();
   const dashboard = useDashboardData();
@@ -135,16 +188,6 @@ export function ConsumptionChart() {
     otherLabel,
   ).toReversed();
 
-  const distributionConfig = buildModelChartConfig(distribution.modelList);
-  const trendConfig: ChartConfig = {
-    quota: { label: "Quota ($)", color: "var(--color-chart-1)" },
-    count: { label: "Count", color: "var(--color-chart-2)" },
-  };
-  const pieConfig = buildModelChartConfig(pieData.map((d) => d.name));
-  const rankConfig: ChartConfig = {
-    count: { label: "Calls", color: "var(--color-chart-1)" },
-  };
-
   const totalQuota = dashboard.rawData.reduce(
     (sum, item) => sum + quotaToDollars(item.quota ?? 0),
     0,
@@ -152,52 +195,7 @@ export function ConsumptionChart() {
 
   return (
     <div className="border-border bg-card flex min-w-0 flex-col border">
-      <div className="border-border flex flex-col gap-3 border-b p-5 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex items-center gap-2">
-          <Icon name="chart-bar" className="text-muted-foreground h-4 w-4" />
-          <span className="text-foreground font-mono text-sm font-medium">
-            {t("DASHBOARD.CHART.MODEL_DATA_ANALYSIS")}
-          </span>
-        </div>
-        <div className="flex items-center gap-2">
-          <DateTimeRangePicker
-            value={dashboard.dateRange}
-            onChange={(range) => {
-              analytics.dashboard.dateRangeChanged({
-                period_minutes: dashboard.periodMinutes,
-              });
-              dashboard.setDateRange(range);
-            }}
-          />
-          <Button
-            variant="ghost"
-            size="icon-sm"
-            onClick={() => {
-              analytics.dashboard.refreshed();
-              dashboard.refetchAll();
-            }}
-            disabled={dashboard.isFetching}
-          >
-            <Icon
-              name="refresh-cw"
-              className={`h-4 w-4 ${dashboard.isFetching ? "animate-spin" : ""}`}
-            />
-          </Button>
-          {!dashboard.isDefaultRange && (
-            <Button
-              variant="ghost"
-              size="icon-sm"
-              onClick={() => {
-                analytics.dashboard.dateRangeReset();
-                dashboard.resetDateRange();
-              }}
-              title={t("DASHBOARD.CHART.RESET_DATE_RANGE")}
-            >
-              <Icon name="rotate-ccw" className="h-4 w-4" />
-            </Button>
-          )}
-        </div>
-      </div>
+      <ChartToolbar dashboard={dashboard} />
 
       {isLoading ? (
         <div className="flex h-80 items-center justify-center p-5">
@@ -254,188 +252,222 @@ export function ConsumptionChart() {
             </div>
 
             <TabsContent value="distribution">
-              <ChartContainer
-                config={distributionConfig}
-                className="aspect-auto h-72 w-full"
-              >
-                <BarChart data={distribution.chartData}>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                  <XAxis
-                    dataKey="time"
-                    tickLine={false}
-                    axisLine={false}
-                    fontSize={10}
-                    fontFamily="monospace"
-                  />
-                  <YAxis
-                    tickLine={false}
-                    axisLine={false}
-                    fontSize={10}
-                    fontFamily="monospace"
-                    allowDecimals
-                    tickFormatter={formatPrice}
-                  />
-                  <ChartTooltip
-                    content={
-                      <ChartTooltipContent
-                        valueFormatter={formatPrice}
-                        sortDesc
-                        showTotal
-                        totalLabel={totalLabel}
-                      />
-                    }
-                  />
-                  <ChartLegend content={<ChartLegendContent />} />
-                  {distribution.modelList.map((model) => (
-                    <Bar
-                      key={model}
-                      dataKey={model}
-                      stackId="a"
-                      fill={modelColor(model)}
-                    />
-                  ))}
-                </BarChart>
-              </ChartContainer>
+              <DistributionChart
+                distribution={distribution}
+                totalLabel={totalLabel}
+              />
             </TabsContent>
 
             <TabsContent value="trend">
-              <ChartContainer
-                config={trendConfig}
-                className="aspect-auto h-72 w-full"
-              >
-                <LineChart data={trendData}>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                  <XAxis
-                    dataKey="time"
-                    tickLine={false}
-                    axisLine={false}
-                    fontSize={10}
-                    fontFamily="monospace"
-                  />
-                  {/* Quota ($) and Count (requests) are different units; split axes so
-                      the tiny quota line is not flattened by the large count and Count
-                      is never dollar-labeled. */}
-                  <YAxis
-                    yAxisId="quota"
-                    tickLine={false}
-                    axisLine={false}
-                    fontSize={10}
-                    fontFamily="monospace"
-                    allowDecimals
-                    tickFormatter={formatPrice}
-                  />
-                  <YAxis
-                    yAxisId="count"
-                    orientation="right"
-                    tickLine={false}
-                    axisLine={false}
-                    fontSize={10}
-                    fontFamily="monospace"
-                    allowDecimals={false}
-                    tickFormatter={(v: number) => v.toLocaleString()}
-                  />
-                  <ChartTooltip
-                    content={
-                      <ChartTooltipContent
-                        valueFormatter={(value, name) =>
-                          name === "count"
-                            ? value.toLocaleString()
-                            : formatPrice(value)
-                        }
-                      />
-                    }
-                  />
-                  <ChartLegend content={<ChartLegendContent />} />
-                  <Line
-                    yAxisId="quota"
-                    type="monotone"
-                    dataKey="quota"
-                    stroke="var(--color-chart-1)"
-                    strokeWidth={2}
-                    dot={false}
-                  />
-                  <Line
-                    yAxisId="count"
-                    type="monotone"
-                    dataKey="count"
-                    stroke="var(--color-chart-2)"
-                    strokeWidth={2}
-                    dot={false}
-                  />
-                </LineChart>
-              </ChartContainer>
+              <TrendChart trendData={trendData} />
             </TabsContent>
 
             <TabsContent value="pie">
-              <ChartContainer
-                config={pieConfig}
-                className="aspect-auto h-72 w-full"
-              >
-                <PieChart>
-                  <ChartTooltip content={<ChartTooltipContent />} />
-                  <Pie
-                    data={pieData}
-                    dataKey="count"
-                    nameKey="name"
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={100}
-                    label={({ name, percent }) =>
-                      `${name.length > 15 ? name.slice(0, 15) + "..." : name} ${(percent * 100).toFixed(0)}%`
-                    }
-                    fontSize={10}
-                    fontFamily="monospace"
-                  >
-                    {pieData.map((entry, i) => (
-                      <Cell key={i} fill={modelColor(entry.name)} />
-                    ))}
-                  </Pie>
-                  <ChartLegend
-                    content={<ChartLegendContent nameKey="name" />}
-                  />
-                </PieChart>
-              </ChartContainer>
+              <CallsPieChart pieData={pieData} />
             </TabsContent>
 
             <TabsContent value="ranking">
-              <ChartContainer
-                config={rankConfig}
-                className="aspect-auto h-72 w-full"
-              >
-                <BarChart data={rankingData} layout="vertical">
-                  <CartesianGrid strokeDasharray="3 3" horizontal={false} />
-                  <XAxis
-                    type="number"
-                    tickLine={false}
-                    axisLine={false}
-                    fontSize={10}
-                    fontFamily="monospace"
-                  />
-                  <YAxis
-                    dataKey="name"
-                    type="category"
-                    tickLine={false}
-                    axisLine={false}
-                    fontSize={9}
-                    fontFamily="monospace"
-                    width={120}
-                    interval={0}
-                    tickFormatter={(v: string) =>
-                      v.length > 18 ? v.slice(0, 18) + "..." : v
-                    }
-                  />
-                  <ChartTooltip content={<ChartTooltipContent />} />
-                  <Bar dataKey="count">
-                    {rankingData.map((entry, i) => (
-                      <Cell key={i} fill={modelColor(entry.name)} />
-                    ))}
-                  </Bar>
-                </BarChart>
-              </ChartContainer>
+              <CallsRankingChart rankingData={rankingData} />
             </TabsContent>
           </div>
         </Tabs>
       )}
     </div>
+  );
+}
+
+function DistributionChart(props: {
+  distribution: ReturnType<typeof processDistributionData>;
+  totalLabel: string;
+}) {
+  const distribution = props.distribution;
+  return (
+    <ChartContainer
+      config={buildModelChartConfig(distribution.modelList)}
+      className="aspect-auto h-72 w-full"
+    >
+      <BarChart data={distribution.chartData}>
+        <CartesianGrid strokeDasharray="3 3" vertical={false} />
+        <XAxis
+          dataKey="time"
+          tickLine={false}
+          axisLine={false}
+          fontSize={10}
+          fontFamily="monospace"
+        />
+        <YAxis
+          tickLine={false}
+          axisLine={false}
+          fontSize={10}
+          fontFamily="monospace"
+          allowDecimals
+          tickFormatter={formatPrice}
+        />
+        <ChartTooltip
+          content={
+            <ChartTooltipContent
+              valueFormatter={formatPrice}
+              sortDesc
+              showTotal
+              totalLabel={props.totalLabel}
+            />
+          }
+        />
+        <ChartLegend content={<ChartLegendContent />} />
+        {distribution.modelList.map((model) => (
+          <Bar
+            key={model}
+            dataKey={model}
+            stackId="a"
+            fill={modelColor(model)}
+          />
+        ))}
+      </BarChart>
+    </ChartContainer>
+  );
+}
+
+function TrendChart(props: {
+  trendData: ReturnType<typeof processTrendData>;
+}) {
+  const trendConfig: ChartConfig = {
+    quota: { label: "Quota ($)", color: "var(--color-chart-1)" },
+    count: { label: "Count", color: "var(--color-chart-2)" },
+  };
+  return (
+    <ChartContainer config={trendConfig} className="aspect-auto h-72 w-full">
+      <LineChart data={props.trendData}>
+        <CartesianGrid strokeDasharray="3 3" vertical={false} />
+        <XAxis
+          dataKey="time"
+          tickLine={false}
+          axisLine={false}
+          fontSize={10}
+          fontFamily="monospace"
+        />
+        {/* Quota ($) and Count (requests) are different units; split axes so
+            the tiny quota line is not flattened by the large count and Count
+            is never dollar-labeled. */}
+        <YAxis
+          yAxisId="quota"
+          tickLine={false}
+          axisLine={false}
+          fontSize={10}
+          fontFamily="monospace"
+          allowDecimals
+          tickFormatter={formatPrice}
+        />
+        <YAxis
+          yAxisId="count"
+          orientation="right"
+          tickLine={false}
+          axisLine={false}
+          fontSize={10}
+          fontFamily="monospace"
+          allowDecimals={false}
+          tickFormatter={(v: number) => v.toLocaleString()}
+        />
+        <ChartTooltip
+          content={
+            <ChartTooltipContent
+              valueFormatter={(value, name) =>
+                name === "count" ? value.toLocaleString() : formatPrice(value)
+              }
+            />
+          }
+        />
+        <ChartLegend content={<ChartLegendContent />} />
+        <Line
+          yAxisId="quota"
+          type="monotone"
+          dataKey="quota"
+          stroke="var(--color-chart-1)"
+          strokeWidth={2}
+          dot={false}
+        />
+        <Line
+          yAxisId="count"
+          type="monotone"
+          dataKey="count"
+          stroke="var(--color-chart-2)"
+          strokeWidth={2}
+          dot={false}
+        />
+      </LineChart>
+    </ChartContainer>
+  );
+}
+
+function CallsPieChart(props: {
+  pieData: ReturnType<typeof aggregateByModel>;
+}) {
+  return (
+    <ChartContainer
+      config={buildModelChartConfig(props.pieData.map((d) => d.name))}
+      className="aspect-auto h-72 w-full"
+    >
+      <PieChart>
+        <ChartTooltip content={<ChartTooltipContent />} />
+        <Pie
+          data={props.pieData}
+          dataKey="count"
+          nameKey="name"
+          cx="50%"
+          cy="50%"
+          outerRadius={100}
+          label={({ name, percent }) =>
+            `${name.length > 15 ? name.slice(0, 15) + "..." : name} ${(percent * 100).toFixed(0)}%`
+          }
+          fontSize={10}
+          fontFamily="monospace"
+        >
+          {props.pieData.map((entry, i) => (
+            <Cell key={i} fill={modelColor(entry.name)} />
+          ))}
+        </Pie>
+        <ChartLegend content={<ChartLegendContent nameKey="name" />} />
+      </PieChart>
+    </ChartContainer>
+  );
+}
+
+function CallsRankingChart(props: {
+  rankingData: ReturnType<typeof aggregateByModel>;
+}) {
+  const rankConfig: ChartConfig = {
+    count: { label: "Calls", color: "var(--color-chart-1)" },
+  };
+  return (
+    <ChartContainer config={rankConfig} className="aspect-auto h-72 w-full">
+      <BarChart data={props.rankingData} layout="vertical">
+        <CartesianGrid strokeDasharray="3 3" horizontal={false} />
+        <XAxis
+          type="number"
+          tickLine={false}
+          axisLine={false}
+          fontSize={10}
+          fontFamily="monospace"
+        />
+        <YAxis
+          dataKey="name"
+          type="category"
+          tickLine={false}
+          axisLine={false}
+          fontSize={9}
+          fontFamily="monospace"
+          width={120}
+          interval={0}
+          tickFormatter={(v: string) =>
+            v.length > 18 ? v.slice(0, 18) + "..." : v
+          }
+        />
+        <ChartTooltip content={<ChartTooltipContent />} />
+        <Bar dataKey="count">
+          {props.rankingData.map((entry, i) => (
+            <Cell key={i} fill={modelColor(entry.name)} />
+          ))}
+        </Bar>
+      </BarChart>
+    </ChartContainer>
   );
 }

@@ -22,8 +22,10 @@ import { useCustomProvidersQuery } from "@/hooks/ai/custom-providers-hook";
 import { analytics } from "@/lib/analytics";
 import {
   buildGroupEntries,
+  type GroupEntry,
   groupDisplayLabel,
   groupModelsByType,
+  type ProcessedModel,
 } from "@/lib/api/pricing";
 import {
   isCustomModelId,
@@ -48,12 +50,241 @@ type ModelSelectorProps = {
   onGroupChange: (group: string | null) => void;
 };
 
+type CustomProvider = NonNullable<
+  ReturnType<typeof useCustomProvidersQuery>["data"]
+>[number];
+
+function FreeBadge(props: { label: string; shrink?: boolean }) {
+  return (
+    <span
+      className={cn(
+        "rounded bg-emerald-500/15 px-1 py-0.5 text-[10px] leading-none font-medium text-emerald-700 dark:text-emerald-300",
+        props.shrink && "shrink-0",
+      )}
+    >
+      {props.label}
+    </span>
+  );
+}
+
+function TypeFilterBadges(props: {
+  tags: string[];
+  typeFilter: string | null;
+  onFilterChange: (tag: string | null) => void;
+}) {
+  const t = useTranslations();
+  return (
+    <div className="flex gap-1 overflow-x-auto border-b px-2 py-1.5">
+      <Badge
+        variant={props.typeFilter === null ? "default" : "outline"}
+        data-testid="model-type-filter-all"
+        className="cursor-pointer text-[10px]"
+        onClick={() => props.onFilterChange(null)}
+      >
+        {t("CHAT.FILTER_ALL")}
+      </Badge>
+      {props.tags.map((tag) => (
+        <Badge
+          key={tag}
+          variant={props.typeFilter === tag ? "default" : "outline"}
+          data-testid={`model-type-filter-${tag}`}
+          className="cursor-pointer text-[10px]"
+          onClick={() =>
+            props.onFilterChange(props.typeFilter === tag ? null : tag)
+          }
+        >
+          {tag}
+        </Badge>
+      ))}
+    </div>
+  );
+}
+
+function CatalogModelItem(props: {
+  model: ProcessedModel;
+  checked: boolean;
+  disabled: boolean;
+  onPick: () => void;
+  onLoginRedirect: () => void;
+}) {
+  const t = useTranslations();
+  const model = props.model;
+  return (
+    <CommandItem
+      value={model.name}
+      keywords={[model.vendor.name, ...(model.isFree ? ["free"] : [])]}
+      data-testid={`model-option-${model.name}`}
+      data-model={model.name}
+      data-model-type={model.type}
+      data-free={model.isFree || undefined}
+      data-checked={props.checked || undefined}
+      onSelect={() => {
+        if (props.disabled) {
+          props.onLoginRedirect();
+          return;
+        }
+        props.onPick();
+      }}
+      className={cn("text-xs", props.disabled && "cursor-pointer opacity-50")}
+    >
+      <VendorIcon vendor={model.vendor.name} size={14} />
+      <span className="min-w-0 flex-1 font-mono">{model.name}</span>
+      {model.isFree && (
+        <FreeBadge label={t("CHAT.MODEL.FREE_BADGE")} shrink />
+      )}
+      {props.disabled && (
+        <span
+          className="text-muted-foreground shrink-0"
+          title={t("CHAT.MODEL.LOGIN_REQUIRED")}
+        >
+          <Icon name="lock" className="h-3 w-3" />
+        </span>
+      )}
+    </CommandItem>
+  );
+}
+
+function CustomProviderItems(props: {
+  providers: CustomProvider[];
+  value: string | null;
+  onPick: (id: string) => void;
+}) {
+  const t = useTranslations();
+  return (
+    <CommandGroup heading={t("CHAT.MODEL.CUSTOM_PROVIDERS")}>
+      {props.providers.flatMap((provider) =>
+        provider.models
+          .filter((model) => model.type !== "image")
+          .map((model) => {
+            const id = makeCustomModelId(provider.id, model.key);
+            return (
+              <CommandItem
+                key={id}
+                value={id}
+                keywords={[provider.name, model.label, model.key]}
+                data-testid={`model-option-${id}`}
+                data-model={id}
+                data-checked={id === props.value || undefined}
+                onSelect={() => props.onPick(id)}
+                className="text-xs"
+              >
+                <Icon name="server" className="h-3.5 w-3.5 shrink-0" />
+                <span className="min-w-0 flex-1 truncate font-mono">
+                  {provider.name} / {model.label}
+                </span>
+              </CommandItem>
+            );
+          }),
+      )}
+    </CommandGroup>
+  );
+}
+
+function GroupSubmenu(props: {
+  value: string | null;
+  group: string | null;
+  onGroupChange: (group: string | null) => void;
+  groupEntries: GroupEntry[];
+  enableGroups: string[];
+}) {
+  const t = useTranslations();
+  const [groupOpen, setGroupOpen] = useState(false);
+  const selectedGroupEntry = props.group
+    ? props.groupEntries.find((e) => e.group === props.group)
+    : null;
+
+  return (
+    <Popover open={groupOpen} onOpenChange={setGroupOpen}>
+      <PopoverTrigger
+        data-testid="group-submenu-trigger"
+        data-group={props.group || "auto"}
+        className="hover:bg-accent flex w-full items-center justify-between border-t px-3 py-2 text-xs"
+      >
+        <span className="text-muted-foreground">{t("CHAT.GROUP.SELECT")}</span>
+        <span className="flex items-center gap-1.5">
+          <span className="truncate font-mono text-xs">
+            {props.group
+              ? groupDisplayLabel(props.group, props.value)
+              : t("CHAT.GROUP.AUTO")}
+            {selectedGroupEntry && (
+              <span className="text-muted-foreground ml-1">
+                {selectedGroupEntry.ratio}x
+              </span>
+            )}
+          </span>
+          <Icon
+            name="chevron-right"
+            className="text-muted-foreground h-3.5 w-3.5 shrink-0"
+          />
+        </span>
+      </PopoverTrigger>
+      <PopoverContent
+        side="right"
+        align="start"
+        sideOffset={4}
+        className="w-60 gap-0 p-1"
+      >
+        <button
+          type="button"
+          data-testid="group-option-auto"
+          data-group="auto"
+          data-checked={!props.group || undefined}
+          onClick={() => {
+            props.onGroupChange(null);
+            setGroupOpen(false);
+          }}
+          className="hover:bg-accent flex w-full items-center justify-between rounded px-2 py-1.5 text-xs"
+        >
+          <span className="font-mono">{t("CHAT.GROUP.AUTO")}</span>
+          {!props.group && <Icon name="check" className="h-3.5 w-3.5" />}
+        </button>
+        {props.groupEntries.map((entry) => {
+          const groupDisabled =
+            props.enableGroups.length > 0 &&
+            !props.enableGroups.includes(entry.group);
+          return (
+            <button
+              key={entry.group}
+              type="button"
+              disabled={groupDisabled}
+              data-testid={`group-option-${entry.group}`}
+              data-group={entry.group}
+              data-checked={entry.group === props.group || undefined}
+              onClick={() => {
+                props.onGroupChange(entry.group);
+                setGroupOpen(false);
+              }}
+              className={cn(
+                "hover:bg-accent flex w-full items-center justify-between gap-2 rounded px-2 py-1.5 text-xs",
+                groupDisabled &&
+                  "pointer-events-none opacity-40 hover:bg-transparent",
+              )}
+            >
+              <span
+                className="min-w-0 flex-1 truncate text-left font-mono"
+                title={entry.group}
+              >
+                {groupDisplayLabel(entry.group, props.value)}
+              </span>
+              <span className="flex shrink-0 items-center gap-1.5">
+                <span className="text-muted-foreground">{entry.ratio}x</span>
+                {entry.group === props.group && (
+                  <Icon name="check" className="h-3.5 w-3.5" />
+                )}
+              </span>
+            </button>
+          );
+        })}
+      </PopoverContent>
+    </Popover>
+  );
+}
+
 export function ModelSelector(props: ModelSelectorProps) {
   const t = useTranslations();
   const router = useRouter();
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const [groupOpen, setGroupOpen] = useState(false);
   const [typeFilter, setTypeFilter] = useState<string | null>(null);
   const pricingQuery = usePricingQuery();
   const authQuery = useAuthQuery();
@@ -99,9 +330,6 @@ export function ModelSelector(props: ModelSelectorProps) {
     ]),
   ];
   const groupEntries = buildGroupEntries(candidateGroups, groupRatioMap);
-  const selectedGroupEntry = props.group
-    ? groupEntries.find((e) => e.group === props.group)
-    : null;
 
   useEffect(() => {
     if (!props.group || props.group === AUTO_GROUP) return;
@@ -126,6 +354,18 @@ export function ModelSelector(props: ModelSelectorProps) {
     props.onChange(chosen.name);
     // eslint-disable-next-line react-hooks/exhaustive-deps -- only re-run on login state or models list changes
   }, [isLoggedIn, models.length]);
+
+  function pickModel(id: string) {
+    analytics.chat.modelChanged({ from: props.value, to: id });
+    props.onChange(id);
+    setOpen(false);
+  }
+
+  function redirectToLogin() {
+    setCookie(AUTH_REDIRECT_COOKIE, pathname, { maxAge: 300 });
+    router.push("/login");
+    setOpen(false);
+  }
 
   return (
     <Popover
@@ -152,11 +392,7 @@ export function ModelSelector(props: ModelSelectorProps) {
             />
           )}
           <span className="truncate font-mono">{triggerLabel}</span>
-          {selected?.isFree && (
-            <span className="rounded bg-emerald-500/15 px-1 py-0.5 text-[10px] leading-none font-medium text-emerald-700 dark:text-emerald-300">
-              {t("CHAT.MODEL.FREE_BADGE")}
-            </span>
-          )}
+          {selected?.isFree && <FreeBadge label={t("CHAT.MODEL.FREE_BADGE")} />}
         </div>
         <Icon
           name="chevrons-up-down"
@@ -173,27 +409,11 @@ export function ModelSelector(props: ModelSelectorProps) {
             className="h-8 text-xs"
           />
           {modelsByType.length > 1 && (
-            <div className="flex gap-1 overflow-x-auto border-b px-2 py-1.5">
-              <Badge
-                variant={typeFilter === null ? "default" : "outline"}
-                data-testid="model-type-filter-all"
-                className="cursor-pointer text-[10px]"
-                onClick={() => setTypeFilter(null)}
-              >
-                {t("CHAT.FILTER_ALL")}
-              </Badge>
-              {modelsByType.map(({ tag }) => (
-                <Badge
-                  key={tag}
-                  variant={typeFilter === tag ? "default" : "outline"}
-                  data-testid={`model-type-filter-${tag}`}
-                  className="cursor-pointer text-[10px]"
-                  onClick={() => setTypeFilter(typeFilter === tag ? null : tag)}
-                >
-                  {tag}
-                </Badge>
-              ))}
-            </div>
+            <TypeFilterBadges
+              tags={modelsByType.map(({ tag }) => tag)}
+              typeFilter={typeFilter}
+              onFilterChange={setTypeFilter}
+            />
           )}
           <CommandList>
             <CommandEmpty>{t("CHAT.MODEL.NO_RESULTS")}</CommandEmpty>
@@ -202,195 +422,36 @@ export function ModelSelector(props: ModelSelectorProps) {
               : modelsByType
             ).map(({ tag, models: tagModels }) => (
               <CommandGroup key={tag} heading={tag}>
-                {tagModels.map((model) => {
-                  const disabled = !isLoggedIn && !model.isFree;
-                  return (
-                    <CommandItem
-                      key={model.name}
-                      value={model.name}
-                      keywords={[
-                        model.vendor.name,
-                        ...(model.isFree ? ["free"] : []),
-                      ]}
-                      data-testid={`model-option-${model.name}`}
-                      data-model={model.name}
-                      data-model-type={model.type}
-                      data-free={model.isFree || undefined}
-                      data-checked={model.name === props.value || undefined}
-                      onSelect={() => {
-                        if (disabled) {
-                          setCookie(AUTH_REDIRECT_COOKIE, pathname, {
-                            maxAge: 300,
-                          });
-                          router.push("/login");
-                          setOpen(false);
-                          return;
-                        }
-                        analytics.chat.modelChanged({
-                          from: props.value,
-                          to: model.name,
-                        });
-                        props.onChange(model.name);
-                        setOpen(false);
-                      }}
-                      className={cn(
-                        "text-xs",
-                        disabled && "cursor-pointer opacity-50",
-                      )}
-                    >
-                      <VendorIcon vendor={model.vendor.name} size={14} />
-                      <span className="min-w-0 flex-1 font-mono">
-                        {model.name}
-                      </span>
-                      {model.isFree && (
-                        <span className="shrink-0 rounded bg-emerald-500/15 px-1 py-0.5 text-[10px] leading-none font-medium text-emerald-700 dark:text-emerald-300">
-                          {t("CHAT.MODEL.FREE_BADGE")}
-                        </span>
-                      )}
-                      {disabled && (
-                        <span
-                          className="text-muted-foreground shrink-0"
-                          title={t("CHAT.MODEL.LOGIN_REQUIRED")}
-                        >
-                          <Icon name="lock" className="h-3 w-3" />
-                        </span>
-                      )}
-                    </CommandItem>
-                  );
-                })}
+                {tagModels.map((model) => (
+                  <CatalogModelItem
+                    key={model.name}
+                    model={model}
+                    checked={model.name === props.value}
+                    disabled={!isLoggedIn && !model.isFree}
+                    onPick={() => pickModel(model.name)}
+                    onLoginRedirect={redirectToLogin}
+                  />
+                ))}
               </CommandGroup>
             ))}
             {customProviders.length > 0 && typeFilter === null && (
-              <CommandGroup heading={t("CHAT.MODEL.CUSTOM_PROVIDERS")}>
-                {customProviders.flatMap((provider) =>
-                  provider.models
-                    .filter((model) => model.type !== "image")
-                    .map((model) => {
-                      const id = makeCustomModelId(provider.id, model.key);
-                      return (
-                        <CommandItem
-                          key={id}
-                          value={id}
-                          keywords={[provider.name, model.label, model.key]}
-                          data-testid={`model-option-${id}`}
-                          data-model={id}
-                          data-checked={id === props.value || undefined}
-                          onSelect={() => {
-                            analytics.chat.modelChanged({
-                              from: props.value,
-                              to: id,
-                            });
-                            props.onChange(id);
-                            setOpen(false);
-                          }}
-                          className="text-xs"
-                        >
-                          <Icon
-                            name="server"
-                            className="h-3.5 w-3.5 shrink-0"
-                          />
-                          <span className="min-w-0 flex-1 truncate font-mono">
-                            {provider.name} / {model.label}
-                          </span>
-                        </CommandItem>
-                      );
-                    }),
-                )}
-              </CommandGroup>
+              <CustomProviderItems
+                providers={customProviders}
+                value={props.value}
+                onPick={pickModel}
+              />
             )}
           </CommandList>
           {/* Billing group routes via new-api's X-Group; custom models fire browser -> user endpoint and never
               hit new-api, so the group selector is meaningless for them. */}
           {isLoggedIn && groupEntries.length > 0 && !selectedCustom && (
-            <Popover open={groupOpen} onOpenChange={setGroupOpen}>
-              <PopoverTrigger
-                data-testid="group-submenu-trigger"
-                data-group={props.group || "auto"}
-                className="hover:bg-accent flex w-full items-center justify-between border-t px-3 py-2 text-xs"
-              >
-                <span className="text-muted-foreground">
-                  {t("CHAT.GROUP.SELECT")}
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <span className="truncate font-mono text-xs">
-                    {props.group
-                      ? groupDisplayLabel(props.group, props.value)
-                      : t("CHAT.GROUP.AUTO")}
-                    {selectedGroupEntry && (
-                      <span className="text-muted-foreground ml-1">
-                        {selectedGroupEntry.ratio}x
-                      </span>
-                    )}
-                  </span>
-                  <Icon
-                    name="chevron-right"
-                    className="text-muted-foreground h-3.5 w-3.5 shrink-0"
-                  />
-                </span>
-              </PopoverTrigger>
-              <PopoverContent
-                side="right"
-                align="start"
-                sideOffset={4}
-                className="w-60 gap-0 p-1"
-              >
-                <button
-                  type="button"
-                  data-testid="group-option-auto"
-                  data-group="auto"
-                  data-checked={!props.group || undefined}
-                  onClick={() => {
-                    props.onGroupChange(null);
-                    setGroupOpen(false);
-                  }}
-                  className="hover:bg-accent flex w-full items-center justify-between rounded px-2 py-1.5 text-xs"
-                >
-                  <span className="font-mono">{t("CHAT.GROUP.AUTO")}</span>
-                  {!props.group && (
-                    <Icon name="check" className="h-3.5 w-3.5" />
-                  )}
-                </button>
-                {groupEntries.map((entry) => {
-                  const groupDisabled =
-                    enableGroups.length > 0 &&
-                    !enableGroups.includes(entry.group);
-                  return (
-                    <button
-                      key={entry.group}
-                      type="button"
-                      disabled={groupDisabled}
-                      data-testid={`group-option-${entry.group}`}
-                      data-group={entry.group}
-                      data-checked={entry.group === props.group || undefined}
-                      onClick={() => {
-                        props.onGroupChange(entry.group);
-                        setGroupOpen(false);
-                      }}
-                      className={cn(
-                        "hover:bg-accent flex w-full items-center justify-between gap-2 rounded px-2 py-1.5 text-xs",
-                        groupDisabled &&
-                          "pointer-events-none opacity-40 hover:bg-transparent",
-                      )}
-                    >
-                      <span
-                        className="min-w-0 flex-1 truncate text-left font-mono"
-                        title={entry.group}
-                      >
-                        {groupDisplayLabel(entry.group, props.value)}
-                      </span>
-                      <span className="flex shrink-0 items-center gap-1.5">
-                        <span className="text-muted-foreground">
-                          {entry.ratio}x
-                        </span>
-                        {entry.group === props.group && (
-                          <Icon name="check" className="h-3.5 w-3.5" />
-                        )}
-                      </span>
-                    </button>
-                  );
-                })}
-              </PopoverContent>
-            </Popover>
+            <GroupSubmenu
+              value={props.value}
+              group={props.group}
+              onGroupChange={props.onGroupChange}
+              groupEntries={groupEntries}
+              enableGroups={enableGroups}
+            />
           )}
         </Command>
       </PopoverContent>
