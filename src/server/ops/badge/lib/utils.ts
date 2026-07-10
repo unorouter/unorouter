@@ -1,4 +1,4 @@
-import { VENDOR_COLOR_SVGS, VENDOR_SVGS } from "@/lib/config/vendor-icons";
+import { VENDOR_COLOR_SVGS, VENDOR_SVGS } from "@/server/ops/badge/lib/vendor-svgs";
 import { Vendor } from "@/lib/types/enums";
 import { escapeRegex } from "@/lib/utils/base";
 import satori from "satori";
