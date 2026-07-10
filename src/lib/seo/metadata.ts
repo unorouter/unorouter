@@ -1,11 +1,15 @@
 import { getPathname } from "@/i18n/navigation";
 import { type Pathname, routing } from "@/i18n/routing";
-import type { SeoTimestampSlug } from "@/i18n/registry";
+import {
+  BLOG_REGISTRY,
+  DOCS_REGISTRY,
+  LEGAL_REGISTRY,
+  type SeoTimestampSlug,
+} from "@/i18n/registry";
 import type { Metadata } from "next";
 import type { Locale } from "next-intl";
 import { LANGUAGES, LOCALES } from "../config/constants";
 import { env } from "../config/env";
-import rawTimestamps from "../../../public/seo-timestamps.json" with { type: "json" };
 import {
   buildBadgeUrl,
   type BadgeFormat,
@@ -147,7 +151,19 @@ type SeoTimestamp = {
   modified: string;
 };
 
-const seoTimestamps = rawTimestamps as Record<string, SeoTimestamp>;
+const seoTimestamps: Record<string, SeoTimestamp> = Object.fromEntries(
+  [
+    ...DOCS_REGISTRY.map((d) => [d.slug, d] as const),
+    ...BLOG_REGISTRY.map((b) => [`blog/${b.slug}`, b] as const),
+    ...LEGAL_REGISTRY.map((l) => [l.slug, l] as const),
+  ].map(([slug, entry]) => [
+    slug,
+    {
+      published: entry.date,
+      modified: ("updated" in entry ? entry.updated : undefined) ?? entry.date,
+    },
+  ]),
+);
 
 export function getSeoTimestamps(
   slug: SeoTimestampSlug,
