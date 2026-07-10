@@ -42,10 +42,24 @@ function buildAllowList(): string[] {
   return Array.from(allow).sort();
 }
 
+// AI answer engines convert far better than classic search; keep their
+// crawlers explicitly allowed so GEO visibility never depends on the
+// generic block or a CDN default flipping to block-AI.
+const AI_CRAWLERS = [
+  "GPTBot",
+  "OAI-SearchBot",
+  "ChatGPT-User",
+  "ClaudeBot",
+  "PerplexityBot",
+  "Google-Extended",
+  "Applebot-Extended",
+];
+
 export function GET() {
   const disallow = buildDisallowList();
   const allow = buildAllowList();
   const lines: string[] = [
+    ...AI_CRAWLERS.flatMap((bot) => [`User-Agent: ${bot}`, "Allow: /", ""]),
     "User-Agent: *",
     "Content-Signal: search=yes, ai-train=yes, ai-input=yes",
     "Allow: /",

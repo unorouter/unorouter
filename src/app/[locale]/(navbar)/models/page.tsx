@@ -11,6 +11,7 @@ import {
   buildCollectionPageSchema,
 } from "@/lib/seo/structured-data";
 import { localeUrl } from "@/i18n/navigation";
+import { slimPricingForHydration } from "@/lib/api/pricing";
 import { handleElysia, modelSlug, vendorSlug } from "@/lib/utils/base";
 import { serverLocale } from "@/lib/utils/server";
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
@@ -85,7 +86,14 @@ export default async function Page(props: {
             })),
         })}
       />
-      <HydrationBoundary state={dehydrate(queryClient)}>
+      {/* The SSR render above uses the full pricing data; only the
+          dehydrated copy shipped to the client is slimmed. ModelsPage
+          refetches the full summary after idle. */}
+      <HydrationBoundary
+        state={dehydrate(queryClient, {
+          serializeData: slimPricingForHydration,
+        })}
+      >
         <ModelsPage />
       </HydrationBoundary>
     </>
