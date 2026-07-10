@@ -65,8 +65,6 @@ export const chatStoreAtom = atomWithStorage<ChatState>(
   CHAT_STORE_KEY,
   INITIAL_CHAT_STATE,
   jotaiCookieStorage,
-  // Client atom init reads the cookie; the server no longer hydrates it.
-  { getOnInit: true },
 );
 
 export const chatModelAtom = atom(
@@ -203,7 +201,6 @@ export const localUserIdAtom = atomWithStorage<number>(
   LOCAL_USER_ID_COOKIE,
   GUEST_USER_ID,
   jotaiCookieStorage,
-  { getOnInit: true },
 );
 
 export const chatStore = createStore();
