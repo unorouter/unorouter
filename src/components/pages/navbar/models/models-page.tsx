@@ -42,14 +42,29 @@ export function ModelsPage() {
   useModelsUrlSync();
 
   // The dehydrated pricing copy is slimmed (no descriptions/group pricing/
-  // parameter tables) to keep the HTML small; pull the full summary once the
-  // browser is idle so the detail sheet and list view have everything.
+  // parameter tables) to keep the HTML small. Upgrade to the full summary on
+  // FIRST INTERACTION, not a timer: parsing the 1.9MB summary and
+  // re-rendering the table is a long task, and a fixed delay lands it inside
+  // the initial-load window (TBT). The sheet self-heals reactively if opened
+  // while the fetch is in flight.
   const queryClient = useQueryClient();
   useEffect(() => {
-    const timer = setTimeout(() => {
+    let done = false;
+    const events = ["pointerdown", "keydown", "touchstart", "wheel"] as const;
+    const upgrade = () => {
+      if (done) return;
+      done = true;
+      cleanup();
       void queryClient.refetchQueries({ queryKey: queryKeys.pricing() });
-    }, 1500);
-    return () => clearTimeout(timer);
+    };
+    const cleanup = () => {
+      for (const e of events) window.removeEventListener(e, upgrade);
+      clearTimeout(fallback);
+    };
+    for (const e of events)
+      window.addEventListener(e, upgrade, { once: true, passive: true });
+    const fallback = setTimeout(upgrade, 12_000);
+    return cleanup;
   }, [queryClient]);
 
   const clearFilters = useSetAtom(clearFiltersAtom);
