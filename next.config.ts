@@ -41,6 +41,16 @@ const nextConfig: NextConfig = {
   },
   serverExternalPackages: ["wasmoon", "sharp", "unpdf"],
   cacheComponents: true,
+  // The Serwist route bundles the service worker with esbuild at request
+  // time; since the route prerenders, the file tracer no longer sees esbuild
+  // as a runtime dependency and drops it from the standalone output
+  // (Cannot find package 'esbuild' -> /sw-worker/sw.js 500s in production).
+  outputFileTracingIncludes: {
+    "/sw-worker/**": [
+      "./node_modules/esbuild/**/*",
+      "./node_modules/@esbuild/**/*",
+    ],
+  },
   // productionBrowserSourceMaps: true,
   experimental: {
     // allowDevelopmentBuild: true,
