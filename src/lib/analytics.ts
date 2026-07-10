@@ -1,8 +1,8 @@
-import type { RpSyncKind } from "@/lib/validation/sync-constants";
+import type { RpEntityKind } from "@/lib/db/schema/client";
 import { posthog } from "@/lib/posthog-lazy";
 
 type RpAnalyticsEntity =
-  Exclude<RpSyncKind, "conversations"> | "lorebook_entries";
+  Exclude<RpEntityKind, "conversations"> | "lorebook_entries";
 
 type RpAnalyticsAction =
   | "create_started"

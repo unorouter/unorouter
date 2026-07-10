@@ -100,7 +100,6 @@ export function createThreadListAdapter(
         totalInputTokens: 0,
         totalOutputTokens: 0,
         totalCost: 0,
-        syncExpiresAt: null,
         createdAt: now,
         updatedAt: now,
         defaultModel: model,

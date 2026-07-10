@@ -1,6 +1,6 @@
 "use client";
 
-import { drain } from "@/lib/db/client/sync/pending/queue";
+import { drain } from "@/lib/db/client/outbox/pending/queue";
 import { useEffect } from "react";
 
 const DRAIN_INTERVAL_MS = 60_000;

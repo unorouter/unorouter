@@ -59,7 +59,6 @@ export function useImportPersonaMutation() {
         avatarMediaId: null,
         isDefault: false,
         notes: null,
-        syncExpiresAt: null,
         createdAt: now,
         updatedAt: now,
       }));

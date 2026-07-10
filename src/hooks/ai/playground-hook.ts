@@ -256,7 +256,6 @@ async function runSubmit(
       snapshotCount: 0,
       imageCount: 0,
       expiresAt,
-      syncExpiresAt: null,
       createdAt: now,
       updatedAt: now,
     });

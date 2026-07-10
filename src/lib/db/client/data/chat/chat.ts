@@ -61,7 +61,6 @@ export const readLocalConversations = async (userId: number | undefined) => {
       totalOutputTokens: conversations.totalOutputTokens,
       totalCost: conversations.totalCost,
       groupId: conversations.groupId,
-      syncExpiresAt: conversations.syncExpiresAt,
       createdAt: conversations.createdAt,
       updatedAt: conversations.updatedAt,
     })

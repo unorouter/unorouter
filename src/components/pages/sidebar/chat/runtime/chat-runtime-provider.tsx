@@ -18,7 +18,7 @@ import {
 } from "@/components/pages/sidebar/chat/runtime/use-thread-sync";
 import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { usePendingDrainScheduler } from "@/hooks/ai/use-pending-drain-scheduler";
-import { acquireLock, releaseLock } from "@/lib/db/client/sync/resource-lock";
+import { acquireLock, releaseLock } from "@/lib/db/client/outbox/resource-lock";
 import type { ChatUIMessage } from "@/lib/types";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { extractErrorDetail, handleError } from "@/lib/utils/client";

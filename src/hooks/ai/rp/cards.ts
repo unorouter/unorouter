@@ -59,7 +59,6 @@ export function useCreateCardMutation() {
         name: body.name,
         description: body.description ?? null,
         personaId: body.personaId ?? null,
-        syncExpiresAt: null,
         createdAt: now,
         updatedAt: now,
       };

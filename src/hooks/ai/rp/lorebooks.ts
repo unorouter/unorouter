@@ -38,7 +38,6 @@ const lorebooks = makeRpEntity<
       ...book,
       id: newId,
       name: copyName,
-      syncExpiresAt: null,
       createdAt: now,
       updatedAt: now,
     };
@@ -102,7 +101,6 @@ export function useImportLorebookMutation() {
         scanDepth: parsed.scanDepth ?? 4,
         tokenBudget: parsed.tokenBudget ?? 1500,
         recursiveScanning: parsed.recursiveScanning ?? false,
-        syncExpiresAt: null,
         createdAt: now,
         updatedAt: now,
       };
