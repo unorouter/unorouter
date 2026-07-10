@@ -71,10 +71,11 @@ jobs:
 
       - name: Wait for site to be healthy
         run: |
-          # 60x5s: a cold container can take >2.5min before the sitemap
-          # route (pricing self-call) responds; 30 tries flaked a deploy.
+          # Cache-busted (unique query per try): Cloudflare briefly caches
+          # 404s from the container swap window, which starved this gate
+          # even after the new container was healthy.
           for i in {1..60}; do
-            if curl -fsS "${{ secrets.NEXT_PUBLIC_URL }}/sitemap.xml" > /dev/null; then
+            if curl -fsS "${{ secrets.NEXT_PUBLIC_URL }}/sitemap.xml?hc=$i-$RANDOM" > /dev/null; then
               echo "Site is up"
               exit 0
             fi
@@ -86,7 +87,8 @@ jobs:
 
       # Anonymous HTML is edge-cached 10min via a Cloudflare Cache Rule;
       # purge after each deploy so cached HTML never references chunk
-      # hashes the new container no longer serves.
+      # hashes the new container no longer serves (also clears any 404s
+      # cached during the swap).
       - name: Purge Cloudflare cache
         run: |
           curl -fsS -X POST \
