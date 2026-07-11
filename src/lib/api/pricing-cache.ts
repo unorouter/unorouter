@@ -21,6 +21,14 @@ const CACHE_TTL = 5 * 60 * 1000;
 
 export async function getPricingSummary() {
   if (cache && Date.now() - cache.fetchedAt < CACHE_TTL) return cache;
+  return refreshPricingSummary();
+}
+
+// Cache-miss escape hatch (e.g. a just-added model requested by name):
+// refetches regardless of TTL, capped to one upstream call per 30s so
+// unknown-name requests cannot hammer the upstream.
+export async function refreshPricingSummary() {
+  if (cache && Date.now() - cache.fetchedAt < 30_000) return cache;
   const res = await getPricing();
   if (!res.data) throw new Error(msg("ERRORS.PRICING_FETCH_FAILED"));
   const summary = buildPricingSummary(res.data);

@@ -21,9 +21,11 @@ import { cacheLife } from "next/cache";
 // call the upstream services in-process: rpc would loop back over
 // http://127.0.0.1, which has no listener during build prerenders.
 
+// Pricing-carrying caches use "minutes": newly added upstream models should
+// show up within ~1min of revalidation, not an hour.
 export async function getCachedPricing(includeOffline?: boolean) {
   "use cache";
-  cacheLife("hours");
+  cacheLife("minutes");
   return getPricingSummary(includeOffline);
 }
 
@@ -94,7 +96,7 @@ export async function getRankingsPageData(period: string) {
 // rankings + perf; the detail sheet fetches the full model on open.
 export async function getModelsPageData() {
   "use cache";
-  cacheLife("hours");
+  cacheLife("minutes");
   const qc = new QueryClient();
   const [summary, rankings, perf] = await Promise.all([
     getPricingSummary(),
@@ -122,7 +124,7 @@ export async function getModelsPageData() {
 // capability fields), plus resolved slug models for metadata/breadcrumbs.
 export async function getComparePageData(slugs: readonly string[]) {
   "use cache";
-  cacheLife("hours");
+  cacheLife("minutes");
   const qc = new QueryClient();
   const [summary, rankings, perf] = await Promise.all([
     getPricingSummary(),
