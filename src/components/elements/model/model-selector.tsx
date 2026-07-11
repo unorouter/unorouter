@@ -35,7 +35,10 @@ import {
 import { usePricingQuery } from "@/hooks/models/pricing-hook";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { Badge } from "@/components/ui/badge";
-import { AUTH_REDIRECT_COOKIE } from "@/lib/config/constants";
+import {
+  AUTH_REDIRECT_COOKIE,
+  USER_ID_COOKIE,
+} from "@/lib/config/constants";
 import { cn } from "@/lib/utils";
 import { setCookie } from "cookies-next";
 import { useTranslations } from "next-intl";
@@ -341,6 +344,13 @@ export function ModelSelector(props: ModelSelectorProps) {
 
   useEffect(() => {
     if (models.length === 0) return;
+    // A session cookie without loaded auth data means a logged-in user whose auth query/hydration
+    // has not resolved yet; they briefly read as guest and this gate would replace their picked
+    // PAID model (e.g. set from the models-page Chat button) with a free one. Wait for the data.
+    // Real guests have no session cookie (the auth query stays disabled for them) and gate now.
+    const authUnresolved =
+      !isLoggedIn && document.cookie.includes(`${USER_ID_COOKIE}=`);
+    if (authUnresolved) return;
     if (isCustomModelId(props.value)) return;
     const current = models.find((m) => m.name === props.value);
     if (current && (isLoggedIn || current.isFree)) return;
@@ -352,7 +362,7 @@ export function ModelSelector(props: ModelSelectorProps) {
     if (pool.length === 0) return;
     const chosen = pick(pool);
     props.onChange(chosen.name);
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- only re-run on login state or models list changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- only re-run on auth state or models list changes
   }, [isLoggedIn, models.length]);
 
   function pickModel(id: string) {
