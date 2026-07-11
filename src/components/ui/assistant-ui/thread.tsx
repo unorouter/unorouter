@@ -76,6 +76,7 @@ import {
   useState,
   type FC,
 } from "react";
+import { useHydrated } from "@/hooks/ui/use-hydrated";
 
 const MarkdownText = dynamic<TextMessagePartProps>(
   () =>
@@ -143,9 +144,13 @@ const ThreadScrollToBottom: FC = () => {
 
 const ThreadWelcomeGate: FC = () => {
   const params = useParams<{ convId?: string }>();
+  const hydrated = useHydrated();
   const isLoading = useAuiState((s) => s.thread.isLoading);
   const historyLoaded = useAtomValue(historyLoadedAtom);
   const expectHistory = !!params.convId && !historyLoaded;
+  // The server evaluates thread.isEmpty false, so the AuiIf slot SSRs empty; rendering the welcome
+  // during the hydration pass mismatches that HTML (React #418). Match the server first, then show.
+  if (!hydrated) return null;
   if (isLoading || expectHistory) return <ThreadHistorySkeleton />;
   return <ThreadWelcome />;
 };
@@ -246,9 +251,13 @@ const Composer: FC = () => {
 
 const ComposerWebSearchToggle: FC = () => {
   const t = useTranslations();
+  const hydrated = useHydrated();
   const authQuery = useAuthQuery();
   const [webSearch, setWebSearch] = useAtom(chatWebSearchAtom);
-  if (!authQuery.data) return null;
+  // Auth-gated: the streamed auth data can be present on the server but not yet in the client query
+  // cache during the hydration render (or vice versa), mismatching this subtree. Render nothing until
+  // hydration so server + first client paint agree; the toggle pops in right after for logged-in users.
+  if (!hydrated || !authQuery.data) return null;
   return (
     <TooltipIconButton
       tooltip={webSearch ? t("CHAT.WEB_SEARCH.ON") : t("CHAT.WEB_SEARCH.OFF")}
