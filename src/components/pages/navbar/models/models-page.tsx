@@ -8,13 +8,17 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { useModelsFilter } from "@/hooks/ui/use-models-hook";
 import { ModelsUrlSync } from "@/hooks/ui/use-models-url-sync";
 import { Link } from "@/i18n/navigation";
+import { queryKeys } from "@/lib/react-query/keys";
+import { rpc } from "@/lib/rpc";
+import { handleElysia } from "@/lib/utils/base";
 import { DataTableId } from "@/lib/types/enums";
 import { createTableAtoms } from "@/store/data-table-store";
 import { clearFiltersAtom, isDirtyAtom } from "@/store/models-store";
+import { useQueryClient } from "@tanstack/react-query";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import { buildModelColumns } from "./browse/model-columns";
 import { ModelListCard } from "./browse/model-list-card";
 
@@ -37,6 +41,23 @@ const modelsTableAtoms = createTableAtoms(DataTableId.MODELS);
 export function ModelsPage() {
   const t = useTranslations();
   const m = useModelsFilter();
+
+  // The hydrated list comes from a prerendered shell (up to ~1min stale) and
+  // staleTime "static" never refetches it; pull a fresh copy once the page
+  // is idle so newly added models appear without waiting for revalidation.
+  const queryClient = useQueryClient();
+  useEffect(() => {
+    const idle = window.requestIdleCallback ?? ((cb: () => void) => setTimeout(cb, 1500));
+    const cancel = window.cancelIdleCallback ?? clearTimeout;
+    const handle = idle(() => {
+      void queryClient.fetchQuery({
+        queryKey: queryKeys.pricing(),
+        queryFn: async () => handleElysia(await rpc.api.models.pricing.get()),
+        staleTime: 0,
+      });
+    });
+    return () => cancel(handle as number);
+  }, [queryClient]);
 
   const clearFilters = useSetAtom(clearFiltersAtom);
   const isDirty = useAtomValue(isDirtyAtom);
