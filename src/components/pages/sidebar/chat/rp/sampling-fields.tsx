@@ -61,16 +61,17 @@ export function SamplingFields<TForm extends Record<string, unknown>>(
       <div className="flex flex-col gap-4">
         {SAMPLING_PARAMS.map((param) => {
           const disabled = isUnsupported(param.apiKey);
-          const capped =
-            param.apiKey === "max_tokens" &&
-            props.maxTokensCap != null &&
-            props.maxTokensCap < param.max;
-          const fieldMax = capped ? props.maxTokensCap! : param.max;
-          const label = capped
-            ? t("RP.SAMPLING_MAX_TOKENS_CAP", {
-                cap: props.maxTokensCap!.toLocaleString(),
-              })
-            : t(param.labelKey);
+          // The model's real output ceiling replaces the generic slider max in BOTH directions:
+          // free models cap below it, and big-output models (Claude thinking 128K) raise it above.
+          const hasCap =
+            param.apiKey === "max_tokens" && props.maxTokensCap != null;
+          const fieldMax = hasCap ? props.maxTokensCap! : param.max;
+          const label =
+            hasCap && props.maxTokensCap !== param.max
+              ? t("RP.SAMPLING_MAX_TOKENS_CAP", {
+                  cap: props.maxTokensCap!.toLocaleString(),
+                })
+              : t(param.labelKey);
           return (
             <Controller
               key={param.field}
