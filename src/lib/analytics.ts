@@ -114,10 +114,23 @@ const chat = {
   }) => {
     posthog.capture("chat_overrides_saved", props);
   },
-  streamCompleted: (props: { model: string; is_first_message: boolean }) => {
+  streamCompleted: (props: {
+    model: string;
+    is_first_message: boolean;
+    is_rp: boolean;
+    character_count: number;
+    has_persona: boolean;
+    has_lorebook: boolean;
+    has_preset: boolean;
+  }) => {
     posthog.capture("chat_stream_completed", {
       model: props.model,
       is_first_message: props.is_first_message,
+      is_rp: props.is_rp,
+      character_count: props.character_count,
+      has_persona: props.has_persona,
+      has_lorebook: props.has_lorebook,
+      has_preset: props.has_preset,
     });
   },
   streamFailed: (props: {

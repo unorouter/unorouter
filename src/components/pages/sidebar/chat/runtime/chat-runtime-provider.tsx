@@ -29,6 +29,7 @@ import {
 } from "@/lib/utils/client";
 import {
   chatHelpersAtom,
+  chatLoadoutAtom,
   chatModelAtom,
   chatStore,
   convIdAtom,
@@ -180,9 +181,17 @@ function ChatRuntimeHook() {
         remoteId,
         messageId: message.id,
       });
+      const loadout = chatStore.get(chatLoadoutAtom);
+      const characterCount = loadout.characterIds.length;
+      const hasLorebook = loadout.lorebookIds.length > 0;
       analytics.chat.streamCompleted({
         model: chatStore.get(chatModelAtom) ?? "unknown",
         is_first_message: markFirstChatDone(),
+        is_rp: characterCount > 0,
+        character_count: characterCount,
+        has_persona: loadout.personaId != null,
+        has_lorebook: hasLorebook,
+        has_preset: loadout.presetId != null,
       });
       if (message.metadata?.droppedParams) {
         toast.warning(
