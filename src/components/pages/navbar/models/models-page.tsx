@@ -3,6 +3,7 @@
 import { DataTable } from "@/components/elements/table/data-table";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
+import { env } from "@/lib/config/env";
 import { Input } from "@/components/ui/input";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { useModelsFilter } from "@/hooks/ui/use-models-hook";
@@ -171,8 +172,19 @@ export function ModelsPage() {
               footer starts in-viewport and hydration shoves it down (CLS). */}
           <div className="mt-4 min-h-svh">
             {m.filtered.length === 0 ? (
-              <div className="text-muted-foreground py-24 text-center">
+              <div className="text-muted-foreground flex flex-col items-center gap-3 py-24 text-center">
                 {t("MODELS.EMPTY")}
+                {env.discordUrl && (
+                  <a
+                    href={env.discordUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-foreground inline-flex items-center gap-1.5 text-xs transition-colors"
+                  >
+                    <Icon name="brand-discord" className="h-3.5 w-3.5" />
+                    {t("MODELS.DISCORD")}
+                  </a>
+                )}
               </div>
             ) : m.viewMode === "table" ? (
               <DataTable

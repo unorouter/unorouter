@@ -29,7 +29,8 @@
     "STATUS": "상태",
     "COMPARE": "비교",
     "LANGUAGE": "언어",
-    "MODEL_TESTER": "인스펙터"
+    "MODEL_TESTER": "인스펙터",
+    "DISCORD": "Discord"
   },
   "HOME": {
     "HERO": {
@@ -292,7 +293,8 @@
       "SUBTITLE": "모든 AI 모델, 하나의 키. 만들고, 대화하고, 코딩하고, 이야기를 쓰세요. 당신의 선택입니다.",
       "PRIMARY": "시작하기",
       "SECONDARY": "통합 둘러보기",
-      "CHAT": "채팅 열기"
+      "CHAT": "채팅 열기",
+      "DISCORD": "Discord"
     },
     "META": {
       "TITLE": "{appName} - 모든 AI 모델을 위한 단 하나의 키",
@@ -534,7 +536,8 @@
       "EMPTY": "이 공급업체의 모델을 찾을 수 없습니다.",
       "NEW": "신규",
       "DEPRECATED": "지원 종료"
-    }
+    },
+    "DISCORD": "Discord에서 모델을 요청하세요"
   },
   "RANKINGS": {
     "META": {
@@ -597,7 +600,8 @@
       "TITLE": "랭킹을 불러올 수 없습니다",
       "GENERIC": "랭킹 데이터를 불러올 수 없습니다. 잠시 후 다시 시도하세요.",
       "NO_HISTORY": "사용 가능한 이력 데이터가 없습니다"
-    }
+    },
+    "DISCORD": "Discord에서 모델 성능에 대해 이야기하세요"
   },
   "BLOG": {
     "META_TITLE": "블로그 | {appName}",
@@ -1392,7 +1396,8 @@
     },
     "PLANS": {
       "STEP": "최고의 가치"
-    }
+    },
+    "DISCORD": "맞춤 요금제가 필요하신가요? Discord에서 문의하세요"
   },
   "DOCS_INDEX": {
     "META": {
@@ -2803,7 +2808,8 @@
       "SECTION_LOAD_FAILED": "이 섹션을 로드하지 못했습니다.",
       "COPY_ERROR": "오류 복사",
       "RESET_APP_DATA": "앱 데이터 초기화 후 새로고침",
-      "RESETTING": "초기화 중..."
+      "RESETTING": "초기화 중...",
+      "DISCORD_HELP": "아직 해결되지 않았나요? Discord에서 도움을 받으세요"
     },
     "NOT_FOUND": {
       "TITLE": "페이지를 찾을 수 없음",
@@ -3896,7 +3902,8 @@
       "REALISTIC": "사실적",
       "PHOTOREALISTIC": "포토리얼",
       "CINEMATIC": "시네마틱"
-    }
+    },
+    "DISCORD_CTA": "프리셋이 필요하거나 막히셨나요? Discord에서 물어보세요"
   },
   "RP": {
     "CHARACTERS_TITLE": "캐릭터",
@@ -4326,7 +4333,8 @@
     "PERF": {
       "LATENCY_TOOLTIP": "평균 지연 시간 (24시간)",
       "TPS_TOOLTIP": "평균 TPS (24시간)"
-    }
+    },
+    "DISCORD": "Discord에서 실시간 장애 업데이트를 받으세요"
   },
   "IMAGE": {
     "TAB_TEXT2IMG": "Text2Img",

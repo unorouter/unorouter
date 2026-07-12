@@ -29,7 +29,8 @@
     "STATUS": "Trạng thái",
     "COMPARE": "So sánh",
     "LANGUAGE": "Ngôn ngữ",
-    "MODEL_TESTER": "Trình kiểm tra"
+    "MODEL_TESTER": "Trình kiểm tra",
+    "DISCORD": "Discord"
   },
   "HOME": {
     "HERO": {
@@ -270,7 +271,8 @@
       "SUBTITLE": "Mọi mô hình AI, một khóa. Xây dựng, trò chuyện, lập trình hoặc kể chuyện. Tùy bạn.",
       "PRIMARY": "Bắt đầu",
       "SECONDARY": "Tích hợp",
-      "CHAT": "Mở trò chuyện"
+      "CHAT": "Mở trò chuyện",
+      "DISCORD": "Discord"
     },
     "META": {
       "TITLE": "{appName} - Một khoá cho mọi mô hình AI",
@@ -534,7 +536,8 @@
       "EMPTY": "Không tìm thấy mô hình nào cho nhà cung cấp này.",
       "NEW": "Mới",
       "DEPRECATED": "Ngừng hỗ trợ"
-    }
+    },
+    "DISCORD": "Yêu cầu một mô hình trên Discord"
   },
   "RANKINGS": {
     "META": {
@@ -597,7 +600,8 @@
       "TITLE": "Không thể tải bảng xếp hạng",
       "GENERIC": "Không thể tải dữ liệu bảng xếp hạng. Vui lòng thử lại sau.",
       "NO_HISTORY": "Không có dữ liệu lịch sử"
-    }
+    },
+    "DISCORD": "Thảo luận về hiệu suất mô hình trên Discord"
   },
   "BLOG": {
     "META_TITLE": "Blog | {appName}",
@@ -1392,7 +1396,8 @@
     },
     "PLANS": {
       "STEP": "Giá trị tốt nhất"
-    }
+    },
+    "DISCORD": "Cần gói tùy chỉnh? Hỏi trên Discord"
   },
   "DOCS_INDEX": {
     "META": {
@@ -2803,7 +2808,8 @@
       "SECTION_LOAD_FAILED": "Phần này không tải được.",
       "COPY_ERROR": "Sao chép lỗi",
       "RESET_APP_DATA": "Đặt lại dữ liệu ứng dụng và tải lại",
-      "RESETTING": "Đang đặt lại..."
+      "RESETTING": "Đang đặt lại...",
+      "DISCORD_HELP": "Vẫn chưa được? Nhận trợ giúp trên Discord"
     },
     "NOT_FOUND": {
       "TITLE": "Không tìm thấy trang",
@@ -3896,7 +3902,8 @@
       "REALISTIC": "Chân thực",
       "PHOTOREALISTIC": "Siêu chân thực",
       "CINEMATIC": "Điện ảnh"
-    }
+    },
+    "DISCORD_CTA": "Cần preset hay đang bí? Hỏi trên Discord"
   },
   "RP": {
     "CHARACTERS_TITLE": "Nhân vật",
@@ -4326,7 +4333,8 @@
     "PERF": {
       "LATENCY_TOOLTIP": "Độ trễ trung bình (24h)",
       "TPS_TOOLTIP": "TPS trung bình (24h)"
-    }
+    },
+    "DISCORD": "Nhận cập nhật sự cố trực tiếp trên Discord"
   },
   "IMAGE": {
     "TAB_TEXT2IMG": "Văn bản sang ảnh",

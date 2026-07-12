@@ -14,6 +14,7 @@ import {
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { useHydrated } from "@/hooks/ui/use-hydrated";
 import { Link, usePathname } from "@/i18n/navigation";
+import { env } from "@/lib/config/env";
 import { cn } from "@/lib/utils";
 import { expandedNavAtom, toggleNavigationAtom } from "@/store/client-store";
 import { useAtomValue, useSetAtom } from "jotai";
@@ -39,7 +40,7 @@ export function MobileNav() {
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger render={<button className="text-foreground md:hidden" />}>
+      <SheetTrigger render={<button className="text-foreground lg:hidden" />}>
         <Icon name="menu" className="h-5 w-5" />
         <span className="sr-only">{t("NAV.MENU")}</span>
       </SheetTrigger>
@@ -94,6 +95,19 @@ export function MobileNav() {
               );
             })}
           </nav>
+
+          {env.discordUrl && (
+            <a
+              href={env.discordUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={handleNavigate}
+              className="border-primary/40 bg-primary/10 text-foreground hover:bg-primary/20 mt-2 flex items-center gap-2 rounded-md border px-3 py-2 text-sm font-medium tracking-wider uppercase transition-colors"
+            >
+              <Icon name="brand-discord" className="h-4 w-4" />
+              {t("NAV.DISCORD")}
+            </a>
+          )}
 
           <div className="mt-auto flex items-center gap-2 border-t pt-4 pb-2">
             <LanguageToggle />

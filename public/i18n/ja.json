@@ -29,7 +29,8 @@
     "STATUS": "ステータス",
     "COMPARE": "比較",
     "LANGUAGE": "言語",
-    "MODEL_TESTER": "インスペクター"
+    "MODEL_TESTER": "インスペクター",
+    "DISCORD": "Discord"
   },
   "HOME": {
     "HERO": {
@@ -270,7 +271,8 @@
       "SUBTITLE": "すべてのAIモデルに、ひとつの鍵。作る、話す、書く、物語を紡ぐ。あなた次第。",
       "PRIMARY": "はじめる",
       "SECONDARY": "連携を見る",
-      "CHAT": "チャットを開く"
+      "CHAT": "チャットを開く",
+      "DISCORD": "Discord"
     },
     "META": {
       "TITLE": "{appName} - すべてのAIモデルに、ひとつの鍵",
@@ -534,7 +536,8 @@
       "EMPTY": "このベンダーのモデルは見つかりませんでした。",
       "NEW": "新着",
       "DEPRECATED": "非推奨"
-    }
+    },
+    "DISCORD": "Discord でモデルをリクエスト"
   },
   "RANKINGS": {
     "META": {
@@ -597,7 +600,8 @@
       "TITLE": "ランキングを読み込めませんでした",
       "GENERIC": "ランキングデータを読み込めませんでした。しばらくしてからもう一度お試しください。",
       "NO_HISTORY": "履歴データがありません"
-    }
+    },
+    "DISCORD": "Discord でモデルの性能について語り合う"
   },
   "BLOG": {
     "META_TITLE": "ブログ | {appName}",
@@ -1392,7 +1396,8 @@
     },
     "PLANS": {
       "STEP": "最高の価値"
-    }
+    },
+    "DISCORD": "カスタムプランが必要ですか？Discord で相談"
   },
   "DOCS_INDEX": {
     "META": {
@@ -2803,7 +2808,8 @@
       "SECTION_LOAD_FAILED": "このセクションの読み込みに失敗しました。",
       "COPY_ERROR": "エラーをコピー",
       "RESET_APP_DATA": "アプリデータをリセットして再読み込み",
-      "RESETTING": "リセット中..."
+      "RESETTING": "リセット中...",
+      "DISCORD_HELP": "まだ解決しませんか？Discord でサポートを受ける"
     },
     "NOT_FOUND": {
       "TITLE": "ページが見つかりません",
@@ -3896,7 +3902,8 @@
       "REALISTIC": "リアル",
       "PHOTOREALISTIC": "フォトリアル",
       "CINEMATIC": "シネマティック"
-    }
+    },
+    "DISCORD_CTA": "プリセットが必要、または困ったときは Discord で質問"
   },
   "RP": {
     "CHARACTERS_TITLE": "キャラクター",
@@ -4326,7 +4333,8 @@
     "PERF": {
       "LATENCY_TOOLTIP": "平均レイテンシ (24時間)",
       "TPS_TOOLTIP": "平均TPS (24時間)"
-    }
+    },
+    "DISCORD": "Discord で障害情報をリアルタイムに受け取る"
   },
   "IMAGE": {
     "TAB_TEXT2IMG": "テキスト→画像",

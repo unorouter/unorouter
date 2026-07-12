@@ -19,6 +19,7 @@ import { useHydrated } from "@/hooks/ui/use-hydrated";
 import { Link, usePathname } from "@/i18n/navigation";
 import { analytics } from "@/lib/analytics";
 import { APP_VALUES, type TranslationKey } from "@/lib/config/constants";
+import { env } from "@/lib/config/env";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { Fragment, useRef } from "react";
@@ -63,7 +64,7 @@ export function Navbar(props: { authSlot?: React.ReactNode }) {
         ref={navRowRef}
         className="mx-auto flex h-14 max-w-360 items-center justify-between px-6 font-mono"
       >
-        <div className="flex items-center gap-2 md:hidden">
+        <div className="flex items-center gap-2 lg:hidden">
           <MobileNav />
           <Link href="/" className="group flex items-center gap-2">
             <LogoImage alt="" />
@@ -71,12 +72,12 @@ export function Navbar(props: { authSlot?: React.ReactNode }) {
           </Link>
         </div>
 
-        <Link href="/" className="group hidden items-center gap-2 md:flex">
+        <Link href="/" className="group hidden items-center gap-2 lg:flex">
           <LogoImage alt="" />
           <CompanyName className="text-foreground group-hover:text-muted-foreground text-lg transition-colors" />
         </Link>
 
-        <div className="hidden items-center gap-8 md:flex">
+        <div className="hidden items-center gap-8 lg:flex">
           {topLevelItems.map((link) => (
             <Link
               key={link.name}
@@ -226,6 +227,17 @@ export function Navbar(props: { authSlot?: React.ReactNode }) {
         </div>
 
         <div className="flex items-center gap-4">
+          {env.discordUrl && (
+            <a
+              href={env.discordUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={t("NAV.DISCORD")}
+              className="text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <Icon name="brand-discord" className="h-5 w-5" />
+            </a>
+          )}
           <LanguageToggle />
           <ThemeToggle />
           {props.authSlot ?? (

@@ -29,7 +29,8 @@
     "STATUS": "Stato",
     "COMPARE": "Confronta",
     "LANGUAGE": "Lingua",
-    "MODEL_TESTER": "Ispettore"
+    "MODEL_TESTER": "Ispettore",
+    "DISCORD": "Discord"
   },
   "HOME": {
     "HERO": {
@@ -292,7 +293,8 @@
       "SUBTITLE": "Ogni modello IA, una chiave. Costruisci, chatta, programma o racconta storie. Decidi tu.",
       "PRIMARY": "Inizia",
       "SECONDARY": "Sfoglia integrazioni",
-      "CHAT": "Apri la chat"
+      "CHAT": "Apri la chat",
+      "DISCORD": "Discord"
     },
     "META": {
       "TITLE": "{appName} - Una chiave per ogni modello AI",
@@ -534,7 +536,8 @@
       "EMPTY": "Nessun modello trovato per questo fornitore.",
       "NEW": "Nuovo",
       "DEPRECATED": "Deprecato"
-    }
+    },
+    "DISCORD": "Richiedi un modello su Discord"
   },
   "RANKINGS": {
     "META": {
@@ -597,7 +600,8 @@
       "TITLE": "Impossibile caricare le classifiche",
       "GENERIC": "Impossibile caricare i dati delle classifiche. Riprova più tardi.",
       "NO_HISTORY": "Nessun dato storico disponibile"
-    }
+    },
+    "DISCORD": "Discuti le prestazioni dei modelli su Discord"
   },
   "BLOG": {
     "META_TITLE": "Blog | {appName}",
@@ -1392,7 +1396,8 @@
     },
     "PLANS": {
       "STEP": "Miglior valore"
-    }
+    },
+    "DISCORD": "Ti serve un piano su misura? Chiedi su Discord"
   },
   "DOCS_INDEX": {
     "META": {
@@ -2803,7 +2808,8 @@
       "SECTION_LOAD_FAILED": "Questa sezione non è riuscita a caricare.",
       "COPY_ERROR": "Copia errore",
       "RESET_APP_DATA": "Reimposta i dati dell app e ricarica",
-      "RESETTING": "Reimpostazione..."
+      "RESETTING": "Reimpostazione...",
+      "DISCORD_HELP": "Ancora bloccato? Ottieni aiuto su Discord"
     },
     "NOT_FOUND": {
       "TITLE": "Pagina non trovata",
@@ -3896,7 +3902,8 @@
       "REALISTIC": "Realistico",
       "PHOTOREALISTIC": "Fotorealistico",
       "CINEMATIC": "Cinematografico"
-    }
+    },
+    "DISCORD_CTA": "Ti serve un preset o aiuto? Chiedi su Discord"
   },
   "RP": {
     "CHARACTERS_TITLE": "Personaggi",
@@ -4326,7 +4333,8 @@
     "PERF": {
       "LATENCY_TOOLTIP": "Latenza media (24h)",
       "TPS_TOOLTIP": "TPS medio (24h)"
-    }
+    },
+    "DISCORD": "Ricevi aggiornamenti live sugli incidenti su Discord"
   },
   "IMAGE": {
     "TAB_TEXT2IMG": "Text2Img",

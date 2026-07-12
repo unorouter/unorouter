@@ -29,7 +29,8 @@
     "STATUS": "Durum",
     "COMPARE": "Karşılaştır",
     "LANGUAGE": "Dil",
-    "MODEL_TESTER": "Denetleyici"
+    "MODEL_TESTER": "Denetleyici",
+    "DISCORD": "Discord"
   },
   "HOME": {
     "HERO": {
@@ -292,7 +293,8 @@
       "SUBTITLE": "Her yapay zeka modeli, tek anahtar. İnşa edin, sohbet edin, kodlayın ya da hikaye anlatın. Karar sizin.",
       "PRIMARY": "Başla",
       "SECONDARY": "Entegrasyonlara Göz At",
-      "CHAT": "Sohbeti aç"
+      "CHAT": "Sohbeti aç",
+      "DISCORD": "Discord"
     },
     "META": {
       "TITLE": "{appName} - Her AI Modeli için Tek Anahtar",
@@ -534,7 +536,8 @@
       "EMPTY": "Bu sağlayıcı için model bulunamadı.",
       "NEW": "Yeni",
       "DEPRECATED": "Kullanımdan kaldırıldı"
-    }
+    },
+    "DISCORD": "Discord'da bir model iste"
   },
   "RANKINGS": {
     "META": {
@@ -597,7 +600,8 @@
       "TITLE": "Sıralamalar yüklenemiyor",
       "GENERIC": "Sıralama verileri yüklenemiyor. Lütfen daha sonra tekrar deneyin.",
       "NO_HISTORY": "Geçmiş veri mevcut değil"
-    }
+    },
+    "DISCORD": "Model performansını Discord'da tartış"
   },
   "BLOG": {
     "META_TITLE": "Blog | {appName}",
@@ -1392,7 +1396,8 @@
     },
     "PLANS": {
       "STEP": "En iyi değer"
-    }
+    },
+    "DISCORD": "Özel bir plana mı ihtiyacın var? Discord'da sor"
   },
   "DOCS_INDEX": {
     "META": {
@@ -2803,7 +2808,8 @@
       "SECTION_LOAD_FAILED": "Bu bölüm yüklenemedi.",
       "COPY_ERROR": "Hatayi kopyala",
       "RESET_APP_DATA": "Uygulama verilerini sıfırla ve yeniden yükle",
-      "RESETTING": "Sıfırlanıyor..."
+      "RESETTING": "Sıfırlanıyor...",
+      "DISCORD_HELP": "Hâlâ takılı mısın? Discord'dan yardım al"
     },
     "NOT_FOUND": {
       "TITLE": "Sayfa Bulunamadı",
@@ -3896,7 +3902,8 @@
       "REALISTIC": "Gerçekçi",
       "PHOTOREALISTIC": "Fotogerçekçi",
       "CINEMATIC": "Sinematik"
-    }
+    },
+    "DISCORD_CTA": "Preset mi lazım yoksa takıldın mı? Discord'da sor"
   },
   "RP": {
     "CHARACTERS_TITLE": "Karakterler",
@@ -4326,7 +4333,8 @@
     "PERF": {
       "LATENCY_TOOLTIP": "Ortalama gecikme (24s)",
       "TPS_TOOLTIP": "Ortalama TPS (24s)"
-    }
+    },
+    "DISCORD": "Canlı olay güncellemelerini Discord'dan al"
   },
   "IMAGE": {
     "TAB_TEXT2IMG": "Metin2Görsel",

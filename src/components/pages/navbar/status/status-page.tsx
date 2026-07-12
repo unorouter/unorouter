@@ -87,6 +87,17 @@ export function StatusPage() {
           <p className="text-muted-foreground mt-3 font-mono text-sm leading-relaxed">
             {t("STATUS.SUBTITLE")}
           </p>
+          {env.discordUrl && (
+            <a
+              href={env.discordUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted-foreground hover:text-foreground mt-3 inline-flex items-center gap-1.5 text-xs transition-colors"
+            >
+              <Icon name="brand-discord" className="h-3.5 w-3.5" />
+              {t("STATUS.DISCORD")}
+            </a>
+          )}
         </div>
 
         <div className="space-y-6">

@@ -29,7 +29,8 @@
     "STATUS": "स्थिति",
     "COMPARE": "तुलना",
     "LANGUAGE": "भाषा",
-    "MODEL_TESTER": "इंस्पेक्टर"
+    "MODEL_TESTER": "इंस्पेक्टर",
+    "DISCORD": "Discord"
   },
   "HOME": {
     "HERO": {
@@ -292,7 +293,8 @@
       "SUBTITLE": "हर AI मॉडल, एक कुंजी। बनाएं, चैट करें, कोड लिखें या कहानी कहें। आपकी मर्जी।",
       "PRIMARY": "शुरू करें",
       "SECONDARY": "एकीकरण ब्राउज़ करें",
-      "CHAT": "चैट खोलें"
+      "CHAT": "चैट खोलें",
+      "DISCORD": "Discord"
     },
     "META": {
       "TITLE": "{appName} - हर AI मॉडल के लिए एक key",
@@ -534,7 +536,8 @@
       "EMPTY": "इस विक्रेता के लिए कोई मॉडल नहीं मिला।",
       "NEW": "नया",
       "DEPRECATED": "बहिष्कृत"
-    }
+    },
+    "DISCORD": "Discord पर मॉडल का अनुरोध करें"
   },
   "RANKINGS": {
     "META": {
@@ -597,7 +600,8 @@
       "TITLE": "रैंकिंग लोड करने में असमर्थ",
       "GENERIC": "रैंकिंग डेटा लोड करने में असमर्थ। कृपया बाद में पुनः प्रयास करें।",
       "NO_HISTORY": "कोई इतिहास डेटा उपलब्ध नहीं"
-    }
+    },
+    "DISCORD": "Discord पर मॉडल प्रदर्शन पर चर्चा करें"
   },
   "BLOG": {
     "META_TITLE": "ब्लॉग | {appName}",
@@ -1392,7 +1396,8 @@
     },
     "PLANS": {
       "STEP": "सर्वोत्तम मूल्य"
-    }
+    },
+    "DISCORD": "कस्टम प्लान चाहिए? Discord पर पूछें"
   },
   "DOCS_INDEX": {
     "META": {
@@ -2803,7 +2808,8 @@
       "SECTION_LOAD_FAILED": "यह section load करने में विफल रहा।",
       "COPY_ERROR": "त्रुटि कॉपी करें",
       "RESET_APP_DATA": "ऐप डेटा रीसेट करें और पुनः लोड करें",
-      "RESETTING": "रीसेट हो रहा है..."
+      "RESETTING": "रीसेट हो रहा है...",
+      "DISCORD_HELP": "अब भी अटके हैं? Discord पर मदद पाएँ"
     },
     "NOT_FOUND": {
       "TITLE": "पृष्ठ नहीं मिला",
@@ -3896,7 +3902,8 @@
       "REALISTIC": "यथार्थवादी",
       "PHOTOREALISTIC": "फोटोरियलिस्टिक",
       "CINEMATIC": "सिनेमाई"
-    }
+    },
+    "DISCORD_CTA": "प्रीसेट चाहिए या अटक गए? Discord पर पूछें"
   },
   "RP": {
     "CHARACTERS_TITLE": "Characters",
@@ -4326,7 +4333,8 @@
     "PERF": {
       "LATENCY_TOOLTIP": "औसत लेटेंसी (24h)",
       "TPS_TOOLTIP": "औसत TPS (24h)"
-    }
+    },
+    "DISCORD": "Discord पर लाइव इंसिडेंट अपडेट पाएँ"
   },
   "IMAGE": {
     "TAB_TEXT2IMG": "Text2Img",

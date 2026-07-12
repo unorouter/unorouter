@@ -29,7 +29,8 @@
     "STATUS": "Status",
     "COMPARE": "Compare",
     "LANGUAGE": "Language",
-    "MODEL_TESTER": "Inspector"
+    "MODEL_TESTER": "Inspector",
+    "DISCORD": "Discord"
   },
   "HOME": {
     "HERO": {
@@ -292,7 +293,8 @@
       "SUBTITLE": "Every AI model, one key. Build, chat, code, or tell stories. Your call.",
       "PRIMARY": "Get Started",
       "SECONDARY": "Browse Integrations",
-      "CHAT": "Open Chat"
+      "CHAT": "Open Chat",
+      "DISCORD": "Discord"
     },
     "META": {
       "TITLE": "{appName} - One Key for Every AI Model",
@@ -534,7 +536,8 @@
       "EMPTY": "No models found for this vendor.",
       "NEW": "New",
       "DEPRECATED": "Deprecated"
-    }
+    },
+    "DISCORD": "Request a model on Discord"
   },
   "RANKINGS": {
     "META": {
@@ -597,7 +600,8 @@
       "TITLE": "Unable to load rankings",
       "GENERIC": "Unable to load rankings data. Please try again later.",
       "NO_HISTORY": "No history data available"
-    }
+    },
+    "DISCORD": "Discuss model performance on Discord"
   },
   "BLOG": {
     "META_TITLE": "Blog | {appName}",
@@ -1392,7 +1396,8 @@
     },
     "PLANS": {
       "STEP": "Best value"
-    }
+    },
+    "DISCORD": "Need a custom plan? Ask on Discord"
   },
   "DOCS_INDEX": {
     "META": {
@@ -2803,7 +2808,8 @@
       "SECTION_LOAD_FAILED": "This section failed to load.",
       "COPY_ERROR": "Copy error",
       "RESET_APP_DATA": "Reset app data & reload",
-      "RESETTING": "Resetting..."
+      "RESETTING": "Resetting...",
+      "DISCORD_HELP": "Still stuck? Get help on Discord"
     },
     "NOT_FOUND": {
       "TITLE": "Page Not Found",
@@ -3896,7 +3902,8 @@
       "REALISTIC": "Realistic",
       "PHOTOREALISTIC": "Photorealistic",
       "CINEMATIC": "Cinematic"
-    }
+    },
+    "DISCORD_CTA": "Need a preset or stuck? Ask on Discord"
   },
   "RP": {
     "CHARACTERS_TITLE": "Characters",
@@ -4326,7 +4333,8 @@
     "PERF": {
       "LATENCY_TOOLTIP": "Average latency (24h)",
       "TPS_TOOLTIP": "Average TPS (24h)"
-    }
+    },
+    "DISCORD": "Get live incident updates on Discord"
   },
   "IMAGE": {
     "TAB_TEXT2IMG": "Text2Img",

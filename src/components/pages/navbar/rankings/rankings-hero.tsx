@@ -1,6 +1,8 @@
 "use client";
 
 import type { RankingPeriod } from "@/lib/api/typebox/rankings";
+import { Icon } from "@/components/ui/icon";
+import { env } from "@/lib/config/env";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { RANKING_PERIODS } from "./rankings-helpers";
@@ -25,6 +27,17 @@ export function RankingsHero(props: RankingsHeroProps) {
         <p className="text-muted-foreground max-w-2xl text-sm">
           {t("RANKINGS.HERO.SUBTITLE")}
         </p>
+        {env.discordUrl && (
+          <a
+            href={env.discordUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5 text-xs transition-colors"
+          >
+            <Icon name="brand-discord" className="h-3.5 w-3.5" />
+            {t("RANKINGS.DISCORD")}
+          </a>
+        )}
       </div>
 
       <div

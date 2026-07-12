@@ -38,6 +38,7 @@ import { useMessageMeta, useShowReasoning } from "@/hooks/ui/use-chat-hook";
 import { useIsMobile } from "@/hooks/ui/use-mobile";
 import { partsToItems } from "@/lib/ai/chat/messages";
 import { analytics } from "@/lib/analytics";
+import { env } from "@/lib/config/env";
 import { cn } from "@/lib/utils";
 import { copyToClipboard } from "@/lib/utils/base";
 import { extractErrorDetail } from "@/lib/utils/client";
@@ -188,6 +189,17 @@ const ThreadWelcome: FC = () => {
           </div>
           <ChatLoadout />
           <GreetingPreview />
+          {env.discordUrl && (
+            <a
+              href={env.discordUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5 text-xs font-medium transition-colors"
+            >
+              <Icon name="brand-discord" className="h-3.5 w-3.5" />
+              {t("CHAT.DISCORD_CTA")}
+            </a>
+          )}
         </div>
       </div>
       <ThreadSuggestions />

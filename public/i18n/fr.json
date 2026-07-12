@@ -29,7 +29,8 @@
     "STATUS": "État",
     "COMPARE": "Comparer",
     "LANGUAGE": "Langue",
-    "MODEL_TESTER": "Inspecteur"
+    "MODEL_TESTER": "Inspecteur",
+    "DISCORD": "Discord"
   },
   "HOME": {
     "HERO": {
@@ -270,7 +271,8 @@
       "SUBTITLE": "Tous les modèles d'IA, une seule clé. Créez, discutez, codez ou racontez des histoires. À vous de voir.",
       "PRIMARY": "Commencer",
       "SECONDARY": "Intégrations",
-      "CHAT": "Ouvrir le chat"
+      "CHAT": "Ouvrir le chat",
+      "DISCORD": "Discord"
     },
     "META": {
       "TITLE": "{appName} - Une clé pour chaque modèle IA",
@@ -534,7 +536,8 @@
       "EMPTY": "Aucun modèle trouvé pour ce fournisseur.",
       "NEW": "Nouveau",
       "DEPRECATED": "Obsolète"
-    }
+    },
+    "DISCORD": "Demandez un modèle sur Discord"
   },
   "RANKINGS": {
     "META": {
@@ -597,7 +600,8 @@
       "TITLE": "Impossible de charger les classements",
       "GENERIC": "Impossible de charger les données de classement. Réessayez plus tard.",
       "NO_HISTORY": "Aucune donnée historique disponible"
-    }
+    },
+    "DISCORD": "Discutez des performances des modèles sur Discord"
   },
   "BLOG": {
     "META_TITLE": "Blog | {appName}",
@@ -1392,7 +1396,8 @@
     },
     "PLANS": {
       "STEP": "Meilleure valeur"
-    }
+    },
+    "DISCORD": "Besoin d'un plan sur mesure ? Demandez sur Discord"
   },
   "DOCS_INDEX": {
     "META": {
@@ -2803,7 +2808,8 @@
       "SECTION_LOAD_FAILED": "Cette section n'a pas pu être chargée.",
       "COPY_ERROR": "Copier l erreur",
       "RESET_APP_DATA": "Réinitialiser les données et recharger",
-      "RESETTING": "Réinitialisation..."
+      "RESETTING": "Réinitialisation...",
+      "DISCORD_HELP": "Toujours bloqué ? Obtenez de l'aide sur Discord"
     },
     "NOT_FOUND": {
       "TITLE": "Page introuvable",
@@ -3896,7 +3902,8 @@
       "REALISTIC": "Réaliste",
       "PHOTOREALISTIC": "Photoréaliste",
       "CINEMATIC": "Cinématographique"
-    }
+    },
+    "DISCORD_CTA": "Besoin d'un preset ou d'aide ? Demandez sur Discord"
   },
   "RP": {
     "CHARACTERS_TITLE": "Personnages",
@@ -4326,7 +4333,8 @@
     "PERF": {
       "LATENCY_TOOLTIP": "Latence moyenne (24h)",
       "TPS_TOOLTIP": "TPS moyen (24h)"
-    }
+    },
+    "DISCORD": "Recevez les mises à jour d'incidents en direct sur Discord"
   },
   "IMAGE": {
     "TAB_TEXT2IMG": "Texte vers image",

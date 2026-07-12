@@ -29,7 +29,8 @@
     "STATUS": "Status",
     "COMPARE": "Porównaj",
     "LANGUAGE": "Język",
-    "MODEL_TESTER": "Inspektor"
+    "MODEL_TESTER": "Inspektor",
+    "DISCORD": "Discord"
   },
   "HOME": {
     "HERO": {
@@ -292,7 +293,8 @@
       "SUBTITLE": "Każdy model AI, jeden klucz. Twórz, rozmawiaj, koduj lub opowiadaj historie. Twój wybór.",
       "PRIMARY": "Rozpocznij",
       "SECONDARY": "Przeglądaj integracje",
-      "CHAT": "Otwórz czat"
+      "CHAT": "Otwórz czat",
+      "DISCORD": "Discord"
     },
     "META": {
       "TITLE": "{appName} - Jeden klucz do każdego modelu AI",
@@ -534,7 +536,8 @@
       "EMPTY": "Nie znaleziono modeli dla tego dostawcy.",
       "NEW": "Nowość",
       "DEPRECATED": "Wycofany"
-    }
+    },
+    "DISCORD": "Poproś o model na Discordzie"
   },
   "RANKINGS": {
     "META": {
@@ -597,7 +600,8 @@
       "TITLE": "Nie można załadować rankingów",
       "GENERIC": "Nie można załadować danych rankingów. Spróbuj ponownie później.",
       "NO_HISTORY": "Brak danych historycznych"
-    }
+    },
+    "DISCORD": "Porozmawiaj o wydajności modeli na Discordzie"
   },
   "BLOG": {
     "META_TITLE": "Blog | {appName}",
@@ -1392,7 +1396,8 @@
     },
     "PLANS": {
       "STEP": "Najlepsza wartość"
-    }
+    },
+    "DISCORD": "Potrzebujesz planu na miarę? Zapytaj na Discordzie"
   },
   "DOCS_INDEX": {
     "META": {
@@ -2803,7 +2808,8 @@
       "SECTION_LOAD_FAILED": "Ta sekcja nie załadowała się.",
       "COPY_ERROR": "Kopiuj błąd",
       "RESET_APP_DATA": "Zresetuj dane aplikacji i odśwież",
-      "RESETTING": "Resetowanie..."
+      "RESETTING": "Resetowanie...",
+      "DISCORD_HELP": "Nadal masz problem? Uzyskaj pomoc na Discordzie"
     },
     "NOT_FOUND": {
       "TITLE": "Strona nie znaleziona",
@@ -3896,7 +3902,8 @@
       "REALISTIC": "Realistyczny",
       "PHOTOREALISTIC": "Fotorealistyczny",
       "CINEMATIC": "Kinowy"
-    }
+    },
+    "DISCORD_CTA": "Potrzebujesz presetu lub pomocy? Zapytaj na Discordzie"
   },
   "RP": {
     "CHARACTERS_TITLE": "Postacie",
@@ -4326,7 +4333,8 @@
     "PERF": {
       "LATENCY_TOOLTIP": "Średnie opóźnienie (24h)",
       "TPS_TOOLTIP": "Średnie TPS (24h)"
-    }
+    },
+    "DISCORD": "Otrzymuj aktualizacje awarii na żywo na Discordzie"
   },
   "IMAGE": {
     "TAB_TEXT2IMG": "Text2Img",

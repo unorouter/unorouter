@@ -29,7 +29,8 @@
     "STATUS": "Status",
     "COMPARE": "Bandingkan",
     "LANGUAGE": "Bahasa",
-    "MODEL_TESTER": "Inspektor"
+    "MODEL_TESTER": "Inspektor",
+    "DISCORD": "Discord"
   },
   "HOME": {
     "HERO": {
@@ -292,7 +293,8 @@
       "SUBTITLE": "Setiap model AI, satu kunci. Bangun, mengobrol, coding, atau bercerita. Terserah Anda.",
       "PRIMARY": "Mulai",
       "SECONDARY": "Jelajahi Integrasi",
-      "CHAT": "Buka obrolan"
+      "CHAT": "Buka obrolan",
+      "DISCORD": "Discord"
     },
     "META": {
       "TITLE": "{appName} - Satu Kunci untuk Setiap Model AI",
@@ -534,7 +536,8 @@
       "EMPTY": "Tidak ada model untuk vendor ini.",
       "NEW": "Baru",
       "DEPRECATED": "Usang"
-    }
+    },
+    "DISCORD": "Minta model di Discord"
   },
   "RANKINGS": {
     "META": {
@@ -597,7 +600,8 @@
       "TITLE": "Tidak dapat memuat peringkat",
       "GENERIC": "Tidak dapat memuat data peringkat. Silakan coba lagi nanti.",
       "NO_HISTORY": "Tidak ada data riwayat tersedia"
-    }
+    },
+    "DISCORD": "Diskusikan performa model di Discord"
   },
   "BLOG": {
     "META_TITLE": "Blog | {appName}",
@@ -1392,7 +1396,8 @@
     },
     "PLANS": {
       "STEP": "Nilai terbaik"
-    }
+    },
+    "DISCORD": "Butuh paket khusus? Tanya di Discord"
   },
   "DOCS_INDEX": {
     "META": {
@@ -2803,7 +2808,8 @@
       "SECTION_LOAD_FAILED": "Bagian ini gagal dimuat.",
       "COPY_ERROR": "Salin kesalahan",
       "RESET_APP_DATA": "Setel ulang data aplikasi & muat ulang",
-      "RESETTING": "Menyetel ulang..."
+      "RESETTING": "Menyetel ulang...",
+      "DISCORD_HELP": "Masih bermasalah? Dapatkan bantuan di Discord"
     },
     "NOT_FOUND": {
       "TITLE": "Halaman Tidak Ditemukan",
@@ -3896,7 +3902,8 @@
       "REALISTIC": "Realistis",
       "PHOTOREALISTIC": "Fotorealistis",
       "CINEMATIC": "Sinematik"
-    }
+    },
+    "DISCORD_CTA": "Butuh preset atau bingung? Tanya di Discord"
   },
   "RP": {
     "CHARACTERS_TITLE": "Karakter",
@@ -4326,7 +4333,8 @@
     "PERF": {
       "LATENCY_TOOLTIP": "Latensi rata-rata (24j)",
       "TPS_TOOLTIP": "TPS rata-rata (24j)"
-    }
+    },
+    "DISCORD": "Dapatkan pembaruan insiden langsung di Discord"
   },
   "IMAGE": {
     "TAB_TEXT2IMG": "Teks2Gambar",

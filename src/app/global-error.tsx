@@ -1,6 +1,7 @@
 "use client";
 
 import type { RouteErrorProps } from "@/components/elements/feedback/error-fallback";
+import { env } from "@/lib/config/env";
 import { posthog } from "@/lib/posthog-lazy";
 import { clearAllClientStorage, formatError } from "@/lib/utils/recovery";
 import { useEffect, useState } from "react";
@@ -75,6 +76,16 @@ export default function GlobalError(props: RouteErrorProps) {
             >
               Go home
             </button>
+            {env.discordUrl && (
+              <a
+                href={env.discordUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="border-border hover:bg-muted rounded-md border px-4 py-2 text-center transition-colors"
+              >
+                Get help on Discord
+              </a>
+            )}
           </div>
         </div>
       </body>

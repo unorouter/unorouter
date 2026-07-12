@@ -4,6 +4,7 @@ import { PaymentMethodToggle } from "@/components/elements/billing/payment-metho
 import { PageHeader } from "@/components/elements/content/page-header";
 import { PricingCard } from "@/components/elements/content/pricing-card";
 import { Icon } from "@/components/ui/icon";
+import { env } from "@/lib/config/env";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { useHydrated } from "@/hooks/ui/use-hydrated";
 import { useSubscriptionPlansQuery } from "@/hooks/billing/subscription-hook";
@@ -166,6 +167,17 @@ export function Pricing() {
             <p className="text-muted-foreground mt-3 text-center font-mono text-[10px] tracking-wider uppercase">
               {t("PRICING.TOPUP.FOOTNOTE")}
             </p>
+            {env.discordUrl && (
+              <a
+                href={env.discordUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-foreground mt-3 inline-flex w-full items-center justify-center gap-1.5 text-xs transition-colors"
+              >
+                <Icon name="brand-discord" className="h-3.5 w-3.5" />
+                {t("PRICING.DISCORD")}
+              </a>
+            )}
           </div>
         )}
 

@@ -29,7 +29,8 @@
     "STATUS": "Status",
     "COMPARE": "Vergleich",
     "LANGUAGE": "Sprache",
-    "MODEL_TESTER": "Inspektor"
+    "MODEL_TESTER": "Inspektor",
+    "DISCORD": "Discord"
   },
   "HOME": {
     "HERO": {
@@ -270,7 +271,8 @@
       "SUBTITLE": "Jedes KI-Modell, ein Schlüssel. Bauen, chatten, programmieren oder Geschichten erzählen. Du entscheidest.",
       "PRIMARY": "Jetzt starten",
       "SECONDARY": "Integrationen",
-      "CHAT": "Chat öffnen"
+      "CHAT": "Chat öffnen",
+      "DISCORD": "Discord"
     },
     "META": {
       "TITLE": "{appName} - Ein Schlüssel für jedes KI-Modell",
@@ -534,7 +536,8 @@
       "EMPTY": "Keine Modelle für diesen Anbieter gefunden.",
       "NEW": "Neu",
       "DEPRECATED": "Veraltet"
-    }
+    },
+    "DISCORD": "Fordere ein Modell auf Discord an"
   },
   "RANKINGS": {
     "META": {
@@ -597,7 +600,8 @@
       "TITLE": "Rangliste konnte nicht geladen werden",
       "GENERIC": "Die Ranglistendaten konnten nicht geladen werden. Bitte versuche es später erneut.",
       "NO_HISTORY": "Keine Verlaufsdaten verfügbar"
-    }
+    },
+    "DISCORD": "Diskutiere die Modellleistung auf Discord"
   },
   "BLOG": {
     "META_TITLE": "Blog | {appName}",
@@ -1392,7 +1396,8 @@
     },
     "PLANS": {
       "STEP": "Bestes Angebot"
-    }
+    },
+    "DISCORD": "Brauchst du einen individuellen Plan? Frag auf Discord"
   },
   "DOCS_INDEX": {
     "META": {
@@ -2803,7 +2808,8 @@
       "SECTION_LOAD_FAILED": "Dieser Bereich konnte nicht geladen werden.",
       "COPY_ERROR": "Fehler kopieren",
       "RESET_APP_DATA": "App-Daten zurücksetzen und neu laden",
-      "RESETTING": "Wird zurückgesetzt..."
+      "RESETTING": "Wird zurückgesetzt...",
+      "DISCORD_HELP": "Immer noch Probleme? Hol dir Hilfe auf Discord"
     },
     "NOT_FOUND": {
       "TITLE": "Seite nicht gefunden",
@@ -3896,7 +3902,8 @@
       "REALISTIC": "Realistisch",
       "PHOTOREALISTIC": "Fotorealistisch",
       "CINEMATIC": "Filmisch"
-    }
+    },
+    "DISCORD_CTA": "Brauchst du ein Preset oder Hilfe? Frag auf Discord"
   },
   "RP": {
     "CHARACTERS_TITLE": "Charaktere",
@@ -4326,7 +4333,8 @@
     "PERF": {
       "LATENCY_TOOLTIP": "Durchschnittliche Latenz (24h)",
       "TPS_TOOLTIP": "Durchschnittlicher TPS (24h)"
-    }
+    },
+    "DISCORD": "Erhalte Live-Störungsupdates auf Discord"
   },
   "IMAGE": {
     "TAB_TEXT2IMG": "Text zu Bild",

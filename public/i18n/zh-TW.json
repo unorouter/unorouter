@@ -29,7 +29,8 @@
     "STATUS": "狀態",
     "COMPARE": "對比",
     "LANGUAGE": "語言",
-    "MODEL_TESTER": "檢測器"
+    "MODEL_TESTER": "檢測器",
+    "DISCORD": "Discord"
   },
   "HOME": {
     "HERO": {
@@ -270,7 +271,8 @@
       "SUBTITLE": "每一個 AI 模型，一把金鑰。建構、聊天、寫程式或說故事，由你決定。",
       "PRIMARY": "開始使用",
       "SECONDARY": "查看整合",
-      "CHAT": "開啟聊天"
+      "CHAT": "開啟聊天",
+      "DISCORD": "Discord"
     },
     "META": {
       "TITLE": "{appName} - 一把鑰匙，連接所有 AI 模型",
@@ -534,7 +536,8 @@
       "EMPTY": "找不到該廠商的模型。",
       "NEW": "新",
       "DEPRECATED": "已棄用"
-    }
+    },
+    "DISCORD": "在 Discord 上請求模型"
   },
   "RANKINGS": {
     "META": {
@@ -597,7 +600,8 @@
       "TITLE": "無法載入排行榜",
       "GENERIC": "無法載入排行榜資料，請稍後再試。",
       "NO_HISTORY": "暫無歷史資料"
-    }
+    },
+    "DISCORD": "在 Discord 上討論模型表現"
   },
   "BLOG": {
     "META_TITLE": "部落格｜{appName}",
@@ -1392,7 +1396,8 @@
     },
     "PLANS": {
       "STEP": "最超值"
-    }
+    },
+    "DISCORD": "需要客製方案？在 Discord 上詢問"
   },
   "DOCS_INDEX": {
     "META": {
@@ -2803,7 +2808,8 @@
       "SECTION_LOAD_FAILED": "此區塊載入失敗。",
       "COPY_ERROR": "複製錯誤",
       "RESET_APP_DATA": "重設應用程式資料並重新載入",
-      "RESETTING": "正在重設……"
+      "RESETTING": "正在重設……",
+      "DISCORD_HELP": "仍未解決？在 Discord 上尋求協助"
     },
     "NOT_FOUND": {
       "TITLE": "找不到頁面",
@@ -3896,7 +3902,8 @@
       "REALISTIC": "寫實",
       "PHOTOREALISTIC": "照片級寫實",
       "CINEMATIC": "電影感"
-    }
+    },
+    "DISCORD_CTA": "需要預設或遇到問題？在 Discord 上提問"
   },
   "RP": {
     "CHARACTERS_TITLE": "角色",
@@ -4326,7 +4333,8 @@
     "PERF": {
       "LATENCY_TOOLTIP": "平均延遲（24小時）",
       "TPS_TOOLTIP": "平均TPS（24小時）"
-    }
+    },
+    "DISCORD": "在 Discord 上取得即時故障更新"
   },
   "IMAGE": {
     "TAB_TEXT2IMG": "文生圖",

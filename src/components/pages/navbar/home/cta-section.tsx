@@ -3,6 +3,7 @@ import { Link } from "@/i18n/navigation";
 
 import { getTranslations } from "next-intl/server";
 import { Icon } from "@/components/ui/icon";
+import { env } from "@/lib/config/env";
 
 export async function CtaSection() {
   const t = await getTranslations();
@@ -43,6 +44,17 @@ export async function CtaSection() {
                 className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1"
               />
             </Link>
+            {env.discordUrl && (
+              <a
+                href={env.discordUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="border-border text-foreground hover:border-foreground flex h-12 w-full items-center justify-center gap-2 border bg-transparent px-10 font-bold tracking-widest uppercase transition-all sm:w-auto"
+              >
+                <Icon name="brand-discord" className="h-3.5 w-3.5" />
+                {t("HOME.CTA.DISCORD")}
+              </a>
+            )}
           </div>
         </div>
       </div>

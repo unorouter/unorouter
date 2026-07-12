@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { env } from "@/lib/config/env";
 import { useTranslations } from "next-intl";
 import { posthog } from "@/lib/posthog-lazy";
 import { cn } from "@/lib/utils";
@@ -84,6 +85,18 @@ export function ErrorFallback(props: ErrorFallbackProps) {
           <p className="text-muted-foreground text-sm">
             {t("MAIN.ERROR.UNEXPECTED_ERROR_OCCURRED")}
           </p>
+
+          {env.discordUrl && (
+            <a
+              href={env.discordUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5 text-xs transition-colors"
+            >
+              <Icon name="brand-discord" className="h-3.5 w-3.5" />
+              {t("MAIN.ERROR.DISCORD_HELP")}
+            </a>
+          )}
 
           <details className="text-left" open>
             <summary className="text-muted-foreground hover:text-foreground cursor-pointer text-sm font-medium">
