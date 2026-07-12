@@ -419,17 +419,38 @@ export async function handleImageStream(apiKey: string, body: MediaStreamBody) {
   });
 }
 
+// Image-to-video (and frame/reference variants) require a source image; DashScope rejects the task
+// with "Field required: input.media" / "img_url must be set" otherwise.
+const isImageInputVideoModel = (model: string) =>
+  /i2v|kf2v|r2v|image-to-video/i.test(model);
+
 export async function handleVideoTaskStream(
   apiKey: string,
   body: MediaStreamBody,
 ) {
   const prompt = extractMediaPrompt(body);
+  // The user's attached image never reached the task submit (only the prompt text did), so every
+  // i2v request failed upstream. Pass the first attached image; data: URLs upload to R2 first so
+  // the upstream gets a fetchable URL instead of a megabyte base64 blob.
+  const refs = extractLastUserImageRefs(body.messages);
+  let image: string | undefined;
+  if (refs.length > 0) {
+    const url = refs[0].url;
+    image =
+      url.startsWith("data:") && body.convId
+        ? await uploadBase64ToR2(url, body.convId, uid(8))
+        : url;
+  }
+  if (!image && isImageInputVideoModel(body.model)) {
+    throw new Error(msg("ERRORS.VIDEO_IMAGE_REQUIRED"));
+  }
   return streamResponse(async (writer) => {
     const { taskId, status, progress } = await submitVideoTask(
       apiKey,
       body.model,
       prompt,
       body.group,
+      image,
     );
 
     writer.write({ type: "start" });

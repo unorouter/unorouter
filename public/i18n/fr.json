@@ -4109,6 +4109,7 @@
     "PRICING_FETCH_FAILED": "Échec de récupération des données tarifaires",
     "NO_TEXT_MODELS": "Aucun modèle de texte disponible",
     "NO_IMAGE_PROMPT": "Aucune invite fournie pour la génération d'image",
+    "VIDEO_IMAGE_REQUIRED": "Ce modèle transforme une image en vidéo. Joignez d'abord une image à votre message.",
     "IMAGE_GENERATION_FAILED": "Échec de la génération de l'image",
     "UNEXPECTED_RESPONSE": "Réponse nulle inattendue de l'API en amont",
     "INVALID_URL": "URL invalide",

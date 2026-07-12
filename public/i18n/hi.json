@@ -4109,6 +4109,7 @@
     "PRICING_FETCH_FAILED": "Pricing डेटा fetch करने में विफल",
     "NO_TEXT_MODELS": "कोई text मॉडल उपलब्ध नहीं",
     "NO_IMAGE_PROMPT": "Image generation के लिए कोई prompt नहीं दिया गया",
+    "VIDEO_IMAGE_REQUIRED": "यह मॉडल छवि को वीडियो में बदलता है। पहले अपने संदेश में एक छवि जोड़ें।",
     "IMAGE_GENERATION_FAILED": "Image generation विफल",
     "UNEXPECTED_RESPONSE": "Upstream API से अप्रत्याशित null response",
     "INVALID_URL": "Invalid URL",

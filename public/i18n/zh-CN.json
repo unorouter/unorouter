@@ -4109,6 +4109,7 @@
     "PRICING_FETCH_FAILED": "获取价格数据失败",
     "NO_TEXT_MODELS": "暂无可用的文本模型",
     "NO_IMAGE_PROMPT": "未提供图像生成提示词",
+    "VIDEO_IMAGE_REQUIRED": "此模型将图片转换为视频。请先在消息中附加一张图片。",
     "IMAGE_GENERATION_FAILED": "图像生成失败",
     "UNEXPECTED_RESPONSE": "上游 API 返回了意外的空响应",
     "INVALID_URL": "URL 无效",

@@ -4109,6 +4109,7 @@
     "PRICING_FETCH_FAILED": "Không lấy được dữ liệu giá",
     "NO_TEXT_MODELS": "Không có mô hình văn bản khả dụng",
     "NO_IMAGE_PROMPT": "Không có prompt để tạo hình ảnh",
+    "VIDEO_IMAGE_REQUIRED": "Mô hình này biến hình ảnh thành video. Hãy đính kèm một hình ảnh vào tin nhắn trước.",
     "IMAGE_GENERATION_FAILED": "Tạo hình ảnh thất bại",
     "UNEXPECTED_RESPONSE": "Phản hồi null không mong muốn từ upstream API",
     "INVALID_URL": "URL không hợp lệ",

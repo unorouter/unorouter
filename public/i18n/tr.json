@@ -4109,6 +4109,7 @@
     "PRICING_FETCH_FAILED": "Fiyatlandırma verisi alınamadı",
     "NO_TEXT_MODELS": "Metin modeli yok",
     "NO_IMAGE_PROMPT": "Görsel üretimi için istem sağlanmadı",
+    "VIDEO_IMAGE_REQUIRED": "Bu model bir görseli videoya dönüştürür. Önce mesajınıza bir görsel ekleyin.",
     "IMAGE_GENERATION_FAILED": "Görsel üretimi başarısız",
     "UNEXPECTED_RESPONSE": "Upstream API'den beklenmedik null yanıt",
     "INVALID_URL": "Geçersiz URL",

@@ -4109,6 +4109,7 @@
     "PRICING_FETCH_FAILED": "Nie udało się pobrać danych cennika",
     "NO_TEXT_MODELS": "Brak dostępnych modeli tekstowych",
     "NO_IMAGE_PROMPT": "Nie podano promptu dla generowania obrazu",
+    "VIDEO_IMAGE_REQUIRED": "Ten model zamienia obraz w wideo. Najpierw dołącz obraz do wiadomości.",
     "IMAGE_GENERATION_FAILED": "Generowanie obrazu nie powiodło się",
     "UNEXPECTED_RESPONSE": "Nieoczekiwana pusta odpowiedź z API upstream",
     "INVALID_URL": "Nieprawidłowy URL",

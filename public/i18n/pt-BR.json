@@ -4109,6 +4109,7 @@
     "PRICING_FETCH_FAILED": "Falha ao buscar dados de preço",
     "NO_TEXT_MODELS": "Sem modelos de texto disponíveis",
     "NO_IMAGE_PROMPT": "Sem prompt fornecido para geração de imagem",
+    "VIDEO_IMAGE_REQUIRED": "Este modelo transforma uma imagem em vídeo. Anexe primeiro uma imagem à sua mensagem.",
     "IMAGE_GENERATION_FAILED": "Geração de imagem falhou",
     "UNEXPECTED_RESPONSE": "Resposta nula inesperada da API upstream",
     "INVALID_URL": "URL inválida",

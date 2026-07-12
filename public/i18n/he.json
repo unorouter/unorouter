@@ -4109,6 +4109,7 @@
     "PRICING_FETCH_FAILED": "כשל בקבלת נתוני תמחור",
     "NO_TEXT_MODELS": "אין מודלי טקסט זמינים",
     "NO_IMAGE_PROMPT": "לא סופקה הנחיה לייצור תמונה",
+    "VIDEO_IMAGE_REQUIRED": "מודל זה הופך תמונה לווידאו. צרף תחילה תמונה להודעה שלך.",
     "IMAGE_GENERATION_FAILED": "ייצור התמונה נכשל",
     "UNEXPECTED_RESPONSE": "תגובה ריקה לא צפויה מ-API upstream",
     "INVALID_URL": "URL לא תקין",

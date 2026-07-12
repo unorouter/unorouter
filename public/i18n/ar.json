@@ -4109,6 +4109,7 @@
     "PRICING_FETCH_FAILED": "فشل جلب بيانات الأسعار",
     "NO_TEXT_MODELS": "لا توجد نماذج نص متاحة",
     "NO_IMAGE_PROMPT": "لا مطالبة مُقدّمة لتوليد الصورة",
+    "VIDEO_IMAGE_REQUIRED": "هذا النموذج يحوّل صورة إلى فيديو. أرفق صورة برسالتك أولاً.",
     "IMAGE_GENERATION_FAILED": "فشل توليد الصورة",
     "UNEXPECTED_RESPONSE": "استجابة null غير متوقّعة من API العلوي",
     "INVALID_URL": "رابط غير صالح",

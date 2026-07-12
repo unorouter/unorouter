@@ -74,6 +74,7 @@ export async function submitVideoTask(
   model: string,
   prompt: string,
   group?: string | null,
+  image?: string,
 ): Promise<TaskSubmitResult> {
   const res = await postV1VideoGenerations({
     headers: {
@@ -81,7 +82,7 @@ export async function submitVideoTask(
       "Content-Type": "application/json",
       ...(group && group !== "auto" ? { "X-Group": group } : {}),
     },
-    body: JSON.stringify({ model, prompt }),
+    body: JSON.stringify({ model, prompt, ...(image ? { image } : {}) }),
   });
 
   const payload = unwrapTaskData<UpstreamSubmitResp>(res.data);

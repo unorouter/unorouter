@@ -4109,6 +4109,7 @@
     "PRICING_FETCH_FAILED": "Gagal mengambil data harga",
     "NO_TEXT_MODELS": "Tidak ada model teks tersedia",
     "NO_IMAGE_PROMPT": "Tidak ada prompt yang disediakan untuk generasi gambar",
+    "VIDEO_IMAGE_REQUIRED": "Model ini mengubah gambar menjadi video. Lampirkan gambar ke pesan Anda terlebih dahulu.",
     "IMAGE_GENERATION_FAILED": "Generasi gambar gagal",
     "UNEXPECTED_RESPONSE": "Respons null tak terduga dari API upstream",
     "INVALID_URL": "URL tidak valid",

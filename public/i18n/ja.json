@@ -4109,6 +4109,7 @@
     "PRICING_FETCH_FAILED": "料金データの取得に失敗しました",
     "NO_TEXT_MODELS": "利用可能なテキストモデルがありません",
     "NO_IMAGE_PROMPT": "画像生成用のプロンプトが指定されていません",
+    "VIDEO_IMAGE_REQUIRED": "このモデルは画像を動画に変換します。まずメッセージに画像を添付してください。",
     "IMAGE_GENERATION_FAILED": "画像生成に失敗しました",
     "UNEXPECTED_RESPONSE": "アップストリーム API から予期しない null 応答",
     "INVALID_URL": "無効な URL です",

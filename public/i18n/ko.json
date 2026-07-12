@@ -4109,6 +4109,7 @@
     "PRICING_FETCH_FAILED": "요금 데이터 가져오기 실패",
     "NO_TEXT_MODELS": "사용 가능한 텍스트 모델 없음",
     "NO_IMAGE_PROMPT": "이미지 생성을 위한 프롬프트가 제공되지 않음",
+    "VIDEO_IMAGE_REQUIRED": "이 모델은 이미지를 영상으로 변환합니다. 먼저 메시지에 이미지를 첨부하세요.",
     "IMAGE_GENERATION_FAILED": "이미지 생성 실패",
     "UNEXPECTED_RESPONSE": "업스트림 API에서 예상치 못한 null 응답",
     "INVALID_URL": "유효하지 않은 URL",
