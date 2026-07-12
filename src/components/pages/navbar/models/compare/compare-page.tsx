@@ -4,6 +4,7 @@ import { usePricingQuery } from "@/hooks/models/pricing-hook";
 import { usePerfMetricsSummaryQuery } from "@/hooks/models/perf-metrics-hook";
 import { useRankingsQuery } from "@/hooks/models/rankings-hook";
 import { useRouter } from "@/i18n/navigation";
+import { analytics } from "@/lib/analytics";
 import type { RankedModel } from "@/lib/api/typebox/rankings";
 import { modelMatchesSlug, modelSlug } from "@/lib/utils/base";
 import type { ModelSummary } from "@/openapi";
@@ -53,7 +54,10 @@ export function ComparePage() {
     });
   }
   function add(name: string) {
-    if (!selectedNames.includes(name)) goTo([...selectedNames, name]);
+    if (!selectedNames.includes(name)) {
+      analytics.models.compareAdded({ model: name });
+      goTo([...selectedNames, name]);
+    }
   }
   function remove(name: string) {
     goTo(selectedNames.filter((n) => n !== name));

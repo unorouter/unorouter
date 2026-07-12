@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Icon } from "@/components/ui/icon";
 import { Link } from "@/i18n/navigation";
+import { analytics } from "@/lib/analytics";
 import type { ProcessedModel } from "@/lib/api/pricing";
 import { copyToClipboard, modelHref } from "@/lib/utils/base";
 import { chatModelAtom } from "@/store/chat-store";
@@ -51,6 +52,7 @@ export function ModelRowActions(props: { model: ProcessedModel }) {
           <DropdownMenuItem
             onClick={(e) => {
               e.stopPropagation();
+              analytics.models.openInChat({ model: model.name });
               setChatModel(model.name);
             }}
             render={<Link href="/chat" />}
@@ -65,6 +67,7 @@ export function ModelRowActions(props: { model: ProcessedModel }) {
           <DropdownMenuItem
             onClick={(e) => {
               e.stopPropagation();
+              analytics.content.copied({ label: "model_name" });
               void copyToClipboard(model.name);
             }}
           >

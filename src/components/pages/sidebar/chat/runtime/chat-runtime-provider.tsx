@@ -18,12 +18,18 @@ import {
 } from "@/components/pages/sidebar/chat/runtime/use-thread-sync";
 import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { usePendingDrainScheduler } from "@/hooks/ai/use-pending-drain-scheduler";
+import { analytics } from "@/lib/analytics";
 import { acquireLock, releaseLock } from "@/lib/db/client/outbox/resource-lock";
 import type { ChatUIMessage } from "@/lib/types";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
-import { extractErrorDetail, handleError } from "@/lib/utils/client";
+import {
+  classifyStreamError,
+  extractErrorDetail,
+  handleError,
+} from "@/lib/utils/client";
 import {
   chatHelpersAtom,
+  chatModelAtom,
   chatStore,
   convIdAtom,
   ensureConvId,
@@ -44,6 +50,20 @@ import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { toast } from "sonner";
+
+// Activation signal: true the first time a chat stream completes on this device.
+// localStorage-backed so a reload does not re-flag; per-device is fine for an
+// aha-moment metric (identity stitching happens PostHog-side via distinctId).
+const FIRST_CHAT_KEY = "uno_first_chat_done";
+function markFirstChatDone(): boolean {
+  try {
+    if (localStorage.getItem(FIRST_CHAT_KEY)) return false;
+    localStorage.setItem(FIRST_CHAT_KEY, "1");
+    return true;
+  } catch {
+    return false;
+  }
+}
 
 function useHistoryAdapter(getConvId: () => string | null) {
   const queryClient = useQueryClient();
@@ -139,6 +159,11 @@ function ChatRuntimeHook() {
         return;
       }
       const detail = extractErrorDetail(e);
+      analytics.chat.streamFailed({
+        error_type: classifyStreamError(detail),
+        status: detail.status ?? null,
+        code: detail.code ?? null,
+      });
       chatStore.set(lastStreamErrorAtom, {
         message: detail.message,
         at: Date.now(),
@@ -154,6 +179,10 @@ function ChatRuntimeHook() {
         threadId,
         remoteId,
         messageId: message.id,
+      });
+      analytics.chat.streamCompleted({
+        model: chatStore.get(chatModelAtom) ?? "unknown",
+        is_first_message: markFirstChatDone(),
       });
       if (message.metadata?.droppedParams) {
         toast.warning(

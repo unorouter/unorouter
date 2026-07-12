@@ -10,6 +10,7 @@ import { OSTabs } from "@/components/pages/docs/os/os-tabs";
 import { OSCodeBlock } from "@/components/pages/docs/os/os-code-block";
 import { buildOSVariants } from "@/components/pages/docs/os/os-code-helpers";
 import { GuideIcon } from "@/components/pages/docs/guide-icon";
+import { GuideViewedBeacon } from "@/components/pages/docs/guide-viewed-beacon";
 import { Link } from "@/i18n/navigation";
 import { getCachedFreeTextModels } from "@/lib/api/cached";
 import { APP_VALUES } from "@/lib/config/constants";
@@ -121,6 +122,7 @@ ${t("DOCS.SETUP_GUIDE.API_KEY_LABEL")}: ${docs.placeholder}`;
 
   return (
     <TOCLayout toc={toc}>
+      <GuideViewedBeacon slug={guide.slug} />
       <div className="mx-auto max-w-3xl px-6 py-16">
         <div className="mb-6 flex justify-center">
           <div className="relative">
@@ -173,6 +175,7 @@ ${t("DOCS.SETUP_GUIDE.API_KEY_LABEL")}: ${docs.placeholder}`;
             code={quickConfigCode}
             language="text"
             placeholder={docs.placeholder}
+            analyticsLabel="docs_snippet"
           />
         </section>
 

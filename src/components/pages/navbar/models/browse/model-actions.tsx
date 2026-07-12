@@ -8,6 +8,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Link, useRouter } from "@/i18n/navigation";
+import { analytics } from "@/lib/analytics";
 import type { ProcessedModel } from "@/lib/api/pricing";
 import { modelHref } from "@/lib/utils/base";
 import { chatModelAtom } from "@/store/chat-store";
@@ -42,6 +43,7 @@ export function ModelActionIcons(props: {
         <TooltipTrigger render={<span className="shrink-0" />}>
           <CopyButton
             text={model.name}
+            analyticsLabel="model_name"
             iconSize={props.iconSize}
             className={ACTION_CLASS}
           />
@@ -54,6 +56,7 @@ export function ModelActionIcons(props: {
           className={ACTION_CLASS}
           onClick={(e) => {
             e.stopPropagation();
+            analytics.models.openInChat({ model: model.name });
             setChatModel(model.name);
             router.push("/chat");
           }}

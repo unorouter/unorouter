@@ -23,7 +23,9 @@ import {
   toolsOnlyAtom,
   viewModeAtom,
 } from "@/store/models-store";
+import { analytics } from "@/lib/analytics";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useEffect } from "react";
 
 export function modelReleaseTs(model: ProcessedModel): number {
   const iso = model.metadata.releaseDate;
@@ -189,6 +191,20 @@ export function useModelsFilter() {
     }
     return a.name.localeCompare(b.name);
   });
+
+  // Fire one models_searched when the query settles (not per keystroke).
+  const trimmedQuery = search.trim();
+  const resultCount = filtered.length;
+  useEffect(() => {
+    if (trimmedQuery.length < 2) return;
+    const id = setTimeout(() => {
+      analytics.models.searched({
+        query_length: trimmedQuery.length,
+        has_results: resultCount > 0,
+      });
+    }, 800);
+    return () => clearTimeout(id);
+  }, [trimmedQuery, resultCount]);
 
   return {
     search,

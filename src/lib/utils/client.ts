@@ -66,6 +66,25 @@ export function extractErrorDetail(e: unknown): ErrorDetail {
   return { message, code, status, requestId };
 }
 
+// Buckets a stream error into a coarse type for analytics (never user-facing).
+export function classifyStreamError(detail: ErrorDetail): string {
+  const s = detail.status;
+  if (s === 429) return "rate_limit";
+  if (s === 401 || s === 403) return "auth";
+  if (s === 402) return "insufficient_balance";
+  if (typeof s === "number" && s >= 500) return "server";
+  const msg = detail.message.toLowerCase();
+  if (/rate limit|too many|busy right now|providers.*busy/.test(msg))
+    return "rate_limit";
+  if (/invalid token|unauthor|forbidden|api key/.test(msg)) return "auth";
+  if (/quota|balance|insufficient|payment/.test(msg))
+    return "insufficient_balance";
+  if (/not found|no such model|does not exist/.test(msg)) return "model_error";
+  if (typeof s === "number" && s >= 400) return "model_error";
+  if (s == null) return "network";
+  return "other";
+}
+
 function pickMessage(v: unknown): Extracted | null {
   if (typeof v === "string") {
     const s = v.trim();

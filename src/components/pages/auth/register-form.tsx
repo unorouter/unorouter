@@ -12,6 +12,7 @@ import {
 import { useStatusQuery } from "@/hooks/ops/status-hook";
 import { Link, useRouter } from "@/i18n/navigation";
 import { analytics } from "@/lib/analytics";
+import { classifyStreamError, extractErrorDetail } from "@/lib/utils/client";
 import {
   AFF_CODE_KEY,
   APP_VALUES,
@@ -90,7 +91,11 @@ export function RegisterForm() {
       analytics.auth.registerCompleted();
       deleteCookie(AFF_CODE_KEY);
       router.push("/login");
-    } catch {
+    } catch (e) {
+      const detail = extractErrorDetail(e);
+      analytics.auth.registerFailed({
+        reason: classifyStreamError(detail),
+      });
       turnstileRef.current?.reset();
       setTurnstileToken(undefined);
     }

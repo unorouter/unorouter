@@ -29,6 +29,9 @@ const auth = {
   verificationSent: () => {
     posthog.capture("auth_verification_sent");
   },
+  registerFailed: (props: { reason: string }) => {
+    posthog.capture("auth_register_failed", { reason: props.reason });
+  },
 };
 
 const chat = {
@@ -110,6 +113,26 @@ const chat = {
     sampling_customized_fields: string[];
   }) => {
     posthog.capture("chat_overrides_saved", props);
+  },
+  streamCompleted: (props: { model: string; is_first_message: boolean }) => {
+    posthog.capture("chat_stream_completed", {
+      model: props.model,
+      is_first_message: props.is_first_message,
+    });
+  },
+  streamFailed: (props: {
+    error_type: string;
+    status: number | null;
+    code: string | null;
+  }) => {
+    posthog.capture("chat_stream_failed", {
+      error_type: props.error_type,
+      status: props.status,
+      code: props.code,
+    });
+  },
+  modelAutoPicked: (props: { to: string }) => {
+    posthog.capture("chat_model_auto_picked", { to_model: props.to });
   },
 };
 
@@ -320,6 +343,27 @@ const docs = {
   osTabChanged: (props: { os: string }) => {
     posthog.capture("docs_os_tab_changed", { os: props.os });
   },
+  guideViewed: (props: { slug: string }) => {
+    posthog.capture("docs_guide_viewed", { slug: props.slug });
+  },
+};
+
+const models = {
+  detailOpened: (props: { model: string }) => {
+    posthog.capture("models_detail_opened", { model: props.model });
+  },
+  searched: (props: { query_length: number; has_results: boolean }) => {
+    posthog.capture("models_searched", {
+      query_length: props.query_length,
+      has_results: props.has_results,
+    });
+  },
+  compareAdded: (props: { model: string }) => {
+    posthog.capture("models_compare_added", { model: props.model });
+  },
+  openInChat: (props: { model: string }) => {
+    posthog.capture("models_open_in_chat", { model: props.model });
+  },
 };
 
 const rp = {
@@ -350,6 +394,7 @@ export const analytics = {
   dashboard,
   logs,
   docs,
+  models,
   rp,
   content,
 } as const;

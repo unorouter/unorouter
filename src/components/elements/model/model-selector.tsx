@@ -356,6 +356,7 @@ export function ModelSelector(props: ModelSelectorProps) {
       freeText.length > 0 ? freeText : models.filter((m) => m.isFree);
     if (pool.length === 0) return;
     const chosen = pick(pool);
+    analytics.chat.modelAutoPicked({ to: chosen.name });
     props.onChange(chosen.name);
     // eslint-disable-next-line react-hooks/exhaustive-deps -- only re-run on auth state or models list changes
   }, [isLoggedIn, models.length]);

@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { useModelsFilter } from "@/hooks/ui/use-models-hook";
 import { ModelsUrlSync } from "@/hooks/ui/use-models-url-sync";
+import { analytics } from "@/lib/analytics";
 import { Link } from "@/i18n/navigation";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
@@ -42,6 +43,11 @@ const modelsTableAtoms = createTableAtoms(DataTableId.MODELS);
 export function ModelsPage() {
   const t = useTranslations();
   const m = useModelsFilter();
+
+  const openDetail = (name: string) => {
+    analytics.models.detailOpened({ model: name });
+    m.setSelectedModelName(name);
+  };
 
   // The hydrated list comes from a prerendered shell (up to ~1min stale) and
   // staleTime "static" never refetches it; pull a fresh copy once the page
@@ -193,7 +199,7 @@ export function ModelsPage() {
                 columns={columns}
                 localSorting
                 windowVirtual
-                onRowClick={(model) => m.setSelectedModelName(model.name)}
+                onRowClick={(model) => openDetail(model.name)}
               />
             ) : (
               m.filtered.map((model) => (
@@ -201,7 +207,7 @@ export function ModelsPage() {
                   key={model.name}
                   model={model}
                   rank={m.rankMap.get(model.name)}
-                  onClick={() => m.setSelectedModelName(model.name)}
+                  onClick={() => openDetail(model.name)}
                 />
               ))
             )}
