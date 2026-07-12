@@ -124,11 +124,17 @@ const chat = {
     error_type: string;
     status: number | null;
     code: string | null;
+    model?: string;
+    request_id?: string | null;
+    message?: string;
   }) => {
     posthog.capture("chat_stream_failed", {
       error_type: props.error_type,
       status: props.status,
       code: props.code,
+      model: props.model,
+      request_id: props.request_id ?? null,
+      message: props.message,
     });
   },
   modelAutoPicked: (props: { to: string }) => {

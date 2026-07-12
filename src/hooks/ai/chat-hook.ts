@@ -295,7 +295,9 @@ export function useFinalizeTaskMutation() {
           sequenceIndex: 0,
           outputIndex: null,
           type: "text",
-          data: { text: `![video](${data.url})` },
+          data: {
+            text: `![${data.kind === "image" ? "image" : "video"}](${data.url})`,
+          },
         },
       ]);
       return data;

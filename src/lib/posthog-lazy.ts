@@ -64,6 +64,11 @@ const EXCEPTION_NOISE = [
   "connection closed",
   "notallowederror",
   "router state header",
+  // The raw autocaptured $exception for an empty stream; we capture the real
+  // cause explicitly as chat_stream_failed (error_type "empty_stream") with the
+  // upstream request id + model, so this duplicate carries no extra signal.
+  "no output generated",
+  "ai_nooutputgeneratederror",
 ];
 
 function isNoiseException(event: {

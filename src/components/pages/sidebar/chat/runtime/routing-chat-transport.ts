@@ -13,7 +13,8 @@ import {
 import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
 import type { ChatUIMessage } from "@/lib/types";
 import { uid } from "@/lib/utils/base";
-import { extractErrorDetail } from "@/lib/utils/client";
+import { classifyStreamError, extractErrorDetail } from "@/lib/utils/client";
+import { analytics } from "@/lib/analytics";
 import {
   prepareChatRequest,
   type PreparedChatRequest,
@@ -120,11 +121,24 @@ async function runClientStream(args: {
     messages: await convertToModelMessages(prepared.messagesForUpstream),
     system: prepared.effectiveSystem,
     maxRetries: 0,
-    // Flaky free models can close a stream with zero output; ai-sdk then throws
-    // AI_NoOutputGeneratedError at flush. Handling it here keeps it off the
-    // unhandled-rejection path (it still surfaces to the user via the
-    // toUIMessageStream onError below as a normal failed run).
-    onError: () => {},
+    // Streaming errors (mid-stream upstream 5xx, malformed SSE, or a flaky free
+    // model closing with zero content -> AI_NoOutputGeneratedError at flush) are
+    // delivered here, OFF the send-promise, so useChat's onError never sees them.
+    // Capture the real cause as chat_stream_failed with the upstream request id
+    // + model instead of swallowing it silently.
+    onError: (event) => {
+      const detail = extractErrorDetail(event.error);
+      const isEmptyStream =
+        detail.message.toLowerCase().includes("no output generated");
+      analytics.chat.streamFailed({
+        error_type: isEmptyStream ? "empty_stream" : classifyStreamError(detail),
+        status: detail.status ?? null,
+        code: detail.code ?? null,
+        model: args.model,
+        request_id: collector.requestId,
+        message: detail.message.slice(0, 300),
+      });
+    },
     ...prepared.modelParams,
     providerOptions: prepared.providerOptions,
     ...(args.options.abortSignal
