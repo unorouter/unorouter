@@ -8,6 +8,7 @@ import {
   useTaskStatusQuery,
 } from "@/hooks/ai/chat-hook";
 import { cn } from "@/lib/utils";
+import { chatHelpersAtom, chatStore } from "@/store/chat-store";
 import { useAuiState } from "@assistant-ui/react";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
@@ -49,6 +50,27 @@ type Props = {
   msgId: string;
 };
 
+type MediaKind = "video" | "image" | "audio";
+
+// The video-task flow also serves async image models (e.g. AI Horde). Pick the
+// card icon from the task kind when known, else infer from the model name.
+function taskMediaKind(part: TaskPart): MediaKind {
+  if (part.kind === "image" || part.kind === "video" || part.kind === "audio") {
+    return part.kind;
+  }
+  const model = part.model.toLowerCase();
+  if (/i2v|t2v|r2v|kf2v|\bvideo\b|sora|veo|kling|wan|happyhorse/.test(model)) {
+    return "video";
+  }
+  return "image";
+}
+
+const KIND_ICON: Record<MediaKind, string> = {
+  video: "video",
+  image: "image",
+  audio: "music",
+};
+
 type TaskStatus = TaskPart["status"];
 
 const TERMINAL_STATUSES = new Set<TaskStatus>(["SUCCESS", "FAILURE"]);
@@ -68,14 +90,14 @@ function statusVariant(
   return "outline";
 }
 
-function StatusIcon(props: { status: TaskStatus }) {
+function StatusIcon(props: { status: TaskStatus; kind: MediaKind }) {
   if (props.status === "SUCCESS")
     return <Icon name="check" className="size-3" />;
   if (props.status === "FAILURE")
     return <Icon name="x-circle" className="size-3" />;
   if (IN_PROGRESS_STATUSES.has(props.status))
     return <Icon name="loader" className="size-3 animate-spin" />;
-  return <Icon name="video" className="size-3" />;
+  return <Icon name={KIND_ICON[props.kind]} className="size-3" />;
 }
 
 const POLL_INTERVAL_MS = 4000;
@@ -117,12 +139,51 @@ export function TaskCard(props: Props) {
       !finalizeMutation.isPending
     ) {
       finalizedRef.current = true;
-      finalizeMutation.mutate({
-        convId: props.convId,
-        msgId: props.msgId,
-        taskId: props.part.taskId,
-        resultUrl: data.resultUrl,
-      });
+      finalizeMutation.mutate(
+        {
+          convId: props.convId,
+          msgId: props.msgId,
+          taskId: props.part.taskId,
+          resultUrl: data.resultUrl,
+        },
+        {
+          onSuccess: (result) => {
+            // Patch the live thread so the finished media replaces the task card
+            // without a reload (the DB write + query invalidate alone don't
+            // re-render the assistant-ui runtime's in-memory messages).
+            const alt = result.kind === "image" ? "image" : "video";
+            const newPart = {
+              type: "text",
+              text: `![${alt}](${result.url})`,
+            };
+            const isTaskPart = (p: { type: string; name?: unknown }) =>
+              p.type === "data-task" ||
+              (p.type === "data" && p.name === "task");
+            const helpers = chatStore.get(chatHelpersAtom);
+            helpers?.setMessages((msgs) => {
+              const list = msgs as Array<{
+                id: string;
+                parts?: Array<{
+                  type: string;
+                  name?: unknown;
+                  [k: string]: unknown;
+                }>;
+                [k: string]: unknown;
+              }>;
+              return list.map((m) =>
+                m.id === props.msgId
+                  ? {
+                      ...m,
+                      parts: (m.parts ?? [])
+                        .filter((p) => !isTaskPart(p))
+                        .concat(newPart),
+                    }
+                  : m,
+              );
+            });
+          },
+        },
+      );
     }
   }, [data]);
 
@@ -130,14 +191,19 @@ export function TaskCard(props: Props) {
     await statusQuery.refetch();
   };
 
+  const kind = taskMediaKind(props.part);
+
   return (
     <div className="bg-muted/40 flex items-center gap-3 rounded-lg border px-4 py-3 text-sm">
-      <Icon name="video" className="text-muted-foreground size-4 shrink-0" />
+      <Icon
+        name={KIND_ICON[kind]}
+        className="text-muted-foreground size-4 shrink-0"
+      />
 
       <div className="flex min-w-0 flex-1 flex-col gap-1">
         <div className="flex items-center gap-2">
           <Badge variant={statusVariant(effectiveStatus)}>
-            <StatusIcon status={effectiveStatus} />
+            <StatusIcon status={effectiveStatus} kind={kind} />
             <span>
               {effectiveStatus === "SUCCESS"
                 ? t("CHAT.TASK.STATUS_SUCCESS")
