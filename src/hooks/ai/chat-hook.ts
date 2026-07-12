@@ -253,11 +253,20 @@ export function useDeleteConversationMutation() {
   );
 }
 
-export function useTaskStatusQuery(taskId: string, enabled = false) {
+export function useTaskStatusQuery(
+  taskId: string,
+  enabled = false,
+  refetchInterval: number | false = false,
+) {
   return useElysiaQuery(
     queryKeys.taskStatus(taskId),
     () => rpc.api.ai.chat.task({ taskId }).get(),
-    { enabled: enabled && !!taskId, retry: false },
+    {
+      enabled: enabled && !!taskId,
+      retry: false,
+      refetchInterval,
+      refetchIntervalInBackground: true,
+    },
   );
 }
 

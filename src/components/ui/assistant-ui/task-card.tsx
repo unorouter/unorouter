@@ -10,7 +10,7 @@ import {
 import { cn } from "@/lib/utils";
 import { useAuiState } from "@assistant-ui/react";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type TaskPart = {
   taskId: string;
@@ -78,38 +78,56 @@ function StatusIcon(props: { status: TaskStatus }) {
   return <Icon name="video" className="size-3" />;
 }
 
+const POLL_INTERVAL_MS = 4000;
+
 export function TaskCard(props: Props) {
   const t = useTranslations();
-  const [queryEnabled, setQueryEnabled] = useState(false);
   const [localStatus, setLocalStatus] = useState(props.part.status);
   const [localProgress, setLocalProgress] = useState(props.part.progress);
+  const finalizedRef = useRef(false);
 
-  const statusQuery = useTaskStatusQuery(props.part.taskId, queryEnabled);
+  const effectiveStatus = localStatus;
+  const isTerminal = TERMINAL_STATUSES.has(effectiveStatus);
+
+  // Poll while not FAILURE. A finalized SUCCESS unmounts this card (its item is
+  // rewritten to a video), so a card still rendering as SUCCESS means finalize
+  // never ran (e.g. status flipped to SUCCESS before the result URL was ready,
+  // or a reload) - keep polling so it fetches the URL and finalizes.
+  const needsPoll = effectiveStatus !== "FAILURE";
+  const statusQuery = useTaskStatusQuery(
+    props.part.taskId,
+    true,
+    needsPoll ? POLL_INTERVAL_MS : false,
+  );
   const finalizeMutation = useFinalizeTaskMutation();
 
-  const effectiveStatus = statusQuery.data?.status ?? localStatus;
   const effectiveProgress = statusQuery.data?.progress ?? localProgress;
   const failReason = statusQuery.data?.failReason;
-  const isTerminal = TERMINAL_STATUSES.has(effectiveStatus);
   const isRunning = statusQuery.isFetching || finalizeMutation.isPending;
 
-  const handleRefresh = async () => {
-    setQueryEnabled(true);
-    const result = await statusQuery.refetch();
-    const data = result.data;
+  const data = statusQuery.data;
+  useEffect(() => {
     if (!data) return;
-
     setLocalStatus(data.status);
     setLocalProgress(data.progress);
-
-    if (data.status === "SUCCESS" && data.resultUrl) {
-      await finalizeMutation.mutateAsync({
+    if (
+      data.status === "SUCCESS" &&
+      data.resultUrl &&
+      !finalizedRef.current &&
+      !finalizeMutation.isPending
+    ) {
+      finalizedRef.current = true;
+      finalizeMutation.mutate({
         convId: props.convId,
         msgId: props.msgId,
         taskId: props.part.taskId,
         resultUrl: data.resultUrl,
       });
     }
+  }, [data]);
+
+  const handleRefresh = async () => {
+    await statusQuery.refetch();
   };
 
   return (

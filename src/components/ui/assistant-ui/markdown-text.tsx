@@ -37,7 +37,11 @@ function normalizeMathDelimiters(text: string): string {
 }
 
 const allowDataImageUrls = (url: string): string => {
-  if (url.startsWith("data:image/") || url.startsWith("data:audio/"))
+  if (
+    url.startsWith("data:image/") ||
+    url.startsWith("data:audio/") ||
+    url.startsWith("data:video/")
+  )
     return url;
   if (/^[a-z]+:/i.test(url) && !/^(https?|mailto|tel|ftp):/i.test(url))
     return "";
