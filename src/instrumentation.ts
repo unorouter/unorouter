@@ -55,6 +55,14 @@ export const onRequestError: Instrumentation.onRequestError = async (
       err && typeof err === "object" && "digest" in err
         ? String((err as { digest?: unknown }).digest ?? "")
         : "";
+
+    // notFound()/redirect() are control-flow, not errors: Next signals them via
+    // a digest (NEXT_HTTP_ERROR_FALLBACK;404, NEXT_REDIRECT, NEXT_NOT_FOUND).
+    // Capturing them floods error tracking (e.g. iOS probing /apple-touch-icon).
+    if (/NEXT_HTTP_ERROR_FALLBACK|NEXT_REDIRECT|NEXT_NOT_FOUND/.test(digest)) {
+      return;
+    }
+
     posthog.captureException(err, distinctId, {
       $exception_digest: digest || undefined,
       request_path: request.path,

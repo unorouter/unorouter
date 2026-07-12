@@ -12,10 +12,10 @@ import { ImagePromptDialogHost } from "@/components/pages/sidebar/chat/image-pro
 import {
   useConvIdSync,
   useGroupSync,
-  useModelSync,
   useScrollToBottom,
   useSettingsSync,
 } from "@/components/pages/sidebar/chat/runtime/use-thread-sync";
+import { useResolvedChatModel } from "@/components/pages/sidebar/chat/runtime/use-resolved-chat-model";
 import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { usePendingDrainScheduler } from "@/hooks/ai/use-pending-drain-scheduler";
 import { analytics } from "@/lib/analytics";
@@ -103,7 +103,7 @@ function ChatRuntimeHook() {
   const userId = useLocalUserId();
 
   useConvIdSync(remoteId);
-  useModelSync(remoteId);
+  useResolvedChatModel(remoteId);
   useGroupSync(remoteId);
   useSettingsSync(remoteId);
   const remoteIdRef = useRef<string | null>(remoteId ?? null);

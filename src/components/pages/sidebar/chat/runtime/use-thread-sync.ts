@@ -13,7 +13,6 @@ import { dayjs } from "@/lib/utils/format/date";
 import {
   chatDefaultsAtom,
   chatGroupAtom,
-  chatModelAtom,
   chatStore,
   chatWebSearchAtom,
   convIdAtom,
@@ -26,44 +25,6 @@ export function useConvIdSync(remoteId: string | null | undefined) {
   useEffect(() => {
     chatStore.set(convIdAtom, remoteId ?? null);
   }, [remoteId]);
-}
-
-export function useModelSync(remoteId: string | null | undefined) {
-  const userId = useLocalUserId();
-  const setChatModel = useSetAtom(chatModelAtom);
-  const queryClient = useQueryClient();
-  const conversationQuery = useConversationQuery(remoteId ?? undefined);
-  const lastSyncedIdRef = useRef<string | undefined>(undefined);
-
-  const serverModel = conversationQuery.data?.model;
-  useEffect(() => {
-    if (!remoteId || !serverModel || remoteId === lastSyncedIdRef.current)
-      return;
-    lastSyncedIdRef.current = remoteId;
-    setChatModel(serverModel);
-  }, [remoteId, serverModel, setChatModel]);
-
-  useEffect(() => {
-    return chatStore.sub(chatModelAtom, () => {
-      const id = chatStore.get(convIdAtom);
-      const newModel = chatStore.get(chatModelAtom);
-      if (!id || !newModel) return;
-      const cached = queryClient.getQueryData<{ model?: string }>(
-        queryKeys.chatMeta(id),
-      );
-      if (cached?.model === newModel) return;
-      void (async () => {
-        const conv = await readLocalConversation(userId, id);
-        if (!conv) return;
-        await updateLocalConversationSettings(userId, {
-          convId: id,
-          defaultModel: newModel,
-          updatedAt: dayjs().toDate(),
-        });
-        queryClient.invalidateQueries({ queryKey: queryKeys.chatMeta(id) });
-      })();
-    });
-  }, [queryClient, userId]);
 }
 
 export function useGroupSync(remoteId: string | null | undefined) {

@@ -1,7 +1,5 @@
 "use client";
 
-import { pick } from "@/lib/utils/base";
-
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Icon } from "@/components/ui/icon";
 import {
@@ -28,14 +26,13 @@ import {
   type ProcessedModel,
 } from "@/lib/api/pricing";
 import {
-  isCustomModelId,
   makeCustomModelId,
   parseCustomModelId,
 } from "@/lib/ai/chat/custom-provider-id";
 import { usePricingQuery } from "@/hooks/models/pricing-hook";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { Badge } from "@/components/ui/badge";
-import { AUTH_REDIRECT_COOKIE, USER_ID_COOKIE } from "@/lib/config/constants";
+import { AUTH_REDIRECT_COOKIE } from "@/lib/config/constants";
 import { cn } from "@/lib/utils";
 import { setCookie } from "cookies-next";
 import { useTranslations } from "next-intl";
@@ -336,30 +333,6 @@ export function ModelSelector(props: ModelSelectorProps) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps -- only re-run on model change
   }, [props.value]);
-
-  useEffect(() => {
-    if (models.length === 0) return;
-    // A session cookie without loaded auth data means a logged-in user whose auth query/hydration
-    // has not resolved yet; they briefly read as guest and this gate would replace their picked
-    // PAID model (e.g. set from the models-page Chat button) with a free one. Wait for the data.
-    // Real guests have no session cookie (the auth query stays disabled for them) and gate now.
-    const authUnresolved =
-      !isLoggedIn && document.cookie.includes(`${USER_ID_COOKIE}=`);
-    if (authUnresolved) return;
-    if (isCustomModelId(props.value)) return;
-    const current = models.find((m) => m.name === props.value);
-    if (current && (isLoggedIn || current.isFree)) return;
-    if (props.value && !current) return;
-
-    const freeText = models.filter((m) => m.isFree && m.type === "text");
-    const pool =
-      freeText.length > 0 ? freeText : models.filter((m) => m.isFree);
-    if (pool.length === 0) return;
-    const chosen = pick(pool);
-    analytics.chat.modelAutoPicked({ to: chosen.name });
-    props.onChange(chosen.name);
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- only re-run on auth state or models list changes
-  }, [isLoggedIn, models.length]);
 
   function pickModel(id: string) {
     analytics.chat.modelChanged({ from: props.value, to: id });

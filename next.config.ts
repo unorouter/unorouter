@@ -117,6 +117,18 @@ const nextConfig: NextConfig = {
   },
   async rewrites() {
     return [
+      // iOS Safari probes these well-known root paths directly (ignoring the
+      // <link rel="apple-touch-icon"> meta), 404ing on every iOS visit. Serve
+      // the existing icon so the root probe resolves instead of throwing a
+      // NEXT_HTTP_ERROR_FALLBACK 404 on the home route.
+      {
+        source: "/apple-touch-icon.png",
+        destination: "/images/icons/apple-icon.png",
+      },
+      {
+        source: "/apple-touch-icon-precomposed.png",
+        destination: "/images/icons/apple-icon.png",
+      },
       // Agents that GET the homepage with Accept: text/markdown get llms.txt.
       // Visible URL stays unchanged.
       { source: "/", has: [...acceptMarkdown], destination: "/llms.txt" },
