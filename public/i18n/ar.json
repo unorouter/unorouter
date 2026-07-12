@@ -429,6 +429,7 @@
     "SEARCH_PLACEHOLDER": "بحث النماذج...",
     "MODEL_COUNT": "نماذج",
     "EMPTY": "لا توجد نماذج تطابق بحثك.",
+    "EMPTY_FILTERED": "{count, plural, zero {لا مرشحات نشطة} one {مرشح واحد نشط} two {مرشحان نشطان} few {# مرشحات نشطة} many {# مرشحًا نشطًا} other {# مرشح نشط}}، ما يخفي جميع النماذج.",
     "OPEN_IN_CHAT": "دردشة",
     "VIEW_DETAILS": "عرض التفاصيل",
     "CAPABILITY": {

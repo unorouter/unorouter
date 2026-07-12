@@ -429,6 +429,7 @@
     "SEARCH_PLACEHOLDER": "חיפוש מודלים...",
     "MODEL_COUNT": "מודלים",
     "EMPTY": "אין מודלים המתאימים לחיפוש שלכם.",
+    "EMPTY_FILTERED": "{count, plural, one {מסנן אחד פעיל} two {שני מסננים פעילים} many {# מסננים פעילים} other {# מסננים פעילים}}, ומסתירים את כל המודלים.",
     "OPEN_IN_CHAT": "צ'אט",
     "VIEW_DETAILS": "צפייה בפרטים",
     "CAPABILITY": {

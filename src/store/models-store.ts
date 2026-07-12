@@ -219,3 +219,22 @@ export const isDirtyAtom = atom((get) => {
     (Array.isArray(s.priceRange) && s.priceRange[1] < PRICE_MAX)
   );
 });
+
+// Count of ACTIVE content filters (excludes sort + view-mode, which don't hide
+// rows). Drives the reset-button badge so mobile users notice a filter is on
+// when the list looks unexpectedly short.
+export const activeFilterCountAtom = atom((get) => {
+  const s = get(modelsStoreAtom);
+  let n = 0;
+  if ((s.search ?? "").trim().length > 0) n++;
+  if ((s.outputModality ?? "text") !== "text") n++;
+  if (Array.isArray(s.selectedVendors)) n += s.selectedVendors.length;
+  if (Array.isArray(s.inputModalities)) n += s.inputModalities.length;
+  if (Array.isArray(s.series)) n += s.series.length;
+  if (Array.isArray(s.categories)) n += s.categories.length;
+  if (Array.isArray(s.supportedParameters)) n += s.supportedParameters.length;
+  if (s.toolsOnly === true) n++;
+  if ((s.contextMin ?? 0) > 0) n++;
+  if (Array.isArray(s.priceRange) && s.priceRange[1] < PRICE_MAX) n++;
+  return n;
+});

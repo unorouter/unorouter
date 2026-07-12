@@ -429,6 +429,7 @@
     "SEARCH_PLACEHOLDER": "Search models...",
     "MODEL_COUNT": "models",
     "EMPTY": "No models match your search.",
+    "EMPTY_FILTERED": "{count, plural, one {# filter is} other {# filters are}} active, hiding all models.",
     "OPEN_IN_CHAT": "Chat",
     "VIEW_DETAILS": "View details",
     "CAPABILITY": {

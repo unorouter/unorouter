@@ -429,6 +429,7 @@
     "SEARCH_PLACEHOLDER": "모델 검색...",
     "MODEL_COUNT": "모델",
     "EMPTY": "검색에 일치하는 모델이 없습니다.",
+    "EMPTY_FILTERED": "{count}개의 필터가 적용되어 모든 모델이 숨겨졌습니다.",
     "OPEN_IN_CHAT": "채팅",
     "VIEW_DETAILS": "상세 보기",
     "CAPABILITY": {

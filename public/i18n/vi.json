@@ -429,6 +429,7 @@
     "SEARCH_PLACEHOLDER": "Tìm mô hình...",
     "MODEL_COUNT": "mô hình",
     "EMPTY": "Không có mô hình nào khớp với tìm kiếm của bạn.",
+    "EMPTY_FILTERED": "{count} bộ lọc đang bật, ẩn tất cả mô hình.",
     "OPEN_IN_CHAT": "Trò chuyện",
     "VIEW_DETAILS": "Xem chi tiết",
     "CAPABILITY": {

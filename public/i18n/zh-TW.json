@@ -429,6 +429,7 @@
     "SEARCH_PLACEHOLDER": "搜尋模型...",
     "MODEL_COUNT": "個模型",
     "EMPTY": "沒有模型符合您的搜尋。",
+    "EMPTY_FILTERED": "已啟用 {count} 個篩選條件，隱藏了所有模型。",
     "OPEN_IN_CHAT": "開啟對話",
     "VIEW_DETAILS": "查看詳情",
     "CAPABILITY": {

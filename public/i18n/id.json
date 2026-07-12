@@ -429,6 +429,7 @@
     "SEARCH_PLACEHOLDER": "Cari model...",
     "MODEL_COUNT": "model",
     "EMPTY": "Tidak ada model yang cocok dengan pencarian Anda.",
+    "EMPTY_FILTERED": "{count} filter aktif, menyembunyikan semua model.",
     "OPEN_IN_CHAT": "Chat",
     "VIEW_DETAILS": "Lihat detail",
     "CAPABILITY": {

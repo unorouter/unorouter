@@ -429,6 +429,7 @@
     "SEARCH_PLACEHOLDER": "Modelleri ara...",
     "MODEL_COUNT": "model",
     "EMPTY": "Aramanıza uyan model yok.",
+    "EMPTY_FILTERED": "{count} filtre etkin, tüm modelleri gizliyor.",
     "OPEN_IN_CHAT": "Sohbet",
     "VIEW_DETAILS": "Detayları görüntüle",
     "CAPABILITY": {

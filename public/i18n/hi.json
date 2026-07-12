@@ -429,6 +429,7 @@
     "SEARCH_PLACEHOLDER": "मॉडल खोजें...",
     "MODEL_COUNT": "मॉडल",
     "EMPTY": "कोई मॉडल आपकी खोज से मेल नहीं खाता।",
+    "EMPTY_FILTERED": "{count, plural, one {# फ़िल्टर सक्रिय है} other {# फ़िल्टर सक्रिय हैं}}, जो सभी मॉडल छिपा रहे हैं।",
     "OPEN_IN_CHAT": "चैट",
     "VIEW_DETAILS": "विवरण देखें",
     "CAPABILITY": {

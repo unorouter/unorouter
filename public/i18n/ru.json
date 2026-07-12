@@ -429,6 +429,7 @@
     "SEARCH_PLACEHOLDER": "Поиск моделей...",
     "MODEL_COUNT": "моделей",
     "EMPTY": "По вашему запросу моделей не найдено.",
+    "EMPTY_FILTERED": "{count, plural, one {# фильтр активен} few {# фильтра активны} many {# фильтров активны} other {# фильтра активны}} и скрывают все модели.",
     "OPEN_IN_CHAT": "Чат",
     "VIEW_DETAILS": "Подробнее",
     "CAPABILITY": {

@@ -429,6 +429,7 @@
     "SEARCH_PLACEHOLDER": "モデルを検索...",
     "MODEL_COUNT": "モデル",
     "EMPTY": "検索条件に一致するモデルがありません。",
+    "EMPTY_FILTERED": "{count} 件のフィルターが有効で、すべてのモデルが非表示になっています。",
     "OPEN_IN_CHAT": "チャット",
     "VIEW_DETAILS": "詳細を見る",
     "CAPABILITY": {

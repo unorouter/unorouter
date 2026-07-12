@@ -15,7 +15,11 @@ import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
 import { DataTableId } from "@/lib/types/enums";
 import { createTableAtoms } from "@/store/data-table-store";
-import { clearFiltersAtom, isDirtyAtom } from "@/store/models-store";
+import {
+  activeFilterCountAtom,
+  clearFiltersAtom,
+  isDirtyAtom,
+} from "@/store/models-store";
 import { useQueryClient } from "@tanstack/react-query";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
@@ -69,6 +73,7 @@ export function ModelsPage() {
 
   const clearFilters = useSetAtom(clearFiltersAtom);
   const isDirty = useAtomValue(isDirtyAtom);
+  const activeFilterCount = useAtomValue(activeFilterCountAtom);
   const columnSorting = useAtomValue(modelsTableAtoms.sortingAtom);
   const setColumnSorting = useSetAtom(modelsTableAtoms.sortingAtom);
   const showReset = isDirty || columnSorting.length > 0;
@@ -108,13 +113,20 @@ export function ModelsPage() {
             <div className="ml-auto flex flex-1 items-center justify-end gap-2">
               {showReset && (
                 <Button
-                  variant="ghost"
+                  variant="default"
                   size="sm"
                   onClick={resetAll}
                   className="h-9 px-2 lg:px-3"
                 >
-                  {t("MODELS.FILTER.RESET")}
-                  <Icon name="x" className="ml-1 h-4 w-4" />
+                  <Icon name="filter-x" className="h-4 w-4 lg:mr-1.5" />
+                  <span className="hidden lg:inline">
+                    {t("MODELS.FILTER.RESET")}
+                  </span>
+                  {activeFilterCount > 0 && (
+                    <span className="bg-background/25 ml-1 inline-flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-[10px] leading-none font-semibold">
+                      {activeFilterCount}
+                    </span>
+                  )}
                 </Button>
               )}
               <div className="relative hidden w-full max-w-xs lg:block">
@@ -179,17 +191,31 @@ export function ModelsPage() {
           <div className="mt-4 min-h-svh">
             {m.filtered.length === 0 ? (
               <div className="text-muted-foreground flex flex-col items-center gap-3 py-24 text-center">
-                {t("MODELS.EMPTY")}
-                {env.discordUrl && (
-                  <a
-                    href={env.discordUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-foreground inline-flex items-center gap-1.5 text-xs transition-colors"
-                  >
-                    <Icon name="brand-discord" className="h-3.5 w-3.5" />
-                    {t("MODELS.DISCORD")}
-                  </a>
+                {showReset ? (
+                  <>
+                    <span>
+                      {t("MODELS.EMPTY_FILTERED", { count: activeFilterCount })}
+                    </span>
+                    <Button size="sm" onClick={resetAll}>
+                      <Icon name="filter-x" className="mr-1.5 h-4 w-4" />
+                      {t("MODELS.FILTER.RESET")}
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    {t("MODELS.EMPTY")}
+                    {env.discordUrl && (
+                      <a
+                        href={env.discordUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:text-foreground inline-flex items-center gap-1.5 text-xs transition-colors"
+                      >
+                        <Icon name="brand-discord" className="h-3.5 w-3.5" />
+                        {t("MODELS.DISCORD")}
+                      </a>
+                    )}
+                  </>
                 )}
               </div>
             ) : m.viewMode === "table" ? (
