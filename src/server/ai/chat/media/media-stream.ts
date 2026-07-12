@@ -159,6 +159,7 @@ function resolveThrownMessage(err: unknown, fallback: string): string {
 
 function streamResponse(
   execute: (writer: UIMessageStreamWriter) => Promise<void>,
+  model?: string,
 ) {
   return createUIMessageStreamResponse({
     stream: createUIMessageStream({
@@ -178,6 +179,7 @@ function streamResponse(
                 err,
                 msg("ERRORS.UNEXPECTED_ERROR"),
               ),
+              ...(model ? { model } : {}),
             },
           });
           writer.write({ type: "finish-step" });
@@ -360,15 +362,15 @@ async function generateImage(
 }
 
 export async function handleImageStream(apiKey: string, body: MediaStreamBody) {
-  const prompt = extractMediaPrompt(body);
   const model = (await getPricingSummary()).byName.get(body.model);
   const endpoint = chooseEndpoint(model?.endpointTypes ?? []);
-  if (!endpoint) throw new Error(msg("ERRORS.IMAGE_GENERATION_FAILED"));
   const maxRefs = model?.metadata.maxImageInputs ?? DEFAULT_MAX_CHAT_REFS;
   const refUrls = extractLastUserImageRefs(body.messages)
     .map((r) => r.url)
     .slice(0, maxRefs);
   return streamResponse(async (writer) => {
+    const prompt = extractMediaPrompt(body);
+    if (!endpoint) throw new Error(msg("ERRORS.IMAGE_GENERATION_FAILED"));
     const startedAt = Date.now();
     const result = await generateImage(
       apiKey,
@@ -416,7 +418,7 @@ export async function handleImageStream(apiKey: string, body: MediaStreamBody) {
       durationMs: Date.now() - startedAt,
     });
     writeBufferedMessage(writer, markdown, meta);
-  });
+  }, body.model);
 }
 
 // Image-to-video (and frame/reference variants) require a source image; DashScope rejects the task
@@ -428,23 +430,24 @@ export async function handleVideoTaskStream(
   apiKey: string,
   body: MediaStreamBody,
 ) {
-  const prompt = extractMediaPrompt(body);
-  // The user's attached image never reached the task submit (only the prompt text did), so every
-  // i2v request failed upstream. Pass the first attached image; data: URLs upload to R2 first so
-  // the upstream gets a fetchable URL instead of a megabyte base64 blob.
-  const refs = extractLastUserImageRefs(body.messages);
-  let image: string | undefined;
-  if (refs.length > 0) {
-    const url = refs[0].url;
-    image =
-      url.startsWith("data:") && body.convId
-        ? await uploadBase64ToR2(url, body.convId, uid(8))
-        : url;
-  }
-  if (!image && isImageInputVideoModel(body.model)) {
-    throw new Error(msg("ERRORS.VIDEO_IMAGE_REQUIRED"));
-  }
+  const isImageInput = isImageInputVideoModel(body.model);
   return streamResponse(async (writer) => {
+    const refs = extractLastUserImageRefs(body.messages);
+    let image: string | undefined;
+    if (refs.length > 0) {
+      const url = refs[0].url;
+      image =
+        url.startsWith("data:") && body.convId
+          ? await uploadBase64ToR2(url, body.convId, uid(8))
+          : url;
+    }
+    if (!image && isImageInput) {
+      throw new Error(msg("ERRORS.VIDEO_IMAGE_REQUIRED"));
+    }
+    // For image-to-video the image is the input, so the text prompt is optional.
+    const prompt = isImageInput
+      ? (extractLastUserText(body.messages) ?? "")
+      : extractMediaPrompt(body);
     const { taskId, status, progress } = await submitVideoTask(
       apiKey,
       body.model,
@@ -461,7 +464,7 @@ export async function handleVideoTaskStream(
     });
     writer.write({ type: "finish-step" });
     writer.write({ type: "finish", finishReason: "stop" });
-  });
+  }, body.model);
 }
 
 const isSttModel = (model: string) =>
@@ -498,14 +501,14 @@ export async function handleAudioStream(apiKey: string, body: MediaStreamBody) {
         writer,
         "This is a speech-to-text model. Send it an audio file to transcribe (audio attachments in chat are coming soon). For now, use it via the API at `/v1/audio/transcriptions`.",
       );
-    });
+    }, body.model);
   }
 
-  const input = extractLastUserText(body.messages);
-  if (!input) throw new Error(msg("ERRORS.NO_AUDIO_PROMPT"));
   const model = (await getPricingSummary()).byName.get(body.model);
 
   return streamResponse(async (writer) => {
+    const input = extractLastUserText(body.messages);
+    if (!input) throw new Error(msg("ERRORS.NO_AUDIO_PROMPT"));
     const startedAt = Date.now();
     const speech = await generateSpeech(apiKey, body.model, input, body.group);
     const meta = buildMediaMeta({
@@ -519,7 +522,7 @@ export async function handleAudioStream(apiKey: string, body: MediaStreamBody) {
       durationMs: Date.now() - startedAt,
     });
     writeBufferedMessage(writer, `![audio](${speech.dataUri})`, meta);
-  });
+  }, body.model);
 }
 
 export async function generateEmbedding(
@@ -561,11 +564,11 @@ export async function handleEmbeddingStream(
   apiKey: string,
   body: MediaStreamBody,
 ) {
-  const input = extractLastUserText(body.messages);
-  if (!input) throw new Error(msg("ERRORS.NO_EMBEDDING_INPUT"));
   const model = (await getPricingSummary()).byName.get(body.model);
 
   return streamResponse(async (writer) => {
+    const input = extractLastUserText(body.messages);
+    if (!input) throw new Error(msg("ERRORS.NO_EMBEDDING_INPUT"));
     const startedAt = Date.now();
     const emb = await generateEmbedding(apiKey, body.model, input, body.group);
     const preview = emb.vector.slice(0, 8).map((n) => n.toFixed(6));
