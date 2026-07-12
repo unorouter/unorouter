@@ -92,7 +92,12 @@ const serwist = new Serwist({
     entries: [
       {
         url: "/en/offline",
-        matcher: ({ request }) => request.destination === "document",
+        // Match navigations by mode too: a top-level navigation that fails on a
+        // network blip / just-wiped page cache reports destination "" (not
+        // "document"), so a destination-only matcher missed it and Serwist
+        // rejected with "no-response" instead of serving the offline page.
+        matcher: ({ request }) =>
+          request.destination === "document" || request.mode === "navigate",
       },
     ],
   },
