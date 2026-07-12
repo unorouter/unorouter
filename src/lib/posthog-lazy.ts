@@ -25,61 +25,75 @@ function ensureLoaded() {
   afterLoad(() => idle(loadNow));
 }
 
-// Browser/extension/network junk and unactionable framework noise that would
-// otherwise flood error tracking and burn ingest quota. Matched case-insensitive
-// against the exception message. Real app errors are never in this list.
-const EXCEPTION_NOISE = [
+// Exception-message substrings that are ALWAYS external and carry zero
+// actionable signal for us (browser quirks, third-party extensions injecting
+// into the page, stale-deploy chunk misses, framework hydration warnings, and
+// documented-benign OPFS/bfcache states). Matched against the exception MESSAGE
+// only (never the stack), so a real bug whose stack merely passes through a
+// same-named frame is not silently dropped. These are fully suppressed.
+const DROP_EXCEPTIONS = [
   "resizeobserver loop",
-  "script error.",
-  "__firefox__",
-  "failed to load chunk",
+  "script error.", // cross-origin, message+stack both stripped by the browser
+  "__firefox__", // firefox reader/extension probes
+  "contentscriptdata", // injected content-script
+  "standardselectors", // injected extension
+  "wallet must has", // crypto wallet extension
+  "can't access dead object", // bfcache / detached extension object
+  "cannot redefine property: onurlchange", // tampermonkey/violentmonkey
+  "failed to load chunk", // stale chunk after a deploy (SW/reload recovers)
   "loading chunk",
   "loading css chunk",
-  "minified react error #418",
+  "minified react error #418", // hydration flash (documented cookie-atom timing)
   "minified react error #310",
   "minified react error #185",
-  "networkerror",
-  "network error",
-  "load failed",
-  "failed to fetch",
-  "signal is aborted",
-  "operation was aborted",
-  "the user aborted a request",
-  "getsynchandleerror",
+  "getsynchandleerror", // documented OPFS in-memory fallback
   "fell back to in-memory",
-  "can't access dead object",
-  "not focused",
-  "clipboard",
-  "removechild",
-  "insertbefore",
-  "unmount a fiber",
-  "already unmounted",
-  "permission denied to access object",
-  "blocked a frame",
-  "securityerror",
-  "contentscriptdata",
-  "standardselectors",
-  "wallet must has",
-  "respondwith received an error",
-  "connection closed",
-  "notallowederror",
-  "router state header",
-  // The raw autocaptured $exception for an empty stream; we capture the real
+  // The raw autocaptured $exception for an empty stream; we now capture the real
   // cause explicitly as chat_stream_failed (error_type "empty_stream") with the
   // upstream request id + model, so this duplicate carries no extra signal.
   "no output generated",
   "ai_nooutputgeneratederror",
 ];
 
-function isNoiseException(event: {
+// Could-be-real but high-volume + mostly-external. Instead of going fully dark
+// (which would hide a genuine outage), keep a SAMPLE so a real spike still
+// surfaces in the trend while the steady-state noise is trimmed.
+const SAMPLE_EXCEPTIONS = [
+  "network error",
+  "networkerror",
+  "load failed",
+  "failed to fetch",
+  "signal is aborted",
+  "operation was aborted",
+  "the user aborted a request",
+  "removechild", // usually translation-extension DOM race
+  "insertbefore",
+  "not focused", // clipboard write while tab unfocused
+  "clipboard",
+  "connection closed",
+];
+const SAMPLE_KEEP_RATE = 0.1;
+
+// The exception MESSAGE only ($exception_values), lowercased. Deliberately does
+// NOT read $exception_list (the resolved stack) so frame names never trigger a
+// drop.
+function exceptionMessage(properties: Record<string, unknown> | undefined) {
+  const values = properties?.$exception_values;
+  const types = properties?.$exception_types;
+  return `${JSON.stringify(values ?? "")} ${JSON.stringify(types ?? "")}`.toLowerCase();
+}
+
+// Returns "drop" (never send), "sample" (send SAMPLE_KEEP_RATE of them), or
+// null (send as-is).
+function noiseVerdict(event: {
   event?: string;
   properties?: Record<string, unknown>;
-}): boolean {
-  if (event.event !== "$exception") return false;
-  const list = event.properties?.$exception_list;
-  const values = event.properties?.$exception_values;
-  const hay = JSON.stringify(list ?? values ?? "").toLowerCase();
-  return EXCEPTION_NOISE.some((n) => hay.includes(n));
+}): "drop" | "sample" | null {
+  if (event.event !== "$exception") return null;
+  const msg = exceptionMessage(event.properties);
+  if (DROP_EXCEPTIONS.some((n) => msg.includes(n))) return "drop";
+  if (SAMPLE_EXCEPTIONS.some((n) => msg.includes(n))) return "sample";
+  return null;
 }
 
 function loadNow() {
@@ -92,7 +106,10 @@ function loadNow() {
       capture_heatmaps: true,
       capture_dead_clicks: true,
       before_send: (event) => {
-        if (event && isNoiseException(event)) return null;
+        if (!event) return event;
+        const verdict = noiseVerdict(event);
+        if (verdict === "drop") return null;
+        if (verdict === "sample" && Math.random() > SAMPLE_KEEP_RATE) return null;
         return event;
       },
     });

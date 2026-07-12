@@ -14,6 +14,7 @@ export async function register() {
 export const onRequestError: Instrumentation.onRequestError = async (
   err,
   request,
+  context,
 ) => {
   if (IS_DEV || POSTHOG_DISABLED) return;
   if (process.env.NEXT_RUNTIME === "nodejs") {
@@ -45,6 +46,24 @@ export const onRequestError: Instrumentation.onRequestError = async (
       }
     }
 
-    posthog.captureException(err, distinctId);
+    // Client-side these surface as an opaque "Server Components render error"
+    // with the real message stripped and only a `digest` to go on. Server-side
+    // we still hold the REAL error + stack, so attach the digest (correlates to
+    // the client event), the route being rendered, and the request path. That
+    // turns an undebuggable digest into a locatable server stack.
+    const digest =
+      err && typeof err === "object" && "digest" in err
+        ? String((err as { digest?: unknown }).digest ?? "")
+        : "";
+    posthog.captureException(err, distinctId, {
+      $exception_digest: digest || undefined,
+      request_path: request.path,
+      request_method: request.method,
+      router_kind: context.routerKind,
+      route_path: context.routePath,
+      route_type: context.routeType,
+      render_source: context.renderSource,
+      revalidate_reason: context.revalidateReason,
+    });
   }
 };
