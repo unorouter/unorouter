@@ -112,6 +112,7 @@ export enum Vendor {
   REGOLO = "regolo",
   SARVAM = "sarvam",
   TYPHOON = "typhoon",
+  AIHORDE = "aihorde",
 }
 
 export enum OS {

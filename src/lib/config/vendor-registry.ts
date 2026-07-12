@@ -488,6 +488,14 @@ const VENDOR_THEMES: Record<string, VendorTheme> = {
     tagBorder: "border-sky-500/20",
     primary: "#0284c7",
   },
+  [Vendor.AIHORDE]: {
+    bg: "bg-rose-500/5",
+    border: "border-rose-500/20",
+    text: "text-rose-700 dark:text-rose-300",
+    tagBg: "bg-rose-500/10",
+    tagBorder: "border-rose-500/20",
+    primary: "#e11d48",
+  },
   [Vendor.SWISSAI]: {
     bg: "bg-red-500/5",
     border: "border-red-500/20",
@@ -785,6 +793,7 @@ export const VENDOR_LOADERS: Partial<Record<Vendor, IconLoader>> = {
   [Vendor.REGOLO]: () => import("@/components/elements/brand/regolo-icon"),
   [Vendor.SARVAM]: () => import("@/components/elements/brand/sarvam-icon"),
   [Vendor.TYPHOON]: () => import("@/components/elements/brand/typhoon-icon"),
+  [Vendor.AIHORDE]: () => import("@/components/elements/brand/aihorde-icon"),
   [Vendor.HCOMPANY]: () => import("@/components/elements/brand/hcompany-icon"),
   [Vendor.AIONLABS]: () => import("@lobehub/icons/es/AionLabs"),
   [Vendor.SAO10K]: () => import("@/components/elements/brand/sao10k-icon"),
@@ -852,4 +861,5 @@ export const ALIAS_LOADERS: Record<string, IconLoader> = {
   doubao: () => import("@lobehub/icons/es/Doubao"),
   gemini: () => import("@lobehub/icons/es/Gemini"),
   nemotron: () => import("@lobehub/icons/es/Nvidia"),
+  horde: () => import("@/components/elements/brand/aihorde-icon"),
 };
