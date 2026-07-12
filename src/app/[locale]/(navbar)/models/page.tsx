@@ -1,6 +1,6 @@
 import { ModelsPage } from "@/components/pages/navbar/models/models-page";
 import { APP_VALUES } from "@/lib/config/constants";
-import { getModelsPageData } from "@/lib/api/cached";
+import { emptyPageData, getModelsPageData } from "@/lib/api/cached";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
 import {
@@ -33,7 +33,7 @@ export default async function Page(props: {
 }) {
   const locale = await serverLocale(props);
   const t = await getTranslations({ locale });
-  const data = await getModelsPageData();
+  const data = await getModelsPageData().catch(() => emptyPageData());
   const topModels = data.topModels;
 
   return (

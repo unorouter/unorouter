@@ -120,6 +120,11 @@ async function runClientStream(args: {
     messages: await convertToModelMessages(prepared.messagesForUpstream),
     system: prepared.effectiveSystem,
     maxRetries: 0,
+    // Flaky free models can close a stream with zero output; ai-sdk then throws
+    // AI_NoOutputGeneratedError at flush. Handling it here keeps it off the
+    // unhandled-rejection path (it still surfaces to the user via the
+    // toUIMessageStream onError below as a normal failed run).
+    onError: () => {},
     ...prepared.modelParams,
     providerOptions: prepared.providerOptions,
     ...(args.options.abortSignal

@@ -8,7 +8,11 @@ import { localeUrl } from "@/i18n/navigation";
 import { LOCALES } from "@/lib/config/constants";
 import type { ProcessedModel } from "@/lib/api/pricing";
 import { APP_VALUES } from "@/lib/config/constants";
-import { getCachedPricing, getComparePageData } from "@/lib/api/cached";
+import {
+  emptyPageData,
+  getCachedPricing,
+  getComparePageData,
+} from "@/lib/api/cached";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
 import { buildBreadcrumbListSchema } from "@/lib/seo/structured-data";
@@ -27,8 +31,8 @@ async function resolveModels(
   slugs: string[] | undefined,
 ): Promise<ProcessedModel[]> {
   if (!slugs?.length) return [];
-  const summary = await getCachedPricing();
-  const models = summary.models ?? [];
+  const summary = await getCachedPricing().catch(() => null);
+  const models = summary?.models ?? [];
   return slugs
     .map((slug) => models.find((m) => modelMatchesSlug(m.name, slug)))
     .filter((m): m is ProcessedModel => Boolean(m));
@@ -85,7 +89,9 @@ export default async function Page(props: {
   const params = await props.params;
   const locale = await serverLocale(props);
   const t = await getTranslations({ locale });
-  const data = await getComparePageData(params.slugs ?? []);
+  const data = await getComparePageData(params.slugs ?? []).catch(() =>
+    emptyPageData(),
+  );
   const models = data.models;
 
   const crumbs = [

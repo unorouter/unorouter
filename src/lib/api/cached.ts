@@ -146,6 +146,15 @@ export async function getComparePageData(slugs: readonly string[]) {
   return { dehydrated: dehydrate(qc), models };
 }
 
+// A transient upstream /pricing 5xx makes getPricingSummary throw, which would
+// otherwise reject the whole server render of the models/compare pages (an RSC
+// error, ~200/day). The page falls back to this empty-but-valid shape so it
+// renders and the client refetches live pricing. Not cached (the page-level
+// catch is outside "use cache"), so a momentary failure never sticks.
+export function emptyPageData() {
+  return { dehydrated: dehydrate(new QueryClient()), topModels: [], models: [] };
+}
+
 // Shuffle runs inside the cached scope: Math.random is non-deterministic and
 // rejected in prerenders outside "use cache". Order is fixed per cache entry.
 export async function getCachedFreeTextModels(limit?: number) {
