@@ -125,7 +125,62 @@ function loadNow() {
       },
     });
     instance = m.default;
+    installOutboundLinkTracking(m.default);
     for (const fn of queue.splice(0)) fn(instance);
+  });
+}
+
+// Maps an outbound host to a stable platform label so social/community link
+// clicks group cleanly in PostHog (github/discord/reddit/... instead of raw
+// hostnames). Extend by adding a host fragment.
+const OUTBOUND_PLATFORMS: Array<[RegExp, string]> = [
+  [/discord\.(gg|com)/, "discord"],
+  [/reddit\.com/, "reddit"],
+  [/github\.com/, "github"],
+  [/(twitter\.com|x\.com)/, "twitter"],
+  [/t\.me|telegram/, "telegram"],
+  [/youtube\.com|youtu\.be/, "youtube"],
+  [/producthunt\.com/, "producthunt"],
+  [/linkedin\.com/, "linkedin"],
+  [/huggingface\.co/, "huggingface"],
+  [/bsky\.app/, "bluesky"],
+];
+
+function outboundPlatform(host: string): string {
+  for (const [re, label] of OUTBOUND_PLATFORMS) if (re.test(host)) return label;
+  return "other";
+}
+
+// One delegated listener covers every external anchor (current + future) so we
+// don't have to touch each of the ~12 render sites. Fires for real off-site
+// navigations only (different origin, http(s), left/middle click).
+function installOutboundLinkTracking(ph: PostHog) {
+  if (typeof document === "undefined") return;
+  const handler = (e: MouseEvent) => {
+    if (e.button !== 0 && e.button !== 1) return;
+    const anchor = (e.target as Element | null)?.closest?.("a");
+    const href = anchor?.getAttribute("href");
+    if (!href) return;
+    let url: URL;
+    try {
+      url = new URL(href, window.location.href);
+    } catch {
+      return;
+    }
+    if (!/^https?:$/.test(url.protocol)) return;
+    if (url.host === window.location.host) return;
+    ph.capture("outbound_link_clicked", {
+      platform: outboundPlatform(url.host),
+      host: url.host,
+      url: url.href,
+      link_text: anchor?.textContent?.trim().slice(0, 80) || null,
+      from_path: window.location.pathname,
+    });
+  };
+  document.addEventListener("click", handler, { capture: true, passive: true });
+  document.addEventListener("auxclick", handler, {
+    capture: true,
+    passive: true,
   });
 }
 
