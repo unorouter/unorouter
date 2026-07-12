@@ -105,6 +105,17 @@ function loadNow() {
       capture_performance: true,
       capture_heatmaps: true,
       capture_dead_clicks: true,
+      // Session replay is the quota hog (events are cheap + kept 30d). The 5%
+      // project sample bounds HOW MANY sessions record; this bounds how BIG each
+      // one is: mask all text/inputs (also a privacy win for chat/RP content),
+      // skip console noise, and don't record cross-origin iframes.
+      disable_session_recording: false,
+      enable_recording_console_log: false,
+      session_recording: {
+        maskAllInputs: true,
+        maskTextSelector: "*",
+        recordCrossOriginIframes: false,
+      },
       before_send: (event) => {
         if (!event) return event;
         const verdict = noiseVerdict(event);
