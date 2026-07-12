@@ -113,11 +113,17 @@ export async function finalizeVideoTask(
   body: FinalizeTaskBody,
 ) {
   const bytes = await downloadGenerationBytes(body.resultUrl);
-  const dataUri = base64ToDataUri(
-    bytes.buffer.toString("base64"),
-    bytes.mime.startsWith("video/") ? bytes.mime : "video/mp4",
-  );
-  return { url: dataUri };
+  // AI Horde image tasks return webp; keep the real image mime so the client
+  // renders it as an image. Non-image, non-video results default to mp4 (the
+  // original video-task behavior).
+  const isImage = bytes.mime.startsWith("image/");
+  const mime = bytes.mime.startsWith("video/")
+    ? bytes.mime
+    : isImage
+      ? bytes.mime
+      : "video/mp4";
+  const dataUri = base64ToDataUri(bytes.buffer.toString("base64"), mime);
+  return { url: dataUri, kind: isImage ? "image" : "video" };
 }
 
 export async function fetchVideoTaskStatus(

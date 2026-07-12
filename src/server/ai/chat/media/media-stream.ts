@@ -361,8 +361,36 @@ async function generateImage(
   };
 }
 
+// Image models served by an ASYNC task API (AI Horde) have no sync image
+// endpoint; they submit + poll through the same /v1/videos task flow as video.
+function isImageTaskModel(endpointTypes: string[] | undefined): boolean {
+  return (endpointTypes ?? []).includes("aihorde");
+}
+
 export async function handleImageStream(apiKey: string, body: MediaStreamBody) {
   const model = (await getPricingSummary()).byName.get(body.model);
+
+  // Async image-task models (AI Horde): submit + emit a task card, client polls.
+  if (isImageTaskModel(model?.endpointTypes)) {
+    return streamResponse(async (writer) => {
+      const prompt = extractMediaPrompt(body);
+      const { taskId, status, progress } = await submitVideoTask(
+        apiKey,
+        body.model,
+        prompt,
+        body.group,
+      );
+      writer.write({ type: "start" });
+      writer.write({ type: "start-step" });
+      writer.write({
+        type: "data-task",
+        data: { taskId, status, progress, model: body.model },
+      });
+      writer.write({ type: "finish-step" });
+      writer.write({ type: "finish", finishReason: "stop" });
+    }, body.model);
+  }
+
   const endpoint = chooseEndpoint(model?.endpointTypes ?? []);
   const maxRefs = model?.metadata.maxImageInputs ?? DEFAULT_MAX_CHAT_REFS;
   const refUrls = extractLastUserImageRefs(body.messages)

@@ -25,6 +25,58 @@ function ensureLoaded() {
   afterLoad(() => idle(loadNow));
 }
 
+// Browser/extension/network junk and unactionable framework noise that would
+// otherwise flood error tracking and burn ingest quota. Matched case-insensitive
+// against the exception message. Real app errors are never in this list.
+const EXCEPTION_NOISE = [
+  "resizeobserver loop",
+  "script error.",
+  "__firefox__",
+  "failed to load chunk",
+  "loading chunk",
+  "loading css chunk",
+  "minified react error #418",
+  "minified react error #310",
+  "minified react error #185",
+  "networkerror",
+  "network error",
+  "load failed",
+  "failed to fetch",
+  "signal is aborted",
+  "operation was aborted",
+  "the user aborted a request",
+  "getsynchandleerror",
+  "fell back to in-memory",
+  "can't access dead object",
+  "not focused",
+  "clipboard",
+  "removechild",
+  "insertbefore",
+  "unmount a fiber",
+  "already unmounted",
+  "permission denied to access object",
+  "blocked a frame",
+  "securityerror",
+  "contentscriptdata",
+  "standardselectors",
+  "wallet must has",
+  "respondwith received an error",
+  "connection closed",
+  "notallowederror",
+  "router state header",
+];
+
+function isNoiseException(event: {
+  event?: string;
+  properties?: Record<string, unknown>;
+}): boolean {
+  if (event.event !== "$exception") return false;
+  const list = event.properties?.$exception_list;
+  const values = event.properties?.$exception_values;
+  const hay = JSON.stringify(list ?? values ?? "").toLowerCase();
+  return EXCEPTION_NOISE.some((n) => hay.includes(n));
+}
+
 function loadNow() {
   void import("posthog-js").then((m) => {
     m.default.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
@@ -34,6 +86,10 @@ function loadNow() {
       capture_performance: true,
       capture_heatmaps: true,
       capture_dead_clicks: true,
+      before_send: (event) => {
+        if (event && isNoiseException(event)) return null;
+        return event;
+      },
     });
     instance = m.default;
     for (const fn of queue.splice(0)) fn(instance);
