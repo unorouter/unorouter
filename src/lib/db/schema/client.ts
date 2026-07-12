@@ -78,9 +78,7 @@ export const customProviders = sqliteTable(
       .notNull()
       .default(sql`(unixepoch() * 1000)`),
   },
-  (table) => [
-    index("idx_custom_providers_user").on(table.userId),
-  ],
+  (table) => [index("idx_custom_providers_user").on(table.userId)],
 );
 
 export const tokenizers = sqliteTable("tokenizers", {

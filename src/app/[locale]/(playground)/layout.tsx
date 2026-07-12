@@ -15,13 +15,13 @@ export default async function GenerateGroupLayout(props: {
     <Suspense>
       <AuthHydration>
         <CrossOriginIsolationGuard>
-      <SidebarLayout
-        before={<AuthRedirectCleanup />}
-        navConfig="generate"
-        chatContent={<PlaygroundList />}
-      >
-        {props.children}
-        </SidebarLayout>
+          <SidebarLayout
+            before={<AuthRedirectCleanup />}
+            navConfig="generate"
+            chatContent={<PlaygroundList />}
+          >
+            {props.children}
+          </SidebarLayout>
         </CrossOriginIsolationGuard>
       </AuthHydration>
     </Suspense>

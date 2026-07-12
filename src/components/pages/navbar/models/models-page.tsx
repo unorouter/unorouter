@@ -47,7 +47,8 @@ export function ModelsPage() {
   // is idle so newly added models appear without waiting for revalidation.
   const queryClient = useQueryClient();
   useEffect(() => {
-    const idle = window.requestIdleCallback ?? ((cb: () => void) => setTimeout(cb, 1500));
+    const idle =
+      window.requestIdleCallback ?? ((cb: () => void) => setTimeout(cb, 1500));
     const cancel = window.cancelIdleCallback ?? clearTimeout;
     const handle = idle(() => {
       void queryClient.fetchQuery({

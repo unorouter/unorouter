@@ -1,9 +1,6 @@
 import { Home } from "@/components/pages/navbar/home/home";
 import { APP_VALUES } from "@/lib/config/constants";
-import {
-  getCachedPricing,
-  getDehydratedStatsHistory,
-} from "@/lib/api/cached";
+import { getCachedPricing, getDehydratedStatsHistory } from "@/lib/api/cached";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
 import { buildSoftwareApplicationSchema } from "@/lib/seo/structured-data";

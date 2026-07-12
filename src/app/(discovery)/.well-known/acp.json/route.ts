@@ -1,7 +1,6 @@
 import { routing } from "@/i18n/routing";
 import { env } from "@/lib/config/env";
 
-
 const defaultLocale = routing.defaultLocale;
 
 export function GET() {

@@ -31,7 +31,11 @@ export async function sessionCookieDescriptors(
   userId: string | number,
   opts?: { accessToken?: string },
 ): Promise<SessionCookieDescriptor[]> {
-  const base = { path: "/" as const, maxAge: COOKIE_MAX_AGE, sameSite: "lax" as const };
+  const base = {
+    path: "/" as const,
+    maxAge: COOKIE_MAX_AGE,
+    sameSite: "lax" as const,
+  };
   const descriptors: SessionCookieDescriptor[] = [
     { name: USER_ID_COOKIE, value: await signUserId(userId), ...base },
     { name: LOCAL_USER_ID_COOKIE, value: String(userId), ...base },

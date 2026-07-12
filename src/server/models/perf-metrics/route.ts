@@ -10,11 +10,9 @@ import { fetchPerfSummary } from "@/server/models/perf-metrics/perf-metrics.serv
 import { Elysia } from "elysia";
 
 export const perfMetricsRoute = new Elysia({ prefix: "/perf-metrics" })
-  .get(
-    "/summary",
-    async ({ query }) => fetchPerfSummary(query.hours ?? 24),
-    { query: perfMetricsSummaryQuery },
-  )
+  .get("/summary", async ({ query }) => fetchPerfSummary(query.hours ?? 24), {
+    query: perfMetricsSummaryQuery,
+  })
   .get(
     "/",
     async ({ query }) => {

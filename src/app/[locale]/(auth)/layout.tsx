@@ -47,9 +47,7 @@ async function AuthGate(props: Props) {
   );
 
   return (
-    <HydrationBoundary
-      state={dehydrateOnly(queryClient, [queryKeys.status()])}
-    >
+    <HydrationBoundary state={dehydrateOnly(queryClient, [queryKeys.status()])}>
       <main className="from-background via-muted to-background flex min-h-dvh flex-col items-center justify-center bg-linear-to-br px-4 py-12">
         <div className="animate-slide-up mb-8 flex items-center gap-2">
           <Link href="/" className="flex items-center gap-2">

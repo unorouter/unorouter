@@ -21,7 +21,6 @@ import { dayjs } from "@/lib/utils/format/date";
 import { listCatalogEntries } from "@/server/models/pricing/model-catalog.service";
 import type { MetadataRoute } from "next";
 
-
 type EntryOptions = {
   priority?: number;
   changeFrequency?: MetadataRoute.Sitemap[number]["changeFrequency"];

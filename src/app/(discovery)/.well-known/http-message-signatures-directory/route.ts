@@ -1,7 +1,6 @@
 import { parseJwks, stripPrivateFields } from "@/server/auth/web-bot-auth/keys";
 import { MediaType } from "http-message-sig";
 
-
 export function GET() {
   const keys = parseJwks(process.env.WEB_BOT_AUTH_PUBLIC_JWKS).map(
     stripPrivateFields,

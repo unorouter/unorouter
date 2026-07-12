@@ -44,7 +44,6 @@ export const timestamps = () => ({
     .default(sql`(unixepoch() * 1000)`),
 });
 
-
 export const conversations = sqliteTable(
   "conversations",
   {
@@ -291,9 +290,7 @@ export const lorebooks = sqliteTable(
       .default(false),
     ...timestamps(),
   },
-  (table) => [
-    index("idx_lorebook_user").on(table.userId),
-  ],
+  (table) => [index("idx_lorebook_user").on(table.userId)],
 );
 
 export const lorebookEntries = sqliteTable(
@@ -383,9 +380,7 @@ export const samplingPresets = sqliteTable(
       .default(false),
     ...timestamps(),
   },
-  (table) => [
-    index("idx_preset_user_name").on(table.userId, table.name),
-  ],
+  (table) => [index("idx_preset_user_name").on(table.userId, table.name)],
 );
 
 export const conversationCharacters = sqliteTable(
@@ -439,9 +434,7 @@ export const cards = sqliteTable(
     personaId: text("persona_id"),
     ...timestamps(),
   },
-  (table) => [
-    index("idx_card_user_updated").on(table.userId, table.updatedAt),
-  ],
+  (table) => [index("idx_card_user_updated").on(table.userId, table.updatedAt)],
 );
 
 export const cardCharacters = sqliteTable(
@@ -478,16 +471,11 @@ export const cardLorebooks = sqliteTable(
   ],
 );
 
-export const userThemes = sqliteTable(
-  "user_themes",
-  {
-    userId: integer("user_id").primaryKey(),
-    themeJson: text("theme_json", { mode: "json" })
-      .$type<UserTheme>()
-      .notNull(),
-    ...timestamps(),
-  },
-);
+export const userThemes = sqliteTable("user_themes", {
+  userId: integer("user_id").primaryKey(),
+  themeJson: text("theme_json", { mode: "json" }).$type<UserTheme>().notNull(),
+  ...timestamps(),
+});
 
 export const media = sqliteTable(
   "media",

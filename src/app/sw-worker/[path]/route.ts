@@ -16,11 +16,7 @@ const buildId = (() => {
 const serwistRoute = createSerwistRoute({
   swSrc: path.resolve(process.cwd(), "src/app/sw.ts"),
   useNativeEsbuild: true,
-  globIgnores: [
-    "**/node_modules/**/*",
-    "**/i18n/**",
-    "**/search-index.*.json",
-  ],
+  globIgnores: ["**/node_modules/**/*", "**/i18n/**", "**/search-index.*.json"],
   additionalPrecacheEntries: [{ url: "/en/offline", revision: buildId }],
 });
 

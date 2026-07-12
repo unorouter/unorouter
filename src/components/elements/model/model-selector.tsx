@@ -35,10 +35,7 @@ import {
 import { usePricingQuery } from "@/hooks/models/pricing-hook";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { Badge } from "@/components/ui/badge";
-import {
-  AUTH_REDIRECT_COOKIE,
-  USER_ID_COOKIE,
-} from "@/lib/config/constants";
+import { AUTH_REDIRECT_COOKIE, USER_ID_COOKIE } from "@/lib/config/constants";
 import { cn } from "@/lib/utils";
 import { setCookie } from "cookies-next";
 import { useTranslations } from "next-intl";
@@ -132,9 +129,7 @@ function CatalogModelItem(props: {
     >
       <VendorIcon vendor={model.vendor.name} size={14} />
       <span className="min-w-0 flex-1 font-mono">{model.name}</span>
-      {model.isFree && (
-        <FreeBadge label={t("CHAT.MODEL.FREE_BADGE")} shrink />
-      )}
+      {model.isFree && <FreeBadge label={t("CHAT.MODEL.FREE_BADGE")} shrink />}
       {props.disabled && (
         <span
           className="text-muted-foreground shrink-0"

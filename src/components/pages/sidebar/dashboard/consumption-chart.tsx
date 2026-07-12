@@ -113,7 +113,9 @@ function processTrendData(data: QuotaDataItem[], g: Granularity) {
     }));
 }
 
-function ChartToolbar(props: { dashboard: ReturnType<typeof useDashboardData> }) {
+function ChartToolbar(props: {
+  dashboard: ReturnType<typeof useDashboardData>;
+}) {
   const t = useTranslations();
   const dashboard = props.dashboard;
   return (
@@ -327,9 +329,7 @@ function DistributionChart(props: {
   );
 }
 
-function TrendChart(props: {
-  trendData: ReturnType<typeof processTrendData>;
-}) {
+function TrendChart(props: { trendData: ReturnType<typeof processTrendData> }) {
   const trendConfig: ChartConfig = {
     quota: { label: "Quota ($)", color: "var(--color-chart-1)" },
     count: { label: "Count", color: "var(--color-chart-2)" },

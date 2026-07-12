@@ -284,9 +284,7 @@ async function placeOnBranch(
 ): Promise<BranchPlacement> {
   let parentId = requestedParentId;
   let parentBranchVars: string | null = null;
-  let siblings: NonNullable<
-    Awaited<ReturnType<typeof readLocalMessages>>
-  > = [];
+  let siblings: NonNullable<Awaited<ReturnType<typeof readLocalMessages>>> = [];
   const existing = (await readLocalMessages(userId, convId)) ?? [];
   if (existing.length > 0) {
     const tipRow = walkActiveBranch(existing).path.at(-1) as

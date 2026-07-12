@@ -17,7 +17,6 @@ import { serverLocale } from "@/lib/utils/server";
 import { HydrationBoundary } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
 
-
 export function generateStaticParams() {
   return LOCALES.flatMap((locale) =>
     comparePairSlugs().map((slugs) => ({ locale, slugs })),

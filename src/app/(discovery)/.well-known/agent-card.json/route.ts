@@ -7,7 +7,6 @@ import {
 import { serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
 
-
 export async function GET() {
   const locale = await serverLocale();
   const t = await getTranslations({ locale });

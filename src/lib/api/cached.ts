@@ -71,7 +71,11 @@ export async function getDehydratedPlans(): Promise<DehydratedState> {
   "use cache";
   cacheLife("hours");
   const qc = new QueryClient();
-  await seed(qc, queryKeys.subscriptionPlans(), await getSubscriptionPlansSummary());
+  await seed(
+    qc,
+    queryKeys.subscriptionPlans(),
+    await getSubscriptionPlansSummary(),
+  );
   return dehydrate(qc);
 }
 

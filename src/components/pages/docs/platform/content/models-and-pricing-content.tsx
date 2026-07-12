@@ -22,6 +22,10 @@ export async function ModelsAndPricingContent() {
         <p>{k("P_FREE_VS_PAID_2")}</p>
         <p>{k("P_FREE_VS_PAID_3")}</p>
       </DocSection>
+      <DocSection id="discounts" title={k("H_DISCOUNTS")}>
+        <p>{k("P_DISCOUNTS_1")}</p>
+        <p>{k("P_DISCOUNTS_2")}</p>
+      </DocSection>
       <DocSection id="pricing" title={k("H_PRICING")}>
         <p>{k("P_PRICING_1")}</p>
         <p>{k("P_PRICING_2")}</p>

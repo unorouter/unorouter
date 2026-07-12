@@ -1,7 +1,6 @@
 import { env } from "@/lib/config/env";
 import { parseJwks, stripPrivateFields } from "@/server/auth/web-bot-auth/keys";
 
-
 const ns = `ai.${env.appName.toLowerCase()}`;
 
 export function GET() {

@@ -68,6 +68,7 @@ export const PLATFORM_DOCS: PlatformDoc[] = [
     headings: [
       ["catalog", "H_CATALOG"],
       ["free-vs-paid", "H_FREE_VS_PAID"],
+      ["discounts", "H_DISCOUNTS"],
       ["pricing", "H_PRICING"],
       ["prompt-cache", "H_PROMPT_CACHE"],
       ["availability", "H_AVAILABILITY"],
