@@ -30,6 +30,7 @@ type TaskFetchResult = {
   status: TaskStatus;
   progress: string;
   resultUrl?: string;
+  failReason?: string;
 };
 
 function taskErrorMessage(data: unknown, fallback: string): string {
@@ -132,5 +133,6 @@ export async function fetchVideoTaskStatus(
     status: toUiStatus(payload?.status),
     progress: payload?.progress ?? "0%",
     resultUrl: payload?.result_url ?? undefined,
+    failReason: payload?.fail_reason?.trim() || undefined,
   };
 }

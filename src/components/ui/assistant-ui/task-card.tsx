@@ -89,6 +89,7 @@ export function TaskCard(props: Props) {
 
   const effectiveStatus = statusQuery.data?.status ?? localStatus;
   const effectiveProgress = statusQuery.data?.progress ?? localProgress;
+  const failReason = statusQuery.data?.failReason;
   const isTerminal = TERMINAL_STATUSES.has(effectiveStatus);
   const isRunning = statusQuery.isFetching || finalizeMutation.isPending;
 
@@ -140,6 +141,11 @@ export function TaskCard(props: Props) {
         <span className="text-muted-foreground truncate text-xs">
           {props.part.model}
         </span>
+        {effectiveStatus === "FAILURE" && failReason && (
+          <span className="text-destructive text-xs wrap-break-word">
+            {failReason}
+          </span>
+        )}
       </div>
 
       {!isTerminal && (
