@@ -5,6 +5,7 @@ import { Icon } from "@/components/ui/icon";
 import { useCharactersQuery } from "@/hooks/ai/rp/characters";
 import { usePersonaQuery } from "@/hooks/ai/rp/personas";
 import { expandMacros } from "@/lib/ai/chat/macros";
+import { analytics } from "@/lib/analytics";
 import { chatLoadoutAtom, greetingIndexAtom } from "@/store/chat-store";
 import { useAtom, useAtomValue } from "jotai";
 
@@ -40,7 +41,10 @@ export function GreetingPreview() {
             variant="ghost"
             size="icon-xs"
             disabled={safeIndex === 0}
-            onClick={() => setIndex(safeIndex - 1)}
+            onClick={() => {
+              analytics.chat.greetingPicked({ index: safeIndex - 1 });
+              setIndex(safeIndex - 1);
+            }}
           >
             <Icon name="chevron-left" className="size-3.5" />
           </Button>
@@ -51,7 +55,10 @@ export function GreetingPreview() {
             variant="ghost"
             size="icon-xs"
             disabled={safeIndex === greetings.length - 1}
-            onClick={() => setIndex(safeIndex + 1)}
+            onClick={() => {
+              analytics.chat.greetingPicked({ index: safeIndex + 1 });
+              setIndex(safeIndex + 1);
+            }}
           >
             <Icon name="chevron-right" className="size-3.5" />
           </Button>

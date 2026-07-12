@@ -1,6 +1,7 @@
 "use client";
 
 import { readLocalConversationSettings } from "@/lib/db/client/data/chat/chat";
+import { analytics } from "@/lib/analytics";
 import type { ChatUIMessage } from "@/lib/types";
 import { chatStore, speakingCharacterIdAtom } from "@/store/chat-store";
 
@@ -93,5 +94,6 @@ export async function maybeAutoContinue(
     return;
   }
   autoContinueDepth.set(remoteId, depth + 1);
+  analytics.chat.autoContinued({ step: depth + 1 });
   await chat.sendMessage();
 }

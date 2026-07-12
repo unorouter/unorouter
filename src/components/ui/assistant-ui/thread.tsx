@@ -45,6 +45,7 @@ import { extractErrorDetail } from "@/lib/utils/client";
 import { formatPrice } from "@/lib/utils/format/number";
 import {
   chatHelpersAtom,
+  chatLoadoutAtom,
   chatModelAtom,
   chatStore,
   chatWebSearchAtom,
@@ -621,6 +622,7 @@ const AssistantEditInPlace: FC<{ onClose: () => void }> = (props) => {
       msgId: messageId,
       body: { items },
     });
+    analytics.chat.messageEdited({ role: "assistant", is_rp: isRpActive() });
 
     helpers?.setMessages((msgs) => {
       const list = msgs as Array<{
@@ -785,6 +787,9 @@ const DeleteMessageButton: FC = () => {
 
 const MEDIA_OUTPUT_RE = /^!\[(?:audio|image|video)\]\(/;
 
+const isRpActive = () =>
+  chatStore.get(chatLoadoutAtom).characterIds.length > 0;
+
 const BranchButton: FC = () => {
   const t = useTranslations();
   const messageId = useAuiState((s) => s.message.id);
@@ -796,6 +801,7 @@ const BranchButton: FC = () => {
     if (!convId || forkMut.isPending) return;
     try {
       const res = await forkMut.mutateAsync({ convId, messageId });
+      analytics.chat.conversationBranched({ is_rp: isRpActive() });
       aui.threads().switchToThread(res.id);
       toast.success(t("CHAT.SUCCESS.BRANCHED"));
     } catch {
@@ -850,7 +856,12 @@ const AssistantActionBar: FC = () => {
         </ActionBarPrimitive.Copy>
       )}
       <ActionBarPrimitive.Reload asChild>
-        <TooltipIconButton tooltip={t("CHAT.ACTION.REFRESH")}>
+        <TooltipIconButton
+          tooltip={t("CHAT.ACTION.REFRESH")}
+          onClick={() =>
+            analytics.chat.messageRegenerated({ is_rp: isRpActive() })
+          }
+        >
           <Icon name="refresh-cw" />
         </TooltipIconButton>
       </ActionBarPrimitive.Reload>
@@ -972,7 +983,15 @@ const BranchPicker: FC<BranchPickerPrimitive.Root.Props> = (props) => {
       {...props}
     >
       <BranchPickerPrimitive.Previous asChild>
-        <TooltipIconButton tooltip={t("CHAT.ACTION.PREVIOUS")}>
+        <TooltipIconButton
+          tooltip={t("CHAT.ACTION.PREVIOUS")}
+          onClick={() =>
+            analytics.chat.messageSwiped({
+              direction: "prev",
+              is_rp: isRpActive(),
+            })
+          }
+        >
           <Icon name="chevron-left" />
         </TooltipIconButton>
       </BranchPickerPrimitive.Previous>
@@ -980,7 +999,15 @@ const BranchPicker: FC<BranchPickerPrimitive.Root.Props> = (props) => {
         <BranchPickerPrimitive.Number /> / <BranchPickerPrimitive.Count />
       </span>
       <BranchPickerPrimitive.Next asChild>
-        <TooltipIconButton tooltip={t("CHAT.ACTION.NEXT")}>
+        <TooltipIconButton
+          tooltip={t("CHAT.ACTION.NEXT")}
+          onClick={() =>
+            analytics.chat.messageSwiped({
+              direction: "next",
+              is_rp: isRpActive(),
+            })
+          }
+        >
           <Icon name="chevron-right" />
         </TooltipIconButton>
       </BranchPickerPrimitive.Next>

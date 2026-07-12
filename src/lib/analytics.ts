@@ -153,6 +153,48 @@ const chat = {
   modelAutoPicked: (props: { to: string }) => {
     posthog.capture("chat_model_auto_picked", { to_model: props.to });
   },
+  // Rerolling for a better response - the strongest RP engagement signal.
+  messageSwiped: (props: { direction: "prev" | "next"; is_rp: boolean }) => {
+    posthog.capture("chat_message_swiped", {
+      direction: props.direction,
+      is_rp: props.is_rp,
+    });
+  },
+  messageRegenerated: (props: { is_rp: boolean }) => {
+    posthog.capture("chat_message_regenerated", { is_rp: props.is_rp });
+  },
+  messageEdited: (props: { role: "user" | "assistant"; is_rp: boolean }) => {
+    posthog.capture("chat_message_edited", {
+      role: props.role,
+      is_rp: props.is_rp,
+    });
+  },
+  conversationBranched: (props: { is_rp: boolean }) => {
+    posthog.capture("chat_conversation_branched", { is_rp: props.is_rp });
+  },
+  // Multi-character turn actually rotated (serious RP, not casual chat).
+  groupTurn: (props: { character_count: number }) => {
+    posthog.capture("chat_group_turn", {
+      character_count: props.character_count,
+    });
+  },
+  autoContinued: (props: { step: number }) => {
+    posthog.capture("chat_auto_continued", { step: props.step });
+  },
+  greetingPicked: (props: { index: number }) => {
+    posthog.capture("chat_greeting_picked", { index: props.index });
+  },
+  // Flagship RP feature: in-chat illustration produced by the illustrator agent.
+  imageGenerated: (props: { source: "auto" | "regenerate"; model: string }) => {
+    posthog.capture("chat_image_generated", {
+      source: props.source,
+      model: props.model,
+    });
+  },
+  // Long-session RP proxy: the rolling-summary memory folded a chunk this turn.
+  memoryFolded: () => {
+    posthog.capture("chat_memory_folded");
+  },
 };
 
 const billing = {

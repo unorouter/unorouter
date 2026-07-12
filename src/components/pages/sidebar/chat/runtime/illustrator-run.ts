@@ -1,5 +1,6 @@
 "use client";
 
+import { analytics } from "@/lib/analytics";
 import { createAgentPipeline } from "@/lib/ai/agents/pipeline";
 import { illustratorAgent } from "@/lib/ai/agents/builtin/illustrator/agent";
 import type { AgentRuntime } from "@/lib/ai/agents/types";
@@ -208,6 +209,12 @@ export async function runIllustrator(
   );
   const results = await pipeline.postGenerate(input.responseText);
   const image = results.find((r) => r.type === "inlay_image");
+  if (image) {
+    analytics.chat.imageGenerated({
+      source: "auto",
+      model: input.imageModel ?? "auto",
+    });
+  }
 
   const items = (await readLocalMessageItems(input.userId, input.convId)) ?? [];
   const mine = items.filter((it) => it.messageId === input.messageId);

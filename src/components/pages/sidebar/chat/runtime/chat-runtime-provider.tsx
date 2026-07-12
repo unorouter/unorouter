@@ -193,6 +193,9 @@ function ChatRuntimeHook() {
         has_lorebook: hasLorebook,
         has_preset: loadout.presetId != null,
       });
+      if (message.metadata?.summary) {
+        analytics.chat.memoryFolded();
+      }
       if (message.metadata?.droppedParams) {
         toast.warning(
           t("RP.DROPPED_PARAMS", { params: message.metadata.droppedParams }),
@@ -228,6 +231,7 @@ function ChatRuntimeHook() {
       if (hasText && convId) {
         const order = await computeSpeakingOrder(userId, convId, args[0]);
         if (order.length > 1) {
+          analytics.chat.groupTurn({ character_count: order.length });
           rotatingRef.current = true;
           try {
             for (let i = 0; i < order.length; i++) {
