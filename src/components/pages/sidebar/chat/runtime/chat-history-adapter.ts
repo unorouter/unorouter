@@ -290,6 +290,11 @@ async function placeOnBranch(
     const tipRow = walkActiveBranch(existing).path.at(-1) as
       { id: string; branchVars?: string | null } | undefined;
     if (parentId === null && tipRow) parentId = tipRow.id;
+    // A requested parent that isn't persisted (greeting-sibling race, cross-tab
+    // desync) would FK-fail the insert. Fall back to the active tip, else root.
+    if (parentId && !existing.some((m) => m.id === parentId)) {
+      parentId = tipRow?.id ?? null;
+    }
     const parentRow = parentId
       ? existing.find((m) => m.id === parentId)
       : tipRow;

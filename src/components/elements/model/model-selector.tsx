@@ -151,7 +151,7 @@ function CustomProviderItems(props: {
   return (
     <CommandGroup heading={t("CHAT.MODEL.CUSTOM_PROVIDERS")}>
       {props.providers.flatMap((provider) =>
-        provider.models
+        (provider.models ?? [])
           .filter((model) => model.type !== "image")
           .map((model) => {
             const id = makeCustomModelId(provider.id, model.key);
@@ -300,7 +300,7 @@ export function ModelSelector(props: ModelSelectorProps) {
     ? customProviders.find((p) => p.id === selectedCustom.providerId)
     : undefined;
   const selectedCustomLabel = selectedCustom
-    ? (selectedCustomProvider?.models.find(
+    ? ((selectedCustomProvider?.models ?? []).find(
         (m) => m.key === selectedCustom.modelKey,
       )?.label ?? selectedCustom.modelKey)
     : null;

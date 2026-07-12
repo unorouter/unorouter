@@ -74,7 +74,9 @@ export const getDocsApiKey = async (placeholder = "YOUR_API_KEY") => {
   }));
 
   const modelFor = (vendor: string) =>
-    models.find((m) => m.vendor.toLowerCase() === vendor.toLowerCase())!.name;
+    models.find((m) => m.vendor.toLowerCase() === vendor.toLowerCase())?.name ??
+    models[0]?.name ??
+    "model-name";
 
   const topTextModel = models
     .filter((m) => m.type === "text" && typeof m.outputPrice === "number")

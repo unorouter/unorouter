@@ -183,12 +183,9 @@ export function ConsumptionChart() {
   );
   const trendData = processTrendData(dashboard.rawData, granularity);
   const pieData = aggregateByModel(dashboard.rawData, "count", 8, otherLabel);
-  const rankingData = aggregateByModel(
-    dashboard.rawData,
-    "count",
-    20,
-    otherLabel,
-  ).toReversed();
+  const rankingData = [
+    ...aggregateByModel(dashboard.rawData, "count", 20, otherLabel),
+  ].reverse();
 
   const totalQuota = dashboard.rawData.reduce(
     (sum, item) => sum + quotaToDollars(item.quota ?? 0),
