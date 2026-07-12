@@ -1,6 +1,6 @@
 "use client";
 
-import { GUEST_USER_ID, IS_DEV } from "@/lib/config/constants";
+import { GUEST_USER_ID } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
 import * as client from "@/lib/db/schema/client";
 import * as shared from "@/lib/db/schema/shared";
@@ -136,7 +136,7 @@ async function openClient(userId: number): Promise<LocalClient> {
     reactiveQuery: (query) => sql.reactiveQuery(query),
   };
 
-  if (IS_DEV && typeof window !== "undefined") {
+  if (typeof window !== "undefined") {
     window.__local = wrapped;
     window.__shared = shared;
     window.__sqlocal = sql;
