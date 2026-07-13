@@ -170,8 +170,20 @@ export function useBillingActions() {
       has_discount: !!factor,
       discount_pct: factor ? Math.round((1 - factor) * 100) : undefined,
     });
+    const returnUrl = new URL(window.location.href);
+    returnUrl.hash = "";
+    const cancelUrl = returnUrl.toString();
+    returnUrl.searchParams.set("topup", "success");
+    const successUrl = returnUrl.toString();
     stripeTopUpMutation.mutate(
-      { body: { amount, payment_method: "stripe" } },
+      {
+        body: {
+          amount,
+          payment_method: "stripe",
+          success_url: successUrl,
+          cancel_url: cancelUrl,
+        },
+      },
       {
         onSuccess: (data) => openPayLink(data?.pay_link),
         onError: failToast,
