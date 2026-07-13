@@ -16,6 +16,7 @@ export function useTopUpInfoQuery() {
     queryKeys.topUpInfo(),
     () => rpc.api.billing.core["topup-info"].get(),
     {
+      staleTime: "static",
       select: (data) => ({
         ...data,
         creemProducts: safeJsonParse<
