@@ -106,10 +106,14 @@ export async function getModelsPageData() {
   "use cache";
   cacheLife("minutes");
   const qc = new QueryClient();
+  // rankings + perf are non-critical enrichment: a transient upstream reset on
+  // either must not reject the whole cached render (it would fail the static
+  // export for that page). Only pricing is load-bearing; if IT throws, the
+  // page-level catch falls back to emptyPageData().
   const [summary, rankings, perf] = await Promise.all([
     getPricingSummary(),
-    fetchRankings("week"),
-    fetchPerfSummary(24),
+    fetchRankings("week").catch(() => null),
+    fetchPerfSummary(24).catch(() => null),
   ]);
   await Promise.all([
     seed(qc, queryKeys.pricing(), toLeanPricing(summary)),
@@ -134,10 +138,12 @@ export async function getComparePageData(slugs: readonly string[]) {
   "use cache";
   cacheLife("minutes");
   const qc = new QueryClient();
+  // See getModelsPageData: rankings + perf are non-critical, so a transient
+  // upstream reset on them must not fail the static export of this page.
   const [summary, rankings, perf] = await Promise.all([
     getPricingSummary(),
-    fetchRankings("week"),
-    fetchPerfSummary(24),
+    fetchRankings("week").catch(() => null),
+    fetchPerfSummary(24).catch(() => null),
   ]);
   await Promise.all([
     seed(qc, queryKeys.pricing(), toLeanPricing(summary)),
