@@ -5,6 +5,7 @@ import { fetchPerfSummary } from "@/server/models/perf-metrics/perf-metrics.serv
 import {
   getPricingSummary,
   getSubscriptionPlansSummary,
+  getTopUpInfoSummary,
 } from "@/server/models/pricing/pricing.service";
 import { fetchRankings } from "@/server/models/rankings/rankings.service";
 import { computeStatsSummary } from "@/server/ops/stats/stats.service";
@@ -71,11 +72,14 @@ export async function getDehydratedPlans(): Promise<DehydratedState> {
   "use cache";
   cacheLife("hours");
   const qc = new QueryClient();
-  await seed(
-    qc,
-    queryKeys.subscriptionPlans(),
-    await getSubscriptionPlansSummary(),
-  );
+  const [plans, topUpInfo] = await Promise.all([
+    getSubscriptionPlansSummary(),
+    getTopUpInfoSummary(),
+  ]);
+  await Promise.all([
+    seed(qc, queryKeys.subscriptionPlans(), plans),
+    seed(qc, queryKeys.topUpInfo(), topUpInfo),
+  ]);
   return dehydrate(qc);
 }
 

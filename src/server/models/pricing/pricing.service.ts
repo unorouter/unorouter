@@ -6,7 +6,7 @@ import {
 import { processPlans } from "@/lib/api/subscription";
 import { PUBLIC_CACHE } from "@/lib/config/constants";
 import { unwrap } from "@/lib/utils/base";
-import { getPricing, getSubscriptionPlans } from "@/openapi";
+import { getPricing, getSubscriptionPlans, getTopUpInfo } from "@/openapi";
 import { ADMIN_HEADERS } from "@/server/constants";
 import { snapshotModelCatalog } from "./model-catalog.service";
 
@@ -65,4 +65,14 @@ export async function getSubscriptionPlansSummary() {
   );
   if (res.status !== 200) return [];
   return processPlans(res.data.data);
+}
+
+export async function getTopUpInfoSummary() {
+  const res = await withRetry(() =>
+    getTopUpInfo({
+      headers: ADMIN_HEADERS,
+      ...PUBLIC_CACHE,
+    }),
+  );
+  return unwrap(res);
 }
