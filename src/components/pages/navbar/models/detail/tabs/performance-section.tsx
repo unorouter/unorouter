@@ -21,7 +21,10 @@ import { aggregatePerfGroups } from "@/lib/api/perf-aggregate";
 import { cn } from "@/lib/utils";
 import { formatLatency, formatPct, formatTps } from "@/lib/utils/format/number";
 import { type StatIntent, successIntent } from "@/lib/utils/format/math";
+import { Icon } from "@/components/ui/icon";
+import { modelSlug } from "@/lib/utils/base";
 import { useTranslations } from "next-intl";
+import { useState } from "react";
 import {
   CartesianGrid,
   Line,
@@ -37,6 +40,16 @@ type Props = {
   hours?: number;
   className?: string;
 };
+
+// Group names are `{provider}-{sanitized-model}`; strip the trailing model slug
+// so the per-provider rows read as just the provider (trp1, kilo1, nvda1...).
+function providerLabel(group: string, modelName: string): string {
+  const slug = modelSlug(modelName).replace(/[^a-z0-9]+/gi, "-");
+  const suffix = `-${slug}`;
+  return group.toLowerCase().endsWith(suffix.toLowerCase())
+    ? group.slice(0, group.length - suffix.length)
+    : group;
+}
 
 const STAT_INTENT_CLASS: Record<StatIntent, string> = {
   default: "",
@@ -74,6 +87,7 @@ function StatCard(props: {
 
 export function PerformanceSection(props: Props) {
   const t = useTranslations();
+  const [showGroups, setShowGroups] = useState(false);
   const query = usePerfMetricsQuery(props.modelName, props.hours ?? 24);
   const groups = query.data?.groups ?? [];
 
@@ -109,56 +123,70 @@ export function PerformanceSection(props: Props) {
         />
       </div>
 
-      <div className="overflow-x-auto rounded-md border">
-        <Table className="text-sm">
-          <TableHeader>
-            <TableRow className="hover:bg-transparent">
-              {(
-                [
-                  "MODELS.DETAIL.PERF_GROUP",
-                  "MODELS.DETAIL.PERF_TPS",
-                  "MODELS.DETAIL.PERF_TTFT",
-                  "MODELS.DETAIL.PERF_LATENCY",
-                  "MODELS.DETAIL.PERF_SUCCESS",
-                ] as const
-              ).map((key, i) => (
-                <TableHead
-                  key={key}
-                  className={cn(
-                    "text-muted-foreground h-9 text-[10px] tracking-wider uppercase",
-                    i > 0 && "text-right",
-                  )}
-                >
-                  {t(key)}
-                </TableHead>
-              ))}
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {groups.map((group) => (
-              <TableRow key={group.group}>
-                {[
-                  group.group,
-                  formatTps(group.avg_tps),
-                  formatLatency(group.avg_ttft_ms),
-                  formatLatency(group.avg_latency_ms),
-                  formatPct(group.success_rate),
-                ].map((cell, i) => (
-                  <TableCell
-                    key={i}
+      <button
+        type="button"
+        onClick={() => setShowGroups((v) => !v)}
+        className="text-muted-foreground hover:text-foreground flex items-center gap-1 self-start font-mono text-[10px] tracking-wider uppercase transition-colors"
+      >
+        <Icon
+          name={showGroups ? "chevron-down" : "chevron-right"}
+          className="h-3 w-3"
+        />
+        {t("MODELS.DETAIL.PERF_PROVIDER_BREAKDOWN", { count: groups.length })}
+      </button>
+
+      {showGroups && (
+        <div className="overflow-x-auto rounded-md border">
+          <Table className="text-sm">
+            <TableHeader>
+              <TableRow className="hover:bg-transparent">
+                {(
+                  [
+                    "MODELS.DETAIL.PERF_GROUP",
+                    "MODELS.DETAIL.PERF_TPS",
+                    "MODELS.DETAIL.PERF_TTFT",
+                    "MODELS.DETAIL.PERF_LATENCY",
+                    "MODELS.DETAIL.PERF_SUCCESS",
+                  ] as const
+                ).map((key, i) => (
+                  <TableHead
+                    key={key}
                     className={cn(
-                      "py-2 font-mono text-xs",
+                      "text-muted-foreground h-9 text-[10px] tracking-wider uppercase",
                       i > 0 && "text-right",
                     )}
                   >
-                    {cell}
-                  </TableCell>
+                    {t(key)}
+                  </TableHead>
                 ))}
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
+            </TableHeader>
+            <TableBody>
+              {groups.map((group) => (
+                <TableRow key={group.group}>
+                  {[
+                    providerLabel(group.group, props.modelName),
+                    formatTps(group.avg_tps),
+                    formatLatency(group.avg_ttft_ms),
+                    formatLatency(group.avg_latency_ms),
+                    formatPct(group.success_rate),
+                  ].map((cell, i) => (
+                    <TableCell
+                      key={i}
+                      className={cn(
+                        "py-2 font-mono text-xs",
+                        i > 0 && "text-right",
+                      )}
+                    >
+                      {cell}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      )}
 
       {perf.series.length > 1 && (
         <div className="border-border rounded-md border p-3">
