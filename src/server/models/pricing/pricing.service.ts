@@ -74,5 +74,5 @@ export async function getTopUpInfoSummary() {
       ...PUBLIC_CACHE,
     }),
   );
-  return unwrap(res);
+  return unwrap(res).data;
 }
