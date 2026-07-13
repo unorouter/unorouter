@@ -42,6 +42,7 @@ import { AutoGroupChain } from "./pricing/auto-group-chain";
 import { hasAnyParameter } from "./header/capability-helpers";
 import { ModelHeaderChips, ModelMetaStats } from "./header/model-header-chips";
 import { PerformanceSection } from "./tabs/performance-section";
+import { UptimeSection } from "./tabs/uptime-section";
 import { SupportedParameters } from "./tabs/supported-parameters";
 
 type ModelDetailSheetProps = {
@@ -121,6 +122,13 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
               {t("MODELS.DETAIL.PERFORMANCE")}
             </SectionHeading>
             <PerformanceSection modelName={model.name} />
+          </section>
+
+          <section>
+            <SectionHeading theme={theme}>
+              {t("MODELS.DETAIL.UPTIME")}
+            </SectionHeading>
+            <UptimeSection model={model.name} />
           </section>
 
           {model.description && (
