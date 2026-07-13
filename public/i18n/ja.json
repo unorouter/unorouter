@@ -384,7 +384,15 @@
       "MODALITIES": "モダリティ",
       "QUICK_STATS": "クイック統計",
       "SUPPORTED_PARAMETERS": "対応パラメータ",
-      "PERFORMANCE": "パフォーマンス"
+      "PERFORMANCE": "パフォーマンス",
+      "UPTIME": "稼働率",
+      "UPTIME_EMPTY": "このモデルの稼働率データはまだ利用できません。",
+      "STAT_UPTIME": "稼働率",
+      "STAT_UPTIME_HINT": "少なくとも1つのプロバイダーが提供していた時間の割合",
+      "STAT_WINDOW": "期間",
+      "STAT_WINDOW_HINT": "表示している期間",
+      "WINDOW_24H": "24時間",
+      "WINDOW_7D": "7日"
     },
     "PRICE": {
       "PER_REQUEST": " · リクエスト",
@@ -3605,7 +3613,8 @@
       "FREE_BADGE": "無料",
       "LOGIN_REQUIRED": "ログインが必要です",
       "CUSTOM_PROVIDERS": "カスタムプロバイダー",
-      "UNAVAILABLE_TOOLTIP": "{model}（一時的に利用できません）"
+      "UNAVAILABLE_TOOLTIP": "{model}（一時的に利用できません）",
+      "UPTIME_TITLE": "稼働率{pct}%（24時間）、{up}/{total}プロバイダー稼働中"
     },
     "GROUP": {
       "SELECT": "課金グループ",

@@ -384,7 +384,15 @@
       "MODALITIES": "Modalidades",
       "QUICK_STATS": "Estatísticas rápidas",
       "SUPPORTED_PARAMETERS": "Parâmetros suportados",
-      "PERFORMANCE": "Desempenho"
+      "PERFORMANCE": "Desempenho",
+      "UPTIME": "Tempo de atividade",
+      "UPTIME_EMPTY": "Os dados de tempo de atividade ainda não estão disponíveis para este modelo.",
+      "STAT_UPTIME": "Tempo de atividade",
+      "STAT_UPTIME_HINT": "Proporção do tempo em que pelo menos um provedor esteve atendendo",
+      "STAT_WINDOW": "Janela",
+      "STAT_WINDOW_HINT": "Intervalo de tempo exibido",
+      "WINDOW_24H": "24 h",
+      "WINDOW_7D": "7 d"
     },
     "PRICE": {
       "PER_REQUEST": " · solicitação",
@@ -3605,7 +3613,8 @@
       "FREE_BADGE": "GRÁTIS",
       "LOGIN_REQUIRED": "Login necessário",
       "CUSTOM_PROVIDERS": "Provedores personalizados",
-      "UNAVAILABLE_TOOLTIP": "{model} (temporariamente indisponível)"
+      "UNAVAILABLE_TOOLTIP": "{model} (temporariamente indisponível)",
+      "UPTIME_TITLE": "{pct}% de tempo de atividade (24 h), {up}/{total} provedores ativos"
     },
     "GROUP": {
       "SELECT": "Grupo de cobrança",

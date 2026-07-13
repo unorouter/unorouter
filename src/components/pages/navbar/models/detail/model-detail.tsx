@@ -34,7 +34,7 @@ import { BenchmarksSection } from "./tabs/benchmarks-section";
 import { SectionHeading } from "./shared/section-heading";
 import { ModelRankingSection } from "./tabs/model-ranking-section";
 import { ModelTabs } from "./tabs/model-tabs";
-import { PerformanceSection } from "./tabs/performance-section";
+import { PerfUptimePanel } from "./tabs/perf-uptime-panel";
 import { SupportedParameters } from "./tabs/supported-parameters";
 import { TryInChatButton } from "./header/try-in-chat-button";
 
@@ -321,12 +321,7 @@ print(res.choices[0].message.content)`;
               )}
             </section>
 
-            <section className="mt-12">
-              <SectionHeading theme={theme}>
-                {t("MODELS.DETAIL.PERFORMANCE")}
-              </SectionHeading>
-              <PerformanceSection modelName={m.name} />
-            </section>
+            <PerfUptimePanel modelName={m.name} theme={theme} />
 
             <section className="mt-12">
               <ModelRankingSection

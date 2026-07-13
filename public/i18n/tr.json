@@ -384,7 +384,15 @@
       "MODALITIES": "Modaliteler",
       "QUICK_STATS": "Hızlı istatistikler",
       "SUPPORTED_PARAMETERS": "Desteklenen parametreler",
-      "PERFORMANCE": "Performans"
+      "PERFORMANCE": "Performans",
+      "UPTIME": "Çalışma süresi",
+      "UPTIME_EMPTY": "Bu model için çalışma süresi verileri henüz mevcut değil.",
+      "STAT_UPTIME": "Çalışma süresi",
+      "STAT_UPTIME_HINT": "En az bir sağlayıcının hizmet verdiği zaman oranı",
+      "STAT_WINDOW": "Zaman aralığı",
+      "STAT_WINDOW_HINT": "Gösterilen zaman aralığı",
+      "WINDOW_24H": "24 sa",
+      "WINDOW_7D": "7 gün"
     },
     "PRICE": {
       "PER_REQUEST": " · istek",
@@ -3605,7 +3613,8 @@
       "FREE_BADGE": "ÜCRETSİZ",
       "LOGIN_REQUIRED": "Giriş gerekli",
       "CUSTOM_PROVIDERS": "Özel sağlayıcılar",
-      "UNAVAILABLE_TOOLTIP": "{model} (geçici olarak kullanılamıyor)"
+      "UNAVAILABLE_TOOLTIP": "{model} (geçici olarak kullanılamıyor)",
+      "UPTIME_TITLE": "%{pct} çalışma süresi (24 sa), {up}/{total} sağlayıcı çevrimiçi"
     },
     "GROUP": {
       "SELECT": "Faturalandırma grubu",

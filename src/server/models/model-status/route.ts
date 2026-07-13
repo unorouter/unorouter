@@ -1,10 +1,12 @@
 import {
+  modelStatusBucketsQuery,
   modelStatusPageCompactQuery,
   modelStatusPageQuery,
 } from "@/lib/api/typebox/model-status";
 import type { CompactPagePayload } from "@/lib/api/model-status-compact";
 import { unwrap } from "@/lib/utils/base";
 import {
+  getModelStatusBuckets,
   getModelStatusComponents,
   getModelStatusPage,
   getModelStatusPageCompact,
@@ -39,6 +41,17 @@ export const modelStatusRoute = new Elysia({ prefix: "/model-status" })
       return unwrap(res).data as CompactPagePayload;
     },
     { query: modelStatusPageCompactQuery },
+  )
+  .get(
+    "/buckets",
+    async ({ query }) => {
+      const res = await getModelStatusBuckets(query, {
+        headers: ADMIN_HEADERS,
+        ...STATUS_CACHE,
+      });
+      return unwrap(res).data;
+    },
+    { query: modelStatusBucketsQuery },
   )
   .get("/components", async () => {
     const res = await getModelStatusComponents({

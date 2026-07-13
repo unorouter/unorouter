@@ -34,6 +34,7 @@ import {
 
 type Props = {
   modelName: string;
+  hours?: number;
   className?: string;
 };
 
@@ -73,7 +74,7 @@ function StatCard(props: {
 
 export function PerformanceSection(props: Props) {
   const t = useTranslations();
-  const query = usePerfMetricsQuery(props.modelName, 24);
+  const query = usePerfMetricsQuery(props.modelName, props.hours ?? 24);
   const groups = query.data?.groups ?? [];
 
   if (query.isLoading) {

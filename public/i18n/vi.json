@@ -384,7 +384,15 @@
       "MODALITIES": "Phương thức",
       "QUICK_STATS": "Thống kê nhanh",
       "SUPPORTED_PARAMETERS": "Tham số hỗ trợ",
-      "PERFORMANCE": "Hiệu năng"
+      "PERFORMANCE": "Hiệu năng",
+      "UPTIME": "Thời gian hoạt động",
+      "UPTIME_EMPTY": "Dữ liệu thời gian hoạt động chưa có sẵn cho mô hình này.",
+      "STAT_UPTIME": "Thời gian hoạt động",
+      "STAT_UPTIME_HINT": "Tỷ lệ thời gian có ít nhất một nhà cung cấp đang phục vụ",
+      "STAT_WINDOW": "Khoảng thời gian",
+      "STAT_WINDOW_HINT": "Khoảng thời gian được hiển thị",
+      "WINDOW_24H": "24 giờ",
+      "WINDOW_7D": "7 ngày"
     },
     "PRICE": {
       "PER_REQUEST": " · yêu cầu",
@@ -3605,7 +3613,8 @@
       "FREE_BADGE": "MIỄN PHÍ",
       "LOGIN_REQUIRED": "Yêu cầu đăng nhập",
       "CUSTOM_PROVIDERS": "Nhà cung cấp tùy chỉnh",
-      "UNAVAILABLE_TOOLTIP": "{model} (tạm thời không khả dụng)"
+      "UNAVAILABLE_TOOLTIP": "{model} (tạm thời không khả dụng)",
+      "UPTIME_TITLE": "Thời gian hoạt động {pct}% (24 giờ), {up}/{total} nhà cung cấp đang hoạt động"
     },
     "GROUP": {
       "SELECT": "Nhóm tính phí",

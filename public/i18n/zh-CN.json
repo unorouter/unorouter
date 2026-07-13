@@ -384,7 +384,15 @@
       "MODALITIES": "模态",
       "QUICK_STATS": "快速统计",
       "SUPPORTED_PARAMETERS": "支持的参数",
-      "PERFORMANCE": "性能"
+      "PERFORMANCE": "性能",
+      "UPTIME": "在线时长",
+      "UPTIME_EMPTY": "该模型的在线时长数据尚不可用。",
+      "STAT_UPTIME": "在线时长",
+      "STAT_UPTIME_HINT": "至少有一个提供商提供服务的时间占比",
+      "STAT_WINDOW": "时间范围",
+      "STAT_WINDOW_HINT": "显示的时间范围",
+      "WINDOW_24H": "24小时",
+      "WINDOW_7D": "7天"
     },
     "PRICE": {
       "PER_REQUEST": " · 次请求",
@@ -3605,7 +3613,8 @@
       "FREE_BADGE": "免费",
       "LOGIN_REQUIRED": "需要登录",
       "CUSTOM_PROVIDERS": "自定义提供商",
-      "UNAVAILABLE_TOOLTIP": "{model}（暂时不可用）"
+      "UNAVAILABLE_TOOLTIP": "{model}（暂时不可用）",
+      "UPTIME_TITLE": "在线时长 {pct}%（24小时），{up}/{total} 个提供商在线"
     },
     "GROUP": {
       "SELECT": "计费分组",

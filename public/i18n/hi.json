@@ -384,7 +384,15 @@
       "MODALITIES": "मोडेलिटी",
       "QUICK_STATS": "त्वरित आंकड़े",
       "SUPPORTED_PARAMETERS": "समर्थित पैरामीटर",
-      "PERFORMANCE": "प्रदर्शन"
+      "PERFORMANCE": "प्रदर्शन",
+      "UPTIME": "अपटाइम",
+      "UPTIME_EMPTY": "इस मॉडल के लिए अपटाइम डेटा अभी उपलब्ध नहीं है।",
+      "STAT_UPTIME": "अपटाइम",
+      "STAT_UPTIME_HINT": "वह समयांश जब कम से कम एक प्रदाता सेवा दे रहा था",
+      "STAT_WINDOW": "समय-सीमा",
+      "STAT_WINDOW_HINT": "दिखाई गई समय-सीमा",
+      "WINDOW_24H": "24 घंटे",
+      "WINDOW_7D": "7 दिन"
     },
     "PRICE": {
       "PER_REQUEST": " · अनुरोध",
@@ -3605,7 +3613,8 @@
       "FREE_BADGE": "मुफ्त",
       "LOGIN_REQUIRED": "Login आवश्यक",
       "CUSTOM_PROVIDERS": "कस्टम प्रदाता",
-      "UNAVAILABLE_TOOLTIP": "{model} (अस्थायी रूप से अनुपलब्ध)"
+      "UNAVAILABLE_TOOLTIP": "{model} (अस्थायी रूप से अनुपलब्ध)",
+      "UPTIME_TITLE": "{pct}% अपटाइम (24 घंटे), {up}/{total} प्रदाता सक्रिय"
     },
     "GROUP": {
       "SELECT": "बिलिंग समूह",

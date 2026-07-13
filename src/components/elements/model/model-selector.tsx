@@ -30,6 +30,11 @@ import {
   parseCustomModelId,
 } from "@/lib/ai/chat/custom-provider-id";
 import { usePricingQuery } from "@/hooks/models/pricing-hook";
+import {
+  type ModelStatusInfo,
+  useModelStatusMap,
+} from "@/hooks/models/model-status-map-hook";
+import { UptimeDot } from "@/components/elements/model/uptime-dot";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { Badge } from "@/components/ui/badge";
 import { AUTH_REDIRECT_COOKIE } from "@/lib/config/constants";
@@ -101,6 +106,7 @@ function CatalogModelItem(props: {
   model: ProcessedModel;
   checked: boolean;
   disabled: boolean;
+  status?: ModelStatusInfo;
   onPick: () => void;
   onLoginRedirect: () => void;
 }) {
@@ -126,6 +132,7 @@ function CatalogModelItem(props: {
     >
       <VendorIcon vendor={model.vendor.name} size={14} />
       <span className="min-w-0 flex-1 font-mono">{model.name}</span>
+      <UptimeDot info={props.status} />
       {model.isFree && <FreeBadge label={t("CHAT.MODEL.FREE_BADGE")} shrink />}
       {props.disabled && (
         <span
@@ -287,6 +294,7 @@ export function ModelSelector(props: ModelSelectorProps) {
   const pricingData = pricingQuery.data;
   const models = pricingData?.models ?? [];
   const modelsByType = groupModelsByType(models);
+  const statusMap = useModelStatusMap();
 
   const customProvidersQuery = useCustomProvidersQuery();
   const customProviders = customProvidersQuery.data ?? [];
@@ -407,6 +415,7 @@ export function ModelSelector(props: ModelSelectorProps) {
                     model={model}
                     checked={model.name === props.value}
                     disabled={!isLoggedIn && !model.isFree}
+                    status={statusMap.get(model.name)}
                     onPick={() => pickModel(model.name)}
                     onLoginRedirect={redirectToLogin}
                   />

@@ -384,7 +384,15 @@
       "MODALITIES": "الأنماط",
       "QUICK_STATS": "إحصاءات سريعة",
       "SUPPORTED_PARAMETERS": "المعاملات المدعومة",
-      "PERFORMANCE": "الأداء"
+      "PERFORMANCE": "الأداء",
+      "UPTIME": "مدة التشغيل",
+      "UPTIME_EMPTY": "بيانات مدة التشغيل غير متوفرة بعد لهذا النموذج.",
+      "STAT_UPTIME": "مدة التشغيل",
+      "STAT_UPTIME_HINT": "نسبة الوقت الذي كان فيه مزود واحد على الأقل يقدم الخدمة",
+      "STAT_WINDOW": "النافذة الزمنية",
+      "STAT_WINDOW_HINT": "النطاق الزمني المعروض",
+      "WINDOW_24H": "٢٤ ساعة",
+      "WINDOW_7D": "٧ أيام"
     },
     "PRICE": {
       "PER_REQUEST": " · للطلب",
@@ -3605,7 +3613,8 @@
       "FREE_BADGE": "مجاني",
       "LOGIN_REQUIRED": "تسجيل الدخول مطلوب",
       "CUSTOM_PROVIDERS": "مزودون مخصصون",
-      "UNAVAILABLE_TOOLTIP": "{model} (غير متاح مؤقتًا)"
+      "UNAVAILABLE_TOOLTIP": "{model} (غير متاح مؤقتًا)",
+      "UPTIME_TITLE": "مدة تشغيل {pct}% (٢٤ ساعة)، {up}/{total} مزودين يعملون"
     },
     "GROUP": {
       "SELECT": "مجموعة الفوترة",

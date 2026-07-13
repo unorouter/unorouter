@@ -384,7 +384,15 @@
       "MODALITIES": "Modalities",
       "QUICK_STATS": "Quick stats",
       "SUPPORTED_PARAMETERS": "Supported parameters",
-      "PERFORMANCE": "Performance"
+      "PERFORMANCE": "Performance",
+      "UPTIME": "Uptime",
+      "UPTIME_EMPTY": "Uptime data is not yet available for this model.",
+      "STAT_UPTIME": "Uptime",
+      "STAT_UPTIME_HINT": "Share of time at least one provider was serving",
+      "STAT_WINDOW": "Window",
+      "STAT_WINDOW_HINT": "Time range shown",
+      "WINDOW_24H": "24h",
+      "WINDOW_7D": "7d"
     },
     "PRICE": {
       "PER_REQUEST": " · request",
@@ -3605,7 +3613,8 @@
       "FREE_BADGE": "FREE",
       "LOGIN_REQUIRED": "Login required",
       "CUSTOM_PROVIDERS": "Custom providers",
-      "UNAVAILABLE_TOOLTIP": "{model} (temporarily unavailable)"
+      "UNAVAILABLE_TOOLTIP": "{model} (temporarily unavailable)",
+      "UPTIME_TITLE": "{pct}% uptime (24h), {up}/{total} providers up"
     },
     "GROUP": {
       "SELECT": "Billing group",

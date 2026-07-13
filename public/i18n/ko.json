@@ -384,7 +384,15 @@
       "MODALITIES": "모달리티",
       "QUICK_STATS": "빠른 통계",
       "SUPPORTED_PARAMETERS": "지원 파라미터",
-      "PERFORMANCE": "성능"
+      "PERFORMANCE": "성능",
+      "UPTIME": "가동 시간",
+      "UPTIME_EMPTY": "이 모델의 가동 시간 데이터가 아직 없습니다.",
+      "STAT_UPTIME": "가동 시간",
+      "STAT_UPTIME_HINT": "최소 한 개의 제공자가 서비스를 제공한 시간의 비율",
+      "STAT_WINDOW": "기간",
+      "STAT_WINDOW_HINT": "표시된 기간 범위",
+      "WINDOW_24H": "24시간",
+      "WINDOW_7D": "7일"
     },
     "PRICE": {
       "PER_REQUEST": " · 요청",
@@ -3605,7 +3613,8 @@
       "FREE_BADGE": "무료",
       "LOGIN_REQUIRED": "로그인 필요",
       "CUSTOM_PROVIDERS": "사용자 지정 공급자",
-      "UNAVAILABLE_TOOLTIP": "{model} (일시적으로 사용 불가)"
+      "UNAVAILABLE_TOOLTIP": "{model} (일시적으로 사용 불가)",
+      "UPTIME_TITLE": "가동 시간 {pct}% (24시간), {up}/{total} 제공자 가동 중"
     },
     "GROUP": {
       "SELECT": "청구 그룹",

@@ -384,7 +384,15 @@
       "MODALITIES": "Modalitas",
       "QUICK_STATS": "Statistik cepat",
       "SUPPORTED_PARAMETERS": "Parameter didukung",
-      "PERFORMANCE": "Performa"
+      "PERFORMANCE": "Performa",
+      "UPTIME": "Waktu aktif",
+      "UPTIME_EMPTY": "Data waktu aktif belum tersedia untuk model ini.",
+      "STAT_UPTIME": "Waktu aktif",
+      "STAT_UPTIME_HINT": "Persentase waktu ketika setidaknya satu penyedia melayani",
+      "STAT_WINDOW": "Rentang waktu",
+      "STAT_WINDOW_HINT": "Rentang waktu yang ditampilkan",
+      "WINDOW_24H": "24 jam",
+      "WINDOW_7D": "7 hari"
     },
     "PRICE": {
       "PER_REQUEST": " · permintaan",
@@ -3605,7 +3613,8 @@
       "FREE_BADGE": "GRATIS",
       "LOGIN_REQUIRED": "Login diperlukan",
       "CUSTOM_PROVIDERS": "Penyedia khusus",
-      "UNAVAILABLE_TOOLTIP": "{model} (sementara tidak tersedia)"
+      "UNAVAILABLE_TOOLTIP": "{model} (sementara tidak tersedia)",
+      "UPTIME_TITLE": "Waktu aktif {pct}% (24 jam), {up}/{total} penyedia aktif"
     },
     "GROUP": {
       "SELECT": "Grup penagihan",

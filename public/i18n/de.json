@@ -384,7 +384,15 @@
       "MODALITIES": "Modalitäten",
       "QUICK_STATS": "Kurzstatistik",
       "SUPPORTED_PARAMETERS": "Unterstützte Parameter",
-      "PERFORMANCE": "Leistung"
+      "PERFORMANCE": "Leistung",
+      "UPTIME": "Verfügbarkeit",
+      "UPTIME_EMPTY": "Verfügbarkeitsdaten sind für dieses Modell noch nicht vorhanden.",
+      "STAT_UPTIME": "Verfügbarkeit",
+      "STAT_UPTIME_HINT": "Anteil der Zeit, in der mindestens ein Anbieter bereitgestellt hat",
+      "STAT_WINDOW": "Zeitfenster",
+      "STAT_WINDOW_HINT": "Angezeigter Zeitraum",
+      "WINDOW_24H": "24 Std.",
+      "WINDOW_7D": "7 Tage"
     },
     "PRICE": {
       "PER_REQUEST": " · Anfrage",
@@ -3605,7 +3613,8 @@
       "FREE_BADGE": "GRATIS",
       "LOGIN_REQUIRED": "Anmeldung erforderlich",
       "CUSTOM_PROVIDERS": "Eigene Anbieter",
-      "UNAVAILABLE_TOOLTIP": "{model} (vorübergehend nicht verfügbar)"
+      "UNAVAILABLE_TOOLTIP": "{model} (vorübergehend nicht verfügbar)",
+      "UPTIME_TITLE": "{pct}% Verfügbarkeit (24 Std.), {up}/{total} Anbieter online"
     },
     "GROUP": {
       "SELECT": "Abrechnungsgruppe",

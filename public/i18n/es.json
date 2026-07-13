@@ -384,7 +384,15 @@
       "MODALITIES": "Modalidades",
       "QUICK_STATS": "Estadísticas rápidas",
       "SUPPORTED_PARAMETERS": "Parámetros compatibles",
-      "PERFORMANCE": "Rendimiento"
+      "PERFORMANCE": "Rendimiento",
+      "UPTIME": "Tiempo de actividad",
+      "UPTIME_EMPTY": "Los datos de tiempo de actividad aún no están disponibles para este modelo.",
+      "STAT_UPTIME": "Tiempo de actividad",
+      "STAT_UPTIME_HINT": "Proporción del tiempo en que al menos un proveedor estuvo sirviendo",
+      "STAT_WINDOW": "Ventana",
+      "STAT_WINDOW_HINT": "Rango de tiempo mostrado",
+      "WINDOW_24H": "24 h",
+      "WINDOW_7D": "7 d"
     },
     "PRICE": {
       "PER_REQUEST": " · solicitud",
@@ -3605,7 +3613,8 @@
       "FREE_BADGE": "GRATIS",
       "LOGIN_REQUIRED": "Inicio de sesión requerido",
       "CUSTOM_PROVIDERS": "Proveedores personalizados",
-      "UNAVAILABLE_TOOLTIP": "{model} (no disponible temporalmente)"
+      "UNAVAILABLE_TOOLTIP": "{model} (no disponible temporalmente)",
+      "UPTIME_TITLE": "{pct}% de tiempo de actividad (24 h), {up}/{total} proveedores activos"
     },
     "GROUP": {
       "SELECT": "Grupo de facturación",

@@ -103,6 +103,8 @@ export const queryKeys = {
   modelStatusPage: (bucket: string, hours: number) =>
     ["model-status", "page", bucket, hours] as const,
   modelStatusComponents: () => ["model-status", "components"] as const,
+  modelStatusBuckets: (model: string, bucket: string, hours: number) =>
+    ["model-status", "buckets", model, bucket, hours] as const,
 
   playgroundSessionLists: () => ["playground-session-list"] as const,
   playgroundSessionList: (params?: { limit?: number }) =>

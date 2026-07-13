@@ -384,7 +384,15 @@
       "MODALITIES": "Модальности",
       "QUICK_STATS": "Краткая статистика",
       "SUPPORTED_PARAMETERS": "Поддерж. параметры",
-      "PERFORMANCE": "Производительность"
+      "PERFORMANCE": "Производительность",
+      "UPTIME": "Время работы",
+      "UPTIME_EMPTY": "Данные о времени работы для этой модели пока недоступны.",
+      "STAT_UPTIME": "Время работы",
+      "STAT_UPTIME_HINT": "Доля времени, когда обслуживал хотя бы один провайдер",
+      "STAT_WINDOW": "Период",
+      "STAT_WINDOW_HINT": "Отображаемый временной диапазон",
+      "WINDOW_24H": "24 ч",
+      "WINDOW_7D": "7 дн."
     },
     "PRICE": {
       "PER_REQUEST": " · запрос",
@@ -3605,7 +3613,8 @@
       "FREE_BADGE": "БЕСПЛАТНО",
       "LOGIN_REQUIRED": "Требуется вход",
       "CUSTOM_PROVIDERS": "Свои провайдеры",
-      "UNAVAILABLE_TOOLTIP": "{model} (временно недоступна)"
+      "UNAVAILABLE_TOOLTIP": "{model} (временно недоступна)",
+      "UPTIME_TITLE": "Время работы {pct}% (24 ч), активны {up}/{total} провайдеров"
     },
     "GROUP": {
       "SELECT": "Группа тарификации",

@@ -3,6 +3,7 @@
 import { useElysiaQuery } from "@/lib/react-query/hooks";
 
 import { decodeCompactPage } from "@/lib/api/model-status-compact";
+import { decodeBucketDtos } from "@/lib/api/model-status-buckets";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import type { StatusBucket } from "@/lib/types";
@@ -23,5 +24,23 @@ export function useStatusPage(bucket: StatusBucket = "1m", hours: number = 24) {
 export function useStatusComponents() {
   return useElysiaQuery(queryKeys.modelStatusComponents(), () =>
     rpc.api.models["model-status"].components.get(),
+  );
+}
+
+export function useModelStatusBucketsQuery(
+  model: string | null,
+  bucket: StatusBucket = "15m",
+  hours: number = 24,
+) {
+  return useElysiaQuery(
+    queryKeys.modelStatusBuckets(model ?? "", bucket, hours),
+    () =>
+      rpc.api.models["model-status"].buckets.get({
+        query: { model: model!, bucket, hours },
+      }),
+    {
+      enabled: Boolean(model),
+      select: (raw) => decodeBucketDtos(raw),
+    },
   );
 }

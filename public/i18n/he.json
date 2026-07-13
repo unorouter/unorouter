@@ -384,7 +384,15 @@
       "MODALITIES": "אופנים",
       "QUICK_STATS": "סטטיסטיקה מהירה",
       "SUPPORTED_PARAMETERS": "פרמטרים נתמכים",
-      "PERFORMANCE": "ביצועים"
+      "PERFORMANCE": "ביצועים",
+      "UPTIME": "זמן פעילות",
+      "UPTIME_EMPTY": "נתוני זמן הפעילות אינם זמינים עדיין עבור מודל זה.",
+      "STAT_UPTIME": "זמן פעילות",
+      "STAT_UPTIME_HINT": "שיעור הזמן שבו לפחות ספק אחד סיפק שירות",
+      "STAT_WINDOW": "חלון זמן",
+      "STAT_WINDOW_HINT": "טווח הזמן המוצג",
+      "WINDOW_24H": "24 שעות",
+      "WINDOW_7D": "7 ימים"
     },
     "PRICE": {
       "PER_REQUEST": " · בקשה",
@@ -3605,7 +3613,8 @@
       "FREE_BADGE": "חינם",
       "LOGIN_REQUIRED": "התחברות נדרשת",
       "CUSTOM_PROVIDERS": "ספקים מותאמים אישית",
-      "UNAVAILABLE_TOOLTIP": "{model} (לא זמין באופן זמני)"
+      "UNAVAILABLE_TOOLTIP": "{model} (לא זמין באופן זמני)",
+      "UPTIME_TITLE": "{pct}% זמן פעילות (24 שעות), {up}/{total} ספקים פעילים"
     },
     "GROUP": {
       "SELECT": "קבוצת חיוב",

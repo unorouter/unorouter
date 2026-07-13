@@ -384,7 +384,15 @@
       "MODALITIES": "模態",
       "QUICK_STATS": "快速統計",
       "SUPPORTED_PARAMETERS": "支援的參數",
-      "PERFORMANCE": "效能"
+      "PERFORMANCE": "效能",
+      "UPTIME": "在線時長",
+      "UPTIME_EMPTY": "此模型的在線時長資料尚未提供。",
+      "STAT_UPTIME": "在線時長",
+      "STAT_UPTIME_HINT": "至少有一個供應商提供服務的時間占比",
+      "STAT_WINDOW": "時間範圍",
+      "STAT_WINDOW_HINT": "顯示的時間範圍",
+      "WINDOW_24H": "24小時",
+      "WINDOW_7D": "7天"
     },
     "PRICE": {
       "PER_REQUEST": "／次請求",
@@ -3605,7 +3613,8 @@
       "FREE_BADGE": "免費",
       "LOGIN_REQUIRED": "需先登入",
       "CUSTOM_PROVIDERS": "自訂提供商",
-      "UNAVAILABLE_TOOLTIP": "{model}（暫時無法使用）"
+      "UNAVAILABLE_TOOLTIP": "{model}（暫時無法使用）",
+      "UPTIME_TITLE": "在線時長 {pct}%（24小時），{up}/{total} 個供應商在線"
     },
     "GROUP": {
       "SELECT": "計費分組",

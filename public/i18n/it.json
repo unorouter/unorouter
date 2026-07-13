@@ -384,7 +384,15 @@
       "MODALITIES": "Modalità",
       "QUICK_STATS": "Statistiche rapide",
       "SUPPORTED_PARAMETERS": "Parametri supportati",
-      "PERFORMANCE": "Performance"
+      "PERFORMANCE": "Performance",
+      "UPTIME": "Disponibilità",
+      "UPTIME_EMPTY": "I dati sulla disponibilità non sono ancora disponibili per questo modello.",
+      "STAT_UPTIME": "Disponibilità",
+      "STAT_UPTIME_HINT": "Percentuale di tempo in cui almeno un provider ha erogato il servizio",
+      "STAT_WINDOW": "Intervallo",
+      "STAT_WINDOW_HINT": "Intervallo di tempo mostrato",
+      "WINDOW_24H": "24 h",
+      "WINDOW_7D": "7 gg"
     },
     "PRICE": {
       "PER_REQUEST": " · richiesta",
@@ -3605,7 +3613,8 @@
       "FREE_BADGE": "GRATIS",
       "LOGIN_REQUIRED": "Login richiesto",
       "CUSTOM_PROVIDERS": "Provider personalizzati",
-      "UNAVAILABLE_TOOLTIP": "{model} (temporaneamente non disponibile)"
+      "UNAVAILABLE_TOOLTIP": "{model} (temporaneamente non disponibile)",
+      "UPTIME_TITLE": "{pct}% di disponibilità (24 h), {up}/{total} provider attivi"
     },
     "GROUP": {
       "SELECT": "Gruppo di fatturazione",

@@ -384,7 +384,15 @@
       "MODALITIES": "Modalności",
       "QUICK_STATS": "Szybkie statystyki",
       "SUPPORTED_PARAMETERS": "Obsługiwane parametry",
-      "PERFORMANCE": "Wydajność"
+      "PERFORMANCE": "Wydajność",
+      "UPTIME": "Czas dostępności",
+      "UPTIME_EMPTY": "Dane o czasie dostępności nie są jeszcze dostępne dla tego modelu.",
+      "STAT_UPTIME": "Czas dostępności",
+      "STAT_UPTIME_HINT": "Odsetek czasu, w którym co najmniej jeden dostawca obsługiwał żądania",
+      "STAT_WINDOW": "Okno czasowe",
+      "STAT_WINDOW_HINT": "Wyświetlany zakres czasu",
+      "WINDOW_24H": "24 godz.",
+      "WINDOW_7D": "7 dni"
     },
     "PRICE": {
       "PER_REQUEST": " · zapytanie",
@@ -3605,7 +3613,8 @@
       "FREE_BADGE": "DARMOWE",
       "LOGIN_REQUIRED": "Wymagane logowanie",
       "CUSTOM_PROVIDERS": "Niestandardowi dostawcy",
-      "UNAVAILABLE_TOOLTIP": "{model} (chwilowo niedostępny)"
+      "UNAVAILABLE_TOOLTIP": "{model} (chwilowo niedostępny)",
+      "UPTIME_TITLE": "{pct}% dostępności (24 godz.), {up}/{total} dostawców online"
     },
     "GROUP": {
       "SELECT": "Grupa rozliczeniowa",
