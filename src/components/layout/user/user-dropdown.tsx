@@ -48,9 +48,14 @@ export function UserDropdown(props: UserDropdownProps) {
       !!s.subscription && s.subscription.status === "active",
   );
 
-  if (!userDisplay.user) return null;
-
+  // Until mounted, render ONLY the plain child button - identical on the server
+  // and the first client render, regardless of auth-cache timing - so hydration
+  // never compares the streamed static button against the Base UI trigger (which
+  // decorates it with client-only attrs) or against a null (auth not yet in the
+  // client cache). The interactive dropdown mounts after hydration.
   if (!mounted) return props.children;
+
+  if (!userDisplay.user) return null;
 
   async function handleLogout() {
     try {
