@@ -205,6 +205,36 @@ export const localUserIdAtom = atomWithStorage<number>(
 
 export const chatStore = createStore();
 
+// Apply a live-thread message patch, tolerating a momentarily-null helpers
+// bridge. The bridge (chatHelpersAtom) is cleared/re-set during thread swaps, so
+// a delete/edit firing in that window would silently no-op and the change would
+// only show after a refresh. If the bridge is null now, wait for the next
+// non-null value (capped) and apply once.
+export function patchLiveMessages(
+  updater: (msgs: unknown[]) => unknown[],
+): void {
+  const helpers = chatStore.get(chatHelpersAtom);
+  if (helpers) {
+    helpers.setMessages(updater);
+    return;
+  }
+  let done = false;
+  const apply = (h: ChatHelpersRef | null) => {
+    if (done || !h) return;
+    done = true;
+    unsub();
+    clearTimeout(timer);
+    h.setMessages(updater);
+  };
+  const unsub = chatStore.sub(chatHelpersAtom, () =>
+    apply(chatStore.get(chatHelpersAtom)),
+  );
+  const timer = setTimeout(() => {
+    done = true;
+    unsub();
+  }, 5000);
+}
+
 export function ensureConvId(): string {
   const id = chatStore.get(convIdAtom) ?? uid();
   chatStore.set(convIdAtom, id);

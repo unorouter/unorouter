@@ -8,7 +8,7 @@ import {
   useTaskStatusQuery,
 } from "@/hooks/ai/chat-hook";
 import { cn } from "@/lib/utils";
-import { chatHelpersAtom, chatStore } from "@/store/chat-store";
+import { patchLiveMessages } from "@/store/chat-store";
 import { useAuiState } from "@assistant-ui/react";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
@@ -159,8 +159,7 @@ export function TaskCard(props: Props) {
             const isTaskPart = (p: { type: string; name?: unknown }) =>
               p.type === "data-task" ||
               (p.type === "data" && p.name === "task");
-            const helpers = chatStore.get(chatHelpersAtom);
-            helpers?.setMessages((msgs) => {
+            patchLiveMessages((msgs) => {
               const list = msgs as Array<{
                 id: string;
                 parts?: Array<{

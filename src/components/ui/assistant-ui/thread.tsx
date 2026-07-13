@@ -51,6 +51,7 @@ import {
   chatWebSearchAtom,
   convIdAtom,
   historyLoadedAtom,
+  patchLiveMessages,
 } from "@/store/chat-store";
 import { useMessageError } from "@assistant-ui/core/react";
 import {
@@ -624,7 +625,7 @@ const AssistantEditInPlace: FC<{ onClose: () => void }> = (props) => {
     });
     analytics.chat.messageEdited({ role: "assistant", is_rp: isRpActive() });
 
-    helpers?.setMessages((msgs) => {
+    patchLiveMessages((msgs) => {
       const list = msgs as Array<{
         id: string;
         parts?: unknown[];
@@ -787,8 +788,7 @@ const DeleteMessageButton: FC = () => {
 
 const MEDIA_OUTPUT_RE = /^!\[(?:audio|image|video)\]\(/;
 
-const isRpActive = () =>
-  chatStore.get(chatLoadoutAtom).characterIds.length > 0;
+const isRpActive = () => chatStore.get(chatLoadoutAtom).characterIds.length > 0;
 
 const BranchButton: FC = () => {
   const t = useTranslations();

@@ -22,15 +22,19 @@ import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
 import {
+  CHAT_STORE_KEY,
   chatDefaultsAtom,
   chatGroupAtom,
-  chatHelpersAtom,
   chatLoadoutAtom,
   chatModelAtom,
   chatStore,
   freshConvId,
   greetingIndexAtom,
+  INITIAL_CHAT_STATE,
+  patchLiveMessages,
+  type ChatState,
 } from "@/store/chat-store";
+import { jotaiCookieStorage } from "@/lib/config/table-storage";
 import type { RemoteThreadListAdapter } from "@assistant-ui/react";
 import type { QueryClient } from "@tanstack/react-query";
 import { createAssistantStream } from "assistant-stream";
@@ -81,7 +85,19 @@ export function createThreadListAdapter(
 
       const now = dayjs().toDate();
 
-      const defaults = chatStore.get(chatDefaultsAtom);
+      // Read defaults from the persisted cookie directly, not just the atom: the
+      // cookie-backed atom hydrates asynchronously after mount, so a fast new-chat
+      // creation during that window would read the empty INITIAL defaults and seed
+      // a null maxTokens (no cap), wiping the user's sticky reply-length control.
+      const cookieState = jotaiCookieStorage.getItem(
+        CHAT_STORE_KEY,
+        INITIAL_CHAT_STATE,
+      ) as ChatState;
+      const atomDefaults = chatStore.get(chatDefaultsAtom);
+      const defaults = {
+        ...(cookieState.defaults ?? {}),
+        ...atomDefaults,
+      };
       const loadout = chatStore.get(chatLoadoutAtom);
       const hasPreset = !!loadout.presetId;
       const seed = <K extends keyof typeof defaults>(key: K) =>
@@ -204,14 +220,13 @@ export function createThreadListAdapter(
             });
           }
           chatStore.set(greetingIndexAtom, 0);
-          const helpers = chatStore.get(chatHelpersAtom);
-          if (helpers && seededGreeting) {
+          if (seededGreeting) {
             const greetingMessage = {
               id: seededGreeting.id,
               role: "assistant",
               parts: [{ type: "text", text: seededGreeting.text }],
             };
-            helpers.setMessages((msgs) =>
+            patchLiveMessages((msgs) =>
               msgs.some((m) => (m as { id?: string }).id === seededGreeting.id)
                 ? msgs
                 : [greetingMessage, ...msgs],

@@ -8,7 +8,7 @@ import { msg, PAGE_SIZE } from "@/lib/config/constants";
 import { invalidateAndBroadcast } from "@/lib/react-query/cross-tab-invalidate";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
-import { chatHelpersAtom, chatStore } from "@/store/chat-store";
+import { patchLiveMessages } from "@/store/chat-store";
 import { handleElysia, uid } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
 import { handleError } from "@/lib/utils/client";
@@ -345,7 +345,7 @@ export function useClearConversationMutation() {
       return { id: args.id };
     },
     (args) => [queryKeys.chatMessages(args.id)],
-    () => chatStore.get(chatHelpersAtom)?.setMessages(() => []),
+    () => patchLiveMessages(() => []),
   );
 }
 
@@ -441,10 +441,8 @@ export function useDeleteMessageMutation() {
     // keeps its in-memory messages until a reload otherwise, so a deleted error/reply lingered until a
     // manual refresh (worse on iOS Safari). Runs last via onAfter, not inside the mutation body.
     (data) =>
-      chatStore
-        .get(chatHelpersAtom)
-        ?.setMessages((msgs) =>
-          (msgs as { id?: string }[]).filter((m) => m.id !== data?.id),
-        ),
+      patchLiveMessages((msgs) =>
+        (msgs as { id?: string }[]).filter((m) => m.id !== data?.id),
+      ),
   );
 }
