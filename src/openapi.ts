@@ -3,7 +3,7 @@
  * Do not edit manually.
  * New API
  *
- * OpenAPI spec version: v0.0.0
+ * OpenAPI spec version: 0.0.1
  */
 import { customFetch } from "./lib/custom-fetch";
 export type ChannelInfoMultiKeyDisabledReason = {
@@ -159,11 +159,26 @@ export interface AnnouncementEntry {
   type?: string;
 }
 
+export type ChannelAffinityCacheStatsByRuleName = {
+  [key: string]: number;
+} | null;
+
+export interface ChannelAffinityCacheStats {
+  by_rule_name: ChannelAffinityCacheStatsByRuleName;
+  cache_algo: string;
+  cache_capacity: number;
+  enabled: boolean;
+  total: number;
+  unknown: number;
+}
+
 /**
- * UpdateDeploymentNameRequest schema
+ * Response_service.ChannelAffinityCacheStats schema
  */
 export interface AnonymousSchema0 {
-  name: string;
+  data: ChannelAffinityCacheStats;
+  message: string;
+  success: boolean;
 }
 
 export interface ApiInfoEntry {
@@ -240,19 +255,6 @@ export interface BucketPoint {
 export interface CardItemDTO {
   status: string;
   value: string;
-}
-
-export type ChannelAffinityCacheStatsByRuleName = {
-  [key: string]: number;
-} | null;
-
-export interface ChannelAffinityCacheStats {
-  by_rule_name: ChannelAffinityCacheStatsByRuleName;
-  cache_algo: string;
-  cache_capacity: number;
-  enabled: boolean;
-  total: number;
-  unknown: number;
 }
 
 export interface ChannelAffinityUsageCacheStats {
