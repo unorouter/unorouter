@@ -38,9 +38,16 @@ export async function NavAuth() {
     >
       {/* Explicit trigger id: Base UI's useId differs between the streamed
           server render and client hydration across this Suspense hole
-          (React #418); a stable id keeps the markup identical. */}
+          (React #418); a stable id keeps the markup identical.
+          suppressHydrationWarning: Base UI's Menu.Trigger attaches its
+          interactive attrs (disabled, aria-controls, event handlers) only on
+          the client, so the streamed server button markup never matches the
+          hydrated one - the difference is inert and expected. */}
       <UserDropdown side="bottom" align="end" triggerId="nav-user-trigger">
-        <button className="cursor-pointer focus:outline-none">
+        <button
+          className="cursor-pointer focus:outline-none"
+          suppressHydrationWarning
+        >
           <UserAvatar />
         </button>
       </UserDropdown>
