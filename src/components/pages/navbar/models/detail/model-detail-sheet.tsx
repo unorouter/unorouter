@@ -119,16 +119,16 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
         <div className="space-y-6 p-4">
           <section>
             <SectionHeading theme={theme}>
-              {t("MODELS.DETAIL.PERFORMANCE")}
+              {t("MODELS.DETAIL.UPTIME")}
             </SectionHeading>
-            <PerformanceSection modelName={model.name} />
+            <UptimeSection model={model.name} />
           </section>
 
           <section>
             <SectionHeading theme={theme}>
-              {t("MODELS.DETAIL.UPTIME")}
+              {t("MODELS.DETAIL.PERFORMANCE")}
             </SectionHeading>
-            <UptimeSection model={model.name} />
+            <PerformanceSection modelName={model.name} />
           </section>
 
           {model.description && (

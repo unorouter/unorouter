@@ -50,13 +50,6 @@ export function PerfUptimePanel(props: { modelName: string; theme: Theme }) {
     <>
       <section className="mt-12">
         <SectionHeading theme={props.theme} action={toggle}>
-          {t("MODELS.DETAIL.PERFORMANCE")}
-        </SectionHeading>
-        <PerformanceSection modelName={props.modelName} hours={win.hours} />
-      </section>
-
-      <section className="mt-12">
-        <SectionHeading theme={props.theme}>
           {t("MODELS.DETAIL.UPTIME")}
         </SectionHeading>
         <UptimeSection
@@ -64,6 +57,13 @@ export function PerfUptimePanel(props: { modelName: string; theme: Theme }) {
           bucket={win.bucket}
           hours={win.hours}
         />
+      </section>
+
+      <section className="mt-12">
+        <SectionHeading theme={props.theme}>
+          {t("MODELS.DETAIL.PERFORMANCE")}
+        </SectionHeading>
+        <PerformanceSection modelName={props.modelName} hours={win.hours} />
       </section>
     </>
   );
