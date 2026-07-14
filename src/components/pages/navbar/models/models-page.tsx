@@ -14,10 +14,7 @@ import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
 import { DataTableId } from "@/lib/types/enums";
-import {
-  createTableAtoms,
-  dataTableStorageAtom,
-} from "@/store/data-table-store";
+import { createTableAtoms } from "@/store/data-table-store";
 import {
   activeFilterCountAtom,
   clearFiltersAtom,
@@ -81,15 +78,9 @@ export function ModelsPage() {
   const clearFilters = useSetAtom(clearFiltersAtom);
   const isDirty = useAtomValue(isDirtyAtom);
   const activeFilterCount = useAtomValue(activeFilterCountAtom);
+  const columnSorting = useAtomValue(modelsTableAtoms.sortingAtom);
   const setColumnSorting = useSetAtom(modelsTableAtoms.sortingAtom);
-  // Read the column sort from the shared cookie-backed store, not a derived field
-  // atom: the DataTable writes its sort through its own render-scope atom instance,
-  // and reading a second instance here missed those updates, so a column-only sort
-  // left the reset button hidden. The storage atom is the single source both share.
-  const tableStores = useAtomValue(dataTableStorageAtom);
-  const hasColumnSort =
-    (tableStores[DataTableId.MODELS]?.sorting?.length ?? 0) > 0;
-  const showReset = isDirty || hasColumnSort;
+  const showReset = isDirty || columnSorting.length > 0;
 
   function resetAll() {
     clearFilters();
