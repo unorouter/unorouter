@@ -146,6 +146,15 @@ async function runClientStream(args: {
       : {}),
   });
 
+  // streamText exposes terminal promises (result.text / finishReason) that ai-sdk
+  // resolves in the background. When a flaky free model closes with zero content,
+  // ai-sdk rejects them with AI_NoOutputGeneratedError; nothing here awaits them,
+  // so it lands as an UNHANDLED rejection (bypassing onError + posthog's
+  // before_send drop). Mark them handled - the error already surfaced to the user
+  // via toUIMessageStream's onError below and to us via streamText onError above.
+  void Promise.resolve(result.text).catch(() => {});
+  void Promise.resolve(result.finishReason).catch(() => {});
+
   const responseMessageId = uid();
   const uiStream = result.toUIMessageStream({
     generateMessageId: () => responseMessageId,
