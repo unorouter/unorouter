@@ -248,7 +248,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
             {!props.isLoading &&
               props.windowVirtual &&
               rows.length > 0 &&
-              (virtualReady ? (
+              (virtualReady && virtualRows.length > 0 ? (
                 <>
                   {paddingTop > 0 && (
                     <tr aria-hidden style={{ height: paddingTop }} />
@@ -259,7 +259,14 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
                   )}
                 </>
               ) : (
-                rows.slice(0, 25).map((row) => renderRow(row))
+                // Fallback whenever the virtualizer is not actively windowing:
+                // the SSR shell before mount, and (the real bug) a virtualizer
+                // stuck with an empty window - virtualReady never flipping or a
+                // stale scrollMargin after an async sort/filter cookie applies.
+                // Render every row so the list is never silently truncated to the
+                // first screenful. Cheap for ~160 light rows; the windowed branch
+                // takes over once virtual items land.
+                rows.map((row) => renderRow(row))
               ))}
           </TableBody>
         </Table>
