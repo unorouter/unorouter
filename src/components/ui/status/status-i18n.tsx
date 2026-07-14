@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext } from "react";
+import { createContext, useContext, useEffect } from "react";
 import type {
   StatusReportUpdateType,
   StatusType,
@@ -59,6 +59,14 @@ const StatusBlocksLabelsContext = createContext<StatusBlocksLabels | null>(
   null,
 );
 
+// Base UI's PreviewCard/HoverCard portal renders its popup in a detached React
+// root that does NOT inherit this context, so the hover-card content (which also
+// reads the labels) saw a null context and threw, white-screening the whole
+// model page. The provider always mounts before the portal can open, so the last
+// value it published is a valid, current-locale labels object; fall back to it
+// for portaled consumers instead of crashing.
+const fallback: { labels: StatusBlocksLabels | null } = { labels: null };
+
 export function StatusBlocksI18nProvider({
   value,
   children,
@@ -66,6 +74,9 @@ export function StatusBlocksI18nProvider({
   value: StatusBlocksLabels;
   children: React.ReactNode;
 }) {
+  useEffect(() => {
+    fallback.labels = value;
+  }, [value]);
   return (
     <StatusBlocksLabelsContext.Provider value={value}>
       {children}
@@ -75,10 +86,9 @@ export function StatusBlocksI18nProvider({
 
 export function useStatusBlocksLabels(): StatusBlocksLabels {
   const value = useContext(StatusBlocksLabelsContext);
-  if (!value) {
-    throw new Error(
-      "useStatusBlocksLabels: no StatusBlocksI18nProvider mounted. Wrap the consumer in <StatusBlocksI18n> (or a custom provider).",
-    );
-  }
-  return value;
+  if (value) return value;
+  if (fallback.labels) return fallback.labels;
+  throw new Error(
+    "useStatusBlocksLabels: no StatusBlocksI18nProvider mounted. Wrap the consumer in <StatusBlocksI18n> (or a custom provider).",
+  );
 }
