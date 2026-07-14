@@ -71,25 +71,26 @@ export function ModelsFilterSidebar(props: { models: ProcessedModel[] }) {
   return (
     <Sidebar
       collapsible="offcanvas"
-      className="absolute! inset-y-0 h-full!"
+      className="absolute! inset-y-0 h-full! bg-transparent"
     >
-      <SidebarHeader className="flex-row items-center justify-between px-3 py-2">
-        <span className="font-mono text-sm font-medium">
-          {t("MODELS.FILTER.TITLE")}
-        </span>
-        {isDirty && (
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => clearFilters()}
-            className="h-7 px-2"
-          >
-            {t("MODELS.FILTER.RESET")}
-            <Icon name="x" className="ml-1 h-3.5 w-3.5" />
-          </Button>
-        )}
-      </SidebarHeader>
-      <SidebarContent className="gap-4 px-3 py-2">
+      <div className="sticky top-14 flex max-h-[calc(100svh-3.5rem)] flex-col">
+        <SidebarHeader className="flex-row items-center justify-between px-3 py-2">
+          <span className="font-mono text-sm font-medium">
+            {t("MODELS.FILTER.TITLE")}
+          </span>
+          {isDirty && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => clearFilters()}
+              className="h-7 px-2"
+            >
+              {t("MODELS.FILTER.RESET")}
+              <Icon name="x" className="ml-1 h-3.5 w-3.5" />
+            </Button>
+          )}
+        </SidebarHeader>
+        <SidebarContent className="gap-4 overflow-y-auto px-3 py-2">
         <InputModalitiesGroup
           value={inputModalities}
           onChange={setInputModalities}
@@ -115,13 +116,14 @@ export function ModelsFilterSidebar(props: { models: ProcessedModel[] }) {
           value={supportedParameters}
           onChange={setSupportedParameters}
         />
-        <MultiSelectGroup
-          label={t("MODELS.FILTER.PROVIDERS")}
-          options={vendorOptions}
-          value={selectedVendors}
-          onChange={setSelectedVendors}
-        />
-      </SidebarContent>
+          <MultiSelectGroup
+            label={t("MODELS.FILTER.PROVIDERS")}
+            options={vendorOptions}
+            value={selectedVendors}
+            onChange={setSelectedVendors}
+          />
+        </SidebarContent>
+      </div>
     </Sidebar>
   );
 }
