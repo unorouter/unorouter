@@ -5,7 +5,11 @@ import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { env } from "@/lib/config/env";
 import { Input } from "@/components/ui/input";
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
 import { useModelsFilter } from "@/hooks/ui/use-models-hook";
 import { ModelsUrlSync } from "@/hooks/ui/use-models-url-sync";
 import { analytics } from "@/lib/analytics";
@@ -108,6 +112,10 @@ export function ModelsPage() {
 
         <SidebarInset className="max-h-none! overflow-visible bg-transparent px-4 md:px-6">
           <div className="mb-4 flex flex-wrap items-center gap-2">
+            <SidebarTrigger
+              aria-label={t("MODELS.FILTER.TITLE")}
+              className="h-9 w-9 border"
+            />
             <h1 className="mr-2 text-lg font-semibold tracking-tight">
               {t("MODELS.TITLE")}
             </h1>
