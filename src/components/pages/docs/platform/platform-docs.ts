@@ -98,6 +98,7 @@ export const PLATFORM_DOCS: PlatformDoc[] = [
       ["balance", "H_BALANCE"],
       ["topup", "H_TOPUP"],
       ["earn", "H_EARN"],
+      ["levels", "H_LEVELS"],
       ["keys", "H_KEYS"],
       ["charges", "H_CHARGES"],
       ["logs", "H_LOGS"],
