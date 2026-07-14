@@ -69,7 +69,10 @@ export function ModelsFilterSidebar(props: { models: ProcessedModel[] }) {
   const vendorOptions = uniqueSorted(props.models.map((m) => m.vendor.name));
 
   return (
-    <Sidebar collapsible="offcanvas" className="top-14 bottom-0 h-auto">
+    <Sidebar
+      collapsible="offcanvas"
+      className="absolute! inset-y-0 h-full!"
+    >
       <SidebarHeader className="flex-row items-center justify-between px-3 py-2">
         <span className="font-mono text-sm font-medium">
           {t("MODELS.FILTER.TITLE")}

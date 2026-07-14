@@ -105,7 +105,7 @@ export function ModelsPage() {
       </Suspense>
       <SidebarProvider
         defaultOpen
-        className="h-auto min-h-0 overflow-visible"
+        className="relative h-auto min-h-0 overflow-visible"
         style={{ "--sidebar-width": "16rem" } as React.CSSProperties}
       >
         <ModelsFilterSidebar models={m.models} />
