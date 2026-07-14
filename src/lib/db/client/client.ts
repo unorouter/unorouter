@@ -44,6 +44,9 @@ function isRecoverable(err: unknown): boolean {
     s.includes("SQLITE_IOERR") ||
     s.includes("SQLITE_CANTOPEN") ||
     s.includes("SQLITE_BUSY") ||
+    s.includes("SQLITE_CORRUPT") ||
+    s.includes("SQLITE_NOTADB") ||
+    s.includes("file is not a database") ||
     s.includes("client has been destroyed")
   );
 }
@@ -100,7 +103,18 @@ async function openMigratedSql(
 }
 
 async function openClient(userId: number): Promise<LocalClient> {
-  const dbPath = `${env.appName.toLowerCase()}-${userId}.sqlite3`;
+  const appName = env.appName.toLowerCase();
+  const dbPath = `${appName}-${userId}.sqlite3`;
+  try {
+    const { recoverPendingImport } =
+      await import("@/lib/db/client/data-migrate/reconcile-import");
+    await recoverPendingImport(dbPath, appName, userId);
+  } catch (err) {
+    logChatDebug("db.open.recover_error", {
+      userId,
+      error: String(err).slice(0, 200),
+    });
+  }
   let sql = await openMigratedSql(dbPath, userId);
   let reopening: Promise<void> | null = null;
 

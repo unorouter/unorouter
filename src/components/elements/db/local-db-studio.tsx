@@ -3,14 +3,21 @@
 import { env } from "@/lib/config/env";
 import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { confirm } from "@/components/ui/confirm";
 import { Icon } from "@/components/ui/icon";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import type { DbExportOptions } from "@/lib/db/client/data/diagnostics/db-export";
 import { getLocalDb, resetLocalDbCache } from "@/lib/db/client/client";
 import { dayjs } from "@/lib/utils/format/date";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
@@ -76,14 +83,14 @@ export function LocalDbStudio(props: Props) {
     location.reload();
   };
 
-  const download = async () => {
+  const download = async (options: DbExportOptions) => {
     try {
       const filename = `${env.appName.toLowerCase()}-${userId}-${dayjs()
         .toISOString()
         .replace(/[:.]/g, "-")}.sqlite3`;
       const { downloadLocalDb } =
         await import("@/lib/db/client/data/diagnostics/db-export");
-      await downloadLocalDb(userId, filename);
+      await downloadLocalDb(userId, filename, options);
     } catch (e) {
       logger.error("DB download failed", {
         context: "local-db.studio",
@@ -143,12 +150,7 @@ export function LocalDbStudio(props: Props) {
             variant="destructive"
             onClick={wipe}
           />
-          <ActionButton
-            icon="download"
-            label={t("CHAT.MORE.LOCAL_DB_DOWNLOAD")}
-            variant="secondary"
-            onClick={download}
-          />
+          <DownloadPopover onDownload={download} />
           <ActionButton
             icon="upload"
             label={t("CHAT.MORE.LOCAL_DB_UPLOAD")}
@@ -200,6 +202,99 @@ function ActionButton(props: {
       />
       <TooltipContent side="right">{props.label}</TooltipContent>
     </Tooltip>
+  );
+}
+
+function DownloadPopover(props: {
+  onDownload: (options: DbExportOptions) => void | Promise<void>;
+}) {
+  const t = useTranslations();
+  const [open, setOpen] = useState(false);
+  const [opts, setOpts] = useState<Required<DbExportOptions>>({
+    includeChats: true,
+    includeRequestLogs: false,
+    includeMedia: true,
+  });
+
+  const run = async (options: DbExportOptions) => {
+    setOpen(false);
+    await props.onDownload(options);
+  };
+
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <Tooltip>
+        <TooltipTrigger
+          render={
+            <PopoverTrigger
+              render={
+                <Button
+                  variant="secondary"
+                  size="icon"
+                  aria-label={t("CHAT.MORE.LOCAL_DB_DOWNLOAD")}
+                  className="size-7"
+                >
+                  <Icon name="download" className="size-3" />
+                </Button>
+              }
+            />
+          }
+        />
+        <TooltipContent side="right">
+          {t("CHAT.MORE.LOCAL_DB_DOWNLOAD")}
+        </TooltipContent>
+      </Tooltip>
+      <PopoverContent side="right" align="start" className="w-64">
+        <div className="flex flex-col gap-3">
+          <ExportToggle
+            label={t("CHAT.MORE.LOCAL_DB_EXPORT_CHATS")}
+            checked={opts.includeChats}
+            onChange={(v) => setOpts({ ...opts, includeChats: v })}
+          />
+          <ExportToggle
+            label={t("CHAT.MORE.LOCAL_DB_EXPORT_LOGS")}
+            checked={opts.includeRequestLogs}
+            onChange={(v) => setOpts({ ...opts, includeRequestLogs: v })}
+          />
+          <ExportToggle
+            label={t("CHAT.MORE.LOCAL_DB_EXPORT_MEDIA")}
+            checked={opts.includeMedia}
+            onChange={(v) => setOpts({ ...opts, includeMedia: v })}
+          />
+          <div className="flex flex-col gap-1.5">
+            <Button size="sm" onClick={() => run(opts)}>
+              {t("CHAT.MORE.LOCAL_DB_DOWNLOAD")}
+            </Button>
+            <Button
+              size="sm"
+              variant="ghost"
+              onClick={() =>
+                run({
+                  includeChats: false,
+                  includeRequestLogs: false,
+                  includeMedia: false,
+                })
+              }
+            >
+              {t("CHAT.MORE.LOCAL_DB_EXPORT_NO_CHAT")}
+            </Button>
+          </div>
+        </div>
+      </PopoverContent>
+    </Popover>
+  );
+}
+
+function ExportToggle(props: {
+  label: string;
+  checked: boolean;
+  onChange: (checked: boolean) => void;
+}) {
+  return (
+    <label className="flex cursor-pointer items-center gap-2 text-sm">
+      <Checkbox checked={props.checked} onCheckedChange={props.onChange} />
+      {props.label}
+    </label>
   );
 }
 

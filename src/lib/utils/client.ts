@@ -174,6 +174,48 @@ export function downloadBlob(blob: Blob, filename: string) {
   URL.revokeObjectURL(url);
 }
 
+type SaveFilePicker = (opts: {
+  suggestedName?: string;
+  types?: { description?: string; accept: Record<string, string[]> }[];
+}) => Promise<{
+  createWritable: () => Promise<WritableStream<Uint8Array>>;
+}>;
+
+// Stream a file straight to disk via the File System Access API where available
+// (desktop Chromium, Android Chrome) so large files never fully materialize in
+// the JS heap. Falls back to a blob-URL download on unsupported platforms (iOS
+// Safari lacks showSaveFilePicker and SW-controlled downloads). Returns which
+// path was taken. A user-cancelled picker resolves without downloading.
+export async function streamFileToDisk(
+  file: File,
+  filename: string,
+): Promise<"fsa" | "blob" | "cancelled"> {
+  const picker = (window as unknown as { showSaveFilePicker?: SaveFilePicker })
+    .showSaveFilePicker;
+  if (typeof picker === "function") {
+    try {
+      const handle = await picker({
+        suggestedName: filename,
+        types: [
+          {
+            description: "SQLite database",
+            accept: { "application/x-sqlite3": [".sqlite3"] },
+          },
+        ],
+      });
+      const writable = await handle.createWritable();
+      await file.stream().pipeTo(writable);
+      return "fsa";
+    } catch (err) {
+      if (err instanceof DOMException && err.name === "AbortError")
+        return "cancelled";
+      // Any other failure (partial write, permission) falls through to blob.
+    }
+  }
+  downloadBlob(file, filename);
+  return "blob";
+}
+
 export function downloadJson(
   obj: unknown,
   filename: string,
