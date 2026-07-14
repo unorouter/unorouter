@@ -1,13 +1,15 @@
 import { DEFAULT_ROLE_FLAGS, type ProviderAdapter } from "./types";
 
-// GLM accepts stacked same-role messages and a real system role (user-verified against the live API
-// with consecutive user/assistant runs). The old auto alternateRoles/userStub/endUserStub defaults
-// also blocked trailing-assistant prefills. Alternation is opt-in via the preset's manual flags now.
+// GLM runs best with no system role and strictly alternating user/assistant turns; this removed the
+// minor quality drift seen with a real system role + stacked same-role runs. Prefill still works: the
+// endUserStub is skipped when a prefill supplies the trailing assistant turn (role-transform rule 7).
 export const glmAdapter: ProviderAdapter = {
   name: "glm",
   match: (m) => /glm|chatglm|\bkimi\b|moonshot/i.test(m),
   roleFlags: {
     ...DEFAULT_ROLE_FLAGS,
+    fullSystem: false,
+    alternateRoles: true,
     prefillSupported: true,
   },
 };
