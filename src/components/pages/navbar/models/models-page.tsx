@@ -112,10 +112,6 @@ export function ModelsPage() {
 
         <SidebarInset className="max-h-none! overflow-visible bg-transparent px-4 md:px-6">
           <div className="mb-4 flex flex-wrap items-center gap-2">
-            <SidebarTrigger
-              aria-label={t("MODELS.FILTER.TITLE")}
-              className="h-9 w-9 border"
-            />
             <h1 className="mr-2 text-lg font-semibold tracking-tight">
               {t("MODELS.TITLE")}
             </h1>
@@ -176,7 +172,11 @@ export function ModelsPage() {
               half-row peeking through). */}
           {/* h pinned: a transient hydration reflow inside the tab strip
               briefly grew this row 24px and shifted everything below (CLS). */}
-          <div className="bg-background sticky top-14 z-20 h-9.75 overflow-hidden">
+          <div className="bg-background sticky top-14 z-20 flex h-9.75 items-center gap-2 overflow-hidden">
+            <SidebarTrigger
+              aria-label={t("MODELS.FILTER.TITLE")}
+              className="size-8 shrink-0 border"
+            />
             <ModalityTabs
               models={m.tabModels}
               value={m.outputModality}

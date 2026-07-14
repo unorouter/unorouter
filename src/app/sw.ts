@@ -26,9 +26,14 @@ const isOpfsAsset = (url: URL, destination: RequestDestination): boolean =>
   url.pathname.endsWith(".wasm") ||
   url.pathname.includes("sqlocal");
 
+// Drop every Next static asset from the PRECACHE: the turbopack manifest lists
+// them with a build-relative `.next/static/...` path that resolves against the
+// worker scope to `/sw-worker/.next/static/...` and 404s (bad-precaching-response).
+// They are served fresh and runtime-cached by the `/_next/static` CacheFirst rule
+// below, so precaching them is both broken here and redundant.
 const precacheEntries = (self.__SW_MANIFEST ?? []).filter((entry) => {
   const url = typeof entry === "string" ? entry : entry.url;
-  return !/\/_next\/static\/chunks\/.+\.js(\?|$)/.test(url);
+  return !url.includes("next/static/");
 });
 
 const serwist = new Serwist({
