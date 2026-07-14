@@ -168,7 +168,7 @@ export function ModelsPage() {
               half-row peeking through). */}
           {/* h pinned: a transient hydration reflow inside the tab strip
               briefly grew this row 24px and shifted everything below (CLS). */}
-          <div className="bg-background/95 supports-backdrop-blur:bg-background/80 sticky top-14 z-20 h-9.75 overflow-hidden backdrop-blur">
+          <div className="bg-background sticky top-14 z-20 h-9.75 overflow-hidden">
             <ModalityTabs
               models={m.tabModels}
               value={m.outputModality}

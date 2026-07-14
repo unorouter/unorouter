@@ -266,6 +266,17 @@
   }
 }
 
+/* Safari has no scroll-timeline, so the scroll-driven background never runs and
+   the fixed navbar stays transparent, letting scrolled content bleed through it.
+   Fall back to a permanently-solid navbar there. */
+@supports not (animation-timeline: scroll()) {
+  .navbar-scroll {
+    background-color: color-mix(in srgb, var(--background) 90%, transparent);
+    border-color: var(--border);
+    backdrop-filter: blur(12px);
+  }
+}
+
 /* Shiki dual-theme: show light tokens by default, dark tokens in .dark */
 html .shiki,
 html .shiki span {
