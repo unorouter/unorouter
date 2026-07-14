@@ -62,11 +62,15 @@ export function ModelsPage() {
       window.requestIdleCallback ?? ((cb: () => void) => setTimeout(cb, 1500));
     const cancel = window.cancelIdleCallback ?? clearTimeout;
     const handle = idle(() => {
-      void queryClient.fetchQuery({
-        queryKey: queryKeys.pricing(),
-        queryFn: async () => handleElysia(await rpc.api.models.pricing.get()),
-        staleTime: 0,
-      });
+      // Best-effort freshness refetch; the hydrated shell already renders. A
+      // transient network drop here must not surface as an unhandled rejection.
+      void queryClient
+        .fetchQuery({
+          queryKey: queryKeys.pricing(),
+          queryFn: async () => handleElysia(await rpc.api.models.pricing.get()),
+          staleTime: 0,
+        })
+        .catch(() => {});
     });
     return () => cancel(handle as number);
   }, [queryClient]);

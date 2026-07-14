@@ -283,11 +283,19 @@ export function createThreadListAdapter(
         const selected = chatStore.get(chatModelAtom);
         const model =
           selected && !isCustomModelId(selected) ? selected : undefined;
-        const res = await rpc.api.ai.chat.title.post({ text, model });
-        const data = handleElysia(res);
-        controller.appendText(data.title);
+        // Title gen is best-effort: an unauthorized/expired session or a flaky
+        // free-model race must not surface as an unhandled error. Fall back to a
+        // trimmed first-message title so the thread still gets a name.
+        let title: string;
+        try {
+          const res = await rpc.api.ai.chat.title.post({ text, model });
+          title = handleElysia(res).title;
+        } catch {
+          title = text.slice(0, 60).trim() || t("CHAT.NEW_CONVERSATION");
+        }
+        controller.appendText(title);
 
-        await persistTitle(id, data.title);
+        await persistTitle(id, title);
       });
     },
   };
