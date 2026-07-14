@@ -173,6 +173,9 @@ export function TypographicSmoke() {
 
     const resize = () => {
       const rect = container.getBoundingClientRect();
+      // A hidden/collapsed container yields a 0-sized rect; the field scales
+      // divide by these and blow up to Infinity (Float32Array throws).
+      if (rect.width <= 0 || rect.height <= 0) return;
       dpr = Math.min(window.devicePixelRatio || 1, 2);
       cols = Math.min(
         MAX_COLS,
@@ -332,6 +335,7 @@ export function TypographicSmoke() {
       (entries) => {
         const visible = entries[0].isIntersecting;
         if (visible && running) {
+          if (particleStamp === null) resize();
           rafId = requestAnimationFrame(render);
         } else {
           cancelAnimationFrame(rafId);

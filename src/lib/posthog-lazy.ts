@@ -78,9 +78,19 @@ const SAMPLE_KEEP_RATE = 0.1;
 // NOT read $exception_list (the resolved stack) so frame names never trigger a
 // drop.
 function exceptionMessage(properties: Record<string, unknown> | undefined) {
+  // Client-side the SDK puts exceptions on $exception_list ({type, value}[]);
+  // $exception_values/$exception_types only exist after server ingestion.
+  const list = properties?.$exception_list;
+  const fromList = Array.isArray(list)
+    ? list
+        .map((e: { type?: unknown; value?: unknown }) =>
+          [e?.type, e?.value].filter((s) => typeof s === "string").join(" "),
+        )
+        .join(" ")
+    : "";
   const values = properties?.$exception_values;
   const types = properties?.$exception_types;
-  return `${JSON.stringify(values ?? "")} ${JSON.stringify(types ?? "")}`.toLowerCase();
+  return `${fromList} ${JSON.stringify(values ?? "")} ${JSON.stringify(types ?? "")}`.toLowerCase();
 }
 
 // Returns "drop" (never send), "sample" (send SAMPLE_KEEP_RATE of them), or
