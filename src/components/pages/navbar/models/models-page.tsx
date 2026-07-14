@@ -106,7 +106,7 @@ export function ModelsPage() {
       >
         <ModelsFilterSidebar models={m.models} />
 
-        <SidebarInset className="max-h-none overflow-visible bg-transparent px-4 md:px-6">
+        <SidebarInset className="max-h-none! overflow-visible bg-transparent px-4 md:px-6">
           <div className="mb-4 flex flex-wrap items-center gap-2">
             <h1 className="mr-2 text-lg font-semibold tracking-tight">
               {t("MODELS.TITLE")}
