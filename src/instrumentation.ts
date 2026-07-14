@@ -63,6 +63,13 @@ export const onRequestError: Instrumentation.onRequestError = async (
       return;
     }
 
+    // A client aborting mid-stream (closing the tab / stopping a chat reply)
+    // makes Next fail the SSE proxy pipe with "failed to pipe response".
+    // That's the peer hanging up, not a server fault.
+    const message =
+      err instanceof Error ? err.message : String(err ?? "");
+    if (message.includes("failed to pipe response")) return;
+
     posthog.captureException(err, distinctId, {
       $exception_digest: digest || undefined,
       request_path: request.path,

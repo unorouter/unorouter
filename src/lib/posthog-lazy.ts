@@ -68,6 +68,7 @@ const SAMPLE_EXCEPTIONS = [
   "the user aborted a request",
   "removechild", // usually translation-extension DOM race
   "insertbefore",
+  "tried to unmount a fiber", // assistant-ui ResourceFiber lifecycle (upstream bug)
   "not focused", // clipboard write while tab unfocused
   "clipboard",
   "connection closed",
