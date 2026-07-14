@@ -117,6 +117,21 @@ export async function fetchConvTitle(convId: string): Promise<string | null> {
   }
 }
 
+// The auth-redirect cookie is client-written: it may hold a DECODED localized
+// path (Cyrillic /ru/... pathnames throw "Cannot convert argument to a
+// ByteString" when set raw on a Location header) and, being attacker-settable,
+// could carry protocol-relative (//evil.com) or absolute-URL open redirects.
+// Rebuild from URL parts so the path comes back percent-encoded and same-origin.
+export function sanitizeRedirectPath(target: string): string | null {
+  if (!target.startsWith("/") || target.startsWith("//")) return null;
+  try {
+    const url = new URL(target, "http://localhost");
+    return url.pathname + url.search + url.hash;
+  } catch {
+    return null;
+  }
+}
+
 export function assertFound<T>(
   rows: ArrayLike<T>,
 ): asserts rows is { 0: T } & ArrayLike<T> {

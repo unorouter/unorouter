@@ -23,6 +23,7 @@ import {
 } from "@/openapi";
 import { Elysia, redirect } from "elysia";
 import { deriveUpstream } from "@/server/constants";
+import { sanitizeRedirectPath } from "@/lib/utils/server";
 
 export const authRoute = new Elysia({ prefix: "/account" })
   .derive(deriveUpstream)
@@ -142,7 +143,7 @@ export const authRoute = new Elysia({ prefix: "/account" })
       }
 
       set.status = 302;
-      set.headers.location = redirectTo || "/dashboard";
+      set.headers.location = sanitizeRedirectPath(redirectTo) ?? "/dashboard";
     },
     { query: oauthCallbackQuery },
   )

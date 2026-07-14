@@ -6,7 +6,11 @@ import { AUTH_REDIRECT_COOKIE } from "@/lib/config/constants";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
-import { serverLocale, setCookies } from "@/lib/utils/server";
+import {
+  sanitizeRedirectPath,
+  serverLocale,
+  setCookies,
+} from "@/lib/utils/server";
 import { HydrationBoundary } from "@tanstack/react-query";
 import { getCookie } from "cookies-next/server";
 import { getTranslations } from "next-intl/server";
@@ -35,7 +39,9 @@ async function AuthGate(props: Props) {
   const self = await rpc.api.auth.account.self.get(await setCookies());
 
   if (self?.data?.data?.id) {
-    const redirectTo = await getCookie(AUTH_REDIRECT_COOKIE, { cookies });
+    const redirectTo = sanitizeRedirectPath(
+      String((await getCookie(AUTH_REDIRECT_COOKIE, { cookies })) ?? ""),
+    );
     redirect({
       href: (redirectTo as Redirect["href"]) || "/dashboard",
       locale,
