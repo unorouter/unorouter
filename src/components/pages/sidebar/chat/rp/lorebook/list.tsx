@@ -104,7 +104,7 @@ export function LorebookList(props: Props) {
             />
           ) : (
             <div className="flex flex-col gap-3">
-              <div className="flex flex-wrap items-center justify-end gap-2">
+              <div className="flex flex-wrap items-center justify-end gap-2 pr-12">
                 <RpImportControl
                   entity="lorebooks"
                   accept="application/json"
