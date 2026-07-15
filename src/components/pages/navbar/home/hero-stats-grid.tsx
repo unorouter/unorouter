@@ -43,7 +43,14 @@ function StatCard(props: { label: string; value: string; indicator: string }) {
       <span className="text-foreground/70 mb-3 font-mono text-[10px] tracking-widest uppercase">
         {props.label}
       </span>
-      <span className="text-foreground text-2xl font-bold tracking-tight">
+      {/* Counts come from getCachedPricing ("use cache") baked into the static
+          shell; the cache revalidates to a fresher value, so the prerendered
+          text and the client render can differ. Suppress the hydration text
+          mismatch (React #418) - the live client value wins. */}
+      <span
+        suppressHydrationWarning
+        className="text-foreground text-2xl font-bold tracking-tight"
+      >
         {props.value}
       </span>
       <div className="mt-2 flex items-center gap-2">
