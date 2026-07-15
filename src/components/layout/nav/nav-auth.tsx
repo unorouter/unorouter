@@ -1,4 +1,5 @@
 import { LoginLink } from "@/components/elements/brand/login-link";
+import { Icon } from "@/components/ui/icon";
 import { UserAvatar } from "@/components/layout/user/user-avatar";
 import { UserDropdown } from "@/components/layout/user/user-dropdown";
 import getQueryClient from "@/lib/react-query/client";
@@ -53,8 +54,11 @@ export async function NavAuth() {
 
 export function NavLoginLink(props: { label: string }) {
   return (
-    <LoginLink className="text-muted-foreground hover:text-foreground text-[11px] font-bold tracking-wider uppercase transition-colors">
-      {props.label}
+    <LoginLink
+      aria-label={props.label}
+      className="text-muted-foreground hover:text-foreground transition-colors"
+    >
+      <Icon name="log-in" className="h-5 w-5" />
     </LoginLink>
   );
 }

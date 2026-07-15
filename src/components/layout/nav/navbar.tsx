@@ -62,7 +62,7 @@ export function Navbar(props: { authSlot?: React.ReactNode }) {
     <nav className="navbar-scroll fixed top-0 right-0 left-0 z-50 border-b border-transparent bg-transparent">
       <div
         ref={navRowRef}
-        className="mx-auto flex h-14 max-w-360 items-center justify-between px-6 font-mono"
+        className="mx-auto flex h-14 max-w-360 items-center justify-between px-3 font-mono sm:px-6"
       >
         <div className="flex items-center gap-2 lg:hidden">
           <MobileNav />
@@ -226,7 +226,7 @@ export function Navbar(props: { authSlot?: React.ReactNode }) {
           )}
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 sm:gap-4">
           {env.discordUrl && (
             <a
               href={env.discordUrl}
@@ -241,8 +241,11 @@ export function Navbar(props: { authSlot?: React.ReactNode }) {
           <LanguageToggle />
           <ThemeToggle />
           {props.authSlot ?? (
-            <LoginLink className="text-muted-foreground hover:text-foreground text-[11px] font-bold tracking-wider uppercase transition-colors">
-              {t("NAV.LOG_IN")}
+            <LoginLink
+              aria-label={t("NAV.LOG_IN")}
+              className="text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <Icon name="log-in" className="h-5 w-5" />
             </LoginLink>
           )}
         </div>
