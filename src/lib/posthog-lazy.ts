@@ -94,6 +94,25 @@ function exceptionMessage(properties: Record<string, unknown> | undefined) {
   return `${fromList} ${JSON.stringify(values ?? "")} ${JSON.stringify(types ?? "")}`.toLowerCase();
 }
 
+// A frame in OUR bundle. posthog-js marks first-party frames `in_app:true`
+// (chunk filenames + turbopack:///[project] sources); browser/extension frames
+// are `in_app:false` (or anonymous/<anonymous>/chrome-extension). An error with
+// at least one in-app frame originates in our code and must never be dropped by
+// a message match alone - a real bug can share a tame message with pure noise.
+function hasInAppFrame(properties: Record<string, unknown> | undefined) {
+  const list = properties?.$exception_list;
+  if (!Array.isArray(list)) return false;
+  for (const ex of list) {
+    const frames = (ex as { stacktrace?: { frames?: unknown[] } })?.stacktrace
+      ?.frames;
+    if (!Array.isArray(frames)) continue;
+    for (const f of frames) {
+      if ((f as { in_app?: boolean })?.in_app === true) return true;
+    }
+  }
+  return false;
+}
+
 // Returns "drop" (never send), "sample" (send SAMPLE_KEEP_RATE of them), or
 // null (send as-is).
 function noiseVerdict(event: {
@@ -102,7 +121,13 @@ function noiseVerdict(event: {
 }): "drop" | "sample" | null {
   if (event.event !== "$exception") return null;
   const msg = exceptionMessage(event.properties);
-  if (DROP_EXCEPTIONS.some((n) => msg.includes(n))) return "drop";
+  // DROP is stack-scoped: only fully suppress a noise-message match when the
+  // error has NO first-party frame (pure external/extension/browser). If our
+  // code IS in the stack, downgrade to SAMPLE so a real bug sharing the message
+  // still surfaces in the trend instead of going dark.
+  if (DROP_EXCEPTIONS.some((n) => msg.includes(n))) {
+    return hasInAppFrame(event.properties) ? "sample" : "drop";
+  }
   if (SAMPLE_EXCEPTIONS.some((n) => msg.includes(n))) return "sample";
   return null;
 }
