@@ -244,6 +244,7 @@ export const BLOG_REGISTRY = [
   {
     slug: "unorouter-vs-portkey",
     date: "2026-06-21",
+    updated: "2026-07-15",
     tags: ["comparison", "product"],
     i18nKey: "BLOG.POSTS.UNOROUTER_VS_PORTKEY",
     priority: 0.7,
@@ -278,6 +279,7 @@ export const BLOG_REGISTRY = [
   {
     slug: "unorouter-vs-risuai",
     date: "2026-06-19",
+    updated: "2026-07-15",
     tags: ["comparison", "product"],
     i18nKey: "BLOG.POSTS.UNOROUTER_VS_RISUAI",
     priority: 0.7,
@@ -329,6 +331,7 @@ export const BLOG_REGISTRY = [
   {
     slug: "unorouter-vs-openrouter",
     date: "2026-06-10",
+    updated: "2026-07-15",
     tags: ["comparison", "product"],
     i18nKey: "BLOG.POSTS.UNOROUTER_VS_OPENROUTER",
     priority: 0.7,
@@ -457,6 +460,7 @@ export const BLOG_REGISTRY = [
   {
     slug: "unorouter-vs-janitorai",
     date: "2026-07-07",
+    updated: "2026-07-15",
     tags: ["comparison", "product"],
     i18nKey: "BLOG.POSTS.UNOROUTER_VS_JANITORAI",
     priority: 0.7,
@@ -474,7 +478,7 @@ export const BLOG_REGISTRY = [
   {
     slug: "unorouter-vs-character-ai",
     date: "2026-07-09",
-    updated: "2026-07-05",
+    updated: "2026-07-15",
     tags: ["comparison", "product"],
     i18nKey: "BLOG.POSTS.UNOROUTER_VS_CHARACTER_AI",
     priority: 0.7,
@@ -492,7 +496,7 @@ export const BLOG_REGISTRY = [
   {
     slug: "unorouter-vs-sillytavern",
     date: "2026-07-11",
-    updated: "2026-07-05",
+    updated: "2026-07-15",
     tags: ["comparison", "product"],
     i18nKey: "BLOG.POSTS.UNOROUTER_VS_SILLYTAVERN",
     priority: 0.7,
@@ -510,6 +514,7 @@ export const BLOG_REGISTRY = [
   {
     slug: "unorouter-vs-chub",
     date: "2026-07-14",
+    updated: "2026-07-15",
     tags: ["comparison", "product"],
     i18nKey: "BLOG.POSTS.UNOROUTER_VS_CHUB",
     priority: 0.7,
@@ -527,7 +532,7 @@ export const BLOG_REGISTRY = [
   {
     slug: "unorouter-vs-marinara",
     date: "2026-07-16",
-    updated: "2026-07-10",
+    updated: "2026-07-15",
     tags: ["comparison", "product"],
     i18nKey: "BLOG.POSTS.UNOROUTER_VS_MARINARA",
     priority: 0.7,
@@ -545,7 +550,7 @@ export const BLOG_REGISTRY = [
   {
     slug: "unorouter-vs-lumiverse",
     date: "2026-07-18",
-    updated: "2026-07-10",
+    updated: "2026-07-15",
     tags: ["comparison", "product"],
     i18nKey: "BLOG.POSTS.UNOROUTER_VS_LUMIVERSE",
     priority: 0.7,
@@ -563,6 +568,7 @@ export const BLOG_REGISTRY = [
   {
     slug: "unorouter-vs-librechat",
     date: "2026-07-21",
+    updated: "2026-07-15",
     tags: ["comparison", "product"],
     i18nKey: "BLOG.POSTS.UNOROUTER_VS_LIBRECHAT",
     priority: 0.7,
@@ -580,6 +586,7 @@ export const BLOG_REGISTRY = [
   {
     slug: "unorouter-vs-open-webui",
     date: "2026-07-23",
+    updated: "2026-07-15",
     tags: ["comparison", "product"],
     i18nKey: "BLOG.POSTS.UNOROUTER_VS_OPEN_WEBUI",
     priority: 0.7,
@@ -597,6 +604,7 @@ export const BLOG_REGISTRY = [
   {
     slug: "unorouter-vs-agnai",
     date: "2026-07-25",
+    updated: "2026-07-15",
     tags: ["comparison", "product"],
     i18nKey: "BLOG.POSTS.UNOROUTER_VS_AGNAI",
     priority: 0.7,
@@ -614,6 +622,7 @@ export const BLOG_REGISTRY = [
   {
     slug: "unorouter-vs-spicychat",
     date: "2026-07-28",
+    updated: "2026-07-15",
     tags: ["comparison", "product"],
     i18nKey: "BLOG.POSTS.UNOROUTER_VS_SPICYCHAT",
     priority: 0.7,
