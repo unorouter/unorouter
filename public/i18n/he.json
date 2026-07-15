@@ -3239,13 +3239,30 @@
 			"REQUEST_CONVERSION": "המרת בקשה",
 			"BILLING_MODE": "מצב חיוב",
 			"BILLING_UPSTREAM": "תגובת upstream",
-			"BILLING_LOCAL": "חיוב מקומי"
+			"BILLING_LOCAL": "חיוב מקומי",
+			"UPSTREAM_REQUEST_ID": "מזהה בקשת מקור",
+			"RESPONSE_TIME": "זמן תגובה",
+			"FIRST_TOKEN": "טוקן ראשון",
+			"NATIVE_FORMAT": "פורמט מקורי",
+			"MODEL_MAPPING": "מיפוי מודל",
+			"TOKENS": "טוקנים",
+			"INPUT": "קלט",
+			"OUTPUT": "פלט",
+			"CACHE_READ": "קריאת מטמון",
+			"CACHE_WRITE": "כתיבת מטמון",
+			"CACHE_WRITE_1H": "כתיבת מטמון (שעה)",
+			"PRICING": "תמחור",
+			"GROUP_RATIO": "יחס קבוצה",
+			"BILLING_SOURCE": "מקור חיוב",
+			"REASONING_EFFORT": "מאמץ הסקה"
 		},
 		"FILTER": {
 			"TOKEN": "שם טוקן...",
 			"MODEL": "שם מודל...",
 			"REQUEST_ID": "מזהה בקשה...",
-			"SUBSCRIPTION_PLAN": "תוכנית מנוי..."
+			"SUBSCRIPTION_PLAN": "תוכנית מנוי...",
+			"UPSTREAM_REQUEST_ID": "מזהה בקשת מקור",
+			"GROUP": "קבוצה"
 		},
 		"STAT": {
 			"USED_QUOTA": "מכסה שנוצלה"

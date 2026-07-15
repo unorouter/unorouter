@@ -3239,13 +3239,30 @@
 			"REQUEST_CONVERSION": "Chuyển đổi yêu cầu",
 			"BILLING_MODE": "Chế độ tính phí",
 			"BILLING_UPSTREAM": "Phản hồi từ upstream",
-			"BILLING_LOCAL": "Tính phí cục bộ"
+			"BILLING_LOCAL": "Tính phí cục bộ",
+			"UPSTREAM_REQUEST_ID": "ID yêu cầu thượng nguồn",
+			"RESPONSE_TIME": "Thời gian phản hồi",
+			"FIRST_TOKEN": "Token đầu tiên",
+			"NATIVE_FORMAT": "Định dạng gốc",
+			"MODEL_MAPPING": "Ánh xạ mô hình",
+			"TOKENS": "Token",
+			"INPUT": "Đầu vào",
+			"OUTPUT": "Đầu ra",
+			"CACHE_READ": "Đọc bộ nhớ đệm",
+			"CACHE_WRITE": "Ghi bộ nhớ đệm",
+			"CACHE_WRITE_1H": "Ghi bộ nhớ đệm (1 giờ)",
+			"PRICING": "Giá",
+			"GROUP_RATIO": "Hệ số nhóm",
+			"BILLING_SOURCE": "Nguồn tính phí",
+			"REASONING_EFFORT": "Mức độ suy luận"
 		},
 		"FILTER": {
 			"TOKEN": "Tên token...",
 			"MODEL": "Tên mô hình...",
 			"REQUEST_ID": "ID yêu cầu...",
-			"SUBSCRIPTION_PLAN": "Gói đăng ký..."
+			"SUBSCRIPTION_PLAN": "Gói đăng ký...",
+			"UPSTREAM_REQUEST_ID": "ID yêu cầu thượng nguồn",
+			"GROUP": "Nhóm"
 		},
 		"STAT": {
 			"USED_QUOTA": "Hạn mức đã dùng"

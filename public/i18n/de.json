@@ -3239,13 +3239,30 @@
 			"REQUEST_CONVERSION": "Anfragekonvertierung",
 			"BILLING_MODE": "Abrechnungsmodus",
 			"BILLING_UPSTREAM": "Upstream-Antwort",
-			"BILLING_LOCAL": "Lokale Abrechnung"
+			"BILLING_LOCAL": "Lokale Abrechnung",
+			"UPSTREAM_REQUEST_ID": "Upstream-Anfrage-ID",
+			"RESPONSE_TIME": "Antwortzeit",
+			"FIRST_TOKEN": "Erstes Token",
+			"NATIVE_FORMAT": "Natives Format",
+			"MODEL_MAPPING": "Modell-Zuordnung",
+			"TOKENS": "Tokens",
+			"INPUT": "Eingabe",
+			"OUTPUT": "Ausgabe",
+			"CACHE_READ": "Cache gelesen",
+			"CACHE_WRITE": "Cache geschrieben",
+			"CACHE_WRITE_1H": "Cache geschrieben (1 Std.)",
+			"PRICING": "Preise",
+			"GROUP_RATIO": "Gruppenfaktor",
+			"BILLING_SOURCE": "Abrechnungsquelle",
+			"REASONING_EFFORT": "Denkaufwand"
 		},
 		"FILTER": {
 			"TOKEN": "Token-Name...",
 			"MODEL": "Modellname...",
 			"REQUEST_ID": "Anfrage-ID...",
-			"SUBSCRIPTION_PLAN": "Abonnement-Plan..."
+			"SUBSCRIPTION_PLAN": "Abonnement-Plan...",
+			"UPSTREAM_REQUEST_ID": "Upstream-Anfrage-ID",
+			"GROUP": "Gruppe"
 		},
 		"STAT": {
 			"USED_QUOTA": "Verbrauchtes Guthaben"

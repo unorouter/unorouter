@@ -3239,13 +3239,30 @@
 			"REQUEST_CONVERSION": "تحويل الطلب",
 			"BILLING_MODE": "وضع الفوترة",
 			"BILLING_UPSTREAM": "استجابة المصدر العلوي",
-			"BILLING_LOCAL": "فوترة محلية"
+			"BILLING_LOCAL": "فوترة محلية",
+			"UPSTREAM_REQUEST_ID": "معرّف الطلب الأولي",
+			"RESPONSE_TIME": "زمن الاستجابة",
+			"FIRST_TOKEN": "الرمز الأول",
+			"NATIVE_FORMAT": "التنسيق الأصلي",
+			"MODEL_MAPPING": "تعيين النموذج",
+			"TOKENS": "الرموز",
+			"INPUT": "المدخلات",
+			"OUTPUT": "المخرجات",
+			"CACHE_READ": "قراءة التخزين المؤقت",
+			"CACHE_WRITE": "كتابة التخزين المؤقت",
+			"CACHE_WRITE_1H": "كتابة التخزين المؤقت (ساعة)",
+			"PRICING": "التسعير",
+			"GROUP_RATIO": "معامل المجموعة",
+			"BILLING_SOURCE": "مصدر الفوترة",
+			"REASONING_EFFORT": "مستوى الاستدلال"
 		},
 		"FILTER": {
 			"TOKEN": "اسم Token...",
 			"MODEL": "اسم النموذج...",
 			"REQUEST_ID": "معرّف الطلب...",
-			"SUBSCRIPTION_PLAN": "خطّة الاشتراك..."
+			"SUBSCRIPTION_PLAN": "خطّة الاشتراك...",
+			"UPSTREAM_REQUEST_ID": "معرّف الطلب الأولي",
+			"GROUP": "المجموعة"
 		},
 		"STAT": {
 			"USED_QUOTA": "الحصّة المستخدمة"

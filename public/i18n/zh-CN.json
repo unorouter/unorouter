@@ -3239,13 +3239,30 @@
 			"REQUEST_CONVERSION": "请求转换",
 			"BILLING_MODE": "计费模式",
 			"BILLING_UPSTREAM": "上游响应",
-			"BILLING_LOCAL": "本地计费"
+			"BILLING_LOCAL": "本地计费",
+			"UPSTREAM_REQUEST_ID": "上游请求 ID",
+			"RESPONSE_TIME": "响应时间",
+			"FIRST_TOKEN": "首字",
+			"NATIVE_FORMAT": "原生格式",
+			"MODEL_MAPPING": "模型映射",
+			"TOKENS": "令牌",
+			"INPUT": "输入",
+			"OUTPUT": "输出",
+			"CACHE_READ": "缓存读取",
+			"CACHE_WRITE": "缓存写入",
+			"CACHE_WRITE_1H": "缓存写入（1 小时）",
+			"PRICING": "价格",
+			"GROUP_RATIO": "分组倍率",
+			"BILLING_SOURCE": "计费来源",
+			"REASONING_EFFORT": "推理强度"
 		},
 		"FILTER": {
 			"TOKEN": "令牌名称...",
 			"MODEL": "模型名称...",
 			"REQUEST_ID": "请求 ID...",
-			"SUBSCRIPTION_PLAN": "订阅计划……"
+			"SUBSCRIPTION_PLAN": "订阅计划……",
+			"UPSTREAM_REQUEST_ID": "上游请求 ID",
+			"GROUP": "分组"
 		},
 		"STAT": {
 			"USED_QUOTA": "已用额度"

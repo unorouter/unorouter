@@ -76,6 +76,8 @@ export function LogFilters(props: {
   const tokenName = props.filters.token_name ?? "";
   const modelName = props.filters.model_name ?? "";
   const requestId = props.filters.request_id ?? "";
+  const upstreamRequestId = props.filters.upstream_request_id ?? "";
+  const group = props.filters.group ?? "";
   const subscriptionPlan = props.filters.subscription_plan ?? "";
 
   const logTypeOptions = [
@@ -167,11 +169,28 @@ export function LogFilters(props: {
             className="w-48"
           />
           <SearchFilterInput
+            value={upstreamRequestId}
+            onChange={(v) => props.onFilterChange("upstream_request_id", v)}
+            placeholder={t("LOGS.FILTER.UPSTREAM_REQUEST_ID")}
+            className="w-48"
+          />
+          <SearchFilterInput
+            value={group}
+            onChange={(v) => props.onFilterChange("group", v)}
+            placeholder={t("LOGS.FILTER.GROUP")}
+            className="w-32"
+          />
+          <SearchFilterInput
             value={subscriptionPlan}
             onChange={(v) => props.onFilterChange("subscription_plan", v)}
             placeholder={t("LOGS.FILTER.SUBSCRIPTION_PLAN")}
           />
-          {(tokenName || modelName || requestId || subscriptionPlan) && (
+          {(tokenName ||
+            modelName ||
+            requestId ||
+            upstreamRequestId ||
+            group ||
+            subscriptionPlan) && (
             <Button
               variant="ghost"
               size="icon-xs"
@@ -179,6 +198,8 @@ export function LogFilters(props: {
                 props.onFilterChange("token_name", undefined);
                 props.onFilterChange("model_name", undefined);
                 props.onFilterChange("request_id", undefined);
+                props.onFilterChange("upstream_request_id", undefined);
+                props.onFilterChange("group", undefined);
                 props.onFilterChange("subscription_plan", undefined);
               }}
             >

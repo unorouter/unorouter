@@ -3239,13 +3239,30 @@
 			"REQUEST_CONVERSION": "Конвертация запроса",
 			"BILLING_MODE": "Режим тарификации",
 			"BILLING_UPSTREAM": "Ответ аптстрима",
-			"BILLING_LOCAL": "Локальная тарификация"
+			"BILLING_LOCAL": "Локальная тарификация",
+			"UPSTREAM_REQUEST_ID": "ID запроса к провайдеру",
+			"RESPONSE_TIME": "Время ответа",
+			"FIRST_TOKEN": "Первый токен",
+			"NATIVE_FORMAT": "Родной формат",
+			"MODEL_MAPPING": "Сопоставление модели",
+			"TOKENS": "Токены",
+			"INPUT": "Вход",
+			"OUTPUT": "Выход",
+			"CACHE_READ": "Чтение кэша",
+			"CACHE_WRITE": "Запись кэша",
+			"CACHE_WRITE_1H": "Запись кэша (1 ч)",
+			"PRICING": "Стоимость",
+			"GROUP_RATIO": "Коэффициент группы",
+			"BILLING_SOURCE": "Источник тарификации",
+			"REASONING_EFFORT": "Уровень рассуждений"
 		},
 		"FILTER": {
 			"TOKEN": "Имя токена...",
 			"MODEL": "Имя модели...",
 			"REQUEST_ID": "ID запроса...",
-			"SUBSCRIPTION_PLAN": "План подписки..."
+			"SUBSCRIPTION_PLAN": "План подписки...",
+			"UPSTREAM_REQUEST_ID": "ID запроса к провайдеру",
+			"GROUP": "Группа"
 		},
 		"STAT": {
 			"USED_QUOTA": "Использованная квота"

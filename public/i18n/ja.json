@@ -3239,13 +3239,30 @@
 			"REQUEST_CONVERSION": "リクエスト変換",
 			"BILLING_MODE": "請求モード",
 			"BILLING_UPSTREAM": "アップストリーム応答",
-			"BILLING_LOCAL": "ローカル課金"
+			"BILLING_LOCAL": "ローカル課金",
+			"UPSTREAM_REQUEST_ID": "アップストリームリクエストID",
+			"RESPONSE_TIME": "応答時間",
+			"FIRST_TOKEN": "初回トークン",
+			"NATIVE_FORMAT": "ネイティブ形式",
+			"MODEL_MAPPING": "モデルマッピング",
+			"TOKENS": "トークン",
+			"INPUT": "入力",
+			"OUTPUT": "出力",
+			"CACHE_READ": "キャッシュ読み取り",
+			"CACHE_WRITE": "キャッシュ書き込み",
+			"CACHE_WRITE_1H": "キャッシュ書き込み（1時間）",
+			"PRICING": "料金",
+			"GROUP_RATIO": "グループ倍率",
+			"BILLING_SOURCE": "課金ソース",
+			"REASONING_EFFORT": "推論の強度"
 		},
 		"FILTER": {
 			"TOKEN": "トークン名...",
 			"MODEL": "モデル名...",
 			"REQUEST_ID": "リクエスト ID...",
-			"SUBSCRIPTION_PLAN": "サブスクリプションプラン..."
+			"SUBSCRIPTION_PLAN": "サブスクリプションプラン...",
+			"UPSTREAM_REQUEST_ID": "アップストリームリクエストID",
+			"GROUP": "グループ"
 		},
 		"STAT": {
 			"USED_QUOTA": "使用済みクォータ"

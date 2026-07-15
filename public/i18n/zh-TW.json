@@ -3239,13 +3239,30 @@
 			"REQUEST_CONVERSION": "請求轉換",
 			"BILLING_MODE": "計費模式",
 			"BILLING_UPSTREAM": "上游回應",
-			"BILLING_LOCAL": "本地計費"
+			"BILLING_LOCAL": "本地計費",
+			"UPSTREAM_REQUEST_ID": "上游請求 ID",
+			"RESPONSE_TIME": "回應時間",
+			"FIRST_TOKEN": "首字",
+			"NATIVE_FORMAT": "原生格式",
+			"MODEL_MAPPING": "模型映射",
+			"TOKENS": "權杖",
+			"INPUT": "輸入",
+			"OUTPUT": "輸出",
+			"CACHE_READ": "快取讀取",
+			"CACHE_WRITE": "快取寫入",
+			"CACHE_WRITE_1H": "快取寫入（1 小時）",
+			"PRICING": "價格",
+			"GROUP_RATIO": "分組倍率",
+			"BILLING_SOURCE": "計費來源",
+			"REASONING_EFFORT": "推理強度"
 		},
 		"FILTER": {
 			"TOKEN": "金鑰名稱...",
 			"MODEL": "模型名稱...",
 			"REQUEST_ID": "請求 ID...",
-			"SUBSCRIPTION_PLAN": "訂閱方案……"
+			"SUBSCRIPTION_PLAN": "訂閱方案……",
+			"UPSTREAM_REQUEST_ID": "上游請求 ID",
+			"GROUP": "分組"
 		},
 		"STAT": {
 			"USED_QUOTA": "已用額度"

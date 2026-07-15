@@ -3239,13 +3239,30 @@
 			"REQUEST_CONVERSION": "İstek Dönüşümü",
 			"BILLING_MODE": "Faturalandırma Modu",
 			"BILLING_UPSTREAM": "Upstream Yanıtı",
-			"BILLING_LOCAL": "Yerel Faturalandırma"
+			"BILLING_LOCAL": "Yerel Faturalandırma",
+			"UPSTREAM_REQUEST_ID": "Üst kaynak istek kimliği",
+			"RESPONSE_TIME": "Yanıt süresi",
+			"FIRST_TOKEN": "İlk token",
+			"NATIVE_FORMAT": "Yerel biçim",
+			"MODEL_MAPPING": "Model eşleme",
+			"TOKENS": "Token",
+			"INPUT": "Girdi",
+			"OUTPUT": "Çıktı",
+			"CACHE_READ": "Önbellek okuma",
+			"CACHE_WRITE": "Önbellek yazma",
+			"CACHE_WRITE_1H": "Önbellek yazma (1 sa.)",
+			"PRICING": "Fiyatlandırma",
+			"GROUP_RATIO": "Grup oranı",
+			"BILLING_SOURCE": "Faturalandırma kaynağı",
+			"REASONING_EFFORT": "Akıl yürütme çabası"
 		},
 		"FILTER": {
 			"TOKEN": "Token adı...",
 			"MODEL": "Model adı...",
 			"REQUEST_ID": "İstek ID...",
-			"SUBSCRIPTION_PLAN": "Abonelik planı..."
+			"SUBSCRIPTION_PLAN": "Abonelik planı...",
+			"UPSTREAM_REQUEST_ID": "Üst kaynak istek kimliği",
+			"GROUP": "Grup"
 		},
 		"STAT": {
 			"USED_QUOTA": "Kullanılan Kota"

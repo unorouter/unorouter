@@ -102,16 +102,23 @@ export function isConsumeLike(type: number): boolean {
 }
 
 export interface ParsedOther {
+  group?: string;
   cache_tokens?: number;
   cache_creation_tokens?: number;
+  cache_creation_tokens_1h?: number;
   frt?: number;
   request_path?: string;
-  request_conversion?: string;
+  // Upstream returns an ARRAY of conversion steps (e.g. ["OpenAI Compatible"]);
+  // older rows may still carry a plain string.
+  request_conversion?: string[] | string;
   billing?: string;
   billing_source?: "subscription" | "wallet" | string;
+  billing_mode?: string;
   subscription_id?: number;
   subscription_plan_id?: number;
   subscription_plan_title?: string;
+  subscription_pre_consumed?: number;
+  subscription_final_consumed?: number;
   model_ratio?: number;
   completion_ratio?: number;
   cache_ratio?: number;
@@ -119,9 +126,10 @@ export interface ParsedOther {
   cache_creation_ratio_1h?: number;
   group_ratio?: number;
   user_group_ratio?: number;
-  billing_mode?: string;
+  model_price?: number;
   matched_tier?: string;
   expr_b64?: string;
+  reasoning_effort?: string;
   is_model_mapped?: boolean;
   upstream_model_name?: string;
 }
@@ -137,6 +145,61 @@ export function parseOther(
   }
 }
 
+// The group ratio actually applied to this request: a positive per-user override
+// wins over the group default. Returns null when no meaningful discount applies.
+export function getEffectiveGroupRatio(other: ParsedOther | null): number | null {
+  if (!other) return null;
+  const userOverride =
+    other.user_group_ratio != null && other.user_group_ratio > 0
+      ? other.user_group_ratio
+      : null;
+  const ratio = userOverride ?? other.group_ratio;
+  if (ratio == null || ratio <= 0) return null;
+  return ratio;
+}
+
+export interface LogPricing {
+  inputPrice: number;
+  outputPrice: number;
+  effectiveInput: number;
+  effectiveOutput: number;
+  groupRatio: number | null;
+  hasDiscount: boolean;
+  isTiered: boolean;
+}
+
+// Derives per-1M input/output prices from the stored ratios so the pricing cell
+// and the detail panel show identical numbers. Returns null when the row carries
+// no usable model ratio (non-consume, or ratio missing).
+export function computeLogPricing(other: ParsedOther | null): LogPricing | null {
+  const modelRatio = other?.model_ratio;
+  if (!other || !modelRatio || modelRatio <= 0) return null;
+  const inputPrice = modelRatio * 2;
+  const outputPrice = other.completion_ratio
+    ? inputPrice * other.completion_ratio
+    : inputPrice;
+  const groupRatio = getEffectiveGroupRatio(other);
+  const hasDiscount = groupRatio != null && groupRatio !== 1;
+  return {
+    inputPrice,
+    outputPrice,
+    effectiveInput: hasDiscount ? inputPrice * groupRatio : inputPrice,
+    effectiveOutput: hasDiscount ? outputPrice * groupRatio : outputPrice,
+    groupRatio,
+    hasDiscount,
+    isTiered: other.billing_mode === "tiered_expr",
+  };
+}
+
+// Normalizes request_conversion (upstream sends an array; legacy rows a string)
+// into a display chain. Returns [] when absent.
+export function getRequestConversionChain(other: ParsedOther | null): string[] {
+  const rc = other?.request_conversion;
+  if (!rc) return [];
+  if (Array.isArray(rc)) return rc.filter(Boolean);
+  return [rc];
+}
+
 export type LogFilterValues = {
   start_date?: string;
   end_date?: string;
@@ -144,6 +207,8 @@ export type LogFilterValues = {
   token_name?: string;
   model_name?: string;
   request_id?: string;
+  upstream_request_id?: string;
+  group?: string;
   subscription_plan?: string;
 };
 
@@ -169,6 +234,10 @@ export function buildLogQueryFilters(
     ...(filterValues.token_name ? { token_name: filterValues.token_name } : {}),
     ...(filterValues.model_name ? { model_name: filterValues.model_name } : {}),
     ...(filterValues.request_id ? { request_id: filterValues.request_id } : {}),
+    ...(filterValues.upstream_request_id
+      ? { upstream_request_id: filterValues.upstream_request_id }
+      : {}),
+    ...(filterValues.group ? { group: filterValues.group } : {}),
     ...(filterValues.subscription_plan
       ? { subscription_plan: filterValues.subscription_plan }
       : {}),

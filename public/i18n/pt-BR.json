@@ -3239,13 +3239,30 @@
 			"REQUEST_CONVERSION": "Conversão da solicitação",
 			"BILLING_MODE": "Modo de faturamento",
 			"BILLING_UPSTREAM": "Resposta upstream",
-			"BILLING_LOCAL": "Faturamento local"
+			"BILLING_LOCAL": "Faturamento local",
+			"UPSTREAM_REQUEST_ID": "ID da requisição upstream",
+			"RESPONSE_TIME": "Tempo de resposta",
+			"FIRST_TOKEN": "Primeiro token",
+			"NATIVE_FORMAT": "Formato nativo",
+			"MODEL_MAPPING": "Mapeamento de modelo",
+			"TOKENS": "Tokens",
+			"INPUT": "Entrada",
+			"OUTPUT": "Saída",
+			"CACHE_READ": "Leitura de cache",
+			"CACHE_WRITE": "Escrita de cache",
+			"CACHE_WRITE_1H": "Escrita de cache (1 h)",
+			"PRICING": "Preços",
+			"GROUP_RATIO": "Fator de grupo",
+			"BILLING_SOURCE": "Origem da cobrança",
+			"REASONING_EFFORT": "Esforço de raciocínio"
 		},
 		"FILTER": {
 			"TOKEN": "Nome do token...",
 			"MODEL": "Nome do modelo...",
 			"REQUEST_ID": "ID da solicitação...",
-			"SUBSCRIPTION_PLAN": "Plano de assinatura..."
+			"SUBSCRIPTION_PLAN": "Plano de assinatura...",
+			"UPSTREAM_REQUEST_ID": "ID da requisição upstream",
+			"GROUP": "Grupo"
 		},
 		"STAT": {
 			"USED_QUOTA": "Cota usada"

@@ -5,7 +5,13 @@ import { Badge } from "@/components/ui/badge";
 import type { Row } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
 import type React from "react";
-import { parseOther, type LogRow } from "./log-helpers";
+import {
+  computeLogPricing,
+  formatPriceCompact,
+  getRequestConversionChain,
+  parseOther,
+  type LogRow,
+} from "./log-helpers";
 
 function DetailItem(props: { label: string; value: React.ReactNode }) {
   return (
@@ -15,6 +21,23 @@ function DetailItem(props: { label: string; value: React.ReactNode }) {
       </span>
       <span className="text-foreground font-mono text-xs">{props.value}</span>
     </div>
+  );
+}
+
+function CopyableCode(props: { value: string; analyticsLabel: string }) {
+  const t = useTranslations();
+  return (
+    <span className="flex items-center gap-1.5">
+      <code className="bg-muted rounded px-1.5 py-0.5 font-mono text-xs text-amber-700 dark:text-amber-400">
+        {props.value}
+      </code>
+      <CopyButton
+        text={props.value}
+        iconSize="h-3 w-3"
+        toastMessage={t("LOGS.COPIED")}
+        analyticsLabel={props.analyticsLabel}
+      />
+    </span>
   );
 }
 
@@ -43,49 +66,204 @@ export function LogExpandedRow(props: { row: Row<LogRow> }) {
     items.push({
       label: t("LOGS.DETAIL.REQUEST_ID"),
       value: (
-        <span className="flex items-center gap-1.5">
-          <code className="bg-muted rounded px-1.5 py-0.5 font-mono text-xs text-amber-700 dark:text-amber-400">
-            {log.request_id}
-          </code>
-          <CopyButton
-            text={log.request_id ?? ""}
-            iconSize="h-3 w-3"
-            toastMessage={t("LOGS.COPIED")}
-            analyticsLabel="logs_request_id"
-          />
+        <CopyableCode value={log.request_id} analyticsLabel="logs_request_id" />
+      ),
+    });
+  }
+
+  if (log.upstream_request_id) {
+    items.push({
+      label: t("LOGS.DETAIL.UPSTREAM_REQUEST_ID"),
+      value: (
+        <CopyableCode
+          value={log.upstream_request_id}
+          analyticsLabel="logs_upstream_request_id"
+        />
+      ),
+    });
+  }
+
+  // Response time + first-response-time.
+  if (log.use_time > 0) {
+    const frtSeconds =
+      other?.frt != null && other.frt > 0 ? other.frt / 1000 : null;
+    items.push({
+      label: t("LOGS.DETAIL.RESPONSE_TIME"),
+      value: (
+        <span className="flex items-center gap-2">
+          <span>{log.use_time}s</span>
+          {frtSeconds != null && (
+            <span className="text-muted-foreground">
+              {t("LOGS.DETAIL.FIRST_TOKEN")} {frtSeconds.toFixed(2)}s
+            </span>
+          )}
         </span>
       ),
     });
   }
 
-  const cacheRead = other?.cache_tokens ? Number(other.cache_tokens) : 0;
-  const cacheWrite = other?.cache_creation_tokens
-    ? Number(other.cache_creation_tokens)
-    : 0;
-
-  if (cacheRead > 0) {
+  // Request conversion chain (array upstream) or Native format.
+  if (other?.request_path) {
     items.push({
-      label: t("LOGS.DETAIL.CACHE_TOKENS"),
+      label: t("LOGS.DETAIL.REQUEST_PATH"),
+      value: (
+        <code className="rounded bg-purple-500/10 px-1.5 py-0.5 font-mono text-xs text-purple-400">
+          {other.request_path}
+        </code>
+      ),
+    });
+  }
+
+  const conversionChain = getRequestConversionChain(other);
+  if (conversionChain.length > 0) {
+    items.push({
+      label: t("LOGS.DETAIL.REQUEST_CONVERSION"),
       value: (
         <Badge
           variant="secondary"
-          className="bg-cyan-500/10 font-mono text-cyan-400"
+          className="bg-indigo-500/10 font-mono text-indigo-400"
         >
-          {cacheRead.toLocaleString()}
+          {conversionChain.length <= 1
+            ? t("LOGS.DETAIL.NATIVE_FORMAT")
+            : conversionChain.join(" -> ")}
         </Badge>
       ),
     });
   }
 
-  if (cacheWrite > 0) {
+  // Model mapping.
+  if (other?.is_model_mapped && other.upstream_model_name) {
     items.push({
-      label: t("LOGS.DETAIL.CACHE_CREATION"),
+      label: t("LOGS.DETAIL.MODEL_MAPPING"),
+      value: (
+        <span className="flex items-center gap-1.5">
+          <span>{log.model_name}</span>
+          <span className="text-muted-foreground">{"->"}</span>
+          <span className="text-foreground">{other.upstream_model_name}</span>
+        </span>
+      ),
+    });
+  }
+
+  // Tokens & caching view.
+  const cacheRead = other?.cache_tokens ? Number(other.cache_tokens) : 0;
+  const cacheWrite = other?.cache_creation_tokens
+    ? Number(other.cache_creation_tokens)
+    : 0;
+  const cacheWrite1h = other?.cache_creation_tokens_1h
+    ? Number(other.cache_creation_tokens_1h)
+    : 0;
+  if (
+    log.prompt_tokens > 0 ||
+    log.completion_tokens > 0 ||
+    cacheRead > 0 ||
+    cacheWrite > 0
+  ) {
+    items.push({
+      label: t("LOGS.DETAIL.TOKENS"),
+      value: (
+        <span className="flex flex-wrap items-center gap-1.5">
+          <Badge
+            variant="secondary"
+            className="bg-muted font-mono text-[10px]"
+          >
+            {t("LOGS.DETAIL.INPUT")} {log.prompt_tokens.toLocaleString()}
+          </Badge>
+          <Badge
+            variant="secondary"
+            className="bg-muted font-mono text-[10px]"
+          >
+            {t("LOGS.DETAIL.OUTPUT")} {log.completion_tokens.toLocaleString()}
+          </Badge>
+          {cacheRead > 0 && (
+            <Badge
+              variant="secondary"
+              className="bg-cyan-500/10 font-mono text-[10px] text-cyan-400"
+            >
+              {t("LOGS.DETAIL.CACHE_READ")} {cacheRead.toLocaleString()}
+            </Badge>
+          )}
+          {cacheWrite > 0 && (
+            <Badge
+              variant="secondary"
+              className="bg-teal-500/10 font-mono text-[10px] text-teal-400"
+            >
+              {t("LOGS.DETAIL.CACHE_WRITE")} {cacheWrite.toLocaleString()}
+            </Badge>
+          )}
+          {cacheWrite1h > 0 && (
+            <Badge
+              variant="secondary"
+              className="bg-teal-500/10 font-mono text-[10px] text-teal-400"
+            >
+              {t("LOGS.DETAIL.CACHE_WRITE_1H")} {cacheWrite1h.toLocaleString()}
+            </Badge>
+          )}
+        </span>
+      ),
+    });
+  }
+
+  // Billing / pricing breakdown.
+  const pricing = computeLogPricing(other);
+  if (pricing) {
+    items.push({
+      label: t("LOGS.DETAIL.PRICING"),
+      value: (
+        <span className="flex flex-col gap-0.5">
+          <span>
+            {formatPriceCompact(pricing.effectiveInput)} /{" "}
+            {formatPriceCompact(pricing.effectiveOutput)}
+            <span className="text-muted-foreground">
+              {t("LOGS.PRICING.PER_M")}
+            </span>
+            <span className="text-muted-foreground">
+              {" · "}
+              {pricing.isTiered
+                ? t("LOGS.PRICING.TIERED")
+                : t("LOGS.PRICING.STANDARD")}
+            </span>
+          </span>
+          {pricing.hasDiscount && pricing.groupRatio != null && (
+            <span className="text-muted-foreground">
+              {t("LOGS.DETAIL.GROUP_RATIO")} {pricing.groupRatio}x
+            </span>
+          )}
+        </span>
+      ),
+    });
+  }
+
+  if (other?.billing_source) {
+    const isUpstream = other.billing === "upstream";
+    items.push({
+      label: t("LOGS.DETAIL.BILLING_SOURCE"),
       value: (
         <Badge
           variant="secondary"
-          className="bg-teal-500/10 font-mono text-teal-400"
+          className={
+            isUpstream
+              ? "bg-green-500/10 font-mono text-green-400"
+              : "bg-orange-500/10 font-mono text-orange-400"
+          }
         >
-          {cacheWrite.toLocaleString()}
+          {isUpstream
+            ? t("LOGS.DETAIL.BILLING_UPSTREAM")
+            : t("LOGS.DETAIL.BILLING_LOCAL")}
+        </Badge>
+      ),
+    });
+  }
+
+  if (other?.reasoning_effort) {
+    items.push({
+      label: t("LOGS.DETAIL.REASONING_EFFORT"),
+      value: (
+        <Badge
+          variant="secondary"
+          className="bg-violet-500/10 font-mono text-violet-400"
+        >
+          {other.reasoning_effort}
         </Badge>
       ),
     });
@@ -98,51 +276,6 @@ export function LogExpandedRow(props: { row: Row<LogRow> }) {
         <span className="font-mono text-xs whitespace-pre-wrap text-orange-300/80">
           {log.content}
         </span>
-      ),
-    });
-  }
-
-  if (other?.request_path) {
-    items.push({
-      label: t("LOGS.DETAIL.REQUEST_PATH"),
-      value: (
-        <code className="rounded bg-purple-500/10 px-1.5 py-0.5 font-mono text-xs text-purple-400">
-          {other.request_path}
-        </code>
-      ),
-    });
-  }
-
-  if (other?.request_conversion) {
-    items.push({
-      label: t("LOGS.DETAIL.REQUEST_CONVERSION"),
-      value: (
-        <Badge
-          variant="secondary"
-          className="bg-indigo-500/10 font-mono text-indigo-400"
-        >
-          {other.request_conversion}
-        </Badge>
-      ),
-    });
-  }
-
-  if (other?.billing) {
-    items.push({
-      label: t("LOGS.DETAIL.BILLING_MODE"),
-      value: (
-        <Badge
-          variant="secondary"
-          className={
-            other.billing === "upstream"
-              ? "bg-green-500/10 font-mono text-green-400"
-              : "bg-orange-500/10 font-mono text-orange-400"
-          }
-        >
-          {other.billing === "upstream"
-            ? t("LOGS.DETAIL.BILLING_UPSTREAM")
-            : t("LOGS.DETAIL.BILLING_LOCAL")}
-        </Badge>
       ),
     });
   }

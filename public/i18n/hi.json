@@ -3239,13 +3239,30 @@
 			"REQUEST_CONVERSION": "Request Conversion",
 			"BILLING_MODE": "Billing Mode",
 			"BILLING_UPSTREAM": "Upstream Response",
-			"BILLING_LOCAL": "Local Billing"
+			"BILLING_LOCAL": "Local Billing",
+			"UPSTREAM_REQUEST_ID": "अपस्ट्रीम अनुरोध ID",
+			"RESPONSE_TIME": "प्रतिक्रिया समय",
+			"FIRST_TOKEN": "पहला टोकन",
+			"NATIVE_FORMAT": "मूल प्रारूप",
+			"MODEL_MAPPING": "मॉडल मैपिंग",
+			"TOKENS": "टोकन",
+			"INPUT": "इनपुट",
+			"OUTPUT": "आउटपुट",
+			"CACHE_READ": "कैश पठन",
+			"CACHE_WRITE": "कैश लेखन",
+			"CACHE_WRITE_1H": "कैश लेखन (1 घंटा)",
+			"PRICING": "मूल्य निर्धारण",
+			"GROUP_RATIO": "समूह अनुपात",
+			"BILLING_SOURCE": "बिलिंग स्रोत",
+			"REASONING_EFFORT": "तर्क प्रयास"
 		},
 		"FILTER": {
 			"TOKEN": "Token नाम...",
 			"MODEL": "Model नाम...",
 			"REQUEST_ID": "Request ID...",
-			"SUBSCRIPTION_PLAN": "Subscription plan..."
+			"SUBSCRIPTION_PLAN": "Subscription plan...",
+			"UPSTREAM_REQUEST_ID": "अपस्ट्रीम अनुरोध ID",
+			"GROUP": "समूह"
 		},
 		"STAT": {
 			"USED_QUOTA": "उपयोग किया गया Quota"

@@ -19,8 +19,10 @@ import { useTranslations } from "next-intl";
 import { createContext, useContext, type ReactNode } from "react";
 import { toast } from "sonner";
 import {
+  computeLogPricing,
   formatPriceCompact,
   formatTimestamp,
+  getEffectiveGroupRatio,
   getFrtTimingPill,
   getLogTypeColor,
   getResponseTimingPill,
@@ -222,7 +224,14 @@ export function LogTokenNameCell(props: CellContext<LogRow, unknown>) {
       </Tooltip>
     </TooltipProvider>
   );
-  return <StackedCell primary={primary} secondary={log.group || null} />;
+  const other = parseOther(log.other);
+  const groupRatio = getEffectiveGroupRatio(other);
+  const groupText = log.group || other?.group || null;
+  const secondary =
+    groupText && groupRatio != null && groupRatio !== 1
+      ? `${groupText} · ${groupRatio}x`
+      : groupText;
+  return <StackedCell primary={primary} secondary={secondary} />;
 }
 
 export function LogTokensCell(props: CellContext<LogRow, unknown>) {
@@ -401,10 +410,8 @@ export function LogPricingDetailsCell(props: CellContext<LogRow, unknown>) {
       );
     }
 
-    const modelRatio = other?.model_ratio;
-    const completionRatio = other?.completion_ratio;
-
-    if (!modelRatio || modelRatio <= 0) {
+    const pricing = computeLogPricing(other);
+    if (!pricing) {
       return (
         <span className="text-muted-foreground block max-w-50 truncate text-xs">
           {log.content || ""}
@@ -412,26 +419,14 @@ export function LogPricingDetailsCell(props: CellContext<LogRow, unknown>) {
       );
     }
 
-    const inputPrice = modelRatio * 2;
-    const outputPrice = completionRatio
-      ? inputPrice * completionRatio
-      : inputPrice;
-    const tierLabel =
-      other?.billing_mode === "tiered_expr"
-        ? t("LOGS.PRICING.TIERED")
-        : t("LOGS.PRICING.STANDARD");
-
-    const userOverride =
-      other?.user_group_ratio != null && other.user_group_ratio > 0
-        ? other.user_group_ratio
-        : null;
-    const groupRatio = userOverride ?? other?.group_ratio;
-    const hasDiscount =
-      groupRatio != null && groupRatio > 0 && groupRatio !== 1;
-    const effectiveInput = hasDiscount ? inputPrice * groupRatio : inputPrice;
-    const effectiveOutput = hasDiscount
-      ? outputPrice * groupRatio
-      : outputPrice;
+    const inputPrice = pricing.inputPrice;
+    const outputPrice = pricing.outputPrice;
+    const hasDiscount = pricing.hasDiscount;
+    const effectiveInput = pricing.effectiveInput;
+    const effectiveOutput = pricing.effectiveOutput;
+    const tierLabel = pricing.isTiered
+      ? t("LOGS.PRICING.TIERED")
+      : t("LOGS.PRICING.STANDARD");
 
     return (
       <span className="flex flex-col gap-0.5 font-mono text-[11px] leading-tight">

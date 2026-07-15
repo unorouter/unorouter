@@ -3239,13 +3239,30 @@
 			"REQUEST_CONVERSION": "Konversi Permintaan",
 			"BILLING_MODE": "Mode Penagihan",
 			"BILLING_UPSTREAM": "Respons Upstream",
-			"BILLING_LOCAL": "Penagihan Lokal"
+			"BILLING_LOCAL": "Penagihan Lokal",
+			"UPSTREAM_REQUEST_ID": "ID Permintaan Upstream",
+			"RESPONSE_TIME": "Waktu Respons",
+			"FIRST_TOKEN": "Token pertama",
+			"NATIVE_FORMAT": "Format asli",
+			"MODEL_MAPPING": "Pemetaan Model",
+			"TOKENS": "Token",
+			"INPUT": "Masukan",
+			"OUTPUT": "Keluaran",
+			"CACHE_READ": "Baca cache",
+			"CACHE_WRITE": "Tulis cache",
+			"CACHE_WRITE_1H": "Tulis cache (1 jam)",
+			"PRICING": "Harga",
+			"GROUP_RATIO": "Rasio grup",
+			"BILLING_SOURCE": "Sumber penagihan",
+			"REASONING_EFFORT": "Upaya penalaran"
 		},
 		"FILTER": {
 			"TOKEN": "Nama token...",
 			"MODEL": "Nama model...",
 			"REQUEST_ID": "ID permintaan...",
-			"SUBSCRIPTION_PLAN": "Paket langganan..."
+			"SUBSCRIPTION_PLAN": "Paket langganan...",
+			"UPSTREAM_REQUEST_ID": "ID Permintaan Upstream",
+			"GROUP": "Grup"
 		},
 		"STAT": {
 			"USED_QUOTA": "Kuota Terpakai"

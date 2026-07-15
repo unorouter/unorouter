@@ -31,7 +31,12 @@ import {
 import { LogDetailsDialog } from "./log-details-dialog";
 import { LogExpandedRow } from "./log-expanded-row";
 import { LogEmptyState, LogFilters } from "./log-filters";
-import { isConsumeLike, type LogRow } from "./log-helpers";
+import {
+  isConsumeLike,
+  LOG_TYPE_ERROR,
+  LOG_TYPE_REFUND,
+  type LogRow,
+} from "./log-helpers";
 
 export function UsageLogs() {
   const t = useTranslations();
@@ -191,6 +196,13 @@ export function UsageLogs() {
         isLoading={logsQuery.isLoading}
         columnVisibility
         getRowCanExpand={(row) => isConsumeLike(row.original.type)}
+        rowClassName={(row) =>
+          row.original.type === LOG_TYPE_ERROR
+            ? "bg-red-500/4 hover:bg-red-500/7"
+            : row.original.type === LOG_TYPE_REFUND
+              ? "bg-blue-500/4 hover:bg-blue-500/7"
+              : undefined
+        }
         renderExpandedRow={(row) => <LogExpandedRow row={row} />}
         filter={() => (
           <LogFilters

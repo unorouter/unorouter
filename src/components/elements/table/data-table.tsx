@@ -49,6 +49,7 @@ interface DataTableProps<TData, TValue> {
   isLoading?: boolean;
   emptyState?: ReactNode;
   onRowClick?: (row: TData) => void;
+  rowClassName?: (row: Row<TData>) => string | undefined;
   filter?: (props: { table: TTable<TData> }) => ReactNode;
   actions?: (props: { table: TTable<TData> }) => ReactNode;
   renderExpandedRow?: (row: Row<TData>) => ReactNode;
@@ -133,6 +134,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
         <TableRow
           className={cn(
             (canExpand || props.onRowClick) && "cursor-pointer",
+            props.rowClassName?.(row),
             row.getIsExpanded() && "bg-muted/30",
           )}
           onClick={

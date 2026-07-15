@@ -3239,13 +3239,30 @@
 			"REQUEST_CONVERSION": "요청 변환",
 			"BILLING_MODE": "청구 모드",
 			"BILLING_UPSTREAM": "업스트림 응답",
-			"BILLING_LOCAL": "로컬 청구"
+			"BILLING_LOCAL": "로컬 청구",
+			"UPSTREAM_REQUEST_ID": "업스트림 요청 ID",
+			"RESPONSE_TIME": "응답 시간",
+			"FIRST_TOKEN": "첫 토큰",
+			"NATIVE_FORMAT": "네이티브 형식",
+			"MODEL_MAPPING": "모델 매핑",
+			"TOKENS": "토큰",
+			"INPUT": "입력",
+			"OUTPUT": "출력",
+			"CACHE_READ": "캐시 읽기",
+			"CACHE_WRITE": "캐시 쓰기",
+			"CACHE_WRITE_1H": "캐시 쓰기 (1시간)",
+			"PRICING": "요금",
+			"GROUP_RATIO": "그룹 배율",
+			"BILLING_SOURCE": "청구 소스",
+			"REASONING_EFFORT": "추론 강도"
 		},
 		"FILTER": {
 			"TOKEN": "토큰 이름...",
 			"MODEL": "모델 이름...",
 			"REQUEST_ID": "요청 ID...",
-			"SUBSCRIPTION_PLAN": "구독 플랜..."
+			"SUBSCRIPTION_PLAN": "구독 플랜...",
+			"UPSTREAM_REQUEST_ID": "업스트림 요청 ID",
+			"GROUP": "그룹"
 		},
 		"STAT": {
 			"USED_QUOTA": "사용한 할당량"
