@@ -56,9 +56,10 @@ export function NavLoginLink(props: { label: string }) {
   return (
     <LoginLink
       aria-label={props.label}
-      className="text-muted-foreground hover:text-foreground transition-colors"
+      className="text-muted-foreground hover:text-foreground text-[11px] font-bold tracking-wider uppercase transition-colors"
     >
-      <Icon name="log-in" className="h-5 w-5" />
+      <Icon name="log-in" className="h-5 w-5 sm:hidden" />
+      <span className="hidden sm:inline">{props.label}</span>
     </LoginLink>
   );
 }
