@@ -428,21 +428,27 @@ export function useSetActiveBranchMutation() {
 }
 
 export function useDeleteMessageMutation() {
+  const t = useTranslations();
   const qc = useQueryClient();
-  return useChatMutation(
-    async (userId, args: { convId: string; msgId: string }) => {
-      await spliceDeleteLocalMessage(userId, args.convId, args.msgId);
+  const userId = useLocalUserId();
+  return useMutation({
+    mutationFn: async (args: { convId: string; msgId: string }) => {
+      // Prune the live assistant-ui thread FIRST and unconditionally: a failed-run node ("load failed")
+      // may have no DB row (offline persists none) or the SQLocal splice can throw on iOS (handle
+      // contention / lazy-chunk load), which previously left the node on screen forcing a manual
+      // refresh. The in-memory prune must win regardless of whether the DB delete succeeds.
+      patchLiveMessages((msgs) =>
+        (msgs as { id?: string }[]).filter((m) => m.id !== args.msgId),
+      );
       qc.removeQueries({ queryKey: queryKeys.chatMessages(args.convId) });
+      await spliceDeleteLocalMessage(userId, args.convId, args.msgId);
       return { id: args.msgId };
     },
-    (args) => [queryKeys.chatMessages(args.convId)],
-    // Drop the node from the live assistant-ui thread AFTER the DB delete + query invalidate, so this
-    // authoritative prune always wins any re-derivation the invalidate triggers. The rendered thread
-    // keeps its in-memory messages until a reload otherwise, so a deleted error/reply lingered until a
-    // manual refresh (worse on iOS Safari). Runs last via onAfter, not inside the mutation body.
-    (data) =>
-      patchLiveMessages((msgs) =>
-        (msgs as { id?: string }[]).filter((m) => m.id !== data?.id),
-      ),
-  );
+    onError: (e) => handleError(e, t),
+    onSuccess: (_data, args) => {
+      invalidateAndBroadcast(qc, [
+        queryKeys.chatMessages(args.convId),
+      ] as unknown as string[][]);
+    },
+  });
 }
