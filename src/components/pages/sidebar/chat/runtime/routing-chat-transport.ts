@@ -172,17 +172,22 @@ async function runClientStream(args: {
     },
   });
 
-  if (prepared.startAlerts.length === 0) {
-    return uiStream as ReadableStream<UIMessageChunk>;
-  }
+  // ALWAYS route the model stream through a wrapping createUIMessageStream writer,
+  // even with no start alerts. A zero-content close makes ai-sdk reject the UI
+  // stream's internal flush promise with AI_NoOutputGeneratedError; returning the
+  // raw stream leaks that as an unhandled rejection (vercel/ai#6879). writer.merge
+  // funnels the source stream's errors into this stream's own onError instead, so
+  // the error becomes a data part the client renders rather than a window-level
+  // unhandled rejection. The real cause is still reported via streamText onError.
   return createUIMessageStream({
+    onError: (error) => streamErrorText(error),
     execute: ({ writer }) => {
       for (const a of prepared.startAlerts) {
         writer.write({ type: "data-alert", data: a, transient: true });
       }
       writer.merge(uiStream as ReadableStream<UIMessageChunk>);
     },
-  });
+  }) as ReadableStream<UIMessageChunk>;
 }
 
 export function makeRoutingTransport(

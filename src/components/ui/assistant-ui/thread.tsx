@@ -618,11 +618,18 @@ const AssistantEditInPlace: FC<{ onClose: () => void }> = (props) => {
 
     const items = partsToItems(newParts);
 
-    await editMut.mutateAsync({
-      convId,
-      msgId: messageId,
-      body: { items },
-    });
+    // The mutation's onError already toasts; catch here so a rejected
+    // mutateAsync (e.g. the message vanished from the local DB, a swipe/branch
+    // race) does not escape this handler as an unhandled rejection.
+    try {
+      await editMut.mutateAsync({
+        convId,
+        msgId: messageId,
+        body: { items },
+      });
+    } catch {
+      return;
+    }
     analytics.chat.messageEdited({ role: "assistant", is_rp: isRpActive() });
 
     patchLiveMessages((msgs) => {
