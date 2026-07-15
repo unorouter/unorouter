@@ -58,7 +58,7 @@ export function CharacterList(props: Props) {
 
   return (
     <Dialog open={props.open} onOpenChange={props.onOpenChange}>
-      <DialogContent className="max-h-[85vh] overflow-x-hidden overflow-y-auto sm:max-w-2xl">
+      <DialogContent className="max-h-[85svh] overflow-x-hidden overflow-y-auto sm:max-w-2xl">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             {view.mode === "edit" && (

@@ -76,7 +76,7 @@ export function LorebookList(props: Props) {
 
   return (
     <Dialog open={props.open} onOpenChange={props.onOpenChange}>
-      <DialogContent className="flex max-h-[85vh] flex-col overflow-hidden sm:max-w-2xl">
+      <DialogContent className="flex max-h-[85svh] flex-col overflow-hidden sm:max-w-2xl">
         <DialogHeader className="shrink-0">
           <DialogTitle className="flex items-center gap-2">
             {openLbId && (
@@ -104,7 +104,7 @@ export function LorebookList(props: Props) {
             />
           ) : (
             <div className="flex flex-col gap-3">
-              <div className="flex flex-wrap items-center justify-end gap-2 pr-12">
+              <div className="flex flex-wrap items-center justify-end gap-2">
                 <RpImportControl
                   entity="lorebooks"
                   accept="application/json"

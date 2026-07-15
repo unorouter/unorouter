@@ -52,7 +52,7 @@ export function CustomProviderList(props: Props) {
 
   return (
     <Dialog open={props.open} onOpenChange={props.onOpenChange}>
-      <DialogContent className="max-h-[85vh] overflow-x-hidden overflow-y-auto sm:max-w-xl">
+      <DialogContent className="max-h-[85svh] overflow-x-hidden overflow-y-auto sm:max-w-xl">
         <DialogHeader>
           <DialogTitle>{t("CHAT.CUSTOM_PROVIDER.TITLE")}</DialogTitle>
         </DialogHeader>

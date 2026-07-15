@@ -291,7 +291,7 @@ export function TokenDialog(props: TokenDialogProps) {
 
   return (
     <Dialog open={props.open} onOpenChange={props.onOpenChange}>
-      <DialogContent className="flex max-h-[90vh] flex-col gap-0 sm:max-w-lg">
+      <DialogContent className="flex max-h-[90svh] flex-col gap-0 sm:max-w-lg">
         <DialogHeader className="pb-6">
           <DialogTitle>
             {isEdit ? t("TOKEN.EDIT") : t("TOKEN.CREATE")}
