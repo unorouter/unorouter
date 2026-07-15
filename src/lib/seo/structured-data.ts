@@ -162,6 +162,18 @@ type ArticleInput = {
   locale: string;
 };
 
+function authorEntity(name: string): Organization {
+  const sameAs = [env.githubUrl, env.twitterUrl, env.discordUrl].filter(
+    (v): v is string => Boolean(v),
+  );
+  return {
+    "@type": "Organization",
+    name,
+    url: env.siteOrigin,
+    ...(sameAs.length && { sameAs }),
+  };
+}
+
 export function buildArticleSchema(input: ArticleInput): WithContext<Article> {
   return {
     "@context": "https://schema.org",
@@ -181,8 +193,10 @@ export function buildArticleSchema(input: ArticleInput): WithContext<Article> {
     ...(input.author && {
       author:
         typeof input.author === "string"
-          ? { "@type": "Person", name: input.author }
-          : { "@type": input.author.type, name: input.author.name },
+          ? authorEntity(input.author)
+          : input.author.type === "Organization"
+            ? authorEntity(input.author.name)
+            : { "@type": "Person", name: input.author.name },
     }),
     publisher: buildOrganizationSchema(),
   };

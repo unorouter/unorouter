@@ -741,7 +741,8 @@
 				"P_RISU_WINS": "Aksini iddia etmeyeceğiz. Risu'nun HypaMemory V2 ve V3'ü kayan özeti vektör erişimiyle eşler ve bizim özet-artı-erişimimizden daha derine iner. Gerçek bir kullanıcı eklenti ekosistemi ve özel sağlayıcıları vardır, bizde yok. Lua ve Python betikleme yüzeyi daha geniştir ve WebLLM ile Transformers.js içeren, kendi kendine barındırılan GPL bir uygulama olarak, barındırılan bir hizmetin asla veremeyeceği tam yerel denetimi ve tarayıcı içi modelleri verir. En çok bunlar önemliyse, Risu'yu kullanın.",
 				"H_VERDICT": "Nasıl seçilir",
 				"P_VERDICT": "En zengin bellekle, kendi kendine barındırılan, açık ve derinlemesine genişletilebilir bir önyüz istiyor ve kendi anahtarlarınızı getirmeye razı mısınız? Risu'yu kullanın. Aynı lorebook, CBS ve kart özelliklerini, bir anahtarın kod ajanlarınızı da sürdüğü barındırılan bir üründe mi istiyorsunuz? İşte o {appName}.",
-				"CTA": "Her şeyi taşınmış sohbeti deneyin. <register>Ücretsiz hesap oluşturun</register> ya da <chat>sohbeti açın</chat>."
+				"CTA": "Her şeyi taşınmış sohbeti deneyin. <register>Ücretsiz hesap oluşturun</register> ya da <chat>sohbeti açın</chat>.",
+				"METHOD": "Nasıl doğruladık: buradaki RisuAI özellik iddiaları, pazarlama metnine değil, RisuAI'nin kendi açık kaynağına, lorebook, CBS makro, trigger ve bellek modüllerine bakılarak denetlendi. {appName} bir fikri taşıdı dediğimizde, o kodu okuyup davranışı yeniden kurduğumuzu kastediyoruz."
 			},
 			"UNOROUTER_VS_LITELLM": {
 				"TITLE": "{appName} vs LiteLLM: barındırılan ağ geçidi mi yoksa kendin barındıran vekil mi",
@@ -1110,7 +1111,8 @@
 				"P_DROPS_IN": "Birini ya da diğerini seçmiyorsunuz. {appName} anahtarınızı SillyTavern'e yapıştırıp onu backend olarak kullanın ya da {appName}'in kendi barındırılmış sohbetini kullanın. Aynı anahtar, aynı 200+ model, aynı krediler, nerede oturmayı tercih ederseniz.",
 				"H_VERDICT": "Nasıl seçilir",
 				"P_VERDICT": "Azami yerel kontrol mü istiyorsunuz ve SillyTavern çalıştırmayı mı seviyorsunuz? Onu tutun ve {appName}'i backend olarak kullanın. Aynı derinliği barındırılmış olarak ve kodlama ajanlarınızı da çalıştıran bir anahtarla mı istiyorsunuz? İşte o {appName}.",
-				"CTA": "2 in 1'i denemeye hazır mısınız? <register>Ücretsiz bir hesap oluşturun</register> ya da <chat>sohbeti açın</chat>."
+				"CTA": "2 in 1'i denemeye hazır mısınız? <register>Ücretsiz bir hesap oluşturun</register> ya da <chat>sohbeti açın</chat>.",
+				"METHOD": "Nasıl doğruladık: buradaki SillyTavern iddiaları, belgelerden aktarılmadı; kendi açık kaynağından (World Info, prompt ve karakter kartı kodundan) okundu. Bir ayrıntı yanlışsa, bu bizim okumamızdaki bir hatadır, o yüzden bize söyleyin."
 			},
 			"UNOROUTER_VS_CHUB": {
 				"TITLE": "{appName} ve Chub / Venus: kart derinliği, üstüne tek anahtarla kod",
@@ -1144,7 +1146,8 @@
 				"P_WINS": "En derin yerleşik ajan setini istiyorsanız, Marinara bunlardan 22 tanesini gönderir (world-state, quest, combat, director, continuity ve daha fazlası) artı tam bir görsel roman ve oyun modu ve tamamen kendi makinenizde çalışır, AGPL altında ücretsiz, Claude ve ChatGPT abonelik sağlayıcılarıyla ve yerel bir llama.cpp yan uygulamasıyla. {appName} bunun bir kısmını, barındırılmak ve tek anahtarda kodu artı sohbeti kapsamak için takas eder. Amaç derin, kendi kendine barındırılan ajan denetimiyse, Marinara daha iyi seçimdir ve bunu ciddiyetle söylüyoruz.",
 				"H_VERDICT": "Nasıl seçilir",
 				"P_VERDICT": "Tamamen kontrol ettiğiniz, kendiniz barındırdığınız bir preset motoru mu istiyorsunuz? Özel olanı çalıştırın. O bölüm tabanlı istem derinliğini barındırılmış olarak ve tek anahtarın kodlama ajanlarınızı da çalıştırdığı yerde mi istiyorsunuz? İşte o {appName}.",
-				"CTA": "2 in 1'i denemeye hazır mısınız? <register>Ücretsiz bir hesap oluşturun</register> ya da <chat>sohbeti açın</chat>."
+				"CTA": "2 in 1'i denemeye hazır mısınız? <register>Ücretsiz bir hesap oluşturun</register> ya da <chat>sohbeti açın</chat>.",
+				"METHOD": "Nasıl doğruladık: buradaki Marinara Engine iddiaları (yerleşik ajanları ve üç aşamalı boru hattı), açılış sayfasından değil, kendi kaynağından okundu. Bir fikri taşıdık dediğimizde, önce o kodu okuduk."
 			},
 			"UNOROUTER_VS_LUMIVERSE": {
 				"TITLE": "{appName} ve Lumiverse: hafıza fikirleri, barındırılmış, üstüne kod",
@@ -1161,7 +1164,8 @@
 				"P_WINS": "Açık konuşacağız: Lumiverse'in Memory Cortex'i bizimkinden daha derine iner. Varlık grafiği karakterleri, yerleri ve fraksiyonları önem puanlamasıyla izler; katmanlı konsolidasyonları arkları özetler; kasaları ise bir sohbetin başka bir sohbetin belleğini okumasına izin verir. Bizim kayan özet artı erişimimiz daha basittir. Bilinmeye değer bir uyarı: Lumiverse kaynağı erişilebilirdir ve lisansı ticari ve genel SaaS kullanımını yasaklar, bu yüzden onu yalnızca kişisel ya da kâr amacı gütmeyen kullanım için kendiniz barındırırsınız. {appName} ise ticari olarak kullanabileceğiniz barındırılan bir hizmettir. Önceliğiniz kendi kendine barındırılan bir bellek motoruysa, Lumiverse'i çalıştırın.",
 				"H_VERDICT": "Nasıl seçilir",
 				"P_VERDICT": "En zengin hafıza grafiği ve tam kontrolle kendiniz barındırılan bir motor mu istiyorsunuz? Onu çalıştırın. O hafıza ve döküm fikirlerini barındırılmış olarak ve kodlama ajanlarınızı da çalıştıran bir anahtarla mı istiyorsunuz? İşte o {appName}.",
-				"CTA": "2 in 1'i denemeye hazır mısınız? <register>Ücretsiz bir hesap oluşturun</register> ya da <chat>sohbeti açın</chat>."
+				"CTA": "2 in 1'i denemeye hazır mısınız? <register>Ücretsiz bir hesap oluşturun</register> ya da <chat>sohbeti açın</chat>.",
+				"METHOD": "Nasıl doğruladık: buradaki Lumiverse iddiaları, Memory Cortex'inin bizimkinden daha derine indiği dahil, varsayılmadı; kendi kaynağından ve lisansından okundu. Denetlenmemiş bir kazanç yerine dürüst bir kaybı belirtmeyi tercih ederiz."
 			},
 			"UNOROUTER_VS_LIBRECHAT": {
 				"TITLE": "{appName} ve LibreChat: çok modelli sohbet, barındırılmış, üstüne karakter sohbeti",
@@ -1178,7 +1182,8 @@
 				"P_COST": "LibreChat kendiniz barındırmak için ücretsizdir, ama her sağlayıcıya ödersiniz ve sunucuyla birlikte DevOps zamanını taşırsınız. {appName} tek bakiyede kullandıkça ödedir, çalıştırılacak sunucu yoktur. Bir platform ekibinin karşılık verdiği ölçeğin altında, saatler sayıldığında barındırılmış genellikle daha ucuza gelir.",
 				"H_VERDICT": "Nasıl seçilir",
 				"P_VERDICT": "Ajanlar, MCP, bir kod yorumlayıcı ve ekip kimlik doğrulamasıyla çok sağlayıcılı bir asistanı kendiniz mi barındırmak istiyorsunuz? LibreChat mükemmeldir. Barındırılan çok modelli sohbet artı gerçek bir karakter istemcisi mi, üstelik kod da yazan tek bir anahtarda mı istiyorsunuz? İşte o {appName}.",
-				"CTA": "Denemeye hazır mısınız? <register>Ücretsiz bir hesap oluşturun</register> ya da <models>modellere göz atın</models>."
+				"CTA": "Denemeye hazır mısınız? <register>Ücretsiz bir hesap oluşturun</register> ya da <models>modellere göz atın</models>.",
+				"METHOD": "Nasıl doğruladık: LibreChat'in karakter sohbeti özelliği bulunmadığı iddiası, konumlandırmasından çıkarsanmadı; gerçek kaynağına bakılarak denetlendi (içinde karakter kartı, lorebook ya da persona yok)."
 			},
 			"UNOROUTER_VS_OPEN_WEBUI": {
 				"TITLE": "{appName} ve Open WebUI: 200+ barındırılmış model, Ollama yok, üstüne karakter sohbeti",
@@ -1195,7 +1200,8 @@
 				"P_COST": "Open WebUI çalıştırmak için ücretsizdir, ama sunucuya, güncellemelere ve yerel modeller için donanıma siz sahip olursunuz. {appName} tek bakiyede kullandıkça ödedir, altyapı yoktur. Özellikle yerel donanımda çıkarım istemiyorsanız, barındırılmış sizden daha azını ister ve saatler sayıldığında genellikle daha ucuza gelir.",
 				"H_VERDICT": "Nasıl seçilir",
 				"P_VERDICT": "Kendiniz barındırmak, yerel Ollama modelleri çalıştırmak, derin belge RAG'ına yaslanmak ve rollerle ve SSO'yla bir ekibi yönetmek mi istiyorsunuz? Open WebUI tam bunda mükemmeldir. 200'den fazla barındırılan model artı gerçek bir karakter istemcisi mi, üstelik kod da yazan tek bir anahtarda ve çalıştırılacak hiçbir şey olmadan mı istiyorsunuz? İşte o {appName}.",
-				"CTA": "Denemeye hazır mısınız? <register>Ücretsiz bir hesap oluşturun</register> ya da <models>modellere göz atın</models>."
+				"CTA": "Denemeye hazır mısınız? <register>Ücretsiz bir hesap oluşturun</register> ya da <models>modellere göz atın</models>.",
+				"METHOD": "Nasıl doğruladık: Open WebUI'nin bir karakter istemcisi değil, bir asistan platformu olduğu iddiası kaynağına bakılarak denetlendi; karakter kartı ayrıştırıcısı mevcut ama kullanılmıyor ve lorebook ya da persona yok."
 			},
 			"UNOROUTER_VS_AGNAI": {
 				"TITLE": "{appName} ve Agnai: aynı RP derinliği, barındırılmış, tek anahtarla",
@@ -1212,7 +1218,8 @@
 				"P_COST": "Agnai ücretsizdir ve AI Horde kuyruklarına, kendi barındırdığı katmanına ya da sağlayıcı başına kendi ücretli anahtarlarınıza yaslanır. {appName} ise 200'den fazla modelde tek bir bakiyedir, kullandıkça öde, süresi dolmayan krediler, ücretsiz katman, kuyruk yok ve sağlayıcı başına cüzdan yok.",
 				"H_VERDICT": "Nasıl seçilir",
 				"P_VERDICT": "Bir grup için gerçek çok oyunculu ve ücretsiz Horde işlem gücüyle açık, kendi çalıştırdığınız RP mi istiyorsunuz? Agnai bu seçim ve bunda gerçekten iyidir. Daha derin tek kullanıcılı betikleme ve barındırılan 200'den fazla model mi, üstelik kodlama ajanlarınızı da süren tek bir anahtarda mı istiyorsunuz? İşte o {appName}.",
-				"CTA": "2 in 1'i denemeye hazır mısınız? <register>Ücretsiz bir hesap oluşturun</register> ya da <chat>sohbeti açın</chat>."
+				"CTA": "2 in 1'i denemeye hazır mısınız? <register>Ücretsiz bir hesap oluşturun</register> ya da <chat>sohbeti açın</chat>.",
+				"METHOD": "Nasıl doğruladık: buradaki Agnai iddiaları, çok oyunculu grup sohbetinin bizim eşleyemediğimiz gerçek bir güç olduğu dahil, pazarlamasından değil, kendi kaynağından okundu."
 			},
 			"UNOROUTER_VS_SPICYCHAT": {
 				"TITLE": "{appName} ve SpicyChat: kolay yol, üstüne derinlik, modeller ve kod",

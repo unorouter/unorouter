@@ -741,7 +741,8 @@
 				"P_RISU_WINS": "我们不会装作不是这样。Risu 的 HypaMemory V2 和 V3 把滚动摘要和向量检索配在一起，比我们的摘要加检索钻得更深。它有一个真正的用户插件生态和自定义供应商，我们没有。它的 Lua 和 Python 脚本面更大，而作为一个自托管的 GPL 应用，配上 WebLLM 和 Transformers.js，它给你的是托管服务永远给不了的完全本地掌控和浏览器内模型。如果这些对你最重要，那就用 Risu。",
 				"H_VERDICT": "怎么选",
 				"P_VERDICT": "想要一个自托管、开放、可深度扩展、记忆最丰富的前端，又不介意自带钥匙？用Risu。想要同样的世界书、CBS和卡片功能，只是以托管形式呈现，且一把钥匙也驱动你的编码代理？那就是{appName}。",
-				"CTA": "试试把一切都移植进来的聊天。<register>创建免费账户</register>或<chat>打开聊天</chat>。"
+				"CTA": "试试把一切都移植进来的聊天。<register>创建免费账户</register>或<chat>打开聊天</chat>。",
+				"METHOD": "我们是如何核实的：本文关于 RisuAI 功能的说法，都是对照 RisuAI 自己的开源代码核对过的，看的是它的 lorebook、CBS 宏、触发器和记忆模块，而不是它的宣传文案。凡是我们说 {appName} 移植了某个思路，意思就是我们读了那段代码，并把它的行为重建了出来。"
 			},
 			"UNOROUTER_VS_LITELLM": {
 				"TITLE": "{appName} 对比 LiteLLM：托管网关还是自托管代理",
@@ -1110,7 +1111,8 @@
 				"P_DROPS_IN": "你不是二选一。把你的 {appName} 密钥填进 SillyTavern 当后端用，或者用 {appName} 自己的托管聊天。同一把密钥，同样的 200 多个模型，同样的积分，你想坐在哪边都行。",
 				"H_VERDICT": "该怎么选",
 				"P_VERDICT": "想要最大限度的本地掌控、又爱运行 SillyTavern？那就留着它，用 {appName} 当后端。想要同样的深度但做成托管、还有一把能运行编程智能体的密钥？那就是 {appName}。",
-				"CTA": "准备好试试这个 2合1 了吗？<register>免费注册一个账号</register>，或者 <chat>打开聊天</chat>。"
+				"CTA": "准备好试试这个 2合1 了吗？<register>免费注册一个账号</register>，或者 <chat>打开聊天</chat>。",
+				"METHOD": "我们是如何核实的：本文关于 SillyTavern 的说法，都是从它的开源代码里读出来的（它的 World Info、prompt 和角色卡代码），而不是照着文档转述的。如果哪个细节有误，那是我们读代码时出了错，请告诉我们。"
 			},
 			"UNOROUTER_VS_CHUB": {
 				"TITLE": "{appName} 对比 Chub / Venus：卡片深度，外加一把密钥写代码",
@@ -1144,7 +1146,8 @@
 				"P_WINS": "如果你想要最深的内置智能体集，Marinara 配了 22 个（world-state、quest、combat、director、continuity 等等），外加完整的视觉小说和游戏模式，而且完全在你自己的机器上运行，遵循 AGPL 免费，带 Claude 和 ChatGPT 订阅供应商，以及一个本地 llama.cpp 边车。{appName} 拿其中一部分去换来托管，以及一把横跨代码和聊天的密钥。如果深度的自托管智能体掌控才是目标，Marinara 是更好的选择，这话我们是认真的。",
 				"H_VERDICT": "该怎么选",
 				"P_VERDICT": "想要一个完全由你掌控的自托管 preset 引擎？那就运行那个专用的。想要那种基于段落的 prompt 深度但做成托管，一把密钥还能运行你的编程智能体？那就是 {appName}。",
-				"CTA": "准备好试试这个 2合1 了吗？<register>免费注册一个账号</register>，或者 <chat>打开聊天</chat>。"
+				"CTA": "准备好试试这个 2合1 了吗？<register>免费注册一个账号</register>，或者 <chat>打开聊天</chat>。",
+				"METHOD": "我们是如何核实的：本文关于 Marinara Engine 的说法（它的内置智能体和三阶段管线），都是从它自己的源码里读出来的，而不是照着它的落地页写的。凡是我们说移植了某个思路，都是先读过那段代码的。"
 			},
 			"UNOROUTER_VS_LUMIVERSE": {
 				"TITLE": "{appName} 对比 Lumiverse：记忆的思路，托管好，外加代码",
@@ -1161,7 +1164,8 @@
 				"P_WINS": "我们直说：Lumiverse 的 Memory Cortex 比我们的钻得更深。它的实体图谱用显著度打分来追踪角色、地点和派系；它的分层归并把剧情弧总结出来；它的保险库让一个聊天读取另一个聊天的记忆。我们的滚动摘要加检索更简单。有一点值得知道：Lumiverse 是源码可得的，它的许可证禁止商用和公开 SaaS 用途，所以你只能自托管来供个人或非营利使用。{appName} 则是一个你可以商用的托管服务。如果自托管的记忆引擎是你的首要目标，那就运行 Lumiverse。",
 				"H_VERDICT": "该怎么选",
 				"P_VERDICT": "想要一个自托管引擎，配上最丰富的记忆图谱和完全掌控？那就运行它。想要那些记忆和拆解的思路但做成托管，还有一把能运行你编程智能体的密钥？那就是 {appName}。",
-				"CTA": "准备好试试这个 2合1 了吗？<register>免费注册一个账号</register>，或者 <chat>打开聊天</chat>。"
+				"CTA": "准备好试试这个 2合1 了吗？<register>免费注册一个账号</register>，或者 <chat>打开聊天</chat>。",
+				"METHOD": "我们是如何核实的：本文关于 Lumiverse 的说法，包括它的 Memory Cortex 比我们钻得更深这一点，都是从它自己的源码和许可证里读出来的，而不是想当然。我们宁愿诚实承认一处落败，也不愿摆一个没核实过的胜绩。"
 			},
 			"UNOROUTER_VS_LIBRECHAT": {
 				"TITLE": "{appName} 对比 LibreChat：多模型聊天，托管好，外加角色聊天",
@@ -1178,7 +1182,8 @@
 				"P_COST": "LibreChat 自托管是免费的，但你要付钱给每家供应商，还得扛着服务器和那些 DevOps 的时间。{appName} 是一个余额用多少付多少，没有服务器要运行。在还没到需要一支平台团队才划算的规模之前，把工时算进去，托管通常更便宜。",
 				"H_VERDICT": "该怎么选",
 				"P_VERDICT": "想自托管一个多供应商助手，带智能体、MCP、一个代码解释器和团队认证？LibreChat 很出色。想要托管的多模型聊天，外加一个真正的角色客户端，还有一把也能写代码的密钥？那就是 {appName}。",
-				"CTA": "准备好试试了吗？<register>免费注册一个账号</register>，或者 <models>浏览模型</models>。"
+				"CTA": "准备好试试了吗？<register>免费注册一个账号</register>，或者 <models>浏览模型</models>。",
+				"METHOD": "我们是如何核实的：关于 LibreChat 没有角色聊天功能这个说法，是对照它实际的源码核实过的（里面没有角色卡、没有 lorebooks、也没有 personas），而不是从它的定位里推断出来的。"
 			},
 			"UNOROUTER_VS_OPEN_WEBUI": {
 				"TITLE": "{appName} 对比 Open WebUI：200 多个托管模型，不用 Ollama，外加角色聊天",
@@ -1195,7 +1200,8 @@
 				"P_COST": "Open WebUI 运行是免费的，但服务器、更新，以及本地模型的硬件都归你自己。{appName} 是一个余额用多少付多少，没有基础设施。除非你特别想要本地硬件推理，否则托管对你的要求更少，把工时算进去往往也更便宜。",
 				"H_VERDICT": "该怎么选",
 				"P_VERDICT": "想自托管、跑本地 Ollama 模型、靠深度文档 RAG，还想用角色和 SSO 管理一支团队？Open WebUI 恰恰在这上面很出色。想要 200+ 个托管模型外加一个真正的角色客户端，一把密钥还能写代码，而且什么都不用运行？那就是 {appName}。",
-				"CTA": "准备好试试了吗？<register>免费注册一个账号</register>，或者 <models>浏览模型</models>。"
+				"CTA": "准备好试试了吗？<register>免费注册一个账号</register>，或者 <models>浏览模型</models>。",
+				"METHOD": "我们是如何核实的：关于 Open WebUI 是一个助手平台、而不是角色客户端这个说法，是对照它的源码核实过的；它的角色卡解析器虽然在代码里，却没有被用到，而且里面没有 lorebooks 也没有 personas。"
 			},
 			"UNOROUTER_VS_AGNAI": {
 				"TITLE": "{appName} 对比 Agnai：一样的 RP 深度，托管好，一把密钥",
@@ -1212,7 +1218,8 @@
 				"P_COST": "Agnai 免费，它靠 AI Horde 的排队、它自己的托管档，或者你自己每家供应商的付费密钥。{appName} 是一个余额覆盖 200+ 个模型，用多少付多少，积分永不过期，还有免费档，不用排队，也不用分供应商钱包。",
 				"H_VERDICT": "该怎么选",
 				"P_VERDICT": "想要开放、自己运行的 RP，给一群人配上真正的多人和免费的 Horde 算力？Agnai 就是那个选择，而且它在这上面是真的行。想要更深的单用户脚本和 200+ 个托管模型，都在一把还能运行你编程智能体的密钥上？那就是 {appName}。",
-				"CTA": "准备好试试这个 2合1 了吗？<register>免费注册一个账号</register>，或者 <chat>打开聊天</chat>。"
+				"CTA": "准备好试试这个 2合1 了吗？<register>免费注册一个账号</register>，或者 <chat>打开聊天</chat>。",
+				"METHOD": "我们是如何核实的：本文关于 Agnai 的说法，包括它的多人群聊是一个我们没有对标上的实打实的强项这一点，都是从它自己的源码里读出来的，而不是它的宣传文案。"
 			},
 			"UNOROUTER_VS_SPICYCHAT": {
 				"TITLE": "{appName} 对比 SpicyChat：轻松那条路，外加深度、模型和代码",

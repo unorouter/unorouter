@@ -741,7 +741,8 @@
 				"P_RISU_WINS": "Nie będziemy udawać inaczej. HypaMemory V2 i V3 w Risu łączy kroczące podsumowanie z wyszukiwaniem wektorowym i sięga głębiej niż nasze podsumowanie plus wyszukiwanie. Ma prawdziwy ekosystem wtyczek użytkownika i własnych dostawców, my nie. Jego powierzchnia skryptowania w Lua i Pythonie jest większa, a jako samodzielnie hostowana aplikacja na licencji GPL z WebLLM i Transformers.js daje pełną lokalną kontrolę i modele w przeglądarce, jakich hostowana usługa nigdy nie zapewni. Jeśli to dla ciebie najważniejsze, użyj Risu.",
 				"H_VERDICT": "Jak wybrać",
 				"P_VERDICT": "Chcesz samodzielnie hostowany, otwarty i głęboko rozszerzalny frontend z najbogatszą pamięcią i nie masz nic przeciwko własnym kluczom? Weź Risu. Chcesz te same funkcje lorebooków, CBS i kart w wersji hostowanej, gdzie klucz napędza też twoich agentów kodu? To {appName}.",
-				"CTA": "Wypróbuj czat z wszystkim przeniesionym. <register>Załóż darmowe konto</register> lub <chat>otwórz czat</chat>."
+				"CTA": "Wypróbuj czat z wszystkim przeniesionym. <register>Załóż darmowe konto</register> lub <chat>otwórz czat</chat>.",
+				"METHOD": "Jak to zweryfikowaliśmy: twierdzenia o funkcjach RisuAI sprawdziliśmy z jego własnym otwartym kodem, z modułami lorebooka, makr CBS, triggerów i pamięci, a nie z jego marketingiem. Gdy piszemy, że {appName} przeniósł jakiś pomysł, znaczy to, że przeczytaliśmy ten kod i odtworzyliśmy jego zachowanie."
 			},
 			"UNOROUTER_VS_LITELLM": {
 				"TITLE": "{appName} kontra LiteLLM: hostowana brama czy samodzielnie hostowane proxy",
@@ -1110,7 +1111,8 @@
 				"P_DROPS_IN": "Nie wybierasz jednego albo drugiego. Wklej swój klucz {appName} do SillyTavern i użyj go jako backendu, albo korzystaj z własnego, hostowanego czatu {appName}. Ten sam klucz, te same ponad 200 modeli, te same środki, gdziekolwiek wolisz siedzieć.",
 				"H_VERDICT": "Jak wybrać",
 				"P_VERDICT": "Chcesz maksymalnej lokalnej kontroli i uwielbiasz uruchamiać SillyTavern? Zostań przy nim i użyj {appName} jako backendu. Chcesz tej samej głębi hostowanej, na kluczu, który uruchamia też twoich agentów kodujących? To {appName}.",
-				"CTA": "Gotowy wypróbować 2 w 1? <register>Załóż darmowe konto</register> albo <chat>otwórz czat</chat>."
+				"CTA": "Gotowy wypróbować 2 w 1? <register>Załóż darmowe konto</register> albo <chat>otwórz czat</chat>.",
+				"METHOD": "Jak to zweryfikowaliśmy: twierdzenia o SillyTavern odczytaliśmy z jego otwartego kodu (z kodu World Info, promptów i kart postaci), a nie sparafrazowaliśmy z dokumentacji. Jeśli jakiś szczegół jest błędny, to błąd w naszym odczytaniu, więc daj nam znać."
 			},
 			"UNOROUTER_VS_CHUB": {
 				"TITLE": "{appName} kontra Chub / Venus: głębia kart plus kod na jednym kluczu",
@@ -1144,7 +1146,8 @@
 				"P_WINS": "Jeśli chcesz najgłębszego wbudowanego zestawu agentów, Marinara dostarcza ich 22 (stan świata, questy, walka, reżyser, ciągłość i więcej) plus pełny tryb powieści wizualnej i gry, a działa w całości na twojej własnej maszynie, za darmo na licencji AGPL, z dostawcami subskrypcji Claude i ChatGPT oraz lokalnym sidecarem llama.cpp. {appName} wymienia część tego za bycie hostowanym i objęcie kodu plus czatu na jednym kluczu. Jeśli celem jest głęboka kontrola nad agentami na własnym hoście, Marinara jest lepszym wyborem, i mówimy to szczerze.",
 				"H_VERDICT": "Jak wybrać",
 				"P_VERDICT": "Chcesz silnika presetów na własnym hoście, który w pełni kontrolujesz? Uruchom ten dedykowany. Chcesz tej głębi promptów opartej na sekcjach hostowanej, gdzie jeden klucz uruchamia też twoich agentów kodujących? To {appName}.",
-				"CTA": "Gotowy wypróbować 2 w 1? <register>Załóż darmowe konto</register> albo <chat>otwórz czat</chat>."
+				"CTA": "Gotowy wypróbować 2 w 1? <register>Załóż darmowe konto</register> albo <chat>otwórz czat</chat>.",
+				"METHOD": "Jak to zweryfikowaliśmy: twierdzenia o Marinara Engine (o jego wbudowanych agentach i trójfazowym potoku) odczytaliśmy z jego własnego kodu, a nie ze strony docelowej. Gdy piszemy, że przenieśliśmy jakiś pomysł, najpierw przeczytaliśmy ten kod."
 			},
 			"UNOROUTER_VS_LUMIVERSE": {
 				"TITLE": "{appName} kontra Lumiverse: pomysły na pamięć, hostowane, plus kod",
@@ -1161,7 +1164,8 @@
 				"P_WINS": "Powiemy wprost: Memory Cortex w Lumiverse sięga głębiej niż nasz. Jego graf encji śledzi postacie, miejsca i frakcje z oceną istotności; jego wielopoziomowe konsolidacje streszczają łuki fabularne; a jego sejfy pozwalają jednemu czatowi czytać pamięć drugiego. Nasze kroczące podsumowanie plus wyszukiwanie jest prostsze. Jeden haczyk wart poznania: Lumiverse jest source-available, a jego licencja zabrania użytku komercyjnego i publicznego SaaS, więc hostujesz go samodzielnie wyłącznie do użytku osobistego lub non-profit. {appName} to hostowana usługa, której wolno używać komercyjnie. Jeśli twoim priorytetem jest silnik pamięci na własnym hoście, uruchom Lumiverse.",
 				"H_VERDICT": "Jak wybrać",
 				"P_VERDICT": "Chcesz silnika na własnym hoście z najbogatszym grafem pamięci i pełną kontrolą? Uruchom go. Chcesz tych pomysłów na pamięć i rozbicie promptu hostowanych, na kluczu, który uruchamia też twoich agentów kodujących? To {appName}.",
-				"CTA": "Gotowy wypróbować 2 w 1? <register>Załóż darmowe konto</register> albo <chat>otwórz czat</chat>."
+				"CTA": "Gotowy wypróbować 2 w 1? <register>Załóż darmowe konto</register> albo <chat>otwórz czat</chat>.",
+				"METHOD": "Jak to zweryfikowaliśmy: twierdzenia o Lumiverse, w tym to, że jego Memory Cortex sięga głębiej niż nasz, odczytaliśmy z jego własnego kodu i licencji, a nie założyliśmy. Wolimy przyznać uczciwą porażkę niż ogłosić niesprawdzone zwycięstwo."
 			},
 			"UNOROUTER_VS_LIBRECHAT": {
 				"TITLE": "{appName} kontra LibreChat: czat wielomodelowy, hostowany, plus czat z postaciami",
@@ -1178,7 +1182,8 @@
 				"P_COST": "LibreChat jest darmowy do hostowania samodzielnie, ale płacisz każdemu dostawcy i dźwigasz serwer plus czas na DevOps. {appName} to płatność za faktyczne użycie na jednym saldzie, bez serwerów do uruchamiania. Poniżej skali, przy której opłaca się zespół platformowy, hostowany zwykle kosztuje mniej, gdy policzysz godziny.",
 				"H_VERDICT": "Jak wybrać",
 				"P_VERDICT": "Chcesz hostować samodzielnie wielodostawcowego asystenta z agentami, MCP, interpreterem kodu i uwierzytelnianiem zespołu? LibreChat jest znakomity. Chcesz hostowanego czatu wielomodelowego oraz prawdziwego klienta postaci, na jednym kluczu, który też koduje? To {appName}.",
-				"CTA": "Gotowy wypróbować? <register>Załóż darmowe konto</register> albo <models>przejrzyj modele</models>."
+				"CTA": "Gotowy wypróbować? <register>Załóż darmowe konto</register> albo <models>przejrzyj modele</models>.",
+				"METHOD": "Jak to zweryfikowaliśmy: twierdzenie, że LibreChat nie ma funkcji czatu z postaciami, sprawdziliśmy z jego faktycznym kodem (nie ma w nim żadnych kart postaci, lorebooków ani person), a nie wywnioskowaliśmy z jego pozycjonowania."
 			},
 			"UNOROUTER_VS_OPEN_WEBUI": {
 				"TITLE": "{appName} kontra Open WebUI: ponad 200 hostowanych modeli, bez Ollamy, plus czat z postaciami",
@@ -1195,7 +1200,8 @@
 				"P_COST": "Open WebUI jest darmowy do uruchomienia, ale posiadasz serwer, aktualizacje i sprzęt do lokalnych modeli. {appName} to płatność za faktyczne użycie na jednym saldzie, bez infrastruktury. Jeśli nie zależy ci konkretnie na wnioskowaniu na lokalnym sprzęcie, hostowany wymaga od ciebie mniej i często kosztuje mniej, gdy policzysz godziny.",
 				"H_VERDICT": "Jak wybrać",
 				"P_VERDICT": "Chcesz hostować samodzielnie, uruchamiać lokalne modele Ollama, oprzeć się na głębokim RAG na dokumentach i zarządzać zespołem z rolami oraz SSO? Open WebUI jest znakomity dokładnie w tym. Chcesz ponad 200 hostowanych modeli plus prawdziwego klienta postaci, na jednym kluczu, który też koduje, bez niczego do uruchamiania? To {appName}.",
-				"CTA": "Gotowy wypróbować? <register>Załóż darmowe konto</register> albo <models>przejrzyj modele</models>."
+				"CTA": "Gotowy wypróbować? <register>Załóż darmowe konto</register> albo <models>przejrzyj modele</models>.",
+				"METHOD": "Jak to zweryfikowaliśmy: twierdzenie, że Open WebUI to platforma asystenta, a nie klient postaci, sprawdziliśmy z jego kodem; parser kart postaci jest w nim obecny, ale nieużywany, i nie ma żadnych lorebooków ani person."
 			},
 			"UNOROUTER_VS_AGNAI": {
 				"TITLE": "{appName} kontra Agnai: ta sama głębia RP, hostowana, na jednym kluczu",
@@ -1212,7 +1218,8 @@
 				"P_COST": "Agnai jest darmowy i opiera się na kolejkach AI Horde, własnym hostowanym poziomie albo twoich własnych płatnych kluczach na każdego dostawcę. {appName} to jedno saldo na ponad 200 modeli, płatność za faktyczne użycie, środki, które nie wygasają, z darmowym poziomem, bez kolejki i bez portfela na każdego dostawcę z osobna.",
 				"H_VERDICT": "Jak wybrać",
 				"P_VERDICT": "Chcesz otwartego, uruchamianego samodzielnie RP z prawdziwym multiplayerem dla grupy i darmową mocą Horde? Agnai to wybór, i jest w tym naprawdę dobry. Chcesz głębszego jednoosobowego skryptowania i ponad 200 modeli hostowanych, na jednym kluczu, który uruchamia też twoich agentów do kodowania? To {appName}.",
-				"CTA": "Gotowy wypróbować 2 w 1? <register>Załóż darmowe konto</register> albo <chat>otwórz czat</chat>."
+				"CTA": "Gotowy wypróbować 2 w 1? <register>Załóż darmowe konto</register> albo <chat>otwórz czat</chat>.",
+				"METHOD": "Jak to zweryfikowaliśmy: twierdzenia o Agnai, w tym to, że jego wieloosobowy czat grupowy to prawdziwa mocna strona, której nie dorównujemy, odczytaliśmy z jego własnego kodu, a nie z jego marketingu."
 			},
 			"UNOROUTER_VS_SPICYCHAT": {
 				"TITLE": "{appName} kontra SpicyChat: łatwa droga, plus głębia, modele i kod",

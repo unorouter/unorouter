@@ -741,7 +741,8 @@
 				"P_RISU_WINS": "Chúng tôi sẽ không giả vờ ngược lại. HypaMemory V2 và V3 của Risu ghép tóm tắt cuộn với truy hồi vector và đi sâu hơn cách tóm tắt cộng truy hồi của chúng tôi. Nó có một hệ sinh thái plugin người dùng thực thụ và các nhà cung cấp tùy chỉnh; chúng tôi thì không. Bề mặt scripting Lua và Python của nó rộng hơn, và là một ứng dụng tự lưu trữ theo GPL với WebLLM và Transformers.js, nó cho bạn toàn quyền kiểm soát cục bộ và các mô hình chạy ngay trong trình duyệt mà một dịch vụ được lưu trữ chẳng bao giờ có thể. Nếu những điều đó quan trọng nhất với bạn, hãy dùng Risu.",
 				"H_VERDICT": "Chọn thế nào",
 				"P_VERDICT": "Muốn một frontend tự lưu trữ, mở và có thể mở rộng sâu với bộ nhớ giàu nhất, và bạn sẵn lòng mang khóa của mình? Dùng Risu. Muốn cùng các tính năng lorebook, CBS và thẻ ở dạng được lưu trữ, nơi một khóa cũng vận hành agent lập trình của bạn? Đó là {appName}.",
-				"CTA": "Hãy thử chat với tất cả đã được chuyển vào. <register>Tạo tài khoản miễn phí</register> hoặc <chat>mở chat</chat>."
+				"CTA": "Hãy thử chat với tất cả đã được chuyển vào. <register>Tạo tài khoản miễn phí</register> hoặc <chat>mở chat</chat>.",
+				"METHOD": "Cách chúng tôi kiểm chứng: những khẳng định về tính năng của RisuAI ở đây được đối chiếu với chính mã nguồn mở của RisuAI, các module lorebook, macro CBS, trigger và bộ nhớ của nó, chứ không phải với lời quảng cáo. Khi chúng tôi nói {appName} đã chuyển một ý tưởng qua, nghĩa là chúng tôi đã đọc đoạn mã đó và dựng lại hành vi."
 			},
 			"UNOROUTER_VS_LITELLM": {
 				"TITLE": "{appName} so với LiteLLM: cổng được lưu trữ hay proxy tự lưu trữ",
@@ -1110,7 +1111,8 @@
 				"P_DROPS_IN": "Bạn không phải chọn cái này hay cái kia. Dán key {appName} vào SillyTavern và dùng nó làm backend, hoặc dùng chat được host sẵn của riêng {appName}. Cùng một key, cùng hơn 200 model, cùng credit, ở bất cứ nơi nào bạn thích ngồi.",
 				"H_VERDICT": "Cách chọn",
 				"P_VERDICT": "Muốn kiểm soát cục bộ tối đa và thích chạy SillyTavern? Cứ giữ nó, và dùng {appName} làm backend. Muốn cùng độ sâu đó được host sẵn, trên một key cũng chạy các coding agent của bạn? Đó chính là {appName}.",
-				"CTA": "Sẵn sàng thử 2 trong 1? <register>Tạo tài khoản miễn phí</register> hoặc <chat>mở chat</chat>."
+				"CTA": "Sẵn sàng thử 2 trong 1? <register>Tạo tài khoản miễn phí</register> hoặc <chat>mở chat</chat>.",
+				"METHOD": "Cách chúng tôi kiểm chứng: những khẳng định về SillyTavern ở đây được đọc từ chính mã nguồn mở của nó (mã World Info, prompt và thẻ nhân vật), chứ không diễn giải lại từ tài liệu. Nếu có chi tiết nào sai, đó là lỗi trong cách chúng tôi đọc, nên hãy báo cho chúng tôi biết."
 			},
 			"UNOROUTER_VS_CHUB": {
 				"TITLE": "{appName} so với Chub / Venus: độ sâu về card, kèm code trên một key",
@@ -1144,7 +1146,8 @@
 				"P_WINS": "Nếu bạn muốn bộ agent tích hợp sâu nhất, Marinara có 22 agent (world-state, quest, combat, director, continuity, và nhiều hơn nữa) cộng thêm một chế độ visual novel và game đầy đủ, và nó chạy hoàn toàn trên máy của riêng bạn, miễn phí theo AGPL, với các nhà cung cấp thuê bao Claude và ChatGPT cùng một sidecar llama.cpp cục bộ. {appName} đánh đổi một phần điều đó để được host sẵn và trải rộng cả code lẫn chat trên một key. Nếu quyền kiểm soát agent tự host sâu là mục tiêu, thì Marinara là lựa chọn tốt hơn, và chúng tôi thật lòng nói vậy.",
 				"H_VERDICT": "Cách chọn",
 				"P_VERDICT": "Muốn một preset engine tự host mà bạn kiểm soát hoàn toàn? Hãy chạy cái chuyên dụng. Muốn độ sâu prompt dựa theo phần đó được host sẵn, nơi một key cũng chạy các coding agent của bạn? Đó chính là {appName}.",
-				"CTA": "Sẵn sàng thử 2 trong 1? <register>Tạo tài khoản miễn phí</register> hoặc <chat>mở chat</chat>."
+				"CTA": "Sẵn sàng thử 2 trong 1? <register>Tạo tài khoản miễn phí</register> hoặc <chat>mở chat</chat>.",
+				"METHOD": "Cách chúng tôi kiểm chứng: những khẳng định về Marinara Engine ở đây (các agent tích hợp và pipeline ba pha của nó) được đọc từ chính mã nguồn của nó, chứ không phải từ trang giới thiệu. Khi chúng tôi nói mình đã chuyển một ý tưởng qua, chúng tôi đã đọc đoạn mã đó trước."
 			},
 			"UNOROUTER_VS_LUMIVERSE": {
 				"TITLE": "{appName} so với Lumiverse: các ý tưởng về bộ nhớ, được host sẵn, kèm code",
@@ -1161,7 +1164,8 @@
 				"P_WINS": "Chúng tôi sẽ nói thẳng: Memory Cortex của Lumiverse đi sâu hơn của chúng tôi. Đồ thị thực thể của nó theo dõi nhân vật, địa điểm, và phe phái kèm chấm điểm mức độ nổi bật; các hợp nhất phân tầng của nó tóm tắt các cung truyện; và vault của nó cho một chat đọc được bộ nhớ của chat khác. Tóm tắt cuộn cộng truy hồi của chúng tôi đơn giản hơn. Một điểm đáng lưu ý: Lumiverse là source-available, và giấy phép của nó cấm dùng cho mục đích thương mại và SaaS công cộng, nên bạn chỉ tự host cho mục đích cá nhân hoặc phi lợi nhuận. {appName} là một dịch vụ được lưu trữ mà bạn có thể dùng cho mục đích thương mại. Nếu một engine bộ nhớ tự host là ưu tiên của bạn, hãy chạy Lumiverse.",
 				"H_VERDICT": "Cách chọn",
 				"P_VERDICT": "Muốn một engine tự host với đồ thị bộ nhớ giàu nhất và toàn quyền kiểm soát? Hãy chạy nó. Muốn những ý tưởng về bộ nhớ và bảng phân tích đó được host sẵn, trên một key cũng chạy các coding agent của bạn? Đó chính là {appName}.",
-				"CTA": "Sẵn sàng thử 2 trong 1? <register>Tạo tài khoản miễn phí</register> hoặc <chat>mở chat</chat>."
+				"CTA": "Sẵn sàng thử 2 trong 1? <register>Tạo tài khoản miễn phí</register> hoặc <chat>mở chat</chat>.",
+				"METHOD": "Cách chúng tôi kiểm chứng: những khẳng định về Lumiverse ở đây, bao gồm cả việc Memory Cortex của nó đi sâu hơn của chúng tôi, được đọc từ chính mã nguồn và giấy phép của nó, chứ không phải phỏng đoán. Chúng tôi thà nêu ra một điểm thua một cách trung thực còn hơn tuyên bố một chiến thắng chưa được kiểm chứng."
 			},
 			"UNOROUTER_VS_LIBRECHAT": {
 				"TITLE": "{appName} so với LibreChat: chat đa model, được host sẵn, kèm chat nhân vật",
@@ -1178,7 +1182,8 @@
 				"P_COST": "LibreChat miễn phí để tự host, nhưng bạn trả cho từng nhà cung cấp và gánh máy chủ cùng thời gian DevOps. {appName} là trả theo mức dùng trên một số dư, không có máy chủ nào phải vận hành. Dưới quy mô mà một đội nền tảng mới đáng đầu tư, host sẵn thường tốn ít hơn một khi bạn tính cả số giờ.",
 				"H_VERDICT": "Cách chọn",
 				"P_VERDICT": "Muốn tự host một trợ lý đa nhà cung cấp với agent, MCP, một trình thông dịch code, và xác thực đội? LibreChat xuất sắc. Muốn chat đa model được host sẵn cộng thêm một client nhân vật thực thụ, trên một key cũng code được? Đó là {appName}.",
-				"CTA": "Sẵn sàng thử? <register>Tạo tài khoản miễn phí</register> hoặc <models>xem danh sách model</models>."
+				"CTA": "Sẵn sàng thử? <register>Tạo tài khoản miễn phí</register> hoặc <models>xem danh sách model</models>.",
+				"METHOD": "Cách chúng tôi kiểm chứng: khẳng định rằng LibreChat không có tính năng chat nhân vật được đối chiếu với chính mã nguồn thực tế của nó (trong đó không tồn tại thẻ nhân vật, lorebook, hay persona nào), chứ không suy ra từ định vị của nó."
 			},
 			"UNOROUTER_VS_OPEN_WEBUI": {
 				"TITLE": "{appName} so với Open WebUI: hơn 200 model host sẵn, không Ollama, kèm chat nhân vật",
@@ -1195,7 +1200,8 @@
 				"P_COST": "Open WebUI miễn phí để vận hành, nhưng bạn làm chủ máy chủ, các bản cập nhật, và phần cứng cho model cục bộ. {appName} là trả theo mức dùng trên một số dư, không hạ tầng. Trừ khi bạn cụ thể muốn suy luận trên phần cứng cục bộ, host sẵn đòi hỏi ít hơn ở bạn và thường tốn ít hơn một khi tính cả số giờ.",
 				"H_VERDICT": "Cách chọn",
 				"P_VERDICT": "Muốn tự host, chạy model Ollama cục bộ, dựa vào RAG tài liệu chuyên sâu, và quản lý một đội với vai trò và SSO? Open WebUI xuất sắc đúng ở việc đó. Muốn 200+ model host sẵn cộng thêm một client nhân vật thực thụ, trên một key cũng code được, mà không phải vận hành gì? Đó chính là {appName}.",
-				"CTA": "Sẵn sàng thử? <register>Tạo tài khoản miễn phí</register> hoặc <models>xem danh sách model</models>."
+				"CTA": "Sẵn sàng thử? <register>Tạo tài khoản miễn phí</register> hoặc <models>xem danh sách model</models>.",
+				"METHOD": "Cách chúng tôi kiểm chứng: khẳng định rằng Open WebUI là một nền tảng trợ lý, chứ không phải một client nhân vật, được đối chiếu với mã nguồn của nó; bộ phân tích thẻ nhân vật của nó có tồn tại nhưng không được dùng tới, và không hề có lorebook hay persona nào."
 			},
 			"UNOROUTER_VS_AGNAI": {
 				"TITLE": "{appName} so với Agnai: cùng độ sâu nhập vai, được host sẵn, trên một key",
@@ -1212,7 +1218,8 @@
 				"P_COST": "Agnai miễn phí và dựa vào hàng đợi của AI Horde, tầng host sẵn của riêng nó, hoặc các key trả phí của riêng bạn cho từng nhà cung cấp. {appName} là một số dư trên 200+ model, trả theo mức dùng, credit không hết hạn, có gói miễn phí, không hàng đợi, và không có ví riêng cho từng nhà cung cấp.",
 				"H_VERDICT": "Cách chọn",
 				"P_VERDICT": "Muốn nhập vai mở, tự vận hành với multiplayer thực thụ cho một nhóm và tài nguyên tính toán Horde miễn phí? Agnai là lựa chọn, và nó thực sự giỏi việc đó. Muốn scripting một người dùng sâu hơn và 200+ model được host sẵn, trên một key cũng chạy các coding agent của bạn? Đó chính là {appName}.",
-				"CTA": "Sẵn sàng thử 2 trong 1? <register>Tạo tài khoản miễn phí</register> hoặc <chat>mở chat</chat>."
+				"CTA": "Sẵn sàng thử 2 trong 1? <register>Tạo tài khoản miễn phí</register> hoặc <chat>mở chat</chat>.",
+				"METHOD": "Cách chúng tôi kiểm chứng: những khẳng định về Agnai ở đây, bao gồm cả việc chat nhóm multiplayer của nó là một thế mạnh thực thụ mà chúng tôi không sánh được, được đọc từ chính mã nguồn của nó, chứ không phải từ quảng cáo."
 			},
 			"UNOROUTER_VS_SPICYCHAT": {
 				"TITLE": "{appName} so với SpicyChat: con đường dễ dàng, kèm độ sâu, model, và code",

@@ -16,6 +16,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import {
   GEO_POSTS,
+  METHOD_POSTS,
   getAdjacentPosts,
   getPost,
   getRelatedPosts,
@@ -160,6 +161,14 @@ export async function BlogPost(props: BlogPostProps) {
               </p>
             )}
             <post.Component />
+            {METHOD_POSTS.has(post.slug) && (
+              <p className="text-muted-foreground border-border mt-10 border-t pt-6 text-sm">
+                {t(
+                  `${post.i18nKey}.METHOD` as Parameters<typeof t>[0],
+                  APP_VALUES,
+                )}
+              </p>
+            )}
             {GEO_POSTS.has(post.slug) && (
               <section id="faq">
                 <h2>{t("BLOG.FAQ_TITLE")}</h2>

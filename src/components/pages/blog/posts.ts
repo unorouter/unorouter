@@ -98,6 +98,19 @@ export const GEO_POSTS = new Set<string>([
   "free-models-aggregated",
 ]);
 
+// Comparison posts whose competitor facts were verified against the rival's
+// actual source code. They render a "how we verified" note (METHOD leaf) that
+// turns assertions into checkable provenance.
+export const METHOD_POSTS = new Set<string>([
+  "unorouter-vs-risuai",
+  "unorouter-vs-sillytavern",
+  "unorouter-vs-marinara",
+  "unorouter-vs-lumiverse",
+  "unorouter-vs-librechat",
+  "unorouter-vs-open-webui",
+  "unorouter-vs-agnai",
+]);
+
 export function getPost(slug: string): BlogPost<BlogSlug> | undefined {
   return POSTS.find((p) => p.slug === slug);
 }
