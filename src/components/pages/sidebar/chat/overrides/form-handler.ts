@@ -1,4 +1,9 @@
-import { msg, NONE_VALUE, type TranslationKey } from "@/lib/config/constants";
+import {
+  DEFAULT_AUTHOR_NOTE_DEPTH,
+  msg,
+  NONE_VALUE,
+  type TranslationKey,
+} from "@/lib/config/constants";
 import { conversationCharacters } from "@/lib/db/schema/shared";
 import type { ConversationSettingsProjection } from "@/lib/db/conversation-settings";
 import {
@@ -122,7 +127,7 @@ function buildDefaultsForm(
       chatDefaults.reasoningEffort ??
       NONE_VALUE) as ReasoningEffort,
     chatMemory: chatDefaults.chatMemory ?? null,
-    authorNoteDepth: chatDefaults.authorNoteDepth ?? 4,
+    authorNoteDepth: chatDefaults.authorNoteDepth ?? DEFAULT_AUTHOR_NOTE_DEPTH,
     systemPromptOverride: chatDefaults.systemPromptOverride ?? "",
     authorNote: chatDefaults.authorNote ?? "",
     webSearchEnabled: false,
@@ -185,7 +190,7 @@ function buildSettingsForm(
       NONE_VALUE,
     ),
     chatMemory: resolveNum(settings.chatMemory, preset?.chatMemory),
-    authorNoteDepth: settings.authorNoteDepth ?? 4,
+    authorNoteDepth: settings.authorNoteDepth ?? DEFAULT_AUTHOR_NOTE_DEPTH,
     systemPromptOverride: settings.systemPromptOverride ?? "",
     authorNote: settings.authorNote ?? "",
     webSearchEnabled: settings.webSearchEnabled ?? false,

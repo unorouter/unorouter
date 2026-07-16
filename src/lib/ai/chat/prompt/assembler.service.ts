@@ -1,5 +1,8 @@
 import { parseStringMap } from "@/lib/utils/base";
-import { DEFAULT_CHAT_MEMORY } from "@/lib/config/constants";
+import {
+  DEFAULT_AUTHOR_NOTE_DEPTH,
+  DEFAULT_CHAT_MEMORY,
+} from "@/lib/config/constants";
 import { logger } from "@/lib/utils/logger";
 import {
   parseExtraBody as parseExtraBodyShared,
@@ -157,7 +160,7 @@ function baseAssembled(system: string | undefined): AssembledSystem {
   return {
     system,
     sampling: {},
-    chatMemory: 8,
+    chatMemory: DEFAULT_CHAT_MEMORY,
     streamingEnabled: true,
     promptTokens: 0,
     promptParts: [
@@ -199,7 +202,10 @@ export function assembleFromOverrides(
   if (overrides?.systemPromptOverride)
     sections.push(overrides.systemPromptOverride);
   const authorNote = overrides?.authorNote
-    ? { text: overrides.authorNote, depth: overrides.authorNoteDepth ?? 4 }
+    ? {
+        text: overrides.authorNote,
+        depth: overrides.authorNoteDepth ?? DEFAULT_AUTHOR_NOTE_DEPTH,
+      }
     : undefined;
   const overridesSystem = sections.length ? sections.join("\n\n") : undefined;
   return {
@@ -429,7 +435,7 @@ export async function assembleForStream(
   const authorNote = settings.authorNote
     ? {
         text: expand(settings.authorNote),
-        depth: settings.authorNoteDepth ?? 4,
+        depth: settings.authorNoteDepth ?? DEFAULT_AUTHOR_NOTE_DEPTH,
       }
     : undefined;
 

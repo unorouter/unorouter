@@ -15,6 +15,7 @@ import {
 } from "@/lib/db/client/data/rp/rp";
 import { expandMacros } from "@/lib/ai/chat/macros";
 import { isCustomModelId } from "@/lib/ai/chat/custom-provider-id";
+import { DEFAULT_AUTHOR_NOTE_DEPTH } from "@/lib/config/constants";
 import { uid } from "@/lib/utils/base";
 import type { buildPricingSummary } from "@/lib/api/pricing";
 import { queryKeys } from "@/lib/react-query/keys";
@@ -123,7 +124,7 @@ export function createThreadListAdapter(
         presetId: loadout.presetId ?? null,
         systemPromptOverride: null,
         authorNote: null,
-        authorNoteDepth: 4,
+        authorNoteDepth: DEFAULT_AUTHOR_NOTE_DEPTH,
         chatMemory: hasPreset ? null : (defaults.chatMemory ?? null),
         reasoningEffort: defaults.reasoningEffort ?? null,
         webSearchEnabled: defaults.webSearchEnabled ?? false,
