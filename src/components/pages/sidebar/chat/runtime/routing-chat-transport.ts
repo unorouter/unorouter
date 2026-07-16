@@ -49,6 +49,26 @@ function streamErrorText(error: unknown): string {
     : detail.message;
 }
 
+// A prefill that ends inside an open <think> tag (the force-thinking trick) makes
+// the model stream its reasoning as plain content with no opening tag in the
+// RESPONSE - the tag lives in the request. The extractor must then start in
+// reasoning mode or the whole chain of thought lands in the visible reply.
+function prefillOpensThink(
+  messages: ReadonlyArray<{
+    role: string;
+    parts?: ReadonlyArray<{ type: string; text?: string }>;
+  }>,
+): boolean {
+  const last = messages.at(-1);
+  if (last?.role !== "assistant") return false;
+  const text = (last.parts ?? [])
+    .filter((p) => p.type === "text")
+    .map((p) => p.text ?? "")
+    .join("");
+  const open = text.lastIndexOf("<think>");
+  return open !== -1 && !text.includes("</think>", open);
+}
+
 function isMediaModel(model: string): boolean {
   const data = getQueryClient().getQueryData(queryKeys.pricing()) as
     { models?: ProcessedModel[] } | undefined;
@@ -116,7 +136,10 @@ async function runClientStream(args: {
   const result = streamText({
     model: wrapLanguageModel({
       model: sdk.chatModel(args.model),
-      middleware: extractReasoningMiddleware({ tagName: "think" }),
+      middleware: extractReasoningMiddleware({
+        tagName: "think",
+        startWithReasoning: prefillOpensThink(prepared.messagesForUpstream),
+      }),
     }),
     messages: await convertToModelMessages(prepared.messagesForUpstream),
     system: prepared.effectiveSystem,
