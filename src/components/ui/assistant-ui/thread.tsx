@@ -58,6 +58,7 @@ import {
   AuiIf,
   BranchPickerPrimitive,
   ComposerPrimitive,
+  getExternalStoreMessages,
   MessagePrimitive,
   SuggestionPrimitive,
   ThreadPrimitive,
@@ -590,6 +591,7 @@ const AssistantEditInPlace: FC<{ onClose: () => void }> = (props) => {
       .join("\n\n");
   });
   const renderedParts = useAuiState((s) => s.message.content);
+  const threadMessage = useAuiState((s) => s.message);
   const [text, setText] = useState(initialText);
   const editMut = useEditMessageMutation();
 
@@ -597,7 +599,13 @@ const AssistantEditInPlace: FC<{ onClose: () => void }> = (props) => {
     const convId = chatStore.get(convIdAtom);
     if (!convId) return;
 
-    const liveParts = (renderedParts ?? []) as ReadonlyArray<{
+    // Prefer the RAW useChat parts (getExternalStoreMessages is the accessor the
+    // AI-SDK runtime itself uses): writing aui-CONVERTED shapes back into ai-sdk
+    // state corrupts non-text parts (file/task/error) on the next render.
+    const rawParts = getExternalStoreMessages<{
+      parts?: Array<{ type: string; [k: string]: unknown }>;
+    }>(threadMessage)[0]?.parts;
+    const liveParts = (rawParts ?? renderedParts ?? []) as ReadonlyArray<{
       type: string;
       [k: string]: unknown;
     }>;
@@ -664,8 +672,7 @@ const AssistantEditInPlace: FC<{ onClose: () => void }> = (props) => {
 
 const AssistantMessageMeta: FC = () => {
   const t = useTranslations();
-  const messageIndex = useAuiState((s) => s.message.index);
-  const meta = useMessageMeta(messageIndex);
+  const meta = useMessageMeta();
 
   if (!meta) return null;
 
@@ -696,8 +703,7 @@ const AssistantMessageMeta: FC = () => {
 };
 
 const AssistantMessageHeader: FC = () => {
-  const messageIndex = useAuiState((s) => s.message.index);
-  const meta = useMessageMeta(messageIndex);
+  const meta = useMessageMeta();
   const pricingQuery = usePricingQuery();
   const customProvidersQuery = useCustomProvidersQuery();
 

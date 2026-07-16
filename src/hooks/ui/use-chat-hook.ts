@@ -41,15 +41,18 @@ function getMessageCache(pages: object[]): MessageCache {
   return entry;
 }
 
-export function useMessageMeta(messageIndex: number): MessageMeta | null {
+export function useMessageMeta(): MessageMeta | null {
   const remoteId = useAuiState((s) => s.threadListItem?.remoteId);
   const messageId = useAuiState((s) => s.message.id);
   const messagesQuery = useMessagesInfiniteQuery(remoteId ?? undefined);
 
   if (!messagesQuery.data) return null;
 
-  const { flat, byId } = getMessageCache(messagesQuery.data.pages);
-  const msg = byId.get(messageId) ?? flat[messageIndex];
+  // Id match only: a positional fallback (render index into the flat DB list)
+  // showed the WRONG row's model/cost on branched threads. An optimistic id
+  // that misses simply renders no meta until the persisted id lands.
+  const { byId } = getMessageCache(messagesQuery.data.pages);
+  const msg = byId.get(messageId);
   if (!msg) return null;
 
   return {
