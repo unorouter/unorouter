@@ -106,32 +106,3 @@ export function useSettingsSync(remoteId: string | null | undefined) {
     setWebSearch(Boolean(row.webSearchEnabled));
   }, [remoteId, settings, setDefaults, setWebSearch]);
 }
-
-const USER_SCROLL_THRESHOLD = 80;
-
-export function useScrollToBottom(
-  threadId: string | null | undefined,
-  remoteId: string | null | undefined,
-) {
-  useEffect(() => {
-    if (!remoteId) return;
-    const scroller = document.querySelector("main");
-    if (!scroller) return;
-    let n = 0;
-    let lastTarget = scroller.scrollHeight;
-    const pin = () => {
-      const distanceFromBottom =
-        scroller.scrollHeight - scroller.scrollTop - scroller.clientHeight;
-      if (
-        scroller.scrollTop < lastTarget - USER_SCROLL_THRESHOLD &&
-        distanceFromBottom > USER_SCROLL_THRESHOLD
-      ) {
-        return;
-      }
-      scroller.scrollTop = scroller.scrollHeight;
-      lastTarget = scroller.scrollHeight;
-      if (++n < 10) requestAnimationFrame(pin);
-    };
-    requestAnimationFrame(pin);
-  }, [threadId, remoteId]);
-}

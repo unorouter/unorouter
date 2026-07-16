@@ -12,7 +12,6 @@ import { ImagePromptDialogHost } from "@/components/pages/sidebar/chat/image-pro
 import {
   useConvIdSync,
   useGroupSync,
-  useScrollToBottom,
   useSettingsSync,
 } from "@/components/pages/sidebar/chat/runtime/use-thread-sync";
 import { useResolvedChatModel } from "@/components/pages/sidebar/chat/runtime/use-resolved-chat-model";
@@ -212,8 +211,6 @@ function ChatRuntimeHook() {
       void maybeAutoContinue(chat, remoteId ?? null, message, userId);
     },
   });
-
-  useScrollToBottom(threadId, remoteId);
 
   const wrappedChat: typeof chat = {
     ...chat,
