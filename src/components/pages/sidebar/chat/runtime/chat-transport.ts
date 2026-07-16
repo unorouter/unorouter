@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  activeConvOverridesAtom,
   chatDefaultsAtom,
   chatGroupAtom,
   chatLoadoutAtom,
@@ -41,7 +42,8 @@ export async function buildChatRequestBody(getConvId: () => string | null) {
     convId,
     webSearch: chatStore.get(chatWebSearchAtom),
     group: chatStore.get(chatGroupAtom),
-    overrides: chatStore.get(chatDefaultsAtom),
+    overrides:
+      chatStore.get(activeConvOverridesAtom) ?? chatStore.get(chatDefaultsAtom),
     chatContext,
     globalVars: chatStore.get(globalVarsAtom),
     speakingCharacterId: chatStore.get(speakingCharacterIdAtom),

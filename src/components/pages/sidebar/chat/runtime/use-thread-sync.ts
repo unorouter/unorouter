@@ -11,7 +11,7 @@ import { queryKeys } from "@/lib/react-query/keys";
 import type { StreamOverrides } from "@/lib/validation/chat";
 import { dayjs } from "@/lib/utils/format/date";
 import {
-  chatDefaultsAtom,
+  activeConvOverridesAtom,
   chatGroupAtom,
   chatStore,
   chatWebSearchAtom,
@@ -85,14 +85,19 @@ const OVERRIDE_KEYS = [
 ] as const;
 
 export function useSettingsSync(remoteId: string | null | undefined) {
-  const setDefaults = useSetAtom(chatDefaultsAtom);
+  const setActiveOverrides = useSetAtom(activeConvOverridesAtom);
   const setWebSearch = useSetAtom(chatWebSearchAtom);
   const settingsQuery = useChatSettingsQuery(remoteId ?? undefined);
   const lastSyncedIdRef = useRef<string | undefined>(undefined);
 
   const settings = settingsQuery.data;
   useEffect(() => {
-    if (!remoteId || !settings || remoteId === lastSyncedIdRef.current) return;
+    if (!remoteId) {
+      lastSyncedIdRef.current = undefined;
+      setActiveOverrides(null);
+      return;
+    }
+    if (!settings || remoteId === lastSyncedIdRef.current) return;
     lastSyncedIdRef.current = remoteId;
     const overrides: StreamOverrides = {};
     const row = settings as Record<string, unknown>;
@@ -102,7 +107,7 @@ export function useSettingsSync(remoteId: string | null | undefined) {
         (overrides as Record<string, unknown>)[k] = v;
       }
     }
-    setDefaults(overrides);
+    setActiveOverrides(overrides);
     setWebSearch(Boolean(row.webSearchEnabled));
-  }, [remoteId, settings, setDefaults, setWebSearch]);
+  }, [remoteId, settings, setActiveOverrides, setWebSearch]);
 }

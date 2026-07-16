@@ -120,6 +120,11 @@ export const chatDefaultsAtom = atom(
   },
 );
 
+// Active conversation's settings-row mirror for the stream body. Separate from
+// chatDefaultsAtom: mirroring a sparse conv row into the cookie-persisted defaults
+// wiped the user's sticky new-chat defaults (one atom served two masters).
+export const activeConvOverridesAtom = atom<StreamOverrides | null>(null);
+
 export const chatLoadoutAtom = atom(
   (get) => get(chatStoreAtom).loadout ?? INITIAL_CHAT_STATE.loadout,
   (get, set, value: ChatLoadout) => {
