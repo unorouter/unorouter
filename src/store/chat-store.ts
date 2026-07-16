@@ -219,9 +219,31 @@ export function getThreadRuntime() {
 }
 
 // Update the live useChat message list directly. Used for ops the AI-SDK runtime
-// does not re-render (in-place part edits, greeting seed, clear). No-op if absent.
+// does not re-render (in-place part edits, greeting seed, clear). The setter is
+// torn down and re-published during thread swaps/mounts, and the greeting seed in
+// thread-list initialize() can fire inside that window - so a null setter waits
+// for the next published one (capped) instead of silently dropping the update.
 export function setLiveMessages(updater: (msgs: unknown[]) => unknown[]): void {
-  chatStore.get(setLiveMessagesAtom)?.(updater);
+  const setMessages = chatStore.get(setLiveMessagesAtom);
+  if (setMessages) {
+    setMessages(updater);
+    return;
+  }
+  let done = false;
+  const apply = () => {
+    if (done) return;
+    const next = chatStore.get(setLiveMessagesAtom);
+    if (!next) return;
+    done = true;
+    unsub();
+    clearTimeout(timer);
+    next(updater);
+  };
+  const unsub = chatStore.sub(setLiveMessagesAtom, apply);
+  const timer = setTimeout(() => {
+    done = true;
+    unsub();
+  }, 5000);
 }
 
 // Replace one message's parts in the live thread. No-op if the bridge is absent -

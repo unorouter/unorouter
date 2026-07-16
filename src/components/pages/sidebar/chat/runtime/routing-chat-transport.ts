@@ -128,10 +128,13 @@ async function runClientStream(args: {
     // + model instead of swallowing it silently.
     onError: (event) => {
       const detail = extractErrorDetail(event.error);
-      const isEmptyStream =
-        detail.message.toLowerCase().includes("no output generated");
+      const isEmptyStream = detail.message
+        .toLowerCase()
+        .includes("no output generated");
       analytics.chat.streamFailed({
-        error_type: isEmptyStream ? "empty_stream" : classifyStreamError(detail),
+        error_type: isEmptyStream
+          ? "empty_stream"
+          : classifyStreamError(detail),
         status: detail.status ?? null,
         code: detail.code ?? null,
         model: args.model,
@@ -193,11 +196,9 @@ async function runClientStream(args: {
 export function makeRoutingTransport(
   getConvId: () => string | null,
 ): ChatTransport<ChatUIMessage> {
-  const getConvIdRef = { current: getConvId };
-
   const mediaTransport = new DefaultChatTransport<ChatUIMessage>({
     api: "/api/ai/chat/stream",
-    body: () => buildChatRequestBody(getConvIdRef.current),
+    body: () => buildChatRequestBody(getConvId),
   });
 
   const sendText = async (
@@ -211,7 +212,7 @@ export function makeRoutingTransport(
       model: target.model,
       deps: target.deps,
       options,
-      getConvId: getConvIdRef.current,
+      getConvId,
       ...(target.tokenizer ? { tokenizer: target.tokenizer } : {}),
     });
   };
