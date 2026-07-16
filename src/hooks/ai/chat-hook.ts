@@ -8,7 +8,7 @@ import { msg, PAGE_SIZE } from "@/lib/config/constants";
 import { invalidateAndBroadcast } from "@/lib/react-query/cross-tab-invalidate";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
-import { patchLiveMessages } from "@/store/chat-store";
+import { clearLiveError, patchLiveMessages } from "@/store/chat-store";
 import { handleElysia, uid } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
 import { handleError } from "@/lib/utils/client";
@@ -433,13 +433,13 @@ export function useDeleteMessageMutation() {
   const userId = useLocalUserId();
   return useMutation({
     mutationFn: async (args: { convId: string; msgId: string }) => {
-      // Prune the live assistant-ui thread FIRST and unconditionally: a failed-run node ("load failed")
-      // may have no DB row (offline persists none) or the SQLocal splice can throw on iOS (handle
-      // contention / lazy-chunk load), which previously left the node on screen forcing a manual
-      // refresh. The in-memory prune must win regardless of whether the DB delete succeeds.
+      // Prune the UI before the awaited DB splice so a node with no DB row, or a
+      // splice that throws, still leaves the screen. clearLiveError drops the
+      // ai-sdk error banner, which lives outside `messages`.
       patchLiveMessages((msgs) =>
         (msgs as { id?: string }[]).filter((m) => m.id !== args.msgId),
       );
+      clearLiveError();
       qc.removeQueries({ queryKey: queryKeys.chatMessages(args.convId) });
       await spliceDeleteLocalMessage(userId, args.convId, args.msgId);
       return { id: args.msgId };

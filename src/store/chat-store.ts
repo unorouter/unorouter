@@ -139,6 +139,7 @@ export type ChatHelpersRef = {
   setMessages: (updater: (msgs: unknown[]) => unknown[]) => void;
   getMessages: () => ReadonlyArray<unknown>;
   sendEmpty: () => Promise<void>;
+  clearError: () => void;
 };
 
 export type ChatRuntimeState = {
@@ -233,6 +234,12 @@ export function patchLiveMessages(
     done = true;
     unsub();
   }, 5000);
+}
+
+// The ai-sdk error banner lives on useChat state, not in `messages`, so
+// patchLiveMessages cannot clear it. No-op if the bridge is absent.
+export function clearLiveError(): void {
+  chatStore.get(chatHelpersAtom)?.clearError();
 }
 
 export function ensureConvId(): string {

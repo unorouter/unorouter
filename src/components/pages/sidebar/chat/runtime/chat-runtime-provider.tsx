@@ -85,6 +85,9 @@ function useChatHelpersBridge(chat: ReturnType<typeof useChat<ChatUIMessage>>) {
   sendRef.current = chat.sendMessage;
 
   const setMessages = chat.setMessages;
+  const clearError = chat.clearError;
+  const clearErrorRef = useRef(clearError);
+  clearErrorRef.current = clearError;
   useEffect(() => {
     chatStore.set(chatHelpersAtom, {
       setMessages: setMessages as ChatHelpersRef["setMessages"],
@@ -92,6 +95,7 @@ function useChatHelpersBridge(chat: ReturnType<typeof useChat<ChatUIMessage>>) {
       sendEmpty: async () => {
         await sendRef.current();
       },
+      clearError: () => clearErrorRef.current(),
     });
     return () => chatStore.set(chatHelpersAtom, null);
   }, [setMessages]);
