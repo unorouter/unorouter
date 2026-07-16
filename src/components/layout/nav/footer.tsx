@@ -109,6 +109,12 @@ const FOOTER_BADGES = [
     name: "LaunchBoosts",
     width: 153,
   },
+  {
+    href: "https://launchbuff.com",
+    src: "/badges/launchbuff.svg",
+    name: "LaunchBuff",
+    width: 77,
+  },
 ] as const;
 
 function FooterLinks(props: {
