@@ -111,6 +111,35 @@ export function partsToItems(parts: MessagePart[]): MessageItemData[] {
           },
         });
       }
+    } else if (part.type.startsWith("tool-") || part.type === "dynamic-tool") {
+      // ai-sdk v6+ typed tool parts (tool-<name> / dynamic-tool). Without this
+      // branch they fell through and tool blocks vanished on reload.
+      const toolCallId = String(part.toolCallId ?? "");
+      const toolName =
+        part.type === "dynamic-tool"
+          ? String(part.toolName ?? "")
+          : part.type.slice("tool-".length);
+      if (part.state === "output-available" || part.state === "output-error") {
+        out.push({
+          type: "tool_result",
+          data: {
+            tool_call_id: toolCallId,
+            result:
+              part.state === "output-error"
+                ? { error: String(part.errorText ?? "") }
+                : part.output,
+          },
+        });
+      } else {
+        out.push({
+          type: "tool_call",
+          data: {
+            tool_name: toolName,
+            tool_call_id: toolCallId,
+            args: part.input ?? {},
+          },
+        });
+      }
     } else if (part.type === "file" || part.type === "source-url") {
       out.push({
         type: part.type === "file" ? "file" : "image",
