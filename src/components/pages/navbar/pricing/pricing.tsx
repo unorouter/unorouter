@@ -191,7 +191,7 @@ export function Pricing() {
             </p>
             <Icon
               name="chevron-down"
-              className="mx-auto mt-4 h-5 w-5 text-emerald-500/70"
+              className="mx-auto mt-4 h-5 w-5 animate-bounce text-emerald-500/70"
             />
           </div>
         )}
