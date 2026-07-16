@@ -35,10 +35,10 @@ import type { ChatMessageMetadata } from "@/lib/types";
 import { parseStringMap, uid } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
 import {
-  chatHelpersAtom,
   chatModelAtom,
   chatStore,
   convIdAtom,
+  getThreadRuntime,
   globalVarsAtom,
   historyLoadedAtom,
   lastStreamErrorAtom,
@@ -691,7 +691,9 @@ async function runOutputTriggers(
   };
   await runTriggers(triggers, "output", ctx);
   if (ctx.sendAIprompt) {
-    void chatStore.get(chatHelpersAtom)?.sendEmpty();
+    const thread = getThreadRuntime();
+    const tip = thread?.getState().messages.at(-1);
+    if (thread && tip) thread.startRun({ parentId: tip.id });
   }
 
   if (JSON.stringify(vars) !== before) {

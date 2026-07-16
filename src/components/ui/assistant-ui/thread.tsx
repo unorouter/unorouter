@@ -44,14 +44,13 @@ import { copyToClipboard } from "@/lib/utils/base";
 import { extractErrorDetail } from "@/lib/utils/client";
 import { formatPrice } from "@/lib/utils/format/number";
 import {
-  chatHelpersAtom,
   chatLoadoutAtom,
   chatModelAtom,
   chatStore,
   chatWebSearchAtom,
   convIdAtom,
   historyLoadedAtom,
-  patchLiveMessages,
+  replaceMessageParts,
 } from "@/store/chat-store";
 import { useMessageError } from "@assistant-ui/core/react";
 import {
@@ -64,6 +63,7 @@ import {
   ThreadPrimitive,
   useAui,
   useAuiState,
+  useThreadRuntime,
   type TextMessagePartProps,
 } from "@assistant-ui/react";
 import { useAtom, useAtomValue } from "jotai";
@@ -293,12 +293,16 @@ const ComposerWebSearchToggle: FC = () => {
 
 const ComposerAction: FC = () => {
   const t = useTranslations();
+  const threadRuntime = useThreadRuntime();
   const composerEmpty = useAuiState((s) => s.composer.text.trim().length === 0);
   const lastIsUser = useAuiState(
     (s) => s.thread.messages.at(-1)?.role === "user",
   );
-  const helpers = useAtomValue(chatHelpersAtom);
-  const emptySend = composerEmpty && lastIsUser && helpers != null;
+  const emptySend = composerEmpty && lastIsUser;
+  const runFromTip = () => {
+    const tip = threadRuntime.getState().messages.at(-1);
+    if (tip) threadRuntime.startRun({ parentId: tip.id });
+  };
   return (
     <div className="aui-composer-action-wrapper relative flex items-center justify-between">
       <div className="flex items-center">
@@ -313,7 +317,7 @@ const ComposerAction: FC = () => {
             variant="default"
             className="aui-composer-send size-8 rounded-full"
             aria-label={t("CHAT.ACTION.SEND")}
-            onClick={() => void helpers.sendEmpty()}
+            onClick={runFromTip}
           >
             <Icon name="arrow-up" className="aui-composer-send-icon size-4" />
           </TooltipIconButton>
@@ -593,15 +597,10 @@ const AssistantEditInPlace: FC<{ onClose: () => void }> = (props) => {
     const convId = chatStore.get(convIdAtom);
     if (!convId) return;
 
-    const helpers = chatStore.get(chatHelpersAtom);
-    const liveMsg = (
-      helpers?.getMessages() as Array<{
-        id: string;
-        parts?: Array<{ type: string; [k: string]: unknown }>;
-      }>
-    )?.find((m) => m.id === messageId);
-
-    const liveParts = liveMsg?.parts ?? renderedParts ?? [];
+    const liveParts = (renderedParts ?? []) as ReadonlyArray<{
+      type: string;
+      [k: string]: unknown;
+    }>;
     const newParts: Array<{ type: string; [k: string]: unknown }> = [];
     let textInjected = false;
     for (const p of liveParts) {
@@ -632,16 +631,7 @@ const AssistantEditInPlace: FC<{ onClose: () => void }> = (props) => {
     }
     analytics.chat.messageEdited({ role: "assistant", is_rp: isRpActive() });
 
-    patchLiveMessages((msgs) => {
-      const list = msgs as Array<{
-        id: string;
-        parts?: unknown[];
-        [k: string]: unknown;
-      }>;
-      return list.map((m) =>
-        m.id === messageId ? { ...m, parts: newParts } : m,
-      );
-    });
+    replaceMessageParts(messageId, () => newParts);
 
     props.onClose();
   };

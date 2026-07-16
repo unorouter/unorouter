@@ -29,9 +29,9 @@ import {
   chatModelAtom,
   chatStore,
   freshConvId,
+  setLiveMessages,
   greetingIndexAtom,
   INITIAL_CHAT_STATE,
-  patchLiveMessages,
   type ChatState,
 } from "@/store/chat-store";
 import { jotaiCookieStorage } from "@/lib/config/table-storage";
@@ -221,13 +221,17 @@ export function createThreadListAdapter(
           }
           chatStore.set(greetingIndexAtom, 0);
           if (seededGreeting) {
+            // Show the seeded greeting in the fresh thread immediately; the DB row
+            // + invalidate below are the source of truth on reload.
             const greetingMessage = {
               id: seededGreeting.id,
               role: "assistant",
               parts: [{ type: "text", text: seededGreeting.text }],
             };
-            patchLiveMessages((msgs) =>
-              msgs.some((m) => (m as { id?: string }).id === seededGreeting.id)
+            setLiveMessages((msgs) =>
+              (msgs as Array<{ id?: string }>).some(
+                (m) => m.id === seededGreeting.id,
+              )
                 ? msgs
                 : [greetingMessage, ...msgs],
             );

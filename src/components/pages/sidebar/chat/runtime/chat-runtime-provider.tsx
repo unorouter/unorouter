@@ -28,16 +28,17 @@ import {
   handleError,
 } from "@/lib/utils/client";
 import {
-  chatHelpersAtom,
+  assistantRuntimeAtom,
   chatLoadoutAtom,
   chatModelAtom,
   chatStore,
+  clearChatErrorAtom,
+  setLiveMessagesAtom,
   convIdAtom,
   ensureConvId,
   lastStreamErrorAtom,
   localUserIdAtom,
   speakingCharacterIdAtom,
-  type ChatHelpersRef,
 } from "@/store/chat-store";
 import { useChat } from "@ai-sdk/react";
 import {
@@ -78,27 +79,30 @@ function useHistoryAdapter(getConvId: () => string | null) {
   return adapterRef.current;
 }
 
-function useChatHelpersBridge(chat: ReturnType<typeof useChat<ChatUIMessage>>) {
-  const messagesRef = useRef(chat.messages);
-  messagesRef.current = chat.messages;
-  const sendRef = useRef(chat.sendMessage);
-  sendRef.current = chat.sendMessage;
-
-  const setMessages = chat.setMessages;
-  const clearError = chat.clearError;
-  const clearErrorRef = useRef(clearError);
-  clearErrorRef.current = clearError;
+// Publishes the two useChat operations assistant-ui's runtime does not expose:
+// clearError (error is read-only runtime state) and setMessages (no single-message
+// part mutator, and the AI-SDK runtime's import() does not re-render live messages).
+function useLiveOpsBridge(chat: ReturnType<typeof useChat<ChatUIMessage>>) {
+  const clearErrorRef = useRef(chat.clearError);
+  clearErrorRef.current = chat.clearError;
+  const setMessagesRef = useRef(chat.setMessages);
+  setMessagesRef.current = chat.setMessages;
   useEffect(() => {
-    chatStore.set(chatHelpersAtom, {
-      setMessages: setMessages as ChatHelpersRef["setMessages"],
-      getMessages: () => messagesRef.current as ReadonlyArray<unknown>,
-      sendEmpty: async () => {
-        await sendRef.current();
-      },
-      clearError: () => clearErrorRef.current(),
-    });
-    return () => chatStore.set(chatHelpersAtom, null);
-  }, [setMessages]);
+    // jotai treats a function passed to set() as an updater, so wrap the stored
+    // callbacks in `() => fn` to store the function itself.
+    chatStore.set(clearChatErrorAtom, () => () => clearErrorRef.current());
+    chatStore.set(
+      setLiveMessagesAtom,
+      () => (updater: (msgs: unknown[]) => unknown[]) =>
+        setMessagesRef.current(
+          updater as Parameters<typeof setMessagesRef.current>[0],
+        ),
+    );
+    return () => {
+      chatStore.set(clearChatErrorAtom, null);
+      chatStore.set(setLiveMessagesAtom, null);
+    };
+  }, []);
 }
 
 function ChatRuntimeHook() {
@@ -256,7 +260,7 @@ function ChatRuntimeHook() {
     },
   };
 
-  useChatHelpersBridge(wrappedChat);
+  useLiveOpsBridge(chat);
 
   return useAISDKRuntime(wrappedChat, {
     adapters: {
@@ -285,6 +289,11 @@ export function ChatRuntimeProvider(props: { children: React.ReactNode }) {
     adapter: adapterRef.current,
     initialThreadId: params.convId,
   });
+
+  useEffect(() => {
+    chatStore.set(assistantRuntimeAtom, runtime);
+    return () => chatStore.set(assistantRuntimeAtom, null);
+  }, [runtime]);
 
   return (
     <AssistantRuntimeProvider runtime={runtime}>

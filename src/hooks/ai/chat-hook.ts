@@ -8,7 +8,11 @@ import { msg, PAGE_SIZE } from "@/lib/config/constants";
 import { invalidateAndBroadcast } from "@/lib/react-query/cross-tab-invalidate";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
-import { clearLiveError, patchLiveMessages } from "@/store/chat-store";
+import {
+  clearLiveError,
+  getThreadRuntime,
+  setLiveMessages,
+} from "@/store/chat-store";
 import { handleElysia, uid } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
 import { handleError } from "@/lib/utils/client";
@@ -345,7 +349,7 @@ export function useClearConversationMutation() {
       return { id: args.id };
     },
     (args) => [queryKeys.chatMessages(args.id)],
-    () => patchLiveMessages(() => []),
+    () => setLiveMessages(() => []),
   );
 }
 
@@ -434,9 +438,7 @@ export function useDeleteMessageMutation() {
   return useMutation({
     mutationFn: async (args: { convId: string; msgId: string }) => {
       // Prune UI before the awaited splice: the node may have no DB row.
-      patchLiveMessages((msgs) =>
-        (msgs as { id?: string }[]).filter((m) => m.id !== args.msgId),
-      );
+      getThreadRuntime()?.deleteMessage(args.msgId);
       clearLiveError();
       qc.removeQueries({ queryKey: queryKeys.chatMessages(args.convId) });
       await spliceDeleteLocalMessage(userId, args.convId, args.msgId);

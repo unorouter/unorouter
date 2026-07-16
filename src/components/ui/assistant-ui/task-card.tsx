@@ -8,7 +8,7 @@ import {
   useTaskStatusQuery,
 } from "@/hooks/ai/chat-hook";
 import { cn } from "@/lib/utils";
-import { patchLiveMessages } from "@/store/chat-store";
+import { replaceMessageParts } from "@/store/chat-store";
 import { useAuiState } from "@assistant-ui/react";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
@@ -159,27 +159,11 @@ export function TaskCard(props: Props) {
             const isTaskPart = (p: { type: string; name?: unknown }) =>
               p.type === "data-task" ||
               (p.type === "data" && p.name === "task");
-            patchLiveMessages((msgs) => {
-              const list = msgs as Array<{
-                id: string;
-                parts?: Array<{
-                  type: string;
-                  name?: unknown;
-                  [k: string]: unknown;
-                }>;
-                [k: string]: unknown;
-              }>;
-              return list.map((m) =>
-                m.id === props.msgId
-                  ? {
-                      ...m,
-                      parts: (m.parts ?? [])
-                        .filter((p) => !isTaskPart(p))
-                        .concat(newPart),
-                    }
-                  : m,
-              );
-            });
+            replaceMessageParts(props.msgId, (parts) =>
+              (parts as Array<{ type: string; name?: unknown }>)
+                .filter((p) => !isTaskPart(p))
+                .concat(newPart),
+            );
           },
         },
       );

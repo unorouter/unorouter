@@ -5,6 +5,7 @@ import type { StreamOverrides } from "@/lib/validation/chat";
 import { uid } from "@/lib/utils/base";
 import { atom, createStore } from "jotai";
 import { atomWithStorage } from "jotai/utils";
+import type { AssistantRuntime } from "@assistant-ui/react";
 
 export const CHAT_STORE_KEY = "chat-store";
 
@@ -135,13 +136,6 @@ export const samplerMemoryByModelAtom = atom(
   },
 );
 
-export type ChatHelpersRef = {
-  setMessages: (updater: (msgs: unknown[]) => unknown[]) => void;
-  getMessages: () => ReadonlyArray<unknown>;
-  sendEmpty: () => Promise<void>;
-  clearError: () => void;
-};
-
 export type ChatRuntimeState = {
   convId: string | null;
   historyLoaded: boolean;
@@ -184,7 +178,21 @@ export const lastStreamErrorAtom = runtimeField("lastStreamError");
 export const speakingCharacterIdAtom = runtimeField("speakingCharacterId");
 export const greetingIndexAtom = runtimeField("greetingIndex");
 
-export const chatHelpersAtom = atom<ChatHelpersRef | null>(null);
+// The live assistant-ui runtime, published once by ChatRuntimeProvider. Non-React
+// callers (the history + thread-list adapters) reach message ops through it.
+export const assistantRuntimeAtom = atom<AssistantRuntime | null>(null);
+
+// useChat's error is read-only runtime state with no runtime reset method, so the
+// in-tree hook publishes its clearError here for the delete path to call.
+export const clearChatErrorAtom = atom<(() => void) | null>(null);
+
+// assistant-ui exposes no single-message part mutator, and its AI-SDK runtime's
+// import() does not re-render the live useChat messages. In-place part edits
+// (message edit, task->media swap) therefore go through useChat.setMessages,
+// published here by the in-tree hook. Delete/reset/startRun use runtime methods.
+export const setLiveMessagesAtom = atom<
+  ((updater: (msgs: unknown[]) => unknown[]) => void) | null
+>(null);
 
 export const globalVarsAtom = atomWithStorage<string>(
   "rp-global-vars",
@@ -206,39 +214,32 @@ export const localUserIdAtom = atomWithStorage<number>(
 
 export const chatStore = createStore();
 
-// Apply a live-thread message patch, tolerating a momentarily-null helpers
-// bridge. The bridge (chatHelpersAtom) is cleared/re-set during thread swaps, so
-// a delete/edit firing in that window would silently no-op and the change would
-// only show after a refresh. If the bridge is null now, wait for the next
-// non-null value (capped) and apply once.
-export function patchLiveMessages(
-  updater: (msgs: unknown[]) => unknown[],
-): void {
-  const helpers = chatStore.get(chatHelpersAtom);
-  if (helpers) {
-    helpers.setMessages(updater);
-    return;
-  }
-  let done = false;
-  const apply = (h: ChatHelpersRef | null) => {
-    if (done || !h) return;
-    done = true;
-    unsub();
-    clearTimeout(timer);
-    h.setMessages(updater);
-  };
-  const unsub = chatStore.sub(chatHelpersAtom, () =>
-    apply(chatStore.get(chatHelpersAtom)),
-  );
-  const timer = setTimeout(() => {
-    done = true;
-    unsub();
-  }, 5000);
+export function getThreadRuntime() {
+  return chatStore.get(assistantRuntimeAtom)?.thread ?? null;
 }
 
-// The error banner is useChat state, not a message, so patchLiveMessages misses it.
+// Update the live useChat message list directly. Used for ops the AI-SDK runtime
+// does not re-render (in-place part edits, greeting seed, clear). No-op if absent.
+export function setLiveMessages(updater: (msgs: unknown[]) => unknown[]): void {
+  chatStore.get(setLiveMessagesAtom)?.(updater);
+}
+
+// Replace one message's parts in the live thread. No-op if the bridge is absent -
+// the DB write is the source of truth and a reload re-derives.
+export function replaceMessageParts(
+  msgId: string,
+  mapParts: (parts: readonly unknown[]) => unknown[],
+): void {
+  setLiveMessages((msgs) =>
+    (msgs as Array<{ id?: string; parts?: unknown[] }>).map((m) =>
+      m.id === msgId ? { ...m, parts: mapParts(m.parts ?? []) } : m,
+    ),
+  );
+}
+
+// useChat's error is runtime-read-only state; the in-tree hook publishes clearError.
 export function clearLiveError(): void {
-  chatStore.get(chatHelpersAtom)?.clearError();
+  chatStore.get(clearChatErrorAtom)?.();
 }
 
 export function ensureConvId(): string {
