@@ -2,6 +2,7 @@
 
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { GUEST_USER_ID } from "@/lib/config/constants";
+import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { localUserIdAtom } from "@/store/chat-store";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
@@ -16,7 +17,13 @@ export function LocalUserIdSync() {
   useEffect(() => {
     if (authQuery.status !== "success") return;
     const sessionId = authQuery.data?.id ?? GUEST_USER_ID;
-    if (sessionId !== localUserId) setLocalUserId(sessionId);
+    if (sessionId !== localUserId) {
+      logChatDebug("user.local_id_changed", {
+        from: localUserId,
+        to: sessionId,
+      });
+      setLocalUserId(sessionId);
+    }
   }, [authQuery.status, authQuery.data, localUserId, setLocalUserId]);
 
   return null;

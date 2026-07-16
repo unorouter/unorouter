@@ -9,7 +9,12 @@ import {
   readLocalRequestLogsNewestForConv,
 } from "@/lib/db/client/data/chat/request-log";
 import { getChatDebugLog, logChatDebug } from "@/lib/utils/chat-debug-log";
-import { chatStore, convIdAtom, historyLoadedAtom } from "@/store/chat-store";
+import {
+  chatStore,
+  convIdAtom,
+  historyLoadedAtom,
+  localUserIdAtom,
+} from "@/store/chat-store";
 import { dayjs } from "@/lib/utils/format/date";
 
 export type DiagnosticsOptions = { includeContent: boolean };
@@ -145,12 +150,15 @@ export async function buildDiagnosticsHead(
     viewport: { w: window.innerWidth, h: window.innerHeight },
     screen: { w: window.screen.width, h: window.screen.height },
     online: navigator.onLine,
+    standalone:
+      window.matchMedia?.("(display-mode: standalone)")?.matches ?? false,
   };
 
   const runtime = {
     url: location.href,
     convIdAtom: chatStore.get(convIdAtom),
     historyLoaded: chatStore.get(historyLoadedAtom),
+    localUserId: chatStore.get(localUserIdAtom),
   };
 
   let dbInfo: Record<string, unknown> = {};

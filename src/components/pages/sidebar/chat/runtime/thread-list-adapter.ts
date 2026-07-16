@@ -16,6 +16,7 @@ import {
 import { expandMacros } from "@/lib/ai/chat/macros";
 import { isCustomModelId } from "@/lib/ai/chat/custom-provider-id";
 import { DEFAULT_AUTHOR_NOTE_DEPTH } from "@/lib/config/constants";
+import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { uid } from "@/lib/utils/base";
 import type { buildPricingSummary } from "@/lib/api/pricing";
 import { queryKeys } from "@/lib/react-query/keys";
@@ -145,6 +146,23 @@ export function createThreadListAdapter(
           : (defaults.streamingEnabled ?? null),
         showReasoning: hasPreset ? null : (defaults.showReasoning ?? null),
         group: chatStore.get(chatGroupAtom),
+      });
+
+      logChatDebug("conv.initialized", {
+        convId: id,
+        userId: userId(),
+        model,
+        presetId: loadout.presetId ?? null,
+        boundPresetFound: !!boundPreset,
+        personaId: loadout.personaId ?? null,
+        characterCount: loadout.characterIds.length,
+        lorebookCount: loadout.lorebookIds.length,
+        temperature: seed("temperature"),
+        maxTokens: seedMaxTokens,
+        chatMemory: hasPreset ? null : (defaults.chatMemory ?? null),
+        defaultsPresent: Object.entries(defaults)
+          .filter(([, v]) => v != null)
+          .map(([k]) => k),
       });
 
       if (loadout.characterIds.length > 0 || loadout.lorebookIds.length > 0) {
