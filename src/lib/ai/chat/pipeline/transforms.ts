@@ -1,5 +1,6 @@
 import type { convertToModelMessages } from "ai";
 import { countTokens } from "@/lib/ai/chat/tokenizer";
+import { stripThinkBlocks, unwrapThinkTags } from "@/lib/ai/chat/think-tags";
 import { runRegexScripts, type RegexScript } from "@/lib/ai/chat/regex-scripts";
 import type {
   AssembledSystem,
@@ -144,12 +145,6 @@ export function stripSystemRole(messages: StreamMessages): StreamMessages {
   );
 }
 
-const INLINE_THINK_RE = /<(think|thinking|Thoughts)>[\s\S]*?<\/\1>\s*/g;
-
-function stripInlineThink(text: string): string {
-  return text.replace(INLINE_THINK_RE, "");
-}
-
 export function stripReasoningParts(messages: StreamMessages): StreamMessages {
   return messages.map((m) => {
     if (!Array.isArray(m.parts)) return m;
@@ -170,7 +165,7 @@ export function stripReasoningParts(messages: StreamMessages): StreamMessages {
         ) {
           return p;
         }
-        const stripped = stripInlineThink(p.text);
+        const stripped = stripThinkBlocks(p.text);
         if (stripped === p.text) return p;
         changed = true;
         return { ...p, text: stripped };
@@ -203,9 +198,7 @@ function salvageReasoningText(parts: StreamMessages[number]["parts"]): string {
     if (p.type === "reasoning" && typeof p.text === "string" && p.text.trim()) {
       chunks.push(p.text.trim());
     } else if (p.type === "text" && typeof p.text === "string") {
-      const inner = p.text
-        .replace(/<\/?(think|thinking|Thoughts)>/g, "")
-        .trim();
+      const inner = unwrapThinkTags(p.text).trim();
       if (inner) chunks.push(inner);
     }
   }

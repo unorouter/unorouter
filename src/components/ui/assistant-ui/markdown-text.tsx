@@ -6,6 +6,7 @@ import { TooltipIconButton } from "@/components/ui/assistant-ui/tooltip-icon-but
 import { Icon } from "@/components/ui/icon";
 import { SmartImage } from "@/components/ui/smart-image";
 import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
+import { stripThinkForDisplay } from "@/lib/ai/chat/think-tags";
 import {
   inlayVersionAtom,
   replaceInlayTokens,
@@ -26,9 +27,6 @@ import { type FC, useEffect, useState } from "react";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import type { Pluggable } from "unified";
-
-const THINKING_BLOCK_RE = /<think(?:ing)?>([\s\S]*?)<\/think(?:ing)?>/gi;
-const THINKING_OPEN_RE = /<think(?:ing)?>/i;
 
 function normalizeMathDelimiters(text: string): string {
   return text
@@ -82,9 +80,7 @@ const MarkdownTextImpl = () => {
       className="aui-md"
       components={defaultComponents}
       preprocess={(text) => {
-        let t = text.replace(THINKING_BLOCK_RE, "");
-        const openIdx = t.search(THINKING_OPEN_RE);
-        if (openIdx !== -1) t = t.slice(0, openIdx);
+        let t = stripThinkForDisplay(text);
         if (t.includes("{{inlay::")) t = replaceInlayTokens(t, userId);
         return normalizeMathDelimiters(t);
       }}

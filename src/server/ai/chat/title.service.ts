@@ -3,6 +3,7 @@ import {
   TITLE_MODELS,
   TITLE_SYSTEM_PROMPT,
 } from "@/lib/config/constants";
+import { stripThinkForDisplay } from "@/lib/ai/chat/think-tags";
 import { logger } from "@/lib/utils/logger";
 import { getProvider } from "@/server/constants";
 import { serverEnv } from "@/server/env";
@@ -18,10 +19,7 @@ function truncateToTitle(text: string): string {
 }
 
 function stripThinkFromTitle(text: string): string {
-  let t = text.replace(/<think(?:ing)?>[\s\S]*?<\/think(?:ing)?>/gi, "");
-  const openIdx = t.search(/<think(?:ing)?>/i);
-  if (openIdx !== -1) t = t.slice(0, openIdx);
-  return t.trim();
+  return stripThinkForDisplay(text).trim();
 }
 
 export async function generateChatTitle(
