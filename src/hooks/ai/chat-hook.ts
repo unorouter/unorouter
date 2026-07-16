@@ -433,9 +433,7 @@ export function useDeleteMessageMutation() {
   const userId = useLocalUserId();
   return useMutation({
     mutationFn: async (args: { convId: string; msgId: string }) => {
-      // Prune the UI before the awaited DB splice so a node with no DB row, or a
-      // splice that throws, still leaves the screen. clearLiveError drops the
-      // ai-sdk error banner, which lives outside `messages`.
+      // Prune UI before the awaited splice: the node may have no DB row.
       patchLiveMessages((msgs) =>
         (msgs as { id?: string }[]).filter((m) => m.id !== args.msgId),
       );

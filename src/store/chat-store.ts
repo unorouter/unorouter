@@ -236,8 +236,7 @@ export function patchLiveMessages(
   }, 5000);
 }
 
-// The ai-sdk error banner lives on useChat state, not in `messages`, so
-// patchLiveMessages cannot clear it. No-op if the bridge is absent.
+// The error banner is useChat state, not a message, so patchLiveMessages misses it.
 export function clearLiveError(): void {
   chatStore.get(chatHelpersAtom)?.clearError();
 }
