@@ -52,12 +52,14 @@ export function copyToClipboard(text: string): Promise<void> {
 export function copyToClipboardAsync(
   getData: () => Promise<string>,
 ): Promise<void> {
+  const blob = getData().then((t) => new Blob([t], { type: "text/plain" }));
+  // ClipboardItem consumes the promise internally, but if getData rejects the
+  // browser still reports the blob promise as an UNHANDLED rejection even
+  // though the caller catches the write() promise. Mark it handled in a
+  // parallel branch; write() below still rejects into the caller's catch.
+  blob.catch(() => {});
   return navigator.clipboard.write([
-    new ClipboardItem({
-      "text/plain": getData().then(
-        (t) => new Blob([t], { type: "text/plain" }),
-      ),
-    }),
+    new ClipboardItem({ "text/plain": blob }),
   ]);
 }
 

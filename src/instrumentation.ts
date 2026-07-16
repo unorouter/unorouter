@@ -69,6 +69,16 @@ export const onRequestError: Instrumentation.onRequestError = async (
     const message = err instanceof Error ? err.message : String(err ?? "");
     if (message.includes("failed to pipe response")) return;
 
+    // Next's own PPR invariants self-identify as framework bugs (postponed
+    // state + fallback params on RSC prefetch); nothing in app code causes or
+    // can fix them.
+    if (message.includes("This is a bug in Next.js")) return;
+
+    // Errors while rendering the not-found page are bot traffic probing
+    // garbage paths (e.g. POSTing malformed FormData at /RSC/*.txt), not a
+    // reachable app surface.
+    if (context.routePath === "/_not-found/page") return;
+
     posthog.captureException(err, distinctId, {
       $exception_digest: digest || undefined,
       request_path: request.path,

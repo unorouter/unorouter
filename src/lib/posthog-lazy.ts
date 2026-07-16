@@ -71,6 +71,7 @@ const SAMPLE_EXCEPTIONS = [
   "tried to unmount a fiber", // assistant-ui ResourceFiber lifecycle (upstream bug)
   "not focused", // clipboard write while tab unfocused
   "clipboard",
+  "write permission denied", // firefox clipboard permission denial
   "connection closed",
 ];
 const SAMPLE_KEEP_RATE = 0.1;
