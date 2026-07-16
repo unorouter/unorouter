@@ -6,6 +6,10 @@ import { TooltipIconButton } from "@/components/ui/assistant-ui/tooltip-icon-but
 import { Icon } from "@/components/ui/icon";
 import { SmartImage } from "@/components/ui/smart-image";
 import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
+import {
+  allowDataMediaUrls,
+  resolveMarkdownMedia,
+} from "@/lib/ai/chat/markdown-media";
 import { stripThinkForDisplay } from "@/lib/ai/chat/think-tags";
 import {
   inlayVersionAtom,
@@ -33,18 +37,6 @@ function normalizeMathDelimiters(text: string): string {
     .replace(/\\\[(.+?)\\\]/gs, (_m, inner) => `$$${inner}$$`)
     .replace(/\\\((.+?)\\\)/gs, (_m, inner) => `$${inner}$`);
 }
-
-const allowDataImageUrls = (url: string): string => {
-  if (
-    url.startsWith("data:image/") ||
-    url.startsWith("data:audio/") ||
-    url.startsWith("data:video/")
-  )
-    return url;
-  if (/^[a-z]+:/i.test(url) && !/^(https?|mailto|tel|ftp):/i.test(url))
-    return "";
-  return url;
-};
 
 const MATH_DELIMITER_RE = /\$|\\\(|\\\[/;
 let cachedMathjax: Pluggable | null = null;
@@ -76,7 +68,7 @@ const MarkdownTextImpl = () => {
     <MarkdownTextPrimitive
       remarkPlugins={[remarkGfm, remarkMath]}
       rehypePlugins={mathjax ? [mathjax, rehypeQuoteSpans] : [rehypeQuoteSpans]}
-      urlTransform={allowDataImageUrls}
+      urlTransform={allowDataMediaUrls}
       className="aui-md"
       components={defaultComponents}
       preprocess={(text) => {
@@ -314,18 +306,11 @@ const defaultComponents = memoizeMarkdownComponents({
     const t = useTranslations();
     const { isCopied, copyToClipboard } = useCopyToClipboard();
     const imgSrc = typeof src === "string" ? src : undefined;
-    const inlayMediaId = alt?.startsWith("inlay:") ? alt.slice(6) : null;
-    const isVideo =
-      !!imgSrc &&
-      (alt === "video" ||
-        imgSrc.startsWith("data:video/") ||
-        /\.(mp4|webm|mov|avi|mkv)(\?.*)?$/i.test(imgSrc));
-    const isAudio =
-      !!imgSrc &&
-      (imgSrc.startsWith("data:audio/") ||
-        /\.(mp3|wav|ogg|m4a|flac|aac)(\?.*)?$/i.test(imgSrc));
-    const isDataUri = !!imgSrc && imgSrc.startsWith("data:");
-    const showCopyLink = !isDataUri;
+    const media = resolveMarkdownMedia(imgSrc, alt);
+    const inlayMediaId = media.inlayMediaId;
+    const isVideo = !!imgSrc && media.kind === "video";
+    const isAudio = !!imgSrc && media.kind === "audio";
+    const showCopyLink = !media.isDataUri;
     const showActions = !!imgSrc && !isAudio;
 
     const handleDownload = async () => {
