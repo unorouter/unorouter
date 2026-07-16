@@ -1,6 +1,9 @@
 "use client";
 
-import { StatusBar, StatusBarSkeleton } from "@/components/ui/status/status-bar";
+import {
+  StatusBar,
+  StatusBarSkeleton,
+} from "@/components/ui/status/status-bar";
 import { StatusBlocksI18n } from "@/components/pages/navbar/status/status-blocks-i18n";
 import type { StatusBarData } from "@/components/ui/status/status.types";
 import { useModelStatusBucketsQuery } from "@/hooks/models/model-status-hook";

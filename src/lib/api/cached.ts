@@ -162,7 +162,11 @@ export async function getComparePageData(slugs: readonly string[]) {
 // renders and the client refetches live pricing. Not cached (the page-level
 // catch is outside "use cache"), so a momentary failure never sticks.
 export function emptyPageData() {
-  return { dehydrated: dehydrate(new QueryClient()), topModels: [], models: [] };
+  return {
+    dehydrated: dehydrate(new QueryClient()),
+    topModels: [],
+    models: [],
+  };
 }
 
 // Shuffle runs inside the cached scope: Math.random is non-deterministic and

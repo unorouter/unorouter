@@ -147,7 +147,9 @@ export function parseOther(
 
 // The group ratio actually applied to this request: a positive per-user override
 // wins over the group default. Returns null when no meaningful discount applies.
-export function getEffectiveGroupRatio(other: ParsedOther | null): number | null {
+export function getEffectiveGroupRatio(
+  other: ParsedOther | null,
+): number | null {
   if (!other) return null;
   const userOverride =
     other.user_group_ratio != null && other.user_group_ratio > 0
@@ -171,7 +173,9 @@ export interface LogPricing {
 // Derives per-1M input/output prices from the stored ratios so the pricing cell
 // and the detail panel show identical numbers. Returns null when the row carries
 // no usable model ratio (non-consume, or ratio missing).
-export function computeLogPricing(other: ParsedOther | null): LogPricing | null {
+export function computeLogPricing(
+  other: ParsedOther | null,
+): LogPricing | null {
   const modelRatio = other?.model_ratio;
   if (!other || !modelRatio || modelRatio <= 0) return null;
   const inputPrice = modelRatio * 2;

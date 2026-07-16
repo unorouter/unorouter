@@ -163,16 +163,10 @@ export function LogExpandedRow(props: { row: Row<LogRow> }) {
       label: t("LOGS.DETAIL.TOKENS"),
       value: (
         <span className="flex flex-wrap items-center gap-1.5">
-          <Badge
-            variant="secondary"
-            className="bg-muted font-mono text-[10px]"
-          >
+          <Badge variant="secondary" className="bg-muted font-mono text-[10px]">
             {t("LOGS.DETAIL.INPUT")} {log.prompt_tokens.toLocaleString()}
           </Badge>
-          <Badge
-            variant="secondary"
-            className="bg-muted font-mono text-[10px]"
-          >
+          <Badge variant="secondary" className="bg-muted font-mono text-[10px]">
             {t("LOGS.DETAIL.OUTPUT")} {log.completion_tokens.toLocaleString()}
           </Badge>
           {cacheRead > 0 && (

@@ -156,7 +156,8 @@ function loadNow() {
         if (!event) return event;
         const verdict = noiseVerdict(event);
         if (verdict === "drop") return null;
-        if (verdict === "sample" && Math.random() > SAMPLE_KEEP_RATE) return null;
+        if (verdict === "sample" && Math.random() > SAMPLE_KEEP_RATE)
+          return null;
         return event;
       },
     });

@@ -91,31 +91,31 @@ export function ModelsFilterSidebar(props: { models: ProcessedModel[] }) {
           )}
         </SidebarHeader>
         <SidebarContent className="gap-4 overflow-y-auto px-3 py-2">
-        <InputModalitiesGroup
-          value={inputModalities}
-          onChange={setInputModalities}
-        />
-        <ToolsGroup value={toolsOnly} onChange={setToolsOnly} />
-        <ContextGroup value={contextMin} onChange={setContextMin} />
-        <PriceGroup value={priceRange} onChange={setPriceRange} />
-        <MultiSelectGroup
-          label={t("MODELS.FILTER.SERIES")}
-          options={seriesOptions}
-          value={series}
-          onChange={setSeries}
-        />
-        <MultiSelectGroup
-          label={t("MODELS.FILTER.CATEGORIES")}
-          options={categoryOptions}
-          value={categories}
-          onChange={setCategories}
-        />
-        <MultiSelectGroup
-          label={t("MODELS.FILTER.SUPPORTED_PARAMETERS")}
-          options={paramOptions}
-          value={supportedParameters}
-          onChange={setSupportedParameters}
-        />
+          <InputModalitiesGroup
+            value={inputModalities}
+            onChange={setInputModalities}
+          />
+          <ToolsGroup value={toolsOnly} onChange={setToolsOnly} />
+          <ContextGroup value={contextMin} onChange={setContextMin} />
+          <PriceGroup value={priceRange} onChange={setPriceRange} />
+          <MultiSelectGroup
+            label={t("MODELS.FILTER.SERIES")}
+            options={seriesOptions}
+            value={series}
+            onChange={setSeries}
+          />
+          <MultiSelectGroup
+            label={t("MODELS.FILTER.CATEGORIES")}
+            options={categoryOptions}
+            value={categories}
+            onChange={setCategories}
+          />
+          <MultiSelectGroup
+            label={t("MODELS.FILTER.SUPPORTED_PARAMETERS")}
+            options={paramOptions}
+            value={supportedParameters}
+            onChange={setSupportedParameters}
+          />
           <MultiSelectGroup
             label={t("MODELS.FILTER.PROVIDERS")}
             options={vendorOptions}
