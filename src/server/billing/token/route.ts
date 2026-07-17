@@ -77,7 +77,8 @@ export const tokenRoute = new Elysia({ prefix: "/token" })
 
   .get("/groups", async ({ upstream }) => {
     const res = await getUserGroups({ headers: upstream.headers });
-    return unwrap(res);
+    const body = unwrap(res);
+    return body.data ?? {};
   })
 
   .delete("/:id", async ({ params, upstream }) => {

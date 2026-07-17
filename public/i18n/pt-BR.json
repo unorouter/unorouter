@@ -3086,7 +3086,8 @@
       "QUOTA_ZERO_HINT": "Uma cota de 0 não funciona. Modelos gratuitos (terminados em :free) funcionam com qualquer chave válida.",
       "GROUP": "Grupo de cobrança",
       "GROUP_AUTO_HINT": "Auto roteia para o grupo disponível mais barato. Fixe um ou mais grupos para limitar a cobrança desta chave às tarifas deles.",
-      "GROUP_EMPTY": "Nenhum grupo encontrado."
+      "GROUP_EMPTY": "Nenhum grupo encontrado.",
+      "GROUP_SEARCH_PLACEHOLDER": "Pesquisar grupos..."
     },
     "ENUM": {
       "ENABLED": "Ativada",

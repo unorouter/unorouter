@@ -3086,7 +3086,8 @@
       "QUOTA_ZERO_HINT": "Un quota de 0 ne fonctionne pas. Les modèles gratuits (suffixe :free) fonctionnent avec n'importe quelle clé valide.",
       "GROUP": "Groupe de facturation",
       "GROUP_AUTO_HINT": "Auto achemine vers le groupe disponible le moins cher. Épinglez un ou plusieurs groupes pour limiter la facturation de cette clé à leurs tarifs.",
-      "GROUP_EMPTY": "Aucun groupe trouvé."
+      "GROUP_EMPTY": "Aucun groupe trouvé.",
+      "GROUP_SEARCH_PLACEHOLDER": "Rechercher des groupes..."
     },
     "ENUM": {
       "ENABLED": "Activée",

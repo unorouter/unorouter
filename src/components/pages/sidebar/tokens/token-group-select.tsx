@@ -4,6 +4,7 @@ import {
   Command,
   CommandEmpty,
   CommandGroup,
+  CommandInput,
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
@@ -17,10 +18,14 @@ import {
 import { cn } from "@/lib/utils";
 import type { UserGroupInfo } from "@/openapi";
 import { useTranslations } from "next-intl";
+import { useState } from "react";
 import type { Control } from "react-hook-form";
 import type { TokenFormSchema } from "@/lib/validation/token";
 
 const AUTO_GROUP = "auto";
+// The usable set can hold thousands of per-channel groups; keep the DOM small
+// and let the search input narrow the list.
+const MAX_VISIBLE_GROUPS = 50;
 
 type TokenGroupSelectProps = {
   control: Control<TokenFormSchema>;
@@ -36,14 +41,22 @@ function groupRatioLabel(info: UserGroupInfo | undefined): string | null {
 
 export function TokenGroupSelect(props: TokenGroupSelectProps) {
   const t = useTranslations();
+  const [search, setSearch] = useState("");
 
-  const sortedGroups = Object.entries(props.groups).sort(([aName, a], [bName, b]) => {
-    if (aName === AUTO_GROUP) return -1;
-    if (bName === AUTO_GROUP) return 1;
-    const aRatio = typeof a.ratio === "number" ? a.ratio : Infinity;
-    const bRatio = typeof b.ratio === "number" ? b.ratio : Infinity;
-    return aRatio - bRatio || aName.localeCompare(bName);
-  });
+  const query = search.trim().toLowerCase();
+  const sortedGroups = Object.entries(props.groups)
+    .filter(([name]) => !query || name.toLowerCase().includes(query))
+    .sort(([aName, a], [bName, b]) => {
+      if (aName === AUTO_GROUP) return -1;
+      if (bName === AUTO_GROUP) return 1;
+      const aSelected = props.selectedGroups.includes(aName);
+      const bSelected = props.selectedGroups.includes(bName);
+      if (aSelected !== bSelected) return aSelected ? -1 : 1;
+      const aRatio = typeof a.ratio === "number" ? a.ratio : Infinity;
+      const bRatio = typeof b.ratio === "number" ? b.ratio : Infinity;
+      return aRatio - bRatio || aName.localeCompare(bName);
+    })
+    .slice(0, MAX_VISIBLE_GROUPS);
 
   // "auto" is mutually exclusive with pinned groups; empty falls back to auto.
   function toggle(name: string, selected: string[]): string[] {
@@ -97,7 +110,12 @@ export function TokenGroupSelect(props: TokenGroupSelectProps) {
               className="w-[--radix-popover-trigger-width] p-0"
               align="start"
             >
-              <Command>
+              <Command shouldFilter={false}>
+                <CommandInput
+                  placeholder={t("TOKEN.FORM.GROUP_SEARCH_PLACEHOLDER")}
+                  value={search}
+                  onValueChange={setSearch}
+                />
                 <CommandList className="max-h-64">
                   <CommandEmpty>{t("TOKEN.FORM.GROUP_EMPTY")}</CommandEmpty>
                   <CommandGroup>

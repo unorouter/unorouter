@@ -3086,7 +3086,8 @@
       "QUOTA_ZERO_HINT": "Una quota di 0 non funziona. I modelli gratuiti (che terminano con :free) funzionano con qualsiasi chiave valida.",
       "GROUP": "Gruppo di fatturazione",
       "GROUP_AUTO_HINT": "Auto instrada verso il gruppo disponibile più economico. Fissa uno o più gruppi per vincolare la fatturazione di questa chiave alle loro tariffe.",
-      "GROUP_EMPTY": "Nessun gruppo trovato."
+      "GROUP_EMPTY": "Nessun gruppo trovato.",
+      "GROUP_SEARCH_PLACEHOLDER": "Cerca gruppi..."
     },
     "ENUM": {
       "ENABLED": "Abilitata",

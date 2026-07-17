@@ -3086,7 +3086,8 @@
       "QUOTA_ZERO_HINT": "Una cuota de 0 no funciona. Los modelos gratuitos (terminados en :free) funcionan con cualquier clave válida.",
       "GROUP": "Grupo de facturación",
       "GROUP_AUTO_HINT": "Auto enruta al grupo disponible más barato. Fija uno o más grupos para limitar la facturación de esta clave a sus tarifas.",
-      "GROUP_EMPTY": "No se encontraron grupos."
+      "GROUP_EMPTY": "No se encontraron grupos.",
+      "GROUP_SEARCH_PLACEHOLDER": "Buscar grupos..."
     },
     "ENUM": {
       "ENABLED": "Activada",

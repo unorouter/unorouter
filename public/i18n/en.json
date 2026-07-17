@@ -3086,7 +3086,8 @@
       "QUOTA_ZERO_HINT": "A quota of 0 won't work. Free models (ending in :free) work on any valid key.",
       "GROUP": "Billing group",
       "GROUP_AUTO_HINT": "Auto routes to the cheapest available group. Pin one or more groups to lock this key's billing to their rates.",
-      "GROUP_EMPTY": "No groups found."
+      "GROUP_EMPTY": "No groups found.",
+      "GROUP_SEARCH_PLACEHOLDER": "Search groups..."
     },
     "ENUM": {
       "ENABLED": "Enabled",

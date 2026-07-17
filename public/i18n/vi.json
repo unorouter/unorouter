@@ -3086,7 +3086,8 @@
       "QUOTA_ZERO_HINT": "Hạn mức 0 sẽ không hoạt động. Các mô hình miễn phí (kết thúc bằng :free) hoạt động với bất kỳ khóa hợp lệ nào.",
       "GROUP": "Nhóm tính phí",
       "GROUP_AUTO_HINT": "Auto định tuyến đến nhóm khả dụng rẻ nhất. Ghim một hoặc nhiều nhóm để khóa mức tính phí của khóa này theo biểu giá của chúng.",
-      "GROUP_EMPTY": "Không tìm thấy nhóm nào."
+      "GROUP_EMPTY": "Không tìm thấy nhóm nào.",
+      "GROUP_SEARCH_PLACEHOLDER": "Tìm kiếm nhóm..."
     },
     "ENUM": {
       "ENABLED": "Đã bật",

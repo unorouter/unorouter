@@ -3086,7 +3086,8 @@
       "QUOTA_ZERO_HINT": "Kuota 0 tidak akan berfungsi. Model gratis (berakhiran :free) berfungsi dengan kunci valid apa pun.",
       "GROUP": "Grup penagihan",
       "GROUP_AUTO_HINT": "Auto mengarahkan ke grup termurah yang tersedia. Sematkan satu atau beberapa grup untuk mengunci penagihan kunci ini pada tarif mereka.",
-      "GROUP_EMPTY": "Tidak ada grup ditemukan."
+      "GROUP_EMPTY": "Tidak ada grup ditemukan.",
+      "GROUP_SEARCH_PLACEHOLDER": "Cari grup..."
     },
     "ENUM": {
       "ENABLED": "Aktif",

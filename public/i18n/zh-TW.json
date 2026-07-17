@@ -3086,7 +3086,8 @@
       "QUOTA_ZERO_HINT": "額度為 0 將無法使用。免費模型（以 :free 結尾）可用於任何有效金鑰。",
       "GROUP": "計費分組",
       "GROUP_AUTO_HINT": "Auto 會路由到目前可用的最便宜分組。固定一個或多個分組後，此金鑰將僅按所選分組的費率計費。",
-      "GROUP_EMPTY": "未找到分組。"
+      "GROUP_EMPTY": "未找到分組。",
+      "GROUP_SEARCH_PLACEHOLDER": "搜尋分組…"
     },
     "ENUM": {
       "ENABLED": "已啟用",

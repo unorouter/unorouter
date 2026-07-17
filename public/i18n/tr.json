@@ -3086,7 +3086,8 @@
       "QUOTA_ZERO_HINT": "0 kotası çalışmaz. Ücretsiz modeller (:free ile bitenler) geçerli herhangi bir anahtarla çalışır.",
       "GROUP": "Faturalandırma grubu",
       "GROUP_AUTO_HINT": "Auto, mevcut en ucuz gruba yönlendirir. Bu anahtarın faturalandırmasını belirli tarifelerle sınırlamak için bir veya daha fazla grubu sabitleyin.",
-      "GROUP_EMPTY": "Grup bulunamadı."
+      "GROUP_EMPTY": "Grup bulunamadı.",
+      "GROUP_SEARCH_PLACEHOLDER": "Grup ara..."
     },
     "ENUM": {
       "ENABLED": "Etkin",
