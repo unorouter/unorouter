@@ -1,0 +1,324 @@
+import type { IconComponent } from "@/lib/config/icon-map";
+import {
+  AppleIcon,
+  BroomIcon,
+  CrabClawIcon,
+  DiscordIcon,
+  DiscordSiIcon,
+  DotsHorizontalIcon,
+  FoxIcon,
+  GithubIcon,
+  LinuxIcon,
+  RedditIcon,
+  TrustpilotIcon,
+  WindowsIcon,
+  XTwitterIcon,
+} from "@/components/ui/local-icons";
+import Activity from "lucide-react/dist/esm/icons/activity.mjs";
+import ArrowDown from "lucide-react/dist/esm/icons/arrow-down.mjs";
+import ArrowDownRight from "lucide-react/dist/esm/icons/arrow-down-right.mjs";
+import ArrowLeft from "lucide-react/dist/esm/icons/arrow-left.mjs";
+import ArrowLeftRight from "lucide-react/dist/esm/icons/arrow-left-right.mjs";
+import ArrowRight from "lucide-react/dist/esm/icons/arrow-right.mjs";
+import ArrowRightLeft from "lucide-react/dist/esm/icons/arrow-right-left.mjs";
+import ArrowUp from "lucide-react/dist/esm/icons/arrow-up.mjs";
+import ArrowUpDown from "lucide-react/dist/esm/icons/arrow-up-down.mjs";
+import ArrowUpRight from "lucide-react/dist/esm/icons/arrow-up-right.mjs";
+import Bell from "lucide-react/dist/esm/icons/bell.mjs";
+import Binary from "lucide-react/dist/esm/icons/binary.mjs";
+import BookOpen from "lucide-react/dist/esm/icons/book-open.mjs";
+import BookText from "lucide-react/dist/esm/icons/book-text.mjs";
+import Brain from "lucide-react/dist/esm/icons/brain.mjs";
+import Calendar from "lucide-react/dist/esm/icons/calendar.mjs";
+import ChartBar from "lucide-react/dist/esm/icons/chart-bar.mjs";
+import ChartColumn from "lucide-react/dist/esm/icons/chart-column.mjs";
+import ChartColumnBig from "lucide-react/dist/esm/icons/chart-column-big.mjs";
+import ChartPie from "lucide-react/dist/esm/icons/chart-pie.mjs";
+import Check from "lucide-react/dist/esm/icons/check.mjs";
+import ChevronDown from "lucide-react/dist/esm/icons/chevron-down.mjs";
+import ChevronLeft from "lucide-react/dist/esm/icons/chevron-left.mjs";
+import ChevronRight from "lucide-react/dist/esm/icons/chevron-right.mjs";
+import ChevronsDownUp from "lucide-react/dist/esm/icons/chevrons-down-up.mjs";
+import ChevronsLeft from "lucide-react/dist/esm/icons/chevrons-left.mjs";
+import ChevronsRight from "lucide-react/dist/esm/icons/chevrons-right.mjs";
+import ChevronsUpDown from "lucide-react/dist/esm/icons/chevrons-up-down.mjs";
+import CircleAlert from "lucide-react/dist/esm/icons/circle-alert.mjs";
+import CircleCheck from "lucide-react/dist/esm/icons/circle-check.mjs";
+import CircleDashed from "lucide-react/dist/esm/icons/circle-dashed.mjs";
+import CircleHelp from "lucide-react/dist/esm/icons/circle-help.mjs";
+import CirclePlus from "lucide-react/dist/esm/icons/circle-plus.mjs";
+import CircleX from "lucide-react/dist/esm/icons/circle-x.mjs";
+import ClipboardCopy from "lucide-react/dist/esm/icons/clipboard-copy.mjs";
+import Clock from "lucide-react/dist/esm/icons/clock.mjs";
+import CloudOff from "lucide-react/dist/esm/icons/cloud-off.mjs";
+import CloudUpload from "lucide-react/dist/esm/icons/cloud-upload.mjs";
+import Code from "lucide-react/dist/esm/icons/code.mjs";
+import Copy from "lucide-react/dist/esm/icons/copy.mjs";
+import Cpu from "lucide-react/dist/esm/icons/cpu.mjs";
+import CreditCard from "lucide-react/dist/esm/icons/credit-card.mjs";
+import Database from "lucide-react/dist/esm/icons/database.mjs";
+import Dices from "lucide-react/dist/esm/icons/dices.mjs";
+import DollarSign from "lucide-react/dist/esm/icons/dollar-sign.mjs";
+import Download from "lucide-react/dist/esm/icons/download.mjs";
+import Drama from "lucide-react/dist/esm/icons/drama.mjs";
+import Ellipsis from "lucide-react/dist/esm/icons/ellipsis.mjs";
+import EllipsisVertical from "lucide-react/dist/esm/icons/ellipsis-vertical.mjs";
+import Eraser from "lucide-react/dist/esm/icons/eraser.mjs";
+import ExternalLink from "lucide-react/dist/esm/icons/external-link.mjs";
+import Eye from "lucide-react/dist/esm/icons/eye.mjs";
+import EyeOff from "lucide-react/dist/esm/icons/eye-off.mjs";
+import File from "lucide-react/dist/esm/icons/file.mjs";
+import FileQuestion from "lucide-react/dist/esm/icons/file-question.mjs";
+import FileText from "lucide-react/dist/esm/icons/file-text.mjs";
+import Filter from "lucide-react/dist/esm/icons/filter.mjs";
+import FingerprintPattern from "lucide-react/dist/esm/icons/fingerprint-pattern.mjs";
+import Gauge from "lucide-react/dist/esm/icons/gauge.mjs";
+import Gift from "lucide-react/dist/esm/icons/gift.mjs";
+import GitBranch from "lucide-react/dist/esm/icons/git-branch.mjs";
+import Globe from "lucide-react/dist/esm/icons/globe.mjs";
+import GlobeLock from "lucide-react/dist/esm/icons/globe-lock.mjs";
+import Grid3X3 from "lucide-react/dist/esm/icons/grid-3-x-3.mjs";
+import GripVertical from "lucide-react/dist/esm/icons/grip-vertical.mjs";
+import Hash from "lucide-react/dist/esm/icons/hash.mjs";
+import Heart from "lucide-react/dist/esm/icons/heart.mjs";
+import HeartPulse from "lucide-react/dist/esm/icons/heart-pulse.mjs";
+import House from "lucide-react/dist/esm/icons/house.mjs";
+import Iconbrandtelegram from "@tabler/icons-react/dist/esm/icons/IconBrandTelegram.mjs";
+import Iconbrandyoutube from "@tabler/icons-react/dist/esm/icons/IconBrandYoutube.mjs";
+import Image from "lucide-react/dist/esm/icons/image.mjs";
+import ImageDown from "lucide-react/dist/esm/icons/image-down.mjs";
+import Info from "lucide-react/dist/esm/icons/info.mjs";
+import Key from "lucide-react/dist/esm/icons/key.mjs";
+import KeyRound from "lucide-react/dist/esm/icons/key-round.mjs";
+import Layers from "lucide-react/dist/esm/icons/layers.mjs";
+import LayoutDashboard from "lucide-react/dist/esm/icons/layout-dashboard.mjs";
+import LayoutGrid from "lucide-react/dist/esm/icons/layout-grid.mjs";
+import Link from "lucide-react/dist/esm/icons/link.mjs";
+import List from "lucide-react/dist/esm/icons/list.mjs";
+import Loader from "lucide-react/dist/esm/icons/loader.mjs";
+import Lock from "lucide-react/dist/esm/icons/lock.mjs";
+import LogIn from "lucide-react/dist/esm/icons/log-in.mjs";
+import LogOut from "lucide-react/dist/esm/icons/log-out.mjs";
+import Mail from "lucide-react/dist/esm/icons/mail.mjs";
+import Maximize2 from "lucide-react/dist/esm/icons/maximize-2.mjs";
+import Menu from "lucide-react/dist/esm/icons/menu.mjs";
+import MessageCircle from "lucide-react/dist/esm/icons/message-circle.mjs";
+import MessageSquare from "lucide-react/dist/esm/icons/message-square.mjs";
+import Mic from "lucide-react/dist/esm/icons/mic.mjs";
+import Monitor from "lucide-react/dist/esm/icons/monitor.mjs";
+import Moon from "lucide-react/dist/esm/icons/moon.mjs";
+import Music from "lucide-react/dist/esm/icons/music.mjs";
+import Newspaper from "lucide-react/dist/esm/icons/newspaper.mjs";
+import OctagonX from "lucide-react/dist/esm/icons/octagon-x.mjs";
+import Paintbrush from "lucide-react/dist/esm/icons/paintbrush.mjs";
+import PanelLeft from "lucide-react/dist/esm/icons/panel-left.mjs";
+import Pencil from "lucide-react/dist/esm/icons/pencil.mjs";
+import PencilRuler from "lucide-react/dist/esm/icons/pencil-ruler.mjs";
+import Percent from "lucide-react/dist/esm/icons/percent.mjs";
+import Play from "lucide-react/dist/esm/icons/play.mjs";
+import Plus from "lucide-react/dist/esm/icons/plus.mjs";
+import Power from "lucide-react/dist/esm/icons/power.mjs";
+import PowerOff from "lucide-react/dist/esm/icons/power-off.mjs";
+import RefreshCcw from "lucide-react/dist/esm/icons/refresh-ccw.mjs";
+import RefreshCw from "lucide-react/dist/esm/icons/refresh-cw.mjs";
+import Repeat from "lucide-react/dist/esm/icons/repeat.mjs";
+import RotateCcw from "lucide-react/dist/esm/icons/rotate-ccw.mjs";
+import RotateCw from "lucide-react/dist/esm/icons/rotate-cw.mjs";
+import Rss from "lucide-react/dist/esm/icons/rss.mjs";
+import ScrollText from "lucide-react/dist/esm/icons/scroll-text.mjs";
+import Search from "lucide-react/dist/esm/icons/search.mjs";
+import Send from "lucide-react/dist/esm/icons/send.mjs";
+import Server from "lucide-react/dist/esm/icons/server.mjs";
+import Settings from "lucide-react/dist/esm/icons/settings.mjs";
+import Settings2 from "lucide-react/dist/esm/icons/settings-2.mjs";
+import Shield from "lucide-react/dist/esm/icons/shield.mjs";
+import ShieldCheck from "lucide-react/dist/esm/icons/shield-check.mjs";
+import Shuffle from "lucide-react/dist/esm/icons/shuffle.mjs";
+import SlidersHorizontal from "lucide-react/dist/esm/icons/sliders-horizontal.mjs";
+import Sparkles from "lucide-react/dist/esm/icons/sparkles.mjs";
+import Square from "lucide-react/dist/esm/icons/square.mjs";
+import Sun from "lucide-react/dist/esm/icons/sun.mjs";
+import Tag from "lucide-react/dist/esm/icons/tag.mjs";
+import Terminal from "lucide-react/dist/esm/icons/terminal.mjs";
+import Trash from "lucide-react/dist/esm/icons/trash.mjs";
+import Trash2 from "lucide-react/dist/esm/icons/trash-2.mjs";
+import TrendingDown from "lucide-react/dist/esm/icons/trending-down.mjs";
+import TrendingUp from "lucide-react/dist/esm/icons/trending-up.mjs";
+import TriangleAlert from "lucide-react/dist/esm/icons/triangle-alert.mjs";
+import Trophy from "lucide-react/dist/esm/icons/trophy.mjs";
+import Type from "lucide-react/dist/esm/icons/type.mjs";
+import Upload from "lucide-react/dist/esm/icons/upload.mjs";
+import User from "lucide-react/dist/esm/icons/user.mjs";
+import UserPlus from "lucide-react/dist/esm/icons/user-plus.mjs";
+import Users from "lucide-react/dist/esm/icons/users.mjs";
+import Video from "lucide-react/dist/esm/icons/video.mjs";
+import Wallet from "lucide-react/dist/esm/icons/wallet.mjs";
+import Wand from "lucide-react/dist/esm/icons/wand.mjs";
+import WifiOff from "lucide-react/dist/esm/icons/wifi-off.mjs";
+import Wrench from "lucide-react/dist/esm/icons/wrench.mjs";
+import X from "lucide-react/dist/esm/icons/x.mjs";
+import Zap from "lucide-react/dist/esm/icons/zap.mjs";
+
+export const LUCIDE_STATIC: Record<string, IconComponent> = {
+  "arrow-down": ArrowDown as IconComponent,
+  "arrow-down-right": ArrowDownRight as IconComponent,
+  "arrow-left": ArrowLeft as IconComponent,
+  "arrow-left-right": ArrowLeftRight as IconComponent,
+  "arrow-right": ArrowRight as IconComponent,
+  "arrow-right-left": ArrowRightLeft as IconComponent,
+  "arrow-up": ArrowUp as IconComponent,
+  "arrow-up-down": ArrowUpDown as IconComponent,
+  "arrow-up-right": ArrowUpRight as IconComponent,
+  "chevron-down": ChevronDown as IconComponent,
+  "chevron-left": ChevronLeft as IconComponent,
+  "chevron-right": ChevronRight as IconComponent,
+  "chevrons-down-up": ChevronsDownUp as IconComponent,
+  "chevrons-left": ChevronsLeft as IconComponent,
+  "chevrons-right": ChevronsRight as IconComponent,
+  "chevrons-up-down": ChevronsUpDown as IconComponent,
+  activity: Activity as IconComponent,
+  check: Check as IconComponent,
+  "circle-alert": CircleAlert as IconComponent,
+  "circle-check": CircleCheck as IconComponent,
+  "circle-dashed": CircleDashed as IconComponent,
+  "circle-help": CircleHelp as IconComponent,
+  "circle-x": CircleX as IconComponent,
+  "triangle-alert": TriangleAlert as IconComponent,
+  "octagon-x": OctagonX as IconComponent,
+  info: Info as IconComponent,
+  loader: Loader as IconComponent,
+  x: X as IconComponent,
+  "chart-bar": ChartBar as IconComponent,
+  "chart-column": ChartColumn as IconComponent,
+  "chart-column-big": ChartColumnBig as IconComponent,
+  "chart-pie": ChartPie as IconComponent,
+  "trending-down": TrendingDown as IconComponent,
+  "trending-up": TrendingUp as IconComponent,
+  gauge: Gauge as IconComponent,
+  bell: Bell as IconComponent,
+  binary: Binary as IconComponent,
+  "book-open": BookOpen as IconComponent,
+  "book-text": BookText as IconComponent,
+  calendar: Calendar as IconComponent,
+  "clipboard-copy": ClipboardCopy as IconComponent,
+  "cloud-off": CloudOff as IconComponent,
+  "cloud-upload": CloudUpload as IconComponent,
+  clock: Clock as IconComponent,
+  code: Code as IconComponent,
+  copy: Copy as IconComponent,
+  cpu: Cpu as IconComponent,
+  database: Database as IconComponent,
+  dices: Dices as IconComponent,
+  "dollar-sign": DollarSign as IconComponent,
+  download: Download as IconComponent,
+  drama: Drama as IconComponent,
+  ellipsis: Ellipsis as IconComponent,
+  "ellipsis-vertical": EllipsisVertical as IconComponent,
+  eraser: Eraser as IconComponent,
+  "external-link": ExternalLink as IconComponent,
+  eye: Eye as IconComponent,
+  "eye-off": EyeOff as IconComponent,
+  file: File as IconComponent,
+  "file-question": FileQuestion as IconComponent,
+  filter: Filter as IconComponent,
+  fingerprint: FingerprintPattern as IconComponent,
+  gift: Gift as IconComponent,
+  github: GithubIcon as IconComponent,
+  "git-branch": GitBranch as IconComponent,
+  globe: Globe as IconComponent,
+  "globe-lock": GlobeLock as IconComponent,
+  grid: LayoutGrid as IconComponent,
+  "grip-vertical": GripVertical as IconComponent,
+  hash: Hash as IconComponent,
+  heart: Heart as IconComponent,
+  "heart-pulse": HeartPulse as IconComponent,
+  house: House as IconComponent,
+  image: Image as IconComponent,
+  "image-down": ImageDown as IconComponent,
+  key: Key as IconComponent,
+  "key-round": KeyRound as IconComponent,
+  layers: Layers as IconComponent,
+  "layout-dashboard": LayoutDashboard as IconComponent,
+  "layout-grid": LayoutGrid as IconComponent,
+  link: Link as IconComponent,
+  lock: Lock as IconComponent,
+  "log-in": LogIn as IconComponent,
+  "log-out": LogOut as IconComponent,
+  mail: Mail as IconComponent,
+  menu: Menu as IconComponent,
+  "message-circle": MessageCircle as IconComponent,
+  "message-square": MessageSquare as IconComponent,
+  mic: Mic as IconComponent,
+  monitor: Monitor as IconComponent,
+  moon: Moon as IconComponent,
+  music: Music as IconComponent,
+  newspaper: Newspaper as IconComponent,
+  paintbrush: Paintbrush as IconComponent,
+  "panel-left": PanelLeft as IconComponent,
+  pencil: Pencil as IconComponent,
+  "pencil-ruler": PencilRuler as IconComponent,
+  percent: Percent as IconComponent,
+  play: Play as IconComponent,
+  plus: Plus as IconComponent,
+  power: Power as IconComponent,
+  "power-off": PowerOff as IconComponent,
+  "refresh-ccw": RefreshCcw as IconComponent,
+  "refresh-cw": RefreshCw as IconComponent,
+  repeat: Repeat as IconComponent,
+  "rotate-ccw": RotateCcw as IconComponent,
+  "rotate-cw": RotateCw as IconComponent,
+  rss: Rss as IconComponent,
+  "scroll-text": ScrollText as IconComponent,
+  search: Search as IconComponent,
+  send: Send as IconComponent,
+  server: Server as IconComponent,
+  settings: Settings as IconComponent,
+  shield: Shield as IconComponent,
+  "shield-check": ShieldCheck as IconComponent,
+  shuffle: Shuffle as IconComponent,
+  "sliders-horizontal": SlidersHorizontal as IconComponent,
+  sparkles: Sparkles as IconComponent,
+  sun: Sun as IconComponent,
+  tag: Tag as IconComponent,
+  terminal: Terminal as IconComponent,
+  trash: Trash as IconComponent,
+  trophy: Trophy as IconComponent,
+  type: Type as IconComponent,
+  upload: Upload as IconComponent,
+  user: User as IconComponent,
+  "user-plus": UserPlus as IconComponent,
+  users: Users as IconComponent,
+  video: Video as IconComponent,
+  wallet: Wallet as IconComponent,
+  wand: Wand as IconComponent,
+  zap: Zap as IconComponent,
+  "grid-3x3": Grid3X3 as IconComponent,
+  "maximize-2": Maximize2 as IconComponent,
+  "settings-2": Settings2 as IconComponent,
+  "trash-2": Trash2 as IconComponent,
+  "brand-apple": AppleIcon as IconComponent,
+  "brand-discord": DiscordIcon as IconComponent,
+  "brand-github": GithubIcon as IconComponent,
+  "brand-linux": LinuxIcon as IconComponent,
+  "brand-windows": WindowsIcon as IconComponent,
+  "brand-trustpilot": TrustpilotIcon as IconComponent,
+  "brand-x-twitter": XTwitterIcon as IconComponent,
+  "brand-reddit": RedditIcon as IconComponent,
+  "brand-youtube": Iconbrandyoutube as IconComponent,
+  "brand-telegram": Iconbrandtelegram as IconComponent,
+  "brand-discord-si": DiscordSiIcon as IconComponent,
+  broom: BroomIcon as IconComponent,
+  "crab-claw": CrabClawIcon as IconComponent,
+  fox: FoxIcon as IconComponent,
+  "dots-horizontal": DotsHorizontalIcon as IconComponent,
+  brain: Brain as IconComponent,
+  "wifi-off": WifiOff as IconComponent,
+  "x-circle": CircleX as IconComponent,
+  "alert-circle": CircleAlert as IconComponent,
+  "file-text": FileText as IconComponent,
+  square: Square as IconComponent,
+  wrench: Wrench as IconComponent,
+  list: List as IconComponent,
+  "plus-circle": CirclePlus as IconComponent,
+  "credit-card": CreditCard as IconComponent,
+};
