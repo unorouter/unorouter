@@ -25,12 +25,14 @@ function ensureLoaded() {
   afterLoad(() => idle(loadNow));
 }
 
-// Exception-message substrings that are ALWAYS external and carry zero
-// actionable signal for us (browser quirks, third-party extensions injecting
-// into the page, stale-deploy chunk misses, framework hydration warnings, and
-// documented-benign OPFS/bfcache states). Matched against the exception MESSAGE
-// only (never the stack), so a real bug whose stack merely passes through a
-// same-named frame is not silently dropped. These are fully suppressed.
+// Fully suppressed exception classes. Every entry must be an exact error TYPE
+// or a message unique to one known-benign failure (browser quirks, extension
+// injections, stale-deploy chunk misses, framework hydration codes,
+// documented-benign OPFS/bfcache states) - never a generic phrase a real bug
+// could share. Stack-based scoping is impossible here: posthog-js hardcodes
+// in_app:true on every client-side frame and only ingestion symbolification
+// assigns the real value, so before_send can never tell first-party frames
+// from bundled-vendor ones. Precision must come from the match string itself.
 const DROP_EXCEPTIONS = [
   "resizeobserver loop",
   "script error.", // cross-origin, message+stack both stripped by the browser
@@ -53,6 +55,7 @@ const DROP_EXCEPTIONS = [
   // upstream request id + model, so this duplicate carries no extra signal.
   "no output generated",
   "ai_nooutputgeneratederror",
+  "webassembly is not defined", // wasm disabled by hardened-browser config; shiki falls back to plain text
 ];
 
 // Could-be-real but high-volume + mostly-external. Instead of going fully dark
@@ -76,9 +79,8 @@ const SAMPLE_EXCEPTIONS = [
 ];
 const SAMPLE_KEEP_RATE = 0.1;
 
-// The exception MESSAGE only ($exception_values), lowercased. Deliberately does
-// NOT read $exception_list (the resolved stack) so frame names never trigger a
-// drop.
+// Exception type + message only, lowercased. Never reads stack frames, so a
+// frame NAME can never trigger a drop.
 function exceptionMessage(properties: Record<string, unknown> | undefined) {
   // Client-side the SDK puts exceptions on $exception_list ({type, value}[]);
   // $exception_values/$exception_types only exist after server ingestion.
@@ -95,25 +97,6 @@ function exceptionMessage(properties: Record<string, unknown> | undefined) {
   return `${fromList} ${JSON.stringify(values ?? "")} ${JSON.stringify(types ?? "")}`.toLowerCase();
 }
 
-// A frame in OUR bundle. posthog-js marks first-party frames `in_app:true`
-// (chunk filenames + turbopack:///[project] sources); browser/extension frames
-// are `in_app:false` (or anonymous/<anonymous>/chrome-extension). An error with
-// at least one in-app frame originates in our code and must never be dropped by
-// a message match alone - a real bug can share a tame message with pure noise.
-function hasInAppFrame(properties: Record<string, unknown> | undefined) {
-  const list = properties?.$exception_list;
-  if (!Array.isArray(list)) return false;
-  for (const ex of list) {
-    const frames = (ex as { stacktrace?: { frames?: unknown[] } })?.stacktrace
-      ?.frames;
-    if (!Array.isArray(frames)) continue;
-    for (const f of frames) {
-      if ((f as { in_app?: boolean })?.in_app === true) return true;
-    }
-  }
-  return false;
-}
-
 // Returns "drop" (never send), "sample" (send SAMPLE_KEEP_RATE of them), or
 // null (send as-is).
 function noiseVerdict(event: {
@@ -122,13 +105,7 @@ function noiseVerdict(event: {
 }): "drop" | "sample" | null {
   if (event.event !== "$exception") return null;
   const msg = exceptionMessage(event.properties);
-  // DROP is stack-scoped: only fully suppress a noise-message match when the
-  // error has NO first-party frame (pure external/extension/browser). If our
-  // code IS in the stack, downgrade to SAMPLE so a real bug sharing the message
-  // still surfaces in the trend instead of going dark.
-  if (DROP_EXCEPTIONS.some((n) => msg.includes(n))) {
-    return hasInAppFrame(event.properties) ? "sample" : "drop";
-  }
+  if (DROP_EXCEPTIONS.some((n) => msg.includes(n))) return "drop";
   if (SAMPLE_EXCEPTIONS.some((n) => msg.includes(n))) return "sample";
   return null;
 }
