@@ -36,6 +36,7 @@ import {
   useFetchTokenKeyMutation,
   useToggleTokenStatusMutation,
   useUpdateTokenMutation,
+  useUserGroupsQuery,
 } from "@/hooks/billing/token-hook";
 import { analytics } from "@/lib/analytics";
 import { dollarsToQuota, quotaToDollars } from "@/lib/config/constants";
@@ -48,6 +49,7 @@ import { useEffect, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 import type { TokenRow } from "./token-columns";
+import { TokenGroupSelect } from "./token-group-select";
 import { TokenKeyDisplay } from "./token-key-display";
 import { TokenModelSelect } from "./token-model-select";
 
@@ -75,6 +77,7 @@ export function TokenDialog(props: TokenDialogProps) {
   const fetchKeyMutation = useFetchTokenKeyMutation();
   const isEdit = !!props.token;
   const pricingQuery = usePricingQuery();
+  const userGroupsQuery = useUserGroupsQuery();
   const form = useForm({
     resolver: typeboxResolver(tokenFormSchema),
     defaultValues: Value.Default(tokenFormSchema, {}) as TokenFormSchema,
@@ -96,6 +99,10 @@ export function TokenDialog(props: TokenDialogProps) {
   useEffect(() => {
     if (!props.open) return;
     if (props.token) {
+      const tokenGroups = (props.token.group ?? "")
+        .split(",")
+        .map((g) => g.trim())
+        .filter(Boolean);
       form.reset({
         name: props.token.name || "",
         remain_quota: props.token.remain_quota ?? 0,
@@ -105,6 +112,7 @@ export function TokenDialog(props: TokenDialogProps) {
           ? props.token.model_limits.split(",").filter(Boolean)
           : [],
         allow_ips: props.token.allow_ips ?? "",
+        groups: tokenGroups.length > 0 ? tokenGroups : ["auto"],
       });
     } else {
       form.reset(Value.Default(tokenFormSchema, {}) as TokenFormSchema);
@@ -196,7 +204,7 @@ export function TokenDialog(props: TokenDialogProps) {
         ? data.model_limits.join(",")
         : "",
       allow_ips: data.allow_ips.trim(),
-      group: "auto",
+      group: data.groups.length > 0 ? data.groups.join(",") : "auto",
       cross_group_retry: true,
     };
 
@@ -205,6 +213,8 @@ export function TokenDialog(props: TokenDialogProps) {
       unlimited_quota: payload.unlimited_quota,
       model_limits_enabled: payload.model_limits_enabled,
       model_count: data.model_limits_enabled ? data.model_limits.length : 0,
+      group_pinned: !data.groups.includes("auto"),
+      group_count: data.groups.filter((g) => g !== "auto").length,
     };
 
     if (isEdit) {
@@ -287,6 +297,10 @@ export function TokenDialog(props: TokenDialogProps) {
   const selectedModels = useWatch({
     control: form.control,
     name: "model_limits",
+  });
+  const selectedGroups = useWatch({
+    control: form.control,
+    name: "groups",
   });
 
   return (
@@ -443,6 +457,31 @@ export function TokenDialog(props: TokenDialogProps) {
                       </div>
                     </>
                   )}
+                </div>
+              </div>
+
+              <Separator />
+
+              <div>
+                <div className="mb-3 flex items-center gap-2">
+                  <Icon
+                    name="layers"
+                    className="text-muted-foreground h-4 w-4"
+                  />
+                  <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
+                    {t("TOKEN.FORM.GROUP")}
+                  </span>
+                </div>
+
+                <div className="flex flex-col gap-2">
+                  <TokenGroupSelect
+                    control={form.control}
+                    selectedGroups={selectedGroups}
+                    groups={userGroupsQuery.data ?? {}}
+                  />
+                  <p className="text-muted-foreground text-[11px]">
+                    {t("TOKEN.FORM.GROUP_AUTO_HINT")}
+                  </p>
                 </div>
               </div>
 

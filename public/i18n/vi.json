@@ -3083,7 +3083,10 @@
       "SAVE": "Lưu",
       "QUOTA_EQUIVALENT": "= {quota} hạn mức",
       "QUOTA_POSITIVE": "Hạn mức token phải lớn hơn 0. Bật hạn mức không giới hạn để tạo khóa cho các mô hình miễn phí.",
-      "QUOTA_ZERO_HINT": "Hạn mức 0 sẽ không hoạt động. Các mô hình miễn phí (kết thúc bằng :free) hoạt động với bất kỳ khóa hợp lệ nào."
+      "QUOTA_ZERO_HINT": "Hạn mức 0 sẽ không hoạt động. Các mô hình miễn phí (kết thúc bằng :free) hoạt động với bất kỳ khóa hợp lệ nào.",
+      "GROUP": "Nhóm tính phí",
+      "GROUP_AUTO_HINT": "Auto định tuyến đến nhóm khả dụng rẻ nhất. Ghim một hoặc nhiều nhóm để khóa mức tính phí của khóa này theo biểu giá của chúng.",
+      "GROUP_EMPTY": "Không tìm thấy nhóm nào."
     },
     "ENUM": {
       "ENABLED": "Đã bật",

@@ -3083,7 +3083,10 @@
       "SAVE": "Save",
       "QUOTA_EQUIVALENT": "= {quota} quota",
       "QUOTA_POSITIVE": "Token quota must be greater than 0. Enable unlimited quota for a free-models key.",
-      "QUOTA_ZERO_HINT": "A quota of 0 won't work. Free models (ending in :free) work on any valid key."
+      "QUOTA_ZERO_HINT": "A quota of 0 won't work. Free models (ending in :free) work on any valid key.",
+      "GROUP": "Billing group",
+      "GROUP_AUTO_HINT": "Auto routes to the cheapest available group. Pin one or more groups to lock this key's billing to their rates.",
+      "GROUP_EMPTY": "No groups found."
     },
     "ENUM": {
       "ENABLED": "Enabled",

@@ -45,6 +45,15 @@ export function useTokensQuery(query?: EdenQuery<TokenRoute["search"]>) {
   );
 }
 
+export function useUserGroupsQuery() {
+  const authQuery = useAuthQuery();
+  return useElysiaQuery(
+    queryKeys.userGroups(),
+    () => rpc.api.billing.token.groups.get(),
+    { enabled: !!authQuery.data },
+  );
+}
+
 export function useCreateTokenMutation() {
   const queryKey = useTokenTableQueryKey();
   return useApiMutation({

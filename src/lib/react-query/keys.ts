@@ -15,6 +15,7 @@ export const queryKeys = {
   tokens: (params?: EdenQuery<typeof rpc.api.billing.token.search>) =>
     ["tokens", params] as const,
   bestKey: () => ["best-key"] as const,
+  userGroups: () => ["user-groups"] as const,
 
   topUpInfo: () => ["topup-info"] as const,
   subscriptionSelf: () => ["subscription-self"] as const,

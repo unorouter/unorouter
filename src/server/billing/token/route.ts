@@ -8,6 +8,7 @@ import {
   addToken,
   deleteToken,
   getTokenKey,
+  getUserGroups,
   searchTokens,
   updateToken,
 } from "@/openapi";
@@ -72,6 +73,11 @@ export const tokenRoute = new Elysia({ prefix: "/token" })
   .get("/best-key", async ({ upstream }) => {
     const key = await resolveBestKey(upstream.headers);
     return { key };
+  })
+
+  .get("/groups", async ({ upstream }) => {
+    const res = await getUserGroups({ headers: upstream.headers });
+    return unwrap(res);
   })
 
   .delete("/:id", async ({ params, upstream }) => {

@@ -239,6 +239,8 @@ const tokens = {
     unlimited_quota: boolean;
     model_limits_enabled: boolean;
     model_count: number;
+    group_pinned: boolean;
+    group_count: number;
   }) => {
     posthog.capture("token_created", props);
   },
@@ -250,6 +252,8 @@ const tokens = {
     unlimited_quota: boolean;
     model_limits_enabled: boolean;
     model_count: number;
+    group_pinned: boolean;
+    group_count: number;
   }) => {
     posthog.capture("token_updated", props);
   },

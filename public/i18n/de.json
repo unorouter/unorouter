@@ -3083,7 +3083,10 @@
       "SAVE": "Speichern",
       "QUOTA_EQUIVALENT": "= {quota} Kontingent",
       "QUOTA_POSITIVE": "Das Token-Guthaben muss größer als 0 sein. Aktiviere unbegrenztes Guthaben für einen Schlüssel mit freien Modellen.",
-      "QUOTA_ZERO_HINT": "Ein Guthaben von 0 funktioniert nicht. Freie Modelle (Endung :free) sind mit jedem gültigen Schlüssel nutzbar."
+      "QUOTA_ZERO_HINT": "Ein Guthaben von 0 funktioniert nicht. Freie Modelle (Endung :free) sind mit jedem gültigen Schlüssel nutzbar.",
+      "GROUP": "Abrechnungsgruppe",
+      "GROUP_AUTO_HINT": "Auto leitet zur günstigsten verfügbaren Gruppe. Hefte eine oder mehrere Gruppen an, um die Abrechnung dieses Schlüssels auf deren Tarife festzulegen.",
+      "GROUP_EMPTY": "Keine Gruppen gefunden."
     },
     "ENUM": {
       "ENABLED": "Aktiviert",

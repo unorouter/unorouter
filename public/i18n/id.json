@@ -3083,7 +3083,10 @@
       "SAVE": "Simpan",
       "QUOTA_EQUIVALENT": "= {quota} kuota",
       "QUOTA_POSITIVE": "Kuota token harus lebih dari 0. Aktifkan kuota tak terbatas untuk kunci model gratis.",
-      "QUOTA_ZERO_HINT": "Kuota 0 tidak akan berfungsi. Model gratis (berakhiran :free) berfungsi dengan kunci valid apa pun."
+      "QUOTA_ZERO_HINT": "Kuota 0 tidak akan berfungsi. Model gratis (berakhiran :free) berfungsi dengan kunci valid apa pun.",
+      "GROUP": "Grup penagihan",
+      "GROUP_AUTO_HINT": "Auto mengarahkan ke grup termurah yang tersedia. Sematkan satu atau beberapa grup untuk mengunci penagihan kunci ini pada tarif mereka.",
+      "GROUP_EMPTY": "Tidak ada grup ditemukan."
     },
     "ENUM": {
       "ENABLED": "Aktif",

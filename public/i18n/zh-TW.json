@@ -3083,7 +3083,10 @@
       "SAVE": "儲存",
       "QUOTA_EQUIVALENT": "= {quota} 配額",
       "QUOTA_POSITIVE": "權杖額度必須大於 0。如需僅免費模型的金鑰，請啟用無限額度。",
-      "QUOTA_ZERO_HINT": "額度為 0 將無法使用。免費模型（以 :free 結尾）可用於任何有效金鑰。"
+      "QUOTA_ZERO_HINT": "額度為 0 將無法使用。免費模型（以 :free 結尾）可用於任何有效金鑰。",
+      "GROUP": "計費分組",
+      "GROUP_AUTO_HINT": "Auto 會路由到目前可用的最便宜分組。固定一個或多個分組後，此金鑰將僅按所選分組的費率計費。",
+      "GROUP_EMPTY": "未找到分組。"
     },
     "ENUM": {
       "ENABLED": "已啟用",

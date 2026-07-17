@@ -3083,7 +3083,10 @@
       "SAVE": "Salvar",
       "QUOTA_EQUIVALENT": "= {quota} de cota",
       "QUOTA_POSITIVE": "A cota do token deve ser maior que 0. Ative a cota ilimitada para uma chave de modelos gratuitos.",
-      "QUOTA_ZERO_HINT": "Uma cota de 0 não funciona. Modelos gratuitos (terminados em :free) funcionam com qualquer chave válida."
+      "QUOTA_ZERO_HINT": "Uma cota de 0 não funciona. Modelos gratuitos (terminados em :free) funcionam com qualquer chave válida.",
+      "GROUP": "Grupo de cobrança",
+      "GROUP_AUTO_HINT": "Auto roteia para o grupo disponível mais barato. Fixe um ou mais grupos para limitar a cobrança desta chave às tarifas deles.",
+      "GROUP_EMPTY": "Nenhum grupo encontrado."
     },
     "ENUM": {
       "ENABLED": "Ativada",
