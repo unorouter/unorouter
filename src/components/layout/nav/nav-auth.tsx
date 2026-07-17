@@ -1,6 +1,5 @@
 import { LoginLink } from "@/components/elements/brand/login-link";
 import { Icon } from "@/components/ui/icon";
-import { UserAvatar } from "@/components/layout/user/user-avatar";
 import { UserDropdown } from "@/components/layout/user/user-dropdown";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
@@ -45,7 +44,15 @@ export async function NavAuth() {
           trigger against the streamed static button. */}
       <UserDropdown side="bottom" align="end" triggerId="nav-user-trigger">
         <button className="cursor-pointer focus:outline-none">
-          <UserAvatar />
+          {/* Deliberately NOT <UserAvatar />: its auth-query gate breaks
+              hydration inside this streamed hole. A shell component
+              (LocalUserIdSync) creates the auth query as pending before this
+              boundary renders, and TanStack HydrationBoundary defers EXISTING
+              queries to useEffect - which never runs during SSR - so the
+              server renders the null branch while the client, whose boundary
+              can hydrate first, renders the icon (React #418). This RSC only
+              reaches here when logged in, so render the icon directly. */}
+          <Icon name="user" className="size-4 shrink-0" />
         </button>
       </UserDropdown>
     </HydrationBoundary>
