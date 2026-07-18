@@ -53,9 +53,12 @@ export async function sha256Hex(value: string): Promise<string> {
     .join("");
 }
 
+// getRegistration, NOT .ready: with no service worker registered (dev server)
+// .ready never resolves and would hang every caller forever.
 export async function getPushSubscription(): Promise<PushSubscription | null> {
   if (!pushSupported()) return null;
-  const reg = await navigator.serviceWorker.ready;
+  const reg = await navigator.serviceWorker.getRegistration();
+  if (!reg) return null;
   return reg.pushManager.getSubscription();
 }
 
@@ -78,7 +81,8 @@ export async function subscribePush(): Promise<PushSubscription | null> {
   }
   const key = await fetchVapidKey();
   if (!key) return null;
-  const reg = await navigator.serviceWorker.ready;
+  const reg = await navigator.serviceWorker.getRegistration();
+  if (!reg) return null;
   const existing = await reg.pushManager.getSubscription();
   if (existing) return existing;
   return reg.pushManager.subscribe({
