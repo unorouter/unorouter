@@ -69,7 +69,7 @@ function FreeBadge(props: { label: string; shrink?: boolean }) {
   );
 }
 
-function TypeFilterBadges(props: {
+export function TypeFilterBadges(props: {
   tags: string[];
   typeFilter: string | null;
   onFilterChange: (tag: string | null) => void;

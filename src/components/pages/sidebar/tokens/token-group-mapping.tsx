@@ -16,8 +16,11 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
+import { TypeFilterBadges } from "@/components/elements/model/model-selector";
+import { groupDisplayLabel } from "@/lib/api/pricing";
 import { cn } from "@/lib/utils";
 import type { UserGroupInfo } from "@/openapi";
+import { CheckIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import type { Control } from "react-hook-form";
@@ -34,6 +37,8 @@ type PricingModelLite = {
   name: string;
   vendor: string;
   isFree: boolean;
+  tag: string;
+  releaseTs: number;
 };
 
 type TokenGroupMappingProps = {
@@ -91,7 +96,7 @@ function CheckBox(props: { checked: boolean }) {
           : "opacity-50 [&_svg]:invisible",
       )}
     >
-      <Icon name="check" className="h-4 w-4" />
+      <CheckIcon className="h-4 w-4" />
     </div>
   );
 }
@@ -172,8 +177,14 @@ function ModelGroupPopover(props: {
                   className="[&>svg]:hidden"
                 >
                   <CheckBox checked={props.selected.includes(option.group)} />
-                  <span className="truncate font-mono text-xs">
-                    {option.provider}
+                  <span
+                    className="truncate font-mono text-xs"
+                    title={option.group}
+                  >
+                    {groupDisplayLabel(
+                      option.group,
+                      props.model.replace(/:/g, "-"),
+                    )}
                   </span>
                   <span className="text-muted-foreground ml-auto shrink-0 pl-2 font-mono text-[11px]">
                     {ratioLabel(option.ratio)}
@@ -191,6 +202,7 @@ function ModelGroupPopover(props: {
 export function TokenGroupMapping(props: TokenGroupMappingProps) {
   const t = useTranslations();
   const [search, setSearch] = useState("");
+  const [typeFilter, setTypeFilter] = useState<string | null>(null);
   const [openModel, setOpenModel] = useState<string | null>(null);
 
   const modelGroups = buildModelGroupOptions(props.groups);
@@ -198,15 +210,28 @@ export function TokenGroupMapping(props: TokenGroupMappingProps) {
 
   const overriddenCount = Object.keys(props.mapping).length;
 
+  const overridableModels = props.models.filter((m) => modelGroups.has(m.name));
+  const TAG_ORDER = ["Text", "Image", "Video"];
+  const tags = [...new Set(overridableModels.map((m) => m.tag))].sort(
+    (a, b) => {
+      const ra = TAG_ORDER.indexOf(a);
+      const rb = TAG_ORDER.indexOf(b);
+      return (
+        (ra === -1 ? TAG_ORDER.length : ra) -
+          (rb === -1 ? TAG_ORDER.length : rb) || a.localeCompare(b)
+      );
+    },
+  );
+
   // Only models with at least one pinnable group are overridable.
-  const visibleModels = props.models
-    .filter((m) => modelGroups.has(m.name))
+  const visibleModels = overridableModels
+    .filter((m) => !typeFilter || m.tag === typeFilter)
     .filter((m) => !query || m.name.toLowerCase().includes(query))
     .sort((a, b) => {
       const aOv = !!props.mapping[a.name];
       const bOv = !!props.mapping[b.name];
       if (aOv !== bOv) return aOv ? -1 : 1;
-      return a.name.localeCompare(b.name);
+      return b.releaseTs - a.releaseTs;
     })
     .slice(0, MAX_VISIBLE_MODELS);
 
@@ -265,6 +290,13 @@ export function TokenGroupMapping(props: TokenGroupMappingProps) {
                     value={search}
                     onValueChange={setSearch}
                   />
+                  {tags.length > 1 && (
+                    <TypeFilterBadges
+                      tags={tags}
+                      typeFilter={typeFilter}
+                      onFilterChange={setTypeFilter}
+                    />
+                  )}
                   {overriddenCount > 0 && (
                     <div className="text-muted-foreground flex items-center justify-between border-b px-3 py-1.5 text-[11px]">
                       <span>

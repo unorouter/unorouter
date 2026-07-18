@@ -492,6 +492,13 @@ export function TokenDialog(props: TokenDialogProps) {
                       name: m.name,
                       vendor: m.vendor.name,
                       isFree: !!m.isFree,
+                      tag: m.tags?.[0] ?? "Other",
+                      releaseTs: (() => {
+                        const iso = m.metadata?.releaseDate;
+                        const ms = iso ? Date.parse(iso) : NaN;
+                        if (Number.isFinite(ms)) return ms;
+                        return m.createdTime ? m.createdTime * 1000 : 0;
+                      })(),
                     }))}
                   />
                   <p className="text-muted-foreground text-[11px]">
