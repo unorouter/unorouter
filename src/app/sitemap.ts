@@ -47,15 +47,10 @@ function localizedEntries(
     lastModified ?? process.env.NEXT_PUBLIC_BUILD_DATE,
   ).toDate();
 
-  const languages: Record<string, string> = Object.fromEntries(
-    routing.locales.map((cur) => [
-      cur,
-      `${env.siteOrigin}${getPathname({ locale: cur, href })}`,
-    ]),
-  );
-  languages["x-default"] =
-    `${env.siteOrigin}${getPathname({ locale: routing.defaultLocale, href })}`;
-
+  // No per-URL hreflang alternates here: every page already declares the full
+  // set in its HTML head, and duplicating them for 18 locales pushed the
+  // single sitemap file past Google's 50MB hard limit (53MB, ~416k
+  // xhtml:link entries), so Google stopped reading it fully.
   return routing.locales.map((locale) => ({
     url: `${env.siteOrigin}${getPathname({ locale, href })}`,
     lastModified: resolved,
@@ -63,7 +58,6 @@ function localizedEntries(
     ...(options.changeFrequency && {
       changeFrequency: options.changeFrequency,
     }),
-    alternates: { languages },
   }));
 }
 
