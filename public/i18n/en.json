@@ -5482,6 +5482,7 @@
     "WATCHED_MODELS": "Watched models",
     "PUSH_ON": "Browser notifications on",
     "PUSH_ENABLE": "Enable browser notifications",
-    "PUSH_BLOCKED": "Notifications blocked in browser settings"
+    "PUSH_BLOCKED": "Notifications blocked in browser settings",
+    "ADD_MODEL_PLACEHOLDER": "Add a model to watch..."
   }
 }

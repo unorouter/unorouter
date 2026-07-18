@@ -5482,6 +5482,7 @@
     "WATCHED_MODELS": "관심 모델",
     "PUSH_ON": "브라우저 알림 켜짐",
     "PUSH_ENABLE": "브라우저 알림 켜기",
-    "PUSH_BLOCKED": "브라우저 설정에서 알림이 차단되었습니다"
+    "PUSH_BLOCKED": "브라우저 설정에서 알림이 차단되었습니다",
+    "ADD_MODEL_PLACEHOLDER": "관심 모델 추가..."
   }
 }

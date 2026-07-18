@@ -46,6 +46,7 @@ export function NotifyBell() {
   const [permission, setPermission] = useState<NotificationPermission | null>(
     null,
   );
+  const [query, setQuery] = useState("");
 
   const vendorOf = (model: string) =>
     pricingQuery.data?.models.find((m) => m.name === model)?.vendor.name;
@@ -56,6 +57,22 @@ export function NotifyBell() {
 
   const unwatch = (model: string) => {
     setTopics(topics.filter((topic) => topic !== modelTopic(model)));
+  };
+
+  const trimmed = query.trim().toLowerCase();
+  const suggestions = trimmed
+    ? (pricingQuery.data?.models ?? [])
+        .filter(
+          (m) =>
+            m.name.toLowerCase().includes(trimmed) &&
+            !topics.includes(modelTopic(m.name)),
+        )
+        .slice(0, 6)
+    : [];
+
+  const addWatch = (model: string) => {
+    setTopics([...topics, modelTopic(model)]);
+    setQuery("");
   };
 
   const onOpenChange = (next: boolean) => {
@@ -107,11 +124,35 @@ export function NotifyBell() {
             {t("NOTIFY.WATCHING_COUNT", { count: topics.length })}
           </span>
         </div>
-        {watchedModels.length > 0 && (
-          <div className="border-border border-b px-3 py-2">
-            <p className="text-muted-foreground/70 mb-1.5 text-[10px] font-bold tracking-wider uppercase">
-              {t("NOTIFY.WATCHED_MODELS")}
-            </p>
+        <div className="border-border border-b px-3 py-2">
+          <p className="text-muted-foreground/70 mb-1.5 text-[10px] font-bold tracking-wider uppercase">
+            {t("NOTIFY.WATCHED_MODELS")}
+          </p>
+          <div className="relative">
+            <input
+              type="text"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder={t("NOTIFY.ADD_MODEL_PLACEHOLDER")}
+              className="border-border/60 bg-muted/30 placeholder:text-muted-foreground/60 focus:border-primary/50 mb-1 w-full rounded border px-2 py-1 font-mono text-xs outline-none"
+            />
+            {suggestions.length > 0 && (
+              <div className="border-border bg-popover absolute top-full right-0 left-0 z-10 rounded border shadow-md">
+                {suggestions.map((m) => (
+                  <button
+                    key={m.name}
+                    type="button"
+                    className="hover:bg-muted/50 flex w-full items-center gap-1.5 px-2 py-1.5 text-left"
+                    onClick={() => addWatch(m.name)}
+                  >
+                    <VendorIcon vendor={m.vendor.name} size={14} />
+                    <span className="truncate font-mono text-xs">{m.name}</span>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+          {watchedModels.length > 0 && (
             <div className="flex max-h-28 flex-col gap-0.5 overflow-y-auto">
               {watchedModels.map((model) => {
                 const vendor = vendorOf(model);
@@ -144,8 +185,8 @@ export function NotifyBell() {
                 );
               })}
             </div>
-          </div>
-        )}
+          )}
+        </div>
         <div className="max-h-80 overflow-y-auto">
           {notifications.length === 0 ? (
             <div className="px-3 py-6 text-center">

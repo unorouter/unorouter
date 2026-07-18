@@ -5482,6 +5482,7 @@
     "WATCHED_MODELS": "Obserwowane modele",
     "PUSH_ON": "Powiadomienia przeglądarki włączone",
     "PUSH_ENABLE": "Włącz powiadomienia przeglądarki",
-    "PUSH_BLOCKED": "Powiadomienia zablokowane w ustawieniach przeglądarki"
+    "PUSH_BLOCKED": "Powiadomienia zablokowane w ustawieniach przeglądarki",
+    "ADD_MODEL_PLACEHOLDER": "Dodaj model do obserwowania..."
   }
 }

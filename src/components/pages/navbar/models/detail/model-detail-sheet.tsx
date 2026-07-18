@@ -25,6 +25,7 @@ import {
   GridPricingRow,
   ProcessedModel,
 } from "@/lib/api/pricing";
+import { useModelWatch } from "@/hooks/models/notify-hook";
 import { useModelDetailQuery } from "@/hooks/models/pricing-hook";
 import { FixedPriceUnit } from "./shared/fixed-price-unit";
 import { SectionHeading } from "./shared/section-heading";
@@ -53,6 +54,23 @@ type ModelDetailSheetProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 };
+
+function WatchButton(props: { modelName: string }) {
+  const t = useTranslations();
+  const watch = useModelWatch(props.modelName);
+
+  return (
+    <Button
+      size="sm"
+      variant="outline"
+      className={cn("flex-1", watch.watched && "border-primary/40 text-primary")}
+      onClick={() => watch.toggle()}
+    >
+      <Icon name="bell" className="mr-2 h-3.5 w-3.5" />
+      {watch.watched ? t("NOTIFY.UNWATCH") : t("NOTIFY.WATCH")}
+    </Button>
+  );
+}
 
 export function ModelDetailSheet(props: ModelDetailSheetProps) {
   const t = useTranslations();
@@ -113,6 +131,7 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
               <Icon name="message-circle" className="mr-2 h-3.5 w-3.5" />
               {t("MODELS.OPEN_IN_CHAT")}
             </Button>
+            <WatchButton modelName={model.name} />
           </div>
         </SheetHeader>
 

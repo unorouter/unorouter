@@ -5482,6 +5482,7 @@
     "WATCHED_MODELS": "Modèles suivis",
     "PUSH_ON": "Notifications du navigateur activées",
     "PUSH_ENABLE": "Activer les notifications du navigateur",
-    "PUSH_BLOCKED": "Notifications bloquées dans les réglages du navigateur"
+    "PUSH_BLOCKED": "Notifications bloquées dans les réglages du navigateur",
+    "ADD_MODEL_PLACEHOLDER": "Ajouter un modèle à suivre..."
   }
 }

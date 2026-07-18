@@ -5482,6 +5482,7 @@
     "WATCHED_MODELS": "Model yang dipantau",
     "PUSH_ON": "Notifikasi browser aktif",
     "PUSH_ENABLE": "Aktifkan notifikasi browser",
-    "PUSH_BLOCKED": "Notifikasi diblokir di pengaturan browser"
+    "PUSH_BLOCKED": "Notifikasi diblokir di pengaturan browser",
+    "ADD_MODEL_PLACEHOLDER": "Tambahkan model untuk dipantau..."
   }
 }

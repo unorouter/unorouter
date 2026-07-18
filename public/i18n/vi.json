@@ -5482,6 +5482,7 @@
     "WATCHED_MODELS": "Mô hình đang theo dõi",
     "PUSH_ON": "Thông báo trình duyệt đang bật",
     "PUSH_ENABLE": "Bật thông báo trình duyệt",
-    "PUSH_BLOCKED": "Thông báo bị chặn trong cài đặt trình duyệt"
+    "PUSH_BLOCKED": "Thông báo bị chặn trong cài đặt trình duyệt",
+    "ADD_MODEL_PLACEHOLDER": "Thêm mô hình để theo dõi..."
   }
 }

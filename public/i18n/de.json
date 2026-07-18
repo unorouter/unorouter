@@ -5482,6 +5482,7 @@
     "WATCHED_MODELS": "Beobachtete Modelle",
     "PUSH_ON": "Browser-Benachrichtigungen aktiv",
     "PUSH_ENABLE": "Browser-Benachrichtigungen aktivieren",
-    "PUSH_BLOCKED": "Benachrichtigungen in den Browser-Einstellungen blockiert"
+    "PUSH_BLOCKED": "Benachrichtigungen in den Browser-Einstellungen blockiert",
+    "ADD_MODEL_PLACEHOLDER": "Modell zum Beobachten hinzufügen..."
   }
 }

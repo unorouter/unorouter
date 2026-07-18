@@ -5482,6 +5482,7 @@
     "WATCHED_MODELS": "已關注的模型",
     "PUSH_ON": "瀏覽器通知已開啟",
     "PUSH_ENABLE": "開啟瀏覽器通知",
-    "PUSH_BLOCKED": "通知已在瀏覽器設定中被封鎖"
+    "PUSH_BLOCKED": "通知已在瀏覽器設定中被封鎖",
+    "ADD_MODEL_PLACEHOLDER": "新增要關注的模型..."
   }
 }
