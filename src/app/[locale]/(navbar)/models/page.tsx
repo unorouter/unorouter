@@ -1,14 +1,14 @@
-import { ModelsPage } from "@/components/pages/navbar/models/models-page";
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
-import { APP_VALUES } from "@/lib/config/constants";
+import { ModelsPage } from "@/components/pages/navbar/models/models-page";
+import { Link, localeUrl } from "@/i18n/navigation";
 import { emptyPageData, getModelsPageData } from "@/lib/api/cached";
+import { APP_VALUES } from "@/lib/config/constants";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
 import {
   buildBreadcrumbListSchema,
   buildCollectionPageSchema,
 } from "@/lib/seo/structured-data";
-import { Link, localeUrl } from "@/i18n/navigation";
 import { modelSlug, vendorSlug } from "@/lib/utils/base";
 import { serverLocale } from "@/lib/utils/server";
 import { HydrationBoundary } from "@tanstack/react-query";
@@ -69,12 +69,7 @@ export default async function Page(props: {
       <HydrationBoundary state={data.dehydrated}>
         <ModelsPage />
       </HydrationBoundary>
-      {/* Server-rendered vendor directory: the models table above is fully
-          client-rendered, so without this block the page exposes ZERO
-          crawlable links into the ~20k model/vendor pages - Google knew them
-          only from the sitemap (17k stuck in Discovered - currently not
-          indexed). Vendor pages link every one of their models, so this one
-          hop makes the whole model graph reachable. */}
+
       {data.vendorNames.length > 0 && (
         <section className="border-border/50 border-t px-4 py-8 md:px-6">
           <div className="mx-auto w-full max-w-360">

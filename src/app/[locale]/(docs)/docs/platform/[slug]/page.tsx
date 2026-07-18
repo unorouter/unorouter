@@ -1,4 +1,5 @@
 import { AccountAndBillingContent } from "@/components/pages/docs/platform/content/account-and-billing-content";
+import { DiscordRewardsContent } from "@/components/pages/docs/platform/content/discord-rewards-content";
 import { ErrorsAndRateLimitsContent } from "@/components/pages/docs/platform/content/errors-and-rate-limits-content";
 import { ModelsAndPricingContent } from "@/components/pages/docs/platform/content/models-and-pricing-content";
 import { QuickstartContent } from "@/components/pages/docs/platform/content/quickstart-content";
@@ -53,6 +54,7 @@ const CONTENT: Record<string, React.ComponentType> = {
   "models-and-pricing": ModelsAndPricingContent,
   "errors-and-rate-limits": ErrorsAndRateLimitsContent,
   "account-and-billing": AccountAndBillingContent,
+  "discord-rewards": DiscordRewardsContent,
 };
 
 export default async function PlatformDocPage(props: PageProps) {

@@ -104,6 +104,22 @@ export const PLATFORM_DOCS: PlatformDoc[] = [
       ["logs", "H_LOGS"],
     ],
   }),
+  platformDoc({
+    slug: "discord-rewards",
+    name: "DISCORD_REWARDS",
+    section: "FAQ",
+    iconName: "gift",
+    headings: [
+      ["overview", "H_OVERVIEW"],
+      ["link", "H_LINK"],
+      ["rewards", "H_REWARDS"],
+      ["recurring", "H_RECURRING"],
+      ["levels", "H_LEVELS"],
+      ["bounty", "H_BOUNTY"],
+      ["notifications", "H_NOTIFICATIONS"],
+      ["rules", "H_RULES"],
+    ],
+  }),
 ];
 
 export const PLATFORM_DOC_SECTION_ORDER: PlatformDocSection[] = [

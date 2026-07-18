@@ -70,11 +70,15 @@ const CHAT_DOC_ENTRIES = CHAT_DOCS.map((doc): DocEntry => ({
   changeFrequency: "weekly",
 }));
 
+const PLATFORM_DOC_DATES: Record<string, string> = {
+  "discord-rewards": "2026-07-18",
+};
+
 const PLATFORM_DOC_ENTRIES = PLATFORM_DOCS.map((doc): DocEntry => ({
   slug: `docs/platform/${doc.slug}`,
   path: doc.href as Pathname,
   i18nPrefix: doc.i18nPrefix as DocEntry["i18nPrefix"],
-  date: CHAT_PLATFORM_DOCS_DATE,
+  date: PLATFORM_DOC_DATES[doc.slug] ?? CHAT_PLATFORM_DOCS_DATE,
   priority: 0.7,
   changeFrequency: "weekly",
 }));
