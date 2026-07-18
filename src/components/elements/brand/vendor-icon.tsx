@@ -7,6 +7,9 @@ import {
   type IconLoader,
 } from "@/lib/config/vendor-registry";
 import dynamic from "next/dynamic";
+import { useSyncExternalStore } from "react";
+
+const noopSubscribe = () => () => {};
 
 const LOADERS: Record<string, IconLoader> = {
   ...VENDOR_LOADERS,
@@ -40,8 +43,18 @@ type VendorIconProps = {
 
 export function VendorIcon(props: VendorIconProps) {
   const size = props.size ?? 20;
+  // The lazy icon only renders after mount: dynamic() is called at runtime
+  // (no preload manifest entry), so during SSR the server inlines the svg but
+  // the client suspends into the loading fallback mid-hydration - an
+  // element-type mismatch (React #418). Pre-mount both sides render the
+  // deterministic letter fallback instead.
+  const mounted = useSyncExternalStore(
+    noopSubscribe,
+    () => true,
+    () => false,
+  );
   // eslint-disable-next-line react-hooks/static-components -- icon component is cached in module-scope cache keyed by vendor, referentially stable across renders
-  const Icon = getIcon(props.vendor);
+  const Icon = mounted ? getIcon(props.vendor) : null;
 
   if (!Icon) {
     return (

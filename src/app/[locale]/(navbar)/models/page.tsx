@@ -1,4 +1,5 @@
 import { ModelsPage } from "@/components/pages/navbar/models/models-page";
+import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { APP_VALUES } from "@/lib/config/constants";
 import { emptyPageData, getModelsPageData } from "@/lib/api/cached";
 import { JsonLd } from "@/lib/seo/json-ld";
@@ -89,8 +90,9 @@ export default async function Page(props: {
                       pathname: "/models/[...slug]",
                       params: { slug: [vendorSlug(vendor)] },
                     }}
-                    className="text-muted-foreground hover:text-foreground hover:border-foreground/30 inline-block rounded-md border px-2 py-1 text-xs transition-colors"
+                    className="text-muted-foreground hover:text-foreground hover:border-foreground/30 inline-flex items-center gap-1.5 rounded-md border px-2 py-1 text-xs transition-colors"
                   >
+                    <VendorIcon vendor={vendor} size={14} />
                     {vendor}
                   </Link>
                 </li>

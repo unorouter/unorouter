@@ -25,7 +25,12 @@ export function VendorModelsPage(props: { vendor: string }) {
   return (
     <div className="mx-auto w-full max-w-6xl px-4 pt-20 pb-16 md:px-6">
       <div className="mb-6 flex items-center gap-3">
-        <Button variant="ghost" size="icon" render={<Link href="/models" />}>
+        <Button
+          variant="ghost"
+          size="icon"
+          nativeButton={false}
+          render={<Link href="/models" />}
+        >
           <Icon name="arrow-left" className="h-5 w-5" />
         </Button>
         <VendorIcon vendor={props.vendor} size={32} />
