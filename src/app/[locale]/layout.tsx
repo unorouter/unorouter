@@ -15,7 +15,7 @@ import {
   USER_THEME_KEY,
 } from "@/components/ui/theme/theme-store";
 import { routing } from "@/i18n/routing";
-import { APP_VALUES } from "@/lib/config/constants";
+import { APP_VALUES, PRERENDER_LOCALES } from "@/lib/config/constants";
 import { getCachedPricing } from "@/lib/api/cached";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
@@ -98,7 +98,7 @@ const DEFAULT_THEME_ATTRS = themeDataAttrs(INITIAL_USER_THEME);
 const DEFAULT_THEME_CSS = buildThemeCss(INITIAL_USER_THEME);
 
 export function generateStaticParams() {
-  return routing.locales.map((locale) => ({ locale }));
+  return PRERENDER_LOCALES.map((locale) => ({ locale }));
 }
 
 export default async function LocaleLayout(props: Props) {

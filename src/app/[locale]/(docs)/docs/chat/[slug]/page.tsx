@@ -19,7 +19,7 @@ import { PromptTemplateContent } from "@/components/pages/docs/chat/content/prom
 import { RegexScriptsContent } from "@/components/pages/docs/chat/content/regex-scripts-content";
 import { TriggersAndLuaContent } from "@/components/pages/docs/chat/content/triggers-and-lua-content";
 import type { Pathname } from "@/i18n/routing";
-import { APP_VALUES, LOCALES } from "@/lib/config/constants";
+import { APP_VALUES, PRERENDER_LOCALES } from "@/lib/config/constants";
 import { DocPageSchema } from "@/lib/seo/json-ld";
 import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
 import type { DocSlug } from "@/lib/types";
@@ -28,7 +28,7 @@ import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 
 export function generateStaticParams() {
-  return LOCALES.flatMap((locale) =>
+  return PRERENDER_LOCALES.flatMap((locale) =>
     CHAT_DOCS.map((doc) => ({ locale, slug: doc.slug })),
   );
 }

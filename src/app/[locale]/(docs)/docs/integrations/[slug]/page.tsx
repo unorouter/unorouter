@@ -6,7 +6,7 @@ import {
   SETUP_GUIDES,
 } from "@/components/pages/docs/setup-guides";
 import type { Pathname } from "@/i18n/routing";
-import { APP_VALUES, LOCALES } from "@/lib/config/constants";
+import { APP_VALUES, PRERENDER_LOCALES } from "@/lib/config/constants";
 import type { TranslationKey } from "@/lib/config/constants";
 import { DocPageSchema, JsonLd } from "@/lib/seo/json-ld";
 import { buildHowToSchema } from "@/lib/seo/structured-data";
@@ -18,7 +18,7 @@ import { notFound } from "next/navigation";
 import type { SetupGuide } from "@/components/pages/docs/setup-guides";
 
 export function generateStaticParams() {
-  return LOCALES.flatMap((locale) =>
+  return PRERENDER_LOCALES.flatMap((locale) =>
     SETUP_GUIDES.map((g) => ({ locale, slug: g.slug })),
   );
 }

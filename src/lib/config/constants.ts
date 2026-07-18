@@ -91,6 +91,14 @@ export const LOCALES = [
   "zh-TW",
 ] as const;
 
+// Deploy builds prerender only the default locale (full 18-locale SSG cost
+// ~3min per build); other locales render on demand via ISR. Set
+// PRERENDER_ALL_LOCALES=1 to prerender everything.
+export const PRERENDER_LOCALES: readonly (typeof LOCALES)[number][] = process
+  .env.PRERENDER_ALL_LOCALES
+  ? LOCALES
+  : [LOCALES[0]];
+
 export const NATIVE_VERSION = `${env.appName.toLowerCase()}.1.0` as const;
 export const ORPG_EXTENSION_KEY = `_${env.appName.toLowerCase()}_extension`;
 export const ORPG_VERSION = "orpg.3.0";

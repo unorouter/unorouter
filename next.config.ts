@@ -25,6 +25,9 @@ const corpCrossOrigin = [
 
 const nextConfig: NextConfig = {
   output: process.env.STANDALONE ? "standalone" : undefined,
+  // Type errors gate the CI checks job (bun typecheck), not the deploy build;
+  // checking types inside next build cost ~2.5min per deploy.
+  typescript: { ignoreBuildErrors: true },
   env: {
     // Build-time date (YYYY-MM-DD) for og-image cache busting and the blog
     // publish-date filter: reading the clock during render is

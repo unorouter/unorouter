@@ -5,7 +5,7 @@ import {
   comboTitle,
 } from "@/components/pages/navbar/models/compare/compare-text";
 import { localeUrl } from "@/i18n/navigation";
-import { LOCALES } from "@/lib/config/constants";
+import { PRERENDER_LOCALES } from "@/lib/config/constants";
 import type { ProcessedModel } from "@/lib/api/pricing";
 import { APP_VALUES } from "@/lib/config/constants";
 import {
@@ -22,7 +22,7 @@ import { HydrationBoundary } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
 
 export function generateStaticParams() {
-  return LOCALES.flatMap((locale) =>
+  return PRERENDER_LOCALES.flatMap((locale) =>
     comparePairSlugs().map((slugs) => ({ locale, slugs })),
   );
 }

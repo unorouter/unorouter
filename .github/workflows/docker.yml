@@ -10,6 +10,19 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # Deploy build skips typecheck/lint (next.config.ts ignoreBuildErrors);
+  # this job is the gate for those instead, off the deploy critical path.
+  checks:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        check: [typecheck, lint]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile
+      - run: bun run ${{ matrix.check }}
+
   build:
     runs-on: self-hosted
 
@@ -147,3 +160,21 @@ jobs:
             oven/bun:1-alpine \
             sh -c "mkdir -p /tmp/run && cp /scripts/indexnow.ts /tmp/run/ && cd /tmp/run && bun add indexnow-submitter --no-save && bun indexnow.ts"
         continue-on-error: true
+
+  # Only the default locale prerenders at build (PRERENDER_LOCALES); walk the
+  # sitemap after deploy so the remaining locale pages ISR-render warm instead
+  # of on a visitor's first hit.
+  warm:
+    runs-on: ubuntu-latest
+    needs: build
+    continue-on-error: true
+    steps:
+      - name: Warm ISR cache from sitemap
+        run: |
+          curl -fsS "${{ secrets.NEXT_PUBLIC_URL }}/sitemap.xml" \
+            | grep -oE '<loc>[^<]+</loc>' \
+            | sed -E 's#</?loc>##g' > urls.txt
+          echo "warming $(wc -l < urls.txt) urls"
+          xargs -P 6 -n 1 -a urls.txt -I{} \
+            curl -s -o /dev/null -w '%{http_code} {}\n' --max-time 30 {} \
+            | { grep -v '^200 ' || true; }

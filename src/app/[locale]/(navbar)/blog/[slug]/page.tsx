@@ -5,7 +5,7 @@ import {
   getPost,
   translated,
 } from "@/components/pages/blog/posts";
-import { APP_VALUES, LOCALES } from "@/lib/config/constants";
+import { APP_VALUES, PRERENDER_LOCALES } from "@/lib/config/constants";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
 import {
@@ -20,7 +20,7 @@ import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 
 export function generateStaticParams() {
-  return LOCALES.flatMap((locale) =>
+  return PRERENDER_LOCALES.flatMap((locale) =>
     POSTS.map((p) => ({ locale, slug: p.slug })),
   );
 }
