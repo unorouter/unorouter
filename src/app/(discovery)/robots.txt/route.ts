@@ -16,7 +16,12 @@ function localizedPath(
 }
 
 function buildDisallowList(): string[] {
-  const disallow = new Set<string>(["/api/"]);
+  // /*_rsc=: Next router-prefetch payloads. Googlebot executes the Link
+  // prefetches while rendering and each fetch counts as a crawl - they were
+  // 72% of all crawl requests in Search Console crawl stats, starving HTML
+  // discovery. Page content is fully server-rendered, so blocking them
+  // costs nothing.
+  const disallow = new Set<string>(["/api/", "/*_rsc="]);
   for (const route of privateRoutes.static) {
     for (const locale of routing.locales) {
       const path = localizedPath(route, locale, false);
