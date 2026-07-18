@@ -150,6 +150,71 @@ export function TokenKeyCell(props: CellContext<TokenRow, unknown>) {
   );
 }
 
+export function TokenGroupCell(props: CellContext<TokenRow, unknown>) {
+  const t = useTranslations();
+  const token = props.row.original;
+  const pricingQuery = usePricingQuery();
+  const models = pricingQuery.data?.models ?? [];
+
+  let mapping: Record<string, string[]> = {};
+  const rawMapping = (token as { group_mapping?: string }).group_mapping;
+  if (rawMapping) {
+    try {
+      mapping = JSON.parse(rawMapping);
+    } catch {
+      mapping = {};
+    }
+  }
+  const mappedModels = Object.keys(mapping);
+
+  if (mappedModels.length === 0) {
+    return (
+      <span className="text-muted-foreground font-mono text-xs">
+        {token.group || "-"}
+      </span>
+    );
+  }
+
+  const vendors = new Set<string>();
+  for (const name of mappedModels) {
+    vendors.add(models.find((m) => m.name === name)?.vendor.name ?? "unknown");
+  }
+
+  return (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger className="flex items-center gap-1">
+          <span className="text-muted-foreground font-mono text-xs">
+            {token.group || "auto"}
+          </span>
+          <span className="text-primary font-mono text-xs">
+            +{mappedModels.length}
+          </span>
+          {[...vendors].map((vendor) => (
+            <VendorIcon key={vendor} vendor={vendor} size={16} />
+          ))}
+        </TooltipTrigger>
+        <TooltipContent className="max-w-xs">
+          <ul className="space-y-0.5 text-xs">
+            {mappedModels.slice(0, MODEL_PREVIEW_CAP).map((name) => (
+              <li key={name} className="font-mono">
+                {name}
+              </li>
+            ))}
+          </ul>
+          {mappedModels.length > MODEL_PREVIEW_CAP && (
+            <p className="text-muted-foreground mt-1 text-xs">
+              {t("TOKEN.MODELS_MORE", {
+                count: mappedModels.length - MODEL_PREVIEW_CAP,
+              })}
+            </p>
+          )}
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  );
+}
+
 export function TokenModelsCell(props: CellContext<TokenRow, unknown>) {
   const t = useTranslations();
   const token = props.row.original;
