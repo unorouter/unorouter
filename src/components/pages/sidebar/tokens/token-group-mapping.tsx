@@ -16,7 +16,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
-import { TypeFilterBadges } from "@/components/elements/model/model-selector";
 import { groupDisplayLabel } from "@/lib/api/pricing";
 import { cn } from "@/lib/utils";
 import type { UserGroupInfo } from "@/openapi";
@@ -202,7 +201,7 @@ function ModelGroupPopover(props: {
 export function TokenGroupMapping(props: TokenGroupMappingProps) {
   const t = useTranslations();
   const [search, setSearch] = useState("");
-  const [typeFilter, setTypeFilter] = useState<string | null>(null);
+  const [typeFilter, setTypeFilter] = useState("Text");
   const [openModel, setOpenModel] = useState<string | null>(null);
   // Controlled so opening re-renders and the virtualizer picks up the freshly
   // mounted scroll element (an uncontrolled popover would leave it null).
@@ -226,10 +225,14 @@ export function TokenGroupMapping(props: TokenGroupMappingProps) {
     },
   );
 
-  // Only models with at least one pinnable group are overridable.
+  const activeTag = tags.includes(typeFilter) ? typeFilter : (tags[0] ?? null);
+
+  // Only models with at least one pinnable group are overridable. The search
+  // spans ALL types; the tag tabs only scope the browse view.
   const visibleModels = overridableModels
-    .filter((m) => !typeFilter || m.tag === typeFilter)
-    .filter((m) => !query || m.name.toLowerCase().includes(query))
+    .filter((m) =>
+      query ? m.name.toLowerCase().includes(query) : m.tag === activeTag,
+    )
     .sort((a, b) => {
       const aOv = !!props.mapping[a.name];
       const bOv = !!props.mapping[b.name];
@@ -291,22 +294,26 @@ export function TokenGroupMapping(props: TokenGroupMappingProps) {
                   </FormControl>
                 }
               />
-              <PopoverContent
-                className="w-[--radix-popover-trigger-width] p-0"
-                align="start"
-              >
+              <PopoverContent className="w-(--anchor-width) p-0" align="start">
                 <Command shouldFilter={false}>
                   <CommandInput
                     placeholder={t("TOKEN.FORM.GROUP_MODEL_SEARCH")}
                     value={search}
                     onValueChange={setSearch}
                   />
-                  {tags.length > 1 && (
-                    <TypeFilterBadges
-                      tags={tags}
-                      typeFilter={typeFilter}
-                      onFilterChange={setTypeFilter}
-                    />
+                  {tags.length > 1 && !query && (
+                    <div className="flex gap-1 overflow-x-auto border-b px-2 py-1.5">
+                      {tags.map((tag) => (
+                        <Badge
+                          key={tag}
+                          variant={activeTag === tag ? "default" : "outline"}
+                          className="cursor-pointer text-[10px]"
+                          onClick={() => setTypeFilter(tag)}
+                        >
+                          {tag}
+                        </Badge>
+                      ))}
+                    </div>
                   )}
                   {overriddenCount > 0 && (
                     <div className="text-muted-foreground flex items-center justify-between border-b px-3 py-1.5 text-[11px]">
