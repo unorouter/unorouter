@@ -26,10 +26,10 @@ import { useState } from "react";
 import type { Control } from "react-hook-form";
 import type { TokenFormSchema } from "@/lib/validation/token";
 
-// The usable set holds thousands of per-channel groups; the model list renders
-// capped and search narrows it.
-const MAX_VISIBLE_MODELS = 30;
 const GROUP_SEARCH_THRESHOLD = 8;
+// The usable set holds thousands of per-channel groups; window the model list.
+const MODEL_ROW_PX = 33;
+const LIST_VIEWPORT_PX = 288;
 
 export type GroupMapping = Record<string, string[]>;
 
@@ -204,6 +204,9 @@ export function TokenGroupMapping(props: TokenGroupMappingProps) {
   const [search, setSearch] = useState("");
   const [typeFilter, setTypeFilter] = useState<string | null>(null);
   const [openModel, setOpenModel] = useState<string | null>(null);
+  // Controlled so opening re-renders and the virtualizer picks up the freshly
+  // mounted scroll element (an uncontrolled popover would leave it null).
+  const [pickerOpen, setPickerOpen] = useState(false);
 
   const modelGroups = buildModelGroupOptions(props.groups);
   const query = search.trim().toLowerCase();
@@ -232,8 +235,16 @@ export function TokenGroupMapping(props: TokenGroupMappingProps) {
       const bOv = !!props.mapping[b.name];
       if (aOv !== bOv) return aOv ? -1 : 1;
       return b.releaseTs - a.releaseTs;
-    })
-    .slice(0, MAX_VISIBLE_MODELS);
+    });
+
+  // Hand-rolled windowing: fixed row height, padding divs, slice on scroll.
+  const [scrollTop, setScrollTop] = useState(0);
+  const startIdx = Math.max(0, Math.floor(scrollTop / MODEL_ROW_PX) - 10);
+  const endIdx = Math.min(
+    visibleModels.length,
+    Math.ceil((scrollTop + LIST_VIEWPORT_PX) / MODEL_ROW_PX) + 10,
+  );
+  const windowedModels = visibleModels.slice(startIdx, endIdx);
 
   return (
     <FormField
@@ -249,7 +260,7 @@ export function TokenGroupMapping(props: TokenGroupMappingProps) {
 
         return (
           <FormItem>
-            <Popover>
+            <Popover open={pickerOpen} onOpenChange={setPickerOpen}>
               <PopoverTrigger
                 render={
                   <FormControl>
@@ -313,10 +324,21 @@ export function TokenGroupMapping(props: TokenGroupMappingProps) {
                       </button>
                     </div>
                   )}
-                  <CommandList className="max-h-72">
+                  <CommandList
+                    className="max-h-72"
+                    onScroll={(e) =>
+                      setScrollTop((e.target as HTMLElement).scrollTop)
+                    }
+                  >
                     <CommandEmpty>{t("TOKEN.FORM.GROUP_EMPTY")}</CommandEmpty>
                     <CommandGroup>
-                      {visibleModels.map((model) => {
+                      {startIdx > 0 && (
+                        <div
+                          aria-hidden
+                          style={{ height: startIdx * MODEL_ROW_PX }}
+                        />
+                      )}
+                      {windowedModels.map((model) => {
                         const selected = props.mapping[model.name] ?? [];
                         const options = modelGroups.get(model.name) ?? [];
                         const overridden = selected.length > 0;
@@ -345,7 +367,7 @@ export function TokenGroupMapping(props: TokenGroupMappingProps) {
                                 )
                               }
                               className={cn(
-                                "[&>svg]:hidden",
+                                "h-[33px] [&>svg]:hidden",
                                 overridden && "border-primary border-l-2",
                               )}
                             >
@@ -380,6 +402,15 @@ export function TokenGroupMapping(props: TokenGroupMappingProps) {
                           </ModelGroupPopover>
                         );
                       })}
+                      {endIdx < visibleModels.length && (
+                        <div
+                          aria-hidden
+                          style={{
+                            height:
+                              (visibleModels.length - endIdx) * MODEL_ROW_PX,
+                          }}
+                        />
+                      )}
                     </CommandGroup>
                   </CommandList>
                 </Command>
