@@ -40,6 +40,21 @@ export function NotifyProvider() {
       );
       const text = notifyEventText(t, evt);
       toast(text.title, { description: text.body });
+      // Also raise a system notification (with the OS notification sound)
+      // when permission is granted, so alerts are audible even while the
+      // site is open in a background window.
+      if (pushAvailableHere() && Notification.permission === "granted") {
+        void (async () => {
+          const options: NotificationOptions = {
+            body: text.body,
+            icon: "/images/icons/icon-192.png",
+            tag: `${evt.type}:${evt.data.model}`,
+          };
+          const reg = await navigator.serviceWorker.getRegistration();
+          if (reg) void reg.showNotification(text.title, options);
+          else new Notification(text.title, options);
+        })();
+      }
     });
     return () => setNotifyEventHandler(null);
   }, [t, setNotifications]);
