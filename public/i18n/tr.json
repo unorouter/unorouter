@@ -5485,6 +5485,7 @@
     "PUSH_BLOCKED": "Bildirimler tarayıcı ayarlarında engellenmiş",
     "ADD_MODEL_PLACEHOLDER": "İzlenecek model ekle...",
     "TAB_INBOX": "Gelen",
-    "TAB_WATCHED": "İzlenen"
+    "TAB_WATCHED": "İzlenen",
+    "CLEAR": "Tümünü temizle"
   }
 }

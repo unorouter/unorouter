@@ -5485,6 +5485,7 @@
     "PUSH_BLOCKED": "브라우저 설정에서 알림이 차단되었습니다",
     "ADD_MODEL_PLACEHOLDER": "관심 모델 추가...",
     "TAB_INBOX": "수신함",
-    "TAB_WATCHED": "관심"
+    "TAB_WATCHED": "관심",
+    "CLEAR": "모두 지우기"
   }
 }

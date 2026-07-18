@@ -5485,6 +5485,7 @@
     "PUSH_BLOCKED": "Notifiche bloccate nelle impostazioni del browser",
     "ADD_MODEL_PLACEHOLDER": "Aggiungi un modello da seguire...",
     "TAB_INBOX": "In arrivo",
-    "TAB_WATCHED": "Seguiti"
+    "TAB_WATCHED": "Seguiti",
+    "CLEAR": "Cancella tutto"
   }
 }

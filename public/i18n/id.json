@@ -5485,6 +5485,7 @@
     "PUSH_BLOCKED": "Notifikasi diblokir di pengaturan browser",
     "ADD_MODEL_PLACEHOLDER": "Tambahkan model untuk dipantau...",
     "TAB_INBOX": "Kotak masuk",
-    "TAB_WATCHED": "Dipantau"
+    "TAB_WATCHED": "Dipantau",
+    "CLEAR": "Hapus semua"
   }
 }

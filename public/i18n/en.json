@@ -5485,6 +5485,7 @@
     "PUSH_BLOCKED": "Notifications blocked in browser settings",
     "ADD_MODEL_PLACEHOLDER": "Add a model to watch...",
     "TAB_INBOX": "Inbox",
-    "TAB_WATCHED": "Watched"
+    "TAB_WATCHED": "Watched",
+    "CLEAR": "Clear all"
   }
 }

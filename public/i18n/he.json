@@ -5485,6 +5485,7 @@
     "PUSH_BLOCKED": "ההתראות חסומות בהגדרות הדפדפן",
     "ADD_MODEL_PLACEHOLDER": "הוסף מודל למעקב...",
     "TAB_INBOX": "דואר נכנס",
-    "TAB_WATCHED": "במעקב"
+    "TAB_WATCHED": "במעקב",
+    "CLEAR": "נקה הכל"
   }
 }

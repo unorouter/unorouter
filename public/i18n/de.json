@@ -5485,6 +5485,7 @@
     "PUSH_BLOCKED": "Benachrichtigungen in den Browser-Einstellungen blockiert",
     "ADD_MODEL_PLACEHOLDER": "Modell zum Beobachten hinzufügen...",
     "TAB_INBOX": "Eingang",
-    "TAB_WATCHED": "Beobachtet"
+    "TAB_WATCHED": "Beobachtet",
+    "CLEAR": "Alle löschen"
   }
 }

@@ -139,6 +139,17 @@ export function NotifyBell() {
           </div>
 
           <TabsContent value="inbox">
+            {notifications.length > 0 && (
+              <div className="border-border flex justify-end border-b px-3 py-1.5">
+                <button
+                  type="button"
+                  className="text-muted-foreground hover:text-foreground text-xs transition-colors"
+                  onClick={() => setNotifications([])}
+                >
+                  {t("NOTIFY.CLEAR")}
+                </button>
+              </div>
+            )}
             <div className="max-h-80 overflow-y-auto">
               {notifications.length === 0 ? (
                 <div className="px-3 py-8 text-center">
@@ -216,13 +227,13 @@ export function NotifyBell() {
                 </button>
               </div>
               {watchedModels.length > 0 && (
-                <div className="mt-2 flex max-h-48 flex-col overflow-y-auto">
+                <div className="mt-2 flex max-h-48 flex-col overflow-x-hidden overflow-y-auto">
                   {watchedModels.map((model) => {
                     const vendor = vendorOf(model);
                     return (
                       <div
                         key={model}
-                        className="hover:bg-muted/40 -mx-1 flex items-center gap-2 rounded px-1 py-1"
+                        className="hover:bg-muted/40 flex items-center gap-2 rounded py-1"
                       >
                         <button
                           type="button"
@@ -267,30 +278,30 @@ export function NotifyBell() {
                 onCheckedChange={() => freeWatch.toggle()}
               />
             </div>
-            {pushAvailableHere() && (
-              <div className="border-border flex items-center justify-between border-t px-3 py-2">
-                {pushActive ? (
-                  <span className="text-muted-foreground inline-flex items-center gap-1.5 text-xs">
-                    <Icon name="check" className="h-3.5 w-3.5 text-green-500" />
-                    {t("NOTIFY.PUSH_ON")}
-                  </span>
-                ) : permission === "denied" ? (
-                  <span className="text-muted-foreground/70 text-xs">
-                    {t("NOTIFY.PUSH_BLOCKED")}
-                  </span>
-                ) : (
-                  <button
-                    type="button"
-                    className="text-primary hover:text-primary/80 text-xs font-medium transition-colors"
-                    onClick={() => void enablePush()}
-                  >
-                    {t("NOTIFY.PUSH_ENABLE")}
-                  </button>
-                )}
-              </div>
-            )}
           </TabsContent>
         </Tabs>
+        {pushAvailableHere() && (
+          <div className="border-border flex items-center justify-between border-t px-3 py-2">
+            {pushActive ? (
+              <span className="text-muted-foreground inline-flex items-center gap-1.5 text-xs">
+                <Icon name="check" className="h-3.5 w-3.5 text-green-500" />
+                {t("NOTIFY.PUSH_ON")}
+              </span>
+            ) : permission === "denied" ? (
+              <span className="text-muted-foreground/70 text-xs">
+                {t("NOTIFY.PUSH_BLOCKED")}
+              </span>
+            ) : (
+              <button
+                type="button"
+                className="text-primary hover:text-primary/80 text-xs font-medium transition-colors"
+                onClick={() => void enablePush()}
+              >
+                {t("NOTIFY.PUSH_ENABLE")}
+              </button>
+            )}
+          </div>
+        )}
       </PopoverContent>
     </Popover>
   );

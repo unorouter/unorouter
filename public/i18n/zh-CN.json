@@ -5485,6 +5485,7 @@
     "PUSH_BLOCKED": "通知已在浏览器设置中被屏蔽",
     "ADD_MODEL_PLACEHOLDER": "添加要关注的模型...",
     "TAB_INBOX": "收件箱",
-    "TAB_WATCHED": "已关注"
+    "TAB_WATCHED": "已关注",
+    "CLEAR": "全部清除"
   }
 }

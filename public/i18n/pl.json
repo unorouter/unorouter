@@ -5485,6 +5485,7 @@
     "PUSH_BLOCKED": "Powiadomienia zablokowane w ustawieniach przeglądarki",
     "ADD_MODEL_PLACEHOLDER": "Dodaj model do obserwowania...",
     "TAB_INBOX": "Odebrane",
-    "TAB_WATCHED": "Obserwowane"
+    "TAB_WATCHED": "Obserwowane",
+    "CLEAR": "Wyczyść wszystko"
   }
 }

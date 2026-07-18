@@ -5485,6 +5485,7 @@
     "PUSH_BLOCKED": "ブラウザ設定で通知がブロックされています",
     "ADD_MODEL_PLACEHOLDER": "ウォッチするモデルを追加...",
     "TAB_INBOX": "受信箱",
-    "TAB_WATCHED": "ウォッチ中"
+    "TAB_WATCHED": "ウォッチ中",
+    "CLEAR": "すべてクリア"
   }
 }
