@@ -5488,6 +5488,7 @@
     "TAB_WATCHED": "Dipantau",
     "CLEAR": "Hapus semua",
     "SOUND": "Suara notifikasi",
-    "PUSH_LABEL": "Notifikasi browser"
+    "PUSH_LABEL": "Notifikasi browser",
+    "PUSH_SERVICE_ERROR": "Layanan push tidak tersedia. Notifikasi saat tab ditutup tidak akan berfungsi (di Brave, aktifkan layanan Google untuk pesan push)."
   }
 }

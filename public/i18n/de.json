@@ -5488,6 +5488,7 @@
     "TAB_WATCHED": "Beobachtet",
     "CLEAR": "Alle löschen",
     "SOUND": "Benachrichtigungston",
-    "PUSH_LABEL": "Browser-Benachrichtigungen"
+    "PUSH_LABEL": "Browser-Benachrichtigungen",
+    "PUSH_SERVICE_ERROR": "Push-Dienst nicht verfügbar. Benachrichtigungen bei geschlossenem Tab funktionieren nicht (in Brave die Google-Dienste für Push-Nachrichten aktivieren)."
   }
 }

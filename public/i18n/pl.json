@@ -5488,6 +5488,7 @@
     "TAB_WATCHED": "Obserwowane",
     "CLEAR": "Wyczyść wszystko",
     "SOUND": "Dźwięk powiadomień",
-    "PUSH_LABEL": "Powiadomienia przeglądarki"
+    "PUSH_LABEL": "Powiadomienia przeglądarki",
+    "PUSH_SERVICE_ERROR": "Usługa push jest niedostępna. Powiadomienia przy zamkniętej karcie nie będą działać (w Brave włącz usługi Google dla wiadomości push)."
   }
 }

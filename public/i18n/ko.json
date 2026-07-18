@@ -5488,6 +5488,7 @@
     "TAB_WATCHED": "관심",
     "CLEAR": "모두 지우기",
     "SOUND": "알림음",
-    "PUSH_LABEL": "브라우저 알림"
+    "PUSH_LABEL": "브라우저 알림",
+    "PUSH_SERVICE_ERROR": "푸시 서비스를 사용할 수 없습니다. 탭을 닫은 상태에서는 알림이 작동하지 않습니다(Brave에서는 푸시 메시징용 Google 서비스를 활성화하세요)."
   }
 }

@@ -5488,6 +5488,7 @@
     "TAB_WATCHED": "Theo dõi",
     "CLEAR": "Xóa tất cả",
     "SOUND": "Âm thanh thông báo",
-    "PUSH_LABEL": "Thông báo trình duyệt"
+    "PUSH_LABEL": "Thông báo trình duyệt",
+    "PUSH_SERVICE_ERROR": "Dịch vụ đẩy không khả dụng. Thông báo khi đã đóng thẻ sẽ không hoạt động (trong Brave, hãy bật dịch vụ Google cho tin nhắn đẩy)."
   }
 }

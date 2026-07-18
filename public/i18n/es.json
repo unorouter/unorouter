@@ -5488,6 +5488,7 @@
     "TAB_WATCHED": "Seguidos",
     "CLEAR": "Borrar todo",
     "SOUND": "Sonido de notificación",
-    "PUSH_LABEL": "Notificaciones del navegador"
+    "PUSH_LABEL": "Notificaciones del navegador",
+    "PUSH_SERVICE_ERROR": "Servicio push no disponible. Las notificaciones con la pestaña cerrada no funcionarán (en Brave, activa los servicios de Google para mensajes push)."
   }
 }

@@ -100,12 +100,11 @@ export function NotifyProvider() {
       if (!reg) return;
       const sub = await reg.pushManager.getSubscription();
       if (!sub) {
-        // Endpoint churned or was revoked: silently resubscribe.
+        // Endpoint churned or was revoked: silently resubscribe. Failure
+        // (e.g. Brave without its push service) keeps the flag: permission
+        // is granted, so OS banners still work without a subscription.
         const fresh = await subscribePush();
-        if (!fresh) {
-          setPushEnabled(false);
-          return;
-        }
+        if (!fresh) return;
       }
       if (topics.length > 0) {
         await syncPushTopics(topics, locale);

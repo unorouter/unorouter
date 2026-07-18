@@ -20,6 +20,7 @@ import { useRouter } from "@/i18n/navigation";
 import { notifyEventText } from "@/lib/notify/event-text";
 import {
   pushAvailableHere,
+  pushServiceBroken,
   subscribePush,
   syncPushTopics,
   unsubscribePush,
@@ -40,6 +41,7 @@ import {
 import { useAtom, useAtomValue } from "jotai";
 import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export function NotifyBell() {
   const t = useTranslations();
@@ -104,6 +106,8 @@ export function NotifyBell() {
     if (sub && topics.length > 0) {
       await syncPushTopics(topics, locale);
       refreshNotifyPresence();
+    } else if (!sub && (await pushServiceBroken())) {
+      toast.warning(t("NOTIFY.PUSH_SERVICE_ERROR"));
     }
   };
 

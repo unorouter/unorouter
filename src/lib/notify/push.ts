@@ -85,10 +85,26 @@ export async function subscribePush(): Promise<PushSubscription | null> {
   if (!reg) return null;
   const existing = await reg.pushManager.getSubscription();
   if (existing) return existing;
-  return reg.pushManager.subscribe({
-    userVisibleOnly: true,
-    applicationServerKey: urlBase64ToUint8Array(key) as BufferSource,
-  });
+  try {
+    return await reg.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: urlBase64ToUint8Array(key) as BufferSource,
+    });
+  } catch {
+    // AbortError "push service error": Brave with Google services for push
+    // messaging disabled. Permission itself is granted, so in-page OS
+    // banners still work; only closed-tab delivery is unavailable.
+    return null;
+  }
+}
+
+// True when web push is structurally possible here but subscribing failed
+// (push service unavailable), as opposed to no service worker at all.
+export async function pushServiceBroken(): Promise<boolean> {
+  if (!pushSupported() || Notification.permission !== "granted") return false;
+  const reg = await navigator.serviceWorker.getRegistration();
+  if (!reg) return false;
+  return (await reg.pushManager.getSubscription()) === null;
 }
 
 export async function syncPushTopics(

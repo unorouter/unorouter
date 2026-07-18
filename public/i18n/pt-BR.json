@@ -5488,6 +5488,7 @@
     "TAB_WATCHED": "Acompanhados",
     "CLEAR": "Limpar tudo",
     "SOUND": "Som de notificação",
-    "PUSH_LABEL": "Notificações do navegador"
+    "PUSH_LABEL": "Notificações do navegador",
+    "PUSH_SERVICE_ERROR": "Serviço de push indisponível. Notificações com a aba fechada não funcionarão (no Brave, ative os serviços do Google para mensagens push)."
   }
 }

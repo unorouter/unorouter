@@ -5488,6 +5488,7 @@
     "TAB_WATCHED": "Seguiti",
     "CLEAR": "Cancella tutto",
     "SOUND": "Suono di notifica",
-    "PUSH_LABEL": "Notifiche del browser"
+    "PUSH_LABEL": "Notifiche del browser",
+    "PUSH_SERVICE_ERROR": "Servizio push non disponibile. Le notifiche a scheda chiusa non funzioneranno (in Brave, attiva i servizi Google per i messaggi push)."
   }
 }

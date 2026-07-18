@@ -5488,6 +5488,7 @@
     "TAB_WATCHED": "Watched",
     "CLEAR": "Clear all",
     "SOUND": "Notification sound",
-    "PUSH_LABEL": "Browser notifications"
+    "PUSH_LABEL": "Browser notifications",
+    "PUSH_SERVICE_ERROR": "Push service unavailable. Closed-tab notifications will not work (in Brave, enable Google services for push messaging)."
   }
 }

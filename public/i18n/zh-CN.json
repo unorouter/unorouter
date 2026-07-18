@@ -5488,6 +5488,7 @@
     "TAB_WATCHED": "已关注",
     "CLEAR": "全部清除",
     "SOUND": "通知提示音",
-    "PUSH_LABEL": "浏览器通知"
+    "PUSH_LABEL": "浏览器通知",
+    "PUSH_SERVICE_ERROR": "推送服务不可用。关闭标签页后将无法收到通知（在 Brave 中请启用用于推送消息的 Google 服务）。"
   }
 }

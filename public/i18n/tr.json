@@ -5488,6 +5488,7 @@
     "TAB_WATCHED": "İzlenen",
     "CLEAR": "Tümünü temizle",
     "SOUND": "Bildirim sesi",
-    "PUSH_LABEL": "Tarayıcı bildirimleri"
+    "PUSH_LABEL": "Tarayıcı bildirimleri",
+    "PUSH_SERVICE_ERROR": "Push hizmeti kullanılamıyor. Sekme kapalıyken bildirimler çalışmayacak (Brave'de push mesajları için Google hizmetlerini etkinleştirin)."
   }
 }
