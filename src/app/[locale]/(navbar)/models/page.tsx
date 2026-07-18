@@ -76,28 +76,30 @@ export default async function Page(props: {
           indexed). Vendor pages link every one of their models, so this one
           hop makes the whole model graph reachable. */}
       {data.vendorNames.length > 0 && (
-        <section className="mx-auto w-full max-w-360 px-4 pb-12 md:px-6">
-          <h2 className="text-muted-foreground mb-3 text-sm font-bold tracking-wider uppercase">
-            {t("MODELS.VENDOR.BROWSE_ALL")}
-          </h2>
-          <ul className="flex flex-wrap gap-2">
-            {data.vendorNames
-              .filter((vendor) => vendorSlug(vendor))
-              .map((vendor) => (
-                <li key={vendor}>
-                  <Link
-                    href={{
-                      pathname: "/models/[...slug]",
-                      params: { slug: [vendorSlug(vendor)] },
-                    }}
-                    className="text-muted-foreground hover:text-foreground hover:border-foreground/30 inline-flex items-center gap-1.5 rounded-md border px-2 py-1 text-xs transition-colors"
-                  >
-                    <VendorIcon vendor={vendor} size={14} />
-                    {vendor}
-                  </Link>
-                </li>
-              ))}
-          </ul>
+        <section className="border-border/50 border-t px-4 py-8 md:px-6">
+          <div className="mx-auto w-full max-w-360">
+            <h2 className="text-muted-foreground mb-4 text-sm font-bold tracking-wider uppercase">
+              {t("MODELS.VENDOR.BROWSE_ALL")}
+            </h2>
+            <ul className="flex flex-wrap gap-2">
+              {data.vendorNames
+                .filter((vendor) => vendorSlug(vendor))
+                .map((vendor) => (
+                  <li key={vendor}>
+                    <Link
+                      href={{
+                        pathname: "/models/[...slug]",
+                        params: { slug: [vendorSlug(vendor)] },
+                      }}
+                      className="text-muted-foreground hover:text-foreground hover:border-foreground/30 inline-flex items-center gap-1.5 rounded-md border px-2.5 py-1.5 text-xs transition-colors"
+                    >
+                      <VendorIcon vendor={vendor} size={14} />
+                      {vendor}
+                    </Link>
+                  </li>
+                ))}
+            </ul>
+          </div>
         </section>
       )}
     </>
