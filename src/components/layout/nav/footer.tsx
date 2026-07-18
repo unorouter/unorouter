@@ -74,12 +74,6 @@ const FOOTER_BADGES = [
     width: 182,
   },
   {
-    href: "https://www.aitoolzdir.com",
-    src: "/badges/aitoolzdir.svg",
-    name: "AI Toolz Dir",
-    width: 168,
-  },
-  {
     href: "https://turbo0.com/item/unorouter",
     src: "/badges/turbo0.svg",
     name: "Turbo0",
