@@ -5478,6 +5478,10 @@
       "MODEL_ADDED_FREE_BODY": "متاح الآن مجانًا",
       "MODEL_REMOVED": "تمت إزالة {model}",
       "MODEL_REMOVED_BODY": "لم يعد متوفرًا"
-    }
+    },
+    "WATCHED_MODELS": "النماذج المتابَعة",
+    "PUSH_ON": "إشعارات المتصفح مفعّلة",
+    "PUSH_ENABLE": "تفعيل إشعارات المتصفح",
+    "PUSH_BLOCKED": "الإشعارات محظورة في إعدادات المتصفح"
   }
 }

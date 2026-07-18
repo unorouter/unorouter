@@ -5478,6 +5478,10 @@
       "MODEL_ADDED_FREE_BODY": "Artık ücretsiz kullanılabilir",
       "MODEL_REMOVED": "{model} kaldırıldı",
       "MODEL_REMOVED_BODY": "Artık sunulmuyor"
-    }
+    },
+    "WATCHED_MODELS": "İzlenen modeller",
+    "PUSH_ON": "Tarayıcı bildirimleri açık",
+    "PUSH_ENABLE": "Tarayıcı bildirimlerini aç",
+    "PUSH_BLOCKED": "Bildirimler tarayıcı ayarlarında engellenmiş"
   }
 }

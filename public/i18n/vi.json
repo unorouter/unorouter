@@ -5478,6 +5478,10 @@
       "MODEL_ADDED_FREE_BODY": "Hiện khả dụng miễn phí",
       "MODEL_REMOVED": "{model} đã bị gỡ bỏ",
       "MODEL_REMOVED_BODY": "Không còn được cung cấp"
-    }
+    },
+    "WATCHED_MODELS": "Mô hình đang theo dõi",
+    "PUSH_ON": "Thông báo trình duyệt đang bật",
+    "PUSH_ENABLE": "Bật thông báo trình duyệt",
+    "PUSH_BLOCKED": "Thông báo bị chặn trong cài đặt trình duyệt"
   }
 }

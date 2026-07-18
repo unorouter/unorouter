@@ -5478,6 +5478,10 @@
       "MODEL_ADDED_FREE_BODY": "現已免費可用",
       "MODEL_REMOVED": "{model} 已下架",
       "MODEL_REMOVED_BODY": "已不再提供"
-    }
+    },
+    "WATCHED_MODELS": "已關注的模型",
+    "PUSH_ON": "瀏覽器通知已開啟",
+    "PUSH_ENABLE": "開啟瀏覽器通知",
+    "PUSH_BLOCKED": "通知已在瀏覽器設定中被封鎖"
   }
 }

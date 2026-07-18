@@ -5478,6 +5478,10 @@
       "MODEL_ADDED_FREE_BODY": "अब मुफ़्त उपलब्ध",
       "MODEL_REMOVED": "{model} हटा दिया गया",
       "MODEL_REMOVED_BODY": "अब उपलब्ध नहीं है"
-    }
+    },
+    "WATCHED_MODELS": "वॉच किए गए मॉडल",
+    "PUSH_ON": "ब्राउज़र सूचनाएँ चालू हैं",
+    "PUSH_ENABLE": "ब्राउज़र सूचनाएँ चालू करें",
+    "PUSH_BLOCKED": "ब्राउज़र सेटिंग में सूचनाएँ अवरुद्ध हैं"
   }
 }

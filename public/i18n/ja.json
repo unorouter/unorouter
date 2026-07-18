@@ -5478,6 +5478,10 @@
       "MODEL_ADDED_FREE_BODY": "無料で利用可能になりました",
       "MODEL_REMOVED": "{model} は削除されました",
       "MODEL_REMOVED_BODY": "提供終了となりました"
-    }
+    },
+    "WATCHED_MODELS": "ウォッチ中のモデル",
+    "PUSH_ON": "ブラウザ通知は有効です",
+    "PUSH_ENABLE": "ブラウザ通知を有効にする",
+    "PUSH_BLOCKED": "ブラウザ設定で通知がブロックされています"
   }
 }

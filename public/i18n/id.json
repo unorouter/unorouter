@@ -5478,6 +5478,10 @@
       "MODEL_ADDED_FREE_BODY": "Kini tersedia gratis",
       "MODEL_REMOVED": "{model} telah dihapus",
       "MODEL_REMOVED_BODY": "Tidak lagi ditawarkan"
-    }
+    },
+    "WATCHED_MODELS": "Model yang dipantau",
+    "PUSH_ON": "Notifikasi browser aktif",
+    "PUSH_ENABLE": "Aktifkan notifikasi browser",
+    "PUSH_BLOCKED": "Notifikasi diblokir di pengaturan browser"
   }
 }

@@ -5478,6 +5478,10 @@
       "MODEL_ADDED_FREE_BODY": "Teraz dostępny za darmo",
       "MODEL_REMOVED": "{model} został usunięty",
       "MODEL_REMOVED_BODY": "Nie jest już oferowany"
-    }
+    },
+    "WATCHED_MODELS": "Obserwowane modele",
+    "PUSH_ON": "Powiadomienia przeglądarki włączone",
+    "PUSH_ENABLE": "Włącz powiadomienia przeglądarki",
+    "PUSH_BLOCKED": "Powiadomienia zablokowane w ustawieniach przeglądarki"
   }
 }
