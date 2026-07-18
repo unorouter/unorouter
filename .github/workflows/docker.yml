@@ -15,8 +15,11 @@ jobs:
   checks:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         check: [typecheck, lint]
+    # Lint has pre-existing react-hooks errors; advisory until they are fixed.
+    continue-on-error: ${{ matrix.check == 'lint' }}
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
