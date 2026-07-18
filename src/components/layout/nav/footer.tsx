@@ -50,7 +50,7 @@ const FOOTER_BADGES = [
     width: 67,
   },
   {
-    href: "https://twelve.tools/unorouter-ai",
+    href: "https://twelve.tools/unorouter",
     src: "/badges/twelvetools.svg",
     name: "Twelve Tools",
     width: 89,
