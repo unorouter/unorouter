@@ -132,7 +132,7 @@ function ModelGroupPopover(props: {
         if (!next) setSearch("");
       }}
     >
-      <PopoverTrigger render={props.children} />
+      <PopoverTrigger render={props.children} nativeButton={false} />
       <PopoverContent
         side="right"
         align="start"
