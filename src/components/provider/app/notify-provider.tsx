@@ -2,7 +2,6 @@
 
 import { notifyEventText } from "@/lib/notify/event-text";
 import {
-  getPushSubscription,
   pushAvailableHere,
   subscribePush,
   syncPushTopics,
@@ -74,7 +73,11 @@ export function NotifyProvider() {
         return;
       }
       if (Notification.permission !== "granted") return;
-      const sub = await getPushSubscription();
+      const reg = await navigator.serviceWorker.getRegistration();
+      // No service worker (dev server): permission alone still powers the
+      // OS-notification mirror, so keep the enabled flag.
+      if (!reg) return;
+      const sub = await reg.pushManager.getSubscription();
       if (!sub) {
         // Endpoint churned or was revoked: silently resubscribe.
         const fresh = await subscribePush();

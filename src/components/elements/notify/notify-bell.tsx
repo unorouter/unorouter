@@ -88,9 +88,12 @@ export function NotifyBell() {
   const enablePush = async () => {
     const sub = await subscribePush();
     if (pushAvailableHere()) setPermission(Notification.permission);
-    if (!sub) return;
+    // Granted permission without a push subscription still counts as enabled:
+    // OS notifications for open tabs need only the permission (no service
+    // worker registered on the dev server, so subscribePush yields null there).
+    if (!sub && Notification.permission !== "granted") return;
     setPushEnabled(true);
-    if (topics.length > 0) {
+    if (sub && topics.length > 0) {
       await syncPushTopics(topics, locale);
       refreshNotifyPresence();
     }
