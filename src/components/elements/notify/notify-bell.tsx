@@ -70,9 +70,13 @@ export function NotifyBell() {
 
   // Free-text watch: any model name is accepted, including models currently
   // offline or churned out of the catalog (the point of a comeback alert).
+  // One '*' wildcard covers a family (glm-*); server enforces the same rules.
   const raw = query.trim();
   const rawValid =
-    /^[A-Za-z0-9:._/-]{1,150}$/.test(raw) && !topics.includes(modelTopic(raw));
+    /^[A-Za-z0-9:._/*-]{1,150}$/.test(raw) &&
+    (raw.match(/\*/g) ?? []).length <= 1 &&
+    raw.replaceAll("*", "").length >= 2 &&
+    !topics.includes(modelTopic(raw));
 
   const addWatch = () => {
     if (!rawValid) return;
@@ -236,6 +240,7 @@ export function NotifyBell() {
                 <div className="mt-2 flex max-h-48 flex-col overflow-x-hidden overflow-y-auto">
                   {watchedModels.map((model) => {
                     const vendor = vendorOf(model);
+                    const isPattern = model.includes("*");
                     return (
                       <div
                         key={model}
@@ -243,7 +248,8 @@ export function NotifyBell() {
                       >
                         <button
                           type="button"
-                          className="hover:text-primary flex min-w-0 flex-1 items-center gap-1.5 text-left"
+                          disabled={isPattern}
+                          className="hover:text-primary flex min-w-0 flex-1 items-center gap-1.5 text-left disabled:pointer-events-none"
                           onClick={() => {
                             setOpen(false);
                             router.push(modelHref(model, vendor));
