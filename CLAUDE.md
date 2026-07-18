@@ -20,6 +20,13 @@ Drizzle outputs: `drizzle/server/` (Turso migrations + meta), `drizzle/client/` 
 
 NEVER start, restart, or kill the dev server. Read `/tmp/next.log` for errors. Use browser MCP to inspect.
 
+NEVER run `bun run build` (or `rm -rf .next`) inside this repo while the dev server may be running. Dev and build share the single-writer turbopack persistent cache in `.next/cache`; a concurrent build corrupts it ("Persisting failed: Unable to write SST file", "Another write batch or compaction is already active") and deleting `.next` kills the live dev server outright (ENOENT manifests, MODULE_NOT_FOUND runtime chunks, every route 500s until the user restarts it). Verify production builds in a detached git worktree instead:
+
+```bash
+git worktree add /tmp/uno-build HEAD && cd /tmp/uno-build && bun install && bun run build
+git worktree remove --force /tmp/uno-build   # when done
+```
+
 ## Architecture
 
 BFF in front of upstream `new-api`. Most server routes are thin typed pass-throughs via Orval-generated clients. `ai/chat` + `ai/playground` own real local logic. RP entities are 100% client-side against SQLocal (no server route surface, no mirror); the `/sync` route + mirror stack were removed.
