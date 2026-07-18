@@ -3085,9 +3085,12 @@
       "QUOTA_POSITIVE": "La quota del token deve essere maggiore di 0. Abilita la quota illimitata per una chiave con modelli gratuiti.",
       "QUOTA_ZERO_HINT": "Una quota di 0 non funziona. I modelli gratuiti (che terminano con :free) funzionano con qualsiasi chiave valida.",
       "GROUP": "Gruppo di fatturazione",
-      "GROUP_AUTO_HINT": "Auto instrada verso il gruppo disponibile più economico. Fissa uno o più gruppi per vincolare la fatturazione di questa chiave alle loro tariffe.",
       "GROUP_EMPTY": "Nessun gruppo trovato.",
-      "GROUP_SEARCH_PLACEHOLDER": "Cerca gruppi..."
+      "GROUP_SEARCH_PLACEHOLDER": "Cerca gruppi...",
+      "GROUP_MAPPING_HINT": "Auto instrada ogni modello verso il fornitore disponibile più economico. Apri un modello per fissare gruppi di fornitori specifici; la fatturazione sarà vincolata alle loro tariffe.",
+      "GROUP_OVERRIDES_COUNT": "{count} personalizzati",
+      "GROUP_CLEAR_ALL": "Cancella tutto",
+      "GROUP_MODEL_SEARCH": "Cerca modelli..."
     },
     "ENUM": {
       "ENABLED": "Abilitata",

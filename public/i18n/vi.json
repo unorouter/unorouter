@@ -3085,9 +3085,12 @@
       "QUOTA_POSITIVE": "Hạn mức token phải lớn hơn 0. Bật hạn mức không giới hạn để tạo khóa cho các mô hình miễn phí.",
       "QUOTA_ZERO_HINT": "Hạn mức 0 sẽ không hoạt động. Các mô hình miễn phí (kết thúc bằng :free) hoạt động với bất kỳ khóa hợp lệ nào.",
       "GROUP": "Nhóm tính phí",
-      "GROUP_AUTO_HINT": "Auto định tuyến đến nhóm khả dụng rẻ nhất. Ghim một hoặc nhiều nhóm để khóa mức tính phí của khóa này theo biểu giá của chúng.",
       "GROUP_EMPTY": "Không tìm thấy nhóm nào.",
-      "GROUP_SEARCH_PLACEHOLDER": "Tìm kiếm nhóm..."
+      "GROUP_SEARCH_PLACEHOLDER": "Tìm kiếm nhóm...",
+      "GROUP_MAPPING_HINT": "Auto định tuyến mỗi mô hình đến nhà cung cấp rẻ nhất hiện có. Mở một mô hình để ghim các nhóm nhà cung cấp cụ thể; mức tính phí sẽ bị khóa theo biểu giá của chúng.",
+      "GROUP_OVERRIDES_COUNT": "Đã ghi đè {count}",
+      "GROUP_CLEAR_ALL": "Xóa tất cả",
+      "GROUP_MODEL_SEARCH": "Tìm kiếm mô hình..."
     },
     "ENUM": {
       "ENABLED": "Đã bật",

@@ -3085,9 +3085,12 @@
       "QUOTA_POSITIVE": "Limit tokena musi być większy niż 0. Włącz nieograniczony limit, aby utworzyć klucz do darmowych modeli.",
       "QUOTA_ZERO_HINT": "Limit 0 nie zadziała. Darmowe modele (kończące się na :free) działają z każdym prawidłowym kluczem.",
       "GROUP": "Grupa rozliczeniowa",
-      "GROUP_AUTO_HINT": "Auto kieruje do najtańszej dostępnej grupy. Przypnij jedną lub więcej grup, aby rozliczenia tego klucza były ograniczone do ich stawek.",
       "GROUP_EMPTY": "Nie znaleziono grup.",
-      "GROUP_SEARCH_PLACEHOLDER": "Szukaj grup..."
+      "GROUP_SEARCH_PLACEHOLDER": "Szukaj grup...",
+      "GROUP_MAPPING_HINT": "Auto kieruje każdy model do najtańszego dostępnego dostawcy. Otwórz model, aby przypiąć konkretne grupy dostawców; rozliczenia będą ograniczone do ich stawek.",
+      "GROUP_OVERRIDES_COUNT": "Nadpisano: {count}",
+      "GROUP_CLEAR_ALL": "Wyczyść wszystko",
+      "GROUP_MODEL_SEARCH": "Szukaj modeli..."
     },
     "ENUM": {
       "ENABLED": "Włączony",

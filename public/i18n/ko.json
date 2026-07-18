@@ -3085,9 +3085,12 @@
       "QUOTA_POSITIVE": "토큰 할당량은 0보다 커야 합니다. 무료 모델용 키를 만들려면 무제한 할당량을 활성화하세요.",
       "QUOTA_ZERO_HINT": "할당량 0은 작동하지 않습니다. 무료 모델(:free로 끝나는)은 유효한 키라면 모두 사용할 수 있습니다.",
       "GROUP": "과금 그룹",
-      "GROUP_AUTO_HINT": "Auto는 사용 가능한 가장 저렴한 그룹으로 라우팅합니다. 하나 이상의 그룹을 고정하면 이 키의 과금이 해당 요율로 제한됩니다.",
       "GROUP_EMPTY": "그룹을 찾을 수 없습니다.",
-      "GROUP_SEARCH_PLACEHOLDER": "그룹 검색..."
+      "GROUP_SEARCH_PLACEHOLDER": "그룹 검색...",
+      "GROUP_MAPPING_HINT": "Auto는 각 모델을 사용 가능한 가장 저렴한 공급자로 라우팅합니다. 모델을 열어 특정 공급자 그룹을 고정하면 과금이 해당 요율로 제한됩니다.",
+      "GROUP_OVERRIDES_COUNT": "{count}개 재정의됨",
+      "GROUP_CLEAR_ALL": "모두 지우기",
+      "GROUP_MODEL_SEARCH": "모델 검색..."
     },
     "ENUM": {
       "ENABLED": "활성화됨",

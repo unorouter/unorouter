@@ -49,7 +49,7 @@ import { useEffect, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 import type { TokenRow } from "./token-columns";
-import { TokenGroupSelect } from "./token-group-select";
+import { TokenGroupMapping, type GroupMapping } from "./token-group-mapping";
 import { TokenKeyDisplay } from "./token-key-display";
 import { TokenModelSelect } from "./token-model-select";
 
@@ -99,10 +99,16 @@ export function TokenDialog(props: TokenDialogProps) {
   useEffect(() => {
     if (!props.open) return;
     if (props.token) {
-      const tokenGroups = (props.token.group ?? "")
-        .split(",")
-        .map((g) => g.trim())
-        .filter(Boolean);
+      let tokenMapping: GroupMapping = {};
+      const rawMapping = (props.token as { group_mapping?: string })
+        .group_mapping;
+      if (rawMapping) {
+        try {
+          tokenMapping = JSON.parse(rawMapping);
+        } catch {
+          tokenMapping = {};
+        }
+      }
       form.reset({
         name: props.token.name || "",
         remain_quota: props.token.remain_quota ?? 0,
@@ -112,7 +118,7 @@ export function TokenDialog(props: TokenDialogProps) {
           ? props.token.model_limits.split(",").filter(Boolean)
           : [],
         allow_ips: props.token.allow_ips ?? "",
-        groups: tokenGroups.length > 0 ? tokenGroups : ["auto"],
+        group_mapping: tokenMapping,
       });
     } else {
       form.reset(Value.Default(tokenFormSchema, {}) as TokenFormSchema);
@@ -204,8 +210,12 @@ export function TokenDialog(props: TokenDialogProps) {
         ? data.model_limits.join(",")
         : "",
       allow_ips: data.allow_ips.trim(),
-      group: data.groups.length > 0 ? data.groups.join(",") : "auto",
+      group: "auto",
       cross_group_retry: true,
+      group_mapping:
+        Object.keys(data.group_mapping).length > 0
+          ? JSON.stringify(data.group_mapping)
+          : "",
     };
 
     const trackProps = {
@@ -213,8 +223,8 @@ export function TokenDialog(props: TokenDialogProps) {
       unlimited_quota: payload.unlimited_quota,
       model_limits_enabled: payload.model_limits_enabled,
       model_count: data.model_limits_enabled ? data.model_limits.length : 0,
-      group_pinned: !data.groups.includes("auto"),
-      group_count: data.groups.filter((g) => g !== "auto").length,
+      group_pinned: Object.keys(data.group_mapping).length > 0,
+      group_count: Object.values(data.group_mapping).flat().length,
     };
 
     if (isEdit) {
@@ -298,9 +308,9 @@ export function TokenDialog(props: TokenDialogProps) {
     control: form.control,
     name: "model_limits",
   });
-  const selectedGroups = useWatch({
+  const groupMapping = useWatch({
     control: form.control,
-    name: "groups",
+    name: "group_mapping",
   });
 
   return (
@@ -474,13 +484,18 @@ export function TokenDialog(props: TokenDialogProps) {
                 </div>
 
                 <div className="flex flex-col gap-2">
-                  <TokenGroupSelect
+                  <TokenGroupMapping
                     control={form.control}
-                    selectedGroups={selectedGroups}
+                    mapping={groupMapping}
                     groups={userGroupsQuery.data ?? {}}
+                    models={(pricingQuery.data?.models ?? []).map((m) => ({
+                      name: m.name,
+                      vendor: m.vendor.name,
+                      isFree: !!m.isFree,
+                    }))}
                   />
                   <p className="text-muted-foreground text-[11px]">
-                    {t("TOKEN.FORM.GROUP_AUTO_HINT")}
+                    {t("TOKEN.FORM.GROUP_MAPPING_HINT")}
                   </p>
                 </div>
               </div>

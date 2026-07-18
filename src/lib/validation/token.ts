@@ -13,6 +13,6 @@ export const tokenFormSchema = t.Object({
   model_limits_enabled: t.Boolean({ default: false }),
   model_limits: t.Array(t.String(), { default: [] }),
   allow_ips: t.String({ default: "" }),
-  groups: t.Array(t.String(), { default: ["auto"] }),
+  group_mapping: t.Record(t.String(), t.Array(t.String()), { default: {} }),
 });
 export type TokenFormSchema = Static<typeof tokenFormSchema>;

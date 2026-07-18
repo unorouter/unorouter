@@ -3085,9 +3085,12 @@
       "QUOTA_POSITIVE": "Token quota must be greater than 0. Enable unlimited quota for a free-models key.",
       "QUOTA_ZERO_HINT": "A quota of 0 won't work. Free models (ending in :free) work on any valid key.",
       "GROUP": "Billing group",
-      "GROUP_AUTO_HINT": "Auto routes to the cheapest available group. Pin one or more groups to lock this key's billing to their rates.",
       "GROUP_EMPTY": "No groups found.",
-      "GROUP_SEARCH_PLACEHOLDER": "Search groups..."
+      "GROUP_SEARCH_PLACEHOLDER": "Search groups...",
+      "GROUP_MAPPING_HINT": "Auto routes every model to the cheapest available provider. Open a model to pin specific provider groups; its billing is then locked to their rates.",
+      "GROUP_OVERRIDES_COUNT": "{count} overridden",
+      "GROUP_CLEAR_ALL": "Clear all",
+      "GROUP_MODEL_SEARCH": "Search models..."
     },
     "ENUM": {
       "ENABLED": "Enabled",

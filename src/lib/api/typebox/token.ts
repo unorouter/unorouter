@@ -17,6 +17,7 @@ export const createTokenBody = t.Object({
   allow_ips: t.Nullable(t.String()),
   group: t.String(),
   cross_group_retry: t.Boolean(),
+  group_mapping: t.Optional(t.String()),
 });
 
 export const updateTokenBody = t.Object({
@@ -31,4 +32,5 @@ export const updateTokenBody = t.Object({
   allow_ips: t.Nullable(t.String()),
   group: t.String(),
   cross_group_retry: t.Boolean(),
+  group_mapping: t.Optional(t.String()),
 });

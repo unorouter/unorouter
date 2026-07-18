@@ -3085,9 +3085,12 @@
       "QUOTA_POSITIVE": "A cota do token deve ser maior que 0. Ative a cota ilimitada para uma chave de modelos gratuitos.",
       "QUOTA_ZERO_HINT": "Uma cota de 0 não funciona. Modelos gratuitos (terminados em :free) funcionam com qualquer chave válida.",
       "GROUP": "Grupo de cobrança",
-      "GROUP_AUTO_HINT": "Auto roteia para o grupo disponível mais barato. Fixe um ou mais grupos para limitar a cobrança desta chave às tarifas deles.",
       "GROUP_EMPTY": "Nenhum grupo encontrado.",
-      "GROUP_SEARCH_PLACEHOLDER": "Pesquisar grupos..."
+      "GROUP_SEARCH_PLACEHOLDER": "Pesquisar grupos...",
+      "GROUP_MAPPING_HINT": "Auto roteia cada modelo para o provedor disponível mais barato. Abra um modelo para fixar grupos de provedores específicos; a cobrança ficará limitada às tarifas deles.",
+      "GROUP_OVERRIDES_COUNT": "{count} personalizados",
+      "GROUP_CLEAR_ALL": "Limpar tudo",
+      "GROUP_MODEL_SEARCH": "Pesquisar modelos..."
     },
     "ENUM": {
       "ENABLED": "Ativada",

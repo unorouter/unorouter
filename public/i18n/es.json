@@ -3085,9 +3085,12 @@
       "QUOTA_POSITIVE": "La cuota del token debe ser mayor que 0. Activa la cuota ilimitada para una clave de modelos gratuitos.",
       "QUOTA_ZERO_HINT": "Una cuota de 0 no funciona. Los modelos gratuitos (terminados en :free) funcionan con cualquier clave válida.",
       "GROUP": "Grupo de facturación",
-      "GROUP_AUTO_HINT": "Auto enruta al grupo disponible más barato. Fija uno o más grupos para limitar la facturación de esta clave a sus tarifas.",
       "GROUP_EMPTY": "No se encontraron grupos.",
-      "GROUP_SEARCH_PLACEHOLDER": "Buscar grupos..."
+      "GROUP_SEARCH_PLACEHOLDER": "Buscar grupos...",
+      "GROUP_MAPPING_HINT": "Auto dirige cada modelo al proveedor disponible más barato. Abre un modelo para fijar grupos de proveedores específicos; su facturación quedará limitada a esas tarifas.",
+      "GROUP_OVERRIDES_COUNT": "{count} personalizados",
+      "GROUP_CLEAR_ALL": "Borrar todo",
+      "GROUP_MODEL_SEARCH": "Buscar modelos..."
     },
     "ENUM": {
       "ENABLED": "Activada",

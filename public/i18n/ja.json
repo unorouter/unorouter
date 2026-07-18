@@ -3085,9 +3085,12 @@
       "QUOTA_POSITIVE": "トークンのクォータは0より大きい必要があります。無料モデル用のキーには無制限クォータを有効にしてください。",
       "QUOTA_ZERO_HINT": "クォータ0では動作しません。無料モデル（:free で終わるもの）はどの有効なキーでも利用できます。",
       "GROUP": "課金グループ",
-      "GROUP_AUTO_HINT": "Auto は利用可能な最安のグループにルーティングします。1 つ以上のグループを固定すると、このキーの課金がそのレートに限定されます。",
       "GROUP_EMPTY": "グループが見つかりません。",
-      "GROUP_SEARCH_PLACEHOLDER": "グループを検索..."
+      "GROUP_SEARCH_PLACEHOLDER": "グループを検索...",
+      "GROUP_MAPPING_HINT": "Auto は各モデルを利用可能な最安のプロバイダーへルーティングします。モデルを開いて特定のプロバイダーグループを固定すると、課金はそのレートに限定されます。",
+      "GROUP_OVERRIDES_COUNT": "{count} 件を上書き",
+      "GROUP_CLEAR_ALL": "すべてクリア",
+      "GROUP_MODEL_SEARCH": "モデルを検索..."
     },
     "ENUM": {
       "ENABLED": "有効",

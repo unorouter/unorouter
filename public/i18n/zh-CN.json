@@ -3085,9 +3085,12 @@
       "QUOTA_POSITIVE": "令牌额度必须大于 0。如需仅免费模型的密钥，请启用无限额度。",
       "QUOTA_ZERO_HINT": "额度为 0 将无法使用。免费模型（以 :free 结尾）可用于任何有效密钥。",
       "GROUP": "计费分组",
-      "GROUP_AUTO_HINT": "Auto 会路由到当前可用的最便宜分组。固定一个或多个分组后，此密钥将仅按所选分组的费率计费。",
       "GROUP_EMPTY": "未找到分组。",
-      "GROUP_SEARCH_PLACEHOLDER": "搜索分组…"
+      "GROUP_SEARCH_PLACEHOLDER": "搜索分组…",
+      "GROUP_MAPPING_HINT": "Auto 会将每个模型路由到当前可用的最便宜供应商。打开某个模型可固定特定供应商分组，该模型将仅按所选分组的费率计费。",
+      "GROUP_OVERRIDES_COUNT": "已覆盖 {count} 个",
+      "GROUP_CLEAR_ALL": "全部清除",
+      "GROUP_MODEL_SEARCH": "搜索模型…"
     },
     "ENUM": {
       "ENABLED": "已启用",

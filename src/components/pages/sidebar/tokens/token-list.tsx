@@ -71,11 +71,26 @@ export function TokenList() {
       meta: { title: msg("TOKEN.TABLE.GROUP") },
       header: t("TOKEN.TABLE.GROUP"),
       enableSorting: false,
-      cell: ({ row }) => (
-        <span className="text-muted-foreground font-mono text-xs">
-          {row.original.group || "-"}
-        </span>
-      ),
+      cell: ({ row }) => {
+        let overrides = 0;
+        const rawMapping = (row.original as { group_mapping?: string })
+          .group_mapping;
+        if (rawMapping) {
+          try {
+            overrides = Object.keys(JSON.parse(rawMapping)).length;
+          } catch {
+            overrides = 0;
+          }
+        }
+        return (
+          <span className="text-muted-foreground font-mono text-xs">
+            {row.original.group || "-"}
+            {overrides > 0 && (
+              <span className="text-primary ml-1">+{overrides}</span>
+            )}
+          </span>
+        );
+      },
     },
     {
       accessorKey: "key",
