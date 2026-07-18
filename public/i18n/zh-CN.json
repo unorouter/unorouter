@@ -545,7 +545,8 @@
       "N_MODELS": "{count} 个模型",
       "EMPTY": "未找到该厂商的模型。",
       "NEW": "新",
-      "DEPRECATED": "已弃用"
+      "DEPRECATED": "已弃用",
+      "BROWSE_ALL": "按提供商浏览模型"
     },
     "DISCORD": "在 Discord 上请求模型"
   },

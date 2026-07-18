@@ -545,7 +545,8 @@
       "N_MODELS": "{count} mô hình",
       "EMPTY": "Không tìm thấy mô hình nào cho nhà cung cấp này.",
       "NEW": "Mới",
-      "DEPRECATED": "Ngừng hỗ trợ"
+      "DEPRECATED": "Ngừng hỗ trợ",
+      "BROWSE_ALL": "Duyệt mô hình theo nhà cung cấp"
     },
     "DISCORD": "Yêu cầu một mô hình trên Discord"
   },

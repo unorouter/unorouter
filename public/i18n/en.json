@@ -545,7 +545,8 @@
       "N_MODELS": "{count} models",
       "EMPTY": "No models found for this vendor.",
       "NEW": "New",
-      "DEPRECATED": "Deprecated"
+      "DEPRECATED": "Deprecated",
+      "BROWSE_ALL": "Browse models by provider"
     },
     "DISCORD": "Request a model on Discord"
   },

@@ -545,7 +545,8 @@
       "N_MODELS": "{count}개 모델",
       "EMPTY": "이 공급업체의 모델을 찾을 수 없습니다.",
       "NEW": "신규",
-      "DEPRECATED": "지원 종료"
+      "DEPRECATED": "지원 종료",
+      "BROWSE_ALL": "제공업체별 모델 보기"
     },
     "DISCORD": "Discord에서 모델을 요청하세요"
   },

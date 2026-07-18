@@ -545,7 +545,8 @@
       "N_MODELS": "{count} modeli",
       "EMPTY": "Nie znaleziono modeli dla tego dostawcy.",
       "NEW": "Nowość",
-      "DEPRECATED": "Wycofany"
+      "DEPRECATED": "Wycofany",
+      "BROWSE_ALL": "Przeglądaj modele według dostawcy"
     },
     "DISCORD": "Poproś o model na Discordzie"
   },

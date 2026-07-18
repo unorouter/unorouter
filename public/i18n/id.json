@@ -545,7 +545,8 @@
       "N_MODELS": "{count} model",
       "EMPTY": "Tidak ada model untuk vendor ini.",
       "NEW": "Baru",
-      "DEPRECATED": "Usang"
+      "DEPRECATED": "Usang",
+      "BROWSE_ALL": "Jelajahi model berdasarkan penyedia"
     },
     "DISCORD": "Minta model di Discord"
   },

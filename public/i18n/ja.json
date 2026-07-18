@@ -545,7 +545,8 @@
       "N_MODELS": "{count} モデル",
       "EMPTY": "このベンダーのモデルは見つかりませんでした。",
       "NEW": "新着",
-      "DEPRECATED": "非推奨"
+      "DEPRECATED": "非推奨",
+      "BROWSE_ALL": "プロバイダー別にモデルを見る"
     },
     "DISCORD": "Discord でモデルをリクエスト"
   },

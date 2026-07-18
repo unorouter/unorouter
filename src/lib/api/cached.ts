@@ -129,7 +129,7 @@ export async function getModelsPageData() {
       vendorName: m.vendor.name,
       description: m.description ?? null,
     }));
-  return { dehydrated, topModels };
+  return { dehydrated, topModels, vendorNames: summary.vendorNames };
 }
 
 // Compare pages: lean pricing (the comparison table reads only core price +
@@ -166,6 +166,7 @@ export function emptyPageData() {
     dehydrated: dehydrate(new QueryClient()),
     topModels: [],
     models: [],
+    vendorNames: [] as string[],
   };
 }
 

@@ -545,7 +545,8 @@
       "N_MODELS": "{count} modèles",
       "EMPTY": "Aucun modèle trouvé pour ce fournisseur.",
       "NEW": "Nouveau",
-      "DEPRECATED": "Obsolète"
+      "DEPRECATED": "Obsolète",
+      "BROWSE_ALL": "Parcourir les modèles par fournisseur"
     },
     "DISCORD": "Demandez un modèle sur Discord"
   },

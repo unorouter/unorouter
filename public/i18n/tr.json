@@ -545,7 +545,8 @@
       "N_MODELS": "{count} model",
       "EMPTY": "Bu sağlayıcı için model bulunamadı.",
       "NEW": "Yeni",
-      "DEPRECATED": "Kullanımdan kaldırıldı"
+      "DEPRECATED": "Kullanımdan kaldırıldı",
+      "BROWSE_ALL": "Modelleri sağlayıcıya göre inceleyin"
     },
     "DISCORD": "Discord'da bir model iste"
   },

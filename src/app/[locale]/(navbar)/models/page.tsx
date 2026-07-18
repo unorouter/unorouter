@@ -7,7 +7,7 @@ import {
   buildBreadcrumbListSchema,
   buildCollectionPageSchema,
 } from "@/lib/seo/structured-data";
-import { localeUrl } from "@/i18n/navigation";
+import { Link, localeUrl } from "@/i18n/navigation";
 import { modelSlug, vendorSlug } from "@/lib/utils/base";
 import { serverLocale } from "@/lib/utils/server";
 import { HydrationBoundary } from "@tanstack/react-query";
@@ -68,6 +68,36 @@ export default async function Page(props: {
       <HydrationBoundary state={data.dehydrated}>
         <ModelsPage />
       </HydrationBoundary>
+      {/* Server-rendered vendor directory: the models table above is fully
+          client-rendered, so without this block the page exposes ZERO
+          crawlable links into the ~20k model/vendor pages - Google knew them
+          only from the sitemap (17k stuck in Discovered - currently not
+          indexed). Vendor pages link every one of their models, so this one
+          hop makes the whole model graph reachable. */}
+      {data.vendorNames.length > 0 && (
+        <section className="mx-auto w-full max-w-360 px-4 pb-12 md:px-6">
+          <h2 className="text-muted-foreground mb-3 text-sm font-bold tracking-wider uppercase">
+            {t("MODELS.VENDOR.BROWSE_ALL")}
+          </h2>
+          <ul className="flex flex-wrap gap-2">
+            {data.vendorNames
+              .filter((vendor) => vendorSlug(vendor))
+              .map((vendor) => (
+                <li key={vendor}>
+                  <Link
+                    href={{
+                      pathname: "/models/[...slug]",
+                      params: { slug: [vendorSlug(vendor)] },
+                    }}
+                    className="text-muted-foreground hover:text-foreground hover:border-foreground/30 inline-block rounded-md border px-2 py-1 text-xs transition-colors"
+                  >
+                    {vendor}
+                  </Link>
+                </li>
+              ))}
+          </ul>
+        </section>
+      )}
     </>
   );
 }
