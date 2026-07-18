@@ -15,6 +15,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { cn } from "@/lib/utils";
 import type { UserGroupInfo } from "@/openapi";
 import { useTranslations } from "next-intl";
@@ -25,7 +26,7 @@ import type { TokenFormSchema } from "@/lib/validation/token";
 const AUTO_GROUP = "auto";
 // The usable set can hold thousands of per-channel groups; keep the DOM small
 // and let the search input narrow the list.
-const MAX_VISIBLE_GROUPS = 50;
+const MAX_VISIBLE_MODELS = 25;
 
 type TokenGroupSelectProps = {
   control: Control<TokenFormSchema>;
@@ -33,10 +34,85 @@ type TokenGroupSelectProps = {
   groups: Record<string, UserGroupInfo>;
 };
 
-function groupRatioLabel(info: UserGroupInfo | undefined): string | null {
-  const ratio = info?.ratio;
-  if (typeof ratio !== "number") return null;
-  return `${ratio}x`;
+type GroupOption = {
+  group: string;
+  model: string;
+  provider: string;
+  vendor: string | null;
+  ratio: number | null;
+};
+
+type ModelBucket = {
+  model: string;
+  vendor: string | null;
+  options: GroupOption[];
+};
+
+// Group descs are emitted by the channel sync as "model via provider (vendor)";
+// anything that doesn't match renders under the raw group name.
+const DESC_RE = /^(.+) via (.+) \((.+)\)$/;
+
+function parseGroupOption(group: string, info: UserGroupInfo): GroupOption {
+  const ratio = typeof info.ratio === "number" ? info.ratio : null;
+  const match = typeof info.desc === "string" ? DESC_RE.exec(info.desc) : null;
+  if (!match) return { group, model: group, provider: "", vendor: null, ratio };
+  return {
+    group,
+    model: match[1],
+    provider: match[2],
+    vendor: match[3],
+    ratio,
+  };
+}
+
+function buildModelBuckets(
+  groups: Record<string, UserGroupInfo>,
+  query: string,
+  selected: string[],
+): ModelBucket[] {
+  const buckets = new Map<string, ModelBucket>();
+  for (const [group, info] of Object.entries(groups)) {
+    if (group === AUTO_GROUP) continue;
+    const option = parseGroupOption(group, info);
+    if (
+      query &&
+      !option.model.toLowerCase().includes(query) &&
+      !option.provider.toLowerCase().includes(query) &&
+      !group.toLowerCase().includes(query)
+    ) {
+      continue;
+    }
+    const bucket = buckets.get(option.model);
+    if (bucket) bucket.options.push(option);
+    else
+      buckets.set(option.model, {
+        model: option.model,
+        vendor: option.vendor,
+        options: [option],
+      });
+  }
+  const list = [...buckets.values()];
+  for (const bucket of list) {
+    bucket.options.sort(
+      (a, b) => (a.ratio ?? Infinity) - (b.ratio ?? Infinity),
+    );
+  }
+  // Models containing a selected group float to the top so current pins are
+  // always visible; the rest sort alphabetically.
+  const hasSelected = (b: ModelBucket) =>
+    b.options.some((o) => selected.includes(o.group));
+  return list
+    .sort((a, b) => {
+      const aSel = hasSelected(a);
+      const bSel = hasSelected(b);
+      if (aSel !== bSel) return aSel ? -1 : 1;
+      return a.model.localeCompare(b.model);
+    })
+    .slice(0, MAX_VISIBLE_MODELS);
+}
+
+function ratioLabel(ratio: number | null): string | null {
+  return ratio == null ? null : `${ratio}x`;
 }
 
 export function TokenGroupSelect(props: TokenGroupSelectProps) {
@@ -44,19 +120,9 @@ export function TokenGroupSelect(props: TokenGroupSelectProps) {
   const [search, setSearch] = useState("");
 
   const query = search.trim().toLowerCase();
-  const sortedGroups = Object.entries(props.groups)
-    .filter(([name]) => !query || name.toLowerCase().includes(query))
-    .sort(([aName, a], [bName, b]) => {
-      if (aName === AUTO_GROUP) return -1;
-      if (bName === AUTO_GROUP) return 1;
-      const aSelected = props.selectedGroups.includes(aName);
-      const bSelected = props.selectedGroups.includes(bName);
-      if (aSelected !== bSelected) return aSelected ? -1 : 1;
-      const aRatio = typeof a.ratio === "number" ? a.ratio : Infinity;
-      const bRatio = typeof b.ratio === "number" ? b.ratio : Infinity;
-      return aRatio - bRatio || aName.localeCompare(bName);
-    })
-    .slice(0, MAX_VISIBLE_GROUPS);
+  const buckets = buildModelBuckets(props.groups, query, props.selectedGroups);
+  const autoInfo = props.groups[AUTO_GROUP];
+  const autoSelected = props.selectedGroups.includes(AUTO_GROUP);
 
   // "auto" is mutually exclusive with pinned groups; empty falls back to auto.
   function toggle(name: string, selected: string[]): string[] {
@@ -66,6 +132,15 @@ export function TokenGroupSelect(props: TokenGroupSelectProps) {
       ? withoutAuto.filter((g) => g !== name)
       : [...withoutAuto, name];
     return next.length > 0 ? next : [AUTO_GROUP];
+  }
+
+  function badgeLabel(group: string): string {
+    const info = props.groups[group];
+    if (group === AUTO_GROUP || !info) return group;
+    const option = parseGroupOption(group, info);
+    return option.provider
+      ? `${option.model} / ${option.provider}`
+      : option.model;
   }
 
   return (
@@ -89,10 +164,16 @@ export function TokenGroupSelect(props: TokenGroupSelectProps) {
                           variant="secondary"
                           className="gap-1 rounded-sm px-1.5 py-0.5 font-mono text-[10px]"
                         >
-                          {name}
-                          {groupRatioLabel(props.groups[name]) && (
+                          {badgeLabel(name)}
+                          {ratioLabel(
+                            parseGroupOption(name, props.groups[name] ?? {})
+                              .ratio,
+                          ) && (
                             <span className="text-muted-foreground">
-                              {groupRatioLabel(props.groups[name])}
+                              {ratioLabel(
+                                parseGroupOption(name, props.groups[name] ?? {})
+                                  .ratio,
+                              )}
                             </span>
                           )}
                         </Badge>
@@ -116,41 +197,91 @@ export function TokenGroupSelect(props: TokenGroupSelectProps) {
                   value={search}
                   onValueChange={setSearch}
                 />
-                <CommandList className="max-h-64">
+                <CommandList className="max-h-72">
                   <CommandEmpty>{t("TOKEN.FORM.GROUP_EMPTY")}</CommandEmpty>
-                  <CommandGroup>
-                    {sortedGroups.map(([name, info]) => {
-                      const isSelected = props.selectedGroups.includes(name);
-                      const ratioLabel = groupRatioLabel(info);
-                      return (
-                        <CommandItem
-                          key={name}
-                          value={name}
-                          onSelect={() =>
-                            field.onChange(toggle(name, props.selectedGroups))
-                          }
-                          className="[&>svg]:hidden"
+                  {!query && (
+                    <CommandGroup>
+                      <CommandItem
+                        value={AUTO_GROUP}
+                        onSelect={() =>
+                          field.onChange(
+                            toggle(AUTO_GROUP, props.selectedGroups),
+                          )
+                        }
+                        className="[&>svg]:hidden"
+                      >
+                        <div
+                          className={cn(
+                            "border-primary mr-2 flex h-4 w-4 shrink-0 items-center justify-center rounded-sm border",
+                            autoSelected
+                              ? "bg-primary text-primary-foreground"
+                              : "opacity-50 [&_svg]:invisible",
+                          )}
                         >
-                          <div
-                            className={cn(
-                              "border-primary mr-2 flex h-4 w-4 shrink-0 items-center justify-center rounded-sm border",
-                              isSelected
-                                ? "bg-primary text-primary-foreground"
-                                : "opacity-50 [&_svg]:invisible",
-                            )}
+                          <Icon name="check" className="h-4 w-4" />
+                        </div>
+                        <Icon
+                          name="shuffle"
+                          className="text-muted-foreground h-3.5 w-3.5 shrink-0"
+                        />
+                        <span className="font-mono text-xs">{AUTO_GROUP}</span>
+                        <span className="text-muted-foreground ml-auto truncate pl-2 text-[11px]">
+                          {autoInfo?.desc ?? ""}
+                        </span>
+                      </CommandItem>
+                    </CommandGroup>
+                  )}
+                  {buckets.map((bucket) => (
+                    <CommandGroup
+                      key={bucket.model}
+                      heading={
+                        <div className="flex items-center gap-1.5">
+                          {bucket.vendor && (
+                            <VendorIcon vendor={bucket.vendor} size={14} />
+                          )}
+                          <span className="font-mono">{bucket.model}</span>
+                          <span className="text-muted-foreground ml-auto font-mono text-[10px]">
+                            {bucket.options.length}
+                          </span>
+                        </div>
+                      }
+                    >
+                      {bucket.options.map((option) => {
+                        const isSelected = props.selectedGroups.includes(
+                          option.group,
+                        );
+                        return (
+                          <CommandItem
+                            key={option.group}
+                            value={option.group}
+                            onSelect={() =>
+                              field.onChange(
+                                toggle(option.group, props.selectedGroups),
+                              )
+                            }
+                            className="[&>svg]:hidden"
                           >
-                            <Icon name="check" className="h-4 w-4" />
-                          </div>
-                          <span className="truncate font-mono text-xs">
-                            {name}
-                          </span>
-                          <span className="text-muted-foreground ml-auto truncate pl-2 text-[11px]">
-                            {ratioLabel ?? info.desc}
-                          </span>
-                        </CommandItem>
-                      );
-                    })}
-                  </CommandGroup>
+                            <div
+                              className={cn(
+                                "border-primary mr-2 flex h-4 w-4 shrink-0 items-center justify-center rounded-sm border",
+                                isSelected
+                                  ? "bg-primary text-primary-foreground"
+                                  : "opacity-50 [&_svg]:invisible",
+                              )}
+                            >
+                              <Icon name="check" className="h-4 w-4" />
+                            </div>
+                            <span className="truncate font-mono text-xs">
+                              {option.provider || option.group}
+                            </span>
+                            <span className="text-muted-foreground ml-auto shrink-0 pl-2 font-mono text-[11px]">
+                              {ratioLabel(option.ratio) ?? ""}
+                            </span>
+                          </CommandItem>
+                        );
+                      })}
+                    </CommandGroup>
+                  ))}
                 </CommandList>
               </Command>
             </PopoverContent>
