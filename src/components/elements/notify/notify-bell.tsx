@@ -58,6 +58,7 @@ export function NotifyBell() {
   const [permission, setPermission] = useState<NotificationPermission | null>(
     null,
   );
+  const [pushBusy, setPushBusy] = useState(false);
   const [query, setQuery] = useState("");
 
   const vendorOf = (model: string) =>
@@ -96,18 +97,34 @@ export function NotifyBell() {
   };
 
   const enablePush = async () => {
-    const sub = await subscribePush();
-    if (pushAvailableHere()) setPermission(Notification.permission);
-    // Granted permission without a push subscription still counts as enabled:
-    // OS notifications for open tabs need only the permission (no service
-    // worker registered on the dev server, so subscribePush yields null there).
-    if (!sub && Notification.permission !== "granted") return;
-    setPushEnabled(true);
-    if (sub && topics.length > 0) {
-      await syncPushTopics(topics, locale);
-      refreshNotifyPresence();
-    } else if (!sub && (await pushServiceBroken())) {
-      toast.warning(t("NOTIFY.PUSH_SERVICE_ERROR"));
+    setPushBusy(true);
+    try {
+      const sub = await subscribePush();
+      if (pushAvailableHere()) setPermission(Notification.permission);
+      // Granted permission without a push subscription still counts as
+      // enabled: OS notifications for open tabs need only the permission (no
+      // service worker registered on the dev server, so subscribePush yields
+      // null there).
+      if (!sub && Notification.permission !== "granted") return;
+      setPushEnabled(true);
+      if (sub && topics.length > 0) {
+        await syncPushTopics(topics, locale);
+        refreshNotifyPresence();
+      } else if (!sub && (await pushServiceBroken())) {
+        toast.warning(t("NOTIFY.PUSH_SERVICE_ERROR"));
+      }
+    } finally {
+      setPushBusy(false);
+    }
+  };
+
+  const disablePush = async () => {
+    setPushBusy(true);
+    try {
+      setPushEnabled(false);
+      await unsubscribePush();
+    } finally {
+      setPushBusy(false);
     }
   };
 
@@ -317,18 +334,18 @@ export function NotifyBell() {
               </span>
             ) : (
               <>
-                <span className="text-muted-foreground text-xs">
+                <span className="text-muted-foreground inline-flex items-center gap-1.5 text-xs">
                   {t("NOTIFY.PUSH_LABEL")}
+                  {pushBusy && (
+                    <Icon name="loader" className="size-3 animate-spin" />
+                  )}
                 </span>
                 <Switch
                   checked={pushActive}
+                  disabled={pushBusy}
                   onCheckedChange={(next) => {
-                    if (next) {
-                      void enablePush();
-                    } else {
-                      setPushEnabled(false);
-                      void unsubscribePush();
-                    }
+                    if (next) void enablePush();
+                    else void disablePush();
                   }}
                 />
               </>
