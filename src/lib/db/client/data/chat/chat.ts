@@ -9,6 +9,7 @@ import {
   conversationCharacters,
   conversationLorebooks,
   conversations,
+  lorebooks,
   media,
   messageItems,
   messages,
@@ -513,12 +514,27 @@ export async function replaceLocalConversationBindings(
   const local = await getLocalDb(userId);
   if (!local) return;
   if (bindings.conversationCharacters) {
+    // The sticky loadout cookie can outlive its entities (delete, DB wipe,
+    // import from another account); binding a missing character id trips the
+    // FK constraint and kills chat creation. Skip unknown ids instead.
+    const wantedCharIds = bindings.conversationCharacters.map(
+      (row) => row.characterId,
+    );
+    const knownChars = wantedCharIds.length
+      ? await local.db
+          .select({ id: characters.id })
+          .from(characters)
+          .where(inArray(characters.id, wantedCharIds))
+      : [];
+    const knownCharIds = new Set(knownChars.map((row) => row.id));
     await replaceChildRows(
       local.db,
       conversationCharacters,
       conversationCharacters.convId,
       convId,
-      bindings.conversationCharacters,
+      bindings.conversationCharacters.filter((row) =>
+        knownCharIds.has(row.characterId),
+      ),
       (row, i) => ({
         convId,
         characterId: row.characterId,
@@ -529,12 +545,24 @@ export async function replaceLocalConversationBindings(
     );
   }
   if (bindings.conversationLorebooks) {
+    const wantedLbIds = bindings.conversationLorebooks.map(
+      (row) => row.lorebookId,
+    );
+    const knownLbs = wantedLbIds.length
+      ? await local.db
+          .select({ id: lorebooks.id })
+          .from(lorebooks)
+          .where(inArray(lorebooks.id, wantedLbIds))
+      : [];
+    const knownLbIds = new Set(knownLbs.map((row) => row.id));
     await replaceChildRows(
       local.db,
       conversationLorebooks,
       conversationLorebooks.convId,
       convId,
-      bindings.conversationLorebooks,
+      bindings.conversationLorebooks.filter((row) =>
+        knownLbIds.has(row.lorebookId),
+      ),
       (row, i) => ({
         convId,
         lorebookId: row.lorebookId,
