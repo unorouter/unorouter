@@ -5487,6 +5487,7 @@
     "TAB_INBOX": "Caixa",
     "TAB_WATCHED": "Acompanhados",
     "CLEAR": "Limpar tudo",
-    "SOUND": "Som de notificação"
+    "SOUND": "Som de notificação",
+    "PUSH_LABEL": "Notificações do navegador"
   }
 }

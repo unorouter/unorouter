@@ -5487,6 +5487,7 @@
     "TAB_INBOX": "Odebrane",
     "TAB_WATCHED": "Obserwowane",
     "CLEAR": "Wyczyść wszystko",
-    "SOUND": "Dźwięk powiadomień"
+    "SOUND": "Dźwięk powiadomień",
+    "PUSH_LABEL": "Powiadomienia przeglądarki"
   }
 }

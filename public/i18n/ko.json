@@ -5487,6 +5487,7 @@
     "TAB_INBOX": "수신함",
     "TAB_WATCHED": "관심",
     "CLEAR": "모두 지우기",
-    "SOUND": "알림음"
+    "SOUND": "알림음",
+    "PUSH_LABEL": "브라우저 알림"
   }
 }

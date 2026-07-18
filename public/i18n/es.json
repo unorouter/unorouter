@@ -5487,6 +5487,7 @@
     "TAB_INBOX": "Bandeja",
     "TAB_WATCHED": "Seguidos",
     "CLEAR": "Borrar todo",
-    "SOUND": "Sonido de notificación"
+    "SOUND": "Sonido de notificación",
+    "PUSH_LABEL": "Notificaciones del navegador"
   }
 }

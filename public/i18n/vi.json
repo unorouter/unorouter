@@ -5487,6 +5487,7 @@
     "TAB_INBOX": "Hộp thư",
     "TAB_WATCHED": "Theo dõi",
     "CLEAR": "Xóa tất cả",
-    "SOUND": "Âm thanh thông báo"
+    "SOUND": "Âm thanh thông báo",
+    "PUSH_LABEL": "Thông báo trình duyệt"
   }
 }

@@ -5487,6 +5487,7 @@
     "TAB_INBOX": "Kotak masuk",
     "TAB_WATCHED": "Dipantau",
     "CLEAR": "Hapus semua",
-    "SOUND": "Suara notifikasi"
+    "SOUND": "Suara notifikasi",
+    "PUSH_LABEL": "Notifikasi browser"
   }
 }

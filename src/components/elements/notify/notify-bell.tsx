@@ -22,6 +22,7 @@ import {
   pushAvailableHere,
   subscribePush,
   syncPushTopics,
+  unsubscribePush,
 } from "@/lib/notify/push";
 import { playNotifySound } from "@/lib/notify/sound";
 import { refreshNotifyPresence } from "@/lib/notify/ws-client";
@@ -306,23 +307,27 @@ export function NotifyBell() {
         </Tabs>
         {pushAvailableHere() && (
           <div className="border-border flex items-center justify-between border-t px-3 py-2">
-            {pushActive ? (
-              <span className="text-muted-foreground inline-flex items-center gap-1.5 text-xs">
-                <Icon name="check" className="h-3.5 w-3.5 text-green-500" />
-                {t("NOTIFY.PUSH_ON")}
-              </span>
-            ) : permission === "denied" ? (
+            {permission === "denied" ? (
               <span className="text-muted-foreground/70 text-xs">
                 {t("NOTIFY.PUSH_BLOCKED")}
               </span>
             ) : (
-              <button
-                type="button"
-                className="text-primary hover:text-primary/80 text-xs font-medium transition-colors"
-                onClick={() => void enablePush()}
-              >
-                {t("NOTIFY.PUSH_ENABLE")}
-              </button>
+              <>
+                <span className="text-muted-foreground text-xs">
+                  {t("NOTIFY.PUSH_LABEL")}
+                </span>
+                <Switch
+                  checked={pushActive}
+                  onCheckedChange={(next) => {
+                    if (next) {
+                      void enablePush();
+                    } else {
+                      setPushEnabled(false);
+                      void unsubscribePush();
+                    }
+                  }}
+                />
+              </>
             )}
           </div>
         )}

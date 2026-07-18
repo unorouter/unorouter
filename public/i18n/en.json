@@ -5487,6 +5487,7 @@
     "TAB_INBOX": "Inbox",
     "TAB_WATCHED": "Watched",
     "CLEAR": "Clear all",
-    "SOUND": "Notification sound"
+    "SOUND": "Notification sound",
+    "PUSH_LABEL": "Browser notifications"
   }
 }

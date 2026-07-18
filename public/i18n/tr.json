@@ -5487,6 +5487,7 @@
     "TAB_INBOX": "Gelen",
     "TAB_WATCHED": "İzlenen",
     "CLEAR": "Tümünü temizle",
-    "SOUND": "Bildirim sesi"
+    "SOUND": "Bildirim sesi",
+    "PUSH_LABEL": "Tarayıcı bildirimleri"
   }
 }

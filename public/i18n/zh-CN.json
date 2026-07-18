@@ -5487,6 +5487,7 @@
     "TAB_INBOX": "收件箱",
     "TAB_WATCHED": "已关注",
     "CLEAR": "全部清除",
-    "SOUND": "通知提示音"
+    "SOUND": "通知提示音",
+    "PUSH_LABEL": "浏览器通知"
   }
 }

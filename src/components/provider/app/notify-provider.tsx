@@ -46,10 +46,11 @@ export function NotifyProvider() {
       const text = notifyEventText(t, evt);
       toast(text.title, { description: text.body });
       if (soundEnabled) playNotifySound();
-      // OS banner only when the window is unfocused: the focused tab already
-      // gets toast + chime + title badge, and Brave on Linux is unreliable
-      // about focused-tab banners anyway.
-      if (!document.hasFocus()) {
+      // OS banner only when browser notifications are toggled on and the
+      // window is unfocused: the focused tab already gets toast + chime +
+      // title badge, and Brave on Linux is unreliable about focused-tab
+      // banners anyway.
+      if (pushEnabled && !document.hasFocus()) {
         void showOsBanner(
           text.title,
           text.body,
@@ -58,7 +59,7 @@ export function NotifyProvider() {
       }
     });
     return () => setNotifyEventHandler(null);
-  }, [t, setNotifications, soundEnabled]);
+  }, [t, setNotifications, soundEnabled, pushEnabled]);
 
   // DM-style tab title badge: prefix the unread count, survive Next.js
   // title swaps on navigation via a title-element observer.

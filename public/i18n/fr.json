@@ -5487,6 +5487,7 @@
     "TAB_INBOX": "Boîte",
     "TAB_WATCHED": "Suivis",
     "CLEAR": "Tout effacer",
-    "SOUND": "Son de notification"
+    "SOUND": "Son de notification",
+    "PUSH_LABEL": "Notifications du navigateur"
   }
 }

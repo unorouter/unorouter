@@ -5487,6 +5487,7 @@
     "TAB_INBOX": "In arrivo",
     "TAB_WATCHED": "Seguiti",
     "CLEAR": "Cancella tutto",
-    "SOUND": "Suono di notifica"
+    "SOUND": "Suono di notifica",
+    "PUSH_LABEL": "Notifiche del browser"
   }
 }
