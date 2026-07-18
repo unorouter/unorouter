@@ -37,6 +37,7 @@ import { ModelTabs } from "./tabs/model-tabs";
 import { PerfUptimePanel } from "./tabs/perf-uptime-panel";
 import { SupportedParameters } from "./tabs/supported-parameters";
 import { TryInChatButton } from "./header/try-in-chat-button";
+import { WatchModelButton } from "./header/watch-model-button";
 
 interface ModelDetailProps {
   model: ProcessedModel;
@@ -142,7 +143,7 @@ print(res.choices[0].message.content)`;
       />
       <section className="pt-8 pb-6">
         {/* Mobile: chat action rides above the title so the name has full width. */}
-        <div className="mb-4 flex sm:hidden">
+        <div className="mb-4 flex gap-2 sm:hidden">
           <TryInChatButton
             modelName={m.name}
             label={t("MODEL_PAGE.OPEN_CHAT")}
@@ -151,6 +152,7 @@ print(res.choices[0].message.content)`;
             badge
             disabled={props.offline}
           />
+          <WatchModelButton modelName={m.name} />
         </div>
         <div className="flex items-start justify-between gap-4">
           <div className="flex min-w-0 items-start gap-3">
@@ -185,6 +187,7 @@ print(res.choices[0].message.content)`;
               badge
               disabled={props.offline}
             />
+            <WatchModelButton modelName={m.name} />
           </div>
         </div>
 

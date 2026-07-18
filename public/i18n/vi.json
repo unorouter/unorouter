@@ -5389,5 +5389,33 @@
       "H_LOGS": "Kiểm tra việc sử dụng",
       "P_LOGS_1": "Trang Nhật ký liệt kê mọi yêu cầu với mô hình, số lượng token, chi phí chính xác và id yêu cầu. Nếu một khoản phí nào đó trông có vẻ sai, id yêu cầu là thứ bộ phận hỗ trợ cần."
     }
+  },
+  "NOTIFY": {
+    "BELL_LABEL": "Thông báo",
+    "EMPTY": "Không có thông báo trong phiên này",
+    "EMPTY_HINT": "Theo dõi một mô hình để nhận cảnh báo về thay đổi giá và tình trạng khả dụng.",
+    "WATCHING_COUNT": "Đang theo dõi {count}",
+    "WATCH_FREE_MODELS": "Mô hình miễn phí mới",
+    "WATCH": "Theo dõi",
+    "UNWATCH": "Bỏ theo dõi",
+    "PUSH_PROMPT_TITLE": "Bật thông báo trình duyệt?",
+    "PUSH_PROMPT_DESCRIPTION": "Nhận cảnh báo giảm giá và tình trạng khả dụng ngay cả khi tab này đã đóng.",
+    "PUSH_PROMPT_CONFIRM": "Bật",
+    "PUSH_PROMPT_CANCEL": "Để sau",
+    "PUSH_IOS_HINT": "Trên iPhone hoặc iPad, hãy thêm UnoRouter vào Màn hình chính trước (Chia sẻ, rồi Thêm vào MH chính), sau đó bật thông báo từ ứng dụng đã cài.",
+    "EVENT": {
+      "MODEL_ONLINE": "{model} đã hoạt động trở lại",
+      "MODEL_ONLINE_BODY": "Khả dụng trở lại với mức {ratio}x",
+      "MODEL_OFFLINE": "{model} hiện không khả dụng",
+      "MODEL_OFFLINE_BODY": "Tất cả nhà cung cấp hiện đang ngừng hoạt động",
+      "PRICE_CHANGE": "Giá của {model} đã thay đổi",
+      "PRICE_DOWN_BODY": "Giá giảm từ {prevRatio}x xuống {ratio}x",
+      "PRICE_UP_BODY": "Giá tăng từ {prevRatio}x lên {ratio}x",
+      "MODEL_ADDED": "Mô hình mới: {model}",
+      "MODEL_ADDED_BODY": "Hiện khả dụng với mức {ratio}x",
+      "MODEL_ADDED_FREE_BODY": "Hiện khả dụng miễn phí",
+      "MODEL_REMOVED": "{model} đã bị gỡ bỏ",
+      "MODEL_REMOVED_BODY": "Không còn được cung cấp"
+    }
   }
 }

@@ -5389,5 +5389,33 @@
       "H_LOGS": "Auditer l'utilisation",
       "P_LOGS_1": "La page Journaux liste chaque requête avec le modèle, le nombre de jetons, le coût exact et l'id de requête. Si un débit semble erroné, l'id de requête est ce dont le support a besoin."
     }
+  },
+  "NOTIFY": {
+    "BELL_LABEL": "Notifications",
+    "EMPTY": "Aucune notification pour cette session",
+    "EMPTY_HINT": "Suivez un modèle pour recevoir des alertes de prix et de disponibilité.",
+    "WATCHING_COUNT": "{count} suivis",
+    "WATCH_FREE_MODELS": "Nouveaux modèles gratuits",
+    "WATCH": "Suivre",
+    "UNWATCH": "Ne plus suivre",
+    "PUSH_PROMPT_TITLE": "Activer les notifications du navigateur ?",
+    "PUSH_PROMPT_DESCRIPTION": "Recevez des alertes de baisse de prix et de disponibilité même quand cet onglet est fermé.",
+    "PUSH_PROMPT_CONFIRM": "Activer",
+    "PUSH_PROMPT_CANCEL": "Plus tard",
+    "PUSH_IOS_HINT": "Sur iPhone ou iPad, ajoutez d'abord UnoRouter à l'écran d'accueil (Partager, puis Sur l'écran d'accueil), puis activez les notifications depuis l'app installée.",
+    "EVENT": {
+      "MODEL_ONLINE": "{model} est de nouveau en ligne",
+      "MODEL_ONLINE_BODY": "Disponible à nouveau à {ratio}x",
+      "MODEL_OFFLINE": "{model} est indisponible",
+      "MODEL_OFFLINE_BODY": "Tous les fournisseurs sont actuellement hors service",
+      "PRICE_CHANGE": "Le prix de {model} a changé",
+      "PRICE_DOWN_BODY": "Le prix est passé de {prevRatio}x à {ratio}x",
+      "PRICE_UP_BODY": "Le prix est monté de {prevRatio}x à {ratio}x",
+      "MODEL_ADDED": "Nouveau modèle : {model}",
+      "MODEL_ADDED_BODY": "Désormais disponible à {ratio}x",
+      "MODEL_ADDED_FREE_BODY": "Désormais disponible gratuitement",
+      "MODEL_REMOVED": "{model} a été retiré",
+      "MODEL_REMOVED_BODY": "N'est plus proposé"
+    }
   }
 }

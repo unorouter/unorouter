@@ -5389,5 +5389,33 @@
       "H_LOGS": "稽核用量",
       "P_LOGS_1": "記錄頁面列出每一次請求，包含模型、權杖數量、確切成本和請求 id。如果某筆費用看起來有誤，請求 id 正是支援所需要的。"
     }
+  },
+  "NOTIFY": {
+    "BELL_LABEL": "通知",
+    "EMPTY": "本次工作階段暫無通知",
+    "EMPTY_HINT": "關注模型即可收到價格變動與可用性提醒。",
+    "WATCHING_COUNT": "已關注 {count} 項",
+    "WATCH_FREE_MODELS": "新的免費模型",
+    "WATCH": "關注",
+    "UNWATCH": "取消關注",
+    "PUSH_PROMPT_TITLE": "開啟瀏覽器通知？",
+    "PUSH_PROMPT_DESCRIPTION": "即使關閉此分頁，也能收到降價與可用性提醒。",
+    "PUSH_PROMPT_CONFIRM": "開啟",
+    "PUSH_PROMPT_CANCEL": "暫不",
+    "PUSH_IOS_HINT": "在 iPhone 或 iPad 上，請先將 UnoRouter 加入主畫面（分享，然後加入主畫面），再於安裝的應用程式中開啟通知。",
+    "EVENT": {
+      "MODEL_ONLINE": "{model} 已恢復上線",
+      "MODEL_ONLINE_BODY": "已重新可用，費率 {ratio}x",
+      "MODEL_OFFLINE": "{model} 暫不可用",
+      "MODEL_OFFLINE_BODY": "所有服務商目前均已停止服務",
+      "PRICE_CHANGE": "{model} 價格已變動",
+      "PRICE_DOWN_BODY": "價格從 {prevRatio}x 降至 {ratio}x",
+      "PRICE_UP_BODY": "價格從 {prevRatio}x 升至 {ratio}x",
+      "MODEL_ADDED": "新模型：{model}",
+      "MODEL_ADDED_BODY": "現已可用，費率 {ratio}x",
+      "MODEL_ADDED_FREE_BODY": "現已免費可用",
+      "MODEL_REMOVED": "{model} 已下架",
+      "MODEL_REMOVED_BODY": "已不再提供"
+    }
   }
 }

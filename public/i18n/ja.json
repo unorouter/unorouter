@@ -5389,5 +5389,33 @@
       "H_LOGS": "使用状況を監査する",
       "P_LOGS_1": "ログページは、各リクエストをモデル、トークン数、正確なコスト、リクエスト id とともに一覧表示します。課金がおかしく見えるときにサポートが必要とするのは、リクエスト id です。"
     }
+  },
+  "NOTIFY": {
+    "BELL_LABEL": "通知",
+    "EMPTY": "このセッションの通知はありません",
+    "EMPTY_HINT": "モデルをウォッチすると、価格変動や稼働状況の通知を受け取れます。",
+    "WATCHING_COUNT": "{count} 件をウォッチ中",
+    "WATCH_FREE_MODELS": "新しい無料モデル",
+    "WATCH": "ウォッチ",
+    "UNWATCH": "ウォッチ解除",
+    "PUSH_PROMPT_TITLE": "ブラウザ通知を有効にしますか？",
+    "PUSH_PROMPT_DESCRIPTION": "このタブを閉じていても、値下げや稼働状況の通知を受け取れます。",
+    "PUSH_PROMPT_CONFIRM": "有効にする",
+    "PUSH_PROMPT_CANCEL": "今はしない",
+    "PUSH_IOS_HINT": "iPhone・iPad では、まず UnoRouter をホーム画面に追加（共有からホーム画面に追加）し、インストールしたアプリから通知を有効にしてください。",
+    "EVENT": {
+      "MODEL_ONLINE": "{model} が復旧しました",
+      "MODEL_ONLINE_BODY": "{ratio}x で再び利用可能",
+      "MODEL_OFFLINE": "{model} は利用できません",
+      "MODEL_OFFLINE_BODY": "すべてのプロバイダーが現在停止中です",
+      "PRICE_CHANGE": "{model} の価格が変更されました",
+      "PRICE_DOWN_BODY": "価格が {prevRatio}x から {ratio}x に下がりました",
+      "PRICE_UP_BODY": "価格が {prevRatio}x から {ratio}x に上がりました",
+      "MODEL_ADDED": "新しいモデル：{model}",
+      "MODEL_ADDED_BODY": "{ratio}x で利用可能になりました",
+      "MODEL_ADDED_FREE_BODY": "無料で利用可能になりました",
+      "MODEL_REMOVED": "{model} は削除されました",
+      "MODEL_REMOVED_BODY": "提供終了となりました"
+    }
   }
 }

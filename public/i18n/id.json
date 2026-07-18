@@ -5389,5 +5389,33 @@
       "H_LOGS": "Mengaudit penggunaan",
       "P_LOGS_1": "Halaman Log mencantumkan setiap permintaan dengan model, jumlah token, biaya persis, dan id permintaan. Jika suatu biaya terlihat salah, id permintaan itulah yang dibutuhkan dukungan."
     }
+  },
+  "NOTIFY": {
+    "BELL_LABEL": "Notifikasi",
+    "EMPTY": "Tidak ada notifikasi di sesi ini",
+    "EMPTY_HINT": "Pantau model untuk mendapat peringatan perubahan harga dan ketersediaan.",
+    "WATCHING_COUNT": "{count} dipantau",
+    "WATCH_FREE_MODELS": "Model gratis baru",
+    "WATCH": "Pantau",
+    "UNWATCH": "Berhenti memantau",
+    "PUSH_PROMPT_TITLE": "Aktifkan notifikasi browser?",
+    "PUSH_PROMPT_DESCRIPTION": "Dapatkan peringatan penurunan harga dan ketersediaan meski tab ini ditutup.",
+    "PUSH_PROMPT_CONFIRM": "Aktifkan",
+    "PUSH_PROMPT_CANCEL": "Nanti saja",
+    "PUSH_IOS_HINT": "Di iPhone atau iPad, tambahkan UnoRouter ke Layar Utama dulu (Bagikan, lalu Tambah ke Layar Utama), kemudian aktifkan notifikasi dari aplikasi yang terpasang.",
+    "EVENT": {
+      "MODEL_ONLINE": "{model} kembali online",
+      "MODEL_ONLINE_BODY": "Tersedia lagi dengan tarif {ratio}x",
+      "MODEL_OFFLINE": "{model} tidak tersedia",
+      "MODEL_OFFLINE_BODY": "Semua penyedia sedang tidak aktif",
+      "PRICE_CHANGE": "Harga {model} berubah",
+      "PRICE_DOWN_BODY": "Harga turun dari {prevRatio}x menjadi {ratio}x",
+      "PRICE_UP_BODY": "Harga naik dari {prevRatio}x menjadi {ratio}x",
+      "MODEL_ADDED": "Model baru: {model}",
+      "MODEL_ADDED_BODY": "Kini tersedia dengan tarif {ratio}x",
+      "MODEL_ADDED_FREE_BODY": "Kini tersedia gratis",
+      "MODEL_REMOVED": "{model} telah dihapus",
+      "MODEL_REMOVED_BODY": "Tidak lagi ditawarkan"
+    }
   }
 }

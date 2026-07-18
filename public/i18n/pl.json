@@ -5389,5 +5389,33 @@
       "H_LOGS": "Audyt użycia",
       "P_LOGS_1": "Strona Logi wymienia każde żądanie z modelem, liczbą tokenów, dokładnym kosztem i identyfikatorem żądania. Jeśli opłata kiedykolwiek wygląda niepoprawnie, identyfikator żądania jest tym, czego potrzebuje pomoc techniczna."
     }
+  },
+  "NOTIFY": {
+    "BELL_LABEL": "Powiadomienia",
+    "EMPTY": "Brak powiadomień w tej sesji",
+    "EMPTY_HINT": "Obserwuj model, aby otrzymywać alerty o zmianach cen i dostępności.",
+    "WATCHING_COUNT": "Obserwowane: {count}",
+    "WATCH_FREE_MODELS": "Nowe darmowe modele",
+    "WATCH": "Obserwuj",
+    "UNWATCH": "Przestań obserwować",
+    "PUSH_PROMPT_TITLE": "Włączyć powiadomienia przeglądarki?",
+    "PUSH_PROMPT_DESCRIPTION": "Otrzymuj alerty o spadkach cen i dostępności nawet przy zamkniętej karcie.",
+    "PUSH_PROMPT_CONFIRM": "Włącz",
+    "PUSH_PROMPT_CANCEL": "Nie teraz",
+    "PUSH_IOS_HINT": "Na iPhonie lub iPadzie najpierw dodaj UnoRouter do ekranu początkowego (Udostępnij, potem Do ekranu początkowego), a następnie włącz powiadomienia w zainstalowanej aplikacji.",
+    "EVENT": {
+      "MODEL_ONLINE": "{model} znów działa",
+      "MODEL_ONLINE_BODY": "Ponownie dostępny za {ratio}x",
+      "MODEL_OFFLINE": "{model} jest niedostępny",
+      "MODEL_OFFLINE_BODY": "Wszyscy dostawcy są obecnie wyłączeni",
+      "PRICE_CHANGE": "Cena {model} się zmieniła",
+      "PRICE_DOWN_BODY": "Cena spadła z {prevRatio}x do {ratio}x",
+      "PRICE_UP_BODY": "Cena wzrosła z {prevRatio}x do {ratio}x",
+      "MODEL_ADDED": "Nowy model: {model}",
+      "MODEL_ADDED_BODY": "Teraz dostępny za {ratio}x",
+      "MODEL_ADDED_FREE_BODY": "Teraz dostępny za darmo",
+      "MODEL_REMOVED": "{model} został usunięty",
+      "MODEL_REMOVED_BODY": "Nie jest już oferowany"
+    }
   }
 }

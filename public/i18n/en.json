@@ -5389,5 +5389,33 @@
       "H_LOGS": "Auditing usage",
       "P_LOGS_1": "The Logs page lists every request with model, token counts, exact cost and the request id. If a charge ever looks wrong, the request id is what support needs."
     }
+  },
+  "NOTIFY": {
+    "BELL_LABEL": "Notifications",
+    "EMPTY": "No notifications this session",
+    "EMPTY_HINT": "Watch a model to get alerts about price changes and availability.",
+    "WATCHING_COUNT": "{count} watched",
+    "WATCH_FREE_MODELS": "New free models",
+    "WATCH": "Watch",
+    "UNWATCH": "Stop watching",
+    "PUSH_PROMPT_TITLE": "Enable browser notifications?",
+    "PUSH_PROMPT_DESCRIPTION": "Get notified about price drops and availability even when this tab is closed.",
+    "PUSH_PROMPT_CONFIRM": "Enable",
+    "PUSH_PROMPT_CANCEL": "Not now",
+    "PUSH_IOS_HINT": "On iPhone or iPad, add UnoRouter to your Home Screen first (Share, then Add to Home Screen), then enable notifications from the installed app.",
+    "EVENT": {
+      "MODEL_ONLINE": "{model} is back online",
+      "MODEL_ONLINE_BODY": "Available again at {ratio}x",
+      "MODEL_OFFLINE": "{model} is unavailable",
+      "MODEL_OFFLINE_BODY": "All providers are currently down",
+      "PRICE_CHANGE": "{model} price changed",
+      "PRICE_DOWN_BODY": "Price dropped from {prevRatio}x to {ratio}x",
+      "PRICE_UP_BODY": "Price rose from {prevRatio}x to {ratio}x",
+      "MODEL_ADDED": "New model: {model}",
+      "MODEL_ADDED_BODY": "Now available at {ratio}x",
+      "MODEL_ADDED_FREE_BODY": "Now available for free",
+      "MODEL_REMOVED": "{model} was removed",
+      "MODEL_REMOVED_BODY": "No longer offered"
+    }
   }
 }

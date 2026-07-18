@@ -130,4 +130,53 @@ self.addEventListener("fetch", (event) => {
   }
 });
 
+type PushPayload = {
+  title?: string;
+  body?: string;
+  url?: string;
+  event?: { type?: string; data?: { model?: string } };
+};
+
+// A push MUST always end in a visible notification: Chrome shows a generic
+// "site updated in background" and Safari revokes the subscription after a
+// few silent pushes. Never bail early, never fetch here.
+self.addEventListener("push", (event) => {
+  let payload: PushPayload = {};
+  try {
+    payload = (event.data?.json() ?? {}) as PushPayload;
+  } catch {
+    payload = { body: event.data?.text() };
+  }
+  const title = payload.title || "UnoRouter";
+  const options: NotificationOptions = {
+    body: payload.body ?? "",
+    icon: "/images/icons/icon-192.png",
+    badge: "/images/icons/icon-192.png",
+    tag: payload.event?.type
+      ? `${payload.event.type}:${payload.event.data?.model ?? ""}`
+      : "unorouter-notify",
+    data: { url: payload.url ?? "/" },
+  };
+  event.waitUntil(self.registration.showNotification(title, options));
+});
+
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+  const target = (event.notification.data as { url?: string })?.url ?? "/";
+  event.waitUntil(
+    self.clients
+      .matchAll({ type: "window", includeUncontrolled: true })
+      .then((clients) => {
+        for (const client of clients) {
+          if ("focus" in client) {
+            void client.focus();
+            if ("navigate" in client) void client.navigate(target);
+            return;
+          }
+        }
+        return self.clients.openWindow(target);
+      }),
+  );
+});
+
 serwist.addEventListeners();

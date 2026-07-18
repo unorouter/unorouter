@@ -5389,5 +5389,33 @@
       "H_LOGS": "تدقيق الاستخدام",
       "P_LOGS_1": "تسرد صفحة السجلات كل طلب مع النموذج، وأعداد الرموز، والتكلفة الدقيقة، ومعرّف الطلب. إذا بدت رسوم ما خاطئة في أي وقت، فإن معرّف الطلب هو ما يحتاجه الدعم."
     }
+  },
+  "NOTIFY": {
+    "BELL_LABEL": "الإشعارات",
+    "EMPTY": "لا توجد إشعارات في هذه الجلسة",
+    "EMPTY_HINT": "تابع نموذجًا لتصلك تنبيهات بتغيّرات الأسعار والتوفر.",
+    "WATCHING_COUNT": "{count} قيد المتابعة",
+    "WATCH_FREE_MODELS": "نماذج مجانية جديدة",
+    "WATCH": "متابعة",
+    "UNWATCH": "إيقاف المتابعة",
+    "PUSH_PROMPT_TITLE": "تفعيل إشعارات المتصفح؟",
+    "PUSH_PROMPT_DESCRIPTION": "احصل على تنبيهات بانخفاض الأسعار والتوفر حتى عند إغلاق هذا التبويب.",
+    "PUSH_PROMPT_CONFIRM": "تفعيل",
+    "PUSH_PROMPT_CANCEL": "ليس الآن",
+    "PUSH_IOS_HINT": "على iPhone أو iPad، أضف UnoRouter أولًا إلى الشاشة الرئيسية (مشاركة ثم إضافة إلى الشاشة الرئيسية)، ثم فعّل الإشعارات من التطبيق المثبّت.",
+    "EVENT": {
+      "MODEL_ONLINE": "{model} عاد للعمل",
+      "MODEL_ONLINE_BODY": "متاح مجددًا بمعدل {ratio}x",
+      "MODEL_OFFLINE": "{model} غير متاح",
+      "MODEL_OFFLINE_BODY": "جميع المزوّدين متوقفون حاليًا",
+      "PRICE_CHANGE": "تغيّر سعر {model}",
+      "PRICE_DOWN_BODY": "انخفض السعر من {prevRatio}x إلى {ratio}x",
+      "PRICE_UP_BODY": "ارتفع السعر من {prevRatio}x إلى {ratio}x",
+      "MODEL_ADDED": "نموذج جديد: {model}",
+      "MODEL_ADDED_BODY": "متاح الآن بمعدل {ratio}x",
+      "MODEL_ADDED_FREE_BODY": "متاح الآن مجانًا",
+      "MODEL_REMOVED": "تمت إزالة {model}",
+      "MODEL_REMOVED_BODY": "لم يعد متوفرًا"
+    }
   }
 }

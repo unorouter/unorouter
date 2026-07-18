@@ -5389,5 +5389,33 @@
       "H_LOGS": "Verificare l'uso",
       "P_LOGS_1": "La pagina Log elenca ogni richiesta con il modello, il conteggio dei token, il costo esatto e l'id di richiesta. Se un addebito dovesse mai sembrare errato, l'id di richiesta è ciò di cui il supporto ha bisogno."
     }
+  },
+  "NOTIFY": {
+    "BELL_LABEL": "Notifiche",
+    "EMPTY": "Nessuna notifica in questa sessione",
+    "EMPTY_HINT": "Segui un modello per ricevere avvisi su prezzi e disponibilità.",
+    "WATCHING_COUNT": "{count} seguiti",
+    "WATCH_FREE_MODELS": "Nuovi modelli gratuiti",
+    "WATCH": "Segui",
+    "UNWATCH": "Smetti di seguire",
+    "PUSH_PROMPT_TITLE": "Attivare le notifiche del browser?",
+    "PUSH_PROMPT_DESCRIPTION": "Ricevi avvisi su cali di prezzo e disponibilità anche quando questa scheda è chiusa.",
+    "PUSH_PROMPT_CONFIRM": "Attiva",
+    "PUSH_PROMPT_CANCEL": "Non ora",
+    "PUSH_IOS_HINT": "Su iPhone o iPad, aggiungi prima UnoRouter alla schermata Home (Condividi, poi Aggiungi alla schermata Home), quindi attiva le notifiche dall'app installata.",
+    "EVENT": {
+      "MODEL_ONLINE": "{model} è di nuovo online",
+      "MODEL_ONLINE_BODY": "Di nuovo disponibile a {ratio}x",
+      "MODEL_OFFLINE": "{model} non è disponibile",
+      "MODEL_OFFLINE_BODY": "Tutti i provider sono attualmente fuori servizio",
+      "PRICE_CHANGE": "Il prezzo di {model} è cambiato",
+      "PRICE_DOWN_BODY": "Il prezzo è sceso da {prevRatio}x a {ratio}x",
+      "PRICE_UP_BODY": "Il prezzo è salito da {prevRatio}x a {ratio}x",
+      "MODEL_ADDED": "Nuovo modello: {model}",
+      "MODEL_ADDED_BODY": "Ora disponibile a {ratio}x",
+      "MODEL_ADDED_FREE_BODY": "Ora disponibile gratis",
+      "MODEL_REMOVED": "{model} è stato rimosso",
+      "MODEL_REMOVED_BODY": "Non è più offerto"
+    }
   }
 }

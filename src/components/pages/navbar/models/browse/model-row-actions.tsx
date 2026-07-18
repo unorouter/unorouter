@@ -9,10 +9,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Icon } from "@/components/ui/icon";
+import { useModelWatch } from "@/hooks/models/notify-hook";
 import { Link } from "@/i18n/navigation";
 import { analytics } from "@/lib/analytics";
 import type { ProcessedModel } from "@/lib/api/pricing";
 import { copyToClipboard, modelHref } from "@/lib/utils/base";
+import { cn } from "@/lib/utils";
 import { chatModelAtom } from "@/store/chat-store";
 import { useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
@@ -20,6 +22,7 @@ import { useTranslations } from "next-intl";
 export function ModelRowActions(props: { model: ProcessedModel }) {
   const t = useTranslations();
   const setChatModel = useSetAtom(chatModelAtom);
+  const watch = useModelWatch(props.model.name);
   const model = props.model;
 
   return (
@@ -62,6 +65,21 @@ export function ModelRowActions(props: { model: ProcessedModel }) {
               className="text-muted-foreground mr-2 h-3.5 w-3.5"
             />
             {t("MODELS.OPEN_IN_CHAT")}
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={(e) => {
+              e.stopPropagation();
+              watch.toggle();
+            }}
+          >
+            <Icon
+              name="bell"
+              className={cn(
+                "mr-2 h-3.5 w-3.5",
+                watch.watched ? "text-primary" : "text-muted-foreground",
+              )}
+            />
+            {watch.watched ? t("NOTIFY.UNWATCH") : t("NOTIFY.WATCH")}
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem

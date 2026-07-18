@@ -5389,5 +5389,33 @@
       "H_LOGS": "Kullanımı denetleme",
       "P_LOGS_1": "Günlükler sayfası her isteği model, token sayıları, tam maliyet ve istek kimliğiyle listeler. Bir ücret hatalı görünürse, destek ekibinin ihtiyaç duyduğu şey istek kimliğidir."
     }
+  },
+  "NOTIFY": {
+    "BELL_LABEL": "Bildirimler",
+    "EMPTY": "Bu oturumda bildirim yok",
+    "EMPTY_HINT": "Fiyat değişimi ve erişilebilirlik uyarıları almak için bir modeli izleyin.",
+    "WATCHING_COUNT": "{count} izleniyor",
+    "WATCH_FREE_MODELS": "Yeni ücretsiz modeller",
+    "WATCH": "İzle",
+    "UNWATCH": "İzlemeyi bırak",
+    "PUSH_PROMPT_TITLE": "Tarayıcı bildirimleri açılsın mı?",
+    "PUSH_PROMPT_DESCRIPTION": "Bu sekme kapalıyken bile fiyat düşüşü ve erişilebilirlik uyarıları alın.",
+    "PUSH_PROMPT_CONFIRM": "Aç",
+    "PUSH_PROMPT_CANCEL": "Şimdi değil",
+    "PUSH_IOS_HINT": "iPhone veya iPad'de önce UnoRouter'ı Ana Ekrana ekleyin (Paylaş, ardından Ana Ekrana Ekle), sonra yüklü uygulamadan bildirimleri açın.",
+    "EVENT": {
+      "MODEL_ONLINE": "{model} yeniden çevrimiçi",
+      "MODEL_ONLINE_BODY": "{ratio}x ile yeniden kullanılabilir",
+      "MODEL_OFFLINE": "{model} kullanılamıyor",
+      "MODEL_OFFLINE_BODY": "Tüm sağlayıcılar şu anda devre dışı",
+      "PRICE_CHANGE": "{model} fiyatı değişti",
+      "PRICE_DOWN_BODY": "Fiyat {prevRatio}x seviyesinden {ratio}x seviyesine düştü",
+      "PRICE_UP_BODY": "Fiyat {prevRatio}x seviyesinden {ratio}x seviyesine çıktı",
+      "MODEL_ADDED": "Yeni model: {model}",
+      "MODEL_ADDED_BODY": "Artık {ratio}x ile kullanılabilir",
+      "MODEL_ADDED_FREE_BODY": "Artık ücretsiz kullanılabilir",
+      "MODEL_REMOVED": "{model} kaldırıldı",
+      "MODEL_REMOVED_BODY": "Artık sunulmuyor"
+    }
   }
 }

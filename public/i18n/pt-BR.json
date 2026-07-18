@@ -5389,5 +5389,33 @@
       "H_LOGS": "Auditar o uso",
       "P_LOGS_1": "A página de Logs lista cada requisição com o modelo, a contagem de tokens, o custo exato e o id de requisição. Se uma cobrança parecer errada, o id de requisição é o que o suporte precisa."
     }
+  },
+  "NOTIFY": {
+    "BELL_LABEL": "Notificações",
+    "EMPTY": "Nenhuma notificação nesta sessão",
+    "EMPTY_HINT": "Acompanhe um modelo para receber alertas de preço e disponibilidade.",
+    "WATCHING_COUNT": "{count} acompanhados",
+    "WATCH_FREE_MODELS": "Novos modelos gratuitos",
+    "WATCH": "Acompanhar",
+    "UNWATCH": "Parar de acompanhar",
+    "PUSH_PROMPT_TITLE": "Ativar notificações do navegador?",
+    "PUSH_PROMPT_DESCRIPTION": "Receba avisos de queda de preço e disponibilidade mesmo com esta aba fechada.",
+    "PUSH_PROMPT_CONFIRM": "Ativar",
+    "PUSH_PROMPT_CANCEL": "Agora não",
+    "PUSH_IOS_HINT": "No iPhone ou iPad, adicione primeiro o UnoRouter à Tela de Início (Compartilhar e depois Adicionar à Tela de Início) e ative as notificações no app instalado.",
+    "EVENT": {
+      "MODEL_ONLINE": "{model} está online novamente",
+      "MODEL_ONLINE_BODY": "Disponível novamente a {ratio}x",
+      "MODEL_OFFLINE": "{model} está indisponível",
+      "MODEL_OFFLINE_BODY": "Todos os provedores estão fora do ar no momento",
+      "PRICE_CHANGE": "O preço de {model} mudou",
+      "PRICE_DOWN_BODY": "O preço caiu de {prevRatio}x para {ratio}x",
+      "PRICE_UP_BODY": "O preço subiu de {prevRatio}x para {ratio}x",
+      "MODEL_ADDED": "Novo modelo: {model}",
+      "MODEL_ADDED_BODY": "Agora disponível a {ratio}x",
+      "MODEL_ADDED_FREE_BODY": "Agora disponível gratuitamente",
+      "MODEL_REMOVED": "{model} foi removido",
+      "MODEL_REMOVED_BODY": "Não é mais oferecido"
+    }
   }
 }

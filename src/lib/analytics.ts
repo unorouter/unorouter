@@ -429,6 +429,15 @@ const models = {
   openInChat: (props: { model: string }) => {
     posthog.capture("models_open_in_chat", { model: props.model });
   },
+  notifyWatchToggled: (props: { topic: string; watched: boolean }) => {
+    posthog.capture("models_notify_watch_toggled", {
+      topic: props.topic,
+      watched: props.watched,
+    });
+  },
+  notifyPushEnabled: (props: { topics: number }) => {
+    posthog.capture("models_notify_push_enabled", { topics: props.topics });
+  },
 };
 
 const rp = {

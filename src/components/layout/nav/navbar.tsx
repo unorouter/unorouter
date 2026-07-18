@@ -2,6 +2,7 @@
 
 import { CompanyName, LogoImage } from "@/components/elements/brand/brand";
 import { LoginLink } from "@/components/elements/brand/login-link";
+import { NotifyBell } from "@/components/elements/notify/notify-bell";
 import { Icon } from "@/components/ui/icon";
 import { LanguageToggle } from "@/components/toggle/language-toggle";
 import { ThemeToggle } from "@/components/toggle/theme-toggle";
@@ -238,6 +239,7 @@ export function Navbar(props: { authSlot?: React.ReactNode }) {
               <Icon name="brand-discord" className="h-5 w-5" />
             </a>
           )}
+          <NotifyBell />
           <LanguageToggle />
           <ThemeToggle />
           {props.authSlot ?? (

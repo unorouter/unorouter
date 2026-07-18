@@ -5389,5 +5389,33 @@
       "H_LOGS": "ביקורת שימוש",
       "P_LOGS_1": "עמוד היומנים מפרט כל בקשה עם המודל, ספירות האסימונים, העלות המדויקת ומזהה הבקשה. אם חיוב אי פעם נראה שגוי, מזהה הבקשה הוא מה שהתמיכה צריכה."
     }
+  },
+  "NOTIFY": {
+    "BELL_LABEL": "התראות",
+    "EMPTY": "אין התראות בהפעלה הנוכחית",
+    "EMPTY_HINT": "עקבו אחרי מודל כדי לקבל התראות על שינויי מחיר וזמינות.",
+    "WATCHING_COUNT": "{count} במעקב",
+    "WATCH_FREE_MODELS": "מודלים חינמיים חדשים",
+    "WATCH": "עקוב",
+    "UNWATCH": "הפסק מעקב",
+    "PUSH_PROMPT_TITLE": "להפעיל התראות דפדפן?",
+    "PUSH_PROMPT_DESCRIPTION": "קבלו התראות על ירידות מחיר וזמינות גם כשהכרטיסייה הזו סגורה.",
+    "PUSH_PROMPT_CONFIRM": "הפעל",
+    "PUSH_PROMPT_CANCEL": "לא עכשיו",
+    "PUSH_IOS_HINT": "ב-iPhone או iPad, הוסיפו קודם את UnoRouter למסך הבית (שיתוף ואז הוספה למסך הבית), ואז הפעילו התראות מהאפליקציה המותקנת.",
+    "EVENT": {
+      "MODEL_ONLINE": "{model} חזר לפעול",
+      "MODEL_ONLINE_BODY": "זמין שוב ב-{ratio}x",
+      "MODEL_OFFLINE": "{model} אינו זמין",
+      "MODEL_OFFLINE_BODY": "כל הספקים מושבתים כרגע",
+      "PRICE_CHANGE": "המחיר של {model} השתנה",
+      "PRICE_DOWN_BODY": "המחיר ירד מ-{prevRatio}x ל-{ratio}x",
+      "PRICE_UP_BODY": "המחיר עלה מ-{prevRatio}x ל-{ratio}x",
+      "MODEL_ADDED": "מודל חדש: {model}",
+      "MODEL_ADDED_BODY": "זמין כעת ב-{ratio}x",
+      "MODEL_ADDED_FREE_BODY": "זמין כעת בחינם",
+      "MODEL_REMOVED": "{model} הוסר",
+      "MODEL_REMOVED_BODY": "אינו מוצע יותר"
+    }
   }
 }

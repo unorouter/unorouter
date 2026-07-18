@@ -5389,5 +5389,33 @@
       "H_LOGS": "사용량 감사",
       "P_LOGS_1": "로그 페이지는 각 요청을 모델, 토큰 수, 정확한 비용, 요청 id와 함께 나열합니다. 요금이 이상해 보이면 지원팀에 필요한 것은 바로 요청 id입니다."
     }
+  },
+  "NOTIFY": {
+    "BELL_LABEL": "알림",
+    "EMPTY": "이번 세션에는 알림이 없습니다",
+    "EMPTY_HINT": "모델을 관심 등록하면 가격 변동과 가용성 알림을 받을 수 있습니다.",
+    "WATCHING_COUNT": "{count}개 관심 등록됨",
+    "WATCH_FREE_MODELS": "새 무료 모델",
+    "WATCH": "관심 등록",
+    "UNWATCH": "관심 해제",
+    "PUSH_PROMPT_TITLE": "브라우저 알림을 켤까요?",
+    "PUSH_PROMPT_DESCRIPTION": "이 탭을 닫아도 가격 인하와 가용성 알림을 받을 수 있습니다.",
+    "PUSH_PROMPT_CONFIRM": "켜기",
+    "PUSH_PROMPT_CANCEL": "나중에",
+    "PUSH_IOS_HINT": "iPhone 또는 iPad에서는 먼저 UnoRouter를 홈 화면에 추가한 뒤(공유, 홈 화면에 추가), 설치된 앱에서 알림을 켜 주세요.",
+    "EVENT": {
+      "MODEL_ONLINE": "{model}이(가) 다시 온라인 상태입니다",
+      "MODEL_ONLINE_BODY": "{ratio}x로 다시 이용 가능",
+      "MODEL_OFFLINE": "{model}을(를) 이용할 수 없습니다",
+      "MODEL_OFFLINE_BODY": "현재 모든 제공업체가 중단되었습니다",
+      "PRICE_CHANGE": "{model} 가격이 변경되었습니다",
+      "PRICE_DOWN_BODY": "가격이 {prevRatio}x에서 {ratio}x로 내렸습니다",
+      "PRICE_UP_BODY": "가격이 {prevRatio}x에서 {ratio}x로 올랐습니다",
+      "MODEL_ADDED": "새 모델: {model}",
+      "MODEL_ADDED_BODY": "이제 {ratio}x로 이용 가능",
+      "MODEL_ADDED_FREE_BODY": "이제 무료로 이용 가능",
+      "MODEL_REMOVED": "{model}이(가) 제거되었습니다",
+      "MODEL_REMOVED_BODY": "더 이상 제공되지 않습니다"
+    }
   }
 }

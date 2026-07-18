@@ -5389,5 +5389,33 @@
       "H_LOGS": "उपयोग का ऑडिट",
       "P_LOGS_1": "लॉग पेज हर अनुरोध को मॉडल, टोकन गणना, सटीक लागत और अनुरोध id के साथ सूचीबद्ध करता है। यदि कभी कोई शुल्क गलत लगे, तो अनुरोध id ही वह है जिसकी सहायता को आवश्यकता होती है।"
     }
+  },
+  "NOTIFY": {
+    "BELL_LABEL": "सूचनाएँ",
+    "EMPTY": "इस सत्र में कोई सूचना नहीं",
+    "EMPTY_HINT": "किसी मॉडल को वॉच करें और कीमत बदलाव व उपलब्धता की सूचनाएँ पाएँ।",
+    "WATCHING_COUNT": "{count} वॉच में",
+    "WATCH_FREE_MODELS": "नए मुफ़्त मॉडल",
+    "WATCH": "वॉच करें",
+    "UNWATCH": "वॉच हटाएँ",
+    "PUSH_PROMPT_TITLE": "ब्राउज़र सूचनाएँ चालू करें?",
+    "PUSH_PROMPT_DESCRIPTION": "यह टैब बंद होने पर भी कीमत घटने और उपलब्धता की सूचनाएँ पाएँ।",
+    "PUSH_PROMPT_CONFIRM": "चालू करें",
+    "PUSH_PROMPT_CANCEL": "अभी नहीं",
+    "PUSH_IOS_HINT": "iPhone या iPad पर पहले UnoRouter को होम स्क्रीन पर जोड़ें (शेयर, फिर होम स्क्रीन पर जोड़ें), फिर इंस्टॉल किए गए ऐप से सूचनाएँ चालू करें।",
+    "EVENT": {
+      "MODEL_ONLINE": "{model} फिर से ऑनलाइन है",
+      "MODEL_ONLINE_BODY": "{ratio}x पर फिर उपलब्ध",
+      "MODEL_OFFLINE": "{model} उपलब्ध नहीं है",
+      "MODEL_OFFLINE_BODY": "सभी प्रदाता फ़िलहाल बंद हैं",
+      "PRICE_CHANGE": "{model} की कीमत बदली",
+      "PRICE_DOWN_BODY": "कीमत {prevRatio}x से घटकर {ratio}x हुई",
+      "PRICE_UP_BODY": "कीमत {prevRatio}x से बढ़कर {ratio}x हुई",
+      "MODEL_ADDED": "नया मॉडल: {model}",
+      "MODEL_ADDED_BODY": "अब {ratio}x पर उपलब्ध",
+      "MODEL_ADDED_FREE_BODY": "अब मुफ़्त उपलब्ध",
+      "MODEL_REMOVED": "{model} हटा दिया गया",
+      "MODEL_REMOVED_BODY": "अब उपलब्ध नहीं है"
+    }
   }
 }
