@@ -5483,6 +5483,8 @@
     "PUSH_ON": "Thông báo trình duyệt đang bật",
     "PUSH_ENABLE": "Bật thông báo trình duyệt",
     "PUSH_BLOCKED": "Thông báo bị chặn trong cài đặt trình duyệt",
-    "ADD_MODEL_PLACEHOLDER": "Thêm mô hình để theo dõi..."
+    "ADD_MODEL_PLACEHOLDER": "Thêm mô hình để theo dõi...",
+    "TAB_INBOX": "Hộp thư",
+    "TAB_WATCHED": "Theo dõi"
   }
 }

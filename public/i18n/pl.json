@@ -5483,6 +5483,8 @@
     "PUSH_ON": "Powiadomienia przeglądarki włączone",
     "PUSH_ENABLE": "Włącz powiadomienia przeglądarki",
     "PUSH_BLOCKED": "Powiadomienia zablokowane w ustawieniach przeglądarki",
-    "ADD_MODEL_PLACEHOLDER": "Dodaj model do obserwowania..."
+    "ADD_MODEL_PLACEHOLDER": "Dodaj model do obserwowania...",
+    "TAB_INBOX": "Odebrane",
+    "TAB_WATCHED": "Obserwowane"
   }
 }

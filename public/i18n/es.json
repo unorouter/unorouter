@@ -5483,6 +5483,8 @@
     "PUSH_ON": "Notificaciones del navegador activadas",
     "PUSH_ENABLE": "Activar notificaciones del navegador",
     "PUSH_BLOCKED": "Notificaciones bloqueadas en la configuración del navegador",
-    "ADD_MODEL_PLACEHOLDER": "Añadir un modelo para seguir..."
+    "ADD_MODEL_PLACEHOLDER": "Añadir un modelo para seguir...",
+    "TAB_INBOX": "Bandeja",
+    "TAB_WATCHED": "Seguidos"
   }
 }

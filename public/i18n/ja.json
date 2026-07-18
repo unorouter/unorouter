@@ -5483,6 +5483,8 @@
     "PUSH_ON": "ブラウザ通知は有効です",
     "PUSH_ENABLE": "ブラウザ通知を有効にする",
     "PUSH_BLOCKED": "ブラウザ設定で通知がブロックされています",
-    "ADD_MODEL_PLACEHOLDER": "ウォッチするモデルを追加..."
+    "ADD_MODEL_PLACEHOLDER": "ウォッチするモデルを追加...",
+    "TAB_INBOX": "受信箱",
+    "TAB_WATCHED": "ウォッチ中"
   }
 }

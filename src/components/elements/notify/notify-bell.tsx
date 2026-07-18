@@ -8,6 +8,12 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Switch } from "@/components/ui/switch";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/tabs";
 import { useFreeModelsWatch } from "@/hooks/models/notify-hook";
 import { usePricingQuery } from "@/hooks/models/pricing-hook";
 import { useRouter } from "@/i18n/navigation";
@@ -59,19 +65,15 @@ export function NotifyBell() {
     setTopics(topics.filter((topic) => topic !== modelTopic(model)));
   };
 
-  const trimmed = query.trim().toLowerCase();
-  const suggestions = trimmed
-    ? (pricingQuery.data?.models ?? [])
-        .filter(
-          (m) =>
-            m.name.toLowerCase().includes(trimmed) &&
-            !topics.includes(modelTopic(m.name)),
-        )
-        .slice(0, 6)
-    : [];
+  // Free-text watch: any model name is accepted, including models currently
+  // offline or churned out of the catalog (the point of a comeback alert).
+  const raw = query.trim();
+  const rawValid =
+    /^[A-Za-z0-9:._/-]{1,150}$/.test(raw) && !topics.includes(modelTopic(raw));
 
-  const addWatch = (model: string) => {
-    setTopics([...topics, modelTopic(model)]);
+  const addWatch = () => {
+    if (!rawValid) return;
+    setTopics([...topics, modelTopic(raw)]);
     setQuery("");
   };
 
@@ -116,161 +118,179 @@ export function NotifyBell() {
         )}
       </PopoverTrigger>
       <PopoverContent align="end" className="w-80 p-0">
-        <div className="border-border flex items-center justify-between border-b px-3 py-2">
-          <span className="text-[11px] font-bold tracking-wider uppercase">
-            {t("NOTIFY.BELL_LABEL")}
-          </span>
-          <span className="text-muted-foreground text-[11px]">
-            {t("NOTIFY.WATCHING_COUNT", { count: topics.length })}
-          </span>
-        </div>
-        <div className="border-border border-b px-3 py-2">
-          <p className="text-muted-foreground/70 mb-1.5 text-[10px] font-bold tracking-wider uppercase">
-            {t("NOTIFY.WATCHED_MODELS")}
-          </p>
-          <div className="relative">
-            <input
-              type="text"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder={t("NOTIFY.ADD_MODEL_PLACEHOLDER")}
-              className="border-border/60 bg-muted/30 placeholder:text-muted-foreground/60 focus:border-primary/50 mb-1 w-full rounded border px-2 py-1 font-mono text-xs outline-none"
-            />
-            {suggestions.length > 0 && (
-              <div className="border-border bg-popover absolute top-full right-0 left-0 z-10 rounded border shadow-md">
-                {suggestions.map((m) => (
-                  <button
-                    key={m.name}
-                    type="button"
-                    className="hover:bg-muted/50 flex w-full items-center gap-1.5 px-2 py-1.5 text-left"
-                    onClick={() => addWatch(m.name)}
-                  >
-                    <VendorIcon vendor={m.vendor.name} size={14} />
-                    <span className="truncate font-mono text-xs">{m.name}</span>
-                  </button>
-                ))}
-              </div>
-            )}
+        <Tabs defaultValue="inbox" className="gap-0">
+          <div className="border-border border-b p-2">
+            <TabsList className="w-full">
+              <TabsTrigger value="inbox" className="text-xs">
+                {t("NOTIFY.TAB_INBOX")}
+                {unread > 0 && (
+                  <span className="bg-primary text-primary-foreground flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-[9px] font-bold">
+                    {unread > 9 ? "9+" : unread}
+                  </span>
+                )}
+              </TabsTrigger>
+              <TabsTrigger value="watched" className="text-xs">
+                {t("NOTIFY.TAB_WATCHED")}
+                <span className="text-muted-foreground">
+                  ({topics.length})
+                </span>
+              </TabsTrigger>
+            </TabsList>
           </div>
-          {watchedModels.length > 0 && (
-            <div className="flex max-h-28 flex-col gap-0.5 overflow-y-auto">
-              {watchedModels.map((model) => {
-                const vendor = vendorOf(model);
-                return (
-                  <div key={model} className="flex items-center gap-2">
+
+          <TabsContent value="inbox">
+            <div className="max-h-80 overflow-y-auto">
+              {notifications.length === 0 ? (
+                <div className="px-3 py-8 text-center">
+                  <p className="text-muted-foreground text-sm">
+                    {t("NOTIFY.EMPTY")}
+                  </p>
+                  <p className="text-muted-foreground/70 mt-1 text-xs">
+                    {t("NOTIFY.EMPTY_HINT")}
+                  </p>
+                </div>
+              ) : (
+                notifications.map((n) => {
+                  const text = notifyEventText(t, n);
+                  const vendor = vendorOf(n.data.model);
+                  return (
                     <button
+                      key={n.id}
                       type="button"
-                      className="hover:text-primary flex min-w-0 flex-1 items-center gap-1.5 text-left"
+                      className={cn(
+                        "hover:bg-muted/50 flex w-full items-start gap-2.5 px-3 py-2 text-left transition-colors",
+                        !n.read && "bg-primary/5",
+                      )}
                       onClick={() => {
                         setOpen(false);
-                        router.push(
-                          vendor ? modelHref(model, vendor) : "/models",
-                        );
+                        router.push(modelHref(n.data.model, vendor));
                       }}
                     >
-                      {vendor && <VendorIcon vendor={vendor} size={14} />}
-                      <span className="truncate font-mono text-xs">
-                        {model}
+                      {vendor ? (
+                        <VendorIcon vendor={vendor} size={18} />
+                      ) : (
+                        <Icon
+                          name="bell"
+                          className="text-muted-foreground mt-0.5 h-4 w-4 shrink-0"
+                        />
+                      )}
+                      <span className="min-w-0 flex-1">
+                        <span className="text-foreground line-clamp-2 text-[13px] font-medium break-all">
+                          {text.title}
+                        </span>
+                        <span className="text-muted-foreground block truncate text-xs">
+                          {text.body}
+                        </span>
+                      </span>
+                      <span className="text-muted-foreground/70 mt-0.5 shrink-0 text-[10px]">
+                        {dayjs.unix(n.ts).fromNow(true)}
                       </span>
                     </button>
-                    <button
-                      type="button"
-                      aria-label={t("NOTIFY.UNWATCH")}
-                      className="text-muted-foreground hover:text-destructive shrink-0 transition-colors"
-                      onClick={() => unwatch(model)}
-                    >
-                      <Icon name="x" className="h-3.5 w-3.5" />
-                    </button>
-                  </div>
-                );
-              })}
+                  );
+                })
+              )}
             </div>
-          )}
-        </div>
-        <div className="max-h-80 overflow-y-auto">
-          {notifications.length === 0 ? (
-            <div className="px-3 py-6 text-center">
-              <p className="text-muted-foreground text-sm">
-                {t("NOTIFY.EMPTY")}
-              </p>
-              <p className="text-muted-foreground/70 mt-1 text-xs">
-                {t("NOTIFY.EMPTY_HINT")}
-              </p>
-            </div>
-          ) : (
-            notifications.map((n) => {
-              const text = notifyEventText(t, n);
-              const vendor = vendorOf(n.data.model);
-              return (
-                <button
-                  key={n.id}
-                  type="button"
-                  className={cn(
-                    "hover:bg-muted/50 flex w-full items-start gap-2.5 px-3 py-2 text-left transition-colors",
-                    !n.read && "bg-primary/5",
-                  )}
-                  onClick={() => {
-                    setOpen(false);
-                    router.push(
-                      vendor ? modelHref(n.data.model, vendor) : "/models",
-                    );
+          </TabsContent>
+
+          <TabsContent value="watched">
+            <div className="p-3">
+              <div className="flex items-center gap-1.5">
+                <input
+                  type="text"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") addWatch();
                   }}
+                  placeholder={t("NOTIFY.ADD_MODEL_PLACEHOLDER")}
+                  className="border-border/60 bg-muted/30 placeholder:text-muted-foreground/60 focus:border-primary/50 h-7 min-w-0 flex-1 rounded border px-2 font-mono text-xs outline-none"
+                />
+                <button
+                  type="button"
+                  aria-label={t("NOTIFY.WATCH")}
+                  disabled={!rawValid}
+                  className="border-border/60 text-muted-foreground hover:text-primary hover:border-primary/50 flex h-7 w-7 shrink-0 items-center justify-center rounded border transition-colors disabled:pointer-events-none disabled:opacity-40"
+                  onClick={() => addWatch()}
                 >
-                  {vendor ? (
-                    <VendorIcon vendor={vendor} size={18} />
-                  ) : (
-                    <Icon
-                      name="bell"
-                      className="text-muted-foreground mt-0.5 h-4 w-4"
-                    />
-                  )}
-                  <span className="min-w-0 flex-1">
-                    <span className="text-foreground block truncate text-[13px] font-medium">
-                      {text.title}
-                    </span>
-                    <span className="text-muted-foreground block truncate text-xs">
-                      {text.body}
-                    </span>
-                  </span>
-                  <span className="text-muted-foreground/70 mt-0.5 shrink-0 text-[10px]">
-                    {dayjs.unix(n.ts).fromNow(true)}
-                  </span>
+                  <Icon name="plus" className="h-3.5 w-3.5" />
                 </button>
-              );
-            })
-          )}
-        </div>
-        <div className="border-border flex items-center justify-between border-t px-3 py-2">
-          <span className="text-muted-foreground text-xs">
-            {t("NOTIFY.WATCH_FREE_MODELS")}
-          </span>
-          <Switch
-            checked={freeWatch.watched}
-            onCheckedChange={() => freeWatch.toggle()}
-          />
-        </div>
-        {pushAvailableHere() && (
-          <div className="border-border flex items-center justify-between border-t px-3 py-2">
-            {pushActive ? (
-              <span className="text-muted-foreground inline-flex items-center gap-1.5 text-xs">
-                <Icon name="check" className="h-3.5 w-3.5 text-green-500" />
-                {t("NOTIFY.PUSH_ON")}
+              </div>
+              {watchedModels.length > 0 && (
+                <div className="mt-2 flex max-h-48 flex-col overflow-y-auto">
+                  {watchedModels.map((model) => {
+                    const vendor = vendorOf(model);
+                    return (
+                      <div
+                        key={model}
+                        className="hover:bg-muted/40 -mx-1 flex items-center gap-2 rounded px-1 py-1"
+                      >
+                        <button
+                          type="button"
+                          className="hover:text-primary flex min-w-0 flex-1 items-center gap-1.5 text-left"
+                          onClick={() => {
+                            setOpen(false);
+                            router.push(modelHref(model, vendor));
+                          }}
+                        >
+                          {vendor ? (
+                            <VendorIcon vendor={vendor} size={14} />
+                          ) : (
+                            <Icon
+                              name="bell"
+                              className="text-muted-foreground h-3.5 w-3.5 shrink-0"
+                            />
+                          )}
+                          <span className="truncate font-mono text-xs">
+                            {model}
+                          </span>
+                        </button>
+                        <button
+                          type="button"
+                          aria-label={t("NOTIFY.UNWATCH")}
+                          className="text-muted-foreground hover:text-destructive shrink-0 transition-colors"
+                          onClick={() => unwatch(model)}
+                        >
+                          <Icon name="x" className="h-3.5 w-3.5" />
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+            <div className="border-border flex items-center justify-between border-t px-3 py-2">
+              <span className="text-muted-foreground text-xs">
+                {t("NOTIFY.WATCH_FREE_MODELS")}
               </span>
-            ) : permission === "denied" ? (
-              <span className="text-muted-foreground/70 text-xs">
-                {t("NOTIFY.PUSH_BLOCKED")}
-              </span>
-            ) : (
-              <button
-                type="button"
-                className="text-primary hover:text-primary/80 text-xs font-medium transition-colors"
-                onClick={() => void enablePush()}
-              >
-                {t("NOTIFY.PUSH_ENABLE")}
-              </button>
+              <Switch
+                checked={freeWatch.watched}
+                onCheckedChange={() => freeWatch.toggle()}
+              />
+            </div>
+            {pushAvailableHere() && (
+              <div className="border-border flex items-center justify-between border-t px-3 py-2">
+                {pushActive ? (
+                  <span className="text-muted-foreground inline-flex items-center gap-1.5 text-xs">
+                    <Icon name="check" className="h-3.5 w-3.5 text-green-500" />
+                    {t("NOTIFY.PUSH_ON")}
+                  </span>
+                ) : permission === "denied" ? (
+                  <span className="text-muted-foreground/70 text-xs">
+                    {t("NOTIFY.PUSH_BLOCKED")}
+                  </span>
+                ) : (
+                  <button
+                    type="button"
+                    className="text-primary hover:text-primary/80 text-xs font-medium transition-colors"
+                    onClick={() => void enablePush()}
+                  >
+                    {t("NOTIFY.PUSH_ENABLE")}
+                  </button>
+                )}
+              </div>
             )}
-          </div>
-        )}
+          </TabsContent>
+        </Tabs>
       </PopoverContent>
     </Popover>
   );
