@@ -7,23 +7,22 @@ import {
   notifyConnectedAtom,
   type NotifyEvent,
 } from "@/store/notify-store";
+import { WebSocket as ReconnectingWebSocket } from "partysocket";
 
 const CHANNEL_NAME = `${env.appName}-notify-events`;
 const LEADER_LOCK = "unorouter-notify-ws-leader";
-const MAX_BACKOFF_MS = 60_000;
 const CLIENT_PING_MS = 40_000;
 
 type EventHandler = (evt: NotifyEvent) => void;
 
 let handler: EventHandler | null = null;
-let ws: WebSocket | null = null;
+let ws: ReconnectingWebSocket | null = null;
 let wantedTopics: string[] = [];
-let reconnectAttempt = 0;
-let reconnectTimer: ReturnType<typeof setTimeout> | null = null;
 let pingTimer: ReturnType<typeof setInterval> | null = null;
 let isLeader = false;
 let leaderRequested = false;
 let started = false;
+let everOpened = false;
 let lastEventTs = 0;
 const seenIds = new Set<string>();
 let channel: BroadcastChannel | null = null;
@@ -60,8 +59,10 @@ function deliver(evt: NotifyEvent, relay: boolean) {
   }
 }
 
+// partysocket buffers sends while disconnected and flushes on (re)open, so
+// this can fire regardless of the current connection state.
 async function sendSubscribe() {
-  if (!ws || ws.readyState !== WebSocket.OPEN) return;
+  if (!ws) return;
   let endpointHash = "";
   try {
     const sub = await getPushSubscription();
@@ -69,8 +70,7 @@ async function sendSubscribe() {
   } catch {
     endpointHash = "";
   }
-  if (!ws || ws.readyState !== WebSocket.OPEN) return;
-  ws.send(
+  ws?.send(
     JSON.stringify({
       op: "subscribe",
       topics: wantedTopics,
@@ -98,28 +98,34 @@ async function catchUp() {
   }
 }
 
-function connect() {
-  if (!isLeader || wantedTopics.length === 0) return;
-  if (ws && ws.readyState <= WebSocket.OPEN) return;
-  const wsUrl = env.apiOrigin.replace(/^http/, "ws") + "/ws";
-  const socket = new WebSocket(wsUrl);
-  ws = socket;
-  const wasReconnect = reconnectAttempt > 0;
+function stopPing() {
+  if (pingTimer) {
+    clearInterval(pingTimer);
+    pingTimer = null;
+  }
+}
 
-  socket.onopen = () => {
-    reconnectAttempt = 0;
+function connect() {
+  if (!isLeader || wantedTopics.length === 0 || ws) return;
+  const wsUrl = env.apiOrigin.replace(/^http/, "ws") + "/ws";
+  const socket = new ReconnectingWebSocket(wsUrl, [], {
+    connectionTimeout: 10_000,
+    maxEnqueuedMessages: 16,
+  });
+  ws = socket;
+
+  socket.addEventListener("open", () => {
     chatStore.set(notifyConnectedAtom, true);
     void sendSubscribe();
-    if (wasReconnect) void catchUp();
-    if (pingTimer) clearInterval(pingTimer);
+    if (everOpened) void catchUp();
+    everOpened = true;
+    stopPing();
     pingTimer = setInterval(() => {
-      if (socket.readyState === WebSocket.OPEN) {
-        socket.send(JSON.stringify({ op: "ping" }));
-      }
+      socket.send(JSON.stringify({ op: "ping" }));
     }, CLIENT_PING_MS);
-  };
+  });
 
-  socket.onmessage = (event: MessageEvent<string>) => {
+  socket.addEventListener("message", (event: MessageEvent<string>) => {
     try {
       const frame = JSON.parse(event.data) as {
         op: string;
@@ -129,38 +135,16 @@ function connect() {
     } catch {
       // Ignore malformed frames.
     }
-  };
+  });
 
-  const onGone = () => {
-    if (ws !== socket) return;
-    ws = null;
+  socket.addEventListener("close", () => {
     chatStore.set(notifyConnectedAtom, false);
-    if (pingTimer) {
-      clearInterval(pingTimer);
-      pingTimer = null;
-    }
-    if (!isLeader || wantedTopics.length === 0) return;
-    reconnectAttempt++;
-    const backoff = Math.min(
-      1000 * 2 ** Math.min(reconnectAttempt, 6),
-      MAX_BACKOFF_MS,
-    );
-    if (reconnectTimer) clearTimeout(reconnectTimer);
-    reconnectTimer = setTimeout(connect, backoff);
-  };
-  socket.onclose = onGone;
-  socket.onerror = () => socket.close();
+    stopPing();
+  });
 }
 
 function disconnect() {
-  if (reconnectTimer) {
-    clearTimeout(reconnectTimer);
-    reconnectTimer = null;
-  }
-  if (pingTimer) {
-    clearInterval(pingTimer);
-    pingTimer = null;
-  }
+  stopPing();
   const socket = ws;
   ws = null;
   socket?.close();
@@ -171,7 +155,7 @@ function requestLeadership() {
   if (leaderRequested) return;
   leaderRequested = true;
   if (typeof navigator === "undefined" || !("locks" in navigator)) {
-    // No Web Locks (rare): every tab connects; server dedup by event id.
+    // No Web Locks (rare): every tab connects; dedupe by event id copes.
     isLeader = true;
     connect();
     return;
@@ -204,7 +188,7 @@ export function syncNotifyTopics(topics: string[]) {
     requestLeadership();
   }
   if (isLeader) {
-    if (!ws || ws.readyState > WebSocket.OPEN) connect();
+    if (!ws) connect();
     else void sendSubscribe();
   }
 }

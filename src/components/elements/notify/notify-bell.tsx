@@ -47,7 +47,7 @@ export function NotifyBell() {
   return (
     <Popover open={open} onOpenChange={onOpenChange}>
       <PopoverTrigger
-        nativeButton={false}
+        nativeButton
         render={
           <button
             type="button"
