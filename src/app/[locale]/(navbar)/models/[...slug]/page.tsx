@@ -30,7 +30,7 @@ import { serverLocale } from "@/lib/utils/server";
 import { getCatalogModel } from "@/server/models/pricing/model-catalog.service";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 
 interface PageProps {
   params: Promise<{ locale: string; slug: string[] }>;
@@ -83,7 +83,14 @@ export async function generateMetadata(props: PageProps) {
 
   if (!resolved) {
     const vendor = await resolveVendor(params.slug);
-    if (!vendor) return {};
+    if (!vendor) {
+      const legacy =
+        params.slug.length === 1 ? await resolveModel(params.slug[0]!) : null;
+      if (legacy) {
+        permanentRedirect(localeUrl(locale, canonicalHref(legacy.model)));
+      }
+      return {};
+    }
     return getPageMetadata({
       locale,
       href: {
@@ -127,7 +134,17 @@ export default async function ModelDetailPage(props: PageProps) {
 
   if (!resolved) {
     const vendor = await resolveVendor(params.slug);
-    if (!vendor) notFound();
+    if (!vendor) {
+      // Pre-vendor-segment URLs (/models/<model>) are still crawled by Google
+      // (773 not-found errors in Search Console); 301 them to the canonical
+      // /models/<vendor>/<model> instead of 404ing.
+      const legacy =
+        params.slug.length === 1 ? await resolveModel(params.slug[0]!) : null;
+      if (legacy) {
+        permanentRedirect(localeUrl(locale, canonicalHref(legacy.model)));
+      }
+      notFound();
+    }
     const vendorQc = getQueryClient();
     await vendorQc.prefetchQuery({
       queryKey: queryKeys.pricing(),
