@@ -5486,6 +5486,7 @@
     "ADD_MODEL_PLACEHOLDER": "Adicionar um modelo para acompanhar...",
     "TAB_INBOX": "Caixa",
     "TAB_WATCHED": "Acompanhados",
-    "CLEAR": "Limpar tudo"
+    "CLEAR": "Limpar tudo",
+    "SOUND": "Som de notificação"
   }
 }

@@ -5486,6 +5486,7 @@
     "ADD_MODEL_PLACEHOLDER": "Add a model to watch...",
     "TAB_INBOX": "Inbox",
     "TAB_WATCHED": "Watched",
-    "CLEAR": "Clear all"
+    "CLEAR": "Clear all",
+    "SOUND": "Notification sound"
   }
 }

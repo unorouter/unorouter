@@ -5486,6 +5486,7 @@
     "ADD_MODEL_PLACEHOLDER": "관심 모델 추가...",
     "TAB_INBOX": "수신함",
     "TAB_WATCHED": "관심",
-    "CLEAR": "모두 지우기"
+    "CLEAR": "모두 지우기",
+    "SOUND": "알림음"
   }
 }

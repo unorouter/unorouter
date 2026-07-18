@@ -5486,6 +5486,7 @@
     "ADD_MODEL_PLACEHOLDER": "İzlenecek model ekle...",
     "TAB_INBOX": "Gelen",
     "TAB_WATCHED": "İzlenen",
-    "CLEAR": "Tümünü temizle"
+    "CLEAR": "Tümünü temizle",
+    "SOUND": "Bildirim sesi"
   }
 }

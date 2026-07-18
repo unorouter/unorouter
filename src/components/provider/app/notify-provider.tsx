@@ -3,9 +3,11 @@
 import { notifyEventText } from "@/lib/notify/event-text";
 import {
   pushAvailableHere,
+  showOsBanner,
   subscribePush,
   syncPushTopics,
 } from "@/lib/notify/push";
+import { playNotifySound } from "@/lib/notify/sound";
 import {
   refreshNotifyPresence,
   setNotifyEventHandler,
@@ -13,7 +15,9 @@ import {
 } from "@/lib/notify/ws-client";
 import {
   notificationsAtom,
+  notifyUnreadCountAtom,
   pushEnabledAtom,
+  soundEnabledAtom,
   watchedTopicsAtom,
 } from "@/store/notify-store";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
@@ -30,7 +34,9 @@ export function NotifyProvider() {
   const locale = useLocale();
   const topics = useAtomValue(watchedTopicsAtom);
   const [pushEnabled, setPushEnabled] = useAtom(pushEnabledAtom);
+  const soundEnabled = useAtomValue(soundEnabledAtom);
   const setNotifications = useSetAtom(notificationsAtom);
+  const unread = useAtomValue(notifyUnreadCountAtom);
 
   useEffect(() => {
     setNotifyEventHandler((evt) => {
@@ -39,24 +45,38 @@ export function NotifyProvider() {
       );
       const text = notifyEventText(t, evt);
       toast(text.title, { description: text.body });
-      // Also raise a system notification (with the OS notification sound)
-      // when permission is granted, so alerts are audible even while the
-      // site is open in a background window.
-      if (pushAvailableHere() && Notification.permission === "granted") {
-        void (async () => {
-          const options: NotificationOptions = {
-            body: text.body,
-            icon: "/images/icons/icon-192.png",
-            tag: `${evt.type}:${evt.data.model}`,
-          };
-          const reg = await navigator.serviceWorker.getRegistration();
-          if (reg) void reg.showNotification(text.title, options);
-          else new Notification(text.title, options);
-        })();
+      if (soundEnabled) playNotifySound();
+      // OS banner only when the window is unfocused: the focused tab already
+      // gets toast + chime + title badge, and Brave on Linux is unreliable
+      // about focused-tab banners anyway.
+      if (!document.hasFocus()) {
+        void showOsBanner(
+          text.title,
+          text.body,
+          `${evt.type}:${evt.data.model}`,
+        );
       }
     });
     return () => setNotifyEventHandler(null);
-  }, [t, setNotifications]);
+  }, [t, setNotifications, soundEnabled]);
+
+  // DM-style tab title badge: prefix the unread count, survive Next.js
+  // title swaps on navigation via a title-element observer.
+  useEffect(() => {
+    const strip = (title: string) => title.replace(/^\(\d+\+?\) /, "");
+    const badge = unread > 9 ? "9+" : String(unread);
+    const apply = () => {
+      const current = document.title;
+      const wanted = unread > 0 ? `(${badge}) ${strip(current)}` : strip(current);
+      if (current !== wanted) document.title = wanted;
+    };
+    apply();
+    const el = document.querySelector("title");
+    if (!el) return;
+    const observer = new MutationObserver(apply);
+    observer.observe(el, { childList: true });
+    return () => observer.disconnect();
+  }, [unread]);
 
   useEffect(() => {
     syncNotifyTopics(topics);

@@ -123,6 +123,20 @@ export async function syncPushTopics(
   return body?.success === true;
 }
 
+// OS banner for an in-page event; prefers the service worker path so the
+// banner behaves identically to real web push (tag collapse, click handling).
+export async function showOsBanner(title: string, body: string, tag: string) {
+  if (!pushAvailableHere() || Notification.permission !== "granted") return;
+  const options: NotificationOptions = {
+    body,
+    tag,
+    icon: "/images/icons/icon-192.png",
+  };
+  const reg = await navigator.serviceWorker.getRegistration();
+  if (reg) await reg.showNotification(title, options);
+  else new Notification(title, options);
+}
+
 export async function unsubscribePush(): Promise<void> {
   const sub = await getPushSubscription();
   if (!sub) return;

@@ -5486,6 +5486,7 @@
     "ADD_MODEL_PLACEHOLDER": "Tambahkan model untuk dipantau...",
     "TAB_INBOX": "Kotak masuk",
     "TAB_WATCHED": "Dipantau",
-    "CLEAR": "Hapus semua"
+    "CLEAR": "Hapus semua",
+    "SOUND": "Suara notifikasi"
   }
 }

@@ -34,12 +34,14 @@ export type NotifyState = {
   topics: string[];
   pushEnabled: boolean;
   pushPromptSeen: boolean;
+  soundEnabled: boolean;
 };
 
 export const INITIAL_NOTIFY_STATE: NotifyState = {
   topics: [],
   pushEnabled: false,
   pushPromptSeen: false,
+  soundEnabled: true,
 };
 
 export const notifyStoreAtom = atomWithStorage<NotifyState>(
@@ -59,6 +61,14 @@ export const pushEnabledAtom = atom(
   (get) => get(notifyStoreAtom).pushEnabled ?? false,
   (get, set, value: boolean) => {
     set(notifyStoreAtom, { ...get(notifyStoreAtom), pushEnabled: value });
+  },
+);
+
+export const soundEnabledAtom = atom(
+  (get) =>
+    get(notifyStoreAtom).soundEnabled ?? INITIAL_NOTIFY_STATE.soundEnabled,
+  (get, set, value: boolean) => {
+    set(notifyStoreAtom, { ...get(notifyStoreAtom), soundEnabled: value });
   },
 );
 

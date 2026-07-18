@@ -5486,6 +5486,7 @@
     "ADD_MODEL_PLACEHOLDER": "Ajouter un modèle à suivre...",
     "TAB_INBOX": "Boîte",
     "TAB_WATCHED": "Suivis",
-    "CLEAR": "Tout effacer"
+    "CLEAR": "Tout effacer",
+    "SOUND": "Son de notification"
   }
 }

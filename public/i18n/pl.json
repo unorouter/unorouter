@@ -5486,6 +5486,7 @@
     "ADD_MODEL_PLACEHOLDER": "Dodaj model do obserwowania...",
     "TAB_INBOX": "Odebrane",
     "TAB_WATCHED": "Obserwowane",
-    "CLEAR": "Wyczyść wszystko"
+    "CLEAR": "Wyczyść wszystko",
+    "SOUND": "Dźwięk powiadomień"
   }
 }

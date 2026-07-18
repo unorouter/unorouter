@@ -5486,6 +5486,7 @@
     "ADD_MODEL_PLACEHOLDER": "Modell zum Beobachten hinzufügen...",
     "TAB_INBOX": "Eingang",
     "TAB_WATCHED": "Beobachtet",
-    "CLEAR": "Alle löschen"
+    "CLEAR": "Alle löschen",
+    "SOUND": "Benachrichtigungston"
   }
 }

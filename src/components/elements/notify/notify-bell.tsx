@@ -23,6 +23,7 @@ import {
   subscribePush,
   syncPushTopics,
 } from "@/lib/notify/push";
+import { playNotifySound } from "@/lib/notify/sound";
 import { refreshNotifyPresence } from "@/lib/notify/ws-client";
 import { cn } from "@/lib/utils";
 import { modelHref } from "@/lib/utils/base";
@@ -32,6 +33,7 @@ import {
   notificationsAtom,
   notifyUnreadCountAtom,
   pushEnabledAtom,
+  soundEnabledAtom,
   watchedTopicsAtom,
 } from "@/store/notify-store";
 import { useAtom, useAtomValue } from "jotai";
@@ -46,6 +48,7 @@ export function NotifyBell() {
   const unread = useAtomValue(notifyUnreadCountAtom);
   const [topics, setTopics] = useAtom(watchedTopicsAtom);
   const [pushEnabled, setPushEnabled] = useAtom(pushEnabledAtom);
+  const [soundEnabled, setSoundEnabled] = useAtom(soundEnabledAtom);
   const freeWatch = useFreeModelsWatch();
   const pricingQuery = usePricingQuery();
   const [open, setOpen] = useState(false);
@@ -279,6 +282,18 @@ export function NotifyBell() {
               <Switch
                 checked={freeWatch.watched}
                 onCheckedChange={() => freeWatch.toggle()}
+              />
+            </div>
+            <div className="border-border flex items-center justify-between border-t px-3 py-2">
+              <span className="text-muted-foreground text-xs">
+                {t("NOTIFY.SOUND")}
+              </span>
+              <Switch
+                checked={soundEnabled}
+                onCheckedChange={(next) => {
+                  setSoundEnabled(next);
+                  if (next) playNotifySound();
+                }}
               />
             </div>
           </TabsContent>

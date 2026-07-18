@@ -5486,6 +5486,7 @@
     "ADD_MODEL_PLACEHOLDER": "添加要关注的模型...",
     "TAB_INBOX": "收件箱",
     "TAB_WATCHED": "已关注",
-    "CLEAR": "全部清除"
+    "CLEAR": "全部清除",
+    "SOUND": "通知提示音"
   }
 }

@@ -5486,6 +5486,7 @@
     "ADD_MODEL_PLACEHOLDER": "Thêm mô hình để theo dõi...",
     "TAB_INBOX": "Hộp thư",
     "TAB_WATCHED": "Theo dõi",
-    "CLEAR": "Xóa tất cả"
+    "CLEAR": "Xóa tất cả",
+    "SOUND": "Âm thanh thông báo"
   }
 }

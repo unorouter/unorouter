@@ -5486,6 +5486,7 @@
     "ADD_MODEL_PLACEHOLDER": "Aggiungi un modello da seguire...",
     "TAB_INBOX": "In arrivo",
     "TAB_WATCHED": "Seguiti",
-    "CLEAR": "Cancella tutto"
+    "CLEAR": "Cancella tutto",
+    "SOUND": "Suono di notifica"
   }
 }
