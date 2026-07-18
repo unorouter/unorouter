@@ -163,7 +163,10 @@ export function TokenModelSelect(props: TokenModelSelectProps) {
                                   : "opacity-50 [&_svg]:invisible",
                               )}
                             >
-                              <Icon name="check" className="h-4 w-4" />
+                              <Icon
+                                name="check"
+                                className="text-primary-foreground! h-4 w-4"
+                              />
                             </div>
                             <VendorIcon
                               vendor={model.vendor}

@@ -96,7 +96,7 @@ function CheckBox(props: { checked: boolean }) {
           : "opacity-50 [&_svg]:invisible",
       )}
     >
-      <CheckIcon className="h-4 w-4" />
+      <CheckIcon className="text-primary-foreground! h-4 w-4" />
     </div>
   );
 }
