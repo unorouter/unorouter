@@ -5502,7 +5502,9 @@
       "R_RULE_4": "Wypłaty za boost biegną tylko, dopóki boost jest aktywny, i zatrzymują się w chwili jego zakończenia.",
       "R_RULE_5": "Oszukiwanie systemu multikontami, fałszywymi zaproszeniami lub spamem wiadomości kończy się cofnięciem nagród i może skończyć się banem. Proszenie o wyciekłe klucze API i proxy lub ich udostępnianie także łamie zasady.",
       "R_RULE_6": "Kwoty nagród są konfigurowane po stronie serwera i mogą się zmieniać; panele weryfikacji i boostów na serwerze zawsze pokazują aktualne wartości.",
-      "R_RULE_7": "Niewykorzystane nagrody wygasają; odbierz saldo i wydaj je, zamiast zostawiać je bezczynnie."
+      "R_RULE_7": "Niewykorzystane nagrody wygasają; odbierz saldo i wydaj je, zamiast zostawiać je bezczynnie.",
+      "ALT_VERIFY_PANEL": "Panel weryfikacji na Discordzie z przyciskiem odbioru jednorazowego bonusu 1 $",
+      "ALT_VOTE_PANEL": "Panel głosowania na Discordzie z czterema stronami do głosowania i nagrodą za głos"
     }
   },
   "NOTIFY": {

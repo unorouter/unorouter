@@ -1,4 +1,5 @@
 import {
+  DocImage,
   DocKbd,
   DocSection,
   DocTable,
@@ -21,6 +22,12 @@ export async function DiscordRewardsContent() {
       </DocSection>
       <DocSection id="link" title={k("H_LINK")}>
         <p>{k("P_LINK_1")}</p>
+        <DocImage
+          src="/images/docs/rewards-verify-panel.webp"
+          alt={k("ALT_VERIFY_PANEL")}
+          width={662}
+          height={352}
+        />
         <p>{k("P_LINK_2")}</p>
       </DocSection>
       <DocSection id="rewards" title={k("H_REWARDS")}>
@@ -42,6 +49,12 @@ export async function DiscordRewardsContent() {
         <p>{k("P_BOOST_1")}</p>
         <p>{k("P_BOOST_2")}</p>
         <p>{k("P_VOTE_1")}</p>
+        <DocImage
+          src="/images/docs/rewards-vote-panel.webp"
+          alt={k("ALT_VOTE_PANEL")}
+          width={973}
+          height={519}
+        />
         <p>{k("P_VOTE_2")}</p>
       </DocSection>
       <DocSection id="levels" title={k("H_LEVELS")}>

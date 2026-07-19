@@ -5502,7 +5502,9 @@
       "R_RULE_4": "Les paiements de boost ne courent que tant que le boost est actif et s'arrêtent dès qu'il prend fin.",
       "R_RULE_5": "Tricher avec des comptes secondaires, de fausses invitations ou du spam de messages fait révoquer les récompenses et peut mener au bannissement. Demander ou partager des clés API fuitées et des proxys est aussi contraire aux règles.",
       "R_RULE_6": "Les montants des récompenses sont configurés côté serveur et peuvent changer ; les panneaux de vérification et de boost du serveur affichent toujours les valeurs en vigueur.",
-      "R_RULE_7": "Les récompenses expirent si elles restent inutilisées : réclamez votre solde et dépensez-le plutôt que de le laisser dormir."
+      "R_RULE_7": "Les récompenses expirent si elles restent inutilisées : réclamez votre solde et dépensez-le plutôt que de le laisser dormir.",
+      "ALT_VERIFY_PANEL": "Panneau de vérification Discord avec le bouton pour réclamer le bonus unique de 1 $",
+      "ALT_VOTE_PANEL": "Panneau de vote Discord listant les quatre sites de vote et la récompense par vote"
     }
   },
   "NOTIFY": {

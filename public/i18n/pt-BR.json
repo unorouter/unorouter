@@ -5502,7 +5502,9 @@
       "R_RULE_4": "Os pagamentos de boost só correm enquanto o boost está ativo e param no momento em que ele termina.",
       "R_RULE_5": "Burlar o sistema com contas alternativas, convites falsos ou spam de mensagens leva à revogação das recompensas e pode resultar em banimento. Pedir ou compartilhar chaves de API vazadas e proxies também é contra as regras.",
       "R_RULE_6": "Os valores das recompensas são configurados no servidor e podem mudar; os painéis de verificação e boost no servidor sempre mostram os valores em vigor.",
-      "R_RULE_7": "Recompensas não utilizadas expiram; resgate seu saldo e use-o em vez de deixá-lo parado."
+      "R_RULE_7": "Recompensas não utilizadas expiram; resgate seu saldo e use-o em vez de deixá-lo parado.",
+      "ALT_VERIFY_PANEL": "Painel de verificação do Discord com o botão para resgatar o bônus único de US$ 1",
+      "ALT_VOTE_PANEL": "Painel de votação do Discord listando os quatro sites de votação e a recompensa por voto"
     }
   },
   "NOTIFY": {

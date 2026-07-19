@@ -5502,7 +5502,9 @@
       "R_RULE_4": "Boost payouts run only while the boost is active and stop the moment it ends.",
       "R_RULE_5": "Gaming the system with alt accounts, fake invites or message spam gets rewards revoked and can get you banned. Asking for or sharing leaked API keys and proxies is also against the rules.",
       "R_RULE_6": "Reward amounts are server-configured and may change; the verify and boost panels in the server always show the live values.",
-      "R_RULE_7": "Rewards expire if they sit unused - claim your balance and spend it rather than letting it idle."
+      "R_RULE_7": "Rewards expire if they sit unused - claim your balance and spend it rather than letting it idle.",
+      "ALT_VERIFY_PANEL": "Discord verify panel with the claim button for the one-time $1 bonus",
+      "ALT_VOTE_PANEL": "Discord vote panel listing the four voting sites and the reward per vote"
     }
   },
   "NOTIFY": {

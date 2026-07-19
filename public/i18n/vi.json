@@ -5502,7 +5502,9 @@
       "R_RULE_4": "Chi trả boost chỉ chạy khi boost còn hoạt động và dừng ngay khi nó kết thúc.",
       "R_RULE_5": "Gian lận hệ thống bằng tài khoản phụ, lời mời ảo hay spam tin nhắn sẽ bị thu hồi thưởng và có thể bị cấm. Xin hoặc chia sẻ API key rò rỉ và proxy cũng vi phạm luật.",
       "R_RULE_6": "Số tiền thưởng do máy chủ cấu hình và có thể thay đổi; bảng xác minh và boost trong máy chủ luôn hiển thị giá trị hiện hành.",
-      "R_RULE_7": "Phần thưởng không dùng sẽ hết hạn; hãy nhận số dư và sử dụng thay vì để không."
+      "R_RULE_7": "Phần thưởng không dùng sẽ hết hạn; hãy nhận số dư và sử dụng thay vì để không.",
+      "ALT_VERIFY_PANEL": "Bảng xác minh Discord với nút nhận thưởng 1 $ một lần",
+      "ALT_VOTE_PANEL": "Bảng bình chọn Discord liệt kê bốn trang bình chọn và phần thưởng mỗi lượt"
     }
   },
   "NOTIFY": {

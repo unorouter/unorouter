@@ -5502,7 +5502,9 @@
       "R_RULE_4": "Boost ödemeleri yalnızca boost aktifken işler ve bittiği anda durur.",
       "R_RULE_5": "Sistemi yan hesaplarla, sahte davetlerle veya mesaj spamıyla kandırmak ödüllerin geri alınmasına yol açar ve banla sonuçlanabilir. Sızdırılmış API anahtarları ve proxy istemek ya da paylaşmak da kurallara aykırıdır.",
       "R_RULE_6": "Ödül tutarları sunucu tarafında ayarlanır ve değişebilir; sunucudaki doğrulama ve boost panelleri her zaman güncel değerleri gösterir.",
-      "R_RULE_7": "Kullanılmayan ödüllerin süresi dolar; bakiyenizi alın ve öylece bekletmek yerine harcayın."
+      "R_RULE_7": "Kullanılmayan ödüllerin süresi dolar; bakiyenizi alın ve öylece bekletmek yerine harcayın.",
+      "ALT_VERIFY_PANEL": "Tek seferlik 1 $ bonusu almak için düğmesi olan Discord doğrulama paneli",
+      "ALT_VOTE_PANEL": "Dört oylama sitesini ve oy başına ödülü listeleyen Discord oy paneli"
     }
   },
   "NOTIFY": {

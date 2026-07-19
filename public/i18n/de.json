@@ -5502,7 +5502,9 @@
       "R_RULE_4": "Boost-Auszahlungen laufen nur, solange der Boost aktiv ist, und stoppen in dem Moment, in dem er endet.",
       "R_RULE_5": "Wer das System mit Zweitkonten, Fake-Einladungen oder Nachrichten-Spam austrickst, verliert die Belohnungen und riskiert einen Bann. Nach geleakten API-Keys oder Proxys zu fragen oder sie zu teilen ist ebenfalls verboten.",
       "R_RULE_6": "Die Belohnungsbeträge sind serverseitig konfiguriert und können sich ändern; die Verify- und Boost-Panels im Server zeigen immer die aktuellen Werte.",
-      "R_RULE_7": "Ungenutzte Belohnungen verfallen: Guthaben einlösen und ausgeben, statt es liegen zu lassen."
+      "R_RULE_7": "Ungenutzte Belohnungen verfallen: Guthaben einlösen und ausgeben, statt es liegen zu lassen.",
+      "ALT_VERIFY_PANEL": "Verify-Panel in Discord mit Button zum Einlösen des 1-Dollar-Bonus",
+      "ALT_VOTE_PANEL": "Vote-Panel in Discord mit den vier Voting-Seiten und der Belohnung pro Stimme"
     }
   },
   "NOTIFY": {

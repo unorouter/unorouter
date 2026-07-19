@@ -5502,7 +5502,9 @@
       "R_RULE_4": "Los pagos por boost solo corren mientras el boost está activo y se detienen en cuanto termina.",
       "R_RULE_5": "Abusar del sistema con cuentas alternativas, invitaciones falsas o spam de mensajes hace que se revoquen las recompensas y puede acabar en baneo. Pedir o compartir claves de API filtradas y proxies también va contra las reglas.",
       "R_RULE_6": "Los importes de las recompensas se configuran en el servidor y pueden cambiar; los paneles de verificación y boost del servidor siempre muestran los valores vigentes.",
-      "R_RULE_7": "Las recompensas caducan si no se usan: reclama tu saldo y gástalo en lugar de dejarlo parado."
+      "R_RULE_7": "Las recompensas caducan si no se usan: reclama tu saldo y gástalo en lugar de dejarlo parado.",
+      "ALT_VERIFY_PANEL": "Panel de verificación de Discord con el botón para reclamar el bono único de 1 $",
+      "ALT_VOTE_PANEL": "Panel de votación de Discord con los cuatro sitios de votación y la recompensa por voto"
     }
   },
   "NOTIFY": {

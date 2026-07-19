@@ -5502,7 +5502,9 @@
       "R_RULE_4": "Pembayaran boost hanya berjalan selama boost aktif dan berhenti begitu boost berakhir.",
       "R_RULE_5": "Mengakali sistem dengan akun alternatif, undangan palsu, atau spam pesan membuat hadiah dicabut dan bisa berujung ban. Meminta atau membagikan API key bocor dan proxy juga melanggar aturan.",
       "R_RULE_6": "Nominal hadiah dikonfigurasi di sisi server dan bisa berubah; panel verifikasi dan boost di server selalu menampilkan nilai terkini.",
-      "R_RULE_7": "Hadiah yang tidak digunakan akan kedaluwarsa; klaim saldo Anda dan gunakan, jangan dibiarkan mengendap."
+      "R_RULE_7": "Hadiah yang tidak digunakan akan kedaluwarsa; klaim saldo Anda dan gunakan, jangan dibiarkan mengendap.",
+      "ALT_VERIFY_PANEL": "Panel verifikasi Discord dengan tombol klaim bonus sekali pakai sebesar $1",
+      "ALT_VOTE_PANEL": "Panel vote Discord yang mencantumkan empat situs voting dan hadiah per vote"
     }
   },
   "NOTIFY": {
