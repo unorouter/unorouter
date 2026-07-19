@@ -1,6 +1,6 @@
-import { errMessage } from "@/lib/utils/base";
-("use client");
+"use client";
 
+import { errMessage } from "@/lib/utils/base";
 import { LOCAL_MIGRATION_KEYS } from "@/lib/db/schema/client";
 import type { MigrationManifest } from "@/lib/types";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
