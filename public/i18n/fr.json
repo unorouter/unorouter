@@ -3650,9 +3650,9 @@
       "UPTIME_TITLE": "{pct}% de disponibilité (24 h), {up}/{total} fournisseurs actifs"
     },
     "GROUP": {
-      "SELECT": "Groupe de facturation",
+      "SELECT": "Fournisseur",
       "AUTO": "Automatique",
-      "NO_RESULTS": "Aucun groupe disponible"
+      "NO_RESULTS": "Aucun fournisseur disponible"
     },
     "ACTION": {
       "COPY": "Copier",

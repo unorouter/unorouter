@@ -3650,9 +3650,9 @@
       "UPTIME_TITLE": "Thời gian hoạt động {pct}% (24 giờ), {up}/{total} nhà cung cấp đang hoạt động"
     },
     "GROUP": {
-      "SELECT": "Nhóm tính phí",
+      "SELECT": "Nhà cung cấp",
       "AUTO": "Tự động",
-      "NO_RESULTS": "Không có nhóm khả dụng"
+      "NO_RESULTS": "Không có nhà cung cấp khả dụng"
     },
     "ACTION": {
       "COPY": "Sao chép",

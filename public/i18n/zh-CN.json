@@ -3650,9 +3650,9 @@
       "UPTIME_TITLE": "在线时长 {pct}%（24小时），{up}/{total} 个提供商在线"
     },
     "GROUP": {
-      "SELECT": "计费分组",
+      "SELECT": "服务商",
       "AUTO": "自动",
-      "NO_RESULTS": "没有可用的分组"
+      "NO_RESULTS": "没有可用的服务商"
     },
     "ACTION": {
       "COPY": "复制",

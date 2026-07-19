@@ -3650,9 +3650,9 @@
       "UPTIME_TITLE": "在線時長 {pct}%（24小時），{up}/{total} 個供應商在線"
     },
     "GROUP": {
-      "SELECT": "計費分組",
+      "SELECT": "服務商",
       "AUTO": "自動",
-      "NO_RESULTS": "沒有可用的分組"
+      "NO_RESULTS": "沒有可用的服務商"
     },
     "ACTION": {
       "COPY": "複製",

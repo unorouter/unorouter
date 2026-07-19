@@ -3650,9 +3650,9 @@
       "UPTIME_TITLE": "稼働率{pct}%（24時間）、{up}/{total}プロバイダー稼働中"
     },
     "GROUP": {
-      "SELECT": "課金グループ",
+      "SELECT": "プロバイダー",
       "AUTO": "自動",
-      "NO_RESULTS": "利用可能なグループがありません"
+      "NO_RESULTS": "利用可能なプロバイダーがありません"
     },
     "ACTION": {
       "COPY": "コピー",

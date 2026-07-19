@@ -3650,9 +3650,9 @@
       "UPTIME_TITLE": "{pct}% dostępności (24 godz.), {up}/{total} dostawców online"
     },
     "GROUP": {
-      "SELECT": "Grupa rozliczeniowa",
+      "SELECT": "Dostawca",
       "AUTO": "Automatycznie",
-      "NO_RESULTS": "Brak dostępnych grup"
+      "NO_RESULTS": "Brak dostępnych dostawców"
     },
     "ACTION": {
       "COPY": "Kopiuj",

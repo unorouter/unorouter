@@ -3650,9 +3650,9 @@
       "UPTIME_TITLE": "{pct}% di disponibilità (24 h), {up}/{total} provider attivi"
     },
     "GROUP": {
-      "SELECT": "Gruppo di fatturazione",
+      "SELECT": "Provider",
       "AUTO": "Automatico",
-      "NO_RESULTS": "Nessun gruppo disponibile"
+      "NO_RESULTS": "Nessun provider disponibile"
     },
     "ACTION": {
       "COPY": "Copia",

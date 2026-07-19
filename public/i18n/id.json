@@ -3650,9 +3650,9 @@
       "UPTIME_TITLE": "Waktu aktif {pct}% (24 jam), {up}/{total} penyedia aktif"
     },
     "GROUP": {
-      "SELECT": "Grup penagihan",
+      "SELECT": "Penyedia",
       "AUTO": "Otomatis",
-      "NO_RESULTS": "Tidak ada grup tersedia"
+      "NO_RESULTS": "Tidak ada penyedia tersedia"
     },
     "ACTION": {
       "COPY": "Salin",

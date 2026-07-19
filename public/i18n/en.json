@@ -3650,9 +3650,9 @@
       "UPTIME_TITLE": "{pct}% uptime (24h), {up}/{total} providers up"
     },
     "GROUP": {
-      "SELECT": "Billing group",
+      "SELECT": "Provider",
       "AUTO": "Auto",
-      "NO_RESULTS": "No groups available"
+      "NO_RESULTS": "No providers available"
     },
     "ACTION": {
       "COPY": "Copy",

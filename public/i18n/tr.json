@@ -3650,9 +3650,9 @@
       "UPTIME_TITLE": "%{pct} çalışma süresi (24 sa), {up}/{total} sağlayıcı çevrimiçi"
     },
     "GROUP": {
-      "SELECT": "Faturalandırma grubu",
+      "SELECT": "Sağlayıcı",
       "AUTO": "Otomatik",
-      "NO_RESULTS": "Kullanılabilir grup yok"
+      "NO_RESULTS": "Kullanılabilir sağlayıcı yok"
     },
     "ACTION": {
       "COPY": "Kopyala",

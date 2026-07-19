@@ -3650,9 +3650,9 @@
       "UPTIME_TITLE": "가동 시간 {pct}% (24시간), {up}/{total} 제공자 가동 중"
     },
     "GROUP": {
-      "SELECT": "청구 그룹",
+      "SELECT": "프로바이더",
       "AUTO": "자동",
-      "NO_RESULTS": "사용 가능한 그룹이 없습니다"
+      "NO_RESULTS": "사용 가능한 프로바이더가 없습니다"
     },
     "ACTION": {
       "COPY": "복사",

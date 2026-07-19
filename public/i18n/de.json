@@ -3650,9 +3650,9 @@
       "UPTIME_TITLE": "{pct}% Verfügbarkeit (24 Std.), {up}/{total} Anbieter online"
     },
     "GROUP": {
-      "SELECT": "Abrechnungsgruppe",
+      "SELECT": "Anbieter",
       "AUTO": "Automatisch",
-      "NO_RESULTS": "Keine Gruppen verfügbar"
+      "NO_RESULTS": "Keine Anbieter verfügbar"
     },
     "ACTION": {
       "COPY": "Kopieren",
