@@ -17,18 +17,24 @@ type StreamChunk = {
   type: string;
   id?: string;
   delta?: string;
+  finishReason?: string;
   [key: string]: unknown;
 };
 
 // For requests whose trailing assistant prefill left an open <think> tag: the
-// model's reply begins INSIDE its reasoning, but how that arrives depends on
-// the upstream channel. Channels that parse the chat template return separated
-// reasoning parts plus a clean answer; channels that forward the raw
-// continuation return "CoT</think>answer" as plain text with no opening tag.
-// A static startWithReasoning flag breaks one case or the other (forcing it
-// swallows the separated channels' answer into the thinking box), so decide
-// per stream: native reasoning first => pass through untouched; text first =>
-// treat it as reasoning until the closing tag hands over to the real reply.
+// model's reply begins INSIDE its reasoning, but what arrives depends on the
+// upstream channel and model. Observed shapes:
+//   1. Channel parses the template: native reasoning parts + clean answer text.
+//   2. Channel forwards the raw continuation: "CoT</think>answer" as plain text
+//      with no opening tag.
+//   3. Model ignores the trick (non-GLM-style models): plain answer text, no
+//      tags, no native reasoning.
+// A static startWithReasoning flag breaks 1 and 3 (swallows the answer into
+// the thinking box), so decide per stream: native reasoning first => pass
+// through; text first => route it to reasoning until the closing tag. If the
+// stream finishes cleanly without ever closing, it was shape 3 - re-emit the
+// accumulated text as the reply (a length-cut finish stays reasoning: that is
+// truncated thinking, not an answer).
 export function prefillThinkMiddleware(): LanguageModelMiddleware {
   return {
     wrapGenerate: async ({ doGenerate }) => {
@@ -58,6 +64,8 @@ export function prefillThinkMiddleware(): LanguageModelMiddleware {
         "undecided";
       let pendingTextStarts: StreamChunk[] = [];
       let buffer = "";
+      let forcedAccum = "";
+      let reasoningClosed = false;
 
       const transformed = (stream as ReadableStream<StreamChunk>).pipeThrough(
         new TransformStream<StreamChunk, StreamChunk>({
@@ -99,6 +107,7 @@ export function prefillThinkMiddleware(): LanguageModelMiddleware {
               const idx = closingTagIndex(buffer);
               if (idx === null) {
                 if (buffer) {
+                  forcedAccum += buffer;
                   controller.enqueue({
                     type: "reasoning-delta",
                     id: REASONING_ID,
@@ -109,6 +118,7 @@ export function prefillThinkMiddleware(): LanguageModelMiddleware {
                 return;
               }
               if (idx > 0) {
+                forcedAccum += buffer.slice(0, idx);
                 controller.enqueue({
                   type: "reasoning-delta",
                   id: REASONING_ID,
@@ -118,6 +128,7 @@ export function prefillThinkMiddleware(): LanguageModelMiddleware {
               }
               if (buffer.length >= CLOSING_TAG.length) {
                 controller.enqueue({ type: "reasoning-end", id: REASONING_ID });
+                reasoningClosed = true;
                 mode = "text";
                 for (const c of pendingTextStarts) controller.enqueue(c);
                 pendingTextStarts = [];
@@ -135,9 +146,10 @@ export function prefillThinkMiddleware(): LanguageModelMiddleware {
             }
 
             if (chunk.type === "text-end") {
-              // Stream ended inside reasoning (thinking cut off): close the
-              // reasoning part and drop the never-started text block.
+              // Stream may still tell us how it finished; defer the verdict on
+              // the never-closed reasoning block to the finish chunk.
               if (buffer) {
+                forcedAccum += buffer;
                 controller.enqueue({
                   type: "reasoning-delta",
                   id: REASONING_ID,
@@ -145,9 +157,27 @@ export function prefillThinkMiddleware(): LanguageModelMiddleware {
                 });
                 buffer = "";
               }
-              controller.enqueue({ type: "reasoning-end", id: REASONING_ID });
+              return;
+            }
+
+            if (chunk.type === "finish") {
+              if (!reasoningClosed) {
+                controller.enqueue({ type: "reasoning-end", id: REASONING_ID });
+                reasoningClosed = true;
+                if (chunk.finishReason !== "length" && forcedAccum.trim()) {
+                  const textId = pendingTextStarts[0]?.id ?? "prefill-think-t";
+                  controller.enqueue({ type: "text-start", id: textId });
+                  controller.enqueue({
+                    type: "text-delta",
+                    id: textId,
+                    delta: forcedAccum,
+                  });
+                  controller.enqueue({ type: "text-end", id: textId });
+                }
+              }
               pendingTextStarts = [];
               mode = "text";
+              controller.enqueue(chunk);
               return;
             }
 
