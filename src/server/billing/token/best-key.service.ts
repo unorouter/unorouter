@@ -17,15 +17,23 @@ export async function resolveBestKey(
   const tokens = res.data?.data?.items;
   if (!tokens?.length) return null;
 
+  // Group-pinned tokens (billing group locked to one channel-group) are a
+  // routing trap: if that group's channel churns away, every request through
+  // the token dies with get_channel_failed. Prefer unpinned tokens; a pinned
+  // one is only the last resort when the account has nothing else.
+  const enabled = tokens.filter((tok) => tok && tok.status === 1);
+  const unpinned = (group?: string | null) =>
+    !group || group === "auto" || group === "default";
   const best =
-    tokens.find(
+    enabled.find(
       (tok) =>
-        tok &&
-        tok.status === 1 &&
         tok.unlimited_quota &&
         tok.group === "auto" &&
         !tok.model_limits_enabled,
-    ) ?? tokens.find((tok) => tok && tok.status === 1);
+    ) ??
+    enabled.find((tok) => unpinned(tok.group) && !tok.model_limits_enabled) ??
+    enabled.find((tok) => unpinned(tok.group)) ??
+    enabled[0];
 
   if (!best) return null;
 
