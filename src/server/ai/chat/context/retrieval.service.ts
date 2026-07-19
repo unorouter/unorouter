@@ -1,6 +1,6 @@
 import { generateEmbedding } from "../media/media-stream";
 import { logger } from "@/lib/utils/logger";
-import { cosineSimilarity } from "@/lib/utils/base";
+import { cosineSimilarity, errMessage } from "@/lib/utils/base";
 
 const DEFAULT_EMBED_MODEL = "text-embedding-3-small";
 
@@ -44,7 +44,7 @@ export async function retrieveSemantic(
   } catch (e) {
     logger.warn("Semantic retrieval failed; skipping", {
       context: "stream.retrieval",
-      error: e instanceof Error ? e.message : String(e),
+      error: errMessage(e),
     });
     return [];
   }

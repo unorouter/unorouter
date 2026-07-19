@@ -1,3 +1,4 @@
+import { errMessage } from "@/lib/utils/base";
 import { safeFetchBytes } from "@/lib/config/r2";
 import { logger } from "@/lib/utils/logger";
 import { HTTP_MESSAGE_SIGNATURES_DIRECTORY } from "http-message-sig";
@@ -30,7 +31,7 @@ async function fetchDirectoryKeys(origin: string): Promise<PublicJwk[]> {
     logger.warn("Directory fetch error", {
       context: "web-bot-auth",
       origin,
-      error: error instanceof Error ? error.message : String(error),
+      error: errMessage(error),
     });
     return [];
   }

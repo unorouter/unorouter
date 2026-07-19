@@ -1,4 +1,5 @@
 import { calcString, seededRand } from "@/lib/ai/chat/calc";
+import { capitalize } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
 
 export type MacroScope = {
@@ -347,7 +348,7 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
     case "lower":
       return arg0.toLocaleLowerCase();
     case "capitalize":
-      return arg0 ? arg0.charAt(0).toUpperCase() + arg0.slice(1) : "";
+      return capitalize(arg0);
     case "trim":
       return arg0.trim();
     case "length":

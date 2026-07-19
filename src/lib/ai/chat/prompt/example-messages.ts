@@ -1,3 +1,5 @@
+import { escapeRegex } from "@/lib/utils/base";
+
 type ExampleTurn = {
   role: "system" | "user" | "assistant";
   text: string;
@@ -6,10 +8,6 @@ type ExampleTurn = {
 const START_LINE = /^(?:<start>|\[start a new chat\])\s*$/i;
 const USER_PREFIX = /^(?:\{\{user\}\}|<user>)\s*:\s*/i;
 const CHAR_PREFIX = /^(?:\{\{char\}\}|<bot>|<char>)\s*:\s*/i;
-
-function escapeRegex(s: string): string {
-  return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}
 
 export function parseExampleMessages(
   raw: string | null | undefined,

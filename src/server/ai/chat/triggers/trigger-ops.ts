@@ -1,3 +1,4 @@
+import { errMessage } from "@/lib/utils/base";
 import { parseChatML } from "@/lib/ai/chat/chatml";
 import { generateInlayImage } from "../media/inlay.service";
 import type { InlayImage } from "@/lib/ai/chat/pipeline/deps";
@@ -25,7 +26,7 @@ export async function runTriggerLLM(
     });
     return result.text || "Error: empty response";
   } catch (err) {
-    return "Error: " + (err instanceof Error ? err.message : String(err));
+    return "Error: " + errMessage(err);
   }
 }
 

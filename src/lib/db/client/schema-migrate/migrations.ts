@@ -1,4 +1,5 @@
-"use client";
+import { errMessage } from "@/lib/utils/base";
+("use client");
 
 import { LOCAL_MIGRATION_KEYS } from "@/lib/db/schema/client";
 import type { MigrationManifest } from "@/lib/types";
@@ -47,7 +48,7 @@ export async function runMigrations(sql: SQLocalDrizzle): Promise<void> {
       } catch (err) {
         if (isIdempotentMigrationError(err)) continue;
         if (driftReplay) {
-          const msg = err instanceof Error ? err.message : String(err);
+          const msg = errMessage(err);
           logChatDebug("migration.replay_tolerated", {
             tag: m.tag,
             error: msg.slice(0, 200),
@@ -364,7 +365,7 @@ async function forceRebuildWithDefaults(
     logger.error("forceRebuildWithDefaults failed", {
       context: "local-db.migrations.validate",
       table,
-      error: err instanceof Error ? err.message : String(err),
+      error: errMessage(err),
     });
     try {
       await sql.sql`PRAGMA foreign_keys = ON`;
@@ -374,7 +375,7 @@ async function forceRebuildWithDefaults(
 }
 
 function isIdempotentMigrationError(err: unknown): boolean {
-  const msg = err instanceof Error ? err.message : String(err);
+  const msg = errMessage(err);
   return (
     /already exists/i.test(msg) ||
     /duplicate column name/i.test(msg) ||

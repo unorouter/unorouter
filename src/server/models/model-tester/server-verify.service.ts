@@ -1,3 +1,4 @@
+import { errMessage } from "@/lib/utils/base";
 import { safeFetchRaw } from "@/lib/config/r2";
 import { runVerification } from "@/lib/ai/verify/runner";
 import type { TransportArgs, TransportResult } from "@/lib/ai/verify/transport";
@@ -21,7 +22,7 @@ async function serverTransport(args: TransportArgs): Promise<TransportResult> {
     }
     return { status: res.status, data, error: null, corsBlocked: false };
   } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
+    const message = errMessage(err);
     return { status: null, data: null, error: message, corsBlocked: false };
   }
 }

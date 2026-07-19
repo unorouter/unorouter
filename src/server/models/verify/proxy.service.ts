@@ -1,3 +1,4 @@
+import { errMessage } from "@/lib/utils/base";
 import { safeFetchRaw } from "@/lib/config/r2";
 import type { VerifyProbeBody } from "@/lib/api/typebox/verify";
 
@@ -21,7 +22,7 @@ export async function forwardProbe(
     }
     return { status: res.status, data };
   } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
+    const message = errMessage(err);
     return { status: 0, data: { error: { message } } };
   }
 }

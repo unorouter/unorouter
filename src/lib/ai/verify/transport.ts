@@ -1,3 +1,4 @@
+import { errMessage } from "@/lib/utils/base";
 import type { VerifyProvider, TransportMode } from "./types";
 
 export type TransportResult = {
@@ -34,7 +35,7 @@ async function direct(args: TransportArgs): Promise<TransportResult> {
     return { status: res.status, data, error: null, corsBlocked: false };
   } catch (err) {
     const isAbort = err instanceof DOMException && err.name === "AbortError";
-    const msg = err instanceof Error ? err.message : String(err);
+    const msg = errMessage(err);
     return {
       status: null,
       data: null,
@@ -75,7 +76,7 @@ async function viaServer(args: TransportArgs): Promise<TransportResult> {
       corsBlocked: false,
     };
   } catch (err) {
-    const msg = err instanceof Error ? err.message : String(err);
+    const msg = errMessage(err);
     return { status: null, data: null, error: msg, corsBlocked: false };
   }
 }

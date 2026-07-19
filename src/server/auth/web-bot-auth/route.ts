@@ -1,3 +1,4 @@
+import { errMessage } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 import {
   verifyInboundRequest,
@@ -21,7 +22,7 @@ export const webBotAuthPlugin = new Elysia({ name: "web-bot-auth" }).derive(
       } catch (error) {
         logger.warn("Inbound verification threw", {
           context: "web-bot-auth",
-          error: error instanceof Error ? error.message : String(error),
+          error: errMessage(error),
         });
       }
     }

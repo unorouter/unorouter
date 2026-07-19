@@ -1,3 +1,4 @@
+import { errMessage } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 
 export type PublicJwk = JsonWebKey & { kty: "OKP"; crv: "Ed25519"; x: string };
@@ -30,7 +31,7 @@ export function parseJwks(raw: string | undefined): PublicJwk[] {
   } catch (error) {
     logger.error("Invalid JWKS JSON", {
       context: "web-bot-auth",
-      error: error instanceof Error ? error.message : String(error),
+      error: errMessage(error),
     });
     return [];
   }

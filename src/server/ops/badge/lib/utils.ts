@@ -214,7 +214,7 @@ function namespaceSvgIds(svg: string, ns: string): string {
   const ids = [...svg.matchAll(/\bid="([^"]+)"/g)].map((m) => m[1]);
   let out = svg;
   for (const id of ids) {
-    const esc = id.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const esc = escapeRegex(id);
     out = out
       .replace(new RegExp(`\\bid="${esc}"`, "g"), `id="${id}_${ns}"`)
       .replace(new RegExp(`url\\(#${esc}\\)`, "g"), `url(#${id}_${ns})`)

@@ -1,3 +1,4 @@
+import { errMessage } from "@/lib/utils/base";
 import { ParamError } from "@/lib/config/constants";
 import { serverEnv } from "@/server/env";
 import { logger } from "@/lib/utils/logger";
@@ -49,6 +50,6 @@ export function getDb(): LibSQLDatabase<typeof schema> {
 }
 
 function isAlreadyExistsError(e: unknown): boolean {
-  const msg = e instanceof Error ? e.message : String(e);
+  const msg = errMessage(e);
   return /already exists/i.test(msg);
 }

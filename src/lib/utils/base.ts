@@ -29,6 +29,10 @@ export function parseStringMap(
   return out;
 }
 
+export function nonEmptyArray<T>(val: T[] | unknown): T[] | null {
+  return Array.isArray(val) && val.length > 0 ? (val as T[]) : null;
+}
+
 export function pick<T>(arr: ArrayLike<T>): T {
   return arr[Math.floor(Math.random() * arr.length)];
 }
@@ -58,9 +62,7 @@ export function copyToClipboardAsync(
   // though the caller catches the write() promise. Mark it handled in a
   // parallel branch; write() below still rejects into the caller's catch.
   blob.catch(() => {});
-  return navigator.clipboard.write([
-    new ClipboardItem({ "text/plain": blob }),
-  ]);
+  return navigator.clipboard.write([new ClipboardItem({ "text/plain": blob })]);
 }
 
 export function modelSlug(name: string): string {
