@@ -4818,6 +4818,7 @@
       "SUBTITLE": "Wszystko, co potrafi wbudowany czat roleplay, od pierwszej wiadomości po zaawansowane skrypty."
     },
     "GETTING_STARTED": {
+      "ALT_OVERVIEW": "Interfejs czatu z panelem bocznym, wyborem modelu i odpowiedzią pokazującą pole rozumowania oraz akcje wiadomości",
       "META": {
         "TITLE": "Pierwsze kroki z czatem {appName}",
         "DESCRIPTION": "Rozpocznij pierwsze roleplay: załóż loadout, wybierz powitanie, wysyłaj wiadomości, przesuwaj alternatywy i rozgałęziaj rozmowy.",
@@ -4845,6 +4846,7 @@
       "P_NEXT_2": "otwiera wyszukiwanie po wszystkich stronach dokumentacji."
     },
     "CHARACTERS": {
+      "ALT_EDITOR": "Edytor postaci z polami nazwy, opisu, osobowości, scenariusza i pierwszej wiadomości",
       "META": {
         "TITLE": "Karty postaci w {appName}",
         "DESCRIPTION": "Twórz, importuj i eksportuj karty postaci: pola, awatary, nadpisania promptów, import PNG i CHARX oraz cztery formaty eksportu.",
@@ -4889,6 +4891,7 @@
       "X_JSON": "Surowe dane karty do edycji lub narzędzi."
     },
     "PERSONAS": {
+      "ALT_EDITOR": "Edytor person z tytułem wyświetlanym, nazwą, opisem i przełącznikiem domyślnej persony",
       "META": {
         "TITLE": "Persony w {appName}",
         "DESCRIPTION": "Stwórz tożsamość, którą grasz: pola persony, persona domyślna i import z innych aplikacji.",
@@ -4905,6 +4908,7 @@
       "P_IMPORT_1": "Persony importuje się z plików wyeksportowanych z innych frontendów. Duplikacja istniejącej persony to często najszybsza droga do wariantu."
     },
     "LOREBOOKS": {
+      "ALT_EDITOR": "Edytor wpisów lorebooka z treścią, kluczami aktywacji, przełącznikami oraz polami kolejności wstawiania i priorytetu",
       "META": {
         "TITLE": "Lorebooki w {appName}",
         "DESCRIPTION": "Wiedza o świecie aktywowana słowami kluczowymi: wpisy, logika aktywacji, priorytet i kolejność, role wstrzykiwania, dekoratory i budżety tokenów.",
@@ -4963,6 +4967,7 @@
       "P_EXPORT_1": "Karty eksportują się jako pakiety JSON do kopii zapasowej lub udostępniania; import przywraca kartę z nowymi lokalnymi id."
     },
     "PRESETS": {
+      "ALT_EDITOR": "Edytor presetów próbkowania z suwakami temperatury, top P i top K, każdy z własnym przełącznikiem",
       "META": {
         "TITLE": "Presety w {appName}",
         "DESCRIPTION": "Parametry próbkowania, przełączniki zachowania żądań oraz prompty główny, po historii i prefill, które kształtują każde żądanie.",
@@ -5157,6 +5162,7 @@
       "P_INLAYS_2": "renderowane z lokalnego magazynu. Wyeksportowane rozmowy niosą bajty, więc obrazy przeżywają podróż."
     },
     "CUSTOM_PROVIDERS": {
+      "ALT_EDITOR": "Formularz własnego dostawcy z nazwą, adresem URL endpointu, kluczem API, formatem i listą modeli",
       "META": {
         "TITLE": "Własni dostawcy w {appName}",
         "DESCRIPTION": "Podepnij własny endpoint zgodny z OpenAI: wykrywanie modeli, tokenizery per model ze wsparciem HuggingFace i grupy rozliczeń.",

@@ -4818,6 +4818,7 @@
       "SUBTITLE": "Mọi điều chat nhập vai tích hợp có thể làm, từ tin nhắn đầu tiên đến kịch bản nâng cao."
     },
     "GETTING_STARTED": {
+      "ALT_OVERVIEW": "Giao diện chat với thanh bên, bộ chọn mô hình và một câu trả lời hiển thị hộp suy nghĩ cùng các thao tác tin nhắn",
       "META": {
         "TITLE": "Bắt đầu với Chat {appName}",
         "DESCRIPTION": "Bắt đầu buổi nhập vai đầu tiên: trang bị loadout, chọn lời chào, gửi tin nhắn, vuốt giữa các phương án và phân nhánh cuộc trò chuyện.",
@@ -4845,6 +4846,7 @@
       "P_NEXT_2": "mở tìm kiếm trên mọi trang tài liệu."
     },
     "CHARACTERS": {
+      "ALT_EDITOR": "Trình soạn nhân vật với các trường tên, mô tả, tính cách, bối cảnh và tin nhắn đầu tiên",
       "META": {
         "TITLE": "Thẻ Nhân vật trong {appName}",
         "DESCRIPTION": "Tạo, nhập và xuất thẻ nhân vật: trường, hình đại diện, ghi đè prompt, nhập PNG và CHARX, cùng bốn định dạng xuất.",
@@ -4889,6 +4891,7 @@
       "X_JSON": "Dữ liệu thẻ thô để chỉnh sửa hoặc dùng công cụ."
     },
     "PERSONAS": {
+      "ALT_EDITOR": "Trình soạn persona với tiêu đề hiển thị, tên, mô tả và công tắc persona mặc định",
       "META": {
         "TITLE": "Persona trong {appName}",
         "DESCRIPTION": "Tạo danh tính bạn nhập vai: các trường persona, persona mặc định và nhập từ ứng dụng khác.",
@@ -4905,6 +4908,7 @@
       "P_IMPORT_1": "Persona được nhập từ các tệp persona do giao diện khác xuất. Nhân bản một persona sẵn có thường là cách nhanh nhất để tạo biến thể."
     },
     "LOREBOOKS": {
+      "ALT_EDITOR": "Trình soạn mục lorebook với nội dung, từ khóa kích hoạt, công tắc cùng các trường thứ tự chèn và độ ưu tiên",
       "META": {
         "TITLE": "Sổ tri thức trong {appName}",
         "DESCRIPTION": "Tri thức về thế giới kích hoạt theo từ khóa: mục, logic kích hoạt, ưu tiên và thứ tự, vai trò chèn, bộ trang trí và ngân sách token.",
@@ -4963,6 +4967,7 @@
       "P_EXPORT_1": "Thẻ được xuất thành gói JSON để sao lưu hoặc chia sẻ; nhập sẽ khôi phục thẻ với id cục bộ mới."
     },
     "PRESETS": {
+      "ALT_EDITOR": "Trình soạn preset lấy mẫu với thanh trượt temperature, top P và top K, mỗi cái có công tắc riêng",
       "META": {
         "TITLE": "Preset trong {appName}",
         "DESCRIPTION": "Tham số lấy mẫu, công tắc hành vi yêu cầu, và các prompt chính, hậu lịch sử và điền sẵn định hình mỗi yêu cầu.",
@@ -5157,6 +5162,7 @@
       "P_INLAYS_2": "được kết xuất từ kho lưu cục bộ. Cuộc trò chuyện đã xuất mang theo các byte, nên ảnh sống sót qua chuyến đi."
     },
     "CUSTOM_PROVIDERS": {
+      "ALT_EDITOR": "Biểu mẫu nhà cung cấp tùy chỉnh với tên, URL endpoint, khóa API, định dạng và danh sách mô hình",
       "META": {
         "TITLE": "Nhà cung cấp tùy chỉnh trong {appName}",
         "DESCRIPTION": "Mang endpoint tương thích OpenAI của riêng bạn: khám phá mô hình, bộ token hóa theo từng mô hình với hỗ trợ HuggingFace, và nhóm tính phí.",

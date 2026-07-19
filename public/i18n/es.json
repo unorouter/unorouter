@@ -4818,6 +4818,7 @@
       "SUBTITLE": "Todo lo que puede hacer el chat de rol integrado, desde tu primer mensaje hasta el scripting avanzado."
     },
     "GETTING_STARTED": {
+      "ALT_OVERVIEW": "Interfaz de chat con la barra lateral, el selector de modelo y una respuesta con el cuadro de razonamiento y las acciones de mensaje",
       "META": {
         "TITLE": "Primeros pasos con el chat de {appName}",
         "DESCRIPTION": "Empieza tu primer rol: equipa un loadout, elige un saludo, envía mensajes, desliza alternativas y ramifica conversaciones.",
@@ -4845,6 +4846,7 @@
       "P_NEXT_2": "abre la búsqueda en todas las páginas de documentación."
     },
     "CHARACTERS": {
+      "ALT_EDITOR": "Editor de personajes con campos para nombre, descripción, personalidad, escenario y primer mensaje",
       "META": {
         "TITLE": "Tarjetas de personaje en {appName}",
         "DESCRIPTION": "Crea, importa y exporta tarjetas de personaje: campos, avatares, anulaciones de prompt, importación PNG y CHARX, y cuatro formatos de exportación.",
@@ -4889,6 +4891,7 @@
       "X_JSON": "Datos crudos de la tarjeta para editar o para herramientas."
     },
     "PERSONAS": {
+      "ALT_EDITOR": "Editor de personas con título visible, nombre, descripción y el interruptor de persona predeterminada",
       "META": {
         "TITLE": "Personas en {appName}",
         "DESCRIPTION": "Crea la identidad con la que juegas: campos de persona, persona predeterminada e importación desde otras apps.",
@@ -4905,6 +4908,7 @@
       "P_IMPORT_1": "Las personas se importan desde archivos de persona exportados por otras interfaces. Duplicar una persona existente suele ser la vía más rápida para crear una variante."
     },
     "LOREBOOKS": {
+      "ALT_EDITOR": "Editor de entradas del lorebook con contenido, claves de activación, interruptores y campos de orden de inserción y prioridad",
       "META": {
         "TITLE": "Lorebooks en {appName}",
         "DESCRIPTION": "Conocimiento del mundo que se activa con palabras clave: entradas, lógica de activación, prioridad y orden, roles de inyección, decoradores y presupuestos de tokens.",
@@ -4963,6 +4967,7 @@
       "P_EXPORT_1": "Las tarjetas se exportan como paquetes JSON para copia de seguridad o para compartir; la importación restaura la tarjeta con nuevos ids locales."
     },
     "PRESETS": {
+      "ALT_EDITOR": "Editor de presets de muestreo con controles deslizantes de temperatura, top P y top K, cada uno con su interruptor",
       "META": {
         "TITLE": "Presets en {appName}",
         "DESCRIPTION": "Parámetros de muestreo, interruptores de comportamiento y los prompts principal, post-historial y prefill que moldean cada petición.",
@@ -5157,6 +5162,7 @@
       "P_INLAYS_2": "que se renderizan desde el almacenamiento local. Las conversaciones exportadas llevan los bytes, así que las imágenes sobreviven el viaje."
     },
     "CUSTOM_PROVIDERS": {
+      "ALT_EDITOR": "Formulario de proveedor personalizado con nombre, URL del endpoint, clave de API, formato y la lista de modelos",
       "META": {
         "TITLE": "Proveedores personalizados en {appName}",
         "DESCRIPTION": "Trae tu propio endpoint compatible con OpenAI: descubrimiento de modelos, tokenizadores por modelo con soporte HuggingFace y grupos de facturación.",

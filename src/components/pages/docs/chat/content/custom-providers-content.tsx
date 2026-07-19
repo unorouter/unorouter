@@ -1,7 +1,7 @@
 import { APP_VALUES } from "@/lib/config/constants";
 import { getTranslations } from "next-intl/server";
 import { chatDocKey } from "../chat-doc-template";
-import { DocCode, DocKbd, DocSection } from "@/components/pages/docs/doc-parts";
+import { DocCode, DocImage, DocKbd, DocSection } from "@/components/pages/docs/doc-parts";
 
 const P = "DOCS_CHAT.CUSTOM_PROVIDERS";
 
@@ -14,6 +14,12 @@ export async function CustomProvidersContent() {
       <DocSection id="add" title={k("H_ADD")}>
         <p>{k("P_ADD_1")}</p>
         <p>{k("P_ADD_2")}</p>
+        <DocImage
+          src="/images/docs/chat-custom-provider.webp"
+          alt={k("ALT_EDITOR")}
+          width={960}
+          height={917}
+        />
       </DocSection>
       <DocSection id="models" title={k("H_MODELS")}>
         <p>{k("P_MODELS_1")}</p>

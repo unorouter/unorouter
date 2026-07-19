@@ -4818,6 +4818,7 @@
       "SUBTITLE": "Semua yang bisa dilakukan chat roleplay bawaan, dari pesan pertama Anda hingga skrip tingkat lanjut."
     },
     "GETTING_STARTED": {
+      "ALT_OVERVIEW": "Antarmuka chat dengan sidebar, pemilih model, dan balasan yang menampilkan kotak thinking serta aksi pesan",
       "META": {
         "TITLE": "Memulai dengan Chat {appName}",
         "DESCRIPTION": "Mulai roleplay pertama Anda: pasang loadout, pilih sapaan, kirim pesan, geser antaralternatif, dan cabangkan percakapan.",
@@ -4845,6 +4846,7 @@
       "P_NEXT_2": "membuka pencarian di semua halaman dokumentasi."
     },
     "CHARACTERS": {
+      "ALT_EDITOR": "Editor karakter dengan kolom nama, deskripsi, kepribadian, skenario, dan pesan pertama",
       "META": {
         "TITLE": "Kartu Karakter di {appName}",
         "DESCRIPTION": "Buat, impor, dan ekspor kartu karakter: bidang, avatar, penimpaan prompt, impor PNG dan CHARX, serta empat format ekspor.",
@@ -4889,6 +4891,7 @@
       "X_JSON": "Data kartu mentah untuk penyuntingan atau alat."
     },
     "PERSONAS": {
+      "ALT_EDITOR": "Editor persona dengan judul tampilan, nama, deskripsi, dan sakelar persona default",
       "META": {
         "TITLE": "Persona di {appName}",
         "DESCRIPTION": "Buat identitas yang Anda mainkan: bidang persona, persona bawaan, dan impor dari aplikasi lain.",
@@ -4905,6 +4908,7 @@
       "P_IMPORT_1": "Persona diimpor dari berkas persona yang diekspor frontend lain. Menggandakan persona yang ada sering jadi cara tercepat membuat varian."
     },
     "LOREBOOKS": {
+      "ALT_EDITOR": "Editor entri lorebook dengan konten, kunci aktivasi, sakelar, serta kolom urutan sisip dan prioritas",
       "META": {
         "TITLE": "Lorebook di {appName}",
         "DESCRIPTION": "Pengetahuan dunia yang aktif berdasarkan kata kunci: entri, logika aktivasi, prioritas dan urutan, peran penyuntikan, dekorator, dan anggaran token.",
@@ -4963,6 +4967,7 @@
       "P_EXPORT_1": "Kartu diekspor sebagai bundel JSON untuk cadangan atau berbagi; impor memulihkan kartu dengan id lokal baru."
     },
     "PRESETS": {
+      "ALT_EDITOR": "Editor preset sampling dengan slider temperature, top P, dan top K, masing-masing dengan sakelarnya sendiri",
       "META": {
         "TITLE": "Preset di {appName}",
         "DESCRIPTION": "Parameter sampling, sakelar perilaku permintaan, serta prompt utama, pasca-riwayat, dan prefill yang membentuk setiap permintaan.",
@@ -5157,6 +5162,7 @@
       "P_INLAYS_2": "yang dirender dari penyimpanan lokal. Percakapan yang diekspor membawa bita, jadi gambar bertahan dalam perjalanan."
     },
     "CUSTOM_PROVIDERS": {
+      "ALT_EDITOR": "Formulir penyedia kustom dengan nama, URL endpoint, kunci API, format, dan daftar model",
       "META": {
         "TITLE": "Penyedia Kustom di {appName}",
         "DESCRIPTION": "Bawa endpoint kompatibel OpenAI Anda sendiri: penemuan model, tokenizer per model dengan dukungan HuggingFace, dan grup penagihan.",

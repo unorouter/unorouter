@@ -2,6 +2,7 @@ import { APP_VALUES } from "@/lib/config/constants";
 import { getTranslations } from "next-intl/server";
 import { chatDocKey } from "../chat-doc-template";
 import {
+  DocImage,
   DocKbd,
   DocSection,
   DocTable,
@@ -17,6 +18,12 @@ export async function PresetsContent() {
     <>
       <DocSection id="sampling" title={k("H_SAMPLING")}>
         <p>{k("P_SAMPLING_1")}</p>
+        <DocImage
+          src="/images/docs/chat-preset-editor.webp"
+          alt={k("ALT_EDITOR")}
+          width={1290}
+          height={1170}
+        />
         <p>{k("P_SAMPLING_2")}</p>
       </DocSection>
       <DocSection id="behavior" title={k("H_BEHAVIOR")}>

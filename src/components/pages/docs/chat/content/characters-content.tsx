@@ -2,6 +2,7 @@ import { APP_VALUES } from "@/lib/config/constants";
 import { getTranslations } from "next-intl/server";
 import { chatDocKey } from "../chat-doc-template";
 import {
+  DocImage,
   DocKbd,
   DocSection,
   DocTable,
@@ -17,6 +18,12 @@ export async function CharactersContent() {
     <>
       <DocSection id="fields" title={k("H_FIELDS")}>
         <p>{k("P_FIELDS_1")}</p>
+        <DocImage
+          src="/images/docs/chat-character-editor.webp"
+          alt={k("ALT_EDITOR")}
+          width={1096}
+          height={1088}
+        />
         <DocTable
           headers={[k("TH_FIELD"), k("TH_PURPOSE")]}
           rows={[

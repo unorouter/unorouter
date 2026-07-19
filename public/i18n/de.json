@@ -4818,6 +4818,7 @@
       "SUBTITLE": "Alles, was der integrierte Rollenspiel-Chat kann, von der ersten Nachricht bis zum fortgeschrittenen Scripting."
     },
     "GETTING_STARTED": {
+      "ALT_OVERVIEW": "Chat-Oberfläche mit Seitenleiste, Modellauswahl und einer Antwort mit Denk-Box und Nachrichtenaktionen",
       "META": {
         "TITLE": "Erste Schritte mit dem {appName}-Chat",
         "DESCRIPTION": "Starte dein erstes Rollenspiel: Loadout ausrüsten, Begrüßung wählen, Nachrichten senden, Alternativen swipen und Gespräche verzweigen.",
@@ -4845,6 +4846,7 @@
       "P_NEXT_2": "öffnet die Suche über alle Doku-Seiten."
     },
     "CHARACTERS": {
+      "ALT_EDITOR": "Charakter-Editor mit Feldern für Name, Beschreibung, Persönlichkeit, Szenario und erste Nachricht",
       "META": {
         "TITLE": "Charakterkarten in {appName}",
         "DESCRIPTION": "Charakterkarten erstellen, importieren und exportieren: Felder, Avatare, Prompt-Overrides, PNG- und CHARX-Import sowie vier Exportformate.",
@@ -4889,6 +4891,7 @@
       "X_JSON": "Rohe Kartendaten zum Bearbeiten oder für Tools."
     },
     "PERSONAS": {
+      "ALT_EDITOR": "Persona-Editor mit Anzeigetitel, Name, Beschreibung und Standard-Persona-Schalter",
       "META": {
         "TITLE": "Personas in {appName}",
         "DESCRIPTION": "Erstelle die Identität, die du spielst: Persona-Felder, Standard-Persona und Import aus anderen Apps.",
@@ -4905,6 +4908,7 @@
       "P_IMPORT_1": "Personas lassen sich aus Persona-Dateien anderer Frontends importieren. Eine bestehende Persona zu duplizieren ist oft der schnellste Weg zu einer Variante."
     },
     "LOREBOOKS": {
+      "ALT_EDITOR": "Lorebook-Eintragseditor mit Inhalt, Aktivierungsschlüsseln, Schaltern sowie Einfügereihenfolge und Priorität",
       "META": {
         "TITLE": "Lorebooks in {appName}",
         "DESCRIPTION": "Weltwissen, das auf Stichwörter aktiviert: Einträge, Aktivierungslogik, Priorität und Reihenfolge, Injektionsrollen, Dekoratoren und Token-Budgets.",
@@ -4963,6 +4967,7 @@
       "P_EXPORT_1": "Karten werden als JSON-Bundles für Backup oder Weitergabe exportiert; der Import stellt die Karte mit neuen lokalen IDs wieder her."
     },
     "PRESETS": {
+      "ALT_EDITOR": "Sampling-Preset-Editor mit Reglern für Temperature, Top P und Top K samt Einzelschaltern",
       "META": {
         "TITLE": "Presets in {appName}",
         "DESCRIPTION": "Sampling-Parameter, Verhaltensschalter für Anfragen sowie Haupt-, Post-History- und Prefill-Prompts, die jede Anfrage formen.",
@@ -5157,6 +5162,7 @@
       "P_INLAYS_2": "Tokens, die aus dem lokalen Speicher rendern. Exportierte Gespräche tragen die Bytes, Bilder überstehen die Reise also."
     },
     "CUSTOM_PROVIDERS": {
+      "ALT_EDITOR": "Formular für einen eigenen Provider mit Name, Endpoint-URL, API-Schlüssel, Format und Modellliste",
       "META": {
         "TITLE": "Eigene Anbieter in {appName}",
         "DESCRIPTION": "Bring deinen eigenen OpenAI-kompatiblen Endpunkt mit: Modell-Erkennung, Tokenizer pro Modell mit HuggingFace-Unterstützung und Abrechnungsgruppen.",

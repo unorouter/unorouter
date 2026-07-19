@@ -4818,6 +4818,7 @@
       "SUBTITLE": "Yerleşik rol yapma sohbetinin yapabildiği her şey, ilk mesajından ileri betiklere kadar."
     },
     "GETTING_STARTED": {
+      "ALT_OVERVIEW": "Kenar çubuğu, model seçici ve düşünme kutusu ile mesaj eylemlerini gösteren bir yanıtın yer aldığı sohbet arayüzü",
       "META": {
         "TITLE": "{appName} Sohbetine Başlarken",
         "DESCRIPTION": "İlk rol yapma sohbetini başlat: bir loadout kuşan, açılış seç, mesaj gönder, alternatifleri kaydır ve konuşmaları dallandır.",
@@ -4845,6 +4846,7 @@
       "P_NEXT_2": "tüm dokümantasyon sayfalarında aramayı açar."
     },
     "CHARACTERS": {
+      "ALT_EDITOR": "Ad, açıklama, kişilik, senaryo ve ilk mesaj alanlarına sahip karakter düzenleyici",
       "META": {
         "TITLE": "{appName} İçinde Karakter Kartları",
         "DESCRIPTION": "Karakter kartları oluştur, içe ve dışa aktar: alanlar, avatarlar, prompt geçersiz kılmaları, PNG ve CHARX içe aktarma ve dört dışa aktarma biçimi.",
@@ -4889,6 +4891,7 @@
       "X_JSON": "Düzenleme veya araçlar için ham kart verisi."
     },
     "PERSONAS": {
+      "ALT_EDITOR": "Görünen başlık, ad, açıklama ve varsayılan persona anahtarına sahip persona düzenleyici",
       "META": {
         "TITLE": "{appName} İçinde Personalar",
         "DESCRIPTION": "Oynadığın kimliği oluştur: persona alanları, varsayılan persona ve diğer uygulamalardan içe aktarma.",
@@ -4905,6 +4908,7 @@
       "P_IMPORT_1": "Personalar, diğer ön yüzlerin dışa aktardığı persona dosyalarından içe aktarılır. Mevcut bir personayı çoğaltmak, varyant oluşturmanın çoğu zaman en hızlı yoludur."
     },
     "LOREBOOKS": {
+      "ALT_EDITOR": "İçerik, etkinleştirme anahtarları, anahtarlar ile ekleme sırası ve öncelik alanlarına sahip lorebook girdisi düzenleyici",
       "META": {
         "TITLE": "{appName} İçinde Lorebook'lar",
         "DESCRIPTION": "Anahtar sözcüklerle etkinleşen dünya bilgisi: girdiler, etkinleşme mantığı, öncelik ve sıra, enjeksiyon rolleri, dekoratörler ve token bütçeleri.",
@@ -4963,6 +4967,7 @@
       "P_EXPORT_1": "Kartlar yedekleme veya paylaşım için JSON paketleri olarak dışa aktarılır; içe aktarma kartı yeni yerel kimliklerle geri getirir."
     },
     "PRESETS": {
+      "ALT_EDITOR": "Her biri kendi anahtarına sahip sıcaklık, top P ve top K kaydırıcıları bulunan örnekleme ön ayarı düzenleyici",
       "META": {
         "TITLE": "{appName} İçinde Ön Ayarlar",
         "DESCRIPTION": "Örnekleme parametreleri, istek davranış anahtarları ve her isteği biçimlendiren ana, geçmiş sonrası ve prefill prompt'ları.",
@@ -5157,6 +5162,7 @@
       "P_INLAYS_2": "belirteçleri olarak yaşar ve yerel depodan işlenir. Dışa aktarılan konuşmalar baytları taşır; görseller yolculuktan sağ çıkar."
     },
     "CUSTOM_PROVIDERS": {
+      "ALT_EDITOR": "Ad, uç nokta URL'si, API anahtarı, biçim ve model listesine sahip özel sağlayıcı formu",
       "META": {
         "TITLE": "{appName} İçinde Özel Sağlayıcılar",
         "DESCRIPTION": "Kendi OpenAI uyumlu uç noktanı getir: model keşfi, HuggingFace destekli model bazlı tokenizer'lar ve faturalama grupları.",

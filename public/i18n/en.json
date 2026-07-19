@@ -4818,6 +4818,7 @@
       "SUBTITLE": "Everything the built-in roleplay chat can do, from your first message to advanced scripting."
     },
     "GETTING_STARTED": {
+      "ALT_OVERVIEW": "Chat interface with the sidebar, model selector, and a reply showing the thinking box and message actions",
       "META": {
         "TITLE": "Getting Started with {appName} Chat",
         "DESCRIPTION": "Start your first roleplay chat: equip a loadout, pick a greeting, send messages, swipe alternatives, and branch conversations.",
@@ -4845,6 +4846,7 @@
       "P_NEXT_2": "opens search across all docs pages."
     },
     "CHARACTERS": {
+      "ALT_EDITOR": "Character editor with fields for name, description, personality, scenario, and first message",
       "META": {
         "TITLE": "Character Cards in {appName}",
         "DESCRIPTION": "Create, import, and export character cards: fields, avatars, prompt overrides, PNG and CHARX import, and four export formats.",
@@ -4889,6 +4891,7 @@
       "X_JSON": "Raw card data for editing or tooling."
     },
     "PERSONAS": {
+      "ALT_EDITOR": "Persona editor with display title, name, description, and the default persona toggle",
       "META": {
         "TITLE": "Personas in {appName}",
         "DESCRIPTION": "Create the identity you play as: persona fields, default persona, and importing personas from other apps.",
@@ -4905,6 +4908,7 @@
       "P_IMPORT_1": "Personas import from persona files exported by other frontends. Duplicating an existing persona is often the fastest way to create a variant."
     },
     "LOREBOOKS": {
+      "ALT_EDITOR": "Lorebook entry editor with content, activation keys, toggles, and insert order and priority fields",
       "META": {
         "TITLE": "Lorebooks in {appName}",
         "DESCRIPTION": "World info that activates on keywords: entries, activation logic, priority and order, injection roles, decorators, and token budgets.",
@@ -4963,6 +4967,7 @@
       "P_EXPORT_1": "Cards export as JSON bundles for backup or sharing; import restores the card with new local ids."
     },
     "PRESETS": {
+      "ALT_EDITOR": "Sampling preset editor with sliders for temperature, top P, and top K, each with its own toggle",
       "META": {
         "TITLE": "Presets in {appName}",
         "DESCRIPTION": "Sampling parameters, request behavior toggles, and the main, post-history, and prefill prompts that shape every request.",
@@ -5157,6 +5162,7 @@
       "P_INLAYS_2": "tokens rendering from local storage. Exported conversations carry the bytes, so images survive the trip."
     },
     "CUSTOM_PROVIDERS": {
+      "ALT_EDITOR": "Custom provider form with name, endpoint URL, API key, format, and the model list",
       "META": {
         "TITLE": "Custom Providers in {appName}",
         "DESCRIPTION": "Bring your own OpenAI-compatible endpoint: model discovery, per-model tokenizers with HuggingFace support, and billing groups.",

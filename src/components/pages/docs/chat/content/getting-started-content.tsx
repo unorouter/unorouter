@@ -1,7 +1,7 @@
 import { APP_VALUES } from "@/lib/config/constants";
 import { getTranslations } from "next-intl/server";
 import { chatDocKey } from "../chat-doc-template";
-import { DocKbd, DocSection } from "@/components/pages/docs/doc-parts";
+import { DocImage, DocKbd, DocSection } from "@/components/pages/docs/doc-parts";
 
 const P = "DOCS_CHAT.GETTING_STARTED";
 
@@ -14,6 +14,12 @@ export async function GettingStartedContent() {
       <DocSection id="overview" title={k("H_OVERVIEW")}>
         <p>{k("P_OVERVIEW_1")}</p>
         <p>{k("P_OVERVIEW_2")}</p>
+        <DocImage
+          src="/images/docs/chat-overview.webp"
+          alt={k("ALT_OVERVIEW")}
+          width={2550}
+          height={1280}
+        />
       </DocSection>
       <DocSection id="loadout" title={k("H_LOADOUT")}>
         <p>{k("P_LOADOUT_1")}</p>

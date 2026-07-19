@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 import { chatDocKey } from "../chat-doc-template";
 import {
   DocCode,
+  DocImage,
   DocKbd,
   DocSection,
   DocTable,
@@ -37,6 +38,12 @@ export async function LorebooksContent() {
       </DocSection>
       <DocSection id="entries" title={k("H_ENTRIES")}>
         <p>{k("P_ENTRIES_1")}</p>
+        <DocImage
+          src="/images/docs/chat-lorebook-editor.webp"
+          alt={k("ALT_EDITOR")}
+          width={1096}
+          height={1088}
+        />
         <p>{k("P_ENTRIES_2")}</p>
         <p>{k("P_ENTRIES_3")}</p>
       </DocSection>
