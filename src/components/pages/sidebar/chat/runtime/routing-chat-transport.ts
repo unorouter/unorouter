@@ -32,6 +32,7 @@ import {
 } from "@/lib/ai/chat/provider-mutations";
 import type { TokenizerRef } from "@/lib/ai/chat/tokenizer";
 import { CHAT_PROVIDER_NAME } from "@/lib/config/constants";
+import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { chatModelAtom, chatStore, localUserIdAtom } from "@/store/chat-store";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
@@ -101,6 +102,38 @@ async function runClientStream(args: {
     args.deps,
     args.options.abortSignal,
   );
+
+  // Wire-shape diagnostics without content: numeric/bool option values pass,
+  // free-text option values reduce to their length.
+  const wireOptions = prepared.providerOptions[CHAT_PROVIDER_NAME] ?? {};
+  logChatDebug("request.shape", {
+    model: args.model,
+    prefill: prefillOpensThink(prepared.messagesForUpstream),
+    systemChars: prepared.effectiveSystem?.length ?? 0,
+    messages: prepared.messagesForUpstream.map((m) => ({
+      role: (m as { role: string }).role,
+      chars: ((m as { parts?: { text?: string }[] }).parts ?? []).reduce(
+        (n, p) => n + (typeof p.text === "string" ? p.text.length : 0),
+        0,
+      ),
+    })),
+    modelParams: prepared.modelParams,
+    options: Object.fromEntries(
+      Object.entries(wireOptions).map(([k, v]) => [
+        k,
+        typeof v === "number" ||
+        typeof v === "boolean" ||
+        k === "reasoningEffort" ||
+        k === "provider"
+          ? v
+          : typeof v === "string"
+            ? `str(${v.length})`
+            : Array.isArray(v)
+              ? `arr(${v.length})`
+              : `obj(${Object.keys(v ?? {}).length})`,
+      ]),
+    ),
+  });
 
   const collector = createMetaCollector();
   const startedAt = Date.now();
