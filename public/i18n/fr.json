@@ -5239,7 +5239,7 @@
       "T_API_KEY_VALUE": "La clé que vous créez sur la page Jetons",
       "P_BASE_URL_2": "Les outils qui parlent un protocole natif utilisent plutôt le domaine seul : Claude Code définit ANTHROPIC_BASE_URL et Gemini CLI définit GOOGLE_GEMINI_BASE_URL sans le suffixe /v1. Chaque guide d'intégration indique la valeur exacte.",
       "H_API_KEY": "Créer une clé d'API",
-      "P_API_KEY_1": "Inscrivez-vous, puis ouvrez la page Jetons et créez une clé. Donnez-lui un nom ; vous pouvez aussi définir une date d'expiration, une limite de dépense, des modèles autorisés et une liste d'IP autorisées. La clé n'est affichée qu'une seule fois, conservez-la en lieu sûr.",
+      "P_API_KEY_1": "Inscrivez-vous, ouvrez la page Tokens et créez une clé. Elle ne s'affiche qu'une fois, conservez-la en lieu sûr.",
       "P_API_KEY_2": "Sans clé, vous pouvez toujours utiliser le chat intégré en tant qu'invité avec des modèles gratuits. Les requêtes API nécessitent toujours une clé.",
       "H_FIRST_REQUEST": "Effectuer votre première requête",
       "P_FIRST_REQUEST_1": "Remplacez YOUR_API_KEY par la clé que vous venez de créer (si vous êtes connecté, elle est déjà renseignée ci-dessous) :",
@@ -5248,7 +5248,9 @@
       "P_SDKS_1": "Tout SDK OpenAI fonctionne sans modification, définissez simplement la base URL et votre clé :",
       "H_NEXT": "Prochaines étapes",
       "P_NEXT_1": "L'onglet Intégrations propose une configuration prête à copier-coller pour plus de 30 applications : SillyTavern, JanitorAI, Claude Code, Cline et bien d'autres. L'onglet Chat documente le chat de jeu de rôle intégré.",
-      "P_NEXT_2": "Parcourez tous les modèles et les tarifs en direct sur la page Modèles, la fiabilité des modèles gratuits testée par la communauté dans les Classements, et l'état des fournisseurs dans Statut."
+      "P_NEXT_2": "Pour comprendre prix, remises et disponibilité, lisez",
+      "P_API_KEY_SCOPES": "Dates d'expiration, plafonds de dépense, listes de modèles autorisés, restrictions IP et épinglage de groupes sont couverts dans",
+      "P_NEXT_ERRORS": "Avant de déployer, survolez les codes de statut et limites dans"
     },
     "MODELS_AND_PRICING": {
       "META": {
@@ -5277,7 +5279,8 @@
       "P_AVAILABILITY_1": "Les requêtes basculent automatiquement vers le groupe suivant quand l'un atteint sa limite ou tombe. Le modèle ne disparaît du catalogue que lorsque tous ses canaux sont hors service.",
       "P_AVAILABILITY_2": "Un modèle qui disparaît sous charge est normal, pas une panne : il revient de lui-même dès qu'un canal récupère, en général en quelques minutes.",
       "P_DISCOUNTS_PIN": "Pour verrouiller un modèle sur des groupes précis et leurs tarifs, voir",
-      "P_AVAILABILITY_WATCH": "Pour être prévenu dès son retour, surveillez-le dans"
+      "P_AVAILABILITY_WATCH": "Pour être prévenu dès son retour, surveillez-le dans",
+      "P_FREE_LIMITS_LINK": "Les plafonds exacts, les en-têtes et les conseils de retry sont documentés dans"
     },
     "NOTIFICATIONS": {
       "META": {
@@ -5399,7 +5402,9 @@
       "P_TRIAL_CAPS_2": "Le plafond ne s'applique qu'à la route d'essai gratuit ; le modèle payant accepte les prompts de pleine longueur.",
       "H_RETRIES": "Conseils sur les nouvelles tentatives",
       "P_RETRIES_1": "Respectez Retry-After sur les 429. Réessayez le 503 get_channel_failed après une courte attente, ou repliez-vous sur un autre modèle. Ne réessayez pas les erreurs de classe 400, elles sont déterministes.",
-      "P_RETRIES_2": "Les requêtes échouées et refusées ne sont pas facturées : toute préautorisation sur votre solde est remboursée lorsque la requête échoue."
+      "P_RETRIES_2": "Les requêtes échouées ou refusées ne sont jamais facturées ; le fonctionnement de la préautorisation et du remboursement est décrit dans",
+      "P_BUSY_WATCH": "Un modèle disparu sous charge revient tout seul ; pour être prévenu dès son retour, surveillez-le dans",
+      "P_BUSY_PINNED": "Si votre clé épingle des groupes de fournisseurs, un troisième 503 apparaît quand seuls vos groupes épinglés sont tombés, voir"
     },
     "ACCOUNT_AND_BILLING": {
       "META": {
@@ -5424,7 +5429,7 @@
       "H_CHARGES": "Ce qui est facturé",
       "P_CHARGES_1": "Chaque requête payante débite son coût exact : jetons d'entrée plus jetons de sortie aux tarifs au jeton du modèle, ou le prix forfaitaire par appel. Pas de frais mensuels.",
       "P_CHARGES_2": "Les requêtes échouées ne sont pas facturées. Une préautorisation est prise au démarrage d'une requête et remboursée si elle échoue.",
-      "P_CHARGES_3": "402 signifie que la limite propre à la clé d'API est épuisée ; 403 avec un message de quota insuffisant signifie que le solde du compte est vide.",
+      "P_CHARGES_3": "Quel code de statut tombe quand l'argent manque, 402 pour la limite d'une clé et 403 pour un solde vide, est détaillé dans",
       "H_LOGS": "Auditer l'utilisation",
       "P_LOGS_1": "La page Journaux liste chaque requête avec le modèle, le nombre de jetons, le coût exact et l'id de requête. Si un débit semble erroné, l'id de requête est ce dont le support a besoin.",
       "P_KEYS_PIN": "Une clé peut aussi épingler des modèles sur des groupes de fournisseurs précis et leurs tarifs, voir",

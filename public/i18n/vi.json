@@ -5239,7 +5239,7 @@
       "T_API_KEY_VALUE": "Khóa bạn tạo trên trang Token",
       "P_BASE_URL_2": "Các công cụ nói giao thức wire gốc dùng chỉ tên miền thay thế: Claude Code đặt ANTHROPIC_BASE_URL và Gemini CLI đặt GOOGLE_GEMINI_BASE_URL không có hậu tố /v1. Mỗi hướng dẫn tích hợp hiển thị giá trị chính xác.",
       "H_API_KEY": "Tạo một khóa API",
-      "P_API_KEY_1": "Đăng ký, sau đó mở trang Token và tạo một khóa. Đặt tên cho nó; bạn cũng có thể đặt ngày hết hạn, giới hạn chi tiêu, các mô hình được phép và danh sách IP được phép. Khóa chỉ được hiển thị một lần, hãy lưu trữ an toàn.",
+      "P_API_KEY_1": "Đăng ký, mở trang Tokens và tạo một khóa. Khóa chỉ hiển thị một lần, hãy cất giữ an toàn.",
       "P_API_KEY_2": "Không có khóa bạn vẫn có thể dùng trò chuyện tích hợp với tư cách khách trên các mô hình miễn phí. Yêu cầu API luôn cần một khóa.",
       "H_FIRST_REQUEST": "Thực hiện yêu cầu đầu tiên của bạn",
       "P_FIRST_REQUEST_1": "Thay YOUR_API_KEY bằng khóa bạn vừa tạo (nếu bạn đã đăng nhập, nó đã được điền sẵn bên dưới):",
@@ -5248,7 +5248,9 @@
       "P_SDKS_1": "Bất kỳ SDK OpenAI nào cũng hoạt động không cần thay đổi, chỉ cần đặt base URL và khóa của bạn:",
       "H_NEXT": "Các bước tiếp theo",
       "P_NEXT_1": "Tab Tích hợp có cấu hình sẵn để sao chép-dán cho hơn 30 ứng dụng: SillyTavern, JanitorAI, Claude Code, Cline và nhiều hơn nữa. Tab Chat ghi lại trò chuyện nhập vai tích hợp.",
-      "P_NEXT_2": "Duyệt tất cả mô hình và giá trực tiếp trên trang Mô hình, độ tin cậy của mô hình miễn phí được cộng đồng kiểm tra trong Bảng xếp hạng, và tình trạng nhà cung cấp trong Trạng thái."
+      "P_NEXT_2": "Để hiểu giá, giảm giá và độ khả dụng, hãy đọc",
+      "P_API_KEY_SCOPES": "Ngày hết hạn, hạn mức chi tiêu, danh sách mô hình được phép, giới hạn IP và ghim nhóm nhà cung cấp được đề cập trong",
+      "P_NEXT_ERRORS": "Trước khi triển khai, hãy lướt qua mã trạng thái và giới hạn tốc độ trong"
     },
     "MODELS_AND_PRICING": {
       "META": {
@@ -5277,7 +5279,8 @@
       "P_AVAILABILITY_1": "Yêu cầu tự động chuyển sang nhóm nhà cung cấp kế tiếp khi một nhóm chạm giới hạn hoặc ngừng hoạt động. Chỉ khi mọi kênh phục vụ mô hình đều mất, mô hình mới biến khỏi danh mục.",
       "P_AVAILABILITY_2": "Mô hình biến mất khi tải cao là điều bình thường, không phải sự cố: nó tự quay lại khi một kênh hồi phục, thường trong vài phút.",
       "P_DISCOUNTS_PIN": "Để khóa mô hình vào các nhóm cụ thể và mức giá của chúng, xem",
-      "P_AVAILABILITY_WATCH": "Để được báo ngay khi nó quay lại, hãy theo dõi nó trong"
+      "P_AVAILABILITY_WATCH": "Để được báo ngay khi nó quay lại, hãy theo dõi nó trong",
+      "P_FREE_LIMITS_LINK": "Các mức trần chính xác, header và hướng dẫn thử lại được ghi trong"
     },
     "NOTIFICATIONS": {
       "META": {
@@ -5399,7 +5402,9 @@
       "P_TRIAL_CAPS_2": "Giới hạn chỉ áp dụng cho tuyến dùng thử miễn phí; mô hình trả phí nhận các prompt đầy đủ độ dài.",
       "H_RETRIES": "Hướng dẫn thử lại",
       "P_RETRIES_1": "Tôn trọng Retry-After trên 429. Thử lại 503 get_channel_failed sau một khoảng chờ ngắn, hoặc chuyển sang mô hình khác. Đừng thử lại các lỗi lớp 400, chúng có tính xác định.",
-      "P_RETRIES_2": "Các yêu cầu thất bại và bị từ chối không bị tính phí: mọi khoản giữ trước trên số dư của bạn được hoàn lại khi yêu cầu báo lỗi."
+      "P_RETRIES_2": "Yêu cầu thất bại hoặc bị từ chối không bao giờ bị tính phí; cơ chế tạm giữ và hoàn tiền được mô tả trong",
+      "P_BUSY_WATCH": "Mô hình biến mất do tải sẽ tự quay lại; để được báo ngay khi nó trở lại, hãy theo dõi trong",
+      "P_BUSY_PINNED": "Nếu khóa của bạn ghim nhóm nhà cung cấp, còn một loại 503 thứ ba khi chỉ các nhóm đã ghim ngừng hoạt động, xem"
     },
     "ACCOUNT_AND_BILLING": {
       "META": {
@@ -5424,7 +5429,7 @@
       "H_CHARGES": "Những gì được tính phí",
       "P_CHARGES_1": "Mỗi yêu cầu trả phí trừ đúng chi phí của nó: token đầu vào cộng token đầu ra theo giá mỗi token của mô hình, hoặc mức giá cố định mỗi lần gọi. Không phí hằng tháng.",
       "P_CHARGES_2": "Các yêu cầu thất bại không bị tính phí. Một khoản giữ trước được lấy khi một yêu cầu bắt đầu và được hoàn lại nếu nó báo lỗi.",
-      "P_CHARGES_3": "402 nghĩa là giới hạn riêng của khóa API đã dùng hết; 403 với thông báo hạn mức không đủ nghĩa là số dư tài khoản trống.",
+      "P_CHARGES_3": "Mã trạng thái nào xuất hiện khi hết tiền, 402 cho hạn mức khóa và 403 cho số dư trống, được nêu chi tiết trong",
       "H_LOGS": "Kiểm tra việc sử dụng",
       "P_LOGS_1": "Trang Nhật ký liệt kê mọi yêu cầu với mô hình, số lượng token, chi phí chính xác và id yêu cầu. Nếu một khoản phí nào đó trông có vẻ sai, id yêu cầu là thứ bộ phận hỗ trợ cần.",
       "P_KEYS_PIN": "Khóa cũng có thể ghim mô hình vào các nhóm nhà cung cấp cụ thể và mức giá của chúng, xem",

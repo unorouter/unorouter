@@ -5239,7 +5239,7 @@
       "T_API_KEY_VALUE": "Der Schlüssel, den du auf der Tokens-Seite erstellst",
       "P_BASE_URL_2": "Tools, die ein natives Wire-Protokoll sprechen, verwenden stattdessen die reine Domain: Claude Code setzt ANTHROPIC_BASE_URL und Gemini CLI setzt GOOGLE_GEMINI_BASE_URL ohne das Suffix /v1. Jeder Integrationsleitfaden zeigt den genauen Wert.",
       "H_API_KEY": "Einen API-Schlüssel erstellen",
-      "P_API_KEY_1": "Melde dich an, öffne dann die Tokens-Seite und erstelle einen Schlüssel. Gib ihm einen Namen; du kannst auch ein Ablaufdatum, ein Ausgabenlimit, erlaubte Modelle und eine IP-Zulassungsliste festlegen. Der Schlüssel wird nur einmal angezeigt, bewahre ihn sicher auf.",
+      "P_API_KEY_1": "Registriere dich, öffne die Tokens-Seite und erstelle einen Schlüssel. Er wird nur einmal angezeigt, bewahre ihn sicher auf.",
       "P_API_KEY_2": "Ohne Schlüssel kannst du den integrierten Chat weiterhin als Gast mit kostenlosen Modellen nutzen. API-Anfragen benötigen immer einen Schlüssel.",
       "H_FIRST_REQUEST": "Deine erste Anfrage stellen",
       "P_FIRST_REQUEST_1": "Ersetze YOUR_API_KEY durch den soeben erstellten Schlüssel (wenn du angemeldet bist, ist er unten bereits eingetragen):",
@@ -5248,7 +5248,9 @@
       "P_SDKS_1": "Jedes OpenAI-SDK funktioniert unverändert, setze einfach die Base-URL und deinen Schlüssel:",
       "H_NEXT": "Nächste Schritte",
       "P_NEXT_1": "Der Integrationen-Tab enthält Copy-and-paste-Einrichtungen für über 30 Apps: SillyTavern, JanitorAI, Claude Code, Cline und mehr. Der Chat-Tab dokumentiert den integrierten Rollenspiel-Chat.",
-      "P_NEXT_2": "Durchsuche alle Modelle und Live-Preise auf der Modelle-Seite, die von der Community getestete Zuverlässigkeit kostenloser Modelle in den Rankings und die Anbieter-Verfügbarkeit unter Status."
+      "P_NEXT_2": "Wie Preise, Rabatte und Verfügbarkeit funktionieren, erklärt",
+      "P_API_KEY_SCOPES": "Ablaufdaten, Ausgabenlimits, Modell-Allowlists, IP-Beschränkungen und Gruppen-Pinning behandelt",
+      "P_NEXT_ERRORS": "Vor dem Livegang lohnt ein Blick auf Statuscodes und Rate-Limits in"
     },
     "MODELS_AND_PRICING": {
       "META": {
@@ -5277,7 +5279,8 @@
       "P_AVAILABILITY_1": "Anfragen weichen automatisch auf die nächste Anbietergruppe aus, wenn eine ihr Limit erreicht oder ausfällt. Erst wenn jeder Kanal eines Modells weg ist, verschwindet das Modell aus dem Katalog.",
       "P_AVAILABILITY_2": "Dass ein Modell unter Last verschwindet, ist normal und kein Ausfall: Es taucht von selbst wieder auf, sobald ein Kanal sich erholt, meist binnen Minuten.",
       "P_DISCOUNTS_PIN": "Wie du ein Modell auf bestimmte Gruppen und deren Tarife festlegst, zeigt",
-      "P_AVAILABILITY_WATCH": "Um sofort benachrichtigt zu werden, wenn es zurück ist, beobachte es unter"
+      "P_AVAILABILITY_WATCH": "Um sofort benachrichtigt zu werden, wenn es zurück ist, beobachte es unter",
+      "P_FREE_LIMITS_LINK": "Die genauen Limits, Header und Retry-Hinweise dokumentiert"
     },
     "NOTIFICATIONS": {
       "META": {
@@ -5399,7 +5402,9 @@
       "P_TRIAL_CAPS_2": "Die Obergrenze gilt nur für die kostenlose Testroute; das kostenpflichtige Modell nimmt Prompts in voller Länge an.",
       "H_RETRIES": "Hinweise zu Wiederholungen",
       "P_RETRIES_1": "Beachte Retry-After bei 429. Versuche 503 get_channel_failed nach kurzer Wartezeit erneut oder weiche auf ein anderes Modell aus. Wiederhole keine Fehler der 400er-Klasse, sie sind deterministisch.",
-      "P_RETRIES_2": "Fehlgeschlagene und abgelehnte Anfragen werden nicht abgerechnet: jede Vorabreservierung auf deinem Guthaben wird erstattet, wenn die Anfrage fehlschlägt."
+      "P_RETRIES_2": "Fehlgeschlagene und abgelehnte Anfragen werden nie berechnet; wie Vorabbuchung und Erstattung funktionieren, steht in",
+      "P_BUSY_WATCH": "Ein unter Last verschwundenes Modell kommt von selbst zurück; um sofort benachrichtigt zu werden, beobachte es in",
+      "P_BUSY_PINNED": "Pinnt dein Schlüssel Anbietergruppen, gibt es einen dritten 503, wenn nur deine gepinnten Gruppen ausgefallen sind, siehe"
     },
     "ACCOUNT_AND_BILLING": {
       "META": {
@@ -5424,7 +5429,7 @@
       "H_CHARGES": "Was berechnet wird",
       "P_CHARGES_1": "Jede kostenpflichtige Anfrage zieht ihre genauen Kosten ab: Eingabe-Token plus Ausgabe-Token zu den Preisen des Modells pro Token oder den Pauschalpreis pro Aufruf. Keine monatlichen Gebühren.",
       "P_CHARGES_2": "Fehlgeschlagene Anfragen werden nicht abgerechnet. Zu Beginn einer Anfrage wird eine Vorabreservierung vorgenommen und erstattet, wenn sie fehlschlägt.",
-      "P_CHARGES_3": "402 bedeutet, dass das eigene Limit des API-Schlüssels aufgebraucht ist; 403 mit einer Nachricht über unzureichendes Kontingent bedeutet, dass das Kontoguthaben leer ist.",
+      "P_CHARGES_3": "Welcher Statuscode bei leerem Budget kommt, 402 beim Schlüssellimit und 403 bei leerem Kontoguthaben, steht in",
       "H_LOGS": "Nutzung prüfen",
       "P_LOGS_1": "Die Logs-Seite listet jede Anfrage mit Modell, Token-Zahlen, genauen Kosten und der Request-ID auf. Falls eine Abbuchung jemals falsch aussieht, ist die Request-ID das, was der Support benötigt.",
       "P_KEYS_PIN": "Ein Schlüssel kann Modelle auch auf bestimmte Anbietergruppen und deren Tarife pinnen, siehe",

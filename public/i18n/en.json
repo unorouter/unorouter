@@ -5239,7 +5239,7 @@
       "T_API_KEY_VALUE": "The key you create on the Tokens page",
       "P_BASE_URL_2": "Tools that speak a native wire protocol use the bare domain instead: Claude Code sets ANTHROPIC_BASE_URL and Gemini CLI sets GOOGLE_GEMINI_BASE_URL without the /v1 suffix. Each integration guide shows the exact value.",
       "H_API_KEY": "Create an API key",
-      "P_API_KEY_1": "Sign up, then open the Tokens page and create a key. Give it a name; you can also set an expiry date, a spending limit, allowed models and an IP allowlist. The key is shown once, store it safely.",
+      "P_API_KEY_1": "Sign up, then open the Tokens page and create a key. The key is shown once, store it safely.",
       "P_API_KEY_2": "Without a key you can still use the built-in chat as a guest on free models. API requests always need a key.",
       "H_FIRST_REQUEST": "Make your first request",
       "P_FIRST_REQUEST_1": "Replace YOUR_API_KEY with the key you just created (if you are logged in, it is already filled in below):",
@@ -5248,7 +5248,9 @@
       "P_SDKS_1": "Any OpenAI SDK works unchanged, just set the base URL and your key:",
       "H_NEXT": "Next steps",
       "P_NEXT_1": "The Integrations tab has copy-paste setup for 30+ apps: SillyTavern, JanitorAI, Claude Code, Cline and more. The Chat tab documents the built-in roleplay chat.",
-      "P_NEXT_2": "Browse all models and live prices on the Models page, community-tested free-model reliability on Rankings, and provider health on Status."
+      "P_NEXT_2": "For how pricing, discounts and availability work, read",
+      "P_API_KEY_SCOPES": "Expiry dates, spending limits, model allowlists, IP restrictions and provider group pinning are covered in",
+      "P_NEXT_ERRORS": "Before you ship, skim the status codes and rate limits in"
     },
     "MODELS_AND_PRICING": {
       "META": {
@@ -5277,7 +5279,8 @@
       "P_AVAILABILITY_1": "Requests fail over automatically to the next provider group when one hits its rate limit or goes down. Only when every channel serving a model is out does the model disappear from the catalog.",
       "P_AVAILABILITY_2": "A model vanishing under load is expected, not an outage: it reappears on its own once a channel recovers, usually within minutes.",
       "P_DISCOUNTS_PIN": "To lock a model to specific groups and their rates, see",
-      "P_AVAILABILITY_WATCH": "To get pinged the moment it comes back, watch it in"
+      "P_AVAILABILITY_WATCH": "To get pinged the moment it comes back, watch it in",
+      "P_FREE_LIMITS_LINK": "The exact caps, headers and retry guidance are documented in"
     },
     "NOTIFICATIONS": {
       "META": {
@@ -5399,7 +5402,9 @@
       "P_TRIAL_CAPS_2": "The cap applies to the free trial route only; the paid model takes full-length prompts.",
       "H_RETRIES": "Retry guidance",
       "P_RETRIES_1": "Honor Retry-After on 429. Retry 503 get_channel_failed after a short wait, or fall back to another model. Do not retry 400-class errors, they are deterministic.",
-      "P_RETRIES_2": "Failed and refused requests are not billed: any pre-hold on your balance is refunded when the request errors."
+      "P_RETRIES_2": "Failed and refused requests are never billed; how the pre-hold and refund work is covered in",
+      "P_BUSY_WATCH": "A model that vanished under load comes back on its own; to get pinged the moment it does, watch it in",
+      "P_BUSY_PINNED": "If your key pins provider groups, a third 503 appears when only your pinned groups are down, see"
     },
     "ACCOUNT_AND_BILLING": {
       "META": {
@@ -5424,7 +5429,7 @@
       "H_CHARGES": "What gets charged",
       "P_CHARGES_1": "Each paid request deducts its exact cost: input tokens plus output tokens at the model's per-token prices, or the flat per-call price. No monthly fees.",
       "P_CHARGES_2": "Failed requests are not billed. A pre-hold is taken when a request starts and refunded if it errors.",
-      "P_CHARGES_3": "402 means the API key's own limit is used up; 403 with an insufficient-quota message means the account balance is empty.",
+      "P_CHARGES_3": "Which status code fires when money runs out, 402 for a key limit and 403 for an empty balance, is detailed in",
       "H_LOGS": "Auditing usage",
       "P_LOGS_1": "The Logs page lists every request with model, token counts, exact cost and the request id. If a charge ever looks wrong, the request id is what support needs.",
       "P_KEYS_PIN": "A key can also pin models to specific provider groups and their rates, see",

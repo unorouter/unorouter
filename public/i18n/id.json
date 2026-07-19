@@ -5239,7 +5239,7 @@
       "T_API_KEY_VALUE": "Kunci yang Anda buat di halaman Token",
       "P_BASE_URL_2": "Alat yang berbicara dengan protokol wire native menggunakan domain saja: Claude Code menetapkan ANTHROPIC_BASE_URL dan Gemini CLI menetapkan GOOGLE_GEMINI_BASE_URL tanpa akhiran /v1. Setiap panduan integrasi menunjukkan nilai yang tepat.",
       "H_API_KEY": "Membuat kunci API",
-      "P_API_KEY_1": "Daftar, lalu buka halaman Token dan buat sebuah kunci. Beri nama; Anda juga bisa menetapkan tanggal kedaluwarsa, batas pengeluaran, model yang diizinkan, dan daftar IP yang diizinkan. Kunci ditampilkan sekali, simpan dengan aman.",
+      "P_API_KEY_1": "Daftar, buka halaman Tokens, lalu buat kunci. Kunci hanya ditampilkan sekali, simpan dengan aman.",
       "P_API_KEY_2": "Tanpa kunci Anda tetap bisa menggunakan chat bawaan sebagai tamu pada model gratis. Permintaan API selalu memerlukan kunci.",
       "H_FIRST_REQUEST": "Lakukan permintaan pertama Anda",
       "P_FIRST_REQUEST_1": "Ganti YOUR_API_KEY dengan kunci yang baru saja Anda buat (jika Anda sudah masuk, kunci sudah terisi di bawah):",
@@ -5248,7 +5248,9 @@
       "P_SDKS_1": "SDK OpenAI apa pun berfungsi tanpa perubahan, cukup tetapkan base URL dan kunci Anda:",
       "H_NEXT": "Langkah berikutnya",
       "P_NEXT_1": "Tab Integrasi memiliki pengaturan siap salin-tempel untuk 30+ aplikasi: SillyTavern, JanitorAI, Claude Code, Cline, dan lainnya. Tab Chat mendokumentasikan chat roleplay bawaan.",
-      "P_NEXT_2": "Jelajahi semua model dan harga langsung di halaman Model, keandalan model gratis yang diuji komunitas di Peringkat, dan kesehatan penyedia di Status."
+      "P_NEXT_2": "Untuk memahami harga, diskon, dan ketersediaan, baca",
+      "P_API_KEY_SCOPES": "Tanggal kedaluwarsa, batas pengeluaran, daftar model yang diizinkan, pembatasan IP, dan penyematan grup dibahas di",
+      "P_NEXT_ERRORS": "Sebelum rilis, lihat sekilas kode status dan batas laju di"
     },
     "MODELS_AND_PRICING": {
       "META": {
@@ -5277,7 +5279,8 @@
       "P_AVAILABILITY_1": "Permintaan otomatis beralih ke grup penyedia berikutnya saat satu grup mencapai batas atau tumbang. Model baru hilang dari katalog jika semua kanal yang melayaninya mati.",
       "P_AVAILABILITY_2": "Model yang hilang saat beban tinggi itu wajar, bukan gangguan: ia kembali sendiri begitu satu kanal pulih, biasanya dalam hitungan menit.",
       "P_DISCOUNTS_PIN": "Untuk mengunci model ke grup tertentu beserta tarifnya, lihat",
-      "P_AVAILABILITY_WATCH": "Agar diberi tahu begitu ia kembali, pantau di"
+      "P_AVAILABILITY_WATCH": "Agar diberi tahu begitu ia kembali, pantau di",
+      "P_FREE_LIMITS_LINK": "Batas pasti, header, dan panduan coba ulang terdokumentasi di"
     },
     "NOTIFICATIONS": {
       "META": {
@@ -5399,7 +5402,9 @@
       "P_TRIAL_CAPS_2": "Batas ini hanya berlaku untuk rute uji coba gratis; model berbayar menerima prompt panjang penuh.",
       "H_RETRIES": "Panduan coba lagi",
       "P_RETRIES_1": "Hormati Retry-After pada 429. Coba lagi 503 get_channel_failed setelah menunggu sebentar, atau beralih ke model lain. Jangan coba lagi kesalahan kelas 400, itu deterministik.",
-      "P_RETRIES_2": "Permintaan yang gagal dan ditolak tidak ditagih: setiap penahanan awal pada saldo Anda dikembalikan saat permintaan bermasalah."
+      "P_RETRIES_2": "Permintaan yang gagal atau ditolak tidak pernah ditagih; cara kerja penahanan awal dan pengembalian dijelaskan di",
+      "P_BUSY_WATCH": "Model yang hilang karena beban akan kembali sendiri; agar diberi tahu begitu kembali, pantau di",
+      "P_BUSY_PINNED": "Jika kunci Anda menyematkan grup penyedia, ada 503 ketiga saat hanya grup sematan Anda yang tumbang, lihat"
     },
     "ACCOUNT_AND_BILLING": {
       "META": {
@@ -5424,7 +5429,7 @@
       "H_CHARGES": "Apa yang ditagih",
       "P_CHARGES_1": "Setiap permintaan berbayar memotong biaya persisnya: token input ditambah token output dengan harga per token model, atau harga tetap per panggilan. Tanpa biaya bulanan.",
       "P_CHARGES_2": "Permintaan yang gagal tidak ditagih. Penahanan awal diambil saat permintaan dimulai dan dikembalikan jika bermasalah.",
-      "P_CHARGES_3": "402 berarti batas kunci API sendiri sudah habis; 403 dengan pesan kuota tidak mencukupi berarti saldo akun kosong.",
+      "P_CHARGES_3": "Kode status mana yang muncul saat dana habis, 402 untuk batas kunci dan 403 untuk saldo kosong, dirinci di",
       "H_LOGS": "Mengaudit penggunaan",
       "P_LOGS_1": "Halaman Log mencantumkan setiap permintaan dengan model, jumlah token, biaya persis, dan id permintaan. Jika suatu biaya terlihat salah, id permintaan itulah yang dibutuhkan dukungan.",
       "P_KEYS_PIN": "Kunci juga bisa menyematkan model ke grup penyedia tertentu beserta tarifnya, lihat",

@@ -2,6 +2,7 @@ import { ApiKeyCodeBlock } from "@/components/elements/code/api-key-code-block";
 import { highlightCode } from "@/components/elements/code/code-block";
 import {
   DocKbd,
+  DocPageLink,
   DocSection,
   DocTable,
 } from "@/components/pages/docs/doc-parts";
@@ -73,6 +74,12 @@ console.log(completion.choices[0].message.content);`;
       </DocSection>
       <DocSection id="api-key" title={k("H_API_KEY")}>
         <p>{k("P_API_KEY_1")}</p>
+        <p>
+          {k("P_API_KEY_SCOPES")}{" "}
+          <DocPageLink slug="account-and-billing">
+            {t("DOCS_PLATFORM.ACCOUNT_AND_BILLING.TITLE")}
+          </DocPageLink>
+        </p>
         <p>{k("P_API_KEY_2")}</p>
       </DocSection>
       <DocSection id="first-request" title={k("H_FIRST_REQUEST")}>
@@ -104,7 +111,18 @@ console.log(completion.choices[0].message.content);`;
       </DocSection>
       <DocSection id="next" title={k("H_NEXT")}>
         <p>{k("P_NEXT_1")}</p>
-        <p>{k("P_NEXT_2")}</p>
+        <p>
+          {k("P_NEXT_2")}{" "}
+          <DocPageLink slug="models-and-pricing">
+            {t("DOCS_PLATFORM.MODELS_AND_PRICING.TITLE")}
+          </DocPageLink>
+        </p>
+        <p>
+          {k("P_NEXT_ERRORS")}{" "}
+          <DocPageLink slug="errors-and-rate-limits">
+            {t("DOCS_PLATFORM.ERRORS_AND_RATE_LIMITS.TITLE")}
+          </DocPageLink>
+        </p>
       </DocSection>
     </>
   );

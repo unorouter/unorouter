@@ -5239,7 +5239,7 @@
       "T_API_KEY_VALUE": "La clave que creas en la página de Tokens",
       "P_BASE_URL_2": "Las herramientas que hablan un protocolo nativo usan en su lugar el dominio sin ruta: Claude Code establece ANTHROPIC_BASE_URL y Gemini CLI establece GOOGLE_GEMINI_BASE_URL sin el sufijo /v1. Cada guía de integración muestra el valor exacto.",
       "H_API_KEY": "Crear una clave de API",
-      "P_API_KEY_1": "Regístrate, luego abre la página de Tokens y crea una clave. Dale un nombre; también puedes establecer una fecha de caducidad, un límite de gasto, modelos permitidos y una lista de IP permitidas. La clave se muestra una sola vez, guárdala de forma segura.",
+      "P_API_KEY_1": "Regístrate, abre la página Tokens y crea una clave. Se muestra una sola vez, guárdala bien.",
       "P_API_KEY_2": "Sin una clave todavía puedes usar el chat integrado como invitado con modelos gratuitos. Las solicitudes a la API siempre necesitan una clave.",
       "H_FIRST_REQUEST": "Haz tu primera solicitud",
       "P_FIRST_REQUEST_1": "Reemplaza YOUR_API_KEY por la clave que acabas de crear (si has iniciado sesión, ya está rellenada abajo):",
@@ -5248,7 +5248,9 @@
       "P_SDKS_1": "Cualquier SDK de OpenAI funciona sin cambios, solo establece la base URL y tu clave:",
       "H_NEXT": "Próximos pasos",
       "P_NEXT_1": "La pestaña Integraciones tiene configuraciones listas para copiar y pegar para más de 30 aplicaciones: SillyTavern, JanitorAI, Claude Code, Cline y más. La pestaña Chat documenta el chat de rol integrado.",
-      "P_NEXT_2": "Explora todos los modelos y los precios en vivo en la página de Modelos, la fiabilidad de los modelos gratuitos probada por la comunidad en Clasificaciones, y el estado de los proveedores en Estado."
+      "P_NEXT_2": "Para entender precios, descuentos y disponibilidad, lee",
+      "P_API_KEY_SCOPES": "Fechas de caducidad, límites de gasto, listas de modelos permitidos, restricciones de IP y fijación de grupos se tratan en",
+      "P_NEXT_ERRORS": "Antes de publicar, repasa los códigos de estado y límites en"
     },
     "MODELS_AND_PRICING": {
       "META": {
@@ -5277,7 +5279,8 @@
       "P_AVAILABILITY_1": "Las peticiones conmutan automáticamente al siguiente grupo de proveedores cuando uno alcanza su límite o cae. Solo cuando todos los canales de un modelo están fuera, el modelo desaparece del catálogo.",
       "P_AVAILABILITY_2": "Que un modelo desaparezca bajo carga es esperado, no una avería: reaparece solo cuando un canal se recupera, normalmente en minutos.",
       "P_DISCOUNTS_PIN": "Para bloquear un modelo a grupos concretos y sus tarifas, consulta",
-      "P_AVAILABILITY_WATCH": "Para recibir aviso en cuanto vuelva, vigílalo en"
+      "P_AVAILABILITY_WATCH": "Para recibir aviso en cuanto vuelva, vigílalo en",
+      "P_FREE_LIMITS_LINK": "Los topes exactos, cabeceras y pautas de reintento están documentados en"
     },
     "NOTIFICATIONS": {
       "META": {
@@ -5399,7 +5402,9 @@
       "P_TRIAL_CAPS_2": "El tope se aplica solo a la ruta de prueba gratuita; el modelo de pago acepta prompts de longitud completa.",
       "H_RETRIES": "Orientación sobre reintentos",
       "P_RETRIES_1": "Respeta Retry-After en los 429. Reintenta el 503 get_channel_failed tras una breve espera, o recurre a otro modelo. No reintentes los errores de clase 400, son deterministas.",
-      "P_RETRIES_2": "Las solicitudes fallidas y rechazadas no se facturan: cualquier retención previa sobre tu saldo se reembolsa cuando la solicitud da error."
+      "P_RETRIES_2": "Las peticiones fallidas o rechazadas nunca se cobran; cómo funcionan la retención previa y el reembolso se explica en",
+      "P_BUSY_WATCH": "Un modelo que desapareció bajo carga vuelve solo; para recibir aviso en cuanto regrese, vigílalo en",
+      "P_BUSY_PINNED": "Si tu clave fija grupos de proveedores, aparece un tercer 503 cuando solo tus grupos fijados están caídos, consulta"
     },
     "ACCOUNT_AND_BILLING": {
       "META": {
@@ -5424,7 +5429,7 @@
       "H_CHARGES": "Qué se cobra",
       "P_CHARGES_1": "Cada solicitud de pago descuenta su coste exacto: tokens de entrada más tokens de salida a los precios por token del modelo, o el precio fijo por llamada. Sin cuotas mensuales.",
       "P_CHARGES_2": "Las solicitudes fallidas no se facturan. Se toma una retención previa cuando comienza una solicitud y se reembolsa si da error.",
-      "P_CHARGES_3": "402 significa que el propio límite de la clave de API está agotado; 403 con un mensaje de cuota insuficiente significa que el saldo de la cuenta está vacío.",
+      "P_CHARGES_3": "Qué código de estado salta cuando se acaba el dinero, 402 para el límite de una clave y 403 para saldo vacío, se detalla en",
       "H_LOGS": "Auditar el uso",
       "P_LOGS_1": "La página de Registros lista cada solicitud con el modelo, los recuentos de tokens, el coste exacto y el id de solicitud. Si alguna vez un cargo parece incorrecto, el id de solicitud es lo que necesita soporte.",
       "P_KEYS_PIN": "Una clave también puede fijar modelos a grupos de proveedores concretos y sus tarifas, consulta",

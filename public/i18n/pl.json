@@ -5239,7 +5239,7 @@
       "T_API_KEY_VALUE": "Klucz, który tworzysz na stronie Tokeny",
       "P_BASE_URL_2": "Narzędzia mówiące natywnym protokołem używają zamiast tego samej domeny: Claude Code ustawia ANTHROPIC_BASE_URL, a Gemini CLI ustawia GOOGLE_GEMINI_BASE_URL bez przyrostka /v1. Każdy przewodnik integracji pokazuje dokładną wartość.",
       "H_API_KEY": "Tworzenie klucza API",
-      "P_API_KEY_1": "Zarejestruj się, a następnie otwórz stronę Tokeny i utwórz klucz. Nadaj mu nazwę; możesz też ustawić datę wygaśnięcia, limit wydatków, dozwolone modele i listę dozwolonych adresów IP. Klucz jest pokazywany tylko raz, przechowuj go bezpiecznie.",
+      "P_API_KEY_1": "Zarejestruj się, otwórz stronę Tokens i utwórz klucz. Klucz pokazuje się tylko raz, przechowuj go bezpiecznie.",
       "P_API_KEY_2": "Bez klucza nadal możesz korzystać z wbudowanego czatu jako gość na darmowych modelach. Żądania API zawsze wymagają klucza.",
       "H_FIRST_REQUEST": "Wykonaj swoje pierwsze żądanie",
       "P_FIRST_REQUEST_1": "Zastąp YOUR_API_KEY kluczem, który właśnie utworzyłeś (jeśli jesteś zalogowany, jest już wpisany poniżej):",
@@ -5248,7 +5248,9 @@
       "P_SDKS_1": "Każdy SDK OpenAI działa bez zmian, wystarczy ustawić base URL i swój klucz:",
       "H_NEXT": "Kolejne kroki",
       "P_NEXT_1": "Karta Integracje zawiera gotową do skopiowania konfigurację dla ponad 30 aplikacji: SillyTavern, JanitorAI, Claude Code, Cline i więcej. Karta Czat dokumentuje wbudowany czat do odgrywania ról.",
-      "P_NEXT_2": "Przeglądaj wszystkie modele i ceny na żywo na stronie Modele, testowaną przez społeczność niezawodność darmowych modeli w Rankingach oraz kondycję dostawców w Statusie."
+      "P_NEXT_2": "Jak działają ceny, rabaty i dostępność, wyjaśnia",
+      "P_API_KEY_SCOPES": "Daty wygaśnięcia, limity wydatków, listy dozwolonych modeli, ograniczenia IP i przypinanie grup omawia",
+      "P_NEXT_ERRORS": "Przed wdrożeniem przejrzyj kody statusu i limity w"
     },
     "MODELS_AND_PRICING": {
       "META": {
@@ -5277,7 +5279,8 @@
       "P_AVAILABILITY_1": "Żądania automatycznie przechodzą do następnej grupy dostawców, gdy jedna osiągnie limit lub padnie. Model znika z katalogu dopiero wtedy, gdy wszystkie jego kanały są wyłączone.",
       "P_AVAILABILITY_2": "Znikanie modelu pod obciążeniem jest oczekiwane i nie jest awarią: wraca sam, gdy tylko kanał się odbuduje, zwykle w kilka minut.",
       "P_DISCOUNTS_PIN": "Jak zablokować model na konkretnych grupach i ich stawkach, zobacz",
-      "P_AVAILABILITY_WATCH": "Aby dostać powiadomienie w chwili powrotu, obserwuj go w"
+      "P_AVAILABILITY_WATCH": "Aby dostać powiadomienie w chwili powrotu, obserwuj go w",
+      "P_FREE_LIMITS_LINK": "Dokładne limity, nagłówki i wskazówki dotyczące ponowień dokumentuje"
     },
     "NOTIFICATIONS": {
       "META": {
@@ -5399,7 +5402,9 @@
       "P_TRIAL_CAPS_2": "Limit dotyczy tylko trasy darmowej wersji próbnej; model płatny przyjmuje prompty pełnej długości.",
       "H_RETRIES": "Wskazówki dotyczące ponawiania",
       "P_RETRIES_1": "Respektuj Retry-After przy 429. Ponów 503 get_channel_failed po krótkim odczekaniu lub przejdź na inny model. Nie ponawiaj błędów klasy 400, są deterministyczne.",
-      "P_RETRIES_2": "Żądania nieudane i odrzucone nie są naliczane: każda wstępna blokada na twoim saldzie jest zwracana, gdy żądanie zwróci błąd."
+      "P_RETRIES_2": "Nieudane i odrzucone żądania nigdy nie są rozliczane; działanie blokady wstępnej i zwrotu opisuje",
+      "P_BUSY_WATCH": "Model, który zniknął pod obciążeniem, wraca sam; by dostać powiadomienie w chwili powrotu, obserwuj go w",
+      "P_BUSY_PINNED": "Jeśli twój klucz przypina grupy dostawców, istnieje trzeci wariant 503, gdy padły tylko twoje przypięte grupy, zobacz"
     },
     "ACCOUNT_AND_BILLING": {
       "META": {
@@ -5424,7 +5429,7 @@
       "H_CHARGES": "Za co naliczane są opłaty",
       "P_CHARGES_1": "Każde płatne żądanie odejmuje swój dokładny koszt: tokeny wejściowe plus tokeny wyjściowe po cenach za token modelu lub stałą cenę za wywołanie. Bez opłat miesięcznych.",
       "P_CHARGES_2": "Nieudane żądania nie są naliczane. Wstępna blokada jest pobierana, gdy żądanie się rozpoczyna, i zwracana, jeśli zwróci błąd.",
-      "P_CHARGES_3": "402 oznacza, że własny limit klucza API został wykorzystany; 403 z komunikatem o niewystarczającym limicie oznacza, że saldo konta jest puste.",
+      "P_CHARGES_3": "Który kod statusu pojawia się, gdy kończą się środki, 402 przy limicie klucza i 403 przy pustym saldzie, opisuje",
       "H_LOGS": "Audyt użycia",
       "P_LOGS_1": "Strona Logi wymienia każde żądanie z modelem, liczbą tokenów, dokładnym kosztem i identyfikatorem żądania. Jeśli opłata kiedykolwiek wygląda niepoprawnie, identyfikator żądania jest tym, czego potrzebuje pomoc techniczna.",
       "P_KEYS_PIN": "Klucz może też przypiąć modele do konkretnych grup dostawców i ich stawek, zobacz",

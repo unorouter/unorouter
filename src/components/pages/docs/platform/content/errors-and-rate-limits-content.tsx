@@ -1,6 +1,7 @@
 import {
   DocCode,
   DocKbd,
+  DocPageLink,
   DocSection,
   DocTable,
 } from "@/components/pages/docs/doc-parts";
@@ -74,6 +75,18 @@ export async function ErrorsAndRateLimitsContent() {
         <DocCode code={BUSY_EXAMPLE} lang="text" />
         <p>{k("P_BUSY_VS_UNKNOWN_2")}</p>
         <p>{k("P_BUSY_VS_UNKNOWN_3")}</p>
+        <p>
+          {k("P_BUSY_WATCH")}{" "}
+          <DocPageLink slug="notifications">
+            {t("DOCS_PLATFORM.NOTIFICATIONS.TITLE")}
+          </DocPageLink>
+        </p>
+        <p>
+          {k("P_BUSY_PINNED")}{" "}
+          <DocPageLink slug="group-pinning">
+            {t("DOCS_PLATFORM.GROUP_PINNING.TITLE")}
+          </DocPageLink>
+        </p>
       </DocSection>
       <DocSection id="rate-limits" title={k("H_RATE_LIMITS")}>
         <p>{k("P_RATE_LIMITS_1")}</p>
@@ -97,7 +110,12 @@ export async function ErrorsAndRateLimitsContent() {
       </DocSection>
       <DocSection id="retries" title={k("H_RETRIES")}>
         <p>{k("P_RETRIES_1")}</p>
-        <p>{k("P_RETRIES_2")}</p>
+        <p>
+          {k("P_RETRIES_2")}{" "}
+          <DocPageLink slug="account-and-billing">
+            {t("DOCS_PLATFORM.ACCOUNT_AND_BILLING.TITLE")}
+          </DocPageLink>
+        </p>
       </DocSection>
     </>
   );

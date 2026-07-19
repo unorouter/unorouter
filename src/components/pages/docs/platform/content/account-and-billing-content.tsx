@@ -45,7 +45,12 @@ export async function AccountAndBillingContent() {
       <DocSection id="charges" title={k("H_CHARGES")}>
         <p>{k("P_CHARGES_1")}</p>
         <p>{k("P_CHARGES_2")}</p>
-        <p>{k("P_CHARGES_3")}</p>
+        <p>
+          {k("P_CHARGES_3")}{" "}
+          <DocPageLink slug="errors-and-rate-limits">
+            {t("DOCS_PLATFORM.ERRORS_AND_RATE_LIMITS.TITLE")}
+          </DocPageLink>
+        </p>
       </DocSection>
       <DocSection id="logs" title={k("H_LOGS")}>
         <p>{k("P_LOGS_1")}</p>

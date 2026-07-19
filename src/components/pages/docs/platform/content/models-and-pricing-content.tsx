@@ -25,6 +25,12 @@ export async function ModelsAndPricingContent() {
         </p>
         <p>{k("P_FREE_VS_PAID_2")}</p>
         <p>{k("P_FREE_VS_PAID_3")}</p>
+        <p>
+          {k("P_FREE_LIMITS_LINK")}{" "}
+          <DocPageLink slug="errors-and-rate-limits">
+            {t("DOCS_PLATFORM.ERRORS_AND_RATE_LIMITS.TITLE")}
+          </DocPageLink>
+        </p>
       </DocSection>
       <DocSection id="discounts" title={k("H_DISCOUNTS")}>
         <p>{k("P_DISCOUNTS_1")}</p>

@@ -5239,7 +5239,7 @@
       "T_API_KEY_VALUE": "Token sayfasında oluşturduğunuz anahtar",
       "P_BASE_URL_2": "Yerel bir wire protokolü konuşan araçlar bunun yerine yalın alan adını kullanır: Claude Code, ANTHROPIC_BASE_URL değerini ve Gemini CLI, GOOGLE_GEMINI_BASE_URL değerini /v1 son eki olmadan ayarlar. Her entegrasyon kılavuzu tam değeri gösterir.",
       "H_API_KEY": "Bir API anahtarı oluşturma",
-      "P_API_KEY_1": "Kaydolun, ardından Token sayfasını açıp bir anahtar oluşturun. Ona bir ad verin; ayrıca bir son kullanma tarihi, bir harcama limiti, izin verilen modeller ve bir IP izin listesi de belirleyebilirsiniz. Anahtar yalnızca bir kez gösterilir, güvenli bir yerde saklayın.",
+      "P_API_KEY_1": "Kaydolun, Tokens sayfasını açın ve bir anahtar oluşturun. Anahtar yalnızca bir kez gösterilir, güvenle saklayın.",
       "P_API_KEY_2": "Anahtar olmadan bile yerleşik sohbeti misafir olarak ücretsiz modellerde kullanabilirsiniz. API istekleri her zaman bir anahtar gerektirir.",
       "H_FIRST_REQUEST": "İlk isteğinizi yapın",
       "P_FIRST_REQUEST_1": "YOUR_API_KEY ifadesini az önce oluşturduğunuz anahtarla değiştirin (oturum açtıysanız aşağıda zaten doldurulmuştur):",
@@ -5248,7 +5248,9 @@
       "P_SDKS_1": "Herhangi bir OpenAI SDK'si değişiklik olmadan çalışır, yalnızca base URL'yi ve anahtarınızı ayarlayın:",
       "H_NEXT": "Sonraki adımlar",
       "P_NEXT_1": "Entegrasyonlar sekmesi, 30'dan fazla uygulama için kopyala-yapıştır kurulumu sunar: SillyTavern, JanitorAI, Claude Code, Cline ve daha fazlası. Sohbet sekmesi yerleşik rol yapma sohbetini belgeler.",
-      "P_NEXT_2": "Tüm modelleri ve canlı fiyatları Modeller sayfasında, toplulukça test edilmiş ücretsiz model güvenilirliğini Sıralamalar'da ve sağlayıcı durumunu Durum'da inceleyin."
+      "P_NEXT_2": "Fiyatların, indirimlerin ve erişilebilirliğin nasıl çalıştığını okuyun:",
+      "P_API_KEY_SCOPES": "Son kullanma tarihleri, harcama limitleri, model izin listeleri, IP kısıtlamaları ve grup sabitleme şurada anlatılır:",
+      "P_NEXT_ERRORS": "Yayına almadan önce durum kodlarına ve hız limitlerine göz atın:"
     },
     "MODELS_AND_PRICING": {
       "META": {
@@ -5277,7 +5279,8 @@
       "P_AVAILABILITY_1": "Bir grup limitine takıldığında veya düştüğünde istekler otomatik olarak sonraki sağlayıcı grubuna geçer. Model ancak onu sunan tüm kanallar devre dışı kaldığında katalogdan kaybolur.",
       "P_AVAILABILITY_2": "Yük altında bir modelin kaybolması beklenen bir durumdur, arıza değildir: bir kanal toparlanınca kendiliğinden geri gelir, genellikle dakikalar içinde.",
       "P_DISCOUNTS_PIN": "Bir modeli belirli gruplara ve tarifelerine kilitlemek için bkz.",
-      "P_AVAILABILITY_WATCH": "Geri döndüğü anda haber almak için onu şurada izleyin:"
+      "P_AVAILABILITY_WATCH": "Geri döndüğü anda haber almak için onu şurada izleyin:",
+      "P_FREE_LIMITS_LINK": "Kesin sınırlar, başlıklar ve yeniden deneme rehberi şurada belgeli:"
     },
     "NOTIFICATIONS": {
       "META": {
@@ -5399,7 +5402,9 @@
       "P_TRIAL_CAPS_2": "Sınır yalnızca ücretsiz deneme rotası için geçerlidir; ücretli model tam uzunlukta promptları kabul eder.",
       "H_RETRIES": "Yeniden deneme rehberi",
       "P_RETRIES_1": "429'da Retry-After'a uyun. 503 get_channel_failed'i kısa bir bekleyişten sonra yeniden deneyin veya başka bir modele geçin. 400 sınıfı hataları yeniden denemeyin, bunlar belirlenimcidir.",
-      "P_RETRIES_2": "Başarısız ve reddedilen istekler faturalandırılmaz: istek hataya düştüğünde bakiyenizdeki her ön blokaj iade edilir."
+      "P_RETRIES_2": "Başarısız ve reddedilen istekler asla faturalanmaz; ön bloke ve iadenin işleyişi şurada:",
+      "P_BUSY_WATCH": "Yük altında kaybolan model kendiliğinden döner; döndüğü anda haber almak için şurada izleyin:",
+      "P_BUSY_PINNED": "Anahtarınız sağlayıcı gruplarını sabitliyorsa, yalnızca sabitlediğiniz gruplar düştüğünde görülen üçüncü bir 503 vardır, bkz."
     },
     "ACCOUNT_AND_BILLING": {
       "META": {
@@ -5424,7 +5429,7 @@
       "H_CHARGES": "Neyin ücretlendirildiği",
       "P_CHARGES_1": "Her ücretli istek tam maliyetini düşer: modelin token başına fiyatlarıyla girdi tokenleri artı çıktı tokenleri veya çağrı başına sabit fiyat. Aylık ücret yok.",
       "P_CHARGES_2": "Başarısız istekler faturalandırılmaz. Bir istek başladığında bir ön blokaj alınır ve hataya düşerse iade edilir.",
-      "P_CHARGES_3": "402, API anahtarının kendi limitinin tükendiği anlamına gelir; yetersiz kota mesajıyla gelen 403, hesap bakiyesinin boş olduğu anlamına gelir.",
+      "P_CHARGES_3": "Para bittiğinde hangi durum kodunun geldiği, anahtar limitinde 402 ve boş bakiyede 403, şurada detaylı:",
       "H_LOGS": "Kullanımı denetleme",
       "P_LOGS_1": "Günlükler sayfası her isteği model, token sayıları, tam maliyet ve istek kimliğiyle listeler. Bir ücret hatalı görünürse, destek ekibinin ihtiyaç duyduğu şey istek kimliğidir.",
       "P_KEYS_PIN": "Bir anahtar, modelleri belirli sağlayıcı gruplarına ve tarifelerine de sabitleyebilir, bkz.",
