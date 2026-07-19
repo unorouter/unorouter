@@ -13,20 +13,13 @@ function subscribe(callback: () => void) {
   };
 }
 
-// Two-phase to avoid a hydration mismatch (React #418): the server and the FIRST
-// client render must agree, so both report false (desktop-first). A layout effect
-// flips `mounted` right after hydration, and from then on the store reads the live
-// matchMedia value and stays reactive on resize. Unlike the old plain-effect hook,
-// useSyncExternalStore reliably re-renders every consumer when the value changes.
+// Hydration-safe (React #418): the server snapshot reports false (desktop-first)
+// for SSR AND the hydration render, then React re-renders with the live
+// matchMedia value and stays reactive on resize.
 export function useIsMobile() {
-  const [mounted, setMounted] = React.useState(false);
-  React.useLayoutEffect(() => {
-    setMounted(true);
-  }, []);
-  const matches = React.useSyncExternalStore(
+  return React.useSyncExternalStore(
     subscribe,
     () => window.matchMedia(QUERY).matches,
     () => false,
   );
-  return mounted && matches;
 }

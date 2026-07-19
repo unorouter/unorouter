@@ -260,7 +260,7 @@ export function useDeleteConversationMutation() {
 export function useTaskStatusQuery(
   taskId: string,
   enabled = false,
-  refetchInterval: number | false = false,
+  pollInterval: number | false = false,
 ) {
   return useElysiaQuery(
     queryKeys.taskStatus(taskId),
@@ -268,7 +268,10 @@ export function useTaskStatusQuery(
     {
       enabled: enabled && !!taskId,
       retry: false,
-      refetchInterval,
+      // FAILURE is the one terminal state that never finalizes away the card,
+      // so it is the only status that stops the poll.
+      refetchInterval: (query) =>
+        query.state.data?.status === "FAILURE" ? false : pollInterval,
       refetchIntervalInBackground: true,
     },
   );

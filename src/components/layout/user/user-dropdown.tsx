@@ -15,10 +15,11 @@ import {
 import { Progress } from "@/components/ui/progress";
 import { useLogoutMutation } from "@/hooks/auth/auth-hook";
 import { useSubscriptionSelfQuery } from "@/hooks/billing/billing-hook";
+import { useHydrated } from "@/hooks/ui/use-hydrated";
 import { useUserDisplay } from "@/hooks/ui/user-display-hook";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement } from "react";
 import { UserInfo } from "./user-info";
 import { quotaToDollars } from "@/lib/config/constants";
 
@@ -39,9 +40,8 @@ export function UserDropdown(props: UserDropdownProps) {
   // Base UI's Menu.Trigger decorates the trigger button with interactive attrs
   // (disabled/aria-controls/handlers) only on the client, so mounting it during
   // hydration mismatches the streamed static button. Render the plain child
-  // button first, swap in the interactive dropdown after mount.
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  // button first, swap in the interactive dropdown after hydration.
+  const mounted = useHydrated();
 
   const activeSubs = (subQuery.data?.subscriptions ?? []).filter(
     (s): s is typeof s & { subscription: NonNullable<typeof s.subscription> } =>
