@@ -5250,7 +5250,8 @@
       "P_NEXT_1": "La scheda Integrazioni offre configurazioni pronte da copiare e incollare per oltre 30 app: SillyTavern, JanitorAI, Claude Code, Cline e altre. La scheda Chat documenta la chat di gioco di ruolo integrata.",
       "P_NEXT_2": "Per capire prezzi, sconti e disponibilità, leggi",
       "P_API_KEY_SCOPES": "Scadenze, limiti di spesa, allowlist di modelli, restrizioni IP e blocco dei gruppi sono trattati in",
-      "P_NEXT_ERRORS": "Prima di andare in produzione, scorri codici di stato e limiti in"
+      "P_NEXT_ERRORS": "Prima di andare in produzione, scorri codici di stato e limiti in",
+      "ALT_CREATE_KEY": "Finestra di creazione chiave nella pagina Tokens"
     },
     "MODELS_AND_PRICING": {
       "META": {
@@ -5280,7 +5281,9 @@
       "P_AVAILABILITY_2": "Un modello che sparisce sotto carico è previsto, non un guasto: ricompare da solo appena un canale si riprende, di solito in pochi minuti.",
       "P_DISCOUNTS_PIN": "Per vincolare un modello a gruppi specifici e alle loro tariffe, vedi",
       "P_AVAILABILITY_WATCH": "Per essere avvisato appena torna, osservalo in",
-      "P_FREE_LIMITS_LINK": "I limiti esatti, gli header e le linee guida sui retry sono documentati in"
+      "P_FREE_LIMITS_LINK": "I limiti esatti, gli header e le linee guida sui retry sono documentati in",
+      "ALT_CATALOG": "Catalogo modelli con prezzi e badge di sconto",
+      "P_AVAILABILITY_PIN": "Le chiavi che bloccano gruppi di provider fanno failover solo entro i gruppi bloccati, vedi"
     },
     "NOTIFICATIONS": {
       "META": {
@@ -5404,7 +5407,8 @@
       "P_RETRIES_1": "Rispetta Retry-After sui 429. Ritenta il 503 get_channel_failed dopo una breve attesa, o ripiega su un altro modello. Non ritentare gli errori di classe 400, sono deterministici.",
       "P_RETRIES_2": "Le richieste fallite o rifiutate non vengono mai addebitate; il funzionamento di trattenuta e rimborso è spiegato in",
       "P_BUSY_WATCH": "Un modello sparito sotto carico torna da solo; per essere avvisato appena rientra, osservalo in",
-      "P_BUSY_PINNED": "Se la tua chiave blocca gruppi di provider, esiste un terzo 503 quando solo i tuoi gruppi bloccati sono giù, vedi"
+      "P_BUSY_PINNED": "Se la tua chiave blocca gruppi di provider, esiste un terzo 503 quando solo i tuoi gruppi bloccati sono giù, vedi",
+      "ALT_STATUS": "Pagina di stato con modelli operativi e degradati"
     },
     "ACCOUNT_AND_BILLING": {
       "META": {
@@ -5433,7 +5437,8 @@
       "H_LOGS": "Verificare l'uso",
       "P_LOGS_1": "La pagina Log elenca ogni richiesta con il modello, il conteggio dei token, il costo esatto e l'id di richiesta. Se un addebito dovesse mai sembrare errato, l'id di richiesta è ciò di cui il supporto ha bisogno.",
       "P_KEYS_PIN": "Una chiave può anche bloccare i modelli su gruppi di provider specifici e le loro tariffe, vedi",
-      "P_EARN_AFFILIATE": "In più, il programma di affiliazione paga una commissione sulle ricariche dei tuoi invitati, fino a 44 $ su tutti i livelli."
+      "P_EARN_AFFILIATE": "In più, il programma di affiliazione paga una commissione sulle ricariche dei tuoi invitati, fino a 44 $ su tutti i livelli.",
+      "ALT_TOPUP": "Opzioni di ricarica nella pagina Billing"
     },
     "DISCORD_REWARDS": {
       "META": {

@@ -5250,7 +5250,8 @@
       "P_NEXT_1": "The Integrations tab has copy-paste setup for 30+ apps: SillyTavern, JanitorAI, Claude Code, Cline and more. The Chat tab documents the built-in roleplay chat.",
       "P_NEXT_2": "For how pricing, discounts and availability work, read",
       "P_API_KEY_SCOPES": "Expiry dates, spending limits, model allowlists, IP restrictions and provider group pinning are covered in",
-      "P_NEXT_ERRORS": "Before you ship, skim the status codes and rate limits in"
+      "P_NEXT_ERRORS": "Before you ship, skim the status codes and rate limits in",
+      "ALT_CREATE_KEY": "Create Key dialog on the Tokens page"
     },
     "MODELS_AND_PRICING": {
       "META": {
@@ -5280,7 +5281,9 @@
       "P_AVAILABILITY_2": "A model vanishing under load is expected, not an outage: it reappears on its own once a channel recovers, usually within minutes.",
       "P_DISCOUNTS_PIN": "To lock a model to specific groups and their rates, see",
       "P_AVAILABILITY_WATCH": "To get pinged the moment it comes back, watch it in",
-      "P_FREE_LIMITS_LINK": "The exact caps, headers and retry guidance are documented in"
+      "P_FREE_LIMITS_LINK": "The exact caps, headers and retry guidance are documented in",
+      "ALT_CATALOG": "Model catalog with prices and discount badges",
+      "P_AVAILABILITY_PIN": "Keys that pin provider groups fail over only within their pinned groups, see"
     },
     "NOTIFICATIONS": {
       "META": {
@@ -5404,7 +5407,8 @@
       "P_RETRIES_1": "Honor Retry-After on 429. Retry 503 get_channel_failed after a short wait, or fall back to another model. Do not retry 400-class errors, they are deterministic.",
       "P_RETRIES_2": "Failed and refused requests are never billed; how the pre-hold and refund work is covered in",
       "P_BUSY_WATCH": "A model that vanished under load comes back on its own; to get pinged the moment it does, watch it in",
-      "P_BUSY_PINNED": "If your key pins provider groups, a third 503 appears when only your pinned groups are down, see"
+      "P_BUSY_PINNED": "If your key pins provider groups, a third 503 appears when only your pinned groups are down, see",
+      "ALT_STATUS": "Status page showing operational and degraded models"
     },
     "ACCOUNT_AND_BILLING": {
       "META": {
@@ -5433,7 +5437,8 @@
       "H_LOGS": "Auditing usage",
       "P_LOGS_1": "The Logs page lists every request with model, token counts, exact cost and the request id. If a charge ever looks wrong, the request id is what support needs.",
       "P_KEYS_PIN": "A key can also pin models to specific provider groups and their rates, see",
-      "P_EARN_AFFILIATE": "On top of that, the affiliate program pays commission on your referrals' top-ups, up to $44 across all levels."
+      "P_EARN_AFFILIATE": "On top of that, the affiliate program pays commission on your referrals' top-ups, up to $44 across all levels.",
+      "ALT_TOPUP": "Top-up options on the Billing page"
     },
     "DISCORD_REWARDS": {
       "META": {

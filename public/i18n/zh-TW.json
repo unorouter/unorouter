@@ -5250,7 +5250,8 @@
       "P_NEXT_1": "整合標籤頁提供 30 多款應用程式的即複製即用設定：SillyTavern、JanitorAI、Claude Code、Cline 等。聊天標籤頁記錄了內建的角色扮演聊天。",
       "P_NEXT_2": "價格、折扣與可用性的運作方式請閱讀：",
       "P_API_KEY_SCOPES": "到期時間、消費上限、模型白名單、IP 限制與供應商群組釘選見：",
-      "P_NEXT_ERRORS": "上線前請瀏覽狀態碼與速率限制："
+      "P_NEXT_ERRORS": "上線前請瀏覽狀態碼與速率限制：",
+      "ALT_CREATE_KEY": "Tokens 頁面上的建立金鑰對話框"
     },
     "MODELS_AND_PRICING": {
       "META": {
@@ -5280,7 +5281,9 @@
       "P_AVAILABILITY_2": "模型在高負載下消失是正常現象而非故障：通道一恢復它就會自行回歸，通常只需幾分鐘。",
       "P_DISCOUNTS_PIN": "要將模型鎖定到特定群組及其費率，請參閱：",
       "P_AVAILABILITY_WATCH": "想在它回歸的那一刻收到提醒，請在這裡關注它：",
-      "P_FREE_LIMITS_LINK": "確切的上限、回應標頭與重試指引記錄在："
+      "P_FREE_LIMITS_LINK": "確切的上限、回應標頭與重試指引記錄在：",
+      "ALT_CATALOG": "帶價格與折扣徽章的模型目錄",
+      "P_AVAILABILITY_PIN": "釘選了供應商群組的金鑰只在其釘選群組內切換，見："
     },
     "NOTIFICATIONS": {
       "META": {
@@ -5404,7 +5407,8 @@
       "P_RETRIES_1": "對 429 請遵守 Retry-After。對 503 get_channel_failed 在短暫等待後重試，或回退到另一個模型。不要重試 400 類錯誤，它們是確定性的。",
       "P_RETRIES_2": "失敗與被拒絕的請求絕不計費；預扣與退款的機制見：",
       "P_BUSY_WATCH": "因負載消失的模型會自行回歸；想在它回歸的那一刻收到提醒，請在這裡關注它：",
-      "P_BUSY_PINNED": "如果你的金鑰釘選了供應商群組，還有第三種 503：只有你釘選的群組停機時出現，見："
+      "P_BUSY_PINNED": "如果你的金鑰釘選了供應商群組，還有第三種 503：只有你釘選的群組停機時出現，見：",
+      "ALT_STATUS": "顯示正常與降級模型的狀態頁"
     },
     "ACCOUNT_AND_BILLING": {
       "META": {
@@ -5433,7 +5437,8 @@
       "H_LOGS": "稽核用量",
       "P_LOGS_1": "記錄頁面列出每一次請求，包含模型、權杖數量、確切成本和請求 id。如果某筆費用看起來有誤，請求 id 正是支援所需要的。",
       "P_KEYS_PIN": "金鑰還可以將模型釘選到特定供應商群組及其費率，請參閱：",
-      "P_EARN_AFFILIATE": "此外，聯盟計畫會對你推薦用戶的儲值支付佣金，各級合計最高 $44。"
+      "P_EARN_AFFILIATE": "此外，聯盟計畫會對你推薦用戶的儲值支付佣金，各級合計最高 $44。",
+      "ALT_TOPUP": "Billing 頁面上的儲值選項"
     },
     "DISCORD_REWARDS": {
       "META": {

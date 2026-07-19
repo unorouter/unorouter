@@ -1,4 +1,5 @@
 import {
+  DocImage,
   DocPageLink,
   DocSection,
 } from "@/components/pages/docs/doc-parts";
@@ -20,6 +21,12 @@ export async function AccountAndBillingContent() {
       </DocSection>
       <DocSection id="topup" title={k("H_TOPUP")}>
         <p>{k("P_TOPUP_1")}</p>
+        <DocImage
+          src="/images/docs/billing-topup.webp"
+          alt={k("ALT_TOPUP")}
+          width={2151}
+          height={440}
+        />
         <p>{k("P_TOPUP_2")}</p>
       </DocSection>
       <DocSection id="earn" title={k("H_EARN")}>

@@ -1,5 +1,6 @@
 import {
   DocCode,
+  DocImage,
   DocKbd,
   DocPageLink,
   DocSection,
@@ -75,6 +76,12 @@ export async function ErrorsAndRateLimitsContent() {
         <DocCode code={BUSY_EXAMPLE} lang="text" />
         <p>{k("P_BUSY_VS_UNKNOWN_2")}</p>
         <p>{k("P_BUSY_VS_UNKNOWN_3")}</p>
+        <DocImage
+          src="/images/docs/errors-status.webp"
+          alt={k("ALT_STATUS")}
+          width={1380}
+          height={650}
+        />
         <p>
           {k("P_BUSY_WATCH")}{" "}
           <DocPageLink slug="notifications">

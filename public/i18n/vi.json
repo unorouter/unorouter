@@ -5250,7 +5250,8 @@
       "P_NEXT_1": "Tab Tích hợp có cấu hình sẵn để sao chép-dán cho hơn 30 ứng dụng: SillyTavern, JanitorAI, Claude Code, Cline và nhiều hơn nữa. Tab Chat ghi lại trò chuyện nhập vai tích hợp.",
       "P_NEXT_2": "Để hiểu giá, giảm giá và độ khả dụng, hãy đọc",
       "P_API_KEY_SCOPES": "Ngày hết hạn, hạn mức chi tiêu, danh sách mô hình được phép, giới hạn IP và ghim nhóm nhà cung cấp được đề cập trong",
-      "P_NEXT_ERRORS": "Trước khi triển khai, hãy lướt qua mã trạng thái và giới hạn tốc độ trong"
+      "P_NEXT_ERRORS": "Trước khi triển khai, hãy lướt qua mã trạng thái và giới hạn tốc độ trong",
+      "ALT_CREATE_KEY": "Hộp thoại tạo khóa trên trang Tokens"
     },
     "MODELS_AND_PRICING": {
       "META": {
@@ -5280,7 +5281,9 @@
       "P_AVAILABILITY_2": "Mô hình biến mất khi tải cao là điều bình thường, không phải sự cố: nó tự quay lại khi một kênh hồi phục, thường trong vài phút.",
       "P_DISCOUNTS_PIN": "Để khóa mô hình vào các nhóm cụ thể và mức giá của chúng, xem",
       "P_AVAILABILITY_WATCH": "Để được báo ngay khi nó quay lại, hãy theo dõi nó trong",
-      "P_FREE_LIMITS_LINK": "Các mức trần chính xác, header và hướng dẫn thử lại được ghi trong"
+      "P_FREE_LIMITS_LINK": "Các mức trần chính xác, header và hướng dẫn thử lại được ghi trong",
+      "ALT_CATALOG": "Danh mục mô hình với giá và huy hiệu giảm giá",
+      "P_AVAILABILITY_PIN": "Khóa ghim nhóm nhà cung cấp chỉ chuyển dự phòng trong các nhóm đã ghim, xem"
     },
     "NOTIFICATIONS": {
       "META": {
@@ -5404,7 +5407,8 @@
       "P_RETRIES_1": "Tôn trọng Retry-After trên 429. Thử lại 503 get_channel_failed sau một khoảng chờ ngắn, hoặc chuyển sang mô hình khác. Đừng thử lại các lỗi lớp 400, chúng có tính xác định.",
       "P_RETRIES_2": "Yêu cầu thất bại hoặc bị từ chối không bao giờ bị tính phí; cơ chế tạm giữ và hoàn tiền được mô tả trong",
       "P_BUSY_WATCH": "Mô hình biến mất do tải sẽ tự quay lại; để được báo ngay khi nó trở lại, hãy theo dõi trong",
-      "P_BUSY_PINNED": "Nếu khóa của bạn ghim nhóm nhà cung cấp, còn một loại 503 thứ ba khi chỉ các nhóm đã ghim ngừng hoạt động, xem"
+      "P_BUSY_PINNED": "Nếu khóa của bạn ghim nhóm nhà cung cấp, còn một loại 503 thứ ba khi chỉ các nhóm đã ghim ngừng hoạt động, xem",
+      "ALT_STATUS": "Trang trạng thái hiển thị mô hình hoạt động và suy giảm"
     },
     "ACCOUNT_AND_BILLING": {
       "META": {
@@ -5433,7 +5437,8 @@
       "H_LOGS": "Kiểm tra việc sử dụng",
       "P_LOGS_1": "Trang Nhật ký liệt kê mọi yêu cầu với mô hình, số lượng token, chi phí chính xác và id yêu cầu. Nếu một khoản phí nào đó trông có vẻ sai, id yêu cầu là thứ bộ phận hỗ trợ cần.",
       "P_KEYS_PIN": "Khóa cũng có thể ghim mô hình vào các nhóm nhà cung cấp cụ thể và mức giá của chúng, xem",
-      "P_EARN_AFFILIATE": "Ngoài ra, chương trình liên kết trả hoa hồng trên các lần nạp của người bạn giới thiệu, tối đa $44 qua mọi cấp."
+      "P_EARN_AFFILIATE": "Ngoài ra, chương trình liên kết trả hoa hồng trên các lần nạp của người bạn giới thiệu, tối đa $44 qua mọi cấp.",
+      "ALT_TOPUP": "Tùy chọn nạp tiền trên trang Billing"
     },
     "DISCORD_REWARDS": {
       "META": {

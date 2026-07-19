@@ -5250,7 +5250,8 @@
       "P_NEXT_1": "Entegrasyonlar sekmesi, 30'dan fazla uygulama için kopyala-yapıştır kurulumu sunar: SillyTavern, JanitorAI, Claude Code, Cline ve daha fazlası. Sohbet sekmesi yerleşik rol yapma sohbetini belgeler.",
       "P_NEXT_2": "Fiyatların, indirimlerin ve erişilebilirliğin nasıl çalıştığını okuyun:",
       "P_API_KEY_SCOPES": "Son kullanma tarihleri, harcama limitleri, model izin listeleri, IP kısıtlamaları ve grup sabitleme şurada anlatılır:",
-      "P_NEXT_ERRORS": "Yayına almadan önce durum kodlarına ve hız limitlerine göz atın:"
+      "P_NEXT_ERRORS": "Yayına almadan önce durum kodlarına ve hız limitlerine göz atın:",
+      "ALT_CREATE_KEY": "Tokens sayfasındaki anahtar oluşturma penceresi"
     },
     "MODELS_AND_PRICING": {
       "META": {
@@ -5280,7 +5281,9 @@
       "P_AVAILABILITY_2": "Yük altında bir modelin kaybolması beklenen bir durumdur, arıza değildir: bir kanal toparlanınca kendiliğinden geri gelir, genellikle dakikalar içinde.",
       "P_DISCOUNTS_PIN": "Bir modeli belirli gruplara ve tarifelerine kilitlemek için bkz.",
       "P_AVAILABILITY_WATCH": "Geri döndüğü anda haber almak için onu şurada izleyin:",
-      "P_FREE_LIMITS_LINK": "Kesin sınırlar, başlıklar ve yeniden deneme rehberi şurada belgeli:"
+      "P_FREE_LIMITS_LINK": "Kesin sınırlar, başlıklar ve yeniden deneme rehberi şurada belgeli:",
+      "ALT_CATALOG": "Fiyatlar ve indirim rozetleriyle model kataloğu",
+      "P_AVAILABILITY_PIN": "Sağlayıcı gruplarını sabitleyen anahtarlar yalnızca sabitlenmiş grupları içinde yedeğe geçer, bkz."
     },
     "NOTIFICATIONS": {
       "META": {
@@ -5404,7 +5407,8 @@
       "P_RETRIES_1": "429'da Retry-After'a uyun. 503 get_channel_failed'i kısa bir bekleyişten sonra yeniden deneyin veya başka bir modele geçin. 400 sınıfı hataları yeniden denemeyin, bunlar belirlenimcidir.",
       "P_RETRIES_2": "Başarısız ve reddedilen istekler asla faturalanmaz; ön bloke ve iadenin işleyişi şurada:",
       "P_BUSY_WATCH": "Yük altında kaybolan model kendiliğinden döner; döndüğü anda haber almak için şurada izleyin:",
-      "P_BUSY_PINNED": "Anahtarınız sağlayıcı gruplarını sabitliyorsa, yalnızca sabitlediğiniz gruplar düştüğünde görülen üçüncü bir 503 vardır, bkz."
+      "P_BUSY_PINNED": "Anahtarınız sağlayıcı gruplarını sabitliyorsa, yalnızca sabitlediğiniz gruplar düştüğünde görülen üçüncü bir 503 vardır, bkz.",
+      "ALT_STATUS": "Çalışan ve bozulmuş modelleri gösteren durum sayfası"
     },
     "ACCOUNT_AND_BILLING": {
       "META": {
@@ -5433,7 +5437,8 @@
       "H_LOGS": "Kullanımı denetleme",
       "P_LOGS_1": "Günlükler sayfası her isteği model, token sayıları, tam maliyet ve istek kimliğiyle listeler. Bir ücret hatalı görünürse, destek ekibinin ihtiyaç duyduğu şey istek kimliğidir.",
       "P_KEYS_PIN": "Bir anahtar, modelleri belirli sağlayıcı gruplarına ve tarifelerine de sabitleyebilir, bkz.",
-      "P_EARN_AFFILIATE": "Üstelik ortaklık programı, davet ettiklerinizin yüklemelerinden tüm seviyelerde toplam 44 $'a kadar komisyon öder."
+      "P_EARN_AFFILIATE": "Üstelik ortaklık programı, davet ettiklerinizin yüklemelerinden tüm seviyelerde toplam 44 $'a kadar komisyon öder.",
+      "ALT_TOPUP": "Billing sayfasındaki yükleme seçenekleri"
     },
     "DISCORD_REWARDS": {
       "META": {

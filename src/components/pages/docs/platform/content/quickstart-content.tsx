@@ -1,6 +1,7 @@
 import { ApiKeyCodeBlock } from "@/components/elements/code/api-key-code-block";
 import { highlightCode } from "@/components/elements/code/code-block";
 import {
+  DocImage,
   DocKbd,
   DocPageLink,
   DocSection,
@@ -74,6 +75,12 @@ console.log(completion.choices[0].message.content);`;
       </DocSection>
       <DocSection id="api-key" title={k("H_API_KEY")}>
         <p>{k("P_API_KEY_1")}</p>
+        <DocImage
+          src="/images/docs/quickstart-create-key.webp"
+          alt={k("ALT_CREATE_KEY")}
+          width={640}
+          height={825}
+        />
         <p>
           {k("P_API_KEY_SCOPES")}{" "}
           <DocPageLink slug="account-and-billing">

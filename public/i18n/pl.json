@@ -5250,7 +5250,8 @@
       "P_NEXT_1": "Karta Integracje zawiera gotową do skopiowania konfigurację dla ponad 30 aplikacji: SillyTavern, JanitorAI, Claude Code, Cline i więcej. Karta Czat dokumentuje wbudowany czat do odgrywania ról.",
       "P_NEXT_2": "Jak działają ceny, rabaty i dostępność, wyjaśnia",
       "P_API_KEY_SCOPES": "Daty wygaśnięcia, limity wydatków, listy dozwolonych modeli, ograniczenia IP i przypinanie grup omawia",
-      "P_NEXT_ERRORS": "Przed wdrożeniem przejrzyj kody statusu i limity w"
+      "P_NEXT_ERRORS": "Przed wdrożeniem przejrzyj kody statusu i limity w",
+      "ALT_CREATE_KEY": "Okno tworzenia klucza na stronie Tokens"
     },
     "MODELS_AND_PRICING": {
       "META": {
@@ -5280,7 +5281,9 @@
       "P_AVAILABILITY_2": "Znikanie modelu pod obciążeniem jest oczekiwane i nie jest awarią: wraca sam, gdy tylko kanał się odbuduje, zwykle w kilka minut.",
       "P_DISCOUNTS_PIN": "Jak zablokować model na konkretnych grupach i ich stawkach, zobacz",
       "P_AVAILABILITY_WATCH": "Aby dostać powiadomienie w chwili powrotu, obserwuj go w",
-      "P_FREE_LIMITS_LINK": "Dokładne limity, nagłówki i wskazówki dotyczące ponowień dokumentuje"
+      "P_FREE_LIMITS_LINK": "Dokładne limity, nagłówki i wskazówki dotyczące ponowień dokumentuje",
+      "ALT_CATALOG": "Katalog modeli z cenami i znaczkami rabatów",
+      "P_AVAILABILITY_PIN": "Klucze z przypiętymi grupami dostawców przełączają się tylko w obrębie przypiętych grup, zobacz"
     },
     "NOTIFICATIONS": {
       "META": {
@@ -5404,7 +5407,8 @@
       "P_RETRIES_1": "Respektuj Retry-After przy 429. Ponów 503 get_channel_failed po krótkim odczekaniu lub przejdź na inny model. Nie ponawiaj błędów klasy 400, są deterministyczne.",
       "P_RETRIES_2": "Nieudane i odrzucone żądania nigdy nie są rozliczane; działanie blokady wstępnej i zwrotu opisuje",
       "P_BUSY_WATCH": "Model, który zniknął pod obciążeniem, wraca sam; by dostać powiadomienie w chwili powrotu, obserwuj go w",
-      "P_BUSY_PINNED": "Jeśli twój klucz przypina grupy dostawców, istnieje trzeci wariant 503, gdy padły tylko twoje przypięte grupy, zobacz"
+      "P_BUSY_PINNED": "Jeśli twój klucz przypina grupy dostawców, istnieje trzeci wariant 503, gdy padły tylko twoje przypięte grupy, zobacz",
+      "ALT_STATUS": "Strona statusu pokazująca modele sprawne i z degradacją"
     },
     "ACCOUNT_AND_BILLING": {
       "META": {
@@ -5433,7 +5437,8 @@
       "H_LOGS": "Audyt użycia",
       "P_LOGS_1": "Strona Logi wymienia każde żądanie z modelem, liczbą tokenów, dokładnym kosztem i identyfikatorem żądania. Jeśli opłata kiedykolwiek wygląda niepoprawnie, identyfikator żądania jest tym, czego potrzebuje pomoc techniczna.",
       "P_KEYS_PIN": "Klucz może też przypiąć modele do konkretnych grup dostawców i ich stawek, zobacz",
-      "P_EARN_AFFILIATE": "Do tego program afiliacyjny płaci prowizję od doładowań poleconych, łącznie do 44 $ na wszystkich poziomach."
+      "P_EARN_AFFILIATE": "Do tego program afiliacyjny płaci prowizję od doładowań poleconych, łącznie do 44 $ na wszystkich poziomach.",
+      "ALT_TOPUP": "Opcje doładowania na stronie Billing"
     },
     "DISCORD_REWARDS": {
       "META": {

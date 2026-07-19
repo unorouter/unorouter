@@ -5250,7 +5250,8 @@
       "P_NEXT_1": "La pestaña Integraciones tiene configuraciones listas para copiar y pegar para más de 30 aplicaciones: SillyTavern, JanitorAI, Claude Code, Cline y más. La pestaña Chat documenta el chat de rol integrado.",
       "P_NEXT_2": "Para entender precios, descuentos y disponibilidad, lee",
       "P_API_KEY_SCOPES": "Fechas de caducidad, límites de gasto, listas de modelos permitidos, restricciones de IP y fijación de grupos se tratan en",
-      "P_NEXT_ERRORS": "Antes de publicar, repasa los códigos de estado y límites en"
+      "P_NEXT_ERRORS": "Antes de publicar, repasa los códigos de estado y límites en",
+      "ALT_CREATE_KEY": "Diálogo de creación de clave en la página Tokens"
     },
     "MODELS_AND_PRICING": {
       "META": {
@@ -5280,7 +5281,9 @@
       "P_AVAILABILITY_2": "Que un modelo desaparezca bajo carga es esperado, no una avería: reaparece solo cuando un canal se recupera, normalmente en minutos.",
       "P_DISCOUNTS_PIN": "Para bloquear un modelo a grupos concretos y sus tarifas, consulta",
       "P_AVAILABILITY_WATCH": "Para recibir aviso en cuanto vuelva, vigílalo en",
-      "P_FREE_LIMITS_LINK": "Los topes exactos, cabeceras y pautas de reintento están documentados en"
+      "P_FREE_LIMITS_LINK": "Los topes exactos, cabeceras y pautas de reintento están documentados en",
+      "ALT_CATALOG": "Catálogo de modelos con precios e insignias de descuento",
+      "P_AVAILABILITY_PIN": "Las claves que fijan grupos de proveedores solo conmutan dentro de sus grupos fijados, consulta"
     },
     "NOTIFICATIONS": {
       "META": {
@@ -5404,7 +5407,8 @@
       "P_RETRIES_1": "Respeta Retry-After en los 429. Reintenta el 503 get_channel_failed tras una breve espera, o recurre a otro modelo. No reintentes los errores de clase 400, son deterministas.",
       "P_RETRIES_2": "Las peticiones fallidas o rechazadas nunca se cobran; cómo funcionan la retención previa y el reembolso se explica en",
       "P_BUSY_WATCH": "Un modelo que desapareció bajo carga vuelve solo; para recibir aviso en cuanto regrese, vigílalo en",
-      "P_BUSY_PINNED": "Si tu clave fija grupos de proveedores, aparece un tercer 503 cuando solo tus grupos fijados están caídos, consulta"
+      "P_BUSY_PINNED": "Si tu clave fija grupos de proveedores, aparece un tercer 503 cuando solo tus grupos fijados están caídos, consulta",
+      "ALT_STATUS": "Página de estado con modelos operativos y degradados"
     },
     "ACCOUNT_AND_BILLING": {
       "META": {
@@ -5433,7 +5437,8 @@
       "H_LOGS": "Auditar el uso",
       "P_LOGS_1": "La página de Registros lista cada solicitud con el modelo, los recuentos de tokens, el coste exacto y el id de solicitud. Si alguna vez un cargo parece incorrecto, el id de solicitud es lo que necesita soporte.",
       "P_KEYS_PIN": "Una clave también puede fijar modelos a grupos de proveedores concretos y sus tarifas, consulta",
-      "P_EARN_AFFILIATE": "Además, el programa de afiliados paga comisión por las recargas de tus referidos, hasta $44 entre todos los niveles."
+      "P_EARN_AFFILIATE": "Además, el programa de afiliados paga comisión por las recargas de tus referidos, hasta $44 entre todos los niveles.",
+      "ALT_TOPUP": "Opciones de recarga en la página Billing"
     },
     "DISCORD_REWARDS": {
       "META": {

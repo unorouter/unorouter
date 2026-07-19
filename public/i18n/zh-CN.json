@@ -5250,7 +5250,8 @@
       "P_NEXT_1": "集成标签页提供 30 多款应用的即复制即用配置：SillyTavern、JanitorAI、Claude Code、Cline 等。聊天标签页记录了内置的角色扮演聊天。",
       "P_NEXT_2": "价格、折扣和可用性的工作原理请阅读：",
       "P_API_KEY_SCOPES": "过期时间、消费上限、模型白名单、IP 限制和提供方分组固定见：",
-      "P_NEXT_ERRORS": "上线前请浏览状态码和速率限制："
+      "P_NEXT_ERRORS": "上线前请浏览状态码和速率限制：",
+      "ALT_CREATE_KEY": "Tokens 页面上的创建密钥对话框"
     },
     "MODELS_AND_PRICING": {
       "META": {
@@ -5280,7 +5281,9 @@
       "P_AVAILABILITY_2": "模型在高负载下消失是正常现象而非故障：通道一恢复它就会自行回归，通常只需几分钟。",
       "P_DISCOUNTS_PIN": "要将模型锁定到特定分组及其费率，请参阅：",
       "P_AVAILABILITY_WATCH": "想在它回归的那一刻收到提醒，请在这里关注它：",
-      "P_FREE_LIMITS_LINK": "确切的上限、响应头和重试指引记录在："
+      "P_FREE_LIMITS_LINK": "确切的上限、响应头和重试指引记录在：",
+      "ALT_CATALOG": "带价格和折扣徽章的模型目录",
+      "P_AVAILABILITY_PIN": "固定了提供方分组的密钥只在其固定分组内切换，见："
     },
     "NOTIFICATIONS": {
       "META": {
@@ -5404,7 +5407,8 @@
       "P_RETRIES_1": "对 429 请遵守 Retry-After。对 503 get_channel_failed 在短暂等待后重试，或回退到另一个模型。不要重试 400 类错误，它们是确定性的。",
       "P_RETRIES_2": "失败和被拒绝的请求绝不计费；预扣和退款的机制见：",
       "P_BUSY_WATCH": "因负载消失的模型会自行回归；想在它回归的那一刻收到提醒，请在这里关注它：",
-      "P_BUSY_PINNED": "如果你的密钥固定了提供方分组，还有第三种 503：只有你固定的分组宕机时出现，见："
+      "P_BUSY_PINNED": "如果你的密钥固定了提供方分组，还有第三种 503：只有你固定的分组宕机时出现，见：",
+      "ALT_STATUS": "显示正常与降级模型的状态页"
     },
     "ACCOUNT_AND_BILLING": {
       "META": {
@@ -5433,7 +5437,8 @@
       "H_LOGS": "审计用量",
       "P_LOGS_1": "日志页面列出每一次请求，包含模型、令牌数量、确切成本和请求 id。如果某笔费用看起来有误，请求 id 正是支持所需要的。",
       "P_KEYS_PIN": "密钥还可以将模型固定到特定提供方分组及其费率，请参阅：",
-      "P_EARN_AFFILIATE": "此外，联盟计划会对你推荐用户的充值支付佣金，各级合计最高 $44。"
+      "P_EARN_AFFILIATE": "此外，联盟计划会对你推荐用户的充值支付佣金，各级合计最高 $44。",
+      "ALT_TOPUP": "Billing 页面上的充值选项"
     },
     "DISCORD_REWARDS": {
       "META": {

@@ -1,4 +1,5 @@
 import {
+  DocImage,
   DocKbd,
   DocPageLink,
   DocSection,
@@ -17,6 +18,12 @@ export async function ModelsAndPricingContent() {
     <>
       <DocSection id="catalog" title={k("H_CATALOG")}>
         <p>{k("P_CATALOG_1")}</p>
+        <DocImage
+          src="/images/docs/models-catalog.webp"
+          alt={k("ALT_CATALOG")}
+          width={2149}
+          height={675}
+        />
         <p>{k("P_CATALOG_2")}</p>
       </DocSection>
       <DocSection id="free-vs-paid" title={k("H_FREE_VS_PAID")}>
@@ -52,6 +59,12 @@ export async function ModelsAndPricingContent() {
       <DocSection id="availability" title={k("H_AVAILABILITY")}>
         <p>{k("P_AVAILABILITY_1")}</p>
         <p>{k("P_AVAILABILITY_2")}</p>
+        <p>
+          {k("P_AVAILABILITY_PIN")}{" "}
+          <DocPageLink slug="group-pinning">
+            {t("DOCS_PLATFORM.GROUP_PINNING.TITLE")}
+          </DocPageLink>
+        </p>
         <p>
           {k("P_AVAILABILITY_WATCH")}{" "}
           <DocPageLink slug="notifications">

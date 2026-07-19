@@ -5250,7 +5250,8 @@
       "P_NEXT_1": "Tab Integrasi memiliki pengaturan siap salin-tempel untuk 30+ aplikasi: SillyTavern, JanitorAI, Claude Code, Cline, dan lainnya. Tab Chat mendokumentasikan chat roleplay bawaan.",
       "P_NEXT_2": "Untuk memahami harga, diskon, dan ketersediaan, baca",
       "P_API_KEY_SCOPES": "Tanggal kedaluwarsa, batas pengeluaran, daftar model yang diizinkan, pembatasan IP, dan penyematan grup dibahas di",
-      "P_NEXT_ERRORS": "Sebelum rilis, lihat sekilas kode status dan batas laju di"
+      "P_NEXT_ERRORS": "Sebelum rilis, lihat sekilas kode status dan batas laju di",
+      "ALT_CREATE_KEY": "Dialog pembuatan kunci di halaman Tokens"
     },
     "MODELS_AND_PRICING": {
       "META": {
@@ -5280,7 +5281,9 @@
       "P_AVAILABILITY_2": "Model yang hilang saat beban tinggi itu wajar, bukan gangguan: ia kembali sendiri begitu satu kanal pulih, biasanya dalam hitungan menit.",
       "P_DISCOUNTS_PIN": "Untuk mengunci model ke grup tertentu beserta tarifnya, lihat",
       "P_AVAILABILITY_WATCH": "Agar diberi tahu begitu ia kembali, pantau di",
-      "P_FREE_LIMITS_LINK": "Batas pasti, header, dan panduan coba ulang terdokumentasi di"
+      "P_FREE_LIMITS_LINK": "Batas pasti, header, dan panduan coba ulang terdokumentasi di",
+      "ALT_CATALOG": "Katalog model dengan harga dan lencana diskon",
+      "P_AVAILABILITY_PIN": "Kunci yang menyematkan grup penyedia hanya failover di dalam grup sematannya, lihat"
     },
     "NOTIFICATIONS": {
       "META": {
@@ -5404,7 +5407,8 @@
       "P_RETRIES_1": "Hormati Retry-After pada 429. Coba lagi 503 get_channel_failed setelah menunggu sebentar, atau beralih ke model lain. Jangan coba lagi kesalahan kelas 400, itu deterministik.",
       "P_RETRIES_2": "Permintaan yang gagal atau ditolak tidak pernah ditagih; cara kerja penahanan awal dan pengembalian dijelaskan di",
       "P_BUSY_WATCH": "Model yang hilang karena beban akan kembali sendiri; agar diberi tahu begitu kembali, pantau di",
-      "P_BUSY_PINNED": "Jika kunci Anda menyematkan grup penyedia, ada 503 ketiga saat hanya grup sematan Anda yang tumbang, lihat"
+      "P_BUSY_PINNED": "Jika kunci Anda menyematkan grup penyedia, ada 503 ketiga saat hanya grup sematan Anda yang tumbang, lihat",
+      "ALT_STATUS": "Halaman status yang menampilkan model normal dan menurun"
     },
     "ACCOUNT_AND_BILLING": {
       "META": {
@@ -5433,7 +5437,8 @@
       "H_LOGS": "Mengaudit penggunaan",
       "P_LOGS_1": "Halaman Log mencantumkan setiap permintaan dengan model, jumlah token, biaya persis, dan id permintaan. Jika suatu biaya terlihat salah, id permintaan itulah yang dibutuhkan dukungan.",
       "P_KEYS_PIN": "Kunci juga bisa menyematkan model ke grup penyedia tertentu beserta tarifnya, lihat",
-      "P_EARN_AFFILIATE": "Selain itu, program afiliasi membayar komisi dari top-up pengguna yang Anda referensikan, hingga $44 di semua tingkat."
+      "P_EARN_AFFILIATE": "Selain itu, program afiliasi membayar komisi dari top-up pengguna yang Anda referensikan, hingga $44 di semua tingkat.",
+      "ALT_TOPUP": "Opsi isi ulang di halaman Billing"
     },
     "DISCORD_REWARDS": {
       "META": {

@@ -5250,7 +5250,8 @@
       "P_NEXT_1": "L'onglet Intégrations propose une configuration prête à copier-coller pour plus de 30 applications : SillyTavern, JanitorAI, Claude Code, Cline et bien d'autres. L'onglet Chat documente le chat de jeu de rôle intégré.",
       "P_NEXT_2": "Pour comprendre prix, remises et disponibilité, lisez",
       "P_API_KEY_SCOPES": "Dates d'expiration, plafonds de dépense, listes de modèles autorisés, restrictions IP et épinglage de groupes sont couverts dans",
-      "P_NEXT_ERRORS": "Avant de déployer, survolez les codes de statut et limites dans"
+      "P_NEXT_ERRORS": "Avant de déployer, survolez les codes de statut et limites dans",
+      "ALT_CREATE_KEY": "Boîte de dialogue de création de clé sur la page Tokens"
     },
     "MODELS_AND_PRICING": {
       "META": {
@@ -5280,7 +5281,9 @@
       "P_AVAILABILITY_2": "Un modèle qui disparaît sous charge est normal, pas une panne : il revient de lui-même dès qu'un canal récupère, en général en quelques minutes.",
       "P_DISCOUNTS_PIN": "Pour verrouiller un modèle sur des groupes précis et leurs tarifs, voir",
       "P_AVAILABILITY_WATCH": "Pour être prévenu dès son retour, surveillez-le dans",
-      "P_FREE_LIMITS_LINK": "Les plafonds exacts, les en-têtes et les conseils de retry sont documentés dans"
+      "P_FREE_LIMITS_LINK": "Les plafonds exacts, les en-têtes et les conseils de retry sont documentés dans",
+      "ALT_CATALOG": "Catalogue de modèles avec prix et badges de remise",
+      "P_AVAILABILITY_PIN": "Les clés qui épinglent des groupes de fournisseurs ne basculent qu'au sein de leurs groupes épinglés, voir"
     },
     "NOTIFICATIONS": {
       "META": {
@@ -5404,7 +5407,8 @@
       "P_RETRIES_1": "Respectez Retry-After sur les 429. Réessayez le 503 get_channel_failed après une courte attente, ou repliez-vous sur un autre modèle. Ne réessayez pas les erreurs de classe 400, elles sont déterministes.",
       "P_RETRIES_2": "Les requêtes échouées ou refusées ne sont jamais facturées ; le fonctionnement de la préautorisation et du remboursement est décrit dans",
       "P_BUSY_WATCH": "Un modèle disparu sous charge revient tout seul ; pour être prévenu dès son retour, surveillez-le dans",
-      "P_BUSY_PINNED": "Si votre clé épingle des groupes de fournisseurs, un troisième 503 apparaît quand seuls vos groupes épinglés sont tombés, voir"
+      "P_BUSY_PINNED": "Si votre clé épingle des groupes de fournisseurs, un troisième 503 apparaît quand seuls vos groupes épinglés sont tombés, voir",
+      "ALT_STATUS": "Page Status montrant des modèles opérationnels et dégradés"
     },
     "ACCOUNT_AND_BILLING": {
       "META": {
@@ -5433,7 +5437,8 @@
       "H_LOGS": "Auditer l'utilisation",
       "P_LOGS_1": "La page Journaux liste chaque requête avec le modèle, le nombre de jetons, le coût exact et l'id de requête. Si un débit semble erroné, l'id de requête est ce dont le support a besoin.",
       "P_KEYS_PIN": "Une clé peut aussi épingler des modèles sur des groupes de fournisseurs précis et leurs tarifs, voir",
-      "P_EARN_AFFILIATE": "En plus, le programme d'affiliation verse une commission sur les recharges de vos filleuls, jusqu'à 44 $ tous niveaux confondus."
+      "P_EARN_AFFILIATE": "En plus, le programme d'affiliation verse une commission sur les recharges de vos filleuls, jusqu'à 44 $ tous niveaux confondus.",
+      "ALT_TOPUP": "Options de recharge sur la page Billing"
     },
     "DISCORD_REWARDS": {
       "META": {
