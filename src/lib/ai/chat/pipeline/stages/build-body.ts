@@ -48,9 +48,16 @@ export function buildModelParams(
   effectiveMaxOutputTokens: number,
   modelInfo: ProcessedModel | undefined,
 ) {
+  // Only put max_tokens on the wire when the user set one (or a free-model cap
+  // applies). Metadata output ceilings drift from what upstreams enforce, and a
+  // too-high literal max_tokens is a hard 400 on strict providers.
+  const userSetMax = assembled.sampling.maxOutputTokens != null;
   return stripUnsupported(
     defined({
-      maxOutputTokens: effectiveMaxOutputTokens || undefined,
+      maxOutputTokens:
+        userSetMax || modelInfo?.isFree
+          ? effectiveMaxOutputTokens || undefined
+          : undefined,
       temperature: assembled.sampling.temperature,
       topP: assembled.sampling.topP,
       topK: assembled.sampling.topK,
