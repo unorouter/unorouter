@@ -5427,6 +5427,7 @@
       "H_EARN": "Ganar saldo gratis",
       "P_EARN_1": "Vincular tu Discord, boostear, votar, invitar amigos, mantenerte activo y reportar bugs abonan saldo automáticamente. Importes, niveles y reglas están en",
       "P_EARN_2": "Las recompensas llegan a la cuenta vinculada a tu Discord, así que vincúlalo primero.",
+      "P_EARN_3": "A diferencia del saldo comprado, el saldo de recompensas caduca si no se usa: gástalo en lugar de dejarlo parado.",
       "H_KEYS": "Claves de API",
       "P_KEYS_1": "Las claves se gestionan en la página de Tokens. Cada clave puede tener su propio nombre, fecha de caducidad, límite de gasto (o ilimitado), lista de modelos permitidos y lista de IP permitidas. Eso hace seguro entregar claves acotadas a aplicaciones y proxys.",
       "P_KEYS_2": "Una clave con el límite agotado devuelve 402 mientras el saldo de tu cuenta permanece intacto; las demás claves siguen funcionando.",
@@ -5500,7 +5501,8 @@
       "R_RULE_3": "Los votos se deduplican por sitio; un voto dentro de la ventana de espera no se paga.",
       "R_RULE_4": "Los pagos por boost solo corren mientras el boost está activo y se detienen en cuanto termina.",
       "R_RULE_5": "Abusar del sistema con cuentas alternativas, invitaciones falsas o spam de mensajes hace que se revoquen las recompensas y puede acabar en baneo. Pedir o compartir claves de API filtradas y proxies también va contra las reglas.",
-      "R_RULE_6": "Los importes de las recompensas se configuran en el servidor y pueden cambiar; los paneles de verificación y boost del servidor siempre muestran los valores vigentes."
+      "R_RULE_6": "Los importes de las recompensas se configuran en el servidor y pueden cambiar; los paneles de verificación y boost del servidor siempre muestran los valores vigentes.",
+      "R_RULE_7": "Las recompensas caducan si no se usan: reclama tu saldo y gástalo en lugar de dejarlo parado."
     }
   },
   "NOTIFY": {

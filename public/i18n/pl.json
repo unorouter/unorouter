@@ -5427,6 +5427,7 @@
       "H_EARN": "Zdobywanie darmowego salda",
       "P_EARN_1": "Połączenie Discorda, boosty, głosy, zapraszanie znajomych, aktywność i zgłaszanie błędów automatycznie zasilają saldo. Kwoty, poziomy i zasady znajdziesz w",
       "P_EARN_2": "Nagrody trafiają na konto powiązane z twoim Discordem, więc najpierw je połącz.",
+      "P_EARN_3": "W przeciwieństwie do zakupionego salda, saldo z nagród wygasa, jeśli pozostaje niewykorzystane; wydaj je, zamiast zostawiać bezczynnie.",
       "H_KEYS": "Klucze API",
       "P_KEYS_1": "Klucze zarządzane są na stronie Tokeny. Każdy klucz może mieć własną nazwę, datę wygaśnięcia, limit wydatków (lub bez limitu), listę dozwolonych modeli i listę dozwolonych adresów IP. Dzięki temu bezpiecznie można przekazywać ograniczone klucze aplikacjom i proxy.",
       "P_KEYS_2": "Klucz z wyczerpanym limitem zwraca 402, podczas gdy saldo twojego konta pozostaje nienaruszone; pozostałe klucze działają dalej.",
@@ -5500,7 +5501,8 @@
       "R_RULE_3": "Głosy są deduplikowane per strona; głos w oknie odstępu nie jest płacony.",
       "R_RULE_4": "Wypłaty za boost biegną tylko, dopóki boost jest aktywny, i zatrzymują się w chwili jego zakończenia.",
       "R_RULE_5": "Oszukiwanie systemu multikontami, fałszywymi zaproszeniami lub spamem wiadomości kończy się cofnięciem nagród i może skończyć się banem. Proszenie o wyciekłe klucze API i proxy lub ich udostępnianie także łamie zasady.",
-      "R_RULE_6": "Kwoty nagród są konfigurowane po stronie serwera i mogą się zmieniać; panele weryfikacji i boostów na serwerze zawsze pokazują aktualne wartości."
+      "R_RULE_6": "Kwoty nagród są konfigurowane po stronie serwera i mogą się zmieniać; panele weryfikacji i boostów na serwerze zawsze pokazują aktualne wartości.",
+      "R_RULE_7": "Niewykorzystane nagrody wygasają; odbierz saldo i wydaj je, zamiast zostawiać je bezczynnie."
     }
   },
   "NOTIFY": {

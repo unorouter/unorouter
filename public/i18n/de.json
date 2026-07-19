@@ -5427,6 +5427,7 @@
       "H_EARN": "Kostenloses Guthaben verdienen",
       "P_EARN_1": "Discord verknüpfen, boosten, voten, Freunde einladen, aktiv bleiben und Bugs melden schreiben dir automatisch Guthaben gut. Beträge, Level und Regeln stehen in",
       "P_EARN_2": "Belohnungen landen auf dem mit deinem Discord verknüpften Konto, verknüpfe es also zuerst.",
+      "P_EARN_3": "Anders als gekauftes Guthaben verfällt Belohnungsguthaben, wenn es ungenutzt bleibt: also ausgeben statt liegen lassen.",
       "H_KEYS": "API-Schlüssel",
       "P_KEYS_1": "Schlüssel werden auf der Tokens-Seite verwaltet. Jeder Schlüssel kann seinen eigenen Namen, ein Ablaufdatum, ein Ausgabenlimit (oder unbegrenzt), eine Liste erlaubter Modelle und eine IP-Zulassungsliste haben. Das macht es sicher, Apps und Proxys eingeschränkte Schlüssel zu übergeben.",
       "P_KEYS_2": "Ein Schlüssel mit erschöpftem Limit gibt 402 zurück, während dein Kontoguthaben unberührt bleibt; andere Schlüssel funktionieren weiter.",
@@ -5500,7 +5501,8 @@
       "R_RULE_3": "Votes werden pro Seite dedupliziert; ein Vote innerhalb des Cooldown-Fensters wird nicht bezahlt.",
       "R_RULE_4": "Boost-Auszahlungen laufen nur, solange der Boost aktiv ist, und stoppen in dem Moment, in dem er endet.",
       "R_RULE_5": "Wer das System mit Zweitkonten, Fake-Einladungen oder Nachrichten-Spam austrickst, verliert die Belohnungen und riskiert einen Bann. Nach geleakten API-Keys oder Proxys zu fragen oder sie zu teilen ist ebenfalls verboten.",
-      "R_RULE_6": "Die Belohnungsbeträge sind serverseitig konfiguriert und können sich ändern; die Verify- und Boost-Panels im Server zeigen immer die aktuellen Werte."
+      "R_RULE_6": "Die Belohnungsbeträge sind serverseitig konfiguriert und können sich ändern; die Verify- und Boost-Panels im Server zeigen immer die aktuellen Werte.",
+      "R_RULE_7": "Ungenutzte Belohnungen verfallen: Guthaben einlösen und ausgeben, statt es liegen zu lassen."
     }
   },
   "NOTIFY": {

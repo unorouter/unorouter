@@ -38,6 +38,7 @@ export async function AccountAndBillingContent() {
         </p>
         <p>{k("P_EARN_AFFILIATE")}</p>
         <p>{k("P_EARN_2")}</p>
+        <p>{k("P_EARN_3")}</p>
       </DocSection>
       <DocSection id="keys" title={k("H_KEYS")}>
         <p>{k("P_KEYS_1")}</p>

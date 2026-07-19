@@ -5427,6 +5427,7 @@
       "H_EARN": "Ücretsiz bakiye kazanma",
       "P_EARN_1": "Discord'u bağlamak, boostlamak, oy vermek, arkadaş davet etmek, aktif kalmak ve hata bildirmek bakiyenize otomatik eklenir. Tutarlar, seviyeler ve kurallar için bkz.",
       "P_EARN_2": "Ödüller Discord'unuza bağlı hesaba düşer, bu yüzden önce onu bağlayın.",
+      "P_EARN_3": "Satın alınan bakiyenin aksine, ödül bakiyesi kullanılmadan beklerse süresi dolar; öylece bekletmek yerine harcayın.",
       "H_KEYS": "API anahtarları",
       "P_KEYS_1": "Anahtarlar Token sayfasında yönetilir. Her anahtar kendi adına, son kullanma tarihine, harcama limitine (veya sınırsıza), izin verilen model listesine ve IP izin listesine sahip olabilir. Bu, uygulamalara ve proxy'lere kapsamı sınırlı anahtarlar vermeyi güvenli kılar.",
       "P_KEYS_2": "Limiti tükenmiş bir anahtar 402 döndürürken hesap bakiyeniz dokunulmadan kalır; diğer anahtarlar çalışmaya devam eder.",
@@ -5500,7 +5501,8 @@
       "R_RULE_3": "Oylar site başına tekilleştirilir; bekleme penceresi içindeki oy ödenmez.",
       "R_RULE_4": "Boost ödemeleri yalnızca boost aktifken işler ve bittiği anda durur.",
       "R_RULE_5": "Sistemi yan hesaplarla, sahte davetlerle veya mesaj spamıyla kandırmak ödüllerin geri alınmasına yol açar ve banla sonuçlanabilir. Sızdırılmış API anahtarları ve proxy istemek ya da paylaşmak da kurallara aykırıdır.",
-      "R_RULE_6": "Ödül tutarları sunucu tarafında ayarlanır ve değişebilir; sunucudaki doğrulama ve boost panelleri her zaman güncel değerleri gösterir."
+      "R_RULE_6": "Ödül tutarları sunucu tarafında ayarlanır ve değişebilir; sunucudaki doğrulama ve boost panelleri her zaman güncel değerleri gösterir.",
+      "R_RULE_7": "Kullanılmayan ödüllerin süresi dolar; bakiyenizi alın ve öylece bekletmek yerine harcayın."
     }
   },
   "NOTIFY": {

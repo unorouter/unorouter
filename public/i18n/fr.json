@@ -5427,6 +5427,7 @@
       "H_EARN": "Gagner du solde gratuit",
       "P_EARN_1": "Lier votre Discord, booster, voter, inviter des amis, rester actif et signaler des bugs créditent automatiquement votre solde. Montants, niveaux et règles sont dans",
       "P_EARN_2": "Les récompenses arrivent sur le compte lié à votre Discord, liez-le donc d'abord.",
+      "P_EARN_3": "Contrairement au solde acheté, le solde de récompenses expire s'il reste inutilisé : dépensez-le plutôt que de le laisser dormir.",
       "H_KEYS": "Clés d'API",
       "P_KEYS_1": "Les clés se gèrent sur la page Jetons. Chaque clé peut avoir son propre nom, sa date d'expiration, sa limite de dépense (ou illimitée), sa liste de modèles autorisés et sa liste d'IP autorisées. Cela permet de confier en toute sécurité des clés restreintes à des applications et des proxys.",
       "P_KEYS_2": "Une clé dont la limite est épuisée renvoie 402 tandis que le solde de votre compte reste intact ; les autres clés continuent de fonctionner.",
@@ -5500,7 +5501,8 @@
       "R_RULE_3": "Les votes sont dédupliqués par site ; un vote pendant la fenêtre de délai n'est pas payé.",
       "R_RULE_4": "Les paiements de boost ne courent que tant que le boost est actif et s'arrêtent dès qu'il prend fin.",
       "R_RULE_5": "Tricher avec des comptes secondaires, de fausses invitations ou du spam de messages fait révoquer les récompenses et peut mener au bannissement. Demander ou partager des clés API fuitées et des proxys est aussi contraire aux règles.",
-      "R_RULE_6": "Les montants des récompenses sont configurés côté serveur et peuvent changer ; les panneaux de vérification et de boost du serveur affichent toujours les valeurs en vigueur."
+      "R_RULE_6": "Les montants des récompenses sont configurés côté serveur et peuvent changer ; les panneaux de vérification et de boost du serveur affichent toujours les valeurs en vigueur.",
+      "R_RULE_7": "Les récompenses expirent si elles restent inutilisées : réclamez votre solde et dépensez-le plutôt que de le laisser dormir."
     }
   },
   "NOTIFY": {

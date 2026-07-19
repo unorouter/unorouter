@@ -80,6 +80,7 @@ export async function DiscordRewardsContent() {
           <li>{k("R_RULE_4")}</li>
           <li>{k("R_RULE_5")}</li>
           <li>{k("R_RULE_6")}</li>
+          <li>{k("R_RULE_7")}</li>
         </ul>
       </DocSection>
     </>

@@ -5427,6 +5427,7 @@
       "H_EARN": "Kiếm số dư miễn phí",
       "P_EARN_1": "Liên kết Discord, boost, bình chọn, mời bạn bè, hoạt động tích cực và báo lỗi đều tự động cộng vào số dư. Mức thưởng, cấp độ và luật lệ nằm trong",
       "P_EARN_2": "Phần thưởng rơi vào tài khoản được liên kết với Discord của bạn, vì vậy hãy liên kết trước.",
+      "P_EARN_3": "Khác với số dư đã mua, số dư thưởng sẽ hết hạn nếu để không; hãy sử dụng thay vì để đó.",
       "H_KEYS": "Khóa API",
       "P_KEYS_1": "Các khóa được quản lý trên trang Token. Mỗi khóa có thể có tên riêng, ngày hết hạn, giới hạn chi tiêu (hoặc không giới hạn), danh sách mô hình được phép và danh sách IP được phép. Điều đó giúp an toàn khi giao các khóa có phạm vi hạn chế cho ứng dụng và proxy.",
       "P_KEYS_2": "Một khóa có giới hạn đã cạn trả về 402 trong khi số dư tài khoản của bạn vẫn nguyên vẹn; các khóa khác vẫn hoạt động.",
@@ -5500,7 +5501,8 @@
       "R_RULE_3": "Bình chọn được khử trùng lặp theo từng trang; bình chọn trong khoảng thời gian chờ không được trả.",
       "R_RULE_4": "Chi trả boost chỉ chạy khi boost còn hoạt động và dừng ngay khi nó kết thúc.",
       "R_RULE_5": "Gian lận hệ thống bằng tài khoản phụ, lời mời ảo hay spam tin nhắn sẽ bị thu hồi thưởng và có thể bị cấm. Xin hoặc chia sẻ API key rò rỉ và proxy cũng vi phạm luật.",
-      "R_RULE_6": "Số tiền thưởng do máy chủ cấu hình và có thể thay đổi; bảng xác minh và boost trong máy chủ luôn hiển thị giá trị hiện hành."
+      "R_RULE_6": "Số tiền thưởng do máy chủ cấu hình và có thể thay đổi; bảng xác minh và boost trong máy chủ luôn hiển thị giá trị hiện hành.",
+      "R_RULE_7": "Phần thưởng không dùng sẽ hết hạn; hãy nhận số dư và sử dụng thay vì để không."
     }
   },
   "NOTIFY": {

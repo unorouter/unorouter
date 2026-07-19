@@ -5427,6 +5427,7 @@
       "H_EARN": "Guadagnare saldo gratuito",
       "P_EARN_1": "Collegare il tuo Discord, boostare, votare, invitare amici, restare attivo e segnalare bug accreditano saldo automaticamente. Importi, livelli e regole sono in",
       "P_EARN_2": "Le ricompense arrivano sull'account collegato al tuo Discord, quindi collegalo prima.",
+      "P_EARN_3": "A differenza del saldo acquistato, il saldo delle ricompense scade se resta inutilizzato: spendilo invece di lasciarlo fermo.",
       "H_KEYS": "Chiavi API",
       "P_KEYS_1": "Le chiavi si gestiscono nella pagina Token. Ogni chiave può avere un proprio nome, data di scadenza, limite di spesa (o illimitato), lista di modelli consentiti e lista di IP consentiti. Questo rende sicuro affidare chiavi ristrette ad app e proxy.",
       "P_KEYS_2": "Una chiave con il limite esaurito restituisce 402 mentre il saldo del tuo account resta intatto; le altre chiavi continuano a funzionare.",
@@ -5500,7 +5501,8 @@
       "R_RULE_3": "I voti sono deduplicati per sito; un voto dentro la finestra di cooldown non viene pagato.",
       "R_RULE_4": "I pagamenti del boost corrono solo finché il boost è attivo e si fermano nel momento in cui termina.",
       "R_RULE_5": "Aggirare il sistema con account secondari, inviti falsi o spam di messaggi fa revocare le ricompense e può portare al ban. Chiedere o condividere chiavi API trapelate e proxy è anch'esso contro le regole.",
-      "R_RULE_6": "Gli importi delle ricompense sono configurati lato server e possono cambiare; i pannelli di verifica e boost nel server mostrano sempre i valori correnti."
+      "R_RULE_6": "Gli importi delle ricompense sono configurati lato server e possono cambiare; i pannelli di verifica e boost nel server mostrano sempre i valori correnti.",
+      "R_RULE_7": "Le ricompense inutilizzate scadono: riscatta il tuo saldo e spendilo invece di lasciarlo fermo."
     }
   },
   "NOTIFY": {

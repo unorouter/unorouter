@@ -5427,6 +5427,7 @@
       "H_EARN": "Earning free balance",
       "P_EARN_1": "Linking your Discord, boosting, voting, inviting friends, staying active and reporting bugs all credit your balance automatically. Amounts, levels and the rules live in",
       "P_EARN_2": "Rewards land on the account linked to your Discord, so link it first.",
+      "P_EARN_3": "Unlike purchased balance, reward balance expires if it sits unused - spend it rather than letting it idle.",
       "H_KEYS": "API keys",
       "P_KEYS_1": "Keys are managed on the Tokens page. Each key can have its own name, expiry date, spending limit (or unlimited), allowed model list and IP allowlist. That makes it safe to hand scoped keys to apps and proxies.",
       "P_KEYS_2": "A key with an exhausted limit returns 402 while your account balance stays untouched; other keys keep working.",
@@ -5500,7 +5501,8 @@
       "R_RULE_3": "Votes are deduplicated per site; a vote inside the cooldown window is not paid.",
       "R_RULE_4": "Boost payouts run only while the boost is active and stop the moment it ends.",
       "R_RULE_5": "Gaming the system with alt accounts, fake invites or message spam gets rewards revoked and can get you banned. Asking for or sharing leaked API keys and proxies is also against the rules.",
-      "R_RULE_6": "Reward amounts are server-configured and may change; the verify and boost panels in the server always show the live values."
+      "R_RULE_6": "Reward amounts are server-configured and may change; the verify and boost panels in the server always show the live values.",
+      "R_RULE_7": "Rewards expire if they sit unused - claim your balance and spend it rather than letting it idle."
     }
   },
   "NOTIFY": {
