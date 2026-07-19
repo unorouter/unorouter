@@ -106,7 +106,7 @@ export function ActiveConfigBadge() {
   if (chips.length === 0) return null;
 
   return (
-    <div className="thin-scrollbar flex min-w-0 items-center gap-1 overflow-x-auto border-b px-2 py-1">
+    <div className="thin-scrollbar flex min-w-0 shrink-0 items-center gap-1 overflow-x-auto border-b px-2 py-1">
       {chips.map((chip) => (
         <button
           key={`${chip.icon}:${chip.label}`}
