@@ -873,6 +873,19 @@ export const ICON_MAP: Record<string, IconEntry> = {
       })),
     iconoir: () => import("iconoir-react/regular/Filter"),
   },
+  "filter-x": {
+    lucide: () => import("lucide-react/dist/esm/icons/filter-x.mjs"),
+    tabler: () => import("@tabler/icons-react/dist/esm/icons/IconFilterX.mjs"),
+    phosphor: () =>
+      import("@phosphor-icons/react/dist/ssr/FunnelSimpleX").then((m) => ({
+        default: m.FunnelSimpleX,
+      })),
+    remix: () =>
+      import("@remixicon/react").then((m) => ({
+        default: m.RiFilterOffLine,
+      })),
+    iconoir: () => import("iconoir-react/regular/FilterListCircle"),
+  },
   fingerprint: {
     lucide: () => import("lucide-react/dist/esm/icons/fingerprint-pattern.mjs"),
     tabler: () =>

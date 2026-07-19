@@ -114,6 +114,9 @@ async function buildExportFile(
 
     const before = await scratchSize(scratch);
     const deleted = await deleteExcluded(scratch, opts);
+    // Exported files get shared for debugging; never let plaintext provider
+    // keys ride along. Restoring an export means re-entering keys.
+    await scratch.sql`UPDATE custom_providers SET api_key = ''`;
     await scratch.sql`VACUUM`;
     const after = await scratchSize(scratch);
     logChatDebug("export.db.shrink", { before, after, deletedTables: deleted });

@@ -3,14 +3,10 @@
 import { Icon } from "@/components/ui/icon";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useTranslations } from "next-intl";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { parseAsStringLiteral, useQueryState } from "nuqs";
 import type { ReactNode } from "react";
 
-type TabValue = "overview" | "api" | "benchmarks";
-
-const TAB_VALUES: TabValue[] = ["overview", "api", "benchmarks"];
-const parseTab = (raw: string | null): TabValue =>
-  TAB_VALUES.find((tab) => tab === raw) ?? "overview";
+const TAB_VALUES = ["overview", "api", "benchmarks"] as const;
 
 interface ModelTabsProps {
   overview: ReactNode;
@@ -20,21 +16,13 @@ interface ModelTabsProps {
 
 export function ModelTabs(props: ModelTabsProps) {
   const t = useTranslations();
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
-  const active = parseTab(searchParams.get("tab"));
+  const [active, setActive] = useQueryState(
+    "tab",
+    parseAsStringLiteral(TAB_VALUES).withDefault("overview"),
+  );
 
   function onValueChange(value: string) {
-    const next = parseTab(value);
-    const params = new URLSearchParams(searchParams.toString());
-    if (next === "overview") params.delete("tab");
-    else params.set("tab", next);
-    const query = params.toString();
-    router.replace(query ? `${pathname}?${query}` : pathname, {
-      scroll: false,
-    });
+    setActive(TAB_VALUES.find((tab) => tab === value) ?? "overview");
   }
 
   return (

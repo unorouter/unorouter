@@ -71,10 +71,7 @@ export function GenerateForm() {
 
   const ui = form.watch("ui") ?? {};
   const variantsRaw = ui.variants;
-  const variants =
-    typeof variantsRaw === "number" && [1, 2, 4].includes(variantsRaw)
-      ? (variantsRaw as 1 | 2 | 4)
-      : 1;
+  const variants = ([1, 2, 4] as const).find((v) => v === variantsRaw) ?? 1;
   const totalQuota = dollarsToQuota(descriptor.pricePerCall * variants);
   const params = form.watch("params") ?? {};
 

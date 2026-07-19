@@ -71,6 +71,7 @@ import File from "lucide-react/dist/esm/icons/file.mjs";
 import FileQuestion from "lucide-react/dist/esm/icons/file-question.mjs";
 import FileText from "lucide-react/dist/esm/icons/file-text.mjs";
 import Filter from "lucide-react/dist/esm/icons/filter.mjs";
+import FilterX from "lucide-react/dist/esm/icons/filter-x.mjs";
 import FingerprintPattern from "lucide-react/dist/esm/icons/fingerprint-pattern.mjs";
 import Gauge from "lucide-react/dist/esm/icons/gauge.mjs";
 import Gift from "lucide-react/dist/esm/icons/gift.mjs";
@@ -221,6 +222,7 @@ export const LUCIDE_STATIC: Record<string, IconComponent> = {
   file: File as IconComponent,
   "file-question": FileQuestion as IconComponent,
   filter: Filter as IconComponent,
+  "filter-x": FilterX as IconComponent,
   fingerprint: FingerprintPattern as IconComponent,
   gift: Gift as IconComponent,
   github: GithubIcon as IconComponent,

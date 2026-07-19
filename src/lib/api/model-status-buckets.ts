@@ -6,23 +6,25 @@ import type {
 import type { StatusBarDataDTO } from "@/openapi";
 import { dayjs } from "@/lib/utils/format/date";
 
-const STATUS_TYPES: StatusType[] = [
+const STATUS_TYPES: readonly StatusType[] = [
   "success",
   "degraded",
   "error",
   "info",
   "empty",
 ];
-const EVENT_TYPES: StatusEventType[] = ["incident", "report", "maintenance"];
+const EVENT_TYPES: readonly StatusEventType[] = [
+  "incident",
+  "report",
+  "maintenance",
+];
 
 function toStatus(s: string): StatusType {
-  return (STATUS_TYPES as string[]).includes(s) ? (s as StatusType) : "empty";
+  return STATUS_TYPES.find((v) => v === s) ?? "empty";
 }
 
 function toEventType(s: string): StatusEventType {
-  return (EVENT_TYPES as string[]).includes(s)
-    ? (s as StatusEventType)
-    : "incident";
+  return EVENT_TYPES.find((v) => v === s) ?? "incident";
 }
 
 // The per-model buckets endpoint returns the verbose StatusBarDataDTO[] (nullable

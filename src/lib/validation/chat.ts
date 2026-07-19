@@ -126,35 +126,25 @@ export const webSearchContextSize = t.Union([
 ]);
 export type WebSearchContextSize = Static<typeof webSearchContextSize>;
 
-const REASONING_EFFORTS: ReadonlySet<string> = new Set(
-  unionLiterals(reasoningEffort),
-);
-const WEB_SEARCH_ENGINES: ReadonlySet<string> = new Set(
-  unionLiterals(webSearchEngine),
-);
-const WEB_SEARCH_CONTEXT_SIZES: ReadonlySet<string> = new Set(
-  unionLiterals(webSearchContextSize),
-);
+const REASONING_EFFORTS = unionLiterals(reasoningEffort);
+const WEB_SEARCH_ENGINES = unionLiterals(webSearchEngine);
+const WEB_SEARCH_CONTEXT_SIZES = unionLiterals(webSearchContextSize);
 
 export function narrowReasoningEffort<TFallback extends string>(
   raw: string | null | undefined,
   fallback: TFallback,
 ): ReasoningEffort | TFallback {
-  return raw && REASONING_EFFORTS.has(raw)
-    ? (raw as ReasoningEffort)
-    : fallback;
+  return REASONING_EFFORTS.find((v) => v === raw) ?? fallback;
 }
 export function narrowWebSearchEngine(
   raw: string | null | undefined,
 ): WebSearchEngine {
-  return raw && WEB_SEARCH_ENGINES.has(raw) ? (raw as WebSearchEngine) : "auto";
+  return WEB_SEARCH_ENGINES.find((v) => v === raw) ?? "auto";
 }
 export function narrowWebSearchContextSize(
   raw: string | null | undefined,
 ): WebSearchContextSize {
-  return raw && WEB_SEARCH_CONTEXT_SIZES.has(raw)
-    ? (raw as WebSearchContextSize)
-    : "medium";
+  return WEB_SEARCH_CONTEXT_SIZES.find((v) => v === raw) ?? "medium";
 }
 
 export type ExtraBodyParse =
@@ -179,7 +169,7 @@ export function formReasoningEffortToValue(
   raw: string | null | undefined,
 ): ReasoningEffort | null {
   if (!raw || raw === NONE_VALUE) return null;
-  return REASONING_EFFORTS.has(raw) ? (raw as ReasoningEffort) : null;
+  return REASONING_EFFORTS.find((v) => v === raw) ?? null;
 }
 
 export const streamOverrides = t.Object({

@@ -108,7 +108,7 @@ export function buildModelColumns(opts: {
         return (
           <span className="flex min-w-0 items-center gap-1.5">
             <VendorIcon vendor={m.vendor.name} size={18} />
-            <span className="truncate font-mono text-xs lg:text-sm">
+            <span className="truncate font-mono text-xs lg:text-sm @max-4xl:max-w-56">
               {m.name}
             </span>
             {m.isFree && (
@@ -246,8 +246,9 @@ export function buildModelColumns(opts: {
         />
       ),
       meta: {
-        headerClassName: "hidden lg:table-cell text-right",
-        cellClassName: "hidden lg:table-cell text-right text-muted-foreground",
+        headerClassName: "hidden @4xl:table-cell text-right",
+        cellClassName:
+          "hidden @4xl:table-cell text-right text-muted-foreground",
       },
       cell: ({ row }) => {
         const ts = modelReleaseTs(row.original);

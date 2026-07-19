@@ -5,10 +5,9 @@ import { useRankingsQuery } from "@/hooks/models/rankings-hook";
 import type { RankingPeriod } from "@/lib/api/typebox/rankings";
 import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
-import { usePathname, useRouter } from "next/navigation";
-import { useState, useSyncExternalStore } from "react";
+import { parseAsStringLiteral, useQueryState } from "nuqs";
 import { PulseSection } from "./pulse-section";
-import { isValidPeriod } from "./rankings-helpers";
+import { RANKING_PERIODS } from "./rankings-helpers";
 import { RankingsHero } from "./rankings-hero";
 
 const ModelsSection = dynamic(
@@ -24,42 +23,20 @@ type RankingsProps = {
   initialPeriod: RankingPeriod;
 };
 
-// URL is read via useSyncExternalStore instead of useSearchParams (which
-// would bail the whole page out of the prerendered static shell) or a
-// post-mount effect (setState-in-effect). Server snapshot is null, so the
-// static shell renders initialPeriod and the client corrects after hydration.
-function subscribeToPopstate(callback: () => void) {
-  window.addEventListener("popstate", callback);
-  return () => window.removeEventListener("popstate", callback);
-}
-
-function readUrlPeriod() {
-  return new URLSearchParams(window.location.search).get("period");
-}
+const PERIOD_IDS = RANKING_PERIODS.map((p) => p.id);
 
 export function Rankings(props: RankingsProps) {
   const t = useTranslations();
-  const router = useRouter();
-  const pathname = usePathname();
 
-  const urlPeriod = useSyncExternalStore(
-    subscribeToPopstate,
-    readUrlPeriod,
-    () => null,
+  const [period, handlePeriodChange] = useQueryState(
+    "period",
+    parseAsStringLiteral(PERIOD_IDS).withDefault(
+      props.initialPeriod as (typeof PERIOD_IDS)[number],
+    ),
   );
-  const [override, setOverride] = useState<RankingPeriod | null>(null);
-  const period =
-    override ?? (isValidPeriod(urlPeriod) ? urlPeriod : props.initialPeriod);
 
   const rankingsQuery = useRankingsQuery(period);
   const snapshot = rankingsQuery.data;
-
-  function handlePeriodChange(next: RankingPeriod) {
-    setOverride(next);
-    const params = new URLSearchParams(window.location.search);
-    params.set("period", next);
-    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
-  }
 
   return (
     <div className="relative">
@@ -78,7 +55,12 @@ export function Rankings(props: RankingsProps) {
         }}
       />
       <div className="relative mx-auto w-full max-w-7xl space-y-8 px-3 pt-16 pb-10 sm:px-6 sm:pt-20 sm:pb-12 xl:px-8">
-        <RankingsHero period={period} onPeriodChange={handlePeriodChange} />
+        <RankingsHero
+          period={period}
+          onPeriodChange={(p) =>
+            handlePeriodChange(PERIOD_IDS.find((id) => id === p) ?? "week")
+          }
+        />
 
         {rankingsQuery.isLoading ? (
           <RankingsLoading />

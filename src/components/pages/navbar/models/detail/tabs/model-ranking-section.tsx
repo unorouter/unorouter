@@ -1,11 +1,11 @@
 "use client";
 
 import { useModelRankingQuery } from "@/hooks/models/model-ranking-hook";
-import type { RankingPeriod } from "@/lib/api/typebox/rankings";
 import { getVendorTheme } from "@/lib/config/vendor-registry";
 import { cn } from "@/lib/utils";
 import { formatTokenCount } from "@/lib/utils/format/number";
 import { RANKING_PERIODS } from "@/components/pages/navbar/rankings/rankings-helpers";
+import { parseAsStringLiteral, useQueryState } from "nuqs";
 import {
   CHART_ACCENT,
   CHART_AXIS_TICK,
@@ -16,7 +16,6 @@ import {
 import { SectionHeading } from "../shared/section-heading";
 import { StatusBox } from "../shared/status-box";
 import { useLocale, useTranslations } from "next-intl";
-import { useState } from "react";
 import {
   Bar,
   BarChart,
@@ -35,7 +34,10 @@ type Props = {
 export function ModelRankingSection(props: Props) {
   const t = useTranslations();
   const locale = useLocale();
-  const [period, setPeriod] = useState<RankingPeriod>("week");
+  const [period, setPeriod] = useQueryState(
+    "period",
+    parseAsStringLiteral(RANKING_PERIODS.map((p) => p.id)).withDefault("week"),
+  );
   const query = useModelRankingQuery(props.modelName, period);
   const theme = getVendorTheme(props.vendorName);
   const data = query.data;

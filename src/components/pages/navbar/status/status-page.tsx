@@ -27,7 +27,6 @@ import {
   StatusComponentTitle,
   StatusComponentUptime,
 } from "@/components/ui/status/status-component";
-import type { StatusType } from "@/components/ui/status/status.types";
 import type { StatusBucket } from "@/lib/types";
 import { usePerfMetricsSummaryQuery } from "@/hooks/models/perf-metrics-hook";
 import { usePricingQuery } from "@/hooks/models/pricing-hook";
@@ -42,16 +41,6 @@ import { useTranslations } from "next-intl";
 import { WindowVirtualizer } from "virtua";
 import { StatusBlocksI18n } from "./status-blocks-i18n";
 import { SummaryCards } from "./summary-cards";
-
-type ComponentVariant = Exclude<StatusType, "empty">;
-
-const COMPONENT_VARIANTS = new Set<string>(["success", "degraded", "error"]);
-
-function asVariant(status: string): ComponentVariant {
-  return COMPONENT_VARIANTS.has(status)
-    ? (status as ComponentVariant)
-    : "success";
-}
 
 export function StatusPage() {
   const t = useTranslations();
@@ -234,7 +223,13 @@ export function StatusPage() {
                   </button>
                 ) : (
                   <div key={`row-${item.component.id}`} className="pb-4">
-                    <StatusComponent variant={asVariant(item.component.status)}>
+                    <StatusComponent
+                      variant={
+                        (["success", "degraded", "error"] as const).find(
+                          (v) => v === item.component.status,
+                        ) ?? "success"
+                      }
+                    >
                       <StatusComponentHeader>
                         <StatusComponentHeaderLeft>
                           <StatusComponentIcon />

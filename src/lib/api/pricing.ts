@@ -73,9 +73,7 @@ export type ProcessedModel = ReturnType<typeof processModels>[number];
 
 function getModelType(model: PricingModel): ModelType {
   const tag = (model.tags ?? "").split(",")[0]?.trim().toLowerCase();
-  return (MODEL_TYPES as readonly string[]).includes(tag)
-    ? (tag as ModelType)
-    : "text";
+  return MODEL_TYPES.find((v) => v === tag) ?? "text";
 }
 
 function parseModelMetadata(raw: string | undefined): ModelMetadata {

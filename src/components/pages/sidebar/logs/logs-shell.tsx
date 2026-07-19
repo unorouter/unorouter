@@ -3,7 +3,7 @@
 import { PageContent } from "@/components/layout/sidebar/sidebar-layout";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useTranslations } from "next-intl";
-import { useRouter, useSearchParams } from "next/navigation";
+import { parseAsStringLiteral, useQueryState } from "nuqs";
 import { UsageLogs } from "./common/usage-logs";
 import { DrawingLogs } from "./drawing/drawing-logs";
 import { TaskLogs } from "./task/task-logs";
@@ -13,22 +13,18 @@ const TABS = [
   { value: "drawing", Component: DrawingLogs },
   { value: "task", Component: TaskLogs },
 ] as const;
+const TAB_VALUES = TABS.map((tab) => tab.value);
 type LogsTab = (typeof TABS)[number]["value"];
 
 export function LogsShell() {
   const t = useTranslations();
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const tabParam = searchParams.get("tab");
-  const activeTab: LogsTab =
-    (TABS.find((tab) => tab.value === tabParam)?.value as LogsTab) ?? "common";
+  const [activeTab, setActiveTab] = useQueryState(
+    "tab",
+    parseAsStringLiteral(TAB_VALUES).withDefault("common"),
+  );
 
   function setTab(next: string) {
-    const params = new URLSearchParams(searchParams.toString());
-    if (next === "common") params.delete("tab");
-    else params.set("tab", next);
-    const qs = params.toString();
-    router.replace(qs ? `?${qs}` : "?", { scroll: false });
+    setActiveTab(TAB_VALUES.find((tab) => tab === next) ?? "common");
   }
 
   return (

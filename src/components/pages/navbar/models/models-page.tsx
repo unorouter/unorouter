@@ -28,7 +28,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
-import { Suspense, useEffect } from "react";
+import { useEffect } from "react";
 import { buildModelColumns } from "./browse/model-columns";
 import { ModelListCard } from "./browse/model-list-card";
 
@@ -100,9 +100,7 @@ export function ModelsPage() {
 
   return (
     <div className="w-full pt-20 pb-16">
-      <Suspense>
-        <ModelsUrlSync />
-      </Suspense>
+      <ModelsUrlSync />
       <SidebarProvider
         defaultOpen
         className="relative h-auto min-h-0 overflow-visible"
@@ -110,9 +108,9 @@ export function ModelsPage() {
       >
         <ModelsFilterSidebar models={m.models} />
 
-        <SidebarInset className="max-h-none! overflow-visible bg-transparent px-4 md:px-6">
+        <SidebarInset className="@container max-h-none! min-w-0 overflow-visible bg-transparent px-4 md:px-6">
           <div className="mb-4 flex flex-wrap items-center gap-2">
-            <h1 className="mr-2 text-lg font-semibold tracking-tight">
+            <h1 className="mr-2 basis-full text-lg font-semibold tracking-tight @5xl:basis-auto">
               {t("MODELS.TITLE")}
             </h1>
             <p className="text-muted-foreground sr-only">

@@ -1,4 +1,5 @@
 import "@/lib/utils/format/date";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { ReactNode } from "react";
 
 type Props = {
@@ -6,5 +7,5 @@ type Props = {
 };
 
 export default function RootLayout(props: Props) {
-  return props.children;
+  return <NuqsAdapter>{props.children}</NuqsAdapter>;
 }
