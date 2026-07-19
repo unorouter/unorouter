@@ -5,7 +5,7 @@ import {
   USER_ID_COOKIE,
 } from "@/lib/config/constants";
 import { verifyUserId } from "@/lib/utils/server";
-import { getTokenKey, searchTokens } from "@/openapi";
+import { addToken, getTokenKey, searchTokens } from "@/openapi";
 import { getApiKey } from "@/server/constants";
 import { serverEnv } from "@/server/env";
 import type { Cookie } from "elysia";
@@ -15,12 +15,13 @@ export async function resolveBestKey(
 ): Promise<string | null> {
   const res = await searchTokens({ p: 1, page_size: 100 }, { headers });
   const tokens = res.data?.data?.items;
-  if (!tokens?.length) return null;
+  if (!tokens?.length) return createAutoToken(headers);
 
-  // Group-pinned tokens (billing group locked to one channel-group) are a
-  // routing trap: if that group's channel churns away, every request through
-  // the token dies with get_channel_failed. Prefer unpinned tokens; a pinned
-  // one is only the last resort when the account has nothing else.
+  // Group-pinned tokens (billing group locked to one channel-group) are NEVER
+  // eligible: if that group's channel churns away, every request through the
+  // token dies with get_channel_failed while writing no usage rows. An account
+  // with only pinned tokens gets null here, which falls through to the guest
+  // key instead of a silently broken pin.
   const enabled = tokens.filter((tok) => tok && tok.status === 1);
   const unpinned = (group?: string | null) =>
     !group || group === "auto" || group === "default";
@@ -32,12 +33,40 @@ export async function resolveBestKey(
         !tok.model_limits_enabled,
     ) ??
     enabled.find((tok) => unpinned(tok.group) && !tok.model_limits_enabled) ??
-    enabled.find((tok) => unpinned(tok.group)) ??
-    enabled[0];
+    enabled.find((tok) => unpinned(tok.group));
 
-  if (!best) return null;
+  if (!best) return createAutoToken(headers);
 
   const keyRes = await getTokenKey(String(best.id), { headers });
+  return keyRes.data?.data?.key ?? null;
+}
+
+// Account has no usable unpinned token: mint a fresh auto-group one instead of
+// falling back to a pinned token or the guest key.
+async function createAutoToken(
+  headers: Record<string, string>,
+): Promise<string | null> {
+  const created = await addToken(
+    {
+      name: "UnoRouter Chat",
+      group: "auto",
+      expired_time: -1,
+      remain_quota: 0,
+      unlimited_quota: true,
+      model_limits: "",
+      model_limits_enabled: false,
+      cross_group_retry: false,
+      allow_ips: null,
+    },
+    { headers },
+  );
+  if (!created.data?.success) return null;
+  const res = await searchTokens({ p: 1, page_size: 100 }, { headers });
+  const fresh = res.data?.data?.items?.find(
+    (tok) => tok && tok.status === 1 && tok.name === "UnoRouter Chat",
+  );
+  if (!fresh) return null;
+  const keyRes = await getTokenKey(String(fresh.id), { headers });
   return keyRes.data?.data?.key ?? null;
 }
 
