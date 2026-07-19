@@ -79,6 +79,12 @@ export async function deriveUpstream({ request }: { request: Request }) {
   const requestId = request.headers.get("x-request-id");
   if (requestId) headers["x-request-id"] = requestId;
 
+  const clientIp =
+    request.headers.get("cf-connecting-ip") ??
+    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
+    request.headers.get("x-real-ip");
+  if (clientIp) headers["X-Forwarded-For"] = clientIp;
+
   if (cookieHeader) {
     const parsed = parseCookie(cookieHeader);
     const accessToken = parsed[ACCESS_TOKEN_COOKIE];
