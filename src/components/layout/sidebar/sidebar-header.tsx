@@ -11,6 +11,7 @@ import {
   ChatShareSlot,
 } from "@/components/pages/sidebar/chat/chat-elements";
 import { GenerateActionsMenu } from "@/components/pages/sidebar/playground/playground-actions-menu";
+import { NotifyBell } from "@/components/elements/notify/notify-bell";
 import { LanguageToggle } from "@/components/toggle/language-toggle";
 import { ThemeToggle } from "@/components/toggle/theme-toggle";
 import { Separator } from "@/components/ui/separator";
@@ -41,6 +42,7 @@ export function SidebarHeader(props: SidebarHeaderProps) {
         )}
         {props.navConfig === "chat" && <ChatControls />}
         <div className="ml-auto flex items-center gap-2">
+          <NotifyBell />
           <div className="hidden items-center gap-2 md:flex">
             <LanguageToggle />
             <ThemeToggle />
