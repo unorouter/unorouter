@@ -27,7 +27,9 @@ export const BUCKET_OPTIONS: { value: StatusBucket; hours: number }[] = [
   { value: "1d", hours: 720 },
 ];
 
-const ERROR_RATIO = 0.1;
+// Red "partial outage" banner only when the majority of models are down;
+// below that the chronic free-pool churn reads as degraded, not an outage.
+const ERROR_RATIO = 0.5;
 const DEGRADED_RATIO = 0.1;
 
 function deriveOverallStatus(
