@@ -282,7 +282,7 @@ export function NotifyBell() {
                 </button>
               </div>
               {watchedModels.length > 0 && (
-                <div className="mt-2 flex max-h-48 flex-col overflow-x-hidden overflow-y-auto">
+                <div className="mt-2 flex max-h-72 flex-col overflow-x-hidden overflow-y-auto py-2">
                   {watchedModels.map((model) => {
                     const vendor = vendorOf(model);
                     const isPattern = model.includes("*");
