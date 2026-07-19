@@ -32,6 +32,7 @@ export type SessionNotification = NotifyEvent & { read: boolean };
 
 export type NotifyState = {
   topics: string[];
+  mutedTopics: string[];
   pushEnabled: boolean;
   pushPromptSeen: boolean;
   soundEnabled: boolean;
@@ -39,6 +40,7 @@ export type NotifyState = {
 
 export const INITIAL_NOTIFY_STATE: NotifyState = {
   topics: [],
+  mutedTopics: [],
   pushEnabled: false,
   pushPromptSeen: false,
   soundEnabled: true,
@@ -56,6 +58,20 @@ export const watchedTopicsAtom = atom(
     set(notifyStoreAtom, { ...get(notifyStoreAtom), topics: value });
   },
 );
+
+export const mutedTopicsAtom = atom(
+  (get) =>
+    get(notifyStoreAtom).mutedTopics ?? INITIAL_NOTIFY_STATE.mutedTopics,
+  (get, set, value: string[]) => {
+    set(notifyStoreAtom, { ...get(notifyStoreAtom), mutedTopics: value });
+  },
+);
+
+// Topics that actually subscribe: watched minus per-entry muted.
+export const activeTopicsAtom = atom((get) => {
+  const muted = get(mutedTopicsAtom);
+  return get(watchedTopicsAtom).filter((topic) => !muted.includes(topic));
+});
 
 export const pushEnabledAtom = atom(
   (get) => get(notifyStoreAtom).pushEnabled ?? false,

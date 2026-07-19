@@ -32,7 +32,9 @@ import { cn } from "@/lib/utils";
 import { modelHref } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
 import {
+  activeTopicsAtom,
   modelTopic,
+  mutedTopicsAtom,
   notificationsAtom,
   notifyUnreadCountAtom,
   pushEnabledAtom,
@@ -51,6 +53,8 @@ export function NotifyBell() {
   const [notifications, setNotifications] = useAtom(notificationsAtom);
   const unread = useAtomValue(notifyUnreadCountAtom);
   const [topics, setTopics] = useAtom(watchedTopicsAtom);
+  const [muted, setMuted] = useAtom(mutedTopicsAtom);
+  const activeTopics = useAtomValue(activeTopicsAtom);
   const [pushEnabled, setPushEnabled] = useAtom(pushEnabledAtom);
   const [soundEnabled, setSoundEnabled] = useAtom(soundEnabledAtom);
   const freeWatch = useFreeModelsWatch();
@@ -71,6 +75,14 @@ export function NotifyBell() {
 
   const unwatch = (model: string) => {
     setTopics(topics.filter((topic) => topic !== modelTopic(model)));
+    setMuted(muted.filter((topic) => topic !== modelTopic(model)));
+  };
+
+  const setTopicMuted = (model: string, next: boolean) => {
+    const topic = modelTopic(model);
+    setMuted(
+      next ? [...muted, topic] : muted.filter((entry) => entry !== topic),
+    );
   };
 
   // Free-text watch: any model name is accepted, including models currently
@@ -108,8 +120,8 @@ export function NotifyBell() {
       // null there).
       if (!sub && Notification.permission !== "granted") return;
       setPushEnabled(true);
-      if (sub && topics.length > 0) {
-        await syncPushTopics(topics, locale);
+      if (sub && activeTopics.length > 0) {
+        await syncPushTopics(activeTopics, locale);
         refreshNotifyPresence();
       } else if (!sub && (await pushServiceBroken())) {
         toast.warning(t("NOTIFY.PUSH_SERVICE_ERROR"));
@@ -274,6 +286,7 @@ export function NotifyBell() {
                   {watchedModels.map((model) => {
                     const vendor = vendorOf(model);
                     const isPattern = model.includes("*");
+                    const isMuted = muted.includes(modelTopic(model));
                     return (
                       <div
                         key={model}
@@ -282,7 +295,10 @@ export function NotifyBell() {
                         <button
                           type="button"
                           disabled={isPattern}
-                          className="hover:text-primary flex min-w-0 flex-1 items-center gap-1.5 text-left disabled:pointer-events-none"
+                          className={cn(
+                            "hover:text-primary flex min-w-0 flex-1 items-center gap-1.5 text-left disabled:pointer-events-none",
+                            isMuted && "opacity-50",
+                          )}
                           onClick={() => {
                             setOpen(false);
                             router.push(modelHref(model, vendor));
@@ -300,7 +316,13 @@ export function NotifyBell() {
                             {model}
                           </span>
                         </button>
-                        <CopyButton text={model} analyticsLabel="model_name" />
+                        <Switch
+                          size="sm"
+                          checked={!isMuted}
+                          onCheckedChange={(next) =>
+                            setTopicMuted(model, !next)
+                          }
+                        />
                         <button
                           type="button"
                           aria-label={t("NOTIFY.UNWATCH")}

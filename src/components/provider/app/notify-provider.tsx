@@ -14,11 +14,11 @@ import {
   syncNotifyTopics,
 } from "@/lib/notify/ws-client";
 import {
+  activeTopicsAtom,
   notificationsAtom,
   notifyUnreadCountAtom,
   pushEnabledAtom,
   soundEnabledAtom,
-  watchedTopicsAtom,
 } from "@/store/notify-store";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useLocale, useTranslations } from "next-intl";
@@ -32,7 +32,7 @@ import { toast } from "sonner";
 export function NotifyProvider() {
   const t = useTranslations();
   const locale = useLocale();
-  const topics = useAtomValue(watchedTopicsAtom);
+  const topics = useAtomValue(activeTopicsAtom);
   const [pushEnabled, setPushEnabled] = useAtom(pushEnabledAtom);
   const soundEnabled = useAtomValue(soundEnabledAtom);
   const setNotifications = useSetAtom(notificationsAtom);
