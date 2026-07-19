@@ -15,6 +15,7 @@ import type { ChatUIMessage } from "@/lib/types";
 import { uid } from "@/lib/utils/base";
 import { classifyStreamError, extractErrorDetail } from "@/lib/utils/client";
 import { analytics } from "@/lib/analytics";
+import { prefillThinkMiddleware } from "@/lib/ai/chat/prefill-think-middleware";
 import {
   prepareChatRequest,
   type PreparedChatRequest,
@@ -136,10 +137,14 @@ async function runClientStream(args: {
   const result = streamText({
     model: wrapLanguageModel({
       model: sdk.chatModel(args.model),
-      middleware: extractReasoningMiddleware({
-        tagName: "think",
-        startWithReasoning: prefillOpensThink(prepared.messagesForUpstream),
-      }),
+      // Array order: last wraps the model first, so prefillThinkMiddleware sees
+      // the raw upstream stream and the tag extractor post-processes its output.
+      middleware: [
+        extractReasoningMiddleware({ tagName: "think" }),
+        ...(prefillOpensThink(prepared.messagesForUpstream)
+          ? [prefillThinkMiddleware()]
+          : []),
+      ],
     }),
     messages: await convertToModelMessages(prepared.messagesForUpstream),
     system: prepared.effectiveSystem,
