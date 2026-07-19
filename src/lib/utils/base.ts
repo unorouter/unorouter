@@ -1,4 +1,4 @@
-import { msg, UID_ALPHABET } from "@/lib/config/constants";
+import { msg, UID_ALPHABET } from "../config/constants";
 import type {
   ExcludeVoid,
   ExtractData,

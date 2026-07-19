@@ -1,4 +1,4 @@
-import { clamp } from "@/lib/utils/base";
+import { clamp } from "../base";
 export const QUOTA_PER_DOLLAR = 500000;
 
 export function quotaToDollars(quota: number): number {

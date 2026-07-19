@@ -21,6 +21,7 @@ export async function forwardChatCompletions(args: {
   userId: number;
   body: WireBody;
   requestId: string | null;
+  group?: string | null;
 }): Promise<Response> {
   const model = typeof args.body.model === "string" ? args.body.model : "";
 
@@ -49,7 +50,9 @@ export async function forwardChatCompletions(args: {
     }
   }
 
-  const group = args.body.group;
+  // The sdk transport builds the wire body itself, so the billing-group pin
+  // rides the X-Group request header; body.group covers legacy callers.
+  const group = args.body.group ?? args.group;
   const wire = { ...args.body };
   delete wire.group;
 

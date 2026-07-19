@@ -33,7 +33,12 @@ import {
 import type { TokenizerRef } from "@/lib/ai/chat/tokenizer";
 import { CHAT_PROVIDER_NAME } from "@/lib/config/constants";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
-import { chatModelAtom, chatStore, localUserIdAtom } from "@/store/chat-store";
+import {
+  chatGroupAtom,
+  chatModelAtom,
+  chatStore,
+  localUserIdAtom,
+} from "@/store/chat-store";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { isMediaType, type ProcessedModel } from "@/lib/api/pricing";
@@ -159,10 +164,14 @@ async function runClientStream(args: {
     });
   }
 
+  // The sdk builds the wire body itself, so the billing-group pin can't ride
+  // body.group like the legacy transport; carry it as X-Group instead.
+  const group = chatStore.get(chatGroupAtom);
   const sdk = createOpenAICompatible({
     name: CHAT_PROVIDER_NAME,
     baseURL: args.baseURL,
     apiKey: args.apiKey,
+    ...(group && group !== "auto" ? { headers: { "X-Group": group } } : {}),
     ...(hasBodyMutation(prepared.bodyMutations)
       ? { fetch: makeBodyMutationFetch(prepared.bodyMutations) }
       : {}),

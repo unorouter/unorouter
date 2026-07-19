@@ -78,6 +78,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
         userId,
         body,
         requestId: request.headers.get("x-request-id"),
+        group: request.headers.get("x-group"),
       });
     },
     { body: forwardBody },
