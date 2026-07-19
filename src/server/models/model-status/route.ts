@@ -13,7 +13,6 @@ import {
 } from "@/openapi";
 import { Elysia } from "elysia";
 import { ADMIN_HEADERS } from "@/server/constants";
-import { PUBLIC_CACHE } from "@/lib/config/constants";
 
 // Snapshots refresh once a minute upstream, so a short revalidate collapses
 // concurrent public reads onto one aggregation without serving stale bars.
@@ -56,7 +55,7 @@ export const modelStatusRoute = new Elysia({ prefix: "/model-status" })
   .get("/components", async () => {
     const res = await getModelStatusComponents({
       headers: ADMIN_HEADERS,
-      ...PUBLIC_CACHE,
+      ...STATUS_CACHE,
     });
     return unwrap(res).data;
   });
