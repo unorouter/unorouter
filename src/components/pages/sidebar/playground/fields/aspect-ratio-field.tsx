@@ -1,5 +1,7 @@
 "use client";
 
+import { clamp } from "@/lib/utils/base";
+
 import { useTranslations } from "next-intl";
 
 import { Input } from "@/components/ui/input";
@@ -56,12 +58,12 @@ export function AspectRatioField(props: {
 
   const onWidth = (w: number) => {
     if (props.disabled) return;
-    const clamped = Math.min(max, Math.max(min, Math.round(w)));
+    const clamped = clamp(Math.round(w), min, max);
     props.onChange({ width: clamped, height: props.height });
   };
   const onHeight = (h: number) => {
     if (props.disabled) return;
-    const clamped = Math.min(max, Math.max(min, Math.round(h)));
+    const clamped = clamp(Math.round(h), min, max);
     props.onChange({ width: props.width, height: clamped });
   };
 

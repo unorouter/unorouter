@@ -2,21 +2,12 @@
 
 import { normalizeBaseUrl } from "@/lib/ai/chat/custom-provider-id";
 import type { InlayImage } from "@/lib/ai/chat/pipeline/deps";
-import { uid } from "@/lib/utils/base";
+import { base64ToUint8, uid, uint8ToBase64 } from "@/lib/utils/base";
 
 type OaiImageResponse = {
   data?: Array<{ b64_json?: string; url?: string }>;
   error?: { message?: string };
 };
-
-function bytesToBase64(bytes: Uint8Array): string {
-  let bin = "";
-  const CHUNK = 0x8000;
-  for (let i = 0; i < bytes.length; i += CHUNK) {
-    bin += String.fromCharCode(...bytes.subarray(i, i + CHUNK));
-  }
-  return btoa(bin);
-}
 
 function dataUriToBlob(dataUri: string): Blob {
   const comma = dataUri.indexOf(",");
@@ -25,9 +16,7 @@ function dataUriToBlob(dataUri: string): Blob {
       .slice(0, comma)
       .match(/data:([^;]+)/)?.[1]
       ?.trim() || "image/png";
-  const bin = atob(dataUri.slice(comma + 1));
-  const bytes = new Uint8Array(bin.length);
-  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  const bytes = base64ToUint8(dataUri.slice(comma + 1));
   return new Blob([bytes], { type: mime });
 }
 
@@ -65,7 +54,7 @@ async function extractImage(res: Response): Promise<InlayImage> {
     const buf = new Uint8Array(await imgRes.arrayBuffer());
     return {
       id: uid(),
-      dataBase64: bytesToBase64(buf),
+      dataBase64: uint8ToBase64(buf),
       mimeType:
         imgRes.headers.get("content-type")?.split(";")[0]?.trim() ||
         "image/png",

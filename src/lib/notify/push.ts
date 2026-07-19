@@ -1,5 +1,6 @@
 "use client";
 
+import { base64ToUint8 } from "@/lib/utils/base";
 import { env } from "@/lib/config/env";
 
 export function pushSupported(): boolean {
@@ -37,10 +38,7 @@ export function pushAvailableHere(): boolean {
 function urlBase64ToUint8Array(base64: string): Uint8Array {
   const padding = "=".repeat((4 - (base64.length % 4)) % 4);
   const normalized = (base64 + padding).replace(/-/g, "+").replace(/_/g, "/");
-  const raw = window.atob(normalized);
-  const output = new Uint8Array(raw.length);
-  for (let i = 0; i < raw.length; i++) output[i] = raw.charCodeAt(i);
-  return output;
+  return base64ToUint8(normalized);
 }
 
 export async function sha256Hex(value: string): Promise<string> {

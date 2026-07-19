@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/refs */
 "use client";
 
+import { sleep } from "@/lib/utils/base";
 import {
   ChatMockView,
   DEFAULT_MOCK_STATE,
@@ -32,7 +33,6 @@ export function ChatMockAnimated(props: { data: MockData }) {
     const menuLen = data.menu.length;
     let alive = true;
 
-    const sleep = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
     const waitVisible = async () => {
       while (alive && !(visibleRef.current && !document.hidden)) {
         await sleep(200);

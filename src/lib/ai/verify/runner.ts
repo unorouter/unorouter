@@ -1,3 +1,4 @@
+import { sleep } from "@/lib/utils/base";
 import { echoesNonce, makeNonce } from "./nonce";
 import { runHandshake } from "./handshake";
 import { buildProbes, type ProbeDef } from "./probes";
@@ -16,8 +17,6 @@ const NONCE_MISMATCH_RETRIES = 2;
 const NONCE_MISMATCH_BACKOFF_MS = 500;
 const DEFAULT_TIMEOUT_MS = 30_000;
 const RESPONSE_CAP = 2000;
-
-const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 const cap = (text: string) =>
   text.length > RESPONSE_CAP ? `${text.slice(0, RESPONSE_CAP)}...` : text;

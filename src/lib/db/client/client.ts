@@ -1,4 +1,5 @@
 "use client";
+import { sleep } from "@/lib/utils/base";
 
 import { GUEST_USER_ID } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
@@ -53,7 +54,6 @@ function isRecoverable(err: unknown): boolean {
 
 const RETRIES = 7;
 const MAX_BACKOFF = 1500;
-const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 async function openMigratedSql(
   dbPath: string,

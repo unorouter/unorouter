@@ -4,7 +4,7 @@ import { analytics } from "@/lib/analytics";
 import { env } from "@/lib/config/env";
 import type { TwoFAMode } from "@/lib/types";
 import { Icon } from "@/components/ui/icon";
-import { copyToClipboard } from "@/lib/utils/base";
+import { arrayBufferToBase64, copyToClipboard } from "@/lib/utils/base";
 import {
   use2FAStatusQuery,
   useGenerateAccessTokenMutation,
@@ -91,17 +91,11 @@ export function SecurityCard() {
 
       const credentialData = {
         id: attestationResponse.id,
-        rawId: btoa(
-          String.fromCharCode(...new Uint8Array(attestationResponse.rawId)),
-        ),
+        rawId: arrayBufferToBase64(attestationResponse.rawId),
         type: attestationResponse.type as "public-key",
         response: {
-          attestationObject: btoa(
-            String.fromCharCode(...new Uint8Array(response.attestationObject)),
-          ),
-          clientDataJSON: btoa(
-            String.fromCharCode(...new Uint8Array(response.clientDataJSON)),
-          ),
+          attestationObject: arrayBufferToBase64(response.attestationObject),
+          clientDataJSON: arrayBufferToBase64(response.clientDataJSON),
         },
       };
 

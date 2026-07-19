@@ -1,4 +1,5 @@
 "use client";
+import { sleep } from "@/lib/utils/base";
 
 import type { ChatContext } from "@/lib/validation/chat";
 import { walkActiveBranch } from "@/lib/ai/chat/messages";
@@ -21,7 +22,7 @@ export async function buildChatContextFromLocalDb(
 ): Promise<ChatContext | undefined> {
   let settings = await readLocalConversationSettings(userId, convId);
   for (let attempt = 0; !settings && attempt < 5; attempt++) {
-    await new Promise((r) => setTimeout(r, 40));
+    await sleep(40);
     settings = await readLocalConversationSettings(userId, convId);
   }
   if (!settings) return undefined;
@@ -45,7 +46,7 @@ export async function buildChatContextFromLocalDb(
     attempt < 10;
     attempt++
   ) {
-    await new Promise((r) => setTimeout(r, 40));
+    await sleep(40);
     bindings = await readLocalConversationBindings(userId, convId);
   }
 

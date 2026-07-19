@@ -1,5 +1,7 @@
 "use client";
 
+import { clamp } from "@/lib/utils/base";
+
 import { Icon } from "@/components/ui/icon";
 import {
   Table,
@@ -133,7 +135,7 @@ function ScoreBar(props: {
   theme: Theme;
   accent?: boolean;
 }) {
-  const pct = Math.max(0, Math.min(100, props.score));
+  const pct = clamp(props.score, 0, 100);
   return (
     <div className="flex items-center gap-3">
       <span

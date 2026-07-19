@@ -1,5 +1,5 @@
 import { calcString, seededRand } from "@/lib/ai/chat/calc";
-import { capitalize } from "@/lib/utils/base";
+import { base64ToUint8, capitalize, clamp } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
 
 export type MacroScope = {
@@ -652,7 +652,7 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
     case "file": {
       const b64 = args[1]?.trim() ?? "";
       try {
-        const bytes = Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
+        const bytes = base64ToUint8(b64);
         return new TextDecoder().decode(bytes);
       } catch {
         return "";
@@ -706,7 +706,7 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
     case "cnl":
     case "cnewline": {
       if (args.length === 0) return "\\n";
-      const n = Math.min(Math.max(1, Number(arg0) || 1), MAX_MACRO_OUTPUT);
+      const n = clamp(Number(arg0) || 1, 1, MAX_MACRO_OUTPUT);
       return "\\n".repeat(n);
     }
     case "tex":

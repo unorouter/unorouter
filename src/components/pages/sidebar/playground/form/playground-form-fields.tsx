@@ -1,5 +1,7 @@
 "use client";
 
+import { clamp } from "@/lib/utils/base";
+
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import {
@@ -135,7 +137,6 @@ export function SliderWithInput(props: {
   label: string;
   onChange: (v: number) => void;
 }) {
-  const clamp = (n: number) => Math.min(props.max, Math.max(props.min, n));
   return (
     <div className="flex items-center gap-3">
       <Slider
@@ -164,7 +165,8 @@ export function SliderWithInput(props: {
         }}
         onBlur={(e) => {
           const parsed = Number(e.target.value);
-          if (Number.isFinite(parsed)) props.onChange(clamp(parsed));
+          if (Number.isFinite(parsed))
+            props.onChange(clamp(parsed, props.min, props.max));
         }}
         className="w-20 shrink-0 text-center"
       />

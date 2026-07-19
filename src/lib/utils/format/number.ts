@@ -1,3 +1,4 @@
+import { clamp } from "@/lib/utils/base";
 export const QUOTA_PER_DOLLAR = 500000;
 
 export function quotaToDollars(quota: number): number {
@@ -34,7 +35,7 @@ export function parsePercent(progress: string | undefined | null): number {
   if (!progress) return 0;
   const m = progress.match(/(\d+)%/);
   if (!m) return 0;
-  return Math.min(100, Math.max(0, parseInt(m[1], 10)));
+  return clamp(parseInt(m[1], 10), 0, 100);
 }
 
 export function formatPriceCompact(price: number): string {

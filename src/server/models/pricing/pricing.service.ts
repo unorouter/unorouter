@@ -5,7 +5,7 @@ import {
 } from "@/lib/api/pricing-cache";
 import { processPlans } from "@/lib/api/subscription";
 import { PUBLIC_CACHE } from "@/lib/config/constants";
-import { unwrap } from "@/lib/utils/base";
+import { sleep, unwrap } from "@/lib/utils/base";
 import { getPricing, getSubscriptionPlans, getTopUpInfo } from "@/openapi";
 import { ADMIN_HEADERS } from "@/server/constants";
 import { snapshotModelCatalog } from "./model-catalog.service";
@@ -20,7 +20,7 @@ async function withRetry<T>(fn: () => Promise<T>, attempts = 3): Promise<T> {
       return await fn();
     } catch (error) {
       lastError = error;
-      await new Promise((r) => setTimeout(r, 250 * (i + 1)));
+      await sleep(250 * (i + 1));
     }
   }
   throw lastError;

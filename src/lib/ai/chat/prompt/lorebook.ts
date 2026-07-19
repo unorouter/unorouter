@@ -1,7 +1,7 @@
 import { countTokens } from "@/lib/ai/chat/tokenizer";
 import { MAX_RECURSIVE_LOREBOOK_PASSES } from "@/lib/config/constants";
 import type { LbEntry, LbRow } from "@/lib/types";
-import { escapeRegex } from "@/lib/utils/base";
+import { clamp, escapeRegex } from "@/lib/utils/base";
 import { seededRand } from "@/lib/ai/chat/calc";
 
 function stripComments(text: string): string {
@@ -105,8 +105,7 @@ export function parseDecorators(content: string): EntryDecorators {
     const num = Number(arg);
     switch (name) {
       case "probability":
-        if (Number.isFinite(num))
-          out.probability = Math.max(0, Math.min(100, num));
+        if (Number.isFinite(num)) out.probability = clamp(num, 0, 100);
         break;
       case "priority":
         if (Number.isFinite(num)) out.priority = num;

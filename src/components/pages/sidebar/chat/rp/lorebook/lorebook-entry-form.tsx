@@ -25,7 +25,7 @@ import {
 } from "@/hooks/ai/rp/lorebooks";
 import { useRpForm } from "@/hooks/ui/use-rp-form";
 import type { TranslationKey } from "@/lib/config/constants";
-import { csvToArray } from "@/lib/utils/base";
+import { clamp, csvToArray } from "@/lib/utils/base";
 import { formDefaults } from "@/lib/validation/helpers";
 import {
   LOREBOOK_INJECTION_ROLES,
@@ -57,13 +57,13 @@ function splitDecorators(content: string): {
     matched = false;
     const prob = rest.match(/^@@probability[ \t]+(\d+)[ \t]*\r?\n?/i);
     if (prob) {
-      probability = Math.max(0, Math.min(100, Number(prob[1])));
+      probability = clamp(Number(prob[1]), 0, 100);
       rest = rest.slice(prob[0].length);
       matched = true;
     }
     const scan = rest.match(/^@@scan_depth[ \t]+(\d+)[ \t]*\r?\n?/i);
     if (scan) {
-      scanDepth = Math.max(0, Math.min(100, Number(scan[1])));
+      scanDepth = clamp(Number(scan[1]), 0, 100);
       rest = rest.slice(scan[0].length);
       matched = true;
     }
@@ -77,9 +77,9 @@ function embedDecorators(
   scanDepth: number,
 ): string {
   const lines: string[] = [];
-  const s = Math.max(0, Math.min(100, Math.round(scanDepth)));
+  const s = clamp(Math.round(scanDepth), 0, 100);
   if (s > 0) lines.push(`@@scan_depth ${s}`);
-  const p = Math.max(0, Math.min(100, Math.round(probability)));
+  const p = clamp(Math.round(probability), 0, 100);
   if (p < 100) lines.push(`@@probability ${p}`);
   return lines.length > 0 ? `${lines.join("\n")}\n${content}` : content;
 }
