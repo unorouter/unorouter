@@ -35,6 +35,10 @@ x-unorouter: &unorouter
     start_period: 40s
   env_file:
     - .env
+  # Runtime-only (NOT .env: that file is baked into the image and the build
+  # container cannot reach the overlay, which fails SSG pricing fetches).
+  environment:
+    INTERNAL_API_URL: http://newapi_newapi-slave:3000
   networks:
     - proxy
     - newapi-overlay
