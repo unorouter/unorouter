@@ -5260,11 +5260,10 @@
       "SUBTITLE": "Apa arti akhiran :free, bagaimana penggunaan ditagih, dan mengapa sebuah model terkadang menghilang.",
       "H_CATALOG": "Katalog",
       "P_CATALOG_1": "Halaman Model mencantumkan setiap model dengan jendela konteks, harga per token, endpoint yang didukung, dan filter kemampuan seperti pemanggilan alat dan input gambar. Setiap model memiliki halamannya sendiri dengan contoh kode siap salin-tempel. Tidak setiap model gratis mendukung pemanggilan alat atau visi, jadi periksa lencana kemampuan sebelum menyambungkannya ke agen pengodean.",
-      "P_CATALOG_2": "Model berpindah dari satu penyedia ke penyedia lain demi kestabilan, jadi model yang sama bisa menampilkan harga yang sedikit berbeda seiring waktu. Periksa harganya di halaman model jika biaya penting bagimu. Rankings menunjukkan model gratis mana yang benar-benar andal berdasarkan hasil uji komunitas, dan Status memantau kesehatan penyedia secara langsung.",
+      "P_CATALOG_2": "Rankings menunjukkan model gratis mana yang benar-benar andal berdasarkan hasil uji komunitas, dan Status memantau kesehatan penyedia secara langsung.",
       "H_FREE_VS_PAID": "Model gratis vs berbayar",
       "H_DISCOUNTS": "Diskon",
-      "P_DISCOUNTS_1": "Setiap model punya tingkat ketersediaan dan satu atau beberapa penyedia di belakangnya. Buka halaman sebuah model dan lihat harga grup untuk melihat harga tiap penyedia yang menjadi tujuan perutean.",
-      "P_DISCOUNTS_2": "Model dengan ketersediaan dan aksesibilitas tinggi mendapat diskon otomatis, sering kali besar. Ketika sebuah penyedia berhenti bekerja, model beralih ke penyedia yang lebih stabil, yang bisa sedikit mengubah diskon.",
+      "P_DISCOUNTS_1": "Setiap model dirutekan lewat satu atau beberapa grup penyedia, masing-masing dengan harganya; tabel Group Pricing di halaman model mencantumkan semuanya. Ketersediaan tinggi menghasilkan diskon otomatis, dan failover ke grup lain bisa menggeser harga efektif.",
       "P_FREE_VS_PAID_1": "Model gratis membawa akhiran :free, misalnya",
       "P_FREE_VS_PAID_2": "Model :free hanya diarahkan ke penyedia upstream gratis dan tidak pernah menyentuh saldo Anda. Nama dasar yang sama tanpa akhiran adalah versi berbayar: stabil, tanpa batas, dan ditagih per token. Keduanya bisa berdampingan, jadi beralih dari gratis ke berbayar adalah perubahan satu string.",
       "P_FREE_VS_PAID_3": "Model gratis gratis karena suatu alasan: penyedia upstream yang menetapkan batas laju, bukan kami. Harapkan respons 429 pada jam sibuk, dan gunakan model berbayar saat Anda membutuhkan keandalan.",
@@ -5275,9 +5274,10 @@
       "P_PROMPT_CACHE_1": "Untuk model yang mendukung caching prompt (Claude dan lainnya), prefiks prompt yang berulang ditagih dengan tarif input tercache yang lebih rendah, sementara menulis entri cache baru sedikit lebih mahal daripada token input biasa (sekitar 1,25x).",
       "P_PROMPT_CACHE_2": "Caching bersifat otomatis. Beban kerja dengan prompt sistem yang panjang dan stabil (agen, preset RP) paling diuntungkan, tanpa perlu konfigurasi.",
       "H_AVAILABILITY": "Ketersediaan & failover",
-      "P_AVAILABILITY_1": "Ketika sebuah model gratis memiliki beberapa penyedia upstream, permintaan otomatis failover ke penyedia berikutnya jika satu penyedia mencapai batas lajunya. Model penyedia tunggal tidak bisa failover, jadi tersendat sampai batasnya diatur ulang.",
-      "P_AVAILABILITY_2": "Setiap model berjalan melalui satu atau beberapa saluran penyedia. Saluran yang mencapai batas lajunya dinonaktifkan dan disembunyikan sementara, saluran itu tidak ditampilkan sebagai opsi selama pemulihannya. Selama satu saluran masih aktif, model tetap bekerja melaluinya. Hanya ketika setiap saluran untuk sebuah model terkena batas laju, model itu sendiri menghilang dari katalog.",
-      "P_AVAILABILITY_3": "Model yang lenyap dari daftar adalah hal yang wajar saat beban tinggi, bukan salah ketik atau gangguan. Model itu muncul kembali dengan sendirinya begitu sebuah saluran lolos pemeriksaan kesehatan, biasanya dalam hitungan menit. Jika nama model yang tersimpan berhenti dikenali, periksa halaman Model: model itu sedang pulih atau telah diganti namanya."
+      "P_AVAILABILITY_1": "Permintaan otomatis beralih ke grup penyedia berikutnya saat satu grup mencapai batas atau tumbang. Model baru hilang dari katalog jika semua kanal yang melayaninya mati.",
+      "P_AVAILABILITY_2": "Model yang hilang saat beban tinggi itu wajar, bukan gangguan: ia kembali sendiri begitu satu kanal pulih, biasanya dalam hitungan menit.",
+      "P_DISCOUNTS_PIN": "Untuk mengunci model ke grup tertentu beserta tarifnya, lihat",
+      "P_AVAILABILITY_WATCH": "Agar diberi tahu begitu ia kembali, pantau di"
     },
     "NOTIFICATIONS": {
       "META": {
@@ -5318,7 +5318,8 @@
       "R_ADDED": "Model baru",
       "R_ADDED_WHEN": "Model masuk katalog; sakelar Model gratis baru otomatis mencakup setiap model :free",
       "R_REMOVED": "Model dihapus",
-      "R_REMOVED_WHEN": "Model hilang sepenuhnya dari katalog"
+      "R_REMOVED_WHEN": "Model hilang sepenuhnya dari katalog",
+      "P_SEE_PINNING": "Peringatan harga mengikuti grup penyedia termurah. Untuk mengunci model ke grup tertentu, lihat"
     },
     "GROUP_PINNING": {
       "META": {
@@ -5343,7 +5344,8 @@
       "P_ROUTING_2": "Header X-Group eksplisit pada permintaan tetap menang atas sematan, dan model tanpa sematan tetap memakai perutean termurah yang tersedia.",
       "H_ERRORS": "Saat grup tersemat tumbang",
       "P_ERRORS_1": "Jika semua grup tersemat sebuah model tumbang sementara penyedia lain masih melayaninya, permintaan gagal dengan galat terarah alih-alih pesan sibuk generik:",
-      "P_ERRORS_2": "Perluas atau lepas sematan pada kunci, atau coba lagi nanti. Modelnya sendiri masih aktif."
+      "P_ERRORS_2": "Perluas atau lepas sematan pada kunci, atau coba lagi nanti. Modelnya sendiri masih aktif.",
+      "P_SEE_NOTIFY": "Padukan sematan dengan pantauan agar tahu saat grupnya berubah harga atau tumbang, lihat"
     },
     "ERRORS_AND_RATE_LIMITS": {
       "META": {
@@ -5453,7 +5455,8 @@
       "P_CHARGES_2": "Permintaan yang gagal tidak ditagih. Penahanan awal diambil saat permintaan dimulai dan dikembalikan jika bermasalah.",
       "P_CHARGES_3": "402 berarti batas kunci API sendiri sudah habis; 403 dengan pesan kuota tidak mencukupi berarti saldo akun kosong.",
       "H_LOGS": "Mengaudit penggunaan",
-      "P_LOGS_1": "Halaman Log mencantumkan setiap permintaan dengan model, jumlah token, biaya persis, dan id permintaan. Jika suatu biaya terlihat salah, id permintaan itulah yang dibutuhkan dukungan."
+      "P_LOGS_1": "Halaman Log mencantumkan setiap permintaan dengan model, jumlah token, biaya persis, dan id permintaan. Jika suatu biaya terlihat salah, id permintaan itulah yang dibutuhkan dukungan.",
+      "P_KEYS_PIN": "Kunci juga bisa menyematkan model ke grup penyedia tertentu beserta tarifnya, lihat"
     },
     "DISCORD_REWARDS": {
       "META": {

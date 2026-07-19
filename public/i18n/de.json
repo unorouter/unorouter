@@ -5260,11 +5260,10 @@
       "SUBTITLE": "Was das Suffix :free bedeutet, wie die Nutzung abgerechnet wird und warum ein Modell manchmal verschwindet.",
       "H_CATALOG": "Der Katalog",
       "P_CATALOG_1": "Die Modelle-Seite listet jedes Modell mit Kontextfenster, Preisen pro Token, unterstützten Endpunkten und Fähigkeitsfiltern wie Tool-Aufrufen und Bildeingabe auf. Jedes Modell hat seine eigene Seite mit Copy-and-paste-Codebeispielen. Nicht jedes kostenlose Modell unterstützt Tool-Aufrufe oder Vision, prüfe also die Fähigkeits-Badges, bevor du eines in einen Coding-Agenten einbindest.",
-      "P_CATALOG_2": "Modelle rotieren aus Stabilitätsgründen von Anbieter zu Anbieter, daher kann dasselbe Modell im Lauf der Zeit einen leicht abweichenden Preis anzeigen. Prüfe den Preis auf der Modellseite, wenn die Kosten wichtig sind. Die Rankings zeigen, welche kostenlosen Modelle tatsächlich liefern, basierend auf Community-Testergebnissen, und Status verfolgt die Live-Verfügbarkeit der Anbieter.",
+      "P_CATALOG_2": "Rankings zeigt anhand von Community-Testergebnissen, welche kostenlosen Modelle wirklich liefern, und Status verfolgt die Live-Gesundheit der Anbieter.",
       "H_FREE_VS_PAID": "Kostenlose vs. kostenpflichtige Modelle",
       "H_DISCOUNTS": "Rabatte",
-      "P_DISCOUNTS_1": "Jedes Modell hat eine Verfügbarkeitsrate und einen oder mehrere Anbieter im Hintergrund. Öffne die Seite eines Modells und sieh dir die Gruppenpreise an, um die Preise der einzelnen Anbieter zu sehen, über die es geroutet wird.",
-      "P_DISCOUNTS_2": "Modelle mit hoher Verfügbarkeit und Erreichbarkeit erhalten automatische Rabatte, oft sehr hohe. Wenn ein Anbieter ausfällt, wechselt das Modell zu einem stabileren, was den Rabatt leicht verändern kann.",
+      "P_DISCOUNTS_1": "Jedes Modell läuft über eine oder mehrere Anbietergruppen mit jeweils eigenem Preis; die Group-Pricing-Tabelle auf der Modellseite listet sie alle. Hohe Verfügbarkeit bringt automatische Rabatte, und ein Failover in eine andere Gruppe kann den effektiven Preis verschieben.",
       "P_FREE_VS_PAID_1": "Kostenlose Modelle tragen ein Suffix :free, zum Beispiel",
       "P_FREE_VS_PAID_2": "Ein :free-Modell wird nur an kostenlose Upstream-Anbieter geleitet und berührt niemals dein Guthaben. Derselbe Basisname ohne Suffix ist die kostenpflichtige Version: stabil, ohne Obergrenze und pro Token abgerechnet. Beide können nebeneinander existieren, sodass der Wechsel von kostenlos zu kostenpflichtig eine Änderung an einer einzigen Zeichenkette ist.",
       "P_FREE_VS_PAID_3": "Kostenlose Modelle sind aus gutem Grund kostenlos: die Upstream-Anbieter legen die Ratenlimits fest, nicht wir. Erwarte 429-Antworten zu Stoßzeiten und nutze ein kostenpflichtiges Modell, wenn du Zuverlässigkeit brauchst.",
@@ -5275,9 +5274,10 @@
       "P_PROMPT_CACHE_1": "Bei Modellen, die Prompt-Caching unterstützen (Claude und andere), werden wiederholte Prompt-Präfixe zu einem reduzierten Tarif für zwischengespeicherte Eingaben abgerechnet, während das Schreiben eines neuen Cache-Eintrags etwas mehr als ein normales Eingabe-Token kostet (etwa 1,25x).",
       "P_PROMPT_CACHE_2": "Das Caching erfolgt automatisch. Arbeitslasten mit langen, stabilen System-Prompts (Agenten, RP-Presets) profitieren am meisten, ganz ohne Konfiguration.",
       "H_AVAILABILITY": "Verfügbarkeit & Failover",
-      "P_AVAILABILITY_1": "Wenn ein kostenloses Modell mehrere Upstream-Anbieter hat, wechseln Anfragen automatisch zum nächsten, sobald ein Anbieter sein Ratenlimit erreicht. Modelle mit nur einem Anbieter können nicht wechseln, sie stocken also, bis das Limit zurückgesetzt wird.",
-      "P_AVAILABILITY_2": "Jedes Modell läuft über einen oder mehrere Anbieterkanäle. Ein Kanal, der sein Ratenlimit erreicht, wird vorübergehend deaktiviert und ausgeblendet, er wird während seiner Erholung nicht als Option angezeigt. Solange noch ein Kanal verfügbar ist, funktioniert das Modell weiterhin über diesen. Erst wenn jeder Kanal eines Modells ratenlimitiert ist, verschwindet das Modell selbst aus dem Katalog.",
-      "P_AVAILABILITY_3": "Dass ein Modell aus der Liste verschwindet, ist unter Last zu erwarten, kein Tippfehler und kein Ausfall. Es erscheint von selbst wieder, sobald ein Kanal eine Zustandsprüfung besteht, meist innerhalb von Minuten. Wenn sich ein gespeicherter Modellname nicht mehr auflösen lässt, prüfe die Modelle-Seite: Entweder erholt sich das Modell gerade oder es wurde umbenannt."
+      "P_AVAILABILITY_1": "Anfragen weichen automatisch auf die nächste Anbietergruppe aus, wenn eine ihr Limit erreicht oder ausfällt. Erst wenn jeder Kanal eines Modells weg ist, verschwindet das Modell aus dem Katalog.",
+      "P_AVAILABILITY_2": "Dass ein Modell unter Last verschwindet, ist normal und kein Ausfall: Es taucht von selbst wieder auf, sobald ein Kanal sich erholt, meist binnen Minuten.",
+      "P_DISCOUNTS_PIN": "Wie du ein Modell auf bestimmte Gruppen und deren Tarife festlegst, zeigt",
+      "P_AVAILABILITY_WATCH": "Um sofort benachrichtigt zu werden, wenn es zurück ist, beobachte es unter"
     },
     "NOTIFICATIONS": {
       "META": {
@@ -5318,7 +5318,8 @@
       "R_ADDED": "Neues Modell",
       "R_ADDED_WHEN": "Ein Modell kommt in den Katalog; der Schalter „Neue kostenlose Modelle“ deckt automatisch jedes :free-Modell ab",
       "R_REMOVED": "Modell entfernt",
-      "R_REMOVED_WHEN": "Ein Modell verschwindet vollständig aus dem Katalog"
+      "R_REMOVED_WHEN": "Ein Modell verschwindet vollständig aus dem Katalog",
+      "P_SEE_PINNING": "Preisalarme folgen der günstigsten Anbietergruppe. Wie du ein Modell stattdessen auf feste Gruppen legst, zeigt"
     },
     "GROUP_PINNING": {
       "META": {
@@ -5343,7 +5344,8 @@
       "P_ROUTING_2": "Ein expliziter X-Group-Header einer Anfrage schlägt das Pinning weiterhin, und ungepinnte Modelle behalten das Günstigst-Routing.",
       "H_ERRORS": "Wenn gepinnte Gruppen ausfallen",
       "P_ERRORS_1": "Sind alle gepinnten Gruppen eines Modells ausgefallen, während andere Anbieter es weiter bedienen, schlagen Anfragen mit einem gezielten Fehler statt einer generischen Meldung fehl:",
-      "P_ERRORS_2": "Erweitere oder entferne das Pinning am Schlüssel oder versuche es später erneut. Das Modell selbst läuft weiter."
+      "P_ERRORS_2": "Erweitere oder entferne das Pinning am Schlüssel oder versuche es später erneut. Das Modell selbst läuft weiter.",
+      "P_SEE_NOTIFY": "Kombiniere ein Pinning mit einer Beobachtung, um von Preisänderungen oder Ausfällen der Gruppen zu erfahren, siehe"
     },
     "ERRORS_AND_RATE_LIMITS": {
       "META": {
@@ -5453,7 +5455,8 @@
       "P_CHARGES_2": "Fehlgeschlagene Anfragen werden nicht abgerechnet. Zu Beginn einer Anfrage wird eine Vorabreservierung vorgenommen und erstattet, wenn sie fehlschlägt.",
       "P_CHARGES_3": "402 bedeutet, dass das eigene Limit des API-Schlüssels aufgebraucht ist; 403 mit einer Nachricht über unzureichendes Kontingent bedeutet, dass das Kontoguthaben leer ist.",
       "H_LOGS": "Nutzung prüfen",
-      "P_LOGS_1": "Die Logs-Seite listet jede Anfrage mit Modell, Token-Zahlen, genauen Kosten und der Request-ID auf. Falls eine Abbuchung jemals falsch aussieht, ist die Request-ID das, was der Support benötigt."
+      "P_LOGS_1": "Die Logs-Seite listet jede Anfrage mit Modell, Token-Zahlen, genauen Kosten und der Request-ID auf. Falls eine Abbuchung jemals falsch aussieht, ist die Request-ID das, was der Support benötigt.",
+      "P_KEYS_PIN": "Ein Schlüssel kann Modelle auch auf bestimmte Anbietergruppen und deren Tarife pinnen, siehe"
     },
     "DISCORD_REWARDS": {
       "META": {

@@ -1,4 +1,5 @@
 import { CodeBlock } from "@/components/elements/code/code-block";
+import { Link } from "@/i18n/navigation";
 import Image from "next/image";
 
 export function DocSection(props: {
@@ -50,6 +51,20 @@ export function DocTable(props: {
         </tbody>
       </table>
     </div>
+  );
+}
+
+export function DocPageLink(props: {
+  slug: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <Link
+      href={{ pathname: "/docs/platform/[slug]", params: { slug: props.slug } }}
+      className="text-primary hover:underline"
+    >
+      {props.children}
+    </Link>
   );
 }
 

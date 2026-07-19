@@ -1,6 +1,7 @@
 import {
   DocImage,
   DocKbd,
+  DocPageLink,
   DocSection,
   DocTable,
 } from "@/components/pages/docs/doc-parts";
@@ -70,6 +71,12 @@ export async function NotificationsContent() {
             [k("R_REMOVED"), k("R_REMOVED_WHEN")],
           ]}
         />
+        <p>
+          {k("P_SEE_PINNING")}{" "}
+          <DocPageLink slug="group-pinning">
+            {t("DOCS_PLATFORM.GROUP_PINNING.TITLE")}
+          </DocPageLink>
+        </p>
       </DocSection>
     </>
   );

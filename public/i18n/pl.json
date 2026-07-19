@@ -5260,11 +5260,10 @@
       "SUBTITLE": "Co oznacza przyrostek :free, jak wyceniane jest użycie i dlaczego model czasami znika.",
       "H_CATALOG": "Katalog",
       "P_CATALOG_1": "Strona Modele wymienia każdy model z oknem kontekstu, cenami za token, obsługiwanymi punktami końcowymi i filtrami możliwości, takimi jak wywoływanie narzędzi i wejście obrazu. Każdy model ma własną stronę z gotowymi do skopiowania przykładami kodu. Nie każdy darmowy model obsługuje wywoływanie narzędzi lub wizję, więc sprawdź odznaki możliwości, zanim podłączysz jeden do agenta programistycznego.",
-      "P_CATALOG_2": "Modele przechodzą od dostawcy do dostawcy dla stabilności, więc ten sam model może z czasem pokazywać nieco inną cenę. Sprawdź cenę na stronie modelu, jeśli koszt ma znaczenie. Rankings pokazuje, które darmowe modele naprawdę się sprawdzają, na podstawie wyników testów społeczności, a Status na bieżąco śledzi kondycję dostawców.",
+      "P_CATALOG_2": "Rankings pokazuje na podstawie testów społeczności, które darmowe modele naprawdę działają, a Status śledzi na żywo zdrowie dostawców.",
       "H_FREE_VS_PAID": "Modele darmowe kontra płatne",
       "H_DISCOUNTS": "Zniżki",
-      "P_DISCOUNTS_1": "Każdy model ma wskaźnik dostępności i jednego lub kilku dostawców w tle. Otwórz stronę modelu i sprawdź ceny grupowe, aby zobaczyć ceny poszczególnych dostawców, między którymi jest kierowany ruch.",
-      "P_DISCOUNTS_2": "Modele o wysokiej dostępności i osiągalności otrzymują automatyczne zniżki, często znaczne. Gdy dostawca przestaje działać, model przełącza się na stabilniejszego, co może nieznacznie zmienić zniżkę.",
+      "P_DISCOUNTS_1": "Każdy model przechodzi przez jedną lub więcej grup dostawców, każda z własną ceną; tabela Group Pricing na stronie modelu wymienia je wszystkie. Wysoka dostępność daje automatyczne rabaty, a przełączenie na inną grupę może przesunąć efektywną cenę.",
       "P_FREE_VS_PAID_1": "Darmowe modele mają przyrostek :free, na przykład",
       "P_FREE_VS_PAID_2": "Model :free jest kierowany wyłącznie do darmowych dostawców upstream i nigdy nie narusza twojego salda. Ta sama nazwa bazowa bez przyrostka to wersja płatna: stabilna, bez limitu i rozliczana za token. Obie mogą istnieć obok siebie, więc przejście z darmowego na płatny to zmiana jednego ciągu znaków.",
       "P_FREE_VS_PAID_3": "Darmowe modele są darmowe nie bez powodu: to dostawcy upstream ustalają limity szybkości, nie my. Spodziewaj się odpowiedzi 429 w godzinach szczytu i używaj modelu płatnego, gdy potrzebujesz niezawodności.",
@@ -5275,9 +5274,10 @@
       "P_PROMPT_CACHE_1": "W przypadku modeli obsługujących buforowanie promptów (Claude i inne) powtarzające się prefiksy promptów są rozliczane po obniżonej stawce za wejście z cache, podczas gdy zapis nowego wpisu do cache kosztuje nieco więcej niż zwykły token wejściowy (około 1,25x).",
       "P_PROMPT_CACHE_2": "Buforowanie jest automatyczne. Najwięcej zyskują obciążenia z długimi, stabilnymi promptami systemowymi (agenci, presety RP), bez potrzeby konfiguracji.",
       "H_AVAILABILITY": "Dostępność i przełączanie awaryjne",
-      "P_AVAILABILITY_1": "Gdy darmowy model ma kilku dostawców upstream, żądania automatycznie przełączają się na następnego, jeśli jeden dostawca osiągnie swój limit szybkości. Modele z jednym dostawcą nie mogą się przełączyć, więc zatrzymują się do zresetowania limitu.",
-      "P_AVAILABILITY_2": "Każdy model działa przez jeden lub więcej kanałów dostawcy. Kanał, który osiągnie swój limit szybkości, zostaje tymczasowo wyłączony i ukryty, nie jest pokazywany jako opcja, dopóki się nie odbuduje. Dopóki działa choć jeden kanał, model nadal pracuje przez niego. Dopiero gdy wszystkie kanały danego modelu są ograniczone limitem szybkości, sam model znika z katalogu.",
-      "P_AVAILABILITY_3": "Zniknięcie modelu z listy jest oczekiwane przy dużym obciążeniu, to nie literówka ani awaria. Model pojawia się z powrotem samoczynnie, gdy tylko kanał przejdzie sprawdzenie kondycji, zwykle w ciągu kilku minut. Jeśli zapisana nazwa modelu przestaje się rozwiązywać, sprawdź stronę Modele: model albo się odbudowuje, albo został przemianowany."
+      "P_AVAILABILITY_1": "Żądania automatycznie przechodzą do następnej grupy dostawców, gdy jedna osiągnie limit lub padnie. Model znika z katalogu dopiero wtedy, gdy wszystkie jego kanały są wyłączone.",
+      "P_AVAILABILITY_2": "Znikanie modelu pod obciążeniem jest oczekiwane i nie jest awarią: wraca sam, gdy tylko kanał się odbuduje, zwykle w kilka minut.",
+      "P_DISCOUNTS_PIN": "Jak zablokować model na konkretnych grupach i ich stawkach, zobacz",
+      "P_AVAILABILITY_WATCH": "Aby dostać powiadomienie w chwili powrotu, obserwuj go w"
     },
     "NOTIFICATIONS": {
       "META": {
@@ -5318,7 +5318,8 @@
       "R_ADDED": "Nowy model",
       "R_ADDED_WHEN": "Model trafia do katalogu; przełącznik Nowe darmowe modele automatycznie obejmuje każdy model :free",
       "R_REMOVED": "Model usunięty",
-      "R_REMOVED_WHEN": "Model całkowicie znika z katalogu"
+      "R_REMOVED_WHEN": "Model całkowicie znika z katalogu",
+      "P_SEE_PINNING": "Alerty cenowe śledzą najtańszą grupę dostawców. Jak zamiast tego zablokować model na konkretnych grupach, zobacz"
     },
     "GROUP_PINNING": {
       "META": {
@@ -5343,7 +5344,8 @@
       "P_ROUTING_2": "Jawny nagłówek X-Group w żądaniu nadal wygrywa z przypięciem, a nieprzypięte modele zachowują trasowanie do najtańszego dostępnego.",
       "H_ERRORS": "Gdy przypięte grupy padną",
       "P_ERRORS_1": "Jeśli wszystkie przypięte grupy modelu padły, a inni dostawcy wciąż go obsługują, żądania kończą się celowanym błędem zamiast ogólnego komunikatu:",
-      "P_ERRORS_2": "Poszerz lub usuń przypięcie na kluczu albo spróbuj później. Sam model nadal działa."
+      "P_ERRORS_2": "Poszerz lub usuń przypięcie na kluczu albo spróbuj później. Sam model nadal działa.",
+      "P_SEE_NOTIFY": "Połącz przypięcie z obserwacją, by wiedzieć, kiedy grupy zmieniają cenę lub padają, zobacz"
     },
     "ERRORS_AND_RATE_LIMITS": {
       "META": {
@@ -5453,7 +5455,8 @@
       "P_CHARGES_2": "Nieudane żądania nie są naliczane. Wstępna blokada jest pobierana, gdy żądanie się rozpoczyna, i zwracana, jeśli zwróci błąd.",
       "P_CHARGES_3": "402 oznacza, że własny limit klucza API został wykorzystany; 403 z komunikatem o niewystarczającym limicie oznacza, że saldo konta jest puste.",
       "H_LOGS": "Audyt użycia",
-      "P_LOGS_1": "Strona Logi wymienia każde żądanie z modelem, liczbą tokenów, dokładnym kosztem i identyfikatorem żądania. Jeśli opłata kiedykolwiek wygląda niepoprawnie, identyfikator żądania jest tym, czego potrzebuje pomoc techniczna."
+      "P_LOGS_1": "Strona Logi wymienia każde żądanie z modelem, liczbą tokenów, dokładnym kosztem i identyfikatorem żądania. Jeśli opłata kiedykolwiek wygląda niepoprawnie, identyfikator żądania jest tym, czego potrzebuje pomoc techniczna.",
+      "P_KEYS_PIN": "Klucz może też przypiąć modele do konkretnych grup dostawców i ich stawek, zobacz"
     },
     "DISCORD_REWARDS": {
       "META": {

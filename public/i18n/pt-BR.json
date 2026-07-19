@@ -5260,11 +5260,10 @@
       "SUBTITLE": "O que o sufixo :free significa, como o uso é cobrado e por que um modelo às vezes desaparece.",
       "H_CATALOG": "O catálogo",
       "P_CATALOG_1": "A página de Modelos lista cada modelo com janela de contexto, preços por token, endpoints suportados e filtros de capacidade como chamadas de ferramentas e entrada de imagem. Cada modelo tem sua própria página com exemplos de código prontos para copiar e colar. Nem todo modelo gratuito suporta chamadas de ferramentas ou visão, então verifique os selos de capacidade antes de conectar um a um agente de programação.",
-      "P_CATALOG_2": "Os modelos alternam de provedor para provedor em busca de estabilidade, então o mesmo modelo pode mostrar um preço ligeiramente diferente ao longo do tempo. Confira o preço na página do modelo se o custo for importante. O Rankings mostra quais modelos gratuitos realmente entregam, com base nos resultados dos testes da comunidade, e o Status acompanha ao vivo a saúde dos provedores.",
+      "P_CATALOG_2": "Rankings mostra quais modelos gratuitos entregam de verdade, com base em testes da comunidade, e Status acompanha a saúde dos provedores ao vivo.",
       "H_FREE_VS_PAID": "Modelos gratuitos ou pagos",
       "H_DISCOUNTS": "Descontos",
-      "P_DISCOUNTS_1": "Cada modelo tem uma taxa de disponibilidade e um ou mais provedores por trás. Abra a página de um modelo e veja o preço por grupo para conferir os preços de cada provedor pelos quais ele é roteado.",
-      "P_DISCOUNTS_2": "Modelos com alta disponibilidade e acessibilidade ganham descontos automáticos, muitas vezes altos. Quando um provedor para de funcionar, o modelo migra para outro mais estável, o que pode mudar levemente o desconto.",
+      "P_DISCOUNTS_1": "Cada modelo roteia por um ou mais grupos de provedores, cada um com seu preço; a tabela Group Pricing na página do modelo lista todos. Alta disponibilidade rende descontos automáticos, e um failover para outro grupo pode mudar o preço efetivo.",
       "P_FREE_VS_PAID_1": "Modelos gratuitos carregam um sufixo :free, por exemplo",
       "P_FREE_VS_PAID_2": "Um modelo :free é roteado somente para provedores upstream gratuitos e nunca toca seu saldo. O mesmo nome base sem o sufixo é a versão paga: estável, sem limite e cobrada por token. Ambos podem coexistir, então mudar de gratuito para pago é uma alteração de uma única string.",
       "P_FREE_VS_PAID_3": "Modelos gratuitos são gratuitos por um motivo: são os provedores upstream que definem os limites de taxa, não nós. Espere respostas 429 nos horários de pico e use um modelo pago quando precisar de confiabilidade.",
@@ -5275,9 +5274,10 @@
       "P_PROMPT_CACHE_1": "Para modelos que suportam cache de prompt (Claude e outros), prefixos de prompt repetidos são cobrados a uma tarifa reduzida de entrada em cache, enquanto gravar uma nova entrada de cache custa um pouco mais do que um token de entrada normal (cerca de 1,25x).",
       "P_PROMPT_CACHE_2": "O cache é automático. Cargas de trabalho com prompts de sistema longos e estáveis (agentes, presets de RP) são as que mais se beneficiam, sem nenhuma configuração.",
       "H_AVAILABILITY": "Disponibilidade e failover",
-      "P_AVAILABILITY_1": "Quando um modelo gratuito tem vários provedores upstream, as requisições fazem failover automaticamente para o próximo se um provedor atingir seu limite de taxa. Modelos de provedor único não podem fazer failover, então travam até o limite ser reiniciado.",
-      "P_AVAILABILITY_2": "Cada modelo funciona por meio de um ou mais canais de provedor. Um canal que atinge seu limite de taxa é temporariamente desativado e ocultado, ele não é mostrado como opção enquanto se recupera. Enquanto ao menos um canal continuar ativo, o modelo segue funcionando por meio dele. Somente quando todos os canais de um modelo estão limitados por taxa é que o próprio modelo desaparece do catálogo.",
-      "P_AVAILABILITY_3": "Um modelo sumir da lista é esperado sob carga, não é um erro de digitação nem uma interrupção. Ele reaparece sozinho assim que um canal passa em uma verificação de saúde, geralmente em questão de minutos. Se um nome de modelo salvo parar de resolver, verifique a página de Modelos: ou ele está se recuperando ou foi renomeado."
+      "P_AVAILABILITY_1": "As requisições fazem failover automático para o próximo grupo quando um atinge o limite ou cai. Só quando todos os canais de um modelo estão fora ele some do catálogo.",
+      "P_AVAILABILITY_2": "Um modelo sumir sob carga é esperado, não uma pane: ele reaparece sozinho quando um canal se recupera, geralmente em minutos.",
+      "P_DISCOUNTS_PIN": "Para travar um modelo em grupos específicos e suas tarifas, veja",
+      "P_AVAILABILITY_WATCH": "Para ser avisado assim que voltar, acompanhe-o em"
     },
     "NOTIFICATIONS": {
       "META": {
@@ -5318,7 +5318,8 @@
       "R_ADDED": "Modelo novo",
       "R_ADDED_WHEN": "Um modelo entra no catálogo; o botão Novos modelos gratuitos cobre automaticamente cada modelo :free",
       "R_REMOVED": "Modelo removido",
-      "R_REMOVED_WHEN": "Um modelo sai completamente do catálogo"
+      "R_REMOVED_WHEN": "Um modelo sai completamente do catálogo",
+      "P_SEE_PINNING": "Alertas de preço seguem o grupo mais barato. Para travar um modelo em grupos específicos, veja"
     },
     "GROUP_PINNING": {
       "META": {
@@ -5343,7 +5344,8 @@
       "P_ROUTING_2": "Um cabeçalho X-Group explícito na requisição ainda vence a fixação, e modelos não fixados mantêm o roteamento pelo mais barato disponível.",
       "H_ERRORS": "Quando os grupos fixados caem",
       "P_ERRORS_1": "Se todos os grupos fixados de um modelo caírem enquanto outros provedores ainda o servem, as requisições falham com um erro direcionado em vez de uma mensagem genérica:",
-      "P_ERRORS_2": "Amplie ou remova a fixação da chave, ou tente de novo mais tarde. O modelo em si continua no ar."
+      "P_ERRORS_2": "Amplie ou remova a fixação da chave, ou tente de novo mais tarde. O modelo em si continua no ar.",
+      "P_SEE_NOTIFY": "Combine uma fixação com um acompanhamento para saber quando os grupos mudam de preço ou caem, veja"
     },
     "ERRORS_AND_RATE_LIMITS": {
       "META": {
@@ -5453,7 +5455,8 @@
       "P_CHARGES_2": "Requisições que falharam não são cobradas. Uma pré-reserva é feita quando uma requisição começa e reembolsada se ela der erro.",
       "P_CHARGES_3": "402 significa que o limite próprio da chave de API se esgotou; 403 com uma mensagem de cota insuficiente significa que o saldo da conta está vazio.",
       "H_LOGS": "Auditar o uso",
-      "P_LOGS_1": "A página de Logs lista cada requisição com o modelo, a contagem de tokens, o custo exato e o id de requisição. Se uma cobrança parecer errada, o id de requisição é o que o suporte precisa."
+      "P_LOGS_1": "A página de Logs lista cada requisição com o modelo, a contagem de tokens, o custo exato e o id de requisição. Se uma cobrança parecer errada, o id de requisição é o que o suporte precisa.",
+      "P_KEYS_PIN": "Uma chave também pode fixar modelos em grupos de provedores específicos e suas tarifas, veja"
     },
     "DISCORD_REWARDS": {
       "META": {

@@ -1,4 +1,8 @@
-import { DocKbd, DocSection } from "@/components/pages/docs/doc-parts";
+import {
+  DocKbd,
+  DocPageLink,
+  DocSection,
+} from "@/components/pages/docs/doc-parts";
 import { APP_VALUES } from "@/lib/config/constants";
 import { getTranslations } from "next-intl/server";
 import { platformDocKey } from "../platform-doc-template";
@@ -24,7 +28,12 @@ export async function ModelsAndPricingContent() {
       </DocSection>
       <DocSection id="discounts" title={k("H_DISCOUNTS")}>
         <p>{k("P_DISCOUNTS_1")}</p>
-        <p>{k("P_DISCOUNTS_2")}</p>
+        <p>
+          {k("P_DISCOUNTS_PIN")}{" "}
+          <DocPageLink slug="group-pinning">
+            {t("DOCS_PLATFORM.GROUP_PINNING.TITLE")}
+          </DocPageLink>
+        </p>
       </DocSection>
       <DocSection id="pricing" title={k("H_PRICING")}>
         <p>{k("P_PRICING_1")}</p>
@@ -37,7 +46,12 @@ export async function ModelsAndPricingContent() {
       <DocSection id="availability" title={k("H_AVAILABILITY")}>
         <p>{k("P_AVAILABILITY_1")}</p>
         <p>{k("P_AVAILABILITY_2")}</p>
-        <p>{k("P_AVAILABILITY_3")}</p>
+        <p>
+          {k("P_AVAILABILITY_WATCH")}{" "}
+          <DocPageLink slug="notifications">
+            {t("DOCS_PLATFORM.NOTIFICATIONS.TITLE")}
+          </DocPageLink>
+        </p>
       </DocSection>
     </>
   );

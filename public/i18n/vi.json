@@ -5260,11 +5260,10 @@
       "SUBTITLE": "Hậu tố :free nghĩa là gì, việc sử dụng được tính giá thế nào và tại sao đôi khi một mô hình biến mất.",
       "H_CATALOG": "Danh mục",
       "P_CATALOG_1": "Trang Mô hình liệt kê mọi mô hình với cửa sổ ngữ cảnh, giá theo token, các endpoint được hỗ trợ và bộ lọc năng lực như gọi công cụ và đầu vào hình ảnh. Mỗi mô hình có trang riêng với các ví dụ mã sẵn sàng sao chép-dán. Không phải mọi mô hình miễn phí đều hỗ trợ gọi công cụ hoặc thị giác, vì vậy hãy kiểm tra huy hiệu năng lực trước khi kết nối một mô hình vào tác nhân lập trình.",
-      "P_CATALOG_2": "Các mô hình luân chuyển từ nhà cung cấp này sang nhà cung cấp khác để đảm bảo ổn định, nên cùng một mô hình có thể hiển thị mức giá hơi khác theo thời gian. Hãy kiểm tra giá trên trang mô hình nếu bạn quan tâm đến chi phí. Rankings cho biết mô hình miễn phí nào thực sự đáng dùng dựa trên kết quả kiểm thử của cộng đồng, còn Status theo dõi trực tiếp tình trạng của các nhà cung cấp.",
+      "P_CATALOG_2": "Rankings cho biết mô hình miễn phí nào thực sự dùng được, dựa trên kết quả kiểm thử của cộng đồng, còn Status theo dõi sức khỏe nhà cung cấp theo thời gian thực.",
       "H_FREE_VS_PAID": "Mô hình miễn phí và trả phí",
       "H_DISCOUNTS": "Giảm giá",
-      "P_DISCOUNTS_1": "Mỗi mô hình có một tỷ lệ khả dụng và một hoặc nhiều nhà cung cấp phía sau. Mở trang của một mô hình và xem giá theo nhóm để thấy giá của từng nhà cung cấp mà nó định tuyến qua.",
-      "P_DISCOUNTS_2": "Các mô hình có mức khả dụng và khả năng truy cập cao được giảm giá tự động, thường là khá nhiều. Khi một nhà cung cấp ngừng hoạt động, mô hình chuyển sang nhà cung cấp ổn định hơn, điều này có thể thay đổi mức giảm giá đôi chút.",
+      "P_DISCOUNTS_1": "Mỗi mô hình được định tuyến qua một hoặc nhiều nhóm nhà cung cấp, mỗi nhóm một giá; bảng Group Pricing trên trang mô hình liệt kê tất cả. Độ khả dụng cao mang lại giảm giá tự động, và chuyển dự phòng sang nhóm khác có thể làm thay đổi giá thực tế.",
       "P_FREE_VS_PAID_1": "Các mô hình miễn phí mang hậu tố :free, ví dụ",
       "P_FREE_VS_PAID_2": "Một mô hình :free chỉ định tuyến tới các nhà cung cấp upstream miễn phí và không bao giờ chạm vào số dư của bạn. Cùng tên cơ sở nhưng không có hậu tố là phiên bản trả phí: ổn định, không giới hạn và tính phí theo token. Cả hai có thể tồn tại song song, nên chuyển từ miễn phí sang trả phí chỉ là thay đổi một chuỗi.",
       "P_FREE_VS_PAID_3": "Mô hình miễn phí miễn phí có lý do: chính các nhà cung cấp upstream đặt giới hạn tốc độ, không phải chúng tôi. Hãy mong đợi phản hồi 429 vào giờ cao điểm, và dùng mô hình trả phí khi bạn cần độ tin cậy.",
@@ -5275,9 +5274,10 @@
       "P_PROMPT_CACHE_1": "Đối với các mô hình hỗ trợ bộ nhớ đệm prompt (Claude và những mô hình khác), các tiền tố prompt lặp lại được tính theo mức phí đầu vào đã lưu trong bộ nhớ đệm giảm hơn, trong khi việc ghi một mục cache mới tốn hơn một chút so với token đầu vào thông thường (khoảng 1,25x).",
       "P_PROMPT_CACHE_2": "Bộ nhớ đệm là tự động. Các khối lượng công việc với prompt hệ thống dài và ổn định (tác nhân, preset RP) được hưởng lợi nhiều nhất, không cần cấu hình gì.",
       "H_AVAILABILITY": "Tính khả dụng & chuyển đổi dự phòng",
-      "P_AVAILABILITY_1": "Khi một mô hình miễn phí có nhiều nhà cung cấp upstream, các yêu cầu tự động chuyển đổi dự phòng sang nhà cung cấp kế tiếp nếu một nhà cung cấp chạm giới hạn tốc độ. Các mô hình một nhà cung cấp không thể chuyển đổi dự phòng, nên chúng đình trệ cho đến khi giới hạn được đặt lại.",
-      "P_AVAILABILITY_2": "Mỗi mô hình chạy qua một hoặc nhiều kênh nhà cung cấp. Một kênh chạm giới hạn tốc độ của nó sẽ bị vô hiệu hóa và ẩn tạm thời, nó không được hiển thị như một lựa chọn trong khi đang phục hồi. Miễn là còn một kênh hoạt động, mô hình vẫn tiếp tục làm việc qua kênh đó. Chỉ khi mọi kênh của một mô hình đều bị giới hạn tốc độ thì bản thân mô hình mới biến mất khỏi danh mục.",
-      "P_AVAILABILITY_3": "Việc một mô hình biến mất khỏi danh sách là điều bình thường khi tải cao, không phải lỗi đánh máy hay sự cố ngừng hoạt động. Nó tự xuất hiện lại ngay khi một kênh vượt qua lần kiểm tra tình trạng, thường trong vòng vài phút. Nếu một tên mô hình đã lưu ngừng phân giải, hãy kiểm tra trang Mô hình: nó đang phục hồi hoặc đã được đổi tên."
+      "P_AVAILABILITY_1": "Yêu cầu tự động chuyển sang nhóm nhà cung cấp kế tiếp khi một nhóm chạm giới hạn hoặc ngừng hoạt động. Chỉ khi mọi kênh phục vụ mô hình đều mất, mô hình mới biến khỏi danh mục.",
+      "P_AVAILABILITY_2": "Mô hình biến mất khi tải cao là điều bình thường, không phải sự cố: nó tự quay lại khi một kênh hồi phục, thường trong vài phút.",
+      "P_DISCOUNTS_PIN": "Để khóa mô hình vào các nhóm cụ thể và mức giá của chúng, xem",
+      "P_AVAILABILITY_WATCH": "Để được báo ngay khi nó quay lại, hãy theo dõi nó trong"
     },
     "NOTIFICATIONS": {
       "META": {
@@ -5318,7 +5318,8 @@
       "R_ADDED": "Mô hình mới",
       "R_ADDED_WHEN": "Một mô hình vào danh mục; công tắc Mô hình miễn phí mới tự động bao trọn mọi mô hình :free",
       "R_REMOVED": "Mô hình bị gỡ",
-      "R_REMOVED_WHEN": "Một mô hình biến mất hoàn toàn khỏi danh mục"
+      "R_REMOVED_WHEN": "Một mô hình biến mất hoàn toàn khỏi danh mục",
+      "P_SEE_PINNING": "Cảnh báo giá bám theo nhóm nhà cung cấp rẻ nhất. Để khóa mô hình vào các nhóm cụ thể, xem"
     },
     "GROUP_PINNING": {
       "META": {
@@ -5343,7 +5344,8 @@
       "P_ROUTING_2": "Header X-Group tường minh trên yêu cầu vẫn thắng ghim, và mô hình chưa ghim giữ định tuyến rẻ nhất hiện có.",
       "H_ERRORS": "Khi các nhóm đã ghim ngừng hoạt động",
       "P_ERRORS_1": "Nếu mọi nhóm đã ghim của một mô hình đều ngừng hoạt động trong khi nhà cung cấp khác vẫn phục vụ nó, yêu cầu sẽ thất bại với lỗi nhắm đích thay vì thông báo bận chung chung:",
-      "P_ERRORS_2": "Mở rộng hoặc gỡ ghim trên khóa, hoặc thử lại sau. Bản thân mô hình vẫn đang hoạt động."
+      "P_ERRORS_2": "Mở rộng hoặc gỡ ghim trên khóa, hoặc thử lại sau. Bản thân mô hình vẫn đang hoạt động.",
+      "P_SEE_NOTIFY": "Kết hợp ghim với theo dõi để biết khi các nhóm đổi giá hoặc ngừng hoạt động, xem"
     },
     "ERRORS_AND_RATE_LIMITS": {
       "META": {
@@ -5453,7 +5455,8 @@
       "P_CHARGES_2": "Các yêu cầu thất bại không bị tính phí. Một khoản giữ trước được lấy khi một yêu cầu bắt đầu và được hoàn lại nếu nó báo lỗi.",
       "P_CHARGES_3": "402 nghĩa là giới hạn riêng của khóa API đã dùng hết; 403 với thông báo hạn mức không đủ nghĩa là số dư tài khoản trống.",
       "H_LOGS": "Kiểm tra việc sử dụng",
-      "P_LOGS_1": "Trang Nhật ký liệt kê mọi yêu cầu với mô hình, số lượng token, chi phí chính xác và id yêu cầu. Nếu một khoản phí nào đó trông có vẻ sai, id yêu cầu là thứ bộ phận hỗ trợ cần."
+      "P_LOGS_1": "Trang Nhật ký liệt kê mọi yêu cầu với mô hình, số lượng token, chi phí chính xác và id yêu cầu. Nếu một khoản phí nào đó trông có vẻ sai, id yêu cầu là thứ bộ phận hỗ trợ cần.",
+      "P_KEYS_PIN": "Khóa cũng có thể ghim mô hình vào các nhóm nhà cung cấp cụ thể và mức giá của chúng, xem"
     },
     "DISCORD_REWARDS": {
       "META": {

@@ -5260,11 +5260,10 @@
       "SUBTITLE": "Cosa significa il suffisso :free, come viene addebitato l'uso e perché a volte un modello scompare.",
       "H_CATALOG": "Il catalogo",
       "P_CATALOG_1": "La pagina Modelli elenca ogni modello con finestra di contesto, prezzi per token, endpoint supportati e filtri di capacità come le chiamate agli strumenti e l'input di immagini. Ogni modello ha una propria pagina con esempi di codice pronti da copiare e incollare. Non tutti i modelli gratuiti supportano le chiamate agli strumenti o la visione, quindi controlla i badge di capacità prima di collegarne uno a un agente di programmazione.",
-      "P_CATALOG_2": "I modelli ruotano da un provider all'altro per garantire stabilità, quindi lo stesso modello può mostrare un prezzo leggermente diverso nel tempo. Controlla il prezzo nella pagina del modello se il costo è importante. Rankings mostra quali modelli gratuiti mantengono davvero le promesse, in base ai risultati dei test della community, e Stato monitora in tempo reale lo stato dei provider.",
+      "P_CATALOG_2": "Rankings mostra quali modelli gratuiti rendono davvero, in base ai test della community, e Status segue in diretta la salute dei provider.",
       "H_FREE_VS_PAID": "Modelli gratuiti o a pagamento",
       "H_DISCOUNTS": "Sconti",
-      "P_DISCOUNTS_1": "Ogni modello ha un tasso di disponibilità e uno o più provider alle spalle. Apri la pagina di un modello e guarda i prezzi per gruppo per vedere i prezzi dei singoli provider su cui viene instradato.",
-      "P_DISCOUNTS_2": "I modelli con alta disponibilità e accessibilità ottengono sconti automatici, spesso consistenti. Quando un provider smette di funzionare, il modello passa a uno più stabile, il che può cambiare leggermente lo sconto.",
+      "P_DISCOUNTS_1": "Ogni modello passa per uno o più gruppi di provider, ciascuno con il proprio prezzo; la tabella Group Pricing nella pagina del modello li elenca tutti. L'alta disponibilità vale sconti automatici, e un failover verso un altro gruppo può spostare il prezzo effettivo.",
       "P_FREE_VS_PAID_1": "I modelli gratuiti portano un suffisso :free, per esempio",
       "P_FREE_VS_PAID_2": "Un modello :free viene instradato solo verso fornitori upstream gratuiti e non tocca mai il tuo saldo. Lo stesso nome base senza il suffisso è la versione a pagamento: stabile, senza limiti e addebitata per token. I due possono coesistere, quindi passare da gratuito a pagamento è un cambiamento di una sola stringa.",
       "P_FREE_VS_PAID_3": "I modelli gratuiti sono gratuiti per un motivo: sono i fornitori upstream a impostare i limiti di frequenza, non noi. Aspettati risposte 429 nelle ore di punta e usa un modello a pagamento quando ti serve affidabilità.",
@@ -5275,9 +5274,10 @@
       "P_PROMPT_CACHE_1": "Per i modelli che supportano la cache dei prompt (Claude e altri), i prefissi di prompt ripetuti vengono addebitati a una tariffa ridotta di input in cache, mentre scrivere una nuova voce di cache costa un po' più di un normale token di input (circa 1,25x).",
       "P_PROMPT_CACHE_2": "La cache è automatica. I carichi di lavoro con prompt di sistema lunghi e stabili (agenti, preset di RP) ne traggono il massimo vantaggio, senza alcuna configurazione.",
       "H_AVAILABILITY": "Disponibilità e failover",
-      "P_AVAILABILITY_1": "Quando un modello gratuito ha più fornitori upstream, le richieste passano automaticamente al successivo se un fornitore raggiunge il suo limite di frequenza. I modelli con un solo fornitore non possono passare, quindi si bloccano finché il limite non si azzera.",
-      "P_AVAILABILITY_2": "Ogni modello funziona tramite uno o più canali di fornitore. Un canale che raggiunge il suo limite di frequenza viene temporaneamente disabilitato e nascosto, non viene mostrato come opzione mentre si ripristina. Finché almeno un canale è ancora attivo, il modello continua a funzionare attraverso di esso. Solo quando tutti i canali di un modello sono limitati in frequenza il modello stesso scompare dal catalogo.",
-      "P_AVAILABILITY_3": "Che un modello scompaia dall'elenco è normale sotto carico, non è un errore di battitura né un'interruzione. Riappare da solo non appena un canale supera un controllo di stato, di solito in pochi minuti. Se un nome di modello salvato smette di risolversi, controlla la pagina Modelli: o si sta ripristinando oppure è stato rinominato."
+      "P_AVAILABILITY_1": "Le richieste passano automaticamente al gruppo successivo quando uno raggiunge il limite o cade. Solo quando ogni canale di un modello è fuori uso il modello sparisce dal catalogo.",
+      "P_AVAILABILITY_2": "Un modello che sparisce sotto carico è previsto, non un guasto: ricompare da solo appena un canale si riprende, di solito in pochi minuti.",
+      "P_DISCOUNTS_PIN": "Per vincolare un modello a gruppi specifici e alle loro tariffe, vedi",
+      "P_AVAILABILITY_WATCH": "Per essere avvisato appena torna, osservalo in"
     },
     "NOTIFICATIONS": {
       "META": {
@@ -5318,7 +5318,8 @@
       "R_ADDED": "Nuovo modello",
       "R_ADDED_WHEN": "Un modello entra nel catalogo; l'interruttore Nuovi modelli gratuiti copre automaticamente ogni modello :free",
       "R_REMOVED": "Modello rimosso",
-      "R_REMOVED_WHEN": "Un modello esce del tutto dal catalogo"
+      "R_REMOVED_WHEN": "Un modello esce del tutto dal catalogo",
+      "P_SEE_PINNING": "Gli avvisi di prezzo seguono il gruppo più economico. Per vincolare un modello a gruppi specifici, vedi"
     },
     "GROUP_PINNING": {
       "META": {
@@ -5343,7 +5344,8 @@
       "P_ROUTING_2": "Un header X-Group esplicito sulla richiesta vince comunque sul blocco, e i modelli non bloccati mantengono l'instradamento al più economico disponibile.",
       "H_ERRORS": "Quando i gruppi bloccati sono giù",
       "P_ERRORS_1": "Se tutti i gruppi bloccati di un modello sono giù mentre altri provider lo servono ancora, le richieste falliscono con un errore mirato invece di un messaggio generico:",
-      "P_ERRORS_2": "Allarga o rimuovi il blocco sulla chiave, oppure riprova più tardi. Il modello in sé è ancora attivo."
+      "P_ERRORS_2": "Allarga o rimuovi il blocco sulla chiave, oppure riprova più tardi. Il modello in sé è ancora attivo.",
+      "P_SEE_NOTIFY": "Abbina un blocco a un'osservazione per sapere quando i suoi gruppi cambiano prezzo o cadono, vedi"
     },
     "ERRORS_AND_RATE_LIMITS": {
       "META": {
@@ -5453,7 +5455,8 @@
       "P_CHARGES_2": "Le richieste fallite non vengono addebitate. All'avvio di una richiesta viene preso un blocco preventivo, rimborsato se va in errore.",
       "P_CHARGES_3": "402 significa che il limite proprio della chiave API è esaurito; 403 con un messaggio di quota insufficiente significa che il saldo dell'account è vuoto.",
       "H_LOGS": "Verificare l'uso",
-      "P_LOGS_1": "La pagina Log elenca ogni richiesta con il modello, il conteggio dei token, il costo esatto e l'id di richiesta. Se un addebito dovesse mai sembrare errato, l'id di richiesta è ciò di cui il supporto ha bisogno."
+      "P_LOGS_1": "La pagina Log elenca ogni richiesta con il modello, il conteggio dei token, il costo esatto e l'id di richiesta. Se un addebito dovesse mai sembrare errato, l'id di richiesta è ciò di cui il supporto ha bisogno.",
+      "P_KEYS_PIN": "Una chiave può anche bloccare i modelli su gruppi di provider specifici e le loro tariffe, vedi"
     },
     "DISCORD_REWARDS": {
       "META": {

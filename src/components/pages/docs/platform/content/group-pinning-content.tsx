@@ -1,6 +1,7 @@
 import {
   DocCode,
   DocImage,
+  DocPageLink,
   DocSection,
 } from "@/components/pages/docs/doc-parts";
 import { APP_VALUES } from "@/lib/config/constants";
@@ -49,6 +50,12 @@ export async function GroupPinningContent() {
       <DocSection id="routing" title={k("H_ROUTING")}>
         <p>{k("P_ROUTING_1")}</p>
         <p>{k("P_ROUTING_2")}</p>
+        <p>
+          {k("P_SEE_NOTIFY")}{" "}
+          <DocPageLink slug="notifications">
+            {t("DOCS_PLATFORM.NOTIFICATIONS.TITLE")}
+          </DocPageLink>
+        </p>
       </DocSection>
       <DocSection id="errors" title={k("H_ERRORS")}>
         <p>{k("P_ERRORS_1")}</p>

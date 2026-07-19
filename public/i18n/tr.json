@@ -5260,11 +5260,10 @@
       "SUBTITLE": ":free son ekinin ne anlama geldiği, kullanımın nasıl fiyatlandırıldığı ve bir modelin neden bazen kaybolduğu.",
       "H_CATALOG": "Katalog",
       "P_CATALOG_1": "Modeller sayfası her modeli bağlam penceresi, token başına fiyatlar, desteklenen uç noktalar ve araç çağırma ile görüntü girişi gibi yetenek filtreleriyle listeler. Her modelin kopyala-yapıştır kod örnekleri içeren kendi sayfası vardır. Her ücretsiz model araç çağrılarını veya görme yeteneğini desteklemez, bu yüzden birini bir kodlama ajanına bağlamadan önce yetenek rozetlerini kontrol edin.",
-      "P_CATALOG_2": "Modeller kararlılık için sağlayıcıdan sağlayıcıya geçer, bu yüzden aynı model zamanla biraz farklı bir fiyat gösterebilir. Maliyet önemliyse fiyatı model sayfasından kontrol edin. Rankings, topluluk test sonuçlarına dayanarak hangi ücretsiz modellerin gerçekten iş gördüğünü gösterir; Status ise sağlayıcıların durumunu canlı olarak izler.",
+      "P_CATALOG_2": "Rankings, topluluk test sonuçlarına göre hangi ücretsiz modellerin gerçekten iş gördüğünü gösterir; Status ise sağlayıcı sağlığını canlı izler.",
       "H_FREE_VS_PAID": "Ücretsiz ve ücretli modeller",
       "H_DISCOUNTS": "İndirimler",
-      "P_DISCOUNTS_1": "Her modelin bir kullanılabilirlik oranı ve arkasında bir veya daha fazla sağlayıcı vardır. Bir modelin sayfasını açıp grup fiyatlandırmasına bakarak yönlendirildiği her sağlayıcının fiyatlarını görebilirsiniz.",
-      "P_DISCOUNTS_2": "Yüksek kullanılabilirliğe ve erişilebilirliğe sahip modeller otomatik indirimler kazanır, çoğu zaman büyük indirimler. Bir sağlayıcı çalışmayı bıraktığında model daha kararlı bir sağlayıcıya geçer ve bu, indirimi biraz değiştirebilir.",
+      "P_DISCOUNTS_1": "Her model, her biri kendi fiyatına sahip bir veya daha fazla sağlayıcı grubu üzerinden yönlendirilir; model sayfasındaki Group Pricing tablosu hepsini listeler. Yüksek erişilebilirlik otomatik indirim kazandırır ve başka bir gruba geçiş fiili fiyatı kaydırabilir.",
       "P_FREE_VS_PAID_1": "Ücretsiz modeller bir :free son eki taşır, örneğin",
       "P_FREE_VS_PAID_2": "Bir :free modeli yalnızca ücretsiz upstream sağlayıcılara yönlendirilir ve bakiyenize asla dokunmaz. Son eki olmayan aynı temel ad ücretli sürümdür: kararlı, sınırsız ve token başına faturalandırılan. İkisi yan yana var olabilir, dolayısıyla ücretsizden ücretliye geçmek tek bir dize değişikliğidir.",
       "P_FREE_VS_PAID_3": "Ücretsiz modeller bir nedenden dolayı ücretsizdir: hız sınırlarını biz değil, upstream sağlayıcılar belirler. Yoğun saatlerde 429 yanıtları bekleyin ve güvenilirliğe ihtiyacınız olduğunda ücretli bir model kullanın.",
@@ -5275,9 +5274,10 @@
       "P_PROMPT_CACHE_1": "Prompt önbelleğini destekleyen modellerde (Claude ve diğerleri), tekrar eden prompt önekleri düşük bir önbelleğe alınmış girdi ücretiyle faturalandırılır; yeni bir önbellek girişi yazmak ise normal bir girdi tokeninden biraz daha pahalıdır (yaklaşık 1,25x).",
       "P_PROMPT_CACHE_2": "Önbellekleme otomatiktir. Uzun ve kararlı sistem promptlarına sahip iş yükleri (ajanlar, RP ön ayarları) hiçbir yapılandırma gerektirmeden en çok fayda sağlar.",
       "H_AVAILABILITY": "Kullanılabilirlik ve yük devretme",
-      "P_AVAILABILITY_1": "Bir ücretsiz modelin birden fazla upstream sağlayıcısı olduğunda, bir sağlayıcı hız sınırına ulaşırsa istekler otomatik olarak bir sonrakine devreder. Tek sağlayıcılı modeller devredemez, bu yüzden sınır sıfırlanana kadar takılı kalırlar.",
-      "P_AVAILABILITY_2": "Her model bir veya daha fazla sağlayıcı kanalı üzerinden çalışır. Hız sınırına ulaşan bir kanal geçici olarak devre dışı bırakılıp gizlenir, toparlanana kadar seçenek olarak gösterilmez. En az bir kanal hâlâ ayaktayken model onun üzerinden çalışmaya devam eder. Yalnızca bir modelin tüm kanalları hız sınırına takıldığında modelin kendisi katalogdan kaybolur.",
-      "P_AVAILABILITY_3": "Bir modelin listeden kaybolması yük altında beklenen bir durumdur, yazım hatası ya da kesinti değildir. Bir kanal durum kontrolünü geçer geçmez model kendiliğinden geri gelir, genellikle birkaç dakika içinde. Kaydedilmiş bir model adı çözümlenmeyi durdurursa Modeller sayfasını kontrol edin: model ya toparlanıyordur ya da yeniden adlandırılmıştır."
+      "P_AVAILABILITY_1": "Bir grup limitine takıldığında veya düştüğünde istekler otomatik olarak sonraki sağlayıcı grubuna geçer. Model ancak onu sunan tüm kanallar devre dışı kaldığında katalogdan kaybolur.",
+      "P_AVAILABILITY_2": "Yük altında bir modelin kaybolması beklenen bir durumdur, arıza değildir: bir kanal toparlanınca kendiliğinden geri gelir, genellikle dakikalar içinde.",
+      "P_DISCOUNTS_PIN": "Bir modeli belirli gruplara ve tarifelerine kilitlemek için bkz.",
+      "P_AVAILABILITY_WATCH": "Geri döndüğü anda haber almak için onu şurada izleyin:"
     },
     "NOTIFICATIONS": {
       "META": {
@@ -5318,7 +5318,8 @@
       "R_ADDED": "Yeni model",
       "R_ADDED_WHEN": "Bir model kataloğa girer; Yeni ücretsiz modeller anahtarı her :free modeli otomatik kapsar",
       "R_REMOVED": "Model kaldırıldı",
-      "R_REMOVED_WHEN": "Bir model katalogdan tamamen çıkar"
+      "R_REMOVED_WHEN": "Bir model katalogdan tamamen çıkar",
+      "P_SEE_PINNING": "Fiyat uyarıları en ucuz sağlayıcı grubunu izler. Bir modeli belirli gruplara kilitlemek için bkz."
     },
     "GROUP_PINNING": {
       "META": {
@@ -5343,7 +5344,8 @@
       "P_ROUTING_2": "İstekteki açık bir X-Group başlığı sabitlemeyi yine de geçersiz kılar; sabitlenmemiş modeller en ucuz uygun yönlendirmeyi korur.",
       "H_ERRORS": "Sabitlenmiş gruplar düştüğünde",
       "P_ERRORS_1": "Bir modelin tüm sabitlenmiş grupları düşmüşken başka sağlayıcılar onu hâlâ sunuyorsa, istekler genel bir meşgul mesajı yerine hedefli bir hatayla başarısız olur:",
-      "P_ERRORS_2": "Anahtardaki sabitlemeyi genişletin veya kaldırın ya da daha sonra yeniden deneyin. Modelin kendisi hâlâ çalışıyor."
+      "P_ERRORS_2": "Anahtardaki sabitlemeyi genişletin veya kaldırın ya da daha sonra yeniden deneyin. Modelin kendisi hâlâ çalışıyor.",
+      "P_SEE_NOTIFY": "Grupları fiyat değiştirdiğinde veya düştüğünde haberdar olmak için sabitlemeyi izlemeyle birleştirin, bkz."
     },
     "ERRORS_AND_RATE_LIMITS": {
       "META": {
@@ -5453,7 +5455,8 @@
       "P_CHARGES_2": "Başarısız istekler faturalandırılmaz. Bir istek başladığında bir ön blokaj alınır ve hataya düşerse iade edilir.",
       "P_CHARGES_3": "402, API anahtarının kendi limitinin tükendiği anlamına gelir; yetersiz kota mesajıyla gelen 403, hesap bakiyesinin boş olduğu anlamına gelir.",
       "H_LOGS": "Kullanımı denetleme",
-      "P_LOGS_1": "Günlükler sayfası her isteği model, token sayıları, tam maliyet ve istek kimliğiyle listeler. Bir ücret hatalı görünürse, destek ekibinin ihtiyaç duyduğu şey istek kimliğidir."
+      "P_LOGS_1": "Günlükler sayfası her isteği model, token sayıları, tam maliyet ve istek kimliğiyle listeler. Bir ücret hatalı görünürse, destek ekibinin ihtiyaç duyduğu şey istek kimliğidir.",
+      "P_KEYS_PIN": "Bir anahtar, modelleri belirli sağlayıcı gruplarına ve tarifelerine de sabitleyebilir, bkz."
     },
     "DISCORD_REWARDS": {
       "META": {

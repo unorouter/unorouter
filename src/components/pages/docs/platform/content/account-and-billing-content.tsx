@@ -1,4 +1,8 @@
-import { DocSection, DocTable } from "@/components/pages/docs/doc-parts";
+import {
+  DocPageLink,
+  DocSection,
+  DocTable,
+} from "@/components/pages/docs/doc-parts";
 import { APP_VALUES } from "@/lib/config/constants";
 import { getTranslations } from "next-intl/server";
 import { platformDocKey } from "../platform-doc-template";
@@ -55,6 +59,12 @@ export async function AccountAndBillingContent() {
       <DocSection id="keys" title={k("H_KEYS")}>
         <p>{k("P_KEYS_1")}</p>
         <p>{k("P_KEYS_2")}</p>
+        <p>
+          {k("P_KEYS_PIN")}{" "}
+          <DocPageLink slug="group-pinning">
+            {t("DOCS_PLATFORM.GROUP_PINNING.TITLE")}
+          </DocPageLink>
+        </p>
       </DocSection>
       <DocSection id="charges" title={k("H_CHARGES")}>
         <p>{k("P_CHARGES_1")}</p>

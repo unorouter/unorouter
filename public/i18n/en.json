@@ -5260,11 +5260,10 @@
       "SUBTITLE": "What the :free suffix means, how usage is priced and why a model sometimes disappears.",
       "H_CATALOG": "The catalog",
       "P_CATALOG_1": "The Models page lists every model with context window, per-token prices, supported endpoints and capability filters like tool calling and image input. Each model has its own page with copy-paste code examples. Not every free model supports tool calls or vision, so check the capability badges before wiring one into a coding agent.",
-      "P_CATALOG_2": "Models rotate from provider to provider for stability, so the same model can show a slightly different price over time. Check the price on the model page if cost matters. Rankings shows which free models actually deliver, based on community test results, and Status tracks live provider health.",
+      "P_CATALOG_2": "Rankings shows which free models actually deliver, based on community test results, and Status tracks live provider health.",
       "H_FREE_VS_PAID": "Free vs paid models",
       "H_DISCOUNTS": "Discounts",
-      "P_DISCOUNTS_1": "Every model has an availability rate and one or more providers behind it. Open a model's page and look at group pricing to see the per-provider prices it routes across.",
-      "P_DISCOUNTS_2": "Models with high availability and accessibility earn automatic discounts, often steep ones. When a provider stops working the model fails over to a more stable one, which can slightly change the discount.",
+      "P_DISCOUNTS_1": "Every model routes across one or more provider groups, each with its own price; the Group Pricing table on the model page lists them all. High availability earns automatic discounts, and a failover to another group can shift the effective price.",
       "P_FREE_VS_PAID_1": "Free models carry a :free suffix, for example",
       "P_FREE_VS_PAID_2": "A :free model routes only to free upstream providers and never touches your balance. The same base name without the suffix is the paid version: stable, uncapped and billed per token. Both can exist side by side, so switching from free to paid is a one-string change.",
       "P_FREE_VS_PAID_3": "Free models are free for a reason: the upstream providers set the rate limits, not us. Expect 429 responses at peak times, and use a paid model when you need reliability.",
@@ -5275,9 +5274,10 @@
       "P_PROMPT_CACHE_1": "For models that support prompt caching (Claude and others), repeated prompt prefixes are billed at a reduced cached-input rate, while writing a new cache entry costs slightly more than a normal input token (about 1.25x).",
       "P_PROMPT_CACHE_2": "Caching is automatic. Workloads with long stable system prompts (agents, RP presets) profit the most, with no configuration needed.",
       "H_AVAILABILITY": "Availability & failover",
-      "P_AVAILABILITY_1": "When a free model has several upstream providers, requests automatically fail over to the next one if a provider hits its rate limit. Single-provider models cannot fail over, so they stall until the limit resets.",
-      "P_AVAILABILITY_2": "Each model runs across one or more provider channels. A channel that hits its rate limit is temporarily disabled and hidden, it is not shown as an option while it recovers. As long as one channel is still up, the model keeps working through it. Only when every channel for a model is rate limited does the model itself disappear from the catalog.",
-      "P_AVAILABILITY_3": "A model vanishing from the list is expected under load, not a typo or an outage. It reappears on its own once a channel passes a health check, usually within minutes. If a saved model name stops resolving, check the Models page: it is either recovering or has been renamed."
+      "P_AVAILABILITY_1": "Requests fail over automatically to the next provider group when one hits its rate limit or goes down. Only when every channel serving a model is out does the model disappear from the catalog.",
+      "P_AVAILABILITY_2": "A model vanishing under load is expected, not an outage: it reappears on its own once a channel recovers, usually within minutes.",
+      "P_DISCOUNTS_PIN": "To lock a model to specific groups and their rates, see",
+      "P_AVAILABILITY_WATCH": "To get pinged the moment it comes back, watch it in"
     },
     "NOTIFICATIONS": {
       "META": {
@@ -5318,7 +5318,8 @@
       "R_ADDED": "New model",
       "R_ADDED_WHEN": "A model joins the catalog; the New free models switch covers every :free model automatically",
       "R_REMOVED": "Model removed",
-      "R_REMOVED_WHEN": "A model leaves the catalog entirely"
+      "R_REMOVED_WHEN": "A model leaves the catalog entirely",
+      "P_SEE_PINNING": "Price alerts track the cheapest provider group. To lock a model to specific groups instead, see"
     },
     "GROUP_PINNING": {
       "META": {
@@ -5343,7 +5344,8 @@
       "P_ROUTING_2": "An explicit X-Group header on a request still wins over the pin, and unpinned models keep cheapest-available routing.",
       "H_ERRORS": "When pinned groups are down",
       "P_ERRORS_1": "If every pinned group for a model is down while other providers still serve it, requests fail with a targeted error instead of a generic busy message:",
-      "P_ERRORS_2": "Widen or remove the pin on the key, or retry later. The model itself is still up."
+      "P_ERRORS_2": "Widen or remove the pin on the key, or retry later. The model itself is still up.",
+      "P_SEE_NOTIFY": "Pair a pin with a watch to hear when its groups change price or go down, see"
     },
     "ERRORS_AND_RATE_LIMITS": {
       "META": {
@@ -5453,7 +5455,8 @@
       "P_CHARGES_2": "Failed requests are not billed. A pre-hold is taken when a request starts and refunded if it errors.",
       "P_CHARGES_3": "402 means the API key's own limit is used up; 403 with an insufficient-quota message means the account balance is empty.",
       "H_LOGS": "Auditing usage",
-      "P_LOGS_1": "The Logs page lists every request with model, token counts, exact cost and the request id. If a charge ever looks wrong, the request id is what support needs."
+      "P_LOGS_1": "The Logs page lists every request with model, token counts, exact cost and the request id. If a charge ever looks wrong, the request id is what support needs.",
+      "P_KEYS_PIN": "A key can also pin models to specific provider groups and their rates, see"
     },
     "DISCORD_REWARDS": {
       "META": {
