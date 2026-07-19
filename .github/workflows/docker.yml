@@ -171,6 +171,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     continue-on-error: true
+    timeout-minutes: 25
     steps:
       - name: Warm ISR cache from sitemap
         run: |
@@ -178,6 +179,7 @@ jobs:
             | grep -oE '<loc>[^<]+</loc>' \
             | sed -E 's#</?loc>##g' > urls.txt
           echo "warming $(wc -l < urls.txt) urls"
-          xargs -P 6 -n 1 -a urls.txt -I{} \
-            curl -s -o /dev/null -w '%{http_code} {}\n' --max-time 30 {} \
-            | { grep -v '^200 ' || true; }
+          xargs -P 12 -n 1 -a urls.txt -I{} \
+            curl -s -o /dev/null -w '%{http_code} {}\n' --max-time 15 {} > codes.txt || true
+          sort codes.txt | cut -d' ' -f1 | uniq -c
+          grep -v '^200 ' codes.txt | head -50 || true
