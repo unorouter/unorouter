@@ -130,6 +130,8 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
     standalone:
       typeof window !== "undefined" &&
       (window.matchMedia?.("(display-mode: standalone)")?.matches ?? false),
+    reasoningEffort: formValues?.reasoningEffort ?? null,
+    showReasoning: formValues?.showReasoning ?? null,
     sampling: formValues
       ? Object.fromEntries(SAMPLING_FIELDS.map((f) => [f, formValues[f]]))
       : null,
@@ -163,6 +165,9 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
       isDefaultsMode,
       dirty: Object.keys(form.formState.dirtyFields),
       presetId: data.presetId === NONE_VALUE ? null : data.presetId,
+      reasoningEffort:
+        data.reasoningEffort === NONE_VALUE ? null : data.reasoningEffort,
+      showReasoning: data.showReasoning ?? null,
       sampling: Object.fromEntries(SAMPLING_FIELDS.map((f) => [f, data[f]])),
     });
     writeSamplerMemory(

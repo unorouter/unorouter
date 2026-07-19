@@ -187,6 +187,10 @@ function ChatRuntimeHook() {
         threadId,
         remoteId,
         messageId: message.id,
+        parts: (message.parts ?? []).map((p) => ({
+          type: p.type,
+          chars: "text" in p && typeof p.text === "string" ? p.text.length : 0,
+        })),
       });
       const loadout = chatStore.get(chatLoadoutAtom);
       const characterCount = loadout.characterIds.length;

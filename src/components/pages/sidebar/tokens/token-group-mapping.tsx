@@ -374,7 +374,7 @@ export function TokenGroupMapping(props: TokenGroupMappingProps) {
                                 )
                               }
                               className={cn(
-                                "h-[33px] [&>svg]:hidden",
+                                "h-8.25 [&>svg]:hidden",
                                 overridden && "border-primary border-l-2",
                               )}
                             >
