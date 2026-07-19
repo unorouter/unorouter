@@ -75,6 +75,33 @@ export const PLATFORM_DOCS: PlatformDoc[] = [
     ],
   }),
   platformDoc({
+    slug: "notifications",
+    name: "NOTIFICATIONS",
+    section: "GUIDE",
+    iconName: "bell",
+    headings: [
+      ["overview", "H_OVERVIEW"],
+      ["watching", "H_WATCHING"],
+      ["wildcards", "H_WILDCARDS"],
+      ["alerts", "H_ALERTS"],
+      ["push", "H_PUSH"],
+      ["events", "H_EVENTS"],
+    ],
+  }),
+  platformDoc({
+    slug: "group-pinning",
+    name: "GROUP_PINNING",
+    section: "GUIDE",
+    iconName: "layers",
+    headings: [
+      ["overview", "H_OVERVIEW"],
+      ["prices", "H_PRICES"],
+      ["pinning", "H_PINNING"],
+      ["routing", "H_ROUTING"],
+      ["errors", "H_ERRORS"],
+    ],
+  }),
+  platformDoc({
     slug: "errors-and-rate-limits",
     name: "ERRORS_AND_RATE_LIMITS",
     section: "FAQ",

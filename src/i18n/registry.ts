@@ -72,6 +72,8 @@ const CHAT_DOC_ENTRIES = CHAT_DOCS.map((doc): DocEntry => ({
 
 const PLATFORM_DOC_DATES: Record<string, string> = {
   "discord-rewards": "2026-07-18",
+  notifications: "2026-07-19",
+  "group-pinning": "2026-07-19",
 };
 
 const PLATFORM_DOC_ENTRIES = PLATFORM_DOCS.map((doc): DocEntry => ({

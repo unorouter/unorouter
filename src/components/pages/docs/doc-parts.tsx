@@ -1,4 +1,5 @@
 import { CodeBlock } from "@/components/elements/code/code-block";
+import Image from "next/image";
 
 export function DocSection(props: {
   id: string;
@@ -49,6 +50,23 @@ export function DocTable(props: {
         </tbody>
       </table>
     </div>
+  );
+}
+
+export function DocImage(props: {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+}) {
+  return (
+    <Image
+      src={props.src}
+      alt={props.alt}
+      width={props.width}
+      height={props.height}
+      className="border-border w-full max-w-xl rounded-lg border"
+    />
   );
 }
 

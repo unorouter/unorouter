@@ -1,7 +1,9 @@
 import { AccountAndBillingContent } from "@/components/pages/docs/platform/content/account-and-billing-content";
 import { DiscordRewardsContent } from "@/components/pages/docs/platform/content/discord-rewards-content";
 import { ErrorsAndRateLimitsContent } from "@/components/pages/docs/platform/content/errors-and-rate-limits-content";
+import { GroupPinningContent } from "@/components/pages/docs/platform/content/group-pinning-content";
 import { ModelsAndPricingContent } from "@/components/pages/docs/platform/content/models-and-pricing-content";
+import { NotificationsContent } from "@/components/pages/docs/platform/content/notifications-content";
 import { QuickstartContent } from "@/components/pages/docs/platform/content/quickstart-content";
 import {
   PlatformDocTemplate,
@@ -52,6 +54,8 @@ export async function generateMetadata(props: PageProps) {
 const CONTENT: Record<string, React.ComponentType> = {
   quickstart: QuickstartContent,
   "models-and-pricing": ModelsAndPricingContent,
+  notifications: NotificationsContent,
+  "group-pinning": GroupPinningContent,
   "errors-and-rate-limits": ErrorsAndRateLimitsContent,
   "account-and-billing": AccountAndBillingContent,
   "discord-rewards": DiscordRewardsContent,
