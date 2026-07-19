@@ -34,7 +34,7 @@ export async function NotificationsContent() {
           src="/images/docs/notify-bell-watched.webp"
           alt={k("ALT_WATCHED")}
           width={400}
-          height={360}
+          height={373}
         />
       </DocSection>
       <DocSection id="wildcards" title={k("H_WILDCARDS")}>
@@ -52,7 +52,7 @@ export async function NotificationsContent() {
           src="/images/docs/notify-bell-inbox.webp"
           alt={k("ALT_INBOX")}
           width={400}
-          height={566}
+          height={424}
         />
       </DocSection>
       <DocSection id="push" title={k("H_PUSH")}>
