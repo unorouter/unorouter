@@ -1,6 +1,7 @@
 "use client";
 
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
+import { CopyButton } from "@/components/elements/code/copy-button";
 import { Icon } from "@/components/ui/icon";
 import {
   Popover,
@@ -197,38 +198,48 @@ export function NotifyBell() {
                   const text = notifyEventText(t, n);
                   const vendor = vendorOf(n.data.model);
                   return (
-                    <button
+                    <div
                       key={n.id}
-                      type="button"
                       className={cn(
-                        "hover:bg-muted/50 flex w-full items-start gap-2.5 px-3 py-2 text-left transition-colors",
+                        "hover:bg-muted/50 flex w-full items-start gap-2.5 px-3 py-2 transition-colors",
                         !n.read && "bg-primary/5",
                       )}
-                      onClick={() => {
-                        setOpen(false);
-                        router.push(modelHref(n.data.model, vendor));
-                      }}
                     >
-                      {vendor ? (
-                        <VendorIcon vendor={vendor} size={18} />
-                      ) : (
-                        <Icon
-                          name="bell"
-                          className="text-muted-foreground mt-0.5 h-4 w-4 shrink-0"
+                      <button
+                        type="button"
+                        className="flex min-w-0 flex-1 items-start gap-2.5 text-left"
+                        onClick={() => {
+                          setOpen(false);
+                          router.push(modelHref(n.data.model, vendor));
+                        }}
+                      >
+                        {vendor ? (
+                          <VendorIcon vendor={vendor} size={18} />
+                        ) : (
+                          <Icon
+                            name="bell"
+                            className="text-muted-foreground mt-0.5 h-4 w-4 shrink-0"
+                          />
+                        )}
+                        <span className="min-w-0 flex-1">
+                          <span className="text-foreground line-clamp-2 text-[13px] font-medium break-all">
+                            {text.title}
+                          </span>
+                          <span className="text-muted-foreground block truncate text-xs">
+                            {text.body}
+                          </span>
+                        </span>
+                      </button>
+                      <span className="mt-0.5 flex shrink-0 items-center gap-1.5">
+                        <CopyButton
+                          text={n.data.model}
+                          analyticsLabel="model_name"
                         />
-                      )}
-                      <span className="min-w-0 flex-1">
-                        <span className="text-foreground line-clamp-2 text-[13px] font-medium break-all">
-                          {text.title}
-                        </span>
-                        <span className="text-muted-foreground block truncate text-xs">
-                          {text.body}
+                        <span className="text-muted-foreground/70 text-[10px]">
+                          {dayjs.unix(n.ts).fromNow(true)}
                         </span>
                       </span>
-                      <span className="text-muted-foreground/70 mt-0.5 shrink-0 text-[10px]">
-                        {dayjs.unix(n.ts).fromNow(true)}
-                      </span>
-                    </button>
+                    </div>
                   );
                 })
               )}
@@ -289,6 +300,7 @@ export function NotifyBell() {
                             {model}
                           </span>
                         </button>
+                        <CopyButton text={model} analyticsLabel="model_name" />
                         <button
                           type="button"
                           aria-label={t("NOTIFY.UNWATCH")}
