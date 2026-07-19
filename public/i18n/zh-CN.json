@@ -56,7 +56,7 @@
         "GLOBAL": "可路由",
         "INTEGRATED": "上游节点",
         "FREE": "无需费用",
-        "PAID": "每 Token"
+        "PAID": "按量计费"
       }
     },
     "TICKER": {
