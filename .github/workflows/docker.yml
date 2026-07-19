@@ -62,6 +62,9 @@ jobs:
 
           echo GUEST_API_KEY=${{ secrets.GUEST_API_KEY }} >> .env
 
+          # Server-to-server upstream calls bypass Cloudflare (same host, overlay network)
+          echo INTERNAL_API_URL=http://newapi_newapi-slave:3000 >> .env
+
           echo NEXT_PUBLIC_POSTHOG_DISABLED=${{ secrets.NEXT_PUBLIC_POSTHOG_DISABLED }} >> .env
           echo NEXT_PUBLIC_POSTHOG_KEY=${{ secrets.NEXT_PUBLIC_POSTHOG_KEY }} >> .env
           echo NEXT_PUBLIC_POSTHOG_HOST=${{ secrets.NEXT_PUBLIC_POSTHOG_HOST }} >> .env

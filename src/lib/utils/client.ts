@@ -53,8 +53,19 @@ export function extractErrorDetail(e: unknown): ErrorDetail {
       ? (parsed as { error: unknown }).error
       : parsed;
   const found = pickMessage(errObj) ?? pickMessage(body);
-  const message =
+  let message =
     found?.message || stringifyError((e as Error)?.message ?? errObj ?? e);
+  // Error bodies can be entire HTML pages (Cloudflare 5xx). Strip markup and
+  // cap so the chat shows one line, not kilobytes of raw HTML.
+  if (/<(?:html|head|body|div|!doctype)[\s>]/i.test(message)) {
+    const plain = message
+      .replace(/<script[\s\S]*?<\/script>/gi, " ")
+      .replace(/<style[\s\S]*?<\/style>/gi, " ")
+      .replace(/<[^>]+>/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+    message = plain.slice(0, 300) || message.slice(0, 300);
+  }
 
   let code: string | undefined;
   if (errObj && typeof errObj === "object") {

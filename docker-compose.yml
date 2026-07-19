@@ -2,6 +2,12 @@ networks:
   proxy:
     external: false
     name: proxy
+  # Attachable swarm overlay of the new-api stack: server-side upstream calls
+  # (INTERNAL_API_URL) go container-to-container instead of looping out through
+  # Cloudflare, whose ~100s idle timeout 524'd slow first-byte chat streams.
+  newapi-overlay:
+    external: true
+    name: newapi-overlay
 
 # Two identical replicas sharing ONE Traefik service label; the docker provider
 # aggregates same-service containers into one round-robin backend (no swarm, no
@@ -31,6 +37,7 @@ x-unorouter: &unorouter
     - .env
   networks:
     - proxy
+    - newapi-overlay
   labels:
     - "autoheal=true"
     - "traefik.enable=true"

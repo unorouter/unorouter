@@ -53,7 +53,8 @@ export async function forwardChatCompletions(args: {
   const wire = { ...args.body };
   delete wire.group;
 
-  const upstream = await fetch(
+  const abort = new AbortController();
+  const upstreamPromise = fetch(
     `${upstreamApiUrl}${API_ENDPOINTS.chatCompletions}`,
     {
       method: "POST",
@@ -64,13 +65,94 @@ export async function forwardChatCompletions(args: {
         "x-request-id": args.requestId ?? uid(),
       },
       body: JSON.stringify(wire),
+      signal: abort.signal,
     },
   );
 
-  const headers = new Headers();
-  for (const h of FORWARD_RESPONSE_HEADERS) {
-    const v = upstream.headers.get(h);
-    if (v) headers.set(h, v);
+  // Fast path: upstream headers within the grace window flow through verbatim
+  // (real status + the meta headers the client's finish collector reads).
+  const winner = await Promise.race([
+    upstreamPromise,
+    new Promise<"slow">((res) => setTimeout(() => res("slow"), EARLY_FLUSH_MS)),
+  ]);
+  if (winner !== "slow") {
+    const upstream = winner;
+    const headers = new Headers();
+    for (const h of FORWARD_RESPONSE_HEADERS) {
+      const v = upstream.headers.get(h);
+      if (v) headers.set(h, v);
+    }
+    return new Response(upstream.body, { status: upstream.status, headers });
   }
-  return new Response(upstream.body, { status: upstream.status, headers });
+
+  // Slow path: upstream is still retrying across channels. Cloudflare kills a
+  // byte-less origin response at ~100s (524, its raw HTML then lands in the
+  // chat as the "reply"), so commit to a 200 SSE now and heartbeat with SSE
+  // comments until upstream produces headers. A late upstream error is
+  // re-framed as an OpenAI-style error chunk, which the ai-sdk client surfaces
+  // through its normal stream-error path.
+  const enc = new TextEncoder();
+  const stream = new ReadableStream<Uint8Array>({
+    async start(controller) {
+      const ping = setInterval(() => {
+        try {
+          controller.enqueue(enc.encode(": keepalive\n\n"));
+        } catch {
+          clearInterval(ping);
+        }
+      }, KEEPALIVE_MS);
+      controller.enqueue(enc.encode(": keepalive\n\n"));
+      const writeError = (message: string) => {
+        controller.enqueue(
+          enc.encode(`data: ${JSON.stringify({ error: { message } })}\n\n`),
+        );
+        controller.enqueue(enc.encode("data: [DONE]\n\n"));
+      };
+      try {
+        const upstream = await upstreamPromise;
+        clearInterval(ping);
+        if (!upstream.ok || !upstream.body) {
+          const text = await upstream.text().catch(() => "");
+          writeError(compactErrorText(text, upstream.status));
+        } else {
+          const reader = upstream.body.getReader();
+          for (;;) {
+            const chunk = await reader.read();
+            if (chunk.done) break;
+            controller.enqueue(chunk.value);
+          }
+        }
+      } catch (e) {
+        writeError(String(e).slice(0, 300));
+      } finally {
+        clearInterval(ping);
+        controller.close();
+      }
+    },
+    cancel() {
+      abort.abort();
+    },
+  });
+  return new Response(stream, {
+    status: 200,
+    headers: { "content-type": "text/event-stream" },
+  });
+}
+
+const EARLY_FLUSH_MS = 30_000;
+const KEEPALIVE_MS = 15_000;
+
+// An upstream error body can be a full Cloudflare HTML page; strip markup and
+// cap it so the chat shows a short line instead of 4KB of raw HTML.
+function compactErrorText(text: string, status: number): string {
+  const plain = text
+    .replace(/<script[\s\S]*?<\/script>/gi, " ")
+    .replace(/<style[\s\S]*?<\/style>/gi, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  const detail = plain.slice(0, 200);
+  return detail
+    ? `Upstream error (HTTP ${status}): ${detail}`
+    : `Upstream error (HTTP ${status})`;
 }
