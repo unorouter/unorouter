@@ -1,4 +1,5 @@
 import type { ProcessedModel } from "@/lib/api/pricing";
+import { CHAT_PROVIDER_NAME } from "@/lib/config/constants";
 import type { AssembledSystem } from "../../prompt/assembler.service";
 import { GEMINI_SAFETY_OFF, type StreamMessages } from "../transforms";
 import type { getModelRoleFlags } from "../role-flags";
@@ -81,7 +82,10 @@ export function buildProviderOptions(
       : assembled.extraBody;
 
   return {
-    openai: {
+    // openai-compatible reads providerOptions ONLY under its provider name;
+    // any other key (this object once sat under "openai") is silently dropped
+    // and none of these fields ever reach the wire.
+    [CHAT_PROVIDER_NAME]: {
       ...(safeExtraBody ?? {}),
       ...stripUnsupported(
         defined({
@@ -92,7 +96,9 @@ export function buildProviderOptions(
         modelInfo?.metadata.supportedParameters,
       ),
       ...defined({
-        reasoning_effort: assembled.reasoningEffort,
+        // camelCase: the sdk maps its known reasoningEffort option to
+        // reasoning_effort on the wire; the snake_case name is not recognized.
+        reasoningEffort: assembled.reasoningEffort,
         safetySettings: assembled.flags.geminiBlockOff
           ? autoFlags.noCivilIntegrity
             ? GEMINI_SAFETY_OFF.filter(

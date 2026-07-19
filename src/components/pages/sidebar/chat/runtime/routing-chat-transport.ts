@@ -31,6 +31,7 @@ import {
   makeBodyMutationFetch,
 } from "@/lib/ai/chat/provider-mutations";
 import type { TokenizerRef } from "@/lib/ai/chat/tokenizer";
+import { CHAT_PROVIDER_NAME } from "@/lib/config/constants";
 import { chatModelAtom, chatStore, localUserIdAtom } from "@/store/chat-store";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
@@ -126,7 +127,7 @@ async function runClientStream(args: {
   }
 
   const sdk = createOpenAICompatible({
-    name: "unorouter",
+    name: CHAT_PROVIDER_NAME,
     baseURL: args.baseURL,
     apiKey: args.apiKey,
     ...(hasBodyMutation(prepared.bodyMutations)

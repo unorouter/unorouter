@@ -41,6 +41,11 @@ export const THIRTY_DAY_CACHE = {
   next: { revalidate: 60 * 60 * 24 * 30 },
 } as const;
 
+// ai-sdk provider name for both chat text paths. providerOptions entries are
+// read ONLY under this exact key (openai-compatible matches its provider name);
+// a mismatched key is silently discarded.
+export const CHAT_PROVIDER_NAME = "unorouter";
+
 export const NEW_API_USER = "New-Api-User";
 export const ACCESS_TOKEN_COOKIE = "access_token" as const;
 export const USER_ID_COOKIE = "user-id" as const;
