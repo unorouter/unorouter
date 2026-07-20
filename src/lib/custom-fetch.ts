@@ -15,6 +15,21 @@ function getHeader(
   return headers?.[key] ?? headers?.[key.toLowerCase()];
 }
 
+async function getServerClientIp(): Promise<string> {
+  if (typeof window !== "undefined") return "";
+  try {
+    const { headers } = await import("next/headers");
+    const h = await headers();
+    return (
+      h.get("cf-connecting-ip") ??
+      h.get("x-forwarded-for")?.split(",")[0]?.trim() ??
+      ""
+    );
+  } catch {
+    return "";
+  }
+}
+
 async function readOkBody(res: Response): Promise<unknown> {
   const ct = res.headers.get("content-type") ?? "";
   if (ct.includes("application/json")) return res.json();
@@ -45,6 +60,9 @@ export const customFetch = async <T>(
   const hasExplicitAuth = !!getHeader(headers, "Authorization");
   const cookieHeader = hasExplicitAuth ? "" : await getServerCookieHeader();
   const hasCookie = !!getHeader(headers, "cookie");
+  const clientIp = getHeader(headers, "X-Forwarded-For")
+    ? ""
+    : await getServerClientIp();
 
   const res = await fetch(new URL(url, upstreamApiUrl).toString(), {
     ...options,
@@ -52,6 +70,7 @@ export const customFetch = async <T>(
     signal: AbortSignal.timeout(REQUEST_TIMEOUT),
     headers: {
       ...(cookieHeader && !hasCookie && { cookie: cookieHeader }),
+      ...(clientIp && { "X-Forwarded-For": clientIp }),
       ...headers,
     },
   });
