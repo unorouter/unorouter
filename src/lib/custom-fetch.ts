@@ -60,9 +60,10 @@ export const customFetch = async <T>(
   const hasExplicitAuth = !!getHeader(headers, "Authorization");
   const cookieHeader = hasExplicitAuth ? "" : await getServerCookieHeader();
   const hasCookie = !!getHeader(headers, "cookie");
-  const clientIp = getHeader(headers, "X-Forwarded-For")
-    ? ""
-    : await getServerClientIp();
+  const clientIp =
+    hasExplicitAuth || getHeader(headers, "X-Forwarded-For")
+      ? ""
+      : await getServerClientIp();
 
   const res = await fetch(new URL(url, upstreamApiUrl).toString(), {
     ...options,
