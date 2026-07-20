@@ -41,6 +41,12 @@ export async function ModelsAndPricingContent() {
       </DocSection>
       <DocSection id="discounts" title={k("H_DISCOUNTS")}>
         <p>{k("P_DISCOUNTS_1")}</p>
+        <DocImage
+          src="/images/docs/pinning-group-prices.webp"
+          alt={t("DOCS_PLATFORM.GROUP_PINNING.ALT_GROUP_PRICES")}
+          width={1220}
+          height={371}
+        />
         <p>
           {k("P_DISCOUNTS_PIN")}{" "}
           <DocPageLink slug="group-pinning">
