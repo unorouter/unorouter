@@ -57,7 +57,13 @@ export async function getPushSubscription(): Promise<PushSubscription | null> {
   if (!pushSupported()) return null;
   const reg = await navigator.serviceWorker.getRegistration();
   if (!reg) return null;
-  return reg.pushManager.getSubscription();
+  try {
+    return await reg.pushManager.getSubscription();
+  } catch {
+    // Firefox/Brave with the push service disabled reject even the READ with
+    // AbortError "Error retrieving push subscription".
+    return null;
+  }
 }
 
 async function fetchVapidKey(): Promise<string | null> {
@@ -102,7 +108,11 @@ export async function pushServiceBroken(): Promise<boolean> {
   if (!pushSupported() || Notification.permission !== "granted") return false;
   const reg = await navigator.serviceWorker.getRegistration();
   if (!reg) return false;
-  return (await reg.pushManager.getSubscription()) === null;
+  try {
+    return (await reg.pushManager.getSubscription()) === null;
+  } catch {
+    return true;
+  }
 }
 
 export async function syncPushTopics(
