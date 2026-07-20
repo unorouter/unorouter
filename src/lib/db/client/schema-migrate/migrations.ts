@@ -379,6 +379,8 @@ function isIdempotentMigrationError(err: unknown): boolean {
   return (
     /already exists/i.test(msg) ||
     /duplicate column name/i.test(msg) ||
-    /index .* already exists/i.test(msg)
+    /index .* already exists/i.test(msg) ||
+    // replayed DROP after a partially applied migration (no transaction wrapper)
+    /no such (index|column|table)/i.test(msg)
   );
 }

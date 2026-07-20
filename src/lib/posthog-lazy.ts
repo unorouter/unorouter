@@ -49,6 +49,8 @@ const DROP_EXCEPTIONS = [
   "minified react error #418", // hydration flash (documented cookie-atom timing)
   "minified react error #310",
   "minified react error #185",
+  "minified react error #454", // extension/translator removed <html>/<body>
+  "parameter 1 is not of type 'element'", // floating-ui positioning an unmounted anchor
   "getsynchandleerror", // documented OPFS in-memory fallback
   "fell back to in-memory",
   // The raw autocaptured $exception for an empty stream; we now capture the real
