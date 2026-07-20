@@ -119,9 +119,12 @@ function buildCard(b: CompactBucket): StatusBarData["card"] {
 export function decodeCompactPage(p: CompactPagePayload): DecodedStatusPage {
   const bars: Record<string, StatusBarData[]> = {};
   const incidentById = new Map<number, IncidentDTO>();
-  for (const inc of p.incidents) incidentById.set(inc.id, inc);
+  // Upstream deploy skew can serve a payload without these fields; a bare
+  // `for...of undefined` took the whole status page SSR down in every locale.
+  const incidents = p.incidents ?? [];
+  for (const inc of incidents) incidentById.set(inc.id, inc);
 
-  for (const name of Object.keys(p.bars)) {
+  for (const name of Object.keys(p.bars ?? {})) {
     const cb = p.bars[name];
     const out: StatusBarData[] = new Array(cb.buckets.length);
     for (let i = 0; i < cb.buckets.length; i++) {
@@ -154,5 +157,5 @@ export function decodeCompactPage(p: CompactPagePayload): DecodedStatusPage {
     bars[name] = out;
   }
 
-  return { components: p.components, incidents: p.incidents, bars };
+  return { components: p.components ?? [], incidents, bars };
 }
