@@ -74,6 +74,11 @@ export const onRequestError: Instrumentation.onRequestError = async (
     // can fix them.
     if (message.includes("This is a bug in Next.js")) return;
 
+    // Messageless errors out of the app-page runtime (stale-revalidation RSC
+    // prefetch renders) carry no stack of ours and no text to act on; they
+    // flooded 25k events in 48h once a page exposed many prefetchable links.
+    if (!message.trim()) return;
+
     // Errors while rendering the not-found page are bot traffic probing
     // garbage paths (e.g. POSTing malformed FormData at /RSC/*.txt), not a
     // reachable app surface.
