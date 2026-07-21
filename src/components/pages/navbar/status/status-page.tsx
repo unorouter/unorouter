@@ -175,7 +175,10 @@ export function StatusPage() {
               {t("STATUS.FILTER.EMPTY")}
             </p>
           ) : (
-            <WindowVirtualizer ssrCount={16}>
+            <WindowVirtualizer
+              key={s.items.length}
+              ssrCount={Math.min(16, s.items.length)}
+            >
               {s.items.map((item) =>
                 item.kind === "header" ? (
                   <button
