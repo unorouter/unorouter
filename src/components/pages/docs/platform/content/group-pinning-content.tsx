@@ -10,6 +10,15 @@ import { platformDocKey } from "../platform-doc-template";
 
 const P = "DOCS_PLATFORM.GROUP_PINNING";
 
+const HEADER_OVERRIDE_CURL = `curl https://api.${APP_VALUES.appDomain}/v1/chat/completions \\
+  -H "Authorization: Bearer $UNOROUTER_API_KEY" \\
+  -H "Content-Type: application/json" \\
+  -H "X-Group: glm-new-pol-glm-5.2" \\
+  -d '{
+    "model": "glm-5.2",
+    "messages": [{ "role": "user", "content": "Hello" }]
+  }'`;
+
 const PINNED_ERROR = `{
   "error": {
     "message": "Your pinned provider groups for model \\"glm-5.2\\" are currently unavailable, but the model is still served by other providers. Edit this key's group override, or try again later.",
@@ -49,13 +58,17 @@ export async function GroupPinningContent() {
       </DocSection>
       <DocSection id="routing" title={k("H_ROUTING")}>
         <p>{k("P_ROUTING_1")}</p>
-        <p>{k("P_ROUTING_2")}</p>
         <p>
           {k("P_SEE_NOTIFY")}{" "}
           <DocPageLink slug="notifications">
             {t("DOCS_PLATFORM.NOTIFICATIONS.TITLE")}
           </DocPageLink>
         </p>
+      </DocSection>
+      <DocSection id="header-override" title={k("H_HEADER_OVERRIDE")}>
+        <p>{k("P_HEADER_1")}</p>
+        <DocCode code={HEADER_OVERRIDE_CURL} lang="bash" />
+        <p>{k("P_HEADER_2")}</p>
       </DocSection>
       <DocSection id="errors" title={k("H_ERRORS")}>
         <p>{k("P_ERRORS_1")}</p>

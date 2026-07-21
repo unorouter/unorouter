@@ -98,6 +98,7 @@ export const PLATFORM_DOCS: PlatformDoc[] = [
       ["prices", "H_PRICES"],
       ["pinning", "H_PINNING"],
       ["routing", "H_ROUTING"],
+      ["header-override", "H_HEADER_OVERRIDE"],
       ["errors", "H_ERRORS"],
     ],
   }),

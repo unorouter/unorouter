@@ -1,5 +1,6 @@
 "use client";
 
+import { CopyButton } from "@/components/elements/code/copy-button";
 import { Icon } from "@/components/ui/icon";
 import {
   buildGroupEntries,
@@ -86,6 +87,18 @@ export function GroupPricingSection(props: {
   );
 }
 
+// The group name IS the X-Group header value for pinning a request to it.
+function GroupNameCell(props: { group: string }) {
+  return (
+    <span className="group/gn inline-flex items-center gap-1.5">
+      {props.group}
+      <span className="opacity-0 transition-opacity group-hover/gn:opacity-100">
+        <CopyButton text={props.group} iconSize="h-3 w-3" />
+      </span>
+    </span>
+  );
+}
+
 function GroupTokens(props: {
   entries: GroupEntry[];
   modelRatio: number;
@@ -114,7 +127,9 @@ function GroupTokens(props: {
           const outputPrice = inputPrice * props.completionRatio;
           return (
             <tr key={ge.group} className={MINI_TABLE_BODY_ROW}>
-              <td className="text-muted-foreground py-1.5">{ge.group}</td>
+              <td className="text-muted-foreground py-1.5">
+                <GroupNameCell group={ge.group} />
+              </td>
               <td className={cn("py-1.5 text-right", props.theme.text)}>
                 {formatPrice(inputPrice)}
               </td>
@@ -151,7 +166,9 @@ function GroupFixed(props: {
       <tbody>
         {props.entries.map((ge) => (
           <tr key={ge.group} className={MINI_TABLE_BODY_ROW}>
-            <td className="text-muted-foreground py-1.5">{ge.group}</td>
+            <td className="text-muted-foreground py-1.5">
+              <GroupNameCell group={ge.group} />
+            </td>
             <td className={cn("py-1.5 text-right", props.theme.text)}>
               {formatPrice(props.fixedPrice * ge.ratio)}
               <span className="text-muted-foreground ml-1 text-[10px] font-normal">
@@ -180,6 +197,7 @@ function GroupGrid(props: {
             <span className={cn("font-mono text-[11px]", props.theme.text)}>
               {ge.group}
             </span>
+            <CopyButton text={ge.group} iconSize="h-3 w-3" />
             <span className="text-muted-foreground font-mono text-[10px]">
               {ge.ratio}x
             </span>
