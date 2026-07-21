@@ -2641,7 +2641,9 @@
       "STEP_3_DESC": "Drop a config in your project root so you do not have to repeat the flags.",
       "GOTCHA_1": "Always include /v1 in the base URL.",
       "GOTCHA_2": "LiteLLM may print unknown model warnings. Use --no-show-model-warnings or supply a context window via --model-metadata-file if it gets noisy."
-    }
+    },
+    "COPY_LINK": "Copy link to this section",
+    "LINK_COPIED": "Link copied"
   },
   "FOOTER": {
     "PRODUCT": "Product",

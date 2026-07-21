@@ -1,4 +1,5 @@
 import { CodeBlock } from "@/components/elements/code/code-block";
+import { HeadingAnchor } from "@/components/pages/docs/heading-anchor";
 import { Link } from "@/i18n/navigation";
 import Image from "next/image";
 
@@ -9,8 +10,12 @@ export function DocSection(props: {
 }) {
   return (
     <section className="mt-12">
-      <h2 className="mb-4 text-2xl font-semibold" id={props.id}>
+      <h2
+        className="group/heading mb-4 scroll-mt-24 text-2xl font-semibold"
+        id={props.id}
+      >
         {props.title}
+        <HeadingAnchor id={props.id} />
       </h2>
       <div className="text-muted-foreground space-y-4 text-sm">
         {props.children}

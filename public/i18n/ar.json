@@ -2641,7 +2641,9 @@
       "STEP_3_DESC": "ضع إعدادا في جذر مشروعك حتى لا تضطر إلى تكرار الأعلام.",
       "GOTCHA_1": "أدرج /v1 دائما في عنوان URL الأساسي.",
       "GOTCHA_2": "قد يطبع LiteLLM تحذيرات unknown model. استخدم --no-show-model-warnings أو وفّر نافذة سياق عبر --model-metadata-file إذا أصبح الأمر مزعجا."
-    }
+    },
+    "COPY_LINK": "نسخ رابط هذا القسم",
+    "LINK_COPIED": "تم نسخ الرابط"
   },
   "FOOTER": {
     "PRODUCT": "المنتج",

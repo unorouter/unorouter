@@ -2641,7 +2641,9 @@
       "STEP_3_DESC": "הניחו קובץ הגדרה בשורש הפרויקט כדי שלא תצטרכו לחזור על הדגלים.",
       "GOTCHA_1": "כללו תמיד את /v1 בכתובת ה-URL הבסיסית.",
       "GOTCHA_2": "LiteLLM עשוי להדפיס אזהרות unknown model. השתמשו בדגל --no-show-model-warnings או ספקו חלון הקשר דרך --model-metadata-file אם זה נעשה מטריד."
-    }
+    },
+    "COPY_LINK": "העתקת קישור לחלק זה",
+    "LINK_COPIED": "הקישור הועתק"
   },
   "FOOTER": {
     "PRODUCT": "מוצר",

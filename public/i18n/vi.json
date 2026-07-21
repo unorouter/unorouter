@@ -2641,7 +2641,9 @@
       "STEP_3_DESC": "Đặt một cấu hình ở thư mục gốc của dự án để bạn không phải lặp lại các cờ mỗi lần.",
       "GOTCHA_1": "Luôn thêm /v1 vào URL cơ sở.",
       "GOTCHA_2": "LiteLLM có thể in các cảnh báo mô hình không xác định. Sử dụng --no-show-model-warnings hoặc cung cấp một cửa sổ ngữ cảnh qua --model-metadata-file nếu chúng quá nhiều."
-    }
+    },
+    "COPY_LINK": "Sao chép liên kết đến mục này",
+    "LINK_COPIED": "Đã sao chép liên kết"
   },
   "FOOTER": {
     "PRODUCT": "Sản phẩm",

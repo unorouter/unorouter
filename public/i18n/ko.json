@@ -2641,7 +2641,9 @@
       "STEP_3_DESC": "플래그를 매번 반복하지 않도록 프로젝트 루트에 설정을 두세요.",
       "GOTCHA_1": "기본 URL에 항상 /v1을 포함하세요.",
       "GOTCHA_2": "LiteLLM이 알 수 없는 모델 경고를 표시할 수 있습니다. 번거로우면 --no-show-model-warnings를 사용하거나 --model-metadata-file로 컨텍스트 윈도우를 지정하세요."
-    }
+    },
+    "COPY_LINK": "이 섹션 링크 복사",
+    "LINK_COPIED": "링크가 복사되었습니다"
   },
   "FOOTER": {
     "PRODUCT": "제품",

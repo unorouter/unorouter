@@ -2641,7 +2641,9 @@
       "STEP_3_DESC": "在專案根目錄放一個設定檔，這樣就不必每次重複這些參數。",
       "GOTCHA_1": "請務必在基礎 URL 中包含 /v1。",
       "GOTCHA_2": "LiteLLM 可能會印出未知模型警告。如果過於嘈雜，請使用 --no-show-model-warnings，或透過 --model-metadata-file 提供上下文視窗。"
-    }
+    },
+    "COPY_LINK": "複製此章節的連結",
+    "LINK_COPIED": "連結已複製"
   },
   "FOOTER": {
     "PRODUCT": "產品",

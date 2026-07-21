@@ -16,6 +16,8 @@ export const CLIENT_DOCS_KEPT = [
   "CC_SWITCH",
   "GENERATE_API_KEY",
   "GENERATE_API_KEY_DESC",
+  "COPY_LINK",
+  "LINK_COPIED",
 ] as const;
 
 export const CLIENT_DOCS_GUIDE_LEAVES = [

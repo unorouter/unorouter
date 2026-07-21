@@ -2641,7 +2641,9 @@
       "STEP_3_DESC": "在项目根目录放一个配置文件，这样就不必每次重复这些参数。",
       "GOTCHA_1": "请始终在基础 URL 中包含 /v1。",
       "GOTCHA_2": "LiteLLM 可能会打印未知模型警告。如果过于嘈杂，请使用 --no-show-model-warnings，或通过 --model-metadata-file 提供上下文窗口。"
-    }
+    },
+    "COPY_LINK": "复制此章节的链接",
+    "LINK_COPIED": "链接已复制"
   },
   "FOOTER": {
     "PRODUCT": "产品",

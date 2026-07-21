@@ -2641,7 +2641,9 @@
       "STEP_3_DESC": "Coloca una configuración en la raíz de tu proyecto para no tener que repetir las opciones.",
       "GOTCHA_1": "Incluye siempre /v1 en la URL base.",
       "GOTCHA_2": "LiteLLM puede mostrar advertencias unknown model. Usa --no-show-model-warnings o proporciona una ventana de contexto mediante --model-metadata-file si se vuelve molesto."
-    }
+    },
+    "COPY_LINK": "Copiar enlace a esta sección",
+    "LINK_COPIED": "Enlace copiado"
   },
   "FOOTER": {
     "PRODUCT": "Producto",

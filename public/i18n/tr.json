@@ -2641,7 +2641,9 @@
       "STEP_3_DESC": "Bayrakları her seferinde tekrarlamamak için proje kok dizinine bir yapılandırma bırakın.",
       "GOTCHA_1": "Temel URL'ye her zaman /v1 ekleyin.",
       "GOTCHA_2": "LiteLLM bilinmeyen model uyarıları yazdırabilir. Çok fazla olursa --no-show-model-warnings kullanın veya --model-metadata-file ile bir bağlam penceresi sağlayın."
-    }
+    },
+    "COPY_LINK": "Bu bölümün bağlantısını kopyala",
+    "LINK_COPIED": "Bağlantı kopyalandı"
   },
   "FOOTER": {
     "PRODUCT": "Ürün",

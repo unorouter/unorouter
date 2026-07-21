@@ -2641,7 +2641,9 @@
       "STEP_3_DESC": "Lege eine Konfiguration im Stammverzeichnis deines Projekts ab, damit du die Flags nicht wiederholen musst.",
       "GOTCHA_1": "Gib in der Basis-URL immer /v1 an.",
       "GOTCHA_2": "LiteLLM gibt möglicherweise unknown model-Warnungen aus. Verwende --no-show-model-warnings oder gib ein Kontextfenster über --model-metadata-file an, wenn es zu laut wird."
-    }
+    },
+    "COPY_LINK": "Link zu diesem Abschnitt kopieren",
+    "LINK_COPIED": "Link kopiert"
   },
   "FOOTER": {
     "PRODUCT": "Produkt",
