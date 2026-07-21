@@ -251,8 +251,14 @@ const Composer: FC = () => {
           <ComposerAttachments />
           <ComposerPrimitive.Input
             placeholder={t("CHAT.INPUT_PLACEHOLDER")}
-            className="aui-composer-input placeholder:text-muted-foreground/80 max-h-32 min-h-10 w-full resize-none bg-transparent px-1.75 py-1 text-base outline-none sm:text-sm"
+            // maxRows bounds react-textarea-autosize's INLINE height. A CSS-only
+            // max-height (max-h-32) left the lib believing the textarea was as
+            // tall as the full content, which desynced iOS Safari caret
+            // hit-testing (tap mid-text, caret shown there but typing inserted
+            // at the end). overflow-y-auto scrolls within the bound.
+            className="aui-composer-input placeholder:text-muted-foreground/80 min-h-10 w-full resize-none overflow-y-auto bg-transparent px-1.75 py-1 text-base outline-none sm:text-sm"
             rows={1}
+            maxRows={6}
             autoFocus
             aria-label={t("CHAT.MESSAGE_INPUT")}
             submitMode={isMobile ? "none" : "enter"}
