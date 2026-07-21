@@ -41,7 +41,7 @@ const DROP_EXCEPTIONS = [
   "standardselectors", // injected extension
   "wallet must has", // crypto wallet extension
   "can't access dead object", // bfcache / detached extension object
-  "permission denied to access object", // firefox cross-origin/extension probe, surfaces via window.onerror only
+  "permission denied to access", // firefox extension touching cross-origin obj / React __reactFiber on a DOM node
   "cannot redefine property: onurlchange", // tampermonkey/violentmonkey
   "failed to load chunk", // stale chunk after a deploy (SW/reload recovers)
   "loading chunk",
