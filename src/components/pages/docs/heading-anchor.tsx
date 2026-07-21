@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
 
-export function HeadingAnchor(props: { id: string }) {
+export function HeadingAnchor(props: { id: string; title: string }) {
   const t = useTranslations();
   const [copied, setCopied] = useState(false);
 
@@ -24,9 +24,13 @@ export function HeadingAnchor(props: { id: string }) {
       type="button"
       onClick={handleCopy}
       aria-label={t("DOCS.COPY_LINK")}
-      className="text-muted-foreground hover:text-foreground ml-2 inline-flex size-6 shrink-0 items-center justify-center align-middle opacity-0 transition-opacity group-hover/heading:opacity-100 focus-visible:opacity-100"
+      className="group/heading inline-flex items-center gap-2 text-left"
     >
-      <Icon name={copied ? "check" : "link"} className="h-4 w-4" />
+      {props.title}
+      <Icon
+        name={copied ? "check" : "link"}
+        className="text-muted-foreground h-4 w-4 shrink-0 opacity-0 transition-opacity group-hover/heading:opacity-100"
+      />
     </button>
   );
 }

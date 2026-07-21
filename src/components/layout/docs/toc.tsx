@@ -1,5 +1,6 @@
 "use client";
 
+import { ScrollHashSync } from "@/components/pages/docs/scroll-hash-sync";
 import { cn } from "@/lib/utils";
 import type { TOCItemType } from "fumadocs-core/toc";
 import {
@@ -246,6 +247,7 @@ interface TOCLayoutProps {
 export function TOCLayout(props: TOCLayoutProps) {
   return (
     <div className="flex min-h-min w-full min-w-0 items-start">
+      <ScrollHashSync />
       <main className="min-w-0 flex-1">{props.children}</main>
       <TOCPanel toc={props.toc} className="mt-4 mr-4" />
     </div>

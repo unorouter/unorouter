@@ -10,12 +10,8 @@ export function DocSection(props: {
 }) {
   return (
     <section className="mt-12">
-      <h2
-        className="group/heading mb-4 scroll-mt-24 text-2xl font-semibold"
-        id={props.id}
-      >
-        {props.title}
-        <HeadingAnchor id={props.id} />
+      <h2 className="mb-4 scroll-mt-24 text-2xl font-semibold" id={props.id}>
+        <HeadingAnchor id={props.id} title={props.title} />
       </h2>
       <div className="text-muted-foreground space-y-4 text-sm">
         {props.children}
