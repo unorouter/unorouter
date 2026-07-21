@@ -74,6 +74,17 @@ export const onRequestError: Instrumentation.onRequestError = async (
     // can fix them.
     if (message.includes("This is a bug in Next.js")) return;
 
+    // DO NOT REMOVE. Background cache revalidation (`handleRevalidate`) of a
+    // "use cache" page whose render throws a control-flow signal (notFound /
+    // redirect for a churned-out :free model) rethrows it here with the digest
+    // AND message already stripped: `Error` with value "", empty digest, source
+    // "render", route the models [...slug] page. The digest guard above cannot
+    // catch it (digest is empty by this point), so a message check is the only
+    // handle. These carry zero actionable signal (no message, no digest, no
+    // app frame) and flooded 25k+ events per 48h twice. Removing this guard
+    // brings the flood straight back.
+    if (!message.trim()) return;
+
     posthog.captureException(err, distinctId, {
       $exception_digest: digest || undefined,
       request_path: request.path,
