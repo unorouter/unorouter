@@ -6,7 +6,7 @@ import {
   oauthUnbindParams,
   registerBody,
 } from "@/lib/api/typebox/auth";
-import { twoFACodeBody, verificationQuery } from "@/lib/api/typebox/common";
+import { twoFALoginBody, verificationQuery } from "@/lib/api/typebox/common";
 import { AUTH_REDIRECT_COOKIE } from "@/lib/config/constants";
 import { unwrap } from "@/lib/utils/base";
 import {
@@ -49,7 +49,7 @@ export const authRoute = new Elysia({ prefix: "/account" })
       });
       return await handleAuthResponse(res, set);
     },
-    { body: twoFACodeBody },
+    { body: twoFALoginBody },
   )
 
   .post(

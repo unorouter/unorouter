@@ -15,6 +15,7 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 
 interface TwoFAFormProps {
+  flowToken?: string;
   onSuccess: () => void;
 }
 
@@ -25,7 +26,9 @@ export function TwoFAForm(props: TwoFAFormProps) {
 
   async function onSubmit(value: string) {
     try {
-      await verify2FA.mutateAsync({ body: { code: value.trim() } });
+      await verify2FA.mutateAsync({
+        body: { code: value.trim(), flow_token: props.flowToken },
+      });
       analytics.auth.twoFAVerified();
       props.onSuccess();
     } catch {

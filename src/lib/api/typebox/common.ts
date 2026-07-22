@@ -13,3 +13,10 @@ export const verificationQuery = t.Object({
 export const twoFACodeBody = t.Object({
   code: t.String(),
 });
+
+// Login-time 2FA verify carries the AuthFlow token from the password step
+// (upstream is stateless; the pending user is looked up strictly by flow_token).
+export const twoFALoginBody = t.Object({
+  code: t.String(),
+  flow_token: t.Optional(t.String()),
+});

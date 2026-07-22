@@ -38,6 +38,7 @@ export function LoginForm() {
   });
 
   const [show2FA, setShow2FA] = useState(false);
+  const [twoFAFlowToken, setTwoFAFlowToken] = useState<string | undefined>();
   const [turnstileToken, setTurnstileToken] = useState<string | undefined>();
   const turnstileRef = useRef<TurnstileInstance>(null);
 
@@ -61,6 +62,9 @@ export function LoginForm() {
         },
       });
       if (result && "require_2fa" in result && result.require_2fa) {
+        if ("flow_token" in result && typeof result.flow_token === "string") {
+          setTwoFAFlowToken(result.flow_token);
+        }
         setShow2FA(true);
         return;
       }
@@ -77,6 +81,7 @@ export function LoginForm() {
   if (show2FA) {
     return (
       <TwoFAForm
+        flowToken={twoFAFlowToken}
         onSuccess={() => {
           router.push(getRedirectPath());
           router.refresh();
