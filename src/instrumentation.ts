@@ -85,6 +85,13 @@ export const onRequestError: Instrumentation.onRequestError = async (
     // brings the flood straight back.
     if (!message.trim()) return;
 
+    // DO NOT REMOVE. Bots POST garbage bodies at /RSC/*.txt and similar, which
+    // Next routes to /_not-found/page and tries to parse as a Server Action
+    // FormData ("Failed to parse body as FormData / no boundary"). It's
+    // unreachable app surface (a 404 page), not a fault. Guard on the route so
+    // a real error in a legit page still reports.
+    if (context.routePath === "/_not-found/page") return;
+
     posthog.captureException(err, distinctId, {
       $exception_digest: digest || undefined,
       request_path: request.path,
