@@ -4,13 +4,33 @@ import { useEffect } from "react";
 
 // Mirrors the section scrolled into view into the URL hash (history.replaceState,
 // no navigation/scroll jump) so the address bar always points at the visible
-// section and can be copied/shared. Observes the DocSection h2[id] headings.
+// section and can be copied/shared. Observes the DocSection h2[id] headings
+// inside <main> only, so portalled dialog titles (the search command dialog's
+// visually-hidden h2 carries a Base UI useId) never leak into the hash.
 export function ScrollHashSync() {
   useEffect(() => {
+    const root = document.querySelector("main") ?? document;
     const headings = Array.from(
-      document.querySelectorAll<HTMLHeadingElement>("h2[id]"),
+      root.querySelectorAll<HTMLHeadingElement>("h2[id]"),
     );
     if (headings.length === 0) return;
+
+    // Drop a stale/garbage hash (e.g. a portalled dialog's Base UI useId that a
+    // prior build wrote) that points at no in-content target, so links stay
+    // clean. Any real section/step anchor lives inside <main>, so a hash that
+    // resolves nowhere there is safe to clear.
+    const current = decodeURIComponent(window.location.hash.slice(1));
+    if (
+      current &&
+      root instanceof Element &&
+      !root.querySelector(`[id="${CSS.escape(current)}"]`)
+    ) {
+      window.history.replaceState(
+        null,
+        "",
+        window.location.pathname + window.location.search,
+      );
+    }
 
     const visible = new Set<string>();
 
