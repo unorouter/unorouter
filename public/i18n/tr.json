@@ -2516,7 +2516,7 @@
       "GOTCHA_1": "\"discoverModels\": true ile OpenCode başlangıçta tüm {appName} kataloğunu /v1/models üzerinden otomatik çeker, böylece her model (yenileri dahil) elle yazmadan seçicide görünür.",
       "GOTCHA_2": "Developer: Reload Window sağlayıcınızı göstermiyorsa, JSON'un sondaki virgüller olmadan kaydedildiğini tekrar kontrol edin.",
       "GOTCHA_3": "{appName} kataloğundaki tam model kimliklerini kullanın. Kopyala yapıştır bir ön ek ekledyse onu kaldırın.",
-      "GOTCHA_4": "Otomatik keşif olmayan eski OpenCode sürümlerinde, ihtiyacın olan tam kimlikleri listeleyen bir \"models\" bloğu ekle (örneğin {\"gemini-3.1-flash-lite\": {}}) ve yeniden başlat."
+      "GOTCHA_4": "Otomatik keşif olmayan eski OpenCode sürümlerinde, ihtiyacın olan tam kimlikleri listeleyen bir \"models\" bloğu ekle (örneğin '{\"gemini-3.1-flash-lite\": {}}') ve yeniden başlat."
     },
     "KILO_CODE": {
       "META": {

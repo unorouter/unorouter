@@ -2516,7 +2516,7 @@
       "GOTCHA_1": "Z \"discoverModels\": true OpenCode przy starcie automatycznie pobiera cały katalog {appName} z /v1/models, więc każdy model (w tym nowe) pojawia się na liście bez ręcznego wpisywania.",
       "GOTCHA_2": "Jeśli polecenie Developer: Reload Window nie pokazuje Twojego dostawcy, sprawdź ponownie, czy plik JSON został zapisany bez końcowych przecinków.",
       "GOTCHA_3": "Używaj dokładnych identyfikatorów modeli z katalogu {appName}. Usuń wiodący prefiks dostawcy, jeśli został dodany przy kopiowaniu.",
-      "GOTCHA_4": "W starszym OpenCode bez automatycznego wykrywania dodaj blok \"models\" z dokładnymi potrzebnymi id (np. {\"gemini-3.1-flash-lite\": {}}) i uruchom ponownie."
+      "GOTCHA_4": "W starszym OpenCode bez automatycznego wykrywania dodaj blok \"models\" z dokładnymi potrzebnymi id (np. '{\"gemini-3.1-flash-lite\": {}}') i uruchom ponownie."
     },
     "KILO_CODE": {
       "META": {

@@ -2516,7 +2516,7 @@
       "GOTCHA_1": "Dengan \"discoverModels\": true, OpenCode otomatis mengambil seluruh katalog {appName} dari /v1/models saat mulai, sehingga setiap model (termasuk yang baru) muncul di pemilih tanpa perlu didaftarkan manual.",
       "GOTCHA_2": "Jika Developer: Reload Window tidak menampilkan penyedia Anda, periksa kembali bahwa JSON tersimpan tanpa koma di akhir.",
       "GOTCHA_3": "Gunakan ID model yang tepat dari katalog {appName}. Hapus awalan penyedia di depan jika tertambahkan saat menyalin dan menempel.",
-      "GOTCHA_4": "Pada OpenCode lama tanpa penemuan otomatis, tambahkan blok \"models\" yang mencantumkan id persis yang kamu butuhkan (misalnya {\"gemini-3.1-flash-lite\": {}}) lalu mulai ulang."
+      "GOTCHA_4": "Pada OpenCode lama tanpa penemuan otomatis, tambahkan blok \"models\" yang mencantumkan id persis yang kamu butuhkan (misalnya '{\"gemini-3.1-flash-lite\": {}}') lalu mulai ulang."
     },
     "KILO_CODE": {
       "META": {

@@ -2516,7 +2516,7 @@
       "GOTCHA_1": "\"discoverModels\": true를 설정하면 OpenCode가 시작 시 /v1/models에서 {appName} 카탈로그 전체를 자동으로 가져오므로, 직접 나열하지 않아도 모든 모델(새 모델 포함)이 선택기에 표시됩니다.",
       "GOTCHA_2": "Developer: Reload Window에서 프로바이더가 보이지 않으면 JSON이 끝에 쉼표 없이 저장되었는지 다시 확인하세요.",
       "GOTCHA_3": "{appName} 카탈로그의 정확한 모델 ID를 사용하세요. 복사하여 붙여넣을 때 앞에 프로바이더 접두사가 붙었다면 제거하세요.",
-      "GOTCHA_4": "자동 검색이 없는 구버전 OpenCode에서는 필요한 정확한 id를 나열한 \"models\" 블록을 추가하고(예: {\"gemini-3.1-flash-lite\": {}}) 다시 시작하세요."
+      "GOTCHA_4": "자동 검색이 없는 구버전 OpenCode에서는 필요한 정확한 id를 나열한 \"models\" 블록을 추가하고(예: '{\"gemini-3.1-flash-lite\": {}}') 다시 시작하세요."
     },
     "KILO_CODE": {
       "META": {

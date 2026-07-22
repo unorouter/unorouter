@@ -2516,7 +2516,7 @@
       "GOTCHA_1": "设置 \"discoverModels\": true 后，OpenCode 启动时会自动从 /v1/models 拉取完整的 {appName} 目录，因此无需手动列出，每个模型（包括新模型）都会出现在选择器中。",
       "GOTCHA_2": "如果 Developer: Reload Window 未显示你的提供商，请再次检查 JSON 是否在保存时没有多余的尾随逗号。",
       "GOTCHA_3": "请使用 {appName} 目录中的精确模型 ID。如果复制粘贴时添加了前导提供商前缀，请将其去掉。",
-      "GOTCHA_4": "在没有自动发现的旧版 OpenCode 上，添加 \"models\" 块并列出所需的准确 id（例如 {\"gemini-3.1-flash-lite\": {}}），然后重启。"
+      "GOTCHA_4": "在没有自动发现的旧版 OpenCode 上，添加 \"models\" 块并列出所需的准确 id（例如 '{\"gemini-3.1-flash-lite\": {}}'），然后重启。"
     },
     "KILO_CODE": {
       "META": {

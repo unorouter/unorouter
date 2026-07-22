@@ -2516,7 +2516,7 @@
       "GOTCHA_1": "Với \"discoverModels\": true, OpenCode tự động tải toàn bộ danh mục {appName} từ /v1/models khi khởi động, nên mọi mô hình (kể cả mô hình mới) đều xuất hiện trong bộ chọn mà không cần liệt kê thủ công.",
       "GOTCHA_2": "Nếu Developer: Reload Window không hiển thị nhà cung cấp của bạn, hãy kiểm tra lại rằng JSON đã được lưu mà không có dấu phẩy ở cuối.",
       "GOTCHA_3": "Sử dụng đúng ID mô hình từ danh mục {appName}. Xoá tiền tố nhà cung cấp ở đầu nếu thao tác sao chép đã thêm vào.",
-      "GOTCHA_4": "Trên OpenCode cũ không có tự động phát hiện, hãy thêm khối \"models\" liệt kê đúng các id bạn cần (ví dụ {\"gemini-3.1-flash-lite\": {}}) rồi khởi động lại."
+      "GOTCHA_4": "Trên OpenCode cũ không có tự động phát hiện, hãy thêm khối \"models\" liệt kê đúng các id bạn cần (ví dụ '{\"gemini-3.1-flash-lite\": {}}') rồi khởi động lại."
     },
     "KILO_CODE": {
       "META": {

@@ -2516,7 +2516,7 @@
       "GOTCHA_1": "\"discoverModels\": true を設定すると、OpenCode は起動時に /v1/models から {appName} のカタログ全体を自動取得するため、手動で列挙しなくてもすべてのモデル（新しいものも含む）がセレクターに表示されます。",
       "GOTCHA_2": "Developer: Reload Window でプロバイダーが表示されない場合は、JSON が末尾のカンマなしで保存されているか再確認してください。",
       "GOTCHA_3": "{appName} カタログの正確なモデル ID を使用してください。コピー＆ペーストで先頭にプロバイダーの接頭辞が付いた場合は取り除いてください。",
-      "GOTCHA_4": "自動検出のない古い OpenCode では、必要な正確な id を列挙した \"models\" ブロックを追加し（例: {\"gemini-3.1-flash-lite\": {}}）、再起動してください。"
+      "GOTCHA_4": "自動検出のない古い OpenCode では、必要な正確な id を列挙した \"models\" ブロックを追加し（例: '{\"gemini-3.1-flash-lite\": {}}'）、再起動してください。"
     },
     "KILO_CODE": {
       "META": {

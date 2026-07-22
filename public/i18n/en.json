@@ -2516,7 +2516,7 @@
       "GOTCHA_1": "With \"discoverModels\": true, OpenCode auto-fetches the full {appName} catalog from /v1/models on startup, so every model (including new ones) shows up in the picker without listing them by hand.",
       "GOTCHA_2": "If Developer: Reload Window does not show your provider, double check the JSON saved without trailing commas.",
       "GOTCHA_3": "Use exact model ids from the {appName} catalog. Strip any leading provider prefix if a copy-paste added one.",
-      "GOTCHA_4": "On older OpenCode without auto-discovery, add a \"models\" block listing the exact ids you need (e.g. {\"gemini-3.1-flash-lite\": {}}) and restart."
+      "GOTCHA_4": "On older OpenCode without auto-discovery, add a \"models\" block listing the exact ids you need (e.g. '{\"gemini-3.1-flash-lite\": {}}') and restart."
     },
     "KILO_CODE": {
       "META": {
