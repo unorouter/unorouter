@@ -11,11 +11,17 @@ import {
   LOCALES,
   msg,
   SERVER_URL_KEY,
-  USER_ID_COOKIE,
 } from "../config/constants";
 import { getCachedPricing } from "../api/cached";
-import { rpc } from "../rpc";
-import { handleElysia } from "./base";
+
+export const setCookies = async () => {
+  const cookie = (await cookies())
+    .getAll()
+    .map((c) => `${c.name}=${c.value}`)
+    .join("; ");
+
+  return { headers: { cookie } };
+};
 
 export async function signUserId(userId: number | string): Promise<string> {
   const id = Number(userId);
@@ -93,29 +99,6 @@ export const getDocsApiKey = async (placeholder = "YOUR_API_KEY") => {
     topTextModel: topTextModel?.name ?? models[0]?.name ?? "model-name",
   };
 };
-
-export const setCookies = async () => {
-  const cookie = (await cookies())
-    .getAll()
-    .map((c) => `${c.name}=${c.value}`)
-    .join("; ");
-
-  return { headers: { cookie } };
-};
-
-export async function fetchConvTitle(convId: string): Promise<string | null> {
-  const loggedIn = (await cookies()).has(USER_ID_COOKIE);
-  if (!loggedIn) return null;
-  try {
-    const cookieHeaders = await setCookies();
-    const meta = handleElysia(
-      await rpc.api.ai.chat({ id: convId }).meta.get(cookieHeaders),
-    );
-    return meta.title ?? null;
-  } catch {
-    return null;
-  }
-}
 
 // The auth-redirect cookie is client-written: it may hold a DECODED localized
 // path (Cyrillic /ru/... pathnames throw "Cannot convert argument to a

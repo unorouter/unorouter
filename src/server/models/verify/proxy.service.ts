@@ -1,5 +1,5 @@
 import { errMessage } from "@/lib/utils/base";
-import { safeFetchRaw } from "@/lib/config/r2";
+import { safeFetchRaw } from "@/lib/config/safe-fetch";
 import type { VerifyProbeBody } from "@/lib/api/typebox/verify";
 
 const PROBE_MAX_BYTES = 256 * 1024;

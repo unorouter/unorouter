@@ -6,7 +6,7 @@ import {
   type UpstreamSubmitResp,
 } from "@/lib/api/video-task";
 import { msg } from "@/lib/config/constants";
-import { downloadGenerationBytes } from "@/lib/config/r2";
+import { downloadGenerationBytes } from "@/lib/config/safe-fetch";
 import { base64ToDataUri } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 import type { FinalizeTaskBody } from "@/lib/validation/chat";

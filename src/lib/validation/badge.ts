@@ -23,7 +23,6 @@ export const BADGE_TYPES = [
   "brand",
   "chat",
   "tester",
-  "playground",
 ] as const;
 export type BadgeType = (typeof BADGE_TYPES)[number];
 

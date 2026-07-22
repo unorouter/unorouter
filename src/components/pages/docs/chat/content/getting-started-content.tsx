@@ -1,7 +1,11 @@
 import { APP_VALUES } from "@/lib/config/constants";
 import { getTranslations } from "next-intl/server";
 import { chatDocKey } from "../chat-doc-template";
-import { DocImage, DocKbd, DocSection } from "@/components/pages/docs/doc-parts";
+import {
+  DocImage,
+  DocKbd,
+  DocSection,
+} from "@/components/pages/docs/doc-parts";
 
 const P = "DOCS_CHAT.GETTING_STARTED";
 

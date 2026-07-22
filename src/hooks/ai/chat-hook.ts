@@ -416,14 +416,6 @@ export function useDuplicateConversationMutation() {
   );
 }
 
-export function useConversationMarkdown() {
-  return useChatMutation(
-    async (_userId, args: ConvIdArg) =>
-      handleElysia(await rpc.api.ai.chat({ id: args.id }).markdown.get()),
-    () => [],
-  );
-}
-
 export function useSetActiveBranchMutation() {
   return useChatMutation(
     async (userId, args: { convId: string; msgId: string }) => {

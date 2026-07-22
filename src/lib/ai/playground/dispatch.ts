@@ -1,6 +1,6 @@
 import type { SyncImageEndpoint } from "@/lib/ai/playground/models-dynamic";
 import { API_ENDPOINTS } from "@/lib/ai/endpoints";
-import { safeFetchBytes } from "@/lib/config/r2";
+import { safeFetchBytes } from "@/lib/config/safe-fetch";
 import { base64ToDataUri } from "@/lib/utils/base";
 
 const MAX_REF_BYTES = 10 * 1024 * 1024;

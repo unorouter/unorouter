@@ -18,7 +18,6 @@ import { env } from "@/lib/config/env";
 import { getSeoTimestamps } from "@/lib/seo/metadata";
 import { modelSlug, vendorSlug } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
-import { listCatalogEntries } from "@/server/models/pricing/model-catalog.service";
 import type { MetadataRoute } from "next";
 
 type EntryOptions = {
@@ -87,19 +86,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       "[sitemap] pricing returned no models; model pages omitted from sitemap",
     );
 
-  const catalogEntries = await listCatalogEntries().catch(() => []);
-  const modelNames = [
-    ...new Set([
-      ...(pricing?.models ?? []).map((m) => m.name),
-      ...catalogEntries.map((e) => e.name),
-    ]),
-  ];
+  const modelNames = [...new Set((pricing?.models ?? []).map((m) => m.name))];
   const nameSet = new Set(modelNames);
 
-  const nameToVendor = new Map<string, string>([
-    ...catalogEntries.map((e) => [e.name, e.vendor] as const),
-    ...(pricing?.models ?? []).map((m) => [m.name, m.vendor.name] as const),
-  ]);
+  const nameToVendor = new Map<string, string>(
+    (pricing?.models ?? []).map((m) => [m.name, m.vendor.name] as const),
+  );
   const sitemapModelNames = modelNames.filter((name) =>
     vendorSlug(nameToVendor.get(name) ?? ""),
   );

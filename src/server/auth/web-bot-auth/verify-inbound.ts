@@ -1,5 +1,5 @@
 import { errMessage } from "@/lib/utils/base";
-import { safeFetchBytes } from "@/lib/config/r2";
+import { safeFetchBytes } from "@/lib/config/safe-fetch";
 import { logger } from "@/lib/utils/logger";
 import { HTTP_MESSAGE_SIGNATURES_DIRECTORY } from "http-message-sig";
 import { verify } from "web-bot-auth";

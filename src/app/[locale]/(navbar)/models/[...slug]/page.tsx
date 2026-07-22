@@ -27,7 +27,6 @@ import {
 } from "@/lib/utils/base";
 import { formatPrice } from "@/lib/utils/format/number";
 import { serverLocale } from "@/lib/utils/server";
-import { getCatalogModel } from "@/server/models/pricing/model-catalog.service";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
 import { notFound, permanentRedirect } from "next/navigation";
@@ -53,10 +52,6 @@ async function resolveModel(slug: string): Promise<ResolvedModel | null> {
   const data = await getCachedPricing(true).catch(() => null);
   const live = data?.models.find((m) => modelMatchesSlug(m.name, slug));
   if (live) return { model: live, atCapacity: !live.online, data };
-  const snapshot = await getCatalogModel((name) =>
-    modelMatchesSlug(name, slug),
-  ).catch(() => null);
-  if (snapshot) return { model: snapshot, atCapacity: true, data };
   return null;
 }
 

@@ -3,12 +3,6 @@ import { IS_DEV, POSTHOG_DISABLED } from "./lib/config/constants";
 
 export async function register() {
   await import("./lib/utils/format/date");
-
-  if (process.env.NEXT_RUNTIME === "nodejs") {
-    const { startGenerationSweeper } =
-      await import("./server/ai/playground/playground-sweeper");
-    startGenerationSweeper();
-  }
 }
 
 export const onRequestError: Instrumentation.onRequestError = async (

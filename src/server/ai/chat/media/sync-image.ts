@@ -4,11 +4,25 @@ import {
   fetchAllRefs,
 } from "@/lib/ai/playground/dispatch";
 import { getPricingSummary } from "@/lib/api/pricing-cache";
-import { downloadGenerationBytes } from "@/lib/config/r2";
+import { downloadGenerationBytes } from "@/lib/config/safe-fetch";
 import { type SyncImageEndpoint } from "@/lib/ai/playground/models-dynamic";
-import type { PlaygroundSubmitBody } from "@/lib/validation/playground";
+import type {
+  GeneratedImage,
+  PlaygroundSubmitBody,
+} from "@/lib/validation/playground";
 import { upstreamApiUrl } from "@/server/constants";
-import { type GeneratedImage, paramsToSize } from "./playground-finalize";
+
+// Sync image generation shared by the chat inlay/illustrator. Formerly lived in
+// the playground vertical (playground-submit-sync.ts); the playground UI was
+// removed but the isomorphic image-gen engine under src/lib/ai/playground/ +
+// this submit path are reused by in-chat image generation, so they stay here
+// under chat/media.
+function paramsToSize(
+  params: PlaygroundSubmitBody["params"],
+): string | undefined {
+  const p = params ?? {};
+  return p.width && p.height ? `${p.width}x${p.height}` : undefined;
+}
 
 export async function submitSyncImage(args: {
   apiKey: string;

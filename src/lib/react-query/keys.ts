@@ -106,20 +106,4 @@ export const queryKeys = {
   modelStatusComponents: () => ["model-status", "components"] as const,
   modelStatusBuckets: (model: string, bucket: string, hours: number) =>
     ["model-status", "buckets", model, bucket, hours] as const,
-
-  playgroundSessionLists: () => ["playground-session-list"] as const,
-  playgroundSessionList: (params?: { limit?: number }) =>
-    ["playground-session-list", params] as const,
-  playgroundSession: (id: string) => ["playground-session", id] as const,
-  playgroundSnapshot: (id: string) => ["playground-snapshot", id] as const,
-  playgroundSnapshotStatus: (id: string) =>
-    ["playground-snapshot-status", id] as const,
-  loraCatalog: (params?: EdenQuery<typeof rpc.api.ai.playground.loras>) =>
-    ["lora-catalog", params] as const,
-  embeddingCatalog: (
-    params?: EdenQuery<typeof rpc.api.ai.playground.embeddings>,
-  ) => ["embedding-catalog", params] as const,
-  upscalerCatalog: (
-    params?: EdenQuery<typeof rpc.api.ai.playground.upscalers>,
-  ) => ["upscaler-catalog", params] as const,
 };

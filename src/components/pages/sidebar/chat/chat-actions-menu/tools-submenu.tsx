@@ -11,11 +11,9 @@ import {
 import { Icon } from "@/components/ui/icon";
 import {
   useClearConversationMutation,
-  useConversationMarkdown,
   useDuplicateConversationMutation,
 } from "@/hooks/ai/chat-hook";
 import { analytics } from "@/lib/analytics";
-import { copyToClipboard } from "@/lib/utils/base";
 import { useAui } from "@assistant-ui/react";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
@@ -29,18 +27,9 @@ type Props = {
 export function ToolsSubmenu(props: Props) {
   const t = useTranslations();
   const aui = useAui();
-  const markdownMut = useConversationMarkdown();
   const duplicateMut = useDuplicateConversationMutation();
   const clearMut = useClearConversationMutation();
   const hasConv = !!props.convId;
-
-  const handleMarkdown = async () => {
-    if (!props.convId) return;
-    const data = await markdownMut.mutateAsync({ id: props.convId });
-    await copyToClipboard(data.markdown);
-    analytics.chat.markdownCopied({ char_count: data.markdown.length });
-    toast.success(t("CHAT.MORE.MARKDOWN_COPIED"));
-  };
 
   const handleDuplicate = async () => {
     if (!props.convId) return;
@@ -73,13 +62,6 @@ export function ToolsSubmenu(props: Props) {
         {t("CHAT.MORE.TOOLS")}
       </DropdownMenuSubTrigger>
       <DropdownMenuSubContent>
-        <DropdownMenuItem
-          disabled={!hasConv || markdownMut.isPending}
-          onClick={handleMarkdown}
-        >
-          <Icon name="clipboard-copy" className="size-4" />
-          {t("CHAT.MORE.GET_MARKDOWN")}
-        </DropdownMenuItem>
         <DropdownMenuItem
           disabled={!hasConv || duplicateMut.isPending}
           onClick={handleDuplicate}

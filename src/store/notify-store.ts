@@ -60,8 +60,7 @@ export const watchedTopicsAtom = atom(
 );
 
 export const mutedTopicsAtom = atom(
-  (get) =>
-    get(notifyStoreAtom).mutedTopics ?? INITIAL_NOTIFY_STATE.mutedTopics,
+  (get) => get(notifyStoreAtom).mutedTopics ?? INITIAL_NOTIFY_STATE.mutedTopics,
   (get, set, value: string[]) => {
     set(notifyStoreAtom, { ...get(notifyStoreAtom), mutedTopics: value });
   },

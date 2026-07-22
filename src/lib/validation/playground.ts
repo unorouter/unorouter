@@ -227,56 +227,9 @@ export const generatedImage = t.Object({
 });
 export type GeneratedImage = Static<typeof generatedImage>;
 
-export const playgroundReferenceUploadBody = t.Object({
-  file: t.File({
-    maxSize: "10m",
-    type: ["image/png", "image/jpeg", "image/webp"],
-  }),
-});
-
 export const generationBaseModel = t.Union([
   t.Literal("sdxl"),
   t.Literal("pony"),
   t.Literal("flux2"),
   t.Literal("z-image"),
 ]);
-
-export const loraCatalogQuery = t.Object({
-  baseModel: t.Optional(generationBaseModel),
-  category: t.Optional(
-    t.Union([
-      t.Literal("anatomy"),
-      t.Literal("style"),
-      t.Literal("character"),
-      t.Literal("concept"),
-    ]),
-  ),
-});
-export type LoraCatalogQuery = Static<typeof loraCatalogQuery>;
-
-export const embeddingCatalogQuery = t.Object({
-  baseModel: t.Optional(generationBaseModel),
-  category: t.Optional(t.String({ maxLength: 64 })),
-});
-export type EmbeddingCatalogQuery = Static<typeof embeddingCatalogQuery>;
-
-export const upscalerCatalogQuery = t.Object({
-  category: t.Optional(
-    t.Union([
-      t.Literal("latent"),
-      t.Literal("esrgan"),
-      t.Literal("swinir"),
-      t.Literal("dat"),
-      t.Literal("apisr"),
-      t.Literal("other"),
-    ]),
-  ),
-});
-export type UpscalerCatalogQuery = Static<typeof upscalerCatalogQuery>;
-
-export const playgroundMaskUploadBody = t.Object({
-  file: t.File({
-    maxSize: "10m",
-    type: ["image/png", "image/jpeg"],
-  }),
-});

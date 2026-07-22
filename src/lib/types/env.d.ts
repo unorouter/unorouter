@@ -3,7 +3,6 @@ declare namespace NodeJS {
     NEXT_PUBLIC_APP_NAME: string;
     NEXT_PUBLIC_URL: string;
     NEXT_PUBLIC_API_URL: string;
-    NEXT_PUBLIC_R2_PUBLIC_URL: string;
     NEXT_PUBLIC_SUPPORT_EMAIL: string;
     NEXT_PUBLIC_GITHUB_URL: string;
     NEXT_PUBLIC_DISCORD_URL?: string;
@@ -19,12 +18,6 @@ declare namespace NodeJS {
 
     TURSO_DATABASE_URL: string;
     TURSO_AUTH_TOKEN?: string;
-
-    R2_ACCOUNT_ID: string;
-    R2_ACCESS_KEY_ID: string;
-    R2_SECRET_ACCESS_KEY: string;
-    R2_PUBLIC_URL: string;
-    R2_BUCKET: string;
 
     TAVILY_API_KEY?: string;
     LLM_STATS_API_KEY?: string;

@@ -7,8 +7,6 @@ function isOptimizable(src: string): boolean {
   if (!src.startsWith("http")) return false;
   try {
     const host = new URL(src).host;
-    const r2Host = env.r2PublicUrl ? new URL(env.r2PublicUrl).host : "";
-    if (r2Host && host === r2Host) return true;
     if (host === new URL(env.appUrl).host) return true;
     return false;
   } catch {

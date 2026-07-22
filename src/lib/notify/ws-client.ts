@@ -3,10 +3,7 @@
 import { env } from "@/lib/config/env";
 import { getPushSubscription, sha256Hex } from "@/lib/notify/push";
 import { chatStore } from "@/store/chat-store";
-import {
-  notifyConnectedAtom,
-  type NotifyEvent,
-} from "@/store/notify-store";
+import { notifyConnectedAtom, type NotifyEvent } from "@/store/notify-store";
 import { WebSocket as ReconnectingWebSocket } from "partysocket";
 
 const CHANNEL_NAME = `${env.appName}-notify-events`;

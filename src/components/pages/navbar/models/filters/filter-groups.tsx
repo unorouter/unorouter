@@ -197,7 +197,7 @@ export function PriceGroup(props: {
               value={max >= PRICE_MAX ? "" : max}
               placeholder={t("MODELS.FILTER.ANY")}
               onChange={(e) => commitMax(e.target.value)}
-              className="border-input bg-transparent focus-visible:ring-ring/50 w-16 rounded-md border px-1.5 py-0.5 text-right font-mono text-[10px] tabular-nums outline-none focus-visible:ring-2 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+              className="border-input focus-visible:ring-ring/50 w-16 [appearance:textfield] rounded-md border bg-transparent px-1.5 py-0.5 text-right font-mono text-[10px] tabular-nums outline-none focus-visible:ring-2 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
             />
           </div>
         </div>

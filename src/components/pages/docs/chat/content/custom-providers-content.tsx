@@ -1,7 +1,12 @@
 import { APP_VALUES } from "@/lib/config/constants";
 import { getTranslations } from "next-intl/server";
 import { chatDocKey } from "../chat-doc-template";
-import { DocCode, DocImage, DocKbd, DocSection } from "@/components/pages/docs/doc-parts";
+import {
+  DocCode,
+  DocImage,
+  DocKbd,
+  DocSection,
+} from "@/components/pages/docs/doc-parts";
 
 const P = "DOCS_CHAT.CUSTOM_PROVIDERS";
 

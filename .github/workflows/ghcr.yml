@@ -39,11 +39,6 @@ jobs:
           echo SESSION_SECRET=${{ secrets.SESSION_SECRET }} >> .env
           echo TURSO_DATABASE_URL=${{ secrets.TURSO_DATABASE_URL }} >> .env
           echo TURSO_AUTH_TOKEN=${{ secrets.TURSO_AUTH_TOKEN }} >> .env
-          echo R2_ACCOUNT_ID=${{ secrets.R2_ACCOUNT_ID }} >> .env
-          echo R2_ACCESS_KEY_ID=${{ secrets.R2_ACCESS_KEY_ID }} >> .env
-          echo R2_SECRET_ACCESS_KEY=${{ secrets.R2_SECRET_ACCESS_KEY }} >> .env
-          echo R2_PUBLIC_URL=${{ secrets.R2_PUBLIC_URL }} >> .env
-          echo R2_BUCKET=${{ secrets.R2_BUCKET }} >> .env
           echo TAVILY_API_KEY=${{ secrets.TAVILY_API_KEY }} >> .env
           echo GUEST_API_KEY=${{ secrets.GUEST_API_KEY }} >> .env
           echo NEXT_PUBLIC_POSTHOG_DISABLED=${{ secrets.NEXT_PUBLIC_POSTHOG_DISABLED }} >> .env

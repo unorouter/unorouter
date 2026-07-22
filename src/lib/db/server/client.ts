@@ -7,7 +7,6 @@ import { drizzle, type LibSQLDatabase } from "drizzle-orm/libsql";
 import { migrate } from "drizzle-orm/libsql/migrator";
 import { resolve } from "path";
 import * as schema from "../schema";
-import { runSeeds } from "./seeds";
 
 let _db: LibSQLDatabase<typeof schema> | null = null;
 let _client: Client | null = null;
@@ -26,8 +25,7 @@ export function getDb(): LibSQLDatabase<typeof schema> {
   _db = drizzle(_client, { schema });
 
   if (!serverEnv.standalone) {
-    const db = _db;
-    migrate(db, { migrationsFolder: resolve("drizzle/server") })
+    migrate(_db, { migrationsFolder: resolve("drizzle/server") })
       .catch((e) => {
         if (isAlreadyExistsError(e)) {
           logger.warn("Migration baseline already applied; skipping", {
@@ -35,14 +33,23 @@ export function getDb(): LibSQLDatabase<typeof schema> {
           });
           return;
         }
+        // A write-blocked / read-only Turso (e.g. free-tier quota hit) rejects
+        // the migrate with "BLOCKED: writes are forbidden". That is a transient
+        // account state, not a code fault, so warn (one line) instead of
+        // dumping the full DrizzleQueryError stack on every boot.
+        if (isWriteBlockedError(e)) {
+          logger.warn(
+            "Migration skipped: database is read-only / write-blocked",
+            {
+              context: "db",
+            },
+          );
+          return;
+        }
         throw e;
       })
-      .then(() => runSeeds(db))
       .catch((e) =>
-        logger.error("Database migration / seed failed", {
-          context: "db",
-          err: e,
-        }),
+        logger.error("Database migration failed", { context: "db", err: e }),
       );
   }
 
@@ -50,6 +57,9 @@ export function getDb(): LibSQLDatabase<typeof schema> {
 }
 
 function isAlreadyExistsError(e: unknown): boolean {
-  const msg = errMessage(e);
-  return /already exists/i.test(msg);
+  return /already exists/i.test(errMessage(e));
+}
+
+function isWriteBlockedError(e: unknown): boolean {
+  return /blocked|forbidden|read.?only|quota/i.test(errMessage(e));
 }

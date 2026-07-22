@@ -1,5 +1,5 @@
 import { errMessage } from "@/lib/utils/base";
-import { safeFetchRaw } from "@/lib/config/r2";
+import { safeFetchRaw } from "@/lib/config/safe-fetch";
 import { runVerification } from "@/lib/ai/verify/runner";
 import type { TransportArgs, TransportResult } from "@/lib/ai/verify/transport";
 import type { VerifyProvider } from "@/lib/ai/verify/types";

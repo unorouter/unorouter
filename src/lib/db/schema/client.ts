@@ -20,7 +20,6 @@ export const ENTITY_KINDS = [
   "presets",
   "cards",
   "conversations",
-  "playgroundSessions",
   "theme",
 ] as const;
 

@@ -2,7 +2,7 @@ import { chooseEndpoint } from "@/lib/ai/playground/models-dynamic";
 import { getPricingSummary } from "@/lib/api/pricing-cache";
 import { uid } from "@/lib/utils/base";
 import type { PlaygroundSubmitBody } from "@/lib/validation/playground";
-import { submitSyncImage } from "@/server/ai/playground/playground-submit-sync";
+import { submitSyncImage } from "./sync-image";
 import type { InlayImage } from "@/lib/ai/chat/pipeline/deps";
 
 export async function generateInlayImage(

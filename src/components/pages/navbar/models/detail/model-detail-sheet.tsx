@@ -63,7 +63,10 @@ function WatchButton(props: { modelName: string }) {
     <Button
       size="sm"
       variant="outline"
-      className={cn("flex-1", watch.watched && "border-primary/40 text-primary")}
+      className={cn(
+        "flex-1",
+        watch.watched && "border-primary/40 text-primary",
+      )}
       onClick={() => watch.toggle()}
     >
       <Icon name="bell" className="mr-2 h-3.5 w-3.5" />

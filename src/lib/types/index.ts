@@ -10,12 +10,6 @@ import type {
   RequestLogRow,
 } from "@/lib/db/schema/rows";
 import type { ConversationSettingsProjection } from "@/lib/db/conversation-settings";
-import type {
-  GenerationFormUi,
-  GenerationParams,
-  LoraEntry,
-  ReferenceEntry,
-} from "@/lib/validation/playground";
 import type { UIMessage } from "ai";
 import type { SQL } from "drizzle-orm";
 import type { SQLiteColumn, SQLiteTable } from "drizzle-orm/sqlite-core";
@@ -79,36 +73,6 @@ export type ChatMessageMetadata = {
 export type ChatUIMessage = UIMessage<ChatMessageMetadata>;
 
 export type EditorState = { mode: "list" } | { mode: "edit"; id?: string };
-
-export type PlaygroundImageView = {
-  id: string;
-  sequenceIndex: number;
-  src: string;
-  mimeType: string | null;
-  width: number | null;
-  height: number | null;
-};
-
-export type SnapshotView = {
-  id: string;
-  sessionId: string;
-  sessionOrder: number;
-  model: string;
-  prompt: string;
-  negativePrompt: string | null;
-  params: GenerationParams | null;
-  loras: LoraEntry[] | null;
-  references: ReferenceEntry[] | null;
-  extraParams: GenerationFormUi | null;
-  status: string;
-  progress: string | null;
-  taskId: string | null;
-  requestedCount: number;
-  errorMessage: string | null;
-  expiresAt: Date | null;
-  createdAt: Date | null;
-  images: PlaygroundImageView[];
-};
 
 export type EntityEditId = string | "new" | null;
 

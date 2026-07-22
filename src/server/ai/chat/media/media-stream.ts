@@ -1,11 +1,7 @@
 import type { ModelType, ProcessedModel } from "@/lib/api/pricing";
 import { getPricingSummary } from "@/lib/api/pricing-cache";
 import { msg } from "@/lib/config/constants";
-import {
-  downloadGenerationBytes,
-  fetchCheckUpload,
-  uploadBase64ToR2,
-} from "@/lib/config/r2";
+import { downloadGenerationBytes } from "@/lib/config/safe-fetch";
 import { base64ToDataUri, uid } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 import {
@@ -19,7 +15,6 @@ import {
 } from "@/lib/ai/playground/models-dynamic";
 import { API_ENDPOINTS } from "@/lib/ai/endpoints";
 import { upstreamApiUrl } from "@/server/constants";
-import { serverEnv } from "@/server/env";
 import {
   createUIMessageStream,
   createUIMessageStreamResponse,
@@ -263,33 +258,12 @@ async function processUrls(
     return "";
   }
 
-  const r2Domain = serverEnv.r2PublicUrl ?? "";
-  const groupKey = uid(8);
-
-  const process = async ([, , alt, url]: RegExpMatchArray) => {
-    if (url.startsWith("data:")) {
-      return `![${alt}](${await uploadBase64ToR2(url, convId, groupKey)})`;
-    }
-    if (url.startsWith(r2Domain)) return `![${alt}](${url})`;
-
-    const r2Url = await fetchCheckUpload(
-      url,
-      convId,
-      groupKey,
-      mediaType === "video",
-    );
-
-    if (!r2Url) {
-      logger.warn("URL upload failed, keeping original", {
-        context: "stream.urls",
-        url: url.slice(0, 100),
-      });
-      return `![${alt}](${url})`;
-    }
-    return `![${alt}](${r2Url})`;
-  };
-
-  return (await Promise.all(matches.map(process))).filter(Boolean).join("\n\n");
+  // Media links are no longer re-hosted (R2 removed): data: URIs inline as-is,
+  // remote URLs pass through to the original upstream location.
+  return matches
+    .map(([, , alt, url]) => `![${alt}](${url})`)
+    .filter(Boolean)
+    .join("\n\n");
 }
 
 const DEFAULT_MAX_CHAT_REFS = 4;
@@ -461,14 +435,10 @@ export async function handleVideoTaskStream(
   const isImageInput = isImageInputVideoModel(body.model);
   return streamResponse(async (writer) => {
     const refs = extractLastUserImageRefs(body.messages);
-    let image: string | undefined;
-    if (refs.length > 0) {
-      const url = refs[0].url;
-      image =
-        url.startsWith("data:") && body.convId
-          ? await uploadBase64ToR2(url, body.convId, uid(8))
-          : url;
-    }
+    // R2 removed: an image-to-video reference is passed through as-is. A data:
+    // URI can't be fetched by the upstream render worker, so i2v needs an http
+    // reference; the previous R2 rehost of data: refs is gone.
+    const image: string | undefined = refs[0]?.url;
     if (!image && isImageInput) {
       throw new Error(msg("ERRORS.VIDEO_IMAGE_REQUIRED"));
     }

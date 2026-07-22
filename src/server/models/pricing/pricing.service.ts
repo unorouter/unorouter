@@ -8,7 +8,6 @@ import { PUBLIC_CACHE } from "@/lib/config/constants";
 import { sleep, unwrap } from "@/lib/utils/base";
 import { getPricing, getSubscriptionPlans, getTopUpInfo } from "@/openapi";
 import { ADMIN_HEADERS } from "@/server/constants";
-import { snapshotModelCatalog } from "./model-catalog.service";
 
 // Build prerenders fan out across ~31 workers and the upstream occasionally
 // truncates responses under that concurrency; a failed parse is not cached,
@@ -34,9 +33,7 @@ export async function getPricingSummary(includeOffline = false) {
       headers: ADMIN_HEADERS,
     }),
   );
-  const summary = buildPricingSummary(unwrap(res));
-  if (!includeOffline) snapshotModelCatalog(summary.models);
-  return summary;
+  return buildPricingSummary(unwrap(res));
 }
 
 export async function getPricingLean(includeOffline = false) {

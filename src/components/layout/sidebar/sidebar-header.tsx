@@ -10,7 +10,6 @@ import {
   ChatControls,
   ChatShareSlot,
 } from "@/components/pages/sidebar/chat/chat-elements";
-import { GenerateActionsMenu } from "@/components/pages/sidebar/playground/playground-actions-menu";
 import { NotifyBell } from "@/components/elements/notify/notify-bell";
 import { LanguageToggle } from "@/components/toggle/language-toggle";
 import { ThemeToggle } from "@/components/toggle/theme-toggle";
@@ -48,7 +47,6 @@ export function SidebarHeader(props: SidebarHeaderProps) {
             <ThemeToggle />
           </div>
           {props.navConfig === "chat" && <ChatShareSlot />}
-          {props.navConfig === "generate" && <GenerateActionsMenu />}
           {userDisplay.user ? (
             <UserDropdown side="bottom" align="end">
               <button

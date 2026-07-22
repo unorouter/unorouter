@@ -82,12 +82,6 @@ const nextConfig: NextConfig = {
       { pathname: "/images/**" },
       { pathname: "/icons/**" },
     ],
-    // R2 public host for generated chat/playground media. SmartImage routes R2
-    // URLs through the optimizer; data: URIs and other hosts fall back to
-    // unoptimized so they never hit the optimizer (which rejects them).
-    remotePatterns: [
-      { protocol: "https", hostname: "media.unorouter.com", pathname: "/**" },
-    ],
     // Badge previews are SVG from /api/ops/badge. The optimizer refuses SVG
     // unless allowed; lock it down with a sandboxing CSP so an optimized SVG
     // can't execute script or load subresources.

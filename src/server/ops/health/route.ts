@@ -1,4 +1,3 @@
-import { pingR2 } from "@/lib/config/r2";
 import { getDb } from "@/lib/db/server/client";
 import { upstreamApiUrl } from "@/server/constants";
 import { sql } from "drizzle-orm";
@@ -24,8 +23,6 @@ export const healthRoute = new Elysia({ prefix: "/health" }).get(
     } catch {
       checks.upstream = "fail";
     }
-
-    checks.r2 = (await pingR2()) ? "ok" : "fail";
 
     const healthy = Object.values(checks).every((v) => v === "ok");
 

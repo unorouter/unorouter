@@ -1,5 +1,5 @@
 import { msg } from "@/lib/config/constants";
-import { safeFetchBytes, safeFetchRaw } from "@/lib/config/r2";
+import { safeFetchBytes, safeFetchRaw } from "@/lib/config/safe-fetch";
 
 const JANNY_API_BASE =
   process.env.JANNY_API_BASE ?? "https://api.jannyai.com/api/v1";

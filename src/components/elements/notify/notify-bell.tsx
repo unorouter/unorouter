@@ -9,12 +9,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Switch } from "@/components/ui/switch";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useFreeModelsWatch } from "@/hooks/models/notify-hook";
 import { usePricingQuery } from "@/hooks/models/pricing-hook";
 import { useRouter } from "@/i18n/navigation";
@@ -176,9 +171,7 @@ export function NotifyBell() {
               </TabsTrigger>
               <TabsTrigger value="watched" className="text-xs">
                 {t("NOTIFY.TAB_WATCHED")}
-                <span className="text-muted-foreground">
-                  ({topics.length})
-                </span>
+                <span className="text-muted-foreground">({topics.length})</span>
               </TabsTrigger>
             </TabsList>
           </div>

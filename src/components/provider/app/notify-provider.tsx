@@ -68,7 +68,8 @@ export function NotifyProvider() {
     const badge = unread > 9 ? "9+" : String(unread);
     const apply = () => {
       const current = document.title;
-      const wanted = unread > 0 ? `(${badge}) ${strip(current)}` : strip(current);
+      const wanted =
+        unread > 0 ? `(${badge}) ${strip(current)}` : strip(current);
       if (current !== wanted) document.title = wanted;
     };
     apply();

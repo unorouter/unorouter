@@ -17,27 +17,11 @@ import { generateInlayImage } from "./media/inlay.service";
 import { fetchVideoTaskStatus, finalizeVideoTask } from "./media/task.service";
 import { generateChatTitle } from "./title.service";
 import { runTriggerLLM, runTriggerSimilarity } from "./triggers/trigger-ops";
-import {
-  getConversation,
-  getConversationMarkdown,
-} from "./conversation.service";
 import { streamMedia } from "./media-stream.service";
 import { forwardChatCompletions } from "./forward.service";
 import { resolveWebSearch } from "./context/web-search.service";
 
 export const chatRoute = new Elysia({ prefix: "/chat" })
-
-  .get("/:id/meta", async ({ params, cookie }) => {
-    const userId = await getUserId(cookie);
-    const data = await getConversation(userId, params.id);
-    return { success: true, data };
-  })
-
-  .get("/:id/markdown", async ({ params, cookie }) => {
-    const userId = await getUserId(cookie);
-    const data = await getConversationMarkdown(userId, params.id);
-    return { success: true, data };
-  })
 
   .post(
     "/title",

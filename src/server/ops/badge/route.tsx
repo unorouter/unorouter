@@ -22,7 +22,6 @@ import { generateChat } from "./templates/chat";
 import { generateCompare } from "./templates/compare";
 import { generateHero } from "./templates/hero";
 import { generateModel } from "./templates/model";
-import { generatePlayground } from "./templates/playground";
 import { generatePricing } from "./templates/pricing";
 import { generateProviders } from "./templates/providers";
 import { generateReferral } from "./templates/referral";
@@ -67,7 +66,6 @@ const BADGES: Record<BadgeType, (ctx: BadgeCtx) => Promise<string>> = {
   brand: generateBrand,
   chat: generateChat,
   tester: generateTester,
-  playground: generatePlayground,
 };
 
 export const badgeRoute = new Elysia({ prefix: "/badge" })

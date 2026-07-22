@@ -23,14 +23,6 @@ import type {
   WebSearchEngine,
 } from "@/lib/validation/chat";
 import type { LorebookInjectionRole } from "@/lib/validation/rp";
-import type {
-  GenerationFormUi,
-  GenerationParams,
-  GenerationStatus,
-  LoraEntry,
-  PlaygroundVisibility,
-  ReferenceEntry,
-} from "@/lib/validation/playground";
 
 export const createdAtCol = () =>
   integer("created_at", { mode: "timestamp_ms" })
@@ -487,9 +479,9 @@ export const media = sqliteTable(
     convId: text("conv_id").references(() => conversations.id, {
       onDelete: "cascade",
     }),
-    playgroundId: text("playground_id").references(() => playgrounds.id, {
-      onDelete: "cascade",
-    }),
+    // Dead column: the playgrounds table was removed with the playground feature.
+    // Kept nullable (no FK) so the shared media table needs no client migration.
+    playgroundId: text("playground_id"),
     sequenceIndex: integer("sequence_index"),
     upstreamResultUrl: text("upstream_result_url"),
     r2Key: text("r2_key"),
@@ -506,87 +498,12 @@ export const media = sqliteTable(
   (table) => [
     index("idx_media_user").on(table.userId),
     index("idx_media_conv").on(table.convId),
-    index("idx_media_playground").on(table.playgroundId),
-  ],
-);
-
-export const playgroundSessions = sqliteTable(
-  "playground_sessions",
-  {
-    id: text("id")
-      .primaryKey()
-      .$defaultFn(() => uid()),
-    userId: integer("user_id").notNull(),
-    title: text("title"),
-    firstModel: text("first_model"),
-    snapshotCount: integer("snapshot_count").notNull().default(0),
-    imageCount: integer("image_count").notNull().default(0),
-    expiresAt: integer("expires_at", { mode: "timestamp_ms" }).notNull(),
-    ...timestamps(),
-  },
-  (table) => [
-    index("idx_session_user_updated").on(table.userId, table.updatedAt),
-    index("idx_session_expires").on(table.expiresAt),
-  ],
-);
-
-export const playgrounds = sqliteTable(
-  "playgrounds",
-  {
-    id: text("id")
-      .primaryKey()
-      .$defaultFn(() => uid()),
-    userId: integer("user_id").notNull(),
-    sessionId: text("session_id")
-      .notNull()
-      .references(() => playgroundSessions.id, { onDelete: "cascade" }),
-    sessionOrder: integer("session_order").notNull(),
-    requestedCount: integer("requested_count").notNull().default(1),
-    taskId: text("task_id"),
-    model: text("model").notNull(),
-    prompt: text("prompt").notNull(),
-    negativePrompt: text("negative_prompt"),
-    params: text("params", { mode: "json" }).$type<GenerationParams>(),
-    loras: text("loras", { mode: "json" }).$type<LoraEntry[]>(),
-    references: text("references", { mode: "json" }).$type<ReferenceEntry[]>(),
-    extraParams: text("extra_params", {
-      mode: "json",
-    }).$type<GenerationFormUi>(),
-    status: text("status")
-      .notNull()
-      .default("pending")
-      .$type<GenerationStatus>(),
-    progress: text("progress"),
-    costQuota: integer("cost_quota"),
-    visibility: text("visibility")
-      .notNull()
-      .default("private")
-      .$type<PlaygroundVisibility>(),
-    flagged: integer("flagged", { mode: "boolean" }).notNull().default(false),
-    flagReason: text("flag_reason"),
-    remixCount: integer("remix_count").notNull().default(0),
-    likeCount: integer("like_count").notNull().default(0),
-    remixedFrom: text("remixed_from"),
-    errorMessage: text("error_message"),
-    submittedKey: text("submitted_key"),
-    ...timestamps(),
-    expiresAt: integer("expires_at", { mode: "timestamp_ms" }).notNull(),
-  },
-  (table) => [
-    index("idx_gen_session_order").on(table.sessionId, table.sessionOrder),
-    index("idx_gen_visibility_created").on(table.visibility, table.createdAt),
-    index("idx_gen_model_created").on(table.model, table.createdAt),
-    index("idx_gen_task").on(table.taskId),
-    index("idx_gen_remixed_from").on(table.remixedFrom),
-    index("idx_gen_expires").on(table.expiresAt),
   ],
 );
 
 export type Message = typeof messages.$inferSelect;
 export type MessageItem = typeof messageItems.$inferSelect;
 export type Media = typeof media.$inferSelect;
-export type PlaygroundSession = typeof playgroundSessions.$inferSelect;
-export type Playground = typeof playgrounds.$inferSelect;
 
 export const testerProviders = sqliteTable(
   "tester_providers",
