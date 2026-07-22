@@ -47,14 +47,23 @@ import { resolveModelTargetFromStore } from "./resolve-model-target";
 
 type SendOptions = Parameters<ChatTransport<ChatUIMessage>["sendMessages"]>[0];
 
+// The stream error surfaces to the in-thread card as a STRING (ai-sdk flattens
+// it in toUIMessageStream), so serialize the FULL detail as a JSON envelope
+// rather than a lone message. extractErrorDetail already digs the real upstream
+// body out of APICallError.responseBody (new-api's {error:{message}} shape, or
+// the raw text when the SDK's strict error zod rejected new-api's `code: any`
+// and collapsed .message to "bad_response_status_code"). The card parses this
+// back to show message + HTTP status + code + request id, matching the
+// persisted-error card. Plain strings without the marker still render as-is.
 function streamErrorText(error: unknown): string {
   const detail = extractErrorDetail(error);
-  const tag = [detail.status ? `HTTP ${detail.status}` : null, detail.code]
-    .filter(Boolean)
-    .join(" ");
-  return tag && !detail.message.includes(tag)
-    ? `${detail.message} (${tag})`
-    : detail.message;
+  return JSON.stringify({
+    __unoStreamError: true,
+    message: detail.message,
+    status: detail.status ?? null,
+    code: detail.code ?? null,
+    requestId: detail.requestId ?? null,
+  });
 }
 
 // A prefill that ends inside an open <think> tag (the force-thinking trick) makes

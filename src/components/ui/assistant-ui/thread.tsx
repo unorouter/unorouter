@@ -367,67 +367,60 @@ type LooseT = {
   (key: string): string;
 };
 
-function unwrapJsonEnvelope(raw: string): string {
-  if (!raw.startsWith("{") && !raw.startsWith("[")) return raw;
-  try {
-    const parsed = JSON.parse(raw);
-    if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
-      const m = (parsed as { message?: unknown }).message;
-      if (typeof m === "string") return m;
-    }
-    if (Array.isArray(parsed)) {
-      for (const item of parsed) {
-        if (typeof item === "string") return item;
-        if (
-          item &&
-          typeof item === "object" &&
-          typeof (item as { message?: unknown }).message === "string"
-        ) {
-          return (item as { message: string }).message;
-        }
+type StreamErrorDetail = {
+  message: string;
+  status?: number | null;
+  code?: string | null;
+  requestId?: string | null;
+};
+
+// The live-stream error reaches the card as the JSON envelope streamErrorText
+// serialized (message + status + code + requestId, the real upstream body dug
+// out of APICallError.responseBody). Parse it back to the full detail so the
+// live card shows the same fields as the persisted card. Falls back to the bare
+// message for legacy {message} envelopes and plain strings.
+function parseStreamErrorEnvelope(raw: string): StreamErrorDetail {
+  if (raw.startsWith("{")) {
+    try {
+      const parsed = JSON.parse(raw) as Record<string, unknown>;
+      const m = parsed.message;
+      if (typeof m === "string") {
+        return {
+          message: m,
+          status: typeof parsed.status === "number" ? parsed.status : null,
+          code: typeof parsed.code === "string" ? parsed.code : null,
+          requestId:
+            typeof parsed.requestId === "string" ? parsed.requestId : null,
+        };
       }
-    }
-  } catch {}
-  return raw;
+    } catch {}
+  }
+  return { message: raw };
 }
 
-function resolveErrorMessage(
-  error: ReturnType<typeof useMessageError>,
-  t: LooseT,
-): string {
-  if (error === undefined) return "";
-  const raw =
-    typeof error === "string"
-      ? unwrapJsonEnvelope(error)
-      : extractErrorDetail(error).message;
-  return t.has(raw) ? t(raw) : raw;
-}
-
-const PersistedErrorPart: FC<{ data?: unknown }> = (props) => {
+const ErrorCard: FC<{
+  message: string;
+  model?: string;
+  code?: string | null;
+  status?: number | null;
+  requestId?: string | null;
+}> = (props) => {
   const t = useTranslations();
-  const data = (props.data ?? {}) as {
-    message?: string;
-    model?: string;
-    code?: string;
-    status?: number;
-    requestId?: string;
-  };
-  if (!data.message) return null;
   const displayModel =
-    data.model && isCustomModelId(data.model)
-      ? (parseCustomModelId(data.model)?.modelKey ?? data.model)
-      : data.model;
+    props.model && isCustomModelId(props.model)
+      ? (parseCustomModelId(props.model)?.modelKey ?? props.model)
+      : props.model;
   const meta = [
-    data.status ? `HTTP ${data.status}` : null,
-    data.code ?? null,
-    data.requestId ? `#${data.requestId}` : null,
+    props.status ? `HTTP ${props.status}` : null,
+    props.code ?? null,
+    props.requestId ? `#${props.requestId}` : null,
   ].filter(Boolean);
   const copyText = [
-    data.model ? `model: ${data.model}` : null,
-    data.status ? `status: ${data.status}` : null,
-    data.code ? `code: ${data.code}` : null,
-    data.requestId ? `request id: ${data.requestId}` : null,
-    `message: ${data.message}`,
+    props.model ? `model: ${props.model}` : null,
+    props.status ? `status: ${props.status}` : null,
+    props.code ? `code: ${props.code}` : null,
+    props.requestId ? `request id: ${props.requestId}` : null,
+    `message: ${props.message}`,
   ]
     .filter(Boolean)
     .join("\n");
@@ -438,7 +431,7 @@ const PersistedErrorPart: FC<{ data?: unknown }> = (props) => {
     >
       <div className="flex items-start justify-between gap-2">
         <span className="aui-message-error-message">
-          {displayModel ? `${displayModel}: ${data.message}` : data.message}
+          {displayModel ? `${displayModel}: ${props.message}` : props.message}
         </span>
         <TooltipIconButton
           tooltip={t("CHAT.ACTION.COPY")}
@@ -462,19 +455,42 @@ const PersistedErrorPart: FC<{ data?: unknown }> = (props) => {
   );
 };
 
+const PersistedErrorPart: FC<{ data?: unknown }> = (props) => {
+  const data = (props.data ?? {}) as {
+    message?: string;
+    model?: string;
+    code?: string;
+    status?: number;
+    requestId?: string;
+  };
+  if (!data.message) return null;
+  return (
+    <ErrorCard
+      message={data.message}
+      model={data.model}
+      code={data.code}
+      status={data.status}
+      requestId={data.requestId}
+    />
+  );
+};
+
 const MessageErrorBody: FC = () => {
   const error = useMessageError();
   const t = useTranslations() as unknown as LooseT;
   if (error === undefined) return null;
+  const detail =
+    typeof error === "string"
+      ? parseStreamErrorEnvelope(error)
+      : extractErrorDetail(error);
+  const message = t.has(detail.message) ? t(detail.message) : detail.message;
   return (
-    <div
-      role="alert"
-      className="aui-message-error-root border-destructive bg-destructive/10 text-destructive dark:bg-destructive/5 mt-2 rounded-md border p-3 text-sm dark:text-red-200"
-    >
-      <span className="aui-message-error-message">
-        {resolveErrorMessage(error, t)}
-      </span>
-    </div>
+    <ErrorCard
+      message={message}
+      code={detail.code}
+      status={detail.status}
+      requestId={detail.requestId}
+    />
   );
 };
 
