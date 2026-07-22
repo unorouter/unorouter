@@ -18,13 +18,7 @@ ENV STANDALONE=1
 ARG GIT_SHA=dev
 ENV NEXT_PUBLIC_RELEASE_VERSION=$GIT_SHA
 
-# Cap the build heap so the Next prerender (200+ static pages) stays under the
-# buildkit container's memory cgroup instead of ballooning until the OOM-killer
-# SIGKILLs the worker (exit 137, no error text) when the shared self-hosted
-# runner is under concurrent load. 6GB leaves headroom for GC pressure on 221
-# pages while staying well below the box's cap.
-RUN --mount=type=cache,target=/app/.next/cache \
-    NODE_OPTIONS="--max-old-space-size=6144" bun run build
+RUN --mount=type=cache,target=/app/.next/cache bun run build
 
 #
 # Prod runtime: Node (Next.js standalone is built for Node and is ~5-10x faster
