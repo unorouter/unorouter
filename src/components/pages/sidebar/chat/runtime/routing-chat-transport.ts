@@ -108,11 +108,20 @@ async function runClientStream(args: {
     args.options.abortSignal,
   );
 
+  // The billing-group pin. Read once here and reused for the sdk header below,
+  // so the debug log records EXACTLY the group that ships as X-Group. selectedModel
+  // is the live dropdown model; a mismatch with args.model (the snapshotted send
+  // model) or a group pinned to a different model's channel surfaces here.
+  const group = chatStore.get(chatGroupAtom);
+
   // Wire-shape diagnostics without content: numeric/bool option values pass,
   // free-text option values reduce to their length.
   const wireOptions = prepared.providerOptions[CHAT_PROVIDER_NAME] ?? {};
   logChatDebug("request.shape", {
     model: args.model,
+    selectedModel: chatStore.get(chatModelAtom) ?? null,
+    group: group ?? null,
+    xGroupSent: group && group !== "auto" ? group : null,
     prefill: prefillOpensThink(prepared.messagesForUpstream),
     systemChars: prepared.effectiveSystem?.length ?? 0,
     messages: prepared.messagesForUpstream.map((m) => ({
@@ -165,8 +174,8 @@ async function runClientStream(args: {
   }
 
   // The sdk builds the wire body itself, so the billing-group pin can't ride
-  // body.group like the legacy transport; carry it as X-Group instead.
-  const group = chatStore.get(chatGroupAtom);
+  // body.group like the legacy transport; carry it as X-Group instead. `group`
+  // was read at the top of this function (logged in request.shape).
   const sdk = createOpenAICompatible({
     name: CHAT_PROVIDER_NAME,
     baseURL: args.baseURL,
