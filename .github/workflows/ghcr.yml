@@ -1,0 +1,83 @@
+name: GHCR Image
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ghcr-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # Same full .env as the don build: Next.js inlines NEXT_PUBLIC_* and the SSG
+      # prerender needs server creds. The image therefore CONTAINS secrets -> the
+      # ghcr package MUST stay PRIVATE (repo is public; verify package visibility).
+      - name: Create env file
+        run: |
+          echo NEXT_PUBLIC_APP_NAME=${{ secrets.NEXT_PUBLIC_APP_NAME }} > .env
+          echo NEXT_PUBLIC_URL=${{ secrets.NEXT_PUBLIC_URL }} >> .env
+          echo NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }} >> .env
+          echo NEXT_PUBLIC_SUPPORT_EMAIL=${{ secrets.NEXT_PUBLIC_SUPPORT_EMAIL }} >> .env
+          echo NEXT_PUBLIC_GITHUB_URL=${{ secrets.NEXT_PUBLIC_GITHUB_URL }} >> .env
+          echo NEXT_PUBLIC_DISCORD_URL=${{ secrets.NEXT_PUBLIC_DISCORD_URL }} >> .env
+          echo NEXT_PUBLIC_TWITTER_HANDLE=${{ secrets.NEXT_PUBLIC_TWITTER_HANDLE }} >> .env
+          echo NEXT_PUBLIC_TRUSTPILOT_URL=${{ secrets.NEXT_PUBLIC_TRUSTPILOT_URL }} >> .env
+          echo NEXT_PUBLIC_REDDIT_URL=${{ secrets.NEXT_PUBLIC_REDDIT_URL }} >> .env
+          echo NEXT_PUBLIC_YOUTUBE_URL=${{ secrets.NEXT_PUBLIC_YOUTUBE_URL }} >> .env
+          echo NEXT_PUBLIC_TELEGRAM_URL=${{ secrets.NEXT_PUBLIC_TELEGRAM_URL }} >> .env
+          echo SYSTEM_ACCESS_TOKEN=${{ secrets.SYSTEM_ACCESS_TOKEN }} >> .env
+          echo SESSION_SECRET=${{ secrets.SESSION_SECRET }} >> .env
+          echo TURSO_DATABASE_URL=${{ secrets.TURSO_DATABASE_URL }} >> .env
+          echo TURSO_AUTH_TOKEN=${{ secrets.TURSO_AUTH_TOKEN }} >> .env
+          echo R2_ACCOUNT_ID=${{ secrets.R2_ACCOUNT_ID }} >> .env
+          echo R2_ACCESS_KEY_ID=${{ secrets.R2_ACCESS_KEY_ID }} >> .env
+          echo R2_SECRET_ACCESS_KEY=${{ secrets.R2_SECRET_ACCESS_KEY }} >> .env
+          echo R2_PUBLIC_URL=${{ secrets.R2_PUBLIC_URL }} >> .env
+          echo R2_BUCKET=${{ secrets.R2_BUCKET }} >> .env
+          echo TAVILY_API_KEY=${{ secrets.TAVILY_API_KEY }} >> .env
+          echo GUEST_API_KEY=${{ secrets.GUEST_API_KEY }} >> .env
+          echo NEXT_PUBLIC_POSTHOG_DISABLED=${{ secrets.NEXT_PUBLIC_POSTHOG_DISABLED }} >> .env
+          echo NEXT_PUBLIC_POSTHOG_KEY=${{ secrets.NEXT_PUBLIC_POSTHOG_KEY }} >> .env
+          echo NEXT_PUBLIC_POSTHOG_HOST=${{ secrets.NEXT_PUBLIC_POSTHOG_HOST }} >> .env
+          echo POSTHOG_PROXY_HOST=${{ secrets.POSTHOG_PROXY_HOST }} >> .env
+          echo POSTHOG_API_KEY=${{ secrets.POSTHOG_API_KEY }} >> .env
+          echo POSTHOG_ENV_ID=${{ secrets.POSTHOG_ENV_ID }} >> .env
+          echo INDEXNOW_KEY=${{ secrets.INDEXNOW_KEY }} >> .env
+          echo 'WEB_BOT_AUTH_PUBLIC_JWKS=${{ secrets.WEB_BOT_AUTH_PUBLIC_JWKS }}' >> .env
+          echo 'WEB_BOT_AUTH_PRIVATE_JWK=${{ secrets.WEB_BOT_AUTH_PRIVATE_JWK }}' >> .env
+          echo CREEM_API_KEY=${{ secrets.CREEM_API_KEY }} >> .env
+          echo CREEM_API_URL=${{ secrets.CREEM_API_URL }} >> .env
+          echo CREEM_MODERATION_ENABLED=${{ secrets.CREEM_MODERATION_ENABLED }} >> .env
+
+      - uses: docker/setup-buildx-action@v3
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # amd64 only: Next build under QEMU is prohibitively slow; add native arm64
+      # runner matrix when the ARM node switch happens.
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          platforms: linux/amd64
+          push: true
+          build-args: |
+            GIT_SHA=${{ github.sha }}
+          tags: |
+            ghcr.io/unorouter/unorouter:latest
+            ghcr.io/unorouter/unorouter:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
