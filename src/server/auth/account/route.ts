@@ -88,7 +88,12 @@ export const authRoute = new Elysia({ prefix: "/account" })
     "/oauth/state",
     async ({ query, upstream }) => {
       const res = await generateOAuthCode(
-        { aff: query.aff, redirect_uri: query.redirect, action: query.action },
+        {
+          provider: query.provider,
+          aff: query.aff,
+          redirect_uri: query.redirect,
+          action: query.action,
+        },
         upstream,
       );
       return unwrap(res);

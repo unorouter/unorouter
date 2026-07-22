@@ -31,9 +31,12 @@ export const tokenRoute = new Elysia({ prefix: "/token" })
   .post(
     "/",
     async ({ body, upstream }) => {
-      const res = await addToken(body, {
-        headers: upstream.headers,
-      });
+      const res = await addToken(
+        { ...body, group_mapping: body.group_mapping ?? "" },
+        {
+          headers: upstream.headers,
+        },
+      );
       return unwrap(res);
     },
     { body: createTokenBody },
@@ -42,9 +45,13 @@ export const tokenRoute = new Elysia({ prefix: "/token" })
   .put(
     "/",
     async ({ body, upstream }) => {
-      const res = await updateToken(body, undefined, {
-        headers: upstream.headers,
-      });
+      const res = await updateToken(
+        { ...body, group_mapping: body.group_mapping ?? "" },
+        undefined,
+        {
+          headers: upstream.headers,
+        },
+      );
       return unwrap(res);
     },
     { body: updateTokenBody },
@@ -54,7 +61,7 @@ export const tokenRoute = new Elysia({ prefix: "/token" })
     "/status",
     async ({ body, upstream }) => {
       const res = await updateToken(
-        body,
+        { ...body, group_mapping: body.group_mapping ?? "" },
         { status_only: "true" },
         {
           headers: upstream.headers,

@@ -111,6 +111,7 @@ export function OAuthButtons(props: OAuthButtonsProps) {
       const state = handleElysia(
         await rpc.api.auth.account.oauth.state.get({
           query: {
+            provider: provider.key,
             redirect: callbackUrl,
             aff: typeof affCode === "string" ? affCode : undefined,
           },

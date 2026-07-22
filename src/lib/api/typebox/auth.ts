@@ -16,6 +16,7 @@ export const registerBody = t.Object({
 });
 
 export const oauthStateQuery = t.Object({
+  provider: t.Optional(t.String()),
   redirect: t.Optional(t.String()),
   aff: t.Optional(t.String()),
   action: t.Optional(t.String()),

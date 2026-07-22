@@ -130,7 +130,7 @@ export function AccountCard() {
       const callbackUrl = `${window.location.origin}/api/auth/account/oauth/callback`;
       const state = handleElysia(
         await rpc.api.auth.account.oauth.state.get({
-          query: { redirect: callbackUrl, action: "bind" },
+          query: { provider, redirect: callbackUrl, action: "bind" },
         }),
       );
 
