@@ -223,8 +223,15 @@ process.env.NEXT_PUBLIC_POSTHOG_DISABLED !== "true"
       host: "https://eu.i.posthog.com",
       sourcemaps: {
         enabled: true,
-        project: process.env.NEXT_PUBLIC_APP_NAME,
-        version: "1.0.0",
+        releaseName: process.env.NEXT_PUBLIC_APP_NAME,
+        // Symbolication itself is keyed on the //# chunkId= comment the plugin
+        // injects, so this version does NOT gate whether stack traces resolve.
+        // It is the release LABEL PostHog shows over each error, so a static
+        // "1.0.0" made every error read as the same release. Use the build's
+        // commit SHA (Docker ARG) so triage shows which commit produced it.
+        releaseVersion:
+          process.env.NEXT_PUBLIC_RELEASE_VERSION ||
+          new Date().toISOString().slice(0, 10),
         deleteAfterUpload: true,
       },
     })

@@ -19,6 +19,8 @@ x-unorouter: &unorouter
     context: ./
     dockerfile: Dockerfile
     target: prod
+    args:
+      GIT_SHA: ${GIT_SHA:-dev}
   healthcheck:
     test:
       [

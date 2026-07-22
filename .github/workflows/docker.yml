@@ -79,6 +79,8 @@ jobs:
           echo CREEM_MODERATION_ENABLED=${{ secrets.CREEM_MODERATION_ENABLED }} >> .env
 
       - name: Docker build
+        env:
+          GIT_SHA: ${{ github.sha }}
         run: docker compose build
 
       - name: Rolling deploy

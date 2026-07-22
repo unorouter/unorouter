@@ -11,6 +11,13 @@ COPY . .
 ENV STANDALONE=1
 # ENV NODE_ENV=development
 
+# Commit SHA for PostHog sourcemap release versioning. The bun-alpine builder
+# has no git binary, so posthog-cli cannot auto-detect the commit; pass it in
+# so each deploy uploads sourcemaps under a UNIQUE release (a static version
+# lets a later build's chunk hashes mismatch the uploaded maps).
+ARG GIT_SHA=dev
+ENV NEXT_PUBLIC_RELEASE_VERSION=$GIT_SHA
+
 RUN --mount=type=cache,target=/app/.next/cache bun run build
 
 #
