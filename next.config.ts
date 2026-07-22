@@ -65,6 +65,12 @@ const nextConfig: NextConfig = {
     // Turbopack disk cache for `next build` (experimental; dev cache is stable
     // and on by default). CI persists it via the Dockerfile cache mount.
     turbopackFileSystemCacheForBuild: true,
+    // Pin prerender worker count. Next otherwise sizes workers from live
+    // freemem, which reads high (buff/cache) on the shared self-hosted runner
+    // and over-provisions parallel render processes; their aggregate RSS then
+    // trips the buildkit container's memory cgroup and the OOM-killer SIGKILLs
+    // a worker mid-prerender (exit 137, no error). 4 is Next's own floor.
+    cpus: 4,
     // inlineCss tried and reverted: it inlined the full 274KB stylesheet into
     // every document AND duplicated it inside the RSC flight payload, costing
     // far more than the ~36KB render-blocking request it removed.
