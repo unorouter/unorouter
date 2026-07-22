@@ -9,6 +9,7 @@ import {
 } from "@/lib/db/client/data/chat/chat";
 import { queryKeys } from "@/lib/react-query/keys";
 import type { StreamOverrides } from "@/lib/validation/chat";
+import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { dayjs } from "@/lib/utils/format/date";
 import {
   activeConvOverridesAtom,
@@ -38,6 +39,15 @@ export function useGroupSync(remoteId: string | null | undefined) {
   useEffect(() => {
     if (!remoteId || remoteId === lastSyncedIdRef.current) return;
     lastSyncedIdRef.current = remoteId;
+    // The pin is PER-CONVERSATION: on conv load the atom is rewritten to the
+    // conv's saved group. A group saved while a different model was selected
+    // (e.g. a longcat group carried back to a glm conversation) then desyncs
+    // from the active model, so the send ships an X-Group that channel routing
+    // can't satisfy for the model. Log the restore so the export shows it.
+    logChatDebug("group.sync", {
+      convId: remoteId,
+      restoredGroup: serverGroup,
+    });
     setChatGroup(serverGroup);
   }, [remoteId, serverGroup, setChatGroup]);
 

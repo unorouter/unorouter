@@ -14,6 +14,7 @@ import { useMediaSrc } from "@/hooks/ai/use-media-src";
 import { useApiKey } from "@/hooks/ui/use-api-key";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { NONE_VALUE } from "@/lib/config/constants";
+import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { formatPrice } from "@/lib/utils/format/number";
 import {
   chatGroupAtom,
@@ -42,12 +43,30 @@ export function ChatControls() {
     if (pathname !== "/chat") router.push("/chat");
   };
 
+  // Group names embed the model (e.g. "glm-new-pol-glm-5.2"), so a pin is only
+  // valid for models whose name the group contains. Switching to a model the
+  // pinned group does not serve left a stale X-Group on the wire that new-api
+  // could not satisfy for the new model, silently falling back to auto (looked
+  // like "pinned pol but it called trp1"). Clear the pin to auto on such a
+  // switch so the send routes correctly; a same-model group survives.
+  const handleModelChange = (nextModel: string) => {
+    if (chatGroup && chatGroup !== "auto" && !chatGroup.includes(nextModel)) {
+      logChatDebug("group.cleared_on_model_switch", {
+        prevModel: chatModel,
+        nextModel,
+        clearedGroup: chatGroup,
+      });
+      setChatGroup(null);
+    }
+    setNewChatModel(nextModel);
+  };
+
   return (
     <div className="flex min-w-0 flex-1 items-center gap-1.5 sm:gap-2">
       <div className="min-w-0 flex-1 sm:w-48 sm:flex-none lg:w-52">
         <ModelSelector
           value={chatModel}
-          onChange={setNewChatModel}
+          onChange={handleModelChange}
           group={chatGroup}
           onGroupChange={setChatGroup}
         />
