@@ -12,6 +12,11 @@ export function ScrollHashSync() {
     const root = document.querySelector("main") ?? document;
     const headings = Array.from(
       root.querySelectorAll<HTMLHeadingElement>("h2[id]"),
+    ).filter(
+      // The search command dialog renders a visually-hidden DialogTitle h2
+      // whose id is a Base UI useId (base-ui-_R_...); it sits in the shell
+      // header, not the article, and must never drive the hash.
+      (h) => !h.id.startsWith("base-ui") && !h.closest(".sr-only"),
     );
     if (headings.length === 0) return;
 
@@ -20,11 +25,11 @@ export function ScrollHashSync() {
     // clean. Any real section/step anchor lives inside <main>, so a hash that
     // resolves nowhere there is safe to clear.
     const current = decodeURIComponent(window.location.hash.slice(1));
-    if (
-      current &&
+    const isRealTarget =
+      !current.startsWith("base-ui") &&
       root instanceof Element &&
-      !root.querySelector(`[id="${CSS.escape(current)}"]`)
-    ) {
+      root.querySelector(`[id="${CSS.escape(current)}"]`) != null;
+    if (current && !isRealTarget) {
       window.history.replaceState(
         null,
         "",
