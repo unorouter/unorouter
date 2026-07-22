@@ -814,6 +814,7 @@ API Endpoint: ${env.apiUrl}/v1`,
     "${env.appName.toLowerCase()}": {
       "name": "${env.appName}",
       "npm": "@ai-sdk/openai-compatible",
+      "discoverModels": true,
       "options": {
         "apiKey": "YOUR_API_KEY",
         "baseURL": "${env.apiUrl}/v1"
@@ -836,6 +837,7 @@ API Endpoint: ${env.apiUrl}/v1`,
       "DOCS.OPENCODE.GOTCHA_1",
       "DOCS.OPENCODE.GOTCHA_2",
       "DOCS.OPENCODE.GOTCHA_3",
+      "DOCS.OPENCODE.GOTCHA_4",
     ],
   },
   {

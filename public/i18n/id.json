@@ -2513,9 +2513,10 @@
       "STEP_3_DESC": "Tekan Ctrl + S untuk menyimpan, lalu Ctrl + Shift + P dan jalankan perintah Developer: Reload Window. OpenCode akan mengambil penyedia baru saat dimuat ulang.",
       "STEP_4_TITLE": "Pilih model",
       "STEP_4_DESC": "Buka pemilih model di OpenCode dan beralih ke model yang Anda tambahkan. Adaptor yang kompatibel dengan OpenAI menangani streaming dan pemanggilan alat secara otomatis.",
-      "GOTCHA_1": "OpenCode menggunakan adaptor npm @ai-sdk/openai-compatible di balik layar, jadi Anda bisa terus menambahkan model di bawah \"models\" tanpa memulai ulang.",
+      "GOTCHA_1": "Dengan \"discoverModels\": true, OpenCode otomatis mengambil seluruh katalog {appName} dari /v1/models saat mulai, sehingga setiap model (termasuk yang baru) muncul di pemilih tanpa perlu didaftarkan manual.",
       "GOTCHA_2": "Jika Developer: Reload Window tidak menampilkan penyedia Anda, periksa kembali bahwa JSON tersimpan tanpa koma di akhir.",
-      "GOTCHA_3": "Gunakan ID model yang tepat dari katalog {appName}. Hapus awalan penyedia di depan jika tertambahkan saat menyalin dan menempel."
+      "GOTCHA_3": "Gunakan ID model yang tepat dari katalog {appName}. Hapus awalan penyedia di depan jika tertambahkan saat menyalin dan menempel.",
+      "GOTCHA_4": "Pada OpenCode lama tanpa penemuan otomatis, tambahkan blok \"models\" yang mencantumkan id persis yang kamu butuhkan (misalnya {\"gemini-3.1-flash-lite\": {}}) lalu mulai ulang."
     },
     "KILO_CODE": {
       "META": {

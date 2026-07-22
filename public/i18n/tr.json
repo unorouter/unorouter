@@ -2513,9 +2513,10 @@
       "STEP_3_DESC": "Kaydetmek için Ctrl + S, ardından Ctrl + Shift + P tuşlarına basın ve Developer: Reload Window komutunu çalıştırın. OpenCode yeniden yüklemede yeni sağlayıcıyı alır.",
       "STEP_4_TITLE": "Bir model seçin",
       "STEP_4_DESC": "OpenCode'da model seçicisini açın ve eklediğiniz modele geçin. OpenAI uyumlu adaptör akışı ve araç çağrılarını otomatik olarak yönetir.",
-      "GOTCHA_1": "OpenCode arka planda npm @ai-sdk/openai-compatible adaptorunu kullanır, bu yüzden \"models\" altına yeniden baslatmadan model eklemeye devam edebilirsiniz.",
+      "GOTCHA_1": "\"discoverModels\": true ile OpenCode başlangıçta tüm {appName} kataloğunu /v1/models üzerinden otomatik çeker, böylece her model (yenileri dahil) elle yazmadan seçicide görünür.",
       "GOTCHA_2": "Developer: Reload Window sağlayıcınızı göstermiyorsa, JSON'un sondaki virgüller olmadan kaydedildiğini tekrar kontrol edin.",
-      "GOTCHA_3": "{appName} kataloğundaki tam model kimliklerini kullanın. Kopyala yapıştır bir ön ek ekledyse onu kaldırın."
+      "GOTCHA_3": "{appName} kataloğundaki tam model kimliklerini kullanın. Kopyala yapıştır bir ön ek ekledyse onu kaldırın.",
+      "GOTCHA_4": "Otomatik keşif olmayan eski OpenCode sürümlerinde, ihtiyacın olan tam kimlikleri listeleyen bir \"models\" bloğu ekle (örneğin {\"gemini-3.1-flash-lite\": {}}) ve yeniden başlat."
     },
     "KILO_CODE": {
       "META": {

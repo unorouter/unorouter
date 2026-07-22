@@ -2513,9 +2513,10 @@
       "STEP_3_DESC": "按 Ctrl + S 儲存，然後按 Ctrl + Shift + P 執行 Developer: Reload Window。重新載入後 OpenCode 會辨識新的提供者。",
       "STEP_4_TITLE": "選擇模型",
       "STEP_4_DESC": "在 OpenCode 中開啟模型選擇器並切換到你加入的模型。相容 OpenAI 的轉接器會自動處理串流與工具呼叫。",
-      "GOTCHA_1": "OpenCode 在底層使用 npm 的 @ai-sdk/openai-compatible 轉接器，因此你可以在 \"models\" 下持續加入模型而無需重新啟動。",
+      "GOTCHA_1": "設定 \"discoverModels\": true 後，OpenCode 啟動時會自動從 /v1/models 拉取完整的 {appName} 目錄，因此無需手動列出，每個模型（包括新模型）都會出現在選擇器中。",
       "GOTCHA_2": "如果 Developer: Reload Window 未顯示你的提供者，請再次檢查 JSON 在儲存時是否沒有多餘的尾端逗號。",
-      "GOTCHA_3": "請使用 {appName} 目錄中的精確模型 ID。如果複製貼上時加上了前導提供者前綴，請將其移除。"
+      "GOTCHA_3": "請使用 {appName} 目錄中的精確模型 ID。如果複製貼上時加上了前導提供者前綴，請將其移除。",
+      "GOTCHA_4": "在沒有自動發現的舊版 OpenCode 上，新增 \"models\" 區塊並列出所需的準確 id（例如 {\"gemini-3.1-flash-lite\": {}}），然後重新啟動。"
     },
     "KILO_CODE": {
       "META": {

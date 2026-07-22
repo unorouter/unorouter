@@ -2513,9 +2513,10 @@
       "STEP_3_DESC": "Nhấn Ctrl + S để lưu, sau đó Ctrl + Shift + P và chạy lệnh Developer: Reload Window. OpenCode sẽ nhận nhà cung cấp mới khi tải lại.",
       "STEP_4_TITLE": "Chọn một mô hình",
       "STEP_4_DESC": "Mở trình chọn mô hình trong OpenCode và chuyển sang mô hình bạn đã thêm. Bộ chuyển đổi tương thích OpenAI tự động xử lý truyền phát và gọi công cụ.",
-      "GOTCHA_1": "OpenCode sử dụng bộ chuyển đổi npm @ai-sdk/openai-compatible ở bên dưới, vì vậy bạn có thể tiếp tục thêm mô hình vào mục \"models\" mà không cần khởi động lại.",
+      "GOTCHA_1": "Với \"discoverModels\": true, OpenCode tự động tải toàn bộ danh mục {appName} từ /v1/models khi khởi động, nên mọi mô hình (kể cả mô hình mới) đều xuất hiện trong bộ chọn mà không cần liệt kê thủ công.",
       "GOTCHA_2": "Nếu Developer: Reload Window không hiển thị nhà cung cấp của bạn, hãy kiểm tra lại rằng JSON đã được lưu mà không có dấu phẩy ở cuối.",
-      "GOTCHA_3": "Sử dụng đúng ID mô hình từ danh mục {appName}. Xoá tiền tố nhà cung cấp ở đầu nếu thao tác sao chép đã thêm vào."
+      "GOTCHA_3": "Sử dụng đúng ID mô hình từ danh mục {appName}. Xoá tiền tố nhà cung cấp ở đầu nếu thao tác sao chép đã thêm vào.",
+      "GOTCHA_4": "Trên OpenCode cũ không có tự động phát hiện, hãy thêm khối \"models\" liệt kê đúng các id bạn cần (ví dụ {\"gemini-3.1-flash-lite\": {}}) rồi khởi động lại."
     },
     "KILO_CODE": {
       "META": {

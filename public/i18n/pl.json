@@ -2513,9 +2513,10 @@
       "STEP_3_DESC": "Naciśnij Ctrl + S, aby zapisać, następnie Ctrl + Shift + P i uruchom polecenie Developer: Reload Window. OpenCode wczyta nowego dostawcę po przeładowaniu.",
       "STEP_4_TITLE": "Wybierz model",
       "STEP_4_DESC": "Otwórz selektor modeli w OpenCode i przełącz na dodany model. Adapter zgodny z OpenAI automatycznie obsługuje strumieniowanie i wywoływanie narzędzi.",
-      "GOTCHA_1": "OpenCode korzysta pod spodem z adaptera npm @ai-sdk/openai-compatible, więc możesz dodawać kolejne modele w sekcji \"models\" bez restartu.",
+      "GOTCHA_1": "Z \"discoverModels\": true OpenCode przy starcie automatycznie pobiera cały katalog {appName} z /v1/models, więc każdy model (w tym nowe) pojawia się na liście bez ręcznego wpisywania.",
       "GOTCHA_2": "Jeśli polecenie Developer: Reload Window nie pokazuje Twojego dostawcy, sprawdź ponownie, czy plik JSON został zapisany bez końcowych przecinków.",
-      "GOTCHA_3": "Używaj dokładnych identyfikatorów modeli z katalogu {appName}. Usuń wiodący prefiks dostawcy, jeśli został dodany przy kopiowaniu."
+      "GOTCHA_3": "Używaj dokładnych identyfikatorów modeli z katalogu {appName}. Usuń wiodący prefiks dostawcy, jeśli został dodany przy kopiowaniu.",
+      "GOTCHA_4": "W starszym OpenCode bez automatycznego wykrywania dodaj blok \"models\" z dokładnymi potrzebnymi id (np. {\"gemini-3.1-flash-lite\": {}}) i uruchom ponownie."
     },
     "KILO_CODE": {
       "META": {
