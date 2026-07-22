@@ -162,6 +162,15 @@ export function PriceGroup(props: {
 }) {
   const t = useTranslations();
   const max = props.value[1];
+  const commitMax = (raw: string) => {
+    if (raw.trim() === "") {
+      props.onChange([0, PRICE_MAX]);
+      return;
+    }
+    const n = Number(raw);
+    if (!Number.isFinite(n)) return;
+    props.onChange([0, Math.min(PRICE_MAX, Math.max(0, n))]);
+  };
   return (
     <GroupShell label={t("MODELS.FILTER.PROMPT_PRICING")}>
       <div className="px-1.5 pt-2">
@@ -175,11 +184,22 @@ export function PriceGroup(props: {
             props.onChange([0, Array.isArray(v) ? v[0] : v])
           }
         />
-        <div className="text-muted-foreground mt-2 flex justify-between font-mono text-[10px]">
+        <div className="text-muted-foreground mt-2 flex items-center justify-between font-mono text-[10px]">
           <span>$0</span>
-          <span>
-            {max >= PRICE_MAX ? t("MODELS.FILTER.ANY") : `$${max.toFixed(2)}`}
-          </span>
+          <div className="flex items-center gap-1">
+            <span>$</span>
+            <input
+              type="number"
+              min={0}
+              max={PRICE_MAX}
+              step={0.5}
+              aria-label={t("MODELS.FILTER.PROMPT_PRICING")}
+              value={max >= PRICE_MAX ? "" : max}
+              placeholder={t("MODELS.FILTER.ANY")}
+              onChange={(e) => commitMax(e.target.value)}
+              className="border-input bg-transparent focus-visible:ring-ring/50 w-16 rounded-md border px-1.5 py-0.5 text-right font-mono text-[10px] tabular-nums outline-none focus-visible:ring-2 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+            />
+          </div>
         </div>
       </div>
     </GroupShell>
