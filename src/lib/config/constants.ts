@@ -48,6 +48,11 @@ export const CHAT_PROVIDER_NAME = "unorouter";
 
 export const NEW_API_USER = "New-Api-User";
 export const ACCESS_TOKEN_COOKIE = "access_token" as const;
+// Upstream new-api's httpOnly refresh cookie (30d). We forward + re-domain it
+// to the BFF origin on every auth entry and roll it on refresh.
+export const REFRESH_TOKEN_COOKIE = "new_api_refresh" as const;
+// Fallback access_token TTL when the response carries no access_expires_at.
+export const ACCESS_TOKEN_FALLBACK_MAX_AGE = 15 * 60; // 15m
 export const USER_ID_COOKIE = "user-id" as const;
 // Unsealed twin of USER_ID_COOKIE for client-side local-DB scoping (no
 // server trust; see localUserIdAtom).
