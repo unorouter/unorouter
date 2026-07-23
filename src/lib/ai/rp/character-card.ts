@@ -25,10 +25,15 @@ type ParsedCharacterCard = {
   raw: Record<string, unknown>;
 };
 
+type NamedAsset = { name: string; bytes: Uint8Array; mime: string };
+
 type CharacterCardImportResult = {
   card: ParsedCharacterCard;
   imageBytes: Uint8Array | null;
   imageMime: string | null;
+  // Non-icon named image assets (RisuAI additional assets), rendered inline via
+  // {{img::name}}. Only image assets are kept; sound/data are dropped.
+  namedAssets: NamedAsset[];
 };
 
 const NON_EMPTY = (v: unknown): string | undefined =>
@@ -98,7 +103,22 @@ export async function parseCharacterCardFile(
     imageMime = mime;
   }
 
-  return { card, imageBytes, imageMime };
+  const namedAssets: NamedAsset[] = parsed.assets
+    .filter(
+      (a) =>
+        a !== iconAsset &&
+        a.data &&
+        a.name &&
+        a.type !== "sound" &&
+        a.type !== "data",
+    )
+    .map((a) => ({
+      name: a.name,
+      bytes: new Uint8Array(a.data),
+      mime: EXT_TO_MIME[a.ext ?? ""] ?? "image/png",
+    }));
+
+  return { card, imageBytes, imageMime, namedAssets };
 }
 
 type ExportableRow = {
@@ -149,6 +169,7 @@ export function exportCharacterCard(
   row: ExportableRow,
   avatar: { data: Uint8Array; mime: string } | null,
   format: ExportFormat,
+  namedAssets: { name: string; data: Uint8Array; mime: string }[] = [],
 ): { data: Uint8Array; mimeType: string; ext: string } {
   const card = buildCCv3Card(row);
 
@@ -159,6 +180,17 @@ export function exportCharacterCard(
       type: "icon",
       ext: MIME_TO_EXT[avatar.mime] ?? "png",
       data: avatar.data,
+    });
+  }
+
+  // Named image assets ride the card as "emotion" entries (the CCv3/RisuAI
+  // convention for extra character images); import maps them back via {{img::}}.
+  for (const asset of namedAssets) {
+    assets.push({
+      name: asset.name,
+      type: "emotion",
+      ext: MIME_TO_EXT[asset.mime] ?? "png",
+      data: asset.data,
     });
   }
 

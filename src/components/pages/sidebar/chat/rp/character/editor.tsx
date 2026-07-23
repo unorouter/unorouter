@@ -6,6 +6,7 @@ import { MyFormTextarea } from "@/components/elements/form/my-form-textarea";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { Icon } from "@/components/ui/icon";
+import { Input } from "@/components/ui/input";
 import { useLocalUserId } from "@/hooks/auth/use-local-user-id";
 import {
   useCharacterQuery,
@@ -32,6 +33,16 @@ type Props = {
 
 type ImgDraft =
   { kind: "keep" } | { kind: "remove" } | { kind: "new"; dataUrl: string };
+
+// One named image asset in the editor. `mediaId` is set for an existing/saved
+// asset (image already in the media table); `dataUrl` is set for a fresh upload
+// not yet persisted. A row keeps one or the other.
+type AssetRow = {
+  rowId: string;
+  name: string;
+  mediaId: string | null;
+  dataUrl: string | null;
+};
 
 export function CharacterEditor(props: Props) {
   const t = useTranslations();
@@ -62,6 +73,37 @@ export function CharacterEditor(props: Props) {
       : avatarDraft.kind === "keep"
         ? existingAvatarSrc
         : null;
+
+  const [assetRows, setAssetRows] = useState<AssetRow[] | null>(null);
+  const assetInputRef = useRef<HTMLInputElement | null>(null);
+  const pendingAssetRowId = useRef<string | null>(null);
+  // Seed the asset rows once from the loaded character; null = not seeded yet.
+  const rows =
+    assetRows ??
+    (existing?.assets ?? []).map((a) => ({
+      rowId: uid(),
+      name: a.name,
+      mediaId: a.mediaId,
+      dataUrl: null,
+    }));
+
+  const addAssetRow = () =>
+    setAssetRows([
+      ...rows,
+      { rowId: uid(), name: "", mediaId: null, dataUrl: null },
+    ]);
+  const removeAssetRow = (rowId: string) =>
+    setAssetRows(rows.filter((r) => r.rowId !== rowId));
+  const renameAssetRow = (rowId: string, name: string) =>
+    setAssetRows(rows.map((r) => (r.rowId === rowId ? { ...r, name } : r)));
+  const pickAssetFile = async (rowId: string, file: File) => {
+    const dataUrl = await fileToScaledDataUrl(file);
+    setAssetRows(
+      rows.map((r) =>
+        r.rowId === rowId ? { ...r, dataUrl, mediaId: null } : r,
+      ),
+    );
+  };
 
   const formValues = existing
     ? formDefaults(characterFormSchema, {
@@ -102,6 +144,32 @@ export function CharacterEditor(props: Props) {
     return mediaId;
   };
 
+  const resolveAssets = async (): Promise<
+    { name: string; mediaId: string }[]
+  > => {
+    const resolved: { name: string; mediaId: string }[] = [];
+    for (const row of rows) {
+      const name = row.name.trim();
+      if (!name) continue;
+      let mediaId = row.mediaId;
+      if (row.dataUrl) {
+        const parts = splitDataUrl(row.dataUrl);
+        if (parts) {
+          mediaId = uid();
+          await upsertLocalMedia(userId, {
+            id: mediaId,
+            convId: null,
+            mimeType: parts.mimeType,
+            sizeBytes: Math.floor((parts.base64.length * 3) / 4),
+            dataBase64: parts.base64,
+          });
+        }
+      }
+      if (mediaId) resolved.push({ name, mediaId });
+    }
+    return resolved;
+  };
+
   const onSubmit = async (data: CharacterForm) => {
     const body = {
       ...data,
@@ -112,6 +180,7 @@ export function CharacterEditor(props: Props) {
         bgDraft,
         existing?.backgroundMediaId,
       ),
+      assets: await resolveAssets(),
     };
     if (props.characterId) {
       await updateMut.mutateAsync({ id: props.characterId, body });
@@ -298,6 +367,50 @@ export function CharacterEditor(props: Props) {
         </div>
         <div className="border-border/40 flex flex-col gap-3 rounded-lg border p-3">
           <div className="text-foreground text-xs font-medium tracking-wide uppercase">
+            {t("RP.CHARACTER_ASSETS_TITLE")}
+          </div>
+          <p className="text-muted-foreground text-xs">
+            {t("RP.CHARACTER_ASSETS_HINT")}
+          </p>
+          {rows.map((row) => (
+            <AssetRowItem
+              key={row.rowId}
+              row={row}
+              existingMediaId={row.dataUrl ? null : (row.mediaId ?? null)}
+              namePlaceholder={t("RP.CHARACTER_ASSET_NAME_PLACEHOLDER")}
+              onRename={(name) => renameAssetRow(row.rowId, name)}
+              onPick={() => {
+                pendingAssetRowId.current = row.rowId;
+                assetInputRef.current?.click();
+              }}
+              onRemove={() => removeAssetRow(row.rowId)}
+            />
+          ))}
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={addAssetRow}
+          >
+            <Icon name="plus" className="mr-1.5 size-3.5" />
+            {t("RP.CHARACTER_ASSET_ADD")}
+          </Button>
+          <input
+            ref={assetInputRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={(e) => {
+              const f = e.target.files?.[0];
+              const rowId = pendingAssetRowId.current;
+              if (f && rowId) void pickAssetFile(rowId, f);
+              pendingAssetRowId.current = null;
+              e.target.value = "";
+            }}
+          />
+        </div>
+        <div className="border-border/40 flex flex-col gap-3 rounded-lg border p-3">
+          <div className="text-foreground text-xs font-medium tracking-wide uppercase">
             {t("RP.CHARACTER_ACTIVATION_TITLE")}
           </div>
           <p className="text-muted-foreground text-xs">
@@ -347,5 +460,52 @@ export function CharacterEditor(props: Props) {
         </div>
       </form>
     </Form>
+  );
+}
+
+function AssetRowItem(props: {
+  row: AssetRow;
+  existingMediaId: string | null;
+  namePlaceholder: string;
+  onRename: (name: string) => void;
+  onPick: () => void;
+  onRemove: () => void;
+}) {
+  const existingSrc = useMediaSrc(props.existingMediaId);
+  const preview = props.row.dataUrl ?? existingSrc;
+  return (
+    <div className="flex items-center gap-2">
+      <div className="border-border/40 bg-muted relative size-12 shrink-0 overflow-hidden rounded border">
+        {preview ? (
+          // eslint-disable-next-line @next/next/no-img-element -- local data-URL preview
+          <img src={preview} alt="" className="h-full w-full object-cover" />
+        ) : (
+          <button
+            type="button"
+            onClick={props.onPick}
+            className="text-muted-foreground flex h-full w-full items-center justify-center"
+          >
+            <Icon name="image" className="size-4" />
+          </button>
+        )}
+      </div>
+      <Input
+        value={props.row.name}
+        onChange={(e) => props.onRename(e.target.value)}
+        placeholder={props.namePlaceholder}
+        className="h-9 flex-1"
+      />
+      <Button type="button" variant="ghost" size="icon" onClick={props.onPick}>
+        <Icon name="upload" className="size-3.5" />
+      </Button>
+      <Button
+        type="button"
+        variant="ghost"
+        size="icon"
+        onClick={props.onRemove}
+      >
+        <Icon name="trash-2" className="size-3.5" />
+      </Button>
+    </div>
   );
 }

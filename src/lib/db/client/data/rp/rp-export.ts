@@ -80,7 +80,18 @@ export async function exportLocalCharacter(
     };
   }
   const avatar = await loadAvatar(userId, row.avatarMediaId);
-  const out = exportCharacterCard(row, avatar, format);
+  const namedAssets: { name: string; data: Uint8Array; mime: string }[] = [];
+  for (const asset of row.assets ?? []) {
+    const bytes = await loadAvatar(userId, asset.mediaId);
+    if (bytes) {
+      namedAssets.push({
+        name: asset.name,
+        data: bytes.data,
+        mime: bytes.mime,
+      });
+    }
+  }
+  const out = exportCharacterCard(row, avatar, format, namedAssets);
   return {
     blob: new Blob([uint8ToArrayBuffer(out.data)], { type: out.mimeType }),
     filename: `${slug}.${out.ext}`,

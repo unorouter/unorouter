@@ -57,6 +57,13 @@
       "when": 1783716711866,
       "tag": "0007_closed_supernaut",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "6",
+      "when": 1784838180394,
+      "tag": "0008_charming_mentallo",
+      "breakpoints": true
     }
   ]
 }

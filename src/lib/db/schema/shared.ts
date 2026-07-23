@@ -229,6 +229,11 @@ export const characters = sqliteTable(
     triggers: text("triggers", { mode: "json" }),
     turnTriggers: text("turn_triggers", { mode: "json" }).$type<string[]>(),
     regexScripts: text("regex_scripts", { mode: "json" }),
+    // RisuAI-style named image assets, rendered inline via {{img::name}} at
+    // display time (see img-render.ts). Bytes live in the media table.
+    assets: text("assets", { mode: "json" }).$type<
+      { name: string; mediaId: string }[]
+    >(),
     alwaysActive: integer("always_active", { mode: "boolean" })
       .notNull()
       .default(true),

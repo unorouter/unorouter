@@ -12,6 +12,10 @@ import {
 } from "@/lib/ai/chat/markdown-media";
 import { stripThinkForDisplay } from "@/lib/ai/chat/think-tags";
 import {
+  imgVersionAtom,
+  replaceImgTokens,
+} from "@/lib/db/client/data/media/img-render";
+import {
   inlayVersionAtom,
   replaceInlayTokens,
 } from "@/lib/db/client/data/media/inlay-render";
@@ -63,6 +67,7 @@ const MarkdownTextImpl = () => {
   );
   const mathjax = useRehypeMathjax(hasMath);
   useAtomValue(inlayVersionAtom);
+  useAtomValue(imgVersionAtom);
   const userId = useLocalUserId();
   return (
     <MarkdownTextPrimitive
@@ -74,6 +79,7 @@ const MarkdownTextImpl = () => {
       preprocess={(text) => {
         let t = stripThinkForDisplay(text);
         if (t.includes("{{inlay::")) t = replaceInlayTokens(t, userId);
+        if (t.includes("{{img::")) t = replaceImgTokens(t, userId);
         return normalizeMathDelimiters(t);
       }}
     />

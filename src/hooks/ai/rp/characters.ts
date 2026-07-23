@@ -47,7 +47,7 @@ async function persistCharacterSetupFromFile(
   userId: number | undefined,
   file: File,
 ) {
-  const { card, imageBytes, imageMime } =
+  const { card, imageBytes, imageMime, namedAssets } =
     await import("@/lib/ai/rp/character-card").then((m) =>
       m.parseCharacterCardFile(file),
     );
@@ -65,6 +65,19 @@ async function persistCharacterSetupFromFile(
       sizeBytes: imageBytes.byteLength,
       dataBase64: uint8ToBase64(imageBytes),
     });
+  }
+
+  const assets: { name: string; mediaId: string }[] = [];
+  for (const asset of namedAssets) {
+    const mediaId = uid();
+    await upsertLocalMedia(userId, {
+      id: mediaId,
+      convId: null,
+      mimeType: asset.mime,
+      sizeBytes: asset.bytes.byteLength,
+      dataBase64: uint8ToBase64(asset.bytes),
+    });
+    assets.push({ name: asset.name, mediaId });
   }
 
   await upsertLocalCharacter(userId, {
@@ -85,6 +98,7 @@ async function persistCharacterSetupFromFile(
     triggers: null,
     alwaysActive: true,
     matchWholeWords: false,
+    assets: assets.length > 0 ? assets : null,
     createdAt: now,
     updatedAt: now,
   });
