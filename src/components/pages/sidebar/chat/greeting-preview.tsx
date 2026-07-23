@@ -3,7 +3,9 @@
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { useCharactersQuery } from "@/hooks/ai/rp/characters";
+import { useMediaSrc } from "@/hooks/ai/use-media-src";
 import { usePersonaQuery } from "@/hooks/ai/rp/personas";
+import { IMG_TOKEN_RE } from "@/lib/db/client/data/media/img-render";
 import { expandMacros } from "@/lib/ai/chat/macros";
 import { analytics } from "@/lib/analytics";
 import { chatLoadoutAtom, greetingIndexAtom } from "@/store/chat-store";
@@ -32,9 +34,13 @@ export function GreetingPreview() {
     vars: {},
   });
 
+  const assets = char.assets ?? [];
+
   return (
     <div className="bg-muted/40 w-full max-w-(--thread-max-width) rounded-2xl border px-4 py-3">
-      <p className="text-sm whitespace-pre-wrap">{text}</p>
+      <p className="text-sm whitespace-pre-wrap">
+        <GreetingBody text={text} assets={assets} />
+      </p>
       {greetings.length > 1 && (
         <div className="text-muted-foreground mt-2 flex items-center justify-end gap-1 text-xs">
           <Button
@@ -65,5 +71,38 @@ export function GreetingPreview() {
         </div>
       )}
     </div>
+  );
+}
+
+function GreetingBody(props: {
+  text: string;
+  assets: { name: string; mediaId: string }[];
+}) {
+  const segments = props.text.split(IMG_TOKEN_RE);
+  // split with one capture group yields [text, name, text, name, ...]
+  return (
+    <>
+      {segments.map((seg, i) => {
+        if (i % 2 === 0) return <span key={i}>{seg}</span>;
+        const asset = props.assets.find(
+          (a) => a.name.trim().toLowerCase() === seg.trim().toLowerCase(),
+        );
+        if (!asset) return null;
+        return <GreetingImg key={i} mediaId={asset.mediaId} name={seg} />;
+      })}
+    </>
+  );
+}
+
+function GreetingImg(props: { mediaId: string; name: string }) {
+  const src = useMediaSrc(props.mediaId);
+  if (!src) return null;
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={src}
+      alt={props.name}
+      className="my-1 block max-w-full rounded-lg"
+    />
   );
 }
