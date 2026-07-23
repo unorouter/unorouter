@@ -20,7 +20,7 @@ function TopUpTile(props: {
       className="border-border hover:border-primary/50 flex flex-col items-center gap-2 border p-4 transition-colors disabled:opacity-50"
     >
       <span className="text-foreground text-2xl font-bold tabular-nums">
-        {props.price} $
+        ${props.price}
       </span>
       <span className="text-muted-foreground font-mono text-[11px]">
         {t("BILLING.TOPUP.ACTUAL_PAYMENT")} ${props.actual.toFixed(2)}
