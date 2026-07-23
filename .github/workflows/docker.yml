@@ -1,9 +1,10 @@
 name: Docker Prod
 
+# PUSH TRIGGER REMOVED 2026-07-23: prod moved to k3s. A push here previously ran don's
+# self-hosted runner and `docker stack deploy`, respawning the retired revenue stack
+# (zombie incident). Manual-only now; k3s deploys via GHCR image + ArgoCD.
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
 
 concurrency:
   group: ${{ github.ref }}
