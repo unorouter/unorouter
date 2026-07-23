@@ -10,6 +10,22 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # Deploy build skips typecheck/lint (next.config.ts ignoreBuildErrors);
+  # this job is the gate for those instead, off the deploy critical path.
+  checks:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        check: [typecheck, lint]
+    # Lint has pre-existing react-hooks errors; advisory until they are fixed.
+    continue-on-error: ${{ matrix.check == 'lint' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile
+      - run: bun run ${{ matrix.check }}
+
   build:
     # Per-arch native runners (arm64 host builds arm64 natively; QEMU-emulating the
     # Next/turbopack compile is prohibitively slow). Each pushes a per-arch digest;
@@ -129,3 +145,89 @@ jobs:
             docker buildx imagetools create -t "$IMAGE:$TAG" $REFS
           done
           docker buildx imagetools inspect "$IMAGE:${{ github.sha }}"
+
+  # Rolling deploy itself is k8s (kubectl rollout restart -> RollingUpdate + probes),
+  # so this job GATES on the live site serving THIS build (health exposes the baked
+  # GIT_SHA) before running the steps that only make sense post-swap.
+  post-deploy:
+    runs-on: ubuntu-latest
+    needs: manifest
+    timeout-minutes: 45
+    steps:
+      - name: Wait for this build to be live
+        run: |
+          # 40min budget: covers the manual `kubectl rollout restart` window.
+          for i in {1..240}; do
+            live="$(curl -fsS --max-time 10 "${{ secrets.NEXT_PUBLIC_URL }}/api/ops/health?hc=$i-$RANDOM" | jq -r .version 2>/dev/null || echo unknown)"
+            if [ "$live" = "${{ github.sha }}" ]; then
+              echo "live version matches ${{ github.sha }}"
+              exit 0
+            fi
+            echo "live=$live want=${{ github.sha }} ... $i/240"
+            sleep 10
+          done
+          echo "::error::build never went live (did the rollout restart happen?)"
+          exit 1
+
+      # Anonymous HTML is edge-cached 10min via a Cloudflare Cache Rule;
+      # purge after each deploy so cached HTML never references chunk
+      # hashes the new container no longer serves (also clears any 404s
+      # cached during the swap).
+      - name: Purge Cloudflare cache
+        run: |
+          curl -fsS -X POST \
+            "https://api.cloudflare.com/client/v4/zones/${{ secrets.CLOUDFLARE_ZONE_ID }}/purge_cache" \
+            -H "X-Auth-Email: ${{ secrets.CLOUDFLARE_EMAIL }}" \
+            -H "X-Auth-Key: ${{ secrets.CLOUDFLARE_API_KEY }}" \
+            -H "Content-Type: application/json" \
+            --data '{"purge_everything":true}'
+
+      - name: Assert sitemap has model pages
+        run: |
+          # Guards the localhost-self-call / build-prerender regression that
+          # silently emptied every model page from the sitemap.
+          sitemap="$(curl -fsS "${{ secrets.NEXT_PUBLIC_URL }}/sitemap.xml")"
+          total="$(printf '%s' "$sitemap" | grep -oc '<loc>' || true)"
+          models="$(printf '%s' "$sitemap" \
+            | grep -oE '<loc>[^<]*</loc>' \
+            | grep -E '/(models|modeles|modelle|moxing|mo-hinh|moderu|modelli|modelos|modeu|modeller|model|modele)/[^<]+' \
+            | grep -vc '/blog/' || true)"
+          echo "sitemap: $total total URLs, $models model pages"
+          if [ "${models:-0}" -lt 100 ]; then
+            echo "::error::sitemap has $models model pages (expected >=100). Pricing self-call likely failing; see src/lib/rpc.ts + sitemap.ts."
+            exit 1
+          fi
+
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - name: Submit to IndexNow
+        env:
+          INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
+          NEXT_PUBLIC_URL: ${{ secrets.NEXT_PUBLIC_URL }}
+        run: |
+          bun add indexnow-submitter --no-save && bun scripts/indexnow.ts
+        continue-on-error: true
+
+  # Only the default locale prerenders at build (PRERENDER_LOCALES); walk the
+  # sitemap after deploy so the remaining locale pages ISR-render warm instead
+  # of on a visitor's first hit.
+  warm:
+    runs-on: ubuntu-latest
+    needs: post-deploy
+    continue-on-error: true
+    timeout-minutes: 25
+    steps:
+      - name: Warm ISR cache from sitemap
+        run: |
+          # Depth <= 2 only (locale home + section pages, ~700 urls). The full
+          # sitemap is ~22k urls (model pages x locales) which were never
+          # build-prerendered anyway; those stay ISR-on-first-hit.
+          curl -fsS "${{ secrets.NEXT_PUBLIC_URL }}/sitemap.xml" \
+            | grep -oE '<loc>[^<]+</loc>' \
+            | sed -E 's#</?loc>##g' \
+            | awk -F/ 'NF<=5' > urls.txt
+          echo "warming $(wc -l < urls.txt) urls"
+          timeout 12m xargs -P 12 -n 1 -a urls.txt -I{} \
+            curl -s -o /dev/null -w '%{http_code} {}\n' --max-time 15 {} > codes.txt || true
+          sort codes.txt | cut -d' ' -f1 | uniq -c
+          grep -v '^200 ' codes.txt | head -50 || true

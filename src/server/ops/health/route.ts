@@ -31,6 +31,7 @@ export const healthRoute = new Elysia({ prefix: "/health" }).get(
       checks,
       upstreamUrl: upstreamApiUrl,
       uptime: process.uptime(),
+      version: process.env.NEXT_PUBLIC_RELEASE_VERSION ?? "dev",
     };
   },
 );
