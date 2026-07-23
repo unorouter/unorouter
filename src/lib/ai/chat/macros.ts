@@ -716,6 +716,13 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
     case "raw":
       return arg0;
 
+    case "img":
+    case "image":
+    case "asset":
+      // Named image assets resolve at DISPLAY time (img-render.ts), so the
+      // token must survive macro expansion; bare {{img}} stays a literal empty.
+      return args.length > 0 ? `{{img::${args.join("::")}}}` : "";
+
     default:
       return Object.hasOwn(LITERAL_MACROS, name) ? LITERAL_MACROS[name] : null;
   }
