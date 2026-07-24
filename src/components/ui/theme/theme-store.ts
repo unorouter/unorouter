@@ -45,6 +45,7 @@ export type UserTheme = {
   fontBody?: string;
   fontHeading?: string;
   chatFontScale?: number;
+  assetImageMaxWidth?: number; // rem; caps {{img::name}} asset image width
   radius?: string;
   style?: string;
   iconLibrary?: string;

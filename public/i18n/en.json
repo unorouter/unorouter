@@ -3428,6 +3428,7 @@
     "MD_SINGLE_QUOTE": "Single quoted text",
     "MD_DOUBLE_QUOTE": "Double quoted text",
     "CHAT_FONT_SIZE": "Message font size",
+    "ASSET_IMAGE_WIDTH": "Asset image max width",
     "SURFACE_COLORS": "Surface colors",
     "MODE_LIGHT": "Light",
     "MODE_DARK": "Dark",

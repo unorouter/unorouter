@@ -102,7 +102,8 @@ function GreetingImg(props: { mediaId: string; name: string }) {
     <img
       src={src}
       alt={props.name}
-      className="my-1 block max-w-full rounded-lg"
+      style={{ maxWidth: "min(100%, var(--asset-img-max-width, 100%))" }}
+      className="my-1 block rounded-lg"
     />
   );
 }

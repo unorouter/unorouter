@@ -43,6 +43,41 @@ export function FontSizeSection(props: {
   );
 }
 
+const ASSET_WIDTH_MIN = 4;
+const ASSET_WIDTH_MAX = 40;
+const ASSET_WIDTH_STEP = 1;
+const ASSET_WIDTH_DEFAULT = 20;
+
+export function AssetImageWidthSection(props: {
+  width: number | undefined;
+  onChange: (rem: number) => void;
+}) {
+  const t = useTranslations();
+  const value = props.width ?? ASSET_WIDTH_DEFAULT;
+  return (
+    <div className="flex flex-col gap-1.5 px-1 pt-1">
+      <div className="flex items-center justify-between gap-2">
+        <span className="text-muted-foreground text-xs">
+          {t("THEME.ASSET_IMAGE_WIDTH")}
+        </span>
+        <span className="text-muted-foreground font-mono text-xs tabular-nums">
+          {value} rem
+        </span>
+      </div>
+      <Slider
+        aria-label={t("THEME.ASSET_IMAGE_WIDTH")}
+        min={ASSET_WIDTH_MIN}
+        max={ASSET_WIDTH_MAX}
+        step={ASSET_WIDTH_STEP}
+        value={value}
+        onValueChange={(v) =>
+          props.onChange(Array.isArray(v) ? (v[0] ?? ASSET_WIDTH_DEFAULT) : v)
+        }
+      />
+    </div>
+  );
+}
+
 const MARKDOWN_FIELDS = [
   ["normal", "THEME.MD_NORMAL"],
   ["italic", "THEME.MD_ITALIC"],

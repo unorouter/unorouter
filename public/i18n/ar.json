@@ -3428,6 +3428,7 @@
     "MD_SINGLE_QUOTE": "نصّ بين علامتي اقتباس مفردتين",
     "MD_DOUBLE_QUOTE": "نصّ بين علامتي اقتباس مزدوجتين",
     "CHAT_FONT_SIZE": "حجم خط الرسائل",
+    "ASSET_IMAGE_WIDTH": "أقصى عرض لصور الأصول",
     "SURFACE_COLORS": "ألوان السطح",
     "MODE_LIGHT": "فاتح",
     "MODE_DARK": "داكن",

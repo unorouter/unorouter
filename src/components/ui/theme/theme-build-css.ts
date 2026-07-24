@@ -261,6 +261,7 @@ export function buildThemeCss(theme: UserTheme): string {
     menuAccentBlock(theme.menuAccent),
     markdownBlock(theme.markdown),
     chatFontSizeBlock(theme.chatFontScale),
+    assetImageWidthBlock(theme.assetImageMaxWidth),
     surfaceBlock(theme.surface),
   ]
     .filter(Boolean)
@@ -271,6 +272,12 @@ function chatFontSizeBlock(scale: number | undefined): string {
   if (!scale || scale === 1) return "";
   const s = Math.max(0.5, Math.min(3, scale));
   return `:root{--chat-font-scale:${s};}.aui-md,.aui-user-message-content{font-size:calc(1em * var(--chat-font-scale,1));}`;
+}
+
+function assetImageWidthBlock(rem: number | undefined): string {
+  if (!rem) return "";
+  const w = Math.max(2, Math.min(64, rem));
+  return `:root{--asset-img-max-width:${w}rem;}.aui-md img[data-asset]{max-width:min(100%,var(--asset-img-max-width));}`;
 }
 
 export function buildBackgroundCss(

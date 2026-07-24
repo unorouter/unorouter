@@ -345,6 +345,7 @@ const defaultComponents = memoizeMarkdownComponents({
             width={0}
             height={0}
             sizes="100vw"
+            data-asset={media.isAsset ? "" : undefined}
             className="h-auto w-auto max-w-full rounded-lg"
           />
         ) : null}

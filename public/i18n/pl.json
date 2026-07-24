@@ -3428,6 +3428,7 @@
     "MD_SINGLE_QUOTE": "Tekst w pojedynczych cudzysłowach",
     "MD_DOUBLE_QUOTE": "Tekst w podwójnych cudzysłowach",
     "CHAT_FONT_SIZE": "Rozmiar czcionki wiadomości",
+    "ASSET_IMAGE_WIDTH": "Maksymalna szerokość obrazów zasobów",
     "SURFACE_COLORS": "Kolory powierzchni",
     "MODE_LIGHT": "Jasny",
     "MODE_DARK": "Ciemny",

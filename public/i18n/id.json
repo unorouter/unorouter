@@ -3428,6 +3428,7 @@
     "MD_SINGLE_QUOTE": "Teks dalam tanda kutip tunggal",
     "MD_DOUBLE_QUOTE": "Teks dalam tanda kutip ganda",
     "CHAT_FONT_SIZE": "Ukuran font pesan",
+    "ASSET_IMAGE_WIDTH": "Lebar maksimum gambar aset",
     "SURFACE_COLORS": "Warna permukaan",
     "MODE_LIGHT": "Terang",
     "MODE_DARK": "Gelap",

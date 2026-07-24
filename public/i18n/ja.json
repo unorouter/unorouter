@@ -3428,6 +3428,7 @@
     "MD_SINGLE_QUOTE": "シングルクォートテキスト",
     "MD_DOUBLE_QUOTE": "ダブルクォートテキスト",
     "CHAT_FONT_SIZE": "メッセージの文字サイズ",
+    "ASSET_IMAGE_WIDTH": "アセット画像の最大幅",
     "SURFACE_COLORS": "表面の色",
     "MODE_LIGHT": "ライト",
     "MODE_DARK": "ダーク",

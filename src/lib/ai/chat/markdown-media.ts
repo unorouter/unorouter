@@ -12,6 +12,7 @@ export type ResolvedMarkdownMedia = {
   kind: MarkdownMediaKind;
   inlayMediaId: string | null;
   isDataUri: boolean;
+  isAsset: boolean;
 };
 
 export function resolveMarkdownMedia(
@@ -19,6 +20,7 @@ export function resolveMarkdownMedia(
   alt: string | undefined,
 ): ResolvedMarkdownMedia {
   const inlayMediaId = alt?.startsWith("inlay:") ? alt.slice(6) : null;
+  const isAsset = alt?.startsWith("img:") ?? false;
   const isDataUri = !!src && src.startsWith("data:");
   let kind: MarkdownMediaKind = "image";
   if (
@@ -29,7 +31,7 @@ export function resolveMarkdownMedia(
   } else if (src && (src.startsWith("data:audio/") || AUDIO_EXT_RE.test(src))) {
     kind = "audio";
   }
-  return { kind, inlayMediaId, isDataUri };
+  return { kind, inlayMediaId, isDataUri, isAsset };
 }
 
 // react-markdown's default urlTransform strips all data: URLs as an XSS defense;

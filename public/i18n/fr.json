@@ -3428,6 +3428,7 @@
     "MD_SINGLE_QUOTE": "Texte entre apostrophes",
     "MD_DOUBLE_QUOTE": "Texte entre guillemets",
     "CHAT_FONT_SIZE": "Taille du texte des messages",
+    "ASSET_IMAGE_WIDTH": "Largeur maximale des images d'actifs",
     "SURFACE_COLORS": "Couleurs de surface",
     "MODE_LIGHT": "Clair",
     "MODE_DARK": "Sombre",

@@ -3428,6 +3428,7 @@
     "MD_SINGLE_QUOTE": "Testo virgolette singole",
     "MD_DOUBLE_QUOTE": "Testo virgolette doppie",
     "CHAT_FONT_SIZE": "Dimensione del testo dei messaggi",
+    "ASSET_IMAGE_WIDTH": "Larghezza massima immagini asset",
     "SURFACE_COLORS": "Colori superficie",
     "MODE_LIGHT": "Chiaro",
     "MODE_DARK": "Scuro",

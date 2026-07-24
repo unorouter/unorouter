@@ -14,6 +14,7 @@ import { Icon } from "@/components/ui/icon";
 import { BackgroundImageSection } from "@/components/ui/theme/customizer/background-image-section";
 import { RegistryPickers } from "@/components/ui/theme/customizer/registry-pickers";
 import {
+  AssetImageWidthSection,
   ChatTextSection,
   FontSizeSection,
   SurfaceColorsSection,
@@ -157,6 +158,12 @@ export function ThemeCustomizerBody() {
           <FontSizeSection
             scale={theme.chatFontScale}
             onChange={(chatFontScale) => setTheme({ ...theme, chatFontScale })}
+          />
+          <AssetImageWidthSection
+            width={theme.assetImageMaxWidth}
+            onChange={(assetImageMaxWidth) =>
+              setTheme({ ...theme, assetImageMaxWidth })
+            }
           />
           <FieldSeparator />
           <SurfaceColorsSection

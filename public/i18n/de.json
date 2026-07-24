@@ -3428,6 +3428,7 @@
     "MD_SINGLE_QUOTE": "Einfach zitierter Text",
     "MD_DOUBLE_QUOTE": "Doppelt zitierter Text",
     "CHAT_FONT_SIZE": "Schriftgröße der Nachrichten",
+    "ASSET_IMAGE_WIDTH": "Maximale Breite von Asset-Bildern",
     "SURFACE_COLORS": "Oberflächenfarben",
     "MODE_LIGHT": "Hell",
     "MODE_DARK": "Dunkel",

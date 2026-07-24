@@ -3428,6 +3428,7 @@
     "MD_SINGLE_QUOTE": "Texto entre aspas simples",
     "MD_DOUBLE_QUOTE": "Texto entre aspas duplas",
     "CHAT_FONT_SIZE": "Tamanho da fonte das mensagens",
+    "ASSET_IMAGE_WIDTH": "Largura máxima da imagem do recurso",
     "SURFACE_COLORS": "Cores de superfície",
     "MODE_LIGHT": "Claro",
     "MODE_DARK": "Escuro",

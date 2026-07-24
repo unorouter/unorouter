@@ -3428,6 +3428,7 @@
     "MD_SINGLE_QUOTE": "Single quoted text",
     "MD_DOUBLE_QUOTE": "Double quoted text",
     "CHAT_FONT_SIZE": "संदेश फ़ॉन्ट आकार",
+    "ASSET_IMAGE_WIDTH": "एसेट छवि की अधिकतम चौड़ाई",
     "SURFACE_COLORS": "सतह के रंग",
     "MODE_LIGHT": "लाइट",
     "MODE_DARK": "डार्क",
