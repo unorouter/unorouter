@@ -157,8 +157,16 @@ export async function showOsBanner(title: string, body: string, tag: string) {
     icon: "/images/icons/icon-192.png",
   };
   const reg = await navigator.serviceWorker.getRegistration();
-  if (reg) await reg.showNotification(title, options);
-  else new Notification(title, options);
+  if (reg) {
+    await reg.showNotification(title, options);
+    return;
+  }
+  // Mobile Chrome/Android bans the `new Notification()` constructor outright
+  // (throws "Illegal constructor"); it only allows the SW path. With no SW
+  // registration there is no banner to show, so skip rather than throw.
+  try {
+    new Notification(title, options);
+  } catch {}
 }
 
 export async function unsubscribePush(): Promise<void> {
