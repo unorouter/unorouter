@@ -49,6 +49,17 @@ export function ViewportDebugLogger() {
       });
     };
 
+    // iOS 26 leaves `visualViewport.offsetTop` stuck > 0 after a keyboard dismiss
+    // or pinch-zoom-out, so the composer/footer sits too low until the user swipes
+    // (a window scroll resets it). A window-level scrollBy jiggle is the automated
+    // version of that swipe. Only fires when the offset is actually stuck.
+    const realignStuckViewport = () => {
+      const vv = window.visualViewport;
+      if (!vv || vv.offsetTop <= 0) return;
+      window.scrollBy(0, -1);
+      window.scrollBy(0, 1);
+    };
+
     const composerFocused = () => {
       const el = document.activeElement;
       return (
@@ -71,6 +82,14 @@ export function ViewportDebugLogger() {
       // which never fire mid-typing.
       if (isIos && !(reason === "vv-resize" && composerFocused())) {
         requestAnimationFrame(nudge);
+      }
+      // Realign the offsetTop-stuck viewport (the too-low composer frame after a
+      // keyboard dismiss or zoom-out). NOT while the composer is focused: with the
+      // keyboard legitimately up, offsetTop > 0 is the correct state, not stuck -
+      // jiggling then would fight live typing. focusout/zoom-settle are the real
+      // dismiss signals.
+      if (isIos && !composerFocused()) {
+        requestAnimationFrame(realignStuckViewport);
       }
     };
 
