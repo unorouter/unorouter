@@ -26,16 +26,17 @@ import {
   useEditMessageMutation,
   useSetActiveBranchMutation,
 } from "@/hooks/ai/chat-hook";
-import { useAuthQuery } from "@/hooks/auth/auth-hook";
-import { useForkConversationMutation } from "@/hooks/ai/rp/conversations";
-import { usePricingQuery } from "@/hooks/models/pricing-hook";
 import { useCustomProvidersQuery } from "@/hooks/ai/custom-providers-hook";
+import { useForkConversationMutation } from "@/hooks/ai/rp/conversations";
+import { useAuthQuery } from "@/hooks/auth/auth-hook";
+import { usePricingQuery } from "@/hooks/models/pricing-hook";
+import { useMessageMeta, useShowReasoning } from "@/hooks/ui/use-chat-hook";
+import { useHydrated } from "@/hooks/ui/use-hydrated";
+import { useIsMobile } from "@/hooks/ui/use-mobile";
 import {
   isCustomModelId,
   parseCustomModelId,
 } from "@/lib/ai/chat/custom-provider-id";
-import { useMessageMeta, useShowReasoning } from "@/hooks/ui/use-chat-hook";
-import { useIsMobile } from "@/hooks/ui/use-mobile";
 import { partsToItems } from "@/lib/ai/chat/messages";
 import { analytics } from "@/lib/analytics";
 import { env } from "@/lib/config/env";
@@ -72,7 +73,6 @@ import { useAtom, useAtomValue } from "jotai";
 import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
 import { useParams } from "next/navigation";
-import { toast } from "sonner";
 import {
   createContext,
   useContext,
@@ -81,7 +81,7 @@ import {
   useState,
   type FC,
 } from "react";
-import { useHydrated } from "@/hooks/ui/use-hydrated";
+import { toast } from "sonner";
 
 const MarkdownText = dynamic<TextMessagePartProps>(
   () =>
@@ -102,11 +102,6 @@ export const Thread: FC = () => {
         ["--thread-max-width" as string]: "44rem",
         ["--composer-radius" as string]: "24px",
         ["--composer-padding" as string]: "10px",
-        // On iOS the shell is svh-sized (keyboard-hidden height) and does not
-        // shrink for the keyboard, dropping the composer below the fold; cap to
-        // the live visual-viewport height (--vvh, set in ViewportDebugLogger).
-        // Falls back to 100% where --vvh is unset (non-iOS / no visualViewport).
-        maxHeight: "var(--vvh, 100%)",
       }}
     >
       <ThreadPrimitive.Viewport
