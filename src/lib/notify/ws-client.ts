@@ -4,6 +4,7 @@ import { env } from "@/lib/config/env";
 import { getPushSubscription, sha256Hex } from "@/lib/notify/push";
 import { chatStore } from "@/store/chat-store";
 import { notifyConnectedAtom, type NotifyEvent } from "@/store/notify-store";
+import { getNotifyEvents } from "@/openapi";
 import { WebSocket as ReconnectingWebSocket } from "partysocket";
 
 const CHANNEL_NAME = `${env.appName}-notify-events`;
@@ -79,17 +80,12 @@ async function sendSubscribe() {
 async function catchUp() {
   if (lastEventTs === 0 || wantedTopics.length === 0) return;
   try {
-    const params = new URLSearchParams({
+    const res = await getNotifyEvents({
       since: String(lastEventTs),
       topics: wantedTopics.join(","),
     });
-    const res = await fetch(`${env.apiOrigin}/api/notify/events?${params}`);
-    if (!res.ok) return;
-    const body = (await res.json()) as {
-      success: boolean;
-      data?: NotifyEvent[];
-    };
-    for (const evt of body.data ?? []) deliver(evt, true);
+    if (!res.data.success) return;
+    for (const evt of res.data.data ?? []) deliver(evt as NotifyEvent, true);
   } catch {
     // Missed catch-up is acceptable: the feed is session-ephemeral.
   }

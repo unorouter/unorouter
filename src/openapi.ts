@@ -242,7 +242,7 @@ export interface ClaudeServerToolUse {
   web_search_requests: number;
 }
 
-export interface BillingUsage {
+export interface ClaudeUsage {
   billing_usage?: BillingUsage;
   cache_creation?: ClaudeCacheCreationUsage;
   cache_creation_input_tokens: number;
@@ -252,6 +252,70 @@ export interface BillingUsage {
   input_tokens: number;
   output_tokens: number;
   server_tool_use?: ClaudeServerToolUse;
+}
+
+export interface GeminiPromptTokensDetails {
+  modality: string;
+  tokenCount: number;
+}
+
+export interface GeminiUsageMetadata {
+  billing_usage?: BillingUsage;
+  cachedContentTokenCount: number;
+  candidatesTokenCount: number;
+  /** @nullable */
+  candidatesTokensDetails: GeminiPromptTokensDetails[] | null;
+  promptTokenCount: number;
+  /** @nullable */
+  promptTokensDetails: GeminiPromptTokensDetails[] | null;
+  thoughtsTokenCount: number;
+  toolUsePromptTokenCount: number;
+  /** @nullable */
+  toolUsePromptTokensDetails: GeminiPromptTokensDetails[] | null;
+  totalTokenCount: number;
+}
+
+export interface OutputTokenDetails {
+  audio_tokens: number;
+  image_tokens: number;
+  reasoning_tokens: number;
+  text_tokens: number;
+}
+
+export interface InputTokenDetails {
+  audio_tokens: number;
+  cache_write_tokens?: number;
+  cached_creation_tokens?: number;
+  cached_tokens: number;
+  image_tokens: number;
+  text_tokens: number;
+}
+
+export interface Usage {
+  billing_usage?: BillingUsage;
+  claude_cache_creation_1_h_tokens: number;
+  claude_cache_creation_5_m_tokens: number;
+  completion_tokens: number;
+  completion_tokens_details: OutputTokenDetails;
+  cost?: unknown;
+  input_tokens: number;
+  input_tokens_details: InputTokenDetails;
+  output_tokens: number;
+  prompt_cache_hit_tokens?: number;
+  prompt_tokens: number;
+  prompt_tokens_details: InputTokenDetails;
+  total_tokens: number;
+  usage_semantic?: string;
+  usage_source?: string;
+}
+
+export interface BillingUsage {
+  claude_usage?: ClaudeUsage;
+  estimated?: boolean;
+  gemini_usage_metadata?: GeminiUsageMetadata;
+  openai_usage?: Usage;
+  semantic?: string;
+  source?: string;
 }
 
 export interface BoundChannel {
@@ -448,18 +512,6 @@ export interface ClaudeMessageResponse {
   stop_sequence: string | null;
   type: string;
   usage: unknown;
-}
-
-export interface ClaudeUsage {
-  billing_usage?: BillingUsage;
-  cache_creation?: ClaudeCacheCreationUsage;
-  cache_creation_input_tokens: number;
-  cache_read_input_tokens: number;
-  claude_cache_creation_1_h_tokens: number;
-  claude_cache_creation_5_m_tokens: number;
-  input_tokens: number;
-  output_tokens: number;
-  server_tool_use?: ClaudeServerToolUse;
 }
 
 export interface ClusterNameAvailabilityResponse {
@@ -951,36 +1003,6 @@ export interface EmbeddingResponseItem {
   object: string;
 }
 
-export interface GeminiPromptTokensDetails {
-  modality: string;
-  tokenCount: number;
-}
-
-export interface GeminiUsageMetadata {
-  billing_usage?: BillingUsage;
-  cachedContentTokenCount: number;
-  candidatesTokenCount: number;
-  /** @nullable */
-  candidatesTokensDetails: GeminiPromptTokensDetails[] | null;
-  promptTokenCount: number;
-  /** @nullable */
-  promptTokensDetails: GeminiPromptTokensDetails[] | null;
-  thoughtsTokenCount: number;
-  toolUsePromptTokenCount: number;
-  /** @nullable */
-  toolUsePromptTokensDetails: GeminiPromptTokensDetails[] | null;
-  totalTokenCount: number;
-}
-
-export interface Usage {
-  claude_usage?: ClaudeUsage;
-  estimated?: boolean;
-  gemini_usage_metadata?: GeminiUsageMetadata;
-  openai_usage?: Usage;
-  semantic?: string;
-  source?: string;
-}
-
 /**
  * EmbeddingResponse schema
  */
@@ -1209,15 +1231,6 @@ export interface ImageGenerationResponse {
   created: number;
   /** @nullable */
   data: ImageData[] | null;
-}
-
-export interface InputTokenDetails {
-  audio_tokens: number;
-  cache_write_tokens?: number;
-  cached_creation_tokens?: number;
-  cached_tokens: number;
-  image_tokens: number;
-  text_tokens: number;
 }
 
 export interface InvitedUser {
@@ -1544,6 +1557,102 @@ export interface MultiKeyStatusResponse {
   total_pages: number;
 }
 
+export interface NotifyEventData {
+  cheapest_group?: string;
+  cheapest_ratio?: number | null;
+  free: boolean;
+  model: string;
+  online?: boolean | null;
+  prev_cheapest_ratio?: number | null;
+}
+
+export interface NotifyEvent {
+  data: NotifyEventData;
+  id: string;
+  /** @nullable */
+  topics: string[] | null;
+  ts: number;
+  type: string;
+}
+
+/**
+ * NotifyEventsResponse schema
+ */
+export interface NotifyEventsResponse {
+  /** @nullable */
+  data?: NotifyEvent[] | null;
+  message?: string;
+  success: boolean;
+}
+
+export interface NotifySubscriptionData {
+  endpoint_hash: string;
+  /** @nullable */
+  topics: string[] | null;
+}
+
+export interface NotifySubscriptionKeys {
+  /** Base64url-encoded 16-byte auth secret */
+  auth: string;
+  /** Base64url-encoded 65-byte uncompressed EC public key */
+  p256dh: string;
+}
+
+/**
+ * NotifySubscriptionRequest schema
+ */
+export interface NotifySubscriptionRequest {
+  /** Push service endpoint URL (https only, max 2048 chars) */
+  endpoint: string;
+  keys: NotifySubscriptionKeys;
+  /** Preferred locale for push payload text (max 16 chars) */
+  locale?: string;
+  /**
+   * Topics to subscribe to; concrete names or single-wildcard patterns
+   * @nullable
+   */
+  topics: string[] | null;
+}
+
+/**
+ * NotifySubscriptionResponse schema
+ */
+export interface NotifySubscriptionResponse {
+  data?: NotifySubscriptionData;
+  message?: string;
+  success: boolean;
+}
+
+/**
+ * NotifyUnsubscribeRequest schema
+ */
+export interface NotifyUnsubscribeRequest {
+  /** Push service endpoint URL to remove */
+  endpoint: string;
+}
+
+/**
+ * NotifyUnsubscribeResponse schema
+ */
+export interface NotifyUnsubscribeResponse {
+  message?: string;
+  success: boolean;
+}
+
+export interface NotifyVapidKeyData {
+  /** Base64url-encoded public VAPID key */
+  key: string;
+}
+
+/**
+ * NotifyVapidKeyResponse schema
+ */
+export interface NotifyVapidKeyResponse {
+  data?: NotifyVapidKeyData;
+  message?: string;
+  success: boolean;
+}
+
 export interface NowPaymentsPayData {
   pay_link: string;
 }
@@ -1629,13 +1738,6 @@ export interface Option {
 export interface OptionUpdateRequest {
   key: string;
   value: unknown;
-}
-
-export interface OutputTokenDetails {
-  audio_tokens: number;
-  image_tokens: number;
-  reasoning_tokens: number;
-  text_tokens: number;
 }
 
 export interface OverwriteField {
@@ -4593,6 +4695,17 @@ export type SyncUpstreamPreviewParams = {
   locale?: string;
 };
 
+export type GetNotifyEventsParams = {
+  /**
+   * Only return events newer than this unix timestamp
+   */
+  since?: string;
+  /**
+   * Comma-separated topic filter
+   */
+  topics?: string;
+};
+
 export type EmailBindParams = {
   /**
    * Email address
@@ -4697,6 +4810,13 @@ export type GetPricingParams = {
    * Include models with no enabled channel (online=false)
    */
   include_offline?: string;
+};
+
+export type GetPricingModelParams = {
+  /**
+   * Model name to look up (returns it even when all channels are offline)
+   */
+  model?: string;
 };
 
 export type GetRankingsParams = {
@@ -9271,6 +9391,165 @@ export const getNotice = async (
   });
 };
 
+export type getNotifyEventsResponse200ApplicationJson = {
+  data: NotifyEventsResponse;
+  status: 200;
+};
+
+export type getNotifyEventsResponse200ApplicationXml = {
+  data: NotifyEventsResponse;
+  status: 200;
+};
+
+export type getNotifyEventsResponseSuccess = (
+  | getNotifyEventsResponse200ApplicationJson
+  | getNotifyEventsResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type getNotifyEventsResponse = getNotifyEventsResponseSuccess;
+
+export const getGetNotifyEventsUrl = (params?: GetNotifyEventsParams) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : String(value));
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `/api/notify/events?${stringifiedParams}`
+    : `/api/notify/events`;
+};
+
+/**
+ * @summary Get Notify Events
+ */
+export const getNotifyEvents = async (
+  params?: GetNotifyEventsParams,
+  options?: RequestInit,
+): Promise<getNotifyEventsResponse> => {
+  return customFetch<getNotifyEventsResponse>(getGetNotifyEventsUrl(params), {
+    ...options,
+    method: "GET",
+  });
+};
+
+export type unsubscribeNotifyPushResponse200ApplicationJson = {
+  data: NotifyUnsubscribeResponse;
+  status: 200;
+};
+
+export type unsubscribeNotifyPushResponse200ApplicationXml = {
+  data: NotifyUnsubscribeResponse;
+  status: 200;
+};
+
+export type unsubscribeNotifyPushResponseSuccess = (
+  | unsubscribeNotifyPushResponse200ApplicationJson
+  | unsubscribeNotifyPushResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type unsubscribeNotifyPushResponse =
+  unsubscribeNotifyPushResponseSuccess;
+
+export const getUnsubscribeNotifyPushUrl = () => {
+  return `/api/notify/subscription`;
+};
+
+/**
+ * @summary Unsubscribe Notify Push
+ */
+export const unsubscribeNotifyPush = async (
+  notifyUnsubscribeRequest: NotifyUnsubscribeRequest,
+  options?: RequestInit,
+): Promise<unsubscribeNotifyPushResponse> => {
+  return customFetch<unsubscribeNotifyPushResponse>(
+    getUnsubscribeNotifyPushUrl(),
+    {
+      ...options,
+      method: "DELETE",
+      headers: { "Content-Type": "application/json", ...options?.headers },
+      body: JSON.stringify(notifyUnsubscribeRequest),
+    },
+  );
+};
+
+export type subscribeNotifyPushResponse200ApplicationJson = {
+  data: NotifySubscriptionResponse;
+  status: 200;
+};
+
+export type subscribeNotifyPushResponse200ApplicationXml = {
+  data: NotifySubscriptionResponse;
+  status: 200;
+};
+
+export type subscribeNotifyPushResponseSuccess = (
+  | subscribeNotifyPushResponse200ApplicationJson
+  | subscribeNotifyPushResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type subscribeNotifyPushResponse = subscribeNotifyPushResponseSuccess;
+
+export const getSubscribeNotifyPushUrl = () => {
+  return `/api/notify/subscription`;
+};
+
+/**
+ * @summary Subscribe Notify Push
+ */
+export const subscribeNotifyPush = async (
+  notifySubscriptionRequest: NotifySubscriptionRequest,
+  options?: RequestInit,
+): Promise<subscribeNotifyPushResponse> => {
+  return customFetch<subscribeNotifyPushResponse>(getSubscribeNotifyPushUrl(), {
+    ...options,
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(notifySubscriptionRequest),
+  });
+};
+
+export type getNotifyVapidKeyResponse200ApplicationJson = {
+  data: NotifyVapidKeyResponse;
+  status: 200;
+};
+
+export type getNotifyVapidKeyResponse200ApplicationXml = {
+  data: NotifyVapidKeyResponse;
+  status: 200;
+};
+
+export type getNotifyVapidKeyResponseSuccess = (
+  | getNotifyVapidKeyResponse200ApplicationJson
+  | getNotifyVapidKeyResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type getNotifyVapidKeyResponse = getNotifyVapidKeyResponseSuccess;
+
+export const getGetNotifyVapidKeyUrl = () => {
+  return `/api/notify/vapid`;
+};
+
+/**
+ * @summary Get Notify Vapid Key
+ */
+export const getNotifyVapidKey = async (
+  options?: RequestInit,
+): Promise<getNotifyVapidKeyResponse> => {
+  return customFetch<getNotifyVapidKeyResponse>(getGetNotifyVapidKeyUrl(), {
+    ...options,
+    method: "GET",
+  });
+};
+
 export type nowPaymentsWebhookResponse200ApplicationJson = {
   data: MessageResponse;
   status: 200;
@@ -10536,6 +10815,53 @@ export const getPricing = async (
   options?: RequestInit,
 ): Promise<getPricingResponse> => {
   return customFetch<getPricingResponse>(getGetPricingUrl(params), {
+    ...options,
+    method: "GET",
+  });
+};
+
+export type getPricingModelResponse200ApplicationJson = {
+  data: PricingData;
+  status: 200;
+};
+
+export type getPricingModelResponse200ApplicationXml = {
+  data: PricingData;
+  status: 200;
+};
+
+export type getPricingModelResponseSuccess = (
+  | getPricingModelResponse200ApplicationJson
+  | getPricingModelResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type getPricingModelResponse = getPricingModelResponseSuccess;
+
+export const getGetPricingModelUrl = (params?: GetPricingModelParams) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : String(value));
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `/api/pricing/model?${stringifiedParams}`
+    : `/api/pricing/model`;
+};
+
+/**
+ * @summary Get Pricing Model
+ */
+export const getPricingModel = async (
+  params?: GetPricingModelParams,
+  options?: RequestInit,
+): Promise<getPricingModelResponse> => {
+  return customFetch<getPricingModelResponse>(getGetPricingModelUrl(params), {
     ...options,
     method: "GET",
   });

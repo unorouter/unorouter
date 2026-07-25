@@ -1,7 +1,11 @@
 "use client";
 
 import { base64ToUint8 } from "@/lib/utils/base";
-import { env } from "@/lib/config/env";
+import {
+  getNotifyVapidKey,
+  subscribeNotifyPush,
+  unsubscribeNotifyPush,
+} from "@/openapi";
 
 export function pushSupported(): boolean {
   return (
@@ -67,13 +71,9 @@ export async function getPushSubscription(): Promise<PushSubscription | null> {
 }
 
 async function fetchVapidKey(): Promise<string | null> {
-  const res = await fetch(`${env.apiOrigin}/api/notify/vapid`);
-  if (!res.ok) return null;
-  const body = (await res.json()) as {
-    success: boolean;
-    data?: { key: string };
-  };
-  return body.success ? (body.data?.key ?? null) : null;
+  const res = await getNotifyVapidKey().catch(() => null);
+  if (!res?.data.success) return null;
+  return res.data.data?.key ?? null;
 }
 
 export async function subscribePush(): Promise<PushSubscription | null> {
@@ -122,29 +122,19 @@ export async function syncPushTopics(
   const sub = await getPushSubscription();
   if (!sub) return false;
   if (topics.length === 0) {
-    await fetch(`${env.apiOrigin}/api/notify/subscription`, {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ endpoint: sub.endpoint }),
-    }).catch(() => undefined);
+    await unsubscribeNotifyPush({ endpoint: sub.endpoint }).catch(
+      () => undefined,
+    );
     return true;
   }
   const json = sub.toJSON();
-  const res = await fetch(`${env.apiOrigin}/api/notify/subscription`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      endpoint: sub.endpoint,
-      keys: { p256dh: json.keys?.p256dh, auth: json.keys?.auth },
-      topics,
-      locale,
-    }),
+  const res = await subscribeNotifyPush({
+    endpoint: sub.endpoint,
+    keys: { p256dh: json.keys?.p256dh ?? "", auth: json.keys?.auth ?? "" },
+    topics,
+    locale,
   }).catch(() => null);
-  if (!res?.ok) return false;
-  const body = (await res.json().catch(() => null)) as {
-    success?: boolean;
-  } | null;
-  return body?.success === true;
+  return res?.data.success === true;
 }
 
 // OS banner for an in-page event; prefers the service worker path so the
@@ -172,10 +162,6 @@ export async function showOsBanner(title: string, body: string, tag: string) {
 export async function unsubscribePush(): Promise<void> {
   const sub = await getPushSubscription();
   if (!sub) return;
-  await fetch(`${env.apiOrigin}/api/notify/subscription`, {
-    method: "DELETE",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ endpoint: sub.endpoint }),
-  }).catch(() => undefined);
+  await unsubscribeNotifyPush({ endpoint: sub.endpoint }).catch(() => undefined);
   await sub.unsubscribe().catch(() => undefined);
 }
