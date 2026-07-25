@@ -5,8 +5,14 @@ import {
 } from "@/lib/api/pricing-cache";
 import { processPlans } from "@/lib/api/subscription";
 import { PUBLIC_CACHE } from "@/lib/config/constants";
+import { customFetch } from "@/lib/custom-fetch";
 import { sleep, unwrap } from "@/lib/utils/base";
-import { getPricing, getSubscriptionPlans, getTopUpInfo } from "@/openapi";
+import {
+  getPricing,
+  getSubscriptionPlans,
+  getTopUpInfo,
+  type PricingData,
+} from "@/openapi";
 import { ADMIN_HEADERS } from "@/server/constants";
 
 // Build prerenders fan out across ~31 workers and the upstream occasionally
@@ -51,6 +57,25 @@ export async function getModelDetail(name: string) {
     model = cached.byName.get(name);
   }
   return { model: model ?? null };
+}
+
+// By-name lookup that ALWAYS resolves a known model, even one whose channels are
+// all disabled/deleted (absent from the /pricing feed and its offline variant).
+// Hits new-api's dedicated /api/pricing/model route (no usable-group filter) and
+// runs the single-model response through the same processor. The detail page
+// falls back here so a dark model renders instead of 404ing. Null only when the
+// name is unknown to new-api's models table too (route 404s -> customFetch throws).
+export async function getModelByName(name: string) {
+  try {
+    const res = await customFetch<{ status: number; data: PricingData }>(
+      `/api/pricing/model?model=${encodeURIComponent(name)}`,
+      { method: "GET", headers: ADMIN_HEADERS },
+    );
+    const models = buildPricingSummary(res.data).models;
+    return models.find((m) => m.name === name) ?? models[0] ?? null;
+  } catch {
+    return null;
+  }
 }
 
 export async function getSubscriptionPlansSummary() {

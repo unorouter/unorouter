@@ -9,6 +9,7 @@ import {
 } from "@/lib/api/pricing";
 import { APP_VALUES } from "@/lib/config/constants";
 import { getCachedPricing } from "@/lib/api/cached";
+import { getModelByName } from "@/server/models/pricing/pricing.service";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { JsonLd } from "@/lib/seo/json-ld";
@@ -52,6 +53,15 @@ async function resolveModel(slug: string): Promise<ResolvedModel | null> {
   const data = await getCachedPricing(true).catch(() => null);
   const live = data?.models.find((m) => modelMatchesSlug(m.name, slug));
   if (live) return { model: live, atCapacity: !live.online, data };
+  // Fully dark model (every channel disabled/deleted) is absent even from the
+  // offline feed; the by-name route still returns it so the detail page renders.
+  // modelSlug only percent-encodes []/, so the name decodes straight back.
+  let name = slug;
+  try {
+    name = decodeURIComponent(slug);
+  } catch {}
+  const byName = await getModelByName(name).catch(() => null);
+  if (byName) return { model: byName, atCapacity: true, data };
   return null;
 }
 
