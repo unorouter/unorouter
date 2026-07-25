@@ -149,6 +149,7 @@ export const conversationOverridesFormSchema = t.Object({
   ...samplingNullable({ maxTokensMax: 1_000_000 }),
   extraBody: t.String({ default: "", maxLength: 8_192 }),
   streamingEnabled: nullable(t.Boolean()),
+  autoScrollStream: nullable(t.Boolean()),
   showReasoning: nullable(t.Boolean()),
 });
 export type ConversationOverridesForm = Static<
@@ -164,6 +165,7 @@ export const samplingPresetFormSchema = t.Object({
   }),
   ...samplingNullable({ temperatureMax: 4, maxTokensMax: 1_000_000 }),
   streamingEnabled: nullable(t.Boolean()),
+  autoScrollStream: nullable(t.Boolean()),
   showReasoning: nullable(t.Boolean()),
   chatMemory: nullableNumber(1, 1000),
   memoryEnabled: nullable(t.Boolean()),

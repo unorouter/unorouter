@@ -91,6 +91,7 @@ const OVERRIDE_KEYS = [
   "authorNoteDepth",
   "chatMemory",
   "streamingEnabled",
+  "autoScrollStream",
   "showReasoning",
 ] as const;
 

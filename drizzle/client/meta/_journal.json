@@ -43,6 +43,13 @@
       "when": 1784838180682,
       "tag": "0005_harsh_nebula",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1784975467585,
+      "tag": "0006_late_millenium_guard",
+      "breakpoints": true
     }
   ]
 }

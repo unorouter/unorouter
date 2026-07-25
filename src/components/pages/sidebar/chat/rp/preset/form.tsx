@@ -96,6 +96,7 @@ export function PresetForm(props: Props) {
     promptTemplate: editing?.promptTemplate ?? "",
     postHistoryRole: editing?.postHistoryRole ?? "system",
     streamingEnabled: editing?.streamingEnabled ?? true,
+    autoScrollStream: editing?.autoScrollStream ?? true,
     showReasoning: editing?.showReasoning ?? true,
   });
   const form = useRpForm(samplingPresetFormSchema, formValues);
@@ -198,6 +199,16 @@ export function PresetForm(props: Props) {
                 />
                 <p className="text-muted-foreground text-xs">
                   {t("RP.PRESET_STREAMING_HINT")}
+                </p>
+              </div>
+              <div className="flex flex-col gap-1">
+                <MyFormSwitch
+                  control={form.control}
+                  name="autoScrollStream"
+                  label={t("RP.PRESET_AUTO_SCROLL_STREAM")}
+                />
+                <p className="text-muted-foreground text-xs">
+                  {t("RP.PRESET_AUTO_SCROLL_STREAM_HINT")}
                 </p>
               </div>
               <div className="flex flex-col gap-1">

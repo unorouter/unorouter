@@ -23,6 +23,7 @@ const NULL_SAMPLING: Pick<
   | "prefill"
   | "postHistoryRole"
   | "streamingEnabled"
+  | "autoScrollStream"
   | "showReasoning"
   | "chatMemory"
 > = {
@@ -37,6 +38,7 @@ const NULL_SAMPLING: Pick<
   prefill: null,
   postHistoryRole: null,
   streamingEnabled: null,
+  autoScrollStream: null,
   showReasoning: null,
   chatMemory: null,
 };

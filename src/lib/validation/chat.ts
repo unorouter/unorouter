@@ -190,6 +190,7 @@ export const streamOverrides = t.Object({
   ...samplingOptional(),
   extraBody: t.Optional(t.Union([t.String({ maxLength: 8_192 }), t.Null()])),
   streamingEnabled: t.Optional(t.Union([t.Boolean(), t.Null()])),
+  autoScrollStream: t.Optional(t.Union([t.Boolean(), t.Null()])),
   showReasoning: t.Optional(t.Union([t.Boolean(), t.Null()])),
 });
 export type StreamOverrides = Static<typeof streamOverrides>;
@@ -221,6 +222,7 @@ export const updateConversationSettingsBody = t.Object({
   extraBody: t.Optional(t.Union([t.String({ maxLength: 8_192 }), t.Null()])),
   vars: t.Optional(t.Union([t.String({ maxLength: 65_536 }), t.Null()])),
   streamingEnabled: t.Optional(t.Union([t.Boolean(), t.Null()])),
+  autoScrollStream: t.Optional(t.Union([t.Boolean(), t.Null()])),
   showReasoning: t.Optional(t.Union([t.Boolean(), t.Null()])),
   groupOrderByOrder: t.Optional(t.Union([t.Boolean(), t.Null()])),
   autoContinue: t.Optional(t.Union([t.Boolean(), t.Null()])),

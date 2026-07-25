@@ -44,6 +44,7 @@ import { copyToClipboard } from "@/lib/utils/base";
 import { extractErrorDetail } from "@/lib/utils/client";
 import { formatPrice } from "@/lib/utils/format/number";
 import {
+  autoScrollStreamAtom,
   chatLoadoutAtom,
   chatModelAtom,
   chatStore,
@@ -93,6 +94,7 @@ const MarkdownText = dynamic<TextMessagePartProps>(
 const AssistantEditContext = createContext<(() => void) | null>(null);
 
 export const Thread: FC = () => {
+  const autoScrollStream = useAtomValue(autoScrollStreamAtom);
   return (
     <ThreadPrimitive.Root
       className="aui-root aui-thread-root bg-background @container flex h-full flex-col"
@@ -103,7 +105,7 @@ export const Thread: FC = () => {
       }}
     >
       <ThreadPrimitive.Viewport
-        autoScroll
+        autoScroll={autoScrollStream}
         className="aui-thread-viewport relative flex flex-1 flex-col overflow-x-hidden overflow-y-auto scroll-smooth px-4"
       >
         <AuiIf condition={(s) => s.thread.isEmpty}>

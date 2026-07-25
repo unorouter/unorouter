@@ -144,6 +144,8 @@ export function createThreadListAdapter(
         streamingEnabled: hasPreset
           ? null
           : (defaults.streamingEnabled ?? null),
+        autoScrollStream:
+          boundPreset?.autoScrollStream ?? defaults.autoScrollStream ?? null,
         showReasoning: hasPreset ? null : (defaults.showReasoning ?? null),
         group: chatStore.get(chatGroupAtom),
       });

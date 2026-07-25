@@ -125,6 +125,15 @@ export const chatDefaultsAtom = atom(
 // wiped the user's sticky new-chat defaults (one atom served two masters).
 export const activeConvOverridesAtom = atom<StreamOverrides | null>(null);
 
+// Stream auto-scroll ("jump to most recent writing"): active conv override wins,
+// else the sticky default, else on. Off lets the user read while it streams.
+export const autoScrollStreamAtom = atom((get) => {
+  const conv = get(activeConvOverridesAtom)?.autoScrollStream;
+  if (conv !== null && conv !== undefined) return conv;
+  const def = get(chatDefaultsAtom).autoScrollStream;
+  return def ?? true;
+});
+
 export const chatLoadoutAtom = atom(
   (get) => get(chatStoreAtom).loadout ?? INITIAL_CHAT_STATE.loadout,
   (get, set, value: ChatLoadout) => {

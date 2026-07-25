@@ -145,6 +145,7 @@ function buildDefaultsForm(
     ...samplingValues(layered),
     extraBody: modelMemory.extraBody ?? chatDefaults.extraBody ?? "",
     streamingEnabled: chatDefaults.streamingEnabled ?? null,
+    autoScrollStream: chatDefaults.autoScrollStream ?? null,
     showReasoning: chatDefaults.showReasoning ?? null,
   };
 }
@@ -158,6 +159,7 @@ type ConvBindings = {
 
 type InheritSource = {
   streamingEnabled?: boolean | null;
+  autoScrollStream?: boolean | null;
   showReasoning?: boolean | null;
 } & Partial<
   Record<(typeof SAMPLING_FIELDS)[number] | "chatMemory", number | null>
@@ -213,6 +215,10 @@ function buildSettingsForm(
       settings.streamingEnabled,
       preset?.streamingEnabled,
     ),
+    autoScrollStream: resolveBool(
+      settings.autoScrollStream,
+      preset?.autoScrollStream,
+    ),
     showReasoning: resolveBool(settings.showReasoning, preset?.showReasoning),
   };
 }
@@ -251,6 +257,7 @@ export function buildDefaultsOverrides(
     ...samplingValues(data),
     extraBody: data.extraBody || null,
     streamingEnabled: data.streamingEnabled,
+    autoScrollStream: data.autoScrollStream,
     showReasoning: data.showReasoning,
   };
 }
@@ -309,6 +316,10 @@ export function buildSettingsBody(
     streamingEnabled: overrideOrInherit(
       data.streamingEnabled,
       preset?.streamingEnabled,
+    ),
+    autoScrollStream: overrideOrInherit(
+      data.autoScrollStream,
+      preset?.autoScrollStream,
     ),
     showReasoning: overrideOrInherit(data.showReasoning, preset?.showReasoning),
   };

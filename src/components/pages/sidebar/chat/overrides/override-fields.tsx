@@ -186,6 +186,24 @@ export function OverridesGenerationFields(props: {
         />
         <FormField
           control={props.control}
+          name="autoScrollStream"
+          render={({ field }) => (
+            <FormItem className="flex-row items-center gap-2">
+              <FormLabel className="text-xs">
+                {t("CHAT.OVERRIDES.AUTO_SCROLL_STREAM")}
+              </FormLabel>
+              <FormControl>
+                <Switch
+                  size="sm"
+                  checked={field.value ?? true}
+                  onCheckedChange={field.onChange}
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={props.control}
           name="showReasoning"
           render={({ field }) => (
             <FormItem className="flex-row items-center gap-2">
@@ -272,6 +290,10 @@ export function OverridesGenerationFields(props: {
 
       <span className="text-muted-foreground text-xs">
         {t("CHAT.OVERRIDES.STREAMING_ENABLED_HINT")}
+      </span>
+
+      <span className="text-muted-foreground text-xs">
+        {t("CHAT.OVERRIDES.AUTO_SCROLL_STREAM_HINT")}
       </span>
 
       {props.showConversationFields && (
