@@ -24,20 +24,6 @@ export const ADMIN_HEADERS = {
 
 export const upstreamApiUrl = serverEnv.internalApiUrl ?? env.apiUrl;
 
-export async function getServerCookieHeader(): Promise<string> {
-  if (typeof window !== "undefined") return "";
-  try {
-    const { cookies } = await import("next/headers");
-    const cookieStore = await cookies();
-    return cookieStore
-      .getAll()
-      .map((c) => `${c.name}=${c.value}`)
-      .join("; ");
-  } catch {
-    return "";
-  }
-}
-
 export async function getUserId<T extends boolean = false>(
   cookie: Record<string, Cookie<unknown>>,
   optional?: T,

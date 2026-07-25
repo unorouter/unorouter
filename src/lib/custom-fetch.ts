@@ -1,5 +1,5 @@
 import { env } from "@/lib/config/env";
-import { getServerCookieHeader } from "@/server/constants";
+import { getServerCookieHeader } from "@/server/cookie-header";
 
 const upstreamApiUrl =
   typeof window === "undefined"
