@@ -146,17 +146,59 @@ jobs:
           done
           docker buildx imagetools inspect "$IMAGE:${{ github.sha }}"
 
-  # Rolling deploy itself is k8s (kubectl rollout restart -> RollingUpdate + probes),
-  # so this job GATES on the live site serving THIS build (health exposes the baked
-  # GIT_SHA) before running the steps that only make sense post-swap.
-  post-deploy:
+  # Pin the new image in the infra repo. ArgoCD watches that repo and rolls the
+  # Deployment out on its own, so nothing here talks to the cluster.
+  #
+  # The tag is the git SHA, never :latest -- with a floating tag the manifest never
+  # changes, ArgoCD sees nothing to do, and the deploy silently never happens (which
+  # is exactly what used to require a manual `kubectl rollout restart`).
+  deploy:
     runs-on: ubuntu-latest
     needs: manifest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: unorouter/infra
+          token: ${{ secrets.INFRA_REPO_TOKEN }}
+          ref: main
+
+      - name: Pin unorouter image to this commit
+        run: |
+          set -euo pipefail
+          F=infra/services/unorouter.yaml
+          OLD=$(grep -oP 'image: ghcr\.io/unorouter/unorouter:\K\S+' "$F")
+          if [ "$OLD" = "${{ github.sha }}" ]; then
+            echo "already pinned to ${{ github.sha }}, nothing to do"
+            exit 0
+          fi
+          sed -i "s|image: ghcr.io/unorouter/unorouter:.*|image: ghcr.io/unorouter/unorouter:${{ github.sha }}|" "$F"
+          git config user.name  "unorouter-ci"
+          git config user.email "ci@unorouter.com"
+          git add "$F"
+          git commit -m "deploy(unorouter): ${{ github.sha }}
+
+          Was: $OLD
+          Source: ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}"
+          # main can move between checkout and push (infra is edited by hand too)
+          for i in 1 2 3; do
+            git push origin main && exit 0
+            echo "push rejected, rebasing (attempt $i)"
+            git pull --rebase origin main
+          done
+          echo "::error::could not push image pin after 3 attempts"
+          exit 1
+
+  # ArgoCD picks up the pin above and rolls out (RollingUpdate + probes), so this job
+  # GATES on the live site serving THIS build (health exposes the baked GIT_SHA)
+  # before running the steps that only make sense post-swap.
+  post-deploy:
+    runs-on: ubuntu-latest
+    needs: deploy
     timeout-minutes: 45
     steps:
       - name: Wait for this build to be live
         run: |
-          # 40min budget: covers the manual `kubectl rollout restart` window.
+          # 40min budget: ArgoCD polls git every ~3min, then the rollout + probes.
           for i in {1..240}; do
             live="$(curl -fsS --max-time 10 "${{ secrets.NEXT_PUBLIC_URL }}/api/ops/health?hc=$i-$RANDOM" | jq -r .version 2>/dev/null || echo unknown)"
             if [ "$live" = "${{ github.sha }}" ]; then
@@ -166,7 +208,7 @@ jobs:
             echo "live=$live want=${{ github.sha }} ... $i/240"
             sleep 10
           done
-          echo "::error::build never went live (did the rollout restart happen?)"
+          echo "::error::build never went live (check the deploy job's commit + ArgoCD sync)"
           exit 1
 
       # Anonymous HTML is edge-cached 10min via a Cloudflare Cache Rule;
