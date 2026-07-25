@@ -102,6 +102,11 @@ export const Thread: FC = () => {
         ["--thread-max-width" as string]: "44rem",
         ["--composer-radius" as string]: "24px",
         ["--composer-padding" as string]: "10px",
+        // On iOS the shell is svh-sized (keyboard-hidden height) and does not
+        // shrink for the keyboard, dropping the composer below the fold; cap to
+        // the live visual-viewport height (--vvh, set in ViewportDebugLogger).
+        // Falls back to 100% where --vvh is unset (non-iOS / no visualViewport).
+        maxHeight: "var(--vvh, 100%)",
       }}
     >
       <ThreadPrimitive.Viewport

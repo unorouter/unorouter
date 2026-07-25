@@ -49,15 +49,26 @@ export function ViewportDebugLogger() {
       });
     };
 
-    // iOS 26 leaves `visualViewport.offsetTop` stuck > 0 after a keyboard dismiss
-    // or pinch-zoom-out, so the composer/footer sits too low until the user swipes
-    // (a window scroll resets it). A window-level scrollBy jiggle is the automated
-    // version of that swipe. Only fires when the offset is actually stuck.
-    const realignStuckViewport = () => {
+    // The chat shell is sized with `svh` (the blanking fix in sidebar.tsx: a
+    // dynamic dvh height relayouts on every URL-bar/keyboard move and blanked the
+    // chat on send). But svh is the keyboard-HIDDEN height, so when the keyboard
+    // opens the composer - pinned to the bottom of the full-height shell - drops
+    // below the visible area ("frame too low"; diagnostics show innerH:660
+    // vvH:376 offset:0, scroller still 612 tall). Neither svh NOR dvh fixes this
+    // here: this device already sends `interactive-widget=resizes-content` yet
+    // the layout viewport doesn't shrink for the keyboard, so dvh stays 660 too.
+    // The visualViewport listener is the documented fallback for exactly that.
+    // Mirror the live visual-viewport height into `--vvh`; the thread root caps
+    // to it so the composer tracks the visible area. Do NOT "simplify" to dvh -
+    // it won't shrink for the keyboard on iOS and would reintroduce the bug.
+    // Cleared off iOS so the CSS falls back to 100%.
+    const syncViewportHeight = () => {
       const vv = window.visualViewport;
-      if (!vv || vv.offsetTop <= 0) return;
-      window.scrollBy(0, -1);
-      window.scrollBy(0, 1);
+      if (!vv) return;
+      document.documentElement.style.setProperty(
+        "--vvh",
+        `${Math.round(vv.height)}px`,
+      );
     };
 
     const composerFocused = () => {
@@ -83,14 +94,10 @@ export function ViewportDebugLogger() {
       if (isIos && !(reason === "vv-resize" && composerFocused())) {
         requestAnimationFrame(nudge);
       }
-      // Realign the offsetTop-stuck viewport (the too-low composer frame after a
-      // keyboard dismiss or zoom-out). NOT while the composer is focused: with the
-      // keyboard legitimately up, offsetTop > 0 is the correct state, not stuck -
-      // jiggling then would fight live typing. focusout/zoom-settle are the real
-      // dismiss signals.
-      if (isIos && !composerFocused()) {
-        requestAnimationFrame(realignStuckViewport);
-      }
+      // Keep the shell height matched to the visible viewport on every change
+      // (keyboard open/close, zoom, URL-bar). Safe mid-typing: it only resizes
+      // the container, never scrolls or steals focus.
+      if (isIos) syncViewportHeight();
     };
 
     const onVvResize = () => onTrigger("vv-resize");
@@ -101,7 +108,12 @@ export function ViewportDebugLogger() {
     };
 
     logChatDebug("viewport.mount", { ios: isIos, ...geometry() });
+    if (isIos) syncViewportHeight();
+    const onVvScroll = () => {
+      if (isIos) syncViewportHeight();
+    };
     window.visualViewport?.addEventListener("resize", onVvResize);
+    window.visualViewport?.addEventListener("scroll", onVvScroll);
     document.addEventListener("focusout", onFocusOut);
     document.addEventListener("visibilitychange", onVisibility);
 
@@ -119,9 +131,11 @@ export function ViewportDebugLogger() {
 
     return () => {
       window.visualViewport?.removeEventListener("resize", onVvResize);
+      window.visualViewport?.removeEventListener("scroll", onVvScroll);
       document.removeEventListener("focusout", onFocusOut);
       document.removeEventListener("visibilitychange", onVisibility);
       ro.disconnect();
+      document.documentElement.style.removeProperty("--vvh");
     };
   }, []);
 
