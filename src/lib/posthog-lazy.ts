@@ -50,6 +50,7 @@ const DROP_EXCEPTIONS = [
   "minified react error #310",
   "minified react error #185",
   "minified react error #454", // extension/translator removed <html>/<body>
+  "minified react error #419", // SSR Suspense boundary bailed to client render (streaming)
   "parameter 1 is not of type 'element'", // floating-ui positioning an unmounted anchor
   "getsynchandleerror", // documented OPFS in-memory fallback
   "fell back to in-memory",
